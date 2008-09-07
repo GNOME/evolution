@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution gnome-2.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-03 07:48+0100\n"
+"POT-Creation-Date: 2008-09-07 02:59+0100\n"
 "PO-Revision-Date: 2008-02-17 10:08-0000\n"
 "Last-Translator: David Lodge <dave@cirt.net>\n"
 "Language-Team: \n"
@@ -111,7 +111,7 @@ msgstr "a table to view and select the current time range"
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
-#: ../a11y/calendar/ea-day-view.c:151 ../a11y/calendar/ea-week-view.c:147
+#: ../a11y/calendar/ea-day-view.c:148 ../a11y/calendar/ea-week-view.c:147
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
@@ -120,14 +120,14 @@ msgstr[1] "It has %d events."
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
-#: ../a11y/calendar/ea-day-view.c:155 ../a11y/calendar/ea-week-view.c:149
+#: ../a11y/calendar/ea-day-view.c:152 ../a11y/calendar/ea-week-view.c:149
 msgid "It has no events."
 msgstr "It has no events."
 
 #. To translators: First %s is the week, for example "July 10th -
 #. July 14th, 2006". Second %s is the number of events in this work
 #. week, for example "It has %d event/events." or  "It has no events."
-#: ../a11y/calendar/ea-day-view.c:162
+#: ../a11y/calendar/ea-day-view.c:159
 #, c-format
 msgid "Work Week View: %s. %s"
 msgstr "Work Week View: %s. %s"
@@ -135,16 +135,16 @@ msgstr "Work Week View: %s. %s"
 #. To translators: First %s is the day, for example "Thursday July
 #. 13th, 2006". Second %s is the number of events on this day, for
 #. example "It has %d event/events." or  "It has no events."
-#: ../a11y/calendar/ea-day-view.c:168
+#: ../a11y/calendar/ea-day-view.c:165
 #, c-format
 msgid "Day View: %s. %s"
 msgstr "Day View: %s. %s"
 
-#: ../a11y/calendar/ea-day-view.c:199
+#: ../a11y/calendar/ea-day-view.c:196
 msgid "calendar view for a work week"
 msgstr "calendar view for a work week"
 
-#: ../a11y/calendar/ea-day-view.c:201
+#: ../a11y/calendar/ea-day-view.c:198
 msgid "calendar view for one or more days"
 msgstr "calendar view for one or more days"
 
@@ -162,7 +162,7 @@ msgstr "%A %d %b %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:189
 #: ../calendar/gui/calendar-component.c:760
 #: ../calendar/gui/e-day-view-top-item.c:856 ../calendar/gui/e-day-view.c:1568
-#: ../calendar/gui/e-week-view-main-item.c:339
+#: ../calendar/gui/e-week-view-main-item.c:335
 msgid "%a %d %b"
 msgstr "%a %d %b"
 
@@ -194,7 +194,7 @@ msgstr "%d %b %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:219
 #: ../calendar/gui/calendar-component.c:786
 #: ../calendar/gui/e-day-view-top-item.c:860 ../calendar/gui/e-day-view.c:1584
-#: ../calendar/gui/e-week-view-main-item.c:353
+#: ../calendar/gui/e-week-view-main-item.c:349
 msgid "%d %b"
 msgstr "%d %b"
 
@@ -528,7 +528,7 @@ msgid ""
 msgstr ""
 "Your contacts for {0} will not be available until Evolution is restarted."
 
-#: ../addressbook/addressbook.error.xml.h:38 ../mail/em-vfolder-rule.c:512
+#: ../addressbook/addressbook.error.xml.h:38 ../mail/em-vfolder-rule.c:513
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
 #: ../plugins/groupwise-features/properties.glade.h:10
 #: ../widgets/table/e-table-config.glade.h:18
@@ -696,7 +696,7 @@ msgid "Base"
 msgstr "Base"
 
 #: ../addressbook/gui/component/addressbook-config.c:517
-#: ../calendar/gui/dialogs/calendar-setup.c:169
+#: ../calendar/gui/dialogs/calendar-setup.c:170
 msgid "_Type:"
 msgstr "_Type:"
 
@@ -707,10 +707,10 @@ msgstr "Copy _book content locally for offline operation"
 #: ../addressbook/gui/component/addressbook-config.c:982
 #: ../addressbook/gui/component/ldap-config.glade.h:22
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
-#: ../calendar/gui/dialogs/calendar-setup.c:366
-#: ../calendar/gui/dialogs/calendar-setup.c:377
-#: ../calendar/gui/dialogs/calendar-setup.c:388
-#: ../mail/em-folder-properties.c:282 ../mail/mail-config.glade.h:89
+#: ../calendar/gui/dialogs/calendar-setup.c:367
+#: ../calendar/gui/dialogs/calendar-setup.c:378
+#: ../calendar/gui/dialogs/calendar-setup.c:389
+#: ../mail/em-folder-properties.c:283 ../mail/mail-config.glade.h:89
 #: ../plugins/itip-formatter/itip-formatter.c:2367
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
@@ -1199,7 +1199,7 @@ msgid "_Login method:"
 msgstr "_Login method:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:53
-#: ../calendar/gui/dialogs/calendar-setup.c:226
+#: ../calendar/gui/dialogs/calendar-setup.c:227
 #: ../mail/mail-config.glade.h:175
 #: ../plugins/groupwise-features/properties.glade.h:11
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:2
@@ -1469,10 +1469,10 @@ msgstr "Address"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:291
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1178
 #: ../addressbook/gui/widgets/e-addressbook-model.c:312
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:424
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:419
 #: ../addressbook/gui/widgets/e-minicard-label.c:164
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:131
-#: ../addressbook/gui/widgets/e-minicard-view.c:544
+#: ../addressbook/gui/widgets/e-minicard-view.c:545
 #: ../addressbook/gui/widgets/e-minicard.c:191
 #: ../widgets/menus/gal-define-views-model.c:178
 #: ../widgets/table/e-cell-text.c:1836 ../widgets/text/e-text.c:3687
@@ -2452,7 +2452,7 @@ msgstr "Zimbabwe"
 #: ../mail/em-mailer-prefs.c:466
 #: ../plugins/exchange-operations/exchange-delegates.c:954
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:711
-#: ../plugins/plugin-manager/plugin-manager.c:41
+#: ../plugins/plugin-manager/plugin-manager.c:57
 #: ../plugins/save-attachments/save-attachments.c:350
 #: ../widgets/menus/gal-define-views-dialog.c:346
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:91
@@ -2753,7 +2753,7 @@ msgstr "_IM Service:"
 #: ../addressbook/gui/contact-editor/im.glade.h:4
 #: ../calendar/gui/dialogs/event-page.glade.h:16
 #: ../plugins/calendar-weather/calendar-weather.c:409
-#: ../plugins/exchange-operations/exchange-calendar.c:242
+#: ../plugins/exchange-operations/exchange-calendar.c:243
 #: ../plugins/exchange-operations/exchange-contacts.c:234
 msgid "_Location:"
 msgstr "_Location:"
@@ -2794,10 +2794,10 @@ msgstr "_Members"
 
 #: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1148
 #: ../addressbook/gui/widgets/e-addressbook-model.c:298
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:410
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:405
 #: ../addressbook/gui/widgets/e-addressbook-view.c:212
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:117
-#: ../addressbook/gui/widgets/e-minicard-view.c:530
+#: ../addressbook/gui/widgets/e-minicard-view.c:531
 msgid "Book"
 msgstr "Book"
 
@@ -2889,10 +2889,10 @@ msgstr[0] "%d contact"
 msgstr[1] "%d contacts"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:305
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:417
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:412
 #: ../addressbook/gui/widgets/e-addressbook-view.c:226
 #: ../addressbook/gui/widgets/e-minicard-view-widget.c:124
-#: ../addressbook/gui/widgets/e-minicard-view.c:537
+#: ../addressbook/gui/widgets/e-minicard-view.c:538
 msgid "Query"
 msgstr "Query"
 
@@ -2900,7 +2900,7 @@ msgstr "Query"
 msgid "Error getting book view"
 msgstr "Error getting book view"
 
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:431
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:426
 #: ../widgets/table/e-table-click-to-add.c:509
 #: ../widgets/table/e-table-selection-model.c:302
 #: ../widgets/table/e-table.c:3353
@@ -3189,8 +3189,8 @@ msgstr "Website"
 #: ../widgets/table/e-table-click-to-add.c:523
 #: ../widgets/table/e-table-col.c:99
 #: ../widgets/table/e-table-field-chooser-item.c:655
+#: ../widgets/table/e-table-group-container.c:992
 #: ../widgets/table/e-table-group-container.c:993
-#: ../widgets/table/e-table-group-container.c:994
 #: ../widgets/table/e-table-group-leaf.c:637
 #: ../widgets/table/e-table-group-leaf.c:638
 #: ../widgets/table/e-table-item.c:3081 ../widgets/table/e-table-item.c:3082
@@ -3204,8 +3204,8 @@ msgstr "Width"
 #: ../widgets/misc/e-reflow.c:1441 ../widgets/misc/e-reflow.c:1442
 #: ../widgets/table/e-table-click-to-add.c:530
 #: ../widgets/table/e-table-field-chooser-item.c:662
+#: ../widgets/table/e-table-group-container.c:985
 #: ../widgets/table/e-table-group-container.c:986
-#: ../widgets/table/e-table-group-container.c:987
 #: ../widgets/table/e-table-group-leaf.c:630
 #: ../widgets/table/e-table-group-leaf.c:631
 #: ../widgets/table/e-table-item.c:3087 ../widgets/table/e-table-item.c:3088
@@ -3238,7 +3238,7 @@ msgstr "Max field name length"
 msgid "Column Width"
 msgstr "Column Width"
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:177
+#: ../addressbook/gui/widgets/e-minicard-view.c:178
 msgid ""
 "\n"
 "\n"
@@ -3248,7 +3248,7 @@ msgstr ""
 "\n"
 "Searching for the Contacts..."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:180
+#: ../addressbook/gui/widgets/e-minicard-view.c:181
 msgid ""
 "\n"
 "\n"
@@ -3262,7 +3262,7 @@ msgstr ""
 "\n"
 "or double-click here to create a new Contact."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:183
+#: ../addressbook/gui/widgets/e-minicard-view.c:184
 msgid ""
 "\n"
 "\n"
@@ -3276,7 +3276,7 @@ msgstr ""
 "\n"
 "Double-click here to create a new Contact."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:187
+#: ../addressbook/gui/widgets/e-minicard-view.c:188
 msgid ""
 "\n"
 "\n"
@@ -3286,7 +3286,7 @@ msgstr ""
 "\n"
 "Search for the Contact."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:189
+#: ../addressbook/gui/widgets/e-minicard-view.c:190
 msgid ""
 "\n"
 "\n"
@@ -3296,7 +3296,7 @@ msgstr ""
 "\n"
 "There are no items to show in this view."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:523
+#: ../addressbook/gui/widgets/e-minicard-view.c:524
 msgid "Adapter"
 msgstr "Adapter"
 
@@ -3374,7 +3374,7 @@ msgstr "Video Chat"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:636
 #: ../calendar/gui/calendar-commands.c:92
-#: ../calendar/gui/dialogs/calendar-setup.c:367
+#: ../calendar/gui/dialogs/calendar-setup.c:368
 #: ../calendar/gui/gnome-cal.c:2451
 #: ../plugins/exchange-operations/exchange-delegates-user.c:76
 #: ../plugins/exchange-operations/exchange-folder.c:576
@@ -3748,7 +3748,7 @@ msgstr "Contact information"
 msgid "Contact information for %s"
 msgstr "Contact information for %s"
 
-#: ../addressbook/gui/widgets/eab-popup-control.c:301
+#: ../addressbook/gui/widgets/eab-popup-control.c:293
 msgid "Querying Address Book..."
 msgstr "Querying Address Book..."
 
@@ -3973,7 +3973,7 @@ msgstr "Shading"
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
 #: ../plugins/exchange-operations/exchange-account-setup.c:1069
-#: ../plugins/exchange-operations/exchange-calendar.c:231
+#: ../plugins/exchange-operations/exchange-calendar.c:232
 #: ../plugins/exchange-operations/exchange-contacts.c:217
 msgid "Size:"
 msgstr "Size:"
@@ -3991,7 +3991,7 @@ msgid "Top:"
 msgstr "Top:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:40
-#: ../calendar/gui/dialogs/calendar-setup.c:153
+#: ../calendar/gui/dialogs/calendar-setup.c:154
 msgid "Type:"
 msgstr "Type:"
 
@@ -4747,13 +4747,13 @@ msgstr ""
 "Could not create the alarm notify service factory, maybe it's already "
 "running..."
 
-#: ../calendar/gui/alarm-notify/util.c:41
+#: ../calendar/gui/alarm-notify/util.c:44
 msgid "invalid time"
 msgstr "invalid time"
 
 #. Translator: Entire string is like "Pop up an alert %d hours before start of appointment"
-#: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/e-alarm-list.c:404
-#: ../calendar/gui/misc.c:113
+#: ../calendar/gui/alarm-notify/util.c:69 ../calendar/gui/e-alarm-list.c:404
+#: ../calendar/gui/misc.c:116
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
@@ -4761,8 +4761,8 @@ msgstr[0] "%d hour"
 msgstr[1] "%d hours"
 
 #. Translator: Entire string is like "Pop up an alert %d minutes before start of appointment"
-#: ../calendar/gui/alarm-notify/util.c:72 ../calendar/gui/e-alarm-list.c:410
-#: ../calendar/gui/misc.c:119
+#: ../calendar/gui/alarm-notify/util.c:75 ../calendar/gui/e-alarm-list.c:410
+#: ../calendar/gui/misc.c:122
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
@@ -4772,8 +4772,8 @@ msgstr[1] "%d minutes"
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
 #. Translator: Entire string is like "Pop up an alert %d seconds before start of appointment"
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
-#: ../calendar/gui/alarm-notify/util.c:76 ../calendar/gui/e-alarm-list.c:416
-#: ../calendar/gui/misc.c:123
+#: ../calendar/gui/alarm-notify/util.c:79 ../calendar/gui/e-alarm-list.c:416
+#: ../calendar/gui/misc.c:126
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
@@ -5419,7 +5419,7 @@ msgstr "Classification"
 msgid "Competition"
 msgstr "Competition"
 
-#: ../calendar/gui/caltypes.xml.h:11 ../calendar/gui/e-cal-list-view.c:254
+#: ../calendar/gui/caltypes.xml.h:11 ../calendar/gui/e-cal-list-view.c:250
 #: ../calendar/gui/e-cal-model.c:337 ../calendar/gui/e-calendar-table.c:547
 #: ../calendar/gui/memotypes.xml.h:10
 msgid "Confidential"
@@ -5427,7 +5427,7 @@ msgstr "Confidential"
 
 #: ../calendar/gui/caltypes.xml.h:12 ../calendar/gui/memotypes.xml.h:11
 #: ../calendar/gui/tasktypes.xml.h:14
-#: ../plugins/plugin-manager/plugin-manager.c:43
+#: ../plugins/plugin-manager/plugin-manager.c:59
 #: ../widgets/table/e-table-config.glade.h:6
 msgid "Description"
 msgstr "Description"
@@ -5512,13 +5512,13 @@ msgstr "Organiser"
 msgid "Phone Calls"
 msgstr "Phone Calls"
 
-#: ../calendar/gui/caltypes.xml.h:31 ../calendar/gui/e-cal-list-view.c:253
+#: ../calendar/gui/caltypes.xml.h:31 ../calendar/gui/e-cal-list-view.c:249
 #: ../calendar/gui/e-cal-model.c:335 ../calendar/gui/e-calendar-table.c:546
 #: ../calendar/gui/memotypes.xml.h:29
 msgid "Private"
 msgstr "Private"
 
-#: ../calendar/gui/caltypes.xml.h:32 ../calendar/gui/e-cal-list-view.c:252
+#: ../calendar/gui/caltypes.xml.h:32 ../calendar/gui/e-cal-list-view.c:248
 #: ../calendar/gui/e-cal-model.c:326 ../calendar/gui/e-cal-model.c:333
 #: ../calendar/gui/e-calendar-table.c:545 ../calendar/gui/memotypes.xml.h:30
 msgid "Public"
@@ -5999,51 +5999,51 @@ msgstr "_Wed"
 msgid "before every appointment"
 msgstr "before every appointment"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:269
+#: ../calendar/gui/dialogs/calendar-setup.c:270
 msgid "Cop_y calendar contents locally for offline operation"
 msgstr "Cop_y calendar contents locally for offline operation"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:271
+#: ../calendar/gui/dialogs/calendar-setup.c:272
 msgid "Cop_y task list contents locally for offline operation"
 msgstr "Cop_y task list contents locally for offline operation"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:273
+#: ../calendar/gui/dialogs/calendar-setup.c:274
 msgid "Cop_y memo list contents locally for offline operation"
 msgstr "Cop_y memo list contents locally for offline operation"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:343
+#: ../calendar/gui/dialogs/calendar-setup.c:344
 msgid "Colo_r:"
 msgstr "Colou_r:"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:378
+#: ../calendar/gui/dialogs/calendar-setup.c:379
 msgid "Task List"
 msgstr "Task List"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:389
+#: ../calendar/gui/dialogs/calendar-setup.c:390
 msgid "Memo List"
 msgstr "Memo List"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:474
+#: ../calendar/gui/dialogs/calendar-setup.c:475
 msgid "Calendar Properties"
 msgstr "Calendar Properties"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:474
+#: ../calendar/gui/dialogs/calendar-setup.c:475
 msgid "New Calendar"
 msgstr "New Calendar"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:530
+#: ../calendar/gui/dialogs/calendar-setup.c:531
 msgid "Task List Properties"
 msgstr "Task List Properties"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:530
+#: ../calendar/gui/dialogs/calendar-setup.c:531
 msgid "New Task List"
 msgstr "New Task List"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:586
+#: ../calendar/gui/dialogs/calendar-setup.c:587
 msgid "Memo List Properties"
 msgstr "Memo List Properties"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:586
+#: ../calendar/gui/dialogs/calendar-setup.c:587
 msgid "New Memo List"
 msgstr "New Memo List"
 
@@ -6326,9 +6326,9 @@ msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Toggles whether the Attendee Type is displayed"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1766
-#: ../widgets/misc/e-attachment-bar.c:1381
-msgid "Recent Docu_ments"
-msgstr "Recent Docu_ments"
+#: ../composer/e-composer-private.c:65 ../widgets/misc/e-attachment-bar.c:1381
+msgid "Recent _Documents"
+msgstr "Recent _Documents"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1785
 #: ../composer/e-composer-actions.c:699
@@ -7286,9 +7286,9 @@ msgstr "No"
 #: ../calendar/gui/print.c:1002 ../mail/em-utils.c:1340
 #: ../plugins/itip-formatter/itip-formatter.c:409
 #: ../plugins/itip-formatter/itip-formatter.c:2046
-#: ../plugins/plugin-manager/plugin-manager.c:73
+#: ../plugins/plugin-manager/plugin-manager.c:89
 #: ../widgets/misc/e-attachment-bar.c:821
-#: ../widgets/misc/e-charset-picker.c:55
+#: ../widgets/misc/e-charset-picker.c:56
 msgid "Unknown"
 msgstr "Unknown"
 
@@ -7602,16 +7602,16 @@ msgid "Time: %s %s"
 msgstr "Time: %s %s"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
-#: ../calendar/gui/e-cell-date-edit-text.c:115
+#: ../calendar/gui/e-cell-date-edit-text.c:111
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a %d/%m/%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
-#: ../calendar/gui/e-cell-date-edit-text.c:118
+#: ../calendar/gui/e-cell-date-edit-text.c:114
 msgid "%a %m/%d/%Y %I:%M:%S %p"
 msgstr "%a %d/%m/%Y %I:%M:%S %p"
 
-#: ../calendar/gui/e-cell-date-edit-text.c:126
+#: ../calendar/gui/e-cell-date-edit-text.c:122
 #, c-format
 msgid ""
 "The date must be entered in the format: \n"
@@ -7624,7 +7624,7 @@ msgstr ""
 #. * to change the length of the time division in the calendar day view, e.g.
 #. * a day is displayed in 24 "60 minute divisions" or 48 "30 minute divisions"
 #.
-#: ../calendar/gui/e-day-view-time-item.c:589
+#: ../calendar/gui/e-day-view-time-item.c:583
 #, c-format
 msgid "%02i minute divisions"
 msgstr "%02i minute divisions"
@@ -7636,7 +7636,7 @@ msgstr "%02i minute divisions"
 #. order but don't change the specifiers or add
 #. anything.
 #: ../calendar/gui/e-day-view-top-item.c:852 ../calendar/gui/e-day-view.c:1551
-#: ../calendar/gui/e-week-view-main-item.c:330 ../calendar/gui/print.c:1672
+#: ../calendar/gui/e-week-view-main-item.c:326 ../calendar/gui/print.c:1672
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
@@ -8178,7 +8178,7 @@ msgstr "In Process"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
-#: ../calendar/gui/e-meeting-time-sel-item.c:472
+#: ../calendar/gui/e-meeting-time-sel-item.c:467
 #: ../calendar/gui/e-meeting-time-sel.c:2122
 msgid "%A, %B %d, %Y"
 msgstr "%A, %d %B, %Y"
@@ -8187,14 +8187,14 @@ msgstr "%A, %d %B, %Y"
 #. name, %m = month number, %d = month day, %Y = full year.
 #. This is a strftime() format string %a = abbreviated weekday name,
 #. %m = month number, %d = month day, %Y = full year.
-#: ../calendar/gui/e-meeting-time-sel-item.c:476
+#: ../calendar/gui/e-meeting-time-sel-item.c:471
 #: ../calendar/gui/e-meeting-time-sel.c:2153
 msgid "%a %m/%d/%Y"
 msgstr "%a %d/%m/%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#: ../calendar/gui/e-meeting-time-sel-item.c:480
+#: ../calendar/gui/e-meeting-time-sel-item.c:475
 msgid "%m/%d/%Y"
 msgstr "%d/%m/%Y"
 
@@ -8341,7 +8341,7 @@ msgstr "Select Timezone"
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: ../calendar/gui/e-week-view-main-item.c:347 ../calendar/gui/print.c:1653
+#: ../calendar/gui/e-week-view-main-item.c:343 ../calendar/gui/print.c:1653
 msgid "%d %B"
 msgstr "%d %B"
 
@@ -10748,10 +10748,6 @@ msgstr "Choose folders to post the message to."
 msgid "Click here to select folders to post to"
 msgstr "Click here to select folders to post to"
 
-#: ../composer/e-composer-private.c:65
-msgid "Recent _Documents"
-msgstr "Recent _Documents"
-
 #: ../composer/e-composer-private.c:180 ../composer/e-msg-composer.c:1558
 msgid "Show _Attachment Bar"
 msgstr "Show _Attachment Bar"
@@ -11001,7 +10997,7 @@ msgstr "Name of the component being logged"
 
 #: ../e-util/e-plugin.c:308 ../filter/rule-editor.c:776
 #: ../mail/em-account-prefs.c:482 ../mail/em-composer-prefs.c:988
-#: ../plugins/plugin-manager/plugin-manager.c:339
+#: ../plugins/plugin-manager/plugin-manager.c:355
 #: ../plugins/publish-calendar/publish-calendar.c:689
 msgid "Enabled"
 msgstr "Enabled"
@@ -11517,7 +11513,7 @@ msgstr ""
 "and tick the check box for accepting it\n"
 
 #: ../mail/em-account-editor.c:466 ../mail/em-filter-folder-element.c:239
-#: ../mail/em-vfolder-rule.c:512
+#: ../mail/em-vfolder-rule.c:513
 msgid "Select Folder"
 msgstr "Select Folder"
 
@@ -11948,7 +11944,7 @@ msgid "All Account Search"
 msgstr "All Account Search"
 
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
-#: ../mail/em-folder-properties.c:173
+#: ../mail/em-folder-properties.c:174
 msgid "Unread messages:"
 msgid_plural "Unread messages:"
 msgstr[0] "Unread messages:"
@@ -11956,24 +11952,24 @@ msgstr[1] "Unread messages:"
 
 #. TODO: can this be done in a loop?
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
-#: ../mail/em-folder-properties.c:177
+#: ../mail/em-folder-properties.c:178
 msgid "Total messages:"
 msgid_plural "Total messages:"
 msgstr[0] "Total messages:"
 msgstr[1] "Total messages:"
 
-#: ../mail/em-folder-properties.c:195
+#: ../mail/em-folder-properties.c:196
 #, c-format
 msgid "Quota usage (%s):"
 msgstr "Quota usage (%s):"
 
-#: ../mail/em-folder-properties.c:197
+#: ../mail/em-folder-properties.c:198
 #, c-format
 msgid "Quota usage"
 msgstr "Quota usage"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-properties.c:357 ../mail/em-folder-tree-model.c:507
+#: ../mail/em-folder-properties.c:358 ../mail/em-folder-tree-model.c:507
 #: ../mail/em-folder-tree.c:2556 ../mail/mail-component.c:160
 #: ../mail/mail-component.c:585
 #: ../plugins/exchange-operations/exchange-delegates-user.c:76
@@ -11981,7 +11977,7 @@ msgstr "Quota usage"
 msgid "Inbox"
 msgstr "Inbox"
 
-#: ../mail/em-folder-properties.c:388
+#: ../mail/em-folder-properties.c:389
 #: ../plugins/groupwise-features/properties.glade.h:4
 msgid "Folder Properties"
 msgstr "Folder Properties"
@@ -12881,7 +12877,7 @@ msgstr "Messages from %s"
 msgid "Search _Folders"
 msgstr "Search _Folders"
 
-#: ../mail/em-vfolder-rule.c:592
+#: ../mail/em-vfolder-rule.c:593
 msgid "Search Folder source"
 msgstr "Search Folder source"
 
@@ -13813,27 +13809,27 @@ msgstr "Evolution Pine importer"
 msgid "Import mail from Pine."
 msgstr "Import mail from Pine."
 
-#: ../mail/mail-autofilter.c:78
+#: ../mail/mail-autofilter.c:75
 #, c-format
 msgid "Mail to %s"
 msgstr "Mail to %s"
 
-#: ../mail/mail-autofilter.c:242 ../mail/mail-autofilter.c:281
+#: ../mail/mail-autofilter.c:239 ../mail/mail-autofilter.c:278
 #, c-format
 msgid "Mail from %s"
 msgstr "Mail from %s"
 
-#: ../mail/mail-autofilter.c:265
+#: ../mail/mail-autofilter.c:262
 #, c-format
 msgid "Subject is %s"
 msgstr "Subject is %s"
 
-#: ../mail/mail-autofilter.c:300
+#: ../mail/mail-autofilter.c:297
 #, c-format
 msgid "%s mailing list"
 msgstr "%s mailing list"
 
-#: ../mail/mail-autofilter.c:371
+#: ../mail/mail-autofilter.c:368
 msgid "Add Filter Rule"
 msgstr "Add Filter Rule"
 
@@ -14995,26 +14991,26 @@ msgstr "Waiting..."
 msgid "Checking for new mail"
 msgstr "Checking for new mail"
 
-#: ../mail/mail-session.c:205
+#: ../mail/mail-session.c:207
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Enter Passphrase for %s"
 
-#: ../mail/mail-session.c:207
+#: ../mail/mail-session.c:209
 msgid "Enter Passphrase"
 msgstr "Enter Passphrase"
 
-#: ../mail/mail-session.c:210
-#: ../plugins/exchange-operations/exchange-config-listener.c:713
+#: ../mail/mail-session.c:212
+#: ../plugins/exchange-operations/exchange-config-listener.c:708
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Enter Password for %s"
 
-#: ../mail/mail-session.c:212
+#: ../mail/mail-session.c:214
 msgid "Enter Password"
 msgstr "Enter Password"
 
-#: ../mail/mail-session.c:254
+#: ../mail/mail-session.c:256
 msgid "User canceled operation."
 msgstr "User cancelled operation."
 
@@ -16398,19 +16394,19 @@ msgstr "Do you want to make Evolution your default e-mail client?"
 msgid "Evolution"
 msgstr "Evolution"
 
-#: ../plugins/default-source/default-source.c:81
+#: ../plugins/default-source/default-source.c:82
 msgid "Mark as _default address book"
 msgstr "Mark as _default address book"
 
-#: ../plugins/default-source/default-source.c:102
+#: ../plugins/default-source/default-source.c:103
 msgid "Mark as _default calendar"
 msgstr "Mark as _default calendar"
 
-#: ../plugins/default-source/default-source.c:103
+#: ../plugins/default-source/default-source.c:104
 msgid "Mark as _default task list"
 msgstr "Mark as _default task list"
 
-#: ../plugins/default-source/default-source.c:104
+#: ../plugins/default-source/default-source.c:105
 msgid "Mark as _default memo list"
 msgstr "Mark as _default memo list"
 
@@ -16609,7 +16605,7 @@ msgstr "%s KB"
 msgid "0 KB"
 msgstr "0 KB"
 
-#: ../plugins/exchange-operations/exchange-calendar.c:191
+#: ../plugins/exchange-operations/exchange-calendar.c:192
 #: ../plugins/exchange-operations/exchange-contacts.c:165
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
@@ -16649,7 +16645,7 @@ msgstr "New Password:"
 msgid "Your current password has expired. Please change your password now."
 msgstr "Your current password has expired. Please change your password now."
 
-#: ../plugins/exchange-operations/exchange-config-listener.c:665
+#: ../plugins/exchange-operations/exchange-config-listener.c:660
 #, c-format
 msgid "Your password will expire in the next %d days"
 msgstr "Your password will expire in the next %d days"
@@ -19216,7 +19212,7 @@ msgstr "A plugin for managing which plugins are enabled or disabled."
 
 #. Setup the ui
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
-#: ../plugins/plugin-manager/plugin-manager.c:236
+#: ../plugins/plugin-manager/plugin-manager.c:252
 msgid "Plugin Manager"
 msgstr "Plugin Manager"
 
@@ -19228,24 +19224,24 @@ msgstr "Enable and disable plugins"
 msgid "_Plugins"
 msgstr "_Plugins"
 
-#: ../plugins/plugin-manager/plugin-manager.c:42
+#: ../plugins/plugin-manager/plugin-manager.c:58
 msgid "Author(s)"
 msgstr "Author(s)"
 
-#: ../plugins/plugin-manager/plugin-manager.c:130
+#: ../plugins/plugin-manager/plugin-manager.c:146
 msgid "Configuration"
 msgstr "Configuration"
 
-#: ../plugins/plugin-manager/plugin-manager.c:249
+#: ../plugins/plugin-manager/plugin-manager.c:265
 msgid "Note: Some changes will not take effect until restart"
 msgstr "Note: Some changes will not take effect until restart"
 
-#: ../plugins/plugin-manager/plugin-manager.c:275
+#: ../plugins/plugin-manager/plugin-manager.c:291
 msgid "Overview"
 msgstr "Overview"
 
-#: ../plugins/plugin-manager/plugin-manager.c:346
-#: ../plugins/plugin-manager/plugin-manager.c:408
+#: ../plugins/plugin-manager/plugin-manager.c:362
+#: ../plugins/plugin-manager/plugin-manager.c:424
 msgid "Plugin"
 msgstr "Plugin"
 
@@ -20120,7 +20116,7 @@ msgstr "Import data and settings from _older programs"
 msgid "Import a _single file"
 msgstr "Import a _single file"
 
-#: ../shell/e-shell-settings-dialog.c:314
+#: ../shell/e-shell-settings-dialog.c:313
 msgid "Evolution Preferences"
 msgstr "Evolution Preferences"
 
@@ -20981,15 +20977,15 @@ msgstr "Subject Unique ID"
 msgid "Certificate Signature Value"
 msgstr "Certificate Signature Value"
 
-#: ../smime/lib/e-pkcs12.c:266
+#: ../smime/lib/e-pkcs12.c:244
 msgid "PKCS12 File Password"
 msgstr "PKCS12 File Password"
 
-#: ../smime/lib/e-pkcs12.c:266
+#: ../smime/lib/e-pkcs12.c:244
 msgid "Enter password for PKCS12 file:"
 msgstr "Enter password for PKCS12 file:"
 
-#: ../smime/lib/e-pkcs12.c:365
+#: ../smime/lib/e-pkcs12.c:343
 msgid "Imported Certificate"
 msgstr "Imported Certificate"
 
@@ -22561,7 +22557,7 @@ msgid "Suggest automatic display of attachment"
 msgstr "Suggest automatic display of attachment"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
-#: ../widgets/misc/e-calendar-item.c:1273
+#: ../widgets/misc/e-calendar-item.c:1267
 msgid "%B %Y"
 msgstr "%B %Y"
 
@@ -22611,14 +22607,14 @@ msgid "Y2"
 msgstr "Y2"
 
 #: ../widgets/misc/e-canvas-vbox.c:91 ../widgets/misc/e-reflow.c:1426
-#: ../widgets/table/e-table-group-container.c:1000
+#: ../widgets/table/e-table-group-container.c:999
 #: ../widgets/table/e-table-group-leaf.c:644
 #: ../widgets/table/e-table-item.c:3074
 msgid "Minimum width"
 msgstr "Minimum width"
 
 #: ../widgets/misc/e-canvas-vbox.c:92 ../widgets/misc/e-reflow.c:1427
-#: ../widgets/table/e-table-group-container.c:1001
+#: ../widgets/table/e-table-group-container.c:1000
 #: ../widgets/table/e-table-group-leaf.c:645
 #: ../widgets/table/e-table-item.c:3075
 msgid "Minimum Width"
@@ -22642,98 +22638,98 @@ msgstr "The time must be in the format: %s"
 msgid "The percent value must be between 0 and 100, inclusive"
 msgstr "The percent value must be between 0 and 100, inclusive"
 
-#: ../widgets/misc/e-charset-picker.c:56
+#: ../widgets/misc/e-charset-picker.c:57
 msgid "Arabic"
 msgstr "Arabic"
 
-#: ../widgets/misc/e-charset-picker.c:57
+#: ../widgets/misc/e-charset-picker.c:58
 msgid "Baltic"
 msgstr "Baltic"
 
-#: ../widgets/misc/e-charset-picker.c:58
+#: ../widgets/misc/e-charset-picker.c:59
 msgid "Central European"
 msgstr "Central European"
 
-#: ../widgets/misc/e-charset-picker.c:59
+#: ../widgets/misc/e-charset-picker.c:60
 msgid "Chinese"
 msgstr "Chinese"
 
-#: ../widgets/misc/e-charset-picker.c:60
+#: ../widgets/misc/e-charset-picker.c:61
 msgid "Cyrillic"
 msgstr "Cyrillic"
 
-#: ../widgets/misc/e-charset-picker.c:61
+#: ../widgets/misc/e-charset-picker.c:62
 msgid "Greek"
 msgstr "Greek"
 
-#: ../widgets/misc/e-charset-picker.c:62
+#: ../widgets/misc/e-charset-picker.c:63
 msgid "Hebrew"
 msgstr "Hebrew"
 
-#: ../widgets/misc/e-charset-picker.c:63
+#: ../widgets/misc/e-charset-picker.c:64
 msgid "Japanese"
 msgstr "Japanese"
 
-#: ../widgets/misc/e-charset-picker.c:64
+#: ../widgets/misc/e-charset-picker.c:65
 msgid "Korean"
 msgstr "Korean"
 
-#: ../widgets/misc/e-charset-picker.c:65
+#: ../widgets/misc/e-charset-picker.c:66
 msgid "Thai"
 msgstr "Thai"
 
-#: ../widgets/misc/e-charset-picker.c:66
+#: ../widgets/misc/e-charset-picker.c:67
 msgid "Turkish"
 msgstr "Turkish"
 
-#: ../widgets/misc/e-charset-picker.c:67
+#: ../widgets/misc/e-charset-picker.c:68
 msgid "Unicode"
 msgstr "Unicode"
 
-#: ../widgets/misc/e-charset-picker.c:68
+#: ../widgets/misc/e-charset-picker.c:69
 msgid "Western European"
 msgstr "Western European"
 
-#: ../widgets/misc/e-charset-picker.c:69
+#: ../widgets/misc/e-charset-picker.c:70
 msgid "Western European, New"
 msgstr "Western European, New"
 
-#: ../widgets/misc/e-charset-picker.c:88 ../widgets/misc/e-charset-picker.c:89
-#: ../widgets/misc/e-charset-picker.c:90
+#: ../widgets/misc/e-charset-picker.c:89 ../widgets/misc/e-charset-picker.c:90
+#: ../widgets/misc/e-charset-picker.c:91
 msgid "Traditional"
 msgstr "Traditional"
 
-#: ../widgets/misc/e-charset-picker.c:91 ../widgets/misc/e-charset-picker.c:92
-#: ../widgets/misc/e-charset-picker.c:93 ../widgets/misc/e-charset-picker.c:94
+#: ../widgets/misc/e-charset-picker.c:92 ../widgets/misc/e-charset-picker.c:93
+#: ../widgets/misc/e-charset-picker.c:94 ../widgets/misc/e-charset-picker.c:95
 msgid "Simplified"
 msgstr "Simplified"
 
-#: ../widgets/misc/e-charset-picker.c:97
+#: ../widgets/misc/e-charset-picker.c:98
 msgid "Ukrainian"
 msgstr "Ukrainian"
 
-#: ../widgets/misc/e-charset-picker.c:100
+#: ../widgets/misc/e-charset-picker.c:101
 msgid "Visual"
 msgstr "Visual"
 
-#: ../widgets/misc/e-charset-picker.c:169
+#: ../widgets/misc/e-charset-picker.c:170
 #, c-format
 msgid "Unknown character set: %s"
 msgstr "Unknown character set: %s"
 
-#: ../widgets/misc/e-charset-picker.c:214
+#: ../widgets/misc/e-charset-picker.c:215
 msgid "Character Encoding"
 msgstr "Character Encoding"
 
-#: ../widgets/misc/e-charset-picker.c:229
+#: ../widgets/misc/e-charset-picker.c:230
 msgid "Enter the character set to use"
 msgstr "Enter the character set to use"
 
-#: ../widgets/misc/e-charset-picker.c:336
+#: ../widgets/misc/e-charset-picker.c:337
 msgid "Other..."
 msgstr "Other..."
 
-#: ../widgets/misc/e-charset-picker.c:598
+#: ../widgets/misc/e-charset-picker.c:599
 msgid "Ch_aracter Encoding"
 msgstr "Ch_aracter Encoding"
 
@@ -23326,30 +23322,30 @@ msgstr ""
 "To add a column to your table, drag it into\n"
 "the location in which you want it to appear."
 
-#: ../widgets/table/e-table-group-container.c:345
+#: ../widgets/table/e-table-group-container.c:344
 #, c-format
 msgid "%s : %s (%d item)"
 msgid_plural "%s : %s (%d items)"
 msgstr[0] "%s : %s (%d item)"
 msgstr[1] "%s : %s (%d items)"
 
-#: ../widgets/table/e-table-group-container.c:351
+#: ../widgets/table/e-table-group-container.c:350
 #, c-format
 msgid "%s (%d item)"
 msgid_plural "%s (%d items)"
 msgstr[0] "%s (%d item)"
 msgstr[1] "%s (%d items)"
 
+#: ../widgets/table/e-table-group-container.c:922
 #: ../widgets/table/e-table-group-container.c:923
-#: ../widgets/table/e-table-group-container.c:924
 #: ../widgets/table/e-table-group-leaf.c:581
 #: ../widgets/table/e-table-group-leaf.c:582
 #: ../widgets/table/e-table-item.c:3032 ../widgets/table/e-table-item.c:3033
 msgid "Alternating Row Colors"
 msgstr "Alternating Row Colours"
 
+#: ../widgets/table/e-table-group-container.c:929
 #: ../widgets/table/e-table-group-container.c:930
-#: ../widgets/table/e-table-group-container.c:931
 #: ../widgets/table/e-table-group-leaf.c:588
 #: ../widgets/table/e-table-group-leaf.c:589
 #: ../widgets/table/e-table-item.c:3039 ../widgets/table/e-table-item.c:3040
@@ -23357,8 +23353,8 @@ msgstr "Alternating Row Colours"
 msgid "Horizontal Draw Grid"
 msgstr "Horizontal Draw Grid"
 
+#: ../widgets/table/e-table-group-container.c:936
 #: ../widgets/table/e-table-group-container.c:937
-#: ../widgets/table/e-table-group-container.c:938
 #: ../widgets/table/e-table-group-leaf.c:595
 #: ../widgets/table/e-table-group-leaf.c:596
 #: ../widgets/table/e-table-item.c:3046 ../widgets/table/e-table-item.c:3047
@@ -23366,8 +23362,8 @@ msgstr "Horizontal Draw Grid"
 msgid "Vertical Draw Grid"
 msgstr "Vertical Draw Grid"
 
+#: ../widgets/table/e-table-group-container.c:943
 #: ../widgets/table/e-table-group-container.c:944
-#: ../widgets/table/e-table-group-container.c:945
 #: ../widgets/table/e-table-group-leaf.c:602
 #: ../widgets/table/e-table-group-leaf.c:603
 #: ../widgets/table/e-table-item.c:3053 ../widgets/table/e-table-item.c:3054
@@ -23375,24 +23371,24 @@ msgstr "Vertical Draw Grid"
 msgid "Draw focus"
 msgstr "Draw focus"
 
+#: ../widgets/table/e-table-group-container.c:950
 #: ../widgets/table/e-table-group-container.c:951
-#: ../widgets/table/e-table-group-container.c:952
 #: ../widgets/table/e-table-group-leaf.c:609
 #: ../widgets/table/e-table-group-leaf.c:610
 #: ../widgets/table/e-table-item.c:3060 ../widgets/table/e-table-item.c:3061
 msgid "Cursor mode"
 msgstr "Cursor mode"
 
+#: ../widgets/table/e-table-group-container.c:957
 #: ../widgets/table/e-table-group-container.c:958
-#: ../widgets/table/e-table-group-container.c:959
 #: ../widgets/table/e-table-group-leaf.c:623
 #: ../widgets/table/e-table-group-leaf.c:624
 #: ../widgets/table/e-table-item.c:3025 ../widgets/table/e-table-item.c:3026
 msgid "Selection model"
 msgstr "Selection model"
 
+#: ../widgets/table/e-table-group-container.c:964
 #: ../widgets/table/e-table-group-container.c:965
-#: ../widgets/table/e-table-group-container.c:966
 #: ../widgets/table/e-table-group-leaf.c:616
 #: ../widgets/table/e-table-group-leaf.c:617
 #: ../widgets/table/e-table-item.c:3067 ../widgets/table/e-table-item.c:3068
@@ -23401,8 +23397,8 @@ msgstr "Selection model"
 msgid "Length Threshold"
 msgstr "Length Threshold"
 
+#: ../widgets/table/e-table-group-container.c:971
 #: ../widgets/table/e-table-group-container.c:972
-#: ../widgets/table/e-table-group-container.c:973
 #: ../widgets/table/e-table-group-leaf.c:658
 #: ../widgets/table/e-table-group-leaf.c:659
 #: ../widgets/table/e-table-item.c:3101 ../widgets/table/e-table-item.c:3102
@@ -23411,8 +23407,8 @@ msgstr "Length Threshold"
 msgid "Uniform row height"
 msgstr "Uniform row height"
 
+#: ../widgets/table/e-table-group-container.c:978
 #: ../widgets/table/e-table-group-container.c:979
-#: ../widgets/table/e-table-group-container.c:980
 #: ../widgets/table/e-table-group-leaf.c:651
 #: ../widgets/table/e-table-group-leaf.c:652
 msgid "Frozen"
@@ -23626,6 +23622,9 @@ msgstr "IM Context"
 #: ../widgets/text/e-text.c:3786 ../widgets/text/e-text.c:3787
 msgid "Handle Popup"
 msgstr "Handle Popup"
+
+#~ msgid "Recent Docu_ments"
+#~ msgstr "Recent Docu_ments"
 
 #~ msgid "_Contact"
 #~ msgstr "_Contact"
