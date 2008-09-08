@@ -1,3 +1,15 @@
+2008-09-08  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #328216
+
+	* mail-send-recv.h: (mail_autoreceive_init):
+	* mail-send-recv.c: (mail_autoreceive_init):
+	* mail-component.c: (mail_component_init): Pass 'session' as parameter
+	to the 'mail_autoreceive_init' to not create two MailComponents.
+	* mail-component.c: (impl_finalize): Do not free pointer twice.
+	* mail-component.c: (impl_finalize), (impl_quit): Call shutdown in time
+	of quit to shutdown camel, which will store changes in 'camel-cert.db'.
+
 2008-09-05  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* mail-folder-cache.c (real_flush_updates): Fix infinite loop on

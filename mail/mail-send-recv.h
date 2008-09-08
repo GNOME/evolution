@@ -31,13 +31,15 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
+struct _CamelSession;
+
 /* send/receive all uri's */
 GtkWidget *mail_send_receive(void);
 /* receive a single uri */
 void mail_receive_uri(const char *uri, int keep);
 void mail_send (void);
 /* setup auto receive stuff */
-void mail_autoreceive_init(void);
+void mail_autoreceive_init (struct _CamelSession *session);
 
 #ifdef __cplusplus
 }

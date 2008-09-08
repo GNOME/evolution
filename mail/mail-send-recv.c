@@ -1061,7 +1061,7 @@ auto_online(CamelObject *o, void *ed, void *d)
 /* call to setup initial, and after changes are made to the config */
 /* FIXME: Need a cleanup funciton for when object is deactivated */
 void
-mail_autoreceive_init(void)
+mail_autoreceive_init (CamelSession *session)
 {
 	EAccountList *accounts;
 	EIterator *iter;
@@ -1079,7 +1079,7 @@ mail_autoreceive_init(void)
 	for (iter = e_list_get_iterator((EList *)accounts);e_iterator_is_valid(iter);e_iterator_next(iter))
 		auto_account_added(accounts, (EAccount *)e_iterator_get(iter), NULL);
 
-	camel_object_hook_event(mail_component_peek_session(NULL), "online", auto_online, NULL);
+	camel_object_hook_event (session, "online", auto_online, NULL);
 }
 
 /* we setup the download info's in a hashtable, if we later need to build the gui, we insert
