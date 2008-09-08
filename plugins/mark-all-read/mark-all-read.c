@@ -223,19 +223,17 @@ mar_got_folder (char *uri, CamelFolder *folder, void *data)
 	gint response;
 	guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_FAST;
 
-	camel_exception_init (&ex);
-
 	/* FIXME we have to disable the menu item */
 	if (!folder)
 		return;
 
+	camel_exception_init (&ex);
+
 	store = folder->parent_store;
 	info = camel_store_get_folder_info (store, folder->full_name, flags, &ex);
 
-	if (camel_exception_is_set (&ex)) {
-		camel_exception_clear (&ex);
-		return;
-	}
+	if (camel_exception_is_set (&ex))
+		goto out;
 
 	if (info && (info->child || info->next))
 		response = prompt_user ();
@@ -246,6 +244,8 @@ mar_got_folder (char *uri, CamelFolder *folder, void *data)
 		mark_all_as_read (folder);
 	else if (response == GTK_RESPONSE_YES)
 		mar_all_sub_folders (store, info, &ex);
+out:
+	camel_store_free_folder_info(store, info);
 }
 
 static void
