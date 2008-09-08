@@ -624,10 +624,10 @@ model_rows_inserted_cb (ETableModel *etm, int row, int count, gpointer user_data
 }
 
 static void
-model_rows_deleted_cb (ETableModel *etm, int row, int count, gpointer user_data)
+model_comps_deleted_cb (ETableModel *etm, gpointer data, gpointer user_data)
 {
 	EDayView *day_view = E_DAY_VIEW (user_data);
-	int i;
+	GSList *l, *list = data;
 
 	if (!E_CALENDAR_VIEW (day_view)->in_focus) {
 		return;
@@ -635,15 +635,12 @@ model_rows_deleted_cb (ETableModel *etm, int row, int count, gpointer user_data)
 
 	e_day_view_stop_editing_event (day_view);
 
-	for (i = row + count; i > row; i--) {
+	for (l = list; l != NULL; l = g_slist_next (l)) {
+		ECalModelComponent *comp_data = l->data;
 		gint day, event_num;
 		const char *uid = NULL;
 		char *rid = NULL;
-		ECalModelComponent *comp_data;
 
-		comp_data = e_cal_model_get_component_at (E_CAL_MODEL (etm), i - 1);
-		if (!comp_data)
-			continue;
 
 		uid = icalcomponent_get_uid (comp_data->icalcomp);
 		if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
@@ -656,6 +653,7 @@ model_rows_deleted_cb (ETableModel *etm, int row, int count, gpointer user_data)
 
 		if (e_day_view_find_event_from_uid (day_view, comp_data->client, uid, rid, &day, &event_num))
 			e_day_view_remove_event_cb (day_view, day, event_num, NULL);
+
 		g_free (rid);
 	}
 
@@ -1024,8 +1022,8 @@ init_model (EDayView *day_view, ECalModel *model)
 			  G_CALLBACK (model_cell_changed_cb), day_view);
 	g_signal_connect (G_OBJECT (model), "model_rows_inserted",
 			  G_CALLBACK (model_rows_inserted_cb), day_view);
-	g_signal_connect (G_OBJECT (model), "model_rows_deleted",
-			  G_CALLBACK (model_rows_deleted_cb), day_view);
+	g_signal_connect (G_OBJECT (model), "comps_deleted",
+			  G_CALLBACK (model_comps_deleted_cb), day_view);
 }
 
 /* Turn off the background of the canvas windows. This reduces flicker

@@ -116,6 +116,7 @@ typedef struct {
 	/* Signals */
 	void (* time_range_changed) (ECalModel *model, time_t start, time_t end);
 	void (* row_appended) (ECalModel *model);
+	void (* comps_deleted) (ECalModel *model, gpointer list);
 	void (* cal_view_progress) (ECalModel *model, const char *message, int progress, ECalSourceType type);
 	void (* cal_view_done) (ECalModel *model, ECalendarStatus status, ECalSourceType type);
 } ECalModelClass;
