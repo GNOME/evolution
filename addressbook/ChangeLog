@@ -1,3 +1,10 @@
+2008-09-08  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #361413
+
+	* gui/widgets/eab-gui-util.c: (eab_load_error_dialog):
+	Print detailed error also for LDAP backends.
+
 2008-09-06  Michael Meeks  <michael.meeks@novell.com>
 
 	* gui/component/openldap-extract.h: License fixes.

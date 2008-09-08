@@ -98,12 +98,14 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 {
 	char *label_string, *label = NULL, *uri;
 	GtkWidget *dialog;
+	gboolean can_detail_error = TRUE;
 
 	g_return_if_fail (source != NULL);
 
 	uri = e_source_get_uri (source);
 
 	if (status == E_BOOK_ERROR_OFFLINE_UNAVAILABLE) {
+		can_detail_error = FALSE;
 		label_string = _("We were unable to open this address book. This either means "
                                  "this book is not marked for offline usage or not yet downloaded "
                                  "for offline usage. Please load the address book once in online mode "
@@ -126,6 +128,7 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 			  "means you have entered an incorrect URI, or the LDAP server "
 			  "is unreachable.");
 #else
+		can_detail_error = FALSE;
 		label_string =
 			_("This version of Evolution does not have LDAP support "
 			  "compiled in to it.  If you want to use LDAP in Evolution, "
@@ -137,7 +140,9 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 			_("We were unable to open this address book.  This either "
 			  "means you have entered an incorrect URI, or the server "
 			  "is unreachable.");
+	}
 
+	if (can_detail_error) {
 		/* do not show repository offline message, it's kind of generic error */
 		if (status != E_BOOK_ERROR_REPOSITORY_OFFLINE && status > 0 && status < G_N_ELEMENTS (status_to_string) && status_to_string [status]) {
 			label = g_strconcat (label_string, "\n\n", _("Detailed error:"), " ", _(status_to_string [status]), NULL);
