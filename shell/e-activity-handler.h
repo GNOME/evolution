@@ -23,9 +23,11 @@
 #ifndef _E_ACTIVITY_HANDLER_H_
 #define _E_ACTIVITY_HANDLER_H_
 
-#include "e-task-bar.h"
+#include "e-shell-taskbar.h"
 #include "e-util/e-logger.h"
 #include <glib-object.h>
+
+/* XXX Merge this into EShellTaskbar and rethink the API. */
 
 #ifdef __cplusplus
 extern "C" {
@@ -62,7 +64,7 @@ GType    e_activity_handler_get_type  (void);
 EActivityHandler *e_activity_handler_new  (void);
 
 void  e_activity_handler_attach_task_bar  (EActivityHandler *activity_hanlder,
-					   ETaskBar         *task_bar);
+					   EShellTaskbar    *shell_taskbar);
 
 void  e_activity_handler_set_message   (EActivityHandler *activity_handler,
 				        const char       *message);
@@ -70,11 +72,9 @@ void  e_activity_handler_set_message   (EActivityHandler *activity_handler,
 void  e_activity_handler_unset_message (EActivityHandler *activity_handler);
 
 guint  e_activity_handler_operation_started  (EActivityHandler *activity_handler,
-					      const char       *component_id,
 					      const char       *information,
 					      gboolean          cancellable);
 guint  e_activity_handler_cancelable_operation_started  (EActivityHandler *activity_handler,
-						      const char       *component_id,
 					      	      const char       *information,
 					      	      gboolean          cancellable,
 						      void (*cancel_func)(gpointer),
@@ -90,7 +90,6 @@ void  e_activity_handler_operation_finished  (EActivityHandler *activity_handler
 
 void e_activity_handler_set_logger (EActivityHandler *handler, ELogger *logger);
 guint e_activity_handler_make_error (EActivityHandler *activity_handler,
-				      const char *component_id,
 				      int error_type,
 				      GtkWidget  *error);
 void

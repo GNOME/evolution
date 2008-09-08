@@ -22,6 +22,7 @@
 #define E_SHELL_CONTENT_H
 
 #include <gtk/gtk.h>
+#include <filter/rule-context.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_CONTENT \
@@ -44,6 +45,9 @@
 
 G_BEGIN_DECLS
 
+/* Avoid including <e-shell-view.h> */
+struct _EShellView;
+
 typedef struct _EShellContent EShellContent;
 typedef struct _EShellContentClass EShellContentClass;
 typedef struct _EShellContentPrivate EShellContentPrivate;
@@ -58,8 +62,57 @@ struct _EShellContentClass {
 };
 
 GType		e_shell_content_get_type	(void);
-GtkWidget *	e_shell_content_new		(void);
-GtkWidget *	e_shell_content_get_search_bar	(EShellContent *shell_content);
+GtkWidget *	e_shell_content_new		(struct _EShellView *shell_view);
+struct _EShellView *
+		e_shell_content_get_shell_view	(EShellContent *shell_content);
+RuleContext *	e_shell_content_get_context	(EShellContent *shell_content);
+void		e_shell_content_set_context	(EShellContent *shell_content,
+						 RuleContext *context);
+GtkRadioAction *e_shell_content_get_filter_action
+						(EShellContent *shell_content);
+void		e_shell_content_set_filter_action
+						(EShellContent *shell_content,
+						 GtkRadioAction *filter_action);
+gint		e_shell_content_get_filter_value(EShellContent *shell_content);
+void		e_shell_content_set_filter_value(EShellContent *shell_content,
+						 gint filter_value);
+gboolean	e_shell_content_get_filter_visible
+						(EShellContent *shell_content);
+void		e_shell_content_set_filter_visible
+						(EShellContent *shell_content,
+						 gboolean filter_visible);
+GtkRadioAction *e_shell_content_get_search_action
+						(EShellContent *shell_content);
+void		e_shell_content_set_search_action
+						(EShellContent *shell_content,
+						 GtkRadioAction *search_action);
+RuleContext *	e_shell_content_get_search_context
+						(EShellContent *shell_content);
+const gchar *	e_shell_content_get_search_text	(EShellContent *shell_content);
+void		e_shell_content_set_search_text	(EShellContent *shell_content,
+						 const gchar *search_text);
+gint		e_shell_content_get_search_value(EShellContent *shell_content);
+void		e_shell_content_set_search_value(EShellContent *shell_content,
+						 gint search_value);
+gboolean	e_shell_content_get_search_visible
+						(EShellContent *shell_content);
+void		e_shell_content_set_search_visible
+						(EShellContent *shell_content,
+						 gboolean search_visible);
+GtkRadioAction *e_shell_content_get_scope_action(EShellContent *shell_content);
+void		e_shell_content_set_scope_action(EShellContent *shell_content,
+						 GtkRadioAction *scope_action);
+gint		e_shell_content_get_scope_value	(EShellContent *shell_content);
+void		e_shell_content_set_scope_value	(EShellContent *shell_content,
+						 gint scope_value);
+gboolean	e_shell_content_get_scope_visible
+						(EShellContent *shell_content);
+void		e_shell_content_set_scope_visible
+						(EShellContent *shell_content,
+						 gboolean scope_visible);
+void		e_shell_content_save_search_dialog
+						(EShellContent *shell_content,
+						 const gchar *filename);
 
 G_END_DECLS
 

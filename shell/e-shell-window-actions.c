@@ -868,37 +868,31 @@ static void
 action_search_clear_cb (GtkAction *action,
                         EShellWindow *shell_window)
 {
+	EShellContent *shell_content;
 	EShellView *shell_view;
-	GtkWidget *widget;
 	const gchar *view_name;
 
-	/* Dig up the search bar. */
 	view_name = e_shell_window_get_current_view (shell_window);
 	shell_view = e_shell_window_get_view (shell_window, view_name);
-	widget = e_shell_view_get_content_widget (shell_view);
-	widget = e_shell_content_get_search_bar (E_SHELL_CONTENT (widget));
-
-	e_search_bar_set_search_text (E_SEARCH_BAR (widget), NULL);
+	shell_content = e_shell_view_get_content (shell_view);
+	e_shell_content_set_search_text (shell_content, "");
 }
 
 static void
 action_search_edit_cb (GtkAction *action,
                        EShellWindow *shell_window)
 {
+	EShellContent *shell_content;
 	EShellView *shell_view;
 	RuleContext *context;
 	RuleEditor *editor;
-	GtkWidget *widget;
 	const gchar *filename;
 	const gchar *view_name;
 
-	/* Dig up the search bar. */
 	view_name = e_shell_window_get_current_view (shell_window);
 	shell_view = e_shell_window_get_view (shell_window, view_name);
-	widget = e_shell_view_get_content_widget (shell_view);
-	widget = e_shell_content_get_search_bar (E_SHELL_CONTENT (widget));
-
-	context = e_search_bar_get_context (E_SEARCH_BAR (widget));
+	shell_content = e_shell_view_get_content (shell_view);
+	context = e_shell_content_get_search_context (shell_content);
 	g_return_if_fail (context != NULL);
 
 	/* XXX I don't know why the RuleContext can't just store
@@ -1621,12 +1615,16 @@ e_shell_window_create_shell_view_actions (EShellWindow *shell_window)
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
 	EShellSwitcher *switcher;
+	GList *list;
+	const gchar *current_view;
+	gint current_value = 0;
 	guint n_children, ii;
 	guint merge_id;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
 	action_group = shell_window->priv->shell_view_actions;
+	current_view = e_shell_window_get_current_view (shell_window);
 	children = g_type_children (E_TYPE_SHELL_VIEW, &n_children);
 	switcher = E_SHELL_SWITCHER (shell_window->priv->switcher);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
@@ -1634,7 +1632,12 @@ e_shell_window_create_shell_view_actions (EShellWindow *shell_window)
 
 	/* Construct a group of radio actions from the various EShellView
 	 * subclasses and register them with our ESidebar.  These actions
-	 * are manifested as switcher buttons and View->Window menu items. */
+	 * are manifested as switcher buttons and View->Window menu items.
+	 *
+	 * Note: The shell window has already selected a view by now,
+	 * so we have to be careful not to overwrite that when setting
+	 * up the radio action group.  That means not connecting to any
+	 * "changed" signals until after the group is built. */
 
 	for (ii = 0; ii < n_children; ii++) {
 		EShellViewClass *class;
@@ -1664,6 +1667,10 @@ e_shell_window_create_shell_view_actions (EShellWindow *shell_window)
 		action_name = g_strdup_printf ("shell-view-%s", view_name);
 		tooltip = g_strdup_printf (_("Switch to %s"), class->label);
 
+		/* Does this action represent the current view? */
+		if (strcmp (view_name, current_view) == 0)
+			current_value = ii;
+
 		/* Note, we have to set "icon-name" separately because
 		 * gtk_radio_action_new() expects a "stock-id".  Sadly,
 		 * GTK+ still distinguishes between the two. */
@@ -1679,18 +1686,6 @@ e_shell_window_create_shell_view_actions (EShellWindow *shell_window)
 		g_object_set_data (
 			G_OBJECT (action),
 			"view-name", (gpointer) view_name);
-
-		if (group == NULL) {
-
-			/* First view is the default. */
-			shell_window->priv->default_view = view_name;
-
-			/* Only listen to the first action. */
-			g_signal_connect (
-				action, "changed",
-				G_CALLBACK (action_shell_view_cb),
-				shell_window);
-		}
 
 		gtk_radio_action_set_group (action, group);
 		group = gtk_radio_action_get_group (action);
@@ -1718,6 +1713,26 @@ e_shell_window_create_shell_view_actions (EShellWindow *shell_window)
 
 		g_type_class_unref (class);
 	}
+
+	list = gtk_action_group_list_actions (action_group);
+	if (list != NULL) {
+		GObject *object = list->data;
+		const gchar *view_name;
+
+		/* First view is the default. */
+		view_name = g_object_get_data (object, "view-name");
+		shell_window->priv->default_view = view_name;
+
+		g_signal_connect (
+			object, "changed",
+			G_CALLBACK (action_shell_view_cb),
+			shell_window);
+
+		/* Sync up with the current shell view. */
+		gtk_radio_action_set_current_value (
+			GTK_RADIO_ACTION (object), current_value);
+	}
+	g_list_free (list);
 
 	g_free (children);
 }

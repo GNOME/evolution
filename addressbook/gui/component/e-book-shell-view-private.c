@@ -42,12 +42,10 @@ set_status_message (EABView *view,
 				activity_handler, activity_id);
 			activity_id = 0;
 		}
-	} else if (activity_id == 0) {
-		gchar *client_id = g_strdup_printf ("%p", book_shell_view);
-
+	} else if (activity_id == 0)
 		activity_id = e_activity_handler_operation_started (
-			activity_handler, client_id, message, TRUE);
-	} else
+			activity_handler, message, TRUE);
+	else
 		e_activity_handler_operation_progressing (
 			activity_handler, activity_id, message, -1.0);
 
@@ -74,8 +72,8 @@ set_folder_bar_message (EABView *view,
 	 *     and have it handle this directly. */
 
 	EShellView *shell_view;
+	EShellSidebar *shell_sidebar;
 	EABView *current_view;
-	GtkWidget *widget;
 	const gchar *name;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
@@ -85,10 +83,9 @@ set_folder_bar_message (EABView *view,
 		return;
 
 	name = e_source_peek_name (view->source);
-	widget = e_shell_view_get_sidebar_widget (shell_view);
-
-	e_shell_sidebar_set_primary_text (E_SHELL_SIDEBAR (widget), name);
-	e_shell_sidebar_set_secondary_text (E_SHELL_SIDEBAR (widget), message);
+	shell_sidebar = e_shell_view_get_sidebar (shell_view);
+	e_shell_sidebar_set_primary_text (shell_sidebar, name);
+	e_shell_sidebar_set_secondary_text (shell_sidebar, message);
 }
 
 static void
@@ -175,6 +172,7 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view)
 		g_object_set (uid_view, "type", EAB_VIEW_TABLE, NULL);
 		gtk_widget_show (uid_view);
 
+		g_object_ref_sink (uid_view);
 		gtk_notebook_append_page (notebook, uid_view, NULL);
 		g_hash_table_insert (hash_table, g_strdup (uid), uid_view);
 
@@ -217,7 +215,7 @@ book_shell_view_show_popup_menu (GdkEventButton *event,
 	const gchar *widget_path;
 
 	widget_path = "/address-book-popup";
-	shell_window = e_shell_view_get_window (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 	menu = e_shell_window_get_managed_widget (shell_window, widget_path);
 
 	if (event != NULL)
@@ -265,7 +263,7 @@ book_shell_view_selector_key_press_event_cb (EShellView *shell_view,
 	EShellWindow *shell_window;
 
 	/* Needed for the ACTION() macro. */
-	shell_window = e_shell_view_get_window (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	if (event->keyval == GDK_Delete) {
 		gtk_action_activate (ACTION (ADDRESS_BOOK_DELETE));
@@ -314,25 +312,18 @@ e_book_shell_view_private_init (EBookShellView *book_shell_view)
 	/* Construct view widgets. */
 
 	widget = gtk_notebook_new ();
-	container = e_shell_view_get_content_widget (shell_view);
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	priv->notebook = g_object_ref (widget);
+	priv->notebook = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
-	widget = e_shell_view_get_taskbar_widget (shell_view);
-	e_activity_handler_attach_task_bar (
-		priv->activity_handler, E_TASK_BAR (widget));
-
 	widget = gtk_scrolled_window_new (NULL, NULL);
-	container = e_shell_view_get_sidebar_widget (shell_view);
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (widget),
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	priv->scrolled_window = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -368,7 +359,6 @@ e_book_shell_view_private_init (EBookShellView *book_shell_view)
 	e_categories_register_change_listener (
 		G_CALLBACK (book_shell_view_categories_changed_cb),
 		book_shell_view);
-	e_book_shell_view_update_search_filter (book_shell_view);
 }
 
 void
@@ -379,6 +369,7 @@ e_book_shell_view_private_dispose (EBookShellView *book_shell_view)
 	DISPOSE (priv->contact_actions);
 
 	DISPOSE (priv->notebook);
+	DISPOSE (priv->scrolled_window);
 	DISPOSE (priv->selector);
 
 	DISPOSE (priv->activity_handler);
@@ -430,17 +421,15 @@ e_book_shell_view_editor_weak_notify (EditorUidClosure *closure,
 void
 e_book_shell_view_update_search_filter (EBookShellView *book_shell_view)
 {
+	EShellContent *shell_content;
 	EShellView *shell_view;
 	GtkRadioAction *action;
-	GtkWidget *widget;
 	GList *list, *iter;
 	GSList *group = NULL;
 	gint ii;
 
-	/* Dig up the search bar. */
 	shell_view = E_SHELL_VIEW (book_shell_view);
-	widget = e_shell_view_get_content_widget (shell_view);
-	widget = e_shell_content_get_search_bar (E_SHELL_CONTENT (widget));
+	shell_content = e_shell_view_get_content (shell_view);
 
 	action = gtk_radio_action_new (
 		"category-any", _("Any Category"), NULL, NULL, -1);
@@ -464,5 +453,5 @@ e_book_shell_view_update_search_filter (EBookShellView *book_shell_view)
 	g_list_free (list);
 
 	/* Use any action in the group; doesn't matter which. */
-	e_search_bar_set_filter_action (E_SEARCH_BAR (widget), action);
+	e_shell_content_set_filter_action (shell_content, action);
 }

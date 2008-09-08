@@ -27,7 +27,6 @@
 #include <gtk/gtk.h>
 #include <table/e-table-scrolled.h>
 #include <misc/e-cell-date-edit.h>
-#include "e-activity-handler.h"
 #include "e-cal-model.h"
 
 G_BEGIN_DECLS
@@ -37,6 +36,8 @@ G_BEGIN_DECLS
  * Used for calendar events and tasks.
  */
 
+/* FIXME */
+typedef struct { gint bogus; } EActivityHandler;
 
 #define E_CALENDAR_TABLE(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_calendar_table_get_type (), ECalendarTable)
 #define E_CALENDAR_TABLE_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_calendar_table_get_type (), ECalendarTableClass)

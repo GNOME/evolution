@@ -171,10 +171,33 @@ book_shell_view_finalize (GObject *object)
 static void
 book_shell_view_constructed (GObject *object)
 {
-	e_book_shell_view_actions_init (E_BOOK_SHELL_VIEW (object));
+	EBookShellView *book_shell_view;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
+	EShellTaskbar *shell_taskbar;
+	EShellView *shell_view;
+	GtkWidget *widget;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
+
+	shell_view = E_SHELL_VIEW (object);
+	book_shell_view = E_BOOK_SHELL_VIEW (object);
+
+	widget = book_shell_view->priv->notebook;
+	shell_content = e_shell_view_get_content (shell_view);
+	gtk_container_add (GTK_CONTAINER (shell_content), widget);
+
+	widget = book_shell_view->priv->scrolled_window;
+	shell_sidebar = e_shell_view_get_sidebar (shell_view);
+	gtk_container_add (GTK_CONTAINER (shell_sidebar), widget);
+
+	shell_taskbar = e_shell_view_get_taskbar (shell_view);
+	e_activity_handler_attach_task_bar (
+		book_shell_view->priv->activity_handler, shell_taskbar);
+
+	e_book_shell_view_actions_init (book_shell_view);
+	e_book_shell_view_update_search_filter (book_shell_view);
 }
 
 static void

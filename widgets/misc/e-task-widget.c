@@ -33,8 +33,6 @@
 #define SPACING 2
 
 struct _ETaskWidgetPrivate {
-	char *component_id;
-
 	GtkWidget *label;
 	GtkWidget *box;
 	GtkWidget *image;
@@ -56,7 +54,6 @@ impl_finalize (GObject *object)
 	task_widget = E_TASK_WIDGET (object);
 	priv = task_widget->priv;
 
-	g_free (priv->component_id);
 	g_free (priv);
 
 	(* G_OBJECT_CLASS (e_task_widget_parent_class)->finalize) (object);
@@ -78,7 +75,6 @@ e_task_widget_init (ETaskWidget *task_widget)
 
 	priv = g_new (ETaskWidgetPrivate, 1);
 
-	priv->component_id = NULL;
 	priv->label        = NULL;
 	priv->image        = NULL;
 	priv->box	   = NULL;
@@ -115,7 +111,6 @@ prepare_popup (ETaskWidget *widget, GdkEventButton *event)
 
 void
 e_task_widget_construct (ETaskWidget *task_widget,
-			 const char *component_id,
 			 const char *information,
 			 void (*cancel_func) (gpointer data),
 			 gpointer data)
@@ -126,12 +121,9 @@ e_task_widget_construct (ETaskWidget *task_widget,
 
 	g_return_if_fail (task_widget != NULL);
 	g_return_if_fail (E_IS_TASK_WIDGET (task_widget));
-	g_return_if_fail (component_id != NULL);
 	g_return_if_fail (information != NULL);
 
 	priv = task_widget->priv;
-
-	priv->component_id = g_strdup (component_id);
 
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
@@ -183,8 +175,7 @@ e_task_widget_construct (ETaskWidget *task_widget,
 }
 
 GtkWidget *
-e_task_widget_new_with_cancel (const char *component_id,
-                               const char *information,
+e_task_widget_new_with_cancel (const char *information,
                                void (*cancel_func) (gpointer data),
                                gpointer data)
 {
@@ -193,21 +184,20 @@ e_task_widget_new_with_cancel (const char *component_id,
 	g_return_val_if_fail (information != NULL, NULL);
 
 	task_widget = g_object_new (e_task_widget_get_type (), NULL);
-	e_task_widget_construct (task_widget, component_id, information, cancel_func, data);
+	e_task_widget_construct (task_widget, information, cancel_func, data);
 
 	return GTK_WIDGET (task_widget);
 }
 
 GtkWidget *
-e_task_widget_new (const char *component_id,
-		   const char *information)
+e_task_widget_new (const char *information)
 {
 	ETaskWidget *task_widget;
 
 	g_return_val_if_fail (information != NULL, NULL);
 
 	task_widget = g_object_new (e_task_widget_get_type (), NULL);
-	e_task_widget_construct (task_widget, component_id, information, NULL, NULL);
+	e_task_widget_construct (task_widget, information, NULL, NULL);
 
 	return GTK_WIDGET (task_widget);
 }
@@ -281,14 +271,3 @@ e_task_wiget_unalert (ETaskWidget *task_widget)
 	g_return_if_fail (task_widget != NULL);
 	g_return_if_fail (E_IS_TASK_WIDGET (task_widget));
 }
-
-
-const char *
-e_task_widget_get_component_id  (ETaskWidget *task_widget)
-{
-	g_return_val_if_fail (task_widget != NULL, NULL);
-	g_return_val_if_fail (E_IS_TASK_WIDGET (task_widget), NULL);
-
-	return task_widget->priv->component_id;
-}
-

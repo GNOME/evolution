@@ -34,7 +34,6 @@
 #include "e-util/e-bconf-map.h"
 
 #include <e-util/e-icon-factory.h>
-#include "e-shell-constants.h"
 #include "e-shell-registry.h"
 #include "e-util/e-profile-event.h"
 #include "e-util/e-util.h"
@@ -99,7 +98,7 @@ static gboolean disable_preview = FALSE;
 static gboolean idle_cb (gchar **uris);
 
 static EShell *global_shell;
-static char *default_component_id = NULL;
+static char *requested_view = NULL;
 static char *evolution_debug_log = NULL;
 static gchar **remaining_args;
 
@@ -281,20 +280,34 @@ open_uris (gchar **uris)
 static gboolean
 idle_cb (gchar **uris)
 {
+	GtkWidget *shell_window;
+	const gchar *initial_view;
+
 	g_return_val_if_fail (uris == NULL || g_strv_length (uris) > 0, FALSE);
 
 #ifdef KILL_PROCESS_CMD
 	kill_old_dataserver ();
 #endif
 
-	if (uris != NULL)
+	if (uris != NULL) {
 		open_uris (uris);
-	else {
-		GtkWidget *shell_window;
-
-		shell_window = e_shell_create_window (global_shell);
-		/* XXX Switch to default_component_id. */
+		return FALSE;
 	}
+
+	initial_view = e_shell_registry_get_canonical_name (requested_view);
+
+	if (initial_view != NULL) {
+		GConfClient *client;
+		const gchar *key;
+
+		client = gconf_client_get_default ();
+		key = "/apps/evolution/shell/view_defaults/component_id";
+		requested_view = gconf_client_set_string (
+			client, key, initial_view, NULL);
+		g_object_unref (client);
+	}
+
+	shell_window = e_shell_create_window (global_shell);
 
 #if 0  /* MBARNES */
 	if (shell == NULL) {
@@ -366,7 +379,7 @@ setup_segv_redirect (void)
 #endif
 
 static const GOptionEntry options[] = {
-	{ "component", 'c', 0, G_OPTION_ARG_STRING, &default_component_id,
+	{ "component", 'c', 0, G_OPTION_ARG_STRING, &requested_view,
 	  N_("Start Evolution activating the specified component"), NULL },
 	{ "offline", '\0', 0, G_OPTION_ARG_NONE, &start_offline,
 	  N_("Start in offline mode"), NULL },

@@ -58,10 +58,13 @@ privsolib_LTLIBRARIES =	\
 eshellincludedir = $(privincludedir)/shell
 
 eshellinclude_HEADERS = 			\
+	e-activity-handler.h			\
 	e-shell-common.h			\
 	e-shell-content.h			\
 	e-shell-module.h			\
+	e-shell-sidebar.h			\
 	e-shell-switcher.h			\
+	e-shell-taskbar.h			\
 	e-shell-view.h				\
 	e-shell-window.h			\
 	e-shell-window-actions.h		\
@@ -70,9 +73,12 @@ eshellinclude_HEADERS = 			\
 libeshell_la_SOURCES =				\
 	$(IDL_GENERATED)			\
 	$(MARSHAL_GENERATED)			\
+	e-activity-handler.c			\
 	e-shell-content.c			\
 	e-shell-module.c			\
+	e-shell-sidebar.c			\
 	e-shell-switcher.c			\
+	e-shell-taskbar.c			\
 	e-shell-view.c				\
 	e-shell-window.c			\
 	e-shell-window-actions.c		\
@@ -99,8 +105,6 @@ evolution_SOURCES =				\
 	e-shell-importer.h			\
 	e-shell-registry.c			\
 	e-shell-registry.h			\
-	e-shell-sidebar.c			\
-	e-shell-sidebar.h			\
 	e-shell-window-private.c		\
 	e-shell-window-private.h		\
 	es-event.c				\

@@ -23,10 +23,6 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include <filter/rule-context.h>
-#include <widgets/misc/e-search-bar.h>
-#include <widgets/misc/e-task-bar.h>
-
 #include <e-shell-content.h>
 #include <e-shell-module.h>
 #include <e-shell-sidebar.h>
@@ -38,9 +34,11 @@
 	((obj), E_TYPE_SHELL_VIEW, EShellViewPrivate))
 
 struct _EShellViewPrivate {
+
+	gpointer shell_window;  /* weak pointer */
+
 	gchar *title;
 	gint page_num;
-	gpointer window;  /* weak pointer */
 
 	GtkWidget *content;
 	GtkWidget *sidebar;
@@ -53,8 +51,8 @@ enum {
 	PROP_0,
 	PROP_PAGE_NUM,
 	PROP_TITLE,
-	PROP_VIEW_INSTANCE,
-	PROP_WINDOW
+	PROP_SHELL_WINDOW,
+	PROP_VIEW_INSTANCE
 };
 
 enum {
@@ -66,70 +64,6 @@ static gpointer parent_class;
 static gulong signals[LAST_SIGNAL];
 
 static void
-shell_view_setup_search_context (EShellView *shell_view)
-{
-	RuleContext *context;
-	EShellViewClass *class;
-	EShellModule *shell_module;
-	FilterRule *rule;
-	FilterPart *part;
-	GtkWidget *widget;
-	gchar *system_filename;
-	gchar *user_filename;
-
-	class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	shell_module = E_SHELL_MODULE (class->type_module);
-
-	/* The filename for built-in searches is specified in a
-	 * module's EShellModuleInfo.  All built-in search rules
-	 * live in the same directory. */
-	system_filename = g_build_filename (
-		EVOLUTION_RULEDIR,
-		e_shell_module_get_searches (shell_module), NULL);
-
-	/* The filename for custom saved searches is always of
-	 * the form "$(shell_module_data_dir)/searches.xml". */
-	user_filename = g_build_filename (
-		e_shell_module_get_data_dir (shell_module),
-		"searches.xml", NULL);
-
-	context = rule_context_new ();
-	rule_context_add_part_set (
-		context, "partset", FILTER_TYPE_PART,
-		rule_context_add_part, rule_context_next_part);
-	rule_context_add_rule_set (
-		context, "ruleset", FILTER_TYPE_RULE,
-		rule_context_add_rule, rule_context_next_rule);
-	rule_context_load (context, system_filename, user_filename);
-
-	/* XXX Not sure why this is necessary. */
-	g_object_set_data_full (
-		G_OBJECT (context), "system", system_filename, g_free);
-	g_object_set_data_full (
-		G_OBJECT (context), "user", user_filename, g_free);
-
-	/* XXX I don't really understand what this does. */
-	rule = filter_rule_new ();
-	part = rule_context_next_part (context, NULL);
-	if (part == NULL)
-		g_warning (
-			"Could not load %s search; no parts.",
-			class->type_module->name);
-	else
-		filter_rule_add_part (rule, filter_part_clone (part));
-
-	g_free (system_filename);
-	g_free (user_filename);
-
-	/* Hand the context off to the search bar. */
-	widget = e_shell_view_get_content_widget (shell_view);
-	widget = e_shell_content_get_search_bar (E_SHELL_CONTENT (widget));
-	e_search_bar_set_context (E_SEARCH_BAR (widget), context);
-
-	g_object_unref (context);
-}
-
-static void
 shell_view_set_page_num (EShellView *shell_view,
                          gint page_num)
 {
@@ -137,15 +71,16 @@ shell_view_set_page_num (EShellView *shell_view,
 }
 
 static void
-shell_view_set_window (EShellView *shell_view,
-                       GtkWidget *window)
+shell_view_set_shell_window (EShellView *shell_view,
+                             GtkWidget *shell_window)
 {
-	g_return_if_fail (GTK_IS_WINDOW (window));
+	g_return_if_fail (shell_view->priv->shell_window == NULL);
 
-	shell_view->priv->window = window;
+	shell_view->priv->shell_window = shell_window;
 
 	g_object_add_weak_pointer (
-		G_OBJECT (window), &shell_view->priv->window);
+		G_OBJECT (shell_window),
+		&shell_view->priv->shell_window);
 }
 
 static void
@@ -167,14 +102,14 @@ shell_view_set_property (GObject *object,
 				g_value_get_string (value));
 			return;
 
-		case PROP_VIEW_INSTANCE:
-			e_shell_view_set_view_instance (
+		case PROP_SHELL_WINDOW:
+			shell_view_set_shell_window (
 				E_SHELL_VIEW (object),
 				g_value_get_object (value));
 			return;
 
-		case PROP_WINDOW:
-			shell_view_set_window (
+		case PROP_VIEW_INSTANCE:
+			e_shell_view_set_view_instance (
 				E_SHELL_VIEW (object),
 				g_value_get_object (value));
 			return;
@@ -202,15 +137,15 @@ shell_view_get_property (GObject *object,
 				E_SHELL_VIEW (object)));
 			return;
 
-		case PROP_VIEW_INSTANCE:
+		case PROP_SHELL_WINDOW:
 			g_value_set_object (
-				value, e_shell_view_get_view_instance (
+				value, e_shell_view_get_shell_window (
 				E_SHELL_VIEW (object)));
 			return;
 
-		case PROP_WINDOW:
+		case PROP_VIEW_INSTANCE:
 			g_value_set_object (
-				value, e_shell_view_get_window (
+				value, e_shell_view_get_view_instance (
 				E_SHELL_VIEW (object)));
 			return;
 	}
@@ -225,10 +160,10 @@ shell_view_dispose (GObject *object)
 
 	priv = E_SHELL_VIEW_GET_PRIVATE (object);
 
-	if (priv->window != NULL) {
+	if (priv->shell_window != NULL) {
 		g_object_remove_weak_pointer (
-			G_OBJECT (priv->window), &priv->window);
-		priv->window = NULL;
+			G_OBJECT (priv->shell_window), &priv->shell_window);
+		priv->shell_window = NULL;
 	}
 
 	if (priv->content != NULL) {
@@ -271,19 +206,25 @@ shell_view_finalize (GObject *object)
 static void
 shell_view_constructed (GObject *object)
 {
-	EShellViewClass *class;
 	EShellView *shell_view;
-	GtkWidget *sidebar;
+	GtkWidget *widget;
 
 	shell_view = E_SHELL_VIEW (object);
-	class = E_SHELL_VIEW_GET_CLASS (object);
-	sidebar = e_shell_view_get_sidebar_widget (shell_view);
-	e_shell_sidebar_set_icon_name (
-		E_SHELL_SIDEBAR (sidebar), class->icon_name);
-	e_shell_sidebar_set_primary_text (
-		E_SHELL_SIDEBAR (sidebar), class->label);
 
-	shell_view_setup_search_context (shell_view);
+	/* We do this AFTER instance initialization so the
+	 * E_SHELL_VIEW_GET_CLASS() macro works properly. */
+
+	widget = e_shell_content_new (shell_view);
+	shell_view->priv->content = g_object_ref_sink (widget);
+	gtk_widget_show (widget);
+
+	widget = e_shell_sidebar_new (shell_view);
+	shell_view->priv->sidebar = g_object_ref_sink (widget);
+	gtk_widget_show (widget);
+
+	widget = e_shell_taskbar_new (shell_view);
+	shell_view->priv->taskbar = g_object_ref_sink (widget);
+	gtk_widget_show (widget);
 
 	/* XXX GObjectClass doesn't implement constructed(), so we will.
 	 *     Then subclasses won't have to check the function pointer
@@ -333,6 +274,17 @@ shell_view_class_init (EShellViewClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_SHELL_WINDOW,
+		g_param_spec_object (
+			"shell-window",
+			_("Shell Window"),
+			_("The window to which the shell view belongs"),
+			E_TYPE_SHELL_WINDOW,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_VIEW_INSTANCE,
 		g_param_spec_object (
 			"view-instance",
@@ -340,17 +292,6 @@ shell_view_class_init (EShellViewClass *class)
 			_("The GAL view instance for the shell view"),
 			GAL_VIEW_INSTANCE_TYPE,
 			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_WINDOW,
-		g_param_spec_object (
-			"window",
-			_("Window"),
-			_("The window to which the shell view belongs"),
-			GTK_TYPE_WINDOW,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
 
 	signals[CHANGED] = g_signal_new (
 		"changed",
@@ -365,21 +306,7 @@ shell_view_class_init (EShellViewClass *class)
 static void
 shell_view_init (EShellView *shell_view)
 {
-	GtkWidget *widget;
-
 	shell_view->priv = E_SHELL_VIEW_GET_PRIVATE (shell_view);
-
-	widget = e_shell_content_new ();
-	shell_view->priv->content = g_object_ref_sink (widget);
-	gtk_widget_show (widget);
-
-	widget = e_shell_sidebar_new ();
-	shell_view->priv->sidebar = g_object_ref_sink (widget);
-	gtk_widget_show (widget);
-
-	widget = e_task_bar_new ();
-	shell_view->priv->taskbar = g_object_ref_sink (widget);
-	gtk_widget_show (widget);
 }
 
 GType
@@ -478,11 +405,11 @@ e_shell_view_set_view_instance (EShellView *shell_view,
 }
 
 EShellWindow *
-e_shell_view_get_window (EShellView *shell_view)
+e_shell_view_get_shell_window (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	return E_SHELL_WINDOW (shell_view->priv->window);
+	return E_SHELL_WINDOW (shell_view->priv->shell_window);
 }
 
 gboolean
@@ -496,7 +423,7 @@ e_shell_view_is_selected (EShellView *shell_view)
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
 
 	class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	shell_window = e_shell_view_get_window (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 	this_view_name = e_shell_view_get_name (shell_view);
 	curr_view_name = e_shell_window_get_current_view (shell_window);
 	g_return_val_if_fail (curr_view_name != NULL, FALSE);
@@ -512,28 +439,28 @@ e_shell_view_get_page_num (EShellView *shell_view)
 	return shell_view->priv->page_num;
 }
 
-GtkWidget *
-e_shell_view_get_content_widget (EShellView *shell_view)
+EShellContent *
+e_shell_view_get_content (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	return shell_view->priv->content;
+	return E_SHELL_CONTENT (shell_view->priv->content);
 }
 
-GtkWidget *
-e_shell_view_get_sidebar_widget (EShellView *shell_view)
+EShellSidebar *
+e_shell_view_get_sidebar (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	return shell_view->priv->sidebar;
+	return E_SHELL_SIDEBAR (shell_view->priv->sidebar);
 }
 
-GtkWidget *
-e_shell_view_get_taskbar_widget (EShellView *shell_view)
+EShellTaskbar *
+e_shell_view_get_taskbar (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	return shell_view->priv->taskbar;
+	return E_SHELL_TASKBAR (shell_view->priv->taskbar);
 }
 
 void

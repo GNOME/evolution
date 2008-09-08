@@ -52,7 +52,7 @@ action_address_book_delete_cb (GtkAction *action,
 	GError *error = NULL;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
-	shell_window = e_shell_view_get_window (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	selector = E_SOURCE_SELECTOR (book_shell_view->priv->selector);
 	source = e_source_selector_peek_primary_selection (selector);
@@ -112,7 +112,7 @@ action_address_book_new_cb (GtkAction *action,
 	EShellWindow *shell_window;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
-	shell_window = e_shell_view_get_window (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	addressbook_config_create_new_source (GTK_WIDGET (shell_window));
 }
@@ -130,7 +130,7 @@ action_address_book_properties_cb (GtkAction *action,
 	const gchar *uid;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
-	shell_window = e_shell_view_get_window (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	selector = E_SOURCE_SELECTOR (book_shell_view->priv->selector);
 	source = e_source_selector_peek_primary_selection (selector);
@@ -370,6 +370,7 @@ action_search_execute_cb (GtkAction *action,
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	EShellContent *shell_content;
 	GtkWidget *widget;
 	GString *string;
 	EABView *view;
@@ -382,12 +383,10 @@ action_search_execute_cb (GtkAction *action,
 	if (!e_shell_view_is_selected (shell_view))
 		return;
 
-	/* Dig up the search text. */
-	widget = e_shell_view_get_content_widget (shell_view);
-	widget = e_shell_content_get_search_bar (E_SHELL_CONTENT (widget));
-	search_text = e_search_bar_get_search_text (E_SEARCH_BAR (widget));
+	shell_content = e_shell_view_get_content (shell_view);
+	search_text = e_shell_content_get_search_text (shell_content);
 
-	shell_window = e_shell_view_get_window (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 	action = ACTION (CONTACT_SEARCH_ANY_FIELD_CONTAINS);
 	value = gtk_radio_action_get_current_value (
 		GTK_RADIO_ACTION (action));
@@ -689,7 +688,7 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	const gchar *key;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
-	shell_window = e_shell_view_get_window (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 	manager = e_shell_window_get_ui_manager (shell_window);
 	domain = GETTEXT_PACKAGE;
 
@@ -743,7 +742,7 @@ e_book_shell_view_update_actions (EBookShellView *book_shell_view,
 		return;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
-	shell_window = e_shell_view_get_window (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	selector = E_SOURCE_SELECTOR (book_shell_view->priv->selector);
 	source = e_source_selector_peek_primary_selection (selector);

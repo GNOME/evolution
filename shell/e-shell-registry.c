@@ -129,7 +129,9 @@ e_shell_registry_get_canonical_name (const gchar *name)
 {
 	EShellModule *shell_module;
 
-	g_return_val_if_fail (name != NULL, NULL);
+	/* Handle NULL arguments silently. */
+	if (name == NULL)
+		return NULL;
 
 	shell_module = e_shell_registry_get_module_by_name (name);
 

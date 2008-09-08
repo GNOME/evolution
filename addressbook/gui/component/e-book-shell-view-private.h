@@ -88,6 +88,7 @@ struct _EBookShellViewPrivate {
 	/*** Other Stuff ***/
 
 	GtkWidget *notebook;
+	GtkWidget *scrolled_window;
 	GtkWidget *selector;
 
 	EActivityHandler *activity_handler;

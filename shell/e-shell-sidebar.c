@@ -20,11 +20,16 @@
 
 #include "e-shell-sidebar.h"
 
+#include <e-shell-view.h>
+
 #define E_SHELL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL_SIDEBAR, EShellSidebarPrivate))
 
 struct _EShellSidebarPrivate {
+
+	gpointer shell_view;  /* weak pointer */
+
 	GtkWidget *event_box;
 	GtkWidget *image;
 	GtkWidget *primary_label;
@@ -37,10 +42,42 @@ enum {
 	PROP_0,
 	PROP_ICON_NAME,
 	PROP_PRIMARY_TEXT,
-	PROP_SECONDARY_TEXT
+	PROP_SECONDARY_TEXT,
+	PROP_SHELL_VIEW
 };
 
 static gpointer parent_class;
+
+static void
+shell_sidebar_init_icon_and_text (EShellSidebar *shell_sidebar)
+{
+	EShellView *shell_view;
+	EShellViewClass *shell_view_class;
+	const gchar *icon_name;
+	const gchar *primary_text;
+
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+
+	icon_name = shell_view_class->icon_name;
+	e_shell_sidebar_set_icon_name (shell_sidebar, icon_name);
+
+	primary_text = shell_view_class->label;
+	e_shell_sidebar_set_primary_text (shell_sidebar, primary_text);
+}
+
+static void
+shell_sidebar_set_shell_view (EShellSidebar *shell_sidebar,
+                              EShellView *shell_view)
+{
+	g_return_if_fail (shell_sidebar->priv->shell_view == NULL);
+
+	shell_sidebar->priv->shell_view = shell_view;
+
+	g_object_add_weak_pointer (
+		G_OBJECT (shell_view),
+		&shell_sidebar->priv->shell_view);
+}
 
 static void
 shell_sidebar_set_property (GObject *object,
@@ -65,6 +102,12 @@ shell_sidebar_set_property (GObject *object,
 			e_shell_sidebar_set_secondary_text (
 				E_SHELL_SIDEBAR (object),
 				g_value_get_string (value));
+			return;
+
+		case PROP_SHELL_VIEW:
+			shell_sidebar_set_shell_view (
+				E_SHELL_SIDEBAR (object),
+				g_value_get_object (value));
 			return;
 	}
 
@@ -95,6 +138,12 @@ shell_sidebar_get_property (GObject *object,
 				value, e_shell_sidebar_get_secondary_text (
 				E_SHELL_SIDEBAR (object)));
 			return;
+
+		case PROP_SHELL_VIEW:
+			g_value_set_object (
+				value, e_shell_sidebar_get_shell_view (
+				E_SHELL_SIDEBAR (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -106,6 +155,12 @@ shell_sidebar_dispose (GObject *object)
 	EShellSidebarPrivate *priv;
 
 	priv = E_SHELL_SIDEBAR_GET_PRIVATE (object);
+
+	if (priv->shell_view != NULL) {
+		g_object_remove_weak_pointer (
+			G_OBJECT (priv->shell_view), &priv->shell_view);
+		priv->shell_view = NULL;
+	}
 
 	if (priv->event_box != NULL) {
 		g_object_unref (priv->event_box);
@@ -143,6 +198,15 @@ shell_sidebar_finalize (GObject *object)
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static void
+shell_sidebar_constructed (GObject *object)
+{
+	EShellSidebar *shell_sidebar;
+
+	shell_sidebar = E_SHELL_SIDEBAR (object);
+	shell_sidebar_init_icon_and_text (shell_sidebar);
 }
 
 static void
@@ -252,6 +316,7 @@ shell_sidebar_class_init (EShellSidebarClass *class)
 	object_class->get_property = shell_sidebar_get_property;
 	object_class->dispose = shell_sidebar_dispose;
 	object_class->finalize = shell_sidebar_finalize;
+	object_class->constructed = shell_sidebar_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->size_request = shell_sidebar_size_request;
@@ -269,8 +334,7 @@ shell_sidebar_class_init (EShellSidebarClass *class)
 			NULL,
 			NULL,
 			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -280,8 +344,7 @@ shell_sidebar_class_init (EShellSidebarClass *class)
 			NULL,
 			NULL,
 			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -291,8 +354,18 @@ shell_sidebar_class_init (EShellSidebarClass *class)
 			NULL,
 			NULL,
 			NULL,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL_VIEW,
+		g_param_spec_object (
+			"shell-view",
+			NULL,
+			NULL,
+			E_TYPE_SHELL_VIEW,
 			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_CONSTRUCT_ONLY));
 }
 
 static void
@@ -372,9 +445,20 @@ e_shell_sidebar_get_type (void)
 }
 
 GtkWidget *
-e_shell_sidebar_new (void)
+e_shell_sidebar_new (EShellView *shell_view)
 {
-	return g_object_new (E_TYPE_SHELL_SIDEBAR, NULL);
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	return g_object_new (
+		E_TYPE_SHELL_SIDEBAR, "shell-view", shell_view, NULL);
+}
+
+EShellView *
+e_shell_sidebar_get_shell_view (EShellSidebar *shell_sidebar)
+{
+	g_return_val_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar), NULL);
+
+	return E_SHELL_VIEW (shell_sidebar->priv->shell_view);
 }
 
 const gchar *

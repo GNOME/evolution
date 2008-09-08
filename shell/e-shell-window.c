@@ -79,7 +79,7 @@ shell_window_new_view (EShellWindow *shell_window,
 
 	shell_view = g_object_new (
 		shell_view_type, "page-num", page_num,
-		"title", title, "window", shell_window, NULL);
+		"title", title, "shell-window", shell_window, NULL);
 
 	name = e_shell_view_get_name (shell_view);
 	loaded_views = shell_window->priv->loaded_views;
@@ -88,15 +88,15 @@ shell_window_new_view (EShellWindow *shell_window,
 	/* Add pages to the various shell window notebooks. */
 
 	notebook = GTK_NOTEBOOK (shell_window->priv->content_notebook);
-	widget = e_shell_view_get_content_widget (shell_view);
+	widget = GTK_WIDGET (e_shell_view_get_content (shell_view));
 	gtk_notebook_append_page (notebook, widget, NULL);
 
 	notebook = GTK_NOTEBOOK (shell_window->priv->sidebar_notebook);
-	widget = e_shell_view_get_sidebar_widget (shell_view);
+	widget = GTK_WIDGET (e_shell_view_get_sidebar (shell_view));
 	gtk_notebook_append_page (notebook, widget, NULL);
 
 	notebook = GTK_NOTEBOOK (shell_window->priv->status_notebook);
-	widget = e_shell_view_get_taskbar_widget (shell_view);
+	widget = GTK_WIDGET (e_shell_view_get_taskbar (shell_view));
 	gtk_notebook_append_page (notebook, widget, NULL);
 
 	g_signal_connect_swapped (
@@ -242,8 +242,7 @@ shell_window_class_init (EShellWindowClass *class)
 			NULL,
 			NULL,
 			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,

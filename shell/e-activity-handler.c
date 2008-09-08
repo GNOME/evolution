@@ -26,19 +26,11 @@
 
 #include "e-activity-handler.h"
 
+#include <glib/gi18n.h>
 #include <gtk/gtksignal.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
-#include <glib/gi18n.h>
-#include <libgnomeui/gnome-popup-menu.h>
-
-#include <misc/e-popup-menu.h>
-
-#define ICON_SIZE 16
-
-
 struct _ActivityInfo {
-	char *component_id;
 	int error_type;
 	guint id;
 	char *information;
@@ -128,15 +120,13 @@ task_widget_button_press_event_callback (GtkWidget *widget,
 /* Creating and destroying ActivityInfos.  */
 
 static ActivityInfo *
-activity_info_new (const char *component_id,
-		   guint id,
+activity_info_new (guint id,
 		   const char *information,
 		   gboolean cancellable)
 {
 	ActivityInfo *info;
 
 	info = g_new (ActivityInfo, 1);
-	info->component_id   = g_strdup (component_id);
 	info->id             = id;
 	info->information    = g_strdup (information);
 	info->cancellable    = cancellable;
@@ -151,7 +141,6 @@ activity_info_new (const char *component_id,
 static void
 activity_info_free (ActivityInfo *info)
 {
-	g_free (info->component_id);
 	g_free (info->information);
 
 	if (info->menu != NULL)
@@ -167,7 +156,6 @@ task_widget_new_from_activity_info (ActivityInfo *activity_info)
 	ETaskWidget *etw;
 
 	widget = e_task_widget_new_with_cancel (
-		activity_info->component_id,
 		activity_info->information,
 		activity_info->cancel_func,
 		activity_info->data);
@@ -187,7 +175,7 @@ task_widget_new_from_activity_info (ActivityInfo *activity_info)
 
 static void
 setup_task_bar (EActivityHandler *activity_handler,
-		ETaskBar *task_bar)
+		EShellTaskbar *shell_taskbar)
 {
 	EActivityHandlerPrivate *priv;
 	GList *p;
@@ -198,7 +186,7 @@ setup_task_bar (EActivityHandler *activity_handler,
 		ActivityInfo *info = p->data;
 		ETaskWidget *task_widget = task_widget_new_from_activity_info (info);
 		task_widget->id = info->id;
-		e_task_bar_prepend_task (task_bar, task_widget);
+		e_shell_taskbar_prepend_task (shell_taskbar, task_widget);
 		if (info->error) {
 			/* Prepare to handle existing errors*/
 			GtkWidget *tool;
@@ -218,7 +206,7 @@ setup_task_bar (EActivityHandler *activity_handler,
 
 static void
 task_bar_destroy_notify (void *data,
-			 GObject *task_bar_instance)
+			 GObject *shell_taskbar_instance)
 {
 	EActivityHandler *activity_handler;
 	EActivityHandlerPrivate *priv;
@@ -226,7 +214,7 @@ task_bar_destroy_notify (void *data,
 	activity_handler = E_ACTIVITY_HANDLER (data);
 	priv = activity_handler->priv;
 
-	priv->task_bars = g_slist_remove (priv->task_bars, task_bar_instance);
+	priv->task_bars = g_slist_remove (priv->task_bars, shell_taskbar_instance);
 }
 
 
@@ -326,7 +314,7 @@ e_activity_handler_set_message (EActivityHandler *activity_handler,
 	priv = activity_handler->priv;
 
 	for (i = priv->task_bars; i; i = i->next)
-		e_task_bar_set_message (E_TASK_BAR (i->data), message);
+		e_shell_taskbar_set_message (E_SHELL_TASKBAR (i->data), message);
 }
 
 void
@@ -338,27 +326,27 @@ e_activity_handler_unset_message (EActivityHandler *activity_handler)
 	priv = activity_handler->priv;
 
 	for (i = priv->task_bars; i; i = i->next)
-		e_task_bar_unset_message (E_TASK_BAR (i->data));
+		e_shell_taskbar_unset_message (E_SHELL_TASKBAR (i->data));
 }
 
 void
 e_activity_handler_attach_task_bar (EActivityHandler *activity_handler,
-				    ETaskBar *task_bar)
+				    EShellTaskbar *shell_taskbar)
 {
 	EActivityHandlerPrivate *priv;
 
 	g_return_if_fail (activity_handler != NULL);
 	g_return_if_fail (E_IS_ACTIVITY_HANDLER (activity_handler));
-	g_return_if_fail (task_bar != NULL);
-	g_return_if_fail (E_IS_TASK_BAR (task_bar));
+	g_return_if_fail (shell_taskbar != NULL);
+	g_return_if_fail (E_IS_SHELL_TASKBAR (shell_taskbar));
 
 	priv = activity_handler->priv;
 
-	g_object_weak_ref (G_OBJECT (task_bar), task_bar_destroy_notify, activity_handler);
+	g_object_weak_ref (G_OBJECT (shell_taskbar), task_bar_destroy_notify, activity_handler);
 
-	priv->task_bars = g_slist_prepend (priv->task_bars, task_bar);
+	priv->task_bars = g_slist_prepend (priv->task_bars, shell_taskbar);
 
-	setup_task_bar (activity_handler, task_bar);
+	setup_task_bar (activity_handler, shell_taskbar);
 }
 
 struct _cancel_wdata {
@@ -387,10 +375,10 @@ cancel_wrapper (gpointer pdata)
 		data->info->error = NULL;
 		info = data->info;
 		for (sp = handler->priv->task_bars; sp != NULL; sp = sp->next) {
-			ETaskBar *task_bar;
+			EShellTaskbar *shell_taskbar;
 
-			task_bar = E_TASK_BAR (sp->data);
-			e_task_bar_remove_task_from_id (task_bar, info->id);	
+			shell_taskbar = E_SHELL_TASKBAR (sp->data);
+			e_shell_taskbar_remove_task_from_id (shell_taskbar, info->id);	
 		}
 		activity_info_free (info);
 		len = g_list_length (handler->priv->activity_infos);
@@ -406,7 +394,6 @@ cancel_wrapper (gpointer pdata)
 
 /* CORBA methods.  */
 guint  e_activity_handler_cancelable_operation_started  (EActivityHandler *activity_handler,
-						      const char       *component_id,
 					      	      const char       *information,
 					      	      gboolean          cancellable,
 						      void (*cancel_func)(gpointer),
@@ -421,7 +408,7 @@ guint  e_activity_handler_cancelable_operation_started  (EActivityHandler *activ
 	priv = activity_handler->priv;
 
 	activity_id = get_new_activity_id (activity_handler);
-	activity_info = activity_info_new (component_id, activity_id, information, cancellable);
+	activity_info = activity_info_new (activity_id, information, cancellable);
 
 	data = g_new(struct _cancel_wdata, 1);
 	data->handler = activity_handler;
@@ -440,7 +427,7 @@ guint  e_activity_handler_cancelable_operation_started  (EActivityHandler *activ
 			g_object_set_data_full ((GObject *) tw, "free-data", data, g_free);
 			bfree = TRUE;
 		}
-		e_task_bar_prepend_task (E_TASK_BAR (p->data), tw);
+		e_shell_taskbar_prepend_task (E_SHELL_TASKBAR (p->data), tw);
 	}
 
 	priv->activity_infos = g_list_prepend (priv->activity_infos, activity_info);
@@ -451,7 +438,6 @@ guint  e_activity_handler_cancelable_operation_started  (EActivityHandler *activ
 
 guint
 e_activity_handler_operation_started (EActivityHandler *activity_handler,
-				      const char *component_id,
 				      const char *information,
 				      gboolean cancellable)
 {
@@ -464,12 +450,12 @@ e_activity_handler_operation_started (EActivityHandler *activity_handler,
 
 	activity_id = get_new_activity_id (activity_handler);
 
-	activity_info = activity_info_new (component_id, activity_id, information, cancellable);
+	activity_info = activity_info_new (activity_id, information, cancellable);
 
 	for (p = priv->task_bars; p != NULL; p = p->next) {
 		ETaskWidget *tw = task_widget_new_from_activity_info (activity_info);
 		tw->id = activity_id;
-		e_task_bar_prepend_task (E_TASK_BAR (p->data), tw);
+		e_shell_taskbar_prepend_task (E_SHELL_TASKBAR (p->data), tw);
 	}
 
 	priv->activity_infos = g_list_prepend (priv->activity_infos, activity_info);
@@ -520,10 +506,10 @@ error_cleanup (EActivityHandler *activity_handler)
 			p = p->next;
 
 			for (sp = priv->task_bars; sp != NULL; sp = sp->next) {
-				ETaskBar *task_bar;
+				EShellTaskbar *task_bar;
 
-				task_bar = E_TASK_BAR (sp->data);
-				e_task_bar_remove_task_from_id (task_bar, info->id);
+				task_bar = E_SHELL_TASKBAR (sp->data);
+				e_shell_taskbar_remove_task_from_id (task_bar, info->id);
 			}
 			activity_info_free (info);
 			priv->activity_infos = g_list_remove_link (priv->activity_infos, node);
@@ -538,7 +524,6 @@ error_cleanup (EActivityHandler *activity_handler)
 
 guint
 e_activity_handler_make_error (EActivityHandler *activity_handler,
-				      const char *component_id,
 				      int error_type,
 				      GtkWidget  *error)
 {
@@ -552,21 +537,21 @@ e_activity_handler_make_error (EActivityHandler *activity_handler,
 	priv = activity_handler->priv;
 	activity_id = get_new_activity_id (activity_handler);
 
-	activity_info = activity_info_new (component_id, activity_id, information, TRUE);
+	activity_info = activity_info_new (activity_id, information, TRUE);
 	activity_info->error = error;
 	activity_info->error_time = time (NULL);
 	activity_info->error_type = error_type;
 	
 	img = error_type ? icon_data[1] : icon_data[0];
 	for (p = priv->task_bars; p != NULL; p = p->next) {
-		ETaskBar *task_bar;
+		EShellTaskbar *task_bar;
 		ETaskWidget *task_widget;
 		GtkWidget *tool;
 
-		task_bar = E_TASK_BAR (p->data);
+		task_bar = E_SHELL_TASKBAR (p->data);
 		task_widget = task_widget_new_from_activity_info (activity_info); 
 		task_widget->id = activity_id;
-		e_task_bar_prepend_task (E_TASK_BAR (p->data), task_widget);
+		e_shell_taskbar_prepend_task (E_SHELL_TASKBAR (p->data), task_widget);
 		
 		tool = e_task_widget_update_image (task_widget, (char *)img, information);
 		g_object_set_data ((GObject *) task_widget, "tool", tool);
@@ -609,12 +594,12 @@ e_activity_handler_operation_set_error(EActivityHandler *activity_handler,
 	g_free (activity_info->information);
 	activity_info->information = g_strdup (g_object_get_data ((GObject *) error, "primary"));
 	for (sp = priv->task_bars; sp != NULL; sp = sp->next) {
-		ETaskBar *task_bar;
+		EShellTaskbar *task_bar;
 		ETaskWidget *task_widget;
 		GtkWidget *tool;
 
-		task_bar = E_TASK_BAR (sp->data);
-		task_widget = e_task_bar_get_task_widget_from_id (task_bar, activity_info->id);
+		task_bar = E_SHELL_TASKBAR (sp->data);
+		task_widget = e_shell_taskbar_get_task_widget_from_id (task_bar, activity_info->id);
 		if (!task_widget)
 			continue;
 
@@ -657,11 +642,11 @@ e_activity_handler_operation_progressing (EActivityHandler *activity_handler,
 	activity_info->progress = progress;
 
 	for (sp = priv->task_bars; sp != NULL; sp = sp->next) {
-		ETaskBar *task_bar;
+		EShellTaskbar *task_bar;
 		ETaskWidget *task_widget;
 
-		task_bar = E_TASK_BAR (sp->data);
-		task_widget = e_task_bar_get_task_widget_from_id (task_bar, activity_info->id);
+		task_bar = E_SHELL_TASKBAR (sp->data);
+		task_widget = e_shell_taskbar_get_task_widget_from_id (task_bar, activity_info->id);
 		if (!task_widget)
 			continue;
 
@@ -688,10 +673,10 @@ e_activity_handler_operation_finished (EActivityHandler *activity_handler,
 	priv->activity_infos = g_list_remove_link (priv->activity_infos, p);
 
 	for (sp = priv->task_bars; sp != NULL; sp = sp->next) {
-		ETaskBar *task_bar;
+		EShellTaskbar *task_bar;
 
-		task_bar = E_TASK_BAR (sp->data);
-		e_task_bar_remove_task_from_id (task_bar, activity_id);
+		task_bar = E_SHELL_TASKBAR (sp->data);
+		e_shell_taskbar_remove_task_from_id (task_bar, activity_id);
 	}
 }
 

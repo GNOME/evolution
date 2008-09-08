@@ -22,6 +22,9 @@
 #define E_SHELL_VIEW_H
 
 #include <e-shell-common.h>
+#include <e-shell-content.h>
+#include <e-shell-sidebar.h>
+#include <e-shell-taskbar.h>
 #include <e-shell-window.h>
 
 #include <gal-view-instance.h>
@@ -89,12 +92,12 @@ GalViewInstance *
 		e_shell_view_get_view_instance	(EShellView *shell_view);
 void		e_shell_view_set_view_instance	(EShellView *shell_view,
 						 GalViewInstance *instance);
-EShellWindow *	e_shell_view_get_window		(EShellView *shell_view);
+EShellWindow *	e_shell_view_get_shell_window	(EShellView *shell_view);
 gboolean	e_shell_view_is_selected	(EShellView *shell_view);
 gint		e_shell_view_get_page_num	(EShellView *shell_view);
-GtkWidget *	e_shell_view_get_content_widget	(EShellView *shell_view);
-GtkWidget *	e_shell_view_get_sidebar_widget	(EShellView *shell_view);
-GtkWidget *	e_shell_view_get_taskbar_widget	(EShellView *shell_view);
+EShellContent *	e_shell_view_get_content	(EShellView *shell_view);
+EShellSidebar *	e_shell_view_get_sidebar	(EShellView *shell_view);
+EShellTaskbar *	e_shell_view_get_taskbar	(EShellView *shell_view);
 void		e_shell_view_changed		(EShellView *shell_view);
 
 G_END_DECLS

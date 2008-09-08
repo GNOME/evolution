@@ -46,6 +46,9 @@
 
 G_BEGIN_DECLS
 
+/* Avoid including <e-shell-view.h> */
+struct _EShellView;
+
 typedef struct _EShellSidebar EShellSidebar;
 typedef struct _EShellSidebarClass EShellSidebarClass;
 typedef struct _EShellSidebarPrivate EShellSidebarPrivate;
@@ -60,7 +63,9 @@ struct _EShellSidebarClass {
 };
 
 GType		e_shell_sidebar_get_type	(void);
-GtkWidget *	e_shell_sidebar_new		(void);
+GtkWidget *	e_shell_sidebar_new		(struct _EShellView *shell_view);
+struct _EShellView *
+		e_shell_sidebar_get_shell_view	(EShellSidebar *shell_sidebar);
 const gchar *	e_shell_sidebar_get_icon_name	(EShellSidebar *shell_sidebar);
 void		e_shell_sidebar_set_icon_name	(EShellSidebar *shell_sidebar,
 						 const gchar *icon_name);

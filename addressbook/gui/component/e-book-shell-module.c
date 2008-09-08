@@ -40,7 +40,7 @@
 #include <autocompletion-config.h>
 
 #define MODULE_NAME		"addressbook"
-#define MODULE_ALIASES		""
+#define MODULE_ALIASES		"contacts"
 #define MODULE_SCHEMES		""
 #define MODULE_SEARCHES		"addresstypes.xml"
 #define MODULE_SORT_ORDER	300

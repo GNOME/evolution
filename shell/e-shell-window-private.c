@@ -340,6 +340,10 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	gconf_bridge_bind_window (
 		bridge, key, GTK_WINDOW (shell_window), TRUE, FALSE);
 
+	object = G_OBJECT (shell_window);
+	key = "/apps/evolution/shell/view_defaults/component_id";
+	gconf_bridge_bind_property (bridge, key, object, "current-view");
+
 	object = G_OBJECT (priv->content_pane);
 	key = "/apps/evolution/shell/view_defaults/folder_bar/width";
 	gconf_bridge_bind_property_delayed (bridge, key, object, "position");
