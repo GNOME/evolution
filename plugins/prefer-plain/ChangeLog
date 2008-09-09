@@ -1,3 +1,10 @@
+2008-09-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #551492
+
+	* prefer-plain.c: (org_gnome_prefer_plain_multipart_alternative):
+	Initialize variable before using it.
+
 2008-09-02  Sankar P  <psankar@novell.com>
 
 License Changes

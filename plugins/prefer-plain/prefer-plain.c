@@ -110,6 +110,9 @@ org_gnome_prefer_plain_multipart_alternative(void *ep, EMFormatHookTarget *t)
 	CamelMimePart *part, *display_part = NULL;
 	int i, nparts, partidlen, displayid = 0;
 
+	/* FIXME: this part-id stuff is poking private data, needs api */
+	partidlen = t->format->part_id->len;
+
 	if (epp_mode == EPP_NORMAL) {
 		gboolean have_plain = FALSE;
 
@@ -167,9 +170,6 @@ org_gnome_prefer_plain_multipart_alternative(void *ep, EMFormatHookTarget *t)
 			break;
 		}
 	}
-
-	/* this part-id stuff is poking private data, needs api */
-	partidlen = t->format->part_id->len;
 
 	/* if we found a text part, show it */
 	if (display_part) {
