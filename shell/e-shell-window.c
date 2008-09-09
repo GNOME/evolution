@@ -20,70 +20,56 @@
 
 #include "e-shell-window-private.h"
 
-#include <string.h>
-#include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
 
 #include <es-event.h>
 
 #include <e-util/e-plugin-ui.h>
 #include <e-util/e-util-private.h>
-#include <e-util/gconf-bridge.h>
-#include <widgets/misc/e-online-button.h>
 
 enum {
 	PROP_0,
 	PROP_CURRENT_VIEW,
+	PROP_ICON_NAME,
 	PROP_SAFE_MODE,
 	PROP_SHELL
 };
 
 static gpointer parent_class;
 
-static void
-shell_window_update_title (EShellWindow *shell_window)
-{
-	EShellView *shell_view;
-	const gchar *view_title;
-	const gchar *view_name;
-	gchar *window_title;
-
-	view_name = e_shell_window_get_current_view (shell_window);
-	shell_view = e_shell_window_get_view (shell_window, view_name);
-	view_title = e_shell_view_get_title (shell_view);
-
-	if (!e_shell_view_is_selected (shell_view))
-		return;
-
-	/* Translators: This is used for the main window title. */
-	window_title = g_strdup_printf (_("%s - Evolution"), view_title);
-	gtk_window_set_title (GTK_WINDOW (shell_window), window_title);
-	g_free (window_title);
-}
-
 static EShellView *
 shell_window_new_view (EShellWindow *shell_window,
                        GType shell_view_type,
+                       const gchar *view_name,
                        const gchar *title)
 {
 	GHashTable *loaded_views;
 	EShellView *shell_view;
 	GtkNotebook *notebook;
+	GtkAction *action;
 	GtkWidget *widget;
-	const gchar *name;
+	gchar *action_name;
 	gint page_num;
 
 	/* Determine the page number for the new shell view. */
 	notebook = GTK_NOTEBOOK (shell_window->priv->content_notebook);
 	page_num = gtk_notebook_get_n_pages (notebook);
 
-	shell_view = g_object_new (
-		shell_view_type, "page-num", page_num,
-		"title", title, "shell-window", shell_window, NULL);
+	/* Get the switcher action for this view. */
+	action_name = g_strdup_printf (SWITCHER_FORMAT, view_name);
+	action = e_shell_window_get_action (shell_window, action_name);
+	g_free (action_name);
 
-	name = e_shell_view_get_name (shell_view);
+	/* Create the shell view. */
+	shell_view = g_object_new (
+		shell_view_type, "action", action, "page-num",
+		page_num, "shell-window", shell_window, NULL);
+
+	/* Register the shell view. */
 	loaded_views = shell_window->priv->loaded_views;
-	g_hash_table_insert (loaded_views, g_strdup (name), shell_view);
+	g_hash_table_insert (loaded_views, g_strdup (view_name), shell_view);
+
+	g_message ("Creating view \"%s\" on page %d", view_name, page_num);
 
 	/* Add pages to the various shell window notebooks. */
 
@@ -99,9 +85,15 @@ shell_window_new_view (EShellWindow *shell_window,
 	widget = GTK_WIDGET (e_shell_view_get_taskbar (shell_view));
 	gtk_notebook_append_page (notebook, widget, NULL);
 
+	/* Listen for changes that affect the shell window. */
+
+	g_signal_connect_swapped (
+		action, "notify::icon_name",
+		G_CALLBACK (e_shell_window_update_icon), shell_window);
+
 	g_signal_connect_swapped (
 		shell_view, "notify::title",
-		G_CALLBACK (shell_window_update_title), shell_window);
+		G_CALLBACK (e_shell_window_update_title), shell_window);
 
 	return shell_view;
 }
@@ -352,7 +344,8 @@ e_shell_window_get_view (EShellWindow *shell_window,
 
 		if (strcmp (view_name, class->type_module->name) == 0)
 			shell_view = shell_window_new_view (
-				shell_window, shell_view_type, class->label);
+				shell_window, shell_view_type,
+				view_name, class->label);
 
 		g_type_class_unref (class);
 	}
@@ -463,11 +456,10 @@ void
 e_shell_window_set_current_view (EShellWindow *shell_window,
                                  const gchar *name_or_alias)
 {
-	GtkNotebook *notebook;
+	GtkAction *action;
 	EShellView *shell_view;
 	GList *list;
 	const gchar *view_name;
-	gint page_num;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
@@ -483,28 +475,16 @@ e_shell_window_set_current_view (EShellWindow *shell_window,
 	g_return_if_fail (view_name != NULL);
 
 	shell_view = e_shell_window_get_view (shell_window, view_name);
-	page_num = e_shell_view_get_page_num (shell_view);
-	g_return_if_fail (page_num >= 0);
+	action = e_shell_view_get_action (shell_view);
+	gtk_action_activate (action);
 
-	notebook = GTK_NOTEBOOK (shell_window->priv->content_notebook);
-	gtk_notebook_set_current_page (notebook, page_num);
-
-	notebook = GTK_NOTEBOOK (shell_window->priv->sidebar_notebook);
-	gtk_notebook_set_current_page (notebook, page_num);
-
-	notebook = GTK_NOTEBOOK (shell_window->priv->status_notebook);
-	gtk_notebook_set_current_page (notebook, page_num);
-
-	shell_window->priv->current_view = view_name;
-	g_object_notify (G_OBJECT (shell_window), "current-view");
-
-	shell_window_update_title (shell_window);
-	e_shell_window_update_gal_view_menu (shell_window);
-
-	/* Notify all loaded views. */
-	list = g_hash_table_get_values (shell_window->priv->loaded_views);
-	g_list_foreach (list, (GFunc) e_shell_view_changed, NULL);
-	g_list_free (list);
+	/* XXX Radio actions refuse to activate if they're already active.
+	 *     This causes problems during intialization if we're trying to
+	 *     switch to the shell view whose corresponding radio action is
+	 *     already active.  Fortunately we can detect that and force
+	 *     the switch. */
+	if (shell_window->priv->current_view == NULL)
+		e_shell_window_switch_to_view (shell_window, view_name);
 }
 
 gboolean
@@ -569,8 +549,7 @@ e_shell_window_register_new_item_actions (EShellWindow *shell_window,
 			"module-name", (gpointer) module_name);
 	}
 
-	/* Force a rebuild of the "New" menu. */
-	g_object_notify (G_OBJECT (shell_window), "current-view");
+	e_shell_window_update_new_menu (shell_window);
 }
 
 void
@@ -616,6 +595,5 @@ e_shell_window_register_new_source_actions (EShellWindow *shell_window,
 			"module-name", (gpointer) module_name);
 	}
 
-	/* Force a rebuild of the "New" menu. */
-	g_object_notify (G_OBJECT (shell_window), "current-view");
+	e_shell_window_update_new_menu (shell_window);
 }

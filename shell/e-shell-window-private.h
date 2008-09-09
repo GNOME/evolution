@@ -23,8 +23,11 @@
 
 #include "e-shell-window.h"
 
+#include <string.h>
 #include <glib/gi18n.h>
 
+#include <e-util/e-util.h>
+#include <e-util/gconf-bridge.h>
 #include <filter/rule-editor.h>
 #include <widgets/misc/e-menu-tool-button.h>
 #include <widgets/misc/e-online-button.h>
@@ -53,6 +56,11 @@
 	if ((obj) != NULL) { g_object_unref (obj); (obj) = NULL; } \
 	} G_STMT_END
 
+/* Format for switcher action names.
+ * The last part is the shell view name.
+ * (e.g. switch-to-mail, switch-to-calendar) */
+#define SWITCHER_FORMAT		"switch-to-%s"
+
 G_BEGIN_DECLS
 
 struct _EShellWindowPrivate {
@@ -66,7 +74,7 @@ struct _EShellWindowPrivate {
 	GtkActionGroup *gal_view_actions;
 	GtkActionGroup *new_item_actions;
 	GtkActionGroup *new_source_actions;
-	GtkActionGroup *shell_view_actions;
+	GtkActionGroup *switcher_actions;
 	guint gal_view_merge_id;
 
 	/*** Shell Views ***/
@@ -101,9 +109,14 @@ void		e_shell_window_private_finalize	(EShellWindow *shell_window);
 /* Private Utilities */
 
 void		e_shell_window_actions_init	(EShellWindow *shell_window);
+void		e_shell_window_switch_to_view	(EShellWindow *shell_window,
+						 const gchar *view_name);
 GtkWidget *	e_shell_window_create_new_menu	(EShellWindow *shell_window);
-void		e_shell_window_create_shell_view_actions
+void		e_shell_window_create_switcher_actions
 						(EShellWindow *shell_window);
+void		e_shell_window_update_icon	(EShellWindow *shell_window);
+void		e_shell_window_update_title	(EShellWindow *shell_window);
+void		e_shell_window_update_new_menu	(EShellWindow *shell_window);
 void		e_shell_window_update_gal_view_menu
 						(EShellWindow *shell_window);
 

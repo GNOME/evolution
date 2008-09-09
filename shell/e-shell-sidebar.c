@@ -31,7 +31,6 @@ struct _EShellSidebarPrivate {
 	gpointer shell_view;  /* weak pointer */
 
 	GtkWidget *event_box;
-	GtkWidget *image;
 	GtkWidget *primary_label;
 	GtkWidget *secondary_label;
 	gchar *primary_text;
@@ -40,7 +39,6 @@ struct _EShellSidebarPrivate {
 
 enum {
 	PROP_0,
-	PROP_ICON_NAME,
 	PROP_PRIMARY_TEXT,
 	PROP_SECONDARY_TEXT,
 	PROP_SHELL_VIEW
@@ -49,34 +47,55 @@ enum {
 static gpointer parent_class;
 
 static void
-shell_sidebar_init_icon_and_text (EShellSidebar *shell_sidebar)
-{
-	EShellView *shell_view;
-	EShellViewClass *shell_view_class;
-	const gchar *icon_name;
-	const gchar *primary_text;
-
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
-
-	icon_name = shell_view_class->icon_name;
-	e_shell_sidebar_set_icon_name (shell_sidebar, icon_name);
-
-	primary_text = shell_view_class->label;
-	e_shell_sidebar_set_primary_text (shell_sidebar, primary_text);
-}
-
-static void
 shell_sidebar_set_shell_view (EShellSidebar *shell_sidebar,
                               EShellView *shell_view)
 {
+	GtkAction *action;
+	GtkWidget *container;
+	GtkWidget *widget;
+	gchar *label;
+
 	g_return_if_fail (shell_sidebar->priv->shell_view == NULL);
 
 	shell_sidebar->priv->shell_view = shell_view;
+	action = e_shell_view_get_action (shell_view);
 
 	g_object_add_weak_pointer (
 		G_OBJECT (shell_view),
 		&shell_sidebar->priv->shell_view);
+
+	/* Initialize the rest of the internal widgets. */
+
+	container = shell_sidebar->priv->event_box;
+
+	widget = gtk_hbox_new (FALSE, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_action_create_icon (action, GTK_ICON_SIZE_MENU);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	widget = gtk_label_new (NULL);
+	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	shell_sidebar->priv->primary_label = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	widget = gtk_label_new (NULL);
+	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_MIDDLE);
+	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	shell_sidebar->priv->secondary_label = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	g_object_get (action, "label", &label, NULL);
+	e_shell_sidebar_set_primary_text (shell_sidebar, label);
+	g_free (label);
 }
 
 static void
@@ -86,12 +105,6 @@ shell_sidebar_set_property (GObject *object,
                             GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ICON_NAME:
-			e_shell_sidebar_set_icon_name (
-				E_SHELL_SIDEBAR (object),
-				g_value_get_string (value));
-			return;
-
 		case PROP_PRIMARY_TEXT:
 			e_shell_sidebar_set_primary_text (
 				E_SHELL_SIDEBAR (object),
@@ -121,12 +134,6 @@ shell_sidebar_get_property (GObject *object,
                             GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_ICON_NAME:
-			g_value_set_string (
-				value, e_shell_sidebar_get_icon_name (
-				E_SHELL_SIDEBAR (object)));
-			return;
-
 		case PROP_PRIMARY_TEXT:
 			g_value_set_string (
 				value, e_shell_sidebar_get_primary_text (
@@ -167,11 +174,6 @@ shell_sidebar_dispose (GObject *object)
 		priv->event_box = NULL;
 	}
 
-	if (priv->image != NULL) {
-		g_object_unref (priv->image);
-		priv->image = NULL;
-	}
-
 	if (priv->primary_label != NULL) {
 		g_object_unref (priv->primary_label);
 		priv->primary_label = NULL;
@@ -198,25 +200,6 @@ shell_sidebar_finalize (GObject *object)
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-
-static void
-shell_sidebar_realize (GtkWidget *widget)
-{
-	EShellSidebar *shell_sidebar;
-
-	/* We can't call this during object construction because the
-	 * shell view is still in its instance initialization phase,
-	 * and so its GET_CLASS() macro won't work correctly.  So we
-	 * delay the bits of our own initialization that require the
-	 * E_SHELL_VIEW_GET_CLASS() macro until after the shell view
-	 * is fully constructed. */
-
-	shell_sidebar = E_SHELL_SIDEBAR (widget);
-	shell_sidebar_init_icon_and_text (shell_sidebar);
-
-	/* Chain up to parent's realize() method. */
-	GTK_WIDGET_CLASS (parent_class)->realize (widget);
 }
 
 static void
@@ -328,23 +311,12 @@ shell_sidebar_class_init (EShellSidebarClass *class)
 	object_class->finalize = shell_sidebar_finalize;
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->realize = shell_sidebar_realize;
 	widget_class->size_request = shell_sidebar_size_request;
 	widget_class->size_allocate = shell_sidebar_size_allocate;
 
 	container_class = GTK_CONTAINER_CLASS (class);
 	container_class->remove = shell_sidebar_remove;
 	container_class->forall = shell_sidebar_forall;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_ICON_NAME,
-		g_param_spec_string (
-			"icon-name",
-			NULL,
-			NULL,
-			NULL,
-			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -382,7 +354,6 @@ static void
 shell_sidebar_init (EShellSidebar *shell_sidebar)
 {
 	GtkStyle *style;
-	GtkWidget *container;
 	GtkWidget *widget;
 	const GdkColor *color;
 
@@ -399,33 +370,7 @@ shell_sidebar_init (EShellSidebar *shell_sidebar)
 	shell_sidebar->priv->event_box = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	container = widget;
-
-	widget = gtk_hbox_new (FALSE, 6);
-	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = gtk_image_new ();
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	shell_sidebar->priv->image = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	widget = gtk_label_new (NULL);
-	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	shell_sidebar->priv->primary_label = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	widget = gtk_label_new (NULL);
-	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_MIDDLE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	shell_sidebar->priv->secondary_label = g_object_ref (widget);
-	gtk_widget_show (widget);
+	/* Finish initialization once we have a shell view. */
 }
 
 GType
@@ -469,38 +414,6 @@ e_shell_sidebar_get_shell_view (EShellSidebar *shell_sidebar)
 	g_return_val_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar), NULL);
 
 	return E_SHELL_VIEW (shell_sidebar->priv->shell_view);
-}
-
-const gchar *
-e_shell_sidebar_get_icon_name (EShellSidebar *shell_sidebar)
-{
-	GtkImage *image;
-	const gchar *icon_name;
-
-	g_return_val_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar), NULL);
-
-	image = GTK_IMAGE (shell_sidebar->priv->image);
-	gtk_image_get_icon_name (image, &icon_name, NULL);
-
-	return icon_name;
-}
-
-void
-e_shell_sidebar_set_icon_name (EShellSidebar *shell_sidebar,
-                               const gchar *icon_name)
-{
-	GtkImage *image;
-
-	g_return_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar));
-
-	if (icon_name == NULL)
-		icon_name = "image-missing";
-
-	image = GTK_IMAGE (shell_sidebar->priv->image);
-	gtk_image_set_from_icon_name (image, icon_name, GTK_ICON_SIZE_MENU);
-
-	gtk_widget_queue_resize (GTK_WIDGET (shell_sidebar));
-	g_object_notify (G_OBJECT (shell_sidebar), "icon-name");
 }
 
 const gchar *

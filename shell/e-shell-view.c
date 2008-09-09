@@ -40,6 +40,7 @@ struct _EShellViewPrivate {
 	gchar *title;
 	gint page_num;
 
+	GtkAction *action;
 	GtkWidget *content;
 	GtkWidget *sidebar;
 	GtkWidget *taskbar;
@@ -49,6 +50,7 @@ struct _EShellViewPrivate {
 
 enum {
 	PROP_0,
+	PROP_ACTION,
 	PROP_PAGE_NUM,
 	PROP_TITLE,
 	PROP_SHELL_WINDOW,
@@ -62,6 +64,21 @@ enum {
 
 static gpointer parent_class;
 static gulong signals[LAST_SIGNAL];
+
+static void
+shell_view_set_action (EShellView *shell_view,
+                       GtkAction *action)
+{
+	gchar *label;
+
+	g_return_if_fail (shell_view->priv->action == NULL);
+
+	shell_view->priv->action = g_object_ref (action);
+
+	g_object_get (action, "label", &label, NULL);
+	e_shell_view_set_title (shell_view, label);
+	g_free (label);
+}
 
 static void
 shell_view_set_page_num (EShellView *shell_view,
@@ -90,6 +107,12 @@ shell_view_set_property (GObject *object,
                          GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ACTION:
+			shell_view_set_action (
+				E_SHELL_VIEW (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_PAGE_NUM:
 			shell_view_set_page_num (
 				E_SHELL_VIEW (object),
@@ -125,6 +148,12 @@ shell_view_get_property (GObject *object,
                          GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ACTION:
+			g_value_set_object (
+				value, e_shell_view_get_action (
+				E_SHELL_VIEW (object)));
+			return;
+
 		case PROP_PAGE_NUM:
 			g_value_set_int (
 				value, e_shell_view_get_page_num (
@@ -206,6 +235,23 @@ shell_view_finalize (GObject *object)
 static void
 shell_view_constructed (GObject *object)
 {
+	EShellView *shell_view;
+	GtkWidget *widget;
+
+	shell_view = E_SHELL_VIEW (object);
+
+	widget = e_shell_content_new (shell_view);
+	shell_view->priv->content = g_object_ref_sink (widget);
+	gtk_widget_show (widget);
+
+	widget = e_shell_sidebar_new (shell_view);
+	shell_view->priv->sidebar = g_object_ref_sink (widget);
+	gtk_widget_show (widget);
+
+	widget = e_shell_taskbar_new (shell_view);
+	shell_view->priv->taskbar = g_object_ref_sink (widget);
+	gtk_widget_show (widget);
+
 	/* XXX GObjectClass doesn't implement constructed(), so we will.
 	 *     Then subclasses won't have to check the function pointer
 	 *     before chaining up.
@@ -230,6 +276,17 @@ shell_view_class_init (EShellViewClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_ACTION,
+		g_param_spec_object (
+			"action",
+			_("Switcher Action"),
+			_("The switcher action for this shell view"),
+			GTK_TYPE_RADIO_ACTION,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_PAGE_NUM,
 		g_param_spec_int (
 			"page-num",
@@ -249,8 +306,7 @@ shell_view_class_init (EShellViewClass *class)
 			_("Title"),
 			_("The title of the shell view"),
 			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -286,22 +342,7 @@ shell_view_class_init (EShellViewClass *class)
 static void
 shell_view_init (EShellView *shell_view)
 {
-	GtkWidget *widget;
-
 	shell_view->priv = E_SHELL_VIEW_GET_PRIVATE (shell_view);
-
-	widget = e_shell_content_new (shell_view);
-	shell_view->priv->content = g_object_ref_sink (widget);
-	gtk_widget_show (widget);
-
-	widget = e_shell_sidebar_new (shell_view);
-	shell_view->priv->sidebar = g_object_ref_sink (widget);
-	gtk_widget_show (widget);
-
-	widget = e_shell_taskbar_new (shell_view);
-	shell_view->priv->taskbar = g_object_ref_sink (widget);
-	gtk_widget_show (widget);
-
 }
 
 GType
@@ -331,21 +372,27 @@ e_shell_view_get_type (void)
 	return type;
 }
 
+GtkAction *
+e_shell_view_get_action (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	return shell_view->priv->action;
+}
+
 const gchar *
 e_shell_view_get_name (EShellView *shell_view)
 {
-	EShellViewClass *class;
+	GtkAction *action;
 
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	/* A shell view's name is taken from the name of the
-	 * module that registered the shell view subclass. */
+	/* Switcher actions have a secret "view-name" data value.
+	 * This gets set in e_shell_window_create_switcher_actions(). */
 
-	class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	g_return_val_if_fail (class->type_module != NULL, NULL);
-	g_return_val_if_fail (class->type_module->name != NULL, NULL);
+	action = e_shell_view_get_action (shell_view);
 
-	return class->type_module->name;
+	return g_object_get_data (G_OBJECT (action), "view-name");
 }
 
 const gchar *

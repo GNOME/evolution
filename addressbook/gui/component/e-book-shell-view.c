@@ -172,14 +172,24 @@ static void
 book_shell_view_constructed (GObject *object)
 {
 	EBookShellView *book_shell_view;
+	ESourceSelector *selector;
+	ESource *source;
 
 	book_shell_view = E_BOOK_SHELL_VIEW (object);
 
-	e_book_shell_view_actions_init (book_shell_view);
-	e_book_shell_view_update_search_filter (book_shell_view);
-
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
+
+	e_book_shell_view_private_constructed (book_shell_view);
+
+	selector = E_SOURCE_SELECTOR (book_shell_view->priv->selector);
+	source = book_shell_view_load_primary_source (book_shell_view);
+	if (source != NULL)
+		e_source_selector_set_primary_selection (selector, source);
+	g_signal_connect_swapped (
+		selector, "primary-selection-changed",
+		G_CALLBACK (book_shell_view_save_primary_source),
+		book_shell_view);
 }
 
 static void
@@ -221,9 +231,6 @@ book_shell_view_class_init (EBookShellViewClass *class,
 static void
 book_shell_view_init (EBookShellView *book_shell_view)
 {
-	ESourceSelector *selector;
-	ESource *source;
-
 	book_shell_view->priv =
 		E_BOOK_SHELL_VIEW_GET_PRIVATE (book_shell_view);
 
@@ -232,15 +239,6 @@ book_shell_view_init (EBookShellView *book_shell_view)
 	g_signal_connect_swapped (
 		book_shell_view->priv->source_list, "changed",
 		G_CALLBACK (book_shell_view_source_list_changed_cb),
-		book_shell_view);
-
-	selector = E_SOURCE_SELECTOR (book_shell_view->priv->selector);
-	source = book_shell_view_load_primary_source (book_shell_view);
-	if (source != NULL)
-		e_source_selector_set_primary_selection (selector, source);
-	g_signal_connect_swapped (
-		selector, "primary-selection-changed",
-		G_CALLBACK (book_shell_view_save_primary_source),
 		book_shell_view);
 }
 

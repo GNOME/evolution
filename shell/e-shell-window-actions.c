@@ -20,12 +20,9 @@
 
 #include "e-shell-window-private.h"
 
-#include <string.h>
-
-#include <e-dialog-utils.h>
-#include <e-error.h>
-#include <e-print.h>
-#include <e-util.h>
+#include <e-util/e-dialog-utils.h>
+#include <e-util/e-error.h>
+#include <e-util/e-print.h>
 #include <gal-define-views-dialog.h>
 
 #include <libedataserverui/e-passwords.h>
@@ -934,17 +931,6 @@ action_send_receive_cb (GtkAction *action,
 }
 
 static void
-action_shell_view_cb (GtkRadioAction *action,
-                      GtkRadioAction *current,
-                      EShellWindow *shell_window)
-{
-	const gchar *view_name;
-
-	view_name = g_object_get_data (G_OBJECT (current), "view-name");
-	e_shell_window_set_current_view (shell_window, view_name);
-}
-
-static void
 action_show_sidebar_cb (GtkToggleAction *action,
                         EShellWindow *shell_window)
 {
@@ -1017,6 +1003,17 @@ action_submit_bug_cb (GtkAction *action,
 		e_notice (shell_window, GTK_MESSAGE_ERROR, message);
 		g_error_free (error);
 	}
+}
+
+static void
+action_switcher_cb (GtkRadioAction *action,
+                    GtkRadioAction *current,
+                    EShellWindow *shell_window)
+{
+	const gchar *view_name;
+
+	view_name = g_object_get_data (G_OBJECT (current), "view-name");
+	e_shell_window_switch_to_view (shell_window, view_name);
 }
 
 static void
@@ -1528,8 +1525,8 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
-	/* Shell View Actions (empty) */
-	action_group = shell_window->priv->shell_view_actions;
+	/* Switcher Actions (empty) */
+	action_group = shell_window->priv->switcher_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 }
@@ -1608,7 +1605,7 @@ e_shell_window_create_new_menu (EShellWindow *shell_window)
 }
 
 void
-e_shell_window_create_shell_view_actions (EShellWindow *shell_window)
+e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 {
 	GType *children;
 	GSList *group = NULL;
@@ -1616,15 +1613,12 @@ e_shell_window_create_shell_view_actions (EShellWindow *shell_window)
 	GtkUIManager *ui_manager;
 	EShellSwitcher *switcher;
 	GList *list;
-	const gchar *current_view;
-	gint current_value = 0;
 	guint n_children, ii;
 	guint merge_id;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
-	action_group = shell_window->priv->shell_view_actions;
-	current_view = e_shell_window_get_current_view (shell_window);
+	action_group = shell_window->priv->switcher_actions;
 	children = g_type_children (E_TYPE_SHELL_VIEW, &n_children);
 	switcher = E_SHELL_SWITCHER (shell_window->priv->switcher);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
@@ -1664,12 +1658,8 @@ e_shell_window_create_shell_view_actions (EShellWindow *shell_window)
 		}
 
 		view_name = class->type_module->name;
-		action_name = g_strdup_printf ("shell-view-%s", view_name);
+		action_name = g_strdup_printf (SWITCHER_FORMAT, view_name);
 		tooltip = g_strdup_printf (_("Switch to %s"), class->label);
-
-		/* Does this action represent the current view? */
-		if (strcmp (view_name, current_view) == 0)
-			current_value = ii;
 
 		/* Note, we have to set "icon-name" separately because
 		 * gtk_radio_action_new() expects a "stock-id".  Sadly,
@@ -1720,11 +1710,8 @@ e_shell_window_create_shell_view_actions (EShellWindow *shell_window)
 
 		g_signal_connect (
 			action, "changed",
-			G_CALLBACK (action_shell_view_cb),
+			G_CALLBACK (action_switcher_cb),
 			shell_window);
-
-		/* Sync up with the current shell view. */
-		gtk_radio_action_set_current_value (action, current_value);
 	}
 	g_list_free (list);
 
@@ -1754,6 +1741,7 @@ e_shell_window_update_gal_view_menu (EShellWindow *shell_window)
 	view_name = e_shell_window_get_current_view (shell_window);
 	shell_view = e_shell_window_get_view (shell_window, view_name);
 	instance = e_shell_view_get_view_instance (shell_view);
+	g_debug ("GalViewInstance: %p", instance);
 
 	action_group = shell_window->priv->gal_view_actions;
 	merge_id = shell_window->priv->gal_view_merge_id;

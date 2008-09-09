@@ -20,30 +20,6 @@
 
 #include "e-shell-window-private.h"
 
-#include <string.h>
-#include <e-util/e-util.h>
-#include <e-util/gconf-bridge.h>
-
-static void
-shell_window_notify_current_view_cb (EShellWindow *shell_window)
-{
-	GtkWidget *menu;
-	GtkWidget *widget;
-	const gchar *path;
-
-	/* Update the "File -> New" submenu. */
-	path = "/main-menu/file-menu/new-menu";
-	menu = e_shell_window_create_new_menu (shell_window);
-	widget = e_shell_window_get_managed_widget (shell_window, path);
-	gtk_menu_item_set_submenu (GTK_MENU_ITEM (widget), menu);
-	gtk_widget_show (widget);
-
-	/* Update the "New" menu tool button submenu. */
-	menu = e_shell_window_create_new_menu (shell_window);
-	widget = shell_window->priv->menu_tool_button;
-	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (widget), menu);
-}
-
 static void
 shell_window_save_switcher_style_cb (GtkRadioAction *action,
                                      GtkRadioAction *current,
@@ -215,7 +191,7 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	priv->gal_view_actions = gtk_action_group_new ("gal-view");
 	priv->new_item_actions = gtk_action_group_new ("new-item");
 	priv->new_source_actions = gtk_action_group_new ("new-source");
-	priv->shell_view_actions = gtk_action_group_new ("shell-view");
+	priv->switcher_actions = gtk_action_group_new ("switcher");
 	priv->loaded_views = loaded_views;
 
 	merge_id = gtk_ui_manager_new_merge_id (priv->ui_manager);
@@ -332,6 +308,11 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	priv->status_notebook = g_object_ref (widget);
 	gtk_widget_show (widget);
 
+	/* Create the switcher actions before we set the initial
+	 * shell view, because the shell view relies on them for
+	 * default settings during construction. */
+	e_shell_window_create_switcher_actions (shell_window);
+
 	/* Bind GObject properties to GConf keys. */
 
 	bridge = gconf_bridge_get ();
@@ -369,14 +350,6 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	/* Fine tuning. */
 
 	g_object_set (ACTION (SEND_RECEIVE), "is-important", TRUE, NULL);
-
-	g_signal_connect (
-		shell_window, "notify::current-view",
-		G_CALLBACK (shell_window_notify_current_view_cb), NULL);
-
-	/* Initialize shell views. */
-
-	e_shell_window_create_shell_view_actions (shell_window);
 }
 
 void
@@ -391,7 +364,7 @@ e_shell_window_private_dispose (EShellWindow *shell_window)
 	DISPOSE (priv->gal_view_actions);
 	DISPOSE (priv->new_item_actions);
 	DISPOSE (priv->new_source_actions);
-	DISPOSE (priv->shell_view_actions);
+	DISPOSE (priv->switcher_actions);
 
 	g_hash_table_remove_all (priv->loaded_views);
 
@@ -417,3 +390,102 @@ e_shell_window_private_finalize (EShellWindow *shell_window)
 
 	g_hash_table_destroy (priv->loaded_views);
 }
+
+void
+e_shell_window_switch_to_view (EShellWindow *shell_window,
+                               const gchar *view_name)
+{
+	GtkNotebook *notebook;
+	EShellView *shell_view;
+	GList *list;
+	gint page_num;
+
+	shell_view = e_shell_window_get_view (shell_window, view_name);
+
+	page_num = e_shell_view_get_page_num (shell_view);
+	g_return_if_fail (page_num >= 0);
+
+	notebook = GTK_NOTEBOOK (shell_window->priv->content_notebook);
+	gtk_notebook_set_current_page (notebook, page_num);
+
+	notebook = GTK_NOTEBOOK (shell_window->priv->sidebar_notebook);
+	gtk_notebook_set_current_page (notebook, page_num);
+
+	notebook = GTK_NOTEBOOK (shell_window->priv->status_notebook);
+	gtk_notebook_set_current_page (notebook, page_num);
+
+	shell_window->priv->current_view = view_name;
+	g_object_notify (G_OBJECT (shell_window), "current-view");
+
+	e_shell_window_update_icon (shell_window);
+	e_shell_window_update_title (shell_window);
+	e_shell_window_update_new_menu (shell_window);
+	e_shell_window_update_gal_view_menu (shell_window);
+
+	/* Notify all loaded views. */
+	list = g_hash_table_get_values (shell_window->priv->loaded_views);
+	g_list_foreach (list, (GFunc) e_shell_view_changed, NULL);
+	g_list_free (list);
+}
+
+void
+e_shell_window_update_icon (EShellWindow *shell_window)
+{
+	EShellView *shell_view;
+	GtkAction *action;
+	const gchar *view_name;
+	gchar *icon_name;
+
+	view_name = e_shell_window_get_current_view (shell_window);
+	shell_view = e_shell_window_get_view (shell_window, view_name);
+
+	if (!e_shell_view_is_selected (shell_view))
+		return;
+
+	action = e_shell_view_get_action (shell_view);
+	g_object_get (action, "icon-name", &icon_name, NULL);
+	gtk_window_set_icon_name (GTK_WINDOW (shell_window), icon_name);
+	g_free (icon_name);
+}
+
+void
+e_shell_window_update_title (EShellWindow *shell_window)
+{
+	EShellView *shell_view;
+	const gchar *view_title;
+	const gchar *view_name;
+	gchar *window_title;
+
+	view_name = e_shell_window_get_current_view (shell_window);
+	shell_view = e_shell_window_get_view (shell_window, view_name);
+	view_title = e_shell_view_get_title (shell_view);
+
+	if (!e_shell_view_is_selected (shell_view))
+		return;
+
+	/* Translators: This is used for the main window title. */
+	window_title = g_strdup_printf (_("%s - Evolution"), view_title);
+	gtk_window_set_title (GTK_WINDOW (shell_window), window_title);
+	g_free (window_title);
+}
+
+void
+e_shell_window_update_new_menu (EShellWindow *shell_window)
+{
+	GtkWidget *menu;
+	GtkWidget *widget;
+	const gchar *path;
+
+	/* Update the "File -> New" submenu. */
+	path = "/main-menu/file-menu/new-menu";
+	menu = e_shell_window_create_new_menu (shell_window);
+	widget = e_shell_window_get_managed_widget (shell_window, path);
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (widget), menu);
+	gtk_widget_show (widget);
+
+	/* Update the "New" menu tool button submenu. */
+	menu = e_shell_window_create_new_menu (shell_window);
+	widget = shell_window->priv->menu_tool_button;
+	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (widget), menu);
+}
+

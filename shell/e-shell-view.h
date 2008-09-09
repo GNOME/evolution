@@ -76,6 +76,7 @@ struct _EShellViewClass {
 
 GType		e_shell_view_get_type		(void);
 const gchar *	e_shell_view_get_name		(EShellView *shell_view);
+GtkAction *	e_shell_view_get_action		(EShellView *shell_view);
 const gchar *	e_shell_view_get_icon_name	(EShellView *shell_view);
 void		e_shell_view_set_icon_name	(EShellView *shell_view,
 						 const gchar *icon_name);

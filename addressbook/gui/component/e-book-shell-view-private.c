@@ -284,16 +284,8 @@ void
 e_book_shell_view_private_init (EBookShellView *book_shell_view)
 {
 	EBookShellViewPrivate *priv = book_shell_view->priv;
-	EShellContent *shell_content;
-	EShellSidebar *shell_sidebar;
-	EShellTaskbar *shell_taskbar;
-	EShellView *shell_view;
 	GHashTable *uid_to_view;
 	GHashTable *uid_to_editor;
-	GtkWidget *container;
-	GtkWidget *widget;
-
-	shell_view = E_SHELL_VIEW (book_shell_view);
 
 	uid_to_view = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
@@ -311,6 +303,20 @@ e_book_shell_view_private_init (EBookShellView *book_shell_view)
 	priv->uid_to_editor = uid_to_editor;
 
 	e_book_get_addressbooks (&priv->source_list, NULL);
+}
+
+void
+e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
+{
+	EBookShellViewPrivate *priv = book_shell_view->priv;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
+	EShellTaskbar *shell_taskbar;
+	EShellView *shell_view;
+	GtkWidget *container;
+	GtkWidget *widget;
+
+	shell_view = E_SHELL_VIEW (book_shell_view);
 
 	/* Construct view widgets. */
 
@@ -369,6 +375,9 @@ e_book_shell_view_private_init (EBookShellView *book_shell_view)
 	e_categories_register_change_listener (
 		G_CALLBACK (book_shell_view_categories_changed_cb),
 		book_shell_view);
+
+	e_book_shell_view_actions_init (book_shell_view);
+	e_book_shell_view_update_search_filter (book_shell_view);
 }
 
 void
