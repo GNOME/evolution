@@ -1,3 +1,10 @@
+2008-09-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #493298
+
+	* em-format-html-display.c: (efhd_image): Do not try to access widget
+	of the pury when the operation has been cancelled.
+
 2008-09-08  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #328216
