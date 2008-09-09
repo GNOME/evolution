@@ -1500,7 +1500,7 @@ e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer user_d
 	/*  re-add only the recurrence objects */
 	for (l = objects; l != NULL; l = g_list_next (l)) {
 		if (e_cal_util_component_has_recurrences (l->data) && (priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES)) 
-			g_list_prepend (list, l->data);
+			list = g_list_prepend (list, l->data);
 		else {
 			int pos;
 			ECalModelComponent *comp_data;
@@ -1865,7 +1865,7 @@ redo_queries (ECalModel *model)
 {
 	ECalModelPrivate *priv;
 	GList *l;
-	GSList *sl, *slist;
+	GSList *slist;
 	int len;
 
 	priv = model->priv;

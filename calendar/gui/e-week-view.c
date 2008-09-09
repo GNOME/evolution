@@ -404,7 +404,6 @@ static void
 model_comps_deleted_cb (ETableModel *etm, gpointer data, gpointer user_data)
 {
 	EWeekView *week_view = E_WEEK_VIEW (user_data);
-	int i;
 	GSList *l, *list = data;
 
 	/* FIXME Stop editing? */
