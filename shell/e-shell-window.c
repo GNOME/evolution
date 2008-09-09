@@ -472,12 +472,13 @@ e_shell_window_set_current_view (EShellWindow *shell_window,
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
 	view_name = name_or_alias;
+	list = e_shell_registry_list_modules ();
 
 	if (view_name != NULL)
 		view_name = e_shell_registry_get_canonical_name (view_name);
 
-	if (view_name == NULL)
-		view_name = shell_window->priv->default_view;
+	if (view_name == NULL && list != NULL)
+		view_name = G_TYPE_MODULE (list->data)->name;
 
 	g_return_if_fail (view_name != NULL);
 

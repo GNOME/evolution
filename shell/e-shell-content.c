@@ -194,7 +194,8 @@ shell_content_init_search_context (EShellContent *shell_content)
 		rule_context_add_rule, rule_context_next_rule);
 	rule_context_load (context, system_filename, user_filename);
 
-	/* XXX Not sure why this is necessary. */
+	/* Ownership of the strings is passed to the rule context.
+	 * XXX Not sure why this is necessary. */
 	g_object_set_data_full (
 		G_OBJECT (context), "system", system_filename, g_free);
 	g_object_set_data_full (
@@ -209,9 +210,6 @@ shell_content_init_search_context (EShellContent *shell_content)
 			shell_view_class->type_module->name);
 	else
 		filter_rule_add_part (rule, filter_part_clone (part));
-
-	g_free (system_filename);
-	g_free (user_filename);
 
 	shell_content->priv->search_context = context;
 }
@@ -447,12 +445,22 @@ shell_content_dispose (GObject *object)
 }
 
 static void
-shell_content_constructed (GObject *object)
+shell_content_realize (GtkWidget *widget)
 {
 	EShellContent *shell_content;
 
-	shell_content = E_SHELL_CONTENT (object);
+	/* We can't call this during object construction because the
+	 * shell view is still in its instance initialization phase,
+	 * and so its GET_CLASS() macro won't work correctly.  So we
+	 * delay the bits of our own initialization that require the
+	 * E_SHELL_VIEW_GET_CLASS() macro until after the shell view
+	 * is fully constructed. */
+
+	shell_content = E_SHELL_CONTENT (widget);
 	shell_content_init_search_context (shell_content);
+
+	/* Chain up to parent's realize() method. */
+	GTK_WIDGET_CLASS (parent_class)->realize (widget);
 }
 
 static void
@@ -561,9 +569,9 @@ shell_content_class_init (EShellContentClass *class)
 	object_class->set_property = shell_content_set_property;
 	object_class->get_property = shell_content_get_property;
 	object_class->dispose = shell_content_dispose;
-	object_class->constructed = shell_content_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->realize = shell_content_realize;
 	widget_class->size_request = shell_content_size_request;
 	widget_class->size_allocate = shell_content_size_allocate;
 

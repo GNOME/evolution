@@ -206,26 +206,6 @@ shell_view_finalize (GObject *object)
 static void
 shell_view_constructed (GObject *object)
 {
-	EShellView *shell_view;
-	GtkWidget *widget;
-
-	shell_view = E_SHELL_VIEW (object);
-
-	/* We do this AFTER instance initialization so the
-	 * E_SHELL_VIEW_GET_CLASS() macro works properly. */
-
-	widget = e_shell_content_new (shell_view);
-	shell_view->priv->content = g_object_ref_sink (widget);
-	gtk_widget_show (widget);
-
-	widget = e_shell_sidebar_new (shell_view);
-	shell_view->priv->sidebar = g_object_ref_sink (widget);
-	gtk_widget_show (widget);
-
-	widget = e_shell_taskbar_new (shell_view);
-	shell_view->priv->taskbar = g_object_ref_sink (widget);
-	gtk_widget_show (widget);
-
 	/* XXX GObjectClass doesn't implement constructed(), so we will.
 	 *     Then subclasses won't have to check the function pointer
 	 *     before chaining up.
@@ -306,7 +286,22 @@ shell_view_class_init (EShellViewClass *class)
 static void
 shell_view_init (EShellView *shell_view)
 {
+	GtkWidget *widget;
+
 	shell_view->priv = E_SHELL_VIEW_GET_PRIVATE (shell_view);
+
+	widget = e_shell_content_new (shell_view);
+	shell_view->priv->content = g_object_ref_sink (widget);
+	gtk_widget_show (widget);
+
+	widget = e_shell_sidebar_new (shell_view);
+	shell_view->priv->sidebar = g_object_ref_sink (widget);
+	gtk_widget_show (widget);
+
+	widget = e_shell_taskbar_new (shell_view);
+	shell_view->priv->taskbar = g_object_ref_sink (widget);
+	gtk_widget_show (widget);
+
 }
 
 GType

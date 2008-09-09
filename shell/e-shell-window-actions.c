@@ -1716,21 +1716,15 @@ e_shell_window_create_shell_view_actions (EShellWindow *shell_window)
 
 	list = gtk_action_group_list_actions (action_group);
 	if (list != NULL) {
-		GObject *object = list->data;
-		const gchar *view_name;
-
-		/* First view is the default. */
-		view_name = g_object_get_data (object, "view-name");
-		shell_window->priv->default_view = view_name;
+		GtkRadioAction *action = list->data;
 
 		g_signal_connect (
-			object, "changed",
+			action, "changed",
 			G_CALLBACK (action_shell_view_cb),
 			shell_window);
 
 		/* Sync up with the current shell view. */
-		gtk_radio_action_set_current_value (
-			GTK_RADIO_ACTION (object), current_value);
+		gtk_radio_action_set_current_value (action, current_value);
 	}
 	g_list_free (list);
 

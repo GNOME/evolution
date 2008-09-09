@@ -284,6 +284,9 @@ void
 e_book_shell_view_private_init (EBookShellView *book_shell_view)
 {
 	EBookShellViewPrivate *priv = book_shell_view->priv;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
+	EShellTaskbar *shell_taskbar;
 	EShellView *shell_view;
 	GHashTable *uid_to_view;
 	GHashTable *uid_to_editor;
@@ -312,19 +315,26 @@ e_book_shell_view_private_init (EBookShellView *book_shell_view)
 	/* Construct view widgets. */
 
 	widget = gtk_notebook_new ();
+	shell_content = e_shell_view_get_content (shell_view);
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
-	priv->notebook = g_object_ref_sink (widget);
+	gtk_container_add (GTK_CONTAINER (shell_content), widget);
+	priv->notebook = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
+	shell_sidebar = e_shell_view_get_sidebar (shell_view);
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (widget),
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	priv->scrolled_window = g_object_ref_sink (widget);
+	gtk_container_add (GTK_CONTAINER (shell_sidebar), widget);
 	gtk_widget_show (widget);
+
+	shell_taskbar = e_shell_view_get_taskbar (shell_view);
+	e_activity_handler_attach_task_bar (
+		priv->activity_handler, shell_taskbar);
 
 	container = widget;
 

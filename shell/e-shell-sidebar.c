@@ -201,12 +201,22 @@ shell_sidebar_finalize (GObject *object)
 }
 
 static void
-shell_sidebar_constructed (GObject *object)
+shell_sidebar_realize (GtkWidget *widget)
 {
 	EShellSidebar *shell_sidebar;
 
-	shell_sidebar = E_SHELL_SIDEBAR (object);
+	/* We can't call this during object construction because the
+	 * shell view is still in its instance initialization phase,
+	 * and so its GET_CLASS() macro won't work correctly.  So we
+	 * delay the bits of our own initialization that require the
+	 * E_SHELL_VIEW_GET_CLASS() macro until after the shell view
+	 * is fully constructed. */
+
+	shell_sidebar = E_SHELL_SIDEBAR (widget);
 	shell_sidebar_init_icon_and_text (shell_sidebar);
+
+	/* Chain up to parent's realize() method. */
+	GTK_WIDGET_CLASS (parent_class)->realize (widget);
 }
 
 static void
@@ -316,9 +326,9 @@ shell_sidebar_class_init (EShellSidebarClass *class)
 	object_class->get_property = shell_sidebar_get_property;
 	object_class->dispose = shell_sidebar_dispose;
 	object_class->finalize = shell_sidebar_finalize;
-	object_class->constructed = shell_sidebar_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->realize = shell_sidebar_realize;
 	widget_class->size_request = shell_sidebar_size_request;
 	widget_class->size_allocate = shell_sidebar_size_allocate;
 

@@ -43,41 +43,13 @@ test_shell_view_changed (EShellView *shell_view)
 }
 
 static void
-test_shell_view_constructed (GObject *object)
-{
-	EShellContent *shell_content;
-	EShellSidebar *shell_sidebar;
-	EShellView *shell_view;
-	GtkWidget *widget;
-
-	/* Chain up to parent's constructed() method. */
-	G_OBJECT_CLASS (parent_class)->constructed (object);
-
-	shell_view = E_SHELL_VIEW (object);
-	shell_content = e_shell_view_get_content (shell_view);
-	shell_sidebar = e_shell_view_get_sidebar (shell_view);
-
-	widget = gtk_label_new ("Content Widget");
-	gtk_container_add (GTK_CONTAINER (shell_content), widget);
-	gtk_widget_show (widget);
-
-	widget = gtk_label_new ("Sidebar Widget");
-	gtk_container_add (GTK_CONTAINER (shell_sidebar), widget);
-	gtk_widget_show (widget);
-}
-
-static void
 test_shell_view_class_init (ETestShellViewClass *class,
                             GTypeModule *type_module)
 {
-	GObjectClass *object_class;
 	EShellViewClass *shell_view_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ETestShellViewPrivate));
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->constructed = test_shell_view_constructed;
 
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
 	shell_view_class->label = "Test";
@@ -89,8 +61,25 @@ test_shell_view_class_init (ETestShellViewClass *class,
 static void
 test_shell_view_init (ETestShellView *test_shell_view)
 {
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
+	EShellView *shell_view;
+	GtkWidget *widget;
+
 	test_shell_view->priv =
 		E_TEST_SHELL_VIEW_GET_PRIVATE (test_shell_view);
+
+	shell_view = E_SHELL_VIEW (test_shell_view);
+	shell_content = e_shell_view_get_content (shell_view);
+	shell_sidebar = e_shell_view_get_sidebar (shell_view);
+
+	widget = gtk_label_new ("Content Widget");
+	gtk_container_add (GTK_CONTAINER (shell_content), widget);
+	gtk_widget_show (widget);
+
+	widget = gtk_label_new ("Sidebar Widget");
+	gtk_container_add (GTK_CONTAINER (shell_sidebar), widget);
+	gtk_widget_show (widget);
 }
 
 GType

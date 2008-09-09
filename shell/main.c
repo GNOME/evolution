@@ -302,8 +302,7 @@ idle_cb (gchar **uris)
 
 		client = gconf_client_get_default ();
 		key = "/apps/evolution/shell/view_defaults/component_id";
-		requested_view = gconf_client_set_string (
-			client, key, initial_view, NULL);
+		gconf_client_set_string (client, key, initial_view, NULL);
 		g_object_unref (client);
 	}
 

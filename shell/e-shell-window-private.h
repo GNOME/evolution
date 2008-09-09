@@ -73,7 +73,6 @@ struct _EShellWindowPrivate {
 
 	GHashTable *loaded_views;
 	const gchar *current_view;
-	const gchar *default_view;
 
 	/*** Widgetry ***/
 
