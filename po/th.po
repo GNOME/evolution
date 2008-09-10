@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-05 10:14+0700\n"
-"PO-Revision-Date: 2008-09-05 11:07+0700\n"
+"PO-Revision-Date: 2008-09-10 11:49+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -20694,28 +20694,28 @@ msgstr "การเข้ารหัสลับ RSA ตาม PKCS #1"
 
 #: ../smime/lib/e-cert.c:670
 msgid "Certificate Key Usage"
-msgstr ""
+msgstr "การใช้กุญแจใบรับรอง"
 
 #: ../smime/lib/e-cert.c:673
 msgid "Netscape Certificate Type"
-msgstr ""
+msgstr "ชนิดใบรับรองของเน็ตสเคป"
 
 #: ../smime/lib/e-cert.c:676
 msgid "Certificate Authority Key Identifier"
-msgstr ""
+msgstr "ตัวระบุกุญแจองค์กรออกใบรับรอง"
 
 #: ../smime/lib/e-cert.c:688
 #, c-format
 msgid "Object Identifier (%s)"
-msgstr ""
+msgstr "ตัวระบุอ็อบเจกต์ (%s)"
 
 #: ../smime/lib/e-cert.c:739
 msgid "Algorithm Identifier"
-msgstr ""
+msgstr "ตัวระบุอัลกอริทึม"
 
 #: ../smime/lib/e-cert.c:747
 msgid "Algorithm Parameters"
-msgstr ""
+msgstr "พารามิเตอร์ของอัลกอริทึม"
 
 #: ../smime/lib/e-cert.c:769
 msgid "Subject Public Key Info"
@@ -20735,7 +20735,7 @@ msgstr "ข้อผิดพลาด: ไม่สามารถประม�
 
 #: ../smime/lib/e-cert.c:831 ../smime/lib/e-cert.c:843
 msgid "Object Signer"
-msgstr ""
+msgstr "ผู้เซ็นกำกับอ็อบเจกต์"
 
 #: ../smime/lib/e-cert.c:835
 msgid "SSL Certificate Authority"
@@ -20747,39 +20747,39 @@ msgstr "องค์กรออกใบรับรองอีเมล"
 
 #: ../smime/lib/e-cert.c:867
 msgid "Signing"
-msgstr ""
+msgstr "การเซ็นกำกับ"
 
 #: ../smime/lib/e-cert.c:871
 msgid "Non-repudiation"
-msgstr ""
+msgstr "การรับรองความแท้"
 
 #: ../smime/lib/e-cert.c:875
 msgid "Key Encipherment"
-msgstr ""
+msgstr "การเข้ารหัสลับกุญแจ"
 
 #: ../smime/lib/e-cert.c:879
 msgid "Data Encipherment"
-msgstr ""
+msgstr "การเข้ารหัสลับข้อมูล"
 
 #: ../smime/lib/e-cert.c:883
 msgid "Key Agreement"
-msgstr ""
+msgstr "การยอมรับกุญแจ"
 
 #: ../smime/lib/e-cert.c:887
 msgid "Certificate Signer"
-msgstr ""
+msgstr "ใช้เซ็นกำกับใบรับรอง"
 
 #: ../smime/lib/e-cert.c:891
 msgid "CRL Signer"
-msgstr ""
+msgstr "ใช้เซ็นกำกับ CRL"
 
 #: ../smime/lib/e-cert.c:939
 msgid "Critical"
-msgstr ""
+msgstr "สำคัญมาก"
 
 #: ../smime/lib/e-cert.c:941 ../smime/lib/e-cert.c:944
 msgid "Not Critical"
-msgstr ""
+msgstr "ไม่สำคัญมาก"
 
 #: ../smime/lib/e-cert.c:965
 msgid "Extensions"
@@ -20792,7 +20792,7 @@ msgstr "%s = %s"
 
 #: ../smime/lib/e-cert.c:1092 ../smime/lib/e-cert.c:1212
 msgid "Certificate Signature Algorithm"
-msgstr ""
+msgstr "อัลกอริทึมสำหรับลายเซ็นใบรับรอง"
 
 #: ../smime/lib/e-cert.c:1101
 msgid "Issuer"
@@ -22735,7 +22735,7 @@ msgstr "ข้อความว่างเปล่า"
 
 #: ../widgets/misc/e-reflow.c:1455 ../widgets/misc/e-reflow.c:1456
 msgid "Reflow model"
-msgstr ""
+msgstr "โมเดลข้อมูลการจัดเรียงกระแสข้อความ"
 
 #: ../widgets/misc/e-reflow.c:1462 ../widgets/misc/e-reflow.c:1463
 msgid "Column width"
@@ -22976,7 +22976,7 @@ msgstr "หมวด"
 
 #: ../widgets/table/e-cell-combo.c:170
 msgid "popup list"
-msgstr ""
+msgstr "รายชื่อผุดขึ้น"
 
 #: ../widgets/table/e-cell-date.c:62
 msgid "%l:%M %p"
