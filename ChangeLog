@@ -1,3 +1,7 @@
+2008-09-10  Michael Meeks  <michael.meeks@novell.com>
+
+	* server.mk: use top_builddir for config.h #551560
+
 2008-09-08  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* NEWS: Evolution 2.23.92 release.
