@@ -698,7 +698,7 @@ e_composer_actions_init (EMsgComposer *composer)
 		G_OBJECT (ACTION (ATTACH)),
 		"short-label", _("Attach"), NULL);
 
-#if defined (HAVE_NSS) && defined (SMIME_SUPPORTED)
+#if defined (HAVE_NSS)
 	visible = TRUE;
 #else
 	visible = FALSE;

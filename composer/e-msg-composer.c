@@ -41,8 +41,6 @@
 #include <config.h>
 #endif
 
-#define SMIME_SUPPORTED 1
-
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
@@ -87,7 +85,7 @@
 #include <camel/camel-multipart-encrypted.h>
 #include <camel/camel-string-utils.h>
 #include <camel/camel-cipher-context.h>
-#if defined (HAVE_NSS) && defined (SMIME_SUPPORTED)
+#if defined (HAVE_NSS)
 #include <camel/camel-smime-context.h>
 #endif
 
@@ -759,7 +757,7 @@ build_message (EMsgComposer *composer,
 	action = GTK_TOGGLE_ACTION (ACTION (PGP_ENCRYPT));
 	pgp_encrypt = gtk_toggle_action_get_active (action);
 
-#if defined (HAVE_NSS) && defined (SMIME_SUPPORTED)
+#if defined (HAVE_NSS)
 	action = GTK_TOGGLE_ACTION (ACTION (SMIME_SIGN));
 	smime_sign = gtk_toggle_action_get_active (action);
 
@@ -855,7 +853,7 @@ build_message (EMsgComposer *composer,
 		camel_object_unref (part);
 	}
 
-#if defined (HAVE_NSS) && defined (SMIME_SUPPORTED)
+#if defined (HAVE_NSS)
 	if (smime_sign || smime_encrypt) {
 		CamelInternetAddress *from = NULL;
 		CamelCipherContext *cipher;
@@ -943,7 +941,7 @@ build_message (EMsgComposer *composer,
 		camel_mime_part_set_encoding (CAMEL_MIME_PART (new), plain_encoding);
 	camel_object_unref (current);
 
-#if defined (HAVE_NSS) && defined (SMIME_SUPPORTED)
+#if defined (HAVE_NSS)
 skip_content:
 #endif
 	if (recipients) {
