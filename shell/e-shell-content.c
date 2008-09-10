@@ -1,5 +1,5 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* e-shell-shell_content.c
+/* e-shell-content.c
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *

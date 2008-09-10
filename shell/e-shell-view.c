@@ -372,14 +372,6 @@ e_shell_view_get_type (void)
 	return type;
 }
 
-GtkAction *
-e_shell_view_get_action (EShellView *shell_view)
-{
-	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
-
-	return shell_view->priv->action;
-}
-
 const gchar *
 e_shell_view_get_name (EShellView *shell_view)
 {
@@ -393,6 +385,14 @@ e_shell_view_get_name (EShellView *shell_view)
 	action = e_shell_view_get_action (shell_view);
 
 	return g_object_get_data (G_OBJECT (action), "view-name");
+}
+
+GtkAction *
+e_shell_view_get_action (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	return shell_view->priv->action;
 }
 
 const gchar *
