@@ -1,3 +1,20 @@
+Evolution 2.23.92 2008-09-08
+----------------------------
+
+New in 2.23.92:
+	Evolution source code license changed to LGPLv2 or later (Sankar P)
+
+Bug Fixes:
+	#549968: Use the same mnemonic for "Recent Documents" as composer (Matthew Barnes)
+
+Updated Translations:
+	Philip Withnall (en_GB)
+	Andre Klapper (de)
+	Claude Paroz (fr)
+	Alexander Shopov (bg)
+	Theppitak Karoonboonyanan (th)
+	Changwoo Ryu (ko)
+
 Evolution 2.23.91 2008-09-01
 ----------------------------
 
