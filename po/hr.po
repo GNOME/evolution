@@ -3804,7 +3804,7 @@ msgstr "Pretražujem adresar..."
 #, c-format
 msgid "There is one other contact."
 msgid_plural "There are %d other contacts."
-msgstr[0] "Postoji još jedan kontakt."
+msgstr[0] "Postoji još %d kontakt."
 msgstr[1] "Postoje još %d kontakta."
 msgstr[2] "Postoji još %d kontakata."
 
@@ -6207,7 +6207,7 @@ msgstr "Poruka u privitku - %s"
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
-msgstr[0] "Poruka u privitku"
+msgstr[0] "%d poruka u privitku"
 msgstr[1] "%d poruke u privitku"
 msgstr[2] "%d poruka u privitku"
 
@@ -7757,7 +7757,7 @@ msgstr "Da. (Složeni povratak)"
 #, c-format
 msgid "Every day"
 msgid_plural "Every %d days"
-msgstr[0] "Svaki dan"
+msgstr[0] "Svaki %d dan"
 msgstr[1] "Svakih %d dana"
 msgstr[2] "Svakih %d dana"
 
@@ -7765,7 +7765,7 @@ msgstr[2] "Svakih %d dana"
 #, c-format
 msgid "Every week"
 msgid_plural "Every %d weeks"
-msgstr[0] "Svaki tjedan"
+msgstr[0] "Svaki %d tjedan"
 msgstr[1] "Svakih %d tjedna"
 msgstr[2] "Svakih %d tjedana"
 
@@ -7773,7 +7773,7 @@ msgstr[2] "Svakih %d tjedana"
 #, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
-msgstr[0] "Svaki tjedan u "
+msgstr[0] "Svaki %d tjedan u "
 msgstr[1] "Svakih %d tjedna u "
 msgstr[2] "Svakih %d tjedana u "
 
@@ -7796,7 +7796,7 @@ msgstr "%s %s "
 #, c-format
 msgid "every month"
 msgid_plural "every %d months"
-msgstr[0] "svaki mjesec"
+msgstr[0] "svaki %d mjesec"
 msgstr[1] "svakih %d mjeseca"
 msgstr[2] "svakih %d mjeseci"
 
@@ -7804,7 +7804,7 @@ msgstr[2] "svakih %d mjeseci"
 #, c-format
 msgid "Every year"
 msgid_plural "Every %d years"
-msgstr[0] "Svake godine"
+msgstr[0] "Svake %d godine"
 msgstr[1] "Svakih %d godine"
 msgstr[2] "Svakih %d godina"
 
@@ -11229,7 +11229,7 @@ msgstr ""
 #, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
-msgstr[0] "prije jedne sekunde"
+msgstr[0] "prije %d sekunde"
 msgstr[1] "prije %d sekunde"
 msgstr[2] "prije %d sekundi"
 
@@ -11244,7 +11244,7 @@ msgstr[1] ""
 #, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
-msgstr[0] "prije jedne minute"
+msgstr[0] "prije %d minute"
 msgstr[1] "prije %d minute"
 msgstr[2] "prije %d minuta"
 
@@ -11259,7 +11259,7 @@ msgstr[1] ""
 #, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
-msgstr[0] "prije jednog sata"
+msgstr[0] "prije %d sata"
 msgstr[1] "prije %d sata"
 msgstr[2] "prije %d sati"
 
@@ -11274,7 +11274,7 @@ msgstr[1] ""
 #, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
-msgstr[0] "prije jednog dana"
+msgstr[0] "prije %d dana"
 msgstr[1] "prije %d dana"
 msgstr[2] "prije %d dana"
 
@@ -11289,7 +11289,7 @@ msgstr[1] ""
 #, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
-msgstr[0] "prije jednog tjedna"
+msgstr[0] "prije %d tjedna"
 msgstr[1] "prije %d tjedna"
 msgstr[2] "prije %d tjedana"
 
@@ -11304,7 +11304,7 @@ msgstr[1] ""
 #, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
-msgstr[0] "prije jednog mjeseca"
+msgstr[0] "prije %d mjeseca"
 msgstr[1] "prije %d mjeseca"
 msgstr[2] "prije %d mjeseci"
 
@@ -11319,7 +11319,7 @@ msgstr[1] ""
 #, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
-msgstr[0] "prije jedne godine"
+msgstr[0] "prije %d godine"
 msgstr[1] "prije %d godine"
 msgstr[2] "prije %d godina"
 
