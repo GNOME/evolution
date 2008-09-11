@@ -132,9 +132,7 @@ static struct {
 	},
 	{ "file_html",
 	  N_("Choose the file that you want to import into Evolution, "
-	     "and select what type of file it is from the list.\n\n"
-	     "You can select \"Automatic\" if you do not know, and "
-	     "Evolution will attempt to work it out.")
+	     "and select what type of file it is from the list.")
 	},
 	{ "dest_html",
 	  N_("Choose the destination for this import")

@@ -1,9 +1,121 @@
-2008-08-30  Matthew Barnes  <mbarnes@redhat.com>
+2008-09-06  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #549968
 
 	* e-attachment-bar.c (e_attachment_bar_bonobo_ui_populate_with):
 	Use the same mnemonic for "Recent Documents" as composer.
+
+2008-09-06  Michael Meeks  <michael.meeks@novell.com>
+
+	* e-spinner.c: correct licensing cockup; apologies.
+	* e-icon-entry.h: ditto.
+
+2008-09-04  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-calendar-item.c:
+	* e-charset-picker.c:
+	* e-config-page.c:
+	* e-dropdown-button.c:
+	* e-multi-config-dialog.c:
+	* e-multi-config-dialog.h:
+	* test-multi-config-dialog.c:
+
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-activity-handler.c:
+	* e-activity-handler.h:
+	* e-attachment-bar.h:
+	* e-attachment.h:
+	* e-calendar.h:
+	* e-canvas-background.h:
+	* e-canvas-utils.h:
+	* e-canvas-vbox.c:
+	* e-canvas-vbox.h:
+	* e-canvas.h:
+	* e-cell-date-edit.c:
+	* e-cell-renderer-combo.c:
+	* e-colors.h:
+	* e-combo-button.h:
+	* e-combo-cell-editable.c:
+	* e-config-page.h:
+	* e-cursors.c:
+	* e-dropdown-button.h:
+	* e-expander.h:
+	* e-filter-bar.c:
+	* e-filter-bar.h:
+	* e-gui-utils.c:
+	* e-gui-utils.h:
+	* e-image-chooser.c:
+	* e-info-label.c:
+	* e-map.c:
+	* e-pilot-settings.c:
+	* e-popup-menu.c:
+	* e-popup-menu.h:
+	* e-printable.c:
+	* e-reflow.h:
+	* e-selection-model.c:
+	* e-send-options.c:
+	* e-task-bar.c:
+	* e-task-bar.h:
+	* e-task-widget.h:
+	* e-unicode.c:
+	* test-calendar.c:
+	* test-dateedit.c:
+	* test-dropdown-button.c:
+
+2008-09-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #550334
+
+	* e-activity-handler.c:
+	Use standard icon names for warning and information.
+
+2008-08-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-info-label.c (e_info_label_set_info):
+	Fix vertical alignment of labels.
+
+2008-08-27  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-account-combo-box.c:
+	* e-account-combo-box.h:
+	* e-attachment.c:
+	* e-calendar-item.h:
+	* e-canvas-utils.c:
+	* e-cell-date-edit.h:
+	* e-cell-percent.h:
+	* e-cell-renderer-combo.h:
+	* e-charset-picker.h:
+	* e-combo-cell-editable.h:
+	* e-cursors.h:
+	* e-icon-entry.h:
+	* e-image-chooser.h:
+	* e-info-label.h:
+	* e-map.h:
+	* e-pilot-settings.h:
+	* e-printable.h:
+	* e-reflow-model.c:
+	* e-reflow-model.h:
+	* e-selection-model-array.c:
+	* e-selection-model-array.h:
+	* e-selection-model-simple.c:
+	* e-selection-model-simple.h:
+	* e-selection-model.h:
+	* e-send-options.h:
+	* e-signature-combo-box.c:
+	* e-signature-combo-box.h:
+	* e-spinner.c:
+	* e-spinner.h:
+	* test-charset-picker.c:
+	* test-color.c:
+	* test-error.c:
+	* test-info-label.c:
 
 2008-08-14  Matthew Barnes  <mbarnes@redhat.com>
 

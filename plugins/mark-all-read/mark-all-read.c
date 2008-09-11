@@ -1,21 +1,23 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
+/*
  *
- *  Authors: Chenthill Palanisamy (pchenthill@novell.com)
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
  *
- *  Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
  *
- *  This program is free software; you can redistribute it and/or
- *  modify it under the terms of version 2 of the GNU General Public
- *  License as published by the Free Software Foundation.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * Authors:
+ *		Chenthill Palanisamy <pchenthill@novell.com>
+ *
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
@@ -221,19 +223,17 @@ mar_got_folder (char *uri, CamelFolder *folder, void *data)
 	gint response;
 	guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_FAST;
 
-	camel_exception_init (&ex);
-
 	/* FIXME we have to disable the menu item */
 	if (!folder)
 		return;
 
+	camel_exception_init (&ex);
+
 	store = folder->parent_store;
 	info = camel_store_get_folder_info (store, folder->full_name, flags, &ex);
 
-	if (camel_exception_is_set (&ex)) {
-		camel_exception_clear (&ex);
-		return;
-	}
+	if (camel_exception_is_set (&ex))
+		goto out;
 
 	if (info && (info->child || info->next))
 		response = prompt_user ();
@@ -244,6 +244,8 @@ mar_got_folder (char *uri, CamelFolder *folder, void *data)
 		mark_all_as_read (folder);
 	else if (response == GTK_RESPONSE_YES)
 		mar_all_sub_folders (store, info, &ex);
+out:
+	camel_store_free_folder_info(store, info);
 }
 
 static void

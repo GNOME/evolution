@@ -281,7 +281,7 @@ eab_vcard_control_new (void)
 			  G_CALLBACK (toggle_full_vcard), vcard_control);
 	gtk_box_pack_start (GTK_BOX (bbox), button1, FALSE, FALSE, 0);
 
-	button2 = gtk_button_new_with_label(_("Save in addressbook"));
+	button2 = gtk_button_new_with_label(_("Save in address book"));
 	g_signal_connect (button2, "clicked",
 			  G_CALLBACK (save_in_addressbook), vcard_control);
 	gtk_box_pack_start (GTK_BOX (bbox), button2, FALSE, FALSE, 0);

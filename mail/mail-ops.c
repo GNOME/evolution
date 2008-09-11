@@ -337,7 +337,7 @@ fetch_mail_exec (struct _fetch_mail_msg *m)
 					}
 				}
 
-				if (fm->delete || cache_uids) {
+				if ((fm->delete || cache_uids) && !camel_exception_is_set (&fm->base.ex)) {
 					/* expunge messages (downloaded so far) */
 					camel_folder_sync(folder, fm->delete, NULL);
 				}
@@ -772,8 +772,10 @@ send_queue_exec (struct _send_queue_msg *m)
 	camel_folder_free_uids (m->queue, uids);
 	g_ptr_array_free (send_uids, TRUE);
 
-	camel_folder_sync (m->queue, TRUE, &ex);
-	camel_exception_clear (&ex);
+	if (j <= 0 && !camel_exception_is_set (&m->base.ex)) {
+		camel_folder_sync (m->queue, TRUE, &ex);
+		camel_exception_clear (&ex);
+	}
 
 	if (sent_folder) {
 		camel_folder_sync (sent_folder, FALSE, &ex);

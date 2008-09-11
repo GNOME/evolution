@@ -127,9 +127,8 @@ action_close_cb (GtkAction *action,
 	editor = GTKHTML_EDITOR (composer);
 	widget = GTK_WIDGET (composer);
 
-	if (!gtkhtml_editor_get_changed (editor) &&
-		e_composer_autosave_get_saved (composer)) {
-
+	if (!gtkhtml_editor_get_changed (editor) ||
+	    e_msg_composer_is_exiting (composer)) {
 		gtk_widget_destroy (widget);
 		return;
 	}
@@ -699,7 +698,7 @@ e_composer_actions_init (EMsgComposer *composer)
 		G_OBJECT (ACTION (ATTACH)),
 		"short-label", _("Attach"), NULL);
 
-#if defined (HAVE_NSS) && defined (SMIME_SUPPORTED)
+#if defined (HAVE_NSS)
 	visible = TRUE;
 #else
 	visible = FALSE;

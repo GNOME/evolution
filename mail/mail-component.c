@@ -490,8 +490,6 @@ impl_finalize (GObject *object)
 
 	g_free (priv->base_directory);
 
-	mail_async_event_destroy (priv->async_event);
-
 	g_hash_table_destroy (priv->store_hash);
 
 	if (mail_async_event_destroy (priv->async_event) == -1) {
@@ -900,7 +898,11 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 		/* Falls through */
 	case MC_QUIT_THREADS:
 		/* should we keep cancelling? */
-		return !mail_msg_active((unsigned int)-1);
+		if (mail_msg_active((unsigned int)-1))
+			return FALSE;
+
+		mail_session_shutdown ();
+		return TRUE;
 	}
 
 	return TRUE;
@@ -1299,10 +1301,13 @@ mail_component_init (MailComponent *component)
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) store_hash_free);
 
-	mail_autoreceive_init();
+	mail_autoreceive_init (session);
 
 	priv->mail_sync_in_progress = 0;
-	priv->mail_sync_id = g_timeout_add_seconds (mail_config_get_sync_timeout (), call_mail_sync, component);
+	if (g_getenv("CAMEL_FLUSH_CHANGES"))
+		priv->mail_sync_id = g_timeout_add_seconds (mail_config_get_sync_timeout (), call_mail_sync, component);
+	else 
+		priv->mail_sync_id = 0;
 }
 
 /* Public API.  */

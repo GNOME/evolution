@@ -1,23 +1,25 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* mail-session.c: handles the session information and resource manipulation */
 /*
- *  Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of version 2 of the GNU General Public
- * License as published by the Free Software Foundation.
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public
- * License along with this program; if not, write to the
- * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ *
+ *
+ * Authors:
+ *
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
+
+/* mail-session.c: handles the session information and resource manipulation */
 
 #include <config.h>
 
@@ -709,6 +711,12 @@ mail_session_init (const char *base_directory)
 	camel_session_set_online ((CamelSession *) session, FALSE);
 	mail_config_reload_junk_headers ();
 	g_free (camel_dir);
+}
+
+void
+mail_session_shutdown (void)
+{
+	camel_shutdown ();
 }
 
 gboolean

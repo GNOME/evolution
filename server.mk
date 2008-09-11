@@ -1,4 +1,4 @@
-%.server.in: %.server.in.in
+%.server.in: %.server.in.in $(top_builddir)/config.h
 	sed -e 's|\@BINDIR_IN_SERVER_FILE\@|$(bindir_in_server_file)|'	\
 	-e 's|\@PRIVLIBEXECDIR_IN_SERVER_FILE\@|$(privlibexecdir_in_server_file)|'	\
 	-e 's|\@COMPONENTDIR_IN_SERVER_FILE\@|$(componentdir_in_server_file)|'	\

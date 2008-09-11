@@ -1,3 +1,84 @@
+2008-09-04  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-gui-utils.c:
+	* e-html-utils.c:
+
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-categories-config.c:
+	* e-config-listener.c:
+	* e-config-listener.h:
+	* e-config.c:
+	* e-corba-utils.c:
+	* e-corba-utils.h:
+	* e-cursor.c:
+	* e-dialog-utils.h:
+	* e-dialog-widgets.c:
+	* e-dialog-widgets.h:
+	* e-error.h:
+	* e-fsutils.h:
+	* e-gui-utils.h:
+	* e-html-utils.h:
+	* e-import.c:
+	* e-logger.h:
+	* e-menu.c:
+	* e-mktemp.c:
+	* e-mktemp.h:
+	* e-pilot-map.c:
+	* e-pilot-map.h:
+	* e-pilot-util.c:
+	* e-plugin.h:
+	* e-popup.c:
+	* e-profile-event.c:
+	* e-request.c:
+	* e-request.h:
+	* e-sorter-array.h:
+	* e-sorter.c:
+	* e-text-event-processor-emacs-like.c:
+	* e-text-event-processor.c:
+	* e-text-event-processor.h:
+	* e-util-labels.c:
+	* e-xml-utils.h:
+
+2008-08-27  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-bconf-map.c:
+	* e-bconf-map.h:
+	* e-bit-array.c:
+	* e-bit-array.h:
+	* e-categories-config.h:
+	* e-config.h:
+	* e-cursor.h:
+	* e-event.h:
+	* e-folder-map.c:
+	* e-folder-map.h:
+	* e-fsutils.c:
+	* e-icon-factory.h:
+	* e-import.h:
+	* e-logger.c:
+	* e-menu.h:
+	* e-pilot-util.h:
+	* e-popup.h:
+	* e-print.c:
+	* e-print.h:
+	* e-profile-event.h:
+	* e-signature-list.c:
+	* e-signature-list.h:
+	* e-signature.c:
+	* e-signature.h:
+	* e-sorter.h:
+	* e-text-event-processor-emacs-like.h:
+	* e-text-event-processor-types.h:
+	* e-util-labels.h:
+	* e-util-private.h:
+	* e-win32-reloc.c:
+
 2008-08-18  Bharath Acharya  <abharath@novell.com>
 
 	* e-icon-factory.c: (e_icon_factory_get_icon_filename),

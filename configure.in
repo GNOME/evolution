@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(evolution, 2.23.90, http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
+AC_INIT(evolution, 2.23.92, http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 
 # Some requirements have versioned package names
@@ -13,7 +13,7 @@ GTKHTML_PACKAGE=3.14
 # Required Packages
 m4_define([glib_minimum_version], [2.16.0])
 m4_define([gtk_minimum_version], [2.12.0])
-m4_define([eds_minimum_version], [2.23.90])
+m4_define([eds_minimum_version], [2.23.91])
 m4_define([gnome_icon_theme_minimum_version], [2.19.91])
 m4_define([libbonobo_minimum_version], [2.20.3])
 m4_define([libbonoboui_minimum_version], [2.4.2])
@@ -259,8 +259,8 @@ if test $have_iconv = yes; then
 
 int main (int argc, char **argv)
 {
-        const char *jp = "\x1B\x24\x42\x46\x7C\x4B\x5C\x38\x6C";
-        const char *utf8 = "\xE6\x97\xA5\xE6\x9C\xAC\xE8\xAA\x9E";
+        char *jp = "\x1B\x24\x42\x46\x7C\x4B\x5C\x38\x6C";
+        char *utf8 = "\xE6\x97\xA5\xE6\x9C\xAC\xE8\xAA\x9E";
         char *transbuf = malloc (10), *trans = transbuf;
         iconv_t cd;
         size_t jp_len = strlen (jp), utf8_len = 10;

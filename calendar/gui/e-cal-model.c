@@ -1,21 +1,25 @@
-/* Evolution calendar - Data model for ETable
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
- * Authors: Rodrigo Moya <rodrigo@ximian.com>
+/*
+ * Evolution calendar - Data model for ETable
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of version 2 of the GNU General Public
- * License as published by the Free Software Foundation.
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ *
+ *
+ * Authors:
+ *		Rodrigo Moya <rodrigo@ximian.com>
+ *
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ *
  */
 
 #ifdef HAVE_CONFIG_H
@@ -105,6 +109,7 @@ static void remove_client (ECalModel *model, ECalModelClient *client_data);
 enum {
 	TIME_RANGE_CHANGED,
 	ROW_APPENDED,
+	COMPS_DELETED,
 	CAL_VIEW_PROGRESS,
 	CAL_VIEW_DONE,
 	LAST_SIGNAL
@@ -155,6 +160,16 @@ e_cal_model_class_init (ECalModelClass *klass)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
+
+	signals[COMPS_DELETED] =
+		g_signal_new ("comps_deleted",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ECalModelClass, comps_deleted),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__POINTER,
+			      G_TYPE_NONE, 1, G_TYPE_POINTER);
+
 	signals[CAL_VIEW_PROGRESS] =
 		g_signal_new ("cal_view_progress",
 			      G_TYPE_FROM_CLASS (klass),
@@ -1427,13 +1442,21 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 		while ((comp_data = search_by_id_and_client (priv, client,
 							      id))) {
 			int pos;
+			GSList *list = NULL;
 
 			pos = get_position_in_array (priv->objects, comp_data);
+ 			
+			if (!g_ptr_array_remove (priv->objects, comp_data))
+				continue;
+
+			list = g_slist_append (list, comp_data);
+			g_signal_emit (G_OBJECT (model), signals[COMPS_DELETED], 0, list);
+
+			g_slist_free (list);
+			g_object_unref (comp_data);
+
 			e_table_model_pre_change (E_TABLE_MODEL (model));
 			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
-
- 			if (g_ptr_array_remove (priv->objects, comp_data))
-	 			e_cal_model_free_component_data (comp_data);
  		}
 
 		e_cal_component_free_id (id);
@@ -1469,9 +1492,45 @@ static void
 e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer user_data)
 {
 	ECalModel *model = (ECalModel *) user_data;
+	ECalModelPrivate *priv;
+	GList *l, *list = NULL;
 
-	/* now re-add all objects */
-	e_cal_view_objects_added_cb (query, objects, model);
+	priv = model->priv;
+
+	/*  re-add only the recurrence objects */
+	for (l = objects; l != NULL; l = g_list_next (l)) {
+		if (e_cal_util_component_has_recurrences (l->data) && (priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES)) 
+			list = g_list_prepend (list, l->data);
+		else {
+			int pos;
+			ECalModelComponent *comp_data;
+			ECalComponentId *id;
+			ECalComponent *comp = e_cal_component_new ();
+			ECal *client = e_cal_view_get_client (query);
+		
+			if (!e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (l->data))) {
+				g_object_unref (comp);
+				continue;
+			}
+
+			e_table_model_pre_change (E_TABLE_MODEL (model));
+
+			id = e_cal_component_get_id (comp);
+				
+			comp_data = search_by_id_and_client (priv, client, id);
+			icalcomponent_free (comp_data->icalcomp);
+			
+			comp_data->icalcomp = icalcomponent_new_clone (l->data);
+			e_cal_model_set_instance_times (comp_data, priv->zone);
+			
+			pos = get_position_in_array (priv->objects, comp_data);
+			
+			e_table_model_row_changed (E_TABLE_MODEL (model), pos);
+		}
+	}
+
+	e_cal_view_objects_added_cb (query, list, model);
+	g_list_free (list);
 }
 
 static void
@@ -1490,13 +1549,21 @@ e_cal_view_objects_removed_cb (ECalView *query, GList *ids, gpointer user_data)
 
 		/* make sure we remove all objects with this UID */
 		while ((comp_data = search_by_id_and_client (priv, e_cal_view_get_client (query), id))) {
+			GSList *l = NULL;
+
 			pos = get_position_in_array (priv->objects, comp_data);
 
+			if (!g_ptr_array_remove (priv->objects, comp_data))
+				continue;
+
+			l = g_slist_append (l, comp_data);
+			g_signal_emit (G_OBJECT (model), signals[COMPS_DELETED], 0, l);
+
+			g_slist_free (l);
+			g_object_unref (comp_data);
+		
 			e_table_model_pre_change (E_TABLE_MODEL (model));
 			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
-
-			if (g_ptr_array_remove (priv->objects, comp_data))
-				e_cal_model_free_component_data (comp_data);
 		}
 	}
 
@@ -1688,11 +1755,18 @@ remove_client_objects (ECalModel *model, ECalModelClient *client_data)
 		g_return_if_fail (comp_data != NULL);
 
 		if (comp_data->client == client_data->client) {
-			e_table_model_pre_change (E_TABLE_MODEL (model));
-			e_table_model_row_deleted (E_TABLE_MODEL (model), i - 1);
+			GSList *l = NULL;
 
 			g_ptr_array_remove (model->priv->objects, comp_data);
-			e_cal_model_free_component_data (comp_data);
+		
+			l = g_slist_append (l, comp_data);
+			g_signal_emit (G_OBJECT (model), signals[COMPS_DELETED], 0, l);
+
+			g_slist_free (l);
+			g_object_unref (comp_data);
+
+			e_table_model_pre_change (E_TABLE_MODEL (model));
+			e_table_model_row_deleted (E_TABLE_MODEL (model), i - 1);
 		}
 	}
 
@@ -1764,11 +1838,34 @@ e_cal_model_remove_all_clients (ECalModel *model)
 	}
 }
 
+static GSList *
+get_objects_as_list (ECalModel *model)
+{
+	gint i;
+	GSList *l = NULL;
+	ECalModelPrivate *priv = model->priv;
+
+	for (i = 0; i < priv->objects->len; i++) {
+		ECalModelComponent *comp_data;
+
+		comp_data = g_ptr_array_index (priv->objects, i);
+		if (comp_data == NULL) {
+			g_warning ("comp_data is null\n");
+			continue;
+		}
+
+		l = g_slist_prepend (l, comp_data);
+	}
+
+	return l;
+}
+
 static void
 redo_queries (ECalModel *model)
 {
 	ECalModelPrivate *priv;
 	GList *l;
+	GSList *slist;
 	int len;
 
 	priv = model->priv;
@@ -1798,8 +1895,15 @@ redo_queries (ECalModel *model)
 	/* clean up the current contents */
 	e_table_model_pre_change (E_TABLE_MODEL (model));
 	len = priv->objects->len;
+
+	slist = get_objects_as_list (model);
+	g_ptr_array_set_size (priv->objects, 0);
+	g_signal_emit (G_OBJECT (model), signals[COMPS_DELETED], 0, slist);
+	
 	e_table_model_rows_deleted (E_TABLE_MODEL (model), 0, len);
-	clear_objects_array (priv);
+	
+	g_slist_foreach (slist, (GFunc)g_object_unref, NULL);
+	g_slist_free (slist);
 
 	/* update the query for all clients */
 	for (l = priv->clients; l != NULL; l = l->next) {

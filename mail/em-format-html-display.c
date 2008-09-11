@@ -61,6 +61,7 @@
 #include <camel/camel-cipher-context.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-string-utils.h>
+#include <camel/camel-operation.h>
 
 #include <misc/e-cursors.h>
 #include <e-util/e-util.h>
@@ -1249,7 +1250,12 @@ efhd_image(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormat
 	info->handle = handle;
 	info->shown = TRUE;
 	info->snoop_mime_type = ((EMFormat *) efh)->snoop_mime_type;
-	info->fit_width = ((GtkWidget *)((EMFormatHTML *)info->puri.format)->html)->allocation.width - 12;
+	if (camel_operation_cancel_check (NULL) || !info->puri.format || !((EMFormatHTML *)info->puri.format)->html) {
+		/* some fake value, we are cancelled anyway, thus doesn't matter */
+		info->fit_width = 256;
+	} else {
+		info->fit_width = ((GtkWidget *)((EMFormatHTML *)info->puri.format)->html)->allocation.width - 12;
+	}
 
 	camel_stream_printf(stream, "<td><object classid=\"%s\"></object></td>", classid);
 	g_free(classid);
@@ -2446,7 +2452,12 @@ efhd_format_optional(EMFormat *emf, CamelStream *fstream, CamelMimePart *part, C
 {
 	char *classid, *html;
 	struct _attach_puri *info;
-	CamelStream *stream = ((CamelStreamFilter *) fstream)->source;
+	CamelStream *stream;
+
+	if (CAMEL_IS_STREAM_FILTER (fstream) && ((CamelStreamFilter *) fstream)->source)
+		stream = ((CamelStreamFilter *) fstream)->source;
+	else
+		stream = fstream;
 
 	classid = g_strdup_printf("optional%s", emf->part_id->str);
 	info = (struct _attach_puri *)em_format_add_puri(emf, sizeof(*info), classid, part, efhd_attachment_frame);

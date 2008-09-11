@@ -1,3 +1,37 @@
+2008-09-10  Michael Meeks  <michael.meeks@novell.com>
+
+	* server.mk: use top_builddir for config.h #551560
+
+2008-09-08  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS: Evolution 2.23.92 release.
+
+2008-09-01  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS: Evolution 2.23.91 release and version bump
+
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* tools/killev.c:
+
+2008-09-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Fix compiler warnings in some of the test programs.
+
+2008-08-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #546926
+
+	* configure.in:
+	Bump eds_minimum_version to 2.23.91 for camel_shutdown().
+
+2008-08-18  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS: Evolution 2.23.90 release and Version bump.
+
 2008-08-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #547411

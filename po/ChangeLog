@@ -1,3 +1,202 @@
+2008-09-11  Luca Ferretti  <elle.uca@libero.it>
+
+	* it.po: Updated Italian translation.
+
+2008-09-11  Rajesh Ranjan <rajeshkajha@yahoo.com>
+
+        * hi.po: Updated Hindi Translation.
+
+2008-09-11  Robert Sedak  <robert.sedak@sk.t-com.hr>
+
+	* hr.po: Updated Croatian translation.
+
+2008-09-11  Gil Forcada  <gforcada@gnme.org>
+
+	* ca.po: Updated Catalan translation by David Planella.
+
+2008-09-10  Alexander Shopov  <ash@contact.bg>
+
+	* bg.po: Updated Bulgarian translation by
+	Yavor Doganov <yavor@gnu.org>
+
+2008-09-10  Theppitak Karoonboonyanan  <thep@linux.thai.net>
+
+	* th.po: Updated Thai translation.
+
+2008-09-09  Krishnababu K  <kkrothap@redhat.com>
+
+	* te.po: Updated Telugu Translation.
+
+2008-09-09  Pema Geyleg  <pema.geyleg@gmail.com>
+
+	* dz.po: Updated Dzongkha Translation
+
+2008-09-09  Inaki Larranaga Murgoitio  <dooteo@euskalgnu.org>
+
+	* eu.po: Updated Basque translation.
+
+2008-09-08  Robert Sedak  <robert.sedak@sk.t-com.hr>
+
+	* hr.po: Updated Croatian translation.
+
+2008-09-08  I. Felix <ifelix@redhat.com>
+
+	* ta.po:  Tamil Translation updated by Tirumurthi Vasudevan
+
+2008-09-07  Robert Sedak  <robert.sedak@sk.t-com.hr>
+
+	* hr.po: Updated Croatian translation.
+
+2008-09-07  Vincent van Adrighem  <adrighem@gnome.org>
+
+	* nl.po: Translation updated by Tino Meinen.
+
+2008-09-07  Duarte Loreto <happyguy_pt@hotmail.com>
+
+	* pt.po: Updated Portuguese translation.
+
+2008-09-07  Funda Wang  <fundawang@gmail.com>
+
+	* zh_CN.po: Updated zh_CN translation.
+
+2008-09-07  Philip Withnall  <philip@tecnocode.co.uk>
+
+	* en_GB.po: Updated British English translation.
+
+2008-09-06  Andre Klapper  <a9016009@gmx.de>
+
+	* de.po: Updated German translation.
+
+2008-09-06  Claude Paroz  <claude@2xlibre.net>
+
+	* fr.po: Updated French translation.
+
+2008-09-05  Alexander Shopov  <ash@contact.bg>
+
+	* bg.po: Updated Bulgarian translation by
+	Alexander Shopov <ash@contact.bg>
+
+2008-09-05  Theppitak Karoonboonyanan  <thep@linux.thai.net>
+
+	* th.po: Updated Thai translation.
+
+2008-09-05  Changwoo Ryu  <cwryu@debian.org>
+
+	* ko.po: Updated Korean translation.
+
+2008-09-03  Philip Withnall  <philip@tecnocode.co.uk>
+
+	* en_GB.po: Updated British English translation.
+
+2008-08-31  Priit Laes  <plaes at svn dot gnome dot org>
+
+	* et.po: Translation updated by Ivar Smolin
+
+2008-08-31  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es.po: Updated Spanish translation
+
+2008-08-31  Ignacio Casal Quinteiro  <nacho.resa@gmail.com>
+
+	 gl.po: Updated Galician translation
+
+2008-08-31  Yair Hershkovitz  <yairhr@gmail.com>
+
+	* he.po: Updated Hebrew translaion by Mark Krapivner.
+
+2008-08-30  Claude Paroz  <claude@2xlibre.net>
+
+	* fr.po: Updated French translation by Yannick Tailliez and Bruno Brouard.
+
+2008-08-30  Andre Klapper  <a9016009@gmx.de>
+
+	* de.po: Updated German translation.
+
+2008-08-30  Ignacio Casal Quinteiro  <nacho.resa@gmail.com>
+
+	 gl.po: Updated Galician translation
+
+2008-08-30  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es.po: Updated Spanish translation
+
+2008-08-30  Inaki Larranaga Murgoitio  <dooteo@euskalgnu.org>
+
+	* eu.po: Updated Basque translation.
+
+2008-08-29  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es.po: Updated Spanish translation
+
+2008-08-29  Priit Laes  <plaes at svn dot gnome dot org>
+
+	* et.po: Translation updated by Ivar Smolin
+
+2008-08-28  Hendrik Richter  <hendrikr@gnome.org>
+
+	* de.po: Updated German translation, fix #545473.
+
+2008-08-27  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* nb.po: Updated Norwegian bokmål translation.
+
+2008-08-27  Ilkka Tuohela <hile@iki.fi>
+
+	* fi.po: Updated Finnish translation.
+
+2008-08-25  Daniel Nylander <po@danielnylander.se>
+
+	* sv.po: Updated Swedish translation.
+
+2008-08-25  Goran Rakic  <grakic@devbase.net>
+
+        * LINGUAS, sr@latin.po, sr@Latn.po: Conversion from sr@Latn to sr@latin.
+
+2008-08-25  Goran Rakić  <grakic@devbase.net>
+
+	* sr.po, sr@Latn.po: Updated Serbian translation
+
+2008-08-22  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es.po: Updated Spanish translation
+
+2008-08-22  Shankar Prasad  <svenkate@redhat.com>
+
+        * kn.po: Updated Kannada translation
+
+2008-08-22  Chao-Hsiung Liao  <j_h_liau@yahoo.com.tw>
+
+        * zh_HK.po: Updated Traditional Chinese translation(Hong Kong).
+        * zh_TW.po: Updated Traditional Chinese translation(Taiwan).
+
+2008-08-22  Inaki Larranaga Murgoitio  <dooteo@euskalgnu.org>
+
+	* eu.po: Updated Basque translation.
+
+2008-08-22  Åsmund Skjæveland  <aasmunds@ulrik.uio.no>
+
+	* nn.po: Updated Norwegian Nynorsk translation.
+
+2008-08-21  Jovan Naumovski  <jovan@lugola.net>
+ 
+ 	* mk.po: Updated Macedonian translation.
+
+2008-08-21  Åsmund Skjæveland  <aasmunds@ulrik.uio.no>
+
+	* nn.po: Updated Norwegian Nynorsk translation.
+
+2008-08-21  Shankar Prasad  <svenkate@redhat.com>
+
+        * kn.po: Updated Kannada translation
+
+2008-08-18  Theppitak Karoonboonyanan  <thep@linux.thai.net>
+
+	* th.po: Updated Thai translation.
+
+2008-08-18  Yair Hershkovitz  <yairhr@gmail.com>
+
+	* he.po: Updated Hebrew translaion.
+
 2008-08-18  Shankar Prasad  <svenkate@redhat.com>
 
         * kn.po: Updated Kannada translation

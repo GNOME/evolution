@@ -651,13 +651,13 @@ header_foreach_check_isempty (GtkTreeModel *model, GtkTreePath *path, GtkTreeIte
 	valid = gtk_tree_model_get_iter_first (model, iter);
 	while (valid && gtk_list_store_iter_is_valid (cd->store, iter)) {
 		char *keyword = NULL;
+		char *value = NULL;
 		gtk_tree_model_get (model, iter, HEADER_KEY_COLUMN, &keyword, -1);
 		/* Check if the keyword is not empty and then emit the row-changed
 		signal (if we delete the row, then the iter gets corrupted) */
 		if ((keyword) && !(g_utf8_strlen (g_strstrip (keyword), -1) > 0))
 			gtk_tree_model_row_changed (model, path, iter);
 		
-		char *value = NULL;
                 gtk_tree_model_get (model, iter, HEADER_VALUE_COLUMN, &value, -1);
                 /* Check if the keyword is not empty and then emit the row-changed
                 signal (if we delete the row, then the iter gets corrupted) */
@@ -919,9 +919,10 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	header_list = gconf_client_get_list (client,GCONF_KEY_CUSTOM_HEADER,GCONF_VALUE_STRING, NULL);	
 
 	for (list = header_list; list; list = g_slist_next (list)) {
-		gtk_list_store_append (cd->store, &iter);
 		gchar **parse_header_list;
+
                 buffer = list->data;
+		gtk_list_store_append (cd->store, &iter);
                 parse_header_list = g_strsplit_set (buffer, "=,", -1);
                 str_colon = g_strconcat (parse_header_list[0], "", NULL);
                 gtk_list_store_set (cd->store, &iter, HEADER_KEY_COLUMN, str_colon, -1);

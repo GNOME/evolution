@@ -1,16 +1,208 @@
-2008-08-30  Matthew Barnes  <mbarnes@redhat.com>
+2008-09-09  Milan Crha  <mcrha@redhat.com>
 
-	** Fixes bug #549969
+	** Fix for bug #493298
 
-	* em-migrate.c (migrate_to_db):
-	Use a less geeky sounding migration message.
+	* em-format-html-display.c: (efhd_image): Do not try to access widget
+	of the pury when the operation has been cancelled.
 
-2008-08-30  Matthew Barnes  <mbarnes@redhat.com>
+2008-09-08  Milan Crha  <mcrha@redhat.com>
 
-	** Fixes bug #549970
+	** Fix for bug #328216
+
+	* mail-send-recv.h: (mail_autoreceive_init):
+	* mail-send-recv.c: (mail_autoreceive_init):
+	* mail-component.c: (mail_component_init): Pass 'session' as parameter
+	to the 'mail_autoreceive_init' to not create two MailComponents.
+	* mail-component.c: (impl_finalize): Do not free pointer twice.
+	* mail-component.c: (impl_finalize), (impl_quit): Call shutdown in time
+	of quit to shutdown camel, which will store changes in 'camel-cert.db'.
+
+2008-09-05  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* mail-folder-cache.c (real_flush_updates): Fix infinite loop on
+	deleting vfolders.
+
+2008-09-04  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* em-composer-prefs.c:
+	* em-event.c:
+	* em-folder-properties.c:
+	* em-folder-selection-button.c:
+	* em-vfolder-rule.c:
+	* em-vfolder-rule.h:
+	* mail-config.h:
+	* mail-session.c:
+
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-searching-tokenizer.c:
+	* em-account-editor.h:
+	* em-composer-prefs.h:
+	* em-config.c:
+	* em-config.h:
+	* em-filter-context.c:
+	* em-filter-editor.c:
+	* em-filter-rule.c:
+	* em-filter-source-element.c:
+	* em-filter-source-element.h:
+	* em-folder-tree-model.h:
+	* em-folder-utils.c:
+	* em-folder-utils.h:
+	* em-folder-view.h:
+	* em-format-hook.c:
+	* em-format-html-print.h:
+	* em-format-quote.h:
+	* em-icon-stream.h:
+	* em-inline-filter.c:
+	* em-junk-hook.c:
+	* em-menu.c:
+	* em-migrate.h:
+	* em-stripsig-filter.h:
+	* em-sync-stream.c:
+	* em-utils.h:
+	* em-vfolder-editor.h:
+	* importers/elm-importer.c:
+	* mail-autofilter.c:
+	* mail-autofilter.h:
+	* mail-component-factory.c:
+	* mail-component.h:
+	* mail-config-factory.h:
+	* mail-crypto.c:
+	* mail-crypto.h:
+	* mail-folder-cache.h:
+	* mail-mt.h:
+	* mail-ops.h:
+	* mail-send-recv.h:
+	* mail-session.h:
+	* mail-signature-editor.c:
+	* mail-tools.c:
+	* mail-tools.h:
+	* mail-vfolder.c:
+	* mail-vfolder.h:
+	* message-list.h:
+
+2008-09-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-composer-utils.c (edit_message):
+	Don't mix declarations and code.
+
+2008-09-01  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #543135
+
+	* em-format-html-display.c: (efhd_format_optional):
+	Write error message to the right stream.
+	* message-list.c: (mail_regen_list), (regen_list_done): Do not try
+	to set information message to the message list when it's not visible.
+
+2008-09-01  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #534039
+
+	* mail-folder-cache.c: (real_flush_updates): Make sure search folder's
+	unread count will be tracked properly in a tree even before the folder
+	is opened in the UI. (The previous patch for this bug made this issue.)
+
+2008-09-01  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fix for bug #549661
+
+	* em-folder-tree.c: (emft_drop_async__exec): Use
+	em_utils_selection_get_urilist() for DND_DROP_TYPE_TEXT_URI_LIST (and
+	not em_utils_selection_get_mailbox()).
+
+2008-08-31  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fix bug #544430
+
+	* em-folder-properties.c (emfp_get_folder_item):
+	Better formed translatable strings for quota usage.
+
+2008-08-30  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* mail/mail-component.c: Disable flag upsync. I need to implement it
+	more intelligently.
+
+2008-08-28  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #509647
+
+	* em-folder-utils.c: (emft_copy_folders__exec):
+	* mail-ops.c: (fetch_mail_exec), (send_queue_exec):
+	Do not expunge folder when something goes wrong.
+
+2008-08-27  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fix for bug #534762
 
 	* evolution-mail.schemas.in:
-	Reword the descriptions for "lookup_addressbook" key.
+	* mail-config.glade: Change "addressbook" to "address book" in
+	translatable strings.
+
+2008-08-27  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-searching-tokenizer.h:
+	* em-account-prefs.h:
+	* em-composer-utils.h:
+	* em-event.h:
+	* em-filter-context.h:
+	* em-filter-editor.h:
+	* em-filter-folder-element.c:
+	* em-filter-folder-element.h:
+	* em-filter-rule.h:
+	* em-folder-browser.h:
+	* em-folder-properties.h:
+	* em-folder-selection-button.h:
+	* em-folder-selection.c:
+	* em-folder-selection.h:
+	* em-folder-selector.c:
+	* em-folder-selector.h:
+	* em-folder-tree.h:
+	* em-format-hook.h:
+	* em-format-html-display.h:
+	* em-format-html-print.c:
+	* em-format-html.h:
+	* em-format-quote.c:
+	* em-format.h:
+	* em-html-stream.c:
+	* em-html-stream.h:
+	* em-inline-filter.h:
+	* em-junk-hook.h:
+	* em-menu.h:
+	* em-message-browser.h:
+	* em-popup.h:
+	* em-search-context.c:
+	* em-search-context.h:
+	* em-stripsig-filter.c:
+	* em-subscribe-editor.h:
+	* em-sync-stream.h:
+	* em-vfolder-context.c:
+	* em-vfolder-context.h:
+	* em-vfolder-editor.c:
+	* importers/mail-importer.h:
+	* mail-config-factory.c:
+	* mail-signature-editor.h:
+	* mail-types.h:
+	* message-tag-editor.c:
+	* message-tag-editor.h:
+	* message-tag-followup.c:
+	* message-tag-followup.h:
+
+2008-08-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #546926
+
+	* mail-session.c (mail_session_shutdown):
+	New function simply calls camel_shutdown().
+
+	* mail-component.c (impl_finalize):
+	Call mail_session_shutdown().
 
 2008-08-18  Matthew Barnes  <mbarnes@redhat.com>
 
@@ -34,10 +226,10 @@
 
 2008-08-14  Sebastien Bacher  <seb128@ubuntu.com>
 
-        ** Fix for bug #547805
+	** Fix for bug #547805
 
 	* em-popup.c: (emp_standard_menu_factory): 
-          don't filter applications using g_app_info_should_show()
+	don't filter applications using g_app_info_should_show()
 
 2008-08-13  Moritz Mertinkat  <moritz@mertinkat.net>
 

@@ -1,3 +1,24 @@
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* addressbook-groupwise.c:
+	* junk-mail-settings.c:
+	* mail-retract.c:
+
+2008-08-27  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* junk-settings.h:
+	* mail-send-options.c:
+	* mail-send-options.h:
+	* process-meeting.c:
+	* proxy-login.h:
+	* proxy.h:
+	* share-folder-common.c:
+	* share-folder.h:
+
 2008-08-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #544861

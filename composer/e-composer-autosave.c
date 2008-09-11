@@ -324,7 +324,9 @@ e_composer_autosave_snapshot (EMsgComposer *composer)
 	}
 
 	/* Snapshot was successful; set various flags. */
-	gtkhtml_editor_set_changed (editor, FALSE);
+	/* do not touch "changed" flag, this is only autosave,
+	   which doesn't mean it's saved permanently */
+
 	e_composer_autosave_set_saved (composer, TRUE);
 
 	camel_object_unref (message);

@@ -1,3 +1,41 @@
+2008-09-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #551548
+
+	* e-msg-composer.c:
+	* e-composer-action.c:
+	Remove pointless SMIME_SUPPORTED check, which was hard-coded to 1.
+
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-msg-composer.h:
+
+2008-09-01  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #545661
+
+	* e-composer-autosave.c: (e_composer_autosave_snapshot):
+	Do not mark composer as not changed, that's not truth possibly.
+	* e-msg-composer.h: (e_msg_composer_is_exiting):
+	* e-msg-composer.c: (e_msg_composer_is_exiting):
+	* e-composer-actions.c: (action_close_cb): Skip question
+	for "not-saved" only when not changed or application is exiting.
+
+2008-08-27  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-composer-common.h:
+	* e-composer-from-header.c:
+	* e-composer-from-header.h:
+	* e-composer-header.c:
+	* e-composer-name-header.c:
+	* e-composer-post-header.c:
+	* e-composer-post-header.h:
+	* e-composer-text-header.h:
+
 2008-08-18  Baptiste Mille-Mathias  <bmm80@free.fr>
 
 	** Fixes bug #546867

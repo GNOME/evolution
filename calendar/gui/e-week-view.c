@@ -401,25 +401,21 @@ model_rows_inserted_cb (ETableModel *etm, int row, int count, gpointer user_data
 }
 
 static void
-model_rows_deleted_cb (ETableModel *etm, int row, int count, gpointer user_data)
+model_comps_deleted_cb (ETableModel *etm, gpointer data, gpointer user_data)
 {
 	EWeekView *week_view = E_WEEK_VIEW (user_data);
-	int i;
+	GSList *l, *list = data;
 
 	/* FIXME Stop editing? */
 	if (!E_CALENDAR_VIEW (week_view)->in_focus) {
 		return;
 	}
 
-	for (i = row + count; i > row; i--) {
+	for (l = list; l != NULL; l = g_slist_next (l)) {
 		gint event_num;
 		const char *uid;
 		char *rid = NULL;
-		ECalModelComponent *comp_data;
-
-		comp_data = e_cal_model_get_component_at (E_CAL_MODEL (etm), i - 1);
-		if (!comp_data)
-			continue;
+		ECalModelComponent *comp_data = l->data;
 
 		uid = icalcomponent_get_uid (comp_data->icalcomp);
 		if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
@@ -626,8 +622,8 @@ init_model (EWeekView *week_view, ECalModel *model)
 			  G_CALLBACK (model_cell_changed_cb), week_view);
 	g_signal_connect (G_OBJECT (model), "model_rows_inserted",
 			  G_CALLBACK (model_rows_inserted_cb), week_view);
-	g_signal_connect (G_OBJECT (model), "model_rows_deleted",
-			  G_CALLBACK (model_rows_deleted_cb), week_view);
+	g_signal_connect (G_OBJECT (model), "comps_deleted",
+			  G_CALLBACK (model_comps_deleted_cb), week_view);
 
 }
 

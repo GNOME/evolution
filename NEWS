@@ -1,3 +1,103 @@
+Evolution 2.23.92 2008-09-08
+----------------------------
+
+New in 2.23.92:
+	Evolution source code license changed to LGPLv2 or later (Sankar P)
+
+Bug Fixes:
+	#549968: Use the same mnemonic for "Recent Documents" as composer (Matthew Barnes)
+
+Updated Translations:
+	Philip Withnall (en_GB)
+	Andre Klapper (de)
+	Claude Paroz (fr)
+	Alexander Shopov (bg)
+	Theppitak Karoonboonyanan (th)
+	Changwoo Ryu (ko)
+
+Evolution 2.23.91 2008-09-01
+----------------------------
+
+Bug Fixes:
+	#458512: Delete the accessibility tag from the User button (Matthew Barnes)
+	#509647: Do not expunge folder when something goes wrong (Milan Crha)
+	#523327: Show description in monospace font and wrap lines too. (Milan Crha)
+	#525555: Evolution forgets Google Calendar credentials (Milan Crha)
+	#534762: Change "addressbook" to "address book" in translatable strings (Philip Withnall)
+	#544430: Better formed translatable strings for quota usage (Matthew Barnes)
+	#546926: New function to simply call camel_shutdown() (Matthew Barnes)
+	#547822: Make it show "Tasks" for printing tasks list and "Calendar" for printing a calendar (Rouslan Solomakhin)
+	#547822: Use g_malloc() and g_free() instead of malloc() and free() (Matthew Barnes)
+	#548348: Add a libecontactprint_la_LIBADD stanza so we link to the correct libemiscwidgets and libeutil (Matthew Barnes)
+	#549554: Drop sentence about an "Automatic" option (Paul Bolle)
+
+Updated Translations:
+	Andre Klapper (de)
+	Yannick Tailliez and Bruno Brouard (fr)
+	Mark Krapivner(he)
+	Ignacio Casal Quinteiro (gl)
+	Jorge Gonzalez (es)
+	Inaki Larranaga Murgoitio (eu)
+	Ivar Smolin (et)
+	Hendrik Richter (de)
+	Kjartan Maraas (nb)
+	Ilkka Tuohela (fi)
+	Daniel Nylander (sv)
+	Goran Rakić(sr, sr@Latin)
+	Shankar Prasad (kn)
+	Chao-Hsiung Liao (zh_HK, zh_TW)
+	Åsmund Skjæveland (nn)
+	Jovan Naumovski (mk)
+
+Evolution 2.23.90 2008-08-18
+----------------------------
+
+Bug Fixes:
+	#249844: Fix compiler warnings (Milan Crha)
+	#324203: New check box to be able to set LDAP address books browseable until reaches given limits (Milan Crha)
+	#347287: Use a single model for all the views (Chenthill Palanisamy)
+	#352695: Search and clear action, looses the expanded state of threads (Milan Crha)
+	#416258: Make evolution respect GTK_ICON_SIZE changes (Gilles Dartiguelongue)
+	#435969: Show authentication section in an account druid too (Milan Crha)
+	#467115: Fix missing icons in different modules (Matthew Barnes)
+	#498095: Set proper mnemonic widget for description label (Dmitrijs Ledkovs)
+	#508732 Removed 'Crash detection' startup dialog box. (Mathew Barnes)
+	#513363: Removed the outdated "New Features" list and the incorrect "Evolution team" email address. (Mathew Barnes)
+	#519292: Better thread expand and collapse handling (Milan Crha)
+	#529743: Support Subject or Recipients contain search (Srinivasa Ragavan)
+	#530402: Improve dialog wording, and don't use a window title (HIG) (Matthew Barnes)(
+	#531288: Use proxy icon from tango-icon-theme and fall back to the icon shipped by gnome-control-center (Josef Vybíral)
+	#535745: Require and link calendar libs with libgdata and libgdata-google (Milan Crha)
+	#544117: Initialize variables to NULL, to not free uninitialized memory in the cleanup part on the error (Milan Crha)
+	#546263: Editing contact list messes minicard view fixed (Milan Crha)
+	#546668: Drop one unused define (Paul Bolle)
+	#546744: Use address-book-new icon instead of contacts-new (Michael Monreal)
+	#546748: Change "_Properties..." to "_Properties" to match HIG and other components. (Michael Monreal)
+	#546785: Make bbdb plugin just as polite as google-account-setup (Paul Bolle)
+	#546788: Drop unused "ViewNormal" cmd entry (Paul Bolle)
+	#546788: Remove unused formatting style option (Paul Bolle)
+	#546892: Prefer themed icon names (Matthew Barnes)
+	#547308: Do not try to authenticate to the server more than twice with correct credentials (Milan Crha)
+	#547369: Fix a typo. (Matthew Barnes)
+	#547372: Fix TeX-style quotes (Matthew Barnes)
+	#547411: New, Tangoized versions of images now live in data/icons (Matthew Barnes)
+	#547805: Do not filter list of applications to open attachments (Sebastien Bacher)
+
+Other fixes:
+	Lots of disk summary related stability fixes (Srinivasa Ragavan)
+
+Updated Translations:
+	Ignacio Casal Quinteiro (gl)
+	Kjartan Maraas (nb)
+	Shankar Prasad (kn)
+	Ilkka Tuohela (fi)
+	Jorge Gonzalez (es)
+	Duarte Loreto (pt)
+	Chao-Hsiung Liao (zh_HK)
+	Chao-Hsiung Liao (zh_TW)
+	Ivar Smolin (et)
+	Abou Manal (ar)
+
 Evolution 2.23.6 2008-08-04
 ---------------------------
 

@@ -91,7 +91,7 @@ ea_ab_view_get_name (AtkObject *accessible)
 	if (accessible->name)
 		return accessible->name;
 
-	return _("evolution addressbook");
+	return _("evolution address book");
 }
 
 static G_CONST_RETURN gchar*
@@ -100,7 +100,7 @@ ea_ab_view_get_description (AtkObject *accessible)
 	if (accessible->description)
 		return accessible->description;
 
-	return _("evolution addressbook");
+	return _("evolution address book");
 }
 
 AtkObject*

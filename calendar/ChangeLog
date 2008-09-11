@@ -1,17 +1,227 @@
-2008-08-30  Matthew Barnes  <mbarnes@redhat.com>
+2008-09-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #551382
+
+	* gui/e-week-view.c: (model_comps_deleted_cb):
+	* gui/e-cal-model.c: (redo_queries):
+	Get rid of unused variables.
+	* gui/e-cal-model.c: (e_cal_view_objects_modified_cb):
+	Use result of g_list_prepend, thus report changes properly.
+
+2008-09-08  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #544187
+	* calendar/gui/e-cal-model.c:
+	* calendar/gui/e-cal-model.h:
+	* calendar/gui/e-day-view.c:
+	* calendar/gui/e-week-view.c: Added a new signal
+	handler to update the views on comp deletion.
+
+2008-09-06  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #549968
 
 	* gui/dialogs/comp-editor.c (comp_editor_init):
 	Use the same mnemonic for "Recent Documents" as composer.
 
-2008-08-30  Matthew Barnes  <mbarnes@redhat.com>
+2008-09-04  Sankar P  <psankar@novell.com>
 
-	** Fixes bug #549967
+License Changes
 
-	* gui/caltypes.xml:
-	* gui/tasktypes.xml:
-	Capitalize "days" in "Next 7 Days".
+	* gui/alarm-notify/util.c:
+	* gui/dialogs/calendar-setup.c:
+	* gui/e-day-view-time-item.c:
+	* gui/e-meeting-list-view.c:
+	* gui/misc.c:
+
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* conduits/common/libecalendar-common-conduit.c:
+	* gui/alarm-notify/alarm-notify-dialog.c:
+	* gui/alarm-notify/alarm-notify-dialog.h:
+	* gui/alarm-notify/alarm-notify.c:
+	* gui/calendar-component.h:
+	* gui/calendar-view-factory.c:
+	* gui/calendar-view.c:
+	* gui/comp-editor-factory.h:
+	* gui/control-factory.c:
+	* gui/dialogs/alarm-dialog.c:
+	* gui/dialogs/alarm-list-dialog.c:
+	* gui/dialogs/cal-attachment-select-file.c:
+	* gui/dialogs/cancel-comp.c:
+	* gui/dialogs/changed-comp.h:
+	* gui/dialogs/comp-editor-page.h:
+	* gui/dialogs/comp-editor-util.c:
+	* gui/dialogs/comp-editor-util.h:
+	* gui/dialogs/comp-editor.h:
+	* gui/dialogs/e-delegate-dialog.c:
+	* gui/dialogs/e-send-options-utils.h:
+	* gui/dialogs/event-editor.c:
+	* gui/dialogs/event-editor.h:
+	* gui/dialogs/event-page.h:
+	* gui/dialogs/memo-editor.c:
+	* gui/dialogs/recur-comp.h:
+	* gui/dialogs/schedule-page.c:
+	* gui/dialogs/schedule-page.h:
+	* gui/dialogs/send-comp.c:
+	* gui/dialogs/task-details-page.c:
+	* gui/dialogs/task-editor.c:
+	* gui/dialogs/task-editor.h:
+	* gui/e-cal-component-memo-preview.h:
+	* gui/e-cal-config.c:
+	* gui/e-cal-event.c:
+	* gui/e-cal-list-view-config.c:
+	* gui/e-cal-list-view.c:
+	* gui/e-cal-menu.c:
+	* gui/e-cal-model-calendar.c:
+	* gui/e-cal-model-memos.c:
+	* gui/e-cal-model.c:
+	* gui/e-calendar-table-config.c:
+	* gui/e-calendar-table.h:
+	* gui/e-calendar-view.h:
+	* gui/e-cell-date-edit-config.c:
+	* gui/e-cell-date-edit-text.c:
+	* gui/e-cell-date-edit-text.h:
+	* gui/e-comp-editor-registry.c:
+	* gui/e-comp-editor-registry.h:
+	* gui/e-date-edit-config.c:
+	* gui/e-date-time-list.c:
+	* gui/e-day-view-config.c:
+	* gui/e-day-view-main-item.h:
+	* gui/e-meeting-attendee.c:
+	* gui/e-meeting-time-sel-item.c:
+	* gui/e-memo-table-config.c:
+	* gui/e-memo-table-config.h:
+	* gui/e-memos.c:
+	* gui/e-memos.h:
+	* gui/e-mini-calendar-config.c:
+	* gui/e-mini-calendar-config.h:
+	* gui/e-select-names-editable.c:
+	* gui/e-select-names-renderer.c:
+	* gui/e-tasks.c:
+	* gui/e-tasks.h:
+	* gui/e-week-view-config.c:
+	* gui/e-week-view-config.h:
+	* gui/e-week-view-layout.c:
+	* gui/e-week-view-main-item.c:
+	* gui/e-week-view-titles-item.c:
+	* gui/goto.h:
+	* gui/itip-bonobo-control.c:
+	* gui/memos-component.h:
+	* gui/tasks-component.h:
+	* gui/weekday-picker.c:
+	* importers/main.c:
+
+2008-08-28  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Related to bug #547822
+
+	* gui/print.c (print_table_draw_page), (print_table):
+	Use g_malloc() and g_free() instead of malloc() and free().
+	Also fix an "assignment discards qualifiers" compiler warning.
+
+2008-08-27  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* common/authentication.c:
+	* common/authentication.h:
+	* conduits/common/libecalendar-common-conduit.h:
+	* gui/alarm-notify/alarm-notify.h:
+	* gui/alarm-notify/alarm-queue.h:
+	* gui/alarm-notify/config-data.h:
+	* gui/alarm-notify/util.h:
+	* gui/cal-search-bar.h:
+	* gui/calendar-view-factory.h:
+	* gui/calendar-view.h:
+	* gui/control-factory.h:
+	* gui/dialogs/alarm-dialog.h:
+	* gui/dialogs/alarm-list-dialog.h:
+	* gui/dialogs/cal-attachment-select-file.h:
+	* gui/dialogs/calendar-setup.h:
+	* gui/dialogs/cancel-comp.h:
+	* gui/dialogs/comp-editor-page.c:
+	* gui/dialogs/copy-source-dialog.h:
+	* gui/dialogs/delete-comp.h:
+	* gui/dialogs/delete-error.h:
+	* gui/dialogs/e-delegate-dialog.h:
+	* gui/dialogs/memo-editor.h:
+	* gui/dialogs/memo-page.h:
+	* gui/dialogs/recurrence-page.h:
+	* gui/dialogs/save-comp.c:
+	* gui/dialogs/save-comp.h:
+	* gui/dialogs/select-source-dialog.c:
+	* gui/dialogs/select-source-dialog.h:
+	* gui/dialogs/send-comp.h:
+	* gui/dialogs/task-details-page.h:
+	* gui/dialogs/task-page.h:
+	* gui/e-alarm-list.h:
+	* gui/e-cal-component-preview.h:
+	* gui/e-cal-config.h:
+	* gui/e-cal-event.h:
+	* gui/e-cal-list-view-config.h:
+	* gui/e-cal-list-view.h:
+	* gui/e-cal-menu.h:
+	* gui/e-cal-model-calendar.h:
+	* gui/e-cal-model-memos.h:
+	* gui/e-cal-model-tasks.h:
+	* gui/e-cal-model.h:
+	* gui/e-cal-popup.h:
+	* gui/e-calendar-table-config.h:
+	* gui/e-cell-date-edit-config.h:
+	* gui/e-date-edit-config.h:
+	* gui/e-date-time-list.h:
+	* gui/e-day-view-config.h:
+	* gui/e-day-view-layout.c:
+	* gui/e-day-view-layout.h:
+	* gui/e-day-view-time-item.h:
+	* gui/e-day-view-top-item.h:
+	* gui/e-day-view.h:
+	* gui/e-meeting-attendee.h:
+	* gui/e-meeting-list-view.h:
+	* gui/e-meeting-time-sel-item.h:
+	* gui/e-meeting-types.h:
+	* gui/e-meeting-utils.c:
+	* gui/e-meeting-utils.h:
+	* gui/e-memo-table.h:
+	* gui/e-select-names-editable.h:
+	* gui/e-select-names-renderer.h:
+	* gui/e-timezone-entry.h:
+	* gui/e-week-view-event-item.h:
+	* gui/e-week-view-layout.h:
+	* gui/e-week-view-main-item.h:
+	* gui/e-week-view-titles-item.h:
+	* gui/itip-bonobo-control.h:
+	* gui/memos-control.c:
+	* gui/memos-control.h:
+	* gui/migration.h:
+	* gui/misc.h:
+	* gui/print.h:
+	* gui/tag-calendar.c:
+	* gui/tag-calendar.h:
+	* gui/tasks-control.h:
+	* gui/weekday-picker.h:
+	* importers/evolution-calendar-importer.h:
+	* zones.h:
+
+2008-08-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #523327
+
+	* gui/e-cal-component-preview.c: (write_html):
+	* gui/e-cal-component-memo-preview.c: (write_html):
+	Show description in monospace font and wrap lines too.
+
+2008-08-22  Tobias Mueller  <tobiasmue@svn.gnome.org>
+
+	* gui/print.c (print_table_draw_page):
+	Make it show "Tasks" for printing tasks list and "Calendar" for
+	printing a calendar. Patch by
+	Rouslan Solomakhin <rouslan@solomakhin.net>
+	
+	** Fixes bug 547822
 
 2008-08-18  Milan Crha  <mcrha@redhat.com>
 

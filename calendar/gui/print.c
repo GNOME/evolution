@@ -2744,11 +2744,16 @@ print_title (GtkPrintContext *context, const gchar *text, gdouble page_width)
 	pango_font_description_free (desc);
 }
 
+struct print_opts {
+  EPrintable *printable;
+  const gchar *print_header;
+};
+
 static void
 print_table_draw_page (GtkPrintOperation *operation,
                        GtkPrintContext *context,
                        gint page_nr,
-                       EPrintable *printable)
+                       struct print_opts *opts)
 {
 	GtkPageSetup *setup;
 	gdouble width;
@@ -2759,13 +2764,15 @@ print_table_draw_page (GtkPrintOperation *operation,
 
 	do {
 		/* TODO Allow the user to customize the title. */
-		print_title (context, _("Upcoming Appointments"), width);
+		print_title (context, opts->print_header, width);
 
-		if (e_printable_data_left (printable))
+		if (e_printable_data_left (opts->printable))
 			e_printable_print_page (
-				printable, context, width, 24, TRUE);
+				opts->printable, context, width, 24, TRUE);
 
-	} while (e_printable_data_left (printable));
+	} while (e_printable_data_left (opts->printable));
+
+	g_free (opts);
 }
 
 void
@@ -2774,6 +2781,7 @@ print_table (ETable *table, const gchar *dialog_title,
 {
 	GtkPrintOperation *operation;
 	EPrintable *printable;
+	struct print_opts *opts;
 
 	printable = e_table_get_printable (table);
 	g_object_ref_sink (printable);
@@ -2782,9 +2790,13 @@ print_table (ETable *table, const gchar *dialog_title,
 	operation = e_print_operation_new ();
 	gtk_print_operation_set_n_pages (operation, 1);
 
+	opts = g_malloc (sizeof (struct print_opts));
+	opts->printable = printable;
+	opts->print_header = print_header;
+
 	g_signal_connect (
 		operation, "draw_page",
-		G_CALLBACK (print_table_draw_page), printable);
+		G_CALLBACK (print_table_draw_page), opts);
 
 	gtk_print_operation_run (operation, action, NULL, NULL);
 

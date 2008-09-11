@@ -1,3 +1,45 @@
+2008-09-04  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* exchange-calendar.c:
+
+2008-09-02  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* exchange-config-listener.c:
+	* exchange-delegates.c:
+	* exchange-folder-size-display.c:
+	* exchange-folder.c:
+	* exchange-mail-send-options.c:
+	* exchange-permissions-dialog.c:
+	* exchange-permissions-dialog.h:
+	* exchange-send-options.c:
+	* exchange-user-dialog.h:
+
+2008-08-28  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #458512
+
+	* exchange-send-options.glade:
+	Delete the accessibility tag from the User button.
+
+2008-08-27  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* exchange-change-password.c:
+	* exchange-change-password.h:
+	* exchange-config-listener.h:
+	* exchange-delegates-user.h:
+	* exchange-delegates.h:
+	* exchange-folder-permission.c:
+	* exchange-folder-size-display.h:
+	* exchange-folder-subscription.c:
+	* exchange-folder-subscription.h:
+	* exchange-send-options.h:
+
 2008-08-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	* exchange-send-options.c:

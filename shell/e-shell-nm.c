@@ -47,7 +47,7 @@ reinit_dbus (EShell *shell)
 
 static DBusHandlerResult
 e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
-			 DBusMessage *message, void *user_data)
+                         DBusMessage *message, void *user_data)
 {
 	DBusError error;
 	const gchar *object;
@@ -130,4 +130,19 @@ exception:
 	dbus_connection = NULL;
 
 	return FALSE;
+}
+
+gboolean
+e_shell_dbus_initialise (EShellWindow *window)
+{
+	g_type_init ();
+
+	return init_dbus (window);
+}
+
+void
+e_shell_dbus_dispose (EShellWindow *window)
+{
+	//FIXME
+	return;
 }
