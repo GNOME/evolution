@@ -23,12 +23,6 @@
     <menu action='view-menu'>
       <menuitem action='calendar-go-today'/>
       <menuitem action='calendar-jump-to'/>
-      <separator/>
-      <menuitem action='calendar-view-day'/>
-      <menuitem action='calendar-view-workweek'/>
-      <menuitem action='calendar-view-week'/>
-      <menuitem action='calendar-view-month'/>
-      <menuitem action='calendar-view-list'/>
     </menu>
     <placeholder name='custom-menus'>
       <menu action='actions-menu'>
@@ -52,4 +46,12 @@
     <toolitem action='calendar-view-month'/>
     <toolitem action='calendar-view-list'/>
   </toolbar>
+  <popup name='calendar-popup'>
+    <menuitem action='calendar-new'/>
+    <menuitem action='calendar-copy'/>
+    <separator/>
+    <menuitem action='calendar-delete'/>
+    <separator/>
+    <menuitem action='calendar-properties'/>
+  </popup>
 </ui>

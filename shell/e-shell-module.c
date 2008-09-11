@@ -20,6 +20,7 @@
 
 #include "e-shell-module.h"
 
+#include <errno.h>
 #include <gmodule.h>
 #include <glib/gi18n.h>
 #include <e-util/e-util.h>
@@ -41,6 +42,7 @@ struct _EShellModulePrivate {
 	gchar *filename;
 
 	EShell *shell;
+	gchar *config_dir;
 	gchar *data_dir;
 
 	/* Initializes the loaded type module. */
@@ -287,6 +289,15 @@ e_shell_module_compare (EShellModule *shell_module_a,
 }
 
 const gchar *
+e_shell_module_get_config_dir (EShellModule *shell_module)
+{
+	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), NULL);
+	g_return_val_if_fail (shell_module->priv->config_dir != NULL, NULL);
+
+	return shell_module->priv->config_dir;
+}
+
+const gchar *
 e_shell_module_get_data_dir (EShellModule *shell_module)
 {
 	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), NULL);
@@ -355,6 +366,7 @@ e_shell_module_set_info (EShellModule *shell_module,
 {
 	GTypeModule *type_module;
 	EShellModuleInfo *module_info;
+	const gchar *pathname;
 
 	g_return_if_fail (E_IS_SHELL_MODULE (shell_module));
 	g_return_if_fail (info != NULL);
@@ -375,7 +387,21 @@ e_shell_module_set_info (EShellModule *shell_module,
 	module_info->is_busy = info->is_busy;
 	module_info->shutdown = info->shutdown;
 
+	/* Determine the user data directory for this module. */
 	g_free (shell_module->priv->data_dir);
 	shell_module->priv->data_dir = g_build_filename (
 		e_get_user_data_dir (), module_info->name, NULL);
+
+	/* Determine the user configuration directory for this module. */
+	g_free (shell_module->priv->config_dir);
+	shell_module->priv->config_dir = g_build_filename (
+		shell_module->priv->data_dir, "config", NULL);
+
+	/* Create the user configuration directory for this module,
+	 * which should also create the user data directory. */
+	pathname = shell_module->priv->config_dir;
+	if (g_mkdir_with_parents (pathname, 0777) != 0)
+		g_critical (
+			"Cannot create directory %s: %s",
+			pathname, g_strerror (errno));
 }

@@ -21,6 +21,18 @@
 #include "e-cal-shell-view-private.h"
 
 static void
+action_calendar_copy_cb (GtkAction *action,
+                         ECalShellView *cal_shell_view)
+{
+}
+
+static void
+action_calendar_delete_cb (GtkAction *action,
+                           ECalShellView *cal_shell_view)
+{
+}
+
+static void
 action_calendar_go_back_cb (GtkAction *action,
                             ECalShellView *cal_shell_view)
 {
@@ -45,6 +57,12 @@ action_calendar_jump_to_cb (GtkAction *action,
 }
 
 static void
+action_calendar_new_cb (GtkAction *action,
+                        ECalShellView *cal_shell_view)
+{
+}
+
+static void
 action_calendar_print_cb (GtkAction *action,
                           ECalShellView *cal_shell_view)
 {
@@ -53,6 +71,12 @@ action_calendar_print_cb (GtkAction *action,
 static void
 action_calendar_print_preview_cb (GtkAction *action,
                                   ECalShellView *cal_shell_view)
+{
+}
+
+static void
+action_calendar_properties_cb (GtkAction *action,
+                               ECalShellView *cal_shell_view)
 {
 }
 
@@ -113,6 +137,20 @@ action_event_open_cb (GtkAction *action,
 
 static GtkActionEntry calendar_entries[] = {
 
+	{ "calendar-copy",
+	  GTK_STOCK_COPY,
+	  N_("_Copy..."),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_calendar_copy_cb) },
+
+	{ "calendar-delete",
+	  GTK_STOCK_DELETE,
+	  NULL,
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_calendar_delete_cb) },
+
 	{ "calendar-go-back",
 	  GTK_STOCK_GO_BACK,
 	  N_("Previous"),
@@ -141,6 +179,13 @@ static GtkActionEntry calendar_entries[] = {
 	  N_("Select a specific date"),
 	  G_CALLBACK (action_calendar_jump_to_cb) },
 
+	{ "calendar-new",
+	  "x-office-calendar",
+	  N_("_New Calendar"),
+	  NULL,
+	  N_("Create a new calendar"),
+	  G_CALLBACK (action_calendar_new_cb) },
+
 	{ "calendar-print",
 	  GTK_STOCK_PRINT,
 	  NULL,
@@ -154,6 +199,13 @@ static GtkActionEntry calendar_entries[] = {
 	  NULL,
 	  N_("Preview the calendar to be printed"),
 	  G_CALLBACK (action_calendar_print_preview_cb) },
+
+	{ "calendar-properties",
+	  GTK_STOCK_PROPERTIES,
+	  NULL,
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_calendar_properties_cb) },
 
 	{ "calendar-purge",
 	  NULL,

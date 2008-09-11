@@ -30,4 +30,12 @@
     <toolitem action='memo-print'/>
     <toolitem action='memo-delete'/>
   </toolbar>
+  <popup name='memo-list-popup'>
+    <menuitem action='memo-list-new'/>
+    <menuitem action='memo-list-copy'/>
+    <separator/>
+    <menuitem action='memo-list-delete'/>
+    <separator/>
+    <menuitem action='memo-list-properties'/>
+  </popup>
 </ui>

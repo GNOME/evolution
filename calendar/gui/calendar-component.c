@@ -110,8 +110,6 @@ typedef struct
 } CalendarComponentView;
 
 struct _CalendarComponentPrivate {
-	char *base_directory;
-	char *config_directory;
 
 	GConfClient *gconf_client;
 	int gconf_notify_id;
@@ -1580,53 +1578,6 @@ impl_createView (PortableServer_Servant servant,
 }
 
 
-static GNOME_Evolution_CreatableItemTypeList *
-impl__get_userCreatableItems (PortableServer_Servant servant,
-			      CORBA_Environment *ev)
-{
-	GNOME_Evolution_CreatableItemTypeList *list = GNOME_Evolution_CreatableItemTypeList__alloc ();
-
-	list->_length  = 4;
-	list->_maximum = list->_length;
-	list->_buffer  = GNOME_Evolution_CreatableItemTypeList_allocbuf (list->_length);
-
-	CORBA_sequence_set_release (list, FALSE);
-
-	list->_buffer[0].id = CREATE_EVENT_ID;
-	list->_buffer[0].description = _("New appointment");
-	list->_buffer[0].menuDescription = (char *) C_("New", "_Appointment");
-	list->_buffer[0].tooltip = _("Create a new appointment");
-	list->_buffer[0].menuShortcut = 'a';
-	list->_buffer[0].iconName = "appointment-new";
-	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
-
-	list->_buffer[1].id = CREATE_MEETING_ID;
-	list->_buffer[1].description = _("New meeting");
-	list->_buffer[1].menuDescription = (char *) C_("New", "M_eeting");
-	list->_buffer[1].tooltip = _("Create a new meeting request");
-	list->_buffer[1].menuShortcut = 'e';
-	list->_buffer[1].iconName = "stock_new-meeting";
-	list->_buffer[1].type = GNOME_Evolution_CREATABLE_OBJECT;
-
-	list->_buffer[2].id = CREATE_ALLDAY_EVENT_ID;
-	list->_buffer[2].description = _("New all day appointment");
-	list->_buffer[2].menuDescription = (char *) C_("New", "All Day A_ppointment");
-	list->_buffer[2].tooltip = _("Create a new all-day appointment");
-	list->_buffer[2].menuShortcut = '\0';
-	list->_buffer[2].iconName = "stock_new-24h-appointment";
-	list->_buffer[2].type = GNOME_Evolution_CREATABLE_OBJECT;
-
-	list->_buffer[3].id = CREATE_CALENDAR_ID;
-	list->_buffer[3].description = _("New calendar");
-	list->_buffer[3].menuDescription = (char *) C_("New", "Cale_ndar");
-	list->_buffer[3].tooltip = _("Create a new calendar");
-	list->_buffer[3].menuShortcut = '\0';
-	list->_buffer[3].iconName = "x-office-calendar";
-	list->_buffer[3].type = GNOME_Evolution_CREATABLE_FOLDER;
-
-	return list;
-}
-
 static void
 impl_requestCreateItem (PortableServer_Servant servant,
 			const CORBA_char *item_type_name,
@@ -1704,8 +1655,6 @@ impl_finalize (GObject *object)
 	}
 	g_list_free (priv->views);
 
-	g_free (priv->base_directory);
-	g_free (priv->config_directory);
 	g_free (priv);
 
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
@@ -1721,7 +1670,6 @@ calendar_component_class_init (CalendarComponentClass *class)
 
 	epv->upgradeFromVersion      = impl_upgradeFromVersion;
 	epv->createView              = impl_createView;
-	epv->_get_userCreatableItems = impl__get_userCreatableItems;
 	epv->requestCreateItem       = impl_requestCreateItem;
 	epv->handleURI               = impl_handleURI;
 
@@ -1736,9 +1684,6 @@ calendar_component_init (CalendarComponent *component)
 	guint not;
 
 	priv = g_new0 (CalendarComponentPrivate, 1);
-
-	priv->base_directory = g_build_filename (e_get_user_data_dir (), "calendar", NULL);
-	priv->config_directory = g_build_filename (priv->base_directory, "config", NULL);
 
 	/* EPFIXME: Should use a custom one instead?  Also we should add
 	 * calendar_component_peek_gconf_client().  */
@@ -1759,38 +1704,6 @@ calendar_component_init (CalendarComponent *component)
 
 
 /* Public API.  */
-
-CalendarComponent *
-calendar_component_peek (void)
-{
-	static CalendarComponent *component = NULL;
-
-	if (component == NULL) {
-		component = g_object_new (calendar_component_get_type (), NULL);
-
-		if (g_mkdir_with_parents (calendar_component_peek_config_directory (component), 0777) != 0) {
-			g_warning (G_STRLOC ": Cannot create directory %s: %s",
-				   calendar_component_peek_config_directory (component),
-				   g_strerror (errno));
-			g_object_unref (component);
-			component = NULL;
-		}
-	}
-
-	return component;
-}
-
-const char *
-calendar_component_peek_base_directory (CalendarComponent *component)
-{
-	return component->priv->base_directory;
-}
-
-const char *
-calendar_component_peek_config_directory (CalendarComponent *component)
-{
-	return component->priv->config_directory;
-}
 
 ESourceList *
 calendar_component_peek_source_list (CalendarComponent *component)

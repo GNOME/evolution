@@ -104,8 +104,6 @@ typedef struct
 } TasksComponentView;
 
 struct _TasksComponentPrivate {
-	char *base_directory;
-	char *config_directory;
 
 	ESourceList *source_list;
 	GSList *source_selection;
@@ -1309,45 +1307,6 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 	return;
 }
 
-static GNOME_Evolution_CreatableItemTypeList *
-impl__get_userCreatableItems (PortableServer_Servant servant,
-			      CORBA_Environment *ev)
-{
-	GNOME_Evolution_CreatableItemTypeList *list = GNOME_Evolution_CreatableItemTypeList__alloc ();
-
-	list->_length  = 3;
-	list->_maximum = list->_length;
-	list->_buffer  = GNOME_Evolution_CreatableItemTypeList_allocbuf (list->_length);
-
-	CORBA_sequence_set_release (list, FALSE);
-
-	list->_buffer[0].id = CREATE_TASK_ID;
-	list->_buffer[0].description = _("New task");
-	list->_buffer[0].menuDescription = (char *) C_("New", "_Task");
-	list->_buffer[0].tooltip = _("Create a new task");
-	list->_buffer[0].menuShortcut = 't';
-	list->_buffer[0].iconName = "stock_task";
-	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
-
-	list->_buffer[1].id = CREATE_TASK_ASSIGNED_ID;
-	list->_buffer[1].description = _("New assigned task");
-	list->_buffer[1].menuDescription = (char *) C_("New", "Assigne_d Task");
-	list->_buffer[1].tooltip = _("Create a new assigned task");
-	list->_buffer[1].menuShortcut = '\0';
-	list->_buffer[1].iconName = "stock_task";
-	list->_buffer[1].type = GNOME_Evolution_CREATABLE_OBJECT;
-
-	list->_buffer[2].id = CREATE_TASK_LIST_ID;
-	list->_buffer[2].description = _("New task list");
-	list->_buffer[2].menuDescription = (char *) C_("New", "Tas_k list");
-	list->_buffer[2].tooltip = _("Create a new task list");
-	list->_buffer[2].menuShortcut = '\0';
-	list->_buffer[2].iconName = "stock_todo";
-	list->_buffer[2].type = GNOME_Evolution_CREATABLE_FOLDER;
-
-	return list;
-}
-
 static void
 impl_requestCreateItem (PortableServer_Servant servant,
 			const CORBA_char *item_type_name,
@@ -1421,8 +1380,6 @@ impl_finalize (GObject *object)
 	}
 	g_list_free (priv->views);
 
-	g_free (priv->base_directory);
-	g_free (priv->config_directory);
 	g_free (priv);
 
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
@@ -1438,7 +1395,6 @@ tasks_component_class_init (TasksComponentClass *klass)
 
 	epv->upgradeFromVersion      = impl_upgradeFromVersion;
 	epv->createView		     = impl_createView;
-	epv->_get_userCreatableItems = impl__get_userCreatableItems;
 	epv->requestCreateItem       = impl_requestCreateItem;
 	epv->handleURI               = impl_handleURI;
 
@@ -1453,45 +1409,11 @@ tasks_component_init (TasksComponent *component, TasksComponentClass *klass)
 
 	priv = g_new0 (TasksComponentPrivate, 1);
 
-	priv->base_directory = g_build_filename (e_get_user_data_dir (), "tasks", NULL);
-	priv->config_directory = g_build_filename (priv->base_directory, "config", NULL);
-
 	component->priv = priv;
 	ensure_sources (component);
 }
 
 /* Public API */
-
-TasksComponent *
-tasks_component_peek (void)
-{
-	static TasksComponent *component = NULL;
-
-	if (component == NULL) {
-		component = g_object_new (tasks_component_get_type (), NULL);
-
-		if (g_mkdir_with_parents (component->priv->config_directory, 0777) != 0) {
-			g_warning (G_STRLOC ": Cannot create directory %s: %s",
-				   component->priv->config_directory, g_strerror (errno));
-			g_object_unref (component);
-			component = NULL;
-		}
-	}
-
-	return component;
-}
-
-const char *
-tasks_component_peek_base_directory (TasksComponent *component)
-{
-	return component->priv->base_directory;
-}
-
-const char *
-tasks_component_peek_config_directory (TasksComponent *component)
-{
-	return component->priv->config_directory;
-}
 
 ESourceList *
 tasks_component_peek_source_list (TasksComponent *component)

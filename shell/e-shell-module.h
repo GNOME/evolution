@@ -74,6 +74,7 @@ EShellModule *	e_shell_module_new		(EShell *shell,
 						 const gchar *filename);
 gint		e_shell_module_compare		(EShellModule *shell_module_a,
 						 EShellModule *shell_module_b);
+const gchar *	e_shell_module_get_config_dir	(EShellModule *shell_module);
 const gchar *	e_shell_module_get_data_dir	(EShellModule *shell_module);
 const gchar *	e_shell_module_get_filename	(EShellModule *shell_module);
 const gchar *	e_shell_module_get_searches	(EShellModule *shell_module);

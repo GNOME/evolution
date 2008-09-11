@@ -57,6 +57,30 @@ action_task_forward_cb (GtkAction *action,
 }
 
 static void
+action_task_list_copy_cb (GtkAction *action,
+                          ETaskShellView *task_shell_view)
+{
+}
+
+static void
+action_task_list_delete_cb (GtkAction *action,
+                            ETaskShellView *task_shell_view)
+{
+}
+
+static void
+action_task_list_new_cb (GtkAction *action,
+                         ETaskShellView *task_shell_view)
+{
+}
+
+static void
+action_task_list_properties_cb (GtkAction *action,
+                                ETaskShellView *task_shell_view)
+{
+}
+
+static void
 action_task_mark_complete_cb (GtkAction *action,
                               ETaskShellView *task_shell_view)
 {
@@ -135,6 +159,34 @@ static GtkActionEntry task_entries[] = {
 	  "<Control>f",
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_task_forward_cb) },
+
+	{ "task-list-copy",
+	  GTK_STOCK_COPY,
+	  N_("Copy..."),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_task_list_copy_cb) },
+
+	{ "task-list-delete",
+	  GTK_STOCK_DELETE,
+	  N_("_Delete"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_task_list_delete_cb) },
+
+	{ "task-list-new",
+	  "stock_todo",
+	  N_("_New Task List"),
+	  NULL,
+	  N_("Create a new task list"),
+	  G_CALLBACK (action_task_list_new_cb) },
+
+	{ "task-list-properties",
+	  GTK_STOCK_PROPERTIES,
+	  NULL,
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_task_list_properties_cb) },
 
 	{ "task-mark-complete",
 	  NULL,

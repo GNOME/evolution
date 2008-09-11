@@ -39,4 +39,12 @@
     <toolitem action='task-print'/>
     <toolitem action='task-delete'/>
   </toolbar>
+  <popup name='task-list-popup'>
+    <menuitem action='task-list-new'/>
+    <menuitem action='task-list-copy'/>
+    <separator/>
+    <menuitem action='task-list-delete'/>
+    <separator/>
+    <menuitem action='task-list-properties'/>
+  </popup>
 </ui>

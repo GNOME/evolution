@@ -45,6 +45,30 @@ action_memo_delete_cb (GtkAction *action,
 }
 
 static void
+action_memo_list_copy_cb (GtkAction *action,
+                          EMemoShellView *memo_shell_view)
+{
+}
+
+static void
+action_memo_list_delete_cb (GtkAction *action,
+                            EMemoShellView *memo_shell_view)
+{
+}
+
+static void
+action_memo_list_new_cb (GtkAction *action,
+                         EMemoShellView *memo_shell_view)
+{
+}
+
+static void
+action_memo_list_properties_cb (GtkAction *action,
+                                EMemoShellView *memo_shell_view)
+{
+}
+
+static void
 action_memo_open_cb (GtkAction *action,
                      EMemoShellView *memo_shell_view)
 {
@@ -97,6 +121,34 @@ static GtkActionEntry memo_entries[] = {
 	  NULL,
 	  N_("Delete selected memos"),
 	  G_CALLBACK (action_memo_delete_cb) },
+
+	{ "memo-list-copy",
+	  GTK_STOCK_COPY,
+	  N_("_Copy..."),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_memo_list_copy_cb) },
+
+	{ "memo-list-delete",
+	  GTK_STOCK_DELETE,
+	  N_("_Delete"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_memo_list_delete_cb) },
+
+	{ "memo-list-new",
+	  "stock_notes",
+	  N_("_New Memo List"),
+	  NULL,
+	  N_("Create a new memo list"),
+	  G_CALLBACK (action_memo_list_new_cb) },
+
+	{ "memo-list-properties",
+	  GTK_STOCK_PROPERTIES,
+	  NULL,
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_memo_list_properties_cb) },
 
 	{ "memo-open",
 	  NULL,

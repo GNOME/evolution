@@ -582,35 +582,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
-static EPixmap pixmaps [] = {
-	E_PIXMAP ("/commands/CalendarPrev", "go-previous", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/CalendarPrint", "document-print", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/DeleteAllOccurrences", "edit-delete", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/DeleteOccurrence", "edit-delete", E_ICON_SIZE_MENU),
-    E_PIXMAP ("/commands/CalendarGoto", "go-jump", E_ICON_SIZE_MENU),
-    E_PIXMAP ("/commands/CalendarNext", "go-next", E_ICON_SIZE_MENU),
-    E_PIXMAP ("/commands/CalendarPrintPreview", "document-print-preview", E_ICON_SIZE_MENU),
-    E_PIXMAP ("/commands/Copy", "edit-copy", E_ICON_SIZE_MENU),
-    E_PIXMAP ("/commands/Cut", "edit-cut", E_ICON_SIZE_MENU),
-    E_PIXMAP ("/commands/Delete", "edit-delete", E_ICON_SIZE_MENU),
-    E_PIXMAP ("/commands/Paste", "edit-paste", E_ICON_SIZE_MENU),
-    E_PIXMAP ("/commands/CalendarToday", "go-today", E_ICON_SIZE_MENU),
-
-	E_PIXMAP ("/Toolbar/Print", "document-print", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Delete", "edit-delete", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Prev", "go-previous", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Next", "go-next", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Goto", "go-jump", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/DayView", "view-calendar-day", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/WorkWeekView", "view-calendar-workweek", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/WeekView", "view-calendar-week", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/MonthView",	"view-calendar-month", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/ListView", "view-calendar-list", E_ICON_SIZE_LARGE_TOOLBAR),
-    E_PIXMAP ("/Toolbar/Today", "go-today", E_ICON_SIZE_LARGE_TOOLBAR),
-
-	E_PIXMAP_END
-};
-
 void
 calendar_control_activate (BonoboControl *control,
 			   GnomeCalendar *gcal)
@@ -641,8 +612,6 @@ calendar_control_activate (BonoboControl *control,
 			       "evolution-calendar",
 			       NULL);
 	g_free (xmlfile);
-
-	e_pixmaps_update (uic, pixmaps);
 
 	gnome_calendar_setup_view_menus (gcal, uic);
 
