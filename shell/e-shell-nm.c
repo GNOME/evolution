@@ -131,18 +131,3 @@ exception:
 
 	return FALSE;
 }
-
-gboolean
-e_shell_dbus_initialise (EShellWindow *window)
-{
-	g_type_init ();
-
-	return init_dbus (window);
-}
-
-void
-e_shell_dbus_dispose (EShellWindow *window)
-{
-	//FIXME
-	return;
-}
