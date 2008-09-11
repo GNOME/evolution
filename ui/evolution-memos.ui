@@ -1,0 +1,33 @@
+<ui>
+  <menubar name='main-menu'>
+    <menu action='file-menu'>
+      <placeholder name='file-actions'>
+        <menuitem action='memo-open'/>
+      </placeholder>
+      <placeholder name='print-actions'>
+        <menuitem action='memo-print-preview'/>
+        <menuitem action='memo-print'/>
+      </placeholder>
+    </menu>
+    <menu action='edit-menu'>
+      <placeholder name='edit-actions'>
+        <menuitem action='memo-clipboard-cut'/>
+        <menuitem action='memo-clipboard-copy'/>
+        <menuitem action='memo-clipboard-paste'/>
+        <separator/>
+        <menuitem action='memo-delete'/>
+      </placeholder>
+    </menu>
+    <menu action='view-menu'>
+      <menuitem action='memo-preview'/>
+    </menu>
+  </menubar>
+  <toolbar name='main-toolbar'>
+    <toolitem action='memo-clipboard-cut'/>
+    <toolitem action='memo-clipboard-copy'>
+    <toolitem action='memo-clipboard-paste'/>
+    <separator/>
+    <toolitem action='memo-print'/>
+    <toolitem action='memo-delete'/>
+  </toolbar>
+</ui>

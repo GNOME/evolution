@@ -181,23 +181,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
-static EPixmap pixmaps [] = {
-	E_PIXMAP ("/commands/MemosCopy", "edit-copy", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MemosCut", "edit-cut", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MemosDelete", "edit-delete", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MemosPaste", "edit-paste", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MemosPrint", "document-print", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MemosPrintPreview", "document-print-preview", E_ICON_SIZE_MENU),
-
-	E_PIXMAP ("/Toolbar/Cut", "edit-cut", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Copy", "edit-copy", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Paste", "edit-paste", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Print", "document-print", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Delete", "edit-delete", E_ICON_SIZE_LARGE_TOOLBAR),
-
-	E_PIXMAP_END
-};
-
 void
 memos_control_activate (BonoboControl *control, EMemos *memos)
 {
@@ -229,8 +212,6 @@ memos_control_activate (BonoboControl *control, EMemos *memos)
 			       "evolution-memos",
 			       NULL);
 	g_free (xmlfile);
-
-	e_pixmaps_update (uic, pixmaps);
 
 	e_memos_setup_view_menus (memos, uic);
 

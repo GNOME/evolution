@@ -522,7 +522,6 @@ date_changed_cb (EDateEdit *dedit,
 	icalproperty_status status;
 	gboolean date_set;
 
-	tdpage = TASK_DETAILS_PAGE (data);
 	priv = tdpage->priv;
 
 	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (tdpage)))

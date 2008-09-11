@@ -1,0 +1,55 @@
+<ui>
+  <menubar name='main-menu'>
+    <menu action='file-menu'>
+      <placeholder name='file-actions'>
+        <menuitem action='event-open'/>
+      </placeholder>
+      <placeholder name='print-actions'>
+        <menuitem action='calendar-print-preview'/>
+        <menuitem action='calendar-print'/>
+      </placeholder>
+    </menu>
+    <menu action='edit-menu'>
+      <placeholder name='edit-actions'>
+        <menuitem action='event-clipboard-cut'/>
+        <menuitem action='event-clipboard-copy'/>
+        <menuitem action='event-clipboard-paste'/>
+        <separator/>
+        <menuitem action='event-delete'/>
+        <menuitem action='event-delete-occurrence'/>
+        <menuitem action='event-delete-occurrence-all'/>
+      </placeholder>
+    </menu>
+    <menu action='view-menu'>
+      <menuitem action='calendar-go-today'/>
+      <menuitem action='calendar-jump-to'/>
+      <separator/>
+      <menuitem action='calendar-view-day'/>
+      <menuitem action='calendar-view-workweek'/>
+      <menuitem action='calendar-view-week'/>
+      <menuitem action='calendar-view-month'/>
+      <menuitem action='calendar-view-list'/>
+    </menu>
+    <placeholder name='custom-menus'>
+      <menu action='actions-menu'>
+        <menuitem action='calendar-purge'/>
+      </menu>
+    </placeholder>
+  </menubar>
+  <toolbar name='main-toolbar'>
+    <toolitem action='calendar-print'/>
+    <toolitem action='event-delete'/>
+    <separator/>
+    <toolitem action='calendar-go-back'/>
+    <toolitem action='calendar-go-today'/>
+    <toolitem action='calendar-go-forward'/>
+    <separator/>
+    <toolitem action='calendar-jump-to'/>
+    <separator/>
+    <toolitem action='calendar-view-day'/>
+    <toolitem action='calendar-view-workweek'/>
+    <toolitem action='calendar-view-week'/>
+    <toolitem action='calendar-view-month'/>
+    <toolitem action='calendar-view-list'/>
+  </toolbar>
+</ui>

@@ -25,7 +25,7 @@ e_cal_shell_view_private_init (ECalShellView *cal_shell_view)
 {
 	ECalShellViewPrivate *priv = cal_shell_view->priv;
 
-	priv->cal_actions = gtk_action_group_new ("cals");
+	priv->calendar_actions = gtk_action_group_new ("calendars");
 }
 
 void
@@ -39,7 +39,7 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 {
 	ECalShellViewPrivate *priv = cal_shell_view->priv;
 
-	DISPOSE (priv->cal_actions);
+	DISPOSE (priv->calendar_actions);
 }
 
 void

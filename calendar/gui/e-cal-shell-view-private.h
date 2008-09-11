@@ -23,9 +23,13 @@
 
 #include "e-cal-shell-view.h"
 
+#include <glib/gi18n.h>
+
+#include <e-util/e-util.h>
 #include <shell/e-shell-content.h>
 #include <shell/e-shell-sidebar.h>
 
+#include <gnome-cal.h>
 #include <e-cal-shell-view-actions.h>
 
 #define E_CAL_SHELL_VIEW_GET_PRIVATE(obj) \
@@ -50,7 +54,7 @@ struct _ECalShellViewPrivate {
 
 	/*** UI Management ***/
 
-	GtkActionGroup *cal_actions;
+	GtkActionGroup *calendar_actions;
 };
 
 void		e_cal_shell_view_private_init

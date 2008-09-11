@@ -34,7 +34,6 @@
 #include <misc/e-dateedit.h>
 #include <e-util/e-plugin-ui.h>
 #include <e-util/e-util-private.h>
-#include <evolution-shell-component-utils.h>
 
 #include "event-page.h"
 #include "recurrence-page.h"

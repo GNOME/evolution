@@ -64,6 +64,7 @@ SUBDIRS = 			\
         shell                   \
 	$(SMIME_DIR)		\
 	addressbook		\
+	calendar		\
         art                     \
 	ui			\
 	views			\

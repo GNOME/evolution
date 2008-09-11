@@ -1,5 +1,5 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* e-memo-shell-view-actions.h
+/* e-task-shell-view-actions.h
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
@@ -18,13 +18,39 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef E_MEMO_SHELL_VIEW_ACTIONS_H
-#define E_MEMO_SHELL_VIEW_ACTIONS_H
+#ifndef E_TASK_SHELL_VIEW_ACTIONS_H
+#define E_TASK_SHELL_VIEW_ACTIONS_H
 
 #include <shell/e-shell-window-actions.h>
 
-/* Action Groups */
-#define E_SHELL_WINDOW_ACTION_GROUP_MEMOS(window) \
-	E_SHELL_WINDOW_ACTION_GROUP ((window), "memos")
+/* Task Actions */
+#define E_SHELL_WINDOW_ACTION_TASK_ASSIGN(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-assign")
+#define E_SHELL_WINDOW_ACTION_TASK_CLIPBOARD_COPY(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-clipboard-copy")
+#define E_SHELL_WINDOW_ACTION_TASK_CLIPBOARD_CUT(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-clibpard-cut")
+#define E_SHELL_WINDOW_ACTION_TASK_CLIPBOARD_PASTE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-clipboard-paste")
+#define E_SHELL_WINDOW_ACTION_TASK_DELETE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-delete")
+#define E_SHELL_WINDOW_ACTION_TASK_FORWARD(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-forward")
+#define E_SHELL_WINDOW_ACTION_TASK_MARK_COMPLETE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-mark-complete")
+#define E_SHELL_WINDOW_ACTION_TASK_OPEN(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-open")
+#define E_SHELL_WINDOW_ACTION_TASK_PREVIEW(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-preview")
+#define E_SHELL_WINDOW_ACTION_TASK_PRINT(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-print")
+#define E_SHELL_WINDOW_ACTION_TASK_PRINT_PREVIEW(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-print-preview")
+#define E_SHELL_WINDOW_ACTION_TASK_PURGE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-purge")
 
-#endif /* E_MEMO_SHELL_VIEW_ACTIONS_H */
+/* Action Groups */
+#define E_SHELL_WINDOW_ACTION_GROUP_TASKS(window) \
+	E_SHELL_WINDOW_ACTION_GROUP ((window), "tasks")
+
+#endif /* E_TASK_SHELL_VIEW_ACTIONS_H */

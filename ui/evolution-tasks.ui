@@ -1,0 +1,42 @@
+<ui>
+  <menubar name='main-menu'/>
+    <menu action='file-menu'>
+      <placeholder name='file-actions'>
+        <menuitem action='task-open'/>
+      </placeholder>
+      <placeholder name='print-actions'>
+        <menuitem action='task-print-preview'/>
+        <menuitem action='task-print'/>
+      </placeholder>
+    </menu>
+    <menu action='edit-menu'>
+      <placeholder name='edit-actions'>
+        <menuitem action='task-clipboard-cut'/>
+        <menuitem action='task-clipboard-copy'/>
+        <menuitem action='task-clipboard-paste'/>
+        <separator/>
+        <menuitem action='task-delete'/>
+        <separator/>
+        <menuitem action='task-mark-complete'/>
+      </placeholder>
+    </menu>
+    <menu action='view-menu'>
+      <menuitem action='task-preview'/>
+    </menu>
+    <placeholder name='custom-menus'>
+      <menu action='actions-menu'>
+        <menuitem name='task-purge'/>
+        <menuitem name='task-assign'/>
+        <menuitem name='task-forward'/>
+      </menu>
+    </placeholder>
+  </menubar>
+  <toolbar name='main-toolbar'/>
+    <toolitem action='task-clipboard-cut'/>
+    <toolitem action='task-clipboard-copy'/>
+    <toolitem action='task-clipboard-paste'/>
+    <separator/>
+    <toolitem action='task-print'/>
+    <toolitem action='task-delete'/>
+  </toolbar>
+</ui>

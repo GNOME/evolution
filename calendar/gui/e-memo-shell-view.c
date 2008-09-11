@@ -61,7 +61,7 @@ memo_shell_view_changed (EShellView *shell_view)
 
 	action_group = priv->memo_actions;
 	visible = e_shell_view_is_selected (shell_view);
-	gtk_action_group_visible (action_group, visible);
+	gtk_action_group_set_visible (action_group, visible);
 }
 
 static void

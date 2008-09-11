@@ -27,7 +27,7 @@
 #include <e-shell-taskbar.h>
 #include <e-shell-window.h>
 
-#include <gal-view-instance.h>
+#include <widgets/menus/gal-view-instance.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_VIEW \

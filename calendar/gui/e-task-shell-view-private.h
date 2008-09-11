@@ -23,6 +23,9 @@
 
 #include "e-task-shell-view.h"
 
+#include <glib/gi18n.h>
+
+#include <e-util/e-util.h>
 #include <shell/e-shell-content.h>
 #include <shell/e-shell-sidebar.h>
 

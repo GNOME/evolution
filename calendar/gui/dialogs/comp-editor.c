@@ -35,7 +35,6 @@
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
 #include <e-util/gconf-bridge.h>
-#include <evolution-shell-component-utils.h>
 
 #include <camel/camel-url.h>
 #include <camel/camel-exception.h>

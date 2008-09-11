@@ -1482,7 +1482,6 @@ date_changed_cb (EDateEdit *dedit,
 	struct icaltimetype start_tt = icaltime_null_time();
 	struct icaltimetype due_tt = icaltime_null_time();
 
-	tpage = TASK_PAGE (data);
 	priv = tpage->priv;
 
 	if (comp_editor_page_get_updating (COMP_EDITOR_PAGE (tpage)))

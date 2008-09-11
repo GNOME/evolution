@@ -1,17 +1,16 @@
 XML_FILES =					\
 	evolution.xml				\
-	evolution-addressbook.xml		\
-	evolution-calendar.xml			\
 	evolution-mail-message.xml		\
 	evolution-mail-list.xml			\
 	evolution-mail-global.xml		\
-	evolution-mail-messagedisplay.xml	\
-	evolution-memos.xml			\
-	evolution-tasks.xml
+	evolution-mail-messagedisplay.xml
 
 UI_FILES =					\
+	evolution-calendars.ui			\
 	evolution-contacts.ui			\
-	evolution-shell.ui
+	evolution-memos.ui			\
+	evolution-shell.ui			\
+	evolution-tasks.ui
 
 evolutionui_DATA = $(UI_FILES) $(XML_FILES)
 

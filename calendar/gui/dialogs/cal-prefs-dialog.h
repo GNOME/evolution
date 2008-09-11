@@ -29,7 +29,6 @@
 #include <glade/glade.h>
 #include <gconf/gconf-client.h>
 #include <libedataserverui/e-source-selector.h>
-#include "evolution-config-control.h"
 
 G_BEGIN_DECLS
 
