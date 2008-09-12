@@ -51,13 +51,18 @@ G_BEGIN_DECLS
 
 struct _ETaskShellViewPrivate {
 
+	/*** Module Data ***/
+
+	ESourceList *source_list;
+
 	/*** UI Management ***/
 
 	GtkActionGroup *task_actions;
 };
 
 void		e_task_shell_view_private_init
-					(ETaskShellView *task_shell_view);
+					(ETaskShellView *task_shell_view,
+					 EShellViewClass *shell_view_class);
 void		e_task_shell_view_private_constructed
 					(ETaskShellView *task_shell_view);
 void		e_task_shell_view_private_dispose

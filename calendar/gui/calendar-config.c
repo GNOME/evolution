@@ -29,13 +29,13 @@
 #include <config.h>
 #endif
 
-#include <string.h>
 #include <time.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libedataserver/e-data-server-util.h>
+#include <string.h>
 #include <e-util/e-util.h>
-#include <widgets/e-timezone-dialog/e-timezone-dialog.h>
+#include <libgnomeui/gnome-dialog.h>
 #include <libecal/e-cal-time-util.h>
+#include <libedataserver/e-data-server-util.h>
+#include <widgets/e-timezone-dialog/e-timezone-dialog.h>
 
 #include "calendar-config-keys.h"
 #include "calendar-config.h"

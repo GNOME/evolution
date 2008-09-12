@@ -20,8 +20,30 @@
 
 #include "e-cal-shell-view-private.h"
 
+enum {
+	PROP_0,
+	PROP_SOURCE_LIST
+};
+
 GType e_cal_shell_view_type = 0;
 static gpointer parent_class;
+
+static void
+cal_shell_view_get_property (GObject *object,
+                             guint property_id,
+                             GValue *value,
+                             GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SOURCE_LIST:
+			g_value_set_object (
+				value, e_cal_shell_view_get_source_list (
+				E_CAL_SHELL_VIEW (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
 
 static void
 cal_shell_view_dispose (GObject *object)
@@ -75,6 +97,7 @@ cal_shell_view_class_init (ECalShellView *class,
 	g_type_class_add_private (class, sizeof (ECalShellViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->get_property = cal_shell_view_get_property;
 	object_class->dispose = cal_shell_view_dispose;
 	object_class->finalize = cal_shell_view_finalize;
 	object_class->constructed = cal_shell_view_constructed;
@@ -84,15 +107,26 @@ cal_shell_view_class_init (ECalShellView *class,
 	shell_view_class->icon_name = "evolution-cals";
 	shell_view_class->type_module = type_module;
 	shell_view_class->changed = cal_shell_view_changed;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SOURCE_LIST,
+		g_param_spec_object (
+			"source-list",
+			_("Source List"),
+			_("The registry of calendars"),
+			E_TYPE_SOURCE_LIST,
+			G_PARAM_READABLE));
 }
 
 static void
-cal_shell_view_init (ECalShellView *cal_shell_view)
+cal_shell_view_init (ECalShellView *cal_shell_view,
+                     EShellViewClass *shell_view_class)
 {
 	cal_shell_view->priv =
 		E_CAL_SHELL_VIEW_GET_PRIVATE (cal_shell_view);
 
-	e_cal_shell_view_private_init (cal_shell_view);
+	e_cal_shell_view_private_init (cal_shell_view, shell_view_class);
 }
 
 GType
@@ -119,4 +153,12 @@ e_cal_shell_view_get_type (GTypeModule *type_module)
 	}
 
 	return e_cal_shell_view_type;
+}
+
+ESourceList *
+e_cal_shell_view_get_source_list (ECalShellView *cal_shell_view)
+{
+	g_return_val_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view), NULL);
+
+	return cal_shell_view->priv->source_list;
 }

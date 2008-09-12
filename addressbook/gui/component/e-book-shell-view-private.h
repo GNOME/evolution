@@ -81,6 +81,10 @@ enum {
 
 struct _EBookShellViewPrivate {
 
+	/*** Module Data ***/
+
+	ESourceList *source_list;
+
 	/*** UI Management ***/
 
 	GtkActionGroup *contact_actions;
@@ -98,14 +102,14 @@ struct _EBookShellViewPrivate {
 
 	EBook *book;
 	guint activity_id;
-	ESourceList *source_list;
 	gchar *password;
 
 	EABMenu *menu;
 };
 
 void		e_book_shell_view_private_init
-					(EBookShellView *book_shell_view);
+					(EBookShellView *book_shell_view,
+					 EShellViewClass *shell_view_class);
 void		e_book_shell_view_private_constructed
 					(EBookShellView *book_shell_view);
 void		e_book_shell_view_private_dispose

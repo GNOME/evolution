@@ -21,10 +21,18 @@
 #include "e-task-shell-view-private.h"
 
 void
-e_task_shell_view_private_init (ETaskShellView *task_shell_view)
+e_task_shell_view_private_init (ETaskShellView *task_shell_view,
+                                EShellViewClass *shell_view_class)
 {
 	ETaskShellViewPrivate *priv = task_shell_view->priv;
+	ESourceList *source_list;
+	GObject *object;
 
+	object = G_OBJECT (shell_view_class->type_module);
+	source_list = g_object_get_data (object, "source-list");
+	g_return_if_fail (E_IS_SOURCE_LIST (source_list));
+
+	priv->source_list = g_object_ref (source_list);
 	priv->task_actions = gtk_action_group_new ("tasks");
 }
 
@@ -38,6 +46,8 @@ void
 e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 {
 	ETaskShellViewPrivate *priv = task_shell_view->priv;
+
+	DISPOSE (priv->source_list);
 
 	DISPOSE (priv->task_actions);
 }

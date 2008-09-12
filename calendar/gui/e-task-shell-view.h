@@ -22,6 +22,7 @@
 #define E_TASK_SHELL_VIEW_H
 
 #include <e-shell-view.h>
+#include <libedataserver/e-source-list.h>
 
 /* Standard GObject macros */
 #define E_TYPE_TASK_SHELL_VIEW \
@@ -59,7 +60,10 @@ struct _ETaskShellViewClass {
 	EShellViewClass parent_class;
 };
 
-GType		e_task_shell_view_get_type	(GTypeModule *type_module);
+GType		e_task_shell_view_get_type
+					(GTypeModule *type_module);
+ESourceList *	e_task_shell_view_get_source_list
+					(ETaskShellView *task_shell_view);
 
 G_END_DECLS
 

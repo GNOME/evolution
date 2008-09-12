@@ -51,13 +51,18 @@ G_BEGIN_DECLS
 
 struct _EMemoShellViewPrivate {
 
+	/*** Module Data ***/
+
+	ESourceList *source_list;
+
 	/*** UI Management ***/
 
 	GtkActionGroup *memo_actions;
 };
 
 void		e_memo_shell_view_private_init
-					(EMemoShellView *memo_shell_view);
+					(EMemoShellView *memo_shell_view,
+					 EShellViewClass *shell_view_class);
 void		e_memo_shell_view_private_constructed
 					(EMemoShellView *memo_shell_view);
 void		e_memo_shell_view_private_dispose

@@ -21,10 +21,18 @@
 #include "e-memo-shell-view-private.h"
 
 void
-e_memo_shell_view_private_init (EMemoShellView *memo_shell_view)
+e_memo_shell_view_private_init (EMemoShellView *memo_shell_view,
+                                EShellViewClass *shell_view_class)
 {
 	EMemoShellViewPrivate *priv = memo_shell_view->priv;
+	ESourceList *source_list;
+	GObject *object;
 
+	object = G_OBJECT (shell_view_class->type_module);
+	source_list = g_object_get_data (object, "source-list");
+	g_return_if_fail (E_IS_SOURCE_LIST (source_list));
+
+	priv->source_list = g_object_ref (source_list);
 	priv->memo_actions = gtk_action_group_new ("memos");
 }
 
@@ -38,6 +46,8 @@ void
 e_memo_shell_view_private_dispose (EMemoShellView *memo_shell_view)
 {
 	EMemoShellViewPrivate *priv = memo_shell_view->priv;
+
+	DISPOSE (priv->source_list);
 
 	DISPOSE (priv->memo_actions);
 }

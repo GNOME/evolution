@@ -44,6 +44,9 @@ module_LTLIBRARIES =					\
 	libevolution-tasks.la
 
 libevolution_calendar_la_SOURCES =			\
+	calendar-config.c				\
+	calendar-config.h				\
+	calendar-config-keys.h				\
 	e-cal-shell-module.c				\
 	e-cal-shell-view.c				\
 	e-cal-shell-view.h				\
@@ -53,6 +56,9 @@ libevolution_calendar_la_SOURCES =			\
 	e-cal-shell-view-private.h
 
 libevolution_memos_la_SOURCES =				\
+	calendar-config.c				\
+	calendar-config.h				\
+	calendar-config-keys.h				\
 	e-memo-shell-module.c				\
 	e-memo-shell-view.c				\
 	e-memo-shell-view.h				\
@@ -62,6 +68,9 @@ libevolution_memos_la_SOURCES =				\
 	e-memo-shell-view-private.h
 
 libevolution_tasks_la_SOURCES =				\
+	calendar-config.c				\
+	calendar-config.h				\
+	calendar-config-keys.h				\
 	e-task-shell-module.c				\
 	e-task-shell-view.c				\
 	e-task-shell-view.h				\

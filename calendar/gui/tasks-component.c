@@ -115,128 +115,6 @@ struct _TasksComponentPrivate {
 	GList *notifications;
 };
 
-static void
-ensure_sources (TasksComponent *component)
-{
-	GSList *groups;
-	ESourceList *source_list;
-	ESourceGroup *group;
-	ESourceGroup *on_this_computer;
-	ESourceGroup *on_the_web;
-	ESource *personal_source;
-	char *base_uri, *base_uri_proto;
-	const gchar *base_dir;
-
-	on_this_computer = NULL;
-	on_the_web = NULL;
-	personal_source = NULL;
-
-	if (!e_cal_get_sources (&source_list, E_CAL_SOURCE_TYPE_TODO, NULL)) {
-		g_warning ("Could not get addressbook source list from GConf!");
-		return;
-	}
-
-	base_dir = tasks_component_peek_base_directory (component);
-	base_uri = g_build_filename (base_dir, "local", NULL);
-
-	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
-
-	groups = e_source_list_peek_groups (source_list);
-	if (groups) {
-		/* groups are already there, we need to search for things... */
-		GSList *g;
-
-		for (g = groups; g; g = g->next) {
-
-			group = E_SOURCE_GROUP (g->data);
-
-			/* compare only file:// part. If user home dir name changes we do not want to create
-			   one more group  */
-
-			if (!on_this_computer && !strncmp (base_uri_proto, e_source_group_peek_base_uri (group), 7))
-				on_this_computer = group;
-			else if (!on_the_web && !strcmp (WEB_BASE_URI, e_source_group_peek_base_uri (group)))
-				on_the_web = group;
-		}
-	}
-
-	if (on_this_computer) {
-		/* make sure "Personal" shows up as a source under
-		   this group */
-		GSList *sources = e_source_group_peek_sources (on_this_computer);
-		GSList *s;
-		for (s = sources; s; s = s->next) {
-			ESource *source = E_SOURCE (s->data);
-			const gchar *relative_uri;
-
-			relative_uri = e_source_peek_relative_uri (source);
-			if (relative_uri == NULL)
-				continue;
-			if (!strcmp (PERSONAL_RELATIVE_URI, relative_uri)) {
-				personal_source = source;
-				break;
-			}
-		}
-		/* Make sure we have the correct base uri. This can change when user's
-		   homedir name changes */
-		if (strcmp (base_uri_proto, e_source_group_peek_base_uri (on_this_computer))) {
-		    e_source_group_set_base_uri (on_this_computer, base_uri_proto);
-
-		    /* *sigh* . We shouldn't  need this sync call here as set_base_uri
-		       call results in synching to gconf, but that happens in idle loop
-		       and too late to prevent user seeing "Can not Open ... because of invalid uri" error.*/
-		    e_source_list_sync (source_list,NULL);
-		}
-	}
-	else {
-		/* create the local source group */
-		group = e_source_group_new (_("On This Computer"), base_uri_proto);
-		e_source_list_add_group (source_list, group, -1);
-
-		on_this_computer = group;
-	}
-
-	if (!personal_source) {
-		GSList *tasks_selected;
-		/* Create the default Person addressbook */
-		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
-		e_source_group_add_source (on_this_computer, source, -1);
-		g_object_unref (source);
-
-		tasks_selected = calendar_config_get_tasks_selected ();
-
-		if (!calendar_config_get_primary_tasks () && !tasks_selected) {
-			GSList selected;
-
-			calendar_config_set_primary_tasks (e_source_peek_uid (source));
-
-			selected.data = (gpointer)e_source_peek_uid (source);
-			selected.next = NULL;
-			calendar_config_set_tasks_selected (&selected);
-		}
-
-		if (tasks_selected) {
-			g_slist_foreach (tasks_selected, (GFunc) g_free, NULL);
-			g_slist_free (tasks_selected);
-		}
-
-		e_source_set_color_spec (source, "#BECEDD");
-		personal_source = source;
-	}
-
-	if (!on_the_web) {
-		/* Create the LDAP source group */
-		group = e_source_group_new (_("On The Web"), WEB_BASE_URI);
-		e_source_list_add_group (source_list, group, -1);
-
-		on_the_web = group;
-	}
-
-	component->priv->source_list = source_list;
-	g_free (base_uri_proto);
-	g_free (base_uri);
-}
-
 /* Utility functions.  */
 /* FIXME Some of these are duplicated from calendar-component.c */
 static gboolean
@@ -1410,7 +1288,6 @@ tasks_component_init (TasksComponent *component, TasksComponentClass *klass)
 	priv = g_new0 (TasksComponentPrivate, 1);
 
 	component->priv = priv;
-	ensure_sources (component);
 }
 
 /* Public API */

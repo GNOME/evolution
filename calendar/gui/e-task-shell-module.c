@@ -18,12 +18,18 @@
  * Boston, MA 02110-1301, USA.
  */
 
+#include <string.h>
 #include <glib/gi18n.h>
+#include <libecal/e-cal.h>
+#include <libedataserver/e-source.h>
+#include <libedataserver/e-source-list.h>
+#include <libedataserver/e-source-group.h>
 
 #include <e-shell.h>
 #include <e-shell-module.h>
 #include <e-shell-window.h>
 
+#include <calendar-config.h>
 #include <e-task-shell-view.h>
 
 #define MODULE_NAME		"tasks"
@@ -32,8 +38,158 @@
 #define MODULE_SEARCHES		"tasktypes.xml"
 #define MODULE_SORT_ORDER	600
 
+#define WEB_BASE_URI		"webcal://"
+#define PERSONAL_RELATIVE_URI	"system"
+
 /* Module Entry Point */
 void e_shell_module_init (GTypeModule *type_module);
+
+static void
+task_module_ensure_sources (EShellModule *shell_module)
+{
+	/* XXX This is basically the same algorithm across all modules.
+	 *     Maybe we could somehow integrate this into EShellModule? */
+
+	ESourceList *source_list;
+	ESourceGroup *on_this_computer;
+	ESourceGroup *on_the_web;
+	ESource *personal;
+	GSList *groups, *iter;
+	const gchar *data_dir;
+	gchar *base_uri;
+	gchar *filename;
+
+	on_this_computer = NULL;
+	on_the_web = NULL;
+	personal = NULL;
+
+	if (!e_cal_get_sources (&source_list, E_CAL_SOURCE_TYPE_TODO, NULL)) {
+		g_warning ("Could not get task sources from GConf!");
+		return;
+	}
+
+	/* Share the source list with all task views.  This is
+ 	 * accessible via e_task_shell_view_get_source_list().
+ 	 * Note: EShellModule takes ownership of the reference.
+ 	 *
+ 	 * XXX I haven't yet decided if I want to add a proper
+ 	 *     EShellModule API for this.  The mail module would
+ 	 *     not use it. */
+	g_object_set_data_full (
+		G_OBJECT (shell_module), "source-list",
+		source_list, (GDestroyNotify) g_object_unref);
+
+	data_dir = e_shell_module_get_data_dir (shell_module);
+	filename = g_build_filename (data_dir, "local", NULL);
+	base_uri = g_filename_to_uri (filename, NULL, NULL);
+	g_free (filename);
+
+	groups = e_source_list_peek_groups (source_list);
+	for (iter = groups; iter != NULL; iter = iter->next) {
+		ESourceGroup *source_group = iter->data;
+		const gchar *group_base_uri;
+
+		group_base_uri = e_source_group_peek_base_uri (source_group);
+
+		/* Compare only "file://" part.  If the user's home
+		 * changes, we do not want to create another group. */
+		if (on_this_computer == NULL &&
+			strncmp (base_uri, group_base_uri, 7) == 0)
+			on_this_computer = source_group;
+
+		else if (on_the_web == NULL &&
+			strcmp (WEB_BASE_URI, group_base_uri) == 0)
+			on_the_web = source_group;
+	}
+
+	if (on_this_computer != NULL) {
+		GSList *sources;
+		const gchar *group_base_uri;
+
+		sources = e_source_group_peek_sources (on_this_computer);
+		group_base_uri = e_source_group_peek_base_uri (on_this_computer);
+
+		/* Make sure this group includes a "Personal" source. */
+		for (iter = sources; iter != NULL; iter = iter->next) {
+			ESource *source = iter->data;
+			const gchar *relative_uri;
+
+			relative_uri = e_source_peek_relative_uri (source);
+			if (relative_uri == NULL)
+				continue;
+
+			if (strcmp (PERSONAL_RELATIVE_URI, relative_uri) != 0)
+				continue;
+
+			personal = source;
+			break;
+		}
+
+		/* Make sure we have the correct base URI.  This can
+		 * change when the user's home directory changes. */
+		if (strcmp (base_uri, group_base_uri) != 0) {
+			e_source_group_set_base_uri (
+				on_this_computer, base_uri);
+
+			/* XXX We shouldn't need this sync call here as
+			 *     set_base_uri() results in synching to GConf,
+			 *     but that happens in an idle loop and too late
+			 *     to prevent the user from seeing a "Cannot
+			 *     Open ... because of invalid URI" error. */
+			e_source_list_sync (source_list, NULL);
+		}
+
+	} else {
+		ESourceGroup *source_group;
+		const gchar *name;
+
+		name = _("On This Computer");
+		source_group = e_source_group_new (name, base_uri);
+		e_source_list_add_group (source_list, source_group, -1);
+		g_object_unref (source_group);
+	}
+
+	if (personal == NULL) {
+		ESource *source;
+		GSList *selected;
+		const gchar *name;
+		gchar *primary;
+
+		name = _("Personal");
+		source = e_source_new (name, PERSONAL_RELATIVE_URI);
+		e_source_group_add_source (on_this_computer, source, -1);
+		g_object_unref (source);
+
+		primary = calendar_config_get_primary_tasks ();
+		selected = calendar_config_get_tasks_selected ();
+
+		if (primary == NULL && selected == NULL) {
+			const gchar *uid;
+
+			uid = e_source_peek_uid (source);
+			selected = g_slist_prepend (NULL, g_strdup (uid));
+
+			calendar_config_set_primary_tasks (uid);
+			calendar_config_set_tasks_selected (selected);
+		}
+
+		g_slist_foreach (selected, (GFunc) g_free, NULL);
+		g_slist_free (selected);
+		g_free (primary);
+	}
+
+	if (on_the_web == NULL) {
+		ESourceGroup *source_group;
+		const gchar *name;
+
+		name = _("On The Web");
+		source_group = e_source_group_new (name, WEB_BASE_URI);
+		e_source_list_add_group (source_list, source_group, -1);
+		g_object_unref (source_group);
+	}
+
+	g_free (base_uri);
+}
 
 static void
 action_task_new_cb (GtkAction *action,
@@ -123,8 +279,12 @@ e_shell_module_init (GTypeModule *type_module)
         shell_module = E_SHELL_MODULE (type_module);
         shell = e_shell_module_get_shell (shell_module);
 
+	/* Register the GType for ETaskShellView. */
         e_task_shell_view_get_type (type_module);
+
         e_shell_module_set_info (shell_module, &module_info);
+
+	task_module_ensure_sources (shell_module);
 
         g_signal_connect_swapped (
                 shell, "handle-uri",

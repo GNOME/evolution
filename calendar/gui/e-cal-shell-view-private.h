@@ -52,13 +52,18 @@ G_BEGIN_DECLS
 
 struct _ECalShellViewPrivate {
 
+	/*** Module Data ***/
+
+	ESourceList *source_list;
+
 	/*** UI Management ***/
 
 	GtkActionGroup *calendar_actions;
 };
 
 void		e_cal_shell_view_private_init
-					(ECalShellView *cal_shell_view);
+					(ECalShellView *cal_shell_view,
+					 EShellViewClass *shell_view_class);
 void		e_cal_shell_view_private_constructed
 					(ECalShellView *cal_shell_view);
 void		e_cal_shell_view_private_dispose

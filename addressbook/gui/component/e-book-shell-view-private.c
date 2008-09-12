@@ -281,11 +281,18 @@ book_shell_view_primary_selection_changed_cb (EBookShellView *book_shell_view,
 }
 
 void
-e_book_shell_view_private_init (EBookShellView *book_shell_view)
+e_book_shell_view_private_init (EBookShellView *book_shell_view,
+                                EShellViewClass *shell_view_class)
 {
 	EBookShellViewPrivate *priv = book_shell_view->priv;
+	ESourceList *source_list;
 	GHashTable *uid_to_view;
 	GHashTable *uid_to_editor;
+	GObject *object;
+
+	object = G_OBJECT (shell_view_class->type_module);
+	source_list = g_object_get_data (object, "source-list");
+	g_return_if_fail (E_IS_SOURCE_LIST (source_list));
 
 	uid_to_view = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
@@ -297,12 +304,11 @@ e_book_shell_view_private_init (EBookShellView *book_shell_view)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_free);
 
+	priv->source_list = g_object_ref (source_list);
 	priv->contact_actions = gtk_action_group_new ("contacts");
 	priv->activity_handler = e_activity_handler_new ();
 	priv->uid_to_view = uid_to_view;
 	priv->uid_to_editor = uid_to_editor;
-
-	e_book_get_addressbooks (&priv->source_list, NULL);
 }
 
 void
@@ -385,6 +391,8 @@ e_book_shell_view_private_dispose (EBookShellView *book_shell_view)
 {
 	EBookShellViewPrivate *priv = book_shell_view->priv;
 
+	DISPOSE (priv->source_list);
+
 	DISPOSE (priv->contact_actions);
 
 	DISPOSE (priv->notebook);
@@ -397,7 +405,6 @@ e_book_shell_view_private_dispose (EBookShellView *book_shell_view)
 	g_hash_table_remove_all (priv->uid_to_editor);
 
 	DISPOSE (priv->book);
-	DISPOSE (priv->source_list);
 }
 
 void

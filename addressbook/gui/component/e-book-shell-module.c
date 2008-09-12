@@ -57,28 +57,42 @@ GalViewCollection *e_book_shell_module_view_collection = NULL;
 static void
 book_module_ensure_sources (EShellModule *shell_module)
 {
+	/* XXX This is basically the same algorithm across all modules.
+	 *     Maybe we could somehow integrate this into EShellModule? */
+
 	ESourceList *source_list;
 	ESourceGroup *on_this_computer;
 	ESourceGroup *on_ldap_servers;
-	ESource *personal_source;
+	ESource *personal;
 	GSList *groups, *iter;
-	const gchar *base_dir;
+	const gchar *data_dir;
 	gchar *base_uri;
-	gchar *base_uri_proto;
+	gchar *filename;
 
 	on_this_computer = NULL;
 	on_ldap_servers = NULL;
-	personal_source = NULL;
+	personal = NULL;
 
 	if (!e_book_get_addressbooks (&source_list, NULL)) {
 		g_warning ("Could not get addressbook sources from GConf!");
 		return;
 	}
 
-	base_dir = e_shell_module_get_data_dir (shell_module);
-	base_uri = g_build_filename (base_dir, "local", NULL);
+	/* Share the source list with all address book views.  This
+	 * is accessible via e_book_shell_view_get_source_list().
+	 * Note: EShellModule takes ownership of the reference.
+	 *
+	 * XXX I haven't yet decided if I want to add a proper
+	 *     EShellModule API for this.  The mail module would
+	 *     not use it. */
+	g_object_set_data_full (
+		G_OBJECT (shell_module), "source-list",
+		source_list, (GDestroyNotify) g_object_unref);
 
-	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
+	data_dir = e_shell_module_get_data_dir (shell_module);
+	filename = g_build_filename (data_dir, "local", NULL);
+	base_uri = g_filename_to_uri (filename, NULL, NULL);
+	g_free (filename);
 
 	groups = e_source_list_peek_groups (source_list);
 	for (iter = groups; iter != NULL; iter = iter->next) {
@@ -87,14 +101,14 @@ book_module_ensure_sources (EShellModule *shell_module)
 
 		group_base_uri = e_source_group_peek_base_uri (source_group);
 
-		/* Compare only "file://" part.  if user home directory
-		 * changes, we do not want to create one more group. */
+		/* Compare only "file://" part.  If the user's home
+		 * changes, we do not want to create another group. */
 		if (on_this_computer == NULL &&
-			strncmp (base_uri_proto, group_base_uri, 7) == 0)
+			strncmp (base_uri, group_base_uri, 7) == 0)
 			on_this_computer = source_group;
 
 		else if (on_ldap_servers == NULL &&
-			g_str_equal (LDAP_BASE_URI, group_base_uri))
+			strcmp (LDAP_BASE_URI, group_base_uri) == 0)
 			on_ldap_servers = source_group;
 	}
 
@@ -105,7 +119,7 @@ book_module_ensure_sources (EShellModule *shell_module)
 		sources = e_source_group_peek_sources (on_this_computer);
 		group_base_uri = e_source_group_peek_base_uri (on_this_computer);
 
-		/* Make this group includes a "Personal" source. */
+		/* Make sure this group includes a "Personal" source. */
 		for (iter = sources; iter != NULL; iter = iter->next) {
 			ESource *source = iter->data;
 			const gchar *relative_uri;
@@ -114,22 +128,23 @@ book_module_ensure_sources (EShellModule *shell_module)
 			if (relative_uri == NULL)
 				continue;
 
-			if (g_str_equal (PERSONAL_RELATIVE_URI, relative_uri)) {
-				personal_source = source;
-				break;
-			}
+			if (strcmp (PERSONAL_RELATIVE_URI, relative_uri) != 0)
+				continue;
+
+			personal = source;
+			break;
 		}
 
 		/* Make sure we have the correct base URI.  This can
 		 * change when the user's home directory changes. */
-		if (!g_str_equal (base_uri_proto, group_base_uri)) {
+		if (strcmp (base_uri, group_base_uri) != 0) {
 			e_source_group_set_base_uri (
-				on_this_computer, base_uri_proto);
+				on_this_computer, base_uri);
 
 			/* XXX We shouldn't need this sync call here as
 			 *     set_base_uri() results in synching to GConf,
 			 *     but that happens in an idle loop and too late
-			 *     to prevent the user from seeing "Cannot
+			 *     to prevent the user from seeing a "Cannot
 			 *     Open ... because of invalid URI" error. */
 			e_source_list_sync (source_list, NULL);
 		}
@@ -138,13 +153,13 @@ book_module_ensure_sources (EShellModule *shell_module)
 		ESourceGroup *source_group;
 		const gchar *name;
 
-		/* Create the local source group. */
 		name = _("On This Computer");
-		source_group = e_source_group_new (name, base_uri_proto);
+		source_group = e_source_group_new (name, base_uri);
 		e_source_list_add_group (source_list, source_group, -1);
+		g_object_unref (source_group);
 	}
 
-	if (personal_source == NULL) {
+	if (personal == NULL) {
 		ESource *source;
 		const gchar *name;
 
@@ -160,13 +175,12 @@ book_module_ensure_sources (EShellModule *shell_module)
 		ESourceGroup *source_group;
 		const gchar *name;
 
-		/* Create the LDAP source group. */
 		name = _("On LDAP Servers");
 		source_group = e_source_group_new (name, LDAP_BASE_URI);
 		e_source_list_add_group (source_list, source_group, -1);
+		g_object_unref (source_group);
 	}
 
-	g_free (base_uri_proto);
 	g_free (base_uri);
 }
 
@@ -236,10 +250,10 @@ book_module_book_loaded_cb (EBook *book,
 	action = GTK_ACTION (user_data);
 	action_name = gtk_action_get_name (action);
 
-	if (g_str_equal (action_name, "contact-new"))
+	if (strcmp (action_name, "contact-new") == 0)
 		eab_show_contact_editor (book, contact, TRUE, TRUE);
 
-	if (g_str_equal (action_name, "contact-list-new"))
+	if (strcmp (action_name, "contact-list-new") == 0)
 		eab_show_contact_list_editor (book, contact, TRUE, TRUE);
 
 	g_object_unref (contact);
@@ -250,7 +264,7 @@ static void
 action_contact_new_cb (GtkAction *action,
                        EShellWindow *shell_window)
 {
-	EBook *book;
+	EBook *book = NULL;
 	GConfClient *client;
 	ESourceList *source_list;
 	const gchar *key;
@@ -435,7 +449,9 @@ e_shell_module_init (GTypeModule *type_module)
 	shell_module = E_SHELL_MODULE (type_module);
 	shell = e_shell_module_get_shell (shell_module);
 
+	/* Register the GType for EBookShellView. */
 	e_book_shell_view_get_type (type_module);
+
 	e_shell_module_set_info (shell_module, &module_info);
 
 	book_module_ensure_sources (shell_module);
