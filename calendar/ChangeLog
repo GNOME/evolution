@@ -1,3 +1,19 @@
+2008-09-12  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* gui/alarm-notify/notify-main.c:
+	* gui/calendar-config-keys.h:
+	* gui/calendar-config.c:
+	* gui/calendar-config.h:
+	* gui/dialogs/cal-prefs-dialog.h:
+	* gui/dialogs/recur-comp.c:
+	* gui/e-meeting-store.c:
+	* gui/e-meeting-store.h:
+	* gui/e-meeting-time-sel.c:
+	* gui/e-meeting-time-sel.h:
+	* gui/migration.c:
+
 2008-09-09  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #551382

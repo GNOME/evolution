@@ -1,3 +1,11 @@
+2008-09-12  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* menus/gal-view-instance-save-as-dialog.c:
+	* menus/gal-view-instance-save-as-dialog.h:
+	* text/e-text.h:
+
 2008-09-02  Sankar P  <psankar@novell.com>
 
 License Changes

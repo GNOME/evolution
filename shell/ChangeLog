@@ -1,3 +1,12 @@
+2008-09-12  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-config-upgrade.c:
+	* e-shell-importer.c:
+	* e-shell-nm-glib.c:
+	* e-shell-nm.c:
+
 2008-09-04  Sankar P  <psankar@novell.com>
 
 License Changes

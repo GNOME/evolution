@@ -1,3 +1,14 @@
+2008-09-12  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* em-icon-stream.c:
+	* em-mailer-prefs.c:
+	* em-mailer-prefs.h:
+	* em-network-prefs.c:
+	* em-network-prefs.h:
+	* importers/evolution-mbox-importer.c:
+
 2008-09-11  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #534039

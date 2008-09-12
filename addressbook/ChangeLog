@@ -1,3 +1,9 @@
+2008-09-12  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* gui/component/addressbook-migrate.c:
+
 2008-09-08  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #361413

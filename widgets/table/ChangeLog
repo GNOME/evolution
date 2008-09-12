@@ -1,3 +1,12 @@
+2008-09-12  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-table-scrolled.c:
+	* e-table-sorting-utils.c:
+	* e-tree-model.c:
+	* e-tree.c:
+
 2008-09-04  Sankar P  <psankar@novell.com>
 
 License Changes

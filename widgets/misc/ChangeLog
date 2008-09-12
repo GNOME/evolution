@@ -1,3 +1,10 @@
+2008-09-12  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-online-button.c:
+	* e-online-button.h:
+
 2008-09-06  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #549968
