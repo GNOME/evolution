@@ -1,3 +1,10 @@
+2008-09-12  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fix for bug #551895
+
+	* gui/dialogs/alarm-list-dialog.c: (edit_clicked_cb):
+	Copy paste error.
+
 2008-09-12  Sankar P  <psankar@novell.com>
 
 License Changes

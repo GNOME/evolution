@@ -160,7 +160,7 @@ edit_clicked_cb (GtkButton *button, gpointer data)
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (dialog->list));
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
-		g_warning ("Could not get a selection to delete.");
+		g_warning ("Could not get a selection to edit.");
 		return;
 	}
 
