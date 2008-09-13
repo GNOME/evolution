@@ -55,7 +55,4 @@ struct _CalendarComponentClass {
 
 GType calendar_component_get_type  (void);
 
-ESourceList      *calendar_component_peek_source_list       (CalendarComponent *component);
-
-
 #endif /* _CALENDAR_COMPONENT_H_ */

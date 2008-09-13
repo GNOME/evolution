@@ -107,6 +107,7 @@ memo_shell_view_class_init (EMemoShellView *class,
 	shell_view_class->icon_name = "evolution-memos";
 	shell_view_class->type_module = type_module;
 	shell_view_class->changed = memo_shell_view_changed;
+	shell_view_class->new_shell_sidebar = e_memo_shell_sidebar_new;
 
 	g_object_class_install_property (
 		object_class,

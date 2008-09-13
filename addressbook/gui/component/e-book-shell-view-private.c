@@ -190,7 +190,7 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view)
 
 		g_signal_connect_swapped (
 			uid_view, "command-state-change",
-			G_CALLBACK (e_book_shell_view_update_actions),
+			G_CALLBACK (e_book_shell_view_actions_update),
 			book_shell_view);
 
 		book = e_book_new (source, NULL);
@@ -396,7 +396,6 @@ e_book_shell_view_private_dispose (EBookShellView *book_shell_view)
 	DISPOSE (priv->contact_actions);
 
 	DISPOSE (priv->notebook);
-	DISPOSE (priv->scrolled_window);
 	DISPOSE (priv->selector);
 
 	DISPOSE (priv->activity_handler);

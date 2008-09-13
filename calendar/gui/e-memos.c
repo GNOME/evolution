@@ -38,20 +38,16 @@
 #include "e-util/e-error.h"
 #include "e-util/e-categories-config.h"
 #include "e-util/e-util-private.h"
-#include "shell/e-user-creatable-items-handler.h"
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-categories.h>
 #include "widgets/menus/gal-view-menus.h"
 #include "dialogs/delete-error.h"
-#include "e-calendar-marshal.h"
 #include "calendar-config.h"
 #include "cal-search-bar.h"
-#include "calendar-component.h"
 #include "comp-util.h"
 #include "e-memo-table-config.h"
 #include "misc.h"
-#include "memos-component.h"
 #include "e-cal-component-memo-preview.h"
 #include "e-memos.h"
 #include "common/authentication.h"
@@ -650,17 +646,6 @@ e_memos_new (void)
 	memos = g_object_new (e_memos_get_type (), NULL);
 
 	return GTK_WIDGET (memos);
-}
-
-
-void
-e_memos_set_ui_component (EMemos *memos,
-			  BonoboUIComponent *ui_component)
-{
-	g_return_if_fail (E_IS_MEMOS (memos));
-	g_return_if_fail (ui_component == NULL || BONOBO_IS_UI_COMPONENT (ui_component));
-
-	e_search_bar_set_ui_component (E_SEARCH_BAR (memos->priv->search_bar), ui_component);
 }
 
 

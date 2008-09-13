@@ -58,19 +58,8 @@
 #define CREATE_SHARED_MEMO_ID	     "shared-memo"
 #define CREATE_MEMO_LIST_ID          "memo-list"
 
-enum DndTargetType {
-	DND_TARGET_TYPE_CALENDAR_LIST,
-};
-#define CALENDAR_TYPE "text/calendar"
-#define XCALENDAR_TYPE "text/x-calendar"
 #define WEB_BASE_URI "webcal://"
 #define PERSONAL_RELATIVE_URI "system"
-
-static GtkTargetEntry drag_types[] = {
-	{ CALENDAR_TYPE, 0, DND_TARGET_TYPE_CALENDAR_LIST },
-	{ XCALENDAR_TYPE, 0, DND_TARGET_TYPE_CALENDAR_LIST }
-};
-static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
 
 #define PARENT_TYPE bonobo_object_get_type ()
 
@@ -317,25 +306,6 @@ delete_memo_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 	}
 }
 
-static void
-new_memo_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	calendar_setup_new_memo_list (GTK_WINDOW (gtk_widget_get_toplevel(ep->target->widget)));
-}
-
-static void
-edit_memo_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	MemosComponentView *component_view = data;
-	ESource *selected_source;
-
-	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
-	if (!selected_source)
-		return;
-
-	calendar_setup_edit_memo_list (GTK_WINDOW (gtk_widget_get_toplevel(ep->target->widget)), selected_source);
-}
-
 static EPopupItem emc_source_popups[] = {
 	{ E_POPUP_ITEM, "10.new", N_("_New Memo List"), new_memo_list_cb, NULL, "stock_notes", 0, 0 },
 	{ E_POPUP_ITEM, "15.copy", N_("_Copy..."), copy_memo_list_cb, NULL, "edit-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
@@ -408,48 +378,6 @@ source_removed_cb (EMemos *memos, ESource *source, MemosComponentView *component
 	e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
 }
 
-static void
-set_info (MemosComponentView *component_view)
-{
-	GString *message = g_string_new (NULL);
-	int rows, selected_rows;
-
-	rows = e_table_model_row_count (component_view->model);
-	selected_rows =  e_table_selected_count (component_view->table);
-
-	g_string_append_printf(message, ngettext("%d memo", "%d memos", rows), rows);
-	if (selected_rows > 0)
-		g_string_append_printf(message, ngettext(", %d selected", ", %d selected", selected_rows), selected_rows);
-
-	e_info_label_set_info (component_view->info_label, _("Memos"), message->str);
-
-	g_string_free (message, TRUE);
-}
-
-static void
-table_selection_change_cb (ETableModel *etm, MemosComponentView *component_view)
-{
-	set_info (component_view);
-}
-
-static void
-model_changed_cb (ETableModel *etm, MemosComponentView *component_view)
-{
-	set_info (component_view);
-}
-
-static void
-model_rows_inserted_cb (ETableModel *etm, int row, int count, MemosComponentView *component_view)
-{
-	set_info (component_view);
-}
-
-static void
-model_rows_deleted_cb (ETableModel *etm, int row, int count, MemosComponentView *component_view)
-{
-	set_info (component_view);
-}
-
 /* Evolution::Component CORBA methods */
 
 static void
@@ -473,90 +401,6 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 
 	if (err)
 		g_error_free(err);
-}
-
-static gboolean
-selector_tree_drag_drop (GtkWidget *widget,
-			 GdkDragContext *context,
-			 int x,
-			 int y,
-			 guint time,
-			 CalendarComponent *component)
-{
-	GtkTreeViewColumn *column;
-	int cell_x;
-	int cell_y;
-	GtkTreePath *path;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gpointer data;
-
-	if (!gtk_tree_view_get_path_at_pos  (GTK_TREE_VIEW (widget), x, y, &path,
-					     &column, &cell_x, &cell_y))
-		return FALSE;
-
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-
-	if (!gtk_tree_model_get_iter (model, &iter, path)) {
-		gtk_tree_path_free (path);
-		return FALSE;
-	}
-
-	gtk_tree_model_get (model, &iter, 0, &data, -1);
-
-	if (E_IS_SOURCE_GROUP (data)) {
-		g_object_unref (data);
-		gtk_tree_path_free (path);
-		return FALSE;
-	}
-
-	gtk_tree_path_free (path);
-	return TRUE;
-}
-
-static gboolean
-selector_tree_drag_motion (GtkWidget *widget,
-			   GdkDragContext *context,
-			   int x,
-			   int y,
-			   guint time,
-			   gpointer user_data)
-{
-	GtkTreePath *path = NULL;
-	gpointer data = NULL;
-	GtkTreeViewDropPosition pos;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	GdkDragAction action = GDK_ACTION_DEFAULT;
-
-	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
-						x, y, &path, &pos))
-		goto finish;
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-
-	if (!gtk_tree_model_get_iter (model, &iter, path))
-		goto finish;
-
-	gtk_tree_model_get (model, &iter, 0, &data, -1);
-
-	if (E_IS_SOURCE_GROUP (data) || e_source_get_readonly (data))
-		goto finish;
-
-	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget), path, GTK_TREE_VIEW_DROP_INTO_OR_BEFORE);
-	action = context->suggested_action;
-	if (action == GDK_ACTION_COPY && (context->actions & GDK_ACTION_MOVE))
-		action=GDK_ACTION_MOVE;
-
- finish:
-	if (path)
-		gtk_tree_path_free (path);
-	if (data)
-		g_object_unref (data);
-
-	gdk_drag_status (context, action, time);
-	return TRUE;
 }
 
 static gboolean
@@ -748,27 +592,6 @@ selector_tree_drag_data_received (GtkWidget *widget,
 }
 
 static void
-selector_tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, gpointer data)
-{
-	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget),
-					NULL, GTK_TREE_VIEW_DROP_BEFORE);
-}
-
-
-static void
-control_activate_cb (BonoboControl *control, gboolean activate, gpointer data)
-{
-	MemosComponentView *component_view = data;
-
-	if (activate) {
-		BonoboUIComponent *uic;
-		uic = bonobo_control_get_ui_component (component_view->view_control);
-
-		e_user_creatable_items_handler_activate (component_view->creatable_items_handler, uic);
-	}
-}
-
-static void
 config_create_ecal_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
 	MemosComponent *component = data;
@@ -942,47 +765,9 @@ create_component_view (MemosComponent *memos_component)
 	/* Create the calendar component view */
 	component_view = g_new0 (MemosComponentView, 1);
 
-	/* Add the source lists */
-	component_view->source_list = g_object_ref (priv->source_list);
-
 	/* Create sidebar selector */
-	component_view->source_selector = e_source_selector_new (memos_component->priv->source_list);
-	e_source_selector_set_select_new ((ESourceSelector *)component_view->source_selector, TRUE);
-	a11y = gtk_widget_get_accessible (GTK_WIDGET (component_view->source_selector));
-	atk_object_set_name (a11y, _("Memo Source Selector"));
-
-	g_signal_connect (component_view->source_selector, "drag-motion", G_CALLBACK (selector_tree_drag_motion),
-			  memos_component);
-	g_signal_connect (component_view->source_selector, "drag-leave", G_CALLBACK (selector_tree_drag_leave),
-			  memos_component);
-	g_signal_connect (component_view->source_selector, "drag-drop", G_CALLBACK (selector_tree_drag_drop),
-			  memos_component);
 	g_signal_connect (component_view->source_selector, "drag-data-received",
 			  G_CALLBACK (selector_tree_drag_data_received), memos_component);
-
-	gtk_drag_dest_set(component_view->source_selector, GTK_DEST_DEFAULT_ALL, drag_types,
-			  num_drag_types, GDK_ACTION_COPY | GDK_ACTION_MOVE);
-
-	gtk_widget_show (component_view->source_selector);
-
-	selector_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_container_add (GTK_CONTAINER (selector_scrolled_window), component_view->source_selector);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (selector_scrolled_window),
-					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (selector_scrolled_window),
-					     GTK_SHADOW_IN);
-	gtk_widget_show (selector_scrolled_window);
-
-	component_view->info_label = (EInfoLabel *)e_info_label_new("evolution-memos");
-	e_info_label_set_info(component_view->info_label, _("Memos"), "");
-	gtk_widget_show (GTK_WIDGET (component_view->info_label));
-
-	vbox = gtk_vbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX (vbox), GTK_WIDGET (component_view->info_label), FALSE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX (vbox), selector_scrolled_window, TRUE, TRUE, 0);
-	gtk_widget_show (vbox);
-
-	component_view->sidebar_control = bonobo_control_new (vbox);
 
 	/* Create main view */
 	component_view->view_control = memos_control_new ();
@@ -1002,14 +787,6 @@ create_component_view (MemosComponent *memos_component)
 	g_signal_connect (component_view->memos, "source_removed",
 			  G_CALLBACK (source_removed_cb), component_view);
 
-	/* Create status bar */
-	statusbar_widget = e_task_bar_new ();
-	component_view->activity_handler = e_activity_handler_new ();
-	e_activity_handler_attach_task_bar (component_view->activity_handler, E_TASK_BAR (statusbar_widget));
-	gtk_widget_show (statusbar_widget);
-
-	component_view->statusbar_control = bonobo_control_new (statusbar_widget);
-
 	e_memo_table_set_activity_handler (e_memos_get_calendar_table (component_view->memos), component_view->activity_handler);
 
 	/* connect after setting the initial selections, or we'll get unwanted calls
@@ -1020,21 +797,6 @@ create_component_view (MemosComponent *memos_component)
 			  G_CALLBACK (primary_source_selection_changed_cb), component_view);
 	g_signal_connect (component_view->source_selector, "popup_event",
 			  G_CALLBACK (popup_event_cb), component_view);
-
-	/* Set up the "new" item handler */
-	component_view->creatable_items_handler = e_user_creatable_items_handler_new ("memos", create_local_item_cb, memos_component);
-	g_signal_connect (component_view->view_control, "activate", G_CALLBACK (control_activate_cb), component_view);
-
-	/* We use this to update the component information */
-	set_info (component_view);
-	g_signal_connect (component_view->table, "selection_change",
-			  G_CALLBACK (table_selection_change_cb), component_view);
-	g_signal_connect (component_view->model, "model_changed",
-			  G_CALLBACK (model_changed_cb), component_view);
-	g_signal_connect (component_view->model, "model_rows_inserted",
-			  G_CALLBACK (model_rows_inserted_cb), component_view);
-	g_signal_connect (component_view->model, "model_rows_deleted",
-			  G_CALLBACK (model_rows_deleted_cb), component_view);
 
 	/* Load the selection from the last run */
 	update_selection (component_view);
@@ -1224,14 +986,6 @@ memos_component_init (MemosComponent *component, MemosComponentClass *klass)
 	priv = g_new0 (MemosComponentPrivate, 1);
 
 	component->priv = priv;
-}
-
-/* Public API */
-
-ESourceList *
-memos_component_peek_source_list (MemosComponent *component)
-{
-	return component->priv->source_list;
 }
 
 BONOBO_TYPE_FUNC_FULL (MemosComponent, GNOME_Evolution_Component, PARENT_TYPE, memos_component)

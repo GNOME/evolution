@@ -107,6 +107,7 @@ task_shell_view_class_init (ETaskShellView *class,
 	shell_view_class->icon_name = "evolution-tasks";
 	shell_view_class->type_module = type_module;
 	shell_view_class->changed = task_shell_view_changed;
+	shell_view_class->new_shell_sidebar = e_task_shell_sidebar_new;
 
 	g_object_class_install_property (
 		object_class,

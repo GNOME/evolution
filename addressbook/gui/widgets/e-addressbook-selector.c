@@ -147,6 +147,9 @@ addressbook_selector_drag_leave (GtkWidget *widget,
                                  GdkDragContext *context,
                                  guint time_)
 {
+	/* XXX This is exactly the same as in ECalendarSelector.
+	 *     Consider merging this callback into ESourceSelector. */
+
 	GtkTreeView *tree_view;
 	GtkTreeViewDropPosition pos;
 
@@ -163,6 +166,9 @@ addressbook_selector_drag_motion (GtkWidget *widget,
                                   gint y,
                                   guint time_)
 {
+	/* XXX This is exactly the same as in ECalendarSelector.
+	 *     Consider merging this callback into ESourceSelector. */
+
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
 	GtkTreePath *path = NULL;
@@ -201,9 +207,9 @@ exit:
 		gtk_tree_path_free (path);
 
 	if (object != NULL)
-		g_object_ref (object);
+		g_object_unref (object);
 
-	gdk_drag_status (context, action, GDK_CURRENT_TIME);
+	gdk_drag_status (context, action, time_);
 
 	return TRUE;
 }
@@ -215,6 +221,9 @@ addressbook_selector_drag_drop (GtkWidget *widget,
                                 gint y,
                                 guint time_)
 {
+	/* XXX This is exactly the same as in ECalendarSelector.
+	 *     Consider merging this callback into ESourceSelector. */
+
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
 	GtkTreePath *path;
@@ -235,7 +244,7 @@ addressbook_selector_drag_drop (GtkWidget *widget,
 	g_return_val_if_fail (valid, FALSE);
 
 	gtk_tree_model_get (model, &iter, 0, &object, -1);
-	drop_zone = !E_IS_SOURCE_GROUP (object);
+	drop_zone = E_IS_SOURCE (object);
 	g_object_unref (object);
 
 	return drop_zone;
@@ -250,6 +259,11 @@ addressbook_selector_drag_data_received (GtkWidget *widget,
                                          guint info,
                                          guint time_)
 {
+	/* XXX This is NEARLY the same as in ECalendarSelector.
+	 *     Consider merging this callback into ESourceSelector.
+	 *     Use a callback to allow subclasses to handle the
+	 *     received selection data. */
+
 	MergeContext *merge_context;
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
@@ -266,7 +280,7 @@ addressbook_selector_drag_data_received (GtkWidget *widget,
 	tree_view = GTK_TREE_VIEW (widget);
 	model = gtk_tree_view_get_model (tree_view);
 
-	string = (gchar *) selection_data->data;
+	string = (const gchar *) selection_data->data;
 	remove_from_source = (context->action == GDK_ACTION_MOVE);
 
 	if (!gtk_tree_view_get_dest_row_at_pos (tree_view, x, y, &path, NULL))
@@ -303,10 +317,10 @@ addressbook_selector_drag_data_received (GtkWidget *widget,
 	success = TRUE;
 
 exit:
-	if (path)
+	if (path != NULL)
 		gtk_tree_path_free (path);
 
-	if (object)
+	if (object != NULL)
 		g_object_unref (object);
 
 	gtk_drag_finish (context, success, remove_from_source, time_);

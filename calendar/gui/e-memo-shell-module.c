@@ -31,6 +31,7 @@
 
 #include <calendar-config.h>
 #include <e-memo-shell-view.h>
+#include <dialogs/calendar-setup.h>
 
 #define MODULE_NAME		"memos"
 #define MODULE_ALIASES		""
@@ -207,6 +208,7 @@ static void
 action_memo_list_new_cb (GtkAction *action,
                          EShellWindow *shell_window)
 {
+	calendar_setup_new_memo_list (NULL);
 }
 
 static GtkActionEntry item_entries[] = {

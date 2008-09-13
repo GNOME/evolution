@@ -34,12 +34,34 @@ e_memo_shell_view_private_init (EMemoShellView *memo_shell_view,
 
 	priv->source_list = g_object_ref (source_list);
 	priv->memo_actions = gtk_action_group_new ("memos");
+	priv->activity_handler = e_activity_handler_new ();
 }
 
 void
 e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 {
 	EMemoShellViewPrivate *priv = memo_shell_view->priv;
+	EShellContent *shell_content;
+	EShellTaskbar *shell_taskbar;
+	EShellView *shell_view;
+	GtkWidget *container;
+	GtkWidget *widget;
+
+	shell_view = E_SHELL_VIEW (memo_shell_view);
+
+	/* Construct view widgets. */
+
+	widget = e_memos_new ();
+	shell_content = e_shell_view_get_content (shell_view);
+	gtk_container_add (GTK_CONTAINER (shell_content), widget);
+	priv->memos = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	shell_taskbar = e_shell_view_get_taskbar (shell_view);
+	e_activity_handler_attach_task_bar (
+		priv->activity_handler, shell_taskbar);
+
+	e_memo_shell_view_actions_update (memo_shell_view);
 }
 
 void
@@ -50,6 +72,10 @@ e_memo_shell_view_private_dispose (EMemoShellView *memo_shell_view)
 	DISPOSE (priv->source_list);
 
 	DISPOSE (priv->memo_actions);
+
+	DISPOSE (priv->memos);
+
+	DISPOSE (priv->activity_handler);
 }
 
 void

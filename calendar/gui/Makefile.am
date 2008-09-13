@@ -44,40 +44,54 @@ module_LTLIBRARIES =					\
 	libevolution-tasks.la
 
 libevolution_calendar_la_SOURCES =			\
+	calendar-config-keys.h				\
 	calendar-config.c				\
 	calendar-config.h				\
-	calendar-config-keys.h				\
 	e-cal-shell-module.c				\
-	e-cal-shell-view.c				\
-	e-cal-shell-view.h				\
+	e-cal-shell-sidebar.c				\
+	e-cal-shell-sidebar.h				\
 	e-cal-shell-view-actions.c			\
 	e-cal-shell-view-actions.h			\
 	e-cal-shell-view-private.c			\
-	e-cal-shell-view-private.h
+	e-cal-shell-view-private.h			\
+	e-cal-shell-view.c				\
+	e-cal-shell-view.h				\
+	e-calendar-selector.c				\
+	e-calendar-selector.h
 
 libevolution_memos_la_SOURCES =				\
+	calendar-config-keys.h				\
 	calendar-config.c				\
 	calendar-config.h				\
-	calendar-config-keys.h				\
+	e-calendar-selector.c				\
+	e-calendar-selector.h				\
 	e-memo-shell-module.c				\
-	e-memo-shell-view.c				\
-	e-memo-shell-view.h				\
+	e-memo-shell-sidebar.c				\
+	e-memo-shell-sidebar.h				\
 	e-memo-shell-view-actions.c			\
 	e-memo-shell-view-actions.h			\
 	e-memo-shell-view-private.c			\
-	e-memo-shell-view-private.h
+	e-memo-shell-view-private.h			\
+	e-memo-shell-view.c				\
+	e-memo-shell-view.h				\
+	e-memos.c					\
+	e-memos.h
 
 libevolution_tasks_la_SOURCES =				\
+	calendar-config-keys.h				\
 	calendar-config.c				\
 	calendar-config.h				\
-	calendar-config-keys.h				\
+	e-calendar-selector.c				\
+	e-calendar-selector.h				\
 	e-task-shell-module.c				\
-	e-task-shell-view.c				\
-	e-task-shell-view.h				\
+	e-task-shell-sidebar.c				\
+	e-task-shell-sidebar.h				\
 	e-task-shell-view-actions.c			\
 	e-task-shell-view-actions.h			\
 	e-task-shell-view-private.c			\
-	e-task-shell-view-private.h
+	e-task-shell-view-private.h			\
+	e-task-shell-view.c				\
+	e-task-shell-view.h
 
 glade_DATA = 					\
 	e-itip-control.glade			\
@@ -219,8 +233,6 @@ etspec_DATA =				\
 #	main.c					\
 #	memos-component.c			\
 #	memos-component.h			\
-#	memos-control.c				\
-#	memos-control.h				\
 #	migration.c				\
 #	migration.h				\
 #	misc.c					\
@@ -263,7 +275,6 @@ libevolution_memos_la_LIBADD =						\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/filter/libfilter.la				\
 	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/a11y/calendar/libevolution-calendar-a11y.la	\
 	$(LIBSOUP_LIBS)							\
 	$(CAMEL_LIBS)							\
 	$(EVOLUTION_CALENDAR_LIBS)
@@ -279,7 +290,6 @@ libevolution_tasks_la_LIBADD =						\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/filter/libfilter.la				\
 	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/a11y/calendar/libevolution-calendar-a11y.la	\
 	$(LIBSOUP_LIBS)							\
 	$(CAMEL_LIBS)							\
 	$(EVOLUTION_CALENDAR_LIBS)

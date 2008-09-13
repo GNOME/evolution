@@ -33,10 +33,10 @@
 
 #include <shell/e-shell-content.h>
 #include <shell/e-shell-sidebar.h>
+#include <shell/e-activity-handler.h>
 
 #include <eab-menu.h>
 #include <eab-gui-util.h>
-#include <e-activity-handler.h>
 #include <e-addressbook-selector.h>
 #include <e-addressbook-view.h>
 #include <gal-view-collection.h>
@@ -92,7 +92,6 @@ struct _EBookShellViewPrivate {
 	/*** Other Stuff ***/
 
 	GtkWidget *notebook;
-	GtkWidget *scrolled_window;
 	GtkWidget *selector;
 
 	EActivityHandler *activity_handler;
@@ -121,7 +120,7 @@ void		e_book_shell_view_private_finalize
 
 void		e_book_shell_view_actions_init
 					(EBookShellView *book_shell_view);
-void		e_book_shell_view_update_actions
+void		e_book_shell_view_actions_update
 					(EBookShellView *book_shell_view,
 					 EABView *view);
 EABView *	e_book_shell_view_get_current_view

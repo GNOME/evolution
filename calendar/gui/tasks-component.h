@@ -55,6 +55,4 @@ struct _TasksComponentClass {
 
 GType             tasks_component_get_type  (void);
 
-ESourceList      *tasks_component_peek_source_list (TasksComponent *component);
-
 #endif /* _TASKS_COMPONENT_H_ */

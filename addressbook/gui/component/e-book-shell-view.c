@@ -151,7 +151,7 @@ book_shell_view_source_list_changed_cb (EBookShellView *book_shell_view,
 #if 0
 		eab_view_setup_menus (view, bonobo_uic);
 #endif
-		e_book_shell_view_update_actions (book_shell_view, view);
+		e_book_shell_view_actions_update (book_shell_view, view);
 	}
 }
 

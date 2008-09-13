@@ -728,7 +728,7 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 }
 
 void
-e_book_shell_view_update_actions (EBookShellView *book_shell_view,
+e_book_shell_view_actions_update (EBookShellView *book_shell_view,
                                   EABView *view)
 {
 	EShellView *shell_view;

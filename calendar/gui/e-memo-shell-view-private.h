@@ -27,9 +27,13 @@
 
 #include <e-util/e-util.h>
 #include <shell/e-shell-content.h>
-#include <shell/e-shell-sidebar.h>
+#include <shell/e-activity-handler.h>
 
+#include <e-memos.h>
+#include <e-calendar-selector.h>
+#include <e-memo-shell-sidebar.h>
 #include <e-memo-shell-view-actions.h>
+#include <dialogs/calendar-setup.h>
 
 #define E_MEMO_SHELL_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -58,6 +62,12 @@ struct _EMemoShellViewPrivate {
 	/*** UI Management ***/
 
 	GtkActionGroup *memo_actions;
+
+	/*** Other Stuff ***/
+
+	GtkWidget *memos;
+
+	EActivityHandler *activity_handler;
 };
 
 void		e_memo_shell_view_private_init
@@ -73,6 +83,8 @@ void		e_memo_shell_view_private_finalize
 /* Private Utilities */
 
 void		e_memo_shell_view_actions_init
+					(EMemoShellView *memo_shell_view);
+void		e_memo_shell_view_actions_update
 					(EMemoShellView *memo_shell_view);
 
 G_END_DECLS

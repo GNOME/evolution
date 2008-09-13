@@ -25,7 +25,6 @@
 #ifndef _E_MEMOS_H_
 #define _E_MEMOS_H_
 
-#include <bonobo/bonobo-ui-component.h>
 #include <gtk/gtk.h>
 #include <libedataserver/e-source.h>
 #include <libecal/e-cal.h>
@@ -63,9 +62,6 @@ GType      e_memos_get_type        (void);
 GtkWidget *e_memos_construct       (EMemos *memos);
 
 GtkWidget *e_memos_new             (void);
-
-void       e_memos_set_ui_component  (EMemos            *memos,
-				      BonoboUIComponent *ui_component);
 
 gboolean   e_memos_add_memo_source (EMemos *memos, ESource *source);
 gboolean   e_memos_remove_memo_source (EMemos *memos, ESource *source);

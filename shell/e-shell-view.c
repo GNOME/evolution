@@ -41,9 +41,9 @@ struct _EShellViewPrivate {
 	gint page_num;
 
 	GtkAction *action;
-	GtkWidget *content;
-	GtkWidget *sidebar;
-	GtkWidget *taskbar;
+	GtkWidget *shell_content;
+	GtkWidget *shell_sidebar;
+	GtkWidget *shell_taskbar;
 
 	GalViewInstance *view_instance;
 };
@@ -53,6 +53,9 @@ enum {
 	PROP_ACTION,
 	PROP_PAGE_NUM,
 	PROP_TITLE,
+	PROP_SHELL_CONTENT,
+	PROP_SHELL_SIDEBAR,
+	PROP_SHELL_TASKBAR,
 	PROP_SHELL_WINDOW,
 	PROP_VIEW_INSTANCE
 };
@@ -166,6 +169,24 @@ shell_view_get_property (GObject *object,
 				E_SHELL_VIEW (object)));
 			return;
 
+		case PROP_SHELL_CONTENT:
+			g_value_set_object (
+				value, e_shell_view_get_shell_content (
+				E_SHELL_VIEW (object)));
+			return;
+
+		case PROP_SHELL_SIDEBAR:
+			g_value_set_object (
+				value, e_shell_view_get_shell_sidebar (
+				E_SHELL_VIEW (object)));
+			return;
+
+		case PROP_SHELL_TASKBAR:
+			g_value_set_object (
+				value, e_shell_view_get_shell_taskbar (
+				E_SHELL_VIEW (object)));
+			return;
+
 		case PROP_SHELL_WINDOW:
 			g_value_set_object (
 				value, e_shell_view_get_shell_window (
@@ -195,19 +216,19 @@ shell_view_dispose (GObject *object)
 		priv->shell_window = NULL;
 	}
 
-	if (priv->content != NULL) {
-		g_object_unref (priv->content);
-		priv->content = NULL;
+	if (priv->shell_content != NULL) {
+		g_object_unref (priv->shell_content);
+		priv->shell_content = NULL;
 	}
 
-	if (priv->sidebar != NULL) {
-		g_object_unref (priv->sidebar);
-		priv->sidebar = NULL;
+	if (priv->shell_sidebar != NULL) {
+		g_object_unref (priv->shell_sidebar);
+		priv->shell_sidebar = NULL;
 	}
 
-	if (priv->taskbar != NULL) {
-		g_object_unref (priv->taskbar);
-		priv->taskbar = NULL;
+	if (priv->shell_taskbar != NULL) {
+		g_object_unref (priv->shell_taskbar);
+		priv->shell_taskbar = NULL;
 	}
 
 	if (priv->view_instance != NULL) {
@@ -236,27 +257,25 @@ static void
 shell_view_constructed (GObject *object)
 {
 	EShellView *shell_view;
+	EShellViewClass *class;
 	GtkWidget *widget;
 
 	shell_view = E_SHELL_VIEW (object);
+	class = E_SHELL_VIEW_GET_CLASS (object);
 
-	widget = e_shell_content_new (shell_view);
-	shell_view->priv->content = g_object_ref_sink (widget);
+	/* Invoke factory methods. */
+
+	widget = class->new_shell_content (shell_view);
+	shell_view->priv->shell_content = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
-	widget = e_shell_sidebar_new (shell_view);
-	shell_view->priv->sidebar = g_object_ref_sink (widget);
+	widget = class->new_shell_sidebar (shell_view);
+	shell_view->priv->shell_sidebar = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
 
-	widget = e_shell_taskbar_new (shell_view);
-	shell_view->priv->taskbar = g_object_ref_sink (widget);
+	widget = class->new_shell_taskbar (shell_view);
+	shell_view->priv->shell_taskbar = g_object_ref_sink (widget);
 	gtk_widget_show (widget);
-
-	/* XXX GObjectClass doesn't implement constructed(), so we will.
-	 *     Then subclasses won't have to check the function pointer
-	 *     before chaining up.
-	 *
-	 *     http://bugzilla.gnome.org/show_bug?id=546593 */
 }
 
 static void
@@ -273,6 +292,11 @@ shell_view_class_init (EShellViewClass *class)
 	object_class->dispose = shell_view_dispose;
 	object_class->finalize = shell_view_finalize;
 	object_class->constructed = shell_view_constructed;
+
+	/* Default Factories */
+	class->new_shell_content = e_shell_content_new;
+	class->new_shell_sidebar = e_shell_sidebar_new;
+	class->new_shell_taskbar = e_shell_taskbar_new;
 
 	g_object_class_install_property (
 		object_class,
@@ -307,6 +331,39 @@ shell_view_class_init (EShellViewClass *class)
 			_("The title of the shell view"),
 			NULL,
 			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL_CONTENT,
+		g_param_spec_object (
+			"shell-content",
+			_("Shell Content Widget"),
+			_("The content widget appears in "
+			  "a shell window's right pane"),
+			E_TYPE_SHELL_CONTENT,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL_SIDEBAR,
+		g_param_spec_object (
+			"shell-sidebar",
+			_("Shell Sidebar Widget"),
+			_("The sidebar widget appears in "
+			  "a shell window's left pane"),
+			E_TYPE_SHELL_SIDEBAR,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL_TASKBAR,
+		g_param_spec_object (
+			"shell-taskbar",
+			_("Shell Taskbar Widget"),
+			_("The taskbar widget appears at "
+			  "the bottom of a shell window"),
+			E_TYPE_SHELL_TASKBAR,
+			G_PARAM_READABLE));
 
 	g_object_class_install_property (
 		object_class,
@@ -379,11 +436,10 @@ e_shell_view_get_name (EShellView *shell_view)
 
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	/* Switcher actions have a secret "view-name" data value.
-	 * This gets set in e_shell_window_create_switcher_actions(). */
-
 	action = e_shell_view_get_action (shell_view);
 
+	/* Switcher actions have a secret "view-name" data value.
+	 * This gets set in e_shell_window_create_switcher_actions(). */
 	return g_object_get_data (G_OBJECT (action), "view-name");
 }
 
@@ -482,27 +538,27 @@ e_shell_view_get_page_num (EShellView *shell_view)
 }
 
 EShellContent *
-e_shell_view_get_content (EShellView *shell_view)
+e_shell_view_get_shell_content (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	return E_SHELL_CONTENT (shell_view->priv->content);
+	return E_SHELL_CONTENT (shell_view->priv->shell_content);
 }
 
 EShellSidebar *
-e_shell_view_get_sidebar (EShellView *shell_view)
+e_shell_view_get_shell_sidebar (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	return E_SHELL_SIDEBAR (shell_view->priv->sidebar);
+	return E_SHELL_SIDEBAR (shell_view->priv->shell_sidebar);
 }
 
 EShellTaskbar *
-e_shell_view_get_taskbar (EShellView *shell_view)
+e_shell_view_get_shell_taskbar (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	return E_SHELL_TASKBAR (shell_view->priv->taskbar);
+	return E_SHELL_TASKBAR (shell_view->priv->shell_taskbar);
 }
 
 void

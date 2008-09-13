@@ -72,6 +72,11 @@ struct _EShellViewClass {
 	 * the GTypeInfo they pass to g_type_module_register_type(). */
 	GTypeModule *type_module;
 
+	/* Factory Methods */
+	GtkWidget *	(*new_shell_content)	(EShellView *shell_view);
+	GtkWidget *	(*new_shell_sidebar)	(EShellView *shell_view);
+	GtkWidget *	(*new_shell_taskbar)	(EShellView *shell_view);
+
 	/* Signals */
 	void		(*changed)		(EShellView *shell_view);
 };
@@ -86,12 +91,12 @@ GalViewInstance *
 		e_shell_view_get_view_instance	(EShellView *shell_view);
 void		e_shell_view_set_view_instance	(EShellView *shell_view,
 						 GalViewInstance *instance);
-EShellWindow *	e_shell_view_get_shell_window	(EShellView *shell_view);
 gboolean	e_shell_view_is_selected	(EShellView *shell_view);
 gint		e_shell_view_get_page_num	(EShellView *shell_view);
-EShellContent *	e_shell_view_get_content	(EShellView *shell_view);
-EShellSidebar *	e_shell_view_get_sidebar	(EShellView *shell_view);
-EShellTaskbar *	e_shell_view_get_taskbar	(EShellView *shell_view);
+EShellContent *	e_shell_view_get_shell_content	(EShellView *shell_view);
+EShellSidebar *	e_shell_view_get_shell_sidebar	(EShellView *shell_view);
+EShellTaskbar *	e_shell_view_get_shell_taskbar	(EShellView *shell_view);
+EShellWindow *	e_shell_view_get_shell_window	(EShellView *shell_view);
 void		e_shell_view_changed		(EShellView *shell_view);
 
 G_END_DECLS

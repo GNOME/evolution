@@ -871,7 +871,7 @@ action_search_clear_cb (GtkAction *action,
 
 	view_name = e_shell_window_get_current_view (shell_window);
 	shell_view = e_shell_window_get_view (shell_window, view_name);
-	shell_content = e_shell_view_get_content (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 	e_shell_content_set_search_text (shell_content, "");
 }
 
@@ -888,7 +888,7 @@ action_search_edit_cb (GtkAction *action,
 
 	view_name = e_shell_window_get_current_view (shell_window);
 	shell_view = e_shell_window_get_view (shell_window, view_name);
-	shell_content = e_shell_view_get_content (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 	context = e_shell_content_get_search_context (shell_content);
 	g_return_if_fail (context != NULL);
 

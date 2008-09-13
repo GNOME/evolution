@@ -42,8 +42,6 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_SHELL_SIDEBAR, EShellSidebarClass))
 
-#define E_SHELL_SIDEBAR_DEFAULT_TOOLBAR_STYLE	GTK_TOOLBAR_BOTH_HORIZ
-
 G_BEGIN_DECLS
 
 /* Avoid including <e-shell-view.h> */
@@ -66,9 +64,6 @@ GType		e_shell_sidebar_get_type	(void);
 GtkWidget *	e_shell_sidebar_new		(struct _EShellView *shell_view);
 struct _EShellView *
 		e_shell_sidebar_get_shell_view	(EShellSidebar *shell_sidebar);
-const gchar *	e_shell_sidebar_get_icon_name	(EShellSidebar *shell_sidebar);
-void		e_shell_sidebar_set_icon_name	(EShellSidebar *shell_sidebar,
-						 const gchar *icon_name);
 const gchar *	e_shell_sidebar_get_primary_text(EShellSidebar *shell_sidebar);
 void		e_shell_sidebar_set_primary_text(EShellSidebar *shell_sidebar,
 						 const gchar *primary_text);

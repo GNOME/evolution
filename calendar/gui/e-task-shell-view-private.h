@@ -27,8 +27,8 @@
 
 #include <e-util/e-util.h>
 #include <shell/e-shell-content.h>
-#include <shell/e-shell-sidebar.h>
 
+#include <e-task-shell-sidebar.h>
 #include <e-task-shell-view-actions.h>
 
 #define E_TASK_SHELL_VIEW_GET_PRIVATE(obj) \

@@ -73,15 +73,15 @@ shell_window_new_view (EShellWindow *shell_window,
 	/* Add pages to the various shell window notebooks. */
 
 	notebook = GTK_NOTEBOOK (shell_window->priv->content_notebook);
-	widget = GTK_WIDGET (e_shell_view_get_content (shell_view));
+	widget = GTK_WIDGET (e_shell_view_get_shell_content (shell_view));
 	gtk_notebook_append_page (notebook, widget, NULL);
 
 	notebook = GTK_NOTEBOOK (shell_window->priv->sidebar_notebook);
-	widget = GTK_WIDGET (e_shell_view_get_sidebar (shell_view));
+	widget = GTK_WIDGET (e_shell_view_get_shell_sidebar (shell_view));
 	gtk_notebook_append_page (notebook, widget, NULL);
 
 	notebook = GTK_NOTEBOOK (shell_window->priv->status_notebook);
-	widget = GTK_WIDGET (e_shell_view_get_taskbar (shell_view));
+	widget = GTK_WIDGET (e_shell_view_get_shell_taskbar (shell_view));
 	gtk_notebook_append_page (notebook, widget, NULL);
 
 	/* Listen for changes that affect the shell window. */

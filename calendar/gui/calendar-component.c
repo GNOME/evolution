@@ -62,21 +62,6 @@
 #define CREATE_MEETING_ID      "meeting"
 #define CREATE_ALLDAY_EVENT_ID "allday-event"
 #define CREATE_CALENDAR_ID      "calendar"
-#define WEB_BASE_URI "webcal://"
-#define CONTACTS_BASE_URI "contacts://"
-#define WEATHER_BASE_URI "weather://"
-#define PERSONAL_RELATIVE_URI "system"
-
-enum DndTargetType {
-	DND_TARGET_TYPE_CALENDAR_LIST,
-};
-#define CALENDAR_TYPE "text/calendar"
-#define XCALENDAR_TYPE "text/x-calendar"
-static GtkTargetEntry drag_types[] = {
-	{ CALENDAR_TYPE, 0, DND_TARGET_TYPE_CALENDAR_LIST },
-	{ XCALENDAR_TYPE, 0, DND_TARGET_TYPE_CALENDAR_LIST }
-};
-static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
 
 #define PARENT_TYPE bonobo_object_get_type ()
 static BonoboObjectClass *parent_class = NULL;
@@ -522,109 +507,6 @@ source_removed_cb (GnomeCalendar *calendar, ECalSourceType source_type, ESource 
 }
 
 static void
-set_info (CalendarComponentView *component_view)
-{
-	icaltimezone *zone;
-	struct icaltimetype start_tt, end_tt;
-	time_t start_time, end_time;
-	struct tm start_tm, end_tm;
-	char buffer[512], end_buffer[256];
-	GnomeCalendarViewType view;
-
-	gnome_calendar_get_visible_time_range (component_view->calendar, &start_time, &end_time);
-	zone = gnome_calendar_get_timezone (component_view->calendar);
-
-	start_tt = icaltime_from_timet_with_zone (start_time, FALSE, zone);
-	start_tm.tm_year = start_tt.year - 1900;
-	start_tm.tm_mon = start_tt.month - 1;
-	start_tm.tm_mday = start_tt.day;
-	start_tm.tm_hour = start_tt.hour;
-	start_tm.tm_min = start_tt.minute;
-	start_tm.tm_sec = start_tt.second;
-	start_tm.tm_isdst = -1;
-	start_tm.tm_wday = time_day_of_week (start_tt.day, start_tt.month - 1,
-					     start_tt.year);
-
-	/* Take one off end_time so we don't get an extra day. */
-	end_tt = icaltime_from_timet_with_zone (end_time - 1, FALSE, zone);
-	end_tm.tm_year = end_tt.year - 1900;
-	end_tm.tm_mon = end_tt.month - 1;
-	end_tm.tm_mday = end_tt.day;
-	end_tm.tm_hour = end_tt.hour;
-	end_tm.tm_min = end_tt.minute;
-	end_tm.tm_sec = end_tt.second;
-	end_tm.tm_isdst = -1;
-	end_tm.tm_wday = time_day_of_week (end_tt.day, end_tt.month - 1,
-					   end_tt.year);
-
-	view = gnome_calendar_get_view (component_view->calendar);
-
-	switch (view) {
-	case GNOME_CAL_DAY_VIEW:
-	case GNOME_CAL_WORK_WEEK_VIEW:
-	case GNOME_CAL_WEEK_VIEW:
-		if (start_tm.tm_year == end_tm.tm_year
-		    && start_tm.tm_mon == end_tm.tm_mon
-		    && start_tm.tm_mday == end_tm.tm_mday) {
-			e_utf8_strftime (buffer, sizeof (buffer),
-				  _("%A %d %b %Y"), &start_tm);
-		} else if (start_tm.tm_year == end_tm.tm_year) {
-			e_utf8_strftime (buffer, sizeof (buffer),
-				  _("%a %d %b"), &start_tm);
-			e_utf8_strftime (end_buffer, sizeof (end_buffer),
-				  _("%a %d %b %Y"), &end_tm);
-			strcat (buffer, " - ");
-			strcat (buffer, end_buffer);
-		} else {
-			e_utf8_strftime (buffer, sizeof (buffer),
-				  _("%a %d %b %Y"), &start_tm);
-			e_utf8_strftime (end_buffer, sizeof (end_buffer),
-				  _("%a %d %b %Y"), &end_tm);
-			strcat (buffer, " - ");
-			strcat (buffer, end_buffer);
-		}
-		break;
-	case GNOME_CAL_MONTH_VIEW:
-	case GNOME_CAL_LIST_VIEW:
-		if (start_tm.tm_year == end_tm.tm_year) {
-			if (start_tm.tm_mon == end_tm.tm_mon) {
-				e_utf8_strftime (buffer, sizeof (buffer),
-					  "%d", &start_tm);
-				e_utf8_strftime (end_buffer, sizeof (end_buffer),
-					  _("%d %b %Y"), &end_tm);
-				strcat (buffer, " - ");
-				strcat (buffer, end_buffer);
-			} else {
-				e_utf8_strftime (buffer, sizeof (buffer),
-					  _("%d %b"), &start_tm);
-				e_utf8_strftime (end_buffer, sizeof (end_buffer),
-					  _("%d %b %Y"), &end_tm);
-				strcat (buffer, " - ");
-				strcat (buffer, end_buffer);
-			}
-		} else {
-			e_utf8_strftime (buffer, sizeof (buffer),
-				  _("%d %b %Y"), &start_tm);
-			e_utf8_strftime (end_buffer, sizeof (end_buffer),
-				  _("%d %b %Y"), &end_tm);
-			strcat (buffer, " - ");
-			strcat (buffer, end_buffer);
-		}
-		break;
-	default:
-		g_return_if_reached ();
-	}
-
-	e_info_label_set_info (component_view->info_label, _("Calendars"), buffer);
-}
-
-static void
-calendar_dates_changed_cb (GnomeCalendar *calendar, CalendarComponentView *component_view)
-{
-	set_info (component_view);
-}
-
-static void
 config_primary_selection_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
 	CalendarComponent *calendar_component = data;
@@ -769,88 +651,6 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 }
 
 static gboolean
-selector_tree_drag_drop (GtkWidget *widget,
-			 GdkDragContext *context,
-			 int x,
-			 int y,
-			 guint time,
-			 CalendarComponent *component)
-{
-	GtkTreeViewColumn *column;
-	int cell_x;
-	int cell_y;
-	GtkTreePath *path;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gpointer data;
-
-	if (!gtk_tree_view_get_path_at_pos  (GTK_TREE_VIEW (widget), x, y, &path,
-					     &column, &cell_x, &cell_y))
-		return FALSE;
-
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-
-	if (!gtk_tree_model_get_iter (model, &iter, path)) {
-		gtk_tree_path_free (path);
-		return FALSE;
-	}
-
-	gtk_tree_model_get (model, &iter, 0, &data, -1);
-
-	if (E_IS_SOURCE_GROUP (data)) {
-		g_object_unref (data);
-		gtk_tree_path_free (path);
-		return FALSE;
-	}
-
-	gtk_tree_path_free (path);
-	return TRUE;
-}
-
-static gboolean
-selector_tree_drag_motion (GtkWidget *widget,
-			   GdkDragContext *context,
-			   int x,
-			   int y,
-			   guint time,
-			   gpointer user_data)
-{
-	GtkTreePath *path = NULL;
-	gpointer data = NULL;
-	GtkTreeViewDropPosition pos;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	GdkDragAction action = GDK_ACTION_DEFAULT;
-
-	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
-						x, y, &path, &pos))
-		goto finish;
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-
-	if (!gtk_tree_model_get_iter (model, &iter, path))
-		goto finish;
-
-	gtk_tree_model_get (model, &iter, 0, &data, -1);
-
-	if (E_IS_SOURCE_GROUP (data) || e_source_get_readonly (data))
-		goto finish;
-
-	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget), path, GTK_TREE_VIEW_DROP_INTO_OR_BEFORE);
-	action = context->suggested_action;
-
- finish:
-	if (path)
-		gtk_tree_path_free (path);
-	if (data)
-		g_object_unref (data);
-
-	gdk_drag_status (context, action, time);
-	return TRUE;
-}
-
-static gboolean
 update_single_object (ECal *client, icalcomponent *icalcomp)
 {
 	char *uid;
@@ -903,96 +703,6 @@ update_objects (ECal *client, icalcomponent *icalcomp)
 
 	return TRUE;
 }
-
-static void
-selector_tree_drag_data_received (GtkWidget *widget,
-				  GdkDragContext *context,
-				  gint x,
-				  gint y,
-				  GtkSelectionData *data,
-				  guint info,
-				  guint time,
-				  gpointer user_data)
-{
-	GtkTreePath *path = NULL;
-	GtkTreeViewDropPosition pos;
-	gpointer source = NULL;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gboolean success = FALSE;
-	icalcomponent *icalcomp = NULL;
-	ECal *client = NULL;
-
-	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
-						x, y, &path, &pos))
-		goto finish;
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-
-	if (!gtk_tree_model_get_iter (model, &iter, path))
-		goto finish;
-
-
-	gtk_tree_model_get (model, &iter, 0, &source, -1);
-
-	if (E_IS_SOURCE_GROUP (source) || e_source_get_readonly (source))
-		goto finish;
-
-	icalcomp = icalparser_parse_string ((char *)data->data);
-
-	if (icalcomp) {
-		char * uid;
-
-		/* FIXME deal with GDK_ACTION_ASK */
-		if (context->action == GDK_ACTION_COPY) {
-			uid = e_cal_component_gen_uid ();
-			icalcomponent_set_uid (icalcomp, uid);
-		}
-
-		client = auth_new_cal_from_source (source,
-						   E_CAL_SOURCE_TYPE_EVENT);
-
-		if (client) {
-			if (e_cal_open (client, TRUE, NULL)) {
-				success = TRUE;
-				update_objects (client, icalcomp);
-			}
-
-			g_object_unref (client);
-		}
-
-		icalcomponent_free (icalcomp);
-	}
-
- finish:
-	if (source)
-		g_object_unref (source);
-	if (path)
-		gtk_tree_path_free (path);
-
-	gtk_drag_finish (context, success, context->action == GDK_ACTION_MOVE, time);
-}
-
-static void
-selector_tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, gpointer data)
-{
-	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget),
-					NULL, GTK_TREE_VIEW_DROP_BEFORE);
-}
-
-static void
-control_activate_cb (BonoboControl *control, gboolean activate, gpointer data)
-{
-	CalendarComponentView *component_view = data;
-
-	if (activate) {
-		BonoboUIComponent *uic;
-		uic = bonobo_control_get_ui_component (component_view->view_control);
-
-		e_user_creatable_items_handler_activate (component_view->creatable_items_handler, uic);
-	}
-}
-
 
 static void
 config_create_ecal_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
@@ -1189,18 +899,6 @@ create_component_view (CalendarComponent *calendar_component)
 	a11y = gtk_widget_get_accessible (GTK_WIDGET (component_view->source_selector));
 	atk_object_set_name (a11y, _("Calendar Source Selector"));
 
-	g_signal_connect (component_view->source_selector, "drag-motion", G_CALLBACK (selector_tree_drag_motion),
-			  calendar_component);
-	g_signal_connect (component_view->source_selector, "drag-leave", G_CALLBACK (selector_tree_drag_leave),
-			  calendar_component);
-	g_signal_connect (component_view->source_selector, "drag-drop", G_CALLBACK (selector_tree_drag_drop),
-			  calendar_component);
-	g_signal_connect (component_view->source_selector, "drag-data-received",
-			  G_CALLBACK (selector_tree_drag_data_received), calendar_component);
-
-	gtk_drag_dest_set(component_view->source_selector, GTK_DEST_DEFAULT_ALL, drag_types,
-			  num_drag_types, GDK_ACTION_COPY | GDK_ACTION_MOVE);
-
 	gtk_widget_show (component_view->source_selector);
 
 	selector_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
@@ -1210,10 +908,6 @@ create_component_view (CalendarComponent *calendar_component)
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (selector_scrolled_window),
 					     GTK_SHADOW_IN);
 	gtk_widget_show (selector_scrolled_window);
-
-	component_view->info_label = (EInfoLabel *)e_info_label_new("x-office-calendar");
-	e_info_label_set_info (component_view->info_label, _("Calendars"), "");
-	gtk_widget_show (GTK_WIDGET (component_view->info_label));
 
 	vbox = gtk_vbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX (vbox), GTK_WIDGET (component_view->info_label), FALSE, TRUE, 0);
@@ -1264,11 +958,6 @@ create_component_view (CalendarComponent *calendar_component)
 	/* Set up the "new" item handler */
 	component_view->creatable_items_handler = e_user_creatable_items_handler_new ("calendar", create_local_item_cb, calendar_component);
 	g_signal_connect (component_view->view_control, "activate", G_CALLBACK (control_activate_cb), component_view);
-
-	/* We use this to update the component information */
-	set_info (component_view);
-	g_signal_connect (component_view->calendar, "dates_shown_changed",
-			  G_CALLBACK (calendar_dates_changed_cb), component_view);
 
 	/* Load the selection from the last run */
 	update_selection (component_view);
@@ -1514,15 +1203,6 @@ calendar_component_init (CalendarComponent *component)
 		;
 	if (!e_cal_get_sources (&priv->memo_source_list, E_CAL_SOURCE_TYPE_JOURNAL, NULL))
 		;
-}
-
-
-/* Public API.  */
-
-ESourceList *
-calendar_component_peek_source_list (CalendarComponent *component)
-{
-	return component->priv->source_list;
 }
 
 BONOBO_TYPE_FUNC_FULL (CalendarComponent, GNOME_Evolution_Component, PARENT_TYPE, calendar_component)

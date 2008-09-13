@@ -57,19 +57,8 @@
 #define CREATE_TASK_ASSIGNED_ID      "task-assigned"
 #define CREATE_TASK_LIST_ID          "task-list"
 
-enum DndTargetType {
-	DND_TARGET_TYPE_CALENDAR_LIST,
-};
-#define CALENDAR_TYPE "text/calendar"
-#define XCALENDAR_TYPE "text/x-calendar"
 #define WEB_BASE_URI "webcal://"
 #define PERSONAL_RELATIVE_URI "system"
-
-static GtkTargetEntry drag_types[] = {
-	{ CALENDAR_TYPE, 0, DND_TARGET_TYPE_CALENDAR_LIST },
-	{ XCALENDAR_TYPE, 0, DND_TARGET_TYPE_CALENDAR_LIST }
-};
-static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
 
 #define PARENT_TYPE bonobo_object_get_type ()
 
@@ -399,48 +388,6 @@ source_removed_cb (ETasks *tasks, ESource *source, TasksComponentView *component
 	e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
 }
 
-static void
-set_info (TasksComponentView *component_view)
-{
-	GString *message = g_string_new (NULL);
-	int rows, selected_rows;
-
-	rows = e_table_model_row_count (component_view->model);
-	selected_rows =  e_table_selected_count (component_view->table);
-
-	g_string_append_printf(message, ngettext("%d task", "%d tasks", rows), rows);
-	if (selected_rows > 0)
-		g_string_append_printf(message, ngettext(", %d selected", ", %d selected", selected_rows), selected_rows);
-
-	e_info_label_set_info (component_view->info_label, _("Tasks"), message->str);
-
-	g_string_free (message, TRUE);
-}
-
-static void
-table_selection_change_cb (ETableModel *etm, TasksComponentView *component_view)
-{
-	set_info (component_view);
-}
-
-static void
-model_changed_cb (ETableModel *etm, TasksComponentView *component_view)
-{
-	set_info (component_view);
-}
-
-static void
-model_rows_inserted_cb (ETableModel *etm, int row, int count, TasksComponentView *component_view)
-{
-	set_info (component_view);
-}
-
-static void
-model_rows_deleted_cb (ETableModel *etm, int row, int count, TasksComponentView *component_view)
-{
-	set_info (component_view);
-}
-
 /* Evolution::Component CORBA methods */
 
 static void
@@ -464,90 +411,6 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 
 	if (err)
 		g_error_free(err);
-}
-
-static gboolean
-selector_tree_drag_drop (GtkWidget *widget,
-			 GdkDragContext *context,
-			 int x,
-			 int y,
-			 guint time,
-			 CalendarComponent *component)
-{
-	GtkTreeViewColumn *column;
-	int cell_x;
-	int cell_y;
-	GtkTreePath *path;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gpointer data;
-
-	if (!gtk_tree_view_get_path_at_pos  (GTK_TREE_VIEW (widget), x, y, &path,
-					     &column, &cell_x, &cell_y))
-		return FALSE;
-
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-
-	if (!gtk_tree_model_get_iter (model, &iter, path)) {
-		gtk_tree_path_free (path);
-		return FALSE;
-	}
-
-	gtk_tree_model_get (model, &iter, 0, &data, -1);
-
-	if (E_IS_SOURCE_GROUP (data)) {
-		g_object_unref (data);
-		gtk_tree_path_free (path);
-		return FALSE;
-	}
-
-	gtk_tree_path_free (path);
-	return TRUE;
-}
-
-static gboolean
-selector_tree_drag_motion (GtkWidget *widget,
-			   GdkDragContext *context,
-			   int x,
-			   int y,
-			   guint time,
-			   gpointer user_data)
-{
-	GtkTreePath *path = NULL;
-	gpointer data = NULL;
-	GtkTreeViewDropPosition pos;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	GdkDragAction action = GDK_ACTION_DEFAULT;
-
-	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
-						x, y, &path, &pos))
-		goto finish;
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-
-	if (!gtk_tree_model_get_iter (model, &iter, path))
-		goto finish;
-
-	gtk_tree_model_get (model, &iter, 0, &data, -1);
-
-	if (E_IS_SOURCE_GROUP (data) || e_source_get_readonly (data))
-		goto finish;
-
-	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget), path, GTK_TREE_VIEW_DROP_INTO_OR_BEFORE);
-	action = context->suggested_action;
-	if (action == GDK_ACTION_COPY && (context->actions & GDK_ACTION_MOVE))
-		action=GDK_ACTION_MOVE;
-
- finish:
-	if (path)
-		gtk_tree_path_free (path);
-	if (data)
-		g_object_unref (data);
-
-	gdk_drag_status (context, action, time);
-	return TRUE;
 }
 
 static gboolean
@@ -729,27 +592,6 @@ selector_tree_drag_data_received (GtkWidget *widget,
 		gtk_tree_path_free (path);
 
 	gtk_drag_finish (context, success, context->action == GDK_ACTION_MOVE, time);
-}
-
-static void
-selector_tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, gpointer data)
-{
-	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget),
-					NULL, GTK_TREE_VIEW_DROP_BEFORE);
-}
-
-
-static void
-control_activate_cb (BonoboControl *control, gboolean activate, gpointer data)
-{
-	TasksComponentView *component_view = data;
-
-	if (activate) {
-		BonoboUIComponent *uic;
-		uic = bonobo_control_get_ui_component (component_view->view_control);
-
-		e_user_creatable_items_handler_activate (component_view->creatable_items_handler, uic);
-	}
 }
 
 static void
@@ -940,17 +782,8 @@ create_component_view (TasksComponent *tasks_component)
 	a11y = gtk_widget_get_accessible (GTK_WIDGET (component_view->source_selector));
 	atk_object_set_name (a11y, _("Task Source Selector"));
 
-	g_signal_connect (component_view->source_selector, "drag-motion", G_CALLBACK (selector_tree_drag_motion),
-			  tasks_component);
-	g_signal_connect (component_view->source_selector, "drag-leave", G_CALLBACK (selector_tree_drag_leave),
-			  tasks_component);
-	g_signal_connect (component_view->source_selector, "drag-drop", G_CALLBACK (selector_tree_drag_drop),
-			  tasks_component);
 	g_signal_connect (component_view->source_selector, "drag-data-received",
 			  G_CALLBACK (selector_tree_drag_data_received), tasks_component);
-
-	gtk_drag_dest_set(component_view->source_selector, GTK_DEST_DEFAULT_ALL, drag_types,
-			  num_drag_types, GDK_ACTION_COPY | GDK_ACTION_MOVE);
 
 	gtk_widget_show (component_view->source_selector);
 
@@ -961,10 +794,6 @@ create_component_view (TasksComponent *tasks_component)
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (selector_scrolled_window),
 					     GTK_SHADOW_IN);
 	gtk_widget_show (selector_scrolled_window);
-
-	component_view->info_label = (EInfoLabel *)e_info_label_new("evolution-tasks");
-	e_info_label_set_info(component_view->info_label, _("Tasks"), "");
-	gtk_widget_show (GTK_WIDGET (component_view->info_label));
 
 	vbox = gtk_vbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX (vbox), GTK_WIDGET (component_view->info_label), FALSE, TRUE, 0);
@@ -1009,21 +838,6 @@ create_component_view (TasksComponent *tasks_component)
 			  G_CALLBACK (primary_source_selection_changed_cb), component_view);
 	g_signal_connect (component_view->source_selector, "popup_event",
 			  G_CALLBACK (popup_event_cb), component_view);
-
-	/* Set up the "new" item handler */
-	component_view->creatable_items_handler = e_user_creatable_items_handler_new ("tasks", create_local_item_cb, tasks_component);
-	g_signal_connect (component_view->view_control, "activate", G_CALLBACK (control_activate_cb), component_view);
-
-	/* We use this to update the component information */
-	set_info (component_view);
-	g_signal_connect (component_view->table, "selection_change",
-			  G_CALLBACK (table_selection_change_cb), component_view);
-	g_signal_connect (component_view->model, "model_changed",
-			  G_CALLBACK (model_changed_cb), component_view);
-	g_signal_connect (component_view->model, "model_rows_inserted",
-			  G_CALLBACK (model_rows_inserted_cb), component_view);
-	g_signal_connect (component_view->model, "model_rows_deleted",
-			  G_CALLBACK (model_rows_deleted_cb), component_view);
 
 	/* Load the selection from the last run */
 	update_selection (component_view);
@@ -1288,14 +1102,6 @@ tasks_component_init (TasksComponent *component, TasksComponentClass *klass)
 	priv = g_new0 (TasksComponentPrivate, 1);
 
 	component->priv = priv;
-}
-
-/* Public API */
-
-ESourceList *
-tasks_component_peek_source_list (TasksComponent *component)
-{
-	return component->priv->source_list;
 }
 
 BONOBO_TYPE_FUNC_FULL (TasksComponent, GNOME_Evolution_Component, PARENT_TYPE, tasks_component)

@@ -405,7 +405,8 @@ e_shell_sidebar_new (EShellView *shell_view)
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	return g_object_new (
-		E_TYPE_SHELL_SIDEBAR, "shell-view", shell_view, NULL);
+		E_TYPE_SHELL_SIDEBAR,
+		"shell-view", shell_view, NULL);
 }
 
 EShellView *
