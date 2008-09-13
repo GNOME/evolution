@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-11 22:47+0000\n"
-"PO-Revision-Date: 2008-09-13 19:02+0100\n"
+"PO-Revision-Date: 2008-09-13 19:41+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -384,7 +384,6 @@ msgid "Could not remove address book."
 msgstr "Kunde inte ta bort adressboken."
 
 #: ../addressbook/addressbook.error.xml.h:11
-#, fuzzy
 msgid "Currently you can access only GroupWise System Address Book from Evolution. Please use some other GroupWise mail client once, to get your GroupWise Frequent Contacts and GroupWise Personal Contacts folders."
 msgstr "För närvarande kan du endast komma åt systemadressboken i GroupWise från Evolution. Använd någon annan GroupWise-klient en gång för att få tag på dina ofta använda kontakter och mappar för personliga kontakter i GroupWise."
 
@@ -427,7 +426,6 @@ msgid "Some features may not work properly with your current server"
 msgstr "En del funktioner kanske inte fungerar korrekt med din nuvarande server"
 
 #: ../addressbook/addressbook.error.xml.h:21
-#, fuzzy
 msgid "The Evolution address book has quit unexpectedly."
 msgstr "Evolutions adressbok har oväntat avslutats."
 
@@ -444,14 +442,12 @@ msgid "This address book could not be opened."
 msgstr "Denna adressbok kunde inte öppnas."
 
 #: ../addressbook/addressbook.error.xml.h:25
-#, fuzzy
 msgid "This address book server does not have any suggested search bases."
 msgstr "Denna adressboksserver har inga föreslagna sökbaser."
 
 #: ../addressbook/addressbook.error.xml.h:26
-#, fuzzy
 msgid "This address book server might be unreachable or the server name may be misspelled or your network connection could be down."
-msgstr "Denna adressboksserver kan vara onåbar, servernamnet kan vara felstavat, eller så kan din nätverksanslutning vara nere."
+msgstr "Denna adressboksserver kan vara onåbar, servernamnet kan vara felstavat eller så kan din nätverksanslutning vara nere."
 
 #: ../addressbook/addressbook.error.xml.h:27
 msgid "This address book will be removed permanently."
@@ -467,7 +463,7 @@ msgstr "Kan inte öppna adressboken"
 
 #: ../addressbook/addressbook.error.xml.h:30
 msgid "Unable to perform search."
-msgstr "Kan inte utföra sökning."
+msgstr "Kan inte genomföra sökning."
 
 #: ../addressbook/addressbook.error.xml.h:31
 msgid "Unable to save {0}."
@@ -582,9 +578,8 @@ msgid "Evolution Address Book"
 msgstr "Evolutions adressbok"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:7
-#, fuzzy
 msgid "Evolution Address Book address popup"
-msgstr "Adress-popup för Evolutions adressbok"
+msgstr "Adresspopup för Evolutions adressbok"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:8
 msgid "Evolution Address Book address viewer"
@@ -4685,11 +4680,11 @@ msgstr "Fråga efter bekräftelse vid borttagning av objekt"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:3
 msgid "Background color of tasks that are due today, in \"#rrggbb\" format."
-msgstr "Bakgrundsfärg på uppgifter som ska utföras idag, i \"#rrggbb\"-format."
+msgstr "Bakgrundsfärg på uppgifter som ska genomföras idag, i \"#rrggbb\"-format."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:4
 msgid "Background color of tasks that are overdue, in \"#rrggbb\" format."
-msgstr "Bakgrundsfärg på uppgifter som skulle ha utförts, i \"#rrggbb\"-format."
+msgstr "Bakgrundsfärg på uppgifter som skulle ha genomförts, i \"#rrggbb\"-format."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:5
 msgid "Calendars to run alarms for"
@@ -4829,7 +4824,7 @@ msgstr "Antal enheter för avgörande av när uppgifter ska döljas."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:38
 msgid "Overdue tasks color"
-msgstr "Färg på uppgifter som skulle ha utförts"
+msgstr "Färg på uppgifter som skulle ha genomförts"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:39
 msgid "Position of the horizontal pane, between the date navigator calendar and the task list when not in the month view, in pixels."
@@ -4911,7 +4906,7 @@ msgstr "Visa veckonummer i datumbläddraren"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:58
 msgid "Tasks due today color"
-msgstr "Färg på uppgifter som ska utföras idag"
+msgstr "Färg på uppgifter som ska genomföras idag"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:59
 msgid "Tasks vertical pane position"
@@ -5116,7 +5111,7 @@ msgstr "Aktiva uppgifter"
 
 #: ../calendar/gui/cal-search-bar.c:645
 msgid "Overdue Tasks"
-msgstr "Uppgifter som skulle ha utförts"
+msgstr "Uppgifter som skulle ha genomförts"
 
 #: ../calendar/gui/cal-search-bar.c:649
 msgid "Completed Tasks"
@@ -5322,9 +5317,8 @@ msgstr "Klassifikation"
 #: ../calendar/gui/caltypes.xml.h:10
 #: ../calendar/gui/memotypes.xml.h:9
 #: ../calendar/gui/tasktypes.xml.h:12
-#, fuzzy
 msgid "Competition"
-msgstr "Färdigdatum"
+msgstr "Konkurrans"
 
 #: ../calendar/gui/caltypes.xml.h:11
 #: ../calendar/gui/e-cal-list-view.c:250
@@ -5839,7 +5833,7 @@ msgstr "söndag"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "T_asks due today:"
-msgstr "U_ppgifter som ska utföras idag:"
+msgstr "U_ppgifter som ska genomföras idag:"
 
 #. Thursday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
@@ -5922,7 +5916,7 @@ msgstr "_mån"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
 msgid "_Overdue tasks:"
-msgstr "Uppgi_fter som skulle ha utförts:"
+msgstr "Uppgi_fter som skulle ha genomförts:"
 
 #. Saturday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:64
@@ -6066,12 +6060,12 @@ msgstr "Färdigt "
 #: ../calendar/gui/dialogs/comp-editor-util.c:197
 #: ../calendar/gui/print.c:2367
 msgid " (Due "
-msgstr " (Ska utföras "
+msgstr " (Ska genomföras "
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:199
 #: ../calendar/gui/print.c:2369
 msgid "Due "
-msgstr "Ska utföras "
+msgstr "Ska genomföras "
 
 #: ../calendar/gui/dialogs/comp-editor.c:232
 #, c-format
@@ -6938,7 +6932,7 @@ msgstr "år"
 #: ../calendar/gui/dialogs/task-details-page.c:377
 #: ../calendar/gui/dialogs/task-details-page.c:397
 msgid "Completed date is wrong"
-msgstr "Utförtdatumet är fel"
+msgstr "Datumet för genomförande är fel"
 
 #: ../calendar/gui/dialogs/task-details-page.c:482
 msgid "Web Page"
@@ -7088,9 +7082,8 @@ msgid "Categor_ies..."
 msgstr "Kategor_ier..."
 
 #: ../calendar/gui/dialogs/task-page.glade.h:3
-#, fuzzy
 msgid "D_ue date:"
-msgstr "_Förfallodatum:"
+msgstr "Datum för g_enomförande:"
 
 #: ../calendar/gui/dialogs/task-page.glade.h:7
 msgid "Time zone:"
@@ -7114,7 +7107,7 @@ msgstr[1] "%d veckor"
 
 #: ../calendar/gui/e-alarm-list.c:460
 msgid "Unknown action to be performed"
-msgstr "Okänd åtgärd att utföra"
+msgstr "Okänd åtgärd att genomföra"
 
 #. Translator: The first %s refers to the base, which would be actions like
 #. * "Play a Sound". Second %s refers to the duration string e.g:"15 minutes"
@@ -7369,14 +7362,12 @@ msgid "Organizer: %s"
 msgstr "Organisatör: %s"
 
 #: ../calendar/gui/e-calendar-table.c:408
-#, fuzzy
 msgid "Start: "
-msgstr "Start"
+msgstr "Start: "
 
 #: ../calendar/gui/e-calendar-table.c:420
-#, fuzzy
 msgid "Due: "
-msgstr "Ska utföras "
+msgstr "Ska genomföras: "
 
 #: ../calendar/gui/e-calendar-table.c:589
 msgid "0%"
@@ -7785,7 +7776,7 @@ msgstr "Slutar"
 #: ../calendar/gui/e-itip-control.c:961
 #: ../plugins/save-calendar/csv-format.c:370
 msgid "Due"
-msgstr "Ska utföras"
+msgstr "Ska genomföras"
 
 #: ../calendar/gui/e-itip-control.c:1003
 #: ../calendar/gui/e-itip-control.c:1060
@@ -7931,12 +7922,12 @@ msgstr "Uppgiftsinformation"
 #: ../calendar/gui/e-itip-control.c:1447
 #, c-format
 msgid "<b>%s</b> requests %s to perform a task."
-msgstr "<b>%s</b> begär att %s utför en uppgift."
+msgstr "<b>%s</b> begär att %s genomför en uppgift."
 
 #: ../calendar/gui/e-itip-control.c:1449
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
-msgstr "<b>%s</b> begär att du utför en uppgift."
+msgstr "<b>%s</b> begär att du genomför en uppgift."
 
 #: ../calendar/gui/e-itip-control.c:1450
 msgid "Task Proposal"
@@ -11861,7 +11852,7 @@ msgstr "är inställt"
 #: ../mail/mail-config.glade.h:97
 #: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
-msgstr "Skräp"
+msgstr "Skräppost"
 
 #: ../mail/em-filter-i18n.h:41
 msgid "Junk Test"
@@ -12577,7 +12568,7 @@ msgstr "Färdigställt den %d %B %Y %k.%M"
 
 #: ../mail/em-format-html-display.c:1385
 msgid "Overdue:"
-msgstr "Skulle ha utförts:"
+msgstr "Skulle ha genomförts:"
 
 #: ../mail/em-format-html-display.c:1388
 msgid "by %B %d, %Y, %l:%M %p"
@@ -13093,7 +13084,7 @@ msgstr "Minska visning av adresser i Till/Kopia/Blindkopia till det antal som an
 
 #: ../mail/evolution-mail.schemas.in.h:17
 msgid "Controls how frequently local changes are synchronized with the remote mail server. The interval must be at least 30 seconds."
-msgstr ""
+msgstr "Bestämmer hur frekvent lokala ändringar synkroniseras med fjärrpostservern. Intervallet måste vara minimum 30 sekunder."
 
 #: ../mail/evolution-mail.schemas.in.h:18
 msgid "Custom headers to use while checking for junk."
@@ -13156,19 +13147,16 @@ msgid "Default width of the subscribe dialog."
 msgstr "Standardbredd för prenumerationsdialogen."
 
 #: ../mail/evolution-mail.schemas.in.h:33
-#, fuzzy
 msgid "Determines whether to look up addresses for junk filtering in local address book only"
-msgstr "Bestämmer huruvida en uppslagning i adressboken efter avsändarens e-postadress ska göras"
+msgstr "Bestämmer huruvida endast adresser för skräppostfiltrering i lokal adressbok ska slås upp"
 
 #: ../mail/evolution-mail.schemas.in.h:34
-#, fuzzy
 msgid "Determines whether to lookup in address book for sender email"
 msgstr "Bestämmer huruvida en uppslagning i adressboken efter avsändarens e-postadress ska göras"
 
 #: ../mail/evolution-mail.schemas.in.h:35
-#, fuzzy
 msgid "Determines whether to lookup the sender email in address book. If found, it shouldn't be a spam. It looks up in the books marked for autocompletion. It can be slow, if remote address books (like LDAP) are marked for autocompletion."
-msgstr "Bestämmer huruvida en uppslagning i adressboken efter avsändarens e-postadress ska göras. Om den hittas, ska meddelandet inte vara skräppost. Den slår upp i adressböckerna markerade för automatiskt komplettering. Uppslagningen kan vara långsam om fjärradressböcker (som ldap) är markerade för automatisk komplettering. "
+msgstr "Bestämmer huruvida en uppslagning i adressboken efter avsändarens e-postadress ska göras. Om den hittas ska meddelandet inte vara skräppost. Den slår upp i adressböckerna markerade för automatiskt komplettering. Uppslagningen kan vara långsam om fjärradressböcker (som LDAP) är markerade för automatisk komplettering. "
 
 #: ../mail/evolution-mail.schemas.in.h:36
 msgid "Determines whether to use custom headers to check for junk"
@@ -13280,7 +13268,7 @@ msgstr "Initial höjd för \"Skicka och ta emot e-post\"-fönstret. Värdet uppd
 
 #: ../mail/evolution-mail.schemas.in.h:63
 msgid "Initial maximize state of the \"Send and Receive Mail\" window. The value updates when the user maximizes or unmaximizes the window. Note, this particular value is not used by Evolution since the \"Send and Receive Mail\" window cannot be maximized. This key exists only as an implementation detail."
-msgstr ""
+msgstr "Initialt maximerat tillstånd för \"Skicka och ta emot e-post\"-fönstret. Värdet uppdateras när användaren maximerar eller avmaximerar fönstret. Observera att detta specifika värde inte används av Evolution eftersom \"Skicka och ta emot e-post\"-fönstret inte kan maximeras. Denna nyckel finns endast för en framtida implementation."
 
 #: ../mail/evolution-mail.schemas.in.h:64
 msgid "Initial width of the \"Send and Receive Mail\" window. The value updates as the user resizes the window horizontally."
@@ -13592,9 +13580,8 @@ msgid "This is the default junk plugin, even though there are multiple plugins e
 msgstr "Det här är standardinsticksmodulen för skräppost, även om det finns flera aktiverade insticksmoduler. Om listad standardinsticksmodul är inaktiverad kommer den inte att falla tillbaka på andra tillgängliga insticksmoduler."
 
 #: ../mail/evolution-mail.schemas.in.h:143
-#, fuzzy
 msgid "This key is read only once and reset to \"false\" after read. This unselects the mail in the list and removes the preview for that folder."
-msgstr "Den här nyckeln läses bara en gång och nollställs efter läsning. Det här avmarkerar meddelandet i listan och tar bort förhandsvisningen för den mappen."
+msgstr "Den här nyckeln läses bara en gång och återställs till \"falskt\" efter läsning. Det här avmarkerar meddelandet i listan och tar bort förhandsvisningen för den mappen."
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid "This key should contain a list of XML structures specifying custom headers, and whether they are to be displayed. The format of the XML structure is &lt;header enabled&gt; - set enabled if the header is to be displayed in the mail view."
@@ -14160,7 +14147,7 @@ msgstr "_Kontrollera vilka typer som stöds "
 
 #: ../mail/mail-config.glade.h:51
 msgid "Check cu_stom headers for junk"
-msgstr "K_ontrollera anpassade rubriker efter skräppost"
+msgstr "L_eta i anpassade rubriker efter skräppost"
 
 #: ../mail/mail-config.glade.h:52
 msgid "Check incoming _messages for junk"
@@ -14754,7 +14741,7 @@ msgstr "_Acceptera licens"
 
 #: ../mail/mail-dialogs.glade.h:22
 msgid "_Due By:"
-msgstr "_Ska utföras den:"
+msgstr "_Ska genomföras den:"
 
 #: ../mail/mail-dialogs.glade.h:23
 msgid "_Flag:"
@@ -15291,7 +15278,7 @@ msgstr "Fel vid inläsning av filterdefinitioner."
 
 #: ../mail/mail.error.xml.h:57
 msgid "Error while performing operation."
-msgstr "Fel vid utförande av åtgärd."
+msgstr "Fel vid genomförande av åtgärd."
 
 #: ../mail/mail.error.xml.h:58
 msgid "Error while {0}."
@@ -15684,7 +15671,7 @@ msgstr "Det finns inga meddelanden i denna mapp."
 
 #: ../mail/message-list.etspec.h:3
 msgid "Due By"
-msgstr "Ska utföras den"
+msgstr "Ska genomföras den"
 
 #: ../mail/message-list.etspec.h:4
 msgid "Flag Status"
@@ -15928,7 +15915,7 @@ msgstr "Tar bort temporära säkerhetskopior"
 
 #: ../plugins/backup-restore/backup.c:285
 msgid "Ensuring local sources"
-msgstr ""
+msgstr "Försäkrar lokala källor"
 
 #: ../plugins/backup-restore/backup.c:455
 #, c-format
@@ -16056,9 +16043,8 @@ msgid "Synchronize with _buddy list now"
 msgstr "Synkronisera med _kompislistan nu"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
-#, fuzzy
 msgid "Automatically fills your address book with names and email addresses as you reply to messages. Also fills in IM contact information from your buddy lists."
-msgstr "Fyller automatiskt din adressbok med namn och e-postadresser efterhand som du svarar på meddelanden. Fyller också i kontaktinformation från snabbmeddelanden från dina kompislistor."
+msgstr "Fyller automatiskt din adressbok med namn och e-postadresser när du svarar på meddelanden. Den fyller också i kontaktinformation från snabbmeddelanden från dina kompislistor."
 
 # Osäker
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
@@ -16067,9 +16053,9 @@ msgstr "BBDB"
 
 #. For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself.
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Error occurred while spawning %s: %s."
-msgstr "Ett fel inträffade vid utskrift"
+msgstr "Fel inträffade vid start av %s: %s."
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:138
 #, c-format
@@ -16272,7 +16258,6 @@ msgid "Default Sources"
 msgstr "Standardkällor"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
-#, fuzzy
 msgid "Provides functionality for marking a calendar or an address book as the default one."
 msgstr "Tillhandahåller funktionalitet för att markera en kalender eller adressbok som standard."
 
@@ -16317,7 +16302,7 @@ msgstr "Lista över anpassade rubriker"
 
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:2
 msgid "The key specifies the list of custom headers that you can add to an outgoing message. The format for specifying a Header and Header value is: Name of the custom header followed by \"=\" and the values separated by \";\""
-msgstr ""
+msgstr "Denna nyckel anger listan över anpassade rubriker som du kan lägga till i ett utgående meddelande. Formatet är att ange en rubrik och rubrikvärde är: Namn på anpassad rubrik följt av \"=\" och dess värden separerade med \";\""
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
 msgid "Open Other User's Folder"
@@ -16888,9 +16873,8 @@ msgid "Subscribe to Other User's Calendar"
 msgstr "Prenumerera på annan användares kalender"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin that manages a collection of Exchange account specific operations and features."
-msgstr "En insticksmodul som hanterar en samling åtgärder och funktioner som är specifika för Exchange-konton."
+msgstr "En insticksmodul som hanterar en samling specifika åtgärder och funktioner för Exchange-konton."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
 msgid "Exchange Operations"
@@ -16977,7 +16961,7 @@ msgstr "Kunde inte uppdatera inte-på-kontoret-tillstånd"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
 msgid "Evolution requires a restart to load the subscribed user's mailbox"
-msgstr ""
+msgstr "Evolution kräver en omstart för att läsa in användarens prenumererade postlåda"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:22
 msgid "Exchange Account is offline."
@@ -17202,7 +17186,7 @@ msgstr "{0} är redan en delegat"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:85
 msgid "{0} is already in the list"
-msgstr "{0} är redan i listan"
+msgstr "{0} finns redan i listan"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-tasks-subscription.xml.h:1
 msgid "Subscribe to Other User's Tasks"
@@ -17243,7 +17227,7 @@ msgstr "Evolution kan inte skapa en temporärfil för att spara din e-post. För
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:4
 msgid "The external editor set in your plugin preferences cannot be launched. Try setting a different editor."
-msgstr ""
+msgstr "Den externa redigeraren som angivits i dina insticksinställningar kan inte startas. Prova att välja en annan redigerare."
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:1
 msgid "Compose in _External Editor"
@@ -17315,9 +17299,9 @@ msgid "Please enter user name first."
 msgstr "Ange användarnamnet först."
 
 #: ../plugins/google-account-setup/google-source.c:443
-#, fuzzy, c-format
+#, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
-msgstr "Lägg till mapp till din lista över prenumererade mappar"
+msgstr "Ange lösenordet för användaren %s för att komma åt lista över prenumererade kalendrar."
 
 #: ../plugins/google-account-setup/google-source.c:543
 #, c-format
@@ -17342,9 +17326,8 @@ msgid "<b>Server</b>"
 msgstr "<b>Server</b>"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin to setup google calendar and contacts."
-msgstr "En insticksmodul för att konfigurera Google Kalender."
+msgstr "En insticksmodul för att konfigurera Google Kalender och Kontakter."
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:2
 msgid "Google sources"
@@ -17489,18 +17472,16 @@ msgid "You have to specify a valid user name to give proxy rights."
 msgstr "Du måste ange ett giltigt användarnamn att ge proxyrättigheter."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:1
-#, fuzzy
 msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
-msgstr "En mapp med namnet &quot;{0}&quot; finns redan. Använd ett annat namn."
+msgstr "Kontot &quot;{0}&quot; finns redan. Kontrollera ditt mappträd."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:2
 msgid "Account Already Exists"
 msgstr "Kontot finns redan"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:4
-#, fuzzy
 msgid "Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email address and try again."
-msgstr "En mapp med namnet &quot;{0}&quot; finns redan. Använd ett annat namn."
+msgstr "Proxyinloggning som &quot;{0}&quot; misslyckades. Kontrollera din e-postadress och försök igen."
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:3
 msgid "This is a recurring meeting"
@@ -17845,9 +17826,8 @@ msgid "iCalendar format (.ics)"
 msgstr "iCalendar-format (.ics)"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
-#, fuzzy
 msgid "Synchronize the selected task/memo/calendar/address book with Apple iPod"
-msgstr "Synkronisera den markerade uppgiften/memot/kalendern/adressboken med Apple iPod"
+msgstr "Synkronisera markerad uppgift/memo/kalender/adressbok med Apple iPod"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
 msgid "Synchronize to iPod"
@@ -18536,9 +18516,8 @@ msgid "Generates a D-Bus message when new mail messages arrive."
 msgstr "Genererar ett D-Bus-meddelande när nya meddelanden anländer."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
-#, fuzzy
 msgid "If \"true\", then beep, otherwise will play sound file when new messages arrive."
-msgstr "Om sant, använd pip, annars spela upp ljudfil när nya meddelanden anländer."
+msgstr "Om \"sant\", använd pip, spela annars upp ljudfil när nya meddelanden anländer."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Notify new messages for Inbox only."
@@ -18778,13 +18757,12 @@ msgid "Send e-mail message to mailing list?"
 msgstr "Skicka e-postmeddelande till sändlista?"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:10
-#, fuzzy
 msgid ""
 "The action could not be performed. This means the header for this action did not contain any action we could process.\n"
 "\n"
 "Header: {0}"
 msgstr ""
-"Åtgärden kunde inte utföras. Detta betyder att rubriken för denna åtgärd inte innehöll någon åtgärd som vi kan hantera.\n"
+"Åtgärden kunde inte genomföras. Detta betyder att rubriken för denna åtgärd inte innehöll någon åtgärd som vi kan behandla.\n"
 "\n"
 "Rubrik: {0}"
 
@@ -18863,9 +18841,8 @@ msgid "Also mark messages in subfolders?"
 msgstr "Markera även meddelanden i undermappar?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:41
-#, fuzzy
 msgid "Do you want to mark messages as read in the current folder only, or in the current folder as well as all subfolders?"
-msgstr "Detta kommer att markera alla meddelanden som lästa i den markerade mappen och dess undermappar."
+msgstr "Vill du markera meddelanden som lästa i endast den markerade mappen eller i den aktuella mappen såväl som alla dess undermappar?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:164
 msgid "Current Folder and _Subfolders"
@@ -19103,7 +19080,7 @@ msgstr "Hej Python"
 
 #: ../plugins/python/example/org-gnome-hello-python-ui.xml.h:2
 msgid "Python Plugin Loader tests"
-msgstr ""
+msgstr "Python-insticksinläsare testar"
 
 #: ../plugins/python/example/org-gnome-hello-python.eplug.xml.h:1
 msgid "Python Test Plugin"
@@ -19410,9 +19387,8 @@ msgid "F_all back to threading messages by subject"
 msgstr "Fall tillbaka på trådning av meddelanden efter _ämne"
 
 #: ../plugins/templates/apps-evolution-template-placeholders.schemas.in.h:1
-#, fuzzy
 msgid "List of keyword/value pairs for the Templates plugin to substitute in a message body."
-msgstr "Lista över ledtrådar för bilagepåminnaren att leta efter i meddelandetexten."
+msgstr "Lista över nyckelord/värdepar för insticksmodulen Mallar att ersätta i meddelandetexten."
 
 #: ../plugins/templates/templates.c:615
 msgid "No title"
@@ -19439,9 +19415,8 @@ msgid "TNEF Attachment decoder"
 msgstr "Avkodare för TNEF-bilagor"
 
 #: ../plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin to setup WebDAV contacts."
-msgstr "En insticksmodul för att konfigurera Google Kalender."
+msgstr "En insticksmodul för att konfigurera WebDAV-kontakter."
 
 #: ../plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml.h:2
 msgid "WebDAV contacts"
@@ -19531,7 +19506,7 @@ msgstr "Id eller alias för den komponent som ska visas som standard vid uppstar
 
 #: ../shell/apps_evolution_shell.schemas.in.h:14
 msgid "If true, then connections to the proxy server require authentication. The username is retrieved from the \"/apps/evolution/shell/network_config/authentication_user\" GConf key, and the password is retrieved from either gnome-keyring or the ~/.gnome2_private/Evolution password file."
-msgstr ""
+msgstr "Om sant behöver anslutningar till proxyservern autentiseras. Användarnamnet hämtas från GConf-nyckeln \"/apps/evolution/shell/network_config/authentication_user\" och lösenordet hämtas från antingen gnome-keyring eller lösenordsfilen ~/.gnome2_private/Evolution."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:15
 msgid "Last upgraded configuration version"
@@ -19543,11 +19518,11 @@ msgstr "Lista med sökvägar till de mappar som ska synkroniseras till disk vid 
 
 #: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "Non-proxy hosts"
-msgstr ""
+msgstr "Värdar som inte går genom proxy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:18
 msgid "Password to pass as authentication when doing HTTP proxying."
-msgstr ""
+msgstr "Lösenord att skicka som autentisering när HTTP-proxy används."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Proxy configuration mode"
@@ -19640,7 +19615,7 @@ msgstr "Stilen på fönsterknapparna. Kan vara \"text\", \"icons\" (ikoner), \"b
 
 #: ../shell/apps_evolution_shell.schemas.in.h:41
 msgid "This key contains a list of hosts which are connected to directly, rather than via the proxy (if it is active). The values can be hostnames, domains (using an initial wildcard like *.foo.com), IP host addresses (both IPv4 and IPv6) and network addresses with a netmask (something like 192.168.0.0/24)."
-msgstr ""
+msgstr "Denna nyckel innehåller en lista över värdar som är anslutna till direkt, istället för via proxyservern (om den är aktiv). Värdena kan vara värdnamn, domäner (med ett initialt jokertecken som *.foo.se), IP-värdadresser (både IPv4 och IPv6) samt nätverksadresser med en nätmask (exempelvis 192.168.0.0/24)."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:42
 msgid "Toolbar is visible"
@@ -19711,12 +19686,8 @@ msgid "Choose the type of importer to run:"
 msgstr "Välj den typ av importör som ska köras:"
 
 #: ../shell/e-shell-importer.c:134
-#, fuzzy
 msgid "Choose the file that you want to import into Evolution, and select what type of file it is from the list."
-msgstr ""
-"Välj den fil som du vill importera till Evolution, och välj vilken typ av fil det är i listan.\n"
-"\n"
-"Du kan välja \"Automatisk\" om du inte vet, så kommer Evolution att försöka reda ut det."
+msgstr "Välj den fil som du vill importera till Evolution och välj vilken typ av fil det är från listan."
 
 #: ../shell/e-shell-importer.c:138
 msgid "Choose the destination for this import"
@@ -19821,22 +19792,24 @@ msgid "Work Offline"
 msgstr "Arbeta frånkopplad"
 
 #: ../shell/e-shell-window.c:381
-#, fuzzy
 msgid ""
 "Evolution is currently online.\n"
 "Click on this button to work offline."
-msgstr "Evolution är just nu ansluten. Klicka på denna knapp för att arbeta frånkopplad."
+msgstr ""
+"Evolution är just nu i anslutet läge.\n"
+"Klicka på denna knapp för att arbeta frånkopplad."
 
 #: ../shell/e-shell-window.c:388
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution håller på att koppla från."
 
 #: ../shell/e-shell-window.c:395
-#, fuzzy
 msgid ""
 "Evolution is currently offline.\n"
 "Click on this button to work online."
-msgstr "Evolution är just nu frånkopplad. Klicka på denna knapp för att arbeta ansluten."
+msgstr ""
+"Evolution är just nu i frånkopplat läge.\n"
+"Klicka på denna knapp för att arbeta ansluten."
 
 #: ../shell/e-shell-window.c:786
 #, c-format
@@ -21236,7 +21209,7 @@ msgstr "Tillämpa filterregler på de markerade meddelandena"
 
 #: ../ui/evolution-mail-message.xml.h:7
 msgid "Check for _Junk"
-msgstr "Kontrollera _skräppost"
+msgstr "Leta efter _skräppost"
 
 #: ../ui/evolution-mail-message.xml.h:8
 msgid "Compose _New Message"
@@ -22522,9 +22495,8 @@ msgid "World Map"
 msgstr "Världskarta"
 
 #: ../widgets/misc/e-map.c:629
-#, fuzzy
 msgid "Mouse-based interactive map widget for selecting timezone. Keyboard users should instead select the timezone from the drop-down combination box below."
-msgstr "Musbaserad interaktiv karta för val av tidszon. Tangentbordsanvändare bör istället välja tidszon ur den nedanstående kombinationsrutan."
+msgstr "Musbaserad interaktiv kartwidget för val av tidszon. Tangentbordsanvändare bör istället välja tidszon ur den nedanstående kombinationsrutan."
 
 #: ../widgets/misc/e-online-button.c:109
 msgid "Online"
