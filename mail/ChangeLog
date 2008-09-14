@@ -1,3 +1,11 @@
+2008-09-14  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #551915
+
+	* em-junk-hook.c: (struct manage_error_idle_data), (free_mei),
+	(manage_error_idle), (manage_error):
+	Manage error on idle, to call gtk functions in the main thread.
+
 2008-09-12  Sankar P  <psankar@novell.com>
 
 License Changes
