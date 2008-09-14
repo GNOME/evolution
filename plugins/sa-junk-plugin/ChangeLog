@@ -1,3 +1,10 @@
+2008-09-12  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #505016
+
+	* em-junk-filter.c: (em_junk_sa_check_junk):
+	Check for NULL to prevent crash when error occurred.
+
 2008-04-25  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #273041
