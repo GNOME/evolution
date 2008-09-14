@@ -337,10 +337,28 @@ update_row (EWeekView *week_view, int row)
 {
 	ECalModelComponent *comp_data;
 	ECalModel *model;
+	gint event_num;
+	const char *uid;
+	char *rid = NULL;
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 	comp_data = e_cal_model_get_component_at (model, row);
 	g_return_if_fail (comp_data != NULL);
+
+	uid = icalcomponent_get_uid (comp_data->icalcomp);
+	if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
+		icalproperty *prop;
+
+		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_RECURRENCEID_PROPERTY);
+		if (prop)
+			rid = icaltime_as_ical_string (icalcomponent_get_recurrenceid (comp_data->icalcomp));
+	}
+
+	if (e_week_view_find_event_from_uid (week_view, comp_data->client, uid, rid, &event_num))
+		e_week_view_remove_event_cb (week_view, event_num, NULL);
+
+	g_free (rid);
+
 	process_component (week_view, comp_data);
 
 	gtk_widget_queue_draw (week_view->main_canvas);

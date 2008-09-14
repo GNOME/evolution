@@ -1499,7 +1499,7 @@ e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer user_d
 
 	/*  re-add only the recurrence objects */
 	for (l = objects; l != NULL; l = g_list_next (l)) {
-		if (e_cal_util_component_has_recurrences (l->data) && (priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES)) 
+		if (!e_cal_util_component_is_instance (l->data) && e_cal_util_component_has_recurrences (l->data) && (priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES)) 
 			list = g_list_prepend (list, l->data);
 		else {
 			int pos;
@@ -1507,7 +1507,7 @@ e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer user_d
 			ECalComponentId *id;
 			ECalComponent *comp = e_cal_component_new ();
 			ECal *client = e_cal_view_get_client (query);
-		
+
 			if (!e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (l->data))) {
 				g_object_unref (comp);
 				continue;
@@ -1516,13 +1516,34 @@ e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer user_d
 			e_table_model_pre_change (E_TABLE_MODEL (model));
 
 			id = e_cal_component_get_id (comp);
-				
+
 			comp_data = search_by_id_and_client (priv, client, id);
-			icalcomponent_free (comp_data->icalcomp);
-			
+			if (comp_data->icalcomp)
+				icalcomponent_free (comp_data->icalcomp);
+			if (comp_data->dtstart) {
+				g_free (comp_data->dtstart);
+				comp_data->dtstart = NULL;
+			}
+			if (comp_data->dtend) {
+				g_free (comp_data->dtend);
+				comp_data->dtend = NULL;
+			}
+			if (comp_data->due) {
+				g_free (comp_data->due);
+				comp_data->due = NULL;
+			}
+			if (comp_data->completed) {
+				g_free (comp_data->completed);
+				comp_data->completed = NULL;
+			}
+			if (comp_data->color) {
+				g_free (comp_data->color);
+				comp_data->color = NULL;
+			}
+
 			comp_data->icalcomp = icalcomponent_new_clone (l->data);
 			e_cal_model_set_instance_times (comp_data, priv->zone);
-			
+
 			pos = get_position_in_array (priv->objects, comp_data);
 			
 			e_table_model_row_changed (E_TABLE_MODEL (model), pos);

@@ -1,3 +1,12 @@
+2008-09-14  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	** Fix for bug #551628
+
+	* gui/e-cal-model.c: (e_cal_view_objects_modified_cb):
+	* gui/e-day-view.c: (update_row), (model_comps_deleted_cb):
+	* gui/e-week-view.c: (update_row): Remove old events from the 
+	view when objects are modified. 
+
 2008-09-12  Paul Bolle  <pebolle@tiscali.nl>
 
 	** Fix for bug #551895
