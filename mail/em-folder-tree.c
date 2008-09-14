@@ -662,7 +662,7 @@ emft_expand_node (EMFolderTreeModel *model, const char *key, EMFolderTree *emft)
 		row = si->row;
 
 	path = gtk_tree_row_reference_get_path (row);
-	gtk_tree_view_expand_row (priv->treeview, path, FALSE);
+	gtk_tree_view_expand_to_path (priv->treeview, path);
 
 	u = g_hash_table_lookup(emft->priv->select_uris_table, key);
 	if (u)

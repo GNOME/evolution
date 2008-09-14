@@ -1,5 +1,12 @@
 2008-09-14  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #504767
+
+	* em-folder-tree.c: (emft_expand_node):
+	Expand also parent nodes, if necessary.
+
+2008-09-14  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #551915
 
 	* em-junk-hook.c: (struct manage_error_idle_data), (free_mei),
