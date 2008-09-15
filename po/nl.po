@@ -1,7 +1,21 @@
-# translation of evolution.gnome-2-14.po to Dutch
-# Evolution - Dutch translation
-# Copyright (C) 2000-2008 Free Software Foundation, Inc.
-# -------------------------------------------------------
+# Dutch translation for Evolution
+#
+# This file is distributed under the same license as the evolution package.
+#
+# Arjan Scherpenisse <acscherp@wins.uva.nl>, 2000.
+# Gerard Oskamp <gerard@linuxfreak.nl>, 2000.
+# Dennis Smit <synap@area101.penguin.nl>, 2000.
+# Almer S. Tigelaar <almer@gnome.org>, 2000, 2001.
+# Dirk-Jan C. Binnema <dirkjan@gnome.org>, 2001.
+# Mendel Mobach <mendel@mobach.nl>, 2001.
+# Kees van den Broek <kvdb@NOSPAMkvdb.net>, 2003.
+# Tino Meinen <a.t.meinen@chello.nl>, 2004, 2005, 2006, 2007, 2008.
+# Daniel van Eeden <daniel_e@dds.nl>, 2004.
+# Elros Cyriatan <cyriatan@fastmail.fm>, 2004.
+# Vincent van Adrighem <adrighem@gnome.org>, 2001, 2003, 2004, 2005, 2006.
+# Reinout van Schouwen <reinouts@gnome.org>, 2007, 2008
+#
+#
 # Woordenlijst: (naar believen aanvullen a.u.b)
 #
 # appointment - afspraak
@@ -16,7 +30,7 @@
 # due to an error -? door een fout/vanwege een fout
 # decline -? afzeggen/weigeren/afwijzen
 # delegate - gemachtigde
-# delegatee - ? machtigende
+# delegatee - ? machtigende/opdrachtgever
 # enveloped -? omhuld
 # event - notitie (altijd bij agenda's, agenda's bevatten notities)
 # expunge -? schrappen/leegmaken/definitief verwijderen/opruimen/opschonen/ruimen
@@ -38,27 +52,13 @@
 # subscription -? abonnement/inschrijving
 # sync -? sync/synchroniseren/actualiseren
 #
-# ------------------------------------------------------
-#
-# Arjan Scherpenisse <acscherp@wins.uva.nl>, 2000.
-# Gerard Oskamp <gerard@linuxfreak.nl>, 2000.
-# Dennis Smit <synap@area101.penguin.nl>, 2000.
-# Almer S. Tigelaar <almer@gnome.org>, 2000, 2001.
-# Dirk-Jan C. Binnema <dirkjan@gnome.org>, 2001.
-# Mendel Mobach <mendel@mobach.nl>, 2001.
-# Kees van den Broek <kvdb@NOSPAMkvdb.net>, 2003.
-# Tino Meinen <a.t.meinen@chello.nl>, 2004, 2005, 2006, 2007, 2008.
-# Daniel van Eeden <daniel_e@dds.nl>, 2004.
-# Elros Cyriatan <cyriatan@fastmail.fm>, 2004.
-# Vincent van Adrighem <adrighem@gnome.org>, 2001, 2003, 2004, 2005, 2006.
-# Reinout van Schouwen <reinouts@gnome.org>, 2007, 2008
 #: ../shell/main.c:589
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution.gnome-2-20\n"
+"Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-06 16:13+0000\n"
-"PO-Revision-Date: 2008-05-19 02:14+0200\n"
+"POT-Creation-Date: 2008-09-07 21:25+0000\n"
+"PO-Revision-Date: 2008-09-15 12:52+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "MIME-Version: 1.0\n"
@@ -529,7 +529,8 @@ msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
 msgstr ""
-"De adresboekserver is onbereikbaar. Misschien heeft u een tikfout gemaakt in de naam of is er geen netwerkverbinding."
+"De adresboekserver is onbereikbaar. Misschien heeft u een tikfout gemaakt in "
+"de naam of is er geen netwerkverbinding."
 
 #: ../addressbook/addressbook.error.xml.h:27
 msgid "This address book will be removed permanently."
@@ -560,7 +561,8 @@ msgid ""
 "You are attempting to move a contact from one address book to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
-"U probeert een contact te verplaatsen naar een ander adresboek, maar deze kan niet verwijderd worden. Wilt u in plaats van verplaatsen een kopie maken?"
+"U probeert een contact te verplaatsen naar een ander adresboek, maar deze "
+"kan niet verwijderd worden. Wilt u in plaats van verplaatsen een kopie maken?"
 
 #: ../addressbook/addressbook.error.xml.h:34
 msgid ""
@@ -3663,11 +3665,7 @@ msgid ""
 "We were unable to open this address book. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the address book once in online mode to download its contents"
-msgstr ""
-"Kan adresboek niet openen. Dit betekent dat het niet "
-"aangemerkt is voor off-line gebruik of nog niet is gedownload voor off-line "
-"gebruik. Om de inhoud te downloaden moet u het adresboek eenmalig "
-"on-line laden."
+msgstr "Kan adresboek niet openen. Dit betekent dat het niet aangemerkt is voor off-line gebruik of nog niet is gedownload voor off-line gebruik. Om de inhoud te downloaden moet u het adresboek eenmalig online laden."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:116
 #, c-format
@@ -3675,17 +3673,16 @@ msgid ""
 "We were unable to open this address book.  Please check that the path %s "
 "exists and that you have permission to access it."
 msgstr ""
-"Kan adresboek niet openen.  Controleer of het pad %s bestaat en "
-"of u het mag benaderen."
+"Kan adresboek niet openen.  Controleer of het pad %s bestaat en of u het mag "
+"benaderen."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:125
 msgid ""
 "We were unable to open this address book.  This either means you have "
 "entered an incorrect URI, or the LDAP server is unreachable."
 msgstr ""
-"Kan adresboek niet openen.  Dit kan komen doordat"
-"u een ongeldige URI heeft opgegeven of doordat de LDAP server"
-"onbereikbaar is."
+"Kan adresboek niet openen.  Dit kan komen doordatu een ongeldige URI heeft "
+"opgegeven of doordat de LDAP serveronbereikbaar is."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:130
 msgid ""
@@ -4227,8 +4224,8 @@ msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar from the side bar in the Calendar view."
 msgstr ""
-"‘{0}’ is een alleen-lezen agenda. Ga naar agendaweergave en "
-"selecteer een andere agenda."
+"‘{0}’ is een alleen-lezen agenda. Ga naar agendaweergave en selecteer een "
+"andere agenda."
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:4
@@ -4236,8 +4233,8 @@ msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
 msgstr ""
-"‘{0}’ is een alleen-lezen agenda. Ga naar agendaweergave en "
-"selecteer een agenda die afspraken kan accepteren."
+"‘{0}’ is een alleen-lezen agenda. Ga naar agendaweergave en selecteer een "
+"agenda die afspraken kan accepteren."
 
 # samenvatting/onderwerp
 #: ../calendar/calendar.error.xml.h:5
@@ -13243,8 +13240,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"De opslagmethode voor samenvattingen van de Evolution mailbox-mappen is gewijzigd naar sqlite sinds "
-"Evolution 2.24.\n"
+"De opslagmethode voor samenvattingen van de Evolution mailbox-mappen is "
+"gewijzigd naar sqlite sinds Evolution 2.24.\n"
 "\n"
 "Een ogenblik geduld, uw mappen worden door Evolution gemigreerd…"
 
@@ -13781,9 +13778,9 @@ msgid ""
 "contacts. \"2\" - Always load images off the net."
 msgstr ""
 "Afbeeldingen voor berichten met HTML-opmaak via http(s) ophalen. De "
-"mogelijkheden zijn: \"0\" - Nooit afbeeldingen van het internet ophalen. \"1\" - "
-"Afbeeldingen ophalen als de afzender in het adresboek staat \"2\" - Altijd "
-"afbeeldingen van het internet ophalen."
+"mogelijkheden zijn: \"0\" - Nooit afbeeldingen van het internet ophalen. \"1"
+"\" - Afbeeldingen ophalen als de afzender in het adresboek staat \"2\" - "
+"Altijd afbeeldingen van het internet ophalen."
 
 #: ../mail/evolution-mail.schemas.in.h:82
 msgid "Log filter actions"
@@ -14038,8 +14035,8 @@ msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
 msgstr ""
-"Dit kan drie waardes aannemen: \"0\" voor fouten, \"1\" voor waarschuwingen, \"2\" voor "
-"debug-berichten."
+"Dit kan drie waardes aannemen: \"0\" voor fouten, \"1\" voor waarschuwingen, "
+"\"2\" voor debug-berichten."
 
 #: ../mail/evolution-mail.schemas.in.h:141
 msgid ""
@@ -14063,10 +14060,7 @@ msgstr ""
 msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
-msgstr ""
-"Deze sleutel wordt slechts een keer gelezen en na het lezen op \"onwaar\" gezet. "
-"Dit deselecteert de e-mail uit de lijst en verwijdert de voorbeeldweergave "
-"voor die map."
+msgstr "Deze sleutel wordt slechts een keer gelezen en na het lezen op ‘onwaar’ gezet. Dit deselecteert de e-mail uit de lijst en verwijdert de voorbeeldweergave voor die map."
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid ""
@@ -15478,7 +15472,7 @@ msgstr[0] "Ophalen van %d bericht"
 msgstr[1] "Ophalen van %d berichten"
 
 #: ../mail/mail-ops.c:1980
-#, fuzzy, c-format
+#, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] "Opslaan van %d bericht"
@@ -16788,7 +16782,8 @@ msgstr "Contacten voor expresberichten"
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:603
 msgid "Synchronize contact info and images from Pidgin buddy list"
-msgstr "Contactinformatie en afbeeldingen synchroniseren met Pidgin contactenlijst"
+msgstr ""
+"Contactinformatie en afbeeldingen synchroniseren met Pidgin contactenlijst"
 
 #: ../plugins/bbdb/bbdb.c:609
 msgid "Select Address book for Pidgin buddy list"
@@ -17085,12 +17080,13 @@ msgstr "Eigen berichtkoppen"
 msgid "List of Custom Headers"
 msgstr "Lijst van aangepaste berichtkoppen"
 
+# kopteksten/headers
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:2
 msgid ""
 "The key specifies the list of custom headers that you can add to an outgoing "
 "message. The format for specifying a Header and Header value is: Name of the "
 "custom header followed by \"=\" and the values separated by \";\""
-msgstr ""
+msgstr "De sleutel specificeert de lijst met aangepaste headers die u aan een uitgaand bericht kunt toevoegen. Het format voor een header en headerwaarde is: naam van de aangepaste header, gevolgd door ‘=’ en de waarden gescheiden door ‘;’"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
 msgid "Open Other User's Folder"
@@ -18186,9 +18182,9 @@ msgid "Please enter user name first."
 msgstr "Eerst gebruikersnaam invoeren."
 
 #: ../plugins/google-account-setup/google-source.c:443
-#, fuzzy, c-format
+#, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
-msgstr "Neem abonnement op deze map"
+msgstr "Geef het wachtwoord voor %s voor toegang tot de lijst met geabonneerde agenda's."
 
 #: ../plugins/google-account-setup/google-source.c:543
 #, c-format
@@ -18196,27 +18192,25 @@ msgid ""
 "Cannot read data from Google server.\n"
 "%s"
 msgstr ""
+"Kan geen gegevens van de Google-server lezen.\n"
+"%s"
 
 #: ../plugins/google-account-setup/google-source.c:693
-#, fuzzy
 msgid "Cal_endar:"
 msgstr "_Agenda:"
 
 #: ../plugins/google-account-setup/google-source.c:728
-#, fuzzy
 msgid "Retrieve _list"
-msgstr "Ophalen van ‘%s’"
+msgstr "_Lijst ophalen"
 
 #: ../plugins/google-account-setup/google-contacts-source.c:268
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:300
-#, fuzzy
 msgid "<b>Server</b>"
-msgstr "<b>Leden</b>"
+msgstr "<b>Server</b>"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin to setup google calendar and contacts."
-msgstr "Een plugin voor het instellen van Google-agenda."
+msgstr "Een plugin voor het instellen van Google-agenda en contacten."
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:2
 msgid "Google sources"
@@ -18307,15 +18301,14 @@ msgid "_Junk List"
 msgstr "_Spamlijst"
 
 #: ../plugins/groupwise-features/mail-retract.c:53
-#, fuzzy
 msgid "Message Retract"
-msgstr "Berichtstatus"
+msgstr "Bericht terughalen"
 
 #: ../plugins/groupwise-features/mail-retract.c:58
 msgid ""
 "Retracting a message may remove it from the recipient's mailbox. Are you "
 "sure you want to do this ?"
-msgstr ""
+msgstr "Terughalen van een bericht haalt het mogelijk weg uit de mailbox van de ontvanger. Weet u zeker dat u dat wilt doen?"
 
 # retract: terugtrekken/intrekken
 # terughalen
@@ -18389,28 +18382,24 @@ msgid "Account Already Exists"
 msgstr "Account bestaat al"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:4
-#, fuzzy
 msgid ""
 "Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email "
 "address and try again."
-msgstr ""
-"Proxy-login als &quot;{0}&quot; is niet gelukt. Controleer e-mail-ID en "
-"probeer opnieuw."
+msgstr "Proxy-login als &quot;{0}&quot; is niet gelukt. Controleer uw e-mailadres en probeer opnieuw."
 
-# Deze bijeenkomst herhalen/herhaalt zich
+# Deze bijeenkomst herhalen/herhaalt zich/komt regelmatig terug
+# is herhaaldelijk gepland/
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:3
 msgid "This is a recurring meeting"
-msgstr "Deze bijeenkomst herhalen"
+msgstr "Deze bijeenkomst herhaalt zich"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:4
-#, fuzzy
 msgid "Would you like to accept it?"
-msgstr "Wat wilt u {0}?"
+msgstr "Wilt u het accepteren?"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:5
-#, fuzzy
 msgid "Would you like to decline it?"
-msgstr "Wilt u de wijzingen opslaan?"
+msgstr "Wilt u het afwijzen?"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:6
 msgid "You cannot share folder with specified user &quot;{0}&quot;"
@@ -18764,10 +18753,9 @@ msgid "iCalendar format (.ics)"
 msgstr "iCalendar-formaat (.ics)"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "Synchronize the selected task/memo/calendar/address book with Apple iPod"
-msgstr "Synchroniseer geselecteerde taak/agenda/adresboek met een Apple iPod"
+msgstr "Synchroniseer geselecteerde taak/memo/agenda/adresboek met een Apple iPod"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
 msgid "Synchronize to iPod"
@@ -19516,13 +19504,10 @@ msgid "Generates a D-Bus message when new mail messages arrive."
 msgstr "Genereert een D-Busbericht bij binnenkomst van nieuwe e-mail."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
-#, fuzzy
 msgid ""
 "If \"true\", then beep, otherwise will play sound file when new messages "
 "arrive."
-msgstr ""
-"Indien ingeschakeld, piepen. Anders een geluidsbestand afspelen bij "
-"binnenkomst van nieuwe berichten."
+msgstr "Indien aangevinkt, piepen. Anders een geluidsbestand afspelen bij binnenkomst van nieuwe berichten."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Notify new messages for Inbox only."
@@ -19577,14 +19562,12 @@ msgid "Generate a _D-Bus message"
 msgstr "Een _D-busbericht genereren"
 
 #: ../plugins/mail-notification/mail-notification.c:377
-#, fuzzy
 msgid "Evolution's Mail Notification"
-msgstr "E-mailmelding"
+msgstr "Evolutions E-mailmelding"
 
 #: ../plugins/mail-notification/mail-notification.c:398
-#, fuzzy
 msgid "Mail Notification Properties"
-msgstr "E-mailmelding"
+msgstr "E-mailmelding eigenschappen"
 
 # 'ontvangen' kan in principe weggelaten worden
 #. To translators: '%d' is the number of mails recieved and '%s' is the name of the folder
@@ -19808,8 +19791,8 @@ msgstr ""
 msgid "Send e-mail message to mailing list?"
 msgstr "E-mailbericht aan mailinglijst sturen?"
 
+# kopregels/header
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:10
-#, fuzzy
 msgid ""
 "The action could not be performed. This means the header for this action did "
 "not contain any action we could process.\n"
@@ -19827,7 +19810,7 @@ msgid ""
 "\n"
 "Header: {1}"
 msgstr ""
-"De {0} header van dit bericht misvormd en kon niet worden verwerkt\n"
+"De {0} header van dit bericht is misvormd en kon niet worden verwerkt\n"
 "\n"
 "Header: {1}"
 
@@ -19835,8 +19818,7 @@ msgstr ""
 msgid ""
 "This message does not contain the header information required for this "
 "action."
-msgstr ""
-"Dit bericht bevat de header-informatie niet die vereist is voor deze actie."
+msgstr "Dit bericht bevat niet de header-informatie die vereist is voor deze actie."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:17
 msgid "_Edit message"
@@ -19898,29 +19880,22 @@ msgid "_Unsubscribe from List"
 msgstr "_Abonnement op de lijst opzeggen"
 
 #: ../plugins/mark-all-read/mark-all-read.c:39
-#, fuzzy
 msgid "Also mark messages in subfolders?"
-msgstr "Berichten worden verplaatst naar map %s"
+msgstr "Ook de berichten in submappen?"
 
-# worden aangemerkt/beschouwd/gemarkeerd
 #: ../plugins/mark-all-read/mark-all-read.c:41
-#, fuzzy
 msgid ""
 "Do you want to mark messages as read in the current folder only, or in the "
 "current folder as well as all subfolders?"
-msgstr ""
-"Hiermee zullen alle berichten in de geselecteerde map en haar submappen als "
-"gelezen worden gemarkeerd."
+msgstr "Wilt u de berichten in alleen de huidige map aanmerken als ‘gelezen’, of ook in alle submappen?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:164
-#, fuzzy
 msgid "Current Folder and _Subfolders"
-msgstr "op huidige map en _submappen"
+msgstr "Huidige map en _submappen"
 
 #: ../plugins/mark-all-read/mark-all-read.c:176
-#, fuzzy
 msgid "Current _Folder Only"
-msgstr "Huidige map"
+msgstr "Alleen in _huidige map"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:1
 msgid "Mark All Read"
@@ -20162,30 +20137,29 @@ msgstr ""
 "Vrij/Bezet"
 
 #: ../plugins/python/example/org-gnome-hello-python-ui.xml.h:1
-#, fuzzy
 msgid "Hello Python"
-msgstr "Telefoon thuis"
+msgstr "Hallo Python"
 
 #: ../plugins/python/example/org-gnome-hello-python-ui.xml.h:2
 msgid "Python Plugin Loader tests"
-msgstr ""
+msgstr "Python plugin-lader tests"
 
 #: ../plugins/python/example/org-gnome-hello-python.eplug.xml.h:1
 msgid "Python Test Plugin"
-msgstr ""
+msgstr "Python testplugin"
 
 #: ../plugins/python/example/org-gnome-hello-python.eplug.xml.h:2
 msgid "Test Plugin for Python EPlugin loader."
-msgstr ""
+msgstr "Testplugin voor python EPluginlader."
 
+# in/met
 #: ../plugins/python/org-gnome-evolution-python.eplug.xml.h:1
 msgid "A plugin which loads other plugins written using python."
-msgstr ""
+msgstr "Een plugin die andere plugins laadt geschreven in python."
 
 #: ../plugins/python/org-gnome-evolution-python.eplug.xml.h:2
-#, fuzzy
 msgid "Python Loader"
-msgstr "Mono-lader"
+msgstr "Pythonlader"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:108
 msgid "SpamAssassin (built-in)"
@@ -20202,7 +20176,7 @@ msgstr "SpamAssassin niet gevonden, code: %d"
 msgid "Failed to create pipe: %s"
 msgstr "Aanmaken van pijplijn is mislukt: %s"
 
-# afsplitsing/fork
+# afsplitsing/fork/vertakking
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:189
 #, c-format
 msgid "Error after fork: %s"
@@ -20265,8 +20239,6 @@ msgstr ""
 msgid "Save attachments"
 msgstr "Bijlagen opslaan"
 
-# Engels fout: spatie tussen einde zin en ...:
-# Save Attachments ...
 #: ../plugins/save-attachments/org-gnome-save-attachments.xml.h:1
 msgid "Save Attachments..."
 msgstr "Bijlagen opslaan…"
@@ -20275,10 +20247,9 @@ msgstr "Bijlagen opslaan…"
 msgid "Save all attachments"
 msgstr "Alle bijlagen opslaan"
 
-# huh?
 #: ../plugins/save-attachments/save-attachments.c:320
 msgid "Select save base name"
-msgstr "Selecteer opslaan basisnaam"
+msgstr "Selecteer opslag-basisnaam"
 
 #: ../plugins/save-attachments/save-attachments.c:339
 msgid "MIME Type"
@@ -20424,12 +20395,11 @@ msgstr "_Alleen deze takenlijst tonen"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
 msgid "Guides you through your initial account setup."
-msgstr ""
+msgstr "Gidst u door de initiële accountinstellingen."
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:2
-#, fuzzy
 msgid "Setup Assistant"
-msgstr "Assistent"
+msgstr "Instellingen-assistent"
 
 #: ../plugins/startup-wizard/startup-wizard.c:83
 msgid "Evolution Setup Assistant"
@@ -20500,32 +20470,26 @@ msgid "F_all back to threading messages by subject"
 msgstr "Terugvallen naar discussieweergave per _onderwerp"
 
 #: ../plugins/templates/apps-evolution-template-placeholders.schemas.in.h:1
-#, fuzzy
 msgid ""
 "List of keyword/value pairs for the Templates plugin to substitute in a "
 "message body."
-msgstr ""
-"Lijst met trefwoorden waarmee de bijlageherinneringsplugin de tekstinhoud "
-"van het bericht controleert."
+msgstr "Lijst met trefwoord/waarde-combinaties voor de Sjabloonplugin waarmee de tekstinhoud van het bericht wordt omgezet."
 
 #: ../plugins/templates/templates.c:615
-#, fuzzy
 msgid "No title"
-msgstr "Functie"
+msgstr "Geen titel"
 
 #: ../plugins/templates/templates.c:743
-#, fuzzy
 msgid "Save as _Template"
-msgstr "Als klad opslaan"
+msgstr "Als s_jabloon opslaan"
 
 #: ../plugins/templates/templates.c:745
-#, fuzzy
 msgid "Save as Template"
-msgstr "Als klad opslaan"
+msgstr "Als sjabloon opslaan"
 
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Drafts based template plugin"
-msgstr ""
+msgstr "Sjabloonplugin op klad gebaseerd"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
 msgid "A simple plugin which uses ytnef to decode tnef attachments."
@@ -20537,29 +20501,26 @@ msgid "TNEF Attachment decoder"
 msgstr "TNEF-bijlagedecoder"
 
 #: ../plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin to setup WebDAV contacts."
-msgstr "Een plugin voor het instellen van Google-agenda."
+msgstr "Een plugin voor het instellen van WebDAV-contacten."
 
 #: ../plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml.h:2
-#, fuzzy
 msgid "WebDAV contacts"
-msgstr "Geen contacten"
+msgstr "WebDAV-contacten"
 
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:69
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:74
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:100
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:311
-#, fuzzy
 msgid "URL:"
-msgstr "_URL:"
+msgstr "URL:"
 
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:338
 msgid "_Avoid IfMatch (needed on apache < 2.2.8)"
-msgstr ""
+msgstr "IfMatch _vermijden (nodig voor apache < 2.2.8)"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
@@ -20636,17 +20597,12 @@ msgstr ""
 "ID of alias van het component dat bij het opstarten moet worden weergegeven."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:14
-#, fuzzy
 msgid ""
 "If true, then connections to the proxy server require authentication. The "
 "username is retrieved from the \"/apps/evolution/shell/network_config/"
 "authentication_user\" GConf key, and the password is retrieved from either "
 "gnome-keyring or the ~/.gnome2_private/Evolution password file."
-msgstr ""
-"Indien ingeschakeld, vereisen verbindingen met de proxy-server "
-"aanmeldingscontrole. De combinatie gebruikersnaam/wachtwoord id gedefinieerd "
-"in ‘/apps/evolution/shell/network_config/authentication_user’ en het lokaal "
-"opgeslagen wachtwoord in ‘.gnome2_private/.’"
+msgstr "Indien aangevinkt, vereisen verbindingen met de proxy-server aanmeldingscontrole. De gebruikersnaam wordt opgehaald uit de GConf-sleutel ‘/apps/evolution/shell/network_config/authentication_user’, en het wachtwoord uit ofwel gnome-keyring, of het wachtwoordbestand ‘.gnome2_private/Evolution’."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:15
 msgid "Last upgraded configuration version"
@@ -20877,17 +20833,13 @@ msgstr "Klik op OK om deze verbindingen te verbreken en offline te gaan"
 msgid "Choose the type of importer to run:"
 msgstr "Kies welk type importeerfilter u wilt gebruiken:"
 
+# U kunt 'Automatisch' kiezen als u het niet weet; 
+# Evolution probeert het dan voor u uit te zoeken.
 #: ../shell/e-shell-importer.c:134
-#, fuzzy
 msgid ""
 "Choose the file that you want to import into Evolution, and select what type "
 "of file it is from the list."
-msgstr ""
-"Kies het bestand dat u wilt importeren in Evolution, en kies het "
-"bijbehorende bestandstype uit de lijst.\n"
-"\n"
-"U kunt \"Automatisch\" kiezen als u het niet weet; Evolution probeert het "
-"dan voor u uit te zoeken."
+msgstr "Kies het bestand dat u wilt importeren in Evolution, en kies het bijbehorende bestandstype uit de lijst."
 
 #: ../shell/e-shell-importer.c:138
 msgid "Choose the destination for this import"
@@ -20904,7 +20856,7 @@ msgstr ""
 "Evolution heeft geprobeerd de instellingen van de volgende\n"
 "mailtoepassingen over te nemen: Pine, Netscape, Elm, iCalendar.\n"
 "Er zijn echter niets gevonden dat geïmporteerd konden worden.\n"
-"Indien u het nogmaals wilt proberen klikt u op \"Terug\".\n"
+"Indien u het nogmaals wilt proberen klikt u op ‘Terug’.\n"
 
 #: ../shell/e-shell-importer.c:282
 msgid "F_ilename:"
@@ -20999,29 +20951,29 @@ msgstr "_Offline werken"
 msgid "Work Offline"
 msgstr "Werken zonder netwerk"
 
+# Evolution is nu verbonden met het netwerk.
+# Klik op deze knop om zonder netwerkverbinding te werken.
 #: ../shell/e-shell-window.c:381
-#, fuzzy
 msgid ""
 "Evolution is currently online.\n"
 "Click on this button to work offline."
 msgstr ""
-"Evolution is nu verbonden met het netwerk.  Klik op deze knop om zonder "
-"netwerkverbinding te werken."
+"Evolution is momenteel online.\n"
+"Klik op deze knop om offline te werken."
 
 #: ../shell/e-shell-window.c:388
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution is bezig offline te gaan."
 
-# te werken/te gaan werken
-# met een netwerkverbinding/online
+# Evolution is nu niet verbonden met het netwerk.
+# Klik op deze knop om online te gaan werken.
 #: ../shell/e-shell-window.c:395
-#, fuzzy
 msgid ""
 "Evolution is currently offline.\n"
 "Click on this button to work online."
 msgstr ""
-"Evolution is nu niet verbonden met het netwerk. Klik op deze knop om online "
-"te gaan werken."
+"Evolution is momenteel offline.\n"
+"Klik op deze knop om online te werken."
 
 #: ../shell/e-shell-window.c:786
 #, c-format
@@ -21065,7 +21017,6 @@ msgid "New Test"
 msgstr "Nieuwe taak"
 
 #: ../shell/test/evolution-test-component.c:106
-#, fuzzy
 msgctxt "New"
 msgid "_Test"
 msgstr "_Test"
@@ -21076,9 +21027,7 @@ msgstr "Maak een nieuwe test item aan"
 
 #: ../shell/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr ""
-"Klik op \"Importeren\" om te beginnen met het importeren van het bestand in "
-"Evolution."
+msgstr "Klik op ‘Importeren’ om te beginnen met het importeren van het bestand in Evolution."
 
 #: ../shell/import.glade.h:2
 msgid "Evolution Import Assistant"
@@ -21885,7 +21834,6 @@ msgid "Copy to Folder..."
 msgstr "aar map kopiëren…"
 
 #: ../ui/evolution-addressbook.xml.h:11
-#, fuzzy
 msgid "Create a new address book folder"
 msgstr "Een nieuwe adresboekmap aanmaken"
 
@@ -23163,9 +23111,8 @@ msgid "View/Hide the Status Bar"
 msgstr "De statusbalk tonen/verbergen"
 
 #: ../ui/evolution.xml.h:39
-#, fuzzy
 msgid "Work _Offline"
-msgstr "Werken zonder netwerk"
+msgstr "_Offline werken"
 
 #: ../ui/evolution.xml.h:40
 msgid "_About"
@@ -23809,14 +23756,15 @@ msgstr ""
 "Toetsenbordgebruikers moeten de tijdzone kiezen met het drop-down "
 "combinatieveld hieronder."
 
+# http://www.onzetaal.nl/advies/online.php
 #: ../widgets/misc/e-online-button.c:109
-#, fuzzy
 msgid "Online"
-msgstr "Ingebonden"
+msgstr "Online"
 
+# huh?
 #: ../widgets/misc/e-online-button.c:110
 msgid "The button state is online"
-msgstr ""
+msgstr "De knopstatus is online"
 
 # synchroniseren is waarschijnlijk te lang?
 #: ../widgets/misc/e-pilot-settings.c:102
