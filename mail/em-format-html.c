@@ -1931,10 +1931,11 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	} else {
 		int mailer_shown = FALSE;
 		while (h->next) {
-			int mailer;
+			int mailer, face;
 
 			header = ((CamelMimePart *)part)->headers;
 			mailer = !g_ascii_strcasecmp (h->name, "X-Evolution-Mailer");
+			face = !g_ascii_strcasecmp (h->name, "Face");
 
 			while (header) {
 				if (emf->show_photo && !photo_name && !g_ascii_strcasecmp (header->name, "From"))
@@ -1967,7 +1968,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 					efh_format_header (emf, stream, part, &xmailer, h->flags, charset);
 					if (strstr(use_header->value, "Evolution"))
 						have_icon = TRUE;
-				} else if (!g_ascii_strcasecmp (header->name, "Face") && !face_decoded) {
+				} else if (!face_decoded && face && !g_ascii_strcasecmp (header->name, "Face")) {
 					char *cp = header->value;
 					
 					/* Skip over spaces */
@@ -1978,7 +1979,8 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 					face_header_value = g_realloc (face_header_value, face_header_len + 1);
 					face_header_value[face_header_len] = 0;
 					face_decoded = TRUE;
-				} else if (!g_ascii_strcasecmp (header->name, h->name)) {
+				/* Showing an encoded "Face" header makes little sense */
+				} else if (!g_ascii_strcasecmp (header->name, h->name) && !face) {
 					efh_format_header(emf, stream, part, header, h->flags, charset);
 				}
 

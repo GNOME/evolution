@@ -80,6 +80,7 @@ static const char *default_headers[] = {
 	N_("Subject"),
 	N_("Date"),
 	N_("Newsgroups"),
+	N_("Face"),
 	"x-evolution-mailer", /* DO NOT translate */
 };
 

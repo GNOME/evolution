@@ -889,6 +889,7 @@ static const struct {
 	{ N_("Subject"), EM_FORMAT_HEADER_BOLD },
 	{ N_("Date"), EM_FORMAT_HEADER_BOLD },
 	{ N_("Newsgroups"), EM_FORMAT_HEADER_BOLD },
+	{ N_("Face"), 0 },
 };
 
 /**
