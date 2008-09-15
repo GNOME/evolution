@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-14 11:08+0100\n"
+"POT-Creation-Date: 2008-09-15 10:33+0100\n"
 "PO-Revision-Date: 2008-02-23 05:56+0100\n"
 "Last-Translator: Abou Manal <aboumanal@gmail.com>\n"
 "Language-Team: Arabic <doc@arabeyes.org>\n"
@@ -2462,7 +2462,7 @@ msgid "Zimbabwe"
 msgstr "زيمبابوي"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:86
-#: ../mail/em-mailer-prefs.c:466
+#: ../mail/em-mailer-prefs.c:467
 #: ../plugins/exchange-operations/exchange-delegates.c:954
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:711
 #: ../plugins/plugin-manager/plugin-manager.c:57
@@ -3904,7 +3904,7 @@ msgid "Format"
 msgstr "التهيئة"
 
 #: ../addressbook/printing/e-contact-print.glade.h:11
-#: ../mail/em-mailer-prefs.c:432 ../widgets/table/e-table-click-to-add.c:502
+#: ../mail/em-mailer-prefs.c:433 ../widgets/table/e-table-click-to-add.c:502
 #: ../widgets/table/e-table-field-chooser-dialog.c:81
 #: ../widgets/table/e-table-field-chooser-item.c:648
 #: ../widgets/table/e-table-field-chooser.c:81
@@ -11023,7 +11023,7 @@ msgstr "احفظ _مسودّة"
 msgid "Evolution Mail and Calendar"
 msgstr "بريد و تقويم إيفُليوشِن"
 
-#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:738
+#: ../data/evolution.desktop.in.in.h:2 ../shell/e-shell-window-commands.c:951
 msgid "Groupware Suite"
 msgstr "حِزمة Groupware"
 
@@ -12683,7 +12683,7 @@ msgstr "ن.ك.م"
 
 #. pseudo-header
 #: ../mail/em-format-html.c:1744 ../mail/em-format-quote.c:353
-#: ../mail/em-mailer-prefs.c:1450
+#: ../mail/em-mailer-prefs.c:1451
 msgid "Mailer"
 msgstr "ساعي البريد"
 
@@ -12726,105 +12726,110 @@ msgstr "التّاريخ"
 msgid "Newsgroups"
 msgstr "مجموعات أخبار"
 
-#: ../mail/em-format.c:1157
+#: ../mail/em-format.c:892 ../mail/em-mailer-prefs.c:83
+#: ../plugins/face/org-gnome-face.eplug.xml.h:2
+msgid "Face"
+msgstr "الوجه"
+
+#: ../mail/em-format.c:1158
 #, c-format
 msgid "%s attachment"
 msgstr "مُرفق %s"
 
-#: ../mail/em-format.c:1199
+#: ../mail/em-format.c:1200
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "لم يمكن تحليل رسالة S/MIME: خطأ مجهول"
 
-#: ../mail/em-format.c:1336 ../mail/em-format.c:1492
+#: ../mail/em-format.c:1337 ../mail/em-format.c:1493
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "لم يمكن تحليل رسالة MIME. ستُعرض كمصدر."
 
-#: ../mail/em-format.c:1344
+#: ../mail/em-format.c:1345
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "نوع تشفير غير مدعوم لعديد الأجزاء/مشفّر"
 
-#: ../mail/em-format.c:1354
+#: ../mail/em-format.c:1355
 msgid "Could not parse PGP/MIME message"
 msgstr "تعذر تحليل رسالة PGP/MIME"
 
-#: ../mail/em-format.c:1354
+#: ../mail/em-format.c:1355
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr "تعذر تحليل رسالة PGP/MIME: خطأ مجهول"
 
-#: ../mail/em-format.c:1511
+#: ../mail/em-format.c:1512
 msgid "Unsupported signature format"
 msgstr "صيغة توقيع غير مدعومة"
 
-#: ../mail/em-format.c:1519 ../mail/em-format.c:1590
+#: ../mail/em-format.c:1520 ../mail/em-format.c:1591
 msgid "Error verifying signature"
 msgstr "خطأ أثناء التّحقق من التّوقيع"
 
-#: ../mail/em-format.c:1519 ../mail/em-format.c:1581 ../mail/em-format.c:1590
+#: ../mail/em-format.c:1520 ../mail/em-format.c:1582 ../mail/em-format.c:1591
 msgid "Unknown error verifying signature"
 msgstr "خطأ مجهول أثناء التّحقّق من التّوقيع"
 
-#: ../mail/em-format.c:1662
+#: ../mail/em-format.c:1663
 msgid "Could not parse PGP message"
 msgstr "تعذر تحليل رسالة PGP"
 
-#: ../mail/em-format.c:1662
+#: ../mail/em-format.c:1663
 msgid "Could not parse PGP message: Unknown error"
 msgstr "تعذر تحليل رسالة PGP: خطأ مجهول"
 
-#: ../mail/em-mailer-prefs.c:93
+#: ../mail/em-mailer-prefs.c:94
 msgid "Every time"
 msgstr "كل مرّة"
 
-#: ../mail/em-mailer-prefs.c:94
+#: ../mail/em-mailer-prefs.c:95
 msgid "Once per day"
 msgstr "مرة في اليوم"
 
-#: ../mail/em-mailer-prefs.c:95
+#: ../mail/em-mailer-prefs.c:96
 msgid "Once per week"
 msgstr "مرّة في الأسبوع"
 
-#: ../mail/em-mailer-prefs.c:96
+#: ../mail/em-mailer-prefs.c:97
 msgid "Once per month"
 msgstr "مرّة في الشهر"
 
-#: ../mail/em-mailer-prefs.c:326
+#: ../mail/em-mailer-prefs.c:327
 msgid "Add Custom Junk Header"
 msgstr "أظف ترويسة بريد نفاية مُخصصة"
 
-#: ../mail/em-mailer-prefs.c:330
+#: ../mail/em-mailer-prefs.c:331
 msgid "Header Name:"
 msgstr "إ_سم الترويسة:"
 
-#: ../mail/em-mailer-prefs.c:331
+#: ../mail/em-mailer-prefs.c:332
 msgid "Header Value Contains:"
 msgstr "الترويسة تحتوي على:"
 
-#: ../mail/em-mailer-prefs.c:436
+#: ../mail/em-mailer-prefs.c:437
 msgid "Contains Value"
 msgstr "تحتوي على القيمة"
 
-#: ../mail/em-mailer-prefs.c:458
+#: ../mail/em-mailer-prefs.c:459
 msgid "Color"
 msgstr "اللون"
 
-#: ../mail/em-mailer-prefs.c:461
+#: ../mail/em-mailer-prefs.c:462
 msgid "Tag"
 msgstr "الوسْم"
 
 #. May be a better text
-#: ../mail/em-mailer-prefs.c:1078 ../mail/em-mailer-prefs.c:1132
+#: ../mail/em-mailer-prefs.c:1079 ../mail/em-mailer-prefs.c:1133
 #, c-format
 msgid "%s plugin is available and the binary is installed."
 msgstr "الملحق %s متاح والملف الثنائي مثبت."
 
 #. May be a better text
-#: ../mail/em-mailer-prefs.c:1086 ../mail/em-mailer-prefs.c:1141
+#: ../mail/em-mailer-prefs.c:1087 ../mail/em-mailer-prefs.c:1142
 #, c-format
 msgid ""
 "%s plugin is not available. Please check whether the package is installed."
 msgstr "الملحق %s غير متاح. تحقق رجاءً إن كانت الجزمة مثبتة."
 
-#: ../mail/em-mailer-prefs.c:1107
+#: ../mail/em-mailer-prefs.c:1108
 msgid "No Junk plugin available"
 msgstr "لا يوجد ملحق بريد مهمل متاح."
 
@@ -17621,10 +17626,6 @@ msgstr ""
 "إعداد صورة png 48*48. ستـُرمّز بترميز base64 وتـُخزّن في ~/.evolution/faces . "
 "سيُستخدم ذلك في رسائل البريد التي ستـُرسل من الآن وصاعدًا."
 
-#: ../plugins/face/org-gnome-face.eplug.xml.h:2
-msgid "Face"
-msgstr "الوجه"
-
 #: ../plugins/folder-unsubscribe/folder-unsubscribe.c:56
 #, c-format
 msgid "Unsubscribing from folder \"%s\""
@@ -20275,7 +20276,7 @@ msgstr "لم يمكن تشغيل فتى العلات."
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
 #. * about dialog.
-#: ../shell/e-shell-window-commands.c:729
+#: ../shell/e-shell-window-commands.c:942
 msgid "translator-credits"
 msgstr ""
 "Djihed Afifi جهاد عفيفي (djihed@gmail.com)\n"
@@ -20283,23 +20284,23 @@ msgstr ""
 "Ahmad Farghal أحمد فرغل (ahmad.farghal@gmail.com)\n"
 "Anas Husseini أنس الحسيني (linux.anas@gmail.com)"
 
-#: ../shell/e-shell-window-commands.c:740
+#: ../shell/e-shell-window-commands.c:953
 msgid "Evolution Website"
 msgstr "موقع إيفُليوشِن"
 
-#: ../shell/e-shell-window-commands.c:758
+#: ../shell/e-shell-window-commands.c:971
 msgid "Error opening the FAQ webpage."
 msgstr "حدث خطأ أثناء فتح صفحة الأسئلة الشائعة."
 
-#: ../shell/e-shell-window-commands.c:955
+#: ../shell/e-shell-window-commands.c:1168
 msgid "_Work Online"
 msgstr "ا_عمل متصلًا"
 
-#: ../shell/e-shell-window-commands.c:968 ../ui/evolution.xml.h:57
+#: ../shell/e-shell-window-commands.c:1181 ../ui/evolution.xml.h:57
 msgid "_Work Offline"
 msgstr "ا_عمل دون اتّصال"
 
-#: ../shell/e-shell-window-commands.c:981
+#: ../shell/e-shell-window-commands.c:1194
 msgid "Work Offline"
 msgstr "اعمل دون اتّصال"
 
