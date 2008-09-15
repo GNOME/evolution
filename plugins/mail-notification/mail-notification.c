@@ -493,13 +493,15 @@ new_notify_status (EMEventTargetFolder *t)
 
 	g_free (msg);
 
-	#ifdef HAVE_LIBNOTIFY
-	g_signal_connect (G_OBJECT (status_icon), "activate", G_CALLBACK (icon_activated), notify);
-	#else
-	g_signal_connect (G_OBJECT (status_icon), "activate", G_CALLBACK (icon_activated), NULL);
-	#endif
+	if (new_icon) {
+		#ifdef HAVE_LIBNOTIFY
+		g_signal_connect (G_OBJECT (status_icon), "activate", G_CALLBACK (icon_activated), notify);
+		#else
+		g_signal_connect (G_OBJECT (status_icon), "activate", G_CALLBACK (icon_activated), NULL);
+		#endif
 
-	g_signal_connect (G_OBJECT (status_icon), "popup-menu", G_CALLBACK (popup_menu_status), NULL);
+		g_signal_connect (G_OBJECT (status_icon), "popup-menu", G_CALLBACK (popup_menu_status), NULL);
+	}
 }
 
 static void
