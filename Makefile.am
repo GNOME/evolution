@@ -66,6 +66,7 @@ SUBDIRS = 			\
 	addressbook		\
 	calendar		\
         art                     \
+	doc			\
 	ui			\
 	views			\
 	tools			\

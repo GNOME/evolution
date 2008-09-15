@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+               "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd">
+<book id="index" xmlns:xi="http://www.w3.org/2003/XInclude">
+  <bookinfo>
+    <title>Evolution Shell Reference Manual</title>
+    <releaseinfo>
+      for eshell [VERSION]
+      The latest version of this documentation can be found on-line at
+      <ulink role="online-location" url="http://[SERVER]/eshell/index.html">http://[SERVER]/eshell/</ulink>.
+    </releaseinfo>
+  </bookinfo>
+
+  <chapter>
+    <title>Shell</title>
+    <xi:include href="xml/e-shell.xml"/>
+    <xi:include href="xml/e-shell-module.xml"/>
+    <xi:include href="xml/e-shell-window.xml"/>
+    <xi:include href="xml/e-shell-switcher.xml"/>
+    <xi:include href="xml/e-shell-view.xml"/>
+    <xi:include href="xml/e-shell-content.xml"/>
+    <xi:include href="xml/e-shell-sidebar.xml"/>
+    <xi:include href="xml/e-shell-taskbar.xml"/>
+    <xi:include href="xml/e-activity-handler.xml"/>
+    <xi:include href="xml/e-shell-importer.xml"/>
+  </chapter>
+
+  <chapter>
+    <title>Actions by Group</title>
+    <xi:include href="xml/e-shell-window-actions.xml"/>
+  </chapter>
+
+  <index>
+    <title>Index</title>
+  </index>
+
+</book>

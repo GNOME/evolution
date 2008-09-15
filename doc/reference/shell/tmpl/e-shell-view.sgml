@@ -1,0 +1,188 @@
+<!-- ##### SECTION Title ##### -->
+EShellView
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT EShellView ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SIGNAL EShellView::changed ##### -->
+<para>
+
+</para>
+
+@eshellview: the object which received the signal.
+
+<!-- ##### ARG EShellView:action ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellView:page-num ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellView:shell-content ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellView:shell-sidebar ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellView:shell-taskbar ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellView:shell-window ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellView:title ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellView:view-instance ##### -->
+<para>
+
+</para>
+
+<!-- ##### FUNCTION e_shell_view_get_name ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_view_get_action ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_view_get_title ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_view_set_title ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@title: 
+
+
+<!-- ##### FUNCTION e_shell_view_get_view_instance ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_view_set_view_instance ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@instance: 
+
+
+<!-- ##### FUNCTION e_shell_view_is_selected ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_view_get_page_num ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_view_get_shell_content ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_view_get_shell_sidebar ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_view_get_shell_taskbar ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_view_get_shell_window ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_view_changed ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+
+

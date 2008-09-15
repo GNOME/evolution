@@ -103,8 +103,6 @@ evolution_SOURCES =				\
 	e-shell-constants.h			\
 	e-shell-importer.c			\
 	e-shell-importer.h			\
-	e-shell-registry.c			\
-	e-shell-registry.h			\
 	e-shell-window-private.c		\
 	e-shell-window-private.h		\
 	es-event.c				\

@@ -24,10 +24,9 @@
 #include <e-preferences-window.h>
 #include <e-util/e-util.h>
 
-#include "e-shell-marshal.h"
-#include "e-shell-module.h"
-#include "e-shell-registry.h"
-#include "e-shell-window.h"
+#include <e-shell-marshal.h>
+#include <e-shell-module.h>
+#include <e-shell-window.h>
 
 #define SHUTDOWN_TIMEOUT	500  /* milliseconds */
 
@@ -38,6 +37,11 @@
 struct _EShellPrivate {
 	GList *active_windows;
 	EShellLineStatus line_status;
+
+	/* Shell Modules */
+	GList *loaded_modules;
+	GHashTable *modules_by_name;
+	GHashTable *modules_by_scheme;
 
 	guint online_mode : 1;
 	guint safe_mode   : 1;
@@ -90,6 +94,68 @@ shell_window_weak_notify_cb (EShell *shell,
 	g_signal_emit (shell, signals[WINDOW_DESTROYED], 0, last_window);
 }
 
+/* Helper for shell_query_module() */
+static void
+shell_split_and_insert_items (GHashTable *hash_table,
+                              const gchar *items,
+                              EShellModule *shell_module)
+{
+	gpointer key;
+	gchar **strv;
+	gint ii;
+
+	strv = g_strsplit_set (items, ":", -1);
+
+	for (ii = 0; strv[ii] != NULL; ii++) {
+		key = (gpointer) g_intern_string (strv[ii]);
+		g_hash_table_insert (hash_table, key, shell_module);
+	}
+
+	g_strfreev (strv);
+}
+
+static void
+shell_query_module (EShell *shell,
+                    const gchar *filename)
+{
+	EShellModule *shell_module;
+	EShellModuleInfo *info;
+	GHashTable *modules_by_name;
+	GHashTable *modules_by_scheme;
+	const gchar *string;
+
+	shell_module = e_shell_module_new (shell, filename);
+
+	if (!g_type_module_use (G_TYPE_MODULE (shell_module))) {
+		g_critical ("Failed to load module: %s", filename);
+		g_object_unref (shell_module);
+		return;
+	}
+
+	shell->priv->loaded_modules = g_list_insert_sorted (
+		shell->priv->loaded_modules, shell_module,
+		(GCompareFunc) e_shell_module_compare);
+
+	/* Bookkeeping */
+
+	info = (EShellModuleInfo *) shell_module->priv;
+	modules_by_name = shell->priv->modules_by_name;
+	modules_by_scheme = shell->priv->modules_by_scheme;
+
+	if ((string = info->name) != NULL)
+		g_hash_table_insert (
+			modules_by_name, (gpointer)
+			g_intern_string (string), shell_module);
+
+	if ((string = info->aliases) != NULL)
+		shell_split_and_insert_items (
+			modules_by_name, string, shell_module);
+
+	if ((string = info->schemes) != NULL)
+		shell_split_and_insert_items (
+			modules_by_scheme, string, shell_module);
+}
+
 static gboolean
 shell_shutdown_timeout (EShell *shell)
 {
@@ -99,7 +165,7 @@ shell_shutdown_timeout (EShell *shell)
 	static guint message_timer = 1;
 
 	/* Module list is read-only; do not free. */
-	list = e_shell_registry_list_modules ();
+	list = e_shell_list_modules (shell);
 
 	/* Any module can defer shutdown if it's still busy. */
 	for (iter = list; proceed && iter != NULL; iter = iter->next) {
@@ -175,6 +241,16 @@ shell_get_property (GObject *object,
 static void
 shell_dispose (GObject *object)
 {
+	EShellPrivate *priv;
+
+	priv = E_SHELL_GET_PRIVATE (object);
+
+	g_list_foreach (
+		priv->loaded_modules,
+		(GFunc) g_type_module_unuse, NULL);
+	g_list_free (priv->loaded_modules);
+	priv->loaded_modules = NULL;
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
@@ -182,8 +258,48 @@ shell_dispose (GObject *object)
 static void
 shell_finalize (GObject *object)
 {
+	EShellPrivate *priv;
+
+	priv = E_SHELL_GET_PRIVATE (object);
+
+	g_hash_table_destroy (priv->modules_by_name);
+	g_hash_table_destroy (priv->modules_by_scheme);
+
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static void
+shell_constructed (GObject *object)
+{
+	GDir *dir;
+	EShell *shell;
+	const gchar *dirname;
+	const gchar *basename;
+	GError *error = NULL;
+
+	shell = E_SHELL (object);
+	dirname = EVOLUTION_MODULEDIR;
+
+	dir = g_dir_open (dirname, 0, &error);
+	if (dir == NULL) {
+		g_critical ("%s", error->message);
+		g_error_free (error);
+		return;
+	}
+
+	while ((basename = g_dir_read_name (dir)) != NULL) {
+		gchar *filename;
+
+		if (!g_str_has_suffix (basename, "." G_MODULE_SUFFIX))
+			continue;
+
+		filename = g_build_filename (dirname, basename, NULL);
+		shell_query_module (shell, filename);
+		g_free (filename);
+	}
+
+	g_dir_close (dir);
 }
 
 static void
@@ -199,6 +315,7 @@ shell_class_init (EShellClass *class)
 	object_class->get_property = shell_get_property;
 	object_class->dispose = shell_dispose;
 	object_class->finalize = shell_finalize;
+	object_class->constructed = shell_constructed;
 
 	g_object_class_install_property (
 		object_class,
@@ -251,8 +368,16 @@ shell_class_init (EShellClass *class)
 static void
 shell_init (EShell *shell)
 {
+	GHashTable *modules_by_name;
+	GHashTable *modules_by_scheme;
+
 	shell->priv = E_SHELL_GET_PRIVATE (shell);
 
+	modules_by_name = g_hash_table_new (g_str_hash, g_str_equal);
+	modules_by_scheme = g_hash_table_new (g_str_hash, g_str_equal);
+
+	shell->priv->modules_by_name = modules_by_name;
+	shell->priv->modules_by_scheme = modules_by_scheme;
 	shell->priv->safe_mode = e_file_lock_exists ();
 
 #if NM_SUPPORT
@@ -260,7 +385,6 @@ shell_init (EShell *shell)
 #endif
 
 	e_file_lock_create ();
-	e_shell_registry_init (shell);
 }
 
 GType
@@ -293,6 +417,62 @@ EShell *
 e_shell_new (gboolean online_mode)
 {
 	return g_object_new (E_TYPE_SHELL, "online-mode", online_mode, NULL);
+}
+
+GList *
+e_shell_list_modules (EShell *shell)
+{
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	return shell->priv->loaded_modules;
+}
+
+const gchar *
+e_shell_get_canonical_name (EShell *shell,
+                            const gchar *name)
+{
+	EShellModule *shell_module;
+
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	/* Handle NULL name arguments silently. */
+	if (name == NULL)
+		return NULL;
+
+	shell_module = e_shell_get_module_by_name (shell, name);
+
+	if (shell_module == NULL)
+		return NULL;
+
+	return G_TYPE_MODULE (shell_module)->name;
+}
+
+EShellModule *
+e_shell_get_module_by_name (EShell *shell,
+                            const gchar *name)
+{
+	GHashTable *hash_table;
+
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+
+	hash_table = shell->priv->modules_by_name;
+
+	return g_hash_table_lookup (hash_table, name);
+}
+
+EShellModule *
+e_shell_get_module_by_scheme (EShell *shell,
+                              const gchar *scheme)
+{
+	GHashTable *hash_table;
+
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+	g_return_val_if_fail (scheme != NULL, NULL);
+
+	hash_table = shell->priv->modules_by_scheme;
+
+	return g_hash_table_lookup (hash_table, scheme);
 }
 
 GtkWidget *

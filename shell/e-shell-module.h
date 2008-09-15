@@ -21,7 +21,7 @@
 #ifndef E_SHELL_MODULE_H
 #define E_SHELL_MODULE_H
 
-#include <e-shell.h>
+#include <e-shell-common.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_MODULE \
@@ -44,16 +44,45 @@
 
 G_BEGIN_DECLS
 
+/* Avoid including <e-shell.h> */
+struct _EShell;
+
 typedef struct _EShellModule EShellModule;
 typedef struct _EShellModuleInfo EShellModuleInfo;
 typedef struct _EShellModuleClass EShellModuleClass;
 typedef struct _EShellModulePrivate EShellModulePrivate;
 
+/**
+ * EShellModuleInfo:
+ * @name:	The name of the module.  Also becomes the name of
+ * 		the corresponding #EShellView subclass that the
+ * 		module will register.
+ * @aliases:	Colon-separated list of aliases that can be used
+ * 		when referring to a module or view by name, such
+ * 		as in e_shell_window_set_current_view().
+ * @schemes:	Colon-separated list of URI schemes.  The #EShell
+ * 		will forward command-line URIs to the appropriate
+ * 		module based on this list.
+ * @searches:	Base name of the XML file containing predefined
+ * 		search rules for this module.  These show up as
+ * 		options in the search entry drop-down.
+ * @sort_order:	Used to determine the order of modules listed in
+ * 		the main menu and in the switcher.  See
+ * 		e_shell_module_compare().
+ * @is_busy:	Callback for querying whether the module has
+ * 		operations in progress that cannot be cancelled
+ * 		or finished immediately.  Returning %TRUE prevents
+ * 		the application from shutting down.
+ * @shutdown:	Callback for notifying the module to begin
+ * 		shutting down.  Returning %FALSE indicates there
+ * 		are still unfinished operations and the #EShell
+ * 		should check back shortly.
+ **/
 struct _EShellModuleInfo {
 	const gchar *name;
-	const gchar *aliases;   /* colon-separated list */
-	const gchar *schemes;   /* colon-separated list */
-	const gchar *searches;  /* built-in search rules */
+	const gchar *aliases;
+	const gchar *schemes;
+	const gchar *searches;
 	gint sort_order;
 
 	gboolean	(*is_busy)		(EShellModule *shell_module);
@@ -70,7 +99,7 @@ struct _EShellModuleClass {
 };
 
 GType		e_shell_module_get_type		(void);
-EShellModule *	e_shell_module_new		(EShell *shell,
+EShellModule *	e_shell_module_new		(struct _EShell *shell,
 						 const gchar *filename);
 gint		e_shell_module_compare		(EShellModule *shell_module_a,
 						 EShellModule *shell_module_b);
@@ -78,7 +107,7 @@ const gchar *	e_shell_module_get_config_dir	(EShellModule *shell_module);
 const gchar *	e_shell_module_get_data_dir	(EShellModule *shell_module);
 const gchar *	e_shell_module_get_filename	(EShellModule *shell_module);
 const gchar *	e_shell_module_get_searches	(EShellModule *shell_module);
-EShell *	e_shell_module_get_shell	(EShellModule *shell_module);
+struct _EShell *e_shell_module_get_shell	(EShellModule *shell_module);
 gboolean	e_shell_module_is_busy		(EShellModule *shell_module);
 gboolean	e_shell_module_shutdown		(EShellModule *shell_module);
 void		e_shell_module_set_info		(EShellModule *shell_module,

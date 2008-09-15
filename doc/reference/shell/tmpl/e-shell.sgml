@@ -1,0 +1,220 @@
+<!-- ##### SECTION Title ##### -->
+EShell
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT EShell ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SIGNAL EShell::handle-uri ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+@arg1: 
+@Returns: 
+
+<!-- ##### SIGNAL EShell::send-receive ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+@arg1: 
+
+<!-- ##### SIGNAL EShell::window-created ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+@arg1: 
+
+<!-- ##### SIGNAL EShell::window-destroyed ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+@arg1: 
+
+<!-- ##### ARG EShell:online-mode ##### -->
+<para>
+
+</para>
+
+<!-- ##### ENUM EShellLineStatus ##### -->
+<para>
+
+</para>
+
+@E_SHELL_LINE_STATUS_ONLINE: 
+@E_SHELL_LINE_STATUS_GOING_OFFLINE: 
+@E_SHELL_LINE_STATUS_OFFLINE: 
+@E_SHELL_LINE_STATUS_FORCED_OFFLINE: 
+
+<!-- ##### FUNCTION e_shell_new ##### -->
+<para>
+
+</para>
+
+@online: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_list_modules ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_get_canonical_name ##### -->
+<para>
+
+</para>
+
+@shell: 
+@name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_get_module_by_name ##### -->
+<para>
+
+</para>
+
+@shell: 
+@name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_get_module_by_scheme ##### -->
+<para>
+
+</para>
+
+@shell: 
+@scheme: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_create_window ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_handle_uri ##### -->
+<para>
+
+</para>
+
+@shell: 
+@uri: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_send_receive ##### -->
+<para>
+
+</para>
+
+@shell: 
+@parent: 
+
+
+<!-- ##### FUNCTION e_shell_get_online_mode ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_set_online_mode ##### -->
+<para>
+
+</para>
+
+@shell: 
+@online_mode: 
+
+
+<!-- ##### FUNCTION e_shell_get_line_status ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_set_line_status ##### -->
+<para>
+
+</para>
+
+@shell: 
+@status: 
+
+
+<!-- ##### FUNCTION e_shell_get_preferences_window ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_is_busy ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_do_quit ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_quit ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+

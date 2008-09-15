@@ -225,34 +225,49 @@ shell_window_class_init (EShellWindowClass *class)
 	object_class->dispose = shell_window_dispose;
 	object_class->finalize = shell_window_finalize;
 
+	/**
+	 * EShellWindow:current-view
+	 *
+	 * Name of the currently active #EShellView.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_CURRENT_VIEW,
 		g_param_spec_string (
 			"current-view",
-			NULL,
-			NULL,
+			_("Current Shell View"),
+			_("Name of the currently active shell view"),
 			NULL,
 			G_PARAM_READWRITE));
 
+	/**
+	 * EShellWindow:safe-mode
+	 *
+	 * Whether the shell window is in safe mode.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_SAFE_MODE,
 		g_param_spec_boolean (
 			"safe-mode",
-			NULL,
-			NULL,
+			_("Safe Mode"),
+			_("Whether the shell window is in safe mode"),
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
+	/**
+	 * EShellWindow:shell
+	 *
+	 * The #EShell singleton.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_SHELL,
 		g_param_spec_object (
 			"shell",
-			NULL,
-			NULL,
+			_("Shell"),
+			_("The EShell singleton"),
 			E_TYPE_SHELL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
@@ -299,6 +314,25 @@ e_shell_window_get_type (void)
 	return type;
 }
 
+/**
+ * e_shell_window_new:
+ * @shell: an #EShell
+ * @safe_mode: whether to initialize the window to "safe mode"
+ *
+ * Returns a new #EShellWindow.
+ *
+ * It's up to the various #EShellView<!-- -->'s to define exactly
+ * what "safe mode" means, but the #EShell usually puts the initial
+ * #EShellWindow into "safe mode" if detects the previous Evolution
+ * session crashed.
+ *
+ * The initial view for the window is determined by GConf key
+ * <filename>/apps/evolution/shell/view_defaults/component_id</filename>.
+ * Or, if the GConf key is not set or can't be read, the first view
+ * in the switcher is used.
+ *
+ * Returns: a new #EShellWindow
+ **/
 GtkWidget *
 e_shell_window_new (EShell *shell,
                     gboolean safe_mode)
@@ -308,6 +342,22 @@ e_shell_window_new (EShell *shell,
 		"shell", shell, "safe-mode", safe_mode, NULL);
 }
 
+/**
+ * e_shell_window_get_view:
+ * @shell_window: an #EShellWindow
+ * @view_name: name of a shell view
+ *
+ * Returns the #EShellView named @view_name (see the
+ * <structfield>name</structfield> field in #EShellModuleInfo).  This
+ * will also instantiate the #EShellView the first time it's requested.
+ * To reduce resource consumption, Evolution tries to delay instantiating
+ * shell views until the user switches to them.  So in general, only the
+ * currently active view name, as returned by
+ * e_shell_window_get_current_view(), should be requested.
+ *
+ * Returns: the requested #EShellView, or %NULL if no such view is
+ *          registered
+ **/
 gpointer
 e_shell_window_get_view (EShellWindow *shell_window,
                          const gchar *view_name)
@@ -355,6 +405,14 @@ e_shell_window_get_view (EShellWindow *shell_window,
 	return shell_view;
 }
 
+/**
+ * e_shell_window_get_shell:
+ * @shell_window: an #EShellWindow
+ *
+ * Returns the #EShell that was passed to e_shell_window_new().
+ *
+ * Returns: the #EShell
+ **/
 EShell *
 e_shell_window_get_shell (EShellWindow *shell_window)
 {
@@ -363,6 +421,17 @@ e_shell_window_get_shell (EShellWindow *shell_window)
 	return shell_window->priv->shell;
 }
 
+/**
+ * e_shell_window_get_ui_manager:
+ * @shell_window: an #EShellWindow
+ *
+ * Returns @shell_window<!-- -->'s user interface manager, which
+ * manages the window's menus and toolbars via #GtkAction<!-- -->s.
+ * This is the mechanism by which shell views and plugins can extend
+ * Evolution's menus and toolbars.
+ *
+ * Returns: the #GtkUIManager for @shell_window
+ **/
 GtkUIManager *
 e_shell_window_get_ui_manager (EShellWindow *shell_window)
 {
@@ -371,6 +440,16 @@ e_shell_window_get_ui_manager (EShellWindow *shell_window)
 	return shell_window->priv->ui_manager;
 }
 
+/**
+ * e_shell_window_get_action:
+ * @shell_window: an #EShellWindow
+ * @action_name: the name of an action
+ *
+ * Returns the #GtkAction named @action_name in @shell_window<!-- -->'s
+ * user interface manager, or %NULL if no such action exists.
+ *
+ * Returns: the #GtkAction named @action_name
+ **/
 GtkAction *
 e_shell_window_get_action (EShellWindow *shell_window,
                            const gchar *action_name)
@@ -398,6 +477,17 @@ e_shell_window_get_action (EShellWindow *shell_window,
 	return action;
 }
 
+/**
+ * e_shell_window_get_action_group:
+ * @shell_window: an #EShellWindow
+ * @group_name: the name of an action group
+ *
+ * Returns the #GtkActionGroup named @group_name in
+ * @shell_window<!-- -->'s user interface manager, or %NULL if no
+ * such action group exists.
+ *
+ * Returns: the #GtkActionGroup named @group_name
+ **/
 GtkActionGroup *
 e_shell_window_get_action_group (EShellWindow *shell_window,
                                  const gchar *group_name)
@@ -425,6 +515,18 @@ e_shell_window_get_action_group (EShellWindow *shell_window,
 	g_return_val_if_reached (NULL);
 }
 
+/**
+ * e_shell_window_get_managed_widget:
+ * @shell_window: an #EShellWindow
+ * @widget_path: path in the UI definintion
+ *
+ * Looks up a widget in @shell_window<!-- -->'s user interface manager by
+ * following a path.  See gtk_ui_manager_get_widget() for more information
+ * about paths.
+ *
+ * Returns: the widget found by following the path, or %NULL if no widget
+ *          was found
+ **/
 GtkWidget *
 e_shell_window_get_managed_widget (EShellWindow *shell_window,
                                    const gchar *widget_path)
@@ -443,6 +545,14 @@ e_shell_window_get_managed_widget (EShellWindow *shell_window,
 	return widget;
 }
 
+/**
+ * e_shell_window_get_current_view:
+ * @shell_window: an #EShellWindow
+ *
+ * Returns the name of the currently active #EShellView.
+ *
+ * Returns: the name of the current view
+ **/
 const gchar *
 e_shell_window_get_current_view (EShellWindow *shell_window)
 {
@@ -451,22 +561,43 @@ e_shell_window_get_current_view (EShellWindow *shell_window)
 	return shell_window->priv->current_view;
 }
 
+/**
+ * e_shell_window_set_current_view:
+ * @shell_window: an #EShellWindow
+ * @name_or_alias: the name of the shell view to switch to
+ *
+ * Switches @shell_window to the #EShellView named (or with an alias of)
+ * @name_or_alias, causing the entire content of @shell_window to change.
+ * This is typically called as a result of the user clicking one of the
+ * switcher buttons.
+ *
+ * See #EShellModuleInfo for more information about shell view names and
+ * aliases.
+ *
+ * The name of the newly activated shell view is also written to GConf key
+ * <filename>/apps/evolution/shell/view_defaults/component_id</filename>.
+ * This makes the current shell view persistent across Evolution sessions.
+ * It also causes new shell windows created within the current Evolution
+ * session to open to the most recently selected shell view.
+ **/
 void
 e_shell_window_set_current_view (EShellWindow *shell_window,
                                  const gchar *name_or_alias)
 {
 	GtkAction *action;
 	EShellView *shell_view;
+	EShell *shell;
 	GList *list;
 	const gchar *view_name;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
 	view_name = name_or_alias;
-	list = e_shell_registry_list_modules ();
+	shell = e_shell_window_get_shell (shell_window);
+	list = e_shell_list_modules (shell);
 
 	if (view_name != NULL)
-		view_name = e_shell_registry_get_canonical_name (view_name);
+		view_name = e_shell_get_canonical_name (shell, view_name);
 
 	if (view_name == NULL && list != NULL)
 		view_name = G_TYPE_MODULE (list->data)->name;
@@ -486,6 +617,18 @@ e_shell_window_set_current_view (EShellWindow *shell_window,
 		e_shell_window_switch_to_view (shell_window, view_name);
 }
 
+/**
+ * e_shell_window_get_safe_mode:
+ * @shell_window: an #EShellWindow
+ *
+ * Returns %TRUE if @shell_window is in "safe mode".
+ *
+ * It's up to the various #EShellView<!-- -->'s to define exactly
+ * what "safe mode" means.  The @shell_window simply manages the
+ * "safe mode" state.
+ *
+ * Returns: %TRUE if @shell_window is in "safe mode"
+ **/
 gboolean
 e_shell_window_get_safe_mode (EShellWindow *shell_window)
 {
@@ -494,6 +637,17 @@ e_shell_window_get_safe_mode (EShellWindow *shell_window)
 	return shell_window->priv->safe_mode;
 }
 
+/**
+ * e_shell_window_set_safe_mode:
+ * @shell_window: an #EShellWindow
+ * @safe_mode: whether to put @shell_window into "safe mode"
+ *
+ * If %TRUE, puts @shell_window into "safe mode".
+ *
+ * It's up to the various #EShellView<!-- -->'s to define exactly
+ * what "safe mode" means.  The @shell_window simply manages the
+ * "safe mode" state.
+ **/
 void
 e_shell_window_set_safe_mode (EShellWindow *shell_window,
                               gboolean safe_mode)
@@ -505,6 +659,24 @@ e_shell_window_set_safe_mode (EShellWindow *shell_window,
 	g_object_notify (G_OBJECT (shell_window), "safe-mode");
 }
 
+/**
+ * e_shell_window_register_new_item_actions:
+ * @shell_window: an #EShellWindow
+ * @module_name: name of an #EShellModule
+ * @entries: an array of #GtkActionEntry<!-- -->s
+ * @n_entries: number of elements in the array
+ *
+ * Registers a list of #GtkAction<!-- -->s to appear in
+ * @shell_window<!-- -->'s "New" menu and toolbar button.  This
+ * function should be called from an #EShellModule<!-- -->'s
+ * #EShell::window-created signal handler.  The #EShellModule calling
+ * this function should pass its own name for the @module_name argument
+ * (i.e. the <structfield>name</structfield> field from its own
+ * #EShellModuleInfo).
+ *
+ * The registered #GtkAction<!-- -->s should be for creating individual
+ * items such as an email message or a calendar appointment.
+ **/
 void
 e_shell_window_register_new_item_actions (EShellWindow *shell_window,
                                           const gchar *module_name,
@@ -551,6 +723,24 @@ e_shell_window_register_new_item_actions (EShellWindow *shell_window,
 	e_shell_window_update_new_menu (shell_window);
 }
 
+/**
+ * e_shell_window_register_new_source_actions:
+ * @shell_window: an #EShellWindow
+ * @module_name: name of an #EShellModule
+ * @entries: an array of #GtkActionEntry<!-- -->s
+ * @n_entries: number of elements in the array
+ *
+ * Registers a list of #GtkAction<!-- -->s to appear in
+ * @shell_window<!-- -->'s "New" menu and toolbar button.  This
+ * function should be called from an #EShellModule<!-- -->'s
+ * #EShell::window-created signal handler.  The #EShellModule calling
+ * this function should pass its own name for the @module_name argument
+ * (i.e. the <structfield>name</structfield> field from its own
+ * #EShellModuleInfo).
+ *
+ * The registered #GtkAction<!-- -->s should be for creating item
+ * containers such as an email folder or a calendar.
+ **/
 void
 e_shell_window_register_new_source_actions (EShellWindow *shell_window,
                                             const gchar *module_name,

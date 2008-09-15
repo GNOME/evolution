@@ -24,6 +24,7 @@
 #define E_SHELL_H
 
 #include <e-shell-common.h>
+#include <e-shell-module.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL \
@@ -70,6 +71,13 @@ enum _EShellLineStatus {
 
 GType		e_shell_get_type		(void);
 EShell *	e_shell_new			(gboolean online);
+GList *		e_shell_list_modules		(EShell *shell);
+const gchar *	e_shell_get_canonical_name	(EShell *shell,
+						 const gchar *name);
+EShellModule *	e_shell_get_module_by_name	(EShell *shell,
+						 const gchar *name);
+EShellModule *	e_shell_get_module_by_scheme	(EShell *shell,
+						 const gchar *scheme);
 GtkWidget *	e_shell_create_window		(EShell *shell);
 gboolean	e_shell_handle_uri		(EShell *shell,
                                                  const gchar *uri);

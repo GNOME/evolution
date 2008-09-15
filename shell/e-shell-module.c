@@ -25,6 +25,8 @@
 #include <glib/gi18n.h>
 #include <e-util/e-util.h>
 
+#include <e-shell.h>
+
 /* This is the symbol we look for when loading a module. */
 #define INIT_SYMBOL	"e_shell_module_init"
 
@@ -34,8 +36,8 @@
 
 struct _EShellModulePrivate {
 
-	/* Set during module initialization.  This must come
-	 * first in the struct so the registry can read it. */
+	/* Set during module initialization.  This must
+	 * come first in the struct so EShell can read it. */
 	EShellModuleInfo info;
 
 	GModule *module;
@@ -212,6 +214,11 @@ shell_module_class_init (EShellModuleClass *class)
 	type_module_class->load = shell_module_load;
 	type_module_class->unload = shell_module_unload;
 
+	/**
+	 * EShellModule:filename
+	 *
+	 * The filename of the module.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_FILENAME,
@@ -223,6 +230,11 @@ shell_module_class_init (EShellModuleClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 
+	/**
+	 * EShellModule:shell
+	 *
+	 * The #EShell singleton.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_SHELL,
@@ -267,6 +279,19 @@ e_shell_module_get_type (void)
 	return type;
 }
 
+/**
+ * e_shell_module_new:
+ * @shell: an #EShell
+ * @filename: the name of the file containing the shell module
+ *
+ * Loads @filename as a #GTypeModule and tries to invoke a module
+ * function named <function>e_shell_module_init</function>, passing
+ * the newly loaded #GTypeModule as an argument.  The shell module is
+ * responsible for defining such a function to perform the appropriate
+ * initialization steps.
+ *
+ * Returns: a new #EShellModule
+ **/
 EShellModule *
 e_shell_module_new (EShell *shell,
                     const gchar *filename)
@@ -278,6 +303,18 @@ e_shell_module_new (EShell *shell,
 		"filename", filename, NULL);
 }
 
+/**
+ * e_shell_module_compare:
+ * @shell_module_a: an #EShellModule
+ * @shell_module_b: an #EShellModule
+ *
+ * Using the <structfield>sort_order</structfield> field from both modules'
+ * #EShellModuleInfo, compares @shell_module_a with @shell_mobule_b and
+ * returns -1, 0 or +1 if @shell_module_a is found to be less than, equal
+ * to or greater than @shell_module_b, respectively.
+ *
+ * Returns: -1, 0 or +1, for a less than, equal to or greater than result
+ **/
 gint
 e_shell_module_compare (EShellModule *shell_module_a,
                         EShellModule *shell_module_b)
@@ -288,6 +325,16 @@ e_shell_module_compare (EShellModule *shell_module_a,
 	return (a < b) ? -1 : (a > b);
 }
 
+/**
+ * e_shell_module_get_config_dir:
+ * @shell_module: an #EShellModule
+ *
+ * Returns the absolute path to the configuration directory for
+ * @shell_module.  The string is owned by @shell_module and should
+ * not be modified or freed.
+ *
+ * Returns: the module's configuration directory
+ **/
 const gchar *
 e_shell_module_get_config_dir (EShellModule *shell_module)
 {
@@ -297,6 +344,16 @@ e_shell_module_get_config_dir (EShellModule *shell_module)
 	return shell_module->priv->config_dir;
 }
 
+/**
+ * e_shell_module_get_data_dir:
+ * @shell_module: an #EShellModule
+ *
+ * Returns the absolute path to the data directory for @shell_module.
+ * The string is owned by @shell_module and should not be modified or
+ * freed.
+ *
+ * Returns: the module's data directory
+ **/
 const gchar *
 e_shell_module_get_data_dir (EShellModule *shell_module)
 {
@@ -306,6 +363,16 @@ e_shell_module_get_data_dir (EShellModule *shell_module)
 	return shell_module->priv->data_dir;
 }
 
+/**
+ * e_shell_module_get_filename:
+ * @shell_module: an #EShellModule
+ *
+ * Returns the name of the file from which @shell_module was loaded.
+ * The string is owned by @shell_module and should not be modified or
+ * freed.
+ *
+ * Returns: the module's file name
+ **/
 const gchar *
 e_shell_module_get_filename (EShellModule *shell_module)
 {
@@ -322,6 +389,14 @@ e_shell_module_get_searches (EShellModule *shell_module)
 	return shell_module->priv->info.searches;
 }
 
+/**
+ * e_shell_module_get_shell:
+ * @shell_module: an #EShellModule
+ *
+ * Returns the #EShell that was passed to e_shell_module_new().
+ *
+ * Returns: the #EShell
+ **/
 EShell *
 e_shell_module_get_shell (EShellModule *shell_module)
 {
@@ -360,6 +435,18 @@ e_shell_module_shutdown (EShellModule *shell_module)
 	return TRUE;
 }
 
+/**
+ * e_shell_module_set_info:
+ * @shell_module: an #EShellModule
+ * @info: an #EShellModuleInfo
+ *
+ * Registers basic configuration information about @shell_module that
+ * the #EShell can use for processing command-line arguments.
+ *
+ * Configuration information should be registered from
+ * @shell_module<!-- -->'s <function>e_shell_module_init</function>
+ * initialization function.  See e_shell_module_new() for more information.
+ **/
 void
 e_shell_module_set_info (EShellModule *shell_module,
                          const EShellModuleInfo *info)

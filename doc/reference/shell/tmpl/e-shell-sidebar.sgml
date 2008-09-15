@@ -1,0 +1,49 @@
+<!-- ##### SECTION Title ##### -->
+EShellSidebar
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT EShellSidebar ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG EShellSidebar:primary-text ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellSidebar:secondary-text ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellSidebar:shell-view ##### -->
+<para>
+
+</para>
+
+<!-- ##### FUNCTION e_shell_sidebar_new ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+

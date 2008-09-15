@@ -430,29 +430,46 @@ shell_switcher_class_init (EShellSwitcherClass *class)
 
 	class->style_changed = shell_switcher_style_changed;
 
+	/**
+	 * EShellSwitcher:toolbar-style
+	 *
+	 * The switcher's toolbar style.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_TOOLBAR_STYLE,
 		g_param_spec_enum (
 			"toolbar-style",
-			NULL,
-			NULL,
+			_("Toolbar Style"),
+			_("The switcher's toolbar style"),
 			GTK_TYPE_TOOLBAR_STYLE,
 			E_SHELL_SWITCHER_DEFAULT_TOOLBAR_STYLE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
+	/**
+	 * EShellSwitcher:toolbar-visible
+	 *
+	 * Whether the switcher is visible.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_TOOLBAR_VISIBLE,
 		g_param_spec_boolean (
 			"toolbar-visible",
-			NULL,
-			NULL,
+			_("Toolbar Visible"),
+			_("Whether the switcher is visible"),
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
+	/**
+	 * EShellSwitcher::style-changed
+	 * @switcher: the #EShellSwitcher which emitted the signal
+	 * @style: the new #GtkToolbarStyle of the switcher
+	 *
+	 * Emitted when the style of the switcher changes.
+	 **/
 	signals[STYLE_CHANGED] = g_signal_new (
 		"style-changed",
 		G_OBJECT_CLASS_TYPE (class),
@@ -516,12 +533,30 @@ e_shell_switcher_get_type (void)
 	return type;
 }
 
+/**
+ * e_shell_switcher_new:
+ *
+ * Creates a new #EShellSwitcher instance.
+ *
+ * Returns: a new #EShellSwitcher instance
+ **/
 GtkWidget *
 e_shell_switcher_new (void)
 {
 	return g_object_new (E_TYPE_SHELL_SWITCHER, NULL);
 }
 
+/**
+ * e_shell_switcher_add_action:
+ * @switcher: an #EShellSwitcher
+ * @action: a #GtkAction
+ *
+ * Adds a button to @switcher that proxies for @action.  Switcher buttons
+ * appear in the order they were added.
+ *
+ * #EShellWindow adds switcher actions in the order given by the
+ * <structfield>sort_order</structfield> field in #EShellModuleInfo.
+ **/
 void
 e_shell_switcher_add_action (EShellSwitcher *switcher,
                              GtkAction *action)
@@ -543,6 +578,14 @@ e_shell_switcher_add_action (EShellSwitcher *switcher,
 	gtk_widget_queue_resize (GTK_WIDGET (switcher));
 }
 
+/**
+ * e_shell_switcher_get_style:
+ * @switcher: an #EShellSwitcher
+ *
+ * Returns whether @switcher has text, icons or both.
+ *
+ * Returns: the current style of @shell
+ **/
 GtkToolbarStyle
 e_shell_switcher_get_style (EShellSwitcher *switcher)
 {
@@ -553,6 +596,14 @@ e_shell_switcher_get_style (EShellSwitcher *switcher)
 	return switcher->priv->style;
 }
 
+/**
+ * e_shell_switcher_set_style:
+ * @switcher: an #EShellSwitcher
+ * @style: the new style for @switcher
+ *
+ * Alters the view of @switcher to display either icons only, text only,
+ * or both.
+ **/
 void
 e_shell_switcher_set_style (EShellSwitcher *switcher,
                             GtkToolbarStyle style)
@@ -563,6 +614,13 @@ e_shell_switcher_set_style (EShellSwitcher *switcher,
 	g_signal_emit (switcher, signals[STYLE_CHANGED], 0, style);
 }
 
+/**
+ * e_shell_switcher_unset_style:
+ * @switcher: an #EShellSwitcher
+ *
+ * Unsets a switcher style set with e_shell_switcher_set_style(), so
+ * that user preferences will be used to determine the switcher style.
+ **/
 void
 e_shell_switcher_unset_style (EShellSwitcher *switcher)
 {

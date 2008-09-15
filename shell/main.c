@@ -34,7 +34,6 @@
 #include "e-util/e-bconf-map.h"
 
 #include <e-util/e-icon-factory.h>
-#include "e-shell-registry.h"
 #include "e-util/e-profile-event.h"
 #include "e-util/e-util.h"
 
@@ -294,7 +293,8 @@ idle_cb (gchar **uris)
 		return FALSE;
 	}
 
-	initial_view = e_shell_registry_get_canonical_name (requested_view);
+	initial_view = e_shell_get_canonical_name (
+		global_shell, requested_view);
 
 	if (initial_view != NULL) {
 		GConfClient *client;

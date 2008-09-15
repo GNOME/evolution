@@ -1,0 +1,94 @@
+<!-- ##### SECTION Title ##### -->
+EShellContent
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### STRUCT EShellContent ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG EShellContent:filter-action ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellContent:filter-value ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellContent:filter-visible ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellContent:scope-action ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellContent:scope-value ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellContent:scope-visible ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellContent:search-action ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellContent:search-context ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellContent:search-text ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellContent:search-value ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellContent:search-visible ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG EShellContent:shell-view ##### -->
+<para>
+
+</para>
+
+<!-- ##### FUNCTION e_shell_content_new ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+

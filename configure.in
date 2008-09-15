@@ -36,6 +36,7 @@ m4_define([gnome_pilot_minimum_version], [2.0.15])
 
 # GNOME Documentation
 GNOME_DOC_INIT
+GTK_DOC_CHECK(1.10)
 # Gross hack to enable 'make dist' on automake 1.9+tar 1.14.
 # The extra brackets are to foil regex-based scans.
 m4_ifdef([_A][M_PROG_TAR],[_A][M_SET_OPTION([tar-ustar])])
@@ -1938,6 +1939,9 @@ data/cde_app_root/dt/appconfig/types/Makefile
 data/cde_app_root/dt/appconfig/types/C/Makefile
 data/cde_app_root/dt/appconfig/types/C/Ximian.dt
 data/icons/Makefile
+doc/Makefile
+doc/reference/Makefile
+doc/reference/shell/Makefile
 e-util/Makefile
 filter/Makefile
 help/Makefile

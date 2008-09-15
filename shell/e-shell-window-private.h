@@ -36,7 +36,6 @@
 #include <e-shell.h>
 #include <e-shell-content.h>
 #include <e-shell-view.h>
-#include <e-shell-registry.h>
 #include <e-shell-switcher.h>
 #include <e-shell-window-actions.h>
 
