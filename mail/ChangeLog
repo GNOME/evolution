@@ -1,3 +1,8 @@
+2008-09-16  Goran Rakić  <grakic@devbase.net>
+
+        * default/Makefile.am:
+        * default/sr/*, default/sr@latin/*: Added Serbian welcome message translation.
+
 2008-09-16  Sankar P  <psankar@novell.com>
 
 License Changes
