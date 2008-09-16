@@ -2001,6 +2001,7 @@ mail/default/ko/Makefile
 mail/default/nl/Makefile
 mail/default/pl/Makefile
 mail/default/pt/Makefile
+mail/default/sr/Makefile
 mail/default/sv/Makefile
 mail/importers/Makefile
 plugins/Makefile
