@@ -1,3 +1,17 @@
+2008-09-16  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* em-account-editor.c:
+	* em-account-prefs.c:
+	* em-format.c:
+	* em-message-browser.c:
+	* em-popup.c:
+	* em-subscribe-editor.c:
+	* importers/pine-importer.c:
+	* mail-mt.c:
+	* mail-send-recv.c:
+
 2008-09-16  Wouter Bolsterlee  <wbolster@svn.gnome.org>
 
 	* default/nl/Inbox: Updated Dutch translation by Tino Meinen.

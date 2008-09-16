@@ -1,3 +1,11 @@
+2008-09-16  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-calendar.c:
+	* e-cell-percent.c:
+	* e-unicode.h:
+
 2008-09-12  Sankar P  <psankar@novell.com>
 
 License Changes

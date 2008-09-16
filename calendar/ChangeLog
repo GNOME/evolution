@@ -1,3 +1,20 @@
+2008-09-16  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* gui/alarm-notify/alarm.h:
+	* gui/comp-editor-factory.c:
+	* gui/dialogs/changed-comp.c:
+	* gui/dialogs/copy-source-dialog.c:
+	* gui/dialogs/delete-error.c:
+	* gui/e-cal-model-tasks.c:
+	* gui/e-cal-popup.c:
+	* gui/e-calendar-table.c:
+	* gui/e-memo-table.c:
+	* gui/e-timezone-entry.c:
+	* gui/print.c:
+	* gui/tasks-control.c:
+
 2008-09-14  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	** Fix for bug #551628

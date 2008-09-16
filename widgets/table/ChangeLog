@@ -1,3 +1,11 @@
+2008-09-16  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-table-field-chooser-item.c:
+	* e-table-field-chooser.c:
+	* e-tree-selection-model.c:
+
 2008-09-12  Sankar P  <psankar@novell.com>
 
 License Changes
