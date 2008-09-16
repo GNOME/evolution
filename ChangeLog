@@ -1,3 +1,8 @@
+2008-09-17  Gabor Kelemen  <kelemeng@gnome.hu>
+
+	* configure.in:
+	Add mail/default/hu/Makefile to AC_OUTPUT.
+
 2008-09-16  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in:

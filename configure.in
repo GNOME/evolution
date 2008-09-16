@@ -2004,6 +2004,7 @@ mail/default/pt/Makefile
 mail/default/sr/Makefile
 mail/default/sr@latin/Makefile
 mail/default/sv/Makefile
+mail/default/hu/Makefile
 mail/importers/Makefile
 plugins/Makefile
 plugins/mark-all-read/Makefile
