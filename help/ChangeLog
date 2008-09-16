@@ -1,3 +1,9 @@
+2008-09-16  Bharath Acharya  <abharath@novell.com>
+
+	Patch from PC Radhika <pradhika@novell.com>
+
+	* C/evolution.xml: Updated doc changes for 2.24
+
 2008-08-22  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es/es.po: Updated Spanish translation
