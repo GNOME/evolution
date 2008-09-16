@@ -12,7 +12,7 @@ Received: from smtp.novell.com (HELO localhost) (141.154.95.10) by
 From: "The Evolution Team" <evolution@novell.com>
 To: Evolution Users <evolution@novell.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
-X-Mailer: Evolution 2.10.0
+X-Mailer: Evolution 2.24.0
 Date: 14 March 2007 12:00:00 +0000
 Message-Id: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
@@ -48,14 +48,6 @@ Content-Transfer-Encoding: 8bit
 	에볼루션 사용법에 대한 안내서를 보시려면, 도움말 메뉴의 차례를
 	선택하시거나, F1 키를 누르십시오.
 
-새 기능
-
-	에볼루션 2.10에는 다음과 같은 사항이 바뀌었습니다. 	
-	# gtk-print 기능 통합
-	# IMAP 헤더 가져오기 기능 사용자 지정
-	# 빠른 성능, 메모리 문제 해결, 메모리 사용량 감소
-	# 여러가지 버그 수정 및 여러가지 기능 향상
-                
 버그 보고하기
 
 	버그는 http://bugzilla.gnome.org 사이트에 보고해 주십시오.
@@ -69,7 +61,6 @@ Content-Transfer-Encoding: 8bit
 	프로젝트에 대한 정보가 있습니다.
 
 에볼루션 팀 드림.
-evolution@novell.com
 
 
 --=-2gZ1roA/HoYrlRDVGyiM
@@ -127,26 +118,6 @@ Content-Type: text/html; charset=utf-8
 </blockquote>
 
 <h2>
-새 기능
-</h2>
-
-<blockquote>
-	에볼루션 2.10에는 다음과 같은 사항이 바뀌었습니다.
-	<ul>
-	<li>
-	gtk-print 기능 통합
-	</li><li>
-	IMAP 헤더 가져오기 기능 사용자 지정
-	</li><li>
-	빠른 성능, 메모리 문제 해결, 메모리 사용량 감소
-	</li><li>
-	여러가지 버그 수정 및 여러가지 기능 향상
-	</li>
-	</ul>
-<br>
-</blockquote>
-
-<h2>
 버그 보고하기
 </h2>
 <blockquote>
@@ -172,7 +143,6 @@ Content-Type: text/html; charset=utf-8
 </blockquote>
 
 에볼루션 팀 드림.
-<br><a href="mailto:evolution@novell.com">evolution@novell.com</a>
 
 </BODY>
 </HTML>
