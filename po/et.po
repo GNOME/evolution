@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-29 04:43+0000\n"
-"PO-Revision-Date: 2008-08-31 13:35+0300\n"
+"POT-Creation-Date: 2008-09-06 16:13+0000\n"
+"PO-Revision-Date: 2008-09-16 14:56+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -64,63 +64,63 @@ msgstr "Kontakt:"
 msgid "evolution minicard"
 msgstr "evolutioni minikaart"
 
-#: ../a11y/calendar/ea-cal-view-event.c:266
+#: ../a11y/calendar/ea-cal-view-event.c:265
 msgid "It has alarms."
 msgstr "On alarmidega."
 
-#: ../a11y/calendar/ea-cal-view-event.c:269
+#: ../a11y/calendar/ea-cal-view-event.c:268
 msgid "It has recurrences."
 msgstr "See omab kordumisi."
 
-#: ../a11y/calendar/ea-cal-view-event.c:272
+#: ../a11y/calendar/ea-cal-view-event.c:271
 msgid "It is a meeting."
 msgstr "See on kohtumine."
 
-#: ../a11y/calendar/ea-cal-view-event.c:278
+#: ../a11y/calendar/ea-cal-view-event.c:277
 #, c-format
 msgid "Calendar Event: Summary is %s."
 msgstr "Kalendrisündmus: Kokkuvõte on %s."
 
-#: ../a11y/calendar/ea-cal-view-event.c:280
+#: ../a11y/calendar/ea-cal-view-event.c:279
 msgid "Calendar Event: It has no summary."
 msgstr "Kalendrisündmus: Kokkuvõte puudub."
 
-#: ../a11y/calendar/ea-cal-view-event.c:300
+#: ../a11y/calendar/ea-cal-view-event.c:299
 msgid "calendar view event"
 msgstr "kalendrivaate sündmus"
 
-#: ../a11y/calendar/ea-cal-view-event.c:528
+#: ../a11y/calendar/ea-cal-view-event.c:527
 msgid "Grab Focus"
 msgstr "Haara fookus"
 
-#: ../a11y/calendar/ea-cal-view.c:302
+#: ../a11y/calendar/ea-cal-view.c:299
 msgid "New Appointment"
 msgstr "Uus sündmus"
 
-#: ../a11y/calendar/ea-cal-view.c:303
+#: ../a11y/calendar/ea-cal-view.c:300
 msgid "New All Day Event"
 msgstr "Uus kogu päeva hõlmav sündmus"
 
-#: ../a11y/calendar/ea-cal-view.c:304
+#: ../a11y/calendar/ea-cal-view.c:301
 msgid "New Meeting"
 msgstr "Uus koosolek"
 
-#: ../a11y/calendar/ea-cal-view.c:305
+#: ../a11y/calendar/ea-cal-view.c:302
 msgid "Go to Today"
 msgstr "Mine tänasele päevale"
 
-#: ../a11y/calendar/ea-cal-view.c:306
+#: ../a11y/calendar/ea-cal-view.c:303
 msgid "Go to Date"
 msgstr "Mine kuupäevale"
 
 #: ../a11y/calendar/ea-day-view-main-item.c:301
-#: ../a11y/calendar/ea-week-view-main-item.c:301
+#: ../a11y/calendar/ea-week-view-main-item.c:298
 msgid "a table to view and select the current time range"
 msgstr "tabel praeguse ajavahemiku kuvamiseks ja valimiseks"
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
-#: ../a11y/calendar/ea-day-view.c:151 ../a11y/calendar/ea-week-view.c:150
+#: ../a11y/calendar/ea-day-view.c:148 ../a11y/calendar/ea-week-view.c:147
 #, c-format
 msgid "It has %d event."
 msgid_plural "It has %d events."
@@ -129,14 +129,14 @@ msgstr[1] "Sellel on %d sündmust."
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
-#: ../a11y/calendar/ea-day-view.c:155 ../a11y/calendar/ea-week-view.c:152
+#: ../a11y/calendar/ea-day-view.c:152 ../a11y/calendar/ea-week-view.c:149
 msgid "It has no events."
 msgstr "Sellel pole sündmusi."
 
 #. To translators: First %s is the week, for example "July 10th -
 #. July 14th, 2006". Second %s is the number of events in this work
 #. week, for example "It has %d event/events." or  "It has no events."
-#: ../a11y/calendar/ea-day-view.c:162
+#: ../a11y/calendar/ea-day-view.c:159
 #, c-format
 msgid "Work Week View: %s. %s"
 msgstr "Töönädala vaade: %s. %s"
@@ -144,16 +144,16 @@ msgstr "Töönädala vaade: %s. %s"
 #. To translators: First %s is the day, for example "Thursday July
 #. 13th, 2006". Second %s is the number of events on this day, for
 #. example "It has %d event/events." or  "It has no events."
-#: ../a11y/calendar/ea-day-view.c:168
+#: ../a11y/calendar/ea-day-view.c:165
 #, c-format
 msgid "Day View: %s. %s"
 msgstr "Päeva vaade: %s. %s"
 
-#: ../a11y/calendar/ea-day-view.c:199
+#: ../a11y/calendar/ea-day-view.c:196
 msgid "calendar view for a work week"
 msgstr "kalendrivaade töönädala jaoks"
 
-#: ../a11y/calendar/ea-day-view.c:201
+#: ../a11y/calendar/ea-day-view.c:198
 msgid "calendar view for one or more days"
 msgstr "kalendrivaade ühe või enama päeva jaoks"
 
@@ -171,7 +171,7 @@ msgstr "%A, %d. %b %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:189
 #: ../calendar/gui/calendar-component.c:760
 #: ../calendar/gui/e-day-view-top-item.c:856 ../calendar/gui/e-day-view.c:1568
-#: ../calendar/gui/e-week-view-main-item.c:340
+#: ../calendar/gui/e-week-view-main-item.c:335
 msgid "%a %d %b"
 msgstr "%a, %d. %b"
 
@@ -203,7 +203,7 @@ msgstr "%d. %B %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:219
 #: ../calendar/gui/calendar-component.c:786
 #: ../calendar/gui/e-day-view-top-item.c:860 ../calendar/gui/e-day-view.c:1584
-#: ../calendar/gui/e-week-view-main-item.c:354
+#: ../calendar/gui/e-week-view-main-item.c:349
 msgid "%d %b"
 msgstr "%d. %b"
 
@@ -229,30 +229,30 @@ msgstr ""
 msgid "Click here, you can find more events."
 msgstr "Täiendavate sündmuste lisamiseks klõpsa siia"
 
-#: ../a11y/calendar/ea-week-view.c:157
+#: ../a11y/calendar/ea-week-view.c:154
 #, c-format
 msgid "Month View: %s. %s"
 msgstr "Kuu vaade: %s. %s"
 
-#: ../a11y/calendar/ea-week-view.c:161
+#: ../a11y/calendar/ea-week-view.c:158
 #, c-format
 msgid "Week View: %s. %s"
 msgstr "Nädala vaade: %s. %s"
 
-#: ../a11y/calendar/ea-week-view.c:192
+#: ../a11y/calendar/ea-week-view.c:189
 msgid "calendar view for a month"
 msgstr "kalendrivaade kuu jaoks"
 
-#: ../a11y/calendar/ea-week-view.c:194
+#: ../a11y/calendar/ea-week-view.c:191
 msgid "calendar view for one or more weeks"
 msgstr "kalendrivaade ühe või enama nädala jaoks"
 
-#: ../a11y/e-table/gal-a11y-e-cell-popup.c:124
+#: ../a11y/e-table/gal-a11y-e-cell-popup.c:121
 msgid "popup"
 msgstr "hüpikaken"
 
 #. action name
-#: ../a11y/e-table/gal-a11y-e-cell-popup.c:125
+#: ../a11y/e-table/gal-a11y-e-cell-popup.c:122
 msgid "popup a child"
 msgstr ""
 
@@ -264,12 +264,12 @@ msgstr "redigeerimine"
 msgid "begin editing this cell"
 msgstr "selle välja redigeerimise alustamine"
 
-#: ../a11y/e-table/gal-a11y-e-cell-toggle.c:151
+#: ../a11y/e-table/gal-a11y-e-cell-toggle.c:172
 msgid "toggle"
 msgstr "lüliti"
 
 #. action name
-#: ../a11y/e-table/gal-a11y-e-cell-toggle.c:152
+#: ../a11y/e-table/gal-a11y-e-cell-toggle.c:173
 msgid "toggle the cell"
 msgstr ""
 
@@ -289,17 +289,17 @@ msgstr "ahenda"
 msgid "collapses the row in the ETree containing this cell"
 msgstr "ETree rea, mid seda välja sisaldab, ahendamine"
 
-#: ../a11y/e-table/gal-a11y-e-cell.c:107
+#: ../a11y/e-table/gal-a11y-e-cell.c:121
 msgid "Table Cell"
 msgstr "Tabeli väli"
 
-#: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:44
-#: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:119
-#: ../widgets/table/e-table-click-to-add.c:581
+#: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:59
+#: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:134
+#: ../widgets/table/e-table-click-to-add.c:580
 msgid "click to add"
 msgstr "lisamiseks klõpsa"
 
-#: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:53
+#: ../a11y/e-table/gal-a11y-e-table-click-to-add.c:68
 msgid "click"
 msgstr "klõpsa"
 
@@ -307,17 +307,17 @@ msgstr "klõpsa"
 msgid "sort"
 msgstr "sordi"
 
-#: ../a11y/widgets/ea-calendar-item.c:298
-#: ../a11y/widgets/ea-calendar-item.c:304
+#: ../a11y/widgets/ea-calendar-item.c:295
+#: ../a11y/widgets/ea-calendar-item.c:301
 msgid "%d %B %Y"
 msgstr "%d. %B %Y"
 
-#: ../a11y/widgets/ea-calendar-item.c:306
+#: ../a11y/widgets/ea-calendar-item.c:303
 #, c-format
 msgid "Calendar: from %s to %s"
 msgstr "Kalender: vahemikus %s kuni %s"
 
-#: ../a11y/widgets/ea-calendar-item.c:341
+#: ../a11y/widgets/ea-calendar-item.c:338
 msgid "evolution calendar item"
 msgstr "evolutioni kalendrikirje"
 
@@ -390,12 +390,10 @@ msgid "Could not get schema information for LDAP server."
 msgstr "LDAP-serveri skeemiinfot pole võimalik hankida."
 
 #: ../addressbook/addressbook.error.xml.h:10
-#, fuzzy
 msgid "Could not remove address book."
 msgstr "Aadressiraamatut pole võimalik eemaldada."
 
 #: ../addressbook/addressbook.error.xml.h:11
-#, fuzzy
 msgid ""
 "Currently you can access only GroupWise System Address Book from Evolution. "
 "Please use some other GroupWise mail client once, to get your GroupWise "
@@ -403,16 +401,15 @@ msgid ""
 msgstr ""
 "Käesolevaga on sul Evolutioniga võimalik ligi pääseda ainult Groupwise "
 "süsteemsetele aadressiraamatutele (GroupWise System Address Book). Groupwise "
-"sagedaste (GroupWise Frequent Contacts) ja isiklike (Groupwise Personal "
-"Contacts) kontaktide kaustadele ligipääskuks kasuta mõnda muud Groupwise "
-"postiklienti."
+"sagedaste kontaktide (GroupWise Frequent Contacts) ja isiklike (Groupwise "
+"Personal Contacts) kontaktide kaustadele ligipääskuks kasuta korraks mõnda "
+"muud Groupwise postiklienti."
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Delete address book '{0}'?"
 msgstr "Kustutada aadressiraamatu '{0}'?"
 
 #: ../addressbook/addressbook.error.xml.h:13
-#, fuzzy
 msgid "Error loading address book."
 msgstr "Viga aadressiraamatu laadimisel."
 
@@ -468,17 +465,14 @@ msgstr ""
 "oma süsteemihaldurilt, milliseid otsingupõhjasid sa peaksid kasutama."
 
 #: ../addressbook/addressbook.error.xml.h:24
-#, fuzzy
 msgid "This address book could not be opened."
 msgstr "Seda aadressisaamatud pole võimalik avada."
 
 #: ../addressbook/addressbook.error.xml.h:25
-#, fuzzy
 msgid "This address book server does not have any suggested search bases."
 msgstr "See aadressiraamatuserver ei oma ühtegi soovituslikku otsingupõhja."
 
 #: ../addressbook/addressbook.error.xml.h:26
-#, fuzzy
 msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -495,7 +489,6 @@ msgid "This server does not support LDAPv3 schema information."
 msgstr "See server ei toeta LDAPv3 skeemiandmeid."
 
 #: ../addressbook/addressbook.error.xml.h:29
-#, fuzzy
 msgid "Unable to open address book"
 msgstr "Aadressiraamatut pole võimalik avada"
 
@@ -550,7 +543,7 @@ msgid ""
 msgstr ""
 "Sinu {0} kontakte pole enne Evolutioni taaskäivitamist võimalik kasutada."
 
-#: ../addressbook/addressbook.error.xml.h:38 ../mail/em-vfolder-rule.c:512
+#: ../addressbook/addressbook.error.xml.h:38 ../mail/em-vfolder-rule.c:513
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
 #: ../plugins/groupwise-features/properties.glade.h:10
 #: ../widgets/table/e-table-config.glade.h:18
@@ -619,7 +612,7 @@ msgstr "Seadista automaatlõpetamist siit"
 #: ../addressbook/gui/component/addressbook-view.c:1326
 #: ../calendar/gui/calendar-component.c:299 ../calendar/gui/migration.c:396
 #: ../plugins/exchange-operations/exchange-delegates-user.c:76
-#: ../plugins/exchange-operations/exchange-folder.c:580
+#: ../plugins/exchange-operations/exchange-folder.c:582
 msgid "Contacts"
 msgstr "Kontaktid"
 
@@ -644,9 +637,8 @@ msgid "Evolution Address Book component"
 msgstr "Evolutioni aadressiraamatu komponent"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:11
-#, fuzzy
 msgid "Evolution S/MIME Certificate Management Control"
-msgstr "Evolutioni S/Mime sertifikaatide haldamise juhtimine"
+msgstr "Evolutioni S/MIME sertifikaatide haldamise juhtimine"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:12
 msgid "Evolution folder settings configuration control"
@@ -712,7 +704,7 @@ msgid "Create a new contact list"
 msgstr "Uue kontaktide nimekirja loomine"
 
 #: ../addressbook/gui/component/addressbook-component.c:245
-#: ../addressbook/gui/component/addressbook-config.c:1206
+#: ../addressbook/gui/component/addressbook-config.c:1207
 msgid "New Address Book"
 msgstr "Uus aadressiraamat"
 
@@ -734,7 +726,7 @@ msgid "Base"
 msgstr "Baas"
 
 #: ../addressbook/gui/component/addressbook-config.c:517
-#: ../calendar/gui/dialogs/calendar-setup.c:169
+#: ../calendar/gui/dialogs/calendar-setup.c:170
 msgid "_Type:"
 msgstr "L_iik:"
 
@@ -742,48 +734,48 @@ msgstr "L_iik:"
 msgid "Copy _book content locally for offline operation"
 msgstr ""
 
-#: ../addressbook/gui/component/addressbook-config.c:981
+#: ../addressbook/gui/component/addressbook-config.c:982
 #: ../addressbook/gui/component/ldap-config.glade.h:22
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
-#: ../calendar/gui/dialogs/calendar-setup.c:366
-#: ../calendar/gui/dialogs/calendar-setup.c:377
-#: ../calendar/gui/dialogs/calendar-setup.c:388
-#: ../mail/em-folder-properties.c:280 ../mail/mail-config.glade.h:89
+#: ../calendar/gui/dialogs/calendar-setup.c:367
+#: ../calendar/gui/dialogs/calendar-setup.c:378
+#: ../calendar/gui/dialogs/calendar-setup.c:389
+#: ../mail/em-folder-properties.c:283 ../mail/mail-config.glade.h:89
 #: ../plugins/itip-formatter/itip-formatter.c:2367
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "Üldine"
 
-#: ../addressbook/gui/component/addressbook-config.c:982
+#: ../addressbook/gui/component/addressbook-config.c:983
 #: ../addressbook/gui/widgets/e-addressbook-view.c:555
 #: ../mail/importers/pine-importer.c:385
 msgid "Address Book"
 msgstr "Aadressiraamat"
 
-#: ../addressbook/gui/component/addressbook-config.c:986
+#: ../addressbook/gui/component/addressbook-config.c:987
 msgid "Server Information"
 msgstr "Serveri andmed"
 
-#: ../addressbook/gui/component/addressbook-config.c:988
+#: ../addressbook/gui/component/addressbook-config.c:989
 msgid "Authentication"
 msgstr "Autentimine"
 
-#: ../addressbook/gui/component/addressbook-config.c:991
+#: ../addressbook/gui/component/addressbook-config.c:992
 #: ../addressbook/gui/component/ldap-config.glade.h:17
 #: ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
 msgstr "Üksikasjad"
 
-#: ../addressbook/gui/component/addressbook-config.c:992
+#: ../addressbook/gui/component/addressbook-config.c:993
 #: ../mail/em-folder-browser.c:983
 msgid "Searching"
 msgstr "Otsing"
 
-#: ../addressbook/gui/component/addressbook-config.c:994
+#: ../addressbook/gui/component/addressbook-config.c:995
 msgid "Downloading"
 msgstr "Allalaadimine"
 
-#: ../addressbook/gui/component/addressbook-config.c:1204
+#: ../addressbook/gui/component/addressbook-config.c:1205
 #: ../addressbook/gui/component/ldap-config.glade.h:11
 msgid "Address Book Properties"
 msgstr "Aadressiraamatu omadused"
@@ -850,18 +842,18 @@ msgstr ""
 "Palun oota kuni Evolution migreerib Sinu Pilot Sync andmed..."
 
 #: ../addressbook/gui/component/addressbook-view.c:425
-#: ../mail/em-folder-utils.c:502
+#: ../mail/em-folder-utils.c:501
 #, c-format
 msgid "Rename the \"%s\" folder to:"
 msgstr "Nimeta kaust \"%s\" uue nimega:"
 
 #: ../addressbook/gui/component/addressbook-view.c:428
-#: ../mail/em-folder-utils.c:504
+#: ../mail/em-folder-utils.c:503
 msgid "Rename Folder"
 msgstr "Kataloogi ümbernimetamine"
 
 #: ../addressbook/gui/component/addressbook-view.c:433
-#: ../mail/em-folder-utils.c:510
+#: ../mail/em-folder-utils.c:509
 msgid "Folder names cannot contain '/'"
 msgstr "Kausta nimes ei tohi sisalduda '/' sümbol"
 
@@ -904,12 +896,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "Ühendan uuesti LDAP-serveriga anonüümselt"
 
 #: ../addressbook/gui/component/addressbook.c:207
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:536
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:535
 msgid "Failed to authenticate.\n"
 msgstr "Tõrge autentimisel.\n"
 
 #: ../addressbook/gui/component/addressbook.c:214
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:516
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:515
 #, c-format
 msgid "Enter password for %s (user %s)"
 msgstr "Sisesta %s parool (kasutaja %s)"
@@ -918,7 +910,7 @@ msgstr "Sisesta %s parool (kasutaja %s)"
 #: ../calendar/common/authentication.c:51
 #: ../plugins/google-account-setup/google-source.c:444
 #: ../plugins/publish-calendar/publish-calendar.c:190
-#: ../smime/gui/component.c:50
+#: ../smime/gui/component.c:49
 msgid "Enter password"
 msgstr "Sisesta parool"
 
@@ -1233,7 +1225,7 @@ msgid "_Login method:"
 msgstr "_Sisselogimismeetod:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:53
-#: ../calendar/gui/dialogs/calendar-setup.c:226
+#: ../calendar/gui/dialogs/calendar-setup.c:227
 #: ../mail/mail-config.glade.h:175
 #: ../plugins/groupwise-features/properties.glade.h:11
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:2
@@ -1327,7 +1319,7 @@ msgstr "Kate_gooriad..."
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:12
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:263
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1156
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1158
 #: ../addressbook/gui/widgets/e-minicard.c:198
 msgid "Contact"
 msgstr "Kontakt"
@@ -1348,7 +1340,7 @@ msgid "Image"
 msgstr "Pilt"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:16
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:58
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:59
 msgid "MSN Messenger"
 msgstr "MSN Kiirsuhtlusklient"
 
@@ -1361,7 +1353,7 @@ msgid "Nic_kname:"
 msgstr "H_üüdnimi:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:54
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:55
 msgid "Novell Groupwise"
 msgstr "Novell Groupwise"
 
@@ -1375,7 +1367,7 @@ msgstr "Telefon"
 
 #. red
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:23
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:229
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:230
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:192
 #: ../addressbook/gui/widgets/eab-contact-display.c:57
 #: ../addressbook/gui/widgets/eab-contact-display.c:643
@@ -1491,1002 +1483,1002 @@ msgstr "K_us:"
 msgid "_Zip/Postal Code:"
 msgstr "_Postiindeks:"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:91
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:92
 #: ../addressbook/gui/widgets/eab-contact-display.c:640
 #: ../addressbook/gui/widgets/eab-contact-display.c:655
 msgid "Address"
 msgstr "Aadress"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:98
-#: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:91
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:134
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:99
+#: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:92
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:135
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:291
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1176
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1178
 #: ../addressbook/gui/widgets/e-addressbook-model.c:312
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:404
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:419
 #: ../addressbook/gui/widgets/e-minicard-label.c:164
-#: ../addressbook/gui/widgets/e-minicard-view-widget.c:130
-#: ../addressbook/gui/widgets/e-minicard-view.c:544
+#: ../addressbook/gui/widgets/e-minicard-view-widget.c:131
+#: ../addressbook/gui/widgets/e-minicard-view.c:545
 #: ../addressbook/gui/widgets/e-minicard.c:191
-#: ../widgets/menus/gal-define-views-model.c:179
+#: ../widgets/menus/gal-define-views-model.c:178
 #: ../widgets/table/e-cell-text.c:1836 ../widgets/text/e-text.c:3687
 #: ../widgets/text/e-text.c:3688
 msgid "Editable"
 msgstr "Redigeeritav"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:131
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:132
 msgid "United States"
 msgstr "Ühendriigid"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:132
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:133
 msgid "Afghanistan"
 msgstr "Afganistan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:133
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:134
 msgid "Albania"
 msgstr "Albaania"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:134
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:135
 msgid "Algeria"
 msgstr "Alžeeria"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:135
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:136
 msgid "American Samoa"
 msgstr "Ameerika Samoa"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:136
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:137
 msgid "Andorra"
 msgstr "Andorra"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:137
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:138
 msgid "Angola"
 msgstr "Angoola"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:138
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:139
 msgid "Anguilla"
 msgstr "Anguilla"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:139
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:140
 msgid "Antarctica"
 msgstr "Antarktika"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:140
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:141
 msgid "Antigua And Barbuda"
 msgstr "Antigua ja Barbuda"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:141
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:142
 msgid "Argentina"
 msgstr "Argentiina"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:142
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:143
 msgid "Armenia"
 msgstr "Armeenia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:143
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:144
 msgid "Aruba"
 msgstr "Aruba"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:144
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:145
 msgid "Australia"
 msgstr "Austraalia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:145
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:146
 msgid "Austria"
 msgstr "Austria"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:146
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:147
 msgid "Azerbaijan"
 msgstr "Aserbaidžaan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:147
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:148
 msgid "Bahamas"
 msgstr "Bahama"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:148
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:149
 msgid "Bahrain"
 msgstr "Bahrein"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:149
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:150
 msgid "Bangladesh"
 msgstr "Bangladesh"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:150
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:151
 msgid "Barbados"
 msgstr "Barbados"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:151
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:152
 msgid "Belarus"
 msgstr "Valgevene"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:152
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:153
 msgid "Belgium"
 msgstr "Belgia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:153
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:154
 msgid "Belize"
 msgstr "Belize"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:154
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:155
 msgid "Benin"
 msgstr "Benin"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:155
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:156
 msgid "Bermuda"
 msgstr "Bermuda"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:156
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:157
 msgid "Bhutan"
 msgstr "Bhutan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:157
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:158
 msgid "Bolivia"
 msgstr "Boliivia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:158
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:159
 msgid "Bosnia And Herzegowina"
 msgstr "Bosnia ja Hertsegoviina"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:159
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:160
 msgid "Botswana"
 msgstr "Botswana"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:160
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:161
 msgid "Bouvet Island"
 msgstr "Bouvet' saar"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:161
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:162
 msgid "Brazil"
 msgstr "Brasiilia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:162
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:163
 msgid "British Indian Ocean Territory"
 msgstr "Briti India ookeani territoorium"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:163
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:164
 msgid "Brunei Darussalam"
 msgstr "Brunei Darussalam"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:164
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:165
 msgid "Bulgaria"
 msgstr "Bulgaaria"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:165
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:166
 msgid "Burkina Faso"
 msgstr "Burkina Faso"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:166
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:167
 msgid "Burundi"
 msgstr "Burundi"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:167
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:168
 msgid "Cambodia"
 msgstr "Kambodža"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:168
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:169
 msgid "Cameroon"
 msgstr "Kamerun"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:169
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:170
 msgid "Canada"
 msgstr "Kanada"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:170
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:171
 msgid "Cape Verde"
 msgstr "Roheneemesaared"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:171
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:172
 msgid "Cayman Islands"
 msgstr "Kaimani saared"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:172
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:173
 msgid "Central African Republic"
 msgstr "Kesk-Aafrika Vabariik"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:173
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:174
 msgid "Chad"
 msgstr "Tšaad"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:174
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:175
 msgid "Chile"
 msgstr "Tšiili"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:175
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:176
 msgid "China"
 msgstr "Hiina"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:176
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:177
 msgid "Christmas Island"
 msgstr "Jõulusaar"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:177
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:178
 msgid "Cocos (Keeling) Islands"
 msgstr "Kookossaared (Keelingi saared)"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:178
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:179
 msgid "Colombia"
 msgstr "Kolumbia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:179
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:180
 msgid "Comoros"
 msgstr "Komoorid"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:180
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:181
 msgid "Congo"
 msgstr "Kongo"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:181
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:182
 msgid "Congo, The Democratic Republic Of The"
 msgstr "Congo, Demokraatlik vabariik"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:182
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:183
 msgid "Cook Islands"
 msgstr "Cooki saared"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:183
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:184
 msgid "Costa Rica"
 msgstr "Costa Rica"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:184
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:185
 msgid "Cote d'Ivoire"
 msgstr "Elevandiluurannik"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:185
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:186
 msgid "Croatia"
 msgstr "Horvaatia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:186
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:187
 msgid "Cuba"
 msgstr "Kuuba"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:187
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:188
 msgid "Cyprus"
 msgstr "Küpros"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:188
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:189
 msgid "Czech Republic"
 msgstr "Tšehhi"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:189
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:190
 msgid "Denmark"
 msgstr "Taani"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:190
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:191
 msgid "Djibouti"
 msgstr "Djibouti"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:191
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:192
 msgid "Dominica"
 msgstr "Dominica"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:192
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:193
 msgid "Dominican Republic"
 msgstr "Dominikaani vabariik"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:193
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:194
 msgid "Ecuador"
 msgstr "Ecuador"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:194
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:195
 msgid "Egypt"
 msgstr "Egiptus"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:195
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:196
 msgid "El Salvador"
 msgstr "El Salvador"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:196
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:197
 msgid "Equatorial Guinea"
 msgstr "Ekvatoriaal-Guinea"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:197
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:198
 msgid "Eritrea"
 msgstr "Eritrea"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:198
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:199
 msgid "Estonia"
 msgstr "Eesti"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:199
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:200
 msgid "Ethiopia"
 msgstr "Etioopia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:200
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:201
 msgid "Falkland Islands"
 msgstr "Falklandi saared"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:201
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:202
 msgid "Faroe Islands"
 msgstr "Fääri saared"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:202
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:203
 msgid "Fiji"
 msgstr "Fidži"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:203
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:204
 msgid "Finland"
 msgstr "Soome"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:204
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:205
 msgid "France"
 msgstr "Prantsusmaa"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:205
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:206
 msgid "French Guiana"
 msgstr "Prantsuse Guajaana"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:206
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:207
 msgid "French Polynesia"
 msgstr "Prantsuse Polüneesia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:207
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:208
 msgid "French Southern Territories"
 msgstr "Prantsuse Lõunaalad"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:208
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:209
 msgid "Gabon"
 msgstr "Gabon"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:209
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:210
 msgid "Gambia"
 msgstr "Gambia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:210
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:211
 msgid "Georgia"
 msgstr "Gruusia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:211
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:212
 msgid "Germany"
 msgstr "Saksamaa"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:212
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:213
 msgid "Ghana"
 msgstr "Ghana"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:213
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:214
 msgid "Gibraltar"
 msgstr "Gibraltar"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:214
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:215
 msgid "Greece"
 msgstr "Kreeka"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:215
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:216
 msgid "Greenland"
 msgstr "Gröönimaa"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:216
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:217
 msgid "Grenada"
 msgstr "Grenada"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:217
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:218
 msgid "Guadeloupe"
 msgstr "Guadeloupe"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:218
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:219
 msgid "Guam"
 msgstr "Guam"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:219
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:220
 msgid "Guatemala"
 msgstr "Guatemala"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:220
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:221
 msgid "Guernsey"
 msgstr "Guernsey"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:221
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:222
 msgid "Guinea"
 msgstr "Guinea"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:222
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:223
 msgid "Guinea-Bissau"
 msgstr "Guinea-Bissau"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:223
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:224
 msgid "Guyana"
 msgstr "Guyana"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:224
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:225
 msgid "Haiti"
 msgstr "Haiti"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:225
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:226
 msgid "Heard And McDonald Islands"
 msgstr "Heardi ja McDonaldi saared"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:226
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:227
 msgid "Holy See"
 msgstr "Vatikan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:227
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:228
 msgid "Honduras"
 msgstr "Honduras"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:228
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:229
 msgid "Hong Kong"
 msgstr "Hong-Kong"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:229
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:230
 msgid "Hungary"
 msgstr "Ungari"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:230
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:231
 msgid "Iceland"
 msgstr "Island"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:231
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:232
 msgid "India"
 msgstr "India"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:232
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:233
 msgid "Indonesia"
 msgstr "Indoneesia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:233
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:234
 msgid "Iran"
 msgstr "Iraan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:234
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:235
 msgid "Iraq"
 msgstr "Iraak"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:235
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:236
 msgid "Ireland"
 msgstr "Iirimaa"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:236
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:237
 msgid "Isle of Man"
 msgstr "Mani saar"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:237
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:238
 msgid "Israel"
 msgstr "Iisrael"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:238
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:239
 msgid "Italy"
 msgstr "Itaalia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:239
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:240
 msgid "Jamaica"
 msgstr "Jamaica"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:240
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:241
 msgid "Japan"
 msgstr "Jaapan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:241
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:242
 msgid "Jersey"
 msgstr "Jersey"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:242
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:243
 msgid "Jordan"
 msgstr "Jordaania"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:243
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:244
 msgid "Kazakhstan"
 msgstr "Kasahstan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:244
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:245
 msgid "Kenya"
 msgstr "Keenia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:245
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:246
 msgid "Kiribati"
 msgstr "Kiribati"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:246
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:247
 msgid "Korea, Democratic People's Republic Of"
 msgstr "Korea Demokraatlik Rahvavabariik"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:247
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:248
 msgid "Korea, Republic Of"
 msgstr "Korea Vabariik"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:248
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:249
 msgid "Kuwait"
 msgstr "Kuveit"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:249
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:250
 msgid "Kyrgyzstan"
 msgstr "Kõrgõzstan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:250
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:251
 msgid "Laos"
 msgstr "Laos"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:251
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:252
 msgid "Latvia"
 msgstr "Läti"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:252
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:253
 msgid "Lebanon"
 msgstr "Liibanon"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:253
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:254
 msgid "Lesotho"
 msgstr "Lesotho"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:254
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:255
 msgid "Liberia"
 msgstr "Libeeria"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:255
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:256
 msgid "Libya"
 msgstr "Liibüa"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:256
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:257
 msgid "Liechtenstein"
 msgstr "Liechtenstein"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:257
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:258
 msgid "Lithuania"
 msgstr "Leedu"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:258
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:259
 msgid "Luxembourg"
 msgstr "Luksemburg"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:259
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:260
 msgid "Macao"
 msgstr "Macao"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:260
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:261
 msgid "Macedonia"
 msgstr "Makedoonia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:261
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:262
 msgid "Madagascar"
 msgstr "Madagaskar"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:262
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:263
 msgid "Malawi"
 msgstr "Malawi"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:263
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:264
 msgid "Malaysia"
 msgstr "Malaisia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:264
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:265
 msgid "Maldives"
 msgstr "Malediivid"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:265
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:266
 msgid "Mali"
 msgstr "Mali"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:266
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:267
 msgid "Malta"
 msgstr "Malta"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:267
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:268
 msgid "Marshall Islands"
 msgstr "Marshalli saared"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:268
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:269
 msgid "Martinique"
 msgstr "Martinique"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:269
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:270
 msgid "Mauritania"
 msgstr "Mauritaania"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:270
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:271
 msgid "Mauritius"
 msgstr "Mauritius"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:271
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:272
 msgid "Mayotte"
 msgstr "Mayotte"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:272
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:273
 msgid "Mexico"
 msgstr "Mehhiko"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:273
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:274
 msgid "Micronesia"
 msgstr "Mikroneesia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:274
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:275
 msgid "Moldova, Republic Of"
 msgstr "Moldova Vabariik"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:275
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:276
 msgid "Monaco"
 msgstr "Monaco"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:276
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:277
 msgid "Mongolia"
 msgstr "Mongoolia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:277
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:278
 msgid "Montserrat"
 msgstr "Montserrat"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:278
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:279
 msgid "Morocco"
 msgstr "Maroko"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:279
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:280
 msgid "Mozambique"
 msgstr "Mosambiik"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:280
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:281
 msgid "Myanmar"
 msgstr "Birma"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:281
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:282
 msgid "Namibia"
 msgstr "Namiibia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:282
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:283
 msgid "Nauru"
 msgstr "Nauru"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:283
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:284
 msgid "Nepal"
 msgstr "Nepal"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:284
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:285
 msgid "Netherlands"
 msgstr "Holland"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:285
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:286
 msgid "Netherlands Antilles"
 msgstr "Hollandi Antillid"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:286
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:287
 msgid "New Caledonia"
 msgstr "Uus-Kaledoonia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:287
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:288
 msgid "New Zealand"
 msgstr "Uus-Meremaa"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:288
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:289
 msgid "Nicaragua"
 msgstr "Nicaragua"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:289
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:290
 msgid "Niger"
 msgstr "Niger"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:290
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:291
 msgid "Nigeria"
 msgstr "Nigeeria"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:291
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:292
 msgid "Niue"
 msgstr "Niue"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:292
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:293
 msgid "Norfolk Island"
 msgstr "Norfolk"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:293
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:294
 msgid "Northern Mariana Islands"
 msgstr "Põhja-Mariaanid"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:294
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:295
 msgid "Norway"
 msgstr "Norra"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:295
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:296
 msgid "Oman"
 msgstr "Omaan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:296
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:297
 msgid "Pakistan"
 msgstr "Pakistan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:297
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:298
 msgid "Palau"
 msgstr "Palau"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:298
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:299
 msgid "Palestinian Territory"
 msgstr "Palestiina territoorium"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:299
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:300
 msgid "Panama"
 msgstr "Panama"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:300
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:301
 msgid "Papua New Guinea"
 msgstr "Paapua Uus-Guinea"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:301
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:302
 msgid "Paraguay"
 msgstr "Paraguay"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:302
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:303
 msgid "Peru"
 msgstr "Peruu"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:303
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:304
 msgid "Philippines"
 msgstr "Filipiinid"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:304
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:305
 msgid "Pitcairn"
 msgstr "Pitcairn"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:305
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:306
 msgid "Poland"
 msgstr "Poola"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:306
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:307
 msgid "Portugal"
 msgstr "Portugal"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:307
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:308
 msgid "Puerto Rico"
 msgstr "Puerto Rico"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:308
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:309
 msgid "Qatar"
 msgstr "Katar"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:309
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:310
 msgid "Reunion"
 msgstr "Réunioni departemang"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:310
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:311
 msgid "Romania"
 msgstr "Rumeenia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:311
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:312
 msgid "Russian Federation"
 msgstr "Venemaa"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:312
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:313
 msgid "Rwanda"
 msgstr "Ruanda"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:313
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:314
 msgid "Saint Kitts And Nevis"
 msgstr "Saint Kitts ja Nevis"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:314
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:315
 msgid "Saint Lucia"
 msgstr "Saint Lucia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:315
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:316
 msgid "Saint Vincent And The Grenadines"
 msgstr "Saint Vincent ja Grenadiinid"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:316
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:317
 msgid "Samoa"
 msgstr "Samoa"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:317
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:318
 msgid "San Marino"
 msgstr "San Marino"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:318
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:319
 msgid "Sao Tome And Principe"
 msgstr "São Tomé ja Príncipe"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:319
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:320
 msgid "Saudi Arabia"
 msgstr "Saudi Araabia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:320
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:321
 msgid "Senegal"
 msgstr "Senegal"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:321
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:322
 msgid "Serbia And Montenegro"
 msgstr "Serbia ja Montenegro"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:322
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:323
 msgid "Seychelles"
 msgstr "Seišellid"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:323
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:324
 msgid "Sierra Leone"
 msgstr "Sierra Leone"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:324
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:325
 msgid "Singapore"
 msgstr "Singapur"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:325
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:326
 msgid "Slovakia"
 msgstr "Slovakkia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:326
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:327
 msgid "Slovenia"
 msgstr "Sloveenia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:327
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:328
 msgid "Solomon Islands"
 msgstr "Saalomoni Saared"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:328
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:329
 msgid "Somalia"
 msgstr "Somaalia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:329
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:330
 msgid "South Africa"
 msgstr "Lõuna-Aafrika Vabariik"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:330
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:331
 msgid "South Georgia And The South Sandwich Islands"
 msgstr "Lõuna Georgia ja Lõuna Sandwichi saared"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:331
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:332
 msgid "Spain"
 msgstr "Hispaania"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:332
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:333
 msgid "Sri Lanka"
 msgstr "Sri Lanka"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:333
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:334
 msgid "St. Helena"
 msgstr "Saint Helena"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:334
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:335
 msgid "St. Pierre And Miquelon"
 msgstr "Saint-Pierre ja Miquelon"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:335
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:336
 msgid "Sudan"
 msgstr "Sudaan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:336
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:337
 msgid "Suriname"
 msgstr "Suriname"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:337
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:338
 msgid "Svalbard And Jan Mayen Islands"
 msgstr "Teravmäed"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:338
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:339
 msgid "Swaziland"
 msgstr "Svaasimaa"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:339
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:340
 msgid "Sweden"
 msgstr "Rootsi"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:340
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:341
 msgid "Switzerland"
 msgstr "Šveits"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:341
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:342
 msgid "Syria"
 msgstr "Süüria"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:342
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:343
 msgid "Taiwan"
 msgstr "Taivan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:343
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:344
 msgid "Tajikistan"
 msgstr "Tadžikistan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:344
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:345
 msgid "Tanzania, United Republic Of"
 msgstr "Tansaania, Ühendatud Vabariik"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:345
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:346
 msgid "Thailand"
 msgstr "Tai"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:346
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:347
 msgid "Timor-Leste"
 msgstr "Timor-Leste"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:347
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:348
 msgid "Togo"
 msgstr "Togo"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:348
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:349
 msgid "Tokelau"
 msgstr "Tokelau"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:349
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:350
 msgid "Tonga"
 msgstr "Tonga"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:350
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:351
 msgid "Trinidad And Tobago"
 msgstr "Trinidad ja Tobago"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:351
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:352
 msgid "Tunisia"
 msgstr "Tuneesia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:352
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:353
 msgid "Turkey"
 msgstr "Türgi"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:353
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:354
 msgid "Turkmenistan"
 msgstr "Türkmenistan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:354
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:355
 msgid "Turks And Caicos Islands"
 msgstr "Turksi ja Caicose saared"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:355
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:356
 msgid "Tuvalu"
 msgstr "Tuvalu"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:356
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:357
 msgid "Uganda"
 msgstr "Uganda"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:357
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:358
 msgid "Ukraine"
 msgstr "Ukraina"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:358
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:359
 msgid "United Arab Emirates"
 msgstr "Araabia Ühendemiraadid"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:359
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:360
 msgid "United Kingdom"
 msgstr "Ühendkuningriik"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:360
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:361
 msgid "United States Minor Outlying Islands"
 msgstr "Ühendriikide hajasaared"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:361
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:362
 msgid "Uruguay"
 msgstr "Uruguay"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:362
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:363
 msgid "Uzbekistan"
 msgstr "Usbekistan"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:363
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:364
 msgid "Vanuatu"
 msgstr "Vanuatu"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:364
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:365
 msgid "Venezuela"
 msgstr "Venetsueela"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:365
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:366
 msgid "Viet Nam"
 msgstr "Vietnam"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:366
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:367
 msgid "Virgin Islands, British"
 msgstr "Neitsisaared, Briti"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:367
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:368
 msgid "Virgin Islands, U.S."
 msgstr "Neitsisaared, U.S."
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:368
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:369
 msgid "Wallis And Futuna Islands"
 msgstr "Wallis ja Futuna"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:369
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:370
 msgid "Western Sahara"
 msgstr "Lääne-Sahara"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:370
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:371
 msgid "Yemen"
 msgstr "Jeemen"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:371
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:372
 msgid "Zambia"
 msgstr "Sambia"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:372
+#: ../addressbook/gui/contact-editor/e-contact-editor-address.c:373
 msgid "Zimbabwe"
 msgstr "Zimbabwe"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:85
+#: ../addressbook/gui/contact-editor/e-contact-editor-fullname.c:86
 #: ../mail/em-mailer-prefs.c:466
-#: ../plugins/exchange-operations/exchange-delegates.c:952
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:709
-#: ../plugins/plugin-manager/plugin-manager.c:41
+#: ../plugins/exchange-operations/exchange-delegates.c:954
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:711
+#: ../plugins/plugin-manager/plugin-manager.c:57
 #: ../plugins/save-attachments/save-attachments.c:350
 #: ../widgets/menus/gal-define-views-dialog.c:346
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:91
@@ -2494,35 +2486,35 @@ msgstr "Zimbabwe"
 msgid "Name"
 msgstr "Nimi"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:53
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:54
 msgid "AOL Instant Messenger"
 msgstr "AOL kiirsuhtlusklient"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:55
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:56
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:175
 #: ../addressbook/gui/widgets/eab-contact-display.c:617
 msgid "Jabber"
 msgstr "Jabber"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:56
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:57
 msgid "Yahoo Messenger"
 msgstr "Yahoo Kiirsuhtlusklient"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:57
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:58
 msgid "Gadu-Gadu Messenger"
 msgstr "Gadu-Gadu Kiirsuhtlusklient"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:59
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:60
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:179
 #: ../addressbook/gui/widgets/eab-contact-display.c:616
 msgid "ICQ"
 msgstr "ICQ"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:111
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:112
 msgid "Service"
 msgstr "Teenus"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:120
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:121
 #: ../calendar/gui/caltypes.xml.h:25
 #: ../calendar/gui/e-cal-list-view.etspec.h:3 ../mail/message-list.etspec.h:9
 #: ../plugins/publish-calendar/publish-calendar.c:693
@@ -2530,17 +2522,17 @@ msgstr "Teenus"
 msgid "Location"
 msgstr "Asukoht"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:127
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:128
 msgid "Username"
 msgstr "Kasutajanimi"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:225
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:226
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:193
 #: ../addressbook/gui/widgets/eab-contact-display.c:58
 msgid "Home"
 msgstr "Kodu"
 
-#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:233
+#: ../addressbook/gui/contact-editor/e-contact-editor-im.c:234
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:194
 #: ../addressbook/gui/widgets/eab-contact-display.c:59
 #: ../addressbook/gui/widgets/eab-contact-display.c:528
@@ -2787,7 +2779,7 @@ msgstr "_KS teenus:"
 #: ../addressbook/gui/contact-editor/im.glade.h:4
 #: ../calendar/gui/dialogs/event-page.glade.h:16
 #: ../plugins/calendar-weather/calendar-weather.c:409
-#: ../plugins/exchange-operations/exchange-calendar.c:242
+#: ../plugins/exchange-operations/exchange-calendar.c:243
 #: ../plugins/exchange-operations/exchange-contacts.c:234
 msgid "_Location:"
 msgstr "Asuko_ht:"
@@ -2797,7 +2789,7 @@ msgid "<b>Members</b>"
 msgstr "<b>Liikmed</b>"
 
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:2
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:666
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:668
 msgid "Contact List Editor"
 msgstr "Kontaktiloendi redaktor"
 
@@ -2817,25 +2809,25 @@ msgstr "_Loendi nimi:"
 msgid "_Type an email address or drag a contact into the list below:"
 msgstr "_Sisesta e-posti aadress või tiri kontakt allolevasse loendisse:"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:759
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:761
 msgid "Contact List Members"
 msgstr "Kontaktiloendi liikmed"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:898
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1237
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:900
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1239
 msgid "_Members"
 msgstr "_Liikmed"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1146
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1148
 #: ../addressbook/gui/widgets/e-addressbook-model.c:298
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:390
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:405
 #: ../addressbook/gui/widgets/e-addressbook-view.c:212
-#: ../addressbook/gui/widgets/e-minicard-view-widget.c:116
-#: ../addressbook/gui/widgets/e-minicard-view.c:530
+#: ../addressbook/gui/widgets/e-minicard-view-widget.c:117
+#: ../addressbook/gui/widgets/e-minicard-view.c:531
 msgid "Book"
 msgstr "Raamat"
 
-#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1166
+#: ../addressbook/gui/contact-list-editor/e-contact-list-editor.c:1168
 msgid "Is New List"
 msgstr "On uus loend"
 
@@ -2877,15 +2869,15 @@ msgstr ""
 "juba olemas. Kas sa soovid seda siiski lisada?"
 
 #: ../addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:6
-#: ../addressbook/gui/merging/eab-contact-merging.c:200
+#: ../addressbook/gui/merging/eab-contact-merging.c:214
 msgid "_Merge"
 msgstr ""
 
-#: ../addressbook/gui/merging/eab-contact-merging.c:185
+#: ../addressbook/gui/merging/eab-contact-merging.c:199
 msgid "Merge Contact"
 msgstr ""
 
-#: ../addressbook/gui/merging/eab-contact-merging.c:253
+#: ../addressbook/gui/merging/eab-contact-merging.c:267
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:11
 #: ../addressbook/gui/widgets/eab-contact-display.c:592
 #: ../addressbook/gui/widgets/eab-contact-display.c:597
@@ -2923,10 +2915,10 @@ msgstr[0] "%d kontakt"
 msgstr[1] "%d kontakti"
 
 #: ../addressbook/gui/widgets/e-addressbook-model.c:305
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:397
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:412
 #: ../addressbook/gui/widgets/e-addressbook-view.c:226
-#: ../addressbook/gui/widgets/e-minicard-view-widget.c:123
-#: ../addressbook/gui/widgets/e-minicard-view.c:537
+#: ../addressbook/gui/widgets/e-minicard-view-widget.c:124
+#: ../addressbook/gui/widgets/e-minicard-view.c:538
 msgid "Query"
 msgstr "Päring"
 
@@ -2934,16 +2926,16 @@ msgstr "Päring"
 msgid "Error getting book view"
 msgstr "Viga raamatu vaate hankimisel"
 
-#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:411
-#: ../widgets/table/e-table-click-to-add.c:510
-#: ../widgets/table/e-table-selection-model.c:303
+#: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:426
+#: ../widgets/table/e-table-click-to-add.c:509
+#: ../widgets/table/e-table-selection-model.c:302
 #: ../widgets/table/e-table.c:3353
 #: ../widgets/table/e-tree-selection-model.c:821 ../widgets/text/e-text.c:3551
 #: ../widgets/text/e-text.c:3552
 msgid "Model"
 msgstr "Mudel"
 
-#: ../addressbook/gui/widgets/e-addressbook-table-adapter.c:131
+#: ../addressbook/gui/widgets/e-addressbook-table-adapter.c:150
 msgid "Error modifying card"
 msgstr "Viga kaardi muutmisel"
 
@@ -3046,12 +3038,6 @@ msgstr "_Aseta"
 #: ../calendar/gui/cal-search-bar.c:687
 msgid "Any Category"
 msgstr "Iga kategooria"
-
-#. E_BOOK_ERROR_OTHER_ERROR
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1734
-#: ../addressbook/gui/widgets/eab-gui-util.c:77
-msgid "Other error"
-msgstr "Muu viga"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 #: ../addressbook/gui/widgets/eab-contact-display.c:634
@@ -3187,7 +3173,7 @@ msgstr "Raadio"
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 #: ../calendar/gui/e-meeting-list-view.c:520
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:713
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:715
 msgid "Role"
 msgstr "Roll"
 
@@ -3224,13 +3210,13 @@ msgstr "Koduleht"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:115
 #: ../addressbook/gui/widgets/e-minicard.c:154
-#: ../widgets/misc/e-canvas-vbox.c:86 ../widgets/misc/e-canvas-vbox.c:87
+#: ../widgets/misc/e-canvas-vbox.c:85 ../widgets/misc/e-canvas-vbox.c:86
 #: ../widgets/misc/e-reflow.c:1433 ../widgets/misc/e-reflow.c:1434
-#: ../widgets/table/e-table-click-to-add.c:524
+#: ../widgets/table/e-table-click-to-add.c:523
 #: ../widgets/table/e-table-col.c:99
 #: ../widgets/table/e-table-field-chooser-item.c:655
+#: ../widgets/table/e-table-group-container.c:992
 #: ../widgets/table/e-table-group-container.c:993
-#: ../widgets/table/e-table-group-container.c:994
 #: ../widgets/table/e-table-group-leaf.c:637
 #: ../widgets/table/e-table-group-leaf.c:638
 #: ../widgets/table/e-table-item.c:3081 ../widgets/table/e-table-item.c:3082
@@ -3240,12 +3226,12 @@ msgstr "Laius"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:122
 #: ../addressbook/gui/widgets/e-minicard.c:161
-#: ../widgets/misc/e-canvas-vbox.c:98 ../widgets/misc/e-canvas-vbox.c:99
+#: ../widgets/misc/e-canvas-vbox.c:97 ../widgets/misc/e-canvas-vbox.c:98
 #: ../widgets/misc/e-reflow.c:1441 ../widgets/misc/e-reflow.c:1442
-#: ../widgets/table/e-table-click-to-add.c:531
+#: ../widgets/table/e-table-click-to-add.c:530
 #: ../widgets/table/e-table-field-chooser-item.c:662
+#: ../widgets/table/e-table-group-container.c:985
 #: ../widgets/table/e-table-group-container.c:986
-#: ../widgets/table/e-table-group-container.c:987
 #: ../widgets/table/e-table-group-leaf.c:630
 #: ../widgets/table/e-table-group-leaf.c:631
 #: ../widgets/table/e-table-item.c:3087 ../widgets/table/e-table-item.c:3088
@@ -3274,11 +3260,11 @@ msgstr "Teksti mudel"
 msgid "Max field name length"
 msgstr "Suurim välja nime pikkus"
 
-#: ../addressbook/gui/widgets/e-minicard-view-widget.c:137
+#: ../addressbook/gui/widgets/e-minicard-view-widget.c:138
 msgid "Column Width"
 msgstr "Veeru laius"
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:177
+#: ../addressbook/gui/widgets/e-minicard-view.c:178
 msgid ""
 "\n"
 "\n"
@@ -3288,7 +3274,7 @@ msgstr ""
 "\n"
 "Otsi kontakte..."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:180
+#: ../addressbook/gui/widgets/e-minicard-view.c:181
 msgid ""
 "\n"
 "\n"
@@ -3302,7 +3288,7 @@ msgstr ""
 "\n"
 "Uue kontakti lisamiseks tee siin topeltklõps."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:183
+#: ../addressbook/gui/widgets/e-minicard-view.c:184
 msgid ""
 "\n"
 "\n"
@@ -3316,7 +3302,7 @@ msgstr ""
 "\n"
 "Uue kontakti lisamiseks tee siin topeltklõps."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:187
+#: ../addressbook/gui/widgets/e-minicard-view.c:188
 msgid ""
 "\n"
 "\n"
@@ -3326,7 +3312,7 @@ msgstr ""
 "\n"
 "Otsi kontakti."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:189
+#: ../addressbook/gui/widgets/e-minicard-view.c:190
 msgid ""
 "\n"
 "\n"
@@ -3336,7 +3322,7 @@ msgstr ""
 "\n"
 "Selles vaates kirjed puuduvad."
 
-#: ../addressbook/gui/widgets/e-minicard-view.c:523
+#: ../addressbook/gui/widgets/e-minicard-view.c:524
 msgid "Adapter"
 msgstr "Adapter"
 
@@ -3414,22 +3400,22 @@ msgstr "Videovestlus"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:636
 #: ../calendar/gui/calendar-commands.c:92
-#: ../calendar/gui/dialogs/calendar-setup.c:367
+#: ../calendar/gui/dialogs/calendar-setup.c:368
 #: ../calendar/gui/gnome-cal.c:2451
 #: ../plugins/exchange-operations/exchange-delegates-user.c:76
-#: ../plugins/exchange-operations/exchange-folder.c:574
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:425
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:456
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:569
-#: ../plugins/hula-account-setup/camel-hula-listener.c:378
-#: ../plugins/hula-account-setup/camel-hula-listener.c:407
+#: ../plugins/exchange-operations/exchange-folder.c:576
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:424
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:455
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:568
+#: ../plugins/hula-account-setup/camel-hula-listener.c:377
+#: ../plugins/hula-account-setup/camel-hula-listener.c:406
 #: ../plugins/publish-calendar/publish-calendar.glade.h:5
 msgid "Calendar"
 msgstr "Kalender"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:637
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#: ../calendar/gui/dialogs/event-editor.c:113
+#: ../calendar/gui/dialogs/event-editor.c:115
 msgid "Free/Busy"
 msgstr "Vaba/hõivatud"
 
@@ -3566,6 +3552,11 @@ msgstr "Sellist allikat ei ole olemas"
 msgid "Not available in offline mode"
 msgstr "Autonoomses olekus pole seda saadaval"
 
+#. E_BOOK_ERROR_OTHER_ERROR
+#: ../addressbook/gui/widgets/eab-gui-util.c:77
+msgid "Other error"
+msgstr "Muu viga"
+
 #. E_BOOK_ERROR_INVALID_SERVER_VERSION
 #: ../addressbook/gui/widgets/eab-gui-util.c:78
 msgid "Invalid server version"
@@ -3576,7 +3567,7 @@ msgstr "Vigane serveri versioon"
 msgid "Unsupported authentication method"
 msgstr "Toetamata autentimismeetod"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:102
+#: ../addressbook/gui/widgets/eab-gui-util.c:107
 #, fuzzy
 msgid ""
 "We were unable to open this address book. This either means this book is not "
@@ -3588,7 +3579,7 @@ msgstr ""
 "veel võrguvabas olekus kasutamiseks alla laaditud. Palun laadi korraks "
 "aadressiraamat võrgurežiimis, et selle sisu oleks võimalik alla laadida."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:111
+#: ../addressbook/gui/widgets/eab-gui-util.c:116
 #, fuzzy, c-format
 msgid ""
 "We were unable to open this address book.  Please check that the path %s "
@@ -3597,7 +3588,7 @@ msgstr ""
 "Aadressiraamatut pole võimalik avada.  Palun kontrolli, kas rada %s on "
 "olemas ja kas sul on sellele vajalikud pääsuõigused."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:120
+#: ../addressbook/gui/widgets/eab-gui-util.c:125
 #, fuzzy
 msgid ""
 "We were unable to open this address book.  This either means you have "
@@ -3606,7 +3597,7 @@ msgstr ""
 "Aadressiraamatu avamine nurjus. Põhjuseks võib olla see, et sisestasid "
 "vigase URI või kasutatav LDAP-server ei ole kättesaadav."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:125
+#: ../addressbook/gui/widgets/eab-gui-util.c:130
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  If "
 "you want to use LDAP in Evolution, you must install an LDAP-enabled "
@@ -3616,7 +3607,7 @@ msgstr ""
 "soovid kasutada Evolutioni koos LDAP-i toega, pead paigaldama omale vastava "
 "Evolutioni paki."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:132
+#: ../addressbook/gui/widgets/eab-gui-util.c:137
 #, fuzzy
 msgid ""
 "We were unable to open this address book.  This either means you have "
@@ -3625,11 +3616,11 @@ msgstr ""
 "Aadressiraamatu avamine nurjus.  Põhjuseks võib olla see, et sisestasid "
 "vigase URI või kasutatav server ei ole kättesaadav."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:138
+#: ../addressbook/gui/widgets/eab-gui-util.c:143
 msgid "Detailed error:"
 msgstr "Vea üksikasjad:"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:161
+#: ../addressbook/gui/widgets/eab-gui-util.c:166
 #, fuzzy
 msgid ""
 "More cards matched this query than either the server is \n"
@@ -3641,7 +3632,7 @@ msgstr ""
 "jaoks määratud piirangu. Palun täpsusta oma otsingut või suurenda selle\n"
 "aadressiraamatu kataloogiserveri eelistustest ajapiirangut."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:167
+#: ../addressbook/gui/widgets/eab-gui-util.c:172
 #, fuzzy
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
@@ -3653,46 +3644,46 @@ msgstr ""
 "jaoks määratud piirangu. Palun täpsusta oma otsingut või suurenda selle\n"
 "aadressiraamatu kataloogiserveri eelistustest ajapiirangut."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:173
+#: ../addressbook/gui/widgets/eab-gui-util.c:178
 msgid "The backend for this address book was unable to parse this query."
 msgstr ""
 "Selle aadressiraamatu taustaprogrammil pole võimalik seda päringut parsida."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:176
+#: ../addressbook/gui/widgets/eab-gui-util.c:181
 msgid "The backend for this address book refused to perform this query."
 msgstr "Selle aadressiraamatu taustaprogramm keeldus päringut parsimast."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:179
+#: ../addressbook/gui/widgets/eab-gui-util.c:184
 msgid "This query did not complete successfully."
 msgstr "See päring ei lõpetanud edukalt."
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:201
+#: ../addressbook/gui/widgets/eab-gui-util.c:206
 msgid "Error adding list"
 msgstr "Viga loendi lisamisel"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:201
-#: ../addressbook/gui/widgets/eab-gui-util.c:677
+#: ../addressbook/gui/widgets/eab-gui-util.c:206
+#: ../addressbook/gui/widgets/eab-gui-util.c:682
 msgid "Error adding contact"
 msgstr "Viga kontakti lisamisel"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:212
+#: ../addressbook/gui/widgets/eab-gui-util.c:217
 msgid "Error modifying list"
 msgstr "Viga loendi muutmisel"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:212
+#: ../addressbook/gui/widgets/eab-gui-util.c:217
 msgid "Error modifying contact"
 msgstr "Viga kontakti muutmisel"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:224
+#: ../addressbook/gui/widgets/eab-gui-util.c:229
 msgid "Error removing list"
 msgstr "Viga loendi eemaldamisel"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:224
-#: ../addressbook/gui/widgets/eab-gui-util.c:627
+#: ../addressbook/gui/widgets/eab-gui-util.c:229
+#: ../addressbook/gui/widgets/eab-gui-util.c:632
 msgid "Error removing contact"
 msgstr "Viga kontakti eemaldamisel"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:306
+#: ../addressbook/gui/widgets/eab-gui-util.c:311
 #, c-format
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
@@ -3707,16 +3698,16 @@ msgstr[1] ""
 "%d kontakti avamisega kaasneb %d uue akna avamine.\n"
 "Oled sa kindel, et soovid kuvada kõiki neid kontakte?"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:314
+#: ../addressbook/gui/widgets/eab-gui-util.c:319
 msgid "_Don't Display"
 msgstr "Ä_ra kuva"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:315
+#: ../addressbook/gui/widgets/eab-gui-util.c:320
 msgid "Display _All Contacts"
 msgstr "_Kuva kõiki kontakte"
 
 #. For Translators only: "it" refers to the filename %s.
-#: ../addressbook/gui/widgets/eab-gui-util.c:341
+#: ../addressbook/gui/widgets/eab-gui-util.c:346
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3725,70 +3716,70 @@ msgstr ""
 "%s on juba olemas\n"
 "Kas soovid üle kirjutada?"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:345
+#: ../addressbook/gui/widgets/eab-gui-util.c:350
 msgid "Overwrite"
 msgstr "Kirjuta üle"
 
 #. more than one, finding the total number of contacts might
 #. * hit performance while saving large number of contacts
 #.
-#: ../addressbook/gui/widgets/eab-gui-util.c:386
-#: ../addressbook/gui/widgets/eab-gui-util.c:389
+#: ../addressbook/gui/widgets/eab-gui-util.c:391
+#: ../addressbook/gui/widgets/eab-gui-util.c:394
 msgid "contact"
 msgid_plural "contacts"
 msgstr[0] "kontakt"
 msgstr[1] "kontakti"
 
 #. This is a filename. Translators take note.
-#: ../addressbook/gui/widgets/eab-gui-util.c:435
+#: ../addressbook/gui/widgets/eab-gui-util.c:440
 msgid "card.vcf"
 msgstr "kaart.vcf"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:472
+#: ../addressbook/gui/widgets/eab-gui-util.c:477
 msgid "Select Address Book"
 msgstr "Aadressiraamatu valimine"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:586
+#: ../addressbook/gui/widgets/eab-gui-util.c:591
 msgid "list"
 msgstr "nimekiri"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:738
+#: ../addressbook/gui/widgets/eab-gui-util.c:743
 msgid "Move contact to"
 msgstr "Kontakti ümbertõstmine"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:740
+#: ../addressbook/gui/widgets/eab-gui-util.c:745
 msgid "Copy contact to"
 msgstr "Kontakti kopeerimine"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:743
+#: ../addressbook/gui/widgets/eab-gui-util.c:748
 msgid "Move contacts to"
 msgstr "Kontaktide ümbertõstmine"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:745
+#: ../addressbook/gui/widgets/eab-gui-util.c:750
 msgid "Copy contacts to"
 msgstr "Kontaktide kopeerimine"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:890
+#: ../addressbook/gui/widgets/eab-gui-util.c:895
 msgid "Multiple vCards"
 msgstr "Mitu vKaarti"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:897
+#: ../addressbook/gui/widgets/eab-gui-util.c:902
 #, c-format
 msgid "vCard for %s"
 msgstr "vKaart %s kohta"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:909
-#: ../addressbook/gui/widgets/eab-gui-util.c:935
+#: ../addressbook/gui/widgets/eab-gui-util.c:914
+#: ../addressbook/gui/widgets/eab-gui-util.c:940
 #, c-format
 msgid "Contact information"
 msgstr "Kontaktandmed"
 
-#: ../addressbook/gui/widgets/eab-gui-util.c:937
+#: ../addressbook/gui/widgets/eab-gui-util.c:942
 #, c-format
 msgid "Contact information for %s"
 msgstr "Kontaktandmed - %s"
 
-#: ../addressbook/gui/widgets/eab-popup-control.c:301
+#: ../addressbook/gui/widgets/eab-popup-control.c:293
 msgid "Querying Address Book..."
 msgstr "Pöördumine aadressiraamatu poole..."
 
@@ -3813,11 +3804,11 @@ msgstr "Kompaktse vKaardi näitamine"
 msgid "Save in address book"
 msgstr "Salvesta aadressiraamatusse"
 
-#: ../addressbook/gui/widgets/gal-view-factory-minicard.c:25
+#: ../addressbook/gui/widgets/gal-view-factory-minicard.c:37
 msgid "Card View"
 msgstr "Kaardi vaade"
 
-#: ../addressbook/importers/evolution-csv-importer.c:658
+#: ../addressbook/importers/evolution-csv-importer.c:661
 #: ../addressbook/importers/evolution-ldif-importer.c:498
 #: ../addressbook/importers/evolution-vcard-importer.c:250
 #: ../calendar/importers/icalendar-importer.c:306
@@ -3825,27 +3816,27 @@ msgstr "Kaardi vaade"
 msgid "Importing..."
 msgstr "Importimine..."
 
-#: ../addressbook/importers/evolution-csv-importer.c:860
+#: ../addressbook/importers/evolution-csv-importer.c:863
 msgid "Outlook CSV or Tab (.csv, .tab)"
 msgstr "Outlook'i CSV või Tab (.csv, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:861
+#: ../addressbook/importers/evolution-csv-importer.c:864
 msgid "Outlook CSV and Tab Importer"
 msgstr "Outlook'i CSV ja Tab-i importija"
 
-#: ../addressbook/importers/evolution-csv-importer.c:869
+#: ../addressbook/importers/evolution-csv-importer.c:872
 msgid "Mozilla CSV or Tab (.csv, .tab)"
 msgstr "Mozilla CSV või Tab (.csv, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:870
+#: ../addressbook/importers/evolution-csv-importer.c:873
 msgid "Mozilla CSV and Tab Importer"
 msgstr "Mozilla CSV ja Tab-i importija"
 
-#: ../addressbook/importers/evolution-csv-importer.c:878
+#: ../addressbook/importers/evolution-csv-importer.c:881
 msgid "Evolution CSV or Tab (.csv, .tab)"
 msgstr "Evolutioni CSV või Tab (.csv, .tab)"
 
-#: ../addressbook/importers/evolution-csv-importer.c:879
+#: ../addressbook/importers/evolution-csv-importer.c:882
 msgid "Evolution CSV and Tab Importer"
 msgstr "Evolutioni CSV ja Tab-i importija"
 
@@ -3906,12 +3897,12 @@ msgid "Format"
 msgstr "Vorming"
 
 #: ../addressbook/printing/e-contact-print.glade.h:11
-#: ../mail/em-mailer-prefs.c:432 ../widgets/table/e-table-click-to-add.c:503
+#: ../mail/em-mailer-prefs.c:432 ../widgets/table/e-table-click-to-add.c:502
 #: ../widgets/table/e-table-field-chooser-dialog.c:81
 #: ../widgets/table/e-table-field-chooser-item.c:648
 #: ../widgets/table/e-table-field-chooser.c:81
 #: ../widgets/table/e-table-header-item.c:1908
-#: ../widgets/table/e-table-selection-model.c:310
+#: ../widgets/table/e-table-selection-model.c:309
 msgid "Header"
 msgstr "Päis"
 
@@ -4014,7 +4005,7 @@ msgstr "Varjutamine"
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
 #: ../plugins/exchange-operations/exchange-account-setup.c:1069
-#: ../plugins/exchange-operations/exchange-calendar.c:231
+#: ../plugins/exchange-operations/exchange-calendar.c:232
 #: ../plugins/exchange-operations/exchange-contacts.c:217
 msgid "Size:"
 msgstr "Suurus:"
@@ -4032,7 +4023,7 @@ msgid "Top:"
 msgstr "Ülevalt:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:40
-#: ../calendar/gui/dialogs/calendar-setup.c:153
+#: ../calendar/gui/dialogs/calendar-setup.c:154
 msgid "Type:"
 msgstr "Liik:"
 
@@ -4044,37 +4035,36 @@ msgstr "Laius:"
 msgid "_Font..."
 msgstr "_Kirjatüüp..."
 
-#: ../addressbook/printing/test-contact-print-style-editor.c:53
+#: ../addressbook/printing/test-contact-print-style-editor.c:54
 msgid "Contact Print Style Editor Test"
 msgstr "Kontakti printimislaadi redaktori test"
 
-#: ../addressbook/printing/test-contact-print-style-editor.c:54
-#: ../addressbook/printing/test-print.c:44
+#: ../addressbook/printing/test-contact-print-style-editor.c:55
+#: ../addressbook/printing/test-print.c:45
 msgid "Copyright (C) 2000, Ximian, Inc."
 msgstr "Autoriõigus (C) 2000, Ximian, Inc."
 
-#: ../addressbook/printing/test-contact-print-style-editor.c:56
+#: ../addressbook/printing/test-contact-print-style-editor.c:57
 msgid "This should test the contact print style editor widget"
 msgstr "See peaks testima kontakti printimise laadiredaktori vidinat"
 
-#: ../addressbook/printing/test-print.c:43
+#: ../addressbook/printing/test-print.c:44
 msgid "Contact Print Test"
 msgstr "Kontakti printimistest"
 
-#: ../addressbook/printing/test-print.c:46
+#: ../addressbook/printing/test-print.c:47
 msgid "This should test the contact print code"
 msgstr "See peaks testima kontaktiprintimise koodi"
 
-#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:668
-#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:704
+#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:667
+#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:703
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:50
 msgid "Can not open file"
 msgstr "Faili pole võimalik avada"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:44
-#, fuzzy
 msgid "Couldn't get list of address books"
-msgstr "Aadressiraamatute loendit pole võimalik hankida"
+msgstr "Aadressiraamatute nimekirja pole võimalik hankida"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:72
 msgid "failed to open book"
@@ -4089,9 +4079,8 @@ msgid "OUTPUTFILE"
 msgstr "VÄLJUNDFAIL"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:53
-#, fuzzy
 msgid "List local address book folders"
-msgstr "Kohalike aadressiraamatute kaustade kuvamine"
+msgstr "Kohalike aadressiraamatute kaustade nimekiri"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:56
 msgid "Show cards as vcard or csv file"
@@ -4144,9 +4133,8 @@ msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar from the side bar in the Calendar view."
 msgstr ""
-"Kalendriallikas '{0}' on kirjutuskaitsega ja seda pole võimalik muuta. "
-"Palun vali kalendrivaate külribalt kalender, mis võimaldab muudatusi sisse "
-"viia."
+"Kalendriallikas '{0}' on kirjutuskaitsega ja seda pole võimalik muuta. Palun "
+"vali kalendrivaate külribalt kalender, mis võimaldab muudatusi sisse viia."
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:4
@@ -4154,8 +4142,8 @@ msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
 msgstr ""
-"Kalendriallikas '{0}' on kirjutuskaitsega ja seda pole võimalik muuta. "
-"Palun vali kalender, mis võimaldab muudatusi sisse viia."
+"Kalendriallikas '{0}' on kirjutuskaitsega ja seda pole võimalik muuta. Palun "
+"vali kalender, mis võimaldab muudatusi sisse viia."
 
 #: ../calendar/calendar.error.xml.h:5
 msgid ""
@@ -4520,7 +4508,7 @@ msgstr ""
 msgid "_Discard Changes"
 msgstr "_Hülga muudatused"
 
-#: ../calendar/calendar.error.xml.h:76 ../composer/e-composer-actions.c:500
+#: ../calendar/calendar.error.xml.h:76 ../composer/e-composer-actions.c:499
 msgid "_Save"
 msgstr "_Salvesta"
 
@@ -4648,9 +4636,9 @@ msgstr "Märkmed"
 #: ../calendar/importers/icalendar-importer.c:74
 #: ../calendar/importers/icalendar-importer.c:735
 #: ../plugins/exchange-operations/exchange-delegates-user.c:76
-#: ../plugins/exchange-operations/exchange-folder.c:586
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:426
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:570
+#: ../plugins/exchange-operations/exchange-folder.c:588
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:425
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:569
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:12
 msgid "Tasks"
 msgstr "Ülesanded"
@@ -4668,13 +4656,13 @@ msgstr "_Ülesanded"
 msgid "Evolution Calendar alarm notification service"
 msgstr "Evolutioni kalendri alarmteadete teenus"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:101
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:104
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minut"
 msgstr[1] "minutit"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:116
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:119
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:25
 #: ../calendar/gui/dialogs/event-page.glade.h:19 ../filter/filter.glade.h:15
@@ -4687,7 +4675,7 @@ msgid_plural "hours"
 msgstr[0] "tund"
 msgstr[1] "tundi"
 
-#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:270
+#: ../calendar/gui/alarm-notify/alarm-notify-dialog.c:273
 msgid "Start time"
 msgstr "Algusaeg"
 
@@ -4751,7 +4739,7 @@ msgstr "Sul on %d alarmi"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1683
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1711
-#: ../mail/mail-component.c:1594
+#: ../mail/mail-component.c:1597
 msgid "Warning"
 msgstr "Hoiatus"
 
@@ -4799,13 +4787,13 @@ msgstr ""
 "Alarmteavituse teenuse factory't pole võimalik luua, võibolla see juba "
 "töötab..."
 
-#: ../calendar/gui/alarm-notify/util.c:41
+#: ../calendar/gui/alarm-notify/util.c:44
 msgid "invalid time"
 msgstr "vigane aeg"
 
 #. Translator: Entire string is like "Pop up an alert %d hours before start of appointment"
-#: ../calendar/gui/alarm-notify/util.c:66 ../calendar/gui/e-alarm-list.c:404
-#: ../calendar/gui/misc.c:113
+#: ../calendar/gui/alarm-notify/util.c:69 ../calendar/gui/e-alarm-list.c:404
+#: ../calendar/gui/misc.c:116
 #, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
@@ -4813,8 +4801,8 @@ msgstr[0] "%d tund"
 msgstr[1] "%d tundi"
 
 #. Translator: Entire string is like "Pop up an alert %d minutes before start of appointment"
-#: ../calendar/gui/alarm-notify/util.c:72 ../calendar/gui/e-alarm-list.c:410
-#: ../calendar/gui/misc.c:119
+#: ../calendar/gui/alarm-notify/util.c:75 ../calendar/gui/e-alarm-list.c:410
+#: ../calendar/gui/misc.c:122
 #, c-format
 msgid "%d minute"
 msgid_plural "%d minutes"
@@ -4824,8 +4812,8 @@ msgstr[1] "%d minutit"
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
 #. Translator: Entire string is like "Pop up an alert %d seconds before start of appointment"
 #. TRANSLATORS: here, "second" is the time division (like "minute"), not the ordinal number (like "third")
-#: ../calendar/gui/alarm-notify/util.c:76 ../calendar/gui/e-alarm-list.c:416
-#: ../calendar/gui/misc.c:123
+#: ../calendar/gui/alarm-notify/util.c:79 ../calendar/gui/e-alarm-list.c:416
+#: ../calendar/gui/misc.c:126
 #, c-format
 msgid "%d second"
 msgid_plural "%d seconds"
@@ -5436,19 +5424,19 @@ msgstr "Kale_nder"
 msgid "Create a new calendar"
 msgstr "Uue kalendri loomine"
 
-#: ../calendar/gui/calendar-view-factory.c:109
+#: ../calendar/gui/calendar-view-factory.c:113
 msgid "Day View"
 msgstr "Päeva vaade"
 
-#: ../calendar/gui/calendar-view-factory.c:112
+#: ../calendar/gui/calendar-view-factory.c:116
 msgid "Work Week View"
 msgstr "Töönädala vaade"
 
-#: ../calendar/gui/calendar-view-factory.c:115
+#: ../calendar/gui/calendar-view-factory.c:119
 msgid "Week View"
 msgstr "Nädala vaade"
 
-#: ../calendar/gui/calendar-view-factory.c:118
+#: ../calendar/gui/calendar-view-factory.c:122
 msgid "Month View"
 msgstr "Kuu vaade"
 
@@ -5488,15 +5476,15 @@ msgstr "Liigitamine"
 msgid "Competition"
 msgstr ""
 
-#: ../calendar/gui/caltypes.xml.h:11 ../calendar/gui/e-cal-list-view.c:255
-#: ../calendar/gui/e-cal-model.c:333 ../calendar/gui/e-calendar-table.c:547
+#: ../calendar/gui/caltypes.xml.h:11 ../calendar/gui/e-cal-list-view.c:250
+#: ../calendar/gui/e-cal-model.c:337 ../calendar/gui/e-calendar-table.c:547
 #: ../calendar/gui/memotypes.xml.h:10
 msgid "Confidential"
 msgstr "Salajane"
 
 #: ../calendar/gui/caltypes.xml.h:12 ../calendar/gui/memotypes.xml.h:11
 #: ../calendar/gui/tasktypes.xml.h:14
-#: ../plugins/plugin-manager/plugin-manager.c:43
+#: ../plugins/plugin-manager/plugin-manager.c:59
 #: ../widgets/table/e-table-config.glade.h:6
 msgid "Description"
 msgstr "Kirjeldus"
@@ -5567,9 +5555,8 @@ msgid "Miscellaneous"
 msgstr "Muu"
 
 #: ../calendar/gui/caltypes.xml.h:27 ../calendar/gui/tasktypes.xml.h:31
-#, fuzzy
 msgid "Next 7 days"
-msgstr "Järgneva 7 päeva ülesanded"
+msgstr "Järgnevad 7 päeva"
 
 #: ../calendar/gui/caltypes.xml.h:28
 #: ../calendar/gui/dialogs/meeting-page.glade.h:6
@@ -5582,20 +5569,20 @@ msgstr "Korraldaja"
 msgid "Phone Calls"
 msgstr "Telefonikõned"
 
-#: ../calendar/gui/caltypes.xml.h:31 ../calendar/gui/e-cal-list-view.c:254
-#: ../calendar/gui/e-cal-model.c:331 ../calendar/gui/e-calendar-table.c:546
+#: ../calendar/gui/caltypes.xml.h:31 ../calendar/gui/e-cal-list-view.c:249
+#: ../calendar/gui/e-cal-model.c:335 ../calendar/gui/e-calendar-table.c:546
 #: ../calendar/gui/memotypes.xml.h:29
 msgid "Private"
 msgstr "Isiklik"
 
-#: ../calendar/gui/caltypes.xml.h:32 ../calendar/gui/e-cal-list-view.c:253
-#: ../calendar/gui/e-cal-model.c:322 ../calendar/gui/e-cal-model.c:329
+#: ../calendar/gui/caltypes.xml.h:32 ../calendar/gui/e-cal-list-view.c:248
+#: ../calendar/gui/e-cal-model.c:326 ../calendar/gui/e-cal-model.c:333
 #: ../calendar/gui/e-calendar-table.c:545 ../calendar/gui/memotypes.xml.h:30
 msgid "Public"
 msgstr "Avalik"
 
 #: ../calendar/gui/caltypes.xml.h:33
-#: ../calendar/gui/dialogs/event-editor.c:297
+#: ../calendar/gui/dialogs/event-editor.c:299
 msgid "Recurrence"
 msgstr "Kordumine"
 
@@ -5794,7 +5781,7 @@ msgstr "minut(it)"
 msgid "start of appointment"
 msgstr "sündmuse algust"
 
-#: ../calendar/gui/dialogs/alarm-list-dialog.c:242
+#: ../calendar/gui/dialogs/alarm-list-dialog.c:244
 msgid "Action/Trigger"
 msgstr "Tegevus/Päästik"
 
@@ -6070,55 +6057,55 @@ msgstr "_K"
 msgid "before every appointment"
 msgstr "enne iga sündmuse algust"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:269
+#: ../calendar/gui/dialogs/calendar-setup.c:270
 msgid "Cop_y calendar contents locally for offline operation"
 msgstr ""
 "Kalendri sisu _kopeeritakse kohapeale, tarvitamiseks võrguvabas keskkonnas"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:271
+#: ../calendar/gui/dialogs/calendar-setup.c:272
 msgid "Cop_y task list contents locally for offline operation"
 msgstr ""
 "Ülesandeloendi sisu _kopeerimine kohapeale tarvitamiseks võrguvabas "
 "keskkonnas"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:273
+#: ../calendar/gui/dialogs/calendar-setup.c:274
 msgid "Cop_y memo list contents locally for offline operation"
 msgstr ""
 "Märkmeloendi sisu _kopeerimine kohapeale tarvitamiseks võrguvabas keskkonnas"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:343
+#: ../calendar/gui/dialogs/calendar-setup.c:344
 msgid "Colo_r:"
 msgstr "Vä_rvus:"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:378
+#: ../calendar/gui/dialogs/calendar-setup.c:379
 msgid "Task List"
 msgstr "Ülesandeloend"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:389
+#: ../calendar/gui/dialogs/calendar-setup.c:390
 msgid "Memo List"
 msgstr "Märkmeloend"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:474
+#: ../calendar/gui/dialogs/calendar-setup.c:475
 msgid "Calendar Properties"
 msgstr "Kalendri omadused"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:474
+#: ../calendar/gui/dialogs/calendar-setup.c:475
 msgid "New Calendar"
 msgstr "Uus kalender"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:530
+#: ../calendar/gui/dialogs/calendar-setup.c:531
 msgid "Task List Properties"
 msgstr "Ülesandeloendi omadused"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:530
+#: ../calendar/gui/dialogs/calendar-setup.c:531
 msgid "New Task List"
 msgstr "Uus ülesandeloend"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:586
+#: ../calendar/gui/dialogs/calendar-setup.c:587
 msgid "Memo List Properties"
 msgstr "Märkmeloendi omadused"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:586
+#: ../calendar/gui/dialogs/calendar-setup.c:587
 msgid "New Memo List"
 msgstr "Uus märkmeloend"
 
@@ -6174,23 +6161,23 @@ msgstr "%s  Muudatusi ei ole tehtud. Kas värskendada redaktorit?"
 msgid "Validation error: %s"
 msgstr "Valideerimisviga: %s"
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:182 ../calendar/gui/print.c:2356
+#: ../calendar/gui/dialogs/comp-editor-util.c:186 ../calendar/gui/print.c:2356
 msgid " to "
 msgstr " kuni "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:186 ../calendar/gui/print.c:2360
+#: ../calendar/gui/dialogs/comp-editor-util.c:190 ../calendar/gui/print.c:2360
 msgid " (Completed "
 msgstr " (Valmis "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:188 ../calendar/gui/print.c:2362
+#: ../calendar/gui/dialogs/comp-editor-util.c:192 ../calendar/gui/print.c:2362
 msgid "Completed "
 msgstr "Lõpetatud "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:193 ../calendar/gui/print.c:2367
+#: ../calendar/gui/dialogs/comp-editor-util.c:197 ../calendar/gui/print.c:2367
 msgid " (Due "
 msgstr " (Tähtaeg "
 
-#: ../calendar/gui/dialogs/comp-editor-util.c:195 ../calendar/gui/print.c:2369
+#: ../calendar/gui/dialogs/comp-editor-util.c:199 ../calendar/gui/print.c:2369
 msgid "Due "
 msgstr "Tähtaeg "
 
@@ -6210,7 +6197,7 @@ msgstr[0] "Manustatud sõnum"
 msgstr[1] "%d manustatud sõnumit"
 
 #: ../calendar/gui/dialogs/comp-editor.c:481 ../composer/e-msg-composer.c:2058
-#: ../mail/em-folder-tree.c:1006 ../mail/em-folder-utils.c:365
+#: ../mail/em-folder-tree.c:1006 ../mail/em-folder-utils.c:364
 #: ../mail/em-folder-view.c:1186 ../mail/message-list.c:2045
 msgid "_Move"
 msgstr "_Tõsta ümber"
@@ -6222,7 +6209,7 @@ msgstr "Tühista _lohistamine"
 
 #: ../calendar/gui/dialogs/comp-editor.c:616
 #: ../calendar/gui/dialogs/comp-editor.c:3249 ../mail/em-utils.c:371
-#: ../plugins/prefer-plain/prefer-plain.c:74
+#: ../plugins/prefer-plain/prefer-plain.c:91
 #: ../widgets/misc/e-attachment-bar.c:453
 msgid "attachment"
 msgstr "manus"
@@ -6308,9 +6295,8 @@ msgid "_Help"
 msgstr "A_bi"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1353
-#, fuzzy
 msgid "_Insert"
-msgstr "_Lisamine"
+msgstr "L_isa"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1360
 msgid "_Options"
@@ -6324,7 +6310,7 @@ msgid "_View"
 msgstr "_Vaade"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1377
-#: ../composer/e-composer-actions.c:472
+#: ../composer/e-composer-actions.c:471
 msgid "_Attachment..."
 msgstr "_Manus..."
 
@@ -6406,12 +6392,12 @@ msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Osaleja liigi välja kuvamise sisse- ja väljalülitamine"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1766
-#: ../widgets/misc/e-attachment-bar.c:1381
-msgid "Recent Docu_ments"
+#: ../composer/e-composer-private.c:65 ../widgets/misc/e-attachment-bar.c:1381
+msgid "Recent _Documents"
 msgstr "_Hiljutised dokumendid"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1785
-#: ../composer/e-composer-actions.c:700
+#: ../composer/e-composer-actions.c:699
 msgid "Attach"
 msgstr "Manusta"
 
@@ -6535,7 +6521,7 @@ msgid "Contacts..."
 msgstr "Kontaktid..."
 
 #: ../calendar/gui/dialogs/e-delegate-dialog.glade.h:2
-#: ../plugins/exchange-operations/exchange-delegates.c:415
+#: ../plugins/exchange-operations/exchange-delegates.c:417
 msgid "Delegate To:"
 msgstr "Delegeerida:"
 
@@ -6543,59 +6529,59 @@ msgstr "Delegeerida:"
 msgid "Enter Delegate"
 msgstr "Sisesta Delegaat"
 
-#: ../calendar/gui/dialogs/event-editor.c:194
+#: ../calendar/gui/dialogs/event-editor.c:196
 msgid "_Alarms"
 msgstr "_Alarmid"
 
-#: ../calendar/gui/dialogs/event-editor.c:196
+#: ../calendar/gui/dialogs/event-editor.c:198
 msgid "Click here to set or unset alarms for this event"
 msgstr "Klõpsa siia, et seada või eemaldada selle sündmuse alarme"
 
-#: ../calendar/gui/dialogs/event-editor.c:201
+#: ../calendar/gui/dialogs/event-editor.c:203
 msgid "_Recurrence"
 msgstr "_Kordumine"
 
-#: ../calendar/gui/dialogs/event-editor.c:203
+#: ../calendar/gui/dialogs/event-editor.c:205
 msgid "Make this a recurring event"
 msgstr "Selle sündmuse muutmine korduvaks"
 
-#: ../calendar/gui/dialogs/event-editor.c:208
+#: ../calendar/gui/dialogs/event-editor.c:210
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../widgets/misc/e-send-options.glade.h:19
 msgid "Send Options"
 msgstr "Saatmise valikud"
 
-#: ../calendar/gui/dialogs/event-editor.c:210
-#: ../calendar/gui/dialogs/task-editor.c:123
+#: ../calendar/gui/dialogs/event-editor.c:212
+#: ../calendar/gui/dialogs/task-editor.c:125
 msgid "Insert advanced send options"
 msgstr "Laiendatud saatmisvalikute lisamine"
 
-#: ../calendar/gui/dialogs/event-editor.c:218
+#: ../calendar/gui/dialogs/event-editor.c:220
 msgid "All _Day Event"
 msgstr "Kogu _päeva kestev sündmus"
 
-#: ../calendar/gui/dialogs/event-editor.c:220
+#: ../calendar/gui/dialogs/event-editor.c:222
 msgid "Toggles whether to have All Day Event"
 msgstr "Kogu päeva kestva sündmuse sisse- ja väljalülitamine"
 
-#: ../calendar/gui/dialogs/event-editor.c:226
+#: ../calendar/gui/dialogs/event-editor.c:228
 #, fuzzy
 msgid "Show Time as _Busy"
 msgstr "Näita aega kui _hõivatut"
 
-#: ../calendar/gui/dialogs/event-editor.c:228
+#: ../calendar/gui/dialogs/event-editor.c:230
 msgid "Toggles whether to show time as busy"
 msgstr "Aja kui hõivatud aja välja kuvamise sisse- ja väljalülitamine"
 
-#: ../calendar/gui/dialogs/event-editor.c:237
+#: ../calendar/gui/dialogs/event-editor.c:239
 msgid "_Free/Busy"
 msgstr "_Vaba/hõivatud"
 
-#: ../calendar/gui/dialogs/event-editor.c:239
+#: ../calendar/gui/dialogs/event-editor.c:241
 msgid "Query free / busy information for the attendees"
 msgstr "Osalejate vaba/hõivatud andmete pärimine"
 
-#: ../calendar/gui/dialogs/event-editor.c:294
+#: ../calendar/gui/dialogs/event-editor.c:296
 msgid "Appoint_ment"
 msgstr "Sünd_mus"
 
@@ -6716,7 +6702,7 @@ msgstr "Kohandatud"
 #: ../plugins/exchange-operations/exchange-delegates-user.c:193
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
 #: ../plugins/itip-formatter/itip-formatter.c:2021
-#: ../widgets/misc/e-cell-date-edit.c:307 ../widgets/misc/e-dateedit.c:1517
+#: ../widgets/misc/e-cell-date-edit.c:306 ../widgets/misc/e-dateedit.c:1517
 #: ../widgets/misc/e-dateedit.c:1731
 #: ../widgets/misc/e-signature-combo-box.c:70
 msgid "None"
@@ -7034,12 +7020,12 @@ msgstr "nädal(at)"
 msgid "year(s)"
 msgstr "aasta(t)"
 
-#: ../calendar/gui/dialogs/task-details-page.c:373
-#: ../calendar/gui/dialogs/task-details-page.c:393
+#: ../calendar/gui/dialogs/task-details-page.c:377
+#: ../calendar/gui/dialogs/task-details-page.c:397
 msgid "Completed date is wrong"
 msgstr "Lõpetamise kuupäev on vale"
 
-#: ../calendar/gui/dialogs/task-details-page.c:478
+#: ../calendar/gui/dialogs/task-details-page.c:482
 msgid "Web Page"
 msgstr "Veebileht"
 
@@ -7091,7 +7077,7 @@ msgstr "Madal"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
 #: ../calendar/gui/e-cal-component-preview.c:274
-#: ../calendar/gui/e-cal-model.c:970 ../calendar/gui/e-calendar-table.c:568
+#: ../calendar/gui/e-cal-model.c:974 ../calendar/gui/e-calendar-table.c:568
 #: ../calendar/gui/tasktypes.xml.h:32 ../mail/message-list.c:1064
 msgid "Normal"
 msgstr "Keskmine"
@@ -7132,24 +7118,24 @@ msgstr "Tä_htsus:"
 msgid "_Web Page:"
 msgstr "_Koduleht:"
 
-#: ../calendar/gui/dialogs/task-editor.c:111
+#: ../calendar/gui/dialogs/task-editor.c:113
 msgid "_Status Details"
 msgstr "_Oleku üksikasjad"
 
-#: ../calendar/gui/dialogs/task-editor.c:113
+#: ../calendar/gui/dialogs/task-editor.c:115
 msgid "Click to change or view the status details of the task"
 msgstr "Klõpsa ülesande oleku üksikasjade vaatamiseks või muutmiseks"
 
-#: ../calendar/gui/dialogs/task-editor.c:121
-#: ../composer/e-composer-actions.c:528
+#: ../calendar/gui/dialogs/task-editor.c:123
+#: ../composer/e-composer-actions.c:527
 msgid "_Send Options"
 msgstr "_Saatmise valikud"
 
-#: ../calendar/gui/dialogs/task-editor.c:316
+#: ../calendar/gui/dialogs/task-editor.c:318
 msgid "_Task"
 msgstr "_Ülesanne"
 
-#: ../calendar/gui/dialogs/task-editor.c:319
+#: ../calendar/gui/dialogs/task-editor.c:321
 msgid "Task Details"
 msgstr "Ülesande üksikasjad"
 
@@ -7321,12 +7307,12 @@ msgstr "Lõppemise kuupäev"
 msgid "Start Date"
 msgstr "Alguskuupäev"
 
-#: ../calendar/gui/e-cal-model-calendar.c:183
+#: ../calendar/gui/e-cal-model-calendar.c:187
 #: ../calendar/gui/e-calendar-table.c:619
 msgid "Free"
 msgstr "Vaba"
 
-#: ../calendar/gui/e-cal-model-calendar.c:186
+#: ../calendar/gui/e-cal-model-calendar.c:190
 #: ../calendar/gui/e-calendar-table.c:620
 #: ../calendar/gui/e-meeting-time-sel.c:398
 msgid "Busy"
@@ -7342,7 +7328,7 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: ../calendar/gui/e-cal-model-tasks.c:1025 ../calendar/gui/e-cal-model.c:976
+#: ../calendar/gui/e-cal-model-tasks.c:1025 ../calendar/gui/e-cal-model.c:980
 #: ../calendar/gui/e-meeting-list-view.c:191
 #: ../calendar/gui/e-meeting-store.c:153 ../calendar/gui/e-meeting-store.c:163
 #: ../calendar/gui/e-meeting-store.c:746
@@ -7350,7 +7336,7 @@ msgstr ""
 msgid "Yes"
 msgstr "Jah"
 
-#: ../calendar/gui/e-cal-model-tasks.c:1025 ../calendar/gui/e-cal-model.c:976
+#: ../calendar/gui/e-cal-model-tasks.c:1025 ../calendar/gui/e-cal-model.c:980
 #: ../calendar/gui/e-meeting-list-view.c:192
 #: ../calendar/gui/e-meeting-store.c:165
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
@@ -7358,7 +7344,7 @@ msgid "No"
 msgstr "Ei"
 
 #. This is the default filename used for temporary file creation
-#: ../calendar/gui/e-cal-model.c:335 ../calendar/gui/e-cal-popup.c:105
+#: ../calendar/gui/e-cal-model.c:339 ../calendar/gui/e-cal-popup.c:105
 #: ../calendar/gui/e-cal-popup.c:122 ../calendar/gui/e-cal-popup.c:177
 #: ../calendar/gui/e-itip-control.c:1203 ../calendar/gui/e-itip-control.c:1343
 #: ../calendar/gui/e-meeting-list-view.c:167
@@ -7368,17 +7354,17 @@ msgstr "Ei"
 #: ../calendar/gui/print.c:1002 ../mail/em-utils.c:1340
 #: ../plugins/itip-formatter/itip-formatter.c:409
 #: ../plugins/itip-formatter/itip-formatter.c:2046
-#: ../plugins/plugin-manager/plugin-manager.c:73
+#: ../plugins/plugin-manager/plugin-manager.c:89
 #: ../widgets/misc/e-attachment-bar.c:821
-#: ../widgets/misc/e-charset-picker.c:55
+#: ../widgets/misc/e-charset-picker.c:56
 msgid "Unknown"
 msgstr "Tundmatu"
 
-#: ../calendar/gui/e-cal-model.c:972
+#: ../calendar/gui/e-cal-model.c:976
 msgid "Recurring"
 msgstr "Korduv"
 
-#: ../calendar/gui/e-cal-model.c:974
+#: ../calendar/gui/e-cal-model.c:978
 msgid "Assigned"
 msgstr "Määratud"
 
@@ -7498,7 +7484,7 @@ msgstr "Objektide uuendamine"
 
 #: ../calendar/gui/e-calendar-table.c:1348
 #: ../calendar/gui/e-calendar-view.c:1221 ../calendar/gui/e-memo-table.c:821
-#: ../composer/e-composer-actions.c:278
+#: ../composer/e-composer-actions.c:277
 msgid "Save as..."
 msgstr "Salvestamine teise nimega..."
 
@@ -7684,16 +7670,16 @@ msgid "Time: %s %s"
 msgstr "Aeg: %s %s"
 
 #. strftime format of a weekday, a date and a time, 24-hour.
-#: ../calendar/gui/e-cell-date-edit-text.c:116
+#: ../calendar/gui/e-cell-date-edit-text.c:111
 msgid "%a %m/%d/%Y %H:%M:%S"
 msgstr "%a, %d.%m.%Y %H:%M:%S"
 
 #. strftime format of a weekday, a date and a time, 12-hour.
-#: ../calendar/gui/e-cell-date-edit-text.c:119
+#: ../calendar/gui/e-cell-date-edit-text.c:114
 msgid "%a %m/%d/%Y %I:%M:%S %p"
 msgstr "%a, %d.%m.%Y %I:%M:%S %p"
 
-#: ../calendar/gui/e-cell-date-edit-text.c:127
+#: ../calendar/gui/e-cell-date-edit-text.c:122
 #, c-format
 msgid ""
 "The date must be entered in the format: \n"
@@ -7706,7 +7692,7 @@ msgstr ""
 #. * to change the length of the time division in the calendar day view, e.g.
 #. * a day is displayed in 24 "60 minute divisions" or 48 "30 minute divisions"
 #.
-#: ../calendar/gui/e-day-view-time-item.c:589
+#: ../calendar/gui/e-day-view-time-item.c:583
 #, c-format
 msgid "%02i minute divisions"
 msgstr "%02i-minutiline jaotamine"
@@ -7718,7 +7704,7 @@ msgstr "%02i-minutiline jaotamine"
 #. order but don't change the specifiers or add
 #. anything.
 #: ../calendar/gui/e-day-view-top-item.c:852 ../calendar/gui/e-day-view.c:1551
-#: ../calendar/gui/e-week-view-main-item.c:331 ../calendar/gui/print.c:1672
+#: ../calendar/gui/e-week-view-main-item.c:326 ../calendar/gui/print.c:1672
 msgid "%A %d %B"
 msgstr "%A, %d. %B"
 
@@ -8260,7 +8246,7 @@ msgstr "Töös"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
-#: ../calendar/gui/e-meeting-time-sel-item.c:473
+#: ../calendar/gui/e-meeting-time-sel-item.c:467
 #: ../calendar/gui/e-meeting-time-sel.c:2122
 msgid "%A, %B %d, %Y"
 msgstr "%A, %d. %B %Y"
@@ -8269,14 +8255,14 @@ msgstr "%A, %d. %B %Y"
 #. name, %m = month number, %d = month day, %Y = full year.
 #. This is a strftime() format string %a = abbreviated weekday name,
 #. %m = month number, %d = month day, %Y = full year.
-#: ../calendar/gui/e-meeting-time-sel-item.c:477
+#: ../calendar/gui/e-meeting-time-sel-item.c:471
 #: ../calendar/gui/e-meeting-time-sel.c:2153
 msgid "%a %m/%d/%Y"
 msgstr "%a, %d.%m.%Y"
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#: ../calendar/gui/e-meeting-time-sel-item.c:481
+#: ../calendar/gui/e-meeting-time-sel-item.c:475
 msgid "%m/%d/%Y"
 msgstr "%d.%m.%Y"
 
@@ -8423,7 +8409,7 @@ msgstr "Ajavööndi valimine"
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: ../calendar/gui/e-week-view-main-item.c:348 ../calendar/gui/print.c:1653
+#: ../calendar/gui/e-week-view-main-item.c:343 ../calendar/gui/print.c:1653
 msgid "%d %B"
 msgstr "%d. %B"
 
@@ -8653,9 +8639,8 @@ msgid "Print Memos"
 msgstr "Märkmete printimine"
 
 #: ../calendar/gui/memotypes.xml.h:25
-#, fuzzy
 msgid "Next 7 Days"
-msgstr "Järgneva 7 päeva ülesanded"
+msgstr "Järgnevad 7 päeva"
 
 #: ../calendar/gui/migration.c:157
 msgid ""
@@ -8701,9 +8686,9 @@ msgid "Unable to migrate tasks `%s'"
 msgstr "Ülesandeid `%s' pole võimalik siirdada"
 
 #: ../calendar/gui/migration.c:1227
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:427
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:458
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:571
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:426
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:457
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:570
 msgid "Notes"
 msgstr "Märge"
 
@@ -10618,185 +10603,185 @@ msgstr "Manuse lisamine"
 msgid "A_ttach"
 msgstr "_Manusta"
 
-#: ../composer/e-composer-actions.c:143
+#: ../composer/e-composer-actions.c:142
 msgid "Untitled Message"
 msgstr "Pealkirjata sõnum"
 
-#: ../composer/e-composer-actions.c:474
+#: ../composer/e-composer-actions.c:473
 msgid "Attach a file"
 msgstr "Sõnumile faili lisamine"
 
-#: ../composer/e-composer-actions.c:479 ../mail/mail-signature-editor.c:194
+#: ../composer/e-composer-actions.c:478 ../mail/mail-signature-editor.c:194
 #: ../ui/evolution-mail-messagedisplay.xml.h:4
 msgid "_Close"
 msgstr "Sul_ge"
 
-#: ../composer/e-composer-actions.c:481
+#: ../composer/e-composer-actions.c:480
 msgid "Close the current file"
 msgstr "Sulge fail"
 
-#: ../composer/e-composer-actions.c:486 ../mail/em-folder-view.c:1337
+#: ../composer/e-composer-actions.c:485 ../mail/em-folder-view.c:1337
 #: ../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:123 ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
 msgstr "_Prindi..."
 
-#: ../composer/e-composer-actions.c:493 ../ui/evolution-addressbook.xml.h:27
+#: ../composer/e-composer-actions.c:492 ../ui/evolution-addressbook.xml.h:27
 #: ../ui/evolution-calendar.xml.h:21 ../ui/evolution-mail-message.xml.h:76
 #: ../ui/evolution-memos.xml.h:12 ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
 msgstr "Printimise eel_vaade"
 
-#: ../composer/e-composer-actions.c:502
+#: ../composer/e-composer-actions.c:501
 msgid "Save the current file"
 msgstr "Käesoleva faili salvestamine"
 
-#: ../composer/e-composer-actions.c:507
+#: ../composer/e-composer-actions.c:506
 msgid "Save _As..."
 msgstr "_Salvesta kui..."
 
-#: ../composer/e-composer-actions.c:509
+#: ../composer/e-composer-actions.c:508
 msgid "Save the current file with a different name"
 msgstr "Käesoleva faili salvestamine teise nime alla"
 
-#: ../composer/e-composer-actions.c:514
+#: ../composer/e-composer-actions.c:513
 msgid "Save _Draft"
 msgstr "Salvesta _mustand"
 
-#: ../composer/e-composer-actions.c:516
+#: ../composer/e-composer-actions.c:515
 msgid "Save as draft"
 msgstr "Salvestamine mustandina"
 
-#: ../composer/e-composer-actions.c:521
+#: ../composer/e-composer-actions.c:520
 msgid "S_end"
 msgstr "_Saada"
 
-#: ../composer/e-composer-actions.c:523
+#: ../composer/e-composer-actions.c:522
 msgid "Send this message"
 msgstr "Selle sõnumi saatmine"
 
-#: ../composer/e-composer-actions.c:530
+#: ../composer/e-composer-actions.c:529
 msgid "Insert Send options"
 msgstr "Saatmisvalikute lisamine"
 
-#: ../composer/e-composer-actions.c:535
+#: ../composer/e-composer-actions.c:534
 msgid "New _Message"
 msgstr "Uus _sõnum"
 
-#: ../composer/e-composer-actions.c:537
+#: ../composer/e-composer-actions.c:536
 msgid "Open New Message window"
 msgstr "Uue sõnumi akna avamine"
 
-#: ../composer/e-composer-actions.c:544
+#: ../composer/e-composer-actions.c:543
 msgid "Character _Encoding"
 msgstr "_Kooditabel"
 
-#: ../composer/e-composer-actions.c:551
+#: ../composer/e-composer-actions.c:550
 msgid "_Security"
 msgstr "_Turvalisus"
 
-#: ../composer/e-composer-actions.c:561
+#: ../composer/e-composer-actions.c:560
 msgid "PGP _Encrypt"
 msgstr "PGP k_rüptimine"
 
-#: ../composer/e-composer-actions.c:563
+#: ../composer/e-composer-actions.c:562
 msgid "Encrypt this message with PGP"
 msgstr "Krüpti sõnum PGPga"
 
-#: ../composer/e-composer-actions.c:569
+#: ../composer/e-composer-actions.c:568
 msgid "PGP _Sign"
 msgstr "PGP a_llkiri"
 
-#: ../composer/e-composer-actions.c:571
+#: ../composer/e-composer-actions.c:570
 msgid "Sign this message with your PGP key"
 msgstr "Allkirjastab sõnumi sinu PGP võtme abil"
 
-#: ../composer/e-composer-actions.c:577
+#: ../composer/e-composer-actions.c:576
 msgid "_Prioritize Message"
 msgstr "Määra sõnum _oluliseks"
 
-#: ../composer/e-composer-actions.c:579
+#: ../composer/e-composer-actions.c:578
 msgid "Set the message priority to high"
 msgstr "Sõnumi tähtsuse seadmine kõrgeks"
 
-#: ../composer/e-composer-actions.c:585
+#: ../composer/e-composer-actions.c:584
 msgid "Re_quest Read Receipt"
 msgstr "Küsi _lugemiskinnitust"
 
-#: ../composer/e-composer-actions.c:587
+#: ../composer/e-composer-actions.c:586
 msgid "Get delivery notification when your message is read"
 msgstr "Kohaletoimetamise märguande saamine sinu sõnumi lugemise korral"
 
-#: ../composer/e-composer-actions.c:593
+#: ../composer/e-composer-actions.c:592
 msgid "S/MIME En_crypt"
 msgstr "S/MIME _krüptimine"
 
-#: ../composer/e-composer-actions.c:595
+#: ../composer/e-composer-actions.c:594
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "Sõnumi krüptimine sinu S/MIME krüptimissertifikaadi abil"
 
-#: ../composer/e-composer-actions.c:601
+#: ../composer/e-composer-actions.c:600
 msgid "S/MIME Sig_n"
 msgstr "S/MIME _allkiri"
 
-#: ../composer/e-composer-actions.c:603
+#: ../composer/e-composer-actions.c:602
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Allkirjastab sõnumi sinu S/MIME allkirjasertifikaadi abil"
 
-#: ../composer/e-composer-actions.c:609
+#: ../composer/e-composer-actions.c:608
 msgid "_Bcc Field"
 msgstr "_Pimekoopia (Bcc) väli"
 
-#: ../composer/e-composer-actions.c:611
+#: ../composer/e-composer-actions.c:610
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Pimekoopia välja kuvamise sisse- või väljalülitamine"
 
-#: ../composer/e-composer-actions.c:617
+#: ../composer/e-composer-actions.c:616
 msgid "_Cc Field"
 msgstr "K_oopia (Cc) väli"
 
-#: ../composer/e-composer-actions.c:619
+#: ../composer/e-composer-actions.c:618
 msgid "Toggles whether the CC field is displayed"
 msgstr "Koopiavälja kuvamise sisse- või väljalülitamine"
 
-#: ../composer/e-composer-actions.c:625
+#: ../composer/e-composer-actions.c:624
 msgid "_From Field"
 msgstr "_Saatja väli"
 
-#: ../composer/e-composer-actions.c:627
+#: ../composer/e-composer-actions.c:626
 msgid "Toggles whether the From chooser is displayed"
 msgstr "Saatja valija kuvamise sisse- või väljalülitamine"
 
-#: ../composer/e-composer-actions.c:633
+#: ../composer/e-composer-actions.c:632
 msgid "_Post-To Field"
 msgstr "Postita-ku_hu väli"
 
-#: ../composer/e-composer-actions.c:635
+#: ../composer/e-composer-actions.c:634
 msgid "Toggles whether the Post-To field is displayed"
 msgstr "Postita-kuhu välja kuvamise sisse- või väljalülitamine"
 
-#: ../composer/e-composer-actions.c:641
+#: ../composer/e-composer-actions.c:640
 msgid "_Reply-To Field"
 msgstr "Kellele-_vastata väli"
 
-#: ../composer/e-composer-actions.c:643
+#: ../composer/e-composer-actions.c:642
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Kellele-vastata välja kuvamise sisse- või väljalülitamine"
 
-#: ../composer/e-composer-actions.c:649
+#: ../composer/e-composer-actions.c:648
 msgid "_Subject Field"
 msgstr "_Teemaväli"
 
-#: ../composer/e-composer-actions.c:651
+#: ../composer/e-composer-actions.c:650
 msgid "Toggles whether the Subject field is displayed"
 msgstr "Teemavälja kuvamise sisse- ja väljalülitamine"
 
-#: ../composer/e-composer-actions.c:657
+#: ../composer/e-composer-actions.c:656
 msgid "_To Field"
 msgstr "_Kellele väli"
 
-#: ../composer/e-composer-actions.c:659
+#: ../composer/e-composer-actions.c:658
 msgid "Toggles whether the To field is displayed"
 msgstr "Saaja välja kuvamise sisse- või väljalülitamine"
 
@@ -10863,10 +10848,6 @@ msgstr "Vali kaust, kuhu sõnum postitada."
 #: ../composer/e-composer-post-header.c:172
 msgid "Click here to select folders to post to"
 msgstr "Klõpsa siia, et valida kaustad kuhu postitada"
-
-#: ../composer/e-composer-private.c:65
-msgid "Recent _Documents"
-msgstr "_Hiljutised dokumendid"
 
 #: ../composer/e-composer-private.c:180 ../composer/e-msg-composer.c:1558
 msgid "Show _Attachment Bar"
@@ -11114,7 +11095,7 @@ msgstr "Logitava komponendi nimi"
 
 #: ../e-util/e-plugin.c:308 ../filter/rule-editor.c:776
 #: ../mail/em-account-prefs.c:482 ../mail/em-composer-prefs.c:988
-#: ../plugins/plugin-manager/plugin-manager.c:339
+#: ../plugins/plugin-manager/plugin-manager.c:355
 #: ../plugins/publish-calendar/publish-calendar.c:689
 msgid "Enabled"
 msgstr "Lubatud"
@@ -11627,7 +11608,7 @@ msgstr ""
 "märgi märkeruut\n"
 
 #: ../mail/em-account-editor.c:466 ../mail/em-filter-folder-element.c:239
-#: ../mail/em-vfolder-rule.c:512
+#: ../mail/em-vfolder-rule.c:513
 msgid "Select Folder"
 msgstr "Kausta valimine"
 
@@ -11717,18 +11698,18 @@ msgstr "Allkirjaskripti lisamine"
 msgid "Signature(s)"
 msgstr "Allkiri(jad)"
 
-#: ../mail/em-composer-utils.c:1148 ../mail/em-format-quote.c:416
+#: ../mail/em-composer-utils.c:1150 ../mail/em-format-quote.c:416
 msgid "-------- Forwarded Message --------"
 msgstr "-------- Edastatud sõnum --------"
 
-#: ../mail/em-composer-utils.c:1960
+#: ../mail/em-composer-utils.c:1962
 msgid "an unknown sender"
 msgstr "tundmatu saatja"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
 #. * variables, see em-composer-utils.c:1514
-#: ../mail/em-composer-utils.c:2007
+#: ../mail/em-composer-utils.c:2009
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
@@ -11736,7 +11717,7 @@ msgstr ""
 "Ühel kenal päeval, ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} kell "
 "${24Hour}:${Minute}, kirjutas ${Sender}:"
 
-#: ../mail/em-composer-utils.c:2150
+#: ../mail/em-composer-utils.c:2152
 msgid "-----Original Message-----"
 msgstr "-----Algupärane sõnum-----"
 
@@ -12001,11 +11982,11 @@ msgid "Unset Status"
 msgstr "Määramata olek"
 
 #. and now for the action area
-#: ../mail/em-filter-rule.c:521
+#: ../mail/em-filter-rule.c:522
 msgid "Then"
 msgstr "Siis"
 
-#: ../mail/em-filter-rule.c:549
+#: ../mail/em-filter-rule.c:550
 msgid "Add Ac_tion"
 msgstr "Lisa _tegevus"
 
@@ -12058,7 +12039,7 @@ msgid "All Account Search"
 msgstr "Otsing kõigi kontode hulgast"
 
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
-#: ../mail/em-folder-properties.c:173
+#: ../mail/em-folder-properties.c:174
 msgid "Unread messages:"
 msgid_plural "Unread messages:"
 msgstr[0] "Lugemata sõnumeid:"
@@ -12066,26 +12047,32 @@ msgstr[1] "Lugemata sõnumeid:"
 
 #. TODO: can this be done in a loop?
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
-#: ../mail/em-folder-properties.c:177
+#: ../mail/em-folder-properties.c:178
 msgid "Total messages:"
 msgid_plural "Total messages:"
 msgstr[0] "Sõnumeid kokku:"
 msgstr[1] "Sõnumeid kokku:"
 
-#: ../mail/em-folder-properties.c:193 ../mail/em-folder-properties.c:195
+#: ../mail/em-folder-properties.c:196
+#, c-format
+msgid "Quota usage (%s):"
+msgstr "Kvoodikasutus (%s):"
+
+#: ../mail/em-folder-properties.c:198
+#, c-format
 msgid "Quota usage"
 msgstr "Kvoodikasutus"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-properties.c:355 ../mail/em-folder-tree-model.c:507
+#: ../mail/em-folder-properties.c:358 ../mail/em-folder-tree-model.c:507
 #: ../mail/em-folder-tree.c:2556 ../mail/mail-component.c:160
 #: ../mail/mail-component.c:585
 #: ../plugins/exchange-operations/exchange-delegates-user.c:76
-#: ../plugins/exchange-operations/exchange-folder.c:592
+#: ../plugins/exchange-operations/exchange-folder.c:594
 msgid "Inbox"
 msgstr "Sisendkast"
 
-#: ../mail/em-folder-properties.c:386
+#: ../mail/em-folder-properties.c:389
 #: ../plugins/groupwise-features/properties.glade.h:4
 msgid "Folder Properties"
 msgstr "Kausta omadused"
@@ -12220,34 +12207,34 @@ msgstr ""
 msgid "_Empty Trash"
 msgstr "_Tühjenda prügikast"
 
-#: ../mail/em-folder-utils.c:102
+#: ../mail/em-folder-utils.c:101
 #, c-format
 msgid "Copying `%s' to `%s'"
 msgstr "Kopeerimine `%s' -> `%s'"
 
-#: ../mail/em-folder-utils.c:365 ../mail/em-folder-view.c:1186
+#: ../mail/em-folder-utils.c:364 ../mail/em-folder-view.c:1186
 #: ../mail/em-folder-view.c:1201
 #: ../mail/importers/evolution-mbox-importer.c:83
 msgid "Select folder"
 msgstr "Kausta valimine"
 
-#: ../mail/em-folder-utils.c:365 ../mail/em-folder-view.c:1201
+#: ../mail/em-folder-utils.c:364 ../mail/em-folder-view.c:1201
 msgid "C_opy"
 msgstr "K_opeeri"
 
-#: ../mail/em-folder-utils.c:586
+#: ../mail/em-folder-utils.c:585
 #: ../plugins/groupwise-features/share-folder-common.c:145
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "Kataloogi `%s' loomine"
 
-#: ../mail/em-folder-utils.c:744
+#: ../mail/em-folder-utils.c:743
 #: ../plugins/groupwise-features/install-shared.c:168
 #: ../plugins/groupwise-features/share-folder-common.c:387
 msgid "Create folder"
 msgstr "Kausta loomine"
 
-#: ../mail/em-folder-utils.c:744
+#: ../mail/em-folder-utils.c:743
 #: ../plugins/groupwise-features/install-shared.c:168
 #: ../plugins/groupwise-features/share-folder-common.c:387
 msgid "Specify where to create the folder:"
@@ -12635,7 +12622,7 @@ msgstr "Peida _vormindamata"
 msgid "O_pen With"
 msgstr ""
 
-#: ../mail/em-format-html-display.c:2468
+#: ../mail/em-format-html-display.c:2473
 msgid ""
 "Evolution cannot render this email as it is too large to process. You can "
 "view it unformatted or with an external text editor."
@@ -13003,7 +12990,7 @@ msgstr "Andmed %s-st"
 msgid "Search _Folders"
 msgstr "_Otsingukaustad"
 
-#: ../mail/em-vfolder-rule.c:592
+#: ../mail/em-vfolder-rule.c:593
 msgid "Search Folder source"
 msgstr "Otsingukausta allikas"
 
@@ -13906,7 +13893,7 @@ msgstr "Berkeley postkasti vormingus kaustade importija"
 msgid "Importing mailbox"
 msgstr "Postkasti importimine"
 
-#: ../mail/importers/mail-importer.c:232 ../shell/e-shell-importer.c:514
+#: ../mail/importers/mail-importer.c:232 ../shell/e-shell-importer.c:512
 #, c-format
 msgid "Importing `%s'"
 msgstr "'%s' importimine"
@@ -13928,27 +13915,27 @@ msgstr "Evolutioni Pine'i importija"
 msgid "Import mail from Pine."
 msgstr "Postkasti importimine programmist Pine."
 
-#: ../mail/mail-autofilter.c:79
+#: ../mail/mail-autofilter.c:75
 #, c-format
 msgid "Mail to %s"
 msgstr "Sõnumi saaja: %s"
 
-#: ../mail/mail-autofilter.c:243 ../mail/mail-autofilter.c:282
+#: ../mail/mail-autofilter.c:239 ../mail/mail-autofilter.c:278
 #, c-format
 msgid "Mail from %s"
 msgstr "Sõnumi saatja: %s"
 
-#: ../mail/mail-autofilter.c:266
+#: ../mail/mail-autofilter.c:262
 #, c-format
 msgid "Subject is %s"
 msgstr "Teema on %s"
 
-#: ../mail/mail-autofilter.c:301
+#: ../mail/mail-autofilter.c:297
 #, c-format
 msgid "%s mailing list"
 msgstr "%s postiloend"
 
-#: ../mail/mail-autofilter.c:372
+#: ../mail/mail-autofilter.c:368
 msgid "Add Filter Rule"
 msgstr "Lisa filtreerimisreegel"
 
@@ -14044,58 +14031,58 @@ msgstr "Uue postikausta loomine"
 msgid "Failed upgrading Mail settings or folders."
 msgstr "Tõrge e-posti seadistuste või kaustade uuendamisel"
 
-#: ../mail/mail-component.c:1593
+#: ../mail/mail-component.c:1596
 msgid "Error"
 msgstr "Viga"
 
-#: ../mail/mail-component.c:1593
+#: ../mail/mail-component.c:1596
 msgid "Errors"
 msgstr "Vead"
 
-#: ../mail/mail-component.c:1594
+#: ../mail/mail-component.c:1597
 msgid "Warnings and Errors"
 msgstr "Hoiatused ja vead"
 
-#: ../mail/mail-component.c:1595
+#: ../mail/mail-component.c:1598
 msgid "Debug"
 msgstr "Silumine"
 
-#: ../mail/mail-component.c:1595
+#: ../mail/mail-component.c:1598
 msgid "Error, Warnings and Debug messages"
 msgstr "Vea-, hoiatus- ja silumisteated"
 
-#: ../mail/mail-component.c:1722
+#: ../mail/mail-component.c:1725
 msgid "Debug Logs"
 msgstr "Silumislogid"
 
-#: ../mail/mail-component.c:1736
+#: ../mail/mail-component.c:1739
 msgid "Show _errors in the status bar for"
 msgstr "Ol_ekuribal näidatakse vigu"
 
 #. Translators: This is the second part of the sentence
 #. * "Show _errors in the status bar for" - XXX - "second(s)."
-#: ../mail/mail-component.c:1752
+#: ../mail/mail-component.c:1755
 msgid "second(s)."
 msgstr "sekund(it)."
 
-#: ../mail/mail-component.c:1758
+#: ../mail/mail-component.c:1761
 msgid "Log Messages:"
 msgstr "Logiteated:"
 
-#: ../mail/mail-component.c:1799
+#: ../mail/mail-component.c:1802
 msgid "Log Level"
 msgstr "Logimise tase"
 
-#: ../mail/mail-component.c:1808 ../widgets/misc/e-dateedit.c:395
+#: ../mail/mail-component.c:1811 ../widgets/misc/e-dateedit.c:395
 msgid "Time"
 msgstr "Aeg"
 
-#: ../mail/mail-component.c:1818 ../mail/message-list.c:2454
+#: ../mail/mail-component.c:1821 ../mail/message-list.c:2454
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Sõnumid"
 
-#: ../mail/mail-component.c:1827 ../ui/evolution-mail-messagedisplay.xml.h:2
+#: ../mail/mail-component.c:1830 ../ui/evolution-mail-messagedisplay.xml.h:2
 #: ../ui/evolution.xml.h:4
 msgid "Close this window"
 msgstr "Akna sulgemine"
@@ -14909,7 +14896,7 @@ msgstr "_Märgistus:"
 msgid "_Tick this to accept the license agreement"
 msgstr "Litsentsitingimustega _nõustumisel märgi see ruut"
 
-#: ../mail/mail-folder-cache.c:832
+#: ../mail/mail-folder-cache.c:845
 #, c-format
 msgid "Pinging %s"
 msgstr "%s pingimine"
@@ -15124,26 +15111,26 @@ msgstr "Ootamine..."
 msgid "Checking for new mail"
 msgstr "Uute sõnumite kontroll"
 
-#: ../mail/mail-session.c:205
+#: ../mail/mail-session.c:207
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Parooli sisestamine %s jaoks"
 
-#: ../mail/mail-session.c:207
+#: ../mail/mail-session.c:209
 msgid "Enter Passphrase"
 msgstr "Parooli sisestamine"
 
-#: ../mail/mail-session.c:210
-#: ../plugins/exchange-operations/exchange-config-listener.c:711
+#: ../mail/mail-session.c:212
+#: ../plugins/exchange-operations/exchange-config-listener.c:708
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Parooli sisestamine %s jaoks"
 
-#: ../mail/mail-session.c:212
+#: ../mail/mail-session.c:214
 msgid "Enter Password"
 msgstr "Parooli sisestamine"
 
-#: ../mail/mail-session.c:254
+#: ../mail/mail-session.c:256
 msgid "User canceled operation."
 msgstr "Kasutaja katkestas toimingu."
 
@@ -15878,17 +15865,17 @@ msgid "%b %d %Y"
 msgstr "%d. %b %Y"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:3916 ../mail/message-list.c:4373
+#: ../mail/message-list.c:3916 ../mail/message-list.c:4376
 msgid "Generating message list"
 msgstr "Sõnumiloendi genereerimine"
 
-#: ../mail/message-list.c:4223
+#: ../mail/message-list.c:4224
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
 msgstr ""
 
-#: ../mail/message-list.c:4225
+#: ../mail/message-list.c:4226
 msgid "There are no messages in this folder."
 msgstr "Selles kaustas pole sõnumeid."
 
@@ -16523,19 +16510,19 @@ msgstr "Kas sa soovid Evolutioni määrata vaikimisi e-posti kliendiks?"
 msgid "Evolution"
 msgstr "Evolution"
 
-#: ../plugins/default-source/default-source.c:81
+#: ../plugins/default-source/default-source.c:82
 msgid "Mark as _default address book"
 msgstr "Märgitud _vaikimisi aadressiraamatuks"
 
-#: ../plugins/default-source/default-source.c:102
+#: ../plugins/default-source/default-source.c:103
 msgid "Mark as _default calendar"
 msgstr "Märgitud _vaikimisi kalendriks"
 
-#: ../plugins/default-source/default-source.c:103
+#: ../plugins/default-source/default-source.c:104
 msgid "Mark as _default task list"
 msgstr "Märgitud _vaikimisi ülesannete loendiks"
 
-#: ../plugins/default-source/default-source.c:104
+#: ../plugins/default-source/default-source.c:105
 msgid "Mark as _default memo list"
 msgstr "Märgitud _vaikimisi märkmeloendiks"
 
@@ -16730,7 +16717,7 @@ msgstr "%s KB"
 msgid "0 KB"
 msgstr "0 KB"
 
-#: ../plugins/exchange-operations/exchange-calendar.c:191
+#: ../plugins/exchange-operations/exchange-calendar.c:192
 #: ../plugins/exchange-operations/exchange-contacts.c:165
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
@@ -16771,13 +16758,13 @@ msgstr "Uus parool:"
 msgid "Your current password has expired. Please change your password now."
 msgstr "Sinu käesolev parool on aegunud. Palun vaheta nüüd oma parool ära."
 
-#: ../plugins/exchange-operations/exchange-config-listener.c:663
+#: ../plugins/exchange-operations/exchange-config-listener.c:660
 #, c-format
 msgid "Your password will expire in the next %d days"
 msgstr "Sinu parool aegub järgneva %d päeva jooksul"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:152
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:568
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:570
 msgid "Custom"
 msgstr "Kohandatud"
 
@@ -16802,7 +16789,7 @@ msgid "Delegate Permissions"
 msgstr "Delegeeritud õigused"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:251
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:176
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:178
 #, c-format
 msgid "Permissions for %s"
 msgstr "%s pääsuõigused"
@@ -16843,43 +16830,43 @@ msgstr "Siiski pole Sul lubatud näha minu isiklikke kirjeid."
 msgid "You have been designated as a delegate for %s"
 msgstr "Sind on määratud kasutaja %s delegaadiks"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:415
+#: ../plugins/exchange-operations/exchange-delegates.c:417
 msgid "Delegate To"
 msgstr "Delegeerida kellele"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:580
+#: ../plugins/exchange-operations/exchange-delegates.c:582
 #, c-format
 msgid "Remove the delegate %s?"
 msgstr "Eemaldada delegaat %s?"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:698
+#: ../plugins/exchange-operations/exchange-delegates.c:700
 msgid "Could not access Active Directory"
 msgstr "Active Directory't pole võimalik kasutada"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:710
+#: ../plugins/exchange-operations/exchange-delegates.c:712
 msgid "Could not find self in Active Directory"
 msgstr "Active Directory'st pole võimalik ennast leida"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:723
+#: ../plugins/exchange-operations/exchange-delegates.c:725
 #, c-format
 msgid "Could not find delegate %s in Active Directory"
 msgstr "Delegaati %s pole võimalik Active Directory'st leida"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:735
+#: ../plugins/exchange-operations/exchange-delegates.c:737
 #, c-format
 msgid "Could not remove delegate %s"
 msgstr "Delegaati %s pole võimalik eemaldada"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:795
+#: ../plugins/exchange-operations/exchange-delegates.c:797
 msgid "Could not update list of delegates."
 msgstr "Delegaatide loendit pole võimalik uuendada."
 
-#: ../plugins/exchange-operations/exchange-delegates.c:813
+#: ../plugins/exchange-operations/exchange-delegates.c:815
 #, c-format
 msgid "Could not add delegate %s"
 msgstr "Delegaati %s pole võimalik lisada"
 
-#: ../plugins/exchange-operations/exchange-delegates.c:981
+#: ../plugins/exchange-operations/exchange-delegates.c:983
 msgid "Error reading delegates list."
 msgstr "Viga delegaatide loendi lugemisel."
 
@@ -16932,11 +16919,11 @@ msgstr "_Ülesanded:"
 msgid "Permissions..."
 msgstr "Pääsuõigused..."
 
-#: ../plugins/exchange-operations/exchange-folder-size-display.c:128
+#: ../plugins/exchange-operations/exchange-folder-size-display.c:130
 msgid "Folder Name"
 msgstr "Kausta nimi"
 
-#: ../plugins/exchange-operations/exchange-folder-size-display.c:132
+#: ../plugins/exchange-operations/exchange-folder-size-display.c:134
 msgid "Folder Size"
 msgstr "Kausta suurus"
 
@@ -16954,20 +16941,20 @@ msgstr "Teise kasutaja kausta tellimine"
 msgid "Exchange Folder Tree"
 msgstr "Exchange kirjakaustade puu"
 
-#: ../plugins/exchange-operations/exchange-folder.c:65
-#: ../plugins/exchange-operations/exchange-folder.c:234
-#: ../plugins/exchange-operations/exchange-folder.c:244
+#: ../plugins/exchange-operations/exchange-folder.c:67
+#: ../plugins/exchange-operations/exchange-folder.c:236
+#: ../plugins/exchange-operations/exchange-folder.c:246
 msgid "Unsubscribe Folder..."
 msgstr "Lõpeta kausta tellimus..."
 
-#: ../plugins/exchange-operations/exchange-folder.c:464
-#: ../plugins/exchange-operations/exchange-folder.c:519
+#: ../plugins/exchange-operations/exchange-folder.c:466
+#: ../plugins/exchange-operations/exchange-folder.c:521
 #, c-format
 msgid "Really unsubscribe from folder \"%s\"?"
 msgstr "Kas tõesti loobuda kausta \"%s\" tellimusest?"
 
-#: ../plugins/exchange-operations/exchange-folder.c:476
-#: ../plugins/exchange-operations/exchange-folder.c:531
+#: ../plugins/exchange-operations/exchange-folder.c:478
+#: ../plugins/exchange-operations/exchange-folder.c:533
 #, c-format
 msgid "Unsubscribe from \"%s\""
 msgstr "\"%s\" tellimusest loobumine"
@@ -17028,16 +17015,16 @@ msgstr "Su parool aegub 7 päeva jooksul..."
 msgid "_Change Password"
 msgstr "_Muuda parooli"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:293
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:295
 msgid "(Permission denied.)"
 msgstr "(Ligipääs keelatud.)"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:401
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:403
 msgid "Add User:"
 msgstr "Lisa kasutaja:"
 
-#: ../plugins/exchange-operations/exchange-permissions-dialog.c:401
-#: ../plugins/exchange-operations/exchange-send-options.c:408
+#: ../plugins/exchange-operations/exchange-permissions-dialog.c:403
+#: ../plugins/exchange-operations/exchange-send-options.c:410
 #: ../plugins/groupwise-features/proxy.c:934
 #: ../plugins/groupwise-features/share-folder.c:715
 msgid "Add User"
@@ -17682,7 +17669,7 @@ msgstr "Plugin google kalendri ja kontaktide seadistamiseks."
 msgid "Google sources"
 msgstr "Google allikad"
 
-#: ../plugins/groupwise-account-setup/camel-gw-listener.c:457
+#: ../plugins/groupwise-account-setup/camel-gw-listener.c:456
 msgid "Checklist"
 msgstr "Kontroll-loend"
 
@@ -17727,16 +17714,16 @@ msgstr "Jagatud kausta paigaldamine"
 msgid "Shared Folder Installation"
 msgstr "Jagatud kataloogi paigaldamine"
 
-#: ../plugins/groupwise-features/junk-mail-settings.c:78
+#: ../plugins/groupwise-features/junk-mail-settings.c:80
 msgid "Junk Settings"
 msgstr "Rämpsposti sätted"
 
-#: ../plugins/groupwise-features/junk-mail-settings.c:91
+#: ../plugins/groupwise-features/junk-mail-settings.c:93
 #: ../plugins/groupwise-features/junk-settings.glade.h:3
 msgid "Junk Mail Settings"
 msgstr "Rämpsposti sätted"
 
-#: ../plugins/groupwise-features/junk-mail-settings.c:115
+#: ../plugins/groupwise-features/junk-mail-settings.c:117
 msgid "Junk Mail Settings..."
 msgstr "Rämpsposti sätted..."
 
@@ -17876,7 +17863,7 @@ msgid "Con_tacts..."
 msgstr "Kon_taktid..."
 
 #: ../plugins/groupwise-features/properties.glade.h:5
-#: ../widgets/table/e-table-click-to-add.c:517
+#: ../widgets/table/e-table-click-to-add.c:516
 msgid "Message"
 msgstr "Sõnum"
 
@@ -18132,28 +18119,28 @@ msgstr "Plugin IMAP kontode võimaluste jaoks."
 msgid "IMAP Features"
 msgstr "IMAP-i võimalused"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:77
+#: ../plugins/import-ics-attachments/icsimporter.c:78
 msgid "_Import to Calendar"
 msgstr "_Impordi kalendrisse"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:82
+#: ../plugins/import-ics-attachments/icsimporter.c:83
 msgid "_Import to Tasks"
 msgstr "_Impordi ülesannetesse"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:200
+#: ../plugins/import-ics-attachments/icsimporter.c:201
 msgid "Import ICS"
 msgstr "Impordi ICS-i"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:223
+#: ../plugins/import-ics-attachments/icsimporter.c:224
 msgid "Select Task List"
 msgstr "Ülesandeloendi valimine"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:227
+#: ../plugins/import-ics-attachments/icsimporter.c:228
 msgid "Select Calendar"
 msgstr "Kalendri valimine"
 
-#: ../plugins/import-ics-attachments/icsimporter.c:259
-#: ../shell/e-shell-importer.c:698
+#: ../plugins/import-ics-attachments/icsimporter.c:260
+#: ../shell/e-shell-importer.c:696
 msgid "_Import"
 msgstr "_Impordi"
 
@@ -18399,7 +18386,7 @@ msgstr "Vali kalendrid, millest tuleb koosolekute vastuolusid otsida"
 
 #. strftime format of a weekday and a date.
 #: ../plugins/itip-formatter/itip-view.c:189 ../ui/evolution-calendar.xml.h:34
-#: ../widgets/misc/e-cell-date-edit.c:299
+#: ../widgets/misc/e-cell-date-edit.c:298
 msgid "Today"
 msgstr "Täna"
 
@@ -19328,7 +19315,7 @@ msgstr "Plugin määramaks millised pluginad on lubatud ja millised mitte."
 
 #. Setup the ui
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
-#: ../plugins/plugin-manager/plugin-manager.c:236
+#: ../plugins/plugin-manager/plugin-manager.c:252
 msgid "Plugin Manager"
 msgstr "Pluginahaldur"
 
@@ -19340,24 +19327,24 @@ msgstr "Pluginate lubamine ja keelamine"
 msgid "_Plugins"
 msgstr "_Pluginad"
 
-#: ../plugins/plugin-manager/plugin-manager.c:42
+#: ../plugins/plugin-manager/plugin-manager.c:58
 msgid "Author(s)"
 msgstr "Autor(id)"
 
-#: ../plugins/plugin-manager/plugin-manager.c:130
+#: ../plugins/plugin-manager/plugin-manager.c:146
 msgid "Configuration"
 msgstr "Seadistused"
 
-#: ../plugins/plugin-manager/plugin-manager.c:249
+#: ../plugins/plugin-manager/plugin-manager.c:265
 msgid "Note: Some changes will not take effect until restart"
 msgstr "Märkus: mõned muudatused rakenduvad alles pärast taaskäivitamist"
 
-#: ../plugins/plugin-manager/plugin-manager.c:275
+#: ../plugins/plugin-manager/plugin-manager.c:291
 msgid "Overview"
 msgstr "Ülevaade"
 
-#: ../plugins/plugin-manager/plugin-manager.c:346
-#: ../plugins/plugin-manager/plugin-manager.c:408
+#: ../plugins/plugin-manager/plugin-manager.c:362
+#: ../plugins/plugin-manager/plugin-manager.c:424
 msgid "Plugin"
 msgstr "Plugin"
 
@@ -19382,19 +19369,19 @@ msgstr "Lihtteksti režiim"
 msgid "Prefer plain-text"
 msgstr "Lihtteksti eelistamine"
 
-#: ../plugins/prefer-plain/prefer-plain.c:174
+#: ../plugins/prefer-plain/prefer-plain.c:191
 msgid "Show HTML if present"
 msgstr "Kui sõnum sisaldab HTML-i, siis näidatakse HTML-ina"
 
-#: ../plugins/prefer-plain/prefer-plain.c:175
+#: ../plugins/prefer-plain/prefer-plain.c:192
 msgid "Prefer PLAIN"
 msgstr "Eelistatakse lihtteksti"
 
-#: ../plugins/prefer-plain/prefer-plain.c:176
+#: ../plugins/prefer-plain/prefer-plain.c:193
 msgid "Only ever show PLAIN"
 msgstr "Näidatakse alati lihttekstina"
 
-#: ../plugins/prefer-plain/prefer-plain.c:219
+#: ../plugins/prefer-plain/prefer-plain.c:236
 msgid "HTML _Mode"
 msgstr "_HTML-režiim"
 
@@ -19790,24 +19777,24 @@ msgid "Importing files"
 msgstr "Failide importimine"
 
 #: ../plugins/startup-wizard/startup-wizard.c:135
-#: ../shell/e-shell-importer.c:143
+#: ../shell/e-shell-importer.c:141
 msgid "Please select the information that you would like to import:"
 msgstr "Palun valige andmed, mida soovid importida:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:150
-#: ../shell/e-shell-importer.c:396
+#: ../shell/e-shell-importer.c:394
 #, c-format
 msgid "From %s:"
 msgstr "Programmist %s:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:230
-#: ../shell/e-shell-importer.c:507
+#: ../shell/e-shell-importer.c:505
 #, c-format
 msgid "Importing data."
 msgstr "Andmete importimine."
 
 #: ../plugins/startup-wizard/startup-wizard.c:232
-#: ../shell/e-shell-importer.c:521
+#: ../shell/e-shell-importer.c:519
 msgid "Please wait"
 msgstr "Palun oota"
 
@@ -19839,7 +19826,7 @@ msgstr ""
 "Fraaside kirjeldamine, mille esinemise korral näidatakse manuse puudumise "
 "kohta meeldetuletust."
 
-#: ../plugins/templates/templates.c:614
+#: ../plugins/templates/templates.c:615
 msgid "No title"
 msgstr "Pealkirja pole"
 
@@ -20174,12 +20161,10 @@ msgid "Choose the type of importer to run:"
 msgstr "Vali, millist tüüpi importerit sa soovid kasutada:"
 
 #: ../shell/e-shell-importer.c:134
+#, fuzzy
 msgid ""
 "Choose the file that you want to import into Evolution, and select what type "
-"of file it is from the list.\n"
-"\n"
-"You can select \"Automatic\" if you do not know, and Evolution will attempt "
-"to work it out."
+"of file it is from the list."
 msgstr ""
 "Vali fail, mida Sa soovid Evolutioni importida,\n"
 "ning vali ka allpool olevast valikukastist, mis\n"
@@ -20188,11 +20173,11 @@ msgstr ""
 "Kui Sa ole veendunud, et Evolution tunneb faili\n"
 "ise ära, siis võid failitüübiks valida \"Automaatne\"."
 
-#: ../shell/e-shell-importer.c:140
+#: ../shell/e-shell-importer.c:138
 msgid "Choose the destination for this import"
 msgstr "Vali selle importimise sihtkoht"
 
-#: ../shell/e-shell-importer.c:146
+#: ../shell/e-shell-importer.c:144
 msgid ""
 "Evolution checked for settings to import from the following\n"
 "applications: Pine, Netscape, Elm, iCalendar. No importable\n"
@@ -20204,27 +20189,27 @@ msgstr ""
 "ühtegi imporditavat seadistusfaili. Kui sa soovid veel proovida,\n"
 "siis vajuta \"Tagasi\" nuppu.\n"
 
-#: ../shell/e-shell-importer.c:284
+#: ../shell/e-shell-importer.c:282
 msgid "F_ilename:"
 msgstr "_Failinimi:"
 
-#: ../shell/e-shell-importer.c:289
+#: ../shell/e-shell-importer.c:287
 msgid "Select a file"
 msgstr "Faili valimine"
 
-#: ../shell/e-shell-importer.c:298
+#: ../shell/e-shell-importer.c:296
 msgid "File _type:"
 msgstr "Faili _tüüp:"
 
-#: ../shell/e-shell-importer.c:334
+#: ../shell/e-shell-importer.c:332
 msgid "Import data and settings from _older programs"
 msgstr "Andmete ja seadistuste importimine _vanematest programmidest"
 
-#: ../shell/e-shell-importer.c:337
+#: ../shell/e-shell-importer.c:335
 msgid "Import a _single file"
 msgstr "Üksiku _faili importimine"
 
-#: ../shell/e-shell-settings-dialog.c:314
+#: ../shell/e-shell-settings-dialog.c:313
 msgid "Evolution Preferences"
 msgstr "Evolutioni eelistused"
 
@@ -20318,7 +20303,7 @@ msgstr "Tundmatu süsteemne viga."
 msgid "%ld KB"
 msgstr "%ld KB"
 
-#: ../shell/e-shell.c:1298 ../widgets/misc/e-cell-date-edit.c:315
+#: ../shell/e-shell.c:1298 ../widgets/misc/e-cell-date-edit.c:314
 msgid "OK"
 msgstr "Olgu"
 
@@ -20695,22 +20680,22 @@ msgstr "E-posti aadress"
 msgid "All CA certificate files"
 msgstr "Kõik sertifitseerimiskeskuse failid"
 
-#: ../smime/gui/certificate-viewer.c:339
+#: ../smime/gui/certificate-viewer.c:338
 #, c-format
 msgid "Certificate Viewer: %s"
 msgstr "Sertifikaadivaatur: %s"
 
-#: ../smime/gui/component.c:47
+#: ../smime/gui/component.c:46
 #, c-format
 msgid "Enter the password for `%s'"
 msgstr "Sisesta sisesta parool '%s' jaoks"
 
 #. we're setting the password initially
-#: ../smime/gui/component.c:70
+#: ../smime/gui/component.c:69
 msgid "Enter new password for certificate database"
 msgstr "Palun sisesta uus parool sertifikaatide andmebaasi jaoks"
 
-#: ../smime/gui/component.c:72
+#: ../smime/gui/component.c:71
 msgid "Enter new password"
 msgstr "Sisesta uus parool"
 
@@ -21090,15 +21075,15 @@ msgstr "Omaniku unikaalne ID"
 msgid "Certificate Signature Value"
 msgstr "Sertifikaadi signatuuri väärtus"
 
-#: ../smime/lib/e-pkcs12.c:266
+#: ../smime/lib/e-pkcs12.c:244
 msgid "PKCS12 File Password"
 msgstr "PKCS12-faili parool"
 
-#: ../smime/lib/e-pkcs12.c:266
+#: ../smime/lib/e-pkcs12.c:244
 msgid "Enter password for PKCS12 file:"
 msgstr "Sisesta PKCS12-faili jaoks parool:"
 
-#: ../smime/lib/e-pkcs12.c:365
+#: ../smime/lib/e-pkcs12.c:343
 msgid "Imported Certificate"
 msgstr "Imporditud sertifikaat"
 
@@ -22540,7 +22525,7 @@ msgstr ""
 "Parema hiirenupuga saab kaarti vähendada."
 
 #: ../widgets/menus/gal-define-views-dialog.c:76
-#: ../widgets/menus/gal-define-views-model.c:186
+#: ../widgets/menus/gal-define-views-model.c:185
 msgid "Collection"
 msgstr "Kollektsioon"
 
@@ -22585,7 +22570,7 @@ msgstr "_Asenda olemasolev vaade"
 
 #. bonobo displays this string so it must be in locale
 #: ../widgets/menus/gal-view-instance.c:582
-#: ../widgets/menus/gal-view-menus.c:354
+#: ../widgets/menus/gal-view-menus.c:368
 msgid "Custom View"
 msgstr "Kohandatud vaade"
 
@@ -22594,32 +22579,32 @@ msgid "Save Custom View"
 msgstr "Salvesta kohandatud vaade"
 
 #: ../widgets/menus/gal-view-instance.c:587
-#: ../widgets/menus/gal-view-menus.c:378
+#: ../widgets/menus/gal-view-menus.c:392
 msgid "Define Views..."
 msgstr "Kirjelda vaateid..."
 
-#: ../widgets/menus/gal-view-menus.c:291
+#: ../widgets/menus/gal-view-menus.c:305
 msgid "C_urrent View"
 msgstr "Käesolev _vaade"
 
-#: ../widgets/menus/gal-view-menus.c:315
+#: ../widgets/menus/gal-view-menus.c:329
 #, c-format
 msgid "Select View: %s"
 msgstr "Vaate \"%s\" valimine"
 
-#: ../widgets/menus/gal-view-menus.c:359
+#: ../widgets/menus/gal-view-menus.c:373
 msgid "Current view is a customized view"
 msgstr "Praegune vaade on kohandatud vaade"
 
-#: ../widgets/menus/gal-view-menus.c:364
+#: ../widgets/menus/gal-view-menus.c:378
 msgid "Save Custom View..."
 msgstr "Salvesta kohandatud vaade..."
 
-#: ../widgets/menus/gal-view-menus.c:369
+#: ../widgets/menus/gal-view-menus.c:383
 msgid "Save current custom view"
 msgstr "Käesoleva vaate salvestamine"
 
-#: ../widgets/menus/gal-view-menus.c:383
+#: ../widgets/menus/gal-view-menus.c:397
 msgid "Create or edit views"
 msgstr "Vaadete loomine ja muutmine"
 
@@ -22675,7 +22660,7 @@ msgid "Suggest automatic display of attachment"
 msgstr "Soovitan manust automaatselt kuvada"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
-#: ../widgets/misc/e-calendar-item.c:1273
+#: ../widgets/misc/e-calendar-item.c:1267
 msgid "%B %Y"
 msgstr "%B %Y"
 
@@ -22724,30 +22709,30 @@ msgstr "Y1"
 msgid "Y2"
 msgstr "Y2"
 
-#: ../widgets/misc/e-canvas-vbox.c:92 ../widgets/misc/e-reflow.c:1426
-#: ../widgets/table/e-table-group-container.c:1000
+#: ../widgets/misc/e-canvas-vbox.c:91 ../widgets/misc/e-reflow.c:1426
+#: ../widgets/table/e-table-group-container.c:999
 #: ../widgets/table/e-table-group-leaf.c:644
 #: ../widgets/table/e-table-item.c:3074
 msgid "Minimum width"
 msgstr "Vähim laius"
 
-#: ../widgets/misc/e-canvas-vbox.c:93 ../widgets/misc/e-reflow.c:1427
-#: ../widgets/table/e-table-group-container.c:1001
+#: ../widgets/misc/e-canvas-vbox.c:92 ../widgets/misc/e-reflow.c:1427
+#: ../widgets/table/e-table-group-container.c:1000
 #: ../widgets/table/e-table-group-leaf.c:645
 #: ../widgets/table/e-table-item.c:3075
 msgid "Minimum Width"
 msgstr "Vähim laius"
 
-#: ../widgets/misc/e-canvas-vbox.c:104 ../widgets/misc/e-canvas-vbox.c:105
+#: ../widgets/misc/e-canvas-vbox.c:103 ../widgets/misc/e-canvas-vbox.c:104
 #: ../widgets/misc/e-expander.c:204
 msgid "Spacing"
 msgstr "Jaotus"
 
-#: ../widgets/misc/e-cell-date-edit.c:291
+#: ../widgets/misc/e-cell-date-edit.c:290
 msgid "Now"
 msgstr "Praegu"
 
-#: ../widgets/misc/e-cell-date-edit.c:848
+#: ../widgets/misc/e-cell-date-edit.c:847
 #, c-format
 msgid "The time must be in the format: %s"
 msgstr "Kellaaeg peab olema sisestatud %s formaadis"
@@ -22756,98 +22741,98 @@ msgstr "Kellaaeg peab olema sisestatud %s formaadis"
 msgid "The percent value must be between 0 and 100, inclusive"
 msgstr "Protsendi väärtus peab olema 0 - 100."
 
-#: ../widgets/misc/e-charset-picker.c:56
+#: ../widgets/misc/e-charset-picker.c:57
 msgid "Arabic"
 msgstr "Araabia"
 
-#: ../widgets/misc/e-charset-picker.c:57
+#: ../widgets/misc/e-charset-picker.c:58
 msgid "Baltic"
 msgstr "Balti"
 
-#: ../widgets/misc/e-charset-picker.c:58
+#: ../widgets/misc/e-charset-picker.c:59
 msgid "Central European"
 msgstr "Kesk-Euroopa"
 
-#: ../widgets/misc/e-charset-picker.c:59
+#: ../widgets/misc/e-charset-picker.c:60
 msgid "Chinese"
 msgstr "Hiina"
 
-#: ../widgets/misc/e-charset-picker.c:60
+#: ../widgets/misc/e-charset-picker.c:61
 msgid "Cyrillic"
 msgstr "Kirillitsa"
 
-#: ../widgets/misc/e-charset-picker.c:61
+#: ../widgets/misc/e-charset-picker.c:62
 msgid "Greek"
 msgstr "Kreeka"
 
-#: ../widgets/misc/e-charset-picker.c:62
+#: ../widgets/misc/e-charset-picker.c:63
 msgid "Hebrew"
 msgstr "Heebrea"
 
-#: ../widgets/misc/e-charset-picker.c:63
+#: ../widgets/misc/e-charset-picker.c:64
 msgid "Japanese"
 msgstr "Jaapani"
 
-#: ../widgets/misc/e-charset-picker.c:64
+#: ../widgets/misc/e-charset-picker.c:65
 msgid "Korean"
 msgstr "Korea"
 
-#: ../widgets/misc/e-charset-picker.c:65
+#: ../widgets/misc/e-charset-picker.c:66
 msgid "Thai"
 msgstr "Tai"
 
-#: ../widgets/misc/e-charset-picker.c:66
+#: ../widgets/misc/e-charset-picker.c:67
 msgid "Turkish"
 msgstr "Türgi"
 
-#: ../widgets/misc/e-charset-picker.c:67
+#: ../widgets/misc/e-charset-picker.c:68
 msgid "Unicode"
 msgstr "Unicode"
 
-#: ../widgets/misc/e-charset-picker.c:68
+#: ../widgets/misc/e-charset-picker.c:69
 msgid "Western European"
 msgstr "Lääne-Euroopa"
 
-#: ../widgets/misc/e-charset-picker.c:69
+#: ../widgets/misc/e-charset-picker.c:70
 msgid "Western European, New"
 msgstr "Lääne-Euroopa, uust"
 
-#: ../widgets/misc/e-charset-picker.c:88 ../widgets/misc/e-charset-picker.c:89
-#: ../widgets/misc/e-charset-picker.c:90
+#: ../widgets/misc/e-charset-picker.c:89 ../widgets/misc/e-charset-picker.c:90
+#: ../widgets/misc/e-charset-picker.c:91
 msgid "Traditional"
 msgstr "Traditsiooniline"
 
-#: ../widgets/misc/e-charset-picker.c:91 ../widgets/misc/e-charset-picker.c:92
-#: ../widgets/misc/e-charset-picker.c:93 ../widgets/misc/e-charset-picker.c:94
+#: ../widgets/misc/e-charset-picker.c:92 ../widgets/misc/e-charset-picker.c:93
+#: ../widgets/misc/e-charset-picker.c:94 ../widgets/misc/e-charset-picker.c:95
 msgid "Simplified"
 msgstr "Lihtsustatud"
 
-#: ../widgets/misc/e-charset-picker.c:97
+#: ../widgets/misc/e-charset-picker.c:98
 msgid "Ukrainian"
 msgstr "Ukraina"
 
-#: ../widgets/misc/e-charset-picker.c:100
+#: ../widgets/misc/e-charset-picker.c:101
 msgid "Visual"
 msgstr "Visuaalne"
 
-#: ../widgets/misc/e-charset-picker.c:169
+#: ../widgets/misc/e-charset-picker.c:170
 #, c-format
 msgid "Unknown character set: %s"
 msgstr "Tundmatu kooditabel: %s"
 
-#: ../widgets/misc/e-charset-picker.c:214
+#: ../widgets/misc/e-charset-picker.c:215
 msgid "Character Encoding"
 msgstr "Kooditabel"
 
-#: ../widgets/misc/e-charset-picker.c:229
+#: ../widgets/misc/e-charset-picker.c:230
 msgid "Enter the character set to use"
 msgstr "Sisesta kasutatav kooditabel"
 
-#: ../widgets/misc/e-charset-picker.c:336
+#: ../widgets/misc/e-charset-picker.c:337
 msgid "Other..."
 msgstr "Muu..."
 
-#: ../widgets/misc/e-charset-picker.c:598
+#: ../widgets/misc/e-charset-picker.c:599
 msgid "Ch_aracter Encoding"
 msgstr "K_ooditabel"
 
@@ -22936,61 +22921,61 @@ msgid "Spacing around expander arrow"
 msgstr "Ruum laiendaja noole ümber"
 
 #. FIXME: get the toplevel window...
-#: ../widgets/misc/e-filter-bar.c:130 ../widgets/misc/e-filter-bar.c:183
-#: ../widgets/misc/e-filter-bar.c:311 ../widgets/misc/e-filter-bar.c:753
+#: ../widgets/misc/e-filter-bar.c:126 ../widgets/misc/e-filter-bar.c:179
+#: ../widgets/misc/e-filter-bar.c:307 ../widgets/misc/e-filter-bar.c:749
 msgid "Advanced Search"
 msgstr "Laiendatud otsing"
 
 #. FIXME: get the toplevel window...
-#: ../widgets/misc/e-filter-bar.c:234
+#: ../widgets/misc/e-filter-bar.c:230
 msgid "Save Search"
 msgstr "Salvesta otsing"
 
-#: ../widgets/misc/e-filter-bar.c:271
+#: ../widgets/misc/e-filter-bar.c:267
 msgid "_Searches"
 msgstr "_Otsingud"
 
-#: ../widgets/misc/e-filter-bar.c:273
+#: ../widgets/misc/e-filter-bar.c:269
 msgid "Searches"
 msgstr "Otsingud"
 
-#: ../widgets/misc/e-filter-bar.h:101 ../widgets/misc/e-filter-bar.h:112
+#: ../widgets/misc/e-filter-bar.h:104 ../widgets/misc/e-filter-bar.h:115
 msgid "_Save Search..."
 msgstr "_Salvesta otsing..."
 
-#: ../widgets/misc/e-filter-bar.h:102 ../widgets/misc/e-filter-bar.h:113
+#: ../widgets/misc/e-filter-bar.h:105 ../widgets/misc/e-filter-bar.h:116
 msgid "_Edit Saved Searches..."
 msgstr "_Redigeeri salvestatud otsinguid..."
 
-#: ../widgets/misc/e-filter-bar.h:103 ../widgets/misc/e-filter-bar.h:114
+#: ../widgets/misc/e-filter-bar.h:106 ../widgets/misc/e-filter-bar.h:117
 msgid "_Advanced Search..."
 msgstr "_Laiendatud otsing..."
 
-#: ../widgets/misc/e-filter-bar.h:104
+#: ../widgets/misc/e-filter-bar.h:107
 msgid "All Accounts"
 msgstr "Kõigist kontodest"
 
-#: ../widgets/misc/e-filter-bar.h:105
+#: ../widgets/misc/e-filter-bar.h:108
 msgid "Current Account"
 msgstr "Käesolevast kontost"
 
-#: ../widgets/misc/e-filter-bar.h:106
+#: ../widgets/misc/e-filter-bar.h:109
 msgid "Current Folder"
 msgstr "Käesolevast kaustast"
 
-#: ../widgets/misc/e-filter-bar.h:107
+#: ../widgets/misc/e-filter-bar.h:110
 msgid "Current Message"
 msgstr "Käesolevast sõnumist"
 
-#: ../widgets/misc/e-image-chooser.c:167
+#: ../widgets/misc/e-image-chooser.c:169
 msgid "Choose Image"
 msgstr "Vali pilt"
 
-#: ../widgets/misc/e-map.c:625
+#: ../widgets/misc/e-map.c:627
 msgid "World Map"
 msgstr "Maailmakaart"
 
-#: ../widgets/misc/e-map.c:627
+#: ../widgets/misc/e-map.c:629
 msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should instead select the timezone from the drop-down combination box below."
@@ -23006,15 +22991,15 @@ msgstr ""
 msgid "The button state is online"
 msgstr ""
 
-#: ../widgets/misc/e-pilot-settings.c:103
+#: ../widgets/misc/e-pilot-settings.c:102
 msgid "Sync with:"
 msgstr "Millega sünkroniseerida:"
 
-#: ../widgets/misc/e-pilot-settings.c:111
+#: ../widgets/misc/e-pilot-settings.c:110
 msgid "Sync Private Records:"
 msgstr "Isiklike kirjete sünkroniseerimine"
 
-#: ../widgets/misc/e-pilot-settings.c:120
+#: ../widgets/misc/e-pilot-settings.c:119
 msgid "Sync Categories:"
 msgstr "Katekooriate sünkroniseerimine:"
 
@@ -23089,19 +23074,19 @@ msgstr "Kursori rida"
 msgid "Cursor Column"
 msgstr "Kursori veerg"
 
-#: ../widgets/misc/e-selection-model.c:210
+#: ../widgets/misc/e-selection-model.c:209
 msgid "Sorter"
 msgstr "Sortija"
 
-#: ../widgets/misc/e-selection-model.c:217
+#: ../widgets/misc/e-selection-model.c:216
 msgid "Selection Mode"
 msgstr "Valimise režiim"
 
-#: ../widgets/misc/e-selection-model.c:225
+#: ../widgets/misc/e-selection-model.c:224
 msgid "Cursor Mode"
 msgstr "Kursorirežiim"
 
-#: ../widgets/misc/e-send-options.c:518
+#: ../widgets/misc/e-send-options.c:522
 msgid "When de_leted:"
 msgstr "Kui _kustutatakse:"
 
@@ -23263,7 +23248,7 @@ msgstr "_Saadaolevad kategooriad:"
 msgid "categories"
 msgstr "kategooriad"
 
-#: ../widgets/table/e-cell-combo.c:169
+#: ../widgets/table/e-cell-combo.c:170
 msgid "popup list"
 msgstr "hüpikakende loend"
 
@@ -23440,30 +23425,30 @@ msgstr ""
 "Tabelisse veeru lisamiseks tuleb see\n"
 "lohistada kohale, kus sa seda näha soovid."
 
-#: ../widgets/table/e-table-group-container.c:345
+#: ../widgets/table/e-table-group-container.c:344
 #, c-format
 msgid "%s : %s (%d item)"
 msgid_plural "%s : %s (%d items)"
 msgstr[0] "%s : %s (%d kirje)"
 msgstr[1] "%s : %s (%d kirjet)"
 
-#: ../widgets/table/e-table-group-container.c:351
+#: ../widgets/table/e-table-group-container.c:350
 #, c-format
 msgid "%s (%d item)"
 msgid_plural "%s (%d items)"
 msgstr[0] "%s (%d kirje)"
 msgstr[1] "%s (%d kirjet)"
 
+#: ../widgets/table/e-table-group-container.c:922
 #: ../widgets/table/e-table-group-container.c:923
-#: ../widgets/table/e-table-group-container.c:924
 #: ../widgets/table/e-table-group-leaf.c:581
 #: ../widgets/table/e-table-group-leaf.c:582
 #: ../widgets/table/e-table-item.c:3032 ../widgets/table/e-table-item.c:3033
 msgid "Alternating Row Colors"
 msgstr "Reavärvuste asendamine"
 
+#: ../widgets/table/e-table-group-container.c:929
 #: ../widgets/table/e-table-group-container.c:930
-#: ../widgets/table/e-table-group-container.c:931
 #: ../widgets/table/e-table-group-leaf.c:588
 #: ../widgets/table/e-table-group-leaf.c:589
 #: ../widgets/table/e-table-item.c:3039 ../widgets/table/e-table-item.c:3040
@@ -23471,8 +23456,8 @@ msgstr "Reavärvuste asendamine"
 msgid "Horizontal Draw Grid"
 msgstr ""
 
+#: ../widgets/table/e-table-group-container.c:936
 #: ../widgets/table/e-table-group-container.c:937
-#: ../widgets/table/e-table-group-container.c:938
 #: ../widgets/table/e-table-group-leaf.c:595
 #: ../widgets/table/e-table-group-leaf.c:596
 #: ../widgets/table/e-table-item.c:3046 ../widgets/table/e-table-item.c:3047
@@ -23480,8 +23465,8 @@ msgstr ""
 msgid "Vertical Draw Grid"
 msgstr ""
 
+#: ../widgets/table/e-table-group-container.c:943
 #: ../widgets/table/e-table-group-container.c:944
-#: ../widgets/table/e-table-group-container.c:945
 #: ../widgets/table/e-table-group-leaf.c:602
 #: ../widgets/table/e-table-group-leaf.c:603
 #: ../widgets/table/e-table-item.c:3053 ../widgets/table/e-table-item.c:3054
@@ -23489,24 +23474,24 @@ msgstr ""
 msgid "Draw focus"
 msgstr ""
 
+#: ../widgets/table/e-table-group-container.c:950
 #: ../widgets/table/e-table-group-container.c:951
-#: ../widgets/table/e-table-group-container.c:952
 #: ../widgets/table/e-table-group-leaf.c:609
 #: ../widgets/table/e-table-group-leaf.c:610
 #: ../widgets/table/e-table-item.c:3060 ../widgets/table/e-table-item.c:3061
 msgid "Cursor mode"
 msgstr "Kursorirežiim"
 
+#: ../widgets/table/e-table-group-container.c:957
 #: ../widgets/table/e-table-group-container.c:958
-#: ../widgets/table/e-table-group-container.c:959
 #: ../widgets/table/e-table-group-leaf.c:623
 #: ../widgets/table/e-table-group-leaf.c:624
 #: ../widgets/table/e-table-item.c:3025 ../widgets/table/e-table-item.c:3026
 msgid "Selection model"
 msgstr "Valikumudel"
 
+#: ../widgets/table/e-table-group-container.c:964
 #: ../widgets/table/e-table-group-container.c:965
-#: ../widgets/table/e-table-group-container.c:966
 #: ../widgets/table/e-table-group-leaf.c:616
 #: ../widgets/table/e-table-group-leaf.c:617
 #: ../widgets/table/e-table-item.c:3067 ../widgets/table/e-table-item.c:3068
@@ -23515,8 +23500,8 @@ msgstr "Valikumudel"
 msgid "Length Threshold"
 msgstr "Pikkuse lävi"
 
+#: ../widgets/table/e-table-group-container.c:971
 #: ../widgets/table/e-table-group-container.c:972
-#: ../widgets/table/e-table-group-container.c:973
 #: ../widgets/table/e-table-group-leaf.c:658
 #: ../widgets/table/e-table-group-leaf.c:659
 #: ../widgets/table/e-table-item.c:3101 ../widgets/table/e-table-item.c:3102
@@ -23525,8 +23510,8 @@ msgstr "Pikkuse lävi"
 msgid "Uniform row height"
 msgstr ""
 
+#: ../widgets/table/e-table-group-container.c:978
 #: ../widgets/table/e-table-group-container.c:979
-#: ../widgets/table/e-table-group-container.c:980
 #: ../widgets/table/e-table-group-leaf.c:651
 #: ../widgets/table/e-table-group-leaf.c:652
 msgid "Frozen"
@@ -23594,7 +23579,7 @@ msgid "Font Description"
 msgstr "Kirjatüübi kirjeldus"
 
 #: ../widgets/table/e-table-header-item.c:1915
-#: ../widgets/table/e-table-sorter.c:173
+#: ../widgets/table/e-table-sorter.c:172
 msgid "Sort Info"
 msgstr "Sortimisandmed"
 
@@ -23740,6 +23725,9 @@ msgstr "Välksõnumikontekst"
 #: ../widgets/text/e-text.c:3786 ../widgets/text/e-text.c:3787
 msgid "Handle Popup"
 msgstr ""
+
+#~ msgid "Recent Docu_ments"
+#~ msgstr "_Hiljutised dokumendid"
 
 #~ msgid "Upcoming Appointments"
 #~ msgstr "Saabuvad sündmused"
