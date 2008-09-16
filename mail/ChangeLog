@@ -1,3 +1,8 @@
+2008-09-17  Gabor Kelemen  <kelemeng@gnome.hu>
+
+	* default/hu/Inbox: Default welcome mail translation added.
+	* default/Makefile.am: Added hu
+
 2008-09-16  Goran Rakić  <grakic@devbase.net>
 
         * default/Makefile.am:
