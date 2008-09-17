@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "POT-Creation-Date: 2008-09-16 05:27+0000\n"
-"PO-Revision-Date: 2008-09-16 23:35+0200\n"
+"PO-Revision-Date: 2008-09-17 19:27+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -5367,6 +5367,10 @@ msgid ""
 "value to Harry, any occurrence of $Manager is replaced by Harry in the "
 "message."
 msgstr ""
+"La aparición de la cada $key en cualquier plantilla se reemplaza con el "
+"valor que tiene en la configuración. Por ejemplo, si establece la clave a "
+"Director y el valor a Tomás, cualquier aparición de $Director se reemplaza "
+"con Tomás en el mensaje."
 
 #: C/evolution.xml:2147(para)
 msgid ""
@@ -5376,6 +5380,11 @@ msgid ""
 "messages. If the messages have a $Manager key value, you can reset the value "
 "in the Configuration tab of this plugin."
 msgstr ""
+"Asuma que tiene 1.000 plantillas de mensajes con el nombre actual de su "
+"director como referencia en ellas. Cuando el director actual cambia, no es "
+"fácil reemplazar el nombre del director en las 1.000 plantillas. Si los "
+"mensajes tienen un valor de clave $Director, puede cambiar el valor en la "
+"solapa Configuración de este complemento."
 
 #: C/evolution.xml:2148(para)
 msgid ""
@@ -5384,6 +5393,10 @@ msgid ""
 "example, an occurrence of $PATH in your template is replaced by its value "
 "when the template is used."
 msgstr ""
+"De forma predeterminada todas las variables de entorno se usan como pares de "
+"claves-valores. Una aparición de $env_variable se reemplaza por el valor que "
+"lleva. Por ejemplo, una aparición de $PATH en su plantilla se reemplaza por "
+"su valor al usar la plantilla."
 
 #: C/evolution.xml:2149(para)
 msgid "The replacement process uses the following order of precedence:"
@@ -5394,18 +5407,24 @@ msgid ""
 "$key is replaced by the value set for it in the Configuration tab of the "
 "Templates plugin."
 msgstr ""
+"$key se reemplaza por el valor ajustado para ello en la solapa Configuración "
+"del complemento Plantillas."
 
 #: C/evolution.xml:2155(para)
 msgid ""
 "If the key is not found, it is then replaced with the value of its "
 "environment variable."
 msgstr ""
+"Si no se encuentra la clave, se reemplaza con el valor de su variable de "
+"entorno."
 
 #: C/evolution.xml:2158(para)
 msgid ""
 "If key is neither a configuration option nor an environment variable, no "
 "changes are made."
 msgstr ""
+"Si la clave no es una opción de configuración ni una variable de entorno, "
+"entonces no se hacen cambios."
 
 #: C/evolution.xml:2166(para)
 msgid ""
@@ -8327,82 +8346,84 @@ msgstr ""
 #: C/evolution.xml:3448(para)
 msgid "To configure your Google Address Book in Evolution contacts:"
 msgstr ""
+"Para configurar su Libreta de direcciones de Google en sus contactos de "
+"Evolution:"
 
 #: C/evolution.xml:3451(para)
-#, fuzzy
 msgid ""
 "Select File &gt; New &gt; Address book to open the New Address Book window."
 msgstr ""
-"Seleccione Archivo &gt; Nueva carpeta para crear las carpetas que desee."
+"Seleccione Archivo &gt; Nuevo &gt; Lubreta de direcciones para abrir la "
+"ventana Libreta de direcciones nueva."
 
 #: C/evolution.xml:3456(para) C/evolution.xml:3953(para)
 msgid "Select Google from the Type drop-down list."
 msgstr "Seleccione Google de la lista desplegable de tipos."
 
 #: C/evolution.xml:3459(para)
-#, fuzzy
 msgid "Specify a name for the address book."
-msgstr "Especifique un nombre para la lista."
+msgstr "Especifique un nombre para la libreta de direcciones."
 
 #: C/evolution.xml:3462(para)
 msgid ""
 "Select or deselect the following options and provide the username for the "
 "Google account:"
 msgstr ""
+"Seleccione o deseleccione las siguientes opciones y proporcione el nombre de "
+"usuario para la cuenta de Google:"
 
 #: C/evolution.xml:3466(title)
-#, fuzzy
 msgid "Mark as default address book:"
-msgstr "Crear una libreta de direcciones"
+msgstr "Marcar como libreta de direcciones predeterminada:"
 
 #: C/evolution.xml:3467(para)
 msgid ""
 "Select this option to make the Google address book as your default address "
 "book."
 msgstr ""
+"Seleccione esta opción para que la libreta de direcciones de Google sea su "
+"libreta de direcciones predeterminada."
 
 #: C/evolution.xml:3472(title)
-#, fuzzy
 msgid "Copy book content locally for offline operations:"
-msgstr ""
-"Pulse Copiar el contenido de la carpeta localmente para operar desconectado."
+msgstr "Copiar el contenido de la carpeta localmente para operar desconectado:"
 
 #: C/evolution.xml:3473(para)
 msgid ""
 "Select this option to copy the address book to your machine so you can "
 "access the contacts even when you are not connected to the network."
 msgstr ""
+"Seleccione esta opción para copiar la libreta de direcciones de su equipo, "
+"así podrá acceder a los contactos incluso cuando no está conectado a la red."
 
 #: C/evolution.xml:3478(title) C/evolution.xml:3968(title)
 msgid "Username:"
 msgstr "Usuario:"
 
 #: C/evolution.xml:3479(para)
-#, fuzzy
 msgid "Specify the username of your Google account."
-msgstr "Especifique su nombre de usuario para su cuenta en Google"
+msgstr "Especifique su nombre de usuario para su cuenta en Google."
 
 #: C/evolution.xml:3484(title)
-#, fuzzy
 msgid "Use SSL:"
-msgstr "Usar SSL/TLS:"
+msgstr "Usar SSL:"
 
 #: C/evolution.xml:3485(para)
-#, fuzzy
 msgid ""
 "Select Use SSL to enable a secure connection between Evolution and the server"
 msgstr ""
-"Seleccione Usar SSL para activar SSL para la comunicación entre Evolution y "
-"el servidor de Google."
+"Seleccione Usar SSL para activar una conexión segura entre Evolution y el "
+"servidor."
 
 #: C/evolution.xml:3490(title)
 msgid "Refresh:"
-msgstr ""
+msgstr "Actualizar:"
 
 #: C/evolution.xml:3491(para)
-#, fuzzy
 msgid "Set the time to automatically refresh the Google address book."
-msgstr "Establezca el tiempo para refrescar el calendario automáticamente."
+msgstr ""
+"Establezca el tiempo para refrescar la libreta de direcciones de Google "
+"automáticamente."
 
 #: C/evolution.xml:3507(para)
 msgid ""
@@ -9142,7 +9163,6 @@ msgid "Select the calendar from the side bar at the left."
 msgstr "Seleccione el calendario desde la barra lateral en la izquierda."
 
 #: C/evolution.xml:3911(para)
-#, fuzzy
 msgid "Right-click on the calendar."
 msgstr "Pulse con el botón derecho en el calendario."
 
@@ -9173,7 +9193,6 @@ msgstr ""
 "Copiar el contenido del calendario localmente para trabajar desconectado."
 
 #: C/evolution.xml:3937(para)
-#, fuzzy
 msgid ""
 "Right-click on the calendar at the left and select Mark Calendar for offline "
 "use. For more information on working offline refer <link linkend=\"usage-"
@@ -9181,7 +9200,7 @@ msgid ""
 msgstr ""
 "Pulse con el botón derecho sobre el calendario a la izquierda y seleccione "
 "Marcar el calendario para uso desconectado. Para obtener más información "
-"acerca de trabajar desconectado, vea <link linkend=\"usage-mail-getnsend-"
+"acerca de trabajar desconectado consulte <link linkend=\"usage-mail-getnsend-"
 "offline\">Trabar desconectado</link>."
 
 #: C/evolution.xml:3939(para)
@@ -9246,13 +9265,12 @@ msgid "Set the time to automatically refresh the calendar."
 msgstr "Establezca el tiempo para refrescar el calendario automáticamente."
 
 #: C/evolution.xml:3978(para)
-#, fuzzy
 msgid ""
 "Select Use SSL to enable a secure connection between Evolution and the "
 "Google server."
 msgstr ""
-"Seleccione Usar SSL para activar SSL para la comunicación entre Evolution y "
-"el servidor de Google."
+"Seleccione Usar SSL para activar una conexión segura entre Evolution y el "
+"servidor de Google."
 
 #: C/evolution.xml:3981(para)
 msgid ""
@@ -12018,13 +12036,12 @@ msgstr ""
 "seleccione si quiere usar SSL."
 
 #: C/evolution.xml:5886(para)
-#, fuzzy
 msgid ""
 "Select Use SSL to enable a secure connection between Evolution and the "
 "server."
 msgstr ""
-"Seleccione Usar SSL para activar SSL para la comunicación entre Evolution y "
-"el servidor de Google."
+"Seleccione Usar SSL para activar una conexión segura entre Evolution y el "
+"servidor."
 
 #: C/evolution.xml:5911(para)
 msgid ""
@@ -14201,21 +14218,21 @@ msgstr ""
 "qué persona autenticarse."
 
 #: C/evolution.xml:6928(title)
-#, fuzzy
 msgid "Network Preferences"
-msgstr "Preferencias de las etiquetas"
+msgstr "Preferencias de red"
 
 #: C/evolution.xml:6929(para)
 msgid "This interface lets you configure your network proxy settings."
-msgstr ""
+msgstr "Esta interfaz le permite configurar sus ajustes del proxy de la red."
 
 #: C/evolution.xml:6931(para)
 msgid "Use the following four options to configure the proxy settings:"
 msgstr ""
+"Use las siguientes cuatro opciones para configurar los ajustes del proxy:"
 
 #: C/evolution.xml:6933(title)
 msgid "Use system defaults:"
-msgstr ""
+msgstr "Usar los valores predeterminados del sistema:"
 
 #: C/evolution.xml:6934(para)
 msgid ""
@@ -14224,6 +14241,10 @@ msgid ""
 "Evolution uses the proxy settings in the /system/http_proxy and /system/"
 "proxy/gconf keys."
 msgstr ""
+"Seleccione esta opción para usar los ajustes globales del proxy configurados "
+"a través Centro de control &gt; Proxy de la red en GNOME. Cuando esta opción "
+"está seleccionada Evolution usa los ajustes del proxy en las claves /system/"
+"http_proxy y /system/proxy/gconf."
 
 #: C/evolution.xml:6937(para)
 msgid ""
@@ -14231,22 +14252,21 @@ msgid ""
 "&gt; Network Proxies, Evolution does not work with the proxy and you must "
 "either update these gconf keys or choose Manual proxy configuration."
 msgstr ""
+"Si estas claves no reflejan los ajustes configurados a través de Centro de "
+"control &gt; Proxy de la red, Evolution no trabajará con el proxy y deberá "
+"actualizar esas claves de gconf o elegir Configuración manual del proxy."
 
 #: C/evolution.xml:6940(title)
 msgid "Direct connection to the Internet:"
-msgstr ""
+msgstr "Conexión directa a Internet:"
 
 #: C/evolution.xml:6941(para)
-#, fuzzy
 msgid "Select this option to connect directly to the internet."
-msgstr ""
-"Marque esta casilla si quiere que su respuesta llegue a los organizadores de "
-"la reunión."
+msgstr "Seleccione esta opción para conectarse directamente a Internet."
 
 #: C/evolution.xml:6944(title)
-#, fuzzy
 msgid "Manual proxy configuration:"
-msgstr "Configuración SMTP"
+msgstr "Configuración manual del proxy:"
 
 #: C/evolution.xml:6945(para)
 msgid ""
@@ -14259,60 +14279,68 @@ msgid ""
 "Authentication to enable the username and password fields. The customized "
 "proxy settings are as follows:"
 msgstr ""
+"Esta opción le ayuda a personalizar los ajustes del proxy independientemente "
+"del escritorio que use. Especifique equipos y puertos para HTTP y, "
+"opcionalmente, para otros protocolos. En el campo «Sin dominio proxy» "
+"especifique los nombres de dominio, separados por comas, que no están "
+"configurados a través del proxy. Puede especificar patrones como *.ejemplo."
+"com o ejemplo.com en la lista Sin dominio proxy. Especifique un nombre de "
+"usuario y una contraseña y, si el proxy requiere autenticación, seleccione "
+"Usar autenticación para activar los campos usuario y contraseña. Los ajustes "
+"personalizados del proxy son los siguientes:"
 
 #: C/evolution.xml:6954(para)
-#, fuzzy
 msgid "Proxy Configuration Settings"
-msgstr "Opciones de configuración local"
+msgstr "Ajustes de configuración del proxy"
 
 #: C/evolution.xml:6964(para)
-#, fuzzy
 msgid "HTTP Proxy"
-msgstr "Proxy"
+msgstr "Proxy HTTP"
 
 #: C/evolution.xml:6967(para)
 msgid "The machine name to proxy HTTP through."
-msgstr ""
+msgstr "El nombre de la máquina sobre la que pasar a través del proxy HTTP."
 
 #: C/evolution.xml:6972(para) C/evolution.xml:6988(para)
 #: C/evolution.xml:7004(para)
-#, fuzzy
 msgid "Port"
-msgstr "Puerto:"
+msgstr "Puerto"
 
 #: C/evolution.xml:6975(para)
 msgid ""
 "The port for the machine defined by the HTTP Proxy field that you proxy "
 "through."
-msgstr ""
+msgstr "El puerto para la máquina definida por el campo puerto del Proxy HTTP."
 
 #: C/evolution.xml:6980(para)
 msgid "Secure HTTP Proxy"
-msgstr ""
+msgstr "Proxy HTTP seguro"
 
 #: C/evolution.xml:6983(para)
 msgid "The machine name to proxy secure HTTP through."
 msgstr ""
+"El nombre de la máquina sobre la que pasar a través del proxy HTTP seguro"
 
 #: C/evolution.xml:6991(para)
 msgid "The port for the machine defined by the Secure HTTP Proxy port field."
 msgstr ""
+"El puerto para la máquina definida por el campo puerto del Proxy HTTP seguro."
 
 #: C/evolution.xml:6996(para)
 msgid "SOCKS Host"
-msgstr ""
+msgstr "Equipo SOCKS"
 
 #: C/evolution.xml:6999(para)
 msgid "The machine name to proxy SOCKS through."
-msgstr ""
+msgstr "El nombre de la máquina sobre la que pasar a través de proxy SOCKS."
 
 #: C/evolution.xml:7007(para)
 msgid "The port for the machine defined by the SOCKS host."
-msgstr ""
+msgstr "El puerto para la máquina definida por el equipo SOCKS."
 
 #: C/evolution.xml:7012(para)
 msgid "No proxy domain"
-msgstr ""
+msgstr "Sin dominio proxy"
 
 #: C/evolution.xml:7015(para)
 msgid ""
@@ -14321,43 +14349,51 @@ msgid ""
 "(using an initial wildcard like *.example.com), IP host addresses (both IPv4 "
 "and IPv6) and network addresses with a netmask similar to 192.168.0.0/24."
 msgstr ""
+"Esta clave contiene una lista de equipos conectados directamente, en lugar "
+"de a través del proxy (si está activo). Los valores pueden ser nombres de "
+"equipos, dominios (usando un comodín inicial como *.ejemplo.com), "
+"direcciones IP de equipos (tanto de IPv4 como de IPv6) y direcciones de red "
+"con una máscara de red similar a 192.168.0.0/24."
 
 #: C/evolution.xml:7020(para)
 msgid "Use authentication"
-msgstr ""
+msgstr "Usar autenticación"
 
 #: C/evolution.xml:7023(para)
 msgid ""
 "If this option is enabled, it uses authentication to connect via the proxy "
 "server."
 msgstr ""
+"Si esta opción está activada, usa autenticación para conectarse a través del "
+"servidor proxy."
 
 #: C/evolution.xml:7028(para)
-#, fuzzy
 msgid "Username"
-msgstr "Usuario:"
+msgstr "Usuario"
 
 #: C/evolution.xml:7031(para)
 msgid "Username used to authenticate when performing an HTTP proxying."
-msgstr ""
+msgstr "Usuario que usar para autenticarse al pasar por un proxy HTTP."
 
 #: C/evolution.xml:7036(para)
 msgid "Password"
-msgstr ""
+msgstr "Contraseña"
 
 #: C/evolution.xml:7039(para)
 msgid "Password used to authenticate when performing an HTTP proxying."
-msgstr ""
+msgstr "Contraseña que usar para autenticarse al pasar por un proxy HTTP."
 
 #: C/evolution.xml:7046(title)
 msgid "Automatic proxy configuration URL:"
-msgstr ""
+msgstr "URL para la configuración automática del proxy:"
 
 #: C/evolution.xml:7047(para)
 msgid ""
 "Specify the automatic proxy configuration URL for Evolution to use in the "
 "autoconfig script to configure the proxy."
 msgstr ""
+"Especifique el URL para la configuración automática del proxy que Evolution "
+"usará en el script de autoconfiguración para configurar el proxy."
 
 #: C/evolution.xml:7053(para)
 msgid ""
@@ -15078,9 +15114,8 @@ msgid "Creating a New Email Message:"
 msgstr "Crear un nuevo mensaje de correo-e:"
 
 #: C/evolution.xml:7366(para)
-#, fuzzy
 msgid "Select File &gt; New &gt; Mail Message or Shift+Ctrl+M."
-msgstr "Use Archivo &gt; Nuevo &gt; Mensaje de correo o Mayús.+Ctrl+M."
+msgstr "Seleccione Archivo &gt; Nuevo &gt; Mensaje de correo o Mayús.+Ctrl+M."
 
 # index.docbook:41, index.docbook:293
 #: C/evolution.xml:7369(title) C/evolution.xml:7422(title)
