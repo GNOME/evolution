@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-06 16:13+0000\n"
-"PO-Revision-Date: 2008-09-09 13:56+0100\n"
+"PO-Revision-Date: 2008-09-17 16:01+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -684,7 +684,6 @@ msgid "New Address Book"
 msgstr "Nov imenik"
 
 #: ../addressbook/gui/component/addressbook-component.c:246
-#, fuzzy
 msgctxt "New"
 msgid "Address _Book"
 msgstr "_Imenik"
@@ -766,9 +765,9 @@ msgstr "Prenašanje ..."
 #: ../addressbook/gui/component/addressbook-migrate.c:125
 #: ../calendar/gui/migration.c:195
 #: ../mail/em-migrate.c:1247
-#, fuzzy, c-format
+#, c-format
 msgid "Migrating '%s':"
-msgstr "Prenašanje ..."
+msgstr "Prenašanje '%s':"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:645
 msgid "LDAP Servers"
@@ -992,7 +991,7 @@ msgstr "Anonimno"
 #. To translators: If enabled, addressbook will only fetch contacts from the server until either set time limit or amount of contacts limit reached
 #: ../addressbook/gui/component/ldap-config.glade.h:15
 msgid "B_rowse this book until limit reached"
-msgstr ""
+msgstr "_Prskaj po knjigi, dokler ni dosežena omejitev"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:16
 msgid "Basic"
@@ -3542,9 +3541,8 @@ msgid "We were unable to open this address book.  This either means you have ent
 msgstr "Odpiranje tega imenika ni uspelo. To pomeni, da ste vpisali neveljaven URI ali da je LDAP strežnik nedosegljiv."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:143
-#, fuzzy
 msgid "Detailed error:"
-msgstr "Neobdelana napaka"
+msgstr "Podrobnosti napake:"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:166
 #, fuzzy
@@ -3738,9 +3736,8 @@ msgid "Show Compact vCard"
 msgstr "Prikaži skrčeno vCard"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:284
-#, fuzzy
 msgid "Save in address book"
-msgstr "Shranite v imenik"
+msgstr "Shrani v imenik"
 
 #: ../addressbook/gui/widgets/gal-view-factory-minicard.c:37
 msgid "Card View"
@@ -4003,7 +4000,6 @@ msgid "Can not open file"
 msgstr "Ni mogoče odpreti datoteke"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:44
-#, fuzzy
 msgid "Couldn't get list of address books"
 msgstr "Ni mogoče naložiti seznama imenikov"
 
@@ -4020,9 +4016,8 @@ msgid "OUTPUTFILE"
 msgstr "OUTPUTFILE"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:53
-#, fuzzy
 msgid "List local address book folders"
-msgstr "Seznam map lokalnih imenikov"
+msgstr "Seznam map krajevnih imenikov"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:56
 msgid "Show cards as vcard or csv file"
@@ -4067,7 +4062,7 @@ msgstr "Neobdelana napaka"
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:2
 msgid "'{0}' is a read-only calendar and cannot be modified. Please select a different calendar from the side bar in the Calendar view."
-msgstr ""
+msgstr "'{0}' je koledar le za branje in ga ni mogoče spreminjati. Prosim, izberite drug koledar iz bočnega okna v koledarskem pogledu."
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:4
@@ -5415,7 +5410,6 @@ msgstr "Ključna stranka"
 #: ../calendar/gui/caltypes.xml.h:26
 #: ../calendar/gui/memotypes.xml.h:24
 #: ../calendar/gui/tasktypes.xml.h:30
-#, fuzzy
 msgid "Miscellaneous"
 msgstr "Različno"
 
@@ -11083,7 +11077,7 @@ msgstr "Enota"
 
 #: ../e-util/e-logger.c:157
 msgid "Name of the component being logged"
-msgstr ""
+msgstr "Ime enote katere delovanje se beleži"
 
 #: ../e-util/e-plugin.c:308
 #: ../filter/rule-editor.c:776
@@ -11095,9 +11089,8 @@ msgid "Enabled"
 msgstr "Vključeno"
 
 #: ../e-util/e-plugin.c:309
-#, fuzzy
 msgid "Whether the plugin is enabled"
-msgstr "Ali je razširitveni gumb razširjen ali ne"
+msgstr "Ali je vstavek omogočen"
 
 #: ../e-util/e-print.c:160
 msgid "An error occurred while printing"
@@ -11142,9 +11135,8 @@ msgid "_Overwrite"
 msgstr "_Prepiši"
 
 #: ../e-util/e-util.c:97
-#, fuzzy
 msgid "Could not display help for Evolution."
-msgstr "Ni mogoče nadgraditi dovoljenj mape."
+msgstr "Ni mogoče prikazati pomoči za program Evolution."
 
 #: ../e-util/e-util-labels.c:37
 msgid "I_mportant"
@@ -13540,9 +13532,8 @@ msgid "Sender email-address column in the message list"
 msgstr "Stolpec elektronskega naslova v seznamu sporočil"
 
 #: ../mail/evolution-mail.schemas.in.h:118
-#, fuzzy
 msgid "Server synchronization interval"
-msgstr "Možnosti _usklajevanja ..."
+msgstr "Zamik usklajevanja strežnika"
 
 #: ../mail/evolution-mail.schemas.in.h:119
 msgid "Show Animations"
@@ -14552,7 +14543,7 @@ msgstr "Preverjanje črkovanja"
 
 #: ../mail/mail-config.glade.h:146
 msgid "Start _typing at the bottom on replying"
-msgstr ""
+msgstr "Pisanje se začne na _dnu ob odgovarjanju"
 
 #: ../mail/mail-config.glade.h:147
 msgid "T_ype: "
@@ -18937,14 +18928,12 @@ msgid "Also mark messages in subfolders?"
 msgstr "Premikanje sporočil v mapo %s"
 
 #: ../plugins/mark-all-read/mark-all-read.c:41
-#, fuzzy
 msgid "Do you want to mark messages as read in the current folder only, or in the current folder as well as all subfolders?"
-msgstr "To bo označilo vsa sporočila v izbrani mapi in podmapah kot prebrana."
+msgstr "Ali želite označiti sporočila kot prebrana le v trenutni mapi ali pa tudi v podmapah?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:164
-#, fuzzy
 msgid "Current Folder and _Subfolders"
-msgstr "na trenutni mapi in podmapah"
+msgstr "Trenutna mapa in _podmape"
 
 #: ../plugins/mark-all-read/mark-all-read.c:176
 msgid "Current _Folder Only"
@@ -19178,7 +19167,7 @@ msgstr "Hello Python"
 
 #: ../plugins/python/example/org-gnome-hello-python-ui.xml.h:2
 msgid "Python Plugin Loader tests"
-msgstr ""
+msgstr "Test nalaganja Python vstavkov"
 
 #: ../plugins/python/example/org-gnome-hello-python.eplug.xml.h:1
 msgid "Python Test Plugin"
@@ -19786,12 +19775,8 @@ msgid "Choose the type of importer to run:"
 msgstr "Izberite vrsto uvoznika, ki naj se požene:"
 
 #: ../shell/e-shell-importer.c:134
-#, fuzzy
 msgid "Choose the file that you want to import into Evolution, and select what type of file it is from the list."
-msgstr ""
-"Izberite datoteko, ki jo želite uvoziti v Evolution in izberite vrsto datoteke s seznama\n"
-"\n"
-"Če ne veste, lahko izberete \"Samodejno\" in Evolution bo poskusil urediti."
+msgstr "Izberite datoteko, ki jo želite uvoziti v Evolution in izberite vrsto datoteke s seznama."
 
 #: ../shell/e-shell-importer.c:138
 msgid "Choose the destination for this import"
@@ -19887,22 +19872,24 @@ msgid "Work Offline"
 msgstr "Delaj brez mreže"
 
 #: ../shell/e-shell-window.c:381
-#, fuzzy
 msgid ""
 "Evolution is currently online.\n"
 "Click on this button to work offline."
-msgstr "Evolution je trenutno na zvezi. Kliknite na ta gumb za delo brez povezave."
+msgstr ""
+"Program Evolution deluje v povezanem načinu.\n"
+"Kliknite na ta gumb za delo brez povezave."
 
 #: ../shell/e-shell-window.c:388
 msgid "Evolution is in the process of going offline."
 msgstr "Evolution je v postopku preklaplanja na delo brez povezave."
 
 #: ../shell/e-shell-window.c:395
-#, fuzzy
 msgid ""
 "Evolution is currently offline.\n"
 "Click on this button to work online."
-msgstr "Evolution trenutno ni na zvezi. Kliknite na ta gumb za povezan način."
+msgstr ""
+"Program Evolution trenutno ni povezan.\n"
+"Kliknite na ta gumb za povezavo."
 
 #: ../shell/e-shell-window.c:786
 #, c-format
