@@ -79,7 +79,7 @@ struct _EShellWindowPrivate {
 	/*** Shell Views ***/
 
 	GHashTable *loaded_views;
-	const gchar *current_view;
+	const gchar *active_view;
 
 	/*** Widgetry ***/
 
@@ -116,8 +116,7 @@ void		e_shell_window_create_switcher_actions
 void		e_shell_window_update_icon	(EShellWindow *shell_window);
 void		e_shell_window_update_title	(EShellWindow *shell_window);
 void		e_shell_window_update_new_menu	(EShellWindow *shell_window);
-void		e_shell_window_update_gal_view_menu
-						(EShellWindow *shell_window);
+void		e_shell_window_update_view_menu	(EShellWindow *shell_window);
 
 G_END_DECLS
 

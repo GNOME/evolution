@@ -424,7 +424,19 @@ intelligent
 </para>
 
 
+<!-- ##### ARG EShellView:view-instance ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### STRUCT EShellViewPrivate ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG EShellWindow:current-view ##### -->
 <para>
 
 </para>
@@ -1719,6 +1731,30 @@ intelligent
 </para>
 
 
+<!-- ##### FUNCTION e_shell_view_get_view_instance ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_view_is_selected ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_view_set_view_instance ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@instance: 
+
 <!-- ##### FUNCTION e_shell_window_actions_init ##### -->
 <para>
 
@@ -1741,6 +1777,14 @@ intelligent
 
 @shell_window: 
 
+<!-- ##### FUNCTION e_shell_window_get_current_view ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@Returns: 
+
 <!-- ##### FUNCTION e_shell_window_private_dispose ##### -->
 <para>
 
@@ -1761,6 +1805,14 @@ intelligent
 </para>
 
 @shell_window: 
+
+<!-- ##### FUNCTION e_shell_window_set_current_view ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@view_name: 
 
 <!-- ##### FUNCTION e_shell_window_switch_to_view ##### -->
 <para>

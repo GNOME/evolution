@@ -31,7 +31,7 @@
 
 
 struct _EAddressbookReflowAdapterPrivate {
-	EABModel *model;
+	EAddressbookModel *model;
 
 	gboolean loading;
 
@@ -129,7 +129,7 @@ addressbook_count (EReflowModel *erm)
 	EAddressbookReflowAdapter *adapter = E_ADDRESSBOOK_REFLOW_ADAPTER(erm);
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 
-	return eab_model_contact_count (priv->model);
+	return e_addressbook_model_contact_count (priv->model);
 }
 
 /* This function returns the height of the minicontact in question */
@@ -141,7 +141,7 @@ addressbook_height (EReflowModel *erm, int i, GnomeCanvasGroup *parent)
 	EContactField field;
 	int count = 0;
 	char *string;
-	EContact *contact = (EContact*)eab_model_contact_at (priv->model, i);
+	EContact *contact = (EContact*)e_addressbook_model_contact_at (priv->model, i);
 	PangoLayout *layout = gtk_widget_create_pango_layout (GTK_WIDGET (GNOME_CANVAS_ITEM (parent)->canvas), "");
 	int height;
 
@@ -190,8 +190,8 @@ addressbook_compare (EReflowModel *erm, int n1, int n2)
 		return n1-n2;
 	}
 	else {
-		contact1 = (EContact*)eab_model_contact_at (priv->model, n1);
-		contact2 = (EContact*)eab_model_contact_at (priv->model, n2);
+		contact1 = (EContact*)e_addressbook_model_contact_at (priv->model, n1);
+		contact2 = (EContact*)e_addressbook_model_contact_at (priv->model, n2);
 
 		if (contact1 && contact2) {
 			const char *file_as1, *file_as2;
@@ -242,8 +242,8 @@ addressbook_incarnate (EReflowModel *erm, int i, GnomeCanvasGroup *parent)
 
 	item = gnome_canvas_item_new(parent,
 				     e_minicard_get_type(),
-				     "contact", eab_model_contact_at (priv->model, i),
-				     "editable", eab_model_editable (priv->model),
+				     "contact", e_addressbook_model_contact_at (priv->model, i),
+				     "editable", e_addressbook_model_get_editable (priv->model),
 				     NULL);
 
 #if 0
@@ -264,12 +264,12 @@ addressbook_reincarnate (EReflowModel *erm, int i, GnomeCanvasItem *item)
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 
 	gnome_canvas_item_set(item,
-			      "contact", eab_model_contact_at (priv->model, i),
+			      "contact", e_addressbook_model_contact_at (priv->model, i),
 			      NULL);
 }
 
 static void
-create_contact (EABModel *model,
+create_contact (EAddressbookModel *model,
 		gint index, gint count,
 		EAddressbookReflowAdapter *adapter)
 {
@@ -279,7 +279,7 @@ create_contact (EABModel *model,
 }
 
 static void
-remove_contacts (EABModel *model,
+remove_contacts (EAddressbookModel *model,
 		gpointer data,
 		EAddressbookReflowAdapter *adapter)
 {
@@ -294,7 +294,7 @@ remove_contacts (EABModel *model,
 }
 
 static void
-modify_contact (EABModel *model,
+modify_contact (EAddressbookModel *model,
 		gint index,
 		EAddressbookReflowAdapter *adapter)
 {
@@ -302,14 +302,14 @@ modify_contact (EABModel *model,
 }
 
 static void
-model_changed (EABModel *model,
+model_changed (EAddressbookModel *model,
 	       EAddressbookReflowAdapter *adapter)
 {
 	e_reflow_model_changed (E_REFLOW_MODEL (adapter));
 }
 
 static void
-search_started (EABModel *model,
+search_started (EAddressbookModel *model,
 		EAddressbookReflowAdapter *adapter)
 {
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
@@ -318,7 +318,7 @@ search_started (EABModel *model,
 }
 
 static void
-search_result (EABModel *model,
+search_result (EAddressbookModel *model,
 	       EBookViewStatus status,
 	       EAddressbookReflowAdapter *adapter)
 {
@@ -424,7 +424,7 @@ e_addressbook_reflow_adapter_class_init (GObjectClass *object_class)
 					 g_param_spec_object ("model",
 							       _("Model"),
 							      /*_( */"XXX blurb" /*)*/,
-							      EAB_TYPE_MODEL,
+							      E_TYPE_ADDRESSBOOK_MODEL,
 							      G_PARAM_READABLE));
 
 	e_addressbook_reflow_adapter_signals [DRAG_BEGIN] =
@@ -487,7 +487,7 @@ e_addressbook_reflow_adapter_get_type (void)
 
 void
 e_addressbook_reflow_adapter_construct (EAddressbookReflowAdapter *adapter,
-					EABModel *model)
+					EAddressbookModel *model)
 {
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 
@@ -521,7 +521,7 @@ e_addressbook_reflow_adapter_construct (EAddressbookReflowAdapter *adapter,
 }
 
 EReflowModel *
-e_addressbook_reflow_adapter_new (EABModel *model)
+e_addressbook_reflow_adapter_new (EAddressbookModel *model)
 {
 	EAddressbookReflowAdapter *et;
 
@@ -539,5 +539,5 @@ e_addressbook_reflow_adapter_get_contact (EAddressbookReflowAdapter *adapter,
 {
 	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
 
-	return eab_model_get_contact (priv->model, index);
+	return e_addressbook_model_get_contact (priv->model, index);
 }

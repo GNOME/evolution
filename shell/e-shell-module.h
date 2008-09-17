@@ -58,8 +58,7 @@ typedef struct _EShellModulePrivate EShellModulePrivate;
  * 		the corresponding #EShellView subclass that the
  * 		module will register.
  * @aliases:	Colon-separated list of aliases that can be used
- * 		when referring to a module or view by name, such
- * 		as in e_shell_window_set_current_view().
+ * 		when referring to a module by name.
  * @schemes:	Colon-separated list of URI schemes.  The #EShell
  * 		will forward command-line URIs to the appropriate
  * 		module based on this list.

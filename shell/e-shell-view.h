@@ -1,6 +1,7 @@
-/*
+/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*-
+ * e-shell-view.h
  *
- * This is only a CORBA wrapper around e_shell_window.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -10,26 +11,21 @@
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
- *
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ * Boston, MA 02110-1301, USA.
  */
 
 #ifndef E_SHELL_VIEW_H
 #define E_SHELL_VIEW_H
 
 #include <e-shell-common.h>
-#include <e-shell-content.h>
-#include <e-shell-sidebar.h>
-#include <e-shell-taskbar.h>
 #include <e-shell-window.h>
 
-#include <widgets/menus/gal-view-instance.h>
+#include <widgets/menus/gal-view-collection.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_VIEW \
@@ -72,6 +68,9 @@ struct _EShellViewClass {
 	 * the GTypeInfo they pass to g_type_module_register_type(). */
 	GTypeModule *type_module;
 
+	/* A unique instance is created for each subclass. */
+	GalViewCollection *view_collection;
+
 	/* Factory Methods */
 	GtkWidget *	(*new_shell_content)	(EShellView *shell_view);
 	GtkWidget *	(*new_shell_sidebar)	(EShellView *shell_view);
@@ -87,15 +86,14 @@ GtkAction *	e_shell_view_get_action		(EShellView *shell_view);
 const gchar *	e_shell_view_get_title		(EShellView *shell_view);
 void		e_shell_view_set_title		(EShellView *shell_view,
 						 const gchar *title);
-GalViewInstance *
-		e_shell_view_get_view_instance	(EShellView *shell_view);
-void		e_shell_view_set_view_instance	(EShellView *shell_view,
-						 GalViewInstance *instance);
-gboolean	e_shell_view_is_selected	(EShellView *shell_view);
+const gchar *	e_shell_view_get_view_id	(EShellView *shell_view);
+void		e_shell_view_set_view_id	(EShellView *shell_view,
+						 const gchar *view_id);
+gboolean	e_shell_view_is_active		(EShellView *shell_view);
 gint		e_shell_view_get_page_num	(EShellView *shell_view);
-EShellContent *	e_shell_view_get_shell_content	(EShellView *shell_view);
-EShellSidebar *	e_shell_view_get_shell_sidebar	(EShellView *shell_view);
-EShellTaskbar *	e_shell_view_get_shell_taskbar	(EShellView *shell_view);
+gpointer	e_shell_view_get_shell_content	(EShellView *shell_view);
+gpointer	e_shell_view_get_shell_sidebar	(EShellView *shell_view);
+gpointer	e_shell_view_get_shell_taskbar	(EShellView *shell_view);
 EShellWindow *	e_shell_view_get_shell_window	(EShellView *shell_view);
 void		e_shell_view_changed		(EShellView *shell_view);
 

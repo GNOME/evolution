@@ -65,7 +65,7 @@ EShellView
 
 </para>
 
-<!-- ##### ARG EShellView:view-instance ##### -->
+<!-- ##### ARG EShellView:view-id ##### -->
 <para>
 
 </para>
@@ -106,7 +106,7 @@ EShellView
 @title: 
 
 
-<!-- ##### FUNCTION e_shell_view_get_view_instance ##### -->
+<!-- ##### FUNCTION e_shell_view_get_view_id ##### -->
 <para>
 
 </para>
@@ -115,16 +115,16 @@ EShellView
 @Returns: 
 
 
-<!-- ##### FUNCTION e_shell_view_set_view_instance ##### -->
+<!-- ##### FUNCTION e_shell_view_set_view_id ##### -->
 <para>
 
 </para>
 
 @shell_view: 
-@instance: 
+@view_id: 
 
 
-<!-- ##### FUNCTION e_shell_view_is_selected ##### -->
+<!-- ##### FUNCTION e_shell_view_is_active ##### -->
 <para>
 
 </para>

@@ -156,6 +156,15 @@ e_cal_shell_view_get_type (GTypeModule *type_module)
 	return e_cal_shell_view_type;
 }
 
+GnomeCalendar *
+e_cal_shell_view_get_calendar (ECalShellView *cal_shell_view)
+{
+	g_return_val_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view), NULL);
+
+	/* FIXME */
+	return NULL;
+}
+
 ESourceList *
 e_cal_shell_view_get_source_list (ECalShellView *cal_shell_view)
 {

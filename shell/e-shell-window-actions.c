@@ -706,35 +706,21 @@ action_gal_define_views_cb (GtkAction *action,
                             EShellWindow *shell_window)
 {
 	EShellView *shell_view;
-	GalViewInstance *instance;
+	EShellViewClass *shell_view_class;
+	GalViewCollection *view_collection;
 	GtkWidget *dialog;
 	const gchar *view_name;
 
-	view_name = e_shell_window_get_current_view (shell_window);
+	view_name = e_shell_window_get_active_view (shell_window);
 	shell_view = e_shell_window_get_view (shell_window, view_name);
-	instance = e_shell_view_get_view_instance (shell_view);
-	g_return_if_fail (instance != NULL);
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	view_collection = shell_view_class->view_collection;
+	g_return_if_fail (view_collection != NULL);
 
-	dialog = gal_define_views_dialog_new (instance->collection);
+	dialog = gal_define_views_dialog_new (view_collection);
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
-		gal_view_collection_save (instance->collection);
+		gal_view_collection_save (view_collection);
 	gtk_widget_destroy (dialog);
-}
-
-static void
-action_gal_save_custom_view_cb (GtkAction *action,
-                                EShellWindow *shell_window)
-{
-	EShellView *shell_view;
-	GalViewInstance *instance;
-	const gchar *view_name;
-
-	view_name = e_shell_window_get_current_view (shell_window);
-	shell_view = e_shell_window_get_view (shell_window, view_name);
-	instance = e_shell_view_get_view_instance (shell_view);
-	g_return_if_fail (instance != NULL);
-
-	gal_view_instance_save_as (instance);
 }
 
 static void
@@ -743,19 +729,13 @@ action_gal_view_cb (GtkRadioAction *action,
                     EShellWindow *shell_window)
 {
 	EShellView *shell_view;
-	GalViewInstance *instance;
 	const gchar *view_name;
 	const gchar *view_id;
 
-	view_name = e_shell_window_get_current_view (shell_window);
+	view_name = e_shell_window_get_active_view (shell_window);
 	shell_view = e_shell_window_get_view (shell_window, view_name);
-	instance = e_shell_view_get_view_instance (shell_view);
-	g_return_if_fail (instance != NULL);
-
 	view_id = g_object_get_data (G_OBJECT (current), "view-id");
-	g_return_if_fail (view_id != NULL);
-
-	gal_view_instance_set_current_view_id (instance, view_id);
+	e_shell_view_set_view_id (shell_view, view_id);
 }
 
 static void
@@ -869,7 +849,7 @@ action_search_clear_cb (GtkAction *action,
 	EShellView *shell_view;
 	const gchar *view_name;
 
-	view_name = e_shell_window_get_current_view (shell_window);
+	view_name = e_shell_window_get_active_view (shell_window);
 	shell_view = e_shell_window_get_view (shell_window, view_name);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	e_shell_content_set_search_text (shell_content, "");
@@ -886,7 +866,7 @@ action_search_edit_cb (GtkAction *action,
 	const gchar *filename;
 	const gchar *view_name;
 
-	view_name = e_shell_window_get_current_view (shell_window);
+	view_name = e_shell_window_get_active_view (shell_window);
 	shell_view = e_shell_window_get_view (shell_window, view_name);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	context = e_shell_content_get_search_context (shell_content);
@@ -1380,7 +1360,7 @@ static GtkActionEntry shell_gal_view_entries[] = {
 	  N_("Save Custom View..."),
 	  NULL,
 	  N_("Save current custom view"),
-	  G_CALLBACK (action_gal_save_custom_view_cb) },
+	  NULL },  /* Handled by subclasses. */
 
 	/*** Menus ***/
 
@@ -1436,7 +1416,7 @@ shell_window_extract_actions (EShellWindow *shell_window,
 	 * as belonging to the current EShellView and move them to the
 	 * destination list. */
 
-	current_view = e_shell_window_get_current_view (shell_window);
+	current_view = e_shell_window_get_active_view (shell_window);
 
 	/* Example: Suppose [A] and [C] are tagged for this EShellView.
 	 *
@@ -1719,29 +1699,31 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 }
 
 void
-e_shell_window_update_gal_view_menu (EShellWindow *shell_window)
+e_shell_window_update_view_menu (EShellWindow *shell_window)
 {
 	EShellView *shell_view;
+	EShellViewClass *shell_view_class;
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
-	GalViewInstance *instance;
-	GalViewCollection *collection;
+	GalViewCollection *view_collection;
 	GtkRadioAction *radio_action;
 	GtkAction *action;
 	GList *list, *iter;
 	GSList *radio_group;
 	gboolean visible;
-	const gchar *view_name;
 	const gchar *path;
-	gchar *gal_view_id;
+	const gchar *view_id;
+	const gchar *view_name;
 	guint merge_id;
 	gint count, ii;
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	view_name = e_shell_window_get_current_view (shell_window);
+	view_name = e_shell_window_get_active_view (shell_window);
 	shell_view = e_shell_window_get_view (shell_window, view_name);
-	instance = e_shell_view_get_view_instance (shell_view);
-	g_debug ("GalViewInstance: %p", instance);
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	view_collection = shell_view_class->view_collection;
+	view_id = e_shell_view_get_view_id (shell_view);
+	g_return_if_fail (view_collection != NULL);
 
 	action_group = shell_window->priv->gal_view_actions;
 	merge_id = shell_window->priv->gal_view_merge_id;
@@ -1752,25 +1734,13 @@ e_shell_window_update_gal_view_menu (EShellWindow *shell_window)
 	/* XXX Annoying that GTK+ doesn't provide a function for this.
 	 *     http://bugzilla.gnome.org/show_bug.cgi?id=550485 */
 	list = gtk_action_group_list_actions (action_group);
-	for (iter = list; iter != NULL; iter = iter->next) {
-		GtkAction *action = iter->data;
-		gtk_action_group_remove_action (action_group, action);
-	}
+	for (iter = list; iter != NULL; iter = iter->next)
+		gtk_action_group_remove_action (action_group, iter->data);
 	g_list_free (list);
 
-	/* If there's no view instance then just hide the entire
-	 * "Current View" menu and return. */
-	action = ACTION (GAL_VIEW_MENU);
-	gtk_action_set_visible (action, instance != NULL);
-	if (instance == NULL)
-		return;
-
-	/* We have a view instance, so forge ahead. */
-	collection = instance->collection;
-	count = gal_view_collection_get_count (collection);
+	/* We have a view ID, so forge ahead. */
+	count = gal_view_collection_get_count (view_collection);
 	path = "/main-menu/view-menu/gal-view-menu/gal-view-list";
-	gal_view_id = gal_view_instance_get_current_view_id (instance);
-	g_return_if_fail (gal_view_id != NULL);
 
 	/* Default to "Custom View", unless we find our view ID. */
 	radio_action = GTK_RADIO_ACTION (ACTION (GAL_CUSTOM_VIEW));
@@ -1784,7 +1754,7 @@ e_shell_window_update_gal_view_menu (EShellWindow *shell_window)
 		gchar *action_name;
 		gchar *tooltip;
 
-		item = gal_view_collection_get_view_item (collection, ii);
+		item = gal_view_collection_get_view_item (view_collection, ii);
 
 		action_name = g_strdup_printf (
 			"gal-view-%s-%d", view_name, ii);
@@ -1800,7 +1770,7 @@ e_shell_window_update_gal_view_menu (EShellWindow *shell_window)
 			G_OBJECT (radio_action), "view-id",
 			g_strdup (item->id), (GDestroyNotify) g_free);
 
-		if (strcmp (item->id, gal_view_id) == 0)
+		if (view_id != NULL && strcmp (item->id, view_id) == 0)
 			gtk_radio_action_set_current_value (radio_action, ii);
 
 		action = GTK_ACTION (radio_action);

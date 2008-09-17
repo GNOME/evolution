@@ -193,6 +193,7 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	priv->new_source_actions = gtk_action_group_new ("new-source");
 	priv->switcher_actions = gtk_action_group_new ("switcher");
 	priv->loaded_views = loaded_views;
+	priv->active_view = "unknown";
 
 	merge_id = gtk_ui_manager_new_merge_id (priv->ui_manager);
 	priv->gal_view_merge_id = merge_id;
@@ -323,7 +324,7 @@ e_shell_window_private_init (EShellWindow *shell_window)
 
 	object = G_OBJECT (shell_window);
 	key = "/apps/evolution/shell/view_defaults/component_id";
-	gconf_bridge_bind_property (bridge, key, object, "current-view");
+	gconf_bridge_bind_property (bridge, key, object, "active-view");
 
 	object = G_OBJECT (priv->content_pane);
 	key = "/apps/evolution/shell/view_defaults/folder_bar/width";
@@ -414,13 +415,13 @@ e_shell_window_switch_to_view (EShellWindow *shell_window,
 	notebook = GTK_NOTEBOOK (shell_window->priv->status_notebook);
 	gtk_notebook_set_current_page (notebook, page_num);
 
-	shell_window->priv->current_view = view_name;
-	g_object_notify (G_OBJECT (shell_window), "current-view");
+	shell_window->priv->active_view = view_name;
+	g_object_notify (G_OBJECT (shell_window), "active-view");
 
 	e_shell_window_update_icon (shell_window);
 	e_shell_window_update_title (shell_window);
 	e_shell_window_update_new_menu (shell_window);
-	e_shell_window_update_gal_view_menu (shell_window);
+	e_shell_window_update_view_menu (shell_window);
 
 	/* Notify all loaded views. */
 	list = g_hash_table_get_values (shell_window->priv->loaded_views);
@@ -436,11 +437,8 @@ e_shell_window_update_icon (EShellWindow *shell_window)
 	const gchar *view_name;
 	gchar *icon_name;
 
-	view_name = e_shell_window_get_current_view (shell_window);
+	view_name = e_shell_window_get_active_view (shell_window);
 	shell_view = e_shell_window_get_view (shell_window, view_name);
-
-	if (!e_shell_view_is_selected (shell_view))
-		return;
 
 	action = e_shell_view_get_action (shell_view);
 	g_object_get (action, "icon-name", &icon_name, NULL);
@@ -456,12 +454,9 @@ e_shell_window_update_title (EShellWindow *shell_window)
 	const gchar *view_name;
 	gchar *window_title;
 
-	view_name = e_shell_window_get_current_view (shell_window);
+	view_name = e_shell_window_get_active_view (shell_window);
 	shell_view = e_shell_window_get_view (shell_window, view_name);
 	view_title = e_shell_view_get_title (shell_view);
-
-	if (!e_shell_view_is_selected (shell_view))
-		return;
 
 	/* Translators: This is used for the main window title. */
 	window_title = g_strdup_printf (_("%s - Evolution"), view_title);
@@ -488,4 +483,3 @@ e_shell_window_update_new_menu (EShellWindow *shell_window)
 	widget = shell_window->priv->menu_tool_button;
 	gtk_menu_tool_button_set_menu (GTK_MENU_TOOL_BUTTON (widget), menu);
 }
-

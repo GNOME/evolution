@@ -55,7 +55,7 @@ void e_minicard_view_a11y_init (void)
 
 void eab_view_a11y_init (void)
 {
-	EA_SET_FACTORY (eab_view_get_type (), ea_ab_view);
+	EA_SET_FACTORY (E_TYPE_ADDRESSBOOK_VIEW, ea_ab_view);
 }
 
 static gboolean

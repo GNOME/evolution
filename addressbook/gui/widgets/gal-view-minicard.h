@@ -22,40 +22,59 @@
  *
  */
 
-#ifndef _GAL_VIEW_MINICARD_H_
-#define _GAL_VIEW_MINICARD_H_
+#ifndef GAL_VIEW_MINICARD_H
+#define GAL_VIEW_MINICARD_H
 
 #include <widgets/menus/gal-view.h>
 #include <e-minicard-view-widget.h>
 #include "e-addressbook-view.h"
 
-#define GAL_TYPE_VIEW_MINICARD        (gal_view_minicard_get_type ())
-#define GAL_VIEW_MINICARD(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GAL_TYPE_VIEW_MINICARD, GalViewMinicard))
-#define GAL_VIEW_MINICARD_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), GAL_TYPE_VIEW_MINICARD, GalViewMinicardClass))
-#define GAL_IS_VIEW_MINICARD(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GAL_TYPE_VIEW_MINICARD))
-#define GAL_IS_VIEW_MINICARD_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GAL_TYPE_VIEW_MINICARD))
+/* Standard GObject macros */
+#define GAL_TYPE_VIEW_MINICARD \
+	(gal_view_minicard_get_type ())
+#define GAL_VIEW_MINICARD(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), GAL_TYPE_VIEW_MINICARD, GalViewMinicard))
+#define GAL_VIEW_MINICARD_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), GAL_TYPE_VIEW_MINICARD, GalViewMinicardClass))
+#define GAL_IS_VIEW_MINICARD(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), GAL_TYPE_VIEW_MINICARD))
+#define GAL_IS_VIEW_MINICARD_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), GAL_TYPE_VIEW_MINICARD))
+#define GAL_VIEW_MINICARD_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), GAL_TYPE_VIEW_MINICARD, GalViewMinicardClass))
 
-typedef struct {
-	GalView              base;
+G_BEGIN_DECLS
+
+typedef struct _GalViewMinicard GalViewMinicard;
+typedef struct _GalViewMinicardClass GalViewMinicardClass;
+
+struct _GalViewMinicard {
+	GalView              parent;
 
 	char                *title;
 	double               column_width;
 
 	EMinicardViewWidget *emvw;
 	guint                emvw_column_width_changed_id;
-} GalViewMinicard;
+};
 
-typedef struct {
+struct _GalViewMinicardClass {
 	GalViewClass parent_class;
-} GalViewMinicardClass;
+};
 
-/* Standard functions */
-GType    gal_view_minicard_get_type   (void);
-GalView *gal_view_minicard_new        (const gchar         *title);
-GalView *gal_view_minicard_construct  (GalViewMinicard     *view,
-				       const gchar         *title);
-void     gal_view_minicard_attach     (GalViewMinicard     *view,
-				       EABView *address_view);
-void     gal_view_minicard_detach     (GalViewMinicard     *view);
+GType		gal_view_minicard_get_type	(void);
+GalView *	gal_view_minicard_new		(const gchar *title);
+GalView *	gal_view_minicard_construct	(GalViewMinicard *view,
+						 const gchar *title);
+void		gal_view_minicard_attach	(GalViewMinicard *view,
+						 EAddressbookView *address_view);
+void		gal_view_minicard_detach	(GalViewMinicard *view);
 
-#endif /* _GAL_VIEW_MINICARD_H_ */
+G_END_DECLS
+
+#endif /* GAL_VIEW_MINICARD_H */

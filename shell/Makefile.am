@@ -13,6 +13,7 @@ INCLUDES =							\
 	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
+	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
 	-DEVOLUTION_HELPDIR=\""$(evolutionhelpdir)"\"		\
 	-DEVOLUTION_MODULEDIR=\""$(moduledir)"\"		\

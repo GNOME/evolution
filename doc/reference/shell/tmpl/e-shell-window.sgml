@@ -23,7 +23,7 @@ EShellWindow
 </para>
 
 
-<!-- ##### ARG EShellWindow:current-view ##### -->
+<!-- ##### ARG EShellWindow:active-view ##### -->
 <para>
 
 </para>
@@ -106,7 +106,7 @@ EShellWindow
 @Returns: 
 
 
-<!-- ##### FUNCTION e_shell_window_get_current_view ##### -->
+<!-- ##### FUNCTION e_shell_window_get_active_view ##### -->
 <para>
 
 </para>
@@ -115,13 +115,13 @@ EShellWindow
 @Returns: 
 
 
-<!-- ##### FUNCTION e_shell_window_set_current_view ##### -->
+<!-- ##### FUNCTION e_shell_window_set_active_view ##### -->
 <para>
 
 </para>
 
 @shell_window: 
-@name_or_alias: 
+@view_name: 
 
 
 <!-- ##### FUNCTION e_shell_window_get_safe_mode ##### -->

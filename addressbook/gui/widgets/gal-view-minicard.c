@@ -26,121 +26,204 @@
 #include <config.h>
 
 #include <libxml/parser.h>
-
-#include <libedataserver/e-xml-utils.h>
-
 #include <e-util/e-xml-utils.h>
+#include <libedataserver/e-xml-utils.h>
 
 #include "gal-view-minicard.h"
 
-#define PARENT_TYPE gal_view_get_type ()
-#define d(x) x
-
-static GalViewClass *gal_view_minicard_parent_class;
+static gpointer parent_class;
 
 static void
-gal_view_minicard_load (GalView *view,
-			const char *filename)
+view_minicard_column_width_changed (EAddressbookView *address_view,
+                                    gdouble width)
 {
-	xmlDoc *doc;
+	GalView *view;
+	GalViewInstance *view_instance;
+	GalViewMinicard *view_minicard;
+	GtkScrolledWindow *scrolled_window;
+	GtkAdjustment *adjustment;
+	GtkWidget *widget;
+	gdouble value, lower, upper;
+	gdouble page_increment, page_size;
 
-	doc = e_xml_parse_file (filename);
-	if (doc) {
-		xmlNode *root = xmlDocGetRootElement(doc);
-		GAL_VIEW_MINICARD (view)->column_width = e_xml_get_double_prop_by_name_with_default (root, (const unsigned char *)"column_width", 150);
-		xmlFreeDoc(doc);
+	view_instance = e_addressbook_view_get_view_instance (address_view);
+	view = gal_view_instance_get_current_view (view_instance);
+	view_minicard = GAL_VIEW_MINICARD (view);
+
+	if (view_minicard->column_width != width) {
+		view_minicard->column_width = width;
+		gal_view_changed (view);
 	}
+
+	widget = e_addressbook_view_get_view_widget (address_view);
+	scrolled_window = GTK_SCROLLED_WINDOW (widget);
+	adjustment = gtk_scrolled_window_get_hadjustment (scrolled_window);
+
+	value = gtk_adjustment_get_value (adjustment);
+	lower = gtk_adjustment_get_lower (adjustment);
+	upper = gtk_adjustment_get_upper (adjustment);
+	page_increment = gtk_adjustment_get_page_increment (adjustment);
+	page_size = gtk_adjustment_get_page_size (adjustment);
+
+	adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (
+		value, lower, upper, page_size, page_increment, page_size));
+	gtk_scrolled_window_set_hadjustment (scrolled_window, adjustment);
 }
 
 static void
-gal_view_minicard_save (GalView *view,
-			const char *filename)
+view_minicard_finalize (GObject *object)
 {
+	GalViewMinicard *view = GAL_VIEW_MINICARD (object);
+
+	if (view->title != NULL) {
+		gal_view_minicard_detach (view);
+		g_free (view->title);
+		view->title = NULL;
+	}
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static void
+view_minicard_load (GalView *view,
+                    const gchar *filename)
+{
+	GalViewMinicard *view_minicard;
 	xmlDoc *doc;
 	xmlNode *root;
 
-	doc = xmlNewDoc((const unsigned char *)"1.0");
-	root = xmlNewNode (NULL, (const unsigned char *)"EMinicardViewState");
-	e_xml_set_double_prop_by_name (root, (const unsigned char *)"column_width", GAL_VIEW_MINICARD (view)->column_width);
-	xmlDocSetRootElement(doc, root);
-	e_xml_save_file (filename, doc);
-	xmlFreeDoc(doc);
-}
+	view_minicard = GAL_VIEW_MINICARD (view);
 
-static const char *
-gal_view_minicard_get_title       (GalView *view)
-{
-	return GAL_VIEW_MINICARD(view)->title;
+	doc = e_xml_parse_file (filename);
+	g_return_if_fail (doc != NULL);
+
+	root = xmlDocGetRootElement (doc);
+	view_minicard->column_width =
+		e_xml_get_double_prop_by_name_with_default (
+		root, (guchar *) "column_width", 150);
+	xmlFreeDoc (doc);
 }
 
 static void
-gal_view_minicard_set_title       (GalView *view,
-				 const char *title)
+view_minicard_save (GalView *view,
+                    const gchar *filename)
 {
-	g_free(GAL_VIEW_MINICARD(view)->title);
-	GAL_VIEW_MINICARD(view)->title = g_strdup(title);
+	GalViewMinicard *view_minicard;
+	xmlDoc *doc;
+	xmlNode *root;
+
+	view_minicard = GAL_VIEW_MINICARD (view);
+
+	doc = xmlNewDoc ((guchar *) "1.0");
+	root = xmlNewNode (NULL, (guchar *) "EMinicardViewState");
+	e_xml_set_double_prop_by_name (
+		root, (guchar *) "column_width",
+		view_minicard->column_width);
+	xmlDocSetRootElement (doc, root);
+	e_xml_save_file (filename, doc);
+	xmlFreeDoc (doc);
 }
 
-static const char *
-gal_view_minicard_get_type_code (GalView *view)
+static const gchar *
+view_minicard_get_title (GalView *view)
+{
+	GalViewMinicard *view_minicard;
+
+	view_minicard = GAL_VIEW_MINICARD (view);
+
+	return view_minicard->title;
+}
+
+static void
+view_minicard_set_title (GalView *view,
+                         const char *title)
+{
+	GalViewMinicard *view_minicard;
+
+	view_minicard = GAL_VIEW_MINICARD (view);
+
+	g_free (view_minicard->title);
+	view_minicard->title = g_strdup (title);
+}
+
+static const gchar *
+view_minicard_get_type_code (GalView *view)
 {
 	return "minicard";
 }
 
 static GalView *
-gal_view_minicard_clone       (GalView *view)
+view_minicard_clone (GalView *view)
 {
-	GalViewMinicard *gvm, *new;
+	GalViewMinicard *view_minicard;
+	GalViewMinicard *clone;
 
-	gvm = GAL_VIEW_MINICARD(view);
+	view_minicard = GAL_VIEW_MINICARD(view);
 
-	new               = g_object_new (GAL_TYPE_VIEW_MINICARD, NULL);
-	new->title        = g_strdup (gvm->title);
-	new->column_width = gvm->column_width;
+	clone = g_object_new (GAL_TYPE_VIEW_MINICARD, NULL);
+	clone->column_width = view_minicard->column_width;
+	clone->title = g_strdup (view_minicard->title);
 
-	return GAL_VIEW(new);
+	return GAL_VIEW (clone);
 }
 
 static void
-gal_view_minicard_dispose         (GObject *object)
+gal_view_minicard_class_init (GalViewMinicardClass *class)
 {
-	GalViewMinicard *view = GAL_VIEW_MINICARD(object);
+	GObjectClass *object_class;
+	GalViewClass *gal_view_class;
 
-	if (view->title != NULL) {
-		gal_view_minicard_detach (view);
-		g_free(view->title);
-		view->title = NULL;
-	}
+	parent_class = g_type_class_peek_parent (class);
 
-	if (G_OBJECT_CLASS (gal_view_minicard_parent_class)->dispose)
-		(* G_OBJECT_CLASS (gal_view_minicard_parent_class)->dispose) (object);
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = view_minicard_finalize;
+
+	gal_view_class = GAL_VIEW_CLASS (class);
+	gal_view_class->edit = NULL;
+	gal_view_class->load = view_minicard_load;
+	gal_view_class->save = view_minicard_save;
+	gal_view_class->get_title = view_minicard_get_title;
+	gal_view_class->set_title = view_minicard_set_title;
+	gal_view_class->get_type_code = view_minicard_get_type_code;
+	gal_view_class->clone = view_minicard_clone;
+
 }
 
 static void
-gal_view_minicard_class_init      (GObjectClass *object_class)
-{
-	GalViewClass *gal_view_class  = GAL_VIEW_CLASS(object_class);
-	gal_view_minicard_parent_class  = g_type_class_ref (PARENT_TYPE);
-
-	gal_view_class->edit          = NULL			       ;
-	gal_view_class->load          = gal_view_minicard_load         ;
-	gal_view_class->save          = gal_view_minicard_save         ;
-	gal_view_class->get_title     = gal_view_minicard_get_title    ;
-	gal_view_class->set_title     = gal_view_minicard_set_title    ;
-	gal_view_class->get_type_code = gal_view_minicard_get_type_code;
-	gal_view_class->clone         = gal_view_minicard_clone        ;
-
-	object_class->dispose         = gal_view_minicard_dispose      ;
-}
-
-static void
-gal_view_minicard_init      (GalViewMinicard *gvm)
+gal_view_minicard_init (GalViewMinicard *gvm)
 {
 	gvm->title = NULL;
 	gvm->column_width = 150.0;
 
 	gvm->emvw = NULL;
 	gvm->emvw_column_width_changed_id = 0;
+}
+
+GType
+gal_view_minicard_get_type (void)
+{
+	static GType type = 0;
+
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (GalViewMinicardClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) gal_view_minicard_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (GalViewMinicard),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) gal_view_minicard_init,
+			NULL   /* value_table */
+		};
+
+		type = g_type_register_static (
+			GAL_VIEW_TYPE, "GalViewMinicard", &type_info, 0);
+	}
+
+	return type;
 }
 
 /**
@@ -155,7 +238,8 @@ gal_view_minicard_init      (GalViewMinicard *gvm)
 GalView *
 gal_view_minicard_new (const gchar *title)
 {
-	return gal_view_minicard_construct (g_object_new (GAL_TYPE_VIEW_MINICARD, NULL), title);
+	return gal_view_minicard_construct (
+		g_object_new (GAL_TYPE_VIEW_MINICARD, NULL), title);
 }
 
 /**
@@ -163,7 +247,7 @@ gal_view_minicard_new (const gchar *title)
  * @view: The view to construct.
  * @title: The name of the new view.
  *
- * constructs the GalViewMinicard.  To be used by subclasses and
+ * Constructs the GalViewMinicard.  To be used by subclasses and
  * language bindings.
  *
  * Returns: The GalViewMinicard.
@@ -172,85 +256,49 @@ GalView *
 gal_view_minicard_construct  (GalViewMinicard *view,
 			      const gchar *title)
 {
-	view->title = g_strdup(title);
-	return GAL_VIEW(view);
-}
+	view->title = g_strdup (title);
 
-GType
-gal_view_minicard_get_type        (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info =  {
-			sizeof (GalViewMinicardClass),
-			NULL,           /* base_init */
-			NULL,           /* base_finalize */
-			(GClassInitFunc) gal_view_minicard_class_init,
-			NULL,           /* class_finalize */
-			NULL,           /* class_data */
-			sizeof (GalViewMinicard),
-			0,             /* n_preallocs */
-			(GInstanceInitFunc) gal_view_minicard_init,
-		};
-
-		type = g_type_register_static (PARENT_TYPE, "GalViewMinicard", &info, 0);
-	}
-
-	return type;
-}
-
-static void
-column_width_changed (EMinicardViewWidget *w, double width, EABView *address_view)
-{
-	GalViewMinicard *view = GAL_VIEW_MINICARD (gal_view_instance_get_current_view (address_view->view_instance));
-	GtkScrolledWindow *scrolled_window;
-	GtkAdjustment *adj;
-	GtkAdjustment *adj_new;
-
-	d(g_print("%s: Old width = %f, New width = %f\n", G_STRFUNC, view->column_width, width));
-	if (view->column_width != width) {
-		view->column_width = width;
-		gal_view_changed(GAL_VIEW(view));
-	}
-
-	scrolled_window = GTK_SCROLLED_WINDOW (address_view->widget);
-	adj = gtk_scrolled_window_get_hadjustment (scrolled_window);
-	adj_new = GTK_ADJUSTMENT (gtk_adjustment_new (adj->value, adj->lower, adj->upper,
-						     adj->page_size, adj->page_increment,
-						     adj->page_size));
-	gtk_scrolled_window_set_hadjustment (scrolled_window, adj_new);
+	return GAL_VIEW (view);
 }
 
 void
-gal_view_minicard_attach (GalViewMinicard *view, EABView *address_view)
+gal_view_minicard_attach (GalViewMinicard *view,
+                          EAddressbookView *address_view)
 {
-	EMinicardViewWidget *emvw = E_MINICARD_VIEW_WIDGET (address_view->object);
+	GObject *object;
+
+	g_return_if_fail (GAL_IS_VIEW_MINICARD (view));
+	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (address_view));
+
+	object = e_addressbook_view_get_view_object (address_view);
+	g_return_if_fail (E_IS_MINICARD_VIEW_WIDGET (object));
+
 	gal_view_minicard_detach (view);
+	view->emvw = g_object_ref (object);
 
-	view->emvw = emvw;
-
-	g_object_ref (view->emvw);
-
-	g_object_set (view->emvw,
-		      "column_width", view->column_width,
-		      NULL);
+	g_object_set (view->emvw, "column-width", view->column_width, NULL);
 
 	view->emvw_column_width_changed_id =
-		g_signal_connect(view->emvw, "column_width_changed",
-				 G_CALLBACK (column_width_changed), address_view);
+		g_signal_connect_swapped (
+			view->emvw, "column-width-changed",
+			G_CALLBACK (view_minicard_column_width_changed),
+			address_view);
 }
 
 void
 gal_view_minicard_detach (GalViewMinicard *view)
 {
+	g_return_if_fail (GAL_IS_VIEW_MINICARD (view));
+
 	if (view->emvw == NULL)
 		return;
-	if (view->emvw_column_width_changed_id) {
-		g_signal_handler_disconnect (view->emvw,
-					     view->emvw_column_width_changed_id);
+
+	if (view->emvw_column_width_changed_id > 0) {
+		g_signal_handler_disconnect (
+			view->emvw, view->emvw_column_width_changed_id);
 		view->emvw_column_width_changed_id = 0;
 	}
+
 	g_object_unref (view->emvw);
 	view->emvw = NULL;
 }

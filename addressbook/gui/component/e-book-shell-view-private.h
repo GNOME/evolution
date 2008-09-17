@@ -31,15 +31,15 @@
 #include <libedataserver/e-sexp.h>
 #include <libedataserverui/e-source-selector.h>
 
+#include <e-util/gconf-bridge.h>
 #include <shell/e-shell-content.h>
 #include <shell/e-shell-sidebar.h>
 #include <shell/e-activity-handler.h>
 
 #include <eab-menu.h>
 #include <eab-gui-util.h>
-#include <e-addressbook-selector.h>
 #include <e-addressbook-view.h>
-#include <gal-view-collection.h>
+#include <e-book-shell-sidebar.h>
 
 #include <e-book-shell-view-actions.h>
 
@@ -59,10 +59,10 @@
 	if ((obj) != NULL) { g_object_unref (obj); (obj) = NULL; } \
 	} G_STMT_END
 
-G_BEGIN_DECLS
+/* ETable Specifications */
+#define ETSPEC_FILENAME		"e-addressbook-view.etspec"
 
-/* Defined in e-book-shell-module.c */
-extern GalViewCollection *e_book_shell_module_view_collection;
+G_BEGIN_DECLS
 
 typedef struct _EditorUidClosure EditorUidClosure;
 
@@ -91,8 +91,9 @@ struct _EBookShellViewPrivate {
 
 	/*** Other Stuff ***/
 
+	GtkWidget *paned;
 	GtkWidget *notebook;
-	GtkWidget *selector;
+	GtkWidget *preview;
 
 	EActivityHandler *activity_handler;
 
@@ -122,8 +123,9 @@ void		e_book_shell_view_actions_init
 					(EBookShellView *book_shell_view);
 void		e_book_shell_view_actions_update
 					(EBookShellView *book_shell_view,
-					 EABView *view);
-EABView *	e_book_shell_view_get_current_view
+					 EAddressbookView *view);
+EAddressbookView *
+		e_book_shell_view_get_current_view
 					(EBookShellView *book_shell_view);
 void		e_book_shell_view_editor_weak_notify
 					(EditorUidClosure *closure,

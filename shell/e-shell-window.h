@@ -74,9 +74,9 @@ GtkActionGroup *e_shell_window_get_action_group	(EShellWindow *shell_window,
 GtkWidget *	e_shell_window_get_managed_widget
 						(EShellWindow *shell_window,
 						 const gchar *widget_path);
-const gchar *	e_shell_window_get_current_view	(EShellWindow *shell_window);
-void		e_shell_window_set_current_view (EShellWindow *shell_window,
-						 const gchar *name_or_alias);
+const gchar *	e_shell_window_get_active_view	(EShellWindow *shell_window);
+void		e_shell_window_set_active_view	(EShellWindow *shell_window,
+						 const gchar *view_name);
 gboolean	e_shell_window_get_safe_mode	(EShellWindow *shell_window);
 void		e_shell_window_set_safe_mode	(EShellWindow *shell_window,
 						 gboolean safe_mode);

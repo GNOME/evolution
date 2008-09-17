@@ -30,11 +30,11 @@ static void
 action_address_book_copy_cb (GtkAction *action,
                              EBookShellView *book_shell_view)
 {
-	EABView *view;
+	EAddressbookView *view;
 
 	view = e_book_shell_view_get_current_view (book_shell_view);
 	g_return_if_fail (view != NULL);
-	eab_view_copy_to_folder (view, TRUE);
+	e_addressbook_view_copy_to_folder (view, TRUE);
 }
 
 static void
@@ -43,6 +43,7 @@ action_address_book_delete_cb (GtkAction *action,
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	EBookShellSidebar *book_shell_sidebar;
 	ESource *source;
 	ESourceSelector *selector;
 	ESourceGroup *source_group;
@@ -54,7 +55,8 @@ action_address_book_delete_cb (GtkAction *action,
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	selector = E_SOURCE_SELECTOR (book_shell_view->priv->selector);
+	book_shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
 	source = e_source_selector_peek_primary_selection (selector);
 	g_return_if_fail (source != NULL);
 
@@ -97,11 +99,11 @@ static void
 action_address_book_move_cb (GtkAction *action,
                              EBookShellView *book_shell_view)
 {
-	EABView *view;
+	EAddressbookView *view;
 
 	view = e_book_shell_view_get_current_view (book_shell_view);
 	g_return_if_fail (view != NULL);
-	eab_view_move_to_folder (view, TRUE);
+	e_addressbook_view_move_to_folder (view, TRUE);
 }
 
 static void
@@ -123,6 +125,7 @@ action_address_book_properties_cb (GtkAction *action,
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	EBookShellSidebar *book_shell_sidebar;
 	ESource *source;
 	ESourceSelector *selector;
 	EditorUidClosure *closure;
@@ -132,7 +135,8 @@ action_address_book_properties_cb (GtkAction *action,
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	selector = E_SOURCE_SELECTOR (book_shell_view->priv->selector);
+	book_shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
 	source = e_source_selector_peek_primary_selection (selector);
 	g_return_if_fail (source != NULL);
 
@@ -165,99 +169,111 @@ static void
 action_address_book_save_as_cb (GtkAction *action,
                                 EBookShellView *book_shell_view)
 {
-	EABView *view;
+	EAddressbookView *view;
 
 	view = e_book_shell_view_get_current_view (book_shell_view);
 	g_return_if_fail (view != NULL);
-	eab_view_save_as (view, TRUE);
+	e_addressbook_view_save_as (view, TRUE);
 }
 
 static void
 action_address_book_stop_cb (GtkAction *action,
                              EBookShellView *book_shell_view)
 {
-	EABView *view;
+	EAddressbookView *view;
 
 	view = e_book_shell_view_get_current_view (book_shell_view);
 	g_return_if_fail (view != NULL);
-	eab_view_stop (view);
+	e_addressbook_view_stop (view);
 }
 
 static void
 action_contact_clipboard_copy_cb (GtkAction *action,
                                   EBookShellView *book_shell_view)
 {
-	EABView *view;
+	EAddressbookView *view;
+	GtkWidget *preview;
+	gchar *selection;
 
+	preview = book_shell_view->priv->preview;
 	view = e_book_shell_view_get_current_view (book_shell_view);
 	g_return_if_fail (view != NULL);
-	eab_view_copy (view);
+
+	if (!GTK_WIDGET_HAS_FOCUS (preview)) {
+		e_addressbook_view_copy (view);
+		return;
+	}
+
+	selection = gtk_html_get_selection_html (GTK_HTML (preview), NULL);
+	if (selection != NULL)
+		gtk_html_copy (GTK_HTML (preview));
+	g_free (selection);
 }
 
 static void
 action_contact_clipboard_cut_cb (GtkAction *action,
                                  EBookShellView *book_shell_view)
 {
-	EABView *view;
+	EAddressbookView *view;
 
 	view = e_book_shell_view_get_current_view (book_shell_view);
 	g_return_if_fail (view != NULL);
-	eab_view_cut (view);
+	e_addressbook_view_cut (view);
 }
 
 static void
 action_contact_clipboard_paste_cb (GtkAction *action,
                                    EBookShellView *book_shell_view)
 {
-	EABView *view;
+	EAddressbookView *view;
 
 	view = e_book_shell_view_get_current_view (book_shell_view);
 	g_return_if_fail (view != NULL);
-	eab_view_paste (view);
+	e_addressbook_view_paste (view);
 }
 
 static void
 action_contact_copy_cb (GtkAction *action,
                         EBookShellView *book_shell_view)
 {
-	EABView *view;
+	EAddressbookView *view;
 
 	view = e_book_shell_view_get_current_view (book_shell_view);
 	g_return_if_fail (view != NULL);
-	eab_view_copy_to_folder (view, FALSE);
+	e_addressbook_view_copy_to_folder (view, FALSE);
 }
 
 static void
 action_contact_delete_cb (GtkAction *action,
                           EBookShellView *book_shell_view)
 {
-	EABView *view;
+	EAddressbookView *view;
 
 	view = e_book_shell_view_get_current_view (book_shell_view);
 	g_return_if_fail (view != NULL);
-	eab_view_delete_selection (view, TRUE);
+	e_addressbook_view_delete_selection (view, TRUE);
 }
 
 static void
 action_contact_forward_cb (GtkAction *action,
                            EBookShellView *book_shell_view)
 {
-	EABView *view;
+	EAddressbookView *view;
 
 	view = e_book_shell_view_get_current_view (book_shell_view);
 	g_return_if_fail (view != NULL);
-	eab_view_send (view);
+	e_addressbook_view_send (view);
 }
 
 static void
 action_contact_move_cb (GtkAction *action,
                         EBookShellView *book_shell_view)
 {
-	EABView *view;
+	EAddressbookView *view;
 
 	view = e_book_shell_view_get_current_view (book_shell_view);
 	g_return_if_fail (view != NULL);
-	eab_view_move_to_folder (view, FALSE);
+	e_addressbook_view_move_to_folder (view, FALSE);
 }
 
 static void
@@ -290,78 +306,82 @@ static void
 action_contact_open_cb (GtkAction *action,
                         EBookShellView *book_shell_view)
 {
-	EABView *view;
+	EAddressbookView *view;
 
 	view = e_book_shell_view_get_current_view (book_shell_view);
 	g_return_if_fail (view != NULL);
-	eab_view_view (view);
+	e_addressbook_view_view (view);
 }
 
 static void
 action_contact_preview_cb (GtkToggleAction *action,
                            EBookShellView *book_shell_view)
 {
-	EABView *view;
-	gboolean active;
+	GtkWidget *widget;
+	gboolean visible;
 
-	view = e_book_shell_view_get_current_view (book_shell_view);
-	active = gtk_toggle_action_get_active (action);
-	eab_view_show_contact_preview (view, active);
+	widget = book_shell_view->priv->preview;
+	visible = gtk_toggle_action_get_active (action);
+	g_object_set (widget, "visible", visible, NULL);
 }
 
 static void
 action_contact_print_cb (GtkAction *action,
                          EBookShellView *book_shell_view)
 {
-	EABView *view;
+	EAddressbookView *view;
+	GtkPrintOperationAction print_action;
 
 	view = e_book_shell_view_get_current_view (book_shell_view);
 	g_return_if_fail (view != NULL);
-	eab_view_print (view, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
+	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
+	e_addressbook_view_print (view, print_action);
 }
 
 static void
 action_contact_print_preview_cb (GtkAction *action,
                                  EBookShellView *book_shell_view)
 {
-	EABView *view;
+	EAddressbookView *view;
+	GtkPrintOperationAction print_action;
 
 	view = e_book_shell_view_get_current_view (book_shell_view);
 	g_return_if_fail (view != NULL);
-	eab_view_print (view, GTK_PRINT_OPERATION_ACTION_PREVIEW);
+	print_action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
+	e_addressbook_view_print (view, print_action);
 }
 
 static void
 action_contact_save_as_cb (GtkAction *action,
                            EBookShellView *book_shell_view)
 {
-	EABView *view;
+	EAddressbookView *view;
 
 	view = e_book_shell_view_get_current_view (book_shell_view);
 	g_return_if_fail (view != NULL);
-	eab_view_save_as (view, FALSE);
+	e_addressbook_view_save_as (view, FALSE);
 }
 
 static void
 action_contact_select_all_cb (GtkAction *action,
                               EBookShellView *book_shell_view)
 {
-	EABView *view;
+	EAddressbookView *view;
 
 	view = e_book_shell_view_get_current_view (book_shell_view);
 	g_return_if_fail (view != NULL);
-	eab_view_select_all (view);
+	e_addressbook_view_select_all (view);
 }
 
 static void
 action_contact_send_message_cb (GtkAction *action,
                                 EBookShellView *book_shell_view)
 {
-	EABView *view;
+	EAddressbookView *view;
 
 	view = e_book_shell_view_get_current_view (book_shell_view);
 	g_return_if_fail (view != NULL);
-	eab_view_send_to (view);
+	e_addressbook_view_send_to (view);
 }
 
 static void
@@ -371,19 +391,18 @@ action_search_execute_cb (GtkAction *action,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
-	GtkWidget *widget;
 	GString *string;
-	EABView *view;
+	EAddressbookView *view;
 	const gchar *search_format;
 	const gchar *search_text;
 	gchar *search_query;
 	gint value;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
-	if (!e_shell_view_is_selected (shell_view))
+	if (!e_shell_view_is_active (shell_view))
 		return;
 
-	shell_content = e_shell_view_get_content (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 	search_text = e_shell_content_get_search_text (shell_content);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -422,7 +441,7 @@ action_search_execute_cb (GtkAction *action,
 	g_string_free (string, TRUE);
 
 	/* Filter by category. */
-	value = e_search_bar_get_filter_value (E_SEARCH_BAR (widget));
+	value = e_shell_content_get_filter_value (shell_content);
 	if (value >= 0) {
 		GList *categories;
 		const gchar *category_name;
@@ -444,9 +463,9 @@ action_search_execute_cb (GtkAction *action,
 	g_object_set (view, "query", search_query, NULL);
 	g_free (search_query);
 
-	view->displayed_contact = -1;
+	/* FIXME view->displayed_contact = -1; */
 	eab_contact_display_render (
-		EAB_CONTACT_DISPLAY (view->contact_display),
+		EAB_CONTACT_DISPLAY (book_shell_view->priv->preview),
 		NULL, EAB_CONTACT_DISPLAY_RENDER_NORMAL);
 }
 
@@ -729,14 +748,21 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 
 void
 e_book_shell_view_actions_update (EBookShellView *book_shell_view,
-                                  EABView *view)
+                                  EAddressbookView *view)
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	ESource *source;
+	EAddressbookModel *model;
+	EBookShellSidebar *book_shell_sidebar;
+	ESelectionModel *selection_model;
 	ESourceSelector *selector;
+	ESource *source;
 	GtkAction *action;
+	const gchar *label;
+	gboolean editable;
 	gboolean sensitive;
+	gint n_contacts;
+	gint n_selected;
 
 	if (e_book_shell_view_get_current_view (book_shell_view) != view)
 		return;
@@ -744,64 +770,83 @@ e_book_shell_view_actions_update (EBookShellView *book_shell_view,
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	selector = E_SOURCE_SELECTOR (book_shell_view->priv->selector);
+	book_shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
 	source = e_source_selector_peek_primary_selection (selector);
 
+	model = e_addressbook_view_get_model (view);
+	editable = e_addressbook_model_get_editable (model);
+
+	selection_model = e_addressbook_view_get_selection_model (view);
+	n_contacts = e_selection_model_row_count (selection_model);
+	n_selected = e_selection_model_selected_count (selection_model);
+
 	action = ACTION (ADDRESS_BOOK_STOP);
-	sensitive = eab_view_can_stop (view);
+	sensitive = e_addressbook_model_can_stop (model);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_CLIPBOARD_COPY);
-	sensitive = eab_view_can_copy (view);
+	sensitive = (n_selected > 0);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_CLIPBOARD_CUT);
-	sensitive = eab_view_can_cut (view);
+	sensitive = editable && (n_selected > 0);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_CLIPBOARD_PASTE);
-	sensitive = eab_view_can_paste (view);
+	sensitive = editable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_COPY);
-	sensitive = eab_view_can_copy_to_folder (view);
+	sensitive = (n_selected > 0);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_DELETE);
-	sensitive = eab_view_can_delete (view);
+	sensitive = editable && (n_selected > 0);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_FORWARD);
-	sensitive = eab_view_can_send (view);
+	sensitive = (n_selected > 0);
 	gtk_action_set_sensitive (action, sensitive);
+	label = ngettext (
+		"_Forward Contact",
+		"_Forward Contacts", n_selected);
+	g_object_set (action, "label", label, NULL);
 
 	action = ACTION (CONTACT_MOVE);
-	sensitive = eab_view_can_move_to_folder (view);
+	sensitive = editable && (n_selected > 0);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_OPEN);
-	sensitive = eab_view_can_view (view);
+	sensitive = (n_selected > 0);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_PRINT);
-	sensitive = eab_view_can_print (view);
+	sensitive = (n_contacts > 0);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_PRINT_PREVIEW);
-	sensitive = eab_view_can_print (view);
+	sensitive = (n_contacts > 0);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_SAVE_AS);
-	sensitive = eab_view_can_save_as (view);
+	sensitive = (n_selected > 0);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_SELECT_ALL);
-	sensitive = eab_view_can_select_all (view);
+	sensitive = (n_contacts > 0);
 	gtk_action_set_sensitive (action, sensitive);
 
+	/* FIXME Also check for email address. */
 	action = ACTION (CONTACT_SEND_MESSAGE);
-	sensitive = eab_view_can_send_to (view);
+	sensitive = (n_selected > 0);
 	gtk_action_set_sensitive (action, sensitive);
+
+	/* TODO Add some context sensitivity to SEND_MESSAGE:
+	 *      Send Message to Contact  (n_selected == 1)
+	 *      Send Message to Contacts (n_selected > 1)
+	 *      Send Message to List     (n_selected == 1 && is_list)
+	 */
 
 	action = ACTION (ADDRESS_BOOK_DELETE);
 	if (source != NULL) {

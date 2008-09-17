@@ -160,7 +160,7 @@ set_empty_message (EMinicardView *view)
 	EBook *book;
 
 	if (view->adapter) {
-		EABModel *model = NULL;
+		EAddressbookModel *model = NULL;
 
 		g_object_get (view->adapter,
 			      "editable", &editable,
@@ -171,7 +171,7 @@ set_empty_message (EMinicardView *view)
 		if (!e_book_check_static_capability (book, "do-initial-query"))
 			perform_initial_query = TRUE;
 
-		searching = model && eab_model_can_stop (model);
+		searching = model && e_addressbook_model_can_stop (model);
 	}
 
 	if (searching) {
@@ -196,13 +196,13 @@ set_empty_message (EMinicardView *view)
 }
 
 static void
-writable_status_change (EABModel *model, gboolean writable, EMinicardView *view)
+writable_status_change (EAddressbookModel *model, gboolean writable, EMinicardView *view)
 {
 	set_empty_message (view);
 }
 
 static void
-stop_state_changed (EABModel *model, EMinicardView *view)
+stop_state_changed (EAddressbookModel *model, EMinicardView *view)
 {
 	set_empty_message (view);
 }
@@ -230,7 +230,7 @@ e_minicard_view_set_property (GObject *object,
 	case PROP_ADAPTER:
 		if (view->adapter) {
 			if (view->writable_status_id || view->stop_state_id) {
-				EABModel *model;
+				EAddressbookModel *model;
 				g_object_get (view->adapter,
 					      "model", &model,
 					      NULL);
@@ -253,7 +253,7 @@ e_minicard_view_set_property (GObject *object,
 			      "model", view->adapter,
 			      NULL);
 		if (view->adapter) {
-			EABModel *model;
+			EAddressbookModel *model;
 			g_object_get (view->adapter,
 				      "model", &model,
 				      NULL);
@@ -338,7 +338,7 @@ e_minicard_view_dispose (GObject *object)
 
 	if (view->adapter) {
 		if (view->writable_status_id || view->stop_state_id) {
-			EABModel *model;
+			EAddressbookModel *model;
 			g_object_get (view->adapter,
 				      "model", &model,
 				      NULL);

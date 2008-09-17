@@ -26,6 +26,7 @@
 #include <e-shell-content.h>
 #include <e-shell-module.h>
 #include <e-shell-sidebar.h>
+#include <e-shell-taskbar.h>
 #include <e-shell-window.h>
 #include <e-shell-window-actions.h>
 
@@ -38,14 +39,13 @@ struct _EShellViewPrivate {
 	gpointer shell_window;  /* weak pointer */
 
 	gchar *title;
+	gchar *view_id;
 	gint page_num;
 
 	GtkAction *action;
 	GtkWidget *shell_content;
 	GtkWidget *shell_sidebar;
 	GtkWidget *shell_taskbar;
-
-	GalViewInstance *view_instance;
 };
 
 enum {
@@ -57,7 +57,7 @@ enum {
 	PROP_SHELL_SIDEBAR,
 	PROP_SHELL_TASKBAR,
 	PROP_SHELL_WINDOW,
-	PROP_VIEW_INSTANCE
+	PROP_VIEW_ID
 };
 
 enum {
@@ -67,6 +67,42 @@ enum {
 
 static gpointer parent_class;
 static gulong signals[LAST_SIGNAL];
+
+static void
+shell_view_init_view_collection (EShellViewClass *shell_view_class)
+{
+	EShellModule *shell_module;
+	const gchar *base_dir;
+	const gchar *module_name;
+	gchar *system_dir;
+	gchar *local_dir;
+
+	shell_module = E_SHELL_MODULE (shell_view_class->type_module);
+	module_name = shell_view_class->type_module->name;
+
+	base_dir = EVOLUTION_GALVIEWSDIR;
+	system_dir = g_build_filename (base_dir, module_name, NULL);
+
+	base_dir = e_shell_module_get_data_dir (shell_module);
+	local_dir = g_build_filename (base_dir, "views", NULL);
+
+	/* The view collection is never destroyed. */
+	shell_view_class->view_collection = gal_view_collection_new ();
+
+	gal_view_collection_set_title (
+		shell_view_class->view_collection,
+		shell_view_class->label);
+
+	gal_view_collection_set_storage_directories (
+		shell_view_class->view_collection,
+		system_dir, local_dir);
+
+	g_free (system_dir);
+	g_free (local_dir);
+
+	/* This is all we can do.  It's up to the subclasses to
+	 * add the appropriate factories to the view collection. */
+}
 
 static void
 shell_view_set_action (EShellView *shell_view,
@@ -134,10 +170,10 @@ shell_view_set_property (GObject *object,
 				g_value_get_object (value));
 			return;
 
-		case PROP_VIEW_INSTANCE:
-			e_shell_view_set_view_instance (
+		case PROP_VIEW_ID:
+			e_shell_view_set_view_id (
 				E_SHELL_VIEW (object),
-				g_value_get_object (value));
+				g_value_get_string (value));
 			return;
 	}
 
@@ -193,9 +229,9 @@ shell_view_get_property (GObject *object,
 				E_SHELL_VIEW (object)));
 			return;
 
-		case PROP_VIEW_INSTANCE:
-			g_value_set_object (
-				value, e_shell_view_get_view_instance (
+		case PROP_VIEW_ID:
+			g_value_set_string (
+				value, e_shell_view_get_view_id (
 				E_SHELL_VIEW (object)));
 			return;
 	}
@@ -231,11 +267,6 @@ shell_view_dispose (GObject *object)
 		priv->shell_taskbar = NULL;
 	}
 
-	if (priv->view_instance != NULL) {
-		g_object_unref (priv->view_instance);
-		priv->view_instance = NULL;
-	}
-
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
@@ -248,6 +279,7 @@ shell_view_finalize (GObject *object)
 	priv = E_SHELL_VIEW_GET_PRIVATE (object);
 
 	g_free (priv->title);
+	g_free (priv->view_id);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -378,12 +410,12 @@ shell_view_class_init (EShellViewClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_VIEW_INSTANCE,
-		g_param_spec_object (
-			"view-instance",
-			_("GAL View Instance"),
-			_("The GAL view instance for the shell view"),
-			GAL_VIEW_INSTANCE_TYPE,
+		PROP_VIEW_ID,
+		g_param_spec_string (
+			"view-id",
+			_("Current View ID"),
+			_("The current view ID"),
+			NULL,
 			G_PARAM_READWRITE));
 
 	signals[CHANGED] = g_signal_new (
@@ -397,9 +429,13 @@ shell_view_class_init (EShellViewClass *class)
 }
 
 static void
-shell_view_init (EShellView *shell_view)
+shell_view_init (EShellView *shell_view,
+                 EShellViewClass *shell_view_class)
 {
 	shell_view->priv = E_SHELL_VIEW_GET_PRIVATE (shell_view);
+
+	if (shell_view_class->view_collection == NULL)
+		shell_view_init_view_collection (shell_view_class);
 }
 
 GType
@@ -468,38 +504,36 @@ e_shell_view_set_title (EShellView *shell_view,
 	if (title == NULL)
 		title = E_SHELL_VIEW_GET_CLASS (shell_view)->label;
 
+	if (g_strcmp0 (shell_view->priv->title, title) == 0)
+		return;
+
 	g_free (shell_view->priv->title);
 	shell_view->priv->title = g_strdup (title);
 
 	g_object_notify (G_OBJECT (shell_view), "title");
 }
 
-GalViewInstance *
-e_shell_view_get_view_instance (EShellView *shell_view)
+const gchar *
+e_shell_view_get_view_id (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	return shell_view->priv->view_instance;
+	return shell_view->priv->view_id;
 }
 
 void
-e_shell_view_set_view_instance (EShellView *shell_view,
-                                GalViewInstance *instance)
+e_shell_view_set_view_id (EShellView *shell_view,
+                          const gchar *view_id)
 {
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
-	if (instance != NULL)
-		g_return_if_fail (GAL_IS_VIEW_INSTANCE (instance));
+	if (g_strcmp0 (shell_view->priv->view_id, view_id) == 0)
+		return;
 
-	if (shell_view->priv->view_instance != NULL) {
-		g_object_unref (shell_view->priv->view_instance);
-		shell_view->priv->view_instance = NULL;
-	}		
+	g_free (shell_view->priv->view_id);
+	shell_view->priv->view_id = g_strdup (view_id);
 
-	if (instance != NULL)
-		shell_view->priv->view_instance = g_object_ref (instance);
-
-	g_object_notify (G_OBJECT (shell_view), "view-instance");
+	g_object_notify (G_OBJECT (shell_view), "view-id");
 }
 
 EShellWindow *
@@ -511,22 +545,15 @@ e_shell_view_get_shell_window (EShellView *shell_view)
 }
 
 gboolean
-e_shell_view_is_selected (EShellView *shell_view)
+e_shell_view_is_active (EShellView *shell_view)
 {
-	EShellViewClass *class;
-	EShellWindow *shell_window;
-	const gchar *curr_view_name;
-	const gchar *this_view_name;
+	GtkAction *action;
 
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
 
-	class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	this_view_name = e_shell_view_get_name (shell_view);
-	curr_view_name = e_shell_window_get_current_view (shell_window);
-	g_return_val_if_fail (curr_view_name != NULL, FALSE);
+	action = e_shell_view_get_action (shell_view);
 
-	return (strcmp (curr_view_name, this_view_name) == 0);
+	return gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
 }
 
 gint
@@ -537,28 +564,28 @@ e_shell_view_get_page_num (EShellView *shell_view)
 	return shell_view->priv->page_num;
 }
 
-EShellContent *
+gpointer
 e_shell_view_get_shell_content (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	return E_SHELL_CONTENT (shell_view->priv->shell_content);
+	return shell_view->priv->shell_content;
 }
 
-EShellSidebar *
+gpointer
 e_shell_view_get_shell_sidebar (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	return E_SHELL_SIDEBAR (shell_view->priv->shell_sidebar);
+	return shell_view->priv->shell_sidebar;
 }
 
-EShellTaskbar *
+gpointer
 e_shell_view_get_shell_taskbar (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	return E_SHELL_TASKBAR (shell_view->priv->shell_taskbar);
+	return shell_view->priv->shell_taskbar;
 }
 
 void

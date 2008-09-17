@@ -20,6 +20,9 @@
 
 #include "e-test-shell-view.h"
 
+#include <e-shell-content.h>
+#include <e-shell-sidebar.h>
+
 #define E_TEST_SHELL_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_TEST_SHELL_VIEW, ETestShellViewPrivate))
@@ -34,12 +37,12 @@ static gpointer parent_class;
 static void
 test_shell_view_changed (EShellView *shell_view)
 {
-	gboolean is_selected;
-	const gchar *selected;
+	gboolean is_active;
+	const gchar *active;
 
-	is_selected = e_shell_view_is_selected (shell_view);
-	selected = is_selected ? "selected" : "not selected";
-	g_debug ("%s (%s)", G_STRFUNC, selected);
+	is_active = e_shell_view_is_active (shell_view);
+	active = is_active ? "active" : "inactive";
+	g_debug ("%s (now %s)", G_STRFUNC, active);
 }
 
 static void
@@ -54,8 +57,8 @@ test_shell_view_constructed (GObject *object)
 	G_OBJECT_CLASS (parent_class)->constructed (object);
 
 	shell_view = E_SHELL_VIEW (object);
-	shell_content = e_shell_view_get_content (shell_view);
-	shell_sidebar = e_shell_view_get_sidebar (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 
 	widget = gtk_label_new ("Content Widget");
 	gtk_container_add (GTK_CONTAINER (shell_content), widget);

@@ -86,8 +86,8 @@ shell_content_entry_activated_cb (EShellContent *shell_content,
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	/* Verify the shell view is selected before proceeding. */
-	if (!e_shell_view_is_selected (shell_view))
+	/* Verify the shell view is active before proceeding. */
+	if (!e_shell_view_is_active (shell_view))
 		return;
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_EXECUTE (shell_window);
@@ -116,8 +116,8 @@ shell_content_entry_changed_cb (EShellContent *shell_content,
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	/* Verify the shell view is selected before proceeding. */
-	if (!e_shell_view_is_selected (shell_view))
+	/* Verify the shell view is active before proceeding. */
+	if (!e_shell_view_is_active (shell_view))
 		return;
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);

@@ -29,7 +29,7 @@
 
 enum {
 	PROP_0,
-	PROP_CURRENT_VIEW,
+	PROP_ACTIVE_VIEW,
 	PROP_SAFE_MODE,
 	PROP_SHELL
 };
@@ -94,6 +94,10 @@ shell_window_new_view (EShellWindow *shell_window,
 		shell_view, "notify::title",
 		G_CALLBACK (e_shell_window_update_title), shell_window);
 
+	g_signal_connect_swapped (
+		shell_view, "notify::view-id",
+		G_CALLBACK (e_shell_window_update_view_menu), shell_window);
+
 	return shell_view;
 }
 
@@ -142,8 +146,8 @@ shell_window_set_property (GObject *object,
 			   GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_CURRENT_VIEW:
-			e_shell_window_set_current_view (
+		case PROP_ACTIVE_VIEW:
+			e_shell_window_set_active_view (
 				E_SHELL_WINDOW (object),
 				g_value_get_string (value));
 			return;
@@ -171,9 +175,9 @@ shell_window_get_property (GObject *object,
 			   GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_CURRENT_VIEW:
+		case PROP_ACTIVE_VIEW:
 			g_value_set_string (
-				value, e_shell_window_get_current_view (
+				value, e_shell_window_get_active_view (
 				E_SHELL_WINDOW (object)));
 			return;
 
@@ -226,17 +230,17 @@ shell_window_class_init (EShellWindowClass *class)
 	object_class->finalize = shell_window_finalize;
 
 	/**
-	 * EShellWindow:current-view
+	 * EShellWindow:active-view
 	 *
-	 * Name of the currently active #EShellView.
+	 * Name of the active #EShellView.
 	 **/
 	g_object_class_install_property (
 		object_class,
-		PROP_CURRENT_VIEW,
+		PROP_ACTIVE_VIEW,
 		g_param_spec_string (
-			"current-view",
-			_("Current Shell View"),
-			_("Name of the currently active shell view"),
+			"active-view",
+			_("Active Shell View"),
+			_("Name of the active shell view"),
 			NULL,
 			G_PARAM_READWRITE));
 
@@ -352,8 +356,8 @@ e_shell_window_new (EShell *shell,
  * will also instantiate the #EShellView the first time it's requested.
  * To reduce resource consumption, Evolution tries to delay instantiating
  * shell views until the user switches to them.  So in general, only the
- * currently active view name, as returned by
- * e_shell_window_get_current_view(), should be requested.
+ * active view name, as returned by e_shell_window_get_active_view(),
+ * should be requested.
  *
  * Returns: the requested #EShellView, or %NULL if no such view is
  *          registered
@@ -546,65 +550,49 @@ e_shell_window_get_managed_widget (EShellWindow *shell_window,
 }
 
 /**
- * e_shell_window_get_current_view:
+ * e_shell_window_get_active_view:
  * @shell_window: an #EShellWindow
  *
- * Returns the name of the currently active #EShellView.
+ * Returns the name of the active #EShellView.
  *
- * Returns: the name of the current view
+ * Returns: the name of the active view
  **/
 const gchar *
-e_shell_window_get_current_view (EShellWindow *shell_window)
+e_shell_window_get_active_view (EShellWindow *shell_window)
 {
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
 
-	return shell_window->priv->current_view;
+	return shell_window->priv->active_view;
 }
 
 /**
- * e_shell_window_set_current_view:
+ * e_shell_window_set_active_view:
  * @shell_window: an #EShellWindow
- * @name_or_alias: the name of the shell view to switch to
+ * @view_name: the name of the shell view to switch to
  *
- * Switches @shell_window to the #EShellView named (or with an alias of)
- * @name_or_alias, causing the entire content of @shell_window to change.
- * This is typically called as a result of the user clicking one of the
- * switcher buttons.
- *
- * See #EShellModuleInfo for more information about shell view names and
- * aliases.
+ * Switches @shell_window to the #EShellView named @view_name, causing
+ * the entire content of @shell_window to change.  This is typically
+ * called as a result of the user clicking one of the switcher buttons.
  *
  * The name of the newly activated shell view is also written to GConf key
  * <filename>/apps/evolution/shell/view_defaults/component_id</filename>.
- * This makes the current shell view persistent across Evolution sessions.
+ * This makes the active shell view persistent across Evolution sessions.
  * It also causes new shell windows created within the current Evolution
  * session to open to the most recently selected shell view.
  **/
 void
-e_shell_window_set_current_view (EShellWindow *shell_window,
-                                 const gchar *name_or_alias)
+e_shell_window_set_active_view (EShellWindow *shell_window,
+                                const gchar *view_name)
 {
 	GtkAction *action;
 	EShellView *shell_view;
-	EShell *shell;
-	GList *list;
-	const gchar *view_name;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
-
-	view_name = name_or_alias;
-	shell = e_shell_window_get_shell (shell_window);
-	list = e_shell_list_modules (shell);
-
-	if (view_name != NULL)
-		view_name = e_shell_get_canonical_name (shell, view_name);
-
-	if (view_name == NULL && list != NULL)
-		view_name = G_TYPE_MODULE (list->data)->name;
-
 	g_return_if_fail (view_name != NULL);
 
 	shell_view = e_shell_window_get_view (shell_window, view_name);
+	g_return_if_fail (shell_view != NULL);
+
 	action = e_shell_view_get_action (shell_view);
 	gtk_action_activate (action);
 
@@ -613,7 +601,7 @@ e_shell_window_set_current_view (EShellWindow *shell_window,
 	 *     switch to the shell view whose corresponding radio action is
 	 *     already active.  Fortunately we can detect that and force
 	 *     the switch. */
-	if (shell_window->priv->current_view == NULL)
+	if (shell_window->priv->active_view == NULL)
 		e_shell_window_switch_to_view (shell_window, view_name);
 }
 

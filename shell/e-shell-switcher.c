@@ -20,6 +20,8 @@
 
 #include "e-shell-switcher.h"
 
+#include <glib/gi18n.h>
+
 #define E_SHELL_SWITCHER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL_SWITCHER, EShellSwitcherPrivate))

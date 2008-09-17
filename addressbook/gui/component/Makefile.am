@@ -35,6 +35,8 @@ libevolution_addressbook_la_SOURCES = 	\
 	addressbook.c			\
 	addressbook.h			\
 	e-book-shell-module.c		\
+	e-book-shell-sidebar.c		\
+	e-book-shell-sidebar.h		\
 	e-book-shell-view.c		\
 	e-book-shell-view.h		\
 	e-book-shell-view-actions.c	\

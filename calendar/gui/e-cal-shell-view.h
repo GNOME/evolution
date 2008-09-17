@@ -21,6 +21,7 @@
 #ifndef E_CAL_SHELL_VIEW_H
 #define E_CAL_SHELL_VIEW_H
 
+#include <gnome-cal.h>
 #include <e-shell-view.h>
 #include <libedataserver/e-source-list.h>
 
@@ -62,6 +63,8 @@ struct _ECalShellViewClass {
 
 GType		e_cal_shell_view_get_type
 					(GTypeModule *type_module);
+GnomeCalendar *	e_cal_shell_view_get_calendar
+					(ECalShellView *cal_shell_view);
 ESourceList *	e_cal_shell_view_get_source_list
 					(ECalShellView *cal_shell_view);
 

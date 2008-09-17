@@ -54,8 +54,8 @@ struct _EAddressbookReflowAdapterClass {
 
 GType         e_addressbook_reflow_adapter_get_type          (void);
 void          e_addressbook_reflow_adapter_construct         (EAddressbookReflowAdapter *adapter,
-							      EABModel         *model);
-EReflowModel *e_addressbook_reflow_adapter_new               (EABModel         *model);
+							      EAddressbookModel         *model);
+EReflowModel *e_addressbook_reflow_adapter_new               (EAddressbookModel         *model);
 
 /* Returns object with ref count of 1. */
 EContact     *e_addressbook_reflow_adapter_get_contact       (EAddressbookReflowAdapter *adapter,

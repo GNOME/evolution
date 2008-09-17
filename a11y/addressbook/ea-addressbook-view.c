@@ -28,7 +28,7 @@
 static G_CONST_RETURN gchar* ea_ab_view_get_name (AtkObject *accessible);
 static G_CONST_RETURN gchar* ea_ab_view_get_description (AtkObject *accessible);
 
-static void ea_ab_view_class_init (EABViewClass *klass);
+static void ea_ab_view_class_init (EAddressbookViewClass *class);
 
 static gpointer parent_class = NULL;
 
@@ -42,13 +42,13 @@ ea_ab_view_get_type (void)
 
 	if (!type) {
 		static  GTypeInfo tinfo =  {
-			sizeof (EABViewClass),
+			sizeof (EAddressbookViewClass),
 			(GBaseInitFunc) NULL,  /* base_init */
 			(GBaseFinalizeFunc) NULL,  /* base_finalize */
 			(GClassInitFunc) ea_ab_view_class_init,
 			(GClassFinalizeFunc) NULL, /* class_finalize */
 			NULL,	/* class_data */
-			sizeof (EaABView),
+			sizeof (EAddressbookView),
 			0,	/* n_preallocs */
 			(GInstanceInitFunc) NULL, /* instance init */
 			NULL	/* value table */
@@ -74,14 +74,15 @@ ea_ab_view_get_type (void)
 }
 
 static void
-ea_ab_view_class_init (EABViewClass *klass)
+ea_ab_view_class_init (EAddressbookViewClass *class)
 {
-	AtkObjectClass *class = ATK_OBJECT_CLASS (klass);
+	AtkObjectClass *atk_object_class;
 
-	parent_class = g_type_class_peek_parent (klass);
+	parent_class = g_type_class_peek_parent (class);
 
-	class->get_name = ea_ab_view_get_name;
-	class->get_description = ea_ab_view_get_description;
+	atk_object_class = ATK_OBJECT_CLASS (class);
+	atk_object_class->get_name = ea_ab_view_get_name;
+	atk_object_class->get_description = ea_ab_view_get_description;
 }
 
 static G_CONST_RETURN gchar*

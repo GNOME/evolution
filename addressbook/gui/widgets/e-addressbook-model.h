@@ -18,84 +18,97 @@
  *
  */
 
-#ifndef _EAB_MODEL_H_
-#define _EAB_MODEL_H_
+#ifndef E_ADDRESSBOOK_MODEL_H
+#define E_ADDRESSBOOK_MODEL_H
 
-#include <glib.h>
-#include <glib-object.h>
 #include <libebook/e-book.h>
+#include <libebook/e-book-query.h>
 #include <libebook/e-book-view.h>
 
-#define EAB_TYPE_MODEL                  (eab_model_get_type ())
-#define EAB_MODEL(o)                    (G_TYPE_CHECK_INSTANCE_CAST ((o), EAB_TYPE_MODEL, EABModel))
-#define EAB_MODEL_CLASS(k)              (G_TYPE_CHECK_CLASS_CAST((k), EAB_TYPE_MODEL, EABModelClass))
-#define E_IS_ADDRESSBOOK_MODEL(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), EAB_TYPE_MODEL))
-#define E_IS_ADDRESSBOOK_MODEL_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), EAB_TYPE_MODEL))
+/* Standard GObject macros */
+#define E_TYPE_ADDRESSBOOK_MODEL \
+	(e_addressbook_model_get_type ())
+#define E_ADDRESSBOOK_MODEL(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_ADDRESSBOOK_MODEL, EAddressbookModel))
+#define E_ADDRESSBOOK_MODEL_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_ADDRESSBOOK_MODEL, EAddressbookModelClass))
+#define E_IS_ADDRESSBOOK_MODEL(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_ADDRESSBOOK_MODEL))
+#define E_IS_ADDRESSBOOK_MODEL_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_ADDRESSBOOK_MODEL))
+#define E_ADDRESSBOOK_MODEL_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_ADDRESSBOOK_MODEL))
 
-typedef struct _EABModel EABModel;
-typedef struct _EABModelClass EABModelClass;
+G_BEGIN_DECLS
 
-struct _EABModel {
+typedef struct _EAddressbookModel EAddressbookModel;
+typedef struct _EAddressbookModelClass EAddressbookModelClass;
+typedef struct _EAddressbookModelPrivate EAddressbookModelPrivate;
+
+struct _EAddressbookModel {
 	GObject parent;
-
-	/* item specific fields */
-	EBook *book;
-	EBookQuery *query;
-	EBookView *book_view;
-
-	int book_view_idle_id;
-
-	EContact **data;
-	int data_count;
-	int allocated_count;
-
-	int create_contact_id, remove_contact_id, modify_contact_id;
-	int status_message_id, writable_status_id, sequence_complete_id;
-	int backend_died_id;
-
-	guint search_in_progress : 1;
-	guint editable : 1;
-	guint editable_set : 1;
-	guint first_get_view : 1;
+	EAddressbookModelPrivate *priv;
 };
 
 
-struct _EABModelClass {
+struct _EAddressbookModelClass {
 	GObjectClass parent_class;
 
-	/*
-	 * Signals
-	 */
-	void (*writable_status)    (EABModel *model, gboolean writable);
-	void (*search_started)     (EABModel *model);
-	void (*search_result)      (EABModel *model, EBookViewStatus status);
-	void (*status_message)     (EABModel *model, const gchar *message);
-	void (*folder_bar_message) (EABModel *model, const gchar *message);
-	void (*contact_added)      (EABModel *model, gint index, gint count);
-	void (*contacts_removed)    (EABModel *model, gpointer id_list);
-	void (*contact_changed)    (EABModel *model, gint index);
-	void (*model_changed)      (EABModel *model);
-	void (*stop_state_changed) (EABModel *model);
-	void (*backend_died)       (EABModel *model);
+	/* Signals */
+	void		(*writable_status)	(EAddressbookModel *model,
+						 gboolean writable);
+	void		(*search_started)	(EAddressbookModel *model);
+	void		(*search_result)	(EAddressbookModel *model,
+						 EBookViewStatus status);
+	void		(*status_message)	(EAddressbookModel *model,
+						 const gchar *message);
+	void		(*folder_bar_message)	(EAddressbookModel *model,
+						 const gchar *message);
+	void		(*contact_added)	(EAddressbookModel *model,
+						 gint index,
+						 gint count);
+	void		(*contacts_removed)	(EAddressbookModel *model,
+						 gpointer id_list);
+	void		(*contact_changed)	(EAddressbookModel *model,
+						 gint index);
+	void		(*model_changed)	(EAddressbookModel *model);
+	void		(*stop_state_changed)	(EAddressbookModel *model);
+	void		(*backend_died)		(EAddressbookModel *model);
 };
 
-
-GType              eab_model_get_type                  (void);
-EABModel          *eab_model_new                       (void);
+GType		e_addressbook_model_get_type	(void);
+EAddressbookModel *
+		e_addressbook_model_new		(void);
 
 /* Returns object with ref count of 1. */
-EContact          *eab_model_get_contact               (EABModel *model,
-							int                row);
-EBook             *eab_model_get_ebook                 (EABModel *model);
+EContact *	e_addressbook_model_get_contact	(EAddressbookModel *model,
+						 gint row);
 
-void               eab_model_stop                      (EABModel *model);
-gboolean           eab_model_can_stop                  (EABModel *model);
+void		e_addressbook_model_stop	(EAddressbookModel *model);
+gboolean	e_addressbook_model_can_stop	(EAddressbookModel *model);
 
-void               eab_model_force_folder_bar_message  (EABModel *model);
+void		e_addressbook_model_force_folder_bar_message
+						(EAddressbookModel *model);
 
-int                eab_model_contact_count             (EABModel *model);
-const EContact    *eab_model_contact_at                (EABModel *model,
-							int                index);
-gboolean           eab_model_editable                  (EABModel *model);
+gint		e_addressbook_model_contact_count
+						(EAddressbookModel *model);
+EContact *	e_addressbook_model_contact_at	(EAddressbookModel *model,
+						 gint index);
+EBook *		e_addressbook_model_get_book	(EAddressbookModel *model);
+void		e_addressbook_model_set_book	(EAddressbookModel *model,
+						 EBook *book);
+gboolean	e_addressbook_model_get_editable(EAddressbookModel *model);
+void		e_addressbook_model_set_editable(EAddressbookModel *model,
+						 gboolean editable);
+gchar *		e_addressbook_model_get_query	(EAddressbookModel *model);
+void		e_addressbook_model_set_query	(EAddressbookModel *model,
+						 const gchar *query);
 
-#endif /* _EAB_MODEL_H_ */
+G_END_DECLS
+
+#endif /* E_ADDRESSBOOK_MODEL_H */

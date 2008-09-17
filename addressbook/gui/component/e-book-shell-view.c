@@ -28,83 +28,14 @@ enum {
 GType e_book_shell_view_type = 0;
 static gpointer parent_class;
 
-static ESource *
-book_shell_view_load_primary_source (EBookShellView *book_shell_view)
-{
-	GConfClient *client;
-	ESourceList *source_list;
-	ESource *source = NULL;
-	const gchar *key;
-	gchar *uid;
-
-	/* XXX If ESourceSelector had a "primary-uid" property,
-	 *     we could just bind the GConf key to it. */
-
-	source_list = book_shell_view->priv->source_list;
-
-	client = gconf_client_get_default ();
-	key = "/apps/evolution/addressbook/display/primary_addressbook";
-	uid = gconf_client_get_string (client, key, NULL);
-	g_object_unref (client);
-
-	if (uid != NULL) {
-		source = e_source_list_peek_source_by_uid (source_list, uid);
-		g_free (uid);
-	} else {
-		GSList *groups;
-
-		/* Dig up the first source in the source list.
-		 * XXX libedataserver should provide API for this. */
-		groups = e_source_list_peek_groups (source_list);
-		while (groups != NULL) {
-			ESourceGroup *source_group = groups->data;
-			GSList *sources;
-
-			sources = e_source_group_peek_sources (source_group);
-			if (sources != NULL) {
-				source = sources->data;
-				break;
-			}
-
-			groups = g_slist_next (groups);
-		}
-	}
-
-	return source;
-}
-
-static void
-book_shell_view_save_primary_source (EBookShellView *book_shell_view)
-{
-	GConfClient *client;
-	ESourceSelector *selector;
-	ESource *source;
-	const gchar *key;
-	const gchar *string;
-
-	/* XXX If ESourceSelector had a "primary-uid" property,
-	 *     we could just bind the GConf key to it. */
-
-	selector = E_SOURCE_SELECTOR (book_shell_view->priv->selector);
-	source = e_source_selector_peek_primary_selection (selector);
-	if (source == NULL)
-		return;
-
-	client = gconf_client_get_default ();
-	key = "/apps/evolution/addressbook/display/primary_addressbook";
-	string = e_source_peek_uid (source);
-	gconf_client_set_string (client, key, string, NULL);
-	g_object_unref (client);
-}
-
 static void
 book_shell_view_source_list_changed_cb (EBookShellView *book_shell_view,
                                         ESourceList *source_list)
 {
 	EBookShellViewPrivate *priv = book_shell_view->priv;
+	EAddressbookView *view;
 	GtkNotebook *notebook;
 	GList *keys, *iter;
-	EABView *view;
 
 	notebook = GTK_NOTEBOOK (priv->notebook);
 
@@ -175,7 +106,10 @@ book_shell_view_get_property (GObject *object,
 static void
 book_shell_view_dispose (GObject *object)
 {
-	e_book_shell_view_private_dispose (E_BOOK_SHELL_VIEW (object));
+	EBookShellView *book_shell_view;
+
+	book_shell_view = E_BOOK_SHELL_VIEW (object);
+	e_book_shell_view_private_dispose (book_shell_view);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
@@ -184,7 +118,10 @@ book_shell_view_dispose (GObject *object)
 static void
 book_shell_view_finalize (GObject *object)
 {
-	e_book_shell_view_private_finalize (E_BOOK_SHELL_VIEW (object));
+	EBookShellView *book_shell_view;
+
+	book_shell_view = E_BOOK_SHELL_VIEW (object);
+	e_book_shell_view_private_finalize (book_shell_view);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -194,24 +131,12 @@ static void
 book_shell_view_constructed (GObject *object)
 {
 	EBookShellView *book_shell_view;
-	ESourceSelector *selector;
-	ESource *source;
-
-	book_shell_view = E_BOOK_SHELL_VIEW (object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
 
+	book_shell_view = E_BOOK_SHELL_VIEW (object);
 	e_book_shell_view_private_constructed (book_shell_view);
-
-	selector = E_SOURCE_SELECTOR (book_shell_view->priv->selector);
-	source = book_shell_view_load_primary_source (book_shell_view);
-	if (source != NULL)
-		e_source_selector_set_primary_selection (selector, source);
-	g_signal_connect_swapped (
-		selector, "primary-selection-changed",
-		G_CALLBACK (book_shell_view_save_primary_source),
-		book_shell_view);
 }
 
 static void
@@ -224,7 +149,7 @@ book_shell_view_changed (EShellView *shell_view)
 	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (shell_view);
 
 	action_group = priv->contact_actions;
-	visible = e_shell_view_is_selected (shell_view);
+	visible = e_shell_view_is_active (shell_view);
 	gtk_action_group_set_visible (action_group, visible);
 }
 
@@ -249,6 +174,7 @@ book_shell_view_class_init (EBookShellViewClass *class,
 	shell_view_class->icon_name = "x-office-address-book";
 	shell_view_class->type_module = type_module;
 	shell_view_class->changed = book_shell_view_changed;
+	shell_view_class->new_shell_sidebar = e_book_shell_sidebar_new;
 
 	g_object_class_install_property (
 		object_class,

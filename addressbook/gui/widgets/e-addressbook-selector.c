@@ -27,6 +27,9 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ADDRESSBOOK_SELECTOR, EAddressbookSelectorPrivate))
 
+#define PRIMARY_ADDRESSBOOK_KEY \
+	"/apps/evolution/addressbook/display/primary_addressbook"
+
 typedef struct _MergeContext MergeContext;
 
 struct _EAddressbookSelectorPrivate {
@@ -140,6 +143,52 @@ addressbook_selector_merge_next_cb (EBook *book,
 
 	} else if (merge_context->pending_removals == 0)
 		merge_context_free (merge_context);
+}
+
+static void
+addressbook_selector_load_primary_source (ESourceSelector *selector)
+{
+	GConfClient *client;
+	ESourceList *source_list;
+	ESource *source = NULL;
+	const gchar *key;
+	gchar *uid;
+
+	/* XXX If ESourceSelector had a "primary-uid" property,
+	 *     we could just bind the GConf key to it. */
+
+	source_list = e_source_selector_get_source_list (selector);
+
+	client = gconf_client_get_default ();
+	key = PRIMARY_ADDRESSBOOK_KEY;
+	uid = gconf_client_get_string (client, key, NULL);
+	g_object_unref (client);
+
+	if (uid != NULL) {
+		source = e_source_list_peek_source_by_uid (source_list, uid);
+		g_free (uid);
+	} else {
+		GSList *groups;
+
+		/* Dig up the first source in the source list.
+		 * XXX libedataserver should provide API for this. */
+		groups = e_source_list_peek_groups (source_list);
+		while (groups != NULL) {
+			ESourceGroup *source_group = groups->data;
+			GSList *sources;
+
+			sources = e_source_group_peek_sources (source_group);
+			if (sources != NULL) {
+				source = sources->data;
+				break;
+			}
+
+			groups = g_slist_next (groups);
+		}
+	}
+
+	if (source != NULL)
+		e_source_selector_set_primary_selection (selector, source);
 }
 
 static void
@@ -327,18 +376,58 @@ exit:
 }
 
 static void
+addressbook_selector_primary_selection_changed (ESourceSelector *selector)
+{
+	ESource *source;
+	GConfClient *client;
+	const gchar *key;
+	const gchar *string;
+
+	/* XXX If ESourceSelector had a "primary-uid" property,
+	 *     we could just bind the GConf key to it. */
+
+	source = e_source_selector_peek_primary_selection (selector);
+	if (source == NULL)
+		return;
+
+	client = gconf_client_get_default ();
+	key = PRIMARY_ADDRESSBOOK_KEY;
+	string = e_source_peek_uid (source);
+	gconf_client_set_string (client, key, string, NULL);
+	g_object_unref (client);
+}
+
+static void
+addressbook_selector_constructed (GObject *object)
+{
+	ESourceSelector *selector;
+
+	selector = E_SOURCE_SELECTOR (object);
+	addressbook_selector_load_primary_source (selector);
+}
+
+static void
 addressbook_selector_class_init (EAddressbookSelectorClass *class)
 {
+	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
+	ESourceSelectorClass *selector_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EAddressbookSelectorPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->constructed = addressbook_selector_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->drag_leave = addressbook_selector_drag_leave;
 	widget_class->drag_motion = addressbook_selector_drag_motion;
 	widget_class->drag_drop = addressbook_selector_drag_drop;
 	widget_class->drag_data_received = addressbook_selector_drag_data_received;
+
+	selector_class = E_SOURCE_SELECTOR_CLASS (class);
+	selector_class->primary_selection_changed =
+		addressbook_selector_primary_selection_changed;
 }
 
 static void
