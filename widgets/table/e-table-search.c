@@ -129,7 +129,7 @@ e_table_search_class_init (ETableSearchClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableSearchClass, search),
 			      (GSignalAccumulator) NULL, NULL,
-			      e_util_marshal_BOOLEAN__STRING_INT,
+			      e_marshal_BOOLEAN__STRING_INT,
 			      G_TYPE_BOOLEAN, 2, G_TYPE_STRING, G_TYPE_INT);
 
 	e_table_search_signals [SEARCH_ACCEPT] =

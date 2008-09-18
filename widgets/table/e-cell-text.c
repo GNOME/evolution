@@ -1785,7 +1785,7 @@ e_cell_text_class_init (ECellTextClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (ECellTextClass, text_inserted),
 			      NULL, NULL,
-			      e_util_marshal_VOID__POINTER_INT_INT_INT_INT,
+			      e_marshal_VOID__POINTER_INT_INT_INT_INT,
 			      G_TYPE_NONE, 5,
 			      G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT,
 			      G_TYPE_INT, G_TYPE_INT);
@@ -1796,7 +1796,7 @@ e_cell_text_class_init (ECellTextClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (ECellTextClass, text_deleted),
 			      NULL, NULL,
-			      e_util_marshal_VOID__POINTER_INT_INT_INT_INT,
+			      e_marshal_VOID__POINTER_INT_INT_INT_INT,
 			      G_TYPE_NONE, 5,
 			      G_TYPE_POINTER, G_TYPE_INT, G_TYPE_INT,
 			      G_TYPE_INT, G_TYPE_INT);

@@ -3127,7 +3127,7 @@ eti_class_init (ETableItemClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableItemClass, double_click),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT_INT_BOXED,
+			      e_marshal_NONE__INT_INT_BOXED,
 			      G_TYPE_NONE, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -3137,7 +3137,7 @@ eti_class_init (ETableItemClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableItemClass, start_drag),
 			      NULL, NULL,
-			      e_util_marshal_INT__INT_INT_BOXED,
+			      e_marshal_INT__INT_INT_BOXED,
 			      G_TYPE_INT, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -3147,7 +3147,7 @@ eti_class_init (ETableItemClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableItemClass, right_click),
 			      NULL, NULL,
-			      e_util_marshal_INT__INT_INT_BOXED,
+			      e_marshal_INT__INT_INT_BOXED,
 			      G_TYPE_INT, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -3157,7 +3157,7 @@ eti_class_init (ETableItemClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableItemClass, click),
 			      NULL, NULL,
-			      e_util_marshal_INT__INT_INT_BOXED,
+			      e_marshal_INT__INT_INT_BOXED,
 			      G_TYPE_INT, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -3167,7 +3167,7 @@ eti_class_init (ETableItemClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableItemClass, key_press),
 			      NULL, NULL,
-			      e_util_marshal_INT__INT_INT_BOXED,
+			      e_marshal_INT__INT_INT_BOXED,
 			      G_TYPE_INT, 3, G_TYPE_INT,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 

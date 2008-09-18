@@ -57,6 +57,7 @@ eutilinclude_HEADERS = 				\
 	e-icon-factory.h			\
 	e-import.h				\
 	e-logger.h				\
+	e-marshal.h				\
 	e-menu.h				\
 	e-mktemp.h				\
 	e-print.h				\
@@ -75,16 +76,14 @@ eutilinclude_HEADERS = 				\
 	e-text-event-processor.h		\
 	e-util.h				\
 	e-util-labels.h				\
-	e-util-marshal.h			\
 	e-xml-utils.h
 
 libeutil_la_SOURCES =				\
 	$(eutilinclude_HEADERS)			\
-	e-util-marshal.c			\
 	e-bconf-map.c				\
 	e-categories-config.c			\
-	e-config.c				\
 	e-config-listener.c			\
+	e-config.c				\
 	e-corba-utils.c				\
 	e-cursor.c				\
 	e-dialog-utils.c			\
@@ -98,10 +97,11 @@ libeutil_la_SOURCES =				\
 	e-icon-factory.c			\
 	e-import.c				\
 	e-logger.c				\
+	e-marshal.c				\
 	e-menu.c				\
 	e-mktemp.c				\
-	e-plugin.c				\
 	e-plugin-ui.c				\
+	e-plugin.c				\
 	e-popup.c				\
 	e-print.c				\
 	e-profile-event.c			\
@@ -121,7 +121,7 @@ libeutil_la_SOURCES =				\
 	gconf-bridge.h				\
 	$(PLATFORM_SOURCES)
 
-MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
+MARSHAL_GENERATED = e-marshal.c e-marshal.h
 @EVO_MARSHAL_RULE@
 
 libeutil_la_LDFLAGS = $(NO_UNDEFINED)
@@ -162,7 +162,7 @@ EXTRA_DIST =				\
 	e-system.error.xml		\
 	$(pilot_sources)		\
 	ChangeLog.pre-1-4		\
-	e-util-marshal.list
+	e-marshal.list
 
 BUILT_SOURCES = $(MARSHAL_GENERATED) $(error_DATA)
 CLEANFILES    = $(BUILT_SOURCES)

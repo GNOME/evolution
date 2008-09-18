@@ -87,6 +87,7 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/e-util/.libs/e-icon-factory.o			\
 	$(top_builddir)/e-util/.libs/e-import.o				\
 	$(top_builddir)/e-util/.libs/e-logger.o				\
+	$(top_builddir)/e-util/.libs/e-marshal.o			\
 	$(top_builddir)/e-util/.libs/e-mktemp.o				\
 	$(top_builddir)/e-util/.libs/e-plugin.o				\
 	$(top_builddir)/e-util/.libs/e-plugin-ui.o			\

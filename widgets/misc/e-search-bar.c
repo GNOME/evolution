@@ -33,7 +33,6 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <e-util/e-util.h>
-#include <e-util/e-util-marshal.h>
 
 #include <e-action-combo-box.h>
 #include <e-gui-utils.h>

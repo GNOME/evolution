@@ -18,7 +18,6 @@ privsolib_LTLIBRARIES =				\
 	libecontacteditor.la
 
 libecontacteditor_la_SOURCES = 			\
-	$(MARSHAL_GENERATED)			\
 	eab-editor.c				\
 	eab-editor.h				\
 	e-contact-editor-im.c			\
@@ -40,17 +39,12 @@ libecontacteditor_la_LIBADD =				\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
-MARSHAL_GENERATED = e-contact-editor-marshal.c e-contact-editor-marshal.h
-@EVO_MARSHAL_RULE@
-
 glade_DATA = 				\
 	im.glade			\
 	contact-editor.glade		\
 	fulladdr.glade			\
 	fullname.glade
 
-BUILT_SOURCES = $(MARSHAL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
 
-EXTRA_DIST=	$(glade_DATA)		\
-		e-contact-editor-marshal.list
+EXTRA_DIST=	$(glade_DATA)

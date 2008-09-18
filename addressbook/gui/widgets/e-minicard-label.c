@@ -22,7 +22,6 @@
 #include <config.h>
 
 #include "e-minicard-label.h"
-#include "eab-marshal.h"
 
 #include <gtk/gtksignal.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>

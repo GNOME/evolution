@@ -10,8 +10,8 @@
 #include <config.h>
 #include <string.h>
 #include <glib/gi18n.h>
-#include "eab-marshal.h"
 #include "e-addressbook-model.h"
+#include <e-util/e-util.h>
 #include <misc/e-gui-utils.h>
 #include "eab-gui-util.h"
 
@@ -576,7 +576,7 @@ addressbook_model_class_init (EAddressbookModelClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EAddressbookModelClass, contact_added),
 			      NULL, NULL,
-			      eab_marshal_NONE__INT_INT,
+			      e_marshal_NONE__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
 	signals[CONTACTS_REMOVED] =

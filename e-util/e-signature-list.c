@@ -29,8 +29,6 @@
 
 #include <libedataserver/e-uid.h>
 
-#include "e-util-marshal.h"
-
 #include "e-signature-list.h"
 
 struct _ESignatureListPrivate {

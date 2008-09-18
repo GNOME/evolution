@@ -24,17 +24,14 @@ noinst_LTLIBRARIES =				\
 eabincludedir = $(privincludedir)/addressbook/gui/widgets
 
 eabinclude_HEADERS = 			\
-	eab-config.h			\
-	eab-menu.h
+	eab-config.h
 
 libeabwidgets_la_SOURCES =			\
-	$(MARSHAL_GENERATED)			\
 	eab-config.c				\
 	eab-contact-display.c			\
 	eab-contact-display.h			\
 	eab-gui-util.c				\
 	eab-gui-util.h				\
-	eab-menu.c				\
 	eab-vcard-control.c			\
 	eab-vcard-control.h			\
 	e-minicard.c				\
@@ -63,10 +60,6 @@ libeabwidgets_la_SOURCES =			\
 libeabwidgets_la_LIBADD =					\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la
 
-MARSHAL_GENERATED = eab-marshal.c eab-marshal.h
-@EVO_MARSHAL_RULE@
-
-BUILT_SOURCES = $(MARSHAL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:
@@ -76,5 +69,4 @@ etspec_DATA= e-addressbook-view.etspec
 
 EXTRA_DIST = 			\
 	$(etspec_DATA)		\
-	$(rule_DATA)		\
-	eab-marshal.list
+	$(rule_DATA)

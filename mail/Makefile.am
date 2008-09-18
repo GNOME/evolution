@@ -92,7 +92,6 @@ mailinclude_HEADERS =				\
 
 libevolution_mail_la_SOURCES =			\
 	$(MAIL_IDL_GENERATED)			\
-	$(MARSHAL_GENERATED)			\
 	$(mailinclude_HEADERS)			\
 	e-searching-tokenizer.c			\
 	e-searching-tokenizer.h			\
@@ -241,15 +240,12 @@ em-filter-i18n.h: filtertypes.xml vfoldertypes.xml searchtypes.xml
 		sort -u >> $@
 
 glade_DATA = mail-config.glade mail-dialogs.glade
-MARSHAL_GENERATED = em-marshal.c em-marshal.h
-@EVO_MARSHAL_RULE@
 
 etspec_DATA = message-list.etspec
 
 EXTRA_DIST = 				\
 	ChangeLog.pre-1-4		\
 	README.async			\
-	em-marshal.list			\
 	$(MAIL_IDL)			\
 	mail.error.xml			\
 	$(glade_DATA)			\
@@ -306,7 +302,7 @@ endif
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-BUILT_SOURCES = $(MAIL_IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(error_DATA)
+BUILT_SOURCES = $(MAIL_IDL_GENERATED) $(server_DATA) $(error_DATA)
 
 CLEANFILES = $(BUILT_SOURCES)
 

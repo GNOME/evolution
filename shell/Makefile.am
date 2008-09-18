@@ -73,7 +73,6 @@ eshellinclude_HEADERS = 			\
 
 libeshell_la_SOURCES =				\
 	$(IDL_GENERATED)			\
-	$(MARSHAL_GENERATED)			\
 	e-activity-handler.c			\
 	e-shell-content.c			\
 	e-shell-module.c			\
@@ -179,11 +178,6 @@ uninstall-local: uninstall-evolution
 
 endif
 
-MARSHAL_GENERATED =				\
-	e-shell-marshal.c			\
-	e-shell-marshal.h
-@EVO_MARSHAL_RULE@
-
 # Extra dist stuff
 
 EXTRA_DIST = 					\
@@ -191,7 +185,6 @@ EXTRA_DIST = 					\
 	$(glade_DATA)				\
 	$(schema_in_files)			\
 	ChangeLog.pre-1-4			\
-	e-shell-marshal.list			\
 	evolution-nognome.in
 
 # Purify support
@@ -208,7 +201,7 @@ evolution.pure: evolution
 
 endif
 
-BUILT_SOURCES = $(MARSHAL_GENERATED) $(server_DATA) $(DATASERVER_IDL_GENERATED) $(error_DATA)
+BUILT_SOURCES = $(server_DATA) $(DATASERVER_IDL_GENERATED) $(error_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
 DISTCLEANFILES = $(schema_DATA)

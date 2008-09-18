@@ -16,7 +16,6 @@ INCLUDES =						\
 privsolib_LTLIBRARIES = libessmime.la
 
 libessmime_la_SOURCES = 	\
-	$(MARSHAL_GENERATED)	\
 	e-asn1-object.c		\
 	e-asn1-object.h		\
 	e-cert.c		\
@@ -34,10 +33,4 @@ libessmime_la_LIBADD =				\
 
 libessmime_la_LDFLAGS = $(NO_UNDEFINED)
 
-MARSHAL_GENERATED = smime-marshal.c smime-marshal.h
-@EVO_MARSHAL_RULE@
-
-BUILT_SOURCES = $(MARSHAL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
-
-EXTRA_DIST = smime-marshal.list

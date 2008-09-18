@@ -51,9 +51,6 @@
 
 G_BEGIN_DECLS
 
-struct _EABMenu;
-struct _EABMenuTargetSelect;
-
 typedef enum {
 	E_ADDRESSBOOK_VIEW_NONE, /* initialized to this */
 	E_ADDRESSBOOK_VIEW_MINICARD,

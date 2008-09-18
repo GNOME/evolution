@@ -304,7 +304,7 @@ e_table_header_class_init (ETableHeaderClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableHeaderClass, request_width),
 			      (GSignalAccumulator) NULL, NULL,
-			      e_util_marshal_INT__INT,
+			      e_marshal_INT__INT,
 			      G_TYPE_INT, 1, G_TYPE_INT);
 
 	klass->structure_change = NULL;

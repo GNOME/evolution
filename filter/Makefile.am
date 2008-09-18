@@ -28,8 +28,6 @@ libfilter_la_SOURCES =				\
 	filter-int.h				\
 	filter-label.c				\
 	filter-label.h				\
-	filter-marshal.c			\
-	filter-marshal.h			\
 	filter-option.c				\
 	filter-option.h				\
 	filter-part.c				\
@@ -51,16 +49,12 @@ libfilter_la_LIBADD = 				\
 EXTRA_DIST =					\
 	$(glade_DATA)				\
 	filter.error.xml			\
-	ChangeLog.pre-1-4			\
-	filter-marshal.list
+	ChangeLog.pre-1-4
 
 # basic rules.
 error_DATA = filter.error
 errordir = $(privdatadir)/errors
 @EVO_PLUGIN_RULE@
 
-MARSHAL_GENERATED = filter-marshal.c filter-marshal.h
-@EVO_MARSHAL_RULE@
-
-BUILT_SOURCES = $(MARSHAL_GENERATED) $(error_DATA)
+BUILT_SOURCES = $(error_DATA)
 CLEANFILES = $(BUILT_SOURCES)

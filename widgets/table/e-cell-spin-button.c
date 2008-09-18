@@ -149,7 +149,7 @@ e_cell_spin_button_class_init     (ECellSpinButtonClass   *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECellSpinButtonClass, step),
 			      NULL, NULL,
-			      e_util_marshal_NONE__POINTER_INT_INT_INT,
+			      e_marshal_NONE__POINTER_INT_INT_INT,
 			      G_TYPE_NONE,
 			      4, G_TYPE_POINTER, G_TYPE_INT,
 			      G_TYPE_INT, G_TYPE_INT);

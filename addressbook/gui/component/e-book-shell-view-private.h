@@ -36,7 +36,6 @@
 #include <shell/e-shell-sidebar.h>
 #include <shell/e-activity-handler.h>
 
-#include <eab-menu.h>
 #include <eab-gui-util.h>
 #include <e-addressbook-view.h>
 #include <e-book-shell-sidebar.h>
@@ -103,8 +102,6 @@ struct _EBookShellViewPrivate {
 	EBook *book;
 	guint activity_id;
 	gchar *password;
-
-	EABMenu *menu;
 };
 
 void		e_book_shell_view_private_init

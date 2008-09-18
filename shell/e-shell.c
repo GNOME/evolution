@@ -24,7 +24,6 @@
 #include <e-preferences-window.h>
 #include <e-util/e-util.h>
 
-#include <e-shell-marshal.h>
 #include <e-shell-module.h>
 #include <e-shell-window.h>
 
@@ -333,7 +332,7 @@ shell_class_init (EShellClass *class)
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
 		0, g_signal_accumulator_true_handled, NULL,
-		e_shell_marshal_BOOLEAN__STRING,
+		e_marshal_BOOLEAN__STRING,
 		G_TYPE_BOOLEAN, 1,
 		G_TYPE_STRING);
 

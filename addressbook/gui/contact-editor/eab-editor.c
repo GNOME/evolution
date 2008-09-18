@@ -26,8 +26,8 @@
 #include <glib/gi18n.h>
 
 #include "eab-editor.h"
+#include "e-util/e-util.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
-#include "e-contact-editor-marshal.h"
 
 static void eab_editor_default_show  (EABEditor *editor);
 static void eab_editor_default_raise (EABEditor *editor);
@@ -140,7 +140,7 @@ eab_editor_class_init (EABEditorClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EABEditorClass, contact_added),
 			      NULL, NULL,
-			      e_contact_editor_marshal_NONE__INT_OBJECT,
+			      e_marshal_NONE__INT_OBJECT,
 			      G_TYPE_NONE, 2,
 			      G_TYPE_INT, G_TYPE_OBJECT);
 
@@ -150,7 +150,7 @@ eab_editor_class_init (EABEditorClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EABEditorClass, contact_modified),
 			      NULL, NULL,
-			      e_contact_editor_marshal_NONE__INT_OBJECT,
+			      e_marshal_NONE__INT_OBJECT,
 			      G_TYPE_NONE, 2,
 			      G_TYPE_INT, G_TYPE_OBJECT);
 
@@ -160,7 +160,7 @@ eab_editor_class_init (EABEditorClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EABEditorClass, contact_deleted),
 			      NULL, NULL,
-			      e_contact_editor_marshal_NONE__INT_OBJECT,
+			      e_marshal_NONE__INT_OBJECT,
 			      G_TYPE_NONE, 2,
 			      G_TYPE_INT, G_TYPE_OBJECT);
 

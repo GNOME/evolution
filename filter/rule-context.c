@@ -49,7 +49,6 @@
 #include "filter-input.h"
 #include "filter-int.h"
 #include "filter-label.h"
-#include "filter-marshal.h"
 #include "filter-option.h"
 #include "filter-rule.h"
 #include "rule-context.h"

@@ -25,7 +25,6 @@
 #include <gdk/gdkkeysyms.h>
 
 #include <glib/gi18n.h>
-#include "e-util/e-util-marshal.h"
 #include "e-util/e-util.h"
 
 #include "e-selection-model.h"
@@ -151,7 +150,7 @@ e_selection_model_class_init (ESelectionModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ESelectionModelClass, cursor_changed),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT_INT,
+			      e_marshal_NONE__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
 	e_selection_model_signals [CURSOR_ACTIVATED] =
@@ -160,7 +159,7 @@ e_selection_model_class_init (ESelectionModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ESelectionModelClass, cursor_activated),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT_INT,
+			      e_marshal_NONE__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
 	e_selection_model_signals [SELECTION_CHANGED] =

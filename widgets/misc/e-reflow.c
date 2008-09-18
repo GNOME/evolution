@@ -31,7 +31,6 @@
 
 #include "text/e-text.h"
 #include <glib/gi18n.h>
-#include "e-util/e-util-marshal.h"
 #include "e-util/e-util.h"
 #include "misc/e-unicode.h"
 
@@ -1470,7 +1469,7 @@ e_reflow_class_init (EReflowClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EReflowClass, selection_event),
 			      NULL, NULL,
-			      e_util_marshal_INT__OBJECT_BOXED,
+			      e_marshal_INT__OBJECT_BOXED,
 			      G_TYPE_INT, 2, G_TYPE_OBJECT,
 			      GDK_TYPE_EVENT);
 

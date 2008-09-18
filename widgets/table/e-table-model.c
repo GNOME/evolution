@@ -25,7 +25,6 @@
 
 #include <glib-object.h>
 
-#include "e-util/e-util-marshal.h"
 #include "e-util/e-util.h"
 
 #include "e-table-model.h"
@@ -324,7 +323,7 @@ e_table_model_class_init (ETableModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableModelClass, model_cell_changed),
 			      (GSignalAccumulator) NULL, NULL,
-			      e_util_marshal_VOID__INT_INT,
+			      e_marshal_VOID__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
 	e_table_model_signals [MODEL_ROWS_INSERTED] =
@@ -333,7 +332,7 @@ e_table_model_class_init (ETableModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableModelClass, model_rows_inserted),
 			      (GSignalAccumulator) NULL, NULL,
-			      e_util_marshal_VOID__INT_INT,
+			      e_marshal_VOID__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
 	e_table_model_signals [MODEL_ROWS_DELETED] =
@@ -342,7 +341,7 @@ e_table_model_class_init (ETableModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableModelClass, model_rows_deleted),
 			      (GSignalAccumulator) NULL, NULL,
-			      e_util_marshal_VOID__INT_INT,
+			      e_marshal_VOID__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
 	klass->column_count        = NULL;

@@ -17,7 +17,6 @@ privsolib_LTLIBRARIES =				\
 	libecontactlisteditor.la
 
 libecontactlisteditor_la_SOURCES = 		\
-	$(MARSHAL_GENERATED)			\
 	e-contact-list-editor.c			\
 	e-contact-list-editor.h			\
 	e-contact-list-model.c			\
@@ -36,7 +35,6 @@ libecontactlisteditor_la_LIBADD =						\
 
 glade_DATA  = contact-list-editor.glade
 
-BUILT_SOURCES = $(MARSHAL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
 
 EXTRA_DIST = $(glade_DATA)

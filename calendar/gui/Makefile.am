@@ -2,10 +2,6 @@ if OS_WIN32
 WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libevolution-mail.la
 endif
 
-# The marshallers
-MARSHAL_GENERATED = e-calendar-marshal.c e-calendar-marshal.h
-@EVO_MARSHAL_RULE@
-
 SUBDIRS = alarm-notify dialogs
 
 ecalendarincludedir = $(privincludedir)/calendar/gui
@@ -104,7 +100,6 @@ etspec_DATA =				\
 	e-memo-table.etspec
 
 #libevolution_calendar_la_SOURCES =		\
-#	$(MARSHAL_GENERATED)			\
 #	cal-search-bar.c			\
 #	cal-search-bar.h			\
 #	calendar-config.c			\
@@ -309,7 +304,6 @@ schema_DATA = $(schema_in_files:.schemas.in=.schemas)
 @INTLTOOL_SCHEMAS_RULE@
 
 EXTRA_DIST =	 			\
-	e-calendar-marshal.list		\
 	$(glade_DATA)			\
 	$(schema_in_files)              \
 	$(etspec_DATA)			\

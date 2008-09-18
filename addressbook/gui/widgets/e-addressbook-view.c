@@ -32,7 +32,6 @@
 #include <e-shell-sidebar.h>
 
 #include "addressbook/printing/e-contact-print.h"
-#include "addressbook/gui/widgets/eab-menu.h"
 #include "a11y/addressbook/ea-addressbook.h"
 
 #include "e-util/e-print.h"
@@ -43,7 +42,6 @@
 #include "gal-view-minicard.h"
 #include "gal-view-factory-minicard.h"
 
-#include "eab-marshal.h"
 #include "e-addressbook-view.h"
 #include "e-addressbook-model.h"
 #include "eab-gui-util.h"
