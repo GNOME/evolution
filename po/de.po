@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-12 22:32+0200\n"
-"PO-Revision-Date: 2008-09-12 22:35+0200\n"
+"POT-Creation-Date: 2008-09-18 20:37+0200\n"
+"PO-Revision-Date: 2008-09-18 20:37+0200\n"
 "Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -588,7 +588,7 @@ msgstr "{1}"
 
 #: ../addressbook/conduit/address-conduit.c:299
 msgid "Default Sync Address:"
-msgstr "Voreingestellte Synchronisierungsadresse:"
+msgstr "Voreingestellte Adresse für Datenabgleich:"
 
 #: ../addressbook/conduit/address-conduit.c:1320
 #: ../addressbook/conduit/address-conduit.c:1321
@@ -695,20 +695,18 @@ msgid "On LDAP Servers"
 msgstr "Auf LDAP-Servern"
 
 #: ../addressbook/gui/component/addressbook-component.c:230
-#, fuzzy
 msgctxt "New"
 msgid "_Contact"
-msgstr "Kontakt"
+msgstr "_Kontakt"
 
 #: ../addressbook/gui/component/addressbook-component.c:231
 msgid "Create a new contact"
 msgstr "Einen neuen Kontakt anlegen"
 
 #: ../addressbook/gui/component/addressbook-component.c:238
-#, fuzzy
 msgctxt "New"
 msgid "Contact _List"
-msgstr "Kontaktliste"
+msgstr "Kontakt_liste"
 
 #: ../addressbook/gui/component/addressbook-component.c:239
 msgid "Create a new contact list"
@@ -720,10 +718,9 @@ msgid "New Address Book"
 msgstr "Neues Adressbuch"
 
 #: ../addressbook/gui/component/addressbook-component.c:246
-#, fuzzy
 msgctxt "New"
 msgid "Address _Book"
-msgstr "Adressbuch"
+msgstr "Adressb_uch"
 
 #: ../addressbook/gui/component/addressbook-component.c:247
 msgid "Create a new address book"
@@ -1025,10 +1022,11 @@ msgstr "Immer"
 msgid "Anonymously"
 msgstr "Anonym"
 
+# server until either set time limit or amount of contacts limit reached
 #. To translators: If enabled, addressbook will only fetch contacts from the server until either set time limit or amount of contacts limit reached
 #: ../addressbook/gui/component/ldap-config.glade.h:15
 msgid "B_rowse this book until limit reached"
-msgstr ""
+msgstr "A_dressbuch durchblättern, bis das Limit erreicht ist"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:16
 msgid "Basic"
@@ -5468,10 +5466,9 @@ msgid "New appointment"
 msgstr "Neuer Termin"
 
 #: ../calendar/gui/calendar-component.c:1597
-#, fuzzy
 msgctxt "New"
 msgid "_Appointment"
-msgstr "Termin"
+msgstr "_Termin"
 
 #: ../calendar/gui/calendar-component.c:1598
 msgid "Create a new appointment"
@@ -5482,10 +5479,9 @@ msgid "New meeting"
 msgstr "Neue Besprechung"
 
 #: ../calendar/gui/calendar-component.c:1605
-#, fuzzy
 msgctxt "New"
 msgid "M_eeting"
-msgstr "Neue Besprechung"
+msgstr "_Besprechung"
 
 #: ../calendar/gui/calendar-component.c:1606
 msgid "Create a new meeting request"
@@ -5496,10 +5492,9 @@ msgid "New all day appointment"
 msgstr "Neuer Ganztagstermin"
 
 #: ../calendar/gui/calendar-component.c:1613
-#, fuzzy
 msgctxt "New"
 msgid "All Day A_ppointment"
-msgstr "Neuer Ganztagstermin"
+msgstr "_Ganztagstermin"
 
 #: ../calendar/gui/calendar-component.c:1614
 msgid "Create a new all-day appointment"
@@ -5510,10 +5505,9 @@ msgid "New calendar"
 msgstr "Neuer Kalender"
 
 #: ../calendar/gui/calendar-component.c:1621
-#, fuzzy
 msgctxt "New"
 msgid "Cale_ndar"
-msgstr "Kalender"
+msgstr "Kalen_der"
 
 #: ../calendar/gui/calendar-component.c:1622
 msgid "Create a new calendar"
@@ -5537,9 +5531,8 @@ msgstr "Monatsansicht"
 
 #: ../calendar/gui/caltypes.xml.h:2 ../calendar/gui/memotypes.xml.h:2
 #: ../calendar/gui/tasktypes.xml.h:4
-#, fuzzy
 msgid "Any Field"
-msgstr "Feld"
+msgstr "Beliebiges Feld"
 
 #: ../calendar/gui/caltypes.xml.h:4 ../calendar/gui/memotypes.xml.h:4
 #: ../calendar/gui/tasktypes.xml.h:6 ../mail/em-filter-i18n.h:5
@@ -8722,10 +8715,9 @@ msgid "New memo"
 msgstr "Neue Notiz"
 
 #: ../calendar/gui/memos-component.c:1261
-#, fuzzy
 msgctxt "New"
 msgid "Mem_o"
-msgstr "Notiz"
+msgstr "_Notiz"
 
 #: ../calendar/gui/memos-component.c:1262
 msgid "Create a new memo"
@@ -8736,10 +8728,9 @@ msgid "New shared memo"
 msgstr "Neue gemeinsame Notiz"
 
 #: ../calendar/gui/memos-component.c:1269
-#, fuzzy
 msgctxt "New"
 msgid "_Shared memo"
-msgstr "Neue gemeinsame Notiz"
+msgstr "Ge_meinsame Notiz"
 
 #: ../calendar/gui/memos-component.c:1270
 msgid "Create a shared new memo"
@@ -8750,10 +8741,9 @@ msgid "New memo list"
 msgstr "Neue Notizliste"
 
 #: ../calendar/gui/memos-component.c:1277
-#, fuzzy
 msgctxt "New"
 msgid "Memo li_st"
-msgstr "Notizliste"
+msgstr "Noti_zliste"
 
 #: ../calendar/gui/memos-component.c:1278
 msgid "Create a new memo list"
@@ -9051,7 +9041,6 @@ msgid "New task"
 msgstr "Neue Aufgabe"
 
 #: ../calendar/gui/tasks-component.c:1326
-#, fuzzy
 msgctxt "New"
 msgid "_Task"
 msgstr "_Aufgabe"
@@ -9065,10 +9054,9 @@ msgid "New assigned task"
 msgstr "Zugewiesene Aufgabe anlegen"
 
 #: ../calendar/gui/tasks-component.c:1334
-#, fuzzy
 msgctxt "New"
 msgid "Assigne_d Task"
-msgstr "_Aufgabe zuweisen"
+msgstr "Zuge_wiesene Aufgabe"
 
 #: ../calendar/gui/tasks-component.c:1335
 msgid "Create a new assigned task"
@@ -9079,10 +9067,9 @@ msgid "New task list"
 msgstr "Neue Aufgabenliste"
 
 #: ../calendar/gui/tasks-component.c:1342
-#, fuzzy
 msgctxt "New"
 msgid "Tas_k list"
-msgstr "Aufgabenliste"
+msgstr "Au_fgabenliste"
 
 #: ../calendar/gui/tasks-component.c:1343
 msgid "Create a new task list"
@@ -10718,9 +10705,8 @@ msgid "Pacific/Yap"
 msgstr "Pazifik/Yap"
 
 #: ../composer/e-composer-autosave.c:275
-#, fuzzy
 msgid "Could not open autosave file"
-msgstr "Datei konnte nicht geöffnet werden"
+msgstr "Autospeichern-Datei konnte nicht geöffnet werden"
 
 #: ../composer/e-composer-autosave.c:282
 msgid "Unable to retrieve message from editor"
@@ -12211,14 +12197,14 @@ msgstr[0] "Nachrichten insgesamt:"
 msgstr[1] "Nachrichten insgesamt:"
 
 #: ../mail/em-folder-properties.c:196
-#, fuzzy, c-format
+#, c-format
 msgid "Quota usage (%s):"
-msgstr "Nachrichten insgesamt:"
+msgstr "Speicherverbrauch (%s):"
 
 #: ../mail/em-folder-properties.c:198
-#, fuzzy, c-format
+#, c-format
 msgid "Quota usage"
-msgstr "Nachrichten insgesamt:"
+msgstr "Speicherverbrauch:"
 
 #. translators: standard local mailbox names
 #: ../mail/em-folder-properties.c:358 ../mail/em-folder-tree-model.c:507
@@ -12290,10 +12276,10 @@ msgstr "Ladevorgang …"
 #. * from your translation.
 #.
 #: ../mail/em-folder-tree.c:380
-#, fuzzy, c-format
+#, c-format
 msgctxt "folder-display"
 msgid "%s (%u)"
-msgstr "%s (…)"
+msgstr "%s (%u)"
 
 #: ../mail/em-folder-tree.c:741
 msgid "Mail Folder Tree"
@@ -13175,7 +13161,7 @@ msgstr "Höhe des Fensters »E-Mails verschicken und abrufen«"
 
 #: ../mail/evolution-mail.schemas.in.h:2
 msgid "\"Send and Receive Mail\" window maximize state"
-msgstr ""
+msgstr "Maximierungs-Status des Fensters »E-Mails verschicken und abrufen«"
 
 #: ../mail/evolution-mail.schemas.in.h:3
 msgid "\"Send and Receive Mail\" window width"
@@ -13245,6 +13231,8 @@ msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
 msgstr ""
+"Legt fest, wie oft lokale Änderungen mit dem entfernen Mail-Server "
+"abgeglichen werden. Der Intervall muss mindestens 30 Sekunden betragen."
 
 #: ../mail/evolution-mail.schemas.in.h:18
 msgid "Custom headers to use while checking for junk."
@@ -13327,7 +13315,6 @@ msgstr ""
 "wird"
 
 #: ../mail/evolution-mail.schemas.in.h:35
-#, fuzzy
 msgid ""
 "Determines whether to lookup the sender email in address book. If found, it "
 "shouldn't be a spam. It looks up in the books marked for autocompletion. It "
@@ -13375,7 +13362,7 @@ msgstr "Ordner zum Speichern der E-Mailkomponenten-Dateien."
 
 #: ../mail/evolution-mail.schemas.in.h:41
 msgid "Disable or enable ellipsizing of folder names in folder tree"
-msgstr ""
+msgstr "Zu lange Ordnernamen in Baumansicht abkürzen"
 
 #: ../mail/evolution-mail.schemas.in.h:42
 msgid "Draw spelling error indicators on words as you type."
@@ -13494,6 +13481,8 @@ msgid ""
 "Initial height of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window vertically."
 msgstr ""
+"Legt fest, wie hoch das Fenster »E-Mails verschicken und abrufen« ist. Der "
+"Wert ändert sich, wenn der Benutzer das Fenster vertikal vergrößert."
 
 #: ../mail/evolution-mail.schemas.in.h:63
 msgid ""
@@ -13503,12 +13492,19 @@ msgid ""
 "\" window cannot be maximized. This key exists only as an implementation "
 "detail."
 msgstr ""
+"Legt fest, ob das Fenster »E-Mails verschicken und abrufen« maximiert ist. "
+"Der Wert ändert sich, wenn der Benutzer das Fenster maximiert oder "
+"wiederherstellt. Hinweis: dieser Schlüssel wird von Evolution nicht "
+"verwendet, da das Fenster nicht maximiert werden kann. Dieser Schlüssel "
+"existiert nur als Implementierungsdetail."
 
 #: ../mail/evolution-mail.schemas.in.h:64
 msgid ""
 "Initial width of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window horizontally."
 msgstr ""
+"Legt fest, wie breit des Fenster »E-Mails verschicken und empfangen« ist. Der "
+"Wert ändert sich, wenn der Benutzer das Fenster horizontal vergrößert."
 
 #: ../mail/evolution-mail.schemas.in.h:65
 msgid "It disables/enables the prompt while marking multiple messages."
@@ -13523,7 +13519,7 @@ msgid ""
 "before going into offline mode."
 msgstr ""
 "Legt fest, ob jedes Mal vorm Setzen des Offline-Statuses gefragt werden "
-"soll, ob für den Offline-Modus synchronisiert werden soll."
+"soll, ob für den Offline-Modus abgeglichen werden soll."
 
 #: ../mail/evolution-mail.schemas.in.h:67
 msgid ""
@@ -13576,6 +13572,8 @@ msgstr ""
 #: ../mail/evolution-mail.schemas.in.h:76
 msgid "List of dictionary language codes used for spell checking."
 msgstr ""
+"Liste der Sprach-Codes der Wörterbücher, die für die Rechtschreibprüfung "
+"verwendet werden."
 
 #: ../mail/evolution-mail.schemas.in.h:77
 msgid ""
@@ -13776,9 +13774,8 @@ msgid "Sender email-address column in the message list"
 msgstr "Spalte mit der E-Mail-Adresse des Absenders in der Nachrichtenliste"
 
 #: ../mail/evolution-mail.schemas.in.h:118
-#, fuzzy
 msgid "Server synchronization interval"
-msgstr "S_ynchronisationsoptionen …"
+msgstr "Intervall für Abgleich mit Servern"
 
 #: ../mail/evolution-mail.schemas.in.h:119
 msgid "Show Animations"
@@ -13890,13 +13887,12 @@ msgstr ""
 "so wird nicht auf eines der anderen Plugins zurückgegriffen."
 
 #: ../mail/evolution-mail.schemas.in.h:143
-#, fuzzy
 msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
 msgstr ""
 "Dieser Wert wird einmalig beim Aufruf von Evolution eingelesen und danach "
-"wieder auf den Vorgabewert »FALSE« zurückgesetzt. Falls TRUE, so wird das "
+"wieder auf den Vorgabewert »FALSCH« zurückgesetzt. Falls WAHR, so wird das "
 "Vorschaufenster für diesen Ordner nicht angezeigt und keine Auswahl in der "
 "Nachrichtenliste gesetzt."
 
@@ -13919,6 +13915,9 @@ msgid ""
 "determine whether to look up addresses in local address book only to exclude "
 "mail sent by known contacts from junk filtering."
 msgstr ""
+"Diese Option bezieht sich auf den Schlüssel »lookup_addressbook« und legt "
+"fest, ob Adressen im lokalen Adressbuch gesucht werden um sicherzustellen, "
+"dass E-Mails von Bekannten nicht als unerwünscht markiert werden."
 
 #: ../mail/evolution-mail.schemas.in.h:146
 msgid "This option would help in improving the speed of fetching."
@@ -13977,7 +13976,7 @@ msgstr "UID-Zeichenkette für das Vorgabekonto."
 
 #: ../mail/evolution-mail.schemas.in.h:156
 msgid "Underline color for misspelled words when using inline spelling."
-msgstr ""
+msgstr "Farbe für falsch geschriebene Wörter während der Eingabe"
 
 #: ../mail/evolution-mail.schemas.in.h:157
 msgid "Use SpamAssassin daemon and client"
@@ -14059,7 +14058,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:176
 msgid "Whether disable ellipsizing feature of folder names in folder tree."
-msgstr ""
+msgstr "Legt fest, ob im Ordnerbaum zu lange Ordnernamen abgekürzt werden."
 
 # CHECK - etwas schluderig, kommt aber hoffentlich hin.
 #: ../mail/evolution-mail.schemas.in.h:177
@@ -14227,10 +14226,9 @@ msgid "New Mail Message"
 msgstr "Neue E-Mail-Nachricht"
 
 #: ../mail/mail-component.c:924
-#, fuzzy
 msgctxt "New"
 msgid "_Mail Message"
-msgstr "Neue E-Mail-Nachricht"
+msgstr "_E-Mail-Nachricht"
 
 #: ../mail/mail-component.c:925
 msgid "Compose a new mail message"
@@ -14241,10 +14239,9 @@ msgid "New Mail Folder"
 msgstr "Neuer E-Mail-Ordner"
 
 #: ../mail/mail-component.c:932
-#, fuzzy
 msgctxt "New"
 msgid "Mail _Folder"
-msgstr "Neuer E-Mail-Ordner"
+msgstr "E-Mail-_Ordner"
 
 #: ../mail/mail-component.c:933
 msgid "Create a new mail folder"
@@ -14404,9 +14401,8 @@ msgid "<span weight=\"bold\">Printed Fonts</span>"
 msgstr "<b>Druckschriften</b>"
 
 #: ../mail/mail-config.glade.h:27
-#, fuzzy
 msgid "<span weight=\"bold\">Proxy Settings</span>"
-msgstr "<b>Status</b>"
+msgstr "<b>Proxy-Einstellungen</b>"
 
 #: ../mail/mail-config.glade.h:28
 msgid "<span weight=\"bold\">Required Information</span>"
@@ -14634,9 +14630,8 @@ msgid "HTML Messages"
 msgstr "HTML-Nachrichten"
 
 #: ../mail/mail-config.glade.h:91
-#, fuzzy
 msgid "H_TTP Proxy:"
-msgstr "_Postfach:"
+msgstr "H_TTP-Proxy:"
 
 #: ../mail/mail-config.glade.h:92
 msgid "Headers"
@@ -14684,7 +14679,7 @@ msgstr "Nachrichteneditor"
 
 #: ../mail/mail-config.glade.h:106
 msgid "No _Proxy for:"
-msgstr ""
+msgstr "Kein _Proxy für:"
 
 #: ../mail/mail-config.glade.h:107
 msgid ""
@@ -14779,7 +14774,7 @@ msgstr "An _Passwort erinnern"
 
 #: ../mail/mail-config.glade.h:126
 msgid "S_OCKS Host:"
-msgstr ""
+msgstr "S_OCKS-Rechner:"
 
 #: ../mail/mail-config.glade.h:127
 msgid "S_earch for sender photograph only in local address books"
@@ -14851,7 +14846,7 @@ msgstr "Rechtschreibprüfung"
 
 #: ../mail/mail-config.glade.h:146
 msgid "Start _typing at the bottom on replying"
-msgstr ""
+msgstr "Beim Antworten auf Mails _unten mit dem Schreiben beginnen"
 
 #: ../mail/mail-config.glade.h:147
 msgid "T_ype: "
@@ -14921,9 +14916,8 @@ msgid "_Always load images from the Internet"
 msgstr "Bilder _immer aus dem Internet laden"
 
 #: ../mail/mail-config.glade.h:163
-#, fuzzy
 msgid "_Automatic proxy configuration URL:"
-msgstr "Automatische Link-Erkennung"
+msgstr "_URL für automatische Proxy-Konfiguration:"
 
 #: ../mail/mail-config.glade.h:164
 msgid "_Default junk plugin:"
@@ -14950,18 +14944,16 @@ msgid "_Load images in messages from contacts"
 msgstr "Bilder in Nachrichten von Kontakten _laden"
 
 #: ../mail/mail-config.glade.h:171
-#, fuzzy
 msgid "_Lookup in local address book only"
-msgstr "Lokale Adressbuchordner auflisten"
+msgstr "Nur in _lokale Adressbüchern suchen"
 
 #: ../mail/mail-config.glade.h:172
 msgid "_Make this my default account"
 msgstr "Dieses zum Vo_rgabekonto machen"
 
 #: ../mail/mail-config.glade.h:173
-#, fuzzy
 msgid "_Manual proxy configuration:"
-msgstr "E-Mail-Konfiguration"
+msgstr "_Manuelle Proxy-Konfiguration"
 
 #: ../mail/mail-config.glade.h:174
 msgid "_Mark messages as read after"
@@ -14995,7 +14987,7 @@ msgstr "_Skript:"
 
 #: ../mail/mail-config.glade.h:182
 msgid "_Secure HTTP Proxy:"
-msgstr ""
+msgstr "_Sicherer HTTP-Proxy:"
 
 #: ../mail/mail-config.glade.h:183
 msgid "_Select..."
@@ -15214,9 +15206,9 @@ msgid "Opening folder %s"
 msgstr "Ordner %s wird geöffnet"
 
 #: ../mail/mail-ops.c:1272
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving quota information for folder %s"
-msgstr "Kontaktinformationen für %s"
+msgstr "Informationen über Speicherplatzlimit für Ordner %s werden abgerufen"
 
 #: ../mail/mail-ops.c:1341
 #, c-format
@@ -15445,7 +15437,6 @@ msgstr ""
 "anderen Namen."
 
 #: ../mail/mail.error.xml.h:3
-#, fuzzy
 msgid ""
 "A non-empty folder at \"{1}\" already exists.\n"
 "\n"
@@ -15629,7 +15620,7 @@ msgstr "Signaturskript »{0}« konnte nicht festgelegt werden."
 
 #: ../mail/mail.error.xml.h:41
 msgid "Check Junk Failed"
-msgstr "Überprüfung auf Unerwünschtheit fehlgeschlagen"
+msgstr "Überprüfung auf Unerwünschtheit gescheitert"
 
 #: ../mail/mail.error.xml.h:42
 msgid ""
@@ -15681,8 +15672,8 @@ msgid ""
 "Do you want to locally synchronize the folders that are marked for offline "
 "usage?"
 msgstr ""
-"Sollen die für die Bentzung im Offline-Modus markierten Ordner lokal "
-"synchronisiert werden?"
+"Sollen die für die Benutzung im Offline-Modus markierten Ordner lokal "
+"abgeglichen werden?"
 
 #: ../mail/mail.error.xml.h:53
 msgid "Do you want to mark all messages as read?"
@@ -15862,11 +15853,11 @@ msgstr "Ordner »{0}« und alle seine Unterordner wirklich löschen?"
 
 #: ../mail/mail.error.xml.h:90
 msgid "Report Junk Failed"
-msgstr "Bericht über Unerwünschtheit fehlgeschlagen"
+msgstr "Bericht über Unerwünschtheit gescheitert"
 
 #: ../mail/mail.error.xml.h:91
 msgid "Report Not Junk Failed"
-msgstr "Bericht über Erwünschtheit fehlgeschlagen"
+msgstr "Bericht über Erwünschtheit gescheitert"
 
 #: ../mail/mail.error.xml.h:92
 msgid "Search Folders automatically updated."
@@ -15882,11 +15873,11 @@ msgstr "Signatur existiert bereits"
 
 #: ../mail/mail.error.xml.h:95
 msgid "Synchronize"
-msgstr "Synchronisieren"
+msgstr "Abgleichen"
 
 #: ../mail/mail.error.xml.h:96
 msgid "Synchronize folders locally for offline usage?"
-msgstr "Ordner lokal für Offline-Benutzung synchronisieren?"
+msgstr "Ordner lokal für Offline-Benutzung abgleichen?"
 
 #: ../mail/mail.error.xml.h:97
 msgid ""
@@ -16071,7 +16062,7 @@ msgstr "Änderungen _verwerfen"
 
 #: ../mail/mail.error.xml.h:137
 msgid "_Do not Synchronize"
-msgstr "_Nicht synchronisieren"
+msgstr "_Nicht abgleichen"
 
 #: ../mail/mail.error.xml.h:139
 msgid "_Expunge"
@@ -16158,6 +16149,8 @@ msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
 msgstr ""
+"Auf Ihr Suchkriterium treffen keine Nachrichten zu. Leeren Sie die Suche mit "
+"Suchen->Verwerfen oder ändern Sie sie."
 
 #: ../mail/message-list.c:4226
 msgid "There are no messages in this folder."
@@ -16430,7 +16423,7 @@ msgstr "Entfernen der temporären Sicherungsdateien"
 
 #: ../plugins/backup-restore/backup.c:285
 msgid "Ensuring local sources"
-msgstr ""
+msgstr "Lokale Quellen sicherstellen"
 
 #: ../plugins/backup-restore/backup.c:455
 #, c-format
@@ -16469,7 +16462,7 @@ msgstr "Bitte warten Sie, während Evolution Ihre Daten wiederherstellt."
 
 #: ../plugins/backup-restore/backup.c:536
 msgid "This may take a while depending on the amount of data in your account."
-msgstr ""
+msgstr "Dies kann abhängig von den Daten in Ihrem Konto einige Zeit dauern."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
 msgid "A plugin for backing up and restore Evolution data and settings."
@@ -16556,7 +16549,6 @@ msgstr "Automatische Kontakte"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:567
-#, fuzzy
 msgid "_Auto-create address book entries when replying to messages"
 msgstr ""
 "_Automatische Erstellung von Adressbucheinträgen bei Beantwortung von E-Mails"
@@ -16571,10 +16563,9 @@ msgstr "Instant-Messaging-Kontakte"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:603
-#, fuzzy
 msgid "Synchronize contact info and images from Pidgin buddy list"
 msgstr ""
-"Kontaktinformationen und Bilder regelmäßig mit der Pidgin-Buddy-Liste "
+"Kontaktinformationen und -bilder regelmäßig mit der Pidgin-Kontaktliste "
 "abgleichen"
 
 #: ../plugins/bbdb/bbdb.c:609
@@ -16602,24 +16593,24 @@ msgstr "BBDB"
 
 #. For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself.
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:114
-#, fuzzy, c-format
+#, c-format
 msgid "Error occurred while spawning %s: %s."
-msgstr "Während des Druckens ist ein Fehler aufgetreten"
+msgstr "Beim Aufrufen von %s ist ein Fehler aufgetreten: %s"
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:138
 #, c-format
 msgid "Bogofilter child process does not respond, killing..."
-msgstr ""
+msgstr "Bogofilder-Kindprozesse antwortet nicht. Wird abgewürgt …"
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:140
 #, c-format
 msgid "Wait for Bogofilter child process interrupted, terminating..."
-msgstr ""
+msgstr "Warten auf Bogofilter-Kindprozess abgebrochen. Wird beendet …"
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:152
 #, c-format
 msgid "Pipe to Bogofilter failed, error code: %d."
-msgstr ""
+msgstr "Weiterleitung an Bogofilter gescheitert, Fehler-Code: %d"
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:313
 msgid "Convert message text to _Unicode"
@@ -16642,9 +16633,8 @@ msgid "Bogofilter Options"
 msgstr "Bogofilter-Optionen"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
-#, fuzzy
 msgid "Bogofilter junk plugin"
-msgstr "Bogofilter-Optionen"
+msgstr "Bogofilter-Unerwünscht-Plugin"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
 msgid "Filters junk messages using Bogofilter."
@@ -16841,12 +16831,16 @@ msgstr "Schlüssel"
 msgid "Values"
 msgstr "Werte"
 
+# CHECK
+#  to specifying the format of the key values
 #. To translators: This string is used while adding a new message header to configuration, to specifying the format of the key values
 #: ../plugins/email-custom-header/email-custom-header.glade.h:2
 msgid ""
 "The format for specifying a Custom Header key value is:\n"
 "Name of the Custom Header key values separated by \";\"."
 msgstr ""
+"Das Format zum Festlegen einer eigenen Kopfzeile lautet:\n"
+"Name der eigenen Kopfzeile;Wert«"
 
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.glade.h:1
 msgid "Email Custom Header"
@@ -17561,6 +17555,8 @@ msgstr "Abwesenheitsstatus konnte nicht aktualisiert werden"
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
 msgid "Evolution requires a restart to load the subscribed user's mailbox"
 msgstr ""
+"Evolution muss neu gestartet werden, um das Postfach des abonnierten "
+"Benutzers zu laden"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:22
 msgid "Exchange Account is offline."
@@ -17834,9 +17830,10 @@ msgstr "Ordnerberechtigungen überprüfen"
 msgid "Default External Editor"
 msgstr "Vorgabe für Externen Editor"
 
+# CHECK
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:2
 msgid "The default command that must be used as the editor."
-msgstr ""
+msgstr "Der Befehl, der als Editor verwendet werden muss"
 
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:1
 msgid ""
@@ -17864,6 +17861,8 @@ msgid ""
 "Evolution is unable to create a temporary file to save your mail. Retry "
 "later."
 msgstr ""
+"Es konnte keine temporäre Datei zum Speichern der E-Mails angelegt werden. "
+"Bitte versuchen Sie es später erneut."
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:4
 msgid ""
@@ -17947,14 +17946,15 @@ msgid "Google"
 msgstr "Google"
 
 #: ../plugins/google-account-setup/google-source.c:439
-#, fuzzy
 msgid "Please enter user name first."
-msgstr "Bitte wählen Sie einen anderen Namen."
+msgstr "Bitte geben Sie zuerst den Benutzernamen ein."
 
 #: ../plugins/google-account-setup/google-source.c:443
-#, fuzzy, c-format
+#, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
-msgstr "Ordner zu Ihrer Liste abonnierter Ordner hinzufügen"
+msgstr ""
+"Geben Sie das Passwort für den Benutzer %s ein, um auf die Liste der "
+"abonnierten Kalender zuzugreifen."
 
 #: ../plugins/google-account-setup/google-source.c:543
 #, c-format
@@ -17962,15 +17962,16 @@ msgid ""
 "Cannot read data from Google server.\n"
 "%s"
 msgstr ""
+"Daten konnten nicht vom Google-Server empfangen werden.\n"
+"%s"
 
 #: ../plugins/google-account-setup/google-source.c:693
 msgid "Cal_endar:"
 msgstr "_Kalender:"
 
 #: ../plugins/google-account-setup/google-source.c:728
-#, fuzzy
 msgid "Retrieve _list"
-msgstr "»%s« wird abgerufen"
+msgstr "_Liste abrufen"
 
 #: ../plugins/google-account-setup/google-contacts-source.c:268
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:300
@@ -18065,15 +18066,16 @@ msgid "_Junk List"
 msgstr "_Unerwünscht-Liste"
 
 #: ../plugins/groupwise-features/mail-retract.c:53
-#, fuzzy
 msgid "Message Retract"
-msgstr "Nachrichtenstatus"
+msgstr "Nachricht zurückziehen"
 
 #: ../plugins/groupwise-features/mail-retract.c:58
 msgid ""
 "Retracting a message may remove it from the recipient's mailbox. Are you "
 "sure you want to do this ?"
 msgstr ""
+"Das Zurückziehen einer Nachricht entfernt diese möglicherweise aus dem "
+"Posteingang des Empfängers. Sind Sie sicher, dass Sie dies tun möchten?"
 
 #: ../plugins/groupwise-features/mail-retract.c:77
 msgid "Message retracted successfully"
@@ -18100,18 +18102,12 @@ msgid "Groupwise Features"
 msgstr "GroupWise-Funktionen"
 
 #: ../plugins/groupwise-features/org-gnome-mail-retract-errors.xml.h:1
-#, fuzzy
 msgid "Message retract failed"
-msgstr ""
-"Aktivieren der Seitenleisten-Suchfunktion, damit Sie interaktiv suchen "
-"können, indem Sie lediglich zu tippen beginnen. Benutzen Sie dies, damit Sie "
-"Ordner finden, indem Sie nur dessen Name tippen, die Auswahl springt dann "
-"sofort zu diesem Ordner."
+msgstr "Zurückziehen gescheitert"
 
 #: ../plugins/groupwise-features/org-gnome-mail-retract-errors.xml.h:2
-#, fuzzy
 msgid "The server did not allow the selected message to be retracted."
-msgstr "Die gewählte Nachricht in eine neue Aufgabe umwandeln"
+msgstr "Der Server gestattete nicht, die gewählte Nachricht zurückzuziehen."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:1
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:3
@@ -18120,67 +18116,63 @@ msgid "Invalid user"
 msgstr "Ungültiger Benutzer"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:2
-#, fuzzy
 msgid "Proxy access cannot be given to user &quot;{0}&quot;"
-msgstr "Speichern in die Datei »{0}« gescheitert."
+msgstr "Dem Benutzer »{0}« konnte kein Zugriff auf den Proxy gewährt werden"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:3
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:2
-#, fuzzy
 msgid "Specify User"
 msgstr "Benutzer auswählen"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:4
-#, fuzzy
 msgid "You have already given proxy permissions to this user."
-msgstr "Sie haben nun folgende Zugriffserlaubnis auf meine Ordner:"
+msgstr "Sie haben diesem Benutzer bereits Zugriff auf den Proxy gewährt."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:5
 msgid "You have to specify a valid user name to give proxy rights."
 msgstr ""
+"Sie müssen einen gültigen Benutzernamen eingeben, um Zugriff auf den Proxy "
+"zu gewähren."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:1
-#, fuzzy
 msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
 msgstr ""
-"Es existiert bereits ein Ordner namens »{0}«. Bitte verwenden Sie einen "
-"anderen Namen."
+"Es existiert bereits ein Konto namens »{0}«. Bitte überprüfen Sie Ihre Ordner-"
+"Hierarchie."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:2
 msgid "Account Already Exists"
 msgstr "Konto existiert bereits"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:4
-#, fuzzy
 msgid ""
 "Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email "
 "address and try again."
 msgstr ""
-"Es existiert bereits ein Ordner namens »{0}«. Bitte verwenden Sie einen "
-"anderen Namen."
+"Anmeldung als »{0}« am Proxy war nicht möglich. Bitte überpüfen Sie Ihre E-"
+"Mail-Adresse und versuchen es erneut."
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:3
 msgid "This is a recurring meeting"
 msgstr "Dies ist ein wiederkehrendes Ereignis"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:4
-#, fuzzy
 msgid "Would you like to accept it?"
-msgstr "Wollen Sie die vorgenommenen Änderungen speichern?"
+msgstr "Wollen Sie dies akzeptieren?"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:5
-#, fuzzy
 msgid "Would you like to decline it?"
-msgstr "Wollen Sie die vorgenommenen Änderungen speichern?"
+msgstr "Wollen Sie dies ablehnen?"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:6
-#, fuzzy
 msgid "You cannot share folder with specified user &quot;{0}&quot;"
-msgstr "Automatisches Speichern in Datei »{0}« gescheitert."
+msgstr "Sie können keine Ordner mit dem angegebenen Benutzer »{0}« teilen"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:7
 msgid "You have to specify a user name whom you want to add to the list"
 msgstr ""
+"Sie müssen einen Benutzernamen festlegen, der der Liste hinzugefügt werden "
+"soll"
 
 #: ../plugins/groupwise-features/process-meeting.c:52
 msgid "Accept Tentatively"
@@ -18321,9 +18313,8 @@ msgid "Sharing"
 msgstr "Freigeben"
 
 #: ../plugins/groupwise-features/share-folder.c:533
-#, fuzzy
 msgid "Custom Notification"
-msgstr "Ausrichtung"
+msgstr "Eigene Benachrichtigung"
 
 #: ../plugins/groupwise-features/share-folder.c:755
 msgid "Add   "
@@ -18508,8 +18499,8 @@ msgid ""
 "Evolution could not find an iPod to synchronize with. Either the iPod is not "
 "connected to the system or it is not powered on."
 msgstr ""
-"Evolution konnte keinen iPod zum Synchronisieren finden. Entweder der iPod "
-"ist nicht angeschlossen oder er ist ausgeschaltet."
+"Evolution konnte keinen iPod zum Abgleichen finden. Entweder der iPod ist "
+"nicht angeschlossen oder er ist ausgeschaltet."
 
 #: ../plugins/ipod-sync/ical-format.c:118
 #: ../plugins/save-calendar/ical-format.c:163
@@ -18521,15 +18512,15 @@ msgid ""
 "Synchronize the selected task/memo/calendar/address book with Apple iPod"
 msgstr ""
 "Die ausgewählten Aufgaben, Notizen, Kalender oder Adressbücher mit dem Apple "
-"iPod synchronisieren"
+"iPod abgleichen"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
 msgid "Synchronize to iPod"
-msgstr "Synchronisieren mit iPod"
+msgstr "Datenabgleich mit iPod"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:3
 msgid "iPod Synchronization"
-msgstr "iPod-Synchronisation"
+msgstr "iPod-Datenabgleich"
 
 #: ../plugins/itip-formatter/itip-formatter.c:443
 #: ../plugins/itip-formatter/itip-formatter.c:568
@@ -19320,7 +19311,6 @@ msgid "Generate a _D-Bus message"
 msgstr "Eine _D-Bus-Nachricht erzeugen"
 
 #: ../plugins/mail-notification/mail-notification.c:377
-#, fuzzy
 msgid "Evolution's Mail Notification"
 msgstr "Benachrichtigung bei neuen E-Mails"
 
@@ -19628,18 +19618,16 @@ msgid "_Unsubscribe from List"
 msgstr "Liste _abbestellen"
 
 #: ../plugins/mark-all-read/mark-all-read.c:39
-#, fuzzy
 msgid "Also mark messages in subfolders?"
-msgstr "Nachrichten werden in den Ordner %s verschoben"
+msgstr "Auch auf Unterordner anwenden?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:41
-#, fuzzy
 msgid ""
 "Do you want to mark messages as read in the current folder only, or in the "
 "current folder as well as all subfolders?"
 msgstr ""
-"Dies wird alle Nachrichten im gewählten Ordner und seinen Unterordnern als "
-"gelesen markieren."
+"Sollen nur Nachrichten im gewählten Ordner als gelesen markiert werden, oder "
+"auch in seinen Unterordnern?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:164
 msgid "Current Folder and _Subfolders"
@@ -19909,31 +19897,29 @@ msgstr "SpamAssassin nicht gefunden, Fehler-Code: %d"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:142
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:150
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create pipe: %s"
-msgstr "Lokaler E-Mail-Speicher unter »%s« konnte nicht angelegt werden: %s"
+msgstr "Weiterleitung konnte nicht angelegt werden: %s"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:189
-#, fuzzy, c-format
+#, c-format
 msgid "Error after fork: %s"
-msgstr ""
-"Fehler bei »%s«:\n"
-" %s"
+msgstr "Fehler nach Fork: %s"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:244
 #, c-format
 msgid "SpamAssassin child process does not respond, killing..."
-msgstr ""
+msgstr "SpamAssassin-Kindprozess antwortet nicht. Wird abgewürgt …"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:246
 #, c-format
 msgid "Wait for Spamassassin child process interrupted, terminating..."
-msgstr ""
+msgstr "Warten auf SpamAssassin-Kindprozess abgebrochen. Wird beendet …"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:255
 #, c-format
 msgid "Pipe to SpamAssassin failed, error code: %d"
-msgstr "Weiterleitung an SpamAssassin fehlgeschlagen, Fehler-Code: %d"
+msgstr "Weiterleitung an SpamAssassin gescheitert, Fehler-Code: %d"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:498
 #, c-format
@@ -20202,13 +20188,12 @@ msgid "F_all back to threading messages by subject"
 msgstr "Zurückfallen auf be_treffsbezogenes Threading der Nachrichten"
 
 #: ../plugins/templates/apps-evolution-template-placeholders.schemas.in.h:1
-#, fuzzy
 msgid ""
 "List of keyword/value pairs for the Templates plugin to substitute in a "
 "message body."
 msgstr ""
-"Liste der Begriffe, nach denen die Anlagenerinnerung im Text der Nachricht "
-"sucht."
+"Liste der Schlüsselwort/Wert-Paare, die das Vorlagen-Plugin im "
+"Nachrichtentext ersetzen soll."
 
 #: ../plugins/templates/templates.c:615
 msgid "No title"
@@ -20224,7 +20209,7 @@ msgstr "Als Vorlage speichern"
 
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Drafts based template plugin"
-msgstr ""
+msgstr "Vorlagen-Plugin basierend auf Entwürfen"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
 msgid "A simple plugin which uses ytnef to decode tnef attachments."
@@ -20246,7 +20231,7 @@ msgstr "WebDAV-Kontakte"
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:74
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:100
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:311
 msgid "URL:"
@@ -20254,7 +20239,7 @@ msgstr "URL:"
 
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:338
 msgid "_Avoid IfMatch (needed on apache < 2.2.8)"
-msgstr ""
+msgstr "IfMatch _vermeiden (benötigt Apache < 2.2.8)"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
@@ -20274,12 +20259,11 @@ msgstr "Evolution-Testkomponente"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:1
 msgid "Authenticate proxy server connections"
-msgstr ""
+msgstr "Verbindungen zum Proxy-Server legitimieren"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:2
-#, fuzzy
 msgid "Automatic proxy configuration URL"
-msgstr "Automatische Link-Erkennung"
+msgstr "URL für automatische Proxy-Konfiguration"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:3
 msgid "Configuration version"
@@ -20305,23 +20289,23 @@ msgstr "Voreingestellte Fensterbreite"
 msgid ""
 "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
 msgstr ""
+"Legt fest, ob Zugriffe per HTTP und sicheres HTTP über einen Proxy laufen."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:9
 msgid "HTTP proxy host name"
-msgstr ""
+msgstr "Rechnername für HTTP-Proxy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:10
-#, fuzzy
 msgid "HTTP proxy password"
-msgstr "Passwort eingeben"
+msgstr "Passwort für HTTP-Proxy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:11
 msgid "HTTP proxy port"
-msgstr ""
+msgstr "Port für HTTP-Proxy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:12
 msgid "HTTP proxy username"
-msgstr ""
+msgstr "Benutzername für HTTP-Proxy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:13
 msgid "ID or alias of the component to be shown by default at start-up."
@@ -20336,6 +20320,10 @@ msgid ""
 "authentication_user\" GConf key, and the password is retrieved from either "
 "gnome-keyring or the ~/.gnome2_private/Evolution password file."
 msgstr ""
+"Legt fest, ob Verbindungen zum Proxy-Server legitimiert werden müssen. Der "
+"Benutzername wird aus dem Schlüssel »/apps/evolution/shell/network_config/"
+"authentication_user« geholt, das Passwort entweder aus dem GNOME-"
+"Schlüsselbund oder der Passwortdatei unter ~/.gnome2_private/Evolution."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:15
 msgid "Last upgraded configuration version"
@@ -20346,36 +20334,35 @@ msgid ""
 "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 "Liste der Pfade für Ordner, die für eine Offline-Benutzung auf der Platte "
-"synchronisiert werden sollen"
+"abgeglichen werden sollen"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "Non-proxy hosts"
-msgstr ""
+msgstr "Nicht-Proxy-Rechner"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:18
 msgid "Password to pass as authentication when doing HTTP proxying."
-msgstr ""
+msgstr "Zur Legitimation verwendetes Passwort für HTTP-Proxy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:19
-#, fuzzy
 msgid "Proxy configuration mode"
-msgstr "Konfiguration"
+msgstr "Proxy-Konfigurationsmodus"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:20
 msgid "SOCKS proxy host name"
-msgstr ""
+msgstr "Rechnername für SOCKS-Proxy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:21
 msgid "SOCKS proxy port"
-msgstr ""
+msgstr "Port für SOCKS-Proxy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:22
 msgid "Secure HTTP proxy host name"
-msgstr ""
+msgstr "Rechnername für sicheren HTTP-Proxy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:23
 msgid "Secure HTTP proxy port"
-msgstr ""
+msgstr "Port für sicheren HTTP-Proxy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:24
 msgid ""
@@ -20384,6 +20371,9 @@ msgid ""
 "configuration\" and \"use proxy configuration provided in the autoconfig url"
 "\" respectively."
 msgstr ""
+"Legt den Proxy-Konfigurationsmodus fest. Mögliche Werte sind 0 "
+"(Systemeinstellungen verwenden), 1 (kein Proxy), 2 (manuelle Proxy-"
+"Konfiguration) sowie 3 (automatische Proxy-Konfiguration über URL)"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid "Sidebar is visible"
@@ -20431,33 +20421,40 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:34
 msgid "The machine name to proxy HTTP through."
-msgstr ""
+msgstr "Der Rechnername des Proxys, durch den HTTP-Anfragen geleitet werden."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:35
 msgid "The machine name to proxy secure HTTP through."
 msgstr ""
+"Der Rechnername des Proxys, durch den sichere HTTP-Anfragen geleitet werden."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:36
 msgid "The machine name to proxy socks through."
-msgstr ""
+msgstr "Der Rechnername des Proxys, durch den SOCKS-Anfragen geleitet werden."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:37
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "http_host\" that you proxy through."
 msgstr ""
+"Der Port des in »/apps/evolution/shell/network_config/http_host» "
+"festgelegten Proxys."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:38
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "secure_host\" that you proxy through."
 msgstr ""
+"Der Port des in »/apps/evolution/shell/network_config/secure_host« "
+"festgelegten Proxys."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:39
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "socks_host\" that you proxy through."
 msgstr ""
+"Der Port des in »/apps/evolution/shell/network_config/socks_host« "
+"festgelegten Proxys."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:40
 msgid ""
@@ -20476,23 +20473,27 @@ msgid ""
 "(using an initial wildcard like *.foo.com), IP host addresses (both IPv4 and "
 "IPv6) and network addresses with a netmask (something like 192.168.0.0/24)."
 msgstr ""
+"Dieser Schlüssel enthält eine Liste der Rechnernamen, zu denen direkt "
+"verbunden wird, ohne Umweg über einen Proxy (falls einer aktiv ist). Die "
+"Werte können Rechnernamen, Domänen (unter Verwendung eines Platzhalters am "
+"Anfang wie *.example.com), IP-Adresse (sowohl IPv4 als auch IPv6) und "
+"Netzwerk-Adressen mit einer Netzmaske (z.B. 192.168.0.0/24)."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:42
 msgid "Toolbar is visible"
 msgstr "Werkzeugleiste anzeigen"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:43
-#, fuzzy
 msgid "URL that provides proxy configuration values."
-msgstr "Zuletzt aktualisierte Konfigurationsversion"
+msgstr "Adresse, unter der Werte für die Proxy-Konfigration vorliegen"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:44
 msgid "Use HTTP proxy"
-msgstr ""
+msgstr "HTTP-Proxy verwenden"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:45
 msgid "User name to pass as authentication when doing HTTP proxying."
-msgstr ""
+msgstr "Benutzername für Legitimation an HTTP-Proxy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:46
 msgid "Whether Evolution will start up in offline mode instead of online mode."
@@ -20720,10 +20721,9 @@ msgid "New Test"
 msgstr "Neuer Test"
 
 #: ../shell/test/evolution-test-component.c:106
-#, fuzzy
 msgctxt "New"
 msgid "_Test"
-msgstr "Test"
+msgstr "Te_st"
 
 #: ../shell/test/evolution-test-component.c:107
 msgid "Create a new test item"
@@ -23404,15 +23404,15 @@ msgstr "Der Status des Knopfes ist »online«"
 
 #: ../widgets/misc/e-pilot-settings.c:102
 msgid "Sync with:"
-msgstr "Synchronisieren mit:"
+msgstr "Abgleichen mit:"
 
 #: ../widgets/misc/e-pilot-settings.c:110
 msgid "Sync Private Records:"
-msgstr "Private Einträge synchronisieren:"
+msgstr "Private Einträge abgleichen:"
 
 #: ../widgets/misc/e-pilot-settings.c:119
 msgid "Sync Categories:"
-msgstr "Kategorien synchronisieren"
+msgstr "Kategorien abgleichen:"
 
 #: ../widgets/misc/e-reflow.c:1448 ../widgets/misc/e-reflow.c:1449
 msgid "Empty message"
