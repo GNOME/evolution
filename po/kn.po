@@ -1,4 +1,4 @@
-# translation of evolution.HEAD.kn.po to Kannada
+# translation of kn.po to Kannada
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
@@ -6,10 +6,10 @@
 # Shankar Prasad <svenkate@redhat.com>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution.HEAD.kn\n"
+"Project-Id-Version: kn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-08-26 20:33+0000\n"
-"PO-Revision-Date: 2008-09-17 18:17+0530\n"
+"PO-Revision-Date: 2008-09-18 10:20+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: Kannada <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3211,7 +3211,7 @@ msgstr "ಅಗಲ"
 #: ../widgets/table/e-table-item.c:3087 ../widgets/table/e-table-item.c:3088
 #: ../widgets/text/e-text.c:3737 ../widgets/text/e-text.c:3738
 msgid "Height"
-msgstr "ಎತ್ತರ"
+msgstr "ಉದ್ದ"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:129
 #: ../addressbook/gui/widgets/e-minicard.c:169
@@ -3875,7 +3875,7 @@ msgstr "ಪ್ರತಿ ಪತ್ರದ ಶೀರ್ಷಿಕೆಗಳು"
 
 #: ../addressbook/printing/e-contact-print.glade.h:15
 msgid "Height:"
-msgstr "ಎತ್ತರ:"
+msgstr "ಉದ್ದ:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:16
 msgid "Immediately follow each other"
@@ -10688,13 +10688,13 @@ msgstr "ಸಂದೇಶವನ್ನು ಸ್ವೀಕರಿಸಬೇಕಿರ�
 
 #: ../composer/e-composer-header-table.c:68
 msgid "Enter the addresses that will receive a carbon copy of the message"
-msgstr "ಈ ಸಂದೇಶದ ಒಂದು ನಕಲು ಪ್ರತಿಯನ್ನು ಪಡೆಯಬೇಕಿರುವವರ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ"
+msgstr "ಈ ಸಂದೇಶದ ಒಂದು ಕಾರ್ಬನ್ ಕಾಪಿಯನ್ನು ಪಡೆಯಬೇಕಿರುವವರ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ"
 
 #: ../composer/e-composer-header-table.c:71
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message"
-msgstr "ಸ್ವೀಕರಿಸುವವರ ಪಟ್ಟಿಯಲ್ಲಿ ಕಾಣಿಸಿಕೊಳ್ಳದೆ, ಈ ಸಂದೇಶದ ಒಂದು ನಕಲು ಪ್ರತಿಯನ್ನು ಪಡೆಯಬೇಕಿರುವವರ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ"
+msgstr "ಸ್ವೀಕರಿಸುವವರ ಪಟ್ಟಿಯಲ್ಲಿ ಕಾಣಿಸಿಕೊಳ್ಳದೆ, ಈ ಸಂದೇಶದ ಒಂದು ಕಾರ್ಬನ್ ಕಾಪಿಯನ್ನು ಪಡೆಯಬೇಕಿರುವವರ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ"
 
 #: ../composer/e-composer-header-table.c:645
 msgid "Fr_om:"
@@ -11733,11 +11733,11 @@ msgstr "ಇದನ್ನು ಹೊಂದಿಸಲಾಗಿದೆ"
 #: ../mail/em-filter-i18n.h:40 ../mail/mail-config.glade.h:97
 #: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
-msgstr "ಜಂಕ್"
+msgstr "ರದ್ದಿ"
 
 #: ../mail/em-filter-i18n.h:41
 msgid "Junk Test"
-msgstr "ಜಂಕ್ ಪರೀಕ್ಷೆ"
+msgstr "ರದ್ದಿ ಪರೀಕ್ಷೆ"
 
 #: ../mail/em-filter-i18n.h:42 ../widgets/misc/e-expander.c:188
 msgid "Label"
@@ -11761,11 +11761,11 @@ msgstr "ಸಂದೇಶ ಹೆಡರ್"
 
 #: ../mail/em-filter-i18n.h:47
 msgid "Message is Junk"
-msgstr "ಜಂಕ್ ಸಂದೇಶ"
+msgstr "ರದ್ದಿ ಸಂದೇಶ"
 
 #: ../mail/em-filter-i18n.h:48
 msgid "Message is not Junk"
-msgstr "ಜಂಕ್ ಸಂದೇಶವು ಅಲ್ಲ"
+msgstr "ರದ್ದಿ ಸಂದೇಶವು ಅಲ್ಲ"
 
 #: ../mail/em-filter-i18n.h:49
 msgid "Move to Folder"
@@ -11912,7 +11912,7 @@ msgstr "ಪ್ರಮುಖ ಸಂದೇಶಗಳು"
 
 #: ../mail/em-folder-browser.c:230
 msgid "Messages Not Junk"
-msgstr "ಸಂದೇಶವು ಜಂಕ್ ಅಲ್ಲ"
+msgstr "ಸಂದೇಶವು ರದ್ದಿ ಅಲ್ಲ"
 
 #: ../mail/em-folder-browser.c:1171
 msgid "Account Search"
@@ -12170,11 +12170,11 @@ msgstr "ಮುಖ್ಯವಾದುದಲ್ಲ ಎಂದು ಗುರುತು�
 
 #: ../mail/em-folder-view.c:1350
 msgid "Mark as _Junk"
-msgstr "ಜಂಕ್ ಎಂದು ಗುರುತು ಹಾಕು(_J)"
+msgstr "ರದ್ದಿ ಎಂದು ಗುರುತು ಹಾಕು(_J)"
 
 #: ../mail/em-folder-view.c:1351
 msgid "Mark as _Not Junk"
-msgstr "ಜಂಕ್ ಅಲ್ಲವೆಂದು ಗುರುತು ಹಾಕು(_N)"
+msgstr "ರದ್ದಿ ಅಲ್ಲವೆಂದು ಗುರುತು ಹಾಕು(_N)"
 
 #: ../mail/em-folder-view.c:1352
 msgid "Mark for Follo_w Up..."
@@ -12515,22 +12515,22 @@ msgstr "FTP ತಾಣಕ್ಕಾಗಿನ (%s) ಸೂಚಕ"
 #: ../mail/em-format-html.c:974
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
-msgstr ""
+msgstr "ಸ್ಥಳೀಯ ಕಡತಕ್ಕಾಗಿನ (%s) ಸೂಚಕವು ತಾಣ \"%s\" ದಲ್ಲಿ ಮಾನ್ಯವಾಗಿದೆ"
 
 #: ../mail/em-format-html.c:976
 #, c-format
 msgid "Pointer to local file (%s)"
-msgstr ""
+msgstr "ಸ್ಥಳೀಯ ಕಡತಕ್ಕಾಗಿನ (%s) ಸೂಚಕ"
 
 #: ../mail/em-format-html.c:997
 #, c-format
 msgid "Pointer to remote data (%s)"
-msgstr ""
+msgstr "ದೂರಸ್ಥ ದತ್ತಾಂಶಕ್ಕಾಗಿನ (%s) ಸೂಚಕ"
 
 #: ../mail/em-format-html.c:1008
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
-msgstr ""
+msgstr "ಗೊತ್ತಿರದ ಬಾಹ್ಯ ದತ್ತಾಂಶಕ್ಕಾಗಿನ ಸೂಚಕ (\"%s\" ಬಗೆ)"
 
 #: ../mail/em-format-html.c:1236
 msgid "Formatting message"
@@ -12595,7 +12595,7 @@ msgstr "ದಿನಾಂಕ"
 
 #: ../mail/em-format.c:891 ../mail/em-mailer-prefs.c:82
 msgid "Newsgroups"
-msgstr ""
+msgstr "ವಾರ್ತಾಸಮೂಹಗಳು"
 
 #: ../mail/em-format.c:1157
 #, c-format
@@ -12604,28 +12604,27 @@ msgstr "%s ಲಗತ್ತು"
 
 #: ../mail/em-format.c:1199
 msgid "Could not parse S/MIME message: Unknown error"
-msgstr ""
+msgstr "S/MIME ಸಂದೇಶವನ್ನು ಪಾರ್ಸ್ ಮಾಡಲಾಗಿಲ್ಲ: ಅಜ್ಞಾತ ದೋಷ"
 
 #: ../mail/em-format.c:1336 ../mail/em-format.c:1492
 msgid "Could not parse MIME message. Displaying as source."
-msgstr ""
+msgstr "MIME ಸಂದೇಶವನ್ನು ಪಾರ್ಸ್ ಮಾಡಲಾಗಿಲ್ಲ. ಆಕರವಾಗಿ ತೋರಿಸಲಾಗುತ್ತಿದೆ."
 
 #: ../mail/em-format.c:1344
-#, fuzzy
 msgid "Unsupported encryption type for multipart/encrypted"
-msgstr "ಗೂಢಲಿಪೀಕರಣ"
+msgstr "ಮಲ್ಟಿಪಾರ್ಟ್/ಗೂಢಲಿಪೀಕರಣಗೊಂಡಿದ್ದಕ್ಕಾಗಿ ಬೆಂಬಲವಿರದ ಬಗೆಯ ಗೂಢಲಿಪೀಕರಣ ಬಗೆ"
 
 #: ../mail/em-format.c:1354
 msgid "Could not parse PGP/MIME message"
-msgstr ""
+msgstr "PGP/MIME ಸಂದೇಶವನ್ನು ಪಾರ್ಸ್ ಮಾಡಲಾಗಿಲ್ಲ"
 
 #: ../mail/em-format.c:1354
 msgid "Could not parse PGP/MIME message: Unknown error"
-msgstr ""
+msgstr "PGP/MIME ಸಂದೇಶವನ್ನು ಪಾರ್ಸ್ ಮಾಡಲಾಗಿಲ್ಲ: ಅಜ್ಞಾತ ಸಂದೇಶ"
 
 #: ../mail/em-format.c:1511
 msgid "Unsupported signature format"
-msgstr ""
+msgstr "ಬೆಂಬಲವಿರದ ಸಹಿಯ ವಿನ್ಯಾಸ"
 
 #: ../mail/em-format.c:1519 ../mail/em-format.c:1590
 msgid "Error verifying signature"
@@ -12633,15 +12632,15 @@ msgstr "ಸಹಿಯನ್ನು ಪರಿಶೀಲಿಸುವಲ್ಲಿ ದ�
 
 #: ../mail/em-format.c:1519 ../mail/em-format.c:1581 ../mail/em-format.c:1590
 msgid "Unknown error verifying signature"
-msgstr ""
+msgstr "ಸಹಿಯನ್ನು ಪರಿಶೀಲಿಸುವಾಗ ಅಜ್ಞಾತ ದೋಷ"
 
 #: ../mail/em-format.c:1662
 msgid "Could not parse PGP message"
-msgstr ""
+msgstr "PGP ಸಂದೇಶವನ್ನು ಪಾರ್ಸ್ ಮಾಡಲಾಗಿಲ್ಲ"
 
 #: ../mail/em-format.c:1662
 msgid "Could not parse PGP message: Unknown error"
-msgstr ""
+msgstr "PGP ಸಂದೇಶವನ್ನು ಪಾರ್ಸ್ ಮಾಡಲಾಗಿಲ್ಲ: ಅಜ್ಞಾತ ದೋಷ"
 
 #: ../mail/em-mailer-prefs.c:93
 msgid "Every time"
@@ -12661,7 +12660,7 @@ msgstr "ತಿಂಗಳಲ್ಲಿ ಒಂದು ಬಾರಿ"
 
 #: ../mail/em-mailer-prefs.c:326
 msgid "Add Custom Junk Header"
-msgstr "ನಿಮ್ಮ ಇಚ್ಛೆಯ ಜಂಕ್ ಹೆಡರ್‌ಗಳು ಸೇರಿಸು"
+msgstr "ನಿಮ್ಮ ಇಚ್ಛೆಯ ರದ್ದಿ ಹೆಡರ್‌ಗಳು ಸೇರಿಸು"
 
 #: ../mail/em-mailer-prefs.c:330
 msgid "Header Name:"
@@ -12693,11 +12692,11 @@ msgstr "%s ಪ್ಲಗ್‌ಇನ್ ಅನುಸ್ಥಾಪಿತಗೊಂ�
 #: ../mail/em-mailer-prefs.c:1086 ../mail/em-mailer-prefs.c:1141
 #, c-format
 msgid "%s plugin is not available. Please check whether the package is installed."
-msgstr ""
+msgstr "%s ಪ್ಲಗ್ಇನ್ ಲಭ್ಯವಿಲ್ಲ.  ದಯವಿಟ್ಟು ಆ ಪ್ಯಾಕೇಜ್ ಅನುಸ್ಥಾಪಿತಗೊಂಡಿದೆಯೆ ಎಂದು ಪರಿಶೀಲಿಸಿ."
 
 #: ../mail/em-mailer-prefs.c:1107
 msgid "No Junk plugin available"
-msgstr "ಯಾವುದೆ ಜಂಕ್ ಪ್ಲಗ್ಇನ್ ಲಭ್ಯವಿಲ್ಲ"
+msgstr "ಯಾವುದೆ ರದ್ದಿ ಪ್ಲಗ್ಇನ್ ಲಭ್ಯವಿಲ್ಲ"
 
 #. green
 #: ../mail/em-migrate.c:1059
@@ -12712,17 +12711,17 @@ msgstr "ನಂತರ"
 #: ../mail/em-migrate.c:1652
 #, c-format
 msgid "Unable to create new folder `%s': %s"
-msgstr ""
+msgstr "ಹೊಸ ಫೋಲ್ಡರ್ `%s' ಅನ್ನು ನಿರ್ಮಿಸಲಾಗಿಲ್ಲ: %s"
 
 #: ../mail/em-migrate.c:1678
 #, c-format
 msgid "Unable to copy folder `%s' to `%s': %s"
-msgstr ""
+msgstr "ಫೋಲ್ಡರ್ `%s' ಅನ್ನು `%s' ಗೆ ಕಾಪಿ ಮಾಡಲಾಗಿಲ್ಲ: %s"
 
 #: ../mail/em-migrate.c:1863
 #, c-format
 msgid "Unable to scan for existing mailboxes at `%s': %s"
-msgstr ""
+msgstr "`%s' ಯಲ್ಲಿ ಈಗಿರುವ ಅಂಚೆಪೆಟ್ಟಿಗೆಗಳನ್ನು ಶೋಧಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ: %s"
 
 #: ../mail/em-migrate.c:1868
 msgid ""
@@ -12739,22 +12738,22 @@ msgstr ""
 #: ../mail/em-migrate.c:2069
 #, c-format
 msgid "Unable to open old POP keep-on-server data `%s': %s"
-msgstr ""
+msgstr "ಹಳೆಯ POP ಪರಿಚಾರಕದಲ್ಲಿ-ಇರಿಸಿಕೋ ಮಾಹಿತಿ `%s' ಅನ್ನು ತೆರೆಯಲಾಗಿಲ್ಲ: %s"
 
 #: ../mail/em-migrate.c:2083
 #, c-format
 msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
-msgstr ""
+msgstr "POP3 ಪರಿಚಾರಕದಲ್ಲಿ-ಇರಿಸಿಕೋ ಮಾಹಿತಿ ಕೋಶ `%s' ಅನ್ನು ನಿರ್ಮಿಸಲಾಗಿಲ್ಲ: %s"
 
 #: ../mail/em-migrate.c:2112
 #, c-format
 msgid "Unable to copy POP3 keep-on-server data `%s': %s"
-msgstr ""
+msgstr "POP3 ಪರಿಚಾರಕದಲ್ಲಿ-ಇರಿಸಿಕೋ ಕೋಶ `%s' ಅನ್ನು ಕಾಪಿ ಮಾಡಲಾಗಿಲ್ಲ: %s"
 
 #: ../mail/em-migrate.c:2583 ../mail/em-migrate.c:2595
 #, c-format
 msgid "Failed to create local mail storage `%s': %s"
-msgstr ""
+msgstr "ಸ್ಥಳೀಯ ಮೈಲ್ ಶೇಖರಣೆ `%s' ಅನ್ನು ರಚಿಸಲು ವಿಫಲಗೊಂಡಿದೆ: %s"
 
 #: ../mail/em-migrate.c:2898
 msgid ""
@@ -12771,13 +12770,15 @@ msgstr ""
 #: ../mail/em-migrate.c:2963
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
-msgstr ""
+msgstr "ಸ್ಥಳೀಯ ಮೈಲ್ ಫೋಲ್ಡರುಗಳ ಶೇಖರಣೆ `%s' ಅನ್ನು ರಚಿಸಲು ವಿಫಲಗೊಂಡಿದೆ: %s"
 
 #: ../mail/em-migrate.c:2982
 msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
 msgstr ""
+"ಹಿಂದಿನ ಇವಲ್ಯೂಶನ್‌ನಿಂದ ಸಂಯೋಜನೆಗಳನ್ನು ಓದಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ, `evolution/config."
+"xmldb' ಯು ಅಸ್ತಿತ್ವದಲ್ಲಿಲ್ಲ ಅಥವ ಭ್ರಷ್ಟಗೊಂಡಿದೆ."
 
 #: ../mail/em-popup.c:564 ../mail/em-popup.c:575
 msgid "_Reply to sender"
@@ -12795,11 +12796,11 @@ msgstr "ವಿಳಾಸ ಪುಸ್ತಕಕ್ಕೆ ಸೇರಿಸು(_A)"
 
 #: ../mail/em-subscribe-editor.c:583
 msgid "This store does not support subscriptions, or they are not enabled."
-msgstr ""
+msgstr "ಈ ಶೇಖರಣೆಯು ಚಂದಾದಾರಿಕೆಗಳನ್ನು ಬೆಂಬಲಿಸುವುದಿಲ್ಲ, ಅಥವ ಅವು ಶಕ್ತಗೊಂಡಿಲ್ಲ."
 
 #: ../mail/em-subscribe-editor.c:616
 msgid "Subscribed"
-msgstr ""
+msgstr "ಚಂದಾದಾರಗೊಳಿಸಲಾಗಿದೆ"
 
 #: ../mail/em-subscribe-editor.c:620
 msgid "Folder"
@@ -12852,23 +12853,23 @@ msgstr "ಹುಡುಕು ಫೋಲ್ಡರ್ ಆಕರ"
 
 #: ../mail/evolution-mail.schemas.in.h:1
 msgid "\"Send and Receive Mail\" window height"
-msgstr ""
+msgstr "\"ಮೈಲನ್ನು ಕಳುಹಿಸು ಹಾಗು ಸ್ವೀಕರಿಸು\" ವಿಂಡೋದ ಉದ್ದ"
 
 #: ../mail/evolution-mail.schemas.in.h:2
 msgid "\"Send and Receive Mail\" window maximize state"
-msgstr ""
+msgstr "\"ಮೈಲನ್ನು ಕಳುಹಿಸು ಹಾಗು ಸ್ವೀಕರಿಸು\" ವಿಂಡೋದ ಗರಿಷ್ಟ ಸ್ಥಿತಿ"
 
 #: ../mail/evolution-mail.schemas.in.h:3
 msgid "\"Send and Receive Mail\" window width"
-msgstr ""
+msgstr "\"ಮೈಲನ್ನು ಕಳುಹಿಸು ಹಾಗು ಸ್ವೀಕರಿಸು\" ವಿಂಡೋದ ಅಗಲ"
 
 #: ../mail/evolution-mail.schemas.in.h:4
 msgid "Allows evolution to display text part of limited size"
-msgstr ""
+msgstr "ನಿಯಮಿತ ಗಾತ್ರದ ಪಠ್ಯದ ಭಾಗವನ್ನು ತೋರಿಸಲು ಇವಲ್ಯೂಶನ್‌ಗೆ ಅನುಮತಿಸು"
 
 #: ../mail/evolution-mail.schemas.in.h:5
 msgid "Always request read receipt"
-msgstr ""
+msgstr "ಯಾವಾಗಲೂ 'ಓದಲಾಗಿದೆ' ರಸೀತಿಗಾಗಿ ಮನವಿ ಮಾಡು"
 
 #: ../mail/evolution-mail.schemas.in.h:6
 msgid "Amount of time in seconds the error should be shown on the status bar."
@@ -12876,15 +12877,15 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:7
 msgid "Automatic emoticon recognition"
-msgstr ""
+msgstr "ಸ್ವಯಂಚಾಲಿತ ಎಮೋಟಿಕಾನ್ ಗುರುತಿಸುವಿಕೆ"
 
 #: ../mail/evolution-mail.schemas.in.h:8
 msgid "Automatic link recognition"
-msgstr ""
+msgstr "ಸ್ವಯಂಚಾಲಿತ ಕೊಂಡಿ ಗುರುತಿಸುವಿಕೆ"
 
 #: ../mail/evolution-mail.schemas.in.h:9
 msgid "Check incoming mail being junk"
-msgstr "ಒಳಬರುವ ಮೈಲ್ ಜಂಕ್ ಆಗಿದೆಯೆ ಎಂದು ಪರಿಶೀಲಿಸು"
+msgstr "ಒಳಬರುವ ಮೈಲ್ ರದ್ದಿ ಆಗಿದೆಯೆ ಎಂದು ಪರಿಶೀಲಿಸು"
 
 #: ../mail/evolution-mail.schemas.in.h:10
 msgid "Citation highlight color"
@@ -12896,19 +12897,19 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:12
 msgid "Composer Window default height"
-msgstr ""
+msgstr "ರಚನೆಗಾರ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಉದ್ದ"
 
 #: ../mail/evolution-mail.schemas.in.h:13
 msgid "Composer Window default width"
-msgstr ""
+msgstr "ರಚನೆಗಾರ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಅಗಲ"
 
 #: ../mail/evolution-mail.schemas.in.h:14
 msgid "Composer load/attach directory"
-msgstr ""
+msgstr "ರಚನಾಕಾರ ಲೋಡ್ ಮಾಡಲಾದ/ಲಗತ್ತಿಸಲಾದ ಕೋಶ"
 
 #: ../mail/evolution-mail.schemas.in.h:15
 msgid "Compress display of addresses in TO/CC/BCC"
-msgstr ""
+msgstr "ಗೆ/CC/BCC ಯಲ್ಲಿ ತೋರಿಸಲಾಗುವ ವಿಳಾಸವನ್ನು ಚಿಕ್ಕದಾಗಿಸು"
 
 #: ../mail/evolution-mail.schemas.in.h:16
 msgid ""
@@ -12924,7 +12925,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:18
 msgid "Custom headers to use while checking for junk."
-msgstr ""
+msgstr "ರದ್ದಿ ಅನ್ನು ಪರಿಶೀಲಿಸುವಾಗ ಪರಿಶಿಲಿಸಬೇಕಿರುವ ಬಳಸಬೇಕಿರುವ ಕಸ್ಟಮ್ ಹೆಡರ್"
 
 #: ../mail/evolution-mail.schemas.in.h:19
 msgid ""
@@ -12934,43 +12935,43 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:20
 msgid "Default charset in which to compose messages"
-msgstr ""
+msgstr "ಸಂದೇಶಗಳನ್ನು ರಚಿಸಲು ಬಳಸಬೇಕಿರುವ ಡೀಫಾಲ್ಟ್‍ ಕ್ಯಾರ್ಸೆಟ್"
 
 #: ../mail/evolution-mail.schemas.in.h:21
 msgid "Default charset in which to compose messages."
-msgstr ""
+msgstr "ಸಂದೇಶಗಳನ್ನು ರಚಿಸಲು ಬಳಸಬೇಕಿರುವ ಡೀಫಾಲ್ಟ್‍ ಕ್ಯಾರ್ಸೆಟ್."
 
 #: ../mail/evolution-mail.schemas.in.h:22
 msgid "Default charset in which to display messages"
-msgstr ""
+msgstr "ಸಂದೇಶಗಳನ್ನು ತೋರಿಸಲು ಬಳಸಬೇಕಿರುವ ಡೀಫಾಲ್ಟ್‍ ಕ್ಯಾರ್ಸೆಟ್"
 
 #: ../mail/evolution-mail.schemas.in.h:23
 msgid "Default charset in which to display messages."
-msgstr ""
+msgstr "ಸಂದೇಶಗಳನ್ನು ತೋರಿಸಲು ಬಳಸಬೇಕಿರುವ ಡೀಫಾಲ್ಟ್‍ ಕ್ಯಾರ್ಸೆಟ್."
 
 #: ../mail/evolution-mail.schemas.in.h:24
 msgid "Default forward style"
-msgstr ""
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಫಾರ್ವಾರ್ಡ ಶೈಲಿ"
 
 #: ../mail/evolution-mail.schemas.in.h:25
 msgid "Default height of the Composer Window."
-msgstr "ರಚನೆಗಾರ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಎತ್ತರ."
+msgstr "ರಚನೆಗಾರ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಉದ್ದ."
 
 #: ../mail/evolution-mail.schemas.in.h:26
 msgid "Default height of the message window."
-msgstr "ಮುಖ್ಯ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಎತ್ತರ."
+msgstr "ಮುಖ್ಯ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಉದ್ದ."
 
 #: ../mail/evolution-mail.schemas.in.h:27
 msgid "Default height of the subscribe dialog."
-msgstr ""
+msgstr "ಚಂದಾದಾರಿಕೆ ಸಂವಾದದ ಡೀಫಾಲ್ಟ್‍ ಉದ್ದ."
 
 #: ../mail/evolution-mail.schemas.in.h:28
 msgid "Default reply style"
-msgstr ""
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಪ್ರತ್ಯುತ್ತರ ಶೈಲಿ"
 
 #: ../mail/evolution-mail.schemas.in.h:29
 msgid "Default value for thread expand state"
-msgstr ""
+msgstr "ತ್ರೆಡ್ ವಿಸ್ತರಿಸಲಾದ ಸ್ಥಿತಿಯ ಡೀಫಾಲ್ಟ್‍ ಮೌಲ್ಯ"
 
 #: ../mail/evolution-mail.schemas.in.h:30
 msgid "Default width of the Composer Window."
@@ -12981,19 +12982,18 @@ msgid "Default width of the message window."
 msgstr "ಸಂದೇಶ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಅಗಲ."
 
 #: ../mail/evolution-mail.schemas.in.h:32
-#, fuzzy
 msgid "Default width of the subscribe dialog."
-msgstr "ಬದಿಪಟ್ಟಿಯ ಡೀಫಾಲ್ಟ್‍ ಅಗಲ (ಪಿಕ್ಸೆಲ್‍ಗಳಲ್ಲಿ)."
+msgstr "ಚಂದಾದಾರಿಕೆ ಸಂವಾದದ ಡೀಫಾಲ್ಟ್‍ ಅಗಲ"
 
 #: ../mail/evolution-mail.schemas.in.h:33
 msgid ""
 "Determines whether to look up addresses for junk filtering in local "
 "addressbook only"
-msgstr ""
+msgstr "ರದ್ದಿ ಶೋಧನೆಗಾಗಿ ಕೇವಲ ಸ್ಥಳೀಯ ವಿಳಾಸಪುಸ್ತಕದಲ್ಲಿ ಮಾತ್ರ ವಿಳಾಸಕ್ಕಾಗಿ ನೋಡಬೇಕೆ ಎಂದೆ ನಿರ್ಧರಿಸುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:34
 msgid "Determines whether to lookup in addressbook for sender email"
-msgstr ""
+msgstr "ಕಳುಹಿಸಿದವರ ಇಮೈಲ್‌ಗಾಗಿ ವಿಳಾಸಪುಸ್ತಕದಲ್ಲಿ ನೋಡಬೇಕೆ ಎಂದೆ ನಿರ್ಧರಿಸುತ್ತದೆ"
 
 #: ../mail/evolution-mail.schemas.in.h:35
 msgid ""
@@ -13021,9 +13021,8 @@ msgid ""
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:39
-#, fuzzy
 msgid "Directory for loading/attaching files to composer."
-msgstr "ಅಲಾರಂನ ಧ್ವನಿ ಕಡತಗಳನ್ನು ಉಳಿಸಲು ಇರುವ ಕಡತಕೋಶ"
+msgstr "ರಚನಾಕಾರನಿಗೆ ಲೋಡ್ ಮಾಡಬೇಕಿರುವ/ಲಗತ್ತಿಸಬೇಕಿರುವ ಕಡತಗಳನ್ನು ಹೊಂದಿರುವ ಕೋಶ."
 
 #: ../mail/evolution-mail.schemas.in.h:40
 msgid "Directory for saving mail component files."
@@ -13035,31 +13034,31 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:42
 msgid "Draw spelling error indicators on words as you type."
-msgstr ""
+msgstr "ನೀವು ನಮೂದಿಸಿದೆಂತೆಲ್ಲಾ ಕಾಗುಣಿತ ದೋಷ ಸೂಚಕವನ್ನು ತೋರಿಸುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:43
 msgid "Empty Junk folders on exit"
-msgstr ""
+msgstr "ನಿರ್ಗಮಿಸಿದಾಗ ರದ್ದಿ ಫೋಲ್ಡರುಗಳನ್ನು ಖಾಲಿ ಮಾಡು"
 
 #: ../mail/evolution-mail.schemas.in.h:44
 msgid "Empty Trash folders on exit"
-msgstr ""
+msgstr "ನಿರ್ಗಮಿಸಿದಾಗ ಕಸದಬುಟ್ಟಿ ಫೋಲ್ಡರುಗಳನ್ನು ಖಾಲಿ ಮಾಡು"
 
 #: ../mail/evolution-mail.schemas.in.h:45
 msgid "Empty all Junk folders when exiting Evolution."
-msgstr ""
+msgstr "ಇವಲ್ಯೂಶನ್‌ನಿಂದ ನಿರ್ಗಮಿಸಿದಾಗ ಎಲ್ಲಾ ರದ್ದಿ ಫೋಲ್ಡರುಗಳನ್ನು ಖಾಲಿ ಮಾಡು."
 
 #: ../mail/evolution-mail.schemas.in.h:46
 msgid "Empty all Trash folders when exiting Evolution."
-msgstr ""
+msgstr "ಇವಲ್ಯೂಶನ್‌ನಿಂದ ನಿರ್ಗಮಿಸಿದಾಗ ಎಲ್ಲಾ ಕಸದಬುಟ್ಟಿ ಫೋಲ್ಡರುಗಳನ್ನು ಖಾಲಿ ಮಾಡು."
 
 #: ../mail/evolution-mail.schemas.in.h:47
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
-msgstr ""
+msgstr "ನೀವು ಮೈಲ್ ಅನ್ನು ಓದುವಾಗ ಒಂದು ತೆರೆಸೂಚಕವು ಕಾಣುವಂತೆ, ಕ್ಯಾರಟ್ ಕ್ರಮವನ್ನು ಶಕ್ತಗೊಳಿಸು."
 
 #: ../mail/evolution-mail.schemas.in.h:48
 msgid "Enable or disable magic space bar"
-msgstr ""
+msgstr "ಮಾಂತ್ರಿಕ ಸ್ಪೇಸ್‌ ಬಾರನ್ನು ಶಕ್ತಗೊಳಿಸು ಅಥವ ಅಶಕ್ತಗೊಳಿಸು"
 
 #: ../mail/evolution-mail.schemas.in.h:49
 msgid "Enable or disable type ahead search feature"
@@ -13067,11 +13066,11 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:50
 msgid "Enable search folders"
-msgstr "ಹುಡುಕು ಫೋಲ್ಡರನ್ನು ಶಕ್ತಗೊಳಿಸು"
+msgstr "ಹುಡುಕು ಫೋಲ್ಡರುಗಳನ್ನು ಶಕ್ತಗೊಳಿಸು"
 
 #: ../mail/evolution-mail.schemas.in.h:51
 msgid "Enable search folders on startup."
-msgstr ""
+msgstr "ಆರಂಭಗೊಂಡಾಗ ಹುಡುಕು ಫೋಲ್ಡರುಗಳನ್ನು ಶಕ್ತಗೊಳಿಸು."
 
 #: ../mail/evolution-mail.schemas.in.h:52
 msgid ""
@@ -13093,15 +13092,15 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:55
 msgid "Enable/disable caret mode"
-msgstr ""
+msgstr "ಕ್ಯಾರಟ್ ಕ್ರಮವನ್ನು ಶಕ್ತಗೊಳಿಸು/ಅಶಕ್ತಗೊಳಿಸು"
 
 #: ../mail/evolution-mail.schemas.in.h:56
 msgid "Height of the message-list pane"
-msgstr "ಸಂದೇಶ-ಪಟ್ಟಿ ಫಲಕದ ಎತ್ತರ"
+msgstr "ಸಂದೇಶ-ಪಟ್ಟಿ ಫಲಕದ ಉದ್ದ"
 
 #: ../mail/evolution-mail.schemas.in.h:57
 msgid "Height of the message-list pane."
-msgstr "ಸಂದೇಶ-ಪಟ್ಟಿ ಫಲಕದ ಎತ್ತರ."
+msgstr "ಸಂದೇಶ-ಪಟ್ಟಿ ಫಲಕದ ಉದ್ದ."
 
 #: ../mail/evolution-mail.schemas.in.h:58
 msgid "Hides the per-folder preview and removes the selection"
@@ -13111,13 +13110,13 @@ msgstr ""
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
-msgstr ""
+msgstr "ಬಳಕೆದಾರರು ಒಮ್ಮೆಲೆ 10 ಅಥವ ಅದಕ್ಕಿಂತ ಹೆಚ್ಚಿನ ಸಂದೇಶಗಳನ್ನು ತೆರೆಯಲು ಪ್ರಯತ್ನಿಸಿದಾಗ, ಹಾಗೆ ಮಾಡಲು ಅವರು ನಿಜವಾಗಿಯೂ ಬಯಸಿದ್ದಾರೆಯೆ ಎಂದು ಕೇಳು."
 
 #: ../mail/evolution-mail.schemas.in.h:60
 msgid ""
 "If the \"Preview\" pane is on, then show it side-by-side rather than "
 "vertically."
-msgstr ""
+msgstr "\"ಮುನ್ನೋಟ\" ಫಲಕವು ಆನ್ ಆಗಿದ್ದಲ್ಲಿ, ಅದನ್ನು ಲಂಬವಾಗಿ ತೋರಿಸುವ ಬದಲು ಪಕ್ಕದಲ್ಲಿ ತೋರಿಸು."
 
 #: ../mail/evolution-mail.schemas.in.h:61
 msgid ""
@@ -13130,7 +13129,7 @@ msgstr ""
 msgid ""
 "Initial height of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window vertically."
-msgstr ""
+msgstr "\"ಮೈಲನ್ನು ಕಳುಹಿಸು ಹಾಗು ಸ್ವೀಕರಿಸು\" ವಿಂಡೋದ ಆರಂಭಿಕ ಉದ್ದ. ಬಳಕೆದಾರರು ವಿಂಡೋದ ಗಾತ್ರವನ್ನು ಲಂಬವಾಗಿ ಬದಲಾಯಿಸಿದಾಗ ಈ ಮೌಲ್ಯವು ಅಪ್ಡೇಟ್ ಮಾಡಲ್ಪಡುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:63
 msgid ""
@@ -13149,7 +13148,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:65
 msgid "It disables/enables the prompt while marking multiple messages."
-msgstr ""
+msgstr "ಅನೇಕ ಸಂದೇಶಗಳನ್ನು ಗುರುತು ಹಾಕುವಾಗ ಇದು ಎಚ್ಚರಿಸುವುದನ್ನು ಇದು ಅಶಕ್ತ/ಶಕ್ತಗೊಳಿಸುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:66
 msgid ""
@@ -13166,11 +13165,11 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:68
 msgid "Last time empty junk was run"
-msgstr ""
+msgstr "ಕಡೆಯ ಬಾರಿಗೆ ರದ್ದಿ ಅನ್ನು ಖಾಲಿ ಮಾಡಿದ್ದು"
 
 #: ../mail/evolution-mail.schemas.in.h:69
 msgid "Last time empty trash was run"
-msgstr ""
+msgstr "ಕಡೆಯ ಬಾರಿಗೆ ಕಸದಬುಟ್ಟಿಯನ್ನು ಖಾಲಿ ಮಾಡಿದ್ದು"
 
 #: ../mail/evolution-mail.schemas.in.h:70
 msgid "Level beyond which the message should be logged."
@@ -13178,11 +13177,11 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:71
 msgid "List of Labels and their associated colors"
-msgstr ""
+msgstr "ಲೇಬಲ್‌ಗಳು ಹಾಗು ಅವಕ್ಕೆ ಸಂಬಂಧಿಸಿದ ಬಣ್ಣಗಳು"
 
 #: ../mail/evolution-mail.schemas.in.h:72
 msgid "List of accepted licenses"
-msgstr ""
+msgstr "ಅಂಗೀಕರಿಸಲಾದ ಲೈಸೆನ್ಸುಗಳ ಪಟ್ಟಿ"
 
 #: ../mail/evolution-mail.schemas.in.h:73
 msgid "List of accounts"
@@ -13192,15 +13191,15 @@ msgstr "ಖಾತೆಗಳ ಪಟ್ಟಿ"
 msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
-msgstr ""
+msgstr "ಇವಲ್ಯೂಶನ್ ಅಂಚೆ ಘಟಕಕ್ಕೆ ತಿಳಿದಿರುವ ಖಾತೆಗಳ ಪಟ್ಟಿ.ಪಟ್ಟಿಯು /apps/evolution/mail/accounts ಕ್ಕೆ ಅನುಗುಣವಾಗಿ ಹೆಸರಿಸುವ ಉಪಕೋಶಗಳ ವಾಕ್ಯಗಳನ್ನು ಹೊಂದಿರುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:75
 msgid "List of custom headers and whether they are enabled."
-msgstr ""
+msgstr "ಕಸ್ಟಮ್ ಹೆಡರುಗಳ ಪಟ್ಟಿ ಹಾಗು ಅವುಗಳು ಶಕ್ತಗೊಳಿಸಲಾಗಿವೆಯೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:76
 msgid "List of dictionary language codes used for spell checking."
-msgstr ""
+msgstr "ಕಾಗುಣಿತ ಪರೀಕ್ಷೆಗಾಗಿ ಬಳಸಲಾಗುವ ಶಬ್ಧಕೋಶ ಭಾಷೆಯ ಕೋಡ್‌ಗಳ ಪಟ್ಟಿ."
 
 #: ../mail/evolution-mail.schemas.in.h:77
 msgid ""
@@ -13210,82 +13209,82 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:78
 msgid "List of mime types to check for bonobo component viewers"
-msgstr ""
+msgstr "ಬೊನೊಬೊ ಘಟಕ ವೀಕ್ಷಕರ ಪರಿಶೀಲನೆಗಾಗಿ ಬೇಕಿರುವ ಮೈಮ್ ಬಗೆಗಳ ಪಟ್ಟಿ"
 
 #: ../mail/evolution-mail.schemas.in.h:79
 msgid "List of protocol names whose license has been accepted."
-msgstr ""
+msgstr "ಲೈಸೆನ್ಸ್‍ ಅಂಗೀಕರಿಸಲಾದ ಪ್ರೊಟೋಕಾಲ್‌ಗಳ ಹೆಸರುಗಳ ಪಟ್ಟಿ."
 
 #: ../mail/evolution-mail.schemas.in.h:80
 msgid "Load images for HTML messages over http"
-msgstr ""
+msgstr "http ಮೂಲಕದ HTML ಸಂದೇಶಗಳಿಗಾಗಿನ ಚಿತ್ರಗಳನ್ನು ಲೋಡ್ ಮಾಡು"
 
 #: ../mail/evolution-mail.schemas.in.h:81
 msgid ""
 "Load images for HTML messages over http(s). Possible values are: \"0\" - "
 "Never load images off the net. \"1\" - Load images in messages from "
 "contacts. \"2\" - Always load images off the net."
-msgstr ""
+msgstr "http(s) ಮೂಲಕದ HTML ಸಂದೇಶಗಳಿಗಾಗಿನ ಚಿತ್ರಗಳನ್ನು ಲೋಡ್ ಮಾಡು. ಸಾಧ್ಯವಿರುವ ಮೌಲ್ಯಗಳೆಂದರೆ: \"0\" - ಜಾಲದ ಹೊರಗೆ ಚಿತ್ರಗಳನ್ನು ಲೋಡ್ ಮಾಡಬೇಡ. \"1\" - ಸಂಪರ್ಕಗಳ ಸಂದೇಶಗಳಿಂದ ಚಿತ್ರಗಳನ್ನು ಲೋಡ್ ಮಾಡು.  \"2\"- ಯಾವಾಗಲೂ ಜಾಲದ ಹೊರಗೆ ಚಿತ್ರಗಳನ್ನು ಲೋಡ್ ಮಾಡು."
 
 #: ../mail/evolution-mail.schemas.in.h:82
 msgid "Log filter actions"
-msgstr ""
+msgstr "ದಾಖಲೆಯ ಫಿಲ್ಟರ್ ಕಾರ್ಯಗಳ"
 
 #: ../mail/evolution-mail.schemas.in.h:83
 msgid "Log filter actions to the specified log file."
-msgstr ""
+msgstr "ನಿಗದಿತ ದಾಖಲೆ ಕಡತಕ್ಕಾಗಿನ ದಾಖಲೆಯ ಫಿಲ್ಟರ್ ಕಾರ್ಯಗಳು."
 
 #: ../mail/evolution-mail.schemas.in.h:84
 msgid "Logfile to log filter actions"
-msgstr ""
+msgstr "ದಾಖಲೆ ಫಿಲ್ಟರ್ ಕಾರ್ಯಗಳಿಗಾಗಿನ ದಾಖಲೆಕಡತ"
 
 #: ../mail/evolution-mail.schemas.in.h:85
 msgid "Logfile to log filter actions."
-msgstr ""
+msgstr "ದಾಖಲೆ ಫಿಲ್ಟರ್ ಕಾರ್ಯಗಳಿಗಾಗಿನ ದಾಖಲೆಕಡತ."
 
 #: ../mail/evolution-mail.schemas.in.h:86
 msgid "Mark as Seen after specified timeout"
-msgstr ""
+msgstr "ನಿರ್ದಿಷ್ಟ ಕಾಲಾವಧಿ ತೀರಿದ ಬಳಿಕ 'ನೋಡಲಾಗಿದೆ' ಎಂದು ಗುರುತು ಹಾಕು"
 
 #: ../mail/evolution-mail.schemas.in.h:87
 msgid "Mark as Seen after specified timeout."
-msgstr ""
+msgstr "ನಿರ್ದಿಷ್ಟ ಕಾಲಾವಧಿ ತೀರಿದ ಬಳಿಕ 'ನೋಡಲಾಗಿದೆ' ಎಂದು ಗುರುತು ಹಾಕು."
 
 #: ../mail/evolution-mail.schemas.in.h:88
 msgid "Mark citations in the message \"Preview\""
-msgstr ""
+msgstr "ಸಂದೇಶ \"ಮುನ್ನೋಟ\"ದಲ್ಲಿನ ಉಲ್ಲೇಖಗಳನ್ನು ಗುರುತುಹಾಕು"
 
 #: ../mail/evolution-mail.schemas.in.h:89
 msgid "Mark citations in the message \"Preview\"."
-msgstr ""
+msgstr "ಸಂದೇಶ \"ಮುನ್ನೋಟ\"ದಲ್ಲಿನ ಉಲ್ಲೇಖಗಳನ್ನು ಗುರುತುಹಾಕು."
 
 #: ../mail/evolution-mail.schemas.in.h:90
 msgid "Message Window default height"
-msgstr ""
+msgstr "ಸಂದೇಶ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಉದ್ದ"
 
 #: ../mail/evolution-mail.schemas.in.h:91
 msgid "Message Window default width"
-msgstr ""
+msgstr "ಸಂದೇಶ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಅಗಲ"
 
 #: ../mail/evolution-mail.schemas.in.h:92
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-msgstr ""
+msgstr "ಸಂದೇಶ-ತೋರಿಸುವ ಶೈಲಿ (\"ಸಾಮಾನ್ಯ\", \"ಸಂಪೂರ್ಣ ಹೆಡರುಗಳು\", \"ಆಕರ\")"
 
 #: ../mail/evolution-mail.schemas.in.h:93
 msgid "Minimum days between emptying the junk on exit"
-msgstr ""
+msgstr "ನಿರ್ಗಮಿಸಿದ ನಂತರ ರದ್ದಿ ಅನ್ನು ಖಾಲಿ ಮಾಡುವ ನಡುವಿನ ಕನಿಷ್ಟ ದಿನಗಳು."
 
 #: ../mail/evolution-mail.schemas.in.h:94
 msgid "Minimum days between emptying the trash on exit"
-msgstr ""
+msgstr "ನಿರ್ಗಮಿಸಿದ ನಂತರ ಕಸದಬುಟ್ಟಿಯನ್ನು ಖಾಲಿ ಮಾಡುವ ನಡುವಿನ ಕನಿಷ್ಟ ದಿನಗಳು."
 
 #: ../mail/evolution-mail.schemas.in.h:95
 msgid "Minimum time between emptying the junk on exit, in days."
-msgstr ""
+msgstr "ನಿರ್ಗಮಿಸಿದ ನಂತರ ರದ್ದಿ ಅನ್ನು ಖಾಲಿ ಮಾಡುವ ನಡುವಿನ ಕನಿಷ್ಟ ಸಮಯ, ದಿನಗಳಲ್ಲಿ."
 
 #: ../mail/evolution-mail.schemas.in.h:96
 msgid "Minimum time between emptying the trash on exit, in days."
-msgstr ""
+msgstr "ನಿರ್ಗಮಿಸಿದ ನಂತರ ಕಸದಬುಟ್ಟಿಯನ್ನು ಖಾಲಿ ಮಾಡುವ ನಡುವಿನ ಕನಿಷ್ಟ ಸಮಯ, ದಿನಗಳಲ್ಲಿ."
 
 #: ../mail/evolution-mail.schemas.in.h:97
 msgid "Number of addresses to display in TO/CC/BCC"
@@ -13293,45 +13292,45 @@ msgstr "TO/CC/BCC ನಲ್ಲಿ ತೋರಿಸಬೇಕಿರುವ ವಿಳ
 
 #: ../mail/evolution-mail.schemas.in.h:98
 msgid "Prompt on empty subject"
-msgstr ""
+msgstr "ವಿಷಯ ಖಾಲಿ ಇದ್ದಲ್ಲಿ ತಿಳಿಸು"
 
 #: ../mail/evolution-mail.schemas.in.h:99
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr ""
+msgstr "ಬಳಕೆದಾರರು ಒಂದು ಕಡತಕೋಶವನ್ನು ತೆಗೆದು ಹಾಕಲು ಪ್ರಯತ್ನಿಸಿದಾಗ ತಿಳಿಸು."
 
 #: ../mail/evolution-mail.schemas.in.h:100
 msgid "Prompt the user when he or she tries to send a message without a Subject."
-msgstr ""
+msgstr "ಬಳಕೆದಾರರು ಒಂದು ವಿಷಯವನ್ನು ನಮೂದಿಸದೆ ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಲು ಪ್ರಯತ್ನಿಸಿದಾಗ ತಿಳಿಸು"
 
 #: ../mail/evolution-mail.schemas.in.h:101
 msgid "Prompt to check if the user wants to go offline immediately"
-msgstr ""
+msgstr "ಬಳಕೆದಾರನ ತಕ್ಷಣ ಜಾಲದ ಹೊರಕ್ಕೆ ಹೋಗಲು ಬಯಸಿದಲ್ಲಿ ಪರಿಶೀಲಿಸಲು ತಿಳಿಸು"
 
 #: ../mail/evolution-mail.schemas.in.h:102
 msgid "Prompt when deleting messages in search folder"
-msgstr ""
+msgstr "ಹುಡುಕು ಕಡತಕೋಶದಲ್ಲಿನ ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಿದಾಗ ತಿಳಿಸು"
 
 #: ../mail/evolution-mail.schemas.in.h:103
 msgid "Prompt when user expunges"
-msgstr ""
+msgstr "ಬಳಕೆದಾರರು ತೆಗೆದು ಹಾಕಿದಲ್ಲಿ ತಿಳಿಸು"
 
 #: ../mail/evolution-mail.schemas.in.h:104
 msgid "Prompt when user only fills Bcc"
-msgstr ""
+msgstr "ಬಳಕೆದಾರರು ಕೇವಲ Bcc ಅನ್ನು ಮಾತ್ರ ನಮೂದಿಸಿದರೆ ತಿಳಿಸು"
 
 #: ../mail/evolution-mail.schemas.in.h:105
 msgid "Prompt when user tries to open 10 or more messages at once"
-msgstr ""
+msgstr "ಬಳಕೆದಾರರು ಒಂದೇ ಬಾರಿಗೆ 10 ಅಥವ ಹೆಚ್ಚಿನ ಸಂದೇಶಗಳನ್ನು ತೆರೆಯಲು ಪ್ರಯತ್ನಿಸಿದಾಗ ತಿಳಿಸು"
 
 #: ../mail/evolution-mail.schemas.in.h:106
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
-msgstr ""
+msgstr "ಬಳಕೆದಾರನು HTML ಮೈಲನ್ನು ಪಡೆಯಲು ಬಯಸದೆ ಇರುವವರಿಗೆ HTML ಮೈಲನ್ನು ಕಳುಹಿಸಲು ಪ್ರಯತ್ನಿಸಿದಾಗ ತಿಳಿಸು."
 
 #: ../mail/evolution-mail.schemas.in.h:107
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
-msgstr ""
+msgstr "ಒಬ್ಬ ಬಳಕೆದಾರನು 'ಗೆ' ಅಥವ 'Cc' ಸ್ವೀಕರಿಸುವವರ ಪಟ್ಟಿ ಇಲ್ಲದೆ ಒಂದು ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಲು ಪ್ರಯತ್ನಿಸಿದಾಗ ತಿಳಿಸು."
 
 #: ../mail/evolution-mail.schemas.in.h:108
 msgid "Prompt when user tries to send unwanted HTML"
@@ -13351,7 +13350,7 @@ msgstr "ಕೊಂಡಿಗಳು ಹಾಗು ಪಠ್ಯವನ್ನು ಗು
 
 #: ../mail/evolution-mail.schemas.in.h:112
 msgid "Run junk test on incoming mail."
-msgstr "ಒಳಬರುವ ಮೈಲ್‌ಗಳಿಗೆ ಜಂಕ್ ಪರೀಕ್ಷೆಯನ್ನು ಮಾಡು."
+msgstr "ಒಳಬರುವ ಮೈಲ್‌ಗಳಿಗೆ ರದ್ದಿ ಪರೀಕ್ಷೆಯನ್ನು ಮಾಡು."
 
 #: ../mail/evolution-mail.schemas.in.h:113
 msgid "Save directory"
@@ -13375,7 +13374,7 @@ msgstr "ಸಂದೇಶ ಪಟ್ಟಿಯಲ್ಲಿ ಕಳುಹಿಸಿದ�
 
 #: ../mail/evolution-mail.schemas.in.h:118
 msgid "Server synchronization interval"
-msgstr ""
+msgstr "ಪರಿಚಾರಕ ಹೊಂದಿಸುವ ಕಾಲಾವಧಿ"
 
 #: ../mail/evolution-mail.schemas.in.h:119
 msgid "Show Animations"
@@ -13383,7 +13382,7 @@ msgstr "ಎನಿಮೇಶನ್‌ ಅನ್ನು ತೋರಿಸು"
 
 #: ../mail/evolution-mail.schemas.in.h:120
 msgid "Show animated images as animations."
-msgstr ""
+msgstr "ಎನಿಮೇಶನ್‌ಗಳಲ್ಲಿ ಸಜೀವ ಚಿತ್ರಗಳನ್ನು ತೋರಿಸು."
 
 #: ../mail/evolution-mail.schemas.in.h:121
 msgid "Show deleted messages (with a strike-through) in the message-list."
@@ -13401,7 +13400,7 @@ msgstr "ಕಳುಹಿಸಿದರ ಭಾವಚಿತ್ರವನ್ನು ತ�
 msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
-msgstr ""
+msgstr "ಸಂದೇಶ ಪಟ್ಟಿಯಲ್ಲಿ ಒಂದು ಪ್ರತ್ಯೇಕ ಕಾಲಂನಲ್ಲಿ ಕಳುಹಿಸಿದವರ ಇಮೈಲ್ ವಿಳಾಸಗಳನ್ನು ತೋರಿಸು."
 
 #: ../mail/evolution-mail.schemas.in.h:127
 msgid "Show the photo of the sender in the message reading pane."
@@ -13409,7 +13408,7 @@ msgstr "ಸಂದೇಶ ಓದುವ ಫಲಕದಲ್ಲಿ ಕಳುಹಿಸ
 
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid "Spell check inline"
-msgstr ""
+msgstr "ಸಾಲಿನಲ್ಲಿನ ಕಾಗುಣಿತ ಪರೀಕ್ಷೆ"
 
 #: ../mail/evolution-mail.schemas.in.h:129
 msgid "Spell checking color"
@@ -13421,11 +13420,11 @@ msgstr "ಕಾಗುಣಿತ ಪರೀಕ್ಷೆಯ ಭಾಷೆ"
 
 #: ../mail/evolution-mail.schemas.in.h:131
 msgid "Subscribe dialog default height"
-msgstr ""
+msgstr "ಚಂದಾದಾರ ಸಂವಾದದ ಡೀಫಾಲ್ಟ್‍ ಉದ್ದ"
 
 #: ../mail/evolution-mail.schemas.in.h:132
 msgid "Subscribe dialog default width"
-msgstr ""
+msgstr "ಚಂದಾದಾರ ಸಂವಾದದ ಡೀಫಾಲ್ಟ್‍ ಅಗಲ"
 
 #: ../mail/evolution-mail.schemas.in.h:133
 msgid "Terminal font"
@@ -13437,15 +13436,15 @@ msgstr "ಪಠ್ಯ ಸಂದೇಶದ ಭಾಗದ ಮಿತಿ"
 
 #: ../mail/evolution-mail.schemas.in.h:135
 msgid "The default plugin for Junk hook"
-msgstr ""
+msgstr "ರದ್ದಿ ಹುಕ್‌ಗಾಗಿನ ಡೀಫಾಲ್ಟ್‍ ಪ್ಲಗ್ಇನ್"
 
 #: ../mail/evolution-mail.schemas.in.h:136
 msgid "The last time empty junk was run, in days since the epoch."
-msgstr ""
+msgstr "ರದ್ದಿ ಅನ್ನು ಕಡೆಯ ಬಾರಿಗೆ ಖಾಲಿ ಮಾಡಲಾಗಿದ್ದು, ಪ್ರಥಮ ಬಾರಿಗೆ ಆರಂಭಗೊಂಡ ನಂತರ."
 
 #: ../mail/evolution-mail.schemas.in.h:137
 msgid "The last time empty trash was run, in days since the epoch."
-msgstr ""
+msgstr "ಕಸದಬುಟ್ಟಿಯನ್ನು ಕಡೆಯ ಬಾರಿಗೆ ಖಾಲಿ ಮಾಡಲಾಗಿದ್ದು, ಪ್ರಥಮ ಬಾರಿಗೆ ಆರಂಭಗೊಂಡ ನಂತರ."
 
 #: ../mail/evolution-mail.schemas.in.h:138
 msgid "The terminal font for mail display."
@@ -13453,13 +13452,15 @@ msgstr "ಮೈಲ್ ತೋರಿಸಲು ಟರ್ಮಿನಲ್ ಅಕ್ಷ
 
 #: ../mail/evolution-mail.schemas.in.h:139
 msgid "The variable width font for mail display."
-msgstr ""
+msgstr "ಮೈಲ್ ತೋರಿಸಲು ವೇರಿಯೇಬಲ್ ಅಗಲದ ಅಕ್ಷರಶೈಲಿ."
 
 #: ../mail/evolution-mail.schemas.in.h:140
 msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
 msgstr ""
+"ಇದಕ್ಕೆ ಮೂರು ಮೌಲ್ಯಗಳು ಸಾಧ್ಯವಿರುತ್ತದೆ. ದೋಷಗಳಿಗೆ \"0\". ಎಚ್ಚರಿಕೆಗಳಿಗೆ \"1\". "
+"ದೋಷನಿವಾರಣಾ ಸಂದೇಶಗಳಿಗಾಗಿ \"2\" ಆಗಿರುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:141
 msgid ""
@@ -13497,7 +13498,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:146
 msgid "This option would help in improving the speed of fetching."
-msgstr ""
+msgstr "ಈ ಆಯ್ಕೆಯು ಪಡೆದುಕೊಳ್ಳುವ ವೇಗವನ್ನು ಹೆಚ್ಚಿಸಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:147
 msgid ""
@@ -13520,31 +13521,31 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:150
 msgid "Thread the message list."
-msgstr ""
+msgstr "ಸಂದೇಶ-ಪಟ್ಟಿಯನ್ನು ತ್ರೆಡ್ ಮಾಡಿ."
 
 #: ../mail/evolution-mail.schemas.in.h:151
 msgid "Thread the message-list"
-msgstr ""
+msgstr "ಸಂದೇಶ-ಪಟ್ಟಿಯನ್ನು ತ್ರೆಡ್ ಮಾಡಿ"
 
 #: ../mail/evolution-mail.schemas.in.h:152
 msgid "Thread the message-list based on Subject"
-msgstr ""
+msgstr "ವಿಷಯದ ಆಧಾರದ ಮೇಲೆ ಸಂದೇಶ-ಪಟ್ಟಿಯನ್ನು ತ್ರೆಡ್ ಮಾಡಿ"
 
 #: ../mail/evolution-mail.schemas.in.h:153
 msgid "Timeout for marking message as seen"
-msgstr ""
+msgstr "ಸಂದೇಶವನ್ನು ನೋಡಲಾಗಿದೆ ಎಂದು ಗುರುತುಹಾಕಲು ಇರುವ ಕಾಲಾವಧಿ ಮುಗಿದು ಹೋಗಿದೆ"
 
 #: ../mail/evolution-mail.schemas.in.h:154
 msgid "Timeout for marking message as seen."
-msgstr ""
+msgstr "ಸಂದೇಶವನ್ನು ನೋಡಲಾಗಿದೆ ಎಂದು ಗುರುತುಹಾಕಲು ಇರುವ ಕಾಲಾವಧಿ ಮುಗಿದು ಹೋಗಿದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:155
 msgid "UID string of the default account."
-msgstr ""
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಖಾತೆಯ UID ವಾಕ್ಯ."
 
 #: ../mail/evolution-mail.schemas.in.h:156
 msgid "Underline color for misspelled words when using inline spelling."
-msgstr ""
+msgstr "ಸಾಲಿನೊಳಗೆ ಕಾಗುಣಿತವನ್ನು ಬಳಸುವಾಗ ಕಾಗುಣಿತ ತಪ್ಪಾದ ಪದಗಳ ಅಡಿಯಲ್ಲಿ ಗೆರೆಯನ್ನು ಎಳೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:157
 msgid "Use SpamAssassin daemon and client"
@@ -13576,7 +13577,7 @@ msgstr "ಒಂದರ ಬದಿ ಇನ್ನೊಂದು ಅಥವ ಅಗಲವ�
 
 #: ../mail/evolution-mail.schemas.in.h:164
 msgid "Variable width font"
-msgstr ""
+msgstr "ವೇರಿಯೇಬಲ್ ಅಗಲದ ಅಕ್ಷರಶೈಲಿ"
 
 #: ../mail/evolution-mail.schemas.in.h:165
 msgid "View/Bcc menu item is checked"
@@ -13620,7 +13621,7 @@ msgstr "ವೀಕ್ಷಿಸು/ಇವರಿಗೆ ಉತ್ತರಿಸು ಅ
 
 #: ../mail/evolution-mail.schemas.in.h:175
 msgid "Whether a read receipt request gets added to every message by default."
-msgstr ""
+msgstr "ಡೀಫಾಲ್ಟಾಗಿ ಪ್ರತಿ ಸಂದೇಶದೊಂದಿಗೂ 'ಓದಲಾಗಿದೆ' ರಸೀತಿಗಾಗಿ ಮನವಿಯನ್ನು ಸೇರಿಸಬೇಕೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:176
 msgid "Whether disable ellipsizing feature of folder names in folder tree."
@@ -13634,7 +13635,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:178
 msgid "Whether sort threads based on latest message in that thread"
-msgstr ""
+msgstr "ಥ್ರೆಡ್‌ನಲ್ಲಿನ ಇತ್ತೀಚಿನ ಸಂದೇಶದ ಆಧಾರದ ಮೇಲೆ ಥ್ರೆಡ್‌ಗಳನ್ನು ವಿಂಗಡಿಸಬೇಕೆ"
 
 #: ../mail/evolution-mail.schemas.in.h:179
 msgid "Width of the message-list pane"
@@ -13746,8 +13747,8 @@ msgstr[1] "ಅಳಿಸಲ್ಪಟ್ಟ %d"
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
-msgstr[0] "ಜಂಕ್ %d"
-msgstr[1] "ಜಂಕ್ %d"
+msgstr[0] "ರದ್ದಿ %d"
+msgstr[1] "ರದ್ದಿ %d"
 
 #: ../mail/mail-component.c:564
 #, c-format
@@ -13840,7 +13841,7 @@ msgstr "ದೋಷನಿವಾರಣ ದಾಖಲೆಗಳು"
 
 #: ../mail/mail-component.c:1736
 msgid "Show _errors in the status bar for"
-msgstr ""
+msgstr "ಇದಕ್ಕಾಗಿನ ದೋಷಗಳನ್ನು ಸ್ಥಿತಿ ಪಟ್ಟಿಯಲ್ಲಿ ತೋರಿಸು(_e)"
 
 #. Translators: This is the second part of the sentence
 #. * "Show _errors in the status bar for" - XXX - "second(s)."
@@ -13892,7 +13893,7 @@ msgstr "<b>ಸಹಿಗಳು(_n)</b>"
 
 #: ../mail/mail-config.glade.h:7
 msgid "<b>Top Posting Option</b> (Not Recommended)"
-msgstr ""
+msgstr "<b>ಮೇಲೆ ಹಚ್ಚುವ ಆಯ್ಕೆ</b> (ಇದನ್ನು ಸಲಹೆ ಮಾಡುವುದಿಲ್ಲ)"
 
 #: ../mail/mail-config.glade.h:8
 msgid "<b>_Languages</b>"
@@ -13936,7 +13937,7 @@ msgstr "<span weight=\"bold\">ಚಿತ್ರಗಳನ್ನು ಲೋಡ್ ಮ
 
 #: ../mail/mail-config.glade.h:20
 msgid "<span weight=\"bold\">Message Display</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ಸಂದೇಶದ ಪ್ರದರ್ಶನ</span>"
 
 #: ../mail/mail-config.glade.h:21
 msgid "<span weight=\"bold\">Message Fonts</span>"
@@ -14009,23 +14010,23 @@ msgstr "ಈ ಖಾತೆಯನ್ನು ಬಳಸುವಾಗ, ಹೊರಹೋ�
 
 #: ../mail/mail-config.glade.h:39
 msgid "Also encrypt to sel_f when sending encrypted messages"
-msgstr ""
+msgstr "ಗೂಢಲಿಪೀಕರಣಗೊಂಡ ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸುವಾಗ ಸ್ವಂತಕ್ಕೂ ಸಹ ಗೂಢಲಿಪೀಕರಿಸು(_f)"
 
 #: ../mail/mail-config.glade.h:40
 msgid "Alway_s carbon-copy (cc) to:"
-msgstr ""
+msgstr "ಯಾವಾಗಲೂ ಇದಕ್ಕೆ ಕಾರ್ಬನ್ ಕಾಪಿ (_bcc)ಮಾಡು(_s):"
 
 #: ../mail/mail-config.glade.h:41
 msgid "Always _blind carbon-copy (bcc) to:"
-msgstr ""
+msgstr "ಯಾವಾಗಲೂ ಇದಕ್ಕೆ ಬ್ಲೈಂಡ್‌ ಕಾರ್ಬನ್ ಕಾಪಿ(_bcc) ಮಾಡು:"
 
 #: ../mail/mail-config.glade.h:42
 msgid "Always _trust keys in my keyring when encrypting"
-msgstr ""
+msgstr "ಗೂಢಲಿಪೀಕರಿಸುವಾಗ ಕೇವಲ ನನ್ನ ಕೀಲಿ ಸುರುಳಿಯ ಕೀಲಿಗಳನ್ನು ನಂಬು(_t)"
 
 #: ../mail/mail-config.glade.h:43
 msgid "Always encrypt to _myself when sending encrypted messages"
-msgstr ""
+msgstr "ಗೂಢಲಿಪೀಕರಣಗೊಂಡ ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸುವಾಗ ನನಗೂ ಸಹ ಗೂಢಲಿಪೀಕರಿಸು(_f)"
 
 #: ../mail/mail-config.glade.h:44
 msgid "Always request rea_d receipt"
@@ -14053,11 +14054,11 @@ msgstr "ಬೆಂಬಲವಿರುವ ಬಗೆಗಳಿಗಾಗಿ ಪರೀ�
 
 #: ../mail/mail-config.glade.h:51
 msgid "Check cu_stom headers for junk"
-msgstr ""
+msgstr "ರದ್ದಿ‌ಗಾಗಿ ಕಸ್ಟಮ್ ಹೆಡರುಗಳನ್ನು ಪರೀಕ್ಷಿಸು(_s)"
 
 #: ../mail/mail-config.glade.h:52
 msgid "Check incoming _messages for junk"
-msgstr "ಒಳಬರುವ ಸಂದೇಶಗಳಲ್ಲಿ ಜಂಕ್‌ಗಾಗಿ ಪರೀಕ್ಷಿಸು(_m)"
+msgstr "ಒಳಬರುವ ಸಂದೇಶಗಳಲ್ಲಿ ರದ್ದಿ‌ಗಾಗಿ ಪರೀಕ್ಷಿಸು(_m)"
 
 #: ../mail/mail-config.glade.h:53
 msgid "Check spelling while I _type"
@@ -14065,7 +14066,7 @@ msgstr "ನಾನು ನಮೂದಿಸುತ್ತಾ ಹೋದಂತೆಲ್�
 
 #: ../mail/mail-config.glade.h:54
 msgid "Checks incoming mail messages to be Junk"
-msgstr "ಒಳಬರುವ ಮೈಲ್ ಸಂದೇಶಗಳು ಜಂಕ್ ಎಂದು ಪರೀಕ್ಷಿಸು"
+msgstr "ಒಳಬರುವ ಮೈಲ್ ಸಂದೇಶಗಳು ರದ್ದಿಯೆ ಎಂದು ಪರೀಕ್ಷಿಸು"
 
 #: ../mail/mail-config.glade.h:55
 msgid "Cle_ar"
@@ -14081,7 +14082,7 @@ msgstr "ಕಾಗುಣಿತ ತಪ್ಪಾದ ಅಕ್ಷರಗಳ ಬಣ್
 
 #: ../mail/mail-config.glade.h:58
 msgid "Confirm _when expunging a folder"
-msgstr ""
+msgstr "ಒಂದು ಕಡತಕೋಶವನ್ನು ತೆಗೆದು ಹಾಕುವಾಗ ಖಚಿತಪಡಿಸು(_w)"
 
 #: ../mail/mail-config.glade.h:59
 msgid ""
@@ -14109,7 +14110,7 @@ msgstr "ಡೀಫಾಲ್ಟ್‍ ಕ್ಯಾರೆಕ್ಟರ್ ಎನ್�
 
 #: ../mail/mail-config.glade.h:68
 msgid "Delete junk messages on e_xit"
-msgstr "ನಿರ್ಗಮಿಸಿದಾಗ ಜಂಕ್ ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಿ ಹಾಕು(_x)"
+msgstr "ನಿರ್ಗಮಿಸಿದಾಗ ರದ್ದಿ ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಿ ಹಾಕು(_x)"
 
 #: ../mail/mail-config.glade.h:70
 msgid "Digitally sign o_utgoing messages (by default)"
@@ -14121,7 +14122,7 @@ msgstr "ಪಠ್ಯದ ಗಾತ್ರವು ಮೀರಿದಾಗ ಸಂದೇ
 
 #: ../mail/mail-config.glade.h:72
 msgid "Do not mar_k messages as junk if sender is in my addressbook"
-msgstr "ಕಳುಹಿಸಿದವರು ನನ್ನ ವಿಳಾಸಪುಸ್ತಕದಲ್ಲಿ ಇದ್ದಲ್ಲಿ ಸಂದೇಶಗಳನ್ನು ಜಂಕ್ ಎಂದು ಗುರುತು ಹಾಕಬೇಡ(_k)"
+msgstr "ಕಳುಹಿಸಿದವರು ನನ್ನ ವಿಳಾಸಪುಸ್ತಕದಲ್ಲಿ ಇದ್ದಲ್ಲಿ ಸಂದೇಶಗಳನ್ನು ರದ್ದಿ ಎಂದು ಗುರುತು ಹಾಕಬೇಡ(_k)"
 
 #: ../mail/mail-config.glade.h:73
 msgid "Do not quote"
@@ -14149,7 +14150,7 @@ msgstr "ನಿರ್ಗಮಿಸಿದ ನಂತರ ಕಸದಬುಟ್ಟಿ�
 
 #: ../mail/mail-config.glade.h:79
 msgid "Enable Magic S_pacebar "
-msgstr ""
+msgstr "ಮಾಂತ್ರಿಕ ಸ್ಪೇಸ್‌ಬಾರನ್ನು ಶಕ್ತಗೊಳಿಸು(_p)"
 
 #: ../mail/mail-config.glade.h:80
 msgid "Enable Sea_rch Folders"
@@ -14197,7 +14198,7 @@ msgstr "ಹೆಡರ್‌ಗಳು"
 
 #: ../mail/mail-config.glade.h:93
 msgid "Highlight _quotations with"
-msgstr ""
+msgstr "ಉಲ್ಲೇಖಗಳನ್ನು ಇದರೊಂದಿಗೆ ಹೈಲೈಟ್ ಮಾಡಿ(_q)"
 
 #: ../mail/mail-config.glade.h:95
 msgid "Inline"
@@ -14247,11 +14248,11 @@ msgstr ""
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
-msgstr ""
+msgstr "ಸೂಚನೆ: ನೀವು ಮೊದಲ ಬಾರಿಗೆ ಸಂಪರ್ಕ ಜೋಡಿಸಿದಾಗ ಮಾತ್ರ ಗುಪ್ತಪದವನ್ನು ನಮೂದಿಸುವಂತೆ ನಿಮ್ಮನ್ನು ಕೇಳುಲಾಗುತ್ತದೆ."
 
 #: ../mail/mail-config.glade.h:109
 msgid "Option is ignored if a match for custom junk headers is found."
-msgstr ""
+msgstr "ಕಸ್ಟಮ್ ರದ್ದಿ ಹೆಡರುಗಳಿಗಾಗಿ ಒಂದು ತಾಳೆಯು ಕಂಡುಬಂದಲ್ಲಿ ಈ ಆಯ್ಕೆಯು ಆಲಕ್ಷಿಸಲ್ಪಡುತ್ತದೆ."
 
 #: ../mail/mail-config.glade.h:110
 msgid "Or_ganization:"
@@ -14259,7 +14260,7 @@ msgstr "ಸಂಸ್ಥೆ(_g):"
 
 #: ../mail/mail-config.glade.h:111
 msgid "PGP/GPG _Key ID:"
-msgstr "PGP/GPG _Key ID:"
+msgstr "PGP/GPG ಕೀಲಿ ID (_K):"
 
 #: ../mail/mail-config.glade.h:112
 msgid "Pass_word:"
@@ -14270,19 +14271,21 @@ msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
+"ದಯವಿಟ್ಟು ಈ ಖಾತೆಗಾಗಿ ಒಂದು ವಿವರಣಾತ್ಮಕವಾದ ಹೆಸರನ್ನು ಈ ಕೆಳಗಿನ ಜಾಗದಲ್ಲಿ ಒದಗಿಸಿ.\n"
+"ಈ ಹೆಸರು ಕೇವಲ ತೋರಿಸುವ ಉದ್ಧೇಶಕ್ಕೆ ಮಾತ್ರ ಬಳಸಲಾಗುತ್ತದೆ."
 
 #: ../mail/mail-config.glade.h:116
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
-msgstr ""
+msgstr "ದಯವಿಟ್ಟು ನೀವು ಇಮೈಲ್ ಅನ್ನು ಯಾವ ಬಗೆಯಲ್ಲಿ ಕಳುಹಿಸುತ್ತೀರಿ ಎಂದು ನಮೂದಿಸಿ. ಈ ಮಾಹಿತಿಯು ನಿಮಗೆ ತಿಳಿಯದೆ ಇದ್ದಲ್ಲಿ ನಿಮ್ಮ ಗಣಕ ವ್ಯವಸ್ಥಾಪಕರನ್ನು ಅಥವ ಅಂತರ್ಜಾಲ ಸೇವಾ ಕರ್ತರನ್ನು ಸಂಪರ್ಕಿಸಿ."
 
 #: ../mail/mail-config.glade.h:117
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
-msgstr ""
+msgstr "ದಯವಿಟ್ಟು ನಿಮ್ಮ ಹೆಸರು ಹಾಗು ಇಮೈಲ್ ವಿಳಾಸವನ್ನು ಈ ಕೆಳಗೆ ನಮೂದಿಸಿ. ಕೆಳಗಿರುವ \"ಐಚ್ಛಿಕ\" ಕ್ಷೇತ್ರಗಳ ಮಾಹಿತಿಯನ್ನು ನೀವು ಕಳುಹಿಸುವ ಇಮೈಲ್‌ನಲ್ಲಿ ಒಳಗೊಳ್ಳಿಸಲು ಬಯಸದೆ ಇದ್ದಲ್ಲಿ ಅವನ್ನು ತುಂಬಿಸಲೇ ಬೇಕಾದ ಅಗತ್ಯವಿರುವುದಿಲ್ಲ."
 
 #: ../mail/mail-config.glade.h:118
 msgid "Please select among the following options"
@@ -14294,7 +14297,7 @@ msgstr "ಸಂಪರ್ಕಸ್ಥಾನ:"
 
 #: ../mail/mail-config.glade.h:120
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
-msgstr ""
+msgstr "ಕೇವಲ Bcc ಸ್ವೀಕರಿಸುವವರನ್ನು ಸೂಚಿಸಿ ಸಂದೇಶಗಳನ್ನು ಕಳುಹಿಸುವಾಗ ನನಗೆ ತಿಳಿಸು(_o)"
 
 #: ../mail/mail-config.glade.h:121
 msgid "Quoted"
@@ -14330,7 +14333,7 @@ msgstr "ಕಳುಹಿಸಲಾದ ಸಂದೇಶದ ರಸೀತಿಗಳು(
 
 #: ../mail/mail-config.glade.h:130
 msgid "S_tandard Font:"
-msgstr ""
+msgstr "ರೂಢಿಗತ ಅಕ್ಷರಶೈಲಿ(_t):"
 
 #: ../mail/mail-config.glade.h:132
 msgid "Select HTML fixed width font"
@@ -14342,11 +14345,11 @@ msgstr "ಮುದ್ರಣಕ್ಕಾಗಿ HTML ನಿಗದಿತ ಅಗಲ�
 
 #: ../mail/mail-config.glade.h:134
 msgid "Select HTML variable width font"
-msgstr ""
+msgstr "HTML ವೇರಿಯೇಬಲ್ ಅಗಲ ಅಕ್ಷರಶೈಲಿಯನ್ನು ಆರಿಸಿ"
 
 #: ../mail/mail-config.glade.h:135
 msgid "Select HTML variable width font for printing"
-msgstr ""
+msgstr "ಮುದ್ರಿಸಲು HTML ವೇರಿಯೇಬಲ್ ಅಗಲ ಅಕ್ಷರಶೈಲಿಯನ್ನು ಆರಿಸಿ"
 
 #: ../mail/mail-config.glade.h:137
 msgid "Sending Mail"
@@ -14386,7 +14389,7 @@ msgstr "ಕಾಗುಣಿತ ಪರೀಕ್ಷೆ"
 
 #: ../mail/mail-config.glade.h:146
 msgid "Start _typing at the bottom on replying"
-msgstr ""
+msgstr "ಪ್ರತ್ಯುತ್ತರಿಸುವಾಗ ಕೆಳಭಾಗದಲ್ಲಿ ಟೈಪ್ ಮಾಡುವುದನ್ನು ಆರಂಭಿಸು(_t)"
 
 #: ../mail/mail-config.glade.h:147
 msgid "T_ype: "
@@ -14396,7 +14399,7 @@ msgstr "ಬಗೆ(_y): "
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
-msgstr ""
+msgstr "ಇಲ್ಲಿ ತೋರಿಸಲಾಗುವ ಭಾಷೆಗಳ ಪಟ್ಟಿಯು ನಿಮ್ಮ ಗಣಕದಲ್ಲಿ ಯಾವ ಭಾಷೆಯ ಶಬ್ಧಕೋಶಗಳು ಅನುಸ್ಥಾಪಿಸಲಾಗಿದೆಯೆ ಅವುಗಳನ್ನು ಮಾತ್ರ ಹೊಂದಿರುತ್ತದೆ."
 
 #: ../mail/mail-config.glade.h:149
 msgid ""
@@ -14404,12 +14407,17 @@ msgid ""
 "signature. The name you specify will be used\n"
 "for display purposes only. "
 msgstr ""
+"ಈ ಸ್ಕ್ರಿಪ್ಟಿನ ಔಟ್‌ಪುಟ್ ಅನ್ನು ನಿಮ್ಮ ಸಹಿಯಾಗಿ ಬಳಸಲಾಗುವುದು.\n"
+"ನೀವು ಸೂಚಿಸುವ ಹೆಸರನ್ನು ಕೇವಲ ತೋರಿಸುವ ಉದ್ದೇಶಕ್ಕೆ ಮಾತ್ರವೆ\n"
+"ಬಳಸಲಾಗುವುದು."
 
 #: ../mail/mail-config.glade.h:152
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 msgstr ""
+"ಈ ಖಾತೆಯನ್ನು ಉಲ್ಲೇಖಿಸಲು ನೀವು ಬಯಸುವ ಹೆಸರನ್ನು ನಮೂದಿಸಿ.\n"
+"ಉದಾಹರಣೆಗೆ: \"ಕೆಲಸ\" ಅಥವ \"ಖಾಸಗಿ\""
 
 #: ../mail/mail-config.glade.h:154
 msgid "Us_ername:"
@@ -14454,7 +14462,7 @@ msgstr "ಸ್ವಯಂಚಾಲಿತ ಪ್ರಾಕ್ಸಿ ಸಂರಚನ�
 
 #: ../mail/mail-config.glade.h:164
 msgid "_Default junk plugin:"
-msgstr "ಡೀಫಾಲ್ಟ್‍ ಜಂಕ್ ಪ್ಲಗ್‌ಇನ್(_D):"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ರದ್ದಿ ಪ್ಲಗ್‌ಇನ್(_D):"
 
 #: ../mail/mail-config.glade.h:165
 msgid "_Direct connection to the Internet"
@@ -14502,7 +14510,7 @@ msgstr "ಪಥ(_P):"
 
 #: ../mail/mail-config.glade.h:178
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
-msgstr ""
+msgstr "HTML ಮೈಲನ್ನು ಪಡೆಯಲು ಬಯಸದ ಸಂಪರ್ಕಗಳಿಗೆ ಅದನ್ನು ಕಳುಹಿಸಿದಾಗ ನನಗೆ ತಿಳಿಸು(_P)"
 
 #: ../mail/mail-config.glade.h:179
 msgid "_Prompt when sending messages with an empty subject line"
@@ -14638,6 +14646,8 @@ msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
+"ನೀವು ಜಾಡು ಇರಿಸಲು ಆರಿಸಿದ ಸಂದೇಶಗಳ ಪಟ್ಟಿ ಈ ಕೆಳಗಿನಂತಿದೆ.\n"
+"ದಯವಿಟ್ಟು \"ಗುರುತು\" ಮೆನುವಿನಿಂದ ಒಂದು ಗಮನವಿರಿಸುವ ಕಾರ್ಯವನ್ನು ಆರಿಸಿ."
 
 #: ../mail/mail-dialogs.glade.h:21
 msgid "_Accept License"
@@ -14756,7 +14766,7 @@ msgstr "ಫೋಲ್ಡರ '%s' ಅನ್ನು ಶೇಖರಿಸಿಲಾಗ�
 #: ../mail/mail-ops.c:1562
 #, c-format
 msgid "Expunging and storing account '%s'"
-msgstr ""
+msgstr "ತೆಗೆದು ಹಾಕುವ ಹಾಗು ಶೇಖರಣಾ ಖಾತೆ '%s'"
 
 #: ../mail/mail-ops.c:1563
 #, c-format
@@ -14769,7 +14779,7 @@ msgstr "ಫೋಲ್ಡರನ್ನು ಪುನಶ್ಚೇತನಗೊಳಿ�
 
 #: ../mail/mail-ops.c:1657 ../mail/mail-ops.c:1707
 msgid "Expunging folder"
-msgstr ""
+msgstr "ಫೋಲ್ಡರನ್ನು ತೆಗೆದು ಹಾಕಿ"
 
 #: ../mail/mail-ops.c:1704
 #, c-format
@@ -14913,7 +14923,7 @@ msgstr "ಸ್ಪೂಲ್‌ಕೋಶ `%s' ಅನ್ನು ರಚಿಸಲು �
 #: ../mail/mail-tools.c:150
 #, c-format
 msgid "Trying to movemail a non-mbox source `%s'"
-msgstr ""
+msgstr "ಒಂದು non-mbox ಆಕರ `%s' ಅನ್ನು ಮೂವ್‌ಮೈಲ್ ಮಾಡಲು ಪ್ರಯತ್ನಿಸಲಾಗುತ್ತಿದೆ"
 
 #: ../mail/mail-tools.c:256
 #, c-format
@@ -14967,12 +14977,15 @@ msgid ""
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit."
 msgstr ""
+"\"{1}\" ಯಲ್ಲಿ ಖಾಲಿಯಲ್ಲದ ಒಂದು ಕಡತಕೋಶವು ಅಸ್ತಿತ್ವದಲ್ಲಿದೆ.\n"
+"\n"
+"ನೀವು ಈ ಕಡತಕೋಶವನ್ನು ಅಲಕ್ಷಿಸಬಹುದು, ಅದರ ವಿಷಯಗಳನ್ನು ತಿದ್ದಿಬರೆಯಬಹುದು ಅಥವ ಸೇರಿಸಬಹುದು ಇಲ್ಲವೆ ನಿರ್ಗಮಿಸಬಹುದಾಗಿದೆ."
 
 #: ../mail/mail.error.xml.h:6
 msgid ""
 "A read receipt notification has been requested for \"{1}\". Send the receipt "
 "notification to {0}?"
-msgstr ""
+msgstr "\"{1}\" ಗಾಗಿನ ಓದಲಾಗಿದೆ ಎನ್ನುವ ರಸೀತಿಗಾಗಿ ಮನವಿ ಸಲ್ಲಿಸಲಾಗಿದೆ. {0} ಗೆ ರಸೀತಿಯನ್ನು ಕಳುಹಿಸಬೇಕೆ?"
 
 #: ../mail/mail.error.xml.h:7
 msgid ""
@@ -15094,7 +15107,7 @@ msgstr "ಸಂಪರ್ಕವಿಳಾಸವನ್ನು ಜರುಗಿಸಲ�
 msgid ""
 "Cannot read the license file \"{0}\", due to an installation problem. You "
 "will not be able to use this provider until you can accept its license."
-msgstr ""
+msgstr "ಒಂದು ಅನುಸ್ಥಾಪನ ತೊಂದರೆಯಿಂದ ಲೈಸೆನ್ಸ್‍ ಕಡತ \"{0}\" ಅನ್ನು ಓದಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ನೀವು ಈ ಸೇವಾಕರ್ತರ ಲೈಸನ್ಸನ್ನು ಅಂಗೀಕರಿಸಿದೆ ಅದನ್ನು ಬಳಸಲಾಗುವುದಿಲ್ಲ."
 
 #: ../mail/mail.error.xml.h:35
 msgid "Cannot rename \"{0}\" to \"{1}\"."
@@ -15118,11 +15131,11 @@ msgstr "\"{0}\"ಕಡತಕ್ಕೆ ಉಳಿಸಲಾಗಿಲ್ಲ."
 
 #: ../mail/mail.error.xml.h:40
 msgid "Cannot set signature script \"{0}\"."
-msgstr ""
+msgstr "\"{0}\" ಸಿಗ್ನೇಚರ್ ಸ್ಕ್ರಿಪ್ಟನ್ನು ಹೊಂದಿಸಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ."
 
 #: ../mail/mail.error.xml.h:41
 msgid "Check Junk Failed"
-msgstr "ಜಂಕ್‍ಗಾಗಿ ಹುಡುಕುವುದು ವಿಫಲಗೊಂಡಿದೆ(_J)"
+msgstr "ರದ್ದಿ‍ಗಾಗಿ ಹುಡುಕುವುದು ವಿಫಲಗೊಂಡಿದೆ(_J)"
 
 #: ../mail/mail.error.xml.h:42
 msgid ""
@@ -15284,7 +15297,7 @@ msgstr "ದಯವಿಟ್ಟು ಖಾತೆಯನ್ನು ಸಕ್ರಿಯ�
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
-msgstr ""
+msgstr "ದಯವಿಟ್ಟು ಗೆ: ಕ್ಷೇತ್ರದಲ್ಲಿ ಒಂದು ಮಾನ್ಯವಾದ ಇಮೈಲ್ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ. ನಮೂದು ಜಾಗದ ಪಕ್ಕದಲ್ಲಿರುವ ಗೆ: ಗುಂಡಿಯ ಮೇಲೆ ಕ್ಲಿಕ್ಕಿಸಿ."
 
 #: ../mail/mail.error.xml.h:81
 msgid ""
@@ -15292,6 +15305,8 @@ msgid ""
 "HTML email:\n"
 "{0}"
 msgstr ""
+"ದಯವಿಟ್ಟು ಈ ಕೆಳಗಿನ ಸ್ವೀಕರಿಸುವವರು HTML ಇಮೈಲ್ ಅನ್ನು ಪಡೆದುಕೊಳ್ಳಲು ಇಚ್ಛೆ ಹಾಗು ಸಾಮರ್ಥ್ಯವನ್ನು ಹೊಂದಿದ್ದಾರೆ ಎಂದು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ:\n"
+"{0}"
 
 #: ../mail/mail.error.xml.h:83
 msgid "Please provide an unique name to identify this signature."
@@ -15310,9 +15325,8 @@ msgid "Querying server"
 msgstr "ಪರಿಚಾರಕವನ್ನು ಕೇಳಲಾಗುತ್ತಿದೆ"
 
 #: ../mail/mail.error.xml.h:87
-#, fuzzy
 msgid "Querying server for a list of supported authentication mechanisms."
-msgstr "ಬೆಂಬಲವಿರುವ ದೃಢೀಕರಣ "
+msgstr "ಬೆಂಬಲವಿರುವ ದೃಢೀಕರಣ ರಚನೆಗಳ ಒಂದು ಪಟ್ಟಿಗಾಗಿ ಪರಿಚಾರಕಕ್ಕೆ ಮನವಿ ಸಲ್ಲಿಸಲಾಗುತ್ತಿದೆ."
 
 #: ../mail/mail.error.xml.h:88
 msgid "Read receipt requested."
@@ -15324,11 +15338,11 @@ msgstr "ಫೋಲ್ಡರ್ \"{0}\" ಹಾಗು ಅದರ ಎಲ್ಲಾ ಉ
 
 #: ../mail/mail.error.xml.h:90
 msgid "Report Junk Failed"
-msgstr "ಜಂಕ್ ಎಂದು ವರದಿ ಮಾಡುವುದು ವಿಫಲಗೊಂಡಿದೆ"
+msgstr "ರದ್ದಿ ಎಂದು ವರದಿ ಮಾಡುವುದು ವಿಫಲಗೊಂಡಿದೆ"
 
 #: ../mail/mail.error.xml.h:91
 msgid "Report Not Junk Failed"
-msgstr "ಜಂಕ್ ಅಲ್ಲ ಎಂದು ವರದಿ ಮಾಡುವುದು ವಿಫಲಗೊಂಡಿದೆ"
+msgstr "ರದ್ದಿ ಅಲ್ಲ ಎಂದು ವರದಿ ಮಾಡುವುದು ವಿಫಲಗೊಂಡಿದೆ"
 
 #: ../mail/mail.error.xml.h:92
 msgid "Search Folders automatically updated."
@@ -15354,7 +15368,7 @@ msgstr "ಆಫ್‌ಲೈನ್ ಬಳಕೆಗಾಗಿ ಫೋಲ್ಡರು�
 msgid ""
 "System folders are required for Evolution to function correctly and cannot "
 "be renamed, moved, or deleted."
-msgstr ""
+msgstr "ಇವಲ್ಯೂಶನ್ ಸರಿಯಾಗಿ ಕೆಲಸ ಮಾಡಲು ಗಣಕದ ಕಡತಕೋಶಗಳ ಅಗತ್ಯವಿರುತ್ತದೆ ಹಾಗು ಅವುಗಳ ಹೆಸರು ಬದಲಾಯಿಸುವುದಾಗಲಿ, ಸ್ಥಳಾಂತರಿಸುವುದಾಗಲಿ ಅಥವ ಅಳಿಸುವದಾಗಲಿ ಮಾಡುವಂತಿಲ್ಲ."
 
 #: ../mail/mail.error.xml.h:98
 msgid ""
@@ -15438,7 +15452,7 @@ msgstr "ಸಮೂಹಕ್ರಮ ಪರಿಚಾರಕಕ್ಕೆ ಸಂಪರ�
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
-msgstr ""
+msgstr "ಈ ಖಾತೆಯ ಡ್ರಾಫ್ಟ್‍ ಫೋಲ್ಡರನ್ನು ತೆಗೆಯಲು ಸಾಧ್ಯವಾಗಿಲ್ಲ. ಬದಲಿಗೆ ಗಣಕದ ಡ್ರಾಫ್ಟ್‍ ಫೋಲ್ಡರನ್ನು ಬಳಸಬೇಕೆ?"
 
 #: ../mail/mail.error.xml.h:121
 msgid "Unable to read license file."
@@ -15485,6 +15499,8 @@ msgid ""
 "Either by selecting the folders individually, and/or by selecting all local "
 "folders, all remote folders, or both."
 msgstr ""
+"ಆಕರವಾಗಿಸಲು ನೀವು ಕನಿಷ್ಟ ಒಂದು ಕಡತಕೋಶವನ್ನು ಸೂಚಿಸಬೇಕು.\n"
+"ಕಡತಕೋಶವನ್ನು ಪ್ರತ್ಯೇಕವಾಗಿ ಆರಿಸುವ ಮೂಲಕ, ಹಾಗು/ಅಥವ ಎಲ್ಲಾ ಸ್ಥಳೀಯ ಕಡತಕೋಶಗಳನ್ನು ಆರಿಸುವುದರಿಂದ, ಎಲ್ಲಾ ದೂರಸ್ಥ ಕಡತಕೋಶಗಳನ್ನು ಆರಿಸುವದರಿಂದ ಅಥವ ಎರಡನ್ನೂ ಆರಿಸುವುದರ ಮೂಲಕ."
 
 #: ../mail/mail.error.xml.h:134
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
@@ -15631,7 +15647,7 @@ msgstr "ಫಾರ್ವಾರ್ಡ್ ಮಾಡಬೇಡ"
 
 #: ../mail/message-tag-followup.c:57
 msgid "Follow-Up"
-msgstr "ಜಾಡನ್ನು-ಹಿಡಿ"
+msgstr "ಗಮನವಿರಿಸು"
 
 #: ../mail/message-tag-followup.c:58
 msgid "For Your Information"
@@ -15910,7 +15926,7 @@ msgid ""
 "sure that you save and close all your unsaved windows before proceeding.  If "
 "you want Evolution to restart automatically after backup, please enable the "
 "toggle button."
-msgstr ""
+msgstr "ಇವಲ್ಯೂಶನ್ ಚಾಲನೆ ಇಲ್ಲದಾಗ ಮಾತ್ರ ಇವಲ್ಯೂಶನ್ ಮರಳಿ ಸ್ಥಾಪಿಸುವಿಕೆಯು ಆರಂಭಗೊಳ್ಳುತ್ತದೆ. ದಯವಿಟ್ಟು ನೀವು ಮುಂದುವರೆಯುವ ಮೊದಲು ನಿಮ್ಮ ಎಲ್ಲಾ ಉಳಿಸದೆ ಇರುವ ವಿಂಡೋಗಳನ್ನು ಮುಚ್ಚಿ. ಇವಲ್ಯೂಶನ್ ಅನ್ನು ಮರಳಿ ಸ್ಥಾಪಿಸಿದ ನಂತರ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಆರಂಭಗೊಳ್ಳಲು ನೀವು ಬಯಸಿದರೆ, ದಯವಿಟ್ಟು ಟಾಗಲ್ ಗುಂಡಿಯನ್ನು ಶಕ್ತಗೊಳಿಸಿ."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
 msgid "Insufficient Permissions"
@@ -15935,7 +15951,7 @@ msgid ""
 "not running. Please make sure that you close all your unsaved windows before "
 "you proceed. If you want Evolution to restart automatically restart after "
 "restore, please enable the toggle button."
-msgstr ""
+msgstr "ಇದು ನಿಮ್ಮ ಸದ್ಯದ ಇವಲ್ಯೂಶನ್ ದತ್ತಾಂಶ ಹಾಗು ಸಂಯೋಜನೆಗಳನ್ನು ಅಳಿಸುತ್ತದೆ ಮತ್ತು ನಿಮ್ಮ ಬ್ಯಾಕ್ಅಪ್‌ನಿಂದ ಮರಳಿ ಸ್ಥಾಪಿಸುತ್ತದೆ. ಇವಲ್ಯೂಶನ್ ಚಾಲನೆ ಇಲ್ಲದಾಗ ಮಾತ್ರ ಇವಲ್ಯೂಶನ್ ಮರಳಿ ಸ್ಥಾಪಿಸುವಿಕೆಯು ಆರಂಭಗೊಳ್ಳುತ್ತದೆ. ದಯವಿಟ್ಟು ನೀವು ಮುಂದುವರೆಯುವ ಮೊದಲು ನಿಮ್ಮ ಎಲ್ಲಾ ಉಳಿಸದೆ ಇರುವ ವಿಂಡೋಗಳನ್ನು ಮುಚ್ಚಿ. ಇವಲ್ಯೂಶನ್ ಅನ್ನು ಮರಳಿ ಸ್ಥಾಪಿಸಿದ ನಂತರ ಸ್ವಯಂಚಾಲಿತವಾಗಿ ಆರಂಭಗೊಳ್ಳಲು ನೀವು ಬಯಸಿದರೆ, ದಯವಿಟ್ಟು ಟಾಗಲ್ ಗುಂಡಿಯನ್ನು ಶಕ್ತಗೊಳಿಸಿ."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
 msgid "Backup and restore Evolution data and settings"
@@ -16033,11 +16049,11 @@ msgstr "Bogofilter ಆದ್ಯತೆಗಳು"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
 msgid "Bogofilter junk plugin"
-msgstr "Bogofilter ಜಂಕ್ ಪ್ಲಗ್ಇನ್‌"
+msgstr "Bogofilter ರದ್ದಿ ಪ್ಲಗ್ಇನ್‌"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
 msgid "Filters junk messages using Bogofilter."
-msgstr "Bogofilter ಅನ್ನು ಬಳಸಿಕೊಂಡು ಜಂಕ್ ಸಂದೇಶಗಳನ್ನು ಫಿಲ್ಟರ್ ಮಾಡುತ್ತದೆ."
+msgstr "Bogofilter ಅನ್ನು ಬಳಸಿಕೊಂಡು ರದ್ದಿ ಸಂದೇಶಗಳನ್ನು ಫಿಲ್ಟರ್ ಮಾಡುತ್ತದೆ."
 
 #: ../plugins/caldav/caldav-source.c:66 ../plugins/caldav/caldav-source.c:70
 msgid "CalDAV"
@@ -17373,20 +17389,20 @@ msgstr "ಹಂಚಲಾದ ಫೋಲ್ಡರ್ ಅನುಸ್ಥಾಪನೆ"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:78
 msgid "Junk Settings"
-msgstr "ಜಂಕ್ ಸಂಯೋಜನೆಗಳು"
+msgstr "ರದ್ದಿ ಸಂಯೋಜನೆಗಳು"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:91
 #: ../plugins/groupwise-features/junk-settings.glade.h:3
 msgid "Junk Mail Settings"
-msgstr "ಜಂಕ್ ಮೈಲ್ ಸಂಯೋಜನೆಗಳು"
+msgstr "ರದ್ದಿ ಮೈಲ್ ಸಂಯೋಜನೆಗಳು"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:115
 msgid "Junk Mail Settings..."
-msgstr "ಜಂಕ್ ಮೈಲ್ ಸಂಯೋಜನೆಗಳು..."
+msgstr "ರದ್ದಿ ಮೈಲ್ ಸಂಯೋಜನೆಗಳು..."
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:1
 msgid "<b>Junk List:</b>"
-msgstr "<b>ಜಂಕ್ ಪಟ್ಟಿ:</b>"
+msgstr "<b>ರದ್ದಿ ಪಟ್ಟಿ:</b>"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:2
 msgid "Email:"
@@ -17403,7 +17419,7 @@ msgstr "ಸಕ್ರಿಯಗೊಳಿಸು(_E)"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:7
 msgid "_Junk List"
-msgstr "ಜಂಕ್ ಪಟ್ಟಿ(_J)"
+msgstr "ರದ್ದಿ ಪಟ್ಟಿ(_J)"
 
 #: ../plugins/groupwise-features/mail-retract.c:53
 msgid "Message Retract"
@@ -19228,12 +19244,12 @@ msgid ""
 "Filters junk messages using SpamAssassin. This plugin requires SpamAssassin "
 "to be installed."
 msgstr ""
-"ಸ್ಪ್ಯಾಮ್‌ಅಸಾಸಿನ್ ಬಳಸಿಕೊಂಡು ಜಂಕ್‌ ಸಂದೇಶಗಳನ್ನು ಫಿಲ್ಟರ್ ಮಾಡುತ್ತದೆ. ಈ ಪ್ಲಗ್ಇನ್‌ಗಾಗಿ ಸ್ಪ್ಯಾಮ್‌ಅಸಾಸಿನ್ "
+"ಸ್ಪ್ಯಾಮ್‌ಅಸಾಸಿನ್ ಬಳಸಿಕೊಂಡು ರದ್ದಿ‌ ಸಂದೇಶಗಳನ್ನು ಫಿಲ್ಟರ್ ಮಾಡುತ್ತದೆ. ಈ ಪ್ಲಗ್ಇನ್‌ಗಾಗಿ ಸ್ಪ್ಯಾಮ್‌ಅಸಾಸಿನ್ "
 "ಅನ್ನು ಅನುಸ್ಥಾಪಿಸಬೇಕಾಗುತ್ತದೆ. "
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 msgid "SpamAssassin junk plugin"
-msgstr "ಸ್ಪ್ಯಾಮ್‌ಅಸಾಸಿನ್ ಜಂಕ್‌ ಪ್ಲಗ್ಇನ್"
+msgstr "ಸ್ಪ್ಯಾಮ್‌ಅಸಾಸಿನ್ ರದ್ದಿ‌ ಪ್ಲಗ್ಇನ್"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:3
 msgid "Spamassassin Options"
@@ -19556,7 +19572,7 @@ msgstr "ಡೀಫಾಲ್ಟ್‍ ಆದ ಬದಿಯ ಪಟ್ಟಿಯ ಅ�
 
 #: ../shell/apps_evolution_shell.schemas.in.h:5
 msgid "Default window height"
-msgstr "ಡೀಫಾಲ್ಟ್‍ ಆದ ವಿಂಡೋ ಎತ್ತರ"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಆದ ವಿಂಡೋ ಉದ್ದ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:6
 msgid "Default window state"
@@ -19670,7 +19686,7 @@ msgstr "ಇವಲ್ಯೂಶನ್‌ನ ಸಂರಚನೆಯ ಆವೃತ್�
 
 #: ../shell/apps_evolution_shell.schemas.in.h:30
 msgid "The default height for the main window, in pixels."
-msgstr "ಮುಖ್ಯ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಎತ್ತರ (ಪಿಕ್ಸೆಲ್‍ಗಳಲ್ಲಿ)."
+msgstr "ಮುಖ್ಯ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಉದ್ದ (ಪಿಕ್ಸೆಲ್‍ಗಳಲ್ಲಿ)."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:31
 msgid "The default width for the main window, in pixels."
@@ -21346,7 +21362,7 @@ msgstr "ಆರಿಸಲಾದ ಸಂದೇಶಗಳಿಗೆ ಫಿಲ್ಟರ�
 
 #: ../ui/evolution-mail-message.xml.h:7
 msgid "Check for _Junk"
-msgstr "ಜಂಕ್‍ಗಾಗಿ ಹುಡುಕು(_J)"
+msgstr "ರದ್ದಿ‍ಗಾಗಿ ಹುಡುಕು(_J)"
 
 #: ../ui/evolution-mail-message.xml.h:8
 msgid "Compose _New Message"
@@ -21466,15 +21482,15 @@ msgstr "ವಿಷಯದ ಆಧಾರದ ಮೇಲೆ ಫಿಲ್ಟರ್ ಮ�
 
 #: ../ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
-msgstr "ಆರಿಸಲಾದ ಸಂದೇಶಗಳನ್ನು ಜಂಕ್ ಸ್ಥಿತಿಗೆ ಫಿಲ್ಟರ್ ಮಾಡು"
+msgstr "ಆರಿಸಲಾದ ಸಂದೇಶಗಳನ್ನು ರದ್ದಿ ಸ್ಥಿತಿಗೆ ಫಿಲ್ಟರ್ ಮಾಡು"
 
 #: ../ui/evolution-mail-message.xml.h:39
 msgid "Flag selected messages for follow-up"
-msgstr "ಆರಿಸಲಾದ ಸಂದೇಶಗಳನ್ನು ನಿಗಾ ಇರಿಸಲು ಗುರುತುಹಾಕು"
+msgstr "ಆರಿಸಲಾದ ಸಂದೇಶಗಳನ್ನು ಗಮನ ಇರಿಸಲು ಗುರುತುಹಾಕು"
 
 #: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
-msgstr "ನಿಗಾ ಇರಿಸು (_F)..."
+msgstr "ಗಮನ ಇರಿಸು (_F)..."
 
 #: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
@@ -21514,11 +21530,11 @@ msgstr "ಆಯ್ಕೆ ಮಾಡಲಾದ ಸಂದೇಶಗಳನ್ನು ಪ
 
 #: ../ui/evolution-mail-message.xml.h:52
 msgid "Mark the selected messages as junk"
-msgstr "ಆಯ್ಕೆ ಮಾಡಲಾದ ಸಂದೇಶಗಳನ್ನು ಜಂಕ್ ಎಂದು ಗುರುತು ಹಾಕು"
+msgstr "ಆಯ್ಕೆ ಮಾಡಲಾದ ಸಂದೇಶಗಳನ್ನು ರದ್ದಿ ಎಂದು ಗುರುತು ಹಾಕು"
 
 #: ../ui/evolution-mail-message.xml.h:53
 msgid "Mark the selected messages as not being junk"
-msgstr "ಆಯ್ಕೆ ಮಾಡಲಾದ ಸಂದೇಶಗಳನ್ನು ಜಂಕ್ ಅಲ್ಲ ಎಂದು ಗುರುತು ಹಾಕು"
+msgstr "ಆಯ್ಕೆ ಮಾಡಲಾದ ಸಂದೇಶಗಳನ್ನು ರದ್ದಿ ಅಲ್ಲ ಎಂದು ಗುರುತು ಹಾಕು"
 
 #: ../ui/evolution-mail-message.xml.h:54
 msgid "Mark the selected messages as not having been read"
@@ -21550,7 +21566,7 @@ msgstr "ಮುಂದಿನ ಓದದೆ ಇರುವ ಸಂದೇಶ(_U)"
 
 #: ../ui/evolution-mail-message.xml.h:62
 msgid "Not Junk"
-msgstr "ಜಂಕ್ ಅಲ್ಲ"
+msgstr "ರದ್ದಿ ಅಲ್ಲ"
 
 #: ../ui/evolution-mail-message.xml.h:63
 msgid "Open a window for composing a mail message"
@@ -21682,7 +21698,7 @@ msgstr "ಕ್ಯಾರೆಟ್(_Caret) ಕ್ರಮ"
 
 #: ../ui/evolution-mail-message.xml.h:102
 msgid "_Clear Flag"
-msgstr "ಫ್ಲಾಗ್‍ ಅನ್ನು ತೆರವುಗೊಳಿಸು(_C)"
+msgstr "ಗುರುತನ್ನು ತೆರವುಗೊಳಿಸು(_C)"
 
 #: ../ui/evolution-mail-message.xml.h:105
 msgid "_Delete Message"
@@ -21710,7 +21726,7 @@ msgstr "ಸಾಲಿನೊಳಗೆ(_I)"
 
 #: ../ui/evolution-mail-message.xml.h:113
 msgid "_Junk"
-msgstr "ಜಂಕ್(_J)"
+msgstr "ರದ್ದಿ(_J)"
 
 #: ../ui/evolution-mail-message.xml.h:114
 msgid "_Load Images"
@@ -21730,7 +21746,7 @@ msgstr "ಸಾಮಾನ್ಯ ಗಾತ್ರ(_N)"
 
 #: ../ui/evolution-mail-message.xml.h:120
 msgid "_Not Junk"
-msgstr "ಜಂಕ್ ಅಲ್ಲ(_N)"
+msgstr "ರದ್ದಿ ಅಲ್ಲ(_N)"
 
 #: ../ui/evolution-mail-message.xml.h:121
 msgid "_Open in New Window"
@@ -23144,7 +23160,7 @@ msgstr "ಉದ್ದದ ಮಿತಿ"
 #: ../widgets/table/e-table.c:3332 ../widgets/table/e-tree.c:3370
 #: ../widgets/table/e-tree.c:3371
 msgid "Uniform row height"
-msgstr "ಸಾಲಿನ ಏಕಪ್ರಕಾರದ ಎತ್ತರ"
+msgstr "ಸಾಲಿನ ಏಕಪ್ರಕಾರದ ಉದ್ದ"
 
 #: ../widgets/table/e-table-group-container.c:979
 #: ../widgets/table/e-table-group-container.c:980
@@ -23288,7 +23304,7 @@ msgstr "ಕ್ಲಿಪ್ ಅಗಲ"
 
 #: ../widgets/text/e-text.c:3608 ../widgets/text/e-text.c:3609
 msgid "Clip Height"
-msgstr "ಕ್ಲಿಪ್ ಎತ್ತರ"
+msgstr "ಕ್ಲಿಪ್ ಉದ್ದ"
 
 #: ../widgets/text/e-text.c:3615 ../widgets/text/e-text.c:3616
 msgid "Clip"
@@ -23312,7 +23328,7 @@ msgstr "ಪಠ್ಯದ ಅಗಲ"
 
 #: ../widgets/text/e-text.c:3679 ../widgets/text/e-text.c:3680
 msgid "Text height"
-msgstr "ಪಠ್ಯದ ಎತ್ತರ"
+msgstr "ಪಠ್ಯದ ಉದ್ದ"
 
 #: ../widgets/text/e-text.c:3694 ../widgets/text/e-text.c:3695
 msgid "Use ellipsis"
