@@ -87,7 +87,7 @@ shell_window_new_view (EShellWindow *shell_window,
 	/* Listen for changes that affect the shell window. */
 
 	g_signal_connect_swapped (
-		action, "notify::icon_name",
+		action, "notify::icon-name",
 		G_CALLBACK (e_shell_window_update_icon), shell_window);
 
 	g_signal_connect_swapped (

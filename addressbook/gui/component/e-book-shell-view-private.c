@@ -99,6 +99,7 @@ selection_change (EBookShellView *book_shell_view,
 	EAddressbookView *current_view;
 	ESelectionModel *selection_model;
 	EABContactDisplay *display;
+	gint n_selected;
 
 	current_view = e_book_shell_view_get_current_view (book_shell_view);
 
@@ -110,7 +111,10 @@ selection_change (EBookShellView *book_shell_view,
 	display = EAB_CONTACT_DISPLAY (book_shell_view->priv->preview);
 	selection_model = e_addressbook_view_get_selection_model (view);
 
-	if (e_selection_model_selected_count (selection_model) == 1)
+	n_selected = (selection_model != NULL) ?
+		e_selection_model_selected_count (selection_model) : 0;
+
+	if (n_selected == 1)
 		e_selection_model_foreach (
 			selection_model, (EForeachFunc)
 			book_shell_view_selection_change_foreach,
@@ -181,27 +185,24 @@ static void
 book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
                                           ESourceSelector *selector)
 {
+	EShellView *shell_view;
 	EAddressbookView *view;
 	EAddressbookModel *model;
 	ESource *source;
+	GalViewInstance *view_instance;
 	GHashTable *hash_table;
 	GtkNotebook *notebook;
 	GtkWidget *widget;
 	const gchar *uid;
+	gchar *view_id;
 	gint page_num;
 
+	shell_view = E_SHELL_VIEW (book_shell_view);
 	notebook = GTK_NOTEBOOK (book_shell_view->priv->notebook);
 	source = e_source_selector_peek_primary_selection (selector);
 
 	if (source == NULL)
 		return;
-
-	/* XXX Add some get/set functions to EAddressbookView:
-	 * 
-	 *       eab_view_get_book()   / eab_view_set_book()
-	 *       eab_view_get_type()   / eab_view_set_type()
-	 *       eab_view_get_source() / eab_view_set_source()
-	 */
 
 	uid = e_source_peek_uid (source);
 	hash_table = book_shell_view->priv->uid_to_view;
@@ -225,13 +226,10 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 		}
 
 	} else {
-		EShellView *shell_view;
 		EBook *book;
 
 		/* Create a view for this UID. */
-		shell_view = E_SHELL_VIEW (book_shell_view);
 		widget = e_addressbook_view_new (shell_view, source);
-		g_object_set (widget, "type", E_ADDRESSBOOK_VIEW_TABLE, NULL);
 		gtk_widget_show (widget);
 
 		g_object_ref_sink (widget);
@@ -274,6 +272,11 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 
 	page_num = gtk_notebook_page_num (notebook, widget);
 	gtk_notebook_set_current_page (notebook, page_num);
+
+	view_instance = e_addressbook_view_get_view_instance (view);
+	view_id = gal_view_instance_get_current_view_id (view_instance);
+	e_shell_view_set_view_id (shell_view, view_id);
+	g_free (view_id);
 
 	e_addressbook_model_force_folder_bar_message (model);
 	selection_change (book_shell_view, view);
@@ -367,6 +370,28 @@ book_shell_view_load_view_collection (EShellViewClass *shell_view_class)
 	gal_view_collection_load (collection);
 }
 
+static void
+book_shell_view_notify_view_id_cb (EBookShellView *book_shell_view)
+{
+	EAddressbookView *address_view;
+	GalViewInstance *view_instance;
+	const gchar *view_id;
+
+	address_view = e_book_shell_view_get_current_view (book_shell_view);
+	view_instance = e_addressbook_view_get_view_instance (address_view);
+	view_id = e_shell_view_get_view_id (E_SHELL_VIEW (book_shell_view));
+
+	/* A NULL view ID implies we're in a custom view.  But you can
+	 * only get to a custom view via the "Define Views" dialog, which
+	 * would have already modified the view instance appropriately.
+	 * Furthermore, there's no way to refer to a custom view by ID
+	 * anyway, since custom views have no IDs. */
+	if (view_id == NULL)
+		return;
+
+	gal_view_instance_set_current_view_id (view_instance, view_id);
+}
+
 void
 e_book_shell_view_private_init (EBookShellView *book_shell_view,
                                 EShellViewClass *shell_view_class)
@@ -399,6 +424,10 @@ e_book_shell_view_private_init (EBookShellView *book_shell_view,
 
 	if (!gal_view_collection_loaded (shell_view_class->view_collection))
 		book_shell_view_load_view_collection (shell_view_class);
+
+	g_signal_connect (
+		book_shell_view, "notify::view-id",
+		G_CALLBACK (book_shell_view_notify_view_id_cb), NULL);
 }
 
 void

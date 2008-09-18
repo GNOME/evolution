@@ -385,6 +385,23 @@ action_contact_send_message_cb (GtkAction *action,
 }
 
 static void
+action_gal_save_custom_view_cb (GtkAction *action,
+                                EBookShellView *book_shell_view)
+{
+	EShellView *shell_view;
+	EAddressbookView *address_view;
+	GalViewInstance *view_instance;
+
+	shell_view = E_SHELL_VIEW (book_shell_view);
+	if (!e_shell_view_is_active (shell_view))
+		return;
+
+	address_view = e_book_shell_view_get_current_view (book_shell_view);
+	view_instance = e_addressbook_view_get_view_instance (address_view);
+	gal_view_instance_save_as (view_instance);
+}
+
+static void
 action_search_execute_cb (GtkAction *action,
                           EBookShellView *book_shell_view)
 {
@@ -741,6 +758,10 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	g_object_set (action, "short-label", _("Delete"), NULL);
 
 	g_signal_connect (
+		ACTION (GAL_SAVE_CUSTOM_VIEW), "activate",
+		G_CALLBACK (action_gal_save_custom_view_cb), book_shell_view);
+
+	g_signal_connect (
 		ACTION (SEARCH_EXECUTE), "activate",
 		G_CALLBACK (action_search_execute_cb), book_shell_view);
 }
@@ -775,8 +796,10 @@ e_book_shell_view_actions_update (EBookShellView *book_shell_view)
 	editable = e_addressbook_model_get_editable (model);
 
 	selection_model = e_addressbook_view_get_selection_model (view);
-	n_contacts = e_selection_model_row_count (selection_model);
-	n_selected = e_selection_model_selected_count (selection_model);
+	n_contacts = (selection_model != NULL) ?
+		e_selection_model_row_count (selection_model) : 0;
+	n_selected = (selection_model != NULL) ?
+		e_selection_model_selected_count (selection_model) : 0;
 
 	action = ACTION (ADDRESS_BOOK_STOP);
 	sensitive = e_addressbook_model_can_stop (model);

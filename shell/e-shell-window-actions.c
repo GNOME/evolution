@@ -718,9 +718,11 @@ action_gal_define_views_cb (GtkAction *action,
 	g_return_if_fail (view_collection != NULL);
 
 	dialog = gal_define_views_dialog_new (view_collection);
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
-		gal_view_collection_save (view_collection);
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gal_view_collection_save (view_collection);
 	gtk_widget_destroy (dialog);
+
+	e_shell_window_update_view_menu (shell_window);
 }
 
 static void
@@ -1605,8 +1607,9 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 
 	/* Construct a group of radio actions from the various EShellView
-	 * subclasses and register them with our ESidebar.  These actions
-	 * are manifested as switcher buttons and View->Window menu items.
+	 * subclasses and register them with the EShellSwitcher.  These
+	 * actions are manifested as switcher buttons and View->Window
+	 * menu items.
 	 *
 	 * Note: The shell window has already selected a view by now,
 	 * so we have to be careful not to overwrite that when setting
@@ -1692,8 +1695,8 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 			action, "changed",
 			G_CALLBACK (action_switcher_cb),
 			shell_window);
+		g_list_free (list);
 	}
-	g_list_free (list);
 
 	g_free (children);
 }
@@ -1742,6 +1745,12 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 	count = gal_view_collection_get_count (view_collection);
 	path = "/main-menu/view-menu/gal-view-menu/gal-view-list";
 
+	/* Prevent spurious activations. */
+	action = ACTION (GAL_CUSTOM_VIEW);
+	g_signal_handlers_block_matched (
+		action, G_SIGNAL_MATCH_FUNC, 0, 0,
+		NULL, action_gal_view_cb, NULL);
+
 	/* Default to "Custom View", unless we find our view ID. */
 	radio_action = GTK_RADIO_ACTION (ACTION (GAL_CUSTOM_VIEW));
 	gtk_radio_action_set_group (radio_action, NULL);
@@ -1763,6 +1772,7 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 		radio_action = gtk_radio_action_new (
 			action_name, item->title, tooltip, NULL, ii);
 
+		action = GTK_ACTION (radio_action);
 		gtk_radio_action_set_group (radio_action, radio_group);
 		radio_group = gtk_radio_action_get_group (radio_action);
 
@@ -1773,7 +1783,6 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 		if (view_id != NULL && strcmp (item->id, view_id) == 0)
 			gtk_radio_action_set_current_value (radio_action, ii);
 
-		action = GTK_ACTION (radio_action);
 		gtk_action_group_add_action (action_group, action);
 
 		gtk_ui_manager_add_ui (
@@ -1789,6 +1798,9 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 
 	action = ACTION (GAL_CUSTOM_VIEW);
 	gtk_action_set_visible (action, visible);
+	g_signal_handlers_unblock_matched (
+		action, G_SIGNAL_MATCH_FUNC, 0, 0,
+		NULL, action_gal_view_cb, NULL);
 
 	action = ACTION (GAL_SAVE_CUSTOM_VIEW);
 	gtk_action_set_visible (action, visible);

@@ -113,6 +113,7 @@ void		e_shell_window_switch_to_view	(EShellWindow *shell_window,
 GtkWidget *	e_shell_window_create_new_menu	(EShellWindow *shell_window);
 void		e_shell_window_create_switcher_actions
 						(EShellWindow *shell_window);
+void		e_shell_window_update_gal_view	(EShellWindow *shell_window);
 void		e_shell_window_update_icon	(EShellWindow *shell_window);
 void		e_shell_window_update_title	(EShellWindow *shell_window);
 void		e_shell_window_update_new_menu	(EShellWindow *shell_window);

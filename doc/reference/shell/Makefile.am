@@ -73,7 +73,6 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/shell/es-event.o				\
 	$(top_builddir)/shell/.libs/e-activity-handler.o		\
 	$(top_builddir)/shell/.libs/e-shell-content.o			\
-	$(top_builddir)/shell/.libs/e-shell-marshal.o			\
 	$(top_builddir)/shell/.libs/e-shell-module.o			\
 	$(top_builddir)/shell/.libs/e-shell-sidebar.o			\
 	$(top_builddir)/shell/.libs/e-shell-switcher.o			\

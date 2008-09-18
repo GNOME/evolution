@@ -51,12 +51,6 @@
 
 G_BEGIN_DECLS
 
-typedef enum {
-	E_ADDRESSBOOK_VIEW_NONE, /* initialized to this */
-	E_ADDRESSBOOK_VIEW_MINICARD,
-	E_ADDRESSBOOK_VIEW_TABLE,
-} EAddressbookViewType;
-
 typedef struct _EAddressbookView EAddressbookView;
 typedef struct _EAddressbookViewClass EAddressbookViewClass;
 typedef struct _EAddressbookViewPrivate EAddressbookViewPrivate;
