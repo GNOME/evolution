@@ -50,20 +50,6 @@ Erste Schritte
 	Sie die F1-Taste.
 
 
-Neue Funktionen
-
-	Evolution 2.8 bietet
-
-	* Eine neue Suchfunktion und eine globale Suche in der Mail-Komponente
-	* Einen Breitbild-Modus mit vertikaler Vorschau in der Mail-Komponente
-	* Verbesserte Darstellung (durch Integration von »Cairo«)
-	* Verbesserte Leistung und reduzierten Speicherverbrauch
-	* Unterstützung für GroupWise-Erinnerungsnotizen und Zurückziehen von
-	  E-Mails
-	* Gemeinsame Notizen (im Dateisystem)
-	* Integration des GNOME-Schlüsselbunds
-	* Viele behobene Fehler und weitere Verbesserungen
-
 Fehlerberichte
 
 	Falls Sie einen Fehler entdecken, erstellen Sie bitte einen 
@@ -158,23 +144,6 @@ Content-Type: text/html; charset=utf-8
 	Sie bitte den Punkt <b>Inhalt</b> aus dem <b>Hilfe</b>-Menü oder
 	drücken Sie die <b>F1</b>-Taste.
 <br><br>
-</blockquote>
-
-<h2>Neue Funktionen</h2>
-<blockquote>
-	Evolution 2.8 bietet
-	<ul>
-	<li>Eine neue Suchfunktion und eine globale Suche in der Mail-Komponente</li>
-	<li>Einen Breitbild-Modus mit vertikaler Vorschau in der Mail-Komponente</li>
-	<li>Verbesserte Darstellung (durch Integration von »Cairo«)</li>
-	<li>Verbesserte Leistung und reduzierten Speicherverbrauch</li>
-	<li>Unterstützung für GroupWise-Erinnerungsnotizen und Zurückziehen von
-	  E-Mails</li>
-	<li>Gemeinsame Notizen (im Dateisystem)</li>
-	<li>Integration des GNOME-Schlüsselbunds</li>
-	<li>Viele behobene Fehler und weitere Verbesserungen</li>
-	</ul>
-<br>
 </blockquote>
 
 <h2>Fehlerberichte</h2>
