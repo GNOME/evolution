@@ -122,8 +122,7 @@ void		e_book_shell_view_private_finalize
 void		e_book_shell_view_actions_init
 					(EBookShellView *book_shell_view);
 void		e_book_shell_view_actions_update
-					(EBookShellView *book_shell_view,
-					 EAddressbookView *view);
+					(EBookShellView *book_shell_view);
 EAddressbookView *
 		e_book_shell_view_get_current_view
 					(EBookShellView *book_shell_view);

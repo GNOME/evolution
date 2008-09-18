@@ -73,17 +73,17 @@ struct _EAddressbookViewClass {
 	GtkVBoxClass parent_class;
 
 	/* Signals */
+	void		(*popup_event)		(EAddressbookView *view,
+						 GdkEvent *event);
 	void		(*status_message)	(EAddressbookView *view,
 						 const gchar *message);
-	void		(*folder_bar_message)	(EAddressbookView *view,
-						 const gchar *message);
 	void		(*command_state_change)	(EAddressbookView *view);
-	void		(*preview_contact)	(EAddressbookView *view,
-						 EContact *contact);
+	void		(*selection_change)	(EAddressbookView *view);
 };
 
 GType		e_addressbook_view_get_type	(void);
-GtkWidget *	e_addressbook_view_new		(EShellView *shell_view);
+GtkWidget *	e_addressbook_view_new		(EShellView *shell_view,
+						 ESource *source);
 EAddressbookModel *
 		e_addressbook_view_get_model	(EAddressbookView *view);
 GalViewInstance *
@@ -98,6 +98,7 @@ ESelectionModel *
 						(EAddressbookView *view);
 EShellView *	e_addressbook_view_get_shell_view
 						(EAddressbookView *view);
+ESource *	e_addressbook_view_get_source	(EAddressbookView *view);
 void		e_addressbook_view_save_as	(EAddressbookView *view,
 						 gboolean all);
 void		e_addressbook_view_view		(EAddressbookView *view);

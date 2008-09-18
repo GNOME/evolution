@@ -233,8 +233,11 @@ modify_contact(EBookView *book_view,
 				continue;
 
 			g_object_unref (array->pdata[ii]);
-			array->pdata[ii] = e_contact_duplicate (contact);
-			g_signal_emit (model, signals[CONTACT_CHANGED], 0, ii);
+			contact = e_contact_duplicate (contact);
+			array->pdata[ii] = contact;
+
+			g_signal_emit (
+				model, signals[CONTACT_CHANGED], 0, contact);
 			break;
 		}
 
@@ -591,8 +594,8 @@ addressbook_model_class_init (EAddressbookModelClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EAddressbookModelClass, contact_changed),
 			      NULL, NULL,
-			      g_cclosure_marshal_VOID__INT,
-			      G_TYPE_NONE, 1, G_TYPE_INT);
+			      g_cclosure_marshal_VOID__OBJECT,
+			      G_TYPE_NONE, 1, E_TYPE_CONTACT);
 
 	signals[MODEL_CHANGED] =
 		g_signal_new ("model_changed",
@@ -724,6 +727,32 @@ e_addressbook_model_contact_at (EAddressbookModel *model,
 	g_return_val_if_fail (E_IS_ADDRESSBOOK_MODEL (model), NULL);
 
 	return model->priv->contacts->pdata[index];
+}
+
+gint
+e_addressbook_model_find (EAddressbookModel *model,
+                          EContact *contact)
+{
+	GPtrArray *array;
+	gint ii;
+
+	/* XXX This searches for a particular EContact instance,
+	 *     as opposed to an equivalent but possibly different
+	 *     EContact instance.  Might have to revise this in
+	 *     the future. */
+
+	g_return_val_if_fail (E_IS_ADDRESSBOOK_MODEL (model), -1);
+	g_return_val_if_fail (E_IS_CONTACT (contact), -1);
+
+	array = model->priv->contacts;
+	for (ii = 0; ii < array->len; ii++) {
+		EContact *candidate = array->pdata[ii];
+
+		if (contact == candidate)
+			return ii;
+	}
+
+	return -1;
 }
 
 EBook *

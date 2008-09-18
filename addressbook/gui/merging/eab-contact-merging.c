@@ -472,12 +472,18 @@ match_query_callback (EContact *contact, EContact *match, EABContactMatchType ty
 		}
 
 		widget = glade_xml_get_widget (ui, "custom-old-contact");
-		eab_contact_display_render (EAB_CONTACT_DISPLAY (widget),
-					    match, EAB_CONTACT_DISPLAY_RENDER_COMPACT);
+		eab_contact_display_set_mode (
+			EAB_CONTACT_DISPLAY (widget),
+			EAB_CONTACT_DISPLAY_RENDER_COMPACT);
+		eab_contact_display_set_contact (
+			EAB_CONTACT_DISPLAY (widget), match);
 
 		widget = glade_xml_get_widget (ui, "custom-new-contact");
-		eab_contact_display_render (EAB_CONTACT_DISPLAY (widget),
-					    contact, EAB_CONTACT_DISPLAY_RENDER_COMPACT);
+		eab_contact_display_set_mode (
+			EAB_CONTACT_DISPLAY (widget),
+			EAB_CONTACT_DISPLAY_RENDER_COMPACT);
+		eab_contact_display_set_contact (
+			EAB_CONTACT_DISPLAY (widget), contact);
 
 		widget = glade_xml_get_widget (ui, "dialog-duplicate-contact");
 

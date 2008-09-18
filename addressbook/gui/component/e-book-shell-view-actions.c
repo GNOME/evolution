@@ -393,6 +393,7 @@ action_search_execute_cb (GtkAction *action,
 	EShellContent *shell_content;
 	GString *string;
 	EAddressbookView *view;
+	EABContactDisplay *display;
 	const gchar *search_format;
 	const gchar *search_text;
 	gchar *search_query;
@@ -463,10 +464,8 @@ action_search_execute_cb (GtkAction *action,
 	g_object_set (view, "query", search_query, NULL);
 	g_free (search_query);
 
-	/* FIXME view->displayed_contact = -1; */
-	eab_contact_display_render (
-		EAB_CONTACT_DISPLAY (book_shell_view->priv->preview),
-		NULL, EAB_CONTACT_DISPLAY_RENDER_NORMAL);
+	display = EAB_CONTACT_DISPLAY (book_shell_view->priv->preview);
+	eab_contact_display_set_contact (display, NULL);
 }
 
 static GtkActionEntry contact_entries[] = {
@@ -747,12 +746,12 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 }
 
 void
-e_book_shell_view_actions_update (EBookShellView *book_shell_view,
-                                  EAddressbookView *view)
+e_book_shell_view_actions_update (EBookShellView *book_shell_view)
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EAddressbookModel *model;
+	EAddressbookView *view;
 	EBookShellSidebar *book_shell_sidebar;
 	ESelectionModel *selection_model;
 	ESourceSelector *selector;
@@ -764,11 +763,9 @@ e_book_shell_view_actions_update (EBookShellView *book_shell_view,
 	gint n_contacts;
 	gint n_selected;
 
-	if (e_book_shell_view_get_current_view (book_shell_view) != view)
-		return;
-
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+	view = e_book_shell_view_get_current_view (book_shell_view);
 
 	book_shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);

@@ -46,7 +46,7 @@ typedef struct {
 	EABContactDisplay *display;
 	GList *card_list;
 	GtkWidget *label;
-	EABContactDisplayRenderMode render_mode;
+	EABContactDisplayMode mode;
 } EABVCardControl;
 
 #define VCARD_CONTROL_ID "OAFIID:GNOME_Evolution_Addressbook_VCard_Control:" BASE_VERSION
@@ -134,8 +134,10 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	g_free(vcard);
 	vcard_control->card_list = list;
 	if (list) {
-		eab_contact_display_render (vcard_control->display, E_CONTACT (list->data),
-					    vcard_control->render_mode);
+		eab_contact_display_set_mode (
+			vcard_control->display, vcard_control->mode);
+		eab_contact_display_set_contact (
+			vcard_control->display, E_CONTACT (list->data));
 	}
 	if (list && list->next) {
 		char *message;
@@ -218,23 +220,29 @@ static void
 toggle_full_vcard(GtkWidget *button, gpointer data)
 {
 	EABVCardControl *vcard_control = data;
+	EContact *contact;
 	char *label;
 
 	if (!vcard_control->card_list)
 		return;
 
-	if (vcard_control->render_mode == EAB_CONTACT_DISPLAY_RENDER_NORMAL) {
-		vcard_control->render_mode = EAB_CONTACT_DISPLAY_RENDER_COMPACT;
+	contact = E_CONTACT (vcard_control->card_list->data);
+
+	if (vcard_control->mode == EAB_CONTACT_DISPLAY_RENDER_NORMAL) {
+		vcard_control->mode = EAB_CONTACT_DISPLAY_RENDER_COMPACT;
 		label = _("Show Full vCard");
 	}
 	else {
-		vcard_control->render_mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
+		vcard_control->mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
 		label = _("Show Compact vCard");
 	}
 
 	gtk_button_set_label (GTK_BUTTON (button), label);
-	eab_contact_display_render (vcard_control->display, E_CONTACT (vcard_control->card_list->data),
-				    vcard_control->render_mode);
+
+	eab_contact_display_set_mode (
+		vcard_control->display, vcard_control->mode);
+	eab_contact_display_set_contact (
+		vcard_control->display, contact);
 }
 
 static void
@@ -265,7 +273,7 @@ eab_vcard_control_new (void)
 	vcard_control->display = NULL;
 	vcard_control->label = NULL;
 
-	vcard_control->render_mode = EAB_CONTACT_DISPLAY_RENDER_COMPACT;
+	vcard_control->mode = EAB_CONTACT_DISPLAY_RENDER_COMPACT;
 
 	/* Create the control. */
 

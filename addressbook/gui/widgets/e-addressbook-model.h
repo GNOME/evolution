@@ -75,7 +75,7 @@ struct _EAddressbookModelClass {
 	void		(*contacts_removed)	(EAddressbookModel *model,
 						 gpointer id_list);
 	void		(*contact_changed)	(EAddressbookModel *model,
-						 gint index);
+						 EContact *contact);
 	void		(*model_changed)	(EAddressbookModel *model);
 	void		(*stop_state_changed)	(EAddressbookModel *model);
 	void		(*backend_died)		(EAddressbookModel *model);
@@ -99,6 +99,8 @@ gint		e_addressbook_model_contact_count
 						(EAddressbookModel *model);
 EContact *	e_addressbook_model_contact_at	(EAddressbookModel *model,
 						 gint index);
+gint		e_addressbook_model_find	(EAddressbookModel *model,
+						 EContact *contact);
 EBook *		e_addressbook_model_get_book	(EAddressbookModel *model);
 void		e_addressbook_model_set_book	(EAddressbookModel *model,
 						 EBook *book);

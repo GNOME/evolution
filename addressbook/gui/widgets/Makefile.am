@@ -25,8 +25,7 @@ eabincludedir = $(privincludedir)/addressbook/gui/widgets
 
 eabinclude_HEADERS = 			\
 	eab-config.h			\
-	eab-menu.h			\
-	eab-popup.h
+	eab-menu.h
 
 libeabwidgets_la_SOURCES =			\
 	$(MARSHAL_GENERATED)			\
@@ -36,10 +35,6 @@ libeabwidgets_la_SOURCES =			\
 	eab-gui-util.c				\
 	eab-gui-util.h				\
 	eab-menu.c				\
-	eab-popup.c				\
-	eab-popup.h				\
-	eab-popup-control.c			\
-	eab-popup-control.h			\
 	eab-vcard-control.c			\
 	eab-vcard-control.h			\
 	e-minicard.c				\

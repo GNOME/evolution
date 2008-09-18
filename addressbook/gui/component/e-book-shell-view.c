@@ -33,7 +33,6 @@ book_shell_view_source_list_changed_cb (EBookShellView *book_shell_view,
                                         ESourceList *source_list)
 {
 	EBookShellViewPrivate *priv = book_shell_view->priv;
-	EAddressbookView *view;
 	GtkNotebook *notebook;
 	GList *keys, *iter;
 
@@ -76,14 +75,7 @@ book_shell_view_source_list_changed_cb (EBookShellView *book_shell_view,
 	}
 	g_list_free (keys);
 
-	/* Select and update the current view. */
-	view = e_book_shell_view_get_current_view (book_shell_view);
-	if (view != NULL) {
-#if 0
-		eab_view_setup_menus (view, bonobo_uic);
-#endif
-		e_book_shell_view_actions_update (book_shell_view, view);
-	}
+	e_book_shell_view_actions_update (book_shell_view);
 }
 
 static void

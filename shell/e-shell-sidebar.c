@@ -364,7 +364,6 @@ shell_sidebar_init (EShellSidebar *shell_sidebar)
 	widget = gtk_event_box_new ();
 	style = gtk_widget_get_style (widget);
 	color = &style->bg[GTK_STATE_ACTIVE];
-	gtk_container_set_border_width (GTK_CONTAINER (widget), 1);
 	gtk_widget_modify_bg (widget, GTK_STATE_NORMAL, color);
 	gtk_widget_set_parent (widget, GTK_WIDGET (shell_sidebar));
 	shell_sidebar->priv->event_box = g_object_ref (widget);
