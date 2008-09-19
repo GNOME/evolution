@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-18 01:59+0300\n"
-"PO-Revision-Date: 2008-09-19 00:00+0300\n"
+"POT-Creation-Date: 2008-09-18 21:04+0000\n"
+"PO-Revision-Date: 2008-09-19 12:46+0300\n"
 "Last-Translator: Žygimantas Beručka <zygis@gnome.org>\n"
 "Language-Team: Lithuanian <gnome-lt@lists.akl.lt>\n"
 "MIME-Version: 1.0\n"
@@ -401,7 +401,8 @@ msgid ""
 msgstr ""
 "Šiuo metu Evolution galite pasiekti tik GroupWise sistemos adresų knygą. "
 "Pasinaudokite kartą kokiu nors kitu GroupWise pašto klientu, kad gautumėt "
-"savo dažniausius GroupWise kontaktus ir GroupWise asmeninių kontaktų aplankus."
+"savo dažniausius GroupWise kontaktus ir GroupWise asmeninių kontaktų "
+"aplankus."
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Delete address book '{0}'?"
@@ -507,8 +508,9 @@ msgid ""
 "You are attempting to move a contact from one address book to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
-"Bandote perkelti kontaktą iš vienos adresų knygos į kitą, bet jis negali būti "
-"pašalintas iš dabartinio šaltinio. Gal vietoje to norite išsaugoti kopiją?"
+"Bandote perkelti kontaktą iš vienos adresų knygos į kitą, bet jis negali "
+"būti pašalintas iš dabartinio šaltinio. Gal vietoje to norite išsaugoti "
+"kopiją?"
 
 #: ../addressbook/addressbook.error.xml.h:34
 msgid ""
@@ -678,9 +680,19 @@ msgstr "Asmeninis"
 msgid "On LDAP Servers"
 msgstr "LDAP serveriuose"
 
+#: ../addressbook/gui/component/addressbook-component.c:229
+msgctxt "New"
+msgid "_Contact"
+msgstr "_Kontaktas"
+
 #: ../addressbook/gui/component/addressbook-component.c:230
 msgid "Create a new contact"
 msgstr "Sukurti naują kontaktą"
+
+#: ../addressbook/gui/component/addressbook-component.c:237
+msgctxt "New"
+msgid "Contact _List"
+msgstr "Kontaktų _sąrašas"
 
 #: ../addressbook/gui/component/addressbook-component.c:238
 msgid "Create a new contact list"
@@ -690,6 +702,11 @@ msgstr "Sukurti naują kontaktų sąrašą"
 #: ../addressbook/gui/component/addressbook-config.c:1207
 msgid "New Address Book"
 msgstr "Nauja adresų knyga"
+
+#: ../addressbook/gui/component/addressbook-component.c:245
+msgctxt "New"
+msgid "Address _Book"
+msgstr "Adresų _knyga"
 
 #: ../addressbook/gui/component/addressbook-component.c:246
 msgid "Create a new address book"
@@ -3556,9 +3573,9 @@ msgid ""
 "load the address book once in online mode to download its contents"
 msgstr ""
 "Nepavyko atverti šios adresų knygos. Tai reiškia, kad ši knyga nėra pažymėta "
-"naudojimui atsijungus arba dar tam nėra parsiųsta jos duomenų. Kai "
-"būsite prisijungę prie tinklo, paleiskite šią adresų knygą, kad būtų "
-"atsiųstas jos turinys."
+"naudojimui atsijungus arba dar tam nėra parsiųsta jos duomenų. Kai būsite "
+"prisijungę prie tinklo, paleiskite šią adresų knygą, kad būtų atsiųstas jos "
+"turinys."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:118
 #, c-format
@@ -5355,6 +5372,11 @@ msgstr "Kalendoriaus šaltinio parinkiklis"
 msgid "New appointment"
 msgstr "Naujas paskyrimas"
 
+#: ../calendar/gui/calendar-component.c:1597
+msgctxt "New"
+msgid "_Appointment"
+msgstr "_Paskyrimas"
+
 #: ../calendar/gui/calendar-component.c:1598
 msgid "Create a new appointment"
 msgstr "Sukurti naują paskyrimą"
@@ -5362,6 +5384,11 @@ msgstr "Sukurti naują paskyrimą"
 #: ../calendar/gui/calendar-component.c:1604
 msgid "New meeting"
 msgstr "Naujas susitikimas"
+
+#: ../calendar/gui/calendar-component.c:1605
+msgctxt "New"
+msgid "M_eeting"
+msgstr "_Susitikimas"
 
 #: ../calendar/gui/calendar-component.c:1606
 msgid "Create a new meeting request"
@@ -5371,6 +5398,11 @@ msgstr "Sukurti naują susitikimo užklausimą"
 msgid "New all day appointment"
 msgstr "Naujas visos dienos paskyrimas"
 
+#: ../calendar/gui/calendar-component.c:1613
+msgctxt "New"
+msgid "All Day A_ppointment"
+msgstr "Visos dienos _paskyrimas"
+
 #: ../calendar/gui/calendar-component.c:1614
 msgid "Create a new all-day appointment"
 msgstr "Sukurti naują visos dienos paskyrimą"
@@ -5378,6 +5410,11 @@ msgstr "Sukurti naują visos dienos paskyrimą"
 #: ../calendar/gui/calendar-component.c:1620
 msgid "New calendar"
 msgstr "Naujas kalendorius"
+
+#: ../calendar/gui/calendar-component.c:1621
+msgctxt "New"
+msgid "Cale_ndar"
+msgstr "_Kalendorius"
 
 #: ../calendar/gui/calendar-component.c:1622
 msgid "Create a new calendar"
@@ -8571,6 +8608,11 @@ msgstr "Raštelių šaltinio parinkiklis"
 msgid "New memo"
 msgstr "Naujas raštelis"
 
+#: ../calendar/gui/memos-component.c:1261
+msgctxt "New"
+msgid "Mem_o"
+msgstr "_Raštelis"
+
 #: ../calendar/gui/memos-component.c:1262
 msgid "Create a new memo"
 msgstr "Sukurti naują raštelį"
@@ -8579,6 +8621,11 @@ msgstr "Sukurti naują raštelį"
 msgid "New shared memo"
 msgstr "Naujas viešinamas raštelis"
 
+#: ../calendar/gui/memos-component.c:1269
+msgctxt "New"
+msgid "_Shared memo"
+msgstr "_Viešinamas raštelis"
+
 #: ../calendar/gui/memos-component.c:1270
 msgid "Create a shared new memo"
 msgstr "Sukurti naują viešinamą raštelį"
@@ -8586,6 +8633,11 @@ msgstr "Sukurti naują viešinamą raštelį"
 #: ../calendar/gui/memos-component.c:1276
 msgid "New memo list"
 msgstr "Naujas raštelių sąrašas"
+
+#: ../calendar/gui/memos-component.c:1277
+msgctxt "New"
+msgid "Memo li_st"
+msgstr "Raštelių _sąrašas"
 
 #: ../calendar/gui/memos-component.c:1278
 msgid "Create a new memo list"
@@ -8880,6 +8932,11 @@ msgstr "Užduočių šaltinio parinkiklis"
 msgid "New task"
 msgstr "Nauja užduotis"
 
+#: ../calendar/gui/tasks-component.c:1326
+msgctxt "New"
+msgid "_Task"
+msgstr "_Užduotis"
+
 #: ../calendar/gui/tasks-component.c:1327
 msgid "Create a new task"
 msgstr "Sukurti naują užduotį"
@@ -8888,6 +8945,11 @@ msgstr "Sukurti naują užduotį"
 msgid "New assigned task"
 msgstr "Nauja priskirta užduotis"
 
+#: ../calendar/gui/tasks-component.c:1334
+msgctxt "New"
+msgid "Assigne_d Task"
+msgstr "Priskirta už_duotis"
+
 #: ../calendar/gui/tasks-component.c:1335
 msgid "Create a new assigned task"
 msgstr "Sukurti naują priskirtą užduotį"
@@ -8895,6 +8957,11 @@ msgstr "Sukurti naują priskirtą užduotį"
 #: ../calendar/gui/tasks-component.c:1341
 msgid "New task list"
 msgstr "Naujas užduočių sąrašas"
+
+#: ../calendar/gui/tasks-component.c:1342
+msgctxt "New"
+msgid "Tas_k list"
+msgstr "Uždu_očių sąrašas"
 
 #: ../calendar/gui/tasks-component.c:1343
 msgid "Create a new task list"
@@ -12081,6 +12148,27 @@ msgstr "Išsiųsti"
 msgid "Loading..."
 msgstr "Įkeliama..."
 
+#. Translators: This is the string used for displaying the
+#. * folder names in folder trees. "%s" will be replaced by
+#. * the folder's name and "%u" will be replaced with the
+#. * number of unread messages in the folder.
+#. *
+#. * Most languages should translate this as "%s (%u)". The
+#. * languages that use localized digits (like Persian) may
+#. * need to replace "%u" with "%Iu". Right-to-left languages
+#. * (like Arabic and Hebrew) may need to add bidirectional
+#. * formatting codes to take care of the cases the folder
+#. * name appears in either direction.
+#. *
+#. * Do not translate the "folder-display|" part. Remove it
+#. * from your translation.
+#.
+#: ../mail/em-folder-tree.c:380
+#, c-format
+msgctxt "folder-display"
+msgid "%s (%u)"
+msgstr "%s (%u)"
+
 #: ../mail/em-folder-tree.c:741
 msgid "Mail Folder Tree"
 msgstr "Pašto aplankų medis"
@@ -13108,8 +13196,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:36
 msgid "Determines whether to use custom headers to check for junk"
-msgstr ""
-"Nurodo, ar naudoti specialias antraštes laiškams tikrinti nuo šiukšlių"
+msgstr "Nurodo, ar naudoti specialias antraštes laiškams tikrinti nuo šiukšlių"
 
 #: ../mail/evolution-mail.schemas.in.h:37
 msgid ""
@@ -13263,10 +13350,9 @@ msgid ""
 "detail."
 msgstr ""
 "Pradinė lango „Pašto siuntimas ir gavimas“ išdidinimo būsena. Reikšmė "
-"atnaujinama, kai naudotojas išdidina ar sumažina langą. Atminkite, kad "
-"šis konkreti reikšmė Evolution nenaudojama, kadangi lango "
-"„Pašto siuntimas ir gavimas“ išdidinti negalima. Šis raktas yra tik kaip "
-"realizavimo detalė."
+"atnaujinama, kai naudotojas išdidina ar sumažina langą. Atminkite, kad šis "
+"konkreti reikšmė Evolution nenaudojama, kadangi lango „Pašto siuntimas ir "
+"gavimas“ išdidinti negalima. Šis raktas yra tik kaip realizavimo detalė."
 
 #: ../mail/evolution-mail.schemas.in.h:64
 msgid ""
@@ -13364,10 +13450,9 @@ msgid ""
 "Never load images off the net. \"1\" - Load images in messages from "
 "contacts. \"2\" - Always load images off the net."
 msgstr ""
-"HTML laiškuose įkelti paveikslėlius per http(s). Galimos reikšmės yra: "
-"0 – niekada neįkelti paveikslėlių iš Interneto; 1 – įkelti tik "
-"jei siuntėjas yra adresų knygoje; 2 – visada įkelti paveikslėlius iš "
-"žiniatinklio."
+"HTML laiškuose įkelti paveikslėlius per http(s). Galimos reikšmės yra: 0 – "
+"niekada neįkelti paveikslėlių iš Interneto; 1 – įkelti tik jei siuntėjas yra "
+"adresų knygoje; 2 – visada įkelti paveikslėlius iš žiniatinklio."
 
 #: ../mail/evolution-mail.schemas.in.h:82
 msgid "Log filter actions"
@@ -13646,9 +13731,9 @@ msgid ""
 "mail view."
 msgstr ""
 "Šiame rakte turėtų būti nurodytos XML struktūros, nurodančios pasirinktines "
-"antraštes ir ar jos turėtų būti rodomos. XML struktūros formatas yra "
-"&lt;antraštė enabled&gt; – nustatykite „enabled“, jei antraštė turi būti "
-"rodoma peržiūrint laišką."
+"antraštes ir ar jos turėtų būti rodomos. XML struktūros formatas yra &lt;"
+"antraštė enabled&gt; – nustatykite „enabled“, jei antraštė turi būti rodoma "
+"peržiūrint laišką."
 
 #: ../mail/evolution-mail.schemas.in.h:145
 msgid ""
@@ -13974,6 +14059,11 @@ msgstr[2] "Iš viso %d"
 msgid "New Mail Message"
 msgstr "Naujas elektroninis laiškas"
 
+#: ../mail/mail-component.c:924
+msgctxt "New"
+msgid "_Mail Message"
+msgstr "_Elektroninis laiškas"
+
 #: ../mail/mail-component.c:925
 msgid "Compose a new mail message"
 msgstr "Rašyti naują laišką"
@@ -13981,6 +14071,11 @@ msgstr "Rašyti naują laišką"
 #: ../mail/mail-component.c:931
 msgid "New Mail Folder"
 msgstr "Naujas pašto aplankas"
+
+#: ../mail/mail-component.c:932
+msgctxt "New"
+msgid "Mail _Folder"
+msgstr "Pašto _aplankas"
 
 #: ../mail/mail-component.c:933
 msgid "Create a new mail folder"
@@ -15173,8 +15268,7 @@ msgid ""
 msgstr ""
 "Ne tuščias aplankas vietoje „{1}“ jau egzistuoja.\n"
 "\n"
-"Galite šio aplanko nepaisyti, perrašyti ar papildyti jo turinį arba "
-"išeiti."
+"Galite šio aplanko nepaisyti, perrašyti ar papildyti jo turinį arba išeiti."
 
 #: ../mail/mail.error.xml.h:6
 msgid ""
@@ -16258,7 +16352,8 @@ msgstr "Skubių žinučių kontaktai"
 #: ../plugins/bbdb/bbdb.c:603
 msgid "Synchronize contact info and images from Pidgin buddy list"
 msgstr ""
-"Sinchronizuoti kontaktų informaciją ir paveikslėlius su Pidgin bičiulių sąrašu"
+"Sinchronizuoti kontaktų informaciją ir paveikslėlius su Pidgin bičiulių "
+"sąrašu"
 
 #: ../plugins/bbdb/bbdb.c:609
 msgid "Select Address book for Pidgin buddy list"
@@ -17231,8 +17326,8 @@ msgstr "Nepavyko atnaujinti manęs-darbe-nėra būsenos"
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
 msgid "Evolution requires a restart to load the subscribed user's mailbox"
 msgstr ""
-"Kad būtų įkelta užsakyto naudotojo pašto dėžutė, Evolution turi būti paleista "
-"iš naujo"
+"Kad būtų įkelta užsakyto naudotojo pašto dėžutė, Evolution turi būti "
+"paleista iš naujo"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:22
 msgid "Exchange Account is offline."
@@ -17727,8 +17822,8 @@ msgid ""
 "Retracting a message may remove it from the recipient's mailbox. Are you "
 "sure you want to do this ?"
 msgstr ""
-"Atšaukiant laišką jis gali būti pašalintas iš gavėjo pašto dėžutės. Ar tikrai "
-"norite tai padaryti?"
+"Atšaukiant laišką jis gali būti pašalintas iš gavėjo pašto dėžutės. Ar "
+"tikrai norite tai padaryti?"
 
 #: ../plugins/groupwise-features/mail-retract.c:77
 msgid "Message retracted successfully"
@@ -17780,8 +17875,8 @@ msgstr "Jau suteikėte šiam naudotojui tarpinio serverio teises."
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:5
 msgid "You have to specify a valid user name to give proxy rights."
 msgstr ""
-"Norėdami suteikti tarpinio serverio teises, turite nurodyti tinkamą naudotojo "
-"vardą."
+"Norėdami suteikti tarpinio serverio teises, turite nurodyti tinkamą "
+"naudotojo vardą."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:1
 msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
@@ -18878,8 +18973,8 @@ msgid ""
 "If \"true\", then beep, otherwise will play sound file when new messages "
 "arrive."
 msgstr ""
-"Jei reiškmė teigiama, gavus naujų laiškų pyptelės, priešingu atveju "
-"gros garsinį failą."
+"Jei reiškmė teigiama, gavus naujų laiškų pyptelės, priešingu atveju gros "
+"garsinį failą."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Notify new messages for Inbox only."
@@ -19557,8 +19652,8 @@ msgid ""
 "Filters junk messages using SpamAssassin. This plugin requires SpamAssassin "
 "to be installed."
 msgstr ""
-"Filtruoja šlamštą laiškuose su SpamAssassin. Kad veiktų šis įskiepis, "
-"turi būti įdiegtas SpamAssassin."
+"Filtruoja šlamštą laiškuose su SpamAssassin. Kad veiktų šis įskiepis, turi "
+"būti įdiegtas SpamAssassin."
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 msgid "SpamAssassin junk plugin"
@@ -19750,9 +19845,9 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
-"Sveikiname paleidus Evolution. Keliuose kituose Evolution languose "
-"galėsite prisijungti prie savo el. pašto abonementų ir importuoti failus iš "
-"kitų programų.\n"
+"Sveikiname paleidus Evolution. Keliuose kituose Evolution languose galėsite "
+"prisijungti prie savo el. pašto abonementų ir importuoti failus iš kitų "
+"programų.\n"
 "\n"
 "Norėdami tęsti, spustelėkite mygtuką „Pirmyn“. "
 
@@ -19932,8 +20027,8 @@ msgid ""
 msgstr ""
 "Jei reikšmė teigiama, jungiantis prie tarpinio serverio reikia patvirtinti "
 "tapatybę. Naudotojo vardas gaunamas iš „/apps/evolution/shell/network_config/"
-"authentication_user“ GConf rakto, o slaptažodis gaunamas arba iš "
-"gnome-keyring arba ~/.gnome2_private/Evolution slaptažodžių failo."
+"authentication_user“ GConf rakto, o slaptažodis gaunamas arba iš gnome-"
+"keyring arba ~/.gnome2_private/Evolution slaptažodžių failo."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:15
 msgid "Last upgraded configuration version"
@@ -19953,7 +20048,8 @@ msgstr "Kompiuteriai, prie kurių jungiamasi be tarpinio serverio"
 #: ../shell/apps_evolution_shell.schemas.in.h:18
 msgid "Password to pass as authentication when doing HTTP proxying."
 msgstr ""
-"Naudojantis HTTP tarpiniu serveriu tapatybei patvirtinti nurodomas slaptažodis"
+"Naudojantis HTTP tarpiniu serveriu tapatybei patvirtinti nurodomas "
+"slaptažodis"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Proxy configuration mode"
@@ -19982,10 +20078,10 @@ msgid ""
 "configuration\" and \"use proxy configuration provided in the autoconfig url"
 "\" respectively."
 msgstr ""
-"Pasirinkite tarpinio serverio konfigūracijos veikseną. Galimos reikšmės: "
-"0 – „naudoti sistemos parametrus“; 1 – „nėra tarpinio serverio“; "
-"2 – „naudoti rankinę tarpinio serverio konfigūraciją“; 3 – „naudoti "
-"tarpinio serverio konfigūraciją, nurodytą automatinio konfigūravimo URL“."
+"Pasirinkite tarpinio serverio konfigūracijos veikseną. Galimos reikšmės: 0 – "
+"„naudoti sistemos parametrus“; 1 – „nėra tarpinio serverio“; 2 – „naudoti "
+"rankinę tarpinio serverio konfigūraciją“; 3 – „naudoti tarpinio serverio "
+"konfigūraciją, nurodytą automatinio konfigūravimo URL“."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid "Sidebar is visible"
@@ -20327,6 +20423,11 @@ msgstr "Nauja"
 msgid "New Test"
 msgstr "Naujas bandymas"
 
+#: ../shell/test/evolution-test-component.c:106
+msgctxt "New"
+msgid "_Test"
+msgstr "_Bandyti"
+
 #: ../shell/test/evolution-test-component.c:107
 msgid "Create a new test item"
 msgstr "Sukurti naują bandomąjį elementą"
@@ -20334,7 +20435,7 @@ msgstr "Sukurti naują bandomąjį elementą"
 #: ../shell/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
 msgstr ""
-"Norėdami pradėti failo importavimą į Evolution, spauskite „Importuoti“."
+"Norėdami pradėti failo importavimą į Evolution, spustelėkite „Importuoti“."
 
 #: ../shell/import.glade.h:2
 msgid "Evolution Import Assistant"
@@ -22961,8 +23062,8 @@ msgid ""
 "should instead select the timezone from the drop-down combination box below."
 msgstr ""
 "Pele paremtas interaktyvus žemėlapis laiko juostų pasirinkimui. Naudotojai, "
-"naudojantys klaviatūrą, vietoje to turėtų pasirinkti laiko juostą "
-"žemiau esančiame išskleidžiamame sąraše"
+"naudojantys klaviatūrą, vietoje to turėtų pasirinkti laiko juostą žemiau "
+"esančiame išskleidžiamame sąraše"
 
 #: ../widgets/misc/e-online-button.c:106
 msgid "Online"
@@ -23700,3 +23801,11 @@ msgstr "Rodyti mygtuką"
 #: ../widgets/text/e-text.c:3772 ../widgets/text/e-text.c:3773
 msgid "Cursor position"
 msgstr "Žymiklio pozicija"
+
+#: ../widgets/text/e-text.c:3779 ../widgets/text/e-text.c:3780
+msgid "IM Context"
+msgstr "IM kontekstas"
+
+#: ../widgets/text/e-text.c:3786 ../widgets/text/e-text.c:3787
+msgid "Handle Popup"
+msgstr "Valdyti iškeliamą langą"
