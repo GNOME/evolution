@@ -4,7 +4,7 @@
 #
 # Translators:
 # Andraz Tori <andraz.tori1@guest.arnes.si>, 2002.
-# Matej Urbančič <mateju@svn.gnome.org>, 2006 - 2007.
+# Matej Urbančič <mateju@svn.gnome.org>, 2006 - 2008.
 #
 #
 msgid ""
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-17 14:02+0000\n"
-"PO-Revision-Date: 2008-09-19 15:10+0100\n"
+"PO-Revision-Date: 2008-09-19 18:03+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -349,9 +349,8 @@ msgstr "Vključi"
 
 #. For Translators: {0} is the name of the address book source
 #: ../addressbook/addressbook.error.xml.h:2
-#, fuzzy
 msgid "'{0}' is a read-only address book and cannot be modified. Please select a different address book from the side bar in the Contacts view."
-msgstr "'{0}' je vir imenik samo za branje Preklopite na pogled stikov in označite imenik, ki lahko sprejema stike."
+msgstr "'{0}' je vir imenik samo za branje in ga ni mogoče spreminjati. Prosim, izberite drug imenik iz seznama v pogledu stikov."
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid "A contact already exists with this address. Would you like to add a new card with the same address anyway?"
@@ -386,9 +385,8 @@ msgid "Could not remove address book."
 msgstr "Ni mogoče odstraniti imenika."
 
 #: ../addressbook/addressbook.error.xml.h:11
-#, fuzzy
 msgid "Currently you can access only GroupWise System Address Book from Evolution. Please use some other GroupWise mail client once, to get your GroupWise Frequent Contacts and GroupWise Personal Contacts folders."
-msgstr "Iz Evolutiona lahko trenutno dostopate samo do sistemskega adresarja GroupWise. Za dostop do pogostih stikov in map osebnih stikov uporabite kateri drugi poštni odjemalec GroupWise."
+msgstr "Iz programa Evolutiona lahko trenutno uporabljate le sistemski imenik GroupWise. Za dostop do pogostih stikov in map osebnih stikov uporabite kateri drugi poštni odjemalec GroupWise."
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Delete address book '{0}'?"
@@ -477,7 +475,6 @@ msgid "Would you like to save your changes?"
 msgstr "Želite shraniti spremembe?"
 
 #: ../addressbook/addressbook.error.xml.h:33
-#, fuzzy
 msgid "You are attempting to move a contact from one address book to another but it cannot be removed from the source. Do you want to save a copy instead?"
 msgstr "Stik poskušate prenesti iz enega imenika v drugega, vendar ga ni mogoče izbrisati iz vira. Želite namesto tega shraniti kopijo?"
 
@@ -486,9 +483,8 @@ msgid "You are connecting to an unsupported GroupWise server and may encounter p
 msgstr "Povezujete se na nepodprt strežnik GroupWise, zato lahko pride do težav pri uporabi Evolutiona. Za boljšo izkušnjo strežnik raje nadgradite na podprto različico"
 
 #: ../addressbook/addressbook.error.xml.h:35
-#, fuzzy
 msgid "You do not have permission to delete contacts in this address book."
-msgstr "Nimate dovoljenja za izbris stika v imeniku."
+msgstr "Nimate dovoljenja za izbris stika iz imenika."
 
 #: ../addressbook/addressbook.error.xml.h:36
 msgid "You have made modifications to this contact. Do you want to save these changes?"
@@ -540,9 +536,8 @@ msgstr "Privzet usklajevalni naslov:"
 
 #: ../addressbook/conduit/address-conduit.c:1320
 #: ../addressbook/conduit/address-conduit.c:1321
-#, fuzzy
 msgid "Could not load address book"
-msgstr "Ni mogoče naložiti imenika"
+msgstr "Ne morem naložiti imenika"
 
 #: ../addressbook/conduit/address-conduit.c:1398
 #: ../addressbook/conduit/address-conduit.c:1401
@@ -559,7 +554,7 @@ msgstr "_Stiki"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
 msgid "Certificates"
-msgstr "Certifikati"
+msgstr "Potrdila"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 msgid "Configure autocomplete here"
@@ -596,9 +591,8 @@ msgid "Evolution Address Book component"
 msgstr "Komponenta imenika Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:11
-#, fuzzy
 msgid "Evolution S/MIME Certificate Management Control"
-msgstr "Gradnik za upravljanje certifikatov S/Mime v Evolution"
+msgstr "Nadzornik upravljanja potrdil S/Mime v Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:12
 msgid "Evolution folder settings configuration control"
@@ -606,7 +600,7 @@ msgstr "Gradnik za nastavitve map Evolution"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:13
 msgid "Manage your S/MIME certificates here"
-msgstr "Tu lahko upravljate vaše certifikate S/MIME"
+msgstr "Tu lahko upravljate vaša potrdila S/MIME"
 
 #. create the local source group
 #. On This Computer is always first and Search Folders is always last
@@ -3511,35 +3505,31 @@ msgid "Unsupported authentication method"
 msgstr "Nepodprta metoda overjanja"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:109
-#, fuzzy
 msgid "We were unable to open this address book. This either means this book is not marked for offline usage or not yet downloaded for offline usage. Please load the address book once in online mode to download its contents"
-msgstr "Odpiranje tega imenika ni uspelo. Knjiga ni označena za uporabo brez povezave ali pa še ni prenesena. Za prenos vsebine knjige morate enkrat naložiti imenika v stanju na zvezi"
+msgstr "Ni bilo mogoče odpreti tega imenika. Knjiga ni označena za uporabo brez povezave ali pa še ni prenesena. Za prenos vsebine knjige morate enkrat naložiti imenika v stanju na zvezi"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "We were unable to open this address book.  Please check that the path %s exists and that you have permission to access it."
-msgstr "Odpiranje tega imenika ni bilo uspelo. Preverite, ali pot %s obstaja in ali imate dovoljenje za dostop."
+msgstr "Ni bilo mogoče odpreti tega imenika. Preverite, ali pot %s obstaja in ali imate dovoljenje za dostop."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:127
-#, fuzzy
 msgid "We were unable to open this address book.  This either means you have entered an incorrect URI, or the LDAP server is unreachable."
-msgstr "Odpiranje tega imenika ni bilo uspelo. To pomeni, da ste vpisali neveljaven URI ali da je LDAP strežnik nedosegljiv."
+msgstr "Ni bilo mogoče odpreti tega imenika. To pomeni, da ste vpisali neveljaven URI ali da je LDAP strežnik nedosegljiv."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:133
 msgid "This version of Evolution does not have LDAP support compiled in to it.  If you want to use LDAP in Evolution, you must install an LDAP-enabled Evolution package."
 msgstr "Ta različica Evolutiona nima vgrajene podpore za LDAP. Če želite uporabljati LDAP, morate namestiti paket Evolutiona s podporo za LDAP."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:140
-#, fuzzy
 msgid "We were unable to open this address book.  This either means you have entered an incorrect URI, or the server is unreachable."
-msgstr "Odpiranje tega imenika ni uspelo. To pomeni, da ste vpisali neveljaven URI ali da je LDAP strežnik nedosegljiv."
+msgstr "Ni bilo mogoče odpreti tega imenika. To pomeni, da ste vpisali neveljaven URI ali da je strežnik nedosegljiv."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:148
 msgid "Detailed error:"
 msgstr "Podrobnosti napake:"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:171
-#, fuzzy
 msgid ""
 "More cards matched this query than either the server is \n"
 "configured to return or Evolution is configured to display.\n"
@@ -3548,11 +3538,10 @@ msgid ""
 msgstr ""
 "Poizvedbi ustreza več vizitk kot jih lahko vrne strežnik \n"
 "ali kot jih lahko prikaže Evolution.\n"
-"Vnesite strožje pogoje iskanja ali povečajte omejitev števila\n"
+"Vnesite bolj natančne pogoje iskanja ali povečajte omejitev števila\n"
 "rezultatov iskanja v nastavitvah strežnika map za ta imenik."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:177
-#, fuzzy
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "you have configured for this address book.  Please make your search\n"
@@ -3560,16 +3549,15 @@ msgid ""
 "preferences for this address book."
 msgstr ""
 "Čas za izvedbo poizvedbe je presegel omejitev strežnika ali\n"
-"omejitev, ki ste jo nastavili za imenik. Vnesite strožje pogoje iskanja\n"
-"ali povečajte časovno omejitev v nastavitvah strežnika map za ta imenik."
+"omejitev, ki ste jo nastavili za imenik. Vnesite bolj natančne pogoje\n"
+"iskanja ali pa povečajte časovno omejitev v nastavitvah strežnika\n"
+"map za ta imenik."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:183
-#, fuzzy
 msgid "The backend for this address book was unable to parse this query."
 msgstr "Hrbtni del tega imenika ni uspel razčleniti te poizvedbe."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:186
-#, fuzzy
 msgid "The backend for this address book refused to perform this query."
 msgstr "Hrbtni del tega imenika je zavrnil izvajanje te poizvedbe."
 
@@ -4060,9 +4048,8 @@ msgstr "'{0}' je koledar le za branje in ga ni mogoče spreminjati. Prosim, izbe
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:4
-#, fuzzy
 msgid "'{0}' is a read-only calendar and cannot be modified. Please select a different calendar that can accept appointments."
-msgstr "'{0}' je vir koledarja samo za branje. Preklopite na pogled koledarja in označite koledar, ki lahko sprejema sestanke."
+msgstr "'{0}' je vir koledarja samo za branje in ga ni mogoče spremeniti. Prosim, izberite drug koledar, ki lahko sprejema sestanke."
 
 #: ../calendar/calendar.error.xml.h:5
 msgid "Adding a meaningful summary to your appointment will give your recipients an idea of what your appointment is about."
@@ -5489,7 +5476,7 @@ msgstr "Dobavitelji"
 #: ../calendar/gui/memotypes.xml.h:36
 #: ../calendar/gui/tasktypes.xml.h:43
 msgid "Time &amp; Expenses"
-msgstr ""
+msgstr "Čas &amp; Stroški"
 
 #: ../calendar/gui/caltypes.xml.h:40
 #: ../calendar/gui/memotypes.xml.h:37
@@ -10726,7 +10713,7 @@ msgstr "Šifriraj z S/MIME"
 
 #: ../composer/e-composer-actions.c:594
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
-msgstr "Šifriraj to sporočilo z vašim šifrirnim certifikatom S/MIME "
+msgstr "Šifriraj to sporočilo z vašim šifrirnim potrdilom S/MIME "
 
 #: ../composer/e-composer-actions.c:600
 msgid "S/MIME Sig_n"
@@ -10734,7 +10721,7 @@ msgstr "Podpis z S/MIME"
 
 #: ../composer/e-composer-actions.c:602
 msgid "Sign this message with your S/MIME Signature Certificate"
-msgstr "Podpiši to sporočilo s svojim S/MIME podpisnim certifikatom"
+msgstr "Podpiši to sporočilo s svojim S/MIME podpisnim potrdilom"
 
 #: ../composer/e-composer-actions.c:608
 msgid "_Bcc Field"
@@ -10859,11 +10846,11 @@ msgstr "_Prikaži vrstico priponk"
 
 #: ../composer/e-msg-composer.c:870
 msgid "Cannot sign outgoing message: No signing certificate set for this account"
-msgstr "Odhodnega sporočila ni mogoče podpisati: za ta račun ni nastavljen noben certifikat za podpisovanje"
+msgstr "Odhodnega sporočila ni mogoče podpisati: za ta račun ni nastavljeno nobeno potrdilo za podpisovanje"
 
 #: ../composer/e-msg-composer.c:877
 msgid "Cannot encrypt outgoing message: No encryption certificate set for this account"
-msgstr "Odhodnega sporočila ni mogoče šifrirati: za ta račun ni nastavljen noben certifikat za šifriranje"
+msgstr "Odhodnega sporočila ni mogoče šifrirati: za ta račun ni nastavljeno nobeno potrdilo za šifriranje"
 
 #: ../composer/e-msg-composer.c:1498
 #: ../mail/em-format-html-display.c:1919
@@ -12584,11 +12571,11 @@ msgstr "Sporočilo je šifrirano z močnim šifrirnim algoritmom, zato si je v d
 #: ../mail/em-format-html-display.c:1063
 #: ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
-msgstr "_Ogled certifikata"
+msgstr "_Ogled potrdila"
 
 #: ../mail/em-format-html-display.c:1078
 msgid "This certificate is not viewable"
-msgstr "Tega certifikata si ni mogoče pogledati"
+msgstr "Tega potrdila ni mogoče pogledati"
 
 #: ../mail/em-format-html-display.c:1377
 msgid "Completed on %B %d, %Y, %l:%M %p"
@@ -12667,9 +12654,8 @@ msgid "O_pen With"
 msgstr "Odpri _z"
 
 #: ../mail/em-format-html-display.c:2479
-#, fuzzy
 msgid "Evolution cannot render this email as it is too large to process. You can view it unformatted or with an external text editor."
-msgstr "Ni mogoče prikazati elektronskega sporočila, ker je prevelik. Lahko ga pogledate neoblikovanega ali pa si ga pogledate z zunanjim urejevalnikom besedila."
+msgstr "Ni mogoče prikazati elektronskega sporočila, ker je preobsežno. Lahko ga pogledate neoblikovanega ali pa si ga pogledate z zunanjim urejevalnikom besedila."
 
 #: ../mail/em-format-html-print.c:156
 #, c-format
@@ -12963,15 +12949,14 @@ msgid "Failed to create local mail storage `%s': %s"
 msgstr "Ni mogoče ustvariti lokalne shrambe pošte '%s': %s"
 
 #: ../mail/em-migrate.c:2898
-#, fuzzy
 msgid ""
 "The summary format of the Evolution mailbox folders has been moved to sqlite since Evolution 2.24.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Lokacija in hierarhija poštnih predalov v Evolutionu sta se spremenili od Evolutiona 1.x.\n"
+"Zapis povzetkov poštnih predalov Evolution je spremenjen od različice2.24 dalje.\n"
 "\n"
-"Bodite pozorni, medtem ko Evolution premika vaše mape ..."
+"Prosim, bodite strpni, medtem ko Evolution premika vaše mape ..."
 
 #: ../mail/em-migrate.c:2963
 #, c-format
@@ -13122,7 +13107,7 @@ msgstr "Skrči prikaz naslovov v poljih ZA/KP/SKP na število, navedeno v addres
 
 #: ../mail/evolution-mail.schemas.in.h:17
 msgid "Controls how frequently local changes are synchronized with the remote mail server. The interval must be at least 30 seconds."
-msgstr ""
+msgstr "Nadzira kako pogosto se krajevne spremembe uskladijo z oddaljenim poštnim strežnikom. Zamik mora biti vsaj 30. sekund."
 
 #: ../mail/evolution-mail.schemas.in.h:18
 msgid "Custom headers to use while checking for junk."
@@ -13185,17 +13170,14 @@ msgid "Default width of the subscribe dialog."
 msgstr "Privzeta širina pogovornega okna za naročanje."
 
 #: ../mail/evolution-mail.schemas.in.h:33
-#, fuzzy
 msgid "Determines whether to look up addresses for junk filtering in local address book only"
-msgstr "Določa ali pregledati imenik za elektronski naslov pošiljatelja le v krajevnem imeniku."
+msgstr "Določa ali pregledati imenik za filtriranje neželene pošte le v krajevnem imeniku."
 
 #: ../mail/evolution-mail.schemas.in.h:34
-#, fuzzy
 msgid "Determines whether to lookup in address book for sender email"
-msgstr "Določa ali pregledati imenik za elektronski nalsov pošiljatelja"
+msgstr "Določa ali pregledati imenik za elektronski naslov pošiljatelja"
 
 #: ../mail/evolution-mail.schemas.in.h:35
-#, fuzzy
 msgid "Determines whether to lookup the sender email in address book. If found, it shouldn't be a spam. It looks up in the books marked for autocompletion. It can be slow, if remote address books (like LDAP) are marked for autocompletion."
 msgstr "Določa ali pregledati imenik za elektronski naslov pošiljatelja. V primeru, da naslov najde, sporočilo ne more biti označeno kot neželena pošta. Pregleda v zapisih označenih za samodejno zaključevanje. Postopek je lahko počasen, če uporabljate oddaljeni imenik (LDAP)."
 
@@ -13380,9 +13362,8 @@ msgid "Load images for HTML messages over http"
 msgstr "Naloži slike sporočil HTML preko HTTP"
 
 #: ../mail/evolution-mail.schemas.in.h:81
-#, fuzzy
 msgid "Load images for HTML messages over http(s). Possible values are: \"0\" - Never load images off the net. \"1\" - Load images in messages from contacts. \"2\" - Always load images off the net."
-msgstr "Naloži slike sporočil HTML preko http(s). Mogoče vrednosti so: 0 - Nikoli ne nalagaj slik s spleta 1 - Naloži slike v sporočilih oseb v imeniku 2 - Vedno naloži slike s spleta"
+msgstr "Naloži slike sporočil HTML preko http(s). Mogoče vrednosti so: \"0\" - nikoli ne nalagaj slik s spleta \"1\" - naloži slike v sporočilih oseb v imeniku \"2\" - vedno naloži slike s spleta."
 
 #: ../mail/evolution-mail.schemas.in.h:82
 msgid "Log filter actions"
@@ -13609,9 +13590,8 @@ msgid "The variable width font for mail display."
 msgstr "Pisava spremenljive širine za prikaz pošte."
 
 #: ../mail/evolution-mail.schemas.in.h:140
-#, fuzzy
 msgid "This can have three possible values. \"0\" for errors. \"1\" for warnings. \"2\" for debug messages."
-msgstr "Mogoče so tri vrednosti. 0 za napake. 1 za opozorila. 2 za sporočila razhroščevanja."
+msgstr "Mogoče so tri vrednosti. \"0\" za napake, \"1\" za opozorila in \"2\" za sporočila razhroščevanja."
 
 #: ../mail/evolution-mail.schemas.in.h:141
 msgid "This decides the max size of the text part that can be formatted under evolution. The default is 4MB / 4096 KB and is specified interms of KB."
@@ -13622,7 +13602,6 @@ msgid "This is the default junk plugin, even though there are multiple plugins e
 msgstr "Privzeti vstavek neželene pošte, čeprav je lahko sočasno dejavnih več vstavkov. V primeru, da privzeti vstavek onemogočimo, se preverjanje ne povrne na ostale vstavke, ki so na voljo."
 
 #: ../mail/evolution-mail.schemas.in.h:143
-#, fuzzy
 msgid "This key is read only once and reset to \"false\" after read. This unselects the mail in the list and removes the preview for that folder."
 msgstr "Ključ je določen le za branje samo enkrat, po branju pa se samodejno onemogoči. To odstrani oznako sporočila v seznamu in odstrani predogled za to mapo."
 
@@ -13631,7 +13610,6 @@ msgid "This key should contain a list of XML structures specifying custom header
 msgstr "Ta ključ naj bi vseboval seznam struktur XML, ki določajo poljubne glave, in ali naj bodo prikazane. Oblika strukture XML je &lt;glava omogočena&gt; - nastavi kot omogočeno, če naj bo glava prikazana v poštnem pogledu."
 
 #: ../mail/evolution-mail.schemas.in.h:145
-#, fuzzy
 msgid "This option is related to the key lookup_addressbook and is used to determine whether to look up addresses in local address book only to exclude mail sent by known contacts from junk filtering."
 msgstr "Možnost je povezana z  ključem lookup_addressbook in je uporabljena za določevanje vpogleda v naslove krajevnega imenika za izločevanje pošte poslane s strani neznanih stikov v filtriranje neželene pošte."
 
@@ -14311,7 +14289,7 @@ msgstr "Omogoči _iskalne mape"
 
 #: ../mail/mail-config.glade.h:81
 msgid "Encry_ption certificate:"
-msgstr "Certifikata za ši_friranje:"
+msgstr "Potrdilo za ši_friranje:"
 
 #: ../mail/mail-config.glade.h:82
 msgid "Encrypt out_going messages (by default)"
@@ -14467,7 +14445,6 @@ msgid "S_OCKS Host:"
 msgstr "Gostitelj _SOCKS:"
 
 #: ../mail/mail-config.glade.h:127
-#, fuzzy
 msgid "S_earch for sender photograph only in local address books"
 msgstr "Sliko pošiljatelja išči le v lokalnih imenikih"
 
@@ -14517,7 +14494,7 @@ msgstr "Vrs_ta strežnika:"
 
 #: ../mail/mail-config.glade.h:141
 msgid "Sig_ning certificate:"
-msgstr "Certifikat za podpisova_nje:"
+msgstr "Potrdilo za podpisova_nje:"
 
 #: ../mail/mail-config.glade.h:142
 msgid "Signat_ure:"
@@ -14654,7 +14631,6 @@ msgid "_Path:"
 msgstr "_Pot:"
 
 #: ../mail/mail-config.glade.h:178
-#, fuzzy
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
 msgstr "O_pozori ob pošiljanju sporočil v obliki HTML tistim stikom, ki tega nočejo"
 
@@ -16003,7 +15979,7 @@ msgstr "Varnostna kopija podatkov programa Evolution"
 
 #: ../plugins/backup-restore/backup.c:515
 msgid "Please wait while Evolution is backing up your data."
-msgstr ""
+msgstr "Prosim, počakajte, dokler program ne naredi varnostne kopije vaših podatkov."
 
 #: ../plugins/backup-restore/backup.c:517
 msgid "Restoring Evolution Data"
@@ -16011,11 +15987,11 @@ msgstr "Povrnitev podatkov programa Evolution"
 
 #: ../plugins/backup-restore/backup.c:518
 msgid "Please wait while Evolution is restoring your data."
-msgstr ""
+msgstr "Prosim, počakajte, dokler program ne povrne vaših podatkov."
 
 #: ../plugins/backup-restore/backup.c:536
 msgid "This may take a while depending on the amount of data in your account."
-msgstr ""
+msgstr "Postopek je lahko dolgotrajen, saj je odvisen od velikosti podatkov računa."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
 msgid "A plugin for backing up and restore Evolution data and settings."
@@ -16078,7 +16054,6 @@ msgstr "Samodejni stiki"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:567
-#, fuzzy
 msgid "_Auto-create address book entries when replying to messages"
 msgstr "S_amodejno ustvari vnose v imeniku pri odgovarjanju na sporočila"
 
@@ -16092,7 +16067,6 @@ msgstr "Stiki neposrednega sporočanja"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:603
-#, fuzzy
 msgid "Synchronize contact info and images from Pidgin buddy list"
 msgstr "Občasno uskladi podatke in slike s seznamom stikov programa Pidgin"
 
@@ -16106,7 +16080,6 @@ msgid "Synchronize with _buddy list now"
 msgstr "Uskladi s _seznamom prijateljev"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
-#, fuzzy
 msgid "Automatically fills your address book with names and email addresses as you reply to messages. Also fills in IM contact information from your buddy lists."
 msgstr "Samodejno doda imena in e-poštne naslove v imenik, ko odgovarjate na sporočila. Prav tako doda stike iz seznama prijateljev odjemalca za neposredno sporočanje."
 
@@ -16321,7 +16294,6 @@ msgid "Default Sources"
 msgstr "Privzeti viri"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
-#, fuzzy
 msgid "Provides functionality for marking a calendar or an address book as the default one."
 msgstr "Omogoča možnost nastavitve privzetega koledarja ali imenika."
 
@@ -16344,6 +16316,8 @@ msgid ""
 "The format for specifying a Custom Header key value is:\n"
 "Name of the Custom Header key values separated by \";\"."
 msgstr ""
+"Zapis za določevanje glave po meri:\n"
+"Ime vrednosti glave po meri ločene z znakom \";\"."
 
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.glade.h:1
 msgid "Email Custom Header"
@@ -16352,7 +16326,7 @@ msgstr "Glave sporočil po meri"
 #. For Translators: 'custom header' string is used while adding a new message header to outgoing message, to specify what value for the message header would be added
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:2
 msgid "Adds custom header to outgoing messages."
-msgstr ""
+msgstr "Dodaj glavo po meri za odhajajočo pošto."
 
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:3
 msgid "Custom Header"
@@ -16364,7 +16338,7 @@ msgstr "Seznam glav sporočil po meri"
 
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:2
 msgid "The key specifies the list of custom headers that you can add to an outgoing message. The format for specifying a Header and Header value is: Name of the custom header followed by \"=\" and the values separated by \";\""
-msgstr ""
+msgstr "Ključ določa seznam glav po meri, ki jih lahko pripnete odhajajoči pošti. Zapis za določevanje glave in vrednosti glave je: Ime glave po meri, čemur sledi znak \"=\" in nato vrednosti ločene z znakom \";\""
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
 msgid "Open Other User's Folder"
@@ -16929,7 +16903,6 @@ msgid "Subscribe to Other User's Calendar"
 msgstr "Naroči se na koledar drugega uporabnika"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin that manages a collection of Exchange account specific operations and features."
 msgstr "Vstavek, ki skrbi za operacije in lastnosti računov Exchange."
 
@@ -17017,7 +16990,7 @@ msgstr "Ni mogoče posodobiti stanja Iz pisarne"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:21
 msgid "Evolution requires a restart to load the subscribed user's mailbox"
-msgstr ""
+msgstr "Program Evolution zahteva ponovni zagon za nalaganje poštnega predala prijavljenega uporabnika."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:22
 msgid "Exchange Account is offline."
@@ -17350,9 +17323,9 @@ msgid "Please enter user name first."
 msgstr "Prosim, najprej vnesite uporabniško ime."
 
 #: ../plugins/google-account-setup/google-source.c:443
-#, fuzzy, c-format
+#, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
-msgstr "Dodaj mapo na seznam naročenih map"
+msgstr "Vnesite geslo uporabnika %s za dostop do prijavljenih koledarjev."
 
 #: ../plugins/google-account-setup/google-source.c:543
 #, c-format
@@ -17377,9 +17350,8 @@ msgid "<b>Server</b>"
 msgstr "<b>Strežnik</b>"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin to setup google calendar and contacts."
-msgstr "Vstavek za nastavitev virov koledarja Google."
+msgstr "Vstavek za nastavitev virov koledarja google in virov stikov."
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:2
 msgid "Google sources"
@@ -17465,13 +17437,12 @@ msgid "_Junk List"
 msgstr "Seznam _neželene pošte"
 
 #: ../plugins/groupwise-features/mail-retract.c:53
-#, fuzzy
 msgid "Message Retract"
-msgstr "Stanje sporočila ..."
+msgstr "Povrnitev sporočila"
 
 #: ../plugins/groupwise-features/mail-retract.c:58
 msgid "Retracting a message may remove it from the recipient's mailbox. Are you sure you want to do this ?"
-msgstr ""
+msgstr "Povrnitev sporočila, lahko povzroči brisanje sporočila iz prejemnega predala. Ali ste prepričani, da želite nadaljevati?"
 
 #: ../plugins/groupwise-features/mail-retract.c:77
 msgid "Message retracted successfully"
@@ -17533,9 +17504,8 @@ msgid "Account Already Exists"
 msgstr "Račun že obstaja"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:4
-#, fuzzy
 msgid "Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email address and try again."
-msgstr "Posredovalna prijava kot &quot;{0}&quot; ni bila uspešna. Prosim, preverite ID elektronske pošte in poskusite znova."
+msgstr "Posredovalna prijava kot &quot;{0}&quot; ni bila uspešna. Prosim, preverite elektronski naslov in poskusite znova."
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:3
 msgid "This is a recurring meeting"
@@ -17880,9 +17850,8 @@ msgid "iCalendar format (.ics)"
 msgstr "Zapis iCalendar (.ics)"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
-#, fuzzy
 msgid "Synchronize the selected task/memo/calendar/address book with Apple iPod"
-msgstr "Uskladi izbrano opravilo/koledar/imenik z Apple iPodom"
+msgstr "Uskladi izbrana opravila/sporočilca/koledar/imenik z Apple iPodom"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
 msgid "Synchronize to iPod"
@@ -18570,9 +18539,8 @@ msgid "Generates a D-Bus message when new mail messages arrive."
 msgstr "Ustvari sporočilo D-BUS, ko prispe nova pošta."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
-#, fuzzy
 msgid "If \"true\", then beep, otherwise will play sound file when new messages arrive."
-msgstr "Možnost omogoča pisk ob prihodu novega sporočila namesto zvočne datoteke."
+msgstr "Možnost omogoča pisk ob prihodu novega sporočila namesto predvajanja zvočne datoteke."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Notify new messages for Inbox only."
@@ -18820,7 +18788,6 @@ msgid "Send e-mail message to mailing list?"
 msgstr "Pošljem e-poštno sporočilo na dopisni seznam?"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:10
-#, fuzzy
 msgid ""
 "The action could not be performed. This means the header for this action did not contain any action we could process.\n"
 "\n"
@@ -19152,11 +19119,11 @@ msgstr "Testni vstavek Python"
 
 #: ../plugins/python/example/org-gnome-hello-python.eplug.xml.h:2
 msgid "Test Plugin for Python EPlugin loader."
-msgstr ""
+msgstr "Preizkusni vstavek za nalaganje Python EPlugin."
 
 #: ../plugins/python/org-gnome-evolution-python.eplug.xml.h:1
 msgid "A plugin which loads other plugins written using python."
-msgstr ""
+msgstr "Vstavek, ki nalaga druge vstavke napisane v jeziku python."
 
 #: ../plugins/python/org-gnome-evolution-python.eplug.xml.h:2
 msgid "Python Loader"
@@ -19383,7 +19350,7 @@ msgstr "Prikaži sam_o ta seznam opravil"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
 msgid "Guides you through your initial account setup."
-msgstr ""
+msgstr "Vodi vas skozi začetno nastavljanje računov."
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:2
 msgid "Setup Assistant"
@@ -19451,9 +19418,8 @@ msgid "F_all back to threading messages by subject"
 msgstr "Povrni se na nitenje sporočil na podlagi zadeve"
 
 #: ../plugins/templates/apps-evolution-template-placeholders.schemas.in.h:1
-#, fuzzy
 msgid "List of keyword/value pairs for the Templates plugin to substitute in a message body."
-msgstr "Seznam namigov za vstavek opomnika priponke, ki ga je mogoče najti v telesu sporočila."
+msgstr "Seznam ključnih besed in vrednosti za vstavek predlog kot zamenjavo v telesu sporočila."
 
 #: ../plugins/templates/templates.c:613
 msgid "No title"
@@ -19469,7 +19435,7 @@ msgstr "Shrani kot predlogo"
 
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Drafts based template plugin"
-msgstr ""
+msgstr "Vstavek osnutkov predlog"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
 msgid "A simple plugin which uses ytnef to decode tnef attachments."
@@ -19499,7 +19465,7 @@ msgstr "URL:"
 
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:338
 msgid "_Avoid IfMatch (needed on apache < 2.2.8)"
-msgstr ""
+msgstr "_Izogni se IfMatch (zahtevan na apache < 2.2.8)"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
@@ -19570,9 +19536,8 @@ msgid "ID or alias of the component to be shown by default at start-up."
 msgstr "ID ali vzdevek komponente, ki naj se privzeto prikaže ob zagonu."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:14
-#, fuzzy
 msgid "If true, then connections to the proxy server require authentication. The username is retrieved from the \"/apps/evolution/shell/network_config/authentication_user\" GConf key, and the password is retrieved from either gnome-keyring or the ~/.gnome2_private/Evolution password file."
-msgstr "Izbrana možnost omogoči zahtevo overitve pred uporabo posredniškega strežnika. Spustno polje določa \"/apps/evolution/shell/network_config/authentication_user\" in krajevno shranjena gesla v .gnome2_private/."
+msgstr "Izbrana možnost omogoči zahtevo overitve pred uporabo posredniškega strežnika. Spustno polje določa \"/apps/evolution/shell/network_config/authentication_user\" in krajevno shranjena gesla v .gnome2_private/Evolution ali v zbirki ključev."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:15
 msgid "Last upgraded configuration version"
@@ -20165,23 +20130,23 @@ msgid ""
 "\n"
 "Edit trust settings:"
 msgstr ""
-"Certifikat '%s' je certifikat CA.\n"
+"Potrdilo '%s' je potrdilo CA.\n"
 "\n"
 "Uredi nastavitve zaupanja:"
 
 #: ../smime/gui/cert-trust-dialog.c:151
 msgid "Because you trust the certificate authority that issued this certificate, then you trust the authenticity of this certificate unless otherwise indicated here"
-msgstr "Ker zaupate overitelju, ki je izdal certifikat, zaupate pristnosti tega certifikata, razen če tukaj označite drugače"
+msgstr "Ker zaupate odgovornemu podpisu, zaupate tudi pristnosti tega potrdila, razen če tukaj ne označite drugače"
 
 #: ../smime/gui/cert-trust-dialog.c:155
 msgid "Because you do not trust the certificate authority that issued this certificate, then you do not trust the authenticity of this certificate unless otherwise indicated here"
-msgstr "Ker ne zaupate overitelju, ki je izdal certifikat, ne zaupate pristnosti tega certifikata, razen če tukaj označite drugače"
+msgstr "Ker ne zaupate odgovornemu podpisu, ne zaupate pristnosti tega potrdila, razen če tukaj ne označite drugače"
 
 #: ../smime/gui/certificate-manager.c:137
 #: ../smime/gui/certificate-manager.c:380
 #: ../smime/gui/certificate-manager.c:604
 msgid "Select a certificate to import..."
-msgstr "Izberite certifikat za uvoz ..."
+msgstr "Izberite potrdilo za uvoz ..."
 
 #: ../smime/gui/certificate-manager.c:146
 msgid "All PKCS12 files"
@@ -20197,7 +20162,7 @@ msgstr "Vse datoteke"
 #: ../smime/gui/certificate-manager.c:480
 #: ../smime/gui/certificate-manager.c:702
 msgid "Certificate Name"
-msgstr "Ime certifikata"
+msgstr "Ime potrdila"
 
 #: ../smime/gui/certificate-manager.c:280
 #: ../smime/gui/certificate-manager.c:498
@@ -20216,7 +20181,7 @@ msgstr "Poteče"
 
 #: ../smime/gui/certificate-manager.c:389
 msgid "All email certificate files"
-msgstr "Datoteke za overjanje elektronske pošte"
+msgstr "Datoteke potrdil za overjanje elektronske pošte"
 
 #: ../smime/gui/certificate-manager.c:489
 msgid "E-Mail Address"
@@ -20224,12 +20189,12 @@ msgstr "E-poštni naslov"
 
 #: ../smime/gui/certificate-manager.c:613
 msgid "All CA certificate files"
-msgstr "Vse CA overitvene datoteke"
+msgstr "Vsa CA potrdila"
 
 #: ../smime/gui/certificate-viewer.c:338
 #, c-format
 msgid "Certificate Viewer: %s"
-msgstr "Pregledovalnik certifikatov: %s"
+msgstr "Pregledovalnik potrdil: %s"
 
 #: ../smime/gui/component.c:46
 #, c-format
@@ -20239,7 +20204,7 @@ msgstr "Vnesite geslo za '%s'"
 #. we're setting the password initially
 #: ../smime/gui/component.c:69
 msgid "Enter new password for certificate database"
-msgstr "Vnesite geslo za podatkovno zbirko certifikata"
+msgstr "Vnesite geslo za podatkovno zbirko potrdil"
 
 #: ../smime/gui/component.c:71
 msgid "Enter new password"
@@ -20266,19 +20231,19 @@ msgstr ""
 
 #: ../smime/gui/e-cert-selector.c:170
 msgid "Select certificate"
-msgstr "Izberi certifikat"
+msgstr "Izberi potrdilo"
 
 #: ../smime/gui/smime-ui.glade.h:1
 msgid "<Not Part of Certificate>"
-msgstr "<Ni del certifikata>"
+msgstr "<Ni del potrdila>"
 
 #: ../smime/gui/smime-ui.glade.h:2
 msgid "<b>Certificate Fields</b>"
-msgstr "<b>Polja certifikata</b>"
+msgstr "<b>Polja potrdila</b>"
 
 #: ../smime/gui/smime-ui.glade.h:3
 msgid "<b>Certificate Hierarchy</b>"
-msgstr "<b>Hierarhija certifikata</b>"
+msgstr "<b>Hierarhija potrdila</b>"
 
 #: ../smime/gui/smime-ui.glade.h:4
 msgid "<b>Field Value</b>"
@@ -20298,7 +20263,7 @@ msgstr "<b>Izdan za</b>"
 
 #: ../smime/gui/smime-ui.glade.h:8
 msgid "<b>This certificate has been verified for the following uses:</b>"
-msgstr "<b>Ta certifikat je bil preverjen za naslednje vrste uporabe:</b>"
+msgstr "<b>To potrdilo je bilo preverjeno za naslednje vrste uporabe:</b>"
 
 #: ../smime/gui/smime-ui.glade.h:9
 msgid "<b>Validity</b>"
@@ -20318,24 +20283,24 @@ msgstr "Varnostna kopija vsega"
 
 #: ../smime/gui/smime-ui.glade.h:13
 msgid "Before trusting this CA for any purpose, you should examine its certificate and its policy and procedures (if available)."
-msgstr "Preden zaupate tej CA za poljuben namen, si oglejte njen certifikat, politiko in postopke (če so na voljo)."
+msgstr "Preden zaupate tej CA za poljuben namen, si oglejte njeno potrdilo, politiko in postopke (če so na voljo)."
 
 #: ../smime/gui/smime-ui.glade.h:14
 #: ../smime/lib/e-cert.c:1077
 msgid "Certificate"
-msgstr "Certifikat"
+msgstr "Potrdilo"
 
 #: ../smime/gui/smime-ui.glade.h:15
 msgid "Certificate Authority Trust"
-msgstr "Zaupanje overitelja"
+msgstr "Zaupanje pristnosti potrdila"
 
 #: ../smime/gui/smime-ui.glade.h:16
 msgid "Certificate details"
-msgstr "Zaupanje overovitelja"
+msgstr "Podrobnosti potrdila"
 
 #: ../smime/gui/smime-ui.glade.h:17
 msgid "Certificates Table"
-msgstr "Razpredelnica certifikatov"
+msgstr "Razpredelnica potrdil"
 
 #: ../smime/gui/smime-ui.glade.h:18
 msgid "Common Name (CN)"
@@ -20343,11 +20308,11 @@ msgstr "Splošno ime (CN)"
 
 #: ../smime/gui/smime-ui.glade.h:19
 msgid "Contact Certificates"
-msgstr "Certifikati stika"
+msgstr "Potrdila stika"
 
 #: ../smime/gui/smime-ui.glade.h:21
 msgid "Do not trust the authenticity of this certificate"
-msgstr "Ne zaupaj pristnosti tega certifikata"
+msgstr "Ne zaupaj pristnosti tega potrdila"
 
 #: ../smime/gui/smime-ui.glade.h:22
 msgid "Dummy window only"
@@ -20359,15 +20324,15 @@ msgstr "Uredi"
 
 #: ../smime/gui/smime-ui.glade.h:24
 msgid "Email Certificate Trust Settings"
-msgstr "Nastavitve zaupanja e-poštnih certifikatov."
+msgstr "Nastavitve zaupanja e-poštnih potrdil."
 
 #: ../smime/gui/smime-ui.glade.h:25
 msgid "Email Recipient Certificate"
-msgstr "Certifikat prejemnika e-pošte"
+msgstr "Potrdilo prejemnika e-pošte"
 
 #: ../smime/gui/smime-ui.glade.h:26
 msgid "Email Signer Certificate"
-msgstr "Certifika podpisnika e-pošte"
+msgstr "Potrdilo podpisnika e-pošte"
 
 #: ../smime/gui/smime-ui.glade.h:27
 msgid "Expires On"
@@ -20400,16 +20365,16 @@ msgstr "Prstni odtis SHA1"
 #: ../smime/gui/smime-ui.glade.h:35
 #: ../smime/lib/e-cert.c:819
 msgid "SSL Client Certificate"
-msgstr "Certifikat odjemalca SSL"
+msgstr "Potrdilo odjemalca SSL"
 
 #: ../smime/gui/smime-ui.glade.h:36
 #: ../smime/lib/e-cert.c:823
 msgid "SSL Server Certificate"
-msgstr "Certifikat strežnika SSL"
+msgstr "Potrdilo strežnika SSL"
 
 #: ../smime/gui/smime-ui.glade.h:38
 msgid "Trust the authenticity of this certificate"
-msgstr "Zaupaj pristnosti tega certifikata"
+msgstr "Zaupaj pristnosti tega potrdila"
 
 #: ../smime/gui/smime-ui.glade.h:39
 msgid "Trust this CA to identify email users."
@@ -20429,19 +20394,19 @@ msgstr "Ogled"
 
 #: ../smime/gui/smime-ui.glade.h:43
 msgid "You have certificates from these organizations that identify you:"
-msgstr "Imate certifikate naslednjih organizacij, ki ugotavljajo vašo istovetnost:"
+msgstr "Imate potrdilo naslednjih organizacij, ki ugotavljajo vašo istovetnost:"
 
 #: ../smime/gui/smime-ui.glade.h:44
 msgid "You have certificates on file that identify these certificate authorities:"
-msgstr "Imate certifikate datoteke, ki ugotavljajo istovetnost naslednjih overiteljev:"
+msgstr "Imate datoteke s potrdili, ki ugotavljajo istovetnost naslednjih overiteljev:"
 
 #: ../smime/gui/smime-ui.glade.h:45
 msgid "You have certificates on file that identify these people:"
-msgstr "Imate certifikate datoteke, ki ugotavljajo istovetnost naslednjih ljudi:"
+msgstr "Imate datoteke potrdil, ki ugotavljajo istovetnost naslednjih ljudi:"
 
 #: ../smime/gui/smime-ui.glade.h:46
 msgid "Your Certificates"
-msgstr "Vaši certifikati"
+msgstr "Vaša potrdila"
 
 #: ../smime/gui/smime-ui.glade.h:47
 msgid "_Edit CA Trust"
@@ -20450,7 +20415,7 @@ msgstr "Ur_edi zaupanje CA"
 #. XXX we shouldn't be popping up dialogs in this code.
 #: ../smime/lib/e-cert-db.c:672
 msgid "Certificate already exists"
-msgstr "Certifikat že obstaja "
+msgstr "Potrdilo že obstaja "
 
 #: ../smime/lib/e-cert.c:239
 #: ../smime/lib/e-cert.c:249
@@ -20500,15 +20465,15 @@ msgstr "Šifriranje PKCS #1 RSA"
 
 #: ../smime/lib/e-cert.c:670
 msgid "Certificate Key Usage"
-msgstr "Uporaba ključa certifikata"
+msgstr "Uporaba ključa potrdila"
 
 #: ../smime/lib/e-cert.c:673
 msgid "Netscape Certificate Type"
-msgstr "Vrsta certifikata Netscapa"
+msgstr "Vrsta potrdila Netscapa"
 
 #: ../smime/lib/e-cert.c:676
 msgid "Certificate Authority Key Identifier"
-msgstr "Določevalec ključa overitelja"
+msgstr "Določevalec ključa potrdila overitelja"
 
 #: ../smime/lib/e-cert.c:688
 #, c-format
@@ -20547,11 +20512,11 @@ msgstr "Podpisnik predmeta"
 
 #: ../smime/lib/e-cert.c:835
 msgid "SSL Certificate Authority"
-msgstr "Overitelj certifikatov SSL"
+msgstr "Overitelj potrdil SSL"
 
 #: ../smime/lib/e-cert.c:839
 msgid "Email Certificate Authority"
-msgstr "Overitelj certifikatov e-pošte"
+msgstr "Overitelj potrdil e-pošte"
 
 #: ../smime/lib/e-cert.c:867
 msgid "Signing"
@@ -20575,7 +20540,7 @@ msgstr "Dogovor o kluču"
 
 #: ../smime/lib/e-cert.c:887
 msgid "Certificate Signer"
-msgstr "Podpisnik certifikata"
+msgstr "Podpisnik potrdila"
 
 #: ../smime/lib/e-cert.c:891
 msgid "CRL Signer"
@@ -20602,7 +20567,7 @@ msgstr "%s = %s"
 #: ../smime/lib/e-cert.c:1092
 #: ../smime/lib/e-cert.c:1212
 msgid "Certificate Signature Algorithm"
-msgstr "Algoritem podpisa certifikata"
+msgstr "Algoritem podpisa potrdila"
 
 #: ../smime/lib/e-cert.c:1101
 msgid "Issuer"
@@ -20618,7 +20583,7 @@ msgstr "Edinstven ID Zadeve"
 
 #: ../smime/lib/e-cert.c:1217
 msgid "Certificate Signature Value"
-msgstr "Vrednost podpisa certifikata"
+msgstr "Vrednost podpisa potrdila"
 
 #: ../smime/lib/e-pkcs12.c:244
 msgid "PKCS12 File Password"
@@ -20630,7 +20595,7 @@ msgstr "Vnesite geslo za datoteko PKCS12:"
 
 #: ../smime/lib/e-pkcs12.c:343
 msgid "Imported Certificate"
-msgstr "Uvožen certifikat"
+msgstr "Uvoženo potrdilo"
 
 #. This most likely means that KILL_PROCESS_CMD wasn't
 #. * found, so just bail completely.
