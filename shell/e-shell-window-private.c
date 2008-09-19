@@ -244,6 +244,10 @@ e_shell_window_private_init (EShellWindow *shell_window)
 
 	item = e_menu_tool_button_new (_("New"));
 	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (item), TRUE);
+	gtk_widget_add_accelerator (
+		GTK_WIDGET (item), "clicked",
+		gtk_ui_manager_get_accel_group (priv->ui_manager),
+		GDK_N, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE);
 	gtk_toolbar_insert (GTK_TOOLBAR (widget), item, 0);
 	priv->menu_tool_button = g_object_ref (item);
 	gtk_widget_show (GTK_WIDGET (item));

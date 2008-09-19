@@ -27,5 +27,6 @@
 
 #include <gio/gio.h>
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 
 #endif /* E_SHELL_COMMON_H */

@@ -95,9 +95,6 @@ struct _EBookShellViewPrivate {
 
 	GHashTable *uid_to_view;
 	GHashTable *uid_to_editor;
-
-	EBook *book;
-	gchar *password;
 };
 
 void		e_book_shell_view_private_init

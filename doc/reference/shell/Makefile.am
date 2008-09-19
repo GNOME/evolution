@@ -125,7 +125,6 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/widgets/misc/.libs/e-popup-menu.o		\
 	$(top_builddir)/widgets/misc/.libs/e-preferences-window.o	\
 	$(top_builddir)/widgets/misc/.libs/e-spinner.o			\
-	$(top_builddir)/widgets/misc/.libs/e-task-widget.o		\
 	$(top_builddir)/widgets/misc/.libs/e-unicode.o			\
 	-ledataserver-1.2						\
 	-ledataserverui-1.2						\

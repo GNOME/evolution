@@ -507,8 +507,6 @@ e_book_shell_view_private_dispose (EBookShellView *book_shell_view)
 
 	g_hash_table_remove_all (priv->uid_to_view);
 	g_hash_table_remove_all (priv->uid_to_editor);
-
-	DISPOSE (priv->book);
 }
 
 void
@@ -518,8 +516,6 @@ e_book_shell_view_private_finalize (EBookShellView *book_shell_view)
 
 	g_hash_table_destroy (priv->uid_to_view);
 	g_hash_table_destroy (priv->uid_to_editor);
-
-	g_free (priv->password);
 }
 
 EAddressbookView *

@@ -200,7 +200,7 @@ book_module_book_loaded_cb (EBook *book,
 	if (strcmp (action_name, "contact-new") == 0)
 		eab_show_contact_editor (book, contact, TRUE, TRUE);
 
-	if (strcmp (action_name, "contact-list-new") == 0)
+	if (strcmp (action_name, "contact-new-list") == 0)
 		eab_show_contact_list_editor (book, contact, TRUE, TRUE);
 
 	g_object_unref (contact);
@@ -256,14 +256,14 @@ static GtkActionEntry item_entries[] = {
 	{ "contact-new",
 	  "contact-new",
 	  N_("_Contact"),  /* XXX Need C_() here */
-	  "<Control>c",
+	  "<Shift><Control>c",
 	  N_("Create a new contact"),
 	  G_CALLBACK (action_contact_new_cb) },
 
 	{ "contact-new-list",
 	  "stock_contact-list",
 	  N_("Contact _List"),
-	  "<Control>l",
+	  "<Shift><Control>l",
 	  N_("Create a new contact list"),
 	  G_CALLBACK (action_contact_new_cb) }
 };

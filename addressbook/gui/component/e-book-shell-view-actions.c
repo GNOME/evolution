@@ -280,11 +280,19 @@ static void
 action_contact_new_cb (GtkAction *action,
                        EBookShellView *book_shell_view)
 {
+	EAddressbookView *view;
+	EAddressbookModel *model;
 	EContact *contact;
 	EBook *book;
 
+	view = e_book_shell_view_get_current_view (book_shell_view);
+	g_return_if_fail (view != NULL);
+
+	model = e_addressbook_view_get_model (view);
+	book = e_addressbook_model_get_book (model);
+	g_return_if_fail (book != NULL);
+
 	contact = e_contact_new ();
-	book = book_shell_view->priv->book;
 	eab_show_contact_editor (book, contact, TRUE, TRUE);
 	g_object_unref (contact);
 }
@@ -293,11 +301,19 @@ static void
 action_contact_new_list_cb (GtkAction *action,
                             EBookShellView *book_shell_view)
 {
+	EAddressbookView *view;
+	EAddressbookModel *model;
 	EContact *contact;
 	EBook *book;
 
+	view = e_book_shell_view_get_current_view (book_shell_view);
+	g_return_if_fail (view != NULL);
+
+	model = e_addressbook_view_get_model (view);
+	book = e_addressbook_model_get_book (model);
+	g_return_if_fail (book != NULL);
+
 	contact = e_contact_new ();
-	book = book_shell_view->priv->book;
 	eab_show_contact_list_editor (book, contact, TRUE, TRUE);
 	g_object_unref (contact);
 }

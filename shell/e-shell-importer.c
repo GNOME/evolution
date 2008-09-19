@@ -48,7 +48,6 @@
 
 #include "e-shell.h"
 #include "e-shell-window.h"
-#include "e-shell-constants.h"
 
 #include "e-shell-importer.h"
 

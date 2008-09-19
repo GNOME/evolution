@@ -98,7 +98,6 @@ evolution_SOURCES =				\
 	e-config-upgrade.h			\
 	e-shell.c				\
 	e-shell.h				\
-	e-shell-constants.h			\
 	e-shell-importer.c			\
 	e-shell-importer.h			\
 	e-shell-window-private.c		\

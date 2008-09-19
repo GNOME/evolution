@@ -58,12 +58,14 @@ menu_tool_button_get_first_menu_item (GtkMenuToolButton *menu_tool_button)
 }
 
 static void
-menu_tool_button_update_icon (GtkToolButton *tool_button)
+menu_tool_button_update_button (GtkToolButton *tool_button)
 {
 	GtkMenuItem *menu_item;
 	GtkMenuToolButton *menu_tool_button;
 	GtkImageMenuItem *image_menu_item;
+	GtkAction *action;
 	GtkWidget *image;
+	gchar *tooltip = NULL;
 
 	menu_tool_button = GTK_MENU_TOOL_BUTTON (tool_button);
 	menu_item = menu_tool_button_get_first_menu_item (menu_tool_button);
@@ -78,6 +80,14 @@ menu_tool_button_update_icon (GtkToolButton *tool_button)
 	image = menu_tool_button_clone_image (image);
 	gtk_tool_button_set_icon_widget (tool_button, image);
 	gtk_widget_show (image);
+
+	/* If the menu item is a proxy for a GtkAction, extract
+	 * the action's tooltip and use it as our own tooltip. */
+	action = gtk_widget_get_action (GTK_WIDGET (menu_item));
+	if (action != NULL)
+		g_object_get (action, "tooltip", &tooltip, NULL);
+	gtk_widget_set_tooltip_text (GTK_WIDGET (tool_button), tooltip);
+	g_free (tooltip);
 }
 
 static void
@@ -109,7 +119,7 @@ menu_tool_button_init (EMenuToolButton *button)
 {
 	g_signal_connect (
 		button, "notify::menu",
-		G_CALLBACK (menu_tool_button_update_icon), NULL);
+		G_CALLBACK (menu_tool_button_update_button), NULL);
 }
 
 GType
