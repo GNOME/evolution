@@ -1,3 +1,12 @@
+2008-09-19  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-attachment-bar.c:
+	* e-search-bar.c:
+	* e-search-bar.h:
+	* e-task-widget.c:
+
 2008-09-16  Sankar P  <psankar@novell.com>
 
 License Changes

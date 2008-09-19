@@ -1,3 +1,10 @@
+2008-09-19  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* gui/alarm-notify/alarm-queue.c:
+	* gui/e-calendar-view.c:
+
 2008-09-16  Sankar P  <psankar@novell.com>
 
 License Changes

@@ -1,3 +1,10 @@
+2008-09-19  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* addressbook/ea-addressbook-view.c:
+	* addressbook/ea-minicard-view.c:
+
 2008-09-16  Sankar P  <psankar@novell.com>
 
 License Changes
