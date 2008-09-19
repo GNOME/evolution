@@ -20,7 +20,7 @@ Subject: Sveiki, Evolution naudotojai!
 Sender: evolution@novell.com
 Errors-To: evolution@novell.com
 X-Mailman-Version: 1.1
-Status:   
+Status:
 X-Evolution-Source: pop://rupert@pop.novell.com/inbox
 X-Evolution: 00000002-0000
 
@@ -51,7 +51,7 @@ Pirmieji žingsniai
 Naujos funkcijos
 
 	Evolution 2.10 atsirado
-	
+
 	# Integracija su gtk-print
 	# Nustatomas IMAP antraščių parsiuntimas
 	# Didesnis greitis ir mažesnis atminties naudojimas
@@ -59,14 +59,14 @@ Naujos funkcijos
 
 Pranešimas apie klaidas
 
-	Apie klaidas reikia pranešti adresu http://bugzilla.gnome.org.
+	Apie klaidas galite pranešti adresu http://bugzilla.gnome.org.
 
 Papildoma informacija
 
 	Evolution naudotojų pašto konferenciją galite užsisakyti adresu
 	http://mail.gnome.org/mailman/listinfo/evolution-list.
 
-	Informacija apie Evolution projektą galite rasti
+	Informaciją apie Evolution projektą galite rasti
 	http://www.gnome.org/projects/evolution.
 
 
@@ -155,9 +155,9 @@ Naujos funkcijos
 Pranešimas apie klaidas
 </h2>
 <blockquote>
-	Apie klaidas reikia pranešti adresu <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>.
+	Apie klaidas galite pranešti adresu <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>.
 <br><br>
-</blockquote> 
+</blockquote>
 
 <h2>
 Papildoma informacija
@@ -167,13 +167,13 @@ Papildoma informacija
 	Evolution naudotojų pašto konferenciją galite užsisakyti adresu
 	<a href="http://lists.gnome.org/mailman/listinfo/evolution">http://lists.gnome.org/mailman/listinfo/evolution</a>.
 
-	Informacija apie Evolution projektą galite rasti
+	Informaciją apie Evolution projektą galite rasti adresu
 	<a href="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</a>.
 	<!--
-	Atsakymus į dažniausiai užduodamus klausimus galite rasti
+	Atsakymus į dažniausiai užduodamus klausimus galite rasti adresu
 	<a href="http://go-evolution.org/FAQ">http://go-evolution.org/FAQ</a>.
 	-->
-<br><br>	
+<br><br>
 </blockquote>
 
 Pagarbiai,
