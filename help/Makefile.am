@@ -121,7 +121,7 @@ DOC_FIGURES =  \
 	figures/quick_reference.png		\
 	figures/replymsg.png 			\
 	figures/schedule.png 			\
-	figures/Screenshot-Evolution -mailer-Preferences.png 	\
+	figures/Screenshot-Evolution-mailer-Preferences.png 	\
 	figures/Screenshot-Free-Busy.png 	\
 	figures/stock_search.png 		\
 	figures/sub-others-folder.png 		\
