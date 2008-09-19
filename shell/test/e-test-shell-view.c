@@ -28,7 +28,7 @@
 	((obj), E_TYPE_TEST_SHELL_VIEW, ETestShellViewPrivate))
 
 struct _ETestShellViewPrivate {
-	gint dummy;
+	EActivity *activity;
 };
 
 GType e_test_shell_view_type = 0;
@@ -46,15 +46,36 @@ test_shell_view_changed (EShellView *shell_view)
 }
 
 static void
+test_shell_view_dispose (GObject *object)
+{
+	ETestShellViewPrivate *priv;
+
+	priv = E_TEST_SHELL_VIEW_GET_PRIVATE (object);
+
+	if (priv->activity != NULL) {
+		e_activity_complete (priv->activity);
+		g_object_unref (priv->activity);
+		priv->activity = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
 test_shell_view_constructed (GObject *object)
 {
+	ETestShellViewPrivate *priv;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellView *shell_view;
+	EActivity *activity;
 	GtkWidget *widget;
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
+
+	priv = E_TEST_SHELL_VIEW_GET_PRIVATE (object);
 
 	shell_view = E_SHELL_VIEW (object);
 	shell_content = e_shell_view_get_shell_content (shell_view);
@@ -67,6 +88,11 @@ test_shell_view_constructed (GObject *object)
 	widget = gtk_label_new ("Sidebar Widget");
 	gtk_container_add (GTK_CONTAINER (shell_sidebar), widget);
 	gtk_widget_show (widget);
+
+	activity = e_activity_new ("Test Activity");
+	e_activity_set_cancellable (activity, TRUE);
+	e_shell_view_add_activity (shell_view, activity);
+	priv->activity = activity;
 }
 
 static void
@@ -80,6 +106,7 @@ test_shell_view_class_init (ETestShellViewClass *class,
 	g_type_class_add_private (class, sizeof (ETestShellViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = test_shell_view_dispose;
 	object_class->constructed = test_shell_view_constructed;
 
 	shell_view_class = E_SHELL_VIEW_CLASS (class);

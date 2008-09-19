@@ -34,7 +34,6 @@
 #include <e-util/gconf-bridge.h>
 #include <shell/e-shell-content.h>
 #include <shell/e-shell-sidebar.h>
-#include <shell/e-activity-handler.h>
 
 #include <eab-gui-util.h>
 #include <e-addressbook-view.h>
@@ -94,13 +93,10 @@ struct _EBookShellViewPrivate {
 	GtkWidget *notebook;
 	GtkWidget *preview;
 
-	EActivityHandler *activity_handler;
-
 	GHashTable *uid_to_view;
 	GHashTable *uid_to_editor;
 
 	EBook *book;
-	guint activity_id;
 	gchar *password;
 };
 

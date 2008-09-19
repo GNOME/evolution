@@ -25,6 +25,7 @@
 #include <e-shell-common.h>
 #include <e-shell-window.h>
 
+#include <widgets/misc/e-activity.h>
 #include <widgets/menus/gal-view-collection.h>
 
 /* Standard GObject macros */
@@ -90,6 +91,8 @@ const gchar *	e_shell_view_get_view_id	(EShellView *shell_view);
 void		e_shell_view_set_view_id	(EShellView *shell_view,
 						 const gchar *view_id);
 gboolean	e_shell_view_is_active		(EShellView *shell_view);
+void		e_shell_view_add_activity	(EShellView *shell_view,
+						 EActivity *activity);
 gint		e_shell_view_get_page_num	(EShellView *shell_view);
 gpointer	e_shell_view_get_shell_content	(EShellView *shell_view);
 gpointer	e_shell_view_get_shell_sidebar	(EShellView *shell_view);

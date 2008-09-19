@@ -107,7 +107,6 @@ GtkWidget *gnome_calendar_construct		(GnomeCalendar *gcal);
 
 GtkWidget *gnome_calendar_new			(void);
 
-void gnome_calendar_set_activity_handler (GnomeCalendar *cal, EActivityHandler *activity_handler);
 void gnome_calendar_set_ui_component (GnomeCalendar *cal, BonoboUIComponent *ui_component);
 
 ECalendarTable *gnome_calendar_get_task_pad	(GnomeCalendar *gcal);

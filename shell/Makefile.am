@@ -59,7 +59,6 @@ privsolib_LTLIBRARIES =	\
 eshellincludedir = $(privincludedir)/shell
 
 eshellinclude_HEADERS = 			\
-	e-activity-handler.h			\
 	e-shell-common.h			\
 	e-shell-content.h			\
 	e-shell-module.h			\
@@ -73,7 +72,6 @@ eshellinclude_HEADERS = 			\
 
 libeshell_la_SOURCES =				\
 	$(IDL_GENERATED)			\
-	e-activity-handler.c			\
 	e-shell-content.c			\
 	e-shell-module.c			\
 	e-shell-sidebar.c			\

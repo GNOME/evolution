@@ -57,7 +57,13 @@ enum {
 	PROP_SHELL
 };
 
+enum {
+	ACTIVITY_ADDED,
+	LAST_SIGNAL
+};
+
 static gpointer parent_class;
+static guint signals[LAST_SIGNAL];
 
 static void
 shell_module_set_filename (EShellModule *shell_module,
@@ -245,6 +251,22 @@ shell_module_class_init (EShellModuleClass *class)
 			E_TYPE_SHELL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
+
+	/**
+	 * EShellModule::activity-added
+	 * @shell_module: the #EShellModule that emitted the signal
+	 * @activity: an #EActivity
+	 *
+	 * Broadcasts a newly added activity.
+	 **/
+	signals[ACTIVITY_ADDED] = g_signal_new (
+		"activity-added",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST,
+		0, NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_ACTIVITY);
 }
 
 static void
@@ -403,6 +425,23 @@ e_shell_module_get_shell (EShellModule *shell_module)
 	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), NULL);
 
 	return shell_module->priv->shell;
+}
+
+/**
+ * e_shell_module_add_activity:
+ * @shell_module: an #EShellModule
+ * @activity: an #EActivity
+ *
+ * Emits an #EShellModule::activity-added signal.
+ **/
+void
+e_shell_module_add_activity (EShellModule *shell_module,
+                             EActivity *activity)
+{
+	g_return_if_fail (E_IS_SHELL_MODULE (shell_module));
+	g_return_if_fail (E_IS_ACTIVITY (activity));
+
+	g_signal_emit (shell_module, signals[ACTIVITY_ADDED], 0, activity);
 }
 
 gboolean

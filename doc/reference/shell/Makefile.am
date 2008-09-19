@@ -71,7 +71,6 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/shell/e-shell-nm.o				\
 	$(top_builddir)/shell/e-shell-window-private.o			\
 	$(top_builddir)/shell/es-event.o				\
-	$(top_builddir)/shell/.libs/e-activity-handler.o		\
 	$(top_builddir)/shell/.libs/e-shell-content.o			\
 	$(top_builddir)/shell/.libs/e-shell-module.o			\
 	$(top_builddir)/shell/.libs/e-shell-sidebar.o			\
@@ -117,6 +116,8 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/widgets/menus/.libs/gal-view-new-dialog.o	\
 	$(top_builddir)/widgets/menus/.libs/gal-view.o			\
 	$(top_builddir)/widgets/misc/.libs/e-action-combo-box.o		\
+	$(top_builddir)/widgets/misc/.libs/e-activity.o			\
+	$(top_builddir)/widgets/misc/.libs/e-activity-proxy.o		\
 	$(top_builddir)/widgets/misc/.libs/e-icon-entry.o		\
 	$(top_builddir)/widgets/misc/.libs/e-gui-utils.o		\
 	$(top_builddir)/widgets/misc/.libs/e-menu-tool-button.o		\

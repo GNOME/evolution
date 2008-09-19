@@ -37,8 +37,10 @@ widgetsinclude_HEADERS =			\
 	$(pilot_headers)			\
 	e-account-combo-box.h			\
 	e-action-combo-box.h			\
-	e-attachment.h				\
+	e-activity.h				\
+	e-activity-proxy.h			\
 	e-attachment-bar.h			\
+	e-attachment.h				\
 	e-spinner.c				\
 	e-spinner.h				\
 	e-calendar.h				\
@@ -58,7 +60,6 @@ widgetsinclude_HEADERS =			\
 	e-preferences-window.h			\
 	e-online-button.h			\
 	e-search-bar.h				\
-	e-task-widget.h				\
 	e-send-options.h			\
 	e-url-entry.h				\
 	e-canvas-background.h			\
@@ -84,6 +85,8 @@ libemiscwidgets_la_SOURCES =			\
 	$(pilot_sources)			\
 	e-account-combo-box.c			\
 	e-action-combo-box.c			\
+	e-activity.c				\
+	e-activity-proxy.c			\
 	e-calendar.c				\
 	e-attachment.c				\
 	e-attachment-bar.c			\
@@ -103,7 +106,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-preferences-window.c			\
 	e-online-button.c			\
 	e-search-bar.c				\
-	e-task-widget.c				\
 	e-send-options.c			\
 	e-url-entry.c				\
 	e-canvas-background.c			\

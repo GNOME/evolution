@@ -21,8 +21,7 @@
 #ifndef E_SHELL_TASKBAR_H
 #define E_SHELL_TASKBAR_H
 
-#include <gtk/gtk.h>
-#include <widgets/misc/e-task-widget.h>
+#include <e-shell-common.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_TASKBAR \
@@ -65,21 +64,10 @@ GType		e_shell_taskbar_get_type	(void);
 GtkWidget *	e_shell_taskbar_new		(struct _EShellView *shell_view);
 struct _EShellView *
 		e_shell_taskbar_get_shell_view	(EShellTaskbar *shell_taskbar);
+const gchar *	e_shell_taskbar_get_message	(EShellTaskbar *shell_taskbar);
 void		e_shell_taskbar_set_message	(EShellTaskbar *shell_taskbar,
 						 const gchar *message);
 void		e_shell_taskbar_unset_message	(EShellTaskbar *shell_taskbar);
-void		e_shell_taskbar_prepend_task	(EShellTaskbar *shell_taskbar,
-						 ETaskWidget *task_widget);
-void		e_shell_taskbar_remove_task	(EShellTaskbar *shell_taskbar,
-						 gint position);
-ETaskWidget *	e_shell_taskbar_get_task_widget_from_id
-						(EShellTaskbar *shell_taskbar,
-						 guint task_id);
-void		e_shell_taskbar_remove_task_from_id
-						(EShellTaskbar *shell_taskbar,
-						 guint task_id);
-ETaskWidget *	e_shell_taskbar_get_task_widget	(EShellTaskbar *shell_taskbar,
-						 gint position);
 
 G_END_DECLS
 

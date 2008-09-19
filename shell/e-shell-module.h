@@ -22,6 +22,7 @@
 #define E_SHELL_MODULE_H
 
 #include <e-shell-common.h>
+#include <widgets/misc/e-activity.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_MODULE \
@@ -107,6 +108,8 @@ const gchar *	e_shell_module_get_data_dir	(EShellModule *shell_module);
 const gchar *	e_shell_module_get_filename	(EShellModule *shell_module);
 const gchar *	e_shell_module_get_searches	(EShellModule *shell_module);
 struct _EShell *e_shell_module_get_shell	(EShellModule *shell_module);
+void		e_shell_module_add_activity	(EShellModule *shell_module,
+						 EActivity *activity);
 gboolean	e_shell_module_is_busy		(EShellModule *shell_module);
 gboolean	e_shell_module_shutdown		(EShellModule *shell_module);
 void		e_shell_module_set_info		(EShellModule *shell_module,

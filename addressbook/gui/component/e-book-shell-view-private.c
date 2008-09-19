@@ -42,36 +42,6 @@ popup_event (EBookShellView *book_shell_view,
 }
 
 static void
-set_status_message (EAddressbookView *view,
-                    const gchar *message,
-                    EBookShellView *book_shell_view)
-{
-	/* XXX Give EAddressbookView an EShellView pointer
-	 *     and have it handle this directly. */
-
-	EActivityHandler *activity_handler;
-	guint activity_id;
-
-	activity_handler = book_shell_view->priv->activity_handler;
-	activity_id = book_shell_view->priv->activity_id;
-
-	if (message == NULL || *message == '\0') {
-		if (activity_id > 0) {
-			e_activity_handler_operation_finished (
-				activity_handler, activity_id);
-			activity_id = 0;
-		}
-	} else if (activity_id == 0)
-		activity_id = e_activity_handler_operation_started (
-			activity_handler, message, TRUE);
-	else
-		e_activity_handler_operation_progressing (
-			activity_handler, activity_id, message, -1.0);
-
-	book_shell_view->priv->activity_id = activity_id;
-}
-
-static void
 book_shell_view_selection_change_foreach (gint row,
                                           EBookShellView *book_shell_view)
 {
@@ -239,10 +209,6 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 		g_signal_connect_swapped (
 			widget, "popup-event",
 			G_CALLBACK (popup_event), book_shell_view);
-
-		g_signal_connect (
-			widget, "status-message",
-			G_CALLBACK (set_status_message), book_shell_view);
 
 		g_signal_connect_swapped (
 			widget, "command-state-change",
@@ -418,7 +384,6 @@ e_book_shell_view_private_init (EBookShellView *book_shell_view,
 
 	priv->source_list = g_object_ref (source_list);
 	priv->contact_actions = gtk_action_group_new ("contacts");
-	priv->activity_handler = e_activity_handler_new ();
 	priv->uid_to_view = uid_to_view;
 	priv->uid_to_editor = uid_to_editor;
 
@@ -436,7 +401,6 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 	EBookShellViewPrivate *priv = book_shell_view->priv;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
-	EShellTaskbar *shell_taskbar;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ESourceSelector *selector;
@@ -486,10 +450,6 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->preview = g_object_ref (widget);
 	gtk_widget_show (widget);
-
-	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
-	e_activity_handler_attach_task_bar (
-		priv->activity_handler, shell_taskbar);
 
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	selector = e_book_shell_sidebar_get_selector (
@@ -544,8 +504,6 @@ e_book_shell_view_private_dispose (EBookShellView *book_shell_view)
 	DISPOSE (priv->paned);
 	DISPOSE (priv->notebook);
 	DISPOSE (priv->preview);
-
-	DISPOSE (priv->activity_handler);
 
 	g_hash_table_remove_all (priv->uid_to_view);
 	g_hash_table_remove_all (priv->uid_to_editor);

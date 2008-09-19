@@ -22,6 +22,8 @@
 
 #include <e-shell-view.h>
 
+#include <widgets/misc/e-activity-proxy.h>
+
 #define E_SHELL_TASKBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_SHELL_TASKBAR, EShellTaskbarPrivate))
@@ -32,14 +34,64 @@ struct _EShellTaskbarPrivate {
 
 	GtkWidget *label;
 	GtkWidget *hbox;
+
+	GHashTable *proxy_table;
 };
 
 enum {
 	PROP_0,
+	PROP_MESSAGE,
 	PROP_SHELL_VIEW
 };
 
 static gpointer parent_class;
+
+static void
+shell_taskbar_activity_remove (EShellTaskbar *shell_taskbar,
+                               EActivity *activity)
+{
+	GtkBox *box;
+	GtkWidget *proxy;
+	GHashTable *proxy_table;
+
+	box = GTK_BOX (shell_taskbar->priv->hbox);
+	proxy_table = shell_taskbar->priv->proxy_table;
+	proxy = g_hash_table_lookup (proxy_table, activity);
+	g_return_if_fail (proxy != NULL);
+
+	g_hash_table_remove (proxy_table, activity);
+	gtk_container_remove (GTK_CONTAINER (box), proxy);
+
+	if (box->children == NULL)
+		gtk_widget_hide (GTK_WIDGET (box));
+}
+
+static void
+shell_taskbar_activity_add (EShellTaskbar *shell_taskbar,
+                            EActivity *activity)
+{
+	GtkBox *box;
+	GtkWidget *proxy;
+
+	proxy = e_activity_proxy_new (activity);
+	box = GTK_BOX (shell_taskbar->priv->hbox);
+	gtk_box_pack_start (box, proxy, TRUE, TRUE, 0);
+	gtk_box_reorder_child (box, proxy, 0);
+	gtk_widget_show (GTK_WIDGET (box));
+	gtk_widget_show (proxy);
+
+	g_hash_table_insert (
+		shell_taskbar->priv->proxy_table,
+		g_object_ref (activity), g_object_ref (proxy));
+
+	g_signal_connect_swapped (
+		activity, "cancelled",
+		G_CALLBACK (shell_taskbar_activity_remove), shell_taskbar);
+
+	g_signal_connect_swapped (
+		activity, "completed",
+		G_CALLBACK (shell_taskbar_activity_remove), shell_taskbar);
+}
 
 static void
 shell_taskbar_set_shell_view (EShellTaskbar *shell_taskbar,
@@ -61,6 +113,12 @@ shell_taskbar_set_property (GObject *object,
                             GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_MESSAGE:
+			e_shell_taskbar_set_message (
+				E_SHELL_TASKBAR (object),
+				g_value_get_string (value));
+			return;
+
 		case PROP_SHELL_VIEW:
 			shell_taskbar_set_shell_view (
 				E_SHELL_TASKBAR (object),
@@ -78,6 +136,12 @@ shell_taskbar_get_property (GObject *object,
                             GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_MESSAGE:
+			g_value_set_string (
+				value, e_shell_taskbar_get_message (
+				E_SHELL_TASKBAR (object)));
+			return;
+
 		case PROP_SHELL_VIEW:
 			g_value_set_object (
 				value, e_shell_taskbar_get_shell_view (
@@ -111,8 +175,41 @@ shell_taskbar_dispose (GObject *object)
 		priv->hbox = NULL;
 	}
 
+	g_hash_table_remove_all (priv->proxy_table);
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
+shell_taskbar_finalize (GObject *object)
+{
+	EShellTaskbarPrivate *priv;
+
+	priv = E_SHELL_TASKBAR_GET_PRIVATE (object);
+
+	g_hash_table_destroy (priv->proxy_table);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static void
+shell_taskbar_constructed (GObject *object)
+{
+	EShellView *shell_view;
+	EShellViewClass *shell_view_class;
+	EShellTaskbar *shell_taskbar;
+	EShellModule *shell_module;
+
+	shell_taskbar = E_SHELL_TASKBAR (object);
+	shell_view = e_shell_taskbar_get_shell_view (shell_taskbar);
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	shell_module = E_SHELL_MODULE (shell_view_class->type_module);
+
+	g_signal_connect_swapped (
+		shell_module, "activity-added",
+		G_CALLBACK (shell_taskbar_activity_add), shell_taskbar);
 }
 
 static void
@@ -127,6 +224,19 @@ shell_taskbar_class_init (EShellTaskbarClass *class)
 	object_class->set_property = shell_taskbar_set_property;
 	object_class->get_property = shell_taskbar_get_property;
 	object_class->dispose = shell_taskbar_dispose;
+	object_class->finalize = shell_taskbar_finalize;
+	object_class->constructed = shell_taskbar_constructed;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MESSAGE,
+		g_param_spec_string (
+			"message",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
 
 	g_object_class_install_property (
 		object_class,
@@ -144,9 +254,16 @@ static void
 shell_taskbar_init (EShellTaskbar *shell_taskbar)
 {
 	GtkWidget *widget;
+	GHashTable *proxy_table;
 	gint height;
 
+	proxy_table = g_hash_table_new_full (
+		g_direct_hash, g_direct_equal,
+		(GDestroyNotify) g_object_unref,
+		(GDestroyNotify) g_object_unref);
+
 	shell_taskbar->priv = E_SHELL_TASKBAR_GET_PRIVATE (shell_taskbar);
+	shell_taskbar->priv->proxy_table = proxy_table;
 
 	gtk_box_set_spacing (GTK_BOX (shell_taskbar), 12);
 
@@ -157,7 +274,7 @@ shell_taskbar_init (EShellTaskbar *shell_taskbar)
 	shell_taskbar->priv->label = g_object_ref (widget);
 	gtk_widget_hide (widget);
 
-	widget = gtk_hbox_new (FALSE, 0);
+	widget = gtk_hbox_new (FALSE, 1);
 	gtk_box_pack_start (GTK_BOX (shell_taskbar), widget, TRUE, TRUE, 0);
 	shell_taskbar->priv->hbox = g_object_ref (widget);
 	gtk_widget_hide (widget);
@@ -213,6 +330,18 @@ e_shell_taskbar_get_shell_view (EShellTaskbar *shell_taskbar)
 	return shell_taskbar->priv->shell_view;
 }
 
+const gchar *
+e_shell_taskbar_get_message (EShellTaskbar *shell_taskbar)
+{
+	GtkWidget *label;
+
+	g_return_val_if_fail (E_IS_SHELL_TASKBAR (shell_taskbar), NULL);
+
+	label = shell_taskbar->priv->label;
+
+	return gtk_label_get_text (GTK_LABEL (label));
+}
+
 void
 e_shell_taskbar_set_message (EShellTaskbar *shell_taskbar,
                              const gchar *message)
@@ -222,13 +351,14 @@ e_shell_taskbar_set_message (EShellTaskbar *shell_taskbar,
 	g_return_if_fail (E_IS_SHELL_TASKBAR (shell_taskbar));
 
 	label = shell_taskbar->priv->label;
-	message = (message == NULL) ? message : "";
 	gtk_label_set_text (GTK_LABEL (label), message);
 
-	if (*message != '\0')
+	if (message != NULL && *message != '\0')
 		gtk_widget_show (label);
 	else
 		gtk_widget_hide (label);
+
+	g_object_notify (G_OBJECT (shell_taskbar), "message");
 }
 
 void
@@ -237,99 +367,4 @@ e_shell_taskbar_unset_message (EShellTaskbar *shell_taskbar)
 	g_return_if_fail (E_IS_SHELL_TASKBAR (shell_taskbar));
 
 	e_shell_taskbar_set_message (shell_taskbar, NULL);
-}
-
-void
-e_shell_taskbar_prepend_task (EShellTaskbar *shell_taskbar,
-                              ETaskWidget *task_widget)
-{
-	GtkBox *box;
-	GtkWidget *child;
-
-	g_return_if_fail (E_IS_SHELL_TASKBAR (shell_taskbar));
-	g_return_if_fail (E_IS_TASK_WIDGET (task_widget));
-
-	child = GTK_WIDGET (task_widget);
-	box = GTK_BOX (shell_taskbar->priv->hbox);
-	gtk_box_pack_start (box, child, TRUE, TRUE, 0);
-	gtk_box_reorder_child (box, child, 0);
-	gtk_widget_show (GTK_WIDGET (box));
-}
-
-void
-e_shell_taskbar_remove_task (EShellTaskbar *shell_taskbar,
-                             gint position)
-{
-	ETaskWidget *task_widget;
-	GtkBox *box;
-
-	g_return_if_fail (E_IS_SHELL_TASKBAR (shell_taskbar));
-	g_return_if_fail (position >= 0);
-
-	task_widget = e_shell_taskbar_get_task_widget (
-		shell_taskbar, position);
-	gtk_widget_destroy (GTK_WIDGET (task_widget));
-
-	box = GTK_BOX (shell_taskbar->priv->hbox);
-	if (box->children == NULL)
-		gtk_widget_hide (GTK_WIDGET (box));
-}
-
-ETaskWidget *
-e_shell_taskbar_get_task_widget_from_id (EShellTaskbar *shell_taskbar,
-                                         guint task_id)
-{
-	GtkBox *box;
-	GList *iter;
-
-	g_return_val_if_fail (E_IS_SHELL_TASKBAR (shell_taskbar), NULL);
-
-	box = GTK_BOX (shell_taskbar->priv->hbox);
-
-	for (iter = box->children; iter != NULL; iter = iter->next) {
-		GtkBoxChild *child_info = iter->data;
-		ETaskWidget *task_widget;
-
-		task_widget = E_TASK_WIDGET (child_info->widget);
-
-		if (task_widget->id == task_id)
-			return task_widget;
-	}
-
-	return NULL;
-}
-
-void
-e_shell_taskbar_remove_task_from_id (EShellTaskbar *shell_taskbar,
-                                     guint task_id)
-{
-	ETaskWidget *task_widget;
-	GtkBox *box;
-
-	g_return_if_fail (E_IS_SHELL_TASKBAR (shell_taskbar));
-
-	task_widget = e_shell_taskbar_get_task_widget_from_id (
-		shell_taskbar, task_id);
-	g_return_if_fail (task_widget != NULL);
-
-	gtk_widget_destroy (GTK_WIDGET (task_widget));
-
-	box = GTK_BOX (shell_taskbar->priv->hbox);
-	if (box->children == NULL)
-		gtk_widget_hide (GTK_WIDGET (box));
-}
-
-ETaskWidget *
-e_shell_taskbar_get_task_widget (EShellTaskbar *shell_taskbar,
-                                 gint position)
-{
-	GtkBoxChild *child_info;
-	GtkBox *box;
-
-	g_return_val_if_fail (E_IS_SHELL_TASKBAR (shell_taskbar), NULL);
-
-	box = GTK_BOX (shell_taskbar->priv->hbox);
-	child_info = g_list_nth (box->children, position)->data;
-
-	return E_TASK_WIDGET (child_info->widget);
 }

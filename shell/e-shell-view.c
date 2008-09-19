@@ -556,6 +556,21 @@ e_shell_view_is_active (EShellView *shell_view)
 	return gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
 }
 
+void
+e_shell_view_add_activity (EShellView *shell_view,
+                           EActivity *activity)
+{
+	EShellViewClass *shell_view_class;
+	EShellModule *shell_module;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (E_IS_ACTIVITY (activity));
+
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	shell_module = E_SHELL_MODULE (shell_view_class->type_module);
+	e_shell_module_add_activity (shell_module, activity);
+}
+
 gint
 e_shell_view_get_page_num (EShellView *shell_view)
 {

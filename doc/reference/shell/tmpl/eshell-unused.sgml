@@ -331,6 +331,24 @@ intelligent
 
 @obj: 
 
+<!-- ##### MACRO EAH_ICON_ERROR ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### MACRO EAH_ICON_INFO ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT EActivityHandler ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### STRUCT EActivityHandlerPrivate ##### -->
 <para>
 
@@ -1702,6 +1720,111 @@ intelligent
 
 </para>
 
+
+<!-- ##### FUNCTION e_activity_handler_attach_task_bar ##### -->
+<para>
+
+</para>
+
+@activity_hanlder: 
+@shell_taskbar: 
+
+<!-- ##### FUNCTION e_activity_handler_cancelable_operation_started ##### -->
+<para>
+
+</para>
+
+@activity_handler: 
+@information: 
+@cancellable: 
+@cancel_func: 
+@user_data: 
+@Returns: 
+
+<!-- ##### FUNCTION e_activity_handler_make_error ##### -->
+<para>
+
+</para>
+
+@activity_handler: 
+@error_type: 
+@error: 
+@Returns: 
+
+<!-- ##### FUNCTION e_activity_handler_new ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+<!-- ##### FUNCTION e_activity_handler_operation_finished ##### -->
+<para>
+
+</para>
+
+@activity_handler: 
+@activity_id: 
+
+<!-- ##### FUNCTION e_activity_handler_operation_progressing ##### -->
+<para>
+
+</para>
+
+@activity_handler: 
+@activity_id: 
+@information: 
+@progress: 
+
+<!-- ##### FUNCTION e_activity_handler_operation_set_error ##### -->
+<para>
+
+</para>
+
+@activity_handler: 
+@activity_id: 
+@error: 
+
+<!-- ##### FUNCTION e_activity_handler_operation_started ##### -->
+<para>
+
+</para>
+
+@activity_handler: 
+@information: 
+@cancellable: 
+@Returns: 
+
+<!-- ##### FUNCTION e_activity_handler_set_error_flush_time ##### -->
+<para>
+
+</para>
+
+@handler: 
+@time: 
+
+<!-- ##### FUNCTION e_activity_handler_set_logger ##### -->
+<para>
+
+</para>
+
+@handler: 
+@logger: 
+
+<!-- ##### FUNCTION e_activity_handler_set_message ##### -->
+<para>
+
+</para>
+
+@activity_handler: 
+@message: 
+
+<!-- ##### FUNCTION e_activity_handler_unset_message ##### -->
+<para>
+
+</para>
+
+@activity_handler: 
 
 <!-- ##### FUNCTION e_config_upgrade ##### -->
 <para>

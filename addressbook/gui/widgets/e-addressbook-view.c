@@ -63,7 +63,7 @@
 
 #define d(x)
 
-static void status_message     (GtkObject *object, const gchar *status, EAddressbookView *view);
+static void status_message     (EAddressbookView *view, const gchar *status);
 static void search_result      (EAddressbookView *view, EBookViewStatus status);
 static void folder_bar_message (EAddressbookView *view, const gchar *status);
 static void stop_state_changed (GtkObject *object, EAddressbookView *view);
@@ -76,6 +76,7 @@ struct _EAddressbookViewPrivate {
 	gpointer shell_view;  /* weak pointer */
 
 	EAddressbookModel *model;
+	EActivity *activity;
 
 	GList *clipboard_contacts;
 	ESource *source;
@@ -97,7 +98,6 @@ enum {
 
 enum {
 	POPUP_EVENT,
-	STATUS_MESSAGE,
 	COMMAND_STATE_CHANGE,
 	SELECTION_CHANGE,
 	LAST_SIGNAL
@@ -534,6 +534,13 @@ addressbook_view_dispose (GObject *object)
 		priv->model = NULL;
 	}
 
+	if (priv->activity != NULL) {
+		/* XXX Activity is not cancellable. */
+		e_activity_complete (priv->activity);
+		g_object_unref (priv->activity);
+		priv->activity = NULL;
+	}
+
 	if (priv->invisible != NULL) {
 		gtk_widget_destroy (priv->invisible);
 		priv->invisible = NULL;
@@ -646,16 +653,6 @@ addressbook_view_class_init (EAddressbookViewClass *class)
 		G_TYPE_NONE, 1,
 		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
-	signals[STATUS_MESSAGE] = g_signal_new (
-		"status-message",
-		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (EAddressbookViewClass, status_message),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__POINTER,
-		G_TYPE_NONE, 1,
-		G_TYPE_POINTER);
-
 	signals[COMMAND_STATE_CHANGE] = g_signal_new (
 		"command-state-change",
 		G_OBJECT_CLASS_TYPE (object_class),
@@ -746,8 +743,9 @@ e_addressbook_view_new (EShellView *shell_view,
 
 	view = E_ADDRESSBOOK_VIEW (widget);
 
-	g_signal_connect (view->priv->model, "status_message",
-			  G_CALLBACK (status_message), view);
+	g_signal_connect_swapped (
+		view->priv->model, "status_message",
+		G_CALLBACK (status_message), view);
 	g_signal_connect_swapped (
 		view->priv->model, "search_result",
 		G_CALLBACK (search_result), view);
@@ -851,15 +849,26 @@ e_addressbook_view_get_source (EAddressbookView *view)
 }
 
 static void
-emit_status_message (EAddressbookView *view, const gchar *status)
+status_message (EAddressbookView *view,
+                const gchar *status)
 {
-	g_signal_emit (view, signals[STATUS_MESSAGE], 0, status);
-}
+	EActivity *activity;
 
-static void
-status_message (GtkObject *object, const gchar *status, EAddressbookView *view)
-{
-	emit_status_message (view, status);
+	activity = view->priv->activity;
+
+	if (status == NULL || *status == '\0') {
+		if (activity != NULL) {
+			e_activity_complete (activity);
+			g_object_unref (activity);
+			view->priv->activity = NULL;
+		}
+
+	} else if (activity == NULL) {
+		activity = e_activity_new (status);
+		view->priv->activity = activity;
+
+	} else
+		e_activity_set_primary_text (activity, status);
 }
 
 static void

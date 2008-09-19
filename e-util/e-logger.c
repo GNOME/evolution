@@ -43,7 +43,7 @@
 	((obj), E_TYPE_LOGGER, ELoggerPrivate))
 
 struct _ELoggerPrivate {
-	gchar *component;
+	gchar *name;
 	gchar *logfile;
 	FILE *fp;
 
@@ -52,13 +52,13 @@ struct _ELoggerPrivate {
 
 enum {
 	PROP_0,
-	PROP_COMPONENT
+	PROP_NAME
 };
 
 static gpointer parent_class;
 
 static gboolean
-flush_logfile (ELogger *logger)
+logger_flush (ELogger *logger)
 {
 	fflush (logger->priv->fp);
 	logger->priv->timer = 0;
@@ -67,16 +67,26 @@ flush_logfile (ELogger *logger)
 }
 
 static void
-logger_set_component (ELogger *logger,
-                      const gchar *component)
+logger_set_dirty (ELogger *logger)
+{
+	if (logger->priv->timer)
+		return;
+
+	logger->priv->timer = g_timeout_add (
+		TIMEOUT_INTERVAL, (GSourceFunc) logger_flush, logger);
+}
+
+static void
+logger_set_name (ELogger *logger,
+                 const gchar *name)
 {
 	gchar *temp;
 
-	g_return_if_fail (logger->priv->component == NULL);
+	g_return_if_fail (logger->priv->name == NULL);
 
-	temp = g_strdup_printf ("%s.log.XXXXXX", component);
+	temp = g_strdup_printf ("%s.log.XXXXXX", name);
 
-	logger->priv->component = g_strdup (component);
+	logger->priv->name = g_strdup (name);
 	logger->priv->logfile = e_mktemp (temp);
 	logger->priv->fp = g_fopen (logger->priv->logfile, "w");
 	logger->priv->timer = 0;
@@ -91,8 +101,8 @@ logger_set_property (GObject *object,
                      GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_COMPONENT:
-			logger_set_component (
+		case PROP_NAME:
+			logger_set_name (
 				E_LOGGER (object),
 				g_value_get_string (value));
 			return;
@@ -108,9 +118,9 @@ logger_get_property (GObject *object,
                      GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_COMPONENT:
+		case PROP_NAME:
 			g_value_set_string (
-				value, e_logger_get_component (
+				value, e_logger_get_name (
 				E_LOGGER (object)));
 			return;
 	}
@@ -125,10 +135,10 @@ logger_finalize (GObject *object)
 
 	if (logger->priv->timer)
 		g_source_remove (logger->priv->timer);
-	flush_logfile (logger);
+	logger_flush (logger);
 	fclose (logger->priv->fp);
 
-	g_free (logger->priv->component);
+	g_free (logger->priv->name);
 	g_free (logger->priv->logfile);
 
 	/* Chain up to parent's finalize() method. */
@@ -150,11 +160,11 @@ logger_class_init (ELoggerClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_COMPONENT,
+		PROP_NAME,
 		g_param_spec_string (
-			"component",
-			_("Component"),
-			_("Name of the component being logged"),
+			"name",
+			_("Name"),
+			_("Name of the logger"),
 			"anonymous",
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
@@ -193,34 +203,24 @@ e_logger_get_type (void)
 }
 
 ELogger *
-e_logger_create (gchar *component)
+e_logger_new (const gchar *name)
 {
-	g_return_val_if_fail (component != NULL, NULL);
+	g_return_val_if_fail (name != NULL, NULL);
 
-	return g_object_new (E_TYPE_LOGGER, "component", component, NULL);
+	return g_object_new (E_TYPE_LOGGER, "name", name, NULL);
 }
 
 const gchar *
-e_logger_get_component (ELogger *logger)
+e_logger_get_name (ELogger *logger)
 {
 	g_return_val_if_fail (E_IS_LOGGER (logger), NULL);
 
-	return logger->priv->component;
-}
-
-static void
-set_dirty (ELogger *logger)
-{
-	if (logger->priv->timer)
-		return;
-
-	logger->priv->timer = g_timeout_add (
-		TIMEOUT_INTERVAL, (GSourceFunc) flush_logfile, logger);
+	return logger->priv->name;
 }
 
 void
 e_logger_log (ELogger *logger,
-              gint level,
+              ELogLevel level,
               gchar *primary,
               gchar *secondary)
 {
@@ -232,13 +232,13 @@ e_logger_log (ELogger *logger,
 
 	fprintf (logger->priv->fp, "%d:%ld:%s\n", level, t, primary);
 	fprintf (logger->priv->fp, "%d:%ld:%s\n", level, t, secondary);
-	set_dirty (logger);
+	logger_set_dirty (logger);
 }
 
 void 
 e_logger_get_logs (ELogger *logger,
                    ELogFunction func,
-                   gpointer data)
+                   gpointer user_data)
 {
 	FILE *fp;
 	gchar buf[250];
@@ -279,11 +279,11 @@ e_logger_get_logs (ELogger *logger,
 				g_string_append (str, tmp);
 			}
 
-			func (str->str, data);
+			func (str->str, user_data);
 
 			g_string_free (str, TRUE);
 		} else
-			func (tmp, data);
+			func (tmp, user_data);
 	}
 
 	fclose (fp);

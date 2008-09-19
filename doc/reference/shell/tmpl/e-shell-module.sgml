@@ -23,6 +23,14 @@ EShellModule
 </para>
 
 
+<!-- ##### SIGNAL EShellModule::activity-added ##### -->
+<para>
+
+</para>
+
+@eshellmodule: the object which received the signal.
+@arg1: 
+
 <!-- ##### ARG EShellModule:filename ##### -->
 <para>
 
