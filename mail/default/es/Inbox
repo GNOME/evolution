@@ -1,19 +1,19 @@
 From evolution@novell.com Wed Sep 06 07:45:12 2006
 Return-Path: <evolution@novell.com>
 Received: from pop.novell.com (IDENT:mail@localhost [127.0.0.1]) by
-	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 06 Sep 2006
+	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Mon, 21 Sep 2008
 	07:45:12 -0400
 Received: from smtp.novell.com (smtp.novell.com [141.154.95.10]) by
 	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
-	<evolution@novell.com>; Wed, 06 Sep 2006 07:45:10 -0400
-Received: (qmail 5610 invoked from network); 06 Sep 2006 12:00:00 -0000
+	<evolution@novell.com>; Wed, 21 Sep 2008 07:45:10 -0400
+Received: (qmail 5610 invoked from network); 21 Sep 2008 12:00:00 -0000
 Received: from smtp.novell.com (HELO localhost) (141.154.95.10) by
-	pop.novell.com with SMTP; 06 Sep 2006 12:00:00 -0000
+	pop.novell.com with SMTP; 21 Sep 2008 12:00:00 -0000
 From: "El equipo de Evolution" <evolution@novell.com>
 To: Usuarios de Evolution <evolution@novell.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
-X-Mailer: Evolution 2.8.0
-Date: 06 September 2006 12:00:00 +0000
+X-Mailer: Evolution 2.24.0
+Date: 21 Septiembre 2008 12:00:00 +0000
 Message-Id: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
 Subject: Bienvenido a Evolution
@@ -41,47 +41,29 @@ personal.
 
 Introducción
  	
-	A la izquierda de la ventana de evolution está la barra lateral,
+	A la izquierda de la ventana de Evolution está la barra lateral,
         con accesos a todas sus carpetas de correo. Debajo de ésta,
         encontrará botones para sus calendarios, contactos, tareas,
         correo y notas.
 
-        Para una guía completa de uso de Evolution, seleccione Contenido
-        en el menú Ayuda, o pulse la tecla F1.
-
-Características nuevas
-
-        Evolution 2.8 tiene
-              * Un interfaz de búsqueda nuevo y una búsqueda global en
-                el interfaz del correo
-              * Un modo de pantalla panorámica, y vista previa vertical
-                en el interfaz del correo
-              * Apariencia mejorada con integración de  «Cairo»
-              * Rendimiento más rápido, montones de optimizaciones de
-                memoria y reducción del uso de memoria
-              * Suporte para Recordatorios de notas GroupWise y Mail
-                Retract
-              * Notas compatibles en el Diario (sistema de ficheros)
-              * Soporte para el gestor de depósitos de claves de GNOME
-              * Montones de errores corregidos y otras mejoras
-
+        Para una guía completa de uso de Evolution, seleccione «Índice»
+        en el menú «Ayuda», o pulse la tecla F1.
 
 Información de errores
 
-        Los errores se deben notificar en el Bugzilla de GNOME
-        http://bugzilla.gnome.org.
+        Los errores se deben notificar en http://bugzilla.gnome.org.
 
 
 Más información
 
         Puede suscribirse a la lista de correo de usuarios de Evolution
-        en http://lists.gnome.org/mailman/listinfo/evolution. La
-        información acerca del proyecto Evolution está disponible en
-        http://www.go-evolution.org.
+        en http://lists.gnome.org/mailman/listinfo/evolution. 
+
+	La información acerca del proyecto Evolution está disponible en
+        http://www.gnome.org/projects/evolution.
 
 Con afecto,
 El equipo de Evolution
-evolution@novell.com
 
 
 --=-2gZ1roA/HoYrlRDVGyiM
@@ -126,48 +108,17 @@ Introducci&#243;n
 
 <blockquote>
 
-	 A la izquierda de la ventana de Evolution est&#225; la barra
+	A la izquierda de la ventana de Evolution est&#225; la barra
 	lateral, con accesos a todas sus carpetas de correo. Debajo de
 	&#233;sta, encontrar&#225; botones para sus calendarios, contactos,
 	tareas, correo y notas.
 <br><br>
 
-    Para una gu&#237;a completa de uso de Evolution, seleccione
-<B>Contenido</B> en el men&#250; <B>Ayuda</B>, o pulse la tecla
-<B>F1</B>.
+	Para una gu&#237;a completa de uso de Evolution, seleccione
+	<B>&#205;ndice</B> en el men&#250; <B>Ayuda</B>, o pulse la tecla
+	<B>F1</B>.
 
 <br><br>
-</blockquote>
-
-<h2>
-Caracter&#237;sticas nuevas
-</h2>
-
-<blockquote>
-	Evolution 2.8 tiene 
-	<ul>
-	<li>
-	Un interfaz de b&#250;squeda nuevo y una b&#250;squeda global en
-	el interfaz del correo
-	</li><li>
-	Un modo de pantalla panor&#225;mica, y vista previa vertical en
-	el interfaz del correo
-	</li><li>
-	Apariencia mejorada con integraci&#243;n de &nbsp;&#171;Cairo&#187;
-	</li><li>
-	Rendimiento m&#225;s r&#225;pido, montones de optimizaciones de
-	memoria y reducci&#243;n del uso de memoria
-	</li><li>
-	Soporte para Recordatorios de notas GroupWise y Mail Retract
-	</li><li>
-	Notas compatibles en el Diario (sistema de ficheros)
-	</li><li>
-	Soporte para el gestor de dep&#243;sitos de claves de GNOME
-	</li><li>
-	Montones de errores corregidos y otras mejoras
-	</li>
-	</ul>
-<br>
 </blockquote>
 
 <h2>
@@ -183,12 +134,11 @@ M&#225;s informaci&#243;n
 </h2>
 
 <blockquote>
-	Puede suscribirse a la lista de correo de usuarios de Evolution
-en
+	Puede suscribirse a la lista de correo de usuarios de Evolution	en
 	<a href="http://lists.gnome.org/mailman/listinfo/evolution">http://lists.gnome.org/mailman/listinfo/evolution</a>.
 
 	La informaci&#243;n acerca del proyecto Evolution est&#225;
-disponible en&nbsp;
+	disponible en&nbsp;
 	<a href="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</a>.
 	<!--
 	You can find a list of answers to Frequently Asked Questions (FAQ) at
@@ -200,7 +150,6 @@ disponible en&nbsp;
 Con afecto,
 <br>
 El equipo de Evolution
-<br><a href="mailto:evolution@novell.com">evolution@novell.com</a>
 
 </BODY>
 </HTML>
