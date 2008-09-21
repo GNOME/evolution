@@ -15991,7 +15991,7 @@ msgstr "Przerwano oczekiwanie na proces potomny bogofilter, kończenie.."
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:152
 #, c-format
 msgid "Pipe to Bogofilter failed, error code: %d."
-msgstr "Błędny potok do bogofilter, kod błędu: %s."
+msgstr "Błędny potok do bogofilter, kod błędu: %d."
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:313
 msgid "Convert message text to _Unicode"
@@ -19017,7 +19017,7 @@ msgstr "SpamAssassin (wbudowany)"
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:134
 #, c-format
 msgid "SpamAssassin not found, code: %d"
-msgstr "Nie znaleziono programu SpamAssassin, kod %s"
+msgstr "Nie znaleziono programu SpamAssassin, kod %d"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:142
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:150
@@ -19043,7 +19043,7 @@ msgstr "Przerwano oczekiwanie na proces potomny SpamAssassin, kończenie..."
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:255
 #, c-format
 msgid "Pipe to SpamAssassin failed, error code: %d"
-msgstr "Błędny potok do programu SpamAssasin, kod błędu: %s"
+msgstr "Błędny potok do programu SpamAssasin, kod błędu: %d"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:498
 #, c-format
