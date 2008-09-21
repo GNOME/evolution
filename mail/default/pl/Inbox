@@ -48,15 +48,6 @@ Zaczynamy
 	wybierając pozycję "Zawartość" z menu "Pomoc" lub naciskając
 	klawisz F1 na klawiaturze.
 
-Nowości
-
-	Evolution 2.10:
-	
-	# Integracja z gtk-print
-	# Konfigurowalne pobieranie nagłówków IMAP
-	# Lepsza wydajność, mniej wycieków i mniejsze zużycie pamięci
-	# Wiele innych ulepszeń poprawionych błędów
-
 Zgłaszanie błędów
 
 	Napotkane błędy prosimy zgłaszać pod adresem http://bugzilla.gnome.org.
@@ -125,26 +116,6 @@ Zaczynamy
 	klawisz F1 na klawiaturze.
 
 <br><br>
-</blockquote>
-
-<h2>
-Nowości
-</h2>
-
-<blockquote>
-	Evolution 2.10:
-	<ul>
-	<li>
-	Integracja z gtk-print
-	</li><li>
-	Konfigurowalne pobieranie nagłówków IMAP
-	</li><li>
-	Lepsza wydajność, mniej wycieków i mniejsze zużycie pamięci
-	</li><li>
-	Wiele innych ulepszeń poprawionych błędów
-	</li>
-	</ul>
-<br>
 </blockquote>
 
 <h2>
