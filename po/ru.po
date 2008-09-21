@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ru\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-21 21:20+0400\n"
+"POT-Creation-Date: 2008-09-21 17:39+0000\n"
 "PO-Revision-Date: 2008-08-04 16:58+0300\n"
 "Last-Translator: Leonid Kanter <leon@asplinux.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -679,9 +679,19 @@ msgstr "Личное"
 msgid "On LDAP Servers"
 msgstr "На серверах LDAP"
 
+#: ../addressbook/gui/component/addressbook-component.c:229
+msgctxt "New"
+msgid "_Contact"
+msgstr "_Контакт"
+
 #: ../addressbook/gui/component/addressbook-component.c:230
 msgid "Create a new contact"
 msgstr "Создание нового контакта"
+
+#: ../addressbook/gui/component/addressbook-component.c:237
+msgctxt "New"
+msgid "Contact _List"
+msgstr "Список к_онтактов"
 
 #: ../addressbook/gui/component/addressbook-component.c:238
 msgid "Create a new contact list"
@@ -691,6 +701,11 @@ msgstr "Создание нового списка контактов"
 #: ../addressbook/gui/component/addressbook-config.c:1207
 msgid "New Address Book"
 msgstr "Новая адресная книга"
+
+#: ../addressbook/gui/component/addressbook-component.c:245
+msgctxt "New"
+msgid "Address _Book"
+msgstr "Адресная кн_ига"
 
 #: ../addressbook/gui/component/addressbook-component.c:246
 msgid "Create a new address book"
@@ -3626,11 +3641,14 @@ msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:183
 msgid "The backend for this address book was unable to parse this query."
-msgstr "Компонент обработки этой адресной книги не смог обработать текущий запрос."
+msgstr ""
+"Компонент обработки этой адресной книги не смог обработать текущий запрос."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:186
 msgid "The backend for this address book refused to perform this query."
-msgstr "Компонент обработки этой адресной книги отказался обрабатывать текущий запрос."
+msgstr ""
+"Компонент обработки этой адресной книги отказался обрабатывать текущий "
+"запрос."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:189
 msgid "This query did not complete successfully."
@@ -4120,8 +4138,7 @@ msgid ""
 "different calendar from the side bar in the Calendar view."
 msgstr ""
 "«{0}» — это источник календаря, доступный только для чтения, и не может быть "
-"изменён. Выберите в боковой панели вида «Календарь» другой источник "
-"календаря."
+"изменён. Выберите в боковой панели вида «Календарь» другой источник календаря."
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:4
@@ -5356,6 +5373,11 @@ msgstr "Выбор источника календаря"
 msgid "New appointment"
 msgstr "Новая встреча"
 
+#: ../calendar/gui/calendar-component.c:1597
+msgctxt "New"
+msgid "_Appointment"
+msgstr "_Встреча"
+
 #: ../calendar/gui/calendar-component.c:1598
 msgid "Create a new appointment"
 msgstr "Создать новую встречу"
@@ -5363,6 +5385,11 @@ msgstr "Создать новую встречу"
 #: ../calendar/gui/calendar-component.c:1604
 msgid "New meeting"
 msgstr "Новое собрание"
+
+#: ../calendar/gui/calendar-component.c:1605
+msgctxt "New"
+msgid "M_eeting"
+msgstr "_Собрание"
 
 #: ../calendar/gui/calendar-component.c:1606
 msgid "Create a new meeting request"
@@ -5372,6 +5399,11 @@ msgstr "Создать новое приглашение на собрание"
 msgid "New all day appointment"
 msgstr "Новая встреча на весь день"
 
+#: ../calendar/gui/calendar-component.c:1613
+msgctxt "New"
+msgid "All Day A_ppointment"
+msgstr "_Ежедневная встреча"
+
 #: ../calendar/gui/calendar-component.c:1614
 msgid "Create a new all-day appointment"
 msgstr "Создать новую ежедневную встречу"
@@ -5379,6 +5411,11 @@ msgstr "Создать новую ежедневную встречу"
 #: ../calendar/gui/calendar-component.c:1620
 msgid "New calendar"
 msgstr "Новый календарь"
+
+#: ../calendar/gui/calendar-component.c:1621
+msgctxt "New"
+msgid "Cale_ndar"
+msgstr "Кале_ндарь"
 
 #: ../calendar/gui/calendar-component.c:1622
 msgid "Create a new calendar"
@@ -8568,6 +8605,11 @@ msgstr "Выбор источника заметок"
 msgid "New memo"
 msgstr "Новая заметка"
 
+#: ../calendar/gui/memos-component.c:1261
+msgctxt "New"
+msgid "Mem_o"
+msgstr "За_метка"
+
 #: ../calendar/gui/memos-component.c:1262
 msgid "Create a new memo"
 msgstr "Создать новую заметку"
@@ -8576,6 +8618,11 @@ msgstr "Создать новую заметку"
 msgid "New shared memo"
 msgstr "Новая общая заметка"
 
+#: ../calendar/gui/memos-component.c:1269
+msgctxt "New"
+msgid "_Shared memo"
+msgstr "Общая заме_тка"
+
 #: ../calendar/gui/memos-component.c:1270
 msgid "Create a shared new memo"
 msgstr "Создать новую общую заметку"
@@ -8583,6 +8630,11 @@ msgstr "Создать новую общую заметку"
 #: ../calendar/gui/memos-component.c:1276
 msgid "New memo list"
 msgstr "Новый список заметок"
+
+#: ../calendar/gui/memos-component.c:1277
+msgctxt "New"
+msgid "Memo li_st"
+msgstr "Список _заметок"
 
 #: ../calendar/gui/memos-component.c:1278
 msgid "Create a new memo list"
@@ -8877,6 +8929,11 @@ msgstr "Выбор источника задач"
 msgid "New task"
 msgstr "Новая задача"
 
+#: ../calendar/gui/tasks-component.c:1326
+msgctxt "New"
+msgid "_Task"
+msgstr "З_адача"
+
 #: ../calendar/gui/tasks-component.c:1327
 msgid "Create a new task"
 msgstr "Создать новую задачу"
@@ -8885,6 +8942,11 @@ msgstr "Создать новую задачу"
 msgid "New assigned task"
 msgstr "Новая назначенная задача"
 
+#: ../calendar/gui/tasks-component.c:1334
+msgctxt "New"
+msgid "Assigne_d Task"
+msgstr "Наз_наченная задача"
+
 #: ../calendar/gui/tasks-component.c:1335
 msgid "Create a new assigned task"
 msgstr "Создать новую назначенную задачу"
@@ -8892,6 +8954,11 @@ msgstr "Создать новую назначенную задачу"
 #: ../calendar/gui/tasks-component.c:1341
 msgid "New task list"
 msgstr "Новый список задач"
+
+#: ../calendar/gui/tasks-component.c:1342
+msgctxt "New"
+msgid "Tas_k list"
+msgstr "Список за_дач"
 
 #: ../calendar/gui/tasks-component.c:1343
 msgid "Create a new task list"
@@ -12084,6 +12151,27 @@ msgstr "Отправленные"
 msgid "Loading..."
 msgstr "Загрузка..."
 
+#. Translators: This is the string used for displaying the
+#. * folder names in folder trees. "%s" will be replaced by
+#. * the folder's name and "%u" will be replaced with the
+#. * number of unread messages in the folder.
+#. *
+#. * Most languages should translate this as "%s (%u)". The
+#. * languages that use localized digits (like Persian) may
+#. * need to replace "%u" with "%Iu". Right-to-left languages
+#. * (like Arabic and Hebrew) may need to add bidirectional
+#. * formatting codes to take care of the cases the folder
+#. * name appears in either direction.
+#. *
+#. * Do not translate the "folder-display|" part. Remove it
+#. * from your translation.
+#.
+#: ../mail/em-folder-tree.c:380
+#, c-format
+msgctxt "folder-display"
+msgid "%s (%u)"
+msgstr "%s (%u)"
+
 #: ../mail/em-folder-tree.c:741
 msgid "Mail Folder Tree"
 msgstr "Дерево почтовых папок"
@@ -13385,9 +13473,8 @@ msgid ""
 "contacts. \"2\" - Always load images off the net."
 msgstr ""
 "Загружать изображения для HTML-сообщений по http(s). Возможные значения: «0» "
-"— никогда не загружать изображения из сети; «1» — загружать изображения, "
-"если отправитель есть в адресной книге; «2» — всегда загружать изображения "
-"из сети."
+"— никогда не загружать изображения из сети; «1» — загружать изображения, если "
+"отправитель есть в адресной книге; «2» — всегда загружать изображения из сети."
 
 #: ../mail/evolution-mail.schemas.in.h:82
 msgid "Log filter actions"
@@ -13996,6 +14083,11 @@ msgstr[2] "%d всего"
 msgid "New Mail Message"
 msgstr "Новое почтовое сообщение"
 
+#: ../mail/mail-component.c:923
+msgctxt "New"
+msgid "_Mail Message"
+msgstr "Почтовое сообщ_ение"
+
 #: ../mail/mail-component.c:924
 msgid "Compose a new mail message"
 msgstr "Создать новое сообщение"
@@ -14003,6 +14095,11 @@ msgstr "Создать новое сообщение"
 #: ../mail/mail-component.c:930
 msgid "New Mail Folder"
 msgstr "Новая почтовая папка"
+
+#: ../mail/mail-component.c:931
+msgctxt "New"
+msgid "Mail _Folder"
+msgstr "Почтовая _папка"
 
 #: ../mail/mail-component.c:932
 msgid "Create a new mail folder"
@@ -15208,8 +15305,7 @@ msgid ""
 "A read receipt notification has been requested for \"{1}\". Send the receipt "
 "notification to {0}?"
 msgstr ""
-"Было запрошено уведомление о прочтении для «{1}». Отправить уведомление к "
-"{0}?"
+"Было запрошено уведомление о прочтении для «{1}». Отправить уведомление к {0}?"
 
 #: ../mail/mail.error.xml.h:7
 msgid ""
@@ -16312,8 +16408,8 @@ msgid ""
 "reply to messages. Also fills in IM contact information from your buddy "
 "lists."
 msgstr ""
-"Автоматически добавляет в адресную книгу имена и адреса получателей, когда вы "
-"отвечаете на сообщения. Также заполняет контактные данные из списка "
+"Автоматически добавляет в адресную книгу имена и адреса получателей, когда "
+"вы отвечаете на сообщения. Также заполняет контактные данные из списка "
 "контактов службы мгновенных сообщений."
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
@@ -16542,7 +16638,8 @@ msgid ""
 "Provides functionality for marking a calendar or an address book as the "
 "default one."
 msgstr ""
-"Предоставляет функциональность для установки используемых по умолчанию календаря или адресной книги."
+"Предоставляет функциональность для установки используемых по умолчанию "
+"календаря или адресной книги."
 
 #: ../plugins/email-custom-header/email-custom-header.c:560
 msgid "_Custom Header"
@@ -17205,8 +17302,8 @@ msgid ""
 "Changes to options for Exchange account \"{0}\" will only take effect after "
 "restarting Evolution."
 msgstr ""
-"Изменения настройки учётной записи Exchange «{0}» вступят в силу только "
-"после перезапуска Evolution."
+"Изменения настройки учётной записи Exchange «{0}» вступят в силу только после "
+"перезапуска Evolution."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:5
 msgid "Could not authenticate to server."
@@ -19299,7 +19396,8 @@ msgid ""
 "Do you want to mark messages as read in the current folder only, or in the "
 "current folder as well as all subfolders?"
 msgstr ""
-"Пометить сообщения прочитанными только в текущей папках или в папке и во всех подпапках?"
+"Пометить сообщения прочитанными только в текущей папках или в папке и во "
+"всех подпапках?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:164
 msgid "Current Folder and _Subfolders"
@@ -20128,8 +20226,8 @@ msgid ""
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
-"Стиль кнопок окон. Возможные варианты: «text», «icons», «both», «toolbar». "
-"Если установлено значение «toolbar», стиль кнопок соответствует системным "
+"Стиль кнопок окон. Возможные варианты: «text», «icons», «both», «toolbar». Если "
+"установлено значение «toolbar», стиль кнопок соответствует системным "
 "параметрам среды GNOME."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:41
@@ -20223,8 +20321,7 @@ msgid ""
 "Choose the file that you want to import into Evolution, and select what type "
 "of file it is from the list."
 msgstr ""
-"Выберите файл, импортируемый вами в Evolution и выберите тип файла из "
-"списка."
+"Выберите файл, импортируемый вами в Evolution и выберите тип файла из списка."
 
 #: ../shell/e-shell-importer.c:138
 msgid "Choose the destination for this import"
@@ -20382,6 +20479,11 @@ msgstr "Создать"
 #: ../shell/test/evolution-test-component.c:105
 msgid "New Test"
 msgstr "Новый тест"
+
+#: ../shell/test/evolution-test-component.c:106
+msgctxt "New"
+msgid "_Test"
+msgstr "Пров_ерка"
 
 #: ../shell/test/evolution-test-component.c:107
 msgid "Create a new test item"
@@ -23777,18 +23879,6 @@ msgstr "Обрабатывать всплывающие окна"
 
 #~ msgid "_Properties..."
 #~ msgstr "_Свойства..."
-
-#~ msgid "_Appointment"
-#~ msgstr "_Встреча"
-
-#~ msgid "M_eeting"
-#~ msgstr "_Собрание"
-
-#~ msgid "All Day A_ppointment"
-#~ msgstr "_Ежедневная встреча"
-
-#~ msgid "Cale_ndar"
-#~ msgstr "Кале_ндарь"
 
 #~ msgid "Recent Docu_ments"
 #~ msgstr "Недавние доку_менты"
