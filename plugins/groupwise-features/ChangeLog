@@ -1,3 +1,11 @@
+2008-09-22  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fixes bug #552851
+
+	* org-gnome-shared-folder.errors.xml:
+	Add translator comments to the accept/decline strings, and improve
+	some other strings in the file.
+
 2008-09-19  Sankar P  <psankar@novell.com>
 
 License Changes

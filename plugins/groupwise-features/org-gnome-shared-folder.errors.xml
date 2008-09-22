@@ -4,19 +4,20 @@
 <error id="invalid-user" type="error">
 <_primary>Invalid user</_primary>
 <_secondary>
-You cannot share folder with specified user &quot;{0}&quot; 
+You cannot share this folder with the specified user &quot;{0}&quot; 
 </_secondary>
 </error>
 
 <error id="no-user" type="error">
 <_primary>Specify User</_primary>
 <_secondary>
-	You have to specify a user name whom you want to add to the list 
+	You have to specify a user name which you want to add to the list 
 </_secondary>
 </error>
 
 <error id="recurrence-accept" type="question" default="GTK_RESPONSE_YES">
 <_primary>This is a recurring meeting</_primary>
+<!--Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting") -->
 <_secondary>Would you like to accept it?</_secondary>
  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
  <button label="This instance" response="GTK_RESPONSE_NO"/>
@@ -25,6 +26,7 @@ You cannot share folder with specified user &quot;{0}&quot;
 
 <error id="recurrence-decline" type="question" default="GTK_RESPONSE_YES">
 <_primary>This is a recurring meeting</_primary>
+<!--Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting") -->
 <_secondary>Would you like to decline it?</_secondary>
  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
  <button label="This instance" response="GTK_RESPONSE_NO"/>
