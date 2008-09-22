@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-06 16:13+0000\n"
-"PO-Revision-Date: 2008-09-16 14:56+0300\n"
+"PO-Revision-Date: 2008-09-21 09:19+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -343,13 +343,12 @@ msgstr "aktiveerimine"
 
 #. For Translators: {0} is the name of the address book source
 #: ../addressbook/addressbook.error.xml.h:2
-#, fuzzy
 msgid ""
 "'{0}' is a read-only address book and cannot be modified. Please select a "
 "different address book from the side bar in the Contacts view."
 msgstr ""
-"Aadressiraamatu allikas '{0}' on kirjutuskaitsega. Kontaktivaates tuleks "
-"valida aadressiraamat, mis võimaldab muudatusi sisse viia."
+"Aadressiraamat '{0}' on kirjutuskaitsega ja seda pole võimalik muuta. Palun "
+"vali kontaktivaate külgpaanilt mõni muu aadressiraamat."
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid ""
@@ -444,7 +443,6 @@ msgid "Some features may not work properly with your current server"
 msgstr "Mõned võimalused võivad sinu praeguse serveriga ebakorrektselt töötada"
 
 #: ../addressbook/addressbook.error.xml.h:21
-#, fuzzy
 msgid "The Evolution address book has quit unexpectedly."
 msgstr "Evolutioni aadressiraamat lõpetas ootamatult."
 
@@ -505,7 +503,6 @@ msgid "Would you like to save your changes?"
 msgstr "Kas soovid tehtud muudatusi salvestada?"
 
 #: ../addressbook/addressbook.error.xml.h:33
-#, fuzzy
 msgid ""
 "You are attempting to move a contact from one address book to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
@@ -525,10 +522,8 @@ msgstr ""
 "uuendama toetatud versiooniks"
 
 #: ../addressbook/addressbook.error.xml.h:35
-#, fuzzy
 msgid "You do not have permission to delete contacts in this address book."
-msgstr ""
-"Sul pole sellest aadressiraamatust kontakti kustutamiseks piisavalt õiguseid."
+msgstr "Sul pole sellest aadressiraamatust kontakti kustutamiseks õiguseid."
 
 #: ../addressbook/addressbook.error.xml.h:36
 msgid ""
@@ -787,7 +782,7 @@ msgstr "Siirdamine..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:125
 #: ../calendar/gui/migration.c:195 ../mail/em-migrate.c:1247
-#, fuzzy, c-format
+#, c-format
 msgid "Migrating '%s':"
 msgstr "Siirdamine '%s':"
 
@@ -3568,7 +3563,6 @@ msgid "Unsupported authentication method"
 msgstr "Toetamata autentimismeetod"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:107
-#, fuzzy
 msgid ""
 "We were unable to open this address book. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
@@ -3580,22 +3574,21 @@ msgstr ""
 "aadressiraamat võrgurežiimis, et selle sisu oleks võimalik alla laadida."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:116
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "We were unable to open this address book.  Please check that the path %s "
 "exists and that you have permission to access it."
 msgstr ""
-"Aadressiraamatut pole võimalik avada.  Palun kontrolli, kas rada %s on "
-"olemas ja kas sul on sellele vajalikud pääsuõigused."
+"Aadressiraamatut pole võimalik avada.  Palun kontrolli, et rada %s oleks "
+"olemas ja et sul oleks sellele ligipääsuks vajalikud õigused."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:125
-#, fuzzy
 msgid ""
 "We were unable to open this address book.  This either means you have "
 "entered an incorrect URI, or the LDAP server is unreachable."
 msgstr ""
-"Aadressiraamatu avamine nurjus. Põhjuseks võib olla see, et sisestasid "
-"vigase URI või kasutatav LDAP-server ei ole kättesaadav."
+"Aadressiraamatut pole võimalik avada.  Põhjuseks võib olla see, et "
+"sisestasid vigase URI või pole LDAP-server kättesaadav."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:130
 msgid ""
@@ -3608,32 +3601,30 @@ msgstr ""
 "Evolutioni paki."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:137
-#, fuzzy
 msgid ""
 "We were unable to open this address book.  This either means you have "
 "entered an incorrect URI, or the server is unreachable."
 msgstr ""
-"Aadressiraamatu avamine nurjus.  Põhjuseks võib olla see, et sisestasid "
-"vigase URI või kasutatav server ei ole kättesaadav."
+"Aadressiraamatut pole võimalik avada.  Põhjuseks võib olla see, et "
+"sisestasid vigase URI või pole server kättesaadav."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:143
 msgid "Detailed error:"
 msgstr "Vea üksikasjad:"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:166
-#, fuzzy
 msgid ""
 "More cards matched this query than either the server is \n"
 "configured to return or Evolution is configured to display.\n"
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this address book."
 msgstr ""
-"Selle päringu sooritamiseks kulunud aeg ületas selle aadressiraamatu\n"
-"jaoks määratud piirangu. Palun täpsusta oma otsingut või suurenda selle\n"
-"aadressiraamatu kataloogiserveri eelistustest ajapiirangut."
+"Sellele päringule vastas rohkem kaarte, kui serveril on lubatud\n"
+"tagastada või Evolutionil lubatud kuvada. Palun täpsusta oma\n"
+"otsingut või suurenda selle aadressiraamatu kataloogiserveri\n"
+"eelistustest tagastatavate kirjete piirangut."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:172
-#, fuzzy
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "you have configured for this address book.  Please make your search\n"
@@ -3800,7 +3791,6 @@ msgid "Show Compact vCard"
 msgstr "Kompaktse vKaardi näitamine"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:284
-#, fuzzy
 msgid "Save in address book"
 msgstr "Salvesta aadressiraamatusse"
 
@@ -5517,17 +5507,17 @@ msgstr "Kingitused"
 #: ../calendar/gui/caltypes.xml.h:18 ../calendar/gui/memotypes.xml.h:17
 #: ../calendar/gui/tasktypes.xml.h:20
 msgid "Goals/Objectives"
-msgstr ""
+msgstr "Eesmärgid"
 
 #: ../calendar/gui/caltypes.xml.h:19 ../calendar/gui/memotypes.xml.h:18
 #: ../calendar/gui/tasktypes.xml.h:22
 msgid "Holiday"
-msgstr ""
+msgstr "Puhkus"
 
 #: ../calendar/gui/caltypes.xml.h:20 ../calendar/gui/memotypes.xml.h:19
 #: ../calendar/gui/tasktypes.xml.h:23
 msgid "Holiday Cards"
-msgstr ""
+msgstr "Puhkusekaardid"
 
 #: ../calendar/gui/caltypes.xml.h:21 ../calendar/gui/memotypes.xml.h:20
 #: ../calendar/gui/tasktypes.xml.h:24
@@ -5617,7 +5607,7 @@ msgstr "Kokkuvõte sisaldab"
 #: ../calendar/gui/caltypes.xml.h:38 ../calendar/gui/memotypes.xml.h:35
 #: ../calendar/gui/tasktypes.xml.h:42
 msgid "Suppliers"
-msgstr ""
+msgstr "Tarnijad"
 
 #: ../calendar/gui/caltypes.xml.h:39 ../calendar/gui/memotypes.xml.h:36
 #: ../calendar/gui/tasktypes.xml.h:43
@@ -5627,7 +5617,7 @@ msgstr ""
 #: ../calendar/gui/caltypes.xml.h:40 ../calendar/gui/memotypes.xml.h:37
 #: ../calendar/gui/tasktypes.xml.h:45
 msgid "VIP"
-msgstr ""
+msgstr "VIP"
 
 #: ../calendar/gui/caltypes.xml.h:41 ../calendar/gui/memotypes.xml.h:38
 #: ../calendar/gui/tasktypes.xml.h:46
@@ -6387,9 +6377,8 @@ msgid "_Type Field"
 msgstr "_Tüübiväli"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1456
-#, fuzzy
 msgid "Toggles whether the Attendee Type is displayed"
-msgstr "Osaleja liigi välja kuvamise sisse- ja väljalülitamine"
+msgstr "Osaleja liigi kuvamise sisse- ja väljalülitamine"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1766
 #: ../composer/e-composer-private.c:65 ../widgets/misc/e-attachment-bar.c:1381
@@ -6565,7 +6554,6 @@ msgid "Toggles whether to have All Day Event"
 msgstr "Kogu päeva kestva sündmuse sisse- ja väljalülitamine"
 
 #: ../calendar/gui/dialogs/event-editor.c:228
-#, fuzzy
 msgid "Show Time as _Busy"
 msgstr "Näita aega kui _hõivatut"
 
@@ -13554,7 +13542,6 @@ msgid "Save directory"
 msgstr "Salvestamise kataloog"
 
 #: ../mail/evolution-mail.schemas.in.h:114
-#, fuzzy
 msgid "Search for the sender photo in local address books"
 msgstr "Saatja foto otsimine kohalikest aadressiraamatutest"
 
@@ -14337,7 +14324,6 @@ msgid "Do not format messages when text si_ze exceeds"
 msgstr "Sõnumite tekstiosa ei vo_rmindata, kui selle suurus ületab"
 
 #: ../mail/mail-config.glade.h:72
-#, fuzzy
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr "Minu _aadressiraamatus olevate saatjate sõnumeid ei märgita rämpsuks"
 
@@ -14471,9 +14457,8 @@ msgid ""
 msgstr "Märkus: parooli ei küsita enne kui esimesel ühendumisel"
 
 #: ../mail/mail-config.glade.h:109
-#, fuzzy
 msgid "Option is ignored if a match for custom junk headers is found."
-msgstr "Seda valikut eiratakse kohandatud päiste vastavuse korral."
+msgstr "Seda valikut eiratakse kohandatud rämpspostipäiste vastavuse korral."
 
 #: ../mail/mail-config.glade.h:110
 msgid "Or_ganization:"
@@ -16147,7 +16132,7 @@ msgstr "Ajutiste varufailide eemaldamine"
 
 #: ../plugins/backup-restore/backup.c:285
 msgid "Ensuring local sources"
-msgstr ""
+msgstr "Kohalike allikate kindlakstegemine"
 
 #: ../plugins/backup-restore/backup.c:455
 #, c-format
@@ -16268,7 +16253,6 @@ msgstr "Automaatsed kontaktid"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:567
-#, fuzzy
 msgid "_Auto-create address book entries when replying to messages"
 msgstr "Sõnumile vastamisel luuakse automaatselt aa_dressiraamatu kirje"
 
@@ -16282,11 +16266,8 @@ msgstr "Kiirsuhtluse kontaktid"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:603
-#, fuzzy
 msgid "Synchronize contact info and images from Pidgin buddy list"
-msgstr ""
-"Kontaktandmeid ja pilte sünkroniseeritakse perioodiliselt Pidgin'i "
-"sõbranimekirjaga"
+msgstr "Kontaktandmete ja piltide sünkroniseerimine Pidgin'i sõbranimekirjaga"
 
 #: ../plugins/bbdb/bbdb.c:609
 msgid "Select Address book for Pidgin buddy list"
@@ -16298,15 +16279,14 @@ msgid "Synchronize with _buddy list now"
 msgstr "Sünkroniseeri sõ_branimekiri kohe"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
-#, fuzzy
 msgid ""
 "Automatically fills your address book with names and email addresses as you "
 "reply to messages. Also fills in IM contact information from your buddy "
 "lists."
 msgstr ""
 "Plugin, mis automaatselt täiendab aadressiraamatut sinu poolt vastatud "
-"kirjade adressaatide nime ja e-posti aadressiga. Samuti täiendatakse "
-"aadressiraamatut välksõnumite sõbranimekirja kontaktide andmetega."
+"sõnumite adressaatide nime ja e-posti aadressiga. Samuti täiendatakse "
+"aadressiraamatut välksõnumirakenduse sõbranimekirja kontaktide andmetega."
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid "BBDB"
@@ -16321,7 +16301,7 @@ msgstr ""
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:138
 #, c-format
 msgid "Bogofilter child process does not respond, killing..."
-msgstr ""
+msgstr "Bogofilteri lapsprotsess ei vasta ja seetõttu kõrvaldatakse..."
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:140
 #, c-format
@@ -16331,7 +16311,7 @@ msgstr ""
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:152
 #, c-format
 msgid "Pipe to Bogofilter failed, error code: %d."
-msgstr ""
+msgstr "Tõrge Bogofilteri torus, veakood: %d"
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:313
 msgid "Convert message text to _Unicode"
@@ -16531,7 +16511,6 @@ msgid "Default Sources"
 msgstr "Vaikimisi allikad"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
-#, fuzzy
 msgid ""
 "Provides functionality for marking a calendar or an address book as the "
 "default one."
@@ -17818,13 +17797,12 @@ msgid "Account Already Exists"
 msgstr "Konto on juba olemas"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:4
-#, fuzzy
 msgid ""
 "Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email "
 "address and try again."
 msgstr ""
-"Proksisse kasutajana &quot;{0}&quot; sisselogimine ei õnnestunud. Palun "
-"kontrolli oma e-posti ID-d ja proovi uuesti."
+"Proksisse kasutajana &quot;{0}&quot; sisselogimine nurjus. Palun "
+"kontrolli oma e-posti aadressi ja proovi uuesti."
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:3
 msgid "This is a recurring meeting"
@@ -18183,7 +18161,6 @@ msgid "iCalendar format (.ics)"
 msgstr "iKalendri vorming (.ics)"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "Synchronize the selected task/memo/calendar/address book with Apple iPod"
 msgstr ""
@@ -19257,13 +19234,12 @@ msgid "Also mark messages in subfolders?"
 msgstr "Kas märkida ka alamkaustade sõnumid?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:41
-#, fuzzy
 msgid ""
 "Do you want to mark messages as read in the current folder only, or in the "
 "current folder as well as all subfolders?"
 msgstr ""
-"Kõigi valitud kataloogis ja selle alamkataloogides olevate sõnumite "
-"loetuksmärkimine"
+"Kas soovid ainult valitud kataloogis olevaid sõnumeid loetuks märkida või "
+"tuleb sama teha ka kõigis alamkataloogides?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:164
 msgid "Current Folder and _Subfolders"
@@ -19554,7 +19530,7 @@ msgstr ""
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:255
 #, c-format
 msgid "Pipe to SpamAssassin failed, error code: %d"
-msgstr ""
+msgstr "Tõrge SpamAssassini torus, veakood: %d"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:498
 #, c-format
@@ -19818,13 +19794,10 @@ msgid "F_all back to threading messages by subject"
 msgstr "Varuvaria_ndina koostatakse jutulõng teema alusel"
 
 #: ../plugins/templates/apps-evolution-template-placeholders.schemas.in.h:1
-#, fuzzy
 msgid ""
 "List of keyword/value pairs for the Templates plugin to substitute in a "
 "message body."
 msgstr ""
-"Fraaside kirjeldamine, mille esinemise korral näidatakse manuse puudumise "
-"kohta meeldetuletust."
 
 #: ../plugins/templates/templates.c:615
 msgid "No title"
@@ -19840,7 +19813,7 @@ msgstr "Salvestamine mallina"
 
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Drafts based template plugin"
-msgstr ""
+msgstr "Mallipluginal põhinevad mustandid"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
 msgid "A simple plugin which uses ytnef to decode tnef attachments."
@@ -19862,7 +19835,7 @@ msgstr "WebDAV'i kontaktid"
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:74
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:100
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:311
 msgid "URL:"
@@ -19960,15 +19933,15 @@ msgstr "Autonoomses olekus kettale sünkroniseeritavate kaustade radade loend"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "Non-proxy hosts"
-msgstr ""
+msgstr "Mitte-proksi hostid"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:18
 msgid "Password to pass as authentication when doing HTTP proxying."
-msgstr ""
+msgstr "HTTP-proksimise kasutamiseks kasutatav autentimisparool."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Proxy configuration mode"
-msgstr ""
+msgstr "Proksi seadistamise režiim"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:20
 msgid "SOCKS proxy host name"
@@ -20161,17 +20134,12 @@ msgid "Choose the type of importer to run:"
 msgstr "Vali, millist tüüpi importerit sa soovid kasutada:"
 
 #: ../shell/e-shell-importer.c:134
-#, fuzzy
 msgid ""
 "Choose the file that you want to import into Evolution, and select what type "
 "of file it is from the list."
 msgstr ""
-"Vali fail, mida Sa soovid Evolutioni importida,\n"
-"ning vali ka allpool olevast valikukastist, mis\n"
-"tüüpi failiga on tegemist.\n"
-"\n"
-"Kui Sa ole veendunud, et Evolution tunneb faili\n"
-"ise ära, siis võid failitüübiks valida \"Automaatne\"."
+"Vali fail, mida Sa soovid Evolutioni importida, ning vali ka allpool olevast "
+"valikukastist, mis liiki failiga on tegemist."
 
 #: ../shell/e-shell-importer.c:138
 msgid "Choose the destination for this import"
@@ -22366,9 +22334,8 @@ msgid "View/Hide the Status Bar"
 msgstr "Olekuriba näitamine/peitmine"
 
 #: ../ui/evolution.xml.h:39
-#, fuzzy
 msgid "Work _Offline"
-msgstr "Siirdumine võrguvabasse olekusse"
+msgstr "Tööta _võrguvabas olekus"
 
 #: ../ui/evolution.xml.h:40
 msgid "_About"
@@ -22850,7 +22817,7 @@ msgstr "Kalendri näitamiseks klõpsa sellel nupul"
 
 #: ../widgets/misc/e-dateedit.c:394
 msgid "Drop-down combination box to select time"
-msgstr ""
+msgstr "Ajavalimiseks kasutatav kombineeritud valikukast"
 
 #: ../widgets/misc/e-dateedit.c:470
 msgid "No_w"
@@ -23680,11 +23647,11 @@ msgstr "Teksti kõrgus"
 
 #: ../widgets/text/e-text.c:3694 ../widgets/text/e-text.c:3695
 msgid "Use ellipsis"
-msgstr ""
+msgstr "Ellipsite kasutamine"
 
 #: ../widgets/text/e-text.c:3701 ../widgets/text/e-text.c:3702
 msgid "Ellipsis"
-msgstr ""
+msgstr "Ellipsid"
 
 #: ../widgets/text/e-text.c:3708 ../widgets/text/e-text.c:3709
 msgid "Line wrap"
@@ -23725,296 +23692,3 @@ msgstr "Välksõnumikontekst"
 #: ../widgets/text/e-text.c:3786 ../widgets/text/e-text.c:3787
 msgid "Handle Popup"
 msgstr ""
-
-#~ msgid "Recent Docu_ments"
-#~ msgstr "_Hiljutised dokumendid"
-
-#~ msgid "Upcoming Appointments"
-#~ msgstr "Saabuvad sündmused"
-
-#~ msgid "button-user"
-#~ msgstr "button-user"
-
-#~ msgid "Decides whether the crash detection should be run or not."
-#~ msgstr "Kas krahhituvastus peab töötama või mitte."
-
-#~ msgid "Skip recovery warning dialog"
-#~ msgstr "Taastamishoiatuse dialoogi vahelejätmine"
-
-#~ msgid "Whether crash detection should be done or not"
-#~ msgstr "Kas krahhituvastus tuleb läbi viia või mitte"
-
-#~ msgid "Whether the warning dialog in recovery of Evolution is skipped."
-#~ msgstr ""
-#~ "Kas Evolutioni taastamise hoiatusdialoog tuleb vahele jätta või mitte."
-
-#~ msgid "Evolution Crash Detection"
-#~ msgstr "Evolutioni krahhituvastus"
-
-#~ msgid "Ig_nore"
-#~ msgstr "_Eira"
-
-#~ msgid ""
-#~ "Evolution appears to have exited unexpectedly the last time it was\n"
-#~ "run.  As a precautionary measure, all preview panes will be hidden.\n"
-#~ "You can restore the preview panes from the View menu.\n"
-#~ msgstr ""
-#~ "Evolution paistab olevat viimase töötamise lõpetanud ootamatult.\n"
-#~ "Ettevaatusabinõuna on nüüd kõik eelvaatepaanid peidus. Sul on neid\n"
-#~ "võimalik Vaate menüü abil nähtavale tuua.\n"
-
-#~ msgid "_Do not show this message again"
-#~ msgstr "Seda _teadet enam uuesti mitte näidata."
-
-#~ msgid "Migrating `%s':"
-#~ msgstr "Siirdamine `%s':"
-
-#~ msgid "_Properties..."
-#~ msgstr "_Omadused..."
-
-#~ msgid "D_escription:"
-#~ msgstr "_Kirjeldus:"
-
-#~ msgid "De_scription:"
-#~ msgstr "_Kirjeldus:"
-
-#~ msgid "Updating query"
-#~ msgstr "Päringu uuendamine"
-
-#~ msgid "Username:"
-#~ msgstr "Kasutajanimi:"
-
-#, fuzzy
-#~ msgid "Update every"
-#~ msgstr "Päringu uuendamine"
-
-#~ msgid ""
-#~ "'{0}' is a read-only calendar source. Change Calendar to one that can "
-#~ "accept appointments."
-#~ msgstr ""
-#~ "Kalendriallikas '{0}' on kirjutuskaitsega. Kalendrivaates tuleks valida "
-#~ "kalender, mis võimaldab muudatusi sisse viia."
-
-#~ msgid "_Save Message"
-#~ msgstr "_Salvesta sõnum"
-
-#~ msgid "folder-display|%s (%u)"
-#~ msgstr "%s (%u)"
-
-#~ msgid "Mark all messages in this folder and subfolders as read?"
-#~ msgstr ""
-#~ "Kas märkida kõik selles kaustas ja alamkaustades olevad sõnumid loetuks?"
-
-#~ msgid "Do you want the operation to be performed also in the subfolders?"
-#~ msgstr "Kas sa soovid seda operatsiooni ka alamkaustades läbi viia?"
-
-#~ msgid "Mark All Messages as Read"
-#~ msgstr "Märgi kõik sõnumid loetuks"
-
-#~ msgid "A plugin that manages the Startup wizard."
-#~ msgstr "Käivitusnõustajat käsitlev plugin."
-
-#~ msgid "Startup wizard"
-#~ msgstr "Käivitusnõustaja"
-
-#~ msgid "A string description of the current printer settings."
-#~ msgstr "Käesoleva printeri sätete kirjeldus stringina."
-
-#~ msgid "No folder name specified."
-#~ msgstr "Kausta nimi on kirjeldamata."
-
-#~ msgid "Folder name cannot contain the Return character."
-#~ msgstr "Kausta nimi ei tohi sisaldada Return sümbolit"
-
-#~ msgid "Folder name cannot contain the character \"/\"."
-#~ msgstr "Kausta nimi ei tohi sisaldada \"/\" sümbolit."
-
-#~ msgid "Folder name cannot contain the character \"#\"."
-#~ msgstr "Kausta nimi ei tohi sisaldada \"#\" sümbolit."
-
-#~ msgid "'.' and '..' are reserved folder names."
-#~ msgstr "'.' ja '..' on reserveeritud kaustanimed."
-
-#~ msgid "All Day Event"
-#~ msgstr "Kogu päeva kestev sündmus"
-
-#~ msgid "Send _Options"
-#~ msgstr "Saatmise _valikud"
-
-#~ msgid "Show messages in the normal style"
-#~ msgstr "Sõnumi näitamine tavalise laadiga"
-
-#~ msgid "Status Details"
-#~ msgstr "Oleku üksikasjad"
-
-#~ msgid "Time Zone"
-#~ msgstr "Ajavöönd"
-
-#~ msgid "%.1f KB"
-#~ msgstr "%.1f KB"
-
-#~ msgid "%.1f MB"
-#~ msgstr "%.1f MB"
-
-#~ msgid "%.1f GB"
-#~ msgstr "%.1f GB"
-
-#~ msgid "Permission Denied."
-#~ msgstr "Juurdepääs keelatud."
-
-#~ msgid "<b>Display</b>"
-#~ msgstr "<b>Kuva</b>"
-
-#~ msgid "<b>Server Information</b>"
-#~ msgstr "<b>Serveri info</b>"
-
-#~ msgid "Unknown reason"
-#~ msgstr "Tundmatu põhjus"
-
-#~ msgid "Open File"
-#~ msgstr "Ava fail"
-
-#~ msgid "Cannot open file &quot;{0}&quot;."
-#~ msgstr "Faili &quot;{0}&quot; pole võimalik avada."
-
-#~ msgid "Attach original message"
-#~ msgstr "Algupärane sõnum lisatakse manusena"
-
-#~ msgid "Do not quote original message"
-#~ msgstr "Algupärast sõnumit ei tsiteerita"
-
-#~ msgid "Quote original message"
-#~ msgstr "Tsiteeritakse algupärast sõnumit"
-
-#~ msgid "Enter a name for this signature."
-#~ msgstr "Sisesta nimi sellele allkirja jaoks."
-
-#~ msgid "Name:"
-#~ msgstr "Nimi:"
-
-#~ msgid ""
-#~ "Are you sure you want to permanently remove all the deleted messages in "
-#~ "folder &quot;{0}&quot;?"
-#~ msgstr ""
-#~ "Kas sa soovid jäädavalt eemaldada kõik kustutatud sõnumid kaustast &quot;"
-#~ "{0}&quot;?"
-
-#~ msgid "Delete &quot;{0}&quot;?"
-#~ msgstr "Kustutada &quot;{0}&quot;?"
-
-#~ msgid "Delete messages in Search Folder &quot;{0}&quot;?"
-#~ msgstr "Kas kustutada otsingukaustas &quot;{0}&quot; olevad sõnumid?"
-
-#~ msgid "Only on _Current Folder"
-#~ msgstr "Ainult _käesolevast kaustast"
-
-#~ msgid "Enable attachment reminder plugin"
-#~ msgstr "Manuste meeldetuletaja plugina lubamine"
-
-#~ msgid "Enable attachment reminder plugin."
-#~ msgstr "Manuste meeldetuletaja plugina lubamine."
-
-#~ msgid "Remind _missing attachments"
-#~ msgstr "_Puuduvate manuste kohta näidatakse meeldetuletust"
-
-#~ msgid "_Refresh:"
-#~ msgstr "Värskendamissa_gedus:"
-
-#~ msgid "There is no configuration option for this plugin."
-#~ msgstr "Selle plugina jaoks puudub seadistamise valik."
-
-#~ msgid "Gives an option to print from the composer."
-#~ msgstr "Võimalus sõnumikoostajast sõnumi printimiseks."
-
-#~ msgid "Print Message"
-#~ msgstr "Sõnumi printimine"
-
-#~ msgid "Prints the message"
-#~ msgstr "Sõnumi printimine"
-
-#~ msgid "Copy selection to clipboard"
-#~ msgstr "Valiku kopeerimine lõikelauale"
-
-#~ msgid "Cut selection to clipboard"
-#~ msgstr "Valitud teksti lõikamine lõikelauale"
-
-#~ msgid "Paste from clipboard"
-#~ msgstr "Lõikepuhvri sisu asetamine"
-
-#~ msgid "Delete all but signature"
-#~ msgstr "Kustuta kõik peale allkirja"
-
-#~ msgid "For_mat"
-#~ msgstr "Vor_ming"
-
-#~ msgid "HT_ML"
-#~ msgstr "HT_ML"
-
-#~ msgid "Open a file"
-#~ msgstr "Ava fail"
-
-#~ msgid "PGP Encrypt"
-#~ msgstr "PGP krüptimine"
-
-#~ msgid "PGP Sign"
-#~ msgstr "PGP-allkiri"
-
-#~ msgid "S/MIME Encrypt"
-#~ msgstr "S/MIME krüptimine"
-
-#~ msgid "S/MIME Sign"
-#~ msgstr "S/MIME-allkiri"
-
-#~ msgid "Save As"
-#~ msgstr "Salvesta kui"
-
-#~ msgid "Save in folder..."
-#~ msgstr "Salvesta kausta..."
-
-#~ msgid "Save the message in a specified folder"
-#~ msgstr "Käesoleva faili salvestamine teise kausta"
-
-#~ msgid "Send"
-#~ msgstr "Saada"
-
-#~ msgid "Send the mail in HTML format"
-#~ msgstr "Sõnumi saatmine HTML-vormingus"
-
-#~ msgid "_Delete all"
-#~ msgstr "_Kustuta kõik"
-
-#~ msgid "_Open..."
-#~ msgstr "_Ava..."
-
-#~ msgid "C_lose"
-#~ msgstr "_Sulge"
-
-#~ msgid "H_TML"
-#~ msgstr "H_TML"
-
-#~ msgid "Save and _Close"
-#~ msgstr "Salvesta ja _sulge"
-
-#~ msgid "Save the current file and close the window"
-#~ msgstr "Aktiivse faili salvestamine ja akna sulgemine"
-
-#~ msgid "Refresh List"
-#~ msgstr "Värskenda ülesannete nimekirja"
-
-#~ msgid "Refresh List of Folders"
-#~ msgstr "Värskenda kaustade nimekirja"
-
-#~ msgid "Remove folder from your list of subscribed folders"
-#~ msgstr "Kausta eemaldamine sinu tellitud kaustade nimekirjast"
-
-#~ msgid "Subscribe"
-#~ msgstr "Telli"
-
-#~ msgid "Unsubscribe"
-#~ msgstr "Lõpeta tellimus"
-
-#~ msgid "_Invert Selection"
-#~ msgstr "_Inverdi valik"
-
-#~ msgid "TimeZone Combobox"
-#~ msgstr "Ajavöönd valikukast"
