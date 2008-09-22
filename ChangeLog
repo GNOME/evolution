@@ -1,5 +1,9 @@
 2008-09-22  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* configure.in: Fix 'cs' Makefile issue
+
+2008-09-22  Srinivasa Ragavan  <sragavan@novell.com>
+
 	* COPYING.LGPL2: Adding license header to svn
 	* COPYING.LGPL3:
 
