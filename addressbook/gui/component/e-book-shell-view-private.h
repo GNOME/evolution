@@ -86,6 +86,7 @@ struct _EBookShellViewPrivate {
 	/*** UI Management ***/
 
 	GtkActionGroup *contact_actions;
+	GtkActionGroup *filter_actions;
 
 	/*** Other Stuff ***/
 

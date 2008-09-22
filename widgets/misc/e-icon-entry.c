@@ -39,8 +39,14 @@
 	((obj), E_TYPE_ICON_ENTRY, EIconEntryPrivate))
 
 struct _EIconEntryPrivate {
+	GtkStateType visual_state;
 	GtkWidget *entry;
 	GtkWidget *hbox;
+};
+
+enum {
+	PROP_0,
+	PROP_VISUAL_STATE
 };
 
 static gpointer parent_class;
@@ -64,6 +70,7 @@ icon_entry_create_proxy (GtkAction *action)
 {
 	GtkWidget *proxy;
 	GtkWidget *widget;
+	gchar *tooltip;
 
 	proxy = gtk_event_box_new ();
 	gtk_event_box_set_visible_window (GTK_EVENT_BOX (proxy), FALSE);
@@ -73,6 +80,10 @@ icon_entry_create_proxy (GtkAction *action)
 	widget = gtk_action_create_icon (action, GTK_ICON_SIZE_MENU);
 	gtk_container_add (GTK_CONTAINER (proxy), widget);
 	gtk_widget_show (widget);
+
+	g_object_get (action, "tooltip", &tooltip, NULL);
+	gtk_widget_set_tooltip_text (proxy, tooltip);
+	g_free (tooltip);
 
 	g_signal_connect_swapped (
 		proxy, "button-press-event",
@@ -122,52 +133,87 @@ icon_entry_get_borders (GtkWidget *widget,
 
 static void
 icon_entry_paint (GtkWidget *widget,
-		       GdkEventExpose *event)
+                  GdkEventExpose *event)
 {
 	EIconEntry *entry = E_ICON_ENTRY (widget);
 	GtkWidget *entry_widget = entry->priv->entry;
 	int x = 0, y = 0, width, height, focus_width;
 	gboolean interior_focus;
 
-	gtk_widget_style_get (entry_widget,
-			      "interior-focus", &interior_focus,
-			      "focus-line-width", &focus_width,
-			      NULL);
+	gtk_widget_style_get (
+		entry_widget,
+		"interior-focus", &interior_focus,
+		"focus-line-width", &focus_width, NULL);
 
 	gdk_drawable_get_size (widget->window, &width, &height);
 
-	if (GTK_WIDGET_HAS_FOCUS (entry_widget) && !interior_focus)
-	{
+	if (GTK_WIDGET_HAS_FOCUS (entry_widget) && !interior_focus) {
 		x += focus_width;
 		y += focus_width;
 		width -= 2 * focus_width;
 		height -= 2 * focus_width;
 	}
 
-	gtk_paint_flat_box (entry_widget->style, widget->window,
-			    GTK_WIDGET_STATE (entry_widget), GTK_SHADOW_NONE,
-			    NULL, entry_widget, "entry_bg",
-			    /* FIXME: was 0, 0 in gtk_entry_expose, but I think this is correct: */
-			    x, y, width, height);
+	gtk_paint_flat_box (
+		entry_widget->style, widget->window,
+		GTK_WIDGET_STATE (entry_widget), GTK_SHADOW_NONE,
+		NULL, entry_widget, "entry_bg",
+		/* FIXME: was 0, 0 in gtk_entry_expose, but I think this is correct: */
+		x, y, width, height);
 
-	gtk_paint_shadow (entry_widget->style, widget->window,
-			  GTK_STATE_NORMAL, GTK_SHADOW_IN,
-			  NULL, entry_widget, "entry",
-			  x, y, width, height);
+	gtk_paint_shadow (
+		entry_widget->style, widget->window,
+		GTK_STATE_NORMAL, GTK_SHADOW_IN,
+		NULL, entry_widget, "entry",
+		x, y, width, height);
 
-	if (GTK_WIDGET_HAS_FOCUS (entry_widget) && !interior_focus)
-	{
+	if (GTK_WIDGET_HAS_FOCUS (entry_widget) && !interior_focus) {
 		x -= focus_width;
 		y -= focus_width;
 		width += 2 * focus_width;
 		height += 2 * focus_width;
 
-		gtk_paint_focus (entry_widget->style, widget->window,
-				 GTK_WIDGET_STATE (entry_widget),
-				 NULL, entry_widget, "entry",
-				 /* FIXME: was 0, 0 in gtk_entry_draw_frame, but I think this is correct: */
-				 x, y, width, height);
+		gtk_paint_focus (
+			entry_widget->style, widget->window,
+			GTK_WIDGET_STATE (entry_widget),
+			NULL, entry_widget, "entry",
+			/* FIXME: was 0, 0 in gtk_entry_draw_frame, but I think this is correct: */
+			x, y, width, height);
 	}
+}
+
+static void
+icon_entry_set_property (GObject *object,
+                         guint property_id,
+                         const GValue *value,
+                         GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_VISUAL_STATE:
+			e_icon_entry_set_visual_state (
+				E_ICON_ENTRY (object),
+				g_value_get_enum (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+icon_entry_get_property (GObject *object,
+                         guint property_id,
+                         GValue *value,
+                         GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_VISUAL_STATE:
+			g_value_set_enum (
+				value, e_icon_entry_get_visual_state (
+				E_ICON_ENTRY (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
@@ -324,6 +370,8 @@ icon_entry_class_init (EIconEntryClass *class)
 	g_type_class_add_private (class, sizeof (EIconEntryPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = icon_entry_set_property;
+	object_class->get_property = icon_entry_get_property;
 	object_class->dispose = icon_entry_dispose;
 
 	widget_class = GTK_WIDGET_CLASS (class);
@@ -331,6 +379,17 @@ icon_entry_class_init (EIconEntryClass *class)
 	widget_class->size_request = icon_entry_size_request;
 	widget_class->size_allocate = icon_entry_size_allocate;
 	widget_class->expose_event = icon_entry_expose;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_VISUAL_STATE,
+		g_param_spec_enum (
+			"visual-state",
+			NULL,
+			NULL,
+			GTK_TYPE_STATE_TYPE,
+			GTK_STATE_NORMAL,
+			G_PARAM_READWRITE));
 }
 
 static void
@@ -340,6 +399,7 @@ icon_entry_init (EIconEntry *icon_entry)
 	GtkWidget *container;
 
 	icon_entry->priv = E_ICON_ENTRY_GET_PRIVATE (icon_entry);
+	icon_entry->priv->visual_state = GTK_STATE_NORMAL;
 
 	GTK_WIDGET_UNSET_FLAGS (icon_entry, GTK_NO_WINDOW);
 
@@ -437,4 +497,47 @@ e_icon_entry_add_action_end (EIconEntry *icon_entry,
 	box = GTK_BOX (icon_entry->priv->hbox);
 	proxy = icon_entry_create_proxy (action);
 	gtk_box_pack_end (box, proxy, FALSE, FALSE, 2);
+}
+
+GtkStateType
+e_icon_entry_get_visual_state (EIconEntry *icon_entry)
+{
+	g_return_val_if_fail (E_IS_ICON_ENTRY (icon_entry), GTK_STATE_NORMAL);
+
+	return icon_entry->priv->visual_state;
+}
+
+void
+e_icon_entry_set_visual_state (EIconEntry *icon_entry,
+                               GtkStateType visual_state)
+{
+	GtkWidget *widget;
+	const GdkColor *base_color;
+	const GdkColor *text_color;
+
+	g_return_if_fail (E_IS_ICON_ENTRY (icon_entry));
+
+	if (visual_state == GTK_STATE_NORMAL) {
+		base_color = NULL;
+		text_color = NULL;
+	} else {
+		GtkStyle *style;
+
+		style = gtk_widget_get_default_style ();
+		base_color = &style->base[visual_state];
+		text_color = &style->text[visual_state];
+	}
+
+	widget = GTK_WIDGET (icon_entry);
+	gtk_widget_modify_base (widget, GTK_STATE_NORMAL, base_color);
+
+	widget = icon_entry->priv->entry;
+	gtk_widget_modify_base (widget, GTK_STATE_NORMAL, base_color);
+	gtk_widget_modify_text (widget, GTK_STATE_NORMAL, text_color);
+
+	widget = icon_entry->priv->hbox;
+	gtk_widget_modify_base (widget, GTK_STATE_NORMAL, base_color);
+
+	icon_entry->priv->visual_state = visual_state;
+	g_object_notify (G_OBJECT (icon_entry), "visual-state");
 }

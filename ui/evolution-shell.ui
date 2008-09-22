@@ -56,6 +56,10 @@
       <separator/>
       <menuitem action='search-save'/>
       <menuitem action='search-edit'/>
+      <separator/>
+      <placeholder name='search-actions'/>
+      <separator/>
+      <placeholder name='custom-rules'/>
     </menu>
     <menu action='help-menu'>
       <menuitem action='contents'/>

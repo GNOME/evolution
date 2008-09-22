@@ -53,12 +53,12 @@ EShellContent
 
 </para>
 
-<!-- ##### ARG EShellContent:search-action ##### -->
+<!-- ##### ARG EShellContent:search-context ##### -->
 <para>
 
 </para>
 
-<!-- ##### ARG EShellContent:search-context ##### -->
+<!-- ##### ARG EShellContent:search-rule ##### -->
 <para>
 
 </para>

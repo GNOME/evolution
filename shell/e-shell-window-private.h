@@ -28,7 +28,6 @@
 
 #include <e-util/e-util.h>
 #include <e-util/gconf-bridge.h>
-#include <filter/rule-editor.h>
 #include <widgets/misc/e-menu-tool-button.h>
 #include <widgets/misc/e-online-button.h>
 #include <widgets/misc/e-search-bar.h>
@@ -73,7 +72,9 @@ struct _EShellWindowPrivate {
 	GtkActionGroup *gal_view_actions;
 	GtkActionGroup *new_item_actions;
 	GtkActionGroup *new_source_actions;
+	GtkActionGroup *custom_rule_actions;
 	GtkActionGroup *switcher_actions;
+	guint custom_rule_merge_id;
 	guint gal_view_merge_id;
 
 	/*** Shell Views ***/
@@ -118,6 +119,8 @@ void		e_shell_window_update_icon	(EShellWindow *shell_window);
 void		e_shell_window_update_title	(EShellWindow *shell_window);
 void		e_shell_window_update_new_menu	(EShellWindow *shell_window);
 void		e_shell_window_update_view_menu	(EShellWindow *shell_window);
+void		e_shell_window_update_search_menu
+						(EShellWindow *shell_window);
 
 G_END_DECLS
 

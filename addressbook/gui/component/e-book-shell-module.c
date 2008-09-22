@@ -30,6 +30,10 @@
 #include <e-shell-module.h>
 #include <e-shell-window.h>
 
+#include <e-util/e-import.h>
+#include <addressbook/importers/evolution-addressbook-importers.h>
+
+#include <eab-config.h>
 #include <eab-gui-util.h>
 #include <e-book-shell-view.h>
 #include <addressbook-config.h>
@@ -175,6 +179,30 @@ book_module_ensure_sources (EShellModule *shell_module)
 	}
 
 	g_free (base_uri);
+}
+
+static void
+book_module_init_importers (void)
+{
+	EImportClass *import_class;
+	EImportImporter *importer;
+
+	import_class = g_type_class_ref (e_import_get_type ());
+
+	importer = evolution_ldif_importer_peek ();
+	e_import_class_add_importer (import_class, importer, NULL, NULL);
+
+	importer = evolution_vcard_importer_peek ();
+	e_import_class_add_importer (import_class, importer, NULL, NULL);
+
+	importer = evolution_csv_outlook_importer_peek ();
+	e_import_class_add_importer (import_class, importer, NULL, NULL);
+
+	importer = evolution_csv_mozilla_importer_peek ();
+	e_import_class_add_importer (import_class, importer, NULL, NULL);
+
+	importer = evolution_csv_evolution_importer_peek ();
+	e_import_class_add_importer (import_class, importer, NULL, NULL);
 }
 
 static void
@@ -401,7 +429,10 @@ e_shell_module_init (GTypeModule *type_module)
 
 	e_shell_module_set_info (shell_module, &module_info);
 
+	book_module_init_importers ();
 	book_module_ensure_sources (shell_module);
+
+	e_plugin_hook_register_type (eab_config_get_type ());
 
 	g_signal_connect_swapped (
 		shell, "handle-uri",

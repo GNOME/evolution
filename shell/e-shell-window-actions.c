@@ -674,6 +674,29 @@ action_contents_cb (GtkAction *action,
 }
 
 static void
+action_custom_rule_cb (GtkAction *action,
+                       EShellWindow *shell_window)
+{
+	FilterRule *rule;
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	const gchar *view_name;
+
+	rule = g_object_get_data (G_OBJECT (action), "rule");
+	g_return_if_fail (rule != NULL);
+
+	view_name = e_shell_window_get_active_view (shell_window);
+	shell_view = e_shell_window_get_view (shell_window, view_name);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	rule = g_object_get_data (G_OBJECT (action), "rule");
+	g_return_if_fail (IS_FILTER_RULE (rule));
+
+	e_shell_content_set_search_rule (shell_content, rule);
+	gtk_action_activate (ACTION (SEARCH_EXECUTE));
+}
+
+static void
 action_faq_cb (GtkAction *action,
                EShellWindow *shell_window)
 {
@@ -841,65 +864,85 @@ static void
 action_search_advanced_cb (GtkAction *action,
                            EShellWindow *shell_window)
 {
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	const gchar *view_name;
+
+	view_name = e_shell_window_get_active_view (shell_window);
+	shell_view = e_shell_window_get_view (shell_window, view_name);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	e_shell_content_run_advanced_search_dialog (shell_content);
+	e_shell_window_update_search_menu (shell_window);
 }
 
 static void
 action_search_clear_cb (GtkAction *action,
                         EShellWindow *shell_window)
 {
-	EShellContent *shell_content;
 	EShellView *shell_view;
+	EShellContent *shell_content;
 	const gchar *view_name;
 
 	view_name = e_shell_window_get_active_view (shell_window);
 	shell_view = e_shell_window_get_view (shell_window, view_name);
 	shell_content = e_shell_view_get_shell_content (shell_view);
-	e_shell_content_set_search_text (shell_content, "");
+
+	e_shell_content_set_search_rule (shell_content, NULL);
+	e_shell_content_set_search_text (shell_content, NULL);
+
+	gtk_action_activate (ACTION (SEARCH_EXECUTE));
+
+	e_shell_window_update_search_menu (shell_window);
 }
 
 static void
 action_search_edit_cb (GtkAction *action,
                        EShellWindow *shell_window)
 {
-	EShellContent *shell_content;
 	EShellView *shell_view;
-	RuleContext *context;
-	RuleEditor *editor;
-	const gchar *filename;
+	EShellContent *shell_content;
 	const gchar *view_name;
 
 	view_name = e_shell_window_get_active_view (shell_window);
 	shell_view = e_shell_window_get_view (shell_window, view_name);
 	shell_content = e_shell_view_get_shell_content (shell_view);
-	context = e_shell_content_get_search_context (shell_content);
-	g_return_if_fail (context != NULL);
 
-	/* XXX I don't know why the RuleContext can't just store
-	 *     system and user file names properly.  Fix this? */
-	filename = g_object_get_data (G_OBJECT (context), "user");
-	g_return_if_fail (filename != NULL);
-
-	editor = rule_editor_new (
-		context, FILTER_SOURCE_INCOMING, _("Searches"));
-	gtk_window_set_title (GTK_WINDOW (editor), _("Searches"));
-
-	if (gtk_dialog_run (GTK_DIALOG (editor)) == GTK_RESPONSE_OK)
-		rule_context_save (context, filename);
-
-	gtk_widget_destroy (GTK_WIDGET (editor));
+	e_shell_content_run_edit_searches_dialog (shell_content);
+	e_shell_window_update_search_menu (shell_window);
 }
 
 static void
-action_search_execute_cb (GtkAction *action,
+action_search_options_cb (GtkAction *action,
                           EShellWindow *shell_window)
 {
-	gtk_action_set_sensitive (action, FALSE);
+	EShellView *shell_view;
+	EShellViewClass *shell_view_class;
+	const gchar *view_name;
+	const gchar *widget_path;
+
+	view_name = e_shell_window_get_active_view (shell_window);
+	shell_view = e_shell_window_get_view (shell_window, view_name);
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+
+	widget_path = shell_view_class->search_options_path;
+	e_shell_window_show_popup_menu (shell_window, widget_path, NULL);
 }
 
 static void
 action_search_save_cb (GtkAction *action,
                        EShellWindow *shell_window)
 {
+	EShellView *shell_view;
+	EShellContent *shell_content;
+	const gchar *view_name;
+
+	view_name = e_shell_window_get_active_view (shell_window);
+	shell_view = e_shell_window_get_view (shell_window, view_name);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	e_shell_content_run_save_search_dialog (shell_content);
+	e_shell_window_update_search_menu (shell_window);
 }
 
 static void
@@ -1172,7 +1215,14 @@ static GtkActionEntry shell_entries[] = {
 	  N_("_Find Now"),
 	  NULL,
 	  N_("Execute the current search parameters"),
-	  G_CALLBACK (action_search_execute_cb) },
+	  NULL },  /* Handled by EShellContent and subclasses. */
+
+	{ "search-options",
+	  GTK_STOCK_FIND,
+	  NULL,
+	  NULL,
+	  N_("Click here to change the search type"),
+	  G_CALLBACK (action_search_options_cb) },
 
 	{ "search-save",
 	  NULL,
@@ -1507,6 +1557,11 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
+	/* Custom Rule Actions (empty) */
+	action_group = shell_window->priv->custom_rule_actions;
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+
 	/* Switcher Actions (empty) */
 	action_group = shell_window->priv->switcher_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
@@ -1804,4 +1859,94 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 
 	action = ACTION (GAL_SAVE_CUSTOM_VIEW);
 	gtk_action_set_visible (action, visible);
+}
+
+void
+e_shell_window_update_search_menu (EShellWindow *shell_window)
+{
+	EShellContent *shell_content;
+	EShellView *shell_view;
+	EShellViewClass *shell_view_class;
+	RuleContext *context;
+	FilterRule *rule;
+	GtkUIManager *ui_manager;
+	GtkActionGroup *action_group;
+	GList *list, *iter;
+	const gchar *source;
+	const gchar *view_name;
+	gboolean sensitive;
+	guint merge_id;
+	gint ii = 0;
+
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	view_name = e_shell_window_get_active_view (shell_window);
+	shell_view = e_shell_window_get_view (shell_window, view_name);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	context = e_shell_content_get_search_context (shell_content);
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	source = FILTER_SOURCE_INCOMING;
+
+	/* Update sensitivity of search actions. */
+
+	sensitive = (e_shell_content_get_search_rule (shell_content) != NULL);
+	gtk_action_set_sensitive (ACTION (SEARCH_CLEAR), sensitive);
+	gtk_action_set_sensitive (ACTION (SEARCH_SAVE), sensitive);
+
+	sensitive = (shell_view_class->search_options_path != NULL);
+	gtk_action_set_sensitive (ACTION (SEARCH_OPTIONS), sensitive);
+
+	/* Add custom rules to the Search menu. */
+
+	action_group = shell_window->priv->custom_rule_actions;
+	merge_id = shell_window->priv->custom_rule_merge_id;
+
+	/* Unmerge the previous menu. */
+	gtk_ui_manager_remove_ui (ui_manager, merge_id);
+
+	/* XXX Annoying that GTK+ doesn't provide a function for this.
+	 *     http://bugzilla.gnome.org/show_bug.cgi?id=550485 */
+	list = gtk_action_group_list_actions (action_group);
+	for (iter = list; iter != NULL; iter = iter->next)
+		gtk_action_group_remove_action (action_group, iter->data);
+	g_list_free (list);
+
+	rule = rule_context_next_rule (context, NULL, source);
+	while (rule != NULL) {
+		GtkAction *action;
+		gchar *action_name;
+		gchar *action_label;
+
+		action_name = g_strdup_printf ("custom-rule-%d", ii++);
+		if (ii < 10)
+			action_label = g_strdup_printf (
+				"_%d. %s", ii, rule->name);
+		else
+			action_label = g_strdup (rule->name);
+
+		action = gtk_action_new (
+			action_name, action_label,
+			_("Execute these search parameters"), NULL);
+
+		g_object_set_data_full (
+			G_OBJECT (action),
+			"rule", g_object_ref (rule),
+			(GDestroyNotify) g_object_unref);
+
+		g_signal_connect (
+			action, "activate",
+			G_CALLBACK (action_custom_rule_cb), shell_window);
+
+		gtk_action_group_add_action (action_group, action);
+
+		gtk_ui_manager_add_ui (
+			ui_manager, merge_id,
+			"/main-menu/search-menu/custom-rules",
+			action_name, action_name,
+			GTK_UI_MANAGER_AUTO, FALSE);
+
+		g_free (action_name);
+		g_free (action_label);
+
+		rule = rule_context_next_rule (context, rule, source);
+	}
 }

@@ -20,6 +20,8 @@
 
 #include "e-book-shell-view-private.h"
 
+#define SEARCH_OPTIONS_PATH	"/contact-search-options"
+
 enum {
 	PROP_0,
 	PROP_SOURCE_LIST
@@ -166,6 +168,7 @@ book_shell_view_class_init (EBookShellViewClass *class,
 	shell_view_class->icon_name = "x-office-address-book";
 	shell_view_class->type_module = type_module;
 	shell_view_class->changed = book_shell_view_changed;
+	shell_view_class->search_options_path = SEARCH_OPTIONS_PATH;
 	shell_view_class->new_shell_sidebar = e_book_shell_sidebar_new;
 
 	g_object_class_install_property (

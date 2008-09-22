@@ -406,6 +406,12 @@ intelligent
 @minor: 
 @revision: 
 
+<!-- ##### ARG EShellContent:search-action ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### STRUCT EShellContentPrivate ##### -->
 <para>
 

@@ -21,7 +21,8 @@
 #ifndef E_SHELL_CONTENT_H
 #define E_SHELL_CONTENT_H
 
-#include <gtk/gtk.h>
+#include <e-shell-common.h>
+#include <filter/filter-rule.h>
 #include <filter/rule-context.h>
 
 /* Standard GObject macros */
@@ -81,13 +82,11 @@ gboolean	e_shell_content_get_filter_visible
 void		e_shell_content_set_filter_visible
 						(EShellContent *shell_content,
 						 gboolean filter_visible);
-GtkRadioAction *e_shell_content_get_search_action
-						(EShellContent *shell_content);
-void		e_shell_content_set_search_action
-						(EShellContent *shell_content,
-						 GtkRadioAction *search_action);
 RuleContext *	e_shell_content_get_search_context
 						(EShellContent *shell_content);
+FilterRule *	e_shell_content_get_search_rule	(EShellContent *shell_content);
+void		e_shell_content_set_search_rule (EShellContent *shell_content,
+						 FilterRule *search_rule);
 const gchar *	e_shell_content_get_search_text	(EShellContent *shell_content);
 void		e_shell_content_set_search_text	(EShellContent *shell_content,
 						 const gchar *search_text);
@@ -116,6 +115,12 @@ void		e_shell_content_save_search_dialog
 const gchar *	e_shell_content_get_view_id	(EShellContent *shell_content);
 void		e_shell_content_set_view_id	(EShellContent *shell_content,
 						 const gchar *view_id);
+void		e_shell_content_run_advanced_search_dialog
+						(EShellContent *shell_content);
+void		e_shell_content_run_edit_searches_dialog
+						(EShellContent *shell_content);
+void		e_shell_content_run_save_search_dialog
+						(EShellContent *shell_content);
 
 G_END_DECLS
 

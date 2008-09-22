@@ -191,9 +191,13 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	priv->gal_view_actions = gtk_action_group_new ("gal-view");
 	priv->new_item_actions = gtk_action_group_new ("new-item");
 	priv->new_source_actions = gtk_action_group_new ("new-source");
+	priv->custom_rule_actions = gtk_action_group_new ("custom-rules");
 	priv->switcher_actions = gtk_action_group_new ("switcher");
 	priv->loaded_views = loaded_views;
 	priv->active_view = "unknown";
+
+	merge_id = gtk_ui_manager_new_merge_id (priv->ui_manager);
+	priv->custom_rule_merge_id = merge_id;
 
 	merge_id = gtk_ui_manager_new_merge_id (priv->ui_manager);
 	priv->gal_view_merge_id = merge_id;
@@ -369,6 +373,7 @@ e_shell_window_private_dispose (EShellWindow *shell_window)
 	DISPOSE (priv->gal_view_actions);
 	DISPOSE (priv->new_item_actions);
 	DISPOSE (priv->new_source_actions);
+	DISPOSE (priv->custom_rule_actions);
 	DISPOSE (priv->switcher_actions);
 
 	g_hash_table_remove_all (priv->loaded_views);
@@ -426,6 +431,7 @@ e_shell_window_switch_to_view (EShellWindow *shell_window,
 	e_shell_window_update_title (shell_window);
 	e_shell_window_update_new_menu (shell_window);
 	e_shell_window_update_view_menu (shell_window);
+	e_shell_window_update_search_menu (shell_window);
 
 	/* Notify all loaded views. */
 	list = g_hash_table_get_values (shell_window->priv->loaded_views);

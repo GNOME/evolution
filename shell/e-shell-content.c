@@ -22,6 +22,7 @@
 
 #include <glib/gi18n.h>
 
+#include <filter/rule-editor.h>
 #include <widgets/misc/e-action-combo-box.h>
 #include <widgets/misc/e-icon-entry.h>
 
@@ -38,7 +39,9 @@ struct _EShellContentPrivate {
 	gpointer shell_view;  /* weak pointer */
 
 	RuleContext *search_context;
-	FilterRule *current_query;
+	FilterRule *search_rule;
+	gchar *system_filename;
+	gchar *user_filename;
 
 	/* Container for the following widgets */
 	GtkWidget *search_bar;
@@ -52,9 +55,6 @@ struct _EShellContentPrivate {
 	GtkWidget *scope_combo_box;
 
 	GtkStateType search_state;
-
-	GtkRadioAction *search_action;
-	GtkWidget *search_popup_menu;
 };
 
 enum {
@@ -62,8 +62,8 @@ enum {
 	PROP_FILTER_ACTION,
 	PROP_FILTER_VALUE,
 	PROP_FILTER_VISIBLE,
-	PROP_SEARCH_ACTION,
 	PROP_SEARCH_CONTEXT,
+	PROP_SEARCH_RULE,
 	PROP_SEARCH_TEXT,
 	PROP_SEARCH_VALUE,
 	PROP_SEARCH_VISIBLE,
@@ -74,6 +74,62 @@ enum {
 };
 
 static gpointer parent_class;
+
+static void
+shell_content_dialog_rule_changed (GtkWidget *dialog,
+                                            FilterRule *rule)
+{
+	gboolean sensitive;
+
+	sensitive = (rule != NULL) && (rule->parts != NULL);
+
+	gtk_dialog_set_response_sensitive (
+		GTK_DIALOG (dialog), GTK_RESPONSE_OK, sensitive);
+	gtk_dialog_set_response_sensitive (
+		GTK_DIALOG (dialog), GTK_RESPONSE_APPLY, sensitive);
+}
+
+static void
+action_search_execute_cb (GtkAction *action,
+                          EShellContent *shell_content)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EIconEntry *icon_entry;
+	GtkWidget *child;
+	GtkStateType visual_state;
+	const gchar *search_text;
+
+	/* EShellView subclasses are responsible for actually
+	 * executing the search.  This is all cosmetic stuff. */
+
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	if (!e_shell_view_is_active (shell_view))
+		return;
+
+	icon_entry = E_ICON_ENTRY (shell_content->priv->search_entry);
+	search_text = e_shell_content_get_search_text (shell_content);
+
+	if (search_text != NULL && *search_text != '\0')
+		visual_state = GTK_STATE_SELECTED;
+	else
+		visual_state = GTK_STATE_NORMAL;
+
+	e_icon_entry_set_visual_state (icon_entry, visual_state);
+
+	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
+	gtk_action_set_sensitive (action, TRUE);
+
+	action = E_SHELL_WINDOW_ACTION_SEARCH_SAVE (shell_window);
+	gtk_action_set_sensitive (action, TRUE);
+
+	/* Direct the focus away from the search entry, so that a
+	 * focus-in event is required before the text can be changed.
+	 * This will reset the entry to the appropriate visual state. */
+	gtk_widget_grab_focus (gtk_bin_get_child (GTK_BIN (shell_content)));
+}
 
 static void
 shell_content_entry_activated_cb (EShellContent *shell_content,
@@ -94,46 +150,21 @@ shell_content_entry_activated_cb (EShellContent *shell_content,
 	gtk_action_activate (action);
 }
 
-static void
-shell_content_entry_changed_cb (EShellContent *shell_content,
-                                GtkWidget *entry)
-{
-	EShellWindow *shell_window;
-	EShellView *shell_view;
-	GtkStateType state;
-	GtkAction *action;
-	gboolean sensitive;
-	const gchar *text;
-
-	text = gtk_entry_get_text (GTK_ENTRY (entry));
-	state = shell_content->priv->search_state;
-
-	if (text != NULL && *text != '\0')
-		sensitive = (state != GTK_STATE_INSENSITIVE);
-	else
-		sensitive = (state == GTK_STATE_SELECTED);
-
-	shell_view = e_shell_content_get_shell_view (shell_content);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	/* Verify the shell view is active before proceeding. */
-	if (!e_shell_view_is_active (shell_view))
-		return;
-
-	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
-	gtk_action_set_sensitive (action, sensitive);
-}
-
 static gboolean
 shell_content_entry_focus_in_cb (EShellContent *shell_content,
                                  GdkEventFocus *focus_event,
                                  GtkWidget *entry)
 {
-	if (shell_content->priv->search_state == GTK_STATE_INSENSITIVE) {
+	EIconEntry *icon_entry;
+	GtkStateType visual_state;
+
+	icon_entry = E_ICON_ENTRY (shell_content->priv->search_entry);
+	visual_state = e_icon_entry_get_visual_state (icon_entry);
+
+	if (visual_state == GTK_STATE_INSENSITIVE)
 		gtk_entry_set_text (GTK_ENTRY (entry), "");
-		gtk_widget_modify_text (entry, GTK_STATE_NORMAL, NULL);
-		shell_content->priv->search_state = GTK_STATE_NORMAL;
-	}
+
+	e_icon_entry_set_visual_state (icon_entry, GTK_STATE_NORMAL);
 
 	return FALSE;
 }
@@ -152,8 +183,25 @@ shell_content_entry_key_press_cb (EShellContent *shell_content,
                                   GdkEventKey *key_event,
                                   GtkWidget *entry)
 {
-	/* FIXME */
-	return FALSE;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	GtkAction *action;
+	guint mask;
+
+	mask = gtk_accelerator_get_default_mod_mask ();
+	if ((key_event->state & mask) != GDK_MOD1_MASK)
+		return FALSE;
+
+	if (key_event->keyval != GDK_Down)
+		return FALSE;
+
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	action = E_SHELL_WINDOW_ACTION_SEARCH_OPTIONS (shell_window);
+	gtk_action_activate (action);
+
+	return TRUE;
 }
 
 static void
@@ -194,14 +242,14 @@ shell_content_init_search_context (EShellContent *shell_content)
 		rule_context_add_rule, rule_context_next_rule);
 	rule_context_load (context, system_filename, user_filename);
 
-	/* Ownership of the strings is passed to the rule context.
-	 * XXX Not sure why this is necessary. */
+	/* XXX Not sure why this is necessary. */
 	g_object_set_data_full (
-		G_OBJECT (context), "system", system_filename, g_free);
+		G_OBJECT (context), "system",
+		g_strdup (system_filename), g_free);
 	g_object_set_data_full (
-		G_OBJECT (context), "user", user_filename, g_free);
+		G_OBJECT (context), "user",
+		g_strdup (user_filename), g_free);
 
-	/* XXX I don't really understand what this does. */
 	rule = filter_rule_new ();
 	part = rule_context_next_part (context, NULL);
 	if (part == NULL)
@@ -212,6 +260,8 @@ shell_content_init_search_context (EShellContent *shell_content)
 		filter_rule_add_part (rule, filter_part_clone (part));
 
 	shell_content->priv->search_context = context;
+	shell_content->priv->system_filename = system_filename;
+	shell_content->priv->user_filename = user_filename;
 }
 
 static void
@@ -252,8 +302,8 @@ shell_content_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
-		case PROP_SEARCH_ACTION:
-			e_shell_content_set_search_action (
+		case PROP_SEARCH_RULE:
+			e_shell_content_set_search_rule (
 				E_SHELL_CONTENT (object),
 				g_value_get_object (value));
 			return;
@@ -329,15 +379,15 @@ shell_content_get_property (GObject *object,
 				E_SHELL_CONTENT (object)));
 			return;
 
-		case PROP_SEARCH_ACTION:
-			g_value_set_object (
-				value, e_shell_content_get_search_action (
-				E_SHELL_CONTENT (object)));
-			return;
-
 		case PROP_SEARCH_CONTEXT:
 			g_value_set_object (
 				value, e_shell_content_get_search_context (
+				E_SHELL_CONTENT (object)));
+			return;
+
+		case PROP_SEARCH_RULE:
+			g_value_set_object (
+				value, e_shell_content_get_search_rule (
 				E_SHELL_CONTENT (object)));
 			return;
 
@@ -435,13 +485,48 @@ shell_content_dispose (GObject *object)
                 priv->scope_combo_box = NULL;
         }
 
-        if (priv->search_action != NULL) {
-                g_object_unref (priv->search_action);
-                priv->search_action = NULL;
-        }
-
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
+shell_content_finalize (GObject *object)
+{
+	EShellContentPrivate *priv;
+
+	priv = E_SHELL_CONTENT_GET_PRIVATE (object);
+
+	g_free (priv->system_filename);
+	g_free (priv->user_filename);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static void
+shell_content_constructed (GObject *object)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellContent *shell_content;
+	EIconEntry *icon_entry;
+	GtkAction *action;
+
+	shell_content = E_SHELL_CONTENT (object);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	icon_entry = E_ICON_ENTRY (shell_content->priv->search_entry);
+
+	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
+	e_icon_entry_add_action_end (icon_entry, action);
+
+	action = E_SHELL_WINDOW_ACTION_SEARCH_EXECUTE (shell_window);
+	g_signal_connect (
+		action, "activate",
+		G_CALLBACK (action_search_execute_cb), shell_content);
+
+	action = E_SHELL_WINDOW_ACTION_SEARCH_OPTIONS (shell_window);
+	e_icon_entry_add_action_start (icon_entry, action);
 }
 
 static void
@@ -569,6 +654,8 @@ shell_content_class_init (EShellContentClass *class)
 	object_class->set_property = shell_content_set_property;
 	object_class->get_property = shell_content_get_property;
 	object_class->dispose = shell_content_dispose;
+	object_class->finalize = shell_content_finalize;
+	object_class->constructed = shell_content_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->realize = shell_content_realize;
@@ -614,16 +701,6 @@ shell_content_class_init (EShellContentClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_SEARCH_ACTION,
-		g_param_spec_object (
-			"search-action",
-			NULL,
-			NULL,
-			GTK_TYPE_RADIO_ACTION,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
 		PROP_SEARCH_CONTEXT,
 		g_param_spec_object (
 			"search-context",
@@ -631,6 +708,16 @@ shell_content_class_init (EShellContentClass *class)
 			NULL,
 			RULE_TYPE_CONTEXT,
 			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SEARCH_RULE,
+		g_param_spec_object (
+			"search-rule",
+			NULL,
+			NULL,
+			FILTER_TYPE_RULE,
+			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
 		object_class,
@@ -793,9 +880,6 @@ shell_content_init (EShellContent *shell_content)
 		widget, "activate",
 		G_CALLBACK (shell_content_entry_activated_cb), shell_content);
 	g_signal_connect_swapped (
-		widget, "changed",
-		G_CALLBACK (shell_content_entry_changed_cb), shell_content);
-	g_signal_connect_swapped (
 		widget, "focus-in-event",
 		G_CALLBACK (shell_content_entry_focus_in_cb), shell_content);
 	g_signal_connect_swapped (
@@ -924,35 +1008,38 @@ e_shell_content_set_filter_visible (EShellContent *shell_content,
 	}
 }
 
-GtkRadioAction *
-e_shell_content_get_search_action (EShellContent *shell_content)
-{
-	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), NULL);
-
-	return shell_content->priv->search_action;
-}
-
-void
-e_shell_content_set_search_action (EShellContent *shell_content,
-                                   GtkRadioAction *search_action)
-{
-	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
-
-	if (search_action != NULL) {
-		g_return_if_fail (GTK_IS_RADIO_ACTION (search_action));
-		g_object_ref (search_action);
-	}
-
-	shell_content->priv->search_action = search_action;
-	g_object_notify (G_OBJECT (shell_content), "search-action");
-}
-
 RuleContext *
 e_shell_content_get_search_context (EShellContent *shell_content)
 {
 	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), NULL);
 
 	return shell_content->priv->search_context;
+}
+
+FilterRule *
+e_shell_content_get_search_rule (EShellContent *shell_content)
+{
+	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), NULL);
+
+	return shell_content->priv->search_rule;
+}
+
+void
+e_shell_content_set_search_rule (EShellContent *shell_content,
+                                 FilterRule *search_rule)
+{
+	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
+
+	if (search_rule != NULL) {
+		g_return_if_fail (IS_FILTER_RULE (search_rule));
+		g_object_ref (search_rule);
+	}
+
+	if (shell_content->priv->search_rule != NULL)
+		g_object_unref (shell_content->priv->search_rule);
+
+	shell_content->priv->search_rule = search_rule;
+	g_object_notify (G_OBJECT (shell_content), "search-rule");
 }
 
 const gchar *
@@ -1107,4 +1194,174 @@ e_shell_content_set_scope_visible (EShellContent *shell_content,
 	}
 
 	g_object_notify (G_OBJECT (shell_content), "scope-visible");
+}
+
+void
+e_shell_content_run_advanced_search_dialog (EShellContent *shell_content)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	GtkAction *action;
+	GtkWidget *dialog;
+	GtkWidget *widget;
+	FilterRule *rule;
+	RuleContext *context;
+	const gchar *user_filename;
+	gint response;
+
+	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
+
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	user_filename = shell_content->priv->user_filename;
+
+	rule = e_shell_content_get_search_rule (shell_content);
+
+	if (rule == NULL)
+		rule = filter_rule_new ();
+	else
+		rule = filter_rule_clone (rule);
+
+	context = e_shell_content_get_search_context (shell_content);
+	widget = filter_rule_get_widget (rule, context);
+	filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
+
+	dialog = gtk_dialog_new_with_buttons (
+		_("Advanced Search"), GTK_WINDOW (shell_window),
+		GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_SAVE, GTK_RESPONSE_APPLY,
+		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 7);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 3);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 600, 300);
+
+	gtk_box_pack_start (
+		GTK_BOX (GTK_DIALOG (dialog)->vbox), widget, TRUE, TRUE, 0);
+
+	g_signal_connect_swapped (
+		rule, "changed", G_CALLBACK (
+		shell_content_dialog_rule_changed), dialog);
+
+	shell_content_dialog_rule_changed (dialog, rule);
+
+run:
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
+
+	if (response != GTK_RESPONSE_OK && response != GTK_RESPONSE_APPLY)
+		goto exit;
+
+	if (!filter_rule_validate (rule))
+		goto run;
+
+	e_shell_content_set_search_rule (shell_content, rule);
+
+	action = E_SHELL_WINDOW_ACTION_SEARCH_EXECUTE (shell_window);
+	gtk_action_activate (action);
+
+	if (response == GTK_RESPONSE_APPLY) {
+		if (!rule_context_find_rule (context, rule->name, rule->source))
+			rule_context_add_rule (context, rule);
+		rule_context_save (context, user_filename);
+		goto run;
+	}
+
+exit:
+	g_object_unref (rule);
+	gtk_widget_destroy (dialog);
+}
+
+void
+e_shell_content_run_edit_searches_dialog (EShellContent *shell_content)
+{
+	RuleContext *context;
+	RuleEditor *editor;
+	const gchar *user_filename;
+
+	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
+
+	context = e_shell_content_get_search_context (shell_content);
+	user_filename = shell_content->priv->user_filename;
+
+	editor = rule_editor_new (
+		context, FILTER_SOURCE_INCOMING, _("Searches"));
+	gtk_window_set_title (GTK_WINDOW (editor), _("Searches"));
+
+	if (gtk_dialog_run (GTK_DIALOG (editor)) == GTK_RESPONSE_OK)
+		rule_context_save (context, user_filename);
+
+	gtk_widget_destroy (GTK_WIDGET (editor));
+}
+
+void
+e_shell_content_run_save_search_dialog (EShellContent *shell_content)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	GtkWidget *dialog;
+	GtkWidget *widget;
+	FilterRule *rule;
+	RuleContext *context;
+	const gchar *search_text;
+	const gchar *user_filename;
+	gchar *search_name;
+	gint response;
+
+	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
+
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	user_filename = shell_content->priv->user_filename;
+
+	rule = e_shell_content_get_search_rule (shell_content);
+	g_return_if_fail (IS_FILTER_RULE (rule));
+	rule = filter_rule_clone (rule);
+
+	search_text = e_shell_content_get_search_text (shell_content);
+	if (search_text == NULL || *search_text == '\0')
+		search_text = "''";
+
+	search_name = g_strdup_printf ("%s %s", rule->name, search_text);
+	filter_rule_set_name (rule, search_name);
+	g_free (search_name);
+
+	context = e_shell_content_get_search_context (shell_content);
+	widget = filter_rule_get_widget (rule, context);
+	filter_rule_set_source (rule, FILTER_SOURCE_INCOMING);
+
+	dialog = gtk_dialog_new_with_buttons (
+		_("Save Search"), GTK_WINDOW (shell_window),
+		GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+
+	gtk_container_set_border_width (GTK_CONTAINER (dialog), 7);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 3);
+	gtk_window_set_default_size (GTK_WINDOW (dialog), 500, 300);
+
+	gtk_box_pack_start (
+		GTK_BOX (GTK_DIALOG (dialog)->vbox), widget, TRUE, TRUE, 0);
+
+	g_signal_connect_swapped (
+		rule, "changed", G_CALLBACK (
+		shell_content_dialog_rule_changed), dialog);
+
+	shell_content_dialog_rule_changed (dialog, rule);
+
+run:
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
+
+	if (response != GTK_RESPONSE_OK)
+		goto exit;
+
+	if (!filter_rule_validate (rule))
+		goto run;
+
+	rule_context_add_rule (context, rule);
+	rule_context_save (context, user_filename);
+
+exit:
+	g_object_unref (rule);
+	gtk_widget_destroy (dialog);
 }

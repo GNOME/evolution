@@ -22,7 +22,7 @@
 
 #include <e-util/e-error.h>
 #include <e-util/e-util.h>
-#include <e-util/gconf-bridge.h>
+#include <filter/filter-rule.h>
 
 #include <addressbook-config.h>
 
@@ -333,12 +333,14 @@ static void
 action_contact_preview_cb (GtkToggleAction *action,
                            EBookShellView *book_shell_view)
 {
-	GtkWidget *widget;
+	GtkWidget *child;
+	GtkWidget *paned;
 	gboolean visible;
 
-	widget = book_shell_view->priv->preview;
+	paned = book_shell_view->priv->paned;
+	child = gtk_paned_get_child2 (GTK_PANED (paned));
 	visible = gtk_toggle_action_get_active (action);
-	g_object_set (widget, "visible", visible, NULL);
+	g_object_set (child, "visible", visible, NULL);
 }
 
 static void
@@ -426,10 +428,12 @@ action_search_execute_cb (GtkAction *action,
 	EShellContent *shell_content;
 	GString *string;
 	EAddressbookView *view;
+	EAddressbookModel *model;
 	EABContactDisplay *display;
-	const gchar *search_format;
-	const gchar *search_text;
-	gchar *search_query;
+	FilterRule *rule;
+	const gchar *format;
+	const gchar *text;
+	gchar *query;
 	gint value;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
@@ -437,41 +441,40 @@ action_search_execute_cb (GtkAction *action,
 		return;
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
-	search_text = e_shell_content_get_search_text (shell_content);
+	text = e_shell_content_get_search_text (shell_content);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	action = ACTION (CONTACT_SEARCH_ANY_FIELD_CONTAINS);
 	value = gtk_radio_action_get_current_value (
 		GTK_RADIO_ACTION (action));
 
-	if (search_text == NULL || *search_text == '\0') {
-		search_text = "\"\"";
+	if (text == NULL || *text == '\0') {
+		text = "";
 		value = CONTACT_SEARCH_ANY_FIELD_CONTAINS;
 	}
 
 	switch (value) {
 		case CONTACT_SEARCH_NAME_CONTAINS:
-			search_format = "(contains \"full_name\" %s)";
+			format = "(contains \"full_name\" %s)";
 			break;
 
 		case CONTACT_SEARCH_EMAIL_BEGINS_WITH:
-			search_format = "(beginswith \"email\" %s)";
+			format = "(beginswith \"email\" %s)";
 			break;
 
 		default:
-			search_text = "\"\"";
+			text = "";
 			/* fall through */
 
 		case CONTACT_SEARCH_ANY_FIELD_CONTAINS:
-			search_format =
-				"(contains \"x-evolution-any-field\" %s)";
+			format = "(contains \"x-evolution-any-field\" %s)";
 			break;
 	}
 
 	/* Build the query. */
 	string = g_string_new ("");
-	e_sexp_encode_string (string, search_text);
-	search_query = g_strdup_printf (search_format, string->str);
+	e_sexp_encode_string (string, text);
+	query = g_strdup_printf (format, string->str);
 	g_string_free (string, TRUE);
 
 	/* Filter by category. */
@@ -487,15 +490,23 @@ action_search_execute_cb (GtkAction *action,
 
 		temp = g_strdup_printf (
 			"(and (is \"category_list\" \"%s\") %s)",
-			category_name, search_query);
-		g_free (search_query);
-		search_query = temp;
+			category_name, query);
+		g_free (query);
+		query = temp;
 	}
+
+	/* XXX This is wrong.  We need to programmatically construct a
+	 *     FilterRule, tell it to build code, and pass the resulting
+	 *     expression string to EAddressbookModel. */
+	rule = filter_rule_new ();
+	e_shell_content_set_search_rule (shell_content, rule);
+	g_object_unref (rule);
 
 	/* Submit the query. */
 	view = e_book_shell_view_get_current_view (book_shell_view);
-	g_object_set (view, "query", search_query, NULL);
-	g_free (search_query);
+	model = e_addressbook_view_get_model (view);
+	e_addressbook_model_set_query (model, query);
+	g_free (query);
 
 	display = EAB_CONTACT_DISPLAY (book_shell_view->priv->preview);
 	eab_contact_display_set_contact (display, NULL);
@@ -731,7 +742,7 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	GConfBridge *bridge;
 	GtkAction *action;
 	GObject *object;
@@ -740,11 +751,12 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	manager = e_shell_window_get_ui_manager (shell_window);
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	domain = GETTEXT_PACKAGE;
 
-	e_load_ui_definition (manager, "evolution-contacts.ui");
+	e_load_ui_definition (ui_manager, "evolution-contacts.ui");
 
+	/* Contact Actions */
 	action_group = book_shell_view->priv->contact_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_action_group_add_actions (
@@ -758,7 +770,12 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 		G_N_ELEMENTS (contact_search_entries),
 		CONTACT_SEARCH_NAME_CONTAINS,
 		NULL, NULL);
-	gtk_ui_manager_insert_action_group (manager, action_group, 0);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+
+	/* Filter Actions (empty) */
+	action_group = book_shell_view->priv->filter_actions;
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	/* Bind GObject properties to GConf keys. */
 
@@ -893,4 +910,61 @@ e_book_shell_view_actions_update (EBookShellView *book_shell_view)
 	} else
 		sensitive = FALSE;
 	gtk_action_set_sensitive (action, sensitive);
+}
+
+void
+e_book_shell_view_update_search_filter (EBookShellView *book_shell_view)
+{
+	EShellContent *shell_content;
+	EShellView *shell_view;
+	GtkActionGroup *action_group;
+	GtkRadioAction *action;
+	GList *list, *iter;
+	GSList *group = NULL;
+	gint ii;
+
+	shell_view = E_SHELL_VIEW (book_shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	action_group = book_shell_view->priv->filter_actions;
+
+	/* XXX Annoying that GTK+ doesn't provide a function for this.
+	 *     http://bugzilla.gnome.org/show_bug.cgi?id=550485 */
+	list = gtk_action_group_list_actions (action_group);
+	for (iter = list; iter != NULL; iter = iter->next)
+		gtk_action_group_remove_action (action_group, iter->data);
+	g_list_free (list);
+
+	action = gtk_radio_action_new (
+		"category-any", _("Any Category"), NULL, NULL, -1);
+
+	/* Activating the action executes a new search. */
+	g_signal_connect (
+		action, "activate",
+		G_CALLBACK (action_search_execute_cb), book_shell_view);
+
+	gtk_radio_action_set_group (action, group);
+	group = gtk_radio_action_get_group (action);
+
+	list = e_categories_get_list ();
+	for (iter = list, ii = 0; iter != NULL; iter = iter->next, ii++) {
+		const gchar *category_name = iter->data;
+		gchar *action_name;
+
+		action_name = g_strdup_printf ("category-%d", ii);
+		action = gtk_radio_action_new (
+			action_name, category_name, NULL, NULL, ii);
+		g_free (action_name);
+
+		/* Activating the action executes a new search. */
+		g_signal_connect (
+			action, "activate", G_CALLBACK (
+			action_search_execute_cb), book_shell_view);
+
+		gtk_radio_action_set_group (action, group);
+		group = gtk_radio_action_get_group (action);
+	}
+	g_list_free (list);
+
+	/* Use any action in the group; doesn't matter which. */
+	e_shell_content_set_filter_action (shell_content, action);
 }

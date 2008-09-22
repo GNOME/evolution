@@ -64,6 +64,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "search-edit")
 #define E_SHELL_WINDOW_ACTION_SEARCH_EXECUTE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "search-execute")
+#define E_SHELL_WINDOW_ACTION_SEARCH_OPTIONS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "search-options")
 #define E_SHELL_WINDOW_ACTION_SEARCH_SAVE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "search-save")
 #define E_SHELL_WINDOW_ACTION_SEND_RECEIVE(window) \
@@ -88,6 +90,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "work-online")
 
 /* Action Groups */
+#define E_SHELL_WINDOW_ACTION_GROUP_CUSTOM_RULES(window) \
+	E_SHELL_WINDOW_ACTION_GROUP ((window), "custom-rules")
 #define E_SHELL_WINDOW_ACTION_GROUP_GAL_VIEW(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "gal-view")
 #define E_SHELL_WINDOW_ACTION_GROUP_NEW_ITEM(window) \

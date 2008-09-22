@@ -74,4 +74,11 @@
     <menuitem action='contact-clipboard-paste'/>
     <menuitem action='contact-delete'/>
   </popup>
+  <popup name='contact-search-options'>
+    <menuitem action='contact-search-name-contains'/>
+    <menuitem action='contact-search-email-begins-with'/>
+    <menuitem action='contact-search-any-field-contains'/>
+    <separator/>
+    <menuitem action='search-advanced'/>
+  </popup>
 </ui>

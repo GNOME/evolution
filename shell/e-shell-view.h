@@ -72,6 +72,9 @@ struct _EShellViewClass {
 	/* A unique instance is created for each subclass. */
 	GalViewCollection *view_collection;
 
+	/* Path to the search entry popup menu. */
+	const gchar *search_options_path;
+
 	/* Factory Methods */
 	GtkWidget *	(*new_shell_content)	(EShellView *shell_view);
 	GtkWidget *	(*new_shell_sidebar)	(EShellView *shell_view);

@@ -44,7 +44,7 @@ typedef enum {
 const gchar *	e_get_user_data_dir		(void);
 void		e_display_help			(GtkWindow *parent,
 						 const gchar *link_id);
-guint		e_load_ui_definition		(GtkUIManager *manager,
+guint		e_load_ui_definition		(GtkUIManager *ui_manager,
 						 const gchar *basename);
 
 char *		e_str_without_underscores	(const char *s);

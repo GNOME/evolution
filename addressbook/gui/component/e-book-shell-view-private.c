@@ -262,12 +262,6 @@ book_shell_view_show_popup_menu (GdkEventButton *event,
 	return TRUE;
 }
 
-static void
-book_shell_view_categories_changed_cb (EBookShellView *book_shell_view)
-{
-	e_book_shell_view_update_search_filter (book_shell_view);
-}
-
 static gboolean
 book_shell_view_selector_button_press_event_cb (EShellView *shell_view,
                                                 GdkEventButton *event)
@@ -384,6 +378,7 @@ e_book_shell_view_private_init (EBookShellView *book_shell_view,
 
 	priv->source_list = g_object_ref (source_list);
 	priv->contact_actions = gtk_action_group_new ("contacts");
+	priv->filter_actions = gtk_action_group_new ("contacts-filter");
 	priv->uid_to_view = uid_to_view;
 	priv->uid_to_editor = uid_to_editor;
 
@@ -476,7 +471,7 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 		book_shell_view);
 
 	e_categories_register_change_listener (
-		G_CALLBACK (book_shell_view_categories_changed_cb),
+		G_CALLBACK (e_book_shell_view_update_search_filter),
 		book_shell_view);
 
 	e_book_shell_view_actions_init (book_shell_view);
@@ -500,6 +495,7 @@ e_book_shell_view_private_dispose (EBookShellView *book_shell_view)
 	DISPOSE (priv->source_list);
 
 	DISPOSE (priv->contact_actions);
+	DISPOSE (priv->filter_actions);
 
 	DISPOSE (priv->paned);
 	DISPOSE (priv->notebook);
@@ -542,42 +538,4 @@ e_book_shell_view_editor_weak_notify (EditorUidClosure *closure,
 
 	hash_table = closure->view->priv->uid_to_editor;
 	g_hash_table_remove (hash_table, closure->uid);
-}
-
-void
-e_book_shell_view_update_search_filter (EBookShellView *book_shell_view)
-{
-	EShellContent *shell_content;
-	EShellView *shell_view;
-	GtkRadioAction *action;
-	GList *list, *iter;
-	GSList *group = NULL;
-	gint ii;
-
-	shell_view = E_SHELL_VIEW (book_shell_view);
-	shell_content = e_shell_view_get_shell_content (shell_view);
-
-	action = gtk_radio_action_new (
-		"category-any", _("Any Category"), NULL, NULL, -1);
-
-	gtk_radio_action_set_group (action, group);
-	group = gtk_radio_action_get_group (action);
-
-	list = e_categories_get_list ();
-	for (iter = list, ii = 0; iter != NULL; iter = iter->next, ii++) {
-		const gchar *category_name = iter->data;
-		gchar *action_name;
-
-		action_name = g_strdup_printf ("category-%d", ii);
-		action = gtk_radio_action_new (
-			action_name, category_name, NULL, NULL, ii);
-		g_free (action_name);
-
-		gtk_radio_action_set_group (action, group);
-		group = gtk_radio_action_get_group (action);
-	}
-	g_list_free (list);
-
-	/* Use any action in the group; doesn't matter which. */
-	e_shell_content_set_filter_action (shell_content, action);
 }

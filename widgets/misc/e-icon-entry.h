@@ -82,6 +82,9 @@ void		e_icon_entry_add_action_start	(EIconEntry *entry,
 						 GtkAction *action);
 void		e_icon_entry_add_action_end	(EIconEntry *entry,
 						 GtkAction *action);
+GtkStateType	e_icon_entry_get_visual_state	(EIconEntry *entry);
+void		e_icon_entry_set_visual_state	(EIconEntry *entry,
+                                                 GtkStateType visual_state);
 
 G_END_DECLS
 

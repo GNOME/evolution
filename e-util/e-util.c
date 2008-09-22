@@ -107,10 +107,10 @@ e_display_help (GtkWindow *parent,
 
 /**
  * e_load_ui_definition:
- * @manager: a #GtkUIManager
+ * @ui_manager: a #GtkUIManager
  * @basename: basename of the UI definition file
  *
- * Loads a UI definition into @manager from Evolution's UI directory.
+ * Loads a UI definition into @ui_manager from Evolution's UI directory.
  * Failure here is fatal, since the application can't function without
  * its UI definitions.
  *
@@ -118,18 +118,19 @@ e_display_help (GtkWindow *parent,
  *          unmerge the UI with gtk_ui_manager_remove_ui().
  **/
 guint
-e_load_ui_definition (GtkUIManager *manager,
+e_load_ui_definition (GtkUIManager *ui_manager,
                       const gchar *basename)
 {
 	gchar *filename;
 	guint merge_id;
 	GError *error = NULL;
 
-	g_return_val_if_fail (GTK_IS_UI_MANAGER (manager), 0);
+	g_return_val_if_fail (GTK_IS_UI_MANAGER (ui_manager), 0);
 	g_return_val_if_fail (basename != NULL, 0);
 
 	filename = g_build_filename (EVOLUTION_UIDIR, basename, NULL);
-	merge_id = gtk_ui_manager_add_ui_from_file (manager, filename, &error);
+	merge_id = gtk_ui_manager_add_ui_from_file (
+		ui_manager, filename, &error);
 	g_free (filename);
 
 	if (error != NULL)

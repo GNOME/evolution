@@ -84,5 +84,7 @@
 /* Action Groups */
 #define E_SHELL_WINDOW_ACTION_GROUP_CONTACTS(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "contacts")
+#define E_SHELL_WINDOW_ACTION_GROUP_CONTACTS_FILTER(window) \
+	E_SHELL_WINDOW_ACTION_GROUP ((window), "contacts-filter")
 
 #endif /* E_BOOK_SHELL_VIEW_ACTIONS_H */
