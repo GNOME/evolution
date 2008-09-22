@@ -1,3 +1,10 @@
+2008-09-22  Petr Kovar  <pknbe@volny.cz>
+
+	* default/cs/Inbox: Added Czech translation of default email
+	message by Jiri Eischmann.
+	* default/cs/Makefile.am: Ditto.
+	* default/Makefile.am: Ditto.
+
 2008-09-21  Wadim Dziedzic  <wdziedzic@aviary.pl>
 
 	* default/pl/Inbox: Updated Polish translation
