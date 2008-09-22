@@ -1993,6 +1993,7 @@ mail/default/de/Makefile
 mail/default/es/Makefile
 mail/default/fi/Makefile
 mail/default/fr/Makefile
+mail/default/it/Makefile
 mail/default/lt/Makefile
 mail/default/mk/Makefile
 mail/default/zh_CN/Makefile
