@@ -1,5 +1,9 @@
 2008-09-22  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* configure.in: Version bump for Evolution 2.25.1
+
+2008-09-22  Srinivasa Ragavan  <sragavan@novell.com>
+
 	* COPYING.LGPL2: Add LGPL v2, v3 licensing header.
 	* COPYING.LGPL3:
 
