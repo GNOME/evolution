@@ -1989,6 +1989,7 @@ composer/Makefile
 mail/Makefile
 mail/default/Makefile
 mail/default/C/Makefile
+mail/default/cs/Makefile
 mail/default/de/Makefile
 mail/default/es/Makefile
 mail/default/fi/Makefile

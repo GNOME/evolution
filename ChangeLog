@@ -1,3 +1,7 @@
+2008-09-22  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* configure.in: Fix for build break. 
+
 2008-09-22  Luca Ferretti  <elle.uca@libero.it>
 
 	* configure.in: 
