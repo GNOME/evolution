@@ -1,5 +1,9 @@
 2008-09-22  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* configure.in: Fix 'cs' build break due to my git-merge issues.
+
+2008-09-22  Srinivasa Ragavan  <sragavan@novell.com>
+
 	* configure.in: Version bump for Evolution 2.25.1
 
 2008-09-22  Srinivasa Ragavan  <sragavan@novell.com>
