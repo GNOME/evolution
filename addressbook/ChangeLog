@@ -1,5 +1,12 @@
 2008-09-23  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #552575
+
+	* gui/widgets/eab-gui-util.c: (eab_send_contact_list_as_attachment):
+	Register default callbacks to composer to be able to send/save draft.
+
+2008-09-23  Milan Crha  <mcrha@redhat.com>
+
 	** Part of fix for bug #272391
 
 	* gui/component/apps_evolution_addressbook.schemas.in:

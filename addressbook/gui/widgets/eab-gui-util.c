@@ -888,6 +888,7 @@ eab_send_contact_list_as_attachment (GList *contacts)
 
 	composer = e_msg_composer_new ();
 	table = e_msg_composer_get_header_table (composer);
+	em_composer_utils_setup_default_callbacks (composer);
 
 	attachment = camel_mime_part_new ();
 	data = eab_contact_list_to_string (contacts);
