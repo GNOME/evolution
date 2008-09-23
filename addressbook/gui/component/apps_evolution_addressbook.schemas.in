@@ -27,6 +27,18 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/addressbook/completion/show_address</key>
+      <applyto>/apps/evolution/addressbook/completion/show_address</applyto>
+      <owner>evolution-addressbook</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Show autocompleted name with an address</short>
+        <long>Whether force showing the mail address with the name of the autocompleted contact in the entry.</long>
+      </locale>
+    </schema>
+
     <!-- Select names last used uri -->
 
     <schema>

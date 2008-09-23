@@ -35,6 +35,7 @@
 
 #include <libedataserver/e-source-list.h>
 #include <libedataserverui/e-source-selector.h>
+#include <libedataserverui/e-name-selector-entry.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
@@ -45,6 +46,7 @@ typedef struct {
 	GtkWidget *control_widget;
 
 	ESourceList *source_list;
+	GConfClient *gconf;
 } AutocompletionConfig;
 
 static void
@@ -84,6 +86,7 @@ config_control_destroy_notify (void *data,
 	AutocompletionConfig *ac = (AutocompletionConfig *) data;
 
 	g_object_unref (ac->source_list);
+	g_object_unref (ac->gconf);
 
 	g_free (ac);
 }
@@ -106,16 +109,75 @@ initialize_selection (AutocompletionConfig *ac)
 	}
 }
 
+static GtkWidget *
+add_section (GtkWidget *vbox, const gchar *caption, gboolean expand)
+{
+	GtkWidget *label, *hbox, *itembox;
+	gchar *txt;
+
+	g_return_val_if_fail (vbox != NULL, NULL);
+	g_return_val_if_fail (caption != NULL, NULL);
+
+	txt = g_strconcat ("<b>", caption, "</b>", NULL);
+
+	label = gtk_label_new (NULL);
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+	gtk_label_set_markup (GTK_LABEL (label), txt);
+
+	g_free (txt);
+
+	/* bold caption of the section */
+	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
+
+	hbox = gtk_hbox_new (FALSE, 12);
+
+	/* space on the left for the items in the section */
+	gtk_box_pack_start (GTK_BOX (hbox), gtk_label_new (""), FALSE, FALSE, 0);
+
+	/* itembox, here will all section items go */
+	itembox = gtk_vbox_new (FALSE, 2);
+	gtk_box_pack_start (GTK_BOX (hbox), itembox, TRUE, TRUE, 0);
+
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, expand, expand, 0);
+
+	return itembox;
+}
+
+static void
+show_address_check_toggled_cb (GtkToggleButton *check, AutocompletionConfig *ac)
+{
+	g_return_if_fail (check != NULL);
+	g_return_if_fail (ac != NULL);
+	g_return_if_fail (ac->gconf != NULL);
+
+	gconf_client_set_bool (ac->gconf, FORCE_SHOW_ADDRESS, gtk_toggle_button_get_active (check), NULL);
+}
+
 EvolutionConfigControl*
 autocompletion_config_control_new (void)
 {
 	AutocompletionConfig *ac;
 	CORBA_Environment ev;
-	GtkWidget *scrolledwin;
+	GtkWidget *scrolledwin, *vbox, *itembox, *w;
 
 	ac = g_new0 (AutocompletionConfig, 1);
 
 	CORBA_exception_init (&ev);
+
+	ac->gconf = gconf_client_get_default ();
+
+	vbox = gtk_vbox_new (FALSE, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
+
+	itembox = add_section (vbox, _("Autocompletion"), FALSE);
+
+	w = gtk_check_button_new_with_mnemonic (_("Always _show address of the autocompleted contact"));
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), gconf_client_get_bool (ac->gconf, FORCE_SHOW_ADDRESS, NULL));
+	g_signal_connect (w, "toggled", (GCallback)show_address_check_toggled_cb, ac);
+	gtk_box_pack_start (GTK_BOX (itembox), w, FALSE, FALSE, 0);
+
+	itembox = add_section (vbox, _("Look up in address books"), TRUE);
 
 	ac->source_list =  e_source_list_new_for_gconf_default ("/apps/evolution/addressbook/sources");
 	/* XXX should we watch for the source list to change and
@@ -139,7 +201,10 @@ autocompletion_config_control_new (void)
 	gtk_widget_show (ac->control_widget);
 	gtk_widget_show (scrolledwin);
 
-	ac->config_control = evolution_config_control_new (scrolledwin);
+	gtk_widget_show_all (vbox);
+	gtk_box_pack_start (GTK_BOX (itembox), scrolledwin, TRUE, TRUE, 0);
+
+	ac->config_control = evolution_config_control_new (vbox);
 
 	g_signal_connect (ac->control_widget, "selection_changed",
 			  G_CALLBACK (source_selection_changed), ac);
