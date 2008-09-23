@@ -261,7 +261,7 @@ contact_list_editor_contact_exists (EContactListModel *model,
 	if (!e_contact_list_model_has_email (model, email))
 		return FALSE;
 
-	return (e_error_run (NULL, tag, email) != GTK_RESPONSE_YES);
+	return (e_error_run (NULL, tag, email, NULL) != GTK_RESPONSE_YES);
 }
 
 static void

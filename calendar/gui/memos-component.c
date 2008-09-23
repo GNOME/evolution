@@ -415,7 +415,7 @@ delete_memo_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 		return;
 
 	if (e_error_run((GtkWindow *)gtk_widget_get_toplevel(ep->target->widget),
-			"calendar:prompt-delete-memo-list", e_source_peek_name(selected_source)) != GTK_RESPONSE_YES)
+			"calendar:prompt-delete-memo-list", e_source_peek_name(selected_source), NULL) != GTK_RESPONSE_YES)
 		return;
 
 	/* first, ask the backend to remove the memo list */

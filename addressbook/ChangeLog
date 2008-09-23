@@ -1,5 +1,18 @@
 2008-09-23  Milan Crha  <mcrha@redhat.com>
 
+	** Part of fix for bug #553273
+
+	* gui/component/addressbook-view.c: (delete_addressbook_folder),
+	(delete_addressbook_cb):
+	* gui/widgets/eab-gui-util.c: (save_it):
+	* gui/contact-list-editor/e-contact-list-model.c:
+	(e_contact_list_model_add_email):
+	* gui/contact-list-editor/e-contact-list-editor.c:
+	(contact_list_editor_contact_exists):
+	Always end e_error_run/e_error_new calls with NULL parameter.
+
+2008-09-23  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #552575
 
 	* gui/widgets/eab-gui-util.c: (eab_send_contact_list_as_attachment):

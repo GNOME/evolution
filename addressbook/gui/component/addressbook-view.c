@@ -331,7 +331,7 @@ delete_addressbook_folder (AddressbookView *view)
 	toplevel = (GtkWindow *) gtk_widget_get_toplevel (priv->notebook);
 
 	if (e_error_run (toplevel, "addressbook:ask-delete-addressbook",
-			e_source_peek_name(selected_source)) != GTK_RESPONSE_YES)
+			e_source_peek_name(selected_source), NULL) != GTK_RESPONSE_YES)
 	return;
 
 	/* Remove local data */
@@ -885,7 +885,7 @@ delete_addressbook_cb(EPopup *ep, EPopupItem *pitem, void *data)
 
 	toplevel = (GtkWindow *)gtk_widget_get_toplevel(ep->target->widget);
 
-	if (e_error_run(toplevel, "addressbook:ask-delete-addressbook", e_source_peek_name(selected_source)) != GTK_RESPONSE_YES)
+	if (e_error_run (toplevel, "addressbook:ask-delete-addressbook", e_source_peek_name(selected_source), NULL) != GTK_RESPONSE_YES)
 		return;
 
 	/* Remove local data */

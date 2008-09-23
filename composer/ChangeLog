@@ -1,3 +1,10 @@
+2008-09-23  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #553273
+
+	* e-composer-actions.c: (action_save_cb):
+	Always end e_error_run/e_error_new calls with NULL parameter.
+
 2008-09-10  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #551548

@@ -246,7 +246,7 @@ action_save_cb (GtkAction *action,
 			e_error_run (
 				GTK_WINDOW (composer),
 				E_ERROR_NO_SAVE_FILE, filename,
-				g_strerror (errno_saved));
+				g_strerror (errno_saved), NULL);
 			return;
 		}
 	} else
@@ -256,7 +256,7 @@ action_save_cb (GtkAction *action,
 		e_error_run (
 			GTK_WINDOW (composer),
 			E_ERROR_NO_SAVE_FILE,
-			filename, error->message);
+			filename, error->message, NULL);
 		g_error_free (error);
 		return;
 	}

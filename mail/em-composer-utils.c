@@ -1419,7 +1419,7 @@ em_utils_handle_receipt (CamelFolder *folder, const char *uid, CamelMimeMessage 
 	}
 
 	if (account && (account->receipt_policy == E_ACCOUNT_RECEIPT_ALWAYS || account->receipt_policy == E_ACCOUNT_RECEIPT_ASK)
-	    && e_error_run (NULL, "mail:ask-receipt", addr, camel_mime_message_get_subject(msg)) == GTK_RESPONSE_YES)
+	    && e_error_run (NULL, "mail:ask-receipt", addr, camel_mime_message_get_subject(msg), NULL) == GTK_RESPONSE_YES)
 		em_utils_send_receipt(folder, msg);
 }
 
