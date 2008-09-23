@@ -776,7 +776,7 @@ exchange_config_listener_authenticate (ExchangeConfigListener *ex_conf_listener,
 		}
 
 		if (current_quota_usage) {
-			widget = e_error_new (NULL, error_code, current_quota_usage);
+			widget = e_error_new (NULL, error_code, current_quota_usage, NULL);
 			g_signal_connect ((GtkDialog *)widget, "response",
 					  G_CALLBACK (gtk_widget_destroy), widget);
 			gtk_widget_show (widget);

@@ -404,7 +404,7 @@ save_it(GtkWidget *widget, SaveAsInfo *info)
 		 * {0}, {1} and {2}, respectively in the error message formed
 		 */
 		e_error_run (GTK_WINDOW (info->filesel), "addressbook:save-error",
-					 err_str_ext, filename, g_strerror (errno));
+					 err_str_ext, filename, g_strerror (errno), NULL);
 		gtk_widget_destroy(GTK_WIDGET(info->filesel));
 		return;
 	}

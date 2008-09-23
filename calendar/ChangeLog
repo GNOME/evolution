@@ -1,3 +1,13 @@
+2008-09-23  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #553273
+
+	* gui/alarm-notify/alarm-queue.c: (edit_component):
+	* gui/tasks-component.c: (delete_task_list_cb):
+	* gui/calendar-component.c: (delete_calendar_cb):
+	* gui/memos-component.c: (delete_memo_list_cb):
+	Always end e_error_run/e_error_new calls with NULL parameter.
+
 2008-09-19  Sankar P  <psankar@novell.com>
 
 License Changes

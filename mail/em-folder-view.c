@@ -1091,7 +1091,7 @@ emfv_delete_msg_response (GtkWidget *dialog, int response, gpointer data)
 							_("You do not have sufficient permissions to delete this mail."));
 					gtk_html_stream_close(hstream, GTK_HTML_STREAM_OK);
 				} else {
-					GtkWidget *w = e_error_new (NULL, "mail:no-delete-permission", "", "");
+					GtkWidget *w = e_error_new (NULL, "mail:no-delete-permission", "", NULL);
 					em_utils_show_error_silent (w);
 				}
 
