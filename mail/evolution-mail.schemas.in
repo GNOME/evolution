@@ -315,9 +315,9 @@
       <type>int</type>
       <default>0</default>
       <locale name="C">
-         <short>Load images for HTML messages over http</short>
+         <short>Load images for HTML messages over HTTP</short>
          <long>
-          Load images for HTML messages over http(s). Possible values are:
+          Load images for HTML messages over HTTP(S). Possible values are:
           "0" - Never load images off the net.
           "1" - Load images in messages from contacts.
           "2" - Always load images off the net.
@@ -390,11 +390,11 @@
       <type>list</type>
       <list_type>string</list_type>
       <locale name="C">
-         <short>List of mime types to check for bonobo component viewers</short>
+         <short>List of MIME types to check for Bonobo component viewers</short>
          <long>
-           If there isn't a builtin viewer for a particular mime-type inside Evolution,
-           any mime-types appearing in this list which map to a bonobo-component viewer
-           in GNOME's mime-type database may be used for displaying content.
+           If there isn't a builtin viewer for a particular MIME type inside Evolution,
+           any MIME types appearing in this list which map to a Bonobo component viewer
+           in GNOME's MIME type database may be used for displaying content.
          </long>
       </locale>
     </schema>
@@ -633,7 +633,7 @@
       <type>bool</type>
       <default>true</default>
       <locale name="C">
-         <short>Allows evolution to display text part of limited size</short>
+         <short>Allows Evolution to display text part of limited size</short>
          <long>
 	 Enable to render message text part of limited size.
          </long>
@@ -650,7 +650,7 @@
          <short>Text message part limit</short>
          <long>
 	 This decides the max size of the text part that can be formatted under
-	 evolution. The default is 4MB / 4096 KB and is specified interms of KB.
+	 Evolution. The default is 4MB / 4096 KB and is specified in terms of KB.
 	 </long>
       </locale>
     </schema>

@@ -475,7 +475,7 @@
 			  <child>
 			    <widget class="GtkEntry" id="server-name-entry">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">This is the full name of your ldap server. For example, &quot;ldap.mycompany.com&quot;.</property>
+			      <property name="tooltip" translatable="yes">This is the full name of your LDAP server. For example, &quot;ldap.mycompany.com&quot;.</property>
 			      <property name="can_focus">True</property>
 			      <property name="has_focus">True</property>
 			      <property name="editable">True</property>
@@ -635,7 +635,7 @@
 			  <child>
 			    <widget class="GtkOptionMenu" id="auth-optionmenu">
 			      <property name="visible">True</property>
-			      <property name="tooltip" translatable="yes">This is the method Evolution will use to authenticate you.  Note that setting this to &quot;Email Address&quot; requires anonymous access to your ldap server.</property>
+			      <property name="tooltip" translatable="yes">This is the method Evolution will use to authenticate you.  Note that setting this to &quot;Email Address&quot; requires anonymous access to your LDAP server.</property>
 			      <property name="can_focus">True</property>
 			      <property name="history">0</property>
 

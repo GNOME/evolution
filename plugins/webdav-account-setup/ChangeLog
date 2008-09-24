@@ -1,3 +1,10 @@
+2008-09-24  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fixes bug #553479
+
+	* webdav-contacts-source.c (plugin_webdav_contacts):
+	String capitalisation improvements.
+
 2008-08-12  Bharath Acharya  <abharath@novell.com>
 
 	* Makefile.am:	Added necessary libraries to link to. Build break while 

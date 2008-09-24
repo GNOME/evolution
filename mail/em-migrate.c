@@ -2896,7 +2896,7 @@ migrate_to_db()
 	
 	camel_session_set_online ((CamelSession *) session, FALSE);
 	em_migrate_setup_progress_dialog (_("The summary format of the Evolution mailbox "
-			     "folders has been moved to sqlite since Evolution 2.24.\n\nPlease be "
+			     "folders has been moved to SQLite since Evolution 2.24.\n\nPlease be "
 			     "patient while Evolution migrates your folders..."));
 
 	em_migrate_set_progress ( (double)i/(len+1));

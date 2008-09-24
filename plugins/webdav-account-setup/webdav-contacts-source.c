@@ -335,7 +335,7 @@ plugin_webdav_contacts(EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	uidata->avoid_ifmatch_toggle = GTK_TOGGLE_BUTTON(
 			gtk_check_button_new_with_mnemonic(
-				_("_Avoid IfMatch (needed on apache < 2.2.8)")));
+				_("_Avoid IfMatch (needed on Apache < 2.2.8)")));
 	gtk_box_pack_start(hbox, GTK_WIDGET(uidata->avoid_ifmatch_toggle),
 	                   FALSE, FALSE, 0);
 

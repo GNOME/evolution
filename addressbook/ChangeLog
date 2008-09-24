@@ -1,3 +1,9 @@
+2008-09-24  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fixes bug #553479
+
+	* gui/component/ldap-config.glade: String capitalisation improvements.
+
 2008-09-23  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #553273

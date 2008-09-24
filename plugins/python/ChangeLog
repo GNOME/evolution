@@ -1,3 +1,10 @@
+2008-09-24  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fixes bug #553479
+
+	* org-gnome-evolution-python.eplug.xml: String capitalisation
+	improvements.
+
 2008-09-12  Sankar P  <psankar@novell.com>
 
 License Changes

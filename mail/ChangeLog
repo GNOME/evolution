@@ -1,3 +1,10 @@
+2008-09-24  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fixes bug #553479
+
+	* em-migrate.c (migrate_to_db):
+	* evolution-mail.schemas.in: String capitalisation improvements.
+
 2008-09-23  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #553273
