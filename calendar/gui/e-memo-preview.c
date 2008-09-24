@@ -23,53 +23,53 @@
  *          Nathan Owens <pianocomp81@yahoo.com>
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "e-memo-preview.h"
 
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libgnome/gnome-url.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-categories.h>
-#include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
 #include <libedataserver/e-time-utils.h>
 #include <e-util/e-categories-config.h>
 #include "calendar-config.h"
-#include "e-cal-component-memo-preview.h"
 #include "e-cal-component-preview.h"
 #include <camel/camel-mime-filter-tohtml.h>
 
-struct _ECalComponentMemoPreviewPrivate {
-	GtkWidget *html;
+#define E_MEMO_PREVIEW_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MEMO_PREVIEW, EMemoPreviewPrivate))
 
+struct _EMemoPreviewPrivate {
 	icaltimezone *zone;
 };
 
-G_DEFINE_TYPE (ECalComponentMemoPreview, e_cal_component_memo_preview, GTK_TYPE_TABLE)
-
+static gpointer parent_class;
 
 static void
-on_link_clicked (GtkHTML *html, const char *url, gpointer data)
+memo_preview_link_clicked (GtkHTML *html,
+                           const gchar *url)
 {
-        GError *err = NULL;
+	GdkScreen *screen;
+        GError *error = NULL;
 
-        gnome_url_show (url, &err);
+	screen = gtk_widget_get_screen (GTK_WIDGET (html));
+	gtk_show_uri (screen, url, GDK_CURRENT_TIME, &error);
 
-	if (err) {
-		g_warning ("gnome_url_show: %s", err->message);
-                g_error_free (err);
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+                g_error_free (error);
         }
 }
 
 static void
-on_url_cb (GtkHTML *html, const char *url, gpointer data)
+memo_preview_on_url (GtkHTML *html,
+                     const gchar *url)
 {
 #if 0
 	char *msg;
-	ECalComponentMemoPreview *preview = data;
+	EMemoPreview *preview = data;
 
 	if (url && *url) {
 		msg = g_strdup_printf (_("Click to open %s"), url);
@@ -82,7 +82,9 @@ on_url_cb (GtkHTML *html, const char *url, gpointer data)
 
 /* Converts a time_t to a string, relative to the specified timezone */
 static char *
-timet_to_str_with_zone (ECalComponentDateTime *dt, ECal *ecal, icaltimezone *default_zone)
+timet_to_str_with_zone (ECalComponentDateTime *dt,
+                        ECal *ecal,
+                        icaltimezone *default_zone)
 {
 	struct icaltimetype itt;
 	icaltimezone *zone;
@@ -112,7 +114,10 @@ timet_to_str_with_zone (ECalComponentDateTime *dt, ECal *ecal, icaltimezone *def
 }
 
 static void
-write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone *default_zone)
+memo_preview_write_html (GtkHTMLStream *stream,
+                         ECal *ecal,
+                         ECalComponent *comp,
+                         icaltimezone *default_zone)
 {
 	ECalComponentText text;
 	ECalComponentDateTime dt;
@@ -232,135 +237,120 @@ write_html (GtkHTMLStream *stream, ECal *ecal, ECalComponent *comp, icaltimezone
 }
 
 static void
-e_cal_component_memo_preview_init (ECalComponentMemoPreview *preview)
+memo_preview_finalize (GObject *object)
 {
-	ECalComponentMemoPreviewPrivate *priv;
-	GtkWidget *scroll;
+	EMemoPreviewPrivate *priv;
 
-	priv = g_new0 (ECalComponentMemoPreviewPrivate, 1);
-	preview->priv = priv;
+	priv = E_MEMO_PREVIEW_GET_PRIVATE (object);
 
-	priv->html = gtk_html_new ();
-	gtk_html_set_default_content_type (GTK_HTML (priv->html), "charset=utf-8");
-	gtk_html_load_empty (GTK_HTML (priv->html));
+	/* XXX Nothing to do? */
 
-	g_signal_connect (G_OBJECT (priv->html), "url_requested",
-			  G_CALLBACK (e_cal_comp_preview_url_requested_cb), NULL);
-	g_signal_connect (G_OBJECT (priv->html), "link_clicked",
-			  G_CALLBACK (on_link_clicked), preview);
-	g_signal_connect (G_OBJECT (priv->html), "on_url",
-			  G_CALLBACK (on_url_cb), preview);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
 
-	scroll = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scroll), GTK_SHADOW_IN);
+static void
+memo_preview_class_init (EMemoPreviewClass *class)
+{
+	GObjectClass *object_class;
+	GtkHTMLClass *gtkhtml_class;
 
-	gtk_container_add (GTK_CONTAINER (scroll), priv->html);
-	gtk_container_add (GTK_CONTAINER (preview), scroll);
-	gtk_widget_show_all (scroll);
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EMemoPreviewPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = memo_preview_finalize;
+
+	gtkhtml_class = GTK_HTML_CLASS (class);
+	gtkhtml_class->link_clicked = memo_preview_link_clicked;
+	gtkhtml_class->on_url = memo_preview_on_url;
+}
+
+static void
+memo_preview_init (EMemoPreview *preview)
+{
+	EMemoPreviewPrivate *priv;
+	GtkHTML *html;
+
+	preview->priv = E_MEMO_PREVIEW_GET_PRIVATE (preview);
+
+	html = GTK_HTML (preview);
+	gtk_html_set_default_content_type (html, "charset=utf-8");
+	gtk_html_load_empty (html);
 
 	priv->zone = icaltimezone_get_utc_timezone ();
 }
 
-static void
-e_cal_component_memo_preview_destroy (GtkObject *object)
+GType
+e_memo_preview_get_type (void)
 {
-	ECalComponentMemoPreview *preview;
-	ECalComponentMemoPreviewPrivate *priv;
+	static GType type = 0;
 
-	g_return_if_fail (object != NULL);
-	g_return_if_fail (E_IS_CAL_COMPONENT_MEMO_PREVIEW (object));
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EMemoPreviewClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) memo_preview_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EMemoPreview),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) memo_preview_init,
+			NULL   /* value_table */
+		};
 
-	preview = E_CAL_COMPONENT_MEMO_PREVIEW (object);
-	priv = preview->priv;
-
-	if (priv) {
-
-		g_free (priv);
-		preview->priv = NULL;
+		type = g_type_register_static (
+			GTK_TYPE_HTML, "EMemoPreview", &type_info, 0);
 	}
 
-	if (GTK_OBJECT_CLASS (e_cal_component_memo_preview_parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (e_cal_component_memo_preview_parent_class)->destroy) (object);
-}
-
-static void
-e_cal_component_memo_preview_class_init (ECalComponentMemoPreviewClass *klass)
-{
-	GtkObjectClass *object_class;
-
-	object_class = (GtkObjectClass *) klass;
-
-	object_class->destroy = e_cal_component_memo_preview_destroy;
+	return type;
 }
 
 GtkWidget *
-e_cal_component_memo_preview_new (void)
+e_memo_preview_new (void)
 {
-	ECalComponentMemoPreview *preview;
-
-	preview = g_object_new (e_cal_component_memo_preview_get_type (), NULL);
-
-	return GTK_WIDGET (preview);
+	return g_object_new (E_TYPE_MEMO_PREVIEW, NULL);
 }
 
 icaltimezone *
-e_cal_component_memo_preview_get_default_timezone (ECalComponentMemoPreview *preview)
+e_memo_preview_get_default_timezone (EMemoPreview *preview)
 {
-	ECalComponentMemoPreviewPrivate *priv;
+	g_return_val_if_fail (E_IS_MEMO_PREVIEW (preview), NULL);
 
-	g_return_val_if_fail (preview != NULL, NULL);
-	g_return_val_if_fail (E_IS_CAL_COMPONENT_MEMO_PREVIEW (preview), NULL);
-
-	priv = preview->priv;
-
-	return priv->zone;
+	return preview->priv->zone;
 }
 
 void
-e_cal_component_memo_preview_set_default_timezone (ECalComponentMemoPreview *preview, icaltimezone *zone)
+e_memo_preview_set_default_timezone (EMemoPreview *preview,
+                                     icaltimezone *zone)
 {
-	ECalComponentMemoPreviewPrivate *priv;
-
-	g_return_if_fail (preview != NULL);
-	g_return_if_fail (E_IS_CAL_COMPONENT_MEMO_PREVIEW (preview));
+	g_return_if_fail (E_IS_MEMO_PREVIEW (preview));
 	g_return_if_fail (zone != NULL);
 
-	priv = preview->priv;
-
-	priv->zone = zone;
+	preview->priv->zone = zone;
 }
 
 void
-e_cal_component_memo_preview_display (ECalComponentMemoPreview *preview, ECal *ecal, ECalComponent *comp)
+e_memo_preview_display (EMemoPreview *preview,
+                        ECal *ecal,
+                        ECalComponent *comp)
 {
-	ECalComponentMemoPreviewPrivate *priv;
 	GtkHTMLStream *stream;
 
-	g_return_if_fail (preview != NULL);
-	g_return_if_fail (E_IS_CAL_COMPONENT_MEMO_PREVIEW (preview));
-	g_return_if_fail (comp != NULL);
+	g_return_if_fail (E_IS_MEMO_PREVIEW (preview));
 	g_return_if_fail (E_IS_CAL_COMPONENT (comp));
 
-	priv = preview->priv;
-
-	stream = gtk_html_begin (GTK_HTML (priv->html));
-	write_html (stream, ecal, comp, priv->zone);
+	stream = gtk_html_begin (GTK_HTML (preview));
+	memo_preview_write_html (stream, ecal, comp, preview->priv->zone);
 	gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
 }
 
 void
-e_cal_component_memo_preview_clear (ECalComponentMemoPreview *preview)
+e_memo_preview_clear (EMemoPreview *preview)
 {
-	ECalComponentMemoPreviewPrivate *priv;
+	g_return_if_fail (E_IS_MEMO_PREVIEW (preview));
 
-	g_return_if_fail (preview != NULL);
-	g_return_if_fail (E_IS_CAL_COMPONENT_MEMO_PREVIEW (preview));
-
-	priv = preview->priv;
-
-	gtk_html_load_empty (GTK_HTML (priv->html));
+	gtk_html_load_empty (GTK_HTML (preview));
 }
 

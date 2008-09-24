@@ -56,34 +56,13 @@
 static void tasks_control_activate_cb		(BonoboControl		*control,
 						 gboolean		 activate,
 						 gpointer		 user_data);
-static void tasks_control_open_task_cmd		(BonoboUIComponent	*uic,
-						 gpointer		 data,
-						 const char		*path);
 static void tasks_control_new_task_cmd		(BonoboUIComponent	*uic,
-						 gpointer		 data,
-						 const char		*path);
-static void tasks_control_cut_cmd               (BonoboUIComponent      *uic,
-						 gpointer                data,
-						 const gchar            *path);
-static void tasks_control_copy_cmd              (BonoboUIComponent      *uic,
-						 gpointer                data,
-						 const gchar            *path);
-static void tasks_control_paste_cmd             (BonoboUIComponent      *uic,
-						 gpointer                data,
-						 const gchar            *path);
-static void tasks_control_delete_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
 static void tasks_control_complete_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
 static void tasks_control_purge_cmd		(BonoboUIComponent	*uic,
-						 gpointer		 data,
-						 const char		*path);
-static void tasks_control_print_cmd		(BonoboUIComponent	*uic,
-						 gpointer		 data,
-						 const char		*path);
-static void tasks_control_print_preview_cmd	(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
 static void tasks_control_assign_cmd           (BonoboUIComponent      *uic,
@@ -93,12 +72,6 @@ static void tasks_control_assign_cmd           (BonoboUIComponent      *uic,
 static void tasks_control_forward_cmd          (BonoboUIComponent      *uic,
                                                 gpointer               data,
                                                 const char             *path);
-
-static void tasks_control_view_preview	       (BonoboUIComponent *uic,
-						const char *path,
-						Bonobo_UIComponent_EventType type,
-						const char *state,
-						void *data);
 
 BonoboControl *
 tasks_control_new (void)
@@ -234,16 +207,9 @@ selection_changed_cb (ETasks *tasks, int n_selected, gpointer data)
 }
 
 static BonoboUIVerb verbs [] = {
-	BONOBO_UI_VERB ("TasksOpenTask", tasks_control_open_task_cmd),
 	BONOBO_UI_VERB ("TasksNewTask", tasks_control_new_task_cmd),
-	BONOBO_UI_VERB ("TasksCut", tasks_control_cut_cmd),
-	BONOBO_UI_VERB ("TasksCopy", tasks_control_copy_cmd),
-	BONOBO_UI_VERB ("TasksPaste", tasks_control_paste_cmd),
-	BONOBO_UI_VERB ("TasksDelete", tasks_control_delete_cmd),
 	BONOBO_UI_VERB ("TasksMarkComplete", tasks_control_complete_cmd),
 	BONOBO_UI_VERB ("TasksPurge", tasks_control_purge_cmd),
-	BONOBO_UI_VERB ("TasksPrint", tasks_control_print_cmd),
-	BONOBO_UI_VERB ("TasksPrintPreview", tasks_control_print_preview_cmd),
 	BONOBO_UI_VERB ("TasksAssign", tasks_control_assign_cmd),
         BONOBO_UI_VERB ("TasksForward", tasks_control_forward_cmd),
 	BONOBO_UI_VERB_END
@@ -329,16 +295,6 @@ tasks_control_deactivate (BonoboControl *control, ETasks *tasks)
  	bonobo_ui_component_unset_container (uic, NULL);
 }
 
-static void tasks_control_open_task_cmd		(BonoboUIComponent	*uic,
-						 gpointer		 data,
-						 const char		*path)
-{
-	ETasks *tasks;
-
-	tasks = E_TASKS (data);
-	e_tasks_open_task (tasks);
-}
-
 static void
 tasks_control_new_task_cmd		(BonoboUIComponent	*uic,
 					 gpointer		 data,
@@ -348,56 +304,6 @@ tasks_control_new_task_cmd		(BonoboUIComponent	*uic,
 
 	tasks = E_TASKS (data);
 	e_tasks_new_task (tasks);
-}
-
-static void
-tasks_control_cut_cmd                   (BonoboUIComponent      *uic,
-					 gpointer                data,
-					 const char             *path)
-{
-	ETasks *tasks;
-	ECalendarTable *cal_table;
-
-	tasks = E_TASKS (data);
-	cal_table = e_tasks_get_calendar_table (tasks);
-	e_calendar_table_cut_clipboard (cal_table);
-}
-
-static void
-tasks_control_copy_cmd                  (BonoboUIComponent      *uic,
-					 gpointer                data,
-					 const char             *path)
-{
-	ETasks *tasks;
-	ECalendarTable *cal_table;
-
-	tasks = E_TASKS (data);
-	cal_table = e_tasks_get_calendar_table (tasks);
-	e_calendar_table_copy_clipboard (cal_table);
-}
-
-static void
-tasks_control_paste_cmd                 (BonoboUIComponent      *uic,
-					 gpointer                data,
-					 const char             *path)
-{
-	ETasks *tasks;
-	ECalendarTable *cal_table;
-
-	tasks = E_TASKS (data);
-	cal_table = e_tasks_get_calendar_table (tasks);
-	e_calendar_table_paste_clipboard (cal_table);
-}
-
-static void
-tasks_control_delete_cmd		(BonoboUIComponent	*uic,
-					 gpointer		 data,
-					 const char		*path)
-{
-	ETasks *tasks;
-
-	tasks = E_TASKS (data);
-	e_tasks_delete_selected (tasks);
 }
 
 static void
@@ -457,39 +363,6 @@ tasks_control_purge_cmd	(BonoboUIComponent	*uic,
 	    e_tasks_delete_completed (tasks);
 }
 
-/* File/Print callback */
-static void
-tasks_control_print_cmd (BonoboUIComponent *uic,
-			 gpointer data,
-			 const char *path)
-{
-	ETasks *tasks = E_TASKS (data);
-	ETable *table;
-
-	table = e_calendar_table_get_table (
-		E_CALENDAR_TABLE (e_tasks_get_calendar_table (tasks)));
-
-	print_table (
-		table, _("Print Tasks"), _("Tasks"),
-		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
-}
-
-static void
-tasks_control_print_preview_cmd (BonoboUIComponent *uic,
-				 gpointer data,
-				 const char *path)
-{
-	ETasks *tasks = E_TASKS (data);
-	ETable *table;
-
-	table = e_calendar_table_get_table (
-		E_CALENDAR_TABLE (e_tasks_get_calendar_table (tasks)));
-
-	print_table (
-		table, _("Print Tasks"), _("Tasks"),
-		GTK_PRINT_OPERATION_ACTION_PREVIEW);
-}
-
 static void
 tasks_control_assign_cmd (BonoboUIComponent *uic,
                          gpointer data,
@@ -525,18 +398,4 @@ tasks_control_forward_cmd (BonoboUIComponent *uic,
                        itip_send_comp (E_CAL_COMPONENT_METHOD_PUBLISH, comp, comp_data->client, NULL, NULL, NULL);
                        g_object_unref (comp);
 	       }
-}
-
-static void
-tasks_control_view_preview (BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
-{
-        ETasks *tasks;
-
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-
-	tasks = E_TASKS (data);
-
-	calendar_config_set_preview_state (state[0] != '0');
-	e_tasks_show_preview (tasks, state[0] != '0');
 }

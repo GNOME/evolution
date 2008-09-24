@@ -203,6 +203,13 @@ shell_sidebar_finalize (GObject *object)
 }
 
 static void
+shell_sidebar_constructed (GObject *object)
+{
+	/* XXX This is here to let subclasses safely chain up.
+	 *     GObject does not define a constructed() method. */
+}
+
+static void
 shell_sidebar_size_request (GtkWidget *widget,
                             GtkRequisition *requisition)
 {
@@ -309,6 +316,7 @@ shell_sidebar_class_init (EShellSidebarClass *class)
 	object_class->get_property = shell_sidebar_get_property;
 	object_class->dispose = shell_sidebar_dispose;
 	object_class->finalize = shell_sidebar_finalize;
+	object_class->constructed = shell_sidebar_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->size_request = shell_sidebar_size_request;

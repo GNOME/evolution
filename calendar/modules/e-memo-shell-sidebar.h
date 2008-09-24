@@ -21,8 +21,10 @@
 #ifndef E_MEMO_SHELL_SIDEBAR_H
 #define E_MEMO_SHELL_SIDEBAR_H
 
-#include <e-shell-sidebar.h>
-#include <e-shell-view.h>
+#include <libedataserverui/e-source-selector.h>
+
+#include <shell/e-shell-sidebar.h>
+#include <shell/e-shell-view.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MEMO_SHELL_SIDEBAR \
@@ -60,7 +62,8 @@ struct _EMemoShellSidebarClass {
 
 GType		e_memo_shell_sidebar_get_type	(void);
 GtkWidget *	e_memo_shell_sidebar_new	(EShellView *shell_view);
-GtkWidget *	e_memo_shell_sidebar_get_selector
+ESourceSelector *
+		e_memo_shell_sidebar_get_selector
 						(EMemoShellSidebar *memo_shell_sidebar);
 
 G_END_DECLS

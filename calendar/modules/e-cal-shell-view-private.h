@@ -29,6 +29,7 @@
 #include <shell/e-shell-content.h>
 
 #include <gnome-cal.h>
+#include <e-cal-shell-content.h>
 #include <e-cal-shell-sidebar.h>
 #include <e-cal-shell-view-actions.h>
 
@@ -59,6 +60,10 @@ struct _ECalShellViewPrivate {
 	/*** UI Management ***/
 
 	GtkActionGroup *calendar_actions;
+
+	/* These are just for convenience. */
+	ECalShellContent *cal_shell_content;
+	ECalShellSidebar *cal_shell_sidebar;
 };
 
 void		e_cal_shell_view_private_init

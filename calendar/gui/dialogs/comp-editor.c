@@ -214,7 +214,15 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint comp_editor_signals[LAST_SIGNAL] = { 0 };
+static guint signals[LAST_SIGNAL];
+static GList *active_editors;
+
+static void
+comp_editor_weak_notify_cb (gpointer unused,
+                            GObject *where_the_object_was)
+{
+	active_editors = g_list_remove (active_editors, where_the_object_was);
+}
 
 static void
 attach_message(CompEditor *editor, CamelMimeMessage *msg)
@@ -1704,7 +1712,7 @@ comp_editor_class_init (CompEditorClass *class)
 			NULL,
 			G_PARAM_READWRITE));
 
-	comp_editor_signals[OBJECT_CREATED] =
+	signals[OBJECT_CREATED] =
 		g_signal_new ("object_created",
 			      G_TYPE_FROM_CLASS (class),
 			      G_SIGNAL_RUN_LAST,
@@ -1723,6 +1731,12 @@ comp_editor_init (CompEditor *editor)
 	GError *error = NULL;
 
 	editor->priv = priv = COMP_EDITOR_GET_PRIVATE (editor);
+
+	g_object_weak_ref (
+		G_OBJECT (editor), (GWeakNotify)
+		comp_editor_weak_notify_cb, NULL);
+
+	active_editors = g_list_prepend (active_editors, editor);
 
 	priv->pages = NULL;
 	priv->changed = FALSE;
@@ -2279,7 +2293,18 @@ close_dialog (CompEditor *editor)
 	gtk_widget_destroy (GTK_WIDGET (editor));
 }
 
-
+gint
+comp_editor_compare (CompEditor *editor_a,
+                     CompEditor *editor_b)
+{
+	const gchar *uid_a = NULL;
+	const gchar *uid_b = NULL;
+
+	e_cal_component_get_uid (editor_a->priv->comp, &uid_a);
+	e_cal_component_get_uid (editor_b->priv->comp, &uid_b);
+
+	return g_strcmp0 (uid_a, uid_b);
+}
 
 void
 comp_editor_set_existing_org (CompEditor *editor, gboolean existing_org)
@@ -2545,6 +2570,16 @@ comp_editor_get_managed_widget (CompEditor *editor,
 	g_return_val_if_fail (widget != NULL, NULL);
 
 	return widget;
+}
+
+CompEditor *
+comp_editor_find_instance (const gchar *uid)
+{
+	g_return_val_if_fail (uid != NULL, NULL);
+
+	return g_list_find_custom (
+		active_editors, uid,
+		(GCompareFunc) comp_editor_compare);
 }
 
 /**

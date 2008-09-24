@@ -87,6 +87,8 @@ typedef enum {
 } CompEditorFlags;
 
 GType		comp_editor_get_type		(void);
+gint		comp_editor_compare		(CompEditor *editor_a,
+                                                 CompEditor *editor_b);
 void		comp_editor_set_changed		(CompEditor *editor,
 						 gboolean changed);
 gboolean	comp_editor_get_changed		(CompEditor *editor);
@@ -149,6 +151,7 @@ GtkActionGroup *
                                             	 const gchar *group_name);
 GtkWidget *	comp_editor_get_managed_widget	(CompEditor *editor,
 						 const gchar *widget_path);
+CompEditor *	comp_editor_find_instance	(const gchar *uid);
 
 G_END_DECLS
 

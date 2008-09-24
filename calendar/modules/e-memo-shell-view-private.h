@@ -23,17 +23,21 @@
 
 #include "e-memo-shell-view.h"
 
+#include <string.h>
 #include <glib/gi18n.h>
 
-#include <e-util/e-util.h>
-#include <shell/e-shell-content.h>
-#include <shell/e-activity-handler.h>
+#include "e-util/e-error.h"
+#include "e-util/e-util.h"
 
-#include <e-memos.h>
-#include <e-calendar-selector.h>
-#include <e-memo-shell-sidebar.h>
-#include <e-memo-shell-view-actions.h>
-#include <dialogs/calendar-setup.h>
+#include "calendar/gui/misc.h"
+#include "calendar/gui/e-calendar-selector.h"
+#include "calendar/gui/e-memo-preview.h"
+#include "calendar/common/authentication.h"
+#include "calendar/gui/dialogs/calendar-setup.h"
+
+#include "e-memo-shell-content.h"
+#include "e-memo-shell-sidebar.h"
+#include "e-memo-shell-view-actions.h"
 
 #define E_MEMO_SHELL_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -51,6 +55,9 @@
 	if ((obj) != NULL) { g_object_unref (obj); (obj) = NULL; } \
 	} G_STMT_END
 
+/* ETable Specifications */
+#define ETSPEC_FILENAME		"e-memo-table.etspec"
+
 G_BEGIN_DECLS
 
 struct _EMemoShellViewPrivate {
@@ -65,9 +72,13 @@ struct _EMemoShellViewPrivate {
 
 	/*** Other Stuff ***/
 
-	GtkWidget *memos;
+	/* These are just for convenience. */
+	EMemoShellContent *memo_shell_content;
+	EMemoShellSidebar *memo_shell_sidebar;
 
-	EActivityHandler *activity_handler;
+	/* UID -> ECal */
+	GHashTable *client_table;
+	ECal *default_client;
 };
 
 void		e_memo_shell_view_private_init
@@ -86,6 +97,9 @@ void		e_memo_shell_view_actions_init
 					(EMemoShellView *memo_shell_view);
 void		e_memo_shell_view_actions_update
 					(EMemoShellView *memo_shell_view);
+void		e_memo_shell_view_set_status_message
+					(EMemoShellView *memo_shell_view,
+					 const gchar *status_message);
 
 G_END_DECLS
 

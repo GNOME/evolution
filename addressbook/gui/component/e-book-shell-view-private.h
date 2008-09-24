@@ -37,6 +37,7 @@
 
 #include <eab-gui-util.h>
 #include <e-addressbook-view.h>
+#include <e-book-shell-content.h>
 #include <e-book-shell-sidebar.h>
 
 #include <e-book-shell-view-actions.h>
@@ -90,9 +91,9 @@ struct _EBookShellViewPrivate {
 
 	/*** Other Stuff ***/
 
-	GtkWidget *paned;
-	GtkWidget *notebook;
-	GtkWidget *preview;
+	/* These are just for convenience. */
+	EBookShellContent *book_shell_content;
+	EBookShellSidebar *book_shell_sidebar;
 
 	GHashTable *uid_to_view;
 	GHashTable *uid_to_editor;
@@ -113,9 +114,6 @@ void		e_book_shell_view_private_finalize
 void		e_book_shell_view_actions_init
 					(EBookShellView *book_shell_view);
 void		e_book_shell_view_actions_update
-					(EBookShellView *book_shell_view);
-EAddressbookView *
-		e_book_shell_view_get_current_view
 					(EBookShellView *book_shell_view);
 void		e_book_shell_view_editor_weak_notify
 					(EditorUidClosure *closure,

@@ -54,11 +54,25 @@
 #include "e-cal-model-memos.h"
 #include "e-memo-table.h"
 #include "e-cell-date-edit-text.h"
-#include "e-comp-editor-registry.h"
 #include "print.h"
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-util-private.h>
 #include "e-cal-popup.h"
+
+#define E_MEMO_TABLE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MEMO_TABLE, EMemoTablePrivate))
+
+struct _EMemoTablePrivate {
+	gpointer shell_view;  /* weak pointer */
+
+	EActivity *activity;
+};
+
+enum {
+	PROP_0,
+	PROP_SHELL_VIEW
+};
 
 enum TargetType{
 	TARGET_TYPE_VCALENDAR
@@ -71,12 +85,6 @@ static GtkTargetEntry target_types[] = {
 
 static guint n_target_types = G_N_ELEMENTS (target_types);
 
-
-extern ECompEditorRegistry *comp_editor_registry;
-
-static void e_memo_table_class_init		(EMemoTableClass *klass);
-static void e_memo_table_init			(EMemoTable	*memo_table);
-static void e_memo_table_destroy		(GtkObject	*object);
 
 static void e_memo_table_on_double_click	(ETable		*table,
 						 gint		 row,
@@ -111,7 +119,8 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint signals[LAST_SIGNAL] = { 0 };
+static gpointer parent_class;
+static guint signals[LAST_SIGNAL];
 
 /* The icons to represent the task. */
 #define E_MEMO_MODEL_NUM_ICONS	2
@@ -122,35 +131,14 @@ static GdkPixbuf* icon_pixbufs[E_MEMO_MODEL_NUM_ICONS] = { NULL };
 
 static GdkAtom clipboard_atom = GDK_NONE;
 
-G_DEFINE_TYPE (EMemoTable, e_memo_table, GTK_TYPE_TABLE)
-
-
 static void
-e_memo_table_class_init (EMemoTableClass *klass)
+memo_table_emit_user_created (EMemoTable *memo_table)
 {
-	GtkObjectClass *object_class;
-
-	object_class = (GtkObjectClass *) klass;
-
-	/* Method override */
-	object_class->destroy		= e_memo_table_destroy;
-
-	signals[USER_CREATED] =
-		g_signal_new ("user_created",
-			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EMemoTableClass, user_created),
-			      NULL, NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
-
-	/* clipboard atom */
-	if (!clipboard_atom)
-		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
+	g_signal_emit (memo_table, signals[USER_CREATED], 0);
 }
 
 static gint
-date_compare_cb (gconstpointer a, gconstpointer b)
+memo_table_date_compare_cb (gconstpointer a, gconstpointer b)
 {
 	ECellDateEditValue *dv1 = (ECellDateEditValue *) a;
 	ECellDateEditValue *dv2 = (ECellDateEditValue *) b;
@@ -178,13 +166,102 @@ date_compare_cb (gconstpointer a, gconstpointer b)
 }
 
 static void
-row_appended_cb (ECalModel *model, EMemoTable *memo_table)
+memo_table_set_shell_view (EMemoTable *memo_table,
+                           EShellView *shell_view)
 {
-	g_signal_emit (memo_table, signals[USER_CREATED], 0);
+	g_return_if_fail (memo_table->priv->shell_view == NULL);
+
+	memo_table->priv->shell_view = shell_view;
+
+	g_object_add_weak_pointer (
+		G_OBJECT (shell_view),
+		&memo_table->priv->shell_view);
 }
 
 static void
-e_memo_table_init (EMemoTable *memo_table)
+memo_table_set_property (GObject *object,
+                         guint property_id,
+                         const GValue *value,
+                         GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SHELL_VIEW:
+			memo_table_set_shell_view (
+				E_MEMO_TABLE (object),
+				g_value_get_object (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+memo_table_get_property (GObject *object,
+                         guint property_id,
+                         GValue *value,
+                         GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SHELL_VIEW:
+			g_value_set_object (
+				value, e_memo_table_get_shell_view (
+				E_MEMO_TABLE (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+memo_table_dispose (GObject *object)
+{
+	EMemoTable *memo_table;
+
+	memo_table = E_MEMO_TABLE (object);
+
+	if (memo_table->model != NULL) {
+		g_object_unref (memo_table->model);
+		memo_table->model = NULL;
+	}
+
+	if (memo_table->priv->activity != NULL) {
+		/* XXX Activity is not cancellable. */
+		e_activity_complete (memo_table->priv->activity);
+		g_object_unref (memo_table->priv->activity);
+		memo_table->priv->activity = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
+memo_table_class_init (EMemoTableClass *class)
+{
+	GObjectClass *object_class;
+
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EMemoTablePrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = memo_table_set_property;
+	object_class->get_property = memo_table_get_property;
+	object_class->dispose = memo_table_dispose;
+
+	signals[USER_CREATED] =
+		g_signal_new ("user_created",
+			      G_TYPE_FROM_CLASS (class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EMemoTableClass, user_created),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
+
+	clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
+}
+
+static void
+memo_table_init (EMemoTable *memo_table)
 {
 	GtkWidget *table;
 	ETable *e_table;
@@ -194,16 +271,18 @@ e_memo_table_init (EMemoTable *memo_table)
 	AtkObject *a11y;
 	gchar *etspecfile;
 
+	memo_table->priv = E_MEMO_TABLE_GET_PRIVATE (memo_table);
+
 	/* Create the model */
 
 	memo_table->model = (ECalModel *) e_cal_model_memos_new ();
-	g_signal_connect (memo_table->model, "row_appended", G_CALLBACK (row_appended_cb), memo_table);
-
-	memo_table->user_created_cal = NULL;
+	g_signal_connect_swapped (
+		memo_table->model, "row_appended",
+		G_CALLBACK (memo_table_emit_user_created), memo_table);
 
 	/* Create the header columns */
 
-	extras = e_table_extras_new();
+	extras = e_table_extras_new ();
 
 	/*
 	 * Normal string fields.
@@ -235,7 +314,7 @@ e_memo_table_init (EMemoTable *memo_table)
 
 	/* Sorting */
 	e_table_extras_add_compare (extras, "date-compare",
-				    date_compare_cb);
+				    memo_table_date_compare_cb);
 
 	/* Create pixmaps */
 
@@ -280,23 +359,57 @@ e_memo_table_init (EMemoTable *memo_table)
 		atk_object_set_name (a11y, _("Memos"));
 }
 
+GType
+e_memo_table_get_type (void)
+{
+	static GType type = 0;
+
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EMemoTableClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) memo_table_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EMemoTable),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) memo_table_init,
+			NULL   /* value_table */
+		};
+
+		type = g_type_register_static (
+			GTK_TYPE_TABLE, "EMemoTable", &type_info, 0);
+	}
+
+	return type;
+}
 
 /**
  * e_memo_table_new:
- * @Returns: a new #EMemoTable.
+ * @shell_view: an #EShellView
  *
- * Creates a new #EMemoTable.
+ * Returns a new #EMemoTable.
+ *
+ * Returns: a new #EMemoTable
  **/
 GtkWidget *
-e_memo_table_new (void)
+e_memo_table_new (EShellView *shell_view)
 {
-	GtkWidget *memo_table;
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	memo_table = GTK_WIDGET (g_object_new (e_memo_table_get_type (), NULL));
-
-	return memo_table;
+	return g_object_new (
+		E_TYPE_MEMO_TABLE,
+		"shell-view", shell_view, NULL);
 }
 
+EShellView *
+e_memo_table_get_shell_view (EMemoTable *memo_table)
+{
+	g_return_val_if_fail (E_IS_MEMO_TABLE (memo_table), NULL);
+
+	return memo_table->priv->shell_view;
+}
 
 /**
  * e_memo_table_get_model:
@@ -315,21 +428,6 @@ e_memo_table_get_model (EMemoTable *memo_table)
 	return memo_table->model;
 }
 
-
-static void
-e_memo_table_destroy (GtkObject *object)
-{
-	EMemoTable *memo_table;
-
-	memo_table = E_MEMO_TABLE (object);
-
-	if (memo_table->model) {
-		g_object_unref (memo_table->model);
-		memo_table->model = NULL;
-	}
-
-	GTK_OBJECT_CLASS (e_memo_table_parent_class)->destroy (object);
-}
 
 /**
  * e_memo_table_get_table:
@@ -749,7 +847,7 @@ open_memo (EMemoTable *memo_table, ECalModelComponent *comp_data)
 
 	uid = icalcomponent_get_uid (comp_data->icalcomp);
 
-	medit = e_comp_editor_registry_find (comp_editor_registry, uid);
+	medit = comp_editor_find_instance (uid);
 	if (medit == NULL) {
 		ECalComponent *comp;
 		CompEditorFlags flags = 0;
@@ -767,8 +865,6 @@ open_memo (EMemoTable *memo_table, ECalModelComponent *comp_data)
 
 		comp_editor_edit_comp (medit, comp);
 		g_object_unref (comp);
-
-		e_comp_editor_registry_add (comp_editor_registry, medit, FALSE);
 	}
 
 	gtk_window_present (GTK_WINDOW (medit));
@@ -1096,34 +1192,29 @@ static char *test[] = {
 #endif
 
 void
-e_memo_table_set_activity_handler (EMemoTable *memo_table, EActivityHandler *activity_handler)
+e_memo_table_set_status_message (EMemoTable *memo_table,
+                                 const gchar *message)
 {
-	g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
+	EActivity *activity;
+	EShellView *shell_view;
 
-	memo_table->activity_handler = activity_handler;
-}
-
-void
-e_memo_table_set_status_message (EMemoTable *memo_table, const gchar *message)
-{
         g_return_if_fail (E_IS_MEMO_TABLE (memo_table));
 
-	if (!memo_table->activity_handler)
-		return;
+	activity = memo_table->priv->activity;
+	shell_view = e_memo_table_get_shell_view (memo_table);
 
-        if (!message || !*message) {
-		if (memo_table->activity_id != 0) {
-			e_activity_handler_operation_finished (memo_table->activity_handler, memo_table->activity_id);
-			memo_table->activity_id = 0;
+	if (message == NULL || *message == '\0') {
+		if (activity != NULL) {
+			e_activity_complete (activity);
+			g_object_unref (activity);
+			memo_table->priv->activity = NULL;
 		}
-        } else if (memo_table->activity_id == 0) {
-                char *client_id = g_strdup_printf ("%p", memo_table);
 
-                memo_table->activity_id = e_activity_handler_operation_started (
-			memo_table->activity_handler, client_id, message, TRUE);
+	} else if (activity == NULL) {
+		activity = e_activity_new (message);
+		memo_table->priv->activity = activity;
+		e_shell_view_add_activity (shell_view, activity);
 
-                g_free (client_id);
-        } else {
-                e_activity_handler_operation_progressing (memo_table->activity_handler, memo_table->activity_id, message, -1.0);
-	}
+        } else
+		e_activity_set_primary_text (activity, message);
 }

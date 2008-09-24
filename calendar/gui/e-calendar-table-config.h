@@ -21,24 +21,38 @@
  *
  */
 
-#ifndef _E_CALENDAR_TABLE_CONFIG_H_
-#define _E_CALENDAR_TABLE_CONFIG_H_
+#ifndef E_CALENDAR_TABLE_CONFIG_H
+#define E_CALENDAR_TABLE_CONFIG_H
 
 #include "e-calendar-table.h"
 
+/* Standard GObject macros */
+#define E_TYPE_CALENDAR_TABLE_CONFIG \
+	(e_calendar_table_config_get_type ())
+#define E_CALENDAR_TABLE_CONFIG(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CALENDAR_TABLE_CONFIG, ECalendarTableConfig))
+#define E_CALENDAR_TABLE_CONFIG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_CALENDAR_TABLE_CONFIG, ECalendarTableConfigClass))
+#define E_IS_CALENDAR_TABLE_CONFIG(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CALENDAR_TABLE_CONFIG))
+#define E_IS_CALENDAR_TABLE_CONFIG_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CALENDAR_TABLE_CONFIG))
+#define E_CALENDAR_TABLE_CONFIG_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CALENDAR_TABLE_CONFIG, ECalendarTableConfigClass))
+
 G_BEGIN_DECLS
 
-#define E_CALENDAR_TABLE_CONFIG(obj)          G_TYPE_CHECK_INSTANCE_CAST (obj, e_calendar_table_config_get_type (), ECalendarTableConfig)
-#define E_CALENDAR_TABLE_CONFIG_CLASS(klass)  G_TYPE_CHECK_CLASS_CAST (klass, e_calendar_table_config_get_type (), ECalendarTableConfigClass)
-#define E_IS_CALENDAR_TABLE_CONFIG(obj)       G_TYPE_CHECK_INSTANCE_TYPE (obj, e_calendar_table_config_get_type ())
-
-typedef struct _ECalendarTableConfig        ECalendarTableConfig;
-typedef struct _ECalendarTableConfigClass   ECalendarTableConfigClass;
+typedef struct _ECalendarTableConfig ECalendarTableConfig;
+typedef struct _ECalendarTableConfigClass ECalendarTableConfigClass;
 typedef struct _ECalendarTableConfigPrivate ECalendarTableConfigPrivate;
 
 struct _ECalendarTableConfig {
 	GObject parent;
-
 	ECalendarTableConfigPrivate *priv;
 };
 
@@ -46,11 +60,15 @@ struct _ECalendarTableConfigClass {
 	GObjectClass parent_class;
 };
 
-GType          e_calendar_table_config_get_type (void);
-ECalendarTableConfig *e_calendar_table_config_new (ECalendarTable *table);
-ECalendarTable *e_calendar_table_config_get_table (ECalendarTableConfig *view_config);
-void e_calendar_table_config_set_table (ECalendarTableConfig *view_config, ECalendarTable *table);
+GType		e_calendar_table_config_get_type(void);
+ECalendarTableConfig *
+		e_calendar_table_config_new	(ECalendarTable *table);
+ECalendarTable *e_calendar_table_config_get_table
+						(ECalendarTableConfig *table_config);
+void		e_calendar_table_config_set_table
+						(ECalendarTableConfig *table_config,
+						 ECalendarTable *table);
 
 G_END_DECLS
 
-#endif
+#endif /* E_CALENDAR_TABLE_CONFIG_H */

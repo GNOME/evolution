@@ -34,6 +34,8 @@ libevolution_addressbook_la_SOURCES = 	\
 	autocompletion-config.h		\
 	addressbook.c			\
 	addressbook.h			\
+	e-book-shell-content.c		\
+	e-book-shell-content.h		\
 	e-book-shell-module.c		\
 	e-book-shell-sidebar.c		\
 	e-book-shell-sidebar.h		\

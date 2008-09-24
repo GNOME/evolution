@@ -46,7 +46,6 @@
 #include <e-util/e-cursor.h>
 #include <e-util/e-util.h>
 
-#include "calendar-component.h"
 #include "calendar-config.h"
 #include "e-meeting-utils.h"
 #include "e-meeting-list-view.h"

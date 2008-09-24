@@ -45,40 +45,40 @@ static void
 book_shell_view_selection_change_foreach (gint row,
                                           EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 	EAddressbookModel *model;
-	EABContactDisplay *display;
 	EContact *contact;
 
 	/* XXX A "foreach" function is kind of a silly way to retrieve
 	 *     the one and only selected contact, but this is the only
 	 *     means that ESelectionModel provides. */
 
-	view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
 	model = e_addressbook_view_get_model (view);
 	contact = e_addressbook_model_get_contact (model, row);
 
-	display = EAB_CONTACT_DISPLAY (book_shell_view->priv->preview);
-	eab_contact_display_set_contact (display, contact);
+	e_book_shell_content_set_preview_contact (book_shell_content, contact);
 }
 
 static void
 selection_change (EBookShellView *book_shell_view,
                   EAddressbookView *view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *current_view;
 	ESelectionModel *selection_model;
-	EABContactDisplay *display;
 	gint n_selected;
 
-	current_view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	current_view = e_book_shell_content_get_current_view (book_shell_content);
 
 	if (view != current_view)
 		return;
 
 	e_book_shell_view_actions_update (book_shell_view);
 
-	display = EAB_CONTACT_DISPLAY (book_shell_view->priv->preview);
 	selection_model = e_addressbook_view_get_selection_model (view);
 
 	n_selected = (selection_model != NULL) ?
@@ -90,24 +90,27 @@ selection_change (EBookShellView *book_shell_view,
 			book_shell_view_selection_change_foreach,
 			book_shell_view);
 	else
-		eab_contact_display_set_contact (display, NULL);
+		e_book_shell_content_set_preview_contact (
+			book_shell_content, NULL);
 }
 
 static void
 contact_changed (EBookShellView *book_shell_view,
                  EContact *contact)
 {
-	EABContactDisplay *display;
-	EContact *displayed_contact;
+	EBookShellContent *book_shell_content;
+	EContact *preview_contact;
 
-	display = EAB_CONTACT_DISPLAY (book_shell_view->priv->preview);
-	displayed_contact = eab_contact_display_get_contact (display);
+	book_shell_content = book_shell_view->priv->book_shell_content;
 
-	if (contact != displayed_contact)
+	preview_contact =
+		e_book_shell_content_get_preview_contact (book_shell_content);
+
+	if (contact != preview_contact)
 		return;
 
 	/* Re-render the same contact. */
-	eab_contact_display_set_contact (display, contact);
+	e_book_shell_content_set_preview_contact (book_shell_content, contact);
 }
 
 static void
@@ -115,21 +118,23 @@ contacts_removed (EBookShellView *book_shell_view,
                   GArray *removed_indices,
                   EAddressbookModel *model)
 {
-	EABContactDisplay *display;
-	EContact *displayed_contact;
+	EBookShellContent *book_shell_content;
+	EContact *preview_contact;
 
-	display = EAB_CONTACT_DISPLAY (book_shell_view->priv->preview);
-	displayed_contact = eab_contact_display_get_contact (display);
+	book_shell_content = book_shell_view->priv->book_shell_content;
 
-	if (displayed_contact == NULL)
+	preview_contact =
+		e_book_shell_content_get_preview_contact (book_shell_content);
+
+	if (preview_contact == NULL)
 		return;
 
 	/* Is the displayed contact still in the model? */
-	if (e_addressbook_model_find (model, displayed_contact) < 0)
+	if (e_addressbook_model_find (model, preview_contact) < 0)
 		return;
 
 	/* If not, clear the contact display. */
-	eab_contact_display_set_contact (display, NULL);
+	e_book_shell_content_set_preview_contact (book_shell_content, NULL);
 }
 
 static void
@@ -156,19 +161,18 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
                                           ESourceSelector *selector)
 {
 	EShellView *shell_view;
+	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 	EAddressbookModel *model;
 	ESource *source;
 	GalViewInstance *view_instance;
 	GHashTable *hash_table;
-	GtkNotebook *notebook;
 	GtkWidget *widget;
 	const gchar *uid;
 	gchar *view_id;
-	gint page_num;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
-	notebook = GTK_NOTEBOOK (book_shell_view->priv->notebook);
+	book_shell_content = book_shell_view->priv->book_shell_content;
 	source = e_source_selector_peek_primary_selection (selector);
 
 	if (source == NULL)
@@ -202,9 +206,13 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 		widget = e_addressbook_view_new (shell_view, source);
 		gtk_widget_show (widget);
 
-		g_object_ref_sink (widget);
-		gtk_notebook_append_page (notebook, widget, NULL);
-		g_hash_table_insert (hash_table, g_strdup (uid), widget);
+		e_book_shell_content_insert_view (
+			book_shell_content,
+			E_ADDRESSBOOK_VIEW (widget));
+
+		g_hash_table_insert (
+			hash_table, g_strdup (uid),
+			g_object_ref (widget));
 
 		g_signal_connect_swapped (
 			widget, "popup-event",
@@ -236,8 +244,8 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 			G_CALLBACK (contacts_removed), book_shell_view);
 	}
 
-	page_num = gtk_notebook_page_num (notebook, widget);
-	gtk_notebook_set_current_page (notebook, page_num);
+	e_book_shell_content_set_current_view (
+		book_shell_content, E_ADDRESSBOOK_VIEW (widget));
 
 	view_instance = e_addressbook_view_get_view_instance (view);
 	view_id = gal_view_instance_get_current_view_id (view_instance);
@@ -333,11 +341,13 @@ book_shell_view_load_view_collection (EShellViewClass *shell_view_class)
 static void
 book_shell_view_notify_view_id_cb (EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *address_view;
 	GalViewInstance *view_instance;
 	const gchar *view_id;
 
-	address_view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	address_view = e_book_shell_content_get_current_view (book_shell_content);
 	view_instance = e_addressbook_view_get_view_instance (address_view);
 	view_id = e_shell_view_get_view_id (E_SHELL_VIEW (book_shell_view));
 
@@ -399,54 +409,16 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ESourceSelector *selector;
-	GConfBridge *bridge;
-	GtkWidget *container;
-	GtkWidget *widget;
-	GObject *object;
-	const gchar *key;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	/* Construct view widgets. */
+	/* Cache these to avoid lots of awkward casting. */
+	priv->book_shell_content = g_object_ref (shell_content);
+	priv->book_shell_sidebar = g_object_ref (shell_sidebar);
 
-	shell_content = e_shell_view_get_shell_content (shell_view);
-	container = GTK_WIDGET (shell_content);
-
-	widget = gtk_vpaned_new ();
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	priv->paned = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = gtk_notebook_new ();
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
-	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
-	gtk_paned_add1 (GTK_PANED (container), widget);
-	priv->notebook = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	widget = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (
-		GTK_SCROLLED_WINDOW (widget),
-		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (
-		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_paned_add2 (GTK_PANED (container), widget);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = eab_contact_display_new ();
-	eab_contact_display_set_mode (
-		EAB_CONTACT_DISPLAY (widget),
-		EAB_CONTACT_DISPLAY_RENDER_NORMAL);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	priv->preview = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	selector = e_book_shell_sidebar_get_selector (
 		E_BOOK_SHELL_SIDEBAR (shell_sidebar));
 
@@ -477,14 +449,6 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 	e_book_shell_view_actions_init (book_shell_view);
 	e_book_shell_view_update_search_filter (book_shell_view);
 	book_shell_view_activate_selected_source (book_shell_view, selector);
-
-	/* Bind GObject properties to GConf keys. */
-
-	bridge = gconf_bridge_get ();
-
-	object = G_OBJECT (book_shell_view->priv->paned);
-	key = "/apps/evolution/addressbook/display/vpane_position";
-	gconf_bridge_bind_property_delayed (bridge, key, object, "position");
 }
 
 void
@@ -497,9 +461,8 @@ e_book_shell_view_private_dispose (EBookShellView *book_shell_view)
 	DISPOSE (priv->contact_actions);
 	DISPOSE (priv->filter_actions);
 
-	DISPOSE (priv->paned);
-	DISPOSE (priv->notebook);
-	DISPOSE (priv->preview);
+	DISPOSE (priv->book_shell_content);
+	DISPOSE (priv->book_shell_sidebar);
 
 	g_hash_table_remove_all (priv->uid_to_view);
 	g_hash_table_remove_all (priv->uid_to_editor);
@@ -512,22 +475,6 @@ e_book_shell_view_private_finalize (EBookShellView *book_shell_view)
 
 	g_hash_table_destroy (priv->uid_to_view);
 	g_hash_table_destroy (priv->uid_to_editor);
-}
-
-EAddressbookView *
-e_book_shell_view_get_current_view (EBookShellView *book_shell_view)
-{
-	GtkNotebook *notebook;
-	GtkWidget *widget;
-	gint page_num;
-
-	g_return_val_if_fail (E_IS_BOOK_SHELL_VIEW (book_shell_view), NULL);
-
-	notebook = GTK_NOTEBOOK (book_shell_view->priv->notebook);
-	page_num = gtk_notebook_get_current_page (notebook);
-	widget = gtk_notebook_get_nth_page (notebook, page_num);
-
-	return E_ADDRESSBOOK_VIEW (widget);
 }
 
 void

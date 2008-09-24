@@ -22,8 +22,11 @@
 #ifndef E_SHELL_VIEW_H
 #define E_SHELL_VIEW_H
 
-#include <e-shell-common.h>
-#include <e-shell-window.h>
+#include <shell/e-shell-common.h>
+#include <shell/e-shell-content.h>
+#include <shell/e-shell-sidebar.h>
+#include <shell/e-shell-taskbar.h>
+#include <shell/e-shell-window.h>
 
 #include <widgets/misc/e-activity.h>
 #include <widgets/menus/gal-view-collection.h>
@@ -61,9 +64,12 @@ struct _EShellView {
 struct _EShellViewClass {
 	GObjectClass parent_class;
 
-	/* Initial GtkRadioAction values */
+	/* Initial switcher action values. */
 	const gchar *label;
 	const gchar *icon_name;
+
+	/* Path to the search entry popup menu. */
+	const gchar *search_options;
 
 	/* Subclasses should set this via the "class_data" field in
 	 * the GTypeInfo they pass to g_type_module_register_type(). */
@@ -71,9 +77,6 @@ struct _EShellViewClass {
 
 	/* A unique instance is created for each subclass. */
 	GalViewCollection *view_collection;
-
-	/* Path to the search entry popup menu. */
-	const gchar *search_options_path;
 
 	/* Factory Methods */
 	GtkWidget *	(*new_shell_content)	(EShellView *shell_view);
@@ -97,9 +100,9 @@ gboolean	e_shell_view_is_active		(EShellView *shell_view);
 void		e_shell_view_add_activity	(EShellView *shell_view,
 						 EActivity *activity);
 gint		e_shell_view_get_page_num	(EShellView *shell_view);
-gpointer	e_shell_view_get_shell_content	(EShellView *shell_view);
-gpointer	e_shell_view_get_shell_sidebar	(EShellView *shell_view);
-gpointer	e_shell_view_get_shell_taskbar	(EShellView *shell_view);
+EShellContent *	e_shell_view_get_shell_content	(EShellView *shell_view);
+EShellSidebar *	e_shell_view_get_shell_sidebar	(EShellView *shell_view);
+EShellTaskbar *	e_shell_view_get_shell_taskbar	(EShellView *shell_view);
 EShellWindow *	e_shell_view_get_shell_window	(EShellView *shell_view);
 void		e_shell_view_changed		(EShellView *shell_view);
 

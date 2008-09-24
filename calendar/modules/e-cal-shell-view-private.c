@@ -40,6 +40,17 @@ void
 e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 {
 	ECalShellViewPrivate *priv = cal_shell_view->priv;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (cal_shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+
+	/* Cache these to avoid lots of awkward casting. */
+	priv->cal_shell_content = g_object_ref (shell_content);
+	priv->cal_shell_sidebar = g_object_ref (shell_sidebar);
 }
 
 void
@@ -50,6 +61,9 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 	DISPOSE (priv->source_list);
 
 	DISPOSE (priv->calendar_actions);
+
+	DISPOSE (priv->cal_shell_content);
+	DISPOSE (priv->cal_shell_sidebar);
 }
 
 void

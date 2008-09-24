@@ -36,10 +36,6 @@
 #include "dialogs/event-editor.h"
 #include "dialogs/task-editor.h"
 
-extern ECompEditorRegistry *comp_editor_registry;
-
-
-
 /* A pending request */
 
 typedef enum {

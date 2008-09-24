@@ -54,4 +54,11 @@
     <separator/>
     <menuitem action='calendar-properties'/>
   </popup>
+  <popup name='calendar-search-options'>
+    <menuitem action='calendar-search-summary-contains'/>
+    <menuitem action='calendar-search-description-contains'/>
+    <menuitem action='calendar-search-any-field-contains'/>
+    <separator/>
+    <menuitem action='search-advanced'/>
+  </popup>
 </ui>

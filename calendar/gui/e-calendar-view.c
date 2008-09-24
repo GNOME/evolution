@@ -35,7 +35,7 @@
 #include <e-util/e-error.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
-#include "e-calendar-marshal.h"
+#include <e-util/e-util.h>
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-component.h>
 
@@ -82,7 +82,6 @@ static void e_calendar_view_destroy (GtkObject *object);
 static void open_event_with_flags (ECalendarView *cal_view, ECal *client, icalcomponent *icalcomp, guint32 flags);
 
 static GdkAtom clipboard_atom = GDK_NONE;
-extern ECompEditorRegistry *comp_editor_registry;
 
 /* Property IDs */
 enum props {
@@ -194,7 +193,7 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECalendarViewClass, timezone_changed),
 			      NULL, NULL,
-			      e_calendar_marshal_VOID__POINTER_POINTER,
+			      e_marshal_VOID__POINTER_POINTER,
 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
 
 	e_calendar_view_signals[EVENT_CHANGED] =

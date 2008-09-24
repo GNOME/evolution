@@ -65,10 +65,6 @@
 
 static BonoboObjectClass *parent_class = NULL;
 
-/* Memos should have their own registry */
-extern ECompEditorRegistry *comp_editor_registry;
-
-
 typedef struct _MemosComponentView
 {
 	ESourceList *source_list;
@@ -79,7 +75,6 @@ typedef struct _MemosComponentView
 	ETable *table;
 	ETableModel *model;
 
-	EInfoLabel *info_label;
 	GtkWidget *source_selector;
 
 	BonoboControl *view_control;
@@ -88,9 +83,6 @@ typedef struct _MemosComponentView
 
 	GList *notifications;
 
-	EUserCreatableItemsHandler *creatable_items_handler;
-
-	EActivityHandler *activity_handler;
 } MemosComponentView;
 
 struct _MemosComponentPrivate {
@@ -733,15 +725,6 @@ create_local_item_cb (EUserCreatableItemsHandler *handler, const char *item_type
 
 	priv = memos_component->priv;
 
-	for (l = priv->views; l; l = l->next) {
-		component_view = l->data;
-
-		if (component_view->creatable_items_handler == handler)
-			break;
-
-		component_view = NULL;
-	}
-
 	if (strcmp (item_type_name, CREATE_MEMO_ID) == 0) {
 		create_new_memo (memos_component, FALSE, component_view);
 	} else if (strcmp (item_type_name, CREATE_SHARED_MEMO_ID) == 0) {
@@ -787,8 +770,6 @@ create_component_view (MemosComponent *memos_component)
 	g_signal_connect (component_view->memos, "source_removed",
 			  G_CALLBACK (source_removed_cb), component_view);
 
-	e_memo_table_set_activity_handler (e_memos_get_calendar_table (component_view->memos), component_view->activity_handler);
-
 	/* connect after setting the initial selections, or we'll get unwanted calls
 	   to calendar_control_sensitize_calendar_commands */
 	g_signal_connect (component_view->source_selector, "selection_changed",
@@ -820,66 +801,7 @@ destroy_component_view (MemosComponentView *component_view)
 		calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
 	g_list_free (component_view->notifications);
 
-	if (component_view->creatable_items_handler)
-		g_object_unref (component_view->creatable_items_handler);
-
-	if (component_view->activity_handler)
-		g_object_unref (component_view->activity_handler);
-
 	g_free (component_view);
-}
-
-static void
-view_destroyed_cb (gpointer data, GObject *where_the_object_was)
-{
-	MemosComponent *memos_component = data;
-	MemosComponentPrivate *priv;
-	GList *l;
-
-	priv = memos_component->priv;
-
-	for (l = priv->views; l; l = l->next) {
-		MemosComponentView *component_view = l->data;
-
-		if (G_OBJECT (component_view->view_control) == where_the_object_was) {
-			priv->views = g_list_remove (priv->views, component_view);
-			destroy_component_view (component_view);
-
-			break;
-		}
-	}
-}
-
-static GNOME_Evolution_ComponentView
-impl_createView (PortableServer_Servant servant,
-		 GNOME_Evolution_ShellView parent,
-		 CORBA_boolean select_item,
-		 CORBA_Environment *ev)
-{
-	MemosComponent *component = MEMOS_COMPONENT (bonobo_object_from_servant (servant));
-	MemosComponentPrivate *priv;
-	MemosComponentView *component_view;
-	EComponentView *ecv;
-
-	priv = component->priv;
-
-	/* Create the calendar component view */
-	component_view = create_component_view (component);
-	if (!component_view) {
-		/* FIXME Should we describe the problem in a control? */
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
-
-		return CORBA_OBJECT_NIL;
-	}
-
-	g_object_weak_ref (G_OBJECT (component_view->view_control), view_destroyed_cb, component);
-	priv->views = g_list_append (priv->views, component_view);
-
-	/* TODO: Make CalendarComponentView just subclass EComponentView */
-	ecv = e_component_view_new_controls (parent, "memos", component_view->sidebar_control,
-					     component_view->view_control, component_view->statusbar_control);
-
-	return BONOBO_OBJREF(ecv);
 }
 
 static void
@@ -928,38 +850,12 @@ impl_dispose (GObject *object)
 		priv->create_ecal = NULL;
 	}
 
-	for (l = priv->views; l; l = l->next) {
-		MemosComponentView *component_view = l->data;
-
-		g_object_weak_unref (G_OBJECT (component_view->view_control), view_destroyed_cb, memos_component);
-	}
-	g_list_free (priv->views);
-	priv->views = NULL;
-
 	for (l = priv->notifications; l; l = l->next)
 		calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
 	g_list_free (priv->notifications);
 	priv->notifications = NULL;
 
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
-}
-
-static void
-impl_finalize (GObject *object)
-{
-	MemosComponentPrivate *priv = MEMOS_COMPONENT (object)->priv;
-	GList *l;
-
-	for (l = priv->views; l; l = l->next) {
-		MemosComponentView *component_view = l->data;
-
-		destroy_component_view (component_view);
-	}
-	g_list_free (priv->views);
-
-	g_free (priv);
-
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 static void
@@ -971,21 +867,7 @@ memos_component_class_init (MemosComponentClass *klass)
 	parent_class = g_type_class_peek_parent (klass);
 
 	epv->upgradeFromVersion      = impl_upgradeFromVersion;
-	epv->createView		     = impl_createView;
 	epv->requestCreateItem       = impl_requestCreateItem;
 
 	object_class->dispose = impl_dispose;
-	object_class->finalize = impl_finalize;
 }
-
-static void
-memos_component_init (MemosComponent *component, MemosComponentClass *klass)
-{
-	MemosComponentPrivate *priv;
-
-	priv = g_new0 (MemosComponentPrivate, 1);
-
-	component->priv = priv;
-}
-
-BONOBO_TYPE_FUNC_FULL (MemosComponent, GNOME_Evolution_Component, PARENT_TYPE, memos_component)

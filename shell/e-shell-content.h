@@ -21,7 +21,7 @@
 #ifndef E_SHELL_CONTENT_H
 #define E_SHELL_CONTENT_H
 
-#include <e-shell-common.h>
+#include <shell/e-shell-common.h>
 #include <filter/filter-rule.h>
 #include <filter/rule-context.h>
 

@@ -1,5 +1,5 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* e-memo-shell-sidebar.c
+/* e-task-shell-sidebar.c
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
@@ -18,20 +18,19 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#include "e-memo-shell-sidebar.h"
+#include "e-task-shell-sidebar.h"
 
 #include <glib/gi18n.h>
-#include <libedataserverui/e-source-selector.h>
 
-#include <e-memos.h>
-#include <e-memo-shell-view.h>
-#include <e-calendar-selector.h>
+#include "calendar/gui/e-calendar-selector.h"
 
-#define E_MEMO_SHELL_SIDEBAR_GET_PRIVATE(obj) \
+#include "e-task-shell-view.h"
+
+#define E_TASK_SHELL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MEMO_SHELL_SIDEBAR, EMemoShellSidebarPrivate))
+	((obj), E_TYPE_TASK_SHELL_SIDEBAR, ETaskShellSidebarPrivate))
 
-struct _EMemoShellSidebarPrivate {
+struct _ETaskShellSidebarPrivate {
 	GtkWidget *selector;
 };
 
@@ -42,31 +41,32 @@ enum {
 
 static gpointer parent_class;
 
+#if 0  /* MOVE THIS TO ETaskShellView */
 static void
-memo_shell_sidebar_update (EShellSidebar *shell_sidebar)
+task_shell_sidebar_update (EShellSidebar *shell_sidebar)
 {
 	EShellView *shell_view;
-	EMemos *memos;
+	ETasks *tasks;
 	ETable *table;
 	ECalModel *model;
-	EMemoTable *memo_table;
+	ECalendarTable *cal_table;
 	GString *string;
 	const gchar *format;
 	gint n_rows;
 	gint n_selected;
 
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	memos = e_memo_shell_view_get_memos (E_MEMO_SHELL_VIEW (shell_view));
-	memo_table = e_memos_get_calendar_table (memos);
-	model = e_memo_table_get_model (memo_table);
-	table = e_memo_table_get_table (memo_table);
+	tasks = e_task_shell_view_get_tasks (E_TASK_SHELL_VIEW (shell_view));
+	cal_table = e_tasks_get_calendar_table (tasks);
+	model = e_calendar_table_get_model (cal_table);
+	table = e_calendar_table_get_table (cal_table);
 
 	n_rows = e_table_model_get_row_count (model);
 	n_selected = e_table_selected_count (table);
 
 	string = g_string_sized_new (64);
 
-	format = ngettext ("%d memo", "%d memos", n_rows);
+	format = ngettext ("%d task", "%d tasks", n_rows);
 	g_string_append_printf (string, format, n_rows);
 
 	if (n_selected > 0) {
@@ -79,9 +79,10 @@ memo_shell_sidebar_update (EShellSidebar *shell_sidebar)
 
 	g_string_free (string, TRUE);
 }
+#endif
 
 static void
-memo_shell_sidebar_get_property (GObject *object,
+task_shell_sidebar_get_property (GObject *object,
                                  guint property_id,
                                  GValue *value,
                                  GParamSpec *pspec)
@@ -89,8 +90,8 @@ memo_shell_sidebar_get_property (GObject *object,
 	switch (property_id) {
 		case PROP_SELECTOR:
 			g_value_set_object (
-				value, e_memo_shell_sidebar_get_selector (
-				E_MEMO_SHELL_SIDEBAR (object)));
+				value, e_task_shell_sidebar_get_selector (
+				E_TASK_SHELL_SIDEBAR (object)));
 			return;
 	}
 
@@ -98,11 +99,11 @@ memo_shell_sidebar_get_property (GObject *object,
 }
 
 static void
-memo_shell_sidebar_dispose (GObject *object)
+task_shell_sidebar_dispose (GObject *object)
 {
-	EMemoShellSidebarPrivate *priv;
+	ETaskShellSidebarPrivate *priv;
 
-	priv = E_MEMO_SHELL_SIDEBAR_GET_PRIVATE (object);
+	priv = E_TASK_SHELL_SIDEBAR_GET_PRIVATE (object);
 
 	if (priv->selector != NULL) {
 		g_object_unref (priv->selector);
@@ -114,26 +115,22 @@ memo_shell_sidebar_dispose (GObject *object)
 }
 
 static void
-memo_shell_sidebar_constructed (GObject *object)
+task_shell_sidebar_constructed (GObject *object)
 {
-	EMemoShellSidebarPrivate *priv;
+	ETaskShellSidebarPrivate *priv;
 	EShellView *shell_view;
 	EShellSidebar *shell_sidebar;
-	EMemoShellView *memo_shell_view;
+	ETaskShellView *task_shell_view;
 	ESourceList *source_list;
 	GtkContainer *container;
 	GtkWidget *widget;
-	EMemos *memos;
-	ETable *table;
-	ECalModel *model;
-	EMemoTable *memo_table;
 
-	priv = E_MEMO_SHELL_SIDEBAR_GET_PRIVATE (object);
+	priv = E_TASK_SHELL_SIDEBAR_GET_PRIVATE (object);
 
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	memo_shell_view = E_MEMO_SHELL_VIEW (shell_view);
-	source_list = e_memo_shell_view_get_source_list (memo_shell_view);
+	task_shell_view = E_TASK_SHELL_VIEW (shell_view);
+	source_list = e_task_shell_view_get_source_list (task_shell_view);
 
 	container = GTK_CONTAINER (shell_sidebar);
 
@@ -154,48 +151,52 @@ memo_shell_sidebar_constructed (GObject *object)
 	priv->selector = g_object_ref (widget);
 	gtk_widget_show (widget);
 
+#if 0  /* MOVE THIS TO ETaskShellView */
+
 	/* Setup signal handlers. */
 
-	memos = e_memo_shell_view_get_memos (memo_shell_view);
-	memo_table = e_memos_get_calendar_table (memos);
-	model = e_memo_table_get_model (memo_table);
-	table = e_memo_table_get_table (memo_table);
+	tasks = e_task_shell_view_get_tasks (task_shell_view);
+	cal_table = e_tasks_get_calendar_table (tasks);
+	model = e_calendar_table_get_model (cal_table);
+	table = e_calendar_table_get_table (cal_table);
 
 	g_signal_connect_swapped (
 		model, "model-changed",
-		G_CALLBACK (memo_shell_sidebar_update),
+		G_CALLBACK (task_shell_sidebar_update),
 		shell_sidebar);
 
 	g_signal_connect_swapped (
 		model, "model-rows-deleted",
-		G_CALLBACK (memo_shell_sidebar_update),
+		G_CALLBACK (task_shell_sidebar_update),
 		shell_sidebar);
 
 	g_signal_connect_swapped (
 		model, "model-rows-inserted",
-		G_CALLBACK (memo_shell_sidebar_update),
+		G_CALLBACK (task_shell_sidebar_update),
 		shell_sidebar);
 
 	g_signal_connect_swapped (
 		model, "selection-change",
-		G_CALLBACK (memo_shell_sidebar_update),
+		G_CALLBACK (task_shell_sidebar_update),
 		shell_sidebar);
 
-	memo_shell_sidebar_update (shell_sidebar);
+	task_shell_sidebar_update (shell_sidebar);
+
+#endif
 }
 
 static void
-memo_shell_sidebar_class_init (EMemoShellSidebarClass *class)
+task_shell_sidebar_class_init (ETaskShellSidebarClass *class)
 {
 	GObjectClass *object_class;
 
 	parent_class = g_type_class_peek_parent (class);
-	g_type_class_add_private (class, sizeof (EMemoShellSidebarPrivate));
+	g_type_class_add_private (class, sizeof (ETaskShellSidebarPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->get_property = memo_shell_sidebar_get_property;
-	object_class->dispose = memo_shell_sidebar_dispose;
-	object_class->constructed = memo_shell_sidebar_constructed;
+	object_class->get_property = task_shell_sidebar_get_property;
+	object_class->dispose = task_shell_sidebar_dispose;
+	object_class->constructed = task_shell_sidebar_constructed;
 
 	g_object_class_install_property (
 		object_class,
@@ -203,41 +204,41 @@ memo_shell_sidebar_class_init (EMemoShellSidebarClass *class)
 		g_param_spec_object (
 			"selector",
 			_("Source Selector Widget"),
-			_("This widget displays groups of memo lists"),
+			_("This widget displays groups of task lists"),
 			E_TYPE_SOURCE_SELECTOR,
 			G_PARAM_READABLE));
 }
 
 static void
-memo_shell_sidebar_init (EMemoShellSidebar *memo_shell_sidebar)
+task_shell_sidebar_init (ETaskShellSidebar *task_shell_sidebar)
 {
-	memo_shell_sidebar->priv =
-		E_MEMO_SHELL_SIDEBAR_GET_PRIVATE (memo_shell_sidebar);
+	task_shell_sidebar->priv =
+		E_TASK_SHELL_SIDEBAR_GET_PRIVATE (task_shell_sidebar);
 
 	/* Postpone widget construction until we have a shell view. */
 }
 
 GType
-e_memo_shell_sidebar_get_type (void)
+e_task_shell_sidebar_get_type (void)
 {
 	static GType type = 0;
 
 	if (G_UNLIKELY (type == 0)) {
 		static const GTypeInfo type_info = {
-			sizeof (EMemoShellSidebarClass),
+			sizeof (ETaskShellSidebarClass),
 			(GBaseInitFunc) NULL,
 			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) memo_shell_sidebar_class_init,
+			(GClassInitFunc) task_shell_sidebar_class_init,
 			(GClassFinalizeFunc) NULL,
 			NULL,  /* class_data */
-			sizeof (EMemoShellSidebar),
+			sizeof (ETaskShellSidebar),
 			0,     /* n_preallocs */
-			(GInstanceInitFunc) memo_shell_sidebar_init,
+			(GInstanceInitFunc) task_shell_sidebar_init,
 			NULL   /* value_table */
 		};
 
 		type = g_type_register_static (
-			E_TYPE_SHELL_SIDEBAR, "EMemoShellSidebar",
+			E_TYPE_SHELL_SIDEBAR, "ETaskShellSidebar",
 			&type_info, 0);
 	}
 
@@ -245,20 +246,20 @@ e_memo_shell_sidebar_get_type (void)
 }
 
 GtkWidget *
-e_memo_shell_sidebar_new (EShellView *shell_view)
+e_task_shell_sidebar_new (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	return g_object_new (
-		E_TYPE_MEMO_SHELL_SIDEBAR,
+		E_TYPE_TASK_SHELL_SIDEBAR,
 		"shell-view", shell_view, NULL);
 }
 
 GtkWidget *
-e_memo_shell_sidebar_get_selector (EMemoShellSidebar *memo_shell_sidebar)
+e_task_shell_sidebar_get_selector (ETaskShellSidebar *task_shell_sidebar)
 {
 	g_return_val_if_fail (
-		E_IS_MEMO_SHELL_SIDEBAR (memo_shell_sidebar), NULL);
+		E_IS_TASK_SHELL_SIDEBAR (task_shell_sidebar), NULL);
 
-	return memo_shell_sidebar->priv->selector;
+	return task_shell_sidebar->priv->selector;
 }

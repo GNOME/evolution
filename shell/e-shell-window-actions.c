@@ -686,7 +686,7 @@ action_custom_rule_cb (GtkAction *action,
 	g_return_if_fail (rule != NULL);
 
 	view_name = e_shell_window_get_active_view (shell_window);
-	shell_view = e_shell_window_get_view (shell_window, view_name);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	rule = g_object_get_data (G_OBJECT (action), "rule");
@@ -735,7 +735,7 @@ action_gal_define_views_cb (GtkAction *action,
 	const gchar *view_name;
 
 	view_name = e_shell_window_get_active_view (shell_window);
-	shell_view = e_shell_window_get_view (shell_window, view_name);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	view_collection = shell_view_class->view_collection;
 	g_return_if_fail (view_collection != NULL);
@@ -758,7 +758,7 @@ action_gal_view_cb (GtkRadioAction *action,
 	const gchar *view_id;
 
 	view_name = e_shell_window_get_active_view (shell_window);
-	shell_view = e_shell_window_get_view (shell_window, view_name);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 	view_id = g_object_get_data (G_OBJECT (current), "view-id");
 	e_shell_view_set_view_id (shell_view, view_id);
 }
@@ -869,7 +869,7 @@ action_search_advanced_cb (GtkAction *action,
 	const gchar *view_name;
 
 	view_name = e_shell_window_get_active_view (shell_window);
-	shell_view = e_shell_window_get_view (shell_window, view_name);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	e_shell_content_run_advanced_search_dialog (shell_content);
@@ -885,7 +885,7 @@ action_search_clear_cb (GtkAction *action,
 	const gchar *view_name;
 
 	view_name = e_shell_window_get_active_view (shell_window);
-	shell_view = e_shell_window_get_view (shell_window, view_name);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	e_shell_content_set_search_rule (shell_content, NULL);
@@ -905,7 +905,7 @@ action_search_edit_cb (GtkAction *action,
 	const gchar *view_name;
 
 	view_name = e_shell_window_get_active_view (shell_window);
-	shell_view = e_shell_window_get_view (shell_window, view_name);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	e_shell_content_run_edit_searches_dialog (shell_content);
@@ -922,10 +922,10 @@ action_search_options_cb (GtkAction *action,
 	const gchar *widget_path;
 
 	view_name = e_shell_window_get_active_view (shell_window);
-	shell_view = e_shell_window_get_view (shell_window, view_name);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 
-	widget_path = shell_view_class->search_options_path;
+	widget_path = shell_view_class->search_options;
 	e_shell_window_show_popup_menu (shell_window, widget_path, NULL);
 }
 
@@ -938,7 +938,7 @@ action_search_save_cb (GtkAction *action,
 	const gchar *view_name;
 
 	view_name = e_shell_window_get_active_view (shell_window);
-	shell_view = e_shell_window_get_view (shell_window, view_name);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	e_shell_content_run_save_search_dialog (shell_content);
@@ -1777,7 +1777,7 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	view_name = e_shell_window_get_active_view (shell_window);
-	shell_view = e_shell_window_get_view (shell_window, view_name);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	view_collection = shell_view_class->view_collection;
 	view_id = e_shell_view_get_view_id (shell_view);
@@ -1880,7 +1880,7 @@ e_shell_window_update_search_menu (EShellWindow *shell_window)
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	view_name = e_shell_window_get_active_view (shell_window);
-	shell_view = e_shell_window_get_view (shell_window, view_name);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	context = e_shell_content_get_search_context (shell_content);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
@@ -1892,7 +1892,7 @@ e_shell_window_update_search_menu (EShellWindow *shell_window)
 	gtk_action_set_sensitive (ACTION (SEARCH_CLEAR), sensitive);
 	gtk_action_set_sensitive (ACTION (SEARCH_SAVE), sensitive);
 
-	sensitive = (shell_view_class->search_options_path != NULL);
+	sensitive = (shell_view_class->search_options != NULL);
 	gtk_action_set_sensitive (ACTION (SEARCH_OPTIONS), sensitive);
 
 	/* Add custom rules to the Search menu. */

@@ -21,7 +21,7 @@
 #ifndef E_SHELL_MODULE_H
 #define E_SHELL_MODULE_H
 
-#include <e-shell-common.h>
+#include <shell/e-shell-common.h>
 #include <widgets/misc/e-activity.h>
 
 /* Standard GObject macros */

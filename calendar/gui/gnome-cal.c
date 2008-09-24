@@ -44,12 +44,10 @@
 #include <libedataserver/e-url.h>
 #include <libedataserverui/e-passwords.h>
 
-#include "shell/e-user-creatable-items-handler.h"
 #include <libecal/e-cal-time-util.h>
 #include <widgets/menus/gal-view-factory-etable.h>
 #include <widgets/menus/gal-view-etable.h>
 #include <widgets/menus/gal-define-views-dialog.h>
-#include "widgets/menus/gal-view-menus.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 #include "e-comp-editor-registry.h"
@@ -57,7 +55,6 @@
 #include "dialogs/event-editor.h"
 #include "dialogs/task-editor.h"
 #include "comp-util.h"
-#include "e-calendar-marshal.h"
 #include "e-cal-model-calendar.h"
 #include "e-day-view.h"
 #include "e-day-view-config.h"
@@ -69,10 +66,7 @@
 #include "e-mini-calendar-config.h"
 #include "e-calendar-table-config.h"
 #include "e-memo-table-config.h"
-#include "evolution-calendar.h"
 #include "gnome-cal.h"
-#include "calendar-component.h"
-#include "memos-component.h"
 #include "cal-search-bar.h"
 #include "calendar-commands.h"
 #include "calendar-config.h"
@@ -85,11 +79,6 @@
 #include "e-cal-popup.h"
 #include "e-cal-menu.h"
 #include "e-cal-model-tasks.h"
-
-/* FIXME glib 2.4 and above has this */
-#ifndef G_MAXINT32
-#define G_MAXINT32	((gint32)  0x7fffffff)
-#endif
 
 #define d(x) x
 
@@ -369,7 +358,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (GnomeCalendarClass, source_added),
 			      NULL, NULL,
-			      e_calendar_marshal_VOID__INT_OBJECT,
+			      e_marshal_VOID__INT_OBJECT,
 			      G_TYPE_NONE,
 			      2,
 			      G_TYPE_INT, G_TYPE_OBJECT);
@@ -380,7 +369,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (GnomeCalendarClass, source_removed),
 			      NULL, NULL,
-			      e_calendar_marshal_VOID__INT_OBJECT,
+			      e_marshal_VOID__INT_OBJECT,
 			      G_TYPE_NONE,
 			      2,
 			      G_TYPE_INT, G_TYPE_OBJECT);

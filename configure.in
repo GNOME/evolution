@@ -1985,6 +1985,7 @@ calendar/conduits/memo/Makefile
 calendar/gui/Makefile
 calendar/gui/alarm-notify/Makefile
 calendar/gui/dialogs/Makefile
+calendar/modules/Makefile
 composer/Makefile
 mail/Makefile
 mail/default/Makefile

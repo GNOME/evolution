@@ -410,7 +410,7 @@ e_shell_window_switch_to_view (EShellWindow *shell_window,
 	GList *list;
 	gint page_num;
 
-	shell_view = e_shell_window_get_view (shell_window, view_name);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 
 	page_num = e_shell_view_get_page_num (shell_view);
 	g_return_if_fail (page_num >= 0);
@@ -448,7 +448,7 @@ e_shell_window_update_icon (EShellWindow *shell_window)
 	gchar *icon_name;
 
 	view_name = e_shell_window_get_active_view (shell_window);
-	shell_view = e_shell_window_get_view (shell_window, view_name);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 
 	action = e_shell_view_get_action (shell_view);
 	g_object_get (action, "icon-name", &icon_name, NULL);
@@ -465,7 +465,7 @@ e_shell_window_update_title (EShellWindow *shell_window)
 	gchar *window_title;
 
 	view_name = e_shell_window_get_active_view (shell_window);
-	shell_view = e_shell_window_get_view (shell_window, view_name);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 	view_title = e_shell_view_get_title (shell_view);
 
 	/* Translators: This is used for the main window title. */

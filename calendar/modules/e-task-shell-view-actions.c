@@ -30,24 +30,57 @@ static void
 action_task_clipboard_copy_cb (GtkAction *action,
                                ETaskShellView *task_shell_view)
 {
+	ETaskShellContent *task_shell_content;
+	ETaskTable *task_table;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	e_task_table_copy_clipboard (task_table);
 }
 
 static void
 action_task_clipboard_cut_cb (GtkAction *action,
                               ETaskShellView *task_shell_view)
 {
+	ETaskShellContent *task_shell_content;
+	ETaskTable *task_table;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	e_task_table_cut_clipboard (task_table);
 }
 
 static void
 action_task_clipboard_paste_cb (GtkAction *action,
                                 ETaskShellView *task_shell_view)
 {
+	ETaskShellContent *task_shell_content;
+	ETaskTable *task_table;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	e_task_table_paste_clipboard (task_table);
 }
 
 static void
 action_task_delete_cb (GtkAction *action,
                        ETaskShellView *task_shell_view)
 {
+	ETaskShellContent *task_shell_content;
+	ETaskPreview *task_preview;
+	ETaskTable *task_table;
+	const gchar *status_message;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	task_preview = e_task_shell_content_get_task_preview (task_shell_content);
+
+	status_message = _("Deleting selected tasks...");
+	e_task_shell_view_set_status_message (task_shell_view, status_message);
+	e_task_table_delete_selected (task_table);
+	e_task_shell_view_set_status_message (task_shell_view, NULL);
+
+	e_task_preview_clear (task_preview);
 }
 
 static void
@@ -60,12 +93,14 @@ static void
 action_task_list_copy_cb (GtkAction *action,
                           ETaskShellView *task_shell_view)
 {
+	/* FIXME */
 }
 
 static void
 action_task_list_delete_cb (GtkAction *action,
                             ETaskShellView *task_shell_view)
 {
+	/* FIXME */
 }
 
 static void
@@ -90,24 +125,58 @@ static void
 action_task_open_cb (GtkAction *action,
                      ETaskShellView *task_shell_view)
 {
+	ETaskShellContent *task_shell_content;
+	ETaskTable *task_table;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	e_task_table_open_selected (task_table);
 }
 
 static void
 action_task_preview_cb (GtkToggleAction *action,
                         ETaskShellView *task_shell_view)
 {
+	ETaskShellContent *task_shell_content;
+	gboolean visible;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	visible = gtk_toggle_action_get_active (action);
+	e_task_shell_content_set_preview_visible (task_shell_content, visible);
 }
 
 static void
 action_task_print_cb (GtkAction *action,
                       ETaskShellView *task_shell_view)
 {
+	ETaskShellContent *task_shell_content;
+	ETaskTable *task_table;
+	ETable *table;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	table = e_task_table_get_table (task_table);
+
+	print_table (
+		table, _("Print Tasks"), _("Tasks"),
+		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 }
 
 static void
 action_task_print_preview_cb (GtkAction *action,
                               ETaskShellView *task_shell_view)
 {
+	ETaskShellContent *task_shell_content;
+	ETaskTable *task_table;
+	ETable *table;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	table = e_task_table_get_table (task_table);
+
+	print_table (
+		table, _("Print Tasks"), _("Tasks"),
+		GTK_PRINT_OPERATION_ACTION_PREVIEW);
 }
 
 static void

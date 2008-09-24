@@ -20,8 +20,6 @@
 
 #include "e-book-shell-view-private.h"
 
-#define SEARCH_OPTIONS_PATH	"/contact-search-options"
-
 enum {
 	PROP_0,
 	PROP_SOURCE_LIST
@@ -35,25 +33,23 @@ book_shell_view_source_list_changed_cb (EBookShellView *book_shell_view,
                                         ESourceList *source_list)
 {
 	EBookShellViewPrivate *priv = book_shell_view->priv;
-	GtkNotebook *notebook;
+	EBookShellContent *book_shell_content;
 	GList *keys, *iter;
 
-	notebook = GTK_NOTEBOOK (priv->notebook);
+	book_shell_content = book_shell_view->priv->book_shell_content;
 
 	keys = g_hash_table_get_keys (priv->uid_to_view);
 	for (iter = keys; iter != NULL; iter = iter->next) {
 		gchar *uid = iter->data;
-		GtkWidget *widget;
-		gint page_num;
+		EAddressbookView *view;
 
 		/* If the source still exists, move on. */
 		if (e_source_list_peek_source_by_uid (source_list, uid))
 			continue;
 
 		/* Remove the view for the deleted source. */
-		widget = g_hash_table_lookup (priv->uid_to_view, uid);
-		page_num = gtk_notebook_page_num (notebook, widget);
-		gtk_notebook_remove_page (notebook, page_num);
+		view = g_hash_table_lookup (priv->uid_to_view, uid);
+		e_book_shell_content_remove_view (book_shell_content, view);
 		g_hash_table_remove (priv->uid_to_view, uid);
 	}
 	g_list_free (keys);
@@ -166,10 +162,11 @@ book_shell_view_class_init (EBookShellViewClass *class,
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
 	shell_view_class->label = N_("Contacts");
 	shell_view_class->icon_name = "x-office-address-book";
+	shell_view_class->search_options = "/contact-search-options";
 	shell_view_class->type_module = type_module;
-	shell_view_class->changed = book_shell_view_changed;
-	shell_view_class->search_options_path = SEARCH_OPTIONS_PATH;
+	shell_view_class->new_shell_content = e_book_shell_content_new;
 	shell_view_class->new_shell_sidebar = e_book_shell_sidebar_new;
+	shell_view_class->changed = book_shell_view_changed;
 
 	g_object_class_install_property (
 		object_class,

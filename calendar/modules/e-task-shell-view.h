@@ -21,7 +21,7 @@
 #ifndef E_TASK_SHELL_VIEW_H
 #define E_TASK_SHELL_VIEW_H
 
-#include <e-shell-view.h>
+#include <shell/e-shell-view.h>
 #include <libedataserver/e-source-list.h>
 
 /* Standard GObject macros */

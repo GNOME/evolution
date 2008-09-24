@@ -38,4 +38,11 @@
     <separator/>
     <menuitem action='memo-list-properties'/>
   </popup>
+  <popup name='memo-search-options'>
+    <menuitem action='memo-search-summary-contains'/>
+    <menuitem action='memo-search-description-contains'/>
+    <menuitem action='memo-search-any-field-contains'/>
+    <separator/>
+    <menuitem action='search-advanced'/>
+  </popup>
 </ui>

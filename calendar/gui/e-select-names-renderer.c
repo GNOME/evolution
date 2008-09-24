@@ -22,7 +22,7 @@
 
 #include <config.h>
 
-#include "e-calendar-marshal.h"
+#include "e-util/e-util.h"
 
 #include "e-select-names-editable.h"
 #include "e-select-names-renderer.h"
@@ -192,7 +192,7 @@ e_select_names_renderer_class_init (ESelectNamesRendererClass *class)
 					      G_SIGNAL_RUN_LAST,
 					      G_STRUCT_OFFSET (ESelectNamesRendererClass, cell_edited),
 					      NULL, NULL,
-					      e_calendar_marshal_VOID__STRING_POINTER_POINTER,
+					      e_marshal_VOID__STRING_POINTER_POINTER,
 					      G_TYPE_NONE, 3,
 					      G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_POINTER);
 }

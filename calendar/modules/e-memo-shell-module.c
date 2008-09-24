@@ -1,5 +1,5 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* e-task-shell-module.c
+/* e-memo-shell-module.c
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
@@ -25,18 +25,20 @@
 #include <libedataserver/e-source-list.h>
 #include <libedataserver/e-source-group.h>
 
-#include <e-shell.h>
-#include <e-shell-module.h>
-#include <e-shell-window.h>
+#include "shell/e-shell.h"
+#include "shell/e-shell-module.h"
+#include "shell/e-shell-window.h"
 
-#include <calendar-config.h>
-#include <e-task-shell-view.h>
+#include "calendar/gui/calendar-config.h"
+#include "calendar/gui/dialogs/calendar-setup.h"
 
-#define MODULE_NAME		"tasks"
+#include "e-memo-shell-view.h"
+
+#define MODULE_NAME		"memos"
 #define MODULE_ALIASES		""
-#define MODULE_SCHEMES		"task"
-#define MODULE_SEARCHES		"tasktypes.xml"
-#define MODULE_SORT_ORDER	600
+#define MODULE_SCHEMES		"memo"
+#define MODULE_SEARCHES		"memotypes.xml"
+#define MODULE_SORT_ORDER	500
 
 #define WEB_BASE_URI		"webcal://"
 #define PERSONAL_RELATIVE_URI	"system"
@@ -45,7 +47,7 @@
 void e_shell_module_init (GTypeModule *type_module);
 
 static void
-task_module_ensure_sources (EShellModule *shell_module)
+memo_module_ensure_sources (EShellModule *shell_module)
 {
 	/* XXX This is basically the same algorithm across all modules.
 	 *     Maybe we could somehow integrate this into EShellModule? */
@@ -63,18 +65,18 @@ task_module_ensure_sources (EShellModule *shell_module)
 	on_the_web = NULL;
 	personal = NULL;
 
-	if (!e_cal_get_sources (&source_list, E_CAL_SOURCE_TYPE_TODO, NULL)) {
-		g_warning ("Could not get task sources from GConf!");
+	if (!e_cal_get_sources (&source_list, E_CAL_SOURCE_TYPE_JOURNAL, NULL)) {
+		g_warning ("Could not get memo sources from GConf!");
 		return;
 	}
 
-	/* Share the source list with all task views.  This is
- 	 * accessible via e_task_shell_view_get_source_list().
- 	 * Note: EShellModule takes ownership of the reference.
- 	 *
- 	 * XXX I haven't yet decided if I want to add a proper
- 	 *     EShellModule API for this.  The mail module would
- 	 *     not use it. */
+	/* Share the source list with all memo views.  This is
+	 * accessible via e_memo_shell_view_get_source_list().
+	 * Note: EShellModule takes ownership of the reference.
+	 *
+	 * XXX I haven't yet decided if I want to add a proper
+	 *     EShellModule API for this.  The mail module would
+	 *     not use it. */
 	g_object_set_data_full (
 		G_OBJECT (shell_module), "source-list",
 		source_list, (GDestroyNotify) g_object_unref);
@@ -160,8 +162,8 @@ task_module_ensure_sources (EShellModule *shell_module)
 		e_source_group_add_source (on_this_computer, source, -1);
 		g_object_unref (source);
 
-		primary = calendar_config_get_primary_tasks ();
-		selected = calendar_config_get_tasks_selected ();
+		primary = calendar_config_get_primary_memos ();
+		selected = calendar_config_get_memos_selected ();
 
 		if (primary == NULL && selected == NULL) {
 			const gchar *uid;
@@ -169,8 +171,8 @@ task_module_ensure_sources (EShellModule *shell_module)
 			uid = e_source_peek_uid (source);
 			selected = g_slist_prepend (NULL, g_strdup (uid));
 
-			calendar_config_set_primary_tasks (uid);
-			calendar_config_set_tasks_selected (selected);
+			calendar_config_set_primary_memos (uid);
+			calendar_config_set_memos_selected (selected);
 		}
 
 		g_slist_foreach (selected, (GFunc) g_free, NULL);
@@ -192,105 +194,106 @@ task_module_ensure_sources (EShellModule *shell_module)
 }
 
 static void
-action_task_new_cb (GtkAction *action,
+action_memo_new_cb (GtkAction *action,
                     EShellWindow *shell_window)
 {
 }
 
 static void
-action_task_assigned_new_cb (GtkAction *action,
-                             EShellWindow *shell_window)
+action_memo_shared_new_cb (GtkAction *action,
+                           EShellWindow *shell_window)
 {
 }
 
 static void
-action_task_list_new_cb (GtkAction *action,
+action_memo_list_new_cb (GtkAction *action,
                          EShellWindow *shell_window)
 {
+	calendar_setup_new_memo_list (NULL);
 }
 
 static GtkActionEntry item_entries[] = {
 
-	{ "task-new",
-	  "stock_task",
-	  N_("_Task"),  /* XXX Need C_() here */
-	  "<Control>t",
-	  N_("Create a new task"),
-	  G_CALLBACK (action_task_new_cb) },
+	{ "memo-new",
+	  "stock_insert-note",
+	  N_("Mem_o"),  /* XXX Need C_() here */
+	  "<Control>o",
+	  N_("Create a new memo"),
+	  G_CALLBACK (action_memo_new_cb) },
 
-	{ "task-assigned-new",
-	  "stock_task",
-	  N_("Assigne_d Task"),
-	  NULL,
-	  N_("Create a new assigned task"),
-	  G_CALLBACK (action_task_assigned_new_cb) }
+	{ "memo-shared-new",
+	  "stock_insert-note",
+	  N_("_Shared Memo"),
+	  "<Control>h",
+	  N_("Create a new shared memo"),
+	  G_CALLBACK (action_memo_shared_new_cb) }
 };
 
 static GtkActionEntry source_entries[] = {
 
-	{ "task-list-new",
-	  "stock_todo",
-	  N_("Tas_k List"),
+	{ "memo-list-new",
+	  "stock_notes",
+	  N_("Memo Li_st"),
 	  NULL,
-	  N_("Create a new task list"),
-	  G_CALLBACK (action_task_list_new_cb) }
+	  N_("Create a new memo list"),
+	  G_CALLBACK (action_memo_list_new_cb) }
 };
 
 static gboolean
-task_module_handle_uri (EShellModule *shell_module,
+memo_module_handle_uri (EShellModule *shell_module,
                         const gchar *uri)
 {
-        /* FIXME */
-        return FALSE;
+	/* FIXME */
+	return FALSE;
 }
 
 static void
-task_module_window_created (EShellModule *shell_module,
+memo_module_window_created (EShellModule *shell_module,
                             EShellWindow *shell_window)
 {
-        const gchar *module_name;
+	const gchar *module_name;
 
-        module_name = G_TYPE_MODULE (shell_module)->name;
+	module_name = G_TYPE_MODULE (shell_module)->name;
 
-        e_shell_window_register_new_item_actions (
-                shell_window, module_name,
-                item_entries, G_N_ELEMENTS (item_entries));
+	e_shell_window_register_new_item_actions (
+		shell_window, module_name,
+		item_entries, G_N_ELEMENTS (item_entries));
 
-        e_shell_window_register_new_source_actions (
-                shell_window, module_name,
-                source_entries, G_N_ELEMENTS (source_entries));
+	e_shell_window_register_new_source_actions (
+		shell_window, module_name,
+		source_entries, G_N_ELEMENTS (source_entries));
 }
 
 static EShellModuleInfo module_info = {
 
-        MODULE_NAME,
-        MODULE_ALIASES,
-        MODULE_SCHEMES,
-        MODULE_SEARCHES,
-        MODULE_SORT_ORDER
+	MODULE_NAME,
+	MODULE_ALIASES,
+	MODULE_SCHEMES,
+	MODULE_SEARCHES,
+	MODULE_SORT_ORDER
 };
 
 void
 e_shell_module_init (GTypeModule *type_module)
 {
-        EShell *shell;
-        EShellModule *shell_module;
+	EShell *shell;
+	EShellModule *shell_module;
 
-        shell_module = E_SHELL_MODULE (type_module);
-        shell = e_shell_module_get_shell (shell_module);
+	shell_module = E_SHELL_MODULE (type_module);
+	shell = e_shell_module_get_shell (shell_module);
 
-	/* Register the GType for ETaskShellView. */
-        e_task_shell_view_get_type (type_module);
+	/* Register the GType for EMemoShellView. */
+	e_memo_shell_view_get_type (type_module);
 
-        e_shell_module_set_info (shell_module, &module_info);
+	e_shell_module_set_info (shell_module, &module_info);
 
-	task_module_ensure_sources (shell_module);
+	memo_module_ensure_sources (shell_module);
 
-        g_signal_connect_swapped (
-                shell, "handle-uri",
-                G_CALLBACK (task_module_handle_uri), shell_module);
+	g_signal_connect_swapped (
+		shell, "handle-uri",
+		G_CALLBACK (memo_module_handle_uri), shell_module);
 
-        g_signal_connect_swapped (
-                shell, "window-created",
-                G_CALLBACK (task_module_window_created), shell_module);
+	g_signal_connect_swapped (
+		shell, "window-created",
+		G_CALLBACK (memo_module_window_created), shell_module);
 }

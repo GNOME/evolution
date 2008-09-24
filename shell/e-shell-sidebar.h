@@ -21,7 +21,7 @@
 #ifndef E_SHELL_SIDEBAR_H
 #define E_SHELL_SIDEBAR_H
 
-#include <e-shell-common.h>
+#include <shell/e-shell-common.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_SIDEBAR \

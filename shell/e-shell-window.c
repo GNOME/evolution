@@ -347,7 +347,23 @@ e_shell_window_new (EShell *shell,
 }
 
 /**
- * e_shell_window_get_view:
+ * e_shell_window_get_shell:
+ * @shell_window: an #EShellWindow
+ *
+ * Returns the #EShell that was passed to e_shell_window_new().
+ *
+ * Returns: the #EShell
+ **/
+EShell *
+e_shell_window_get_shell (EShellWindow *shell_window)
+{
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
+
+	return shell_window->priv->shell;
+}
+
+/**
+ * e_shell_window_get_shell_view:
  * @shell_window: an #EShellWindow
  * @view_name: name of a shell view
  *
@@ -363,8 +379,8 @@ e_shell_window_new (EShell *shell,
  *          registered
  **/
 gpointer
-e_shell_window_get_view (EShellWindow *shell_window,
-                         const gchar *view_name)
+e_shell_window_get_shell_view (EShellWindow *shell_window,
+                               const gchar *view_name)
 {
 	GHashTable *loaded_views;
 	EShellView *shell_view;
@@ -407,22 +423,6 @@ e_shell_window_get_view (EShellWindow *shell_window,
 		g_critical ("Unknown shell view name: %s", view_name);
 
 	return shell_view;
-}
-
-/**
- * e_shell_window_get_shell:
- * @shell_window: an #EShellWindow
- *
- * Returns the #EShell that was passed to e_shell_window_new().
- *
- * Returns: the #EShell
- **/
-EShell *
-e_shell_window_get_shell (EShellWindow *shell_window)
-{
-	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
-
-	return shell_window->priv->shell;
 }
 
 /**
@@ -590,7 +590,7 @@ e_shell_window_set_active_view (EShellWindow *shell_window,
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 	g_return_if_fail (view_name != NULL);
 
-	shell_view = e_shell_window_get_view (shell_window, view_name);
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 	g_return_if_fail (shell_view != NULL);
 
 	action = e_shell_view_get_action (shell_view);

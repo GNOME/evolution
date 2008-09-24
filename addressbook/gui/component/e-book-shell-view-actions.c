@@ -30,10 +30,13 @@ static void
 action_address_book_copy_cb (GtkAction *action,
                              EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
-	view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
+
 	e_addressbook_view_copy_to_folder (view, TRUE);
 }
 
@@ -55,7 +58,7 @@ action_address_book_delete_cb (GtkAction *action,
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	book_shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
 	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
 	source = e_source_selector_peek_primary_selection (selector);
 	g_return_if_fail (source != NULL);
@@ -99,10 +102,13 @@ static void
 action_address_book_move_cb (GtkAction *action,
                              EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
-	view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
+
 	e_addressbook_view_move_to_folder (view, TRUE);
 }
 
@@ -135,7 +141,7 @@ action_address_book_properties_cb (GtkAction *action,
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	book_shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
 	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
 	source = e_source_selector_peek_primary_selection (selector);
 	g_return_if_fail (source != NULL);
@@ -169,10 +175,13 @@ static void
 action_address_book_save_as_cb (GtkAction *action,
                                 EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
-	view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
+
 	e_addressbook_view_save_as (view, TRUE);
 }
 
@@ -180,10 +189,13 @@ static void
 action_address_book_stop_cb (GtkAction *action,
                              EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
-	view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
+
 	e_addressbook_view_stop (view);
 }
 
@@ -191,33 +203,23 @@ static void
 action_contact_clipboard_copy_cb (GtkAction *action,
                                   EBookShellView *book_shell_view)
 {
-	EAddressbookView *view;
-	GtkWidget *preview;
-	gchar *selection;
+	EBookShellContent *book_shell_content;
 
-	preview = book_shell_view->priv->preview;
-	view = e_book_shell_view_get_current_view (book_shell_view);
-	g_return_if_fail (view != NULL);
-
-	if (!GTK_WIDGET_HAS_FOCUS (preview)) {
-		e_addressbook_view_copy (view);
-		return;
-	}
-
-	selection = gtk_html_get_selection_html (GTK_HTML (preview), NULL);
-	if (selection != NULL)
-		gtk_html_copy (GTK_HTML (preview));
-	g_free (selection);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	e_book_shell_content_clipboard_copy (book_shell_content);
 }
 
 static void
 action_contact_clipboard_cut_cb (GtkAction *action,
                                  EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
-	view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
+
 	e_addressbook_view_cut (view);
 }
 
@@ -225,10 +227,13 @@ static void
 action_contact_clipboard_paste_cb (GtkAction *action,
                                    EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
-	view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
+
 	e_addressbook_view_paste (view);
 }
 
@@ -236,10 +241,13 @@ static void
 action_contact_copy_cb (GtkAction *action,
                         EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
-	view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
+
 	e_addressbook_view_copy_to_folder (view, FALSE);
 }
 
@@ -247,10 +255,13 @@ static void
 action_contact_delete_cb (GtkAction *action,
                           EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
-	view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
+
 	e_addressbook_view_delete_selection (view, TRUE);
 }
 
@@ -258,10 +269,13 @@ static void
 action_contact_forward_cb (GtkAction *action,
                            EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
-	view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
+
 	e_addressbook_view_send (view);
 }
 
@@ -269,10 +283,13 @@ static void
 action_contact_move_cb (GtkAction *action,
                         EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
-	view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
+
 	e_addressbook_view_move_to_folder (view, FALSE);
 }
 
@@ -280,12 +297,14 @@ static void
 action_contact_new_cb (GtkAction *action,
                        EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 	EAddressbookModel *model;
 	EContact *contact;
 	EBook *book;
 
-	view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
 
 	model = e_addressbook_view_get_model (view);
@@ -301,12 +320,14 @@ static void
 action_contact_new_list_cb (GtkAction *action,
                             EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 	EAddressbookModel *model;
 	EContact *contact;
 	EBook *book;
 
-	view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
 
 	model = e_addressbook_view_get_model (view);
@@ -322,10 +343,13 @@ static void
 action_contact_open_cb (GtkAction *action,
                         EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
-	view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
+
 	e_addressbook_view_view (view);
 }
 
@@ -333,25 +357,26 @@ static void
 action_contact_preview_cb (GtkToggleAction *action,
                            EBookShellView *book_shell_view)
 {
-	GtkWidget *child;
-	GtkWidget *paned;
+	EBookShellContent *book_shell_content;
 	gboolean visible;
 
-	paned = book_shell_view->priv->paned;
-	child = gtk_paned_get_child2 (GTK_PANED (paned));
+	book_shell_content = book_shell_view->priv->book_shell_content;
 	visible = gtk_toggle_action_get_active (action);
-	g_object_set (child, "visible", visible, NULL);
+	e_book_shell_content_set_preview_visible (book_shell_content, visible);
 }
 
 static void
 action_contact_print_cb (GtkAction *action,
                          EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 	GtkPrintOperationAction print_action;
 
-	view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
+
 	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
 	e_addressbook_view_print (view, print_action);
 }
@@ -360,11 +385,14 @@ static void
 action_contact_print_preview_cb (GtkAction *action,
                                  EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 	GtkPrintOperationAction print_action;
 
-	view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
+
 	print_action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
 	e_addressbook_view_print (view, print_action);
 }
@@ -373,10 +401,13 @@ static void
 action_contact_save_as_cb (GtkAction *action,
                            EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
-	view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
+
 	e_addressbook_view_save_as (view, FALSE);
 }
 
@@ -384,10 +415,13 @@ static void
 action_contact_select_all_cb (GtkAction *action,
                               EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
-	view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
+
 	e_addressbook_view_select_all (view);
 }
 
@@ -395,10 +429,13 @@ static void
 action_contact_send_message_cb (GtkAction *action,
                                 EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
 
-	view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
+
 	e_addressbook_view_send_to (view);
 }
 
@@ -406,6 +443,7 @@ static void
 action_gal_save_custom_view_cb (GtkAction *action,
                                 EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EShellView *shell_view;
 	EAddressbookView *address_view;
 	GalViewInstance *view_instance;
@@ -414,7 +452,8 @@ action_gal_save_custom_view_cb (GtkAction *action,
 	if (!e_shell_view_is_active (shell_view))
 		return;
 
-	address_view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	address_view = e_book_shell_content_get_current_view (book_shell_content);
 	view_instance = e_addressbook_view_get_view_instance (address_view);
 	gal_view_instance_save_as (view_instance);
 }
@@ -423,13 +462,13 @@ static void
 action_search_execute_cb (GtkAction *action,
                           EBookShellView *book_shell_view)
 {
+	EBookShellContent *book_shell_content;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	GString *string;
 	EAddressbookView *view;
 	EAddressbookModel *model;
-	EABContactDisplay *display;
 	FilterRule *rule;
 	const gchar *format;
 	const gchar *text;
@@ -503,13 +542,13 @@ action_search_execute_cb (GtkAction *action,
 	g_object_unref (rule);
 
 	/* Submit the query. */
-	view = e_book_shell_view_get_current_view (book_shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
 	model = e_addressbook_view_get_model (view);
 	e_addressbook_model_set_query (model, query);
 	g_free (query);
 
-	display = EAB_CONTACT_DISPLAY (book_shell_view->priv->preview);
-	eab_contact_display_set_contact (display, NULL);
+	e_book_shell_content_set_preview_contact (book_shell_content, NULL);
 }
 
 static GtkActionEntry contact_entries[] = {
@@ -806,6 +845,7 @@ e_book_shell_view_actions_update (EBookShellView *book_shell_view)
 	EShellWindow *shell_window;
 	EAddressbookModel *model;
 	EAddressbookView *view;
+	EBookShellContent *book_shell_content;
 	EBookShellSidebar *book_shell_sidebar;
 	ESelectionModel *selection_model;
 	ESourceSelector *selector;
@@ -819,9 +859,11 @@ e_book_shell_view_actions_update (EBookShellView *book_shell_view)
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	view = e_book_shell_view_get_current_view (book_shell_view);
 
-	book_shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
+
+	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
 	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
 	source = e_source_selector_peek_primary_selection (selector);
 

@@ -86,6 +86,9 @@ book_shell_sidebar_constructed (GObject *object)
 
 	priv = E_BOOK_SHELL_SIDEBAR_GET_PRIVATE (object);
 
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (parent_class)->constructed (object);
+
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	book_shell_view = E_BOOK_SHELL_VIEW (shell_view);

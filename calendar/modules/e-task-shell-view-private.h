@@ -23,13 +23,14 @@
 
 #include "e-task-shell-view.h"
 
+#include <string.h>
 #include <glib/gi18n.h>
 
-#include <e-util/e-util.h>
-#include <shell/e-shell-content.h>
+#include "e-util/e-util.h"
 
-#include <e-task-shell-sidebar.h>
-#include <e-task-shell-view-actions.h>
+#include "e-task-shell-content.h"
+#include "e-task-shell-sidebar.h"
+#include "e-task-shell-view-actions.h"
 
 #define E_TASK_SHELL_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -47,6 +48,9 @@
 	if ((obj) != NULL) { g_object_unref (obj); (obj) = NULL; } \
 	} G_STMT_END
 
+/* ETable Specifications */
+#define ETSPEC_FILENAME		"e-calendar-table.etspec"
+
 G_BEGIN_DECLS
 
 struct _ETaskShellViewPrivate {
@@ -58,6 +62,12 @@ struct _ETaskShellViewPrivate {
 	/*** UI Management ***/
 
 	GtkActionGroup *task_actions;
+
+	/*** Other Stuff ***/
+
+	/* These are just for convenience. */
+	ETaskShellContent *task_shell_content;
+	ETaskShellSidebar *task_shell_sidebar;
 };
 
 void		e_task_shell_view_private_init
@@ -74,6 +84,11 @@ void		e_task_shell_view_private_finalize
 
 void		e_task_shell_view_actions_init
 					(ETaskShellView *task_shell_view);
+void		e_task_shell_view_actions_update
+					(ETaskShellView *task_shell_view);
+void		e_task_shell_view_set_status_message
+					(ETaskShellView *task_shell_view,
+					 const gchar *status_message);
 
 G_END_DECLS
 

@@ -110,9 +110,6 @@ struct _CalendarComponentPrivate {
 	GList *notifications;
 };
 
-/* FIXME This should be gnome cal likely */
-extern ECompEditorRegistry *comp_editor_registry;
-
 static void
 calcomp_vpane_realized (GtkWidget *vpane, CalendarComponentView *view)
 {
@@ -648,60 +645,6 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 
 	if (err)
 		g_error_free(err);
-}
-
-static gboolean
-update_single_object (ECal *client, icalcomponent *icalcomp)
-{
-	char *uid;
-	icalcomponent *tmp_icalcomp;
-
-	uid = (char *) icalcomponent_get_uid (icalcomp);
-
-	if (e_cal_get_object (client, uid, NULL, &tmp_icalcomp, NULL))
-		return e_cal_modify_object (client, icalcomp, CALOBJ_MOD_ALL, NULL);
-
-	return e_cal_create_object (client, icalcomp, &uid, NULL);
-}
-
-static gboolean
-update_objects (ECal *client, icalcomponent *icalcomp)
-{
-	icalcomponent *subcomp;
-	icalcomponent_kind kind;
-
-	kind = icalcomponent_isa (icalcomp);
-	if (kind == ICAL_VTODO_COMPONENT || kind == ICAL_VEVENT_COMPONENT)
-		return update_single_object (client, icalcomp);
-	else if (kind != ICAL_VCALENDAR_COMPONENT)
-		return FALSE;
-
-	subcomp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
-	while (subcomp) {
-		gboolean success;
-
-		kind = icalcomponent_isa (subcomp);
-		if (kind == ICAL_VTIMEZONE_COMPONENT) {
-			icaltimezone *zone;
-
-			zone = icaltimezone_new ();
-			icaltimezone_set_component (zone, subcomp);
-
-			success = e_cal_add_timezone (client, zone, NULL);
-			icaltimezone_free (zone, 1);
-			if (!success)
-				return success;
-		} else if (kind == ICAL_VTODO_COMPONENT ||
-			   kind == ICAL_VEVENT_COMPONENT) {
-			success = update_single_object (client, subcomp);
-			if (!success)
-				return success;
-		}
-
-		subcomp = icalcomponent_get_next_component (icalcomp, ICAL_ANY_COMPONENT);
-	}
-
-	return TRUE;
 }
 
 static void

@@ -579,28 +579,28 @@ e_shell_view_get_page_num (EShellView *shell_view)
 	return shell_view->priv->page_num;
 }
 
-gpointer
+EShellContent *
 e_shell_view_get_shell_content (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	return shell_view->priv->shell_content;
+	return E_SHELL_CONTENT (shell_view->priv->shell_content);
 }
 
-gpointer
+EShellSidebar *
 e_shell_view_get_shell_sidebar (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	return shell_view->priv->shell_sidebar;
+	return E_SHELL_SIDEBAR (shell_view->priv->shell_sidebar);
 }
 
-gpointer
+EShellTaskbar *
 e_shell_view_get_shell_taskbar (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	return shell_view->priv->shell_taskbar;
+	return E_SHELL_TASKBAR (shell_view->priv->shell_taskbar);
 }
 
 void

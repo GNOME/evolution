@@ -853,8 +853,10 @@ status_message (EAddressbookView *view,
                 const gchar *status)
 {
 	EActivity *activity;
+	EShellView *shell_view;
 
 	activity = view->priv->activity;
+	shell_view = e_addressbook_view_get_shell_view (view);
 
 	if (status == NULL || *status == '\0') {
 		if (activity != NULL) {
@@ -866,6 +868,7 @@ status_message (EAddressbookView *view,
 	} else if (activity == NULL) {
 		activity = e_activity_new (status);
 		view->priv->activity = activity;
+		e_shell_view_add_activity (shell_view, activity);
 
 	} else
 		e_activity_set_primary_text (activity, status);

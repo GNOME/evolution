@@ -48,16 +48,6 @@ EShellWindow
 @Returns: 
 
 
-<!-- ##### FUNCTION e_shell_window_get_view ##### -->
-<para>
-
-</para>
-
-@shell_window: 
-@view_name: 
-@Returns: 
-
-
 <!-- ##### FUNCTION e_shell_window_get_shell ##### -->
 <para>
 

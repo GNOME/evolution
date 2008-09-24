@@ -20,19 +20,19 @@
 
 #include "e-memo-shell-view-private.h"
 
-#include <e-util/gconf-bridge.h>
+#include "e-util/gconf-bridge.h"
 
-#include "print.h"
+#include "calendar/gui/print.h"
 
 static void
 action_memo_clipboard_copy_cb (GtkAction *action,
                                EMemoShellView *memo_shell_view)
 {
-	EMemos *memos;
+	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
 
-	memos = E_MEMOS (memo_shell_view->priv->memos);
-	memo_table = e_memos_get_calendar_table (memos);
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 	e_memo_table_copy_clipboard (memo_table);
 }
 
@@ -40,11 +40,11 @@ static void
 action_memo_clipboard_cut_cb (GtkAction *action,
                               EMemoShellView *memo_shell_view)
 {
-	EMemos *memos;
+	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
 
-	memos = E_MEMOS (memo_shell_view->priv->memos);
-	memo_table = e_memos_get_calendar_table (memos);
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 	e_memo_table_cut_clipboard (memo_table);
 }
 
@@ -52,11 +52,11 @@ static void
 action_memo_clipboard_paste_cb (GtkAction *action,
                                 EMemoShellView *memo_shell_view)
 {
-	EMemos *memos;
+	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
 
-	memos = E_MEMOS (memo_shell_view->priv->memos);
-	memo_table = e_memos_get_calendar_table (memos);
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 	e_memo_table_paste_clipboard (memo_table);
 }
 
@@ -64,10 +64,21 @@ static void
 action_memo_delete_cb (GtkAction *action,
                        EMemoShellView *memo_shell_view)
 {
-	EMemos *memos;
+	EMemoShellContent *memo_shell_content;
+	EMemoPreview *memo_preview;
+	EMemoTable *memo_table;
+	const gchar *status_message;
 
-	memos = E_MEMOS (memo_shell_view->priv->memos);
-	e_memos_delete_selected (memos);
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+	memo_preview = e_memo_shell_content_get_memo_preview (memo_shell_content);
+
+	status_message = _("Deleting selected memos...");
+	e_memo_shell_view_set_status_message (memo_shell_view, status_message);
+	e_memo_table_delete_selected (memo_table);
+	e_memo_shell_view_set_status_message (memo_shell_view, NULL);
+
+	e_memo_preview_clear (memo_preview);
 }
 
 static void
@@ -100,6 +111,7 @@ static void
 action_memo_list_properties_cb (GtkAction *action,
                                 EMemoShellView *memo_shell_view)
 {
+	EMemoShellSidebar *memo_shell_sidebar;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ESource *source;
@@ -108,7 +120,8 @@ action_memo_list_properties_cb (GtkAction *action,
 	shell_view = E_SHELL_VIEW (memo_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	selector = E_SOURCE_SELECTOR (memo_shell_view->priv->selector);
+	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
+	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
 	source = e_source_selector_peek_primary_selection (selector);
 	g_return_if_fail (source != NULL);
 
@@ -119,29 +132,36 @@ static void
 action_memo_open_cb (GtkAction *action,
                      EMemoShellView *memo_shell_view)
 {
-	EMemos *memos;
+	EMemoShellContent *memo_shell_content;
+	EMemoTable *memo_table;
 
-	memos = E_MEMOS (memo_shell_view->priv->memos);
-	e_memos_open_memo (memos);
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+	e_memo_table_open_selected (memo_table);
 }
 
 static void
 action_memo_preview_cb (GtkToggleAction *action,
                         EMemoShellView *memo_shell_view)
 {
-	/* FIXME */
+	EMemoShellContent *memo_shell_content;
+	gboolean visible;
+
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	visible = gtk_toggle_action_get_active (action);
+	e_memo_shell_content_set_preview_visible (memo_shell_content, visible);
 }
 
 static void
 action_memo_print_cb (GtkAction *action,
                       EMemoShellView *memo_shell_view)
 {
-	EMemos *memos;
-	ETable *table;
+	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
+	ETable *table;
 
-	memos = E_MEMOS (memo_shell_view->priv->memos);
-	memo_table = e_memos_get_calendar_table (memos);
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 	table = e_memo_table_get_table (memo_table);
 
 	print_table (
@@ -153,12 +173,12 @@ static void
 action_memo_print_preview_cb (GtkAction *action,
                               EMemoShellView *memo_shell_view)
 {
-	EMemos *memos;
-	ETable *table;
+	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
+	ETable *table;
 
-	memos = E_MEMOS (memo_shell_view->priv->memos);
-	memo_table = e_memos_get_calendar_table (memos);
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 	table = e_memo_table_get_table (memo_table);
 
 	print_table (
@@ -298,8 +318,8 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 void
 e_memo_shell_view_actions_update (EMemoShellView *memo_shell_view)
 {
-	ECal *cal;
-	EMemos *memos;
+	EMemoShellContent *memo_shell_content;
+	ECal *client;
 	ETable *table;
 	ECalModel *model;
 	EMemoTable *memo_table;
@@ -313,17 +333,17 @@ e_memo_shell_view_actions_update (EMemoShellView *memo_shell_view)
 	shell_view = E_SHELL_VIEW (memo_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	memos = E_MEMOS (memo_shell_view->priv->memos);
-	memo_table = e_memos_get_calendar_table (memos);
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 
 	model = e_memo_table_get_model (memo_table);
-	cal = e_cal_model_get_default_client (model);
+	client = e_cal_model_get_default_client (model);
 
 	table = e_memo_table_get_table (memo_table);
 	n_selected = e_table_selected_count (table);
 
-	if (cal != NULL)
-		e_cal_is_read_only (cal, &read_only, NULL);
+	if (client != NULL)
+		e_cal_is_read_only (client, &read_only, NULL);
 
 	action = ACTION (MEMO_OPEN);
 	sensitive = (n_selected == 1);

@@ -23,8 +23,8 @@
 #ifndef E_SHELL_H
 #define E_SHELL_H
 
-#include <e-shell-common.h>
-#include <e-shell-module.h>
+#include <shell/e-shell-common.h>
+#include <shell/e-shell-module.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL \

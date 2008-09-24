@@ -96,7 +96,6 @@ action_search_execute_cb (GtkAction *action,
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EIconEntry *icon_entry;
-	GtkWidget *child;
 	GtkStateType visual_state;
 	const gchar *search_text;
 

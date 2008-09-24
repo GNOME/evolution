@@ -42,6 +42,67 @@ static GtkTargetEntry drag_types[] = {
 
 static gpointer parent_class;
 
+static gboolean
+calendar_selector_update_single_object (ECal *client,
+                                        icalcomponent *icalcomp)
+{
+	gchar *uid;
+	icalcomponent *tmp_icalcomp;
+
+	uid = (gchar *) icalcomponent_get_uid (icalcomp);
+
+	if (e_cal_get_object (client, uid, NULL, &tmp_icalcomp, NULL))
+		return e_cal_modify_object (
+			client, icalcomp, CALOBJ_MOD_ALL, NULL);
+
+	return e_cal_create_object (client, icalcomp, &uid, NULL);
+}
+
+static gboolean
+calendar_selector_update_objects (ECal *client,
+                                  icalcomponent *icalcomp)
+{
+	icalcomponent *subcomp;
+	icalcomponent_kind kind;
+
+	kind = icalcomponent_isa (icalcomp);
+	if (kind == ICAL_VTODO_COMPONENT || kind == ICAL_VEVENT_COMPONENT)
+		return calendar_selector_update_single_object (
+			client, icalcomp);
+	else if (kind != ICAL_VCALENDAR_COMPONENT)
+		return FALSE;
+
+	subcomp = icalcomponent_get_first_component (
+		icalcomp, ICAL_ANY_COMPONENT);
+	while (subcomp != NULL) {
+		gboolean success;
+
+		kind = icalcomponent_isa (subcomp);
+		if (kind == ICAL_VTIMEZONE_COMPONENT) {
+			icaltimezone *zone;
+
+			zone = icaltimezone_new ();
+			icaltimezone_set_component (zone, subcomp);
+
+			success = e_cal_add_timezone (client, zone, NULL);
+			icaltimezone_free (zone, 1);
+			if (!success)
+				return FALSE;
+		} else if (kind == ICAL_VTODO_COMPONENT ||
+			kind == ICAL_VEVENT_COMPONENT) {
+			success = calendar_selector_update_single_object (
+				client, subcomp);
+			if (!success)
+				return FALSE;
+		}
+
+		subcomp = icalcomponent_get_next_component (
+			icalcomp, ICAL_ANY_COMPONENT);
+	}
+
+	return TRUE;
+}
+
 static void
 calendar_selector_drag_leave (GtkWidget *widget,
                               GdkDragContext *context,
@@ -208,7 +269,7 @@ calendar_selector_drag_data_received (GtkWidget *widget,
 	if (client != NULL) {
 		if (e_cal_open (client, TRUE, NULL)) {
 			success = TRUE;
-			update_objects (client, icalcomp);
+			calendar_selector_update_objects (client, icalcomp);
 		}
 
 		g_object_unref (client);

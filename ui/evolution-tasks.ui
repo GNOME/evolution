@@ -47,4 +47,11 @@
     <separator/>
     <menuitem action='task-list-properties'/>
   </popup>
+  <popup name='task-search-options'>
+    <menuitem action='task-search-summary-contains'/>
+    <menuitem action='task-search-description-contains'/>
+    <menuitem action='task-search-any-field-contains'/>
+    <separator/>
+    <menuitem action='search-advanced'/>
+  </popup>
 </ui>

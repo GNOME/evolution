@@ -109,16 +109,6 @@ enum {
 	LAST_SIGNAL
 };
 
-enum DndTargetType {
-	TARGET_VCALENDAR
-};
-
-static GtkTargetEntry list_drag_types[] = {
-	{ "text/calendar",                0, TARGET_VCALENDAR },
-	{ "text/x-calendar",              0, TARGET_VCALENDAR }
-};
-static const int num_list_drag_types = sizeof (list_drag_types) / sizeof (list_drag_types[0]);
-
 static guint e_tasks_signals[LAST_SIGNAL] = { 0 };
 
 G_DEFINE_TYPE (ETasks, e_tasks, GTK_TYPE_TABLE)
