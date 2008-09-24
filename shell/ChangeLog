@@ -2,6 +2,13 @@
 
 License Changes
 
+	* e-shell-window-commands.c:
+	* e-user-creatable-items-handler.c:
+
+2008-09-24  Sankar P  <psankar@novell.com>
+
+License Changes
+
 	* e-shell-view.c:
 
 2008-09-19  Sankar P  <psankar@novell.com>

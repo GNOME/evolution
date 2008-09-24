@@ -2,6 +2,29 @@
 
 License Changes
 
+	* gui/alarm-notify/config-data.c:
+	* gui/cal-search-bar.c:
+	* gui/calendar-component.c:
+	* gui/comp-util.c:
+	* gui/comp-util.h:
+	* gui/dialogs/cal-prefs-dialog.c:
+	* gui/dialogs/e-send-options-utils.c:
+	* gui/dialogs/event-page.c:
+	* gui/dialogs/memo-page.c:
+	* gui/dialogs/task-page.c:
+	* gui/e-cal-component-memo-preview.c:
+	* gui/e-cal-component-preview.c:
+	* gui/e-day-view-main-item.c:
+	* gui/e-day-view-top-item.c:
+	* gui/e-week-view-event-item.c:
+	* gui/e-week-view.h:
+	* gui/memos-component.c:
+	* gui/tasks-component.c:
+
+2008-09-24  Sankar P  <psankar@novell.com>
+
+License Changes
+
 	* gui/dialogs/delete-comp.c:
 	* gui/e-alarm-list.c:
 
