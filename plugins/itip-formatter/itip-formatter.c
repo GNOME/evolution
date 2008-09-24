@@ -2243,6 +2243,11 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 
 	classid = g_strdup_printf("itip:///%s", ((EMFormat *) target->format)->part_id->str);
 
+	/* mark message as containing calendar, thus it will show the icon in message list now on */
+	if (target->format->uid && target->format->folder &&
+	    !camel_folder_get_message_user_flag (target->format->folder, target->format->uid, "$has_cal"))
+		camel_folder_set_message_user_flag (target->format->folder, target->format->uid, "$has_cal", TRUE);
+
 	puri = (struct _itip_puri *)em_format_add_puri(target->format, sizeof(struct _itip_puri), classid, target->part, itip_attachment_frame);
 
 	pobj = em_format_html_add_pobject ((EMFormatHTML *) target->format, sizeof (EMFormatHTMLPObject), classid, target->part, format_itip_object);

@@ -236,6 +236,7 @@ static struct {
 	{ "stock_score-highest",               NULL },
 	{ "stock_mail-flag-for-followup",      NULL },
 	{ "stock_mail-flag-for-followup-done", NULL },
+	{ "stock_new-meeting",                 NULL }
 };
 
 /* FIXME: junk prefs */
@@ -1341,6 +1342,8 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		str = camel_message_info_user_tag(msg_info, "follow-up");
 		return (void *)(str ? str : "");
 	case COL_ATTACHMENT:
+		if (camel_message_info_user_flag (msg_info, "$has_cal"))
+			return GINT_TO_POINTER (2);
 		return GINT_TO_POINTER ((camel_message_info_flags(msg_info) & CAMEL_MESSAGE_ATTACHMENTS) != 0);
 	case COL_FROM:
 		str = camel_message_info_from (msg_info);
@@ -1735,8 +1738,9 @@ message_list_create_extras (void)
 
 	for (i = 0; i < 2; i++)
 		images [i] = states_pixmaps [i + 6].pixbuf;
+	images [2] = states_pixmaps [18].pixbuf;
 
-	e_table_extras_add_cell (extras, "render_attachment", e_cell_toggle_new (0, 2, images));
+	e_table_extras_add_cell (extras, "render_attachment", e_cell_toggle_new (0, 3, images));
 
 	images [1] = states_pixmaps [8].pixbuf;
 	e_table_extras_add_cell (extras, "render_flagged", e_cell_toggle_new (0, 2, images));
