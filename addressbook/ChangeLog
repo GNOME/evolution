@@ -1,3 +1,11 @@
+2008-09-25  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fix for bug #553148
+
+	* gui/contact-editor/contact-editor.glade:
+	* gui/contact-editor/e-contact-editor-im.c: Standardise "GroupWise"
+	usage in translatable strings.
+
 2008-09-24  Sankar P  <psankar@novell.com>
 
 License Changes

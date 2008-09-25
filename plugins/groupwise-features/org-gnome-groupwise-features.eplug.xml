@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <e-plugin-list>
-	<e-plugin id="org.gnome.evolution.groupwise_features" type="shlib" _name="Groupwise Features" 
+	<e-plugin id="org.gnome.evolution.groupwise_features" type="shlib" _name="GroupWise Features" 
 		location="@PLUGINDIR@/liborg-gnome-groupwise-features@SOEXT@">
 		<author name="Sivaiah Nallagatla" email="snallagatla@novell.com" />
 		<author name="Vivek Jain" email="jvivek@novell.com" />
@@ -10,7 +10,7 @@
     		<author name="Shreyas Srinivasan" email="sshreyas@novell.com"/>
 		<author name="Raghavendran R" email="raghavguru7@gmail.com"/>
 
-		<_description>A plugin for the features in Groupwise accounts.</_description>
+		<_description>A plugin for the features in GroupWise accounts.</_description>
 		<hook class="org.gnome.evolution.mail.config:1.0">
 			<group id="org.gnome.evolution.mail.folderConfig" target="folder"
 				check= "shared_folder_check"

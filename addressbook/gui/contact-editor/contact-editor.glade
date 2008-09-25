@@ -1422,7 +1422,7 @@
 				  <child>
 				    <widget class="GtkMenuItem" id="menuitem389">
 				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Novell Groupwise</property>
+				      <property name="label" translatable="yes">Novell GroupWise</property>
 				      <property name="use_underline">True</property>
 				      <signal name="activate" handler="on_novell_groupwise1_activate" last_modification_time="Fri, 12 Mar 2004 18:38:59 GMT"/>
 				    </widget>

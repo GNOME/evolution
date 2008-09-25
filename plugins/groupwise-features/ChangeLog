@@ -1,3 +1,11 @@
+2008-09-25  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fix for bug #553148
+
+	* org-gnome-compose-send-options.xml:
+	* org-gnome-groupwise-features.eplug.xml: Standardise "GroupWise"
+	usage in translatable strings.
+
 2008-09-24  Sankar P  <psankar@novell.com>
 
 License Changes

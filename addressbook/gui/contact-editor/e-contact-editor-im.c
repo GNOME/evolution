@@ -52,7 +52,7 @@ enum {
 
 static const char *im_labels[] = {
 	N_("AOL Instant Messenger"),
-        N_("Novell Groupwise"),
+        N_("Novell GroupWise"),
 	N_("Jabber"),
 	N_("Yahoo Messenger"),
 	N_("Gadu-Gadu Messenger"),
