@@ -1147,7 +1147,7 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 		    g_free (word);
 		    word = NULL;
 		    g_object_get (esb, "query", &search_word, NULL);
-		    if (efb->account_search_vf && !strcmp (search_word, ((CamelVeeFolder *) efb->account_search_vf)->expression) ) {
+		    if (search_word && efb->account_search_vf && !strcmp (search_word, ((CamelVeeFolder *) efb->account_search_vf)->expression) ) {
 			    break;
 		    }
 		    gtk_widget_set_sensitive (esb->scopeoption, FALSE);
