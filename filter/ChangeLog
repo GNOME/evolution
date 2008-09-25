@@ -1,3 +1,11 @@
+2008-09-25  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* filter-element.c:
+	* filter-int.c:
+	* filter-int.h:
+
 2008-09-24  Sankar P  <psankar@novell.com>
 
 License Changes
