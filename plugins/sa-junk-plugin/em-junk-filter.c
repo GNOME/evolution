@@ -138,7 +138,7 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 
 	if (pipe (fds) == -1) {
 		errnosav = errno;
-		d(printf ("failed to create a pipe (for use with spamassassin: %s\n", strerror (errno)));
+		d(printf ("failed to create a pipe (for use with SpamAssassin: %s\n", strerror (errno)));
 		g_set_error (error, EM_JUNK_ERROR, errnosav, _("Failed to create pipe: %s"), strerror (errnosav));
 		errno = errnosav;
 		return rv_err;
@@ -146,7 +146,7 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 
 	if (output_buffer && pipe (out_fds) == -1) {
 		errnosav = errno;
-		d(printf ("failed to create a pipe (for use with spamassassin: %s\n", strerror (errno)));
+		d(printf ("failed to create a pipe (for use with SpamAssassin: %s\n", strerror (errno)));
 		g_set_error (error, EM_JUNK_ERROR, errnosav, _("Failed to create pipe: %s"), strerror (errnosav));
 		close (fds [0]);
 		close (fds [1]);
@@ -243,7 +243,7 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 				result = waitpid (pid, &status, WNOHANG);
 					g_set_error (error, EM_JUNK_ERROR, -2, _("SpamAssassin child process does not respond, killing..."));
 			} else
-				g_set_error (error, EM_JUNK_ERROR, -3, _("Wait for Spamassassin child process interrupted, terminating..."));
+				g_set_error (error, EM_JUNK_ERROR, -3, _("Wait for SpamAssassin child process interrupted, terminating..."));
 		}
 
 		if (result != -1 && WIFEXITED (status))
@@ -541,7 +541,7 @@ em_junk_sa_respawn_spamd ()
 	em_junk_sa_kill_spamd ();
 
 	if (em_junk_sa_check_respawn_too_fast ()) {
-		g_warning ("respawning of spamd too fast => fallback to use spamassassin directly");
+		g_warning ("respawning of spamd too fast => fallback to use SpamAssassin directly");
 
 		em_junk_sa_use_spamc = em_junk_sa_use_daemon = FALSE;
 		return FALSE;
