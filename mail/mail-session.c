@@ -171,7 +171,7 @@ get_password (CamelSession *session, CamelService *service, const char *domain,
 	char *ret = NULL;
 	EAccount *account = NULL;
 
-	url = service?camel_url_to_string(service->url, CAMEL_URL_HIDE_ALL):NULL;
+	url = service ? camel_url_to_string (service->url, CAMEL_URL_HIDE_ALL & (~CAMEL_URL_HIDE_AUTH)) : NULL;
 
 	if (!strcmp(item, "popb4smtp_uri")) {
 		/* not 100% mt safe, but should be ok */

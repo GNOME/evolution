@@ -1,3 +1,10 @@
+2008-09-26  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #552583 (Suggested by Sebastian Keller)
+
+	* mail-session.c: (get_password):
+	Do not hide auth_mech from the URL.
+
 2008-09-25  Philip Withnall  <philip@tecnocode.co.uk>
 
 	** Fix for bug #552551
