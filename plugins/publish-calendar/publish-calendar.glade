@@ -712,7 +712,7 @@ Free/Busy</property>
 			  <child>
 			    <widget class="GtkComboBox" id="publish_service">
 			      <property name="visible">True</property>
-			      <property name="items" translatable="yes">SSH
+			      <property name="items" translatable="yes">Secure FTP (SSH)
 Public FTP
 FTP (with login)
 Windows share

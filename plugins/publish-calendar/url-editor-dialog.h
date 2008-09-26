@@ -44,7 +44,7 @@ enum {
 };
 
 enum {
-	TYPE_SSH,
+	TYPE_SFTP,
 	TYPE_ANON_FTP,
 	TYPE_FTP,
 	TYPE_SMB,
