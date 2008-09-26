@@ -6321,6 +6321,9 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 
 				if (mod == CALOBJ_MOD_THIS) {
 					ECalComponentDateTime olddt, dt;
+					icaltimetype itt;
+
+					dt.value = &itt;
 
 					e_cal_component_get_dtstart (comp, &olddt);
 					if (olddt.value->zone) {
