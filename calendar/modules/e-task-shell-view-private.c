@@ -23,6 +23,174 @@
 #include <widgets/menus/gal-view-factory-etable.h>
 
 static void
+task_shell_view_backend_died_cb (ETaskShellView *task_shell_view,
+                                 ECal *client)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	GHashTable *client_table;
+	ESource *source;
+	const gchar *uid;
+
+	shell_view = E_SHELL_VIEW (task_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	source = e_cal_get_source (client);
+	uid = e_source_peek_uid (source);
+
+	g_object_ref (source);
+
+	g_hash_table_remove (client_table, uid);
+	e_task_shell_view_set_status_message (task_shell_view, NULL);
+
+	e_error_run (
+		GTK_WINDOW (shell_window),
+		"calendar:tasks-crashed", NULL);
+
+	g_object_unref (source);
+}
+
+static void
+task_shell_view_backend_error_cb (ETaskShellView *task_shell_view,
+                                  const gchar *message,
+                                  ECal *client)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	GtkWidget *dialog;
+	const gchar *uri;
+	gchar *uri_no_passwd;
+
+	shell_view = E_SHELL_VIEW (task_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	uri = e_cal_get_uri (client);
+	uri_no_passwd = get_uri_without_password (uri);
+
+	dialog = gtk_message_dialog_new (
+		GTK_WINDOW (shell_window),
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+		_("Error on %s:\n%s"),
+		uri_no_passwd, message);
+
+	gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
+
+	g_free (uri_no_passwd);
+}
+
+static void
+task_shell_view_client_opened_cb (ETaskShellView *task_shell_view,
+                                  ECalendarStatus status,
+                                  ECal *client)
+{
+	/* FIXME */
+}
+
+static gboolean
+task_shell_view_add_source (ETaskShellView *task_shell_view,
+                            ESource *source)
+{
+	GHashTable *client_table;
+	ECal *default_client;
+	ECal *client;
+	const gchar *uid;
+	const gchar *uri;
+	gchar *status_message;
+
+	client_table = task_shell_view->priv->client_table;
+	default_client = task_shell_view->priv->default_client;
+
+	uid = e_source_peek_uid (source);
+	client = g_hash_table_lookup (client_table, uid);
+
+	if (client != NULL)
+		return TRUE;
+
+	if (default_client != NULL) {
+		ESource *default_source;
+		const gchar *default_uid;
+
+		default_source = e_cal_get_source (default_client);
+		default_uid = e_source_peek_uid (default_source);
+
+		if (strcmp (uid, default_uid) == 0)
+			client = g_object_ref (default_client);
+	}
+
+	if (client == NULL)
+		client = auth_new_cal_from_source (
+			source, E_CAL_SOURCE_TYPE_TODO);
+
+	if (client == NULL)
+		return FALSE;
+
+	g_signal_connect_swapped (
+		client, "backend-died",
+		G_CALLBACK (task_shell_view_backend_died_cb),
+		task_shell_view);
+
+	g_signal_connect_swapped (
+		client, "backend-error",
+		G_CALLBACK (task_shell_view_backend_error_cb),
+		task_shell_view);
+
+	g_hash_table_insert (client_table, g_strdup (uid), client);
+
+	uri = e_cal_get_uri (client);
+
+	status_message = g_strdup_printf (_("Opening tasks at %s"), uri);
+	e_task_shell_view_set_status_message (task_shell_view, status_message);
+	g_free (status_message);
+
+	g_signal_connect_swapped (
+		client, "cal-opened",
+		G_CALLBACK (task_shell_view_client_opened_cb),
+		task_shell_view);
+
+	e_cal_open_async (client, FALSE);
+
+	return TRUE;
+}
+
+static void
+task_shell_view_table_popup_event_cb (ETaskShellView *task_shell_view,
+                                      GdkEvent *event)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	const gchar *widget_path;
+
+	shell_view = E_SHELL_VIEW (task_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	widget_path = "/task-popup";
+
+	e_task_shell_view_actions_update (task_shell_view);
+	e_shell_window_show_popup_menu (shell_window, widget_path, event);
+}
+
+static void
+task_shell_view_table_user_created (ETaskShellView *task_shell_view,
+                                    ETaskTable *task_table)
+{
+	ECal *client;
+	ESource *source;
+
+	if (task_table->user_created_cal != NULL)
+		client = task_table->user_created_cal;
+	else {
+		ECalModel *model;
+
+		model = e_task_table_get_model (task_table);
+		client = e_cal_model_get_default_client (model);
+	}
+
+	source = e_cal_get_source (client);
+	task_shell_view_add_source (task_shell_view, source);
+}
+
+static void
 task_shell_view_load_view_collection (EShellViewClass *shell_view_class)
 {
 	GalViewCollection *collection;
@@ -78,14 +246,21 @@ e_task_shell_view_private_init (ETaskShellView *task_shell_view,
 {
 	ETaskShellViewPrivate *priv = task_shell_view->priv;
 	ESourceList *source_list;
+	GHashTable *client_table;
 	GObject *object;
 
 	object = G_OBJECT (shell_view_class->type_module);
 	source_list = g_object_get_data (object, "source-list");
 	g_return_if_fail (E_IS_SOURCE_LIST (source_list));
 
+	client_table = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) g_object_unref);
+
 	priv->source_list = g_object_ref (source_list);
 	priv->task_actions = gtk_action_group_new ("tasks");
+	priv->client_table = client_table;
 
 	if (!gal_view_collection_loaded (shell_view_class->view_collection))
 		task_shell_view_load_view_collection (shell_view_class);
@@ -102,6 +277,7 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellView *shell_view;
+	ETaskTable *task_table;
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
@@ -110,6 +286,31 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	/* Cache these to avoid lots of awkward casting. */
 	priv->task_shell_content = g_object_ref (shell_content);
 	priv->task_shell_sidebar = g_object_ref (shell_sidebar);
+
+	task_table = e_task_shell_content_get_task_table (
+		priv->task_shell_content);
+
+	g_signal_connect_swapped (
+		task_table, "open-component",
+		G_CALLBACK (e_task_shell_view_open_task),
+		task_shell_view);
+
+	g_signal_connect_swapped (
+		task_table, "popup-event",
+		G_CALLBACK (task_shell_view_table_popup_event_cb),
+		task_shell_view);
+
+	g_signal_connect_swapped (
+		task_table, "status-message",
+		G_CALLBACK (e_task_shell_view_set_status_message),
+		task_shell_view);
+
+	g_signal_connect_swapped (
+		task_table, "user-created",
+		G_CALLBACK (task_shell_view_table_user_created_cb),
+		task_shell_view);
+
+	e_task_shell_view_actions_update (task_shell_view);
 }
 
 void
@@ -123,19 +324,87 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 
 	DISPOSE (priv->task_shell_content);
 	DISPOSE (priv->task_shell_sidebar);
+
+	g_hash_table_remove_all (priv->client_table);
+	DISPOSE (priv->default_client);
+
+	if (task_shell_view->priv->activity != NULL) {
+		/* XXX Activity is no cancellable. */
+		e_activity_complete (task_shell_view->priv->activity);
+		g_object_unref (task_shell_view->priv->activity);
+		task_shell_view->priv->activity = NULL;
+	}
 }
 
 void
 e_task_shell_view_private_finalize (ETaskShellView *task_shell_view)
 {
 	ETaskShellViewPrivate *priv = task_shell_view->priv;
+
+	g_hash_table_destroy (priv->client_table);
+}
+
+void
+e_task_shell_view_open_task (ETaskShellView *task_shell_view,
+                             ECalModelComponent *comp_data)
+{
+	CompEditor *editor;
+	CompEditorFlags flags = 0;
+	ECalComponent *comp;
+	icalcomponent *clone;
+	const gchar *uid;
+
+	g_return_if_fail (E_IS_TASK_SHELL_VIEW (task_shell_view));
+	g_return_if_fail (E_IS_CAL_MODEL_COMPONENT (comp_data));
+
+	uid = icalcomponent_get_uid (comp_data->icalcomp);
+	editor = comp_editor_find_instance (uid);
+
+	if (editor == NULL)
+		goto exit;
+
+	comp = e_cal_component_new ();
+	clone = icalcomponent_new_clone (comp_data->icalcomp);
+	e_cal_component_set_icalcomponent (comp, clone);
+
+	/* FIXME Do special stuff if task is assigned. */
+
+	editor = task_editor_new (comp_data->client, flags);
+	comp_editor_edit_comp (editor, comp);
+
+	g_object_ref (comp);
+
+	/* FIXME More special stuff here... */
+
+exit:
+	gtk_window_present (GTK_WINDOW (editor));
 }
 
 void
 e_task_shell_view_set_status_message (ETaskShellView *task_shell_view,
                                       const gchar *status_message)
 {
+	EActivity *activity;
+	EShellView *shell_view;
+
 	g_return_if_fail (E_IS_TASK_SHELL_VIEW (task_shell_view));
 
-	/* FIXME */
+	activity = task_shell_view->priv->activity;
+	shell_view = E_SHELL_VIEW (task_shell_view);
+
+	if (status_message == NULL || *status_message == '\0') {
+		if (activity != NULL) {
+			e_activity_complete (activity);
+			g_object_unref (activity);
+			activity = NULL;
+		}
+
+	} else if (activity == NULL) {
+		activity = e_activity_new (status_message);
+		e_shell_view_add_activity (shell_view, activity);
+
+	} else
+		e_activity_set_primary_text (activity, status_message);
+
+	task_shell_view->priv->activity = activity;
 }

@@ -85,17 +85,21 @@ struct _EMemoTable {
 struct _EMemoTableClass {
 	GtkTableClass parent_class;
 
-	/* Notification signals */
-	void (* user_created) (EMemoTable *memo_table);
+	/* Signals */
+	void	(*open_component)		(EMemoTable *memo_table,
+						 ECalModelComponent *comp_data);
+	void	(*popup_event)			(EMemoTable *memo_table,
+						 GdkEvent *event);
+	void	(*status_message)		(EMemoTable *memo_table,
+						 const gchar *message);
+	void	(*user_created)			(EMemoTable *memo_table);
 };
-
 
 GType		e_memo_table_get_type		(void);
 GtkWidget *	e_memo_table_new		(EShellView *shell_view);
 ECalModel *	e_memo_table_get_model		(EMemoTable *memo_table);
 ETable *	e_memo_table_get_table		(EMemoTable *memo_table);
 EShellView *	e_memo_table_get_shell_view	(EMemoTable *memo_table);
-void		e_memo_table_open_selected	(EMemoTable *memo_table);
 void		e_memo_table_delete_selected	(EMemoTable *memo_table);
 GSList *	e_memo_table_get_selected	(EMemoTable *memo_table);
 
@@ -107,12 +111,9 @@ void		e_memo_table_paste_clipboard	(EMemoTable *memo_table);
 /* These load and save the state of the table (headers shown etc.) to/from
    the given file. */
 void		e_memo_table_load_state		(EMemoTable *memo_table,
-						 gchar *filename);
+						 const gchar *filename);
 void		e_memo_table_save_state		(EMemoTable *memo_table,
-						 gchar *filename);
-
-void		e_memo_table_set_status_message	(EMemoTable *memo_table,
-						 const gchar *message);
+						 const gchar *filename);
 
 G_END_DECLS
 

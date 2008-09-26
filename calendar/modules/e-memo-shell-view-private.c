@@ -155,8 +155,24 @@ memo_shell_view_add_source (EMemoShellView *memo_shell_view,
 }
 
 static void
-memo_shell_view_user_created_cb (EMemoShellView *memo_shell_view,
-                                 EMemoTable *memo_table)
+memo_shell_view_table_popup_event_cb (EMemoShellView *memo_shell_view,
+                                      GdkEvent *event)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	const gchar *widget_path;
+
+	shell_view = E_SHELL_VIEW (memo_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	widget_path = "/memo-popup";
+
+	e_memo_shell_view_actions_update (memo_shell_view);
+	e_shell_window_show_popup_menu (shell_window, widget_path, event);
+}
+
+static void
+memo_shell_view_table_user_created_cb (EMemoShellView *memo_shell_view,
+                                       EMemoTable *memo_table)
 {
 	ECal *client;
 	ESource *source;
@@ -275,8 +291,23 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 		priv->memo_shell_content);
 
 	g_signal_connect_swapped (
+		memo_table, "open-component",
+		G_CALLBACK (e_memo_shell_view_open_memo),
+		memo_shell_view);
+
+	g_signal_connect_swapped (
+		memo_table, "popup-event",
+		G_CALLBACK (memo_shell_view_table_popup_event_cb),
+		memo_shell_view);
+
+	g_signal_connect_swapped (
+		memo_table, "status-message",
+		G_CALLBACK (e_memo_shell_view_set_status_message),
+		memo_shell_view);
+
+	g_signal_connect_swapped (
 		memo_table, "user-created",
-		G_CALLBACK (memo_shell_view_user_created_cb),
+		G_CALLBACK (memo_shell_view_table_user_created_cb),
 		memo_shell_view);
 
 	e_memo_shell_view_actions_update (memo_shell_view);
@@ -296,6 +327,13 @@ e_memo_shell_view_private_dispose (EMemoShellView *memo_shell_view)
 
 	g_hash_table_remove_all (priv->client_table);
 	DISPOSE (priv->default_client);
+
+	if (memo_shell_view->priv->activity != NULL) {
+		/* XXX Activity is not cancellable. */
+		e_activity_complete (memo_shell_view->priv->activity);
+		g_object_unref (memo_shell_view->priv->activity);
+		memo_shell_view->priv->activity = NULL;
+	}
 }
 
 void
@@ -307,10 +345,68 @@ e_memo_shell_view_private_finalize (EMemoShellView *memo_shell_view)
 }
 
 void
+e_memo_shell_view_open_memo (EMemoShellView *memo_shell_view,
+                             ECalModelComponent *comp_data)
+{
+	CompEditor *editor;
+	CompEditorFlags flags = 0;
+	ECalComponent *comp;
+	icalcomponent *clone;
+	const gchar *uid;
+
+	g_return_if_fail (E_IS_MEMO_SHELL_VIEW (memo_shell_view));
+	g_return_if_fail (E_IS_CAL_MODEL_COMPONENT (comp_data));
+
+	uid = icalcomponent_get_uid (comp_data->icalcomp);
+	editor = comp_editor_find_instance (uid);
+
+	if (editor == NULL)
+		goto exit;
+
+	comp = e_cal_component_new ();
+	clone = icalcomponent_new_clone (comp_data->icalcomp);
+	e_cal_component_set_icalcomponent (comp, clone);
+
+	if (e_cal_component_has_organizer (comp))
+		flags |= COMP_EDITOR_IS_SHARED;
+
+	if (itip_organizer_is_user (comp, comp_data->client))
+		flags |= COMP_EDITOR_USER_ORG;
+
+	editor = memo_editor_new (comp_data->client, flags);
+	comp_editor_edit_comp (editor, comp);
+
+	g_object_unref (comp);
+
+exit:
+	gtk_window_present (GTK_WINDOW (editor));
+}
+
+void
 e_memo_shell_view_set_status_message (EMemoShellView *memo_shell_view,
                                       const gchar *status_message)
 {
+	EActivity *activity;
+	EShellView *shell_view;
+
 	g_return_if_fail (E_IS_MEMO_SHELL_VIEW (memo_shell_view));
 
-	/* FIXME */
+	activity = memo_shell_view->priv->activity;
+	shell_view = E_SHELL_VIEW (memo_shell_view);
+
+	if (status_message == NULL || *status_message == '\0') {
+		if (activity != NULL) {
+			e_activity_complete (activity);
+			g_object_unref (activity);
+			activity = NULL;
+		}
+
+	} else if (activity == NULL) {
+		activity = e_activity_new (status_message);
+		e_shell_view_add_activity (shell_view, activity);
+
+	} else
+		e_activity_set_primary_text (activity, status_message);
+
+	memo_shell_view->priv->activity = activity;
 }

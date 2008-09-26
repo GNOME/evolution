@@ -39,6 +39,24 @@
     <toolitem action='task-print'/>
     <toolitem action='task-delete'/>
   </toolbar>
+  <popup name='task-popup'>
+    <menuitem action='task-new'/>
+    <separator/>
+    <menuitem action='task-open'/>
+    <menuitem action='task-open-url'/>
+    <menuitem action='task-save-as'/>
+    <menuitem action='task-print'/>
+    <separator/>
+    <menuitem action='task-clipboard-cut'/>
+    <menuitem action='task-clipboard-copy'/>
+    <menuitem action='task-clipboard-paste'/>
+    <separator/>
+    <menuitem action='task-assign'/>
+    <menuitem action='task-forward'/>
+    <menuitem action='task-mark-complete'/>
+    <separator/>
+    <menuitem action='task-delete'/>
+  </popup>
   <popup name='task-list-popup'>
     <menuitem action='task-list-new'/>
     <menuitem action='task-list-copy'/>

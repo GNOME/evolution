@@ -64,12 +64,12 @@ struct _EAddressbookViewClass {
 	GtkVBoxClass parent_class;
 
 	/* Signals */
-	void		(*popup_event)		(EAddressbookView *view,
+	void	(*popup_event)			(EAddressbookView *view,
 						 GdkEvent *event);
-	void		(*status_message)	(EAddressbookView *view,
+	void	(*status_message)		(EAddressbookView *view,
 						 const gchar *message);
-	void		(*command_state_change)	(EAddressbookView *view);
-	void		(*selection_change)	(EAddressbookView *view);
+	void	(*command_state_change)		(EAddressbookView *view);
+	void	(*selection_change)		(EAddressbookView *view);
 };
 
 GType		e_addressbook_view_get_type	(void);

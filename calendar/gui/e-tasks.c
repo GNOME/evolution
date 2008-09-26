@@ -880,57 +880,6 @@ set_status_message (ETasks *tasks, const char *message, ...)
 	e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->tasks_view), msg_string, -1);
 }
 
-/* Callback from the calendar client when an error occurs in the backend */
-static void
-backend_error_cb (ECal *client, const char *message, gpointer data)
-{
-	ETasks *tasks;
-	GtkWidget *dialog;
-	char *urinopwd;
-
-	tasks = E_TASKS (data);
-
-	urinopwd = get_uri_without_password (e_cal_get_uri (client));
-
-	dialog = gtk_message_dialog_new (
-		GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))),
-		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_MESSAGE_ERROR,
-		GTK_BUTTONS_OK,
-		_("Error on %s:\n %s"),
-		urinopwd, message);
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
-
-	g_free (urinopwd);
-}
-
-/* Callback from the calendar client when the backend dies */
-static void
-backend_died_cb (ECal *client, gpointer data)
-{
-	ETasks *tasks;
-	ETasksPrivate *priv;
-	ESource *source;
-
-	tasks = E_TASKS (data);
-	priv = tasks->priv;
-
-	source = g_object_ref (e_cal_get_source (client));
-
-	priv->clients_list = g_list_remove (priv->clients_list, client);
-	g_hash_table_remove (priv->clients,  e_source_peek_uid (source));
-
-	g_signal_emit (tasks, e_tasks_signals[SOURCE_REMOVED], 0, source);
-
-	e_calendar_table_set_status_message (E_CALENDAR_TABLE (e_tasks_get_calendar_table (tasks)), NULL, -1);
-
-	e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))),
-		     "calendar:tasks-crashed", NULL);
-
-	g_object_unref (source);
-}
-
 /* Callback from the calendar client when the calendar is opened */
 static void
 client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
@@ -1134,58 +1083,6 @@ e_tasks_show_preview (ETasks *tasks, gboolean state)
 		e_cal_component_preview_clear (E_CAL_COMPONENT_PREVIEW (priv->preview));
 		gtk_widget_hide (priv->preview);
 	}
-}
-
-gboolean
-e_tasks_add_todo_source (ETasks *tasks, ESource *source)
-{
-	ETasksPrivate *priv;
-	ECal *client;
-	const char *uid;
-
-	g_return_val_if_fail (tasks != NULL, FALSE);
-	g_return_val_if_fail (E_IS_TASKS (tasks), FALSE);
-	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
-
-	priv = tasks->priv;
-
-	uid = e_source_peek_uid (source);
-	client = g_hash_table_lookup (priv->clients, uid);
-	if (client) {
-		/* We already have it */
-
-		return TRUE;
-	} else {
-		ESource *default_source;
-
-		if (priv->default_client) {
-			default_source = e_cal_get_source (priv->default_client);
-
-			/* We don't have it but the default client is it */
-			if (!strcmp (e_source_peek_uid (default_source), uid))
-				client = g_object_ref (priv->default_client);
-		}
-
-		/* Create a new one */
-		if (!client) {
-			client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
-			if (!client)
-				return FALSE;
-		}
-	}
-
-	g_signal_connect (G_OBJECT (client), "backend_error", G_CALLBACK (backend_error_cb), tasks);
-	g_signal_connect (G_OBJECT (client), "backend_died", G_CALLBACK (backend_died_cb), tasks);
-
-	/* add the client to internal structure */
-	g_hash_table_insert (priv->clients, g_strdup (uid) , client);
-	priv->clients_list = g_list_prepend (priv->clients_list, client);
-
-	g_signal_emit (tasks, e_tasks_signals[SOURCE_ADDED], 0, source);
-
-	open_ecal (tasks, client, FALSE, client_cal_opened_cb);
-
-	return TRUE;
 }
 
 gboolean

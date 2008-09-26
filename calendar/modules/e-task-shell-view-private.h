@@ -26,7 +26,16 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
+#include "e-util/e-dialog-utils.h"
+#include "e-util/e-error.h"
 #include "e-util/e-util.h"
+
+#include "calendar/common/authentication.h"
+#include "calendar/gui/misc.h"
+#include "calendar/gui/e-calendar-selector.h"
+#include "calendar/gui/e-task-preview.h"
+#include "calendar/gui/dialogs/calendar-setup.h"
+#include "calendar/gui/dialogs/task-editor.h"
 
 #include "e-task-shell-content.h"
 #include "e-task-shell-sidebar.h"
@@ -68,6 +77,12 @@ struct _ETaskShellViewPrivate {
 	/* These are just for convenience. */
 	ETaskShellContent *task_shell_content;
 	ETaskShellSidebar *task_shell_sidebar;
+
+	/* UID -> Client */
+	GHashTable *client_table;
+	ECal *default_client;
+
+	EActivity *activity;
 };
 
 void		e_task_shell_view_private_init
@@ -86,6 +101,9 @@ void		e_task_shell_view_actions_init
 					(ETaskShellView *task_shell_view);
 void		e_task_shell_view_actions_update
 					(ETaskShellView *task_shell_view);
+void		e_task_shell_view_open_task
+					(ETaskShellView *task_shell_view,
+					 ECalModelComponent *comp_data);
 void		e_task_shell_view_set_status_message
 					(ETaskShellView *task_shell_view,
 					 const gchar *status_message);

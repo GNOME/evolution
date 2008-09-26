@@ -82,6 +82,35 @@ action_memo_delete_cb (GtkAction *action,
 }
 
 static void
+action_memo_forward_cb (GtkAction *action,
+                        EMemoShellView *memo_shell_view)
+{
+	EMemoShellContent *memo_shell_content;
+	EMemoTable *memo_table;
+	ECalModelComponent *comp_data;
+	ECalComponent *comp;
+	icalcomponent *clone;
+	ECalComponentItipMethod method;
+	GSList *list;
+
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+
+	list = e_memo_table_get_selected (memo_table);
+	g_return_if_fail (list != NULL);
+	comp_data = list->data;
+	g_slist_free (list);
+
+	/* XXX We only forward the first selected memo. */
+	comp = e_cal_component_new ();
+	clone = icalcomponent_new_clone (comp_data->icalcomp);
+	method = E_CAL_COMPONENT_METHOD_PUBLISH;
+	e_cal_component_set_icalcomponent (comp, clone);
+	itip_send_comp (method, comp, comp_data->client, NULL, NULL, NULL);
+	g_object_unref (comp);
+}
+
+static void
 action_memo_list_copy_cb (GtkAction *action,
                           EMemoShellView *memo_shell_view)
 {
@@ -105,6 +134,40 @@ action_memo_list_new_cb (GtkAction *action,
 	shell_view = E_SHELL_VIEW (memo_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	calendar_setup_new_memo_list (GTK_WINDOW (shell_window));
+}
+
+static void
+action_memo_list_print_cb (GtkAction *action,
+                           EMemoShellView *memo_shell_view)
+{
+	EMemoShellContent *memo_shell_content;
+	EMemoTable *memo_table;
+	ETable *table;
+	GtkPrintOperationAction print_action;
+
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+	table = e_memo_table_get_table (memo_table);
+
+	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
+	print_table (table, _("Print Memos"), _("Memos"), print_action);
+}
+
+static void
+action_memo_list_print_preview_cb (GtkAction *action,
+                                   EMemoShellView *memo_shell_view)
+{
+	EMemoShellContent *memo_shell_content;
+	EMemoTable *memo_table;
+	ETable *table;
+	GtkPrintOperationAction print_action;
+
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+	table = e_memo_table_get_table (memo_table);
+
+	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
+	print_table (table, _("Print Memos"), _("Memos"), print_action);
 }
 
 static void
@@ -134,10 +197,54 @@ action_memo_open_cb (GtkAction *action,
 {
 	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
+	ECalModelComponent *comp_data;
+	GSList *list;
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-	e_memo_table_open_selected (memo_table);
+
+	list = e_memo_table_get_selected (memo_table);
+	g_return_if_fail (list != NULL);
+	comp_data = list->data;
+	g_slist_free (list);
+
+	/* XXX We only open the first selected memo. */
+	e_memo_shell_view_open_memo (memo_shell_view, comp_data);
+}
+
+static void
+action_memo_open_url_cb (GtkAction *action,
+                         EMemoShellView *memo_shell_view)
+{
+	EMemoShellContent *memo_shell_content;
+	EMemoTable *memo_table;
+	ECalModelComponent *comp_data;
+	icalproperty *prop;
+	GdkScreen *screen;
+	const gchar *uri;
+	GSList *list;
+	GError *error = NULL;
+
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+
+	list = e_memo_table_get_selected (memo_table);
+	g_return_if_fail (list != NULL);
+	comp_data = list->data;
+
+	/* XXX We only open the URI of the first selected memo. */
+	prop = icalcomponent_get_first_property (
+		comp_data->icalcomp, ICAL_URL_PROPERTY);
+	g_return_if_fail (prop == NULL);
+
+	screen = gtk_widget_get_screen (GTK_WIDGET (memo_shell_view));
+	uri = icalproperty_get_url (prop);
+	gtk_show_uri (screen, uri, GDK_CURRENT_TIME, &error);
+
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
 }
 
 static void
@@ -158,32 +265,63 @@ action_memo_print_cb (GtkAction *action,
 {
 	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
-	ETable *table;
+	ECalModelComponent *comp_data;
+	ECalComponent *comp;
+	icalcomponent *clone;
+	GtkPrintOperationAction print_action;
+	GSList *list;
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-	table = e_memo_table_get_table (memo_table);
 
-	print_table (
-		table, _("Print Memos"), _("Memos"),
-		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
+	list = e_memo_table_get_selected (memo_table);
+	g_return_if_fail (list != NULL);
+	comp_data = list->data;
+	g_slist_free (list);
+
+	/* XXX We only print the first selected memo. */
+	comp = e_cal_component_new ();
+	clone = icalcomponent_new_clone (comp_data->icalcomp);
+	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
+	e_cal_component_set_icalcomponent (comp, clone);
+	print_comp (comp, comp_data->client, print_action);
+	g_object_unref (comp);
 }
 
 static void
-action_memo_print_preview_cb (GtkAction *action,
-                              EMemoShellView *memo_shell_view)
+action_memo_save_as_cb (GtkAction *action,
+                        EMemoShellView *memo_shell_view)
 {
 	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
-	ETable *table;
+	ECalModelComponent *comp_data;
+	GSList *list;
+	gchar *filename;
+	gchar *string;
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-	table = e_memo_table_get_table (memo_table);
 
-	print_table (
-		table, _("Print Memos"), _("Memos"),
-		GTK_PRINT_OPERATION_ACTION_PREVIEW);
+	list = e_memo_table_get_selected (memo_table);
+	g_return_if_fail (list != NULL);
+	comp_data = list->data;
+	g_slist_free (list);
+
+	filename = e_file_dialog_save (_("Save as..."), NULL);
+	if (filename == NULL)
+		return;
+
+	string = e_cal_get_component_as_string (
+		comp_data->client, comp_data->icalcomp);
+	if (string == NULL) {
+		g_warning ("Could not convert memo to a string");
+		return;
+	}
+
+	e_write_file_uri (filename, string);
+
+	g_free (filename);
+	g_free (string);
 }
 
 static GtkActionEntry memo_entries[] = {
@@ -211,10 +349,17 @@ static GtkActionEntry memo_entries[] = {
 
 	{ "memo-delete",
 	  GTK_STOCK_DELETE,
-	  NULL,
+	  N_("Delete Memo"),
 	  NULL,
 	  N_("Delete selected memos"),
 	  G_CALLBACK (action_memo_delete_cb) },
+
+	{ "memo-forward",
+	  "mail-forward",
+	  N_("_Forward as iCalendar"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_memo_forward_cb) },
 
 	{ "memo-list-copy",
 	  GTK_STOCK_COPY,
@@ -237,6 +382,20 @@ static GtkActionEntry memo_entries[] = {
 	  N_("Create a new memo list"),
 	  G_CALLBACK (action_memo_list_new_cb) },
 
+	{ "memo-list-print",
+	  GTK_STOCK_PRINT,
+	  NULL,
+	  NULL,
+	  N_("Print the list of memos"),
+	  G_CALLBACK (action_memo_list_print_cb) },
+
+	{ "memo-list-print-preview",
+	  GTK_STOCK_PRINT_PREVIEW,
+	  NULL,
+	  NULL,
+	  N_("Preview the list of memos to be printed"),
+	  G_CALLBACK (action_memo_list_print_preview_cb) },
+
 	{ "memo-list-properties",
 	  GTK_STOCK_PROPERTIES,
 	  NULL,
@@ -251,19 +410,26 @@ static GtkActionEntry memo_entries[] = {
 	  N_("View the selected memo"),
 	  G_CALLBACK (action_memo_open_cb) },
 
+	{ "memo-open-url",
+	  NULL,
+	  N_("Open _Web Page"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_memo_open_url_cb) },
+
 	{ "memo-print",
 	  GTK_STOCK_PRINT,
 	  NULL,
 	  NULL,
-	  N_("Print the list of memos"),
+	  N_("Print the selected memo"),
 	  G_CALLBACK (action_memo_print_cb) },
 
-	{ "memo-print-preview",
-	  GTK_STOCK_PRINT_PREVIEW,
+	{ "memo-save-as",
+	  GTK_STOCK_SAVE_AS,
 	  NULL,
 	  NULL,
-	  N_("Preview the list of memos to be printed"),
-	  G_CALLBACK (action_memo_print_preview_cb) },
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_memo_save_as_cb) }
 };
 
 static GtkToggleActionEntry memo_toggle_entries[] = {
@@ -326,6 +492,7 @@ e_memo_shell_view_actions_update (EMemoShellView *memo_shell_view)
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	GtkAction *action;
+	const gchar *label;
 	gboolean read_only = TRUE;
 	gboolean sensitive;
 	gint n_selected;
@@ -364,4 +531,6 @@ e_memo_shell_view_actions_update (EMemoShellView *memo_shell_view)
 	action = ACTION (MEMO_DELETE);
 	sensitive = (n_selected > 0) && !read_only;
 	gtk_action_set_sensitive (action, sensitive);
+	label = ngettext ("Delete Memo", "Delete Memos", n_selected);
+	g_object_set (action, "label", label, NULL);
 }

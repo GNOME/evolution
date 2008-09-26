@@ -630,58 +630,6 @@ open_ecal (EMemos *memos, ECal *cal, gboolean only_if_exists, open_func of)
 }
 
 gboolean
-e_memos_add_memo_source (EMemos *memos, ESource *source)
-{
-	EMemosPrivate *priv;
-	ECal *client;
-	const char *uid;
-
-	g_return_val_if_fail (memos != NULL, FALSE);
-	g_return_val_if_fail (E_IS_MEMOS (memos), FALSE);
-	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
-
-	priv = memos->priv;
-
-	uid = e_source_peek_uid (source);
-	client = g_hash_table_lookup (priv->clients, uid);
-	if (client) {
-		/* We already have it */
-
-		return TRUE;
-	} else {
-		ESource *default_source;
-
-		if (priv->default_client) {
-			default_source = e_cal_get_source (priv->default_client);
-
-			/* We don't have it but the default client is it */
-			if (!strcmp (e_source_peek_uid (default_source), uid))
-				client = g_object_ref (priv->default_client);
-		}
-
-		/* Create a new one */
-		if (!client) {
-			client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_JOURNAL);
-			if (!client)
-				return FALSE;
-		}
-	}
-
-	g_signal_connect (G_OBJECT (client), "backend_error", G_CALLBACK (backend_error_cb), memos);
-	g_signal_connect (G_OBJECT (client), "backend_died", G_CALLBACK (backend_died_cb), memos);
-
-	/* add the client to internal structure */
-	g_hash_table_insert (priv->clients, g_strdup (uid) , client);
-	priv->clients_list = g_list_prepend (priv->clients_list, client);
-
-	g_signal_emit (memos, e_memos_signals[SOURCE_ADDED], 0, source);
-
-	open_ecal (memos, client, FALSE, client_cal_opened_cb);
-
-	return TRUE;
-}
-
-gboolean
 e_memos_remove_memo_source (EMemos *memos, ESource *source)
 {
 	EMemosPrivate *priv;

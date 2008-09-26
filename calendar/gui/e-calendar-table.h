@@ -76,15 +76,22 @@ struct _ECalendarTable {
 	 * so store it here before emitting "user_created" signal and make
 	 * it NULL just after the emit. */
 	ECal *user_created_cal;
+
+	ECalendarTablePrivate *priv;
 };
 
 struct _ECalendarTableClass {
 	GtkTableClass parent_class;
 
-	/* Notification signals */
-	void (* user_created) (ECalendarTable *cal_table);
+	/* Signals */
+	void	(*open_component)		(ECalendarTable *cal_table,
+						 ECalModelComponent *comp_data);
+	void	(*popup_event)			(ECalendarTable *cal_table,
+						 GdkEvent *event);
+	void	(*status_message)		(ECalendarTable *cal_table,
+						 const gchar *message);
+	void	(*user_created)			(ECalendarTable *cal_table);
 };
-
 
 GType		e_calendar_table_get_type	(void);
 GtkWidget *	e_calendar_table_new		(void);
@@ -109,14 +116,6 @@ void		e_calendar_table_load_state	(ECalendarTable *cal_table,
 void		e_calendar_table_save_state	(ECalendarTable *cal_table,
 						 gchar *filename);
 
-void		e_calendar_table_set_status_message
-						(ECalendarTable *cal_table,
-						 const gchar *message,
-						 gdouble percent);
-void		e_calendar_table_open_task	(ECalendarTable *cal_table,
-						 ECal *client,
-						 icalcomponent *icalcomp,
-						 gboolean assign);
 ECalModelComponent *
 		e_calendar_table_get_selected_comp
 						(ECalendarTable *cal_table);

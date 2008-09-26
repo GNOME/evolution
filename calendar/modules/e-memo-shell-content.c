@@ -90,15 +90,13 @@ memo_shell_content_display_view_cb (EMemoShellContent *memo_shell_content,
                                     GalView *gal_view)
 {
 	EMemoTable *memo_table;
-	ETableScrolled *table_scrolled;
 	ETable *table;
 
 	if (!GAL_IS_VIEW_ETABLE (gal_view))
 		return;
 
 	memo_table = E_MEMO_TABLE (memo_shell_content->priv->memo_table);
-	table_scrolled = E_TABLE_SCROLLED (memo_table->etable);
-	table = e_table_scrolled_get_table (table_scrolled);
+	table = e_memo_table_get_table (memo_table);
 
 	gal_view_etable_attach_table (GAL_VIEW_ETABLE (gal_view), table);
 }
@@ -184,7 +182,6 @@ memo_shell_content_model_row_changed_cb (EMemoShellContent *memo_shell_content,
 {
 	ECalModelComponent *comp_data;
 	EMemoTable *memo_table;
-	ETableScrolled *table_scrolled;
 	ETable *table;
 	const gchar *current_uid;
 	const gchar *uid;
@@ -202,8 +199,7 @@ memo_shell_content_model_row_changed_cb (EMemoShellContent *memo_shell_content,
 		return;
 
 	memo_table = E_MEMO_TABLE (memo_shell_content->priv->memo_table);
-	table_scrolled = E_TABLE_SCROLLED (memo_table->etable);
-	table = e_table_scrolled_get_table (table_scrolled);
+	table = e_memo_table_get_table (memo_table);
 
 	memo_shell_content_cursor_change_cb (memo_shell_content, 0, table);
 }

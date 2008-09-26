@@ -645,7 +645,7 @@ addressbook_view_class_init (EAddressbookViewClass *class)
 
 	signals[POPUP_EVENT] = g_signal_new (
 		"popup-event",
-		G_OBJECT_CLASS_TYPE (object_class),
+		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EAddressbookViewClass, popup_event),
 		NULL, NULL,
@@ -655,7 +655,7 @@ addressbook_view_class_init (EAddressbookViewClass *class)
 
 	signals[COMMAND_STATE_CHANGE] = g_signal_new (
 		"command-state-change",
-		G_OBJECT_CLASS_TYPE (object_class),
+		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EAddressbookViewClass, command_state_change),
 		NULL, NULL,
@@ -664,7 +664,7 @@ addressbook_view_class_init (EAddressbookViewClass *class)
 
 	signals[SELECTION_CHANGE] = g_signal_new (
 		"selection-change",
-		G_OBJECT_CLASS_TYPE (object_class),
+		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EAddressbookViewClass, selection_change),
 		NULL, NULL,
