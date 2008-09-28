@@ -9527,7 +9527,7 @@ msgstr "Америка/Јамајка"
 
 #: ../calendar/zones.h:134
 msgid "America/Jujuy"
-msgstr "Америка/Џуџуи"
+msgstr "Америка/Хухуи"
 
 #: ../calendar/zones.h:135
 msgid "America/Juneau"
@@ -10040,7 +10040,7 @@ msgstr "Азија/Катар"
 
 #: ../calendar/zones.h:262
 msgid "Asia/Qyzylorda"
-msgstr "Азија/Кизилорда"
+msgstr "Азија/Кзил-Орда"
 
 #: ../calendar/zones.h:263
 msgid "Asia/Rangoon"
@@ -10532,7 +10532,7 @@ msgstr "Пацифик/Козре"
 
 #: ../calendar/zones.h:385
 msgid "Pacific/Kwajalein"
-msgstr "Пацифик/Куаџалин"
+msgstr "Пацифик/Кваџалин"
 
 #: ../calendar/zones.h:386
 msgid "Pacific/Majuro"
