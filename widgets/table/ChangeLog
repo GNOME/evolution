@@ -1,3 +1,9 @@
+2008-09-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* Makefile.am: Delete unused files.
+	* e-cell-spin-button.c:
+	* e-cell-spin-button.h:
+
 2008-09-24  Sankar P  <psankar@novell.com>
 
 License Changes

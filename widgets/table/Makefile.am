@@ -29,7 +29,6 @@ libetable_la_SOURCES = 				\
 	e-cell-popup.c				\
 	e-cell-progress.c			\
 	e-cell-size.c				\
-	e-cell-spin-button.c			\
 	e-cell-text.c				\
 	e-cell-toggle.c				\
 	e-cell-tree.c				\
@@ -93,7 +92,6 @@ libetableinclude_HEADERS = 			\
 	e-cell-popup.h				\
 	e-cell-progress.h			\
 	e-cell-size.h				\
-	e-cell-spin-button.h			\
 	e-cell-text.h				\
 	e-cell-toggle.h				\
 	e-cell-tree.h				\
