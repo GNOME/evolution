@@ -1,5 +1,9 @@
 2008-09-29  Gabor Kelemen  <kelemeng@gnome.hu>
 
+	* shell.error.xml: Unbreak build, sorry for the inconvenience.
+
+2008-09-29  Gabor Kelemen  <kelemeng@gnome.hu>
+
 	* calendar.error.xml: Mark some forgotten strings for translation. Fixes bug #553105
 
 2008-09-26  Milan Crha  <mcrha@redhat.com>
