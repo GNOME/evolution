@@ -1,3 +1,7 @@
+2008-09-29  Gabor Kelemen  <kelemeng@gnome.hu>
+
+	* mail-config.glade: Mark some forgotten strings for translation. Fixes bug #553067
+
 2008-09-29  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #530716
