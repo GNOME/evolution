@@ -1,5 +1,13 @@
 2008-09-29  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #530716
+
+	* mail-session.c: (user_message_response), (user_message_exec),
+	(user_message_response_free): Differentiate between response
+	with valid message pointer and with one already freed.
+
+2008-09-29  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #530691
 
 	* em-folder-utils.c: (emfu_delete_rec), (emfu_delete_done),

@@ -515,7 +515,12 @@ error_cleanup (EActivityHandler *activity_handler)
 			/* Error older than wanted time. So cleanup */
 			e_logger_log (priv->logger, info->error_type, g_object_get_data (info->error, "primary"), 
 						    g_object_get_data (info->error, "secondary"));
-			gtk_widget_destroy (info->error);
+
+			if (GTK_IS_DIALOG (info->error))
+				gtk_dialog_response (GTK_DIALOG (info->error), GTK_RESPONSE_CLOSE);
+			else
+				gtk_widget_destroy (info->error);
+
 			node = p;
 			p = p->next;
 

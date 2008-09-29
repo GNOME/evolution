@@ -1,3 +1,11 @@
+2008-09-29  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #530716
+
+	* e-activity-handler.c: (error_cleanup): GtkDialog errors close
+	by the response message, not as other widgets, because creator
+	of the dialog waits for that signal and takes care of the widget.
+
 2008-09-29  Sankar P  <psankar@novell.com>
 
 License Changes
