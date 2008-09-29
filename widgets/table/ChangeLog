@@ -1,3 +1,11 @@
+2008-09-29  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-cell-float.c:
+	* e-cell-float.h:
+	* e-table-col.c:
+
 2008-09-29  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* Makefile.am: Delete unused files.
