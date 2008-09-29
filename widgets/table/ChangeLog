@@ -1,5 +1,11 @@
 2008-09-29  Sankar P  <psankar@novell.com>
 
+	* widgets/table/e-cell-spin-button.c:
+	* widgets/table/e-cell-spin-button.h:
+	Remove obsolete files.
+
+2008-09-29  Sankar P  <psankar@novell.com>
+
 License Changes
 
 	* e-cell-float.c:
