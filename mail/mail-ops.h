@@ -111,8 +111,8 @@ int mail_get_folderinfo (CamelStore *store, CamelOperation *op,
 			 void *data);
 
 /* remove an existing folder */
-void mail_remove_folder (const char *uri,
-			 void (*done) (char *uri, gboolean removed, void *data),
+void mail_remove_folder (CamelFolder *folder,
+			 void (*done) (CamelFolder *folder, gboolean removed, CamelException *ex, void *data),
 			 void *data);
 
 /* transfer (copy/move) a folder */
