@@ -1,3 +1,13 @@
+2008-09-29  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* em-filter-i18n.h:
+	* em-utils.c:
+	* importers/mail-importer.c:
+	* mail-config.c:
+	* message-list.c:
+
 2008-09-26  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #552583 (Suggested by Sebastian Keller)
