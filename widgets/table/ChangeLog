@@ -1,8 +1,10 @@
 2008-09-29  Sankar P  <psankar@novell.com>
 
+	** Remove unused files
+
+	* widgets/table/Makefile.am:
 	* widgets/table/e-cell-spin-button.c:
 	* widgets/table/e-cell-spin-button.h:
-	Remove obsolete files.
 
 2008-09-29  Sankar P  <psankar@novell.com>
 
@@ -17,7 +19,6 @@ License Changes
 2008-09-24  Sankar P  <psankar@novell.com>
 
 License Changes
-
 	* e-cell-text.c:
 
 2008-09-16  Sankar P  <psankar@novell.com>
