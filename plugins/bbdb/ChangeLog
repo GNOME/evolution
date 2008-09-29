@@ -1,3 +1,10 @@
+2008-09-29  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #497928
+
+	* bbdb.c: (source_changed_cb), (gaim_source_changed_cb):
+	Set URI to empty string when user deletes previously selected source.
+
 2008-09-19  Sankar P  <psankar@novell.com>
 
 License Changes

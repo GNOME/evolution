@@ -435,12 +435,11 @@ source_changed_cb (ESourceComboBox *source_combo_box,
 	GError *error = NULL;
 
 	source = e_source_combo_box_get_active (source_combo_box);
-	g_return_if_fail (source != NULL);
 
 	gconf_client_set_string (
 		stuff->target->gconf,
 		GCONF_KEY_WHICH_ADDRESSBOOK,
-		e_source_get_uri (source), &error);
+		source ? e_source_get_uri (source) : "", &error);
 
 	if (error != NULL) {
 		g_warning ("%s", error->message);
@@ -456,12 +455,11 @@ gaim_source_changed_cb (ESourceComboBox *source_combo_box,
 	GError *error = NULL;
 
 	source = e_source_combo_box_get_active (source_combo_box);
-	g_return_if_fail (source != NULL);
 
 	gconf_client_set_string (
 		stuff->target->gconf,
 		GCONF_KEY_WHICH_ADDRESSBOOK_GAIM,
-		e_source_get_uri (source), &error);
+		source ? e_source_get_uri (source) : "", &error);
 
 	if (error != NULL) {
 		g_warning ("%s", error->message);
