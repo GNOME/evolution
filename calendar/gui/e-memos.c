@@ -151,10 +151,6 @@ set_timezone (EMemos *memos)
 			e_cal_set_default_timezone (client, zone, NULL);
 	}
 
-	if (priv->default_client && e_cal_get_load_state (priv->default_client) == E_CAL_LOAD_LOADED)
-		/* FIXME Error checking */
-		e_cal_set_default_timezone (priv->default_client, zone, NULL);
-
 	if (priv->preview)
 		e_cal_component_memo_preview_set_default_timezone (E_CAL_COMPONENT_MEMO_PREVIEW (priv->preview), zone);
 }
@@ -437,20 +433,8 @@ e_memos_init (EMemos *memos)
 	priv->view_menus = NULL;
 	priv->current_uid = NULL;
 	priv->sexp = g_strdup ("#t");
-	priv->default_client = NULL;
 	update_view (memos);
 }
-
-GtkWidget *
-e_memos_new (void)
-{
-	EMemos *memos;
-
-	memos = g_object_new (e_memos_get_type (), NULL);
-
-	return GTK_WIDGET (memos);
-}
-
 
 static void
 e_memos_destroy (GtkObject *object)
@@ -503,195 +487,6 @@ e_memos_destroy (GtkObject *object)
 
 	if (GTK_OBJECT_CLASS (e_memos_parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (e_memos_parent_class)->destroy) (object);
-}
-
-static void
-set_status_message (EMemos *memos, const char *message, ...)
-{
-	EMemosPrivate *priv;
-	va_list args;
-	char sz[2048], *msg_string = NULL;
-
-	if (message) {
-		va_start (args, message);
-		vsnprintf (sz, sizeof sz, message, args);
-		va_end (args);
-		msg_string = sz;
-	}
-
-	priv = memos->priv;
-
-	e_memo_table_set_status_message (E_MEMO_TABLE (priv->memos_view), msg_string);
-}
-
-/* Callback from the calendar client when the calendar is opened */
-static void
-client_cal_opened_cb (ECal *ecal, ECalendarStatus status, EMemos *memos)
-{
-	ECalModel *model;
-	ESource *source;
-	EMemosPrivate *priv;
-
-	priv = memos->priv;
-
-	source = e_cal_get_source (ecal);
-
-	switch (status) {
-	case E_CALENDAR_STATUS_OK :
-		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, client_cal_opened_cb, NULL);
-
-		set_status_message (memos, _("Loading memos"));
-		model = e_memo_table_get_model (E_MEMO_TABLE (priv->memos_view));
-		e_cal_model_add_client (model, ecal);
-
-		set_timezone (memos);
-		set_status_message (memos, NULL);
-		break;
-	case E_CALENDAR_STATUS_BUSY :
-		break;
-	case E_CALENDAR_STATUS_REPOSITORY_OFFLINE:
-		e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (memos))), "calendar:prompt-no-contents-offline-memos", NULL);
-		break;
-	default :
-		/* Make sure the source doesn't disappear on us */
-		g_object_ref (source);
-
-		priv->clients_list = g_list_remove (priv->clients_list, ecal);
-		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL, memos);
-
-		/* Do this last because it unrefs the client */
-		g_hash_table_remove (priv->clients,  e_source_peek_uid (source));
-
-		g_signal_emit (memos, e_memos_signals[SOURCE_REMOVED], 0, source);
-
-		set_status_message (memos, NULL);
-		g_object_unref (source);
-
-		break;
-	}
-}
-
-static void
-default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, EMemos *memos)
-{
-	ECalModel *model;
-	ESource *source;
-	EMemosPrivate *priv;
-
-	priv = memos->priv;
-
-	source = e_cal_get_source (ecal);
-
-	switch (status) {
-	case E_CALENDAR_STATUS_OK :
-		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, default_client_cal_opened_cb, NULL);
-		model = e_memo_table_get_model (E_MEMO_TABLE (priv->memos_view));
-
-		set_timezone (memos);
-		e_cal_model_set_default_client (model, ecal);
-		set_status_message (memos, NULL);
-		break;
-	case E_CALENDAR_STATUS_BUSY:
-		break;
-	default :
-		/* Make sure the source doesn't disappear on us */
-		g_object_ref (source);
-
-		priv->clients_list = g_list_remove (priv->clients_list, ecal);
-		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL, memos);
-
-		/* Do this last because it unrefs the client */
-		g_hash_table_remove (priv->clients,  e_source_peek_uid (source));
-
-		g_signal_emit (memos, e_memos_signals[SOURCE_REMOVED], 0, source);
-
-		set_status_message (memos, NULL);
-		g_object_unref (priv->default_client);
-		priv->default_client = NULL;
-		g_object_unref (source);
-
-		break;
-	}
-}
-
-typedef void (*open_func) (ECal *, ECalendarStatus, EMemos *);
-
-static gboolean
-open_ecal (EMemos *memos, ECal *cal, gboolean only_if_exists, open_func of)
-{
-	set_status_message (memos, _("Opening memos at %s"), e_cal_get_uri (cal));
-
-	g_signal_connect (G_OBJECT (cal), "cal_opened", G_CALLBACK (of), memos);
-	e_cal_open_async (cal, only_if_exists);
-
-	return TRUE;
-}
-
-gboolean
-e_memos_remove_memo_source (EMemos *memos, ESource *source)
-{
-	EMemosPrivate *priv;
-	ECal *client;
-	ECalModel *model;
-	const char *uid;
-
-	g_return_val_if_fail (memos != NULL, FALSE);
-	g_return_val_if_fail (E_IS_MEMOS (memos), FALSE);
-	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
-
-	priv = memos->priv;
-
-	uid = e_source_peek_uid (source);
-	client = g_hash_table_lookup (priv->clients, uid);
-	if (!client)
-		return TRUE;
-
-
-	priv->clients_list = g_list_remove (priv->clients_list, client);
-	g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
-					      0, 0, NULL, NULL, memos);
-
-	model = e_memo_table_get_model (E_MEMO_TABLE (priv->memos_view));
-	e_cal_model_remove_client (model, client);
-
-	g_hash_table_remove (priv->clients, uid);
-
-
-	g_signal_emit (memos, e_memos_signals[SOURCE_REMOVED], 0, source);
-
-	return TRUE;
-}
-
-gboolean
-e_memos_set_default_source (EMemos *memos, ESource *source)
-{
-	EMemosPrivate *priv;
-	ECal *ecal;
-
-	g_return_val_if_fail (memos != NULL, FALSE);
-	g_return_val_if_fail (E_IS_MEMOS (memos), FALSE);
-	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
-
-	priv = memos->priv;
-
-	ecal = g_hash_table_lookup (priv->clients, e_source_peek_uid (source));
-
-	if (priv->default_client)
-		g_object_unref (priv->default_client);
-
-	if (ecal) {
-		priv->default_client = g_object_ref (ecal);
-	} else {
-		priv->default_client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_JOURNAL);
-		if (!priv->default_client)
-			return FALSE;
-	}
-
-	open_ecal (memos, priv->default_client, FALSE, default_client_cal_opened_cb);
-
-	return TRUE;
 }
 
 ECal *

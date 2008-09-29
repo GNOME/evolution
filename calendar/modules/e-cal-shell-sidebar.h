@@ -21,8 +21,8 @@
 #ifndef E_CAL_SHELL_SIDEBAR_H
 #define E_CAL_SHELL_SIDEBAR_H
 
-#include <e-shell-sidebar.h>
-#include <e-shell-view.h>
+#include <shell/e-shell-sidebar.h>
+#include <shell/e-shell-view.h>
 
 /* Standard GObject macros */
 #define E_TYPE_CAL_SHELL_SIDEBAR \

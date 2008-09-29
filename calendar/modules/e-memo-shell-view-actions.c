@@ -20,10 +20,6 @@
 
 #include "e-memo-shell-view-private.h"
 
-#include "e-util/gconf-bridge.h"
-
-#include "calendar/gui/print.h"
-
 static void
 action_memo_clipboard_copy_cb (GtkAction *action,
                                EMemoShellView *memo_shell_view)
@@ -114,14 +110,92 @@ static void
 action_memo_list_copy_cb (GtkAction *action,
                           EMemoShellView *memo_shell_view)
 {
-	/* FIXME */
+	EMemoShellSidebar *memo_shell_sidebar;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+	ESourceSelector *selector;
+	ESource *source;
+
+	shell_view = E_SHELL_VIEW (memo_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
+	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
+	source = e_source_selector_peek_primary_selection (selector);
+	g_return_if_fail (source == NULL);
+
+	copy_source_dialog (
+		GTK_WINDOW (shell_window),
+		source, E_CAL_SOURCE_TYPE_JOURNAL);
 }
 
 static void
 action_memo_list_delete_cb (GtkAction *action,
                             EMemoShellView *memo_shell_view)
 {
-	/* FIXME */
+	EMemoShellContent *memo_shell_content;
+	EMemoShellSidebar *memo_shell_sidebar;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+	EMemoTable *memo_table;
+	ECal *client;
+	ECalModel *model;
+	ESourceSelector *selector;
+	ESourceGroup *source_group;
+	ESourceList *source_list;
+	ESource *source;
+	gint response;
+	gchar *uri;
+	GError *error = NULL;
+
+	shell_view = E_SHELL_VIEW (memo_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+	model = e_memo_table_get_model (memo_table);
+
+	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
+	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
+	source = e_source_selector_peek_primary_selection (selector);
+	g_return_if_fail (source == NULL);
+
+	/* Ask for confirmation. */
+	response = e_error_run (
+		GTK_WINDOW (shell_window),
+		"calendar:prompt-delete-memo-list",
+		e_source_peek_name (source));
+	if (response != GTK_RESPONSE_YES)
+		return;
+
+	uri = e_source_get_uri (source);
+	client = e_cal_model_get_client_for_uri (model, uri);
+	if (client == NULL)
+		client = e_cal_new_from_uri (uri, E_CAL_SOURCE_TYPE_JOURNAL);
+	g_free (uri);
+
+	g_return_if_fail (client != NULL);
+
+	if (!e_cal_remove (client, &error)) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+		return;
+	}
+
+	if (e_source_selector_source_is_selected (selector, source)) {
+		e_memo_shell_sidebar_remove_source (
+			memo_shell_sidebar, source);
+		e_source_selector_unselect_source (selector, source);
+	}
+
+	source_group = e_source_peek_group (source);
+	e_source_group_remove_source (source_group, source);
+
+	source_list = memo_shell_view->priv->source_list;
+	if (!e_source_list_sync (source_list, &error)) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
 }
 
 static void
@@ -189,6 +263,13 @@ action_memo_list_properties_cb (GtkAction *action,
 	g_return_if_fail (source != NULL);
 
 	calendar_setup_edit_memo_list (GTK_WINDOW (shell_window), source);
+}
+
+static void
+action_memo_new_cb (GtkAction *action,
+                    EMemoShellView *memo_shell_view)
+{
+	/* FIXME */
 }
 
 static void
@@ -357,7 +438,7 @@ static GtkActionEntry memo_entries[] = {
 	{ "memo-forward",
 	  "mail-forward",
 	  N_("_Forward as iCalendar"),
-	  NULL,
+	  "<Control>f",
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_memo_forward_cb) },
 
@@ -403,15 +484,22 @@ static GtkActionEntry memo_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_memo_list_properties_cb) },
 
-	{ "memo-open",
+	{ "memo-new",
+	  "stock_insert-note",
+	  N_("New _Memo"),
 	  NULL,
-	  N_("Open Memo"),
+	  N_("Create a new memo"),
+	  G_CALLBACK (action_memo_new_cb) },
+
+	{ "memo-open",
+	  GTK_STOCK_OPEN,
+	  N_("_Open Memo"),
 	  "<Control>o",
 	  N_("View the selected memo"),
 	  G_CALLBACK (action_memo_open_cb) },
 
 	{ "memo-open-url",
-	  NULL,
+	  "applications-internet",
 	  N_("Open _Web Page"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
@@ -443,6 +531,30 @@ static GtkToggleActionEntry memo_toggle_entries[] = {
 	  TRUE }
 };
 
+static GtkRadioActionEntry memo_search_entries[] = {
+
+	{ "memo-search-any-field-contains",
+	  NULL,
+	  N_("Any field contains"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  MEMO_SEARCH_ANY_FIELD_CONTAINS },
+
+	{ "memo-search-description-contains",
+	  NULL,
+	  N_("Description contains"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  MEMO_SEARCH_DESCRIPTION_CONTAINS },
+
+	{ "memo-search-summary-contains",
+	  NULL,
+	  N_("Summary contains"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  MEMO_SEARCH_SUMMARY_CONTAINS }
+};
+
 void
 e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 {
@@ -451,6 +563,7 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
 	GConfBridge *bridge;
+	GtkAction *action;
 	GObject *object;
 	const gchar *domain;
 	const gchar *key;
@@ -460,8 +573,6 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 	manager = e_shell_window_get_ui_manager (shell_window);
 	domain = GETTEXT_PACKAGE;
 
-	e_load_ui_definition (manager, "evolution-memos.ui");
-
 	action_group = memo_shell_view->priv->memo_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_action_group_add_actions (
@@ -470,6 +581,11 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 	gtk_action_group_add_toggle_actions (
 		action_group, memo_toggle_entries,
 		G_N_ELEMENTS (memo_toggle_entries), memo_shell_view);
+	gtk_action_group_add_radio_actions (
+		action_group, memo_search_entries,
+		G_N_ELEMENTS (memo_search_entries),
+		MEMO_SEARCH_SUMMARY_CONTAINS,
+		NULL, NULL);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	/* Bind GObject properties to GConf keys. */
@@ -479,58 +595,9 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 	object = G_OBJECT (ACTION (MEMO_PREVIEW));
 	key = "/apps/evolution/calendar/display/show_memo_preview";
 	gconf_bridge_bind_property (bridge, key, object, "active");
-}
 
-void
-e_memo_shell_view_actions_update (EMemoShellView *memo_shell_view)
-{
-	EMemoShellContent *memo_shell_content;
-	ECal *client;
-	ETable *table;
-	ECalModel *model;
-	EMemoTable *memo_table;
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	GtkAction *action;
-	const gchar *label;
-	gboolean read_only = TRUE;
-	gboolean sensitive;
-	gint n_selected;
-
-	shell_view = E_SHELL_VIEW (memo_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	memo_shell_content = memo_shell_view->priv->memo_shell_content;
-	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-
-	model = e_memo_table_get_model (memo_table);
-	client = e_cal_model_get_default_client (model);
-
-	table = e_memo_table_get_table (memo_table);
-	n_selected = e_table_selected_count (table);
-
-	if (client != NULL)
-		e_cal_is_read_only (client, &read_only, NULL);
-
-	action = ACTION (MEMO_OPEN);
-	sensitive = (n_selected == 1);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (MEMO_CLIPBOARD_COPY);
-	sensitive = (n_selected > 0);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (MEMO_CLIPBOARD_CUT);
-	sensitive = (n_selected > 0);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action = ACTION (MEMO_CLIPBOARD_PASTE);
-	sensitive = !read_only;
-	gtk_action_set_sensitive (action, sensitive);
+	/* Fine tuning. */
 
 	action = ACTION (MEMO_DELETE);
-	sensitive = (n_selected > 0) && !read_only;
-	gtk_action_set_sensitive (action, sensitive);
-	label = ngettext ("Delete Memo", "Delete Memos", n_selected);
-	g_object_set (action, "label", label, NULL);
+	g_object_set (action, "short-label", _("Delete"), NULL);
 }

@@ -24,8 +24,8 @@
 #define _E_CALENDAR_TABLE_H_
 
 #include <shell/e-shell-view.h>
-#include <table/e-table-scrolled.h>
-#include <misc/e-cell-date-edit.h>
+#include <widgets/table/e-table-scrolled.h>
+#include <widgets/misc/e-cell-date-edit.h>
 #include "e-cal-model.h"
 
 /*
@@ -94,13 +94,10 @@ struct _ECalendarTableClass {
 };
 
 GType		e_calendar_table_get_type	(void);
-GtkWidget *	e_calendar_table_new		(void);
+GtkWidget *	e_calendar_table_new		(EShellView *shell_view);
 ECalModel *	e_calendar_table_get_model	(ECalendarTable *cal_table);
 ETable *	e_calendar_table_get_table	(ECalendarTable *cal_table);
 EShellView *	e_calendar_table_get_shell_view	(ECalendarTable *cal_table);
-void		e_calendar_table_open_selected	(ECalendarTable *cal_table);
-void		e_calendar_table_complete_selected
-						(ECalendarTable *cal_table);
 void		e_calendar_table_delete_selected(ECalendarTable *cal_table);
 GSList *	e_calendar_table_get_selected	(ECalendarTable *cal_table);
 
@@ -112,9 +109,9 @@ void		e_calendar_table_paste_clipboard(ECalendarTable *cal_table);
 /* These load and save the state of the table (headers shown etc.) to/from
    the given file. */
 void		e_calendar_table_load_state	(ECalendarTable *cal_table,
-						 gchar *filename);
+						 const gchar *filename);
 void		e_calendar_table_save_state	(ECalendarTable *cal_table,
-						 gchar *filename);
+						 const gchar *filename);
 
 ECalModelComponent *
 		e_calendar_table_get_selected_comp

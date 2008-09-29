@@ -1,5 +1,4 @@
 /*
- *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -16,7 +15,6 @@
  *
  * Authors:
  *		Damon Chaplin <damon@ximian.com>
- *		Nathan Owens <pianocomp81@yahoo.com>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
@@ -73,11 +71,6 @@ struct _EMemoTable {
 
 	/* Fields used for cut/copy/paste */
 	icalcomponent *tmp_vcal;
-
-	/* We should know which calendar has been used to create object,
-	 * so store it here before emitting "user_created" signal and make
-	 * it NULL just after the emit. */
-	ECal *user_created_cal;
 
 	EMemoTablePrivate *priv;
 };

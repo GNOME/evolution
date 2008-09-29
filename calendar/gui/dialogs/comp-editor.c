@@ -274,6 +274,7 @@ struct _drop_data {
 static void
 drop_action(CompEditor *editor, GdkDragContext *context, guint32 action, GtkSelectionData *selection, guint info, guint time)
 {
+#if 0  /* KILL-BONOBO */
 	char *tmp, *str, **urls;
 	CamelMimePart *mime_part;
 	CamelStream *stream;
@@ -460,6 +461,7 @@ drop_action(CompEditor *editor, GdkDragContext *context, guint32 action, GtkSele
 	printf("Drag finished, success %d delete %d\n", success, delete);
 
 	gtk_drag_finish(context, success, delete, time);
+#endif
 }
 
 static void

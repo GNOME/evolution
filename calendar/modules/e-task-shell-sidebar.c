@@ -41,46 +41,6 @@ enum {
 
 static gpointer parent_class;
 
-#if 0  /* MOVE THIS TO ETaskShellView */
-static void
-task_shell_sidebar_update (EShellSidebar *shell_sidebar)
-{
-	EShellView *shell_view;
-	ETasks *tasks;
-	ETable *table;
-	ECalModel *model;
-	ECalendarTable *cal_table;
-	GString *string;
-	const gchar *format;
-	gint n_rows;
-	gint n_selected;
-
-	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	tasks = e_task_shell_view_get_tasks (E_TASK_SHELL_VIEW (shell_view));
-	cal_table = e_tasks_get_calendar_table (tasks);
-	model = e_calendar_table_get_model (cal_table);
-	table = e_calendar_table_get_table (cal_table);
-
-	n_rows = e_table_model_get_row_count (model);
-	n_selected = e_table_selected_count (table);
-
-	string = g_string_sized_new (64);
-
-	format = ngettext ("%d task", "%d tasks", n_rows);
-	g_string_append_printf (string, format, n_rows);
-
-	if (n_selected > 0) {
-		format = _("%d selected");
-		g_string_append_len (string, ", ", 2);
-		g_string_append_printf (string, format, n_selected);
-	}
-
-	e_shell_sidebar_set_secondary_text (shell_sidebar, string->str);
-
-	g_string_free (string, TRUE);
-}
-#endif
-
 static void
 task_shell_sidebar_get_property (GObject *object,
                                  guint property_id,
@@ -127,6 +87,9 @@ task_shell_sidebar_constructed (GObject *object)
 
 	priv = E_TASK_SHELL_SIDEBAR_GET_PRIVATE (object);
 
+	/* Chain up to parent's constructed() method. */
+	G_OBJECT_CLASS (parent_class)->constructed (object);
+
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	task_shell_view = E_TASK_SHELL_VIEW (shell_view);
@@ -150,39 +113,6 @@ task_shell_sidebar_constructed (GObject *object)
 	gtk_container_add (container, widget);
 	priv->selector = g_object_ref (widget);
 	gtk_widget_show (widget);
-
-#if 0  /* MOVE THIS TO ETaskShellView */
-
-	/* Setup signal handlers. */
-
-	tasks = e_task_shell_view_get_tasks (task_shell_view);
-	cal_table = e_tasks_get_calendar_table (tasks);
-	model = e_calendar_table_get_model (cal_table);
-	table = e_calendar_table_get_table (cal_table);
-
-	g_signal_connect_swapped (
-		model, "model-changed",
-		G_CALLBACK (task_shell_sidebar_update),
-		shell_sidebar);
-
-	g_signal_connect_swapped (
-		model, "model-rows-deleted",
-		G_CALLBACK (task_shell_sidebar_update),
-		shell_sidebar);
-
-	g_signal_connect_swapped (
-		model, "model-rows-inserted",
-		G_CALLBACK (task_shell_sidebar_update),
-		shell_sidebar);
-
-	g_signal_connect_swapped (
-		model, "selection-change",
-		G_CALLBACK (task_shell_sidebar_update),
-		shell_sidebar);
-
-	task_shell_sidebar_update (shell_sidebar);
-
-#endif
 }
 
 static void
@@ -255,11 +185,11 @@ e_task_shell_sidebar_new (EShellView *shell_view)
 		"shell-view", shell_view, NULL);
 }
 
-GtkWidget *
+ESourceSelector *
 e_task_shell_sidebar_get_selector (ETaskShellSidebar *task_shell_sidebar)
 {
 	g_return_val_if_fail (
 		E_IS_TASK_SHELL_SIDEBAR (task_shell_sidebar), NULL);
 
-	return task_shell_sidebar->priv->selector;
+	return E_SOURCE_SELECTOR (task_shell_sidebar->priv->selector);
 }

@@ -23,15 +23,20 @@
 
 #include "e-cal-shell-view.h"
 
+#include <string.h>
 #include <glib/gi18n.h>
+#include <libecal/e-cal-time-util.h>
+#include <libedataserver/e-data-server-util.h>
 
-#include <e-util/e-util.h>
-#include <shell/e-shell-content.h>
+#include "e-util/e-util.h"
 
-#include <gnome-cal.h>
-#include <e-cal-shell-content.h>
-#include <e-cal-shell-sidebar.h>
-#include <e-cal-shell-view-actions.h>
+#include "shell/e-shell-content.h"
+
+#include "calendar/gui/gnome-cal.h"
+
+#include "e-cal-shell-content.h"
+#include "e-cal-shell-sidebar.h"
+#include "e-cal-shell-view-actions.h"
 
 #define E_CAL_SHELL_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -49,6 +54,9 @@
 	if ((obj) != NULL) { g_object_unref (obj); (obj) = NULL; } \
 	} G_STMT_END
 
+/* ETable Specifications */
+#define ETSPEC_FILENAME		"e-calendar-table.etspec"
+
 G_BEGIN_DECLS
 
 struct _ECalShellViewPrivate {
@@ -64,6 +72,8 @@ struct _ECalShellViewPrivate {
 	/* These are just for convenience. */
 	ECalShellContent *cal_shell_content;
 	ECalShellSidebar *cal_shell_sidebar;
+
+	EActivity *activity;
 };
 
 void		e_cal_shell_view_private_init
@@ -79,6 +89,11 @@ void		e_cal_shell_view_private_finalize
 /* Private Utilities */
 
 void		e_cal_shell_view_actions_init
+					(ECalShellView *cal_shell_view);
+void		e_cal_shell_view_set_status_message
+					(ECalShellView *cal_shell_view,
+					 const gchar *status_message);
+void		e_cal_shell_view_sidebar_update
 					(ECalShellView *cal_shell_view);
 
 G_END_DECLS

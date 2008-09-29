@@ -57,7 +57,6 @@
 #include "print.h"
 #include "comp-util.h"
 #include "itip-utils.h"
-#include "calendar-commands.h"
 #include "calendar-config.h"
 #include "goto.h"
 #include "e-cal-model-calendar.h"

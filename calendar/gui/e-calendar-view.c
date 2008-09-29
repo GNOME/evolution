@@ -41,12 +41,10 @@
 
 #include "common/authentication.h"
 #include "calendar-commands.h"
-#include "calendar-component.h"
 #include "calendar-config.h"
 #include "comp-util.h"
 #include "e-cal-model-calendar.h"
 #include "e-calendar-view.h"
-#include "e-comp-editor-registry.h"
 #include "itip-utils.h"
 #include "dialogs/delete-comp.h"
 #include "dialogs/delete-error.h"
@@ -67,10 +65,6 @@ struct _ECalendarViewPrivate {
 
 	/* The calendar model we are monitoring */
 	ECalModel *model;
-
-	/* Current activity (for the EActivityHandler, i.e. the status bar).  */
-	EActivityHandler *activity_handler;
-	guint activity_id;
 
 	/* The default category */
 	char *default_category;
@@ -542,55 +536,6 @@ e_calendar_view_set_use_24_hour_format (ECalendarView *cal_view, gboolean use_24
 	e_cal_model_set_use_24_hour_format (cal_view->priv->model, use_24_hour);
 }
 
-void
-e_calendar_view_set_activity_handler (ECalendarView *cal_view, EActivityHandler *activity_handler)
-{
-	ECalendarViewPrivate *priv;
-
-	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
-
-	priv = cal_view->priv;
-
-	priv->activity_handler = activity_handler;
-}
-
-void
-e_calendar_view_set_status_message (ECalendarView *cal_view, const gchar *message, int percent)
-{
-	ECalendarViewPrivate *priv;
-
-	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
-
-	priv = cal_view->priv;
-
-	if (!priv->activity_handler)
-		return;
-
-	if (!message || !*message) {
-		if (priv->activity_id != 0) {
-			e_activity_handler_operation_finished (priv->activity_handler, priv->activity_id);
-			priv->activity_id = 0;
-		}
-	} else if (priv->activity_id == 0) {
-		char *client_id = g_strdup_printf ("%p", cal_view);
-
-		priv->activity_id = e_activity_handler_operation_started (
-			priv->activity_handler, client_id, message, TRUE);
-
-		g_free (client_id);
-	} else {
-		double progress;
-
-		if (percent < 0)
-			progress = -1.0;
-		else {
-			progress = ((double) percent / 100);
-		}
-
-		e_activity_handler_operation_progressing (priv->activity_handler, priv->activity_id, message, progress);
-	}
-}
-
 GList *
 e_calendar_view_get_selected_events (ECalendarView *cal_view)
 {
@@ -661,7 +606,9 @@ e_calendar_view_cut_clipboard (ECalendarView *cal_view)
 	if (!selected)
 		return;
 
+#if 0  /* KILL-BONOBO */
 	e_calendar_view_set_status_message (cal_view, _("Deleting selected objects"), -1);
+#endif
 
 	e_calendar_view_copy_clipboard (cal_view);
 	for (l = selected; l != NULL; l = l->next) {
@@ -706,7 +653,9 @@ e_calendar_view_cut_clipboard (ECalendarView *cal_view)
 		g_object_unref (comp);
 	}
 
+#if 0  /* KILL-BONOBO */
 	e_calendar_view_set_status_message (cal_view, NULL, -1);
+#endif
 
 	g_list_free (selected);
 }
@@ -791,7 +740,9 @@ clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarView
 	if (kind != ICAL_VCALENDAR_COMPONENT && kind != ICAL_VEVENT_COMPONENT)
 		return;
 
+#if 0  /* KILL-BONOBO */
 	e_calendar_view_set_status_message (cal_view, _("Updating objects"), -1);
+#endif
 	e_calendar_view_get_selected_time_range (cal_view, &selected_time_start, &selected_time_end);
 
 	if ((selected_time_end - selected_time_start) == 60 * 60 * 24)
@@ -837,7 +788,9 @@ clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarView
 		e_calendar_view_add_event (cal_view, client, selected_time_start, default_zone, icalcomp, in_top_canvas);
 	}
 
+#if 0  /* KILL-BONOBO */
 	e_calendar_view_set_status_message (cal_view, NULL, -1);
+#endif
 }
 
 void
@@ -1174,7 +1127,7 @@ on_goto_today (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	ECalendarView *cal_view = data;
 
-	calendar_goto_today (cal_view->priv->calendar);
+	gnome_calendar_goto_today (cal_view->priv->calendar);
 }
 
 static void
@@ -1199,9 +1152,11 @@ on_edit_appointment (EPopup *ep, EPopupItem *pitem, void *data)
 static void
 on_print (EPopup *ep, EPopupItem *pitem, void *data)
 {
+#if 0  /* KILL-BONOBO */
 	ECalendarView *cal_view = data;
 
 	calendar_command_print (cal_view->priv->calendar, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
+#endif
 }
 
 static void
@@ -1334,16 +1289,20 @@ transfer_selected_items (ECalendarView *cal_view, gboolean remove_item)
 		return;
 	}
 
+#if 0 /* KILL-BONOBO */
 	/* process all selected events */
 	if (remove_item)
 		e_calendar_view_set_status_message (cal_view, _("Moving items"), -1);
 	else
 		e_calendar_view_set_status_message (cal_view, _("Copying items"), -1);
+#endif
 
 	for (l = selected; l != NULL; l = l->next)
 		transfer_item_to ((ECalendarViewEvent *) l->data, dest_client, remove_item);
 
+#if 0 /* KILL-BONOBO */
 	e_calendar_view_set_status_message (cal_view, NULL, -1);
+#endif
 
 	/* free memory */
 	g_object_unref (destination_source);
@@ -1969,7 +1928,7 @@ open_event_with_flags (ECalendarView *cal_view, ECal *client, icalcomponent *ica
 
 	uid = icalcomponent_get_uid (icalcomp);
 
-	ce = e_comp_editor_registry_find (comp_editor_registry, uid);
+	ce = comp_editor_find_instance (uid);
 	if (!ce) {
 		ce = event_editor_new (client, flags);
 
@@ -1980,8 +1939,6 @@ open_event_with_flags (ECalendarView *cal_view, ECal *client, icalcomponent *ica
 		comp_editor_edit_comp (ce, comp);
 		if (flags & COMP_EDITOR_MEETING)
 			event_editor_show_meeting (EVENT_EDITOR (ce));
-
-		e_comp_editor_registry_add (comp_editor_registry, ce, FALSE);
 
 		g_object_unref (comp);
 	}

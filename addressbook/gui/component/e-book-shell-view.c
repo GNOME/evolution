@@ -130,20 +130,6 @@ book_shell_view_constructed (GObject *object)
 }
 
 static void
-book_shell_view_changed (EShellView *shell_view)
-{
-	EBookShellViewPrivate *priv;
-	GtkActionGroup *action_group;
-	gboolean visible;
-
-	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (shell_view);
-
-	action_group = priv->contact_actions;
-	visible = e_shell_view_is_active (shell_view);
-	gtk_action_group_set_visible (action_group, visible);
-}
-
-static void
 book_shell_view_class_init (EBookShellViewClass *class,
                             GTypeModule *type_module)
 {
@@ -162,11 +148,11 @@ book_shell_view_class_init (EBookShellViewClass *class,
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
 	shell_view_class->label = N_("Contacts");
 	shell_view_class->icon_name = "x-office-address-book";
+	shell_view_class->ui_definition = "evolution-contacts.ui";
 	shell_view_class->search_options = "/contact-search-options";
 	shell_view_class->type_module = type_module;
 	shell_view_class->new_shell_content = e_book_shell_content_new;
 	shell_view_class->new_shell_sidebar = e_book_shell_sidebar_new;
-	shell_view_class->changed = book_shell_view_changed;
 
 	g_object_class_install_property (
 		object_class,

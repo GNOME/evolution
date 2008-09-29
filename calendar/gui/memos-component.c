@@ -77,10 +77,6 @@ typedef struct _MemosComponentView
 
 	GtkWidget *source_selector;
 
-	BonoboControl *view_control;
-	BonoboControl *sidebar_control;
-	BonoboControl *statusbar_control;
-
 	GList *notifications;
 
 } MemosComponentView;
@@ -89,8 +85,6 @@ struct _MemosComponentPrivate {
 
 	ESourceList *source_list;
 	GSList *source_selection;
-
-	GList *views;
 
 	ECal *create_ecal;
 
@@ -133,7 +127,7 @@ is_in_uids (GSList *uids, ESource *source)
 }
 
 static void
-update_uris_for_selection (MemosComponentView *component_view)
+source_selection_changed_cb (ESourceSelector *selector, MemosComponentView *component_view)
 {
 	GSList *selection, *l, *uids_selected = NULL;
 
@@ -159,215 +153,6 @@ update_uris_for_selection (MemosComponentView *component_view)
 	/* Save the selection for next time we start up */
 	calendar_config_set_memos_selected (uids_selected);
 	g_slist_free (uids_selected);
-}
-
-static void
-update_uri_for_primary_selection (MemosComponentView *component_view)
-{
-	ESource *source;
-	EMemoTable *cal_table;
-	ETable *etable;
-
-	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
-	if (!source)
-		return;
-
-	/* Set the default */
-	e_memos_set_default_source (component_view->memos, source);
-
-	cal_table = e_memos_get_calendar_table (component_view->memos);
-	etable = e_memo_table_get_table (cal_table);
-
-	memos_control_sensitize_commands (component_view->view_control, component_view->memos, e_table_selected_count (etable));
-
-	/* Save the selection for next time we start up */
-	calendar_config_set_primary_memos (e_source_peek_uid (source));
-}
-
-static void
-update_selection (MemosComponentView *component_view)
-{
-	GSList *selection, *uids_selected, *l;
-
-	d(g_message("memos-component.c: update_selection called");)
-
-	/* Get the selection in gconf */
-	uids_selected = calendar_config_get_memos_selected ();
-
-	/* Remove any that aren't there any more */
-	selection = e_source_selector_get_selection (E_SOURCE_SELECTOR (component_view->source_selector));
-
-	for (l = selection; l; l = l->next) {
-		ESource *source = l->data;
-
-		if (!is_in_uids (uids_selected, source))
-			e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
-	}
-
-	e_source_selector_free_selection (selection);
-
-	/* Make sure the whole selection is there */
-	for (l = uids_selected; l; l = l->next) {
-		char *uid = l->data;
-		ESource *source;
-
-		source = e_source_list_peek_source_by_uid (component_view->source_list, uid);
-		if (source)
-			e_source_selector_select_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
-
-		g_free (uid);
-	}
-	g_slist_free (uids_selected);
-}
-
-static void
-update_primary_selection (MemosComponentView *component_view)
-{
-	ESource *source = NULL;
-	char *uid;
-
-	uid = calendar_config_get_primary_memos ();
-	if (uid) {
-		source = e_source_list_peek_source_by_uid (component_view->source_list, uid);
-		g_free (uid);
-	}
-
-	if (source) {
-		e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector), source);
-	} else {
-		/* Try to create a default if there isn't one */
-		source = e_source_list_peek_source_any (component_view->source_list);
-		if (source)
-			e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector), source);
-	}
-
-}
-
-
-/* Callbacks.  */
-/* TODO: doesn't work! */
-static void
-copy_memo_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	MemosComponentView *component_view = data;
-	ESource *selected_source;
-
-	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
-	if (!selected_source)
-		return;
-
-	copy_source_dialog (GTK_WINDOW (gtk_widget_get_toplevel(ep->target->widget)), selected_source, E_CAL_SOURCE_TYPE_JOURNAL);
-}
-
-static void
-delete_memo_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	MemosComponentView *component_view = data;
-	ESource *selected_source;
-	ECal *cal;
-	char *uri;
-
-	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
-	if (!selected_source)
-		return;
-
-	if (e_error_run((GtkWindow *)gtk_widget_get_toplevel(ep->target->widget),
-			"calendar:prompt-delete-memo-list", e_source_peek_name(selected_source)) != GTK_RESPONSE_YES)
-		return;
-
-	/* first, ask the backend to remove the memo list */
-	uri = e_source_get_uri (selected_source);
-	cal = e_cal_model_get_client_for_uri (
-		e_memo_table_get_model (E_MEMO_TABLE (e_memos_get_calendar_table (component_view->memos))),
-		uri);
-	if (!cal)
-		cal = e_cal_new_from_uri (uri, E_CAL_SOURCE_TYPE_JOURNAL);
-	g_free (uri);
-	if (cal) {
-		if (e_cal_remove (cal, NULL)) {
-			if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (component_view->source_selector),
-								  selected_source)) {
-				e_memos_remove_memo_source (component_view->memos, selected_source);
-				e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector),
-								   selected_source);
-			}
-
-			e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
-			e_source_list_sync (component_view->source_list, NULL);
-		}
-	}
-}
-
-static EPopupItem emc_source_popups[] = {
-	{ E_POPUP_ITEM, "10.new", N_("_New Memo List"), new_memo_list_cb, NULL, "stock_notes", 0, 0 },
-	{ E_POPUP_ITEM, "15.copy", N_("_Copy..."), copy_memo_list_cb, NULL, "edit-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
-
-	{ E_POPUP_BAR, "20.bar" },
-	{ E_POPUP_ITEM, "20.delete", N_("_Delete"), delete_memo_list_cb, NULL, "edit-delete", 0, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY },
-
-	{ E_POPUP_BAR, "99.bar" },
-	{ E_POPUP_ITEM, "99.properties", N_("_Properties"), edit_memo_list_cb, NULL, "document-properties", 0, E_CAL_POPUP_SOURCE_PRIMARY },
-};
-
-static void
-emc_source_popup_free(EPopup *ep, GSList *list, void *data)
-{
-	g_slist_free(list);
-}
-
-static gboolean
-popup_event_cb(ESourceSelector *selector, ESource *insource, GdkEventButton *event, MemosComponentView *component_view)
-{
-	ECalPopup *ep;
-	ECalPopupTargetSource *t;
-	GSList *menus = NULL;
-	int i;
-	GtkMenu *menu;
-
-	/** @HookPoint-ECalPopup: Memos Source Selector Context Menu
-	 * @Id: org.gnome.evolution.memos.source.popup
-	 * @Class: org.gnome.evolution.calendar.popup:1.0
-	 * @Target: ECalPopupTargetSource
-	 *
-	 * The context menu on the source selector in the memos window.
-	 */
-	ep = e_cal_popup_new("org.gnome.evolution.memos.source.popup");
-	t = e_cal_popup_target_new_source(ep, selector);
-	t->target.widget = (GtkWidget *)component_view->memos;
-
-	for (i=0;i<sizeof(emc_source_popups)/sizeof(emc_source_popups[0]);i++)
-		menus = g_slist_prepend(menus, &emc_source_popups[i]);
-
-	e_popup_add_items((EPopup *)ep, menus, NULL,emc_source_popup_free, component_view);
-
-	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0);
-	gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event?event->button:0, event?event->time:gtk_get_current_event_time());
-
-	return TRUE;
-}
-
-static void
-source_selection_changed_cb (ESourceSelector *selector, MemosComponentView *component_view)
-{
-	update_uris_for_selection (component_view);
-}
-
-static void
-primary_source_selection_changed_cb (ESourceSelector *selector, MemosComponentView *component_view)
-{
-	update_uri_for_primary_selection (component_view);
-}
-
-static void
-source_added_cb (EMemos *memos, ESource *source, MemosComponentView *component_view)
-{
-	e_source_selector_select_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
-}
-
-static void
-source_removed_cb (EMemos *memos, ESource *source, MemosComponentView *component_view)
-{
-	e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
 }
 
 /* Evolution::Component CORBA methods */
@@ -715,25 +500,6 @@ create_new_memo (MemosComponent *memo_component, gboolean is_assigned, MemosComp
 	return TRUE;
 }
 
-static void
-create_local_item_cb (EUserCreatableItemsHandler *handler, const char *item_type_name, void *data)
-{
-	MemosComponent *memos_component = data;
-	MemosComponentPrivate *priv;
-	MemosComponentView *component_view = NULL;
-	GList *l;
-
-	priv = memos_component->priv;
-
-	if (strcmp (item_type_name, CREATE_MEMO_ID) == 0) {
-		create_new_memo (memos_component, FALSE, component_view);
-	} else if (strcmp (item_type_name, CREATE_SHARED_MEMO_ID) == 0) {
-		create_new_memo (memos_component, TRUE, component_view);
-	} else if (strcmp (item_type_name, CREATE_MEMO_LIST_ID) == 0) {
-		calendar_setup_new_memo_list (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (component_view->memos))));
-	}
-}
-
 static MemosComponentView *
 create_component_view (MemosComponent *memos_component)
 {
@@ -752,23 +518,9 @@ create_component_view (MemosComponent *memos_component)
 	g_signal_connect (component_view->source_selector, "drag-data-received",
 			  G_CALLBACK (selector_tree_drag_data_received), memos_component);
 
-	/* Create main view */
-	component_view->view_control = memos_control_new ();
-	if (!component_view->view_control) {
-		/* FIXME free memory */
-
-		return NULL;
-	}
-
 	component_view->memos = (EMemos *) bonobo_control_get_widget (component_view->view_control);
 	component_view->table = e_memo_table_get_table (e_memos_get_calendar_table (component_view->memos));
 	component_view->model = E_TABLE_MODEL (e_memo_table_get_model (e_memos_get_calendar_table (component_view->memos)));
-
-	/* This signal is thrown if backends die - we update the selector */
-	g_signal_connect (component_view->memos, "source_added",
-			  G_CALLBACK (source_added_cb), component_view);
-	g_signal_connect (component_view->memos, "source_removed",
-			  G_CALLBACK (source_removed_cb), component_view);
 
 	/* connect after setting the initial selections, or we'll get unwanted calls
 	   to calendar_control_sensitize_calendar_commands */
@@ -776,12 +528,6 @@ create_component_view (MemosComponent *memos_component)
 			  G_CALLBACK (source_selection_changed_cb), component_view);
 	g_signal_connect (component_view->source_selector, "primary_selection_changed",
 			  G_CALLBACK (primary_source_selection_changed_cb), component_view);
-	g_signal_connect (component_view->source_selector, "popup_event",
-			  G_CALLBACK (popup_event_cb), component_view);
-
-	/* Load the selection from the last run */
-	update_selection (component_view);
-	update_primary_selection (component_view);
 
 	return component_view;
 }
@@ -802,29 +548,6 @@ destroy_component_view (MemosComponentView *component_view)
 	g_list_free (component_view->notifications);
 
 	g_free (component_view);
-}
-
-static void
-impl_requestCreateItem (PortableServer_Servant servant,
-			const CORBA_char *item_type_name,
-			CORBA_Environment *ev)
-{
-	MemosComponent *memos_component = MEMOS_COMPONENT (bonobo_object_from_servant (servant));
-
-	if (strcmp (item_type_name, CREATE_MEMO_ID) == 0) {
-		if (!create_new_memo (memos_component, FALSE, NULL))
-			bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
-	}
-	else if (strcmp (item_type_name, CREATE_MEMO_LIST_ID) == 0) {
-		/* FIXME Should we use the last opened window? */
-		calendar_setup_new_memo_list (NULL);
-	} else if (strcmp (item_type_name, CREATE_SHARED_MEMO_ID) == 0) {
-		if (!create_new_memo (memos_component, TRUE, NULL))
-			bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
-	}
-	else {
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);
-	}
 }
 
 /* GObject methods.  */
@@ -856,18 +579,4 @@ impl_dispose (GObject *object)
 	priv->notifications = NULL;
 
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
-}
-
-static void
-memos_component_class_init (MemosComponentClass *klass)
-{
-	POA_GNOME_Evolution_Component__epv *epv = &klass->epv;
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-
-	parent_class = g_type_class_peek_parent (klass);
-
-	epv->upgradeFromVersion      = impl_upgradeFromVersion;
-	epv->requestCreateItem       = impl_requestCreateItem;
-
-	object_class->dispose = impl_dispose;
 }

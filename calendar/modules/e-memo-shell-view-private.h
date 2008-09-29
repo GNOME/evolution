@@ -29,12 +29,13 @@
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util.h"
+#include "e-util/gconf-bridge.h"
 
-#include "calendar/common/authentication.h"
-#include "calendar/gui/misc.h"
 #include "calendar/gui/e-calendar-selector.h"
 #include "calendar/gui/e-memo-preview.h"
+#include "calendar/gui/print.h"
 #include "calendar/gui/dialogs/calendar-setup.h"
+#include "calendar/gui/dialogs/copy-source-dialog.h"
 #include "calendar/gui/dialogs/memo-editor.h"
 
 #include "e-memo-shell-content.h"
@@ -62,6 +63,13 @@
 
 G_BEGIN_DECLS
 
+/* List these in the order to be displayed. */
+enum {
+	MEMO_SEARCH_SUMMARY_CONTAINS,
+	MEMO_SEARCH_DESCRIPTION_CONTAINS,
+	MEMO_SEARCH_ANY_FIELD_CONTAINS
+};
+
 struct _EMemoShellViewPrivate {
 
 	/*** Module Data ***/
@@ -77,10 +85,6 @@ struct _EMemoShellViewPrivate {
 	/* These are just for convenience. */
 	EMemoShellContent *memo_shell_content;
 	EMemoShellSidebar *memo_shell_sidebar;
-
-	/* UID -> Client */
-	GHashTable *client_table;
-	ECal *default_client;
 
 	EActivity *activity;
 };
@@ -99,14 +103,14 @@ void		e_memo_shell_view_private_finalize
 
 void		e_memo_shell_view_actions_init
 					(EMemoShellView *memo_shell_view);
-void		e_memo_shell_view_actions_update
-					(EMemoShellView *memo_shell_view);
 void		e_memo_shell_view_open_memo
 					(EMemoShellView *memo_shell_view,
 					 ECalModelComponent *comp_data);
 void		e_memo_shell_view_set_status_message
 					(EMemoShellView *memo_shell_view,
 					 const gchar *status_message);
+void		e_memo_shell_view_sidebar_update
+					(EMemoShellView *memo_shell_view);
 
 G_END_DECLS
 

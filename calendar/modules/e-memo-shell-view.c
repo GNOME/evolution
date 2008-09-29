@@ -73,17 +73,58 @@ memo_shell_view_constructed (GObject *object)
 }
 
 static void
-memo_shell_view_changed (EShellView *shell_view)
+memo_shell_view_update_actions (EShellView *shell_view)
 {
 	EMemoShellViewPrivate *priv;
-	GtkActionGroup *action_group;
-	gboolean visible;
+	EMemoShellContent *memo_shell_content;
+	EShellWindow *shell_window;
+	ECal *client;
+	ETable *table;
+	ECalModel *model;
+	EMemoTable *memo_table;
+	GtkAction *action;
+	const gchar *label;
+	gboolean read_only = TRUE;
+	gboolean sensitive;
+	gint n_selected;
 
 	priv = E_MEMO_SHELL_VIEW_GET_PRIVATE (shell_view);
 
-	action_group = priv->memo_actions;
-	visible = e_shell_view_is_active (shell_view);
-	gtk_action_group_set_visible (action_group, visible);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	memo_shell_content = priv->memo_shell_content;
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+
+	model = e_memo_table_get_model (memo_table);
+	client = e_cal_model_get_default_client (model);
+
+	table = e_memo_table_get_table (memo_table);
+	n_selected = e_table_selected_count (table);
+
+	if (client != NULL)
+		e_cal_is_read_only (client, &read_only, NULL);
+
+	action = ACTION (MEMO_OPEN);
+	sensitive = (n_selected == 1);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MEMO_CLIPBOARD_COPY);
+	sensitive = (n_selected > 0);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MEMO_CLIPBOARD_CUT);
+	sensitive = (n_selected > 0);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MEMO_CLIPBOARD_PASTE);
+	sensitive = !read_only;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MEMO_DELETE);
+	sensitive = (n_selected > 0) && !read_only;
+	gtk_action_set_sensitive (action, sensitive);
+	label = ngettext ("Delete Memo", "Delete Memos", n_selected);
+	g_object_set (action, "label", label, NULL);
 }
 
 static void
@@ -105,11 +146,12 @@ memo_shell_view_class_init (EMemoShellView *class,
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
 	shell_view_class->label = N_("Memos");
 	shell_view_class->icon_name = "evolution-memos";
+	shell_view_class->ui_definition = "evolution-memos.ui";
 	shell_view_class->search_options = "/memo-search-options";
 	shell_view_class->type_module = type_module;
 	shell_view_class->new_shell_content = e_memo_shell_content_new;
 	shell_view_class->new_shell_sidebar = e_memo_shell_sidebar_new;
-	shell_view_class->changed = memo_shell_view_changed;
+	shell_view_class->update_actions = memo_shell_view_update_actions;
 
 	g_object_class_install_property (
 		object_class,

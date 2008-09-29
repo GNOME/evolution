@@ -432,11 +432,6 @@ e_shell_window_switch_to_view (EShellWindow *shell_window,
 	e_shell_window_update_new_menu (shell_window);
 	e_shell_window_update_view_menu (shell_window);
 	e_shell_window_update_search_menu (shell_window);
-
-	/* Notify all loaded views. */
-	list = g_hash_table_get_values (shell_window->priv->loaded_views);
-	g_list_foreach (list, (GFunc) e_shell_view_changed, NULL);
-	g_list_free (list);
 }
 
 void

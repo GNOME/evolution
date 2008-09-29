@@ -509,12 +509,15 @@ shell_content_constructed (GObject *object)
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	EIconEntry *icon_entry;
+	GtkSizeGroup *size_group;
 	GtkAction *action;
+	GtkWidget *widget;
 
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	icon_entry = E_ICON_ENTRY (shell_content->priv->search_entry);
+	size_group = e_shell_view_get_size_group (shell_view);
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_CLEAR (shell_window);
 	e_icon_entry_add_action_end (icon_entry, action);
@@ -526,6 +529,9 @@ shell_content_constructed (GObject *object)
 
 	action = E_SHELL_WINDOW_ACTION_SEARCH_OPTIONS (shell_window);
 	e_icon_entry_add_action_start (icon_entry, action);
+
+	widget = shell_content->priv->search_bar;
+	gtk_size_group_add_widget (size_group, widget);
 }
 
 static void

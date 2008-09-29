@@ -73,17 +73,16 @@ cal_shell_view_constructed (GObject *object)
 }
 
 static void
-cal_shell_view_changed (EShellView *shell_view)
+cal_shell_view_update_actions (EShellView *shell_view)
 {
 	ECalShellViewPrivate *priv;
-	GtkActionGroup *action_group;
-	gboolean visible;
+	EShellWindow *shell_window;
 
 	priv = E_CAL_SHELL_VIEW_GET_PRIVATE (shell_view);
 
-	action_group = priv->calendar_actions;
-	visible = e_shell_view_is_active (shell_view);
-	gtk_action_group_set_visible (action_group, visible);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	/* FIXME */
 }
 
 static void
@@ -105,10 +104,11 @@ cal_shell_view_class_init (ECalShellView *class,
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
 	shell_view_class->label = N_("Cals");
 	shell_view_class->icon_name = "evolution-cals";
+	shell_view_class->ui_definition = "evolution-calendars.ui";
 	shell_view_class->search_options = "/calendar-search-options";
 	shell_view_class->type_module = type_module;
 	shell_view_class->new_shell_sidebar = e_cal_shell_sidebar_new;
-	shell_view_class->changed = cal_shell_view_changed;
+	shell_view_class->update_actions = cal_shell_view_update_actions;
 
 	g_object_class_install_property (
 		object_class,

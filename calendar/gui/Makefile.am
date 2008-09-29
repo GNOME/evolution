@@ -47,29 +47,19 @@ etspec_DATA =				\
 privsolib_LTLIBRARIES = libcal-gui.la
 
 # Removed from SOURCES
-# 	cal-search-bar.c
+#	cal-search-bar.c
 # 	cal-search-bar.h
-# 	calendar-commands.c
-# 	calendar-commands.h
-# 	comp-editor-factory.c
-# 	comp-editor-factory.h
-# 	e-calendar-view.c
-# 	e-calendar-view.h
-# 	e-calendar-table.c
-# 	e-calendar-table.h
-# 	e-memos.c
-# 	e-memos.h
-# 	e-tasks.c
-# 	e-tasks.h
-# 	gnome-cal.c
-# 	gnome-cal.h
 # 	main.c
 # 	migration.c
 # 	migration.h
-# 	tasks-control.c
-# 	tasks-control.h
 
 libcal_gui_la_SOURCES =		\
+ 	e-calendar-view.c			\
+ 	e-calendar-view.h			\
+ 	e-calendar-table.c			\
+ 	e-calendar-table.h			\
+ 	gnome-cal.c				\
+ 	gnome-cal.h				\
 	calendar-config.c			\
 	calendar-config.h			\
 	calendar-config-keys.h			\
@@ -79,8 +69,6 @@ libcal_gui_la_SOURCES =		\
 	calendar-view-factory.h			\
 	comp-util.c				\
 	comp-util.h				\
-	control-factory.c			\
-	control-factory.h			\
 	e-alarm-list.c				\
 	e-alarm-list.h				\
 	e-cal-component-preview.c		\
@@ -108,6 +96,8 @@ libcal_gui_la_SOURCES =		\
 	e-cal-model-memos.h			\
 	e-calendar-table-config.c		\
 	e-calendar-table-config.h		\
+	e-calendar-selector.c			\
+	e-calendar-selector.h			\
 	e-cell-date-edit-config.c		\
 	e-cell-date-edit-config.h		\
 	e-cell-date-edit-text.h			\
@@ -145,6 +135,8 @@ libcal_gui_la_SOURCES =		\
 	e-meeting-types.h			\
 	e-meeting-utils.c			\
 	e-meeting-utils.h			\
+	e-memo-preview.c			\
+	e-memo-preview.h			\
 	e-memo-table.c				\
 	e-memo-table.h				\
 	e-memo-table-config.c			\
@@ -184,9 +176,6 @@ libcal_gui_la_SOURCES =		\
 	weekday-picker.c			\
 	weekday-picker.h
 
-# REMOVED
-#	$(top_builddir)/a11y/calendar/libevolution-calendar-a11y.la
-
 libcal_gui_la_LIBADD =					\
 	$(WIN32_BOOTSTRAP_LIBS)						\
 	$(top_builddir)/widgets/menus/libmenus.la			\
@@ -198,6 +187,7 @@ libcal_gui_la_LIBADD =					\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/filter/libfilter.la				\
 	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/a11y/calendar/libevolution-calendar-a11y.la
 	$(LIBSOUP_LIBS)							\
 	$(CAMEL_LIBS)							\
 	$(EVOLUTION_CALENDAR_LIBS)

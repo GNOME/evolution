@@ -73,20 +73,6 @@ task_shell_view_constructed (GObject *object)
 }
 
 static void
-task_shell_view_changed (EShellView *shell_view)
-{
-	ETaskShellViewPrivate *priv;
-	GtkActionGroup *action_group;
-	gboolean visible;
-
-	priv = E_TASK_SHELL_VIEW_GET_PRIVATE (shell_view);
-
-	action_group = priv->task_actions;
-	visible = e_shell_view_is_active (shell_view);
-	gtk_action_group_set_visible (action_group, visible);
-}
-
-static void
 task_shell_view_class_init (ETaskShellView *class,
                             GTypeModule *type_module)
 {
@@ -105,10 +91,10 @@ task_shell_view_class_init (ETaskShellView *class,
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
 	shell_view_class->label = N_("Tasks");
 	shell_view_class->icon_name = "evolution-tasks";
+	shell_view_class->ui_definition = "evolution-tasks.ui";
 	shell_view_class->search_options = "/task-search-options";
 	shell_view_class->type_module = type_module;
 	shell_view_class->new_shell_sidebar = e_task_shell_sidebar_new;
-	shell_view_class->changed = task_shell_view_changed;
 
 	g_object_class_install_property (
 		object_class,

@@ -68,6 +68,9 @@ struct _EShellViewClass {
 	const gchar *label;
 	const gchar *icon_name;
 
+	/* Base name of the UI definition file. */
+	const gchar *ui_definition;
+
 	/* Path to the search entry popup menu. */
 	const gchar *search_options;
 
@@ -84,7 +87,8 @@ struct _EShellViewClass {
 	GtkWidget *	(*new_shell_taskbar)	(EShellView *shell_view);
 
 	/* Signals */
-	void		(*changed)		(EShellView *shell_view);
+	void		(*toggled)		(EShellView *shell_view);
+	void		(*update_actions)	(EShellView *shell_view);
 };
 
 GType		e_shell_view_get_type		(void);
@@ -100,11 +104,15 @@ gboolean	e_shell_view_is_active		(EShellView *shell_view);
 void		e_shell_view_add_activity	(EShellView *shell_view,
 						 EActivity *activity);
 gint		e_shell_view_get_page_num	(EShellView *shell_view);
+GtkSizeGroup *	e_shell_view_get_size_group	(EShellView *shell_view);
 EShellContent *	e_shell_view_get_shell_content	(EShellView *shell_view);
 EShellSidebar *	e_shell_view_get_shell_sidebar	(EShellView *shell_view);
 EShellTaskbar *	e_shell_view_get_shell_taskbar	(EShellView *shell_view);
 EShellWindow *	e_shell_view_get_shell_window	(EShellView *shell_view);
-void		e_shell_view_changed		(EShellView *shell_view);
+void		e_shell_view_update_actions	(EShellView *shell_view);
+void		e_shell_view_show_popup_menu	(EShellView *shell_view,
+						 const gchar *widget_path,
+						 GdkEventButton *event);
 
 G_END_DECLS
 

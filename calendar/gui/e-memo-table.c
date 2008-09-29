@@ -4,7 +4,6 @@
  * Authors :
  *  Damon Chaplin <damon@ximian.com>
  *  Rodrigo Moya <rodrigo@ximian.com>
- *  Nathan Owens <pianocomp81@yahoo.com>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
@@ -25,7 +24,7 @@
 
 /*
  * EMemoTable - displays the ECalComponent objects in a table (an ETable).
- * Used for memos.
+ * Used for calendar events and tasks.
  */
 
 #ifdef HAVE_CONFIG_H
@@ -36,15 +35,17 @@
 #include <unistd.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
-#include <gdk/gdkkeysyms.h>
 #include <widgets/misc/e-gui-utils.h>
 #include <table/e-cell-checkbox.h>
 #include <table/e-cell-toggle.h>
 #include <table/e-cell-text.h>
 #include <table/e-cell-combo.h>
 #include <e-util/e-dialog-utils.h>
+#include <e-util/e-util-private.h>
 #include <widgets/misc/e-cell-date-edit.h>
 #include <widgets/misc/e-cell-percent.h>
+#include <libecal/e-cal-time-util.h>
+#include <libedataserver/e-time-utils.h>
 
 #include "calendar-config.h"
 #include "dialogs/delete-comp.h"
@@ -52,11 +53,12 @@
 #include "dialogs/memo-editor.h"
 #include "e-cal-model-memos.h"
 #include "e-memo-table.h"
+#include "e-calendar-view.h"
 #include "e-cell-date-edit-text.h"
 #include "print.h"
 #include <e-util/e-icon-factory.h>
-#include <e-util/e-util-private.h>
 #include "e-cal-popup.h"
+#include "misc.h"
 
 #define E_MEMO_TABLE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -91,8 +93,6 @@ static GtkTargetEntry target_types[] = {
 static guint n_target_types = G_N_ELEMENTS (target_types);
 
 static struct tm e_memo_table_get_current_time (ECellDateEdit *ecde, gpointer data);
-
-static ECalModelComponent *get_selected_comp (EMemoTable *memo_table);
 
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
@@ -171,6 +171,210 @@ memo_table_double_click_cb (EMemoTable *memo_table,
 
 	comp_data = e_cal_model_get_component_at (memo_table->model, row);
 	memo_table_emit_open_component (memo_table, comp_data);
+}
+
+static gboolean
+memo_table_query_tooltip_cb (EMemoTable *memo_table,
+                             gint x,
+                             gint y,
+                             gboolean keyboard_mode,
+                             GtkTooltip *tooltip)
+{
+	ECalModelComponent *comp_data;
+	int row = -1, col = -1;
+	GtkWidget *box, *l, *w;
+	GtkStyle *style = gtk_widget_get_default_style ();
+	char *tmp;
+	const char *str;
+	GString *tmp2;
+	char buff[1001];
+	gboolean free_text = FALSE;
+	ECalComponent *new_comp;
+	ECalComponentOrganizer organizer;
+	ECalComponentDateTime dtstart, dtdue;
+	icalcomponent *clone;
+	icaltimezone *zone, *default_zone;
+	GSList *desc, *p;
+	int len;
+	ETable *etable;
+	ESelectionModel *esm;
+	struct tm tmp_tm;
+
+	if (keyboard_mode)
+		return FALSE;
+
+	etable = e_memo_table_get_table (memo_table);
+	e_table_get_mouse_over_cell (etable, x, y, &row, &col);
+	if (row == -1 || !etable)
+		return FALSE;
+
+	/* Respect sorting option; the 'e_table_get_mouse_over_cell'
+	 * returns sorted row, not the model one. */
+	esm = e_table_get_selection_model (etable);
+	if (esm && esm->sorter && e_sorter_needs_sorting (esm->sorter))
+		row = e_sorter_sorted_to_model (esm->sorter, row);
+
+	comp_data = e_cal_model_get_component_at (memo_table->model, row);
+	if (!comp_data || !comp_data->icalcomp)
+		return FALSE;
+
+	new_comp = e_cal_component_new ();
+	clone = icalcomponent_new_clone (comp_data->icalcomp);
+	if (!e_cal_component_set_icalcomponent (new_comp, clone)) {
+		g_object_unref (new_comp);
+		return FALSE;
+	}
+
+	box = gtk_vbox_new (FALSE, 0);
+
+	str = e_calendar_view_get_icalcomponent_summary (
+		comp_data->client, comp_data->icalcomp, &free_text);
+	if (!(str && *str)) {
+		if (free_text)
+			g_free ((char *)str);
+		free_text = FALSE;
+		str = _("* No Summary *");
+	}
+
+	l = gtk_label_new (NULL);
+	tmp = g_markup_printf_escaped ("<b>%s</b>", str);
+	gtk_label_set_line_wrap (GTK_LABEL (l), TRUE);
+	gtk_label_set_markup (GTK_LABEL (l), tmp);
+	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+	w = gtk_event_box_new ();
+
+	gtk_widget_modify_bg (w, GTK_STATE_NORMAL, &(style->bg[GTK_STATE_SELECTED]));
+	gtk_widget_modify_fg (l, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
+	gtk_container_add (GTK_CONTAINER (w), l);
+	gtk_box_pack_start (GTK_BOX (box), w, TRUE, TRUE, 0);
+	g_free (tmp);
+
+	if (free_text)
+		g_free ((char *)str);
+	free_text = FALSE;
+
+	w = gtk_event_box_new ();
+	gtk_widget_modify_bg (w, GTK_STATE_NORMAL, &(style->bg[GTK_STATE_NORMAL]));
+
+	l = gtk_vbox_new (FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (w), l);
+	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
+	w = l;
+
+	e_cal_component_get_organizer (new_comp, &organizer);
+	if (organizer.cn) {
+		char *ptr ;
+		ptr = strchr( organizer.value, ':');
+
+		if (ptr) {
+			ptr++;
+			/* To Translators: It will display "Organizer: NameOfTheUser <email@ofuser.com>" */
+			tmp = g_strdup_printf (_("Organizer: %s <%s>"), organizer.cn, ptr);
+		} else {
+			/* With SunOne accounts, there may be no ':' in organiser.value */
+			tmp = g_strdup_printf (_("Organizer: %s"), organizer.cn);
+		}
+
+		l = gtk_label_new (tmp);
+		gtk_label_set_line_wrap (GTK_LABEL (l), FALSE);
+		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
+		g_free (tmp);
+	}
+
+	e_cal_component_get_dtstart (new_comp, &dtstart);
+	e_cal_component_get_due (new_comp, &dtdue);
+
+	default_zone = e_cal_model_get_timezone  (memo_table->model);
+
+	if (dtstart.tzid) {
+		zone = icalcomponent_get_timezone (e_cal_component_get_icalcomponent (new_comp), dtstart.tzid);
+		if (!zone)
+			e_cal_get_timezone (
+				comp_data->client, dtstart.tzid, &zone, NULL);
+		if (!zone)
+			zone = default_zone;
+	} else {
+		zone = NULL;
+	}
+
+	tmp2 = g_string_new ("");
+
+	if (dtstart.value) {
+		buff[0] = 0;
+
+		tmp_tm = icaltimetype_to_tm_with_zone (
+			dtstart.value, zone, default_zone);
+		e_time_format_date_and_time (
+			&tmp_tm, calendar_config_get_24_hour_format (),
+			FALSE, FALSE, buff, 1000);
+
+		if (buff [0]) {
+			g_string_append (tmp2, _("Start: "));
+			g_string_append (tmp2, buff);
+		}
+	}
+
+	if (dtdue.value) {
+		buff[0] = 0;
+
+		tmp_tm = icaltimetype_to_tm_with_zone (
+			dtdue.value, zone, default_zone);
+		e_time_format_date_and_time (
+			&tmp_tm, calendar_config_get_24_hour_format (),
+			FALSE, FALSE, buff, 1000);
+
+		if (buff [0]) {
+			if (tmp2->len)
+				g_string_append (tmp2, "; ");
+
+			g_string_append (tmp2, _("Due: "));
+			g_string_append (tmp2, buff);
+		}
+	}
+
+	if (tmp2->len) {
+		l = gtk_label_new (tmp2->str);
+		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
+	}
+
+	g_string_free (tmp2, TRUE);
+
+	e_cal_component_free_datetime (&dtstart);
+	e_cal_component_free_datetime (&dtdue);
+
+	tmp2 = g_string_new ("");
+	e_cal_component_get_description_list (new_comp, &desc);
+	for (len = 0, p = desc; p != NULL; p = p->next) {
+		ECalComponentText *text = p->data;
+
+		if (text->value != NULL) {
+			len += strlen (text->value);
+			g_string_append (tmp2, text->value);
+			if (len > 1024) {
+				g_string_set_size (tmp2, 1020);
+				g_string_append (tmp2, "...");
+				break;
+			}
+		}
+	}
+	e_cal_component_free_text_list (desc);
+
+	if (tmp2->len) {
+		l = gtk_label_new (tmp2->str);
+		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+		gtk_box_pack_start (GTK_BOX (box), l, FALSE, FALSE, 0);
+	}
+
+	g_string_free (tmp2, TRUE);
+
+	gtk_widget_show_all (box);
+	gtk_tooltip_set_custom (tooltip, box);
+
+	g_object_unref (new_comp);
+
+	return TRUE;
 }
 
 static gboolean
@@ -267,6 +471,17 @@ memo_table_class_init (EMemoTableClass *class)
 	object_class->set_property = memo_table_set_property;
 	object_class->get_property = memo_table_get_property;
 	object_class->dispose = memo_table_dispose;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL_VIEW,
+		g_param_spec_object (
+			"shell-view",
+			_("Shell View"),
+			NULL,
+			E_TYPE_SHELL_VIEW,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 
 	signals[OPEN_COMPONENT] = g_signal_new (
 		"open-component",
@@ -391,11 +606,15 @@ memo_table_init (EMemoTable *memo_table)
 		table, "double-click",
 		G_CALLBACK (memo_table_double_click_cb), memo_table);
 	g_signal_connect_swapped (
-		table, "popup_menu",
+		table, "query-tooltip",
+		G_CALLBACK (memo_table_query_tooltip_cb), memo_table);
+	g_signal_connect_swapped (
+		table, "popup-menu",
 		G_CALLBACK (memo_table_popup_menu_cb), memo_table);
 	g_signal_connect_swapped (
 		table, "right-click",
 		G_CALLBACK (memo_table_right_click_cb), memo_table);
+	gtk_widget_set_has_tooltip (GTK_WIDGET (table), TRUE);
 
 	a11y = gtk_widget_get_accessible (GTK_WIDGET (table));
 	if (a11y)
@@ -516,7 +735,6 @@ get_selected_comp (EMemoTable *memo_table)
 	int row;
 
 	etable = e_memo_table_get_table (memo_table);
-
 	if (e_table_selected_count (etable) != 1)
 		return NULL;
 
@@ -576,31 +794,6 @@ delete_selected_components (EMemoTable *memo_table)
 }
 
 /**
- * e_memo_table_get_selected:
- * @memo_table:
- *
- * Get the currently selected ECalModelComponent's on the table.
- *
- * Return value: A GSList of the components, which should be
- * g_slist_free'd when finished with.
- **/
-GSList *
-e_memo_table_get_selected (EMemoTable *memo_table)
-{
-	struct get_selected_uids_closure closure;
-	ETable *etable;
-
-	closure.memo_table = memo_table;
-	closure.objects = NULL;
-
-	etable = e_memo_table_get_table (memo_table);
-
-	e_table_selected_row_foreach (etable, add_uid_cb, &closure);
-
-	return closure.objects;
-}
-
-/**
  * e_memo_table_delete_selected:
  * @memo_table: A memo table.
  *
@@ -645,6 +838,30 @@ e_memo_table_delete_selected (EMemoTable *memo_table)
 }
 
 /**
+ * e_memo_table_get_selected:
+ * @memo_table:
+ *
+ * Get the currently selected ECalModelComponent's on the table.
+ *
+ * Return value: A GSList of the components, which should be
+ * g_slist_free'd when finished with.
+ **/
+GSList *
+e_memo_table_get_selected (EMemoTable *memo_table)
+{
+	struct get_selected_uids_closure closure;
+	ETable *etable;
+
+	closure.memo_table = memo_table;
+	closure.objects = NULL;
+
+	etable = e_memo_table_get_table (memo_table);
+	e_table_selected_row_foreach (etable, add_uid_cb, &closure);
+
+	return closure.objects;
+}
+
+/**
  * e_memo_table_cut_clipboard:
  * @memo_table: A calendar table.
  *
@@ -657,6 +874,26 @@ e_memo_table_cut_clipboard (EMemoTable *memo_table)
 
 	e_memo_table_copy_clipboard (memo_table);
 	delete_selected_components (memo_table);
+}
+
+static void
+clipboard_get_calendar_cb (GtkClipboard *clipboard,
+			   GtkSelectionData *selection_data,
+			   guint info,
+			   gpointer data)
+{
+	gchar *comp_str = (gchar *) data;
+
+	switch (info) {
+	case TARGET_TYPE_VCALENDAR:
+		gtk_selection_data_set (selection_data,
+					gdk_atom_intern (target_types[info].target, FALSE), 8,
+					(const guchar *) comp_str,
+					(gint) strlen (comp_str));
+		break;
+	default:
+		break;
+	}
 }
 
 /* callback for e_table_selected_row_foreach */
@@ -688,26 +925,6 @@ copy_row_cb (int model_row, gpointer data)
 		icalcomponent_free (child);
 	}
 	g_free (comp_str);
-}
-
-static void
-clipboard_get_calendar_cb (GtkClipboard *clipboard,
-			   GtkSelectionData *selection_data,
-			   guint info,
-			   gpointer data)
-{
-	gchar *comp_str = (gchar *) data;
-
-	switch (info) {
-	case TARGET_TYPE_VCALENDAR:
-		gtk_selection_data_set (selection_data,
-					gdk_atom_intern (target_types[info].target, FALSE), 8,
-					(const guchar *) comp_str,
-					(gint) strlen (comp_str));
-		break;
-	default:
-		break;
-	}
 }
 
 /**
@@ -929,12 +1146,3 @@ e_memo_table_get_current_time (ECellDateEdit *ecde, gpointer data)
 
 	return tmp_tm;
 }
-
-
-#ifdef TRANSLATORS_ONLY
-
-static char *test[] = {
-    N_("Click to add a memo")
-};
-
-#endif

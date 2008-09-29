@@ -21,8 +21,8 @@
 #ifndef E_CAL_SHELL_VIEW_H
 #define E_CAL_SHELL_VIEW_H
 
-#include <gnome-cal.h>
-#include <e-shell-view.h>
+#include <shell/e-shell-view.h>
+#include <calendar/gui/gnome-cal.h>
 #include <libedataserver/e-source-list.h>
 
 /* Standard GObject macros */

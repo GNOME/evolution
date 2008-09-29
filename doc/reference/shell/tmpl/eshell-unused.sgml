@@ -448,6 +448,13 @@ intelligent
 </para>
 
 
+<!-- ##### SIGNAL EShellView::changed ##### -->
+<para>
+
+</para>
+
+@eshellview: the object which received the signal.
+
 <!-- ##### ARG EShellView:view-instance ##### -->
 <para>
 
@@ -1859,6 +1866,13 @@ intelligent
 
 </para>
 
+
+<!-- ##### FUNCTION e_shell_view_changed ##### -->
+<para>
+
+</para>
+
+@shell_view: 
 
 <!-- ##### FUNCTION e_shell_view_get_view_instance ##### -->
 <para>

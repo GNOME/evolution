@@ -20,174 +20,78 @@
 
 #include "e-memo-shell-view-private.h"
 
-#include <widgets/menus/gal-view-factory-etable.h>
+#include "widgets/menus/gal-view-factory-etable.h"
 
 static void
-memo_shell_view_backend_died_cb (EMemoShellView *memo_shell_view,
-                                 ECal *client)
+memo_shell_view_table_popup_event_cb (EShellView *shell_view,
+                                      GdkEventButton *event)
 {
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	GHashTable *client_table;
-	ESource *source;
-	const gchar *uid;
-
-	shell_view = E_SHELL_VIEW (memo_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	source = e_cal_get_source (client);
-	uid = e_source_peek_uid (source);
-
-	g_object_ref (source);
-
-	g_hash_table_remove (client_table, uid);
-	e_memo_shell_view_set_status_message (memo_shell_view, NULL);
-
-	e_error_run (
-		GTK_WINDOW (shell_window),
-		"calendar:memos-crashed", NULL);
-
-	g_object_unref (source);
-}
-
-static void
-memo_shell_view_backend_error_cb (EMemoShellView *memo_shell_view,
-                                  const gchar *message,
-                                  ECal *client)
-{
-	EShellView *shell_view;
-	EShellWindow *shell_window;
-	GtkWidget *dialog;
-	const gchar *uri;
-	gchar *uri_no_passwd;
-
-	shell_view = E_SHELL_VIEW (memo_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
-
-	uri = e_cal_get_uri (client);
-	uri_no_passwd = get_uri_without_password (uri);
-
-	dialog = gtk_message_dialog_new (
-		GTK_WINDOW (shell_window),
-		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
-		_("Error on %s:\n%s"),
-		uri_no_passwd, message);
-
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
-
-	g_free (uri_no_passwd);
-}
-
-static void
-memo_shell_view_client_opened_cb (EMemoShellView *memo_shell_view,
-                                  ECalendarStatus status,
-                                  ECal *client)
-{
-	/* FIXME */
-}
-
-static gboolean
-memo_shell_view_add_source (EMemoShellView *memo_shell_view,
-                            ESource *source)
-{
-	GHashTable *client_table;
-	ECal *default_client;
-	ECal *client;
-	const gchar *uid;
-	const gchar *uri;
-	gchar *status_message;
-
-	client_table = memo_shell_view->priv->client_table;
-	default_client = memo_shell_view->priv->default_client;
-
-	uid = e_source_peek_uid (source);
-	client = g_hash_table_lookup (client_table, uid);
-
-	if (client != NULL)
-		return TRUE;
-
-	if (default_client != NULL) {
-		ESource *default_source;
-		const gchar *default_uid;
-
-		default_source = e_cal_get_source (default_client);
-		default_uid = e_source_peek_uid (default_source);
-
-		if (strcmp (uid, default_uid) == 0)
-			client = g_object_ref (default_client);
-	}	
-
-	if (client == NULL)
-		client = auth_new_cal_from_source (
-			source, E_CAL_SOURCE_TYPE_JOURNAL);
-
-	if (client == NULL)
-		return FALSE;
-
-	g_signal_connect_swapped (
-		client, "backend-died",
-		G_CALLBACK (memo_shell_view_backend_died_cb),
-		memo_shell_view);
-
-	g_signal_connect_swapped (
-		client, "backend-error",
-		G_CALLBACK (memo_shell_view_backend_error_cb),
-		memo_shell_view);
-
-	g_hash_table_insert (client_table, g_strdup (uid), client);
-
-	uri = e_cal_get_uri (client);
-
-	status_message = g_strdup_printf (_("Opening memos at %s"), uri);
-	e_memo_shell_view_set_status_message (memo_shell_view, status_message);
-	g_free (status_message);
-
-	g_signal_connect_swapped (
-		client, "cal-opened",
-		G_CALLBACK (memo_shell_view_client_opened_cb),
-		memo_shell_view);
-
-	e_cal_open_async (client, FALSE);
-
-	return TRUE;
-}
-
-static void
-memo_shell_view_table_popup_event_cb (EMemoShellView *memo_shell_view,
-                                      GdkEvent *event)
-{
-	EShellView *shell_view;
-	EShellWindow *shell_window;
 	const gchar *widget_path;
 
-	shell_view = E_SHELL_VIEW (memo_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 	widget_path = "/memo-popup";
-
-	e_memo_shell_view_actions_update (memo_shell_view);
-	e_shell_window_show_popup_menu (shell_window, widget_path, event);
+	e_shell_view_show_popup_menu (shell_view, widget_path, event);
 }
 
 static void
 memo_shell_view_table_user_created_cb (EMemoShellView *memo_shell_view,
                                        EMemoTable *memo_table)
 {
+	EMemoShellSidebar *memo_shell_sidebar;
+	ECalModel *model;
 	ECal *client;
 	ESource *source;
 
-	if (memo_table->user_created_cal != NULL)
-		client = memo_table->user_created_cal;
-	else {
-		ECalModel *model;
+	/* This is the "Click to Add" handler. */
 
-		model = e_memo_table_get_model (memo_table);
-		client = e_cal_model_get_default_client (model);
-	}
-
+	model = e_memo_table_get_model (memo_table);
+	client = e_cal_model_get_default_client (model);
 	source = e_cal_get_source (client);
-	memo_shell_view_add_source (memo_shell_view, source);
+
+	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
+	e_memo_shell_sidebar_add_source (memo_shell_sidebar, source);
+}
+
+static void
+memo_shell_view_selector_client_added_cb (EMemoShellView *memo_shell_view,
+                                          ECal *client)
+{
+	EMemoShellContent *memo_shell_content;
+	EMemoTable *memo_table;
+	ECalModel *model;
+
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+	model = e_memo_table_get_model (memo_table);
+
+	e_cal_model_add_client (model, client);
+}
+
+static void
+memo_shell_view_selector_client_removed_cb (EMemoShellView *memo_shell_view,
+                                            ECal *client)
+{
+	EMemoShellContent *memo_shell_content;
+	EMemoTable *memo_table;
+	ECalModel *model;
+
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+	model = e_memo_table_get_model (memo_table);
+
+	e_cal_model_remove_client (model, client);
+}
+
+static gboolean
+memo_shell_view_selector_popup_event_cb (EShellView *shell_view,
+                                         ESource *primary_source,
+                                         GdkEventButton *event)
+{
+	const gchar *widget_path;
+
+	widget_path = "/memo-list-popup";
+	e_shell_view_show_popup_menu (shell_view, widget_path, event);
+
+	return TRUE;
 }
 
 static void
@@ -246,21 +150,14 @@ e_memo_shell_view_private_init (EMemoShellView *memo_shell_view,
 {
 	EMemoShellViewPrivate *priv = memo_shell_view->priv;
 	ESourceList *source_list;
-	GHashTable *client_table;
 	GObject *object;
 
 	object = G_OBJECT (shell_view_class->type_module);
 	source_list = g_object_get_data (object, "source-list");
 	g_return_if_fail (E_IS_SOURCE_LIST (source_list));
 
-	client_table = g_hash_table_new_full (
-		g_str_hash, g_str_equal,
-		(GDestroyNotify) g_free,
-		(GDestroyNotify) g_object_unref);
-
 	priv->source_list = g_object_ref (source_list);
 	priv->memo_actions = gtk_action_group_new ("memos");
-	priv->client_table = client_table;
 
 	if (!gal_view_collection_loaded (shell_view_class->view_collection))
 		memo_shell_view_load_view_collection (shell_view_class);
@@ -274,10 +171,15 @@ void
 e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 {
 	EMemoShellViewPrivate *priv = memo_shell_view->priv;
+	EMemoShellContent *memo_shell_content;
+	EMemoShellSidebar *memo_shell_sidebar;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellView *shell_view;
 	EMemoTable *memo_table;
+	ECalModel *model;
+	ETable *table;
+	ESourceSelector *selector;
 
 	shell_view = E_SHELL_VIEW (memo_shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
@@ -287,8 +189,18 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	priv->memo_shell_content = g_object_ref (shell_content);
 	priv->memo_shell_sidebar = g_object_ref (shell_sidebar);
 
-	memo_table = e_memo_shell_content_get_memo_table (
-		priv->memo_shell_content);
+	memo_shell_content = E_MEMO_SHELL_CONTENT (shell_content);
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+	model = e_memo_table_get_model (memo_table);
+	table = e_memo_table_get_table (memo_table);
+
+	memo_shell_sidebar = E_MEMO_SHELL_SIDEBAR (shell_sidebar);
+	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
+
+	g_signal_connect_swapped (
+		shell_sidebar, "status-message",
+		G_CALLBACK (e_memo_shell_view_set_status_message),
+		memo_shell_view);
 
 	g_signal_connect_swapped (
 		memo_table, "open-component",
@@ -310,7 +222,48 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 		G_CALLBACK (memo_shell_view_table_user_created_cb),
 		memo_shell_view);
 
-	e_memo_shell_view_actions_update (memo_shell_view);
+	g_signal_connect_swapped (
+		model, "model-changed",
+		G_CALLBACK (e_memo_shell_view_sidebar_update),
+		memo_shell_view);
+
+	g_signal_connect_swapped (
+		model, "model-rows-deleted",
+		G_CALLBACK (e_memo_shell_view_sidebar_update),
+		memo_shell_view);
+
+	g_signal_connect_swapped (
+		model, "model-rows-inserted",
+		G_CALLBACK (e_memo_shell_view_sidebar_update),
+		memo_shell_view);
+
+	g_signal_connect_swapped (
+		table, "selection-change",
+		G_CALLBACK (e_memo_shell_view_sidebar_update),
+		memo_shell_view);
+
+	g_signal_connect_swapped (
+		shell_sidebar, "client-added",
+		G_CALLBACK (memo_shell_view_selector_client_added_cb),
+		memo_shell_view);
+
+	g_signal_connect_swapped (
+		shell_sidebar, "client-removed",
+		G_CALLBACK (memo_shell_view_selector_client_removed_cb),
+		memo_shell_view);
+
+	g_signal_connect_swapped (
+		selector, "popup-event",
+		G_CALLBACK (memo_shell_view_selector_popup_event_cb),
+		memo_shell_view);
+
+	g_signal_connect_swapped (
+		selector, "primary-selection-changed",
+		G_CALLBACK (e_shell_view_update_actions),
+		memo_shell_view);
+
+	e_memo_shell_view_actions_init (memo_shell_view);
+	e_memo_shell_view_sidebar_update (memo_shell_view);
 }
 
 void
@@ -325,9 +278,6 @@ e_memo_shell_view_private_dispose (EMemoShellView *memo_shell_view)
 	DISPOSE (priv->memo_shell_content);
 	DISPOSE (priv->memo_shell_sidebar);
 
-	g_hash_table_remove_all (priv->client_table);
-	DISPOSE (priv->default_client);
-
 	if (memo_shell_view->priv->activity != NULL) {
 		/* XXX Activity is not cancellable. */
 		e_activity_complete (memo_shell_view->priv->activity);
@@ -339,9 +289,7 @@ e_memo_shell_view_private_dispose (EMemoShellView *memo_shell_view)
 void
 e_memo_shell_view_private_finalize (EMemoShellView *memo_shell_view)
 {
-	EMemoShellViewPrivate *priv = memo_shell_view->priv;
-
-	g_hash_table_destroy (priv->client_table);
+	/* XXX Nothing to do? */
 }
 
 void
@@ -409,4 +357,46 @@ e_memo_shell_view_set_status_message (EMemoShellView *memo_shell_view,
 		e_activity_set_primary_text (activity, status_message);
 
 	memo_shell_view->priv->activity = activity;
+}
+
+void
+e_memo_shell_view_sidebar_update (EMemoShellView *memo_shell_view)
+{
+	EMemoShellContent *memo_shell_content;
+	EShellView *shell_view;
+	EShellSidebar *shell_sidebar;
+	EMemoTable *memo_table;
+	ECalModel *model;
+	ETable *table;
+	GString *string;
+	const gchar *format;
+	gint n_rows;
+	gint n_selected;
+
+	shell_view = E_SHELL_VIEW (memo_shell_view);
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+
+	model = e_memo_table_get_model (memo_table);
+	table = e_memo_table_get_table (memo_table);
+
+	n_rows = e_table_model_row_count (E_TABLE_MODEL (model));
+	n_selected = e_table_selected_count (table);
+
+	string = g_string_sized_new (64);
+
+	format = ngettext ("%d memo", "%d memos", n_rows);
+	g_string_append_printf (string, format, n_rows);
+
+	if (n_selected > 0) {
+		format = _("%d selected");
+		g_string_append_len (string, ", ", 2);
+		g_string_append_printf (string, format, n_selected);
+	}
+
+	e_shell_sidebar_set_secondary_text (shell_sidebar, string->str);
+
+	g_string_free (string, TRUE);
 }

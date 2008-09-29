@@ -648,38 +648,6 @@ e_shell_window_set_safe_mode (EShellWindow *shell_window,
 }
 
 /**
- * e_shell_window_show_popup_menu:
- * @shell_window: an #EShellWindow
- * @widget_path: path in the UI definition
- * @event: a #GdkEventButton
- *
- * Displays a context-sensitive (or "popup") menu that is described in
- * the UI definition loaded into @shell_window<!-- -->'s user interface
- * manager.  The menu will be shown at the current mouse cursor position.
- **/
-void
-e_shell_window_show_popup_menu (EShellWindow *shell_window,
-                                const gchar *widget_path,
-                                GdkEventButton *event)
-{
-	GtkWidget *menu;
-
-	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
-
-	menu = e_shell_window_get_managed_widget (shell_window, widget_path);
-	g_return_if_fail (GTK_IS_MENU (menu));
-
-	if (event != NULL)
-		gtk_menu_popup (
-			GTK_MENU (menu), NULL, NULL, NULL, NULL,
-			event->button, event->time);
-	else
-		gtk_menu_popup (
-			GTK_MENU (menu), NULL, NULL, NULL, NULL,
-			0, gtk_get_current_event_time ());
-}
-
-/**
  * e_shell_window_register_new_item_actions:
  * @shell_window: an #EShellWindow
  * @module_name: name of an #EShellModule

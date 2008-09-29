@@ -13,7 +13,6 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <glade/glade.h>
 #include "e-util/e-util-private.h"
-#include "calendar-commands.h"
 #include "calendar-config.h"
 #include "tag-calendar.h"
 #include "goto.h"

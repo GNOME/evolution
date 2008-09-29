@@ -23,7 +23,14 @@ EShellView
 </para>
 
 
-<!-- ##### SIGNAL EShellView::changed ##### -->
+<!-- ##### SIGNAL EShellView::toggled ##### -->
+<para>
+
+</para>
+
+@eshellview: the object which received the signal.
+
+<!-- ##### SIGNAL EShellView::update-actions ##### -->
 <para>
 
 </para>
@@ -176,13 +183,5 @@ EShellView
 
 @shell_view: 
 @Returns: 
-
-
-<!-- ##### FUNCTION e_shell_view_changed ##### -->
-<para>
-
-</para>
-
-@shell_view: 
 
 

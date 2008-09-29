@@ -24,6 +24,23 @@ static void
 action_task_assign_cb (GtkAction *action,
                        ETaskShellView *task_shell_view)
 {
+	ETaskShellContent *task_shell_content;
+	ETaskTable *task_table;
+	ECalModelComponent *comp_data;
+	GSList *list;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+
+	list = e_task_table_get_selected (task_table);
+	g_return_if_fail (list != NULL);
+	comp_data = list->data;
+	g_slist_free (list);
+
+	/* XXX We only open the first selected task. */
+	e_task_shell_view_open_task (task_shell_view, comp_data);
+
+	/* FIXME Need to actually assign the task. */
 }
 
 static void
@@ -87,6 +104,29 @@ static void
 action_task_forward_cb (GtkAction *action,
                         ETaskShellView *task_shell_view)
 {
+	ETaskShellContent *task_shell_content;
+	ETaskTable *task_table;
+	ECalModelComponent *comp_data;
+	ECalComponent *comp;
+	icalcomponent *clone;
+	ECalComponentItipMethod method;
+	GSList *list;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+
+	list = e_task_table_get_selected (task_table);
+	g_return_if_fail (list != NULL);
+	comp_data = list->data;
+	g_slist_free (list);
+
+	/* XXX We only forward the first selected task. */
+	comp = e_cal_component_new ();
+	clone = icalcomponent_new_clone (comp_data->icalcomp);
+	method = E_CAL_COMPONENT_METHOD_PUBLISH;
+	e_cal_component_set_icalcomponent (comp, clone);
+	itip_send_comp (method, comp, comp_data->client, NULL, NULL, NULL);
+	g_object_unref (comp);
 }
 
 static void
@@ -110,6 +150,40 @@ action_task_list_new_cb (GtkAction *action,
 }
 
 static void
+action_task_list_print_cb (GtkAction *action,
+                           ETaskShellView *task_shell_view)
+{
+	ETaskShellContent *task_shell_content;
+	ETaskTable *task_table;
+	ETable *table;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	table = e_task_table_get_table (task_table);
+
+	print_table (
+		table, _("Print Tasks"), _("Tasks"),
+		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
+}
+
+static void
+action_task_list_print_preview_cb (GtkAction *action,
+                                   ETaskShellView *task_shell_view)
+{
+	ETaskShellContent *task_shell_content;
+	ETaskTable *task_table;
+	ETable *table;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	table = e_task_table_get_table (task_table);
+
+	print_table (
+		table, _("Print Tasks"), _("Tasks"),
+		GTK_PRINT_OPERATION_ACTION_PREVIEW);
+}
+
+static void
 action_task_list_properties_cb (GtkAction *action,
                                 ETaskShellView *task_shell_view)
 {
@@ -118,6 +192,50 @@ action_task_list_properties_cb (GtkAction *action,
 static void
 action_task_mark_complete_cb (GtkAction *action,
                               ETaskShellView *task_shell_view)
+{
+	ETaskShellContent *task_shell_content;
+	ETaskTable *task_table;
+	ECalModel *model;
+	GSList *list, *iter;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	list = e_task_table_get_selected (task_table);
+	model = e_task_table_get_model (task_table);
+
+	for (iter = list; iter != NULL; iter = iter->next) {
+		ECalModelComponent *comp_data = iter->data;
+		e_cal_model_tasks_mark_comp_complete (model, comp_data);
+	}
+
+	g_slist_free (list);
+}
+
+static void
+action_task_mark_incomplete_cb (GtkAction *action,
+                                ETaskShellView *task_shell_view)
+{
+	ETaskShellContent *task_shell_content;
+	ETaskTable *task_table;
+	ECalModel *model;
+	GSList *list, *iter;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	list = e_task_table_get_selected (task_table);
+	model = e_task_table_get_model (task_table);
+
+	for (iter = list; iter != NULL; iter = iter->next) {
+		ECalModelComponent *comp_data = iter->data;
+		e_cal_model_tasks_mark_comp_incomplete (model, comp_data);
+	}
+
+	g_slist_free (list);
+}
+
+static void
+action_task_new_cb (GtkAction *action,
+                    ETaskShellView *task_shell_view)
 {
 }
 
@@ -130,7 +248,43 @@ action_task_open_cb (GtkAction *action,
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
+
 	e_task_table_open_selected (task_table);
+}
+
+static void
+action_task_open_url_cb (GtkAction *action,
+                         ETaskShellView *task_shell_view)
+{
+	ETaskShellContent *task_shell_content;
+	ETaskTable *task_table;
+	ECalModelComponent *comp_data;
+	icalproperty *prop;
+	GdkScreen *screen;
+	const gchar *uri;
+	GSList *list;
+	GError *error = NULL;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+
+	list = e_task_table_get_selected (task_table);
+	g_return_if_fail (list != NULL);
+	comp_data = list->data;
+
+	/* XXX We only open the URI of the first selected task. */
+	prop = icalcomponent_get_first_property (
+		comp_data->icalcomp, ICAL_URL_PROPERTY);
+	g_return_if_fail (prop == NULL);
+
+	screen = gtk_widget_get_screen (GTK_WIDGET (task_shell_view));
+	uri = icalproperty_get_url (prop);
+	gtk_show_uri (screen, uri, GDK_CURRENT_TIME, &error);
+
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
 }
 
 static void
@@ -151,38 +305,69 @@ action_task_print_cb (GtkAction *action,
 {
 	ETaskShellContent *task_shell_content;
 	ETaskTable *task_table;
-	ETable *table;
+	ECalModelComponent *comp_data;
+	ECalComponent *comp;
+	icalcomponent *clone;
+	GtkPrintOperationAction print_action;
+	GSList *list;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
-	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	table = e_task_table_get_table (task_table);
+	task_table = e_memo_shell_content_get_task_table (task_shell_content);
 
-	print_table (
-		table, _("Print Tasks"), _("Tasks"),
-		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
-}
+	list = e_task_table_get_selected (task_table);
+	g_return_if_fail (list != NULL);
+	comp_data = list->data;
+	g_slist_free (list);
 
-static void
-action_task_print_preview_cb (GtkAction *action,
-                              ETaskShellView *task_shell_view)
-{
-	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
-	ETable *table;
-
-	task_shell_content = task_shell_view->priv->task_shell_content;
-	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	table = e_task_table_get_table (task_table);
-
-	print_table (
-		table, _("Print Tasks"), _("Tasks"),
-		GTK_PRINT_OPERATION_ACTION_PREVIEW);
+	/* XXX We only print the first selected task. */
+	comp = e_cal_component_new ();
+	clone = icalcomponent_new_clone (comp_data->icalcomp);
+	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
+	e_cal_component_set_icalcomponent (comp, clone);
+	print_comp (comp, comp_data->client, print_action);
+	g_object_unref (comp);
 }
 
 static void
 action_task_purge_cb (GtkAction *action,
                       ETaskShellView *task_shell_view)
 {
+}
+
+static void
+action_task_save_as_cb (GtkAction *action,
+                        ETaskShellView *task_shell_view)
+{
+	ETaskShellContent *task_shell_content;
+	ETaskTable *task_table;
+	ECalModelComponent *comp_data;
+	GSList *list;
+	gchar *filename;
+	gchar *string;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+
+	list = e_task_table_get_selected (task_table);
+	g_return_if_fail (list != NULL);
+	comp_data = list->data;
+	g_slist_free (list);
+
+	filename = e_file_dialog_save (_("Save as..."), NULL);
+	if (filename == NULL)
+		return;
+
+	string = e_cal_component_as_string (
+		comp_data->client, comp_data->icalcomp);
+	if (string == NULL) {
+		g_warning ("Could not convert task to a string");
+		return;
+	}
+
+	e_write_file_uri (filename, string);
+
+	g_free (filename);
+	g_free (string);
 }
 
 static GtkActionEntry task_entries[] = {
@@ -217,7 +402,7 @@ static GtkActionEntry task_entries[] = {
 
 	{ "task-delete",
 	  GTK_STOCK_DELETE,
-	  NULL,
+	  N_("Delete Task"),
 	  NULL,
 	  N_("Delete selected tasks"),
 	  G_CALLBACK (action_task_delete_cb) },
@@ -250,6 +435,20 @@ static GtkActionEntry task_entries[] = {
 	  N_("Create a new task list"),
 	  G_CALLBACK (action_task_list_new_cb) },
 
+	{ "task-list-print",
+	  GTK_STOCK_PRINT,
+	  NULL,
+	  NULL,
+	  N_("Print the list of tasks"),
+	  G_CALLBACK (action_task_list_print_cb) },
+
+	{ "task-list-print-preview",
+	  GTK_STOCK_PRINT_PREVIEW,
+	  NULL,
+	  NULL,
+	  N_("Preview the list of tasks to be printed"),
+	  G_CALLBACK (action_task_list_print_preview_cb) },
+
 	{ "task-list-properties",
 	  GTK_STOCK_PROPERTIES,
 	  NULL,
@@ -259,38 +458,52 @@ static GtkActionEntry task_entries[] = {
 
 	{ "task-mark-complete",
 	  NULL,
-	  N_("Mar_k as Complete"),
+	  N_("_Mark as Complete"),
 	  "<Control>k",
 	  N_("Mark selected tasks as complete"),
 	  G_CALLBACK (action_task_mark_complete_cb) },
 
-	{ "task-open",
+	{ "task-new",
+	  "stock_task",
+	  N_("New _Task"),
 	  NULL,
+	  N_("Create a new task"),
+	  G_CALLBACK (action_task_new_cb) },
+
+	{ "task-open",
+	  GTK_STOCK_OPEN,
 	  N_("_Open Task"),
 	  "<Control>o",
 	  N_("View the selected task"),
 	  G_CALLBACK (action_task_open_cb) },
 
+	{ "task-open-url",
+	  "applications-internet",
+	  N_("Open _Web Page"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_task_open_url_cb) },
+
 	{ "task-print",
 	  GTK_STOCK_PRINT,
 	  NULL,
 	  NULL,
-	  N_("Print the list of tasks"),
+	  N_("Print the selected task"),
 	  G_CALLBACK (action_task_print_cb) },
-
-	{ "task-print-preview",
-	  GTK_STOCK_PRINT_PREVIEW,
-	  NULL,
-	  NULL,
-	  N_("Preview the list of tasks to be printed"),
-	  G_CALLBACK (action_task_print_preview_cb) },
 
 	{ "task-purge",
 	  NULL,
 	  N_("Purg_e"),
 	  "<Control>e",
 	  N_("Delete completed tasks"),
-	  G_CALLBACK (action_task_purge_cb) }
+	  G_CALLBACK (action_task_purge_cb) },
+
+	{ "task-save-as",
+	  GTK_STOCK_SAVE_AS,
+	  NULL,
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_task_save_as_cb) }
 };
 
 static GtkToggleActionEntry task_toggle_entries[] = {
@@ -311,7 +524,11 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
 	GtkUIManager *manager;
+	GConfBridge *bridge;
+	GtkAction *action;
+	GObject *object;
 	const gchar *domain;
+	const gchar *key;
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -329,4 +546,71 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 		action_group, task_toggle_entries,
 		G_N_ELEMENTS (task_toggle_entries), task_shell_view);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
+
+	/* Bind GObject properties to GConf keys. */
+
+	bridge = gconf_bridge_get ();
+
+	object = G_OBJECT (ACTION (TASK_PREVIEW));
+	key = "/apps/evolution/calendar/display/show_task_preview";
+	gconf_bridge_bind_property (bridge, key, object, "active");
+
+	/* Fine tuning. */
+
+	action = ACTION (TASK_DELETE);
+	g_object_set (action, "short-label", _("Delete"), NULL);
+}
+
+void
+e_task_shell_view_actions_update (ETaskShellView *task_shell_view)
+{
+	ETaskShellContent *task_shell_content;
+	ECal *client;
+	ETable *table;
+	ECalModel *model;
+	ETaskTable *task_table;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	GtkAction *action;
+	const gchar *label;
+	gboolean read_only = TRUE;
+	gboolean sensitive;
+	gint n_selected;
+
+	shell_view = E_SHELL_VIEW (task_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+
+	model = e_task_table_get_model (task_table);
+	client = e_cal_model_get_default_client (model);
+
+	table = e_task_table_get_table (task_table);
+	n_selected = e_table_selected_count (table);
+
+	if (client != NULL)
+		e_cal_is_read_only (client, &read_only, NULL);
+
+	action = ACTION (TASK_OPEN);
+	sensitive = (n_selected == 1);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (TASK_CLIPBOARD_COPY);
+	sensitive = (n_selected > 0);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (TASK_CLIPBOARD_CUT);
+	sensitive = (n_selected > 0);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (TASK_CLIPBOARD_PASTE);
+	sensitive = (n_selected > 0);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (TASK_DELETE);
+	sensitive = (n_selected > 0) && !read_only;
+	gtk_action_set_sensitive (action, sensitive);
+	label = ngettext ("Delete Task", "Delete Tasks", n_selected);
+	g_object_set (action, "label", label, NULL);
 }

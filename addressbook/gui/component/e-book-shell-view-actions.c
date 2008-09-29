@@ -793,8 +793,6 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	domain = GETTEXT_PACKAGE;
 
-	e_load_ui_definition (ui_manager, "evolution-contacts.ui");
-
 	/* Contact Actions */
 	action_group = book_shell_view->priv->contact_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);

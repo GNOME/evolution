@@ -23,12 +23,14 @@
 #include <string.h>
 #include <glib/gi18n.h>
 
-#include <e-shell-content.h>
-#include <e-shell-module.h>
-#include <e-shell-sidebar.h>
-#include <e-shell-taskbar.h>
-#include <e-shell-window.h>
-#include <e-shell-window-actions.h>
+#include "e-util/e-util.h"
+
+#include "e-shell-content.h"
+#include "e-shell-module.h"
+#include "e-shell-sidebar.h"
+#include "e-shell-taskbar.h"
+#include "e-shell-window.h"
+#include "e-shell-window-actions.h"
 
 #define E_SHELL_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -41,8 +43,10 @@ struct _EShellViewPrivate {
 	gchar *title;
 	gchar *view_id;
 	gint page_num;
+	guint merge_id;
 
 	GtkAction *action;
+	GtkSizeGroup *size_group;
 	GtkWidget *shell_content;
 	GtkWidget *shell_sidebar;
 	GtkWidget *shell_taskbar;
@@ -61,7 +65,8 @@ enum {
 };
 
 enum {
-	CHANGED,
+	TOGGLED,
+	UPDATE_ACTIONS,
 	LAST_SIGNAL
 };
 
@@ -105,6 +110,12 @@ shell_view_init_view_collection (EShellViewClass *shell_view_class)
 }
 
 static void
+shell_view_emit_toggled (EShellView *shell_view)
+{
+	g_signal_emit (shell_view, signals[TOGGLED], 0);
+}
+
+static void
 shell_view_set_action (EShellView *shell_view,
                        GtkAction *action)
 {
@@ -117,6 +128,10 @@ shell_view_set_action (EShellView *shell_view,
 	g_object_get (action, "label", &label, NULL);
 	e_shell_view_set_title (shell_view, label);
 	g_free (label);
+
+	g_signal_connect_swapped (
+		action, "toggled",
+		G_CALLBACK (shell_view_emit_toggled), shell_view);
 }
 
 static void
@@ -252,6 +267,11 @@ shell_view_dispose (GObject *object)
 		priv->shell_window = NULL;
 	}
 
+	if (priv->size_group != NULL) {
+		g_object_unref (priv->size_group);
+		priv->size_group = NULL;
+	}
+
 	if (priv->shell_content != NULL) {
 		g_object_unref (priv->shell_content);
 		priv->shell_content = NULL;
@@ -311,6 +331,28 @@ shell_view_constructed (GObject *object)
 }
 
 static void
+shell_view_toggled (EShellView *shell_view)
+{
+	EShellViewPrivate *priv = shell_view->priv;
+	EShellViewClass *shell_view_class;
+	EShellWindow *shell_window;
+	GtkUIManager *ui_manager;
+	const gchar *basename;
+
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	basename = shell_view_class->ui_definition;
+
+	if (e_shell_view_is_active (shell_view))
+		priv->merge_id = e_load_ui_definition (ui_manager, basename);
+	else
+		gtk_ui_manager_remove_ui (ui_manager, priv->merge_id);
+
+	gtk_ui_manager_ensure_update (ui_manager);
+}
+
+static void
 shell_view_class_init (EShellViewClass *class)
 {
 	GObjectClass *object_class;
@@ -329,6 +371,8 @@ shell_view_class_init (EShellViewClass *class)
 	class->new_shell_content = e_shell_content_new;
 	class->new_shell_sidebar = e_shell_sidebar_new;
 	class->new_shell_taskbar = e_shell_taskbar_new;
+
+	class->toggled = shell_view_toggled;
 
 	g_object_class_install_property (
 		object_class,
@@ -418,11 +462,20 @@ shell_view_class_init (EShellViewClass *class)
 			NULL,
 			G_PARAM_READWRITE));
 
-	signals[CHANGED] = g_signal_new (
-		"changed",
+	signals[TOGGLED] = g_signal_new (
+		"toggled",
 		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (EShellViewClass, changed),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EShellViewClass, toggled),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	signals[UPDATE_ACTIONS] = g_signal_new (
+		"update-actions",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EShellViewClass, update_actions),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
@@ -432,7 +485,12 @@ static void
 shell_view_init (EShellView *shell_view,
                  EShellViewClass *shell_view_class)
 {
+	GtkSizeGroup *size_group;
+
+	size_group = gtk_size_group_new (GTK_SIZE_GROUP_VERTICAL);
+
 	shell_view->priv = E_SHELL_VIEW_GET_PRIVATE (shell_view);
+	shell_view->priv->size_group = size_group;
 
 	if (shell_view_class->view_collection == NULL)
 		shell_view_init_view_collection (shell_view_class);
@@ -579,6 +637,14 @@ e_shell_view_get_page_num (EShellView *shell_view)
 	return shell_view->priv->page_num;
 }
 
+GtkSizeGroup *
+e_shell_view_get_size_group (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	return shell_view->priv->size_group;
+}
+
 EShellContent *
 e_shell_view_get_shell_content (EShellView *shell_view)
 {
@@ -604,9 +670,49 @@ e_shell_view_get_shell_taskbar (EShellView *shell_view)
 }
 
 void
-e_shell_view_changed (EShellView *shell_view)
+e_shell_view_update_actions (EShellView *shell_view)
 {
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
-	g_signal_emit (shell_view, signals[CHANGED], 0);
+	g_signal_emit (shell_view, signals[UPDATE_ACTIONS], 0);
+}
+
+/**
+ * e_shell_view_show_popup_menu:
+ * @shell_view: an #EShellView
+ * @widget_path: path in the UI definition
+ * @event: a #GdkEventButton
+ *
+ * Displays a context-sensitive (or "popup") menu that is described in
+ * the UI definition loaded into @shell_view<!-- -->'s user interface
+ * manager.  The menu will be shown at the current mouse cursor position.
+ *
+ * The #EShellView::update-actions signal is emitted just prior to
+ * showing the menu to give @shell_view and any plugins that extend
+ * @shell_view a chance to update the menu's actions.
+ **/
+void
+e_shell_view_show_popup_menu (EShellView *shell_view,
+                              const gchar *widget_path,
+                              GdkEventButton *event)
+{
+	EShellWindow *shell_window;
+	GtkWidget *menu;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	e_shell_view_update_actions (shell_view);
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	menu = e_shell_window_get_managed_widget (shell_window, widget_path);
+	g_return_if_fail (GTK_IS_MENU (menu));
+
+	if (event != NULL)
+		gtk_menu_popup (
+			GTK_MENU (menu), NULL, NULL, NULL, NULL,
+			event->button, event->time);
+	else
+		gtk_menu_popup (
+			GTK_MENU (menu), NULL, NULL, NULL, NULL,
+			0, gtk_get_current_event_time ());
 }

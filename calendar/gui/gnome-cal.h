@@ -27,6 +27,7 @@
 
 #include <time.h>
 #include <gtk/gtk.h>
+#include <shell/e-shell-view.h>
 #include <bonobo/bonobo-ui-component.h>
 #include <misc/e-calendar.h>
 #include <libecal/e-cal.h>
@@ -105,7 +106,8 @@ struct _GnomeCalendarClass {
 GType      gnome_calendar_get_type         	(void);
 GtkWidget *gnome_calendar_construct		(GnomeCalendar *gcal);
 
-GtkWidget *gnome_calendar_new			(void);
+GtkWidget *gnome_calendar_new			(EShellView *shell_view);
+EShellView *	gnome_calendar_get_shell_view	(GnomeCalendar *calendar);
 
 void gnome_calendar_set_ui_component (GnomeCalendar *cal, BonoboUIComponent *ui_component);
 

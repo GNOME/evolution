@@ -92,6 +92,8 @@ static gboolean
 task_shell_view_add_source (ETaskShellView *task_shell_view,
                             ESource *source)
 {
+	ETaskShellSidebar *task_shell_sidebar;
+	ESourceSelector *selector;
 	GHashTable *client_table;
 	ECal *default_client;
 	ECal *client;
@@ -144,6 +146,10 @@ task_shell_view_add_source (ETaskShellView *task_shell_view,
 	e_task_shell_view_set_status_message (task_shell_view, status_message);
 	g_free (status_message);
 
+	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
+	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+	e_source_selector_select_source (selector, source);
+
 	g_signal_connect_swapped (
 		client, "cal-opened",
 		G_CALLBACK (task_shell_view_client_opened_cb),
@@ -156,18 +162,16 @@ task_shell_view_add_source (ETaskShellView *task_shell_view,
 
 static void
 task_shell_view_table_popup_event_cb (ETaskShellView *task_shell_view,
-                                      GdkEvent *event)
+                                      GdkEventButton *event)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	const gchar *widget_path;
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 	widget_path = "/task-popup";
 
 	e_task_shell_view_actions_update (task_shell_view);
-	e_shell_window_show_popup_menu (shell_window, widget_path, event);
+	e_shell_view_show_popup_menu (shell_view, widget_path, event);
 }
 
 static void
@@ -274,10 +278,13 @@ void
 e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 {
 	ETaskShellViewPrivate *priv = task_shell_view->priv;
+	ETaskShellContent *task_shell_content;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellView *shell_view;
 	ETaskTable *task_table;
+	ECalModel *model;
+	ETable *table;
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
@@ -287,8 +294,10 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	priv->task_shell_content = g_object_ref (shell_content);
 	priv->task_shell_sidebar = g_object_ref (shell_sidebar);
 
-	task_table = e_task_shell_content_get_task_table (
-		priv->task_shell_content);
+	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	model = e_task_table_get_model (task_table);
+	table = e_task_table_get_table (task_table);
 
 	g_signal_connect_swapped (
 		task_table, "open-component",
@@ -310,7 +319,28 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 		G_CALLBACK (task_shell_view_table_user_created_cb),
 		task_shell_view);
 
-	e_task_shell_view_actions_update (task_shell_view);
+	g_signal_connect_swapped (
+		model, "model-changed",
+		G_CALLBACK (e_task_shell_view_sidebar_update),
+		task_shell_view);
+
+	g_signal_connect_swapped (
+		model, "model-rows-deleted",
+		G_CALLBACK (e_task_shell_view_sidebar_update),
+		task_shell_view);
+
+	g_signal_connect_swapped (
+		model, "model-rows-inserted",
+		G_CALLBACK (e_task_shell_view_sidebar_update),
+		task_shell_view);
+
+	g_signal_connect_swapped (
+		table, "selection-change",
+		G_CALLBACK (e_task_shell_view_sidebar_update),
+		task_shell_view);
+
+	e_task_shell_view_actions_init (task_shell_view);
+	e_task_shell_view_sidebar_update (task_shell_view);
 }
 
 void
@@ -352,6 +382,7 @@ e_task_shell_view_open_task (ETaskShellView *task_shell_view,
 	CompEditorFlags flags = 0;
 	ECalComponent *comp;
 	icalcomponent *clone;
+	icalproperty *prop;
 	const gchar *uid;
 
 	g_return_if_fail (E_IS_TASK_SHELL_VIEW (task_shell_view));
@@ -367,14 +398,24 @@ e_task_shell_view_open_task (ETaskShellView *task_shell_view,
 	clone = icalcomponent_new_clone (comp_data->icalcomp);
 	e_cal_component_set_icalcomponent (comp, clone);
 
-	/* FIXME Do special stuff if task is assigned. */
+	prop = icalcomponent_get_first_property (
+		comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
+	if (prop != NULL)
+		flags |= COMP_EDITOR_IS_ASSIGNED;
+
+	if (itip_organizer_is_user (comp, comp_data->client))
+		flags |= COMP_EDITOR_USER_ORG;
+
+	if (!itip_organizer_has_attendees (comp))
+		flags |= COMP_EDITOR_USER_ORG;
 
 	editor = task_editor_new (comp_data->client, flags);
 	comp_editor_edit_comp (editor, comp);
 
 	g_object_ref (comp);
 
-	/* FIXME More special stuff here... */
+	if (flags & COMP_EDITOR_IS_ASSIGNED)
+		task_editor_show_assignment (TASK_EDITOR (editor));
 
 exit:
 	gtk_window_present (GTK_WINDOW (editor));
@@ -407,4 +448,46 @@ e_task_shell_view_set_status_message (ETaskShellView *task_shell_view,
 		e_activity_set_primary_text (activity, status_message);
 
 	task_shell_view->priv->activity = activity;
+}
+
+void
+e_task_shell_view_sidebar_update (ETaskShellView *task_shell_view)
+{
+	ETaskShellContent *task_shell_content;
+	EShellView *shell_view;
+	EShellSidebar *shell_sidebar;
+	ETaskTable *task_table;
+	ECalModel *model;
+	ETable *table;
+	GString *string;
+	const gchar *format;
+	gint n_rows;
+	gint n_selected;
+
+	shell_view = E_SHELL_VIEW (task_shell_view);
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+
+	model = e_task_table_get_model (task_table);
+	table = e_task_table_get_table (task_table);
+
+	n_rows = e_table_model_row_count (E_TABLE_MODEL (model));
+	n_selected = e_table_selected_count (table);
+
+	string = g_string_sized_new (64);
+
+	format = ngettext ("%d task", "%d tasks", n_rows);
+	g_string_append_printf (string, format, n_rows);
+
+	if (n_selected > 0) {
+		format = _("%d selected");
+		g_string_append_len (string, ", ", 2);
+		g_string_append_printf (string, format, n_selected);
+	}
+
+	e_shell_sidebar_set_secondary_text (shell_sidebar, string->str);
+
+	g_string_free (string, TRUE);
 }

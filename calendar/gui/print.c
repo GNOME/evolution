@@ -44,7 +44,6 @@
 #include <e-util/e-print.h>
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-component.h>
-#include "calendar-commands.h"
 #include "calendar-config.h"
 #include "e-cal-model.h"
 #include "e-day-view.h"

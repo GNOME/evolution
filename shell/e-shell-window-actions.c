@@ -926,7 +926,7 @@ action_search_options_cb (GtkAction *action,
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 
 	widget_path = shell_view_class->search_options;
-	e_shell_window_show_popup_menu (shell_window, widget_path, NULL);
+	e_shell_view_show_popup_menu (shell_view, widget_path, NULL);
 }
 
 static void
@@ -1727,6 +1727,7 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 		gtk_action_group_add_action_with_accel (
 			action_group, GTK_ACTION (action), accelerator);
 
+		g_debug ("Adding action '%s'", action_name);
 		e_shell_switcher_add_action (switcher, GTK_ACTION (action));
 
 		gtk_ui_manager_add_ui (

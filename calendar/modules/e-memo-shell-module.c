@@ -29,8 +29,11 @@
 #include "shell/e-shell-module.h"
 #include "shell/e-shell-window.h"
 
+#include "calendar/common/authentication.h"
 #include "calendar/gui/calendar-config.h"
+#include "calendar/gui/comp-util.h"
 #include "calendar/gui/dialogs/calendar-setup.h"
+#include "calendar/gui/dialogs/memo-editor.h"
 
 #include "e-memo-shell-view.h"
 
@@ -194,22 +197,83 @@ memo_module_ensure_sources (EShellModule *shell_module)
 }
 
 static void
-action_memo_new_cb (GtkAction *action,
-                    EShellWindow *shell_window)
+memo_module_cal_opened_cb (ECal *cal,
+                           ECalendarStatus status,
+                           GtkAction *action)
 {
+	ECalComponent *comp;
+	CompEditor *editor;
+	CompEditorFlags flags = 0;
+	const gchar *action_name;
+
+	/* XXX Handle errors better. */
+	if (status != E_CALENDAR_STATUS_OK)
+		return;
+
+	action_name = gtk_action_get_name (action);
+
+	flags |= COMP_EDITOR_NEW_ITEM;
+	if (strcmp (action_name, "memo-shared-new") == 0) {
+		flags |= COMP_EDITOR_IS_SHARED;
+		flags |= COMP_EDITOR_USER_ORG;
+	}
+
+	editor = memo_editor_new (cal, flags);
+	comp = cal_comp_memo_new_with_defaults (cal);
+	comp_editor_edit_comp (editor, comp);
+
+	gtk_window_present (GTK_WINDOW (editor));
+
+	g_object_unref (comp);
+	g_object_unref (cal);
 }
 
 static void
-action_memo_shared_new_cb (GtkAction *action,
-                           EShellWindow *shell_window)
+action_memo_new_cb (GtkAction *action,
+                    EShellWindow *shell_window)
 {
+	ECal *cal = NULL;
+	ECalSourceType source_type;
+	ESourceList *source_list;
+	gchar *uid;
+
+	/* This callback is used for both memos and shared memos. */
+
+	source_type = E_CAL_SOURCE_TYPE_JOURNAL;
+
+	if (!e_cal_get_sources (&source_list, source_type, NULL)) {
+		g_warning ("Could not get memo sources from GConf!");
+		return;
+	}
+
+	uid = calendar_config_get_primary_memos ();
+
+	if (uid != NULL) {
+		ESource *source;
+
+		source = e_source_list_peek_source_by_uid (source_list, uid);
+		if (source != NULL)
+			cal = auth_new_cal_from_source (source, source_type);
+		g_free (uid);
+	}
+
+	if (cal == NULL)
+		cal = auth_new_cal_from_default (source_type);
+
+	g_return_if_fail (cal != NULL);
+
+	g_signal_connect (
+		cal, "cal-opened",
+		G_CALLBACK (memo_module_cal_opened_cb), action);
+
+	e_cal_open_async (cal, FALSE);
 }
 
 static void
 action_memo_list_new_cb (GtkAction *action,
                          EShellWindow *shell_window)
 {
-	calendar_setup_new_memo_list (NULL);
+	calendar_setup_new_memo_list (GTK_WINDOW (shell_window));
 }
 
 static GtkActionEntry item_entries[] = {
@@ -217,16 +281,16 @@ static GtkActionEntry item_entries[] = {
 	{ "memo-new",
 	  "stock_insert-note",
 	  N_("Mem_o"),  /* XXX Need C_() here */
-	  "<Control>o",
+	  "<Shift><Control>o",
 	  N_("Create a new memo"),
 	  G_CALLBACK (action_memo_new_cb) },
 
 	{ "memo-shared-new",
 	  "stock_insert-note",
 	  N_("_Shared Memo"),
-	  "<Control>h",
+	  "<Shift><Control>h",
 	  N_("Create a new shared memo"),
-	  G_CALLBACK (action_memo_shared_new_cb) }
+	  G_CALLBACK (action_memo_new_cb) }
 };
 
 static GtkActionEntry source_entries[] = {

@@ -30,15 +30,13 @@ popup_event (EBookShellView *book_shell_view,
              GdkEventButton *event)
 {
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	const gchar *widget_path;
 
 	widget_path = "/contact-popup";
 	shell_view = E_SHELL_VIEW (book_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	e_book_shell_view_actions_update (book_shell_view);
-	e_shell_window_show_popup_menu (shell_window, widget_path, event);
+	e_shell_view_show_popup_menu (shell_view, widget_path, event);
 }
 
 static void
@@ -260,12 +258,10 @@ static gboolean
 book_shell_view_show_popup_menu (GdkEventButton *event,
                                  EShellView *shell_view)
 {
-	EShellWindow *shell_window;
 	const gchar *widget_path;
 
 	widget_path = "/address-book-popup";
-	shell_window = e_shell_view_get_shell_window (shell_view);
-	e_shell_window_show_popup_menu (shell_window, widget_path, event);
+	e_shell_view_show_popup_menu (shell_view, widget_path, event);
 
 	return TRUE;
 }

@@ -119,7 +119,7 @@ shell_switcher_layout_actions (EShellSwitcher *switcher)
 	row_last = row_number;
 
 	/* Layout the buttons. */
-	for (i = 0; i < row_last + 1; i++) {
+	for (i = row_last; i >= 0; i--) {
 		int len, extra_width;
 
 		x = H_PADDING + allocation->x;

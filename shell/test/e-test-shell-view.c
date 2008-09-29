@@ -35,14 +35,16 @@ GType e_test_shell_view_type = 0;
 static gpointer parent_class;
 
 static void
-test_shell_view_changed (EShellView *shell_view)
+test_shell_view_toggled (EShellView *shell_view)
 {
+#if 0
 	gboolean is_active;
 	const gchar *active;
 
 	is_active = e_shell_view_is_active (shell_view);
 	active = is_active ? "active" : "inactive";
 	g_debug ("%s (now %s)", G_STRFUNC, active);
+#endif
 }
 
 static void
@@ -113,7 +115,7 @@ test_shell_view_class_init (ETestShellViewClass *class,
 	shell_view_class->label = "Test";
 	shell_view_class->icon_name = "face-monkey";
 	shell_view_class->type_module = type_module;
-	shell_view_class->changed = test_shell_view_changed;
+	shell_view_class->toggled = test_shell_view_toggled;
 }
 
 static void

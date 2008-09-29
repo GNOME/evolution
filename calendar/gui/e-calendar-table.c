@@ -33,20 +33,17 @@
 
 #include <sys/stat.h>
 #include <unistd.h>
-#include <glib.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
-#include <gnome.h>
-#include <gtk/gtktooltip.h>
-#include <misc/e-gui-utils.h>
+#include <widgets/misc/e-gui-utils.h>
 #include <table/e-cell-checkbox.h>
 #include <table/e-cell-toggle.h>
 #include <table/e-cell-text.h>
 #include <table/e-cell-combo.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
-#include <misc/e-cell-date-edit.h>
-#include <misc/e-cell-percent.h>
+#include <widgets/misc/e-cell-date-edit.h>
+#include <widgets/misc/e-cell-percent.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-time-utils.h>
 
@@ -58,11 +55,9 @@
 #include "e-calendar-table.h"
 #include "e-calendar-view.h"
 #include "e-cell-date-edit-text.h"
-#include "e-comp-editor-registry.h"
 #include "print.h"
 #include <e-util/e-icon-factory.h>
 #include "e-cal-popup.h"
-#include "e-tasks.h"
 #include "misc.h"
 
 #define E_CALENDAR_TABLE_GET_PRIVATE(obj) \
@@ -97,12 +92,7 @@ static GtkTargetEntry target_types[] = {
 
 static guint n_target_types = G_N_ELEMENTS (target_types);
 
-static struct tm e_calendar_table_get_current_time (ECellDateEdit *ecde,
-						    gpointer data);
-static void mark_as_complete_cb (EPopup *ep, EPopupItem *pitem, void *data);
-
-static void hide_completed_rows (ECalModel *model, GList *clients_list, char *hide_sexp, GPtrArray *comp_objects);
-static void show_completed_rows (ECalModel *model, GList *clients_list, char *show_sexp, GPtrArray *comp_objects);
+static struct tm e_calendar_table_get_current_time (ECellDateEdit *ecde, gpointer data);
 
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
@@ -171,6 +161,69 @@ calendar_table_date_compare_cb (gconstpointer a,
 	return icaltime_compare (dv1->tt, tt);
 }
 
+static gint
+calendar_table_percent_compare_cb (gconstpointer a,
+                                   gconstpointer b)
+{
+	int percent1 = GPOINTER_TO_INT (a);
+	int percent2 = GPOINTER_TO_INT (b);
+
+	return (percent1 < percent2) ? -1 : (percent1 > percent2);
+}
+
+static gint
+calendar_table_priority_compare_cb (gconstpointer a,
+                                    gconstpointer b)
+{
+	int priority1, priority2;
+
+	priority1 = e_cal_util_priority_from_string ((const char*) a);
+	priority2 = e_cal_util_priority_from_string ((const char*) b);
+
+	/* We change undefined priorities so they appear after 'Low'. */
+	if (priority1 <= 0)
+		priority1 = 10;
+	if (priority2 <= 0)
+		priority2 = 10;
+
+	/* We'll just use the ordering of the priority values. */
+	return (priority1 < priority2) ? -1 : (priority1 > priority2);
+}
+
+static gint
+calendar_table_status_compare_cb (gconstpointer a,
+                                  gconstpointer b)
+{
+	const gchar *string_a = a;
+	const gchar *string_b = b;
+	gint status_a = -2;
+	gint status_b = -2;
+
+	if (string_a == NULL || *string_a == '\0')
+		status_a = -1;
+	else if (!g_utf8_collate (string_a, _("Not Started")))
+		status_a = 0;
+	else if (!g_utf8_collate (string_a, _("In Progress")))
+		status_a = 1;
+	else if (!g_utf8_collate (string_a, _("Completed")))
+		status_a = 2;
+	else if (!g_utf8_collate (string_a, _("Canceled")))
+		status_a = 3;
+
+	if (string_b == NULL || *string_b == '\0')
+		status_b = -1;
+	else if (!g_utf8_collate (string_b, _("Not Started")))
+		status_b = 0;
+	else if (!g_utf8_collate (string_b, _("In Progress")))
+		status_b = 1;
+	else if (!g_utf8_collate (string_b, _("Completed")))
+		status_b = 2;
+	else if (!g_utf8_collate (string_b, _("Canceled")))
+		status_b = 3;
+
+	return (status_a < status_b) ? -1 : (status_a > status_b);
+}
+
 static void
 calendar_table_double_click_cb (ECalendarTable *cal_table,
                                 gint row,
@@ -183,6 +236,209 @@ calendar_table_double_click_cb (ECalendarTable *cal_table,
 	calendar_table_emit_open_component (cal_table, comp_data);
 }
 
+static gboolean
+calendar_table_query_tooltip_cb (ECalendarTable *cal_table,
+                                 gint x,
+                                 gint y,
+                                 gboolean keyboard_mode,
+                                 GtkTooltip *tooltip)
+{
+	ECalModelComponent *comp_data;
+	int row = -1, col = -1;
+	GtkWidget *box, *l, *w;
+	GtkStyle *style = gtk_widget_get_default_style ();
+	char *tmp;
+	const char *str;
+	GString *tmp2;
+	char buff[1001];
+	gboolean free_text = FALSE;
+	ECalComponent *new_comp;
+	ECalComponentOrganizer organizer;
+	ECalComponentDateTime dtstart, dtdue;
+	icalcomponent *clone;
+	icaltimezone *zone, *default_zone;
+	GSList *desc, *p;
+	int len;
+	ETable *etable;
+	ESelectionModel *esm;
+	struct tm tmp_tm;
+
+	if (keyboard_mode)
+		return FALSE;
+
+	etable = e_calendar_table_get_table (cal_table);
+	e_table_get_mouse_over_cell (etable, x, y, &row, &col);
+	if (row == -1 || !etable)
+		return FALSE;
+
+	/* Respect sorting option; the 'e_table_get_mouse_over_cell'
+	 * returns sorted row, not the model one. */
+	esm = e_table_get_selection_model (etable);
+	if (esm && esm->sorter && e_sorter_needs_sorting (esm->sorter))
+		row = e_sorter_sorted_to_model (esm->sorter, row);
+
+	comp_data = e_cal_model_get_component_at (cal_table->model, row);
+	if (!comp_data || !comp_data->icalcomp)
+		return FALSE;
+
+	new_comp = e_cal_component_new ();
+	clone = icalcomponent_new_clone (comp_data->icalcomp);
+	if (!e_cal_component_set_icalcomponent (new_comp, clone)) {
+		g_object_unref (new_comp);
+		return FALSE;
+	}
+
+	box = gtk_vbox_new (FALSE, 0);
+
+	str = e_calendar_view_get_icalcomponent_summary (
+		comp_data->client, comp_data->icalcomp, &free_text);
+	if (!(str && *str)) {
+		if (free_text)
+			g_free ((char *)str);
+		free_text = FALSE;
+		str = _("* No Summary *");
+	}
+
+	l = gtk_label_new (NULL);
+	tmp = g_markup_printf_escaped ("<b>%s</b>", str);
+	gtk_label_set_line_wrap (GTK_LABEL (l), TRUE);
+	gtk_label_set_markup (GTK_LABEL (l), tmp);
+	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+	w = gtk_event_box_new ();
+
+	gtk_widget_modify_bg (w, GTK_STATE_NORMAL, &(style->bg[GTK_STATE_SELECTED]));
+	gtk_widget_modify_fg (l, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
+	gtk_container_add (GTK_CONTAINER (w), l);
+	gtk_box_pack_start (GTK_BOX (box), w, TRUE, TRUE, 0);
+	g_free (tmp);
+
+	if (free_text)
+		g_free ((char *)str);
+	free_text = FALSE;
+
+	w = gtk_event_box_new ();
+	gtk_widget_modify_bg (w, GTK_STATE_NORMAL, &(style->bg[GTK_STATE_NORMAL]));
+
+	l = gtk_vbox_new (FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (w), l);
+	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
+	w = l;
+
+	e_cal_component_get_organizer (new_comp, &organizer);
+	if (organizer.cn) {
+		char *ptr ;
+		ptr = strchr( organizer.value, ':');
+
+		if (ptr) {
+			ptr++;
+			/* To Translators: It will display "Organizer: NameOfTheUser <email@ofuser.com>" */
+			tmp = g_strdup_printf (_("Organizer: %s <%s>"), organizer.cn, ptr);
+		} else {
+			/* With SunOne accounts, there may be no ':' in organiser.value */
+			tmp = g_strdup_printf (_("Organizer: %s"), organizer.cn);
+		}
+
+		l = gtk_label_new (tmp);
+		gtk_label_set_line_wrap (GTK_LABEL (l), FALSE);
+		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
+		g_free (tmp);
+	}
+
+	e_cal_component_get_dtstart (new_comp, &dtstart);
+	e_cal_component_get_due (new_comp, &dtdue);
+
+	default_zone = e_cal_model_get_timezone  (cal_table->model);
+
+	if (dtstart.tzid) {
+		zone = icalcomponent_get_timezone (e_cal_component_get_icalcomponent (new_comp), dtstart.tzid);
+		if (!zone)
+			e_cal_get_timezone (
+				comp_data->client, dtstart.tzid, &zone, NULL);
+		if (!zone)
+			zone = default_zone;
+	} else {
+		zone = NULL;
+	}
+
+	tmp2 = g_string_new ("");
+
+	if (dtstart.value) {
+		buff[0] = 0;
+
+		tmp_tm = icaltimetype_to_tm_with_zone (
+			dtstart.value, zone, default_zone);
+		e_time_format_date_and_time (
+			&tmp_tm, calendar_config_get_24_hour_format (),
+			FALSE, FALSE, buff, 1000);
+
+		if (buff [0]) {
+			g_string_append (tmp2, _("Start: "));
+			g_string_append (tmp2, buff);
+		}
+	}
+
+	if (dtdue.value) {
+		buff[0] = 0;
+
+		tmp_tm = icaltimetype_to_tm_with_zone (
+			dtdue.value, zone, default_zone);
+		e_time_format_date_and_time (
+			&tmp_tm, calendar_config_get_24_hour_format (),
+			FALSE, FALSE, buff, 1000);
+
+		if (buff [0]) {
+			if (tmp2->len)
+				g_string_append (tmp2, "; ");
+
+			g_string_append (tmp2, _("Due: "));
+			g_string_append (tmp2, buff);
+		}
+	}
+
+	if (tmp2->len) {
+		l = gtk_label_new (tmp2->str);
+		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
+	}
+
+	g_string_free (tmp2, TRUE);
+
+	e_cal_component_free_datetime (&dtstart);
+	e_cal_component_free_datetime (&dtdue);
+
+	tmp2 = g_string_new ("");
+	e_cal_component_get_description_list (new_comp, &desc);
+	for (len = 0, p = desc; p != NULL; p = p->next) {
+		ECalComponentText *text = p->data;
+
+		if (text->value != NULL) {
+			len += strlen (text->value);
+			g_string_append (tmp2, text->value);
+			if (len > 1024) {
+				g_string_set_size (tmp2, 1020);
+				g_string_append (tmp2, "...");
+				break;
+			}
+		}
+	}
+	e_cal_component_free_text_list (desc);
+
+	if (tmp2->len) {
+		l = gtk_label_new (tmp2->str);
+		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+		gtk_box_pack_start (GTK_BOX (box), l, FALSE, FALSE, 0);
+	}
+
+	g_string_free (tmp2, TRUE);
+
+	gtk_widget_show_all (box);
+	gtk_tooltip_set_custom (tooltip, box);
+
+	g_object_unref (new_comp);
+
+	return TRUE;
+}
 static gboolean
 calendar_table_popup_menu_cb (ECalendarTable *cal_table)
 {
@@ -288,7 +544,7 @@ calendar_table_class_init (ECalendarTableClass *class)
 		G_TYPE_NONE, 1,
 		E_TYPE_CAL_MODEL_COMPONENT);
 
-	signal[POPUP_EVENT] = g_signal_new (
+	signals[POPUP_EVENT] = g_signal_new (
 		"popup-event",
 		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
@@ -296,7 +552,7 @@ calendar_table_class_init (ECalendarTableClass *class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__BOXED,
 		G_TYPE_NONE, 1,
-		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATUS_SCOPE);
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 
 	signals[STATUS_MESSAGE] = g_signal_new (
 		"status-message",
@@ -311,7 +567,7 @@ calendar_table_class_init (ECalendarTableClass *class)
 	signals[USER_CREATED] = g_signal_new (
 		"user-created",
 		G_TYPE_FROM_CLASS (class),
-		G_SIGNAL_RUN_LAST,
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
 		G_STRUCT_OFFSET (ECalendarTableClass, user_created),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
@@ -331,7 +587,7 @@ calendar_table_init (ECalendarTable *cal_table)
 	GdkPixbuf *pixbuf;
 	GList *strings;
 	AtkObject *a11y;
-	char *etspecfile;
+	gchar *etspecfile;
 
 	cal_table->priv = E_CALENDAR_TABLE_GET_PRIVATE (cal_table);
 
@@ -505,11 +761,11 @@ calendar_table_init (ECalendarTable *cal_table)
 	e_table_extras_add_compare (extras, "date-compare",
 				    calendar_table_date_compare_cb);
 	e_table_extras_add_compare (extras, "percent-compare",
-				    percent_compare_cb);
+				    calendar_table_percent_compare_cb);
 	e_table_extras_add_compare (extras, "priority-compare",
-				    priority_compare_cb);
+				    calendar_table_priority_compare_cb);
 	e_table_extras_add_compare (extras, "status-compare",
-				    status_compare_cb);
+				    calendar_table_status_compare_cb);
 
 	/* Create pixmaps */
 
@@ -542,16 +798,16 @@ calendar_table_init (ECalendarTable *cal_table)
 	table = e_table_scrolled_get_table (E_TABLE_SCROLLED (widget));
 	g_signal_connect_swapped (
 		table, "double-click",
-		G_CALLBACK (calendar_table_double_click), cal_table);
-	g_signal_connect_swapped (
-		table, "popup-menu",
-		G_CALLBACK (calendar_table_popup_menu), cal_table);
-	g_signal_connect_swapped (
-		table, "right-click",
-		G_CALLBACK (calendar_table_right_click), cal_table);
+		G_CALLBACK (calendar_table_double_click_cb), cal_table);
 	g_signal_connect_swapped (
 		table, "query-tooltip",
 		G_CALLBACK (calendar_table_query_tooltip_cb), cal_table);
+	g_signal_connect_swapped (
+		table, "popup-menu",
+		G_CALLBACK (calendar_table_popup_menu_cb), cal_table);
+	g_signal_connect_swapped (
+		table, "right-click",
+		G_CALLBACK (calendar_table_right_click_cb), cal_table);
 	gtk_widget_set_has_tooltip (GTK_WIDGET (table), TRUE);
 
 	a11y = gtk_widget_get_accessible (GTK_WIDGET (table));
@@ -611,283 +867,6 @@ e_calendar_table_get_shell_view (ECalendarTable *cal_table)
 	return cal_table->priv->shell_view;
 }
 
-static gint
-percent_compare_cb (gconstpointer a, gconstpointer b)
-{
-	int percent1 = GPOINTER_TO_INT (a);
-	int percent2 = GPOINTER_TO_INT (b);
-	int retval;
-
-	if (percent1 > percent2)
-		retval = 1;
-	else if (percent1 < percent2)
-		retval = -1;
-	else
-		retval = 0;
-
-	return retval;
-}
-
-static gint
-priority_compare_cb (gconstpointer a, gconstpointer b)
-{
-	int priority1, priority2;
-
-	priority1 = e_cal_util_priority_from_string ((const char*) a);
-	priority2 = e_cal_util_priority_from_string ((const char*) b);
-
-	/* We change undefined priorities so they appear after 'Low'. */
-	if (priority1 <= 0)
-		priority1 = 10;
-	if (priority2 <= 0)
-		priority2 = 10;
-
-	/* We'll just use the ordering of the priority values. */
-	if (priority1 < priority2)
-		return -1;
-	else if (priority1 > priority2)
-		return 1;
-	else
-		return 0;
-}
-
-static gint
-status_from_string (const char *str)
-{
-	int status = -2;
-
-	if (!str || !str[0])
-		status = -1;
-	else if (!g_utf8_collate (str, _("Not Started")))
-		status = 0;
-	else if (!g_utf8_collate (str, _("In Progress")))
-		status = 1;
-	else if (!g_utf8_collate (str, _("Completed")))
-		status = 2;
-	else if (!g_utf8_collate (str, _("Canceled")))
-		status = 3;
-
-	return status;
-}
-
-static gint
-status_compare_cb (gconstpointer a, gconstpointer b)
-{
-	int sa = status_from_string ((const char *)a);
-	int sb = status_from_string ((const char *)b);
-
-	if (sa < sb)
-		return -1;
-	else if (sa > sb)
-		return 1;
-
-	return 0;
-}
-
-static void
-get_time_as_text (struct icaltimetype *tt, icaltimezone *f_zone, icaltimezone *t_zone, char *buff, int buff_len)
-{
-        struct tm tmp_tm;
-
-	buff [0] = 0;
-
-	tmp_tm = icaltimetype_to_tm_with_zone (tt, f_zone, t_zone);
-        e_time_format_date_and_time (&tmp_tm,
-                                     calendar_config_get_24_hour_format (),
-                                     FALSE, FALSE,
-                                     buff, buff_len);
-}
-
-static gboolean
-query_tooltip_cb (GtkWidget *widget, gint x, gint y, gboolean keyboard_mode, GtkTooltip *tooltip, gpointer user_data)
-{
-	ECalendarTable *cal_table;
-	ECalModelComponent *comp;
-	int row = -1, col = -1;
-	GtkWidget *box, *l, *w;
-	GtkStyle *style = gtk_widget_get_default_style ();
-	char *tmp;
-	const char *str;
-	GString *tmp2;
-	char buff[1001];
-	gboolean free_text = FALSE;
-	ECalComponent *new_comp;
-	ECalComponentOrganizer organizer;
-	ECalComponentDateTime dtstart, dtdue;
-	icaltimezone *zone, *default_zone;
-	GSList *desc, *p;
-	int len;
-	ETable *etable;
-	ESelectionModel *esm;
-
-	if (keyboard_mode)
-		return FALSE;
-
-	g_return_val_if_fail (widget != NULL, FALSE);
-	g_return_val_if_fail (E_IS_CALENDAR_TABLE (user_data), FALSE);
-	g_return_val_if_fail (tooltip != NULL, FALSE);
-
-	cal_table = E_CALENDAR_TABLE (user_data);
-
-	etable = e_calendar_table_get_table (cal_table);
-	e_table_get_mouse_over_cell (etable, x, y, &row, &col);
-	if (row == -1 || !etable)
-		return FALSE;
-
-	/* respect sorting option, the 'e_table_get_mouse_over_cell' returns sorted row, not the model one */
-	esm = e_table_get_selection_model (etable);
-	if (esm && esm->sorter && e_sorter_needs_sorting (esm->sorter))
-		row = e_sorter_sorted_to_model (esm->sorter, row);
-
-	comp = e_cal_model_get_component_at (cal_table->model, row);
-	if (!comp || !comp->icalcomp)
-		return FALSE;
-
-	new_comp = e_cal_component_new ();
-	if (!e_cal_component_set_icalcomponent (new_comp, icalcomponent_new_clone (comp->icalcomp))) {
-		g_object_unref (new_comp);
-		return FALSE;
-	}
-
-	box = gtk_vbox_new (FALSE, 0);
-
-	str = e_calendar_view_get_icalcomponent_summary (comp->client, comp->icalcomp, &free_text);
-	if (!(str && *str)) {
-		if (free_text)
-			g_free ((char *)str);
-		free_text = FALSE;
-		str = _("* No Summary *");
-	}
-
-	l = gtk_label_new (NULL);
-	tmp = g_markup_printf_escaped ("<b>%s</b>", str);
-	gtk_label_set_line_wrap (GTK_LABEL (l), TRUE);
-	gtk_label_set_markup (GTK_LABEL (l), tmp);
-	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
-	w = gtk_event_box_new ();
-
-	gtk_widget_modify_bg (w, GTK_STATE_NORMAL, &(style->bg[GTK_STATE_SELECTED]));
-	gtk_widget_modify_fg (l, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
-	gtk_container_add (GTK_CONTAINER (w), l);
-	gtk_box_pack_start (GTK_BOX (box), w, TRUE, TRUE, 0);
-	g_free (tmp);
-
-	if (free_text)
-		g_free ((char *)str);
-	free_text = FALSE;
-
-	w = gtk_event_box_new ();
-	gtk_widget_modify_bg (w, GTK_STATE_NORMAL, &(style->bg[GTK_STATE_NORMAL]));
-
-	l = gtk_vbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (w), l);
-	gtk_box_pack_start (GTK_BOX (box), w, FALSE, FALSE, 0);
-	w = l;
-
-	e_cal_component_get_organizer (new_comp, &organizer);
-	if (organizer.cn) {
-		char *ptr ;
-		ptr = strchr( organizer.value, ':');
-
-		if (ptr) {
-			ptr++;
-			/* To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>" */
-			tmp = g_strdup_printf (_("Organizer: %s <%s>"), organizer.cn, ptr);
-		} else {
-			/* With SunOne accounts, there may be no ':' in organiser.value */
-			tmp = g_strdup_printf (_("Organizer: %s"), organizer.cn);
-		}
-
-		l = gtk_label_new (tmp);
-		gtk_label_set_line_wrap (GTK_LABEL (l), FALSE);
-		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
-		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
-		g_free (tmp);
-	}
-
-	e_cal_component_get_dtstart (new_comp, &dtstart);
-	e_cal_component_get_due (new_comp, &dtdue);
-
-	default_zone = e_cal_model_get_timezone  (cal_table->model);
-
-	if (dtstart.tzid) {
-		zone = icalcomponent_get_timezone (e_cal_component_get_icalcomponent (new_comp), dtstart.tzid);
-		if (!zone)
-			e_cal_get_timezone (comp->client, dtstart.tzid, &zone, NULL);
-		if (!zone)
-			zone = default_zone;
-	} else {
-		zone = NULL;
-	}
-
-	tmp2 = g_string_new ("");
-
-	if (dtstart.value) {
-		get_time_as_text (dtstart.value, zone, default_zone, buff, 1000);
-
-		if (buff [0]) {
-			g_string_append (tmp2, _("Start: "));
-			g_string_append (tmp2, buff);
-		}
-	}
-
-	if (dtdue.value) {
-		get_time_as_text (dtdue.value, zone, default_zone, buff, 1000);
-
-		if (buff [0]) {
-			if (tmp2->len)
-				g_string_append (tmp2, "; ");
-
-			g_string_append (tmp2, _("Due: "));
-			g_string_append (tmp2, buff);
-		}
-	}
-
-	if (tmp2->len) {
-		l = gtk_label_new (tmp2->str);
-		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
-		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
-	}
-
-	g_string_free (tmp2, TRUE);
-
-	e_cal_component_free_datetime (&dtstart);
-	e_cal_component_free_datetime (&dtdue);
-
-	tmp2 = g_string_new ("");
-	e_cal_component_get_description_list (new_comp, &desc);
-	for (len = 0, p = desc; p != NULL; p = p->next) {
-		ECalComponentText *text = p->data;
-
-		if (text->value != NULL) {
-			len += strlen (text->value);
-			g_string_append (tmp2, text->value);
-			if (len > 1024) {
-				g_string_set_size (tmp2, 1020);
-				g_string_append (tmp2, "...");
-				break;
-			}
-		}
-	}
-	e_cal_component_free_text_list (desc);
-
-	if (tmp2->len) {
-		l = gtk_label_new (tmp2->str);
-		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
-		gtk_box_pack_start (GTK_BOX (box), l, FALSE, FALSE, 0);
-	}
-
-	g_string_free (tmp2, TRUE);
-
-	gtk_widget_show_all (box);
-	gtk_tooltip_set_custom (tooltip, box);
-
-	g_object_unref (new_comp);
-
-	return TRUE;
-}
-
-
 /**
  * e_calendar_table_get_model:
  * @cal_table: A calendar table.
@@ -927,33 +906,6 @@ e_calendar_table_get_table (ECalendarTable *cal_table)
 	return e_table_scrolled_get_table (table_scrolled);
 }
 
-void
-e_calendar_table_open_selected (ECalendarTable *cal_table)
-{
-	ECalModelComponent *comp_data;
-	icalproperty *prop;
-
-	comp_data = e_calendar_table_get_selected_comp (cal_table);
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
-	if (comp_data != NULL)
-		e_calendar_table_open_task (cal_table, comp_data->client, comp_data->icalcomp, prop ? TRUE : FALSE);
-}
-
-/**
- * e_calendar_table_complete_selected:
- * @cal_table: A calendar table
- *
- * Marks the selected items as completed
- **/
-void
-e_calendar_table_complete_selected (ECalendarTable *cal_table)
-{
-	g_return_if_fail (cal_table != NULL);
-	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
-
-	mark_as_complete_cb (NULL, NULL, cal_table);
-}
-
 /* Used from e_table_selected_row_foreach(); puts the selected row number in an
  * int pointed to by the closure data.
  */
@@ -975,7 +927,7 @@ e_calendar_table_get_selected_comp (ECalendarTable *cal_table)
 	ETable *etable;
 	int row;
 
-	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
+	etable = e_calendar_table_get_table (cal_table);
 	if (e_table_selected_count (etable) != 1)
 		return NULL;
 
@@ -1007,30 +959,17 @@ add_uid_cb (int model_row, gpointer data)
 	closure->objects = g_slist_prepend (closure->objects, comp_data);
 }
 
-static GSList *
-get_selected_objects (ECalendarTable *cal_table)
-{
-	struct get_selected_uids_closure closure;
-	ETable *etable;
-
-	closure.cal_table = cal_table;
-	closure.objects = NULL;
-
-	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
-	e_table_selected_row_foreach (etable, add_uid_cb, &closure);
-
-	return closure.objects;
-}
-
 /* Deletes all of the selected components in the table */
 static void
 delete_selected_components (ECalendarTable *cal_table)
 {
 	GSList *objs, *l;
+	const gchar *status_message;
 
-	objs = get_selected_objects (cal_table);
+	objs = e_calendar_table_get_selected (cal_table);
 
-	e_calendar_table_set_status_message (cal_table, _("Deleting selected objects"), -1);
+	status_message = _("Deleting selected objects");
+	calendar_table_emit_status_message (cal_table, status_message);
 
 	for (l = objs; l; l = l->next) {
 		ECalModelComponent *comp_data = (ECalModelComponent *) l->data;
@@ -1042,7 +981,7 @@ delete_selected_components (ECalendarTable *cal_table)
 		g_clear_error (&error);
 	}
 
-	e_calendar_table_set_status_message (cal_table, NULL, -1);
+	calendar_table_emit_status_message (cal_table, NULL);
 
 	g_slist_free (objs);
 }
@@ -1106,7 +1045,7 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 	g_return_if_fail (cal_table != NULL);
 	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
 
-	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
+	etable = e_calendar_table_get_table (cal_table);
 
 	n_selected = e_table_selected_count (etable);
 	if (n_selected <= 0)
@@ -1178,7 +1117,16 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 GSList *
 e_calendar_table_get_selected (ECalendarTable *cal_table)
 {
-	return get_selected_objects(cal_table);
+	struct get_selected_uids_closure closure;
+	ETable *etable;
+
+	closure.cal_table = cal_table;
+	closure.objects = NULL;
+
+	etable = e_calendar_table_get_table (cal_table);
+	e_table_selected_row_foreach (etable, add_uid_cb, &closure);
+
+	return closure.objects;
 }
 
 /**
@@ -1265,14 +1213,13 @@ e_calendar_table_copy_clipboard (ECalendarTable *cal_table)
 	/* create temporary VCALENDAR object */
 	cal_table->tmp_vcal = e_cal_util_new_top_level ();
 
-	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
+	etable = e_calendar_table_get_table (cal_table);
 	e_table_selected_row_foreach (etable, copy_row_cb, cal_table);
 	comp_str = icalcomponent_as_ical_string (cal_table->tmp_vcal);
 	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (cal_table), clipboard_atom);
 	if (!gtk_clipboard_set_with_data(clipboard, target_types, n_target_types,
 					 clipboard_get_calendar_cb,
 					 NULL, comp_str)) {
-
 		/* do not free this pointer, it owns libical */
 		/* g_free (comp_str); */
 	} else {
@@ -1293,6 +1240,7 @@ clipboard_get_calendar_data (ECalendarTable *cal_table, const gchar *text)
 	ECalComponent *comp;
 	ECal *client;
 	icalcomponent_kind kind;
+	const gchar *status_message;
 
 	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
 
@@ -1314,7 +1262,8 @@ clipboard_get_calendar_data (ECalendarTable *cal_table, const gchar *text)
 
 	client = e_cal_model_get_default_client (cal_table->model);
 
-	e_calendar_table_set_status_message (cal_table, _("Updating objects"), -1);
+	status_message = _("Updating objects");
+	calendar_table_emit_status_message (cal_table, _("Updating objects"));
 
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
 		icalcomponent_kind child_kind;
@@ -1359,7 +1308,7 @@ clipboard_get_calendar_data (ECalendarTable *cal_table, const gchar *text)
 		g_object_unref (comp);
 	}
 
-	e_calendar_table_set_status_message (cal_table, NULL, -1);
+	calendar_table_emit_status_message (cal_table, NULL);
 }
 
 static void
@@ -1368,7 +1317,7 @@ clipboard_paste_received_cb (GtkClipboard *clipboard,
 			     gpointer data)
 {
 	ECalendarTable *cal_table = E_CALENDAR_TABLE (data);
-	ETable *e_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
+	ETable *e_table = e_calendar_table_get_table (cal_table);
 	GnomeCanvas *canvas = e_table->table_canvas;
 	GnomeCanvasItem *item = GNOME_CANVAS (canvas)->focused_item;
 
@@ -1403,366 +1352,15 @@ void
 e_calendar_table_paste_clipboard (ECalendarTable *cal_table)
 {
 	GtkClipboard *clipboard;
+
 	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
 
-	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (cal_table), clipboard_atom);
-	g_object_ref (cal_table);
-
-	gtk_clipboard_request_contents (clipboard,
-					gdk_atom_intern (target_types[0].target, FALSE),
-					clipboard_paste_received_cb, cal_table);
-}
-
-/* Opens the task in the specified row */
-static void
-open_task_by_row (ECalendarTable *cal_table, int row)
-{
-	ECalModelComponent *comp_data;
-	icalproperty *prop;
-
-	comp_data = e_cal_model_get_component_at (cal_table->model, row);
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
-	e_calendar_table_open_task (cal_table, comp_data->client, comp_data->icalcomp, prop ? TRUE : FALSE);
-}
-
-static void
-e_calendar_table_on_double_click (ETable *table,
-				  gint row,
-				  gint col,
-				  GdkEvent *event,
-				  ECalendarTable *cal_table)
-{
-	open_task_by_row (cal_table, row);
-}
-
-/* popup menu callbacks */
-
-static void
-e_calendar_table_on_open_task (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	ECalendarTable *cal_table = data;
-	ECalModelComponent *comp_data;
-	icalproperty *prop;
-
-	comp_data = e_calendar_table_get_selected_comp (cal_table);
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
-	if (comp_data)
-		e_calendar_table_open_task (cal_table, comp_data->client, comp_data->icalcomp, prop ? TRUE : FALSE);
-}
-
-static void
-e_calendar_table_on_save_as (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	ECalendarTable *cal_table = data;
-	ECalModelComponent *comp_data;
-	char *filename;
-	char *ical_string;
-
-	comp_data = e_calendar_table_get_selected_comp (cal_table);
-	if (comp_data == NULL)
-		return;
-
-	filename = e_file_dialog_save (_("Save as..."), NULL);
-	if (filename == NULL)
-		return;
-
-	ical_string = e_cal_get_component_as_string (comp_data->client, comp_data->icalcomp);
-	if (ical_string == NULL) {
-		g_warning ("Couldn't convert item to a string");
-		return;
-	}
-
-	e_write_file_uri (filename, ical_string);
-
-	g_free (ical_string);
-}
-
-static void
-e_calendar_table_on_print_task (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	ECalendarTable *cal_table = data;
-	ECalModelComponent *comp_data;
-	ECalComponent *comp;
-
-	comp_data = e_calendar_table_get_selected_comp (cal_table);
-	if (comp_data == NULL)
-		return;
-
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
-	print_comp (comp, comp_data->client, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
-
-	g_object_unref (comp);
-}
-
-static void
-e_calendar_table_on_cut (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	ECalendarTable *cal_table = data;
-
-	e_calendar_table_cut_clipboard (cal_table);
-}
-
-static void
-e_calendar_table_on_copy (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	ECalendarTable *cal_table = data;
-
-	e_calendar_table_copy_clipboard (cal_table);
-}
-
-static void
-e_calendar_table_on_paste (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	ECalendarTable *cal_table = data;
-
-	e_calendar_table_paste_clipboard (cal_table);
-}
-
-static void
-e_calendar_table_on_assign (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	ECalendarTable *cal_table = data;
-	ECalModelComponent *comp_data;
-
-	comp_data = e_calendar_table_get_selected_comp (cal_table);
-	if (comp_data)
-		e_calendar_table_open_task (cal_table, comp_data->client, comp_data->icalcomp, TRUE);
-}
-
-static void
-e_calendar_table_on_forward (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	ECalendarTable *cal_table = data;
-	ECalModelComponent *comp_data;
-
-	comp_data = e_calendar_table_get_selected_comp (cal_table);
-	if (comp_data) {
-		ECalComponent *comp;
-
-		comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
-		itip_send_comp (E_CAL_COMPONENT_METHOD_PUBLISH, comp, comp_data->client, NULL, NULL, NULL);
-
-		g_object_unref (comp);
-	}
-}
-
-struct AffectedComponents {
-	ECalendarTable *cal_table;
-	GSList *components; /* contains pointers to ECalModelComponent */
-};
-
-/**
- * get_selected_components_cb
- * Helper function to fill list of selected components in ECalendarTable.
- * This function is called from e_table_selected_row_foreach.
- **/
-static void
-get_selected_components_cb (int model_row, gpointer data)
-{
-	struct AffectedComponents *ac = (struct AffectedComponents *) data;
-
-	if (!ac || !ac->cal_table)
-		return;
-
-	ac->components = g_slist_prepend (ac->components, e_cal_model_get_component_at (E_CAL_MODEL (ac->cal_table->model), model_row));
-}
-
-/**
- * do_for_selected_components
- * Calls function func for all selected components in cal_table.
- *
- * @param cal_table Table with selected components of our interest
- * @param func Function to be called on each selected component from cal_table.
- *        The first parameter of this function is a pointer to ECalModelComponent and
- *        the second parameter of this function is pointer to cal_table
- **/
-static void
-do_for_selected_components (ECalendarTable *cal_table, GFunc func)
-{
-	ETable *etable;
-	struct AffectedComponents ac;
-
-	g_return_if_fail (cal_table != NULL);
-
-	ac.cal_table = cal_table;
-	ac.components = NULL;
-
-	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
-	e_table_selected_row_foreach (etable, get_selected_components_cb, &ac);
-
-	g_slist_foreach (ac.components, func, cal_table);
-	g_slist_free (ac.components);
-}
-
-/**
- * mark_comp_complete_cb
- * Function used in call to @ref do_for_selected_components to mark each component as complete
- **/
-static void
-mark_comp_complete_cb (gpointer data, gpointer user_data)
-{
-	ECalendarTable *cal_table;
-	ECalModelComponent *comp_data;
-
-	comp_data = (ECalModelComponent *) data;
-	cal_table = E_CALENDAR_TABLE (user_data);
-
-	e_cal_model_tasks_mark_comp_complete (E_CAL_MODEL_TASKS (cal_table->model), comp_data);
-}
-
-/**
- * mark_comp_incomplete_cb
- * Function used in call to @ref do_for_selected_components to mark each component as incomplete
- **/
-static void
-mark_comp_incomplete_cb (gpointer data, gpointer user_data)
-{
-	ECalendarTable *cal_table;
-	ECalModelComponent *comp_data;
-
-	comp_data = (ECalModelComponent *) data;
-	cal_table = E_CALENDAR_TABLE (user_data);
-
-	e_cal_model_tasks_mark_comp_incomplete (E_CAL_MODEL_TASKS (cal_table->model), comp_data);
-}
-
-/* Callback used for the "mark tasks as incomplete" menu item */
-static void
-mark_as_incomplete_cb (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	do_for_selected_components (data, mark_comp_incomplete_cb);
-}
-
-/* Callback used for the "mark tasks as complete" menu item */
-static void
-mark_as_complete_cb (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	do_for_selected_components (data, mark_comp_complete_cb);
-}
-
-/* Opens the URL of the task */
-static void
-open_url_cb (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	ECalendarTable *cal_table = data;
-	ECalModelComponent *comp_data;
-	icalproperty *prop;
-
-	comp_data = e_calendar_table_get_selected_comp (cal_table);
-	if (!comp_data)
-		return;
-
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_URL_PROPERTY);
-	if (!prop)
-		return;
-
-	gnome_url_show (icalproperty_get_url (prop), NULL);
-}
-
-/* Opens a new task editor */
-static void
-on_new_task (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	ECalendarTable *cal_table = data;
-	ETasks *tasks = g_object_get_data (G_OBJECT (cal_table), "tasks");
-
-	if (!tasks)
-		return;
-
-	e_tasks_new_task (tasks);
-
-}
-
-/* Callback for the "delete tasks" menu item */
-static void
-delete_cb (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	ECalendarTable *cal_table = data;
-
-	e_calendar_table_delete_selected (cal_table);
-}
-
-static EPopupItem tasks_popup_items [] = {
-	{ E_POPUP_ITEM, "00.newtask", N_("New _Task"), on_new_task, NULL, "stock_task", 0, 0},
-	{ E_POPUP_BAR, "01.bar" },
-
-	{ E_POPUP_ITEM, "03.open", N_("_Open"), e_calendar_table_on_open_task, NULL, GTK_STOCK_OPEN, E_CAL_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "05.openweb", N_("Open _Web Page"), open_url_cb, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_HASURL },
-	{ E_POPUP_ITEM, "10.saveas", N_("_Save As..."), e_calendar_table_on_save_as, NULL, GTK_STOCK_SAVE_AS, E_CAL_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "20.print", N_("P_rint..."), e_calendar_table_on_print_task, NULL, GTK_STOCK_PRINT, E_CAL_POPUP_SELECT_ONE },
-
-	{ E_POPUP_BAR, "30.bar" },
-
-	{ E_POPUP_ITEM, "40.cut", N_("C_ut"), e_calendar_table_on_cut, NULL, GTK_STOCK_CUT, 0, E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "50.copy", N_("_Copy"), e_calendar_table_on_copy, NULL, GTK_STOCK_COPY, 0, 0 },
-	{ E_POPUP_ITEM, "60.paste", N_("_Paste"), e_calendar_table_on_paste, NULL, GTK_STOCK_PASTE, 0, E_CAL_POPUP_SELECT_EDITABLE },
-
-	{ E_POPUP_BAR, "70.bar" },
-
-	{ E_POPUP_ITEM, "80.assign", N_("_Assign Task"), e_calendar_table_on_assign, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE|E_CAL_POPUP_SELECT_ASSIGNABLE },
-	{ E_POPUP_ITEM, "90.forward", N_("_Forward as iCalendar"), e_calendar_table_on_forward, NULL, "mail-forward", E_CAL_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "a0.markonecomplete", N_("_Mark as Complete"), mark_as_complete_cb, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTCOMPLETE},
-	{ E_POPUP_ITEM, "b0.markmanycomplete", N_("_Mark Selected Tasks as Complete"), mark_as_complete_cb, NULL, NULL, E_CAL_POPUP_SELECT_MANY, E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTCOMPLETE },
-	{ E_POPUP_ITEM, "c0.markoneincomplete", N_("_Mark as Incomplete"), mark_as_incomplete_cb, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE|E_CAL_POPUP_SELECT_COMPLETE},
-	{ E_POPUP_ITEM, "d0.markmanyincomplete", N_("_Mark Selected Tasks as Incomplete"), mark_as_incomplete_cb, NULL, NULL, E_CAL_POPUP_SELECT_MANY, E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_COMPLETE },
-
-	{ E_POPUP_BAR, "e0.bar" },
-
-	{ E_POPUP_ITEM, "f0.delete", N_("_Delete"), delete_cb, NULL, GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "g0.deletemany", N_("_Delete Selected Tasks"), delete_cb, NULL, GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_MANY, E_CAL_POPUP_SELECT_EDITABLE },
-};
-
-static void
-ect_popup_free(EPopup *ep, GSList *items, void *data)
-{
-	g_slist_free(items);
-}
-
-static gint
-e_calendar_table_show_popup_menu (ETable *table,
-				  GdkEvent *gdk_event,
-				  ECalendarTable *cal_table)
-{
-	GtkMenu *menu;
-	GSList *selection, *l, *menus = NULL;
-	GPtrArray *events;
-	ECalPopup *ep;
-	ECalPopupTargetSelect *t;
-	int i;
-
-	selection = get_selected_objects (cal_table);
-	if (!selection)
-		return TRUE;
-
-	/** @HookPoint-ECalPopup: Tasks Table Context Menu
-	 * @Id: org.gnome.evolution.tasks.table.popup
-	 * @Class: org.gnome.evolution.calendar.popup:1.0
-	 * @Target: ECalPopupTargetSelect
-	 *
-	 * The context menu on the tasks table.
-	 */
-	ep = e_cal_popup_new("org.gnome.evolution.tasks.table.popup");
-
-	events = g_ptr_array_new();
-	for (l=selection;l;l=g_slist_next(l))
-		g_ptr_array_add(events, e_cal_model_copy_component_data((ECalModelComponent *)l->data));
-	g_slist_free(selection);
-
-	t = e_cal_popup_target_new_select(ep, cal_table->model, events);
-	t->target.widget = (GtkWidget *)cal_table;
-
-	for (i=0;i<sizeof(tasks_popup_items)/sizeof(tasks_popup_items[0]);i++)
-		menus = g_slist_prepend(menus, &tasks_popup_items[i]);
-	e_popup_add_items((EPopup *)ep, menus, NULL, ect_popup_free, cal_table);
-
-	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0);
-
-	gtk_menu_popup(menu, NULL, NULL, NULL, NULL, gdk_event?gdk_event->button.button:0,
-		       gdk_event?gdk_event->button.time:gtk_get_current_event_time());
-
-	return TRUE;
+	clipboard = gtk_widget_get_clipboard (
+		GTK_WIDGET (cal_table), clipboard_atom);
+
+	gtk_clipboard_request_contents (
+		clipboard, gdk_atom_intern (target_types[0].target, FALSE),
+		clipboard_paste_received_cb, g_object_ref (cal_table));
 }
 
 static void
@@ -1853,29 +1451,31 @@ show_completed_rows (ECalModel *model, GList *clients_list, char *show_sexp, GPt
 
 /* Loads the state of the table (headers shown etc.) from the given file. */
 void
-e_calendar_table_load_state	(ECalendarTable *cal_table,
-				 gchar		*filename)
+e_calendar_table_load_state (ECalendarTable *cal_table,
+                             const gchar *filename)
 {
-	struct stat st;
+	ETable *table;
 
 	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
+	g_return_if_fail (filename != NULL);
 
-	if (g_stat (filename, &st) == 0 && st.st_size > 0
-	    && S_ISREG (st.st_mode)) {
-		e_table_load_state (e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable)), filename);
-	}
+	table = e_calendar_table_get_table (cal_table);
+	e_table_load_state (table, filename);
 }
 
 
 /* Saves the state of the table (headers shown etc.) to the given file. */
 void
-e_calendar_table_save_state (ECalendarTable	*cal_table,
-			     gchar		*filename)
+e_calendar_table_save_state (ECalendarTable *cal_table,
+                             const gchar *filename)
 {
-	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
+	ETable *table;
 
-	e_table_save_state (e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable)),
-			    filename);
+	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
+	g_return_if_fail (filename != NULL);
+
+	table = e_calendar_table_get_table (cal_table);
+	e_table_save_state (table, filename);
 }
 
 /* Returns the current time, for the ECellDateEdit items.
@@ -1904,15 +1504,6 @@ e_calendar_table_get_current_time (ECellDateEdit *ecde, gpointer data)
 
 	return tmp_tm;
 }
-
-
-#ifdef TRANSLATORS_ONLY
-
-static char *test[] = {
-    N_("Click to add a task")
-};
-
-#endif
 
 /**
  * e_calendar_table_hide_completed_tasks:

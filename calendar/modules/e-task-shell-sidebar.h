@@ -21,6 +21,8 @@
 #ifndef E_TASK_SHELL_SIDEBAR_H
 #define E_TASK_SHELL_SIDEBAR_H
 
+#include <libedataserverui/e-source-selector.h>
+
 #include <shell/e-shell-sidebar.h>
 #include <shell/e-shell-view.h>
 
@@ -60,7 +62,8 @@ struct _ETaskShellSidebarClass {
 
 GType		e_task_shell_sidebar_get_type	(void);
 GtkWidget *	e_task_shell_sidebar_new	(EShellView *shell_view);
-GtkWidget *	e_task_shell_sidebar_get_selector
+ESourceSelector *
+		e_task_shell_sidebar_get_selector
 						(ETaskShellSidebar *task_shell_sidebar);
 
 G_END_DECLS

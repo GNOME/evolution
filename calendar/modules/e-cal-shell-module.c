@@ -25,12 +25,13 @@
 #include <libedataserver/e-source-list.h>
 #include <libedataserver/e-source-group.h>
 
-#include <e-shell.h>
-#include <e-shell-module.h>
-#include <e-shell-window.h>
+#include "shell/e-shell.h"
+#include "shell/e-shell-module.h"
+#include "shell/e-shell-window.h"
 
-#include <calendar-config.h>
-#include <e-cal-shell-view.h>
+#include "calendar/gui/calendar-config.h"
+
+#include "e-cal-shell-view.h"
 
 #define MODULE_NAME		"calendar"
 #define MODULE_ALIASES		""

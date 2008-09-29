@@ -214,12 +214,9 @@ book_module_book_loaded_cb (EBook *book,
 	GtkAction *action;
 	const gchar *action_name;
 
-	if (status != E_BOOK_ERROR_OK) {
-		/* XXX We really need a dialog here, but we don't
-		 *     have access to the ESource so we can't use
-		 *     eab_load_error_dialog.  Fun! */
+	/* XXX Handle errors better. */
+	if (status != E_BOOK_ERROR_OK)
 		return;
-	}
 
 	contact = e_contact_new ();
 	action = GTK_ACTION (user_data);

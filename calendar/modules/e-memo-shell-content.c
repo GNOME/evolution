@@ -313,20 +313,6 @@ memo_shell_content_constructed (GObject *object)
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	view_collection = shell_view_class->view_collection;
 
-	/* Load the view instance. */
-
-	view_instance = gal_view_instance_new (view_collection, NULL);
-	g_signal_connect_swapped (
-		view_instance, "changed",
-		G_CALLBACK (memo_shell_content_changed_cb),
-		object);
-	g_signal_connect_swapped (
-		view_instance, "display-view",
-		G_CALLBACK (memo_shell_content_display_view_cb),
-		object);
-	gal_view_instance_load (view_instance);
-	priv->view_instance = view_instance;
-
 	/* Build content widgets. */
 
 	container = GTK_WIDGET (object);
@@ -401,6 +387,20 @@ memo_shell_content_constructed (GObject *object)
 		model, "model-row-changed",
 		G_CALLBACK (memo_shell_content_model_row_changed_cb),
 		object);
+
+	/* Load the view instance. */
+
+	view_instance = gal_view_instance_new (view_collection, NULL);
+	g_signal_connect_swapped (
+		view_instance, "changed",
+		G_CALLBACK (memo_shell_content_changed_cb),
+		object);
+	g_signal_connect_swapped (
+		view_instance, "display-view",
+		G_CALLBACK (memo_shell_content_display_view_cb),
+		object);
+	gal_view_instance_load (view_instance);
+	priv->view_instance = view_instance;
 
 	/* Bind GObject properties to GConf keys. */
 

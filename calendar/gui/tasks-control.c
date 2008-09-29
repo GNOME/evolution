@@ -73,45 +73,6 @@ static void tasks_control_forward_cmd          (BonoboUIComponent      *uic,
                                                 gpointer               data,
                                                 const char             *path);
 
-BonoboControl *
-tasks_control_new (void)
-{
-	BonoboControl *control;
-	GtkWidget *tasks;
-
-	tasks = e_tasks_new ();
-	if (!tasks)
-		return NULL;
-	gtk_widget_show (tasks);
-
-	control = bonobo_control_new (tasks);
-	if (!control) {
-		gtk_widget_destroy (tasks);
-		g_message ("control_factory_fn(): could not create the control!");
-		return NULL;
-	}
-
-	g_signal_connect (control, "activate", G_CALLBACK (tasks_control_activate_cb), tasks);
-
-	return control;
-}
-
-
-static void
-tasks_control_activate_cb		(BonoboControl		*control,
-					 gboolean		 activate,
-					 gpointer		 user_data)
-{
-	ETasks *tasks;
-
-	tasks = E_TASKS (user_data);
-
-	if (activate)
-		tasks_control_activate (control, tasks);
-	else
-		tasks_control_deactivate (control, tasks);
-}
-
 struct _tasks_sensitize_item {
 	char *command;
 	guint32 enable;
@@ -361,41 +322,4 @@ tasks_control_purge_cmd	(BonoboUIComponent	*uic,
 	tasks = E_TASKS (data);
 	if (confirm_purge (tasks))
 	    e_tasks_delete_completed (tasks);
-}
-
-static void
-tasks_control_assign_cmd (BonoboUIComponent *uic,
-                         gpointer data,
-                         const char *path)
-{
-              ETasks *tasks;
-              ECalendarTable *cal_table;
-              ECalModelComponent *comp_data;
-
-              tasks = E_TASKS (data);
-              cal_table = e_tasks_get_calendar_table (tasks);
-              comp_data = e_calendar_table_get_selected_comp (cal_table);
- 	       if (comp_data)
-              e_calendar_table_open_task (cal_table, comp_data->client, comp_data->icalcomp, TRUE);
-}
-
-static void
-tasks_control_forward_cmd (BonoboUIComponent *uic,
-                         gpointer data,
-                          const char *path)
-{
-	        ETasks *tasks;
-               ECalendarTable *cal_table;
-               ECalModelComponent *comp_data;
-
-               tasks = E_TASKS (data);
-               cal_table = e_tasks_get_calendar_table (tasks);
-               comp_data = e_calendar_table_get_selected_comp (cal_table);
-               if (comp_data) {
-                       ECalComponent *comp;
-                       comp = e_cal_component_new ();
-                       e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
-                       itip_send_comp (E_CAL_COMPONENT_METHOD_PUBLISH, comp, comp_data->client, NULL, NULL, NULL);
-                       g_object_unref (comp);
-	       }
 }

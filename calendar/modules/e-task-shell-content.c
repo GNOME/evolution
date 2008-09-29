@@ -90,15 +90,13 @@ task_shell_content_display_view_cb (ETaskShellContent *task_shell_content,
                                     GalView *gal_view)
 {
 	ECalendarTable *task_table;
-	ETableScrolled *table_scrolled;
 	ETable *table;
 
 	if (!GAL_IS_VIEW_ETABLE (gal_view))
 		return;
 
 	task_table = E_CALENDAR_TABLE (task_shell_content->priv->task_table);
-	table_scrolled = E_TABLE_SCROLLED (task_table->etable);
-	table = e_table_scrolled_get_table (table_scrolled);
+	table = e_task_table_get_table (task_table);
 
 	gal_view_etable_attach_table (GAL_VIEW_ETABLE (gal_view), table);
 }
@@ -184,7 +182,6 @@ task_shell_content_model_row_changed_cb (ETaskShellContent *task_shell_content,
 {
 	ECalModelComponent *comp_data;
 	ETaskTable *task_table;
-	ETableScrolled *table_scrolled;
 	ETable *table;
 	const gchar *current_uid;
 	const gchar *uid;
@@ -202,8 +199,7 @@ task_shell_content_model_row_changed_cb (ETaskShellContent *task_shell_content,
 		return;
 
 	task_table = E_TASK_TABLE (task_shell_content->priv->task_table);
-	table_scrolled = E_TABLE_SCROLLED (task_table->etable);
-	table = e_table_scrolled_get_table (table_scrolled);
+	table = e_task_table_get_table (task_table);
 
 	task_shell_content_cursor_change_cb (task_shell_content, 0, table);
 }
@@ -317,20 +313,6 @@ task_shell_content_constructed (GObject *object)
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	view_collection = shell_view_class->view_collection;
 
-	/* Load the view instance. */
-
-	view_instance = gal_view_instance_new (view_collection, NULL);
-	g_signal_connect_swapped (
-		view_instance, "changed",
-		G_CALLBACK (task_shell_content_changed_cb),
-		object);
-	g_signal_connect_swapped (
-		view_instance, "display-view",
-		G_CALLBACK (task_shell_content_display_view_cb),
-		object);
-	gal_view_instance_load (view_instance);
-	priv->view_instance = view_instance;
-
 	/* Build content widgets. */
 
 	container = GTK_WIDGET (object);
@@ -405,6 +387,20 @@ task_shell_content_constructed (GObject *object)
 		model, "model-row-changed",
 		G_CALLBACK (task_shell_content_model_row_changed_cb),
 		object);
+
+	/* Load the view instance. */
+
+	view_instance = gal_view_instance_new (view_collection, NULL);
+	g_signal_connect_swapped (
+		view_instance, "changed",
+		G_CALLBACK (task_shell_content_changed_cb),
+		object);
+	g_signal_connect_swapped (
+		view_instance, "display-view",
+		G_CALLBACK (task_shell_content_display_view_cb),
+		object);
+	gal_view_instance_load (view_instance);
+	priv->view_instance = view_instance;
 
 	/* Bind GObject properties to GConf keys. */
 
