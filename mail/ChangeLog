@@ -1,3 +1,16 @@
+2008-09-29  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #530691
+
+	* em-folder-utils.c: (emfu_delete_rec), (emfu_delete_done),
+	(emfu_delete_folders), (emfu_delete_response),
+	(em_folder_utils_delete_folder):
+	* mail-ops.h: (mail_remove_folder):
+	* mail-ops.c: (mail_remove_folder), (struct _remove_folder_msg),
+	(remove_folder_desc), (remove_folder_rec), (remove_folder_exec),
+	(remove_folder_done), (remove_folder_free):
+	Remove folders in its own thread, not in main thread.
+
 2008-09-29  Sankar P  <psankar@novell.com>
 
 License Changes
