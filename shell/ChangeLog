@@ -1,3 +1,7 @@
+2008-09-29  Gabor Kelemen  <kelemeng@gnome.hu>
+
+	* shell.error.xml: Mark some forgotten strings for translation. Fixes bug #553106
+
 2008-09-24  Sankar P  <psankar@novell.com>
 
 License Changes
