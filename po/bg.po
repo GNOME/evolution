@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-30 08:17+0300\n"
+"POT-Creation-Date: 2008-09-30 17:31+0300\n"
 "PO-Revision-Date: 2008-09-30 08:17+0300\n"
 "Last-Translator: Yavor Doganov <yavor@gnu.org>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -651,7 +651,7 @@ msgstr "Управление на S/MIME сертификати"
 #: ../calendar/gui/tasks-component.c:195 ../mail/em-folder-tree-model.c:200
 #: ../mail/em-folder-tree-model.c:202 ../mail/em-migrate.c:2906
 #: ../mail/mail-component.c:311 ../mail/mail-vfolder.c:216
-#: ../mail/message-list.c:1460
+#: ../mail/message-list.c:1518
 msgid "On This Computer"
 msgstr "На този компютър"
 
@@ -3034,7 +3034,7 @@ msgstr "_Изрязване"
 #: ../calendar/gui/e-calendar-table.c:1581
 #: ../calendar/gui/e-calendar-view.c:1677 ../calendar/gui/e-memo-table.c:931
 #: ../composer/e-msg-composer.c:2052 ../mail/em-folder-tree.c:1005
-#: ../mail/em-folder-view.c:1325 ../mail/message-list.c:2048
+#: ../mail/em-folder-view.c:1325 ../mail/message-list.c:2106
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:39
 #: ../ui/evolution-mail-message.xml.h:103 ../ui/evolution-memos.xml.h:15
 #: ../ui/evolution-tasks.xml.h:23
@@ -6242,12 +6242,12 @@ msgstr[1] "%d прикрепени писма"
 
 #: ../calendar/gui/dialogs/comp-editor.c:481 ../composer/e-msg-composer.c:2053
 #: ../mail/em-folder-tree.c:1006 ../mail/em-folder-utils.c:364
-#: ../mail/em-folder-view.c:1186 ../mail/message-list.c:2049
+#: ../mail/em-folder-view.c:1186 ../mail/message-list.c:2107
 msgid "_Move"
 msgstr "Пре_местване"
 
 #: ../calendar/gui/dialogs/comp-editor.c:483 ../composer/e-msg-composer.c:2055
-#: ../mail/em-folder-tree.c:1008 ../mail/message-list.c:2051
+#: ../mail/em-folder-tree.c:1008 ../mail/message-list.c:2109
 msgid "Cancel _Drag"
 msgstr "Отказване на _извлачването"
 
@@ -6840,7 +6840,7 @@ msgstr "Не може да се отворят бележките в „%s“."
 #: ../calendar/gui/dialogs/memo-page.c:1006 ../mail/em-format-html.c:1562
 #: ../mail/em-format-html.c:1620 ../mail/em-format-html.c:1646
 #: ../mail/em-format-quote.c:210 ../mail/em-format.c:886
-#: ../mail/em-mailer-prefs.c:77 ../mail/message-list.etspec.h:19
+#: ../mail/em-mailer-prefs.c:77 ../mail/message-list.etspec.h:20
 msgid "To"
 msgstr "До"
 
@@ -8492,7 +8492,7 @@ msgstr "Зареждане на бележки от %s"
 #: ../calendar/gui/gnome-cal.c:2920
 #, c-format
 msgid "Opening %s"
-msgstr "Отваряне на %s..."
+msgstr "Отваряне на %s"
 
 #: ../calendar/gui/gnome-cal.c:3874
 msgid "Purging"
@@ -12228,12 +12228,12 @@ msgstr "Преместване на папка %s"
 msgid "Copying folder %s"
 msgstr "Копиране на папка %s"
 
-#: ../mail/em-folder-tree.c:909 ../mail/message-list.c:1957
+#: ../mail/em-folder-tree.c:909 ../mail/message-list.c:2015
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Преместване на писма в папка %s"
 
-#: ../mail/em-folder-tree.c:911 ../mail/message-list.c:1959
+#: ../mail/em-folder-tree.c:911 ../mail/message-list.c:2017
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Копиране на писма в папка %s"
@@ -14199,7 +14199,7 @@ msgstr "Ниво"
 msgid "Time"
 msgstr "Време"
 
-#: ../mail/mail-component.c:1820 ../mail/message-list.c:2458
+#: ../mail/mail-component.c:1820 ../mail/message-list.c:2516
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Писма"
@@ -15997,39 +15997,39 @@ msgstr "Висока"
 msgid "Highest"
 msgstr "Най-висока"
 
-#: ../mail/message-list.c:1599 ../widgets/table/e-cell-date.c:55
+#: ../mail/message-list.c:1657 ../widgets/table/e-cell-date.c:55
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1606 ../plugins/itip-formatter/itip-view.c:203
+#: ../mail/message-list.c:1664 ../plugins/itip-formatter/itip-view.c:203
 #: ../widgets/table/e-cell-date.c:70
 msgid "Today %l:%M %p"
 msgstr "Днес %l:%M %p"
 
-#: ../mail/message-list.c:1615 ../widgets/table/e-cell-date.c:80
+#: ../mail/message-list.c:1673 ../widgets/table/e-cell-date.c:80
 msgid "Yesterday %l:%M %p"
 msgstr "Вчера %l:%M %p"
 
-#: ../mail/message-list.c:1627 ../widgets/table/e-cell-date.c:92
+#: ../mail/message-list.c:1685 ../widgets/table/e-cell-date.c:92
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: ../mail/message-list.c:1635 ../widgets/table/e-cell-date.c:100
+#: ../mail/message-list.c:1693 ../widgets/table/e-cell-date.c:100
 msgid "%b %d %l:%M %p"
 msgstr "%b %d %l:%M %p"
 
-#: ../mail/message-list.c:1637 ../widgets/table/e-cell-date.c:102
+#: ../mail/message-list.c:1695 ../widgets/table/e-cell-date.c:102
 msgid "%b %d %Y"
 msgstr "%b %d %Y"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:3920 ../mail/message-list.c:4380
+#: ../mail/message-list.c:3978 ../mail/message-list.c:4438
 msgid "Generating message list"
 msgstr "Генериране на списък на писмата"
 
-#: ../mail/message-list.c:4228
+#: ../mail/message-list.c:4286
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -16037,7 +16037,7 @@ msgstr ""
 "Нито едно писмо не съвпада с критериите ви за търсене. Променете ги или "
 "изчистете търсенето с „Търсене“ → „Изчистване“."
 
-#: ../mail/message-list.c:4230
+#: ../mail/message-list.c:4288
 msgid "There are no messages in this folder."
 msgstr "В тази папка няма писма."
 
@@ -16069,6 +16069,11 @@ msgstr "Изпратени съобщения"
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:4
 msgid "Size"
 msgstr "Размер"
+
+#: ../mail/message-list.etspec.h:19
+#, fuzzy
+msgid "Subject - Trimmed"
+msgstr "Поле „_Тема“"
 
 #: ../mail/message-tag-followup.c:56
 msgid "Call"
