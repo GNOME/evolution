@@ -1,3 +1,10 @@
+2008-09-30  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-shell.c:
+	* main.c:
+
 2008-09-29  Gabor Kelemen  <kelemeng@gnome.hu>
 
 	* shell.error.xml: Unbreak build, sorry for the inconvenience.
