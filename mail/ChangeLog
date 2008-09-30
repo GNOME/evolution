@@ -1,3 +1,15 @@
+2008-09-30  Sankar P  <psankar@novell.com>
+
+	** Committed on behalf of Hans Petter Jansson  <hpj@novell.com>
+
+	** Fix for bug #554107
+
+	* message-list.c (get_trimmed_subject), (ml_tree_value_at):
+	* message-list.etspec:
+	* message-list.h:
+	Add "Subject - Trimmed" column which enables to read 
+	mailing list mails in a better way.
+
 2008-09-29  Gabor Kelemen  <kelemeng@gnome.hu>
 
 	* mail-config.glade: Mark some forgotten strings for translation. Fixes bug #553067

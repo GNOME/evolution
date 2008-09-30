@@ -1269,6 +1269,61 @@ get_all_labels (CamelMessageInfo *msg_info, char **label_str, gboolean get_tags)
 	return count;
 }
 
+static const char *
+get_trimmed_subject (CamelMessageInfo *info)
+{
+	const char *subject;
+	const char *mlist;
+	int mlist_len = 0;
+	gboolean found_mlist;
+
+	subject = camel_message_info_subject (info);
+	if (!subject || !*subject)
+		return subject;
+
+	mlist = camel_message_info_mlist (info);
+
+	if (mlist && *mlist) {
+		const char *mlist_end;
+
+		mlist_end = strchr (mlist, '@');
+		if (mlist_end)
+			mlist_len = mlist_end - mlist;
+		else
+			mlist_len = strlen (mlist);
+	}
+
+	do {
+		found_mlist = FALSE;
+
+		while (!g_ascii_strncasecmp ((char *) subject, "Re:", 3)) {
+			subject += 3;
+
+			/* jump over any spaces */
+			while (*subject && isspace ((int) *subject))
+				subject++;
+		}
+
+		if (mlist_len &&
+		    *subject == '[' &&
+		    !g_ascii_strncasecmp ((char *) subject + 1, mlist, mlist_len) &&
+		    subject [1 + mlist_len] == ']') {
+			subject += 1 + mlist_len + 1;  /* jump over "[mailing-list]" */
+			found_mlist = TRUE;
+
+			/* jump over any spaces */
+			while (*subject && isspace ((int) *subject))
+				subject++;
+		}
+	} while (found_mlist);
+
+	/* jump over any spaces */
+	while (*subject && isspace ((int) *subject))
+		subject++;
+
+	return subject;
+}
+
 static void *
 ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 {
@@ -1352,6 +1407,12 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		return (void *) get_normalised_string (message_list, msg_info, col);
 	case COL_SUBJECT:
 		str = camel_message_info_subject (msg_info);
+		return (void *)(str ? str : "");
+	case COL_SUBJECT_TRIMMED:
+		/* FIXME: "Trimmed subject" is not normalized yet. 
+		I do not find a way in evo gui to configure the normalized columns like from_norm
+		Hence this FIXME should remain until we have a COL_SUBJECT_TRIMMED_NORM. */
+		str = get_trimmed_subject (msg_info);
 		return (void *)(str ? str : "");
 	case COL_SUBJECT_NORM:
 		return (void *) get_normalised_string (message_list, msg_info, col);
