@@ -32,18 +32,42 @@
 	E_SHELL_WINDOW_ACTION ((window), "memo-clipboard-paste")
 #define E_SHELL_WINDOW_ACTION_MEMO_DELETE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "memo-delete")
-#define E_SHELL_WINDOW_ACTION_MEMO_FILTER_ANY_CATEGORY(window) \
-	E_SHELL_WINDOW_ACTION ((window), "memo-filter-any-category")
-#define E_SHELL_WINDOW_ACTION_MEMO_FILTER_UNMATCHED(window) \
-	E_SHELL_WINDOW_ACTION ((window), "memo-filter-unmatched")
+#define E_SHELL_WINDOW_ACTION_MEMO_FORWARD(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-forward")
+#define E_SHELL_WINDOW_ACTION_MEMO_NEW(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-new")
 #define E_SHELL_WINDOW_ACTION_MEMO_OPEN(window) \
 	E_SHELL_WINDOW_ACTION ((window), "memo-open")
+#define E_SHELL_WINDOW_ACTION_MEMO_OPEN_URL(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-open-url")
 #define E_SHELL_WINDOW_ACTION_MEMO_PREVIEW(window) \
 	E_SHELL_WINDOW_ACTION ((window), "memo-preview")
 #define E_SHELL_WINDOW_ACTION_MEMO_PRINT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "memo-print")
-#define E_SHELL_WINDOW_ACTION_MEMO_PRINT_PREVIEW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "memo-print-preview")
+#define E_SHELL_WINDOW_ACTION_MEMO_SAVE_AS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-save-as")
+
+/* Memo List Actions */
+#define E_SHELL_WINDOW_ACTION_MEMO_LIST_COPY(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-list-copy")
+#define E_SHELL_WINDOW_ACTION_MEMO_LIST_DELETE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-list-delete")
+#define E_SHELL_WINDOW_ACTION_MEMO_LIST_NEW(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-list-new")
+#define E_SHELL_WINDOW_ACTION_MEMO_LIST_PRINT(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-list-print")
+#define E_SHELL_WINDOW_ACTION_MEMO_LIST_PRINT_PREVIEW(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-list-print-preview")
+#define E_SHELL_WINDOW_ACTION_MEMO_LIST_PROPERTIES(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-list-properties")
+#define E_SHELL_WINDOW_ACTION_MEMO_LIST_SELECT_ONE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-list-select-one")
+
+/* Memo Query Actions */
+#define E_SHELL_WINDOW_ACTION_MEMO_FILTER_ANY_CATEGORY(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-filter-any-category")
+#define E_SHELL_WINDOW_ACTION_MEMO_FILTER_UNMATCHED(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-filter-unmatched")
 #define E_SHELL_WINDOW_ACTION_MEMO_SEARCH_ANY_FIELD_CONTAINS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "memo-search-any-field-contains")
 #define E_SHELL_WINDOW_ACTION_MEMO_SEARCH_DESCRIPTION_CONTAINS(window) \

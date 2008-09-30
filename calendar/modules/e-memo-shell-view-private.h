@@ -33,6 +33,7 @@
 #include "e-util/e-util.h"
 #include "e-util/gconf-bridge.h"
 
+#include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-calendar-selector.h"
 #include "calendar/gui/e-memo-preview.h"
 #include "calendar/gui/print.h"

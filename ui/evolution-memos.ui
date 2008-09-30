@@ -53,6 +53,7 @@
     <menuitem action='memo-list-copy'/>
     <separator/>
     <menuitem action='memo-list-delete'/>
+    <menuitem action='memo-list-select-one'/>
     <separator/>
     <menuitem action='memo-list-properties'/>
   </popup>

@@ -192,8 +192,6 @@ memo_shell_sidebar_client_opened_cb (EMemoShellSidebar *memo_shell_sidebar,
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	g_debug ("%s (status = %d)", G_STRFUNC, status);
-
 	switch (status) {
 		case E_CALENDAR_STATUS_OK:
 			g_signal_handlers_disconnect_matched (
@@ -393,6 +391,9 @@ memo_shell_sidebar_constructed (GObject *object)
 	priv->selector = g_object_ref (widget);
 	gtk_widget_show (widget);
 
+	/* Restore the selector state from the last session. */
+
+	selector = E_SOURCE_SELECTOR (priv->selector);
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
 
 	g_signal_connect_swapped (
@@ -400,32 +401,15 @@ memo_shell_sidebar_constructed (GObject *object)
 		G_CALLBACK (memo_shell_sidebar_row_changed_cb),
 		object);
 
-	g_signal_connect_swapped (
-		widget, "selection-changed",
-		G_CALLBACK (memo_shell_sidebar_selection_changed_cb),
-		object);
-
-	g_signal_connect_swapped (
-		widget, "primary-selection-changed",
-		G_CALLBACK (memo_shell_sidebar_primary_selection_changed_cb),
-		object);
-
-	/* Restore the primary selection from the last session. */
-
-	selector = E_SOURCE_SELECTOR (priv->selector);
-	uid = calendar_config_get_primary_memos ();
 	source = NULL;
-
+	uid = calendar_config_get_primary_memos ();
 	if (uid != NULL)
 		source = e_source_list_peek_source_by_uid (source_list, uid);
 	if (source == NULL)
 		source = e_source_list_peek_source_any (source_list);
 	if (source != NULL)
 		e_source_selector_set_primary_selection (selector, source);
-
 	g_free (uid);
-
-	/* Restore the selected sources from last session. */
 
 	list = calendar_config_get_memos_selected ();
 	for (iter = list; iter != NULL; iter = iter->next) {
@@ -439,6 +423,18 @@ memo_shell_sidebar_constructed (GObject *object)
 		e_source_selector_select_source (selector, source);
 	}
 	g_slist_free (list);
+
+	/* Listen for subsequent changes to the selector. */
+
+	g_signal_connect_swapped (
+		widget, "selection-changed",
+		G_CALLBACK (memo_shell_sidebar_selection_changed_cb),
+		object);
+
+	g_signal_connect_swapped (
+		widget, "primary-selection-changed",
+		G_CALLBACK (memo_shell_sidebar_primary_selection_changed_cb),
+		object);
 }
 
 static void
@@ -615,8 +611,6 @@ e_memo_shell_sidebar_add_source (EMemoShellSidebar *memo_shell_sidebar,
 	uid = e_source_peek_uid (source);
 	client = g_hash_table_lookup (client_table, uid);
 
-	g_debug ("%s (%s): %s", G_STRFUNC, e_source_peek_relative_uri (source), client != NULL ? "Already added" : "Added");
-
 	if (client != NULL)
 		return;
 
@@ -666,8 +660,6 @@ e_memo_shell_sidebar_remove_source (EMemoShellSidebar *memo_shell_sidebar,
 
 	uid = e_source_peek_uid (source);
 	client = g_hash_table_lookup (client_table, uid);
-
-	g_debug ("%s (%s): %s", G_STRFUNC, e_source_peek_relative_uri (source), client == NULL ? "Already removed" : "Removed");
 
 	if (client == NULL)
 		return;

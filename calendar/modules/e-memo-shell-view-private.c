@@ -420,7 +420,7 @@ e_memo_shell_view_open_memo (EMemoShellView *memo_shell_view,
 	uid = icalcomponent_get_uid (comp_data->icalcomp);
 	editor = comp_editor_find_instance (uid);
 
-	if (editor == NULL)
+	if (editor != NULL)
 		goto exit;
 
 	comp = e_cal_component_new ();
@@ -467,9 +467,6 @@ e_memo_shell_view_set_status_message (EMemoShellView *memo_shell_view,
 
 	} else
 		e_activity_set_primary_text (activity, status_message);
-
-	if (status_message != NULL && *status_message != '\0')
-		g_debug ("Memos: %s", status_message);
 
 	memo_shell_view->priv->activity = activity;
 }

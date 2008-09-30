@@ -77,14 +77,19 @@ memo_shell_view_update_actions (EShellView *shell_view)
 {
 	EMemoShellViewPrivate *priv;
 	EMemoShellContent *memo_shell_content;
+	EMemoShellSidebar *memo_shell_sidebar;
 	EShellWindow *shell_window;
-	ECal *client;
+	ESourceSelector *selector;
 	ETable *table;
-	ECalModel *model;
 	EMemoTable *memo_table;
+	ESource *source;
 	GtkAction *action;
+	GSList *list, *iter;
 	const gchar *label;
-	gboolean read_only = TRUE;
+	const gchar *uri = NULL;
+	gboolean user_created_source;
+	gboolean editable = TRUE;
+	gboolean has_url = FALSE;
 	gboolean sensitive;
 	gint n_selected;
 
@@ -95,36 +100,81 @@ memo_shell_view_update_actions (EShellView *shell_view)
 	memo_shell_content = priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 
-	model = e_memo_table_get_model (memo_table);
-	client = e_cal_model_get_default_client (model);
+	memo_shell_sidebar = priv->memo_shell_sidebar;
+	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
 
 	table = e_memo_table_get_table (memo_table);
 	n_selected = e_table_selected_count (table);
 
-	if (client != NULL)
-		e_cal_is_read_only (client, &read_only, NULL);
+	list = e_memo_table_get_selected (memo_table);
+	for (iter = list; iter != NULL; iter = iter->next) {
+		ECalModelComponent *comp_data = iter->data;
+		icalproperty *prop;
+		gboolean read_only;
 
-	action = ACTION (MEMO_OPEN);
-	sensitive = (n_selected == 1);
-	gtk_action_set_sensitive (action, sensitive);
+		e_cal_is_read_only (comp_data->client, &read_only, NULL);
+		editable &= !read_only;
+
+		prop = icalcomponent_get_first_property (
+			comp_data->icalcomp, ICAL_URL_PROPERTY);
+		has_url |= (prop != NULL);
+	}
+	g_slist_free (list);
+
+	source = e_source_selector_peek_primary_selection (selector);
+	if (source != NULL)
+		uri = e_source_peek_relative_uri (source);
+	user_created_source = (uri != NULL && strcmp (uri, "system") != 0);
 
 	action = ACTION (MEMO_CLIPBOARD_COPY);
 	sensitive = (n_selected > 0);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_CLIPBOARD_CUT);
-	sensitive = (n_selected > 0);
+	sensitive = (n_selected > 0) && editable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_CLIPBOARD_PASTE);
-	sensitive = !read_only;
+	sensitive = editable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_DELETE);
-	sensitive = (n_selected > 0) && !read_only;
+	sensitive = (n_selected > 0) && editable;
 	gtk_action_set_sensitive (action, sensitive);
 	label = ngettext ("Delete Memo", "Delete Memos", n_selected);
 	g_object_set (action, "label", label, NULL);
+
+	action = ACTION (MEMO_FORWARD);
+	sensitive = (n_selected == 1);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MEMO_LIST_COPY);
+	sensitive = (source != NULL);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MEMO_LIST_DELETE);
+	sensitive = user_created_source;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MEMO_LIST_PROPERTIES);
+	sensitive = (source != NULL);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MEMO_OPEN);
+	sensitive = (n_selected == 1);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MEMO_OPEN_URL);
+	sensitive = (n_selected == 1) && has_url;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MEMO_PRINT);
+	sensitive = (n_selected == 1);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MEMO_SAVE_AS);
+	sensitive = (n_selected == 1);
+	gtk_action_set_sensitive (action, sensitive);
 }
 
 static void

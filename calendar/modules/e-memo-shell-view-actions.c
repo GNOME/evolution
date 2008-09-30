@@ -283,10 +283,62 @@ action_memo_list_properties_cb (GtkAction *action,
 }
 
 static void
+action_memo_list_select_one_cb (GtkAction *action,
+                                EMemoShellView *memo_shell_view)
+{
+	EMemoShellSidebar *memo_shell_sidebar;
+	ESourceSelector *selector;
+	ESource *primary;
+	GSList *list, *iter;
+
+	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
+	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
+	primary = e_source_selector_peek_primary_selection (selector);
+	g_return_if_fail (primary != NULL);
+
+	list = e_source_selector_get_selection (selector);
+	for (iter = list; iter != NULL; iter = iter->next) {
+		ESource *source = iter->data;
+
+		if (source == primary)
+			continue;
+
+		e_source_selector_unselect_source (selector, source);
+	}
+	e_source_selector_free_selection (list);
+
+	e_source_selector_select_source (selector, primary);
+}
+
+static void
 action_memo_new_cb (GtkAction *action,
                     EMemoShellView *memo_shell_view)
 {
-	/* FIXME */
+	EMemoShellContent *memo_shell_content;
+	EMemoTable *memo_table;
+	ECalModelComponent *comp_data;
+	ECal *client;
+	ECalComponent *comp;
+	CompEditor *editor;
+	GSList *list;
+
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+
+	list = e_memo_table_get_selected (memo_table);
+	g_return_if_fail (list != NULL);
+	comp_data = list->data;
+	g_slist_free (list);
+
+	client = comp_data->client;
+	editor = memo_editor_new (client, COMP_EDITOR_NEW_ITEM);
+	comp = cal_comp_memo_new_with_defaults (client);
+	comp_editor_edit_comp (editor, comp);
+
+	gtk_window_present (GTK_WINDOW (editor));
+
+	g_object_unref (comp);
+	g_object_unref (client);
 }
 
 static void
@@ -521,6 +573,13 @@ static GtkActionEntry memo_entries[] = {
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_memo_list_properties_cb) },
+
+	{ "memo-list-select-one",
+	  "stock_check-filled",
+	  N_("Show _Only This Memo List"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_memo_list_select_one_cb) },
 
 	{ "memo-new",
 	  "stock_insert-note",
