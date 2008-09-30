@@ -71,6 +71,12 @@ struct _EditorUidClosure {
 	EBookShellView *view;
 };
 
+/* List these in the order to be displayed.
+ * Positive values are reserved for categories. */
+enum {
+	CONTACT_FILTER_ANY_CATEGORY
+};
+
 /* List these in the order to be displayed. */
 enum {
 	CONTACT_SEARCH_NAME_CONTAINS,

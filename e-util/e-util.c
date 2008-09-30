@@ -140,6 +140,32 @@ e_load_ui_definition (GtkUIManager *ui_manager,
 }
 
 /**
+ * e_action_group_remove_all_actions:
+ * @action_group: a #GtkActionGroup
+ *
+ * Removes all actions from the action group.
+ **/
+void
+e_action_group_remove_all_actions (GtkActionGroup *action_group)
+{
+	GList *list, *iter;
+
+	/* XXX I've proposed this function for inclusion in GTK+.
+         *     GtkActionGroup stores actions in an internal hash
+         *     table and can do this more efficiently by calling
+         *     g_hash_table_remove_all().
+         *
+         *     http://bugzilla.gnome.org/show_bug.cgi?id=550485 */
+
+	g_return_if_fail (GTK_IS_ACTION_GROUP (action_group));
+
+	list = gtk_action_group_list_actions (action_group);
+	for (iter = list; iter != NULL; iter = iter->next)
+		gtk_action_group_remove_action (action_group, iter->data);
+	g_list_free (list);
+}
+
+/**
  * e_str_without_underscores:
  * @s: the string to strip underscores from.
  *

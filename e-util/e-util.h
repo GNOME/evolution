@@ -46,6 +46,8 @@ void		e_display_help			(GtkWindow *parent,
 						 const gchar *link_id);
 guint		e_load_ui_definition		(GtkUIManager *ui_manager,
 						 const gchar *basename);
+void		e_action_group_remove_all_actions
+						(GtkActionGroup *action_group);
 
 char *		e_str_without_underscores	(const char *s);
 gint		e_str_compare			(gconstpointer x,

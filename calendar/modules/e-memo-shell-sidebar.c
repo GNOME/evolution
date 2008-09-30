@@ -88,7 +88,28 @@ memo_shell_sidebar_emit_status_message (EMemoShellSidebar *memo_shell_sidebar,
 static void
 memo_shell_sidebar_update_timezone (EMemoShellSidebar *memo_shell_sidebar)
 {
-	/* FIXME */
+	GHashTable *client_table;
+	icaltimezone *zone;
+	GList *keys;
+
+	zone = calendar_config_get_icaltimezone ();
+	client_table = memo_shell_sidebar->priv->client_table;
+	keys = g_hash_table_get_values (client_table);
+
+	while (keys != NULL) {
+		ECal *client = keys->data;
+
+		if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
+			e_cal_set_default_timezone (client, zone, NULL);
+
+		keys = g_list_delete_link (keys, keys);
+	}
+
+	/* XXX Need to call e_memo_preview_set_default_timezone() here
+	 *     but the sidebar is not really supposed to access content
+	 *     stuff.  I guess we could emit an "update-timezone" signal
+	 *     here, but that feels wrong.  Maybe this whole thing should
+	 *     be in EMemoShellView instead. */
 }
 
 static void
@@ -171,6 +192,8 @@ memo_shell_sidebar_client_opened_cb (EMemoShellSidebar *memo_shell_sidebar,
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
+	g_debug ("%s (status = %d)", G_STRFUNC, status);
+
 	switch (status) {
 		case E_CALENDAR_STATUS_OK:
 			g_signal_handlers_disconnect_matched (
@@ -203,10 +226,60 @@ memo_shell_sidebar_client_opened_cb (EMemoShellSidebar *memo_shell_sidebar,
 }
 
 static void
+memo_shell_sidebar_row_changed_cb (EMemoShellSidebar *memo_shell_sidebar,
+                                   GtkTreePath *tree_path,
+                                   GtkTreeIter *tree_iter,
+                                   GtkTreeModel *tree_model)
+{
+	ESourceSelector *selector;
+	ESource *source;
+
+	/* XXX ESourceSelector's underlying tree store has only one
+	 *     column: ESource objects.  While we're not supposed to
+	 *     know this, listening for "row-changed" signals from
+	 *     the model is easier to deal with than the selector's
+	 *     "selection-changed" signal, which doesn't tell you
+	 *     _which_ row changed. */
+
+	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
+	gtk_tree_model_get (tree_model, tree_iter, 0, &source, -1);
+
+	/* XXX This signal gets emitted a lot while the model is being
+	 *     rebuilt, during which time we won't get a valid ESource.
+	 *     ESourceSelector should probably block this signal while
+	 *     rebuilding the model, but we'll be forgiving and not
+	 *     emit a warning. */
+	if (!E_IS_SOURCE (source))
+		return;
+
+	if (e_source_selector_source_is_selected (selector, source))
+		e_memo_shell_sidebar_add_source (memo_shell_sidebar, source);
+	else
+		e_memo_shell_sidebar_remove_source (memo_shell_sidebar, source);
+}
+
+static void
 memo_shell_sidebar_selection_changed_cb (EMemoShellSidebar *memo_shell_sidebar,
                                          ESourceSelector *selector)
 {
-	/* FIXME */
+	GSList *list, *iter;
+
+	/* This signal is emitted less frequently than "row-changed",
+	 * especially when the model is being rebuilt.  So we'll take
+	 * it easy on poor GConf. */
+
+	list = e_source_selector_get_selection (selector);
+
+	for (iter = list; iter != NULL; iter = iter->next) {
+		ESource *source = iter->data;
+
+		iter->data = (gpointer) e_source_peek_uid (source);
+		g_object_unref (source);
+	}
+
+	calendar_config_set_memos_selected (list);
+
+	g_slist_free (list);
 }
 
 static void
@@ -215,6 +288,9 @@ memo_shell_sidebar_primary_selection_changed_cb (EMemoShellSidebar *memo_shell_s
 {
 	ESource *source;
 	const gchar *uid;
+
+	/* XXX ESourceSelector needs a "primary-selection-uid" property
+	 *     so we can just bind the property with GConfBridge. */
 
 	source = e_source_selector_peek_primary_selection (selector);
 	if (source == NULL)
@@ -283,6 +359,7 @@ memo_shell_sidebar_constructed (GObject *object)
 	ESourceList *source_list;
 	ESource *source;
 	GtkContainer *container;
+	GtkTreeModel *model;
 	GtkWidget *widget;
 	GSList *list, *iter;
 	gchar *uid;
@@ -315,6 +392,13 @@ memo_shell_sidebar_constructed (GObject *object)
 	gtk_container_add (container, widget);
 	priv->selector = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+
+	g_signal_connect_swapped (
+		model, "row-changed",
+		G_CALLBACK (memo_shell_sidebar_row_changed_cb),
+		object);
 
 	g_signal_connect_swapped (
 		widget, "selection-changed",
@@ -352,8 +436,7 @@ memo_shell_sidebar_constructed (GObject *object)
 		if (source == NULL)
 			continue;
 
-		e_source_selector_select_source (
-			E_SOURCE_SELECTOR (priv->selector), source);
+		e_source_selector_select_source (selector, source);
 	}
 	g_slist_free (list);
 }
@@ -532,6 +615,8 @@ e_memo_shell_sidebar_add_source (EMemoShellSidebar *memo_shell_sidebar,
 	uid = e_source_peek_uid (source);
 	client = g_hash_table_lookup (client_table, uid);
 
+	g_debug ("%s (%s): %s", G_STRFUNC, e_source_peek_relative_uri (source), client != NULL ? "Already added" : "Added");
+
 	if (client != NULL)
 		return;
 
@@ -581,6 +666,8 @@ e_memo_shell_sidebar_remove_source (EMemoShellSidebar *memo_shell_sidebar,
 
 	uid = e_source_peek_uid (source);
 	client = g_hash_table_lookup (client_table, uid);
+
+	g_debug ("%s (%s): %s", G_STRFUNC, e_source_peek_relative_uri (source), client == NULL ? "Already removed" : "Removed");
 
 	if (client == NULL)
 		return;

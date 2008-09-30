@@ -518,7 +518,7 @@ action_search_execute_cb (GtkAction *action,
 
 	/* Filter by category. */
 	value = e_shell_content_get_filter_value (shell_content);
-	if (value >= 0) {
+	if (value >= CONTACT_FILTER_ANY_CATEGORY) {
 		GList *categories;
 		const gchar *category_name;
 		gchar *temp;
@@ -549,6 +549,15 @@ action_search_execute_cb (GtkAction *action,
 	g_free (query);
 
 	e_book_shell_content_set_preview_contact (book_shell_content, NULL);
+}
+
+static void
+action_search_filter_cb (GtkRadioAction *action,
+                         GtkRadioAction *current,
+                         EBookShellView *book_shell_view)
+{
+	g_debug ("Contacts filter changed");
+	action_search_execute_cb (GTK_ACTION (current), book_shell_view);
 }
 
 static GtkActionEntry contact_entries[] = {
@@ -751,6 +760,16 @@ static GtkToggleActionEntry contact_toggle_entries[] = {
 	  TRUE }
 };
 
+static GtkRadioActionEntry contact_filter_entries[] = {
+
+	{ "contact-filter-any-category",
+	  NULL,
+	  N_("Any Category"),
+	  NULL,
+	  NULL,
+	  CONTACT_FILTER_ANY_CATEGORY }
+};
+
 static GtkRadioActionEntry contact_search_entries[] = {
 
 	{ "contact-search-any-field-contains",
@@ -934,6 +953,10 @@ e_book_shell_view_actions_update (EBookShellView *book_shell_view)
 	action = ACTION (CONTACT_SEND_MESSAGE);
 	sensitive = (n_selected > 0);
 	gtk_action_set_sensitive (action, sensitive);
+	label = ngettext (
+		"_Send Message to Contact",
+		"_Send Message to Contacts", n_selected);
+	g_object_set (action, "label", label, NULL);
 
 	/* TODO Add some context sensitivity to SEND_MESSAGE:
 	 *      Send Message to Contact  (n_selected == 1)
@@ -958,53 +981,55 @@ e_book_shell_view_update_search_filter (EBookShellView *book_shell_view)
 	EShellContent *shell_content;
 	EShellView *shell_view;
 	GtkActionGroup *action_group;
-	GtkRadioAction *action;
+	GtkRadioAction *radio_action;
 	GList *list, *iter;
-	GSList *group = NULL;
+	GSList *group;
 	gint ii;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	action_group = book_shell_view->priv->filter_actions;
 
-	/* XXX Annoying that GTK+ doesn't provide a function for this.
-	 *     http://bugzilla.gnome.org/show_bug.cgi?id=550485 */
+	e_action_group_remove_all_actions (action_group);
+
+	/* Add the standard filter actions. */
+	gtk_action_group_add_radio_actions (
+		action_group, contact_filter_entries,
+		G_N_ELEMENTS (contact_filter_entries),
+		CONTACT_FILTER_ANY_CATEGORY,
+		G_CALLBACK (action_search_filter_cb),
+		book_shell_view);
+
+	/* Retrieve the radio group from an action we just added. */
 	list = gtk_action_group_list_actions (action_group);
-	for (iter = list; iter != NULL; iter = iter->next)
-		gtk_action_group_remove_action (action_group, iter->data);
+	radio_action = GTK_RADIO_ACTION (list->data);
+	group = gtk_radio_action_get_group (radio_action);
 	g_list_free (list);
 
-	action = gtk_radio_action_new (
-		"category-any", _("Any Category"), NULL, NULL, -1);
-
-	/* Activating the action executes a new search. */
-	g_signal_connect (
-		action, "activate",
-		G_CALLBACK (action_search_execute_cb), book_shell_view);
-
-	gtk_radio_action_set_group (action, group);
-	group = gtk_radio_action_get_group (action);
+	/* Build the category actions. */
 
 	list = e_categories_get_list ();
 	for (iter = list, ii = 0; iter != NULL; iter = iter->next, ii++) {
 		const gchar *category_name = iter->data;
+		GtkAction *action;
 		gchar *action_name;
 
-		action_name = g_strdup_printf ("category-%d", ii);
-		action = gtk_radio_action_new (
+		action_name = g_strdup_printf (
+			"contact-filter-category-%d", ii);
+		radio_action = gtk_radio_action_new (
 			action_name, category_name, NULL, NULL, ii);
 		g_free (action_name);
 
-		/* Activating the action executes a new search. */
-		g_signal_connect (
-			action, "activate", G_CALLBACK (
-			action_search_execute_cb), book_shell_view);
+		gtk_radio_action_set_group (radio_action, group);
+		group = gtk_radio_action_get_group (radio_action);
 
-		gtk_radio_action_set_group (action, group);
-		group = gtk_radio_action_get_group (action);
+		/* The action group takes ownership of the action. */
+		action = GTK_ACTION (radio_action);
+		gtk_action_group_add_action (action_group, action);
+		g_object_unref (radio_action);
 	}
 	g_list_free (list);
 
 	/* Use any action in the group; doesn't matter which. */
-	e_shell_content_set_filter_action (shell_content, action);
+	e_shell_content_set_filter_action (shell_content, radio_action);
 }

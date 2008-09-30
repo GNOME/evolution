@@ -21,6 +21,23 @@
 #include "e-memo-shell-view-private.h"
 
 static void
+action_gal_save_custom_view_cb (GtkAction *action,
+                                EMemoShellView *memo_shell_view)
+{
+	EMemoShellContent *memo_shell_content;
+	EShellView *shell_view;
+	GalViewInstance *view_instance;
+
+	shell_view = E_SHELL_VIEW (memo_shell_view);
+	if (!e_shell_view_is_active (shell_view))
+		return;
+
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	view_instance = e_memo_shell_content_get_view_instance (memo_shell_content);
+	gal_view_instance_save_as (view_instance);
+}
+
+static void
 action_memo_clipboard_copy_cb (GtkAction *action,
                                EMemoShellView *memo_shell_view)
 {
@@ -122,7 +139,7 @@ action_memo_list_copy_cb (GtkAction *action,
 	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
 	source = e_source_selector_peek_primary_selection (selector);
-	g_return_if_fail (source == NULL);
+	g_return_if_fail (E_IS_SOURCE (source));
 
 	copy_source_dialog (
 		GTK_WINDOW (shell_window),
@@ -158,7 +175,7 @@ action_memo_list_delete_cb (GtkAction *action,
 	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
 	source = e_source_selector_peek_primary_selection (selector);
-	g_return_if_fail (source == NULL);
+	g_return_if_fail (E_IS_SOURCE (source));
 
 	/* Ask for confirmation. */
 	response = e_error_run (
@@ -260,7 +277,7 @@ action_memo_list_properties_cb (GtkAction *action,
 	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
 	source = e_source_selector_peek_primary_selection (selector);
-	g_return_if_fail (source != NULL);
+	g_return_if_fail (E_IS_SOURCE (source));
 
 	calendar_setup_edit_memo_list (GTK_WINDOW (shell_window), source);
 }
@@ -405,6 +422,27 @@ action_memo_save_as_cb (GtkAction *action,
 	g_free (string);
 }
 
+static void
+action_search_execute_cb (GtkAction *action,
+                          EMemoShellView *memo_shell_view)
+{
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (memo_shell_view);
+	if (!e_shell_view_is_active (shell_view))
+		return;
+
+	e_memo_shell_view_execute_search (memo_shell_view);
+}
+
+static void
+action_search_filter_cb (GtkRadioAction *action,
+                         GtkRadioAction *current,
+                         EMemoShellView *memo_shell_view)
+{
+	e_memo_shell_view_execute_search (memo_shell_view);
+}
+
 static GtkActionEntry memo_entries[] = {
 
 	{ "memo-clipboard-copy",
@@ -531,6 +569,23 @@ static GtkToggleActionEntry memo_toggle_entries[] = {
 	  TRUE }
 };
 
+static GtkRadioActionEntry memo_filter_entries[] = {
+
+	{ "memo-filter-any-category",
+	  NULL,
+	  N_("Any Category"),
+	  NULL,
+	  NULL,
+	  MEMO_FILTER_ANY_CATEGORY },
+
+	{ "memo-filter-unmatched",
+	  NULL,
+	  N_("Unmatched"),
+	  NULL,
+	  NULL,
+	  MEMO_FILTER_UNMATCHED }
+};
+
 static GtkRadioActionEntry memo_search_entries[] = {
 
 	{ "memo-search-any-field-contains",
@@ -600,4 +655,74 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 
 	action = ACTION (MEMO_DELETE);
 	g_object_set (action, "short-label", _("Delete"), NULL);
+
+	g_signal_connect (
+		ACTION (GAL_SAVE_CUSTOM_VIEW), "activate",
+		G_CALLBACK (action_gal_save_custom_view_cb), memo_shell_view);
+
+	g_signal_connect (
+		ACTION (SEARCH_EXECUTE), "activate",
+		G_CALLBACK (action_search_execute_cb), memo_shell_view);
+}
+
+void
+e_memo_shell_view_update_search_filter (EMemoShellView *memo_shell_view)
+{
+	EShellContent *shell_content;
+	EShellView *shell_view;
+	GtkActionGroup *action_group;
+	GtkRadioAction *radio_action;
+	GList *list, *iter;
+	GSList *group;
+	gint ii;
+
+	shell_view = E_SHELL_VIEW (memo_shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	action_group = memo_shell_view->priv->filter_actions;
+
+	e_action_group_remove_all_actions (action_group);
+
+	/* Add the standard filter actions. */
+	gtk_action_group_add_radio_actions (
+		action_group, memo_filter_entries,
+		G_N_ELEMENTS (memo_filter_entries),
+		MEMO_FILTER_ANY_CATEGORY,
+		G_CALLBACK (action_search_filter_cb),
+		memo_shell_view);
+
+	/* Retrieve the radio group from an action we just added. */
+	list = gtk_action_group_list_actions (action_group);
+	radio_action = GTK_RADIO_ACTION (list->data);
+	group = gtk_radio_action_get_group (radio_action);
+	g_list_free (list);
+
+	/* Build the category actions. */
+
+	list = e_categories_get_list ();
+	for (iter = list, ii = 0; iter != NULL; iter = iter->next, ii++) {
+		const gchar *category_name = iter->data;
+		GtkAction *action;
+		gchar *action_name;
+
+		action_name = g_strdup_printf (
+			"memo-filter-category-%d", ii);
+		radio_action = gtk_radio_action_new (
+			action_name, category_name, NULL, NULL, ii);
+		g_free (action_name);
+
+		gtk_radio_action_set_group (radio_action, group);
+		group = gtk_radio_action_get_group (radio_action);
+
+		/* The action group takes ownership of the action. */
+		action = GTK_ACTION (radio_action);
+		gtk_action_group_add_action (action_group, action);
+		g_object_unref (radio_action);
+	}
+	g_list_free (list);
+
+	/* Use any action in the group; doesn't matter which. */
+	e_shell_content_set_filter_action (shell_content, radio_action);
+
+	e_shell_content_add_filter_separator_after (
+		shell_content, MEMO_FILTER_UNMATCHED);
 }

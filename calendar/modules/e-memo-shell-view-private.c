@@ -49,6 +49,8 @@ memo_shell_view_table_user_created_cb (EMemoShellView *memo_shell_view,
 
 	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
 	e_memo_shell_sidebar_add_source (memo_shell_sidebar, source);
+
+	e_cal_model_add_client (model, client);
 }
 
 static void
@@ -158,6 +160,7 @@ e_memo_shell_view_private_init (EMemoShellView *memo_shell_view,
 
 	priv->source_list = g_object_ref (source_list);
 	priv->memo_actions = gtk_action_group_new ("memos");
+	priv->filter_actions = gtk_action_group_new ("memos-filter");
 
 	if (!gal_view_collection_loaded (shell_view_class->view_collection))
 		memo_shell_view_load_view_collection (shell_view_class);
@@ -173,15 +176,17 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	EMemoShellViewPrivate *priv = memo_shell_view->priv;
 	EMemoShellContent *memo_shell_content;
 	EMemoShellSidebar *memo_shell_sidebar;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
-	EShellView *shell_view;
 	EMemoTable *memo_table;
 	ECalModel *model;
 	ETable *table;
 	ESourceSelector *selector;
 
 	shell_view = E_SHELL_VIEW (memo_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 
@@ -224,22 +229,22 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 
 	g_signal_connect_swapped (
 		model, "model-changed",
-		G_CALLBACK (e_memo_shell_view_sidebar_update),
+		G_CALLBACK (e_memo_shell_view_update_sidebar),
 		memo_shell_view);
 
 	g_signal_connect_swapped (
 		model, "model-rows-deleted",
-		G_CALLBACK (e_memo_shell_view_sidebar_update),
+		G_CALLBACK (e_memo_shell_view_update_sidebar),
 		memo_shell_view);
 
 	g_signal_connect_swapped (
 		model, "model-rows-inserted",
-		G_CALLBACK (e_memo_shell_view_sidebar_update),
+		G_CALLBACK (e_memo_shell_view_update_sidebar),
 		memo_shell_view);
 
 	g_signal_connect_swapped (
 		table, "selection-change",
-		G_CALLBACK (e_memo_shell_view_sidebar_update),
+		G_CALLBACK (e_memo_shell_view_update_sidebar),
 		memo_shell_view);
 
 	g_signal_connect_swapped (
@@ -262,8 +267,15 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 		G_CALLBACK (e_shell_view_update_actions),
 		memo_shell_view);
 
+	e_categories_register_change_listener (
+		G_CALLBACK (e_memo_shell_view_update_search_filter),
+		memo_shell_view);
+
 	e_memo_shell_view_actions_init (memo_shell_view);
-	e_memo_shell_view_sidebar_update (memo_shell_view);
+	e_memo_shell_view_update_sidebar (memo_shell_view);
+	e_memo_shell_view_update_search_filter (memo_shell_view);
+
+	e_memo_shell_view_execute_search (memo_shell_view);
 }
 
 void
@@ -274,6 +286,7 @@ e_memo_shell_view_private_dispose (EMemoShellView *memo_shell_view)
 	DISPOSE (priv->source_list);
 
 	DISPOSE (priv->memo_actions);
+	DISPOSE (priv->filter_actions);
 
 	DISPOSE (priv->memo_shell_content);
 	DISPOSE (priv->memo_shell_sidebar);
@@ -290,6 +303,105 @@ void
 e_memo_shell_view_private_finalize (EMemoShellView *memo_shell_view)
 {
 	/* XXX Nothing to do? */
+}
+
+void
+e_memo_shell_view_execute_search (EMemoShellView *memo_shell_view)
+{
+	EMemoShellContent *memo_shell_content;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellContent *shell_content;
+	GtkAction *action;
+	GString *string;
+	EMemoPreview *memo_preview;
+	EMemoTable *memo_table;
+	ECalModel *model;
+	FilterRule *rule;
+	const gchar *format;
+	const gchar *text;
+	gchar *query;
+	gint value;
+
+	shell_view = E_SHELL_VIEW (memo_shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	text = e_shell_content_get_search_text (shell_content);
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	action = ACTION (MEMO_SEARCH_ANY_FIELD_CONTAINS);
+	value = gtk_radio_action_get_current_value (
+		GTK_RADIO_ACTION (action));
+
+	if (text == NULL || *text == '\0') {
+		text = "";
+		value = MEMO_SEARCH_SUMMARY_CONTAINS;
+	}
+
+	switch (value) {
+		default:
+			text = "";
+			/* fall through */
+
+		case MEMO_SEARCH_SUMMARY_CONTAINS:
+			format = "(contains? \"summary\" %s)";
+			break;
+
+		case MEMO_SEARCH_DESCRIPTION_CONTAINS:
+			format = "(contains? \"description\" %s)";
+			break;
+
+		case MEMO_SEARCH_ANY_FIELD_CONTAINS:
+			format = "(contains? \"any\" %s)";
+			break;
+	}
+
+	/* Build the query. */
+	string = g_string_new ("");
+	e_sexp_encode_string (string, text);
+	query = g_strdup_printf (format, string->str);
+	g_string_free (string, TRUE);
+
+	/* Filter by category. */
+	value = e_shell_content_get_filter_value (shell_content);
+	if (value == MEMO_FILTER_UNMATCHED) {
+		gchar *temp;
+
+		temp = g_strdup_printf (
+			"(and (has-categories? #f) %s", query);
+		g_free (query);
+		query = temp;
+	} else if (value != MEMO_FILTER_ANY_CATEGORY) {
+		GList *categories;
+		const gchar *category_name;
+		gchar *temp;
+
+		categories = e_categories_get_list ();
+		category_name = g_list_nth_data (categories, value);
+		g_list_free (categories);
+
+		temp = g_strdup_printf (
+			"(and (has-categories? \"%s\") %s)",
+			category_name, query);
+		g_free (query);
+		query = temp;
+	}
+
+	/* XXX This is wrong.  We need to programmatically construct a
+	 *     FilterRule, tell it to build code, and pass the resulting
+	 *     expression string to ECalModel. */
+	rule = filter_rule_new ();
+	e_shell_content_set_search_rule (shell_content, rule);
+	g_object_unref (rule);
+
+	/* Submit the query. */
+	memo_shell_content = memo_shell_view->priv->memo_shell_content;
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+	model = e_memo_table_get_model (memo_table);
+	e_cal_model_set_search_query (model, query);
+	g_free (query);
+
+	memo_preview = e_memo_shell_content_get_memo_preview (memo_shell_content);
+	e_memo_preview_clear (memo_preview);
 }
 
 void
@@ -356,11 +468,14 @@ e_memo_shell_view_set_status_message (EMemoShellView *memo_shell_view,
 	} else
 		e_activity_set_primary_text (activity, status_message);
 
+	if (status_message != NULL && *status_message != '\0')
+		g_debug ("Memos: %s", status_message);
+
 	memo_shell_view->priv->activity = activity;
 }
 
 void
-e_memo_shell_view_sidebar_update (EMemoShellView *memo_shell_view)
+e_memo_shell_view_update_sidebar (EMemoShellView *memo_shell_view)
 {
 	EMemoShellContent *memo_shell_content;
 	EShellView *shell_view;

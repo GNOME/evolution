@@ -93,7 +93,7 @@ void		e_cal_shell_view_actions_init
 void		e_cal_shell_view_set_status_message
 					(ECalShellView *cal_shell_view,
 					 const gchar *status_message);
-void		e_cal_shell_view_sidebar_update
+void		e_cal_shell_view_update_sidebar
 					(ECalShellView *cal_shell_view);
 
 G_END_DECLS

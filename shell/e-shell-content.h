@@ -82,6 +82,9 @@ gboolean	e_shell_content_get_filter_visible
 void		e_shell_content_set_filter_visible
 						(EShellContent *shell_content,
 						 gboolean filter_visible);
+void		e_shell_content_add_filter_separator_after
+						(EShellContent *shell_content,
+						 gint action_value);
 RuleContext *	e_shell_content_get_search_context
 						(EShellContent *shell_content);
 FilterRule *	e_shell_content_get_search_rule	(EShellContent *shell_content);

@@ -133,11 +133,11 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 
 	g_signal_connect_swapped (
 		calendar, "dates-shown-changed",
-		G_CALLBACK (e_cal_shell_view_sidebar_update),
+		G_CALLBACK (e_cal_shell_view_update_sidebar),
 		cal_shell_view);
 
 	e_shell_view_update_actions (shell_view);
-	e_cal_shell_view_sidebar_update (cal_shell_view);
+	e_cal_shell_view_update_sidebar (cal_shell_view);
 }
 
 void
@@ -196,7 +196,7 @@ e_cal_shell_view_set_status_message (ECalShellView *cal_shell_view,
 }
 
 void
-e_cal_shell_view_sidebar_update (ECalShellView *cal_shell_view)
+e_cal_shell_view_update_sidebar (ECalShellView *cal_shell_view)
 {
 	EShellView *shell_view;
 	EShellSidebar *shell_sidebar;

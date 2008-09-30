@@ -321,26 +321,26 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 
 	g_signal_connect_swapped (
 		model, "model-changed",
-		G_CALLBACK (e_task_shell_view_sidebar_update),
+		G_CALLBACK (e_task_shell_view_update_sidebar),
 		task_shell_view);
 
 	g_signal_connect_swapped (
 		model, "model-rows-deleted",
-		G_CALLBACK (e_task_shell_view_sidebar_update),
+		G_CALLBACK (e_task_shell_view_update_sidebar),
 		task_shell_view);
 
 	g_signal_connect_swapped (
 		model, "model-rows-inserted",
-		G_CALLBACK (e_task_shell_view_sidebar_update),
+		G_CALLBACK (e_task_shell_view_update_sidebar),
 		task_shell_view);
 
 	g_signal_connect_swapped (
 		table, "selection-change",
-		G_CALLBACK (e_task_shell_view_sidebar_update),
+		G_CALLBACK (e_task_shell_view_update_sidebar),
 		task_shell_view);
 
 	e_task_shell_view_actions_init (task_shell_view);
-	e_task_shell_view_sidebar_update (task_shell_view);
+	e_task_shell_view_update_sidebar (task_shell_view);
 }
 
 void
@@ -451,7 +451,7 @@ e_task_shell_view_set_status_message (ETaskShellView *task_shell_view,
 }
 
 void
-e_task_shell_view_sidebar_update (ETaskShellView *task_shell_view)
+e_task_shell_view_update_sidebar (ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
 	EShellView *shell_view;

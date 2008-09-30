@@ -336,6 +336,7 @@ memo_shell_content_constructed (GObject *object)
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
 	gtk_paned_add2 (GTK_PANED (container), widget);
+	gtk_widget_show (widget);
 
 	container = widget;
 

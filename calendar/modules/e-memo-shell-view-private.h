@@ -25,6 +25,8 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
+#include <libedataserver/e-categories.h>
+#include <libedataserver/e-sexp.h>
 
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-error.h"
@@ -63,6 +65,13 @@
 
 G_BEGIN_DECLS
 
+/* List these in the order to be displayed.
+ * Positive values are reserved for categories. */
+enum {
+	MEMO_FILTER_ANY_CATEGORY = -2,
+	MEMO_FILTER_UNMATCHED = -1
+};
+
 /* List these in the order to be displayed. */
 enum {
 	MEMO_SEARCH_SUMMARY_CONTAINS,
@@ -79,6 +88,7 @@ struct _EMemoShellViewPrivate {
 	/*** UI Management ***/
 
 	GtkActionGroup *memo_actions;
+	GtkActionGroup *filter_actions;
 
 	/*** Other Stuff ***/
 
@@ -103,13 +113,17 @@ void		e_memo_shell_view_private_finalize
 
 void		e_memo_shell_view_actions_init
 					(EMemoShellView *memo_shell_view);
+void		e_memo_shell_view_execute_search
+					(EMemoShellView *memo_shell_view);
 void		e_memo_shell_view_open_memo
 					(EMemoShellView *memo_shell_view,
 					 ECalModelComponent *comp_data);
 void		e_memo_shell_view_set_status_message
 					(EMemoShellView *memo_shell_view,
 					 const gchar *status_message);
-void		e_memo_shell_view_sidebar_update
+void		e_memo_shell_view_update_sidebar
+					(EMemoShellView *memo_shell_view);
+void		e_memo_shell_view_update_search_filter
 					(EMemoShellView *memo_shell_view);
 
 G_END_DECLS

@@ -1013,6 +1013,19 @@ e_shell_content_set_filter_visible (EShellContent *shell_content,
 	}
 }
 
+void
+e_shell_content_add_filter_separator_after (EShellContent *shell_content,
+                                            gint action_value)
+{
+	EActionComboBox *combo_box;
+
+	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
+
+	combo_box = E_ACTION_COMBO_BOX (shell_content->priv->filter_combo_box);
+
+	e_action_combo_box_add_separator_after (combo_box, action_value);
+}
+
 RuleContext *
 e_shell_content_get_search_context (EShellContent *shell_content)
 {

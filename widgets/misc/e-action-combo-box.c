@@ -98,6 +98,10 @@ action_combo_box_render_pixbuf (GtkCellLayout *layout,
 
 	gtk_tree_model_get (model, iter, COLUMN_ACTION, &action, -1);
 
+	/* A NULL action means the row is a separator. */
+	if (action == NULL)
+		return;
+
 	g_object_get (
 		G_OBJECT (action),
 		"icon-name", &icon_name,
@@ -134,6 +138,10 @@ action_combo_box_render_text (GtkCellLayout *layout,
 
 	gtk_tree_model_get (model, iter, COLUMN_ACTION, &action, -1);
 
+	/* A NULL action means the row is a separator. */
+	if (action == NULL)
+		return;
+
 	g_object_get (
 		G_OBJECT (action),
 		"label", &label,
@@ -157,6 +165,22 @@ action_combo_box_render_text (GtkCellLayout *layout,
 	g_free (label);
 }
 
+static gboolean
+action_combo_box_is_row_separator (GtkTreeModel *model,
+                                   GtkTreeIter *iter)
+{
+	GtkAction *action;
+	gboolean separator;
+
+	/* NULL actions are rendered as separators. */
+	gtk_tree_model_get (model, iter, COLUMN_ACTION, &action, -1);
+	separator = (action == NULL);
+	if (action != NULL)
+		g_object_unref (action);
+
+	return separator;
+}
+
 static void
 action_combo_box_update_model (EActionComboBox *combo_box)
 {
@@ -170,8 +194,11 @@ action_combo_box_update_model (EActionComboBox *combo_box)
 		return;
 	}
 
+	/* We store values in the sort column as floats so that we can
+	 * insert separators in between consecutive integer values and
+	 * still maintain the proper ordering. */
 	list_store = gtk_list_store_new (
-		2, GTK_TYPE_RADIO_ACTION, G_TYPE_INT);
+		2, GTK_TYPE_RADIO_ACTION, G_TYPE_FLOAT);
 
 	list = gtk_radio_action_get_group (combo_box->priv->action);
 
@@ -186,7 +213,7 @@ action_combo_box_update_model (EActionComboBox *combo_box)
 		g_object_get (G_OBJECT (action), "value", &value, NULL);
 		gtk_list_store_set (
 			list_store, &iter, COLUMN_ACTION,
-			list->data, COLUMN_SORT, value, -1);
+			list->data, COLUMN_SORT, (gfloat) value, -1);
 
 		path = gtk_tree_model_get_path (
 			GTK_TREE_MODEL (list_store), &iter);
@@ -349,6 +376,10 @@ action_combo_box_init (EActionComboBox *combo_box)
 		(GtkCellLayoutDataFunc) action_combo_box_render_text,
 		combo_box, NULL);
 
+	gtk_combo_box_set_row_separator_func (
+		GTK_COMBO_BOX (combo_box), (GtkTreeViewRowSeparatorFunc)
+		action_combo_box_is_row_separator, NULL, NULL);
+
 	combo_box->priv->index = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal,
 		(GDestroyNotify) NULL,
@@ -476,4 +507,21 @@ e_action_combo_box_set_current_value (EActionComboBox *combo_box,
 
 	gtk_radio_action_set_current_value (
 		combo_box->priv->action, current_value);
+}
+
+void
+e_action_combo_box_add_separator_after (EActionComboBox *combo_box,
+                                        gint action_value)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	g_return_if_fail (E_ACTION_IS_COMBO_BOX (combo_box));
+
+	/* NULL actions are rendered as separators. */
+	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box));
+	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
+	gtk_list_store_set (
+		GTK_LIST_STORE (model), &iter, COLUMN_ACTION,
+		NULL, COLUMN_SORT, (gfloat) action_value + 0.5, -1);
 }

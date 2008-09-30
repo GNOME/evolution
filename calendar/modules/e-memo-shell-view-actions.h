@@ -32,6 +32,10 @@
 	E_SHELL_WINDOW_ACTION ((window), "memo-clipboard-paste")
 #define E_SHELL_WINDOW_ACTION_MEMO_DELETE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "memo-delete")
+#define E_SHELL_WINDOW_ACTION_MEMO_FILTER_ANY_CATEGORY(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-filter-any-category")
+#define E_SHELL_WINDOW_ACTION_MEMO_FILTER_UNMATCHED(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-filter-unmatched")
 #define E_SHELL_WINDOW_ACTION_MEMO_OPEN(window) \
 	E_SHELL_WINDOW_ACTION ((window), "memo-open")
 #define E_SHELL_WINDOW_ACTION_MEMO_PREVIEW(window) \
@@ -40,6 +44,12 @@
 	E_SHELL_WINDOW_ACTION ((window), "memo-print")
 #define E_SHELL_WINDOW_ACTION_MEMO_PRINT_PREVIEW(window) \
 	E_SHELL_WINDOW_ACTION ((window), "memo-print-preview")
+#define E_SHELL_WINDOW_ACTION_MEMO_SEARCH_ANY_FIELD_CONTAINS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-search-any-field-contains")
+#define E_SHELL_WINDOW_ACTION_MEMO_SEARCH_DESCRIPTION_CONTAINS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-search-description-contains")
+#define E_SHELL_WINDOW_ACTION_MEMO_SEARCH_SUMMARY_CONTAINS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-search-summary-contains")
 
 /* Action Groups */
 #define E_SHELL_WINDOW_ACTION_GROUP_MEMOS(window) \

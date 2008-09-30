@@ -1727,7 +1727,6 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 		gtk_action_group_add_action_with_accel (
 			action_group, GTK_ACTION (action), accelerator);
 
-		g_debug ("Adding action '%s'", action_name);
 		e_shell_switcher_add_action (switcher, GTK_ACTION (action));
 
 		gtk_ui_manager_add_ui (
@@ -1767,7 +1766,6 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 	GalViewCollection *view_collection;
 	GtkRadioAction *radio_action;
 	GtkAction *action;
-	GList *list, *iter;
 	GSList *radio_group;
 	gboolean visible;
 	const gchar *path;
@@ -1789,13 +1787,7 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 
 	/* Unmerge the previous menu. */
 	gtk_ui_manager_remove_ui (ui_manager, merge_id);
-
-	/* XXX Annoying that GTK+ doesn't provide a function for this.
-	 *     http://bugzilla.gnome.org/show_bug.cgi?id=550485 */
-	list = gtk_action_group_list_actions (action_group);
-	for (iter = list; iter != NULL; iter = iter->next)
-		gtk_action_group_remove_action (action_group, iter->data);
-	g_list_free (list);
+	e_action_group_remove_all_actions (action_group);
 
 	/* We have a view ID, so forge ahead. */
 	count = gal_view_collection_get_count (view_collection);

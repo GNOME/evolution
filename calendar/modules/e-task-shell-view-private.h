@@ -107,7 +107,7 @@ void		e_task_shell_view_open_task
 void		e_task_shell_view_set_status_message
 					(ETaskShellView *task_shell_view,
 					 const gchar *status_message);
-void		e_task_shell_view_sidebar_update
+void		e_task_shell_view_update_sidebar
 					(ETaskShellView *task_shell_view);
 
 G_END_DECLS
