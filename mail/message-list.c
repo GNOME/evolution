@@ -1409,9 +1409,6 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		str = camel_message_info_subject (msg_info);
 		return (void *)(str ? str : "");
 	case COL_SUBJECT_TRIMMED:
-		/* FIXME: "Trimmed subject" is not normalized yet. 
-		I do not find a way in evo gui to configure the normalized columns like from_norm
-		Hence this FIXME should remain until we have a COL_SUBJECT_TRIMMED_NORM. */
 		str = get_trimmed_subject (msg_info);
 		return (void *)(str ? str : "");
 	case COL_SUBJECT_NORM:

@@ -1,5 +1,11 @@
 2008-09-30  Sankar P  <psankar@novell.com>
 
+	* mail/message-list.c:
+	Remove unnecessary FIXME. 
+	normalized columns are for internal manipulation.
+
+2008-09-30  Sankar P  <psankar@novell.com>
+
 	** Committed on behalf of Hans Petter Jansson  <hpj@novell.com>
 
 	** Fix for bug #554107
