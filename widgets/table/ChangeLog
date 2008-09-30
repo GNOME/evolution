@@ -1,3 +1,9 @@
+2008-09-30  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-table.c:
+
 2008-09-29  Sankar P  <psankar@novell.com>
 
 	** Remove unused files

@@ -1,3 +1,9 @@
+2008-09-30  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-expander.c:
+
 2008-09-29  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #530716
