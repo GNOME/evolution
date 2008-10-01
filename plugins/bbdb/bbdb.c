@@ -132,19 +132,107 @@ bbdb_timeout (gpointer data)
 	return TRUE;
 }
 
-/* Code to populate addressbook when you reply to a mail follows */
+typedef struct
+{
+	char *name;
+	char *email;
+} todo_struct;
 
+static void
+free_todo_struct (todo_struct *td)
+{
+	if (td) {
+		g_free (td->name);
+		g_free (td->email);
+		g_free (td);
+	}
+}
+
+static GSList *todo = NULL;
+G_LOCK_DEFINE_STATIC (todo);
+
+static gpointer
+bbdb_do_in_thread (gpointer data)
+{
+	EBook *book;
+
+	/* Open the addressbook */
+	book = bbdb_open_addressbook (AUTOMATIC_CONTACTS_ADDRESSBOOK);
+	if (book == NULL) {
+		G_LOCK (todo);
+
+		g_slist_foreach (todo, (GFunc)free_todo_struct, NULL);
+		g_slist_free (todo);
+		todo = NULL;
+
+		G_UNLOCK (todo);
+		return NULL;
+	}
+
+	G_LOCK (todo);
+	while (todo) {
+		todo_struct *td = todo->data;
+
+		todo = g_slist_remove (todo, td);
+
+		G_UNLOCK (todo);
+
+		if (td) {
+			bbdb_do_it (book, td->name, td->email);
+			free_todo_struct (td);
+		}
+
+		G_LOCK (todo);
+	}
+	G_UNLOCK (todo);
+
+	g_object_unref (book);
+
+	return NULL;
+}
+
+static void
+bbdb_do_thread (const char *name, const char *email)
+{
+	todo_struct *td;
+
+	if (!name && !email)
+		return;
+
+	td = g_new (todo_struct, 1);
+	td->name = g_strdup (name);
+	td->email = g_strdup (email);
+
+	G_LOCK (todo);
+	if (todo) {
+		/* the list isn't empty, which means there is a thread taking
+		   care of that, thus just add it to the queue */
+		todo = g_slist_append (todo, td);
+	} else {
+		GError *error = NULL;
+
+		/* list was empty, add item and create a thread */
+		todo = g_slist_append (todo, td);
+		g_thread_create (bbdb_do_in_thread, NULL, FALSE, &error);
+
+		if (error) {
+			g_warning ("%s: Creation of the thread failed with error: %s", G_STRFUNC, error->message);
+			g_error_free (error);
+
+			G_UNLOCK (todo);
+			bbdb_do_in_thread (NULL);
+			G_LOCK (todo);
+		}
+	}
+	G_UNLOCK (todo);
+}
+
+/* Code to populate addressbook when you reply to a mail follows */
 void
 bbdb_handle_reply (EPlugin *ep, EMEventTargetMessage *target)
 {
 	const CamelInternetAddress *cia;
-	EBook      *book = NULL;
 	int         i;
-
-	/* Open the addressbook */
-	book = bbdb_open_addressbook (AUTOMATIC_CONTACTS_ADDRESSBOOK);
-	if (book == NULL)
-		return;
 
 	cia = camel_mime_message_get_from (target->message);
 	if (cia) {
@@ -152,13 +240,12 @@ bbdb_handle_reply (EPlugin *ep, EMEventTargetMessage *target)
 			const char *name=NULL, *email=NULL;
 			if (!(camel_internet_address_get (cia, i, &name, &email)))
 				continue;
-			bbdb_do_it (book, name, email);
+			bbdb_do_thread (name, email);
 		}
 	}
 
 	/* If this is a reply-all event, process To: and Cc: also. */
 	if (((EEventTarget *) target)->mask & EM_EVENT_MESSAGE_REPLY_ALL) {
-		g_object_unref (G_OBJECT (book));
 		return;
 	}
 
@@ -168,7 +255,7 @@ bbdb_handle_reply (EPlugin *ep, EMEventTargetMessage *target)
 			const char *name=NULL, *email=NULL;
 			if (!(camel_internet_address_get (cia, i, &name, &email)))
 				continue;
-			bbdb_do_it (book, name, email);
+			bbdb_do_thread (name, email);
 		}
 	}
 
@@ -178,11 +265,9 @@ bbdb_handle_reply (EPlugin *ep, EMEventTargetMessage *target)
 			const char *name=NULL, *email=NULL;
 			if (!(camel_internet_address_get (cia, i, &name, &email)))
 				continue;
-			bbdb_do_it (book, name, email);
+			bbdb_do_thread (name, email);
 		}
 	}
-
-	g_object_unref (G_OBJECT (book));
 }
 
 static void
