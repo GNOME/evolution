@@ -1,5 +1,13 @@
 2008-10-01  Milan Crha  <mcrha@redhat.com>
 
+	** Part of fix for bug #554418
+
+	* gui/dialogs/comp-editor.c: (set_attachment_list):
+	* gui/e-cal-popup.c: (ecalp_standard_menu_factory):
+	Allow/disallow guessing of the mime_type based on the file content.
+
+2008-10-01  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #554458
 
 	* gui/e-cal-popup.c: (ecalp_standard_menu_factory):

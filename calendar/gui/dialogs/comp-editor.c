@@ -2843,7 +2843,7 @@ set_attachment_list (CompEditor *editor, GSList *attach_list)
 			return;
 		}
 
-		mime_type = e_util_guess_mime_type (file_name);
+		mime_type = e_util_guess_mime_type (file_name, TRUE);
 		if (mime_type) {
 			if (!g_ascii_strcasecmp (mime_type, "message/rfc822")) {
 				wrapper = (CamelDataWrapper *) camel_mime_message_new ();

@@ -2260,7 +2260,7 @@ em_utils_snoop_type(CamelMimePart *part)
 
 	filename = camel_mime_part_get_filename (part);
 	if (filename != NULL)
-		name_type = e_util_guess_mime_type (filename);
+		name_type = e_util_guess_mime_type (filename, FALSE);
 
 	dw = camel_medium_get_content_object((CamelMedium *)part);
 	if (!camel_data_wrapper_is_offline(dw)) {

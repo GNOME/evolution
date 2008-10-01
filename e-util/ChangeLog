@@ -1,3 +1,13 @@
+2008-10-01  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #554418
+
+	* e-util.h: (e_util_guess_mime_type):
+	* e-util.c: (e_util_guess_mime_type): Guess mime_type based on
+	the file content only when permitted by the caller, otherwise
+	check based on the filename only, where it fallbacks if file
+	content guess fails.
+
 2008-09-29  Sankar P  <psankar@novell.com>
 
 License Changes

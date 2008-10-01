@@ -405,7 +405,7 @@ ecalp_standard_menu_factory (EPopup *ecalp, void *data)
 			if (filename) {
 				gchar *name_type;
 
-				name_type = e_util_guess_mime_type (filename);
+				name_type = e_util_guess_mime_type (filename, FALSE);
 				cp = g_content_type_from_mime_type (name_type);
 				apps = g_app_info_get_all_for_type (cp ? cp : name_type);
 				g_free (cp);

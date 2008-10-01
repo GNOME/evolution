@@ -116,7 +116,7 @@ gboolean	e_file_lock_create		(void);
 void		e_file_lock_destroy		(void);
 gboolean 	e_file_lock_exists		(void);
 
-gchar *		e_util_guess_mime_type		(const gchar *filename);
+gchar *		e_util_guess_mime_type		(const gchar *filename, gboolean localfile);
 gchar *		e_util_filename_to_uri		(const gchar *filename);
 gchar *		e_util_uri_to_filename		(const gchar *uri);
 

@@ -1,5 +1,13 @@
 2008-10-01  Milan Crha  <mcrha@redhat.com>
 
+	** Part of fix for bug #554418
+
+	* em-utils.c: (em_utils_snoop_type):
+	* em-popup.c: (emp_standard_menu_factory):
+	Guess mime_type based on the filename only.
+
+2008-10-01  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #554458
 
 	* em-popup.c: (emp_standard_menu_factory):

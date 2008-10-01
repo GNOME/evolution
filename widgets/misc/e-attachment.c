@@ -229,8 +229,7 @@ attachment_guess_mime_type (const char *file_name)
 	char *type;
 	gchar *content = NULL;
 
-	type = e_util_guess_mime_type (file_name);
-
+	type = e_util_guess_mime_type (file_name, TRUE);
 
 	if (type && strcmp (type, "text/directory") == 0 &&
 	    file_ext_is (file_name, ".vcf") &&
