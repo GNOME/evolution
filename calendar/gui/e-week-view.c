@@ -1,26 +1,24 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-
 /*
- * Authors :
- *  Damon Chaplin <damon@ximian.com>
- *  Rodrigo Moya <rodrigo@ximian.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of version 2 of the GNU General Public
- * License as published by the Free Software Foundation.
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
- * USA
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ *
+ *
+ * Authors:
+ *		Damon Chaplin <damon@ximian.com>
+ *		Rodrigo Moya <rodrigo@ximian.com>
+ *
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ *
  */
 
 /*
@@ -336,10 +334,28 @@ update_row (EWeekView *week_view, int row)
 {
 	ECalModelComponent *comp_data;
 	ECalModel *model;
+	gint event_num;
+	const char *uid;
+	char *rid = NULL;
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 	comp_data = e_cal_model_get_component_at (model, row);
 	g_return_if_fail (comp_data != NULL);
+
+	uid = icalcomponent_get_uid (comp_data->icalcomp);
+	if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
+		icalproperty *prop;
+
+		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_RECURRENCEID_PROPERTY);
+		if (prop)
+			rid = icaltime_as_ical_string (icalcomponent_get_recurrenceid (comp_data->icalcomp));
+	}
+
+	if (e_week_view_find_event_from_uid (week_view, comp_data->client, uid, rid, &event_num))
+		e_week_view_remove_event_cb (week_view, event_num, NULL);
+
+	g_free (rid);
+
 	process_component (week_view, comp_data);
 
 	gtk_widget_queue_draw (week_view->main_canvas);

@@ -1,25 +1,24 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * Author:
- *  Radek Doulik <rodo@ximian.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of version 2 of the GNU General Public
- * License as published by the Free Software Foundation.
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
- * USA
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ *
+ *
+ * Authors:
+ *		Radek Doulik <rodo@ximian.com>
+ *
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ *
  */
-
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -138,7 +137,7 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 
 	if (pipe (fds) == -1) {
 		errnosav = errno;
-		d(printf ("failed to create a pipe (for use with spamassassin: %s\n", strerror (errno)));
+		d(printf ("failed to create a pipe (for use with SpamAssassin: %s\n", strerror (errno)));
 		g_set_error (error, EM_JUNK_ERROR, errnosav, _("Failed to create pipe: %s"), strerror (errnosav));
 		errno = errnosav;
 		return rv_err;
@@ -146,7 +145,7 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 
 	if (output_buffer && pipe (out_fds) == -1) {
 		errnosav = errno;
-		d(printf ("failed to create a pipe (for use with spamassassin: %s\n", strerror (errno)));
+		d(printf ("failed to create a pipe (for use with SpamAssassin: %s\n", strerror (errno)));
 		g_set_error (error, EM_JUNK_ERROR, errnosav, _("Failed to create pipe: %s"), strerror (errnosav));
 		close (fds [0]);
 		close (fds [1]);
@@ -243,7 +242,7 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 				result = waitpid (pid, &status, WNOHANG);
 					g_set_error (error, EM_JUNK_ERROR, -2, _("SpamAssassin child process does not respond, killing..."));
 			} else
-				g_set_error (error, EM_JUNK_ERROR, -3, _("Wait for Spamassassin child process interrupted, terminating..."));
+				g_set_error (error, EM_JUNK_ERROR, -3, _("Wait for SpamAssassin child process interrupted, terminating..."));
 		}
 
 		if (result != -1 && WIFEXITED (status))
@@ -541,7 +540,7 @@ em_junk_sa_respawn_spamd ()
 	em_junk_sa_kill_spamd ();
 
 	if (em_junk_sa_check_respawn_too_fast ()) {
-		g_warning ("respawning of spamd too fast => fallback to use spamassassin directly");
+		g_warning ("respawning of spamd too fast => fallback to use SpamAssassin directly");
 
 		em_junk_sa_use_spamc = em_junk_sa_use_daemon = FALSE;
 		return FALSE;
@@ -594,7 +593,7 @@ em_junk_sa_check_junk(EPlugin *ep, EMJunkHookTarget *target)
 
 	rv = pipe_to_sa_full (msg, NULL, argv, 0, 1, out, &target->error) != 0;
 
-	if (!rv && out && !strcmp ((const char *)out->data, "0/0\n")) {
+	if (!rv && out && out->data && !strcmp ((const char *)out->data, "0/0\n")) {
 		/* an error occurred */
 		if (em_junk_sa_respawn_spamd ()) {
 			g_byte_array_set_size (out, 0);

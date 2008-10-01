@@ -25,6 +25,7 @@
 #include "autocompletion-config.h"
 
 #include <e-shell.h>
+#include <libedataserverui/e-name-selector-entry.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <e-preferences-window.h>

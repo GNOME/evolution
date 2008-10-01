@@ -1,28 +1,28 @@
-From evolution@novell.com Wed Mar 15 12:00:00 2006
+From evolution@novell.com Wed Sep 06 07:45:12 2006
 Return-Path: <evolution@novell.com>
 Received: from pop.novell.com (IDENT:mail@localhost [127.0.0.1]) by
-	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 15 Mar 2006
+	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 14 Mar 2007
 	07:45:12 -0400
 Received: from smtp.novell.com (smtp.novell.com [141.154.95.10]) by
 	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
-	<evolution@novell.com>; Wed, 15 Mar 2006 07:45:10 -0400
-Received: (qmail 5610 invoked from network); 15 Mar 2006 12:00:00 -0000
+	<evolution@novell.com>; Wed, 14 Mar 2007 07:45:10 -0400
+Received: (qmail 5610 invoked from network); 14 Mar 2007 12:00:00 -0000
 Received: from smtp.novell.com (HELO localhost) (141.154.95.10) by
-	pop.novell.com with SMTP; 15 Mar 2006 12:00:00 -0000
-From: "The Evolution Team" <evolution@novell.com>
-To: Evolution Users <evolution@novell.com>
+	pop.novell.com with SMTP; 14 Mar 2007 12:00:00 -0000
+From: "Evolution komanda" <evolution@novell.com>
+To: Evolution naudotojai <evolution@novell.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
-X-Mailer: Evolution 2.6.0
-Date: 15 March 2006 12:00:00 +0000
+X-Mailer: Evolution 2.10.0
+Date: 14 March 2007 12:00:00 +0000
 Message-Id: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
-Subject: Welcome to Evolution!
+Subject: Sveiki, Evolution naudotojai!
 Sender: evolution@novell.com
 Errors-To: evolution@novell.com
 X-Mailman-Version: 1.1
-Status:   
+Status:
 X-Evolution-Source: pop://rupert@pop.novell.com/inbox
-X-Evolution: 00000ddd-0030
+X-Evolution: 00000002-0000
 
 
 --=-t4dRE6cqcdSBHOrMdTQ1
@@ -34,14 +34,15 @@ Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
 
-Evolution komanda didžiuojasi galėdami Jums pristatyti Evolution -
-universalią bendravio ir asmeninės informacijos valdymui skirtą
+Evolution komanda džiaugiasi galėdama Jums pristatyti Evolution –
+universalią bendravimui ir asmeninės informacijos valdymui skirtą
 programą.
+
 
 Pirmieji žingsniai
 
 	Kairėje Evolution lango pusėje yra šoninis skydelis, kuriame
-	yra nuorodos į visus Jūsų pašto aplankus. Po juo rasite Jūsų
+	yra nuorodos į visus pašto aplankus. Po juo rasite
 	kalendorių, kontaktų, užduočių, pašto bei raštelių mygtukus.
 
 	Norėdami pamatyti pilną Evolution žinyną, meniu „Žinynas“
@@ -49,33 +50,23 @@ Pirmieji žingsniai
 
 Naujos funkcijos
 
-	Evolution 2.6 yra
-	
-	# naujas Raštelių komponentas
-	# naujos išvaizdos Įvykių/užduočių/susitikimų redaktorius
-	# kalendorių publikavimo palaikymas
-	# CalDAV palaikymas
-	# Network Manager palaikymas
-	# prisijungimo prie HULA palaikymas
-	# pagerintas GroupWise palaikymas
-	# pagerintas Įvykių pasikartojimo palaikymas
-	# kalendorių paaiškinimai
-	# Mozilla, Outlook ir Evolution formatų CSV/tab importavimas
-	# kontaktų sąrašų palaikymas LDAP adresų knygoms
-	# sudėtingų paieškų adresų knygose išsaugojimo palaikymas
-	# laiškų prioritetų palaikymas rašyklėje
-	# daug ištaisytų klaidų bei kitų naudotojo sąsajos patobulinimų
+	Evolution 2.10 atsirado
+
+	# Integracija su gtk-print
+	# Nustatomas IMAP antraščių parsiuntimas
+	# Didesnis greitis ir mažesnis atminties naudojimas
+	# Daug smulkių pataisymų ir kitų patobulinimų
 
 Pranešimas apie klaidas
 
-	Apie klaidas turėtų būti pranešta http://bugzilla.gnome.org.
+	Apie klaidas galite pranešti adresu http://bugzilla.gnome.org.
 
 Papildoma informacija
 
 	Evolution naudotojų pašto konferenciją galite užsisakyti adresu
 	http://mail.gnome.org/mailman/listinfo/evolution-list.
 
-	Informacija apie Evolution projektą galite rasti
+	Informaciją apie Evolution projektą galite rasti
 	http://www.gnome.org/projects/evolution.
 
 
@@ -95,116 +86,100 @@ Content-Type: text/html; charset=utf-8
 </HEAD>
 <BODY BGCOLOR="#f8fcf8">
 <TABLE BACKGROUND="cid:1001417869.27019.4.camel@spectrolite" CELLSPACING="0" CELLPADDING="0" WIDTH="100%">
-<TR>
-<TD ALIGN="left" VALIGN="top">
+<TR><TD ALIGN="left" VALIGN="top">
 <IMG SRC="cid:1001417869.27019.5.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8"></TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD>
-</TD>
+<TD></TD><TD></TD><TD></TD><TD></TD><TD></TD>
 <TD ALIGN="right" VALIGN="top">
 <IMG SRC="cid:1001417929.27019.7.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8"></TD>
-</TR>
-<TR>
-<TD>
-</TD>
-<TD>
+</TR><TR><TD></TD><TD>
 <IMG SRC="cid:1001417989.27019.11.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="48" HEIGHT="48"></TD>
-<TD>
-</TD>
-<TD>
-<FONT COLOR="#f8fcf8"><FONT SIZE="4"><B>Evolution komanda</FONT></B></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4"> didžiuojasi galėdami Jums pristatyti</FONT></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4"><B>Evolution</FONT></B></FONT SIZE="4"><FONT COLOR="#f8fcf8"><FONT SIZE="4"> - universalią bendravimo ir asmeninės informacijos valdymui skirtą programą.</FONT></FONT SIZE="4"></TD>
-<TD>
-</TD>
-<TD>
-<IMG SRC="cid:1001417989.27019.11.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="48" HEIGHT="48"></TD>
-<TD>
-</TD>
-</TR>
-<TR>
-<TD ALIGN="left" VALIGN="bottom">
-<IMG SRC="cid:1001417929.27019.8.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8"></TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD>
-</TD>
-<TD ALIGN="right" VALIGN="bottom">
-<div align=right>
-<IMG SRC="cid:1001417929.27019.9.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8"></div>
-</TD>
-</TR>
-</TABLE>
-<h2>Pirmieji žingsniai</h2>
+<TD></TD><TD>
+<FONT COLOR="#f8fcf8"><FONT SIZE="4">
+
+
+<B>Evolution komanda</B> džiaugiasi galėdama pristatyti <B>Evolution</B> –
+universalią bendravimui ir asmeninės informacijos valdymui skirtą
+programą.
+
+
+</FONT SIZE="4"></FONT>
+</TD><TD></TD><TD>
+<IMG SRC="cid:1001417989.27019.11.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="48" HEIGHT="48">
+</TD><TD></TD></TR><TR><TD ALIGN="left" VALIGN="bottom">
+<IMG SRC="cid:1001417929.27019.8.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8">
+</TD><TD></TD><TD></TD><TD></TD><TD></TD><TD></TD>
+<TD ALIGN="right" VALIGN="bottom"><div align=right>
+<IMG SRC="cid:1001417929.27019.9.camel@spectrolite" ALIGN="top" BORDER="0" WIDTH="8" HEIGHT="8">
+</div></TD></TR></TABLE>
+
+
+<h2>
+Pirmieji žingsniai
+</h2>
 
 <blockquote>
+
 	Kairėje Evolution lango pusėje yra šoninis skydelis, kuriame
-        yra nuorodos į visus Jūsų pašto aplankus. Po juo rasite Jūsų
-        kalendorių, kontaktų, užduočių, pašto bei raštelių mygtukus.
+	yra nuorodos į visus pašto aplankus. Po juo rasite
+	kalendorių, kontaktų, užduočių, pašto bei raštelių mygtukus.
+
 <br><br>
-	Norėdami pamatyti pilną Evolution žinyną, meniu <b>Žinynas</b>
-	pasirinkite punktą <b>Turinys</b>, arba paspauskite klavišą <b>F1</b>.
+
+	Norėdami pamatyti pilną Evolution žinyną, meniu „Žinynas“
+	pasirinkite punktą „Turinys“, arba paspauskite klavišą F1.
+
 <br><br>
 </blockquote>
 
-<h2>Naujos funkcijos</h2>
+<h2>
+Naujos funkcijos
+</h2>
+
 <blockquote>
-	Evolution 2.6 yra 
+	Evolution 2.10 atsirado
 	<ul>
-	<li>Naujas Raštelių komponentas</li>
-	<li>Naujos išvaizdos Įvykių/užduočių/susitikimų redaktorius</li>
-	<li>Kalendorių publikavimo palaikymas</li>
-	<li>CalDAV palaikymas</li>
-	<li>Network Manager palaikymas</li>
-	<li>Prisijungimo prie HULA palaikymas</li>
-	<li>Pagerintas GroupWise palaikymas</li>
-	<li>Pagerintas Įvykių pasikartojimo palaikymas</li>
-	<li>Kalendorių paaiškinimai</li>
-	<li>Mozilla, Outlook ir Evolution formatų CSV/tab importavimas</li>
-	<li>Kontaktų sąrašų palaikymas LDAP adresų knygoms</li>
-	<li>Sudėtingų paieškų adresų knygose išsaugojimo palaikymas</li>
-	<li>Laiškų prioritetų palaikymas rašyklėje</li>
-	<li>Daug ištaisytų klaidų bei kitų naudotojo sąsajos patobulinimų</li>
+	<li>
+	Integracija su gtk-print
+	</li><li>
+	Nustatomas IMAP antraščių parsiuntimas
+	</li><li>
+	Didesnis greitis ir mažesnis atminties naudojimas
+	</li><li>
+	Daug smulkių pataisymų ir kitų patobulinimų
+	</li>
 	</ul>
 <br>
 </blockquote>
 
-<h2>Pranešimas apie klaidas</h2>
+<h2>
+Pranešimas apie klaidas
+</h2>
 <blockquote>
-	Apie klaidas turėtų būti pranešta <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>.
+	Apie klaidas galite pranešti adresu <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>.
 <br><br>
-</blockquote> 
+</blockquote>
 
-<h2>Papildoma informacija</h2>
+<h2>
+Papildoma informacija
+</h2>
 
 <blockquote>
 	Evolution naudotojų pašto konferenciją galite užsisakyti adresu
-	<a
-	href="http://lists.gnome.org/mailman/listinfo/evolution">http://lists.gnome.org/mailman/listinfo/evolution</a>.
+	<a href="http://lists.gnome.org/mailman/listinfo/evolution">http://lists.gnome.org/mailman/listinfo/evolution</a>.
 
-	Informacija apie Evolution projektą galite rasti
+	Informaciją apie Evolution projektą galite rasti adresu
 	<a href="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</a>.
 	<!--
-	Galite rasti atsakymus į Dažniausiai užduodamus klausimus (DUK) 
+	Atsakymus į dažniausiai užduodamus klausimus galite rasti adresu
 	<a href="http://go-evolution.org/FAQ">http://go-evolution.org/FAQ</a>.
 	-->
-<br><br>	
+<br><br>
 </blockquote>
 
-Pagarbiai,<br>
-Evolution komanda<br>
-<a href="mailto:evolution@novell.com">evolution@novell.com</a>
+Pagarbiai,
+<br>
+Evolution komanda
+<br><a href="mailto:evolution@novell.com">evolution@novell.com</a>
 
 </BODY>
 </HTML>
@@ -365,4 +340,9 @@ VHja7dRBDcAgEADBgwDBEj4wUvdN+2h1kJvVMNmy9vVF4mokr93PGwRkFjBHJ8ADCPAAAjyAAA8g
 wAMI8AACPIAADyDAAwjwAAI8gAAPIMADCPAAAjyAAA8gwAMI8AACPIAADyDAAwjwAAI8gAAPIMAD
 CPAAAjyAAA8gwAMIOL8fcegyqOBdwTkAAAAASUVORK5CYII=
 
+
 --=-t4dRE6cqcdSBHOrMdTQ1
+Content-Transfer-Encoding: 8bit
+
+--=-t4dRE6cqcdSBHOrMdTQ1
+

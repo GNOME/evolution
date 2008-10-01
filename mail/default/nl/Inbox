@@ -1,22 +1,22 @@
 From evolution@novell.com Wed Sep 06 07:45:12 2006
 Return-Path: <evolution@novell.com>
 Received: from pop.novell.com (IDENT:mail@localhost [127.0.0.1]) by
-	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 06 Sep 2006
+	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20680; Wed, 14 Mar 2007
 	07:45:12 -0400
 Received: from smtp.novell.com (smtp.novell.com [141.154.95.10]) by
 	pop.novell.com (8.9.3/8.9.3) with ESMTP id HAA20659 for
-	<evolution@novell.com>; Wed, 06 Sep 2006 07:45:10 -0400
-Received: (qmail 5610 invoked from network); 06 Sep 2006 12:00:00 -0000
+	<evolution@novell.com>; Wed, 14 Mar 2007 07:45:10 -0400
+Received: (qmail 5610 invoked from network); 14 Mar 2007 12:00:00 -0000
 Received: from smtp.novell.com (HELO localhost) (141.154.95.10) by
-	pop.novell.com with SMTP; 06 Sep 2006 12:00:00 -0000
+	pop.novell.com with SMTP; 14 Mar 2007 12:00:00 -0000
 From: "The Evolution Team" <evolution@novell.com>
-To: Evolution Users <evolution@novell.com>
+To: Evolution-gebruikers <evolution@novell.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
-X-Mailer: Evolution 2.8.0
-Date: 06 September 2006 12:00:00 +0000
+X-Mailer: Evolution 2.24.0
+Date: 14 March 2007 12:00:00 +0000
 Message-Id: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
-Subject: Welcome bij Evolution!
+Subject: Welkom bij Evolution!
 Sender: evolution@novell.com
 Errors-To: evolution@novell.com
 X-Mailman-Version: 1.1
@@ -34,50 +34,36 @@ Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
 
-Het Evolution-team heeft het genoegen u deze nieuwe versie van Evolution te
-presenteren; het programma waarmee u uw e-mail en persoonlijke informatie
-kunt beheren.
+Het Evolution-team heeft het genoegen u deze nieuwe versie van Evolution
+te presenteren; het programma waarmee u uw e-mail en persoonlijke
+informatie kunt beheren.
 
 
-Korte uitleg
+Aan de slag
 
-	Aan de linkerkant van het Evolution-venster ziet u de zijbalk met de
-	snelkoppelingen naar al uw e-mailmappen. Daaronder ziet u knoppen voor uw
-	agenda's, contacten, taken, e-mail en memo's.
-	
-	Voor een uitgebreidere uitleg over het gebruik van Evolution selecteert u
-	"Inhoudsopgave" uit het menu "Hulp" of drukt u op de F1 toets.
+	Aan de linkerkant van het Evolutionvenster ziet u het zijpaneel met de
+	snelkoppeling naar al uw e-mailmappen. Daaronder ziet u knoppen voor
+	uw agenda's, contacten, taken, e-mail en memo's.
 
+	Voor een meer uitgebreide uitleg over het gebruik van Evolution 
+	selecteert u "Inhoud" uit het menu "Hulp", of drukt u op de F1-toets. 
 
-Nieuwe functies
+Fouten rapporteren
 
-	Evolution 2.8 heeft
-
-	# Een nieuwe zoekinterface en algemene zoekfunctie voor e-mail
-	# Een breedbeeldweergave / verticale weergave voor e-mail
-	# Verbeterd uiterlijk en gevoel ("Cairo"-integratie)
-	# Meer snelheid en een lager geheugengebruik
-	# Ondersteuning voor GroupWise-herinneringen en intrekken van e-mail
-	# Deelbare notities in het dagboek (bestandssysteem)
-	# Integratie met Gnome-sleutelbossen
-	# Veel minder problemen en vele kleine verbeteringen
-
-Fouten melden
-
-	Fouten kunnen gemeld worden op http://bugzilla.gnome.org.
+	Fouten moeten gerapporteerd worden op http://bugzilla.gnome.org.
 
 Meer informatie
 
-	U kunt zich abonneren op de (engelstalige) gebruikerslijst van Evolution
-	op http://mail.gnome.org/mailman/listinfo/evolution-list.
-
-	Informatie over het Evolution-project is beschikbaar op
+	U kunt kunt u abonneren op de (engelstalige) gebruikerslijst van 
+	Evolution op http://mail.gnome.org/mailman/listinfo/evolution-list.
+	Informatie over het Evolution project is beschikbaar op 
 	http://www.gnome.org/projects/evolution.
+	U kunt een lijst met (Engelstalige) antwoorden op veelgestelde
+	vragen vinden (FAQ) op http://go-evolution.org/FAQ
 
 
 Hoogachtend,
-Het Evolution-Team
-evolution@novell.com
+Het Evolution-team
 
 
 --=-2gZ1roA/HoYrlRDVGyiM
@@ -102,9 +88,7 @@ Content-Type: text/html; charset=utf-8
 <FONT COLOR="#f8fcf8"><FONT SIZE="4">
 
 
-<B>Het Evolution-team</B> heeft het genoegen u deze nieuwe versie van Evolution te presenteren; het programma waarmee u uw e-mail en persoonlijke informatie kunt beheren.
-
-
+<B>Het Evolution-team</B> heeft het genoegen u deze nieuwe versie van <B>Evolution</B> te presenteren; het programma waarmee u uw e-mail en persoonlijke informatie kunt beheren.
 
 
 </FONT SIZE="4"></FONT>
@@ -119,56 +103,30 @@ Content-Type: text/html; charset=utf-8
 
 
 <h2>
-Korte uitleg
+Aan de slag
 </h2>
 
 <blockquote>
 
-	Aan de linkerkant van het Evolution-venster ziet u de zijbalk met de
-	snelkoppelingen naar al uw e-mailmappen. Daaronder ziet u knoppen voor uw
-	agenda's, contacten, taken, e-mail en memo's.
+	Aan de linkerkant van het Evolution-venster ziet u het zijpaneel 
+	met de snelkoppelingen naar al uw e-mailmappen. Daaronder ziet 
+	u knoppen voor uw agenda's, contacten, taken, e-mail en memo's. 
 
 <br><br>
 
-    Voor een uitgebreidere uitleg over het gebruik van Evolution selecteert
-    u "Inhoudsopgave" uit het menu "Hulp" of drukt u op de F1 toets.
+	Voor een meer uitgebreide uitleg over het gebruik van Evolution 
+	selecteert u <b>Inhoud</b> uit het menu <b>Hulp</b>, of drukt u 
+	op de <b>F1</b>-toets.
 
 <br><br>
 </blockquote>
 
 <h2>
-Nieuwe functies
-</h2>
-
-<blockquote>
-	Evolution 2.8 heeft 
-	<ul>
-	<li>
-	Een nieuwe zoekinterface en algemene zoekfunctie voor e-mail
-	</li><li>
-	Een breedbeeldweergave / verticale weergave voor e-mail
-	</li><li>
-	Verbeterd uiterlijk en gevoel ("Cairo"-integratie)
-	</li><li>
-	Meer snelheid en een lager geheugengebruik
-	</li><li>
-	Ondersteuning voor GroupWise-herinneringen en intrekken van e-mail
-	</li><li>
-	Deelbare notities in het dagboek (bestandssysteem)
-	</li><li>
-	Integratie met Gnome-sleutelbossen
-	</li><li>
-	Veel minder problemen en vele kleine verbeteringen
-	</li>
-	</ul>
-<br>
-</blockquote>
-
-<h2>
-Fouten melden
+Fouten rapporteren
 </h2>
 <blockquote>
-	Fouten kunnen gemeld worden op <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>.
+	Fouten moeten gerapporteerd worden op
+	 <a href="http://bugzilla.gnome.org">http://bugzilla.gnome.org</a>.
 <br><br>
 </blockquote> 
 
@@ -177,19 +135,22 @@ Meer informatie
 </h2>
 
 <blockquote>
-	U kunt zich abonneren op de (engelstalige) gebruikerslijst van Evolution
-	op <a href="http://lists.gnome.org/mailman/listinfo/evolution">http://lists.gnome.org/mailman/listinfo/evolution</a>.
+	U kunt kunt u abonneren op de (Engelstalige) gebruikerslijst van 
+	Evolution op <a href="http://lists.gnome.org/mailman/listinfo/evolution">http://lists.gnome.org/mailman/listinfo/evolution</a>.
 
-	Informatie over het Evolution-project is beschikbaar op
+	Informatie over het Evolution project is beschikbaar op
 	<a href="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</a>.
-
+	<!--
+	U kunt een lijst met (Engelstalige) antwoorden op veelgestelde
+	vragen vinden (FAQ) op
+	<a href="http://go-evolution.org/FAQ">http://go-evolution.org/FAQ</a>.
+	-->
 <br><br>	
 </blockquote>
 
 Hoogachtend,
 <br>
-Het Evolution-Team
-<br><a href="mailto:evolution@novell.com">evolution@novell.com</a>
+Het Evolution-team
 
 </BODY>
 </HTML>

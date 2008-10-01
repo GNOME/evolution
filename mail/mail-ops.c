@@ -1,27 +1,28 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* mail-ops.c: callbacks for the mail toolbar/menus */
-
 /*
- * Authors: Dan Winship <danw@ximian.com>
- *  	    Jeffrey Stedfast <fejj@ximian.com>
- *          Peter Williams <peterw@ximian.com>
- *          Michael Zucchi <notzed@ximian.com>
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * mail-ops.c: callbacks for the mail toolbar/menus 
  *
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of version 2 of the GNU General Public
- * License as published by the Free Software Foundation.
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
- * USA
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ *
+ *
+ * Authors:
+ *		Dan Winship <danw@ximian.com>
+ *  	Jeffrey Stedfast <fejj@ximian.com>
+ *      Peter Williams <peterw@ximian.com>
+ *      Michael Zucchi <notzed@ximian.com>
+ *
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ *
  */
 
 #include <config.h>
@@ -1400,68 +1401,94 @@ mail_get_store (const char *uri, CamelOperation *op, void (*done) (char *uri, Ca
 struct _remove_folder_msg {
 	MailMsg base;
 
-	char *uri;
+	CamelFolder *folder;
 	gboolean removed;
-	void (*done) (char *uri, gboolean removed, void *data);
+	void (*done) (CamelFolder *folder, gboolean removed, CamelException *ex, void *data);
 	void *data;
 };
 
 static gchar *
 remove_folder_desc (struct _remove_folder_msg *m)
 {
-	return g_strdup_printf (_("Removing folder %s"), m->uri);
+	return g_strdup_printf (_("Removing folder %s"), m->folder->full_name);
+}
+
+static void
+remove_folder_rec (CamelStore *store, CamelFolderInfo *fi, CamelException *ex)
+{
+	while (fi) {
+		CamelFolder *folder;
+
+		if (fi->child) {
+			remove_folder_rec (store, fi->child, ex);
+			if (camel_exception_is_set (ex))
+				return;
+		}
+
+		d(printf ("deleting folder '%s'\n", fi->full_name));
+
+		if (!(folder = camel_store_get_folder (store, fi->full_name, 0, ex)))
+			return;
+
+		if (!CAMEL_IS_VEE_FOLDER (folder)) {
+			GPtrArray *uids = camel_folder_get_uids (folder);
+			int i;
+
+			/* Delete every message in this folder, then expunge it */
+			camel_folder_freeze (folder);
+			for (i = 0; i < uids->len; i++)
+				camel_folder_delete_message (folder, uids->pdata[i]);
+
+			camel_folder_free_uids (folder, uids);
+
+			camel_folder_sync (folder, TRUE, NULL);
+			camel_folder_thaw (folder);
+		}
+
+		/* if the store supports subscriptions, unsubscribe from this folder... */
+		if (camel_store_supports_subscriptions (store))
+			camel_store_unsubscribe_folder (store, fi->full_name, NULL);
+
+		/* Then delete the folder from the store */
+		camel_store_delete_folder (store, fi->full_name, ex);
+		if (camel_exception_is_set (ex))
+			return;
+
+		fi = fi->next;
+	}
 }
 
 static void
 remove_folder_exec (struct _remove_folder_msg *m)
 {
 	CamelStore *store;
-	CamelFolder *folder;
-	GPtrArray *uids;
-	int i;
+	CamelFolderInfo *fi;
 
 	m->removed = FALSE;
 
-	folder = mail_tool_uri_to_folder (m->uri, 0, &m->base.ex);
-	if (!folder)
+	store = m->folder->parent_store;
+
+	fi = camel_store_get_folder_info (store, m->folder->full_name, CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, &m->base.ex);
+	if (camel_exception_is_set (&m->base.ex))
 		return;
 
-	store = folder->parent_store;
+	remove_folder_rec (store, fi, &m->base.ex);
+	camel_store_free_folder_info (store, fi);
 
-	/* Delete every message in this folder, then expunge it */
-	uids = camel_folder_get_uids (folder);
-	camel_folder_freeze(folder);
-	for (i = 0; i < uids->len; i++)
-		camel_folder_delete_message (folder, uids->pdata[i]);
-	camel_folder_sync (folder, TRUE, NULL);
-	camel_folder_thaw(folder);
-	camel_folder_free_uids (folder, uids);
-
-	/* if the store supports subscriptions, unsubscribe from this folder... */
-	if (camel_store_supports_subscriptions (store))
-		camel_store_unsubscribe_folder (store, folder->full_name, NULL);
-
-	/* Then delete the folder from the store */
-	camel_store_delete_folder (store, folder->full_name, &m->base.ex);
 	m->removed = !camel_exception_is_set (&m->base.ex);
-	camel_object_unref (folder);
 }
 
 static void
 remove_folder_done (struct _remove_folder_msg *m)
 {
-	if (m->removed) {
-		/* FIXME: Remove this folder from the folder cache ??? */
-	}
-
 	if (m->done)
-		m->done (m->uri, m->removed, m->data);
+		m->done (m->folder, m->removed, &m->base.ex, m->data);
 }
 
 static void
 remove_folder_free (struct _remove_folder_msg *m)
 {
-	g_free (m->uri);
+	camel_object_unref (m->folder);
 }
 
 static MailMsgInfo remove_folder_info = {
@@ -1473,12 +1500,15 @@ static MailMsgInfo remove_folder_info = {
 };
 
 void
-mail_remove_folder (const char *uri, void (*done) (char *uri, gboolean removed, void *data), void *data)
+mail_remove_folder (CamelFolder *folder, void (*done) (CamelFolder *folder, gboolean removed, CamelException *ex, void *data), void *data)
 {
 	struct _remove_folder_msg *m;
 
+	g_return_if_fail (folder != NULL);
+
 	m = mail_msg_new (&remove_folder_info);
-	m->uri = g_strdup (uri);
+	m->folder = folder;
+	camel_object_ref (folder);
 	m->data = data;
 	m->done = done;
 

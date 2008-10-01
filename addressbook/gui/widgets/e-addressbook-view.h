@@ -19,6 +19,7 @@
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
+
 #ifndef E_ADDRESSBOOK_VIEW_H
 #define E_ADDRESSBOOK_VIEW_H
 

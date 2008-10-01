@@ -1,3 +1,63 @@
+2008-10-01  Gabor Kelemen  <kelemeng@gnome.hu>
+
+	*  send-options.c: Mark two forgotten strings for translation. Fixes bug #553070
+
+2008-10-01  Gabor Kelemen  <kelemeng@gnome.hu>
+
+	* org-gnome-proxy-errors.xml:
+	* org-gnome-proxy-login-errors.xml:
+	* proxy.c:
+	* proxy-listing.glade:
+	* proxy-login-dialog.glade:
+	Add translator comment to the occurrences of the Proxy term. Fixes bug #554297
+
+2008-10-01  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #511947
+
+	* proxy-login.c: (proxy_login_get_cnc):
+	Pass in optional parent for password dialog.
+	* proxy-login.c: (proxy_soap_login), (proxy_login_update_tree),
+	(org_gnome_proxy_account_login): Adapt to the above change and check
+	for NULL values to prevent runtime warnings.
+
+2008-09-25  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fix for bug #553148
+
+	* org-gnome-compose-send-options.xml:
+	* org-gnome-groupwise-features.eplug.xml: Standardise "GroupWise"
+	usage in translatable strings.
+
+2008-09-24  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* proxy.c:
+
+2008-09-22  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fixes bug #552851
+
+	* org-gnome-shared-folder.errors.xml:
+	Add translator comments to the accept/decline strings, and improve
+	some other strings in the file.
+
+2008-09-19  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* install-shared.c:
+	* junk-settings.c:
+	* share-folder.c:
+	* status-track.c:
+
+2008-09-12  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* send-options.c:
+
 2008-09-02  Sankar P  <psankar@novell.com>
 
 License Changes

@@ -1,22 +1,22 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Authors: Michael Zucchi <notzed@ximian.com>
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
  *
- *  Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * Authors:
+ *		Michael Zucchi <notzed@ximian.com>
+ *
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
@@ -1931,10 +1931,11 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	} else {
 		int mailer_shown = FALSE;
 		while (h->next) {
-			int mailer;
+			int mailer, face;
 
 			header = ((CamelMimePart *)part)->headers;
 			mailer = !g_ascii_strcasecmp (h->name, "X-Evolution-Mailer");
+			face = !g_ascii_strcasecmp (h->name, "Face");
 
 			while (header) {
 				if (emf->show_photo && !photo_name && !g_ascii_strcasecmp (header->name, "From"))
@@ -1967,7 +1968,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 					efh_format_header (emf, stream, part, &xmailer, h->flags, charset);
 					if (strstr(use_header->value, "Evolution"))
 						have_icon = TRUE;
-				} else if (!g_ascii_strcasecmp (header->name, "Face") && !face_decoded) {
+				} else if (!face_decoded && face && !g_ascii_strcasecmp (header->name, "Face")) {
 					char *cp = header->value;
 					
 					/* Skip over spaces */
@@ -1978,7 +1979,8 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 					face_header_value = g_realloc (face_header_value, face_header_len + 1);
 					face_header_value[face_header_len] = 0;
 					face_decoded = TRUE;
-				} else if (!g_ascii_strcasecmp (header->name, h->name)) {
+				/* Showing an encoded "Face" header makes little sense */
+				} else if (!g_ascii_strcasecmp (header->name, h->name) && !face) {
 					efh_format_header(emf, stream, part, header, h->flags, charset);
 				}
 

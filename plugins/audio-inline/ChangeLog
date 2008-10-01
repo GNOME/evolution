@@ -1,3 +1,10 @@
+2008-09-24  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fixes bug #553479
+
+	* org-gnome-audio-inline.eplug.xml: String capitalisation
+	improvements.
+
 2008-08-12  Bharath Acharya  <abharath@novell.com>
 
 	* Makefile.am: Use NO_UNDEFINED. Link with more libraries. To generate

@@ -1,3 +1,47 @@
+2008-09-29  Petr Kovar  <pknbe@volny.cz>
+
+	* cs.po: Updated Czech translation of manual by Jiri Eischmann.
+
+2008-09-23  Claude Paroz  <claude@2xlibre.net>
+
+	* fr/fr.po: Updated French translation.
+
+2008-09-20  Claude Paroz  <claude@2xlibre.net>
+
+	* fr/figures/*: One new figure added and one obsolete removed.
+
+2008-09-19  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #552911
+
+	* Makefile.am:
+	* C/figures/Screenshot-Evolution -mailer-Preferences.png:
+	* de/figures/Screenshot-Evolution -mailer-Preferences.png:
+	Do not use spaces in file names.
+
+2008-09-18  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/figures/*.png: Added new screenshots.
+
+2008-09-17  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+	* es/figures/*.png: Added new screenshots.
+
+2008-09-16  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+
+2008-09-16  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+
+2008-09-16  Bharath Acharya  <abharath@novell.com>
+
+	Patch from PC Radhika <pradhika@novell.com>
+
+	* C/evolution.xml: Updated doc changes for 2.24
+
 2008-08-22  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es/es.po: Updated Spanish translation

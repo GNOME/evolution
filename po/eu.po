@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-09 12:28+0200\n"
-"PO-Revision-Date: 2008-09-09 12:29+0200\n"
+"POT-Creation-Date: 2008-09-09 10:30+0000\n"
+"PO-Revision-Date: 2008-09-18 13:01+0200\n"
 "Last-Translator: Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>\n"
 "Language-Team: Basque <itzulpena@euskalgnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -671,9 +671,19 @@ msgstr "Pertsonala"
 msgid "On LDAP Servers"
 msgstr "LDAP zerbitzarian"
 
+#: ../addressbook/gui/component/addressbook-component.c:230
+msgctxt "New"
+msgid "_Contact"
+msgstr "_Kontaktua"
+
 #: ../addressbook/gui/component/addressbook-component.c:231
 msgid "Create a new contact"
 msgstr "Sortu kontaktu berria"
+
+#: ../addressbook/gui/component/addressbook-component.c:238
+msgctxt "New"
+msgid "Contact _List"
+msgstr "Kontaktuen _zerrenda"
 
 #: ../addressbook/gui/component/addressbook-component.c:239
 msgid "Create a new contact list"
@@ -683,6 +693,11 @@ msgstr "Sortu kontaktu-zerrenda berria"
 #: ../addressbook/gui/component/addressbook-config.c:1207
 msgid "New Address Book"
 msgstr "Helbide-liburu berria"
+
+#: ../addressbook/gui/component/addressbook-component.c:246
+msgctxt "New"
+msgid "Address _Book"
+msgstr "Helbide-_liburua"
 
 #: ../addressbook/gui/component/addressbook-component.c:247
 msgid "Create a new address book"
@@ -5350,6 +5365,11 @@ msgstr "Egutegi-iturburuaren hautatzailea"
 msgid "New appointment"
 msgstr "Hitzordu berria"
 
+#: ../calendar/gui/calendar-component.c:1597
+msgctxt "New"
+msgid "_Appointment"
+msgstr "_Hitzordua"
+
 #: ../calendar/gui/calendar-component.c:1598
 msgid "Create a new appointment"
 msgstr "Sortu hitzordu berria"
@@ -5357,6 +5377,11 @@ msgstr "Sortu hitzordu berria"
 #: ../calendar/gui/calendar-component.c:1604
 msgid "New meeting"
 msgstr "Bilera berria"
+
+#: ../calendar/gui/calendar-component.c:1605
+msgctxt "New"
+msgid "M_eeting"
+msgstr "_Bilera"
 
 #: ../calendar/gui/calendar-component.c:1606
 msgid "Create a new meeting request"
@@ -5366,6 +5391,11 @@ msgstr "Sortu bilera-eskaera berria"
 msgid "New all day appointment"
 msgstr "Egun osoko hitzordu berria"
 
+#: ../calendar/gui/calendar-component.c:1613
+msgctxt "New"
+msgid "All Day A_ppointment"
+msgstr "Egun _osoko hitzordua"
+
 #: ../calendar/gui/calendar-component.c:1614
 msgid "Create a new all-day appointment"
 msgstr "Sortu egun osoko hitzordu berria"
@@ -5373,6 +5403,11 @@ msgstr "Sortu egun osoko hitzordu berria"
 #: ../calendar/gui/calendar-component.c:1620
 msgid "New calendar"
 msgstr "Egutegi berria"
+
+#: ../calendar/gui/calendar-component.c:1621
+msgctxt "New"
+msgid "Cale_ndar"
+msgstr "_Egutegia"
 
 #: ../calendar/gui/calendar-component.c:1622
 msgid "Create a new calendar"
@@ -8537,6 +8572,11 @@ msgstr "Zirkular-iturburuen hautatzailea"
 msgid "New memo"
 msgstr "Zirkular berria"
 
+#: ../calendar/gui/memos-component.c:1261
+msgctxt "New"
+msgid "Mem_o"
+msgstr "_Zirkularra"
+
 #: ../calendar/gui/memos-component.c:1262
 msgid "Create a new memo"
 msgstr "Sortu zirkular berria"
@@ -8545,6 +8585,11 @@ msgstr "Sortu zirkular berria"
 msgid "New shared memo"
 msgstr "Partekatutako zirkular berria"
 
+#: ../calendar/gui/memos-component.c:1269
+msgctxt "New"
+msgid "_Shared memo"
+msgstr "_Partekatutako zirkularra"
+
 #: ../calendar/gui/memos-component.c:1270
 msgid "Create a shared new memo"
 msgstr "Sortu partekatutako zirkular berria"
@@ -8552,6 +8597,11 @@ msgstr "Sortu partekatutako zirkular berria"
 #: ../calendar/gui/memos-component.c:1276
 msgid "New memo list"
 msgstr "Zirkularren zerrenda berria"
+
+#: ../calendar/gui/memos-component.c:1277
+msgctxt "New"
+msgid "Memo li_st"
+msgstr "Zirkularren _zerrenda"
 
 #: ../calendar/gui/memos-component.c:1278
 msgid "Create a new memo list"
@@ -8843,6 +8893,11 @@ msgstr "Zeregin-iturburu hautatzailea"
 msgid "New task"
 msgstr "Zeregin berria"
 
+#: ../calendar/gui/tasks-component.c:1326
+msgctxt "New"
+msgid "_Task"
+msgstr "_Zeregina"
+
 #: ../calendar/gui/tasks-component.c:1327
 msgid "Create a new task"
 msgstr "Sortu zeregin berria"
@@ -8851,6 +8906,11 @@ msgstr "Sortu zeregin berria"
 msgid "New assigned task"
 msgstr "Esleitutako zeregin berria"
 
+#: ../calendar/gui/tasks-component.c:1334
+msgctxt "New"
+msgid "Assigne_d Task"
+msgstr "_Esleitutako zeregina"
+
 #: ../calendar/gui/tasks-component.c:1335
 msgid "Create a new assigned task"
 msgstr "Sortu esleitutako zeregin berria"
@@ -8858,6 +8918,11 @@ msgstr "Sortu esleitutako zeregin berria"
 #: ../calendar/gui/tasks-component.c:1341
 msgid "New task list"
 msgstr "Zereginen zerrenda berria"
+
+#: ../calendar/gui/tasks-component.c:1342
+msgctxt "New"
+msgid "Tas_k list"
+msgstr "Ze_reginen zerrenda"
 
 #: ../calendar/gui/tasks-component.c:1343
 msgid "Create a new task list"
@@ -12021,6 +12086,27 @@ msgstr "Bidalitakoak"
 msgid "Loading..."
 msgstr "Kargatzen..."
 
+#. Translators: This is the string used for displaying the
+#. * folder names in folder trees. "%s" will be replaced by
+#. * the folder's name and "%u" will be replaced with the
+#. * number of unread messages in the folder.
+#. *
+#. * Most languages should translate this as "%s (%u)". The
+#. * languages that use localized digits (like Persian) may
+#. * need to replace "%u" with "%Iu". Right-to-left languages
+#. * (like Arabic and Hebrew) may need to add bidirectional
+#. * formatting codes to take care of the cases the folder
+#. * name appears in either direction.
+#. *
+#. * Do not translate the "folder-display|" part. Remove it
+#. * from your translation.
+#.
+#: ../mail/em-folder-tree.c:380
+#, c-format
+msgctxt "folder-display"
+msgid "%s (%u)"
+msgstr "%s (%u)"
+
 #: ../mail/em-folder-tree.c:741
 msgid "Mail Folder Tree"
 msgstr "Posta-karpetaren zuhaitza"
@@ -13901,6 +13987,11 @@ msgstr[1] "%d guztira"
 msgid "New Mail Message"
 msgstr "Posta-mezu berria"
 
+#: ../mail/mail-component.c:924
+msgctxt "New"
+msgid "_Mail Message"
+msgstr "_Mezua"
+
 #: ../mail/mail-component.c:925
 msgid "Compose a new mail message"
 msgstr "Prestatu posta-mezu berria"
@@ -13908,6 +13999,11 @@ msgstr "Prestatu posta-mezu berria"
 #: ../mail/mail-component.c:931
 msgid "New Mail Folder"
 msgstr "Mezu berrien karpeta"
+
+#: ../mail/mail-component.c:932
+msgctxt "New"
+msgid "Mail _Folder"
+msgstr "Posta _karpeta"
 
 #: ../mail/mail-component.c:933
 msgid "Create a new mail folder"
@@ -20227,6 +20323,11 @@ msgstr "Berria"
 #: ../shell/test/evolution-test-component.c:105
 msgid "New Test"
 msgstr "Proba berria"
+
+#: ../shell/test/evolution-test-component.c:106
+msgctxt "New"
+msgid "_Test"
+msgstr "_Proba"
 
 #: ../shell/test/evolution-test-component.c:107
 msgid "Create a new test item"

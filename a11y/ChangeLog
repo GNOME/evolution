@@ -1,3 +1,22 @@
+2008-09-24  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-table/gal-a11y-e-cell-tree.c:
+
+2008-09-19  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* addressbook/ea-addressbook-view.c:
+	* addressbook/ea-minicard-view.c:
+
+2008-09-16  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-table/gal-a11y-e-cell-text.c:
+
 2008-09-04  Sankar P  <psankar@novell.com>
 
 License Changes

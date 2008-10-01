@@ -554,12 +554,30 @@ update_row (EDayView *day_view, int row)
 {
 	ECalModelComponent *comp_data;
 	ECalModel *model;
+	gint day, event_num;
+	const char *uid = NULL;
+	char *rid = NULL;
 
 	e_day_view_stop_editing_event (day_view);
 
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
 	comp_data = e_cal_model_get_component_at (model, row);
 	g_return_if_fail (comp_data != NULL);
+
+	uid = icalcomponent_get_uid (comp_data->icalcomp);
+	if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
+		icalproperty *prop;
+
+		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_RECURRENCEID_PROPERTY);
+		if (prop)
+			rid = icaltime_as_ical_string (icalcomponent_get_recurrenceid (comp_data->icalcomp));
+	}
+
+	if (e_day_view_find_event_from_uid (day_view, comp_data->client, uid, rid, &day, &event_num))
+		e_day_view_remove_event_cb (day_view, day, event_num, NULL);
+
+	g_free (rid);
+
 	process_component (day_view, comp_data);
 
 	gtk_widget_queue_draw (day_view->top_canvas);
@@ -639,7 +657,6 @@ model_comps_deleted_cb (ETableModel *etm, gpointer data, gpointer user_data)
 		gint day, event_num;
 		const char *uid = NULL;
 		char *rid = NULL;
-
 
 		uid = icalcomponent_get_uid (comp_data->icalcomp);
 		if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
@@ -6303,6 +6320,9 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 
 				if (mod == CALOBJ_MOD_THIS) {
 					ECalComponentDateTime olddt, dt;
+					icaltimetype itt;
+
+					dt.value = &itt;
 
 					e_cal_component_get_dtstart (comp, &olddt);
 					if (olddt.value->zone) {

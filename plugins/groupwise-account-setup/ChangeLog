@@ -1,3 +1,10 @@
+2008-09-25  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fix for bug #553148
+
+	* org-gnome-gw-account-setup.eplug.xml: Standardise "GroupWise"
+	usage in translatable strings.
+
 2008-09-02  Sankar P  <psankar@novell.com>
 
 License Changes

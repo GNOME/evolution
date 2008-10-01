@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution gnome-2.8\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-07 02:59+0100\n"
+"POT-Creation-Date: 2008-09-07 02:00+0000\n"
 "PO-Revision-Date: 2008-02-17 10:08-0000\n"
 "Last-Translator: David Lodge <dave@cirt.net>\n"
 "Language-Team: \n"
@@ -670,9 +670,19 @@ msgstr "Personal"
 msgid "On LDAP Servers"
 msgstr "On LDAP Servers"
 
+#: ../addressbook/gui/component/addressbook-component.c:230
+msgctxt "New"
+msgid "_Contact"
+msgstr "_Contact"
+
 #: ../addressbook/gui/component/addressbook-component.c:231
 msgid "Create a new contact"
 msgstr "Create a new contact"
+
+#: ../addressbook/gui/component/addressbook-component.c:238
+msgctxt "New"
+msgid "Contact _List"
+msgstr "Contact _List"
 
 #: ../addressbook/gui/component/addressbook-component.c:239
 msgid "Create a new contact list"
@@ -682,6 +692,11 @@ msgstr "Create a new contact list"
 #: ../addressbook/gui/component/addressbook-config.c:1207
 msgid "New Address Book"
 msgstr "New Address Book"
+
+#: ../addressbook/gui/component/addressbook-component.c:246
+msgctxt "New"
+msgid "Address _Book"
+msgstr "Address _Book"
 
 #: ../addressbook/gui/component/addressbook-component.c:247
 msgid "Create a new address book"
@@ -5339,6 +5354,11 @@ msgstr "Calendar Source Selector"
 msgid "New appointment"
 msgstr "New appointment"
 
+#: ../calendar/gui/calendar-component.c:1597
+msgctxt "New"
+msgid "_Appointment"
+msgstr "_Appointment"
+
 #: ../calendar/gui/calendar-component.c:1598
 msgid "Create a new appointment"
 msgstr "Create a new appointment"
@@ -5346,6 +5366,11 @@ msgstr "Create a new appointment"
 #: ../calendar/gui/calendar-component.c:1604
 msgid "New meeting"
 msgstr "New meeting"
+
+#: ../calendar/gui/calendar-component.c:1605
+msgctxt "New"
+msgid "M_eeting"
+msgstr "M_eeting"
 
 #: ../calendar/gui/calendar-component.c:1606
 msgid "Create a new meeting request"
@@ -5355,6 +5380,11 @@ msgstr "Create a new meeting request"
 msgid "New all day appointment"
 msgstr "New all day appointment"
 
+#: ../calendar/gui/calendar-component.c:1613
+msgctxt "New"
+msgid "All Day A_ppointment"
+msgstr "All Day A_ppointment"
+
 #: ../calendar/gui/calendar-component.c:1614
 msgid "Create a new all-day appointment"
 msgstr "Create a new all-day appointment"
@@ -5362,6 +5392,11 @@ msgstr "Create a new all-day appointment"
 #: ../calendar/gui/calendar-component.c:1620
 msgid "New calendar"
 msgstr "New calendar"
+
+#: ../calendar/gui/calendar-component.c:1621
+msgctxt "New"
+msgid "Cale_ndar"
+msgstr "Cale_ndar"
 
 #: ../calendar/gui/calendar-component.c:1622
 msgid "Create a new calendar"
@@ -8530,6 +8565,11 @@ msgstr "Memo Source Selector"
 msgid "New memo"
 msgstr "New memo"
 
+#: ../calendar/gui/memos-component.c:1261
+msgctxt "New"
+msgid "Mem_o"
+msgstr "Mem_o"
+
 #: ../calendar/gui/memos-component.c:1262
 msgid "Create a new memo"
 msgstr "Create a new memo"
@@ -8538,6 +8578,11 @@ msgstr "Create a new memo"
 msgid "New shared memo"
 msgstr "New shared memo"
 
+#: ../calendar/gui/memos-component.c:1269
+msgctxt "New"
+msgid "_Shared memo"
+msgstr "_Shared memo"
+
 #: ../calendar/gui/memos-component.c:1270
 msgid "Create a shared new memo"
 msgstr "Create a shared new memo"
@@ -8545,6 +8590,11 @@ msgstr "Create a shared new memo"
 #: ../calendar/gui/memos-component.c:1276
 msgid "New memo list"
 msgstr "New memo list"
+
+#: ../calendar/gui/memos-component.c:1277
+msgctxt "New"
+msgid "Memo li_st"
+msgstr "Memo li_st"
 
 #: ../calendar/gui/memos-component.c:1278
 msgid "Create a new memo list"
@@ -8838,6 +8888,11 @@ msgstr "Task Source Selector"
 msgid "New task"
 msgstr "New task"
 
+#: ../calendar/gui/tasks-component.c:1326
+msgctxt "New"
+msgid "_Task"
+msgstr "_Task"
+
 #: ../calendar/gui/tasks-component.c:1327
 msgid "Create a new task"
 msgstr "Create a new task"
@@ -8846,6 +8901,11 @@ msgstr "Create a new task"
 msgid "New assigned task"
 msgstr "New assigned task"
 
+#: ../calendar/gui/tasks-component.c:1334
+msgctxt "New"
+msgid "Assigne_d Task"
+msgstr "Assigne_d Task"
+
 #: ../calendar/gui/tasks-component.c:1335
 msgid "Create a new assigned task"
 msgstr "Create a new assigned task"
@@ -8853,6 +8913,11 @@ msgstr "Create a new assigned task"
 #: ../calendar/gui/tasks-component.c:1341
 msgid "New task list"
 msgstr "New task list"
+
+#: ../calendar/gui/tasks-component.c:1342
+msgctxt "New"
+msgid "Tas_k list"
+msgstr "Tas_k list"
 
 #: ../calendar/gui/tasks-component.c:1343
 msgid "Create a new task list"
@@ -12021,6 +12086,27 @@ msgstr "Sent"
 msgid "Loading..."
 msgstr "Loading..."
 
+#. Translators: This is the string used for displaying the
+#. * folder names in folder trees. "%s" will be replaced by
+#. * the folder's name and "%u" will be replaced with the
+#. * number of unread messages in the folder.
+#. *
+#. * Most languages should translate this as "%s (%u)". The
+#. * languages that use localized digits (like Persian) may
+#. * need to replace "%u" with "%Iu". Right-to-left languages
+#. * (like Arabic and Hebrew) may need to add bidirectional
+#. * formatting codes to take care of the cases the folder
+#. * name appears in either direction.
+#. *
+#. * Do not translate the "folder-display|" part. Remove it
+#. * from your translation.
+#.
+#: ../mail/em-folder-tree.c:380
+#, c-format
+msgctxt "folder-display"
+msgid "%s (%u)"
+msgstr "%s (%u)"
+
 #: ../mail/em-folder-tree.c:741
 msgid "Mail Folder Tree"
 msgstr "Mail Folder Tree"
@@ -13899,6 +13985,11 @@ msgstr[1] "%d total"
 msgid "New Mail Message"
 msgstr "New Mail Message"
 
+#: ../mail/mail-component.c:924
+msgctxt "New"
+msgid "_Mail Message"
+msgstr "_Mail Message"
+
 #: ../mail/mail-component.c:925
 msgid "Compose a new mail message"
 msgstr "Compose a new mail message"
@@ -13906,6 +13997,11 @@ msgstr "Compose a new mail message"
 #: ../mail/mail-component.c:931
 msgid "New Mail Folder"
 msgstr "New Mail Folder"
+
+#: ../mail/mail-component.c:932
+msgctxt "New"
+msgid "Mail _Folder"
+msgstr "Mail _Folder"
 
 #: ../mail/mail-component.c:933
 msgid "Create a new mail folder"
@@ -20233,6 +20329,11 @@ msgstr "New"
 msgid "New Test"
 msgstr "New Test"
 
+#: ../shell/test/evolution-test-component.c:106
+msgctxt "New"
+msgid "_Test"
+msgstr "_Test"
+
 #: ../shell/test/evolution-test-component.c:107
 msgid "Create a new test item"
 msgstr "Create a new test item"
@@ -23626,15 +23727,6 @@ msgstr "Handle Popup"
 #~ msgid "Recent Docu_ments"
 #~ msgstr "Recent Docu_ments"
 
-#~ msgid "_Contact"
-#~ msgstr "_Contact"
-
-#~ msgid "Contact _List"
-#~ msgstr "Contact _List"
-
-#~ msgid "Address _Book"
-#~ msgstr "Address _Book"
-
 #~ msgid "_Properties..."
 #~ msgstr "_Properties..."
 
@@ -23645,18 +23737,6 @@ msgstr "Handle Popup"
 #~ "'{0}' is a read-only calendar source. Change Calendar to one that can "
 #~ "accept appointments."
 
-#~ msgid "_Appointment"
-#~ msgstr "_Appointment"
-
-#~ msgid "M_eeting"
-#~ msgstr "M_eeting"
-
-#~ msgid "All Day A_ppointment"
-#~ msgstr "All Day A_ppointment"
-
-#~ msgid "Cale_ndar"
-#~ msgstr "Cale_ndar"
-
 #~ msgid "D_escription:"
 #~ msgstr "D_escription:"
 
@@ -23666,35 +23746,14 @@ msgstr "Handle Popup"
 #~ msgid "Updating query"
 #~ msgstr "Updating query"
 
-#~ msgid "Mem_o"
-#~ msgstr "Mem_o"
-
-#~ msgid "_Shared memo"
-#~ msgstr "_Shared memo"
-
-#~ msgid "Memo li_st"
-#~ msgstr "Memo li_st"
-
 #~ msgid "Upcoming Appointments"
 #~ msgstr "Upcoming Appointments"
-
-#~ msgid "Assigne_d Task"
-#~ msgstr "Assigne_d Task"
-
-#~ msgid "Tas_k list"
-#~ msgstr "Tas_k list"
 
 #~ msgid "_Save Message"
 #~ msgstr "_Save Message"
 
 #~ msgid "folder-display|%s (%u)"
 #~ msgstr "%s (%u)"
-
-#~ msgid "_Mail Message"
-#~ msgstr "_Mail Message"
-
-#~ msgid "Mail _Folder"
-#~ msgstr "Mail _Folder"
 
 #~ msgid ""
 #~ "The selected folder does not have enough permissions to create the file"
@@ -23754,9 +23813,6 @@ msgstr "Handle Popup"
 
 #~ msgid "'.' and '..' are reserved folder names."
 #~ msgstr "'.' and '..' are reserved folder names."
-
-#~ msgid "_Test"
-#~ msgstr "_Test"
 
 #~ msgid "Evolution Crash Detection"
 #~ msgstr "Evolution Crash Detection"

@@ -1,22 +1,22 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Authors: Michael Zucchi <notzed@ximian.com>
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
  *
- *  Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * Authors:
+ *		Michael Zucchi <notzed@ximian.com>
+ *
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
@@ -799,17 +799,18 @@ emp_standard_menu_factory(EPopup *emp, void *data)
                 for (cp = mime_type; *cp != '\0'; cp++)
                         *cp = g_ascii_tolower (*cp);
 
-		/* TODO: g_app_info_get_all_for_type expects content_type, not a mime_type, thus it will work fine
-		    on Linux/Unix systems, but not on Win32. They will add hopefully some function to convert between
-		    these two soon. */
-		apps = g_app_info_get_all_for_type (mime_type);
+		cp = g_content_type_from_mime_type (mime_type);
+		apps = g_app_info_get_all_for_type (cp ? cp : mime_type);
+		g_free (cp);
 
 		if (apps == NULL && strcmp (mime_type, "application/octet-stream") == 0) {
 			if (filename != NULL) {
 				gchar *name_type;
 
-				name_type = e_util_guess_mime_type (filename);
-				apps = g_app_info_get_all_for_type (name_type);
+				name_type = e_util_guess_mime_type (filename, FALSE);
+				cp = g_content_type_from_mime_type (name_type);
+				apps = g_app_info_get_all_for_type (cp ? cp : name_type);
+				g_free (cp);
 				g_free (name_type);
 			}
 		}

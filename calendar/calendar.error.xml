@@ -93,7 +93,7 @@
  </error>
 
  <error id="prompt-save-appointment" type="warning" default="GTK_RESPONSE_YES">
-  <title>Save Appointment</title>
+  <_title>Save Appointment</_title>
   <_primary>Would you like to save your changes to this appointment?</_primary>
   <_secondary>You have changed this appointment, but not yet saved it.</_secondary>
   <button _label="_Discard Changes" response="GTK_RESPONSE_NO"/>
@@ -102,7 +102,7 @@
  </error>
 
  <error id="prompt-save-task" type="warning" default="GTK_RESPONSE_YES">
- <title>Save Task</title>
+ <_title>Save Task</_title>
  <_primary>Would you like to save your changes to this task?</_primary>
  <_secondary>You have changed this task, but not yet saved it.</_secondary>
  <button _label="_Discard Changes" response="GTK_RESPONSE_NO"/>
@@ -111,7 +111,7 @@
  </error>
 
  <error id="prompt-save-memo" type="warning" default="GTK_RESPONSE_YES">
- <title>Save Memo</title>
+ <_title>Save Memo</_title>
  <_primary>Would you like to save your changes to this memo?</_primary>
  <_secondary>You have made changes to this memo, but not yet saved them.</_secondary>
  <button _label="_Discard Changes" response="GTK_RESPONSE_NO"/>
@@ -255,7 +255,7 @@
  </error>
 
  <error id="server-version" type="warning">
- <title>Server Version</title> 
+ <_title>Server Version</_title> 
  <_primary>Some features may not work properly with your current server.</_primary>
  <_secondary>You are connecting to an unsupported GroupWise server and may encounter problems using Evolution. For best results, the server should be upgraded to a supported version.</_secondary>
  </error>

@@ -11,6 +11,8 @@ EXTRA_DIST = 			\
 	AUTHORS			\
 	$(changelogs)		\
 	COPYING-DOCS		\
+	COPYING.LGPL2		\
+	COPYING.LGPL3		\
 	README			\
 	HACKING			\
 	MAINTAINERS		\

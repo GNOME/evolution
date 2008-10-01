@@ -367,84 +367,32 @@ em_folder_utils_copy_folder(CamelFolderInfo *folderinfo, int delete)
 }
 
 static void
-emfu_delete_rec (CamelStore *store, CamelFolderInfo *fi, CamelException *ex)
+emfu_delete_done (CamelFolder *folder, gboolean removed, CamelException *ex, void *data)
 {
-	while (fi) {
-		CamelFolder *folder;
+	GtkWidget *dialog = data;
 
-		if (fi->child) {
-			emfu_delete_rec (store, fi->child, ex);
-			if (camel_exception_is_set (ex))
-				return;
-		}
-
-		d(printf ("deleting folder '%s'\n", fi->full_name));
-
-		/* shouldn't camel do this itself? */
-		if (camel_store_supports_subscriptions (store))
-			camel_store_unsubscribe_folder (store, fi->full_name, NULL);
-
-		if (!(folder = camel_store_get_folder (store, fi->full_name, 0, ex)))
-			return;
-
-		if (!CAMEL_IS_VEE_FOLDER (folder)) {
-			GPtrArray *uids = camel_folder_get_uids (folder);
-			int i;
-
-			camel_folder_freeze (folder);
-			for (i = 0; i < uids->len; i++)
-				camel_folder_delete_message (folder, uids->pdata[i]);
-
-			camel_folder_free_uids (folder, uids);
-
-			camel_folder_sync (folder, TRUE, NULL);
-			camel_folder_thaw (folder);
-		}
-
-		camel_store_delete_folder (store, fi->full_name, ex);
-		if (camel_exception_is_set (ex))
-			return;
-
-		fi = fi->next;
+	if (ex && camel_exception_is_set (ex)) {
+		GtkWidget *w = e_error_new (NULL,
+			    "mail:no-delete-folder", folder->full_name, camel_exception_get_description (ex), NULL);
+		em_utils_show_error_silent (w);
+		camel_exception_clear (ex);
 	}
-}
 
-static void
-emfu_delete_folders (CamelStore *store, const char *full_name, CamelException *ex)
-{
-	guint32 flags = CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
-	CamelFolderInfo *fi;
-
-	fi = camel_store_get_folder_info (store, full_name, flags, ex);
-	if (camel_exception_is_set (ex))
-		return;
-
-	emfu_delete_rec (store, fi, ex);
-	camel_store_free_folder_info (store, fi);
+	if (dialog)
+		gtk_widget_destroy (dialog);
 }
 
 static void
 emfu_delete_response (GtkWidget *dialog, int response, gpointer data)
 {
-	CamelStore *store;
-	CamelException ex;
-	char *full_name;
-
-	full_name = g_object_get_data ((GObject *) dialog, "full_name");
-	store = g_object_get_data ((GObject *) dialog, "store");
-
 	if (response == GTK_RESPONSE_OK) {
-		camel_exception_init (&ex);
-		emfu_delete_folders (store, full_name, &ex);
-		if (camel_exception_is_set (&ex)) {
-			GtkWidget *w = e_error_new(NULL,
-				    "mail:no-delete-folder", full_name, ex.desc, NULL);
-			em_utils_show_error_silent (w);
-			camel_exception_clear (&ex);
-		}
-	}
+		/* disable dialog until operation finishes */
+		gtk_widget_set_sensitive (dialog, FALSE);
 
-	gtk_widget_destroy (dialog);
+		mail_remove_folder (g_object_get_data ((GObject *) dialog, "folder"), emfu_delete_done, dialog);
+	} else {
+		gtk_widget_destroy (dialog);
+	}
 }
 
 /* FIXME: these functions must be documented */
@@ -462,13 +410,12 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 		return;
 	}
 
-	camel_object_ref (folder->parent_store);
+	camel_object_ref (folder);
 
 	dialog = e_error_new(NULL,
 			     (folder->parent_store && CAMEL_IS_VEE_STORE(folder->parent_store))?"mail:ask-delete-vfolder":"mail:ask-delete-folder",
 			     folder->full_name, NULL);
-	g_object_set_data_full ((GObject *) dialog, "full_name", g_strdup (folder->full_name), g_free);
-	g_object_set_data_full ((GObject *) dialog, "store", folder->parent_store, camel_object_unref);
+	g_object_set_data_full ((GObject *) dialog, "folder", folder, camel_object_unref);
 	g_signal_connect (dialog, "response", G_CALLBACK (emfu_delete_response), NULL);
 	gtk_widget_show (dialog);
 }

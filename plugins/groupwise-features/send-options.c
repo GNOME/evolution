@@ -1,23 +1,25 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
  *
- *  Authors: Chenthill Palanisamy (pchenthill@novell.com)
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
  *
- *  Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
- *  This program is free software; you can redistribute it and/or
- *  modify it under the terms of version 2 of the GNU General Public
- *  License as published by the Free Software Foundation.
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
+ * Authors:
+ *		Chenthill Palanisamy <pchenthill@novell.com>
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -200,15 +202,19 @@ org_gnome_send_options (EPlugin *epl, EConfigHookItemFactoryData *data)
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
 
+	gchar *markup;
+
 	if(!g_strrstr (account->source->url, "groupwise://"))
 		return NULL;
 
 	vbox = gtk_vbox_new (FALSE, 0);
 	frame = gtk_frame_new ("");
 	label = gtk_frame_get_label_widget (GTK_FRAME (frame));
-	gtk_label_set_markup (GTK_LABEL (label), "<b>Send Options</b>");
-	button = gtk_button_new_with_label ("Advanced send options");
+	markup = g_strdup_printf("<b>%s</b>", _("Send Options"));
+	gtk_label_set_markup (GTK_LABEL (label), markup);
+	button = gtk_button_new_with_label (_("Advanced send options"));
 	gtk_widget_show (button);
+	g_free (markup);
 
 	g_signal_connect(button, "clicked",
 			    G_CALLBACK (e_sendoptions_clicked_cb), account);

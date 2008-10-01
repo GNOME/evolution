@@ -3,7 +3,7 @@
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 
  <!ENTITY appname "Evolution" >
- <!ENTITY appversion "2.22" >
+ <!ENTITY appversion "2.24" >
  <!ENTITY z-3rdParty "*" >
  <!ENTITY z-SM "(SM)" >
  <!ENTITY z-CM "(CM)" >
@@ -1114,6 +1114,9 @@
     <para><link linkend="usage-mail-getnsend-send">Composing New Email Messages</link></para>
    </listitem>
    <listitem>
+    <para><link linkend="b1dlaazl">Templates</link></para>
+   </listitem>
+   <listitem>
     <para><link linkend="rsvp-stuff">Sending Invitations by Mail</link></para>
    </listitem>
    <listitem>
@@ -1173,9 +1176,70 @@
 
    <section id="b17qh4uo">
     <title>New Mail Notification</title>
-    <para>Evolution notifies you of new email. When you receive a new mail in your inbox, a blinking icon appears on the Switcher.</para>
+    <para>Evolution can notify you of new messages. When you receive a new message in your inbox, a blinking icon appears on the Switcher.</para>
+    <para>You can also view a blinking icon<inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> in the notification area that disappears when you open the new message. Mouse over the icon to view the notification message.</para>
     <mediaobject id="b1a5asi6"><imageobject><imagedata format="PNG" fileref="figures/evo_newmail.png"/></imageobject></mediaobject>
-    <para>You can also see a blinking icon <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> in the notification area that disappears when you open the new email. You can keep the mouse over the <inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> icon to view the notification message.</para>
+    <para>To enable this feature, select Edit &gt; Plugins, then select the Mail Notification check box. You can configure the plugin by specifing the following in the Plugin Manager.</para>
+    <mediaobject id="b1dl90p1"><imageobject><imagedata format="PNG" fileref="figures/evo_mailnotification.png"/></imageobject></mediaobject>
+    <formalpara id="b1dl8zqx">
+     <title>Notify new messages for Inbox only:</title>
+     <para>Select this option to restrict the mail notification to Inbox. With this option enabled, you are notified of each new message arrival in the Inbox.</para>
+    </formalpara>
+    <formalpara id="b1dl93cp">
+     <title>Generate D-Bus message:</title>
+     <para>D-Bus is a fast, lightweight message bus system that allows applications to communicate with each other. Select this option to generate a D-Bus message on the session bus whenever a new message arrives.</para>
+    </formalpara>
+    <formalpara id="b1dl94v1">
+     <title>Show icon in the notification area:</title>
+     <para>Select this option to display a new mail icon in the notification area when a new message arrives. You have two options to select from:</para>
+    </formalpara>
+    <itemizedlist>
+     <listitem>
+      <formalpara id="b1dl95ux">
+       <title>Blinking icon in the notification area:</title>
+       <para>Select this option to make the new mail icon blink in the notification area on arrival of a new message.</para>
+      </formalpara>
+     </listitem>
+     <listitem>
+      <formalpara id="b1dl998a">
+       <title>Popup message together with the icon:</title>
+       <para>Select this option to make the new message pop up along with the new mail icon.</para>
+      </formalpara>
+     </listitem>
+    </itemizedlist>
+    <formalpara id="b1dl986k">
+     <title>Play sound when new messages arrive:</title>
+     <para>You have two options to select from:</para>
+    </formalpara>
+    <itemizedlist>
+     <listitem>
+      <formalpara id="b1dl9b9h">
+       <title>Beep:</title>
+       <para>Select this option to play a beep sound on the arrival of a new message.</para>
+      </formalpara>
+     </listitem>
+     <listitem>
+      <formalpara id="b1dl9bbt">
+       <title>Play sound file:</title>
+       <para>Select this option to play a sound file of your choice on the arrival of a new message.</para>
+      </formalpara>
+     </listitem>
+    </itemizedlist>
+    <para>To specify the sound file you want to play: </para>
+    <orderedlist>
+     <listitem id="b1dl9dx3">
+      <para>Click None to open the Select Sound File browser window.</para>
+     </listitem>
+     <listitem id="b1dl9p3d">
+      <para>Browse to find the sound file of your choice.</para>
+     </listitem>
+     <listitem id="b1dl9qm3">
+      <para>Click Open to select the sound file.</para>
+     </listitem>
+     <listitem id="b1dl9qrp">
+      <para>Click Play to confirm the selection.</para>
+     </listitem>
+    </orderedlist>
    </section>
 
    <section id="b131ni8g">
@@ -1434,6 +1498,30 @@
     </section>
    </section>
 
+   <section id="b1a5azam">
+    <title>Custom Header</title>
+    <para>To enable the Custom Header plugin:</para>
+    <para>Select Edit &gt; Plugins.</para>
+     <para>Then select  Custom Header. You can configure custom headers to set sensitivity and caveats to the outgoing messages.</para>
+    <mediaobject id="b1dl7ytg"><imageobject><imagedata format="PNG" fileref="figures/evo_customheader.png"/></imageobject></mediaobject>
+    <para>In the Plugin Manager, select the Configuration tab to customize your header fields. You can add, edit, or remove the header fields. For every header field you add, you can specify the keys and values. The key is used as the title of the Custom Header. You can enter multiple values for the keys. You must use a semicolon to separate every value you enter.</para>
+    <orderedlist>
+     <listitem id="b1a5c4iy">
+      <para>Select New &gt; Mail Message or Shift+Ctrl+M to open a Compose Message window.</para>
+     </listitem>
+     <listitem id="b1a5c6rw">
+      <para>Select Insert &gt; Custom Header to open the Email Custom Header window.</para>
+      <mediaobject id="b1a5c7i8"><imageobject><imagedata format="PNG" fileref="figures/evo_custom_header.png"/></imageobject></mediaobject>
+      <para>In the Email Custom Header window, you can view all the header fields and values you add.</para>
+     </listitem>
+     <listitem id="b1a5c7re">
+      <para>Set the values for the header fields by using the respective drop-down list.</para>
+     </listitem>
+     <listitem id="b1a5c8q9">
+      <para>Click OK.</para>
+     </listitem>
+    </orderedlist>
+   </section>
    <section id="usage-mail-getnsend-send-delay">
     <title>Sending Composed Messages Later</title>
     <para>Evolution normally sends mail as soon as you click Send. However, can save a message to be sent later:</para>
@@ -1972,6 +2060,107 @@
    </section>
   </section>
 
+  <section id="b1dlaazl">
+   <title>Templates</title>
+   <para>A message template is a standard message that you can use at any time to send mail with the same pattern. Evolution allows you to create and edit message templates.</para>
+   <itemizedlist>
+    <listitem>
+     <para><link linkend="b1dlbad4">Creating a Message Template from an Existing Message</link></para>
+    </listitem>
+    <listitem>
+     <para><link linkend="b1dlbckm">Saving a New Message as a Template</link></para>
+    </listitem>
+    <listitem>
+     <para><link linkend="b1dlbec6">Using a Message Template as a Reply</link></para>
+    </listitem>
+    <listitem>
+     <para><link linkend="b1dlbgwb">Configuring Message Templates</link></para>
+    </listitem>
+   </itemizedlist>
+   <para>To enable the Message Template Plugin:</para>
+   <orderedlist>
+    <listitem id="b1dlb9w8">
+     <para>Select Edit &gt; Plugins, then select Templates.</para>
+    </listitem>
+   </orderedlist>
+   
+   <section id="b1dlbad4">
+    <title>Creating a Message Template from an Existing Message</title>
+    <orderedlist>
+     <listitem id="b1dlbakg">
+      <para>Select the message.</para>
+     </listitem>
+     <listitem id="b1dlbbvc">
+      <para>Right-click &gt; Move to folder / Copy to folder.</para>
+     </listitem>
+     <listitem id="b1dlbc28">
+      <para>Select the Template local folder.</para>
+     </listitem>
+    </orderedlist>
+    <para>You can also edit an existing message and save it as a template.</para>
+    <orderedlist>
+     <listitem id="b1dlbczb">
+      <para>Open the message and click Reply.</para>
+     </listitem>
+     <listitem id="b1dlbd4s">
+      <para>Edit the message body or the addresses according to your requirements.</para>
+     </listitem>
+     <listitem id="b1dlbdbq">
+      <para>Select File &gt; Save as Template.</para>
+     </listitem>
+    </orderedlist>
+   </section>
+   
+   <section id="b1dlbckm">
+    <title>Saving a New Message as a Template</title>
+    <orderedlist>
+     <listitem id="b1dlbe1w">
+      <para>Click New and enter the information in the New Message window, according to your requirements.</para>
+     </listitem>
+     <listitem id="b1dlbe2y">
+      <para>Select File &gt; Save as Template.</para>
+     </listitem>
+    </orderedlist>
+   </section>
+   
+   <section id="b1dlbec6">
+    <title>Using a Message Template as a Reply</title>
+    <orderedlist>
+     <listitem id="b1dlbf4b">
+      <para>Right-click the message you are replying to, then click Templates.</para>
+      <para>This option lists all the message templates in the Template folder.</para>
+     </listitem>
+     <listitem id="b1dlbf5a">
+      <para>Select Open the message template of your choice and make changes if required.</para>
+     </listitem>
+     <listitem id="b1dlbgaq">
+      <para>Click Send.</para>
+      <para>When you select a message template for replying, the subject of the reply is preserved.</para>
+     </listitem>
+    </orderedlist>
+   </section>
+   
+   <section id="b1dlbgwb">
+    <title>Configuring Message Templates</title>
+    <para>In the Plugin Manager, select the Configuration tab to customize your message templates. You can add, edit or remove the key-value pairs. You can specify any number of key-value pairs.</para>
+    <para>In any template, the occurrence of every $key is replaced by the value it has in the configuration. For example, if you set the key to Manager and the value to Harry, any occurrence of $Manager is replaced by Harry in the message.</para>
+    <para>Assume that you have 1000 message templates with your current manager&apos;s name has a reference in them. When the current manager is replaced by a new one, it&apos;s not easy for you to manually replace the manager&apos;s name in all the 1000 messages. If the messages have a $Manager key value, you can reset the value in the Configuration tab of this plugin.</para>
+    <para>By default, the entire environment variables are used as a key-value pair. An occurrence of $env_variable is replaced by the value it carries. For example, an occurrence of $PATH in your template is replaced by its value when the template is used.</para>
+    <para>The replacement process uses the following order of precedence:</para>
+    <itemizedlist>
+     <listitem>
+      <para>$key is replaced by the value set for it in the Configuration tab of the Templates plugin.</para>
+     </listitem>
+     <listitem>
+      <para>If the key is not found, it is then replaced with the value of its environment variable.</para>
+     </listitem>
+     <listitem>
+      <para>If key is neither a configuration option nor an environment variable, no changes are made.</para>
+     </listitem>
+    </itemizedlist>
+   </section>
+  </section>
+  
   <section id="rsvp-stuff">
    <title>Sending Invitations by Mail</title>
    <para>If you create an event in the calendar component, you can then send invitations to the attendee list through the Evolution email tool. The invitation card is sent as an attachment in iCal format.</para>
@@ -2390,7 +2579,7 @@
     <para>To sort messages, perform the following procedure:</para>
     <orderedlist>
      <listitem id="b131itxb">
-      <para>Right click message header bar.</para>
+      <para>Right-click message header bar.</para>
      </listitem>
      <listitem id="b131iu51">
       <para>Click Sort by to get a list of options.</para>
@@ -3252,8 +3441,65 @@
      </orderedlist>
     </section>
    </section>
+  
+   <section id="b1dl9th7">
+    <title>Google Contacts</title>
+    <para>Evolution allows you to access your Google Address Book. You can view the Google contacts offline and create, modify and delete the contacts online.</para>
+    <para>To configure your Google Address Book in Evolution contacts:</para>
+    <orderedlist>
+     <listitem id="b1dl9x1r">
+      <para>Select File &gt; New &gt; Address book to open the New Address Book window.</para>
+      <mediaobject id="b1dl9yef"><imageobject><imagedata format="PNG" fileref="figures/evo_googlecontacts.png"/></imageobject></mediaobject>
+      
+     </listitem>
+     <listitem id="b1dl9x69">
+      <para>Select Google from the Type drop-down list.</para>
+     </listitem>
+     <listitem id="b1dl9z6j">
+      <para>Specify a name for the address book.</para>
+     </listitem>
+     <listitem id="b1dl9zh8">
+      <para>Select or deselect the following options and provide the username for the Google account:</para>
+      <itemizedlist>
+       <listitem>
+        <formalpara id="b1dla0di">
+         <title>Mark as default address book:</title>
+         <para>Select this option to make the Google address book as your default address book.</para>
+        </formalpara>
+       </listitem>
+       <listitem>
+        <formalpara id="b1dla0sn">
+         <title>Copy book content locally for offline operations:</title>
+         <para>Select this option to copy the address book to your machine so you can access the contacts even when you are not connected to the network.</para>
+        </formalpara>
+       </listitem>
+       <listitem>
+        <formalpara id="b1dla28w">
+         <title>Username:</title>
+         <para>Specify the username of your Google account.</para>
+        </formalpara>
+       </listitem>
+       <listitem>
+        <formalpara id="b1dla46h">
+         <title>Use SSL:</title>
+         <para> Select Use SSL to enable a secure connection between Evolution and the server</para>
+        </formalpara>
+       </listitem>
+       <listitem>
+        <formalpara id="b1dla666">
+         <title>Refresh:</title>
+         <para>Set the time to automatically refresh the Google address book.</para>
+        </formalpara>
+       </listitem>
+      </itemizedlist>
+     </listitem>
+     <listitem id="b1dla994">
+      <para>Click OK.</para>
+     </listitem>
+    </orderedlist>
+   </section>
   </section>
-
+  
   <section id="contact-search">
    <title>Searching for Contacts</title>
    <formalpara id="b131mz65">
@@ -3662,7 +3908,7 @@
       <para>Select the calendar from the side bar at the left.</para>
      </listitem>
      <listitem id="b13xyc0b">
-      <para>Right click on the calendar.</para>
+      <para>Right-click on the calendar.</para>
      </listitem>
      <listitem id="b13xyc3r">
       <para>Select Properties to open Calendar Properties dialog box.</para>
@@ -3688,7 +3934,7 @@
     </orderedlist>
     <para>To mark your calendar content for offline use, click Copy calendar contents locally for offline operations.</para>
     <para>Or</para>
-    <para>Right click on the calendar at the left and select Mark Calendar for offline use. For more information on working offline refer <link linkend="usage-mail-getnsend-offline">Working Offline</link>.</para>
+    <para>Right-click on the calendar at the left and select Mark Calendar for offline use. For more information on working offline refer <link linkend="usage-mail-getnsend-offline">Working Offline</link>.</para>
     <tip>
      <para>To export or share or to store a calendar locally in iCal format, right click on the calendar in the calendar view at the left and select Save to Disk.</para>
     </tip>
@@ -3729,7 +3975,7 @@
       <para>Set the time to automatically refresh the calendar.</para>
      </listitem>
      <listitem id="b1a4ak4r">
-      <para>Select Use SSL to enable SSL for communication between Evolution and the Google server.</para>
+      <para>Select Use SSL to enable a secure connection between Evolution and the Google server.</para>
      </listitem>
      <listitem id="b1a4amec">
       <para>If you want to set a color label for the calendar, click the Color tab, select the desired color, then click OK.</para>
@@ -5637,7 +5883,7 @@
      <listitem id="buw5x0p">
       <para>Type the name of your mail server, your user name, and select whether to use SSL.</para>
       <note>
-       <para>Select SSL for a highly secured connection between your client and server. Contact your administrator for further details.</para>
+       <para>Select Use SSL to enable a secure connection between Evolution and the server.</para>
       </note>
      </listitem>
      <listitem id="bsthkyr">
@@ -6314,13 +6560,6 @@
     <para>Enable this option to have filters based on mailing list headers (like list ID) so that in addition to the basic headers, the headers that correspond to mailing-lists are also fetched. Mailing list headers will have the informations such as the mailinglist-ID, owner of the mailing list, and so on with which you can create mailing list filters.</para>
    </formalpara>
    <para>This is the default Header preference that comes with Evolution. When this option is chosen, Evolution will download a basic set of headers (as described above) along with a set of headers that are needed for client-side filters based on mailing lists. If you do not have any filters on Evolution, it is recommended to switch to the "Basic Headers Only" option.</para>
-   <formalpara id="b15g0l0t">
-    <title>Custom Headers:</title>
-    <para>These are the extra headers in addition to the above standard headers. You can add custom headers in addition to the standard headers. If you want to have filters based on some specific custom headers and you do not want to compromise on the network speed by downloading-all-mail-headers, Evolution provides a handy way of achieving this by the Custom Headers Option. Here, you can selectively Add/Remove headers based on your needs.</para>
-   </formalpara>
-   <note>
-    <para>This option may not be needed if you have chosen to download ALL Headers.</para>
-   </note>
    <para>To set the IMAP Mail headers:</para>
    <orderedlist>
     <listitem id="b15fy0yh">
@@ -6475,7 +6714,7 @@
     <para>To enable Junk plugins:</para>
     <orderedlist>
      <listitem id="b17rdxkm">
-      <para>Select Edit &gt; Plugins </para>
+      <para>Select Edit &gt; Plugins.</para>
      </listitem>
      <listitem id="b17rdxz8">
       <para>Select the junk plugins you want. You can select either Bogofilter or SpamAssassin, or you can select both.</para>
@@ -6685,6 +6924,130 @@
    </section>
   </section>
 
+  <section id="b15m55rz">
+   <title>Network Preferences</title>
+   <para>This interface lets you configure your network proxy settings.</para>
+   <mediaobject id="b15m5vi1"><imageobject><imagedata format="PNG" fileref="figures/network_pref.png"/></imageobject></mediaobject>
+   <para>Use the following four options to configure the proxy settings:</para>
+   <formalpara id="b15m5zr2">
+    <title>Use system defaults:</title>
+    <para>Select this option to use the system wide proxy settings configured through Control Center &gt; Network Proxies in GNOME. When this option is selected, Evolution uses the proxy settings in the /system/http_proxy and /system/proxy/gconf keys.</para>
+   </formalpara>
+   <important>
+    <para>If these keys do not reflect the settings configured through Control Center &gt; Network Proxies, Evolution does not work with the proxy and you must either update these gconf keys or choose Manual proxy configuration.</para>
+   </important>
+   <formalpara id="b15m65gt">
+    <title>Direct connection to the Internet:</title>
+    <para> Select this option to connect directly to the internet.</para>
+   </formalpara>
+   <formalpara id="b15m65i4">
+    <title>Manual proxy configuration:</title>
+    <para>This option helps you costomize proxy settings regardless of the desktop you use. Specify hosts and ports for HTTP and optionally for other protocols. In the No Proxy Domain field, specify that comma-separated domain names do not go through the configured proxy server. You can specify patterns like *.example.com or .example.com in the No Proxy Domain list. Specify a username and password, and if the proxy server requires authentication, select Use Authentication to enable the username and password fields. The customized proxy settings are as follows:</para>
+   </formalpara>
+   <informaltable>
+    <tgroup cols="2">
+     <colspec colwidth="2.688*" colname="1" colnum="1"/>
+     <colspec colwidth="2.688*" colname="2" colnum="2"/>
+     <thead valign="top">
+      <row id="b15ot8mi">
+       <entry colname="1">
+        <para>Proxy Configuration Settings</para>
+       </entry>
+       <entry colname="2">
+        <para>Description</para>
+       </entry>
+      </row>
+     </thead>
+     <tbody valign="top">
+      <row id="b15ot8mj">
+       <entry colname="1">
+        <para>HTTP Proxy</para>
+       </entry>
+       <entry colname="2">
+        <para>The machine name to proxy HTTP through.</para>
+       </entry>
+      </row>
+      <row id="b15ot8mk">
+       <entry colname="1">
+        <para>Port</para>
+       </entry>
+       <entry colname="2">
+        <para>The port for the machine defined by the HTTP Proxy field that you proxy through.</para>
+       </entry>
+      </row>
+      <row id="b15ot9cv">
+       <entry colname="1">
+        <para>Secure HTTP Proxy</para>
+       </entry>
+       <entry colname="2">
+        <para>The machine name to proxy secure HTTP through.</para>
+       </entry>
+      </row>
+      <row id="b15ot9e8">
+       <entry colname="1">
+        <para>Port</para>
+       </entry>
+       <entry colname="2">
+        <para>The port for the machine defined by the Secure HTTP Proxy port field.</para>
+       </entry>
+      </row>
+      <row id="b15ot9f9">
+       <entry colname="1">
+        <para>SOCKS Host</para>
+       </entry>
+       <entry colname="2">
+        <para>The machine name to proxy SOCKS through.</para>
+       </entry>
+      </row>
+      <row id="b15ot9g7">
+       <entry colname="1">
+        <para>Port</para>
+       </entry>
+       <entry colname="2">
+        <para>The port for the machine defined by the SOCKS host.</para>
+       </entry>
+      </row>
+      <row id="b15ot9h3">
+       <entry colname="1">
+        <para>No proxy domain</para>
+       </entry>
+       <entry colname="2">
+        <para>This key contains a list of hosts which are connected to directly, rather than via the proxy (if it is active). The values can be hostnames, domains (using an initial wildcard like *.example.com), IP host addresses (both IPv4 and IPv6) and network addresses with a netmask similar to 192.168.0.0/24.</para>
+       </entry>
+      </row>
+      <row id="b15ot9hy">
+       <entry colname="1">
+        <para>Use authentication</para>
+       </entry>
+       <entry colname="2">
+        <para>If this option is enabled, it uses authentication to connect via the proxy server.</para>
+       </entry>
+      </row>
+      <row id="b15ot9j3">
+       <entry colname="1">
+        <para>Username</para>
+       </entry>
+       <entry colname="2">
+        <para>Username used to authenticate when performing an HTTP proxying.</para>
+       </entry>
+      </row>
+      <row id="b15ot9ln">
+       <entry colname="1">
+        <para>Password</para>
+       </entry>
+       <entry colname="2">
+        <para>Password used to authenticate when performing an HTTP proxying.</para>
+       </entry>
+      </row>
+     </tbody>
+    </tgroup>
+   </informaltable>
+   <formalpara id="b15m65j9">
+    <title>Automatic proxy configuration URL:</title>
+    <para>Specify the automatic proxy configuration URL for Evolution to use in the autoconfig script to configure the proxy.</para>
+   </formalpara>
+  </section>
+  
   <section id="bshoty0">
    <title>Certificates</title>
    <para>Evolution allows you to add certificates for yourself as well as for contacts. This allows you to communicate with others securely over an encrypted connection, or sign a message confirming your identity to the contact. These settings only apply to S/MIME encryption.</para>
@@ -7000,7 +7363,7 @@
    </formalpara>
    <formalpara id="b17sa9q1">
     <title>Creating a New Email Message:</title>
-    <para>Click File &gt; New &gt; Mail Message or Shift+Ctrl+M.</para>
+    <para>Select File &gt; New &gt; Mail Message or Shift+Ctrl+M.</para>
    </formalpara>
    <formalpara id="b17saa12">
     <title>Creating a New Appointment:</title>

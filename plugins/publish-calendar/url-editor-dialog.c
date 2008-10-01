@@ -54,7 +54,7 @@ create_uri (UrlEditorDialog *dialog)
 			method = "smb";
 			break;
 
-		case TYPE_SSH:
+		case TYPE_SFTP:
 			method = "sftp";
 			break;
 
@@ -110,7 +110,7 @@ check_input (UrlEditorDialog *dialog)
 	/* This should probably be more complex, since ' ' isn't a valid server name */
 	switch (uri->service_type) {
 	case TYPE_SMB:
-	case TYPE_SSH:
+	case TYPE_SFTP:
 	case TYPE_FTP:
 	case TYPE_DAV:
 	case TYPE_DAVS:
@@ -160,7 +160,7 @@ publish_service_changed (GtkComboBox *combo, UrlEditorDialog *dialog)
 		gtk_widget_show (dialog->password_hbox);
 		gtk_widget_show (dialog->remember_pw);
 		break;
-	case TYPE_SSH:
+	case TYPE_SFTP:
 	case TYPE_FTP:
 	case TYPE_DAV:
 	case TYPE_DAVS:
@@ -275,7 +275,7 @@ set_from_uri (UrlEditorDialog *dialog)
 	if (strcmp ((const char *)method, "smb") == 0)
 		uri->service_type = TYPE_SMB;
 	else if (strcmp ((const char *)method, "sftp") == 0)
-		uri->service_type = TYPE_SSH;
+		uri->service_type = TYPE_SFTP;
 	else if (strcmp ((const char *)method, "ftp") == 0)
 		/* we set TYPE_FTP here for now. if we don't find a
 		 * username later, we'll change it to TYPE_ANON_FTP */

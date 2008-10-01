@@ -1,3 +1,24 @@
+2008-10-01  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #553527
+
+	* bbdb.c: (struct todo_struct), (free_todo_struct), (bbdb_do_in_thread),
+	(bbdb_do_thread), (bbdb_handle_reply): Do the EBook work in a separate
+	thread to have better performance on reply with slow address books.
+
+2008-09-29  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #497928
+
+	* bbdb.c: (source_changed_cb), (gaim_source_changed_cb):
+	Set URI to empty string when user deletes previously selected source.
+
+2008-09-19  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* bbdb.c:
+
 2008-09-02  Sankar P  <psankar@novell.com>
 
 License Changes

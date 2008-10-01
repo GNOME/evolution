@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(evolution, 2.23.92, http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
+AC_INIT(evolution, 2.25.1, http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 
 # Some requirements have versioned package names
@@ -11,7 +11,7 @@ EDS_PACKAGE=1.2
 GTKHTML_PACKAGE=3.14
 
 # Required Packages
-m4_define([glib_minimum_version], [2.16.0])
+m4_define([glib_minimum_version], [2.18.0])
 m4_define([gtk_minimum_version], [2.12.0])
 m4_define([eds_minimum_version], [2.23.91])
 m4_define([gnome_icon_theme_minimum_version], [2.19.91])
@@ -60,7 +60,7 @@ dnl This is for api/versioning tracking for things like bonobo .server files
 dnl
 dnl This should always be the major/minor of the stable version or stable version to be
 dnl *************************************************************************************************
-BASE_VERSION=2.24
+BASE_VERSION=2.26
 AC_SUBST(BASE_VERSION)
 AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION", [Base version (Major.Minor)])
 
@@ -2019,10 +2019,12 @@ composer/Makefile
 mail/Makefile
 mail/default/Makefile
 mail/default/C/Makefile
+mail/default/cs/Makefile
 mail/default/de/Makefile
 mail/default/es/Makefile
 mail/default/fi/Makefile
 mail/default/fr/Makefile
+mail/default/it/Makefile
 mail/default/lt/Makefile
 mail/default/mk/Makefile
 mail/default/zh_CN/Makefile
@@ -2031,7 +2033,10 @@ mail/default/ko/Makefile
 mail/default/nl/Makefile
 mail/default/pl/Makefile
 mail/default/pt/Makefile
+mail/default/sr/Makefile
+mail/default/sr@latin/Makefile
 mail/default/sv/Makefile
+mail/default/hu/Makefile
 mail/importers/Makefile
 plugins/Makefile
 plugins/mark-all-read/Makefile

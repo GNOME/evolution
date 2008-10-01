@@ -60,6 +60,9 @@ enum {
 	COL_MIXED_RECIPIENTS,
 	COL_LABELS,
 
+	/* subject with junk removed */
+	COL_SUBJECT_TRIMMED,
+
 	/* normalised strings */
 	COL_FROM_NORM,
 	COL_SUBJECT_NORM,

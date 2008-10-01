@@ -1,3 +1,9 @@
+2008-09-15  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* plugins/templates/templates.c:
+
 2008-09-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	* templates.c:

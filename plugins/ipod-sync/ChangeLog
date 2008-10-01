@@ -1,3 +1,22 @@
+2008-09-19  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* evolution-ipod-sync.c:
+
+2008-09-16  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* ical-format.c:
+	* ipod-sync.c:
+
+2008-09-12  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* sync.c:
+
 2008-09-02  Sankar P  <psankar@novell.com>
 
 License Changes

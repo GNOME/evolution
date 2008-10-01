@@ -1,24 +1,24 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Authors: Miguel de Icaza (miguel@ximian.com)
- *           Bertrand Guiheneuf (bg@aful.org)
- *           And just about everyone else in evolution ...
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
  *
- *  Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * Authors:
+ *		Miguel de Icaza (miguel@ximian.com)
+ *      Bertrand Guiheneuf (bg@aful.org)
+ *      And just about everyone else in evolution ...
+ *
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
@@ -235,6 +235,7 @@ static struct {
 	{ "stock_score-highest",               NULL },
 	{ "stock_mail-flag-for-followup",      NULL },
 	{ "stock_mail-flag-for-followup-done", NULL },
+	{ "stock_new-meeting",                 NULL }
 };
 
 /* FIXME: junk prefs */
@@ -1267,6 +1268,61 @@ get_all_labels (CamelMessageInfo *msg_info, char **label_str, gboolean get_tags)
 	return count;
 }
 
+static const char *
+get_trimmed_subject (CamelMessageInfo *info)
+{
+	const char *subject;
+	const char *mlist;
+	int mlist_len = 0;
+	gboolean found_mlist;
+
+	subject = camel_message_info_subject (info);
+	if (!subject || !*subject)
+		return subject;
+
+	mlist = camel_message_info_mlist (info);
+
+	if (mlist && *mlist) {
+		const char *mlist_end;
+
+		mlist_end = strchr (mlist, '@');
+		if (mlist_end)
+			mlist_len = mlist_end - mlist;
+		else
+			mlist_len = strlen (mlist);
+	}
+
+	do {
+		found_mlist = FALSE;
+
+		while (!g_ascii_strncasecmp ((char *) subject, "Re:", 3)) {
+			subject += 3;
+
+			/* jump over any spaces */
+			while (*subject && isspace ((int) *subject))
+				subject++;
+		}
+
+		if (mlist_len &&
+		    *subject == '[' &&
+		    !g_ascii_strncasecmp ((char *) subject + 1, mlist, mlist_len) &&
+		    subject [1 + mlist_len] == ']') {
+			subject += 1 + mlist_len + 1;  /* jump over "[mailing-list]" */
+			found_mlist = TRUE;
+
+			/* jump over any spaces */
+			while (*subject && isspace ((int) *subject))
+				subject++;
+		}
+	} while (found_mlist);
+
+	/* jump over any spaces */
+	while (*subject && isspace ((int) *subject))
+		subject++;
+
+	return subject;
+}
+
 static void *
 ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 {
@@ -1340,6 +1396,8 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		str = camel_message_info_user_tag(msg_info, "follow-up");
 		return (void *)(str ? str : "");
 	case COL_ATTACHMENT:
+		if (camel_message_info_user_flag (msg_info, "$has_cal"))
+			return GINT_TO_POINTER (2);
 		return GINT_TO_POINTER ((camel_message_info_flags(msg_info) & CAMEL_MESSAGE_ATTACHMENTS) != 0);
 	case COL_FROM:
 		str = camel_message_info_from (msg_info);
@@ -1348,6 +1406,9 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		return (void *) get_normalised_string (message_list, msg_info, col);
 	case COL_SUBJECT:
 		str = camel_message_info_subject (msg_info);
+		return (void *)(str ? str : "");
+	case COL_SUBJECT_TRIMMED:
+		str = get_trimmed_subject (msg_info);
 		return (void *)(str ? str : "");
 	case COL_SUBJECT_NORM:
 		return (void *) get_normalised_string (message_list, msg_info, col);
@@ -1734,8 +1795,9 @@ message_list_create_extras (void)
 
 	for (i = 0; i < 2; i++)
 		images [i] = states_pixmaps [i + 6].pixbuf;
+	images [2] = states_pixmaps [18].pixbuf;
 
-	e_table_extras_add_cell (extras, "render_attachment", e_cell_toggle_new (0, 2, images));
+	e_table_extras_add_cell (extras, "render_attachment", e_cell_toggle_new (0, 3, images));
 
 	images [1] = states_pixmaps [8].pixbuf;
 	e_table_extras_add_cell (extras, "render_flagged", e_cell_toggle_new (0, 2, images));

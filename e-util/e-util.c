@@ -1,24 +1,23 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * e-util.c
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ *
  *
  * Authors:
- *   Chris Lahey <clahey@ximian.com>
+ *		Chris Lahey <clahey@ximian.com>
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
- * License, version 2, as published by the Free Software Foundation.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
- *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 02110-1301, USA.
  */
 
 #include <config.h>
@@ -1229,37 +1228,51 @@ e_file_lock_exists ()
 /**
  * e_util_guess_mime_type:
  * @filename: it's a local file name, or URI.
+ * @localfile: set to TRUE if can check the local file content, FALSE to check only based on the filename itself.
  * Returns: NULL or newly allocated string with a mime_type of the given file. Free with g_free.
  *
- * Guesses mime_type for the given file_name.
+ * Guesses mime_type for the given filename.
  **/
 char *
-e_util_guess_mime_type (const char *filename)
+e_util_guess_mime_type (const char *filename, gboolean localfile)
 {
-	GFile *file;
-	GFileInfo *fi;
-	char *mime_type;
+	char *mime_type = NULL;
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
-	if (strstr (filename, "://"))
-		file = g_file_new_for_uri (filename);
-	else
-		file = g_file_new_for_path (filename);
+	if (localfile) {
+		GFile *file;
 
-	if (!file)
-		return NULL;
+		if (strstr (filename, "://"))
+			file = g_file_new_for_uri (filename);
+		else
+			file = g_file_new_for_path (filename);
 
-	fi = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE, G_FILE_QUERY_INFO_NONE, NULL, NULL);
-	if (!fi) {
-		g_object_unref (file);
-		return NULL;
+		if (file) {
+			GFileInfo *fi;
+
+			fi = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE, G_FILE_QUERY_INFO_NONE, NULL, NULL);
+			if (fi) {
+				mime_type = g_content_type_get_mime_type (g_file_info_get_content_type (fi));
+	
+				g_object_unref (fi);
+			}
+
+			g_object_unref (file);
+		}
 	}
 
-	mime_type = g_content_type_get_mime_type (g_file_info_get_content_type (fi));
+	if (!mime_type) {
+		/* file doesn't exists locally, thus guess based on the filename */
+		gboolean uncertain = FALSE;
+		gchar *content_type;
 
-	g_object_unref (fi);
-	g_object_unref (file);
+		content_type = g_content_type_guess (filename, NULL, 0, &uncertain);
+		if (content_type) {
+			mime_type = g_content_type_get_mime_type (content_type);
+			g_free (content_type);
+		}
+	}
 
 	return mime_type;
 }

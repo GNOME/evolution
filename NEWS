@@ -1,8 +1,70 @@
+Evolution 2.24.0 2008-09-22
+---------------------------
+
+New in 2.24.0:
+
+	* Message Templates
+	* WebDAV Contacts Plugin
+	* Google Contacts Plugin
+	* Custom header support while sending mails 
+	* Single Model view for Calendar
+	* Sqlite Based message summary
+	* New Bonobo-less composer for Evolution 
+	* Quota support to IMAP/POP accounts
+	* Gtk+ Recent manager integration in Composer
+
+Bug Fixes:
+	#504767: Expand also parent nodes, if necessary (Milan Crha)
+	#505016: Check for NULL to prevent crash when error occurred. (Milan Crha)
+	#514299: Connect to signals only once, when creating new status icon (Milan Crha)
+	#534039: Dropped unnecessary and offending code causing infinite loops when deleting search folder. (Milan Crha)
+	#539536: Add "Face" header to default headers and allow it to be hidden (Paul Bolle)
+	#551548: Enable selection of S/MIME for individual messages (Matthew Barnes)
+	#551628: Remove old events from the view when objects are modified. (Chenthill Palanisamy)
+	#551895: Fix a warning message (Paul Bolle)
+	#551915: Manage error on idle, to call gtk functions in the main thread (Milan Crha)
+	#552911: Do not use spaces in file names (Milan Crha)
+
+Updated Translations:
+	Wadim Dziedzic (pl)
+	Osama Khalid, Usama Akkad, Abou Manal (ar)
+	Gabor Kelemen (hu)
+	Kenneth Nielsen (da)
+	Luca Ferretti (it)
+	Fabrício Godoy, Vladimir Melo and Leonardo Ferreira Fontenelle (pt_BR)
+	Laurent Dhima (sq)
+	Igor Nestorović(sr, sr@latin)
+	Pierros Papadeas (el)
+	Žygimantas Beručka (lt)
+	Tirumurthi Vasudevan (ta)
+	Inaki Larrañaga Murgoitio (eu)
+	Shankar Prasad (kn)
+	Chao-Hsiung Liao (zh_HK, zh_TW)
+	Jiri Eischmann (cs)
+	Jorge Gonzalez (es)
+	Ivar Smolin (et)
+	David Planella (ca)
+	Tino Meinen (nl)
+	Ilkka Tuohela (fi)
+	Sandeep Shedmake (mr)
+	Daniel Nylander (sv)
+	Baris Cicek (tr)
+	Hendrik Richter (de)
+	Philip Withnall (en_GB)
+	Duarte Loreto (pt)
+	Runa Bhattacharjee (bn_IN)
+	Luca Ferretti (it)
+	Rajesh Ranjan (hi)
+	Robert Sedak (hr)
+	David Planella (ca)
+	Yavor Doganov (bg)
+	Theppitak Karoonboonyanan (th)
+
 Evolution 2.23.92 2008-09-08
 ----------------------------
 
 New in 2.23.92:
-	Evolution source code license changed to LGPLv2 or later (Sankar P)
+	Evolution source code license changed to LGPLv2 & LGPLV3 (Sankar P)
 
 Bug Fixes:
 	#549968: Use the same mnemonic for "Recent Documents" as composer (Matthew Barnes)

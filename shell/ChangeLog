@@ -1,3 +1,64 @@
+2008-09-30  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-shell.c:
+	* main.c:
+
+2008-09-29  Gabor Kelemen  <kelemeng@gnome.hu>
+
+	* shell.error.xml: Unbreak build, sorry for the inconvenience.
+
+2008-09-29  Gabor Kelemen  <kelemeng@gnome.hu>
+
+	* shell.error.xml: Mark some forgotten strings for translation. Fixes bug #553106
+
+2008-09-24  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-shell-window-commands.c:
+	* e-user-creatable-items-handler.c:
+
+2008-09-24  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-shell-view.c:
+
+2008-09-24  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fixes bug #553479
+
+	* shell.error.xml: String capitalisation improvements.
+
+2008-09-19  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-sidebar.c:
+
+2008-09-16  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* test/evolution-test-component.c:
+
+2008-09-15  Bharath Acharya  <abharath@novell.com>
+
+	Updated the list of Contributors.
+		
+	* e-shell-window-commands.c:
+
+2008-09-12  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-config-upgrade.c:
+	* e-shell-importer.c:
+	* e-shell-nm-glib.c:
+	* e-shell-nm.c:
+
 2008-09-04  Sankar P  <psankar@novell.com>
 
 License Changes

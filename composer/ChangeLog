@@ -1,3 +1,31 @@
+2008-10-01  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #554418
+
+	* e-msg-composer.c: (handle_uri),
+	(e_msg_composer_add_inline_image_from_file): Guess mime_type based
+	on the file content, if failed, then on the filename.
+
+2008-09-29  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-msg-composer.c:
+
+2008-09-25  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fix for bug #553148
+
+	* mail-composer.error.xml: Standardise "GroupWise" usage in
+	translatable strings.
+
+2008-09-23  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #553273
+
+	* e-composer-actions.c: (action_save_cb):
+	Always end e_error_run/e_error_new calls with NULL parameter.
+
 2008-09-10  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #551548

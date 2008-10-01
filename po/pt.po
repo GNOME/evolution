@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: 2.24\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-06 16:13+0000\n"
-"PO-Revision-Date: 2008-09-07 20:45+0000\n"
+"PO-Revision-Date: 2008-09-12 00:10+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -13250,7 +13250,7 @@ msgstr "Directório onde gravar ficheiros componentes do email."
 #: ../mail/evolution-mail.schemas.in.h:41
 msgid "Disable or enable ellipsizing of folder names in folder tree"
 msgstr ""
-"Desactivar ou activar a eliptização dos nomes das pastas na árvore de pastas"
+"Desactivar ou activar as reticências nos nomes das pastas na árvore de pastas"
 
 #: ../mail/evolution-mail.schemas.in.h:42
 msgid "Draw spelling error indicators on words as you type."
@@ -13933,7 +13933,7 @@ msgstr ""
 #: ../mail/evolution-mail.schemas.in.h:176
 msgid "Whether disable ellipsizing feature of folder names in folder tree."
 msgstr ""
-"Se desactivar ou não a funcionalidade de eliptizar os nomes das pastas na "
+"Se desactivar ou não a funcionalidade de reticências nos nomes das pastas na "
 "árvore de pastas."
 
 #: ../mail/evolution-mail.schemas.in.h:177
@@ -23866,11 +23866,11 @@ msgstr "Altura do texto"
 
 #: ../widgets/text/e-text.c:3694 ../widgets/text/e-text.c:3695
 msgid "Use ellipsis"
-msgstr "Utilizar elípticas"
+msgstr "Utilizar reticências"
 
 #: ../widgets/text/e-text.c:3701 ../widgets/text/e-text.c:3702
 msgid "Ellipsis"
-msgstr "Elípticas"
+msgstr "Reticências"
 
 #: ../widgets/text/e-text.c:3708 ../widgets/text/e-text.c:3709
 msgid "Line wrap"

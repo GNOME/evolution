@@ -60,7 +60,8 @@ static gpointer parent_class;
 static gboolean
 logger_flush (ELogger *logger)
 {
-	fflush (logger->priv->fp);
+	if (logger->priv->fp)
+		fflush (logger->priv->fp);
 	logger->priv->timer = 0;
 
 	return FALSE;
@@ -90,6 +91,9 @@ logger_set_name (ELogger *logger,
 	logger->priv->logfile = e_mktemp (temp);
 	logger->priv->fp = g_fopen (logger->priv->logfile, "w");
 	logger->priv->timer = 0;
+
+	if (!logger->priv->fp)
+		g_warning ("%s: Failed to open log file '%s' for writing.", G_STRFUNC, logger->priv->logfile ? logger->priv->logfile : "[null]");
 
 	g_free (temp);
 }
@@ -136,7 +140,8 @@ logger_finalize (GObject *object)
 	if (logger->priv->timer)
 		g_source_remove (logger->priv->timer);
 	logger_flush (logger);
-	fclose (logger->priv->fp);
+	if (logger->priv->fp)
+		fclose (logger->priv->fp);
 
 	g_free (logger->priv->name);
 	g_free (logger->priv->logfile);
@@ -230,6 +235,9 @@ e_logger_log (ELogger *logger,
 	g_return_if_fail (primary != NULL);
 	g_return_if_fail (secondary != NULL);
 
+	if (!logger->priv->fp)
+		return;
+
 	fprintf (logger->priv->fp, "%d:%ld:%s\n", level, t, primary);
 	fprintf (logger->priv->fp, "%d:%ld:%s\n", level, t, secondary);
 	logger_set_dirty (logger);
@@ -247,11 +255,12 @@ e_logger_get_logs (ELogger *logger,
 	g_return_if_fail (func != NULL);
 
 	/* Flush everything before we get the logs */
-	fflush (logger->priv->fp);	
+	if (logger->priv->fp)
+		fflush (logger->priv->fp);	
 	fp = g_fopen (logger->priv->logfile, "r");
 
 	if (!fp) {
-		fprintf (stderr, "Cannot open log file '%s' for reading! No flush yet?\n", logger->priv->logfile ? logger->priv->logfile : "[null]");
+		g_warning ("%s: Cannot open log file '%s' for reading! No flush yet?\n", G_STRFUNC, logger->priv->logfile ? logger->priv->logfile : "[null]");
 		return;
 	}
 

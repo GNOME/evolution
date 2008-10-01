@@ -10,9 +10,9 @@ Received: (qmail 5610 invoked from network); 14 Mar 2007 12:00:00 -0000
 Received: from smtp.novell.com (HELO localhost) (141.154.95.10) by
 	pop.novell.com with SMTP; 14 Mar 2007 12:00:00 -0000
 From: "Evolution-teamet" <evolution@novell.com>
-To: Evolution Users <evolution@novell.com>
+To: Evolution-användare <evolution@novell.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
-X-Mailer: Evolution 2.10.0
+X-Mailer: Evolution 2.24.0
 Date: 14 March 2007 12:00:00 +0000
 Message-Id: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
@@ -34,27 +34,18 @@ Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
 
-Evolution-teamet är stolta över att välkomna dig till Evolution, ett komplett system
-för att hantera dina kommunikationer och personlig information.
+Evolution-teamet är stolta över att välkomna dig till Evolution, ett komplett 
+system för att hantera dina kommunikationer och personlig information.
 
 
 Komma igång
 
-	På vänster sida av Evolution-fönstret finns det en sidopanel med
-	genvägar till alla dina e-postmappar. I sidopanelen hittar du knappar
-	för dina kalendrar, kontakter, uppgifter, e-post och memon.
-
-	För en komplett användarguide för Evolution kan du välja "Innehåll"
-	från "Hjälp"-menyn eller trycka på F1-tangenten. 
-
-Nya funktioner
-
-	Evolution 2.10 erbjuder dig
-	
-	# Integration med gtk-print
-	# Anpassningsbar hämtning av IMAP-rubriker.
-	# Ökad prestanda, en mängd av felrättningar för minnesanvändning
-	# En mängd andra felrättningar och andra förbättringar
+	På vänster sida av Evolution-fönstret finns det en sidopanel
+	med genvägar till alla dina e-postmappar. I sidopanelen hittar
+	du knappar för dina kalendrar, kontakter, uppgifter, e-post och memon. 
+        
+        För en komplett användarguide för Evolution kan du välja Innehålls- 
+	förteckning från Hjälp-menyn eller trycka på F1-tangenten. 
 
 Felrapportering
 
@@ -62,16 +53,15 @@ Felrapportering
 
 Mer information
 
-	Du kan prenumerera på sändlistan "Evolution users" på
-	http://mail.gnome.org/mailman/listinfo/evolution-list.
+	Du kan prenumerera på sändlistan Evolution users på 
+	http://lists.gnome.org/mailman/listinfo/evolution.
+	
+	Information om Evolution-projektet finns tillgängligt på 
+	http://www.gnome.org/projects/evolution. 
 
-	Information om Evolution-projektet finns tillgänglig på
-	http://www.gnome.org/projects/evolution.
 
-
-Med vänliga hälsningar,
-Evolution-teamet
-evolution@novell.com
+Med vänliga hälsningar, 
+Evolution-teamet 
 
 
 --=-2gZ1roA/HoYrlRDVGyiM
@@ -95,7 +85,6 @@ Content-Type: text/html; charset=utf-8
 <TD></TD><TD>
 <FONT COLOR="#f8fcf8"><FONT SIZE="4">
 
-
 <B>Evolution-teamet</B> är stolta över att välkomna dig till <B>Evolution</B>, ett komplett system för att hantera dina kommunikationer och personlig information.
 
 
@@ -116,36 +105,16 @@ Komma igång
 
 <blockquote>
 
-	På vänster sida av Evolution-fönstret finns det en sidopanel med
-	genvägar till alla dina e-postmappar. I sidopanelen hittar du knappar
-	för dina kalendrar, kontakter, uppgifter, e-post och memon.
+	På vänster sida av Evolution-fönstret finns det en sidopanel
+	med genvägar till alla dina e-postmappar. I sidopanelen hittar
+	du knappar för dina kalendrar, kontakter, uppgifter, e-post och memon. 
 
 <br><br>
 
-	För en komplett användarguide för Evolution kan du välja <b>Innehåll</b> 
-	från <b>Hjälp</b>-menyn eller trycka på <B>F1</B>-tangenten. 
+    För en komplett användarguide för Evolution kan du välja Innehålls-
+    förteckning från Hjälp-menyn eller trycka på F1-tangenten. 
 
 <br><br>
-</blockquote>
-
-<h2>
-Nya funktioner
-</h2>
-
-<blockquote>
-	Evolution 2.10 erbjuder dig 
-	<ul>
-	<li>
-	Integration med gtk-print
-	</li><li>
-	Anpassningsbar hämtning av IMAP-rubriker
-	</li><li>
-	Ökad prestanda, en mängd av felrättningar för minnesanvändning
-	</li><li>
-	En mängd andra felrättningar och andra förbättringar
-	</li>
-	</ul>
-<br>
 </blockquote>
 
 <h2>
@@ -161,13 +130,12 @@ Mer information
 </h2>
 
 <blockquote>
-	Du kan prenumerera på sändlistan <b>Evolution users</b> på
-	<a href="http://lists.gnome.org/mailman/listinfo/evolution">http://lists.gnome.org/mailman/listinfo/evolution</a>.
+	Du kan prenumerera på sändlistan Evolution users på <a href="http://lists.gnome.org/mailman/listinfo/evolution">http://lists.gnome.org/mailman/listinfo/evolution</a>.
 
-	Information om Evolution-projektet finns tillgänglig på
-	<a href="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</a>.
+	Information om Evolution-projektet finns tillgängligt på <a href="http://www.gnome.org/projects/evolution">http://www.gnome.org/projects/evolution</a>.
+
 	<!--
-	Du kan hitta en lista med svar på ofta ställda frågor (FAQ) på
+	Du kan hitta en lista med frågor och svar (FAQ) på
 	<a href="http://go-evolution.org/FAQ">http://go-evolution.org/FAQ</a>.
 	-->
 <br><br>	
@@ -176,7 +144,6 @@ Mer information
 Med vänliga hälsningar,
 <br>
 Evolution-teamet
-<br><a href="mailto:evolution@novell.com">evolution@novell.com</a>
 
 </BODY>
 </HTML>

@@ -1,3 +1,263 @@
+2008-10-01  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #554418
+
+	* em-utils.c: (em_utils_snoop_type):
+	* em-popup.c: (emp_standard_menu_factory):
+	Guess mime_type based on the filename only.
+
+2008-10-01  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #554458
+
+	* em-popup.c: (emp_standard_menu_factory):
+	Use content-type to call of g_app_info_get_all_for_type.
+
+2008-10-01  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* em-composer-utils.c:
+
+2008-09-30  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fix for bug #545045
+
+	* mail-send-recv.c (build_dialog): Don't show SMTP in the
+	Send/Receive dialogue if there are no unsent mails.
+
+2008-09-30  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* mail-ops.c:
+
+2008-09-30  Sankar P  <psankar@novell.com>
+
+	* mail/message-list.c:
+	Remove unnecessary FIXME. 
+	normalized columns are for internal manipulation.
+
+2008-09-30  Sankar P  <psankar@novell.com>
+
+	** Committed on behalf of Hans Petter Jansson  <hpj@novell.com>
+
+	** Fix for bug #554107
+
+	* message-list.c (get_trimmed_subject), (ml_tree_value_at):
+	* message-list.etspec:
+	* message-list.h:
+	Add "Subject - Trimmed" column which enables to read 
+	mailing list mails in a better way.
+
+2008-09-29  Gabor Kelemen  <kelemeng@gnome.hu>
+
+	* mail-config.glade: Mark some forgotten strings for translation. Fixes bug #553067
+
+2008-09-29  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #530716
+
+	* mail-session.c: (user_message_response), (user_message_exec),
+	(user_message_response_free): Differentiate between response
+	with valid message pointer and with one already freed.
+
+2008-09-29  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #530691
+
+	* em-folder-utils.c: (emfu_delete_rec), (emfu_delete_done),
+	(emfu_delete_folders), (emfu_delete_response),
+	(em_folder_utils_delete_folder):
+	* mail-ops.h: (mail_remove_folder):
+	* mail-ops.c: (mail_remove_folder), (struct _remove_folder_msg),
+	(remove_folder_desc), (remove_folder_rec), (remove_folder_exec),
+	(remove_folder_done), (remove_folder_free):
+	Remove folders in its own thread, not in main thread.
+
+2008-09-29  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* em-filter-i18n.h:
+	* em-utils.c:
+	* importers/mail-importer.c:
+	* mail-config.c:
+	* message-list.c:
+
+2008-09-26  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #552583 (Suggested by Sebastian Keller)
+
+	* mail-session.c: (get_password):
+	Do not hide auth_mech from the URL.
+
+2008-09-25  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fix for bug #552551
+
+	* em-folder-browser.c (emfb_search_search_activated): Add a NULL
+	check for search_word before calling strcmp.
+
+2008-09-25  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* mail-folder-cache.c:
+
+2008-09-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #313225
+
+	* message-list.c: (struct states_pixmaps), (ml_tree_value_at),
+	(message_list_create_extras): Show meeting icon in 'Attachment'
+	column on messages with '$has_cal' user flag set.
+
+2008-09-24  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* em-folder-browser.c:
+
+2008-09-24  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fixes bug #553479
+
+	* em-migrate.c (migrate_to_db):
+	* evolution-mail.schemas.in: String capitalisation improvements.
+
+2008-09-23  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #553273
+
+	* em-composer-utils.c: (em_utils_handle_receipt):
+	* em-folder-view.c: (emfv_delete_msg_response):
+	Always end e_error_run/e_error_new calls with NULL parameter.
+
+2008-09-22  Luca Ferretti  <elle.uca@libero.it>
+
+	* default/Makefile.am:
+	* default/it/Inbox:
+	* default/it/Makefile.am:
+	Added Italian translation for default email message.
+
+2008-09-22  Petr Kovar  <pknbe@volny.cz>
+
+	* default/cs/Inbox: Added Czech translation of default email
+	message by Jiri Eischmann.
+	* default/cs/Makefile.am: Ditto.
+	* default/Makefile.am: Ditto.
+
+2008-09-21  Wadim Dziedzic  <wdziedzic@aviary.pl>
+
+	* default/pl/Inbox: Updated Polish translation
+
+2008-09-19  Gintautas Miliauskas  <gintas@akl.lt>
+
+	* default/lt/Inbox: Updated Lithuanian translation.
+
+2008-09-19  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* em-folder-tree-model.c:
+	* em-folder-tree.c:
+	* em-folder-view.c:
+	* em-format-html-display.c:
+	* em-format-html.c:
+	* em-migrate.c:
+	* mail-component.c:
+
+2008-09-17  Gabor Kelemen  <kelemeng@gnome.hu>
+
+	* default/hu/Makefile.am: Add this too
+
+2008-09-17  Gabor Kelemen  <kelemeng@gnome.hu>
+
+	* default/hu/Inbox: Default welcome mail translation added.
+	* default/Makefile.am: Added hu
+
+2008-09-16  Goran Rakić  <grakic@devbase.net>
+
+        * default/Makefile.am:
+        * default/sr/*, default/sr@latin/*: Added Serbian welcome message translation.
+
+2008-09-16  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* em-account-editor.c:
+	* em-account-prefs.c:
+	* em-format.c:
+	* em-message-browser.c:
+	* em-popup.c:
+	* em-subscribe-editor.c:
+	* importers/pine-importer.c:
+	* mail-mt.c:
+	* mail-send-recv.c:
+
+2008-09-16  Wouter Bolsterlee  <wbolster@svn.gnome.org>
+
+	* default/nl/Inbox: Updated Dutch translation by Tino Meinen.
+
+2008-09-16  Ilkka Tuohela <hile@iki.fi>
+
+	* default/fi/Inbox: Updated Finnish default mailbox.
+
+2008-09-16  Claude Paroz  <claude@2xlibre.net>
+
+	* default/fr/Inbox: Updated French translation.
+
+2008-09-15  Daniel Nylander <po@danielnylander.se>
+
+	* default/sv/Inbox: Updated Swedish translation.
+
+2008-06-22  Sankar P <psankar@novell.com>
+
+	* Committed on behalf of Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fix for bug #539536
+
+	* em-format.c: (struct default_headers):
+	* em-format-html.c: (efh_format_headers):
+	* em-format-html.c: (default_headers):
+	Add "Face" header to default headers and allow it to be hidden.
+
+2008-09-14  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #504767
+
+	* em-folder-tree.c: (emft_expand_node):
+	Expand also parent nodes, if necessary.
+
+2008-09-14  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #551915
+
+	* em-junk-hook.c: (struct manage_error_idle_data), (free_mei),
+	(manage_error_idle), (manage_error):
+	Manage error on idle, to call gtk functions in the main thread.
+
+2008-09-12  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* em-icon-stream.c:
+	* em-mailer-prefs.c:
+	* em-mailer-prefs.h:
+	* em-network-prefs.c:
+	* em-network-prefs.h:
+	* importers/evolution-mbox-importer.c:
+
+2008-09-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #534039
+
+	* mail-vfolder.c: (vfolder_load_storage): Load store to mail component
+	first, to have all notifications registered in time of adding rules.
+	* mail-folder-cache.c: (real_flush_updates): Dropped unnecessary and
+	offending code causing infinite loops when deleting search folder.
+
 2008-09-09  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #493298

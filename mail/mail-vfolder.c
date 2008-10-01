@@ -956,6 +956,9 @@ vfolder_load_storage(void)
 	g_signal_connect(context, "rule_added", G_CALLBACK(context_rule_added), context);
 	g_signal_connect(context, "rule_removed", G_CALLBACK(context_rule_removed), context);
 
+	/* load store to mail component */
+	mail_component_load_store_by_uri (mail_component_peek (), storeuri, _("Search Folders"));
+
 	/* and setup the rules we have */
 	rule = NULL;
 	while ( (rule = rule_context_next_rule((RuleContext *)context, rule, NULL)) ) {
@@ -965,9 +968,6 @@ vfolder_load_storage(void)
 		} else
 			d(printf("invalid rule (%p) encountered: rule->name is NULL\n", rule));
 	}
-
-	/* load store to mail component at the end, when everything is loaded */
-	mail_component_load_store_by_uri (mail_component_peek (), storeuri, _("Search Folders"));
 
 	g_free(storeuri);
 

@@ -592,7 +592,7 @@ url_remove_clicked (GtkButton *button, PublishUIData *ui)
 
 	confirm = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 			                  GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
-					  _("Are you sure you want to remove this URL?"));
+					  _("Are you sure you want to remove this location?"));
 	gtk_dialog_add_button (GTK_DIALOG (confirm), GTK_STOCK_CANCEL, GTK_RESPONSE_NO);
 	gtk_dialog_add_button (GTK_DIALOG (confirm), GTK_STOCK_REMOVE, GTK_RESPONSE_YES);
 	gtk_dialog_set_default_response (GTK_DIALOG (confirm), GTK_RESPONSE_CANCEL);

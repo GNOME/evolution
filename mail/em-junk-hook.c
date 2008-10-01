@@ -300,18 +300,52 @@ emjh_construct(EPluginHook *eph, EPlugin *ep, xmlNodePtr root)
 	return 0;
 }
 
+struct manage_error_idle_data
+{
+	const char *msg;
+	GError *error;
+};
+
+static void
+free_mei (gpointer data)
+{
+	struct manage_error_idle_data *mei = (struct manage_error_idle_data*) data;
+
+	if (!mei)
+		return;
+
+	g_error_free (mei->error);
+	g_free (mei);
+}
+
+static gboolean
+manage_error_idle (gpointer data)
+{
+	GtkWidget *w;
+	struct manage_error_idle_data *mei = (struct manage_error_idle_data *) data;
+
+	if (!mei)
+		return FALSE;
+
+	w = e_error_new (NULL, mei->msg, mei->error->message, NULL);
+	em_utils_show_error_silent (w);
+
+	return FALSE;
+}
+
 static void
 manage_error (const char *msg, GError *error)
 {
-	GtkWidget *w;
+	struct manage_error_idle_data *mei;
 
 	if (!error)
 		return;
 
-	w = e_error_new (NULL, msg, error->message, NULL);
-	em_utils_show_error_silent (w);
+	mei = g_new0 (struct manage_error_idle_data, 1);
+	mei->msg = msg; /* it's a static string, should be safe to use it as this */
+	mei->error = error;
 
-	g_error_free (error);
+	g_idle_add_full (G_PRIORITY_DEFAULT_IDLE, manage_error_idle, mei, free_mei);
 }
 
 /*XXX: don't think we need here*/

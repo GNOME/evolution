@@ -1,3 +1,106 @@
+2008-10-01  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* gui/component/addressbook-config.c:
+	* gui/widgets/e-minicard.c:
+	* importers/evolution-ldif-importer.c:
+	* importers/evolution-vcard-importer.c:
+
+2008-09-30  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* gui/component/addressbook.c:
+
+2008-09-29  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* gui/component/addressbook-view.c:
+
+2008-09-25  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fix for bug #553148
+
+	* gui/contact-editor/contact-editor.glade:
+	* gui/contact-editor/e-contact-editor-im.c: Standardise "GroupWise"
+	usage in translatable strings.
+
+2008-09-24  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* gui/contact-editor/e-contact-editor.c:
+	* gui/contact-editor/e-contact-quick-add.c:
+	* gui/widgets/e-addressbook-view.c:
+
+2008-09-24  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* gui/widgets/e-addressbook-model.c:
+	* gui/widgets/eab-gui-util.c:
+	* gui/widgets/eab-vcard-control.c:
+
+2008-09-24  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fixes bug #553479
+
+	* gui/component/ldap-config.glade: String capitalisation improvements.
+
+2008-09-23  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #553273
+
+	* gui/component/addressbook-view.c: (delete_addressbook_folder),
+	(delete_addressbook_cb):
+	* gui/widgets/eab-gui-util.c: (save_it):
+	* gui/contact-list-editor/e-contact-list-model.c:
+	(e_contact_list_model_add_email):
+	* gui/contact-list-editor/e-contact-list-editor.c:
+	(contact_list_editor_contact_exists):
+	Always end e_error_run/e_error_new calls with NULL parameter.
+
+2008-09-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #552575
+
+	* gui/widgets/eab-gui-util.c: (eab_send_contact_list_as_attachment):
+	Register default callbacks to composer to be able to send/save draft.
+
+2008-09-23  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #272391
+
+	* gui/component/apps_evolution_addressbook.schemas.in:
+	* gui/component/autocompletion-config.c: (struct AutocompletionConfig),
+	(config_control_destroy_notify), (add_section),
+	(show_address_check_toggled_cb), (autocompletion_config_control_new):
+	New UI for Edit->Preferences->Autocompletion, with the checkbox for
+	the key "/apps/evolution/addressbook/completion/show_address" to be
+	able to setup whether show mail address for the autocompleted contact.
+
+2008-09-19  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* gui/widgets/e-minicard-label.c:
+	* tools/evolution-addressbook-export.c:
+
+2008-09-16  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* gui/component/addressbook-component.c:
+	* gui/contact-editor/eab-editor.c:
+
+2008-09-12  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* gui/component/addressbook-migrate.c:
+
 2008-09-08  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #361413

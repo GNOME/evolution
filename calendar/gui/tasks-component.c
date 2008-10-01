@@ -1,23 +1,23 @@
-/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
-/* tasks-component.c
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
+/*
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of version 2 of the GNU General Public
- * License as published by the Free Software Foundation.
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * General Public License for more details.
+ * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public
- * License along with this program; if not, write to the
- * Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
- * Boston, MA 02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
- * Author: Rodrigo Moya <rodrigo@ximian.com>
+ *
+ * Authors:
+ *		Rodrigo Moya <rodrigo@ximian.com>
+ *
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ *
  */
 
 #ifdef HAVE_CONFIG_H
@@ -267,7 +267,7 @@ delete_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 		return;
 
 	if (e_error_run((GtkWindow *)gtk_widget_get_toplevel(ep->target->widget),
-			"calendar:prompt-delete-task-list", e_source_peek_name(selected_source)) != GTK_RESPONSE_YES)
+			"calendar:prompt-delete-task-list", e_source_peek_name(selected_source), NULL) != GTK_RESPONSE_YES)
 		return;
 
 	/* first, ask the backend to remove the task list */

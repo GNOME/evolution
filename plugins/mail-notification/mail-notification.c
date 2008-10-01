@@ -1,21 +1,22 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Author: Miguel Angel Lopez Hernandez <miguel@gulev.org.mx>
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
  *
- *  Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
  *
- *  This program is free software; you can redistribute it and/or
- *  modify it under the terms of version 2 of the GNU General Public
- *  License as published by the Free Software Foundation.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * Authors:
+ *		Miguel Angel Lopez Hernandez <miguel@gulev.org.mx>
+ *
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
@@ -493,13 +494,15 @@ new_notify_status (EMEventTargetFolder *t)
 
 	g_free (msg);
 
-	#ifdef HAVE_LIBNOTIFY
-	g_signal_connect (G_OBJECT (status_icon), "activate", G_CALLBACK (icon_activated), notify);
-	#else
-	g_signal_connect (G_OBJECT (status_icon), "activate", G_CALLBACK (icon_activated), NULL);
-	#endif
+	if (new_icon) {
+		#ifdef HAVE_LIBNOTIFY
+		g_signal_connect (G_OBJECT (status_icon), "activate", G_CALLBACK (icon_activated), notify);
+		#else
+		g_signal_connect (G_OBJECT (status_icon), "activate", G_CALLBACK (icon_activated), NULL);
+		#endif
 
-	g_signal_connect (G_OBJECT (status_icon), "popup-menu", G_CALLBACK (popup_menu_status), NULL);
+		g_signal_connect (G_OBJECT (status_icon), "popup-menu", G_CALLBACK (popup_menu_status), NULL);
+	}
 }
 
 static void
