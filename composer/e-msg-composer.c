@@ -3968,7 +3968,7 @@ handle_uri (EMsgComposer *composer,
 			return;
 
 		if (!g_ascii_strcasecmp (url->protocol, "file")) {
-			type = e_util_guess_mime_type (uri + strlen ("file://"));
+			type = e_util_guess_mime_type (uri + strlen ("file://"), TRUE);
 			if (!type)
 				return;
 
@@ -4200,7 +4200,7 @@ e_msg_composer_add_inline_image_from_file (EMsgComposer *composer,
 	camel_data_wrapper_construct_from_stream (wrapper, stream);
 	camel_object_unref (CAMEL_OBJECT (stream));
 
-	mime_type = e_util_guess_mime_type (dec_file_name);
+	mime_type = e_util_guess_mime_type (dec_file_name, TRUE);
 	if (mime_type == NULL)
 		mime_type = g_strdup ("application/octet-stream");
 	camel_data_wrapper_set_mime_type (wrapper, mime_type);

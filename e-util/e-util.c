@@ -1172,37 +1172,51 @@ e_file_lock_exists ()
 /**
  * e_util_guess_mime_type:
  * @filename: it's a local file name, or URI.
+ * @localfile: set to TRUE if can check the local file content, FALSE to check only based on the filename itself.
  * Returns: NULL or newly allocated string with a mime_type of the given file. Free with g_free.
  *
- * Guesses mime_type for the given file_name.
+ * Guesses mime_type for the given filename.
  **/
 char *
-e_util_guess_mime_type (const char *filename)
+e_util_guess_mime_type (const char *filename, gboolean localfile)
 {
-	GFile *file;
-	GFileInfo *fi;
-	char *mime_type;
+	char *mime_type = NULL;
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
-	if (strstr (filename, "://"))
-		file = g_file_new_for_uri (filename);
-	else
-		file = g_file_new_for_path (filename);
+	if (localfile) {
+		GFile *file;
 
-	if (!file)
-		return NULL;
+		if (strstr (filename, "://"))
+			file = g_file_new_for_uri (filename);
+		else
+			file = g_file_new_for_path (filename);
 
-	fi = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE, G_FILE_QUERY_INFO_NONE, NULL, NULL);
-	if (!fi) {
-		g_object_unref (file);
-		return NULL;
+		if (file) {
+			GFileInfo *fi;
+
+			fi = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE, G_FILE_QUERY_INFO_NONE, NULL, NULL);
+			if (fi) {
+				mime_type = g_content_type_get_mime_type (g_file_info_get_content_type (fi));
+	
+				g_object_unref (fi);
+			}
+
+			g_object_unref (file);
+		}
 	}
 
-	mime_type = g_content_type_get_mime_type (g_file_info_get_content_type (fi));
+	if (!mime_type) {
+		/* file doesn't exists locally, thus guess based on the filename */
+		gboolean uncertain = FALSE;
+		gchar *content_type;
 
-	g_object_unref (fi);
-	g_object_unref (file);
+		content_type = g_content_type_guess (filename, NULL, 0, &uncertain);
+		if (content_type) {
+			mime_type = g_content_type_get_mime_type (content_type);
+			g_free (content_type);
+		}
+	}
 
 	return mime_type;
 }
