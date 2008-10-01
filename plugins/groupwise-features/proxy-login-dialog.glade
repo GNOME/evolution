@@ -7,7 +7,7 @@
 <widget class="GtkDialog" id="proxy_login_dialog">
   <property name="visible">True</property>
   <property name="height_request">325</property>
-  <property name="title" translatable="yes">Proxy Login</property>
+  <property name="title" translatable="yes" comment="To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation">Proxy Login</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">True</property>
