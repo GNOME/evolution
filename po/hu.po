@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-09-29 23:11+0200\n"
-"PO-Revision-Date: 2008-09-29 23:16+0200\n"
+"POT-Creation-Date: 2008-10-01 02:20+0200\n"
+"PO-Revision-Date: 2008-10-01 02:23+0200\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <gnome@fsf.hu>\n"
 "MIME-Version: 1.0\n"
@@ -681,9 +681,19 @@ msgstr "Személyes"
 msgid "On LDAP Servers"
 msgstr "LDAP-kiszolgálókon"
 
+#: ../addressbook/gui/component/addressbook-component.c:229
+msgctxt "New"
+msgid "_Contact"
+msgstr "_Névjegy"
+
 #: ../addressbook/gui/component/addressbook-component.c:230
 msgid "Create a new contact"
 msgstr "Új névjegy létrehozása"
+
+#: ../addressbook/gui/component/addressbook-component.c:237
+msgctxt "New"
+msgid "Contact _List"
+msgstr "_Címlista"
 
 #: ../addressbook/gui/component/addressbook-component.c:238
 msgid "Create a new contact list"
@@ -693,6 +703,11 @@ msgstr "Új címlista létrehozása"
 #: ../addressbook/gui/component/addressbook-config.c:1207
 msgid "New Address Book"
 msgstr "Új címjegyzék"
+
+#: ../addressbook/gui/component/addressbook-component.c:245
+msgctxt "New"
+msgid "Address _Book"
+msgstr "Cím_jegyzék"
 
 #: ../addressbook/gui/component/addressbook-component.c:246
 msgid "Create a new address book"
@@ -5354,6 +5369,11 @@ msgstr "Naptárforrás-választó"
 msgid "New appointment"
 msgstr "Új értekezlet"
 
+#: ../calendar/gui/calendar-component.c:1597
+msgctxt "New"
+msgid "_Appointment"
+msgstr "Érte_kezlet"
+
 #: ../calendar/gui/calendar-component.c:1598
 msgid "Create a new appointment"
 msgstr "Új értekezlet létrehozása"
@@ -5361,6 +5381,11 @@ msgstr "Új értekezlet létrehozása"
 #: ../calendar/gui/calendar-component.c:1604
 msgid "New meeting"
 msgstr "Új találkozó"
+
+#: ../calendar/gui/calendar-component.c:1605
+msgctxt "New"
+msgid "M_eeting"
+msgstr "_Találkozó"
 
 #: ../calendar/gui/calendar-component.c:1606
 msgid "Create a new meeting request"
@@ -5370,6 +5395,11 @@ msgstr "Új találkozó-összehívási kérés létrehozása"
 msgid "New all day appointment"
 msgstr "Új egész napos értekezlet"
 
+#: ../calendar/gui/calendar-component.c:1613
+msgctxt "New"
+msgid "All Day A_ppointment"
+msgstr "_Egész napos értekezlet"
+
 #: ../calendar/gui/calendar-component.c:1614
 msgid "Create a new all-day appointment"
 msgstr "Új egész napos értekezlet létrehozása"
@@ -5377,6 +5407,11 @@ msgstr "Új egész napos értekezlet létrehozása"
 #: ../calendar/gui/calendar-component.c:1620
 msgid "New calendar"
 msgstr "Új naptár"
+
+#: ../calendar/gui/calendar-component.c:1621
+msgctxt "New"
+msgid "Cale_ndar"
+msgstr "Na_ptár"
 
 #: ../calendar/gui/calendar-component.c:1622
 msgid "Create a new calendar"
@@ -8553,6 +8588,11 @@ msgstr "Feljegyzésforrás-kiválasztó"
 msgid "New memo"
 msgstr "Új feljegyzés"
 
+#: ../calendar/gui/memos-component.c:1261
+msgctxt "New"
+msgid "Mem_o"
+msgstr "_Feljegyzés"
+
 #: ../calendar/gui/memos-component.c:1262
 msgid "Create a new memo"
 msgstr "Új feljegyzés létrehozása"
@@ -8561,6 +8601,11 @@ msgstr "Új feljegyzés létrehozása"
 msgid "New shared memo"
 msgstr "Új megosztott feljegyzés"
 
+#: ../calendar/gui/memos-component.c:1269
+msgctxt "New"
+msgid "_Shared memo"
+msgstr "_Megosztott feljegyzés"
+
 #: ../calendar/gui/memos-component.c:1270
 msgid "Create a shared new memo"
 msgstr "Új megosztott feljegyzés létrehozása"
@@ -8568,6 +8613,11 @@ msgstr "Új megosztott feljegyzés létrehozása"
 #: ../calendar/gui/memos-component.c:1276
 msgid "New memo list"
 msgstr "Új feljegyzéslista"
+
+#: ../calendar/gui/memos-component.c:1277
+msgctxt "New"
+msgid "Memo li_st"
+msgstr "_Feljegyzéslista"
 
 #: ../calendar/gui/memos-component.c:1278
 msgid "Create a new memo list"
@@ -8861,6 +8911,11 @@ msgstr "Feladatforrás-kiválasztó"
 msgid "New task"
 msgstr "Új feladat"
 
+#: ../calendar/gui/tasks-component.c:1326
+msgctxt "New"
+msgid "_Task"
+msgstr "_Feladat"
+
 #: ../calendar/gui/tasks-component.c:1327
 msgid "Create a new task"
 msgstr "Új feladat létrehozása"
@@ -8869,6 +8924,11 @@ msgstr "Új feladat létrehozása"
 msgid "New assigned task"
 msgstr "Új hozzárendelt feladat"
 
+#: ../calendar/gui/tasks-component.c:1334
+msgctxt "New"
+msgid "Assigne_d Task"
+msgstr "Hozzáren_delt feladat"
+
 #: ../calendar/gui/tasks-component.c:1335
 msgid "Create a new assigned task"
 msgstr "Új hozzárendelt feladat létrehozása"
@@ -8876,6 +8936,11 @@ msgstr "Új hozzárendelt feladat létrehozása"
 #: ../calendar/gui/tasks-component.c:1341
 msgid "New task list"
 msgstr "Új feladatlista"
+
+#: ../calendar/gui/tasks-component.c:1342
+msgctxt "New"
+msgid "Tas_k list"
+msgstr "Feladatl_ista"
 
 #: ../calendar/gui/tasks-component.c:1343
 msgid "Create a new task list"
@@ -12062,6 +12127,27 @@ msgstr "Elküldött"
 msgid "Loading..."
 msgstr "Betöltés…"
 
+#. Translators: This is the string used for displaying the
+#. * folder names in folder trees. "%s" will be replaced by
+#. * the folder's name and "%u" will be replaced with the
+#. * number of unread messages in the folder.
+#. *
+#. * Most languages should translate this as "%s (%u)". The
+#. * languages that use localized digits (like Persian) may
+#. * need to replace "%u" with "%Iu". Right-to-left languages
+#. * (like Arabic and Hebrew) may need to add bidirectional
+#. * formatting codes to take care of the cases the folder
+#. * name appears in either direction.
+#. *
+#. * Do not translate the "folder-display|" part. Remove it
+#. * from your translation.
+#.
+#: ../mail/em-folder-tree.c:380
+#, c-format
+msgctxt "folder-display"
+msgid "%s (%u)"
+msgstr "%s (%u)"
+
 #: ../mail/em-folder-tree.c:741
 msgid "Mail Folder Tree"
 msgstr "Levélmappa-fa"
@@ -13950,6 +14036,11 @@ msgstr[1] "összesen %d"
 msgid "New Mail Message"
 msgstr "Új levél"
 
+#: ../mail/mail-component.c:923
+msgctxt "New"
+msgid "_Mail Message"
+msgstr "_Levél"
+
 #: ../mail/mail-component.c:924
 msgid "Compose a new mail message"
 msgstr "Új levél írása"
@@ -13957,6 +14048,11 @@ msgstr "Új levél írása"
 #: ../mail/mail-component.c:930
 msgid "New Mail Folder"
 msgstr "Új levélmappa"
+
+#: ../mail/mail-component.c:931
+msgctxt "New"
+msgid "Mail _Folder"
+msgstr "Levél_mappa"
 
 #: ../mail/mail-component.c:932
 msgid "Create a new mail folder"
@@ -20321,6 +20417,11 @@ msgstr "Új"
 #: ../shell/test/evolution-test-component.c:105
 msgid "New Test"
 msgstr "Új teszt"
+
+#: ../shell/test/evolution-test-component.c:106
+msgctxt "New"
+msgid "_Test"
+msgstr "_Teszt"
 
 #: ../shell/test/evolution-test-component.c:107
 msgid "Create a new test item"
