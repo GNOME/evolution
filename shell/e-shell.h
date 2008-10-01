@@ -1,4 +1,6 @@
 /*
+ * e-shell.h
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -12,9 +14,6 @@
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
- *
- * Authors:
- *		Ettore Perazzoli <ettore@ximian.com> 
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *

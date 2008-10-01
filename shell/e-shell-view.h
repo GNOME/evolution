@@ -1,4 +1,4 @@
-/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*-
+/*
  * e-shell-view.h
  *
  * This program is free software; you can redistribute it and/or
