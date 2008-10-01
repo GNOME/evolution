@@ -40,12 +40,12 @@
 
 /* Authors and Documenters
  *
- * The names below must be in UTF8.  The breaking of escaped strings
+ * The names below must be in UTF-8.  The breaking of escaped strings
  * is so the hexadecimal sequences don't swallow too many characters.
  *
  * SO THAT MEANS, FOR 8-BIT CHARACTERS USE \xXX HEX ENCODING ONLY!
  *
- * Not all environments are UTF8 and not all editors can handle it.
+ * Not all environments are UTF-8 and not all editors can handle it.
  */
 static const gchar *authors[] = {
 	"Aaron Weber",
@@ -623,6 +623,14 @@ static const gchar *documenters[] = {
 	NULL
 };
 
+/**
+ * E_SHELL_WINDOW_ACTION_ABOUT:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action displays the application's About dialog.
+ *
+ * Main menu item: Help -> About
+ **/
 static void
 action_about_cb (GtkAction *action,
                  EShellWindow *shell_window)
@@ -651,6 +659,15 @@ action_about_cb (GtkAction *action,
 		NULL);
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_CLOSE:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action closes @window.  If this is the last window,
+ * the application initiates shutdown.
+ *
+ * Main menu item: File -> Close
+ **/
 static void
 action_close_cb (GtkAction *action,
                  EShellWindow *shell_window)
@@ -666,6 +683,14 @@ action_close_cb (GtkAction *action,
 	gdk_event_free (event);
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_CONTENTS:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action opens the application's user manual.
+ *
+ * Main menu item: Help -> Contents
+ **/
 static void
 action_contents_cb (GtkAction *action,
                     EShellWindow *shell_window)
@@ -696,6 +721,15 @@ action_custom_rule_cb (GtkAction *action,
 	gtk_action_activate (ACTION (SEARCH_EXECUTE));
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_FAQ:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action opens a web page with answers to frequently
+ * asked questions about this application.
+ *
+ * Main menu item: Help -> Evolution FAQ
+ **/
 static void
 action_faq_cb (GtkAction *action,
                EShellWindow *shell_window)
@@ -711,6 +745,14 @@ action_faq_cb (GtkAction *action,
 	}
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_FORGET_PASSWORDS:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action deletes all stored passwords.
+ *
+ * Main menu item: File -> Forget Passwords
+ **/
 static void
 action_forget_passwords_cb (GtkAction *action,
                             EShellWindow *shell_window)
@@ -724,6 +766,15 @@ action_forget_passwords_cb (GtkAction *action,
 		e_passwords_forget_passwords ();
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_GAL_DEFINE_VIEWS:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action opens a dialog for editing GAL views for
+ * the current shell view.
+ *
+ * Main menu item: View -> Current View -> Define Views...
+ **/
 static void
 action_gal_define_views_cb (GtkAction *action,
                             EShellWindow *shell_window)
@@ -748,6 +799,15 @@ action_gal_define_views_cb (GtkAction *action,
 	e_shell_window_update_view_menu (shell_window);
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_GAL_CUSTOM_VIEW:
+ * @window: an #EShellWindow
+ *
+ * This radio action is selected when using a custom GAL view that has
+ * not been saved.
+ *
+ * Main menu item: View -> Current View -> Custom View
+ **/
 static void
 action_gal_view_cb (GtkRadioAction *action,
                     GtkRadioAction *current,
@@ -763,6 +823,23 @@ action_gal_view_cb (GtkRadioAction *action,
 	e_shell_view_set_view_id (shell_view, view_id);
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_GAL_SAVE_CUSTOM_VIEW:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action saves a custom GAL view.
+ *
+ * Main menu item: View -> Current View -> Save Custom View...
+ **/
+
+/**
+ * E_SHELL_WINDOW_ACTION_IMPORT:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action opens the Evolution Import Assistant.
+ *
+ * Main menu item: File -> Import...
+ **/
 static void
 action_import_cb (GtkAction *action,
                   EShellWindow *shell_window)
@@ -770,6 +847,14 @@ action_import_cb (GtkAction *action,
 	e_shell_importer_start_import (shell_window);
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_NEW_WINDOW:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action opens a new shell window.
+ *
+ * Main menu item: File -> New Window
+ **/
 static void
 action_new_window_cb (GtkAction *action,
                       EShellWindow *shell_window)
@@ -780,6 +865,14 @@ action_new_window_cb (GtkAction *action,
 	e_shell_create_window (shell);
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_PAGE_SETUP:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action opens the application's Page Setup dialog.
+ *
+ * Main menu item: File -> Page Setup...
+ **/
 static void
 action_page_setup_cb (GtkAction *action,
                       EShellWindow *shell_window)
@@ -787,6 +880,14 @@ action_page_setup_cb (GtkAction *action,
 	e_print_run_page_setup_dialog (GTK_WINDOW (shell_window));
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_PREFERENCES:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action opens the application's Preferences window.
+ *
+ * Main menu item: Edit -> Preferences
+ **/
 static void
 action_preferences_cb (GtkAction *action,
                        EShellWindow *shell_window)
@@ -805,6 +906,15 @@ action_preferences_cb (GtkAction *action,
 	/* FIXME Switch to a page appropriate for the current view. */
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_QUICK_REFERENCE:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action opens a printable table of useful shortcut
+ * keys for this application.
+ *
+ * Main menu item: Help -> Quick Reference
+ **/
 static void
 action_quick_reference_cb (GtkAction *action,
                            EShellWindow *shell_window)
@@ -850,6 +960,14 @@ action_quick_reference_cb (GtkAction *action,
 	}
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_QUIT:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action initiates application shutdown.
+ *
+ * Main menu item: File -> Quit
+ **/
 static void
 action_quit_cb (GtkAction *action,
                 EShellWindow *shell_window)
@@ -860,6 +978,14 @@ action_quit_cb (GtkAction *action,
 	e_shell_quit (shell);
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_SEARCH_ADVANCED:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action opens an Advanced Search dialog.
+ *
+ * Main menu item: Search -> Advanced Search...
+ **/
 static void
 action_search_advanced_cb (GtkAction *action,
                            EShellWindow *shell_window)
@@ -876,6 +1002,14 @@ action_search_advanced_cb (GtkAction *action,
 	e_shell_window_update_search_menu (shell_window);
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_SEARCH_CLEAR:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action clears the most recent search results.
+ *
+ * Main menu item: Search -> Clear
+ **/
 static void
 action_search_clear_cb (GtkAction *action,
                         EShellWindow *shell_window)
@@ -896,6 +1030,14 @@ action_search_clear_cb (GtkAction *action,
 	e_shell_window_update_search_menu (shell_window);
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_SEARCH_EDIT:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action opens a dialog for editing saved searches.
+ *
+ * Main menu item: Search -> Edit Saved Searches...
+ **/
 static void
 action_search_edit_cb (GtkAction *action,
                        EShellWindow *shell_window)
@@ -912,6 +1054,22 @@ action_search_edit_cb (GtkAction *action,
 	e_shell_window_update_search_menu (shell_window);
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_SEARCH_EXECUTE:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action executes the current search conditions.
+ *
+ * Main menu item: Search -> Find Now
+ **/
+
+/**
+ * E_SHELL_WINDOW_ACTION_SEARCH_OPTIONS:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action displays a menu of search options.
+ * This appears as a "find" icon in the window's search entry.
+ **/
 static void
 action_search_options_cb (GtkAction *action,
                           EShellWindow *shell_window)
@@ -929,6 +1087,14 @@ action_search_options_cb (GtkAction *action,
 	e_shell_view_show_popup_menu (shell_view, widget_path, NULL);
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_SEARCH_SAVE:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action saves the current search conditions.
+ *
+ * Main menu item: Search -> Save Search...
+ **/
 static void
 action_search_save_cb (GtkAction *action,
                        EShellWindow *shell_window)
@@ -945,6 +1111,14 @@ action_search_save_cb (GtkAction *action,
 	e_shell_window_update_search_menu (shell_window);
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_SEND_RECEIVE:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action opens the Send &amp; Receive Mail dialog.
+ *
+ * Main menu item: File -> Send / Receive
+ **/
 static void
 action_send_receive_cb (GtkAction *action,
                         EShellWindow *shell_window)
@@ -955,6 +1129,14 @@ action_send_receive_cb (GtkAction *action,
 	e_shell_send_receive (shell, GTK_WINDOW (shell_window));
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_SHOW_SIDEBAR:
+ * @window: an #EShellWindow
+ *
+ * This toggle action controls whether the side bar is visible.
+ *
+ * Main menu item: View -> Layout -> Show Side Bar
+ **/
 static void
 action_show_sidebar_cb (GtkToggleAction *action,
                         EShellWindow *shell_window)
@@ -970,6 +1152,14 @@ action_show_sidebar_cb (GtkToggleAction *action,
 	g_object_set (widget, "visible", active, NULL);
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_SHOW_STATUSBAR:
+ * @window: an #EShellWindow
+ *
+ * This toggle action controls whether the status bar is visible.
+ *
+ * Main menu item: View -> Layout -> Show Status Bar
+ **/
 static void
 action_show_statusbar_cb (GtkToggleAction *action,
                           EShellWindow *shell_window)
@@ -982,6 +1172,14 @@ action_show_statusbar_cb (GtkToggleAction *action,
 	g_object_set (widget, "visible", active, NULL);
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_SHOW_SWITCHER:
+ * @window: an #EShellWindow
+ *
+ * This toggle action controls whether the switcher buttons are visible.
+ *
+ * Main menu item: View -> Switcher Appearance -> Show Buttons
+ **/
 static void
 action_show_switcher_cb (GtkToggleAction *action,
                          EShellWindow *shell_window)
@@ -994,6 +1192,14 @@ action_show_switcher_cb (GtkToggleAction *action,
 	e_shell_switcher_set_visible (switcher, active);
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_SHOW_TOOLBAR:
+ * @window: an #EShellWindow
+ *
+ * This toggle action controls whether the tool bar is visible.
+ *
+ * Main menu item: View -> Layout -> Show Tool Bar
+ **/
 static void
 action_show_toolbar_cb (GtkToggleAction *action,
                         EShellWindow *shell_window)
@@ -1006,6 +1212,15 @@ action_show_toolbar_cb (GtkToggleAction *action,
 	g_object_set (widget, "visible", active, NULL);
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_SUBMIT_BUG:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action allows users to report a bug using
+ * Bug Buddy.
+ *
+ * Main menu item: Help -> Submit Bug Report
+ **/
 static void
 action_submit_bug_cb (GtkAction *action,
                       EShellWindow *shell_window)
@@ -1041,6 +1256,42 @@ action_switcher_cb (GtkRadioAction *action,
 	e_shell_window_switch_to_view (shell_window, view_name);
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_BOTH:
+ * @window: an #EShellWindow
+ *
+ * This radio action displays switcher buttons with icons and text.
+ *
+ * Main menu item: View -> Switcher Appearance -> Icons and Text
+ **/
+
+/**
+ * E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_ICONS:
+ * @window: an #EShellWindow
+ *
+ * This radio action displays switcher buttons with icons only.
+ *
+ * Main menu item: View -> Switcher Appearance -> Icons Only
+ **/
+
+/**
+ * E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_TEXT:
+ * @window: an #EShellWindow
+ *
+ * This radio action displays switcher buttons with text only.
+ *
+ * Main menu item: View -> Switcher Appearance -> Text Only
+ **/
+
+/**
+ * E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_USER:
+ * @window: an #EShellWindow
+ *
+ * This radio action displays switcher buttons according to the desktop
+ * toolbar setting.
+ *
+ * Main menu item: View -> Switcher Appearance -> Toolbar Style
+ **/
 static void
 action_switcher_style_cb (GtkRadioAction *action,
                           GtkRadioAction *current,
@@ -1066,6 +1317,14 @@ action_switcher_style_cb (GtkRadioAction *action,
 	}
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_SYNC_OPTIONS:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action opens the Gnome Pilot settings.
+ *
+ * Main menu item: Edit -> Synchronization Options...
+ **/
 static void
 action_sync_options_cb (GtkAction *action,
                         EShellWindow *shell_window)
@@ -1090,6 +1349,14 @@ action_sync_options_cb (GtkAction *action,
 	}
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_WORK_OFFLINE:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action puts the application into offline mode.
+ *
+ * Main menu item: File -> Work Offline
+ **/
 static void
 action_work_offline_cb (GtkAction *action,
                         EShellWindow *shell_window)
@@ -1100,6 +1367,14 @@ action_work_offline_cb (GtkAction *action,
 	e_shell_set_line_status (shell, E_SHELL_LINE_STATUS_OFFLINE);
 }
 
+/**
+ * E_SHELL_WINDOW_ACTION_WORK_ONLINE:
+ * @window: an #EShellWindow
+ *
+ * Activation of this action puts the application into online mode.
+ *
+ * Main menu item: File -> Work Online
+ **/
 static void
 action_work_online_cb (GtkAction *action,
                        EShellWindow *shell_window)
@@ -1109,6 +1384,36 @@ action_work_online_cb (GtkAction *action,
 	shell = e_shell_window_get_shell (shell_window);
 	e_shell_set_line_status (shell, E_SHELL_LINE_STATUS_ONLINE);
 }
+
+/**
+ * E_SHELL_WINDOW_ACTION_GROUP_CUSTOM_RULES:
+ * @window: an #EShellWindow
+ **/
+
+/**
+ * E_SHELL_WINDOW_ACTION_GROUP_GAL_VIEW:
+ * @window: an #EShellWindow
+ **/
+
+/**
+ * E_SHELL_WINDOW_ACTION_GROUP_NEW_ITEM:
+ * @window: an #EShellWindow
+ **/
+
+/**
+ * E_SHELL_WINDOW_ACTION_GROUP_NEW_SOURCE:
+ * @window: an #EShellWindow
+ **/
+
+/**
+ * E_SHELL_WINDOW_ACTION_GROUP_SHELL:
+ * @window: an #EShellWindow
+ **/
+
+/**
+ * E_SHELL_WINDOW_ACTION_GROUP_SWITCHER:
+ * @window: an #EShellWindow
+ **/
 
 static GtkActionEntry shell_entries[] = {
 
@@ -1360,7 +1665,7 @@ static GtkToggleActionEntry shell_toggle_entries[] = {
 
 	{ "show-toolbar",
 	  NULL,
-	  N_("Show _Toolbar"),
+	  N_("Show _Tool Bar"),
 	  NULL,
 	  N_("Show the toolbar"),
 	  G_CALLBACK (action_show_toolbar_cb),

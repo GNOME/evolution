@@ -140,7 +140,25 @@ EShellView
 @Returns: 
 
 
+<!-- ##### FUNCTION e_shell_view_add_activity ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@activity: 
+
+
 <!-- ##### FUNCTION e_shell_view_get_page_num ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_view_get_size_group ##### -->
 <para>
 
 </para>
@@ -183,5 +201,32 @@ EShellView
 
 @shell_view: 
 @Returns: 
+
+
+<!-- ##### FUNCTION e_shell_view_get_shell_module ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_view_update_actions ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+
+
+<!-- ##### FUNCTION e_shell_view_show_popup_menu ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@widget_path: 
+@event: 
 
 

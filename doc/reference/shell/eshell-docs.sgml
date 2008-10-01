@@ -12,22 +12,22 @@
   </bookinfo>
 
   <chapter>
-    <title>Shell</title>
+    <title>The Shell</title>
     <xi:include href="xml/e-shell.xml"/>
     <xi:include href="xml/e-shell-module.xml"/>
     <xi:include href="xml/e-shell-window.xml"/>
-    <xi:include href="xml/e-shell-switcher.xml"/>
     <xi:include href="xml/e-shell-view.xml"/>
     <xi:include href="xml/e-shell-content.xml"/>
     <xi:include href="xml/e-shell-sidebar.xml"/>
     <xi:include href="xml/e-shell-taskbar.xml"/>
-    <xi:include href="xml/e-activity-handler.xml"/>
+    <xi:include href="xml/e-shell-switcher.xml"/>
     <xi:include href="xml/e-shell-importer.xml"/>
   </chapter>
 
   <chapter>
-    <title>Actions by Group</title>
-    <xi:include href="xml/e-shell-window-actions.xml"/>
+    <title>Actions</title>
+    <xi:include href="xml/shell-actions.xml"/>
+    <xi:include href="xml/action-groups.xml"/>
   </chapter>
 
   <index>

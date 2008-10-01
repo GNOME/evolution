@@ -32,6 +32,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "about")
 #define E_SHELL_WINDOW_ACTION_CLOSE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "close")
+#define E_SHELL_WINDOW_ACTION_CONTENTS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "contents")
 #define E_SHELL_WINDOW_ACTION_FAQ(window) \
 	E_SHELL_WINDOW_ACTION ((window), "faq")
 #define E_SHELL_WINDOW_ACTION_FORGET_PASSWORDS(window) \
@@ -42,8 +44,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "gal-define-views")
 #define E_SHELL_WINDOW_ACTION_GAL_SAVE_CUSTOM_VIEW(window) \
 	E_SHELL_WINDOW_ACTION ((window), "gal-save-custom-view")
-#define E_SHELL_WINDOW_ACTION_GAL_VIEW_MENU(window) \
-	E_SHELL_WINDOW_ACTION ((window), "gal-view-menu")
 #define E_SHELL_WINDOW_ACTION_IMPORT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "import")
 #define E_SHELL_WINDOW_ACTION_NEW_WINDOW(window) \
@@ -80,8 +80,14 @@
 	E_SHELL_WINDOW_ACTION ((window), "show-toolbar")
 #define E_SHELL_WINDOW_ACTION_SUBMIT_BUG(window) \
 	E_SHELL_WINDOW_ACTION ((window), "submit-bug")
+#define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_BOTH(window) \
+	E_SHELL_WINDOW_ACTION ((window), "switcher-style-both")
 #define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_ICONS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "switcher-style-icons")
+#define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_TEXT(window) \
+	E_SHELL_WINDOW_ACTION ((window), "switcher-style-text")
+#define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_USER(window) \
+	E_SHELL_WINDOW_ACTION ((window), "switcher-style-user")
 #define E_SHELL_WINDOW_ACTION_SYNC_OPTIONS(window) \
 	E_SHELL_WINDOW_ACTION ((window), "sync-options")
 #define E_SHELL_WINDOW_ACTION_WORK_OFFLINE(window) \
@@ -100,7 +106,7 @@
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "new-source")
 #define E_SHELL_WINDOW_ACTION_GROUP_SHELL(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "shell")
-#define E_SHELL_WINDOW_ACTION_GROUP_SHELL_VIEW(window) \
-	E_SHELL_WINDOW_ACTION_GROUP ((window), "shell-view")
+#define E_SHELL_WINDOW_ACTION_GROUP_SWITCHER(window) \
+	E_SHELL_WINDOW_ACTION_GROUP ((window), "switcher")
 
 #endif /* E_SHELL_WINDOW_ACTIONS_H */

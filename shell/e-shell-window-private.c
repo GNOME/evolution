@@ -407,7 +407,6 @@ e_shell_window_switch_to_view (EShellWindow *shell_window,
 {
 	GtkNotebook *notebook;
 	EShellView *shell_view;
-	GList *list;
 	gint page_num;
 
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);

@@ -649,6 +649,18 @@ e_shell_switcher_unset_style (EShellSwitcher *switcher)
 	switcher->priv->style_set = FALSE;
 }
 
+/**
+ * e_shell_switcher_get_visible:
+ * @switcher: an #EShellSwitcher
+ *
+ * Returns %TRUE if the switcher buttons are visible.
+ *
+ * Note that switcher button visibility is different than
+ * @switcher<!-- -->'s GTK_VISIBLE flag, since #EShellSwitcher
+ * is actually a container widget for #EShellSidebar.
+ *
+ * Returns: %TRUE if the switcher buttons are visible
+ **/
 gboolean
 e_shell_switcher_get_visible (EShellSwitcher *switcher)
 {
@@ -657,6 +669,16 @@ e_shell_switcher_get_visible (EShellSwitcher *switcher)
 	return switcher->priv->toolbar_visible;
 }
 
+/**
+ * e_shell_switcher_set_visible:
+ * @switcher: an #EShellSwitcher
+ *
+ * Sets the switcher button visiblity to @visible.
+ *
+ * Note that switcher button visibility is different than
+ * @switcher<!-- -->'s GTK_VISIBLE flag, since #EShellSwitcher
+ * is actually a container widget for #EShellSidebar.
+ **/
 void
 e_shell_switcher_set_visible (EShellSwitcher *switcher,
                               gboolean visible)

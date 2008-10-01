@@ -198,14 +198,12 @@ static void
 shell_taskbar_constructed (GObject *object)
 {
 	EShellView *shell_view;
-	EShellViewClass *shell_view_class;
-	EShellTaskbar *shell_taskbar;
 	EShellModule *shell_module;
+	EShellTaskbar *shell_taskbar;
 
 	shell_taskbar = E_SHELL_TASKBAR (object);
 	shell_view = e_shell_taskbar_get_shell_view (shell_taskbar);
-	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	shell_module = E_SHELL_MODULE (shell_view_class->type_module);
+	shell_module = e_shell_view_get_shell_module (shell_view);
 
 	g_signal_connect_swapped (
 		shell_module, "activity-added",

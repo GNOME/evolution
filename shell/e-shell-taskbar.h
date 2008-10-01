@@ -18,6 +18,12 @@
  * Boston, MA 02110-1301, USA.
  */
 
+/**
+ * SECTION: e-shell-taskbar
+ * @short_description: the bottom of the main window
+ * @include: shell/e-shell-taskbar.h
+ **/
+
 #ifndef E_SHELL_TASKBAR_H
 #define E_SHELL_TASKBAR_H
 
@@ -51,6 +57,12 @@ typedef struct _EShellTaskbar EShellTaskbar;
 typedef struct _EShellTaskbarClass EShellTaskbarClass;
 typedef struct _EShellTaskbarPrivate EShellTaskbarPrivate;
 
+/**
+ * EShellTaskbar:
+ *
+ * Contains only private data that should be read and manipulated using the
+ * functions below.
+ **/
 struct _EShellTaskbar {
 	GtkHBox parent;
 	EShellTaskbarPrivate *priv;

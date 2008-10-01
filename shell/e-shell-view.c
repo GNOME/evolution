@@ -458,7 +458,7 @@ shell_view_class_init (EShellViewClass *class)
 		g_param_spec_string (
 			"view-id",
 			_("Current View ID"),
-			_("The current view ID"),
+			_("The current GAL view ID"),
 			NULL,
 			G_PARAM_READWRITE));
 
@@ -602,6 +602,22 @@ e_shell_view_get_shell_window (EShellView *shell_view)
 	return E_SHELL_WINDOW (shell_view->priv->shell_window);
 }
 
+EShellModule *
+e_shell_view_get_shell_module (EShellView *shell_view)
+{
+	EShellViewClass *shell_view_class;
+
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	/* Calling this function during the shell view's instance
+	 * initialization function will return the wrong result,
+	 * so catch that and emit a warning. */
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	g_return_val_if_fail (E_IS_SHELL_VIEW_CLASS (shell_view_class), NULL);
+
+	return E_SHELL_MODULE (shell_view_class->type_module);
+}
+
 gboolean
 e_shell_view_is_active (EShellView *shell_view)
 {
@@ -618,14 +634,12 @@ void
 e_shell_view_add_activity (EShellView *shell_view,
                            EActivity *activity)
 {
-	EShellViewClass *shell_view_class;
 	EShellModule *shell_module;
 
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 	g_return_if_fail (E_IS_ACTIVITY (activity));
 
-	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	shell_module = E_SHELL_MODULE (shell_view_class->type_module);
+	shell_module = e_shell_view_get_shell_module (shell_view);
 	e_shell_module_add_activity (shell_module, activity);
 }
 

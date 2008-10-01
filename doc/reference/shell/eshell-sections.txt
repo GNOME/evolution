@@ -1,4 +1,37 @@
 <SECTION>
+<FILE>e-shell</FILE>
+<TITLE>EShell</TITLE>
+EShell
+EShellLineStatus
+e_shell_new
+e_shell_list_modules
+e_shell_get_canonical_name
+e_shell_get_module_by_name
+e_shell_get_module_by_scheme
+e_shell_create_window
+e_shell_handle_uri
+e_shell_send_receive
+e_shell_get_online_mode
+e_shell_set_online_mode
+e_shell_get_line_status
+e_shell_set_line_status
+e_shell_get_preferences_window
+e_shell_is_busy
+e_shell_do_quit
+e_shell_quit
+<SUBSECTION Standard>
+E_SHELL
+E_IS_SHELL
+E_TYPE_SHELL
+e_shell_get_type
+E_SHELL_CLASS
+E_IS_SHELL_CLASS
+E_SHELL_GET_CLASS
+<SUBSECTION Private>
+EShellPrivate
+</SECTION>
+
+<SECTION>
 <FILE>e-shell-view</FILE>
 <TITLE>EShellView</TITLE>
 EShellView
@@ -9,12 +42,16 @@ e_shell_view_set_title
 e_shell_view_get_view_id
 e_shell_view_set_view_id
 e_shell_view_is_active
+e_shell_view_add_activity
 e_shell_view_get_page_num
+e_shell_view_get_size_group
 e_shell_view_get_shell_content
 e_shell_view_get_shell_sidebar
 e_shell_view_get_shell_taskbar
 e_shell_view_get_shell_window
-e_shell_view_changed
+e_shell_view_get_shell_module
+e_shell_view_update_actions
+e_shell_view_show_popup_menu
 <SUBSECTION Standard>
 E_SHELL_VIEW
 E_IS_SHELL_VIEW
@@ -69,35 +106,6 @@ EShellSidebarPrivate
 </SECTION>
 
 <SECTION>
-<FILE>e-activity-handler</FILE>
-<TITLE>EActivityHandler</TITLE>
-EAH_ICON_INFO
-EAH_ICON_ERROR
-EActivityHandler
-e_activity_handler_new
-e_activity_handler_attach_task_bar
-e_activity_handler_set_message
-e_activity_handler_unset_message
-e_activity_handler_operation_started
-e_activity_handler_cancelable_operation_started
-e_activity_handler_operation_progressing
-e_activity_handler_operation_finished
-e_activity_handler_set_logger
-e_activity_handler_make_error
-e_activity_handler_operation_set_error
-e_activity_handler_set_error_flush_time
-<SUBSECTION Standard>
-E_ACTIVITY_HANDLER
-E_IS_ACTIVITY_HANDLER
-E_TYPE_ACTIVITY_HANDLER
-e_activity_handler_get_type
-E_ACTIVITY_HANDLER_CLASS
-E_IS_ACTIVITY_HANDLER_CLASS
-<SUBSECTION Private>
-EActivityHandlerPrivate
-</SECTION>
-
-<SECTION>
 <FILE>e-shell-taskbar</FILE>
 <TITLE>EShellTaskbar</TITLE>
 EShellTaskbar
@@ -126,6 +134,7 @@ e_shell_module_get_data_dir
 e_shell_module_get_filename
 e_shell_module_get_searches
 e_shell_module_get_shell
+e_shell_module_add_activity
 e_shell_module_is_busy
 e_shell_module_shutdown
 e_shell_module_set_info
@@ -159,45 +168,12 @@ EShellContentPrivate
 </SECTION>
 
 <SECTION>
-<FILE>e-shell</FILE>
-<TITLE>EShell</TITLE>
-EShell
-EShellLineStatus
-e_shell_new
-e_shell_list_modules
-e_shell_get_canonical_name
-e_shell_get_module_by_name
-e_shell_get_module_by_scheme
-e_shell_create_window
-e_shell_handle_uri
-e_shell_send_receive
-e_shell_get_online_mode
-e_shell_set_online_mode
-e_shell_get_line_status
-e_shell_set_line_status
-e_shell_get_preferences_window
-e_shell_is_busy
-e_shell_do_quit
-e_shell_quit
-<SUBSECTION Standard>
-E_SHELL
-E_IS_SHELL
-E_TYPE_SHELL
-e_shell_get_type
-E_SHELL_CLASS
-E_IS_SHELL_CLASS
-E_SHELL_GET_CLASS
-<SUBSECTION Private>
-EShellPrivate
-</SECTION>
-
-<SECTION>
 <FILE>e-shell-window</FILE>
 <TITLE>EShellWindow</TITLE>
 EShellWindow
 e_shell_window_new
-e_shell_window_get_view
 e_shell_window_get_shell
+e_shell_window_get_shell_view
 e_shell_window_get_ui_manager
 e_shell_window_get_action
 e_shell_window_get_action_group
@@ -218,6 +194,8 @@ E_IS_SHELL_WINDOW_CLASS
 E_SHELL_WINDOW_GET_CLASS
 <SUBSECTION Private>
 EShellWindowPrivate
+E_SHELL_WINDOW_ACTION
+E_SHELL_WINDOW_ACTION_GROUP
 </SECTION>
 
 <SECTION>
@@ -226,18 +204,16 @@ e_shell_importer_start_import
 </SECTION>
 
 <SECTION>
-<FILE>e-shell-window-actions</FILE>
-<TITLE>Global Actions</TITLE>
-E_SHELL_WINDOW_ACTION
-E_SHELL_WINDOW_ACTION_GROUP
+<FILE>shell-actions</FILE>
+<TITLE>Shell Actions</TITLE>
 E_SHELL_WINDOW_ACTION_ABOUT
 E_SHELL_WINDOW_ACTION_CLOSE
+E_SHELL_WINDOW_ACTION_CONTENTS
 E_SHELL_WINDOW_ACTION_FAQ
 E_SHELL_WINDOW_ACTION_FORGET_PASSWORDS
 E_SHELL_WINDOW_ACTION_GAL_CUSTOM_VIEW
 E_SHELL_WINDOW_ACTION_GAL_DEFINE_VIEWS
 E_SHELL_WINDOW_ACTION_GAL_SAVE_CUSTOM_VIEW
-E_SHELL_WINDOW_ACTION_GAL_VIEW_MENU
 E_SHELL_WINDOW_ACTION_IMPORT
 E_SHELL_WINDOW_ACTION_NEW_WINDOW
 E_SHELL_WINDOW_ACTION_PAGE_SETUP
@@ -248,6 +224,7 @@ E_SHELL_WINDOW_ACTION_SEARCH_ADVANCED
 E_SHELL_WINDOW_ACTION_SEARCH_CLEAR
 E_SHELL_WINDOW_ACTION_SEARCH_EDIT
 E_SHELL_WINDOW_ACTION_SEARCH_EXECUTE
+E_SHELL_WINDOW_ACTION_SEARCH_OPTIONS
 E_SHELL_WINDOW_ACTION_SEARCH_SAVE
 E_SHELL_WINDOW_ACTION_SEND_RECEIVE
 E_SHELL_WINDOW_ACTION_SHOW_SIDEBAR
@@ -255,13 +232,22 @@ E_SHELL_WINDOW_ACTION_SHOW_STATUSBAR
 E_SHELL_WINDOW_ACTION_SHOW_SWITCHER
 E_SHELL_WINDOW_ACTION_SHOW_TOOLBAR
 E_SHELL_WINDOW_ACTION_SUBMIT_BUG
+E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_BOTH
 E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_ICONS
+E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_TEXT
+E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_USER
 E_SHELL_WINDOW_ACTION_SYNC_OPTIONS
 E_SHELL_WINDOW_ACTION_WORK_OFFLINE
 E_SHELL_WINDOW_ACTION_WORK_ONLINE
-E_SHELL_WINDOW_ACTION_GROUP_GAL_VIEW
+</SECTION>
+
+<SECTION>
+<FILE>action-groups</FILE>
+<TITLE>Action Groups</TITLE>
+E_SHELL_WINDOW_ACTION_GROUP_SHELL
+E_SHELL_WINDOW_ACTION_GROUP_SWITCHER
 E_SHELL_WINDOW_ACTION_GROUP_NEW_ITEM
 E_SHELL_WINDOW_ACTION_GROUP_NEW_SOURCE
-E_SHELL_WINDOW_ACTION_GROUP_SHELL
-E_SHELL_WINDOW_ACTION_GROUP_SHELL_VIEW
+E_SHELL_WINDOW_ACTION_GROUP_CUSTOM_RULES
+E_SHELL_WINDOW_ACTION_GROUP_GAL_VIEW
 </SECTION>

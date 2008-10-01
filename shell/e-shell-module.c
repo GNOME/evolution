@@ -403,6 +403,18 @@ e_shell_module_get_filename (EShellModule *shell_module)
 	return shell_module->priv->filename;
 }
 
+/**
+ * e_shell_module_get_searches:
+ * @shell_module: an #EShellModule
+ *
+ * Returns the base name of the XML file containing predefined search
+ * rules for @shell_module.  The XML files are usually named something
+ * like <filename><emphasis>module</emphasis>types.xml</filename>.
+ *
+ * XXX This function is likely to change or disappear.
+ *
+ * Returns: the base name of the XML filter file
+ **/
 const gchar *
 e_shell_module_get_searches (EShellModule *shell_module)
 {
@@ -444,6 +456,21 @@ e_shell_module_add_activity (EShellModule *shell_module,
 	g_signal_emit (shell_module, signals[ACTIVITY_ADDED], 0, activity);
 }
 
+/**
+ * e_shell_module_is_busy:
+ * @shell_module: an #EShellModule
+ *
+ * Returns %TRUE if @shell_module is busy and cannot be shutdown at
+ * present.  Each module must define what "busy" means to them and
+ * determine an appropriate response.
+ *
+ * XXX This function is likely to change or disappear.  I'm toying with
+ *     the idea of just having it check whether there are any unfinished
+ *     #EActivity<!-- -->'s left, so we have a consistent and easily
+ *     testable definition of what "busy" means.
+ *
+ * Returns: %TRUE if the module is busy
+ **/
 gboolean
 e_shell_module_is_busy (EShellModule *shell_module)
 {
@@ -459,6 +486,22 @@ e_shell_module_is_busy (EShellModule *shell_module)
 	return FALSE;
 }
 
+/**
+ * e_shell_module_shutdown:
+ * @shell_module: an #EShellModule
+ *
+ * Alerts @shell_module to begin shutdown procedures.  If the module is
+ * busy and cannot immediately shut down, the function returns %FALSE.
+ * A %TRUE response implies @shell_module has successfully shut down.
+ *
+ * XXX This function is likely to change or disappear.  I'm toying with
+ *     the idea of just having it check whether there are any unfinished
+ *     #EActivity<!-- -->'s left, so we have a consistent and easily
+ *     testable definition of what "busy" means.
+ *
+ * Returns: %TRUE if the module has shut down, %FALSE if the module is
+ *          busy and cannot immediately shut down
+ */
 gboolean
 e_shell_module_shutdown (EShellModule *shell_module)
 {

@@ -18,6 +18,12 @@
  * Boston, MA 02110-1301, USA.
  */
 
+/**
+ * SECTION: e-shell-module
+ * @short_description: dynamically loaded capabilities
+ * @include: shell/e-shell-module.h
+ **/
+
 #ifndef E_SHELL_MODULE_H
 #define E_SHELL_MODULE_H
 
@@ -89,6 +95,12 @@ struct _EShellModuleInfo {
 	gboolean	(*shutdown)		(EShellModule *shell_module);
 };
 
+/**
+ * EShellModule:
+ *
+ * Contains only private data that should be read and manipulated using the
+ * functions below.
+ **/
 struct _EShellModule {
 	GTypeModule parent;
 	EShellModulePrivate *priv;

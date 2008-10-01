@@ -21,6 +21,12 @@
  *
  */
 
+/**
+ * SECTION: e-shell-window
+ * @short_description: the main window
+ * @include: shell/e-shell-window.h
+ **/
+
 #ifndef E_SHELL_WINDOW_H
 #define E_SHELL_WINDOW_H
 
@@ -51,6 +57,12 @@ typedef struct _EShellWindow EShellWindow;
 typedef struct _EShellWindowClass EShellWindowClass;
 typedef struct _EShellWindowPrivate EShellWindowPrivate;
 
+/**
+ * EShellWindow:
+ *
+ * Contains only private data that should be read and manipulated using the
+ * functions below.
+ **/
 struct _EShellWindow {
 	GtkWindow parent;
 	EShellWindowPrivate *priv;

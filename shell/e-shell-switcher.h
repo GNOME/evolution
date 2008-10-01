@@ -18,6 +18,12 @@
  * Boston, MA 02110-1301, USA.
  */
 
+/**
+ * SECTION: e-shell-switcher
+ * @short_description: buttons for switching views
+ * @include: shell/e-shell-switcher.h
+ **/
+
 #ifndef E_SHELL_SWITCHER_H
 #define E_SHELL_SWITCHER_H
 
@@ -50,6 +56,12 @@ typedef struct _EShellSwitcher EShellSwitcher;
 typedef struct _EShellSwitcherClass EShellSwitcherClass;
 typedef struct _EShellSwitcherPrivate EShellSwitcherPrivate;
 
+/**
+ * EShellSwitcher:
+ *
+ * Contains only private data that should be read and manipulated using the
+ * functions below.
+ **/
 struct _EShellSwitcher {
 	GtkBin parent;
 	EShellSwitcherPrivate *priv;

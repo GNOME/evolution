@@ -208,7 +208,6 @@ shell_content_init_search_context (EShellContent *shell_content)
 {
 	EShellView *shell_view;
 	EShellModule *shell_module;
-	EShellViewClass *shell_view_class;
 	RuleContext *context;
 	FilterRule *rule;
 	FilterPart *part;
@@ -216,8 +215,7 @@ shell_content_init_search_context (EShellContent *shell_content)
 	gchar *user_filename;
 
 	shell_view = e_shell_content_get_shell_view (shell_content);
-	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	shell_module = E_SHELL_MODULE (shell_view_class->type_module);
+	shell_module = e_shell_view_get_shell_module (shell_view);
 
 	/* The filename for built-in searches is specified in a
 	 * module's EShellModuleInfo.  All built-in search rules
@@ -254,7 +252,7 @@ shell_content_init_search_context (EShellContent *shell_content)
 	if (part == NULL)
 		g_warning (
 			"Could not load %s search: no parts",
-			shell_view_class->type_module->name);
+			e_shell_view_get_name (shell_view));
 	else
 		filter_rule_add_part (rule, filter_part_clone (part));
 

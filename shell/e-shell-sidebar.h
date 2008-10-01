@@ -18,6 +18,12 @@
  * Boston, MA 02110-1301, USA.
  */
 
+/**
+ * SECTION: e-shell-sidebar
+ * @short_description: the left side of the main window
+ * @include: shell/e-shell-sidebar.h
+ **/
+
 #ifndef E_SHELL_SIDEBAR_H
 #define E_SHELL_SIDEBAR_H
 
@@ -51,6 +57,12 @@ typedef struct _EShellSidebar EShellSidebar;
 typedef struct _EShellSidebarClass EShellSidebarClass;
 typedef struct _EShellSidebarPrivate EShellSidebarPrivate;
 
+/**
+ * EShellSidebar:
+ *
+ * Contains only private data that should be read and manipulated using the
+ * functions below.
+ **/
 struct _EShellSidebar {
 	GtkBin parent;
 	EShellSidebarPrivate *priv;

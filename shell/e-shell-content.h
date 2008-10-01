@@ -18,6 +18,12 @@
  * Boston, MA 02110-1301, USA.
  */
 
+/**
+ * SECTION: e-shell-content
+ * @short_description: the right side of the main window
+ * @include: shell/e-shell-content.h
+ **/
+
 #ifndef E_SHELL_CONTENT_H
 #define E_SHELL_CONTENT_H
 
@@ -53,6 +59,12 @@ typedef struct _EShellContent EShellContent;
 typedef struct _EShellContentClass EShellContentClass;
 typedef struct _EShellContentPrivate EShellContentPrivate;
 
+/**
+ * EShellContent:
+ *
+ * Contains only private data that should be read and manipulated using the
+ * functions below.
+ **/
 struct _EShellContent {
 	GtkBin parent;
 	EShellContentPrivate *priv;

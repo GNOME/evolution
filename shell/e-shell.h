@@ -20,6 +20,12 @@
  *
  */
 
+/**
+ * SECTION: e-shell
+ * @short_description: the backbone of Evolution
+ * @include: shell/e-shell.h
+ **/
+
 #ifndef E_SHELL_H
 #define E_SHELL_H
 
@@ -53,6 +59,12 @@ typedef struct _EShellPrivate EShellPrivate;
 
 typedef enum _EShellLineStatus EShellLineStatus;
 
+/**
+ * EShell:
+ *
+ * Contains only private data that should be read and manipulated using the
+ * functions below.
+ **/
 struct _EShell {
 	GObject parent;
 	EShellPrivate *priv;

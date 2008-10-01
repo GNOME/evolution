@@ -119,6 +119,15 @@ EShellModule
 @Returns: 
 
 
+<!-- ##### FUNCTION e_shell_module_add_activity ##### -->
+<para>
+
+</para>
+
+@shell_module: 
+@activity: 
+
+
 <!-- ##### FUNCTION e_shell_module_is_busy ##### -->
 <para>
 

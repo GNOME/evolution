@@ -19,11 +19,18 @@
  * Boston, MA 02110-1301, USA.
  */
 
+/**
+ * SECTION: e-shell-view
+ * @short_description: views within the main window
+ * @include: shell/e-shell-view.h
+ **/
+
 #ifndef E_SHELL_VIEW_H
 #define E_SHELL_VIEW_H
 
 #include <shell/e-shell-common.h>
 #include <shell/e-shell-content.h>
+#include <shell/e-shell-module.h>
 #include <shell/e-shell-sidebar.h>
 #include <shell/e-shell-taskbar.h>
 #include <shell/e-shell-window.h>
@@ -56,6 +63,12 @@ typedef struct _EShellView EShellView;
 typedef struct _EShellViewClass EShellViewClass;
 typedef struct _EShellViewPrivate EShellViewPrivate;
 
+/**
+ * EShellView:
+ *
+ * Contains only private data that should be read and manipulated using the
+ * functions below.
+ **/
 struct _EShellView {
 	GObject parent;
 	EShellViewPrivate *priv;
@@ -71,7 +84,7 @@ struct _EShellViewClass {
 	/* Base name of the UI definition file. */
 	const gchar *ui_definition;
 
-	/* Path to the search entry popup menu. */
+	/* Widget path to the search entry popup menu. */
 	const gchar *search_options;
 
 	/* Subclasses should set this via the "class_data" field in
@@ -109,6 +122,7 @@ EShellContent *	e_shell_view_get_shell_content	(EShellView *shell_view);
 EShellSidebar *	e_shell_view_get_shell_sidebar	(EShellView *shell_view);
 EShellTaskbar *	e_shell_view_get_shell_taskbar	(EShellView *shell_view);
 EShellWindow *	e_shell_view_get_shell_window	(EShellView *shell_view);
+EShellModule *	e_shell_view_get_shell_module	(EShellView *shell_view);
 void		e_shell_view_update_actions	(EShellView *shell_view);
 void		e_shell_view_show_popup_menu	(EShellView *shell_view,
 						 const gchar *widget_path,
