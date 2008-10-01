@@ -219,7 +219,7 @@ proxy_get_password (EAccount *account, char **user_name, char **password)
 }
 
 static EGwConnection *
-proxy_login_get_cnc (EAccount *account)
+proxy_login_get_cnc (EAccount *account, GtkWindow *password_dlg_parrent)
 {
 	EGwConnection *cnc;
 	CamelURL *url;
@@ -254,7 +254,7 @@ proxy_login_get_cnc (EAccount *account)
 
 	if (!password)
 		password = e_passwords_ask_password (prompt, "Groupwise", key, prompt,
-				E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET, &remember, NULL);
+				E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET, &remember, password_dlg_parrent);
 
 	g_free (prompt);
 	cnc = e_gw_connection_new (uri, url->user, password);
@@ -333,7 +333,7 @@ proxy_soap_login (char *email)
 	}
 
 	srcAccount = pld->account;
-	cnc = proxy_login_get_cnc(srcAccount);
+	cnc = proxy_login_get_cnc (srcAccount, NULL);
 	proxy_get_password (srcAccount, &user_name, &password);
 
 	proxy_cnc = e_gw_connection_get_proxy_connection (cnc, user_name, password, email, &permissions);
@@ -444,10 +444,11 @@ proxy_login_update_tree (void)
 	EGwConnection *cnc;
 	proxyLoginPrivate *priv = pld->priv;
 	gchar *file_name = e_icon_factory_get_icon_filename ("stock_person", 48);
-	broken_image = gdk_pixbuf_new_from_file (file_name, NULL);
+	broken_image = file_name ? gdk_pixbuf_new_from_file (file_name, NULL) : NULL;
 
-	cnc = proxy_login_get_cnc(pld->account);
-	e_gw_connection_get_proxy_list (cnc, &proxy_list);
+	cnc = proxy_login_get_cnc (pld->account, priv->main ? (GTK_WINDOW (gtk_widget_get_toplevel (priv->main))) : NULL);
+	if (cnc)
+		e_gw_connection_get_proxy_list (cnc, &proxy_list);
 
 	gtk_tree_store_clear (priv->store);
 	if (proxy_list != NULL) {
@@ -465,7 +466,8 @@ proxy_login_update_tree (void)
 	if (broken_image)
 		g_object_unref (broken_image);
 
-	g_object_unref (cnc);
+	if (cnc)
+		g_object_unref (cnc);
 }
 
 void
@@ -477,8 +479,9 @@ org_gnome_proxy_account_login (EPopup *ep, EPopupItem *p, void *data)
 	char *gladefile;
 
 	/* This pops-up the password dialog in case the User has forgot-passwords explicitly */
-	cnc = proxy_login_get_cnc (mail_config_get_account_by_source_url (uri));
-	g_object_unref (cnc);
+	cnc = proxy_login_get_cnc (mail_config_get_account_by_source_url (uri), NULL);
+	if (cnc)
+		g_object_unref (cnc);
 
 	pld = proxy_login_new();
 	priv = pld->priv;
