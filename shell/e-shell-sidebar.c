@@ -331,6 +331,11 @@ shell_sidebar_class_init (EShellSidebarClass *class)
 	container_class->remove = shell_sidebar_remove;
 	container_class->forall = shell_sidebar_forall;
 
+	/**
+	 * EShellTaskbar:primary-text
+	 *
+	 * The primary text is displayed in bold at the top of the sidebar.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_PRIMARY_TEXT,
@@ -341,6 +346,12 @@ shell_sidebar_class_init (EShellSidebarClass *class)
 			NULL,
 			G_PARAM_READWRITE));
 
+	/**
+	 * EShellTaskbar:secondary-text
+	 *
+	 * The secondary text is displayed in a smaller font at the top of
+	 * the sidebar.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_SECONDARY_TEXT,
@@ -351,6 +362,11 @@ shell_sidebar_class_init (EShellSidebarClass *class)
 			NULL,
 			G_PARAM_READWRITE));
 
+	/**
+	 * EShellSidebar:shell-view
+	 *
+	 * The #EShellView to which the sidebar widget belongs.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_SHELL_VIEW,
@@ -411,6 +427,12 @@ e_shell_sidebar_get_type (void)
 	return type;
 }
 
+/**
+ * e_shell_sidebar_new:
+ * @shell_view: an #EShellView
+ *
+ * Creates a new #EShellSidebar instance belonging to @shell_view.
+ **/
 GtkWidget *
 e_shell_sidebar_new (EShellView *shell_view)
 {
@@ -421,6 +443,14 @@ e_shell_sidebar_new (EShellView *shell_view)
 		"shell-view", shell_view, NULL);
 }
 
+/**
+ * e_shell_sidebar_get_shell_view:
+ * @shell_sidebar: an #EShellSidebar
+ *
+ * Returns the #EShellView that was passed to e_shell_sidebar_new().
+ *
+ * Returns: the #EShellView to which @shell_sidebar belongs
+ **/
 EShellView *
 e_shell_sidebar_get_shell_view (EShellSidebar *shell_sidebar)
 {
@@ -429,6 +459,18 @@ e_shell_sidebar_get_shell_view (EShellSidebar *shell_sidebar)
 	return E_SHELL_VIEW (shell_sidebar->priv->shell_view);
 }
 
+/**
+ * e_shell_sidebar_get_primary_text:
+ * @shell_sidebar: an #EShellSidebar
+ *
+ * Returns the primary text for @shell_sidebar.
+ *
+ * The primary text is displayed in bold at the top of the sidebar.  It
+ * defaults to the shell view's label (as seen on the switcher button),
+ * but typically shows the name of the selected item in the sidebar.
+ *
+ * Returns: the primary text for @shell_sidebar
+ **/
 const gchar *
 e_shell_sidebar_get_primary_text (EShellSidebar *shell_sidebar)
 {
@@ -437,6 +479,16 @@ e_shell_sidebar_get_primary_text (EShellSidebar *shell_sidebar)
 	return shell_sidebar->priv->primary_text;
 }
 
+/**
+ * e_shell_sidebar_set_primary_text:
+ * @shell_sidebar: an #EShellSidebar
+ *
+ * Sets the primary text for @shell_sidebar.
+ *
+ * The primary text is displayed in bold at the top of the sidebar.  It
+ * defaults to the shell view's label (as seen on the switcher button),
+ * but typically shows the name of the selected item in the sidebar.
+ **/
 void
 e_shell_sidebar_set_primary_text (EShellSidebar *shell_sidebar,
                                   const gchar *primary_text)
@@ -461,6 +513,19 @@ e_shell_sidebar_set_primary_text (EShellSidebar *shell_sidebar,
 	g_object_notify (G_OBJECT (shell_sidebar), "primary-text");
 }
 
+/**
+ * e_shell_sidebar_get_secondary_text:
+ * @shell_sidebar: an #EShellSidebar
+ *
+ * Returns the secondary text for @shell_sidebar.
+ *
+ * The secondary text is displayed in a smaller font at the top of the
+ * sidebar.  It typically shows information about the contents of the
+ * selected sidebar item, such as total number of items, number of
+ * selected items, etc.
+ *
+ * Returns: the secondary text for @shell_sidebar
+ **/ 
 const gchar *
 e_shell_sidebar_get_secondary_text (EShellSidebar *shell_sidebar)
 {
@@ -469,6 +534,17 @@ e_shell_sidebar_get_secondary_text (EShellSidebar *shell_sidebar)
 	return shell_sidebar->priv->secondary_text;
 }
 
+/**
+ * e_shell_sidebar_set_secondary_text:
+ * @shell_sidebar: an #EShellSidebar
+ *
+ * Sets the secondary text for @shell_sidebar.
+ *
+ * The secondary text is displayed in a smaller font at the top of the
+ * sidebar.  It typically shows information about the contents of the
+ * selected sidebar item, such as total number of items, number of
+ * selected items, etc.
+ **/
 void
 e_shell_sidebar_set_secondary_text (EShellSidebar *shell_sidebar,
                                     const gchar *secondary_text)

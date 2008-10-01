@@ -448,11 +448,13 @@ e_memo_shell_view_set_status_message (EMemoShellView *memo_shell_view,
 {
 	EActivity *activity;
 	EShellView *shell_view;
+	EShellModule *shell_module;
 
 	g_return_if_fail (E_IS_MEMO_SHELL_VIEW (memo_shell_view));
 
 	activity = memo_shell_view->priv->activity;
 	shell_view = E_SHELL_VIEW (memo_shell_view);
+	shell_module = e_shell_view_get_shell_module (shell_view);
 
 	if (status_message == NULL || *status_message == '\0') {
 		if (activity != NULL) {
@@ -463,7 +465,7 @@ e_memo_shell_view_set_status_message (EMemoShellView *memo_shell_view,
 
 	} else if (activity == NULL) {
 		activity = e_activity_new (status_message);
-		e_shell_view_add_activity (shell_view, activity);
+		e_shell_module_add_activity (shell_module, activity);
 
 	} else
 		e_activity_set_primary_text (activity, status_message);

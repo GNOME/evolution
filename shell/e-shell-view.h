@@ -35,7 +35,6 @@
 #include <shell/e-shell-taskbar.h>
 #include <shell/e-shell-window.h>
 
-#include <widgets/misc/e-activity.h>
 #include <widgets/menus/gal-view-collection.h>
 
 /* Standard GObject macros */
@@ -74,6 +73,47 @@ struct _EShellView {
 	EShellViewPrivate *priv;
 };
 
+/**
+ * EShellViewClass:
+ * @parent_class:	The parent class structure.
+ * @label:		The initial value for the switcher action's
+ * 			#GtkAction:label property.  See
+ * 			e_shell_view_get_action().
+ * @icon_name:		The initial value for the switcher action's
+ * 			#GtkAction:icon-name property.  See
+ * 			e_shell_view_get_action().
+ * @ui_definition:	Base name of the UI definintion file to add
+ * 			when the shell view is activated.
+ * @search_options:	Widget path in the UI definition to the search
+ * 			options popup menu.  The menu gets shown when the
+ * 			user clicks the "find" icon in the search entry.
+ * @type_module:	The corresponding #GTypeModule for this shell
+ * 			view.  Subclasses are responsible for setting
+ * 			this.  An easy way do so is to pass it to the
+ * 			shell view's #GClassInitFunc via the
+ * 			<structfield>class_data</structfield> field in
+ * 			#GTypeInfo.
+ * @view_collection:	A unique #GalViewCollection instance is created
+ * 			for each subclass and shared across all instances
+ * 			of that subclass.  That much is done automatically
+ * 			for subclasses, but subclasses are still responsible
+ * 			for adding the appropriate #GalView factories to the
+ * 			view collection.
+ * @new_shell_content:	Factory method for the shell view's #EShellContent.
+ * 			See e_shell_view_get_shell_content().
+ * @new_shell_sidebar:	Factory method for the shell view's #EShellSidebar.
+ * 			See e_shell_view_get_shell_sidebar().
+ * @new_shell_taskbar:	Factory method for the shell view's #EShellTaskbar.
+ * 			See e_shell_view_get_shell_taskbar().
+ * @toggled:		Class method for the #EShellView::toggled signal.
+ * 			Subclasses should rarely need to override the
+ * 			default behavior.
+ * @update_actions:	Class method for the #EShellView::update_actions
+ * 			signal.  There is no default behavior; subclasses
+ * 			should override this.
+ *
+ * #EShellViewClass contains a number of important settings for subclasses.
+ **/
 struct _EShellViewClass {
 	GObjectClass parent_class;
 
@@ -84,7 +124,7 @@ struct _EShellViewClass {
 	/* Base name of the UI definition file. */
 	const gchar *ui_definition;
 
-	/* Widget path to the search entry popup menu. */
+	/* Widget path to the search options popup menu. */
 	const gchar *search_options;
 
 	/* Subclasses should set this via the "class_data" field in
@@ -114,8 +154,6 @@ const gchar *	e_shell_view_get_view_id	(EShellView *shell_view);
 void		e_shell_view_set_view_id	(EShellView *shell_view,
 						 const gchar *view_id);
 gboolean	e_shell_view_is_active		(EShellView *shell_view);
-void		e_shell_view_add_activity	(EShellView *shell_view,
-						 EActivity *activity);
 gint		e_shell_view_get_page_num	(EShellView *shell_view);
 GtkSizeGroup *	e_shell_view_get_size_group	(EShellView *shell_view);
 EShellContent *	e_shell_view_get_shell_content	(EShellView *shell_view);

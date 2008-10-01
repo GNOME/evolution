@@ -5,3 +5,11 @@
 
 @window: 
 
+<!-- ##### FUNCTION e_shell_view_add_activity ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@activity: 
+

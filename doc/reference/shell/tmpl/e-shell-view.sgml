@@ -77,6 +77,24 @@ EShellView
 
 </para>
 
+<!-- ##### STRUCT EShellViewClass ##### -->
+<para>
+
+</para>
+
+@parent_class: 
+@label: 
+@icon_name: 
+@ui_definition: 
+@search_options: 
+@type_module: 
+@view_collection: 
+@new_shell_content: 
+@new_shell_sidebar: 
+@new_shell_taskbar: 
+@toggled: 
+@update_actions: 
+
 <!-- ##### FUNCTION e_shell_view_get_name ##### -->
 <para>
 
@@ -138,15 +156,6 @@ EShellView
 
 @shell_view: 
 @Returns: 
-
-
-<!-- ##### FUNCTION e_shell_view_add_activity ##### -->
-<para>
-
-</para>
-
-@shell_view: 
-@activity: 
 
 
 <!-- ##### FUNCTION e_shell_view_get_page_num ##### -->

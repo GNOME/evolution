@@ -225,6 +225,11 @@ shell_taskbar_class_init (EShellTaskbarClass *class)
 	object_class->finalize = shell_taskbar_finalize;
 	object_class->constructed = shell_taskbar_constructed;
 
+	/**
+	 * EShellTaskbar:message
+	 *
+	 * The message to display in the taskbar.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_MESSAGE,
@@ -236,6 +241,11 @@ shell_taskbar_class_init (EShellTaskbarClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
+	/**
+	 * EShellTaskbar:shell-view
+	 *
+	 * The #EShellView to which the taskbar widget belongs.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_SHELL_VIEW,
@@ -311,6 +321,14 @@ e_shell_taskbar_get_type (void)
 	return type;
 }
 
+/**
+ * e_shell_taskbar_new:
+ * @shell_view: an #EShellView
+ *
+ * Creates a new #EShellTaskbar instance belonging to @shell_view.
+ *
+ * Returns: a new #EShellTaskbar instance
+ **/
 GtkWidget *
 e_shell_taskbar_new (EShellView *shell_view)
 {
@@ -320,6 +338,14 @@ e_shell_taskbar_new (EShellView *shell_view)
 		E_TYPE_SHELL_TASKBAR, "shell-view", shell_view, NULL);
 }
 
+/**
+ * e_shell_taskbar_get_shell_view:
+ * @shell_taskbar: an #EShellTaskbar
+ *
+ * Returns the #EShellView that was passed to e_shell_taskbar_new().
+ *
+ * Returns: the #EShellView to which @shell_taskbar belongs
+ **/
 EShellView *
 e_shell_taskbar_get_shell_view (EShellTaskbar *shell_taskbar)
 {
@@ -328,6 +354,16 @@ e_shell_taskbar_get_shell_view (EShellTaskbar *shell_taskbar)
 	return shell_taskbar->priv->shell_view;
 }
 
+/**
+ * e_shell_taskbar_get_message:
+ * @shell_taskbar: an #EShellTaskbar
+ *
+ * Returns the message currently shown in the taskbar, or an empty string
+ * if no message is shown.  Taskbar messages are used primarily for menu
+ * tooltips.
+ *
+ * Returns: the current taskbar message
+ **/
 const gchar *
 e_shell_taskbar_get_message (EShellTaskbar *shell_taskbar)
 {
@@ -340,6 +376,15 @@ e_shell_taskbar_get_message (EShellTaskbar *shell_taskbar)
 	return gtk_label_get_text (GTK_LABEL (label));
 }
 
+/**
+ * e_shell_taskbar_set_message:
+ * @shell_taskbar: an #EShellTaskbar
+ * @message: the message to show
+ *
+ * Shows a message in the taskbar.  If @message is %NULL or an empty string,
+ * the taskbar message is cleared.  Taskbar messages are used primarily for
+ * menu tooltips.
+ **/
 void
 e_shell_taskbar_set_message (EShellTaskbar *shell_taskbar,
                              const gchar *message)
@@ -359,6 +404,13 @@ e_shell_taskbar_set_message (EShellTaskbar *shell_taskbar,
 	g_object_notify (G_OBJECT (shell_taskbar), "message");
 }
 
+/**
+ * e_shell_taskbar_unset_message:
+ * @shell_taskbar: an #EShellTaskbar
+ *
+ * This is equivalent to passing a %NULL message to
+ * e_shell_taskbar_set_message().
+ **/
 void
 e_shell_taskbar_unset_message (EShellTaskbar *shell_taskbar)
 {

@@ -374,6 +374,11 @@ shell_view_class_init (EShellViewClass *class)
 
 	class->toggled = shell_view_toggled;
 
+	/**
+	 * EShellView:action:
+	 *
+	 * The #GtkRadioAction registered with #EShellSwitcher.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_ACTION,
@@ -385,6 +390,11 @@ shell_view_class_init (EShellViewClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 
+	/**
+	 * EShellView:page-num
+	 *
+	 * The #GtkNotebook page number of the shell view.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_PAGE_NUM,
@@ -398,6 +408,12 @@ shell_view_class_init (EShellViewClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 
+	/**
+	 * EShellView:title
+	 *
+	 * The title of the shell view.  Also serves as the #EShellWindow
+	 * title when the shell view is active.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_TITLE,
@@ -408,6 +424,12 @@ shell_view_class_init (EShellViewClass *class)
 			NULL,
 			G_PARAM_READWRITE));
 
+	/**
+	 * EShellView:shell-content
+	 *
+	 * The content widget appears in an #EShellWindow<!-- -->'s
+	 * right pane.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_SHELL_CONTENT,
@@ -419,6 +441,12 @@ shell_view_class_init (EShellViewClass *class)
 			E_TYPE_SHELL_CONTENT,
 			G_PARAM_READABLE));
 
+	/**
+	 * EShellView:shell-sidebar
+	 *
+	 * The sidebar widget appears in an #EShellWindow<!-- -->'s
+	 * left pane.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_SHELL_SIDEBAR,
@@ -430,6 +458,11 @@ shell_view_class_init (EShellViewClass *class)
 			E_TYPE_SHELL_SIDEBAR,
 			G_PARAM_READABLE));
 
+	/**
+	 * EShellView:shell-taskbar
+	 *
+	 * The taskbar widget appears at the bottom of an #EShellWindow.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_SHELL_TASKBAR,
@@ -441,6 +474,11 @@ shell_view_class_init (EShellViewClass *class)
 			E_TYPE_SHELL_TASKBAR,
 			G_PARAM_READABLE));
 
+	/**
+	 * EShellView:shell-window
+	 *
+	 * The #EShellWindow to which the shell view belongs.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_SHELL_WINDOW,
@@ -452,6 +490,11 @@ shell_view_class_init (EShellViewClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 
+	/**
+	 * EShellView:view-id
+	 *
+	 * The current #GalView ID.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_VIEW_ID,
@@ -462,6 +505,20 @@ shell_view_class_init (EShellViewClass *class)
 			NULL,
 			G_PARAM_READWRITE));
 
+	/**
+	 * EShellView::toggled
+	 * @shell_view: the #EShellView which emitted the signal
+	 *
+	 * Emitted when @shell_view is activated or deactivated.
+	 * Use e_shell_view_is_active() to find out which event has
+	 * occurred.  The shell view being deactivated is always
+	 * notified before the shell view being activated.
+	 *
+	 * By default, #EShellView adds the UI definition file
+	 * given in the <structfield>ui_definition</structfield>
+	 * field of #EShellViewClass on activation, and removes the
+	 * UI definition on deactivation.
+	 **/
 	signals[TOGGLED] = g_signal_new (
 		"toggled",
 		G_OBJECT_CLASS_TYPE (object_class),
@@ -471,6 +528,18 @@ shell_view_class_init (EShellViewClass *class)
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 
+	/**
+	 * EShellView::update-actions
+	 * @shell_view: the #EShellView which emitted the signal
+	 *
+	 * #EShellView subclasses should override the
+	 * <structfield>update_actions</structfield> method in
+	 * #EShellViewClass to update sensitivities, labels, or any
+	 * other aspect of the #GtkAction<!-- -->s they have registered.
+	 *
+	 * Plugins can also connect to this signal to be notified
+	 * when to update their own #GtkAction<!-- -->s.
+	 **/
 	signals[UPDATE_ACTIONS] = g_signal_new (
 		"update-actions",
 		G_OBJECT_CLASS_TYPE (object_class),
@@ -523,6 +592,16 @@ e_shell_view_get_type (void)
 	return type;
 }
 
+/**
+ * e_shell_view_get_name:
+ * @shell_view: an #EShellView
+ *
+ * Returns the view name for @shell_view, which is also the name of
+ * the corresponding #EShellModule (see the <structfield>name</structfield>
+ * field in #EShellModuleInfo).
+ *
+ * Returns: the view name for @shell_view
+ **/
 const gchar *
 e_shell_view_get_name (EShellView *shell_view)
 {
@@ -537,6 +616,20 @@ e_shell_view_get_name (EShellView *shell_view)
 	return g_object_get_data (G_OBJECT (action), "view-name");
 }
 
+/**
+ * e_shell_view_get_action:
+ * @shell_view: an #EShellView
+ *
+ * Returns the switcher action for @shell_view.
+ *
+ * An #EShellWindow creates a #GtkRadioAction for each #EShellView class
+ * it instantiates.  This action gets passed to the #EShellSwitcher, which
+ * displays a button that proxies the action.  The icon at the top of the
+ * sidebar also proxies the action.  When @shell_view is active, the
+ * action's icon becomes the #EShellWindow icon.
+ *
+ * Returns: the switcher action for @shell_view
+ **/
 GtkAction *
 e_shell_view_get_action (EShellView *shell_view)
 {
@@ -545,6 +638,15 @@ e_shell_view_get_action (EShellView *shell_view)
 	return shell_view->priv->action;
 }
 
+/**
+ * e_shell_view_get_title:
+ * @shell_view: an #EShellView
+ *
+ * Returns the title for @shell_view.  When @shell_view is active, the
+ * shell view's title becomes the #EShellWindow title.
+ *
+ * Returns: the title for @shell_view
+ **/
 const gchar *
 e_shell_view_get_title (EShellView *shell_view)
 {
@@ -553,6 +655,14 @@ e_shell_view_get_title (EShellView *shell_view)
 	return shell_view->priv->title;
 }
 
+/**
+ * e_shell_view_set_title:
+ * @shell_view: an #EShellView
+ * @title: a title for @shell_view
+ *
+ * Sets the title for @shell_view.  When @shell_view is active, the
+ * shell view's title becomes the #EShellWindow title.
+ **/
 void
 e_shell_view_set_title (EShellView *shell_view,
                         const gchar *title)
@@ -571,6 +681,19 @@ e_shell_view_set_title (EShellView *shell_view,
 	g_object_notify (G_OBJECT (shell_view), "title");
 }
 
+/**
+ * e_shell_view_get_view_id:
+ * @shell_view: an #EShellView
+ *
+ * Returns the ID of the currently selected #GalView.
+ *
+ * #EShellView subclasses are responsible for keeping this property in
+ * sync with their #GalViewInstance.  #EShellView itself just provides
+ * a place to store the view ID, and emits a #GObject::notify signal
+ * when the property changes.
+ *
+ * Returns: the ID of the current #GalView
+ **/
 const gchar *
 e_shell_view_get_view_id (EShellView *shell_view)
 {
@@ -579,6 +702,18 @@ e_shell_view_get_view_id (EShellView *shell_view)
 	return shell_view->priv->view_id;
 }
 
+/**
+ * e_shell_view_set_view_id:
+ * @shell_view: an #EShellView
+ * @view_id: a #GalView ID
+ *
+ * Selects the #GalView whose ID is equal to @view_id.
+ *
+ * #EShellView subclasses are responsible for keeping this property in
+ * sync with their #GalViewInstance.  #EShellView itself just provides
+ * a place to store the view ID, and emits a #GObject::notify signal
+ * when the property changes.
+ **/
 void
 e_shell_view_set_view_id (EShellView *shell_view,
                           const gchar *view_id)
@@ -594,6 +729,14 @@ e_shell_view_set_view_id (EShellView *shell_view,
 	g_object_notify (G_OBJECT (shell_view), "view-id");
 }
 
+/**
+ * e_shell_view_get_shell_window:
+ * @shell_view: an #EShellView
+ *
+ * Returns the #EShellWindow to which @shell_view belongs.
+ *
+ * Returns: the #EShellWindow to which @shell_view belongs
+ **/
 EShellWindow *
 e_shell_view_get_shell_window (EShellView *shell_view)
 {
@@ -602,6 +745,14 @@ e_shell_view_get_shell_window (EShellView *shell_view)
 	return E_SHELL_WINDOW (shell_view->priv->shell_window);
 }
 
+/**
+ * e_shell_view_get_shell_module:
+ * @shell_view: an #EShellView
+ *
+ * Returns the corresponding #EShellModule for @shell_view.
+ *
+ * Returns: the corresponding #EShellModule for @shell_view
+ **/
 EShellModule *
 e_shell_view_get_shell_module (EShellView *shell_view)
 {
@@ -611,13 +762,26 @@ e_shell_view_get_shell_module (EShellView *shell_view)
 
 	/* Calling this function during the shell view's instance
 	 * initialization function will return the wrong result,
-	 * so catch that and emit a warning. */
+	 * so watch for that and emit a warning. */
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	g_return_val_if_fail (E_IS_SHELL_VIEW_CLASS (shell_view_class), NULL);
 
 	return E_SHELL_MODULE (shell_view_class->type_module);
 }
 
+/**
+ * e_shell_view_is_active:
+ * @shell_view: an #EShellView
+ *
+ * Returns %TRUE if @shell_view is active.  That is, if it's currently
+ * visible in its #EShellWindow.  An #EShellWindow can only display one
+ * shell view at a time.
+ *
+ * Technically this just checks the #GtkToggleAction:active property of
+ * the shell view's switcher action.  See e_shell_view_get_action().
+ *
+ * Returns: %TRUE if @shell_view is active
+ **/
 gboolean
 e_shell_view_is_active (EShellView *shell_view)
 {
@@ -630,19 +794,16 @@ e_shell_view_is_active (EShellView *shell_view)
 	return gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
 }
 
-void
-e_shell_view_add_activity (EShellView *shell_view,
-                           EActivity *activity)
-{
-	EShellModule *shell_module;
-
-	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
-	g_return_if_fail (E_IS_ACTIVITY (activity));
-
-	shell_module = e_shell_view_get_shell_module (shell_view);
-	e_shell_module_add_activity (shell_module, activity);
-}
-
+/**
+ * e_shell_view_get_page_num:
+ * @shell_view: an #EShellView
+ *
+ * This function is only interesting to #EShellWindow.  It returns the
+ * #GtkNotebook page number for @shell_view.  The rest of the application
+ * should have no need for this.
+ *
+ * Returns: the notebook page number for @shell_view
+ **/
 gint
 e_shell_view_get_page_num (EShellView *shell_view)
 {
@@ -651,6 +812,16 @@ e_shell_view_get_page_num (EShellView *shell_view)
 	return shell_view->priv->page_num;
 }
 
+/**
+ * e_shell_view_get_size_group:
+ * @shell_view: an #EShellView
+ *
+ * Returns a #GtkSizeGroup that #EShellContent and #EShellSidebar use
+ * to keep the search bar and sidebar banner vertically aligned.  The
+ * rest of the application should have no need for this.
+ *
+ * Returns: a #GtkSizeGroup for internal use
+ **/
 GtkSizeGroup *
 e_shell_view_get_size_group (EShellView *shell_view)
 {
@@ -659,6 +830,19 @@ e_shell_view_get_size_group (EShellView *shell_view)
 	return shell_view->priv->size_group;
 }
 
+/**
+ * e_shell_view_get_shell_content:
+ * @shell_view: an #EShellView
+ *
+ * Returns the #EShellContent instance for @shell_view.
+ *
+ * By default, #EShellView creates a plain #EShellContent during
+ * initialization.  But #EShellView subclasses can override the
+ * <structfield>new_shell_content</structfield> factory method
+ * in #EShellViewClass to create a custom #EShellContent.
+ *
+ * Returns: the #EShellContent instance for @shell_view
+ **/
 EShellContent *
 e_shell_view_get_shell_content (EShellView *shell_view)
 {
@@ -667,6 +851,19 @@ e_shell_view_get_shell_content (EShellView *shell_view)
 	return E_SHELL_CONTENT (shell_view->priv->shell_content);
 }
 
+/**
+ * e_shell_view_get_shell_sidebar:
+ * @shell_view: an #EShellView
+ *
+ * Returns the #EShellSidebar instance for @shell_view.
+ *
+ * By default, #EShellView creates a plain #EShellSidebar during
+ * initialization.  But #EShellView subclasses can override the
+ * <structfield>new_shell_sidebar</structfield> factory method
+ * in #EShellViewClass to create a custom #EShellSidebar.
+ *
+ * Returns: the #EShellSidebar instance for @shell_view
+ **/
 EShellSidebar *
 e_shell_view_get_shell_sidebar (EShellView *shell_view)
 {
@@ -675,6 +872,19 @@ e_shell_view_get_shell_sidebar (EShellView *shell_view)
 	return E_SHELL_SIDEBAR (shell_view->priv->shell_sidebar);
 }
 
+/**
+ * e_shell_view_get_shell_taskbar:
+ * @shell_view: an #EShellView
+ *
+ * Returns the #EShellTaskbar instance for @shell_view.
+ *
+ * By default, #EShellView creates a plain #EShellTaskbar during
+ * initialization.  But #EShellView subclasses can override the
+ * <structfield>new_shell_taskbar</structfield> factory method
+ * in #EShellViewClass to create a custom #EShellTaskbar.
+ *
+ * Returns: the #EShellTaskbar instance for @shell_view
+ **/
 EShellTaskbar *
 e_shell_view_get_shell_taskbar (EShellView *shell_view)
 {
@@ -683,6 +893,20 @@ e_shell_view_get_shell_taskbar (EShellView *shell_view)
 	return E_SHELL_TASKBAR (shell_view->priv->shell_taskbar);
 }
 
+/**
+ * e_shell_view_update_actions:
+ * @shell_view: an #EShellView
+ *
+ * Emits the #EShellView::update-actions signal.
+ *
+ * #EShellView subclasses should implement the
+ * <structfield>update_actions</structfield> method in #EShellViewClass
+ * to update the various #GtkAction<!-- -->s based on the current
+ * #EShellSidebar and #EShellContent selections.  The
+ * #EShellView::update-actions signal is typically emitted just before
+ * showing a popup menu or just after the user selects an item in the
+ * shell view.
+ **/
 void
 e_shell_view_update_actions (EShellView *shell_view)
 {

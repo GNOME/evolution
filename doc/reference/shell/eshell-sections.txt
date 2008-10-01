@@ -23,10 +23,11 @@ e_shell_quit
 E_SHELL
 E_IS_SHELL
 E_TYPE_SHELL
-e_shell_get_type
 E_SHELL_CLASS
 E_IS_SHELL_CLASS
 E_SHELL_GET_CLASS
+EShellClass
+e_shell_get_type
 <SUBSECTION Private>
 EShellPrivate
 </SECTION>
@@ -35,6 +36,7 @@ EShellPrivate
 <FILE>e-shell-view</FILE>
 <TITLE>EShellView</TITLE>
 EShellView
+EShellViewClass
 e_shell_view_get_name
 e_shell_view_get_action
 e_shell_view_get_title
@@ -42,7 +44,6 @@ e_shell_view_set_title
 e_shell_view_get_view_id
 e_shell_view_set_view_id
 e_shell_view_is_active
-e_shell_view_add_activity
 e_shell_view_get_page_num
 e_shell_view_get_size_group
 e_shell_view_get_shell_content
@@ -56,10 +57,10 @@ e_shell_view_show_popup_menu
 E_SHELL_VIEW
 E_IS_SHELL_VIEW
 E_TYPE_SHELL_VIEW
-e_shell_view_get_type
 E_SHELL_VIEW_CLASS
 E_IS_SHELL_VIEW_CLASS
 E_SHELL_VIEW_GET_CLASS
+e_shell_view_get_type
 <SUBSECTION Private>
 EShellViewPrivate
 </SECTION>
@@ -79,10 +80,11 @@ e_shell_switcher_set_visible
 E_SHELL_SWITCHER
 E_IS_SHELL_SWITCHER
 E_TYPE_SHELL_SWITCHER
-e_shell_switcher_get_type
 E_SHELL_SWITCHER_CLASS
 E_IS_SHELL_SWITCHER_CLASS
 E_SHELL_SWITCHER_GET_CLASS
+EShellSwitcherClass
+e_shell_switcher_get_type
 <SUBSECTION Private>
 EShellSwitcherPrivate
 E_SHELL_SWITCHER_DEFAULT_TOOLBAR_STYLE
@@ -97,10 +99,11 @@ e_shell_sidebar_new
 E_SHELL_SIDEBAR
 E_IS_SHELL_SIDEBAR
 E_TYPE_SHELL_SIDEBAR
-e_shell_sidebar_get_type
 E_SHELL_SIDEBAR_CLASS
 E_IS_SHELL_SIDEBAR_CLASS
 E_SHELL_SIDEBAR_GET_CLASS
+EShellSidebarClass
+e_shell_sidebar_get_type
 <SUBSECTION Private>
 EShellSidebarPrivate
 </SECTION>
@@ -114,10 +117,11 @@ e_shell_taskbar_new
 E_SHELL_TASKBAR
 E_IS_SHELL_TASKBAR
 E_TYPE_SHELL_TASKBAR
-e_shell_taskbar_get_type
 E_SHELL_TASKBAR_CLASS
 E_IS_SHELL_TASKBAR_CLASS
 E_SHELL_TASKBAR_GET_CLASS
+EShellTaskbarClass
+e_shell_taskbar_get_type
 <SUBSECTION Private>
 EShellTaskbarPrivate
 </SECTION>
@@ -142,10 +146,11 @@ e_shell_module_set_info
 E_SHELL_MODULE
 E_IS_SHELL_MODULE
 E_TYPE_SHELL_MODULE
-e_shell_module_get_type
 E_SHELL_MODULE_CLASS
 E_IS_SHELL_MODULE_CLASS
 E_SHELL_MODULE_GET_CLASS
+EShellModuleClass
+e_shell_module_get_type
 <SUBSECTION Private>
 EShellModulePrivate
 </SECTION>
@@ -159,10 +164,11 @@ e_shell_content_new
 E_SHELL_CONTENT
 E_IS_SHELL_CONTENT
 E_TYPE_SHELL_CONTENT
-e_shell_content_get_type
 E_SHELL_CONTENT_CLASS
 E_IS_SHELL_CONTENT_CLASS
 E_SHELL_CONTENT_GET_CLASS
+EShellContentClass
+e_shell_content_get_type
 <SUBSECTION Private>
 EShellContentPrivate
 </SECTION>
@@ -188,10 +194,11 @@ e_shell_window_register_new_source_actions
 E_SHELL_WINDOW
 E_IS_SHELL_WINDOW
 E_TYPE_SHELL_WINDOW
-e_shell_window_get_type
 E_SHELL_WINDOW_CLASS
 E_IS_SHELL_WINDOW_CLASS
 E_SHELL_WINDOW_GET_CLASS
+EShellWindowClass
+e_shell_window_get_type
 <SUBSECTION Private>
 EShellWindowPrivate
 E_SHELL_WINDOW_ACTION

@@ -70,6 +70,7 @@ test_shell_view_constructed (GObject *object)
 	ETestShellViewPrivate *priv;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
+	EShellModule *shell_module;
 	EShellView *shell_view;
 	EActivity *activity;
 	GtkWidget *widget;
@@ -80,6 +81,7 @@ test_shell_view_constructed (GObject *object)
 	priv = E_TEST_SHELL_VIEW_GET_PRIVATE (object);
 
 	shell_view = E_SHELL_VIEW (object);
+	shell_module = e_shell_view_get_shell_module (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 
@@ -93,7 +95,7 @@ test_shell_view_constructed (GObject *object)
 
 	activity = e_activity_new ("Test Activity");
 	e_activity_set_cancellable (activity, TRUE);
-	e_shell_view_add_activity (shell_view, activity);
+	e_shell_module_add_activity (shell_module, activity);
 	priv->activity = activity;
 }
 
