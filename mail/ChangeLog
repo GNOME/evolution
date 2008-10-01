@@ -1,3 +1,9 @@
+2008-10-01  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* em-composer-utils.c:
+
 2008-09-30  Philip Withnall  <philip@tecnocode.co.uk>
 
 	** Fix for bug #545045
