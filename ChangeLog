@@ -1,3 +1,10 @@
+2008-10-01  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #554458
+
+	* configure.in:
+	Bump glib version to 2.18.0 because of g_content_type_from_mime_type.
+
 2008-09-22  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* configure.in: Fix 'cs' build break due to my git-merge issues.

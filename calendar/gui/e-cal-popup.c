@@ -397,17 +397,18 @@ ecalp_standard_menu_factory (EPopup *ecalp, void *data)
                 for (cp = mime_type; *cp != '\0'; cp++)
                         *cp = g_ascii_tolower (*cp);
 
-		/* TODO: g_app_info_get_all_for_type expects content_type, not a mime_type, thus it will work fine
-		    on Linux/Unix systems, but not on Win32. They will add hopefully some function to convert between
-		    these two soon. */
-		apps = g_app_info_get_all_for_type (mime_type);
+		cp = g_content_type_from_mime_type (mime_type);
+		apps = g_app_info_get_all_for_type (cp ? cp : mime_type);
+		g_free (cp);
 
 		if (apps == NULL && strcmp(mime_type, "application/octet-stream") == 0) {
 			if (filename) {
 				gchar *name_type;
 
 				name_type = e_util_guess_mime_type (filename);
-				apps = g_app_info_get_all_for_type (name_type);
+				cp = g_content_type_from_mime_type (name_type);
+				apps = g_app_info_get_all_for_type (cp ? cp : name_type);
+				g_free (cp);
 				g_free (name_type);
 			}
 		}
