@@ -202,15 +202,19 @@ org_gnome_send_options (EPlugin *epl, EConfigHookItemFactoryData *data)
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
 
+	gchar *markup;
+
 	if(!g_strrstr (account->source->url, "groupwise://"))
 		return NULL;
 
 	vbox = gtk_vbox_new (FALSE, 0);
 	frame = gtk_frame_new ("");
 	label = gtk_frame_get_label_widget (GTK_FRAME (frame));
-	gtk_label_set_markup (GTK_LABEL (label), "<b>Send Options</b>");
-	button = gtk_button_new_with_label ("Advanced send options");
+	markup = g_strdup_printf("<b>%s</b>", _("Send Options"));
+	gtk_label_set_markup (GTK_LABEL (label), markup);
+	button = gtk_button_new_with_label (_("Advanced send options"));
 	gtk_widget_show (button);
+	g_free (markup);
 
 	g_signal_connect(button, "clicked",
 			    G_CALLBACK (e_sendoptions_clicked_cb), account);
