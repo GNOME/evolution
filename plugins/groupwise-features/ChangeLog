@@ -1,5 +1,9 @@
 2008-10-01  Gabor Kelemen  <kelemeng@gnome.hu>
 
+	*  send-options.c: Mark two forgotten strings for translation. Fixes bug #553070
+
+2008-10-01  Gabor Kelemen  <kelemeng@gnome.hu>
+
 	* org-gnome-proxy-errors.xml:
 	* org-gnome-proxy-login-errors.xml:
 	* proxy.c:
