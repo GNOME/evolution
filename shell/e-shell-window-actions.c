@@ -1519,7 +1519,7 @@ static GtkActionEntry shell_entries[] = {
 	{ "search-execute",
 	  GTK_STOCK_FIND,
 	  N_("_Find Now"),
-	  NULL,
+	  "",      /* Block the default Ctrl+F. */
 	  N_("Execute the current search parameters"),
 	  NULL },  /* Handled by EShellContent and subclasses. */
 
@@ -1970,12 +1970,7 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 	/* Construct a group of radio actions from the various EShellView
 	 * subclasses and register them with the EShellSwitcher.  These
 	 * actions are manifested as switcher buttons and View->Window
-	 * menu items.
-	 *
-	 * Note: The shell window has already selected a view by now,
-	 * so we have to be careful not to overwrite that when setting
-	 * up the radio action group.  That means not connecting to any
-	 * "changed" signals until after the group is built. */
+	 * menu items. */
 
 	for (ii = 0; ii < n_children; ii++) {
 		EShellViewClass *class;

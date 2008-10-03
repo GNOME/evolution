@@ -91,23 +91,23 @@ memo_shell_sidebar_update_timezone (EMemoShellSidebar *memo_shell_sidebar)
 {
 	GHashTable *client_table;
 	icaltimezone *zone;
-	GList *keys;
+	GList *values;
 
 	zone = calendar_config_get_icaltimezone ();
 	client_table = memo_shell_sidebar->priv->client_table;
-	keys = g_hash_table_get_values (client_table);
+	values = g_hash_table_get_values (client_table);
 
-	while (keys != NULL) {
-		ECal *client = keys->data;
+	while (values != NULL) {
+		ECal *client = values->data;
 
 		if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
 			e_cal_set_default_timezone (client, zone, NULL);
 
-		keys = g_list_delete_link (keys, keys);
+		values = g_list_delete_link (values, values);
 	}
 
-	/* XXX Need to call e_memo_preview_set_default_timezone() here
-	 *     but the sidebar is not really supposed to access content
+	/* XXX Need to call e_cal_component_preview_set_default_timezone()
+	 *     here but the sidebar is not really supposed to access content
 	 *     stuff.  I guess we could emit an "update-timezone" signal
 	 *     here, but that feels wrong.  Maybe this whole thing should
 	 *     be in EMemoShellView instead. */
@@ -454,8 +454,8 @@ memo_shell_sidebar_client_removed (EMemoShellSidebar *memo_shell_sidebar,
 	ESource *source;
 	const gchar *uid;
 
-	selector = E_SOURCE_SELECTOR (memo_shell_sidebar->priv->selector);
 	client_table = memo_shell_sidebar->priv->client_table;
+	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
 
 	g_signal_handlers_disconnect_matched (
 		client, G_SIGNAL_MATCH_DATA, 0, 0,
@@ -607,7 +607,7 @@ e_memo_shell_sidebar_add_source (EMemoShellSidebar *memo_shell_sidebar,
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	client_table = memo_shell_sidebar->priv->client_table;
-	selector = E_SOURCE_SELECTOR (memo_shell_sidebar->priv->selector);
+	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
 
 	uid = e_source_peek_uid (source);
 	client = g_hash_table_lookup (client_table, uid);
@@ -657,7 +657,7 @@ e_memo_shell_sidebar_remove_source (EMemoShellSidebar *memo_shell_sidebar,
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	client_table = memo_shell_sidebar->priv->client_table;
-	selector = E_SOURCE_SELECTOR (memo_shell_sidebar->priv->selector);
+	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
 
 	uid = e_source_peek_uid (source);
 	client = g_hash_table_lookup (client_table, uid);

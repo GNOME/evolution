@@ -362,7 +362,7 @@ e_memo_shell_view_execute_search (EMemoShellView *memo_shell_view)
 	query = g_strdup_printf (format, string->str);
 	g_string_free (string, TRUE);
 
-	/* Filter by category. */
+	/* Apply selected filter. */
 	value = e_shell_content_get_filter_value (shell_content);
 	if (value == MEMO_FILTER_UNMATCHED) {
 		gchar *temp;

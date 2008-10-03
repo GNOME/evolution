@@ -53,7 +53,7 @@
 
 G_BEGIN_DECLS
 
-/* Avoid including <e-shell-view.h> */
+/* Avoid including <e-shell-view.h>, because it includes us! */
 struct _EShellView;
 
 typedef struct _EShellContent EShellContent;

@@ -1,5 +1,5 @@
 /*
- * e-task-shell-content.h
+ * e-task-shell-content.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -25,6 +25,7 @@
 
 #include "e-util/gconf-bridge.h"
 
+#include "calendar/gui/calendar-config.h"
 #include "calendar/gui/e-calendar-table.h"
 #include "calendar/gui/e-calendar-table-config.h"
 
@@ -34,14 +35,14 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_TASK_SHELL_CONTENT, ETaskShellContentPrivate))
 
-#define E_TASK_TABLE_DEFAULT_STATE \
+#define E_CALENDAR_TABLE_DEFAULT_STATE \
 	"<?xml version=\"1.0\"?>" \
 	"<ETableState>" \
 	"  <column source=\"13\"/>" \
 	"  <column source=\"14\"/>" \
 	"  <column source=\"9\"/>" \
 	"  <column source=\"5\"/>" \
-	"  <grouping/>
+	"  <grouping/>" \
 	"</ETableState>"
 
 struct _ETaskShellContentPrivate {
@@ -49,7 +50,7 @@ struct _ETaskShellContentPrivate {
 	GtkWidget *task_table;
 	GtkWidget *task_preview;
 
-	ETaskTableConfig *table_config;
+	ECalendarTableConfig *table_config;
 	GalViewInstance *view_instance;
 
 	gchar *current_uid;
@@ -97,7 +98,7 @@ task_shell_content_display_view_cb (ETaskShellContent *task_shell_content,
 		return;
 
 	task_table = E_CALENDAR_TABLE (task_shell_content->priv->task_table);
-	table = e_task_table_get_table (task_table);
+	table = e_calendar_table_get_table (task_table);
 
 	gal_view_etable_attach_table (GAL_VIEW_ETABLE (gal_view), table);
 }
@@ -132,7 +133,7 @@ task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
                                      ETable *table)
 {
 	ECalComponentPreview *task_preview;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 	ECalModel *model;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
@@ -140,14 +141,14 @@ task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
 
 	task_preview = E_CAL_COMPONENT_PREVIEW (
 		task_shell_content->priv->task_preview);
-	task_table = E_TASK_TABLE (task_shell_content->priv->task_table);
+	task_table = E_CALENDAR_TABLE (task_shell_content->priv->task_table);
 
 	if (e_table_selected_count (table) != 1) {
 		e_cal_component_preview_clear (task_preview);
 		return;
 	}
 
-	model = e_task_table_get_model (task_table);
+	model = e_calendar_table_get_model (task_table);
 	row = e_table_get_cursor_row (table);
 	comp_data = e_cal_model_get_component_at (model, row);
 
@@ -185,7 +186,7 @@ task_shell_content_model_row_changed_cb (ETaskShellContent *task_shell_content,
                                          ETableModel *model)
 {
 	ECalModelComponent *comp_data;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 	ETable *table;
 	const gchar *current_uid;
 	const gchar *uid;
@@ -202,8 +203,8 @@ task_shell_content_model_row_changed_cb (ETaskShellContent *task_shell_content,
 	if (g_strcmp0 (uid, current_uid) != 0)
 		return;
 
-	task_table = E_TASK_TABLE (task_shell_content->priv->task_table);
-	table = e_task_table_get_table (task_table);
+	task_table = E_CALENDAR_TABLE (task_shell_content->priv->task_table);
+	table = e_calendar_table_get_table (task_table);
 
 	task_shell_content_cursor_change_cb (task_shell_content, 0, table);
 }
@@ -328,7 +329,7 @@ task_shell_content_constructed (GObject *object)
 
 	container = widget;
 
-	widget = e_task_table_new (shell_view);
+	widget = e_calendar_table_new (shell_view);
 	gtk_paned_add1 (GTK_PANED (container), widget);
 	priv->task_table = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -340,6 +341,7 @@ task_shell_content_constructed (GObject *object)
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
 	gtk_paned_add2 (GTK_PANED (container), widget);
+	gtk_widget_show (widget);
 
 	container = widget;
 
@@ -353,14 +355,14 @@ task_shell_content_constructed (GObject *object)
 
 	/* Configure the task table. */
 
-	widget = E_TASK_TABLE (priv->task_table)->etable;
+	widget = E_CALENDAR_TABLE (priv->task_table)->etable;
 	table = e_table_scrolled_get_table (E_TABLE_SCROLLED (widget));
-	model = e_task_table_get_model (E_TASK_TABLE (priv->task_table));
+	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->task_table));
 
-	priv->table_config = e_task_table_config_new (
-		E_TASK_TABLE (priv->task_table));
+	priv->table_config = e_calendar_table_config_new (
+		E_CALENDAR_TABLE (priv->task_table));
 
-	e_table_set_state (table, E_TASK_TABLE_DEFAULT_STATE);
+	e_table_set_state (table, E_CALENDAR_TABLE_DEFAULT_STATE);
 
 	e_table_drag_source_set (
 		table, GDK_BUTTON1_MASK,
@@ -497,13 +499,13 @@ e_task_shell_content_get_task_preview (ETaskShellContent *task_shell_content)
 		task_shell_content->priv->task_preview);
 }
 
-ETaskTable *
+ECalendarTable *
 e_task_shell_content_get_task_table (ETaskShellContent *task_shell_content)
 {
 	g_return_val_if_fail (
 		E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
 
-	return E_TASK_TABLE (task_shell_content->priv->task_table);
+	return E_CALENDAR_TABLE (task_shell_content->priv->task_table);
 }
 
 GalViewInstance *

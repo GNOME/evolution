@@ -533,6 +533,17 @@ calendar_table_class_init (ECalendarTableClass *class)
 	object_class->get_property = calendar_table_get_property;
 	object_class->dispose = calendar_table_dispose;
 
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL_VIEW,
+		g_param_spec_object (
+			"shell-view",
+			_("Shell View"),
+			NULL,
+			E_TYPE_SHELL_VIEW,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
 	signals[OPEN_COMPONENT] = g_signal_new (
 		"open-component",
 		G_TYPE_FROM_CLASS (class),
@@ -917,11 +928,12 @@ get_selected_row_cb (int model_row, gpointer data)
 	*row = model_row;
 }
 
-/* Returns the component that is selected in the table; only works if there is
+/*
+ * Returns the component that is selected in the table; only works if there is
  * one and only one selected row.
  */
-ECalModelComponent *
-e_calendar_table_get_selected_comp (ECalendarTable *cal_table)
+static ECalModelComponent *
+get_selected_comp (ECalendarTable *cal_table)
 {
 	ETable *etable;
 	int row;
@@ -1051,7 +1063,7 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 		return;
 
 	if (n_selected == 1)
-		comp_data = e_calendar_table_get_selected_comp (cal_table);
+		comp_data = get_selected_comp (cal_table);
 	else
 		comp_data = NULL;
 

@@ -132,8 +132,10 @@ e_load_ui_definition (GtkUIManager *ui_manager,
 		ui_manager, filename, &error);
 	g_free (filename);
 
-	if (error != NULL)
-		g_error ("%s", error->message);  /* does not return */
+	if (error != NULL) {
+		g_error ("%s: %s", basename, error->message);
+		g_assert_not_reached ();
+	}
 
 	return merge_id;
 }

@@ -64,14 +64,14 @@ action_task_assign_cb (GtkAction *action,
                        ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 	ECalModelComponent *comp_data;
 	GSList *list;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
-	list = e_task_table_get_selected (task_table);
+	list = e_calendar_table_get_selected (task_table);
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -87,11 +87,11 @@ action_task_clipboard_copy_cb (GtkAction *action,
                                ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	e_task_table_copy_clipboard (task_table);
+	e_calendar_table_copy_clipboard (task_table);
 }
 
 static void
@@ -99,11 +99,11 @@ action_task_clipboard_cut_cb (GtkAction *action,
                               ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	e_task_table_cut_clipboard (task_table);
+	e_calendar_table_cut_clipboard (task_table);
 }
 
 static void
@@ -111,11 +111,11 @@ action_task_clipboard_paste_cb (GtkAction *action,
                                 ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	e_task_table_paste_clipboard (task_table);
+	e_calendar_table_paste_clipboard (task_table);
 }
 
 static void
@@ -124,7 +124,7 @@ action_task_delete_cb (GtkAction *action,
 {
 	ETaskShellContent *task_shell_content;
 	ECalComponentPreview *task_preview;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 	const gchar *status_message;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
@@ -133,7 +133,7 @@ action_task_delete_cb (GtkAction *action,
 
 	status_message = _("Deleting selected tasks...");
 	e_task_shell_view_set_status_message (task_shell_view, status_message);
-	e_task_table_delete_selected (task_table);
+	e_calendar_table_delete_selected (task_table);
 	e_task_shell_view_set_status_message (task_shell_view, NULL);
 
 	e_cal_component_preview_clear (task_preview);
@@ -144,7 +144,7 @@ action_task_forward_cb (GtkAction *action,
                         ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
 	icalcomponent *clone;
@@ -154,7 +154,7 @@ action_task_forward_cb (GtkAction *action,
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
-	list = e_task_table_get_selected (task_table);
+	list = e_calendar_table_get_selected (task_table);
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -199,7 +199,7 @@ action_task_list_delete_cb (GtkAction *action,
         ETaskShellSidebar *task_shell_sidebar;
         EShellWindow *shell_window;
         EShellView *shell_view;
-        ETaskTable *task_table;
+        ECalendarTable *task_table;
         ECal *client;
         ECalModel *model;
         ESourceSelector *selector;
@@ -215,7 +215,7 @@ action_task_list_delete_cb (GtkAction *action,
 
         task_shell_content = task_shell_view->priv->task_shell_content;
         task_table = e_task_shell_content_get_task_table (task_shell_content);
-        model = e_task_table_get_model (task_table);
+        model = e_calendar_table_get_model (task_table);
 
         task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
         selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
@@ -277,13 +277,13 @@ action_task_list_print_cb (GtkAction *action,
                            ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 	ETable *table;
 	GtkPrintOperationAction print_action;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	table = e_task_table_get_table (task_table);
+	table = e_calendar_table_get_table (task_table);
 
 	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
 	print_table (table, _("Print Tasks"), _("Tasks"), print_action);
@@ -294,13 +294,13 @@ action_task_list_print_preview_cb (GtkAction *action,
                                    ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 	ETable *table;
 	GtkPrintOperationAction print_action;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	table = e_task_table_get_table (task_table);
+	table = e_calendar_table_get_table (task_table);
 
 	print_action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
 	print_table (table, _("Print Tasks"), _("Tasks"), print_action);
@@ -362,18 +362,19 @@ action_task_mark_complete_cb (GtkAction *action,
                               ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 	ECalModel *model;
 	GSList *list, *iter;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	list = e_task_table_get_selected (task_table);
-	model = e_task_table_get_model (task_table);
+	list = e_calendar_table_get_selected (task_table);
+	model = e_calendar_table_get_model (task_table);
 
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
-		e_cal_model_tasks_mark_comp_complete (model, comp_data);
+		e_cal_model_tasks_mark_comp_complete (
+			E_CAL_MODEL_TASKS (model), comp_data);
 	}
 
 	g_slist_free (list);
@@ -384,18 +385,19 @@ action_task_mark_incomplete_cb (GtkAction *action,
                                 ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 	ECalModel *model;
 	GSList *list, *iter;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	list = e_task_table_get_selected (task_table);
-	model = e_task_table_get_model (task_table);
+	list = e_calendar_table_get_selected (task_table);
+	model = e_calendar_table_get_model (task_table);
 
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
-		e_cal_model_tasks_mark_comp_incomplete (model, comp_data);
+		e_cal_model_tasks_mark_comp_incomplete (
+			E_CAL_MODEL_TASKS (model), comp_data);
 	}
 
 	g_slist_free (list);
@@ -406,7 +408,7 @@ action_task_new_cb (GtkAction *action,
                     ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 	ECalModelComponent *comp_data;
 	ECal *client;
 	ECalComponent *comp;
@@ -416,7 +418,7 @@ action_task_new_cb (GtkAction *action,
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
-	list = e_task_table_get_selected (task_table);
+	list = e_calendar_table_get_selected (task_table);
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -437,14 +439,14 @@ action_task_open_cb (GtkAction *action,
                      ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 	ECalModelComponent *comp_data;
 	GSList *list;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
-	list = e_task_table_get_selected (task_table);
+	list = e_calendar_table_get_selected (task_table);
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -458,7 +460,7 @@ action_task_open_url_cb (GtkAction *action,
                          ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 	ECalModelComponent *comp_data;
 	icalproperty *prop;
 	GdkScreen *screen;
@@ -469,7 +471,7 @@ action_task_open_url_cb (GtkAction *action,
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
-	list = e_task_table_get_selected (task_table);
+	list = e_calendar_table_get_selected (task_table);
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 
@@ -505,7 +507,7 @@ action_task_print_cb (GtkAction *action,
                       ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
 	icalcomponent *clone;
@@ -513,9 +515,9 @@ action_task_print_cb (GtkAction *action,
 	GSList *list;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
-	task_table = e_memo_shell_content_get_task_table (task_shell_content);
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
-	list = e_task_table_get_selected (task_table);
+	list = e_calendar_table_get_selected (task_table);
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -540,7 +542,7 @@ action_task_save_as_cb (GtkAction *action,
                         ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 	ECalModelComponent *comp_data;
 	GSList *list;
 	gchar *filename;
@@ -549,7 +551,7 @@ action_task_save_as_cb (GtkAction *action,
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
-	list = e_task_table_get_selected (task_table);
+	list = e_calendar_table_get_selected (task_table);
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
 	g_slist_free (list);
@@ -558,7 +560,7 @@ action_task_save_as_cb (GtkAction *action,
 	if (filename == NULL)
 		return;
 
-	string = e_cal_component_as_string (
+	string = e_cal_get_component_as_string (
 		comp_data->client, comp_data->icalcomp);
 	if (string == NULL) {
 		g_warning ("Could not convert task to a string");
@@ -603,14 +605,14 @@ static GtkActionEntry task_entries[] = {
 
 	{ "task-delete",
 	  GTK_STOCK_DELETE,
-	  N_("Delete Task"),
+	  N_("_Delete Task"),
 	  NULL,
 	  N_("Delete selected tasks"),
 	  G_CALLBACK (action_task_delete_cb) },
 
 	{ "task-forward",
 	  "mail-forward",
-	  N_("_Forward as iCalendar"),
+	  N_("_Forward as iCalendar..."),
 	  "<Control>f",
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_task_forward_cb) },
@@ -656,6 +658,13 @@ static GtkActionEntry task_entries[] = {
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_task_list_properties_cb) },
+
+	{ "task-list-select-one",
+	  "stock_check-filled",
+	  N_("Show _Only This Task List"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_task_list_select_one_cb) },
 
 	{ "task-mark-complete",
 	  NULL,
@@ -708,10 +717,19 @@ static GtkActionEntry task_entries[] = {
 
 	{ "task-save-as",
 	  GTK_STOCK_SAVE_AS,
-	  NULL,
+	  N_("_Save as iCalendar..."),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_task_save_as_cb) }
+	  G_CALLBACK (action_task_save_as_cb) },
+
+	/*** Menus ***/
+
+	{ "task-actions-menu",
+	  NULL,
+	  N_("_Actions"),
+	  NULL,
+	  NULL,
+	  NULL }
 };
 
 static GtkToggleActionEntry task_toggle_entries[] = {

@@ -52,7 +52,7 @@
 
 G_BEGIN_DECLS
 
-/* Avoid including <e-shell.h> */
+/* Avoid including <e-shell.h>, because it includes us! */
 struct _EShell;
 
 typedef struct _EShellModule EShellModule;

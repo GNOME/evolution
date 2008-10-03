@@ -25,6 +25,9 @@
 #include <shell/e-shell-content.h>
 #include <shell/e-shell-view.h>
 
+#include <calendar/gui/e-calendar-table.h>
+#include <calendar/gui/e-cal-component-preview.h>
+
 #include <widgets/menus/gal-view-instance.h>
 
 /* Standard GObject macros */
@@ -63,6 +66,11 @@ struct _ETaskShellContentClass {
 
 GType		e_task_shell_content_get_type	(void);
 GtkWidget *	e_task_shell_content_new	(EShellView *shell_view);
+ECalComponentPreview *
+		e_task_shell_content_get_task_preview
+						(ETaskShellContent *task_shell_content);
+ECalendarTable *e_task_shell_content_get_task_table
+						(ETaskShellContent *task_shell_content);
 GalViewInstance *
 		e_task_shell_content_get_view_instance
 						(ETaskShellContent *task_shell_content);

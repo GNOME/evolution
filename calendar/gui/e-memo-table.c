@@ -986,6 +986,8 @@ clipboard_get_calendar_data (EMemoTable *memo_table, const gchar *text)
 	/* check the type of the component */
 	kind = icalcomponent_isa (icalcomp);
 	if (kind != ICAL_VCALENDAR_COMPONENT &&
+	    kind != ICAL_VEVENT_COMPONENT &&
+	    kind != ICAL_VTODO_COMPONENT &&
 	    kind != ICAL_VJOURNAL_COMPONENT) {
 		return;
 	}
@@ -1005,7 +1007,9 @@ clipboard_get_calendar_data (EMemoTable *memo_table, const gchar *text)
 			vcal_comp, ICAL_ANY_COMPONENT);
 		while (subcomp) {
 			child_kind = icalcomponent_isa (subcomp);
-			if (child_kind == ICAL_VJOURNAL_COMPONENT) {
+			if (child_kind == ICAL_VEVENT_COMPONENT ||
+			    child_kind == ICAL_VTODO_COMPONENT ||
+			    child_kind == ICAL_VJOURNAL_COMPONENT) {
 				ECalComponent *tmp_comp;
 
 				uid = e_cal_component_gen_uid ();

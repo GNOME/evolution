@@ -33,6 +33,10 @@
 /*
  * EMemoTable - displays the iCalendar objects in a table (an ETable).
  * Used for memo events and tasks.
+ *
+ * XXX We should look at merging this back into ECalendarTable, or at
+ *     least making ECalendarTable subclassable so we don't have so
+ *     much duplicate code.
  */
 
 /* Standard GObject macros */

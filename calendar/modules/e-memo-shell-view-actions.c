@@ -530,7 +530,7 @@ static GtkActionEntry memo_entries[] = {
 
 	{ "memo-forward",
 	  "mail-forward",
-	  N_("_Forward as iCalendar"),
+	  N_("_Forward as iCalendar..."),
 	  "<Control>f",
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_memo_forward_cb) },
@@ -614,7 +614,7 @@ static GtkActionEntry memo_entries[] = {
 
 	{ "memo-save-as",
 	  GTK_STOCK_SAVE_AS,
-	  NULL,
+	  N_("_Save as iCalendar..."),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_memo_save_as_cb) }

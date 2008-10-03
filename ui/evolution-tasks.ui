@@ -1,12 +1,12 @@
 <ui>
-  <menubar name='main-menu'/>
+  <menubar name='main-menu'>
     <menu action='file-menu'>
       <placeholder name='file-actions'>
         <menuitem action='task-open'/>
       </placeholder>
       <placeholder name='print-actions'>
-        <menuitem action='task-print-preview'/>
-        <menuitem action='task-print'/>
+        <menuitem action='task-list-print-preview'/>
+        <menuitem action='task-list-print'/>
       </placeholder>
     </menu>
     <menu action='edit-menu'>
@@ -25,14 +25,14 @@
       <menuitem action='task-preview'/>
     </menu>
     <placeholder name='custom-menus'>
-      <menu action='actions-menu'>
-        <menuitem name='task-purge'/>
-        <menuitem name='task-assign'/>
-        <menuitem name='task-forward'/>
+      <menu action='task-actions-menu'>
+        <menuitem action='task-purge'/>
+        <menuitem action='task-assign'/>
+        <menuitem action='task-forward'/>
       </menu>
     </placeholder>
   </menubar>
-  <toolbar name='main-toolbar'/>
+  <toolbar name='main-toolbar'>
     <toolitem action='task-clipboard-cut'/>
     <toolitem action='task-clipboard-copy'/>
     <toolitem action='task-clipboard-paste'/>

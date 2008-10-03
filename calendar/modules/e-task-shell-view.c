@@ -82,7 +82,7 @@ task_shell_view_update_actions (EShellView *shell_view)
 	EShellWindow *shell_window;
 	ESourceSelector *selector;
 	ETable *table;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 	ESource *source;
 	GtkAction *action;
 	GSList *list, *iter;
@@ -107,10 +107,10 @@ task_shell_view_update_actions (EShellView *shell_view)
 	task_shell_sidebar = priv->task_shell_sidebar;
 	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
 
-	table = e_task_table_get_table (task_table);
+	table = e_calendar_table_get_table (task_table);
 	n_selected = e_table_selected_count (table);
 
-	list = e_task_table_get_selected (task_table);
+	list = e_calendar_table_get_selected (task_table);
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
 		icalproperty *prop;
@@ -124,7 +124,7 @@ task_shell_view_update_actions (EShellView *shell_view)
 		if (e_cal_get_static_capability (comp_data->client, cap))
 			assignable = FALSE;
 
-		cap = CAL_STATIC_NO_CONV_TO_ASSIGN_TASK;
+		cap = CAL_STATIC_CAPABILITY_NO_CONV_TO_ASSIGN_TASK;
 		if (e_cal_get_static_capability (comp_data->client, cap))
 			assignable = FALSE;
 

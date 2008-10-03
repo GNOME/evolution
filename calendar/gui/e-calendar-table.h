@@ -72,11 +72,6 @@ struct _ECalendarTable {
 	/* Fields used for cut/copy/paste */
 	icalcomponent *tmp_vcal;
 
-	/* We should know which calendar has been used to create object,
-	 * so store it here before emitting "user_created" signal and make
-	 * it NULL just after the emit. */
-	ECal *user_created_cal;
-
 	ECalendarTablePrivate *priv;
 };
 

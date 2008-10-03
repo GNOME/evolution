@@ -9,12 +9,10 @@ EShellSidebar
 
 </para>
 
-
 <!-- ##### SECTION See_Also ##### -->
 <para>
 
 </para>
-
 
 <!-- ##### SECTION Stability_Level ##### -->
 
@@ -47,5 +45,50 @@ EShellSidebar
 
 @shell_view: 
 @Returns: 
+
+
+<!-- ##### FUNCTION e_shell_sidebar_get_shell_view ##### -->
+<para>
+
+</para>
+
+@shell_sidebar: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_sidebar_get_primary_text ##### -->
+<para>
+
+</para>
+
+@shell_sidebar: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_sidebar_set_primary_text ##### -->
+<para>
+
+</para>
+
+@shell_sidebar: 
+@primary_text: 
+
+
+<!-- ##### FUNCTION e_shell_sidebar_get_secondary_text ##### -->
+<para>
+
+</para>
+
+@shell_sidebar: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_sidebar_set_secondary_text ##### -->
+<para>
+
+</para>
+
+@shell_sidebar: 
+@secondary_text: 
 
 

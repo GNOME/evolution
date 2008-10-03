@@ -69,8 +69,6 @@ shell_window_new_view (EShellWindow *shell_window,
 	loaded_views = shell_window->priv->loaded_views;
 	g_hash_table_insert (loaded_views, g_strdup (view_name), shell_view);
 
-	g_message ("Creating view \"%s\" on page %d", view_name, page_num);
-
 	/* Add pages to the various shell window notebooks. */
 
 	notebook = GTK_NOTEBOOK (shell_window->priv->content_notebook);
@@ -379,7 +377,7 @@ e_shell_window_get_shell (EShellWindow *shell_window)
  * Returns: the requested #EShellView, or %NULL if no such view is
  *          registered
  **/
-gpointer
+EShellView *
 e_shell_window_get_shell_view (EShellWindow *shell_window,
                                const gchar *view_name)
 {
@@ -469,17 +467,20 @@ e_shell_window_get_action (EShellWindow *shell_window,
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	iter = gtk_ui_manager_get_action_groups (ui_manager);
 
-	while (iter != NULL && action == NULL) {
+	while (iter != NULL) {
 		GtkActionGroup *action_group = iter->data;
 
 		action = gtk_action_group_get_action (
 			action_group, action_name);
+		if (action != NULL)
+			return action;
+
 		iter = g_list_next (iter);
 	}
 
-	g_return_val_if_fail (action != NULL, NULL);
+	g_critical ("%s: action `%s' not found", G_STRFUNC, action_name);
 
-	return action;
+	return NULL;
 }
 
 /**
@@ -517,7 +518,9 @@ e_shell_window_get_action_group (EShellWindow *shell_window,
 		iter = g_list_next (iter);
 	}
 
-	g_return_val_if_reached (NULL);
+	g_critical ("%s: action group `%s' not found", G_STRFUNC, group_name);
+
+	return NULL;
 }
 
 /**

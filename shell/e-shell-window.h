@@ -51,6 +51,9 @@
 
 G_BEGIN_DECLS
 
+/* Avoid including <e-shell-view.h>, because it includes us! */
+struct _EShellView;
+
 typedef struct _EShellWindow EShellWindow;
 typedef struct _EShellWindowClass EShellWindowClass;
 typedef struct _EShellWindowPrivate EShellWindowPrivate;
@@ -74,7 +77,8 @@ GType		e_shell_window_get_type		(void);
 GtkWidget *	e_shell_window_new		(EShell *shell,
 						 gboolean safe_mode);
 EShell *	e_shell_window_get_shell	(EShellWindow *shell_window);
-gpointer	e_shell_window_get_shell_view	(EShellWindow *shell_window,
+struct _EShellView *
+		e_shell_window_get_shell_view	(EShellWindow *shell_window,
 						 const gchar *view_name);
 GtkUIManager *	e_shell_window_get_ui_manager	(EShellWindow *shell_window);
 GtkAction *	e_shell_window_get_action	(EShellWindow *shell_window,

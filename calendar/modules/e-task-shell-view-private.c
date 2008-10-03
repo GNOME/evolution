@@ -35,7 +35,7 @@ task_shell_view_table_popup_event_cb (EShellView *shell_view,
 
 static void
 task_shell_view_table_user_created_cb (ETaskShellView *task_shell_view,
-                                       ETaskTable *task_table)
+                                       ECalendarTable *task_table)
 {
 	ETaskShellSidebar *task_shell_sidebar;
 	ECalModel *model;
@@ -44,7 +44,7 @@ task_shell_view_table_user_created_cb (ETaskShellView *task_shell_view,
 
 	/* This is the "Click to Add" handler. */
 
-	model = e_task_table_get_model (task_table);
+	model = e_calendar_table_get_model (task_table);
 	client = e_cal_model_get_default_client (model);
 	source = e_cal_get_source (client);
 
@@ -59,12 +59,12 @@ task_shell_view_selector_client_added_cb (ETaskShellView *task_shell_view,
                                           ECal *client)
 {
 	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 	ECalModel *model;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	model = e_task_table_get_model (task_table);
+	model = e_calendar_table_get_model (task_table);
 
 	e_cal_model_add_client (model, client);
 }
@@ -74,12 +74,12 @@ task_shell_view_selector_client_removed_cb (ETaskShellView *task_shell_view,
                                             ECal *client)
 {
 	ETaskShellContent *task_shell_content;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 	ECalModel *model;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	model = e_task_table_get_model (task_table);
+	model = e_calendar_table_get_model (task_table);
 
 	e_cal_model_remove_client (model, client);
 }
@@ -181,7 +181,7 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 	ECalModel *model;
 	ETable *table;
 	ESourceSelector *selector;
@@ -197,8 +197,8 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 
 	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
-	model = e_task_table_get_model (task_table);
-	table = e_task_table_get_table (task_table);
+	model = e_calendar_table_get_model (task_table);
+	table = e_calendar_table_get_table (task_table);
 
 	task_shell_sidebar = E_TASK_SHELL_SIDEBAR (shell_sidebar);
 	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
@@ -309,7 +309,80 @@ e_task_shell_view_private_finalize (ETaskShellView *task_shell_view)
 void
 e_task_shell_view_execute_search (ETaskShellView *task_shell_view)
 {
+	ETaskShellContent *task_shell_content;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellContent *shell_content;
+	GtkAction *action;
+	GString *string;
+	ECalComponentPreview *task_preview;
+	ECalendarTable *task_table;
+	ECalModel *model;
+	FilterRule *rule;
+	const gchar *format;
+	const gchar *text;
+	gchar *query;
+	gint value;
+
+	shell_view = E_SHELL_VIEW (task_shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	text = e_shell_content_get_search_text (shell_content);
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	action = ACTION (TASK_SEARCH_ANY_FIELD_CONTAINS);
+	value = gtk_radio_action_get_current_value (
+		GTK_RADIO_ACTION (action));
+
+	if (text == NULL || *text == '\0') {
+		text = "";
+		value = TASK_SEARCH_SUMMARY_CONTAINS;
+	}
+
+	switch (value) {
+		default:
+			text = "";
+			/* fall through */
+
+		case TASK_SEARCH_SUMMARY_CONTAINS:
+			format = "(contains? \"summary\" %s)";
+			break;
+
+		case TASK_SEARCH_DESCRIPTION_CONTAINS:
+			format = "(contains? \"description\" %s)";
+			break;
+
+		case TASK_SEARCH_ANY_FIELD_CONTAINS:
+			format = "(contains? \"any\" %s)";
+			break;
+	}
+
+	/* Build the query. */
+	string = g_string_new ("");
+	e_sexp_encode_string (string, text);
+	query = g_strdup_printf (format, string->str);
+	g_string_free (string, TRUE);
+
+	/* Apply selected filter. */
+	value = e_shell_content_get_filter_value (shell_content);
 	/* FIXME */
+
+	/* XXX This is wrong.  We need to programmatically construct a
+	 *     FilterRule, tell it to build code, and pass the resulting
+	 *     expression string to ECalModel. */
+	rule = filter_rule_new ();
+	e_shell_content_set_search_rule (shell_content, rule);
+	g_object_unref (rule);
+
+	/* Submit the query. */
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	model = e_calendar_table_get_model (task_table);
+	e_cal_model_set_search_query (model, query);
+	g_free (query);
+
+	task_preview =
+		e_task_shell_content_get_task_preview (task_shell_content);
+	e_cal_component_preview_clear (task_preview);
 }
 
 void
@@ -344,7 +417,7 @@ e_task_shell_view_open_task (ETaskShellView *task_shell_view,
 	if (itip_organizer_is_user (comp, comp_data->client))
 		flags |= COMP_EDITOR_USER_ORG;
 
-	if (!itip_organizer_has_attendees (comp))
+	if (!e_cal_component_has_attendees (comp))
 		flags |= COMP_EDITOR_USER_ORG;
 
 	editor = task_editor_new (comp_data->client, flags);
@@ -396,7 +469,7 @@ e_task_shell_view_update_sidebar (ETaskShellView *task_shell_view)
 	ETaskShellContent *task_shell_content;
 	EShellView *shell_view;
 	EShellSidebar *shell_sidebar;
-	ETaskTable *task_table;
+	ECalendarTable *task_table;
 	ECalModel *model;
 	ETable *table;
 	GString *string;
@@ -410,8 +483,8 @@ e_task_shell_view_update_sidebar (ETaskShellView *task_shell_view)
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
-	model = e_task_table_get_model (task_table);
-	table = e_task_table_get_table (task_table);
+	model = e_calendar_table_get_model (task_table);
+	table = e_calendar_table_get_table (task_table);
 
 	n_rows = e_table_model_row_count (E_TABLE_MODEL (model));
 	n_selected = e_table_selected_count (table);

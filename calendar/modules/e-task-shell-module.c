@@ -30,7 +30,11 @@
 #include "shell/e-shell-module.h"
 #include "shell/e-shell-window.h"
 
+#include "calendar/common/authentication.h"
 #include "calendar/gui/calendar-config.h"
+#include "calendar/gui/comp-util.h"
+#include "calendar/gui/dialogs/calendar-setup.h"
+#include "calendar/gui/dialogs/task-editor.h"
 
 #include "e-task-shell-view.h"
 

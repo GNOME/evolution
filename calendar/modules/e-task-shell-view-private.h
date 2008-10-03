@@ -35,10 +35,13 @@
 #include "e-util/gconf-bridge.h"
 
 #include "calendar/common/authentication.h"
-#include "calendar/gui/misc.h"
+#include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-component-preview.h"
+#include "calendar/gui/e-cal-model-tasks.h"
 #include "calendar/gui/e-calendar-selector.h"
+#include "calendar/gui/print.h"
 #include "calendar/gui/dialogs/calendar-setup.h"
+#include "calendar/gui/dialogs/copy-source-dialog.h"
 #include "calendar/gui/dialogs/task-editor.h"
 
 #include "e-task-shell-content.h"
