@@ -1,3 +1,9 @@
+2008-10-03  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* imap-headers.c:
+
 2008-01-18  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* imap-headers.c: (imap_headers_commit), (org_gnome_imap_headers):
