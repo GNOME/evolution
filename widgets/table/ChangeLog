@@ -1,5 +1,11 @@
 2008-10-03  Sankar P  <psankar@novell.com>
 
+	* widgets/table/e-cell-progress.c:
+	* widgets/table/e-cell-progress.h:
+	Removed obsolete files
+
+2008-10-03  Sankar P  <psankar@novell.com>
+
 License Changes
 
 	* table-test.c:

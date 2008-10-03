@@ -27,7 +27,6 @@ libetable_la_SOURCES = 				\
 	e-cell-number.c				\
 	e-cell-pixbuf.c				\
 	e-cell-popup.c				\
-	e-cell-progress.c			\
 	e-cell-size.c				\
 	e-cell-text.c				\
 	e-cell-toggle.c				\
@@ -90,7 +89,6 @@ libetableinclude_HEADERS = 			\
 	e-cell-number.h				\
 	e-cell-pixbuf.h				\
 	e-cell-popup.h				\
-	e-cell-progress.h			\
 	e-cell-size.h				\
 	e-cell-text.h				\
 	e-cell-toggle.h				\
