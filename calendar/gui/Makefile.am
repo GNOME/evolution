@@ -135,8 +135,6 @@ libcal_gui_la_SOURCES =		\
 	e-meeting-types.h			\
 	e-meeting-utils.c			\
 	e-meeting-utils.h			\
-	e-memo-preview.c			\
-	e-memo-preview.h			\
 	e-memo-table.c				\
 	e-memo-table.h				\
 	e-memo-table-config.c			\

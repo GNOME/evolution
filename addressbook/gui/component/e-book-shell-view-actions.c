@@ -519,7 +519,7 @@ action_search_execute_cb (GtkAction *action,
 
 	/* Filter by category. */
 	value = e_shell_content_get_filter_value (shell_content);
-	if (value >= CONTACT_FILTER_ANY_CATEGORY) {
+	if (value > CONTACT_FILTER_ANY_CATEGORY) {
 		GList *categories;
 		const gchar *category_name;
 		gchar *temp;
@@ -557,7 +557,6 @@ action_search_filter_cb (GtkRadioAction *action,
                          GtkRadioAction *current,
                          EBookShellView *book_shell_view)
 {
-	g_debug ("Contacts filter changed");
 	action_search_execute_cb (GTK_ACTION (current), book_shell_view);
 }
 

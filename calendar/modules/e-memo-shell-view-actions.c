@@ -79,7 +79,7 @@ action_memo_delete_cb (GtkAction *action,
                        EMemoShellView *memo_shell_view)
 {
 	EMemoShellContent *memo_shell_content;
-	EMemoPreview *memo_preview;
+	ECalComponentPreview *memo_preview;
 	EMemoTable *memo_table;
 	const gchar *status_message;
 
@@ -92,7 +92,7 @@ action_memo_delete_cb (GtkAction *action,
 	e_memo_table_delete_selected (memo_table);
 	e_memo_shell_view_set_status_message (memo_shell_view, NULL);
 
-	e_memo_preview_clear (memo_preview);
+	e_cal_component_preview_clear (memo_preview);
 }
 
 static void
@@ -258,7 +258,7 @@ action_memo_list_print_preview_cb (GtkAction *action,
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 	table = e_memo_table_get_table (memo_table);
 
-	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
+	print_action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
 	print_table (table, _("Print Memos"), _("Memos"), print_action);
 }
 
@@ -291,6 +291,8 @@ action_memo_list_select_one_cb (GtkAction *action,
 	ESourceSelector *selector;
 	ESource *primary;
 	GSList *list, *iter;
+
+	/* XXX ESourceSelector should provide a function for this. */
 
 	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);

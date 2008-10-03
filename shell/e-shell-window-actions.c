@@ -2083,6 +2083,8 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	view_name = e_shell_window_get_active_view (shell_window);
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
+	g_return_if_fail (shell_view != NULL);
+
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	view_collection = shell_view_class->view_collection;
 	view_id = e_shell_view_get_view_id (shell_view);

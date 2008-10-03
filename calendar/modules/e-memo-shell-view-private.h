@@ -35,8 +35,8 @@
 #include "e-util/gconf-bridge.h"
 
 #include "calendar/gui/comp-util.h"
+#include "calendar/gui/e-cal-component-preview.h"
 #include "calendar/gui/e-calendar-selector.h"
-#include "calendar/gui/e-memo-preview.h"
 #include "calendar/gui/print.h"
 #include "calendar/gui/dialogs/calendar-setup.h"
 #include "calendar/gui/dialogs/copy-source-dialog.h"
@@ -67,14 +67,14 @@
 
 G_BEGIN_DECLS
 
-/* List these in the order to be displayed.
- * Positive values are reserved for categories. */
+/* Filter items are displayed in ascending order.
+ * Non-negative values are reserved for categories. */
 enum {
-	MEMO_FILTER_ANY_CATEGORY = -2,
-	MEMO_FILTER_UNMATCHED = -1
+	MEMO_FILTER_ANY_CATEGORY	= -2,
+	MEMO_FILTER_UNMATCHED		= -1
 };
 
-/* List these in the order to be displayed. */
+/* Search items are displayed in ascending order. */
 enum {
 	MEMO_SEARCH_SUMMARY_CONTAINS,
 	MEMO_SEARCH_DESCRIPTION_CONTAINS,

@@ -18,6 +18,7 @@
         <menuitem action='task-delete'/>
         <separator/>
         <menuitem action='task-mark-complete'/>
+        <menuitem action='task-mark-incomplete'/>
       </placeholder>
     </menu>
     <menu action='view-menu'>
@@ -54,6 +55,7 @@
     <menuitem action='task-assign'/>
     <menuitem action='task-forward'/>
     <menuitem action='task-mark-complete'/>
+    <menuitem action='task-mark-incomplete'/>
     <separator/>
     <menuitem action='task-delete'/>
   </popup>

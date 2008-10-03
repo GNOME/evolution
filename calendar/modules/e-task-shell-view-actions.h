@@ -39,16 +39,58 @@
 	E_SHELL_WINDOW_ACTION ((window), "task-forward")
 #define E_SHELL_WINDOW_ACTION_TASK_MARK_COMPLETE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-mark-complete")
+#define E_SHELL_WINDOW_ACTION_TASK_MARK_INCOMPLETE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-mark-incomplete")
+#define E_SHELL_WINDOW_ACTION_TASK_NEW(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-new")
 #define E_SHELL_WINDOW_ACTION_TASK_OPEN(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-open")
+#define E_SHELL_WINDOW_ACTION_TASK_OPEN_URL(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-open-url")
 #define E_SHELL_WINDOW_ACTION_TASK_PREVIEW(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-preview")
 #define E_SHELL_WINDOW_ACTION_TASK_PRINT(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-print")
-#define E_SHELL_WINDOW_ACTION_TASK_PRINT_PREVIEW(window) \
-	E_SHELL_WINDOW_ACTION ((window), "task-print-preview")
 #define E_SHELL_WINDOW_ACTION_TASK_PURGE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "task-purge")
+#define E_SHELL_WINDOW_ACTION_TASK_SAVE_AS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-save-as")
+
+/* Task List Actions */
+#define E_SHELL_WINDOW_ACTION_TASK_LIST_COPY(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-list-copy")
+#define E_SHELL_WINDOW_ACTION_TASK_LIST_DELETE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-list-delete")
+#define E_SHELL_WINDOW_ACTION_TASK_LIST_NEW(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-list-new")
+#define E_SHELL_WINDOW_ACTION_TASK_LIST_PRINT(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-list-print")
+#define E_SHELL_WINDOW_ACTION_TASK_LIST_PRINT_PREVIEW(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-list-print-preview")
+#define E_SHELL_WINDOW_ACTION_TASK_LIST_PROPERTIES(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-list-properties")
+
+/* Task Query Actions */
+#define E_SHELL_WINDOW_ACTION_TASK_FILTER_ACTIVE_TASKS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-filter-active-tasks")
+#define E_SHELL_WINDOW_ACTION_TASK_FILTER_ANY_CATEGORY(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-filter-any-category")
+#define E_SHELL_WINDOW_ACTION_TASK_FILTER_COMPLETED_TASKS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-filter-completed-tasks")
+#define E_SHELL_WINDOW_ACTION_TASK_FILTER_NEXT_7_DAYS_TASKS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-filter-next-7-days-tasks")
+#define E_SHELL_WINDOW_ACTION_TASK_FILTER_OVERDUE_TASKS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-filter-overdue-tasks")
+#define E_SHELL_WINDOW_ACTION_TASK_FILTER_TASKS_WITH_ATTACHMENTS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-filter-tasks-with-attachments")
+#define E_SHELL_WINDOW_ACTION_TASK_FILTER_UNMATCHED(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-filter-unmatched")
+#define E_SHELL_WINDOW_ACTION_TASK_SEARCH_ANY_FIELD_CONTAINS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-search-any-field-contains")
+#define E_SHELL_WINDOW_ACTION_TASK_SEARCH_DESCRIPTION_CONTAINS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-search-description-contains")
+#define E_SHELL_WINDOW_ACTION_TASK_SEARCH_SUMMARY_CONTAINS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "task-search-summary-contains")
 
 /* Action Groups */
 #define E_SHELL_WINDOW_ACTION_GROUP_TASKS(window) \

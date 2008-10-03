@@ -227,11 +227,11 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 			G_CALLBACK (selection_change), book_shell_view);
 
 		book = e_book_new (source, NULL);
+		view = E_ADDRESSBOOK_VIEW (widget);
 
 		if (book != NULL)
-			addressbook_load (book, book_open_cb, widget);
+			addressbook_load (book, book_open_cb, view);
 
-		view = E_ADDRESSBOOK_VIEW (widget);
 		model = e_addressbook_view_get_model (view);
 
 		g_signal_connect_swapped (
@@ -444,8 +444,8 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 		book_shell_view);
 
 	e_book_shell_view_actions_init (book_shell_view);
-	e_book_shell_view_update_search_filter (book_shell_view);
 	book_shell_view_activate_selected_source (book_shell_view, selector);
+	e_book_shell_view_update_search_filter (book_shell_view);
 }
 
 void

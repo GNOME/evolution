@@ -131,18 +131,19 @@ task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
                                      gint row,
                                      ETable *table)
 {
-	ETaskPreview *task_preview;
+	ECalComponentPreview *task_preview;
 	ETaskTable *task_table;
 	ECalModel *model;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
 	const gchar *uid;
 
-	task_preview = E_TASK_PREVIEW (task_shell_content->priv->task_preview);
+	task_preview = E_CAL_COMPONENT_PREVIEW (
+		task_shell_content->priv->task_preview);
 	task_table = E_TASK_TABLE (task_shell_content->priv->task_table);
 
 	if (e_table_selected_count (table) != 1) {
-		e_task_preview_clear (task_preview);
+		e_cal_component_preview_clear (task_preview);
 		return;
 	}
 
@@ -153,7 +154,8 @@ task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (
 		comp, icalcomponent_new_clone (comp_data->icalcomp));
-	e_task_preview_display (task_preview, comp_data->client, comp);
+	e_cal_component_preview_display (
+		task_preview, comp_data->client, comp);
 
 	e_cal_component_get_uid (comp, &uid);
 	g_free (task_shell_content->priv->current_uid);
@@ -166,14 +168,15 @@ static void
 task_shell_content_selection_change_cb (ETaskShellContent *task_shell_content,
                                         ETable *table)
 {
-	ETaskPreview *task_preview;
+	ECalComponentPreview *task_preview;
 
-	task_preview = E_TASK_PREVIEW (task_shell_content->priv->task_preview);
+	task_preview = E_CAL_COMPONENT_PREVIEW (
+		task_shell_content->priv->task_preview);
 
 	/* XXX Old code emits a "selection-changed" signal here. */
 
 	if (e_table_selected_count (table) != 1)
-		e_task_preview_clear (task_preview);
+		e_cal_component_preview_clear (task_preview);
 }
 
 static void
@@ -340,9 +343,9 @@ task_shell_content_constructed (GObject *object)
 
 	container = widget;
 
-	widget = e_task_preview_new ();
-	e_task_preview_set_default_timezone (
-		E_TASK_PREVIEW (widget),
+	widget = e_cal_component_preview_new ();
+	e_cal_component_preview_set_default_timezone (
+		E_CAL_COMPONENT_PREVIEW (widget),
 		calendar_config_get_icaltimezone ());
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->task_preview = g_object_ref (widget);
@@ -484,13 +487,14 @@ e_task_shell_content_new (EShellView *shell_view)
 		"shell-view", shell_view, NULL);
 }
 
-ETaskPreview *
+ECalComponentPreview *
 e_task_shell_content_get_task_preview (ETaskShellContent *task_shell_content)
 {
 	g_return_val_if_fail (
 		E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
 
-	return E_TASK_PREVIEW (task_shell_content->priv->task_preview);
+	return E_CAL_COMPONENT_PREVIEW (
+		task_shell_content->priv->task_preview);
 }
 
 ETaskTable *

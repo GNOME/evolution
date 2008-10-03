@@ -208,6 +208,7 @@ static void
 shell_content_init_search_context (EShellContent *shell_content)
 {
 	EShellView *shell_view;
+	EShellViewClass *shell_view_class;
 	EShellModule *shell_module;
 	RuleContext *context;
 	FilterRule *rule;
@@ -217,13 +218,14 @@ shell_content_init_search_context (EShellContent *shell_content)
 
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_module = e_shell_view_get_shell_module (shell_view);
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	g_return_if_fail (shell_view_class->search_rules != NULL);
 
 	/* The filename for built-in searches is specified in a
 	 * module's EShellModuleInfo.  All built-in search rules
 	 * live in the same directory. */
 	system_filename = g_build_filename (
-		EVOLUTION_RULEDIR,
-		e_shell_module_get_searches (shell_module), NULL);
+		EVOLUTION_RULEDIR, shell_view_class->search_rules, NULL);
 
 	/* The filename for custom saved searches is always of
 	 * the form "$(shell_module_data_dir)/searches.xml". */

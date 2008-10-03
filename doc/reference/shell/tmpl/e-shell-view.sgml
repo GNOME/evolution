@@ -9,10 +9,12 @@ EShellView
 
 </para>
 
+
 <!-- ##### SECTION See_Also ##### -->
 <para>
 
 </para>
+
 
 <!-- ##### SECTION Stability_Level ##### -->
 
@@ -87,6 +89,7 @@ EShellView
 @icon_name: 
 @ui_definition: 
 @search_options: 
+@search_rules: 
 @type_module: 
 @view_collection: 
 @new_shell_content: 

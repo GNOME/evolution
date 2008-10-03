@@ -1,5 +1,4 @@
 /*
- *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -22,51 +21,63 @@
  *
  */
 
-#ifndef _E_CAL_COMPONENT_PREVIEW_H_
-#define _E_CAL_COMPONENT_PREVIEW_H_
+#ifndef E_CAL_COMPONENT_PREVIEW_H
+#define E_CAL_COMPONENT_PREVIEW_H
 
 #include <gtk/gtk.h>
 #include <libecal/e-cal.h>
 #include <gtkhtml/gtkhtml.h>
-#include <gtkhtml/gtkhtml-stream.h>
 
-#define E_TYPE_CAL_COMPONENT_PREVIEW            (e_cal_component_preview_get_type ())
-#define E_CAL_COMPONENT_PREVIEW(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_CAL_COMPONENT_PREVIEW, ECalComponentPreview))
-#define E_CAL_COMPONENT_PREVIEW_CLASS(klass)    (G_TYPE_CHECK_INSTANCE_CAST_CLASS ((klass), E_TYPE_CAL_COMPONENT_PREVIEW, \
-				                 ECalComponentPreviewClass))
-#define E_IS_CAL_COMPONENT_PREVIEW(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_CAL_COMPONENT_PREVIEW))
-#define E_IS_CAL_COMPONENT_PREVIEW_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_CAL_COMPONENT_PREVIEW))
+/* Standard GObject macros */
+#define E_TYPE_CAL_COMPONENT_PREVIEW \
+	(e_cal_component_preview_get_type ())
+#define E_CAL_COMPONENT_PREVIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_CAL_COMPONENT_PREVIEW, ECalComponentPreview))
+#define E_CAL_COMPONENT_PREVIEW_CLASS(cls) \
+	(G_TYPE_CHECK_INSTANCE_CAST_CLASS \
+	((cls), E_TYPE_CAL_COMPONENT_PREVIEW, ECalComponentPreviewClass))
+#define E_IS_CAL_COMPONENT_PREVIEW(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_CAL_COMPONENT_PREVIEW))
+#define E_IS_CAL_COMPONENT_PREVIEW_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_CAL_COMPONENT_PREVIEW))
+#define E_CAL_COMPONENT_PREVIEW_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_CAL_COMPONENT_PREVIEW, ECalComponentPreviewClass))
+
+G_BEGIN_DECLS
 
 typedef struct _ECalComponentPreview ECalComponentPreview;
 typedef struct _ECalComponentPreviewClass ECalComponentPreviewClass;
 typedef struct _ECalComponentPreviewPrivate ECalComponentPreviewPrivate;
 
 struct _ECalComponentPreview {
-	GtkTable table;
-
-	/* Private data */
+	GtkHTML parent;
 	ECalComponentPreviewPrivate *priv;
 };
 
 struct _ECalComponentPreviewClass {
-	GtkTableClass parent_class;
+	GtkHTMLClass parent_class;
 
 	/* Notification signals */
 	void (* selection_changed) (ECalComponentPreview *preview, int n_selected);
 };
 
 
-GType      e_cal_component_preview_get_type        (void);
-GtkWidget *e_cal_component_preview_new             (void);
+GType		e_cal_component_preview_get_type(void);
+GtkWidget *	e_cal_component_preview_new	(void);
+icaltimezone *	e_cal_component_preview_get_default_timezone
+						(ECalComponentPreview *preview);
+void		e_cal_component_preview_set_default_timezone
+						(ECalComponentPreview *preview,
+						 icaltimezone *zone);
+void		e_cal_component_preview_display	(ECalComponentPreview *preview,
+						 ECal *ecal,
+						 ECalComponent *comp);
+void		e_cal_component_preview_clear	(ECalComponentPreview *preview);
 
-icaltimezone *e_cal_component_preview_get_default_timezone (ECalComponentPreview *preview);
-void e_cal_component_preview_set_default_timezone (ECalComponentPreview *preview, icaltimezone *zone);
+G_END_DECLS
 
-void e_cal_component_preview_display             (ECalComponentPreview *preview, ECal *ecal, ECalComponent *comp);
-void e_cal_component_preview_clear             (ECalComponentPreview *preview);
-
-/* Callback used when GtkHTML widget requests URL */
-void e_cal_comp_preview_url_requested_cb (GtkHTML *html, const char *url, GtkHTMLStream *html_stream, gpointer data);
-
-
-#endif /* _E_CAL_COMPONENT_PREVIEW_H_ */
+#endif /* E_CAL_COMPONENT_PREVIEW_H */

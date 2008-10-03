@@ -1,0 +1,69 @@
+<!-- ##### SECTION Title ##### -->
+Action Groups
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### MACRO E_SHELL_WINDOW_ACTION_GROUP_SHELL ##### -->
+<para>
+
+</para>
+
+@window: 
+
+
+<!-- ##### MACRO E_SHELL_WINDOW_ACTION_GROUP_SWITCHER ##### -->
+<para>
+
+</para>
+
+@window: 
+
+
+<!-- ##### MACRO E_SHELL_WINDOW_ACTION_GROUP_NEW_ITEM ##### -->
+<para>
+
+</para>
+
+@window: 
+
+
+<!-- ##### MACRO E_SHELL_WINDOW_ACTION_GROUP_NEW_SOURCE ##### -->
+<para>
+
+</para>
+
+@window: 
+
+
+<!-- ##### MACRO E_SHELL_WINDOW_ACTION_GROUP_CUSTOM_RULES ##### -->
+<para>
+
+</para>
+
+@window: 
+
+
+<!-- ##### MACRO E_SHELL_WINDOW_ACTION_GROUP_GAL_VIEW ##### -->
+<para>
+
+</para>
+
+@window: 
+
+

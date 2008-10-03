@@ -131,18 +131,19 @@ memo_shell_content_cursor_change_cb (EMemoShellContent *memo_shell_content,
                                      gint row,
                                      ETable *table)
 {
-	EMemoPreview *memo_preview;
+	ECalComponentPreview *memo_preview;
 	EMemoTable *memo_table;
 	ECalModel *model;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
 	const gchar *uid;
 
-	memo_preview = E_MEMO_PREVIEW (memo_shell_content->priv->memo_preview);
+	memo_preview = E_CAL_COMPONENT_PREVIEW (
+		memo_shell_content->priv->memo_preview);
 	memo_table = E_MEMO_TABLE (memo_shell_content->priv->memo_table);
 
 	if (e_table_selected_count (table) != 1) {
-		e_memo_preview_clear (memo_preview);
+		e_cal_component_preview_clear (memo_preview);
 		return;
 	}
 
@@ -153,7 +154,8 @@ memo_shell_content_cursor_change_cb (EMemoShellContent *memo_shell_content,
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (
 		comp, icalcomponent_new_clone (comp_data->icalcomp));
-	e_memo_preview_display (memo_preview, comp_data->client, comp);
+	e_cal_component_preview_display (
+		memo_preview, comp_data->client, comp);
 
 	e_cal_component_get_uid (comp, &uid);
 	g_free (memo_shell_content->priv->current_uid);
@@ -166,14 +168,15 @@ static void
 memo_shell_content_selection_change_cb (EMemoShellContent *memo_shell_content,
                                         ETable *table)
 {
-	EMemoPreview *memo_preview;
+	ECalComponentPreview *memo_preview;
 
-	memo_preview = E_MEMO_PREVIEW (memo_shell_content->priv->memo_preview);
+	memo_preview = E_CAL_COMPONENT_PREVIEW (
+		memo_shell_content->priv->memo_preview);
 
 	/* XXX Old code emits a "selection-changed" signal here. */
 
 	if (e_table_selected_count (table) != 1)
-		e_memo_preview_clear (memo_preview);
+		e_cal_component_preview_clear (memo_preview);
 }
 
 static void
@@ -341,9 +344,9 @@ memo_shell_content_constructed (GObject *object)
 
 	container = widget;
 
-	widget = e_memo_preview_new ();
-	e_memo_preview_set_default_timezone (
-		E_MEMO_PREVIEW (widget),
+	widget = e_cal_component_preview_new ();
+	e_cal_component_preview_set_default_timezone (
+		E_CAL_COMPONENT_PREVIEW (widget),
 		calendar_config_get_icaltimezone ());
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->memo_preview = g_object_ref (widget);
@@ -485,13 +488,14 @@ e_memo_shell_content_new (EShellView *shell_view)
 		"shell-view", shell_view, NULL);
 }
 
-EMemoPreview *
+ECalComponentPreview *
 e_memo_shell_content_get_memo_preview (EMemoShellContent *memo_shell_content)
 {
 	g_return_val_if_fail (
 		E_IS_MEMO_SHELL_CONTENT (memo_shell_content), NULL);
 
-	return E_MEMO_PREVIEW (memo_shell_content->priv->memo_preview);
+	return E_CAL_COMPONENT_PREVIEW (
+		memo_shell_content->priv->memo_preview);
 }
 
 EMemoTable *

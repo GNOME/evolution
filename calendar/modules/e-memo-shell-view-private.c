@@ -204,11 +204,6 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
 
 	g_signal_connect_swapped (
-		shell_sidebar, "status-message",
-		G_CALLBACK (e_memo_shell_view_set_status_message),
-		memo_shell_view);
-
-	g_signal_connect_swapped (
 		memo_table, "open-component",
 		G_CALLBACK (e_memo_shell_view_open_memo),
 		memo_shell_view);
@@ -249,13 +244,18 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 		memo_shell_view);
 
 	g_signal_connect_swapped (
-		shell_sidebar, "client-added",
+		memo_shell_sidebar, "client-added",
 		G_CALLBACK (memo_shell_view_selector_client_added_cb),
 		memo_shell_view);
 
 	g_signal_connect_swapped (
-		shell_sidebar, "client-removed",
+		memo_shell_sidebar, "client-removed",
 		G_CALLBACK (memo_shell_view_selector_client_removed_cb),
+		memo_shell_view);
+
+	g_signal_connect_swapped (
+		memo_shell_sidebar, "status-message",
+		G_CALLBACK (e_memo_shell_view_set_status_message),
 		memo_shell_view);
 
 	g_signal_connect_swapped (
@@ -315,7 +315,7 @@ e_memo_shell_view_execute_search (EMemoShellView *memo_shell_view)
 	EShellContent *shell_content;
 	GtkAction *action;
 	GString *string;
-	EMemoPreview *memo_preview;
+	ECalComponentPreview *memo_preview;
 	EMemoTable *memo_table;
 	ECalModel *model;
 	FilterRule *rule;
@@ -371,7 +371,7 @@ e_memo_shell_view_execute_search (EMemoShellView *memo_shell_view)
 			"(and (has-categories? #f) %s", query);
 		g_free (query);
 		query = temp;
-	} else if (value != MEMO_FILTER_ANY_CATEGORY) {
+	} else if (value >= 0) {
 		GList *categories;
 		const gchar *category_name;
 		gchar *temp;
@@ -401,8 +401,9 @@ e_memo_shell_view_execute_search (EMemoShellView *memo_shell_view)
 	e_cal_model_set_search_query (model, query);
 	g_free (query);
 
-	memo_preview = e_memo_shell_content_get_memo_preview (memo_shell_content);
-	e_memo_preview_clear (memo_preview);
+	memo_preview =
+		e_memo_shell_content_get_memo_preview (memo_shell_content);
+	e_cal_component_preview_clear (memo_preview);
 }
 
 void

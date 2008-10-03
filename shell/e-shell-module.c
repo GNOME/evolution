@@ -405,26 +405,6 @@ e_shell_module_get_filename (EShellModule *shell_module)
 }
 
 /**
- * e_shell_module_get_searches:
- * @shell_module: an #EShellModule
- *
- * Returns the base name of the XML file containing predefined search
- * rules for @shell_module.  The XML files are usually named something
- * like <filename><emphasis>module</emphasis>types.xml</filename>.
- *
- * XXX This function is likely to change or disappear.
- *
- * Returns: the base name of the XML filter file
- **/
-const gchar *
-e_shell_module_get_searches (EShellModule *shell_module)
-{
-	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), NULL);
-
-	return shell_module->priv->info.searches;
-}
-
-/**
  * e_shell_module_get_shell:
  * @shell_module: an #EShellModule
  *
@@ -551,7 +531,6 @@ e_shell_module_set_info (EShellModule *shell_module,
 
 	module_info->aliases = g_intern_string (info->aliases);
 	module_info->schemes = g_intern_string (info->schemes);
-	module_info->searches = g_intern_string (info->searches);
 	module_info->sort_order = info->sort_order;
 
 	module_info->is_busy = info->is_busy;

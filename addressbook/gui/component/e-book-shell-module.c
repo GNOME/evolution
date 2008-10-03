@@ -43,7 +43,6 @@
 #define MODULE_NAME		"addressbook"
 #define MODULE_ALIASES		"contacts"
 #define MODULE_SCHEMES		""
-#define MODULE_SEARCHES		"addresstypes.xml"
 #define MODULE_SORT_ORDER	300
 
 #define LDAP_BASE_URI		"ldap://"
@@ -405,7 +404,6 @@ static EShellModuleInfo module_info = {
 	MODULE_NAME,
 	MODULE_ALIASES,
 	MODULE_SCHEMES,
-	MODULE_SEARCHES,
 	MODULE_SORT_ORDER,
 
 	/* Methods */

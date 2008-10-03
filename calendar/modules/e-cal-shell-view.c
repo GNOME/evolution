@@ -107,6 +107,7 @@ cal_shell_view_class_init (ECalShellView *class,
 	shell_view_class->icon_name = "evolution-cals";
 	shell_view_class->ui_definition = "evolution-calendars.ui";
 	shell_view_class->search_options = "/calendar-search-options";
+	shell_view_class->search_rules = "caltypes.xml";
 	shell_view_class->type_module = type_module;
 	shell_view_class->new_shell_sidebar = e_cal_shell_sidebar_new;
 	shell_view_class->update_actions = cal_shell_view_update_actions;

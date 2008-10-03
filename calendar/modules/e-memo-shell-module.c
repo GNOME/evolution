@@ -41,7 +41,6 @@
 #define MODULE_NAME		"memos"
 #define MODULE_ALIASES		""
 #define MODULE_SCHEMES		"memo"
-#define MODULE_SEARCHES		"memotypes.xml"
 #define MODULE_SORT_ORDER	500
 
 #define WEB_BASE_URI		"webcal://"
@@ -334,7 +333,6 @@ static EShellModuleInfo module_info = {
 	MODULE_NAME,
 	MODULE_ALIASES,
 	MODULE_SCHEMES,
-	MODULE_SEARCHES,
 	MODULE_SORT_ORDER
 };
 

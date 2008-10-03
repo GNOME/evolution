@@ -199,6 +199,7 @@ memo_shell_view_class_init (EMemoShellView *class,
 	shell_view_class->icon_name = "evolution-memos";
 	shell_view_class->ui_definition = "evolution-memos.ui";
 	shell_view_class->search_options = "/memo-search-options";
+	shell_view_class->search_rules = "memotypes.xml";
 	shell_view_class->type_module = type_module;
 	shell_view_class->new_shell_content = e_memo_shell_content_new;
 	shell_view_class->new_shell_sidebar = e_memo_shell_sidebar_new;

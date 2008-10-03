@@ -37,7 +37,6 @@
 #define MODULE_NAME		"calendar"
 #define MODULE_ALIASES		""
 #define MODULE_SCHEMES		"calendar"
-#define MODULE_SEARCHES		"caltypes.xml"
 #define MODULE_SORT_ORDER	400
 
 #define CONTACTS_BASE_URI	"contacts://"
@@ -371,7 +370,6 @@ static EShellModuleInfo module_info = {
 	MODULE_NAME,
 	MODULE_ALIASES,
 	MODULE_SCHEMES,
-	MODULE_SEARCHES,
 	MODULE_SORT_ORDER
 };
 

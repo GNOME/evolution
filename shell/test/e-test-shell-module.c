@@ -30,7 +30,6 @@
 #define MODULE_NAME		"test"
 #define MODULE_ALIASES		"monkey"
 #define MODULE_SCHEMES		""
-#define MODULE_SEARCHES		NULL
 #define MODULE_SORT_ORDER	100
 
 /* Module Entry Point */
@@ -133,7 +132,6 @@ static EShellModuleInfo module_info = {
 	MODULE_NAME,
 	MODULE_ALIASES,
 	MODULE_SCHEMES,
-	MODULE_SEARCHES,
 	MODULE_SORT_ORDER,
 
 	/* Methods */

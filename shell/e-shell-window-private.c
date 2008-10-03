@@ -109,7 +109,7 @@ shell_window_menu_item_select_cb (EShellWindow *shell_window,
 {
 	GtkAction *action;
 	GtkLabel *label;
-	gchar *tooltip;
+	gchar *tooltip = NULL;
 
 	action = g_object_get_data (G_OBJECT (menu_item), "action");
 	g_return_if_fail (GTK_IS_ACTION (action));
@@ -410,6 +410,9 @@ e_shell_window_switch_to_view (EShellWindow *shell_window,
 	EShellView *shell_view;
 	gint page_num;
 
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+	g_return_if_fail (view_name != NULL);
+
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 
 	page_num = e_shell_view_get_page_num (shell_view);
@@ -440,7 +443,9 @@ e_shell_window_update_icon (EShellWindow *shell_window)
 	EShellView *shell_view;
 	GtkAction *action;
 	const gchar *view_name;
-	gchar *icon_name;
+	gchar *icon_name = NULL;
+
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
 	view_name = e_shell_window_get_active_view (shell_window);
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
@@ -459,6 +464,8 @@ e_shell_window_update_title (EShellWindow *shell_window)
 	const gchar *view_name;
 	gchar *window_title;
 
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+
 	view_name = e_shell_window_get_active_view (shell_window);
 	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
 	view_title = e_shell_view_get_title (shell_view);
@@ -475,6 +482,8 @@ e_shell_window_update_new_menu (EShellWindow *shell_window)
 	GtkWidget *menu;
 	GtkWidget *widget;
 	const gchar *path;
+
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
 	/* Update the "File -> New" submenu. */
 	path = "/main-menu/file-menu/new-menu";

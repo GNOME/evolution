@@ -151,6 +151,7 @@ book_shell_view_class_init (EBookShellViewClass *class,
 	shell_view_class->icon_name = "x-office-address-book";
 	shell_view_class->ui_definition = "evolution-contacts.ui";
 	shell_view_class->search_options = "/contact-search-options";
+	shell_view_class->search_rules = "addresstypes.xml";
 	shell_view_class->type_module = type_module;
 	shell_view_class->new_shell_content = e_book_shell_content_new;
 	shell_view_class->new_shell_sidebar = e_book_shell_sidebar_new;

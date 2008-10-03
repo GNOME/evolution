@@ -70,9 +70,6 @@ typedef struct _EShellModulePrivate EShellModulePrivate;
  * @schemes:	Colon-separated list of URI schemes.  The #EShell
  * 		will forward command-line URIs to the appropriate
  * 		module based on this list.
- * @searches:	Base name of the XML file containing predefined
- * 		search rules for this module.  These show up as
- * 		options in the search entry drop-down.
  * @sort_order:	Used to determine the order of modules listed in
  * 		the main menu and in the switcher.  See
  * 		e_shell_module_compare().
@@ -89,7 +86,6 @@ struct _EShellModuleInfo {
 	const gchar *name;
 	const gchar *aliases;
 	const gchar *schemes;
-	const gchar *searches;
 	gint sort_order;
 
 	gboolean	(*is_busy)		(EShellModule *shell_module);
@@ -119,7 +115,6 @@ gint		e_shell_module_compare		(EShellModule *shell_module_a,
 const gchar *	e_shell_module_get_config_dir	(EShellModule *shell_module);
 const gchar *	e_shell_module_get_data_dir	(EShellModule *shell_module);
 const gchar *	e_shell_module_get_filename	(EShellModule *shell_module);
-const gchar *	e_shell_module_get_searches	(EShellModule *shell_module);
 struct _EShell *e_shell_module_get_shell	(EShellModule *shell_module);
 void		e_shell_module_add_activity	(EShellModule *shell_module,
 						 EActivity *activity);

@@ -37,7 +37,6 @@
 #define MODULE_NAME		"tasks"
 #define MODULE_ALIASES		""
 #define MODULE_SCHEMES		"task"
-#define MODULE_SEARCHES		"tasktypes.xml"
 #define MODULE_SORT_ORDER	600
 
 #define WEB_BASE_URI		"webcal://"
@@ -194,21 +193,83 @@ task_module_ensure_sources (EShellModule *shell_module)
 }
 
 static void
-action_task_new_cb (GtkAction *action,
-                    EShellWindow *shell_window)
+task_module_cal_opened_cb (ECal *cal,
+                           ECalendarStatus status,
+                           GtkAction *action)
 {
+	ECalComponent *comp;
+	CompEditor *editor;
+	CompEditorFlags flags = 0;
+	const gchar *action_name;
+
+	/* XXX Handle errors better. */
+	if (status != E_CALENDAR_STATUS_OK)
+		return;
+
+	action_name = gtk_action_get_name (action);
+
+	flags |= COMP_EDITOR_NEW_ITEM;
+	if (strcmp (action_name, "task-assigned-new") == 0) {
+		flags |= COMP_EDITOR_IS_ASSIGNED;
+		flags |= COMP_EDITOR_USER_ORG;
+	}
+
+	editor = task_editor_new (cal, flags);
+	comp = cal_comp_task_new_with_defaults (cal);
+	comp_editor_edit_comp (editor, comp);
+
+	gtk_window_present (GTK_WINDOW (editor));
+
+	g_object_unref (comp);
+	g_object_unref (cal);
 }
 
 static void
-action_task_assigned_new_cb (GtkAction *action,
-                             EShellWindow *shell_window)
+action_task_new_cb (GtkAction *action,
+                    EShellWindow *shell_window)
 {
+	ECal *cal = NULL;
+	ECalSourceType source_type;
+	ESourceList *source_list;
+	gchar *uid;
+
+	/* This callback is used for both tasks and assigned tasks. */
+
+	source_type = E_CAL_SOURCE_TYPE_TODO;
+
+	if (!e_cal_get_sources (&source_list, source_type, NULL)) {
+		g_warning ("Could not get task sources from GConf!");
+		return;
+	}
+
+	uid = calendar_config_get_primary_tasks ();
+
+	if (uid != NULL) {
+		ESource *source;
+
+		source = e_source_list_peek_source_by_uid (source_list, uid);
+		if (source != NULL)
+			cal = auth_new_cal_from_source (source, source_type);
+		g_free (uid);
+	}
+
+	if (cal == NULL)
+		cal = auth_new_cal_from_default (source_type);
+
+	g_return_if_fail (cal != NULL);
+
+	g_signal_connect (
+		cal, "cal-opened",
+		G_CALLBACK (task_module_cal_opened_cb), action);
+
+	e_cal_open_async (cal, FALSE);
 }
 
 static void
 action_task_list_new_cb (GtkAction *action,
                          EShellWindow *shell_window)
 {
+	calendar_setup_new_task_list (GTK_WINDOW (shell_window));
 }
 
 static GtkActionEntry item_entries[] = {
@@ -216,7 +277,7 @@ static GtkActionEntry item_entries[] = {
 	{ "task-new",
 	  "stock_task",
 	  N_("_Task"),  /* XXX Need C_() here */
-	  "<Control>t",
+	  "<Shift><Control>t",
 	  N_("Create a new task"),
 	  G_CALLBACK (action_task_new_cb) },
 
@@ -225,7 +286,7 @@ static GtkActionEntry item_entries[] = {
 	  N_("Assigne_d Task"),
 	  NULL,
 	  N_("Create a new assigned task"),
-	  G_CALLBACK (action_task_assigned_new_cb) }
+	  G_CALLBACK (action_task_new_cb) }
 };
 
 static GtkActionEntry source_entries[] = {
@@ -268,7 +329,6 @@ static EShellModuleInfo module_info = {
         MODULE_NAME,
         MODULE_ALIASES,
         MODULE_SCHEMES,
-        MODULE_SEARCHES,
         MODULE_SORT_ORDER
 };
 

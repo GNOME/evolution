@@ -26,15 +26,18 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
+#include <libedataserver/e-categories.h>
+#include <libedataserver/e-sexp.h>
 
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util.h"
+#include "e-util/gconf-bridge.h"
 
 #include "calendar/common/authentication.h"
 #include "calendar/gui/misc.h"
+#include "calendar/gui/e-cal-component-preview.h"
 #include "calendar/gui/e-calendar-selector.h"
-#include "calendar/gui/e-task-preview.h"
 #include "calendar/gui/dialogs/calendar-setup.h"
 #include "calendar/gui/dialogs/task-editor.h"
 
@@ -63,6 +66,25 @@
 
 G_BEGIN_DECLS
 
+/* Filter items are displayed in ascending order.
+ * Non-negative values are reserved for categories. */
+enum {
+	TASK_FILTER_ANY_CATEGORY		= -7,
+	TASK_FILTER_UNMATCHED			= -6,
+	TASK_FILTER_NEXT_7_DAYS_TASKS		= -5,
+	TASK_FILTER_ACTIVE_TASKS		= -4,
+	TASK_FILTER_OVERDUE_TASKS		= -3,
+	TASK_FILTER_COMPLETED_TASKS		= -2,
+	TASK_FILTER_TASKS_WITH_ATTACHMENTS	= -1
+};
+
+/* Search items are displayed in ascending order. */
+enum {
+	TASK_SEARCH_SUMMARY_CONTAINS,
+	TASK_SEARCH_DESCRIPTION_CONTAINS,
+	TASK_SEARCH_ANY_FIELD_CONTAINS
+};
+
 struct _ETaskShellViewPrivate {
 
 	/*** Module Data ***/
@@ -72,16 +94,13 @@ struct _ETaskShellViewPrivate {
 	/*** UI Management ***/
 
 	GtkActionGroup *task_actions;
+	GtkActionGroup *filter_actions;
 
 	/*** Other Stuff ***/
 
 	/* These are just for convenience. */
 	ETaskShellContent *task_shell_content;
 	ETaskShellSidebar *task_shell_sidebar;
-
-	/* UID -> Client */
-	GHashTable *client_table;
-	ECal *default_client;
 
 	EActivity *activity;
 };
@@ -100,7 +119,7 @@ void		e_task_shell_view_private_finalize
 
 void		e_task_shell_view_actions_init
 					(ETaskShellView *task_shell_view);
-void		e_task_shell_view_actions_update
+void		e_task_shell_view_execute_search
 					(ETaskShellView *task_shell_view);
 void		e_task_shell_view_open_task
 					(ETaskShellView *task_shell_view,
@@ -109,6 +128,8 @@ void		e_task_shell_view_set_status_message
 					(ETaskShellView *task_shell_view,
 					 const gchar *status_message);
 void		e_task_shell_view_update_sidebar
+					(ETaskShellView *task_shell_view);
+void		e_task_shell_view_update_search_filter
 					(ETaskShellView *task_shell_view);
 
 G_END_DECLS

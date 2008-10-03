@@ -25,8 +25,8 @@
 #include <shell/e-shell-content.h>
 #include <shell/e-shell-view.h>
 
-#include <calendar/gui/e-memo-preview.h>
 #include <calendar/gui/e-memo-table.h>
+#include <calendar/gui/e-cal-component-preview.h>
 
 #include <widgets/menus/gal-view-instance.h>
 
@@ -66,7 +66,8 @@ struct _EMemoShellContentClass {
 
 GType		e_memo_shell_content_get_type	(void);
 GtkWidget *	e_memo_shell_content_new	(EShellView *shell_view);
-EMemoPreview *	e_memo_shell_content_get_memo_preview
+ECalComponentPreview *
+		e_memo_shell_content_get_memo_preview
 						(EMemoShellContent *memo_shell_content);
 EMemoTable *	e_memo_shell_content_get_memo_table
 						(EMemoShellContent *memo_shell_content);

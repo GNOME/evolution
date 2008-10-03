@@ -87,6 +87,10 @@ struct _EShellView {
  * @search_options:	Widget path in the UI definition to the search
  * 			options popup menu.  The menu gets shown when the
  * 			user clicks the "find" icon in the search entry.
+ * @search_rules:	Base name of the XML file containing predefined
+ * 			search rules for this shell view.  The XML files
+ * 			are usually named something like <filename>
+ * 			<emphasis>view</emphasis>types.xml</filename>.
  * @type_module:	The corresponding #GTypeModule for this shell
  * 			view.  Subclasses are responsible for setting
  * 			this.  An easy way do so is to pass it to the
@@ -126,6 +130,9 @@ struct _EShellViewClass {
 
 	/* Widget path to the search options popup menu. */
 	const gchar *search_options;
+
+	/* Base name of the search rule definition file. */
+	const gchar *search_rules;
 
 	/* Subclasses should set this via the "class_data" field in
 	 * the GTypeInfo they pass to g_type_module_register_type(). */

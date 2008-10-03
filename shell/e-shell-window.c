@@ -595,15 +595,15 @@ e_shell_window_set_active_view (EShellWindow *shell_window,
 	g_return_if_fail (shell_view != NULL);
 
 	action = e_shell_view_get_action (shell_view);
-	gtk_action_activate (action);
 
 	/* XXX Radio actions refuse to activate if they're already active.
 	 *     This causes problems during intialization if we're trying to
 	 *     switch to the shell view whose corresponding radio action is
-	 *     already active.  Fortunately we can detect that and force
-	 *     the switch. */
-	if (shell_window->priv->active_view == NULL)
+	 *     already active.  This works around the problem. */
+	if (gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action)))
 		e_shell_window_switch_to_view (shell_window, view_name);
+	else
+		gtk_action_activate (action);
 }
 
 /**

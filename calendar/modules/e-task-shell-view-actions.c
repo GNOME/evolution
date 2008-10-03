@@ -22,6 +22,44 @@
 #include "e-task-shell-view-private.h"
 
 static void
+action_gal_save_custom_view_cb (GtkAction *action,
+                                ETaskShellView *task_shell_view)
+{
+	ETaskShellContent *task_shell_content;
+	EShellView *shell_view;
+	GalViewInstance *view_instance;
+
+	shell_view = E_SHELL_VIEW (task_shell_view);
+	if (!e_shell_view_is_active (shell_view))
+		return;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	view_instance = e_task_shell_content_get_view_instance (task_shell_content);
+	gal_view_instance_save_as (view_instance);
+}
+
+static void
+action_search_execute_cb (GtkAction *action,
+                          ETaskShellView *task_shell_view)
+{
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (task_shell_view);
+	if (!e_shell_view_is_active (shell_view))
+		return;
+
+	e_task_shell_view_execute_search (task_shell_view);
+}
+
+static void
+action_search_filter_cb (GtkRadioAction *action,
+                         GtkRadioAction *current,
+                         ETaskShellView *task_shell_view)
+{
+	e_task_shell_view_execute_search (task_shell_view);
+}
+
+static void
 action_task_assign_cb (GtkAction *action,
                        ETaskShellView *task_shell_view)
 {
@@ -85,7 +123,7 @@ action_task_delete_cb (GtkAction *action,
                        ETaskShellView *task_shell_view)
 {
 	ETaskShellContent *task_shell_content;
-	ETaskPreview *task_preview;
+	ECalComponentPreview *task_preview;
 	ETaskTable *task_table;
 	const gchar *status_message;
 
@@ -98,7 +136,7 @@ action_task_delete_cb (GtkAction *action,
 	e_task_table_delete_selected (task_table);
 	e_task_shell_view_set_status_message (task_shell_view, NULL);
 
-	e_task_preview_clear (task_preview);
+	e_cal_component_preview_clear (task_preview);
 }
 
 static void
@@ -134,20 +172,104 @@ static void
 action_task_list_copy_cb (GtkAction *action,
                           ETaskShellView *task_shell_view)
 {
-	/* FIXME */
+	ETaskShellSidebar *task_shell_sidebar;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+	ESourceSelector *selector;
+	ESource *source;
+
+	shell_view = E_SHELL_VIEW (task_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
+	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+	source = e_source_selector_peek_primary_selection (selector);
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	copy_source_dialog (
+		GTK_WINDOW (shell_window),
+		source, E_CAL_SOURCE_TYPE_TODO);
 }
 
 static void
 action_task_list_delete_cb (GtkAction *action,
                             ETaskShellView *task_shell_view)
 {
-	/* FIXME */
+        ETaskShellContent *task_shell_content;
+        ETaskShellSidebar *task_shell_sidebar;
+        EShellWindow *shell_window;
+        EShellView *shell_view;
+        ETaskTable *task_table;
+        ECal *client;
+        ECalModel *model;
+        ESourceSelector *selector;
+        ESourceGroup *source_group;
+        ESourceList *source_list;
+        ESource *source;
+        gint response;
+        gchar *uri;
+        GError *error = NULL;
+
+        shell_view = E_SHELL_VIEW (task_shell_view);
+        shell_window = e_shell_view_get_shell_window (shell_view);
+
+        task_shell_content = task_shell_view->priv->task_shell_content;
+        task_table = e_task_shell_content_get_task_table (task_shell_content);
+        model = e_task_table_get_model (task_table);
+
+        task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
+        selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+        source = e_source_selector_peek_primary_selection (selector);
+        g_return_if_fail (E_IS_SOURCE (source));
+
+        /* Ask for confirmation. */
+        response = e_error_run (
+                GTK_WINDOW (shell_window),
+                "calendar:prompt-delete-task-list",
+                e_source_peek_name (source));
+        if (response != GTK_RESPONSE_YES)
+                return;
+
+        uri = e_source_get_uri (source);
+        client = e_cal_model_get_client_for_uri (model, uri);
+        if (client == NULL)
+                client = e_cal_new_from_uri (uri, E_CAL_SOURCE_TYPE_JOURNAL);
+        g_free (uri);
+
+        g_return_if_fail (client != NULL);
+
+        if (!e_cal_remove (client, &error)) {
+                g_warning ("%s", error->message);
+                g_error_free (error);
+                return;
+        }
+
+        if (e_source_selector_source_is_selected (selector, source)) {
+                e_task_shell_sidebar_remove_source (
+                        task_shell_sidebar, source);
+                e_source_selector_unselect_source (selector, source);
+        }
+
+        source_group = e_source_peek_group (source);
+        e_source_group_remove_source (source_group, source);
+
+        source_list = task_shell_view->priv->source_list;
+        if (!e_source_list_sync (source_list, &error)) {
+                g_warning ("%s", error->message);
+                g_error_free (error);
+        }
 }
 
 static void
 action_task_list_new_cb (GtkAction *action,
                          ETaskShellView *task_shell_view)
 {
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+
+	shell_view = E_SHELL_VIEW (task_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	calendar_setup_new_task_list (GTK_WINDOW (shell_window));
 }
 
 static void
@@ -157,14 +279,14 @@ action_task_list_print_cb (GtkAction *action,
 	ETaskShellContent *task_shell_content;
 	ETaskTable *task_table;
 	ETable *table;
+	GtkPrintOperationAction print_action;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 	table = e_task_table_get_table (task_table);
 
-	print_table (
-		table, _("Print Tasks"), _("Tasks"),
-		GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
+	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
+	print_table (table, _("Print Tasks"), _("Tasks"), print_action);
 }
 
 static void
@@ -174,20 +296,65 @@ action_task_list_print_preview_cb (GtkAction *action,
 	ETaskShellContent *task_shell_content;
 	ETaskTable *task_table;
 	ETable *table;
+	GtkPrintOperationAction print_action;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 	table = e_task_table_get_table (task_table);
 
-	print_table (
-		table, _("Print Tasks"), _("Tasks"),
-		GTK_PRINT_OPERATION_ACTION_PREVIEW);
+	print_action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
+	print_table (table, _("Print Tasks"), _("Tasks"), print_action);
 }
 
 static void
 action_task_list_properties_cb (GtkAction *action,
                                 ETaskShellView *task_shell_view)
 {
+	ETaskShellSidebar *task_shell_sidebar;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	ESource *source;
+	ESourceSelector *selector;
+
+	shell_view = E_SHELL_VIEW (task_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
+	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+	source = e_source_selector_peek_primary_selection (selector);
+	g_return_if_fail (E_IS_SOURCE (source));
+
+	calendar_setup_edit_task_list (GTK_WINDOW (shell_window), source);
+}
+
+static void
+action_task_list_select_one_cb (GtkAction *action,
+                                ETaskShellView *task_shell_view)
+{
+	ETaskShellSidebar *task_shell_sidebar;
+	ESourceSelector *selector;
+	ESource *primary;
+	GSList *list, *iter;
+
+	/* XXX ESourceSelector should provide a function for this. */
+
+	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
+	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+	primary = e_source_selector_peek_primary_selection (selector);
+	g_return_if_fail (primary != NULL);
+
+	list = e_source_selector_get_selection (selector);
+	for (iter = list; iter != NULL; iter = iter->next) {
+		ESource *source = iter->data;
+
+		if (source == primary)
+			continue;
+
+		e_source_selector_unselect_source (selector, source);
+	}
+	e_source_selector_free_selection (list);
+
+	e_source_selector_select_source (selector, primary);
 }
 
 static void
@@ -238,6 +405,31 @@ static void
 action_task_new_cb (GtkAction *action,
                     ETaskShellView *task_shell_view)
 {
+	ETaskShellContent *task_shell_content;
+	ETaskTable *task_table;
+	ECalModelComponent *comp_data;
+	ECal *client;
+	ECalComponent *comp;
+	CompEditor *editor;
+	GSList *list;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+
+	list = e_task_table_get_selected (task_table);
+	g_return_if_fail (list != NULL);
+	comp_data = list->data;
+	g_slist_free (list);
+
+	client = comp_data->client;
+	editor = task_editor_new (client, COMP_EDITOR_NEW_ITEM);
+	comp = cal_comp_task_new_with_defaults (client);
+	comp_editor_edit_comp (editor, comp);
+
+	gtk_window_present (GTK_WINDOW (editor));
+
+	g_object_unref (comp);	
+	g_object_unref (client);
 }
 
 static void
@@ -246,11 +438,19 @@ action_task_open_cb (GtkAction *action,
 {
 	ETaskShellContent *task_shell_content;
 	ETaskTable *task_table;
+	ECalModelComponent *comp_data;
+	GSList *list;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
-	e_task_table_open_selected (task_table);
+	list = e_task_table_get_selected (task_table);
+	g_return_if_fail (list != NULL);
+	comp_data = list->data;
+	g_slist_free (list);
+
+	/* XXX We only open the first selected task. */
+	e_task_shell_view_open_task (task_shell_view, comp_data);
 }
 
 static void
@@ -464,6 +664,13 @@ static GtkActionEntry task_entries[] = {
 	  N_("Mark selected tasks as complete"),
 	  G_CALLBACK (action_task_mark_complete_cb) },
 
+	{ "task-mark-incomplete",
+	  NULL,
+	  N_("Mar_k as Incomplete"),
+	  NULL,
+	  N_("Mark selected tasks as incomplete"),
+	  G_CALLBACK (action_task_mark_incomplete_cb) },
+
 	{ "task-new",
 	  "stock_task",
 	  N_("New _Task"),
@@ -518,6 +725,75 @@ static GtkToggleActionEntry task_toggle_entries[] = {
 	  TRUE }
 };
 
+static GtkRadioActionEntry task_filter_entries[] = {
+
+	{ "task-filter-active-tasks",
+	  NULL,
+	  N_("Active Tasks"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  TASK_FILTER_ACTIVE_TASKS },
+
+	{ "task-filter-any-category",
+	  NULL,
+	  N_("Any Category"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  TASK_FILTER_ANY_CATEGORY },
+
+	{ "task-filter-completed-tasks",
+	  NULL,
+	  N_("Completed Tasks"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  TASK_FILTER_COMPLETED_TASKS },
+
+	{ "task-filter-next-7-days-tasks",
+	  NULL,
+	  N_("Next 7 Days' Tasks"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  TASK_FILTER_NEXT_7_DAYS_TASKS },
+
+	{ "task-filter-overdue-tasks",
+	  NULL,
+	  N_("Overdue Tasks"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  TASK_FILTER_OVERDUE_TASKS },
+
+	{ "task-filter-tasks-with-attachments",
+	  NULL,
+	  N_("Tasks with Attachments"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  TASK_FILTER_TASKS_WITH_ATTACHMENTS }
+};
+
+static GtkRadioActionEntry task_search_entries[] = {
+
+	{ "task-search-any-field-contains",
+          NULL,
+	  N_("Any field contains"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  TASK_SEARCH_ANY_FIELD_CONTAINS },
+
+	{ "task-search-description-contains",
+	  NULL,
+	  N_("Description contains"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  TASK_SEARCH_DESCRIPTION_CONTAINS },
+
+	{ "task-search-summary-contains",
+	  NULL,
+	  N_("Summary contains"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  TASK_SEARCH_SUMMARY_CONTAINS }
+};
+
 void
 e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 {
@@ -536,8 +812,6 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 	manager = e_shell_window_get_ui_manager (shell_window);
 	domain = GETTEXT_PACKAGE;
 
-	e_load_ui_definition (manager, "evolution-tasks.ui");
-
 	action_group = task_shell_view->priv->task_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_action_group_add_actions (
@@ -546,6 +820,11 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 	gtk_action_group_add_toggle_actions (
 		action_group, task_toggle_entries,
 		G_N_ELEMENTS (task_toggle_entries), task_shell_view);
+	gtk_action_group_add_radio_actions (
+		action_group, task_search_entries,
+		G_N_ELEMENTS (task_search_entries),
+		TASK_SEARCH_SUMMARY_CONTAINS,
+		NULL, NULL);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 
 	/* Bind GObject properties to GConf keys. */
@@ -560,58 +839,71 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 
 	action = ACTION (TASK_DELETE);
 	g_object_set (action, "short-label", _("Delete"), NULL);
+
+	g_signal_connect (
+		ACTION (GAL_SAVE_CUSTOM_VIEW), "activate",
+		G_CALLBACK (action_gal_save_custom_view_cb), task_shell_view);
+
+	g_signal_connect (
+		ACTION (SEARCH_EXECUTE), "activate",
+		G_CALLBACK (action_search_execute_cb), task_shell_view);
 }
 
 void
-e_task_shell_view_actions_update (ETaskShellView *task_shell_view)
+e_task_shell_view_update_search_filter (ETaskShellView *task_shell_view)
 {
-	ETaskShellContent *task_shell_content;
-	ECal *client;
-	ETable *table;
-	ECalModel *model;
-	ETaskTable *task_table;
+	EShellContent *shell_content;
 	EShellView *shell_view;
-	EShellWindow *shell_window;
-	GtkAction *action;
-	const gchar *label;
-	gboolean read_only = TRUE;
-	gboolean sensitive;
-	gint n_selected;
+	GtkActionGroup *action_group;
+	GtkRadioAction *radio_action;
+	GList *list, *iter;
+	GSList *group;
+	gint ii;
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	action_group = task_shell_view->priv->filter_actions;
 
-	task_shell_content = task_shell_view->priv->task_shell_content;
-	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	e_action_group_remove_all_actions (action_group);
 
-	model = e_task_table_get_model (task_table);
-	client = e_cal_model_get_default_client (model);
+	/* Add the standard filter actions. */
+	gtk_action_group_add_radio_actions (
+		action_group, task_filter_entries,
+		G_N_ELEMENTS (task_filter_entries),
+		TASK_FILTER_ANY_CATEGORY,
+		G_CALLBACK (action_search_filter_cb),
+		task_shell_view);
 
-	table = e_task_table_get_table (task_table);
-	n_selected = e_table_selected_count (table);
+	/* Retrieve the radio group from an action we just added. */
+	list = gtk_action_group_list_actions (action_group);
+	radio_action = GTK_RADIO_ACTION (list->data);
+	group = gtk_radio_action_get_group (radio_action);
+	g_list_free (list);
 
-	if (client != NULL)
-		e_cal_is_read_only (client, &read_only, NULL);
+	/* Build the category actions. */
 
-	action = ACTION (TASK_OPEN);
-	sensitive = (n_selected == 1);
-	gtk_action_set_sensitive (action, sensitive);
+	list = e_categories_get_list ();
+	for (iter = list, ii = 0; iter != NULL; iter = iter->next, ii++) {
+		const gchar *category_name = iter->data;
+		GtkAction *action;
+		gchar *action_name;
 
-	action = ACTION (TASK_CLIPBOARD_COPY);
-	sensitive = (n_selected > 0);
-	gtk_action_set_sensitive (action, sensitive);
+		action_name = g_strdup_printf (
+			"task-filter-category-%d", ii);
+		radio_action = gtk_radio_action_new (
+			action_name, category_name, NULL, NULL, ii);
+		g_free (action_name);
 
-	action = ACTION (TASK_CLIPBOARD_CUT);
-	sensitive = (n_selected > 0);
-	gtk_action_set_sensitive (action, sensitive);
+		gtk_radio_action_set_group (radio_action, group);
+		group = gtk_radio_action_get_group (radio_action);
 
-	action = ACTION (TASK_CLIPBOARD_PASTE);
-	sensitive = (n_selected > 0);
-	gtk_action_set_sensitive (action, sensitive);
+		/* The action group takes ownership of the action. */
+		action = GTK_ACTION (radio_action);
+		gtk_action_group_add_action (action_group, action);
+		g_object_unref (radio_action);
+	}
+	g_list_free (list);
 
-	action = ACTION (TASK_DELETE);
-	sensitive = (n_selected > 0) && !read_only;
-	gtk_action_set_sensitive (action, sensitive);
-	label = ngettext ("Delete Task", "Delete Tasks", n_selected);
-	g_object_set (action, "label", label, NULL);
+	/* Use any action in the group; doesn't matter which. */
+	e_shell_content_set_filter_action (shell_content, radio_action);
 }

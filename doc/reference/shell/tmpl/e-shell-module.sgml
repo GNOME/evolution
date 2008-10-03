@@ -9,10 +9,12 @@ EShellModule
 
 </para>
 
+
 <!-- ##### SECTION See_Also ##### -->
 <para>
 
 </para>
+
 
 <!-- ##### SECTION Stability_Level ##### -->
 
@@ -49,7 +51,6 @@ EShellModule
 @name: 
 @aliases: 
 @schemes: 
-@searches: 
 @sort_order: 
 @is_busy: 
 @shutdown: 
@@ -93,15 +94,6 @@ EShellModule
 
 
 <!-- ##### FUNCTION e_shell_module_get_filename ##### -->
-<para>
-
-</para>
-
-@shell_module: 
-@Returns: 
-
-
-<!-- ##### FUNCTION e_shell_module_get_searches ##### -->
 <para>
 
 </para>
