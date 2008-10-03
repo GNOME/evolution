@@ -86,7 +86,7 @@ action_attach_cb (GtkAction *action,
 		if (!g_ascii_strcasecmp (url->protocol, "file"))
 			e_attachment_bar_attach (bar, url->path, disposition);
 		else
-			e_attachment_bar_attach (bar, iter->data, disposition);
+			e_attachment_bar_attach_remote_file (bar, iter->data, disposition);
 
 		camel_url_free (url);
 	}
