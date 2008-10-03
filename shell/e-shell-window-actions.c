@@ -1673,6 +1673,19 @@ static GtkToggleActionEntry shell_toggle_entries[] = {
 	  TRUE }
 };
 
+static GtkRadioActionEntry shell_switcher_entries[] = {
+
+	/* This action represents the initial active shell view.
+	 * It should not be visible in the UI, nor should it be
+	 * possible to switch to it from another shell view. */
+	{ "switcher-initial",
+	  NULL,
+	  NULL,
+	  NULL,
+	  NULL,
+	  -1 }
+};
+
 static GtkRadioActionEntry shell_switcher_style_entries[] = {
 
 	{ "switcher-style-icons",
@@ -1868,9 +1881,13 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
-	/* Switcher Actions (empty) */
+	/* Switcher Actions */
 	action_group = shell_window->priv->switcher_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_action_group_add_radio_actions (
+		action_group, shell_switcher_entries,
+		G_N_ELEMENTS (shell_switcher_entries),
+		-1, G_CALLBACK (action_switcher_cb), shell_window);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 }
 
@@ -1952,10 +1969,10 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 {
 	GType *children;
 	GSList *group = NULL;
+	GtkRadioAction *action;
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
 	EShellSwitcher *switcher;
-	GList *list;
 	guint n_children, ii;
 	guint merge_id;
 
@@ -1972,9 +1989,12 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 	 * actions are manifested as switcher buttons and View->Window
 	 * menu items. */
 
+	action = GTK_RADIO_ACTION (ACTION (SWITCHER_INITIAL));
+	gtk_radio_action_set_group (action, group);
+	group = gtk_radio_action_get_group (action);
+
 	for (ii = 0; ii < n_children; ii++) {
 		EShellViewClass *class;
-		GtkRadioAction *action;
 		const gchar *view_name;
 		gchar *accelerator;
 		gchar *action_name;
@@ -2041,17 +2061,6 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 		g_free (tooltip);
 
 		g_type_class_unref (class);
-	}
-
-	list = gtk_action_group_list_actions (action_group);
-	if (list != NULL) {
-		GtkRadioAction *action = list->data;
-
-		g_signal_connect (
-			action, "changed",
-			G_CALLBACK (action_switcher_cb),
-			shell_window);
-		g_list_free (list);
 	}
 
 	g_free (children);

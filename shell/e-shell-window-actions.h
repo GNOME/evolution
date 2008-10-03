@@ -81,6 +81,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "show-toolbar")
 #define E_SHELL_WINDOW_ACTION_SUBMIT_BUG(window) \
 	E_SHELL_WINDOW_ACTION ((window), "submit-bug")
+#define E_SHELL_WINDOW_ACTION_SWITCHER_INITIAL(window) \
+	E_SHELL_WINDOW_ACTION ((window), "switcher-initial")
 #define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_BOTH(window) \
 	E_SHELL_WINDOW_ACTION ((window), "switcher-style-both")
 #define E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_ICONS(window) \
