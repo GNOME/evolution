@@ -1,5 +1,20 @@
 2008-10-03  Sankar P  <psankar@novell.com>
 
+License Changes And:
+
+	* e-table-item.c (eti_event): remove obsolete check for
+	buttons 4/5 in 2BUTTON_PRESS; cf. gdk_event_translate /
+	_gdk_event_button_generate that turn this into a scroll
+	event these days.
+
+2008-10-03  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-table-item.c (eti_event):
+
+2008-10-03  Sankar P  <psankar@novell.com>
+
 	* e-cell-progress.c:
 	* e-cell-progress.h:
 	Removed obsolete files
