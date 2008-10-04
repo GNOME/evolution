@@ -22,6 +22,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <libecal/e-cal.h>
+#include <libedataserver/e-url.h>
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-source-list.h>
 #include <libedataserver/e-source-group.h>
@@ -307,8 +308,143 @@ static gboolean
 task_module_handle_uri (EShellModule *shell_module,
                         const gchar *uri)
 {
-        /* FIXME */
-        return FALSE;
+	CompEditor *editor;
+	CompEditorFlags flags = 0;
+	ECal *client;
+	ECalComponent *comp;
+	ESource *source;
+	ESourceList *source_list;
+	ECalSourceType source_type;
+	EUri *euri;
+	icalcomponent *icalcomp;
+	icalproperty *icalprop;
+	const gchar *cp;
+	gchar *source_uid = NULL;
+	gchar *comp_uid = NULL;
+	gchar *comp_rid = NULL;
+	gboolean handled = FALSE;
+	GError *error = NULL;
+
+	source_type = E_CAL_SOURCE_TYPE_TODO;
+
+	if (strncmp (uri, "task:", 5) != 0)
+		return FALSE;
+
+	euri = e_uri_new (uri);
+	cp = euri->query;
+	if (cp == NULL)
+		goto exit;
+
+	while (*cp != '\0') {
+                gchar *header;
+                gchar *content;
+                gsize header_len;
+                gsize content_len;
+
+                header_len = strcspn (cp, "=&");
+
+                /* If it's malformed, give up. */
+                if (cp[header_len] != '=')
+                        break;
+
+                header = (gchar *) cp;
+                header[header_len] = '\0';
+                cp += header_len + 1;
+
+                content_len = strcspn (cp, "&");
+
+                content = g_strndup (cp, content_len);
+                if (g_ascii_strcasecmp (header, "source-uid") == 0)
+                        source_uid = g_strdup (content);
+                else if (g_ascii_strcasecmp (header, "comp-uid") == 0)
+                        comp_uid = g_strdup (content);
+                else if (g_ascii_strcasecmp (header, "comp-rid") == 0)
+                        comp_rid = g_strdup (content);
+                g_free (content);
+
+                cp += content_len;
+                if (*cp == '&') {
+                        cp++;
+                        if (strcmp (cp, "amp;") == 0)
+                                cp += 4;
+                }
+	}
+
+	if (source_uid != NULL || comp_uid != NULL)
+		goto exit;
+
+	/* URI is valid, so consider it handled.  Whether
+	 * we successfully open it is another matter... */
+	handled = TRUE;
+
+	if (!e_cal_get_sources (&source_list, source_type, NULL)) {
+		g_printerr ("Could not get task sources from GConf!\n");
+		goto exit;
+	}
+
+	source = e_source_list_peek_source_by_uid (source_list, source_uid);
+	if (source == NULL) {
+		g_printerr ("No source for UID `%s'\n", source_uid);
+		g_object_unref (source_list);
+		goto exit;
+	}
+
+	client = auth_new_cal_from_source (source, source_type);
+	if (client == NULL || !e_cal_open (client, TRUE, &error)) {
+		g_printerr ("%s\n", error->message);
+		g_object_unref (source_list);
+		g_error_free (error);
+		goto exit;
+	}
+
+	/* XXX Copied from e_task_shell_view_open_task().
+	 *     Clearly a new utility function is needed. */
+
+	editor = comp_editor_find_instance (comp_uid);
+
+	if (editor != NULL)
+		goto present;
+
+	if (!e_cal_get_object (client, comp_uid, comp_rid, &icalcomp, &error)) {
+		g_printerr ("%s\n", error->message);
+		g_object_unref (source_list);
+		g_error_free (error);
+		goto exit;
+	}
+
+	comp = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (comp, icalcomp);
+
+	icalprop = icalcomponent_get_first_property (
+		icalcomp, ICAL_ATTENDEE_PROPERTY);
+	if (icalprop != NULL)
+		flags |= COMP_EDITOR_IS_ASSIGNED;
+
+	if (itip_organizer_is_user (comp, client))
+		flags |= COMP_EDITOR_USER_ORG;
+
+	if (!e_cal_component_has_attendees (comp))
+		flags |= COMP_EDITOR_USER_ORG;
+
+	editor = task_editor_new (client, flags);
+	comp_editor_edit_comp (editor, comp);
+
+	g_object_unref (comp);
+
+present:
+	gtk_window_present (GTK_WINDOW (editor));
+
+	g_object_unref (source_list);
+	g_object_unref (client);
+
+exit:
+	g_free (source_uid);
+	g_free (comp_uid);
+	g_free (comp_rid);
+
+	e_uri_free (euri);
+
+	return handled;
 }
 
 static void

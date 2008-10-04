@@ -785,7 +785,14 @@ static GtkRadioActionEntry task_filter_entries[] = {
 	  N_("Tasks with Attachments"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
-	  TASK_FILTER_TASKS_WITH_ATTACHMENTS }
+	  TASK_FILTER_TASKS_WITH_ATTACHMENTS },
+
+	{ "task-filter-unmatched",
+	  NULL,
+	  N_("Unmatched"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  TASK_FILTER_UNMATCHED }
 };
 
 static GtkRadioActionEntry task_search_entries[] = {
@@ -924,4 +931,10 @@ e_task_shell_view_update_search_filter (ETaskShellView *task_shell_view)
 
 	/* Use any action in the group; doesn't matter which. */
 	e_shell_content_set_filter_action (shell_content, radio_action);
+
+	ii = TASK_FILTER_UNMATCHED;
+	e_shell_content_add_filter_separator_after (shell_content, ii);
+
+	ii = TASK_FILTER_TASKS_WITH_ATTACHMENTS;
+	e_shell_content_add_filter_separator_after (shell_content, ii);
 }

@@ -26,6 +26,7 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
+#include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-categories.h>
 #include <libedataserver/e-sexp.h>
 

@@ -36,7 +36,6 @@ popup_event (EBookShellView *book_shell_view,
 	widget_path = "/contact-popup";
 	shell_view = E_SHELL_VIEW (book_shell_view);
 
-	e_book_shell_view_actions_update (book_shell_view);
 	e_shell_view_show_popup_menu (shell_view, widget_path, event);
 }
 
@@ -68,15 +67,17 @@ selection_change (EBookShellView *book_shell_view,
 	EBookShellContent *book_shell_content;
 	EAddressbookView *current_view;
 	ESelectionModel *selection_model;
+	EShellView *shell_view;
 	gint n_selected;
 
+	shell_view = E_SHELL_VIEW (shell_view);
 	book_shell_content = book_shell_view->priv->book_shell_content;
 	current_view = e_book_shell_content_get_current_view (book_shell_content);
 
 	if (view != current_view)
 		return;
 
-	e_book_shell_view_actions_update (book_shell_view);
+	e_shell_view_update_actions (shell_view);
 
 	selection_model = e_addressbook_view_get_selection_model (view);
 
@@ -219,7 +220,7 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 
 		g_signal_connect_swapped (
 			widget, "command-state-change",
-			G_CALLBACK (e_book_shell_view_actions_update),
+			G_CALLBACK (e_shell_view_update_actions),
 			book_shell_view);
 
 		g_signal_connect_swapped (
@@ -472,6 +473,105 @@ e_book_shell_view_private_finalize (EBookShellView *book_shell_view)
 
 	g_hash_table_destroy (priv->uid_to_view);
 	g_hash_table_destroy (priv->uid_to_editor);
+}
+
+void
+e_book_shell_view_execute_search (EBookShellView *book_shell_view)
+{
+	EBookShellContent *book_shell_content;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellContent *shell_content;
+	GtkAction *action;
+	GString *string;
+	EAddressbookView *view;
+	EAddressbookModel *model;
+	FilterRule *rule;
+	const gchar *format;
+	const gchar *text;
+	gchar *query;
+	gchar *temp;
+	gint value;
+
+	shell_view = E_SHELL_VIEW (book_shell_view);
+	if (!e_shell_view_is_active (shell_view))
+		return;
+
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	text = e_shell_content_get_search_text (shell_content);
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	action = ACTION (CONTACT_SEARCH_ANY_FIELD_CONTAINS);
+	value = gtk_radio_action_get_current_value (
+		GTK_RADIO_ACTION (action));
+
+	if (text == NULL || *text == '\0') {
+		text = "";
+		value = CONTACT_SEARCH_ANY_FIELD_CONTAINS;
+	}
+
+	switch (value) {
+		case CONTACT_SEARCH_NAME_CONTAINS:
+			format = "(contains \"full_name\" %s)";
+			break;
+
+		case CONTACT_SEARCH_EMAIL_BEGINS_WITH:
+			format = "(beginswith \"email\" %s)";
+			break;
+
+		default:
+			text = "";
+			/* fall through */
+
+		case CONTACT_SEARCH_ANY_FIELD_CONTAINS:
+			format = "(contains \"x-evolution-any-field\" %s)";
+			break;
+	}
+
+	/* Build the query. */
+	string = g_string_new ("");
+	e_sexp_encode_string (string, text);
+	query = g_strdup_printf (format, string->str);
+	g_string_free (string, TRUE);
+
+	/* Apply selected filter. */
+	value = e_shell_content_get_filter_value (shell_content);
+	switch (value) {
+		case CONTACT_FILTER_ANY_CATEGORY:
+			break;
+
+		default:
+		{
+			GList *categories;
+			const gchar *category_name;
+
+			categories = e_categories_get_list ();
+			category_name = g_list_nth_data (categories, value);
+			g_list_free (categories);
+
+			temp = g_strdup_printf (
+				"(and (is \"category_list\" \"%s\") %s)",
+				category_name, query);
+			g_free (query);
+			query = temp;
+		}
+	}
+
+	/* XXX This is wrong.  We need to programmatically construct a
+	 *     FilterRule, tell it to build code, and pass the resulting
+	 *     expression string to EAddressbookModel. */
+	rule = filter_rule_new ();
+	e_shell_content_set_search_rule (shell_content, rule);
+	g_object_unref (rule);
+
+	/* Submit the query. */
+	book_shell_content = book_shell_view->priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
+	model = e_addressbook_view_get_model (view);
+	e_addressbook_model_set_query (model, query);
+	g_free (query);
+
+	e_book_shell_content_set_preview_contact (book_shell_content, NULL);
 }
 
 void

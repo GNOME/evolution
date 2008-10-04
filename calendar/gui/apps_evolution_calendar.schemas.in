@@ -256,13 +256,25 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/calendar/display/memo_vpane_position</key>
+      <applyto>/apps/evolution/calendar/display/memo_vpane_position</applyto>
+      <owner>evolution-calendar</owner>
+      <type>int</type>
+      <default>400</default>
+      <locale name="C">
+        <short>Memos vertical pane position</short>
+        <long>Position of the vertical pane, between the memo list and the memo preview pane, in pixels.</long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/calendar/display/task_vpane_position</key>
       <applyto>/apps/evolution/calendar/display/task_vpane_position</applyto>
       <owner>evolution-calendar</owner>
       <type>int</type>
       <default>400</default>
       <locale name="C">
-        <short>Tasks vertical pane position </short>
+        <short>Tasks vertical pane position</short>
         <long>Position of the vertical pane, between the task list and the task preview pane, in pixels.</long>
       </locale>
     </schema>

@@ -322,6 +322,7 @@ e_memo_shell_view_execute_search (EMemoShellView *memo_shell_view)
 	const gchar *format;
 	const gchar *text;
 	gchar *query;
+	gchar *temp;
 	gint value;
 
 	shell_view = E_SHELL_VIEW (memo_shell_view);
@@ -364,27 +365,32 @@ e_memo_shell_view_execute_search (EMemoShellView *memo_shell_view)
 
 	/* Apply selected filter. */
 	value = e_shell_content_get_filter_value (shell_content);
-	if (value == MEMO_FILTER_UNMATCHED) {
-		gchar *temp;
+	switch (value) {
+		case MEMO_FILTER_ANY_CATEGORY:
+			break;
 
-		temp = g_strdup_printf (
-			"(and (has-categories? #f) %s", query);
-		g_free (query);
-		query = temp;
-	} else if (value >= 0) {
-		GList *categories;
-		const gchar *category_name;
-		gchar *temp;
+		case MEMO_FILTER_UNMATCHED:
+			temp = g_strdup_printf (
+				"(and (has-categories? #f) %s", query);
+			g_free (query);
+			query = temp;
+			break;
 
-		categories = e_categories_get_list ();
-		category_name = g_list_nth_data (categories, value);
-		g_list_free (categories);
+		default:
+		{
+			GList *categories;
+			const gchar *category_name;
 
-		temp = g_strdup_printf (
-			"(and (has-categories? \"%s\") %s)",
-			category_name, query);
-		g_free (query);
-		query = temp;
+			categories = e_categories_get_list ();
+			category_name = g_list_nth_data (categories, value);
+			g_list_free (categories);
+
+			temp = g_strdup_printf (
+				"(and (has-categories? \"%s\") %s)",
+				category_name, query);
+			g_free (query);
+			query = temp;
+		}
 	}
 
 	/* XXX This is wrong.  We need to programmatically construct a

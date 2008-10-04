@@ -785,6 +785,6 @@ e_memo_shell_view_update_search_filter (EMemoShellView *memo_shell_view)
 	/* Use any action in the group; doesn't matter which. */
 	e_shell_content_set_filter_action (shell_content, radio_action);
 
-	e_shell_content_add_filter_separator_after (
-		shell_content, MEMO_FILTER_UNMATCHED);
+	ii = MEMO_FILTER_UNMATCHED;
+	e_shell_content_add_filter_separator_after (shell_content, ii);
 }

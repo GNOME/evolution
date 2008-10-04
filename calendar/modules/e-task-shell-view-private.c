@@ -321,7 +321,11 @@ e_task_shell_view_execute_search (ETaskShellView *task_shell_view)
 	FilterRule *rule;
 	const gchar *format;
 	const gchar *text;
+	time_t start_range;
+	time_t end_range;
+	gchar *start, *end;
 	gchar *query;
+	gchar *temp;
 	gint value;
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
@@ -364,7 +368,92 @@ e_task_shell_view_execute_search (ETaskShellView *task_shell_view)
 
 	/* Apply selected filter. */
 	value = e_shell_content_get_filter_value (shell_content);
-	/* FIXME */
+	switch (value) {
+		case TASK_FILTER_ANY_CATEGORY:
+			break;
+
+		case TASK_FILTER_UNMATCHED:
+			temp = g_strdup_printf (
+				"(and (has-categories? #f) %s)", query);
+			g_free (query);
+			query = temp;
+			break;
+
+		case TASK_FILTER_NEXT_7_DAYS_TASKS:
+			start_range = time (NULL);
+			end_range = time_add_day (start_range, 7);
+			start = isodate_from_time_t (start_range);
+			end = isodate_from_time_t (end_range);
+
+			temp = g_strdup_printf (
+				"(and %s (due-in-time-range? "
+				"(make-time \"%s\") (make-time \"%s\")))",
+				query, start, end);
+			g_free (query);
+			query = temp;
+			break;
+
+		case TASK_FILTER_ACTIVE_TASKS:
+			start_range = time (NULL);
+			end_range = time_add_day (start_range, 365);
+			start = isodate_from_time_t (start_range);
+			end = isodate_from_time_t (end_range);
+
+			temp = g_strdup_printf (
+				"(and %s (due-in-time-range? "
+				"(make-time \"%s\") (make-time \"%s\")) "
+				"(not (is-completed?)))",
+				query, start, end);
+			g_free (query);
+			query = temp;
+			break;
+
+		case TASK_FILTER_OVERDUE_TASKS:
+			start_range = 0;
+			end_range = time (NULL);
+			start = isodate_from_time_t (start_range);
+			end = isodate_from_time_t (end_range);
+
+			temp = g_strdup_printf (
+				"(and %s (due-in-time-range? "
+				"(make-time \"%s\") (make-time \"%s\")) "
+				"(not (is-completed?)))",
+				query, start, end);
+			g_free (query);
+			query = temp;
+			break;
+
+		case TASK_FILTER_COMPLETED_TASKS:
+			temp = g_strdup_printf (
+				"(and (is-completed?) %s)", query);
+			g_free (query);
+			query = temp;
+			break;
+
+		case TASK_FILTER_TASKS_WITH_ATTACHMENTS:
+			temp = g_strdup_printf (
+				"(and (has-attachments?) %s)", query);
+			g_free (query);
+			query = temp;
+			break;
+
+		default:
+		{
+			GList *categories;
+			const gchar *category_name;
+
+			categories = e_categories_get_list ();
+			category_name = g_list_nth_data (categories, value);
+			g_list_free (categories);
+
+			temp = g_strdup_printf (
+				"(and (has-categories? \"%s\") %s)",
+				category_name, query);
+			g_free (query);
+			query = temp;
+			break;
+		}
+	}
 
 	/* XXX This is wrong.  We need to programmatically construct a
 	 *     FilterRule, tell it to build code, and pass the resulting
@@ -402,7 +491,7 @@ e_task_shell_view_open_task (ETaskShellView *task_shell_view,
 	uid = icalcomponent_get_uid (comp_data->icalcomp);
 	editor = comp_editor_find_instance (uid);
 
-	if (editor == NULL)
+	if (editor != NULL)
 		goto exit;
 
 	comp = e_cal_component_new ();

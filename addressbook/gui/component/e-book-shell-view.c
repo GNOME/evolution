@@ -35,8 +35,10 @@ book_shell_view_source_list_changed_cb (EBookShellView *book_shell_view,
 {
 	EBookShellViewPrivate *priv = book_shell_view->priv;
 	EBookShellContent *book_shell_content;
+	EShellView *shell_view;
 	GList *keys, *iter;
 
+	shell_view = E_SHELL_VIEW (book_shell_view);
 	book_shell_content = book_shell_view->priv->book_shell_content;
 
 	keys = g_hash_table_get_keys (priv->uid_to_view);
@@ -74,7 +76,7 @@ book_shell_view_source_list_changed_cb (EBookShellView *book_shell_view,
 	}
 	g_list_free (keys);
 
-	e_book_shell_view_actions_update (book_shell_view);
+	e_shell_view_update_actions (shell_view);
 }
 
 static void
@@ -131,6 +133,127 @@ book_shell_view_constructed (GObject *object)
 }
 
 static void
+book_shell_view_update_actions (EShellView *shell_view)
+{
+	EBookShellViewPrivate *priv;
+	EBookShellContent *book_shell_content;
+	EBookShellSidebar *book_shell_sidebar;
+	EShellWindow *shell_window;
+	EAddressbookModel *model;
+	EAddressbookView *view;
+	ESelectionModel *selection_model;
+	ESourceSelector *selector;
+	ESource *source;
+	GtkAction *action;
+	const gchar *label;
+	gboolean editable;
+	gboolean sensitive;
+	gint n_contacts;
+	gint n_selected;
+
+	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (shell_view);
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	book_shell_content = priv->book_shell_content;
+	view = e_book_shell_content_get_current_view (book_shell_content);
+
+	book_shell_sidebar = priv->book_shell_sidebar;
+	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
+	source = e_source_selector_peek_primary_selection (selector);
+
+	model = e_addressbook_view_get_model (view);
+	editable = e_addressbook_model_get_editable (model);
+
+	selection_model = e_addressbook_view_get_selection_model (view);
+	n_contacts = (selection_model != NULL) ?
+		e_selection_model_row_count (selection_model) : 0;
+	n_selected = (selection_model != NULL) ?
+		e_selection_model_selected_count (selection_model) : 0;
+
+	action = ACTION (ADDRESS_BOOK_STOP);
+	sensitive = e_addressbook_model_can_stop (model);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_CLIPBOARD_COPY);
+	sensitive = (n_selected > 0);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_CLIPBOARD_CUT);
+	sensitive = editable && (n_selected > 0);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_CLIPBOARD_PASTE);
+	sensitive = editable;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_COPY);
+	sensitive = (n_selected > 0);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_DELETE);
+	sensitive = editable && (n_selected > 0);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_FORWARD);
+	sensitive = (n_selected > 0);
+	gtk_action_set_sensitive (action, sensitive);
+	label = ngettext (
+		"_Forward Contact",
+		"_Forward Contacts", n_selected);
+	g_object_set (action, "label", label, NULL);
+
+	action = ACTION (CONTACT_MOVE);
+	sensitive = editable && (n_selected > 0);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_OPEN);
+	sensitive = (n_selected > 0);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_PRINT);
+	sensitive = (n_contacts > 0);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_PRINT_PREVIEW);
+	sensitive = (n_contacts > 0);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_SAVE_AS);
+	sensitive = (n_selected > 0);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CONTACT_SELECT_ALL);
+	sensitive = (n_contacts > 0);
+	gtk_action_set_sensitive (action, sensitive);
+
+	/* FIXME Also check for email address. */
+	action = ACTION (CONTACT_SEND_MESSAGE);
+	sensitive = (n_selected > 0);
+	gtk_action_set_sensitive (action, sensitive);
+	label = ngettext (
+		"_Send Message to Contact",
+		"_Send Message to Contacts", n_selected);
+	g_object_set (action, "label", label, NULL);
+
+	/* TODO Add some context sensitivity to SEND_MESSAGE:
+	 *      Send Message to Contact  (n_selected == 1)
+	 *      Send Message to Contacts (n_selected > 1)
+	 *      Send Message to List     (n_selected == 1 && is_list)
+	 */
+
+	action = ACTION (ADDRESS_BOOK_DELETE);
+	if (source != NULL) {
+		const gchar *uri;
+
+		uri = e_source_peek_relative_uri (source);
+		sensitive = (uri == NULL || strcmp ("system", uri) != 0);
+	} else
+		sensitive = FALSE;
+	gtk_action_set_sensitive (action, sensitive);
+}
+
+static void
 book_shell_view_class_init (EBookShellViewClass *class,
                             GTypeModule *type_module)
 {
@@ -155,6 +278,7 @@ book_shell_view_class_init (EBookShellViewClass *class,
 	shell_view_class->type_module = type_module;
 	shell_view_class->new_shell_content = e_book_shell_content_new;
 	shell_view_class->new_shell_sidebar = e_book_shell_sidebar_new;
+	shell_view_class->update_actions = book_shell_view_update_actions;
 
 	g_object_class_install_property (
 		object_class,

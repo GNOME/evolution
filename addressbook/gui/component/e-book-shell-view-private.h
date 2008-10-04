@@ -120,7 +120,7 @@ void		e_book_shell_view_private_finalize
 
 void		e_book_shell_view_actions_init
 					(EBookShellView *book_shell_view);
-void		e_book_shell_view_actions_update
+void		e_book_shell_view_execute_search
 					(EBookShellView *book_shell_view);
 void		e_book_shell_view_editor_weak_notify
 					(EditorUidClosure *closure,
