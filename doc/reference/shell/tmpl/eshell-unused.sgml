@@ -1,0 +1,26 @@
+<!-- ##### MACRO E_SHELL_UPGRADE_ERROR ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### FUNCTION e_shell_module_upgrade ##### -->
+<para>
+
+</para>
+
+@shell_module: 
+@major: 
+@minor: 
+@micro: 
+@error: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_upgrade_attempt ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+

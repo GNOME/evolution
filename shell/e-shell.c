@@ -25,8 +25,8 @@
 #include <e-preferences-window.h>
 #include <e-util/e-util.h>
 
+#include <e-shell-migrate.h>
 #include <e-shell-module.h>
-#include <e-shell-upgrade.h>
 #include <e-shell-window.h>
 
 #define SHUTDOWN_TIMEOUT	500  /* milliseconds */
@@ -327,7 +327,7 @@ shell_constructed (GObject *object)
 
 	g_dir_close (dir);
 
-	e_shell_upgrade_attempt (shell);
+	e_shell_migrate_attempt (shell);
 }
 
 static void

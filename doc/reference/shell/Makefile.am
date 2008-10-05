@@ -68,6 +68,7 @@ INCLUDES= \
 GTKDOC_LIBS=								\
 	$(top_builddir)/shell/e-shell.o					\
 	$(top_builddir)/shell/e-shell-importer.o			\
+	$(top_builddir)/shell/e-shell-migrate.o				\
 	$(top_builddir)/shell/e-shell-nm.o				\
 	$(top_builddir)/shell/e-shell-window-private.o			\
 	$(top_builddir)/shell/es-event.o				\
@@ -76,7 +77,6 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/shell/.libs/e-shell-sidebar.o			\
 	$(top_builddir)/shell/.libs/e-shell-switcher.o			\
 	$(top_builddir)/shell/.libs/e-shell-taskbar.o			\
-	$(top_builddir)/shell/.libs/e-shell-upgrade.o			\
 	$(top_builddir)/shell/.libs/e-shell-view.o			\
 	$(top_builddir)/shell/.libs/e-shell-window-actions.o		\
 	$(top_builddir)/shell/.libs/e-shell-window.o			\

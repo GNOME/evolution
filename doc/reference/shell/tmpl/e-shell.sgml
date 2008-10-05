@@ -218,14 +218,14 @@ EShell
 @Returns: 
 
 
-<!-- ##### MACRO E_SHELL_UPGRADE_ERROR ##### -->
+<!-- ##### MACRO E_SHELL_MIGRATE_ERROR ##### -->
 <para>
 
 </para>
 
 
 
-<!-- ##### FUNCTION e_shell_upgrade_attempt ##### -->
+<!-- ##### FUNCTION e_shell_migrate_attempt ##### -->
 <para>
 
 </para>

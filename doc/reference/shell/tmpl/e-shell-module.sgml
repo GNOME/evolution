@@ -52,7 +52,7 @@ EShellModule
 @sort_order: 
 @is_busy: 
 @shutdown: 
-@upgrade: 
+@migrate: 
 
 <!-- ##### FUNCTION e_shell_module_new ##### -->
 <para>
@@ -137,7 +137,7 @@ EShellModule
 @Returns: 
 
 
-<!-- ##### FUNCTION e_shell_module_upgrade ##### -->
+<!-- ##### FUNCTION e_shell_module_migrate ##### -->
 <para>
 
 </para>
