@@ -33,6 +33,7 @@
 #include "calendar/gui/calendar-config.h"
 
 #include "e-cal-shell-view.h"
+#include "e-cal-shell-module-migrate.h"
 
 #define MODULE_NAME		"calendar"
 #define MODULE_ALIASES		""
@@ -370,7 +371,11 @@ static EShellModuleInfo module_info = {
 	MODULE_NAME,
 	MODULE_ALIASES,
 	MODULE_SCHEMES,
-	MODULE_SORT_ORDER
+	MODULE_SORT_ORDER,
+
+	/* is_busy */ NULL,
+	/* shutdown */ NULL,
+	e_cal_shell_module_migrate
 };
 
 void

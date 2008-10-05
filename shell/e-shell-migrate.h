@@ -1,4 +1,5 @@
 /*
+ * e-shell-migrate.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14,27 +15,31 @@
  * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
  *
- * Authors:
- *		Chris Toshok (toshok@ximian.com)
- *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
-#ifndef _ADDRESSBOOK_MIGRATE_H_
-#define _ADDRESSBOOK_MIGRATE_H_
+/* This is an EShell extension that handles migrating from older versions. */
 
-#include <glib.h>
-#include <e-shell-module.h>
+#ifndef E_SHELL_MIGRATE_H
+#define E_SHELL_MIGRATE_H
+
+#include <shell/e-shell-common.h>
+#include <shell/e-shell.h>
+
+#define E_SHELL_MIGRATE_ERROR \
+	(e_shell_migrate_error_quark ())
 
 G_BEGIN_DECLS
 
-gboolean	addressbook_migrate		(EShellModule *shell_module,
-						 gint major,
-						 gint minor,
-						 gint revision,
-						 GError **error);
+/* XXX Need more specific error codes? */
+typedef enum {
+	E_SHELL_MIGRATE_ERROR_FAILED
+} EShellMigrateError;
+
+gboolean	e_shell_migrate_attempt		(EShell *shell);
+GQuark		e_shell_migrate_error_quark	(void);
 
 G_END_DECLS
 
-#endif /* _ADDRESSBOOK_MIGRATE_H_ */
+#endif /* E_SHELL_MIGRATE_H */

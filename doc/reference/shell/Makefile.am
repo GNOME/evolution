@@ -76,12 +76,15 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/shell/.libs/e-shell-sidebar.o			\
 	$(top_builddir)/shell/.libs/e-shell-switcher.o			\
 	$(top_builddir)/shell/.libs/e-shell-taskbar.o			\
+	$(top_builddir)/shell/.libs/e-shell-upgrade.o			\
 	$(top_builddir)/shell/.libs/e-shell-view.o			\
 	$(top_builddir)/shell/.libs/e-shell-window-actions.o		\
 	$(top_builddir)/shell/.libs/e-shell-window.o			\
+	$(top_builddir)/e-util/.libs/e-bconf-map.o			\
 	$(top_builddir)/e-util/.libs/e-dialog-utils.o			\
 	$(top_builddir)/e-util/.libs/e-error.o				\
 	$(top_builddir)/e-util/.libs/e-event.o				\
+	$(top_builddir)/e-util/.libs/e-fsutils.o			\
 	$(top_builddir)/e-util/.libs/e-icon-factory.o			\
 	$(top_builddir)/e-util/.libs/e-import.o				\
 	$(top_builddir)/e-util/.libs/e-logger.o				\

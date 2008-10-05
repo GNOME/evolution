@@ -70,7 +70,7 @@ selection_change (EBookShellView *book_shell_view,
 	EShellView *shell_view;
 	gint n_selected;
 
-	shell_view = E_SHELL_VIEW (shell_view);
+	shell_view = E_SHELL_VIEW (book_shell_view);
 	book_shell_content = book_shell_view->priv->book_shell_content;
 	current_view = e_book_shell_content_get_current_view (book_shell_content);
 

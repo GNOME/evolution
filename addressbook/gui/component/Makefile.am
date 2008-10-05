@@ -28,8 +28,6 @@ module_LTLIBRARIES = libevolution-addressbook.la
 libevolution_addressbook_la_SOURCES = 	\
 	addressbook-config.c		\
 	addressbook-config.h		\
-	addressbook-migrate.c		\
-	addressbook-migrate.h		\
 	autocompletion-config.c		\
 	autocompletion-config.h		\
 	addressbook.c			\
@@ -37,6 +35,8 @@ libevolution_addressbook_la_SOURCES = 	\
 	e-book-shell-content.c		\
 	e-book-shell-content.h		\
 	e-book-shell-module.c		\
+	e-book-shell-module-migrate.c	\
+	e-book-shell-module-migrate.h	\
 	e-book-shell-sidebar.c		\
 	e-book-shell-sidebar.h		\
 	e-book-shell-view.c		\

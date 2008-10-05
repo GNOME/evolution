@@ -90,6 +90,7 @@ EShellModule *	e_shell_get_module_by_name	(EShell *shell,
 EShellModule *	e_shell_get_module_by_scheme	(EShell *shell,
 						 const gchar *scheme);
 GtkWidget *	e_shell_create_window		(EShell *shell);
+GtkWidget *	e_shell_get_focused_window	(EShell *shell);
 gboolean	e_shell_handle_uri		(EShell *shell,
                                                  const gchar *uri);
 void		e_shell_send_receive		(EShell *shell,

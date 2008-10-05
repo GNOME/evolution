@@ -38,6 +38,7 @@
 #include "calendar/gui/dialogs/task-editor.h"
 
 #include "e-task-shell-view.h"
+#include "e-task-shell-module-migrate.h"
 
 #define MODULE_NAME		"tasks"
 #define MODULE_ALIASES		""
@@ -469,7 +470,11 @@ static EShellModuleInfo module_info = {
         MODULE_NAME,
         MODULE_ALIASES,
         MODULE_SCHEMES,
-        MODULE_SORT_ORDER
+        MODULE_SORT_ORDER,
+
+	/* is_busy */ NULL,
+	/* shutdown */ NULL,
+	e_task_shell_module_migrate
 };
 
 void

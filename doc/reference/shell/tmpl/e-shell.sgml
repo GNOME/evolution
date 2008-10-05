@@ -218,3 +218,19 @@ EShell
 @Returns: 
 
 
+<!-- ##### MACRO E_SHELL_UPGRADE_ERROR ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION e_shell_upgrade_attempt ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+

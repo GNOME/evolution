@@ -27,6 +27,7 @@
 #include <glib-object.h>
 
 #include "e-util/e-event.h"
+#include "shell/e-shell-module.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -37,20 +38,19 @@ typedef struct _ECalEvent ECalEvent;
 typedef struct _ECalEventClass ECalEventClass;
 
 enum _e_cal_event_target_t {
-	E_CAL_EVENT_TARGET_COMPONENT,
+	E_CAL_EVENT_TARGET_MODULE,
 };
 
-/* Flags that describe TARGET_COMPONENT */
+/* Flags that describe TARGET_MODULE */
 enum {
-	E_CAL_EVENT_COMPONENT_MIGRATION = 1 << 0,
+	E_CAL_EVENT_MODULE_MIGRATION = 1 << 0,
 };
 
-typedef struct _ECalEventTargetComponent ECalEventTargetComponent;
+typedef struct _ECalEventTargetModule ECalEventTargetModule;
 
-struct _ECalEventTargetComponent {
+struct _ECalEventTargetModule {
 	EEventTarget target;
-
-	struct _CalendarComponent *component;
+	EShellModule *shell_module;
 };
 
 struct _ECalEvent {
@@ -65,7 +65,7 @@ struct _ECalEventClass {
 
 GType                     e_cal_event_get_type (void);
 ECalEvent*                e_cal_event_peek (void);
-ECalEventTargetComponent* e_cal_event_target_new_component (ECalEvent *ece, struct _CalendarComponent *component, guint32 flags);
+ECalEventTargetModule* e_cal_event_target_new_module (ECalEvent *ece, EShellModule *shell_module, guint32 flags);
 
 /* ********************************************************************** */
 

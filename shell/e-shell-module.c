@@ -499,6 +499,40 @@ e_shell_module_shutdown (EShellModule *shell_module)
 }
 
 /**
+ * e_shell_migrate:
+ * @shell_module: an #EShellModule
+ * @major: major part of version to migrate from
+ * @minor: minor part of version to migrate from
+ * @micro: micro part of version to migrate from
+ * @error: return location for a #GError, or %NULL
+ *
+ * Attempts to migrate data and settings from version %major.%minor.%micro.
+ * Returns %TRUE if the migration was successful or if no action was
+ * necessary.  Returns %FALSE and sets %error if the migration failed.
+ *
+ * Returns: %TRUE if successful, %FALSE otherwise
+ **/
+gboolean
+e_shell_module_migrate (EShellModule *shell_module,
+                        gint major,
+                        gint minor,
+                        gint micro,
+                        GError **error)
+{
+	EShellModuleInfo *module_info;
+
+	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), TRUE);
+
+	module_info = &shell_module->priv->info;
+
+	if (module_info->migrate != NULL)
+		return module_info->migrate (
+			shell_module, major, minor, micro, error);
+
+	return TRUE;
+}
+
+/**
  * e_shell_module_set_info:
  * @shell_module: an #EShellModule
  * @info: an #EShellModuleInfo
@@ -535,6 +569,7 @@ e_shell_module_set_info (EShellModule *shell_module,
 
 	module_info->is_busy = info->is_busy;
 	module_info->shutdown = info->shutdown;
+	module_info->migrate = info->migrate;
 
 	/* Determine the user data directory for this module. */
 	g_free (shell_module->priv->data_dir);

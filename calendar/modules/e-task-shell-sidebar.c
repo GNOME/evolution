@@ -434,7 +434,7 @@ task_shell_sidebar_constructed (GObject *object)
 
 	g_signal_connect_swapped (
 		widget, "primary-selection-changed",
-		G_CALLBACK (task_shell_sidebar_selection_changed_cb),
+		G_CALLBACK (task_shell_sidebar_primary_selection_changed_cb),
 		object);
 }
 

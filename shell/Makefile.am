@@ -61,6 +61,7 @@ eshellincludedir = $(privincludedir)/shell
 eshellinclude_HEADERS = 			\
 	e-shell-common.h			\
 	e-shell-content.h			\
+	e-shell-migrate.h			\
 	e-shell-module.h			\
 	e-shell-sidebar.h			\
 	e-shell-switcher.h			\
@@ -73,6 +74,7 @@ eshellinclude_HEADERS = 			\
 libeshell_la_SOURCES =				\
 	$(IDL_GENERATED)			\
 	e-shell-content.c			\
+	e-shell-migrate.c			\
 	e-shell-module.c			\
 	e-shell-sidebar.c			\
 	e-shell-switcher.c			\

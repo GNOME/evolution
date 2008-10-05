@@ -52,6 +52,7 @@ EShellModule
 @sort_order: 
 @is_busy: 
 @shutdown: 
+@upgrade: 
 
 <!-- ##### FUNCTION e_shell_module_new ##### -->
 <para>
@@ -133,6 +134,19 @@ EShellModule
 </para>
 
 @shell_module: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_module_upgrade ##### -->
+<para>
+
+</para>
+
+@shell_module: 
+@major: 
+@minor: 
+@micro: 
+@error: 
 @Returns: 
 
 

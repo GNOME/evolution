@@ -81,6 +81,10 @@ typedef struct _EShellModulePrivate EShellModulePrivate;
  * 		shutting down.  Returning %FALSE indicates there
  * 		are still unfinished operations and the #EShell
  * 		should check back shortly.
+ * @migrate:	Callback for notifying the module to migrate data and
+ * 		settings from the given version.  Returns %TRUE if the
+ * 		migration was successful or if no action was necessary.
+ * 		Returns %FALSE and sets a #GError if the migration failed.
  **/
 struct _EShellModuleInfo {
 	const gchar *name;
@@ -90,6 +94,11 @@ struct _EShellModuleInfo {
 
 	gboolean	(*is_busy)		(EShellModule *shell_module);
 	gboolean	(*shutdown)		(EShellModule *shell_module);
+	gboolean	(*migrate)		(EShellModule *shell_module,
+						 gint major,
+						 gint minor,
+						 gint micro,
+						 GError **error);
 };
 
 /**
@@ -120,6 +129,11 @@ void		e_shell_module_add_activity	(EShellModule *shell_module,
 						 EActivity *activity);
 gboolean	e_shell_module_is_busy		(EShellModule *shell_module);
 gboolean	e_shell_module_shutdown		(EShellModule *shell_module);
+gboolean	e_shell_module_migrate		(EShellModule *shell_module,
+						 gint major,
+						 gint minor,
+						 gint micro,
+						 GError **error);
 void		e_shell_module_set_info		(EShellModule *shell_module,
 						 const EShellModuleInfo *info);
 

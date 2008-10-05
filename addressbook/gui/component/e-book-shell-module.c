@@ -27,18 +27,20 @@
 #include <libedataserver/e-source-list.h>
 #include <libedataserver/e-source-group.h>
 
-#include <e-shell.h>
-#include <e-shell-module.h>
-#include <e-shell-window.h>
+#include "shell/e-shell.h"
+#include "shell/e-shell-module.h"
+#include "shell/e-shell-window.h"
 
-#include <e-util/e-import.h>
-#include <addressbook/importers/evolution-addressbook-importers.h>
+#include "e-util/e-import.h"
+#include "addressbook/importers/evolution-addressbook-importers.h"
 
 #include <eab-config.h>
 #include <eab-gui-util.h>
-#include <e-book-shell-view.h>
 #include <addressbook-config.h>
 #include <autocompletion-config.h>
+
+#include "e-book-shell-view.h"
+#include "e-book-shell-module-migrate.h"
 
 #define MODULE_NAME		"addressbook"
 #define MODULE_ALIASES		"contacts"
@@ -52,7 +54,7 @@
 void e_shell_module_init (GTypeModule *type_module);
 
 static void
-book_module_ensure_sources (EShellModule *shell_module)
+book_shell_module_ensure_sources (EShellModule *shell_module)
 {
 	/* XXX This is basically the same algorithm across all modules.
 	 *     Maybe we could somehow integrate this into EShellModule? */
@@ -182,7 +184,7 @@ book_module_ensure_sources (EShellModule *shell_module)
 }
 
 static void
-book_module_init_importers (void)
+book_shell_module_init_importers (void)
 {
 	EImportClass *import_class;
 	EImportImporter *importer;
@@ -206,9 +208,9 @@ book_module_init_importers (void)
 }
 
 static void
-book_module_book_loaded_cb (EBook *book,
-                            EBookStatus status,
-                            gpointer user_data)
+book_shell_module_book_loaded_cb (EBook *book,
+                                  EBookStatus status,
+                                  gpointer user_data)
 {
 	EContact *contact;
 	GtkAction *action;
@@ -266,7 +268,8 @@ action_contact_new_cb (GtkAction *action,
 	if (book == NULL)
 		book = e_book_new_default_addressbook (NULL);
 
-	e_book_async_open (book, FALSE, book_module_book_loaded_cb, action);
+	e_book_async_open (
+		book, FALSE, book_shell_module_book_loaded_cb, action);
 }
 
 static void
@@ -304,21 +307,21 @@ static GtkActionEntry source_entries[] = {
 };
 
 static gboolean
-book_module_is_busy (EShellModule *shell_module)
+book_shell_module_is_busy (EShellModule *shell_module)
 {
 	return !eab_editor_request_close_all ();
 }
 
 static gboolean
-book_module_shutdown (EShellModule *shell_module)
+book_shell_module_shutdown (EShellModule *shell_module)
 {
 	/* FIXME */
 	return TRUE;
 }
 
 static gboolean
-book_module_handle_uri (EShellModule *shell_module,
-                        const gchar *uri)
+book_shell_module_handle_uri (EShellModule *shell_module,
+                              const gchar *uri)
 {
 	EUri *euri;
 	const gchar *cp;
@@ -383,8 +386,8 @@ book_module_handle_uri (EShellModule *shell_module,
 }
 
 static void
-book_module_window_created (EShellModule *shell_module,
-                            EShellWindow *shell_window)
+book_shell_module_window_created (EShellModule *shell_module,
+                                  EShellWindow *shell_window)
 {
 	const gchar *module_name;
 
@@ -407,8 +410,9 @@ static EShellModuleInfo module_info = {
 	MODULE_SORT_ORDER,
 
 	/* Methods */
-	book_module_is_busy,
-	book_module_shutdown
+	book_shell_module_is_busy,
+	book_shell_module_shutdown,
+	e_book_shell_module_migrate
 };
 
 void
@@ -425,18 +429,18 @@ e_shell_module_init (GTypeModule *type_module)
 
 	e_shell_module_set_info (shell_module, &module_info);
 
-	book_module_init_importers ();
-	book_module_ensure_sources (shell_module);
+	book_shell_module_init_importers ();
+	book_shell_module_ensure_sources (shell_module);
 
 	e_plugin_hook_register_type (eab_config_get_type ());
 
 	g_signal_connect_swapped (
 		shell, "handle-uri",
-		G_CALLBACK (book_module_handle_uri), shell_module);
+		G_CALLBACK (book_shell_module_handle_uri), shell_module);
 
 	g_signal_connect_swapped (
 		shell, "window-created",
-		G_CALLBACK (book_module_window_created), shell_module);
+		G_CALLBACK (book_shell_module_window_created), shell_module);
 
 	autocompletion_config_init ();
 }

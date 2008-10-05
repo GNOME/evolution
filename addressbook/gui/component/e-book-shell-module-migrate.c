@@ -1,4 +1,6 @@
 /*
+ * e-book-shell-module-migrate.c
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -45,7 +47,7 @@
 #include "e-util/e-xml-utils.h"
 #include "e-util/e-folder-map.h"
 
-#include "addressbook-migrate.h"
+#include "e-book-shell-module-migrate.h"
 
 /*#define SLOW_MIGRATION*/
 
@@ -1110,11 +1112,11 @@ migration_context_free (MigrationContext *context)
 }
 
 gboolean
-addressbook_migrate (EShellModule *shell_module,
-                     gint major,
-                     gint minor,
-                     gint revision,
-                     GError **error)
+e_book_shell_module_migrate (EShellModule *shell_module,
+                             gint major,
+                             gint minor,
+                             gint micro,
+                             GError **error)
 {
 	ESourceGroup *on_this_computer;
 	ESourceGroup *on_ldap_servers;
@@ -1122,8 +1124,6 @@ addressbook_migrate (EShellModule *shell_module,
 	MigrationContext *context;
 	gboolean need_dialog = FALSE;
 	const gchar *data_dir;
-
-	printf ("addressbook_migrate (%d.%d.%d)\n", major, minor, revision);
 
 	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), FALSE);
 
@@ -1139,7 +1139,7 @@ addressbook_migrate (EShellModule *shell_module,
 	if (major == 1
 	    /* we only need the most recent upgrade point here.
 	       further decomposition will happen below. */
-	    && (minor < 5 || (minor == 5 && revision <= 10)))
+	    && (minor < 5 || (minor == 5 && micro <= 10)))
 		need_dialog = TRUE;
 
 	if (need_dialog)
@@ -1147,7 +1147,7 @@ addressbook_migrate (EShellModule *shell_module,
 
 	if (major == 1) {
 
-		if (minor < 5 || (minor == 5 && revision <= 2)) {
+		if (minor < 5 || (minor == 5 && micro <= 2)) {
 			/* initialize our dialog */
 			dialog_set_label (context,
 					  _("The location and hierarchy of the Evolution contact "
@@ -1162,7 +1162,7 @@ addressbook_migrate (EShellModule *shell_module,
 			migrate_completion_folders (context);
 		}
 
-		if (minor < 5 || (minor == 5 && revision <= 7)) {
+		if (minor < 5 || (minor == 5 && micro <= 7)) {
 			dialog_set_label (context,
 					  _("The format of mailing list contacts has changed.\n\n"
 					    "Please be patient while Evolution migrates your "
@@ -1171,7 +1171,7 @@ addressbook_migrate (EShellModule *shell_module,
 			migrate_contact_lists_for_local_folders (context, on_this_computer);
 		}
 
-		if (minor < 5 || (minor == 5 && revision <= 8)) {
+		if (minor < 5 || (minor == 5 && micro <= 8)) {
 			dialog_set_label (context,
 					  _("The way Evolution stores some phone numbers has changed.\n\n"
 					    "Please be patient while Evolution migrates your "
@@ -1180,7 +1180,7 @@ addressbook_migrate (EShellModule *shell_module,
 			migrate_company_phone_for_local_folders (context, on_this_computer);
 		}
 
-		if (minor < 5 || (minor == 5 && revision <= 10)) {
+		if (minor < 5 || (minor == 5 && micro <= 10)) {
 			char *old_path, *new_path;
 
 			dialog_set_label (context, _("Evolution's Palm Sync changelog and map files have changed.\n\n"
@@ -1199,7 +1199,7 @@ addressbook_migrate (EShellModule *shell_module,
 		   during one phase of development, as they take
 		   precedent over relative uris (but aren't updated
 		   when editing an ESource). */
-		if (minor == 5 && revision <= 11) {
+		if (minor == 5 && micro <= 11) {
 			GSList *g;
 			for (g = e_source_list_peek_groups (context->source_list); g; g = g->next) {
 				ESourceGroup *group = g->data;

@@ -38,6 +38,7 @@
 #include "calendar/gui/dialogs/memo-editor.h"
 
 #include "e-memo-shell-view.h"
+#include "e-memo-shell-module-migrate.h"
 
 #define MODULE_NAME		"memos"
 #define MODULE_ALIASES		""
@@ -463,7 +464,11 @@ static EShellModuleInfo module_info = {
 	MODULE_NAME,
 	MODULE_ALIASES,
 	MODULE_SCHEMES,
-	MODULE_SORT_ORDER
+	MODULE_SORT_ORDER,
+
+	/* is_busy */ NULL,
+	/* shutdown */ NULL,
+	e_memo_shell_module_migrate
 };
 
 void

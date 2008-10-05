@@ -1,4 +1,5 @@
 /*
+ * e-book-shell-module-migrate.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -15,23 +16,26 @@
  *
  *
  * Authors:
- *		Rodrigo Moya <rodrigo@ximian.com>
+ *		Chris Toshok (toshok@ximian.com)
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
-#ifndef MIGRATION_H
-#define MIGRATION_H
+#ifndef E_BOOK_SHELL_MODULE_MIGRATE_H
+#define E_BOOK_SHELL_MODULE_MIGRATE_H
 
-#include <libedataserver/e-source-group.h>
-#include "calendar-component.h"
-#include "tasks-component.h"
-#include "memos-component.h"
+#include <glib.h>
+#include <shell/e-shell-module.h>
 
-struct _GError;
+G_BEGIN_DECLS
 
-gboolean migrate_calendars (CalendarComponent *component, int major, int minor, int revision, struct _GError **err);
-gboolean migrate_tasks (TasksComponent *component, int major, int minor, int revision, struct _GError **err);
-gboolean migrate_memos (MemosComponent *component, int major, int minor, int revision, struct _GError **err);
-#endif
+gboolean	e_book_shell_module_migrate	(EShellModule *shell_module,
+						 gint major,
+						 gint minor,
+						 gint micro,
+						 GError **error);
+
+G_END_DECLS
+
+#endif /* E_BOOK_SHELL_MODULE_MIGRATE_H */

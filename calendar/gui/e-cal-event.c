@@ -43,10 +43,10 @@ static void
 ece_target_free (EEvent *ev, EEventTarget *t)
 {
 	switch (t->type) {
-	case E_CAL_EVENT_TARGET_COMPONENT: {
-		ECalEventTargetComponent *s = (ECalEventTargetComponent *) t;
-		if (s->component)
-			g_object_unref (s->component);
+	case E_CAL_EVENT_TARGET_MODULE: {
+		ECalEventTargetModule *s = (ECalEventTargetModule *) t;
+		if (s->shell_module)
+			g_object_unref (s->shell_module);
 		break; }
 	}
 
@@ -92,12 +92,12 @@ e_cal_event_peek (void)
 	return e_cal_event;
 }
 
-ECalEventTargetComponent *
-e_cal_event_target_new_component (ECalEvent *ece, struct _CalendarComponent *component, guint32 flags)
+ECalEventTargetModule *
+e_cal_event_target_new_module (ECalEvent *ece, EShellModule *shell_module, guint32 flags)
 {
-	ECalEventTargetComponent *t = e_event_target_new (&ece->event, E_CAL_EVENT_TARGET_COMPONENT, sizeof (*t));
+	ECalEventTargetModule *t = e_event_target_new (&ece->event, E_CAL_EVENT_TARGET_MODULE, sizeof (*t));
 
-	t->component = g_object_ref (component);
+	t->shell_module = g_object_ref (shell_module);
 	t->target.mask = ~flags;
 
 	return t;
@@ -107,13 +107,13 @@ e_cal_event_target_new_component (ECalEvent *ece, struct _CalendarComponent *com
 
 static void *eceh_parent_class;
 
-static const EEventHookTargetMask eceh_component_masks[] = {
-	{ "migration", E_CAL_EVENT_COMPONENT_MIGRATION },
+static const EEventHookTargetMask eceh_module_masks[] = {
+	{ "migration", E_CAL_EVENT_MODULE_MIGRATION },
 	{ NULL },
 };
 
 static const EEventHookTargetMap eceh_targets[] = {
-	{ "component", E_CAL_EVENT_TARGET_COMPONENT, eceh_component_masks },
+	{ "module", E_CAL_EVENT_TARGET_MODULE, eceh_module_masks },
 	{ NULL },
 };
 

@@ -50,8 +50,6 @@ privsolib_LTLIBRARIES = libcal-gui.la
 #	cal-search-bar.c
 # 	cal-search-bar.h
 # 	main.c
-# 	migration.c
-# 	migration.h
 
 libcal_gui_la_SOURCES =		\
  	e-calendar-view.c			\

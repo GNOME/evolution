@@ -26,6 +26,7 @@
 #include <e-util/e-util.h>
 
 #include <e-shell-module.h>
+#include <e-shell-upgrade.h>
 #include <e-shell-window.h>
 
 #define SHUTDOWN_TIMEOUT	500  /* milliseconds */
@@ -77,6 +78,31 @@ shell_window_delete_event_cb (EShell *shell,
 
 	/* Otherwise we initiate application shutdown. */
 	return !e_shell_quit (shell);
+}
+
+static gboolean
+shell_window_focus_in_event_cb (EShell *shell,
+                                GdkEventFocus *event,
+                                EShellWindow *shell_window)
+{
+	GList *list, *link;
+
+	/* Keep the active windows list sorted by most recently focused,
+	 * so the first item in the list should always be the currently
+	 * focused shell window. */
+
+	list = shell->priv->active_windows;
+	link = g_list_find (list, shell_window);
+	g_return_val_if_fail (link != NULL, FALSE);
+
+	if (link != list) {
+		list = g_list_remove_link (list, link);
+		list = g_list_concat (link, list);
+	}
+
+	shell->priv->active_windows = list;
+
+	return FALSE;
 }
 
 static void
@@ -300,6 +326,8 @@ shell_constructed (GObject *object)
 	}
 
 	g_dir_close (dir);
+
+	e_shell_upgrade_attempt (shell);
 }
 
 static void
@@ -493,6 +521,10 @@ e_shell_create_window (EShell *shell)
 		shell_window, "delete-event",
 		G_CALLBACK (shell_window_delete_event_cb), shell);
 
+	g_signal_connect_swapped (
+		shell_window, "focus-in-event",
+		G_CALLBACK (shell_window_focus_in_event_cb), shell);
+
 	g_object_weak_ref (
 		G_OBJECT (shell_window), (GWeakNotify)
 		shell_window_weak_notify_cb, shell);
@@ -502,6 +534,17 @@ e_shell_create_window (EShell *shell)
 	gtk_widget_show (shell_window);
 
 	return shell_window;
+}
+
+GtkWidget *
+e_shell_get_focused_window (EShell *shell)
+{
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	if (shell->priv->active_windows == NULL)
+		return NULL;
+
+	return GTK_WIDGET (shell->priv->active_windows->data);
 }
 
 gboolean

@@ -19,6 +19,8 @@ e_shell_get_preferences_window
 e_shell_is_busy
 e_shell_do_quit
 e_shell_quit
+E_SHELL_UPGRADE_ERROR
+e_shell_upgrade_attempt
 <SUBSECTION Standard>
 E_SHELL
 E_IS_SHELL
@@ -30,6 +32,7 @@ EShellClass
 e_shell_get_type
 <SUBSECTION Private>
 EShellPrivate
+e_shell_upgrade_error_quirk
 </SECTION>
 
 <SECTION>
@@ -94,6 +97,7 @@ e_shell_module_get_shell
 e_shell_module_add_activity
 e_shell_module_is_busy
 e_shell_module_shutdown
+e_shell_module_upgrade
 e_shell_module_set_info
 <SUBSECTION Standard>
 E_SHELL_MODULE
