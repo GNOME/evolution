@@ -43,6 +43,7 @@ static void set_source (RuleEditor *re, const char *source);
 static void set_sensitive (RuleEditor *re);
 static FilterRule *create_rule (RuleEditor *re);
 
+static gboolean update_selected_rule (RuleEditor *re);
 static void cursor_changed (GtkTreeView *treeview, RuleEditor *re);
 
 static void rule_editor_class_init (RuleEditorClass *klass);
@@ -442,6 +443,8 @@ rule_edit (GtkWidget *widget, RuleEditor *re)
 {
 	GtkWidget *rules;
 
+	update_selected_rule(re);
+
 	if (re->current == NULL || re->edit != NULL)
 		return;
 
@@ -482,6 +485,8 @@ rule_delete (GtkWidget *widget, RuleEditor *re)
 	GtkTreePath *path;
 	GtkTreeIter iter;
 	int pos, len;
+
+	update_selected_rule(re);
 
 	d(printf ("delete rule\n"));
 	pos = rule_context_get_rank_rule (re->context, re->current, re->source);
@@ -576,6 +581,8 @@ rule_top (GtkWidget *widget, RuleEditor *re)
 {
 	int pos;
 
+	update_selected_rule(re);
+
 	d(printf ("top rule\n"));
 	pos = rule_context_get_rank_rule (re->context, re->current, re->source);
 	if (pos > 0)
@@ -587,6 +594,8 @@ rule_up (GtkWidget *widget, RuleEditor *re)
 {
 	int pos;
 
+	update_selected_rule(re);
+
 	d(printf ("up rule\n"));
 	pos = rule_context_get_rank_rule (re->context, re->current, re->source);
 	if (pos > 0)
@@ -597,6 +606,8 @@ static void
 rule_down (GtkWidget *widget, RuleEditor *re)
 {
 	int pos;
+
+	update_selected_rule(re);
 
 	d(printf ("down rule\n"));
 	pos = rule_context_get_rank_rule (re->context, re->current, re->source);
@@ -610,6 +621,8 @@ rule_bottom (GtkWidget *widget, RuleEditor *re)
 	int pos;
 	int index = -1, count = 0;
 	FilterRule *rule = NULL;
+
+	update_selected_rule(re);
 
 	d(printf ("bottom rule\n"));
 	pos = rule_context_get_rank_rule (re->context, re->current, re->source);
@@ -669,8 +682,8 @@ dialog_rule_changed (FilterRule *fr, GtkWidget *dialog)
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, fr && fr->parts);
 }
 
-static void
-cursor_changed (GtkTreeView *treeview, RuleEditor *re)
+static gboolean
+update_selected_rule (RuleEditor *re)
 {
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -679,7 +692,16 @@ cursor_changed (GtkTreeView *treeview, RuleEditor *re)
 	selection = gtk_tree_view_get_selection (re->list);
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		gtk_tree_model_get (GTK_TREE_MODEL (re->model), &iter, 1, &re->current, -1);
+		return TRUE;
+	}
 
+	return FALSE;
+}
+
+static void
+cursor_changed (GtkTreeView *treeview, RuleEditor *re)
+{
+	if (update_selected_rule(re)) {
 		g_return_if_fail (re->current);
 
 		rule_editor_set_sensitive (re);
