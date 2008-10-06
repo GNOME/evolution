@@ -420,45 +420,6 @@ do_format_number_as_float (gdouble number)
 	}
 }
 
-gchar *
-e_format_number_float (gfloat number)
-{
-	gfloat          int_part;
-	gint            fraction;
-	struct lconv   *locality;
-	gchar          *str_intpart;
-	gchar          *decimal_point;
-	gchar          *str_fraction;
-	gchar          *value;
-
-	locality = localeconv();
-
-	int_part = floor (number);
-	str_intpart = do_format_number_as_float ((gdouble) int_part);
-
-	if (!strcmp(locality->mon_decimal_point, "")) {
-		decimal_point = ".";
-	}
-	else {
-		decimal_point = locality->mon_decimal_point;
-	}
-
-	fraction = (gint) ((number - int_part) * 100);
-
-	if (fraction == 0) {
-		str_fraction = g_strdup ("00");
-	} else {
-		str_fraction = g_strdup_printf ("%02d", fraction);
-	}
-
-	value = g_strconcat (str_intpart, decimal_point, str_fraction, NULL);
-
-	g_free (str_intpart);
-	g_free (str_fraction);
-
-	return value;
-}
-
 /* Perform a binary search for key in base which has nmemb elements
    of size bytes each.  The comparisons are done by (*compare)().  */
 void

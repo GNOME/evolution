@@ -59,7 +59,6 @@ gboolean	e_write_file_uri		(const gchar *filename,
 /* This only makes a filename safe for usage as a filename.
  * It still may have shell meta-characters in it. */
 gchar *		e_format_number			(gint number);
-gchar *		e_format_number_float		(gfloat number);
 
 typedef gint	(*ESortCompareFunc)		(gconstpointer first,
 				  		 gconstpointer second,
