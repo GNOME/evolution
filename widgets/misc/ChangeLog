@@ -1,3 +1,9 @@
+2008-10-06  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #554456
+
+	* e-filter-bar.c (get_property): Emit the signal appropriately.
+
 2008-10-01  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #554418

@@ -589,10 +589,11 @@ get_property (GObject *object, guint property_id, GValue *value, GParamSpec *psp
 
 	switch (property_id) {
 	case PROP_QUERY: {
+		int item_id = e_search_bar_get_item_id ((ESearchBar *) efb);
 		char *text = e_search_bar_get_text (E_SEARCH_BAR (efb));
 
 		/* empty search text means searching turned off */
-		if (efb->current_query && text && *text) {
+		if (efb->current_query && ((text && *text) || item_id == E_FILTERBAR_ADVANCED_ID)) {
 			GString *out = g_string_new ("");
 
 			filter_rule_build_code (efb->current_query, out);
