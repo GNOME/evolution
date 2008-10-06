@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-02 22:36+0200\n"
-"PO-Revision-Date: 2008-10-02 22:37+0100\n"
+"POT-Creation-Date: 2008-10-06 08:47+0200\n"
+"PO-Revision-Date: 2008-10-06 08:47+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -174,7 +174,7 @@ msgstr "%A %d %b %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:189
 #: ../calendar/gui/calendar-component.c:760
 #: ../calendar/gui/e-day-view-top-item.c:855
-#: ../calendar/gui/e-day-view.c:1583
+#: ../calendar/gui/e-day-view.c:1577
 #: ../calendar/gui/e-week-view-main-item.c:335
 msgid "%a %d %b"
 msgstr "%a %d %b"
@@ -207,7 +207,7 @@ msgstr "%d %b %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:219
 #: ../calendar/gui/calendar-component.c:786
 #: ../calendar/gui/e-day-view-top-item.c:859
-#: ../calendar/gui/e-day-view.c:1599
+#: ../calendar/gui/e-day-view.c:1593
 #: ../calendar/gui/e-week-view-main-item.c:349
 msgid "%d %b"
 msgstr "%d %b"
@@ -653,9 +653,19 @@ msgstr "Personligt"
 msgid "On LDAP Servers"
 msgstr "På LDAP-servrar"
 
+#: ../addressbook/gui/component/addressbook-component.c:229
+msgctxt "New"
+msgid "_Contact"
+msgstr "_Kontakt"
+
 #: ../addressbook/gui/component/addressbook-component.c:230
 msgid "Create a new contact"
 msgstr "Skapa en ny kontakt"
+
+#: ../addressbook/gui/component/addressbook-component.c:237
+msgctxt "New"
+msgid "Contact _List"
+msgstr "Kontakt_lista"
 
 #: ../addressbook/gui/component/addressbook-component.c:238
 msgid "Create a new contact list"
@@ -665,6 +675,11 @@ msgstr "Skapa en ny kontaktlista"
 #: ../addressbook/gui/component/addressbook-config.c:1223
 msgid "New Address Book"
 msgstr "Ny adressbok"
+
+#: ../addressbook/gui/component/addressbook-component.c:245
+msgctxt "New"
+msgid "Address _Book"
+msgstr "Adress_bok"
 
 #: ../addressbook/gui/component/addressbook-component.c:246
 msgid "Create a new address book"
@@ -721,7 +736,7 @@ msgid "Details"
 msgstr "Detaljer"
 
 #: ../addressbook/gui/component/addressbook-config.c:1009
-#: ../mail/em-folder-browser.c:983
+#: ../mail/em-folder-browser.c:985
 msgid "Searching"
 msgstr "Söker"
 
@@ -871,7 +886,7 @@ msgstr "Ange lösenord för %s (användare %s)"
 #: ../addressbook/gui/component/addressbook.c:222
 #: ../calendar/common/authentication.c:51
 #: ../plugins/google-account-setup/google-source.c:444
-#: ../plugins/publish-calendar/publish-calendar.c:190
+#: ../plugins/publish-calendar/publish-calendar.c:191
 #: ../smime/gui/component.c:49
 msgid "Enter password"
 msgstr "Ange lösenord"
@@ -2420,7 +2435,7 @@ msgstr "Tjänst"
 #: ../calendar/gui/caltypes.xml.h:25
 #: ../calendar/gui/e-cal-list-view.etspec.h:3
 #: ../mail/message-list.etspec.h:9
-#: ../plugins/publish-calendar/publish-calendar.c:693
+#: ../plugins/publish-calendar/publish-calendar.c:694
 #: ../plugins/save-calendar/csv-format.c:376
 msgid "Location"
 msgstr "Plats"
@@ -2683,7 +2698,7 @@ msgstr "_Snabbmeddelandetjänst:"
 #: ../calendar/gui/dialogs/event-page.glade.h:16
 #: ../plugins/calendar-weather/calendar-weather.c:409
 #: ../plugins/exchange-operations/exchange-calendar.c:243
-#: ../plugins/exchange-operations/exchange-contacts.c:234
+#: ../plugins/exchange-operations/exchange-contacts.c:235
 msgid "_Location:"
 msgstr "_Plats:"
 
@@ -3132,8 +3147,8 @@ msgstr "Webbplats"
 #: ../widgets/table/e-table-group-container.c:993
 #: ../widgets/table/e-table-group-leaf.c:637
 #: ../widgets/table/e-table-group-leaf.c:638
-#: ../widgets/table/e-table-item.c:3081
-#: ../widgets/table/e-table-item.c:3082
+#: ../widgets/table/e-table-item.c:3077
+#: ../widgets/table/e-table-item.c:3078
 #: ../widgets/text/e-text.c:3729
 #: ../widgets/text/e-text.c:3730
 msgid "Width"
@@ -3151,8 +3166,8 @@ msgstr "Bredd"
 #: ../widgets/table/e-table-group-container.c:986
 #: ../widgets/table/e-table-group-leaf.c:630
 #: ../widgets/table/e-table-group-leaf.c:631
-#: ../widgets/table/e-table-item.c:3087
-#: ../widgets/table/e-table-item.c:3088
+#: ../widgets/table/e-table-item.c:3083
+#: ../widgets/table/e-table-item.c:3084
 #: ../widgets/text/e-text.c:3737
 #: ../widgets/text/e-text.c:3738
 msgid "Height"
@@ -3905,9 +3920,9 @@ msgstr "Skuggning"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:1069
+#: ../plugins/exchange-operations/exchange-account-setup.c:1071
 #: ../plugins/exchange-operations/exchange-calendar.c:232
-#: ../plugins/exchange-operations/exchange-contacts.c:217
+#: ../plugins/exchange-operations/exchange-contacts.c:218
 msgid "Size:"
 msgstr "Storlek:"
 
@@ -5211,6 +5226,11 @@ msgstr "Väljare för kalenderkälla"
 msgid "New appointment"
 msgstr "Nytt möte"
 
+#: ../calendar/gui/calendar-component.c:1597
+msgctxt "New"
+msgid "_Appointment"
+msgstr "_Möte"
+
 #: ../calendar/gui/calendar-component.c:1598
 msgid "Create a new appointment"
 msgstr "Skapa ett nytt möte"
@@ -5218,6 +5238,11 @@ msgstr "Skapa ett nytt möte"
 #: ../calendar/gui/calendar-component.c:1604
 msgid "New meeting"
 msgstr "Nytt sammanträde"
+
+#: ../calendar/gui/calendar-component.c:1605
+msgctxt "New"
+msgid "M_eeting"
+msgstr "_Sammanträde"
 
 #: ../calendar/gui/calendar-component.c:1606
 msgid "Create a new meeting request"
@@ -5227,6 +5252,11 @@ msgstr "Skapa en ny sammanträdesbegäran"
 msgid "New all day appointment"
 msgstr "Nytt heldagsmöte"
 
+#: ../calendar/gui/calendar-component.c:1613
+msgctxt "New"
+msgid "All Day A_ppointment"
+msgstr "Hel_dagsmöte"
+
 #: ../calendar/gui/calendar-component.c:1614
 msgid "Create a new all-day appointment"
 msgstr "Skapa ett nytt heldagsmöte"
@@ -5234,6 +5264,11 @@ msgstr "Skapa ett nytt heldagsmöte"
 #: ../calendar/gui/calendar-component.c:1620
 msgid "New calendar"
 msgstr "Ny kalender"
+
+#: ../calendar/gui/calendar-component.c:1621
+msgctxt "New"
+msgid "Cale_ndar"
+msgstr "Kale_nder"
 
 #: ../calendar/gui/calendar-component.c:1622
 msgid "Create a new calendar"
@@ -7191,7 +7226,7 @@ msgstr "Förfallodatum:"
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:246
 #: ../calendar/gui/e-itip-control.c:1186
-#: ../plugins/exchange-operations/exchange-account-setup.c:267
+#: ../plugins/exchange-operations/exchange-account-setup.c:269
 #: ../plugins/itip-formatter/itip-view.c:1029
 msgid "Status:"
 msgstr "Status:"
@@ -7641,21 +7676,21 @@ msgstr "%02i minutdivisioner"
 #. order but don't change the specifiers or add
 #. anything.
 #: ../calendar/gui/e-day-view-top-item.c:851
-#: ../calendar/gui/e-day-view.c:1566
+#: ../calendar/gui/e-day-view.c:1560
 #: ../calendar/gui/e-week-view-main-item.c:326
 #: ../calendar/gui/print.c:1674
 msgid "%A %d %B"
 msgstr "%A %d %B"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:806
+#: ../calendar/gui/e-day-view.c:800
 #: ../calendar/gui/e-week-view.c:540
 #: ../calendar/gui/print.c:831
 msgid "am"
 msgstr "fm"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:809
+#: ../calendar/gui/e-day-view.c:803
 #: ../calendar/gui/e-week-view.c:543
 #: ../calendar/gui/print.c:833
 msgid "pm"
@@ -8583,6 +8618,11 @@ msgstr "Väljare för memokälla"
 msgid "New memo"
 msgstr "Nytt memo"
 
+#: ../calendar/gui/memos-component.c:1261
+msgctxt "New"
+msgid "Mem_o"
+msgstr "Mem_o"
+
 #: ../calendar/gui/memos-component.c:1262
 msgid "Create a new memo"
 msgstr "Skapa ett nytt memo"
@@ -8591,6 +8631,11 @@ msgstr "Skapa ett nytt memo"
 msgid "New shared memo"
 msgstr "Nytt delat memo"
 
+#: ../calendar/gui/memos-component.c:1269
+msgctxt "New"
+msgid "_Shared memo"
+msgstr "_Delat memo"
+
 #: ../calendar/gui/memos-component.c:1270
 msgid "Create a shared new memo"
 msgstr "Skapa ett nytt delat memo"
@@ -8598,6 +8643,11 @@ msgstr "Skapa ett nytt delat memo"
 #: ../calendar/gui/memos-component.c:1276
 msgid "New memo list"
 msgstr "Ny memolista"
+
+#: ../calendar/gui/memos-component.c:1277
+msgctxt "New"
+msgid "Memo li_st"
+msgstr "Memoli_sta"
 
 #: ../calendar/gui/memos-component.c:1278
 msgid "Create a new memo list"
@@ -8889,6 +8939,11 @@ msgstr "Väljare för uppgiftskälla"
 msgid "New task"
 msgstr "Ny uppgift"
 
+#: ../calendar/gui/tasks-component.c:1326
+msgctxt "New"
+msgid "_Task"
+msgstr "_Uppgift"
+
 #: ../calendar/gui/tasks-component.c:1327
 msgid "Create a new task"
 msgstr "Skapa en ny uppgift"
@@ -8897,6 +8952,11 @@ msgstr "Skapa en ny uppgift"
 msgid "New assigned task"
 msgstr "Ny tilldelad uppgift"
 
+#: ../calendar/gui/tasks-component.c:1334
+msgctxt "New"
+msgid "Assigne_d Task"
+msgstr "Tilldela_d uppgift"
+
 #: ../calendar/gui/tasks-component.c:1335
 msgid "Create a new assigned task"
 msgstr "Skapa en ny tilldelad uppgift"
@@ -8904,6 +8964,11 @@ msgstr "Skapa en ny tilldelad uppgift"
 #: ../calendar/gui/tasks-component.c:1341
 msgid "New task list"
 msgstr "Ny uppgiftslista"
+
+#: ../calendar/gui/tasks-component.c:1342
+msgctxt "New"
+msgid "Tas_k list"
+msgstr "Uppgif_tslista"
 
 #: ../calendar/gui/tasks-component.c:1343
 msgid "Create a new task list"
@@ -11028,7 +11093,7 @@ msgstr "Namnet på komponenten som blir loggad"
 #: ../mail/em-account-prefs.c:482
 #: ../mail/em-composer-prefs.c:988
 #: ../plugins/plugin-manager/plugin-manager.c:355
-#: ../plugins/publish-calendar/publish-calendar.c:689
+#: ../plugins/publish-calendar/publish-calendar.c:690
 msgid "Enabled"
 msgstr "Aktiverad"
 
@@ -11592,7 +11657,7 @@ msgstr "Standardvärden"
 #. Security settings
 #: ../mail/em-account-editor.c:2451
 #: ../mail/mail-config.glade.h:131
-#: ../plugins/exchange-operations/exchange-account-setup.c:315
+#: ../plugins/exchange-operations/exchange-account-setup.c:317
 msgid "Security"
 msgstr "Säkerhet"
 
@@ -11968,51 +12033,51 @@ msgstr "Sedan"
 msgid "Add Ac_tion"
 msgstr "Lägg till åt_gärd"
 
-#: ../mail/em-folder-browser.c:190
+#: ../mail/em-folder-browser.c:192
 msgid "C_reate Search Folder From Search..."
 msgstr "S_kapa sökmapp från sökning..."
 
-#: ../mail/em-folder-browser.c:215
+#: ../mail/em-folder-browser.c:217
 msgid "All Messages"
 msgstr "Alla meddelanden"
 
-#: ../mail/em-folder-browser.c:216
+#: ../mail/em-folder-browser.c:218
 msgid "Unread Messages"
 msgstr "Olästa meddelanden"
 
-#: ../mail/em-folder-browser.c:218
+#: ../mail/em-folder-browser.c:220
 msgid "No Label"
 msgstr "Ingen etikett"
 
-#: ../mail/em-folder-browser.c:225
+#: ../mail/em-folder-browser.c:227
 msgid "Read Messages"
 msgstr "Lästa meddelanden"
 
-#: ../mail/em-folder-browser.c:226
+#: ../mail/em-folder-browser.c:228
 msgid "Recent Messages"
 msgstr "Senaste meddelanden"
 
-#: ../mail/em-folder-browser.c:227
+#: ../mail/em-folder-browser.c:229
 msgid "Last 5 Days' Messages"
 msgstr "Meddelanden de senaste 5 dagarna"
 
-#: ../mail/em-folder-browser.c:228
+#: ../mail/em-folder-browser.c:230
 msgid "Messages with Attachments"
 msgstr "Meddelanden med bilagor"
 
-#: ../mail/em-folder-browser.c:229
+#: ../mail/em-folder-browser.c:231
 msgid "Important Messages"
 msgstr "Viktiga meddelanden"
 
-#: ../mail/em-folder-browser.c:230
+#: ../mail/em-folder-browser.c:232
 msgid "Messages Not Junk"
 msgstr "Meddelandet är inte skräppost"
 
-#: ../mail/em-folder-browser.c:1171
+#: ../mail/em-folder-browser.c:1173
 msgid "Account Search"
 msgstr "Kontosökning"
 
-#: ../mail/em-folder-browser.c:1224
+#: ../mail/em-folder-browser.c:1226
 msgid "All Account Search"
 msgstr "Sökning i alla konton"
 
@@ -12102,6 +12167,27 @@ msgstr "Skickat"
 #: ../mail/em-folder-tree-model.c:841
 msgid "Loading..."
 msgstr "Läser in..."
+
+#. Translators: This is the string used for displaying the
+#. * folder names in folder trees. "%s" will be replaced by
+#. * the folder's name and "%u" will be replaced with the
+#. * number of unread messages in the folder.
+#. *
+#. * Most languages should translate this as "%s (%u)". The
+#. * languages that use localized digits (like Persian) may
+#. * need to replace "%u" with "%Iu". Right-to-left languages
+#. * (like Arabic and Hebrew) may need to add bidirectional
+#. * formatting codes to take care of the cases the folder
+#. * name appears in either direction.
+#. *
+#. * Do not translate the "folder-display|" part. Remove it
+#. * from your translation.
+#.
+#: ../mail/em-folder-tree.c:380
+#, c-format
+msgctxt "folder-display"
+msgid "%s (%u)"
+msgstr "%s (%u)"
 
 #: ../mail/em-folder-tree.c:741
 msgid "Mail Folder Tree"
@@ -13829,6 +13915,11 @@ msgstr[1] "%d totalt"
 msgid "New Mail Message"
 msgstr "Nytt e-postmeddelande"
 
+#: ../mail/mail-component.c:923
+msgctxt "New"
+msgid "_Mail Message"
+msgstr "_E-postmeddelande"
+
 #: ../mail/mail-component.c:924
 msgid "Compose a new mail message"
 msgstr "Skriv ett nytt e-postmeddelande"
@@ -13836,6 +13927,11 @@ msgstr "Skriv ett nytt e-postmeddelande"
 #: ../mail/mail-component.c:930
 msgid "New Mail Folder"
 msgstr "Ny e-postmapp"
+
+#: ../mail/mail-component.c:931
+msgctxt "New"
+msgid "Mail _Folder"
+msgstr "E-post_mapp"
 
 #: ../mail/mail-component.c:932
 msgid "Create a new mail folder"
@@ -16269,28 +16365,28 @@ msgid "_User:"
 msgstr "_Användare:"
 
 #. i18n: "Secure Password Authentication" is an Outlookism
-#: ../plugins/exchange-operations/exchange-account-setup.c:61
+#: ../plugins/exchange-operations/exchange-account-setup.c:63
 msgid "Secure Password"
 msgstr "Säkert lösenord"
 
 #. i18n: "NTLM" probably doesn't translate
-#: ../plugins/exchange-operations/exchange-account-setup.c:64
+#: ../plugins/exchange-operations/exchange-account-setup.c:66
 msgid "This option will connect to the Exchange server using secure password (NTLM) authentication."
 msgstr "Detta alternativ kommer att ansluta till Exchange-servern genom att använda säker lösenordsautentisering (NTLM)."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:72
+#: ../plugins/exchange-operations/exchange-account-setup.c:74
 msgid "Plaintext Password"
 msgstr "Lösenord i klartext"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:74
+#: ../plugins/exchange-operations/exchange-account-setup.c:76
 msgid "This option will connect to the Exchange server using standard plaintext password authentication."
 msgstr "Detta alternativ kommer att ansluta till Exchange-servern genom att använda autentisering med lösenord i klartext."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:255
+#: ../plugins/exchange-operations/exchange-account-setup.c:257
 msgid "Out Of Office"
 msgstr "Inte på kontoret"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:262
+#: ../plugins/exchange-operations/exchange-account-setup.c:264
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -16299,90 +16395,90 @@ msgstr ""
 "till varje person som skickar e-post till dig när du inte är\n"
 "på kontoret."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:274
-#: ../plugins/exchange-operations/exchange-account-setup.c:279
+#: ../plugins/exchange-operations/exchange-account-setup.c:276
+#: ../plugins/exchange-operations/exchange-account-setup.c:281
 msgid "I am out of the office"
 msgstr "Jag är inte på kontoret"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:275
-#: ../plugins/exchange-operations/exchange-account-setup.c:278
+#: ../plugins/exchange-operations/exchange-account-setup.c:277
+#: ../plugins/exchange-operations/exchange-account-setup.c:280
 msgid "I am in the office"
 msgstr "Jag är på kontoret"
 
 #. Change Password
-#: ../plugins/exchange-operations/exchange-account-setup.c:326
+#: ../plugins/exchange-operations/exchange-account-setup.c:328
 msgid "Change the password for Exchange account"
 msgstr "Byt lösenordet på Exchange-kontot"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:328
+#: ../plugins/exchange-operations/exchange-account-setup.c:330
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:1
 msgid "Change Password"
 msgstr "Byt lösenord"
 
 #. Delegation Assistant
-#: ../plugins/exchange-operations/exchange-account-setup.c:333
+#: ../plugins/exchange-operations/exchange-account-setup.c:335
 msgid "Manage the delegate settings for Exchange account"
 msgstr "Hantera delegatinställningarna för Exchange-kontot"
 
 # Felstavat... borde buggrapporteras.
-#: ../plugins/exchange-operations/exchange-account-setup.c:335
+#: ../plugins/exchange-operations/exchange-account-setup.c:337
 msgid "Delegation Assistant"
 msgstr "Delegeringsassistent"
 
 # Felstavat... borde buggrapporteras.
 #. Miscelleneous settings
-#: ../plugins/exchange-operations/exchange-account-setup.c:347
+#: ../plugins/exchange-operations/exchange-account-setup.c:349
 msgid "Miscelleneous"
 msgstr "Diverse"
 
 #. Folder Size
-#: ../plugins/exchange-operations/exchange-account-setup.c:357
+#: ../plugins/exchange-operations/exchange-account-setup.c:359
 msgid "View the size of all Exchange folders"
 msgstr "Visa storleken på alla Exchange-mappar"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:359
+#: ../plugins/exchange-operations/exchange-account-setup.c:361
 msgid "Folders Size"
 msgstr "Mappstorlek"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:366
+#: ../plugins/exchange-operations/exchange-account-setup.c:368
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:3
 msgid "Exchange Settings"
 msgstr "Exchange-inställningar"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:688
+#: ../plugins/exchange-operations/exchange-account-setup.c:690
 msgid "_OWA URL:"
 msgstr "_OWA-URL:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:714
+#: ../plugins/exchange-operations/exchange-account-setup.c:716
 msgid "A_uthenticate"
 msgstr "A_utentisera"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:735
+#: ../plugins/exchange-operations/exchange-account-setup.c:737
 msgid "_Mailbox:"
 msgstr "_Brevlåda:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:936
+#: ../plugins/exchange-operations/exchange-account-setup.c:938
 msgid "_Authentication Type"
 msgstr "_Autentiseringstyp"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:950
+#: ../plugins/exchange-operations/exchange-account-setup.c:952
 msgid "Ch_eck for Supported Types"
 msgstr "_Kontrollera vilka typer som stöds"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:1062
-#: ../plugins/exchange-operations/exchange-contacts.c:212
+#: ../plugins/exchange-operations/exchange-account-setup.c:1064
+#: ../plugins/exchange-operations/exchange-contacts.c:213
 #, c-format
 msgid "%s KB"
 msgstr "%s KB"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:1064
-#: ../plugins/exchange-operations/exchange-contacts.c:214
+#: ../plugins/exchange-operations/exchange-account-setup.c:1066
+#: ../plugins/exchange-operations/exchange-contacts.c:215
 #, c-format
 msgid "0 KB"
 msgstr "0 KB"
 
 #: ../plugins/exchange-operations/exchange-calendar.c:192
-#: ../plugins/exchange-operations/exchange-contacts.c:165
+#: ../plugins/exchange-operations/exchange-contacts.c:166
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
@@ -17344,7 +17440,7 @@ msgid "Email:"
 msgstr "E-post:"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:5
-#: ../plugins/mail-account-disable/mail-account-disable.c:46
+#: ../plugins/mail-account-disable/mail-account-disable.c:45
 msgid "_Disable"
 msgstr "_Inaktivera"
 
@@ -17548,8 +17644,8 @@ msgstr "<b>Kontonamn</b>"
 msgid "Proxy Login"
 msgstr "Proxyinloggning"
 
-#: ../plugins/groupwise-features/proxy-login.c:208
-#: ../plugins/groupwise-features/proxy-login.c:250
+#: ../plugins/groupwise-features/proxy-login.c:206
+#: ../plugins/groupwise-features/proxy-login.c:248
 #: ../plugins/groupwise-features/proxy.c:491
 #: ../plugins/groupwise-features/send-options.c:85
 #, c-format
@@ -17559,7 +17655,7 @@ msgstr "%sAnge lösenord för %s (användare %s)"
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a groupwise
 #. * feature by which one person can send/read mails/appointments using another person's identity
 #. * without knowing his password, for example if that other person is on vacation
-#: ../plugins/groupwise-features/proxy-login.c:512
+#: ../plugins/groupwise-features/proxy-login.c:510
 msgid "_Proxy Login..."
 msgstr "_Proxyinloggning..."
 
@@ -18436,7 +18532,7 @@ msgstr "Detta sammanträde har delegerats"
 msgid "This response is not from a current attendee. Add the sender as an attendee?"
 msgstr "Detta svar är inte från en nuvarande deltagare. Lägg till avsändaren som deltagare?"
 
-#: ../plugins/mail-account-disable/mail-account-disable.c:47
+#: ../plugins/mail-account-disable/mail-account-disable.c:46
 msgid "Proxy _Logout"
 msgstr "Proxy_utloggning"
 
@@ -18939,7 +19035,7 @@ msgstr "Platser"
 msgid "_Publish Calendar Information"
 msgstr "_Publicera kalendarinformation"
 
-#: ../plugins/publish-calendar/publish-calendar.c:595
+#: ../plugins/publish-calendar/publish-calendar.c:596
 msgid "Are you sure you want to remove this URL?"
 msgstr "Är du säker på att du vill ta bort denna URL?"
 
@@ -19805,6 +19901,11 @@ msgstr "Nytt"
 #: ../shell/test/evolution-test-component.c:105
 msgid "New Test"
 msgstr "Nytt test"
+
+#: ../shell/test/evolution-test-component.c:106
+msgctxt "New"
+msgid "_Test"
+msgstr "_Testa"
 
 #: ../shell/test/evolution-test-component.c:107
 msgid "Create a new test item"
@@ -22175,7 +22276,7 @@ msgstr "Y2"
 #: ../widgets/misc/e-reflow.c:1426
 #: ../widgets/table/e-table-group-container.c:999
 #: ../widgets/table/e-table-group-leaf.c:644
-#: ../widgets/table/e-table-item.c:3074
+#: ../widgets/table/e-table-item.c:3070
 msgid "Minimum width"
 msgstr "Minsta bredd"
 
@@ -22183,7 +22284,7 @@ msgstr "Minsta bredd"
 #: ../widgets/misc/e-reflow.c:1427
 #: ../widgets/table/e-table-group-container.c:1000
 #: ../widgets/table/e-table-group-leaf.c:645
-#: ../widgets/table/e-table-item.c:3075
+#: ../widgets/table/e-table-item.c:3071
 msgid "Minimum Width"
 msgstr "Minsta bredd"
 
@@ -22919,8 +23020,8 @@ msgstr[1] "%s (%d objekt)"
 #: ../widgets/table/e-table-group-container.c:923
 #: ../widgets/table/e-table-group-leaf.c:581
 #: ../widgets/table/e-table-group-leaf.c:582
-#: ../widgets/table/e-table-item.c:3032
-#: ../widgets/table/e-table-item.c:3033
+#: ../widgets/table/e-table-item.c:3028
+#: ../widgets/table/e-table-item.c:3029
 msgid "Alternating Row Colors"
 msgstr "Färger för alternerande rader"
 
@@ -22928,8 +23029,8 @@ msgstr "Färger för alternerande rader"
 #: ../widgets/table/e-table-group-container.c:930
 #: ../widgets/table/e-table-group-leaf.c:588
 #: ../widgets/table/e-table-group-leaf.c:589
-#: ../widgets/table/e-table-item.c:3039
-#: ../widgets/table/e-table-item.c:3040
+#: ../widgets/table/e-table-item.c:3035
+#: ../widgets/table/e-table-item.c:3036
 #: ../widgets/table/e-tree.c:3343
 #: ../widgets/table/e-tree.c:3344
 msgid "Horizontal Draw Grid"
@@ -22939,8 +23040,8 @@ msgstr "Rutnät för horisontell ritning"
 #: ../widgets/table/e-table-group-container.c:937
 #: ../widgets/table/e-table-group-leaf.c:595
 #: ../widgets/table/e-table-group-leaf.c:596
-#: ../widgets/table/e-table-item.c:3046
-#: ../widgets/table/e-table-item.c:3047
+#: ../widgets/table/e-table-item.c:3042
+#: ../widgets/table/e-table-item.c:3043
 #: ../widgets/table/e-tree.c:3349
 #: ../widgets/table/e-tree.c:3350
 msgid "Vertical Draw Grid"
@@ -22950,8 +23051,8 @@ msgstr "Rutnät för vertikal ritning"
 #: ../widgets/table/e-table-group-container.c:944
 #: ../widgets/table/e-table-group-leaf.c:602
 #: ../widgets/table/e-table-group-leaf.c:603
-#: ../widgets/table/e-table-item.c:3053
-#: ../widgets/table/e-table-item.c:3054
+#: ../widgets/table/e-table-item.c:3049
+#: ../widgets/table/e-table-item.c:3050
 #: ../widgets/table/e-tree.c:3355
 #: ../widgets/table/e-tree.c:3356
 msgid "Draw focus"
@@ -22961,8 +23062,8 @@ msgstr "Rita fokus"
 #: ../widgets/table/e-table-group-container.c:951
 #: ../widgets/table/e-table-group-leaf.c:609
 #: ../widgets/table/e-table-group-leaf.c:610
-#: ../widgets/table/e-table-item.c:3060
-#: ../widgets/table/e-table-item.c:3061
+#: ../widgets/table/e-table-item.c:3056
+#: ../widgets/table/e-table-item.c:3057
 msgid "Cursor mode"
 msgstr "Markörläge"
 
@@ -22970,8 +23071,8 @@ msgstr "Markörläge"
 #: ../widgets/table/e-table-group-container.c:958
 #: ../widgets/table/e-table-group-leaf.c:623
 #: ../widgets/table/e-table-group-leaf.c:624
-#: ../widgets/table/e-table-item.c:3025
-#: ../widgets/table/e-table-item.c:3026
+#: ../widgets/table/e-table-item.c:3021
+#: ../widgets/table/e-table-item.c:3022
 msgid "Selection model"
 msgstr "Markeringsmodell"
 
@@ -22979,8 +23080,8 @@ msgstr "Markeringsmodell"
 #: ../widgets/table/e-table-group-container.c:965
 #: ../widgets/table/e-table-group-leaf.c:616
 #: ../widgets/table/e-table-group-leaf.c:617
-#: ../widgets/table/e-table-item.c:3067
-#: ../widgets/table/e-table-item.c:3068
+#: ../widgets/table/e-table-item.c:3063
+#: ../widgets/table/e-table-item.c:3064
 #: ../widgets/table/e-table.c:3326
 #: ../widgets/table/e-tree.c:3337
 #: ../widgets/table/e-tree.c:3338
@@ -22991,8 +23092,8 @@ msgstr "Längdtröskelvärde"
 #: ../widgets/table/e-table-group-container.c:972
 #: ../widgets/table/e-table-group-leaf.c:658
 #: ../widgets/table/e-table-group-leaf.c:659
-#: ../widgets/table/e-table-item.c:3101
-#: ../widgets/table/e-table-item.c:3102
+#: ../widgets/table/e-table-item.c:3097
+#: ../widgets/table/e-table-item.c:3098
 #: ../widgets/table/e-table.c:3333
 #: ../widgets/table/e-tree.c:3369
 #: ../widgets/table/e-tree.c:3370
@@ -23078,18 +23179,18 @@ msgstr "Sorteringsinformation"
 msgid "Tree"
 msgstr "Träd"
 
-#: ../widgets/table/e-table-item.c:3011
-#: ../widgets/table/e-table-item.c:3012
+#: ../widgets/table/e-table-item.c:3007
+#: ../widgets/table/e-table-item.c:3008
 msgid "Table header"
 msgstr "Tabellhuvud"
 
-#: ../widgets/table/e-table-item.c:3018
-#: ../widgets/table/e-table-item.c:3019
+#: ../widgets/table/e-table-item.c:3014
+#: ../widgets/table/e-table-item.c:3015
 msgid "Table model"
 msgstr "Tabellmodell"
 
-#: ../widgets/table/e-table-item.c:3094
-#: ../widgets/table/e-table-item.c:3095
+#: ../widgets/table/e-table-item.c:3090
+#: ../widgets/table/e-table-item.c:3091
 msgid "Cursor row"
 msgstr "Markörrad"
 
@@ -23246,54 +23347,6 @@ msgstr "IM-sammanhang"
 msgid "Handle Popup"
 msgstr "Hantera popupfönster"
 
-#~ msgctxt "New"
-#~ msgid "_Contact"
-#~ msgstr "_Kontakt"
-#~ msgctxt "New"
-#~ msgid "Contact _List"
-#~ msgstr "Kontakt_lista"
-#~ msgctxt "New"
-#~ msgid "Address _Book"
-#~ msgstr "Adress_bok"
-#~ msgctxt "New"
-#~ msgid "_Appointment"
-#~ msgstr "_Möte"
-#~ msgctxt "New"
-#~ msgid "M_eeting"
-#~ msgstr "_Sammanträde"
-#~ msgctxt "New"
-#~ msgid "All Day A_ppointment"
-#~ msgstr "Hel_dagsmöte"
-#~ msgctxt "New"
-#~ msgid "Cale_ndar"
-#~ msgstr "Kale_nder"
-#~ msgctxt "New"
-#~ msgid "Mem_o"
-#~ msgstr "Mem_o"
-#~ msgctxt "New"
-#~ msgid "Memo li_st"
-#~ msgstr "Memoli_sta"
-#~ msgctxt "New"
-#~ msgid "_Task"
-#~ msgstr "_Uppgift"
-#~ msgctxt "New"
-#~ msgid "Assigne_d Task"
-#~ msgstr "Tilldela_d uppgift"
-#~ msgctxt "New"
-#~ msgid "Tas_k list"
-#~ msgstr "Uppgif_tslista"
-#~ msgctxt "folder-display"
-#~ msgid "%s (%u)"
-#~ msgstr "%s (%u)"
-#~ msgctxt "New"
-#~ msgid "_Mail Message"
-#~ msgstr "_E-postmeddelande"
-#~ msgctxt "New"
-#~ msgid "Mail _Folder"
-#~ msgstr "E-post_mapp"
-#~ msgctxt "New"
-#~ msgid "_Test"
-#~ msgstr "_Testa"
 #~ msgid "Recent Docu_ments"
 #~ msgstr "Senaste doku_ment"
 #~ msgid "button-user"
