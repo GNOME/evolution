@@ -22,6 +22,7 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <libecal/e-cal.h>
+#include <libedataserver/e-url.h>
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-source-list.h>
 #include <libedataserver/e-source-group.h>
@@ -30,7 +31,11 @@
 #include "shell/e-shell-module.h"
 #include "shell/e-shell-window.h"
 
+#include "calendar/common/authentication.h"
 #include "calendar/gui/calendar-config.h"
+#include "calendar/gui/comp-util.h"
+#include "calendar/gui/dialogs/calendar-setup.h"
+#include "calendar/gui/dialogs/event-editor.h"
 
 #include "e-cal-shell-view.h"
 #include "e-cal-shell-module-migrate.h"
@@ -284,27 +289,85 @@ cal_module_ensure_sources (EShellModule *shell_module)
 }
 
 static void
-action_appointment_new_cb (GtkAction *action,
-                           EShellWindow *shell_window)
+cal_module_cal_opened_cb (ECal *cal,
+                          ECalendarStatus status,
+                          GtkAction *action)
 {
+	ECalComponent *comp;
+	CompEditor *editor;
+	CompEditorFlags flags = 0;
+	const gchar *action_name;
+	gboolean all_day;
+
+	/* XXX Handle errors better. */
+	if (status != E_CALENDAR_STATUS_OK)
+		return;
+
+	action_name = gtk_action_get_name (action);
+
+	flags |= COMP_EDITOR_NEW_ITEM;
+	flags |= COMP_EDITOR_USER_ORG;
+	if (strcmp (action_name, "meeting-new") == 0)
+		flags |= COMP_EDITOR_MEETING;
+
+	all_day = (strcmp (action_name, "appointment-all-day-new") == 0);
+
+	editor = event_editor_new (cal, flags);
+	comp = cal_comp_event_new_with_current_time (cal, all_day);
+	comp_editor_edit_comp (editor, comp);
+
+	gtk_window_present (GTK_WINDOW (editor));
+
+	g_object_unref (comp);
+	g_object_unref (cal);
 }
 
 static void
-action_appointment_all_day_new_cb (GtkAction *action,
-                                   EShellWindow *shell_window)
+action_event_new_cb (GtkAction *action,
+                     EShellWindow *shell_window)
 {
-}
+	ECal *cal = NULL;
+	ECalSourceType source_type;
+	ESourceList *source_list;
+	gchar *uid;
 
-static void
-action_meeting_new_cb (GtkAction *action,
-                       EShellWindow *shell_window)
-{
+	/* This callback is used for both appointments and meetings. */
+
+	source_type = E_CAL_SOURCE_TYPE_EVENT;
+
+	if (!e_cal_get_sources (&source_list, source_type, NULL)) {
+		g_warning ("Could not get calendar sources from GConf!");
+		return;
+	}
+
+	uid = calendar_config_get_primary_calendar ();
+
+	if (uid != NULL) {
+		ESource *source;
+
+		source = e_source_list_peek_source_by_uid (source_list, uid);
+		if (source != NULL)
+			cal = auth_new_cal_from_source (source, source_type);
+		g_free (uid);
+	}
+
+	if (cal == NULL)
+		cal = auth_new_cal_from_default (source_type);
+
+	g_return_if_fail (cal != NULL);
+
+	g_signal_connect (
+		cal, "cal-opened",
+		G_CALLBACK (cal_module_cal_opened_cb), action);
+
+	e_cal_open_async (cal, FALSE);
 }
 
 static void
 action_calendar_new_cb (GtkAction *action,
                         EShellWindow *shell_window)
 {
+	calendar_setup_new_calendar (GTK_WINDOW (shell_window));
 }
 
 static GtkActionEntry item_entries[] = {
@@ -314,21 +377,21 @@ static GtkActionEntry item_entries[] = {
 	  N_("_Appointment"),  /* XXX Need C_() here */
 	  "<Control>a",
 	  N_("Create a new appointment"),
-	  G_CALLBACK (action_appointment_new_cb) },
+	  G_CALLBACK (action_event_new_cb) },
 
 	{ "appointment-all-day-new",
 	  "stock_new-24h-appointment",
 	  N_("All Day A_ppointment"),
 	  NULL,
 	  N_("Create a new all-day appointment"),
-	  G_CALLBACK (action_appointment_all_day_new_cb) },
+	  G_CALLBACK (action_event_new_cb) },
 
 	{ "meeting-new",
 	  "stock_new-meeting",
 	  N_("M_eeting"),
 	  "<Control>e",
 	  N_("Create a new meeting request"),
-	  G_CALLBACK (action_meeting_new_cb) }
+	  G_CALLBACK (action_event_new_cb) }
 };
 
 static GtkActionEntry source_entries[] = {

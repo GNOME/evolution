@@ -157,29 +157,6 @@ source_selection_changed_cb (ESourceSelector *selector, MemosComponentView *comp
 
 /* Evolution::Component CORBA methods */
 
-static void
-impl_upgradeFromVersion (PortableServer_Servant servant,
-			 CORBA_short major,
-			 CORBA_short minor,
-			 CORBA_short revision,
-			 CORBA_Environment *ev)
-{
-	GError *err = NULL;
-	MemosComponent *component = MEMOS_COMPONENT (bonobo_object_from_servant (servant));
-
-	if (!migrate_memos(component, major, minor, revision, &err)) {
-		GNOME_Evolution_Component_UpgradeFailed *failedex;
-
-		failedex = GNOME_Evolution_Component_UpgradeFailed__alloc();
-		failedex->what = CORBA_string_dup(_("Failed upgrading memos."));
-		failedex->why = CORBA_string_dup(err->message);
-		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UpgradeFailed, failedex);
-	}
-
-	if (err)
-		g_error_free(err);
-}
-
 static gboolean
 update_single_object (ECal *client, icalcomponent *icalcomp, gboolean fail_on_modify)
 {

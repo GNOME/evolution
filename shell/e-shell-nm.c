@@ -48,7 +48,8 @@ reinit_dbus (EShell *shell)
 
 static DBusHandlerResult
 e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
-                         DBusMessage *message, void *user_data)
+                         DBusMessage *message,
+                         gpointer user_data)
 {
 	DBusError error;
 	const gchar *object;
@@ -60,7 +61,7 @@ e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
 	object = dbus_message_get_path (message);
 
 	if (dbus_message_is_signal (message, DBUS_INTERFACE_LOCAL, "Disconnected") &&
-		object && !strcmp (object, DBUS_PATH_LOCAL)) {
+		object != NULL && strcmp (object, DBUS_PATH_LOCAL) == 0) {
 		dbus_connection_unref (dbus_connection);
 		dbus_connection = NULL;
 

@@ -22,6 +22,9 @@
 #ifndef E_CAL_SHELL_SIDEBAR_H
 #define E_CAL_SHELL_SIDEBAR_H
 
+#include <libecal/e-cal.h>
+#include <libedataserverui/e-source-selector.h>
+
 #include <shell/e-shell-sidebar.h>
 #include <shell/e-shell-view.h>
 
@@ -57,11 +60,25 @@ struct _ECalShellSidebar {
 
 struct _ECalShellSidebarClass {
 	EShellSidebarClass parent_class;
+
+	/* Signals */
+	void	(*client_added)			(ECalShellSidebar *cal_shell_sidebar,
+						 ECal *client);
+	void	(*client_removed)		(ECalShellSidebar *cal_shell_sidebar,
+						 ECal *client);
+	void	(*status_message)		(ECalShellSidebar *cal_shell_sidebar,
+						 const gchar *status_message);
 };
 
 GType		e_cal_shell_sidebar_get_type	(void);
 GtkWidget *	e_cal_shell_sidebar_new		(EShellView *shell_view);
-GtkWidget *	e_cal_shell_sidebar_get_selector(ECalShellSidebar *cal_shell_sidebar);
+ESourceSelector *
+		e_cal_shell_sidebar_get_selector(ECalShellSidebar *cal_shell_sidebar);
+void		e_cal_shell_sidebar_add_source	(ECalShellSidebar *cal_shell_sidebar,
+						 ESource *source);
+void		e_cal_shell_sidebar_remove_source
+						(ECalShellSidebar *cal_shell_sidebar,
+						 ESource *source);
 
 G_END_DECLS
 

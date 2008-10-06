@@ -1319,37 +1319,6 @@ working_days_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpoin
 }
 
 static void
-set_timezone (GnomeCalendar *calendar)
-{
-	GnomeCalendarPrivate *priv;
-	int i;
-
-	priv = calendar->priv;
-
-	priv->zone = calendar_config_get_icaltimezone ();
-
-	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
-		GList *l;
-
-		for (l = priv->clients_list[i]; l != NULL; l = l->next) {
-			ECal *client = l->data;
-
-			if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
-				/* FIXME Error checking */
-				e_cal_set_default_timezone (client, priv->zone, NULL);
-		}
-
-		if (priv->default_client[i]
-		    && e_cal_get_load_state (priv->default_client[i]) == E_CAL_LOAD_LOADED)
-			/* FIXME Error checking */
-			e_cal_set_default_timezone (priv->default_client[i], priv->zone, NULL);
-	}
-
-	if (priv->views [priv->current_view_type])
-		e_calendar_view_set_timezone (priv->views [priv->current_view_type], priv->zone);
-}
-
-static void
 timezone_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
 	GnomeCalendar *calendar = data;
@@ -2991,31 +2960,6 @@ open_ecal (GnomeCalendar *gcal, ECal *cal, gboolean only_if_exists, open_func of
 	e_cal_open_async (cal, only_if_exists);
 
 	return TRUE;
-}
-
-/* Callback when we get an error message from the backend */
-static void
-backend_error_cb (ECal *client, const char *message, gpointer data)
-{
-	GnomeCalendar *gcal;
-	GtkDialog *dialog;
-	char *uristr;
-
-	gcal = GNOME_CALENDAR (data);
-
-	uristr = get_uri_without_password (e_cal_get_uri (client));
-
-	dialog = GTK_DIALOG (gtk_message_dialog_new (
-		GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))),
-		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_MESSAGE_ERROR,
-		GTK_BUTTONS_OK,
-		_("Error on %s:\n %s"),
-		uristr, message));
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (GTK_WIDGET (dialog));
-
-	g_free (uristr);
 }
 
 /* Callback when the backend dies */

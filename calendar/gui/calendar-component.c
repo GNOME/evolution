@@ -87,16 +87,11 @@ typedef struct
 
 	GList *notifications;
 
-	EUserCreatableItemsHandler *creatable_items_handler;
-
-	EActivityHandler *activity_handler;
-
 	float	     vpane_pos;
 } CalendarComponentView;
 
 struct _CalendarComponentPrivate {
 
-	GConfClient *gconf_client;
 	int gconf_notify_id;
 
 	ESourceList *source_list;
@@ -157,54 +152,6 @@ is_in_uids (GSList *uids, ESource *source)
 	}
 
 	return FALSE;
-}
-
-static void
-update_uris_for_selection (CalendarComponentView *component_view)
-{
-	GSList *selection, *l, *uids_selected = NULL;
-
-	selection = e_source_selector_get_selection (E_SOURCE_SELECTOR (component_view->source_selector));
-
-	for (l = component_view->source_selection; l; l = l->next) {
-		ESource *old_selected_source = l->data;
-
-		if (!is_in_selection (selection, old_selected_source))
-			gnome_calendar_remove_source (component_view->calendar, E_CAL_SOURCE_TYPE_EVENT, old_selected_source);
-	}
-
-	for (l = selection; l; l = l->next) {
-		ESource *selected_source = l->data;
-
-		if (gnome_calendar_add_source (component_view->calendar, E_CAL_SOURCE_TYPE_EVENT, selected_source))
-			uids_selected = g_slist_append (uids_selected, (char *) e_source_peek_uid (selected_source));
-	}
-
-	e_source_selector_free_selection (component_view->source_selection);
-	component_view->source_selection = selection;
-
-	/* Save the selection for next time we start up */
-	calendar_config_set_calendars_selected (uids_selected);
-	g_slist_free (uids_selected);
-}
-
-static void
-update_uri_for_primary_selection (CalendarComponentView *component_view)
-{
-	ESource *source;
-
-	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
-	if (!source)
-		return;
-
-	/* Set the default */
-	gnome_calendar_set_default_source (component_view->calendar, E_CAL_SOURCE_TYPE_EVENT, source);
-
-	/* Make sure we are embedded first */
-	calendar_control_sensitize_calendar_commands (component_view->view_control, component_view->calendar, TRUE);
-
-	/* Save the selection for next time we start up */
-	calendar_config_set_primary_calendar (e_source_peek_uid (source));
 }
 
 static void
@@ -455,18 +402,6 @@ popup_event_cb(ESourceSelector *selector, ESource *insource, GdkEventButton *eve
 }
 
 static void
-source_selection_changed_cb (ESourceSelector *selector, CalendarComponentView *component_view)
-{
-	update_uris_for_selection (component_view);
-}
-
-static void
-primary_source_selection_changed_cb (ESourceSelector *selector, CalendarComponentView *component_view)
-{
-	update_uri_for_primary_selection (component_view);
-}
-
-static void
 source_changed_cb (ESource *source, GnomeCalendar *calendar)
 {
 	if (calendar) {
@@ -625,29 +560,6 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 }
 
 static void
-impl_upgradeFromVersion (PortableServer_Servant servant,
-			 CORBA_short major,
-			 CORBA_short minor,
-			 CORBA_short revision,
-			 CORBA_Environment *ev)
-{
-	GError *err = NULL;
-	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
-
-	if (!migrate_calendars (calendar_component, major, minor, revision, &err)) {
-		GNOME_Evolution_Component_UpgradeFailed *failedex;
-
-		failedex = GNOME_Evolution_Component_UpgradeFailed__alloc();
-		failedex->what = CORBA_string_dup(_("Failed upgrading calendars."));
-		failedex->why = CORBA_string_dup(err->message);
-		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UpgradeFailed, failedex);
-	}
-
-	if (err)
-		g_error_free(err);
-}
-
-static void
 config_create_ecal_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
 	CalendarComponent *calendar_component = data;
@@ -745,70 +657,6 @@ setup_create_ecal (CalendarComponent *calendar_component, CalendarComponentView 
 	return priv->create_ecal;
 }
 
-static gboolean
-create_new_event (CalendarComponent *calendar_component, CalendarComponentView *component_view, gboolean is_allday, gboolean is_meeting)
-{
-	ECal *ecal;
-	ECalendarView *view;
-
-	ecal = setup_create_ecal (calendar_component, component_view);
-	if (!ecal)
-		return FALSE;
-
-	if (component_view && (view = E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (component_view->calendar)))) {
-		e_calendar_view_new_appointment_full (view, is_allday, is_meeting, TRUE);
-	} else {
-		ECalComponent *comp;
-		CompEditor *editor;
-		CompEditorFlags flags;
-
-		flags = COMP_EDITOR_USER_ORG | COMP_EDITOR_NEW_ITEM;
-		if (is_meeting)
-			flags |= COMP_EDITOR_MEETING;
-		comp = cal_comp_event_new_with_current_time (ecal, is_allday);
-		editor = event_editor_new (ecal, flags);
-		e_cal_component_commit_sequence (comp);
-
-		comp_editor_edit_comp (editor, comp);
-		if (is_meeting)
-			event_editor_show_meeting (EVENT_EDITOR (editor));
-		gtk_window_present (GTK_WINDOW (editor));
-
-		e_comp_editor_registry_add (comp_editor_registry, editor, TRUE);
-	}
-
-	return TRUE;
-}
-
-static void
-create_local_item_cb (EUserCreatableItemsHandler *handler, const char *item_type_name, void *data)
-{
-	CalendarComponent *calendar_component = data;
-	CalendarComponentPrivate *priv;
-	CalendarComponentView *component_view = NULL;
-	GList *l;
-
-	priv = calendar_component->priv;
-
-	for (l = priv->views; l; l = l->next) {
-		component_view = l->data;
-
-		if (component_view->creatable_items_handler == handler)
-			break;
-
-		component_view = NULL;
-	}
-
-	if (strcmp (item_type_name, CREATE_EVENT_ID) == 0)
-		create_new_event (calendar_component, component_view, FALSE, FALSE);
- 	else if (strcmp (item_type_name, CREATE_ALLDAY_EVENT_ID) == 0)
-		create_new_event (calendar_component, component_view, TRUE, FALSE);
-	else if (strcmp (item_type_name, CREATE_MEETING_ID) == 0)
-		create_new_event (calendar_component, component_view, FALSE, TRUE);
-	else if (strcmp (item_type_name, CREATE_CALENDAR_ID) == 0)
-		calendar_setup_new_calendar (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (component_view->calendar))));
-}
-
 static CalendarComponentView *
 create_component_view (CalendarComponent *calendar_component)
 {
@@ -881,25 +729,16 @@ create_component_view (CalendarComponent *calendar_component)
 
 	/* Create status bar */
 	statusbar_widget = e_task_bar_new ();
-	component_view->activity_handler = e_activity_handler_new ();
-	e_activity_handler_attach_task_bar (component_view->activity_handler, E_TASK_BAR (statusbar_widget));
 	gtk_widget_show (statusbar_widget);
 
 	component_view->statusbar_control = bonobo_control_new (statusbar_widget);
 
-	gnome_calendar_set_activity_handler (component_view->calendar, component_view->activity_handler);
-
 	/* connect after setting the initial selections, or we'll get unwanted calls
 	   to calendar_control_sensitize_calendar_commands */
-	g_signal_connect (component_view->source_selector, "selection_changed",
-			  G_CALLBACK (source_selection_changed_cb), component_view);
-	g_signal_connect (component_view->source_selector, "primary_selection_changed",
-			  G_CALLBACK (primary_source_selection_changed_cb), component_view);
 	g_signal_connect (component_view->source_selector, "popup_event",
 			  G_CALLBACK (popup_event_cb), component_view);
 
 	/* Set up the "new" item handler */
-	component_view->creatable_items_handler = e_user_creatable_items_handler_new ("calendar", create_local_item_cb, calendar_component);
 	g_signal_connect (component_view->view_control, "activate", G_CALLBACK (control_activate_cb), component_view);
 
 	/* Load the selection from the last run */
@@ -952,12 +791,6 @@ destroy_component_view (CalendarComponentView *component_view)
 		calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
 	g_list_free (component_view->notifications);
 
-	if (component_view->creatable_items_handler)
-		g_object_unref (component_view->creatable_items_handler);
-
-	if (component_view->activity_handler)
-		g_object_unref (component_view->activity_handler);
-
 	if (component_view->task_source_selection) {
 		g_slist_foreach (component_view->task_source_selection, (GFunc) g_free, NULL);
 		g_slist_free (component_view->task_source_selection);
@@ -992,62 +825,6 @@ view_destroyed_cb (gpointer data, GObject *where_the_object_was)
 	}
 }
 
-static GNOME_Evolution_ComponentView
-impl_createView (PortableServer_Servant servant,
-		 GNOME_Evolution_ShellView parent,
-		 CORBA_boolean select_item,
-		 CORBA_Environment *ev)
-{
-	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
-	CalendarComponentPrivate *priv;
-	CalendarComponentView *component_view;
-	EComponentView *ecv;
-
-	priv = calendar_component->priv;
-
-	/* Create the calendar component view */
-	component_view = create_component_view (calendar_component);
-	if (!component_view) {
-		/* FIXME Should we describe the problem in a control? */
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
-
-		return CORBA_OBJECT_NIL;
-	}
-
-	g_object_weak_ref (G_OBJECT (component_view->view_control), view_destroyed_cb, calendar_component);
-	priv->views = g_list_append (priv->views, component_view);
-
-	/* TODO: Make CalendarComponentView just subclass EComponentView */
-	ecv = e_component_view_new_controls (parent, "calendar", component_view->sidebar_control,
-					     component_view->view_control, component_view->statusbar_control);
-
-	return BONOBO_OBJREF(ecv);
-}
-
-
-static void
-impl_requestCreateItem (PortableServer_Servant servant,
-			const CORBA_char *item_type_name,
-			CORBA_Environment *ev)
-{
-	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
-	gboolean result = FALSE;
-
-	if (strcmp (item_type_name, CREATE_EVENT_ID) == 0)
-		result = create_new_event (calendar_component, NULL, FALSE, FALSE);
- 	else if (strcmp (item_type_name, CREATE_ALLDAY_EVENT_ID) == 0)
-		result = create_new_event (calendar_component, NULL, TRUE, FALSE);
-	else if (strcmp (item_type_name, CREATE_MEETING_ID) == 0)
-		result = create_new_event (calendar_component, NULL, FALSE, TRUE);
-	else if (strcmp (item_type_name, CREATE_CALENDAR_ID) == 0)
-		/* FIXME Should we use the last opened window? */
-		calendar_setup_new_calendar (NULL);
-	else
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_UnknownType);
-
-	if (!result)
-		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
-}
 
 /* GObject methods.  */
 
@@ -1061,11 +838,6 @@ impl_dispose (GObject *object)
 	if (priv->source_list != NULL) {
 		g_object_unref (priv->source_list);
 		priv->source_list = NULL;
-	}
-
-	if (priv->gconf_client != NULL) {
-		g_object_unref (priv->gconf_client);
-		priv->gconf_client = NULL;
 	}
 
 	if (priv->create_ecal) {
@@ -1090,24 +862,6 @@ impl_dispose (GObject *object)
 }
 
 static void
-impl_finalize (GObject *object)
-{
-	CalendarComponentPrivate *priv = CALENDAR_COMPONENT (object)->priv;
-	GList *l;
-
-	for (l = priv->views; l; l = l->next) {
-		CalendarComponentView *component_view = l->data;
-
-		destroy_component_view (component_view);
-	}
-	g_list_free (priv->views);
-
-	g_free (priv);
-
-	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
-}
-
-static void
 calendar_component_class_init (CalendarComponentClass *class)
 {
 	POA_GNOME_Evolution_Component__epv *epv = &class->epv;
@@ -1115,13 +869,9 @@ calendar_component_class_init (CalendarComponentClass *class)
 
 	parent_class = g_type_class_peek_parent (class);
 
-	epv->upgradeFromVersion      = impl_upgradeFromVersion;
-	epv->createView              = impl_createView;
-	epv->requestCreateItem       = impl_requestCreateItem;
 	epv->handleURI               = impl_handleURI;
 
 	object_class->dispose  = impl_dispose;
-	object_class->finalize = impl_finalize;
 }
 
 static void
@@ -1129,12 +879,6 @@ calendar_component_init (CalendarComponent *component)
 {
 	CalendarComponentPrivate *priv;
 	guint not;
-
-	priv = g_new0 (CalendarComponentPrivate, 1);
-
-	/* EPFIXME: Should use a custom one instead?  Also we should add
-	 * calendar_component_peek_gconf_client().  */
-	priv->gconf_client = gconf_client_get_default ();
 
 	not = calendar_config_add_notification_primary_calendar (config_primary_selection_changed_cb,
 								 component);
@@ -1147,5 +891,3 @@ calendar_component_init (CalendarComponent *component)
 	if (!e_cal_get_sources (&priv->memo_source_list, E_CAL_SOURCE_TYPE_JOURNAL, NULL))
 		;
 }
-
-BONOBO_TYPE_FUNC_FULL (CalendarComponent, GNOME_Evolution_Component, PARENT_TYPE, calendar_component)
