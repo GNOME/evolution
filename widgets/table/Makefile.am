@@ -23,7 +23,6 @@ libetable_la_SOURCES = 				\
 	e-cell-checkbox.c			\
 	e-cell-combo.c				\
 	e-cell-date.c				\
-	e-cell-float.c				\
 	e-cell-number.c				\
 	e-cell-pixbuf.c				\
 	e-cell-popup.c				\
@@ -85,7 +84,6 @@ libetableinclude_HEADERS = 			\
 	e-cell-checkbox.h			\
 	e-cell-combo.h				\
 	e-cell-date.h				\
-	e-cell-float.h				\
 	e-cell-number.h				\
 	e-cell-pixbuf.h				\
 	e-cell-popup.h				\
