@@ -123,6 +123,8 @@ btn_chpass_clicked (GtkButton *button, gpointer data)
  	ExchangeAccountResult result;
 
 	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return;
 
 	old_password = exchange_account_get_password (account);
 	if (!old_password) {
@@ -149,6 +151,8 @@ btn_dass_clicked (GtkButton *button, gpointer data)
 {
 	ExchangeAccount *account;
 	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return;
 	exchange_delegates (account, gtk_widget_get_ancestor (GTK_WIDGET (button), GTK_TYPE_WINDOW));
 }
 
@@ -159,6 +163,8 @@ btn_fsize_clicked (GtkButton *button, gpointer data)
 	GtkListStore *model;
 
 	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return;
 
 	model = exchange_account_folder_size_get_model (account);
 	if (model)
@@ -1050,7 +1056,10 @@ org_gnome_exchange_show_folder_size_factory (EPlugin *epl, EConfigHookItemFactor
 	if (g_ascii_strcasecmp (provider->protocol, "exchange"))
 		return NULL;
 
-	account = exchange_operations_get_exchange_account ();  
+	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return NULL;
+
 	exchange_account_is_offline (account, &mode);  
 	if (mode == OFFLINE_MODE)  
 		return NULL;  
