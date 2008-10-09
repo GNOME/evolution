@@ -1,3 +1,10 @@
+2008-10-09  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #555494
+
+	* gui/widgets/e-addressbook-view.c (generate_viewoption_menu):
+	Category icons are not themed.  Load by file, not by icon name.
+
 2008-10-03  Sankar P  <psankar@novell.com>
 
 License Changes

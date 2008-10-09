@@ -1479,9 +1479,8 @@ generate_viewoption_menu (EABSearchBarItem *subitems)
                         if (subitems[i].image) {
                                 GtkWidget *image;
 
-                                image = gtk_image_new_from_icon_name (
-                                        subitems[i].image,
-                                        GTK_ICON_SIZE_MENU);
+                                image = gtk_image_new_from_file (
+                                        subitems[i].image);
                                 gtk_image_menu_item_set_image (
                                         GTK_IMAGE_MENU_ITEM (menu_item),
                                         image);
