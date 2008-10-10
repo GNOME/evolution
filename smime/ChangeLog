@@ -1,3 +1,13 @@
+2008-10-10  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* lib/e-asn1-object.c:
+	* lib/e-cert-db.c:
+	* lib/e-cert-trust.c:
+	* lib/e-cert.c:
+	* lib/e-pkcs12.c:
+
 2008-09-02  Sankar P  <psankar@novell.com>
 
 License Changes
