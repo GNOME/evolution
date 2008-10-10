@@ -1,26 +1,24 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * e-reflow.c
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ *
  *
  * Authors:
- *   Chris Lahey <clahey@ximian.com>
+ *              Chris Lahey <clahey@ximian.com>
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
- * License, version 2, as published by the Free Software Foundation.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
- *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 02110-1301, USA.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  */
-
 #include <config.h>
 
 #include <math.h>
@@ -956,14 +954,12 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 				case 1:
 					{
 						GdkEventButton *button = (GdkEventButton *) event;
-						double n_x, max_x;
+						double n_x;
 						n_x = button->x;
 						n_x += E_REFLOW_BORDER_WIDTH + E_REFLOW_DIVIDER_WIDTH;
 						n_x = fmod(n_x,(reflow->column_width + E_REFLOW_FULL_GUTTER));
 
-						max_x = E_REFLOW_BORDER_WIDTH;
-						max_x += (reflow->column_width + E_REFLOW_FULL_GUTTER) * reflow->column_count;
-						if ( button->y >= E_REFLOW_BORDER_WIDTH && button->y <= reflow->height - E_REFLOW_BORDER_WIDTH && n_x < E_REFLOW_FULL_GUTTER && max_x > button->x ) {
+						if ( button->y >= E_REFLOW_BORDER_WIDTH && button->y <= reflow->height - E_REFLOW_BORDER_WIDTH && n_x < E_REFLOW_FULL_GUTTER ) {
 							/* don't allow to drag the first line*/
 							if (e_reflow_pick_line(reflow, button->x) == 0)
 								return TRUE;
@@ -1047,16 +1043,13 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 				return TRUE;
 			} else {
 				GdkEventMotion *motion = (GdkEventMotion *) event;
-				double n_x, max_x;
+				double n_x;
 
 				n_x = motion->x;
 				n_x += E_REFLOW_BORDER_WIDTH + E_REFLOW_DIVIDER_WIDTH;
 				n_x = fmod(n_x,(reflow->column_width + E_REFLOW_FULL_GUTTER));
 
-				max_x = E_REFLOW_BORDER_WIDTH;
-				max_x += (reflow->column_width + E_REFLOW_FULL_GUTTER) * reflow->column_count;
-
-				if ( motion->y >= E_REFLOW_BORDER_WIDTH && motion->y <= reflow->height - E_REFLOW_BORDER_WIDTH && n_x < E_REFLOW_FULL_GUTTER && max_x > motion->x) {
+				if ( motion->y >= E_REFLOW_BORDER_WIDTH && motion->y <= reflow->height - E_REFLOW_BORDER_WIDTH && n_x < E_REFLOW_FULL_GUTTER ) {
 					if ( reflow->default_cursor_shown ) {
 						gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, reflow->arrow_cursor);
 						reflow->default_cursor_shown = FALSE;
@@ -1072,14 +1065,12 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 		case GDK_ENTER_NOTIFY:
 			if (!reflow->column_drag) {
 				GdkEventCrossing *crossing = (GdkEventCrossing *) event;
-				double n_x, max_x;
+				double n_x;
 				n_x = crossing->x;
 				n_x += E_REFLOW_BORDER_WIDTH + E_REFLOW_DIVIDER_WIDTH;
 				n_x = fmod(n_x,(reflow->column_width + E_REFLOW_FULL_GUTTER));
 
-				max_x = E_REFLOW_BORDER_WIDTH;
-				max_x += (reflow->column_width + E_REFLOW_FULL_GUTTER) * reflow->column_count;
-				if ( crossing->y >= E_REFLOW_BORDER_WIDTH && crossing->y <= reflow->height - E_REFLOW_BORDER_WIDTH && n_x < E_REFLOW_FULL_GUTTER && max_x > crossing->x) {
+				if ( crossing->y >= E_REFLOW_BORDER_WIDTH && crossing->y <= reflow->height - E_REFLOW_BORDER_WIDTH && n_x < E_REFLOW_FULL_GUTTER ) {
 					if ( reflow->default_cursor_shown ) {
 						gdk_window_set_cursor(GTK_WIDGET(item->canvas)->window, reflow->arrow_cursor);
 						reflow->default_cursor_shown = FALSE;
@@ -1542,4 +1533,3 @@ e_reflow_init (EReflow *reflow)
 
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(reflow), e_reflow_reflow);
 }
-

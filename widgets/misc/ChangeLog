@@ -1,3 +1,9 @@
+2008-10-10  Sankar P  <psankar@novell.com>
+
+License Changes + code cleanup
+
+	* e-reflow.c (e_reflow_event), (e_reflow_init):
+
 2008-10-06  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #554456
