@@ -1,3 +1,9 @@
+2008-10-10  Sankar P  <psankar@novell.com>
+
+License Changes + code cleanup
+
+	* e-reflow.c (e_reflow_event), (e_reflow_init):
+
 2008-10-01  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #554418
