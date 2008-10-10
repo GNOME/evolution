@@ -1,3 +1,11 @@
+2008-10-10  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #555775
+
+	* e-composer-private.c: (e_composer_private_init): Include 
+	e-util-private.h for Win32 redefinition of EVOLUTION_UIDIR and build 
+	the filename using it.
+
 2008-10-03  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #554664

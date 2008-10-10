@@ -18,6 +18,7 @@
  */
 
 #include "e-composer-private.h"
+#include "e-util/e-util-private.h"
 
 static void
 composer_setup_charset_menu (EMsgComposer *composer)
@@ -118,7 +119,7 @@ e_composer_private_init (EMsgComposer *composer)
 
 	e_composer_actions_init (composer);
 
-	filename = e_composer_find_data_file ("evolution-composer.ui");
+	filename = g_build_filename (EVOLUTION_UIDIR, "evolution-composer.ui", NULL);
 	gtk_ui_manager_add_ui_from_file (manager, filename, &error);
 	g_free (filename);
 
