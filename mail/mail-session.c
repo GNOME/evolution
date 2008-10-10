@@ -178,6 +178,8 @@ get_password (CamelSession *session, CamelService *service, const char *domain,
 		if (url
 		    && (account = mail_config_get_account_by_transport_url(url)))
 			ret = g_strdup(account->source->url);
+		else
+			ret = g_strdup(url);
 	} else {
 		char *key = make_key(service, item);
 		EAccountService *config_service = NULL;
