@@ -1,3 +1,18 @@
+2008-10-10  Patrick Ohly  <pohly@ecld0pohly>
+
+	** #541121: improved itip formatter: allow replying to forwarded
+	and already imported invitations; honor RVSP flag in invitation
+	
+	* itip-formatter.c: the whole logic for "reply to organize" was
+	improved.
+
+	If an organizer exists, replying is enabled. Sending a reply is
+	enabled by default if the event looks like a meeting (= has
+	attendees).  The wish of the organizer to not get replies is
+	checked (previous Evolution releases ignored it); in this case the
+	default is to not send a reply. In all cases the user can override
+	the default.
+
 2008-10-08  Sankar P  <psankar@novell.com>
 
 License Changes

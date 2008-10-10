@@ -107,6 +107,32 @@ struct _itip_puri {
 	guint progress_info_id;
 
 	gboolean delete_message;
+	/* a reply can only be sent if and only if there is an organizer */
+	gboolean has_organizer;
+	/*
+	 * Usually replies are sent unless the user unchecks that option.
+	 * There are some cases when the default is not to sent a reply
+	 * (but the user can still chose to do so by checking the option):
+	 * - the organizer explicitly set RSVP=FALSE for the current user
+	 * - the event has no ATTENDEEs: that's the case for most non-meeting
+	 *   events
+	 *
+	 * The last case is meant for forwarded non-meeting
+	 * events. Traditionally Evolution hasn't offered to send a
+	 * reply, therefore the updated implementation mimics that
+	 * behavior.
+	 *
+	 * Unfortunately some software apparently strips all ATTENDEEs
+	 * when forwarding a meeting; in that case sending a reply is
+	 * also unchecked by default. So the check for ATTENDEEs is a
+	 * tradeoff between sending unwanted replies in cases where
+	 * that wasn't done in the past and not sending a possibly
+	 * wanted reply where that wasn't possible in the past
+	 * (because replies to forwarded events were not
+	 * supported). Overall that should be an improvement, and the
+	 * user can always override the default.
+	 */
+	gboolean no_reply_wanted;
 
 };
 
@@ -235,6 +261,12 @@ find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparamet
 
 				pitip->my_address = g_strdup (account->id->address);
 
+				param = icalproperty_get_first_parameter (prop, ICAL_RSVP_PARAMETER);
+				if (param &&
+				    icalparameter_get_rsvp (param) == ICAL_RSVP_FALSE) {
+					pitip->no_reply_wanted = TRUE;
+				}
+
 				if (status) {
 					param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
 					*status = param ? icalparameter_get_partstat (param) : ICAL_PARTSTAT_NEEDSACTION;
@@ -284,6 +316,12 @@ find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparamet
 				g_strstrip (pitip->to_address);
 
 				pitip->my_address = g_strdup (account->id->address);
+
+				param = icalproperty_get_first_parameter (prop, ICAL_RSVP_PARAMETER);
+				if (param &&
+				    ICAL_RSVP_FALSE == icalparameter_get_rsvp (param)) {
+					pitip->no_reply_wanted = TRUE;
+				}
 
 				if (status) {
 					param = icalproperty_get_first_parameter (prop, ICAL_PARTSTAT_PARAMETER);
@@ -641,8 +679,23 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	d(printf ("Decreasing itip formatter search count to %d\n", fd->count));
 
 	if (fd->count == 0) {
+		gboolean rsvp_enabled = FALSE;
+
 		itip_view_remove_lower_info_item (ITIP_VIEW (pitip->view), pitip->progress_info_id);
 		pitip->progress_info_id = 0;
+		
+		/*
+		 * Only allow replies if backend doesn't do that automatically.
+		 * Replies only make sense for events with an organizer.
+		 */
+		if (!e_cal_get_static_capability (ecal, CAL_STATIC_CAPABILITY_SAVE_SCHEDULES) &&
+		    pitip->has_organizer) {
+			rsvp_enabled = TRUE;
+		}
+		itip_view_set_show_rsvp (ITIP_VIEW (pitip->view), rsvp_enabled);
+
+		/* default is chosen in extract_itip_data() based on content of the VEVENT */
+		itip_view_set_rsvp (ITIP_VIEW (pitip->view), !pitip->no_reply_wanted);
 
 		if ((pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST)
 		    && !pitip->current_ecal) {
@@ -676,11 +729,6 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
 			itip_view_set_source_list (ITIP_VIEW (pitip->view), pitip->source_lists[pitip->type]);
 			g_signal_connect (pitip->view, "source_selected", G_CALLBACK (source_selected_cb), pitip);
-
-			/* The only method that RSVP makes sense for is REQUEST */
-			/* FIXME Default to the suggestion for RSVP for my attendee */
-			itip_view_set_rsvp (ITIP_VIEW (pitip->view), pitip->method == ICAL_METHOD_REQUEST ? TRUE : FALSE);
-			itip_view_set_show_rsvp (ITIP_VIEW (pitip->view), pitip->method == ICAL_METHOD_REQUEST ? TRUE : FALSE);
 
 			if (source) {
 				itip_view_set_source (ITIP_VIEW (pitip->view), source);
@@ -1423,6 +1471,16 @@ extract_itip_data (struct _itip_puri *pitip, GtkContainer *container)
 	switch (icalcomponent_isa (pitip->ical_comp)) {
 	case ICAL_VEVENT_COMPONENT:
 		pitip->type = E_CAL_SOURCE_TYPE_EVENT;
+		pitip->has_organizer = icalcomponent_get_first_property (pitip->ical_comp, ICAL_ORGANIZER_PROPERTY) != NULL;
+		if (icalcomponent_get_first_property (pitip->ical_comp, ICAL_ATTENDEE_PROPERTY) == NULL) {
+			/* no attendees: assume that that this is not a meeting and organizer doesn't want a reply */
+			pitip->no_reply_wanted = TRUE;
+		} else {
+			/*
+			 * if we have attendees, then find_to_address() will check for our RSVP
+			 * and set no_reply_wanted=TRUE if RSVP=FALSE for the current user
+			 */
+		}
 		break;
 	case ICAL_VTODO_COMPONENT:
 		pitip->type = E_CAL_SOURCE_TYPE_TODO;
@@ -1652,7 +1710,8 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 	}
 
 	/*FIXME Save schedules is misused here, remove it */
-	save_schedules = e_cal_get_save_schedules (pitip->current_ecal);
+	save_schedules = e_cal_get_static_capability (pitip->current_ecal,
+                                                      CAL_STATIC_CAPABILITY_SAVE_SCHEDULES);
 
 	switch (response) {
 		case ITIP_VIEW_RESPONSE_ACCEPT:
@@ -1921,10 +1980,18 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	} else {
 		switch (info->method) {
 		case ICAL_METHOD_PUBLISH:
-			itip_view_set_mode (ITIP_VIEW (info->view), ITIP_VIEW_MODE_PUBLISH);
-			break;
 		case ICAL_METHOD_REQUEST:
-			itip_view_set_mode (ITIP_VIEW (info->view), ITIP_VIEW_MODE_REQUEST);
+			/*
+			 * Treat meeting request (sent by organizer directly) and
+			 * published evend (forwarded by organizer or attendee) alike:
+			 * if the event has an organizer, then it can be replied to and
+			 * we show the "accept/tentative/decline" choice.
+			 * Otherwise only show "accept".
+			 */
+			itip_view_set_mode (ITIP_VIEW (info->view),
+					    info->has_organizer ?
+					    ITIP_VIEW_MODE_REQUEST :
+					    ITIP_VIEW_MODE_PUBLISH);
 			break;
 		case ICAL_METHOD_REPLY:
 			itip_view_set_mode (ITIP_VIEW (info->view), ITIP_VIEW_MODE_REPLY);
@@ -2254,6 +2321,8 @@ format_itip (EPlugin *ep, EMFormatHookTarget *target)
 
 	gconf = gconf_client_get_default ();
 	puri->delete_message = gconf_client_get_bool (gconf, GCONF_KEY_DELETE, NULL);
+	puri->has_organizer = FALSE;
+	puri->no_reply_wanted = FALSE;
 	puri->folder = ((EMFormat *) target->format)->folder;
 	puri->uid = g_strdup (((EMFormat *) target->format)->uid);
 	puri->msg = ((EMFormat *) target->format)->message;
