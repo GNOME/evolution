@@ -22664,8 +22664,8 @@ msgid ""
 "zone.\n"
 "Use the right mouse button to zoom out."
 msgstr ""
-"Use o botão esquerdo do mouse para se ampliar de uma área do mapa e "
-"selecionar um fuso horário.\n"
+"Use o botão esquerdo do mouse para ampliar uma área do mapa e selecionar um "
+"fuso horário.\n"
 "Use o botão direito do mouse para reduzi-la."
 
 #: ../widgets/menus/gal-define-views-dialog.c:76
