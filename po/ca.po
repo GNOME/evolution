@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-08 01:15+0200\n"
+"POT-Creation-Date: 2008-10-07 23:17+0000\n"
 "PO-Revision-Date: 2008-10-08 01:14+0200\n"
 "Last-Translator: David Planella <david.planella@gmail.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
@@ -689,9 +689,19 @@ msgstr "Personal"
 msgid "On LDAP Servers"
 msgstr "Als servidors d'LDAP"
 
+#: ../addressbook/gui/component/addressbook-component.c:229
+msgctxt "New"
+msgid "_Contact"
+msgstr "_Contacte"
+
 #: ../addressbook/gui/component/addressbook-component.c:230
 msgid "Create a new contact"
 msgstr "Crea un contacte nou"
+
+#: ../addressbook/gui/component/addressbook-component.c:237
+msgctxt "New"
+msgid "Contact _List"
+msgstr "_Llista de contactes"
 
 #: ../addressbook/gui/component/addressbook-component.c:238
 msgid "Create a new contact list"
@@ -701,6 +711,11 @@ msgstr "Crea una llista de contactes nova"
 #: ../addressbook/gui/component/addressbook-config.c:1223
 msgid "New Address Book"
 msgstr "Llibreta d'adreces nova"
+
+#: ../addressbook/gui/component/addressbook-component.c:245
+msgctxt "New"
+msgid "Address _Book"
+msgstr "Lli_breta d'adreces"
 
 #: ../addressbook/gui/component/addressbook-component.c:246
 msgid "Create a new address book"
@@ -1148,9 +1163,9 @@ msgid ""
 "one level beneath your base."
 msgstr ""
 "L'àmbit de la cerca defineix fins a quina profunditat voleu que la cerca "
-"s'endinsi per l'arbre de directoris. L'àmbit de cerca «sub» inclourà totes "
+"s'endinsi per l'arbre de directoris. L'àmbit de cerca «sub» inclourà totes "
 "les entrades per sota de la base de la cerca. L'àmbit de cerca «one» només "
-"inclourà les entrades un nivell per sota de la vostra base."
+"inclourà les entrades un nivell per sota de la vostra base."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:41
 msgid ""
@@ -5431,6 +5446,11 @@ msgstr "Selector de la font del calendari"
 msgid "New appointment"
 msgstr "Cita nova"
 
+#: ../calendar/gui/calendar-component.c:1597
+msgctxt "New"
+msgid "_Appointment"
+msgstr "Cit_a"
+
 #: ../calendar/gui/calendar-component.c:1598
 msgid "Create a new appointment"
 msgstr "Crea una cita nova"
@@ -5438,6 +5458,11 @@ msgstr "Crea una cita nova"
 #: ../calendar/gui/calendar-component.c:1604
 msgid "New meeting"
 msgstr "Reunió nova"
+
+#: ../calendar/gui/calendar-component.c:1605
+msgctxt "New"
+msgid "M_eeting"
+msgstr "R_eunió"
 
 #: ../calendar/gui/calendar-component.c:1606
 msgid "Create a new meeting request"
@@ -5447,6 +5472,11 @@ msgstr "Crea una sol·licitud de reunió nova"
 msgid "New all day appointment"
 msgstr "Cita de tot el dia nova"
 
+#: ../calendar/gui/calendar-component.c:1613
+msgctxt "New"
+msgid "All Day A_ppointment"
+msgstr "Cita de tot el _dia"
+
 #: ../calendar/gui/calendar-component.c:1614
 msgid "Create a new all-day appointment"
 msgstr "Crea una cita de tot el dia nova"
@@ -5454,6 +5484,11 @@ msgstr "Crea una cita de tot el dia nova"
 #: ../calendar/gui/calendar-component.c:1620
 msgid "New calendar"
 msgstr "Calendari nou"
+
+#: ../calendar/gui/calendar-component.c:1621
+msgctxt "New"
+msgid "Cale_ndar"
+msgstr "Cale_ndari"
 
 #: ../calendar/gui/calendar-component.c:1622
 msgid "Create a new calendar"
@@ -8654,6 +8689,11 @@ msgstr "Selector de font d'anotacions"
 msgid "New memo"
 msgstr "Anotació nova"
 
+#: ../calendar/gui/memos-component.c:1261
+msgctxt "New"
+msgid "Mem_o"
+msgstr "An_otació"
+
 #: ../calendar/gui/memos-component.c:1262
 msgid "Create a new memo"
 msgstr "Crea una anotació nova"
@@ -8662,6 +8702,12 @@ msgstr "Crea una anotació nova"
 msgid "New shared memo"
 msgstr "Anotació compartida nova"
 
+#: ../calendar/gui/memos-component.c:1269
+#, fuzzy
+msgctxt "New"
+msgid "_Shared memo"
+msgstr "Anotació _compartida"
+
 #: ../calendar/gui/memos-component.c:1270
 msgid "Create a shared new memo"
 msgstr "Crea una anotació compartida nova"
@@ -8669,6 +8715,11 @@ msgstr "Crea una anotació compartida nova"
 #: ../calendar/gui/memos-component.c:1276
 msgid "New memo list"
 msgstr "Llista d'anotacions nova"
+
+#: ../calendar/gui/memos-component.c:1277
+msgctxt "New"
+msgid "Memo li_st"
+msgstr "Ll_ista d'anotacions"
 
 #: ../calendar/gui/memos-component.c:1278
 msgid "Create a new memo list"
@@ -8964,6 +9015,11 @@ msgstr "Selector de font de la tasca"
 msgid "New task"
 msgstr "Tasca nova"
 
+#: ../calendar/gui/tasks-component.c:1326
+msgctxt "New"
+msgid "_Task"
+msgstr "_Tasca"
+
 #: ../calendar/gui/tasks-component.c:1327
 msgid "Create a new task"
 msgstr "Crea una tasca nova"
@@ -8972,6 +9028,11 @@ msgstr "Crea una tasca nova"
 msgid "New assigned task"
 msgstr "Tasca assignada nova"
 
+#: ../calendar/gui/tasks-component.c:1334
+msgctxt "New"
+msgid "Assigne_d Task"
+msgstr "Tasca assigna_da"
+
 #: ../calendar/gui/tasks-component.c:1335
 msgid "Create a new assigned task"
 msgstr "Crea una tasca assignada nova"
@@ -8979,6 +9040,11 @@ msgstr "Crea una tasca assignada nova"
 #: ../calendar/gui/tasks-component.c:1341
 msgid "New task list"
 msgstr "Llista de tasques nova"
+
+#: ../calendar/gui/tasks-component.c:1342
+msgctxt "New"
+msgid "Tas_k list"
+msgstr "Llista de tas_ques"
 
 #: ../calendar/gui/tasks-component.c:1343
 msgid "Create a new task list"
@@ -12173,6 +12239,27 @@ msgstr "Enviat"
 msgid "Loading..."
 msgstr "S'està carregant..."
 
+#. Translators: This is the string used for displaying the
+#. * folder names in folder trees. "%s" will be replaced by
+#. * the folder's name and "%u" will be replaced with the
+#. * number of unread messages in the folder.
+#. *
+#. * Most languages should translate this as "%s (%u)". The
+#. * languages that use localized digits (like Persian) may
+#. * need to replace "%u" with "%Iu". Right-to-left languages
+#. * (like Arabic and Hebrew) may need to add bidirectional
+#. * formatting codes to take care of the cases the folder
+#. * name appears in either direction.
+#. *
+#. * Do not translate the "folder-display|" part. Remove it
+#. * from your translation.
+#.
+#: ../mail/em-folder-tree.c:380
+#, c-format
+msgctxt "folder-display"
+msgid "%s (%u)"
+msgstr "%s (%u)"
+
 #: ../mail/em-folder-tree.c:741
 msgid "Mail Folder Tree"
 msgstr "Arbre de carpetes de correu"
@@ -14105,6 +14192,11 @@ msgstr[1] "%d en total"
 msgid "New Mail Message"
 msgstr "Missatge de correu nou"
 
+#: ../mail/mail-component.c:923
+msgctxt "New"
+msgid "_Mail Message"
+msgstr "_Missatge de correu"
+
 #: ../mail/mail-component.c:924
 msgid "Compose a new mail message"
 msgstr "Redacta un missatge de correu nou"
@@ -14112,6 +14204,11 @@ msgstr "Redacta un missatge de correu nou"
 #: ../mail/mail-component.c:930
 msgid "New Mail Folder"
 msgstr "Carpeta de correu nova"
+
+#: ../mail/mail-component.c:931
+msgctxt "New"
+msgid "Mail _Folder"
+msgstr "_Carpeta de correu"
 
 #: ../mail/mail-component.c:932
 msgid "Create a new mail folder"
@@ -20594,6 +20691,11 @@ msgstr "Nou"
 msgid "New Test"
 msgstr "Prova nova"
 
+#: ../shell/test/evolution-test-component.c:106
+msgctxt "New"
+msgid "_Test"
+msgstr "P_rova"
+
 #: ../shell/test/evolution-test-component.c:107
 msgid "Create a new test item"
 msgstr "Crea un element de prova nou"
@@ -24048,70 +24150,6 @@ msgstr "Context de MI"
 msgid "Handle Popup"
 msgstr "Menú emergent de l'ansa"
 
-#~ msgctxt "New"
-#~ msgid "_Contact"
-#~ msgstr "_Contacte"
-
-#~ msgctxt "New"
-#~ msgid "Contact _List"
-#~ msgstr "_Llista de contactes"
-
-#~ msgctxt "New"
-#~ msgid "Address _Book"
-#~ msgstr "Lli_breta d'adreces"
-
-#~ msgctxt "New"
-#~ msgid "_Appointment"
-#~ msgstr "Cit_a"
-
-#~ msgctxt "New"
-#~ msgid "M_eeting"
-#~ msgstr "R_eunió"
-
-#~ msgctxt "New"
-#~ msgid "All Day A_ppointment"
-#~ msgstr "Cita de tot el _dia"
-
-#~ msgctxt "New"
-#~ msgid "Cale_ndar"
-#~ msgstr "Cale_ndari"
-
-#~ msgctxt "New"
-#~ msgid "Mem_o"
-#~ msgstr "An_otació"
-
-#~ msgctxt "New"
-#~ msgid "Memo li_st"
-#~ msgstr "Ll_ista d'anotacions"
-
-#~ msgctxt "New"
-#~ msgid "_Task"
-#~ msgstr "_Tasca"
-
-#~ msgctxt "New"
-#~ msgid "Assigne_d Task"
-#~ msgstr "Tasca assigna_da"
-
-#~ msgctxt "New"
-#~ msgid "Tas_k list"
-#~ msgstr "Llista de tas_ques"
-
-#~ msgctxt "folder-display"
-#~ msgid "%s (%u)"
-#~ msgstr "%s (%u)"
-
-#~ msgctxt "New"
-#~ msgid "_Mail Message"
-#~ msgstr "_Missatge de correu"
-
-#~ msgctxt "New"
-#~ msgid "Mail _Folder"
-#~ msgstr "_Carpeta de correu"
-
-#~ msgctxt "New"
-#~ msgid "_Test"
-#~ msgstr "P_rova"
-
 #~ msgid "Recent Docu_ments"
 #~ msgstr "Do_cuments recents"
 
@@ -25780,3 +25818,4 @@ msgstr "Menú emergent de l'ansa"
 
 #~ msgid "Update every"
 #~ msgstr "Actualitza cada"
+
