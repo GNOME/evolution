@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-07 23:17+0000\n"
-"PO-Revision-Date: 2008-10-08 01:14+0200\n"
+"PO-Revision-Date: 2008-10-12 20:59+0200\n"
 "Last-Translator: David Planella <david.planella@gmail.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -8703,7 +8703,6 @@ msgid "New shared memo"
 msgstr "Anotació compartida nova"
 
 #: ../calendar/gui/memos-component.c:1269
-#, fuzzy
 msgctxt "New"
 msgid "_Shared memo"
 msgstr "Anotació _compartida"
