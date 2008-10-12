@@ -17879,7 +17879,8 @@ msgstr "Usuário inválido"
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:3
 msgid "Proxy access cannot be given to user &quot;{0}&quot;"
-msgstr "O acesso ao proxy não pode ser concedido ao usuário &quot;{0}&quot;."
+msgstr ""
+"Não é possível conceder acesso de representante ao usuário &quot;{0}&quot;."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:4
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:2
@@ -17889,14 +17890,14 @@ msgstr "Especificar usuário"
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:6
 msgid "You have already given proxy permissions to this user."
-msgstr "Você já concedeu as permissões de proxy a este usuário."
+msgstr "Você já concedeu as permissões de representante a este usuário."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:8
 msgid "You have to specify a valid user name to give proxy rights."
 msgstr ""
 "Você tem que especificar um nome de usuário válido para conceder direitos de "
-"proxy."
+"representante."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:1
 msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
@@ -17913,8 +17914,8 @@ msgid ""
 "Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email "
 "address and try again."
 msgstr ""
-"O login de proxy como &quot;{0}&quot; não foi bem-sucedido. Por favor "
-"verifique o seu endereço de e-mail e teste novamente."
+"O login de representante como &quot;{0}&quot; não foi bem-sucedido. Por "
+"favor verifique o seu endereço de e-mail e teste novamente."
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:3
 msgid "This is a recurring meeting"
@@ -18025,7 +18026,7 @@ msgstr "_Lida"
 
 #: ../plugins/groupwise-features/proxy-listing.glade.h:1
 msgid "Proxy"
-msgstr "Proxy"
+msgstr "Representante"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
 msgid "<b>Account Name</b>"
@@ -18033,7 +18034,7 @@ msgstr "<b>Nome da Conta</b>"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
 msgid "Proxy Login"
-msgstr "Login do Proxy"
+msgstr "Login de representante"
 
 #: ../plugins/groupwise-features/proxy-login.c:208
 #: ../plugins/groupwise-features/proxy-login.c:250
@@ -18048,19 +18049,21 @@ msgstr "%sDigite a senha para %s (usuário %s)"
 #. * without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy-login.c:512
 msgid "_Proxy Login..."
-msgstr "Login do _Proxy..."
+msgstr "Login de _Representante..."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy.c:692
 msgid "The Proxy tab will be available only when the account is online."
 msgstr ""
-"A aba do Proxy estará disponível somente quando a conta estiver conectada."
+"A aba Representante estará disponível somente quando a conta estiver "
+"conectada."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy.c:698
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr ""
-"A aba do Proxy estará disponível somente quando a conta estiver habilitada."
+"A aba Representante estará disponível somente quando a conta estiver "
+"habilitada."
 
 #: ../plugins/groupwise-features/send-options.c:215
 msgid "Advanced send options"
@@ -18979,7 +18982,7 @@ msgstr ""
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:47
 msgid "Proxy _Logout"
-msgstr "_Logout do Proxy"
+msgstr "_Logout de representante"
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
 msgid "Allows disabling of accounts."
@@ -20096,7 +20099,7 @@ msgstr "Senha a fornecer como autenticação ao usar o proxy HTTP."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Proxy configuration mode"
-msgstr "Modo de configuração de proxy"
+msgstr "Modo de configuração de representante"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:20
 msgid "SOCKS proxy host name"
@@ -20121,10 +20124,10 @@ msgid ""
 "configuration\" and \"use proxy configuration provided in the autoconfig url"
 "\" respectively."
 msgstr ""
-"Selecione o modo de configuração de proxy. Os valores com suporte são 0, 1, "
-"2, e 3 representando \"usar as configurações do sistema\", \"sem proxy\", "
-"\"usar as configurações de proxy manuais\" and \"usar configurações de proxy "
-"fornecidas pela url de configuração automática\" respectivamente."
+"Selecione o modo de configuração de representante. Os valores com suporte "
+"são 0, 1, 2, e 3 representando \"usar as configurações do sistema\", \"sem "
+"proxy\", \"usar as configurações de proxy manuais\" and \"usar configurações "
+"de proxy fornecidas pela url de configuração automática\" respectivamente."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid "Sidebar is visible"
