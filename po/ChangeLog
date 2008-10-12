@@ -1,3 +1,7 @@
+2008-10-11  Leonardo Ferreira Fontenelle  <leonardof@gnome.org>
+
+	* pt_BR.po: Fixed terminology in the Brazilian Portuguese translation.
+
 2008-10-11  Marcel Telka  <marcel@telka.sk>
 
 	* sk.po: Updated Slovak translation.
@@ -8,7 +12,7 @@
 
 2008-10-04  Ignacio Casal Quinteiro  <nacho.resa@gmail.com>
 
-	 gl.po: Updated Galician translation
+	* gl.po: Updated Galician translation.
 
 2008-10-04  Ilkka Tuohela <hile@iki.fi>
 
