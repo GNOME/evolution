@@ -11,7 +11,6 @@
 # Fabrício Godoy <skarllot@gmail.com>, 2008
 # Og Maciel <ogmaciel@gnome.org>, 2008.
 #
-#: ../shell/main.c:589
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
@@ -15148,11 +15147,11 @@ msgstr "Verificando novas mensagens"
 #: ../mail/mail-session.c:207
 #, c-format
 msgid "Enter Passphrase for %s"
-msgstr "Digite a senha para %s"
+msgstr "Digite a frase secreta para %s"
 
 #: ../mail/mail-session.c:209
 msgid "Enter Passphrase"
-msgstr "Digite a senha"
+msgstr "Digite a frase secreta"
 
 #: ../mail/mail-session.c:212
 #: ../plugins/exchange-operations/exchange-config-listener.c:708
@@ -22172,7 +22171,7 @@ msgstr "Não I_mportante"
 
 #: ../ui/evolution-mail-message.xml.h:99
 msgid "Zoom _Out"
-msgstr "A_fastar"
+msgstr "_Reduzir"
 
 #: ../ui/evolution-mail-message.xml.h:100
 msgid "_Attached"
@@ -22269,7 +22268,7 @@ msgstr "_Zoom"
 
 #: ../ui/evolution-mail-message.xml.h:132
 msgid "_Zoom In"
-msgstr "_Aproximar"
+msgstr "_Ampliar"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:1
 msgid "Close"
@@ -22662,9 +22661,9 @@ msgid ""
 "zone.\n"
 "Use the right mouse button to zoom out."
 msgstr ""
-"Use o botão esquerdo do mouse para se aproximar de uma área do mapa e "
+"Use o botão esquerdo do mouse para se ampliar de uma área do mapa e "
 "selecionar um fuso horário.\n"
-"Use o botão direito do mouse para se distanciar do mapa."
+"Use o botão direito do mouse para reduzi-la."
 
 #: ../widgets/menus/gal-define-views-dialog.c:76
 #: ../widgets/menus/gal-define-views-model.c:185
