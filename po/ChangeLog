@@ -1,5 +1,9 @@
 2008-10-11  Leonardo Ferreira Fontenelle  <leonardof@gnome.org>
 
+	* pt_BR.po: Fixed typo in the Brazilian Portuguese translation.
+
+2008-10-11  Leonardo Ferreira Fontenelle  <leonardof@gnome.org>
+
 	* pt_BR.po: Fixed Brazilian Portuguese translation of "proxy", as in
 	the GroupWise feature.
 
