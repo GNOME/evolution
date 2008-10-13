@@ -482,9 +482,7 @@ create_component_view (MemosComponent *memos_component)
 {
 	MemosComponentPrivate *priv;
 	MemosComponentView *component_view;
-	GtkWidget *selector_scrolled_window, *vbox;
 	GtkWidget *statusbar_widget;
-	AtkObject *a11y;
 
 	priv = memos_component->priv;
 

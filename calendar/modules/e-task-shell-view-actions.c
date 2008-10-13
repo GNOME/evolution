@@ -29,6 +29,9 @@ action_gal_save_custom_view_cb (GtkAction *action,
 	EShellView *shell_view;
 	GalViewInstance *view_instance;
 
+	/* All shell views respond to the activation of this action,
+	 * which is defined by EShellWindow.  But only the currently
+	 * active shell view proceeds with saving the custom view. */
 	shell_view = E_SHELL_VIEW (task_shell_view);
 	if (!e_shell_view_is_active (shell_view))
 		return;
@@ -44,6 +47,9 @@ action_search_execute_cb (GtkAction *action,
 {
 	EShellView *shell_view;
 
+	/* All shell views respond to the activation of this action,
+	 * which is defined by EShellWindow.  But only the currently
+	 * active shell view proceeds with executing the search. */
 	shell_view = E_SHELL_VIEW (task_shell_view);
 	if (!e_shell_view_is_active (shell_view))
 		return;
@@ -91,6 +97,7 @@ action_task_clipboard_copy_cb (GtkAction *action,
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
+
 	e_calendar_table_copy_clipboard (task_table);
 }
 
@@ -103,6 +110,7 @@ action_task_clipboard_cut_cb (GtkAction *action,
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
+
 	e_calendar_table_cut_clipboard (task_table);
 }
 
@@ -115,6 +123,7 @@ action_task_clipboard_paste_cb (GtkAction *action,
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
+
 	e_calendar_table_paste_clipboard (task_table);
 }
 
@@ -535,6 +544,50 @@ static void
 action_task_purge_cb (GtkAction *action,
                       ETaskShellView *task_shell_view)
 {
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	GtkWidget *dialog;
+	GtkWidget *widget;
+	gboolean active;
+	gint response;
+
+	shell_view = E_SHELL_VIEW (task_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	if (!calendar_config_get_confirm_purge ())
+		goto purge;
+
+	/* XXX This needs reworked.  The dialog looks like ass. */
+
+	dialog = gtk_message_dialog_new (
+		GTK_WINDOW (shell_window),
+		GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_MESSAGE_WARNING,
+		GTK_BUTTONS_YES_NO,
+		"%s", _("This operation will permanently erase all tasks "
+		"marked as completed. If you continue, you will not be able "
+		"to recover these tasks.\n\nReally erase these tasks?"));
+
+	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_NO);
+
+	widget = gtk_check_button_new_with_label (_("Do not ask me again"));
+	gtk_box_pack_start (
+		GTK_BOX (GTK_DIALOG (dialog)->vbox), widget, TRUE, TRUE, 6);
+	gtk_widget_show (widget);
+
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
+	active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
+	gtk_widget_destroy (dialog);
+
+	if (response != GTK_RESPONSE_YES)
+		return;
+
+	if (active)
+		calendar_config_set_confirm_purge (FALSE);
+
+purge:
+
+	/* FIXME */
 }
 
 static void
@@ -825,7 +878,7 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	GConfBridge *bridge;
 	GtkAction *action;
 	GObject *object;
@@ -834,7 +887,7 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	manager = e_shell_window_get_ui_manager (shell_window);
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	domain = GETTEXT_PACKAGE;
 
 	action_group = task_shell_view->priv->task_actions;
@@ -850,7 +903,7 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 		G_N_ELEMENTS (task_search_entries),
 		TASK_SEARCH_SUMMARY_CONTAINS,
 		NULL, NULL);
-	gtk_ui_manager_insert_action_group (manager, action_group, 0);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	/* Bind GObject properties to GConf keys. */
 

@@ -28,6 +28,7 @@
 #include "calendar/common/authentication.h"
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/e-calendar-selector.h"
+#include "calendar/gui/e-mini-calendar-config.h"
 #include "calendar/gui/misc.h"
 
 #include "e-cal-shell-view.h"
@@ -37,14 +38,19 @@
 	((obj), E_TYPE_CAL_SHELL_SIDEBAR, ECalShellSidebarPrivate))
 
 struct _ECalShellSidebarPrivate {
+	GtkWidget *paned;
 	GtkWidget *selector;
+	GtkWidget *mini_calendar;
 
 	/* UID -> Client */
 	GHashTable *client_table;
+
+	EMiniCalendarConfig *mini_calendar_config;
 };
 
 enum {
 	PROP_0,
+	PROP_MINI_CALENDAR,
 	PROP_SELECTOR
 };
 
@@ -83,33 +89,6 @@ cal_shell_sidebar_emit_status_message (ECalShellSidebar *cal_shell_sidebar,
 	guint signal_id = signals[STATUS_MESSAGE];
 
 	g_signal_emit (cal_shell_sidebar, signal_id, 0, status_message);
-}
-
-static void
-cal_shell_sidebar_update_timezone (ECalShellSidebar *cal_shell_sidebar)
-{
-	GHashTable *client_table;
-	icaltimezone *zone;
-	GList *values;
-
-	zone = calendar_config_get_icaltimezone ();
-	client_table = cal_shell_sidebar->priv->client_table;
-	values = g_hash_table_get_values (client_table);
-
-	while (values != NULL) {
-		ECal *client = values->data;
-
-		if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
-			e_cal_set_default_timezone (client, zone, NULL);
-
-		values = g_list_delete_link (values, values);
-	}
-
-	/* XXX Need to call e_calendar_view_set_timezone() here but the
-	 *     sidebar is not really supposed to access content stuff.
-	 *     I guess we could emit an "update-timezone" signal here,
-	 *     but that feels wrong.  Maybe this whole thing should be
-	 *     in ECalShellView instead. */
 }
 
 static void
@@ -305,6 +284,12 @@ cal_shell_sidebar_get_property (GObject *object,
                                 GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_MINI_CALENDAR:
+			g_value_set_object (
+				value, e_cal_shell_sidebar_get_mini_calendar (
+				E_CAL_SHELL_SIDEBAR (object)));
+			return;
+
 		case PROP_SELECTOR:
 			g_value_set_object (
 				value, e_cal_shell_sidebar_get_selector (
@@ -322,12 +307,27 @@ cal_shell_sidebar_dispose (GObject *object)
 
 	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (object);
 
+	if (priv->paned != NULL) {
+		g_object_unref (priv->paned);
+		priv->paned = NULL;
+	}
+
 	if (priv->selector != NULL) {
 		g_object_unref (priv->selector);
 		priv->selector = NULL;
 	}
 
+	if (priv->mini_calendar != NULL) {
+		g_object_unref (priv->mini_calendar);
+		priv->mini_calendar = NULL;
+	}
+
 	g_hash_table_remove_all (priv->client_table);
+
+	if (priv->mini_calendar_config != NULL) {
+		g_object_unref (priv->mini_calendar_config);
+		priv->mini_calendar = NULL;
+	}
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
@@ -356,9 +356,11 @@ cal_shell_sidebar_constructed (GObject *object)
 	ESourceSelector *selector;
 	ESourceList *source_list;
 	ESource *source;
-	GtkContainer *container;
+	ECalendarItem *calitem;
 	GtkTreeModel *model;
+	GtkWidget *container;
 	GtkWidget *widget;
+	AtkObject *a11y;
 	GSList *list, *iter;
 	gchar *uid;
 
@@ -372,7 +374,14 @@ cal_shell_sidebar_constructed (GObject *object)
 	cal_shell_view = E_CAL_SHELL_VIEW (shell_view);
 	source_list = e_cal_shell_view_get_source_list (cal_shell_view);
 
-	container = GTK_CONTAINER (shell_sidebar);
+	container = GTK_WIDGET (shell_sidebar);
+
+	widget = gtk_vpaned_new ();
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	priv->paned = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	container = widget;
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
@@ -380,16 +389,32 @@ cal_shell_sidebar_constructed (GObject *object)
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_container_add (container, widget);
+	gtk_paned_add1 (GTK_PANED (container), widget);
 	gtk_widget_show (widget);
 
-	container = GTK_CONTAINER (widget);
+	container = widget;
 
 	widget = e_calendar_selector_new (source_list);
 	e_source_selector_set_select_new (E_SOURCE_SELECTOR (widget), TRUE);
-	gtk_container_add (container, widget);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	a11y = gtk_widget_get_accessible (widget);
+	atk_object_set_name (a11y, _("Calendar Selector"));
 	priv->selector = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	container = priv->paned;
+
+	widget = e_calendar_new ();
+	calitem = E_CALENDAR (widget)->calitem;
+	e_calendar_item_set_days_start_week_sel (calitem, 9);
+	e_calendar_item_set_max_days_sel (calitem, 42);
+	widget = gnome_calendar_new (shell_view);
+	gtk_paned_add2 (GTK_PANED (container), widget);
+	priv->mini_calendar = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	priv->mini_calendar_config =
+		e_mini_calendar_config_new (E_CALENDAR (widget));
 
 	/* Restore the selector state from the last session. */
 
@@ -488,6 +513,16 @@ cal_shell_sidebar_class_init (ECalShellSidebarClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_MINI_CALENDAR,
+		g_param_spec_object (
+			"mini-calendar",
+			_("Mini-Calendar Widget"),
+			_("This widget displays a miniature calendar"),
+			E_TYPE_CALENDAR,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_SELECTOR,
 		g_param_spec_object (
 			"selector",
@@ -582,6 +617,15 @@ e_cal_shell_sidebar_new (EShellView *shell_view)
 		"shell-view", shell_view, NULL);
 }
 
+ECalendar *
+e_cal_shell_sidebar_get_mini_calendar (ECalShellSidebar *cal_shell_sidebar)
+{
+	g_return_val_if_fail (
+		E_IS_CAL_SHELL_SIDEBAR (cal_shell_sidebar), NULL);
+
+	return E_CALENDAR (cal_shell_sidebar->priv->mini_calendar);
+}
+
 ESourceSelector *
 e_cal_shell_sidebar_get_selector (ECalShellSidebar *cal_shell_sidebar)
 {
@@ -665,4 +709,27 @@ e_cal_shell_sidebar_remove_source (ECalShellSidebar *cal_shell_sidebar,
 		return;
 
 	cal_shell_sidebar_emit_client_removed (cal_shell_sidebar, client);
+}
+
+void
+e_cal_shell_sidebar_update_timezone (ECalShellSidebar *cal_shell_sidebar)
+{
+	GHashTable *client_table;
+	icaltimezone *timezone;
+	GList *values;
+
+	g_return_if_fail (E_CAL_SHELL_SIDEBAR (cal_shell_sidebar));
+
+	timezone = calendar_config_get_icaltimezone ();
+	client_table = cal_shell_sidebar->priv->client_table;
+	values = g_hash_table_get_values (client_table);
+
+	while (values != NULL) {
+		ECal *client = values->data;
+
+		if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
+			e_cal_set_default_timezone (client, timezone, NULL);
+
+		values = g_list_delete_link (values, values);
+	}
 }

@@ -173,12 +173,9 @@ e_shell_window_private_init (EShellWindow *shell_window)
 {
 	EShellWindowPrivate *priv = shell_window->priv;
 	GHashTable *loaded_views;
-	GConfBridge *bridge;
 	GtkToolItem *item;
 	GtkWidget *container;
 	GtkWidget *widget;
-	GObject *object;
-	const gchar *key;
 	guint merge_id;
 	gint height;
 
@@ -317,6 +314,15 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	priv->status_notebook = g_object_ref (widget);
 	gtk_widget_show (widget);
+}
+
+void
+e_shell_window_private_constructed (EShellWindow *shell_window)
+{
+	EShellWindowPrivate *priv = shell_window->priv;
+	GConfBridge *bridge;
+	GObject *object;
+	const gchar *key;
 
 	/* Create the switcher actions before we set the initial
 	 * shell view, because the shell view relies on them for
@@ -356,10 +362,6 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	gconf_bridge_bind_property (bridge, key, object, "active");
 
 	shell_window_init_switcher_style (shell_window);
-
-	/* Fine tuning. */
-
-	g_object_set (ACTION (SEND_RECEIVE), "is-important", TRUE, NULL);
 }
 
 void
@@ -435,6 +437,8 @@ e_shell_window_switch_to_view (EShellWindow *shell_window,
 	e_shell_window_update_new_menu (shell_window);
 	e_shell_window_update_view_menu (shell_window);
 	e_shell_window_update_search_menu (shell_window);
+
+	e_shell_view_update_actions (shell_view);
 }
 
 void

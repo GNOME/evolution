@@ -148,6 +148,7 @@ task_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (TASK_ASSIGN);
 	sensitive = (n_selected == 1) && editable && assignable;
+	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_CLIPBOARD_COPY);
 	sensitive = (n_selected > 0);
@@ -213,7 +214,7 @@ task_shell_view_update_actions (EShellView *shell_view)
 }
 
 static void
-task_shell_view_class_init (ETaskShellView *class,
+task_shell_view_class_init (ETaskShellViewClass *class,
                             GTypeModule *type_module)
 {
 	GObjectClass *object_class;

@@ -81,8 +81,8 @@ memo_shell_view_update_actions (EShellView *shell_view)
 	EMemoShellSidebar *memo_shell_sidebar;
 	EShellWindow *shell_window;
 	ESourceSelector *selector;
-	ETable *table;
 	EMemoTable *memo_table;
+	ETable *table;
 	ESource *source;
 	GtkAction *action;
 	GSList *list, *iter;
@@ -179,7 +179,7 @@ memo_shell_view_update_actions (EShellView *shell_view)
 }
 
 static void
-memo_shell_view_class_init (EMemoShellView *class,
+memo_shell_view_class_init (EMemoShellViewClass *class,
                             GTypeModule *type_module)
 {
 	GObjectClass *object_class;

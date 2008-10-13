@@ -1,4 +1,6 @@
 /*
+ * e-mail-shell-module-migrate.h
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -13,27 +15,24 @@
  * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
  *
- * Authors:
- *		Jeffrey Stedfast <fejj@ximian.com>
- *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
-#ifndef __EM_MIGRATE_H__
-#define __EM_MIGRATE_H__
+#ifndef E_MAIL_SHELL_MODULE_MIGRATE_H
+#define E_MAIL_SHELL_MODULE_MIGRATE_H
 
-#include <camel/camel-exception.h>
+#include <glib.h>
+#include <shell/e-shell-module.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
-int em_migrate (const char *evolution_dir, int major, int minor, int revision, CamelException *ex);
+gboolean	e_mail_shell_module_migrate	(EShellModule *shell_module,
+						 gint major,
+						 gint minor,
+						 gint micro,
+						 GError **error);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
-#endif /* __EM_MIGRATE_H__ */
+#endif /* E_MAIL_SHELL_MODULE_MIGRATE_H */

@@ -4163,9 +4163,11 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 
 	week_view->popup_event_num = event_num;
 
+#if 0 /* KILL-BONOBO */
 	popup = e_calendar_view_create_popup_menu (E_CALENDAR_VIEW (week_view));
 	g_object_weak_ref (G_OBJECT (popup), popup_destroyed_cb, week_view);
 	gtk_menu_popup (popup, NULL, NULL, NULL, NULL, bevent?bevent->button:0, bevent?bevent->time:gtk_get_current_event_time());
+#endif
 }
 
 static gboolean

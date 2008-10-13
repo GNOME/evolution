@@ -8,6 +8,7 @@ XML_FILES =					\
 UI_FILES =					\
 	evolution-calendars.ui			\
 	evolution-contacts.ui			\
+	evolution-mail.ui			\
 	evolution-memos.ui			\
 	evolution-shell.ui			\
 	evolution-tasks.ui

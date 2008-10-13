@@ -307,10 +307,10 @@ cal_module_cal_opened_cb (ECal *cal,
 
 	flags |= COMP_EDITOR_NEW_ITEM;
 	flags |= COMP_EDITOR_USER_ORG;
-	if (strcmp (action_name, "meeting-new") == 0)
+	if (strcmp (action_name, "event-meeting-new") == 0)
 		flags |= COMP_EDITOR_MEETING;
 
-	all_day = (strcmp (action_name, "appointment-all-day-new") == 0);
+	all_day = (strcmp (action_name, "event-all-day-new") == 0);
 
 	editor = event_editor_new (cal, flags);
 	comp = cal_comp_event_new_with_current_time (cal, all_day);
@@ -372,21 +372,21 @@ action_calendar_new_cb (GtkAction *action,
 
 static GtkActionEntry item_entries[] = {
 
-	{ "appointment-new",
+	{ "event-new",
 	  "appointment-new",
 	  N_("_Appointment"),  /* XXX Need C_() here */
 	  "<Control>a",
 	  N_("Create a new appointment"),
 	  G_CALLBACK (action_event_new_cb) },
 
-	{ "appointment-all-day-new",
+	{ "event-all-day-new",
 	  "stock_new-24h-appointment",
 	  N_("All Day A_ppointment"),
 	  NULL,
 	  N_("Create a new all-day appointment"),
 	  G_CALLBACK (action_event_new_cb) },
 
-	{ "meeting-new",
+	{ "event-meeting-new",
 	  "stock_new-meeting",
 	  N_("M_eeting"),
 	  "<Control>e",
@@ -450,10 +450,9 @@ e_shell_module_init (GTypeModule *type_module)
 	shell_module = E_SHELL_MODULE (type_module);
 	shell = e_shell_module_get_shell (shell_module);
 
-	/* Register the GType for ECalShellView. */
-	e_cal_shell_view_get_type (type_module);
-
-	e_shell_module_set_info (shell_module, &module_info);
+	e_shell_module_set_info (
+		shell_module, &module_info,
+		e_cal_shell_view_get_type (type_module));
 
 	cal_module_ensure_sources (shell_module);
 

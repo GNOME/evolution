@@ -1,4 +1,6 @@
 /*
+ * e-mail-shell-module-migrate.c
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -10,19 +12,14 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
- *
- * Authors:
- *		Jeffrey Stedfast <fejj@ximian.com>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "e-mail-shell-module-migrate.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,6 +34,7 @@
 #include <ctype.h>
 
 #include <glib.h>
+#include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
 #include <gtk/gtk.h>
@@ -54,8 +52,6 @@
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 
-#include <glib/gi18n.h>
-
 #include <e-util/e-util.h>
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-xml-utils.h>
@@ -67,11 +63,11 @@
 #include "e-util/e-util-private.h"
 #include "e-util/e-plugin.h"
 
-#include "mail-component.h"
+#include "e-mail-shell-module.h"
+#include "shell/e-shell-migrate.h"
+
 #include "mail-config.h"
-#include "mail-session.h"
 #include "em-utils.h"
-#include "em-migrate.h"
 
 #define d(x) x
 
@@ -380,7 +376,7 @@ parse_lsub (const char *lsub, char *dir_sep)
 	return NULL;
 }
 
-static int
+static gboolean
 read_imap_storeinfo (struct _account_info_1_0 *si)
 {
 	FILE *storeinfo;
@@ -433,7 +429,7 @@ read_imap_storeinfo (struct _account_info_1_0 *si)
 	g_free (path);
 	if (storeinfo == NULL) {
 		g_warning ("could not find imap store info '%s'", path);
-		return -1;
+		return FALSE;
 	}
 
 	/* ignore version */
@@ -473,10 +469,10 @@ read_imap_storeinfo (struct _account_info_1_0 *si)
 
 	fclose (storeinfo);
 
-	return 0;
+	return TRUE;
 }
 
-static int
+static gboolean
 load_accounts_1_0 (xmlDocPtr doc)
 {
 	xmlNodePtr source;
@@ -485,7 +481,7 @@ load_accounts_1_0 (xmlDocPtr doc)
 	char key[32];
 
 	if (!(source = e_bconf_get_path (doc, "/Mail/Accounts")))
-		return 0;
+		return TRUE;
 
 	if ((val = e_bconf_get_value (source, "num"))) {
 		count = atoi (val);
@@ -536,11 +532,11 @@ load_accounts_1_0 (xmlDocPtr doc)
 			g_hash_table_insert (accounts_name_1_0, ai->name, ai);
 	}
 
-	return 0;
+	return TRUE;
 }
 
-static int
-em_migrate_1_0 (const char *evolution_dir, xmlDocPtr config_xmldb, xmlDocPtr filters, xmlDocPtr vfolders, CamelException *ex)
+static gboolean
+em_migrate_1_0 (const char *data_dir, xmlDocPtr config_xmldb, xmlDocPtr filters, xmlDocPtr vfolders, GError **error)
 {
 	accounts_1_0 = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
@@ -555,11 +551,11 @@ em_migrate_1_0 (const char *evolution_dir, xmlDocPtr config_xmldb, xmlDocPtr fil
 	g_hash_table_destroy (accounts_1_0);
 	g_hash_table_destroy (accounts_name_1_0);
 
-	return 0;
+	return TRUE;
 }
 
 /* 1.2 upgrade functions */
-static int
+static gboolean
 is_xml1encoded (const char *txt)
 {
 	const unsigned char *p;
@@ -653,7 +649,7 @@ utf8_reencode (const char *txt)
 	}
 }
 
-static int
+static gboolean
 upgrade_xml_1_2_rec (xmlNodePtr node)
 {
 	const char *value_tags[] = { "string", "address", "regex", "file", "command", NULL };
@@ -718,29 +714,30 @@ upgrade_xml_1_2_rec (xmlNodePtr node)
 		node = node->next;
 	}
 
-	return 0;
+	return TRUE;
 }
 
-static int
+static gboolean
 em_upgrade_xml_1_2 (xmlDocPtr doc)
 {
 	xmlNodePtr root;
 
 	if (!doc || !(root = xmlDocGetRootElement (doc)))
-		return 0;
+		return TRUE;
 
 	return upgrade_xml_1_2_rec (root);
 }
 
 /* converts passwords from ~/evolution/private/config.xmldb to gnome_private() */
-static int
+static gboolean
 upgrade_passwords_1_2(void)
 {
 	xmlNodePtr root, entry;
 	char *filename;
 	xmlDocPtr priv_doc = NULL;
 	struct stat st;
-	int work = 0, res = -1;
+	int work = 0;
+	gboolean success = FALSE;
 
 	filename =  g_build_filename(g_get_home_dir(), "evolution/private/config.xmldb", NULL);
 	if (lstat(filename, &st) == 0 && S_ISREG(st.st_mode))
@@ -748,12 +745,12 @@ upgrade_passwords_1_2(void)
 	g_free(filename);
 
 	if (priv_doc == NULL)
-		return 0;
+		return TRUE;
 
 	root = priv_doc->children;
 	if (strcmp((char *)root->name, "bonobo-config") != 0) {
 		xmlFreeDoc(priv_doc);
-		return 0;
+		return TRUE;
 	}
 
 	root = root->children;
@@ -822,12 +819,12 @@ upgrade_passwords_1_2(void)
 
 	if (work) {
 		if (gnome_config_private_sync_file("/Evolution"))
-			res = 0;
+			success = TRUE;
 	} else {
-		res = 0;
+		success = TRUE;
 	}
 
-	return res;
+	return success;
 }
 
 /* ********************************************************************** */
@@ -1061,7 +1058,7 @@ static struct {
 };
 
 /* remaps mail config from bconf to gconf */
-static int
+static gboolean
 bconf_import(GConfClient *gconf, xmlDocPtr config_xmldb)
 {
 	xmlNodePtr source;
@@ -1112,11 +1109,11 @@ bconf_import(GConfClient *gconf, xmlDocPtr config_xmldb)
 	e_bconf_import_xml_blob(gconf, config_xmldb, signature_map, "/Mail/Signatures",
 				"/apps/evolution/mail/signatures", "signature", NULL);
 
-	return 0;
+	return TRUE;
 }
 
-static int
-em_migrate_1_2(const char *evolution_dir, xmlDocPtr config_xmldb, xmlDocPtr filters, xmlDocPtr vfolders, CamelException *ex)
+static gboolean
+em_migrate_1_2(const char *data_dir, xmlDocPtr config_xmldb, xmlDocPtr filters, xmlDocPtr vfolders, GError **error)
 {
 	GConfClient *gconf;
 
@@ -1128,7 +1125,7 @@ em_migrate_1_2(const char *evolution_dir, xmlDocPtr config_xmldb, xmlDocPtr filt
 	em_upgrade_xml_1_2(vfolders);
 	upgrade_passwords_1_2();
 
-	return 0;
+	return TRUE;
 }
 
 /* 1.4 upgrade functions */
@@ -1213,7 +1210,7 @@ em_migrate_setup_progress_dialog (const char *desc)
 	gtk_container_add ((GtkContainer *) window, vbox);
 
 	w = gtk_label_new (desc);
-	
+
 	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
 	gtk_widget_show (w);
 	gtk_box_pack_start_defaults ((GtkBox *) vbox, w);
@@ -1317,7 +1314,7 @@ is_mail_folder (const char *metadata)
 	return FALSE;
 }
 
-static int
+static gboolean
 get_local_et_expanded (const char *dirname)
 {
 	xmlNodePtr node;
@@ -1332,24 +1329,24 @@ get_local_et_expanded (const char *dirname)
 
 	if (stat (buf, &st) == -1) {
 		g_free (buf);
-		return -1;
+		return FALSE;
 	}
 
 	if (!(doc = xmlParseFile (buf))) {
 		g_free (buf);
-		return -1;
+		return FALSE;
 	}
 
 	g_free (buf);
 
 	if (!(node = xmlDocGetRootElement (doc)) || strcmp ((char *)node->name, "expanded_state") != 0) {
 		xmlFreeDoc (doc);
-		return -1;
+		return FALSE;
 	}
 
 	if (!(buf = (char *)xmlGetProp (node, (const unsigned char *)"default"))) {
 		xmlFreeDoc (doc);
-		return -1;
+		return FALSE;
 	}
 
 	thread_list = strcmp (buf, "0") == 0 ? 0 : 1;
@@ -1435,7 +1432,7 @@ static int open_flags[3] = {
 	O_WRONLY | O_CREAT | O_APPEND,
 };
 
-static int
+static gboolean
 cp (const char *src, const char *dest, gboolean show_progress, int mode)
 {
 	unsigned char readbuf[65536];
@@ -1449,18 +1446,18 @@ cp (const char *src, const char *dest, gboolean show_progress, int mode)
 	 * want to corrupt their existing data */
 	if (g_stat (dest, &st) == 0 && st.st_size > 0 && mode == CP_UNIQUE) {
 		errno = EEXIST;
-		return -1;
+		return FALSE;
 	}
 
 	if (g_stat (src, &st) == -1
 	    || (readfd = g_open (src, O_RDONLY | O_BINARY, 0)) == -1)
-		return -1;
+		return FALSE;
 
 	if ((writefd = g_open (dest, open_flags[mode] | O_BINARY, 0666)) == -1) {
 		errnosav = errno;
 		close (readfd);
 		errno = errnosav;
-		return -1;
+		return FALSE;
 	}
 
 	do {
@@ -1497,7 +1494,7 @@ cp (const char *src, const char *dest, gboolean show_progress, int mode)
 	utime (dest, &ut);
 	chmod (dest, st.st_mode);
 
-	return 0;
+	return TRUE;
 
  exception:
 
@@ -1512,12 +1509,12 @@ cp (const char *src, const char *dest, gboolean show_progress, int mode)
 	unlink (dest);
 	errno = errnosav;
 
-	return -1;
+	return FALSE;
 }
 
 #ifndef G_OS_WIN32
 
-static int
+static gboolean
 cp_r (const char *src, const char *dest, const char *pattern, int mode)
 {
 	GString *srcpath, *destpath;
@@ -1527,10 +1524,10 @@ cp_r (const char *src, const char *dest, const char *pattern, int mode)
 	DIR *dir;
 
 	if (g_mkdir_with_parents (dest, 0777) == -1)
-		return -1;
+		return FALSE;
 
 	if (!(dir = opendir (src)))
-		return -1;
+		return FALSE;
 
 	srcpath = g_string_new (src);
 	g_string_append_c (srcpath, '/');
@@ -1565,7 +1562,7 @@ cp_r (const char *src, const char *dest, const char *pattern, int mode)
 	g_string_free (destpath, TRUE);
 	g_string_free (srcpath, TRUE);
 
-	return 0;
+	return TRUE;
 }
 
 static void
@@ -1602,18 +1599,21 @@ mbox_build_filename (GString *path, const char *toplevel_dir, const char *full_n
 	}
 }
 
-static int
-em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *full_name, CamelException *ex)
+static gboolean
+em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *full_name, GError **error)
 {
 	CamelFolder *old_folder = NULL, *new_folder = NULL;
 	CamelStore *local_store = NULL;
+	CamelException ex;
 	char *name, *uri;
 	GPtrArray *uids;
 	struct stat st;
-	int thread_list;
+	gboolean thread_list;
 	int index, i;
 	GString *src, *dest;
-	int res = -1;
+	gboolean success = FALSE;
+
+	camel_exception_init (&ex);
 
 	src = g_string_new("");
 
@@ -1623,7 +1623,7 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 	    || !is_mail_folder(src->str)) {
 		/* Not an evolution mail folder */
 		g_string_free(src, TRUE);
-		return 0;
+		return TRUE;
 	}
 
 	dest = g_string_new("");
@@ -1648,16 +1648,18 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 		dlen = dest->len;
 
 		if (g_mkdir_with_parents (dest->str, 0777) == -1 && errno != EEXIST) {
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     _("Unable to create new folder `%s': %s"),
-					     dest->str, g_strerror(errno));
+			g_set_error (
+				error, E_SHELL_MIGRATE_ERROR,
+				E_SHELL_MIGRATE_ERROR_FAILED,
+				_("Unable to create new folder `%s': %s"),
+				dest->str, g_strerror (errno));
 			goto fatal;
 		}
 
 		*p = '/';
 		mode = CP_UNIQUE;
 	retry_copy:
-		if (cp (src->str, dest->str, TRUE, mode) == -1) {
+		if (!cp (src->str, dest->str, TRUE, mode)) {
 			if (errno == EEXIST) {
 				int save = errno;
 
@@ -1674,9 +1676,11 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 
 				errno = save;
 			}
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-					     _("Unable to copy folder `%s' to `%s': %s"),
-					     src->str, dest->str, g_strerror(errno));
+			g_set_error (
+				error, E_SHELL_MIGRATE_ERROR,
+				E_SHELL_MIGRATE_ERROR_FAILED,
+				_("Unable to copy folder `%s' to `%s': %s"),
+				src->str, dest->str, g_strerror (errno));
 			goto fatal;
 		}
 	ignore:
@@ -1696,14 +1700,14 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 				goto cmeta_err;
 
 			/* write the meta count */
-			if (camel_file_util_encode_uint32 (fp, thread_list != -1 ? 1 : 0) == -1)
+			if (camel_file_util_encode_uint32 (fp, thread_list ? 1 : 0) == -1)
 				goto cmeta_err;
 
-			if (thread_list != -1) {
+			if (!thread_list) {
 				if (camel_file_util_encode_string (fp, "evolution:thread_list") == -1)
 					goto cmeta_err;
 
-				if (camel_file_util_encode_string (fp, thread_list ? "1" : "0") == -1)
+				if (camel_file_util_encode_string (fp, !thread_list ? "1" : "0") == -1)
 					goto cmeta_err;
 			}
 
@@ -1742,16 +1746,16 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 	} else {
 		guint32 flags = CAMEL_STORE_FOLDER_CREATE;
 
-		if (!(local_store = camel_session_get_store ((CamelSession *) session, uri, ex))
-		    || !(old_folder = camel_store_get_folder (local_store, name, 0, ex)))
+		if (!(local_store = camel_session_get_store ((CamelSession *) session, uri, &ex))
+		    || !(old_folder = camel_store_get_folder (local_store, name, 0, &ex)))
 			goto fatal;
 
 		flags |= (index ? CAMEL_STORE_FOLDER_BODY_INDEX : 0);
-		if (!(new_folder = camel_store_get_folder (session->store, full_name, flags, ex)))
+		if (!(new_folder = camel_store_get_folder (session->store, full_name, flags, &ex)))
 			goto fatal;
 
-		if (thread_list != -1) {
-			camel_object_meta_set (new_folder, "evolution:thread_list", thread_list ? "1" : "0");
+		if (!thread_list) {
+			camel_object_meta_set (new_folder, "evolution:thread_list", !thread_list ? "1" : "0");
 			camel_object_state_write (new_folder);
 		}
 
@@ -1763,17 +1767,17 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 			if (!(info = camel_folder_get_message_info (old_folder, uids->pdata[i])))
 				continue;
 
-			if (!(message = camel_folder_get_message (old_folder, uids->pdata[i], ex))) {
+			if (!(message = camel_folder_get_message (old_folder, uids->pdata[i], &ex))) {
 				camel_folder_free_message_info (old_folder, info);
 				camel_folder_free_uids (old_folder, uids);
 				goto fatal;
 			}
 
-			camel_folder_append_message (new_folder, message, info, NULL, ex);
+			camel_folder_append_message (new_folder, message, info, NULL, &ex);
 			camel_folder_free_message_info (old_folder, info);
 			camel_object_unref (message);
 
-			if (camel_exception_is_set (ex))
+			if (camel_exception_is_set (&ex))
 				break;
 
 			em_migrate_set_progress (((double) i + 1) / ((double) uids->len));
@@ -1781,10 +1785,10 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 
 		camel_folder_free_uids (old_folder, uids);
 
-		if (camel_exception_is_set (ex))
+		if (camel_exception_is_set (&ex))
 			goto fatal;
 	}
-	res = 0;
+	success = TRUE;
 fatal:
 	g_free (uri);
 	g_free (name);
@@ -1797,34 +1801,42 @@ fatal:
 	if (new_folder)
 		camel_object_unref(new_folder);
 
-	return res;
+	if (camel_exception_is_set (&ex)) {
+		g_set_error (
+			error, E_SHELL_MIGRATE_ERROR,
+			E_SHELL_MIGRATE_ERROR_FAILED,
+			"%s", camel_exception_get_description (&ex));
+		camel_exception_clear (&ex);
+	}
+
+	return success;
 }
 
-static int
-em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full_name, CamelException *ex)
+static gboolean
+em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full_name, GError **error)
 {
 	char *path;
 	DIR *dir;
 	struct stat st;
 	struct dirent *dent;
-	int res = 0;
+	gboolean success = TRUE;
 
-	if (em_migrate_folder(session, dirname, full_name, ex) == -1)
-		return -1;
+	if (!em_migrate_folder(session, dirname, full_name, error))
+		return FALSE;
 
 	/* no subfolders, not readable, don't care */
 	path = g_strdup_printf ("%s/subfolders", dirname);
 	if (stat (path, &st) == -1 || !S_ISDIR (st.st_mode)) {
 		g_free (path);
-		return 0;
+		return TRUE;
 	}
 
 	if (!(dir = opendir (path))) {
 		g_free (path);
-		return 0;
+		return TRUE;
 	}
 
-	while (res == 0 && (dent = readdir (dir))) {
+	while (success && (dent = readdir (dir))) {
 		char *full_path;
 		char *name;
 
@@ -1838,7 +1850,7 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 		}
 
 		name = g_strdup_printf ("%s/%s", full_name, dent->d_name);
-		res = em_migrate_dir (session, full_path, name, ex);
+		success = em_migrate_dir (session, full_path, name, error);
 		g_free (full_path);
 		g_free (name);
 	}
@@ -1847,29 +1859,31 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 
 	g_free (path);
 
-	return res;
+	return success;
 }
 
-static int
-em_migrate_local_folders_1_4 (EMMigrateSession *session, CamelException *ex)
+static gboolean
+em_migrate_local_folders_1_4 (EMMigrateSession *session, GError **error)
 {
 	struct dirent *dent;
 	struct stat st;
 	DIR *dir;
-	int res = 0;
+	gboolean success = TRUE;
 
 	if (!(dir = opendir (session->srcdir))) {
-		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Unable to scan for existing mailboxes at `%s': %s"),
-				     session->srcdir, g_strerror(errno));
-		return -1;
+		g_set_error (
+			error, E_SHELL_MIGRATE_ERROR,
+			E_SHELL_MIGRATE_ERROR_FAILED,
+			_("Unable to scan for existing mailboxes at "
+			  "`%s': %s"), session->srcdir, g_strerror (errno));
+		return FALSE;
 	}
 
 	em_migrate_setup_progress_dialog (_("The location and hierarchy of the Evolution mailbox "
 			     "folders has changed since Evolution 1.x.\n\nPlease be "
 			     "patient while Evolution migrates your folders..."));
 
-	while (res == 0 && (dent = readdir (dir))) {
+	while (success && (dent = readdir (dir))) {
 		char *full_path;
 
 		if (dent->d_name[0] == '.')
@@ -1881,7 +1895,7 @@ em_migrate_local_folders_1_4 (EMMigrateSession *session, CamelException *ex)
 			continue;
 		}
 
-		res = em_migrate_dir (session, full_path, dent->d_name, ex);
+		success = em_migrate_dir (session, full_path, dent->d_name, error);
 		g_free (full_path);
 	}
 
@@ -1889,7 +1903,7 @@ em_migrate_local_folders_1_4 (EMMigrateSession *session, CamelException *ex)
 
 	em_migrate_close_progress_dialog ();
 
-	return res;
+	return success;
 }
 
 static char *
@@ -2045,15 +2059,15 @@ em_upgrade_accounts_1_4 (void)
 	mail_config_save_accounts ();
 }
 
-static int
-em_migrate_pop_uid_caches_1_4 (const char *evolution_dir, CamelException *ex)
+static gboolean
+em_migrate_pop_uid_caches_1_4 (const char *data_dir, GError **error)
 {
 	GString *oldpath, *newpath;
 	struct dirent *dent;
 	size_t olen, nlen;
 	char *cache_dir;
 	DIR *dir;
-	int res = 0;
+	gboolean success = TRUE;
 
 	/* Sigh, too many unique strings to translate, for cases which shouldn't ever happen */
 
@@ -2062,14 +2076,16 @@ em_migrate_pop_uid_caches_1_4 (const char *evolution_dir, CamelException *ex)
 	if (!(dir = opendir (cache_dir))) {
 		if (errno == ENOENT) {
 			g_free(cache_dir);
-			return 0;
+			return TRUE;
 		}
 
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Unable to open old POP keep-on-server data `%s': %s"),
-				      cache_dir, g_strerror (errno));
+		g_set_error (
+			error, E_SHELL_MIGRATE_ERROR,
+			E_SHELL_MIGRATE_ERROR_FAILED,
+			_("Unable to open old POP keep-on-server data "
+			  "`%s': %s"), cache_dir, g_strerror (errno));
 		g_free (cache_dir);
-		return -1;
+		return FALSE;
 	}
 
 	oldpath = g_string_new (cache_dir);
@@ -2077,15 +2093,18 @@ em_migrate_pop_uid_caches_1_4 (const char *evolution_dir, CamelException *ex)
 	olen = oldpath->len;
 	g_free (cache_dir);
 
-	cache_dir = g_build_filename (evolution_dir, "mail", "pop", NULL);
+	cache_dir = g_build_filename (data_dir, "pop", NULL);
 	if (g_mkdir_with_parents (cache_dir, 0777) == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Unable to create POP3 keep-on-server data directory `%s': %s"),
-				      cache_dir, g_strerror(errno));
+		g_set_error (
+			error, E_SHELL_MIGRATE_ERROR,
+			E_SHELL_MIGRATE_ERROR_FAILED,
+			_("Unable to create POP3 keep-on-server data "
+			  "directory `%s': %s"), cache_dir,
+			g_strerror (errno));
 		g_string_free (oldpath, TRUE);
 		g_free (cache_dir);
 		closedir (dir);
-		return -1;
+		return FALSE;
 	}
 
 	newpath = g_string_new (cache_dir);
@@ -2093,7 +2112,7 @@ em_migrate_pop_uid_caches_1_4 (const char *evolution_dir, CamelException *ex)
 	nlen = newpath->len;
 	g_free (cache_dir);
 
-	while (res == 0 && (dent = readdir (dir))) {
+	while (success && (dent = readdir (dir))) {
 		if (strncmp (dent->d_name, "cache-pop:__", 12) != 0)
 			continue;
 
@@ -2107,11 +2126,14 @@ em_migrate_pop_uid_caches_1_4 (const char *evolution_dir, CamelException *ex)
 		g_string_truncate (newpath, newpath->len - 1);
 
 		if (g_mkdir_with_parents (newpath->str, 0777) == -1
-		    || cp(oldpath->str, (g_string_append(newpath, "/uid-cache"))->str, FALSE, CP_UNIQUE)) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Unable to copy POP3 keep-on-server data `%s': %s"),
-					      oldpath->str, g_strerror(errno));
-			res = -1;
+		    || !cp(oldpath->str, (g_string_append(newpath, "/uid-cache"))->str, FALSE, CP_UNIQUE)) {
+			g_set_error (
+				error, E_SHELL_MIGRATE_ERROR,
+				E_SHELL_MIGRATE_ERROR_FAILED,
+				_("Unable to copy POP3 keep-on-server data "
+				  "`%s': %s"), oldpath->str,
+				g_strerror (errno));
+			success = FALSE;
 		}
 
 	}
@@ -2121,11 +2143,11 @@ em_migrate_pop_uid_caches_1_4 (const char *evolution_dir, CamelException *ex)
 
 	closedir (dir);
 
-	return res;
+	return success;
 }
 
-static int
-em_migrate_imap_caches_1_4 (const char *evolution_dir, CamelException *ex)
+static gboolean
+em_migrate_imap_caches_1_4 (const char *data_dir, GError **error)
 {
 	char *src, *dest;
 	struct stat st;
@@ -2133,10 +2155,10 @@ em_migrate_imap_caches_1_4 (const char *evolution_dir, CamelException *ex)
 	src = g_build_filename (g_get_home_dir (), "evolution", "mail", "imap", NULL);
 	if (stat (src, &st) == -1 || !S_ISDIR (st.st_mode)) {
 		g_free (src);
-		return 0;
+		return TRUE;
 	}
 
-	dest = g_build_filename (evolution_dir, "mail", "imap", NULL);
+	dest = g_build_filename (data_dir, "imap", NULL);
 
 	/* we don't care if this fails, it's only a cache... */
 	cp_r (src, dest, "summary", CP_OVERWRITE);
@@ -2144,11 +2166,11 @@ em_migrate_imap_caches_1_4 (const char *evolution_dir, CamelException *ex)
 	g_free (dest);
 	g_free (src);
 
-	return 0;
+	return TRUE;
 }
 
-static int
-em_migrate_folder_expand_state_1_4 (const char *evolution_dir, CamelException *ex)
+static gboolean
+em_migrate_folder_expand_state_1_4 (const char *data_dir, GError **error)
 {
 	GString *srcpath, *destpath;
 	size_t slen, dlen, rlen;
@@ -2161,15 +2183,15 @@ em_migrate_folder_expand_state_1_4 (const char *evolution_dir, CamelException *e
 	g_string_append (srcpath, "/evolution/config");
 	if (stat (srcpath->str, &st) == -1 || !S_ISDIR (st.st_mode)) {
 		g_string_free (srcpath, TRUE);
-		return 0;
+		return TRUE;
 	}
 
-	destpath = g_string_new (evolution_dir);
-	g_string_append (destpath, "/mail/config");
+	destpath = g_string_new (data_dir);
+	g_string_append (destpath, "/config");
 	if (g_mkdir_with_parents (destpath->str, 0777) == -1 || !(dir = opendir (srcpath->str))) {
 		g_string_free (destpath, TRUE);
 		g_string_free (srcpath, TRUE);
-		return 0;
+		return TRUE;
 	}
 
 	g_string_append (srcpath, "/et-expanded-");
@@ -2200,7 +2222,7 @@ em_migrate_folder_expand_state_1_4 (const char *evolution_dir, CamelException *e
 				/* this should always be the case afaik... */
 				inptr += rlen;
 				new = g_string_new ("mbox:");
-				g_string_append_printf (new, "%s/mail/local#", evolution_dir);
+				g_string_append_printf (new, "%s/local#", data_dir);
 
 				full_name = g_strdup (inptr);
 				inptr = full_name + strlen (full_name) - 12;
@@ -2242,11 +2264,11 @@ em_migrate_folder_expand_state_1_4 (const char *evolution_dir, CamelException *e
 	g_string_free (destpath, TRUE);
 	g_string_free (srcpath, TRUE);
 
-	return 0;
+	return TRUE;
 }
 
-static int
-em_migrate_folder_view_settings_1_4 (const char *evolution_dir, CamelException *ex)
+static gboolean
+em_migrate_folder_view_settings_1_4 (const char *data_dir, GError **error)
 {
 	GString *srcpath, *destpath;
 	size_t slen, dlen, rlen;
@@ -2259,15 +2281,15 @@ em_migrate_folder_view_settings_1_4 (const char *evolution_dir, CamelException *
 	g_string_append (srcpath, "/evolution/views/mail");
 	if (stat (srcpath->str, &st) == -1 || !S_ISDIR (st.st_mode)) {
 		g_string_free (srcpath, TRUE);
-		return 0;
+		return TRUE;
 	}
 
-	destpath = g_string_new (evolution_dir);
-	g_string_append (destpath, "/mail/views");
+	destpath = g_string_new (data_dir);
+	g_string_append (destpath, "/views");
 	if (g_mkdir_with_parents (destpath->str, 0777) == -1 || !(dir = opendir (srcpath->str))) {
 		g_string_free (destpath, TRUE);
 		g_string_free (srcpath, TRUE);
-		return 0;
+		return TRUE;
 	}
 
 	g_string_append_c (srcpath, '/');
@@ -2319,7 +2341,7 @@ em_migrate_folder_view_settings_1_4 (const char *evolution_dir, CamelException *
 				/* this should always be the case afaik... */
 				inptr += rlen;
 				new = g_string_new ("mbox:");
-				g_string_append_printf (new, "%s/mail/local#", evolution_dir);
+				g_string_append_printf (new, "%s/local#", data_dir);
 
 				full_name = g_strdup (inptr);
 				inptr = full_name + strlen (full_name) - 12;
@@ -2364,7 +2386,7 @@ em_migrate_folder_view_settings_1_4 (const char *evolution_dir, CamelException *
 	g_string_free (destpath, TRUE);
 	g_string_free (srcpath, TRUE);
 
-	return 0;
+	return TRUE;
 }
 
 #define SUBFOLDER_DIR_NAME     "subfolders"
@@ -2445,8 +2467,8 @@ e_path_to_physical (const char *prefix, const char *vpath)
 	return ppath;
 }
 
-static int
-em_migrate_imap_cmeta_1_4(const char *evolution_dir, CamelException *ex)
+static gboolean
+em_migrate_imap_cmeta_1_4(const char *data_dir, GError **error)
 {
 	GConfClient *gconf;
 	GSList *paths, *p;
@@ -2454,7 +2476,7 @@ em_migrate_imap_cmeta_1_4(const char *evolution_dir, CamelException *ex)
 	const EAccount *account;
 
 	if (!(accounts = mail_config_get_accounts()))
-		return 0;
+		return TRUE;
 
 	gconf = gconf_client_get_default();
 	paths = gconf_client_get_list(gconf, "/apps/evolution/shell/offline/folder_paths", GCONF_VALUE_STRING, NULL);
@@ -2474,8 +2496,8 @@ em_migrate_imap_cmeta_1_4(const char *evolution_dir, CamelException *ex)
 				if (url) {
 					char *dir, *base;
 
-					base = g_strdup_printf("%s/mail/imap/%s@%s/folders",
-							       evolution_dir,
+					base = g_strdup_printf("%s/imap/%s@%s/folders",
+							       data_dir,
 							       url->user?url->user:"",
 							       url->host?url->host:"");
 
@@ -2519,7 +2541,7 @@ em_migrate_imap_cmeta_1_4(const char *evolution_dir, CamelException *ex)
 
 	/* we couldn't care less if this doesn't work */
 
-	return 0;
+	return TRUE;
 }
 
 static void
@@ -2558,52 +2580,53 @@ remove_system_searches(xmlDocPtr searches)
 	}
 }
 
-static int
-em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders, CamelException *ex)
+static gboolean
+em_migrate_1_4 (const char *data_dir, xmlDocPtr filters, xmlDocPtr vfolders, GError **error)
 {
 	EMMigrateSession *session;
 	CamelException lex;
 	struct stat st;
-	char *path;
+	gchar *path;
 	xmlDocPtr searches;
 
-	path = g_build_filename (evolution_dir, "mail", NULL);
-
-	camel_init (path, TRUE);
+	camel_init (data_dir, TRUE);
 	camel_provider_init();
-	session = (EMMigrateSession *) em_migrate_session_new (path);
-	g_free (path);
+	session = (EMMigrateSession *) em_migrate_session_new (data_dir);
 
 	session->srcdir = g_build_filename (g_get_home_dir (), "evolution", "local", NULL);
 
 	path = g_strdup_printf ("mbox:%s/.evolution/mail/local", g_get_home_dir ());
 	if (stat (path + 5, &st) == -1) {
 		if (errno != ENOENT || g_mkdir_with_parents (path + 5, 0777) == -1) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Failed to create local mail storage `%s': %s"),
-					      path + 5, g_strerror (errno));
+			g_set_error (
+				error, E_SHELL_MIGRATE_ERROR,
+				E_SHELL_MIGRATE_ERROR_FAILED,
+				_("Failed to create local mail storage "
+				  "`%s': %s"), path + 5, g_strerror (errno));
 			g_free (session->srcdir);
 			camel_object_unref (session);
 			g_free (path);
-			return -1;
+			return FALSE;
 		}
 	}
 
 	camel_exception_init (&lex);
 	if (!(session->store = camel_session_get_store ((CamelSession *) session, path, &lex))) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Failed to create local mail storage `%s': %s"),
-				      path, lex.desc);
+		g_set_error (
+			error, E_SHELL_MIGRATE_ERROR,
+			E_SHELL_MIGRATE_ERROR_FAILED,
+			_("Failed to create local mail storage `%s': %s"),
+			path, lex.desc);
 		g_free (session->srcdir);
 		camel_object_unref (session);
 		camel_exception_clear (&lex);
 		g_free (path);
-		return -1;
+		return FALSE;
 	}
 	g_free (path);
 
-	if (em_migrate_local_folders_1_4 (session, ex) == -1)
-		return -1;
+	if (!em_migrate_local_folders_1_4 (session, error))
+		return FALSE;
 
 	camel_object_unref (session->store);
 	g_free (session->srcdir);
@@ -2621,26 +2644,24 @@ em_migrate_1_4 (const char *evolution_dir, xmlDocPtr filters, xmlDocPtr vfolders
 	g_free(path);
 	if (searches) {
 		remove_system_searches(searches);
-		path = g_build_filename(evolution_dir, "mail", NULL);
-		emm_save_xml(searches, path, "searches.xml");
-		g_free(path);
+		emm_save_xml(searches, data_dir, "searches.xml");
 		xmlFreeDoc(searches);
 	}
 
-	if (em_migrate_pop_uid_caches_1_4 (evolution_dir, ex) == -1)
-		return -1;
+	if (!em_migrate_pop_uid_caches_1_4 (data_dir, error))
+		return FALSE;
 
 	/* these are non-fatal */
-	em_migrate_imap_caches_1_4 (evolution_dir, ex);
-	camel_exception_clear(ex);
-	em_migrate_folder_expand_state_1_4 (evolution_dir, ex);
-	camel_exception_clear(ex);
-	em_migrate_folder_view_settings_1_4 (evolution_dir, ex);
-	camel_exception_clear(ex);
-	em_migrate_imap_cmeta_1_4(evolution_dir, ex);
-	camel_exception_clear(ex);
+	em_migrate_imap_caches_1_4 (data_dir, error);
+	g_clear_error (error);
+	em_migrate_folder_expand_state_1_4 (data_dir, error);
+	g_clear_error (error);
+	em_migrate_folder_view_settings_1_4 (data_dir, error);
+	g_clear_error (error);
+	em_migrate_imap_cmeta_1_4 (data_dir, error);
+	g_clear_error (error);
 
-	return 0;
+	return TRUE;
 }
 
 static void
@@ -2678,8 +2699,8 @@ em_update_accounts_2_11 (void)
 
 #endif	/* !G_OS_WIN32 */
 
-static int
-emm_setup_initial(const char *evolution_dir)
+static gboolean
+emm_setup_initial(const gchar *data_dir)
 {
 	GDir *dir;
 	const char *d;
@@ -2691,10 +2712,10 @@ emm_setup_initial(const char *evolution_dir)
 
 	d(printf("Setting up initial mail tree\n"));
 
-	base = g_build_filename(evolution_dir, "mail", "local", NULL);
+	base = g_build_filename(data_dir, "local", NULL);
 	if (g_mkdir_with_parents(base, 0777) == -1 && errno != EEXIST) {
 		g_free(base);
-		return -1;
+		return FALSE;
 	}
 
 	/* e.g. try en-AU then en, etc */
@@ -2710,7 +2731,7 @@ emm_setup_initial(const char *evolution_dir)
 	}
 
 	/* Make sure we found one. */
-	g_return_val_if_fail (*language_names != NULL, 0);
+	g_return_val_if_fail (*language_names != NULL, FALSE);
 
 	dir = g_dir_open(local, 0, NULL);
 	if (dir) {
@@ -2730,7 +2751,7 @@ emm_setup_initial(const char *evolution_dir)
 	g_free(local);
 	g_free(base);
 
-	return 0;
+	return TRUE;
 }
 
 static gboolean
@@ -2861,63 +2882,69 @@ migrate_folders(CamelStore *store, CamelFolderInfo *fi, const char *acc, CamelEx
 }
 
 static CamelStore *
-setup_local_store (MailComponent *mc)
+setup_local_store (EShellModule *shell_module,
+                   EMMigrateSession *session)
 {
 	CamelURL *url;
+	const gchar *data_dir;
 	char *tmp;
 	CamelStore *store;
-	
+
 	url = camel_url_new("mbox:", NULL);
-	tmp = g_build_filename (mail_component_peek_base_directory(mc), "local", NULL);
+	data_dir = e_shell_module_get_data_dir (shell_module);
+	tmp = g_build_filename (data_dir, "local", NULL);
 	camel_url_set_path(url, tmp);
 	g_free(tmp);
 	tmp = camel_url_to_string(url, 0);
-	store = (CamelStore *)camel_session_get_service(session, tmp, CAMEL_PROVIDER_STORE, NULL);
+	store = (CamelStore *)camel_session_get_service(CAMEL_SESSION (session), tmp, CAMEL_PROVIDER_STORE, NULL);
 	g_free(tmp);
 
 	return store;
-	
+
 }
 static void
-migrate_to_db()
+migrate_to_db (EShellModule *shell_module)
 {
+	EMMigrateSession *session;
 	EAccountList *accounts;
 	EIterator *iter;
 	int i=0, len;
-	MailComponent *component = mail_component_peek ();
 	CamelStore *store = NULL;
 	CamelFolderInfo *info;
-	
+	const gchar *data_dir;
+
 	if (!(accounts = mail_config_get_accounts ()))
 		return;
-	
+
 	iter = e_list_get_iterator ((EList *) accounts);
 	len = e_list_length ((EList *) accounts);
-	
+
+	data_dir = e_shell_module_get_data_dir (shell_module);
+	session = (EMMigrateSession *) em_migrate_session_new (data_dir);
 	camel_session_set_online ((CamelSession *) session, FALSE);
 	em_migrate_setup_progress_dialog (_("The summary format of the Evolution mailbox "
 			     "folders has been moved to SQLite since Evolution 2.24.\n\nPlease be "
 			     "patient while Evolution migrates your folders..."));
 
 	em_migrate_set_progress ( (double)i/(len+1));
-	store = setup_local_store (component);
-	info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, NULL);	
+	store = setup_local_store (shell_module, session);
+	info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, NULL);
 	if (info) {
 		migrate_folders(store, info, _("On This Computer"), NULL);
 	}
 	i++;
 	em_migrate_set_progress ( (double)i/(len+1));
 
-	
+
 	while (e_iterator_is_valid (iter)) {
 		EAccount *account = (EAccount *) e_iterator_get (iter);
 		EAccountService *service;
 		const char *name;
 
-		
+
 		service = account->source;
 		name = account->name;
-		em_migrate_set_progress ( (double)i/(len+1));		
+		em_migrate_set_progress ( (double)i/(len+1));
 		if (account->enabled
 		    && service->url != NULL
 		    && service->url[0]
@@ -2926,17 +2953,17 @@ migrate_to_db()
 			CamelException ex;
 
 			camel_exception_init (&ex);
-			mail_component_load_store_by_uri (component, service->url, name);
+			e_mail_shell_module_load_store_by_uri (service->url, name);
 
-			store = (CamelStore *) camel_session_get_service (session, service->url, CAMEL_PROVIDER_STORE, &ex);
+			store = (CamelStore *) camel_session_get_service (CAMEL_SESSION (session), service->url, CAMEL_PROVIDER_STORE, &ex);
 			info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, &ex);
 			if (info) {
 				migrate_folders(store, info, account->name, &ex);
-				
+
 			} else
 				printf("%s:%s: failed to get folder infos \n", G_STRLOC, G_STRFUNC);
 			camel_exception_clear(&ex);
-				
+
 		}
 		i++;
 		e_iterator_next (iter);
@@ -2947,30 +2974,36 @@ migrate_to_db()
 
 	g_object_unref (iter);
 	em_migrate_close_progress_dialog ();
+
+	g_object_unref (session);
 }
 
-int
-em_migrate (const char *evolution_dir, int major, int minor, int revision, CamelException *ex)
+gboolean
+e_mail_shell_module_migrate (EShellModule *shell_module,
+                             gint major,
+                             gint minor,
+                             gint micro,
+                             GError **error)
 {
 	struct stat st;
-	char *path;
+	const gchar *data_dir;
+	gchar *path;
 
 	/* make sure ~/.evolution/mail exists */
-	path = g_build_filename (evolution_dir, "mail", NULL);
-	if (g_stat (path, &st) == -1) {
-		if (errno != ENOENT || g_mkdir_with_parents (path, 0777) == -1) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Unable to create local mail folders at `%s': %s"),
-					      path, g_strerror (errno));
-			g_free (path);
-			return -1;
+	data_dir = e_shell_module_get_data_dir (shell_module);
+	if (g_stat (data_dir, &st) == -1) {
+		if (errno != ENOENT || g_mkdir_with_parents (data_dir, 0777) == -1) {
+			g_set_error (
+				error, E_SHELL_MIGRATE_ERROR,
+				E_SHELL_MIGRATE_ERROR_FAILED,
+				_("Unable to create local mail folders at "
+				"`%s': %s"), data_dir, g_strerror (errno));
+			return FALSE;
 		}
 	}
 
-	g_free (path);
-
 	if (major == 0)
-		return emm_setup_initial(evolution_dir);
+		return emm_setup_initial (data_dir);
 
 	if (major == 1 && minor < 5) {
 #ifndef G_OS_WIN32
@@ -2978,45 +3011,45 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 
 		path = g_build_filename (g_get_home_dir (), "evolution", NULL);
 		if (minor <= 2 && !(config_xmldb = emm_load_xml (path, "config.xmldb"))) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Unable to read settings from previous Evolution install, "
-						"`evolution/config.xmldb' does not exist or is corrupt."));
-			g_free (path);
-			return -1;
+			g_set_error (
+				error, E_SHELL_MIGRATE_ERROR,
+				E_SHELL_MIGRATE_ERROR_FAILED,
+				_("Unable to read settings from previous "
+				  "Evolution install, `evolution/config.xmldb' "
+				  "does not exist or is corrupt."));
+			return FALSE;
 		}
 		filters = emm_load_xml (path, "filters.xml");
 		vfolders = emm_load_xml (path, "vfolders.xml");
 		g_free (path);
 
 		if (minor == 0) {
-			if (em_migrate_1_0 (evolution_dir, config_xmldb, filters, vfolders, ex) == -1) {
+			if (!em_migrate_1_0 (data_dir, config_xmldb, filters, vfolders, error)) {
 				xmlFreeDoc (config_xmldb);
 				xmlFreeDoc (filters);
 				xmlFreeDoc (vfolders);
-				return -1;
+				return FALSE;
 			}
 		}
 
 		if (minor <= 2) {
-			if (em_migrate_1_2 (evolution_dir, config_xmldb, filters, vfolders, ex) == -1) {
+			if (!em_migrate_1_2 (data_dir, config_xmldb, filters, vfolders, error)) {
 				xmlFreeDoc (config_xmldb);
 				xmlFreeDoc (filters);
 				xmlFreeDoc (vfolders);
-				return -1;
+				return FALSE;
 			}
 
 			xmlFreeDoc (config_xmldb);
 		}
 
 		if (minor <= 4) {
-			if (em_migrate_1_4 (evolution_dir, filters, vfolders, ex) == -1) {
+			if (!em_migrate_1_4 (data_dir, filters, vfolders, error)) {
 				xmlFreeDoc (filters);
 				xmlFreeDoc (vfolders);
-				return -1;
+				return FALSE;
 			}
 		}
-
-		path = g_build_filename (evolution_dir, "mail", NULL);
 
 		if (filters) {
 			emm_save_xml (filters, path, "filters.xml");
@@ -3048,8 +3081,8 @@ em_migrate (const char *evolution_dir, int major, int minor, int revision, Camel
 
 	if (major < 2 || (major == 2 && minor < 24)) {
 		em_update_sa_junk_setting_2_23 ();
-		migrate_to_db();
+		migrate_to_db (shell_module);
 	}
 
-	return 0;
+	return TRUE;
 }

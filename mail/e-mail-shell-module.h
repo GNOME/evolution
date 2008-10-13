@@ -1,4 +1,5 @@
 /*
+ * e-mail-shell-module.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14,18 +15,27 @@
  * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
  *
- * Authors:
- *		Ettore Perazzoli <ettore@ximian.com>
- *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
-#ifndef _CONTROL_FACTORY_H_
-#define _CONTROL_FACTORY_H_
+#ifndef E_MAIL_SHELL_MODULE_H
+#define E_MAIL_SHELL_MODULE_H
 
-#include <bonobo/bonobo-control.h>
+#include <camel/camel-store.h>
+#include <e-util/e-signature-list.h>
+#include <libedataserver/e-account-list.h>
 
-BonoboControl *control_factory_new_control  (void);
+G_BEGIN_DECLS
 
-#endif /* _CONTROL_FACTORY_H_ */
+CamelStore *	e_mail_shell_module_load_store_by_uri
+						(const gchar *uri,
+						 const gchar *name);
+EAccountList *	mail_config_get_accounts	(void);
+void		mail_config_save_accounts	(void);
+ESignatureList *mail_config_get_signatures	(void);
+gchar *		em_uri_from_camel		(const gchar *curi);
+
+G_END_DECLS
+
+#endif /* E_MAIL_SHELL_MODULE_H */

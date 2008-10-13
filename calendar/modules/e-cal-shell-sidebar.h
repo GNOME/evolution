@@ -27,6 +27,7 @@
 
 #include <shell/e-shell-sidebar.h>
 #include <shell/e-shell-view.h>
+#include <widgets/misc/e-calendar.h>
 
 /* Standard GObject macros */
 #define E_TYPE_CAL_SHELL_SIDEBAR \
@@ -72,6 +73,8 @@ struct _ECalShellSidebarClass {
 
 GType		e_cal_shell_sidebar_get_type	(void);
 GtkWidget *	e_cal_shell_sidebar_new		(EShellView *shell_view);
+ECalendar *	e_cal_shell_sidebar_get_mini_calendar
+						(ECalShellSidebar *cal_shell_sidebar);
 ESourceSelector *
 		e_cal_shell_sidebar_get_selector(ECalShellSidebar *cal_shell_sidebar);
 void		e_cal_shell_sidebar_add_source	(ECalShellSidebar *cal_shell_sidebar,
@@ -79,6 +82,8 @@ void		e_cal_shell_sidebar_add_source	(ECalShellSidebar *cal_shell_sidebar,
 void		e_cal_shell_sidebar_remove_source
 						(ECalShellSidebar *cal_shell_sidebar,
 						 ESource *source);
+void		e_cal_shell_sidebar_update_timezone
+						(ECalShellSidebar *cal_shell_sidebar);
 
 G_END_DECLS
 

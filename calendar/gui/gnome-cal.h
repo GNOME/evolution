@@ -27,7 +27,6 @@
 
 #include <time.h>
 #include <gtk/gtk.h>
-#include <shell/e-shell-view.h>
 #include <bonobo/bonobo-ui-component.h>
 #include <misc/e-calendar.h>
 #include <libecal/e-cal.h>
@@ -106,10 +105,7 @@ struct _GnomeCalendarClass {
 GType      gnome_calendar_get_type         	(void);
 GtkWidget *gnome_calendar_construct		(GnomeCalendar *gcal);
 
-GtkWidget *gnome_calendar_new			(EShellView *shell_view);
-EShellView *	gnome_calendar_get_shell_view	(GnomeCalendar *calendar);
-
-void gnome_calendar_set_ui_component (GnomeCalendar *cal, BonoboUIComponent *ui_component);
+GtkWidget *gnome_calendar_new			(void);
 
 ECalendarTable *gnome_calendar_get_task_pad	(GnomeCalendar *gcal);
 
@@ -145,11 +141,6 @@ struct _ECalMenu *gnome_calendar_get_taskpad_menu (GnomeCalendar *gcal);
 struct _ECalMenu *gnome_calendar_get_calendar_menu (GnomeCalendar *gcal);
 struct _ECalMenu *gnome_calendar_get_memopad_menu (GnomeCalendar *gcal);
 
-void gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic);
-void gnome_calendar_discard_view_menus (GnomeCalendar *gcal);
-
-void gnome_calendar_view_popup_factory (GnomeCalendar *gcal, struct _EPopup *ep, const char *prefix);
-
 void	   gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 						   time_t	  start_time,
 						   time_t	  end_time);
@@ -174,9 +165,6 @@ gboolean   gnome_calendar_get_visible_time_range (GnomeCalendar *gcal,
 
 /* Returns the number of selected events (0 or 1 at present). */
 gint	   gnome_calendar_get_num_events_selected (GnomeCalendar *gcal);
-
-/* Returns the number of selected tasks */
-gint       gnome_calendar_get_num_tasks_selected (GnomeCalendar *gcal);
 
 /* Get the current timezone. */
 icaltimezone *gnome_calendar_get_timezone	(GnomeCalendar	*gcal);

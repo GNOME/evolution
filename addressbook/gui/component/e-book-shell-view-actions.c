@@ -449,6 +449,9 @@ action_gal_save_custom_view_cb (GtkAction *action,
 	EAddressbookView *address_view;
 	GalViewInstance *view_instance;
 
+	/* All shell views respond to the activation of this action,
+	 * which is defined by EShellWindow.  But only the currently
+	 * active shell view proceeds with saving the custom view. */
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	if (!e_shell_view_is_active (shell_view))
 		return;
@@ -463,6 +466,15 @@ static void
 action_search_execute_cb (GtkAction *action,
                           EBookShellView *book_shell_view)
 {
+	EShellView *shell_view;
+
+	/* All shell views respond to the activation of this action,
+	 * which is defined by EShellWindow.  But only the currently
+	 * active shell view proceeds with executing the search. */
+	shell_view = E_SHELL_VIEW (book_shell_view);
+	if (!e_shell_view_is_active (shell_view))
+		return;
+
 	e_book_shell_view_execute_search (book_shell_view);
 }
 
@@ -471,7 +483,7 @@ action_search_filter_cb (GtkRadioAction *action,
                          GtkRadioAction *current,
                          EBookShellView *book_shell_view)
 {
-	action_search_execute_cb (GTK_ACTION (current), book_shell_view);
+	e_book_shell_view_execute_search (book_shell_view);
 }
 
 static GtkActionEntry contact_entries[] = {

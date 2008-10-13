@@ -480,10 +480,9 @@ e_shell_module_init (GTypeModule *type_module)
 	shell_module = E_SHELL_MODULE (type_module);
 	shell = e_shell_module_get_shell (shell_module);
 
-	/* Register the GType for EMemoShellView. */
-	e_memo_shell_view_get_type (type_module);
-
-	e_shell_module_set_info (shell_module, &module_info);
+	e_shell_module_set_info (
+		shell_module, &module_info,
+		e_memo_shell_view_get_type (type_module));
 
 	memo_module_ensure_sources (shell_module);
 

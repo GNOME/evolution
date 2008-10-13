@@ -215,6 +215,12 @@ shell_window_finalize (GObject *object)
 }
 
 static void
+shell_window_constructed (GObject *object)
+{
+	e_shell_window_private_constructed (E_SHELL_WINDOW (object));
+}
+
+static void
 shell_window_class_init (EShellWindowClass *class)
 {
 	GObjectClass *object_class;
@@ -227,6 +233,7 @@ shell_window_class_init (EShellWindowClass *class)
 	object_class->get_property = shell_window_get_property;
 	object_class->dispose = shell_window_dispose;
 	object_class->finalize = shell_window_finalize;
+	object_class->constructed = shell_window_constructed;
 
 	/**
 	 * EShellWindow:active-view

@@ -1435,7 +1435,7 @@ static GtkActionEntry shell_entries[] = {
 	{ "contents",
 	  GTK_STOCK_HELP,
 	  N_("_Contents"),
-	  NULL,
+	  "F1",
 	  N_("Open the Evolution User Guide"),
 	  G_CALLBACK (action_contents_cb) },
 
@@ -1889,6 +1889,10 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 		G_N_ELEMENTS (shell_switcher_entries),
 		-1, G_CALLBACK (action_switcher_cb), shell_window);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+
+	/* Fine tuning. */
+
+	g_object_set (ACTION (SEND_RECEIVE), "is-important", TRUE, NULL);
 }
 
 GtkWidget *
@@ -1967,22 +1971,24 @@ e_shell_window_create_new_menu (EShellWindow *shell_window)
 void
 e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 {
-	GType *children;
 	GSList *group = NULL;
 	GtkRadioAction *action;
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
 	EShellSwitcher *switcher;
-	guint n_children, ii;
+	EShell *shell;
+	GList *list, *iter;
 	guint merge_id;
+	guint ii = 0;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
 	action_group = shell_window->priv->switcher_actions;
-	children = g_type_children (E_TYPE_SHELL_VIEW, &n_children);
 	switcher = E_SHELL_SWITCHER (shell_window->priv->switcher);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
+	shell = e_shell_window_get_shell (shell_window);
+	list = e_shell_list_modules (shell);
 
 	/* Construct a group of radio actions from the various EShellView
 	 * subclasses and register them with the EShellSwitcher.  These
@@ -1993,14 +1999,26 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 	gtk_radio_action_set_group (action, group);
 	group = gtk_radio_action_get_group (action);
 
-	for (ii = 0; ii < n_children; ii++) {
+	for (iter = list; iter != NULL; iter = iter->next) {
+		EShellModule *shell_module = iter->data;
 		EShellViewClass *class;
+		GType type;
 		const gchar *view_name;
 		gchar *accelerator;
 		gchar *action_name;
 		gchar *tooltip;
 
-		class = g_type_class_ref (children[ii]);
+		type = e_shell_module_get_shell_view_type (shell_module);
+
+		if (!g_type_is_a (type, E_TYPE_SHELL_VIEW)) {
+			g_critical (
+				"%s is not a subclass of %s",
+				g_type_name (type),
+				g_type_name (E_TYPE_SHELL_VIEW));
+			continue;
+		}
+
+		class = g_type_class_ref (type);
 
 		if (class->label == NULL) {
 			g_critical (
@@ -2026,7 +2044,7 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 
 		action = gtk_radio_action_new (
 			action_name, class->label,
-			tooltip, NULL, ii);
+			tooltip, NULL, ii++);
 
 		g_object_set (
 			G_OBJECT (action),
@@ -2040,8 +2058,8 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 		group = gtk_radio_action_get_group (action);
 
 		/* The first nine views have accelerators Ctrl+(1-9). */
-		if (ii < 9)
-			accelerator = g_strdup_printf ("<Control>%d", ii + 1);
+		if (ii < 10)
+			accelerator = g_strdup_printf ("<Control>%d", ii);
 		else
 			accelerator = g_strdup ("");
 
@@ -2062,8 +2080,6 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 
 		g_type_class_unref (class);
 	}
-
-	g_free (children);
 }
 
 void

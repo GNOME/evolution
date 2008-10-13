@@ -178,7 +178,6 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	EMemoShellContent *memo_shell_content;
 	EMemoShellSidebar *memo_shell_sidebar;
 	EShellView *shell_view;
-	EShellWindow *shell_window;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EMemoTable *memo_table;
@@ -187,7 +186,6 @@ e_memo_shell_view_private_constructed (EMemoShellView *memo_shell_view)
 	ESourceSelector *selector;
 
 	shell_view = E_SHELL_VIEW (memo_shell_view);
-	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 

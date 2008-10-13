@@ -74,6 +74,72 @@
 #define E_SHELL_WINDOW_ACTION_EVENT_OPEN(window) \
 	E_SHELL_WINDOW_ACTION ((window), "event-open")
 
+/* Memo Pad Actions */
+#define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_CLIPBOARD_COPY(window) \
+        E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-clipboard-copy")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_CLIPBOARD_CUT(window) \
+        E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-clipboard-cut")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_CLIPBOARD_PASTE(window) \
+        E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-clipboard-paste")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_DELETE(window) \
+        E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-delete")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_FORWARD(window) \
+        E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-forward")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_NEW(window) \
+        E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-new")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_OPEN(window) \
+        E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-open")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_OPEN_URL(window) \
+        E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-open-url")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_PRINT(window) \
+        E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-print")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_MEMOPAD_SAVE_AS(window) \
+        E_SHELL_WINDOW_ACTION ((window), "calendar-memopad-save-as")
+
+/* Task Pad Actions */
+#define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_ASSIGN(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-assign")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_CLIPBOARD_COPY(window) \
+        E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-clipboard-copy")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_CLIPBOARD_CUT(window) \
+        E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-clipboard-cut")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_CLIPBOARD_PASTE(window) \
+        E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-clipboard-paste")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_DELETE(window) \
+        E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-delete")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_FORWARD(window) \
+        E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-forward")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_MARK_COMPLETE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-mark-complete")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_MARK_INCOMPLETE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-mark-incomplete")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_NEW(window) \
+        E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-new")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_OPEN(window) \
+        E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-open")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_OPEN_URL(window) \
+        E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-open-url")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_PRINT(window) \
+        E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-print")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_TASKPAD_SAVE_AS(window) \
+        E_SHELL_WINDOW_ACTION ((window), "calendar-taskpad-save-as")
+
+/* Calendar Query Actions */
+#define E_SHELL_WINDOW_ACTION_CALENDAR_FILTER_ACTIVE_APPOINTMENTS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-filter-active-appointments")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_FILTER_ANY_CATEGORY(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-filter-any-category")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_FILTER_NEXT_7_DAYS_APPOINTMENTS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-filter-next-7-days-appointments")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_FILTER_UNMATCHED(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-filter-unmatched")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_SEARCH_ANY_FIELD_CONTAINS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-search-any-field-contains")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_SEARCH_DESCRIPTION_CONTAINS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-search-description-contains")
+#define E_SHELL_WINDOW_ACTION_CALENDAR_SEARCH_SUMMARY_CONTAINS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "calendar-search-summary-contains")
+
 /* Action Groups */
 #define E_SHELL_WINDOW_ACTION_GROUP_CALS(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "calendars")

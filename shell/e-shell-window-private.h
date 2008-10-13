@@ -104,6 +104,8 @@ struct _EShellWindowPrivate {
 };
 
 void		e_shell_window_private_init	(EShellWindow *shell_window);
+void		e_shell_window_private_constructed
+						(EShellWindow *shell_window);
 void		e_shell_window_private_dispose	(EShellWindow *shell_window);
 void		e_shell_window_private_finalize	(EShellWindow *shell_window);
 

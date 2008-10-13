@@ -1653,69 +1653,6 @@ static EPopupItem ecv_child_items [] = {
 	{ E_POPUP_ITEM, "54.delete", N_("Delete _All Occurrences"), on_delete_appointment, NULL, GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_RECURRING, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
 };
 
-static void
-ecv_popup_free (EPopup *ep, GSList *list, void *data)
-{
-	g_slist_free(list);
-}
-
-GtkMenu *
-e_calendar_view_create_popup_menu (ECalendarView *cal_view)
-{
-	ECalPopup *ep;
-	GSList *menus = NULL;
-	GList *selected, *l;
-	int i;
-	ECalPopupTargetSelect *t;
-	ECalModel *model;
-	GPtrArray *events;
-
-	g_return_val_if_fail (E_IS_CALENDAR_VIEW (cal_view), NULL);
-
-	/* We could do this using a factory on the ECalPopup class,
-	 * that way we would get called implicitly whenever a popup
-	 * menu was created rather than everyone having to call us.
-	 * We could also have a different menu id for each view */
-
-	/** @HookPoint-ECalPopup: Calendar Main View Context Menu
-	 * @Id: org.gnome.evolution.calendar.view.popup
-	 * @Class: org.gnome.evolution.calendar.popup:1.0
-	 * @Target: ECalPopupTargetSelect
-	 *
-	 * The context menu on the main calendar view.  This menu
-	 * applies to all view types.
-	 */
-	ep = e_cal_popup_new("org.gnome.evolution.calendar.view.popup");
-
-	model = e_calendar_view_get_model(cal_view);
-	events = g_ptr_array_new();
-	selected = e_calendar_view_get_selected_events(cal_view);
-	for (l=selected;l;l=g_list_next(l)) {
-		ECalendarViewEvent *event = l->data;
-
-		if (event)
-			g_ptr_array_add(events, e_cal_model_copy_component_data(event->comp_data));
-	}
-	g_list_free(selected);
-
-	t = e_cal_popup_target_new_select(ep, model, events);
-	t->target.widget = (GtkWidget *)cal_view;
-
-	if (t->events->len == 0) {
-		for (i=0;i<sizeof(ecv_main_items)/sizeof(ecv_main_items[0]);i++)
-			menus = g_slist_prepend(menus, &ecv_main_items[i]);
-
-		gnome_calendar_view_popup_factory(cal_view->priv->calendar, (EPopup *)ep, "60.view");
-	} else {
-		for (i=0;i<sizeof(ecv_child_items)/sizeof(ecv_child_items[0]);i++)
-			menus = g_slist_prepend(menus, &ecv_child_items[i]);
-	}
-
-	e_popup_add_items((EPopup *)ep, menus, NULL, ecv_popup_free, cal_view);
-
-	return e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0);
-}
-
 void
 e_calendar_view_open_event (ECalendarView *cal_view)
 {

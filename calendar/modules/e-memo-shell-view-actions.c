@@ -29,6 +29,9 @@ action_gal_save_custom_view_cb (GtkAction *action,
 	EShellView *shell_view;
 	GalViewInstance *view_instance;
 
+	/* All shell views respond to the activation of this action,
+	 * which is defined by EShellWindow.  But only the currently
+	 * active shell view proceeds with saving the custom view. */
 	shell_view = E_SHELL_VIEW (memo_shell_view);
 	if (!e_shell_view_is_active (shell_view))
 		return;
@@ -47,6 +50,7 @@ action_memo_clipboard_copy_cb (GtkAction *action,
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+
 	e_memo_table_copy_clipboard (memo_table);
 }
 
@@ -59,6 +63,7 @@ action_memo_clipboard_cut_cb (GtkAction *action,
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+
 	e_memo_table_cut_clipboard (memo_table);
 }
 
@@ -71,6 +76,7 @@ action_memo_clipboard_paste_cb (GtkAction *action,
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+
 	e_memo_table_paste_clipboard (memo_table);
 }
 
@@ -384,6 +390,7 @@ action_memo_open_url_cb (GtkAction *action,
 	list = e_memo_table_get_selected (memo_table);
 	g_return_if_fail (list != NULL);
 	comp_data = list->data;
+	g_slist_free (list);
 
 	/* XXX We only open the URI of the first selected memo. */
 	prop = icalcomponent_get_first_property (
@@ -464,6 +471,7 @@ action_memo_save_as_cb (GtkAction *action,
 	if (filename == NULL)
 		return;
 
+	/* XXX We only save the first selected memo. */
 	string = e_cal_get_component_as_string (
 		comp_data->client, comp_data->icalcomp);
 	if (string == NULL) {
@@ -483,6 +491,9 @@ action_search_execute_cb (GtkAction *action,
 {
 	EShellView *shell_view;
 
+	/* All shell views respond to the activation of this action,
+	 * which is defined by EShellWindow.  But only the currently
+	 * active shell view proceeds with executing the search. */
 	shell_view = E_SHELL_VIEW (memo_shell_view);
 	if (!e_shell_view_is_active (shell_view))
 		return;
@@ -523,7 +534,7 @@ static GtkActionEntry memo_entries[] = {
 
 	{ "memo-delete",
 	  GTK_STOCK_DELETE,
-	  N_("Delete Memo"),
+	  N_("_Delete Memo"),
 	  NULL,
 	  N_("Delete selected memos"),
 	  G_CALLBACK (action_memo_delete_cb) },
@@ -678,7 +689,7 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	GConfBridge *bridge;
 	GtkAction *action;
 	GObject *object;
@@ -687,7 +698,7 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 
 	shell_view = E_SHELL_VIEW (memo_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	manager = e_shell_window_get_ui_manager (shell_window);
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	domain = GETTEXT_PACKAGE;
 
 	action_group = memo_shell_view->priv->memo_actions;
@@ -703,7 +714,7 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 		G_N_ELEMENTS (memo_search_entries),
 		MEMO_SEARCH_SUMMARY_CONTAINS,
 		NULL, NULL);
-	gtk_ui_manager_insert_action_group (manager, action_group, 0);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	/* Bind GObject properties to GConf keys. */
 

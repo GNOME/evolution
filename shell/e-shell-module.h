@@ -125,6 +125,8 @@ const gchar *	e_shell_module_get_config_dir	(EShellModule *shell_module);
 const gchar *	e_shell_module_get_data_dir	(EShellModule *shell_module);
 const gchar *	e_shell_module_get_filename	(EShellModule *shell_module);
 struct _EShell *e_shell_module_get_shell	(EShellModule *shell_module);
+GType		e_shell_module_get_shell_view_type
+						(EShellModule *shell_module);
 void		e_shell_module_add_activity	(EShellModule *shell_module,
 						 EActivity *activity);
 gboolean	e_shell_module_is_busy		(EShellModule *shell_module);
@@ -135,7 +137,8 @@ gboolean	e_shell_module_migrate		(EShellModule *shell_module,
 						 gint micro,
 						 GError **error);
 void		e_shell_module_set_info		(EShellModule *shell_module,
-						 const EShellModuleInfo *info);
+						 const EShellModuleInfo *info,
+						 GType shell_view_type);
 
 G_END_DECLS
 

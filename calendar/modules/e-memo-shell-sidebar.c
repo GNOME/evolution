@@ -360,6 +360,7 @@ memo_shell_sidebar_constructed (GObject *object)
 	GtkContainer *container;
 	GtkTreeModel *model;
 	GtkWidget *widget;
+	AtkObject *a11y;
 	GSList *list, *iter;
 	gchar *uid;
 
@@ -389,6 +390,8 @@ memo_shell_sidebar_constructed (GObject *object)
 	widget = e_calendar_selector_new (source_list);
 	e_source_selector_set_select_new (E_SOURCE_SELECTOR (widget), TRUE);
 	gtk_container_add (container, widget);
+	a11y = gtk_widget_get_accessible (widget);
+	atk_object_set_name (a11y, _("Memo List Selector"));
 	priv->selector = g_object_ref (widget);
 	gtk_widget_show (widget);
 

@@ -361,8 +361,10 @@ e_cal_list_view_show_popup_menu (ECalListView *cal_list_view, gint row, GdkEvent
 {
 	GtkMenu *menu;
 
+#if 0 /* KILL-BONOBO */
 	menu = e_calendar_view_create_popup_menu (E_CALENDAR_VIEW (cal_list_view));
 	gtk_menu_popup(menu, NULL, NULL, NULL, NULL, gdk_event?gdk_event->button.button:0, gdk_event?gdk_event->button.time:gtk_get_current_event_time());
+#endif
 }
 
 static gboolean

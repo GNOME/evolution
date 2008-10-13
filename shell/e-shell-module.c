@@ -48,6 +48,8 @@ struct _EShellModulePrivate {
 	gchar *config_dir;
 	gchar *data_dir;
 
+	GType shell_view_type;
+
 	/* Initializes the loaded type module. */
 	void (*init) (GTypeModule *type_module);
 };
@@ -421,6 +423,22 @@ e_shell_module_get_shell (EShellModule *shell_module)
 }
 
 /**
+ * e_shell_module_get_shell_view_type:
+ * @shell_module: an #EShellModule
+ *
+ * Returns the #GType of the #EShellView subclass for @shell_module.
+ *
+ * Returns: the #GType of an #EShellView subclass
+ **/
+GType
+e_shell_module_get_shell_view_type (EShellModule *shell_module)
+{
+	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), 0);
+
+	return shell_module->priv->shell_view_type;
+}
+
+/**
  * e_shell_module_add_activity:
  * @shell_module: an #EShellModule
  * @activity: an #EActivity
@@ -536,6 +554,7 @@ e_shell_module_migrate (EShellModule *shell_module,
  * e_shell_module_set_info:
  * @shell_module: an #EShellModule
  * @info: an #EShellModuleInfo
+ * @shell_view_type: the #GType of a #EShellView subclass
  *
  * Registers basic configuration information about @shell_module that
  * the #EShell can use for processing command-line arguments.
@@ -546,7 +565,8 @@ e_shell_module_migrate (EShellModule *shell_module,
  **/
 void
 e_shell_module_set_info (EShellModule *shell_module,
-                         const EShellModuleInfo *info)
+                         const EShellModuleInfo *info,
+                         GType shell_view_type)
 {
 	GTypeModule *type_module;
 	EShellModuleInfo *module_info;
@@ -588,4 +608,6 @@ e_shell_module_set_info (EShellModule *shell_module,
 		g_critical (
 			"Cannot create directory %s: %s",
 			pathname, g_strerror (errno));
+
+	shell_module->priv->shell_view_type = shell_view_type;
 }

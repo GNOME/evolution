@@ -78,12 +78,9 @@ typedef struct
 
 	GnomeCalendar *calendar;
 
-	EInfoLabel *info_label;
 	GtkWidget *source_selector;
 
 	BonoboControl *view_control;
-	BonoboControl *sidebar_control;
-	BonoboControl *statusbar_control;
 
 	GList *notifications;
 
@@ -155,40 +152,6 @@ is_in_uids (GSList *uids, ESource *source)
 }
 
 static void
-update_selection (CalendarComponentView *component_view)
-{
-	GSList *selection, *uids_selected, *l;
-
-	/* Get the selection in gconf */
-	uids_selected = calendar_config_get_calendars_selected ();
-
-	/* Remove any that aren't there any more */
-	selection = e_source_selector_get_selection (E_SOURCE_SELECTOR (component_view->source_selector));
-
-	for (l = selection; l; l = l->next) {
-		ESource *source = l->data;
-
-		if (!is_in_uids (uids_selected, source))
-			e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
-	}
-
-	e_source_selector_free_selection (selection);
-
-	/* Make sure the whole selection is there */
-	for (l = uids_selected; l; l = l->next) {
-		char *uid = l->data;
-		ESource *source;
-
-		source = e_source_list_peek_source_by_uid (component_view->source_list, uid);
-		if (source)
-			e_source_selector_select_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
-
-		g_free (uid);
-	}
-	g_slist_free (uids_selected);
-}
-
-static void
 update_task_memo_selection (CalendarComponentView *component_view, ECalSourceType type)
 {
 	GSList *uids_selected, *l, *source_selection;
@@ -237,28 +200,6 @@ update_task_memo_selection (CalendarComponentView *component_view, ECalSourceTyp
 }
 
 static void
-update_primary_selection (CalendarComponentView *component_view)
-{
-	ESource *source = NULL;
-	char *uid;
-
-	uid = calendar_config_get_primary_calendar ();
-	if (uid) {
-		source = e_source_list_peek_source_by_uid (component_view->source_list, uid);
-		g_free (uid);
-	}
-
-	if (source) {
-		e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector), source);
-	} else {
-		/* Try to create a default if there isn't one */
-		source = e_source_list_peek_source_any (component_view->source_list);
-		if (source)
-			e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector), source);
-	}
-}
-
-static void
 update_primary_task_memo_selection (CalendarComponentView *component_view, ECalSourceType type)
 {
 	ESource *source = NULL;
@@ -281,161 +222,6 @@ update_primary_task_memo_selection (CalendarComponentView *component_view, ECalS
 
 	if (source)
 		gnome_calendar_set_default_source (component_view->calendar, type, source);
-}
-
-/* Callbacks.  */
-static void
-copy_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	CalendarComponentView *component_view = data;
-	ESource *selected_source;
-
-	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
-	if (!selected_source)
-		return;
-
-	copy_source_dialog (GTK_WINDOW (gtk_widget_get_toplevel (ep->target->widget)), selected_source, E_CAL_SOURCE_TYPE_EVENT);
-}
-
-static void
-delete_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	CalendarComponentView *component_view = data;
-	ESource *selected_source;
-	ECal *cal;
-	char *uri;
-
-	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
-	if (!selected_source)
-		return;
-
-	if (e_error_run((GtkWindow *)gtk_widget_get_toplevel(ep->target->widget),
-			"calendar:prompt-delete-calendar", e_source_peek_name(selected_source), NULL) != GTK_RESPONSE_YES)
-		return;
-
-	/* first, ask the backend to remove the calendar */
-	uri = e_source_get_uri (selected_source);
-	cal = e_cal_model_get_client_for_uri (gnome_calendar_get_calendar_model (component_view->calendar), uri);
-	if (!cal)
-		cal = e_cal_new_from_uri (uri, E_CAL_SOURCE_TYPE_EVENT);
-	g_free (uri);
-	if (cal) {
-		if (e_cal_remove (cal, NULL)) {
-			if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (component_view->source_selector),
-								  selected_source)) {
-				gnome_calendar_remove_source (component_view->calendar, E_CAL_SOURCE_TYPE_EVENT, selected_source);
-				e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector),
-								   selected_source);
-			}
-
-			e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
-			e_source_list_sync (component_view->source_list, NULL);
-		}
-	}
-}
-
-static void
-new_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	calendar_setup_edit_calendar (GTK_WINDOW (gtk_widget_get_toplevel(ep->target->widget)), NULL, pitem->user_data);
-}
-
-static void
-edit_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	CalendarComponentView *component_view = data;
-	ESource *selected_source;
-
-	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
-	if (!selected_source)
-		return;
-
-	calendar_setup_edit_calendar (GTK_WINDOW (gtk_widget_get_toplevel(ep->target->widget)), selected_source, NULL);
-}
-
-static EPopupItem ecc_source_popups[] = {
-	{ E_POPUP_ITEM, "10.new", N_("_New Calendar"), new_calendar_cb, NULL, "x-office-calendar", 0, 0 },
-	{ E_POPUP_ITEM, "15.copy", N_("_Copy..."), copy_calendar_cb, NULL, "edit-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
-
-	{ E_POPUP_BAR, "20.bar" },
-	{ E_POPUP_ITEM, "20.delete", N_("_Delete"), delete_calendar_cb, NULL, "edit-delete", 0,E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY|E_CAL_POPUP_SOURCE_DELETE },
-
-	{ E_POPUP_BAR, "99.bar" },
-	{ E_POPUP_ITEM, "99.properties", N_("_Properties"), edit_calendar_cb, NULL, "document-properties", 0, E_CAL_POPUP_SOURCE_PRIMARY },
-};
-
-static void
-ecc_source_popup_free(EPopup *ep, GSList *list, void *data)
-{
-	g_slist_free(list);
-}
-
-static gboolean
-popup_event_cb(ESourceSelector *selector, ESource *insource, GdkEventButton *event, CalendarComponentView *component_view)
-{
-	ECalPopup *ep;
-	ECalPopupTargetSource *t;
-	GSList *menus = NULL;
-	int i;
-	GtkMenu *menu;
-
-	/** @HookPoint-ECalPopup: Calendar Source Selector Context Menu
-	 * @Id: org.gnome.evolution.calendar.source.popup
-	 * @Class: org.gnome.evolution.calendar.popup:1.0
-	 * @Target: ECalPopupTargetSource
-	 *
-	 * The context menu on the source selector in the calendar window.
-	 */
-	ep = e_cal_popup_new("org.gnome.evolution.calendar.source.popup");
-	t = e_cal_popup_target_new_source(ep, selector);
-	t->target.widget = (GtkWidget *)component_view->calendar;
-
-	for (i=0;i<sizeof(ecc_source_popups)/sizeof(ecc_source_popups[0]);i++)
-		menus = g_slist_prepend(menus, &ecc_source_popups[i]);
-
-	e_popup_add_items((EPopup *)ep, menus, NULL, ecc_source_popup_free, component_view);
-
-	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0);
-	gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event?event->button:0, event?event->time:gtk_get_current_event_time());
-
-	return TRUE;
-}
-
-static void
-source_changed_cb (ESource *source, GnomeCalendar *calendar)
-{
-	if (calendar) {
-		GtkWidget *widget = gnome_calendar_get_current_view_widget (calendar);
-
-		if (widget)
-			gtk_widget_queue_draw (widget);
-	}
-}
-
-static void
-source_added_cb (GnomeCalendar *calendar, ECalSourceType source_type, ESource *source, CalendarComponentView *component_view)
-{
-	switch (source_type) {
-	case E_CAL_SOURCE_TYPE_EVENT:
-		e_source_selector_select_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
-		g_signal_connect (source, "changed", G_CALLBACK (source_changed_cb), calendar);
-		break;
-	default:
-		break;
-	}
-}
-
-static void
-source_removed_cb (GnomeCalendar *calendar, ECalSourceType source_type, ESource *source, CalendarComponentView *component_view)
-{
-	switch (source_type) {
-	case E_CAL_SOURCE_TYPE_EVENT:
-		g_signal_handlers_disconnect_by_func (source, G_CALLBACK (source_changed_cb), calendar);
-		e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector), source);
-		break;
-	default:
-		break;
-	}
 }
 
 static void
@@ -662,10 +448,8 @@ create_component_view (CalendarComponent *calendar_component)
 {
 	CalendarComponentPrivate *priv;
 	CalendarComponentView *component_view;
-	GtkWidget *selector_scrolled_window, *vbox, *vpane;
-	GtkWidget *statusbar_widget;
+	GtkWidget **vpane;
 	guint not;
-	AtkObject *a11y;
 
 	priv = calendar_component->priv;
 
@@ -682,68 +466,15 @@ create_component_view (CalendarComponent *calendar_component)
 	component_view->source_list = g_object_ref (priv->source_list);
 	component_view->task_source_list = g_object_ref (priv->task_source_list);
 	component_view->memo_source_list = g_object_ref (priv->memo_source_list);
-	component_view->vpane_pos = calendar_config_get_tag_vpane_pos ();
-
 	/* Create sidebar selector */
 	component_view->source_selector = e_source_selector_new (calendar_component->priv->source_list);
-	e_source_selector_set_select_new ((ESourceSelector *)component_view->source_selector, TRUE);
-	a11y = gtk_widget_get_accessible (GTK_WIDGET (component_view->source_selector));
-	atk_object_set_name (a11y, _("Calendar Source Selector"));
 
 	gtk_widget_show (component_view->source_selector);
-
-	selector_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_container_add (GTK_CONTAINER (selector_scrolled_window), component_view->source_selector);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (selector_scrolled_window),
-					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (selector_scrolled_window),
-					     GTK_SHADOW_IN);
-	gtk_widget_show (selector_scrolled_window);
-
-	vbox = gtk_vbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX (vbox), GTK_WIDGET (component_view->info_label), FALSE, TRUE, 0);
-	gtk_box_pack_start(GTK_BOX (vbox), selector_scrolled_window, TRUE, TRUE, 0);
-	gtk_widget_show (vbox);
-
-	gtk_paned_pack1 (GTK_PANED (vpane), vbox, FALSE, FALSE);
-
-	component_view->sidebar_control = bonobo_control_new (vpane);
-
-	/* Create main view */
-	component_view->view_control = control_factory_new_control ();
-	if (!component_view->view_control) {
-		/* FIXME free memory */
-
-		return NULL;
-	}
-
-	component_view->calendar = (GnomeCalendar *) bonobo_control_get_widget (component_view->view_control);
-
-	gtk_paned_pack2 (GTK_PANED (vpane), gnome_calendar_get_tag (component_view->calendar), FALSE, FALSE);
-
-	/* This signal is thrown if backends die - we update the selector */
-	g_signal_connect (component_view->calendar, "source_added",
-			  G_CALLBACK (source_added_cb), component_view);
-	g_signal_connect (component_view->calendar, "source_removed",
-			  G_CALLBACK (source_removed_cb), component_view);
-
-	/* Create status bar */
-	statusbar_widget = e_task_bar_new ();
-	gtk_widget_show (statusbar_widget);
-
-	component_view->statusbar_control = bonobo_control_new (statusbar_widget);
-
-	/* connect after setting the initial selections, or we'll get unwanted calls
-	   to calendar_control_sensitize_calendar_commands */
-	g_signal_connect (component_view->source_selector, "popup_event",
-			  G_CALLBACK (popup_event_cb), component_view);
 
 	/* Set up the "new" item handler */
 	g_signal_connect (component_view->view_control, "activate", G_CALLBACK (control_activate_cb), component_view);
 
 	/* Load the selection from the last run */
-	update_selection (component_view);
-	update_primary_selection (component_view);
 	update_task_memo_selection (component_view, E_CAL_SOURCE_TYPE_TODO);
 	update_primary_task_memo_selection (component_view, E_CAL_SOURCE_TYPE_TODO);
 	update_task_memo_selection (component_view, E_CAL_SOURCE_TYPE_JOURNAL);

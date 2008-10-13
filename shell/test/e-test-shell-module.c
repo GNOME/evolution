@@ -161,8 +161,9 @@ e_shell_module_init (GTypeModule *type_module)
 	shell_module = E_SHELL_MODULE (type_module);
 	shell = e_shell_module_get_shell (shell_module);
 
-	e_test_shell_view_get_type (type_module);
-	e_shell_module_set_info (shell_module, &module_info);
+	e_shell_module_set_info (
+		shell_module, &module_info,
+		e_test_shell_view_get_type (type_module));
 
 	g_signal_connect_swapped (
 		shell, "handle-uri",

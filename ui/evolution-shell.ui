@@ -12,6 +12,7 @@
       <menuitem action='page-setup'/>
       <placeholder name='print-actions'/>
       <separator/>
+      <placeholder name='long-running-actions'/>
       <menuitem action='forget-passwords'/>
       <menuitem action='work-online'/>
       <menuitem action='work-offline'/>
@@ -22,6 +23,7 @@
       <placeholder name='edit-actions'/>
       <separator/>
       <menuitem action='sync-options'/>
+      <placeholder name='administrative-actions'/>
       <menuitem action='preferences'/>
     </menu>
     <menu action='view-menu'>
@@ -39,6 +41,7 @@
 	<menuitem action='show-statusbar'/>
 	<menuitem action='show-sidebar'/>
       </menu>
+      <placeholder name='view-custom-menus'/>
       <menu action='switcher-menu'>
         <menuitem action='switcher-style-both'/>
 	<menuitem action='switcher-style-icons'/>

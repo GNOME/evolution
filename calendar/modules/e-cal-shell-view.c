@@ -77,17 +77,99 @@ static void
 cal_shell_view_update_actions (EShellView *shell_view)
 {
 	ECalShellViewPrivate *priv;
+	ECalShellContent *cal_shell_content;
+	ECalShellSidebar *cal_shell_sidebar;
 	EShellWindow *shell_window;
+	GnomeCalendar *calendar;
+	ECalModel *model;
+	ESourceSelector *selector;
+	ESource *source;
+	GtkAction *action;
+	GtkWidget *widget;
+	GList *list, *iter;
+	const gchar *uri = NULL;
+	gboolean user_created_source;
+	gboolean editable = TRUE;
+	gboolean recurring = FALSE;
+	gboolean sensitive;
+	gint n_selected;
 
 	priv = E_CAL_SHELL_VIEW_GET_PRIVATE (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	/* FIXME */
+	cal_shell_content = priv->cal_shell_content;
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	widget = gnome_calendar_get_current_view_widget (calendar);
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (widget));
+
+	cal_shell_sidebar = priv->cal_shell_sidebar;
+	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
+
+	list = e_calendar_view_get_selected_events (E_CALENDAR_VIEW (widget));
+	n_selected = g_list_length (list);
+
+	for (iter = list; iter != NULL; iter = iter->next) {
+		ECalModelComponent *comp_data = iter->data;
+		gboolean read_only;
+
+		e_cal_is_read_only (comp_data->client, &read_only, NULL);
+		editable &= !read_only;
+
+		if (e_cal_util_component_has_recurrences (comp_data->icalcomp))
+			recurring |= TRUE;
+		else if (e_cal_util_component_is_instance (comp_data->icalcomp))
+			recurring |= TRUE;
+	}
+
+	source = e_source_selector_peek_primary_selection (selector);
+	if (source != NULL)
+		uri = e_source_peek_relative_uri (source);
+	user_created_source = (uri != NULL && strcmp (uri, "system") != 0);
+
+	action = ACTION (CALENDAR_COPY);
+	sensitive = (source != NULL);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CALENDAR_DELETE);
+	sensitive = user_created_source;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (CALENDAR_PROPERTIES);
+	sensitive = (source != NULL);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (EVENT_CLIPBOARD_COPY);
+	sensitive = (n_selected > 0);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (EVENT_CLIPBOARD_CUT);
+	sensitive = (n_selected > 0) && editable;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (EVENT_CLIPBOARD_PASTE);
+	sensitive = editable;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (EVENT_DELETE);
+	sensitive = (n_selected > 0) && editable && !recurring;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (EVENT_DELETE_OCCURRENCE);
+	sensitive = (n_selected > 0) && editable && recurring;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (EVENT_DELETE_OCCURRENCE_ALL);
+	sensitive = (n_selected > 0) && editable && recurring;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (EVENT_OPEN);
+	sensitive = (n_selected == 1);
+	gtk_action_set_sensitive (action, sensitive);
 }
 
 static void
-cal_shell_view_class_init (ECalShellView *class,
+cal_shell_view_class_init (ECalShellViewClass *class,
                             GTypeModule *type_module)
 {
 	GObjectClass *object_class;

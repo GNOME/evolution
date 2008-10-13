@@ -16,9 +16,8 @@ You will need to make more space available in your home directory before you can
  </error>
 
  <error id="upgrade-failed" type="error">
-  <_primary>Upgrade from previous version failed:
-{0}</_primary>
-  <_secondary xml:space="preserve">{1}
+  <_primary>Upgrade from previous version failed:</_primary>
+  <_secondary xml:space="preserve">{0}
 
 If you choose to continue, you may not have access to some of your old data.
 </_secondary>
