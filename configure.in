@@ -1738,7 +1738,7 @@ plugins_base_always="calendar-file calendar-http calendar-weather itip-formatter
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN " 
 all_plugins_base="$plugins_base_always sa-junk-plugin bogo-junk-plugin exchange-operations mono"
 
-plugins_standard_always="bbdb subject-thread save-calendar select-one-source copy-tool mail-to-task mark-calendar-offline audio-inline mailing-list-actions default-mailer import-ics-attachments prefer-plain mail-notification attachment-reminder face backup-restore email-custom-header templates" 
+plugins_standard_always="bbdb subject-thread save-calendar select-one-source copy-tool mail-to-task audio-inline mailing-list-actions default-mailer import-ics-attachments prefer-plain mail-notification attachment-reminder face backup-restore email-custom-header templates" 
 
 plugins_standard="$plugins_standard_always"
 all_plugins_standard="$plugins_standard"
@@ -2027,7 +2027,6 @@ plugins/subject-thread/Makefile
 plugins/save-attachments/Makefile
 plugins/save-calendar/Makefile
 plugins/select-one-source/Makefile
-plugins/mark-calendar-offline/Makefile
 plugins/prefer-plain/Makefile
 plugins/profiler/Makefile
 plugins/python/Makefile

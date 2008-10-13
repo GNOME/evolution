@@ -1,3 +1,20 @@
+2008-10-13  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #424818 (bugzilla.novell.com)
+
+	* gui/dialogs/calendar-setup.c (eccp_general_offline): Don't show offline
+	availability option for B&A calendars. 
+	* gui/e-cal-popup.c (e_cal_popup_target_new_source): Check for the correct 
+	property ("offline_sync" instead of "offline") while setting the GUI mask. 
+	* gui/calendar-component.c (set_offline_availability),
+	(mark_no_offline_cb), (mark_offline_cb):
+	* gui/memos-component.c (set_offline_availability),
+	(mark_no_offline_cb), (mark_offline_cb):
+	* gui/tasks-component.c (set_offline_availability), 
+	(mark_no_offline_cb), (mark_offline_cb):
+	Integrate the mark-calendar-offline plugin into the main code as we already 
+	have a similar per-calendar option which does the same thing. 
+
 2008-10-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #555494

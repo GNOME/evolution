@@ -696,7 +696,7 @@ e_cal_popup_target_new_source(ECalPopup *eabp, ESourceSelector *selector)
 {
 	ECalPopupTargetSource *t = e_popup_target_new(&eabp->popup, E_CAL_POPUP_TARGET_SOURCE, sizeof(*t));
 	guint32 mask = ~0;
-	const char *source_uri;
+	const char *relative_uri;
 	char *uri;
 	ESource *source;
 	const char *offline = NULL;
@@ -713,42 +713,32 @@ e_cal_popup_target_new_source(ECalPopup *eabp, ESourceSelector *selector)
 		mask &= ~E_CAL_POPUP_SOURCE_PRIMARY;
 
 	/* FIXME Gross hack, should have a property or something */
-	source_uri = e_source_peek_relative_uri(source);
-	if (source_uri && !strcmp("system", source_uri))
+	relative_uri = e_source_peek_relative_uri(source);
+	if (relative_uri && !strcmp("system", relative_uri))
 		mask &= ~E_CAL_POPUP_SOURCE_SYSTEM;
 	else
 		mask &= ~E_CAL_POPUP_SOURCE_USER;
 
-	source = e_source_selector_peek_primary_selection (selector);
 	uri = e_source_get_uri (source);
 	if (!uri || (g_ascii_strncasecmp (uri, "file://", 7) && g_ascii_strncasecmp (uri, "contacts://", 11))) {
 		/* check for e_target_selector's offline_status property here */
-		offline = e_source_get_property (source, "offline");
-
-		if (offline  && strcmp (offline,"1") == 0) {
-			/* set the menu item to Mark Offline - */
-			mask &= ~E_CAL_POPUP_SOURCE_NO_OFFLINE;
-		} else {
+		offline = e_source_get_property (source, "offline_sync");
+		if (offline  && strcmp (offline, "1") == 0)
+			mask &= ~E_CAL_POPUP_SOURCE_NO_OFFLINE; 	/* set the menu item to Mark Offline */
+		else
 			mask &= ~E_CAL_POPUP_SOURCE_OFFLINE;
-		}
 	} else {
 		mask |= E_CAL_POPUP_SOURCE_NO_OFFLINE;
 		mask |= E_CAL_POPUP_SOURCE_OFFLINE;
 	}
 	g_free (uri);
 
-	source = e_source_selector_peek_primary_selection (selector);
-	/*check for delete_status property here*/
+	/* check for delete_status property here */
 	delete = e_source_get_property (source, "delete");
-
-	if (delete && strcmp (delete,"no") == 0) {
-		/*set the menu item to non deletable */
-		mask &= ~E_CAL_POPUP_SOURCE_NO_DELETE;
-	}
-	else {
+	if (delete && strcmp (delete, "no") == 0)
+		mask &= ~E_CAL_POPUP_SOURCE_NO_DELETE; 			/* set the menu item to non deletable */
+	else
 		mask &= ~E_CAL_POPUP_SOURCE_DELETE;
-	}
-
 
 	t->target.mask = mask;
 
