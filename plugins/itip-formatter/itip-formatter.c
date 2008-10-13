@@ -1787,12 +1787,11 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 				tag = camel_message_info_user_tag (mi, "recurrence-key");
 				camel_message_info_free (mi);
 				if (tag) {
-					GPtrArray *summary_array;
-					int i=0;
+					int i = 0, count;
 
-					summary_array = camel_folder_summary_array (pitip->folder->summary);
-					for (i=0; i<summary_array->len; i++) {
-						mi = (CamelMessageInfo *)g_ptr_array_index (summary_array, i);
+					count = camel_folder_summary_count (pitip->folder->summary);
+					for (i = 0; i < count; i++) {
+						mi = camel_folder_summary_index (pitip->folder->summary, i);
 						camel_message_info_ref (mi);
 						if ( camel_message_info_user_tag (mi, "recurrence-key") && g_str_equal (camel_message_info_user_tag (mi, "recurrence-key"), tag)) {
 
@@ -1801,7 +1800,6 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 						}
 						camel_message_info_free (mi);
 					}
-					camel_folder_free_summary (pitip->folder, summary_array);
 				}
 			} else {
 				/* Either not a recurring appointment or "apply-to-all" is not selected. So just delete this instance alone */
