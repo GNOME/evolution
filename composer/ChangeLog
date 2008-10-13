@@ -1,3 +1,10 @@
+2008-10-13  Bharath Acharya  <abharath@novell.com>
+
+	** Updated fix for bug #555775
+
+	* e-composer-private.c: (e_composer_private_init): Reverting a hunk 
+	from the previous patch as suggested by Matthew Barnes.
+
 2008-10-10  Bharath Acharya  <abharath@novell.com>
 
 	** Fix for bug #555775
