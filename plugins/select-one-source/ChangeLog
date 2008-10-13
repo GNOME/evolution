@@ -1,3 +1,11 @@
+2008-10-13  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #424818 (bugzilla.novell.com)
+
+	* mark-calendar-offline.c (org_gnome_mark_calendar_no_offline),
+	(org_gnome_mark_calendar_offline): Set the correct property for 
+	offline calendar availability. 
+
 2008-08-27  Sankar P  <psankar@novell.com>
 
 License Changes

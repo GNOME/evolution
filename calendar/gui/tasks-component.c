@@ -134,7 +134,7 @@ ensure_sources (TasksComponent *component)
 	personal_source = NULL;
 
 	if (!e_cal_get_sources (&source_list, E_CAL_SOURCE_TYPE_TODO, NULL)) {
-		g_warning ("Could not get addressbook source list from GConf!");
+		g_warning ("Could not get task source list from GConf!");
 		return;
 	}
 

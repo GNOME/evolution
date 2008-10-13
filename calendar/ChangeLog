@@ -1,3 +1,13 @@
+2008-10-13  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #424818 (bugzilla.novell.com)
+
+	* gui/dialogs/calendar-setup.c (eccp_general_offline): Don't show offline
+	availability option for B&A calendars. 
+	* gui/e-cal-popup.c (e_cal_popup_target_new_source): Check for the correct 
+	property ("offline_sync" instead of "offline") while setting the GUI mask. 
+	* gui/tasks-component.c (ensure_sources): Fixed a minor typo. 
+
 2008-10-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #555494

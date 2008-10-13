@@ -41,7 +41,7 @@ org_gnome_mark_no_offline (EPlugin *ep, ECalPopupTargetSource *target)
 	ESource *source;
 
 	source = e_source_selector_peek_primary_selection (target->selector);
-	e_source_set_property (source, "offline", "0");
+	e_source_set_property (source, "offline_sync", "0");
 }
 
 void
@@ -50,6 +50,6 @@ org_gnome_mark_offline (EPlugin *ep, ECalPopupTargetSource *target)
 	ESource *source;
 
 	source = e_source_selector_peek_primary_selection (target->selector);
-	e_source_set_property (source, "offline", "1");
+	e_source_set_property (source, "offline_sync", "1");
 }
 
