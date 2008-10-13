@@ -1,3 +1,10 @@
+2008-10-13  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #550441
+
+	* itip-formatter.c: (view_response_cb):
+	Use the proper functions to traverse messages in a folder's summary.
+
 2008-10-10  Patrick Ohly  <pohly@ecld0pohly>
 
 	** #541121: improved itip formatter: allow replying to forwarded
