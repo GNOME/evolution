@@ -1,7 +1,5 @@
 /* Evolution calendar - Main calendar view widget
  *
- * Copyright (C) 1998 The Free Software Foundation
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * Authors: Miguel de Icaza <miguel@ximian.com>
