@@ -1792,6 +1792,8 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 					count = camel_folder_summary_count (pitip->folder->summary);
 					for (i = 0; i < count; i++) {
 						mi = camel_folder_summary_index (pitip->folder->summary, i);
+						if (!mi)
+							continue;
 						camel_message_info_ref (mi);
 						if ( camel_message_info_user_tag (mi, "recurrence-key") && g_str_equal (camel_message_info_user_tag (mi, "recurrence-key"), tag)) {
 
