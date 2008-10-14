@@ -1,3 +1,9 @@
+2008-10-13  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #556191
+
+	* POTFILES.in: Remove org-gnome-mark-calendar-offline.eplug.xml
+
 2008-10-11  Leonardo Ferreira Fontenelle  <leonardof@gnome.org>
 
 	* pt_BR.po: Fixed typo in the Brazilian Portuguese translation.

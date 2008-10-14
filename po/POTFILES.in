@@ -388,7 +388,6 @@ plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml
 plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml
 plugins/mark-all-read/mark-all-read.c
 plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml
-plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml
 plugins/mono/org-gnome-evolution-mono.eplug.xml
 plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml
 plugins/plugin-manager/org-gnome-plugin-manager.xml
