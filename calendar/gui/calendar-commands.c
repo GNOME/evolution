@@ -1,8 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* Evolution calendar - Commands for the calendar GUI control
  *
- * Copyright (C) 1998 The Free Software Foundation
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  * Authors: Miguel de Icaza <miguel@ximian.com>

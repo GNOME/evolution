@@ -1,3 +1,18 @@
+2008-10-14	Sankar P  <psankar@novell.com>
+
+		* calendar/gui/gnome-cal.h
+		* calendar/gui/gnome-cal.c
+		* calendar/gui/calendar-commands.h
+		* calendar/gui/calendar-commands.c
+		* calendar/conduits/memo/memo-conduit.c
+		* calendar/conduits/calendar/calendar-conduit.c
+		* calendar/conduits/todo/todo-conduit.c
+		* addressbook/conduit/address-conduit.c :
+		
+		* Remove improper FSF copyright statements; was never signed
+		over to them and was incorrectly added to this file due to a
+		mistake made by the original developer.
+
 2008-10-13  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #424818 (bugzilla.novell.com)
