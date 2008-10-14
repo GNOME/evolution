@@ -1,3 +1,10 @@
+2008-10-14  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #550441
+
+	* itip-formatter.c: (view_response_cb): Ignore if summary not there.
+
+
 2008-10-10  Patrick Ohly  <pohly@ecld0pohly>
 
 	** #541121: improved itip formatter: allow replying to forwarded
