@@ -1,3 +1,9 @@
+2008-10-14  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* conduit/address-conduit.c:
+
 2008-10-09  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #555494
