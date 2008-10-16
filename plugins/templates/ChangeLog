@@ -1,3 +1,12 @@
+2008-10-15  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #556284
+
+	* templates.c: (reply_with_template), (org_gnome_templates_popup),
+	(action_template_cb): Fixes for fetching the store using 
+	mail_component_peek_local_store. Fixes the right-click crash issues 
+	caused on OS_WIN32 by Templates plugin.
+
 2008-09-15  Sankar P  <psankar@novell.com>
 
 License Changes
