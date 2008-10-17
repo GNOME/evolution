@@ -1,3 +1,9 @@
+2008-10-17  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fix for bug #503898
+
+	* filter-rule.c: (get_widget): s/criteria/condition/
+
 2008-10-06  Lucian Langa <lucilanga@gnome.org>
 
 	** Fix for bug #554566

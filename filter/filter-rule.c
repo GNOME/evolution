@@ -878,7 +878,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
 	gtk_widget_show (hbox);
 
-	text = g_strdup_printf("<b>%s</b>", _("Find items that meet the following criteria"));
+	text = g_strdup_printf("<b>%s</b>", _("Find items that meet the following conditions"));
 	label = gtk_label_new (text);
 	gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
@@ -912,13 +912,13 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 
 	hbox = gtk_hbox_new (FALSE, 3);
 
-	add = gtk_button_new_with_mnemonic (_("A_dd Filter Criteria"));
+	add = gtk_button_new_with_mnemonic (_("A_dd Condition"));
 	gtk_button_set_image (GTK_BUTTON (add), gtk_image_new_from_stock (GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON));
 	g_signal_connect (add, "clicked", G_CALLBACK (more_parts), data);
 	gtk_box_pack_start (GTK_BOX (hbox), add, FALSE, FALSE, 0);
 
 	if (f->flags & RULE_CONTEXT_GROUPING) {
-		const char *thread_types[] = { N_("If all criteria are met"), N_("If any criteria are met") };
+		const char *thread_types[] = { N_("If all conditions are met"), N_("If any conditions are met") };
 
 		label = gtk_label_new_with_mnemonic (_("_Find items:"));
 		menu = gtk_menu_new ();
