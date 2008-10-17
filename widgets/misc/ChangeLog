@@ -1,3 +1,10 @@
+2008-10-17  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-dateedit.c:
+	* e-dateedit.h:
+
 2008-10-10  Sankar P  <psankar@novell.com>
 
 License Changes + code cleanup
