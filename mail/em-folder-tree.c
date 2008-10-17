@@ -568,7 +568,7 @@ em_folder_tree_new (EShellModule *shell_module)
 
 	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), NULL);
 
-	model = em_folder_tree_model_new (shell_module);
+	model = e_mail_shell_module_get_folder_tree_model (shell_module);
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
 	g_object_unref (model);
 
