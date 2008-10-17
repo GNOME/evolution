@@ -1327,9 +1327,12 @@ e_calendar_table_on_open_task (EPopup *ep, EPopupItem *pitem, void *data)
 	icalproperty *prop;
 
 	comp_data = e_calendar_table_get_selected_comp (cal_table);
+
+	if (!comp_data)
+		return;
+
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
-	if (comp_data)
-		e_calendar_table_open_task (cal_table, comp_data->client, comp_data->icalcomp, prop ? TRUE : FALSE);
+	e_calendar_table_open_task (cal_table, comp_data->client, comp_data->icalcomp, prop ? TRUE : FALSE);
 }
 
 static void
