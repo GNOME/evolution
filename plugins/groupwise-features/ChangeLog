@@ -1,3 +1,8 @@
+2008-10-17  Matthew Barnes  <mbarnes@redhat.com>
+
+	* send-options.c (org_gnome_send_options):
+	Don't mix declarations and statements.
+
 2008-10-03  Sankar P  <psankar@novell.com>
 
 License Changes
