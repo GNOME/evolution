@@ -53,12 +53,8 @@
 
 #include <string.h>
 
-#ifdef NM_SUPPORT_GLIB
-gboolean e_shell_nm_glib_initialise (EShellWindow *window);
-void e_shell_nm_glib_dispose (EShellWindow *window);
-#elif NM_SUPPORT
+#if NM_SUPPORT
 gboolean e_shell_dbus_initialise (EShellWindow *window);
-void e_shell_dbus_dispose (EShellWindow *window);
 #endif
 
 /* A view for each component.  These are all created when EShellWindow is
@@ -477,19 +473,24 @@ sidebar_button_pressed_callback (ESidebar       *sidebar,
 static void
 offline_toggle_clicked_cb (EShellWindow *window)
 {
-	EShellWindowPrivate *priv = window->priv;
+	EShell *shell;
+	GNOME_Evolution_ShellState shell_state;
 
-	switch (e_shell_get_line_status (priv->shell.eshell)) {
+	shell = window->priv->shell.eshell;
+
+	switch (e_shell_get_line_status (shell)) {
 	case E_SHELL_LINE_STATUS_ONLINE:
-		e_shell_go_offline (priv->shell.eshell, window, GNOME_Evolution_USER_OFFLINE);
+		shell_state = GNOME_Evolution_USER_OFFLINE;
 		break;
 	case E_SHELL_LINE_STATUS_OFFLINE:
 	case E_SHELL_LINE_STATUS_FORCED_OFFLINE:
-		e_shell_go_online (priv->shell.eshell, window, GNOME_Evolution_USER_ONLINE);
+		shell_state = GNOME_Evolution_USER_ONLINE;
 		break;
 	default:
 		g_return_if_reached();
 	}
+
+	e_shell_set_line_status (shell, shell_state);
 }
 
 static void
@@ -852,12 +853,6 @@ impl_dispose (GObject *object)
 		/* There was a timer. Let us store the settings.*/
 		store_window_size (GTK_WIDGET (self));
 	}
-
-	#ifdef NM_SUPPORT_GLIB
-		e_shell_nm_glib_dispose (E_SHELL_WINDOW (object));
-	#elif NM_SUPPORT
-		e_shell_dbus_dispose (E_SHELL_WINDOW (object));
-	#endif
 
 	(* G_OBJECT_CLASS (e_shell_window_parent_class)->dispose) (object);
 }

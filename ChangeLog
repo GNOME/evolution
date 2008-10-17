@@ -1,3 +1,9 @@
+2008-10-17  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fix for bug #548469
+
+	* configure.in: Drop support for deprecated libnm-glib. 
+
 2008-10-14	Sankar P  <psankar@novell.com>
 
 		* calendar/gui/gnome-cal.h

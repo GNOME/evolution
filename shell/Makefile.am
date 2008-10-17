@@ -51,13 +51,9 @@ $(IDL_GENERATED_H): $(IDLS)
 
 $(IDL_GENERATED_C): $(IDL_GENERATED_H)
 
-if NM_SUPPORT_GLIB
-NM_SUPPORT_FILES = e-shell-nm-glib.c
-else
 if NM_SUPPORT
 NM_SUPPORT_FILES = e-shell-nm.c 
 endif
-endif 
 
 # Data Server CORBA stuff
 DATASERVER_IDL_GENERATED_H =			\

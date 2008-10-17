@@ -1,3 +1,19 @@
+2008-10-17  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fix for bug #548469
+
+	* Makefile.am:
+	* e-shell-nm-glib.c:
+	* e-shell-nm.c (reinit_dbus), (e_shell_network_monitor),
+	(e_shell_dbus_initialise):
+	* e-shell-window-commands.c (command_work_offline),
+	(command_work_online):
+	* e-shell-window.c (offline_toggle_clicked_cb), (impl_dispose):
+	* e-shell.c (impl_Shell_setLineStatus), (e_shell_construct),
+	(e_shell_set_line_status):
+	* e-shell.h:
+	Drop support for deprecated libnm-glib. 
+
 2008-10-03  Sankar P  <psankar@novell.com>
 
 License Changes

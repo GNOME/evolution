@@ -119,10 +119,8 @@ gboolean            e_shell_save_settings            (EShell *shell);
 void                e_shell_close_all_windows        (EShell *shell);
 
 EShellLineStatus  e_shell_get_line_status  (EShell       *shell);
-void              e_shell_go_offline       (EShell       *shell,
-					    EShellWindow *action_window, GNOME_Evolution_ShellState shell_state);
-void              e_shell_go_online        (EShell       *shell,
-					    EShellWindow *action_window, GNOME_Evolution_ShellState shell_state);
+void              e_shell_set_line_status  (EShell       *shell,
+                                            GNOME_Evolution_ShellState shell_state);
 
 gboolean	e_shell_get_crash_recovery	(EShell *shell);
 void		e_shell_set_crash_recovery	(EShell *shell,
