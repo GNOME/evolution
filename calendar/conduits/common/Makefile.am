@@ -1,4 +1,5 @@
 INCLUDES = 					\
+	-I$(top_srcdir)			\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_builddir)/e-util		\
 	$(EVOLUTION_CALENDAR_CONDUIT_CFLAGS)

@@ -1,3 +1,11 @@
+2008-10-17   Matt Davey  <mcdavey@mrao.cam.ac.uk>
+
+	** Fix for bug #556059
+
+	* conduits/common/Makefile.am:
+	* conduits/common/libecalendar-common-conduit.c: Allow building outside
+	the source tree.
+
 2008-10-17  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #553609
