@@ -1,3 +1,10 @@
+2008-10-17  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #530872
+
+	* gui/e-calendar-table.c: (e_calendar_table_on_open_task):
+	Check for NULL soon enough to not crash.
+
 2008-10-14  Sankar P  <psankar@novell.com>
 
 License Changes
