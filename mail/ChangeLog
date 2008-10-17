@@ -1,3 +1,13 @@
+2008-10-17  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #364542
+
+	* em-utils.c: (struct TryOpenEBookStruct), (try_open_e_book_cb),
+	(try_open_e_book), (em_utils_in_addressbook), (em_utils_contact_photo):
+	Stop when camel operation has been canceled. Also check for
+	cancellation when opening EBook, thus the UI (preview) will
+	not freeze with slow address books.
+
 2008-10-07  Bharath Acharya  <abharath@novell.com>
 
 	** Fix for bug #555203
