@@ -1,3 +1,11 @@
+2008-10-17  Kandepu Prasad  <kaprasad@novell.com>
+
+	** Fix for bug #311479
+
+	* import.glade:
+	* importer/import.glade: rephrasing the heading in Evolution Import 
+	Assistant
+
 2008-10-17  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fix for bug #548469
