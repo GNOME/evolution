@@ -32,14 +32,20 @@ struct _EActivityPrivate {
 	gchar *primary_text;
 	gchar *secondary_text;
 	gdouble percent;
-	gboolean cancellable;
-	guint cancelled : 1;
-	guint completed : 1;
+	guint timeout_id;
+
+	guint blocking		: 1;
+	guint cancellable	: 1;
+	guint cancelled		: 1;
+	guint clickable		: 1;
+	guint completed		: 1;
 };
 
 enum {
 	PROP_0,
+	PROP_BLOCKING,
 	PROP_CANCELLABLE,
+	PROP_CLICKABLE,
 	PROP_ICON_NAME,
 	PROP_PERCENT,
 	PROP_PRIMARY_TEXT,
@@ -48,12 +54,22 @@ enum {
 
 enum {
 	CANCELLED,
+	CLICKED,
 	COMPLETED,
+	TIMEOUT,
 	LAST_SIGNAL
 };
 
 static gpointer parent_class;
 static gulong signals[LAST_SIGNAL];
+
+static gboolean
+activity_timeout_cb (EActivity *activity)
+{
+	g_signal_emit (activity, signals[TIMEOUT], 0);
+
+	return FALSE;
+}
 
 static void
 activity_set_property (GObject *object,
@@ -62,8 +78,20 @@ activity_set_property (GObject *object,
                        GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_BLOCKING:
+			e_activity_set_blocking (
+				E_ACTIVITY (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_CANCELLABLE:
 			e_activity_set_cancellable (
+				E_ACTIVITY (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_CLICKABLE:
+			e_activity_set_clickable (
 				E_ACTIVITY (object),
 				g_value_get_boolean (value));
 			return;
@@ -103,9 +131,21 @@ activity_get_property (GObject *object,
                        GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_BLOCKING:
+			g_value_set_boolean (
+				value, e_activity_get_blocking (
+				E_ACTIVITY (object)));
+			return;
+
 		case PROP_CANCELLABLE:
 			g_value_set_boolean (
 				value, e_activity_get_cancellable (
+				E_ACTIVITY (object)));
+			return;
+
+		case PROP_CLICKABLE:
+			g_value_set_boolean (
+				value, e_activity_get_clickable (
 				E_ACTIVITY (object)));
 			return;
 
@@ -148,6 +188,9 @@ activity_finalize (GObject *object)
 	g_free (priv->primary_text);
 	g_free (priv->secondary_text);
 
+	if (priv->timeout_id > 0)
+		g_source_remove (priv->timeout_id);
+
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -167,9 +210,31 @@ activity_class_init (EActivityClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_BLOCKING,
+		g_param_spec_boolean (
+			"blocking",
+			NULL,
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_CANCELLABLE,
 		g_param_spec_boolean (
 			"cancellable",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CLICKABLE,
+		g_param_spec_boolean (
+			"clickable",
 			NULL,
 			NULL,
 			FALSE,
@@ -225,7 +290,15 @@ activity_class_init (EActivityClass *class)
 	signals[CANCELLED] = g_signal_new (
 		"cancelled",
 		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+		0, NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	signals[CLICKED] = g_signal_new (
+		"clicked",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
 		0, NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
@@ -233,7 +306,15 @@ activity_class_init (EActivityClass *class)
 	signals[COMPLETED] = g_signal_new (
 		"completed",
 		G_OBJECT_CLASS_TYPE (object_class),
-		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+		0, NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	signals[TIMEOUT] = g_signal_new (
+		"timeout",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
 		0, NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
@@ -310,6 +391,14 @@ e_activity_complete (EActivity *activity)
 	g_signal_emit (activity, signals[COMPLETED], 0);
 }
 
+void
+e_activity_clicked (EActivity *activity)
+{
+	g_return_if_fail (E_IS_ACTIVITY (activity));
+
+	g_signal_emit (activity, signals[CLICKED], 0);
+}
+
 gchar *
 e_activity_describe (EActivity *activity)
 {
@@ -336,7 +425,7 @@ e_activity_describe (EActivity *activity)
 	} else if (percent < 0.0) {
 		/* Translators: This is an activity whose percent
 		 * complete is unknown. */
-		g_string_printf (string, _("%s (...)"), text);
+		g_string_printf (string, _("%s..."), text);
 	} else {
 		/* Translators: This is an activity whose percent
 		 * complete is known. */
@@ -364,6 +453,48 @@ e_activity_is_completed (EActivity *activity)
 	return activity->priv->completed;
 }
 
+void
+e_activity_add_timeout (EActivity *activity,
+                        guint seconds)
+{
+	g_return_if_fail (E_IS_ACTIVITY (activity));
+
+	e_activity_cancel_timeout (activity);
+
+	activity->priv->timeout_id = g_timeout_add_seconds (
+		seconds, (GSourceFunc) activity_timeout_cb, activity);
+}
+
+void
+e_activity_cancel_timeout (EActivity *activity)
+{
+	g_return_if_fail (E_IS_ACTIVITY (activity));
+
+	if (activity->priv->timeout_id > 0) {
+		g_source_remove (activity->priv->timeout_id);
+		activity->priv->timeout_id = 0;
+	}
+}
+
+gboolean
+e_activity_get_blocking (EActivity *activity)
+{
+	g_return_val_if_fail (E_IS_ACTIVITY (activity), FALSE);
+
+	return activity->priv->blocking;
+}
+
+void
+e_activity_set_blocking (EActivity *activity,
+                         gboolean blocking)
+{
+	g_return_if_fail (E_IS_ACTIVITY (activity));
+
+	activity->priv->blocking = blocking;
+
+	g_object_notify (G_OBJECT (activity), "blocking");
+}
+
 gboolean
 e_activity_get_cancellable (EActivity *activity)
 {
@@ -381,6 +512,25 @@ e_activity_set_cancellable (EActivity *activity,
 	activity->priv->cancellable = cancellable;
 
 	g_object_notify (G_OBJECT (activity), "cancellable");
+}
+
+gboolean
+e_activity_get_clickable (EActivity *activity)
+{
+	g_return_val_if_fail (E_IS_ACTIVITY (activity), FALSE);
+
+	return activity->priv->clickable;
+}
+
+void
+e_activity_set_clickable (EActivity *activity,
+                          gboolean clickable)
+{
+	g_return_if_fail (E_IS_ACTIVITY (activity));
+
+	activity->priv->clickable = clickable;
+
+	g_object_notify (G_OBJECT (activity), "clickable");
 }
 
 const gchar *
@@ -460,4 +610,106 @@ e_activity_set_secondary_text (EActivity *activity,
 	activity->priv->secondary_text = g_strdup (secondary_text);
 
 	g_object_notify (G_OBJECT (activity), "secondary-text");
+}
+
+/************************* Error Dialog Integration **************************/
+
+void
+e_activity_error (EActivity *activity,
+                  GtkWidget *error_dialog)
+{
+	GObject *object;
+	const gchar *primary_text;
+	const gchar *secondary_text;
+
+	/* XXX Convert an activity to a clickable error message.
+	 *     Clicking on the activity completes it and displays
+	 *     the error dialog.  Eventually I'd like to eliminate
+	 *     error dialogs altogether and show errors directly
+	 *     in the shell window. */
+
+	g_return_if_fail (E_IS_ACTIVITY (activity));
+	g_return_if_fail (GTK_IS_DIALOG (error_dialog));
+
+	object = G_OBJECT (error_dialog);
+	primary_text = g_object_get_data (object, "primary");
+	secondary_text = g_object_get_data (object, "secondary");
+
+	e_activity_set_primary_text (activity, primary_text);
+	e_activity_set_secondary_text (activity, secondary_text);
+	e_activity_set_icon_name (activity, "dialog-warning");
+	e_activity_set_clickable (activity, TRUE);
+
+	g_signal_connect (
+		activity, "cancelled",
+		G_CALLBACK (e_activity_cancel_timeout), NULL);
+
+	g_signal_connect (
+		activity, "completed",
+		G_CALLBACK (e_activity_cancel_timeout), NULL);
+
+	g_signal_connect (
+		activity, "clicked",
+		G_CALLBACK (e_activity_complete), NULL);
+
+	g_signal_connect_swapped (
+		activity, "clicked",
+		G_CALLBACK (gtk_dialog_run), error_dialog);
+
+	g_signal_connect (
+		activity, "timeout",
+		G_CALLBACK (e_activity_complete), NULL);
+
+	/* XXX Allow for a configurable timeout. */
+	e_activity_add_timeout (activity, 60);
+}
+
+void
+e_activity_info (EActivity *activity,
+                 GtkWidget *info_dialog)
+{
+	GObject *object;
+	const gchar *primary_text;
+	const gchar *secondary_text;
+
+	/* XXX Convert an activity to a clickable info message.
+	 *     Clicking on the activity completes it and displays
+	 *     the info dialog.  Eventually I'd like to eliminate
+	 *     info dialogs altogether and show errors directly
+	 *     in the shell window. */
+
+	g_return_if_fail (E_IS_ACTIVITY (activity));
+	g_return_if_fail (GTK_IS_DIALOG (info_dialog));
+
+	object = G_OBJECT (info_dialog);
+	primary_text = g_object_get_data (object, "primary");
+	secondary_text = g_object_get_data (object, "secondary");
+
+	e_activity_set_primary_text (activity, primary_text);
+	e_activity_set_secondary_text (activity, secondary_text);
+	e_activity_set_icon_name (activity, "dialog-warning");
+	e_activity_set_clickable (activity, TRUE);
+
+	g_signal_connect (
+		activity, "cancelled",
+		G_CALLBACK (e_activity_cancel_timeout), NULL);
+
+	g_signal_connect (
+		activity, "completed",
+		G_CALLBACK (e_activity_cancel_timeout), NULL);
+
+	g_signal_connect (
+		activity, "clicked",
+		G_CALLBACK (e_activity_complete), NULL);
+
+	g_signal_connect_swapped (
+		activity, "clicked",
+		G_CALLBACK (gtk_dialog_run), info_dialog);
+
+	g_signal_connect (
+		activity, "timeout",
+		G_CALLBACK (e_activity_complete), NULL);
+
+	/* XXX Allow for a configurable timeout. */
+	e_activity_add_timeout (activity, 60);
 }

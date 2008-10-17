@@ -22,6 +22,7 @@
 #define E_COMPOSER_POST_HEADER_H
 
 #include <libedataserver/e-account.h>
+#include <mail/em-folder-tree-model.h>
 
 #include "e-composer-text-header.h"
 
@@ -46,6 +47,8 @@
 
 G_BEGIN_DECLS
 
+/* Avoid including files from the Mail module. */
+
 typedef struct _EComposerPostHeader EComposerPostHeader;
 typedef struct _EComposerPostHeaderClass EComposerPostHeaderClass;
 typedef struct _EComposerPostHeaderPrivate EComposerPostHeaderPrivate;
@@ -60,12 +63,19 @@ struct _EComposerPostHeaderClass {
 };
 
 GType		e_composer_post_header_get_type	(void);
-EComposerHeader * e_composer_post_header_new	(const gchar *label);
+EComposerHeader *
+		e_composer_post_header_new	(const gchar *label);
 EAccount *	e_composer_post_header_get_account
 						(EComposerPostHeader *header);
 void		e_composer_post_header_set_account
 						(EComposerPostHeader *header,
 						 EAccount *account);
+EMFolderTreeModel *
+		e_composer_post_header_get_folder_tree_model
+						(EComposerPostHeader *header);
+void		e_composer_post_header_set_folder_tree_model
+						(EComposerPostHeader *header,
+						 EMFolderTreeModel *model);
 GList *		e_composer_post_header_get_folders
 						(EComposerPostHeader *header);
 void		e_composer_post_header_set_folders

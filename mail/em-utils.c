@@ -56,7 +56,6 @@
 
 #include <gio/gio.h>
 
-#include "mail-component.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
 #include "mail-tools.h"
@@ -78,7 +77,8 @@
 #include "em-format-quote.h"
 #include "em-account-editor.h"
 #include "e-attachment.h"
-#include "e-activity-handler.h"
+
+#include "e-mail-shell-module.h"
 
 static void emu_save_part_done (CamelMimePart *part, char *name, int done, void *data);
 
@@ -251,11 +251,12 @@ em_filter_editor_response (GtkWidget *dialog, int button, gpointer user_data)
 	EMFilterContext *fc;
 
 	if (button == GTK_RESPONSE_OK) {
+		const gchar *data_dir;
 		char *user;
 
+		data_dir = e_shell_module_get_data_dir (mail_shell_module);
 		fc = g_object_get_data ((GObject *) dialog, "context");
-		user = g_strdup_printf ("%s/filters.xml",
-					mail_component_peek_base_directory (mail_component_peek ()));
+		user = g_strdup_printf ("%s/filters.xml", data_dir);
 		rule_context_save ((RuleContext *) fc, user);
 		g_free (user);
 	}
@@ -282,7 +283,7 @@ static EMFilterSource em_filter_source_element_names[] = {
 void
 em_utils_edit_filters (GtkWidget *parent)
 {
-	const char *base_directory = mail_component_peek_base_directory (mail_component_peek ());
+	const gchar *data_dir;
 	char *user, *system;
 	EMFilterContext *fc;
 
@@ -291,8 +292,10 @@ em_utils_edit_filters (GtkWidget *parent)
 		return;
 	}
 
+	data_dir = e_shell_module_get_data_dir (mail_shell_module);
+
 	fc = em_filter_context_new ();
-	user = g_strdup_printf ("%s/filters.xml", base_directory);
+	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	rule_context_load ((RuleContext *) fc, system, user);
 	g_free (user);
@@ -1376,13 +1379,17 @@ em_utils_temp_save_part(GtkWidget *parent, CamelMimePart *part, gboolean mode)
 gboolean
 em_utils_folder_is_templates (CamelFolder *folder, const char *uri)
 {
+	CamelFolder *local_templates_folder;
 	EAccountList *accounts;
 	EAccount *account;
 	EIterator *iter;
 	int is = FALSE;
 	char *templates_uri;
 
-	if (folder == mail_component_get_folder (NULL, MAIL_COMPONENT_FOLDER_TEMPLATES))
+	local_templates_folder = e_mail_shell_module_get_folder (
+		mail_shell_module, E_MAIL_FOLDER_TEMPLATES);
+
+	if (folder == local_templates_folder)
 		return TRUE;
 	
 	if (uri == NULL)
@@ -1423,13 +1430,17 @@ em_utils_folder_is_templates (CamelFolder *folder, const char *uri)
 gboolean
 em_utils_folder_is_drafts(CamelFolder *folder, const char *uri)
 {
+	CamelFolder *local_drafts_folder;
 	EAccountList *accounts;
 	EAccount *account;
 	EIterator *iter;
 	int is = FALSE;
 	char *drafts_uri;
 
-	if (folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_DRAFTS))
+	local_drafts_folder = e_mail_shell_module_get_folder (
+		mail_shell_module, E_MAIL_FOLDER_DRAFTS);
+
+	if (folder == local_drafts_folder)
 		return TRUE;
 
 	if (uri == NULL)
@@ -1470,13 +1481,17 @@ em_utils_folder_is_drafts(CamelFolder *folder, const char *uri)
 gboolean
 em_utils_folder_is_sent(CamelFolder *folder, const char *uri)
 {
+	CamelFolder *local_sent_folder;
 	EAccountList *accounts;
 	EAccount *account;
 	EIterator *iter;
 	int is = FALSE;
 	char *sent_uri;
 
-	if (folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT))
+	local_sent_folder = e_mail_shell_module_get_folder (
+		mail_shell_module, E_MAIL_FOLDER_SENT);
+
+	if (folder == local_sent_folder)
 		return TRUE;
 
 	if (uri == NULL)
@@ -1517,8 +1532,13 @@ em_utils_folder_is_sent(CamelFolder *folder, const char *uri)
 gboolean
 em_utils_folder_is_outbox(CamelFolder *folder, const char *uri)
 {
+	CamelFolder *local_outbox_folder;
+
+	local_outbox_folder = e_mail_shell_module_get_folder (
+		mail_shell_module, E_MAIL_FOLDER_OUTBOX);
+
 	/* <Highlander>There can be only one.</Highlander> */
-	return folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
+	return folder == local_outbox_folder;
 }
 
 /**
@@ -2348,25 +2368,34 @@ em_utils_clear_get_password_canceled_accounts_flag (void)
 }
 
 
-static void error_response(GtkObject *o, int button, void *data)
-{
-	gtk_widget_destroy((GtkWidget *)o);
-}
-
 void
 em_utils_show_error_silent (GtkWidget *widget)
 {
-	EActivityHandler *handler = mail_component_peek_activity_handler (mail_component_peek ());
-	if(!g_object_get_data ((GObject *) widget, "response-handled"))
-		g_signal_connect(widget, "response", G_CALLBACK(error_response), NULL);
-	e_activity_handler_make_error (handler, "mail", E_LOG_ERROR, widget);
+	EActivity *activity;
+
+	activity = e_activity_new (NULL);
+	e_activity_error (activity, widget);
+	e_shell_module_add_activity (mail_shell_module, activity);
+	g_object_unref (activity);
+
+	if (g_object_get_data (G_OBJECT (widget), "response-handled") == NULL)
+		g_signal_connect (
+			widget, "response",
+			G_CALLBACK (gtk_widget_destroy), NULL);
 }
 
 void
 em_utils_show_info_silent (GtkWidget *widget)
 {
-	EActivityHandler *handler = mail_component_peek_activity_handler (mail_component_peek ());
-	if(!g_object_get_data ((GObject *) widget, "response-handled"))
-		g_signal_connect(widget, "response", G_CALLBACK(error_response), NULL);
-	e_activity_handler_make_error (handler, "mail", E_LOG_WARNINGS, widget);
+	EActivity *activity;
+
+	activity = e_activity_new (NULL);
+	e_activity_info (activity, widget);
+	e_shell_module_add_activity (mail_shell_module, activity);
+	g_object_unref (activity);
+
+	if (g_object_get_data (G_OBJECT (widget), "response-handled") == NULL)
+		g_signal_connect (
+			widget, "response",
+			G_CALLBACK (gtk_widget_destroy), NULL);
 }

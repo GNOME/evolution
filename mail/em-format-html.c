@@ -74,7 +74,6 @@
 
 #include <libedataserver/e-msgport.h>
 
-#include "mail-component.h"
 #include "mail-config.h"
 #include "mail-mt.h"
 
@@ -261,9 +260,6 @@ em_format_html_get_type(void)
 		};
 		const char *base_directory = e_get_user_data_dir ();
 		char *path;
-
-		/* Trigger creation of mail component. */
-		mail_component_peek ();
 
 		efh_parent = g_type_class_ref(em_format_get_type());
 		type = g_type_register_static(em_format_get_type(), "EMFormatHTML", &info, 0);

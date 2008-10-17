@@ -37,7 +37,6 @@
 #include "mail-config.h"
 #include "mail-session.h"
 #include "mail-send-recv.h"
-#include "mail-component.h"
 
 #include "e-util/e-error.h"
 
@@ -57,6 +56,8 @@
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-nntp-address.h>
 #include <camel/camel-vee-folder.h>
+
+#include "e-mail-shell-module.h"
 
 #ifdef G_OS_WIN32
 /* Undef the similar macro from pthread.h, it doesn't check if
@@ -436,7 +437,8 @@ em_utils_composer_send_cb (EMsgComposer *composer, gpointer user_data)
 	if (!(message = composer_get_message (composer, FALSE)))
 		return;
 
-	mail_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
+	mail_folder = e_mail_shell_module_get_folder (
+		mail_shell_module, E_MAIL_FOLDER_OUTBOX);
 	camel_object_ref (mail_folder);
 
 	/* mail the message */
@@ -558,10 +560,10 @@ save_draft_folder (char *uri, CamelFolder *folder, gpointer data)
 void
 em_utils_composer_save_draft_cb (EMsgComposer *composer, gpointer user_data)
 {
-	const char *default_drafts_folder_uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS);
-	CamelFolder *drafts_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_DRAFTS);
+	CamelFolder *local_drafts_folder;
 	EComposerHeaderTable *table;
 	struct _save_draft_info *sdi;
+	const gchar *local_drafts_folder_uri;
 	CamelFolder *folder = NULL;
 	CamelMimeMessage *msg;
 	CamelMessageInfo *info;
@@ -570,6 +572,12 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer, gpointer user_data)
 	/* need to get stuff from the composer here, since it could
 	 * get destroyed while we're in mail_msg_wait() a little lower
 	 * down, waiting for the folder to open */
+
+	local_drafts_folder = e_mail_shell_module_get_folder (
+		mail_shell_module, E_MAIL_FOLDER_DRAFTS);
+
+	local_drafts_folder_uri = e_mail_shell_module_get_folder_uri (
+		mail_shell_module, E_MAIL_FOLDER_DRAFTS);
 
 	g_object_ref(composer);
 	msg = e_msg_composer_get_message_draft (composer);
@@ -583,7 +591,7 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer, gpointer user_data)
 		emcs_ref(sdi->emcs);
 
 	if (account && account->drafts_folder_uri &&
-	    strcmp (account->drafts_folder_uri, default_drafts_folder_uri) != 0) {
+	    strcmp (account->drafts_folder_uri, local_drafts_folder_uri) != 0) {
 		int id;
 
 		id = mail_get_folder (account->drafts_folder_uri, 0, save_draft_folder, &folder, mail_msg_unordered_push);
@@ -599,11 +607,11 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer, gpointer user_data)
 				return;
 			}
 
-			folder = drafts_folder;
-			camel_object_ref (drafts_folder);
+			folder = local_drafts_folder;
+			camel_object_ref (local_drafts_folder);
 		}
 	} else {
-		folder = drafts_folder;
+		folder = local_drafts_folder;
 		camel_object_ref (folder);
 	}
 
@@ -1559,7 +1567,8 @@ em_utils_send_receipt (CamelFolder *folder, CamelMimeMessage *message)
 	}
 
 	/* Send the receipt */
-	out_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
+	out_folder = e_mail_shell_module_get_folder (
+		mail_shell_module, E_MAIL_FOLDER_OUTBOX);
 	info = camel_message_info_new (NULL);
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	mail_append_mail (out_folder, receipt, info, em_utils_receipt_done, NULL);

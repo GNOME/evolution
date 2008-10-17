@@ -207,6 +207,7 @@ shell_content_entry_key_press_cb (EShellContent *shell_content,
 static void
 shell_content_init_search_context (EShellContent *shell_content)
 {
+	EShellContentClass *shell_content_class;
 	EShellView *shell_view;
 	EShellViewClass *shell_view_class;
 	EShellModule *shell_module;
@@ -221,9 +222,12 @@ shell_content_init_search_context (EShellContent *shell_content)
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	g_return_if_fail (shell_view_class->search_rules != NULL);
 
-	/* The filename for built-in searches is specified in a
-	 * module's EShellModuleInfo.  All built-in search rules
-	 * live in the same directory. */
+	shell_content_class = E_SHELL_CONTENT_GET_CLASS (shell_content);
+	g_return_if_fail (shell_content_class->new_search_context != NULL);
+
+	/* The basename for built-in searches is specified in the
+	 * shell view class.  All built-in search rules live in the
+	 * same directory. */
 	system_filename = g_build_filename (
 		EVOLUTION_RULEDIR, shell_view_class->search_rules, NULL);
 
@@ -233,7 +237,7 @@ shell_content_init_search_context (EShellContent *shell_content)
 		e_shell_module_get_data_dir (shell_module),
 		"searches.xml", NULL);
 
-	context = rule_context_new ();
+	context = shell_content_class->new_search_context ();
 	rule_context_add_part_set (
 		context, "partset", FILTER_TYPE_PART,
 		rule_context_add_part, rule_context_next_part);
@@ -533,25 +537,8 @@ shell_content_constructed (GObject *object)
 
 	widget = shell_content->priv->search_bar;
 	gtk_size_group_add_widget (size_group, widget);
-}
 
-static void
-shell_content_realize (GtkWidget *widget)
-{
-	EShellContent *shell_content;
-
-	/* We can't call this during object construction because the
-	 * shell view is still in its instance initialization phase,
-	 * and so its GET_CLASS() macro won't work correctly.  So we
-	 * delay the bits of our own initialization that require the
-	 * E_SHELL_VIEW_GET_CLASS() macro until after the shell view
-	 * is fully constructed. */
-
-	shell_content = E_SHELL_CONTENT (widget);
 	shell_content_init_search_context (shell_content);
-
-	/* Chain up to parent's realize() method. */
-	GTK_WIDGET_CLASS (parent_class)->realize (widget);
 }
 
 static void
@@ -664,13 +651,14 @@ shell_content_class_init (EShellContentClass *class)
 	object_class->constructed = shell_content_constructed;
 
 	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->realize = shell_content_realize;
 	widget_class->size_request = shell_content_size_request;
 	widget_class->size_allocate = shell_content_size_allocate;
 
 	container_class = GTK_CONTAINER_CLASS (class);
 	container_class->remove = shell_content_remove;
 	container_class->forall = shell_content_forall;
+
+	class->new_search_context = rule_context_new;
 
 	g_object_class_install_property (
 		object_class,

@@ -185,8 +185,8 @@ cal_shell_view_class_init (ECalShellViewClass *class,
 	object_class->constructed = cal_shell_view_constructed;
 
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
-	shell_view_class->label = N_("Cals");
-	shell_view_class->icon_name = "evolution-cals";
+	shell_view_class->label = _("Calendar");
+	shell_view_class->icon_name = "evolution-calendar";
 	shell_view_class->ui_definition = "evolution-calendars.ui";
 	shell_view_class->search_options = "/calendar-search-options";
 	shell_view_class->search_rules = "caltypes.xml";

@@ -20,31 +20,40 @@
  *
  */
 
-#ifndef __EM_FOLDER_TREE_MODEL_H__
-#define __EM_FOLDER_TREE_MODEL_H__
+#ifndef EM_FOLDER_TREE_MODEL_H
+#define EM_FOLDER_TREE_MODEL_H
 
 #include <gtk/gtk.h>
-
 #include <libxml/tree.h>
-
 #include <camel/camel-store.h>
-
 #include <libedataserver/e-account-list.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+#include <shell/e-shell-module.h>
 
-#define EM_TYPE_FOLDER_TREE_MODEL		(em_folder_tree_model_get_type ())
-#define EM_FOLDER_TREE_MODEL(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), EM_TYPE_FOLDER_TREE_MODEL, EMFolderTreeModel))
-#define EM_FOLDER_TREE_MODEL_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), EM_TYPE_FOLDER_TREE_MODEL, EMFolderTreeModelClass))
-#define EM_IS_FOLDER_TREE_MODEL(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), EM_TYPE_FOLDER_TREE_MODEL))
-#define EM_IS_FOLDER_TREE_MODEL_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((klass), EM_TYPE_FOLDER_TREE_MODEL))
-#define EM_FOLDER_TREE_MODEL_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS ((obj), EM_TYPE_FOLDER_TREE_MODEL, EMFolderTreeModelClass))
+/* Standard GObject macros */
+#define EM_TYPE_FOLDER_TREE_MODEL \
+	(em_folder_tree_model_get_type ())
+#define EM_FOLDER_TREE_MODEL(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_FOLDER_TREE_MODEL, EMFolderTreeModel))
+#define EM_FOLDER_TREE_MODEL_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_FOLDER_TREE_MODEL, EMFolderTreeModelClass))
+#define EM_IS_FOLDER_TREE_MODEL(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_FOLDER_TREE_MODEL))
+#define EM_IS_FOLDER_TREE_MODEL_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_FOLDER_TREE_MODEL))
+#define EM_FOLDER_TREE_MODEL_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_FOLDER_TREE_MODEL, EMFolderTreeModelClass))
+
+G_BEGIN_DECLS
 
 typedef struct _EMFolderTreeModel EMFolderTreeModel;
 typedef struct _EMFolderTreeModelClass EMFolderTreeModelClass;
+typedef struct _EMFolderTreeModelPrivate EMFolderTreeModelPrivate;
 typedef struct _EMFolderTreeModelStoreInfo EMFolderTreeModelStoreInfo;
 
 enum {
@@ -79,7 +88,8 @@ struct _EMFolderTreeModelStoreInfo {
 };
 
 struct _EMFolderTreeModel {
-	GtkTreeStore parent_object;
+	GtkTreeStore parent;
+	EMFolderTreeModelPrivate *priv;
 
 	char *filename;            /* state filename */
 	xmlDocPtr state;           /* saved expanded state from previous session */
@@ -114,11 +124,11 @@ struct _EMFolderTreeModelClass {
 };
 
 
-GType em_folder_tree_model_get_type (void);
-
-
-EMFolderTreeModel *em_folder_tree_model_new (const char *evolution_dir);
-
+GType		em_folder_tree_model_get_type	(void);
+EMFolderTreeModel *
+		em_folder_tree_model_new	(EShellModule *shell_module);
+EShellModule *	em_folder_tree_model_get_shell_module
+						(EMFolderTreeModel *model);
 
 void em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *iter,
 					   struct _EMFolderTreeModelStoreInfo *si,
@@ -147,8 +157,6 @@ void em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore
 gboolean em_folder_tree_model_is_type_inbox (EMFolderTreeModel *model, CamelStore *store, const char *full);
 char * em_folder_tree_model_get_folder_name (EMFolderTreeModel *model, CamelStore *store, const char *full);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
-#endif /* __EM_FOLDER_TREE_MODEL_H__ */
+#endif /* EM_FOLDER_TREE_MODEL_H */

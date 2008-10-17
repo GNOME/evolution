@@ -25,12 +25,17 @@
 
 #include "e-util/gconf-bridge.h"
 
+#include "em-folder-browser.h"
+#include "em-search-context.h"
+
 #define E_MAIL_SHELL_CONTENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_SHELL_CONTENT, EMailShellContentPrivate))
 
 struct _EMailShellContentPrivate {
 	GtkWidget *paned;
+	GtkWidget *msglist;
+	GtkWidget *preview;
 
 	guint paned_binding_id;
 
@@ -105,6 +110,16 @@ mail_shell_content_dispose (GObject *object)
 		priv->paned = NULL;
 	}
 
+	if (priv->msglist != NULL) {
+		g_object_unref (priv->msglist);
+		priv->msglist = NULL;
+	}
+
+	if (priv->preview != NULL) {
+		g_object_unref (priv->preview);
+		priv->preview = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
@@ -145,8 +160,10 @@ mail_shell_content_constructed (GObject *object)
 
 	container = widget;
 
+	/*widget = em_folder_browser_new ();*/
 	widget = gtk_label_new ("Message List");
 	gtk_paned_add1 (GTK_PANED (container), widget);
+	priv->msglist = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
@@ -171,6 +188,7 @@ static void
 mail_shell_content_class_init (EMailShellContentClass *class)
 {
 	GObjectClass *object_class;
+	EShellContentClass *shell_content_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailShellContentPrivate));
@@ -181,6 +199,9 @@ mail_shell_content_class_init (EMailShellContentClass *class)
 	object_class->dispose = mail_shell_content_dispose;
 	object_class->finalize = mail_shell_content_finalize;
 	object_class->constructed = mail_shell_content_constructed;
+
+	shell_content_class = E_SHELL_CONTENT_CLASS (class);
+	shell_content_class->new_search_context = em_search_context_new;
 
 	g_object_class_install_property (
 		object_class,

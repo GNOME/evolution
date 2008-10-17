@@ -33,10 +33,11 @@
 
 #include "em-filter-folder-element.h"
 #include "mail/em-folder-selection-button.h"
-#include "mail/mail-component.h"
 #include "mail/em-utils.h"
 #include "libedataserver/e-sexp.h"
 #include "e-util/e-error.h"
+
+#include "e-mail-shell-module.h"
 
 #define d(x)
 
@@ -232,11 +233,13 @@ static GtkWidget *
 get_widget(FilterElement *fe)
 {
 	EMFilterFolderElement *ff = (EMFilterFolderElement *)fe;
+	EMFolderTreeModel *model;
 	GtkWidget *button;
 	char *uri;
 
 	uri = em_uri_to_camel(ff->uri);
-	button = em_folder_selection_button_new(_("Select Folder"), NULL);
+	model = e_mail_shell_module_get_folder_tree_model (mail_shell_module);
+	button = em_folder_selection_button_new (model, _("Select Folder"), NULL);
 	em_folder_selection_button_set_selection(EM_FOLDER_SELECTION_BUTTON(button), uri);
 	g_free(uri);
 

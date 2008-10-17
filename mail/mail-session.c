@@ -50,7 +50,6 @@
 #include "em-filter-context.h"
 #include "em-filter-rule.h"
 #include "em-utils.h"
-#include "mail-component.h"
 #include "mail-config.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
@@ -82,6 +81,7 @@ typedef struct _MailSessionClass {
 
 } MailSessionClass;
 
+static EShellModule *mail_shell_module;
 static CamelSessionClass *ms_parent_class;
 
 static char *get_password(CamelSession *session, CamelService *service, const char *domain, const char *prompt, const char *item, guint32 flags, CamelException *ex);
@@ -499,13 +499,15 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 {
 	CamelFilterDriver *driver;
 	FilterRule *rule = NULL;
+	const gchar *data_dir;
 	char *user, *system;
 	GConfClient *gconf;
 	RuleContext *fc;
 
 	gconf = mail_config_get_gconf_client ();
 
-	user = g_strdup_printf ("%s/filters.xml", mail_component_peek_base_directory (mail_component_peek ()));
+	data_dir = e_shell_module_get_data_dir (mail_shell_module);
+	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	fc = (RuleContext *) em_filter_context_new ();
 	rule_context_load (fc, system, user);
@@ -688,12 +690,15 @@ mail_session_check_junk_notify (GConfClient *gconf, guint id, GConfEntry *entry,
 }
 
 void
-mail_session_init (const char *base_directory)
+mail_session_init (EShellModule *shell_module)
 {
-	char *camel_dir;
+	const gchar *data_dir;
 	GConfClient *gconf;
 
-	if (camel_init (base_directory, TRUE) != 0)
+	mail_shell_module = shell_module;
+	data_dir = e_shell_module_get_data_dir (shell_module);
+
+	if (camel_init (data_dir, TRUE) != 0)
 		exit (0);
 
 	camel_provider_init();
@@ -702,8 +707,7 @@ mail_session_init (const char *base_directory)
 	e_account_combo_box_set_session (session);  /* XXX Don't ask... */
 	e_account_writable(NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD); /* Init the EAccount Setup */
 
-	camel_dir = g_strdup_printf ("%s/mail", base_directory);
-	camel_session_construct (session, camel_dir);
+	camel_session_construct (session, data_dir);
 
 	gconf = mail_config_get_gconf_client ();
 	gconf_client_add_dir (gconf, "/apps/evolution/mail/junk", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
@@ -716,7 +720,6 @@ mail_session_init (const char *base_directory)
 	/* The shell will tell us to go online. */
 	camel_session_set_online ((CamelSession *) session, FALSE);
 	mail_config_reload_junk_headers ();
-	g_free (camel_dir);
 }
 
 void

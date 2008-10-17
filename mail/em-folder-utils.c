@@ -59,18 +59,18 @@
 #include "mail-ops.h"
 #include "mail-tools.h"
 #include "mail-config.h"
-#include "mail-component.h"
 #include "mail-vfolder.h"
 
 #include "em-utils.h"
 #include "em-popup.h"
-#include "em-marshal.h"
 #include "em-folder-tree.h"
 #include "em-folder-tree-model.h"
 #include "em-folder-utils.h"
 #include "em-folder-selector.h"
 #include "em-folder-selection.h"
 #include "em-folder-properties.h"
+
+#include "e-mail-shell-module.h"
 
 #define d(x)
 
@@ -270,6 +270,7 @@ emfu_copy_folder_selected (const char *uri, void *data)
 {
 	struct _copy_folder_data *cfd = data;
 	CamelStore *fromstore = NULL, *tostore = NULL;
+	CamelStore *local_store;
 	char *tobase = NULL;
 	CamelException ex;
 	CamelURL *url;
@@ -281,13 +282,15 @@ emfu_copy_folder_selected (const char *uri, void *data)
 
 	camel_exception_init (&ex);
 
+	local_store = e_mail_shell_module_get_local_store (mail_shell_module);
+
 	if (!(fromstore = camel_session_get_store (session, cfd->fi->uri, &ex))) {
 		e_error_run(NULL,
 			    cfd->delete?"mail:no-move-folder-notexist":"mail:no-copy-folder-notexist", cfd->fi->full_name, uri, ex.desc, NULL);
 		goto fail;
 	}
 
-	if (cfd->delete && fromstore == mail_component_peek_local_store (NULL) && emfu_is_special_local_folder (cfd->fi->full_name)) {
+	if (cfd->delete && fromstore == local_store && emfu_is_special_local_folder (cfd->fi->full_name)) {
 		GtkWidget *w = e_error_new (NULL,
 			    "mail:no-rename-special-folder", cfd->fi->full_name, NULL);
 		em_utils_show_error_silent (w);
@@ -399,12 +402,12 @@ emfu_delete_response (GtkWidget *dialog, int response, gpointer data)
 void
 em_folder_utils_delete_folder (CamelFolder *folder)
 {
-	CamelStore *local;
+	CamelStore *local_store;
 	GtkWidget *dialog;
 
-	local = mail_component_peek_local_store (NULL);
+	local_store = e_mail_shell_module_get_local_store (mail_shell_module);
 
-	if (folder->parent_store == local && emfu_is_special_local_folder (folder->full_name)) {
+	if (folder->parent_store == local_store && emfu_is_special_local_folder (folder->full_name)) {
 		dialog = e_error_new (NULL, "mail:no-delete-special-folder", folder->full_name, NULL);
 		em_utils_show_error_silent (dialog);
 		return;
@@ -427,14 +430,14 @@ em_folder_utils_rename_folder (CamelFolder *folder)
 {
 	char *prompt, *new_name;
 	const char *p;
-	CamelStore *local;
+	CamelStore *local_store;
 	gboolean done = FALSE;
 	size_t base_len;
 
-	local = mail_component_peek_local_store (NULL);
+	local_store = e_mail_shell_module_get_local_store (mail_shell_module);
 
 	/* don't allow user to rename one of the special local folders */
-	if (folder->parent_store == local && emfu_is_special_local_folder (folder->full_name)) {
+	if (folder->parent_store == local_store && emfu_is_special_local_folder (folder->full_name)) {
 		e_error_run(NULL,
 			    "mail:no-rename-special-folder", folder->full_name, NULL);
 		return;
@@ -684,7 +687,7 @@ em_folder_utils_create_folder (CamelFolderInfo *folderinfo, EMFolderTree *emft) 
 	EMFolderTreeModel *model;
 	GtkWidget *dialog;
 
-	model = mail_component_peek_tree_model (mail_component_peek ());
+	model = e_mail_shell_module_get_folder_tree_model (mail_shell_module);
 	folder_tree = (EMFolderTree *) em_folder_tree_new_with_model (model);
 
 	dialog = em_folder_selector_create_new (folder_tree, 0, _("Create folder"), _("Specify where to create the folder:"));

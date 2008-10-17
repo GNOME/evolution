@@ -2192,7 +2192,6 @@ e_shell_window_update_search_menu (EShellWindow *shell_window)
 	FilterRule *rule;
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
-	GList *list, *iter;
 	const gchar *source;
 	const gchar *view_name;
 	gboolean sensitive;
@@ -2223,13 +2222,7 @@ e_shell_window_update_search_menu (EShellWindow *shell_window)
 
 	/* Unmerge the previous menu. */
 	gtk_ui_manager_remove_ui (ui_manager, merge_id);
-
-	/* XXX Annoying that GTK+ doesn't provide a function for this.
-	 *     http://bugzilla.gnome.org/show_bug.cgi?id=550485 */
-	list = gtk_action_group_list_actions (action_group);
-	for (iter = list; iter != NULL; iter = iter->next)
-		gtk_action_group_remove_action (action_group, iter->data);
-	g_list_free (list);
+	e_action_group_remove_all_actions (action_group);
 
 	rule = rule_context_next_rule (context, NULL, source);
 	while (rule != NULL) {

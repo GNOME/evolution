@@ -103,6 +103,8 @@ EShellLineStatus
 void		e_shell_set_line_status		(EShell *shell,
                                                  EShellLineStatus status);
 GtkWidget *	e_shell_get_preferences_window	(void);
+void		e_shell_event			(EShell *shell,
+						 const gchar *event_name);
 gboolean	e_shell_is_busy			(EShell *shell);
 gboolean	e_shell_do_quit			(EShell *shell);
 gboolean	e_shell_quit			(EShell *shell);

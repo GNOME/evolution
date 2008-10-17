@@ -30,9 +30,10 @@
 
 struct _EActivityProxyPrivate {
 	EActivity *activity;
+	GtkWidget *button;
 	GtkWidget *image;
 	GtkWidget *label;
-	GtkWidget *button;
+	GtkWidget *cancel;
 	GtkWidget *spinner;
 };
 
@@ -50,12 +51,14 @@ activity_proxy_update (EActivityProxy *proxy)
 	const gchar *icon_name;
 	gboolean cancellable;
 	gboolean cancelled;
+	gboolean clickable;
 	gboolean completed;
 	gboolean sensitive;
 	gchar *description;
 
 	cancellable = e_activity_get_cancellable (activity);
 	cancelled = e_activity_is_cancelled (activity);
+	clickable = e_activity_get_clickable (activity);
 	completed = e_activity_is_completed (activity);
 	icon_name = e_activity_get_icon_name (activity);
 
@@ -64,26 +67,39 @@ activity_proxy_update (EActivityProxy *proxy)
 	gtk_label_set_text (GTK_LABEL (proxy->priv->label), description);
 	g_free (description);
 
+	/* Note, an activity requires an icon name in order to
+	 * be clickable.  We don't support spinner buttons. */
 	if (icon_name != NULL) {
 		gtk_image_set_from_icon_name (
 			GTK_IMAGE (proxy->priv->image),
 			icon_name, GTK_ICON_SIZE_MENU);
+		gtk_button_set_image (
+			GTK_BUTTON (proxy->priv->button),
+			gtk_image_new_from_icon_name (
+			icon_name, GTK_ICON_SIZE_MENU));
 		e_spinner_stop (E_SPINNER (proxy->priv->spinner));
-		gtk_widget_show (proxy->priv->image);
 		gtk_widget_hide (proxy->priv->spinner);
+		if (clickable) {
+			gtk_widget_show (proxy->priv->button);
+			gtk_widget_hide (proxy->priv->image);
+		} else {
+			gtk_widget_hide (proxy->priv->button);
+			gtk_widget_show (proxy->priv->image);
+		}
 	} else {
 		e_spinner_start (E_SPINNER (proxy->priv->spinner));
 		gtk_widget_show (proxy->priv->spinner);
+		gtk_widget_hide (proxy->priv->button);
 		gtk_widget_hide (proxy->priv->image);
 	}
 
 	if (cancellable)
-		gtk_widget_show (proxy->priv->button);
+		gtk_widget_show (proxy->priv->cancel);
 	else
-		gtk_widget_hide (proxy->priv->button);
+		gtk_widget_hide (proxy->priv->cancel);
 
 	sensitive = !(cancelled || completed);
-	gtk_widget_set_sensitive (proxy->priv->button, sensitive);
+	gtk_widget_set_sensitive (proxy->priv->cancel, sensitive);
 }
 
 static void
@@ -141,6 +157,11 @@ activity_proxy_dispose (GObject *object)
 		priv->activity = NULL;
 	}
 
+	if (priv->button != NULL) {
+		g_object_unref (priv->button);
+		priv->image = NULL;
+	}
+
 	if (priv->image != NULL) {
 		g_object_unref (priv->image);
 		priv->image = NULL;
@@ -151,9 +172,9 @@ activity_proxy_dispose (GObject *object)
 		priv->label = NULL;
 	}
 
-	if (priv->button != NULL) {
-		g_object_unref (priv->button);
-		priv->button = NULL;
+	if (priv->cancel != NULL) {
+		g_object_unref (priv->cancel);
+		priv->cancel = NULL;
 	}
 
 	if (priv->spinner != NULL) {
@@ -174,6 +195,10 @@ activity_proxy_constructed (GObject *object)
 
 	g_signal_connect_swapped (
 		proxy->priv->button, "clicked",
+		G_CALLBACK (e_activity_clicked), proxy->priv->activity);
+
+	g_signal_connect_swapped (
+		proxy->priv->cancel, "clicked",
 		G_CALLBACK (e_activity_cancel), proxy->priv->activity);
 
 	g_signal_connect_swapped (
@@ -240,18 +265,24 @@ activity_proxy_init (EActivityProxy *proxy)
 
 	container = widget;
 
+	widget = gtk_image_new ();
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	proxy->priv->image = g_object_ref (widget);
+	gtk_widget_hide (widget);
+
+	widget = gtk_button_new ();
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	proxy->priv->button = g_object_ref (widget);
+	gtk_widget_hide (widget);
+
 	widget = e_spinner_new ();
 	e_spinner_set_size (E_SPINNER (widget), GTK_ICON_SIZE_MENU);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	proxy->priv->spinner = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	widget = gtk_image_new ();
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	proxy->priv->image = g_object_ref (widget);
-	gtk_widget_hide (widget);
-
 	widget = gtk_label_new (NULL);
+	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	proxy->priv->label = g_object_ref (widget);
@@ -264,7 +295,7 @@ activity_proxy_init (EActivityProxy *proxy)
 	gtk_button_set_relief (GTK_BUTTON (widget), GTK_RELIEF_NONE);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_set_tooltip_text (widget, _("Cancel"));
-	proxy->priv->button = g_object_ref (widget);
+	proxy->priv->cancel = g_object_ref (widget);
 	gtk_widget_show (widget);
 }
 

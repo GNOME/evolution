@@ -195,7 +195,7 @@ memo_shell_view_class_init (EMemoShellViewClass *class,
 	object_class->constructed = memo_shell_view_constructed;
 
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
-	shell_view_class->label = N_("Memos");
+	shell_view_class->label = _("Memos");
 	shell_view_class->icon_name = "evolution-memos";
 	shell_view_class->ui_definition = "evolution-memos.ui";
 	shell_view_class->search_options = "/memo-search-options";

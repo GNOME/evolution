@@ -270,7 +270,7 @@ book_shell_view_class_init (EBookShellViewClass *class,
 	object_class->constructed = book_shell_view_constructed;
 
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
-	shell_view_class->label = N_("Contacts");
+	shell_view_class->label = _("Contacts");
 	shell_view_class->icon_name = "x-office-address-book";
 	shell_view_class->ui_definition = "evolution-contacts.ui";
 	shell_view_class->search_options = "/contact-search-options";

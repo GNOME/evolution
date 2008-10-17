@@ -21,28 +21,38 @@
  *
  */
 
-#ifndef __EM_FOLDER_TREE_H__
-#define __EM_FOLDER_TREE_H__
+#ifndef EM_FOLDER_TREE_H
+#define EM_FOLDER_TREE_H
 
 #include <gtk/gtk.h>
 #include <camel/camel-store.h>
+#include <shell/e-shell-module.h>
+#include <mail/em-folder-tree-model.h>
 
-#include "mail/em-folder-tree-model.h"
+/* Standard GObject macros */
+#define EM_TYPE_FOLDER_TREE \
+	(em_folder_tree_get_type ())
+#define EM_FOLDER_TREE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_FOLDER_TREE, EMFolderTree))
+#define EM_FOLDER_TREE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_FOLDER_TREE, EMFolderTreeClass))
+#define EM_IS_FOLDER_TREE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE  \
+	((obj), EM_TYPE_FOLDER_TREE))
+#define EM_IS_FOLDER_TREE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_FOLDER_TREE))
+#define EM_FOLDER_TREE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_FOLDER_TREE, EMFolderTreeClass))
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
-
-#define EM_TYPE_FOLDER_TREE            (em_folder_tree_get_type ())
-#define EM_FOLDER_TREE(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EM_TYPE_FOLDER_TREE, EMFolderTree))
-#define EM_FOLDER_TREE_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), EM_TYPE_FOLDER_TREE, EMFolderTreeClass))
-#define EM_IS_FOLDER_TREE(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EM_TYPE_FOLDER_TREE))
-#define EM_IS_FOLDER_TREE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), EM_TYPE_FOLDER_TREE))
-#define EM_FOLDER_TREE_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), EM_TYPE_FOLDER_TREE, EMFolderTreeClass))
+G_BEGIN_DECLS
 
 typedef struct _EMFolderTree EMFolderTree;
 typedef struct _EMFolderTreeClass EMFolderTreeClass;
+typedef struct _EMFolderTreePrivate EMFolderTreePrivate;
 
 /* not sure this api is the best, but its the easiest to implement and will cover what we need */
 #define EMFT_EXCLUDE_NOSELECT CAMEL_FOLDER_NOSELECT
@@ -54,22 +64,26 @@ typedef struct _EMFolderTreeClass EMFolderTreeClass;
 typedef gboolean (*EMFTExcludeFunc)(EMFolderTree *emft, GtkTreeModel *model, GtkTreeIter *iter, void *data);
 
 struct _EMFolderTree {
-	GtkVBox parent_object;
-
-	struct _EMFolderTreePrivate *priv;
+	GtkTreeView parent_object;
+	EMFolderTreePrivate *priv;
 };
 
 struct _EMFolderTreeClass {
-	GtkVBoxClass parent_class;
+	GtkTreeViewClass parent_class;
 
 	/* signals */
-	void (* folder_activated) (EMFolderTree *emft, const char *full_name, const char *uri);
-	void (* folder_selected) (EMFolderTree *emft, const char *full_name, const char *uri, guint32 flags);
+	void		(*folder_activated)	(EMFolderTree *emft,
+						 const gchar *full_name,
+						 const gchar *uri);
+	void		(*folder_selected)	(EMFolderTree *emft,
+						 const gchar *full_name,
+						 const gchar *uri,
+						 guint32 flags);
 };
 
 GType em_folder_tree_get_type (void);
 
-GtkWidget *em_folder_tree_new (void);
+GtkWidget *em_folder_tree_new (EShellModule *shell_module);
 GtkWidget *em_folder_tree_new_with_model (EMFolderTreeModel *model);
 
 void em_folder_tree_enable_drag_and_drop (EMFolderTree *emft);
@@ -95,8 +109,6 @@ EMFolderTreeModelStoreInfo *em_folder_tree_get_model_storeinfo (EMFolderTree *em
 
 gboolean em_folder_tree_create_folder (EMFolderTree *emft, const char *full_name, const char *uri);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
-#endif /* __EM_FOLDER_TREE_H__ */
+#endif /* EM_FOLDER_TREE_H */

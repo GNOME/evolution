@@ -230,7 +230,7 @@ task_shell_view_class_init (ETaskShellViewClass *class,
 	object_class->constructed = task_shell_view_constructed;
 
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
-	shell_view_class->label = N_("Tasks");
+	shell_view_class->label = _("Tasks");
 	shell_view_class->icon_name = "evolution-tasks";
 	shell_view_class->ui_definition = "evolution-tasks.ui";
 	shell_view_class->search_options = "/task-search-options";

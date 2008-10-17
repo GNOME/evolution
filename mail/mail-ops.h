@@ -74,7 +74,8 @@ int mail_get_folder (const char *uri, guint32 flags,
 
 /* get quota information for a folder */
 int mail_get_folder_quota (CamelFolder *folder,
-		 void (*done)(CamelFolder *folder, CamelFolderQuotaInfo *quota, void *data),
+		 const gchar *folder_uri,
+		 void (*done)(CamelFolder *folder, const gchar *folder_uri, CamelFolderQuotaInfo *quota, void *data),
 		 void *data, MailMsgDispatchFunc dispatch);
 
 /* and for a store */

@@ -22,19 +22,50 @@
 #ifndef E_MAIL_SHELL_MODULE_H
 #define E_MAIL_SHELL_MODULE_H
 
+#include <shell/e-shell-module.h>
+
+#include <camel/camel-folder.h>
 #include <camel/camel-store.h>
 #include <e-util/e-signature-list.h>
 #include <libedataserver/e-account-list.h>
 
 G_BEGIN_DECLS
 
-CamelStore *	e_mail_shell_module_load_store_by_uri
-						(const gchar *uri,
+/* Globally available shell module. 
+ *
+ * XXX I don't like having this globally available but passing it around to
+ *     all the various utilities that need to access to the module's data
+ *     directory and local folders is too much of a pain for now. */
+extern EShellModule *mail_shell_module;
+
+typedef enum {
+	E_MAIL_FOLDER_INBOX,
+	E_MAIL_FOLDER_DRAFTS,
+	E_MAIL_FOLDER_OUTBOX,
+	E_MAIL_FOLDER_SENT,
+	E_MAIL_FOLDER_TEMPLATES,
+	E_MAIL_FOLDER_LOCAL_INBOX
+} EMailFolderType;
+
+struct _EMFolderTreeModel;
+
+CamelFolder *	e_mail_shell_module_get_folder	(EShellModule *shell_module,
+						 EMailFolderType folder_type);
+const gchar *	e_mail_shell_module_get_folder_uri
+						(EShellModule *shell_module,
+						 EMailFolderType folder_type);
+struct _EMFolderTreeModel *
+		e_mail_shell_module_get_folder_tree_model
+						(EShellModule *shell_module);
+void		e_mail_shell_module_add_store	(EShellModule *shell_module,
+						 CamelStore *store,
 						 const gchar *name);
-EAccountList *	mail_config_get_accounts	(void);
-void		mail_config_save_accounts	(void);
-ESignatureList *mail_config_get_signatures	(void);
-gchar *		em_uri_from_camel		(const gchar *curi);
+CamelStore *	e_mail_shell_module_get_local_store
+						(EShellModule *shell_module);
+CamelStore *	e_mail_shell_module_load_store_by_uri
+						(EShellModule *shell_module,
+						 const gchar *uri,
+						 const gchar *name);
 
 G_END_DECLS
 

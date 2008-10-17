@@ -62,13 +62,14 @@
 
 #include "em-filter-rule.h"
 #include "em-utils.h"
-#include "mail-component.h"
 #include "mail-config.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
 #include "mail-session.h"
 #include "mail-tools.h"
 #include "mail-vfolder.h"
+
+#include "e-mail-shell-module.h"
 
 #define w(x)
 #define d(x)
@@ -244,7 +245,7 @@ uid_cachename_hack (CamelStore *store)
 {
 	CamelURL *url = CAMEL_SERVICE (store)->url;
 	char *encoded_url, *filename;
-	const char *evolution_dir;
+	const gchar *data_dir;
 
 	encoded_url = g_strdup_printf ("%s%s%s@%s", url->user,
 				       url->authmech ? ";auth=" : "",
@@ -252,8 +253,8 @@ uid_cachename_hack (CamelStore *store)
 				       url->host);
 	e_filename_make_safe (encoded_url);
 
-	evolution_dir = mail_component_peek_base_directory (mail_component_peek ());
-	filename = g_build_filename (evolution_dir, "pop", encoded_url, "uid-cache", NULL);
+	data_dir = e_shell_module_get_data_dir (mail_shell_module);
+	filename = g_build_filename (data_dir, "pop", encoded_url, "uid-cache", NULL);
 	g_free (encoded_url);
 
 	return filename;
@@ -274,9 +275,11 @@ fetch_mail_exec (struct _fetch_mail_msg *m)
 	if (m->cancel)
 		camel_operation_register (m->cancel);
 
-	if ((fm->destination = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_LOCAL_INBOX)) == NULL)
+	fm->destination = e_mail_shell_module_get_folder (
+		mail_shell_module, E_MAIL_FOLDER_LOCAL_INBOX);
+	if (fm->destination == NULL)
 		goto fail;
-	camel_object_ref(fm->destination);
+	camel_object_ref (fm->destination);
 
 	/* FIXME: this should support keep_on_server too, which would then perform a spool
 	   access thingy, right?  problem is matching raw messages to uid's etc. */
@@ -578,7 +581,8 @@ mail_send_message(CamelFolder *queue, const char *uid, const char *destination, 
 		}
 
 		if (!folder) {
-			folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT);
+			folder = e_mail_shell_module_get_folder (
+				mail_shell_module, E_MAIL_FOLDER_SENT);
 			camel_object_ref(folder);
 		}
 
@@ -591,7 +595,8 @@ mail_send_message(CamelFolder *queue, const char *uid, const char *destination, 
 			if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_USER_CANCEL)
 				goto exit;
 
-			sent_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT);
+			sent_folder = e_mail_shell_module_get_folder (
+				mail_shell_module, E_MAIL_FOLDER_SENT);
 
 			if (folder != sent_folder) {
 				const char *name;
@@ -686,12 +691,15 @@ report_status (struct _send_queue_msg *m, enum camel_filter_status_t status, int
 static void
 send_queue_exec (struct _send_queue_msg *m)
 {
-	CamelFolder *sent_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_SENT);
+	CamelFolder *sent_folder;
 	GPtrArray *uids, *send_uids = NULL;
 	CamelException ex;
 	int i, j;
 
 	d(printf("sending queue\n"));
+
+	sent_folder = e_mail_shell_module_get_folder (
+		mail_shell_module, E_MAIL_FOLDER_SENT);
 
 	if (!(uids = camel_folder_get_uids (m->queue)))
 		return;
@@ -1263,7 +1271,8 @@ struct _get_quota_msg {
 
 	CamelFolder *folder;
 	CamelFolderQuotaInfo *quota;
-	void (*done) (CamelFolder *folder, CamelFolderQuotaInfo *quota, void *data);
+	void (*done) (CamelFolder *folder, const gchar *folder_uri, CamelFolderQuotaInfo *quota, void *data);
+	gchar *folder_uri;
 	void *data;
 };
 
@@ -1283,7 +1292,7 @@ static void
 get_quota_done (struct _get_quota_msg *m)
 {
 	if (m->done)
-		m->done (m->folder, m->quota, m->data);
+		m->done (m->folder, m->folder_uri, m->quota, m->data);
 }
 
 static void
@@ -1293,6 +1302,7 @@ get_quota_free (struct _get_quota_msg *m)
 		camel_object_unref (m->folder);
 	if (m->quota)
 		camel_folder_quota_info_free (m->quota);
+	g_free (m->folder_uri);
 }
 
 static MailMsgInfo get_quota_info = {
@@ -1305,7 +1315,8 @@ static MailMsgInfo get_quota_info = {
 
 int
 mail_get_folder_quota (CamelFolder *folder,
-		 void (*done)(CamelFolder *folder, CamelFolderQuotaInfo *quota, void *data),
+		 const gchar *folder_uri,
+		 void (*done)(CamelFolder *folder, const gchar *uri, CamelFolderQuotaInfo *quota, void *data),
 		 void *data, MailMsgDispatchFunc dispatch)
 {
 	struct _get_quota_msg *m;
@@ -1315,6 +1326,7 @@ mail_get_folder_quota (CamelFolder *folder,
 
 	m = mail_msg_new (&get_quota_info);
 	m->folder = folder;
+	m->folder_uri = g_strdup (folder_uri);
 	m->data = data;
 	m->done = done;
 
@@ -1743,15 +1755,15 @@ empty_trash_desc (struct _empty_trash_msg *m)
 static void
 empty_trash_exec (struct _empty_trash_msg *m)
 {
-	const char *evolution_dir;
+	const gchar *data_dir;
 	CamelFolder *trash;
 	char *uri;
 
 	if (m->account) {
 		trash = mail_tool_get_trash (m->account->source->url, FALSE, &m->base.ex);
 	} else {
-		evolution_dir = mail_component_peek_base_directory (mail_component_peek ());
-		uri = g_strdup_printf ("mbox:%s/local", evolution_dir);
+		data_dir = e_shell_module_get_data_dir (mail_shell_module);
+		uri = g_strdup_printf ("mbox:%s/local", data_dir);
 		trash = mail_tool_get_trash (uri, TRUE, &m->base.ex);
 		g_free (uri);
 	}

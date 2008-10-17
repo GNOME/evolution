@@ -676,6 +676,46 @@ action_mail_undelete_cb (GtkAction *action,
 }
 
 static void
+action_mail_uri_call_to_cb (GtkAction *action,
+                            EMailShellView *mail_shell_view)
+{
+	/* FIXME */
+	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+}
+
+static void
+action_mail_uri_copy_cb (GtkAction *action,
+                         EMailShellView *mail_shell_view)
+{
+	/* FIXME */
+	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+}
+
+static void
+action_mail_uri_copy_address_cb (GtkAction *action,
+                                 EMailShellView *mail_shell_view)
+{
+	/* FIXME */
+	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+}
+
+static void
+action_mail_uri_to_search_folder_recipient_cb (GtkAction *action,
+                                               EMailShellView *mail_shell_view)
+{
+	/* FIXME */
+	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+}
+
+static void
+action_mail_uri_to_search_folder_sender_cb (GtkAction *action,
+                                            EMailShellView *mail_shell_view)
+{
+	/* FIXME */
+	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+}
+
+static void
 action_mail_zoom_100_cb (GtkAction *action,
                          EMailShellView *mail_shell_view)
 {
@@ -744,7 +784,12 @@ static GtkActionEntry mail_entries[] = {
 	  N_("Copy selected messages to another folder"),
 	  G_CALLBACK (action_mail_copy_cb) },
 
-	{ "mail-create-search-folder" },
+	{ "mail-create-search-folder",
+	  NULL,
+	  N_("C_reate Search Folder From Search..."),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_mail_create_search_folder_cb) },
 
 	{ "mail-delete",
 	  "user-trash",
@@ -1291,6 +1336,41 @@ static GtkActionEntry mail_entries[] = {
 	  N_("Undelete the selected messages"),
 	  G_CALLBACK (action_mail_undelete_cb) },
 
+	{ "mail-uri-call-to",
+	  NULL,
+	  N_("C_all To..."),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_mail_uri_call_to_cb) },
+
+	{ "mail-uri-copy",
+	  GTK_STOCK_COPY,
+	  N_("_Copy Link Location"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_mail_uri_copy_cb) },
+
+	{ "mail-uri-copy-address",
+	  GTK_STOCK_COPY,
+	  N_("Copy _Email Address"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_mail_uri_copy_address_cb) },
+
+	{ "mail-uri-to-search-folder-recipient",
+	  NULL,
+	  N_("_To This Address"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_mail_uri_to_search_folder_recipient_cb) },
+
+	{ "mail-uri-to-search-folder-sender",
+	  NULL,
+	  N_("_From This Address"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_mail_uri_to_search_folder_sender_cb) },
+
 	{ "mail-zoom-100",
 	  GTK_STOCK_ZOOM_100,
 	  N_("_Normal Size"),
@@ -1373,6 +1453,13 @@ static GtkActionEntry mail_entries[] = {
 	{ "mail-preview-menu",
 	  NULL,
 	  N_("_Preview"),
+	  NULL,
+	  NULL,
+	  NULL },
+
+	{ "mail-uri-to-search-folder-menu",
+	  NULL,
+	  N_("Create _Search Folder"),
 	  NULL,
 	  NULL,
 	  NULL },

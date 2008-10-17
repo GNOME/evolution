@@ -21,29 +21,41 @@
  *
  */
 
-#ifndef __EM_FOLDER_SELECTION_BUTTON_H__
-#define __EM_FOLDER_SELECTION_BUTTON_H__
+#ifndef EM_FOLDER_SELECTION_BUTTON_H
+#define EM_FOLDER_SELECTION_BUTTON_H
 
 #include <gtk/gtk.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+#include <mail/em-folder-tree-model.h>
 
-#define EM_TYPE_FOLDER_SELECTION_BUTTON            (em_folder_selection_button_get_type ())
-#define EM_FOLDER_SELECTION_BUTTON(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EM_TYPE_FOLDER_SELECTION_BUTTON, EMFolderSelectionButton))
-#define EM_FOLDER_SELECTION_BUTTON_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), EM_TYPE_FOLDER_SELECTION_BUTTON, EMFolderSelectionButtonClass))
-#define EM_IS_FOLDER_SELECTION_BUTTON(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EM_TYPE_FOLDER_SELECTION_BUTTON))
-#define EM_IS_FOLDER_SELECTION_BUTTON_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), EM_TYPE_FOLDER_SELECTION_BUTTON))
+/* Standard GObject macros */
+#define EM_TYPE_FOLDER_SELECTION_BUTTON \
+	(em_folder_selection_button_get_type ())
+#define EM_FOLDER_SELECTION_BUTTON(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_FOLDER_SELECTION_BUTTON, EMFolderSelectionButton))
+#define EM_FOLDER_SELECTION_BUTTON_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_FOLDER_SELECTION_BUTTON, EMFolderSelectionButtonClass))
+#define EM_IS_FOLDER_SELECTION_BUTTON(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_FOLDER_SELECTION_BUTTON))
+#define EM_IS_FOLDER_SELECTION_BUTTON_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((obj), EM_TYPE_FOLDER_SELECTION_BUTTON))
+#define EM_FOLDER_SELECTION_BUTTON_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_FOLDER_SELECTION_BUTTON, EMFolderSelectionButtonClass))
 
-typedef struct _EMFolderSelectionButton        EMFolderSelectionButton;
-typedef struct _EMFolderSelectionButtonClass   EMFolderSelectionButtonClass;
+G_BEGIN_DECLS
+
+typedef struct _EMFolderSelectionButton EMFolderSelectionButton;
+typedef struct _EMFolderSelectionButtonClass EMFolderSelectionButtonClass;
+typedef struct _EMFolderSelectionButtonPrivate EMFolderSelectionButtonPrivate;
 
 struct _EMFolderSelectionButton {
 	GtkButton parent;
-
-	struct _EMFolderSelectionButtonPrivate *priv;
+	EMFolderSelectionButtonPrivate *priv;
 };
 
 struct _EMFolderSelectionButtonClass {
@@ -51,25 +63,43 @@ struct _EMFolderSelectionButtonClass {
 
 	/* Signals.  */
 
-	void  (* selected)  (EMFolderSelectionButton *button);
+	void	(*selected)	(EMFolderSelectionButton *button);
 };
 
+GType		em_folder_selection_button_get_type (void);
+GtkWidget *	em_folder_selection_button_new
+					(EMFolderTreeModel *model,
+					 const gchar *title,
+					 const gchar *caption);
+EMFolderTreeModel *
+		em_folder_selection_button_get_model
+					(EMFolderSelectionButton *button);
+const gchar *	em_folder_selection_button_get_caption
+					(EMFolderSelectionButton *button);
+void		em_folder_selection_button_set_caption
+					(EMFolderSelectionButton *button,
+					 const gchar *caption);
+gboolean	em_folder_selection_button_get_multiselect
+					(EMFolderSelectionButton *button);
+void		em_folder_selection_button_set_multiselect
+					(EMFolderSelectionButton *button,
+					 gboolean multiselect);
+const gchar *	em_folder_selection_button_get_selection
+					(EMFolderSelectionButton *button);
+void		em_folder_selection_button_set_selection
+					(EMFolderSelectionButton *button,
+					 const gchar *uri);
+GList *		em_folder_selection_button_get_selection_mult
+					(EMFolderSelectionButton *button);
+void		em_folder_selection_button_set_selection_mult
+					(EMFolderSelectionButton *button,
+					 GList *uris);
+const gchar *	em_folder_selection_button_get_title
+					(EMFolderSelectionButton *button);
+void		em_folder_selection_button_set_title
+					(EMFolderSelectionButton *button,
+					 const gchar *title);
 
-GType    em_folder_selection_button_get_type (void);
+G_END_DECLS
 
-GtkWidget *em_folder_selection_button_new (const char *title, const char *caption);
-
-void        em_folder_selection_button_set_selection (EMFolderSelectionButton *button, const char *uri);
-const char *em_folder_selection_button_get_selection (EMFolderSelectionButton *button);
-
-void   em_folder_selection_button_set_selection_mult (EMFolderSelectionButton *button, GList *uris);
-GList *em_folder_selection_button_get_selection_mult (EMFolderSelectionButton *button);
-
-void     em_folder_selection_button_set_multiselect (EMFolderSelectionButton *button, gboolean value);
-gboolean em_folder_selection_button_get_multiselect (EMFolderSelectionButton *button);
-
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
-
-#endif /* __EM_FOLDER_SELECTION_BUTTON_H__ */
+#endif /* EM_FOLDER_SELECTION_BUTTON_H */

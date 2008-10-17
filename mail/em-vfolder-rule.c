@@ -37,9 +37,10 @@
 #include "mail/em-utils.h"
 #include "mail/em-folder-tree.h"
 #include "mail/em-folder-selector.h"
-#include "mail/mail-component.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
+
+#include "e-mail-shell-module.h"
 
 #define d(x)
 
@@ -505,9 +506,11 @@ static void
 source_add(GtkWidget *widget, struct _source_data *data)
 {
 	EMFolderTree *emft;
+	EMFolderTreeModel *model;
 	GtkWidget *dialog;
 
-	emft =(EMFolderTree *)em_folder_tree_new_with_model(mail_component_peek_tree_model(mail_component_peek()));
+	model = e_mail_shell_module_get_folder_tree_model (mail_shell_module);
+	emft =(EMFolderTree *)em_folder_tree_new_with_model (model);
 	em_folder_tree_set_excluded(emft, EMFT_EXCLUDE_NOSELECT);
 
 	dialog = em_folder_selector_new(emft, EM_FOLDER_SELECTOR_CAN_CREATE, _("Select Folder"), NULL, _("_Add"));

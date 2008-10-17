@@ -80,6 +80,7 @@ enum {
 	PROP_DESTINATIONS_BCC,
 	PROP_DESTINATIONS_CC,
 	PROP_DESTINATIONS_TO,
+	PROP_MODEL,
 	PROP_POST_TO,
 	PROP_REPLY_TO,
 	PROP_SIGNATURE,
@@ -92,6 +93,7 @@ struct _EComposerHeaderTablePrivate {
 	GtkWidget *signature_label;
 	GtkWidget *signature_combo_box;
 	ENameSelector *name_selector;
+	EMFolderTreeModel *model;
 };
 
 static gpointer parent_class;
@@ -346,6 +348,12 @@ composer_header_table_set_property (GObject *object,
 			e_destination_freev (destinations);
 			return;
 
+		case PROP_MODEL:
+			e_composer_header_table_set_folder_tree_model (
+				E_COMPOSER_HEADER_TABLE (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_POST_TO:
 			list = g_value_dup_string_list (value);
 			e_composer_header_table_set_post_to_list (
@@ -437,6 +445,13 @@ composer_header_table_get_property (GObject *object,
 			e_destination_freev (destinations);
 			return;
 
+		case PROP_MODEL:
+			g_value_set_object (
+				value,
+				e_composer_header_table_get_folder_tree_model (
+				E_COMPOSER_HEADER_TABLE (object)));
+			return;
+
 		case PROP_POST_TO:
 			list = e_composer_header_table_get_post_to (
 				E_COMPOSER_HEADER_TABLE (object));
@@ -500,6 +515,11 @@ composer_header_table_dispose (GObject *object)
 	if (priv->name_selector != NULL) {
 		g_object_unref (priv->name_selector);
 		priv->name_selector = NULL;
+	}
+
+	if (priv->model != NULL) {
+		g_object_unref (priv->model);
+		priv->model = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -588,6 +608,17 @@ composer_header_table_class_init (EComposerHeaderTableClass *class)
 			NULL,
 			element_spec,
 			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MODEL,
+		g_param_spec_object (
+			"model",
+			NULL,
+			NULL,
+			EM_TYPE_FOLDER_TREE_MODEL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 
 	g_object_class_install_property (
 		object_class,
@@ -969,6 +1000,29 @@ e_composer_header_table_set_destinations_to (EComposerHeaderTable *table,
 
 	header = E_COMPOSER_HEADER_TABLE_GET_TO_HEADER (table);
 	e_composer_name_header_set_destinations (header, destinations);
+}
+
+EMFolderTreeModel *
+e_composer_header_table_get_folder_tree_model (EComposerHeaderTable *table)
+{
+	EComposerPostHeader *header;
+
+	g_return_val_if_fail (E_IS_COMPOSER_HEADER_TABLE (table), NULL);
+
+	header = E_COMPOSER_HEADER_TABLE_GET_POST_TO_HEADER (table);
+	return e_composer_post_header_get_folder_tree_model (header);
+}
+
+void
+e_composer_header_table_set_folder_tree_model (EComposerHeaderTable *table,
+                                               EMFolderTreeModel *model)
+{
+	EComposerPostHeader *header;
+
+	g_return_if_fail (E_IS_COMPOSER_HEADER_TABLE (table));
+
+	header = E_COMPOSER_HEADER_TABLE_GET_POST_TO_HEADER (table);
+	e_composer_post_header_set_folder_tree_model (header, model);
 }
 
 GList *

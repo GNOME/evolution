@@ -21,12 +21,14 @@
 
 #include "e-mail-shell-sidebar.h"
 
+#include "mail/em-folder-tree.h"
+
 #define E_MAIL_SHELL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_SHELL_SIDEBAR, EMailShellSidebarPrivate))
 
 struct _EMailShellSidebarPrivate {
-	gint dummy;
+	GtkWidget *folder_tree;
 };
 
 enum {
@@ -51,6 +53,11 @@ mail_shell_sidebar_dispose (GObject *object)
 
 	priv = E_MAIL_SHELL_SIDEBAR_GET_PRIVATE (object);
 
+	if (priv->folder_tree != NULL) {
+		g_object_unref (priv->folder_tree);
+		priv->folder_tree = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
@@ -70,11 +77,42 @@ static void
 mail_shell_sidebar_constructed (GObject *object)
 {
 	EMailShellSidebarPrivate *priv;
+	EShellSidebar *shell_sidebar;
+	EShellModule *shell_module;
+	EShellView *shell_view;
+	GtkWidget *container;
+	GtkWidget *widget;
 
 	priv = E_MAIL_SHELL_SIDEBAR_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
+
+	shell_sidebar = E_SHELL_SIDEBAR (object);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_module = e_shell_view_get_shell_module (shell_view);
+
+	/* Build sidebar widgets. */
+
+	container = GTK_WIDGET (object);
+
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (widget),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (
+		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = em_folder_tree_new (shell_module);
+	em_folder_tree_set_excluded (EM_FOLDER_TREE (widget), 0);
+	em_folder_tree_enable_drag_and_drop (EM_FOLDER_TREE (widget));
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	priv->folder_tree = g_object_ref (widget);
+	gtk_widget_show (widget);
 }
 
 static void

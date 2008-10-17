@@ -51,13 +51,14 @@
 #include "em-utils.h"
 #include "em-vfolder-context.h"
 #include "em-vfolder-rule.h"
-#include "mail-component.h"
 #include "mail-config.h"
 #include "mail-folder-cache.h"
 #include "mail-mt.h"
 #include "mail-session.h"
 #include "mail-tools.h"
 #include "mail-vfolder.h"
+
+#include "e-mail-shell-module.h"
 
 /* **************************************** */
 
@@ -107,6 +108,7 @@ static char *
 mail_tool_get_local_movemail_path (const unsigned char *uri, CamelException *ex)
 {
 	unsigned char *safe_uri, *c;
+	const gchar *data_dir;
 	char *path, *full;
 	struct stat st;
 
@@ -115,7 +117,9 @@ mail_tool_get_local_movemail_path (const unsigned char *uri, CamelException *ex)
 		if (strchr("/:;=|%&#!*^()\\, ", *c) || !isprint((int) *c))
 			*c = '_';
 
-	path = g_strdup_printf("%s/spool", mail_component_peek_base_directory(NULL));
+	data_dir = e_shell_module_get_data_dir (mail_shell_module);
+	path = g_build_filename (data_dir, "spool", NULL);
+
 	if (g_stat(path, &st) == -1 && g_mkdir_with_parents(path, 0777) == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Could not create spool directory `%s': %s"),
 				     path, g_strerror(errno));

@@ -19,6 +19,8 @@
 
 #include "e-composer-private.h"
 
+#include "mail/e-mail-shell-module.h"
+
 static void
 composer_setup_charset_menu (EMsgComposer *composer)
 {
@@ -143,6 +145,14 @@ e_composer_private_init (EMsgComposer *composer)
 	gtk_box_reorder_child (GTK_BOX (editor->vbox), widget, 2);
 	priv->header_table = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	/* XXX We have to access the mail shell module directly for the
+	 *     benefit of other modules that spawn composer windows but
+	 *     don't link to the mail module.  Need to work out a better
+	 *     inter-module messaging system, in lieu of Bonobo.  D-Bus? */
+	e_composer_header_table_set_folder_tree_model (
+		E_COMPOSER_HEADER_TABLE (widget),
+		e_mail_shell_module_get_folder_tree_model (mail_shell_module));
 
 	/* Construct attachment widgets.
 	 * XXX Move this stuff into a new custom widget. */

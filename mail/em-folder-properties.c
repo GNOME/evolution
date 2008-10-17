@@ -39,11 +39,12 @@
 #include "em-folder-properties.h"
 #include "em-config.h"
 
-#include "mail-component.h"
 #include "mail-ops.h"
 #include "mail-mt.h"
 #include "mail-vfolder.h"
 #include "mail-config.h"
+
+#include "e-mail-shell-module.h"
 
 struct _prop_data {
 	void *object;
@@ -287,7 +288,10 @@ static EMConfigItem emfp_items[] = {
 static gboolean emfp_items_translated = FALSE;
 
 static void
-emfp_dialog_got_folder_quota (CamelFolder *folder, CamelFolderQuotaInfo *quota, void *data)
+emfp_dialog_got_folder_quota (CamelFolder *folder,
+                              const gchar *folder_uri,
+                              CamelFolderQuotaInfo *quota,
+                              void *data)
 {
 	GtkWidget *dialog, *w;
 	struct _prop_data *prop_data;
@@ -295,19 +299,25 @@ emfp_dialog_got_folder_quota (CamelFolder *folder, CamelFolderQuotaInfo *quota, 
 	gint32 count, i,deleted;
 	EMConfig *ec;
 	EMConfigTargetFolder *target;
+	EShellModule *shell_module;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
 	CamelArgGetV *arggetv;
 	CamelArgV *argv;
+	CamelStore *local_store;
 	gboolean hide_deleted;
 	GConfClient *gconf;
 	CamelStore *store;
-	char *uri = (char *)data;
 
-	if (folder == NULL) {
-		g_free (uri);
+	if (folder == NULL)
 		return;
-	}
 
 	store = folder->parent_store;
+
+	shell_view = E_SHELL_VIEW (data);
+	shell_module = e_shell_view_get_shell_module (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	local_store = e_mail_shell_module_get_local_store (shell_module);
 
 	prop_data = g_malloc0 (sizeof (*prop_data));
 	prop_data->object = folder;
@@ -341,7 +351,7 @@ emfp_dialog_got_folder_quota (CamelFolder *folder, CamelFolderQuotaInfo *quota, 
 		camel_object_get (folder, NULL, CAMEL_FOLDER_TOTAL, &prop_data->total, NULL);
 	}
 
-	if (store == mail_component_peek_local_store(NULL)
+	if (store == local_store
 	    && (!strcmp(prop_data->name, "Drafts")
 		|| !strcmp(prop_data->name, "Inbox")
 		|| !strcmp(prop_data->name, "Outbox")
@@ -386,11 +396,11 @@ emfp_dialog_got_folder_quota (CamelFolder *folder, CamelFolderQuotaInfo *quota, 
 	g_free (arggetv);
 	prop_data->argv = argv;
 
-	dialog = gtk_dialog_new_with_buttons (_("Folder Properties"), NULL,
-					      GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR,
-					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					      GTK_STOCK_OK, GTK_RESPONSE_OK,
-					      NULL);
+	dialog = gtk_dialog_new_with_buttons (
+		_("Folder Properties"), GTK_WINDOW (shell_window),
+		GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_NO_SEPARATOR,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
 	gtk_window_set_default_size ((GtkWindow *) dialog, 192, 160);
 	gtk_widget_ensure_style (dialog);
 	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *) dialog)->vbox, 12);
@@ -410,7 +420,7 @@ emfp_dialog_got_folder_quota (CamelFolder *folder, CamelFolderQuotaInfo *quota, 
 		l = g_slist_prepend(l, &emfp_items[i]);
 	e_config_add_items((EConfig *)ec, l, emfp_commit, NULL, emfp_free, prop_data);
 
-	target = em_config_target_new_folder(ec, folder, uri);
+	target = em_config_target_new_folder(ec, folder, folder_uri);
 	e_config_set_target((EConfig *)ec, (EConfigTarget *)target);
 	w = e_config_create_widget((EConfig *)ec);
 
@@ -420,15 +430,17 @@ emfp_dialog_got_folder_quota (CamelFolder *folder, CamelFolderQuotaInfo *quota, 
 
 	g_signal_connect (dialog, "response", G_CALLBACK (emfp_dialog_response), prop_data);
 	gtk_widget_show (dialog);
-
-	g_free (uri);
 }
 
 static void
 emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
 {
+	EShellView *shell_view = data;
+
 	/* this should be called in a thread too */
-	mail_get_folder_quota (folder, emfp_dialog_got_folder_quota, g_strdup (uri), mail_msg_unordered_push);
+	mail_get_folder_quota (
+		folder, uri, emfp_dialog_got_folder_quota,
+		shell_view, mail_msg_unordered_push);
 }
 
 /**
@@ -441,23 +453,25 @@ emfp_dialog_got_folder (char *uri, CamelFolder *folder, void *data)
  * as NULL, then the folder @uri will be loaded first.
  **/
 void
-em_folder_properties_show(GtkWindow *parent, CamelFolder *folder, const char *uri)
+em_folder_properties_show (EShellView *shell_view,
+                           CamelFolder *folder,
+                           const gchar *uri)
 {
 	/* HACK: its the old behaviour, not very 'neat' but it works */
-	if (!strncmp(uri, "vfolder:", 8)) {
-		CamelURL *url = camel_url_new(uri, NULL);
+	if (!strncmp (uri, "vfolder:", 8)) {
+		CamelURL *url = camel_url_new (uri, NULL);
 
 		/* MORE HACK: UNMATCHED is a special folder which you can't modify, so check for it here */
 		if (url == NULL
 		    || url->fragment == NULL
 		    || strcmp(url->fragment, CAMEL_UNMATCHED_NAME) != 0) {
 			if (url)
-				camel_url_free(url);
-			vfolder_edit_rule(uri);
+				camel_url_free (url);
+			vfolder_edit_rule (uri);
 			return;
 		}
-		if (url)
-			camel_url_free(url);
+		if (url != NULL)
+			camel_url_free (url);
 	}
 
 	if (folder == NULL)

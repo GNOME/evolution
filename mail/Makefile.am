@@ -1,4 +1,4 @@
-#SUBDIRS = default importers
+SUBDIRS = default importers
 
 mailincludedir = $(privincludedir)/mail
 
@@ -48,10 +48,111 @@ libevolution_module_mail_la_SOURCES =			\
 	e-mail-shell-view-actions.c			\
 	e-mail-shell-view-actions.h			\
 	e-mail-shell-view-private.c			\
-	e-mail-shell-view-private.h
+	e-mail-shell-view-private.h			\
+	e-searching-tokenizer.c				\
+	e-searching-tokenizer.h				\
+	em-account-editor.c				\
+	em-account-editor.h				\
+	em-composer-prefs.c				\
+	em-composer-prefs.h				\
+	em-composer-utils.c				\
+	em-composer-utils.h				\
+	em-config.c					\
+	em-config.h					\
+	em-event.c					\
+	em-event.h					\
+	em-filter-context.c				\
+	em-filter-context.h				\
+	em-filter-editor.c				\
+	em-filter-editor.h				\
+	em-filter-folder-element.c			\
+	em-filter-folder-element.h			\
+	em-filter-rule.c				\
+	em-filter-rule.h				\
+	em-filter-source-element.c			\
+	em-filter-source-element.h			\
+	em-folder-properties.c				\
+	em-folder-properties.h				\
+	em-folder-selection.c				\
+	em-folder-selection.h				\
+	em-folder-selector.c				\
+	em-folder-selector.h				\
+	em-folder-selection-button.c			\
+	em-folder-selection-button.h			\
+	em-folder-tree.c				\
+	em-folder-tree.h				\
+	em-folder-tree-model.c				\
+	em-folder-tree-model.h				\
+	em-folder-utils.c				\
+	em-folder-utils.h				\
+	em-format.c					\
+	em-format.h					\
+	em-format-hook.c				\
+	em-format-hook.h				\
+	em-format-html.c				\
+	em-format-html.h				\
+	em-format-html-display.c			\
+	em-format-html-display.h			\
+	em-format-html-print.c				\
+	em-format-html-print.h				\
+	em-format-quote.c				\
+	em-format-quote.h				\
+	em-html-stream.c				\
+	em-html-stream.h				\
+	em-icon-stream.c				\
+	em-icon-stream.h				\
+	em-inline-filter.c				\
+	em-inline-filter.h				\
+	em-junk-hook.c					\
+	em-junk-hook.h					\
+	em-popup.c					\
+	em-popup.h					\
+	em-search-context.c				\
+	em-search-context.h				\
+	em-stripsig-filter.c				\
+	em-stripsig-filter.h				\
+	em-sync-stream.c				\
+	em-sync-stream.h				\
+	em-utils.c					\
+	em-utils.h					\
+	em-vfolder-context.c				\
+	em-vfolder-context.h				\
+	em-vfolder-editor.c				\
+	em-vfolder-editor.h				\
+	em-vfolder-rule.c				\
+	em-vfolder-rule.h				\
+	mail-autofilter.c				\
+	mail-autofilter.h				\
+	mail-config.c					\
+	mail-config.h					\
+	mail-crypto.c					\
+	mail-crypto.h					\
+	mail-folder-cache.c				\
+	mail-folder-cache.h				\
+	mail-mt.c					\
+	mail-mt.h					\
+	mail-ops.c					\
+	mail-ops.h					\
+	mail-send-recv.c				\
+	mail-send-recv.h				\
+	mail-session.c					\
+	mail-session.h					\
+	mail-signature-editor.c				\
+	mail-signature-editor.h				\
+	mail-tools.c					\
+	mail-tools.h					\
+	mail-vfolder.c					\
+	mail-vfolder.h					\
+	message-tag-editor.c				\
+	message-tag-editor.h				\
+	message-tag-followup.c				\
+	message-tag-followup,h
 
 libevolution_module_mail_la_LIBADD =			\
-	$(top_builddir)/shell/libeshell.la
+	$(top_builddir)/composer/libcomposer.la		\
+	$(top_builddir)/mail/importers/libevolution-mail-importers.la \
+	$(top_builddir)/shell/libeshell.la		\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la
 
 # plugin mail api
 #mailinclude_HEADERS =				\

@@ -103,21 +103,21 @@ static BonoboObjectClass *parent_class = NULL;
 #define OFFLINE 0
 #define ONLINE 1
 
-struct _store_info {
-	CamelStore *store;
-	char *name;
-
-	/* we keep a reference to these so they remain around for the session */
-	CamelFolder *vtrash;
-	CamelFolder *vjunk;
-
-	/* for setup only */
-	void (*done)(CamelStore *store, CamelFolderInfo *info, void *data);
-	void *done_data;
-
-	int ref_count:31;
-	guint removed:1;
-};
+//struct _store_info {
+//	CamelStore *store;
+//	char *name;
+//
+//	/* we keep a reference to these so they remain around for the session */
+//	CamelFolder *vtrash;
+//	CamelFolder *vjunk;
+//
+//	/* for setup only */
+//	void (*done)(CamelStore *store, CamelFolderInfo *info, void *data);
+//	void *done_data;
+//
+//	int ref_count:31;
+//	guint removed:1;
+//};
 
 struct _MailComponentPrivate {
 	GMutex *lock;
@@ -150,225 +150,225 @@ struct _MailComponentPrivate {
 };
 
 /* indexed by _mail_component_folder_t */
-static struct {
-	char *name;
-	char *uri;
-	CamelFolder *folder;
-} mc_default_folders[] = {
-	/* translators: standard local mailbox names */
-	{ N_("Inbox"), },
-	{ N_("Drafts"), },
-	{ N_("Outbox"), },
-	{ N_("Sent"), },
-	{ N_("Templates"), },
-	{ "Inbox", },		/* 'always local' inbox */
-};
+//static struct {
+//	char *name;
+//	char *uri;
+//	CamelFolder *folder;
+//} mc_default_folders[] = {
+//	/* translators: standard local mailbox names */
+//	{ N_("Inbox"), },
+//	{ N_("Drafts"), },
+//	{ N_("Outbox"), },
+//	{ N_("Sent"), },
+//	{ N_("Templates"), },
+//	{ "Inbox", },		/* 'always local' inbox */
+//};
 
-static struct _store_info *
-store_info_new(CamelStore *store, const char *name)
-{
-	struct _store_info *si;
+//static struct _store_info *
+//store_info_new(CamelStore *store, const char *name)
+//{
+//	struct _store_info *si;
+//
+//	si = g_malloc0(sizeof(*si));
+//	si->ref_count = 1;
+//	if (name == NULL)
+//		si->name = camel_service_get_name((CamelService *)store, TRUE);
+//	else
+//		si->name = g_strdup(name);
+//	si->store = store;
+//	camel_object_ref(store);
+//	/* If these are vfolders then they need to be opened now,
+//	 * otherwise they wont keep track of all folders */
+//	if ((store->flags & CAMEL_STORE_VTRASH) != 0)
+//		si->vtrash = camel_store_get_trash(store, NULL);
+//	if ((store->flags & CAMEL_STORE_VJUNK) != 0)
+//		si->vjunk = camel_store_get_junk(store, NULL);
+//
+//	return si;
+//}
 
-	si = g_malloc0(sizeof(*si));
-	si->ref_count = 1;
-	if (name == NULL)
-		si->name = camel_service_get_name((CamelService *)store, TRUE);
-	else
-		si->name = g_strdup(name);
-	si->store = store;
-	camel_object_ref(store);
-	/* If these are vfolders then they need to be opened now,
-	 * otherwise they wont keep track of all folders */
-	if ((store->flags & CAMEL_STORE_VTRASH) != 0)
-		si->vtrash = camel_store_get_trash(store, NULL);
-	if ((store->flags & CAMEL_STORE_VJUNK) != 0)
-		si->vjunk = camel_store_get_junk(store, NULL);
+//static void
+//store_info_ref(struct _store_info *si)
+//{
+//	si->ref_count++;
+//}
 
-	return si;
-}
+//static void
+//store_info_unref(struct _store_info *si)
+//{
+//	if (si->ref_count > 1) {
+//		si->ref_count--;
+//		return;
+//	}
+//
+//	if (si->vtrash)
+//		camel_object_unref(si->vtrash);
+//	if (si->vjunk)
+//		camel_object_unref(si->vjunk);
+//	camel_object_unref(si->store);
+//	g_free(si->name);
+//	g_free(si);
+//}
 
-static void
-store_info_ref(struct _store_info *si)
-{
-	si->ref_count++;
-}
-
-static void
-store_info_unref(struct _store_info *si)
-{
-	if (si->ref_count > 1) {
-		si->ref_count--;
-		return;
-	}
-
-	if (si->vtrash)
-		camel_object_unref(si->vtrash);
-	if (si->vjunk)
-		camel_object_unref(si->vjunk);
-	camel_object_unref(si->store);
-	g_free(si->name);
-	g_free(si);
-}
-
-static gboolean
-mc_add_store_done(CamelStore *store, CamelFolderInfo *info, void *data)
-{
-	struct _store_info *si = data;
-
-	if (si->done)
-		si->done(store, info, si);
-
-	if (!si->removed) {
-		/* let the counters know about the already opened junk/trash folders */
-		if (si->vtrash)
-			mail_note_folder(si->vtrash);
-		if (si->vjunk)
-			mail_note_folder(si->vjunk);
-	}
-
-	store_info_unref(si);
-
-	return TRUE;
-}
+//static gboolean
+//mc_add_store_done(CamelStore *store, CamelFolderInfo *info, void *data)
+//{
+//	struct _store_info *si = data;
+//
+//	if (si->done)
+//		si->done(store, info, si);
+//
+//	if (!si->removed) {
+//		/* let the counters know about the already opened junk/trash folders */
+//		if (si->vtrash)
+//			mail_note_folder(si->vtrash);
+//		if (si->vjunk)
+//			mail_note_folder(si->vjunk);
+//	}
+//
+//	store_info_unref(si);
+//
+//	return TRUE;
+//}
 
 /* Utility functions.  */
-static void
-mc_add_store(MailComponent *component, CamelStore *store, const char *name, void (*done)(CamelStore *store, CamelFolderInfo *info, void *data))
-{
-	struct _store_info *si;
+//static void
+//mc_add_store(MailComponent *component, CamelStore *store, const char *name, void (*done)(CamelStore *store, CamelFolderInfo *info, void *data))
+//{
+//	struct _store_info *si;
+//
+//	MAIL_COMPONENT_DEFAULT(component);
+//
+//	si = store_info_new(store, name);
+//	si->done = done;
+//	g_hash_table_insert(component->priv->store_hash, store, si);
+//	em_folder_tree_model_add_store(component->priv->model, store, si->name);
+//	store_info_ref(si);
+//	mail_note_store(store, NULL, mc_add_store_done, si);
+//}
 
-	MAIL_COMPONENT_DEFAULT(component);
+//static void
+//mc_add_local_store_done(CamelStore *store, CamelFolderInfo *info, void *data)
+//{
+//	/*MailComponent *mc = data;*/
+//	int i;
+//
+//	for (i=0;i<sizeof(mc_default_folders)/sizeof(mc_default_folders[0]);i++) {
+//		if (mc_default_folders[i].folder)
+//			mail_note_folder(mc_default_folders[i].folder);
+//	}
+//}
 
-	si = store_info_new(store, name);
-	si->done = done;
-	g_hash_table_insert(component->priv->store_hash, store, si);
-	em_folder_tree_model_add_store(component->priv->model, store, si->name);
-	store_info_ref(si);
-	mail_note_store(store, NULL, mc_add_store_done, si);
-}
+//static void
+//mc_add_local_store(CamelStore *store, const char *name, MailComponent *mc)
+//{
+//	mc_add_store(mc, store, name, mc_add_local_store_done);
+//	camel_object_unref(store);
+//	g_object_unref(mc);
+//}
 
-static void
-mc_add_local_store_done(CamelStore *store, CamelFolderInfo *info, void *data)
-{
-	/*MailComponent *mc = data;*/
-	int i;
+//static void
+//mc_setup_local_store(MailComponent *mc)
+//{
+//	MailComponentPrivate *p = mc->priv;
+//	CamelURL *url;
+//	char *tmp;
+//	CamelException ex;
+//	int i;
+//
+//	g_mutex_lock(p->lock);
+//	if (p->local_store != NULL) {
+//		g_mutex_unlock(p->lock);
+//		return;
+//	}
+//
+//	camel_exception_init(&ex);
+//
+//	url = camel_url_new("mbox:", NULL);
+//	tmp = g_build_filename (p->base_directory, "local", NULL);
+//	camel_url_set_path(url, tmp);
+//	g_free(tmp);
+//	tmp = camel_url_to_string(url, 0);
+//	p->local_store = (CamelStore *)camel_session_get_service(session, tmp, CAMEL_PROVIDER_STORE, &ex);
+//	g_free(tmp);
+//	if (p->local_store == NULL)
+//		goto fail;
+//
+//	for (i=0;i<sizeof(mc_default_folders)/sizeof(mc_default_folders[0]);i++) {
+//		/* FIXME: should this uri be account relative? */
+//		camel_url_set_fragment(url, mc_default_folders[i].name);
+//		mc_default_folders[i].uri = camel_url_to_string(url, 0);
+//		mc_default_folders[i].folder = camel_store_get_folder(p->local_store, mc_default_folders[i].name,
+//								      CAMEL_STORE_FOLDER_CREATE, &ex);
+//		camel_exception_clear(&ex);
+//	}
+//
+//	camel_url_free(url);
+//	g_mutex_unlock(p->lock);
+//
+//	g_object_ref(mc);
+//	camel_object_ref(p->local_store);
+//	mail_async_event_emit(p->async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)mc_add_local_store, p->local_store, _("On This Computer"), mc);
+//
+//	return;
+//fail:
+//	g_mutex_unlock(p->lock);
+//
+//	g_warning("Could not setup local store/folder: %s", ex.desc);
+//
+//	camel_url_free(url);
+//	camel_exception_clear(&ex);
+//}
 
-	for (i=0;i<sizeof(mc_default_folders)/sizeof(mc_default_folders[0]);i++) {
-		if (mc_default_folders[i].folder)
-			mail_note_folder(mc_default_folders[i].folder);
-	}
-}
+//static void
+//load_accounts (MailComponent *component, EAccountList *accounts)
+//{
+//	EIterator *iter;
+//
+//	/* Load each service (don't connect!). Check its provider and
+//	 * see if this belongs in the shell's folder list. If so, add
+//	 * it.
+//	 */
+//
+//	iter = e_list_get_iterator ((EList *) accounts);
+//	while (e_iterator_is_valid (iter)) {
+//		EAccountService *service;
+//		EAccount *account;
+//		const char *name;
+//
+//		account = (EAccount *) e_iterator_get (iter);
+//		service = account->source;
+//		name = account->name;
+//
+//		/* HACK: mbox url's are handled by the local store setup above,
+//		   any that come through as account sources are really movemail sources! */
+//		if (account->enabled
+//		    && service->url != NULL
+//		    && service->url[0]
+//		    && strncmp(service->url, "mbox:", 5) != 0)
+//			mail_component_load_store_by_uri (component, service->url, name);
+//
+//		e_iterator_next (iter);
+//	}
+//
+//	g_object_unref (iter);
+//}
 
-static void
-mc_add_local_store(CamelStore *store, const char *name, MailComponent *mc)
-{
-	mc_add_store(mc, store, name, mc_add_local_store_done);
-	camel_object_unref(store);
-	g_object_unref(mc);
-}
-
-static void
-mc_setup_local_store(MailComponent *mc)
-{
-	MailComponentPrivate *p = mc->priv;
-	CamelURL *url;
-	char *tmp;
-	CamelException ex;
-	int i;
-
-	g_mutex_lock(p->lock);
-	if (p->local_store != NULL) {
-		g_mutex_unlock(p->lock);
-		return;
-	}
-
-	camel_exception_init(&ex);
-
-	url = camel_url_new("mbox:", NULL);
-	tmp = g_build_filename (p->base_directory, "local", NULL);
-	camel_url_set_path(url, tmp);
-	g_free(tmp);
-	tmp = camel_url_to_string(url, 0);
-	p->local_store = (CamelStore *)camel_session_get_service(session, tmp, CAMEL_PROVIDER_STORE, &ex);
-	g_free(tmp);
-	if (p->local_store == NULL)
-		goto fail;
-
-	for (i=0;i<sizeof(mc_default_folders)/sizeof(mc_default_folders[0]);i++) {
-		/* FIXME: should this uri be account relative? */
-		camel_url_set_fragment(url, mc_default_folders[i].name);
-		mc_default_folders[i].uri = camel_url_to_string(url, 0);
-		mc_default_folders[i].folder = camel_store_get_folder(p->local_store, mc_default_folders[i].name,
-								      CAMEL_STORE_FOLDER_CREATE, &ex);
-		camel_exception_clear(&ex);
-	}
-
-	camel_url_free(url);
-	g_mutex_unlock(p->lock);
-
-	g_object_ref(mc);
-	camel_object_ref(p->local_store);
-	mail_async_event_emit(p->async_event, MAIL_ASYNC_GUI, (MailAsyncFunc)mc_add_local_store, p->local_store, _("On This Computer"), mc);
-
-	return;
-fail:
-	g_mutex_unlock(p->lock);
-
-	g_warning("Could not setup local store/folder: %s", ex.desc);
-
-	camel_url_free(url);
-	camel_exception_clear(&ex);
-}
-
-static void
-load_accounts (MailComponent *component, EAccountList *accounts)
-{
-	EIterator *iter;
-
-	/* Load each service (don't connect!). Check its provider and
-	 * see if this belongs in the shell's folder list. If so, add
-	 * it.
-	 */
-
-	iter = e_list_get_iterator ((EList *) accounts);
-	while (e_iterator_is_valid (iter)) {
-		EAccountService *service;
-		EAccount *account;
-		const char *name;
-
-		account = (EAccount *) e_iterator_get (iter);
-		service = account->source;
-		name = account->name;
-
-		/* HACK: mbox url's are handled by the local store setup above,
-		   any that come through as account sources are really movemail sources! */
-		if (account->enabled
-		    && service->url != NULL
-		    && service->url[0]
-		    && strncmp(service->url, "mbox:", 5) != 0)
-			mail_component_load_store_by_uri (component, service->url, name);
-
-		e_iterator_next (iter);
-	}
-
-	g_object_unref (iter);
-}
-
-static void
-setup_search_context (MailComponent *component)
-{
-	MailComponentPrivate *priv = component->priv;
-
-	if (priv->search_context == NULL) {
-		char *user = g_build_filename(component->priv->base_directory, "searches.xml", NULL);
-		char *system = g_build_filename (EVOLUTION_PRIVDATADIR, "searchtypes.xml", NULL);
-
-		priv->search_context = (RuleContext *)em_search_context_new ();
-		g_object_set_data_full (G_OBJECT (priv->search_context), "user", user, g_free);
-		g_object_set_data_full (G_OBJECT (priv->search_context), "system", system, g_free);
-		rule_context_load (priv->search_context, system, user);
-	}
-}
+//static void
+//setup_search_context (MailComponent *component)
+//{
+//	MailComponentPrivate *priv = component->priv;
+//
+//	if (priv->search_context == NULL) {
+//		char *user = g_build_filename(component->priv->base_directory, "searches.xml", NULL);
+//		char *system = g_build_filename (EVOLUTION_PRIVDATADIR, "searchtypes.xml", NULL);
+//
+//		priv->search_context = (RuleContext *)em_search_context_new ();
+//		g_object_set_data_full (G_OBJECT (priv->search_context), "user", user, g_free);
+//		g_object_set_data_full (G_OBJECT (priv->search_context), "system", system, g_free);
+//		rule_context_load (priv->search_context, system, user);
+//	}
+//}
 
 static void
 mc_startup(MailComponent *mc)
@@ -750,29 +750,29 @@ impl_createView (PortableServer_Servant servant,
 	g_signal_connect (view_widget, "on-url", G_CALLBACK (view_on_url), mail_component);
 	em_folder_view_set_statusbar ((EMFolderView*)view_widget, FALSE);
 
-	statusbar_widget = e_task_bar_new ();
-	e_activity_handler_attach_task_bar (priv->activity_handler, E_TASK_BAR (statusbar_widget));
+//	statusbar_widget = e_task_bar_new ();
+//	e_activity_handler_attach_task_bar (priv->activity_handler, E_TASK_BAR (statusbar_widget));
 
 	gtk_widget_show (tree_widget);
 	gtk_widget_show (view_widget);
 	gtk_widget_show (statusbar_widget);
 
-	vbox = gtk_vbox_new(FALSE, 0);
-	info = e_info_label_new("evolution-mail");
-	e_info_label_set_info((EInfoLabel *)info, _("Mail"), "");
-	gtk_box_pack_start((GtkBox *)vbox, info, FALSE, TRUE, 0);
-	gtk_box_pack_start((GtkBox *)vbox, tree_widget, TRUE, TRUE, 0);
+//	vbox = gtk_vbox_new(FALSE, 0);
+//	info = e_info_label_new("evolution-mail");
+//	e_info_label_set_info((EInfoLabel *)info, _("Mail"), "");
+//	gtk_box_pack_start((GtkBox *)vbox, info, FALSE, TRUE, 0);
+//	gtk_box_pack_start((GtkBox *)vbox, tree_widget, TRUE, TRUE, 0);
 
 	gtk_widget_show(info);
 	gtk_widget_show(vbox);
 
-	component_view = e_component_view_new(parent, "mail", vbox, view_widget, statusbar_widget);
-
-	g_object_set_data((GObject *)component_view, "info-label", info);
-
-	g_object_set_data_full((GObject *)view_widget, "e-creatable-items-handler",
-			       e_user_creatable_items_handler_new("mail", create_local_item_cb, tree_widget),
-			       (GDestroyNotify)g_object_unref);
+//	component_view = e_component_view_new(parent, "mail", vbox, view_widget, statusbar_widget);
+//
+//	g_object_set_data((GObject *)component_view, "info-label", info);
+//
+//	g_object_set_data_full((GObject *)view_widget, "e-creatable-items-handler",
+//			       e_user_creatable_items_handler_new("mail", create_local_item_cb, tree_widget),
+//			       (GDestroyNotify)g_object_unref);
 
 
 	g_signal_connect (component_view->view_control, "activate", G_CALLBACK (view_control_activate_cb), view_widget);
@@ -907,35 +907,35 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 	return TRUE;
 }
 
-static GNOME_Evolution_CreatableItemTypeList *
-impl__get_userCreatableItems (PortableServer_Servant servant, CORBA_Environment *ev)
-{
-	GNOME_Evolution_CreatableItemTypeList *list = GNOME_Evolution_CreatableItemTypeList__alloc ();
-
-	list->_length  = 2;
-	list->_maximum = list->_length;
-	list->_buffer  = GNOME_Evolution_CreatableItemTypeList_allocbuf (list->_length);
-
-	CORBA_sequence_set_release (list, FALSE);
-
-	list->_buffer[0].id = "message";
-	list->_buffer[0].description = _("New Mail Message");
-	list->_buffer[0].menuDescription = (char *) C_("New", "_Mail Message");
-	list->_buffer[0].tooltip = _("Compose a new mail message");
-	list->_buffer[0].menuShortcut = 'm';
-	list->_buffer[0].iconName = "mail-message-new";
-	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
-
-	list->_buffer[1].id = "folder";
-	list->_buffer[1].description = _("New Mail Folder");
-	list->_buffer[1].menuDescription = (char *) C_("New", "Mail _Folder");
-	list->_buffer[1].tooltip = _("Create a new mail folder");
-	list->_buffer[1].menuShortcut = '\0';
-	list->_buffer[1].iconName = "folder-new";
-	list->_buffer[1].type = GNOME_Evolution_CREATABLE_FOLDER;
-
-	return list;
-}
+//static GNOME_Evolution_CreatableItemTypeList *
+//impl__get_userCreatableItems (PortableServer_Servant servant, CORBA_Environment *ev)
+//{
+//	GNOME_Evolution_CreatableItemTypeList *list = GNOME_Evolution_CreatableItemTypeList__alloc ();
+//
+//	list->_length  = 2;
+//	list->_maximum = list->_length;
+//	list->_buffer  = GNOME_Evolution_CreatableItemTypeList_allocbuf (list->_length);
+//
+//	CORBA_sequence_set_release (list, FALSE);
+//
+//	list->_buffer[0].id = "message";
+//	list->_buffer[0].description = _("New Mail Message");
+//	list->_buffer[0].menuDescription = (char *) C_("New", "_Mail Message");
+//	list->_buffer[0].tooltip = _("Compose a new mail message");
+//	list->_buffer[0].menuShortcut = 'm';
+//	list->_buffer[0].iconName = "mail-message-new";
+//	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
+//
+//	list->_buffer[1].id = "folder";
+//	list->_buffer[1].description = _("New Mail Folder");
+//	list->_buffer[1].menuDescription = (char *) C_("New", "Mail _Folder");
+//	list->_buffer[1].tooltip = _("Create a new mail folder");
+//	list->_buffer[1].menuShortcut = '\0';
+//	list->_buffer[1].iconName = "folder-new";
+//	list->_buffer[1].type = GNOME_Evolution_CREATABLE_FOLDER;
+//
+//	return list;
+//}
 
 static int
 create_item(const char *type, EMFolderTreeModel *model, const char *uri, gpointer tree)
@@ -1063,26 +1063,26 @@ impl_sendAndReceive (PortableServer_Servant servant, CORBA_Environment *ev)
 	mail_send_receive ();
 }
 
-static void
-impl_upgradeFromVersion (PortableServer_Servant servant, const short major, const short minor, const short revision, CORBA_Environment *ev)
-{
-	MailComponent *component;
-	CamelException ex;
-
-	component = mail_component_peek ();
-
-	camel_exception_init (&ex);
-	if (em_migrate (e_get_user_data_dir (), major, minor, revision, &ex) == -1) {
-		GNOME_Evolution_Component_UpgradeFailed *failedex;
-
-		failedex = GNOME_Evolution_Component_UpgradeFailed__alloc();
-		failedex->what = CORBA_string_dup(_("Failed upgrading Mail settings or folders."));
-		failedex->why = CORBA_string_dup(ex.desc);
-		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UpgradeFailed, failedex);
-	}
-
-	camel_exception_clear (&ex);
-}
+//static void
+//impl_upgradeFromVersion (PortableServer_Servant servant, const short major, const short minor, const short revision, CORBA_Environment *ev)
+//{
+//	MailComponent *component;
+//	CamelException ex;
+//
+//	component = mail_component_peek ();
+//
+//	camel_exception_init (&ex);
+//	if (em_migrate (e_get_user_data_dir (), major, minor, revision, &ex) == -1) {
+//		GNOME_Evolution_Component_UpgradeFailed *failedex;
+//
+//		failedex = GNOME_Evolution_Component_UpgradeFailed__alloc();
+//		failedex->what = CORBA_string_dup(_("Failed upgrading Mail settings or folders."));
+//		failedex->why = CORBA_string_dup(ex.desc);
+//		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UpgradeFailed, failedex);
+//	}
+//
+//	camel_exception_clear (&ex);
+//}
 
 static void
 mc_sync_store_done (CamelStore *store, void *data)
@@ -1310,34 +1310,34 @@ mail_component_init (MailComponent *component)
 }
 
 /* Public API.  */
-MailComponent *
-mail_component_peek (void)
-{
-	static MailComponent *component = NULL;
+//MailComponent *
+//mail_component_peek (void)
+//{
+//	static MailComponent *component = NULL;
+//
+//	if (component == NULL)
+//		component = g_object_new(mail_component_get_type(), NULL);
+//
+//	return component;
+//}
 
-	if (component == NULL)
-		component = g_object_new(mail_component_get_type(), NULL);
+//const char *
+//mail_component_peek_base_directory (MailComponent *component)
+//{
+//	MAIL_COMPONENT_DEFAULT(component);
+//
+//	return component->priv->base_directory;
+//}
 
-	return component;
-}
-
-const char *
-mail_component_peek_base_directory (MailComponent *component)
-{
-	MAIL_COMPONENT_DEFAULT(component);
-
-	return component->priv->base_directory;
-}
-
-RuleContext *
-mail_component_peek_search_context (MailComponent *component)
-{
-	MAIL_COMPONENT_DEFAULT(component);
-
-	setup_search_context(component);
-
-	return component->priv->search_context;
-}
+//RuleContext *
+//mail_component_peek_search_context (MailComponent *component)
+//{
+//	MAIL_COMPONENT_DEFAULT(component);
+//
+//	setup_search_context(component);
+//
+//	return component->priv->search_context;
+//}
 
 EActivityHandler *
 mail_component_peek_activity_handler (MailComponent *component)
@@ -1354,11 +1354,11 @@ struct _CamelSession *mail_component_peek_session(MailComponent *component)
 	return session;
 }
 
-void
-mail_component_add_store (MailComponent *component, CamelStore *store, const char *name)
-{
-	mc_add_store(component, store, name, NULL);
-}
+//void
+//mail_component_add_store (MailComponent *component, CamelStore *store, const char *name)
+//{
+//	mc_add_store(component, store, name, NULL);
+//}
 
 /**
  * mail_component_load_store_by_uri:
@@ -1369,48 +1369,48 @@ mail_component_add_store (MailComponent *component, CamelStore *store, const cha
  * Return value: Pointer to the newly added CamelStore.  The caller is supposed
  * to ref the object if it wants to store it.
  **/
-CamelStore *
-mail_component_load_store_by_uri (MailComponent *component, const char *uri, const char *name)
-{
-	CamelException ex;
-	CamelStore *store;
-	CamelProvider *prov;
-
-	MAIL_COMPONENT_DEFAULT(component);
-
-	camel_exception_init (&ex);
-
-	/* Load the service (don't connect!). Check its provider and
-	 * see if this belongs in the shell's folder list. If so, add
-	 * it.
-	 */
-
-	prov = camel_provider_get(uri, &ex);
-	if (prov == NULL) {
-		/* EPFIXME: real error dialog */
-		g_warning ("couldn't get service %s: %s\n", uri,
-			   camel_exception_get_description (&ex));
-		camel_exception_clear (&ex);
-		return NULL;
-	}
-
-	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE))
-		return NULL;
-
-	store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
-	if (store == NULL) {
-		/* EPFIXME: real error dialog */
-		g_warning ("couldn't get service %s: %s\n", uri,
-			   camel_exception_get_description (&ex));
-		camel_exception_clear (&ex);
-		return NULL;
-	}
-
-	mail_component_add_store(component, store, name);
-	camel_object_unref (store);
-
-	return store;
-}
+//CamelStore *
+//mail_component_load_store_by_uri (MailComponent *component, const char *uri, const char *name)
+//{
+//	CamelException ex;
+//	CamelStore *store;
+//	CamelProvider *prov;
+//
+//	MAIL_COMPONENT_DEFAULT(component);
+//
+//	camel_exception_init (&ex);
+//
+//	/* Load the service (don't connect!). Check its provider and
+//	 * see if this belongs in the shell's folder list. If so, add
+//	 * it.
+//	 */
+//
+//	prov = camel_provider_get(uri, &ex);
+//	if (prov == NULL) {
+//		/* EPFIXME: real error dialog */
+//		g_warning ("couldn't get service %s: %s\n", uri,
+//			   camel_exception_get_description (&ex));
+//		camel_exception_clear (&ex);
+//		return NULL;
+//	}
+//
+//	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE))
+//		return NULL;
+//
+//	store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
+//	if (store == NULL) {
+//		/* EPFIXME: real error dialog */
+//		g_warning ("couldn't get service %s: %s\n", uri,
+//			   camel_exception_get_description (&ex));
+//		camel_exception_clear (&ex);
+//		return NULL;
+//	}
+//
+//	mail_component_add_store(component, store, name);
+//	camel_object_unref (store);
+//
+//	return store;
+//}
 
 static void
 store_disconnect (CamelStore *store, void *event_data, void *user_data)
@@ -1470,13 +1470,14 @@ mail_component_remove_store_by_uri (MailComponent *component, const char *uri)
 	}
 }
 
-int
-mail_component_get_store_count (MailComponent *component)
-{
-	MAIL_COMPONENT_DEFAULT(component);
-
-	return g_hash_table_size (component->priv->store_hash);
-}
+// [KILL-BONOBO] Unused.
+//int
+//mail_component_get_store_count (MailComponent *component)
+//{
+//	MAIL_COMPONENT_DEFAULT(component);
+//
+//	return g_hash_table_size (component->priv->store_hash);
+//}
 
 /* need to map from internal struct to external api */
 struct _store_foreach_data {
@@ -1500,30 +1501,30 @@ mail_component_stores_foreach (MailComponent *component, GHFunc func, void *user
 	g_hash_table_foreach (component->priv->store_hash, (GHFunc)mc_stores_foreach, &data);
 }
 
-void
-mail_component_remove_folder (MailComponent *component, CamelStore *store, const char *path)
-{
-	MAIL_COMPONENT_DEFAULT(component);
+//void
+//mail_component_remove_folder (MailComponent *component, CamelStore *store, const char *path)
+//{
+//	MAIL_COMPONENT_DEFAULT(component);
+//
+//	/* FIXME: implement me. but first, am I really even needed? */
+//}
 
-	/* FIXME: implement me. but first, am I really even needed? */
-}
+//EMFolderTreeModel *
+//mail_component_peek_tree_model (MailComponent *component)
+//{
+//	MAIL_COMPONENT_DEFAULT(component);
+//
+//	return component->priv->model;
+//}
 
-EMFolderTreeModel *
-mail_component_peek_tree_model (MailComponent *component)
-{
-	MAIL_COMPONENT_DEFAULT(component);
-
-	return component->priv->model;
-}
-
-CamelStore *
-mail_component_peek_local_store (MailComponent *mc)
-{
-	MAIL_COMPONENT_DEFAULT (mc);
-	mc_setup_local_store (mc);
-
-	return mc->priv->local_store;
-}
+//CamelStore *
+//mail_component_peek_local_store (MailComponent *mc)
+//{
+//	MAIL_COMPONENT_DEFAULT (mc);
+//	mc_setup_local_store (mc);
+//
+//	return mc->priv->local_store;
+//}
 
 /**
  * mail_component_get_folder:
@@ -1534,16 +1535,16 @@ mail_component_peek_local_store (MailComponent *mc)
  *
  * Return value:
  **/
-struct _CamelFolder *
-mail_component_get_folder(MailComponent *mc, enum _mail_component_folder_t id)
-{
-	g_return_val_if_fail (id <= MAIL_COMPONENT_FOLDER_LOCAL_INBOX, NULL);
-
-	MAIL_COMPONENT_DEFAULT(mc);
-	mc_setup_local_store(mc);
-
-	return mc_default_folders[id].folder;
-}
+//struct _CamelFolder *
+//mail_component_get_folder(MailComponent *mc, enum _mail_component_folder_t id)
+//{
+//	g_return_val_if_fail (id <= MAIL_COMPONENT_FOLDER_LOCAL_INBOX, NULL);
+//
+//	MAIL_COMPONENT_DEFAULT(mc);
+//	mc_setup_local_store(mc);
+//
+//	return mc_default_folders[id].folder;
+//}
 
 /**
  * mail_component_get_folder_uri:
@@ -1554,36 +1555,36 @@ mail_component_get_folder(MailComponent *mc, enum _mail_component_folder_t id)
  *
  * Return value:
  **/
-const char *
-mail_component_get_folder_uri(MailComponent *mc, enum _mail_component_folder_t id)
-{
-	g_return_val_if_fail (id <= MAIL_COMPONENT_FOLDER_LOCAL_INBOX, NULL);
-
-	MAIL_COMPONENT_DEFAULT(mc);
-	mc_setup_local_store(mc);
-
-	return mc_default_folders[id].uri;
-}
+//const char *
+//mail_component_get_folder_uri(MailComponent *mc, enum _mail_component_folder_t id)
+//{
+//	g_return_val_if_fail (id <= MAIL_COMPONENT_FOLDER_LOCAL_INBOX, NULL);
+//
+//	MAIL_COMPONENT_DEFAULT(mc);
+//	mc_setup_local_store(mc);
+//
+//	return mc_default_folders[id].uri;
+//}
 
 /**
  * mail_indicate_new_mail
  * Indicates new mail in a shell window.
  * @param have_new_mail TRUE when have new mail, false otherwise.
  **/
-void
-mail_indicate_new_mail (gboolean have_new_mail)
-{
-	const char *icon = NULL;
-	MailComponent *mc = mail_component_peek ();
-
-	g_return_if_fail (mc != NULL);
-
-	if (have_new_mail)
-		icon = "mail-unread";
-
-	if (mc->priv->component_view)
-		e_component_view_set_button_icon (mc->priv->component_view, icon);
-}
+//void
+//mail_indicate_new_mail (gboolean have_new_mail)
+//{
+//	const char *icon = NULL;
+//	MailComponent *mc = mail_component_peek ();
+//
+//	g_return_if_fail (mc != NULL);
+//
+//	if (have_new_mail)
+//		icon = "mail-unread";
+//
+//	if (mc->priv->component_view)
+//		e_component_view_set_button_icon (mc->priv->component_view, icon);
+//}
 
 struct _log_data {
 	int level;

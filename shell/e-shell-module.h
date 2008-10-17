@@ -60,6 +60,9 @@ typedef struct _EShellModuleInfo EShellModuleInfo;
 typedef struct _EShellModuleClass EShellModuleClass;
 typedef struct _EShellModulePrivate EShellModulePrivate;
 
+typedef struct _EShellModuleEvent EShellModuleEvent;
+typedef void (*EShellModuleEventFunc) (EShellModuleEvent *event);
+
 /**
  * EShellModuleInfo:
  * @name:	The name of the module.  Also becomes the name of
@@ -85,6 +88,10 @@ typedef struct _EShellModulePrivate EShellModulePrivate;
  * 		settings from the given version.  Returns %TRUE if the
  * 		migration was successful or if no action was necessary.
  * 		Returns %FALSE and sets a #GError if the migration failed.
+ *
+ * Provides basic information about an #EShellModule instance.  Shell
+ * modules should pass this structure to e_shell_module_set_info() in
+ * their "e_shell_module_init" functions.
  **/
 struct _EShellModuleInfo {
 	const gchar *name;

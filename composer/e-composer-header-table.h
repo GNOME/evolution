@@ -27,6 +27,7 @@
 #include <libebook/e-destination.h>
 #include <e-util/e-signature.h>
 #include <e-util/e-signature-list.h>
+#include <mail/em-folder-tree-model.h>
 
 #include "e-composer-header.h"
 
@@ -127,6 +128,12 @@ EDestination **	e_composer_header_table_get_destinations_to
 void		e_composer_header_table_set_destinations_to
 						(EComposerHeaderTable *table,
 						 EDestination **destinations);
+EMFolderTreeModel *
+		e_composer_header_table_get_folder_tree_model
+						(EComposerHeaderTable *table);
+void		e_composer_header_table_set_folder_tree_model
+						(EComposerHeaderTable *table,
+						 EMFolderTreeModel *model);
 GList *		e_composer_header_table_get_post_to
 						(EComposerHeaderTable *table);
 void		e_composer_header_table_set_post_to_base

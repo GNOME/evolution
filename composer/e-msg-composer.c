@@ -86,16 +86,16 @@
 #include <camel/camel-smime-context.h>
 #endif
 
-#include "mail/em-utils.h"
 #include "mail/em-composer-utils.h"
+#include "mail/em-menu.h"
+#include "mail/em-popup.h"
+#include "mail/em-utils.h"
 #include "mail/mail-config.h"
 #include "mail/mail-crypto.h"
-#include "mail/mail-tools.h"
-#include "mail/mail-ops.h"
 #include "mail/mail-mt.h"
+#include "mail/mail-ops.h"
 #include "mail/mail-session.h"
-#include "mail/em-popup.h"
-#include "mail/em-menu.h"
+#include "mail/mail-tools.h"
 
 #include "e-msg-composer.h"
 #include "e-attachment.h"

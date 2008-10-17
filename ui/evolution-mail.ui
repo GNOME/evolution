@@ -189,6 +189,15 @@
     <menuitem action='mail-flag-for-followup'/>
     <menu action='mail-label-menu'/>
   </popup>
+  <popup name='mail-uri-popup'>
+    <menuitem action='mail-uri-call-to'/>
+    <menuitem action='mail-uri-copy'/>
+    <menuitem action='mail-uri-copy-address'/>
+    <menu action='mail-uri-to-search-folder-menu'/>
+      <menuitem action='mail-uri-to-search-folder-sender'/>
+      <menuitem action='mail-uri-to-search-folder-recipient'/>
+    </menu>
+  </popup>
   <popup name='mail-search-options'>
     <menuitem action='mail-search-subject-or-sender-contains'/>
     <menuitem action='mail-search-subject-or-recipients-contains'/>

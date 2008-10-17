@@ -54,6 +54,7 @@ enum {
 };
 
 enum {
+	EVENT,
 	HANDLE_URI,
 	SEND_RECEIVE,
 	WINDOW_CREATED,
@@ -356,6 +357,14 @@ shell_class_init (EShellClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
+	signals[EVENT] = g_signal_new (
+		"event",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST | G_SIGNAL_DETAILED | G_SIGNAL_ACTION,
+		0, NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
 	signals[HANDLE_URI] = g_signal_new (
 		"handle-uri",
 		G_OBJECT_CLASS_TYPE (object_class),
@@ -613,6 +622,19 @@ e_shell_get_preferences_window (void)
 		preferences_window = e_preferences_window_new ();
 
 	return preferences_window;
+}
+
+void
+e_shell_event (EShell *shell,
+               const gchar *event_name)
+{
+	GQuark detail;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (event_name != NULL);
+
+	detail = g_quark_from_string (event_name);
+	g_signal_emit (shell, signals[EVENT], detail);
 }
 
 gboolean

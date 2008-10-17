@@ -87,7 +87,7 @@ mail_shell_view_class_init (EMailShellViewClass *class,
 	object_class->constructed = mail_shell_view_constructed;
 
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
-	shell_view_class->label = N_("Mail");
+	shell_view_class->label = _("Mail");
 	shell_view_class->icon_name = "evolution-mail";
 	shell_view_class->ui_definition = "evolution-mail.ui";
 	shell_view_class->search_options = "/mail-search-options";

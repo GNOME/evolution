@@ -73,6 +73,9 @@ struct _EShellContent {
 
 struct _EShellContentClass {
 	GtkBinClass parent_class;
+
+	/* Factory Methods */
+	RuleContext *	(*new_search_context)	(void);
 };
 
 GType		e_shell_content_get_type	(void);

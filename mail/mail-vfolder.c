@@ -42,13 +42,14 @@
 #include "em-vfolder-editor.h"
 #include "em-vfolder-rule.h"
 #include "mail-autofilter.h"
-#include "mail-component.h"
 #include "mail-config.h"
 #include "mail-folder-cache.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
 #include "mail-tools.h"
 #include "mail-vfolder.h"
+
+#include "e-mail-shell-module.h"
 
 #define d(x)  /* (printf("%s:%s: ",  G_STRLOC, G_STRFUNC), (x))*/
 
@@ -336,16 +337,26 @@ uri_is_ignore(CamelStore *store, const char *uri)
 	EAccountList *accounts;
 	EAccount *account;
 	EIterator *iter;
+	const gchar *local_drafts_folder_uri;
+	const gchar *local_outbox_folder_uri;
+	const gchar *local_sent_folder_uri;
 	int found = FALSE;
 
-	d(printf("checking '%s' against:\n  %s\n  %s\n  %s\n", uri,
-		 mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_OUTBOX),
-		 mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT),
-		 mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS)));
+	local_drafts_folder_uri = e_mail_shell_module_get_folder_uri (
+		mail_shell_module, E_MAIL_FOLDER_DRAFTS);
+	local_outbox_folder_uri = e_mail_shell_module_get_folder_uri (
+		mail_shell_module, E_MAIL_FOLDER_OUTBOX);
+	local_sent_folder_uri = e_mail_shell_module_get_folder_uri (
+		mail_shell_module, E_MAIL_FOLDER_SENT);
 
-	found = camel_store_folder_uri_equal(store, mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_OUTBOX), uri)
-		|| camel_store_folder_uri_equal(store, mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT), uri)
-		|| camel_store_folder_uri_equal(store, mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS), uri);
+	d(printf("checking '%s' against:\n  %s\n  %s\n  %s\n", uri,
+		local_outbox_folder_uri,
+		local_sent_folder_uri,
+		local_drafts_folder_uri));
+
+	found = camel_store_folder_uri_equal(store, local_outbox_folder_uri, uri)
+		|| camel_store_folder_uri_equal(store, local_sent_folder_uri, uri)
+		|| camel_store_folder_uri_equal(store, local_drafts_folder_uri, uri);
 
 	if (found)
 		return found;
@@ -591,13 +602,14 @@ done:
 
 	if (changed->str[0]) {
 		GtkWidget *dialog;
+		const gchar *data_dir;
 		char *user;
 
 		dialog = e_error_new(NULL, "mail:vfolder-updated", changed->str, uri, NULL);
 		em_utils_show_info_silent (dialog);
 
-		user = g_strdup_printf ("%s/vfolders.xml",
-					mail_component_peek_base_directory (mail_component_peek ()));
+		data_dir = e_shell_module_get_data_dir (mail_shell_module);
+		user = g_build_filename (data_dir, "vfolders.xml", NULL);
 		rule_context_save ((RuleContext *) context, user);
 		g_free (user);
 	}
@@ -660,10 +672,12 @@ mail_vfolder_rename_uri(CamelStore *store, const char *cfrom, const char *cto)
 	UNLOCK();
 
 	if (changed) {
+		const gchar *data_dir;
 		char *user;
 
 		d(printf("Vfolders updated from renamed folder\n"));
-		user = g_strdup_printf("%s/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
+		data_dir = e_shell_module_get_data_dir (mail_shell_module);
+		user = g_build_filename (data_dir, "vfolders.xml", NULL);
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
 	}
@@ -784,20 +798,11 @@ static void context_rule_added(RuleContext *ctx, FilterRule *rule)
 
 static void context_rule_removed(RuleContext *ctx, FilterRule *rule)
 {
-	char *path;
-
 	gpointer key, folder = NULL;
 
 	d(printf("rule removed; %s\n", rule->name));
 
 	/* TODO: remove from folder info cache? */
-
-	/* FIXME: is this even necessary? if we remove the folder from
-	 * the CamelStore, the tree should pick it up auto-magically
-	 * because it listens to CamelStore events... */
-	path = g_strdup_printf("/%s", rule->name);
-	mail_component_remove_folder (mail_component_peek (), vfolder_store, path);
-	g_free(path);
 
 	LOCK();
 	if (g_hash_table_lookup_extended (vfolder_hash, rule->name, &key, &folder)) {
@@ -840,6 +845,8 @@ store_folder_deleted(CamelObject *o, void *event_data, void *data)
 	/* delete it from our list */
 	rule = rule_context_find_rule((RuleContext *)context, info->full_name, NULL);
 	if (rule) {
+		const gchar *data_dir;
+
 		/* We need to stop listening to removed events, otherwise we'll try and remove it again */
 		g_signal_handlers_disconnect_matched(context, G_SIGNAL_MATCH_FUNC|G_SIGNAL_MATCH_DATA, 0,
 						     0, NULL, context_rule_removed, context);
@@ -847,7 +854,8 @@ store_folder_deleted(CamelObject *o, void *event_data, void *data)
 		g_object_unref(rule);
 		g_signal_connect(context, "rule_removed", G_CALLBACK(context_rule_removed), context);
 
-		user = g_strdup_printf("%s/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
+		data_dir = e_shell_module_get_data_dir (mail_shell_module);
+		user = g_build_filename (data_dir, "vfolders.xml", NULL);
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
 	} else {
@@ -874,6 +882,8 @@ store_folder_renamed(CamelObject *o, void *event_data, void *data)
 	LOCK();
 	d(printf("Changing folder name in hash table to '%s'\n", info->new->full_name));
 	if (g_hash_table_lookup_extended (vfolder_hash, info->old_base, &key, &folder)) {
+		const gchar *data_dir;
+
 		g_hash_table_remove (vfolder_hash, key);
 		g_free (key);
 		g_hash_table_insert (vfolder_hash, g_strdup(info->new->full_name), folder);
@@ -890,7 +900,8 @@ store_folder_renamed(CamelObject *o, void *event_data, void *data)
 		filter_rule_set_name(rule, info->new->full_name);
 		g_signal_connect(rule, "changed", G_CALLBACK(rule_changed), folder);
 
-		user = g_strdup_printf("%s/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
+		data_dir = e_shell_module_get_data_dir (mail_shell_module);
+		user = g_build_filename (data_dir, "vfolders.xml", NULL);
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
 
@@ -907,6 +918,7 @@ vfolder_load_storage(void)
 	/* lock for loading storage, it is safe to call it more than once */
 	static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 
+	const gchar *data_dir;
 	char *user, *storeuri;
 	FilterRule *rule;
 	char *xmlfile;
@@ -925,7 +937,8 @@ vfolder_load_storage(void)
 	pthread_mutex_unlock (&lock);
 
 	/* first, create the vfolder store, and set it up */
-	storeuri = g_strdup_printf("vfolder:%s/vfolder", mail_component_peek_base_directory (mail_component_peek ()));
+	data_dir = e_shell_module_get_data_dir (mail_shell_module);
+	storeuri = g_strdup_printf("vfolder:%s/vfolder", data_dir);
 	vfolder_store = camel_session_get_store(session, storeuri, NULL);
 	if (vfolder_store == NULL) {
 		g_warning("Cannot open vfolder store - no vfolders available");
@@ -942,7 +955,7 @@ vfolder_load_storage(void)
 	d(printf("got store '%s' = %p\n", storeuri, vfolder_store));
 
 	/* load our rules */
-	user = g_strdup_printf ("%s/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
+	user = g_build_filename (data_dir, "vfolders.xml", NULL);
 	context = em_vfolder_context_new ();
 
 	xmlfile = g_build_filename (EVOLUTION_PRIVDATADIR, "vfoldertypes.xml", NULL);
@@ -957,7 +970,8 @@ vfolder_load_storage(void)
 	g_signal_connect(context, "rule_removed", G_CALLBACK(context_rule_removed), context);
 
 	/* load store to mail component */
-	mail_component_load_store_by_uri (mail_component_peek (), storeuri, _("Search Folders"));
+	e_mail_shell_module_load_store_by_uri (
+		mail_shell_module, storeuri, _("Search Folders"));
 
 	/* and setup the rules we have */
 	rule = NULL;
@@ -980,10 +994,12 @@ vfolder_load_storage(void)
 void
 vfolder_revert(void)
 {
+	const gchar *data_dir;
 	char *user;
 
 	d(printf("vfolder_revert\n"));
-	user = g_strdup_printf("%s/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
+	data_dir = e_shell_module_get_data_dir (mail_shell_module);
+	user = g_build_filename (data_dir, "vfolders.xml", NULL);
 	rule_context_revert((RuleContext *)context, user);
 	g_free(user);
 }
@@ -993,9 +1009,11 @@ static GtkWidget *vfolder_editor = NULL;
 static void
 em_vfolder_editor_response (GtkWidget *dialog, int button, void *data)
 {
+	const gchar *data_dir;
 	char *user;
 
-	user = g_strdup_printf ("%s/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
+	data_dir = e_shell_module_get_data_dir (mail_shell_module);
+	user = g_build_filename (data_dir, "vfolders.xml", NULL);
 
 	switch(button) {
 	case GTK_RESPONSE_OK:
@@ -1034,12 +1052,14 @@ static void
 edit_rule_response(GtkWidget *w, int button, void *data)
 {
 	if (button == GTK_RESPONSE_OK) {
+		const gchar *data_dir;
 		char *user;
 		FilterRule *rule = g_object_get_data (G_OBJECT (w), "rule");
 		FilterRule *orig = g_object_get_data (G_OBJECT (w), "orig");
 
 		filter_rule_copy(orig, rule);
-		user = g_strdup_printf("%s/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
+		data_dir = e_shell_module_get_data_dir (mail_shell_module);
+		user = g_build_filename (data_dir, "vfolders.xml", NULL);
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
 	}
@@ -1096,6 +1116,7 @@ static void
 new_rule_clicked(GtkWidget *w, int button, void *data)
 {
 	if (button == GTK_RESPONSE_OK) {
+		const gchar *data_dir;
 		char *user;
 		FilterRule *rule = g_object_get_data((GObject *)w, "rule");
 
@@ -1112,7 +1133,8 @@ new_rule_clicked(GtkWidget *w, int button, void *data)
 
 		g_object_ref(rule);
 		rule_context_add_rule((RuleContext *)context, rule);
-		user = g_strdup_printf("%s/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
+		data_dir = e_shell_module_get_data_dir (mail_shell_module);
+		user = g_build_filename (data_dir, "vfolders.xml", NULL);
 		rule_context_save((RuleContext *)context, user);
 		g_free(user);
 	}

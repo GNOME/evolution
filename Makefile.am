@@ -68,6 +68,7 @@ SUBDIRS = 			\
 	addressbook		\
 	calendar		\
         art                     \
+	composer		\
 	plugins			\
 	doc			\
 	ui			\

@@ -63,12 +63,13 @@
 #include "mail-session.h"
 #include "mail-send-recv.h"
 #include "mail-signature-editor.h"
-#include "mail-component.h"
 #include "em-utils.h"
 #include "em-composer-prefs.h"
 #include "mail-config.h"
 #include "mail-ops.h"
 #include "mail-mt.h"
+
+#include "e-mail-shell-module.h"
 
 #if defined (HAVE_NSS)
 #include "smime/gui/e-cert-selector.h"
@@ -447,11 +448,13 @@ default_folders_clicked (GtkButton *button, gpointer user_data)
 	EMAccountEditor *emae = user_data;
 	const char *uri;
 
-	uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS);
+	uri = e_mail_shell_module_get_folder_uri (
+		mail_shell_module, E_MAIL_FOLDER_DRAFTS);
 	em_folder_selection_button_set_selection((EMFolderSelectionButton *)emae->priv->drafts_folder_button, uri);
 	emae_account_folder_changed((EMFolderSelectionButton *)emae->priv->drafts_folder_button, emae);
 
-	uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT);
+	uri = e_mail_shell_module_get_folder_uri (
+		mail_shell_module, E_MAIL_FOLDER_SENT);
 	em_folder_selection_button_set_selection((EMFolderSelectionButton *)emae->priv->sent_folder_button, uri);
 	emae_account_folder_changed((EMFolderSelectionButton *)emae->priv->sent_folder_button, emae);
 }
@@ -462,7 +465,10 @@ GtkWidget *em_account_editor_folder_selector_button_new (char *widget_name, char
 GtkWidget *
 em_account_editor_folder_selector_button_new (char *widget_name, char *string1, char *string2, int int1, int int2)
 {
-	return (GtkWidget *)em_folder_selection_button_new(string1 ? string1 : _("Select Folder"), NULL);
+	EMFolderTreeModel *model;
+
+	model = e_mail_shell_module_get_folder_tree_model (mail_shell_module);
+	return (GtkWidget *)em_folder_selection_button_new(model, string1 ? string1 : _("Select Folder"), NULL);
 }
 
 GtkWidget *em_account_editor_dropdown_new(char *widget_name, char *string1, char *string2, int int1, int int2);
@@ -889,7 +895,11 @@ emae_account_folder(EMAccountEditor *emae, const char *name, int item, int deffo
 		em_folder_selection_button_set_selection(folder, tmp);
 		g_free(tmp);
 	} else {
-		em_folder_selection_button_set_selection(folder, mail_component_get_folder_uri(NULL, deffolder));
+		const gchar *uri;
+
+		uri = e_mail_shell_module_get_folder_uri (
+			mail_shell_module, deffolder);
+		em_folder_selection_button_set_selection(folder, uri);
 	}
 
 	g_object_set_data((GObject *)folder, "account-item", GINT_TO_POINTER(item));
@@ -2352,8 +2362,8 @@ emae_defaults_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 	g_free (gladefile);
 
 	/* Special folders */
-	gui->drafts_folder_button = (GtkButton *)emae_account_folder(emae, "drafts_button", E_ACCOUNT_DRAFTS_FOLDER_URI, MAIL_COMPONENT_FOLDER_DRAFTS, xml);
-	gui->sent_folder_button = (GtkButton *)emae_account_folder(emae, "sent_button", E_ACCOUNT_SENT_FOLDER_URI, MAIL_COMPONENT_FOLDER_SENT, xml);
+	gui->drafts_folder_button = (GtkButton *)emae_account_folder(emae, "drafts_button", E_ACCOUNT_DRAFTS_FOLDER_URI, E_MAIL_FOLDER_DRAFTS, xml);
+	gui->sent_folder_button = (GtkButton *)emae_account_folder(emae, "sent_button", E_ACCOUNT_SENT_FOLDER_URI, E_MAIL_FOLDER_SENT, xml);
 
 	/* Special Folders "Reset Defaults" button */
 	gui->restore_folders_button = (GtkButton *)glade_xml_get_widget (xml, "default_folders_button");
@@ -2767,6 +2777,7 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 static void
 add_new_store (char *uri, CamelStore *store, void *user_data)
 {
+#if 0  /* KILL-BONOBO: Try to actually fix this? */
 	MailComponent *component = mail_component_peek ();
 	EAccount *account = user_data;
 
@@ -2774,6 +2785,7 @@ add_new_store (char *uri, CamelStore *store, void *user_data)
 		return;
 
 	mail_component_add_store (component, store, account->name);
+#endif
 }
 
 static void
@@ -2840,13 +2852,21 @@ em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account
 
 		emae->do_signature = TRUE;
 	} else {
+		const gchar *uri;
+
 		/* TODO: have a get_default_account thing?? */
 		emae->account = e_account_new();
 		emae->account->enabled = TRUE;
-		e_account_set_string(emae->account, E_ACCOUNT_DRAFTS_FOLDER_URI,
-				     mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS));
-		e_account_set_string(emae->account, E_ACCOUNT_SENT_FOLDER_URI,
-				     mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT));
+
+		uri = e_mail_shell_module_get_folder_uri (
+			mail_shell_module, E_MAIL_FOLDER_DRAFTS);
+		e_account_set_string (
+			emae->account, E_ACCOUNT_DRAFTS_FOLDER_URI, uri);
+
+		uri = e_mail_shell_module_get_folder_uri (
+			mail_shell_module, E_MAIL_FOLDER_SENT);
+		e_account_set_string (
+			emae->account, E_ACCOUNT_SENT_FOLDER_URI, uri);
 	}
 
 	/* sort the providers, remote first */

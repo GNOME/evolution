@@ -32,20 +32,18 @@
 
 enum {
 	PROP_0,
-	PROP_ACCOUNT
+	PROP_ACCOUNT,
+	PROP_FOLDER_TREE_MODEL
 };
 
 struct _EComposerPostHeaderPrivate {
+	EMFolderTreeModel *model;
 	EAccount *account;
 	gchar *base_url;  /* derived from account */
 	gboolean custom;
 };
 
 static gpointer parent_class;
-
-/* Forward Declarations (to avoid pulling in Bonobo stuff) */
-struct _MailComponent *mail_component_peek (void);
-struct _EMFolderTreeModel *mail_component_peek_tree_model (struct _MailComponent *component);
 
 static gchar *
 composer_post_header_folder_name_to_string (EComposerPostHeader *header,
@@ -120,7 +118,9 @@ composer_post_header_clicked_cb (EComposerPostHeader *header)
 	GtkWidget *dialog;
 	GList *list;
 
-	model = mail_component_peek_tree_model (mail_component_peek ());
+	g_return_if_fail (header->priv->model != NULL);
+
+	model = header->priv->model;
 	folder_tree = em_folder_tree_new_with_model (model);
 
 	em_folder_tree_set_multiselect (
@@ -194,6 +194,12 @@ composer_post_header_set_property (GObject *object,
 				E_COMPOSER_POST_HEADER (object),
 				g_value_get_object (value));
 			return;
+
+		case PROP_FOLDER_TREE_MODEL:
+			e_composer_post_header_set_folder_tree_model (
+				E_COMPOSER_POST_HEADER (object),
+				g_value_get_object (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -211,6 +217,13 @@ composer_post_header_get_property (GObject *object,
 				value, e_composer_post_header_get_account (
 				E_COMPOSER_POST_HEADER (object)));
 			return;
+
+		case PROP_FOLDER_TREE_MODEL:
+			g_value_set_object (
+				value,
+				e_composer_post_header_get_folder_tree_model (
+				E_COMPOSER_POST_HEADER (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -226,6 +239,11 @@ composer_post_header_dispose (GObject *object)
 	if (priv->account != NULL) {
 		g_object_unref (priv->account);
 		priv->account = NULL;
+	}
+
+	if (priv->model != NULL) {
+		g_object_unref (priv->model);
+		priv->model = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -268,6 +286,16 @@ composer_post_header_class_init (EComposerPostHeaderClass *class)
 			NULL,
 			NULL,
 			E_TYPE_ACCOUNT,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_FOLDER_TREE_MODEL,
+		g_param_spec_object (
+			"folder-tree-model",
+			NULL,
+			NULL,
+			EM_TYPE_FOLDER_TREE_MODEL,
 			G_PARAM_READWRITE));
 }
 
@@ -350,6 +378,29 @@ e_composer_post_header_set_account (EComposerPostHeader *header,
 	}
 
 	g_object_notify (G_OBJECT (header), "account");
+}
+
+EMFolderTreeModel *
+e_composer_post_header_get_folder_tree_model (EComposerPostHeader *header)
+{
+	g_return_val_if_fail (E_IS_COMPOSER_POST_HEADER (header), NULL);
+
+	return header->priv->model;
+}
+
+void
+e_composer_post_header_set_folder_tree_model (EComposerPostHeader *header,
+                                              EMFolderTreeModel *model)
+{
+	g_return_if_fail (E_IS_COMPOSER_POST_HEADER (header));
+	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+
+	if (header->priv->model != NULL)
+		g_object_unref (header->priv->model);
+
+	header->priv->model = g_object_ref (model);
+
+	g_object_notify (G_OBJECT (header), "folder-tree-model");
 }
 
 GList *

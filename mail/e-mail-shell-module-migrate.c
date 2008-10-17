@@ -2953,7 +2953,8 @@ migrate_to_db (EShellModule *shell_module)
 			CamelException ex;
 
 			camel_exception_init (&ex);
-			e_mail_shell_module_load_store_by_uri (service->url, name);
+			e_mail_shell_module_load_store_by_uri (
+				shell_module, service->url, name);
 
 			store = (CamelStore *) camel_session_get_service (CAMEL_SESSION (session), service->url, CAMEL_PROVIDER_STORE, &ex);
 			info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, &ex);

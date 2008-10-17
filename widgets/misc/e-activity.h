@@ -22,7 +22,7 @@
 #ifndef E_ACTIVITY_H
 #define E_ACTIVITY_H
 
-#include <glib-object.h>
+#include <gtk/gtk.h>
 
 /* Standard GObject macros */
 #define E_TYPE_ACTIVITY \
@@ -62,12 +62,22 @@ GType		e_activity_get_type		(void);
 EActivity *	e_activity_new			(const gchar *primary_text);
 void		e_activity_cancel		(EActivity *activity);
 void		e_activity_complete		(EActivity *activity);
+void		e_activity_clicked		(EActivity *activity);
 gchar *		e_activity_describe		(EActivity *activity);
 gboolean	e_activity_is_cancelled		(EActivity *activity);
 gboolean	e_activity_is_completed		(EActivity *activity);
+void		e_activity_add_timeout		(EActivity *activity,
+						 guint seconds);
+void		e_activity_cancel_timeout	(EActivity *activity);
+gboolean	e_activity_get_blocking		(EActivity *activity);
+void		e_activity_set_blocking		(EActivity *activity,
+						 gboolean blocking);
 gboolean	e_activity_get_cancellable	(EActivity *activity);
 void		e_activity_set_cancellable	(EActivity *activity,
 						 gboolean cancellable);
+gboolean	e_activity_get_clickable	(EActivity *activity);
+void		e_activity_set_clickable	(EActivity *activity,
+						 gboolean clickable);
 const gchar *	e_activity_get_icon_name	(EActivity *activity);
 void		e_activity_set_icon_name	(EActivity *activity,
 						 const gchar *icon_name);
@@ -80,6 +90,12 @@ void		e_activity_set_primary_text	(EActivity *activity,
 const gchar *	e_activity_get_secondary_text	(EActivity *activity);
 void		e_activity_set_secondary_text	(EActivity *activity,
 						 const gchar *secondary_text);
+
+/* XXX Hacky integration with error dialogs. */
+void		e_activity_error		(EActivity *activity,
+						 GtkWidget *error_dialog);
+void		e_activity_info			(EActivity *activity,
+						 GtkWidget *info_dialog);
 
 G_END_DECLS
 

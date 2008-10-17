@@ -49,6 +49,7 @@
 
 #include "mail/mail-mt.h"
 #include "mail/mail-tools.h"
+#include "mail/e-mail-shell-module.h"
 
 #include "mail-importer.h"
 
@@ -202,7 +203,8 @@ import_mbox_exec (struct _import_mbox_msg *m)
 	}
 
 	if (m->uri == NULL || m->uri[0] == 0)
-		folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_INBOX);
+		folder = e_mail_shell_module_get_folder (
+			mail_shell_module, E_MAIL_FOLDER_INBOX);
 	else
 		folder = mail_tool_uri_to_folder(m->uri, CAMEL_STORE_FOLDER_CREATE, &m->base.ex);
 
@@ -359,12 +361,15 @@ import_folders_rec(struct _import_folders_data *m, const char *filepath, const c
 	GDir *dir;
 	const char *d;
 	struct stat st;
+	const gchar *data_dir;
 	char *filefull, *foldersub, *uri, *utf8_filename;
 	const char *folder;
 
 	dir = g_dir_open(filepath, 0, NULL);
  	if (dir == NULL)
 		return;
+
+	data_dir = e_shell_module_get_data_dir (mail_shell_module);
 
 	utf8_filename = g_filename_to_utf8 (filepath, -1, NULL, NULL, NULL);
 	camel_operation_start(NULL, _("Scanning %s"), utf8_filename);
@@ -394,9 +399,9 @@ import_folders_rec(struct _import_folders_data *m, const char *filepath, const c
 					break;
 				}
 			/* FIXME: need a better way to get default store location */
-			uri = g_strdup_printf("mbox:%s/local#%s", mail_component_peek_base_directory(NULL), folder);
+			uri = g_strdup_printf("mbox:%s/local#%s", data_dir, folder);
 		} else {
-			uri = g_strdup_printf("mbox:%s/local#%s/%s", mail_component_peek_base_directory(NULL), folderparent, folder);
+			uri = g_strdup_printf("mbox:%s/local#%s/%s", data_dir, folderparent, folder);
 		}
 
 		printf("importing to uri %s\n", uri);

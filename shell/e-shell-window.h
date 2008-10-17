@@ -80,6 +80,9 @@ EShell *	e_shell_window_get_shell	(EShellWindow *shell_window);
 struct _EShellView *
 		e_shell_window_get_shell_view	(EShellWindow *shell_window,
 						 const gchar *view_name);
+GtkAction *	e_shell_window_get_shell_view_action
+						(EShellWindow *shell_window,
+						 const gchar *view_name);
 GtkUIManager *	e_shell_window_get_ui_manager	(EShellWindow *shell_window);
 GtkAction *	e_shell_window_get_action	(EShellWindow *shell_window,
 						 const gchar *action_name);

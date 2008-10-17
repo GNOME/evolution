@@ -49,6 +49,7 @@ struct _EShellModulePrivate {
 	gchar *data_dir;
 
 	GType shell_view_type;
+	GHashTable *events;
 
 	/* Initializes the loaded type module. */
 	void (*init) (GTypeModule *type_module);

@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -20,9 +20,7 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
+#include "em-folder-tree-model.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -37,7 +35,8 @@
 #include <libedataserver/e-xml-utils.h>
 #include <libedataserver/e-data-server-util.h>
 
-#include <e-util/e-mktemp.h>
+#include "e-util/e-util.h"
+#include "e-util/e-mktemp.h"
 
 #include <glib/gi18n.h>
 
@@ -49,7 +48,6 @@
 #include "mail-mt.h"
 
 /* sigh, these 2 only needed for outbox total count checking - a mess */
-#include "mail-component.h"
 #include "mail-folder-cache.h"
 
 #include "em-utils.h"
@@ -57,11 +55,18 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-vee-store.h>
 
-#include "em-marshal.h"
-#include "em-folder-tree-model.h"
+#include "e-mail-shell-module.h"
 
 #define u(x)			/* unread count debug */
 #define d(x)
+
+#define EM_FOLDER_TREE_MODEL_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_FOLDER_TREE_MODEL, EMFolderTreeModelPrivate))
+
+struct _EMFolderTreeModelPrivate {
+	gpointer shell_module;  /* weak pointer */
+};
 
 static GType col_types[] = {
 	G_TYPE_STRING,   /* display name */
@@ -74,17 +79,13 @@ static GType col_types[] = {
 	G_TYPE_BOOLEAN,  /* has not-yet-loaded subfolders */
 };
 
-/* GObject virtual method overrides */
-static void em_folder_tree_model_class_init (EMFolderTreeModelClass *klass);
-static void em_folder_tree_model_init (EMFolderTreeModel *model);
-static void em_folder_tree_model_finalize (GObject *obj);
-
-/* interface init methods */
-static void tree_model_iface_init (GtkTreeModelIface *iface);
-static void tree_sortable_iface_init (GtkTreeSortableIface *iface);
-
 static void account_changed (EAccountList *accounts, EAccount *account, gpointer user_data);
 static void account_removed (EAccountList *accounts, EAccount *account, gpointer user_data);
+
+enum {
+	PROP_0,
+	PROP_SHELL_MODULE
+};
 
 enum {
 	LOADING_ROW,
@@ -93,149 +94,11 @@ enum {
 	LAST_SIGNAL
 };
 
-static guint signals[LAST_SIGNAL] = { 0, };
-static GtkTreeStoreClass *parent_class = NULL;
-
-GType
-em_folder_tree_model_get_type (void)
-{
-	static GType type = 0;
-
-	if (!type) {
-		static const GTypeInfo info = {
-			sizeof (EMFolderTreeModelClass),
-			NULL, /* base_class_init */
-			NULL, /* base_class_finalize */
-			(GClassInitFunc) em_folder_tree_model_class_init,
-			NULL, /* class_finalize */
-			NULL, /* class_data */
-			sizeof (EMFolderTreeModel),
-			0,    /* n_preallocs */
-			(GInstanceInitFunc) em_folder_tree_model_init,
-		};
-		static const GInterfaceInfo tree_model_info = {
-			(GInterfaceInitFunc) tree_model_iface_init,
-			NULL,
-			NULL
-		};
-		static const GInterfaceInfo sortable_info = {
-			(GInterfaceInitFunc) tree_sortable_iface_init,
-			NULL,
-			NULL
-		};
-
-		type = g_type_register_static (GTK_TYPE_TREE_STORE, "EMFolderTreeModel", &info, 0);
-
-		g_type_add_interface_static (type, GTK_TYPE_TREE_MODEL,
-					     &tree_model_info);
-		g_type_add_interface_static (type, GTK_TYPE_TREE_SORTABLE,
-					     &sortable_info);
-	}
-
-	return type;
-}
-
+static gpointer parent_class;
+static guint signals[LAST_SIGNAL];
 
 static void
-em_folder_tree_model_class_init (EMFolderTreeModelClass *klass)
-{
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-
-	parent_class = g_type_class_ref (GTK_TYPE_TREE_STORE);
-
-	object_class->finalize = em_folder_tree_model_finalize;
-
-	/* signals */
-	signals[LOADING_ROW] =
-		g_signal_new ("loading-row",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (EMFolderTreeModelClass, loading_row),
-			      NULL, NULL,
-			      em_marshal_VOID__POINTER_POINTER,
-			      G_TYPE_NONE, 2,
-			      G_TYPE_POINTER,
-			      G_TYPE_POINTER);
-
-	signals[LOADED_ROW] =
-		g_signal_new ("loaded-row",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (EMFolderTreeModelClass, loaded_row),
-			      NULL, NULL,
-			      em_marshal_VOID__POINTER_POINTER,
-			      G_TYPE_NONE, 2,
-			      G_TYPE_POINTER,
-			      G_TYPE_POINTER);
-
-	signals[FOLDER_ADDED] =
-		g_signal_new ("folder-added",
-			      G_OBJECT_CLASS_TYPE (object_class),
-			      G_SIGNAL_RUN_FIRST,
-			      G_STRUCT_OFFSET (EMFolderTreeModelClass, folder_added),
-			      NULL, NULL,
-			      em_marshal_VOID__STRING_STRING,
-			      G_TYPE_NONE, 2,
-			      G_TYPE_STRING,
-			      G_TYPE_STRING);
-}
-
-static int
-sort_cb (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data)
-{
-	extern CamelStore *vfolder_store;
-	char *aname, *bname;
-	CamelStore *store;
-	gboolean is_store;
-	guint32 aflags, bflags;
-	int rv = -2;
-
-	gtk_tree_model_get (model, a, COL_BOOL_IS_STORE, &is_store,
-			    COL_POINTER_CAMEL_STORE, &store,
-			    COL_STRING_DISPLAY_NAME, &aname, COL_UINT_FLAGS, &aflags, -1);
-	gtk_tree_model_get (model, b, COL_STRING_DISPLAY_NAME, &bname, COL_UINT_FLAGS, &bflags, -1);
-
-	if (is_store) {
-		/* On This Computer is always first and Search Folders is always last */
-		if (!strcmp (aname, _("On This Computer")))
-			rv = -1;
-		else if (!strcmp (bname, _("On This Computer")))
-			rv = 1;
-		else if (!strcmp (aname, _("Search Folders")))
-			rv = 1;
-		else if (!strcmp (bname, _("Search Folders")))
-			rv = -1;
-	} else if (store == vfolder_store) {
-		/* UNMATCHED is always last */
-		if (aname && !strcmp (aname, _("UNMATCHED")))
-			rv = 1;
-		else if (bname && !strcmp (bname, _("UNMATCHED")))
-			rv = -1;
-	} else {
-		/* Inbox is always first */
-		if ((aflags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX)
-			rv = -1;
-		else if ((bflags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX)
-			rv = 1;
-	}
-
-	if (aname == NULL) {
-		if (bname == NULL)
-			rv = 0;
-	} else if (bname == NULL)
-		rv = 1;
-
-	if (rv == -2)
-		rv = g_utf8_collate (aname, bname);
-
-	g_free (aname);
-	g_free (bname);
-
-	return rv;
-}
-
-static void
-store_info_free (struct _EMFolderTreeModelStoreInfo *si)
+store_info_free (EMFolderTreeModelStoreInfo *si)
 {
 	camel_object_remove_event (si->store, si->created_id);
 	camel_object_remove_event (si->store, si->deleted_id);
@@ -251,88 +114,8 @@ store_info_free (struct _EMFolderTreeModelStoreInfo *si)
 }
 
 static void
-emft_model_unread_count_changed (GtkTreeModel *model, GtkTreeIter *iter)
-{
-	GtkTreeIter parent_iter;
-	GtkTreeIter child_iter = *iter;
-
-	g_signal_handlers_block_by_func (
-		model, emft_model_unread_count_changed, NULL);
-
-	/* Folders are displayed with a bold weight to indicate that
-	   they contain unread messages.  We signal that parent rows
-	   have changed here to update them. */
-
-	while (gtk_tree_model_iter_parent (model, &parent_iter, &child_iter)) {
-		GtkTreePath *parent_path;
-
-		parent_path = gtk_tree_model_get_path (model, &parent_iter);
-		gtk_tree_model_row_changed (model, parent_path, &parent_iter);
-		gtk_tree_path_free (parent_path);
-		child_iter = parent_iter;
-	}
-
-	g_signal_handlers_unblock_by_func (
-		model, emft_model_unread_count_changed, NULL);
-}
-
-static void
-em_folder_tree_model_init (EMFolderTreeModel *model)
-{
-	model->store_hash = g_hash_table_new_full (
-		g_direct_hash, g_direct_equal,
-		(GDestroyNotify) NULL,
-		(GDestroyNotify) store_info_free);
-
-	model->uri_hash = g_hash_table_new_full (
-		g_str_hash, g_str_equal,
-		(GDestroyNotify) g_free,
-		(GDestroyNotify) gtk_tree_row_reference_free);
-
-	gtk_tree_sortable_set_default_sort_func ((GtkTreeSortable *) model, sort_cb, NULL, NULL);
-
-	model->accounts = mail_config_get_accounts ();
-	model->account_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
-	model->account_changed_id = g_signal_connect (model->accounts, "account-changed", G_CALLBACK (account_changed), model);
-	model->account_removed_id = g_signal_connect (model->accounts, "account-removed", G_CALLBACK (account_removed), model);
-	//g_signal_connect (model, "row-changed", G_CALLBACK (emft_model_unread_count_changed), NULL);
-}
-
-static void
-em_folder_tree_model_finalize (GObject *obj)
-{
-	EMFolderTreeModel *model = (EMFolderTreeModel *) obj;
-
-	g_free (model->filename);
-	if (model->state)
-		xmlFreeDoc (model->state);
-
-	g_hash_table_destroy (model->store_hash);
-	g_hash_table_destroy (model->uri_hash);
-
-	g_hash_table_destroy (model->account_hash);
-	g_signal_handler_disconnect (model->accounts, model->account_changed_id);
-	g_signal_handler_disconnect (model->accounts, model->account_removed_id);
-
-	G_OBJECT_CLASS (parent_class)->finalize (obj);
-}
-
-
-static void
-tree_model_iface_init (GtkTreeModelIface *iface)
-{
-	;
-}
-
-static void
-tree_sortable_iface_init (GtkTreeSortableIface *iface)
-{
-	;
-}
-
-
-static void
-em_folder_tree_model_load_state (EMFolderTreeModel *model, const char *filename)
+folder_tree_model_load_state (EMFolderTreeModel *model,
+                              const gchar *filename)
 {
 	xmlNodePtr root, node;
 
@@ -362,26 +145,358 @@ em_folder_tree_model_load_state (EMFolderTreeModel *model, const char *filename)
 	xmlSetProp (node, (const unsigned char *)"expand", (const unsigned char *)"true");
 }
 
-
-EMFolderTreeModel *
-em_folder_tree_model_new (const char *evolution_dir)
+static int
+folder_tree_model_sort (GtkTreeModel *model,
+                        GtkTreeIter *a,
+                        GtkTreeIter *b,
+                        gpointer user_data)
 {
-	EMFolderTreeModel *model;
-	char *filename;
+	extern CamelStore *vfolder_store;
+	char *aname, *bname;
+	CamelStore *store;
+	gboolean is_store;
+	guint32 aflags, bflags;
+	int rv = -2;
 
-	model = g_object_new (EM_TYPE_FOLDER_TREE_MODEL, NULL);
-	gtk_tree_store_set_column_types ((GtkTreeStore *) model, NUM_COLUMNS, col_types);
-	gtk_tree_sortable_set_sort_column_id ((GtkTreeSortable *) model,
-					      GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,
-					      GTK_SORT_ASCENDING);
+	gtk_tree_model_get (
+		model, a,
+		COL_BOOL_IS_STORE, &is_store,
+		COL_POINTER_CAMEL_STORE, &store,
+		COL_STRING_DISPLAY_NAME, &aname,
+		COL_UINT_FLAGS, &aflags, -1);
 
-	filename = g_build_filename (evolution_dir, "mail", "config", "folder-tree-expand-state.xml", NULL);
-	em_folder_tree_model_load_state (model, filename);
-	model->filename = filename;
+	gtk_tree_model_get (
+		model, b,
+		COL_STRING_DISPLAY_NAME, &bname,
+		COL_UINT_FLAGS, &bflags, -1);
 
-	return model;
+	if (is_store) {
+		/* On This Computer is always first, and Search Folders
+		 * is always last. */
+		if (!strcmp (aname, _("On This Computer")))
+			rv = -1;
+		else if (!strcmp (bname, _("On This Computer")))
+			rv = 1;
+		else if (!strcmp (aname, _("Search Folders")))
+			rv = 1;
+		else if (!strcmp (bname, _("Search Folders")))
+			rv = -1;
+	} else if (store == vfolder_store) {
+		/* UNMATCHED is always last. */
+		if (aname && !strcmp (aname, _("UNMATCHED")))
+			rv = 1;
+		else if (bname && !strcmp (bname, _("UNMATCHED")))
+			rv = -1;
+	} else {
+		/* Inbox is always first. */
+		if ((aflags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX)
+			rv = -1;
+		else if ((bflags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX)
+			rv = 1;
+	}
+
+	if (aname == NULL) {
+		if (bname == NULL)
+			rv = 0;
+	} else if (bname == NULL)
+		rv = 1;
+
+	if (rv == -2)
+		rv = g_utf8_collate (aname, bname);
+
+	g_free (aname);
+	g_free (bname);
+
+	return rv;
 }
 
+static void
+folder_tree_model_set_shell_module (EMFolderTreeModel *model,
+                                    EShellModule *shell_module)
+{
+	g_return_if_fail (model->priv->shell_module == NULL);
+
+	model->priv->shell_module = shell_module;
+
+	g_object_add_weak_pointer (
+		G_OBJECT (shell_module),
+		&model->priv->shell_module);
+}
+
+static void
+folder_tree_model_set_property (GObject *object,
+                                guint property_id,
+                                const GValue *value,
+                                GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SHELL_MODULE:
+			folder_tree_model_set_shell_module (
+				EM_FOLDER_TREE_MODEL (object),
+				g_value_get_object (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+folder_tree_model_get_property (GObject *object,
+                                guint property_id,
+                                GValue *value,
+                                GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SHELL_MODULE:
+			g_value_set_object (
+				value, em_folder_tree_model_get_shell_module (
+				EM_FOLDER_TREE_MODEL (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+folder_tree_model_finalize (GObject *object)
+{
+	EMFolderTreeModel *model = (EMFolderTreeModel *) object;
+
+	g_free (model->filename);
+	if (model->state)
+		xmlFreeDoc (model->state);
+
+	g_hash_table_destroy (model->store_hash);
+	g_hash_table_destroy (model->uri_hash);
+
+	g_hash_table_destroy (model->account_hash);
+	g_signal_handler_disconnect (model->accounts, model->account_changed_id);
+	g_signal_handler_disconnect (model->accounts, model->account_removed_id);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
+}
+
+static void
+folder_tree_model_constructed (GObject *object)
+{
+	EMFolderTreeModel *model = EM_FOLDER_TREE_MODEL (object);
+	EShellModule *shell_module;
+	const gchar *config_dir;
+	gchar *filename;
+
+	shell_module = model->priv->shell_module;
+	config_dir = e_shell_module_get_config_dir (shell_module);
+
+	filename = g_build_filename (
+		config_dir, "folder-tree-expand-state.xml", NULL);
+	folder_tree_model_load_state (model, filename);
+	model->filename = filename;
+}
+
+static void
+folder_tree_model_class_init (EMFolderTreeModelClass *class)
+{
+	GObjectClass *object_class;
+
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EMFolderTreeModelPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = folder_tree_model_set_property;
+	object_class->get_property = folder_tree_model_get_property;
+	object_class->finalize = folder_tree_model_finalize;
+	object_class->constructed = folder_tree_model_constructed;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL_MODULE,
+		g_param_spec_object (
+			"shell-module",
+			_("Shell Module"),
+			NULL,
+			E_TYPE_SHELL_MODULE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	signals[LOADING_ROW] = g_signal_new (
+		"loading-row",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EMFolderTreeModelClass, loading_row),
+		NULL, NULL,
+		e_marshal_VOID__POINTER_POINTER,
+		G_TYPE_NONE, 2,
+		G_TYPE_POINTER,
+		G_TYPE_POINTER);
+
+	signals[LOADED_ROW] = g_signal_new (
+		"loaded-row",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EMFolderTreeModelClass, loaded_row),
+		NULL, NULL,
+		e_marshal_VOID__POINTER_POINTER,
+		G_TYPE_NONE, 2,
+		G_TYPE_POINTER,
+		G_TYPE_POINTER);
+
+	signals[FOLDER_ADDED] = g_signal_new (
+		"folder-added",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EMFolderTreeModelClass, folder_added),
+		NULL, NULL,
+		e_marshal_VOID__STRING_STRING,
+		G_TYPE_NONE, 2,
+		G_TYPE_STRING,
+		G_TYPE_STRING);
+}
+
+static void
+folder_tree_model_init (EMFolderTreeModel *model)
+{
+	GHashTable *store_hash;
+	GHashTable *uri_hash;
+
+	store_hash = g_hash_table_new_full (
+		g_direct_hash, g_direct_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) store_info_free);
+
+	uri_hash = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) g_free,
+		(GDestroyNotify) gtk_tree_row_reference_free);
+
+	model->priv = EM_FOLDER_TREE_MODEL_GET_PRIVATE (model);
+	model->store_hash = store_hash;
+	model->uri_hash = uri_hash;
+
+	gtk_tree_store_set_column_types (
+		GTK_TREE_STORE (model), NUM_COLUMNS, col_types);
+	gtk_tree_sortable_set_default_sort_func (
+		GTK_TREE_SORTABLE (model),
+		folder_tree_model_sort, NULL, NULL);
+	gtk_tree_sortable_set_sort_column_id (
+		GTK_TREE_SORTABLE (model),
+		GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,
+		GTK_SORT_ASCENDING);
+
+	model->accounts = mail_config_get_accounts ();
+	model->account_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
+	model->account_changed_id = g_signal_connect (
+		model->accounts, "account-changed",
+		G_CALLBACK (account_changed), model);
+	model->account_removed_id = g_signal_connect (
+		model->accounts, "account-removed",
+		G_CALLBACK (account_removed), model);
+	//g_signal_connect (
+	//	model, "row-changed",
+	//	G_CALLBACK (emft_model_unread_count_changed), NULL);
+}
+
+static void
+tree_model_iface_init (GtkTreeModelIface *iface)
+{
+}
+
+static void
+tree_sortable_iface_init (GtkTreeSortableIface *iface)
+{
+}
+
+GType
+em_folder_tree_model_get_type (void)
+{
+	static GType type = 0;
+
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EMFolderTreeModelClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) folder_tree_model_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EMFolderTreeModel),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) folder_tree_model_init,
+			NULL   /* value_table */
+		};
+
+		static const GInterfaceInfo tree_model_info = {
+			(GInterfaceInitFunc) tree_model_iface_init,
+			NULL,
+			NULL
+		};
+
+		static const GInterfaceInfo sortable_info = {
+			(GInterfaceInitFunc) tree_sortable_iface_init,
+			NULL,
+			NULL
+		};
+
+		type = g_type_register_static (
+			GTK_TYPE_TREE_STORE, "EMFolderTreeModel",
+			&type_info, 0);
+
+		g_type_add_interface_static (
+			type, GTK_TYPE_TREE_MODEL, &tree_model_info);
+		g_type_add_interface_static (
+			type, GTK_TYPE_TREE_SORTABLE, &sortable_info);
+	}
+
+	return type;
+}
+
+
+static void
+emft_model_unread_count_changed (GtkTreeModel *model, GtkTreeIter *iter)
+{
+	GtkTreeIter parent_iter;
+	GtkTreeIter child_iter = *iter;
+
+	g_signal_handlers_block_by_func (
+		model, emft_model_unread_count_changed, NULL);
+
+	/* Folders are displayed with a bold weight to indicate that
+	   they contain unread messages.  We signal that parent rows
+	   have changed here to update them. */
+
+	while (gtk_tree_model_iter_parent (model, &parent_iter, &child_iter)) {
+		GtkTreePath *parent_path;
+
+		parent_path = gtk_tree_model_get_path (model, &parent_iter);
+		gtk_tree_model_row_changed (model, parent_path, &parent_iter);
+		gtk_tree_path_free (parent_path);
+		child_iter = parent_iter;
+	}
+
+	g_signal_handlers_unblock_by_func (
+		model, emft_model_unread_count_changed, NULL);
+}
+
+
+
+
+EMFolderTreeModel *
+em_folder_tree_model_new (EShellModule *shell_module)
+{
+	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), NULL);
+
+	return g_object_new (
+		EM_TYPE_FOLDER_TREE_MODEL,
+		"shell-module", shell_module, NULL);
+}
+
+EShellModule *
+em_folder_tree_model_get_shell_module (EMFolderTreeModel *model)
+{
+	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
+
+	return model->priv->shell_module;
+}
 
 static void
 account_changed (EAccountList *accounts, EAccount *account, gpointer user_data)
@@ -438,12 +553,13 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 				      struct _EMFolderTreeModelStoreInfo *si,
 				      CamelFolderInfo *fi, int fully_loaded)
 {
+	EShellModule *shell_module;
 	GtkTreeRowReference *uri_row, *path_row;
 	unsigned int unread;
 	GtkTreePath *path;
 	GtkTreeIter sub;
 	gboolean load = FALSE;
-	struct _CamelFolder *folder;
+	CamelFolder *folder;
 	gboolean emitted = FALSE;
 	const char *name;
 	guint32 flags;
@@ -451,7 +567,9 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	/* make sure we don't already know about it? */
 	if (g_hash_table_lookup (si->full_hash, fi->full_name))
 		return;
-	
+
+	shell_module = model->priv->shell_module;
+
 	if (!fully_loaded)
 		load = fi->child == NULL && !(fi->flags & (CAMEL_FOLDER_NOCHILDREN | CAMEL_FOLDER_NOINFERIORS));
 
@@ -468,7 +586,15 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	/* This is duplicated in mail-folder-cache too, should perhaps be functionised */
 	unread = fi->unread;
 	if (mail_note_get_folder_from_uri(fi->uri, &folder) && folder) {
-		if (folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX)) {
+		CamelFolder *local_drafts;
+		CamelFolder *local_outbox;
+
+		local_drafts = e_mail_shell_module_get_folder (
+			shell_module, E_MAIL_FOLDER_DRAFTS);
+		local_outbox = e_mail_shell_module_get_folder (
+			shell_module, E_MAIL_FOLDER_OUTBOX);
+
+		if (folder == local_outbox) {
 			int total;
 
 			if ((total = camel_folder_get_message_count (folder)) > 0) {
@@ -480,7 +606,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 
 			unread = total > 0 ? total : 0;
 		}
-		if (folder == mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_DRAFTS)) {
+		if (folder == local_drafts) {
 			int total;
 
 			if ((total = camel_folder_get_message_count (folder)) > 0) {
@@ -499,7 +625,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	/* TODO: maybe this should be handled by mail_get_folderinfo (except em-folder-tree doesn't use it, duh) */
 	flags = fi->flags;
 	name = fi->name;
-	if (si->store == mail_component_peek_local_store(NULL)) {
+	if (si->store == e_mail_shell_module_get_local_store (shell_module)) {
 		if (!strcmp(fi->full_name, "Drafts")) {
 			name = _("Drafts");
 		} else if (!strcmp(fi->full_name, "Inbox")) {

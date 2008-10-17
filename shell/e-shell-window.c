@@ -56,9 +56,8 @@ shell_window_new_view (EShellWindow *shell_window,
 	page_num = gtk_notebook_get_n_pages (notebook);
 
 	/* Get the switcher action for this view. */
-	action_name = g_strdup_printf (SWITCHER_FORMAT, view_name);
-	action = e_shell_window_get_action (shell_window, action_name);
-	g_free (action_name);
+	action = e_shell_window_get_shell_view_action (
+		shell_window, view_name);
 
 	/* Create the shell view. */
 	shell_view = g_object_new (
@@ -431,6 +430,39 @@ e_shell_window_get_shell_view (EShellWindow *shell_window,
 		g_critical ("Unknown shell view name: %s", view_name);
 
 	return shell_view;
+}
+
+/**
+ * e_shell_window_get_shell_view_action:
+ * @shell_window: an #EShellWindow
+ * @view_name: name of a shell view
+ *
+ * Returns the switcher action for @view_name.
+ *
+ * An #EShellWindow creates a #GtkRadioAction for each registered subclass
+ * of #EShellView.  This action gets passed to the #EShellSwitcher, which
+ * displays a button that proxies the action.  The icon at the top of the
+ * sidebar also proxies the action.  When the #EShellView named @view_name
+ * is active, the action's icon becomes the @shell_window icon.
+ *
+ * Returns: the switcher action for the #EShellView named @view_name,
+ *          or %NULL if no such shell view exists
+ **/
+GtkAction *
+e_shell_window_get_shell_view_action (EShellWindow *shell_window,
+                                      const gchar *view_name)
+{
+	GtkAction *action;
+	gchar *action_name;
+
+	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
+	g_return_val_if_fail (view_name != NULL, NULL);
+
+	action_name = g_strdup_printf (SWITCHER_FORMAT, view_name);
+	action = e_shell_window_get_action (shell_window, action_name);
+	g_free (action_name);
+
+	return action;
 }
 
 /**

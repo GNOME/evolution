@@ -623,8 +623,8 @@ e_shell_view_get_name (EShellView *shell_view)
  *
  * Returns the switcher action for @shell_view.
  *
- * An #EShellWindow creates a #GtkRadioAction for each #EShellView class
- * it instantiates.  This action gets passed to the #EShellSwitcher, which
+ * An #EShellWindow creates a #GtkRadioAction for each registered subclass
+ * of #EShellView.  This action gets passed to the #EShellSwitcher, which
  * displays a button that proxies the action.  The icon at the top of the
  * sidebar also proxies the action.  When @shell_view is active, the
  * action's icon becomes the #EShellWindow icon.

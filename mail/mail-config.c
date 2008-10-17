@@ -70,11 +70,12 @@
 
 #include <libedataserverui/e-passwords.h>
 
-#include "mail-component.h"
 #include "mail-session.h"
 #include "mail-config.h"
 #include "mail-mt.h"
 #include "mail-tools.h"
+
+#include "e-mail-shell-module.h"
 
 typedef struct {
 	GConfClient *gconf;
@@ -966,17 +967,19 @@ mail_config_get_default_transport (void)
 static char *
 uri_to_evname (const char *uri, const char *prefix)
 {
-	const char *base_directory = mail_component_peek_base_directory (mail_component_peek ());
+	const gchar *data_dir;
 	char *safe;
 	char *tmp;
+
+	data_dir = e_shell_module_get_data_dir (mail_shell_module);
 
 	safe = g_strdup (uri);
 	e_filename_make_safe (safe);
 	/* blah, easiest thing to do */
 	if (prefix[0] == '*')
-		tmp = g_strdup_printf ("%s/%s%s.xml", base_directory, prefix + 1, safe);
+		tmp = g_strdup_printf ("%s/%s%s.xml", data_dir, prefix + 1, safe);
 	else
-		tmp = g_strdup_printf ("%s/%s%s", base_directory, prefix, safe);
+		tmp = g_strdup_printf ("%s/%s%s", data_dir, prefix, safe);
 	g_free (safe);
 	return tmp;
 }
@@ -1039,9 +1042,14 @@ mail_config_uri_deleted (GCompareFunc uri_cmp, const char *uri)
 	EAccount *account;
 	EIterator *iter;
 	int work = 0;
+	const gchar *local_drafts_folder_uri;
+	const gchar *local_sent_folder_uri;
+
 	/* assumes these can't be removed ... */
-	const char *default_sent_folder_uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT);
-	const char *default_drafts_folder_uri = mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS);
+	local_drafts_folder_uri = e_mail_shell_module_get_folder_uri (
+		mail_shell_module, E_MAIL_FOLDER_DRAFTS);
+	local_sent_folder_uri = e_mail_shell_module_get_folder_uri (
+		mail_shell_module, E_MAIL_FOLDER_SENT);
 
 	iter = e_list_get_iterator ((EList *) config->accounts);
 	while (e_iterator_is_valid (iter)) {
@@ -1049,13 +1057,13 @@ mail_config_uri_deleted (GCompareFunc uri_cmp, const char *uri)
 
 		if (account->sent_folder_uri && uri_cmp (account->sent_folder_uri, uri)) {
 			g_free (account->sent_folder_uri);
-			account->sent_folder_uri = g_strdup (default_sent_folder_uri);
+			account->sent_folder_uri = g_strdup (local_sent_folder_uri);
 			work = 1;
 		}
 
 		if (account->drafts_folder_uri && uri_cmp (account->drafts_folder_uri, uri)) {
 			g_free (account->drafts_folder_uri);
-			account->drafts_folder_uri = g_strdup (default_drafts_folder_uri);
+			account->drafts_folder_uri = g_strdup (local_drafts_folder_uri);
 			work = 1;
 		}
 
@@ -1088,13 +1096,13 @@ char *
 mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
 {
 	char *url, *basename, *filename;
-	const char *evolution_dir;
+	const gchar *config_dir;
 
-	evolution_dir = mail_component_peek_base_directory (mail_component_peek ());
+	config_dir = e_shell_module_get_config_dir (mail_shell_module);
 
 	url = mail_config_folder_to_safe_url (folder);
 	basename = g_strdup_printf ("%s%s", prefix, url);
-	filename = g_build_filename (evolution_dir, "config", basename, NULL);
+	filename = g_build_filename (config_dir, basename, NULL);
 	g_free (basename);
 	g_free (url);
 
