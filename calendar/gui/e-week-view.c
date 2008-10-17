@@ -1403,6 +1403,11 @@ e_week_view_set_selected_time_range	(ECalendarView	*cal_view,
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
+	if (!g_date_valid (&week_view->base_date)) {
+		/* This view has not been initialized/shown yet, thus skip this. */
+		return;
+	}
+
 	time_to_gdate_with_zone (&date, start_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 
 	/* Set the selection to the given days. */
