@@ -148,6 +148,7 @@ struct _MessageList {
 
 	/* list of outstanding regeneration requests */
 	GList *regen;
+	GMutex *regen_lock; /* when writing to the regen, guard with this lock too */
 	char *pending_select_uid; /* set if we were busy regnerating while we had a select come in */
 	guint regen_timeout_id;
 	void *regen_timeout_msg;
