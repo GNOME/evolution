@@ -3648,7 +3648,8 @@ msgstr[0] ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
 msgstr[1] ""
-
+"Opening %d contacts will open %d new windows as well.\n"
+"Do you really want to display all of these contacts?"
 #. For Translators only: "it" refers to the filename %s.
 #: ../addressbook/gui/widgets/eab-gui-util.c:325
 #, c-format
@@ -3730,7 +3731,7 @@ msgstr "Querying Address Book..."
 msgid "There is one other contact."
 msgid_plural "There are %d other contacts."
 msgstr[0] "There is one other contact."
-msgstr[1] ""
+msgstr[1] "There are %d other contacts."
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:228
 #: ../addressbook/gui/widgets/eab-vcard-control.c:281
@@ -6152,21 +6153,21 @@ msgstr "Unable to open the calendar '%s'."
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
 msgstr[0] "%d day before appointment"
-msgstr[1] ""
+msgstr[1] "%d days before appointment"
 
 #: ../calendar/gui/dialogs/event-page.c:2953
 #, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
 msgstr[0] "%d hour before appointment"
-msgstr[1] ""
+msgstr[1] "%d hours before appointment"
 
 #: ../calendar/gui/dialogs/event-page.c:2959
 #, c-format
 msgid "%d minute before appointment"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "%d minute before appointment"
-msgstr[1] ""
+msgstr[1] "%d minutes before appointment"
 
 #: ../calendar/gui/dialogs/event-page.c:2972
 msgid "Customize"
@@ -7251,7 +7252,7 @@ msgstr[1] "සෑම සති %d කට වරක්"
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
 msgstr[0] "Every week on "
-msgstr[1] ""
+msgstr[1] "Every %d weeks on "
 
 #. For Translators : 'and' is part of the sentence 'event recurring every week on (dayname) and (dayname)'
 #: ../calendar/gui/e-itip-control.c:798
@@ -7282,7 +7283,7 @@ msgstr "The %s %s of "
 msgid "every month"
 msgid_plural "every %d months"
 msgstr[0] "every month"
-msgstr[1] ""
+msgstr[1] "every %d months"
 
 #. For Translators: In this can also be translated as "With the period of %d
 #. year/years", where %d is a number. The entire sentence is of the form "Recurring:
@@ -7294,7 +7295,7 @@ msgstr[1] ""
 msgid "Every year"
 msgid_plural "Every %d years"
 msgstr[0] "Every year"
-msgstr[1] ""
+msgstr[1] "Every %d years"
 
 #. For Translators:'a total of %d time' is part of the sentence of the form 'event recurring every day,a total of % time.' %d is a digit
 #. For Translators:'a total of %d times' is part of the sentence of the form 'event recurring every day,a total of % times.' %d is a digit
@@ -7303,7 +7304,7 @@ msgstr[1] ""
 msgid "a total of %d time"
 msgid_plural " a total of %d times"
 msgstr[0] "a total of %d time"
-msgstr[1] ""
+msgstr[1] " a total of %d times"
 
 #. For Translators : ', ending on' is part of the sentence of the form 'event recurring every day, ending on (date).'
 #: ../calendar/gui/e-itip-control.c:866
@@ -10461,91 +10462,91 @@ msgstr[1] "තත්පර %d කට පෙර"
 msgid "1 second in the future"
 msgid_plural "%d seconds in the future"
 msgstr[0] "1 second in the future"
-msgstr[1] ""
+msgstr[1] "%d seconds in the future"
 
 #: ../filter/filter-datespec.c:81
 #, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
 msgstr[0] "1 minute ago"
-msgstr[1] ""
+msgstr[1] "%d minutes ago"
 
 #: ../filter/filter-datespec.c:81
 #, c-format
 msgid "1 minute in the future"
 msgid_plural "%d minutes in the future"
 msgstr[0] "1 minute in the future"
-msgstr[1] ""
+msgstr[1] "%d minutes in the future"
 
 #: ../filter/filter-datespec.c:82
 #, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
 msgstr[0] "1 hour ago"
-msgstr[1] ""
+msgstr[1] "%d hours ago"
 
 #: ../filter/filter-datespec.c:82
 #, c-format
 msgid "1 hour in the future"
 msgid_plural "%d hours in the future"
 msgstr[0] "1 hour in the future"
-msgstr[1] ""
+msgstr[1] "%d hours in the future"
 
 #: ../filter/filter-datespec.c:83
 #, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
 msgstr[0] "1 day ago"
-msgstr[1] ""
+msgstr[1] "%d days ago"
 
 #: ../filter/filter-datespec.c:83
 #, c-format
 msgid "1 day in the future"
 msgid_plural "%d days in the future"
 msgstr[0] "1 day in the future"
-msgstr[1] ""
+msgstr[1] "%d days in the future"
 
 #: ../filter/filter-datespec.c:84
 #, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
 msgstr[0] "1 week ago"
-msgstr[1] ""
+msgstr[1] "%d weeks ago"
 
 #: ../filter/filter-datespec.c:84
 #, c-format
 msgid "1 week in the future"
 msgid_plural "%d weeks in the future"
 msgstr[0] "1 week in the future"
-msgstr[1] ""
+msgstr[1] "%d weeks in the future"
 
 #: ../filter/filter-datespec.c:85
 #, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
 msgstr[0] "1 month ago"
-msgstr[1] ""
+msgstr[1] "%d months ago"
 
 #: ../filter/filter-datespec.c:85
 #, c-format
 msgid "1 month in the future"
 msgid_plural "%d months in the future"
 msgstr[0] "1 month in the future"
-msgstr[1] ""
+msgstr[1] "%d months in the future"
 
 #: ../filter/filter-datespec.c:86
 #, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
 msgstr[0] "1 year ago"
-msgstr[1] ""
+msgstr[1] "%d years ago"
 
 #: ../filter/filter-datespec.c:86
 #, c-format
 msgid "1 year in the future"
 msgid_plural "%d years in the future"
 msgstr[0] "1 year in the future"
-msgstr[1] ""
+msgstr[1] "%d years in the future"
 
 #: ../filter/filter-datespec.c:287
 msgid "<click here to select a date>"
@@ -13883,14 +13884,14 @@ msgstr "Retrieving message %s"
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
 msgstr[0] "Retrieving %d message"
-msgstr[1] ""
+msgstr[1] "Retrieving %d messages"
 
 #: ../mail/mail-ops.c:1942
 #, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messsages"
 msgstr[0] "Saving %d message"
-msgstr[1] ""
+msgstr[1] "Saving %d messsages"
 
 #: ../mail/mail-ops.c:2013
 #, c-format
@@ -17334,7 +17335,7 @@ msgstr "When the new-mail status icon is visible, make it blink."
 msgid "You have received %d new message in %s."
 msgid_plural "You have received %d new messages in %s."
 msgstr[0] "You have received %d new message in %s."
-msgstr[1] ""
+msgstr[1] "You have received %d new messages in %s."
 
 #: ../plugins/mail-notification/mail-notification.c:153
 msgid "New email"
