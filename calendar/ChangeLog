@@ -1,3 +1,11 @@
+2008-10-20  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #528816
+
+	* importers/icalendar-importer.c: (vcal_supported): We do not support
+	vCalendar importer when we can parse the iCalendar from the file,
+	because the latter holds more information, like timezones.
+
 2008-10-17   Matt Davey  <mcdavey@mrao.cam.ac.uk>
 
 	** Fix for bug #556059
