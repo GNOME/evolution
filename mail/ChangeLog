@@ -1,3 +1,7 @@
+2008-10-20  Patrick Ohly  <Patrick.Ohly@gmx.de>
+
+	* mail-component.h: Fixed a build break.
+
 2008-10-19  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #438155
