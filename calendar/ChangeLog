@@ -1,5 +1,12 @@
 2008-10-20  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #553715
+
+	* gui/e-week-view.c: (e_week_view_on_editing_stopped):
+	Set end time for the event properly, not same as start time.
+
+2008-10-20  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #528816
 
 	* importers/icalendar-importer.c: (vcal_supported): We do not support
