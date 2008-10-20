@@ -474,22 +474,34 @@ vcal_supported(EImport *ei, EImportTarget *target, EImportImporter *im)
 
 	if (g_file_get_contents(filename, &contents, NULL, NULL)) {
 		VObject *vcal;
+		icalcomponent *icalcomp;
 
-		/* parse the file */
-		vcal = Parse_MIME (contents, strlen (contents));
-		g_free (contents);
+		icalcomp = e_cal_util_parse_ics_string (contents);
 
-		if (vcal) {
-			icalcomponent *icalcomp;
-
-			icalcomp = icalvcal_convert (vcal);
-
-			if (icalcomp) {
+		if (icalcomp && icalcomponent_is_valid (icalcomp)) {
+			/* If we can create proper iCalendar from the file, then
+			   rather use ics importer, because it knows to read more
+			   information than older version, the vCalendar. */
+			ret = FALSE;
+			g_free (contents);
+		} else {
+			if (icalcomp)
 				icalcomponent_free (icalcomp);
-				ret = TRUE;
-			}
 
-			cleanVObject (vcal);
+			/* parse the file */
+			vcal = Parse_MIME (contents, strlen (contents));
+			g_free (contents);
+
+			if (vcal) {
+				icalcomp = icalvcal_convert (vcal);
+
+				if (icalcomp) {
+					icalcomponent_free (icalcomp);
+					ret = TRUE;
+				}
+
+				cleanVObject (vcal);
+			}
 		}
 	}
 	g_free (filename);
