@@ -3613,12 +3613,12 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 
 					e_cal_component_get_dtend (comp, &dt);
 					if (dt.value->zone) {
-						*dt.value = icaltime_from_timet_with_zone (
+						tt = icaltime_from_timet_with_zone (
 							event->comp_data->instance_end,
 							dt.value->is_date,
 							dt.value->zone);
 					} else {
-						*dt.value = icaltime_from_timet_with_zone (
+						tt = icaltime_from_timet_with_zone (
 							event->comp_data->instance_end,
 							dt.value->is_date,
 							e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
