@@ -1,3 +1,10 @@
+2008-10-20  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #514989
+
+	* itip-view.c: (format_date_and_time_x):
+	Calculate tomorrow from current time, not from the date to convert.
+
 2008-10-14  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #550441
