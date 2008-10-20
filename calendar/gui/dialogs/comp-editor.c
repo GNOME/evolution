@@ -1741,6 +1741,10 @@ comp_editor_init (CompEditor *editor)
 	priv->attachment_bar = e_attachment_bar_new (NULL);
 	priv->manager = gtk_ui_manager_new ();
 
+        gtk_window_add_accel_group (
+                GTK_WINDOW (editor),
+                gtk_ui_manager_get_accel_group (priv->manager));
+
 	action_group = gtk_action_group_new ("core");
 	gtk_action_group_set_translation_domain (
 		action_group, GETTEXT_PACKAGE);
