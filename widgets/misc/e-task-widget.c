@@ -145,10 +145,7 @@ e_task_widget_construct (ETaskWidget *task_widget,
 	gtk_widget_set_size_request (box, 1, -1);
 
 	priv->box = gtk_hbox_new (FALSE, 0);
-	priv->image = e_spinner_new ();
-	e_spinner_set_size (E_SPINNER (priv->image), GTK_ICON_SIZE_SMALL_TOOLBAR);
-	e_spinner_start (E_SPINNER (priv->image));
-	gtk_widget_show (priv->image);
+	priv->image = e_spinner_new_spinning_small_shown ();
 	gtk_widget_show (priv->box);
 	gtk_box_pack_start (GTK_BOX (priv->box), priv->image, FALSE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (box), priv->box, FALSE, TRUE, 0);
