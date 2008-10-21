@@ -1,3 +1,8 @@
+2008-10-21  Sankar P  <psankar@novell.com>
+
+	* em-folder-view.c (emfv_spin):
+	Re-factor spinner usage	
+
 2008-10-20  Patrick Ohly  <Patrick.Ohly@gmx.de>
 
 	* mail-component.h: Fixed a build break.

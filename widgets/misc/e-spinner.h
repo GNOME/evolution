@@ -32,40 +32,7 @@
 
 G_BEGIN_DECLS
 
-#define E_TYPE_SPINNER		(e_spinner_get_type ())
-#define E_SPINNER(o)			(G_TYPE_CHECK_INSTANCE_CAST ((o), E_TYPE_SPINNER, ESpinner))
-#define E_SPINNER_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST((k), E_TYPE_SPINNER, ESpinnerClass))
-#define E_IS_SPINNER(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TYPE_SPINNER))
-#define E_IS_SPINNER_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), E_TYPE_SPINNER))
-#define E_SPINNER_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), E_TYPE_SPINNER, ESpinnerClass))
-
-typedef struct _ESpinner		ESpinner;
-typedef struct _ESpinnerClass	ESpinnerClass;
-typedef struct _ESpinnerDetails	ESpinnerDetails;
-
-struct _ESpinner
-{
-	GtkWidget parent;
-
-	/*< private >*/
-	ESpinnerDetails *details;
-};
-
-struct _ESpinnerClass
-{
-	GtkWidgetClass parent_class;
-};
-
-GType		e_spinner_get_type	(void);
-
-GtkWidget      *e_spinner_new	(void);
-
-void		e_spinner_start	(ESpinner *throbber);
-
-void		e_spinner_stop	(ESpinner *throbber);
-
-void		e_spinner_set_size	(ESpinner *spinner,
-					 GtkIconSize size);
+GtkWidget *e_spinner_new_spinning_small_shown (void);
 
 G_END_DECLS
 
