@@ -24,25 +24,22 @@
 #define MAIL_SEND_RECV_H
 
 #include <gtk/gtk.h>
-#include "mail-config.h"
+#include <camel/camel-session.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
-
-struct _CamelSession;
+G_BEGIN_DECLS
 
 /* send/receive all uri's */
-GtkWidget *mail_send_receive(void);
-/* receive a single uri */
-void mail_receive_uri(const char *uri, int keep);
-void mail_send (void);
-/* setup auto receive stuff */
-void mail_autoreceive_init (struct _CamelSession *session);
+GtkWidget *     mail_send_receive               (void);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+/* receive a single uri */
+void            mail_receive_uri                (const gchar *uri,
+						 gboolean keep_on_server);
+
+void            mail_send                       (void);
+
+/* setup auto receive stuff */
+void            mail_autoreceive_init           (CamelSession *session);
+
+G_END_DECLS
 
 #endif /* ! MAIL_SEND_RECV_H */

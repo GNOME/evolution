@@ -1,3 +1,9 @@
+2008-10-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	* mail-send-recv.c:
+	* mail-send-recv.h:
+	Just some minor code polishing.
+
 2008-10-21  Sankar P  <psankar@novell.com>
 
 	* em-folder-view.c (emfv_spin):

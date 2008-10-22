@@ -105,7 +105,7 @@ struct _send_info {
 	send_info_t type;		/* 0 = fetch, 1 = send */
 	CamelOperation *cancel;
 	char *uri;
-	int keep;
+	gboolean keep_on_server;
 	send_state_t state;
 	GtkWidget *progress_bar;
 	GtkWidget *cancel_button;
@@ -470,7 +470,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 			d(printf("adding source %s\n", source->url));
 
 			info->uri = g_strdup (source->url);
-			info->keep = source->keep_on_server;
+			info->keep_on_server = source->keep_on_server;
 			info->cancel = camel_operation_new (operation_status, info);
 			info->state = SEND_ACTIVE;
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
@@ -552,7 +552,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 			d(printf("adding dest %s\n", destination));
 
 			info->uri = g_strdup (destination);
-			info->keep = FALSE;
+			info->keep_on_server = FALSE;
 			info->cancel = camel_operation_new (operation_status, info);
 			info->state = SEND_ACTIVE;
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
@@ -930,7 +930,7 @@ mail_send_receive (void)
 
 		switch(info->type) {
 		case SEND_RECEIVE:
-			mail_fetch_mail(info->uri, info->keep,
+			mail_fetch_mail(info->uri, info->keep_on_server,
 					FILTER_SOURCE_INCOMING,
 					info->cancel,
 					receive_get_folder, info,
@@ -971,11 +971,15 @@ auto_timeout(void *data)
 {
 	struct _auto_data *info = data;
 
-	if (camel_session_is_online(session)) {
-		const char *uri = e_account_get_string(info->account, E_ACCOUNT_SOURCE_URL);
-		int keep = e_account_get_bool(info->account, E_ACCOUNT_SOURCE_KEEP_ON_SERVER);
+	if (camel_session_is_online (session)) {
+		const gchar *uri;
+		gboolean keep_on_server;
 
-		mail_receive_uri(uri, keep);
+		uri = e_account_get_string (
+			info->account, E_ACCOUNT_SOURCE_URL);
+		keep_on_server = e_account_get_bool (
+			info->account, E_ACCOUNT_SOURCE_KEEP_ON_SERVER);
+		mail_receive_uri (uri, keep_on_server);
 	}
 
 	return TRUE;
@@ -1090,7 +1094,7 @@ mail_autoreceive_init (CamelSession *session)
 /* we setup the download info's in a hashtable, if we later need to build the gui, we insert
    them in to add them. */
 void
-mail_receive_uri (const char *uri, int keep)
+mail_receive_uri (const gchar *uri, gboolean keep_on_server)
 {
 	struct _send_info *info;
 	struct _send_data *data;
@@ -1117,7 +1121,7 @@ mail_receive_uri (const char *uri, int keep)
 	info->progress_bar = NULL;
 	info->status_label = NULL;
 	info->uri = g_strdup (uri);
-	info->keep = keep;
+	info->keep_on_server = keep_on_server;
 	info->cancel = camel_operation_new (operation_status, info);
 	info->cancel_button = NULL;
 	info->data = data;
@@ -1130,7 +1134,7 @@ mail_receive_uri (const char *uri, int keep)
 
 	switch (info->type) {
 	case SEND_RECEIVE:
-		mail_fetch_mail (info->uri, info->keep,
+		mail_fetch_mail (info->uri, info->keep_on_server,
 				 FILTER_SOURCE_INCOMING,
 				 info->cancel,
 				 receive_get_folder, info,
@@ -1189,7 +1193,7 @@ mail_send (void)
 	info->progress_bar = NULL;
 	info->status_label = NULL;
 	info->uri = g_strdup (transport->url);
-	info->keep = FALSE;
+	info->keep_on_server = FALSE;
 	info->cancel = NULL; 
 	info->cancel_button = NULL;
 	info->data = data;
