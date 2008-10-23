@@ -1,3 +1,9 @@
+2008-10-23  Philipp Kerling  <k.philipp@gmail.com>
+
+	** Fixes bug #557563
+
+	* de.po: Updated German translation (patch by Ronny Standke).
+
 2008-10-19  Theppitak Karoonboonyanan  <thep@linux.thai.net>
 
 	* th.po: Updated Thai translation.
