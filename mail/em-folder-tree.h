@@ -79,6 +79,7 @@ struct _EMFolderTreeClass {
 						 const gchar *full_name,
 						 const gchar *uri,
 						 guint32 flags);
+	void		(*popup_event)		(EMFolderTree *emft);
 };
 
 GType em_folder_tree_get_type (void);

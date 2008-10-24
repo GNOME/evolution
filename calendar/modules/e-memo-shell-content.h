@@ -55,6 +55,13 @@ typedef struct _EMemoShellContent EMemoShellContent;
 typedef struct _EMemoShellContentClass EMemoShellContentClass;
 typedef struct _EMemoShellContentPrivate EMemoShellContentPrivate;
 
+enum {
+	E_MEMO_SHELL_CONTENT_SELECTION_SINGLE		= 1 << 0,
+	E_MEMO_SHELL_CONTENT_SELECTION_MULTIPLE		= 1 << 1,
+	E_MEMO_SHELL_CONTENT_SELECTION_CAN_EDIT		= 1 << 2,
+	E_MEMO_SHELL_CONTENT_SELECTION_HAS_URL		= 1 << 3
+};
+
 struct _EMemoShellContent {
 	EShellContent parent;
 	EMemoShellContentPrivate *priv;

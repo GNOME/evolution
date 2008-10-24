@@ -67,7 +67,64 @@ mail_shell_view_constructed (GObject *object)
 static void
 mail_shell_view_update_actions (EShellView *shell_view)
 {
-	/* FIXME */
+	EMailShellViewPrivate *priv;
+	EMailShellSidebar *mail_shell_sidebar;
+	EShellWindow *shell_window;
+	EMFolderTree *folder_tree;
+	GtkAction *action;
+	CamelURL *camel_url;
+	gchar *uri;
+	gboolean sensitive;
+	gboolean visible;
+
+	priv = E_MAIL_SHELL_VIEW_GET_PRIVATE (shell_view);
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	mail_shell_sidebar = priv->mail_shell_sidebar;
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+
+	uri = em_folder_tree_get_selected_uri (folder_tree);
+	camel_url = camel_url_new (uri, NULL);
+	g_free (uri);
+
+	action = ACTION (MAIL_EMPTY_TRASH);
+	visible = is_trash;
+	gtk_action_set_visible (action, visible);
+
+	action = ACTION (MAIL_FLUSH_OUTBOX);
+	visible = is_outbox;
+	gtk_action_set_visible (action, visible);
+
+	action = ACTION (MAIL_FOLDER_COPY);
+	sensitive = is_folder && is_selected;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MAIL_FOLDER_DELETE);
+	sensitive = is_folder && can_delete;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MAIL_FOLDER_MOVE);
+	sensitive = is_folder && can_delete;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MAIL_FOLDER_NEW);
+	sensitive = inferiors;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MAIL_FOLDER_PROPERTIES);
+	sensitive = is_folder && is_selected;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (MAIL_FOLDER_REFRESH);
+	sensitive = is_folder && is_selected;
+	visible = nonstatic;
+	gtk_action_set_sensitive (action, sensitive);
+	gtk_action_set_visible (action, visible);
+
+	action = ACTION (MAIL_FOLDER_RENAME);
+	sensitive = is_folder && can_delete;
+	gtk_action_set_sensitive (action, sensitive);
 }
 
 static void

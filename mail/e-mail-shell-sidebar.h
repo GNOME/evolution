@@ -24,6 +24,7 @@
 
 #include <shell/e-shell-sidebar.h>
 #include <shell/e-shell-view.h>
+#include <mail/em-folder-tree.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_SHELL_SIDEBAR \
@@ -50,6 +51,13 @@ typedef struct _EMailShellSidebar EMailShellSidebar;
 typedef struct _EMailShellSidebarClass EMailShellSidebarClass;
 typedef struct _EMailShellSidebarPrivate EMailShellSidebarPrivate;
 
+enum {
+	E_BOOK_SHELL_SIDEBAR_FOLDER_ALLOWS_CHILDREN	= 1 << 0,
+	E_BOOK_SHELL_SIDEBAR_FOLDER_CAN_DELETE		= 1 << 1,
+	E_BOOK_SHELL_SIDEBAR_FOLDER_IS_OUTBOX		= 1 << 2,
+	E_BOOK_SHELL_SIDEBAR_FOLDER_IS_STORE		= 1 << 3
+};
+
 struct _EMailShellSidebar {
 	EShellSidebar parent;
 	EMailShellSidebarPrivate *priv;
@@ -61,6 +69,8 @@ struct _EMailShellSidebarClass {
 
 GType		e_mail_shell_sidebar_get_type	(void);
 GtkWidget *	e_mail_shell_sidebar_new	(EShellView *shell_view);
+EMFolderTree *	e_mail_shell_sidebar_get_folder_tree
+						(EMailShellSidebar *mail_shell_sidebar);
 
 G_END_DECLS
 

@@ -166,6 +166,14 @@ action_mail_flag_for_followup_cb (GtkAction *action,
 }
 
 static void
+action_mail_flush_outbox_cb (GtkAction *action,
+                             EMailShellView *mail_shell_view)
+{
+	/* FIXME */
+	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+}
+
+static void
 action_mail_folder_copy_cb (GtkAction *action,
                             EMailShellView *mail_shell_view)
 {
@@ -890,6 +898,13 @@ static GtkActionEntry mail_entries[] = {
 	  "<Shift><Control>g",
 	  N_("Flag the selected messages for follow-up"),
 	  G_CALLBACK (action_mail_flag_for_followup_cb) },
+
+	{ "mail-flush-outbox",
+	  "mail-send",
+	  N_("Fl_ush Outbox"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_mail_flush_outbox_cb) },
 
 	{ "mail-folder-copy",
 	  "folder-copy",

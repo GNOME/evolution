@@ -115,10 +115,41 @@ book_shell_sidebar_constructed (GObject *object)
 	gtk_widget_show (widget);
 }
 
+static guint32
+book_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
+{
+	EBookShellSidebar *book_shell_sidebar;
+	ESourceSelector *selector;
+	ESource *source;
+	gboolean is_system = FALSE;
+	guint32 state = 0;
+
+	priv = E_BOOK_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
+
+	book_shell_sidebar = E_BOOK_SHELL_SIDEBAR (shell_sidebar);
+	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
+	source = e_source_selector_peek_primary_selection (selector);
+
+	if (source != NULL) {
+		const gchar *uri;
+
+		uri = e_source_peek_relative_uri (source);
+		is_system = (uri == NULL || strcmp (uri, "system") == 0);
+	}
+
+	if (source != NULL)
+		state |= E_BOOK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE;
+	if (is_system)
+		state |= E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM;
+
+	return state;
+}
+
 static void
 book_shell_sidebar_class_init (EBookShellSidebarClass *class)
 {
 	GObjectClass *object_class;
+	EShellSidebarClass *shell_sidebar_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EBookShellSidebarPrivate));
@@ -127,6 +158,9 @@ book_shell_sidebar_class_init (EBookShellSidebarClass *class)
 	object_class->get_property = book_shell_sidebar_get_property;
 	object_class->dispose = book_shell_sidebar_dispose;
 	object_class->constructed = book_shell_sidebar_constructed;
+
+	shell_sidebar_class = E_SHELL_SIDEBAR_CLASS (class);
+	shell_sidebar_class->check_state = book_shell_sidebar_check_state;
 
 	g_object_class_install_property (
 		object_class,

@@ -55,6 +55,16 @@ typedef struct _ETaskShellContent ETaskShellContent;
 typedef struct _ETaskShellContentClass ETaskShellContentClass;
 typedef struct _ETaskShellContentPrivate ETaskShellContentPrivate;
 
+enum {
+	E_TASK_SHELL_CONTENT_SELECTION_SINGLE		= 1 << 0,
+	E_TASK_SHELL_CONTENT_SELECTION_MULTIPLE		= 1 << 1,
+	E_TASK_SHELL_CONTENT_SELECTION_CAN_ASSIGN	= 1 << 2,
+	E_TASK_SHELL_CONTENT_SELECTION_CAN_EDIT		= 1 << 3,
+	E_TASK_SHELL_CONTENT_SELECTION_HAS_COMPLETE	= 1 << 4,
+	E_TASK_SHELL_CONTENT_SELECTION_HAS_INCOMPLETE	= 1 << 5,
+	E_TASK_SHELL_CONTENT_SELECTION_HAS_URL		= 1 << 6 
+};
+
 struct _ETaskShellContent {
 	EShellContent parent;
 	ETaskShellContentPrivate *priv;

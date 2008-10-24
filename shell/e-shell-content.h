@@ -76,10 +76,13 @@ struct _EShellContentClass {
 
 	/* Factory Methods */
 	RuleContext *	(*new_search_context)	(void);
+
+	guint32		(*check_state)		(EShellContent *shell_content);
 };
 
 GType		e_shell_content_get_type	(void);
 GtkWidget *	e_shell_content_new		(struct _EShellView *shell_view);
+guint32		e_shell_content_check_state	(EShellContent *shell_content);
 struct _EShellView *
 		e_shell_content_get_shell_view	(EShellContent *shell_content);
 RuleContext *	e_shell_content_get_context	(EShellContent *shell_content);

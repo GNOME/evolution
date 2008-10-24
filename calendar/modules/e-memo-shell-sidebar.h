@@ -53,6 +53,11 @@ typedef struct _EMemoShellSidebar EMemoShellSidebar;
 typedef struct _EMemoShellSidebarClass EMemoShellSidebarClass;
 typedef struct _EMemoShellSidebarPrivate EMemoShellSidebarPrivate;
 
+enum {
+	E_MEMO_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE		= 1 << 0,
+	E_MEMO_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM	= 1 << 1
+};
+
 struct _EMemoShellSidebar {
 	EShellSidebar parent;
 	EMemoShellSidebarPrivate *priv;

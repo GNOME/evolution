@@ -24,6 +24,16 @@
 #include <widgets/menus/gal-view-factory-etable.h>
 
 static void
+mail_shell_view_folder_tree_popup_event_cb (EShellView *shell_view,
+                                            GdkEventButton *event)
+{
+	const gchar *widget_path;
+
+	widget_path = "/mail-folder-popup";
+	e_shell_view_show_popup_menu (shell_view, widget_path, event);
+}
+
+static void
 mail_shell_view_load_view_collection (EShellViewClass *shell_view_class)
 {
 	GalViewCollection *collection;
@@ -93,9 +103,11 @@ void
 e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 {
 	EMailShellViewPrivate *priv = mail_shell_view->priv;
+	EMailShellSidebar *mail_shell_sidebar;
 	EShellView *shell_view;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
+	EMFolderTree *folder_tree;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
@@ -104,6 +116,14 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	/* Cache these to avoid lots of awkward casting. */
 	priv->mail_shell_content = g_object_ref (shell_content);
 	priv->mail_shell_sidebar = g_object_ref (shell_content);
+
+	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+
+	g_signal_connect_swapped (
+		folder_tree, "popup-event",
+		G_CALLBACK (mail_shell_view_folder_tree_popup_event_cb),
+		mail_shell_view);
 
 	e_mail_shell_view_actions_init (mail_shell_view);
 }

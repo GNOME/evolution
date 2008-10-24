@@ -441,6 +441,34 @@ task_shell_sidebar_constructed (GObject *object)
 		object);
 }
 
+static guint32
+task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
+{
+	ETaskShellSidebar *task_shell_sidebar;
+	ESourceSelector *selector;
+	ESource *source;
+	gboolean is_system = FALSE; 
+	guint32 state = 0;
+
+	task_shell_sidebar = E_TASK_SHELL_SIDEBAR (shell_sidebar);
+	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+	source = e_source_selector_peek_primary_selection (selector);
+
+	if (source != NULL) {
+		const gchar *uri;
+
+		uri = e_source_peek_relative_uri (source);
+		is_system = (uri == NULL || strcmp (uri, "system") == 0);
+	}
+
+	if (source != NULL)
+		state |= E_TASK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE;
+	if (is_system)
+		state |= E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM;
+
+	return state;
+}
+
 static void
 task_shell_sidebar_client_added (ETaskShellSidebar *task_shell_sidebar,
                                  ECal *client)
@@ -477,6 +505,7 @@ static void
 task_shell_sidebar_class_init (ETaskShellSidebarClass *class)
 {
 	GObjectClass *object_class;
+	EShellSidebarClass *shell_sidebar_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ETaskShellSidebarPrivate));
@@ -486,6 +515,9 @@ task_shell_sidebar_class_init (ETaskShellSidebarClass *class)
 	object_class->dispose = task_shell_sidebar_dispose;
 	object_class->finalize = task_shell_sidebar_finalize;
 	object_class->constructed = task_shell_sidebar_constructed;
+
+	shell_sidebar_class = E_SHELL_SIDEBAR_CLASS (class);
+	shell_sidebar_class->check_state = task_shell_sidebar_check_state;
 
 	class->client_added = task_shell_sidebar_client_added;
 	class->client_removed = task_shell_sidebar_client_removed;

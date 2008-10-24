@@ -71,10 +71,13 @@ struct _EShellSidebar {
 
 struct _EShellSidebarClass {
 	GtkBinClass parent_class;
+
+	guint32		(*check_state)		(EShellSidebar *shell_sidebar);
 };
 
 GType		e_shell_sidebar_get_type	(void);
 GtkWidget *	e_shell_sidebar_new		(struct _EShellView *shell_view);
+guint32		e_shell_sidebar_check_state	(EShellSidebar *shell_sidebar);
 struct _EShellView *
 		e_shell_sidebar_get_shell_view	(EShellSidebar *shell_sidebar);
 const gchar *	e_shell_sidebar_get_primary_text(EShellSidebar *shell_sidebar);

@@ -136,121 +136,134 @@ static void
 book_shell_view_update_actions (EShellView *shell_view)
 {
 	EBookShellViewPrivate *priv;
-	EBookShellContent *book_shell_content;
-	EBookShellSidebar *book_shell_sidebar;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
-	EAddressbookModel *model;
-	EAddressbookView *view;
-	ESelectionModel *selection_model;
-	ESourceSelector *selector;
-	ESource *source;
 	GtkAction *action;
 	const gchar *label;
-	gboolean editable;
 	gboolean sensitive;
-	gint n_contacts;
-	gint n_selected;
+	guint32 state;
+
+	/* Be descriptive. */
+	gboolean any_contacts_selected;
+	gboolean has_primary_source;
+	gboolean multiple_contacts_selected;
+	gboolean primary_source_is_system;
+	gboolean single_contact_selected;
+	gboolean selection_is_contact_list;
+	gboolean selection_has_email;
+	gboolean source_is_busy;
+	gboolean source_is_editable;
+	gboolean source_is_empty;
 
 	priv = E_BOOK_SHELL_VIEW_GET_PRIVATE (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	book_shell_content = priv->book_shell_content;
-	view = e_book_shell_content_get_current_view (book_shell_content);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	state = e_shell_content_check_state (shell_content);
 
-	book_shell_sidebar = priv->book_shell_sidebar;
-	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
-	source = e_source_selector_peek_primary_selection (selector);
+	single_contact_selected =
+		(state & E_BOOK_SHELL_CONTENT_SELECTION_SINGLE);
+	multiple_contacts_selected =
+		(state & E_BOOK_SHELL_CONTENT_SELECTION_MULTIPLE);
+	selection_has_email =
+		(state & E_BOOK_SHELL_CONTENT_SELECTION_HAS_EMAIL);
+	selection_is_contact_list =
+		(state & E_BOOK_SHELL_CONTENT_SELECTION_IS_CONTACT_LIST);
+	source_is_busy =
+		(state & E_BOOK_SHELL_CONTENT_SOURCE_IS_BUSY);
+	source_is_editable =
+		(state & E_BOOK_SHELL_CONTENT_SOURCE_IS_EDITABLE);
+	source_is_empty =
+		(state & E_BOOK_SHELL_CONTENT_SOURCE_IS_EMPTY);
 
-	model = e_addressbook_view_get_model (view);
-	editable = e_addressbook_model_get_editable (model);
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	state = e_shell_sidebar_check_state (shell_sidebar);
 
-	selection_model = e_addressbook_view_get_selection_model (view);
-	n_contacts = (selection_model != NULL) ?
-		e_selection_model_row_count (selection_model) : 0;
-	n_selected = (selection_model != NULL) ?
-		e_selection_model_selected_count (selection_model) : 0;
+	has_primary_source =
+		(state & E_BOOK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE);
+	primary_source_is_system =
+		(state & E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM);
+
+	any_contacts_selected =
+		(single_contact_selected || multiple_contacts_selected);
+
+	action = ACTION (ADDRESS_BOOK_DELETE);
+	sensitive = has_primary_source && !primary_source_is_system;
+	gtk_action_set_sensitive (action, sensitive);
+
+	action = ACTION (ADDRESS_BOOK_POPUP_DELETE);
+	sensitive = has_primary_source && !primary_source_is_system;
+	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (ADDRESS_BOOK_STOP);
-	sensitive = e_addressbook_model_can_stop (model);
+	sensitive = source_is_busy;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_CLIPBOARD_COPY);
-	sensitive = (n_selected > 0);
+	sensitive = any_contacts_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_CLIPBOARD_CUT);
-	sensitive = editable && (n_selected > 0);
+	sensitive = source_is_editable && any_contacts_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_CLIPBOARD_PASTE);
-	sensitive = editable;
+	sensitive = source_is_editable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_COPY);
-	sensitive = (n_selected > 0);
+	sensitive = any_contacts_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_DELETE);
-	sensitive = editable && (n_selected > 0);
+	sensitive = source_is_editable && any_contacts_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_FORWARD);
-	sensitive = (n_selected > 0);
+	sensitive = any_contacts_selected;
 	gtk_action_set_sensitive (action, sensitive);
-	label = ngettext (
-		"_Forward Contact",
-		"_Forward Contacts", n_selected);
+	if (multiple_contacts_selected)
+		label = _("_Forward Contacts");
+	else
+		label = _("_Forward Contact");
 	g_object_set (action, "label", label, NULL);
 
 	action = ACTION (CONTACT_MOVE);
-	sensitive = editable && (n_selected > 0);
+	sensitive = source_is_editable && any_contacts_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_OPEN);
-	sensitive = (n_selected > 0);
+	sensitive = any_contacts_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_PRINT);
-	sensitive = (n_contacts > 0);
+	sensitive = any_contacts_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_PRINT_PREVIEW);
-	sensitive = (n_contacts > 0);
+	sensitive = any_contacts_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_SAVE_AS);
-	sensitive = (n_selected > 0);
+	sensitive = any_contacts_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (CONTACT_SELECT_ALL);
-	sensitive = (n_contacts > 0);
+	sensitive = !(source_is_empty);
 	gtk_action_set_sensitive (action, sensitive);
 
-	/* FIXME Also check for email address. */
 	action = ACTION (CONTACT_SEND_MESSAGE);
-	sensitive = (n_selected > 0);
+	sensitive = any_contacts_selected && selection_has_email;
 	gtk_action_set_sensitive (action, sensitive);
-	label = ngettext (
-		"_Send Message to Contact",
-		"_Send Message to Contacts", n_selected);
+	if (multiple_contacts_selected)
+		label = _("_Send Message to Contacts");
+	else if (selection_is_contact_list)
+		label = _("_Send Message to List");
+	else
+		label = _("_Send Message to Contact");
 	g_object_set (action, "label", label, NULL);
-
-	/* TODO Add some context sensitivity to SEND_MESSAGE:
-	 *      Send Message to Contact  (n_selected == 1)
-	 *      Send Message to Contacts (n_selected > 1)
-	 *      Send Message to List     (n_selected == 1 && is_list)
-	 */
-
-	action = ACTION (ADDRESS_BOOK_DELETE);
-	if (source != NULL) {
-		const gchar *uri;
-
-		uri = e_source_peek_relative_uri (source);
-		sensitive = (uri == NULL || strcmp ("system", uri) != 0);
-	} else
-		sensitive = FALSE;
-	gtk_action_set_sensitive (action, sensitive);
 }
 
 static void

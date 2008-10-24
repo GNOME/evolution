@@ -690,7 +690,7 @@ em_folder_utils_create_folder (CamelFolderInfo *folderinfo, EMFolderTree *emft) 
 	model = e_mail_shell_module_get_folder_tree_model (mail_shell_module);
 	folder_tree = (EMFolderTree *) em_folder_tree_new_with_model (model);
 
-	dialog = em_folder_selector_create_new (folder_tree, 0, _("Create folder"), _("Specify where to create the folder:"));
+	dialog = em_folder_selector_create_new (folder_tree, 0, _("Create Folder"), _("Specify where to create the folder:"));
 	if (folderinfo != NULL)
 		em_folder_selector_set_selected ((EMFolderSelector *) dialog, folderinfo->uri);
 	g_signal_connect (dialog, "response", G_CALLBACK (emfu_popup_new_folder_response), emft);

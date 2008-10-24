@@ -53,6 +53,11 @@ typedef struct _ETaskShellSidebar ETaskShellSidebar;
 typedef struct _ETaskShellSidebarClass ETaskShellSidebarClass;
 typedef struct _ETaskShellSidebarPrivate ETaskShellSidebarPrivate;
 
+enum {
+	E_TASK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE		= 1 << 0,
+	E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM	= 1 << 1
+};
+
 struct _ETaskShellSidebar {
 	EShellSidebar parent;
 	ETaskShellSidebarPrivate *priv;

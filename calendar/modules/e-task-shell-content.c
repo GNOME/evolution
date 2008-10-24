@@ -417,10 +417,81 @@ task_shell_content_constructed (GObject *object)
 	gconf_bridge_bind_property_delayed (bridge, key, object, "position");
 }
 
+static guint32
+task_shell_content_check_state (EShellContent *shell_content)
+{
+	ETaskShellContent *task_shell_content;
+	ECalendarTable *task_table;
+	ETable *table;
+	GSList *list, *iter;
+	gboolean assignable = TRUE;
+	gboolean editable = TRUE;
+	gboolean has_url = FALSE;
+	gint n_selected;
+	gint n_complete = 0;
+	gint n_incomplete = 0;
+	guint32 state = 0;
+
+	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+
+	table = e_calendar_table_get_table (task_table);
+	n_selected = e_table_selected_count (table);
+
+	list = e_calendar_table_get_selected (task_table);
+	for (iter = list; iter != NULL; iter = iter->next) {
+		ECalModelComponent *comp_data = iter->data;
+		icalproperty *prop;
+		const gchar *cap;
+		gboolean read_only;
+
+		e_cal_is_read_only (comp_data->client, &read_only, NULL);
+		editable &= !read_only;
+
+		cap = CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT;
+		if (e_cal_get_static_capability (comp_data->client, cap))
+			assignable = FALSE;
+
+		cap = CAL_STATIC_CAPABILITY_NO_CONV_TO_ASSIGN_TASK;
+		if (e_cal_get_static_capability (comp_data->client, cap))
+			assignable = FALSE;
+
+		prop = icalcomponent_get_first_property (
+			comp_data->icalcomp, ICAL_URL_PROPERTY);
+		has_url |= (prop != NULL);
+
+		prop = icalcomponent_get_first_property (
+			comp_data->icalcomp, ICAL_COMPLETED_PROPERTY);
+		if (prop != NULL)
+			n_complete++;
+		else
+			n_incomplete++;
+	}
+	g_slist_free (list);
+
+	if (n_selected == 1)
+		state |= E_TASK_SHELL_CONTENT_SELECTION_SINGLE;
+	if (n_selected > 1)
+		state |= E_TASK_SHELL_CONTENT_SELECTION_MULTIPLE;
+	if (assignable)
+		state |= E_TASK_SHELL_CONTENT_SELECTION_CAN_ASSIGN;
+	if (editable)
+		state |= E_TASK_SHELL_CONTENT_SELECTION_CAN_EDIT;
+	if (n_complete > 0)
+		state |= E_TASK_SHELL_CONTENT_SELECTION_HAS_COMPLETE;
+	if (n_incomplete > 0)
+		state |= E_TASK_SHELL_CONTENT_SELECTION_HAS_INCOMPLETE;
+	if (has_url)
+		state |= E_TASK_SHELL_CONTENT_SELECTION_HAS_URL;
+
+	return state;
+}
+
 static void
 task_shell_content_class_init (ETaskShellContentClass *class)
 {
 	GObjectClass *object_class;
+	EShellContentClass *shell_content_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ETaskShellContentPrivate));
@@ -431,6 +502,9 @@ task_shell_content_class_init (ETaskShellContentClass *class)
 	object_class->dispose = task_shell_content_dispose;
 	object_class->finalize = task_shell_content_finalize;
 	object_class->constructed = task_shell_content_constructed;
+
+	shell_content_class = E_SHELL_CONTENT_CLASS (class);
+	shell_content_class->check_state = task_shell_content_check_state;
 
 	g_object_class_install_property (
 		object_class,

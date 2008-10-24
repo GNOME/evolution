@@ -118,6 +118,7 @@ struct _EMFolderTreePrivate {
 enum {
 	FOLDER_ACTIVATED,  /* aka double-clicked or user hit enter */
 	FOLDER_SELECTED,
+	POPUP_EVENT,
 	LAST_SIGNAL
 };
 
@@ -175,6 +176,13 @@ struct _emft_selection_data {
 };
 
 static gpointer parent_class = NULL;
+
+static void
+folder_tree_emit_popup_event (EMFolderTree *emft,
+                              GdkEvent *event)
+{
+	g_signal_emit (emft, signals[POPUP_EVENT], 0, event);
+}
 
 static void
 emft_free_select_uri (struct _selected_uri *u)
@@ -284,6 +292,16 @@ folder_tree_class_init (EMFolderTreeClass *class)
 		G_TYPE_NONE, 2,
 		G_TYPE_STRING,
 		G_TYPE_STRING);
+
+	signals[POPUP_EVENT] = g_signal_new (
+		"popup-event",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EMFolderTreeClass, popup_event),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__BOXED,
+		G_TYPE_NONE, 1,
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
 }
 
 static void
@@ -2229,6 +2247,9 @@ emft_popup (EMFolderTree *emft, GdkEvent *event)
 			info_flags |= CAMEL_FOLDER_TYPE_OUTBOX;
 	}
 
+	folder_tree_emit_popup_event (emft, event);
+
+#if 0  /* KILL-BONOBO */
 	/** @HookPoint-EMPopup: Folder Tree Context Menu
 	 * @Id: org.gnome.evolution.mail.foldertree.popup
 	 * @Class: org.gnome.evolution.mail.popup:1.0
@@ -2257,6 +2278,7 @@ emft_popup (EMFolderTree *emft, GdkEvent *event)
 	} else {
 		gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event->button.button, event->button.time);
 	}
+#endif
 
 	g_free (full_name);
 	g_free (uri);

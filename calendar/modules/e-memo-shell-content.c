@@ -416,10 +416,56 @@ memo_shell_content_constructed (GObject *object)
 	gconf_bridge_bind_property_delayed (bridge, key, object, "position");
 }
 
+static guint32
+memo_shell_content_check_state (EShellContent *shell_content)
+{
+	EMemoShellContent *memo_shell_content;
+	EMemoTable *memo_table;
+	ETable *table;
+	GSList *list, *iter;
+	gboolean editable = TRUE;
+	gboolean has_url = FALSE;
+	gint n_selected;
+	guint32 state = 0;
+
+	memo_shell_content = E_MEMO_SHELL_CONTENT (shell_content);
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+
+	table = e_memo_table_get_table (memo_table);
+	n_selected = e_table_selected_count (table);
+
+	list = e_memo_table_get_selected (memo_table);
+	for (iter = list; iter != NULL; iter = iter->next) {
+		ECalModelComponent *comp_data = iter->data;
+		icalproperty *prop;
+		gboolean read_only;
+
+		e_cal_is_read_only (comp_data->client, &read_only, NULL);
+		editable &= !read_only;
+
+		prop = icalcomponent_get_first_property (
+			comp_data->icalcomp, ICAL_URL_PROPERTY);
+		has_url |= (prop != NULL);
+	}
+	g_slist_free (list);
+
+	if (n_selected == 1)
+		state |= E_MEMO_SHELL_CONTENT_SELECTION_SINGLE;
+	if (n_selected > 1)
+		state |= E_MEMO_SHELL_CONTENT_SELECTION_MULTIPLE;
+	if (editable)
+		state |= E_MEMO_SHELL_CONTENT_SELECTION_CAN_EDIT;
+	if (has_url)
+		state |= E_MEMO_SHELL_CONTENT_SELECTION_HAS_URL;
+
+	return state;
+}
+
 static void
 memo_shell_content_class_init (EMemoShellContentClass *class)
 {
 	GObjectClass *object_class;
+	EShellContentClass *shell_content_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMemoShellContentPrivate));
@@ -430,6 +476,9 @@ memo_shell_content_class_init (EMemoShellContentClass *class)
 	object_class->dispose = memo_shell_content_dispose;
 	object_class->finalize = memo_shell_content_finalize;
 	object_class->constructed = memo_shell_content_constructed;
+
+	shell_content_class = E_SHELL_CONTENT_CLASS (class);
+	shell_content_class->check_state = memo_shell_content_check_state;
 
 	g_object_class_install_property (
 		object_class,

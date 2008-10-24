@@ -54,6 +54,13 @@ typedef struct _ECalShellSidebar ECalShellSidebar;
 typedef struct _ECalShellSidebarClass ECalShellSidebarClass;
 typedef struct _ECalShellSidebarPrivate ECalShellSidebarPrivate;
 
+enum {
+	E_CAL_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE		= 1 << 0,
+	E_CAL_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_EMPTY	= 1 << 1,
+	E_CAL_SHELL_SIDEBAR_SOURCE_CAN_GO_OFFLINE	= 1 << 2,
+	E_CAL_SHELL_SIDEBAR_SOURCE_CAN_DELETE		= 1 << 3
+};
+
 struct _ECalShellSidebar {
 	EShellSidebar parent;
 	ECalShellSidebarPrivate *priv;

@@ -21,8 +21,6 @@
 
 #include "e-mail-shell-sidebar.h"
 
-#include "mail/em-folder-tree.h"
-
 #define E_MAIL_SHELL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_SHELL_SIDEBAR, EMailShellSidebarPrivate))
@@ -32,7 +30,8 @@ struct _EMailShellSidebarPrivate {
 };
 
 enum {
-	PROP_0
+	PROP_0,
+	PROP_FOLDER_TREE
 };
 
 static gpointer parent_class;
@@ -43,6 +42,14 @@ mail_shell_sidebar_get_property (GObject *object,
                                  GValue *value,
                                  GParamSpec *pspec)
 {
+	switch (property_id) {
+		case PROP_FOLDER_TREE:
+			g_value_set_object (
+				value, e_mail_shell_sidebar_get_folder_tree (
+				E_MAIL_SHELL_SIDEBAR (object)));
+			return;
+	}
+
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
@@ -115,10 +122,75 @@ mail_shell_sidebar_constructed (GObject *object)
 	gtk_widget_show (widget);
 }
 
+static guint32
+mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
+{
+	EMailShellSidebar *mail_shell_sidebar;
+	EShellModule *shell_module;
+	EShellView *shell_view;
+	EMFolderTree *folder_tree;
+	GtkTreeSelection *selection;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	CamelFolder *folder;
+	CamelStore *local_store;
+	CamelStore *store;
+	gchar *full_name;
+	gchar *uri;
+	gboolean is_virtual = FALSE;
+	gboolean can_delete = TRUE;
+	gboolean is_outbox = FALSE;
+	gboolean is_store;
+	guint32 folder_flags = 0;
+	guint32 state = 0;
+
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_module = e_shell_view_get_shell_module (shell_view);
+	local_store = e_mail_shell_module_get_local_store (shell_module);
+
+	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+	tree_view = GTK_TREE_VIEW (folder_tree);
+
+	selection = gtk_tree_view_get_selection (tree_view);
+	if (!emft_selection_get_selected (selection, &model, &iter))
+		return 0;
+
+	gtk_tree_model_get (
+		model, &iter,
+		COL_POINTER_CAMEL_STORE, &store,
+		COL_STRING_FULL_NAME, &full_name,
+		COL_BOOL_IS_STORE, &is_store,
+		COL_UINT_FLAGS, &folder_flags,
+		COL_STRING_URI, &uri, NULL);
+
+	if (!is_store) {
+		if (strcmp (full_name, CAMEL_VJUNK_NAME) == 0)
+			is_virtual = TRUE;
+
+		if (strcmp (full_name, CAMEL_VTRASH_NAME) == 0)
+			is_virtual = TRUE;
+
+		folder = em_folder_tree_get_selected_folder (folder_tree);
+		is_outbox = em_utils_folder_is_outbox (folder, NULL);
+	}
+
+	if (is_virtual)
+		state |= E_BOOK_SHELL_SIDEBAR_ALLOWS_CHILDREN;
+	if (is_outbox)
+		state |= E_BOOK_SHELL_SIDEBAR_FOLDER_IS_OUTBOX;
+	if (is_store)
+		state |= E_BOOK_SHELL_SIDEBAR_FOLDER_IS_STORE;
+
+	return state;
+}
+
 static void
 mail_shell_sidebar_class_init (EMailShellSidebarClass *class)
 {
 	GObjectClass *object_class;
+	EShellSidebarClass *shell_sidebar_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailShellSidebarPrivate));
@@ -128,6 +200,19 @@ mail_shell_sidebar_class_init (EMailShellSidebarClass *class)
 	object_class->dispose = mail_shell_sidebar_dispose;
 	object_class->finalize = mail_shell_sidebar_finalize;
 	object_class->constructed = mail_shell_sidebar_constructed;
+
+	shell_sidebar_class = E_SHELL_SIDEBAR_CLASS (class);
+	shell_sidebar_class->check_state = mail_shell_sidebar_check_state;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_FOLDER_TREE,
+		g_param_spec_object (
+			"folder-tree",
+			NULL,
+			NULL,
+			EM_TYPE_FOLDER_TREE,
+			G_PARAM_READABLE));
 }
 
 static void
@@ -174,4 +259,13 @@ e_mail_shell_sidebar_new (EShellView *shell_view)
 	return g_object_new (
 		E_TYPE_MAIL_SHELL_SIDEBAR,
 		"shell-view", shell_view, NULL);
+}
+
+EMFolderTree *
+e_mail_shell_sidebar_get_folder_tree (EMailShellSidebar *mail_shell_sidebar)
+{
+	g_return_val_if_fail (
+		E_IS_MAIL_SHELL_SIDEBAR (mail_shell_sidebar), NULL);
+
+	return mail_shell_sidebar->priv->folder_tree;
 }

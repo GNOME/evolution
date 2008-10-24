@@ -77,104 +77,101 @@ static void
 memo_shell_view_update_actions (EShellView *shell_view)
 {
 	EMemoShellViewPrivate *priv;
-	EMemoShellContent *memo_shell_content;
-	EMemoShellSidebar *memo_shell_sidebar;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
-	ESourceSelector *selector;
-	EMemoTable *memo_table;
-	ETable *table;
-	ESource *source;
 	GtkAction *action;
-	GSList *list, *iter;
 	const gchar *label;
-	const gchar *uri = NULL;
-	gboolean user_created_source;
-	gboolean editable = TRUE;
-	gboolean has_url = FALSE;
 	gboolean sensitive;
-	gint n_selected;
+	guint32 state;
+
+	/* Be descriptive. */
+	gboolean any_memos_selected;
+	gboolean has_primary_source;
+	gboolean multiple_memos_selected;
+	gboolean primary_source_is_system;
+	gboolean selection_has_url;
+	gboolean single_memo_selected;
+	gboolean sources_are_editable;
 
 	priv = E_MEMO_SHELL_VIEW_GET_PRIVATE (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	memo_shell_content = priv->memo_shell_content;
-	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	state = e_shell_content_check_state (shell_content);
 
-	memo_shell_sidebar = priv->memo_shell_sidebar;
-	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
+	single_memo_selected =
+		(state & E_MEMO_SHELL_CONTENT_SELECTION_SINGLE);
+	multiple_memos_selected =
+		(state & E_MEMO_SHELL_CONTENT_SELECTION_MULTIPLE);
+	sources_are_editable =
+		(state & E_MEMO_SHELL_CONTENT_SELECTION_CAN_EDIT);
+	selection_has_url =
+		(state & E_MEMO_SHELL_CONTENT_SELECTION_HAS_URL);
 
-	table = e_memo_table_get_table (memo_table);
-	n_selected = e_table_selected_count (table);
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	state = e_shell_sidebar_check_state (shell_sidebar);
 
-	list = e_memo_table_get_selected (memo_table);
-	for (iter = list; iter != NULL; iter = iter->next) {
-		ECalModelComponent *comp_data = iter->data;
-		icalproperty *prop;
-		gboolean read_only;
+	has_primary_source =
+		(state & E_MEMO_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE);
+	primary_source_is_system =
+		(state & E_MEMO_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM);
 
-		e_cal_is_read_only (comp_data->client, &read_only, NULL);
-		editable &= !read_only;
-
-		prop = icalcomponent_get_first_property (
-			comp_data->icalcomp, ICAL_URL_PROPERTY);
-		has_url |= (prop != NULL);
-	}
-	g_slist_free (list);
-
-	source = e_source_selector_peek_primary_selection (selector);
-	if (source != NULL)
-		uri = e_source_peek_relative_uri (source);
-	user_created_source = (uri != NULL && strcmp (uri, "system") != 0);
+	any_memos_selected =
+		(single_memo_selected || multiple_memos_selected);
 
 	action = ACTION (MEMO_CLIPBOARD_COPY);
-	sensitive = (n_selected > 0);
+	sensitive = any_memos_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_CLIPBOARD_CUT);
-	sensitive = (n_selected > 0) && editable;
+	sensitive = any_memos_selected && sources_are_editable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_CLIPBOARD_PASTE);
-	sensitive = editable;
+	sensitive = sources_are_editable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_DELETE);
-	sensitive = (n_selected > 0) && editable;
+	sensitive = any_memos_selected && sources_are_editable;
 	gtk_action_set_sensitive (action, sensitive);
-	label = ngettext ("Delete Memo", "Delete Memos", n_selected);
+	if (multiple_memos_selected)
+		label = _("Delete Memos");
+	else
+		label = _("Delete Memo");
 	g_object_set (action, "label", label, NULL);
 
 	action = ACTION (MEMO_FORWARD);
-	sensitive = (n_selected == 1);
+	sensitive = single_memo_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_LIST_COPY);
-	sensitive = (source != NULL);
+	sensitive = has_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_LIST_DELETE);
-	sensitive = user_created_source;
+	sensitive = has_primary_source && !primary_source_is_system;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_LIST_PROPERTIES);
-	sensitive = (source != NULL);
+	sensitive = has_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_OPEN);
-	sensitive = (n_selected == 1);
+	sensitive = single_memo_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_OPEN_URL);
-	sensitive = (n_selected == 1) && has_url;
+	sensitive = single_memo_selected && selection_has_url;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_PRINT);
-	sensitive = (n_selected == 1);
+	sensitive = single_memo_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MEMO_SAVE_AS);
-	sensitive = (n_selected == 1);
+	sensitive = single_memo_selected;
 	gtk_action_set_sensitive (action, sensitive);
 }
 

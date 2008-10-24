@@ -26,20 +26,30 @@
 
 #include <gtk/gtk.h>
 
-#ifdef cplusplus
-extern "C" {
-#pragma }
-#endif /* cplusplus */
+/* Standard GObject macros */
+#define EM_TYPE_FOLDER_SELECTOR \
+	(em_folder_selector_get_type ())
+#define EM_FOLDER_SELECTOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_FOLDER_SELECTOR, EMFolderSelector))
+#define EM_FOLDER_SELECTOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_FOLDER_SELECTOR, EMFolderSelectorClass))
+#define EM_IS_FOLDER_SELECTOR(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_FOLDER_SELECTOR))
+#define EM_IS_FOLDER_SELECTOR_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_FOLDER_SELECTOR))
+#define EM_FOLDER_SELECTOR_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_FOLDER_SELECTOR, EMFolderSelectorClass))
 
-#define EM_TYPE_FOLDER_SELECTOR			(em_folder_selector_get_type ())
-#define EM_FOLDER_SELECTOR(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), EM_TYPE_FOLDER_SELECTOR, EMFolderSelector))
-#define EM_FOLDER_SELECTOR_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), EM_TYPE_FOLDER_SELECTOR, EMFolderSelectorClass))
-#define EM_IS_FOLDER_SELECTOR(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), EM_TYPE_FOLDER_SELECTOR))
-#define EM_IS_FOLDER_SELECTOR_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), EM_TYPE_FOLDER_SELECTOR))
+G_BEGIN_DECLS
 
-typedef struct _EMFolderSelector        EMFolderSelector;
+typedef struct _EMFolderSelector EMFolderSelector;
+typedef struct _EMFolderSelectorClass EMFolderSelectorClass;
 typedef struct _EMFolderSelectorPrivate EMFolderSelectorPrivate;
-typedef struct _EMFolderSelectorClass   EMFolderSelectorClass;
 
 struct _EMFolderSelector {
 	GtkDialog parent;
@@ -87,8 +97,6 @@ const char *em_folder_selector_get_selected_path (EMFolderSelector *emfs);
 GList *em_folder_selector_get_selected_uris (EMFolderSelector *emfs);
 GList *em_folder_selector_get_selected_paths (EMFolderSelector *emfs);
 
-#ifdef cplusplus
-}
-#endif /* cplusplus */
+G_END_DECLS
 
 #endif /* EM_FOLDER_SELECTOR_H */

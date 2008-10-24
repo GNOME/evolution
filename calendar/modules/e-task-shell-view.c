@@ -77,139 +77,134 @@ static void
 task_shell_view_update_actions (EShellView *shell_view)
 {
 	ETaskShellViewPrivate *priv;
-	ETaskShellContent *task_shell_content;
-	ETaskShellSidebar *task_shell_sidebar;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
-	ESourceSelector *selector;
-	ETable *table;
-	ECalendarTable *task_table;
-	ESource *source;
 	GtkAction *action;
-	GSList *list, *iter;
 	const gchar *label;
-	const gchar *uri = NULL;
-	gboolean user_created_source;
-	gboolean assignable = TRUE;
-	gboolean editable = TRUE;
-	gboolean has_url = FALSE;
 	gboolean sensitive;
-	gint n_selected;
-	gint n_complete = 0;
-	gint n_incomplete = 0;
+	guint32 state;
+
+	/* Be descriptive. */
+	gboolean any_tasks_selected;
+	gboolean has_primary_source;
+	gboolean multiple_tasks_selected;
+	gboolean primary_source_is_system;
+	gboolean selection_has_url;
+	gboolean selection_is_assignable;
+	gboolean single_task_selected;
+	gboolean some_tasks_complete;
+	gboolean some_tasks_incomplete;
+	gboolean sources_are_editable;
 
 	priv = E_TASK_SHELL_VIEW_GET_PRIVATE (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	task_shell_content = priv->task_shell_content;
-	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	state = e_shell_content_check_state (shell_content);
 
-	task_shell_sidebar = priv->task_shell_sidebar;
-	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+	single_task_selected =
+		(state & E_TASK_SHELL_CONTENT_SELECTION_SINGLE);
+	multiple_tasks_selected =
+		(state & E_TASK_SHELL_CONTENT_SELECTION_MULTIPLE);
+	selection_is_assignable =
+		(state & E_TASK_SHELL_CONTENT_SELECTION_CAN_ASSIGN);
+	sources_are_editable =
+		(state & E_TASK_SHELL_CONTENT_SELECTION_CAN_EDIT);
+	some_tasks_complete =
+		(state & E_TASK_SHELL_CONTENT_SELECTION_HAS_COMPLETE);
+	some_tasks_incomplete =
+		(state & E_TASK_SHELL_CONTENT_SELECTION_HAS_INCOMPLETE);
+	selection_has_url =
+		(state & E_TASK_SHELL_CONTENT_SELECTION_HAS_URL);
 
-	table = e_calendar_table_get_table (task_table);
-	n_selected = e_table_selected_count (table);
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	state = e_shell_sidebar_check_state (shell_sidebar);
 
-	list = e_calendar_table_get_selected (task_table);
-	for (iter = list; iter != NULL; iter = iter->next) {
-		ECalModelComponent *comp_data = iter->data;
-		icalproperty *prop;
-		const gchar *cap;
-		gboolean read_only;
+	has_primary_source =
+		(state & E_TASK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE);
+	primary_source_is_system =
+		(state & E_TASK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM);
 
-		e_cal_is_read_only (comp_data->client, &read_only, NULL);
-		editable &= !read_only;
-
-		cap = CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT;
-		if (e_cal_get_static_capability (comp_data->client, cap))
-			assignable = FALSE;
-
-		cap = CAL_STATIC_CAPABILITY_NO_CONV_TO_ASSIGN_TASK;
-		if (e_cal_get_static_capability (comp_data->client, cap))
-			assignable = FALSE;
-
-		prop = icalcomponent_get_first_property (
-			comp_data->icalcomp, ICAL_URL_PROPERTY);
-		has_url |= (prop != NULL);
-
-		prop = icalcomponent_get_first_property (
-			comp_data->icalcomp, ICAL_COMPLETED_PROPERTY);
-		if (prop != NULL)
-			n_complete++;
-		else
-			n_incomplete++;
-	}
-	g_slist_free (list);
-
-	source = e_source_selector_peek_primary_selection (selector);
-	if (source != NULL)
-		uri = e_source_peek_relative_uri (source);
-	user_created_source = (uri != NULL && strcmp (uri, "system") != 0);
+	any_tasks_selected =
+		(single_task_selected || multiple_tasks_selected);
 
 	action = ACTION (TASK_ASSIGN);
-	sensitive = (n_selected == 1) && editable && assignable;
+	sensitive =
+		single_task_selected && sources_are_editable &&
+		selection_is_assignable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_CLIPBOARD_COPY);
-	sensitive = (n_selected > 0);
+	sensitive = any_tasks_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_CLIPBOARD_CUT);
-	sensitive = (n_selected > 0) && editable;
+	sensitive = any_tasks_selected && sources_are_editable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_CLIPBOARD_PASTE);
-	sensitive = editable;
+	sensitive = sources_are_editable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_DELETE);
-	sensitive = (n_selected > 0) && editable;
+	sensitive = any_tasks_selected && sources_are_editable;
 	gtk_action_set_sensitive (action, sensitive);
-	label = ngettext ("Delete Task", "Delete Tasks", n_selected);
+	if (multiple_tasks_selected)
+		label = _("Delete Tasks");
+	else
+		label = _("Delete Task");
 	g_object_set (action, "label", label, NULL);
 
 	action = ACTION (TASK_FORWARD);
-	sensitive = (n_selected == 1);
+	sensitive = single_task_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_LIST_COPY);
-	sensitive = (source != NULL);
+	sensitive = has_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_LIST_DELETE);
-	sensitive = user_created_source;
+	sensitive = has_primary_source && !primary_source_is_system;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_LIST_PROPERTIES);
-	sensitive = (source != NULL);
+	sensitive = has_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_MARK_COMPLETE);
-	sensitive = (n_selected > 0) && editable && (n_incomplete > 0);
+	sensitive =
+		any_tasks_selected &&
+		sources_are_editable &&
+		some_tasks_incomplete;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_MARK_INCOMPLETE);
-	sensitive = (n_selected > 0) && editable && (n_complete > 0);
+	sensitive =
+		any_tasks_selected &&
+		sources_are_editable &&
+		some_tasks_complete;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_OPEN);
-	sensitive = (n_selected == 1);
+	sensitive = single_task_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_OPEN_URL);
-	sensitive = (n_selected == 1) && has_url;
+	sensitive = single_task_selected && selection_has_url;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_PRINT);
-	sensitive = (n_selected == 1);
+	sensitive = single_task_selected;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_PURGE);
-	sensitive = editable;
+	sensitive = sources_are_editable;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (TASK_SAVE_AS);
-	sensitive = (n_selected == 1);
+	sensitive = single_task_selected;
 	gtk_action_set_sensitive (action, sensitive);
 }
 

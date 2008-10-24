@@ -31,6 +31,12 @@
 	E_SHELL_WINDOW_ACTION ((window), "address-book-delete")
 #define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_MOVE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "address-book-move")
+#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_POPUP_DELETE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "address-book-popup-delete")
+#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_POPUP_PROPERTIES(window) \
+	E_SHELL_WINDOW_ACTION ((window), "address-book-popup-properties")
+#define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_POPUP_SAVE_AS(window) \
+	E_SHELL_WINDOW_ACTION ((window), "address-book-popup-save-as")
 #define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_PROPERTIES(window) \
 	E_SHELL_WINDOW_ACTION ((window), "address-book-properties")
 #define E_SHELL_WINDOW_ACTION_ADDRESS_BOOK_RENAME(window) \

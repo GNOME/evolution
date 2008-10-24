@@ -910,6 +910,14 @@ e_shell_content_get_type (void)
 	return type;
 }
 
+/**
+ * e_shell_content_new:
+ * @shell_view: an #EShellView
+ *
+ * Creates a new #EShellContent instance belonging to @shell_view.
+ *
+ * Returns: a new #EShellContent instance
+ **/
 GtkWidget *
 e_shell_content_new (EShellView *shell_view)
 {
@@ -919,6 +927,40 @@ e_shell_content_new (EShellView *shell_view)
 		E_TYPE_SHELL_CONTENT, "shell-view", shell_view, NULL);
 }
 
+/**
+ * e_shell_content_check_state:
+ * @shell_content: an #EShellContent
+ *
+ * #EShellContent subclasses should implement the
+ * <structfield>check_state</structfield> method in #EShellContentClass
+ * to return a set of flags describing the current content selection.
+ * Subclasses are responsible for defining their own flags.  This is
+ * primarily used to assist shell views with updating actions (see
+ * e_shell_view_update_actions()).
+ *
+ * Returns: a set of flags describing the current @shell_content selection
+ **/
+guint32
+e_shell_content_check_state (EShellContent *shell_content)
+{
+	EShellContentClass *shell_content_class;
+
+	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), 0);
+
+	shell_content_class = E_SHELL_CONTENT_GET_CLASS (shell_content);
+	g_return_val_if_fail (shell_content_class->check_state != NULL, 0);
+
+	return shell_content_class->check_state (shell_content);
+}
+
+/**
+ * e_shell_content_get_shell_view:
+ * @shell_content: an #EShellContent
+ *
+ * Returns the #EShellView that was passed to e_shell_content_new().
+ *
+ * Returns: the #EShellView to which @shell_content belongs
+ **/
 EShellView *
 e_shell_content_get_shell_view (EShellContent *shell_content)
 {

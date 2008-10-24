@@ -433,6 +433,8 @@ e_shell_sidebar_get_type (void)
  * @shell_view: an #EShellView
  *
  * Creates a new #EShellSidebar instance belonging to @shell_view.
+ *
+ * Returns: a new #EShellSidebar instance
  **/
 GtkWidget *
 e_shell_sidebar_new (EShellView *shell_view)
@@ -442,6 +444,32 @@ e_shell_sidebar_new (EShellView *shell_view)
 	return g_object_new (
 		E_TYPE_SHELL_SIDEBAR,
 		"shell-view", shell_view, NULL);
+}
+
+/**
+ * e_shell_sidebar_check_state:
+ * @shell_sidebar an #EShellSidebar
+ *
+ * #EShellSidebar subclasses should implement the
+ * <structfield>check_state</structfield> method in #EShellSidebarClass
+ * to return a set of flags describing the current sidebar selection.
+ * Subclasses are responsible for defining their own flags.  This is
+ * primarily used to assist shell views with updating actions (see
+ * e_shell_view_update_actions()).
+ *
+ * Returns: a set of flags describing the current @shell_sidebar selection
+ **/
+guint32
+e_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
+{
+	EShellSidebarClass *shell_sidebar_class;
+
+	g_return_val_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar), 0);
+
+	shell_sidebar_class = E_SHELL_SIDEBAR_GET_CLASS (shell_sidebar);
+	g_return_val_if_fail (shell_sidebar_class->check_state != NULL, 0);
+
+	return shell_sidebar_class->check_state (shell_sidebar);
 }
 
 /**

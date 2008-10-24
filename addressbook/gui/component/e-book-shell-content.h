@@ -54,6 +54,18 @@ typedef struct _EBookShellContent EBookShellContent;
 typedef struct _EBookShellContentClass EBookShellContentClass;
 typedef struct _EBookShellContentPrivate EBookShellContentPrivate;
 
+enum {
+	E_BOOK_SHELL_CONTENT_SELECTION_SINGLE		= 1 << 0,
+	E_BOOK_SHELL_CONTENT_SELECTION_MULTIPLE		= 1 << 1,
+	E_BOOK_SHELL_CONTENT_SELECTION_HAS_EMAIL	= 1 << 2,
+	E_BOOK_SHELL_CONTENT_SELECTION_IS_CONTACT_LIST	= 1 << 3,
+	E_BOOK_SHELL_CONTENT_SELECTION_HAS_HTTP_URI	= 1 << 4,
+	E_BOOK_SHELL_CONTENT_SELECTION_HAS_MAILTO_URI	= 1 << 5,
+	E_BOOK_SHELL_CONTENT_SOURCE_IS_BUSY		= 1 << 6,
+	E_BOOK_SHELL_CONTENT_SOURCE_IS_EDITABLE		= 1 << 7,
+	E_BOOK_SHELL_CONTENT_SOURCE_IS_EMPTY		= 1 << 8
+};
+
 struct _EBookShellContent {
 	EShellContent parent;
 	EBookShellContentPrivate *priv;

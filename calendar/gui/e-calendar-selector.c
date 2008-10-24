@@ -231,7 +231,7 @@ calendar_selector_drag_data_received (GtkWidget *widget,
 	const gchar *string;
 	gboolean remove_from_source;
 	gboolean success = FALSE;
-	gpointer object;
+	gpointer object = NULL;
 
 	tree_view = GTK_TREE_VIEW (widget);
 	model = gtk_tree_view_get_model (tree_view);

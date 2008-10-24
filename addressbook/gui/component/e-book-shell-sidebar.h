@@ -52,6 +52,11 @@ typedef struct _EBookShellSidebar EBookShellSidebar;
 typedef struct _EBookShellSidebarClass EBookShellSidebarClass;
 typedef struct _EBookShellSidebarPrivate EBookShellSidebarPrivate;
 
+enum {
+	E_BOOK_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE		= 1 << 0,
+	E_BOOK_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM	= 1 << 1
+};
+
 struct _EBookShellSidebar {
 	EShellSidebar parent;
 	EBookShellSidebarPrivate *priv;

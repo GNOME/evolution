@@ -184,6 +184,17 @@ mail_shell_content_constructed (GObject *object)
 	gconf_bridge_bind_property_delayed (bridge, key, object, "position");
 }
 
+static guint32
+mail_shell_content_check_state (EShellContent *shell_content)
+{
+	EMailShellContent *mail_shell_content;
+	guint32 state = 0;
+
+	mail_shell_content = E_MAIL_SHELL_CONTENT (shell_content);
+
+	return state;
+}
+
 static void
 mail_shell_content_class_init (EMailShellContentClass *class)
 {
@@ -202,6 +213,7 @@ mail_shell_content_class_init (EMailShellContentClass *class)
 
 	shell_content_class = E_SHELL_CONTENT_CLASS (class);
 	shell_content_class->new_search_context = em_search_context_new;
+	shell_content_class->check_state = mail_shell_content_check_state;
 
 	g_object_class_install_property (
 		object_class,

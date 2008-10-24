@@ -185,10 +185,47 @@ book_shell_content_constructed (GObject *object)
 	gconf_bridge_bind_property_delayed (bridge, key, object, "position");
 }
 
+static guint32
+book_shell_content_check_state (EShellContent *shell_content)
+{
+	EBookShellContent *book_shell_content;
+	ESelectionModel *selection_model;
+	EAddressbookModel *model;
+	EAddressbookView *view;
+	guint32 state = 0;
+	gint n_contacts;
+	gint n_selected;
+
+	book_shell_content = E_BOOK_SHELL_CONTENT (shell_content);
+	view = e_book_shell_content_get_current_view (book_shell_content);
+	model = e_addressbook_view_get_model (view);
+
+	selection_model = e_addressbook_view_get_selection_model (view);
+	n_contacts = (selection_model != NULL) ?
+		e_selection_model_row_count (selection_model) : 0;
+	n_selected = (selection_model != NULL) ?
+		e_selection_model_selected_count (selection_model) : 0;
+
+	/* FIXME Finish the rest of the flags. */
+	if (n_selected == 1)
+		state |= E_BOOK_SHELL_CONTENT_SELECTION_SINGLE;
+	if (n_selected > 1)
+		state |= E_BOOK_SHELL_CONTENT_SELECTION_MULTIPLE;
+	if (e_addressbook_model_can_stop (model))
+		state |= E_BOOK_SHELL_CONTENT_SOURCE_IS_BUSY;
+	if (e_addressbook_model_get_editable (model))
+		state |= E_BOOK_SHELL_CONTENT_SOURCE_IS_EDITABLE;
+	if (n_contacts == 0)
+		state |= E_BOOK_SHELL_CONTENT_SOURCE_IS_EMPTY;
+
+	return state;
+}
+
 static void
 book_shell_content_class_init (EBookShellContentClass *class)
 {
 	GObjectClass *object_class;
+	EShellContentClass *shell_content_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EBookShellContentPrivate));
@@ -198,6 +235,9 @@ book_shell_content_class_init (EBookShellContentClass *class)
 	object_class->get_property = book_shell_content_get_property;
 	object_class->dispose = book_shell_content_dispose;
 	object_class->constructed = book_shell_content_constructed;
+
+	shell_content_class = E_SHELL_CONTENT_CLASS (class);
+	shell_content_class->check_state = book_shell_content_check_state;
 
 	g_object_class_install_property (
 		object_class,
