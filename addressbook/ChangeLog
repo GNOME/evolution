@@ -1,3 +1,32 @@
+2008-10-17  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #511918
+
+	* tools/evolution-addressbook-export-list-cards.c:
+	(struct _EContactCSVFieldData), (csv_field_data[]),
+	(e_contact_csv_get_data_type), (e_contact_csv_get):
+	Use TRUE/FALSE texts for boolean values and do not
+	free returned value for them, otherwise it crashes.
+
+2008-10-14  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* conduit/address-conduit.c:
+
+2008-10-09  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #555494
+
+	* gui/widgets/e-addressbook-view.c (generate_viewoption_menu):
+	Category icons are not themed.  Load by file, not by icon name.
+
+2008-10-03  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* gui/widgets/eab-contact-display.c:
+
 2008-10-01  Sankar P  <psankar@novell.com>
 
 License Changes

@@ -92,7 +92,7 @@ importing external files into Evolution.</property>
       <child>
 	<widget class="GnomeDruidPageStandard" id="page2-intelligent">
 	  <property name="visible">True</property>
-	  <property name="title" translatable="yes">Select Importers</property>
+	  <property name="title" translatable="yes">Select Information to Import</property>
 
 	  <child internal-child="vbox">
 	    <widget class="GtkVBox" id="druid-vbox3">

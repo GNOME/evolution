@@ -1,3 +1,91 @@
+2008-10-20  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #555958 (patch by Anis Elleuch)
+
+	* gui/dialogs/comp-editor.c (comp_editor_init):
+	Add the UI manager's accelerator group to the editor window
+	so that menu shortcut keys work.
+
+2008-10-20  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #553715
+
+	* gui/e-week-view.c: (e_week_view_on_editing_stopped):
+	Set end time for the event properly, not same as start time.
+
+2008-10-20  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #528816
+
+	* importers/icalendar-importer.c: (vcal_supported): We do not support
+	vCalendar importer when we can parse the iCalendar from the file,
+	because the latter holds more information, like timezones.
+
+2008-10-17   Matt Davey  <mcdavey@mrao.cam.ac.uk>
+
+	** Fix for bug #556059
+
+	* conduits/common/Makefile.am:
+	* conduits/common/libecalendar-common-conduit.c: Allow building outside
+	the source tree.
+
+2008-10-17  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #553609
+
+	* gui/e-week-view.c: (e_week_view_set_selected_time_range):
+	Do not do any changes when the view has not been shown yet.
+
+2008-10-17  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #530872
+
+	* gui/e-calendar-table.c: (e_calendar_table_on_open_task):
+	Check for NULL soon enough to not crash.
+
+2008-10-14  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* conduits/calendar/calendar-conduit.c:
+	* conduits/memo/memo-conduit.c:
+	* conduits/todo/todo-conduit.c:
+	* gui/calendar-commands.c:
+	* gui/calendar-commands.h:
+	* gui/gnome-cal.c:
+	* gui/gnome-cal.h:
+
+2008-10-13  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #424818 (bugzilla.novell.com)
+
+	* gui/dialogs/calendar-setup.c (eccp_general_offline): Don't show offline
+	availability option for B&A calendars. 
+	* gui/e-cal-popup.c (e_cal_popup_target_new_source): Check for the correct 
+	property ("offline_sync" instead of "offline") while setting the GUI mask. 
+	* gui/calendar-component.c (set_offline_availability),
+	(mark_no_offline_cb), (mark_offline_cb):
+	* gui/memos-component.c (set_offline_availability),
+	(mark_no_offline_cb), (mark_offline_cb):
+	* gui/tasks-component.c (set_offline_availability), 
+	(mark_no_offline_cb), (mark_offline_cb):
+	Integrate the mark-calendar-offline plugin into the main code as we already 
+	have a similar per-calendar option which does the same thing. 
+
+2008-10-09  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #555494
+
+	* gui/cal-search-bar.c (generate_viewoption_menu):
+	Category icons are not themed.  Load by file, not by icon name.
+
+2008-10-08  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* gui/alarm-notify/alarm.c:
+	* gui/dialogs/comp-editor.c:
+
 2008-10-01  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #554418

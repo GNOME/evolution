@@ -1,27 +1,27 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * e-table-item.c
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ *
  *
  * Authors:
- *   Chris Lahey <clahey@ximian.com>
- *   Miguel de Icaza <miguel@gnu.org>
+ *		Chris Lahey <clahey@ximian.com>
+ *		Miguel de Icaza <miguel@gnu.org>
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Library General Public
- * License, version 2, as published by the Free Software Foundation.
- *
- * This library is distributed in the hope that it will be useful, but
- * WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Library General Public License for more details.
- *
- * You should have received a copy of the GNU Library General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
- * 02110-1301, USA.
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  */
-
 /*
  * TODO:
  *   Add a border to the thing, so that focusing works properly.
@@ -2546,10 +2546,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 #endif
 
 		d(g_print("%s: GDK_2BUTTON_PRESS received, button %d\n", __FUNCTION__, e->button.button));
-
-		if (e->button.button == 5 ||
-		    e->button.button == 4)
-			return FALSE;
 
 		/*
 		 * click_count is so that if you click on two

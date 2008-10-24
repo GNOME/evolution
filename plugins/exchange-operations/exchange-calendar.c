@@ -81,6 +81,8 @@ e_exchange_calendar_get_calendars (ECalSourceType ftype)
 	}
 
 	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return NULL;
 
 	/* FIXME: Reconsider this hardcoding */
 	uri_prefix = g_strconcat ("exchange://", account->account_filename, "/;", NULL);
@@ -121,6 +123,8 @@ e_exchange_calendar_pcalendar_on_change (GtkTreeView *treeview, ESource *source)
 	gchar *es_ruri, *ruri;
 
 	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return;
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
 	gtk_tree_selection_get_selected(selection, &model, &iter);
@@ -249,9 +253,12 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	callist = e_exchange_calendar_get_calendars (t->source_type);
 
-	for (i=0; i<callist->len; ++i) {
-		ruri = g_ptr_array_index (callist, i);
-		exchange_operations_cta_add_node_to_tree (ts_pcalendar, NULL, ruri);
+	if (callist) {
+		for (i = 0; i < callist->len; i++) {
+			ruri = g_ptr_array_index (callist, i);
+			exchange_operations_cta_add_node_to_tree (ts_pcalendar, NULL, ruri);
+		}
+		g_ptr_array_free (callist, TRUE);
 	}
 
 	cr_calendar = gtk_cell_renderer_text_new ();
@@ -296,7 +303,6 @@ e_exchange_calendar_pcalendar (EPlugin *epl, EConfigHookItemFactoryData *data)
 		g_free (sruri);
 	}
 
-	g_ptr_array_free (callist, TRUE);
 	g_object_unref (ts_pcalendar);
 	return tv_pcalendar;
 }
@@ -337,6 +343,9 @@ e_exchange_calendar_check (EPlugin *epl, EConfigHookPageCheckData *data)
         }
 
 	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return FALSE;
+
 	uri_text = e_source_get_uri (t->source);
 	euri = e_uri_new (uri_text);
 	uri_string = e_uri_to_string (euri, FALSE);
@@ -392,7 +401,7 @@ e_exchange_calendar_commit (EPlugin *epl, EConfigTarget *target)
 	}
 
 	account = exchange_operations_get_exchange_account ();
-	if (!is_exchange_personal_folder (account, uri_text))
+	if (!account || !is_exchange_personal_folder (account, uri_text))
 		return;
 
 	windows_domain = exchange_account_get_windows_domain (account);

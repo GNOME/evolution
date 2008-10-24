@@ -2539,10 +2539,7 @@ emfv_spin(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 		box = gtk_hbox_new (FALSE, 0);
 		g_free (msg);
 
-		ep = e_spinner_new ();
-		e_spinner_set_size ((ESpinner *)ep, GTK_ICON_SIZE_SMALL_TOOLBAR);
-		e_spinner_start ((ESpinner *)ep);
-
+		ep = e_spinner_new_spinning_small_shown ();
 		gtk_box_pack_start ((GtkBox *)box, ep, FALSE, FALSE, 0);
 		gtk_box_pack_start ((GtkBox *)box, label, FALSE, FALSE, 0);
 

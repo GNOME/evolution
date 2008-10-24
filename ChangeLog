@@ -1,3 +1,43 @@
+2008-10-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #549025
+
+	* configure.in:
+	Restrict libmono linkage to the mono plugin, so that downstream
+	packagers can isolate the mono dependency to a subpackage.
+	Add configuration summary lines indicating whether the Mono and
+	Python bindings are enabled.
+
+2008-10-17  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fix for bug #548469
+
+	* configure.in: Drop support for deprecated libnm-glib. 
+
+2008-10-14	Sankar P  <psankar@novell.com>
+
+		* calendar/gui/gnome-cal.h
+		* calendar/gui/gnome-cal.c
+		* calendar/gui/calendar-commands.h
+		* calendar/gui/calendar-commands.c
+		* calendar/conduits/memo/memo-conduit.c
+		* calendar/conduits/calendar/calendar-conduit.c
+		* calendar/conduits/todo/todo-conduit.c
+		* addressbook/conduit/address-conduit.c :
+		
+		* Remove improper FSF copyright statements; was never signed
+		over to them and was incorrectly added to this file due to a
+		mistake made by the original developer.
+
+2008-10-13  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #424818 (bugzilla.novell.com)
+
+	* configure.in:
+	* plugins/mark-calendar-offline :
+	Integrate the mark-calendar-offline plugin into the main code as we already 
+	have a similar per-calendar option which does the same thing. 
+
 2008-10-01  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #554458

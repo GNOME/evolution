@@ -250,12 +250,39 @@ edit_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 	calendar_setup_edit_task_list (GTK_WINDOW (gtk_widget_get_toplevel(ep->target->widget)), selected_source);
 }
 
+static void 
+set_offline_availability (EPopup *ep, EPopupItem *pitem, void *data, const char *value)
+{
+	TasksComponentView *component_view = data;
+	ESource *selected_source;
+
+	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
+	if (!selected_source)
+		return;
+
+	e_source_set_property (selected_source, "offline_sync", value);
+}
+
+static void
+mark_no_offline_cb (EPopup *ep, EPopupItem *pitem, void *data)
+{
+	set_offline_availability (ep, pitem, data, "0"); 
+}
+
+static void
+mark_offline_cb (EPopup *ep, EPopupItem *pitem, void *data)
+{
+	set_offline_availability (ep, pitem, data, "1"); 
+}
+
 static EPopupItem etc_source_popups[] = {
 	{ E_POPUP_ITEM, "10.new", N_("_New Task List"), new_task_list_cb, NULL, "stock_todo", 0, 0 },
 	{ E_POPUP_ITEM, "15.copy", N_("_Copy..."), copy_task_list_cb, NULL, "edit-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
 
 	{ E_POPUP_BAR, "20.bar" },
 	{ E_POPUP_ITEM, "20.delete", N_("_Delete"), delete_task_list_cb, NULL, "edit-delete", 0, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "30.mark_tasks_offline", N_("_Make available for offline use"), mark_offline_cb, NULL, "stock_disconnect", E_CAL_POPUP_SOURCE_OFFLINE, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY|E_CAL_POPUP_SOURCE_OFFLINE },
+	{ E_POPUP_ITEM, "40.mark_tasks_no_offline", N_("_Do not make available for offline use"), mark_no_offline_cb, NULL, "stock_connect", E_CAL_POPUP_SOURCE_NO_OFFLINE, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY|E_CAL_POPUP_SOURCE_NO_OFFLINE },
 
 	{ E_POPUP_BAR, "99.bar" },
 	{ E_POPUP_ITEM, "99.properties", N_("_Properties"), edit_task_list_cb, NULL, "document-properties", 0, E_CAL_POPUP_SOURCE_PRIMARY },

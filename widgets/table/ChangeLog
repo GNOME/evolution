@@ -1,3 +1,44 @@
+2008-10-17  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-cell-tree.c:
+	* e-cell-tree.h:
+
+2008-10-08  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-table-header-item.c:
+
+2008-10-06  Sankar P  <psankar@novell.com>
+
+	* e-cell-float.c:
+	* e-cell-float.h:
+	Remove obsolete files
+
+2008-10-03  Sankar P  <psankar@novell.com>
+
+License Changes And:
+
+	* e-table-item.c (eti_event): remove obsolete check for
+	buttons 4/5 in 2BUTTON_PRESS; cf. gdk_event_translate /
+	_gdk_event_button_generate that turn this into a scroll
+	event these days.
+
+2008-10-03  Sankar P  <psankar@novell.com>
+
+	* widgets/table/e-cell-progress.c:
+	* widgets/table/e-cell-progress.h:
+	Removed obsolete files
+
+2008-10-03  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* table-test.c:
+	* test-table.c:
+
 2008-09-30  Sankar P  <psankar@novell.com>
 
 License Changes

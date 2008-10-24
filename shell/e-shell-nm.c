@@ -51,13 +51,12 @@ e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
                          DBusMessage *message,
                          gpointer user_data)
 {
-	DBusError error;
+	DBusError error = DBUS_ERROR_INIT;
 	const gchar *object;
 	EShell *shell = user_data;
 	EShellLineStatus line_status;
 	gboolean device_active;
 
-	dbus_error_init (&error);
 	object = dbus_message_get_path (message);
 
 	if (dbus_message_is_signal (message, DBUS_INTERFACE_LOCAL, "Disconnected") &&
@@ -94,16 +93,16 @@ e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
 gboolean
 e_shell_dbus_initialize (EShell *shell)
 {
-	DBusError error;
+	DBusError error = DBUS_ERROR_INIT;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
 	if (dbus_connection != NULL)
 		return TRUE;
 
-	dbus_error_init (&error);
-	if (!(dbus_connection = dbus_bus_get (DBUS_BUS_SYSTEM, &error))) {
-		g_warning ("could not get system bus: %s\n", error.message);
+	dbus_connection = dbus_bus_get (DBUS_BUS_SYSTEM, &error);
+	if (dbus_connection == NULL) {
+		g_warning ("%s", error.message);
 		dbus_error_free (&error);
 		return FALSE;
 	}
@@ -120,6 +119,7 @@ e_shell_dbus_initialize (EShell *shell)
 			    "sender='" NM_DBUS_SERVICE "',"
 			    "path='" NM_DBUS_PATH "'", &error);
 	if (dbus_error_is_set (&error)) {
+		g_warning ("%s", error.message);
 		dbus_error_free (&error);
 		goto exception;
 	}

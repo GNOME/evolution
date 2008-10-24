@@ -26,7 +26,7 @@
 #include <string.h>
 
 #include <libedataserver/e-categories.h>
-#include <e-util/e-pilot-util.h>
+#include <e-pilot-util.h>
 #include <pi-appinfo.h>
 #include <glib.h>
 

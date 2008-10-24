@@ -171,13 +171,15 @@ get_password (CamelSession *session, CamelService *service, const char *domain,
 	char *ret = NULL;
 	EAccount *account = NULL;
 
-	url = service ? camel_url_to_string (service->url, CAMEL_URL_HIDE_ALL & (~CAMEL_URL_HIDE_AUTH)) : NULL;
+	url = service?camel_url_to_string(service->url, CAMEL_URL_HIDE_ALL):NULL;
 
 	if (!strcmp(item, "popb4smtp_uri")) {
 		/* not 100% mt safe, but should be ok */
 		if (url
 		    && (account = mail_config_get_account_by_transport_url(url)))
 			ret = g_strdup(account->source->url);
+		else
+			ret = g_strdup(url);
 	} else {
 		char *key = make_key(service, item);
 		EAccountService *config_service = NULL;

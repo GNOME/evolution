@@ -198,11 +198,10 @@ org_gnome_send_options (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
 	GtkWidget *frame, *button, *label, *vbox;
+	gchar *markup;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	account = target_account->account;
-
-	gchar *markup;
 
 	if(!g_strrstr (account->source->url, "groupwise://"))
 		return NULL;

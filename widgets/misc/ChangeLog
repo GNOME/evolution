@@ -1,3 +1,24 @@
+2008-10-21  Sankar P  <psankar@novell.com>
+
+	* e-spinner.c (e_spinner_stop),
+	(e_spinner_new_spinning_small_shown):
+	* e-spinner.h:
+	* e-task-widget.c (e_task_widget_construct):
+	Re-factor spinner usage.
+
+2008-10-17  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-dateedit.c:
+	* e-dateedit.h:
+
+2008-10-10  Sankar P  <psankar@novell.com>
+
+License Changes + code cleanup
+
+	* e-reflow.c (e_reflow_event), (e_reflow_init):
+
 2008-10-01  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #554418

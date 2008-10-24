@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-19 12:50+0200\n"
-"PO-Revision-Date: 2008-09-19 13:14+0200\n"
-"Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
+"PO-Revision-Date: 2008-10-23 13:21+0200\n"
+"Last-Translator: Philipp Kerling <k.philipp@gmail.com>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14452,7 +14452,7 @@ msgstr "Aus diesem Konto ausgehende Nachrichten _immer signieren"
 #: ../mail/mail-config.glade.h:39
 msgid "Also encrypt to sel_f when sending encrypted messages"
 msgstr ""
-"Beim Verschicken verschlüsselter E-Mails auch zu sich sel_bst verschlüsseln"
+"Beim Verschicken verschlüsselter E-Mails auch für sich sel_bst verschlüsseln"
 
 #: ../mail/mail-config.glade.h:40
 msgid "Alway_s carbon-copy (cc) to:"
@@ -14469,7 +14469,7 @@ msgstr "Schlüssel am Schlüsselbund beim Verschlüsseln _immer vertrauen"
 #: ../mail/mail-config.glade.h:43
 msgid "Always encrypt to _myself when sending encrypted messages"
 msgstr ""
-"Beim Verschicken verschlüsselter E-Mails _immer vor mir selbst verschlüsseln"
+"Beim Verschicken verschlüsselter E-Mails _immer für mich selbst verschlüsseln"
 
 #: ../mail/mail-config.glade.h:44
 msgid "Always request rea_d receipt"

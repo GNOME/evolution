@@ -1,3 +1,9 @@
+2008-10-03  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* mail-account-disable.c:
+
 2007-11-18  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
 
 	** Fix bug #495875

@@ -1,3 +1,72 @@
+2008-10-24  Priit Laes  <plaes at svn dot gnome dot org>
+
+	* et.po: Translation updated by Ivar Smolin
+
+2008-10-24  Daniel Nylander <po@danielnylander.se>
+
+	* sv.po: Updated Swedish translation.
+
+2008-10-23  Gil Forcada  <gforcada@gnome.org>
+
+	* LINGUAS: Added ast.
+	* ast.po: Added Asturian translation on behalf of Mikel González.
+
+2008-10-23  Philipp Kerling  <k.philipp@gmail.com>
+
+	** Fixes bug #557563
+
+	* de.po: Updated German translation (patch by Ronny Standke).
+
+2008-10-19  Theppitak Karoonboonyanan  <thep@linux.thai.net>
+
+	* th.po: Updated Thai translation.
+
+2008-10-17  Marcel Telka  <marcel@telka.sk>
+
+	* sk.po: Updated Slovak translation.
+
+2008-10-17  Jorge Gonzalez  <jorgegonz@svn.gnome.org>   
+
+	* es.po: Updated Spanish translation
+
+2008-10-13  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #556191
+
+	* POTFILES.in: Remove org-gnome-mark-calendar-offline.eplug.xml
+
+2008-10-11  Leonardo Ferreira Fontenelle  <leonardof@gnome.org>
+
+	* pt_BR.po: Fixed typo in the Brazilian Portuguese translation.
+
+2008-10-11  Leonardo Ferreira Fontenelle  <leonardof@gnome.org>
+
+	* pt_BR.po: Merged from branch gnome-2-24.
+
+2008-10-11  Leonardo Ferreira Fontenelle  <leonardof@gnome.org>
+
+	* pt_BR.po: Fixed terminology in the Brazilian Portuguese translation.
+
+2008-10-11  Marcel Telka  <marcel@telka.sk>
+
+	* sk.po: Updated Slovak translation.
+
+2008-10-10  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es.po: Updated Spanish translation, fixes bug #554832
+
+2008-10-04  Ignacio Casal Quinteiro  <nacho.resa@gmail.com>
+
+	* gl.po: Updated Galician translation.
+
+2008-10-04  Ilkka Tuohela <hile@iki.fi>
+
+	* fi.po: Updated Finnish translation.
+
+2008-10-03  Marcel Telka  <marcel@telka.sk>
+
+	* sk.po: Updated Slovak translation.
+
 2008-10-01 Og Maciel <ogmaciel@gnome.org>
 
 	* pt_BR.po: Updated Brazilian Portuguese translation by Og Maciel.

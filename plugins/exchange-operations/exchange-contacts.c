@@ -1,21 +1,22 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
- *
- * Praveen Kumar <kpraveen@novell.com>
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- *
+/*
  * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ *
+ *
+ * Authors:
+ *		Praveen Kumar <kpraveen@novell.com>
+ *
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
@@ -69,6 +70,8 @@ e_exchange_contacts_get_contacts (void)
 	gchar *uri_prefix, *ruri;
 
 	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return NULL;
 
 	uri_prefix = g_strconcat ("exchange://", account->account_filename, "/;", NULL);
 	prefix_len = strlen (uri_prefix);
@@ -107,6 +110,8 @@ e_exchange_contacts_pcontacts_on_change (GtkTreeView *treeview, ESource *source)
 	gchar *ruri;
 
 	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return;
 
 	selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(treeview));
 	gtk_tree_selection_get_selected(selection, &model, &iter);
@@ -240,9 +245,12 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	conlist = e_exchange_contacts_get_contacts ();
 
-	for (i=0; i<conlist->len; ++i) {
-		ruri = g_ptr_array_index (conlist, i);
-		exchange_operations_cta_add_node_to_tree (ts_pcontacts, NULL, ruri);
+	if (conlist) {
+		for (i = 0; i < conlist->len; i++) {
+			ruri = g_ptr_array_index (conlist, i);
+			exchange_operations_cta_add_node_to_tree (ts_pcontacts, NULL, ruri);
+		}
+		g_ptr_array_free (conlist, TRUE);
 	}
 
 	cr_contacts = gtk_cell_renderer_text_new ();
@@ -292,7 +300,6 @@ e_exchange_contacts_pcontacts (EPlugin *epl, EConfigHookItemFactoryData *data)
 		g_free (sruri);
 	}
 
-	g_ptr_array_free (conlist, TRUE);
 	g_object_unref (ts_pcontacts);
 	return vb_pcontacts;
 }
@@ -328,6 +335,8 @@ e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	}
 
 	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return FALSE;
 
 	if (!rel_uri) {
 		GConfClient *client;
@@ -423,7 +432,7 @@ e_exchange_contacts_commit (EPlugin *epl, EConfigTarget *target)
 	}
 
 	account = exchange_operations_get_exchange_account ();
-	if (!is_exchange_personal_folder (account, uri_text))
+	if (!account || !is_exchange_personal_folder (account, uri_text))
 		return;
 
 	windows_domain = exchange_account_get_windows_domain (account);

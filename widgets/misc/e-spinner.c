@@ -32,6 +32,30 @@
 
 #include "e-spinner.h"
 
+#define E_TYPE_SPINNER		(e_spinner_get_type ())
+#define E_SPINNER(o)			(G_TYPE_CHECK_INSTANCE_CAST ((o), E_TYPE_SPINNER, ESpinner))
+#define E_SPINNER_CLASS(k)		(G_TYPE_CHECK_CLASS_CAST((k), E_TYPE_SPINNER, ESpinnerClass))
+#define E_IS_SPINNER(o)		(G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TYPE_SPINNER))
+#define E_IS_SPINNER_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), E_TYPE_SPINNER))
+#define E_SPINNER_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), E_TYPE_SPINNER, ESpinnerClass))
+
+typedef struct _ESpinner		ESpinner;
+typedef struct _ESpinnerClass	ESpinnerClass;
+typedef struct _ESpinnerDetails	ESpinnerDetails;
+
+struct _ESpinner
+{
+	GtkWidget parent;
+
+	/*< private >*/
+	ESpinnerDetails *details;
+};
+
+struct _ESpinnerClass
+{
+	GtkWidgetClass parent_class;
+};
+
 #define LOG(msg, args...)
 #define START_PROFILER(name)
 #define STOP_PROFILER(name)
@@ -518,7 +542,7 @@ static void e_spinner_init	    (ESpinner *spinner);
 
 static GObjectClass *parent_class;
 
-GType
+static GType
 e_spinner_get_type (void)
 {
 	static GType type = 0;
@@ -701,13 +725,7 @@ bump_spinner_frame_cb (ESpinner *spinner)
 	return TRUE;
 }
 
-/**
- * e_spinner_start:
- * @spinner: a #ESpinner
- *
- * Start the spinner animation.
- **/
-void
+static void
 e_spinner_start (ESpinner *spinner)
 {
 	ESpinnerDetails *details = spinner->details;
@@ -742,39 +760,7 @@ e_spinner_remove_update_callback (ESpinner *spinner)
 	}
 }
 
-/**
- * e_spinner_stop:
- * @spinner: a #ESpinner
- *
- * Stop the spinner animation.
- **/
-void
-e_spinner_stop (ESpinner *spinner)
-{
-	ESpinnerDetails *details = spinner->details;
-
-	details->spinning = FALSE;
-	details->current_image = 0;
-
-	if (details->timer_task != 0)
-	{
-		e_spinner_remove_update_callback (spinner);
-
-		if (GTK_WIDGET_MAPPED (GTK_WIDGET (spinner)))
-		{
-			gtk_widget_queue_draw (GTK_WIDGET (spinner));
-		}
-	}
-}
-
-/*
- * e_spinner_set_size:
- * @spinner: a #ESpinner
- * @size: the size of type %GtkIconSize
- *
- * Set the size of the spinner.
- **/
-void
+static void
 e_spinner_set_size (ESpinner *spinner,
 		       GtkIconSize size)
 {
@@ -794,6 +780,27 @@ e_spinner_set_size (ESpinner *spinner,
 }
 
 #if 0
+
+static void
+e_spinner_stop (ESpinner *spinner)
+{
+	ESpinnerDetails *details = spinner->details;
+
+	details->spinning = FALSE;
+	details->current_image = 0;
+
+	if (details->timer_task != 0)
+	{
+		e_spinner_remove_update_callback (spinner);
+
+		if (GTK_WIDGET_MAPPED (GTK_WIDGET (spinner)))
+		{
+			gtk_widget_queue_draw (GTK_WIDGET (spinner));
+		}
+	}
+}
+
+
 /*
  * e_spinner_set_timeout:
  * @spinner: a #ESpinner
@@ -958,17 +965,14 @@ e_spinner_class_init (ESpinnerClass *class)
 	g_type_class_add_private (object_class, sizeof (ESpinnerDetails));
 }
 
-/*
- * e_spinner_new:
- *
- * Create a new #ESpinner. The spinner is a widget
- * that gives the user feedback about network status with
- * an animated image.
- *
- * Return Value: the spinner #GtkWidget
- **/
-GtkWidget *
-e_spinner_new (void)
+GtkWidget *e_spinner_new_spinning_small_shown (void)
 {
-	return GTK_WIDGET (g_object_new (E_TYPE_SPINNER, NULL));
+  ESpinner *image;
+  image = E_SPINNER (g_object_new (E_TYPE_SPINNER, NULL));
+
+  e_spinner_set_size (image, GTK_ICON_SIZE_SMALL_TOOLBAR);
+  e_spinner_start (image);
+  gtk_widget_show (GTK_WIDGET(image));
+
+  return GTK_WIDGET (image);
 }

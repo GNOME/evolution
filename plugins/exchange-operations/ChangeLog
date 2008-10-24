@@ -1,3 +1,28 @@
+2008-10-08  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #530606
+
+	* exchange-contacts.c: (e_exchange_contacts_get_contacts),
+	(e_exchange_contacts_pcontacts_on_change),
+	(e_exchange_contacts_pcontacts), (e_exchange_contacts_check),
+	(e_exchange_contacts_commit):
+	* exchange-account-setup.c: (btn_chpass_clicked), (btn_dass_clicked),
+	(btn_fsize_clicked), (org_gnome_exchange_show_folder_size_factory):
+	* exchange-calendar.c: (e_exchange_calendar_get_calendars),
+	(e_exchange_calendar_pcalendar_on_change),
+	(e_exchange_calendar_pcalendar), (e_exchange_calendar_check),
+	(e_exchange_calendar_commit):
+	Check validity of returned pointer before using it.
+
+2008-10-03  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* exchange-account-setup.c:
+	* exchange-contacts.c:
+	* exchange-operations.c:
+	* exchange-operations.h:
+
 2008-09-24  Sankar P  <psankar@novell.com>
 
 License Changes

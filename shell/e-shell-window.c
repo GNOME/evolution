@@ -48,7 +48,6 @@ shell_window_new_view (EShellWindow *shell_window,
 	GtkNotebook *notebook;
 	GtkAction *action;
 	GtkWidget *widget;
-	gchar *action_name;
 	gint page_num;
 
 	/* Determine the page number for the new shell view. */

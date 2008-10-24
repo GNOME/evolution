@@ -27,7 +27,7 @@
 
 #include <bonobo/bonobo-object.h>
 #include "shell/evolution-component.h"
-#include "Evolution-Mail.h"
+#include "mail/Evolution-Mail.h"
 
 struct _CamelStore;
 

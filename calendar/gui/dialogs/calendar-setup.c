@@ -259,7 +259,8 @@ eccp_general_offline (EConfig *ec, EConfigItem *item, struct _GtkWidget *parent,
 	GtkWidget *offline_setting = NULL;
 	const char *offline_sync;
 	int row;
-	gboolean is_local = g_str_has_prefix (e_source_group_peek_base_uri (sdialog->source_group), "file:");
+	const char *base_uri = e_source_group_peek_base_uri (sdialog->source_group); 
+	gboolean is_local = base_uri && (g_str_has_prefix (base_uri, "file://") || g_str_has_prefix (base_uri, "contacts://"));
 	offline_sync =  e_source_get_property (sdialog->source, "offline_sync");
 	if (old)
 		return old;

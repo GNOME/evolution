@@ -2273,6 +2273,8 @@ message_list_init (MessageList *message_list)
 	message_list->cursor_uid = NULL;
 	message_list->last_sel_single = FALSE;
 
+	message_list->regen_lock = g_mutex_new ();
+
 	/* TODO: Should this only get the selection if we're realised? */
 	p = message_list->priv = g_malloc0(sizeof(*message_list->priv));
 	p->invisible = gtk_invisible_new();
@@ -2374,6 +2376,7 @@ message_list_finalise (GObject *object)
 	g_free(message_list->cursor_uid);
 
 	g_mutex_free(message_list->hide_lock);
+	g_mutex_free (message_list->regen_lock);
 
 	g_free(message_list->folder_uri);
 	message_list->folder_uri = NULL;
@@ -4244,7 +4247,9 @@ regen_list_done (struct _regen_list_msg *m)
 	m->ml->search = m->search;
 	m->search = NULL;
 
+	g_mutex_lock (m->ml->regen_lock);
 	m->ml->regen = g_list_remove(m->ml->regen, m);
+	g_mutex_unlock (m->ml->regen_lock);
 
 	if (m->ml->regen == NULL && m->ml->pending_select_uid) {
 		char *uid = m->ml->pending_select_uid;
@@ -4307,7 +4312,9 @@ regen_list_free (struct _regen_list_msg *m)
 		camel_folder_change_info_free (m->changes);
 
 	/* we have to poke this here as well since we might've been cancelled and regened wont get called */
+	g_mutex_lock (m->ml->regen_lock);
 	m->ml->regen = g_list_remove(m->ml->regen, m);
+	g_mutex_unlock (m->ml->regen_lock);
 
 	if (m->expand_state)
 		xmlFreeDoc (m->expand_state);
@@ -4328,7 +4335,9 @@ ml_regen_timeout(struct _regen_list_msg *m)
 {
 	e_profile_event_emit("list.regenerate", m->folder->full_name, 0);
 
+	g_mutex_lock (m->ml->regen_lock);
 	m->ml->regen = g_list_prepend(m->ml->regen, m);
+	g_mutex_unlock (m->ml->regen_lock);
 	/* TODO: we should manage our own thread stuff, would make cancelling outstanding stuff easier */
 	mail_msg_fast_ordered_push (m);
 
@@ -4343,8 +4352,11 @@ mail_regen_cancel(MessageList *ml)
 {
 	/* cancel any outstanding regeneration requests, not we don't clear, they clear themselves */
 	if (ml->regen) {
-		GList *l = ml->regen;
+		GList *l;
 
+		g_mutex_lock (ml->regen_lock);
+
+		l = ml->regen;
 		while (l) {
 			MailMsg *mm = l->data;
 
@@ -4352,6 +4364,8 @@ mail_regen_cancel(MessageList *ml)
 				camel_operation_cancel(mm->cancel);
 			l = l->next;
 		}
+
+		g_mutex_unlock (ml->regen_lock);
 	}
 
 	/* including unqueued ones */

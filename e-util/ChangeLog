@@ -1,3 +1,9 @@
+2008-10-06  Sankar P  <psankar@novell.com>
+
+	* widgets/table/e-cell-float.c:
+	* widgets/table/e-cell-float.h:
+	Remove obsolete function
+
 2008-10-01  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #554418

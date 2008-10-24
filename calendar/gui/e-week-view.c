@@ -1402,6 +1402,11 @@ e_week_view_set_selected_time_range	(ECalendarView	*cal_view,
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
+	if (!g_date_valid (&week_view->base_date)) {
+		/* This view has not been initialized/shown yet, thus skip this. */
+		return;
+	}
+
 	time_to_gdate_with_zone (&date, start_time, e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 
 	/* Set the selection to the given days. */
@@ -3607,12 +3612,12 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 
 					e_cal_component_get_dtend (comp, &dt);
 					if (dt.value->zone) {
-						*dt.value = icaltime_from_timet_with_zone (
+						tt = icaltime_from_timet_with_zone (
 							event->comp_data->instance_end,
 							dt.value->is_date,
 							dt.value->zone);
 					} else {
-						*dt.value = icaltime_from_timet_with_zone (
+						tt = icaltime_from_timet_with_zone (
 							event->comp_data->instance_end,
 							dt.value->is_date,
 							e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));

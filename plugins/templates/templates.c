@@ -31,15 +31,13 @@
 
 #include <e-util/e-config.h>
 #include <camel/camel-url.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-mime-message.h>
 #include <camel/camel-multipart.h>
 #include <camel/camel-stream-mem.h>
-#include <camel/camel-store.h>
 
 #include <mail/em-composer-utils.h>
 #include <mail/em-popup.h>
 #include <mail/mail-session.h>
+#include <mail/mail-component.h>
 #include <mail/mail-ops.h>
 #include <e-util/e-error.h>
 #include <e-util/e-plugin.h>
@@ -502,21 +500,13 @@ static void
 reply_with_template (EPopup *ep, EPopupItem *item, void *data)
 {
 	CamelMimeMessage *new, *template, *reply_to;
-	CamelStore *store;
 	CamelFolder *templates_folder;
 	struct _camel_header_raw *header;
 	UserData *userdata = item->user_data;
-	char *cont, *basedir, *url;
+	char *cont;
 
 	/* We get the templates folder and all the uids of the messages in there */
-	basedir = g_build_filename (g_get_home_dir (), ".evolution", "mail", "local", NULL);
-	url = g_strdup_printf ("mbox://%s", basedir);
-	g_free (basedir);
-
-	store = (CamelStore *) camel_session_get_service (session, url, CAMEL_PROVIDER_STORE, NULL);
-	g_free (url);
-
-	templates_folder = camel_store_get_folder (store, _("Templates"), CAMEL_STORE_FOLDER_CREATE, NULL);
+	templates_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_TEMPLATES);
 
 	/* Get from the currently selected folder, the currently selected message */
 	reply_to = camel_folder_get_message (userdata->t->folder, 
@@ -672,21 +662,13 @@ org_gnome_templates_popup (EPlugin *ep, EMPopupTargetSelect *t)
 	CamelFolder *templates_folder;
 	CamelFolderInfo *templates_info;
 	CamelStore *store;
-	char *basedir;
-	char *url;
 
 	GSList *list = NULL;
 
 	/* We get the templates folder and all the uids of the messages in there */
-	basedir = g_build_filename (g_get_home_dir (), ".evolution", "mail", "local", NULL);
-	url = g_strdup_printf ("mbox://%s", basedir);
+	store = mail_component_peek_local_store (NULL);
 
-	g_free (basedir);
-
-	store = (CamelStore *) camel_session_get_service (session, url, CAMEL_PROVIDER_STORE, NULL);
-	g_free (url);
-
-	templates_folder = camel_store_get_folder (store, _("Templates"), CAMEL_STORE_FOLDER_CREATE, NULL);
+	templates_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_TEMPLATES);
 
 	templates_info = camel_store_get_folder_info (store, 
 			templates_folder->full_name, 
@@ -707,22 +689,10 @@ action_template_cb (GtkAction *action,
 {
 	CamelMessageInfo *info;
 	CamelMimeMessage *msg;
-	CamelStore *store;
 	CamelFolder *templates_folder;
 
-	char *basedir;
-	char *url;
-
 	/* We get the templates folder and all the uids of the messages in there */
-	basedir = g_build_filename (g_get_home_dir (), ".evolution", "mail", "local", NULL);
-	url = g_strdup_printf ("mbox://%s", basedir);
-	g_free (basedir);
-
-	store = (CamelStore *) camel_session_get_service (session, url, CAMEL_PROVIDER_STORE, NULL);
-	g_free (url);
-
-	templates_folder = camel_store_get_folder (store, _("Templates"), CAMEL_STORE_FOLDER_CREATE, NULL);
-
+	templates_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_TEMPLATES);
 	msg = e_msg_composer_get_message_draft (composer);
 	info = camel_message_info_new (NULL);
 

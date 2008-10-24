@@ -1,3 +1,11 @@
+2008-10-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #549025
+
+	* Makefile.am:
+	Add $(MONO_CFLAGS) and $(MONO_LIBS) explicitly.  The mono plugin
+	is the only module that should be linking against libmono.
+
 2008-09-02  Sankar P  <psankar@novell.com>
 
 License Changes

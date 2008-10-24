@@ -18,6 +18,7 @@
  */
 
 #include "e-composer-private.h"
+#include "e-util/e-util-private.h"
 
 #include "mail/e-mail-shell-module.h"
 

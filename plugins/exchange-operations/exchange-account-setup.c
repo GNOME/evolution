@@ -1,21 +1,23 @@
-/* -*- Mf (id ode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
+/*
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
  *
- *  Sushma Rai <rsushma@novell.com>
- *  Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
  *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
  *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * Authors:
+ *		Sushma Rai <rsushma@novell.com>
+ *
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ *
  */
 
 #ifdef HAVE_CONFIG_H
@@ -121,6 +123,8 @@ btn_chpass_clicked (GtkButton *button, gpointer data)
  	ExchangeAccountResult result;
 
 	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return;
 
 	old_password = exchange_account_get_password (account);
 	if (!old_password) {
@@ -147,6 +151,8 @@ btn_dass_clicked (GtkButton *button, gpointer data)
 {
 	ExchangeAccount *account;
 	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return;
 	exchange_delegates (account, gtk_widget_get_ancestor (GTK_WIDGET (button), GTK_TYPE_WINDOW));
 }
 
@@ -157,6 +163,8 @@ btn_fsize_clicked (GtkButton *button, gpointer data)
 	GtkListStore *model;
 
 	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return;
 
 	model = exchange_account_folder_size_get_model (account);
 	if (model)
@@ -1048,7 +1056,10 @@ org_gnome_exchange_show_folder_size_factory (EPlugin *epl, EConfigHookItemFactor
 	if (g_ascii_strcasecmp (provider->protocol, "exchange"))
 		return NULL;
 
-	account = exchange_operations_get_exchange_account ();  
+	account = exchange_operations_get_exchange_account ();
+	if (!account)
+		return NULL;
+
 	exchange_account_is_offline (account, &mode);  
 	if (mode == OFFLINE_MODE)  
 		return NULL;  
