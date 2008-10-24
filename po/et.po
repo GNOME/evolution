@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-09-30 08:01+0000\n"
-"PO-Revision-Date: 2008-10-01 08:34+0300\n"
+"PO-Revision-Date: 2008-10-12 14:06+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -398,11 +398,11 @@ msgid ""
 "Please use some other GroupWise mail client once, to get your GroupWise "
 "Frequent Contacts and GroupWise Personal Contacts folders."
 msgstr ""
-"Käesolevaga on sul Evolutioniga võimalik ligi pääseda ainult Groupwise "
-"süsteemsetele aadressiraamatutele (GroupWise System Address Book). Groupwise "
-"sagedaste kontaktide (GroupWise Frequent Contacts) ja isiklike (Groupwise "
+"Käesolevaga on sul Evolutioniga võimalik ligi pääseda ainult GroupWise "
+"süsteemsetele aadressiraamatutele (GroupWise System Address Book). GroupWise "
+"sagedaste kontaktide (GroupWise Frequent Contacts) ja isiklike (GroupWise "
 "Personal Contacts) kontaktide kaustadele ligipääskuks kasuta korraks mõnda "
-"muud Groupwise postiklienti."
+"muud GroupWise postiklienti."
 
 #: ../addressbook/addressbook.error.xml.h:12
 msgid "Delete address book '{0}'?"
@@ -622,11 +622,11 @@ msgstr "Evolutioni aadressiraamatu aadressi hüpikaken"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:8
 msgid "Evolution Address Book address viewer"
-msgstr "Evolutioni aadressiraamatu aadressivaatur"
+msgstr "Evolutioni aadressiraamatu aadressinäitaja"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:9
 msgid "Evolution Address Book card viewer"
-msgstr "Evolutioni aadressiraamatu kaardivaatur"
+msgstr "Evolutioni aadressiraamatu kaardinäitaja"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:10
 msgid "Evolution Address Book component"
@@ -1161,7 +1161,6 @@ msgstr ""
 "otsingupõhjast ühe taseme võrra allapoole."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:41
-#, fuzzy
 msgid ""
 "This is the full name of your LDAP server. For example, \"ldap.mycompany.com"
 "\"."
@@ -1176,15 +1175,14 @@ msgstr ""
 "määramine aeglustab aadressiraamatu tööd."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:43
-#, fuzzy
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your LDAP "
 "server."
 msgstr ""
-"Siin määrataks, mil viisil Evolution tõendab serverile kasutajat.  Märkus: "
-"seades selle väärtuseks \"E-posti aadress\", peab valitud LDAP-serveri "
-"toetama anonüümset ligipääsu."
+"Siin määrataks meetod, mille abil Evolution tõendab serverile kasutajat.  "
+"Väärtuse \"E-posti aadress\" korral peab valitud LDAP-server toetama "
+"anonüümset ligipääsu."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:44
 msgid ""
@@ -1363,7 +1361,7 @@ msgstr "H_üüdnimi:"
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:55
 msgid "Novell GroupWise"
-msgstr "Novell Groupwise"
+msgstr "Novell GroupWise"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
 msgid "Novell Groupwise"
@@ -2569,7 +2567,7 @@ msgstr "MSN"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:181
 #: ../addressbook/gui/widgets/eab-contact-display.c:615
 msgid "GroupWise"
-msgstr "Groupwise"
+msgstr "GroupWise"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:250
 msgid "Source Book"
@@ -4616,7 +4614,7 @@ msgstr "Evolutioni kalendri seadistuste juhtimine"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:6
 msgid "Evolution Calendar scheduling message viewer"
-msgstr "Evolutioni kalendri ajastussõnumi vaatur"
+msgstr "Evolutioni kalendri ajastussõnumi näitaja"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:7
 msgid "Evolution Calendar/Task editor"
@@ -5641,7 +5639,7 @@ msgstr "Tarnijad"
 #: ../calendar/gui/caltypes.xml.h:39 ../calendar/gui/memotypes.xml.h:36
 #: ../calendar/gui/tasktypes.xml.h:43
 msgid "Time &amp; Expenses"
-msgstr ""
+msgstr "Aeg ja kulutused"
 
 #: ../calendar/gui/caltypes.xml.h:40 ../calendar/gui/memotypes.xml.h:37
 #: ../calendar/gui/tasktypes.xml.h:45
@@ -10989,12 +10987,11 @@ msgstr ""
 "taastamine võimaldab sul jätkata sealt, kus sa pooleli jäid."
 
 #: ../composer/mail-composer.error.xml.h:17
-#, fuzzy
 msgid ""
 "Send options available only for Novell GroupWise and Microsoft Exchange "
 "accounts."
 msgstr ""
-"Saatmisvalikud on saadaval ainult Novell Groupwise ja Microsoft Exchange "
+"Saatmisvalikud on saadaval ainult Novell GroupWise ja Microsoft Exchange "
 "kontodele."
 
 #: ../composer/mail-composer.error.xml.h:18
@@ -12938,7 +12935,6 @@ msgid "Failed to create local mail storage `%s': %s"
 msgstr "Tõrge kohaliku postisalvesti `%s' loomisel: %s"
 
 #: ../mail/em-migrate.c:2898
-#, fuzzy
 msgid ""
 "The summary format of the Evolution mailbox folders has been moved to SQLite "
 "since Evolution 2.24.\n"
@@ -12946,7 +12942,7 @@ msgid ""
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
 "Evolutioni postikaustade kokkuvõtted on alates Evolutioni versioonist 2.24 "
-"sqlite vormingus.\n"
+"SQLite vormingus.\n"
 "\n"
 "Palun oota kuni Evolution siirdab sinu kaustasid..."
 
@@ -13047,7 +13043,6 @@ msgid "\"Send and Receive Mail\" window width"
 msgstr "\"Posti saatmise ja vastuvõtmise\" akna laius"
 
 #: ../mail/evolution-mail.schemas.in.h:4
-#, fuzzy
 msgid "Allows Evolution to display text part of limited size"
 msgstr "Piiratud suurusega tekstiosa kuvamise lubamine"
 
@@ -13108,6 +13103,9 @@ msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
 msgstr ""
+"Kohalike muudatuste sünkroniseerimise sagedus võrgus asuvate "
+"postiserveritega. Sünkroniseerimiste vahe peab olema vähemalt 30-sekundi "
+"pikkune."
 
 #: ../mail/evolution-mail.schemas.in.h:18
 msgid "Custom headers to use while checking for junk."
@@ -13319,15 +13317,14 @@ msgstr ""
 "vaate asemel külg-külje kõrval."
 
 #: ../mail/evolution-mail.schemas.in.h:61
-#, fuzzy
 msgid ""
 "If there isn't a builtin viewer for a particular MIME type inside Evolution, "
 "any MIME types appearing in this list which map to a Bonobo component viewer "
 "in GNOME's MIME type database may be used for displaying content."
 msgstr ""
-"Kui Evolutionil pole konkreetse mime-tüübi jaoks sisseehitatud vaaturit, "
-"siis iga selles nimekirjas olev mime tüüp seotakse GNOME mime-tüüpide "
-"andmebaasis kirjeldatud bonobo-vaaturkomponendiga ja seda vaaturit "
+"Kui Evolutionil pole konkreetse MIME-tüübi jaoks sisseehitatud näitajat, "
+"siis iga selles nimekirjas olev MIME-tüüp seotakse GNOME MIME-tüüpide "
+"andmebaasis kirjeldatud bonobo-komponendinäitajaga ja seda näitajat "
 "kasutatakse sisu kuvamiseks."
 
 #: ../mail/evolution-mail.schemas.in.h:62
@@ -13399,9 +13396,8 @@ msgid "List of Labels and their associated colors"
 msgstr "Siltide ja nende värvuste loend"
 
 #: ../mail/evolution-mail.schemas.in.h:72
-#, fuzzy
 msgid "List of MIME types to check for Bonobo component viewers"
-msgstr "Mime-tüüpide loend bonobo komponendivaaturi kontrolliks"
+msgstr "MIME-tüüpide loetelu bonobo komponendivaaturi kontrolliks"
 
 #: ../mail/evolution-mail.schemas.in.h:73
 msgid "List of accepted licenses"
@@ -13426,6 +13422,7 @@ msgstr "Kohandatud päiste ja nende lubamise tingimuste loend."
 #: ../mail/evolution-mail.schemas.in.h:77
 msgid "List of dictionary language codes used for spell checking."
 msgstr ""
+"Õigekirjakontrolli jaoks kasutatavate sõnaraamatukeelte koodide loetelu"
 
 #: ../mail/evolution-mail.schemas.in.h:78
 msgid ""
@@ -13701,14 +13698,13 @@ msgid ""
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:141
-#, fuzzy
 msgid ""
 "This decides the max size of the text part that can be formatted under "
 "Evolution. The default is 4MB / 4096 KB and is specified in terms of KB."
 msgstr ""
-"Selle alusel otsustatakse Evolution'i abil vormindatava sõnumi tekstiosa "
-"suurim suurus. Vaikimisi väärtus on 4MB / 4096 KB, väärtus määratakse "
-"kilobaitides."
+"Selle alusel otsustatakse Evolutioni abil vormindatava sõnumi tekstiosa "
+"suurim suurus. Väärtus määratakse kilobaitides ja vaikimisi on selleks 4MB / "
+"4096 KB."
 
 #: ../mail/evolution-mail.schemas.in.h:142
 msgid ""
@@ -14806,7 +14802,7 @@ msgstr "_Skript:"
 
 #: ../mail/mail-config.glade.h:184
 msgid "_Secure HTTP Proxy:"
-msgstr ""
+msgstr "_Turvalise HTTP proksi:"
 
 #: ../mail/mail-config.glade.h:185
 msgid "_Select..."
@@ -16085,7 +16081,6 @@ msgid "_Edit Message"
 msgstr "_Redigeeri sõnumit"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "A formatter plugin which displays audio attachments inline and allows you to "
 "play them directly from Evolution."
@@ -16095,7 +16090,7 @@ msgstr ""
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
 msgid "Audio inline plugin"
-msgstr ""
+msgstr "Audioesitamise plugin"
 
 #: ../plugins/backup-restore/backup-restore.c:127
 msgid "Select name of the Evolution backup file"
@@ -17706,9 +17701,8 @@ msgid "<b>Server</b>"
 msgstr "<b>Server</b>"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin to setup Google Calendar and Contacts."
-msgstr "Plugin google kalendri ja kontaktide seadistamiseks."
+msgstr "Plugin Google kalendri ja kontaktide seadistamiseks."
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:2
 msgid "Google sources"
@@ -17719,13 +17713,12 @@ msgid "Checklist"
 msgstr "Kontroll-loend"
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin to setup GroupWise calendar and contacts sources."
-msgstr "Plugin groupwise kalendri- ja kontaktiallikate seadistamiseks."
+msgstr "Plugin GroupWise kalendri- ja kontaktiallikate seadistamiseks."
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:2
 msgid "GroupWise Account Setup"
-msgstr "Groupwise'i konto sätted"
+msgstr "GroupWise'i konto sätted"
 
 #: ../plugins/groupwise-features/install-shared.c:220
 #, c-format
@@ -17813,18 +17806,16 @@ msgid "Retract Mail"
 msgstr "E-posti tagasivõtmine"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
-#, fuzzy
 msgid "Add Send Options to GroupWise messages"
-msgstr "Groupwise'i sõnumitele saatmisvalikute lisamine"
+msgstr "Saatmisvalikute lisamine GroupWise'i sõnumitele"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin for the features in GroupWise accounts."
-msgstr "Plugin Groupwise kontode võimaluste jaoks."
+msgstr "Plugin GroupWise kontode võimaluste jaoks."
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
 msgid "GroupWise Features"
-msgstr "Groupwise'i võimalused"
+msgstr "GroupWise'i võimalused"
 
 #: ../plugins/groupwise-features/org-gnome-mail-retract-errors.xml.h:1
 msgid "Message retract failed"
@@ -17888,13 +17879,12 @@ msgid "Would you like to decline it?"
 msgstr "Kas lükkad selle tagasi?"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:8
-#, fuzzy
 msgid "You cannot share this folder with the specified user &quot;{0}&quot;"
-msgstr "Sul pole võimalik kausta määratud kasutajaga &quot;{0}&quot; jagada"
+msgstr "Sul pole võimalik kausta määratud kasutajale &quot;{0}&quot; jagada"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:9
 msgid "You have to specify a user name which you want to add to the list"
-msgstr ""
+msgstr "Sa pead määrama nimekirja lisatava kasutaja nime"
 
 #: ../plugins/groupwise-features/process-meeting.c:52
 msgid "Accept Tentatively"
@@ -19458,9 +19448,8 @@ msgid "_Publish Calendar Information"
 msgstr "_Publitseeri kalendri andmed"
 
 #: ../plugins/publish-calendar/publish-calendar.c:595
-#, fuzzy
 msgid "Are you sure you want to remove this location?"
-msgstr "Oled sa kindel, et soovid eemaldada seda URL-i?"
+msgstr "Oled sa kindel, et soovid seda asukohta eemaldada?"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:2
 msgid "<span weight=\"bold\">Location</span>"
@@ -19497,7 +19486,6 @@ msgid "Publishing _Frequency:"
 msgstr "Avalikustamise sa_gedus"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:13
-#, fuzzy
 msgid ""
 "Secure FTP (SSH)\n"
 "Public FTP\n"
@@ -19507,7 +19495,7 @@ msgid ""
 "Secure WebDAV (HTTPS)\n"
 "Custom Location"
 msgstr ""
-"SSH\n"
+"Turvaline FTP (SSH)\n"
 "Avalik FTP\n"
 "FTP (sisselogimisega)\n"
 "Windowsi jagatud kataloog\n"
@@ -19549,7 +19537,7 @@ msgstr ""
 
 #: ../plugins/python/example/org-gnome-hello-python-ui.xml.h:1
 msgid "Hello Python"
-msgstr ""
+msgstr "Tere Python"
 
 #: ../plugins/python/example/org-gnome-hello-python-ui.xml.h:2
 msgid "Python Plugin Loader tests"
@@ -19564,9 +19552,8 @@ msgid "Test Plugin for Python EPlugin loader."
 msgstr "Pythoni EPlugini laaduri testplugin."
 
 #: ../plugins/python/org-gnome-evolution-python.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin which loads other plugins written using Python."
-msgstr "Plugin, mis laadib teisi pythonis kirjutatud pluginaid."
+msgstr "Plugin, mis laadib teisi Pythonis kirjutatud pluginaid."
 
 #: ../plugins/python/org-gnome-evolution-python.eplug.xml.h:2
 msgid "Python Loader"
@@ -19598,9 +19585,9 @@ msgid "SpamAssassin child process does not respond, killing..."
 msgstr "SpamAssassin'i lapsprotsess ei vasta ja seetõttu kõrvaldatakse..."
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:245
-#, fuzzy, c-format
+#, c-format
 msgid "Wait for SpamAssassin child process interrupted, terminating..."
-msgstr "SpamAssassin'i lapsprotsess ei vasta ja seetõttu kõrvaldatakse..."
+msgstr "SpamAssassini lapsprotsessi lõpetamise ootamine, katkestatakse..."
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:254
 #, c-format
@@ -19891,9 +19878,8 @@ msgid "Drafts based template plugin"
 msgstr "Mallipluginal põhinevad mustandid"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
-#, fuzzy
 msgid "A simple plugin which uses yTNEF to decode TNEF attachments."
-msgstr "Lihtne ytnef'i kasutav plugin, mis kodeerib TNEF-manuseid lahti."
+msgstr "Lihtne yTNEF'i kasutav plugin, TNEF-manuste lahtikodeerimiseks."
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:2
 msgid "TNEF Attachment decoder"
@@ -19939,7 +19925,7 @@ msgstr "Evolutioni testkomponent"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:1
 msgid "Authenticate proxy server connections"
-msgstr ""
+msgstr "Proksi-serveri ühenduste autentimine"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:2
 msgid "Automatic proxy configuration URL"
@@ -20569,7 +20555,6 @@ msgstr ""
 "Evolutioni vanemat versiooni kasutada.\n"
 
 #: ../shell/shell.error.xml.h:16
-#, fuzzy
 msgid ""
 "The previous version of Evolution stored its data in a different location.\n"
 "\n"
@@ -20582,8 +20567,8 @@ msgstr ""
 "\n"
 "Kui sa valid andmete eemaldamise, siis eemaldatakse kogu &quot;"
 "evolution&quot; kataloogi jäädavalt. Kui sa valid andmete säilitamise, siis "
-"võid sa hiljem omal vabal valikul käsitsi eemaldada kataloogi &quot;"
-"evolution&quot;.\n"
+"võid hiljem omal vabal valikul kataloogi &quot;evolution&quot; käsitsi "
+"eemaldada.\n"
 
 #: ../shell/shell.error.xml.h:20
 msgid "Upgrade from previous version failed: {0}"
