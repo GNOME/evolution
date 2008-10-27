@@ -588,6 +588,7 @@ action_task_purge_cb (GtkAction *action,
 purge:
 
 	/* FIXME */
+        ;
 }
 
 static void

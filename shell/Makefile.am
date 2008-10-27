@@ -87,6 +87,7 @@ libeshell_la_LDFLAGS = $(NO_UNDEFINED)
 libeshell_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
+	$(top_builddir)/widgets/menus/libmenus.la	\
 	$(SHELL_LIBS)
 
 # Evolution executable

@@ -124,8 +124,6 @@ book_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	gboolean is_system = FALSE;
 	guint32 state = 0;
 
-	priv = E_BOOK_SHELL_SIDEBAR_GET_PRIVATE (shell_sidebar);
-
 	book_shell_sidebar = E_BOOK_SHELL_SIDEBAR (shell_sidebar);
 	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
 	source = e_source_selector_peek_primary_selection (selector);

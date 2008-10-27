@@ -408,7 +408,6 @@ cal_shell_sidebar_constructed (GObject *object)
 	calitem = E_CALENDAR (widget)->calitem;
 	e_calendar_item_set_days_start_week_sel (calitem, 9);
 	e_calendar_item_set_max_days_sel (calitem, 42);
-	widget = gnome_calendar_new (shell_view);
 	gtk_paned_add2 (GTK_PANED (container), widget);
 	priv->mini_calendar = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -466,7 +465,8 @@ static void
 cal_shell_sidebar_client_added (ECalShellSidebar *cal_shell_sidebar,
                                 ECal *client)
 {
-	cal_shell_sidebar_update_timezone (cal_shell_sidebar);
+        /* FIXME */
+	/*cal_shell_sidebar_update_timezone (cal_shell_sidebar);*/
 }
 
 static void

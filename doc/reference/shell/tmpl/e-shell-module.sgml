@@ -157,5 +157,6 @@ EShellModule
 
 @shell_module: 
 @info: 
+@shell_view_type: 
 
 

@@ -21,6 +21,11 @@
 
 #include "e-mail-shell-sidebar.h"
 
+#include <string.h>
+#include <camel/camel.h>
+
+#include "e-mail-shell-module.h"
+
 #define E_MAIL_SHELL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_SHELL_SIDEBAR, EMailShellSidebarPrivate))
@@ -125,6 +130,7 @@ mail_shell_sidebar_constructed (GObject *object)
 static guint32
 mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 {
+#if 0
 	EMailShellSidebar *mail_shell_sidebar;
 	EShellModule *shell_module;
 	EShellView *shell_view;
@@ -154,7 +160,7 @@ mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	tree_view = GTK_TREE_VIEW (folder_tree);
 
 	selection = gtk_tree_view_get_selection (tree_view);
-	if (!emft_selection_get_selected (selection, &model, &iter))
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return 0;
 
 	gtk_tree_model_get (
@@ -177,13 +183,15 @@ mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	}
 
 	if (is_virtual)
-		state |= E_BOOK_SHELL_SIDEBAR_ALLOWS_CHILDREN;
+		state |= E_MAIL_SHELL_SIDEBAR_ALLOWS_CHILDREN;
 	if (is_outbox)
-		state |= E_BOOK_SHELL_SIDEBAR_FOLDER_IS_OUTBOX;
+		state |= E_MAIL_SHELL_SIDEBAR_FOLDER_IS_OUTBOX;
 	if (is_store)
-		state |= E_BOOK_SHELL_SIDEBAR_FOLDER_IS_STORE;
+		state |= E_MAIL_SHELL_SIDEBAR_FOLDER_IS_STORE;
 
 	return state;
+#endif
+        return 0;
 }
 
 static void
@@ -267,5 +275,5 @@ e_mail_shell_sidebar_get_folder_tree (EMailShellSidebar *mail_shell_sidebar)
 	g_return_val_if_fail (
 		E_IS_MAIL_SHELL_SIDEBAR (mail_shell_sidebar), NULL);
 
-	return mail_shell_sidebar->priv->folder_tree;
+	return EM_FOLDER_TREE (mail_shell_sidebar->priv->folder_tree);
 }

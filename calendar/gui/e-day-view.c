@@ -467,8 +467,10 @@ e_day_view_class_init (EDayViewClass *class)
 	view_class->set_selected_time_range = e_day_view_set_selected_time_range;
 	view_class->get_visible_time_range = e_day_view_get_visible_time_range;
 
+#if 0  /* KILL-BONOBO */
 	/* init the accessibility support for e_day_view */
  	e_day_view_a11y_init ();
+#endif
 }
 
 static void
@@ -5513,6 +5515,7 @@ e_day_view_cursor_key_down (EDayView *day_view, GdkEventKey *event)
 static void
 e_day_view_cursor_key_left (EDayView *day_view, GdkEventKey *event)
 {
+#if 0  /* KILL-BONOBO */
 	if (day_view->selection_start_day == 0) {
 		gnome_calendar_previous (e_calendar_view_get_calendar (E_CALENDAR_VIEW (day_view)));
 	} else {
@@ -5526,12 +5529,14 @@ e_day_view_cursor_key_left (EDayView *day_view, GdkEventKey *event)
 		gtk_widget_queue_draw (day_view->main_canvas);
 	}
 	g_signal_emit_by_name (day_view, "selected_time_changed");
+#endif
 }
 
 
 static void
 e_day_view_cursor_key_right (EDayView *day_view, GdkEventKey *event)
 {
+#if 0 /* KILL-BONOBO */
 	if (day_view->selection_end_day == day_view->days_shown - 1) {
 		gnome_calendar_next (e_calendar_view_get_calendar (E_CALENDAR_VIEW (day_view)));
 	} else {
@@ -5545,6 +5550,7 @@ e_day_view_cursor_key_right (EDayView *day_view, GdkEventKey *event)
 		gtk_widget_queue_draw (day_view->main_canvas);
 	}
 	g_signal_emit_by_name (day_view, "selected_time_changed");
+#endif
 }
 
 
@@ -6297,8 +6303,10 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 		if (!on_server) {
 			if (!e_cal_create_object (client, icalcomp, NULL, NULL))
 				g_message (G_STRLOC ": Could not create the object!");
+#if 0  /* KILL-BONOBO */
 			else
 				gnome_calendar_emit_user_created_signal (day_view, e_calendar_view_get_calendar (E_CALENDAR_VIEW (day_view)), client);
+#endif
 
 			/* we remove the object since we either got the update from the server or failed */
 			e_day_view_remove_event_cb (day_view, day, event_num, NULL);

@@ -225,8 +225,10 @@ e_week_view_class_init (EWeekViewClass *class)
 	view_class->set_selected_time_range = e_week_view_set_selected_time_range;
 	view_class->get_visible_time_range = e_week_view_get_visible_time_range;
 
+#if 0  /* KILL-BONOBO */
 	/* init the accessibility support for e_week_view */
 	e_week_view_a11y_init ();
+#endif
 }
 
 static void
@@ -3572,8 +3574,10 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 		if (!on_server) {
 			if (!e_cal_create_object (client, icalcomp, NULL, NULL))
 				g_message (G_STRLOC ": Could not create the object!");
+#if 0  /* KILL-BONOBO */
 			else
 				gnome_calendar_emit_user_created_signal (week_view, e_calendar_view_get_calendar (E_CALENDAR_VIEW (week_view)), client);
+#endif
 
 			/* we remove the object since we either got the update from the server or failed */
 			e_week_view_remove_event_cb (week_view, event_num, NULL);
@@ -3931,6 +3935,7 @@ e_week_view_cursor_key_right (EWeekView *week_view, GnomeCalendarViewType view_t
 static gboolean
 e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 {
+#if 0  /* KILL-BONOBO */
 	EWeekView *week_view;
 	ECal *ecal;
 	ECalModel *model;
@@ -4105,6 +4110,7 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 		g_free (initial_text);
 
 	g_object_unref (comp);
+#endif
 
 	return TRUE;
 }
@@ -4187,6 +4193,7 @@ e_week_view_popup_menu (GtkWidget *widget)
 void
 e_week_view_jump_to_button_item (EWeekView *week_view, GnomeCanvasItem *item)
 {
+#if 0  /* KILL-BONOBO */
 	gint day;
 	GnomeCalendar *calendar;
 
@@ -4202,6 +4209,7 @@ e_week_view_jump_to_button_item (EWeekView *week_view, GnomeCanvasItem *item)
 			return;
 		}
 	}
+#endif
 }
 
 static gboolean

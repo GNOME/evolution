@@ -79,12 +79,14 @@ month_changed (GtkToggleButton *toggle, gpointer data)
 static void
 ecal_date_range_changed (ECalendarItem *calitem, gpointer user_data)
 {
+#if 0  /* KILL-BONOBO */
 	GoToDialog *dlg = user_data;
 	ECal *client;
 
 	client = gnome_calendar_get_default_client (dlg->gcal);
 	if (client)
 		tag_calendar_by_client (dlg->ecal, client);
+#endif
 }
 
 /* Event handler for day groups in the month item.  A button press makes the calendar jump to the
@@ -93,6 +95,7 @@ ecal_date_range_changed (ECalendarItem *calitem, gpointer user_data)
 static void
 ecal_event (ECalendarItem *calitem, gpointer user_data)
 {
+#if 0  /* KILL-BONOBO */
 	GoToDialog *dlg = user_data;
 	GDate start_date, end_date;
 	struct icaltimetype tt = icaltime_null_time ();
@@ -110,6 +113,7 @@ ecal_event (ECalendarItem *calitem, gpointer user_data)
 
 	gtk_dialog_response (GTK_DIALOG (dlg->dialog), GTK_RESPONSE_NONE);
 	/* gnome_dialog_close (GNOME_DIALOG (dlg->dialog)); */
+#endif
 }
 
 /* Returns the current time, for the ECalendarItem. */
@@ -164,7 +168,9 @@ create_ecal (GoToDialog *dlg)
 static void
 goto_today (GoToDialog *dlg)
 {
+#if 0  /* KILL-BONOBO */
 	gnome_calendar_goto_today (dlg->gcal);
+#endif
 }
 
 /* Gets the widgets from the XML file and returns if they are all available. */
@@ -209,6 +215,7 @@ goto_dialog_init_widgets (GoToDialog *dlg)
 void
 goto_dialog (GnomeCalendar *gcal)
 {
+#if 0  /* KILL-BONOBO */
 	time_t start_time;
 	struct icaltimetype tt;
 	int b;
@@ -277,4 +284,5 @@ goto_dialog (GnomeCalendar *gcal)
 	g_object_unref (dlg->xml);
 	g_free (dlg);
 	dlg = NULL;
+#endif
 }

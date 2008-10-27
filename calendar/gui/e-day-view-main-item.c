@@ -111,7 +111,9 @@ e_day_view_main_item_class_init (EDayViewMainItemClass *class)
 			G_PARAM_WRITABLE));
 
 	/* init the accessibility support for e_day_view */
+#if 0  /* KILL-BONOBO */
  	e_day_view_main_item_a11y_init ();
+#endif
 }
 
 

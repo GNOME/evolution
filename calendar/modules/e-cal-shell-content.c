@@ -26,6 +26,13 @@
 #include "e-util/gconf-bridge.h"
 
 #include "calendar/gui/calendar-config.h"
+#include "calendar/gui/e-cal-list-view-config.h"
+#include "calendar/gui/e-cal-model-calendar.h"
+#include "calendar/gui/e-calendar-table.h"
+#include "calendar/gui/e-calendar-table-config.h"
+#include "calendar/gui/e-day-view-config.h"
+#include "calendar/gui/e-memo-table-config.h"
+#include "calendar/gui/e-week-view-config.h"
 
 #include "widgets/menus/gal-view-etable.h"
 
@@ -95,6 +102,8 @@ cal_shell_content_display_view_cb (ECalShellContent *cal_shell_content,
 static FocusLocation
 cal_shell_content_get_focus_location (ECalShellContent *cal_shell_content)
 {
+        return FOCUS_OTHER;
+#if 0  /* TEMPORARILY DISABLED */
 	GtkWidget *widget;
 	GnomeCalendar *calendar;
 	ECalendarTable *task_table;
@@ -149,6 +158,7 @@ cal_shell_content_get_focus_location (ECalShellContent *cal_shell_content)
 	}
 
 	return FOCUS_OTHER;
+#endif
 }
 
 static void
@@ -292,12 +302,12 @@ cal_shell_content_constructed (GObject *object)
 {
 	ECalShellContentPrivate *priv;
 	ECalModelCalendar *cal_model;
-	EShellContent *shell-content;
+	EShellContent *shell_content;
 	EShellModule *shell_module;
 	EShellView *shell_view;
 	EShellViewClass *shell_view_class;
 	GalViewCollection *view_collection;
-	GalViewInstnace *view_instance;
+	GalViewInstance *view_instance;
 	GtkWidget *container;
 	GtkWidget *widget;
 	const gchar *config_dir;
@@ -348,7 +358,7 @@ cal_shell_content_constructed (GObject *object)
 	 *       Month view has its own position. */
 	widget = gtk_vpaned_new ();
 	gtk_paned_pack2 (GTK_PANED (container), widget, TRUE, TRUE);
-	priv->vpaned = g_object_ref ();
+	priv->vpaned = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	container = priv->notebook;
@@ -357,6 +367,7 @@ cal_shell_content_constructed (GObject *object)
 	 * that the notebook page number corresponds to the view type.
 	 * The assertions below ensure that stays true. */
 
+#if 0  /* Not so fast... get the memo/task pads working first. */
 	/* FIXME Need to establish a calendar and timezone first. */
 	widget = e_day_view_new (E_CAL_MODEL (cal_model));
 	e_calendar_view_set_calendar (
@@ -420,6 +431,7 @@ cal_shell_content_constructed (GObject *object)
 	g_return_if_fail (page_num == GNOME_CAL_LIST_VIEW);
 	priv->list_view = g_object_ref (widget);
 	gtk_widget_show (widget);
+#endif
 
 	container = priv->vpaned;
 
@@ -440,9 +452,9 @@ cal_shell_content_constructed (GObject *object)
 	gtk_widget_show (widget);
 	g_free (markup);
 
-	widget = e_calendar_table_new ();
+	widget = e_calendar_table_new (shell_view);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	priv->task_table = g_object_ref ();
+	priv->task_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	filename = g_build_filename (config_dir, "TaskPad", NULL);
@@ -464,9 +476,9 @@ cal_shell_content_constructed (GObject *object)
 	gtk_widget_show (widget);
 	g_free (markup);
 
-	widget = e_memo_table_new ();
+	widget = e_memo_table_new (shell_view);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	priv->memo_table = g_object_ref ();
+	priv->memo_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	filename = g_build_filename (config_dir, "MemoPad", NULL);
@@ -572,7 +584,9 @@ e_cal_shell_content_get_calendar (ECalShellContent *cal_shell_content)
 	g_return_val_if_fail (
 		E_IS_CAL_SHELL_CONTENT (cal_shell_content), NULL);
 
-	return GNOME_CALENDAR (cal_shell_content->priv->calendar);
+        /* FIXME */
+	/*return GNOME_CALENDAR (cal_shell_content->priv->calendar);*/
+        return NULL;
 }
 
 EMemoTable *
@@ -599,7 +613,9 @@ e_cal_shell_content_get_timezone (ECalShellContent *cal_shell_content)
 	g_return_val_if_fail (
 		E_IS_CAL_SHELL_CONTENT (cal_shell_content), NULL);
 
-	return cal_shell_content->priv->timezone;
+        /* FIXME */
+	/*return cal_shell_content->priv->timezone;*/
+        return NULL;
 }
 
 GalViewInstance *
@@ -614,6 +630,7 @@ e_cal_shell_content_get_view_instance (ECalShellContent *cal_shell_content)
 void
 e_cal_shell_content_copy_clipboard (ECalShellContent *cal_shell_content)
 {
+#if 0
 	GnomeCalendar *calendar;
 	EMemoTable *memo_table;
 	ECalendarTable *task_table;
@@ -640,11 +657,13 @@ e_cal_shell_content_copy_clipboard (ECalShellContent *cal_shell_content)
 		default:
 			g_return_if_reached ();
 	}
+#endif
 }
 
 void
 e_cal_shell_content_cut_clipboard (ECalShellContent *cal_shell_content)
 {
+#if 0
 	GnomeCalendar *calendar;
 	EMemoTable *memo_table;
 	ECalendarTable *task_table;
@@ -671,11 +690,13 @@ e_cal_shell_content_cut_clipboard (ECalShellContent *cal_shell_content)
 		default:
 			g_return_if_reached ();
 	}
+#endif
 }
 
 void
 e_cal_shell_content_paste_clipboard (ECalShellContent *cal_shell_content)
 {
+#if 0
 	GnomeCalendar *calendar;
 	EMemoTable *memo_table;
 	ECalendarTable *task_table;
@@ -702,11 +723,13 @@ e_cal_shell_content_paste_clipboard (ECalShellContent *cal_shell_content)
 		default:
 			g_return_if_reached ();
 	}
+#endif
 }
 
 void
 e_cal_shell_content_delete_selection (ECalShellContent *cal_shell_content)
 {
+#if 0
 	GnomeCalendar *calendar;
 	EMemoTable *memo_table;
 	ECalendarTable *task_table;
@@ -733,11 +756,13 @@ e_cal_shell_content_delete_selection (ECalShellContent *cal_shell_content)
 		default:
 			g_return_if_reached ();
 	}
+#endif
 }
 
 void
 e_cal_shell_content_delete_selected_occurrence (ECalShellContent *cal_shell_content)
 {
+#if 0
 	GnomeCalendar *calendar;
 	FocusLocation focus;
 
@@ -748,4 +773,5 @@ e_cal_shell_content_delete_selected_occurrence (ECalShellContent *cal_shell_cont
 
 	if (focus == FOCUS_CALENDAR)
 		gnome_calendar_delete_selected_occurrence (calendar);
+#endif
 }

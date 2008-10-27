@@ -27,6 +27,7 @@
 static void
 cal_shell_view_update_timezone (ECalShellView *cal_shell_view)
 {
+#if 0
 	ECalShellContent *cal_shell_content;
 	ECalShellSidebar *cal_shell_sidebar;
 	GnomeCalendarViewType view_type;
@@ -44,6 +45,7 @@ cal_shell_view_update_timezone (ECalShellView *cal_shell_view)
 
 	timezone = calendar_config_get_icaltimezone ();
 	e_calendar_view_get_icaltimezone (calendar_view, timezone);
+#endif
 }
 
 static void
@@ -265,13 +267,15 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 
 	/* Listen for configuration changes. */
 
+#if 0
 	notification = calendar_config_add_notification_timezone (
 		cal_shell_view_timezone_changed_cb, cal_shell_view);
 	priv->notifications = g_list_prepend (
 		priv->notifications, GUINT_TO_POINTER (notification));
 	cal_shell_view_update_timezone (cal_shell_view);
+#endif
 
-	e_shell_view_update_actions (shell_view);
+	e_cal_shell_view_actions_init (shell_view);
 	e_cal_shell_view_update_sidebar (cal_shell_view);
 }
 
@@ -383,6 +387,7 @@ e_cal_shell_view_set_status_message (ECalShellView *cal_shell_view,
 void
 e_cal_shell_view_update_sidebar (ECalShellView *cal_shell_view)
 {
+#if 0  /* KILL-BONOBO */
 	EShellView *shell_view;
 	EShellSidebar *shell_sidebar;
 	GnomeCalendar *calendar;
@@ -503,5 +508,5 @@ e_cal_shell_view_update_sidebar (ECalShellView *cal_shell_view)
 	}
 
 	e_shell_sidebar_set_secondary_text (shell_sidebar, buffer);
+#endif
 }
-

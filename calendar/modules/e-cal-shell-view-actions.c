@@ -48,6 +48,7 @@ static void
 action_calendar_delete_cb (GtkAction *action,
                            ECalShellView *cal_shell_view)
 {
+#if 0
 	ECalShellContent *cal_shell_content;
 	ECalShellSidebar *cal_shell_sidebar;
 	EShellWindow *shell_window;
@@ -113,38 +114,44 @@ action_calendar_delete_cb (GtkAction *action,
 		g_warning ("%s", error->message);
 		g_error_free (error);
 	}
+#endif
 }
 
 static void
 action_calendar_go_back_cb (GtkAction *action,
                             ECalShellView *cal_shell_view)
 {
+#if 0 
 	ECalShellContent *cal_shell_content;
 	GnomeCalendar *calendar;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	calendar = e_shell_content_get_calendar (cal_shell_content);
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
 
-	gnome_claendar_previous (calendar);
+	gnome_calendar_previous (calendar);
+#endif
 }
 
 static void
 action_calendar_go_forward_cb (GtkAction *action,
                                ECalShellView *cal_shell_view)
 {
+#if 0
 	ECalShellContent *cal_shell_content;
 	GnomeCalendar *calendar;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	calendar = e_shell_content_get_calendar (cal_shell_content);
+	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
 
 	gnome_calendar_next (calendar);
+#endif
 }
 
 static void
 action_calendar_go_today_cb (GtkAction *action,
                              ECalShellView *cal_shell_view)
 {
+#if 0
 	ECalShellContent *cal_shell_content;
 	GnomeCalendar *calendar;
 
@@ -152,12 +159,14 @@ action_calendar_go_today_cb (GtkAction *action,
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
 
 	gnome_calendar_goto_today (calendar);
+#endif
 }
 
 static void
 action_calendar_jump_to_cb (GtkAction *action,
                             ECalShellView *cal_shell_view)
 {
+#if 0
 	ECalShellContent *cal_shell_content;
 	GnomeCalendar *calendar;
 
@@ -165,24 +174,28 @@ action_calendar_jump_to_cb (GtkAction *action,
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
 
 	goto_dialog (calendar);
+#endif
 }
 
 static void
 action_calendar_new_cb (GtkAction *action,
                         ECalShellView *cal_shell_view)
 {
+#if 0
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	calendar_setup_new_calendar (GTK_WINDOW (shell_window));
+#endif
 }
 
 static void
 action_calendar_print_cb (GtkAction *action,
                           ECalShellView *cal_shell_view)
 {
+#if 0
 	ECalShellContent *cal_shell_content;
 	GnomeCalendar *calendar;
 	GtkPrintOperationAction print_action;
@@ -206,13 +219,14 @@ action_calendar_print_cb (GtkAction *action,
 		gnome_calendar_get_current_time_range (calendar, &start, NULL);
 		print_calendar (calendar, action, start);
 	}
+#endif
 }
 
 static void
 action_calendar_print_preview_cb (GtkAction *action,
                                   ECalShellView *cal_shell_view)
 {
-}
+#if 0
 	ECalShellContent *cal_shell_content;
 	GnomeCalendar *calendar;
 	GtkPrintOperationAction print_action;
@@ -236,11 +250,14 @@ action_calendar_print_preview_cb (GtkAction *action,
 		gnome_calendar_get_current_time_range (calendar, &start, NULL);
 		print_calendar (calendar, action, start);
 	}
+#endif
+}
 
 static void
 action_calendar_properties_cb (GtkAction *action,
                                ECalShellView *cal_shell_view)
 {
+#if 0
 	ECalShellSidebar *cal_shell_sidebar;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
@@ -256,6 +273,7 @@ action_calendar_properties_cb (GtkAction *action,
 	g_return_if_fail (E_IS_SOURCE (source));
 
 	calendar_setup_edit_calendar (GTK_WINDOW (shell_window), source);
+#endif
 }
 
 static void
@@ -303,6 +321,13 @@ action_calendar_view_cb (GtkRadioAction *action,
 	}
 
 	e_shell_view_set_view_id (shell_view, view_id);
+}
+
+static void
+action_event_all_day_new_cb (GtkAction *action,
+                             ECalShellView *cal_shell_view)
+{
+        /* FIXME */
 }
 
 static void
@@ -355,7 +380,7 @@ action_event_delete_cb (GtkAction *action,
 {
 	ECalShellContent *cal_shell_content;
 
-	cal_shell_content = cal_shell-view->priv->cal_shell_content;
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	e_cal_shell_content_delete_selection (cal_shell_content);
 }
 
@@ -374,7 +399,6 @@ action_event_delete_occurrence_all_cb (GtkAction *action,
                                        ECalShellView *cal_shell_view)
 {
 	ECalShellContent *cal_shell_content;
-	GnomeCalendar *calendar;
 
 	/* XXX Same as "event-delete". */
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
@@ -389,10 +413,24 @@ action_event_forward_cb (GtkAction *action,
 }
 
 static void
+action_event_meeting_new_cb (GtkAction *action,
+                             ECalShellView *cal_shell_view)
+{
+        /* FIXME */
+}
+
+static void
 action_event_move_cb (GtkAction *action,
                       ECalShellView *cal_shell_view)
 {
 	/* FIXME */
+}
+
+static void
+action_event_new_cb (GtkAction *action,
+                     ECalShellView *cal_shell_view)
+{
+        /* FIXME */
 }
 
 static void
@@ -406,6 +444,7 @@ static void
 action_event_open_cb (GtkAction *action,
                       ECalShellView *cal_shell_view)
 {
+#if 0
 	ECalShellContent *cal_shell_content;
 	GnomeCalendar *calendar;
 	GtkWidget *widget;
@@ -415,6 +454,7 @@ action_event_open_cb (GtkAction *action,
 	widget = gnome_calendar_get_current_view_widget (calendar);
 
 	e_calendar_view_open_event (E_CALENDAR_VIEW (widget));
+#endif
 }
 
 static void
@@ -476,6 +516,7 @@ static void
 action_search_execute_cb (GtkAction *action,
                           ECalShellView *cal_shell_view)
 {
+#if 0
 	EShellView *shell_view;
 
 	/* All shell views respond to the activation of this action,
@@ -486,6 +527,7 @@ action_search_execute_cb (GtkAction *action,
 		return;
 
 	e_cal_shell_view_execute_search (cal_shell_view);
+#endif
 }
 
 static void
@@ -493,7 +535,9 @@ action_search_filter_cb (GtkRadioAction *action,
                          GtkRadioAction *current,
                          ECalShellView *cal_shell_view)
 {
+#if 0
 	e_cal_shell_view_execute_search (cal_shell_view);
+#endif
 }
 
 static GtkActionEntry calendar_entries[] = {
@@ -643,7 +687,7 @@ static GtkActionEntry calendar_entries[] = {
 	  N_("_Forward as iCalendar..."),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_event_forward_new_cb) },
+	  G_CALLBACK (action_event_forward_cb) },
 
 	{ "event-meeting-new",
 	  NULL,
@@ -713,7 +757,16 @@ static GtkActionEntry calendar_entries[] = {
 	  N_("_Schedule Meeting..."),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_event_schedule_cb) }
+	  G_CALLBACK (action_event_schedule_cb) },
+
+        /*** Menus ***/
+
+        { "calendar-actions-menu",
+          NULL,
+          N_("_Actions"),
+          NULL,
+          NULL,
+          NULL }
 };
 
 static GtkRadioActionEntry calendar_view_entries[] = {
@@ -841,6 +894,12 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	/* Fine tuning. */
+
+        action = ACTION (CALENDAR_GO_TODAY);
+        g_object_set (action, "short-label", _("Today"), NULL);
+
+        action = ACTION (CALENDAR_JUMP_TO);
+        g_object_set (action, "short-label", _("Go To"), NULL);
 
 	action = ACTION (EVENT_DELETE);
 	g_object_set (action, "short-label", _("Delete"), NULL);

@@ -77,7 +77,6 @@ activity_proxy_update (EActivityProxy *proxy)
 			GTK_BUTTON (proxy->priv->button),
 			gtk_image_new_from_icon_name (
 			icon_name, GTK_ICON_SIZE_MENU));
-		e_spinner_stop (E_SPINNER (proxy->priv->spinner));
 		gtk_widget_hide (proxy->priv->spinner);
 		if (clickable) {
 			gtk_widget_show (proxy->priv->button);
@@ -87,7 +86,6 @@ activity_proxy_update (EActivityProxy *proxy)
 			gtk_widget_show (proxy->priv->image);
 		}
 	} else {
-		e_spinner_start (E_SPINNER (proxy->priv->spinner));
 		gtk_widget_show (proxy->priv->spinner);
 		gtk_widget_hide (proxy->priv->button);
 		gtk_widget_hide (proxy->priv->image);
@@ -275,8 +273,8 @@ activity_proxy_init (EActivityProxy *proxy)
 	proxy->priv->button = g_object_ref (widget);
 	gtk_widget_hide (widget);
 
-	widget = e_spinner_new ();
-	e_spinner_set_size (E_SPINNER (widget), GTK_ICON_SIZE_MENU);
+        /* XXX What's the rationale for killing the old spinner API? */
+	widget = e_spinner_new_spinning_small_shown ();
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	proxy->priv->spinner = g_object_ref (widget);
 	gtk_widget_show (widget);

@@ -67,6 +67,7 @@ mail_shell_view_constructed (GObject *object)
 static void
 mail_shell_view_update_actions (EShellView *shell_view)
 {
+#if 0  /* FIXME */
 	EMailShellViewPrivate *priv;
 	EMailShellSidebar *mail_shell_sidebar;
 	EShellWindow *shell_window;
@@ -125,6 +126,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	action = ACTION (MAIL_FOLDER_RENAME);
 	sensitive = is_folder && can_delete;
 	gtk_action_set_sensitive (action, sensitive);
+#endif
 }
 
 static void

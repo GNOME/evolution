@@ -49,6 +49,8 @@ privsolib_LTLIBRARIES = libcal-gui.la
 # Removed from SOURCES
 #	cal-search-bar.c
 # 	cal-search-bar.h
+# 	gnome-cal.c
+# 	gnome-cal.h
 # 	main.c
 
 libcal_gui_la_SOURCES =		\
@@ -56,8 +58,6 @@ libcal_gui_la_SOURCES =		\
  	e-calendar-view.h			\
  	e-calendar-table.c			\
  	e-calendar-table.h			\
- 	gnome-cal.c				\
- 	gnome-cal.h				\
 	calendar-config.c			\
 	calendar-config.h			\
 	calendar-config-keys.h			\
@@ -172,6 +172,9 @@ libcal_gui_la_SOURCES =		\
 	weekday-picker.c			\
 	weekday-picker.h
 
+# Removed
+#	$(top_builddir)/a11y/calendar/libevolution-calendar-a11y.la
+
 libcal_gui_la_LIBADD =					\
 	$(WIN32_BOOTSTRAP_LIBS)						\
 	$(top_builddir)/widgets/menus/libmenus.la			\
@@ -183,7 +186,6 @@ libcal_gui_la_LIBADD =					\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/filter/libfilter.la				\
 	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/a11y/calendar/libevolution-calendar-a11y.la
 	$(LIBSOUP_LIBS)							\
 	$(CAMEL_LIBS)							\
 	$(EVOLUTION_CALENDAR_LIBS)

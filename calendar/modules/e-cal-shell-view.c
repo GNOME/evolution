@@ -76,6 +76,7 @@ cal_shell_view_constructed (GObject *object)
 static void
 cal_shell_view_update_actions (EShellView *shell_view)
 {
+#if 0
 	ECalShellViewPrivate *priv;
 	ECalShellContent *cal_shell_content;
 	ECalShellSidebar *cal_shell_sidebar;
@@ -166,6 +167,7 @@ cal_shell_view_update_actions (EShellView *shell_view)
 	action = ACTION (EVENT_OPEN);
 	sensitive = (n_selected == 1);
 	gtk_action_set_sensitive (action, sensitive);
+#endif
 }
 
 static void
@@ -186,7 +188,7 @@ cal_shell_view_class_init (ECalShellViewClass *class,
 
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
 	shell_view_class->label = _("Calendar");
-	shell_view_class->icon_name = "evolution-calendar";
+	shell_view_class->icon_name = "x-office-calendar";
 	shell_view_class->ui_definition = "evolution-calendars.ui";
 	shell_view_class->search_options = "/calendar-search-options";
 	shell_view_class->search_rules = "caltypes.xml";

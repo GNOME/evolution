@@ -36,6 +36,7 @@
 #include "e-util/gconf-bridge.h"
 
 #include "calendar/common/authentication.h"
+#include "calendar/gui/calendar-config.h"
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-component-preview.h"
 #include "calendar/gui/e-cal-model-tasks.h"

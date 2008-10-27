@@ -27,16 +27,18 @@
 #include <string.h>
 #include <glib/gi18n.h>
 #include <libecal/e-cal-time-util.h>
+#include <libedataserver/e-categories.h>
 #include <libedataserver/e-data-server-util.h>
 
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-util.h"
 
 #include "calendar/gui/comp-util.h"
+#include "calendar/gui/e-cal-list-view.h"
 #include "calendar/gui/e-cal-model-tasks.h"
 #include "calendar/gui/e-calendar-view.h"
 #include "calendar/gui/gnome-cal.h"
-#include "calendar/gui/goto.h"
+/*#include "calendar/gui/goto.h"*/
 #include "calendar/gui/print.h"
 #include "calendar/gui/dialogs/copy-source-dialog.h"
 #include "calendar/gui/dialogs/event-editor.h"

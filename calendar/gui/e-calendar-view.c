@@ -242,8 +242,10 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
                                       GDK_CONTROL_MASK,
                                       "open_event", 0);
 
+#if 0  /* KILL-BONOBO */
 	/* init the accessibility support for e_day_view */
  	e_cal_view_a11y_init ();
+#endif
 }
 
 
@@ -251,6 +253,7 @@ void
 e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart,
 		      icaltimezone *default_zone, icalcomponent *icalcomp, gboolean in_top_canvas)
 {
+#if 0  /* KILL-BONOBO */
 	ECalComponent *comp;
 	struct icaltimetype itime, old_dtstart, old_dtend;
 	time_t tt_start, tt_end, new_dtstart = 0;
@@ -379,6 +382,7 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 	}
 
 	g_object_unref (comp);
+#endif
 }
 
 static void
@@ -1106,11 +1110,13 @@ on_new_meeting (EPopup *ep, EPopupItem *pitem, void *data)
 static void
 on_new_task (EPopup *ep, EPopupItem *pitem, void *data)
 {
+#if 0  /* KILL-BONOBO */
 	ECalendarView *cal_view = data;
 	time_t dtstart, dtend;
 
 	e_calendar_view_get_selected_time_range (cal_view, &dtstart, &dtend);
 	gnome_calendar_new_task (cal_view->priv->calendar, &dtstart, &dtend);
+#endif
 }
 
 static void
@@ -1124,9 +1130,11 @@ on_goto_date (EPopup *ep, EPopupItem *pitem, void *data)
 static void
 on_goto_today (EPopup *ep, EPopupItem *pitem, void *data)
 {
+#if 0  /* KILL-BONOBO */
 	ECalendarView *cal_view = data;
 
 	gnome_calendar_goto_today (cal_view->priv->calendar);
+#endif
 }
 
 static void
@@ -1851,7 +1859,9 @@ e_calendar_view_new_appointment (ECalendarView *cal_view)
 static void
 object_created_cb (CompEditor *ce, ECalendarView *cal_view)
 {
+#if 0  /* KILL-BONOBO */
 	gnome_calendar_emit_user_created_signal (cal_view, e_calendar_view_get_calendar (cal_view), comp_editor_get_client (ce));
+#endif
 }
 
 static void

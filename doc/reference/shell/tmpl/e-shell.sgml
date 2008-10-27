@@ -23,6 +23,13 @@ EShell
 </para>
 
 
+<!-- ##### SIGNAL EShell::event ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+
 <!-- ##### SIGNAL EShell::handle-uri ##### -->
 <para>
 

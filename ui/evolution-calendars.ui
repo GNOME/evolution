@@ -25,7 +25,7 @@
       <menuitem action='calendar-jump-to'/>
     </menu>
     <placeholder name='custom-menus'>
-      <menu action='actions-menu'>
+      <menu action='calendar-actions-menu'>
         <menuitem action='calendar-purge'/>
       </menu>
     </placeholder>
