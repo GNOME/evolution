@@ -742,6 +742,16 @@ e_shell_window_register_new_item_actions (EShellWindow *shell_window,
 		g_object_set_data (
 			G_OBJECT (action),
 			"module-name", (gpointer) module_name);
+
+		/* The first action becomes the first item in the "New"
+		 * menu, and consequently its icon is shown in the "New"
+		 * button when the shell module's view is active.  This
+		 * is all sorted out in shell_window_extract_actions().
+		 * Note, the data value just needs to be non-zero. */
+		if (ii == 0)
+			g_object_set_data (
+				G_OBJECT (action),
+				"primary", GINT_TO_POINTER (TRUE));
 	}
 
 	e_shell_window_update_new_menu (shell_window);

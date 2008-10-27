@@ -25,6 +25,7 @@
 #include <glib/gi18n.h>
 
 #include "e-util/e-error.h"
+#include "e-util/gconf-bridge.h"
 #include "calendar/common/authentication.h"
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/e-calendar-selector.h"
@@ -357,11 +358,13 @@ cal_shell_sidebar_constructed (GObject *object)
 	ESourceList *source_list;
 	ESource *source;
 	ECalendarItem *calitem;
+	GConfBridge *bridge;
 	GtkTreeModel *model;
 	GtkWidget *container;
 	GtkWidget *widget;
 	AtkObject *a11y;
 	GSList *list, *iter;
+	const gchar *key;
 	gchar *uid;
 
 	priv = E_CAL_SHELL_SIDEBAR_GET_PRIVATE (object);
@@ -435,7 +438,7 @@ cal_shell_sidebar_constructed (GObject *object)
 		e_source_selector_set_primary_selection (selector, source);
 	g_free (uid);
 
-	list = calendar_config_get_tasks_selected ();
+	list = calendar_config_get_calendars_selected ();
 	for (iter = list; iter != NULL; iter = iter->next) {
 		uid = iter->data;
 		source = e_source_list_peek_source_by_uid (source_list, uid);
@@ -451,14 +454,22 @@ cal_shell_sidebar_constructed (GObject *object)
 	/* Listen for subsequent changes to the selector. */
 
 	g_signal_connect_swapped (
-		widget, "selection-changed",
+		selector, "selection-changed",
 		G_CALLBACK (cal_shell_sidebar_selection_changed_cb),
 		object);
 
 	g_signal_connect_swapped (
-		widget, "primary-selection-changed",
+		selector, "primary-selection-changed",
 		G_CALLBACK (cal_shell_sidebar_primary_selection_changed_cb),
 		object);
+
+	/* Bind GObject properties to GConf keys. */
+
+	bridge = gconf_bridge_get ();
+
+	object = G_OBJECT (priv->paned);
+	key = "/apps/evolution/calendar/display/date_navigator_vpane_position";
+	gconf_bridge_bind_property_delayed (bridge, key, object, "position");
 }
 
 static void

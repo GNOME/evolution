@@ -275,8 +275,13 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	cal_shell_view_update_timezone (cal_shell_view);
 #endif
 
+	e_categories_register_change_listener (
+		G_CALLBACK (e_cal_shell_view_update_search_filter),
+		cal_shell_view);
+
 	e_cal_shell_view_actions_init (shell_view);
 	e_cal_shell_view_update_sidebar (cal_shell_view);
+        e_cal_shell_view_update_search_filter (cal_shell_view);
 }
 
 void

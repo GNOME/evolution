@@ -1781,6 +1781,7 @@ shell_window_extract_actions (EShellWindow *shell_window,
 {
 	const gchar *current_view;
 	GList *match_list = NULL;
+	GList *primary = NULL;
 	GList *iter;
 
 	/* Pick out the actions from the source list that are tagged
@@ -1809,7 +1810,10 @@ shell_window_extract_actions (EShellWindow *shell_window,
 		if (strcmp (module_name, current_view) != 0)
 			continue;
 
-		match_list = g_list_append (match_list, iter);
+		if (g_object_get_data (G_OBJECT (action), "primary"))
+			match_list = g_list_prepend (match_list, iter);
+		else
+			match_list = g_list_append (match_list, iter);
 	}
 
 	/* source_list = [B]   match_list = [A] -> [C] */
