@@ -1,23 +1,25 @@
+# translation of evolution.gnome-2-24.be.po to Belarusian
 # Translation of evolution HEAD to Belarusian
-# Vital Khilko <v.khilko@sam-solutions.net>, 2004, 2005.
-# Ales Nyakhaychyk <nab@mail.by>, 2005
-# Vital Khilko <vk@altlinux.ru>, 2005.
-# 
-# 
+#
+#
 #: ../shell/main.c:589
+# Vital Khilko <v.khilko@sam-solutions.net>, 2004, 2005.
+# Ales Nyakhaychyk <nab@mail.by>, 2005.
+# Vital Khilko <vk@altlinux.ru>, 2005.
+# Dzmitryj Jakavuk <dzmitryj@gmail.com>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution HEAD\n"
+"Project-Id-Version: evolution.gnome-2-24.be\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-11 13:45+0300\n"
-"PO-Revision-Date: 2005-12-19 16:29+0200\n"
-"Last-Translator: Ales Nyakhaychyk <nab@mail.by>\n"
+"POT-Creation-Date: 2008-10-11 10:54+0000\n"
+"PO-Revision-Date: 2008-10-27 14:52+0200\n"
+"Last-Translator: Dzmitryj Jakavuk <dzmitryj@gmail.com>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
@@ -345,7 +347,7 @@ msgstr "Прыватнае"
 msgid ""
 "'{0}' is a read-only address book and cannot be modified. Please select a "
 "different address book from the side bar in the Contacts view."
-msgstr ""
+msgstr "'{0}' даступная толькі для чытаньня й ня можа быць зьмененая. Калі ласка, выберыце іншую адрасную кнігу на панэлі зьлева ў Кантактах."
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid ""
@@ -441,8 +443,7 @@ msgstr "Вэрсія паслужніку"
 
 #: ../addressbook/addressbook.error.xml.h:20
 msgid "Some features may not work properly with your current server"
-msgstr ""
-"Некаторыя асаблівасьці могуць не працаваць карэктна разам з гэтым паслужнікам"
+msgstr "Некаторыя асаблівасьці могуць не працаваць карэктна разам з гэтым паслужнікам"
 
 #: ../addressbook/addressbook.error.xml.h:21
 #, fuzzy
@@ -450,10 +451,8 @@ msgid "The Evolution address book has quit unexpectedly."
 msgstr "Адрасная кніга \"Evolution\" нечакана скончыла працу."
 
 #: ../addressbook/addressbook.error.xml.h:22
-msgid ""
-"The image you have selected is large. Do you want to resize and store it?"
-msgstr ""
-"Выбраны вамі відарыс вельмі вялікі. Жадаеце зьмяніць яго памер і захаваць?"
+msgid "The image you have selected is large. Do you want to resize and store it?"
+msgstr "Выбраны вамі відарыс вельмі вялікі. Жадаеце зьмяніць яго памер і захаваць?"
 
 #: ../addressbook/addressbook.error.xml.h:23
 msgid ""
@@ -531,7 +530,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:35
 msgid "You do not have permission to delete contacts in this address book."
-msgstr ""
+msgstr "Вы ня маеце правоў, каб выдаляць кантакты з гэтай адраснай кнігі."
 
 #: ../addressbook/addressbook.error.xml.h:36
 msgid ""
@@ -540,8 +539,7 @@ msgid ""
 msgstr "Вы зьмянілі гэты кантакт. Ці жадаеце захаваць унесеныя зьмены?"
 
 #: ../addressbook/addressbook.error.xml.h:37
-msgid ""
-"Your contacts for {0} will not be available until Evolution is restarted."
+msgid "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr "Вашы кантакты для {0} не будуць даступныя да перапуску Evolution."
 
 #: ../addressbook/addressbook.error.xml.h:38 ../mail/em-vfolder-rule.c:513
@@ -557,16 +555,15 @@ msgstr "_Адмовіць"
 
 #: ../addressbook/addressbook.error.xml.h:40
 msgid "_Do not save"
-msgstr ""
+msgstr "_Не захоўваць"
 
 #: ../addressbook/addressbook.error.xml.h:41
-#, fuzzy
 msgid "_Resize"
-msgstr "Беліз"
+msgstr "_Зьмяніць памер"
 
 #: ../addressbook/addressbook.error.xml.h:42
 msgid "_Use as it is"
-msgstr ""
+msgstr "_Выкарыстоўваць, як ёсьць"
 
 #. For Translators: {0} is the string describing why the search could not be performed (eg: "The backend for this address book was unable to parse this query."
 #: ../addressbook/addressbook.error.xml.h:44 ../mail/mail.error.xml.h:143
@@ -694,9 +691,21 @@ msgstr "Пэрсанальнае"
 msgid "On LDAP Servers"
 msgstr "На паслужніках LDAP"
 
+#: ../addressbook/gui/component/addressbook-component.c:229
+#, fuzzy
+msgctxt "New"
+msgid "_Contact"
+msgstr "Кантакт"
+
 #: ../addressbook/gui/component/addressbook-component.c:230
 msgid "Create a new contact"
 msgstr "Стварыць новы кантакт"
+
+#: ../addressbook/gui/component/addressbook-component.c:237
+#, fuzzy
+msgctxt "New"
+msgid "Contact _List"
+msgstr "_Сьпіс кантактаў"
 
 #: ../addressbook/gui/component/addressbook-component.c:238
 msgid "Create a new contact list"
@@ -706,6 +715,12 @@ msgstr "Стварыць новы сьпіс кантактаў"
 #: ../addressbook/gui/component/addressbook-config.c:1223
 msgid "New Address Book"
 msgstr "Новая адрасная кніга"
+
+#: ../addressbook/gui/component/addressbook-component.c:245
+#, fuzzy
+msgctxt "New"
+msgid "Address _Book"
+msgstr "Адрасная _кніга"
 
 #: ../addressbook/gui/component/addressbook-component.c:246
 msgid "Create a new address book"
@@ -1027,8 +1042,7 @@ msgid "Email address"
 msgstr "Адрасы э.пошты"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:20
-msgid ""
-"Evolution will use this email address to authenticate you with the server."
+msgid "Evolution will use this email address to authenticate you with the server."
 msgstr ""
 "\"Evolution\" будзе выкарыстоўваць гэты адрас для праверкі тоеснасьці вас на "
 "паслужніку."
@@ -2558,7 +2572,7 @@ msgstr "Yahoo"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:178
 #: ../addressbook/gui/widgets/eab-contact-display.c:620
 msgid "Gadu-Gadu"
-msgstr ""
+msgstr "Gadu-Gadu"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:179
 #: ../addressbook/gui/widgets/eab-contact-display.c:618
@@ -2620,18 +2634,18 @@ msgstr ""
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3090
 #, c-format
 msgid "'%s' has an invalid format"
-msgstr ""
+msgstr "'%s' мае памылковы фармат"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3097
 #, c-format
 msgid "%s'%s' has an invalid format"
-msgstr ""
+msgstr "%s'%s' мае памылковы фармат"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3112
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3123
 #, c-format
 msgid "%s'%s' is empty"
-msgstr ""
+msgstr "%s'%s' пусты"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:3138
 msgid "Invalid contact."
@@ -3827,6 +3841,7 @@ msgstr "VCard для %s"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:921
 #: ../addressbook/gui/widgets/eab-gui-util.c:947
+#, c-format
 msgid "Contact information"
 msgstr "Інфармацыя аб кантакце"
 
@@ -4173,8 +4188,7 @@ msgid "NUMBER"
 msgstr "КОЛЬКАСЬЦЬ"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:101
-msgid ""
-"Command line arguments error, please use --help option to see the usage."
+msgid "Command line arguments error, please use --help option to see the usage."
 msgstr ""
 "Памылка аргумэнтаў загаднага радку, калі ласка выкарыстайце можнасьць --help "
 "для азнаямленьня з магчымым выкарыстаньнем."
@@ -4200,14 +4214,14 @@ msgstr "Неапрацаваная памылка"
 msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar from the side bar in the Calendar view."
-msgstr ""
+msgstr "'{0}' даступны толькі для чытаньня й ня можа быць зьменены. Калі ласка, выберыце іншы каляндар на панэлі зьлева ў каляндарнай частцы."
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:4
 msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
-msgstr ""
+msgstr "'{0}' даступны толькі для чытаньня й ня можа быць зьменены. Калі ласка, выберыце іншы каляндар, які дазваляе захоўваць сустрэчы."
 
 #: ../calendar/calendar.error.xml.h:5
 #, fuzzy
@@ -4237,15 +4251,14 @@ msgstr ""
 #: ../calendar/calendar.error.xml.h:8
 #, fuzzy
 msgid "All information in this memo will be deleted and can not be restored."
-msgstr ""
-"Уся інфармацыя з гэтага часопісу будзе зьнішчаная й яе нельга будзе аднавіць."
+msgstr "Уся інфармацыя з гэтага часопісу будзе зьнішчаная й яе нельга будзе аднавіць."
 
 #: ../calendar/calendar.error.xml.h:9
 msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
 msgstr ""
-"Уся інфармацыя аб гэтых сустрэчах будзе зьнішчаная й яе нельга будзе "
+"Уся інфармацыя пра гэтыя сустрэчы будзе зьнішчаная, і яе нельга будзе "
 "аднавіць."
 
 #: ../calendar/calendar.error.xml.h:10
@@ -4255,14 +4268,11 @@ msgstr ""
 "аднавіць."
 
 #: ../calendar/calendar.error.xml.h:11
-msgid ""
-"All information on this appointment will be deleted and can not be restored."
-msgstr ""
-"Усе зьвесткі аб гэтай сустрэчы будуць зьнішчаныя й іх нельга будзе аднавіць."
+msgid "All information on this appointment will be deleted and can not be restored."
+msgstr "Усе зьвесткі аб гэтай сустрэчы будуць зьнішчаныя й іх нельга будзе аднавіць."
 
 #: ../calendar/calendar.error.xml.h:12
-msgid ""
-"All information on this meeting will be deleted and can not be restored."
+msgid "All information on this meeting will be deleted and can not be restored."
 msgstr ""
 "Уся інфармацыя аб гэтай нарадзе будзе зьнішчаная й яе немагчыма будзе "
 "аднавіць."
@@ -4276,8 +4286,7 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:14
 msgid "All information on this task will be deleted and can not be restored."
-msgstr ""
-"Уся інфармацыя аб гэтым заданьні будзе зьнішчаная й яе нельга будзе аднавіць."
+msgstr "Уся інфармацыя пра гэтае заданьне будзе зьнішчаная, і яе нельга будзе аднавіць."
 
 #: ../calendar/calendar.error.xml.h:15
 msgid "Are you sure you want to delete the '{0}' task?"
@@ -4311,17 +4320,19 @@ msgstr "Вы упэўненыя што жадаеце выдаліць гэту�
 
 #: ../calendar/calendar.error.xml.h:22
 #: ../calendar/gui/dialogs/delete-comp.c:182
+#, c-format
 msgid "Are you sure you want to delete this meeting?"
 msgstr "Вы упэўненыя у тым, што жадаеце выдаліць гэтую сустрэчу?"
 
 #: ../calendar/calendar.error.xml.h:23
 #: ../calendar/gui/dialogs/delete-comp.c:188
-#, fuzzy
+#, fuzzy, c-format
 msgid "Are you sure you want to delete this memo?"
 msgstr "Вы упэўненыя у тым, што жадаеце выдаліць гэтую сустрэчу?"
 
 #: ../calendar/calendar.error.xml.h:24
 #: ../calendar/gui/dialogs/delete-comp.c:185
+#, c-format
 msgid "Are you sure you want to delete this task?"
 msgstr "Вы упэўненыя што жадаеце выдаліць гэтае заданьне?"
 
@@ -4387,8 +4398,7 @@ msgstr ""
 
 #: ../calendar/calendar.error.xml.h:38
 #, fuzzy
-msgid ""
-"Email invitations will be sent to all participants and allow them to reply."
+msgid "Email invitations will be sent to all participants and allow them to reply."
 msgstr ""
 "Паведамленьні будуць разасланыя па э.пошце ўсім удзельнікам, каб дазволіць "
 "ім RSVP."
@@ -4484,8 +4494,7 @@ msgstr ""
 #: ../calendar/calendar.error.xml.h:53
 #, fuzzy
 msgid "Some features may not work properly with your current server."
-msgstr ""
-"Некаторыя асаблівасьці могуць не працаваць карэктна разам з гэтым паслужнікам"
+msgstr "Некаторыя асаблівасьці могуць не працаваць карэктна разам з гэтым паслужнікам"
 
 #: ../calendar/calendar.error.xml.h:54
 msgid "The Evolution calendar has quit unexpectedly."
@@ -4594,19 +4603,16 @@ msgstr "Вы зьмянілі гэтае заданьне, але зьмены �
 
 #: ../calendar/calendar.error.xml.h:76
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr ""
-"Вышы календары будуць недаступныя пакуль \"Evolution\" не перапусьціцца."
+msgstr "Вашы календары будуць недаступныя, пакуль \"Evolution\" не перапусьціцца."
 
 #: ../calendar/calendar.error.xml.h:77
 #, fuzzy
 msgid "Your memos will not be available until Evolution is restarted."
-msgstr ""
-"Вышы заданьні будуць недаступныя пакуль \"Evolution\" не перапусьціцца."
+msgstr "Вашы заданьні будуць недаступныя, пакуль \"Evolution\" не перапусьціцца."
 
 #: ../calendar/calendar.error.xml.h:78
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr ""
-"Вышы заданьні будуць недаступныя пакуль \"Evolution\" не перапусьціцца."
+msgstr "Вашы заданьні будуць недаступныя, пакуль \"Evolution\" не перапусьціцца."
 
 #: ../calendar/calendar.error.xml.h:79
 #: ../composer/mail-composer.error.xml.h:30
@@ -4953,8 +4959,7 @@ msgid "Calendars to run alarms for"
 msgstr "Календары для пуску сыгналізацыі"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:6
-msgid ""
-"Color to draw the Marcus Bains Line in the Time bar (empty for default)."
+msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
 msgstr ""
 "Колер маркера часу ў раскладзе (для прадвызначанага значэньня пакіньце "
 "пустым)."
@@ -4989,7 +4994,7 @@ msgstr "Прадвызначанае значэньне нагадваньня"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:14
 msgid "Directory for saving alarm audio files"
-msgstr ""
+msgstr "Каталёг для захоўваньня ільнікавых мэлёдый"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:15
 #, fuzzy
@@ -5147,7 +5152,7 @@ msgstr "Праграмы, дазволеныя да выкарыстаньня �
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:46
 msgid "Save directory for alarm audio"
-msgstr ""
+msgstr "Каталёг для захоўваньня будзільнікавых мэлёдый"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:47
 msgid "Show RSVP field in the event/task/meeting editor"
@@ -5246,12 +5251,10 @@ msgstr "24-гадзінны фармат часу"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:68
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
-msgstr ""
-"Прадвызначаныя адзінкі нагадваньня, \"minutes\", \"hours\" ці \"days\"."
+msgstr "Прадвызначаныя адзінкі нагадваньня, \"minutes\", \"hours\" ці \"days\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:69
-msgid ""
-"Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
+msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
 "Адзінкі для вызначэньня моманту хаваньня задачаў, \"minutes\", \"hours\" ці "
 "\"days\"."
@@ -5289,8 +5292,7 @@ msgid "Whether to display the end time of events in the week and month views."
 msgstr "Ці показваць час завяршэньня падзеяў у аглядзе тыдня й месяца."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:78
-msgid ""
-"Whether to draw the Marcus Bains Line (line at current time) in the calendar."
+msgid "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
 msgstr "Ці адлюстроўваць маркер бягучага часу ў календары."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:79
@@ -5318,8 +5320,7 @@ msgid "Whether to show status field in the event/task/meeting editor"
 msgstr "Ці паказваць поле стану ў рэдактары падзеі/заданьня/нарады"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:85
-msgid ""
-"Whether to show times in twenty four hour format instead of using am/pm."
+msgid "Whether to show times in twenty four hour format instead of using am/pm."
 msgstr "Ці паказваць час у фармаце 24-х гадзінаў замест am/pm."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:86
@@ -5336,7 +5337,7 @@ msgstr "Ці паказваць нумары тыдняў у навігатар�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:89
 msgid "Whether to use daylight savings time while displaying events."
-msgstr ""
+msgstr "Ці выкарыстоўваць летні час для падзеяў."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:90
 msgid "Work days"
@@ -5360,7 +5361,7 @@ msgstr "Хвіліна пачатку працоўнага дня"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:95
 msgid "daylight savings time"
-msgstr ""
+msgstr "Летні час"
 
 #: ../calendar/gui/cal-search-bar.c:75
 msgid "Summary contains"
@@ -5389,7 +5390,7 @@ msgstr "Іншае"
 
 #: ../calendar/gui/cal-search-bar.c:640
 msgid "Next 7 Days' Tasks"
-msgstr ""
+msgstr "Заданьні на наступныя 7 дзён"
 
 #: ../calendar/gui/cal-search-bar.c:644
 #, fuzzy
@@ -5488,8 +5489,7 @@ msgstr "Збой абнаўленьня календароў."
 #: ../calendar/gui/calendar-component.c:1248
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
-msgstr ""
-"Не атрымліваецца адкрыць календар \"%s\" для стварэньня падзеяў і нарадаў"
+msgstr "Не атрымліваецца адкрыць каляндар \"%s\" для стварэньня падзеяў і нарадаў"
 
 #: ../calendar/gui/calendar-component.c:1264
 msgid "There is no calendar available for creating events and meetings"
@@ -5503,6 +5503,12 @@ msgstr "Выбар крыніцы календара"
 msgid "New appointment"
 msgstr "Новая сустрэча"
 
+#: ../calendar/gui/calendar-component.c:1597
+#, fuzzy
+msgctxt "New"
+msgid "_Appointment"
+msgstr "_Сустрэча"
+
 #: ../calendar/gui/calendar-component.c:1598
 msgid "Create a new appointment"
 msgstr "Стварае новую сустрэчу"
@@ -5510,6 +5516,12 @@ msgstr "Стварае новую сустрэчу"
 #: ../calendar/gui/calendar-component.c:1604
 msgid "New meeting"
 msgstr "Новая нарада"
+
+#: ../calendar/gui/calendar-component.c:1605
+#, fuzzy
+msgctxt "New"
+msgid "M_eeting"
+msgstr "_Нарада"
 
 #: ../calendar/gui/calendar-component.c:1606
 msgid "Create a new meeting request"
@@ -5519,6 +5531,12 @@ msgstr "Стварае запрашэньне на нараду"
 msgid "New all day appointment"
 msgstr "Новая сустрэча на увесь дзень"
 
+#: ../calendar/gui/calendar-component.c:1613
+#, fuzzy
+msgctxt "New"
+msgid "All Day A_ppointment"
+msgstr "Новая сустрэча на увесь дзень"
+
 #: ../calendar/gui/calendar-component.c:1614
 msgid "Create a new all-day appointment"
 msgstr "Стварае новую сустрэчу \"на ўвесь дзень\""
@@ -5526,6 +5544,12 @@ msgstr "Стварае новую сустрэчу \"на ўвесь дзень\
 #: ../calendar/gui/calendar-component.c:1620
 msgid "New calendar"
 msgstr "Новы календар"
+
+#: ../calendar/gui/calendar-component.c:1621
+#, fuzzy
+msgctxt "New"
+msgid "Cale_ndar"
+msgstr "Ка_лендар"
 
 #: ../calendar/gui/calendar-component.c:1622
 msgid "Create a new calendar"
@@ -5676,7 +5700,7 @@ msgstr "Рознае"
 
 #: ../calendar/gui/caltypes.xml.h:27 ../calendar/gui/tasktypes.xml.h:31
 msgid "Next 7 days"
-msgstr ""
+msgstr "Наступныя 7 дзён"
 
 #: ../calendar/gui/caltypes.xml.h:28
 #: ../calendar/gui/dialogs/meeting-page.glade.h:6
@@ -5746,12 +5770,12 @@ msgstr "Адказы"
 #: ../calendar/gui/caltypes.xml.h:39 ../calendar/gui/memotypes.xml.h:36
 #: ../calendar/gui/tasktypes.xml.h:43
 msgid "Time &amp; Expenses"
-msgstr ""
+msgstr "Час і выдаткі"
 
 #: ../calendar/gui/caltypes.xml.h:40 ../calendar/gui/memotypes.xml.h:37
 #: ../calendar/gui/tasktypes.xml.h:45
 msgid "VIP"
-msgstr ""
+msgstr "VIP"
 
 #: ../calendar/gui/caltypes.xml.h:41 ../calendar/gui/memotypes.xml.h:38
 #: ../calendar/gui/tasktypes.xml.h:46
@@ -5952,8 +5976,7 @@ msgstr ""
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 #, no-c-format
-msgid ""
-"<i>%u and %d will be replaced by user and domain from the email address.</i>"
+msgid "<i>%u and %d will be replaced by user and domain from the email address.</i>"
 msgstr ""
 "<i>%u і %d будуць замененыя на карыстальніка й маёнтак з адрасу электроннай "
 "пошты.</i>"
@@ -5987,7 +6010,7 @@ msgstr "<span weight=\"bold\">Працоўны тыдзень</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
 msgid "Adjust for daylight sa_ving time"
-msgstr ""
+msgstr "Дапасаваць для _летняга часу"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Day _ends:"
@@ -6581,15 +6604,13 @@ msgstr "Паказаць панэль _укладаньня"
 #: ../calendar/gui/dialogs/comp-editor.c:2250
 #, fuzzy
 msgid "Press space key to toggle attachment bar"
-msgstr ""
-"Кнопка укладаньня: Націсьніце прагал каб пераключыць стан панэлі ўкладаньня"
+msgstr "Кнопка ўкладаньня: Націсьніце прагал каб пераключыць стан панэлі ўкладаньня"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2394
 #: ../calendar/gui/dialogs/comp-editor.c:2441
 #: ../calendar/gui/dialogs/comp-editor.c:3286
 msgid "Changes made to this item may be discarded if an update arrives"
-msgstr ""
-"Зьмены гэтага элемэнту будуць адхіленыя, калі па э.пошце прыйдзе абнаўленьне."
+msgstr "Зьмены гэтага элемэнту будуць адхіленыя, калі па э.пошце прыйдзе абнаўленьне."
 
 #: ../calendar/gui/dialogs/comp-editor.c:3315
 msgid "Unable to use current version!"
@@ -6609,7 +6630,7 @@ msgstr "Прызначэньне даступнае толькі для чыта
 
 #: ../calendar/gui/dialogs/delete-comp.c:205
 msgid "_Delete this item from all other recipient's mailboxes?"
-msgstr ""
+msgstr "Выдаліць гэты элемэнт з усіх іншых паштовых скрыняў атрымальніка?"
 
 #: ../calendar/gui/dialogs/delete-error.c:56
 msgid "The event could not be deleted due to a corba error"
@@ -6977,22 +6998,22 @@ msgid "_Group:"
 msgstr "_Група:"
 
 #: ../calendar/gui/dialogs/recur-comp.c:54
-#, fuzzy
+#, fuzzy, c-format
 msgid "You are modifying a recurring event. What would you like to modify?"
 msgstr "Вы зьмяняеце паўтаральную падзею, што вы задаеце зьмяніць?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:56
-#, fuzzy
+#, fuzzy, c-format
 msgid "You are delegating a recurring event. What would you like to delegate?"
 msgstr "Вы даручаеце паўтаральную падзею, што менавіта вы жадаеце даручыць?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:60
-#, fuzzy
+#, fuzzy, c-format
 msgid "You are modifying a recurring task. What would you like to modify?"
 msgstr "Вы зьмяняеце паўтаральную падзею, што менавіта вы жадаеце зьмяніць?"
 
 #: ../calendar/gui/dialogs/recur-comp.c:64
-#, fuzzy
+#, fuzzy, c-format
 msgid "You are modifying a recurring memo. What would you like to modify?"
 msgstr "Вы зьмяняеце паўтаральную падзею, што вы задаеце зьмяніць?"
 
@@ -7081,7 +7102,7 @@ msgstr "Іншая дата"
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1049
 msgid "1st to 10th"
-msgstr ""
+msgstr "з 1-га па 10-е"
 
 #. TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
@@ -7089,7 +7110,7 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1055
 msgid "11th to 20th"
-msgstr ""
+msgstr "з 11-га па 20-е"
 
 #. TRANSLATORS: This is a submenu option string to split the date range into three submenus to choose the exact day of
 #. * the month to setup an appointment recurrence. The entire string is for example: This appointment recurs/Every [x] month(s)
@@ -7097,7 +7118,7 @@ msgstr ""
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1061
 msgid "21st to 31st"
-msgstr ""
+msgstr "з 21-га па 31-е"
 
 #. For Translator : 'day' is part of the sentence of the form 'appointment recurs/Every [x] month(s) on the [first] [day] [forever]'
 #. (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
@@ -8043,13 +8064,11 @@ msgstr "Адхіленае"
 msgid ""
 "The meeting has been canceled, however it could not be found in your "
 "calendars"
-msgstr ""
-"Нарада была адмененая, але яна не можа быць адшуканая ў вашых календарах"
+msgstr "Нарада была скасаваная, але яна ня можа быць адшуканая ў вашых календарах"
 
 #: ../calendar/gui/e-itip-control.c:1285
 #, fuzzy
-msgid ""
-"The task has been canceled, however it could not be found in your task lists"
+msgid "The task has been canceled, however it could not be found in your task lists"
 msgstr ""
 "Заданьне было скасаванае, але яно не можа быць адшуканае ў вашых сьпісах "
 "заданьняў"
@@ -8782,8 +8801,7 @@ msgstr "Збой абнаўленьня заданьняў."
 #: ../calendar/gui/memos-component.c:953
 #, c-format
 msgid "Unable to open the memo list '%s' for creating events and meetings"
-msgstr ""
-"Немагчыма адкрыць сьпіс заданьняў '%s' для стварэньня падзеяў і нарадаў"
+msgstr "Немагчыма адкрыць сьпіс заданьняў '%s' для стварэньня падзеяў і нарадаў"
 
 #: ../calendar/gui/memos-component.c:966
 msgid "There is no calendar available for creating memos"
@@ -8797,6 +8815,12 @@ msgstr "Выбраны крыніцы занатовак"
 msgid "New memo"
 msgstr "Новая занатоўка"
 
+#: ../calendar/gui/memos-component.c:1261
+#, fuzzy
+msgctxt "New"
+msgid "Mem_o"
+msgstr "Занатоўка"
+
 #: ../calendar/gui/memos-component.c:1262
 msgid "Create a new memo"
 msgstr "Стварыць новую занатоўку"
@@ -8804,6 +8828,12 @@ msgstr "Стварыць новую занатоўку"
 #: ../calendar/gui/memos-component.c:1268
 #, fuzzy
 msgid "New shared memo"
+msgstr "Новая занатоўка"
+
+#: ../calendar/gui/memos-component.c:1269
+#, fuzzy
+msgctxt "New"
+msgid "_Shared memo"
 msgstr "Новая занатоўка"
 
 #: ../calendar/gui/memos-component.c:1270
@@ -8814,6 +8844,12 @@ msgstr "Стварыць новую занатоўку"
 #: ../calendar/gui/memos-component.c:1276
 msgid "New memo list"
 msgstr "Новы сьпіс занатовак"
+
+#: ../calendar/gui/memos-component.c:1277
+#, fuzzy
+msgctxt "New"
+msgid "Memo li_st"
+msgstr "Сьпіс за_натовак"
 
 #: ../calendar/gui/memos-component.c:1278
 msgid "Create a new memo list"
@@ -8853,6 +8889,7 @@ msgstr ""
 
 #. FIXME: set proper domain/code
 #: ../calendar/gui/migration.c:775 ../calendar/gui/migration.c:943
+#, c-format
 msgid "Unable to migrate old settings from evolution/config.xmldb"
 msgstr "Немагчыма міграваць старыя наладкі з evolution/config.xmldb"
 
@@ -9109,6 +9146,12 @@ msgstr "Выбар крыніцы заданьняў"
 msgid "New task"
 msgstr "Новае заданьне"
 
+#: ../calendar/gui/tasks-component.c:1326
+#, fuzzy
+msgctxt "New"
+msgid "_Task"
+msgstr "_Заданьне"
+
 #: ../calendar/gui/tasks-component.c:1327
 msgid "Create a new task"
 msgstr "Стварыць новае заданьне"
@@ -9117,6 +9160,12 @@ msgstr "Стварыць новае заданьне"
 msgid "New assigned task"
 msgstr "Новае прызначанае заданьне"
 
+#: ../calendar/gui/tasks-component.c:1334
+#, fuzzy
+msgctxt "New"
+msgid "Assigne_d Task"
+msgstr "_Прызначыць заданьне"
+
 #: ../calendar/gui/tasks-component.c:1335
 msgid "Create a new assigned task"
 msgstr "Стварыць новае прызначанае заданьне"
@@ -9124,6 +9173,12 @@ msgstr "Стварыць новае прызначанае заданьне"
 #: ../calendar/gui/tasks-component.c:1341
 msgid "New task list"
 msgstr "Новы сьпіс заданьняў"
+
+#: ../calendar/gui/tasks-component.c:1342
+#, fuzzy
+msgctxt "New"
+msgid "Tas_k list"
+msgstr "Сьп_іс заданьняў"
 
 #: ../calendar/gui/tasks-component.c:1343
 msgid "Create a new task list"
@@ -11042,8 +11097,7 @@ msgid "Show _Attachment Bar"
 msgstr "Паказаць панэль _укладаньня"
 
 #: ../composer/e-msg-composer.c:867
-msgid ""
-"Cannot sign outgoing message: No signing certificate set for this account"
+msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "Немагчыма падпісаць паведамленьне: няма сэртыфіката подпісу для гэтага "
 "ўліковага запісу"
@@ -11081,8 +11135,7 @@ msgstr "Стварыць паведамленьне"
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
-msgstr ""
-"<b>(Зьмест рэдактару не зьяўляецца простым тэкстам і не рэдагавацца.)<b>"
+msgstr "<b>(Зьмест рэдактару не зьяўляецца простым тэкстам і не рэдагавацца.)<b>"
 
 #: ../composer/mail-composer.error.xml.h:1
 msgid ""
@@ -11171,7 +11224,7 @@ msgstr ""
 msgid ""
 "Send options available only for Novell Groupwise and Microsoft Exchange "
 "accounts."
-msgstr ""
+msgstr "Магчымасьці высыланьня даступныя толькі для ўліковых запісаў Novell Groupwise і Microsoft Exchange."
 
 #: ../composer/mail-composer.error.xml.h:18
 #, fuzzy
@@ -11180,8 +11233,7 @@ msgstr "Дзея недаступная"
 
 #: ../composer/mail-composer.error.xml.h:19
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
-msgstr ""
-"Файл \"{0}\" не зьяўляецца звычайным файлам і таму не можа быць дасланы."
+msgstr "Файл \"{0}\" не зьяўляецца звычайным файлам і таму ня можа быць высланы."
 
 #: ../composer/mail-composer.error.xml.h:20
 msgid ""
@@ -11296,7 +11348,7 @@ msgstr "Выканананае"
 
 #: ../e-util/e-logger.c:162
 msgid "Name of the component being logged"
-msgstr ""
+msgstr "Назва кампанэнта, пра які будуць зьбірацца зьвесткі"
 
 #: ../e-util/e-plugin.c:308 ../filter/rule-editor.c:798
 #: ../mail/em-account-prefs.c:482 ../mail/em-composer-prefs.c:988
@@ -11312,16 +11364,15 @@ msgstr "Ці пашыраны пашыральнік"
 
 #: ../e-util/e-print.c:160
 msgid "An error occurred while printing"
-msgstr ""
+msgstr "Падчас друку адбылася памылка"
 
 #: ../e-util/e-print.c:167
 msgid "The printing system reported the following details about the error:"
-msgstr ""
+msgstr "Сыстэма друку паведаміла наступнае пра памылку:"
 
 #: ../e-util/e-print.c:173
-msgid ""
-"The printing system did not report any additional details about the error."
-msgstr ""
+msgid "The printing system did not report any additional details about the error."
+msgstr "Сыстэма друку не паведаміла дадатковых зьвестак пра гэтую памылку."
 
 #: ../e-util/e-system.error.xml.h:1 ../mail/mail.error.xml.h:19
 #, fuzzy
@@ -11406,13 +11457,13 @@ msgstr "Адмеціна"
 
 #: ../e-util/e-util-labels.c:351
 msgid "Label name cannot be empty."
-msgstr ""
+msgstr "Назва меткі ня можа быць пустой."
 
 #: ../e-util/e-util-labels.c:356
 msgid ""
 "A label having the same tag already exists on the server. Please rename your "
 "label."
-msgstr ""
+msgstr "Метка з такой самай назвай ужо існуе на паслужніку. Калі ласка, зьмяніце яе назву."
 
 #: ../e-util/gconf-bridge.c:1218
 #, fuzzy, c-format
@@ -11421,7 +11472,7 @@ msgstr "Памылка camel: %s"
 
 #: ../e-util/gconf-bridge.c:1228
 msgid "All further errors shown only on terminal."
-msgstr ""
+msgstr "Усе наступныя памылкі адлюстроўваюцца толькі ў тэрмінале."
 
 #: ../filter/filter-datespec.c:81
 #, c-format
@@ -11569,7 +11620,7 @@ msgstr "Назва п_равіла:"
 
 #: ../filter/filter-rule.c:881
 msgid "Find items that meet the following criteria"
-msgstr ""
+msgstr "Знайсьці тое, што адпавядае наступнаму крытэру"
 
 #: ../filter/filter-rule.c:915
 #, fuzzy
@@ -11757,16 +11808,14 @@ msgid "Composer Preferences"
 msgstr "Перавагі рэдактара"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:2
-msgid ""
-"Configure mail preferences, including security and message display, here"
+msgid "Configure mail preferences, including security and message display, here"
 msgstr ""
 "Тут наладжваюцца парамэтры пошты, уключаючы бясьпеку й адлюстраваньне "
 "паведамленьняў"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr ""
-"Тут наладжваюцца подпісы й стварэньне паведамленьняў, ды праверка правапісу"
+msgstr "Тут наладжваюцца подпісы, стварэньне паведамленьняў ды праверка правапісу"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure your email accounts here"
@@ -12004,7 +12053,7 @@ msgstr "Надаць вагу"
 
 #: ../mail/em-filter-i18n.h:22
 msgid "BCC"
-msgstr ""
+msgstr "BCC"
 
 #: ../mail/em-filter-i18n.h:23
 msgid "Beep"
@@ -12342,10 +12391,10 @@ msgstr[2] "Агулам паведамленьняў:"
 #: ../mail/em-folder-properties.c:196
 #, c-format
 msgid "Quota usage (%s):"
-msgstr ""
+msgstr "Выкарыстаньне квоты (%s):"
 
 #: ../mail/em-folder-properties.c:198
-#, fuzzy
+#, fuzzy, c-format
 msgid "Quota usage"
 msgstr "Агулам паведамленьняў:"
 
@@ -12402,6 +12451,27 @@ msgstr "Дасланыя"
 #: ../mail/em-folder-tree-model.c:534 ../mail/em-folder-tree-model.c:841
 msgid "Loading..."
 msgstr "Загрузка..."
+
+#. Translators: This is the string used for displaying the
+#. * folder names in folder trees. "%s" will be replaced by
+#. * the folder's name and "%u" will be replaced with the
+#. * number of unread messages in the folder.
+#. *
+#. * Most languages should translate this as "%s (%u)". The
+#. * languages that use localized digits (like Persian) may
+#. * need to replace "%u" with "%Iu". Right-to-left languages
+#. * (like Arabic and Hebrew) may need to add bidirectional
+#. * formatting codes to take care of the cases the folder
+#. * name appears in either direction.
+#. *
+#. * Do not translate the "folder-display|" part. Remove it
+#. * from your translation.
+#.
+#: ../mail/em-folder-tree.c:380
+#, fuzzy, c-format
+msgctxt "folder-display"
+msgid "%s (%u)"
+msgstr "%s (...)"
 
 #: ../mail/em-folder-tree.c:741
 msgid "Mail Folder Tree"
@@ -12510,7 +12580,7 @@ msgstr "Пазначце, дзе стварыць тэчку:"
 
 #: ../mail/em-folder-view.c:1090 ../mail/mail.error.xml.h:70
 msgid "Mail Deletion Failed"
-msgstr ""
+msgstr "Не ўдалося выдаліць ліст"
 
 #: ../mail/em-folder-view.c:1091 ../mail/mail.error.xml.h:126
 #, fuzzy
@@ -12690,7 +12760,7 @@ msgstr "Шчоўкніце, каб ліставаць %s"
 
 #: ../mail/em-folder-view.c:3313
 msgid "Click to hide/unhide addresses"
-msgstr ""
+msgstr "Клікніце, каб схаваць/паказаць адрасы"
 
 #. message-search popup match count string
 #: ../mail/em-format-html-display.c:471
@@ -12737,8 +12807,7 @@ msgstr "Сапраўдны подпіс"
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
-msgstr ""
-"Гэтае паведамлеьне падпісанае сапраўдным подпісам, што пацьвяржае тоеснасьць."
+msgstr "Гэтае паведамленьне падпісанае сапраўдным подпісам, што пацьвяржае тоеснасьць."
 
 #: ../mail/em-format-html-display.c:950 ../mail/em-format-html.c:652
 msgid "Invalid signature"
@@ -12767,7 +12836,7 @@ msgstr ""
 
 #: ../mail/em-format-html-display.c:952 ../mail/em-format-html.c:654
 msgid "Signature exists, but need public key"
-msgstr ""
+msgstr "Подпіс ёсьць, але патрэбны адкрыты ключ"
 
 #: ../mail/em-format-html-display.c:952
 #, fuzzy
@@ -12925,7 +12994,7 @@ msgstr "Адкрыць файл"
 msgid ""
 "Evolution cannot render this email as it is too large to process. You can "
 "view it unformatted or with an external text editor."
-msgstr ""
+msgstr "Evolution ня можа адлюстраваць гэты ліст, бо ён завялікі для апрацоўкі. Вы можаце праглядзець яго несфарматаваным з дапамогаю вонкавага тэкставага рэдактара."
 
 #: ../mail/em-format-html-print.c:156
 #, c-format
@@ -13016,7 +13085,7 @@ msgstr "<I> (%R %Z)</I>"
 #: ../mail/em-format-html.c:1907
 #, c-format
 msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
-msgstr ""
+msgstr "<b>%s</b> выслаў гэтае паведамленьне ад асобы <b>%s</b>"
 
 #: ../mail/em-format-quote.c:210 ../mail/em-format.c:884
 #: ../mail/em-mailer-prefs.c:75 ../mail/message-list.etspec.h:7
@@ -13112,7 +13181,7 @@ msgstr "Штомесяц"
 
 #: ../mail/em-mailer-prefs.c:327
 msgid "Add Custom Junk Header"
-msgstr ""
+msgstr "Дадаць асаблівы загаловак спаму"
 
 #: ../mail/em-mailer-prefs.c:331
 #, fuzzy
@@ -13143,14 +13212,13 @@ msgstr "раней"
 #: ../mail/em-mailer-prefs.c:1079 ../mail/em-mailer-prefs.c:1133
 #, c-format
 msgid "%s plugin is available and the binary is installed."
-msgstr ""
+msgstr "Плагін %s даступны, двайковы файл усталяваны."
 
 #. May be a better text
 #: ../mail/em-mailer-prefs.c:1087 ../mail/em-mailer-prefs.c:1142
 #, c-format
-msgid ""
-"%s plugin is not available. Please check whether the package is installed."
-msgstr ""
+msgid "%s plugin is not available. Please check whether the package is installed."
+msgstr "Плагін %s недаступны. Калі ласка, спраўдзьце, ці усталяваны пакунак."
 
 #: ../mail/em-mailer-prefs.c:1108
 #, fuzzy
@@ -13341,7 +13409,7 @@ msgstr "Заўсёды дасылаць пацьверджаньне аб пра
 
 #: ../mail/evolution-mail.schemas.in.h:6
 msgid "Amount of time in seconds the error should be shown on the status bar."
-msgstr ""
+msgstr "Тэрмін у сэкундах, цягам якога трэба паказваць памылку на панэлі стану."
 
 #: ../mail/evolution-mail.schemas.in.h:7
 #, fuzzy
@@ -13391,17 +13459,17 @@ msgstr ""
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
-msgstr ""
+msgstr "Кантралюе інтэрвал сынхранізацыі лякальных зьмяненьняў з аддаленым паштовым паслужнікам. Інтэрвал мусіць быць пранамсі 30 сэкундаў."
 
 #: ../mail/evolution-mail.schemas.in.h:18
 msgid "Custom headers to use while checking for junk."
-msgstr ""
+msgstr "Загалоўкі карыстальніка, якія выкарыстоўваюцца падчас праверкі на спам."
 
 #: ../mail/evolution-mail.schemas.in.h:19
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format \"headername=value\"."
-msgstr ""
+msgstr "Загалоўкі карыстальніка, якія выкарыстоўваюцца падчас праверкі на спам. Радкі павінны быць у выглядзе \"НазваЗагалоўка=значэньне\"."
 
 #: ../mail/evolution-mail.schemas.in.h:20
 msgid "Default charset in which to compose messages"
@@ -13466,11 +13534,11 @@ msgstr "Прадвызначаная шырыня дыялёгу падпіск�
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
 "book only"
-msgstr ""
+msgstr "Вызначае, ці трэба шукаць адрасы для фільтраваньня спаму толькі ў лякальнай адраснай кнізе"
 
 #: ../mail/evolution-mail.schemas.in.h:34
 msgid "Determines whether to lookup in address book for sender email"
-msgstr ""
+msgstr "Вызначае, ці трэба шукаць адрас адпраўніка ў адраснай кнізе"
 
 #: ../mail/evolution-mail.schemas.in.h:35
 msgid ""
@@ -13482,20 +13550,20 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:36
 msgid "Determines whether to use custom headers to check for junk"
-msgstr ""
+msgstr "Вызначае, ці выкарыстоўваць загалоўкі карыстальніка дзеля вызначэньня спаму"
 
 #: ../mail/evolution-mail.schemas.in.h:37
 msgid ""
 "Determines whether to use custom headers to check for junk. If this option "
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
-msgstr ""
+msgstr "Вызначае, ці выкарыстоўваць загалоўкі карыстальніка дзеля вызначэньня спаму. Калі гэтая опцыя ўключаная і ёсьць азначаныя карыстальнікам загалоўкі, тады вызначэньне спаму працуе хутчэй."
 
 #: ../mail/evolution-mail.schemas.in.h:38
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
-msgstr ""
+msgstr "Вызначае, ці трэба выкарыстоўваць такі самы шрыфт для радкоў \"Ад\" і \"Тэма\" ў слупку \"Паведамленьні\" пры вэртыкальным праглядзе."
 
 #: ../mail/evolution-mail.schemas.in.h:39
 msgid "Directory for loading/attaching files to composer."
@@ -13533,8 +13601,7 @@ msgstr "Спусташаць усе сьметніцы ў часе выхаду.
 
 #: ../mail/evolution-mail.schemas.in.h:47
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
-msgstr ""
-"Уключыць рэжым кареткі, вы зможаце бачыць курсор у часе чытаньня пошты."
+msgstr "Уключыць рэжым карэткі, каб вы маглі бачыць курсор падчас чытаньня пошты."
 
 #: ../mail/evolution-mail.schemas.in.h:48
 #, fuzzy
@@ -13566,7 +13633,7 @@ msgstr ""
 msgid ""
 "Enable this to use Space bar key to scroll in message preview, message list "
 "and folders."
-msgstr ""
+msgstr "Уключыце, каб выкарыстоўваць клявішу \"Прагал\" для пракручваньня перадпрагляду паведмленьняў, сьпісу паведамленьняў і тэчак."
 
 #: ../mail/evolution-mail.schemas.in.h:54
 #, fuzzy
@@ -13618,7 +13685,7 @@ msgstr ""
 msgid ""
 "Initial height of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window vertically."
-msgstr ""
+msgstr "Пачатковая вышыня акна \"Адаслаць ці Атрымаць пошту\". Значэньне абнаўляецца, калі карыстальнік зьмяняе вэртыкальны памер акна."
 
 #: ../mail/evolution-mail.schemas.in.h:63
 msgid ""
@@ -13692,7 +13759,7 @@ msgstr "Сьпіс дадатковых загалоўкаў і ці ўключ�
 
 #: ../mail/evolution-mail.schemas.in.h:76
 msgid "List of dictionary language codes used for spell checking."
-msgstr ""
+msgstr "Сьпіс кодаў моваў, якія могуць выкарыстоўвацца для праверкі правапісу."
 
 #: ../mail/evolution-mail.schemas.in.h:77
 msgid ""
@@ -13768,8 +13835,7 @@ msgstr "Прадвызначаная шырыня акна паведамлен�
 #: ../mail/evolution-mail.schemas.in.h:92
 #, fuzzy
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-msgstr ""
-"Тып адлюстраваньня паведамленьня (нармальнае, усе загалоўкі, крынічны текст)"
+msgstr "Тып адлюстраваньня паведамленьня: \"normal\" (звычайнае), \"full headers\" (усе загалоўкі), \"source\" (крынічны тэкст)"
 
 #: ../mail/evolution-mail.schemas.in.h:93
 #, fuzzy
@@ -13795,7 +13861,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:97
 msgid "Number of addresses to display in TO/CC/BCC"
-msgstr ""
+msgstr "Колькасьць адрасоў для адлюстраваньня ў палёх \"TO/CC/BCC\""
 
 #: ../mail/evolution-mail.schemas.in.h:98
 msgid "Prompt on empty subject"
@@ -13808,15 +13874,14 @@ msgstr ""
 "тэчцы."
 
 #: ../mail/evolution-mail.schemas.in.h:100
-msgid ""
-"Prompt the user when he or she tries to send a message without a Subject."
+msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
-"Папярэджваць, калі карыстальнік спрабуе даслаць паведамленьне з пустым полем "
+"Папярэджваць карыстальніка, калі той спрабуе даслаць паведамленьне з пустым полем "
 "\"Тэма\" (Subject)."
 
 #: ../mail/evolution-mail.schemas.in.h:101
 msgid "Prompt to check if the user wants to go offline immediately"
-msgstr ""
+msgstr "Запыт ці хоча карыстальнік працаваць offline."
 
 #: ../mail/evolution-mail.schemas.in.h:102
 #, fuzzy
@@ -13829,8 +13894,7 @@ msgstr "Папярэджваць, калі карыстальнік выкрэс
 
 #: ../mail/evolution-mail.schemas.in.h:104
 msgid "Prompt when user only fills Bcc"
-msgstr ""
-"Папярэджваць, калі карыстальнік запоўніў толькі поле \"Схаваная копія\" (Bcc)"
+msgstr "Папярэджваць, калі карыстальнік запоўніў толькі поле \"Схаваная копія\" (Bcc)"
 
 #: ../mail/evolution-mail.schemas.in.h:105
 msgid "Prompt when user tries to open 10 or more messages at once"
@@ -13880,7 +13944,7 @@ msgstr "Архіваваць каталёг Evolution"
 
 #: ../mail/evolution-mail.schemas.in.h:114
 msgid "Search for the sender photo in local address books"
-msgstr ""
+msgstr "Шукаць фота адпраўніка ў лякальных адрасных кнігах"
 
 #: ../mail/evolution-mail.schemas.in.h:115
 msgid "Send HTML mail by default"
@@ -13910,8 +13974,7 @@ msgstr "Паказваць анімаваныя відарысы як аніма
 
 #: ../mail/evolution-mail.schemas.in.h:121
 msgid "Show deleted messages (with a strike-through) in the message-list."
-msgstr ""
-"Показваць выдаленыя паведамленьні (як перакрэсьленыя) у сьпісе паведамленьяў."
+msgstr "Паказваць выдаленыя паведамленьні (як перакрэсьленыя) у сьпісе паведамленьняў."
 
 #: ../mail/evolution-mail.schemas.in.h:122
 msgid "Show deleted messages in the message-list"
@@ -13919,19 +13982,18 @@ msgstr "Паказваць выдаленыя паведамленьні ў сь
 
 #: ../mail/evolution-mail.schemas.in.h:123
 msgid "Show photo of the sender"
-msgstr ""
+msgstr "Паказваць фота адпраўніка"
 
 #: ../mail/evolution-mail.schemas.in.h:126
 #, fuzzy
 msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
-msgstr ""
-"Показваць выдаленыя паведамленьні (як перакрэсьленыя) у сьпісе паведамленьяў."
+msgstr "Паказваць выдаленыя паведамленьні (як перакрэсьленыя) у сьпісе паведамленьняў."
 
 #: ../mail/evolution-mail.schemas.in.h:127
 msgid "Show the photo of the sender in the message reading pane."
-msgstr ""
+msgstr "Паказваць фота адпраўніка ў акне чытаньня паведамленьняў."
 
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid "Spell check inline"
@@ -13992,12 +14054,14 @@ msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
 msgstr ""
+"Можа мець тры магчымыя значэньні: \"0\" для памылак, \"1\" для папярэджваньняў, "
+"\"2\" для паведамленьняў адладкі."
 
 #: ../mail/evolution-mail.schemas.in.h:141
 msgid ""
 "This decides the max size of the text part that can be formatted under "
 "evolution. The default is 4MB / 4096 KB and is specified interms of KB."
-msgstr ""
+msgstr "Вызначае максымальны памер тэкставай часткі паведамленьня, якая можа быць адфарматаваная праграмаю Evolution. Прадвызначаны памер: 4MB / 4096 KB. Вызначаецца ў кілябайтах."
 
 #: ../mail/evolution-mail.schemas.in.h:142
 msgid ""
@@ -14342,6 +14406,12 @@ msgstr[2] "%d агулам"
 msgid "New Mail Message"
 msgstr "Новае паштовае паведамленьне"
 
+#: ../mail/mail-component.c:923
+#, fuzzy
+msgctxt "New"
+msgid "_Mail Message"
+msgstr "_Паштовае паведамленьне"
+
 #: ../mail/mail-component.c:924
 msgid "Compose a new mail message"
 msgstr "Скласьці новае паведамленьне"
@@ -14349,6 +14419,12 @@ msgstr "Скласьці новае паведамленьне"
 #: ../mail/mail-component.c:930
 msgid "New Mail Folder"
 msgstr "Новая паштовая тэчка"
+
+#: ../mail/mail-component.c:931
+#, fuzzy
+msgctxt "New"
+msgid "Mail _Folder"
+msgstr "Па_штовая тэчка"
 
 #: ../mail/mail-component.c:932
 msgid "Create a new mail folder"
@@ -14560,8 +14636,7 @@ msgstr "Дадаць _сцэнар"
 
 #: ../mail/mail-config.glade.h:38
 msgid "Al_ways sign outgoing messages when using this account"
-msgstr ""
-"Заўсёды падпісваць паведамленьні, калі выкарыстоўваецца гэты уліковы запіс"
+msgstr "_Заўсёды падпісваць паведамленьні, калі выкарыстоўваецца гэты ўліковы запіс"
 
 #: ../mail/mail-config.glade.h:39
 #, fuzzy
@@ -14810,8 +14885,7 @@ msgid "No _Proxy for:"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:107
-msgid ""
-"Note: Underscore in the label name is used as mnemonic identifier in menu."
+msgid "Note: Underscore in the label name is used as mnemonic identifier in menu."
 msgstr ""
 
 #: ../mail/mail-config.glade.h:108
@@ -15499,6 +15573,7 @@ msgid "Waiting..."
 msgstr "Чаканьне..."
 
 #: ../mail/mail-send-recv.c:799
+#, c-format
 msgid "Checking for new mail"
 msgstr "Праверка новай пошты"
 
@@ -15639,19 +15714,16 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:9
 msgid "Are you sure you want to delete this account and all its proxies?"
-msgstr ""
-"Вы сапраўды жадаеце выдаліць гэты ўліковы запіс і усіх ягоных паўнамоцных?"
+msgstr "Вы сапраўды хочаце выдаліць гэты ўліковы запіс і ўсіх ягоных паўнамоцных паслужнікаў?"
 
 #: ../mail/mail.error.xml.h:10
 msgid "Are you sure you want to delete this account?"
-msgstr "Вы сапраўды жадаеце выдаліць гэты ўліковы запіс?"
+msgstr "Вы сапраўды хочаце выдаліць гэты ўліковы запіс?"
 
 #: ../mail/mail.error.xml.h:11
 #, fuzzy
-msgid ""
-"Are you sure you want to disable this account and delete all its proxies?"
-msgstr ""
-"Вы сапраўды жадаеце выдаліць гэты ўліковы запіс і усіх ягоных паўнамоцных?"
+msgid "Are you sure you want to disable this account and delete all its proxies?"
+msgstr "Вы сапраўды жадаеце выдаліць гэты ўліковы запіс і усіх ягоных паўнамоцных?"
 
 #: ../mail/mail.error.xml.h:12
 msgid "Are you sure you want to open {0} messages at once?"
@@ -15680,12 +15752,11 @@ msgstr "Вы сапраўды жадаеце даслаць паведамлен
 
 #: ../mail/mail.error.xml.h:16
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr ""
-"Вы сапраўды жадаеце даслаць паведамленьне толькі з пазначаным полем BCC?"
+msgstr "Вы сапраўды хочаце даслаць паведамленьне толькі з пазначаным полем \"BCC\"?"
 
 #: ../mail/mail.error.xml.h:17
 msgid "Are you sure you want to send a message without a subject?"
-msgstr "Вы сапраўды жадаеце даслаць паведамленьне з пустым полем тэмы?"
+msgstr "Вы сапраўды хочаце даслаць паведамленьне з пустым полем тэмы?"
 
 #: ../mail/mail.error.xml.h:18
 #, fuzzy
@@ -15780,8 +15851,7 @@ msgstr "Немагчыма зьмяніць назву з &quot;{0}&quot; на &
 #: ../mail/mail.error.xml.h:36
 #, fuzzy
 msgid "Cannot rename or move system folder \"{0}\"."
-msgstr ""
-"Немагчыма зьмяніць назву ці перамясьціць сыстэмную тэчку &quot;{0}&quot;."
+msgstr "Немагчыма зьмяніць назву ці перамясьціць сыстэмную тэчку \"{0}\"."
 
 #: ../mail/mail.error.xml.h:37
 msgid "Cannot save changes to account."
@@ -15913,8 +15983,7 @@ msgstr ""
 #: ../mail/mail.error.xml.h:63
 #, fuzzy
 msgid "If you proceed, all proxy accounts will be deleted permanently."
-msgstr ""
-"Калі вы працягнеце, зьвесткі уліковага запісу будуць канчаткова зьнішчаныя."
+msgstr "Калі вы працягнеце, зьвесткі уліковага запісу будуць канчаткова зьнішчаныя."
 
 #: ../mail/mail.error.xml.h:64
 msgid ""
@@ -15926,8 +15995,7 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:66
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr ""
-"Калі вы працягнеце, зьвесткі уліковага запісу будуць канчаткова зьнішчаныя."
+msgstr "Калі вы працягнеце, зьвесткі ўліковага запісу будуць канчаткова зьнішчаныя."
 
 #: ../mail/mail.error.xml.h:67
 msgid ""
@@ -16148,10 +16216,8 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:115
 #, fuzzy
-msgid ""
-"This message cannot be sent because you have not specified any recipients"
-msgstr ""
-"Паведамленьне не можа быць дасланае, паколькі не пазначаны аніводны атрымоўца"
+msgid "This message cannot be sent because you have not specified any recipients"
+msgstr "Паведамленьне не можа быць дасланае, паколькі не пазначаны аніводны атрымоўца"
 
 #: ../mail/mail.error.xml.h:116
 msgid ""
@@ -16202,7 +16268,7 @@ msgid ""
 "Warning: Deleting messages from a Search Folder will delete the actual "
 "message from one of your local or remote folders.\n"
 "Do you really want to do this?"
-msgstr ""
+msgstr "Увага: Выдаленьне паведамленьняў з тэчкі \"Пошуку\" таксама выдаліць паведамленьні з вашых тэчак, лякяльных і аддаленых. Ці вы сапраўды хочаце гэта зрабіць?"
 
 #: ../mail/mail.error.xml.h:127
 msgid "You have not filled in all of the required information."
@@ -16237,8 +16303,7 @@ msgstr ""
 #: ../mail/mail.error.xml.h:134
 #, fuzzy
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
-msgstr ""
-"Памылка рэгістрацыі на паслужніку &quot;{0}&quot; пад назвай &quot;{0}&quot;."
+msgstr "Памылка рэгістрацыі на паслужніку &quot;{0}&quot; пад назвай &quot;{0}&quot;."
 
 #: ../mail/mail.error.xml.h:135
 msgid "_Append"
@@ -16486,7 +16551,7 @@ msgstr ""
 msgid ""
 "Evolution has found some keywords that suggest that this message should "
 "contain an attachment, but cannot find one."
-msgstr ""
+msgstr "Evolution знайшла некаторыя словы, якія сьведчаць, што паведамленьне мусіць мець укладку, але ня можа яе знайсьці."
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
 #, fuzzy
@@ -16539,6 +16604,8 @@ msgid ""
 "Calendars, Tasks, Memos, Contacts. \n"
 "It also restores all your personal settings, mail filters etc."
 msgstr ""
+"Вы можаце аднавіць Evolution з рэзэрвовай копіі. Будуць адноленыя ўсе Паведамленьні, Заданьні, Нататкі, Кантакты.\n"
+"Таксама будуць адноўленыя ўсе вашыя прыватныя наладкі, паштовыя фільтры і г.д."
 
 #: ../plugins/backup-restore/backup-restore.c:284
 #, fuzzy
@@ -16589,7 +16656,7 @@ msgstr "Архіваваньне й аднаўленьне даньняў і н�
 
 #: ../plugins/backup-restore/backup.c:136
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
-msgstr ""
+msgstr "Ствараецца рэзэрвовая копія зьвестак Evolution (Паведамленьні, Кантакты, Каляндар, Заданьні, Нататкі)"
 
 #: ../plugins/backup-restore/backup.c:147
 #, fuzzy
@@ -16609,7 +16676,7 @@ msgstr "Архіваваць каталёг Evolution"
 
 #: ../plugins/backup-restore/backup.c:267
 msgid "Extracting files from backup"
-msgstr ""
+msgstr "Выманьне файлаў з рэзэрвовай копіі"
 
 #: ../plugins/backup-restore/backup.c:274
 #, fuzzy
@@ -16618,7 +16685,7 @@ msgstr "Зьмяніць наладкі Evolution"
 
 #: ../plugins/backup-restore/backup.c:278
 msgid "Removing temporary backup files"
-msgstr ""
+msgstr "Выдаленьне часовых рэзэрвовых копій файлаў"
 
 #: ../plugins/backup-restore/backup.c:285
 msgid "Ensuring local sources"
@@ -16652,7 +16719,7 @@ msgstr "Архіваваць каталёг Evolution"
 
 #: ../plugins/backup-restore/backup.c:515
 msgid "Please wait while Evolution is backing up your data."
-msgstr ""
+msgstr "Калі ласка, пачакайце, пакуль Evolution створыць рэзэрвовую копію вашых зьвестак."
 
 #: ../plugins/backup-restore/backup.c:517
 #, fuzzy
@@ -16661,11 +16728,11 @@ msgstr "Перапусьціць Evolution"
 
 #: ../plugins/backup-restore/backup.c:518
 msgid "Please wait while Evolution is restoring your data."
-msgstr ""
+msgstr "Калі ласка, пачакайце, пакуль Evolution адновіць вашыя зьвесткі."
 
 #: ../plugins/backup-restore/backup.c:536
 msgid "This may take a while depending on the amount of data in your account."
-msgstr ""
+msgstr "Гэта можа заняць пэўны час у залежнасьці ад колькасьці зьвестак вашага ўліковага запісу."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
 msgid "A plugin for backing up and restore Evolution data and settings."
@@ -16683,8 +16750,7 @@ msgstr "Вы сапраўды жадаеце выдаліць гэты ўлік�
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
 #, fuzzy
-msgid ""
-"Are you sure you want to restore Evolution from the selected backup file?"
+msgid "Are you sure you want to restore Evolution from the selected backup file?"
 msgstr "Вы упэўненыя у тым, што жадаеце выдаліць гэтую сустрэчу?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
@@ -16693,7 +16759,7 @@ msgid ""
 "sure that you save and close all your unsaved windows before proceeding.  If "
 "you want Evolution to restart automatically after backup, please enable the "
 "toggle button."
-msgstr ""
+msgstr "Стварэньне рэзэрвовай копіі зьвестак робіцца, калі Evolution не працуе. Калі ласка, пераканайцеся ў тым, што вы захавалі й зачынілі ўсе вокны перад гэтай апэрацыяй. Калі вы хочаце, каб Evolution аднавіў працу пасьля стварэньня рэзэрвовае копіі, калі ласка, пазначце гэты пераключальнік."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
 #, fuzzy
@@ -16722,7 +16788,7 @@ msgid ""
 "not running. Please make sure that you close all your unsaved windows before "
 "you proceed. If you want Evolution to restart automatically restart after "
 "restore, please enable the toggle button."
-msgstr ""
+msgstr "Будуць выдаленыя ўсе вашыя зьвесткі й наладкі Evolution і адноўленыя з рэзэрвовае копіі. Аднаўленьне можа пачацца, толькі калі Evolution не працуе. Калі ласка, пераканайцеся ў тым, што вы захавалі й зачынілі ўсе вокны перад гэтай апэрацыяй. Калі вы хочаце, каб Evolution аднавіў працу пасьля стварэньня рэзэрвовае копіі, калі ласка, пазначце гэты пераключальнік."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
 msgid "Backup and restore Evolution data and settings"
@@ -16771,7 +16837,7 @@ msgstr ""
 
 #: ../plugins/bbdb/bbdb.c:681
 msgid "Select Address book for Pidgin buddy list"
-msgstr ""
+msgstr "Выберыце адрасную кнігу для Pidgin"
 
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:692
@@ -16800,17 +16866,19 @@ msgid "Error occurred while spawning %s: %s."
 msgstr ""
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:138
+#, c-format
 msgid "Bogofilter child process does not respond, killing..."
-msgstr ""
+msgstr "Нашчадкавы працэс Bogofilter не рэагуе на запыты, спыняю..."
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:140
+#, c-format
 msgid "Wait for Bogofilter child process interrupted, terminating..."
-msgstr ""
+msgstr "Чакаю перарываньня нашчадкавага працэсу Bogofilter, спыняю..."
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:152
 #, c-format
 msgid "Pipe to Bogofilter failed, error code: %d."
-msgstr ""
+msgstr "Падчас накіраваньня плыні зьвестак у Bogofilter адбылася памылка: %d."
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:313
 #, fuzzy
@@ -16826,7 +16894,7 @@ msgstr "Даслаць паведамленьне ў публічную тэчк
 msgid ""
 "Convert message text to Unicode UTF-8 to unify spam/ham tokens coming from "
 "different character sets."
-msgstr ""
+msgstr "Пераўтварыць тэкст паведамленьня ў Unicode UTF-8 для ўніфікацыі spam/ham лексэмаў, якія паходзяць з розных знаказбораў."
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:1
 #, fuzzy
@@ -16857,7 +16925,7 @@ msgstr "_URL:"
 #: ../plugins/google-account-setup/google-source.c:618
 #: ../plugins/google-account-setup/google-contacts-source.c:301
 msgid "Use _SSL"
-msgstr ""
+msgstr "Выкарыстоўваць _SSL"
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:1
 #, fuzzy
@@ -16970,12 +17038,10 @@ msgstr "Інструмэнт капіяваньня"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:1
 msgid "Check whether Evolution is the default mailer"
-msgstr ""
-"Праверка, ці зьяўляецца Evolution прадвызначаным паштовым дастасаваньнем"
+msgstr "Праверка, ці зьяўляецца Evolution прадвызначаным паштовым дастасаваньнем"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:2
-msgid ""
-"Every time Evolution starts, check whether or not it is the default mailer."
+msgid "Every time Evolution starts, check whether or not it is the default mailer."
 msgstr ""
 "Правярць штопуск, ці зьяўляецца Evolution прадвызначаным паштовым "
 "дастасаваньнем."
@@ -17036,9 +17102,8 @@ msgid "_Custom Header"
 msgstr "_Свой агляд"
 
 #: ../plugins/email-custom-header/email-custom-header.c:881
-#, fuzzy
 msgid "Key"
-msgstr "Кенія"
+msgstr ""
 
 #: ../plugins/email-custom-header/email-custom-header.c:892
 #: ../plugins/templates/templates.c:398
@@ -17211,7 +17276,7 @@ msgstr "%ld КБ"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:1075
 #: ../plugins/exchange-operations/exchange-contacts.c:219
-#, fuzzy
+#, fuzzy, c-format
 msgid "0 KB"
 msgstr "%ld КБ"
 
@@ -17298,13 +17363,13 @@ msgstr "Правы доступу для %s"
 msgid ""
 "This message was sent automatically by Evolution to inform you that you have "
 "been designated as a delegate. You can now send messages on my behalf."
-msgstr ""
+msgstr "Гэтае паведамленьне аўтаматычна дасланае праграмаю Evolution, каб паведаміць, што вы прызначаны маім прадстаўніком. Цяпер вы можаце адсылаць паведамленьні ад маёй асобы."
 
 #. To translators: Another chunk of the same message.
 #.
 #: ../plugins/exchange-operations/exchange-delegates-user.c:348
 msgid "You have been given the following permissions on my folders:"
-msgstr ""
+msgstr "Вам прызначаныя наступныя правы на мае тэчкі:"
 
 #. To translators: This message is included if the delegatee has been given access
 #. to the private items.
@@ -17319,12 +17384,12 @@ msgstr "_Прадстаўнік можа бачыць прыватныя эле�
 #.
 #: ../plugins/exchange-operations/exchange-delegates-user.c:373
 msgid "However you are not permitted to see my private items."
-msgstr ""
+msgstr "Аднак, вам не дазволена праглядаць мае ўласныя зьвесткі."
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:405
 #, c-format
 msgid "You have been designated as a delegate for %s"
-msgstr ""
+msgstr "Вы прызначаны прадстаўніком для %s"
 
 #: ../plugins/exchange-operations/exchange-delegates.c:417
 msgid "Delegate To"
@@ -17507,7 +17572,7 @@ msgstr "Так, зьмяніць стан"
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:1
 msgid "Password Expiry Warning..."
-msgstr ""
+msgstr "Заканчэньне тэрміну прыдатнасьці паролю"
 
 #: ../plugins/exchange-operations/exchange-passwd-expiry.glade.h:2
 #, fuzzy
@@ -17828,8 +17893,7 @@ msgstr "Агульная памылка"
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:40
 #, fuzzy
 msgid "Global Catalog Server is not reachable"
-msgstr ""
-"Для гэтага ўліковага запісу не наладжаны паслужнік Глябальнага каталёгу."
+msgstr "Для гэтага ўліковага запісу не наладжаны паслужнік Глябальнага каталёгу."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:41
 msgid ""
@@ -17849,8 +17913,7 @@ msgstr "Упэўніцеся, што URL верны, і паспрабуйце �
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:44
 msgid "Make sure the server name is spelled correctly and try again."
-msgstr ""
-"Упэўніцеся, што назва паслужніку ўведзеная правільна, і паспрабуйце яшчэ раз."
+msgstr "Упэўніцеся, што назва паслужніку ўведзеная правільна, і паспрабуйце яшчэ раз."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:45
 msgid "Make sure the username and password are correct and try again."
@@ -17860,8 +17923,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:46
 msgid "No Global Catalog server configured for this account."
-msgstr ""
-"Для гэтага ўліковага запісу не наладжаны паслужнік Глябальнага каталёгу."
+msgstr "Для гэтага ўліковага запісу не наладжаны паслужнік Глябальнага каталёгу."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:47
 msgid "No mailbox for user {0} on {1}."
@@ -17881,7 +17943,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:52
 msgid "Please make sure the Global Catalog Server name is correct."
-msgstr ""
+msgstr "Калі ласка, упэўніцеся, што назва паслужніка Global Catalog правільная."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:53
 #, fuzzy
@@ -18062,19 +18124,19 @@ msgstr "Немагчыма стварыць каталёг для часоваг
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:2
 msgid "Editor not launchable"
-msgstr ""
+msgstr "Немагчыма ўключыць рэдактар"
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:3
 msgid ""
 "Evolution is unable to create a temporary file to save your mail. Retry "
 "later."
-msgstr ""
+msgstr "Evolution ня можа стварыць часовы файл, каб захаваць вашую пошту. Паспрабуйце пазьней."
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:4
 msgid ""
 "The external editor set in your plugin preferences cannot be launched. Try "
 "setting a different editor."
-msgstr ""
+msgstr "Немагчыма ўключыць вонкавы рэдактар. Паспрабуйце прызначыць іншы рэдактар."
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:1
 #, fuzzy
@@ -18083,25 +18145,27 @@ msgstr "Прадвызначаная шырыня акна рэдактара"
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:2
 msgid "Compose messages using an external editor"
-msgstr ""
+msgstr "Ствараць паведамленьні ў вонкавым рэдактары"
 
 #: ../plugins/external-editor/external-editor.c:112
 msgid "Command to be executed to launch the editor: "
-msgstr ""
+msgstr "Загад для ўключэньня вонкавага рэдактара: "
 
 #: ../plugins/external-editor/external-editor.c:113
 msgid ""
 "For Emacs use \"xemacs\"\n"
 "For VI use \"gvim\""
 msgstr ""
+"Для Emacs скарыстаць: \"xemacs\"\n"
+"Для VI скарыстаць: \"gvim\""
 
 #: ../plugins/face/face.c:59
 msgid "Select a (48*48) png of size < 700bytes"
-msgstr ""
+msgstr "Выберыце файл PNG памераў 48x48 і ёмістасьцю, меншай за 700 байтаў"
 
 #: ../plugins/face/face.c:69
 msgid "PNG files"
-msgstr ""
+msgstr "Файлы PNG"
 
 #: ../plugins/face/face.c:126
 #, fuzzy
@@ -18122,8 +18186,7 @@ msgstr "Адпіска ад тэчкі \"%s\""
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:1
 msgid "Allows unsubscribing of mail folders in the folder tree context menu."
-msgstr ""
-"Дазваляе скасаваць падпіску на паштовыя тэчкі ў кантэкстным мэню тэчкі."
+msgstr "Дазваляе скасаваць падпіску на паштовыя тэчкі ў кантэкстным мэню тэчкі."
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
 msgid "Unsubscribe Folders"
@@ -18158,6 +18221,8 @@ msgid ""
 "Cannot read data from Google server.\n"
 "%s"
 msgstr ""
+"Не ўдалося прачытаць зьвесткі з паслужніка Google.\n"
+"%s"
 
 #: ../plugins/google-account-setup/google-source.c:693
 #, fuzzy
@@ -18212,6 +18277,16 @@ msgid ""
 "Click 'Forward' to install the shared folder\n"
 "\n"
 msgstr ""
+"Карыстальнік '%s' зрабіў тэчку супольна даступнай для вас\n"
+"\n"
+"Паведамленьне ад '%s'\n"
+"\n"
+"\n"
+"%s\n"
+"\n"
+"\n"
+"Клікніце 'Наперад', каб усталяваць супольнае выкарыстаньне тэчкі\n"
+"\n"
 
 #: ../plugins/groupwise-features/install-shared.c:225
 #, fuzzy
@@ -18343,6 +18418,7 @@ msgid ""
 "Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email "
 "address and try again."
 msgstr ""
+"Рэгістрацыя на паўнамоцным паслужніку як &quot;{0}&quot; была беспасьпяховай. Калі ласка, спраўдзьце ваш адрас і паспрабуйце зноў." 
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:3
 #, fuzzy
@@ -18366,7 +18442,7 @@ msgstr "Не атрымліваецца захаваць файл аўтазах
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:7
 msgid "You have to specify a user name whom you want to add to the list"
-msgstr ""
+msgstr "Вы павінны пазначыць імя карыстальніка, якога хочаце дадаць да сьпісу"
 
 #: ../plugins/groupwise-features/process-meeting.c:52
 msgid "Accept Tentatively"
@@ -18664,7 +18740,7 @@ msgstr "Модуль для падтрымкі функцыяў уліковых
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:2
 msgid "IMAP Features"
-msgstr ""
+msgstr "Магчымасьці IMAP"
 
 #: ../plugins/import-ics-attachments/icsimporter.c:78
 #, fuzzy
@@ -18709,23 +18785,23 @@ msgstr "Укладаньне для даданьня."
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:49
 msgid "Hardware Abstraction Layer not loaded"
-msgstr ""
+msgstr "Hardware Abstraction Layer не загружаны"
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:50
 msgid ""
 "The \"hald\" service is required but not currently running. Please enable "
 "the service and rerun this program, or contact your system administrator."
-msgstr ""
+msgstr "Сэрвіс \"hald\" выключаны. Калі ласка, уключыце сэрвіс і зноў запусьціце праграму, альбо скантактуйцеся з вашым сыстэмным адміністратарам."
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:83
 msgid "Search for an iPod failed"
-msgstr ""
+msgstr "iPod ня знойдзены"
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:84
 msgid ""
 "Evolution could not find an iPod to synchronize with. Either the iPod is not "
 "connected to the system or it is not powered on."
-msgstr ""
+msgstr "Evolution ня можа знайсьці iPod для сынхранізацыі. iPod можа быць выключаны ці не падлучаны да сыстэмы."
 
 #: ../plugins/ipod-sync/ical-format.c:119
 #: ../plugins/save-calendar/ical-format.c:164
@@ -18734,8 +18810,7 @@ msgstr "Фармат iCalendar (.ics)"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
 #, fuzzy
-msgid ""
-"Synchronize the selected task/memo/calendar/address book with Apple iPod"
+msgid "Synchronize the selected task/memo/calendar/address book with Apple iPod"
 msgstr "Сынхранізаваць вылучанае заданьне/календар/адрасную кнігу з Apple iPod"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
@@ -18755,8 +18830,7 @@ msgstr "Немагчыма адкрыць календар '%s'."
 #: ../plugins/itip-formatter/itip-formatter.c:626
 #, fuzzy, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
-msgstr ""
-"Не атрымліваецца адкрыць календар \"%s\" для стварэньня падзеяў і нарадаў"
+msgstr "Не атрымліваецца адкрыць календар \"%s\" для стварэньня падзеяў і нарадаў"
 
 #: ../plugins/itip-formatter/itip-formatter.c:652
 #, fuzzy, c-format
@@ -19147,8 +19221,7 @@ msgstr "<b>%s</b> жадае атрымаць апошнія зьвесткі п
 
 #: ../plugins/itip-formatter/itip-view.c:382
 #, c-format
-msgid ""
-"<b>%s</b> wishes to receive the latest information for the following meeting:"
+msgid "<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgstr "<b>%s</b> жадае атрымаць апошнія зьвесткі па наступнай нарадзе:"
 
 #: ../plugins/itip-formatter/itip-view.c:386
@@ -19231,21 +19304,18 @@ msgstr "<b>%s</b> жадае дадаць да распачатага задан
 msgid ""
 "<b>%s</b> through %s wishes to receive the latest information for the "
 "following assigned task:"
-msgstr ""
-"<b>%s</b> жадае атрымаць апошнія зьвесткі па наступным прызначаным заданьні:"
+msgstr "<b>%s</b> жадае атрымаць апошнія зьвесткі па наступным прызначаным заданьні:"
 
 #: ../plugins/itip-formatter/itip-view.c:470
 #, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following "
 "assigned task:"
-msgstr ""
-"<b>%s</b> жадае атрымаць апошнія зьвесткі па наступным прызначаным заданьні:"
+msgstr "<b>%s</b> жадае атрымаць апошнія зьвесткі па наступным прызначаным заданьні:"
 
 #: ../plugins/itip-formatter/itip-view.c:474
 #, fuzzy, c-format
-msgid ""
-"<b>%s</b> through %s has sent back the following assigned task response:"
+msgid "<b>%s</b> through %s has sent back the following assigned task response:"
 msgstr "<b>%s</b> вярнуў(ла) наступны адказ на прызначанае заданьне:"
 
 #: ../plugins/itip-formatter/itip-view.c:476
@@ -19265,8 +19335,7 @@ msgstr "<b>%s</b> скасаваў(ла) наступнае прызначана
 
 #: ../plugins/itip-formatter/itip-view.c:486
 #, fuzzy, c-format
-msgid ""
-"<b>%s</b> through %s has proposed the following task assignment changes:"
+msgid "<b>%s</b> through %s has proposed the following task assignment changes:"
 msgstr "<b>%s</b> мае прапанову па наступных зьменах прызначэньня заданьня:"
 
 #: ../plugins/itip-formatter/itip-view.c:488
@@ -19446,10 +19515,8 @@ msgid "This meeting has been delegated"
 msgstr "Гэтая нарада была даручаная"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
-msgid ""
-"This response is not from a current attendee. Add the sender as an attendee?"
-msgstr ""
-"гэты адказ прыйшоў не ад бягучага ўдзельніка. Дадаць яго як удзельніка?"
+msgid "This response is not from a current attendee. Add the sender as an attendee?"
+msgstr "гэты адказ прыйшоў не ад бягучага ўдзельніка. Дадаць яго як удзельніка?"
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:46
 msgid "Proxy _Logout"
@@ -19474,7 +19541,7 @@ msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
 msgid "Enable D-Bus messages."
-msgstr ""
+msgstr "Уключыць паведамленьні D-Bus."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:4
 msgid "Enable icon in notification area."
@@ -19493,7 +19560,7 @@ msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Notify new messages for Inbox only."
-msgstr ""
+msgstr "Паведамляць пра новыя паведамленьні толькі для тэчкі \"Атрыманыя\"."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
 #, fuzzy
@@ -19502,7 +19569,7 @@ msgstr "А_днаўляць гук па атрыманьні новай пошт
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
 msgid "Popup message together with the icon."
-msgstr ""
+msgstr "Выплыўное паведамленьне разам са значкам."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
 #, fuzzy
@@ -19526,7 +19593,7 @@ msgstr "А_днаўляць гук па атрыманьні новай пошт
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
 msgid "Whether show message over the icon when new messages arrive."
-msgstr ""
+msgstr "Ці паказваць паведамленьні на значцы, калі атрыманыя новыя паведамленьні."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
 #, fuzzy
@@ -19535,7 +19602,7 @@ msgstr "Ці мусіць панэль інструмэнтаў быць бач�
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
 msgid "Whether to notify new messages in Inbox folder only."
-msgstr ""
+msgstr "Ці паведамляць пра новыя паведамленьні толькі для тэчкі \"Атрыманыя\"."
 
 #: ../plugins/mail-notification/mail-notification.c:255
 #, fuzzy
@@ -19562,16 +19629,22 @@ msgid_plural ""
 "You have received %d new messages\n"
 "in %s."
 msgstr[0] ""
+"Вы атрымалі %d новае паведамленьне\n"
+"ў %s."
 msgstr[1] ""
+"Вы атрымалі %d новыя паведамленьні\n"
+"ў %s."
 msgstr[2] ""
+"Вы атрымалі %d новых паведамленьняў\n"
+"у %s."
 
 #: ../plugins/mail-notification/mail-notification.c:463
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Вы атрымалі %d новае паведамленьне."
+msgstr[1] "Вы атрымалі %d новыя паведамленьні."
+msgstr[2] "Вы атрымалі %d новых паведамленьняў."
 
 #: ../plugins/mail-notification/mail-notification.c:480
 #: ../plugins/mail-notification/mail-notification.c:485
@@ -19591,7 +19664,7 @@ msgstr "_Сваё паведамленьне"
 
 #: ../plugins/mail-notification/mail-notification.c:549
 msgid "Popup _message together with the icon"
-msgstr ""
+msgstr "Выплыўное _паведамленьне разам са значкам"
 
 #: ../plugins/mail-notification/mail-notification.c:730
 #, fuzzy
@@ -19624,13 +19697,13 @@ msgstr "Палаў"
 
 #: ../plugins/mail-notification/mail-notification.c:807
 msgid "Notify new messages for _Inbox only"
-msgstr ""
+msgstr "Паведамляць пра новыя паведамленьні толькі ў тэчцы \"_Атрыманыя\""
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid ""
 "Generates a D-Bus message or notifies the user with an icon in notification "
 "area and a notification message whenever a new message has arrived."
-msgstr ""
+msgstr "Генэруе паведамленьне D-Bus ці паведамляе карыстальніку праз значку і паведамленьне, калі атрыманы новы ліст."
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:2
 #, fuzzy
@@ -19641,8 +19714,7 @@ msgstr "Паведамленьне аб пошце"
 msgid ""
 "A plugin which allows the creation of meetings from the contents of a mail "
 "message."
-msgstr ""
-"Модуль, які дазваляе ствараць нарады са зьместу паштовага паведамленьне."
+msgstr "Модуль, які дазваляе ствараць нарады са зьместу паштовага паведамленьне."
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:2
 msgid "Con_vert to Meeting"
@@ -19667,8 +19739,7 @@ msgstr ""
 msgid ""
 "A plugin which allows the creation of tasks from the contents of a mail "
 "message."
-msgstr ""
-"Модуль, які дазваляе стварэньне заданьняў са зьместу паштовага паведамленьня."
+msgstr "Модуль, які дазваляе стварэньне заданьняў са зьместу паштовага паведамленьня."
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:1
@@ -19707,10 +19778,8 @@ msgstr "Сьпіс _рассылкі"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
 #, fuzzy
-msgid ""
-"Provide actions for common mailing list commands (subscribe, unsubscribe...)."
-msgstr ""
-"Надае дзеі для асноўных загадаў сьпісаў рассылкі (падпіска, адпісаньне, ...)."
+msgid "Provide actions for common mailing list commands (subscribe, unsubscribe...)."
+msgstr "Надае дзеі для асноўных загадаў сьпісаў рассылкі (падпіска, адпісаньне, ...)."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
 msgid "_Post message to list"
@@ -19834,8 +19903,7 @@ msgstr "Атрымаць архіў сьпісу рассылкі, якому н
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:6
 msgid "Get information about the usage of the list this message belongs to"
-msgstr ""
-"Атрымаць зьвесткі аб выкарыстаньні сьпісу, якому належыць гэтае паведамленьне"
+msgstr "Атрымаць зьвесткі аб выкарыстаньні сьпісу, якому належыць гэтае паведамленьне"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:8
 msgid "Post a message to the mailing list this message belongs to"
@@ -19875,7 +19943,7 @@ msgstr "Перамяшчэньне паведамленьняў у тэчку %s
 msgid ""
 "Do you want to mark messages as read in the current folder only, or in the "
 "current folder as well as all subfolders?"
-msgstr ""
+msgstr "Ці вы хочаце пазначыць паведамленьні прачытанымі толькі ў бягучай тэчцы, ці таксама ніжэй па дрэве каталёгаў?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:164
 #, fuzzy
@@ -19899,7 +19967,7 @@ msgstr "Паз_начаць паведамленьні як прачытаныя
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:3
 msgid "Used for marking all the messages under a folder as read"
-msgstr ""
+msgstr "Пазначыць усе паведамленьні ў тэчцы як прачытаныя"
 
 #: ../plugins/mark-calendar-offline/org-gnome-mark-calendar-offline.eplug.xml.h:1
 msgid "Mark calendar offline"
@@ -20019,7 +20087,7 @@ msgstr ""
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:1
 msgid "Allows calendars to be published to the web"
-msgstr ""
+msgstr "Дазваляе публікаваць календары ў сеціве"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:2
 #, fuzzy
@@ -20086,6 +20154,13 @@ msgid ""
 "Secure WebDAV (HTTPS)\n"
 "Custom Location"
 msgstr ""
+"SSH\n"
+"Public FTP\n"
+"FTP (з уваходам)\n"
+"Супольны рэсурс Windows\n"
+"WebDAV (HTTP)\n"
+"Бясьпечны WebDAV (HTTPS)\n"
+"Месца, азначанае карыстальнікам"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:20
 #, fuzzy
@@ -20155,7 +20230,7 @@ msgstr "Spamassassin (убудаваны)"
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:133
 #, c-format
 msgid "SpamAssassin not found, code: %d"
-msgstr ""
+msgstr "SpamAssassin ня знойдзены, код памылкі: %d"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:141
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:149
@@ -20173,28 +20248,29 @@ msgstr ""
 " %s"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:243
+#, c-format
 msgid "SpamAssassin child process does not respond, killing..."
-msgstr ""
+msgstr "Нашчадкавы працэс SpamAssassin не адказвае, спыняю..."
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:245
+#, c-format
 msgid "Wait for Spamassassin child process interrupted, terminating..."
-msgstr ""
+msgstr "Чаканьне перарываньня нашчадкавага працэсу Spamassassin, спыняю..."
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:254
 #, c-format
 msgid "Pipe to SpamAssassin failed, error code: %d"
-msgstr ""
+msgstr "Падчас накіраваньня плыні зьвестак у SpamAssassin адбылася памылка: %d"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:497
-#, fuzzy
+#, fuzzy, c-format
 msgid "SpamAssassin is not available."
 msgstr "Дзея недаступная"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:864
 #, fuzzy
 msgid "This will make SpamAssassin more reliable, but slower"
-msgstr ""
-"<small>Гэта зробіць фильтр болей надзейным, але й болей павольным</small>"
+msgstr "<small>Гэта зробіць фильтр болей надзейным, але й болей павольным</small>"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:870
 msgid "I_nclude remote tests"
@@ -20204,7 +20280,7 @@ msgstr "Уключыць аддаленыя тэсты"
 msgid ""
 "Filters junk messages using SpamAssassin. This plugin requires SpamAssassin "
 "to be installed."
-msgstr ""
+msgstr "Фільтруе спам, выкарыстоўваючы SpamAssassin. Гэты плагін вымагае ўсталяванага SpamAssassin."
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 #, fuzzy
@@ -20218,8 +20294,7 @@ msgstr "Spamassassin (убудаваны)"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
 msgid "A plugin for saving all attachments or parts of a message at once."
-msgstr ""
-"Модуль для захаваньня ўсіх укладаньняў ці частак паведамленьня адначасова."
+msgstr "Модуль для захаваньня ўсіх укладаньняў ці частак паведамленьня адначасова."
 
 #. the path to the shared library
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:3
@@ -20384,7 +20459,7 @@ msgstr "_Паказваць толькі гэты сьпіс заданьняў"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
 msgid "Guides you through your initial account setup."
-msgstr ""
+msgstr "Дапамагае зрабіць першапачатковыя наладкі ўліковага запісу."
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:2
 #, fuzzy
@@ -20431,6 +20506,7 @@ msgstr "З %s:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:232
 #: ../shell/e-shell-importer.c:505
+#, c-format
 msgid "Importing data."
 msgstr "Імпартаваньне даньняў."
 
@@ -20507,7 +20583,7 @@ msgstr "Няма кантактаў"
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:74
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:100
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:311
 #, fuzzy
@@ -20565,13 +20641,12 @@ msgid "Default window width"
 msgstr "Прадвызначаная шырыня акна"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:8
-msgid ""
-"Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
+msgid "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:9
 msgid "HTTP proxy host name"
-msgstr ""
+msgstr "Назва паўнамоцнага паслужніка HTTP"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:10
 #, fuzzy
@@ -20580,11 +20655,11 @@ msgstr "Пазначце пароль"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:11
 msgid "HTTP proxy port"
-msgstr ""
+msgstr "Порт паўнамоцнага паслужніка HTTP"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:12
 msgid "HTTP proxy username"
-msgstr ""
+msgstr "Імя карыстальніка паўнамоцнага паслужніка HTTP"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:13
 msgid "ID or alias of the component to be shown by default at start-up."
@@ -20605,15 +20680,14 @@ msgid "Last upgraded configuration version"
 msgstr "Вэрсія апошняй абноўленай канфігурацыі"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:16
-msgid ""
-"List of paths for the folders to be synchronized to disk for offline usage"
+msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 "Сьпіс шляхоў для тэчак, якія будуць сынхранізавацца на дыск для працы ў "
 "адлучаным рэжыме"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "Non-proxy hosts"
-msgstr ""
+msgstr "Кампутары зь простым доступам да сеціва"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:18
 msgid "Password to pass as authentication when doing HTTP proxying."
@@ -20626,19 +20700,19 @@ msgstr "Наладзіць абмен з \"Пілётам\""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:20
 msgid "SOCKS proxy host name"
-msgstr ""
+msgstr "Назва паўнамоцнага паслужніка SOCKS"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:21
 msgid "SOCKS proxy port"
-msgstr ""
+msgstr "Порт паўнамоцнага паслужніка SOCKS"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:22
 msgid "Secure HTTP proxy host name"
-msgstr ""
+msgstr "Назва паўнамоцнага паслужніка HTTPS"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:23
 msgid "Secure HTTP proxy port"
-msgstr ""
+msgstr "Порт паўнамоцнага паслужніка HTTPS"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:24
 msgid ""
@@ -20711,18 +20785,24 @@ msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "http_host\" that you proxy through."
 msgstr ""
+"Порт паслужніка, вызначанага ў \"/apps/evolution/shell/network_config/"
+"http_host\", які выкарыстоўваецца, як паўнамоцны паслужнік."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:38
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "secure_host\" that you proxy through."
 msgstr ""
+"Порт паслужніка, вызначанага ў \"/apps/evolution/shell/network_config/"
+"secure_host\", які выкарыстоўваецца, як паўнамоцны паслужнік."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:39
 msgid ""
 "The port on the machine defined by \"/apps/evolution/shell/network_config/"
 "socks_host\" that you proxy through."
 msgstr ""
+"Порт сэрвэра вызначанага \"/apps/evolution/shell/network_config/"
+"socks_host\", які выкарыстоўваецца як паслужнік"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:40
 msgid ""
@@ -20753,7 +20833,7 @@ msgstr "Вэрсія апошняй абноўленай канфігурацы�
 
 #: ../shell/apps_evolution_shell.schemas.in.h:44
 msgid "Use HTTP proxy"
-msgstr ""
+msgstr "Выкарыстоўваць паўнамоцнага паслужніка HTTP"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:45
 msgid "User name to pass as authentication when doing HTTP proxying."
@@ -20761,8 +20841,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:46
 msgid "Whether Evolution will start up in offline mode instead of online mode."
-msgstr ""
-"Калі гэты ключ усталяваны, Evolution будзе запускацца ў адлучаным рэжыме."
+msgstr "Калі гэты ключ усталяваны, Evolution будзе запускацца ў адлучаным рэжыме."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:47
 #, fuzzy
@@ -20784,8 +20863,7 @@ msgid "Whether the toolbar should be visible."
 msgstr "Ці мусіць панэль інструмэнтаў быць бачная."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:51
-msgid ""
-"Whether the warning dialog in development versions of Evolution is skipped."
+msgid "Whether the warning dialog in development versions of Evolution is skipped."
 msgstr ""
 "Калі гэты ключ усталяваны, дыялёг папярэджаньня ў пробных вэрсіях Evolution "
 "не адлюстроўваецца."
@@ -20990,6 +21068,12 @@ msgstr "Стварыць"
 msgid "New Test"
 msgstr "Новая праверка"
 
+#: ../shell/test/evolution-test-component.c:106
+#, fuzzy
+msgctxt "New"
+msgid "_Test"
+msgstr "_Праверка"
+
 #: ../shell/test/evolution-test-component.c:107
 msgid "Create a new test item"
 msgstr "Стварыць новы праверачны элемэнт"
@@ -21115,7 +21199,7 @@ msgstr "Забараніць загрузку любых модуляў."
 
 #: ../shell/main.c:487
 msgid "Disable preview pane of Mail, Contacts and Tasks."
-msgstr ""
+msgstr "Адключыць акно папярэдняга прагляду Пошты, Кантактаў і Заданьняў."
 
 #: ../shell/main.c:572
 #, fuzzy
@@ -21560,12 +21644,10 @@ msgstr "Выгляд"
 
 #: ../smime/gui/smime-ui.glade.h:43
 msgid "You have certificates from these organizations that identify you:"
-msgstr ""
-"У вас ёсьць сэртыфікаты, якія ідэнтыфікуюць вас, ад наступных арганізацыяў:"
+msgstr "У вас ёсьць сэртыфікаты, якія ідэнтыфікуюць вас, ад наступных арганізацыяў:"
 
 #: ../smime/gui/smime-ui.glade.h:44
-msgid ""
-"You have certificates on file that identify these certificate authorities:"
+msgid "You have certificates on file that identify these certificate authorities:"
 msgstr "У вас маюцца сэртыфікаты, якія ідэнтыфікуюць наступныя крыніцы:"
 
 #: ../smime/gui/smime-ui.glade.h:45
@@ -22196,7 +22278,7 @@ msgstr "Падпісацца ці скасаваць падпіску на тэ�
 
 #: ../ui/evolution-mail-global.xml.h:19
 msgid "View the debug console for log messages"
-msgstr ""
+msgstr "Глядзець адладку ў кансолі"
 
 #: ../ui/evolution-mail-global.xml.h:20
 #, fuzzy
@@ -22214,7 +22296,7 @@ msgstr "_Часопіс у сеціве:"
 
 #: ../ui/evolution-mail-global.xml.h:23
 msgid "_Download Messages for Offline Usage"
-msgstr ""
+msgstr "_Загрузіць паведамленьні для выкарыстаньня бязь сеціва"
 
 #: ../ui/evolution-mail-global.xml.h:25
 #, fuzzy
@@ -22299,10 +22381,8 @@ msgid "Hide _Read Messages"
 msgstr "Схаваць _прачытаныя паведамленьні"
 
 #: ../ui/evolution-mail-list.xml.h:15
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
-msgstr ""
-"Схаваць паведамленьні, пазначаныя як выдаленыя, замест іх перакрэсьленьня"
+msgid "Hide deleted messages rather than displaying them with a line through them"
+msgstr "Схаваць паведамленьні, пазначаныя як выдаленыя, замест іх перакрэсьленьня"
 
 #: ../ui/evolution-mail-list.xml.h:16
 #, fuzzy
@@ -22470,18 +22550,15 @@ msgstr "Стварыць тэчку пошуку для гэтай тэмы"
 
 #: ../ui/evolution-mail-message.xml.h:19
 msgid "Create a rule to filter messages from this sender"
-msgstr ""
-"Стварыць правіла для фільтрацыі паведамленьняў ад гэтага адпраўляльніка"
+msgstr "Стварыць правіла для фільтрацыі паведамленьняў ад гэтага адпраўляльніка"
 
 #: ../ui/evolution-mail-message.xml.h:20
 msgid "Create a rule to filter messages to these recipients"
-msgstr ""
-"Стварыць правіла для фільтрацыі паведамленьняў да гэтых адпраўляльнікаў"
+msgstr "Стварыць правіла для фільтрацыі паведамленьняў да гэтых адпраўляльнікаў"
 
 #: ../ui/evolution-mail-message.xml.h:21
 msgid "Create a rule to filter messages to this mailing list"
-msgstr ""
-"Стварыць правіла для фільтрацыі паведамленьняў да гэтага сьпісу рассылкі"
+msgstr "Стварыць правіла для фільтрацыі паведамленьняў да гэтага сьпісу рассылкі"
 
 #: ../ui/evolution-mail-message.xml.h:22
 msgid "Create a rule to filter messages with this subject"
@@ -23032,7 +23109,7 @@ msgstr "Імпартаваць даньні з іншых праграмаў"
 
 #: ../ui/evolution.xml.h:17
 msgid "Lay_out"
-msgstr ""
+msgstr "_Выклад"
 
 #: ../ui/evolution.xml.h:19
 msgid "New _Window"
@@ -23040,7 +23117,7 @@ msgstr "Новае _акно"
 
 #: ../ui/evolution.xml.h:20
 msgid "Open the Frequently Asked Questions webpage"
-msgstr ""
+msgstr "Адкрыць сеціўную старонку з частымі пытаньнямі"
 
 #: ../ui/evolution.xml.h:21
 #, fuzzy
@@ -23138,7 +23215,7 @@ msgstr "Забыцца на _паролі"
 
 #: ../ui/evolution.xml.h:45
 msgid "_Frequently Asked Questions"
-msgstr ""
+msgstr "_Частыя пытаньні"
 
 #: ../ui/evolution.xml.h:47
 #, fuzzy
@@ -23355,7 +23432,7 @@ msgstr "Агляд тыдню: %s. %s"
 
 #: ../widgets/menus/gal-view-menus.c:373
 msgid "Current view is a customized view"
-msgstr ""
+msgstr "Цяперашні выгляд зьменены"
 
 #: ../widgets/menus/gal-view-menus.c:378
 msgid "Save Custom View..."
@@ -23506,7 +23583,7 @@ msgstr "Адсоткавае значэньне мусіць быць між 0 �
 
 #: ../widgets/misc/e-charset-picker.c:57
 msgid "Arabic"
-msgstr ""
+msgstr "Арабскі"
 
 #: ../widgets/misc/e-charset-picker.c:58
 msgid "Baltic"
@@ -23830,7 +23907,7 @@ msgstr "Тэкст"
 #. to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on...
 #: ../widgets/misc/e-search-bar.c:1003
 msgid "Sho_w: "
-msgstr ""
+msgstr "_Паказваць: "
 
 #. To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
 #. the term to search for
@@ -24525,1125 +24602,3 @@ msgstr "Кантэкст IM"
 msgid "Handle Popup"
 msgstr "Кіраваць усплыўным"
 
-#~ msgid "Contact _List"
-#~ msgstr "_Сьпіс кантактаў"
-
-#~ msgid "Address _Book"
-#~ msgstr "Адрасная _кніга"
-
-#~ msgid "Addressbook"
-#~ msgstr "Адрасная кніга"
-
-#~ msgid "_Properties..."
-#~ msgstr "_Уласьцівасьці..."
-
-#~ msgid "<b>Display</b>"
-#~ msgstr "<b>Адлюстраваньне</b>"
-
-#~ msgid "<b>Server Information</b>"
-#~ msgstr "<b>Інфармацыя аб паслужніку</b>"
-
-#~ msgid ""
-#~ "Selecting this option means that Evolution will only try to use SSL/TLS "
-#~ "if you are in a insecure environment. For example, if you and your LDAP "
-#~ "server are behind a firewall at work, then Evolution doesn't need to use "
-#~ "SSL/TLS because your connection is already secure."
-#~ msgstr ""
-#~ "Выбар гэтай можнасьці значыць што \"Evolution\" будзе спрабаваць "
-#~ "выкарыстоўваць толькі SSL/TLS калі вы выкарыстоўваеце небясьпечнае "
-#~ "асяродзьдзе. Да прыкладу, калі вы і ваш паслужнік LDAP працуеце па-за "
-#~ "брандмаўэрам, \"Evolution\" не патрабуе выкарыстаньня SSL/TLS да таго "
-#~ "часу пакуль ваша злучэньне бясьпечнае."
-
-#~ msgid "*"
-#~ msgstr "*"
-
-#~ msgid "E-_mail:"
-#~ msgstr "_Э.пошта:"
-
-#~ msgid "\n"
-#~ msgstr "\n"
-
-#~ msgid "Add an email to the List"
-#~ msgstr "Падаць адрас э.пошты да сьпісу"
-
-#~ msgid "Insert email addresses from Address Book"
-#~ msgstr "Устаўка электроных адрасоў з адраснай кнігі"
-
-#~ msgid "Members"
-#~ msgstr "Удзельнікі"
-
-#~ msgid "_Select"
-#~ msgstr "_Выбраць"
-
-#~ msgid ""
-#~ "The changed email or name of this contact already\n"
-#~ "exists in this folder.  Would you like to add it anyway?"
-#~ msgstr ""
-#~ "Зьменены адрас ці імя гэтай кантактнай асобы ўжо\n"
-#~ "прысутнічаюць у гэтай тэчцы. Усё адно жадаеце дадаць?"
-
-#~ msgid "Advanced..."
-#~ msgstr "Адмысловае..."
-
-#~ msgid "Print cards"
-#~ msgstr "Друкаваць візытоўкі"
-
-#~ msgid "Organization"
-#~ msgstr "Установа"
-
-#~ msgid "E-mail"
-#~ msgstr "Э.пошта"
-
-#~ msgid "Video Conferencing"
-#~ msgstr "Відэаканфэрэнцыя"
-
-#~ msgid "work"
-#~ msgstr "праца"
-
-#~ msgid "WWW"
-#~ msgstr "WWW"
-
-#~ msgid "personal"
-#~ msgstr "пэрсанальная"
-
-#~ msgid "Select target addressbook."
-#~ msgstr "Выберыце адрасную кнігу мэты."
-
-#~ msgid "(none)"
-#~ msgstr "(няма)"
-
-#~ msgid "Primary Email"
-#~ msgstr "Першасная Э.пошта"
-
-#~ msgid "Select an Action"
-#~ msgstr "Выбраць дзеяньне"
-
-#~ msgid "Create a new contact \"%s\""
-#~ msgstr "Стварыць новы кантакт \"%s\""
-
-#~ msgid "Add address to existing contact \"%s\""
-#~ msgstr "Дадаць адрас да наяўнага кантакту \"%s\""
-
-#~ msgid "Merge E-Mail Address"
-#~ msgstr "Аб'яднаць адрасы э.пошты"
-
-#~ msgid "GTK Tree View"
-#~ msgstr "Прагляд дрэва GTK"
-
-#~ msgid "Importing ..."
-#~ msgstr "Імпартаваньне ..."
-
-#~ msgid "Print envelope"
-#~ msgstr "Друкаваць паштоўку"
-
-#~ msgid "Print contacts"
-#~ msgstr "Друкаваць кантакты"
-
-#~ msgid "Print contact"
-#~ msgstr "Друкаваць кантакт"
-
-#~ msgid "Input File"
-#~ msgstr "Файл уводу"
-
-#~ msgid ""
-#~ "All information in these journal entries will be deleted and can not be "
-#~ "restored."
-#~ msgstr ""
-#~ "Уся інфармацыя з гэтых запісаў часопісу будзе зьнішчаная й яе нельга "
-#~ "будзе аднавіць"
-
-#~ msgid ""
-#~ "All information on this journal entry will be deleted and can not be "
-#~ "restored."
-#~ msgstr ""
-#~ "Уся інфармацыя аб гэтым часопісе будзе зьнішчаная й яе нельга будзе "
-#~ "аднавіць."
-
-#~ msgid "Are you sure you want to delete the journal entry '{0}'?"
-#~ msgstr "Вы упэўненыя што жадаеце выдаліць запіс часопіса '{0}'?"
-
-#~ msgid "Are you sure you want to delete these {0} journal entries?"
-#~ msgstr "Вы упэўненыя што жадаеце выдаліць гэтыя {0} запісы часопіса?"
-
-#~ msgid "Are you sure you want to delete this journal entry?"
-#~ msgstr "Вы упэўненыя што жадаеце выдаліць гэты запіс часопіса?"
-
-#~ msgid ""
-#~ "If you don't send a cancellation notice, the other participants may not "
-#~ "know the journal has been deleted."
-#~ msgstr ""
-#~ "Калі вы не дашлецё паведамленьне аб скасаваньні, іншыя ўдзельнікі могуць "
-#~ "не даведацца, што часопіс быў выдалены."
-
-#~ msgid ""
-#~ "<big><b>%s</b></big>\n"
-#~ "%s until %s"
-#~ msgstr ""
-#~ "<big><b>%s</b></big>\n"
-#~ "%s пакуль %s"
-
-#~ msgid "_Configure Alarms"
-#~ msgstr "_Наладзіць сыгналы"
-
-#~ msgid "(%d seconds)"
-#~ msgstr "(%d сэкунды)"
-
-#~ msgid "(%d %s %d %s)"
-#~ msgstr "(%d %s %d %s)"
-
-#~ msgid "(%d %s)"
-#~ msgstr "(%d %s)"
-
-#~ msgid " %u second"
-#~ msgstr "%u сэкунда"
-
-#~ msgid " %u seconds"
-#~ msgstr "%u сэкунды"
-
-#~ msgid " %u minute"
-#~ msgstr "%u хвіліна"
-
-#~ msgid " %u minutes"
-#~ msgstr "%u хвіліны"
-
-#~ msgid "%u hour"
-#~ msgstr "%u гадзіна"
-
-#~ msgid "%u hours"
-#~ msgstr "%u гадзіны"
-
-#~ msgid "_Appointment"
-#~ msgstr "_Сустрэча"
-
-#~ msgid "M_eeting"
-#~ msgstr "_Нарада"
-
-#~ msgid "Cale_ndar"
-#~ msgstr "Ка_лендар"
-
-#~ msgid "<b>Publishing</b>"
-#~ msgstr "<b>Публікацыя</b>"
-
-#~ msgid "_Add URL"
-#~ msgstr "_Дадаць URL"
-
-#~ msgid "Add Calendar"
-#~ msgstr "Дадаць календар"
-
-#~ msgid "Add Task List"
-#~ msgstr "Дадаць сьпіс заданьняў"
-
-#~ msgid "_Add Calendar"
-#~ msgstr "_Дадаць календар"
-
-#~ msgid "_Add Task List"
-#~ msgstr "_Дадаць сьпіс заданьняў"
-
-#~ msgid "This journal entry has been deleted."
-#~ msgstr "Гэты запіс часопіса быў выдалены."
-
-#~ msgid "This journal entry has been changed."
-#~ msgstr "Гэты запіс часопіса быў зьменены."
-
-#~ msgid "Journal entry - %s"
-#~ msgstr "Запіс часопіса - %s"
-
-#~ msgid "The journal entry could not be deleted due to a corba error"
-#~ msgstr "Запіс часопіса не можа быць выдалены з-за памылкі corba"
-
-#~ msgid "The journal entry could not be deleted because permission was denied"
-#~ msgstr "Запіс часопіса не можа быць выдалены пакуль доступ забаронены"
-
-#~ msgid "The journal entry could not be deleted due to an error"
-#~ msgstr "Запіс часопіса не можа быць выдалены з-за памылкі"
-
-#~ msgid "Or_ganizer"
-#~ msgstr "Ар_ганізатар:"
-
-#~ msgid "Cale_ndar:"
-#~ msgstr "Кале_ндар:"
-
-#~ msgid "Locat_ion:"
-#~ msgstr "_Месца:"
-
-#~ msgid "_Set alarm\t"
-#~ msgstr "_Усталяваць сыгнал\t"
-
-#~ msgid "<b>Dele_gatees</b>"
-#~ msgstr "<b>_Прадстаўнікі</b>"
-
-#~ msgid "<b>From:</b>"
-#~ msgstr "<b>Ад:</b> "
-
-#~ msgid "<span weight=\"bold\">Basics</span>"
-#~ msgstr "<span weight=\"bold\">Асноўнае</span>"
-
-#~ msgid "Classi_fication:"
-#~ msgstr "Клясы_фікацыя:"
-
-#~ msgid "_Memo Content:"
-#~ msgstr "Зьмест занатоўкі:"
-
-#~ msgid "Add New Calendar"
-#~ msgstr "Дадаць новы календар"
-
-#~ msgid "Calendar Group"
-#~ msgstr "Група календара"
-
-#~ msgid "Calendar Location"
-#~ msgstr "Разьмяшчэньне календара"
-
-#~ msgid "Calendar Name"
-#~ msgstr "Назва календара"
-
-#~ msgid "Add New Task List"
-#~ msgstr "Дадаць новы сьпіс заданьняў"
-
-#~ msgid "Task List Group"
-#~ msgstr "Група сьпісу заданьняў"
-
-#~ msgid "Task List Name"
-#~ msgstr "Назва сьпісу заданьняў"
-
-#~ msgid ""
-#~ "You are modifying a recurring journal entry, what would you like to "
-#~ "modify?"
-#~ msgstr ""
-#~ "Вы зьмяняеце паўтаральны запіс у часопісе, што менавіта вы жадаеце "
-#~ "зьмяніць?"
-
-#~ msgid "_Group"
-#~ msgstr "_Група:"
-
-#~ msgid "D_escription:"
-#~ msgstr "А_пісаньне:"
-
-#~ msgid "Or_ganiser:"
-#~ msgstr "Ар_ганізатар:"
-
-#~ msgid "<b>Free/Busy C_alendars</b>"
-#~ msgstr "<b>Календары занятасьці</b>"
-
-#~ msgid "Free/Busy Publishing Settings"
-#~ msgstr "Усталёўкі публікацыі занятасьці"
-
-#~ msgid "_Daily"
-#~ msgstr "Што_дзённа"
-
-#~ msgid "_Manual"
-#~ msgstr "_Асабіста"
-
-#~ msgid "_Weekly"
-#~ msgstr "Што_тыднёва"
-
-#~ msgid "Memo:"
-#~ msgstr "Занатоўка:"
-
-#~ msgid "Task Table"
-#~ msgstr "Табліца заданьняў"
-
-#~ msgid "Task sort"
-#~ msgstr "Сартаваньне заданьняў"
-
-#~ msgid "Removal Complete"
-#~ msgstr "Выдаленьне скончанае"
-
-#~ msgid "%P %%"
-#~ msgstr "%P %%"
-
-#~ msgid "date-end"
-#~ msgstr "дата-завяршэньня"
-
-#~ msgid "date-start"
-#~ msgstr "дата-пачатку"
-
-#~ msgid "Memo Table"
-#~ msgstr "Табліца занатовак"
-
-#~ msgid "Memo sort"
-#~ msgstr "Упарадкаваньне занатовак"
-
-#~ msgid "Enter the password for %s"
-#~ msgstr "Пазначце пароль для %s"
-
-#~ msgid "Timezone Button"
-#~ msgstr "Кнопка часавай зона"
-
-#~ msgid "Updating query"
-#~ msgstr "Абнаўленьне чаргі"
-
-#~ msgid "Journal information"
-#~ msgstr "Інфармацыя часопіса"
-
-#~ msgid "Properties..."
-#~ msgstr "Уласьцівасьці..."
-
-#~ msgid "_Memo"
-#~ msgstr "_Занатоўка"
-
-#~ msgid "Memo l_ist"
-#~ msgstr "Сьпіс за_натовак"
-
-#~ msgid "Selected day (%a %b %d %Y)"
-#~ msgstr "Вылучаны дзень (%a %b %d %Y)"
-
-#~ msgid "%a %b %d"
-#~ msgstr "%a, %b %d"
-
-#~ msgid "%a %d %Y"
-#~ msgstr "%a, %d %Y"
-
-#~ msgid "%a %b %d %Y"
-#~ msgstr "%a, %b %d %Y"
-
-#~ msgid "Selected week (%s - %s)"
-#~ msgstr "Вылучаны тыдзень (%s - %s)"
-
-#~ msgid "Selected month (%b %Y)"
-#~ msgstr "Вылучаны месяц (%b %Y)"
-
-#~ msgid "Selected year (%Y)"
-#~ msgstr "Вылучаны год (%Y)"
-
-#~ msgid "Print Preview"
-#~ msgstr "Перадпрагляд друку"
-
-#~ msgid "Print Item"
-#~ msgstr "Друк элемэнта"
-
-#~ msgid "Task l_ist"
-#~ msgstr "Сьп_іс заданьняў"
-
-#~ msgid "SMTWTFS"
-#~ msgstr "НПАСЧПС"
-
-#~ msgid "%.0fK"
-#~ msgstr "%.0fКб"
-
-#~ msgid "%.0fM"
-#~ msgstr "%.0fМб"
-
-#~ msgid "%.0fG"
-#~ msgstr "%.0fГб"
-
-#~ msgid "Post To:"
-#~ msgstr "Даслаць на:"
-
-#~ msgid "Unknown reason"
-#~ msgstr "Невядомая прычына"
-
-#~ msgid "_Attachment Bar"
-#~ msgstr "Панэль _укладаньняў"
-
-#~ msgid "The Evolution Groupware Suite"
-#~ msgstr "Збор дастасаваньняў для групавой працы"
-
-#~ msgid "      "
-#~ msgstr "      "
-
-#~ msgid "<b>Receiving Email</b>"
-#~ msgstr "<b> Атрыманьне пошты</b>"
-
-#~ msgid "<b>Sending Email:</b>"
-#~ msgstr "<b>Дасланьне пошты:</b>"
-
-#~ msgid ""
-#~ "<small>This page allows you to choose if you want to be notified via a "
-#~ "read receipt when a message you\n"
-#~ "sent is read, and to specify what Evolution should do when someone "
-#~ "requests a receipt from you.</small>"
-#~ msgstr ""
-#~ "<small>На гэтай старонцы можна пазначыць, ці жадаеце вы атрымліваць "
-#~ "паведамленьні аб прачытаньні дасланых вамі лістоў.\n"
-#~ "Таксама можна пазначыць, штомусіць рабіць праграма \"Evolution\", калі "
-#~ "атрыманы ліст з запытам гэткага паведамленьня.</small>"
-
-#~ msgid "Ask me if I want to send back a read receipt"
-#~ msgstr "Запытацца мяне, ці жадаю я даслаць пацьверджаньне аб прачытаньні"
-
-#~ msgid "Never send back a read receipt"
-#~ msgstr "Ніколі не дасылаць пацьверджаньне аб прачытаньні"
-
-#~ msgid "Read Receipts"
-#~ msgstr "Пацьверджаньне аб прачытаньні"
-
-#~ msgid ""
-#~ "Unless the message is sent to a mailing list, and not to me personally"
-#~ msgstr ""
-#~ "Калі паведамленьне дасылаецца у сьпіс рассылкі, а не пэрсанальна мне"
-
-#~ msgid ""
-#~ "When you receive an email with a read receipt request, what should "
-#~ "Evolution do?"
-#~ msgstr ""
-#~ "Што мусіць рабіць праграма, калі вы атрымалі паведамленьне з "
-#~ "пацьверджаньнем прачытаньня вашага ліста?"
-
-#~ msgid ""
-#~ "A file by that name already exists.\n"
-#~ "Overwrite it?"
-#~ msgstr ""
-#~ "Файл з гэтай назвай ужо існуе.\n"
-#~ "Перапісаць яго?"
-
-#~ msgid "Cannot open file &quot;{0}&quot;."
-#~ msgstr "Немагчыма адкрыць файл &quot;{0}&quot;."
-
-#~ msgid "The orientation of the tray."
-#~ msgstr "Арыентацыя сподку."
-
-#~ msgid "If"
-#~ msgstr "Калі"
-
-#~ msgid "Execute actions"
-#~ msgstr "Выканаць дзеяньні"
-
-#~ msgid "Enable"
-#~ msgstr "Уключыць"
-
-#~ msgid "Mail Accounts Table"
-#~ msgstr "Табліца ўліковых запісаў"
-
-#~ msgid "<b>Then</b>"
-#~ msgstr "<b>Тады</b> "
-
-#~ msgid "Valid signature, cannot verify sender"
-#~ msgstr "Подпісь сапраўдны, не атрымліваецца спраўдзіць адпраўляльніка"
-
-#~ msgid "Attachment Button"
-#~ msgstr "Кнопка ўкладаньня"
-
-#~ msgid "Filters"
-#~ msgstr "Фільтры"
-
-#~ msgid "New Mail Notify type"
-#~ msgstr "Тып паведамленья аб пошце"
-
-#~ msgid "Specifies the type of New Mail Notification the user wishes to use."
-#~ msgstr "Пазначае тып пажаданага паведамленьня аб новай пошце."
-
-#~ msgid "Priority Filter \"%s\""
-#~ msgstr "Фільтр прыярытэту \"%s\""
-
-#~ msgid ""
-#~ "Some of your Netscape email filters are based on\n"
-#~ "email priorities, which are not used in Evolution.\n"
-#~ "Instead, Evolution provides scores in the range of\n"
-#~ "-3 to 3 that can be assigned to emails and filtered\n"
-#~ "accordingly.\n"
-#~ "\n"
-#~ "As a workaround, a set of filters called \"Priority Filter\"\n"
-#~ "was added that converts Netscape's email priorities into\n"
-#~ "Evolution's scores, and the affected filters use scores instead\n"
-#~ "of priorities. Check the imported filters to make sure\n"
-#~ "everything still works as intended."
-#~ msgstr ""
-#~ "Некаторыя з вашых фільтраў электроннай пошты Netscape\n"
-#~ "заснаваныя на прыярытэтах паведамлеьняў, што не выкарыстоўваецца ў "
-#~ "Evolution. \n"
-#~ "Замест гэтага Evolution супастаўляе з паведамленьнямі лічбы ў дыяпазоне \n"
-#~ "-3..3, якія прызначаюцца паведамленьням і тыя могуць быць фіьлтраваныя па "
-#~ "гэтых значэньнях. \n"
-#~ "\n"
-#~ "У якасьці працоўнага асяродзьдзя быў даданы набор фільтраў, \n"
-#~ "які завецца \"Фільтр прыярытэтаў\", які пераўтварае прыярытэты \n"
-#~ "паведамленьяў Netscape у лічбы Evolution, і зьмененыя ім фільтры \n"
-#~ "пачынаюць выкарыстоўваць лічбы замест прыярытэтаў. Праверце \n"
-#~ "імпартаваныя фільтры й упэўніцеся, што яны працуюць, \n"
-#~ "як і мелася на ўвазе."
-
-#~ msgid ""
-#~ "Some of your Netscape email filters use\n"
-#~ "the \"Ignore Thread\" or \"Watch Thread\"\n"
-#~ "feature, which is not supported in Evolution.\n"
-#~ "These filters will be dropped."
-#~ msgstr ""
-#~ "Некаторыя з вашых фільтраў электронай пошты Netscape\n"
-#~ "выкарыстоўваюць магчымасьці \"Ігнараваць сувязі\" ці \"Трымацца сувязяў"
-#~ "\",\n"
-#~ "якія не падтрымліваюцца ў Evolution. Гэтыя фільтры будуць скінутыя."
-
-#~ msgid ""
-#~ "Some of your Netscape email filters test the\n"
-#~ "body of emails for (in)equality to a given string,\n"
-#~ "which is not supported in Evolution. Those filters\n"
-#~ "were modified to test whether that string is or is not\n"
-#~ "contained in the message body."
-#~ msgstr ""
-#~ "Некаторыя з вашых фільтраў электроннай пошты Netscape\n"
-#~ "правяраюць цела паведамленьняў на (не)роўнасьць з зададзеным радком,\n"
-#~ "што не падтрымліваецца ў Evolution. Гэтыя фільтры будуць зьмененыя\n"
-#~ "на праверку наяўнасьці (адсутнасьці) зададзенага радку ў целе ліста."
-
-#~ msgid "Evolution is importing your old Netscape data"
-#~ msgstr "Імпартаваньне вашых старыя даньняў з Netscape"
-
-#~ msgid "Importing Netscape data"
-#~ msgstr "Імпартаваньне даньняў Netscape"
-
-#~ msgid "Settings"
-#~ msgstr "Усталёўкі"
-
-#~ msgid "Mail Filters"
-#~ msgstr "Фільтры пошты"
-
-#~ msgid ""
-#~ "Evolution has found Netscape mail files.\n"
-#~ "Would you like them to be imported into Evolution?"
-#~ msgstr ""
-#~ "Адшуканыя паштовыя файлы Netscape.\n"
-#~ "Жадаеце імпартаваць іх у Evolution?"
-
-#~ msgid "_Mail Message"
-#~ msgstr "_Паштовае паведамленьне"
-
-#~ msgid "Mail _Folder"
-#~ msgstr "Па_штовая тэчка"
-
-#~ msgid "<span weight=\"bold\">Filter Options</span>"
-#~ msgstr "<span weight=\"bold\">Можнасьці фільтра</span>"
-
-#~ msgid "<span weight=\"bold\">Labels and Colors</span>"
-#~ msgstr "<span weight=\"bold\">Адмеціны й колеры</span>"
-
-#~ msgid "<span weight=\"bold\">New Mail Notification</span>"
-#~ msgstr ""
-#~ "<span weight=\"bold\">Паведамленьне аб атрыманьні новай пошты</span>"
-
-#~ msgid "Attach original message"
-#~ msgstr "Укласьці арыгінальнае паведамленьне"
-
-#~ msgid "Beep w_hen new mail arrives"
-#~ msgstr "Сыгналіць _дынамікам па атрыманьні новай пошты"
-
-#~ msgid "Do not quote original message"
-#~ msgstr "Не цытаваць арыгінальнае паведамленьне"
-
-#~ msgid "Execute Command..."
-#~ msgstr "Выканаць каманду..."
-
-#~ msgid "HTML Mail"
-#~ msgstr "Пошта HTML"
-
-#~ msgid "Quote original message"
-#~ msgstr "Цытаваць арыгінальнае паведамленьне"
-
-#~ msgid "Se_lect..."
-#~ msgstr "В_ылучыць..."
-
-#~ msgid "T_erminal Font:"
-#~ msgstr "Т_эрмінальны шрыфт:"
-
-#~ msgid "_Do not notify me when new mail arrives"
-#~ msgstr "_Не паведамляць пра атрыманьне новай пошты"
-
-#~ msgid "_Show animated images"
-#~ msgstr "_Паказваць анімаваныя відарысы"
-
-#~ msgid "_Subscribe"
-#~ msgstr "Падп_ісацца"
-
-#~ msgid "Filtering Folder"
-#~ msgstr "Фільтраваньне тэчкі"
-
-#~ msgid "Server: %s, Type: %s"
-#~ msgstr "Паслужнік: %s, Тып: %s"
-
-#~ msgid "Path: %s, Type: %s"
-#~ msgstr "Шлях: %s, Тып: %s"
-
-#~ msgid "Type: %s"
-#~ msgstr "Тып: %s"
-
-#~ msgid "Enter a name for this signature."
-#~ msgstr "Пазначце назву для гэтага подпісу."
-
-#~ msgid "Name:"
-#~ msgstr "Назва:"
-
-#~ msgid ""
-#~ "Are you sure you want to permanently remove all the deleted messages in "
-#~ "folder &quot;{0}&quot;?"
-#~ msgstr ""
-#~ "Вы сапраўды жадаеце канчаткова й неадкладна зьнішчыць усе выдаленыя "
-#~ "паведамленьні ў тэчцы &quot;{0}&quot;?"
-
-#~ msgid "Delete &quot;{0}&quot;?"
-#~ msgstr "Выдаліць &quot;{0}&quot;?"
-
-#~ msgid "Do you want the operation to be performed in the subfolders?"
-#~ msgstr "Выканаць дзеяньне ў падпарадкаваных тэчках?"
-
-#~ msgid ""
-#~ "The message was sent via the &quot;sendmail&quot; external application.  "
-#~ "Sendmail reports the following error: status 67: mail not sent.\n"
-#~ "The message is stored in the Outbox folder.  Check the message for errors "
-#~ "and resend."
-#~ msgstr ""
-#~ "Паведамленьне было дасланае пры дапамозе вонкавага дастасаваньня &quot;"
-#~ "sendmail&quot;.  Sendmail паведаміў аб наступнай памылцы: стан 67: пошта "
-#~ "не дасланая.\n"
-#~ "Паведамленьне захаванае ў тэчцы \"Зыходныя\". Праверце паведамленьне на "
-#~ "памылкі й дашліце яшчэ раз."
-
-#~ msgid "Your message with the subject &quot;{0}&quot; was not delivered."
-#~ msgstr "Вашае паведамленьне з тэмай &quot;{0}&quot; не было дастаўленае."
-
-#~ msgid "Message List"
-#~ msgstr "Сьпіс паведамленьняў"
-
-#~ msgid "Original Location"
-#~ msgstr "Арыгінальнае разьмяшчэньне"
-
-#~ msgid "<span weight=\"bold\">Automatic Contacts</span>"
-#~ msgstr "<span weight=\"bold\">Аўтаматычныя кантакты</span>"
-
-#~ msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
-#~ msgstr "<span weight=\"bold\">Кантакты імгненных паведамленьняў</span>"
-
-#~ msgid "Automatic contacts"
-#~ msgstr "Аўтаматычныя кантакты"
-
-#~ msgid "Subscribe to Other User's"
-#~ msgstr "Падпісацца на чужыя тэчкі"
-
-#~ msgid "_Contacts..."
-#~ msgstr "_Кантакты..."
-
-#~ msgid "dialog1"
-#~ msgstr "дыялёг1"
-
-#~ msgid ""
-#~ "The output directory was not found on iPod! Please ensure that iPod has "
-#~ "been correctly set up and try again."
-#~ msgstr ""
-#~ "Каталёг вываду не быў адшуканы на iPod! Калі ласка праверце што iPod быў "
-#~ "карэктна наладжаны й паспрабуйце яшчэ раз."
-
-#~ msgid "Could not export data!"
-#~ msgstr "Немагчыма экспартаваць даньні!"
-
-#~ msgid "Exporting data failed."
-#~ msgstr "Збой экспартаваньня даньняў."
-
-#~ msgid "Could not open addressbook!"
-#~ msgstr "Немагчыма адкрыць адрасную кнігу!"
-
-#~ msgid "Could not open the Evolution addressbook to export data."
-#~ msgstr "Немагчыма адкрыць адрасну кнігу Evolution для экспарту даньняў."
-
-#~ msgid "Could not open calendar/todo!"
-#~ msgstr "Немагчыма адкрыць каляндар/заплянаванае"
-
-#~ msgid "Could not open the Evolution calendar/todo list to export data."
-#~ msgstr ""
-#~ "Немагчыма адкрыць календар/сьпіс заплянаванага для экспарту даньняў."
-
-#~ msgid "<span weight=\"bold\">Conflict Search</span>"
-#~ msgstr "<span weight=\"bold\">Пошук канфліктаў</span>"
-
-#~ msgid "System error: %s"
-#~ msgstr "Сыстэмная памылка: %s"
-
-#~ msgid "Account cannot send e-mail"
-#~ msgstr "Уліковы запіс не можа дасылаць пошту"
-
-#~ msgid "No store available"
-#~ msgstr "Няма даступнага сховішча"
-
-#~ msgid ""
-#~ "A plugin which implements a CORBA interface for accessing mail data "
-#~ "remotely."
-#~ msgstr ""
-#~ "Модуль, які рэалізуе інтэрфэйс CORBA для аддаленага доступу да паштовых "
-#~ "даньняў."
-
-#~ msgid "Mail Remote"
-#~ msgstr "Аддалены доступ да пошты"
-
-#~ msgid "New mail notify"
-#~ msgstr "Паведамленьне аб пошце"
-
-#~ msgid "Plugin manager"
-#~ msgstr "Кіраўнік модуляў"
-
-#~ msgid "Id"
-#~ msgstr "Id"
-
-#~ msgid "Path"
-#~ msgstr "Шлях"
-
-#~ msgid "Gives an option to print mail from composer"
-#~ msgstr "Надаемагчымасьць друку паведамленьня з рэдактару"
-
-#~ msgid "Prints the message"
-#~ msgstr "Друкуе гэтае паведамленьне"
-
-#~ msgid "Uid"
-#~ msgstr "Uid"
-
-#~ msgid "Url"
-#~ msgstr "Url"
-
-#~ msgid "Startup wizard"
-#~ msgstr "Пуск чараўніку"
-
-#~ msgid "A GNOME Print description of the current printer settings"
-#~ msgstr "Апісаньне парамэтраў друкаркі ў фармаце GNOME Print"
-
-#~ msgid "Printer settings"
-#~ msgstr "Усталёўкі друкаркі"
-
-#~ msgid "(Untitled)"
-#~ msgstr "(Бяз назвы)"
-
-#~ msgid "Evolution Settings"
-#~ msgstr "Усталёўкі Evolution"
-
-#~ msgid "No folder name specified."
-#~ msgstr "Назва тэчкі не пазначана."
-
-#~ msgid "Folder name cannot contain the Return character."
-#~ msgstr "Назва не мусіць ўтрымліваць сымбаль новага радка."
-
-#~ msgid "Folder name cannot contain the character \"/\"."
-#~ msgstr "Назва тэчкі ня мусіць ўтрымліваць сымбаль \"/\"."
-
-#~ msgid "Folder name cannot contain the character \"#\"."
-#~ msgstr "Назва тэчкі ня мусіць ўтрымліваць сымбаль \"#\"."
-
-#~ msgid "'.' and '..' are reserved folder names."
-#~ msgstr "'.' і '..' зарэзэрваваныя назвы тэчак."
-
-#~ msgid "_Test"
-#~ msgstr "_Праверка"
-
-#~ msgid "CN"
-#~ msgstr "CN"
-
-#~ msgid "OU"
-#~ msgstr "OU"
-
-#~ msgid "O"
-#~ msgstr "O"
-
-#~ msgid "L"
-#~ msgstr "L"
-
-#~ msgid "DN"
-#~ msgstr "DN"
-
-#~ msgid "DC"
-#~ msgstr "DC"
-
-#~ msgid "ST"
-#~ msgstr "ST"
-
-#~ msgid "E"
-#~ msgstr "E"
-
-#~ msgid "Content type of the attachment."
-#~ msgstr "Тып зьместу укладаньня."
-
-#~ msgid "The filename to display in the mail."
-#~ msgstr "Назва файла для адлюстраваньня ў лісьце."
-
-#~ msgid "Description of the attachment."
-#~ msgstr "Апісаньне укладаньня."
-
-#~ msgid "Mark attachment to be shown inline by default."
-#~ msgstr ""
-#~ "Пазначаць укладаньне для прадвызначанага адлюстраваньня ўбудаваным "
-#~ "модулем."
-
-#~ msgid "_Select All"
-#~ msgstr "В_ылучыць усё"
-
-#~ msgid "Delete this Occurrence"
-#~ msgstr "Выдаліць гэтае супадзеньне"
-
-#~ msgid "_Attachments"
-#~ msgstr "_Укладаньні"
-
-#~ msgid "Show Time _Zone"
-#~ msgstr "Адлюстроўваць часавую _зону"
-
-#~ msgid "_All day Event"
-#~ msgstr "Падзея _усяго дня"
-
-#~ msgid "Customize My Evolution"
-#~ msgstr "Наладзіць Evolution"
-
-#~ msgid "Reply to _All..."
-#~ msgstr "Адказаць _усім..."
-
-#~ msgid "Reply to _List..."
-#~ msgstr "Адказаць у _сьпіс..."
-
-#~ msgid "Show message in the normal style"
-#~ msgstr "Паказаць паведамленьне ў звычайным стылі"
-
-#~ msgid "_Forward..."
-#~ msgstr "_Пераслаць..."
-
-#~ msgid "_Reply to Sender..."
-#~ msgstr "Адказаць _адпраўляльніку..."
-
-#~ msgid "Delete all but signature"
-#~ msgstr "Выдаліць усе подпісы"
-
-#~ msgid "For_mat"
-#~ msgstr "Фар_мат"
-
-#~ msgid "HT_ML"
-#~ msgstr "HTML"
-
-#~ msgid "Open a file"
-#~ msgstr "Адкрыць файл"
-
-#~ msgid "Save in folder..."
-#~ msgstr "Захаваць у тэчку..."
-
-#~ msgid "Save the message in a specified folder"
-#~ msgstr "Захаваць паведамленьне ў пазначанай тэчцы"
-
-#~ msgid "Send the mail in HTML format"
-#~ msgstr "Даслаць ліст у фармаце HTML"
-
-#~ msgid "_Open..."
-#~ msgstr "_Адкрыць..."
-
-#~ msgid "C_lose"
-#~ msgstr "_Закрыць"
-
-#~ msgid "H_TML"
-#~ msgstr "_HTML"
-
-#~ msgid "Save and _Close"
-#~ msgstr "Захаваць і _закрыць"
-
-#~ msgid "Save the current file and close the window"
-#~ msgstr "Захаваць гэты файл і закрыць акно"
-
-#~ msgid "Refresh List"
-#~ msgstr "Абнавіць сьпіс"
-
-#~ msgid "Refresh List of Folders"
-#~ msgstr "Абнавіць сьпіс тэчак"
-
-#~ msgid "Remove folder from your list of subscribed folders"
-#~ msgstr "Выдаліць тэчку з вашага сьпісу падпісаных тэчак"
-
-#~ msgid "Subscribe"
-#~ msgstr "Падпісацца"
-
-#~ msgid "Unsubscribe"
-#~ msgstr "Адпісацца"
-
-#~ msgid "_Invert Selection"
-#~ msgstr "_Інвэртаваць вылучэньне"
-
-#~ msgid "Status Details"
-#~ msgstr "Падрабязнасьці стану"
-
-#~ msgid "_About Evolution..."
-#~ msgstr "_Пра дастасаваньне Evolution..."
-
-#~ msgid "_Send / Receive"
-#~ msgstr "_Даслаць / Атрымаць"
-
-#~ msgid "TimeZone Combobox"
-#~ msgstr "Выпадальны сьпіс выбару часавай зоны"
-
-#~ msgid "_Edit..."
-#~ msgstr "_Рэдагаваць..."
-
-#~ msgid "MTWTFSS"
-#~ msgstr "ПАСЧПСН"
-
-#~ msgid "Previous Button"
-#~ msgstr "Папярэдняя кнопка"
-
-#~ msgid "..."
-#~ msgstr "..."
-
-#~ msgid "Text Date Entry"
-#~ msgstr "Тэкставы вывад даты"
-
-#~ msgid "Date Button"
-#~ msgstr "Кнопка даты"
-
-#~ msgid "Time Combo Box"
-#~ msgstr "Выпадальны сьпіс часу"
-
-#~ msgid "%H:%M"
-#~ msgstr "%H:%M"
-
-#~ msgid "%I:%M %p"
-#~ msgstr "%I:%M %p"
-
-#~ msgid "Search Text Entry"
-#~ msgstr "Поле пошуку"
-
-#~ msgid "Search Type"
-#~ msgstr "Тып пошуку"
-
-#~ msgid "Subitem ID"
-#~ msgstr "ІД падпункта"
-
-#~ msgid "Find _Now"
-#~ msgstr "Шукаць _зараз"
-
-#~ msgid "C_lassification"
-#~ msgstr "К_лясыфікацыя"
-
-#~ msgid "<- _Remove"
-#~ msgstr "< - _Выдаліць"
-
-#~ msgid "Sh_ow these fields in order:"
-#~ msgstr "Адлюстроўваць гэтыя палі ў парадку:"
-
-#~ msgid "_Add ->"
-#~ msgstr "_Дадаць ->"
-
-#~ msgid "%s : %s (%d items)"
-#~ msgstr "%s : %s (%d элемэнтаў)"
-
-#~ msgid "%s (%d items)"
-#~ msgstr "%s (%d элемэнтаў)"
-
-#~ msgid "Fontset"
-#~ msgstr "Шрыфты"
-
-#~ msgid "Always Search"
-#~ msgstr "Заўсёды шукаць"
-
-#~ msgid "Minicard Test"
-#~ msgstr "Тэст Minicard"
-
-#~ msgid "Copyright (C) 2000, Helix Code, Inc."
-#~ msgstr "Аўтарскае права © 2000, Helix Code, Inc."
-
-#~ msgid "This should test the minicard canvas item"
-#~ msgstr "Праверка элемэнту палатна мінікарткі"
-
-#~ msgid "Font"
-#~ msgstr "Шрыфт"
-
-#~ msgid "GDKFont"
-#~ msgstr "GDKFont"
-
-#~ msgid "Emulate label resize"
-#~ msgstr "Эмуляцыя зьмены памеру адмеціны"
-
-#~ msgid "Remove"
-#~ msgstr "Выдаліць"
-
-#~ msgid "Don't Remove"
-#~ msgstr "Не выдаляць"
-
-#~ msgid "05 minutes"
-#~ msgstr "05 хвілін"
-
-#~ msgid "10 minutes"
-#~ msgstr "10 хвілін"
-
-#~ msgid "15 minutes"
-#~ msgstr "15 хвілін"
-
-#~ msgid "30 minutes"
-#~ msgstr "30 хвілін"
-
-#~ msgid "60 minutes"
-#~ msgstr "60 хвілін"
-
-#~ msgid "<b>Default Free/Busy Server</b>"
-#~ msgstr "<b>Прадвызначаны паслужнік занятасьці</b>"
-
-#~ msgid "<b>General</b>"
-#~ msgstr "<b>Асноўнае</b>"
-
-#~ msgid "<b>Task List</b>"
-#~ msgstr "<b>Сьпіс заданьняў</b>"
-
-#~ msgid "<b>Time</b>"
-#~ msgstr "<b>Час</b> "
-
-#~ msgid "<b>Work Week</b>"
-#~ msgstr "<b>Працоўны тыдзень</b>"
-
-#~ msgid "Calendar and Tasks Settings"
-#~ msgstr "Усталёўкі календара і заданьняў"
-
-#~ msgid "Color for overdue tasks"
-#~ msgstr "Колер для пратэрмінаваных заданьняў"
-
-#~ msgid "Color for tasks due today"
-#~ msgstr "Колер для заданьняў на сёньня"
-
-#~ msgid "Days"
-#~ msgstr "Дні"
-
-#~ msgid "Hours"
-#~ msgstr "Гадзіны"
-
-#~ msgid "Minutes"
-#~ msgstr "Хвіліны"
-
-#~ msgid "option menu to choose reminder units"
-#~ msgstr "мэню выбару адзінак нагадваньня"
-
-#~ msgid "option menu to choose time units"
-#~ msgstr "мэню выбару адзінак часу"
-
-#~ msgid "_Publish Free/Busy Information"
-#~ msgstr "_Апублікаваць інфармацыю аб занятасьці"
-
-#~ msgid "%a %m/%d/%Y %I:%M %p"
-#~ msgstr "%a, %d/%m/%Y %I:%M %p"
-
-#~ msgid "%a %m/%d/%Y %H:%M"
-#~ msgstr "%a, %d/%m/%Y %H:%M"
-
-#~ msgid "%a %m/%d/%Y %I %p"
-#~ msgstr "%a, %d/%m/%Y %I %p"
-
-#~ msgid "%a %m/%d/%Y %H"
-#~ msgstr "%a, %d/%m/%Y %H"
-
-#~ msgid "%m/%d/%Y %I:%M:%S %p"
-#~ msgstr "%d/%m/%Y %I:%M:%S %p"
-
-#~ msgid "%m/%d/%Y %H:%M:%S"
-#~ msgstr "%d/%m/%Y %H:%M:%S"
-
-#~ msgid "%m/%d/%Y %I:%M %p"
-#~ msgstr "%d.%m.%Y %I:%M %p"
-
-#~ msgid "%m/%d/%Y %H:%M"
-#~ msgstr "%d.%m.%Y %H:%M"
-
-#~ msgid "%m/%d/%Y %I %p"
-#~ msgstr "%d.%m.%Y %I %p"
-
-#~ msgid "%m/%d/%Y %H"
-#~ msgstr "%d.%m.%Y %H"
-
-#~ msgid "%I:%M:%S %p"
-#~ msgstr "%I:%M:%S %p"
-
-#~ msgid "%H:%M:%S"
-#~ msgstr "%H:%M:%S"
-
-#~ msgid "%I %p"
-#~ msgstr "%I %p"
-
-#~ msgid "Exchange Connector access error."
-#~ msgstr "Памылка доступу Exchange Connector."
-
-#~ msgid "Publish Free/Busy information for this calendar"
-#~ msgstr "Апублікаваць інфармацыю аб занятасьці для гэтага календара"
-
-#~ msgid "Move"
-#~ msgstr "Перамясьціць"
