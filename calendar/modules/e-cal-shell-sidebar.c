@@ -421,7 +421,7 @@ cal_shell_sidebar_constructed (GObject *object)
 	/* Restore the selector state from the last session. */
 
 	selector = E_SOURCE_SELECTOR (priv->selector);
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (selector));
 
 	g_signal_connect_swapped (
 		model, "row-changed",

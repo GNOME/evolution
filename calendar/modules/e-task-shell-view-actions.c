@@ -134,16 +134,15 @@ action_task_delete_cb (GtkAction *action,
 	ETaskShellContent *task_shell_content;
 	ECalComponentPreview *task_preview;
 	ECalendarTable *task_table;
-	const gchar *status_message;
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
 	task_preview = e_task_shell_content_get_task_preview (task_shell_content);
 
-	status_message = _("Deleting selected tasks...");
-	e_task_shell_view_set_status_message (task_shell_view, status_message);
+	e_task_shell_view_set_status_message (
+		task_shell_view, _("Deleting selected tasks..."), -1.0);
 	e_calendar_table_delete_selected (task_table);
-	e_task_shell_view_set_status_message (task_shell_view, NULL);
+	e_task_shell_view_set_status_message (task_shell_view, NULL, -1.0);
 
 	e_cal_component_preview_clear (task_preview);
 }

@@ -122,7 +122,8 @@ void		e_memo_shell_view_open_memo
 					 ECalModelComponent *comp_data);
 void		e_memo_shell_view_set_status_message
 					(EMemoShellView *memo_shell_view,
-					 const gchar *status_message);
+					 const gchar *status_message,
+					 gdouble percent);
 void		e_memo_shell_view_update_sidebar
 					(EMemoShellView *memo_shell_view);
 void		e_memo_shell_view_update_search_filter

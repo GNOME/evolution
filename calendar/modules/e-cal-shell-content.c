@@ -62,6 +62,8 @@ struct _ECalShellContentPrivate {
 	EMemoTableConfig *memo_table_config;
 
 	GalViewInstance *view_instance;
+
+	guint paned_binding_id;
 };
 
 enum {

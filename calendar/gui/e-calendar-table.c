@@ -108,27 +108,36 @@ static void
 calendar_table_emit_open_component (ECalendarTable *cal_table,
                                     ECalModelComponent *comp_data)
 {
-	g_signal_emit (cal_table, signals[OPEN_COMPONENT], 0, comp_data);
+	guint signal_id = signals[OPEN_COMPONENT];
+
+	g_signal_emit (cal_table, signal_id, 0, comp_data);
 }
 
 static void
 calendar_table_emit_popup_event (ECalendarTable *cal_table,
                                  GdkEvent *event)
 {
-	g_signal_emit (cal_table, signals[POPUP_EVENT], 0, event);
+	guint signal_id = signals[POPUP_EVENT];
+
+	g_signal_emit (cal_table, signal_id, 0, event);
 }
 
 static void
 calendar_table_emit_status_message (ECalendarTable *cal_table,
-                                    const gchar *message)
+                                    const gchar *message,
+                                    gdouble percent)
 {
-	g_signal_emit (cal_table, signals[STATUS_MESSAGE], 0, message);
+	guint signal_id = signals[STATUS_MESSAGE];
+
+	g_signal_emit (cal_table, signal_id, 0, message, percent);
 }
 
 static void
 calendar_table_emit_user_created (ECalendarTable *cal_table)
 {
-	g_signal_emit (cal_table, signals[USER_CREATED], 0);
+	guint signal_id = signals[USER_CREATED];
+
+	g_signal_emit (cal_table, signal_id, 0);
 }
 
 static gint
@@ -233,6 +242,25 @@ calendar_table_double_click_cb (ECalendarTable *cal_table,
 
 	comp_data = e_cal_model_get_component_at (cal_table->model, row);
 	calendar_table_emit_open_component (cal_table, comp_data);
+}
+
+static void
+calendar_table_model_cal_view_progress_cb (ECalendarTable *cal_table,
+                                           const gchar *message,
+                                           gint progress,
+                                           ECalSourceType type)
+{
+	gdouble percent = (gdouble) progress;
+
+	calendar_table_emit_status_message (cal_table, message, percent);
+}
+
+static void
+calendar_table_model_cal_view_done_cb (ECalendarTable *cal_table,
+                                       ECalendarStatus status,
+                                       ECalSourceType type)
+{
+	calendar_table_emit_status_message (cal_table, NULL, -1.0);
 }
 
 static gboolean
@@ -438,6 +466,7 @@ calendar_table_query_tooltip_cb (ECalendarTable *cal_table,
 
 	return TRUE;
 }
+
 static gboolean
 calendar_table_popup_menu_cb (ECalendarTable *cal_table)
 {
@@ -604,9 +633,20 @@ calendar_table_init (ECalendarTable *cal_table)
 	/* Create the model */
 
 	cal_table->model = (ECalModel *) e_cal_model_tasks_new ();
+
 	g_signal_connect_swapped (
 		cal_table->model, "row_appended",
 		G_CALLBACK (calendar_table_emit_user_created), cal_table);
+
+	g_signal_connect_swapped (
+		cal_table->model, "cal-view-progress",
+		G_CALLBACK (calendar_table_model_cal_view_progress_cb),
+		cal_table);
+
+	g_signal_connect_swapped (
+		cal_table->model, "cal-view-done",
+		G_CALLBACK (calendar_table_model_cal_view_done_cb),
+		cal_table);
 
 	/* Create the header columns */
 
@@ -980,7 +1020,7 @@ delete_selected_components (ECalendarTable *cal_table)
 	objs = e_calendar_table_get_selected (cal_table);
 
 	status_message = _("Deleting selected objects");
-	calendar_table_emit_status_message (cal_table, status_message);
+	calendar_table_emit_status_message (cal_table, status_message, -1.0);
 
 	for (l = objs; l; l = l->next) {
 		ECalModelComponent *comp_data = (ECalModelComponent *) l->data;
@@ -992,7 +1032,7 @@ delete_selected_components (ECalendarTable *cal_table)
 		g_clear_error (&error);
 	}
 
-	calendar_table_emit_status_message (cal_table, NULL);
+	calendar_table_emit_status_message (cal_table, NULL, -1.0);
 
 	g_slist_free (objs);
 }
@@ -1274,7 +1314,7 @@ clipboard_get_calendar_data (ECalendarTable *cal_table, const gchar *text)
 	client = e_cal_model_get_default_client (cal_table->model);
 
 	status_message = _("Updating objects");
-	calendar_table_emit_status_message (cal_table, _("Updating objects"));
+	calendar_table_emit_status_message (cal_table, status_message, -1.0);
 
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
 		icalcomponent_kind child_kind;
@@ -1319,7 +1359,7 @@ clipboard_get_calendar_data (ECalendarTable *cal_table, const gchar *text)
 		g_object_unref (comp);
 	}
 
-	calendar_table_emit_status_message (cal_table, NULL);
+	calendar_table_emit_status_message (cal_table, NULL, -1.0);
 }
 
 static void

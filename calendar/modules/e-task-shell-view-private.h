@@ -131,7 +131,8 @@ void		e_task_shell_view_open_task
 					 ECalModelComponent *comp_data);
 void		e_task_shell_view_set_status_message
 					(ETaskShellView *task_shell_view,
-					 const gchar *status_message);
+					 const gchar *status_message,
+					 gdouble percent);
 void		e_task_shell_view_update_sidebar
 					(ETaskShellView *task_shell_view);
 void		e_task_shell_view_update_search_filter

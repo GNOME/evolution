@@ -521,7 +521,8 @@ exit:
 
 void
 e_task_shell_view_set_status_message (ETaskShellView *task_shell_view,
-                                      const gchar *status_message)
+                                      const gchar *status_message,
+                                      gdouble percent)
 {
 	EActivity *activity;
 	EShellView *shell_view;
@@ -542,10 +543,13 @@ e_task_shell_view_set_status_message (ETaskShellView *task_shell_view,
 
 	} else if (activity == NULL) {
 		activity = e_activity_new (status_message);
+		e_activity_set_percent (activity, percent);
 		e_shell_module_add_activity (shell_module, activity);
 
-	} else
+	} else {
+		e_activity_set_percent (activity, percent);
 		e_activity_set_primary_text (activity, status_message);
+	}
 
 	task_shell_view->priv->activity = activity;
 }

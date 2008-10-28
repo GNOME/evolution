@@ -90,7 +90,8 @@ struct _EMemoTableClass {
 	void	(*popup_event)			(EMemoTable *memo_table,
 						 GdkEvent *event);
 	void	(*status_message)		(EMemoTable *memo_table,
-						 const gchar *message);
+						 const gchar *message,
+						 gdouble percent);
 	void	(*user_created)			(EMemoTable *memo_table);
 };
 

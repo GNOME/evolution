@@ -104,7 +104,9 @@ struct _ECalShellViewPrivate {
 	/* The last time explicitly selected by the user. */
 	time_t base_view_time;
 
-	EActivity *activity;
+	EActivity *calendar_activity;
+	EActivity *memopad_activity;
+	EActivity *taskpad_activity;
 };
 
 void		e_cal_shell_view_private_init
@@ -128,7 +130,8 @@ void		e_cal_shell_view_open_event
 					 ECalModelComponent *comp_data);
 void		e_cal_shell_view_set_status_message
 					(ECalShellView *cal_shell_view,
-					 const gchar *status_message);
+					 const gchar *status_message,
+					 gdouble percent);
 void		e_cal_shell_view_update_sidebar
 					(ECalShellView *cal_shell_view);
 void		e_cal_shell_view_update_search_filter
@@ -143,6 +146,10 @@ void		e_cal_shell_view_memopad_actions_update
 void		e_cal_shell_view_memopad_open_memo
 					(ECalShellView *cal_shell_view,
 					 ECalModelComponent *comp_data);
+void		e_cal_shell_view_memopad_set_status_message
+					(ECalShellView *cal_shell_view,
+					 const gchar *status_message,
+					 gdouble percent);
 
 /* Task Pad Utilities */
 
@@ -153,6 +160,10 @@ void		e_cal_shell_view_taskpad_actions_update
 void		e_cal_shell_view_taskpad_open_task
 					(ECalShellView *cal_shell_view,
 					 ECalModelComponent *comp_data);
+void		e_cal_shell_view_taskpad_set_status_message
+					(ECalShellView *cal_shell_view,
+					 const gchar *status_message,
+					 gdouble percent);
 
 G_END_DECLS
 

@@ -84,7 +84,8 @@ struct _ECalendarTableClass {
 	void	(*popup_event)			(ECalendarTable *cal_table,
 						 GdkEvent *event);
 	void	(*status_message)		(ECalendarTable *cal_table,
-						 const gchar *message);
+						 const gchar *message,
+						 gdouble percent);
 	void	(*user_created)			(ECalendarTable *cal_table);
 };
 

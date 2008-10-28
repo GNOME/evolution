@@ -26,6 +26,7 @@
 #include <libecal/e-cal.h>
 
 #include "e-util/e-error.h"
+#include "e-util/e-util.h"
 #include "calendar/common/authentication.h"
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/e-calendar-selector.h"
@@ -83,7 +84,7 @@ memo_shell_sidebar_emit_status_message (EMemoShellSidebar *memo_shell_sidebar,
 {
 	guint signal_id = signals[STATUS_MESSAGE];
 
-	g_signal_emit (memo_shell_sidebar, signal_id, 0, status_message);
+	g_signal_emit (memo_shell_sidebar, signal_id, 0, status_message, -1.0);
 }
 
 static void
@@ -558,9 +559,10 @@ memo_shell_sidebar_class_init (EMemoShellSidebarClass *class)
 		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
 		G_STRUCT_OFFSET (EMemoShellSidebarClass, status_message),
 		NULL, NULL,
-		g_cclosure_marshal_VOID__STRING,
-		G_TYPE_NONE, 1,
-		G_TYPE_STRING);
+		e_marshal_VOID__STRING_DOUBLE,
+		G_TYPE_NONE, 2,
+		G_TYPE_STRING,
+		G_TYPE_DOUBLE);
 }
 
 static void

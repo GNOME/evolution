@@ -225,6 +225,8 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	EShellView *shell_view;
 	GnomeCalendar *calendar;
 	ECalendar *mini_calendar;
+	EMemoTable *memo_table;
+	ECalendarTable *task_table;
 	guint notification;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
@@ -237,6 +239,8 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 
 	cal_shell_content = E_CAL_SHELL_CONTENT (shell_content);
 	calendar = e_cal_shell_content_get_calendar (cal_shell_content);
+	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
+	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
 	cal_shell_sidebar = E_CAL_SHELL_SIDEBAR (shell_sidebar);
 	mini_calendar = e_cal_shell_sidebar_get_mini_calendar (cal_shell_sidebar);
@@ -265,6 +269,26 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		G_CALLBACK (cal_shell_view_mini_calendar_selection_changed_cb),
 		cal_shell_view);
 
+	g_signal_connect_swapped (
+		memo_table, "status-message",
+		G_CALLBACK (e_cal_shell_view_memopad_set_status_message),
+		cal_shell_view);
+
+	g_signal_connect_swapped (
+		task_table, "status-message",
+		G_CALLBACK (e_cal_shell_view_taskpad_set_status_message),
+		cal_shell_view);
+
+	g_signal_connect_swapped (
+		e_memo_table_get_table (memo_table), "selection-change",
+		G_CALLBACK (e_cal_shell_view_memopad_actions_update),
+		cal_shell_view);
+
+	g_signal_connect_swapped (
+		e_calendar_table_get_table (task_table), "selection-change",
+		G_CALLBACK (e_cal_shell_view_taskpad_actions_update),
+		cal_shell_view);
+
 	/* Listen for configuration changes. */
 
 #if 0
@@ -279,7 +303,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		G_CALLBACK (e_cal_shell_view_update_search_filter),
 		cal_shell_view);
 
-	e_cal_shell_view_actions_init (shell_view);
+	e_cal_shell_view_actions_init (cal_shell_view);
 	e_cal_shell_view_update_sidebar (cal_shell_view);
         e_cal_shell_view_update_search_filter (cal_shell_view);
 }
@@ -297,11 +321,25 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 	DISPOSE (priv->cal_shell_content);
 	DISPOSE (priv->cal_shell_sidebar);
 
-	if (cal_shell_view->priv->activity != NULL) {
+	if (cal_shell_view->priv->calendar_activity != NULL) {
 		/* XXX Activity is not cancellable. */
-		e_activity_complete (cal_shell_view->priv->activity);
-		g_object_unref (cal_shell_view->priv->activity);
-		cal_shell_view->priv->activity = NULL;
+		e_activity_complete (cal_shell_view->priv->calendar_activity);
+		g_object_unref (cal_shell_view->priv->calendar_activity);
+		cal_shell_view->priv->calendar_activity = NULL;
+	}
+
+	if (cal_shell_view->priv->memopad_activity != NULL) {
+		/* XXX Activity is not cancellable. */
+		e_activity_complete (cal_shell_view->priv->memopad_activity);
+		g_object_unref (cal_shell_view->priv->memopad_activity);
+		cal_shell_view->priv->memopad_activity = NULL;
+	}
+
+	if (cal_shell_view->priv->taskpad_activity != NULL) {
+		/* XXX Activity is not cancellable. */
+		e_activity_complete (cal_shell_view->priv->taskpad_activity);
+		g_object_unref (cal_shell_view->priv->taskpad_activity);
+		cal_shell_view->priv->taskpad_activity = NULL;
 	}
 }
 
@@ -360,7 +398,8 @@ exit:
 
 void
 e_cal_shell_view_set_status_message (ECalShellView *cal_shell_view,
-                                     const gchar *status_message)
+                                     const gchar *status_message,
+                                     gdouble percent)
 {
 	EActivity *activity;
 	EShellView *shell_view;
@@ -368,9 +407,10 @@ e_cal_shell_view_set_status_message (ECalShellView *cal_shell_view,
 
 	g_return_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view));
 
-	activity = cal_shell_view->priv->activity;
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_module = e_shell_view_get_shell_module (shell_view);
+
+	activity = cal_shell_view->priv->calendar_activity;
 
 	if (status_message == NULL || *status_message == '\0') {
 		if (activity != NULL) {
@@ -381,12 +421,15 @@ e_cal_shell_view_set_status_message (ECalShellView *cal_shell_view,
 
 	} else if (activity == NULL) {
 		activity = e_activity_new (status_message);
+		e_activity_set_percent (activity, percent);
 		e_shell_module_add_activity (shell_module, activity);
 
-	} else
+	} else {
+		e_activity_set_percent (activity, percent);
 		e_activity_set_primary_text (activity, status_message);
+	}
 
-	cal_shell_view->priv->activity = activity;
+	cal_shell_view->priv->calendar_activity = activity;
 }
 
 void

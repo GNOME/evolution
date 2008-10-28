@@ -109,27 +109,36 @@ static void
 memo_table_emit_open_component (EMemoTable *memo_table,
                                 ECalModelComponent *comp_data)
 {
-	g_signal_emit (memo_table, signals[OPEN_COMPONENT], 0, comp_data);
+	guint signal_id = signals[OPEN_COMPONENT];
+
+	g_signal_emit (memo_table, signal_id, 0, comp_data);
 }
 
 static void
 memo_table_emit_popup_event (EMemoTable *memo_table,
                              GdkEvent *event)
 {
-	g_signal_emit (memo_table, signals[POPUP_EVENT], 0, event);
+	guint signal_id = signals[POPUP_EVENT];
+
+	g_signal_emit (memo_table, signal_id, 0, event);
 }
 
 static void
 memo_table_emit_status_message (EMemoTable *memo_table,
-                                const gchar *message)
+                                const gchar *message,
+                                gdouble percent)
 {
-	g_signal_emit (memo_table, signals[STATUS_MESSAGE], 0, message);
+	guint signal_id = signals[STATUS_MESSAGE];
+
+	g_signal_emit (memo_table, signal_id, 0, message, percent);
 }
 
 static void
 memo_table_emit_user_created (EMemoTable *memo_table)
 {
-	g_signal_emit (memo_table, signals[USER_CREATED], 0);
+	guint signal_id = signals[USER_CREATED];
+
+	g_signal_emit (memo_table, signal_id, 0);
 }
 
 static gint
@@ -171,6 +180,25 @@ memo_table_double_click_cb (EMemoTable *memo_table,
 
 	comp_data = e_cal_model_get_component_at (memo_table->model, row);
 	memo_table_emit_open_component (memo_table, comp_data);
+}
+
+static void
+memo_table_model_cal_view_progress_cb (EMemoTable *memo_table,
+                                       const gchar *message,
+                                       gint progress,
+                                       ECalSourceType type)
+{
+	gdouble percent = (gdouble) progress;
+
+	memo_table_emit_status_message (memo_table, message, percent);
+}
+
+static void
+memo_table_model_cal_view_done_cb (EMemoTable *memo_table,
+                                   ECalendarStatus status,
+                                   ECalSourceType type)
+{
+	memo_table_emit_status_message (memo_table, NULL, -1.0);
 }
 
 static gboolean
@@ -541,9 +569,20 @@ memo_table_init (EMemoTable *memo_table)
 	/* Create the model */
 
 	memo_table->model = (ECalModel *) e_cal_model_memos_new ();
+
 	g_signal_connect_swapped (
-		memo_table->model, "row_appended",
+		memo_table->model, "row-appended",
 		G_CALLBACK (memo_table_emit_user_created), memo_table);
+
+	g_signal_connect_swapped (
+		memo_table->model, "cal-view-progress",
+		G_CALLBACK (memo_table_model_cal_view_progress_cb),
+		memo_table);
+
+	g_signal_connect_swapped (
+		memo_table->model, "cal-view-done",
+		G_CALLBACK (memo_table_model_cal_view_done_cb),
+		memo_table);
 
 	/* Create the header columns */
 
@@ -776,7 +815,7 @@ delete_selected_components (EMemoTable *memo_table)
 	objs = e_memo_table_get_selected (memo_table);
 
 	status_message = _("Deleting selected objects");
-	memo_table_emit_status_message (memo_table, status_message);
+	memo_table_emit_status_message (memo_table, status_message, -1.0);
 
 	for (l = objs; l; l = l->next) {
 		ECalModelComponent *comp_data = (ECalModelComponent *) l->data;
@@ -788,7 +827,7 @@ delete_selected_components (EMemoTable *memo_table)
 		g_clear_error (&error);
 	}
 
-	memo_table_emit_status_message (memo_table, NULL);
+	memo_table_emit_status_message (memo_table, NULL, -1.0);
 
 	g_slist_free (objs);
 }
@@ -995,7 +1034,7 @@ clipboard_get_calendar_data (EMemoTable *memo_table, const gchar *text)
 	client = e_cal_model_get_default_client (memo_table->model);
 
 	status_message = _("Updating objects");
-	memo_table_emit_status_message (memo_table, _("Updating objects"));
+	memo_table_emit_status_message (memo_table, status_message, -1.0);
 
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
 		icalcomponent_kind child_kind;
@@ -1040,7 +1079,7 @@ clipboard_get_calendar_data (EMemoTable *memo_table, const gchar *text)
 		g_object_unref (comp);
 	}
 
-	memo_table_emit_status_message (memo_table, NULL);
+	memo_table_emit_status_message (memo_table, NULL, -1.0);
 }
 
 static void

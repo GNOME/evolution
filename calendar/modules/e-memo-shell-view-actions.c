@@ -87,16 +87,15 @@ action_memo_delete_cb (GtkAction *action,
 	EMemoShellContent *memo_shell_content;
 	ECalComponentPreview *memo_preview;
 	EMemoTable *memo_table;
-	const gchar *status_message;
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 	memo_preview = e_memo_shell_content_get_memo_preview (memo_shell_content);
 
-	status_message = _("Deleting selected memos...");
-	e_memo_shell_view_set_status_message (memo_shell_view, status_message);
+	e_memo_shell_view_set_status_message (
+		memo_shell_view, _("Deleting selected memos..."), -1.0);
 	e_memo_table_delete_selected (memo_table);
-	e_memo_shell_view_set_status_message (memo_shell_view, NULL);
+	e_memo_shell_view_set_status_message (memo_shell_view, NULL, -1.0);
 
 	e_cal_component_preview_clear (memo_preview);
 }

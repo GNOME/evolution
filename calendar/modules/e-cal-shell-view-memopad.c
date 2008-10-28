@@ -68,15 +68,15 @@ action_calendar_memopad_delete_cb (GtkAction *action,
 {
 	ECalShellContent *cal_shell_content;
 	EMemoTable *memo_table;
-	const gchar *status_message;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
 
-	status_message = _("Deleting selected memos...");
-	e_cal_shell_view_set_status_message (cal_shell_view, status_message);
+	e_cal_shell_view_memopad_set_status_message (
+		cal_shell_view, _("Deleting selected memos..."), -1.0);
 	e_memo_table_delete_selected (memo_table);
-	e_cal_shell_view_set_status_message (cal_shell_view, NULL);
+	e_cal_shell_view_memopad_set_status_message (
+		cal_shell_view, NULL, -1.0);
 }
 
 static void
@@ -469,4 +469,40 @@ e_cal_shell_view_memopad_open_memo (ECalShellView *cal_shell_view,
 
 exit:
 	gtk_window_present (GTK_WINDOW (editor));
+}
+
+void
+e_cal_shell_view_memopad_set_status_message (ECalShellView *cal_shell_view,
+                                             const gchar *status_message,
+                                             gdouble percent)
+{
+	EActivity *activity;
+	EShellView *shell_view;
+	EShellModule *shell_module;
+
+	g_return_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view));
+
+	shell_view = E_SHELL_VIEW (cal_shell_view);
+	shell_module = e_shell_view_get_shell_module (shell_view);
+
+	activity = cal_shell_view->priv->memopad_activity;
+
+	if (status_message == NULL || *status_message == '\0') {
+		if (activity != NULL) {
+			e_activity_complete (activity);
+			g_object_unref (activity);
+			activity = NULL;
+		}
+
+	} else if (activity == NULL) {
+		activity = e_activity_new (status_message);
+		e_activity_set_percent (activity, percent);
+		e_shell_module_add_activity (shell_module, activity);
+
+	} else {
+		e_activity_set_percent (activity, percent);
+		e_activity_set_primary_text (activity, status_message);
+	}
+
+	cal_shell_view->priv->memopad_activity = activity;
 }

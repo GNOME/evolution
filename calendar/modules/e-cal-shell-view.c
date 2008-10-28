@@ -193,6 +193,7 @@ cal_shell_view_class_init (ECalShellViewClass *class,
 	shell_view_class->search_options = "/calendar-search-options";
 	shell_view_class->search_rules = "caltypes.xml";
 	shell_view_class->type_module = type_module;
+	shell_view_class->new_shell_content = e_cal_shell_content_new;
 	shell_view_class->new_shell_sidebar = e_cal_shell_sidebar_new;
 	shell_view_class->update_actions = cal_shell_view_update_actions;
 
