@@ -1,3 +1,19 @@
+2008-10-29  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-composer-actions.c:
+	* e-composer-actions.h:
+	* e-composer-autosave.c:
+	* e-composer-autosave.h:
+	* e-composer-header-table.c:
+	* e-composer-header-table.h:
+	* e-composer-header.h:
+	* e-composer-name-header.h:
+	* e-composer-private.c:
+	* e-composer-private.h:
+	* e-composer-text-header.c:
+
 2008-10-13  Bharath Acharya  <abharath@novell.com>
 
 	** Updated fix for bug #555775
