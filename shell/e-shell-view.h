@@ -162,6 +162,8 @@ void		e_shell_view_set_view_id	(EShellView *shell_view,
 						 const gchar *view_id);
 gboolean	e_shell_view_is_active		(EShellView *shell_view);
 gint		e_shell_view_get_page_num	(EShellView *shell_view);
+void		e_shell_view_set_page_num	(EShellView *shell_view,
+						 gint page_num);
 GtkSizeGroup *	e_shell_view_get_size_group	(EShellView *shell_view);
 EShellContent *	e_shell_view_get_shell_content	(EShellView *shell_view);
 EShellSidebar *	e_shell_view_get_shell_sidebar	(EShellView *shell_view);

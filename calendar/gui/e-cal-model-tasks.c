@@ -1108,7 +1108,7 @@ ecmt_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
 /**
  * e_cal_model_tasks_new
  */
-ECalModelTasks *
+ECalModel *
 e_cal_model_tasks_new (void)
 {
 	return g_object_new (E_TYPE_CAL_MODEL_TASKS, NULL);

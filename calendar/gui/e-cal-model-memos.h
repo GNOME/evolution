@@ -55,8 +55,8 @@ typedef struct {
 	ECalModelClass parent_class;
 } ECalModelMemosClass;
 
-GType          e_cal_model_memos_get_type (void);
-ECalModelMemos *e_cal_model_memos_new (void);
+GType		e_cal_model_memos_get_type	(void);
+ECalModel *	e_cal_model_memos_new		(void);
 
 G_END_DECLS
 

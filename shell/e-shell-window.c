@@ -52,7 +52,6 @@ shell_window_new_view (EShellWindow *shell_window,
 
 	/* Determine the page number for the new shell view. */
 	notebook = GTK_NOTEBOOK (shell_window->priv->content_notebook);
-	page_num = gtk_notebook_get_n_pages (notebook);
 
 	/* Get the switcher action for this view. */
 	action = e_shell_window_get_shell_view_action (
@@ -64,10 +63,18 @@ shell_window_new_view (EShellWindow *shell_window,
 		page_num, "shell-window", shell_window, NULL);
 
 	/* Register the shell view. */
+	g_debug ("Loaded view '%s' (page %d)", view_name, page_num);
 	loaded_views = shell_window->priv->loaded_views;
 	g_hash_table_insert (loaded_views, g_strdup (view_name), shell_view);
 
 	/* Add pages to the various shell window notebooks. */
+
+	/* We can't determine the shell view's page number until after the
+	 * shell view is fully initialized because the shell view may load
+	 * other shell views during initialization, and those other shell
+	 * views will append their widgets to the notebooks before us. */
+	page_num = gtk_notebook_get_n_pages (notebook);
+	e_shell_view_set_page_num (shell_view, page_num);
 
 	notebook = GTK_NOTEBOOK (shell_window->priv->content_notebook);
 	widget = GTK_WIDGET (e_shell_view_get_shell_content (shell_view));

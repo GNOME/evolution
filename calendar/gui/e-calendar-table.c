@@ -65,10 +65,12 @@
 
 struct _ECalendarTablePrivate {
 	gpointer shell_view;  /* weak pointer */
+	ECalModel *model;
 };
 
 enum {
 	PROP_0,
+	PROP_MODEL,
 	PROP_SHELL_VIEW
 };
 
@@ -238,9 +240,11 @@ calendar_table_double_click_cb (ECalendarTable *cal_table,
                                 gint col,
                                 GdkEvent *event)
 {
+	ECalModel *model;
 	ECalModelComponent *comp_data;
 
-	comp_data = e_cal_model_get_component_at (cal_table->model, row);
+	model = e_calendar_table_get_model (cal_table);
+	comp_data = e_cal_model_get_component_at (model, row);
 	calendar_table_emit_open_component (cal_table, comp_data);
 }
 
@@ -270,6 +274,7 @@ calendar_table_query_tooltip_cb (ECalendarTable *cal_table,
                                  gboolean keyboard_mode,
                                  GtkTooltip *tooltip)
 {
+	ECalModel *model;
 	ECalModelComponent *comp_data;
 	int row = -1, col = -1;
 	GtkWidget *box, *l, *w;
@@ -304,7 +309,8 @@ calendar_table_query_tooltip_cb (ECalendarTable *cal_table,
 	if (esm && esm->sorter && e_sorter_needs_sorting (esm->sorter))
 		row = e_sorter_sorted_to_model (esm->sorter, row);
 
-	comp_data = e_cal_model_get_component_at (cal_table->model, row);
+	model = e_calendar_table_get_model (cal_table);
+	comp_data = e_cal_model_get_component_at (model, row);
 	if (!comp_data || !comp_data->icalcomp)
 		return FALSE;
 
@@ -375,7 +381,7 @@ calendar_table_query_tooltip_cb (ECalendarTable *cal_table,
 	e_cal_component_get_dtstart (new_comp, &dtstart);
 	e_cal_component_get_due (new_comp, &dtdue);
 
-	default_zone = e_cal_model_get_timezone  (cal_table->model);
+	default_zone = e_cal_model_get_timezone (model);
 
 	if (dtstart.tzid) {
 		zone = icalcomponent_get_timezone (e_cal_component_get_icalcomponent (new_comp), dtstart.tzid);
@@ -487,6 +493,29 @@ calendar_table_right_click_cb (ECalendarTable *cal_table,
 }
 
 static void
+calendar_table_set_model (ECalendarTable *cal_table,
+                          ECalModel *model)
+{
+	g_return_if_fail (cal_table->priv->model == NULL);
+
+	cal_table->priv->model = g_object_ref (model);
+
+	g_signal_connect_swapped (
+		model, "row_appended",
+		G_CALLBACK (calendar_table_emit_user_created), cal_table);
+
+	g_signal_connect_swapped (
+		model, "cal-view-progress",
+		G_CALLBACK (calendar_table_model_cal_view_progress_cb),
+		cal_table);
+
+	g_signal_connect_swapped (
+		model, "cal-view-done",
+		G_CALLBACK (calendar_table_model_cal_view_done_cb),
+		cal_table);
+}
+
+static void
 calendar_table_set_shell_view (ECalendarTable *cal_table,
                                EShellView *shell_view)
 {
@@ -506,6 +535,12 @@ calendar_table_set_property (GObject *object,
                              GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_MODEL:
+			calendar_table_set_model (
+				E_CALENDAR_TABLE (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_SHELL_VIEW:
 			calendar_table_set_shell_view (
 				E_CALENDAR_TABLE (object),
@@ -523,6 +558,12 @@ calendar_table_get_property (GObject *object,
                              GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_MODEL:
+			g_value_set_object (
+				value, e_calendar_table_get_model (
+				E_CALENDAR_TABLE (object)));
+			return;
+
 		case PROP_SHELL_VIEW:
 			g_value_set_object (
 				value, e_calendar_table_get_shell_view (
@@ -536,13 +577,13 @@ calendar_table_get_property (GObject *object,
 static void
 calendar_table_dispose (GObject *object)
 {
-	ECalendarTable *cal_table;
+	ECalendarTablePrivate *priv;
 
-	cal_table = E_CALENDAR_TABLE (object);
+	priv = E_CALENDAR_TABLE_GET_PRIVATE (object);
 
-	if (cal_table->model != NULL) {
-		g_object_unref (cal_table->model);
-		cal_table->model = NULL;
+	if (priv->model != NULL) {
+		g_object_unref (priv->model);
+		priv->model = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -550,75 +591,11 @@ calendar_table_dispose (GObject *object)
 }
 
 static void
-calendar_table_class_init (ECalendarTableClass *class)
+calendar_table_constructed (GObject *object)
 {
-	GObjectClass *object_class;
-
-	parent_class = g_type_class_peek_parent (class);
-	g_type_class_add_private (class, sizeof (ECalendarTablePrivate));
-
-	object_class = G_OBJECT_CLASS (class);
-	object_class->set_property = calendar_table_set_property;
-	object_class->get_property = calendar_table_get_property;
-	object_class->dispose = calendar_table_dispose;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL_VIEW,
-		g_param_spec_object (
-			"shell-view",
-			_("Shell View"),
-			NULL,
-			E_TYPE_SHELL_VIEW,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
-
-	signals[OPEN_COMPONENT] = g_signal_new (
-		"open-component",
-		G_TYPE_FROM_CLASS (class),
-		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (ECalendarTableClass, open_component),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__OBJECT,
-		G_TYPE_NONE, 1,
-		E_TYPE_CAL_MODEL_COMPONENT);
-
-	signals[POPUP_EVENT] = g_signal_new (
-		"popup-event",
-		G_TYPE_FROM_CLASS (class),
-		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (ECalendarTableClass, popup_event),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__BOXED,
-		G_TYPE_NONE, 1,
-		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
-
-	signals[STATUS_MESSAGE] = g_signal_new (
-		"status-message",
-		G_TYPE_FROM_CLASS (class),
-		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (ECalendarTableClass, status_message),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__STRING,
-		G_TYPE_NONE, 1,
-		G_TYPE_STRING);
-
-	signals[USER_CREATED] = g_signal_new (
-		"user-created",
-		G_TYPE_FROM_CLASS (class),
-		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
-		G_STRUCT_OFFSET (ECalendarTableClass, user_created),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
-
-	clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
-}
-
-static void
-calendar_table_init (ECalendarTable *cal_table)
-{
+	ECalendarTable *cal_table;
 	GtkWidget *widget;
+	ECalModel *model;
 	ETable *table;
 	ECell *cell, *popup_cell;
 	ETableExtras *extras;
@@ -628,25 +605,8 @@ calendar_table_init (ECalendarTable *cal_table)
 	AtkObject *a11y;
 	gchar *etspecfile;
 
-	cal_table->priv = E_CALENDAR_TABLE_GET_PRIVATE (cal_table);
-
-	/* Create the model */
-
-	cal_table->model = (ECalModel *) e_cal_model_tasks_new ();
-
-	g_signal_connect_swapped (
-		cal_table->model, "row_appended",
-		G_CALLBACK (calendar_table_emit_user_created), cal_table);
-
-	g_signal_connect_swapped (
-		cal_table->model, "cal-view-progress",
-		G_CALLBACK (calendar_table_model_cal_view_progress_cb),
-		cal_table);
-
-	g_signal_connect_swapped (
-		cal_table->model, "cal-view-done",
-		G_CALLBACK (calendar_table_model_cal_view_done_cb),
-		cal_table);
+	cal_table = E_CALENDAR_TABLE (object);
+	model = e_calendar_table_get_model (cal_table);
 
 	/* Create the header columns */
 
@@ -837,7 +797,7 @@ calendar_table_init (ECalendarTable *cal_table)
 	etspecfile = g_build_filename (
 		EVOLUTION_ETSPECDIR, "e-calendar-table.etspec", NULL);
 	widget = e_table_scrolled_new_from_spec_file (
-		E_TABLE_MODEL (cal_table->model), extras, etspecfile, NULL);
+		E_TABLE_MODEL (model), extras, etspecfile, NULL);
 	gtk_table_attach (
 		GTK_TABLE (cal_table), widget, 0, 1, 0, 1,
 		GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
@@ -863,6 +823,90 @@ calendar_table_init (ECalendarTable *cal_table)
 	a11y = gtk_widget_get_accessible (GTK_WIDGET (table));
 	if (a11y)
 		atk_object_set_name (a11y, _("Tasks"));
+}
+
+static void
+calendar_table_class_init (ECalendarTableClass *class)
+{
+	GObjectClass *object_class;
+
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (ECalendarTablePrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = calendar_table_set_property;
+	object_class->get_property = calendar_table_get_property;
+	object_class->dispose = calendar_table_dispose;
+	object_class->constructed = calendar_table_constructed;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MODEL,
+		g_param_spec_object (
+			"model",
+			_("Model"),
+			NULL,
+			E_TYPE_CAL_MODEL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL_VIEW,
+		g_param_spec_object (
+			"shell-view",
+			_("Shell View"),
+			NULL,
+			E_TYPE_SHELL_VIEW,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	signals[OPEN_COMPONENT] = g_signal_new (
+		"open-component",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (ECalendarTableClass, open_component),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_CAL_MODEL_COMPONENT);
+
+	signals[POPUP_EVENT] = g_signal_new (
+		"popup-event",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (ECalendarTableClass, popup_event),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__BOXED,
+		G_TYPE_NONE, 1,
+		GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE);
+
+	signals[STATUS_MESSAGE] = g_signal_new (
+		"status-message",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (ECalendarTableClass, status_message),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__STRING,
+		G_TYPE_NONE, 1,
+		G_TYPE_STRING);
+
+	signals[USER_CREATED] = g_signal_new (
+		"user-created",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (ECalendarTableClass, user_created),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
+}
+
+static void
+calendar_table_init (ECalendarTable *cal_table)
+{
+	cal_table->priv = E_CALENDAR_TABLE_GET_PRIVATE (cal_table);
 }
 
 GType
@@ -894,19 +938,22 @@ e_calendar_table_get_type (void)
 /**
  * e_calendar_table_new:
  * @shell_view: an #EShellView
+ * @model: an #ECalModel for the table
  *
  * Returns a new #ECalendarTable.
  *
  * Returns: a new #ECalendarTable
  **/
 GtkWidget *
-e_calendar_table_new (EShellView *shell_view)
+e_calendar_table_new (EShellView *shell_view,
+                      ECalModel *model)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 
 	return g_object_new (
 		E_TYPE_CALENDAR_TABLE,
-		"shell-view", shell_view, NULL);
+		"model", model, "shell-view", shell_view, NULL);
 }
 
 EShellView *
@@ -928,10 +975,9 @@ e_calendar_table_get_shell_view (ECalendarTable *cal_table)
 ECalModel *
 e_calendar_table_get_model (ECalendarTable *cal_table)
 {
-	g_return_val_if_fail (cal_table != NULL, NULL);
 	g_return_val_if_fail (E_IS_CALENDAR_TABLE (cal_table), NULL);
 
-	return cal_table->model;
+	return cal_table->priv->model;
 }
 
 
@@ -975,9 +1021,11 @@ get_selected_row_cb (int model_row, gpointer data)
 static ECalModelComponent *
 get_selected_comp (ECalendarTable *cal_table)
 {
+	ECalModel *model;
 	ETable *etable;
 	int row;
 
+	model = e_calendar_table_get_model (cal_table);
 	etable = e_calendar_table_get_table (cal_table);
 	if (e_table_selected_count (etable) != 1)
 		return NULL;
@@ -988,7 +1036,7 @@ get_selected_comp (ECalendarTable *cal_table)
 				      &row);
 	g_return_val_if_fail (row != -1, NULL);
 
-	return e_cal_model_get_component_at (cal_table->model, row);
+	return e_cal_model_get_component_at (model, row);
 }
 
 struct get_selected_uids_closure {
@@ -1000,12 +1048,12 @@ struct get_selected_uids_closure {
 static void
 add_uid_cb (int model_row, gpointer data)
 {
-	struct get_selected_uids_closure *closure;
+	struct get_selected_uids_closure *closure = data;
 	ECalModelComponent *comp_data;
+	ECalModel *model;
 
-	closure = data;
-
-	comp_data = e_cal_model_get_component_at (closure->cal_table->model, model_row);
+	model = e_calendar_table_get_model (closure->cal_table);
+	comp_data = e_cal_model_get_component_at (model, model_row);
 
 	closure->objects = g_slist_prepend (closure->objects, comp_data);
 }
@@ -1221,6 +1269,7 @@ copy_row_cb (int model_row, gpointer data)
 {
 	ECalendarTable *cal_table;
 	ECalModelComponent *comp_data;
+	ECalModel *model;
 	gchar *comp_str;
 	icalcomponent *child;
 
@@ -1228,7 +1277,8 @@ copy_row_cb (int model_row, gpointer data)
 
 	g_return_if_fail (cal_table->tmp_vcal != NULL);
 
-	comp_data = e_cal_model_get_component_at (cal_table->model, model_row);
+	model = e_calendar_table_get_model (cal_table);
+	comp_data = e_cal_model_get_component_at (model, model_row);
 	if (!comp_data)
 		return;
 
@@ -1289,6 +1339,7 @@ clipboard_get_calendar_data (ECalendarTable *cal_table, const gchar *text)
 	icalcomponent *icalcomp;
 	char *uid;
 	ECalComponent *comp;
+	ECalModel *model;
 	ECal *client;
 	icalcomponent_kind kind;
 	const gchar *status_message;
@@ -1311,7 +1362,8 @@ clipboard_get_calendar_data (ECalendarTable *cal_table, const gchar *text)
 		return;
 	}
 
-	client = e_cal_model_get_default_client (cal_table->model);
+	model = e_calendar_table_get_model (cal_table);
+	client = e_cal_model_get_default_client (model);
 
 	status_message = _("Updating objects");
 	calendar_table_emit_status_message (cal_table, status_message, -1.0);

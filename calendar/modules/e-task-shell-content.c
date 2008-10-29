@@ -26,6 +26,7 @@
 #include "e-util/gconf-bridge.h"
 
 #include "calendar/gui/calendar-config.h"
+#include "calendar/gui/e-cal-model-tasks.h"
 #include "calendar/gui/e-calendar-table.h"
 #include "calendar/gui/e-calendar-table-config.h"
 
@@ -50,6 +51,7 @@ struct _ETaskShellContentPrivate {
 	GtkWidget *task_table;
 	GtkWidget *task_preview;
 
+	ECalModel *task_model;
 	ECalendarTableConfig *table_config;
 	GalViewInstance *view_instance;
 
@@ -58,6 +60,7 @@ struct _ETaskShellContentPrivate {
 
 enum {
 	PROP_0,
+	PROP_MODEL,
 	PROP_PREVIEW_VISIBLE
 };
 
@@ -97,7 +100,7 @@ task_shell_content_display_view_cb (ETaskShellContent *task_shell_content,
 	if (!GAL_IS_VIEW_ETABLE (gal_view))
 		return;
 
-	task_table = E_CALENDAR_TABLE (task_shell_content->priv->task_table);
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
 	table = e_calendar_table_get_table (task_table);
 
 	gal_view_etable_attach_table (GAL_VIEW_ETABLE (gal_view), table);
@@ -134,23 +137,22 @@ task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
 {
 	ECalComponentPreview *task_preview;
 	ECalendarTable *task_table;
-	ECalModel *model;
+	ECalModel *task_model;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
 	const gchar *uid;
 
-	task_preview = E_CAL_COMPONENT_PREVIEW (
-		task_shell_content->priv->task_preview);
-	task_table = E_CALENDAR_TABLE (task_shell_content->priv->task_table);
+	task_model = e_task_shell_content_get_task_model (task_shell_content);
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	task_preview = e_task_shell_content_get_task_preview (task_shell_content);
 
 	if (e_table_selected_count (table) != 1) {
 		e_cal_component_preview_clear (task_preview);
 		return;
 	}
 
-	model = e_calendar_table_get_model (task_table);
 	row = e_table_get_cursor_row (table);
-	comp_data = e_cal_model_get_component_at (model, row);
+	comp_data = e_cal_model_get_component_at (task_model, row);
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (
@@ -171,8 +173,7 @@ task_shell_content_selection_change_cb (ETaskShellContent *task_shell_content,
 {
 	ECalComponentPreview *task_preview;
 
-	task_preview = E_CAL_COMPONENT_PREVIEW (
-		task_shell_content->priv->task_preview);
+	task_preview = e_task_shell_content_get_task_preview (task_shell_content);
 
 	/* XXX Old code emits a "selection-changed" signal here. */
 
@@ -203,7 +204,7 @@ task_shell_content_model_row_changed_cb (ETaskShellContent *task_shell_content,
 	if (g_strcmp0 (uid, current_uid) != 0)
 		return;
 
-	task_table = E_CALENDAR_TABLE (task_shell_content->priv->task_table);
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
 	table = e_calendar_table_get_table (task_table);
 
 	task_shell_content_cursor_change_cb (task_shell_content, 0, table);
@@ -233,6 +234,12 @@ task_shell_content_get_property (GObject *object,
                                  GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_MODEL:
+			g_value_set_object (
+				value, e_task_shell_content_get_task_model (
+				E_TASK_SHELL_CONTENT (object)));
+			return;
+
 		case PROP_PREVIEW_VISIBLE:
 			g_value_set_boolean (
 				value, e_task_shell_content_get_preview_visible (
@@ -263,6 +270,11 @@ task_shell_content_dispose (GObject *object)
 	if (priv->task_preview != NULL) {
 		g_object_unref (priv->task_preview);
 		priv->task_preview = NULL;
+	}
+
+	if (priv->task_model != NULL) {
+		g_object_unref (priv->task_model);
+		priv->task_model = NULL;
 	}
 
 	if (priv->table_config != NULL) {
@@ -301,7 +313,6 @@ task_shell_content_constructed (GObject *object)
 	EShellViewClass *shell_view_class;
 	GalViewCollection *view_collection;
 	GalViewInstance *view_instance;
-	ECalModel *model;
 	ETable *table;
 	GConfBridge *bridge;
 	GtkWidget *container;
@@ -329,7 +340,7 @@ task_shell_content_constructed (GObject *object)
 
 	container = widget;
 
-	widget = e_calendar_table_new (shell_view);
+	widget = e_calendar_table_new (shell_view, priv->task_model);
 	gtk_paned_add1 (GTK_PANED (container), widget);
 	priv->task_table = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -357,7 +368,6 @@ task_shell_content_constructed (GObject *object)
 
 	widget = E_CALENDAR_TABLE (priv->task_table)->etable;
 	table = e_table_scrolled_get_table (E_TABLE_SCROLLED (widget));
-	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->task_table));
 
 	priv->table_config = e_calendar_table_config_new (
 		E_CALENDAR_TABLE (priv->task_table));
@@ -390,7 +400,7 @@ task_shell_content_constructed (GObject *object)
 		object);
 
 	g_signal_connect_swapped (
-		model, "model-row-changed",
+		priv->task_model, "model-row-changed",
 		G_CALLBACK (task_shell_content_model_row_changed_cb),
 		object);
 
@@ -508,6 +518,16 @@ task_shell_content_class_init (ETaskShellContentClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_MODEL,
+		g_param_spec_object (
+			"model",
+			_("Model"),
+			_("The task table model"),
+			E_TYPE_CAL_MODEL,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_PREVIEW_VISIBLE,
 		g_param_spec_boolean (
 			"preview-visible",
@@ -522,6 +542,8 @@ task_shell_content_init (ETaskShellContent *task_shell_content)
 {
 	task_shell_content->priv =
 		E_TASK_SHELL_CONTENT_GET_PRIVATE (task_shell_content);
+
+	task_shell_content->priv->task_model = e_cal_model_tasks_new ();
 
 	/* Postpone widget construction until we have a shell view. */
 }
@@ -561,6 +583,15 @@ e_task_shell_content_new (EShellView *shell_view)
 	return g_object_new (
 		E_TYPE_TASK_SHELL_CONTENT,
 		"shell-view", shell_view, NULL);
+}
+
+ECalModel *
+e_task_shell_content_get_task_model (ETaskShellContent *task_shell_content)
+{
+	g_return_val_if_fail (
+		E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
+
+	return task_shell_content->priv->task_model;
 }
 
 ECalComponentPreview *

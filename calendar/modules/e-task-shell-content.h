@@ -25,6 +25,7 @@
 #include <shell/e-shell-content.h>
 #include <shell/e-shell-view.h>
 
+#include <calendar/gui/e-cal-model.h>
 #include <calendar/gui/e-calendar-table.h>
 #include <calendar/gui/e-cal-component-preview.h>
 
@@ -76,6 +77,8 @@ struct _ETaskShellContentClass {
 
 GType		e_task_shell_content_get_type	(void);
 GtkWidget *	e_task_shell_content_new	(EShellView *shell_view);
+ECalModel *	e_task_shell_content_get_task_model
+						(ETaskShellContent *task_shell_content);
 ECalComponentPreview *
 		e_task_shell_content_get_task_preview
 						(ETaskShellContent *task_shell_content);

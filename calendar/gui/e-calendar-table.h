@@ -61,9 +61,6 @@ typedef struct _ECalendarTablePrivate ECalendarTablePrivate;
 struct _ECalendarTable {
 	GtkTable parent;
 
-	/* The model that we use */
-	ECalModel *model;
-
 	GtkWidget *etable;
 
 	/* The ECell used to view & edit dates. */
@@ -90,7 +87,8 @@ struct _ECalendarTableClass {
 };
 
 GType		e_calendar_table_get_type	(void);
-GtkWidget *	e_calendar_table_new		(EShellView *shell_view);
+GtkWidget *	e_calendar_table_new		(EShellView *shell_view,
+						 ECalModel *model);
 ECalModel *	e_calendar_table_get_model	(ECalendarTable *cal_table);
 ETable *	e_calendar_table_get_table	(ECalendarTable *cal_table);
 EShellView *	e_calendar_table_get_shell_view	(ECalendarTable *cal_table);

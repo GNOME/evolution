@@ -64,7 +64,7 @@ typedef struct {
 } ECalModelTasksClass;
 
 GType           e_cal_model_tasks_get_type (void);
-ECalModelTasks *e_cal_model_tasks_new (void);
+ECalModel *	e_cal_model_tasks_new (void);
 
 void            e_cal_model_tasks_mark_comp_complete (ECalModelTasks *model, ECalModelComponent *comp_data);
 void            e_cal_model_tasks_mark_comp_incomplete (ECalModelTasks *model, ECalModelComponent *comp_data);

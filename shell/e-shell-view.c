@@ -136,13 +136,6 @@ shell_view_set_action (EShellView *shell_view,
 }
 
 static void
-shell_view_set_page_num (EShellView *shell_view,
-                         gint page_num)
-{
-	shell_view->priv->page_num = page_num;
-}
-
-static void
 shell_view_set_shell_window (EShellView *shell_view,
                              GtkWidget *shell_window)
 {
@@ -169,7 +162,7 @@ shell_view_set_property (GObject *object,
 			return;
 
 		case PROP_PAGE_NUM:
-			shell_view_set_page_num (
+			e_shell_view_set_page_num (
 				E_SHELL_VIEW (object),
 				g_value_get_int (value));
 			return;
@@ -406,8 +399,7 @@ shell_view_class_init (EShellViewClass *class)
 			-1,
 			G_MAXINT,
 			-1,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT_ONLY));
+			G_PARAM_READWRITE));
 
 	/**
 	 * EShellView:title
@@ -811,6 +803,26 @@ e_shell_view_get_page_num (EShellView *shell_view)
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), -1);
 
 	return shell_view->priv->page_num;
+}
+
+/**
+ * e_shell_view_set_page_num:
+ * @shell_view: an #EShellView
+ * @page_num: a notebook page number
+ *
+ * This function is only interesting to #EShellWindow.  It sets the
+ * #GtkNotebook page number for @shell_view.  The rest of the application
+ * must never call this because it could mess up shell view switching.
+ **/
+void
+e_shell_view_set_page_num (EShellView *shell_view,
+                           gint page_num)
+{
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	shell_view->priv->page_num = page_num;
+
+	g_object_notify (G_OBJECT (shell_view), "page-num");
 }
 
 /**

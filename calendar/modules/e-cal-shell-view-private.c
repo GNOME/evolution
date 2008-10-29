@@ -25,6 +25,22 @@
 #include "widgets/menus/gal-view-factory-etable.h"
 
 static void
+cal_shell_view_process_completed_tasks (ECalShellView *cal_shell_view,
+                                        gboolean config_changed)
+{
+#if 0
+	ECalShellContent *cal_shell_content;
+	ECalendarTable *task_table;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
+
+	e_calendar_table_process_completed_tasks (
+		task_table, clients, config_changed);
+#endif
+}
+
+static void
 cal_shell_view_update_timezone (ECalShellView *cal_shell_view)
 {
 #if 0
@@ -49,10 +65,21 @@ cal_shell_view_update_timezone (ECalShellView *cal_shell_view)
 }
 
 static void
-cal_shell_view_timezone_changed_cb (GConfClient *client,
-                                    guint id,
-                                    GConfEntry *entry,
-                                    gpointer user_data)
+cal_shell_view_config_hide_completed_tasks_changed_cb (GConfClient *client,
+                                                       guint id,
+                                                       GConfEntry *entry,
+                                                       gpointer user_data)
+{
+	ECalShellView *cal_shell_view = user_data;
+
+	/* FIXME */
+}
+
+static void
+cal_shell_view_config_timezone_changed_cb (GConfClient *client,
+                                           guint id,
+                                           GConfEntry *entry,
+                                           gpointer user_data)
 {
 	ECalShellView *cal_shell_view = user_data;
 
@@ -197,6 +224,7 @@ e_cal_shell_view_private_init (ECalShellView *cal_shell_view,
 	ECalShellViewPrivate *priv = cal_shell_view->priv;
 	ESourceList *source_list;
 	GObject *object;
+	guint notification_id;
 
 	object = G_OBJECT (shell_view_class->type_module);
 	source_list = g_object_get_data (object, "source-list");
@@ -227,7 +255,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	ECalendar *mini_calendar;
 	EMemoTable *memo_table;
 	ECalendarTable *task_table;
-	guint notification;
+	guint id;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
@@ -249,10 +277,12 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		mini_calendar->calitem, (ECalendarItemGetTimeCallback)
 		cal_shell_view_get_current_time, cal_shell_view, NULL);
 
+#if 0 /* KILL-BONOBO */
 	g_signal_connect_swapped (
 		calendar, "dates-shown-changed",
 		G_CALLBACK (e_cal_shell_view_update_sidebar),
 		cal_shell_view);
+#endif
 
 	g_signal_connect_swapped (
 		mini_calendar, "scroll-event",
@@ -291,13 +321,27 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 
 	/* Listen for configuration changes. */
 
-#if 0
-	notification = calendar_config_add_notification_timezone (
-		cal_shell_view_timezone_changed_cb, cal_shell_view);
+	/* Timezone */
+	id = calendar_config_add_notification_timezone (
+		cal_shell_view_config_timezone_changed_cb, cal_shell_view);
 	priv->notifications = g_list_prepend (
-		priv->notifications, GUINT_TO_POINTER (notification));
+		priv->notifications, GUINT_TO_POINTER (id));
 	cal_shell_view_update_timezone (cal_shell_view);
-#endif
+
+	/* Hide Completed Tasks (enable/units/value) */
+	id = calendar_config_add_notification_hide_completed_tasks (
+		cal_shell_view_config_hide_completed_tasks_changed_cb,
+		cal_shell_view);
+	priv->notifications = g_list_prepend (
+		priv->notifications, GUINT_TO_POINTER (id));
+	id = calendar_config_add_notification_hide_completed_tasks_units (
+		cal_shell_view_config_hide_completed_tasks_changed_cb,
+		cal_shell_view);
+	priv->notifications = g_list_prepend (
+		priv->notifications, GUINT_TO_POINTER (id));
+	id = calendar_config_add_notification_hide_completed_tasks_value (
+		cal_shell_view_config_hide_completed_tasks_changed_cb,
+		cal_shell_view);
 
 	e_categories_register_change_listener (
 		G_CALLBACK (e_cal_shell_view_update_search_filter),
@@ -312,6 +356,7 @@ void
 e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 {
 	ECalShellViewPrivate *priv = cal_shell_view->priv;
+	GList *iter;
 
 	DISPOSE (priv->source_list);
 
@@ -321,26 +366,33 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 	DISPOSE (priv->cal_shell_content);
 	DISPOSE (priv->cal_shell_sidebar);
 
-	if (cal_shell_view->priv->calendar_activity != NULL) {
+	if (priv->calendar_activity != NULL) {
 		/* XXX Activity is not cancellable. */
-		e_activity_complete (cal_shell_view->priv->calendar_activity);
-		g_object_unref (cal_shell_view->priv->calendar_activity);
-		cal_shell_view->priv->calendar_activity = NULL;
+		e_activity_complete (priv->calendar_activity);
+		g_object_unref (priv->calendar_activity);
+		priv->calendar_activity = NULL;
 	}
 
-	if (cal_shell_view->priv->memopad_activity != NULL) {
+	if (priv->memopad_activity != NULL) {
 		/* XXX Activity is not cancellable. */
-		e_activity_complete (cal_shell_view->priv->memopad_activity);
-		g_object_unref (cal_shell_view->priv->memopad_activity);
-		cal_shell_view->priv->memopad_activity = NULL;
+		e_activity_complete (priv->memopad_activity);
+		g_object_unref (priv->memopad_activity);
+		priv->memopad_activity = NULL;
 	}
 
-	if (cal_shell_view->priv->taskpad_activity != NULL) {
+	if (priv->taskpad_activity != NULL) {
 		/* XXX Activity is not cancellable. */
-		e_activity_complete (cal_shell_view->priv->taskpad_activity);
-		g_object_unref (cal_shell_view->priv->taskpad_activity);
-		cal_shell_view->priv->taskpad_activity = NULL;
+		e_activity_complete (priv->taskpad_activity);
+		g_object_unref (priv->taskpad_activity);
+		priv->taskpad_activity = NULL;
 	}
+
+	for (iter = priv->notifications; iter != NULL; iter = iter->next) {
+		guint notification_id = GPOINTER_TO_UINT (iter->data);
+		calendar_config_remove_notification (notification_id);
+	}
+	g_list_free (priv->notifications);
+	priv->notifications = NULL;
 }
 
 void

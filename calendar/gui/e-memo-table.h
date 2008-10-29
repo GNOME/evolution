@@ -67,9 +67,6 @@ typedef struct _EMemoTablePrivate EMemoTablePrivate;
 struct _EMemoTable {
 	GtkTable parent;
 
-	/* The model that we use */
-	ECalModel *model;
-
 	GtkWidget *etable;
 
 	/* The ECell used to view & edit dates. */
@@ -96,7 +93,8 @@ struct _EMemoTableClass {
 };
 
 GType		e_memo_table_get_type		(void);
-GtkWidget *	e_memo_table_new		(EShellView *shell_view);
+GtkWidget *	e_memo_table_new		(EShellView *shell_view,
+						 ECalModel *model);
 ECalModel *	e_memo_table_get_model		(EMemoTable *memo_table);
 ETable *	e_memo_table_get_table		(EMemoTable *memo_table);
 EShellView *	e_memo_table_get_shell_view	(EMemoTable *memo_table);

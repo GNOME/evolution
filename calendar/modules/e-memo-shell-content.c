@@ -26,6 +26,7 @@
 #include "e-util/gconf-bridge.h"
 
 #include "calendar/gui/calendar-config.h"
+#include "calendar/gui/e-cal-model-memos.h"
 #include "calendar/gui/e-memo-table.h"
 #include "calendar/gui/e-memo-table-config.h"
 
@@ -49,6 +50,7 @@ struct _EMemoShellContentPrivate {
 	GtkWidget *memo_table;
 	GtkWidget *memo_preview;
 
+	ECalModel *memo_model;
 	EMemoTableConfig *table_config;
 	GalViewInstance *view_instance;
 
@@ -57,6 +59,7 @@ struct _EMemoShellContentPrivate {
 
 enum {
 	PROP_0,
+	PROP_MODEL,
 	PROP_PREVIEW_VISIBLE
 };
 
@@ -96,7 +99,7 @@ memo_shell_content_display_view_cb (EMemoShellContent *memo_shell_content,
 	if (!GAL_IS_VIEW_ETABLE (gal_view))
 		return;
 
-	memo_table = E_MEMO_TABLE (memo_shell_content->priv->memo_table);
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 	table = e_memo_table_get_table (memo_table);
 
 	gal_view_etable_attach_table (GAL_VIEW_ETABLE (gal_view), table);
@@ -133,23 +136,22 @@ memo_shell_content_cursor_change_cb (EMemoShellContent *memo_shell_content,
 {
 	ECalComponentPreview *memo_preview;
 	EMemoTable *memo_table;
-	ECalModel *model;
+	ECalModel *memo_model;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
 	const gchar *uid;
 
-	memo_preview = E_CAL_COMPONENT_PREVIEW (
-		memo_shell_content->priv->memo_preview);
-	memo_table = E_MEMO_TABLE (memo_shell_content->priv->memo_table);
+	memo_model = e_memo_shell_content_get_memo_model (memo_shell_content);
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+	memo_preview = e_memo_shell_content_get_memo_preview (memo_shell_content);
 
 	if (e_table_selected_count (table) != 1) {
 		e_cal_component_preview_clear (memo_preview);
 		return;
 	}
 
-	model = e_memo_table_get_model (memo_table);
 	row = e_table_get_cursor_row (table);
-	comp_data = e_cal_model_get_component_at (model, row);
+	comp_data = e_cal_model_get_component_at (memo_model, row);
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (
@@ -170,8 +172,7 @@ memo_shell_content_selection_change_cb (EMemoShellContent *memo_shell_content,
 {
 	ECalComponentPreview *memo_preview;
 
-	memo_preview = E_CAL_COMPONENT_PREVIEW (
-		memo_shell_content->priv->memo_preview);
+	memo_preview = e_memo_shell_content_get_memo_preview (memo_shell_content);
 
 	/* XXX Old code emits a "selection-changed" signal here. */
 
@@ -202,7 +203,7 @@ memo_shell_content_model_row_changed_cb (EMemoShellContent *memo_shell_content,
 	if (g_strcmp0 (uid, current_uid) != 0)
 		return;
 
-	memo_table = E_MEMO_TABLE (memo_shell_content->priv->memo_table);
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
 	table = e_memo_table_get_table (memo_table);
 
 	memo_shell_content_cursor_change_cb (memo_shell_content, 0, table);
@@ -232,6 +233,12 @@ memo_shell_content_get_property (GObject *object,
                                  GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_MODEL:
+			g_value_set_object (
+				value, e_memo_shell_content_get_memo_model (
+				E_MEMO_SHELL_CONTENT (object)));
+			return;
+
 		case PROP_PREVIEW_VISIBLE:
 			g_value_set_boolean (
 				value, e_memo_shell_content_get_preview_visible (
@@ -262,6 +269,11 @@ memo_shell_content_dispose (GObject *object)
 	if (priv->memo_preview != NULL) {
 		g_object_unref (priv->memo_preview);
 		priv->memo_preview = NULL;
+	}
+
+	if (priv->memo_model != NULL) {
+		g_object_unref (priv->memo_model);
+		priv->memo_model = NULL;
 	}
 
 	if (priv->table_config != NULL) {
@@ -300,7 +312,6 @@ memo_shell_content_constructed (GObject *object)
 	EShellViewClass *shell_view_class;
 	GalViewCollection *view_collection;
 	GalViewInstance *view_instance;
-	ECalModel *model;
 	ETable *table;
 	GConfBridge *bridge;
 	GtkWidget *container;
@@ -328,7 +339,7 @@ memo_shell_content_constructed (GObject *object)
 
 	container = widget;
 
-	widget = e_memo_table_new (shell_view);
+	widget = e_memo_table_new (shell_view, priv->memo_model);
 	gtk_paned_add1 (GTK_PANED (container), widget);
 	priv->memo_table = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -356,7 +367,6 @@ memo_shell_content_constructed (GObject *object)
 
 	widget = E_MEMO_TABLE (priv->memo_table)->etable;
 	table = e_table_scrolled_get_table (E_TABLE_SCROLLED (widget));
-	model = e_memo_table_get_model (E_MEMO_TABLE (priv->memo_table));
 
 	priv->table_config = e_memo_table_config_new (
 		E_MEMO_TABLE (priv->memo_table));
@@ -389,7 +399,7 @@ memo_shell_content_constructed (GObject *object)
 		object);
 
 	g_signal_connect_swapped (
-		model, "model-row-changed",
+		priv->memo_model, "model-row-changed",
 		G_CALLBACK (memo_shell_content_model_row_changed_cb),
 		object);
 
@@ -482,6 +492,16 @@ memo_shell_content_class_init (EMemoShellContentClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_MODEL,
+		g_param_spec_object (
+			"model",
+			_("Model"),
+			_("The memo table model"),
+			E_TYPE_CAL_MODEL,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_PREVIEW_VISIBLE,
 		g_param_spec_boolean (
 			"preview-visible",
@@ -496,6 +516,8 @@ memo_shell_content_init (EMemoShellContent *memo_shell_content)
 {
 	memo_shell_content->priv =
 		E_MEMO_SHELL_CONTENT_GET_PRIVATE (memo_shell_content);
+
+	memo_shell_content->priv->memo_model = e_cal_model_memos_new ();
 
 	/* Postpone widget construction until we have a shell view. */
 }
@@ -535,6 +557,15 @@ e_memo_shell_content_new (EShellView *shell_view)
 	return g_object_new (
 		E_TYPE_MEMO_SHELL_CONTENT,
 		"shell-view", shell_view, NULL);
+}
+
+ECalModel *
+e_memo_shell_content_get_memo_model (EMemoShellContent *memo_shell_content)
+{
+	g_return_val_if_fail (
+		E_IS_MEMO_SHELL_CONTENT (memo_shell_content), NULL);
+
+	return memo_shell_content->priv->memo_model;
 }
 
 ECalComponentPreview *

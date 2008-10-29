@@ -351,7 +351,6 @@ e_cal_shell_view_memopad_actions_init (ECalShellView *cal_shell_view)
 	gtk_action_group_add_actions (
 		action_group, calendar_memopad_entries,
 		G_N_ELEMENTS (calendar_memopad_entries), cal_shell_view);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 }
 
 void

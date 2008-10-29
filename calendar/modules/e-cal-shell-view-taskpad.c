@@ -439,7 +439,6 @@ e_cal_shell_view_taskpad_actions_init (ECalShellView *cal_shell_view)
 	gtk_action_group_add_actions (
 		action_group, calendar_taskpad_entries,
 		G_N_ELEMENTS (calendar_taskpad_entries), cal_shell_view);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 }
 
 void

@@ -33,6 +33,7 @@
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-util.h"
 
+#include "calendar/gui/calendar-config.h"
 #include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-list-view.h"
 #include "calendar/gui/e-cal-model-tasks.h"
@@ -107,6 +108,9 @@ struct _ECalShellViewPrivate {
 	EActivity *calendar_activity;
 	EActivity *memopad_activity;
 	EActivity *taskpad_activity;
+
+	/* GConf notification IDs */
+	GList *notifications;
 };
 
 void		e_cal_shell_view_private_init

@@ -304,10 +304,15 @@ cal_shell_content_constructed (GObject *object)
 {
 	ECalShellContentPrivate *priv;
 	ECalModelCalendar *cal_model;
+	ECalModel *memo_model;
+	ECalModel *task_model;
 	EShellContent *shell_content;
 	EShellModule *shell_module;
 	EShellView *shell_view;
+	EShellWindow *shell_window;
 	EShellViewClass *shell_view_class;
+	EShellContent *foreign_content;
+	EShellView *foreign_view;
 	GalViewCollection *view_collection;
 	GalViewInstance *view_instance;
 	GtkWidget *container;
@@ -324,6 +329,7 @@ cal_shell_content_constructed (GObject *object)
 
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	view_collection = shell_view_class->view_collection;
 
@@ -335,6 +341,17 @@ cal_shell_content_constructed (GObject *object)
 	e_cal_model_set_flags (
 		E_CAL_MODEL (cal_model),
 		E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES);
+
+	/* We borrow the memopad and taskpad models from the memo
+	 * and task views, loading the views if necessary. */
+
+	foreign_view = e_shell_window_get_shell_view (shell_window, "memos");
+	foreign_content = e_shell_view_get_shell_content (foreign_view);
+	g_object_get (foreign_content, "model", &memo_model, NULL);
+
+	foreign_view = e_shell_window_get_shell_view (shell_window, "tasks");
+	foreign_content = e_shell_view_get_shell_content (foreign_view);
+	g_object_get (foreign_content, "model", &task_model, NULL);
 
 	/* Build content widgets. */
 
@@ -454,7 +471,7 @@ cal_shell_content_constructed (GObject *object)
 	gtk_widget_show (widget);
 	g_free (markup);
 
-	widget = e_calendar_table_new (shell_view);
+	widget = e_calendar_table_new (shell_view, task_model);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	priv->task_table = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -478,7 +495,7 @@ cal_shell_content_constructed (GObject *object)
 	gtk_widget_show (widget);
 	g_free (markup);
 
-	widget = e_memo_table_new (shell_view);
+	widget = e_memo_table_new (shell_view, memo_model);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	priv->memo_table = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -516,6 +533,9 @@ cal_shell_content_constructed (GObject *object)
 		object);
 	gal_view_instance_load (view_instance);
 	priv->view_instance = view_instance;
+
+	g_object_unref (memo_model);
+	g_object_unref (task_model);
 }
 
 static void
