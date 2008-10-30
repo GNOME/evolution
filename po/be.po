@@ -1,18 +1,16 @@
-# translation of evolution.gnome-2-24.be.po to Belarusian
 # Translation of evolution HEAD to Belarusian
 #
-#
-#: ../shell/main.c:589
 # Vital Khilko <v.khilko@sam-solutions.net>, 2004, 2005.
 # Ales Nyakhaychyk <nab@mail.by>, 2005.
 # Vital Khilko <vk@altlinux.ru>, 2005.
 # Dzmitryj Jakavuk <dzmitryj@gmail.com>, 2008.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.gnome-2-24.be\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-11 10:54+0000\n"
-"PO-Revision-Date: 2008-10-27 14:52+0200\n"
+"PO-Revision-Date: 2008-10-28 11:21+0200\n"
 "Last-Translator: Dzmitryj Jakavuk <dzmitryj@gmail.com>\n"
 "Language-Team: Belarusian <i18n@mova.org>\n"
 "MIME-Version: 1.0\n"
@@ -4221,7 +4219,7 @@ msgstr "'{0}' даступны толькі для чытаньня й ня мо
 msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
-msgstr "'{0}' даступны толькі для чытаньня й ня можа быць зьменены. Калі ласка, выберыце іншы каляндар, які дазваляе захоўваць сустрэчы."
+msgstr "'{0}' даступны толькі для чытаньня й ня можа быць зьменены. Калі ласка, выберыце іншы каляндар, які дазваляе захоўваць Сустрэчы."
 
 #: ../calendar/calendar.error.xml.h:5
 #, fuzzy
@@ -4994,7 +4992,7 @@ msgstr "Прадвызначанае значэньне нагадваньня"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:14
 msgid "Directory for saving alarm audio files"
-msgstr "Каталёг для захоўваньня ільнікавых мэлёдый"
+msgstr "Каталёг для захоўваньня будзільнікавых мэлёдый"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:15
 #, fuzzy
@@ -8443,7 +8441,7 @@ msgstr "Даручанае"
 #. The extra space is just a hack to occupy more space for Attendee
 #: ../calendar/gui/e-meeting-list-view.c:491
 msgid "Attendee                          "
-msgstr "Удзельнік                        "
+msgstr "Удзельнік                         "
 
 #. To translators: RSVP means "please reply"
 #: ../calendar/gui/e-meeting-list-view.c:533
@@ -12580,7 +12578,7 @@ msgstr "Пазначце, дзе стварыць тэчку:"
 
 #: ../mail/em-folder-view.c:1090 ../mail/mail.error.xml.h:70
 msgid "Mail Deletion Failed"
-msgstr "Не ўдалося выдаліць ліст"
+msgstr "Не атрымалася выдаліць ліст"
 
 #: ../mail/em-folder-view.c:1091 ../mail/mail.error.xml.h:126
 #, fuzzy
@@ -13181,7 +13179,7 @@ msgstr "Штомесяц"
 
 #: ../mail/em-mailer-prefs.c:327
 msgid "Add Custom Junk Header"
-msgstr "Дадаць асаблівы загаловак спаму"
+msgstr "Дадаць уласны загаловак спаму"
 
 #: ../mail/em-mailer-prefs.c:331
 #, fuzzy
@@ -13218,7 +13216,7 @@ msgstr "Плагін %s даступны, двайковы файл усталя
 #: ../mail/em-mailer-prefs.c:1087 ../mail/em-mailer-prefs.c:1142
 #, c-format
 msgid "%s plugin is not available. Please check whether the package is installed."
-msgstr "Плагін %s недаступны. Калі ласка, спраўдзьце, ці усталяваны пакунак."
+msgstr "Плагін %s недаступны. Калі ласка, спраўдзьце, ці ўсталяваны пакунак."
 
 #: ../mail/em-mailer-prefs.c:1108
 #, fuzzy
@@ -13563,7 +13561,7 @@ msgstr "Вызначае, ці выкарыстоўваць загалоўкі �
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
-msgstr "Вызначае, ці трэба выкарыстоўваць такі самы шрыфт для радкоў \"Ад\" і \"Тэма\" ў слупку \"Паведамленьні\" пры вэртыкальным праглядзе."
+msgstr "Ці трэба выкарыстоўваць такі самы шрыфт для радкоў \"Ад\" і \"Тэма\" ў слупку \"Паведамленьні\" у вэртыкальным праглядзе."
 
 #: ../mail/evolution-mail.schemas.in.h:39
 msgid "Directory for loading/attaching files to composer."
@@ -16719,7 +16717,7 @@ msgstr "Архіваваць каталёг Evolution"
 
 #: ../plugins/backup-restore/backup.c:515
 msgid "Please wait while Evolution is backing up your data."
-msgstr "Калі ласка, пачакайце, пакуль Evolution створыць рэзэрвовую копію вашых зьвестак."
+msgstr "Калі ласка, пачакайце, пакуль Evolution стварае рэзэрвовую копію вашых зьвестак."
 
 #: ../plugins/backup-restore/backup.c:517
 #, fuzzy
@@ -16728,7 +16726,7 @@ msgstr "Перапусьціць Evolution"
 
 #: ../plugins/backup-restore/backup.c:518
 msgid "Please wait while Evolution is restoring your data."
-msgstr "Калі ласка, пачакайце, пакуль Evolution адновіць вашыя зьвесткі."
+msgstr "Калі ласка, пачакайце, пакуль Evolution аднаўляе вашыя зьвесткі."
 
 #: ../plugins/backup-restore/backup.c:536
 msgid "This may take a while depending on the amount of data in your account."
@@ -18124,7 +18122,7 @@ msgstr "Немагчыма стварыць каталёг для часоваг
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:2
 msgid "Editor not launchable"
-msgstr "Немагчыма ўключыць рэдактар"
+msgstr "Немагчыма запусьціць рэдактар"
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:3
 msgid ""
@@ -18136,7 +18134,7 @@ msgstr "Evolution ня можа стварыць часовы файл, каб �
 msgid ""
 "The external editor set in your plugin preferences cannot be launched. Try "
 "setting a different editor."
-msgstr "Немагчыма ўключыць вонкавы рэдактар. Паспрабуйце прызначыць іншы рэдактар."
+msgstr "Немагчыма запусьціць вонкавы рэдактар. Паспрабуйце прызначыць іншы рэдактар."
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:1
 #, fuzzy
@@ -18221,7 +18219,7 @@ msgid ""
 "Cannot read data from Google server.\n"
 "%s"
 msgstr ""
-"Не ўдалося прачытаць зьвесткі з паслужніка Google.\n"
+"Не магу прачытаць зьвесткі з паслужніка Google.\n"
 "%s"
 
 #: ../plugins/google-account-setup/google-source.c:693
@@ -18285,7 +18283,7 @@ msgstr ""
 "%s\n"
 "\n"
 "\n"
-"Клікніце 'Наперад', каб усталяваць супольнае выкарыстаньне тэчкі\n"
+"Клікніце 'Наперад', каб наладзіць супольнае выкарыстаньне тэчкі\n"
 "\n"
 
 #: ../plugins/groupwise-features/install-shared.c:225
@@ -18417,8 +18415,7 @@ msgstr "Тэчка ўжо існуе"
 msgid ""
 "Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email "
 "address and try again."
-msgstr ""
-"Рэгістрацыя на паўнамоцным паслужніку як &quot;{0}&quot; была беспасьпяховай. Калі ласка, спраўдзьце ваш адрас і паспрабуйце зноў." 
+msgstr "Рэгістрацыя на паўнамоцным паслужніку як &quot;{0}&quot; была беспасьпяховай. Калі ласка, спраўдзьце ваш адрас і паспрабуйце зноў."
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:3
 #, fuzzy
@@ -20833,7 +20830,7 @@ msgstr "Вэрсія апошняй абноўленай канфігурацы�
 
 #: ../shell/apps_evolution_shell.schemas.in.h:44
 msgid "Use HTTP proxy"
-msgstr "Выкарыстоўваць паўнамоцнага паслужніка HTTP"
+msgstr "Выкарыстоўваць паўнамоцны паслужнік HTTP"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:45
 msgid "User name to pass as authentication when doing HTTP proxying."
@@ -24600,5 +24597,4 @@ msgstr "Кантэкст IM"
 
 #: ../widgets/text/e-text.c:3786 ../widgets/text/e-text.c:3787
 msgid "Handle Popup"
-msgstr "Кіраваць усплыўным"
-
+msgstr "Кіраваць выплыўным акном"
