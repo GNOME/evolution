@@ -108,6 +108,10 @@ struct _ETaskShellViewPrivate {
 	ETaskShellSidebar *task_shell_sidebar;
 
 	EActivity *activity;
+	guint update_timeout;
+
+	/* GConf notification IDs */
+	GList *notifications;
 };
 
 void		e_task_shell_view_private_init
@@ -136,6 +140,8 @@ void		e_task_shell_view_set_status_message
 void		e_task_shell_view_update_sidebar
 					(ETaskShellView *task_shell_view);
 void		e_task_shell_view_update_search_filter
+					(ETaskShellView *task_shell_view);
+void		e_task_shell_view_update_timezone
 					(ETaskShellView *task_shell_view);
 
 G_END_DECLS

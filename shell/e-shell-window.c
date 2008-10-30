@@ -63,7 +63,6 @@ shell_window_new_view (EShellWindow *shell_window,
 		page_num, "shell-window", shell_window, NULL);
 
 	/* Register the shell view. */
-	g_debug ("Loaded view '%s' (page %d)", view_name, page_num);
 	loaded_views = shell_window->priv->loaded_views;
 	g_hash_table_insert (loaded_views, g_strdup (view_name), shell_view);
 

@@ -30,10 +30,12 @@
 #include "shell/e-shell.h"
 #include "shell/e-shell-module.h"
 #include "shell/e-shell-window.h"
+#include "widgets/misc/e-preferences-window.h"
 
 #include "calendar/common/authentication.h"
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/comp-util.h"
+#include "calendar/gui/dialogs/cal-prefs-dialog.h"
 #include "calendar/gui/dialogs/calendar-setup.h"
 #include "calendar/gui/dialogs/event-editor.h"
 
@@ -404,6 +406,22 @@ static GtkActionEntry source_entries[] = {
 	  G_CALLBACK (action_calendar_new_cb) }
 };
 
+static void
+cal_module_init_preferences (void)
+{
+	GtkWidget *preferences_window;
+
+	preferences_window = e_shell_get_preferences_window ();
+
+	e_preferences_window_add_page (
+		E_PREFERENCES_WINDOW (preferences_window),
+		"calendar-and-tasks",
+		"preferences-calendar-and-tasks",
+		_("Calendar and Tasks"),
+		calendar_prefs_dialog_new (),
+		600);
+}
+
 static gboolean
 cal_module_handle_uri (EShellModule *shell_module,
                        const gchar *uri)
@@ -463,4 +481,6 @@ e_shell_module_init (GTypeModule *type_module)
 	g_signal_connect_swapped (
 		shell, "window-created",
 		G_CALLBACK (cal_module_window_created), shell_module);
+
+	cal_module_init_preferences ();
 }

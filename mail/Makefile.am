@@ -53,6 +53,8 @@ libevolution_module_mail_la_SOURCES =			\
 	e-searching-tokenizer.h				\
 	em-account-editor.c				\
 	em-account-editor.h				\
+	em-account-prefs.c				\
+	em-account-prefs.h				\
 	em-composer-prefs.c				\
 	em-composer-prefs.h				\
 	em-composer-utils.c				\
@@ -105,6 +107,10 @@ libevolution_module_mail_la_SOURCES =			\
 	em-inline-filter.h				\
 	em-junk-hook.c					\
 	em-junk-hook.h					\
+	em-mailer-prefs.c				\
+	em-mailer-prefs.h				\
+	em-network-prefs.c				\
+	em-network-prefs.h				\
 	em-popup.c					\
 	em-popup.h					\
 	em-search-context.c				\
@@ -238,14 +244,10 @@ libevolution_module_mail_la_LIBADD =			\
 #	em-icon-stream.c			\
 #	em-inline-filter.c			\
 #	em-junk-hook.c				\
-#	em-mailer-prefs.c			\
-#	em-mailer-prefs.h			\
 #	em-menu.c				\
 #	em-message-browser.c			\
 #	em-migrate.c				\
 #	em-migrate.h				\
-#	em-network-prefs.c			\
-#	em-network-prefs.h			\
 #	em-popup.c				\
 #	em-search-context.c			\
 #	em-search-context.h			\
@@ -263,8 +265,6 @@ libevolution_module_mail_la_LIBADD =			\
 #	mail-autofilter.c			\
 #	mail-component-factory.c		\
 #	mail-component.c			\
-#	mail-config-factory.c			\
-#	mail-config-factory.h			\
 #	mail-config.c				\
 #	mail-crypto.c				\
 #	mail-crypto.h				\

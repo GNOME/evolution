@@ -516,7 +516,6 @@ static void
 action_search_execute_cb (GtkAction *action,
                           ECalShellView *cal_shell_view)
 {
-#if 0
 	EShellView *shell_view;
 
 	/* All shell views respond to the activation of this action,
@@ -527,7 +526,6 @@ action_search_execute_cb (GtkAction *action,
 		return;
 
 	e_cal_shell_view_execute_search (cal_shell_view);
-#endif
 }
 
 static void
@@ -535,9 +533,7 @@ action_search_filter_cb (GtkRadioAction *action,
                          GtkRadioAction *current,
                          ECalShellView *cal_shell_view)
 {
-#if 0
 	e_cal_shell_view_execute_search (cal_shell_view);
-#endif
 }
 
 static GtkActionEntry calendar_entries[] = {

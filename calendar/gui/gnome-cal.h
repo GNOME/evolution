@@ -133,15 +133,12 @@ void gnome_calendar_set_view (GnomeCalendar *gcal, GnomeCalendarViewType view_ty
 
 GtkWidget *gnome_calendar_get_current_view_widget (GnomeCalendar *gcal);
 
-ECalendarTable *gnome_calendar_get_task_pad	(GnomeCalendar *gcal);
 GtkWidget *gnome_calendar_get_e_calendar_widget (GnomeCalendar *gcal);
 GtkWidget *gnome_calendar_get_search_bar_widget (GnomeCalendar *gcal);
 GtkWidget *gnome_calendar_get_view_notebook_widget (GnomeCalendar *gcal);
 GtkWidget *gnome_calendar_get_tag (GnomeCalendar *gcal);
 
-struct _ECalMenu *gnome_calendar_get_taskpad_menu (GnomeCalendar *gcal);
 struct _ECalMenu *gnome_calendar_get_calendar_menu (GnomeCalendar *gcal);
-struct _ECalMenu *gnome_calendar_get_memopad_menu (GnomeCalendar *gcal);
 
 void	   gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
 						   time_t	  start_time,

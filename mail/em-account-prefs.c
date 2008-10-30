@@ -28,7 +28,6 @@
 
 #include <glib/gi18n.h>
 
-#include "mail-component.h"
 #include "mail-config.h"
 #include "mail-ops.h"
 #include "mail-send-recv.h"
@@ -38,8 +37,8 @@
 #include "e-util/e-util-private.h"
 
 #include "em-account-prefs.h"
-
 #include "em-account-editor.h"
+#include "e-mail-shell-module.h"
 
 static void em_account_prefs_class_init (EMAccountPrefsClass *class);
 static void em_account_prefs_init       (EMAccountPrefs *prefs);
@@ -239,7 +238,8 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 
 		/* remove it from the folder-tree in the shell */
 		if (account->enabled && account->source && account->source->url)
-			mail_component_remove_store_by_uri (mail_component_peek (), account->source->url);
+			e_mail_shell_module_remove_store_by_uri (
+				mail_shell_module, account->source->url);
 
 		/* remove all the proxies account has created*/
 		if (has_proxies)
@@ -292,17 +292,16 @@ account_default_clicked (GtkButton *button, gpointer user_data)
 static void
 account_able_changed(EAccount *account)
 {
-	MailComponent *component = mail_component_peek ();
-
 	/* FIXME: do this directly by listening to the mail accounts changed events in the relevant components */
 
 	if (account->source->url) {
 		if (account->enabled)
-			mail_component_load_store_by_uri (component,
-							  account->source->url,
-							  account->name);
+			e_mail_shell_module_load_store_by_uri (
+				mail_shell_module,
+				account->source->url, account->name);
 		else
-			mail_component_remove_store_by_uri (component, account->source->url);
+			e_mail_shell_module_remove_store_by_uri (
+				mail_shell_module, account->source->url);
 	}
 
 	mail_config_write ();
@@ -565,13 +564,12 @@ em_account_prefs_construct (EMAccountPrefs *prefs)
 }
 
 GtkWidget *
-em_account_prefs_new (GNOME_Evolution_Shell shell)
+em_account_prefs_new (void)
 {
 	EMAccountPrefs *new;
 
 	new = (EMAccountPrefs *) g_object_new (em_account_prefs_get_type (), NULL);
 	em_account_prefs_construct (new);
-	new->shell = shell;
 
 	return (GtkWidget *) new;
 }

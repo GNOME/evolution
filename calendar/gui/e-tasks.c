@@ -74,9 +74,6 @@ struct _ETasksPrivate {
 	/* Calendar search bar for tasks */
 	GtkWidget *search_bar;
 
-	/* Tasks menu */
-	ECalMenu *tasks_menu;
-
 	/* Paned widget */
 	GtkWidget *paned;
 
@@ -87,18 +84,12 @@ struct _ETasksPrivate {
 	char *sexp;
 	guint update_timeout;
 
-	/* View instance and the view menus handler */
-	GalViewInstance *view_instance;
-	GalViewMenus *view_menus;
-
 	GList *notifications;
 };
 
 static void setup_widgets (ETasks *tasks);
 static void e_tasks_destroy (GtkObject *object);
-static void update_view (ETasks *tasks);
 
-static void categories_changed_cb (gpointer object, gpointer user_data);
 static void backend_error_cb (ECal *client, const char *message, gpointer data);
 
 /* Signal IDs */
@@ -112,112 +103,6 @@ enum {
 static guint e_tasks_signals[LAST_SIGNAL] = { 0 };
 
 G_DEFINE_TYPE (ETasks, e_tasks, GTK_TYPE_TABLE)
-
-/* Callback used when the cursor changes in the table */
-static void
-table_cursor_change_cb (ETable *etable, int row, gpointer data)
-{
-	ETasks *tasks;
-	ETasksPrivate *priv;
-	ECalModel *model;
-	ECalModelComponent *comp_data;
-	ECalComponent *comp;
-	const char *uid;
-
-	int n_selected;
-
-	tasks = E_TASKS (data);
-	priv = tasks->priv;
-
-	n_selected = e_table_selected_count (etable);
-
-	/* update the HTML widget */
-	if (n_selected != 1) {
-		e_cal_component_preview_clear (E_CAL_COMPONENT_PREVIEW (priv->preview));
-
-		return;
-	}
-
-	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-
-	comp_data = e_cal_model_get_component_at (model, e_table_get_cursor_row (etable));
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
-
-	e_cal_component_preview_display (E_CAL_COMPONENT_PREVIEW (priv->preview), comp_data->client, comp);
-
-	e_cal_component_get_uid (comp, &uid);
-	if (priv->current_uid)
-		g_free (priv->current_uid);
-	priv->current_uid = g_strdup (uid);
-
-	g_object_unref (comp);
-}
-
-ECalMenu *
-e_tasks_get_tasks_menu (ETasks *tasks)
-{
-        g_return_val_if_fail (E_IS_TASKS (tasks), NULL);
-
-        return tasks->priv->tasks_menu;
-}
-
-
-/* Callback used when the selection changes in the table. */
-static void
-table_selection_change_cb (ETable *etable, gpointer data)
-{
-	ETasks *tasks;
-	int n_selected;
-
-	tasks = E_TASKS (data);
-
-	n_selected = e_table_selected_count (etable);
-	g_signal_emit (tasks, e_tasks_signals[SELECTION_CHANGED], 0, n_selected);
-
-	if (n_selected != 1)
-		e_cal_component_preview_clear (E_CAL_COMPONENT_PREVIEW (tasks->priv->preview));
-}
-
-static void
-user_created_cb (GtkWidget *view, ETasks *tasks)
-{
-	ETasksPrivate *priv;
-	ECalendarTable *cal_table;
-	ECal *ecal;
-
-	priv = tasks->priv;
-	cal_table = E_CALENDAR_TABLE (priv->tasks_view);
-
-	if (cal_table->user_created_cal)
-		ecal = cal_table->user_created_cal;
-	else {
-		ECalModel *model;
-
-		model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-		ecal = e_cal_model_get_default_client (model);
-	}
-
-	e_tasks_add_todo_source (tasks, e_cal_get_source (ecal));
-}
-
-/* Callback used when the sexp in the search bar changes */
-static void
-search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer data)
-{
-	ETasks *tasks;
-	ETasksPrivate *priv;
-
-	tasks = E_TASKS (data);
-	priv = tasks->priv;
-
-	if (priv->sexp)
-		g_free (priv->sexp);
-
-	priv->sexp = g_strdup (sexp);
-
-	update_view (tasks);
-}
 
 /* Callback used when the selected category in the search bar changes */
 static void
@@ -233,194 +118,6 @@ search_bar_category_changed_cb (CalSearchBar *cal_search, const char *category, 
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 	e_cal_model_set_default_category (model, category);
 }
-
-static gboolean
-vpaned_resized_cb (GtkWidget *widget, GdkEventButton *event, ETasks *tasks)
-{
-	calendar_config_set_task_vpane_pos (gtk_paned_get_position (GTK_PANED (widget)));
-
-	return FALSE;
-}
-
-static void
-set_timezone (ETasks *tasks)
-{
-	ETasksPrivate *priv;
-	icaltimezone *zone;
-	GList *l;
-
-	priv = tasks->priv;
-
-	zone = calendar_config_get_icaltimezone ();
-	for (l = priv->clients_list; l != NULL; l = l->next) {
-		ECal *client = l->data;
-		/* FIXME Error checking */
-		e_cal_set_default_timezone (client, zone, NULL);
-	}
-
-	if (priv->default_client)
-		/* FIXME Error checking */
-		e_cal_set_default_timezone (priv->default_client, zone, NULL);
-
-	if (priv->preview)
-		e_cal_component_preview_set_default_timezone (E_CAL_COMPONENT_PREVIEW (priv->preview), zone);
-}
-
-static void
-timezone_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
-{
-	ETasks *tasks = data;
-
-	set_timezone (tasks);
-}
-
-static void
-update_view (ETasks *tasks)
-{
-	ETasksPrivate *priv;
-	ECalModel *model;
-	char *real_sexp = NULL;
-	char *new_sexp = NULL;
-
-	priv = tasks->priv;
-
-	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-
-	if ((new_sexp = calendar_config_get_hide_completed_tasks_sexp (FALSE)) != NULL) {
-		real_sexp = g_strdup_printf ("(and %s %s)", new_sexp, priv->sexp);
-		e_cal_model_set_search_query (model, real_sexp);
-		g_free (new_sexp);
-		g_free (real_sexp);
-	} else
-		e_cal_model_set_search_query (model, priv->sexp);
-
-	e_cal_component_preview_clear (E_CAL_COMPONENT_PREVIEW (priv->preview));
-}
-
-static void
-process_completed_tasks (ETasks *tasks, gboolean config_changed)
-{
-	ETasksPrivate *priv;
-
-	g_return_if_fail (tasks != NULL);
-	g_return_if_fail (E_IS_TASKS (tasks));
-
-	priv = tasks->priv;
-
-	e_calendar_table_process_completed_tasks (e_tasks_get_calendar_table (tasks), priv->clients_list, config_changed);
-}
-
-static gboolean
-update_view_cb (ETasks *tasks)
-{
-	ECalModel *model;
-
-	model = e_calendar_table_get_model (E_CALENDAR_TABLE (tasks->priv->tasks_view));
-
-	process_completed_tasks (tasks, FALSE);
-	e_cal_model_tasks_update_due_tasks (E_CAL_MODEL_TASKS (model));
-
-	return TRUE;
-}
-
-static void
-config_hide_completed_tasks_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
-{
-	process_completed_tasks (data, TRUE);
-	update_view (data);
-}
-
-static void
-model_row_changed_cb (ETableModel *etm, int row, gpointer data)
-{
-	ETasks *tasks;
-	ETasksPrivate *priv;
-	ECalModelComponent *comp_data;
-
-	tasks = E_TASKS (data);
-	priv = tasks->priv;
-
-	if (priv->current_uid) {
-		const char *uid;
-
-		comp_data = e_cal_model_get_component_at (E_CAL_MODEL (etm), row);
-		if (comp_data) {
-			uid = icalcomponent_get_uid (comp_data->icalcomp);
-			if (!strcmp (uid ? uid : "", priv->current_uid)) {
-				ETable *etable;
-
-				etable = e_table_scrolled_get_table (
-					E_TABLE_SCROLLED (E_CALENDAR_TABLE (priv->tasks_view)->etable));
-				table_cursor_change_cb (etable, 0, tasks);
-			}
-		}
-	}
-}
-
-static void
-view_progress_cb (ECalModel *model, const char *message, int percent, ECalSourceType type, ETasks *tasks)
-{
-	e_calendar_table_set_status_message (E_CALENDAR_TABLE (e_tasks_get_calendar_table (tasks)),
-			message, percent);
-}
-
-static void
-view_done_cb (ECalModel *model, ECalendarStatus status, ECalSourceType type, ETasks *tasks)
-{
-	e_calendar_table_set_status_message (E_CALENDAR_TABLE (e_tasks_get_calendar_table (tasks)),
-			NULL, -1);
-
-}
-
-static void
-config_preview_state_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
-{
-	gboolean state;
-	GConfValue *value;
-	ETasks *tasks = (ETasks *)data;
-
-	g_return_if_fail (gconf_entry_get_key (entry) != NULL);
-	g_return_if_fail ((value = gconf_entry_get_value (entry)) != NULL);
-
-	state = gconf_value_get_bool (value);
-	e_tasks_show_preview (tasks, state);
-	bonobo_ui_component_set_prop (E_SEARCH_BAR (tasks->priv->search_bar)->ui_component, "/commands/ViewPreview", "state", state ? "1" : "0", NULL);
-}
-
-static void
-setup_config (ETasks *tasks)
-{
-	ETasksPrivate *priv;
-	guint not;
-
-	priv = tasks->priv;
-
-	/* Timezone */
-	set_timezone (tasks);
-
-	not = calendar_config_add_notification_timezone (timezone_changed_cb, tasks);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-
-	not = calendar_config_add_notification_hide_completed_tasks (config_hide_completed_tasks_changed_cb,
-							      tasks);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-
-	not = calendar_config_add_notification_hide_completed_tasks_units (config_hide_completed_tasks_changed_cb,
-							      tasks);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-
-	not = calendar_config_add_notification_hide_completed_tasks_value (config_hide_completed_tasks_changed_cb,
-							      tasks);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-
-	not = calendar_config_add_notification_preview_state (config_preview_state_changed_cb, tasks);
-	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
-}
-
-struct AffectedComponents {
-	ECalendarTable *cal_table;
-	GSList *components; /* contains pointers to ECalModelComponent */
-};
 
 /**
  * get_selected_components_cb
@@ -605,7 +302,6 @@ setup_widgets (ETasks *tasks)
 			  G_CALLBACK (search_bar_sexp_changed_cb), tasks);
 	g_signal_connect (priv->search_bar, "category_changed",
 			  G_CALLBACK (search_bar_category_changed_cb), tasks);
-	categories_changed_cb (NULL, tasks);
 
 	gtk_table_attach (GTK_TABLE (tasks), priv->search_bar, 0, 1, 0, 1,
 			  GTK_EXPAND | GTK_FILL | GTK_SHRINK, 0, 0, 0);
@@ -615,8 +311,6 @@ setup_widgets (ETasks *tasks)
 	priv->paned = gtk_vpaned_new ();
 	g_signal_connect (priv->paned, "realize", G_CALLBACK (pane_realized), tasks);
 
-	g_signal_connect (G_OBJECT (priv->paned), "button_release_event",
-			  G_CALLBACK (vpaned_resized_cb), tasks);
 	gtk_table_attach (GTK_TABLE (tasks), priv->paned, 0, 1, 1, 2,
 			  GTK_EXPAND | GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 	gtk_widget_show (priv->paned);
@@ -656,11 +350,7 @@ setup_widgets (ETasks *tasks)
 			  "table_drag_data_received", G_CALLBACK(table_drag_data_received_cb), editor);
 	*/
 
-	g_signal_connect (etable, "cursor_change", G_CALLBACK (table_cursor_change_cb), tasks);
 	g_signal_connect (etable, "selection_change", G_CALLBACK (table_selection_change_cb), tasks);
-
-	/* Timeout check to hide completed items */
-	priv->update_timeout = g_timeout_add_full (G_PRIORITY_LOW, 60000, (GSourceFunc) update_view_cb, tasks, NULL);
 
 	/* create the task detail */
 	priv->preview = e_cal_component_preview_new ();
@@ -670,15 +360,6 @@ setup_widgets (ETasks *tasks)
 
 	if (state)
 		gtk_widget_show (priv->preview);
-
-	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-	g_signal_connect (G_OBJECT (model), "model_row_changed",
-			  G_CALLBACK (model_row_changed_cb), tasks);
-
-	g_signal_connect (G_OBJECT (model), "cal_view_progress",
-				G_CALLBACK (view_progress_cb), tasks);
-	g_signal_connect (G_OBJECT (model), "cal_view_done",
-				G_CALLBACK (view_done_cb), tasks);
 }
 
 /* Class initialization function for the gnome calendar */
@@ -729,29 +410,6 @@ e_tasks_class_init (ETasksClass *class)
 }
 
 
-static void
-categories_changed_cb (gpointer object, gpointer user_data)
-{
-	GList *cat_list;
-	GPtrArray *cat_array;
-	ETasksPrivate *priv;
-	ETasks *tasks = user_data;
-
-	priv = tasks->priv;
-
-	cat_array = g_ptr_array_new ();
-	cat_list = e_categories_get_list ();
-	while (cat_list != NULL) {
-		if (e_categories_is_searchable ((const char *) cat_list->data))
-			g_ptr_array_add (cat_array, cat_list->data);
-		cat_list = g_list_remove (cat_list, cat_list->data);
-	}
-
-	cal_search_bar_set_categories ((CalSearchBar *)priv->search_bar, cat_array);
-
-	g_ptr_array_free (cat_array, TRUE);
-}
-
 /* Object initialization function for the gnome calendar */
 static void
 e_tasks_init (ETasks *tasks)
@@ -761,20 +419,13 @@ e_tasks_init (ETasks *tasks)
 	priv = g_new0 (ETasksPrivate, 1);
 	tasks->priv = priv;
 
-	e_categories_register_change_listener (G_CALLBACK (categories_changed_cb), tasks);
-
-	setup_config (tasks);
 	setup_widgets (tasks);
 
 	priv->clients = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 	priv->query = NULL;
-	priv->view_instance = NULL;
-	priv->view_menus = NULL;
 	priv->current_uid = NULL;
 	priv->sexp = g_strdup ("#t");
 	priv->default_client = NULL;
-	priv->tasks_menu = e_cal_menu_new ("org.gnome.evolution.tasks.view");
-	update_view (tasks);
 }
 
 GtkWidget *
@@ -786,18 +437,6 @@ e_tasks_new (void)
 
 	return GTK_WIDGET (tasks);
 }
-
-
-void
-e_tasks_set_ui_component (ETasks *tasks,
-			  BonoboUIComponent *ui_component)
-{
-	g_return_if_fail (E_IS_TASKS (tasks));
-	g_return_if_fail (ui_component == NULL || BONOBO_IS_UI_COMPONENT (ui_component));
-
-	e_search_bar_set_ui_component (E_SEARCH_BAR (tasks->priv->search_bar), ui_component);
-}
-
 
 static void
 e_tasks_destroy (GtkObject *object)
@@ -813,8 +452,6 @@ e_tasks_destroy (GtkObject *object)
 
 	if (priv) {
 		GList *l;
-
-		e_categories_unregister_change_listener (G_CALLBACK (categories_changed_cb), tasks);
 
 		/* disconnect from signals on all the clients */
 		for (l = priv->clients_list; l != NULL; l = l->next) {
@@ -837,11 +474,6 @@ e_tasks_destroy (GtkObject *object)
 		if (priv->sexp) {
 			g_free (priv->sexp);
 			priv->sexp = NULL;
-		}
-
-		if (priv->update_timeout) {
-			g_source_remove (priv->update_timeout);
-			priv->update_timeout = 0;
 		}
 
 		if (priv->tasks_view_config) {
@@ -878,101 +510,6 @@ set_status_message (ETasks *tasks, const char *message, ...)
 	priv = tasks->priv;
 
 	e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->tasks_view), msg_string, -1);
-}
-
-/* Callback from the calendar client when the calendar is opened */
-static void
-client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
-{
-	ECalModel *model;
-	ESource *source;
-	ETasksPrivate *priv;
-
-	priv = tasks->priv;
-
-	source = e_cal_get_source (ecal);
-	
-	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED)
-		auth_cal_forget_password (ecal);
-
-	switch (status) {
-	case E_CALENDAR_STATUS_OK :
-		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, client_cal_opened_cb, NULL);
-
-		set_status_message (tasks, _("Loading tasks"));
-		model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-		e_cal_model_add_client (model, ecal);
-
-		set_status_message (tasks, NULL);
-		break;
-	case E_CALENDAR_STATUS_BUSY :
-		break;
-	case E_CALENDAR_STATUS_REPOSITORY_OFFLINE:
-		e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))), "calendar:prompt-no-contents-offline-tasks", NULL);
-	default :
-		/* Make sure the source doesn't disappear on us */
-		g_object_ref (source);
-
-		priv->clients_list = g_list_remove (priv->clients_list, ecal);
-		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL, tasks);
-
-		/* Do this last because it unrefs the client */
-		g_hash_table_remove (priv->clients,  e_source_peek_uid (source));
-
-		g_signal_emit (tasks, e_tasks_signals[SOURCE_REMOVED], 0, source);
-
-		set_status_message (tasks, NULL);
-		g_object_unref (source);
-
-		break;
-	}
-}
-
-static void
-default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
-{
-	ECalModel *model;
-	ESource *source;
-	ETasksPrivate *priv;
-
-	priv = tasks->priv;
-
-	source = e_cal_get_source (ecal);
-
-	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED)
-		auth_cal_forget_password (ecal);
-
-	switch (status) {
-	case E_CALENDAR_STATUS_OK :
-		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, default_client_cal_opened_cb, NULL);
-		model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-
-		e_cal_model_set_default_client (model, ecal);
-		set_status_message (tasks, NULL);
-		break;
-	case E_CALENDAR_STATUS_BUSY:
-		break;
-	default :
-		/* Make sure the source doesn't disappear on us */
-		g_object_ref (source);
-
-		priv->clients_list = g_list_remove (priv->clients_list, ecal);
-		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL, tasks);
-
-		/* Do this last because it unrefs the client */
-		g_hash_table_remove (priv->clients,  e_source_peek_uid (source));
-
-		g_signal_emit (tasks, e_tasks_signals[SOURCE_REMOVED], 0, source);
-
-		set_status_message (tasks, NULL);
-		g_object_unref (priv->default_client);
-		priv->default_client = NULL;
-		g_object_unref (source);
-
-		break;
-	}
 }
 
 typedef void (*open_func) (ECal *, ECalendarStatus, ETasks *);
@@ -1039,52 +576,6 @@ e_tasks_new_task			(ETasks		*tasks)
 	gtk_window_present (GTK_WINDOW (editor));
 }
 
-void
-e_tasks_show_preview (ETasks *tasks, gboolean state)
-{
-	ETasksPrivate *priv;
-
-	g_return_if_fail (tasks != NULL);
-	g_return_if_fail (E_IS_TASKS (tasks));
-	priv = tasks->priv;
-
-	if (state) {
-		ECalModel *model;
-		ECalModelComponent *comp_data;
-		ECalComponent *comp;
-		ETable *etable;
-		const char *uid;
-		int n_selected;
-
-		etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (E_CALENDAR_TABLE (priv->tasks_view)->etable));
-		n_selected = e_table_selected_count (etable);
-
-		if (n_selected != 1) {
-			e_cal_component_preview_clear (E_CAL_COMPONENT_PREVIEW (priv->preview));
-		} else {
-			model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-
-			comp_data = e_cal_model_get_component_at (model, e_table_get_cursor_row (etable));
-			comp = e_cal_component_new ();
-			e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
-
-			e_cal_component_preview_display (E_CAL_COMPONENT_PREVIEW (priv->preview), comp_data->client, comp);
-
-			e_cal_component_get_uid (comp, &uid);
-			if (priv->current_uid)
-				g_free (priv->current_uid);
-			priv->current_uid = g_strdup (uid);
-
-			g_object_unref (comp);
-		}
-		gtk_widget_show (priv->preview);
-
-	} else	{
-		e_cal_component_preview_clear (E_CAL_COMPONENT_PREVIEW (priv->preview));
-		gtk_widget_hide (priv->preview);
-	}
-}
-
 gboolean
 e_tasks_remove_todo_source (ETasks *tasks, ESource *source)
 {
@@ -1148,68 +639,6 @@ e_tasks_set_default_source (ETasks *tasks, ESource *source)
 	open_ecal (tasks, priv->default_client, FALSE, default_client_cal_opened_cb);
 
 	return TRUE;
-}
-
-ECal *
-e_tasks_get_default_client (ETasks *tasks)
-{
-	ETasksPrivate *priv;
-
-	g_return_val_if_fail (tasks != NULL, NULL);
-	g_return_val_if_fail (E_IS_TASKS (tasks), NULL);
-
-	priv = tasks->priv;
-
-	return e_cal_model_get_default_client (e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view)));
-}
-
-/**
- * e_tasks_complete_selected:
- * @tasks: A tasks control widget
- *
- * Marks the selected tasks complete
- **/
-void
-e_tasks_complete_selected (ETasks *tasks)
-{
-	ETasksPrivate *priv;
-	ECalendarTable *cal_table;
-
-	g_return_if_fail (tasks != NULL);
-	g_return_if_fail (E_IS_TASKS (tasks));
-
-	priv = tasks->priv;
-
-	cal_table = E_CALENDAR_TABLE (priv->tasks_view);
-
-	set_status_message (tasks, _("Completing tasks..."));
-	e_calendar_table_complete_selected (cal_table);
-	set_status_message (tasks, NULL);
-}
-
-/**
- * e_tasks_delete_selected:
- * @tasks: A tasks control widget.
- *
- * Deletes the selected tasks in the task list.
- **/
-void
-e_tasks_delete_selected (ETasks *tasks)
-{
-	ETasksPrivate *priv;
-	ECalendarTable *cal_table;
-
-	g_return_if_fail (tasks != NULL);
-	g_return_if_fail (E_IS_TASKS (tasks));
-
-	priv = tasks->priv;
-
-	cal_table = E_CALENDAR_TABLE (priv->tasks_view);
-	set_status_message (tasks, _("Deleting selected objects..."));
-	e_calendar_table_delete_selected (cal_table);
-	set_status_message (tasks, NULL);
-
-	e_cal_component_preview_clear (E_CAL_COMPONENT_PREVIEW (priv->preview));
 }
 
 /**
@@ -1300,25 +729,4 @@ e_tasks_open_task_id (ETasks *tasks,
 	icalcomponent_free (icalcomp);
 
 	return;
-}
-
-/**
- * e_tasks_get_calendar_table:
- * @tasks: A tasks widget.
- *
- * Queries the #ECalendarTable contained in a tasks widget.
- *
- * Return value: The #ECalendarTable that the tasks widget uses to display its
- * information.
- **/
-ECalendarTable *
-e_tasks_get_calendar_table (ETasks *tasks)
-{
-	ETasksPrivate *priv;
-
-	g_return_val_if_fail (tasks != NULL, NULL);
-	g_return_val_if_fail (E_IS_TASKS (tasks), NULL);
-
-	priv = tasks->priv;
-	return E_CALENDAR_TABLE (priv->tasks_view);
 }

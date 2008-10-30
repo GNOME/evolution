@@ -24,6 +24,44 @@
 #include <widgets/menus/gal-view-factory-etable.h>
 
 static void
+task_shell_view_config_hide_completed_tasks_changed_cb (GConfClient *client,
+                                                        guint id,
+                                                        GConfEntry *entry,
+                                                        gpointer user_data)
+{
+	ETaskShellView *task_shell_view = user_data;
+	ETaskShellContent *task_shell_content;
+	ETaskShellSidebar *task_shell_sidebar;
+	ECalendarTable *task_table;
+	GList *clients;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+
+	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
+	clients = e_task_shell_sidebar_get_clients (task_shell_sidebar);
+
+	e_calendar_table_process_completed_tasks (task_table, clients, TRUE);
+
+	/* Search query takes whether to show completed tasks into account,
+	 * so if the preference has changed we need to update the query. */
+	e_task_shell_view_execute_search (task_shell_view);
+
+	g_list_free (clients);
+}
+
+static void
+task_shell_view_config_timezone_changed_cb (GConfClient *client,
+                                            guint id,
+                                            GConfEntry *entry,
+                                            gpointer user_data)
+{
+	ETaskShellView *task_shell_view = user_data;
+
+	e_task_shell_view_update_timezone (task_shell_view);
+}
+
+static void
 task_shell_view_table_popup_event_cb (EShellView *shell_view,
                                       GdkEventButton *event)
 {
@@ -67,6 +105,7 @@ task_shell_view_selector_client_added_cb (ETaskShellView *task_shell_view,
 	model = e_calendar_table_get_model (task_table);
 
 	e_cal_model_add_client (model, client);
+	e_task_shell_view_update_timezone (task_shell_view);
 }
 
 static void
@@ -93,6 +132,30 @@ task_shell_view_selector_popup_event_cb (EShellView *shell_view,
 
 	widget_path = "/task-list-popup";
 	e_shell_view_show_popup_menu (shell_view, widget_path, event);
+
+	return TRUE;
+}
+
+static gboolean
+task_shell_view_update_timeout_cb (ETaskShellView *task_shell_view)
+{
+	ETaskShellContent *task_shell_content;
+	ETaskShellSidebar *task_shell_sidebar;
+	ECalendarTable *task_table;
+	ECalModel *model;
+	GList *clients;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	model = e_calendar_table_get_model (task_table);
+
+	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
+	clients = e_task_shell_sidebar_get_clients (task_shell_sidebar);
+
+	e_calendar_table_process_completed_tasks (task_table, clients, FALSE);
+	e_cal_model_tasks_update_due_tasks (E_CAL_MODEL_TASKS (model));
+
+	g_list_free (clients);
 
 	return TRUE;
 }
@@ -184,6 +247,7 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	ECalModel *model;
 	ETable *table;
 	ESourceSelector *selector;
+	guint id;
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
@@ -270,9 +334,41 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 		G_CALLBACK (e_task_shell_view_update_search_filter),
 		task_shell_view);
 
+	task_shell_view_update_timeout_cb (task_shell_view);
+	priv->update_timeout = g_timeout_add_full (
+		G_PRIORITY_LOW, 60000, (GSourceFunc)
+		task_shell_view_update_timeout_cb,
+		task_shell_view, NULL);
+
+	/* Listen for configuration changes. */
+
+	/* Timezone */
+	id = calendar_config_add_notification_timezone (
+		task_shell_view_config_timezone_changed_cb, task_shell_view);
+	priv->notifications = g_list_prepend (
+		priv->notifications, GUINT_TO_POINTER (id));
+
+	/* Hide Completed Tasks (enable/units/value) */
+	id = calendar_config_add_notification_hide_completed_tasks (
+		task_shell_view_config_hide_completed_tasks_changed_cb,
+		task_shell_view);
+	priv->notifications = g_list_prepend (
+		priv->notifications, GUINT_TO_POINTER (id));
+	id = calendar_config_add_notification_hide_completed_tasks_units (
+		task_shell_view_config_hide_completed_tasks_changed_cb,
+		task_shell_view);
+	priv->notifications = g_list_prepend (
+		priv->notifications, GUINT_TO_POINTER (id));
+	id = calendar_config_add_notification_hide_completed_tasks_value (
+		task_shell_view_config_hide_completed_tasks_changed_cb,
+		task_shell_view);
+	priv->notifications = g_list_prepend (
+		priv->notifications, GUINT_TO_POINTER (id));
+
 	e_task_shell_view_actions_init (task_shell_view);
 	e_task_shell_view_update_sidebar (task_shell_view);
 	e_task_shell_view_update_search_filter (task_shell_view);
+	e_task_shell_view_update_timezone (task_shell_view);
 
 	e_task_shell_view_execute_search (task_shell_view);
 }
@@ -281,6 +377,7 @@ void
 e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 {
 	ETaskShellViewPrivate *priv = task_shell_view->priv;
+	GList *iter;
 
 	DISPOSE (priv->source_list);
 
@@ -296,6 +393,18 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 		g_object_unref (task_shell_view->priv->activity);
 		task_shell_view->priv->activity = NULL;
 	}
+
+	if (priv->update_timeout > 0) {
+		g_source_remove (priv->update_timeout);
+		priv->update_timeout = 0;
+	}
+
+	for (iter = priv->notifications; iter != NULL; iter = iter->next) {
+		guint notification_id = GPOINTER_TO_UINT (iter->data);
+		calendar_config_remove_notification (notification_id);
+	}
+	g_list_free (priv->notifications);
+	priv->notifications = NULL;
 }
 
 void
@@ -453,6 +562,17 @@ e_task_shell_view_execute_search (ETaskShellView *task_shell_view)
 		}
 	}
 
+	/* Honor the user's preference to hide completed tasks. */
+	temp = calendar_config_get_hide_completed_tasks_sexp (FALSE);
+	if (temp != NULL) {
+		gchar *temp2;
+
+		temp2 = g_strdup_printf ("(and %s %s)", temp, query);
+		g_free (query);
+		g_free (temp);
+		query = temp2;
+	}
+
 	/* XXX This is wrong.  We need to programmatically construct a
 	 *     FilterRule, tell it to build code, and pass the resulting
 	 *     expression string to ECalModel. */
@@ -594,4 +714,33 @@ e_task_shell_view_update_sidebar (ETaskShellView *task_shell_view)
 	e_shell_sidebar_set_secondary_text (shell_sidebar, string->str);
 
 	g_string_free (string, TRUE);
+}
+
+void
+e_task_shell_view_update_timezone (ETaskShellView *task_shell_view)
+{
+	ETaskShellContent *task_shell_content;
+	ETaskShellSidebar *task_shell_sidebar;
+	ECalComponentPreview *task_preview;
+	icaltimezone *timezone;
+	GList *clients, *iter;
+
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_preview = e_task_shell_content_get_task_preview (task_shell_content);
+
+	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
+	clients = e_task_shell_sidebar_get_clients (task_shell_sidebar);
+
+	timezone = calendar_config_get_icaltimezone ();
+
+	for (iter = clients; iter != NULL; iter = iter->next) {
+		ECal *client = iter->data;
+
+		if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
+			e_cal_set_default_timezone (client, timezone, NULL);
+	}
+
+	e_cal_component_preview_set_default_timezone (task_preview, timezone);
+
+	g_list_free (clients);
 }

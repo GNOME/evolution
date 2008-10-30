@@ -88,33 +88,6 @@ task_shell_sidebar_emit_status_message (ETaskShellSidebar *task_shell_sidebar,
 }
 
 static void
-task_shell_sidebar_update_timezone (ETaskShellSidebar *task_shell_sidebar)
-{
-	GHashTable *client_table;
-	icaltimezone *zone;
-	GList *values;
-
-	zone = calendar_config_get_icaltimezone ();
-	client_table = task_shell_sidebar->priv->client_table;
-	values = g_hash_table_get_values (client_table);
-
-	while (values != NULL) {
-		ECal *client = values->data;
-
-		if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
-			e_cal_set_default_timezone (client, zone, NULL);
-
-		values = g_list_delete_link (values, values);
-	}
-
-	/* XXX Need to call e_cal_component_preview_set_default_timezone()
-	 *     here but the sidebar is not really supposed to access content
-	 *     stuff.  I guess we could emit an "update-timezone" signal
-	 *     here, but that feels wrong.  Maybe this whole thing should
-	 *     be in ETaskShellView instead. */
-}
-
-static void
 task_shell_sidebar_backend_died_cb (ETaskShellSidebar *task_shell_sidebar,
                                     ECal *client)
 {
@@ -471,13 +444,6 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 }
 
 static void
-task_shell_sidebar_client_added (ETaskShellSidebar *task_shell_sidebar,
-                                 ECal *client)
-{
-	task_shell_sidebar_update_timezone (task_shell_sidebar);
-}
-
-static void
 task_shell_sidebar_client_removed (ETaskShellSidebar *task_shell_sidebar,
                                    ECal *client)
 {
@@ -520,7 +486,6 @@ task_shell_sidebar_class_init (ETaskShellSidebarClass *class)
 	shell_sidebar_class = E_SHELL_SIDEBAR_CLASS (class);
 	shell_sidebar_class->check_state = task_shell_sidebar_check_state;
 
-	class->client_added = task_shell_sidebar_client_added;
 	class->client_removed = task_shell_sidebar_client_removed;
 
 	g_object_class_install_property (
@@ -618,6 +583,19 @@ e_task_shell_sidebar_new (EShellView *shell_view)
 	return g_object_new (
 		E_TYPE_TASK_SHELL_SIDEBAR,
 		"shell-view", shell_view, NULL);
+}
+
+GList *
+e_task_shell_sidebar_get_clients (ETaskShellSidebar *task_shell_sidebar)
+{
+	GHashTable *client_table;
+
+	g_return_val_if_fail (
+		E_IS_TASK_SHELL_SIDEBAR (task_shell_sidebar), NULL);
+
+	client_table = task_shell_sidebar->priv->client_table;
+
+	return g_hash_table_get_values (client_table);
 }
 
 ESourceSelector *

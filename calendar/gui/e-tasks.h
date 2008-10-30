@@ -63,29 +63,15 @@ GtkWidget *e_tasks_construct       (ETasks *tasks);
 
 GtkWidget *e_tasks_new             (void);
 
-void       e_tasks_set_ui_component  (ETasks            *tasks,
-				      BonoboUIComponent *ui_component);
-
 gboolean   e_tasks_add_todo_source (ETasks *tasks, ESource *source);
 gboolean   e_tasks_remove_todo_source (ETasks *tasks, ESource *source);
 gboolean   e_tasks_set_default_source (ETasks *tasks, ESource *source);
-ECal      *e_tasks_get_default_client    (ETasks *tasks);
-
 void       e_tasks_open_task         (ETasks		*tasks);
 void       e_tasks_open_task_id      (ETasks		*tasks,
 				      const char *src_uid,
 				      const char *comp_uid,
 				      const char *comp_rid);
 void       e_tasks_new_task          (ETasks            *tasks);
-void       e_tasks_complete_selected (ETasks            *tasks);
-void       e_tasks_delete_selected   (ETasks            *tasks);
 void       e_tasks_delete_completed  (ETasks            *tasks);
-
-void e_tasks_show_preview (ETasks *tasks, gboolean state);
-void e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic);
-void e_tasks_discard_view_menus (ETasks *tasks);
-
-struct _ECalMenu *e_tasks_get_tasks_menu (ETasks *tasks);
-ECalendarTable *e_tasks_get_calendar_table (ETasks *tasks);
 
 #endif /* _E_TASKS_H_ */

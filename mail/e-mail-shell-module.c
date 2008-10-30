@@ -27,17 +27,22 @@
 #include "e-util/e-util.h"
 #include "shell/e-shell.h"
 #include "shell/e-shell-window.h"
+#include "widgets/misc/e-preferences-window.h"
 
 #include "e-mail-shell-view.h"
 #include "e-mail-shell-module.h"
 #include "e-mail-shell-module-migrate.h"
 
+#include "em-account-prefs.h"
+#include "em-composer-prefs.h"
 #include "em-config.h"
 #include "em-event.h"
 #include "em-folder-tree-model.h"
 #include "em-format-hook.h"
 #include "em-format-html-display.h"
 #include "em-junk-hook.h"
+#include "em-mailer-prefs.h"
+#include "em-network-prefs.h"
 #include "mail-config.h"
 #include "mail-folder-cache.h"
 #include "mail-mt.h"
@@ -413,17 +418,57 @@ static GtkActionEntry source_entries[] = {
 	  G_CALLBACK (action_mail_folder_new_cb) }
 };
 
+static void
+mail_shell_module_init_preferences (void)
+{
+	GtkWidget *preferences_window;
+
+	preferences_window = e_shell_get_preferences_window ();
+
+	e_preferences_window_add_page (
+		E_PREFERENCES_WINDOW (preferences_window),
+		"mail-accounts",
+		"preferences-mail-accounts",
+		_("Mail Accounts"),
+		em_account_prefs_new (),
+		100);
+
+	e_preferences_window_add_page (
+		E_PREFERENCES_WINDOW (preferences_window),
+		"mail",
+		"preferences-mail",
+		_("Mail Preferences"),
+		em_mailer_prefs_new (),
+		300);
+
+	e_preferences_window_add_page (
+		E_PREFERENCES_WINDOW (preferences_window),
+		"composer",
+		"preferences-composer",
+		_("Composer Preferences"),
+		em_composer_prefs_new (),
+		400);
+
+	e_preferences_window_add_page (
+		E_PREFERENCES_WINDOW (preferences_window),
+		"system-network-proxy",
+		"preferences-system-network-proxy",
+		_("Network Preferences"),
+		em_network_prefs_new (),
+		500);
+}
+
 static gboolean
-mail_module_handle_uri (EShellModule *shell_module,
-                        const gchar *uri)
+mail_shell_module_handle_uri (EShellModule *shell_module,
+                              const gchar *uri)
 {
 	/* FIXME */
 	return FALSE;
 }
 
 static void
-mail_module_window_created (EShellModule *shell_module,
-                            EShellWindow *shell_window)
+mail_shell_module_window_created (EShellModule *shell_module,
+                                  EShellWindow *shell_window)
 {
 	EShell *shell;
 	const gchar *module_name;
@@ -489,17 +534,18 @@ e_shell_module_init (GTypeModule *type_module)
 
 	g_signal_connect_swapped (
 		shell, "handle-uri",
-		G_CALLBACK (mail_module_handle_uri), shell_module);
+		G_CALLBACK (mail_shell_module_handle_uri), shell_module);
 
 	g_signal_connect_swapped (
 		shell, "window-created",
-		G_CALLBACK (mail_module_window_created), shell_module);
+		G_CALLBACK (mail_shell_module_window_created), shell_module);
 
 	mail_config_init ();
 	mail_msg_init ();
 
 	mail_shell_module_init_local_store (shell_module);
 	mail_shell_module_load_accounts (shell_module);
+	mail_shell_module_init_preferences ();
 }
 
 /******************************** Public API *********************************/
@@ -596,4 +642,11 @@ fail:
 	camel_exception_clear (&ex);
 
 	return NULL;
+}
+
+void
+e_mail_shell_module_remove_store_by_uri (EShellModule *shell_module,
+                                         const gchar *uri)
+{
+	/* FIXME */
 }

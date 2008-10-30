@@ -473,14 +473,6 @@ cal_shell_sidebar_constructed (GObject *object)
 }
 
 static void
-cal_shell_sidebar_client_added (ECalShellSidebar *cal_shell_sidebar,
-                                ECal *client)
-{
-        /* FIXME */
-	/*cal_shell_sidebar_update_timezone (cal_shell_sidebar);*/
-}
-
-static void
 cal_shell_sidebar_client_removed (ECalShellSidebar *cal_shell_sidebar,
                                   ECal *client)
 {
@@ -519,7 +511,6 @@ cal_shell_sidebar_class_init (ECalShellSidebarClass *class)
 	object_class->finalize = cal_shell_sidebar_finalize;
 	object_class->constructed = cal_shell_sidebar_constructed;
 
-	class->client_added = cal_shell_sidebar_client_added;
 	class->client_removed = cal_shell_sidebar_client_removed;
 
 	g_object_class_install_property (
@@ -628,6 +619,19 @@ e_cal_shell_sidebar_new (EShellView *shell_view)
 		"shell-view", shell_view, NULL);
 }
 
+GList *
+e_cal_shell_sidebar_get_clients (ECalShellSidebar *cal_shell_sidebar)
+{
+	GHashTable *client_table;
+
+	g_return_val_if_fail (
+		E_IS_CAL_SHELL_SIDEBAR (cal_shell_sidebar), NULL);
+
+	client_table = cal_shell_sidebar->priv->client_table;
+
+	return g_hash_table_get_values (client_table);
+}
+
 ECalendar *
 e_cal_shell_sidebar_get_mini_calendar (ECalShellSidebar *cal_shell_sidebar)
 {
@@ -720,27 +724,4 @@ e_cal_shell_sidebar_remove_source (ECalShellSidebar *cal_shell_sidebar,
 		return;
 
 	cal_shell_sidebar_emit_client_removed (cal_shell_sidebar, client);
-}
-
-void
-e_cal_shell_sidebar_update_timezone (ECalShellSidebar *cal_shell_sidebar)
-{
-	GHashTable *client_table;
-	icaltimezone *timezone;
-	GList *values;
-
-	g_return_if_fail (E_CAL_SHELL_SIDEBAR (cal_shell_sidebar));
-
-	timezone = calendar_config_get_icaltimezone ();
-	client_table = cal_shell_sidebar->priv->client_table;
-	values = g_hash_table_get_values (client_table);
-
-	while (values != NULL) {
-		ECal *client = values->data;
-
-		if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
-			e_cal_set_default_timezone (client, timezone, NULL);
-
-		values = g_list_delete_link (values, values);
-	}
 }

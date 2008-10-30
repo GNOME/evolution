@@ -174,15 +174,6 @@ factory (BonoboGenericFactory *factory,
 		return object;
 	} else if (strcmp (component_id, ITIP_CONTROL_ID) == 0)
 		return BONOBO_OBJECT (itip_bonobo_control_new ());
-	else if (strcmp (component_id, CONFIG_CONTROL_ID) == 0) {
-		GtkWidget *prefs;
-		EvolutionConfigControl *control;
-
-		prefs = calendar_prefs_dialog_new ();
-		gtk_widget_show (prefs);
-		control = evolution_config_control_new (prefs);
-
-		return BONOBO_OBJECT (control);
 	} else if (strcmp (component_id, COMP_EDITOR_FACTORY_ID) == 0)
 		return BONOBO_OBJECT (comp_editor_factory_fn ());
 

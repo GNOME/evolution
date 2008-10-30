@@ -41,41 +41,6 @@ cal_shell_view_process_completed_tasks (ECalShellView *cal_shell_view,
 }
 
 static void
-cal_shell_view_update_timezone (ECalShellView *cal_shell_view)
-{
-#if 0
-	ECalShellContent *cal_shell_content;
-	ECalShellSidebar *cal_shell_sidebar;
-	GnomeCalendarViewType view_type;
-	ECalendarView *calendar_view;
-	icaltimezone *timezone;
-
-	cal_shell_content = cal_shell_view->priv->cal_shell_content;
-	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
-
-	e_cal_shell_sidebar_update_timezone (cal_shell_sidebar);
-
-	view_type = e_cal_shell_content_get_current_view (cal_shell_content);
-	calendar_view = e_cal_shell_content_get_calendar_view (
-		cal_shell_content, view_type);
-
-	timezone = calendar_config_get_icaltimezone ();
-	e_calendar_view_get_icaltimezone (calendar_view, timezone);
-#endif
-}
-
-static void
-cal_shell_view_config_hide_completed_tasks_changed_cb (GConfClient *client,
-                                                       guint id,
-                                                       GConfEntry *entry,
-                                                       gpointer user_data)
-{
-	ECalShellView *cal_shell_view = user_data;
-
-	/* FIXME */
-}
-
-static void
 cal_shell_view_config_timezone_changed_cb (GConfClient *client,
                                            guint id,
                                            GConfEntry *entry,
@@ -83,7 +48,7 @@ cal_shell_view_config_timezone_changed_cb (GConfClient *client,
 {
 	ECalShellView *cal_shell_view = user_data;
 
-	cal_shell_view_update_timezone (cal_shell_view);
+	e_cal_shell_view_update_timezone (cal_shell_view);
 }
 
 static struct tm
@@ -149,6 +114,26 @@ cal_shell_view_mini_calendar_scroll_event_cb (ECalShellView *cal_shell_view,
 
 	cal_shell_view_mini_calendar_date_range_changed_cb (
 		cal_shell_view, calitem);
+}
+
+static void
+cal_shell_view_memopad_popup_event_cb (EShellView *shell_view,
+                                       GdkEventButton *event)
+{
+	const gchar *widget_path;
+
+	widget_path = "/calendar-memopad-popup";
+	e_shell_view_show_popup_menu (shell_view, widget_path, event);
+}
+
+static void
+cal_shell_view_taskpad_popup_event_cb (EShellView *shell_view,
+                                       GdkEventButton *event)
+{
+	const gchar *widget_path;
+
+	widget_path = "/calendar-taskpad-popup";
+	e_shell_view_show_popup_menu (shell_view, widget_path, event);
 }
 
 static void
@@ -300,8 +285,18 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		cal_shell_view);
 
 	g_signal_connect_swapped (
+		memo_table, "popup-event",
+		G_CALLBACK (cal_shell_view_memopad_popup_event_cb),
+		cal_shell_view);
+
+	g_signal_connect_swapped (
 		memo_table, "status-message",
 		G_CALLBACK (e_cal_shell_view_memopad_set_status_message),
+		cal_shell_view);
+
+	g_signal_connect_swapped (
+		task_table, "popup-event",
+		G_CALLBACK (cal_shell_view_taskpad_popup_event_cb),
 		cal_shell_view);
 
 	g_signal_connect_swapped (
@@ -319,6 +314,10 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		G_CALLBACK (e_cal_shell_view_taskpad_actions_update),
 		cal_shell_view);
 
+	e_categories_register_change_listener (
+		G_CALLBACK (e_cal_shell_view_update_search_filter),
+		cal_shell_view);
+
 	/* Listen for configuration changes. */
 
 	/* Timezone */
@@ -326,30 +325,11 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 		cal_shell_view_config_timezone_changed_cb, cal_shell_view);
 	priv->notifications = g_list_prepend (
 		priv->notifications, GUINT_TO_POINTER (id));
-	cal_shell_view_update_timezone (cal_shell_view);
-
-	/* Hide Completed Tasks (enable/units/value) */
-	id = calendar_config_add_notification_hide_completed_tasks (
-		cal_shell_view_config_hide_completed_tasks_changed_cb,
-		cal_shell_view);
-	priv->notifications = g_list_prepend (
-		priv->notifications, GUINT_TO_POINTER (id));
-	id = calendar_config_add_notification_hide_completed_tasks_units (
-		cal_shell_view_config_hide_completed_tasks_changed_cb,
-		cal_shell_view);
-	priv->notifications = g_list_prepend (
-		priv->notifications, GUINT_TO_POINTER (id));
-	id = calendar_config_add_notification_hide_completed_tasks_value (
-		cal_shell_view_config_hide_completed_tasks_changed_cb,
-		cal_shell_view);
-
-	e_categories_register_change_listener (
-		G_CALLBACK (e_cal_shell_view_update_search_filter),
-		cal_shell_view);
 
 	e_cal_shell_view_actions_init (cal_shell_view);
 	e_cal_shell_view_update_sidebar (cal_shell_view);
         e_cal_shell_view_update_search_filter (cal_shell_view);
+	e_cal_shell_view_update_timezone (cal_shell_view);
 }
 
 void
@@ -399,6 +379,12 @@ void
 e_cal_shell_view_private_finalize (ECalShellView *cal_shell_view)
 {
 	/* XXX Nothing to do? */
+}
+
+void
+e_cal_shell_view_execute_search (ECalShellView *cal_shell_view)
+{
+	/* FIXME */
 }
 
 void
@@ -608,5 +594,39 @@ e_cal_shell_view_update_sidebar (ECalShellView *cal_shell_view)
 	}
 
 	e_shell_sidebar_set_secondary_text (shell_sidebar, buffer);
+#endif
+}
+
+void
+e_cal_shell_view_update_timezone (ECalShellView *cal_shell_view)
+{
+#if 0
+	ECalShellContent *cal_shell_content;
+	ECalShellSidebar *cal_shell_sidebar;
+	GnomeCalendarViewType view_type;
+	ECalendarView *calendar_view;
+	icaltimezone *timezone;
+	GList *clients, *iter;
+
+	cal_shell_content = cal_shell_view->priv->cal_shell_content;
+	view_type = e_cal_shell_content_get_current_view (cal_shell_content);
+	calendar_view = e_cal_shell_content_get_calendar_view (
+		cal_shell_content, view_type);
+
+	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
+	clients = e_cal_shell_sidebar_get_clients (cal_shell_sidebar);
+
+	timezone = calendar_config_get_icaltimezone ();
+
+	for (iter = clients; iter != NULL; iter = iter->next) {
+		ECal *client = iter->data;
+
+		if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
+			e_cal_set_default_timezone (client, timezone, NULL);
+	}
+
+	e_calendar_view_set_icaltimezone (calendar_view, timezone);
+
+	g_list_free (clients);
 #endif
 }

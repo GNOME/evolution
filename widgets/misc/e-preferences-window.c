@@ -358,6 +358,7 @@ e_preferences_window_add_page (EPreferencesWindow *window,
 	g_hash_table_insert (index, g_strdup (page_name), reference);
 	gtk_tree_path_free (path);
 
+	gtk_widget_show (widget);
 	gtk_notebook_append_page (notebook, widget, NULL);
 
 	if (page == 0)

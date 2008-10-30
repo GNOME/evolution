@@ -28,9 +28,10 @@
 #include <libedataserverui/e-name-selector-entry.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <e-preferences-window.h>
 #include <libedataserver/e-source-list.h>
 #include <libedataserverui/e-source-selector.h>
+
+#include "widgets/misc/e-preferences-window.h"
 
 static void
 source_selection_changed_cb (ESourceSelector *source_selector)

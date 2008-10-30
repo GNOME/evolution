@@ -21,37 +21,39 @@
  *
  */
 
-#ifndef __EM_ACCOUNT_PREFS_H__
-#define __EM_ACCOUNT_PREFS_H__
+#ifndef EM_ACCOUNT_PREFS_H
+#define EM_ACCOUNT_PREFS_H
 
 #include <gtk/gtk.h>
 #include <glade/glade.h>
-
 #include <table/e-table.h>
 
-#include "evolution-config-control.h"
+/* Standard GObject macros */
+#define EM_TYPE_ACCOUNT_PREFS \
+	(em_account_prefs_get_type ())
+#define EM_ACCOUNT_PREFS(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_ACCOUNT_PREFS, EMAccountPrefs))
+#define EM_ACCOUNT_PREFS_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_ACCOUNT_PREFS, EMAccountPrefsClass))
+#define EM_IS_ACCOUNT_PREFS(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_ACCOUNT_PREFS))
+#define EM_IS_ACCOUNT_PREFS_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_ACCOUNT_PREFS))
+#define EM_ACCOUNT_PREFS_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_ACCOUNT_PREFS, EMAccountPrefsClass))
 
-#include <shell/Evolution.h>
-
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
-
-
-#define EM_ACCOUNT_PREFS_TYPE        (em_account_prefs_get_type ())
-#define EM_ACCOUNT_PREFS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), EM_ACCOUNT_PREFS_TYPE, EMAccountPrefs))
-#define EM_ACCOUNT_PREFS_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), EM_ACCOUNT_PREFS_TYPE, EMAccountPrefsClass))
-#define EM_IS_ACCOUNT_PREFS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), EM_ACCOUNT_PREFS_TYPE))
-#define EM_IS_ACCOUNT_PREFS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), EM_ACCOUNT_PREFS_TYPE))
+G_BEGIN_DECLS
 
 typedef struct _EMAccountPrefs EMAccountPrefs;
 typedef struct _EMAccountPrefsClass EMAccountPrefsClass;
 
 struct _EMAccountPrefs {
 	GtkVBox parent_object;
-
-	GNOME_Evolution_Shell shell;
 
 	GladeXML *gui;
 
@@ -71,21 +73,11 @@ struct _EMAccountPrefs {
 
 struct _EMAccountPrefsClass {
 	GtkVBoxClass parent_class;
-
-	/* signals */
-
 };
 
+GType		em_account_prefs_get_type	(void);
+GtkWidget *	em_account_prefs_new		(void);
 
-GType em_account_prefs_get_type (void);
+G_END_DECLS
 
-GtkWidget *em_account_prefs_new (GNOME_Evolution_Shell shell);
-
-/* needed by global config */
-#define EM_ACCOUNT_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_AccountPrefs_ConfigControl:" BASE_VERSION
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /* __EM_ACCOUNT_PREFS_H__ */
+#endif /* EM_ACCOUNT_PREFS_H */
