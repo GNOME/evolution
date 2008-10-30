@@ -154,8 +154,17 @@ static void
 preferences_window_show (GtkWidget *widget)
 {
 	EPreferencesWindowPrivate *priv;
+	GtkIconView *icon_view;
+	GtkTreePath *path;
 
 	priv = E_PREFERENCES_WINDOW_GET_PRIVATE (widget);
+
+	icon_view = GTK_ICON_VIEW (priv->icon_view);
+
+	path = gtk_tree_path_new_first ();
+	gtk_icon_view_select_path (icon_view, path);
+	gtk_icon_view_scroll_to_path (icon_view, path, FALSE, 0.0, 0.0);
+	gtk_tree_path_free (path);
 
 	gtk_widget_grab_focus (priv->icon_view);
 
@@ -360,9 +369,6 @@ e_preferences_window_add_page (EPreferencesWindow *window,
 
 	gtk_widget_show (widget);
 	gtk_notebook_append_page (notebook, widget, NULL);
-
-	if (page == 0)
-		e_preferences_window_show_page (window, page_name);
 }
 
 void
