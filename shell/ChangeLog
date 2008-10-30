@@ -1,3 +1,10 @@
+2008-10-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	* importer/evolution-importer-client.h:
+	* importer/intelligent.c:
+	* test/evolution-test-component.c:
+	Only include the toplevel GTK+ header.
+
 2008-10-17  Kandepu Prasad  <kaprasad@novell.com>
 
 	** Fix for bug #311479

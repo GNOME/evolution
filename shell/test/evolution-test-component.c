@@ -30,7 +30,7 @@
 #include <bonobo/bonobo-shlib-factory.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-exception.h>
-#include <gtk/gtklabel.h>
+#include <gtk/gtk.h>
 #include "e-task-bar.h"
 #include "evolution-test-component.h"
 

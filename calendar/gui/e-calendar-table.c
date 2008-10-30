@@ -36,7 +36,7 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <gnome.h>
-#include <gtk/gtktooltip.h>
+#include <gtk/gtk.h>
 #include <misc/e-gui-utils.h>
 #include <table/e-cell-checkbox.h>
 #include <table/e-cell-toggle.h>

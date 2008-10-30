@@ -26,25 +26,7 @@
 
 #include "intelligent.h"
 
-#include <glib.h>
-
-#include <gtk/gtkdrawingarea.h>
-#include <gtk/gtkbox.h>
-#include <gtk/gtkhbox.h>
-#include <gtk/gtkvbox.h>
-#include <gtk/gtkcheckbutton.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkmain.h>
-#include <gtk/gtkobject.h>
-#include <gtk/gtktogglebutton.h>
-#include <gtk/gtkwidget.h>
-#include <gtk/gtkwindow.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtkclist.h>
-#include <gtk/gtknotebook.h>
-#include <gtk/gtkscrolledwindow.h>
-#include <gtk/gtkdialog.h>
-#include <gtk/gtkstock.h>
+#include <gtk/gtk.h>
 
 #include <libgnome/gnome-config.h>
 /*#include <libgnome/gnome-util.h>*/

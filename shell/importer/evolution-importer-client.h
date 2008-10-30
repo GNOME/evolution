@@ -24,7 +24,7 @@
 #define EVOLUTION_IMPORTER_CLIENT_H
 
 #include <glib.h>
-#include <gtk/gtkwidget.h>
+#include <gtk/gtk.h>
 #include <importer/evolution-importer.h>
 #include <importer/evolution-importer-listener.h>
 

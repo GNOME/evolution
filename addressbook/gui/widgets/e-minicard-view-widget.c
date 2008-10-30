@@ -22,7 +22,7 @@
 
 #include <config.h>
 
-#include <gtk/gtksignal.h>
+#include <gtk/gtk.h>
 #include <misc/e-canvas-background.h>
 #include <misc/e-canvas.h>
 #include <glib/gi18n.h>

@@ -22,7 +22,7 @@
 
 #include <config.h>
 #include <string.h>
-#include <gtk/gtksignal.h>
+#include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-generic-factory.h>

@@ -30,7 +30,7 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <gtk/gtksignal.h>
+#include <gtk/gtk.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 #include <libgnomeui/gnome-dialog.h>

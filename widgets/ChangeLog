@@ -1,3 +1,10 @@
+2008-10-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	* widgets/menus/gal-view-menus.c:
+	* widgets/misc/e-activity-handler.c:
+	* widgets/table/e-table-config-field.h:
+	Only include the toplevel GTK+ header.
+
 2008-10-17  Sankar P  <psankar@novell.com>
 
 License Changes

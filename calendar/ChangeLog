@@ -1,3 +1,11 @@
+2008-10-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/control-factory.c:
+	* gui/e-calendar-table.c:
+	* gui/e-week-view-event-item.c:
+	* gui/weekday-picker.c:
+	Only include the toplevel GTK+ header.
+
 2008-10-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #555958 (patch by Anis Elleuch)
