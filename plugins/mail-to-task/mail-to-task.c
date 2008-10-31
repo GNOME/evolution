@@ -287,7 +287,7 @@ do_mail_to_task (AsyncData *data)
 		e_notice (NULL, GTK_MESSAGE_ERROR, _("Cannot open calendar. %s"), err ? err->message : "");
 	} else if (!e_cal_is_read_only (client, &readonly, &err) || readonly) {
 		if (err)
-			e_notice (NULL, GTK_MESSAGE_ERROR, err->message);
+			e_notice (NULL, GTK_MESSAGE_ERROR, "%s", err->message);
 		else
 			e_notice (NULL, GTK_MESSAGE_ERROR, _("Selected source is read only, thus cannot create task there. Select other source, please."));
 	} else {

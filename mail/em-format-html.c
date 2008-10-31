@@ -1060,7 +1060,7 @@ emfh_multipart_related_check(struct _EMFormatHTMLJob *job, int cancelled)
 		if (puri->use_count == 0) {
 			d(printf("part '%s' '%s' used '%d'\n", puri->uri?puri->uri:"", puri->cid, puri->use_count));
 			if (puri->func == emfh_write_related) {
-				g_string_printf(((EMFormat *)job->format)->part_id, puri->part_id);
+				g_string_printf(((EMFormat *)job->format)->part_id, "%s", puri->part_id);
 				em_format_part((EMFormat *)job->format, (CamelStream *)job->stream, puri->part);
 			}
 			/* else it was probably added by a previous format this loop */
