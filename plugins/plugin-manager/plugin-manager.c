@@ -196,7 +196,7 @@ eppm_enable_toggled (GtkCellRendererToggle *renderer, const char *path_string, M
 		gtk_tree_model_get (m->model, &iter, COL_PLUGIN_DATA, &plugin, -1);
 		e_plugin_enable (plugin, !plugin->enabled);
 
-		g_warning (plugin->name);
+		g_warning ("%s", plugin->name);
 
 		gtk_list_store_set (GTK_LIST_STORE(m->model), &iter,
 				    COL_PLUGIN_ENABLED, plugin->enabled,
