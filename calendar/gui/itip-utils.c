@@ -1098,7 +1098,6 @@ append_cal_attachments (EMsgComposer *composer,
                         ECalComponent *comp,
                         GSList *attach_list)
 {
-#if 0 /* KILL-BONOBO */
 	struct CalMimeAttach *mime_attach;
 	GSList *l;
 
@@ -1131,14 +1130,12 @@ append_cal_attachments (EMsgComposer *composer,
 		g_free (mime_attach->description);
 		g_free (mime_attach->encoded_data);
 	}
-#endif
 }
 
 gboolean
 itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 		ECal *client, icalcomponent *zones, GSList *attachments_list, GList *users)
 {
-#if 0  /* KILL-BONOBO */
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
 	EDestination **destinations;
@@ -1186,11 +1183,9 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	table = e_msg_composer_get_header_table (composer);
 	em_composer_utils_setup_default_callbacks (composer);
 
-#if 0  /* KILL-BONOBO */
 	e_composer_header_table_set_subject (table, subject);
 	e_composer_header_table_set_account_name (table, from);
 	e_composer_header_table_set_destinations_to (table, destinations);
-#endif
 
 	e_destination_freev (destinations);
 
@@ -1212,7 +1207,7 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 		description = comp_description (comp);
 
 		body = camel_text_to_html (
-			body, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
+			description, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
 		e_msg_composer_set_body_text (composer, body, -1);
 		g_free (body);
 
@@ -1257,9 +1252,6 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	g_free (ical_string);
 
 	return retval;
-#endif
-
-	return FALSE;
 }
 
 gboolean
@@ -1270,7 +1262,6 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
                         icalcomponent *zones,
                         GSList *attachments_list)
 {
-#if 0  /* KILL-BONOBO */
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
 	EDestination **destinations;
@@ -1300,11 +1291,9 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 	table = e_msg_composer_get_header_table (composer);
 	em_composer_utils_setup_default_callbacks (composer);
 
-#if 0  /* KILL-BONOBO */
 	e_composer_header_table_set_subject (table, subject);
 	e_composer_header_table_set_account_name (table, from);
 	e_composer_header_table_set_destinations_to (table, destinations);
-#endif
 
 	e_destination_freev (destinations);
 
@@ -1427,9 +1416,6 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 	g_free (subject);
 	g_free (ical_string);
 	return retval;
-#endif
-
-	return FALSE;
 }
 
 gboolean

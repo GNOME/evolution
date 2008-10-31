@@ -629,16 +629,6 @@ struct ContactCopyProcess_ {
 	ContactCopyDone done_cb;
 };
 
-#if 0
-static void
-contact_deleted_cb (EBook* book, EBookStatus status, gpointer user_data)
-{
-	if (status != E_BOOK_ERROR_OK) {
-		eab_error_dialog (_("Error removing contact"), status);
-	}
-}
-#endif
-
 static void
 do_delete (gpointer data, gpointer user_data)
 {
@@ -791,7 +781,6 @@ typedef struct {
 static void
 eab_send_to_contact_and_email_num_list (GList *contact_list)
 {
-#if 0  /* NOT READY FOR COMPOSER YET */
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
 	GPtrArray *to_array;
@@ -855,7 +844,6 @@ eab_send_to_contact_and_email_num_list (GList *contact_list)
 	e_destination_freev (convert.destinations);
 
 	gtk_widget_show (GTK_WIDGET (composer));
-#endif
 }
 
 static const char *
@@ -880,7 +868,6 @@ get_email (EContact *contact, EContactField field_id, gchar **to_free)
 static void
 eab_send_contact_list_as_attachment (GList *contacts)
 {
-#if 0 /* NOT READY FOR COMPOSER YET */
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
 	CamelMimePart *attachment;
@@ -957,7 +944,6 @@ eab_send_contact_list_as_attachment (GList *contacts)
 	}
 
 	gtk_widget_show (GTK_WIDGET (composer));
-#endif
 }
 
 void

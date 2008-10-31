@@ -25,8 +25,6 @@ INCLUDES =								\
 	$(EVOLUTION_MAIL_CFLAGS)
 
 libcomposer_la_SOURCES = 			\
-	$(IDL_GENERATED)			\
-	$(HTML_EDITOR_GENERATED)		\
 	e-composer-actions.c			\
 	e-composer-actions.h			\
 	e-composer-autosave.c			\
@@ -49,6 +47,9 @@ libcomposer_la_SOURCES = 			\
 	e-msg-composer.c			\
 	e-msg-composer.h
 
+libcomposer_la_LIBADD =						\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la
+
 uidir = $(evolutionuidir)
 ui_DATA = evolution-composer.ui
 
@@ -57,7 +58,7 @@ EXTRA_DIST =					\
 	mail-composer.error.xml			\
 	ChangeLog.pre-1-4
 
-BUILT_SOURCES = $(IDL_GENERATED) $(HTML_EDITOR_GENERATED) $(error_DATA)
+BUILT_SOURCES = $(error_DATA)
 CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:

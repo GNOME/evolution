@@ -67,14 +67,17 @@ libevolution_module_tasks_la_SOURCES =			\
 libevolution_module_calendars_la_LIBADD =		\
 	$(WIN32_BOOTSTRAP_LIBS)				\
 	$(top_builddir)/shell/libeshell.la		\
-	$(top_builddir)/calendar/gui/libcal-gui.la
+	$(top_builddir)/calendar/gui/libcal-gui.la	\
+	$(top_builddir)/addressbook/gui/component/libevolution-addressbook.la
 
 libevolution_module_memos_la_LIBADD =			\
 	$(WIN32_BOOTSTRAP_LIBS)				\
 	$(top_builddir)/shell/libeshell.la		\
-	$(top_builddir)/calendar/gui/libcal-gui.la
+	$(top_builddir)/calendar/gui/libcal-gui.la	\
+	$(top_builddir)/addressbook/gui/component/libevolution-addressbook.la
 
 libevolution_module_tasks_la_LIBADD =			\
 	$(WIN32_BOOTSTRAP_LIBS)				\
 	$(top_builddir)/shell/libeshell.la		\
-	$(top_builddir)/calendar/gui/libcal-gui.la
+	$(top_builddir)/calendar/gui/libcal-gui.la	\
+	$(top_builddir)/addressbook/gui/component/libevolution-addressbook.la

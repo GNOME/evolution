@@ -155,10 +155,14 @@ libevolution_module_mail_la_SOURCES =			\
 	message-tag-followup,h
 
 libevolution_module_mail_la_LIBADD =			\
-	$(top_builddir)/composer/libcomposer.la		\
-	$(top_builddir)/mail/importers/libevolution-mail-importers.la \
+	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/shell/libeshell.la		\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la
+	$(top_builddir)/composer/libcomposer.la		\
+	$(top_builddir)/widgets/table/libetable.la	\
+	$(top_builddir)/widgets/text/libetext.la	\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
+	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
+	$(top_builddir)/mail/importers/libevolution-mail-importers.la
 
 # plugin mail api
 #mailinclude_HEADERS =				\
@@ -293,12 +297,6 @@ SMIME_LIBS = 				\
 endif
 
 #libevolution_mail_la_LIBADD =					\
-#	$(top_builddir)/e-util/libeutil.la			\
-#	$(top_builddir)/shell/libeshell.la			\
-#	$(top_builddir)/composer/libcomposer.la			\
-#	$(top_builddir)/widgets/table/libetable.la		\
-#	$(top_builddir)/widgets/text/libetext.la		\
-#	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 #	$(top_builddir)/widgets/misc/libefilterbar.la		\
 #	$(top_builddir)/filter/libfilter.la			\
 #	$(top_builddir)/widgets/menus/libmenus.la		\

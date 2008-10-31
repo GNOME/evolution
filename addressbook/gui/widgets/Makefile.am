@@ -32,8 +32,6 @@ libeabwidgets_la_SOURCES =			\
 	eab-contact-display.h			\
 	eab-gui-util.c				\
 	eab-gui-util.h				\
-	eab-vcard-control.c			\
-	eab-vcard-control.h			\
 	e-minicard.c				\
 	e-minicard.h				\
 	e-minicard-label.c			\
@@ -58,6 +56,7 @@ libeabwidgets_la_SOURCES =			\
 	gal-view-factory-minicard.h
 
 libeabwidgets_la_LIBADD =					\
+	$(top_builddir)/composer/libcomposer.la			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la
 
 CLEANFILES = $(BUILT_SOURCES)

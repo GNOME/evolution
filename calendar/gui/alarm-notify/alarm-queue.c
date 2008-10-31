@@ -910,6 +910,7 @@ create_snooze (CompQueuedAlarms *cqa, gpointer alarm_id, int snooze_mins)
 static void
 edit_component (ECal *client, ECalComponent *comp)
 {
+#if 0  /* KILL-BONOBO */
 	const char *uid;
 	const char *uri;
 	ECalSourceType source_type;
@@ -953,6 +954,7 @@ edit_component (ECal *client, ECalComponent *comp)
 
 	/* Get rid of the factory */
 	bonobo_object_release_unref (factory, NULL);
+#endif
 }
 
 typedef struct {
