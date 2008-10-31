@@ -1,3 +1,11 @@
+2008-10-31  Sankar P  <psankar@novell.com>
+
+        * Patch by Bharath Acharya <abharath@novell.com>
+
+	* em-folder-tree.c (emft_popup):
+	Disable mail deletion and rename 
+	for system folders.
+
 2008-10-21  Sankar P  <psankar@novell.com>
 
 	* em-folder-view.c (emfv_spin):
