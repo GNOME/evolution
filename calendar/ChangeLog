@@ -1,3 +1,8 @@
+2008-10-31  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/itip-utils.c (itip_send_comp):
+	Fix a crash when selecting "Forward as iCalendar".
+
 2008-10-30  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/control-factory.c:

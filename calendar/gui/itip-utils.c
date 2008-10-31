@@ -1207,7 +1207,7 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 		description = comp_description (comp);
 
 		body = camel_text_to_html (
-			body, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
+			description, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
 		e_msg_composer_set_body_text (composer, body, -1);
 		g_free (body);
 
