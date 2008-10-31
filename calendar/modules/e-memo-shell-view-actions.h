@@ -61,6 +61,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "memo-list-print-preview")
 #define E_SHELL_WINDOW_ACTION_MEMO_LIST_PROPERTIES(window) \
 	E_SHELL_WINDOW_ACTION ((window), "memo-list-properties")
+#define E_SHELL_WINDOW_ACTION_MEMO_LIST_RENAME(window) \
+	E_SHELL_WINDOW_ACTION ((window), "memo-list-rename")
 #define E_SHELL_WINDOW_ACTION_MEMO_LIST_SELECT_ONE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "memo-list-select-one")
 

@@ -173,6 +173,19 @@ action_address_book_properties_cb (GtkAction *action,
 }
 
 static void
+action_address_book_rename_cb (GtkAction *action,
+                               EBookShellView *book_shell_view)
+{
+	EBookShellSidebar *book_shell_sidebar;
+	ESourceSelector *selector;
+
+	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
+	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);
+
+	e_source_selector_edit_primary_selection (selector);
+}
+
+static void
 action_address_book_save_as_cb (GtkAction *action,
                                 EBookShellView *book_shell_view)
 {
@@ -522,6 +535,13 @@ static GtkActionEntry contact_entries[] = {
 	  NULL,
 	  N_("Show properties of the selected address book"),
 	  G_CALLBACK (action_address_book_properties_cb) },
+
+	{ "address-book-rename",
+	  NULL,
+	  N_("_Rename..."),
+	  "F2",
+	  N_("Rename the selected address book"),
+	  G_CALLBACK (action_address_book_rename_cb) },
 
 	{ "address-book-save-as",
 	  GTK_STOCK_SAVE_AS,

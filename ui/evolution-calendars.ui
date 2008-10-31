@@ -49,8 +49,10 @@
   <popup name='calendar-popup'>
     <menuitem action='calendar-new'/>
     <menuitem action='calendar-copy'/>
+    <menuitem action='calendar-rename'/>
     <separator/>
     <menuitem action='calendar-delete'/>
+    <menuitem action='calendar-select-one'/>
     <separator/>
     <menuitem action='calendar-properties'/>
   </popup>

@@ -51,6 +51,7 @@
   <popup name='memo-list-popup'>
     <menuitem action='memo-list-new'/>
     <menuitem action='memo-list-copy'/>
+    <menuitem action='memo-list-rename'/>
     <separator/>
     <menuitem action='memo-list-delete'/>
     <menuitem action='memo-list-select-one'/>

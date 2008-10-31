@@ -336,6 +336,19 @@ action_task_list_properties_cb (GtkAction *action,
 }
 
 static void
+action_task_list_rename_cb (GtkAction *action,
+                            ETaskShellView *task_shell_view)
+{
+	ETaskShellSidebar *task_shell_sidebar;
+	ESourceSelector *selector;
+
+	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
+	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+
+	e_source_selector_edit_primary_selection (selector);
+}
+
+static void
 action_task_list_select_one_cb (GtkAction *action,
                                 ETaskShellView *task_shell_view)
 {
@@ -711,6 +724,13 @@ static GtkActionEntry task_entries[] = {
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_task_list_properties_cb) },
+
+	{ "task-list-rename",
+	  NULL,
+	  N_("_Rename..."),
+	  "F2",
+	  N_("Rename the selected task list"),
+	  G_CALLBACK (action_task_list_rename_cb) },
 
 	{ "task-list-select-one",
 	  "stock_check-filled",

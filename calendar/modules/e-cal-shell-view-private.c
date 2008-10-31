@@ -116,6 +116,19 @@ cal_shell_view_mini_calendar_scroll_event_cb (ECalShellView *cal_shell_view,
 		cal_shell_view, calitem);
 }
 
+static gboolean
+cal_shell_view_selector_popup_event_cb (EShellView *shell_view,
+                                        ESource *primary_source,
+                                        GdkEventButton *event)
+{
+	const gchar *widget_path;
+
+	widget_path = "/calendar-popup";
+	e_shell_view_show_popup_menu (shell_view, widget_path, event);
+
+	return TRUE;
+}
+
 static void
 cal_shell_view_memopad_popup_event_cb (EShellView *shell_view,
                                        GdkEventButton *event)
@@ -240,6 +253,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	ECalendar *mini_calendar;
 	EMemoTable *memo_table;
 	ECalendarTable *task_table;
+	ESourceSelector *selector;
 	guint id;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
@@ -256,6 +270,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
 
 	cal_shell_sidebar = E_CAL_SHELL_SIDEBAR (shell_sidebar);
+	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
 	mini_calendar = e_cal_shell_sidebar_get_mini_calendar (cal_shell_sidebar);
 
 	e_calendar_item_set_get_time_callback (
@@ -282,6 +297,11 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	g_signal_connect_swapped (
 		mini_calendar->calitem, "selection-changed",
 		G_CALLBACK (cal_shell_view_mini_calendar_selection_changed_cb),
+		cal_shell_view);
+
+	g_signal_connect_swapped (
+		selector, "popup-event",
+		G_CALLBACK (cal_shell_view_selector_popup_event_cb),
 		cal_shell_view);
 
 	g_signal_connect_swapped (

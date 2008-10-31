@@ -62,8 +62,10 @@
   <popup name='task-list-popup'>
     <menuitem action='task-list-new'/>
     <menuitem action='task-list-copy'/>
+    <menuitem action='task-list-rename'/>
     <separator/>
     <menuitem action='task-list-delete'/>
+    <menuitem action='task-list-select-one'/>
     <separator/>
     <menuitem action='task-list-properties'/>
   </popup>

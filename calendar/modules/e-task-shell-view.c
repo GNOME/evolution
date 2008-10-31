@@ -173,6 +173,10 @@ task_shell_view_update_actions (EShellView *shell_view)
 	sensitive = has_primary_source;
 	gtk_action_set_sensitive (action, sensitive);
 
+	action = ACTION (TASK_LIST_RENAME);
+	sensitive = has_primary_source;
+	gtk_action_set_sensitive (action, sensitive);
+
 	action = ACTION (TASK_MARK_COMPLETE);
 	sensitive =
 		any_tasks_selected &&

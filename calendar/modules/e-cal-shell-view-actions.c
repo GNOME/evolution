@@ -284,6 +284,49 @@ action_calendar_purge_cb (GtkAction *action,
 }
 
 static void
+action_calendar_rename_cb (GtkAction *action,
+                           ECalShellView *cal_shell_view)
+{
+	ECalShellSidebar *cal_shell_sidebar;
+	ESourceSelector *selector;
+
+	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
+	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
+
+	e_source_selector_edit_primary_selection (selector);
+}
+
+static void
+action_calendar_select_one_cb (GtkAction *action,
+                               ECalShellView *cal_shell_view)
+{
+	ECalShellSidebar *cal_shell_sidebar;
+	ESourceSelector *selector;
+	ESource *primary;
+	GSList *list, *iter;
+
+	/* XXX ESourceSelector should provide a function for this. */
+
+	cal_shell_sidebar = cal_shell_view->priv->cal_shell_sidebar;
+	selector = e_cal_shell_sidebar_get_selector (cal_shell_sidebar);
+	primary = e_source_selector_peek_primary_selection (selector);
+	g_return_if_fail (primary != NULL);
+
+	list = e_source_selector_get_selection (selector);
+	for (iter = list; iter != NULL; iter = iter->next) {
+		ESource *source = iter->data;
+
+		if (source == primary)
+			continue;
+
+		e_source_selector_unselect_source (selector, source);
+	}
+	e_source_selector_free_selection (list);
+
+	e_source_selector_select_source (selector, primary);
+}
+
+static void
 action_calendar_view_cb (GtkRadioAction *action,
                          GtkRadioAction *current,
                          ECalShellView *cal_shell_view)
@@ -614,6 +657,20 @@ static GtkActionEntry calendar_entries[] = {
 	  "<Control>e",
 	  N_("Purge old appointments and meetings"),
 	  G_CALLBACK (action_calendar_purge_cb) },
+
+	{ "calendar-rename",
+	  NULL,
+	  N_("_Rename..."),
+	  "F2",
+	  N_("Rename the selected calendar"),
+	  G_CALLBACK (action_calendar_rename_cb) },
+
+	{ "calendar-select-one",
+	  "stock_check-filled",
+	  N_("Show _Only This Calendar"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_calendar_select_one_cb) },
 
 	{ "event-clipboard-copy",
 	  GTK_STOCK_COPY,

@@ -289,6 +289,19 @@ action_memo_list_properties_cb (GtkAction *action,
 }
 
 static void
+action_memo_list_rename_cb (GtkAction *action,
+                            EMemoShellView *memo_shell_view)
+{
+	EMemoShellSidebar *memo_shell_sidebar;
+	ESourceSelector *selector;
+
+	memo_shell_sidebar = memo_shell_view->priv->memo_shell_sidebar;
+	selector = e_memo_shell_sidebar_get_selector (memo_shell_sidebar);
+
+	e_source_selector_edit_primary_selection (selector);
+}
+
+static void
 action_memo_list_select_one_cb (GtkAction *action,
                                 EMemoShellView *memo_shell_view)
 {
@@ -586,6 +599,13 @@ static GtkActionEntry memo_entries[] = {
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_memo_list_properties_cb) },
+
+	{ "memo-list-rename",
+	  NULL,
+	  N_("_Rename..."),
+	  "F2",
+	  N_("Rename the selected memo list"),
+	  G_CALLBACK (action_memo_list_rename_cb) },
 
 	{ "memo-list-select-one",
 	  "stock_check-filled",

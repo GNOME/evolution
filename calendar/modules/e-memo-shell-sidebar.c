@@ -463,9 +463,9 @@ memo_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	}
 
 	if (source != NULL)
-		state = E_MEMO_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE;
+		state |= E_MEMO_SHELL_SIDEBAR_HAS_PRIMARY_SOURCE;
 	if (is_system)
-		state = E_MEMO_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM;
+		state |= E_MEMO_SHELL_SIDEBAR_PRIMARY_SOURCE_IS_SYSTEM;
 
 	return state;
 }

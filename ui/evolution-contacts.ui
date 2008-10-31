@@ -49,6 +49,7 @@
   </toolbar>
   <popup name='address-book-popup'>
     <menuitem action='address-book-new'/>
+    <menuitem action='address-book-rename'/>
     <menuitem action='address-book-popup-save-as'/>
     <separator/>
     <menuitem action='address-book-popup-delete'/>
