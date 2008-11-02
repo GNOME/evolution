@@ -101,6 +101,39 @@ cal_shell_content_display_view_cb (ECalShellContent *cal_shell_content,
 {
 }
 
+static void
+cal_shell_content_notify_view_id_cb (ECalShellContent *cal_shell_content)
+{
+	EShellContent *shell_content;
+	EShellView *shell_view;
+	GConfBridge *bridge;
+	GtkWidget *paned;
+	guint binding_id;
+	const gchar *key;
+	const gchar *view_id;
+
+	bridge = gconf_bridge_get ();
+	paned = cal_shell_content->priv->hpaned;
+	binding_id = cal_shell_content->priv->paned_binding_id;
+
+	shell_content = E_SHELL_CONTENT (cal_shell_content);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	view_id = e_shell_view_get_view_id (shell_view);
+
+	if (binding_id > 0)
+		gconf_bridge_unbind (bridge, binding_id);
+
+	if (view_id != NULL && strcmp (view_id, "Month_View") == 0)
+		key = "/apps/evolution/calendar/display/month_hpane_position";
+	else
+		key = "/apps/evolution/calendar/display/hpane_position";
+
+	binding_id = gconf_bridge_bind_property_delayed (
+		bridge, key, G_OBJECT (paned), "position");
+
+	cal_shell_content->priv->paned_binding_id = binding_id;
+}
+
 static FocusLocation
 cal_shell_content_get_focus_location (ECalShellContent *cal_shell_content)
 {
@@ -315,9 +348,11 @@ cal_shell_content_constructed (GObject *object)
 	EShellView *foreign_view;
 	GalViewCollection *view_collection;
 	GalViewInstance *view_instance;
+	GConfBridge *bridge;
 	GtkWidget *container;
 	GtkWidget *widget;
 	const gchar *config_dir;
+	const gchar *key;
 	gchar *filename;
 	gchar *markup;
 	gint page_num;
@@ -533,6 +568,19 @@ cal_shell_content_constructed (GObject *object)
 		object);
 	gal_view_instance_load (view_instance);
 	priv->view_instance = view_instance;
+
+	g_signal_connect_swapped (
+		shell_view, "notify::view-id",
+		G_CALLBACK (cal_shell_content_notify_view_id_cb),
+		object);
+
+	/* Bind GObject properties to GConf keys. */
+
+	bridge = gconf_bridge_get ();
+
+	object = G_OBJECT (priv->vpaned);
+	key = "/apps/evolution/calendar/display/vpane_position";
+	gconf_bridge_bind_property_delayed (bridge, key, object, "position");
 
 	g_object_unref (memo_model);
 	g_object_unref (task_model);

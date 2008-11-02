@@ -65,10 +65,10 @@ SUBDIRS = 			\
         widgets                 \
         shell                   \
 	$(SMIME_DIR)		\
+	composer		\
 	addressbook		\
 	calendar		\
         art                     \
-	composer		\
 	plugins			\
 	doc			\
 	ui			\

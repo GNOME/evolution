@@ -271,7 +271,7 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	container = priv->content_pane;
 
 	widget = e_shell_switcher_new ();
-	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
+	gtk_paned_pack1 (GTK_PANED (container), widget, FALSE, FALSE);
 	priv->switcher = g_object_ref (widget);
 	gtk_widget_show (widget);
 
