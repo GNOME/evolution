@@ -1,3 +1,11 @@
+2008-11-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #557613
+
+	* em-utils.c (try_open_e_book):
+	Wait for try_open_e_book_cb() to run before freeing the EFlag.
+	It will run regardless of whether the EBook operation completes.
+
 2008-10-31  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #558726 (patch by Frederic van Starbmann)

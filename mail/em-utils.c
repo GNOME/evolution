@@ -2081,13 +2081,13 @@ try_open_e_book (EBook *book, gboolean only_if_exists, GError **error)
 		e_flag_timed_wait (flag, &wait);
 	}
 
-	e_flag_free (flag);
-
 	if (canceled) {
 		g_set_error (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED, "Operation has been canceled.");
 		e_book_cancel_async_op (book, NULL);
-		return FALSE;
 	}
+
+	e_flag_wait (flag);
+	e_flag_free (flag);
 
 	return data.result;
 }
@@ -2183,7 +2183,7 @@ em_utils_in_addressbook (CamelInternetAddress *iaddr, gboolean local_only)
 			stop = err && err->domain == E_BOOK_ERROR && err->code == E_BOOK_ERROR_CANCELLED;
 			mail_cancel_hook_remove(hook);
 			g_object_unref(book);
-			d(g_warning("Can't get contacts: %s", err->message));
+			g_warning("Can't get contacts: %s", err->message);
 			g_clear_error(&err);
 			continue;
 		}
@@ -2267,7 +2267,7 @@ em_utils_contact_photo (struct _CamelInternetAddress *cia, gboolean local)
 		    || !e_book_get_contacts(book, query, &contacts, &err)) {
 			stop = err && err->domain == E_BOOK_ERROR && err->code == E_BOOK_ERROR_CANCELLED;
 			g_object_unref(book);
-			d(g_warning("Can't get contacts: %s", err->message));
+			g_warning("Can't get contacts: %s", err->message);
 			g_clear_error(&err);
 			continue;
 		}
