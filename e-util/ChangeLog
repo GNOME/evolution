@@ -1,3 +1,8 @@
+2008-11-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-util.c (do_format_number_as_float):
+	Remove this unused internal function.
+
 2008-10-30  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-icon-factory.c:
