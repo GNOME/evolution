@@ -1,3 +1,9 @@
+2008-11-03  Leonardo Ferreira Fontenelle  <leonardof@gnome.org>
+
+	* pt_BR.po: Fixed capitalization, fixed verb tense in descriptions,
+	fixed some terminology errors, fixed double spaces, fixed random errors,
+	and improved access keys in the Brazilian Portuguese translation.
+
 2008-11-02  Gabor Kelemen  <kelemeng@gnome.hu>
 
 	* hu.po: Translation updated.
