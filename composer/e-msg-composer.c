@@ -2297,6 +2297,11 @@ msg_composer_key_press_event (GtkWidget *widget,
 {
 	EMsgComposer *composer = E_MSG_COMPOSER (widget);
 	GtkWidget *input_widget;
+	GtkhtmlEditor *editor;
+	GtkHTML *html;
+
+	editor = GTKHTML_EDITOR (widget);
+	html = gtkhtml_editor_get_html (editor);
 
 	input_widget =
 		e_composer_header_table_get_header (
@@ -2316,8 +2321,13 @@ msg_composer_key_press_event (GtkWidget *widget,
 	}
 
 	if (event->keyval == GDK_Tab && gtk_widget_is_focus (input_widget)) {
-		gtkhtml_editor_run_command (
-			GTKHTML_EDITOR (composer), "grab-focus");
+		gtkhtml_editor_run_command (editor, "grab-focus");
+		return TRUE;
+	}
+
+	if (event->keyval == GDK_ISO_Left_Tab &&
+		gtk_widget_is_focus (GTK_WIDGET (html))) {
+		gtk_widget_grab_focus (input_widget);
 		return TRUE;
 	}
 
