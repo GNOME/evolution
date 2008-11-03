@@ -109,7 +109,7 @@
 <!--
         <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
 -->
-        <menuitem name="ToolsSubscriptions" verb="" _label="_Subscriptions"/>
+        <menuitem name="ToolsSubscriptions" verb="" _label="_Subscriptions..."/>
 
  	<separator f="" name="Folder1"/>
 

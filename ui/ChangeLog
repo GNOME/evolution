@@ -1,3 +1,12 @@
+2008-11-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #559040
+
+	* evolution-addressbook.xml:
+	* evolution-mail-global.xml:
+	* evolution-mail-list.xml:
+	No period at the end of tooltips, and use sentence case.
+
 2008-08-27  Philip Withnall  <philip@tecnocode.co.uk>
 
 	** Fix for bug #534762

@@ -38,23 +38,23 @@
 	 pixtype="stock" pixname="gtk-select-all"/>
 
     <cmd name="ContactsSaveAsVCard" _label="Save as VCard..."
-	 _tip="Save selected contacts as a VCard."
+	 _tip="Save selected contacts as a VCard"
 	 accel="*Control*s" pixtype="pixbuf"/>
 
     <cmd name="ContactsSendContactToOther" _label="Forward Contact"
-	 _tip="Send selected contacts to another person."
+	 _tip="Send selected contacts to another person"
 	 pixtype="pixbuf"/>
 
     <cmd name="ContactsSendMessageToContact" _label="Send message to contact"
-	 _tip="Send a message to the selected contacts."
+	 _tip="Send a message to the selected contacts"
 	 pixtype="pixbuf"/>
 
     <cmd name="ContactsCopyToFolder" _label="Copy to Folder..."
-	 _tip="Copy Selected Contacts to Another Folder..."
+	 _tip="Copy selected contacts to another folder"
 	 accel="*Control**Shift*y"/>
 
     <cmd name="ContactsMoveToFolder" _label="Move to Folder..."
-	 _tip="Move Selected Contacts to Another Folder..."
+	 _tip="Move selected contacts to another folder"
 	 accel="*Control**Shift*v"/>
 
     <cmd name="ContactsViewPreview" _label="Contact _Preview"
