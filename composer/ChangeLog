@@ -1,3 +1,10 @@
+2008-11-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #559028
+
+	* e-msg-composer.c (msg_composer_key_press_event):
+	Skip over the style toolbar when tabbing in reverse.
+
 2008-10-29  Sankar P  <psankar@novell.com>
 
 License Changes
