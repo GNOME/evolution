@@ -264,6 +264,24 @@ License Changes
 	* gui/e-cal-model.c: (e_cal_view_objects_modified_cb):
 	Use result of g_list_prepend, thus report changes properly.
 
+2008-11-03  Ashish Shrivastava  <shashish@novell.com>
+
+	** Most of the errors are now non-intrusive
+
+	* calendar.error.xml: Added a new error message for
+	  non-intrusive backend_died.
+	* apps_evolution_calendar.schemas.in:
+	* calendar-commands.c: Added new verb for help debug message
+	  (help_debug):
+	* gnome-cal.c: Support for non-intrusive error.
+	  (client_cal_opened_cb), Define fash table and accessing errors:
+	* e-calendar-view.c: (error_response):
+	  (e_calendar_utils_show_error_silent), (e_calendar_utils_show_info_silent):
+	* e-calendar-view.h:
+	* calendar-component.c: Added EActivityHandler and ELogger:
+	(calendar_component_peek_activity_handler), (calendar_component_show_logger):
+	* calendar-component.h:
+
 2008-09-08  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #544187

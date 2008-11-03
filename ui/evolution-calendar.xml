@@ -25,6 +25,7 @@
     <cmd name="DeleteAllOccurrences" _tip="Delete all occurrences" pixtype="pixbuf"/>
     
     <cmd name="CalendarPurge" _label="Purg_e" _tip="Purge old appointments and meetings" accel="*Control*e"/>
+    <cmd name="HelpDebug" _tip="View the debug console for log messages"/>
   </commands>
 
   <menu>
@@ -71,6 +72,11 @@
 	<menuitem name="CalendarPurge" verb=""/>
     </submenu>
     </placeholder>
+    <submenu name="Help" _label="_Help">
+            <placeholder name="PlaceHolderDebug">
+                    <menuitem name="HelpDebug" verb="" _label="_Debug Logs"/>
+            </placeholder>
+   </submenu>
   </menu>
 
   <dockitem name="Toolbar">

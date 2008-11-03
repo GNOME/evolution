@@ -57,6 +57,7 @@ eutilinclude_HEADERS = 				\
 	e-icon-factory.h			\
 	e-import.h				\
 	e-logger.h				\
+	e-non-intrusive-error-dialog.h		\
 	e-menu.h				\
 	e-mktemp.h				\
 	e-print.h				\
@@ -98,6 +99,7 @@ libeutil_la_SOURCES =				\
 	e-icon-factory.c			\
 	e-import.c				\
 	e-logger.c				\
+	e-non-intrusive-error-dialog.c		\
 	e-menu.c				\
 	e-mktemp.c				\
 	e-plugin.c				\

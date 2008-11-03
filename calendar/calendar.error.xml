@@ -176,6 +176,23 @@
   <_secondary>Your memos will not be available until Evolution is restarted.</_secondary>
  </error>
 
+<error id="backend_died" type="error">
+   <_primary>The Evolution calendars have quit unexpectedly.</_primary>
+   <_secondary>Your calendars will not be available until Evolution is restarted.</_secondary>
+</error>
+
+<error id="unable-to-load-the-calendar" type="error" default="GTK_RESPONSE_YES">
+ <_primary>Unable to load the calendar</_primary>
+ <_secondary>Calendar repository is offline.</_secondary>
+ <button stock ="gtk-ok" response="GTK_RESPONSE_YES"/>
+</error>
+<error id="error-on-loading-the-calendar" type="error" default="GTK_RESPONSE_YES">
+ <!-- For Translators: {0} is specify the backend server -->
+ <_primary>Error on '{0}'</_primary>
+ <_secondary>No response from the server.</_secondary>
+ <button stock ="gtk-ok" response="GTK_RESPONSE_YES"/>
+</error>
+
  <error id="editor-error" type="error">
   <_primary>Editor could not be loaded.</_primary>
   <_secondary>{0}.</_secondary>

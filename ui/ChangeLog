@@ -7,6 +7,12 @@
 	* evolution-mail-list.xml:
 	No period at the end of tooltips, and use sentence case.
 
+2008-11-03  Ashish Shrivastava  <shashish@novell.com>
+
+	** Support for Non-intrusive error in calendar.
+
+	* evolution-calendar.xml: Add menu for HelpDebug.
+
 2008-08-27  Philip Withnall  <philip@tecnocode.co.uk>
 
 	** Fix for bug #534762

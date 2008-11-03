@@ -53,6 +53,8 @@
 #include "dialogs/copy-source-dialog.h"
 #include "dialogs/event-editor.h"
 #include "misc/e-info-label.h"
+#include "e-util/e-non-intrusive-error-dialog.h"
+#include "e-util/gconf-bridge.h"
 #include "e-util/e-error.h"
 #include "e-cal-menu.h"
 #include "e-cal-popup.h"
@@ -66,6 +68,8 @@
 #define CONTACTS_BASE_URI "contacts://"
 #define WEATHER_BASE_URI "weather://"
 #define PERSONAL_RELATIVE_URI "system"
+#define CALENDAR_ERROR_LEVEL_KEY "/apps/evolution/calendar/display/error_level"
+#define CALENDAR_ERROR_TIME_OUT_KEY "/apps/evolution/calendar/display/error_timeout" 
 
 enum DndTargetType {
 	DND_TARGET_TYPE_CALENDAR_LIST,
@@ -77,8 +81,9 @@ static GtkTargetEntry drag_types[] = {
 	{ XCALENDAR_TYPE, 0, DND_TARGET_TYPE_CALENDAR_LIST }
 };
 static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
-
+#define CALENDAR_COMPONENT_DEFAULT(cc) if (cc == NULL) cc = calendar_component_peek()
 #define PARENT_TYPE bonobo_object_get_type ()
+
 static BonoboObjectClass *parent_class = NULL;
 
 typedef struct
@@ -119,6 +124,9 @@ struct _CalendarComponentPrivate {
 	ESourceList *source_list;
 	ESourceList *task_source_list;
 	ESourceList *memo_source_list;
+
+	EActivityHandler *activity_handler;
+        ELogger *logger;
 
 	GList *views;
 
@@ -1460,6 +1468,8 @@ create_component_view (CalendarComponent *calendar_component)
 	statusbar_widget = e_task_bar_new ();
 	component_view->activity_handler = e_activity_handler_new ();
 	e_activity_handler_attach_task_bar (component_view->activity_handler, E_TASK_BAR (statusbar_widget));
+	e_activity_handler_attach_task_bar (priv->activity_handler, E_TASK_BAR (statusbar_widget));
+
 	gtk_widget_show (statusbar_widget);
 
 	component_view->statusbar_control = bonobo_control_new (statusbar_widget);
@@ -1697,6 +1707,11 @@ impl_dispose (GObject *object)
 		priv->gconf_client = NULL;
 	}
 
+	if (priv->activity_handler != NULL) {
+		g_object_unref (priv->activity_handler);
+		priv->activity_handler = NULL;
+	}
+
 	if (priv->create_ecal) {
 		g_object_unref (priv->create_ecal);
 		priv->create_ecal = NULL;
@@ -1733,6 +1748,7 @@ impl_finalize (GObject *object)
 
 	g_free (priv->base_directory);
 	g_free (priv->config_directory);
+	g_object_unref (priv->logger);
 	g_free (priv);
 
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
@@ -1774,6 +1790,11 @@ calendar_component_init (CalendarComponent *component)
 	not = calendar_config_add_notification_primary_calendar (config_primary_selection_changed_cb,
 								 component);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+
+	priv->logger = e_logger_create ("calendar");
+	priv->activity_handler = e_activity_handler_new ();
+	e_activity_handler_set_logger (priv->activity_handler, priv->logger);
+	e_activity_handler_set_error_flush_time (priv->activity_handler,eni_config_get_error_timeout (CALENDAR_ERROR_TIME_OUT_KEY)*1000);
 
 	component->priv = priv;
 	ensure_sources (component);
@@ -1823,6 +1844,23 @@ ESourceList *
 calendar_component_peek_source_list (CalendarComponent *component)
 {
 	return component->priv->source_list;
+}
+
+EActivityHandler *
+calendar_component_peek_activity_handler (CalendarComponent *component)
+{
+	CALENDAR_COMPONENT_DEFAULT(component);
+
+	return component->priv->activity_handler;
+}
+
+void
+calendar_component_show_logger (gpointer top)
+{
+	CalendarComponent *cc = calendar_component_peek ();
+	ELogger *logger = cc->priv->logger;
+
+	eni_show_logger(logger, top, CALENDAR_ERROR_TIME_OUT_KEY, CALENDAR_ERROR_LEVEL_KEY);
 }
 
 BONOBO_TYPE_FUNC_FULL (CalendarComponent, GNOME_Evolution_Component, PARENT_TYPE, calendar_component)

@@ -93,6 +93,9 @@
 
 #define d(x) x
 
+/* hash table define for non intrusive error dialog */
+static GHashTable *non_intrusive_error_table = NULL;
+
 /* Private part of the GnomeCalendar structure */
 struct _GnomeCalendarPrivate {
 	/* The clients for display */
@@ -1820,6 +1823,9 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++)
 		priv->clients[i] = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 
+	if (non_intrusive_error_table == NULL)
+		non_intrusive_error_table = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+
 	e_categories_register_change_listener (G_CALLBACK (categories_changed_cb), gcal);
 
 	priv->current_view_type = GNOME_CAL_DAY_VIEW;
@@ -1889,7 +1895,7 @@ gnome_calendar_destroy (GtkObject *object)
 		}
 
 		for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
-			if (priv->configs[i])
+			if (priv->configs[i]) 
 				g_object_unref (priv->configs[i]);
 			priv->configs[i] = NULL;
 		}
@@ -1923,6 +1929,11 @@ gnome_calendar_destroy (GtkObject *object)
 
 			g_list_free (priv->dn_queries);
 			priv->dn_queries = NULL;
+		}
+
+		if (non_intrusive_error_table) {
+			g_hash_table_destroy (non_intrusive_error_table);
+			non_intrusive_error_table = NULL;
 		}
 
 		if (priv->sexp) {
@@ -2711,6 +2722,12 @@ add_mclient (ECalModel *model, ECal *client)
 	message_push ((Message *) msg);
 }
 
+static void 
+non_intrusive_error_remove(GtkWidget *w, void *data)
+{
+	g_hash_table_remove(non_intrusive_error_table, data);
+}
+
 static void
 client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 {
@@ -2720,6 +2737,8 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	ECalModel *model;
 	ECalLoadState state;
 	char *msg;
+	GtkWidget *w = NULL;
+	gchar *id;
 
 	priv = gcal->priv;
 
@@ -2751,14 +2770,26 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 			e_cal_open_async (ecal, FALSE);
 		return;
 	case E_CALENDAR_STATUS_INVALID_SERVER_VERSION:
-		e_error_run (NULL, "calendar:server-version", NULL);
+		id = g_strdup ("calendar:server-version");
+             
+		if (g_hash_table_lookup(non_intrusive_error_table, id)) {
+			/* We already have it */
+			g_message("Error occurred while existing dialog active:\n");
+			return;
+		}
+
+		w = e_error_new(NULL, "calendar:server-version", NULL);
+		e_calendar_utils_show_error_silent (w);
+		g_hash_table_insert (non_intrusive_error_table, id, g_object_ref(w));
+		g_signal_connect(w, "destroy", G_CALLBACK(non_intrusive_error_remove), id);
+
 		status = E_CALENDAR_STATUS_OK;
 		break;
 	case E_CALENDAR_STATUS_AUTHENTICATION_FAILED: 
 		{
 			const gchar *auth_domain = e_source_get_property (source, "auth-domain");
 			const gchar *component_name;
-
+			
 			component_name = auth_domain ? auth_domain : "Calendar";
 
 			/* Warn the user password is wrong */
@@ -2767,8 +2798,21 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		}
 	case E_CALENDAR_STATUS_REPOSITORY_OFFLINE:
 		if (source_type == E_CAL_SOURCE_TYPE_EVENT)
-			e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))),
-				"calendar:prompt-no-contents-offline-calendar", NULL);
+		{
+			/* check to see if we have dialog already running for this operation */
+			id = g_strdup ("calendar:unable-to-load-the-calendar");
+
+			if (g_hash_table_lookup(non_intrusive_error_table, id)) {
+				/* We already have it */
+				g_message("Error occurred while existing dialog active:\n");
+				return;
+			}
+
+			w = e_error_new(GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))), "calendar:unable-to-load-the-calendar", e_cal_get_error_message (status), NULL);
+			e_calendar_utils_show_error_silent (w);
+			g_hash_table_insert (non_intrusive_error_table, id, g_object_ref(w));
+			g_signal_connect(w, "destroy", G_CALLBACK(non_intrusive_error_remove), id);
+		}
 	default:
 		/* Make sure the source doesn't disappear on us */
 		g_object_ref (source);
@@ -2870,7 +2914,7 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 		g_hash_table_remove (priv->clients[source_type], e_source_peek_uid (source));
 
 		/* FIXME Is there a better way to handle this? */
-		if (priv->default_client[source_type])
+		if (priv->default_client[source_type]) 
 			g_object_unref (priv->default_client[source_type]);
 		priv->default_client[source_type] = NULL;
 
@@ -2948,21 +2992,25 @@ backend_error_cb (ECal *client, const char *message, gpointer data)
 	GnomeCalendar *gcal;
 	GtkDialog *dialog;
 	char *uristr;
+	gchar *id;
 
 	gcal = GNOME_CALENDAR (data);
 
 	uristr = get_uri_without_password (e_cal_get_uri (client));
+	id = g_strdup ("calendar:error-on-loading-the-calendar");
 
-	dialog = GTK_DIALOG (gtk_message_dialog_new (
-		GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))),
-		GTK_DIALOG_DESTROY_WITH_PARENT,
-		GTK_MESSAGE_ERROR,
-		GTK_BUTTONS_OK,
-		_("Error on %s:\n %s"),
-		uristr, message));
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (GTK_WIDGET (dialog));
+	if (g_hash_table_lookup(non_intrusive_error_table,id)) {
+		/* We already have it */
+		g_message("Error occurred while existing dialog active:\n");
+		return;
+	}
 
+	dialog = (GtkDialog *)e_error_new(GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))), "calendar:error-on-loading-the-calendar", uristr, message, NULL);
+	e_calendar_utils_show_error_silent(GTK_WIDGET (dialog));
+
+	g_hash_table_insert (non_intrusive_error_table, id, g_object_ref(dialog));
+	g_signal_connect(GTK_WIDGET (dialog), "destroy", G_CALLBACK(non_intrusive_error_remove), id);
+	
 	g_free (uristr);
 }
 
@@ -2975,6 +3023,7 @@ backend_died_cb (ECal *ecal, gpointer data)
 	ECalSourceType source_type;
 	ESource *source;
 	const char *id;
+	GtkWidget *w = NULL;
 
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
@@ -2990,7 +3039,7 @@ backend_died_cb (ECal *ecal, gpointer data)
 
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
-		id = "calendar:calendar-crashed";
+		id = g_strdup ("calendar:calendar-crashed");
 
 		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1);
 
@@ -2998,7 +3047,7 @@ backend_died_cb (ECal *ecal, gpointer data)
 		break;
 
 	case E_CAL_SOURCE_TYPE_TODO:
-		id = "calendar:tasks-crashed";
+		id = g_strdup ("calendar:calendar-crashed");
 
 		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL, -1);
 
@@ -3006,7 +3055,7 @@ backend_died_cb (ECal *ecal, gpointer data)
 		break;
 
 	case E_CAL_SOURCE_TYPE_JOURNAL:
-		id = "calendar:memos-crashed";
+		id = g_strdup ("calendar:calendar-crashed");
 
 		e_memo_table_set_status_message (E_MEMO_TABLE (priv->memo), NULL);
 
@@ -3018,7 +3067,16 @@ backend_died_cb (ECal *ecal, gpointer data)
 
 	g_object_unref (source);
 
-	e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))), id, NULL);
+	if (g_hash_table_lookup(non_intrusive_error_table,id)) {
+		/* We already have it */
+		g_message("Error occurred while existing dialog active:\n");
+		return;
+	}
+
+	w = e_error_new(GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))), "calendar:backend_died", NULL);
+	e_calendar_utils_show_error_silent (w);
+	g_hash_table_insert (non_intrusive_error_table, id, g_object_ref(w));
+	g_signal_connect((GtkObject *)w, "destroy", G_CALLBACK(non_intrusive_error_remove),id);
 }
 
 GtkWidget *

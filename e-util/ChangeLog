@@ -68,6 +68,13 @@ License Changes
 	* e-dialog-utils.c:
 	* e-sorter-array.c:
 
+2008-11-03  Ashish Shrivastava  <shashish@novell.com>
+
+	** Support for Non-intrusive error in calendar.
+
+	* Makefile.am: Added new files:
+	* e-non-intrusive-error-dialog.c, e-non-intrusive-error-dialog.h:
+
 2008-09-04  Sankar P  <psankar@novell.com>
 
 License Changes
