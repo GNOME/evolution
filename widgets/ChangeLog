@@ -1,3 +1,10 @@
+2008-11-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #559041
+
+	* text/e-text.c (e_text_class_init):
+	Add translator comment for "im_context" property.
+
 2008-10-30  Matthew Barnes  <mbarnes@redhat.com>
 
 	* widgets/menus/gal-view-menus.c:

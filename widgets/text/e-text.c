@@ -3777,7 +3777,9 @@ e_text_class_init (ETextClass *klass)
 
 	g_object_class_install_property (gobject_class, PROP_IM_CONTEXT,
 					 g_param_spec_object ("im_context",
+							      /* Translators: Input Method Context */
 							      _( "IM Context" ),
+							      /* Translators: Input Method Context */
 							      _( "IM Context" ),
 							      GTK_TYPE_IM_CONTEXT,
 							      G_PARAM_READWRITE));
