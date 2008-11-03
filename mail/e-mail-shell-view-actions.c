@@ -1339,7 +1339,7 @@ static GtkActionEntry mail_entries[] = {
 
 	{ "mail-tools-subscriptions",
 	  NULL,
-	  N_("_Subscriptions"),
+	  N_("_Subscriptions..."),
 	  NULL,
 	  N_("Subscribe or unsubscribe to folders on remote servers"),
 	  G_CALLBACK (action_mail_tools_subscriptions_cb) },
