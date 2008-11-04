@@ -1,3 +1,10 @@
+2008-11-04  Sankar P  <psankar@novell.com>
+
+	** Fix for bug bnc #434968
+
+	* plugins/groupwise-features/proxy-login.c:
+	Show correct icon for the proxy login dialog
+
 2008-10-17  Matthew Barnes  <mbarnes@redhat.com>
 
 	* send-options.c (org_gnome_send-options):
