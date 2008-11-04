@@ -1,3 +1,10 @@
+2008-11-04  Sankar P  <psankar@novell.com>
+
+	** Fix for bug bnc #434968
+
+	* proxy-login.c (proxy_login_update_tree):
+	Show icon for the proxy login dialog.
+
 2008-10-17  Matthew Barnes  <mbarnes@redhat.com>
 
 	* send-options.c (org_gnome_send_options):
