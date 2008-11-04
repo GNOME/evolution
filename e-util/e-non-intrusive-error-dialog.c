@@ -189,7 +189,7 @@ eni_show_logger(ELogger *logger, GtkWidget *top,const char *error_timeout_path, 
 	gtk_window_set_default_size (GTK_WINDOW (window), 500, 400);
 	gtk_window_set_title (GTK_WINDOW (window), _("Debug Logs"));
 	gtk_window_set_transient_for (
-			GTK_WINDOW (window), GTK_WINDOW (toplevel));
+		GTK_WINDOW (window), GTK_WINDOW (toplevel));
 	gtk_container_set_border_width (GTK_CONTAINER (window), 12);
 
 	vbox = gtk_vbox_new (FALSE, 12);
@@ -201,17 +201,18 @@ eni_show_logger(ELogger *logger, GtkWidget *top,const char *error_timeout_path, 
 	/* Translators: This is the first part of the sentence
 	 * "Show _errors in the status bar for" - XXX - "second(s)." */
 	widget = gtk_label_new_with_mnemonic (
-			_("Show _errors in the status bar for"));
+		_("Show _errors in the status bar for"));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	label = widget;
 
 	widget = gtk_spin_button_new_with_range (1.0, 60.0, 1.0);
 	gtk_spin_button_set_value (
-			GTK_SPIN_BUTTON (widget),
-			(gdouble) eni_config_get_error_timeout (error_timeout_path));
+		GTK_SPIN_BUTTON (widget),
+		(gdouble) eni_config_get_error_timeout (error_timeout_path));
 	g_signal_connect (
-			widget, "value-changed",
-			G_CALLBACK (eni_error_timeout_changed), error_timeout_path);
+		widget, "value-changed",
+		G_CALLBACK (eni_error_timeout_changed),
+		(gpointer) error_timeout_path);
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
@@ -235,8 +236,9 @@ eni_show_logger(ELogger *logger, GtkWidget *top,const char *error_timeout_path, 
 	gtk_combo_box_set_active ((GtkComboBox *) widget, eni_config_get_error_level(error_level_path));
 
 	g_signal_connect (
-			widget, "changed",
-			G_CALLBACK (eni_error_level_value_changed), error_level_path);
+		widget, "changed",
+		G_CALLBACK (eni_error_level_value_changed),
+		(gpointer) error_level_path);
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
@@ -244,14 +246,14 @@ eni_show_logger(ELogger *logger, GtkWidget *top,const char *error_timeout_path, 
 	store = gtk_list_store_new (3, G_TYPE_INT, G_TYPE_LONG, G_TYPE_STRING);
 	e_logger_get_logs (logger, (ELogFunction) eni_append_logs, store);
 	gtk_tree_sortable_set_sort_column_id (
-			GTK_TREE_SORTABLE (store), COL_TIME, GTK_SORT_DESCENDING);
+		GTK_TREE_SORTABLE (store), COL_TIME, GTK_SORT_DESCENDING);
 
 	container = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
-			GTK_SCROLLED_WINDOW (container),
-			GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+		GTK_SCROLLED_WINDOW (container),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (
-			GTK_SCROLLED_WINDOW (container), GTK_SHADOW_IN);
+		GTK_SCROLLED_WINDOW (container), GTK_SHADOW_IN);
 	gtk_box_pack_start (GTK_BOX (vbox), container, TRUE, TRUE, 0);
 
 	widget = gtk_tree_view_new();
@@ -264,8 +266,8 @@ eni_show_logger(ELogger *logger, GtkWidget *top,const char *error_timeout_path, 
 	gtk_container_add (GTK_CONTAINER (container), widget);
 
 	g_signal_connect (
-			widget, "query-tooltip",
-			G_CALLBACK (eni_query_tooltip_cb), NULL);
+		widget, "query-tooltip",
+		G_CALLBACK (eni_query_tooltip_cb), NULL);
 
 	column = gtk_tree_view_column_new ();
 	gtk_tree_view_column_set_title (column, _("Log Level"));
@@ -273,7 +275,7 @@ eni_show_logger(ELogger *logger, GtkWidget *top,const char *error_timeout_path, 
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	gtk_tree_view_column_pack_start (column, renderer, TRUE);
 	gtk_tree_view_column_set_cell_data_func (
-			column, renderer, eni_render_pixbuf, NULL, NULL);
+		column, renderer, eni_render_pixbuf, NULL, NULL);
 
 	column = gtk_tree_view_column_new ();
 	gtk_tree_view_column_set_title (column, _("Time"));
@@ -282,23 +284,23 @@ eni_show_logger(ELogger *logger, GtkWidget *top,const char *error_timeout_path, 
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
 	gtk_tree_view_column_set_cell_data_func (
-			column, renderer, eni_render_date, NULL, NULL);
+		column, renderer, eni_render_date, NULL, NULL);
 
 	renderer = gtk_cell_renderer_text_new ();
 	gtk_tree_view_insert_column_with_attributes(
-			GTK_TREE_VIEW (widget), -1, _("Messages"),
-			renderer, "markup", COL_DATA, NULL);
+		GTK_TREE_VIEW (widget), -1, _("Messages"),
+		renderer, "markup", COL_DATA, NULL);
 
 	container = gtk_hbutton_box_new ();
 	gtk_button_box_set_layout (
-			GTK_BUTTON_BOX (container), GTK_BUTTONBOX_END);
+		GTK_BUTTON_BOX (container), GTK_BUTTONBOX_END);
 	gtk_box_pack_start (GTK_BOX (vbox), container, FALSE, FALSE, 0);
 
 	widget = gtk_button_new_from_stock (GTK_STOCK_CLOSE);
 	gtk_widget_set_tooltip_text (widget, _("Close this window"));
 	g_signal_connect_swapped (
-			widget, "clicked",
-			G_CALLBACK (gtk_widget_destroy), window);
+		widget, "clicked",
+		G_CALLBACK (gtk_widget_destroy), window);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 
 	gtk_widget_show_all (window);

@@ -47,6 +47,7 @@
 #include <libecal/e-cal-time-util.h>
 #include "shell/Evolution.h"
 #include "calendar-commands.h"
+#include "calendar-component.h"
 #include "calendar-config.h"
 #include "e-day-view.h"
 #include "e-week-view.h"

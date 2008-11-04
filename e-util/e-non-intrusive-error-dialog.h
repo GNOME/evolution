@@ -50,18 +50,11 @@ enum
 };
 
 /* eni - error non intrusive*/
-static gboolean eni_query_tooltip_cb (GtkTreeView *view,gint x,gint y,gboolean keyboard_mode,GtkTooltip *tooltip);
-
-static void eni_render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer, GtkTreeModel *model, GtkTreeIter *iter, gpointer user_data);
-
-static void eni_render_date (GtkTreeViewColumn *column, GtkCellRenderer *renderer,GtkTreeModel *model, GtkTreeIter *iter, gpointer user_data);
-
-static void eni_append_logs (const char *txt, GtkListStore *store);
-static void eni_error_timeout_changed (GtkSpinButton *b, void *data);
-static void eni_error_level_value_changed (GtkComboBox *w, gpointer *data);
-static guint eni_config_get_error_level (const char *path);
-guint eni_config_get_error_timeout (const char *path);
-void eni_show_logger(ELogger *logger, GtkWidget *widget, const char *error_timeout_path, const char *error_level_path);
+guint		eni_config_get_error_timeout	(const char *path);
+void		eni_show_logger			(ELogger *logger,
+						 GtkWidget *widget,
+						 const char *error_timeout_path,
+						 const char *error_level_path);
 
 G_END_DECLS
 

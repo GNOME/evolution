@@ -3075,8 +3075,8 @@ backend_died_cb (ECal *ecal, gpointer data)
 
 	w = e_error_new(GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))), "calendar:backend_died", NULL);
 	e_calendar_utils_show_error_silent (w);
-	g_hash_table_insert (non_intrusive_error_table, id, g_object_ref(w));
-	g_signal_connect((GtkObject *)w, "destroy", G_CALLBACK(non_intrusive_error_remove),id);
+	g_hash_table_insert (non_intrusive_error_table, (gpointer) id, g_object_ref(w));
+	g_signal_connect((GtkObject *)w, "destroy", G_CALLBACK(non_intrusive_error_remove), (gpointer) id);
 }
 
 GtkWidget *
