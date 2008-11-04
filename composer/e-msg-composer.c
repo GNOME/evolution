@@ -2792,6 +2792,27 @@ msg_composer_init (EMsgComposer *composer)
 		drop_types, G_N_ELEMENTS (drop_types),
 		GDK_ACTION_COPY | GDK_ACTION_ASK | GDK_ACTION_MOVE);
 
+	/* XXX I'm not sure why we have to explicitly configure the
+	 *     attachment bar as a drag destination when CompEditor
+	 *     doesn't and previous Evolution releases (2.22 and
+	 *     prior) don't, but this is the only way I could figure
+	 *     out how to get drag-and-drop to the attachment bar
+	 *     working again.  I'm probably overlooking something
+	 *     simple... */
+
+	gtk_drag_dest_set (
+		composer->priv->attachment_bar, GTK_DEST_DEFAULT_ALL,
+		drop_types, G_N_ELEMENTS (drop_types),
+		GDK_ACTION_COPY | GDK_ACTION_ASK | GDK_ACTION_MOVE);
+
+	g_signal_connect (
+		composer->priv->attachment_bar, "drag-motion",
+		G_CALLBACK (msg_composer_drag_motion), NULL);
+
+	g_signal_connect (
+		composer->priv->attachment_bar, "drag-data-received",
+		G_CALLBACK (msg_composer_drag_data_received), NULL);
+
 	g_signal_connect (
 		html, "drag-data-received",
 		G_CALLBACK (msg_composer_drag_data_received), NULL);

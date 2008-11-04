@@ -1,3 +1,11 @@
+2008-11-04  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #554450
+
+	* e-msg-composer.c (msg_composer_init):
+	Get drag-and-drop to the attachment bar working again, but see
+	my note in the source code.  I'm still not sure why it broke.
+
 2008-11-02  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #559028
