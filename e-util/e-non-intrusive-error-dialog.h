@@ -1,0 +1,68 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
+ *
+ *  Authors: Ashish Shrivastava <shashish@novell.com>
+ *
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ *
+ */
+
+#ifndef __E_ERROR_DIALOG_H__
+#define __E_ERROR_DIALOG_H__
+
+#include <glib-object.h>
+#include "e-error.h"
+#include "e-icon-factory.h"
+#include "e-logger.h"
+#include "e-util/gconf-bridge.h"
+
+G_BEGIN_DECLS
+
+struct _log_data {
+        int level;
+        char *key;
+        char *text;
+        char *stock_id;
+        GdkPixbuf *pbuf;
+} ldata [] = {
+        { E_LOG_ERROR, N_("Error"), N_("Errors"), GTK_STOCK_DIALOG_ERROR },
+        { E_LOG_WARNINGS, N_("Warning"), N_("Warnings and Errors"), GTK_STOCK_DIALOG_WARNING },
+        { E_LOG_DEBUG, N_("Debug"), N_("Error, Warnings and Debug messages"), GTK_STOCK_DIALOG_INFO }
+};
+
+enum
+{
+        COL_LEVEL = 0,
+        COL_TIME,
+        COL_DATA
+};
+
+/* eni - error non intrusive*/
+static gboolean eni_query_tooltip_cb (GtkTreeView *view,gint x,gint y,gboolean keyboard_mode,GtkTooltip *tooltip);
+
+static void eni_render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer, GtkTreeModel *model, GtkTreeIter *iter, gpointer user_data);
+
+static void eni_render_date (GtkTreeViewColumn *column, GtkCellRenderer *renderer,GtkTreeModel *model, GtkTreeIter *iter, gpointer user_data);
+
+static void eni_append_logs (const char *txt, GtkListStore *store);
+static void eni_error_timeout_changed (GtkSpinButton *b, void *data);
+static void eni_error_level_value_changed (GtkComboBox *w, gpointer *data);
+static guint eni_config_get_error_level (const char *path);
+guint eni_config_get_error_timeout (const char *path);
+void eni_show_logger(ELogger *logger, GtkWidget *widget, const char *error_timeout_path, const char *error_level_path);
+
+G_END_DECLS
+
+#endif /* __E_ERROR_DIALOG_H__ */

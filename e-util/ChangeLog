@@ -1,3 +1,20 @@
+2008-11-04  Akhil Laddha  <lakhil@novell.com>              
+
+	* e-non-intrusive-error-dialog.c (eni_query_tooltip_cb),
+	(eni_render_pixbuf), (eni_render_date), (eni_append_logs),
+	(eni_config_get_error_level), (eni_config_get_error_timeout),
+	(eni_error_timeout_changed), (eni_error_level_value_changed),
+	(eni_show_logger):
+	* e-non-intrusive-error-dialog.h:
+	Missed commiting these files in the previous commit. 
+
+2008-11-03  Ashish Shrivastava  <shashish@novell.com>
+
+	** Support for Non-intrusive error in calendar.
+
+	* Makefile.am: Added new files:
+	* e-non-intrusive-error-dialog.c, e-non-intrusive-error-dialog.h:
+
 2008-11-02  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-util.c (do_format_number_as_float):
@@ -67,13 +84,6 @@ License Changes
 
 	* e-dialog-utils.c:
 	* e-sorter-array.c:
-
-2008-11-03  Ashish Shrivastava  <shashish@novell.com>
-
-	** Support for Non-intrusive error in calendar.
-
-	* Makefile.am: Added new files:
-	* e-non-intrusive-error-dialog.c, e-non-intrusive-error-dialog.h:
 
 2008-09-04  Sankar P  <psankar@novell.com>
 
