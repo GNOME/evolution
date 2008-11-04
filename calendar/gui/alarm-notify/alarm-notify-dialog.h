@@ -32,7 +32,8 @@
 typedef enum {
 	ALARM_NOTIFY_CLOSE,
 	ALARM_NOTIFY_SNOOZE,
-	ALARM_NOTIFY_EDIT
+	ALARM_NOTIFY_EDIT,
+	ALARM_NOTIFY_DISMISS
 } AlarmNotifyResult;
 
 typedef struct _AlarmNotificationsDialog AlarmNotificationsDialog;

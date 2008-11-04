@@ -1248,6 +1248,13 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 
 		break;
 
+	case ALARM_NOTIFY_DISMISS:
+		if (alarm_notifications_dialog) {
+			GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (alarm_notifications_dialog->treeview));
+			gtk_list_store_remove (GTK_LIST_STORE (model), &tray_data->iter);
+		}
+		break;
+
 	case ALARM_NOTIFY_CLOSE:
 		d(printf("%s:%d (notify_dialog_cb) - Dialog close\n",__FILE__, __LINE__));
 		if (alarm_notifications_dialog) {
@@ -1268,7 +1275,7 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 
 			/* Task to remove the tray icons */
 			tray_list_remove_icons ();
-	}
+		}
 
 		break;
 

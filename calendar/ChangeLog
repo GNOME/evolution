@@ -1,3 +1,16 @@
+2008-11-04  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #558354
+
+	* gui/alarm-notify/alarm-notify.glade:
+	* gui/alarm-notify/alarm-notify-dialog.h: (enum AlarmNotifyResult):
+	* gui/alarm-notify/alarm-notify-dialog.c: (struct AlarmNotify),
+	(dismiss_pressed_cb), (notified_alarms_dialog_new):
+	* gui/alarm-notify/alarm-queue.c: (notify_dialog_cb):
+	Changed "Close" button to "Dismiss All" and added a "Dismiss" button
+	to the alarm notification dialog to be able to dismiss only some of
+	the alarms shown in the dialog.
+
 2008-11-04  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/calendar-commands.c:
