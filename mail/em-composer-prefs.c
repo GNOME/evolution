@@ -584,46 +584,41 @@ spell_language_toggled_cb (GtkCellRendererToggle *renderer,
 static void
 spell_language_save (EMComposerPrefs *prefs)
 {
-	GSList *list = NULL;
-	GConfClient *client;
+	GList *spell_languages = NULL;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	const gchar *key;
 	gboolean valid;
 
 	model = prefs->language_model;
 
-	/* Build a list of active languages. */
+	/* Build a list of active spell languages. */
 	valid = gtk_tree_model_get_iter_first (model, &iter);
 	while (valid) {
 		const GtkhtmlSpellLanguage *language;
-		const gchar *code;
 		gboolean active;
 
 		gtk_tree_model_get (
 			model, &iter, 0, &active, 2, &language, -1);
-		code = gtkhtml_spell_language_get_code (language);
 
 		if (active)
-			list = g_slist_prepend (list, (gpointer) code);
+			spell_languages = g_list_prepend (
+				spell_languages, (gpointer) language);
 
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
-	list = g_slist_reverse (list);
+	spell_languages = g_list_reverse (spell_languages);
 
 	/* Update the GConf value. */
-	client = mail_config_get_gconf_client ();
-	key = "/apps/evolution/mail/composer/spell_languages";
-	gconf_client_set_list (client, key, GCONF_VALUE_STRING, list, NULL);
+	e_save_spell_languages (spell_languages);
 
-	g_slist_free (list);
+	g_list_free (spell_languages);
 }
 
 static void
 spell_setup (EMComposerPrefs *prefs)
 {
 	const GList *available_languages;
-	GSList *active_languages, *iter;
+	GList *active_languages;
 	GConfClient *client;
 	GtkListStore *store;
 	GdkColor color;
@@ -634,27 +629,7 @@ spell_setup (EMComposerPrefs *prefs)
 	store = GTK_LIST_STORE (prefs->language_model);
 	available_languages = gtkhtml_spell_language_get_available ();
 
-	/* Retrieve a list of language codes from GConf. */
-	key = "/apps/evolution/mail/composer/spell_languages";
-	active_languages = gconf_client_get_list (
-		client, key, GCONF_VALUE_STRING, NULL);
-
-	/* Convert the list to GtkhtmlSpellLanguages. */
-	for (iter = active_languages; iter != NULL; iter = iter->next) {
-		gchar *code = iter->data;
-
-		iter->data = (gpointer) gtkhtml_spell_language_lookup (code);
-		g_free (code);
-	}
-
-	/* Make sure we have _something_ active. */
-	if (active_languages == NULL) {
-		const GtkhtmlSpellLanguage *default_language;
-
-		default_language = gtkhtml_spell_language_lookup (NULL);
-		active_languages = g_slist_prepend (
-			active_languages, (gpointer) default_language);
-	}
+	active_languages = e_load_spell_languages ();
 
 	/* Populate the GtkListStore. */
 	while (available_languages != NULL) {
@@ -665,7 +640,7 @@ spell_setup (EMComposerPrefs *prefs)
 
 		language = available_languages->data;
 		name = gtkhtml_spell_language_get_name (language);
-		active = (g_slist_find (active_languages, language) != NULL);
+		active = (g_list_find (active_languages, language) != NULL);
 
 		gtk_list_store_append (store, &tree_iter);
 
@@ -676,10 +651,7 @@ spell_setup (EMComposerPrefs *prefs)
 		available_languages = available_languages->next;
 	}
 
-	/* Update the GConf list in case we used a default language. */
-	spell_language_save (prefs);
-
-	g_slist_free (active_languages);
+	g_list_free (active_languages);
 
 	key = "/apps/evolution/mail/composer/spell_color";
 	string = gconf_client_get_string (client, key, NULL);
