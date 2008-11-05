@@ -1,3 +1,11 @@
+2008-11-05  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #559371
+
+	* em-composer-prefs.c (spell_language_save), (spell_setup):
+	Simplify the logic by using e_load_spell_languages() and
+	e_save_spell_languages().
+
 2008-11-04  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #386036

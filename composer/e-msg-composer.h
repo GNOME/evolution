@@ -155,7 +155,10 @@ struct _EAttachmentBar *
 		e_msg_composer_get_attachment_bar
 						(EMsgComposer *composer);
 
-gboolean	e_msg_composer_is_exiting (EMsgComposer *composer);
+gboolean	e_msg_composer_is_exiting	(EMsgComposer *composer);
+
+GList *		e_load_spell_languages		(void);
+void		e_save_spell_languages		(GList *spell_languages);
 
 G_END_DECLS
 

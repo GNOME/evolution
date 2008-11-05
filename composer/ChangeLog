@@ -1,3 +1,20 @@
+2008-11-05  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #559371
+
+	* e-msg-composer.c (e_load_spell_languages):
+	New function loads a list of GtkhtmlSpellLanguage structs from
+	GConf, taking care of details like converting language codes to
+	structs and ensuring the returned list is non-empty.
+
+	* e-msg-composer.c (e_save_spell_languages):
+	New function saves a list of GtkhtmlSpellLanguage structs to
+	GConf, taking care of details like converting the structs to
+	language codes.
+
+	* e-msg-composer.c (msg_composer_constructor):
+	Simplify the logic by using e_load_spell_languages().
+
 2008-11-04  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #554450

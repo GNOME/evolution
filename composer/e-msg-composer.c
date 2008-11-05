@@ -2086,10 +2086,9 @@ msg_composer_constructor (GType type,
 	GObject *object;
 	EMsgComposer *composer;
 	GtkToggleAction *action;
-	GList *spell_languages = NULL;
+	GList *spell_languages;
 	GConfClient *client;
 	GArray *array;
-	GSList *list;
 	gboolean active;
 	guint binding_id;
 
@@ -2156,21 +2155,7 @@ msg_composer_constructor (GType type,
 		client, COMPOSER_GCONF_REQUEST_RECEIPT_KEY, NULL);
 	gtk_toggle_action_set_active (action, active);
 
-	list = gconf_client_get_list (
-		client, COMPOSER_GCONF_SPELL_LANGUAGES_KEY,
-		GCONF_VALUE_STRING, NULL);
-	while (list != NULL) {
-		gchar *language_code = list->data;
-		const GtkhtmlSpellLanguage *language;
-
-		language = gtkhtml_spell_language_lookup (language_code);
-		if (language != NULL)
-			spell_languages = g_list_prepend (
-				spell_languages, (gpointer) language);
-
-		list = g_slist_delete_link (list, list);
-		g_free (language_code);
-	}
+	spell_languages = e_load_spell_languages ();
 	gtkhtml_editor_set_spell_languages (
 		GTKHTML_EDITOR (composer), spell_languages);
 	g_list_free (spell_languages);
@@ -4785,4 +4770,94 @@ e_msg_composer_set_send_options (EMsgComposer *composer,
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
 	composer->priv->send_invoked = send_enable;
+}
+
+GList *
+e_load_spell_languages (void)
+{
+	GConfClient *client;
+	GList *spell_languages = NULL;
+	GSList *list;
+	const gchar *key;
+	GError *error = NULL;
+
+	/* Ask GConf for a list of spell check language codes. */
+	client = gconf_client_get_default ();
+	key = COMPOSER_GCONF_SPELL_LANGUAGES_KEY;
+	list = gconf_client_get_list (client, key, GCONF_VALUE_STRING, &error);
+	g_object_unref (client);
+
+	/* Convert the codes to spell language structs. */
+	while (list != NULL) {
+		gchar *language_code = list->data;
+		const GtkhtmlSpellLanguage *language;
+
+		language = gtkhtml_spell_language_lookup (language_code);
+		if (language != NULL)
+			spell_languages = g_list_prepend (
+				spell_languages, (gpointer) language);
+
+		list = g_slist_delete_link (list, list);
+		g_free (language_code);
+	}
+
+	spell_languages = g_list_reverse (spell_languages);
+
+	/* Pick a default spell language if GConf came back empty. */
+	if (spell_languages == NULL) {
+		const GtkhtmlSpellLanguage *language;
+
+		language = gtkhtml_spell_language_lookup (NULL);
+
+		spell_languages = g_list_prepend (
+			spell_languages, (gpointer) language);
+
+		/* Don't overwrite the stored spell check language
+		 * codes if there was a problem retrieving them. */
+		if (error == NULL)
+			e_save_spell_languages (spell_languages);
+	}
+
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
+
+	return spell_languages;
+}
+
+void
+e_save_spell_languages (GList *spell_languages)
+{
+	GConfClient *client;
+	GSList *list = NULL;
+	const gchar *key;
+	GError *error = NULL;
+
+	/* Build a list of spell check language codes. */
+	while (spell_languages != NULL) {
+		const GtkhtmlSpellLanguage *language;
+		const gchar *language_code;
+
+		language = spell_languages->data;
+		language_code = gtkhtml_spell_language_get_code (language);
+		list = g_slist_prepend (list, (gpointer) language_code);
+
+		spell_languages = g_list_next (spell_languages);
+	}
+
+	list = g_slist_reverse (list);
+
+	/* Save the language codes to GConf. */
+	client = gconf_client_get_default ();
+	key = COMPOSER_GCONF_SPELL_LANGUAGES_KEY;
+	gconf_client_set_list (client, key, GCONF_VALUE_STRING, list, &error);
+	g_object_unref (client);
+
+	g_slist_free (list);
+
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
 }
