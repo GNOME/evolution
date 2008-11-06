@@ -1,3 +1,10 @@
+2008-11-06  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #557726
+
+	* google-contacts-source.c: (destroy_ui_data),
+	(plugin_google_contacts): Destroy the widgets created by this group.
+
 2008-08-27  Sankar P  <psankar@novell.com>
 
 License Changes
