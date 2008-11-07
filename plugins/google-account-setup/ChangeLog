@@ -1,3 +1,11 @@
+2008-11-07  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fix for bug #559518
+
+	* google-source.c: (retrieve_list_clicked),
+	(retrieve_list_sensitize), (plugin_google): Desensitizes the button 
+	when the username field is blank.
+
 2008-11-06  Bharath Acharya  <abharath@novell.com>
 
 	** Fix for bug #557726
