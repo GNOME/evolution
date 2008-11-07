@@ -1,3 +1,10 @@
+2008-11-07  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for BNC bug #437226
+
+	* em-format-html.c (efh_format_headers): Regression caused by r35319.
+	Check for the condition only after the while loop.
+	
 2008-11-05  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #559371

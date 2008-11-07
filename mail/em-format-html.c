@@ -1895,21 +1895,22 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			g_free(name);
 		} else if (!g_ascii_strcasecmp (header->name, "X-Evolution-Mail-From-Delegate")) {
 			mail_from_delegate = TRUE;
-		} else if (header_sender && header_from && mail_from_delegate) {
-			camel_stream_printf(stream, "<tr><td><table border=1 width=\"100%%\" cellspacing=2 cellpadding=2><tr>");
-			if(gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
-				camel_stream_printf (stream, "<td align=\"right\" width=\"100%%\">");
-			else
-				camel_stream_printf (stream, "<td align=\"left\" width=\"100%%\">");
-			/* To translators: This message suggests to the receipients that the sender of the mail is
-			   different from the one listed in From field.
-			*/
-			camel_stream_printf(stream, _("This message was sent by <b>%s</b> on behalf of <b>%s</b>"), header_sender, header_from);
-			camel_stream_printf(stream, "</td></tr></table></td></tr>");
-			break;
 		}
 
 		header = header->next;
+	}
+	
+	if (header_sender && header_from && mail_from_delegate) {
+		camel_stream_printf(stream, "<tr><td><table border=1 width=\"100%%\" cellspacing=2 cellpadding=2><tr>");
+		if(gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL)
+			camel_stream_printf (stream, "<td align=\"right\" width=\"100%%\">");
+		else
+			camel_stream_printf (stream, "<td align=\"left\" width=\"100%%\">");
+		/* To translators: This message suggests to the receipients that the sender of the mail is
+		   different from the one listed in From field.
+		*/
+		camel_stream_printf(stream, _("This message was sent by <b>%s</b> on behalf of <b>%s</b>"), header_sender, header_from);
+		camel_stream_printf(stream, "</td></tr></table></td></tr>");
 	}
 
 	g_free (header_sender);
