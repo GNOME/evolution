@@ -1,3 +1,40 @@
+<<<<<<< .working
+=======
+2008-11-04  Akhil Laddha  <lakhil@novell.com>              
+
+	* e-non-intrusive-error-dialog.c (eni_query_tooltip_cb),
+	(eni_render_pixbuf), (eni_render_date), (eni_append_logs),
+	(eni_config_get_error_level), (eni_config_get_error_timeout),
+	(eni_error_timeout_changed), (eni_error_level_value_changed),
+	(eni_show_logger):
+	* e-non-intrusive-error-dialog.h:
+	Missed commiting these files in the previous commit. 
+
+2008-11-03  Ashish Shrivastava  <shashish@novell.com>
+
+	** Support for Non-intrusive error in calendar.
+
+	* Makefile.am: Added new files:
+	* e-non-intrusive-error-dialog.c, e-non-intrusive-error-dialog.h:
+
+2008-11-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-util.c (do_format_number_as_float):
+	Remove this unused internal function.
+
+2008-10-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-icon-factory.c:
+	Only include the toplevel GTK+ header.
+
+2008-10-29  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-plugin-ui.c:
+	* e-plugin-ui.h:
+
+>>>>>>> .merge-right.r36736
 2008-10-06  Sankar P  <psankar@novell.com>
 
 	* widgets/table/e-cell-float.c:
