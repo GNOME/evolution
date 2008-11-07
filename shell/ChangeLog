@@ -1,3 +1,9 @@
+2008-11-07  Akhil Laddha  <lakhil@novell.com>
+
+	** Fix for bug #557581
+
+	* main.c: Change stable version to 2.24.1
+
 2008-10-03  Sankar P  <psankar@novell.com>
 
 License Changes
