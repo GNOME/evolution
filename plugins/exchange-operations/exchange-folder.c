@@ -223,7 +223,7 @@ org_gnome_exchange_check_inbox_subscribed (EPlugin *ep, EMPopupTargetFolder *tar
 
 	g_free (path);
 
-	if (!sub_folder)
+	if (!sub_folder || !g_strrstr(sub_folder, "/"))
 		return;
 
         for (i = 0; i < sizeof (popup_inbox_items) / sizeof (popup_inbox_items[0]); i++)

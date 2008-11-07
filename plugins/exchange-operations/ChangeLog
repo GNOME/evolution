@@ -1,3 +1,11 @@
+2008-10-22  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #557246
+
+	* exchange-folder.c: (org_gnome_exchange_check_inbox_subscribed): Pop 
+	up the "Unsubscribe Folder" option only for the subscribed folders and 
+	not to the Other's folder hierarchy.
+
 2008-10-08  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #530606
