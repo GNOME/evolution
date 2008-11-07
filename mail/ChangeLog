@@ -1,3 +1,13 @@
+2008-11-07  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fix for bug #552583
+
+	* mail-config.c: (mail_config_get_account_by_source_url): 
+	Instead of preserving the authmech attribute in the two URLs 
+	being compared, strip the attributes out of both URLs and just do 
+	a simple string comparison.  We're just trying to match a URL to 
+	an account here.  The authentication method shouldn't be relevant.
+
 2008-11-07  Bharath Acharya  <abharath@novell.com>
 
 	** Fix for BNC bug #437226
