@@ -1,3 +1,10 @@
+2008-11-07  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #440007 (bnc)
+
+	* gui/print.c: (print_comp_draw_real): Print the attendees only if
+	its the first page.
+
 2008-10-31  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/itip-utils.c (itip_send_comp):
