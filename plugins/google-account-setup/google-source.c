@@ -435,10 +435,7 @@ retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
 	g_return_if_fail (source != NULL);
 
 	username = e_source_get_property (source, "username");
-	if (!username || !*username) {
-		claim_error (parent, _("Please enter user name first."));
-		return;
-	}
+	g_return_if_fail (username != NULL && *username != '\0');
 
 	tmp = g_strdup_printf (_("Enter password for user %s to access list of subscribed calendars."), username);
 	password = e_passwords_ask_password (_("Enter password"), "Calendar", "", tmp, 
@@ -551,6 +548,18 @@ retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
 	}
 
 	g_object_unref (service);
+}
+
+static void
+retrieve_list_sensitize (GtkEntry *username_entry,
+                         GtkWidget *button)
+{
+	const gchar *text;
+	gboolean sensitive;
+
+	text = gtk_entry_get_text (username_entry);
+	sensitive = (text != NULL && *text != '\0');
+	gtk_widget_set_sensitive (button, sensitive);
 }
 
 GtkWidget *
@@ -727,8 +736,10 @@ plugin_google  (EPlugin                    *epl,
 	gtk_box_pack_start (GTK_BOX (hbox), combo, TRUE, TRUE, 0);
 	label = gtk_button_new_with_mnemonic (_("Retrieve _list"));
 	g_signal_connect (label, "clicked", G_CALLBACK (retrieve_list_clicked), combo);
+	g_signal_connect (user, "changed", G_CALLBACK (retrieve_list_sensitize), label);
 	g_object_set_data (G_OBJECT (label), "ESource", source);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+	gtk_widget_set_sensitive (label, FALSE);
 
 	gtk_widget_show_all (hbox);
 	gtk_table_attach (GTK_TABLE (parent), hbox, 1, 2, row + 4, row + 5, GTK_FILL | GTK_EXPAND, 0, 0, 0);
