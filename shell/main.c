@@ -88,6 +88,11 @@
 #define SKIP_WARNING_DIALOG_KEY \
 	"/apps/evolution/shell/skip_warning_dialog"
 
+/* STABLE_VERSION is only defined for development versions. */
+#ifdef STABLE_VERSION
+#define DEVELOPMENT 1
+#endif
+
 static EShell *shell = NULL;
 
 /* Command-line options.  */
@@ -95,7 +100,7 @@ static gboolean start_online = FALSE;
 static gboolean start_offline = FALSE;
 static gboolean setup_only = FALSE;
 static gboolean killev = FALSE;
-#if DEVELOPMENT
+#ifdef DEVELOPMENT
 static gboolean force_migrate = FALSE;
 #endif
 static gboolean disable_eplugin = FALSE;
@@ -181,7 +186,7 @@ kill_old_dataserver (void)
 #endif
 
 
-#if DEVELOPMENT
+#ifdef DEVELOPMENT
 
 /* Warning dialog to scare people off a little bit.  */
 
@@ -229,7 +234,7 @@ show_development_warning(void)
                   "\n"
 		  "We hope that you enjoy the results of our hard work, and we\n"
 		  "eagerly await your contributions!\n"),
-		"2.22.1");
+		STABLE_VERSION);
 	label = gtk_label_new (text);
 	g_free(text);
 
@@ -475,7 +480,7 @@ static const GOptionEntry options[] = {
 	{ "force-shutdown", '\0', 0, G_OPTION_ARG_NONE, &killev,
 	  N_("Forcibly shut down all Evolution components"), NULL },
 #endif
-#if DEVELOPMENT
+#ifdef DEVELOPMENT
 	{ "force-migrate", '\0', 0, G_OPTION_ARG_NONE, &force_migrate,
 	  N_("Forcibly re-migrate from Evolution 1.4"), NULL },
 #endif
@@ -554,7 +559,7 @@ main (int argc, char **argv)
 #endif
 
 	GConfClient *client;
-#if DEVELOPMENT
+#ifdef DEVELOPMENT
 	gboolean skip_warning_dialog;
 #endif
 	GnomeProgram *program;
@@ -613,7 +618,7 @@ main (int argc, char **argv)
 
 	client = gconf_client_get_default ();
 
-#if DEVELOPMENT
+#ifdef DEVELOPMENT
 	
 	if (force_migrate) {
 		destroy_config (client);
@@ -670,7 +675,7 @@ main (int argc, char **argv)
 		e_plugin_load_plugins();
 	}
 
-#if DEVELOPMENT
+#ifdef DEVELOPMENT
 	skip_warning_dialog = gconf_client_get_bool (
 		client, SKIP_WARNING_DIALOG_KEY, NULL);
 

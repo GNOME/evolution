@@ -1,3 +1,12 @@
+2008-11-07  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #557581
+
+	* configure.in:
+	Break up the version definitions such that we can calculate the
+	latest stable version and pass a STABLE_VERSION definition to
+	shell/main.c.
+
 2008-11-07  Sankar P  <psankar@novell.com>
 
 	* Makefile.am:
