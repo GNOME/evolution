@@ -2243,6 +2243,10 @@ emft_popup (EMFolderTree *emft, GdkEvent *event)
 			info_flags |= CAMEL_FOLDER_VIRTUAL | CAMEL_FOLDER_NOINFERIORS;
 
 		selfolder = em_folder_tree_get_selected_folder (emft);
+
+		if (folder_type_flags & CAMEL_FOLDER_SYSTEM)
+			flags &= ~EM_POPUP_FOLDER_DELETE;
+
 		if (em_utils_folder_is_outbox (selfolder, NULL))
 			info_flags |= CAMEL_FOLDER_TYPE_OUTBOX;
 	}

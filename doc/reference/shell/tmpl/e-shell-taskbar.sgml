@@ -42,38 +42,3 @@ EShellTaskbar
 @Returns: 
 
 
-<!-- ##### FUNCTION e_shell_taskbar_get_shell_view ##### -->
-<para>
-
-</para>
-
-@shell_taskbar: 
-@Returns: 
-
-
-<!-- ##### FUNCTION e_shell_taskbar_get_message ##### -->
-<para>
-
-</para>
-
-@shell_taskbar: 
-@Returns: 
-
-
-<!-- ##### FUNCTION e_shell_taskbar_set_message ##### -->
-<para>
-
-</para>
-
-@shell_taskbar: 
-@message: 
-
-
-<!-- ##### FUNCTION e_shell_taskbar_unset_message ##### -->
-<para>
-
-</para>
-
-@shell_taskbar: 
-
-

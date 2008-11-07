@@ -1,3 +1,11 @@
+2008-10-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/contact-editor/test-editor.c:
+	* gui/widgets/e-minicard-label.c:
+	* gui/widgets/e-minicard-view-widget.c:
+	* gui/widgets/test-reflow.c:
+	Only include the toplevel GTK+ header.
+
 2008-10-17  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #511918

@@ -1,3 +1,28 @@
+2008-11-04  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/calendar-commands.c:
+	* gui/calendar-component.h:
+	* gui/gnome-cal.c:
+	Fix compiler warnings.
+
+2008-11-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/e-itip-control.c (write_recurrence_piece):
+	Remove extra space in translated string.
+
+2008-10-31  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/itip-utils.c (itip_send_comp):
+	Fix a crash when selecting "Forward as iCalendar".
+
+2008-10-30  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/control-factory.c:
+	* gui/e-calendar-table.c:
+	* gui/e-week-view-event-item.c:
+	* gui/weekday-picker.c:
+	Only include the toplevel GTK+ header.
+
 2008-10-20  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #555958 (patch by Anis Elleuch)
@@ -245,6 +270,24 @@ License Changes
 	Get rid of unused variables.
 	* gui/e-cal-model.c: (e_cal_view_objects_modified_cb):
 	Use result of g_list_prepend, thus report changes properly.
+
+2008-11-03  Ashish Shrivastava  <shashish@novell.com>
+
+	** Most of the errors are now non-intrusive
+
+	* calendar.error.xml: Added a new error message for
+	  non-intrusive backend_died.
+	* apps_evolution_calendar.schemas.in:
+	* calendar-commands.c: Added new verb for help debug message
+	  (help_debug):
+	* gnome-cal.c: Support for non-intrusive error.
+	  (client_cal_opened_cb), Define fash table and accessing errors:
+	* e-calendar-view.c: (error_response):
+	  (e_calendar_utils_show_error_silent), (e_calendar_utils_show_info_silent):
+	* e-calendar-view.h:
+	* calendar-component.c: Added EActivityHandler and ELogger:
+	(calendar_component_peek_activity_handler), (calendar_component_show_logger):
+	* calendar-component.h:
 
 2008-09-08  Chenthill Palanisamy  <pchenthill@novell.com>
 

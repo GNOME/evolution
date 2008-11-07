@@ -33,7 +33,7 @@
 #include "e-util/e-categories-config.h"
 #include "e-week-view-event-item.h"
 
-#include <gtk/gtksignal.h>
+#include <gtk/gtk.h>
 #include "e-calendar-view.h"
 #include "comp-util.h"
 

@@ -34,7 +34,7 @@
 #include <libgnomeui/gnome-thumbnail.h>
 #endif
 
-#include <gtk/gtkiconfactory.h>
+#include <gtk/gtk.h>
 
 #include "e-icon-factory.h"
 #include "e-util-private.h"

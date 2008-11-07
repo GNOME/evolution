@@ -11545,7 +11545,7 @@ msgstr "Evolution hálózati beállítások vezérlése"
 #: ../mail/mail-component.c:767
 #: ../plugins/groupwise-features/proxy-add-dialog.glade.h:6
 msgid "Mail"
-msgstr "Levél"
+msgstr "Levelek"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:14
 #: ../mail/em-account-prefs.c:495
@@ -16225,11 +16225,11 @@ msgstr "Az Evolution adatainak és beállításainak mentése és visszaállít�
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:2
 msgid "R_estore Settings..."
-msgstr "Beállítások _visszaállítása…"
+msgstr "Biztonsági mentés _visszaállítása…"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:3
 msgid "_Backup Settings..."
-msgstr "Beállítások _mentése…"
+msgstr "Adatok biztonsági _mentése…"
 
 #: ../plugins/bbdb/bbdb.c:543 ../plugins/bbdb/bbdb.c:552
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:1

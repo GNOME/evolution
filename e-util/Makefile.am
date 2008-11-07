@@ -60,6 +60,7 @@ eutilinclude_HEADERS = 				\
 	e-marshal.h				\
 	e-menu.h				\
 	e-mktemp.h				\
+	e-non-intrusive-error-dialog.h		\
 	e-print.h				\
 	e-plugin.h				\
 	e-plugin-ui.h				\
@@ -100,6 +101,7 @@ libeutil_la_SOURCES =				\
 	e-marshal.c				\
 	e-menu.c				\
 	e-mktemp.c				\
+	e-non-intrusive-error-dialog.c		\
 	e-plugin-ui.c				\
 	e-plugin.c				\
 	e-popup.c				\

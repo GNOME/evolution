@@ -47,6 +47,7 @@
 #include <libecal/e-cal-time-util.h>
 #include "shell/Evolution.h"
 #include "calendar-commands.h"
+#include "calendar-component.h"
 #include "calendar-config.h"
 #include "e-day-view.h"
 #include "e-week-view.h"
@@ -333,6 +334,11 @@ gcal_taskpad_focus_change_cb (GnomeCalendar *gcal, gboolean in, gpointer data)
 
 }
 
+static void
+help_debug (BonoboUIComponent *uid, void *data, const char *path)
+{
+	calendar_component_show_logger ((GtkWidget *) data);
+}
 
 static BonoboUIVerb verbs [] = {
 
@@ -343,7 +349,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("ShowListView", show_list_view_clicked),
 
 	BONOBO_UI_VERB ("CalendarPurge", purge_cmd),
-
+	BONOBO_UI_VERB ("HelpDebug", help_debug),
 	BONOBO_UI_VERB_END
 };
 

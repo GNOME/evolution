@@ -2314,3 +2314,12 @@ draw_curved_rectangle (cairo_t *cr, double x0, double y0,
 	}
 	cairo_close_path (cr);
 }
+
+static void 
+error_response(GtkWidget *widget, gint response, void *data)
+{
+	if (response == GTK_RESPONSE_DELETE_EVENT) 
+		gtk_widget_destroy(widget);
+	else if (response == GTK_RESPONSE_OK) 
+		gtk_widget_destroy(widget);
+}

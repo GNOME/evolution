@@ -1,3 +1,10 @@
+2008-10-29  Sankar P  <psankar@novell.com>
+
+License Changes
+
+	* e-url-entry.c:
+	* e-url-entry.h:
+
 2008-10-21  Sankar P  <psankar@novell.com>
 
 	* e-spinner.c (e_spinner_stop),

@@ -872,7 +872,7 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 	      /* For Translators:'a total of %d times' is part of the sentence of the form 'event recurring every day,a total of % times.' %d is a digit*/
 		g_string_append_printf (
 			buffer, ngettext ("a total of %d time",
-			" a total of %d times", r->count), r->count);
+			"a total of %d times", r->count), r->count);
 	} else if (!icaltime_is_null_time (r->until)) {
 		ECalComponentDateTime dt;
 

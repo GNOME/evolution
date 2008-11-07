@@ -1,3 +1,33 @@
+2008-11-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #559042
+
+	* mail-config.glade:
+	Remove extra space in translated string.
+
+2008-11-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #557613
+
+	* em-utils.c (try_open_e_book):
+	Wait for try_open_e_book_cb() to run before freeing the EFlag.
+	It will run regardless of whether the EBook operation completes.
+
+2008-10-31  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #558726 (patch by Frederic van Starbmann)
+
+	* em-format-html.c (emfh_multipart_related_check):
+	Fix a potential format string crash.
+
+2008-10-31  Sankar P  <psankar@novell.com>
+
+	** Patch by Bharath Acharya <abharath@novell.com> 
+
+	* em-folder-tree.c (emft_popup):
+	Disable delete and rename on 
+	right click menu for the system folders 
+
 2008-10-22  Matthew Barnes  <mbarnes@redhat.com>
 
 	* mail-send-recv.c:
@@ -320,6 +350,14 @@ License Changes
 
 	* em-format-html-display.c: (efhd_image): Do not try to access widget
 	of the pury when the operation has been cancelled.
+
+2008-11-03  Ashish Shrivastava  <shashish@novell.com>
+
+	** Support for Non-intrusive error in calendar.
+
+	* mail-component.c: Remove common code between
+	  mailer and calendar and moved to
+	  e-util/e-non-intrusive-error-dialog.c
 
 2008-09-08  Milan Crha  <mcrha@redhat.com>
 

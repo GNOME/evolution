@@ -53,6 +53,8 @@
 #include "dialogs/copy-source-dialog.h"
 #include "dialogs/event-editor.h"
 #include "misc/e-info-label.h"
+#include "e-util/e-non-intrusive-error-dialog.h"
+#include "e-util/gconf-bridge.h"
 #include "e-util/e-error.h"
 #include "e-cal-menu.h"
 #include "e-cal-popup.h"
@@ -62,8 +64,9 @@
 #define CREATE_MEETING_ID      "meeting"
 #define CREATE_ALLDAY_EVENT_ID "allday-event"
 #define CREATE_CALENDAR_ID      "calendar"
+#define CALENDAR_ERROR_LEVEL_KEY "/apps/evolution/calendar/display/error_level"
+#define CALENDAR_ERROR_TIME_OUT_KEY "/apps/evolution/calendar/display/error_timeout" 
 
-#define PARENT_TYPE bonobo_object_get_type ()
 static BonoboObjectClass *parent_class = NULL;
 
 typedef struct
@@ -94,6 +97,9 @@ struct _CalendarComponentPrivate {
 	ESourceList *source_list;
 	ESourceList *task_source_list;
 	ESourceList *memo_source_list;
+
+	EActivityHandler *activity_handler;
+        ELogger *logger;
 
 	GList *views;
 
@@ -571,6 +577,11 @@ impl_dispose (GObject *object)
 		priv->source_list = NULL;
 	}
 
+	if (priv->activity_handler != NULL) {
+		g_object_unref (priv->activity_handler);
+		priv->activity_handler = NULL;
+	}
+
 	if (priv->create_ecal) {
 		g_object_unref (priv->create_ecal);
 		priv->create_ecal = NULL;
@@ -614,6 +625,11 @@ calendar_component_init (CalendarComponent *component)
 	not = calendar_config_add_notification_primary_calendar (config_primary_selection_changed_cb,
 								 component);
 	priv->notifications = g_list_prepend (priv->notifications, GUINT_TO_POINTER (not));
+
+	priv->logger = e_logger_create ("calendar");
+	priv->activity_handler = e_activity_handler_new ();
+	e_activity_handler_set_logger (priv->activity_handler, priv->logger);
+	e_activity_handler_set_error_flush_time (priv->activity_handler,eni_config_get_error_timeout (CALENDAR_ERROR_TIME_OUT_KEY)*1000);
 
 	component->priv = priv;
 

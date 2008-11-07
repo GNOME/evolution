@@ -50,8 +50,7 @@
 
 #include "config.h"
 
-#include <gtk/gtkmain.h>
-#include <gtk/gtkvbox.h>
+#include <gtk/gtk.h>
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include <libgnomeui/gnome-init.h>
 #include <misc/e-canvas.h>

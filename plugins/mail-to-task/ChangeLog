@@ -1,3 +1,10 @@
+2008-10-31  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #558726 (patch by Frederic van Starbmann)
+
+	* mail-to-task.c (do_mail_to_task):
+	Fix a potential format string crash.
+
 2008-08-27  Sankar P  <psankar@novell.com>
 
 License Changes
