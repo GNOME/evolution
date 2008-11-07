@@ -1,3 +1,8 @@
+2008-11-07  Sankar P  <psankar@novell.com>
+
+	* Makefile.am:
+	Ship COPYING.OPENLDAP also
+
 2008-11-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* configure.in, NEWS: Evolution 2.25.1 release and version bump
