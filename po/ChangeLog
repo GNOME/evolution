@@ -1,3 +1,7 @@
+2008-11-08  Jorge Gonzalez  <jorgegonz@svn.gnome.org>   
+
+	* es.po: Updated Spanish translation
+
 2008-11-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* POTFILES.in: Added addressbook/gui/component/autocompletion-config.c
