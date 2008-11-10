@@ -2903,7 +2903,9 @@ fill_widgets (CompEditor *editor)
 	if (e_cal_component_has_attachments (priv->comp)) {
 		GSList *attachment_list = NULL;
 		e_cal_component_get_attachment_list (priv->comp, &attachment_list);
+		g_signal_handlers_block_by_func(priv->attachment_bar, G_CALLBACK (attachment_bar_changed_cb), editor);
 		set_attachment_list (editor, attachment_list);
+		g_signal_handlers_unblock_by_func(priv->attachment_bar, G_CALLBACK (attachment_bar_changed_cb), editor);
 		g_slist_foreach (attachment_list, (GFunc)g_free, NULL);
 		g_slist_free (attachment_list);
 	}
@@ -2916,7 +2918,6 @@ static void
 real_edit_comp (CompEditor *editor, ECalComponent *comp)
 {
 	CompEditorPrivate *priv;
-	const char *uid;
 
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
@@ -2935,7 +2936,6 @@ real_edit_comp (CompEditor *editor, ECalComponent *comp)
  	priv->warned = FALSE;
 
 	update_window_border (editor, NULL);
-	e_cal_component_get_uid (comp, &uid);
 
 	fill_widgets (editor);
 
