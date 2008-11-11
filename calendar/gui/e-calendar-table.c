@@ -432,6 +432,16 @@ query_tooltip_cb (GtkWidget *widget, gint x, gint y, gboolean keyboard_mode, Gtk
 	e_cal_component_free_datetime (&dtstart);
 	e_cal_component_free_datetime (&dtdue);
 
+	tmp = e_calendar_view_get_attendees_status_info (new_comp);
+	if (tmp) {
+		l = gtk_label_new (tmp);
+		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
+		gtk_box_pack_start (GTK_BOX (w), l, FALSE, FALSE, 0);
+
+		g_free (tmp);
+		tmp = NULL;
+	}
+
 	tmp2 = g_string_new ("");
 	e_cal_component_get_description_list (new_comp, &desc);
 	for (len = 0, p = desc; p != NULL; p = p->next) {

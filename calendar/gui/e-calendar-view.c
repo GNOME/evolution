@@ -2131,6 +2131,83 @@ e_calendar_view_move_tip (GtkWidget *widget, int x, int y)
   gtk_widget_show (widget);
 }
 
+/**
+ * Returns information about attendees in the component. If no attendees, then returns NULL.
+ * The information is like "Status: Accepted: X   Declined: Y  ...".
+ * Free returned pointer with g_free.
+ **/
+char *
+e_calendar_view_get_attendees_status_info (ECalComponent *comp)
+{
+	struct _values {
+		icalparameter_partstat status;
+		const char *caption;
+		int count;
+	} values[] = {
+		{ ICAL_PARTSTAT_ACCEPTED,    N_("Accepted"),     0 },
+		{ ICAL_PARTSTAT_DECLINED,    N_("Declined"),     0 },
+		{ ICAL_PARTSTAT_TENTATIVE,   N_("Tentative"),    0 },
+		{ ICAL_PARTSTAT_DELEGATED,   N_("Delegated"),    0 },
+		{ ICAL_PARTSTAT_NEEDSACTION, N_("Needs action"), 0 },
+		{ ICAL_PARTSTAT_NONE,        N_("Other"),        0 },
+		{ ICAL_PARTSTAT_X,           NULL,              -1 }
+	};
+
+	GSList *attendees = NULL, *a;
+	gboolean have = FALSE;
+	char *res = NULL;
+	int i;
+
+	if (!comp || !e_cal_component_has_attendees (comp))
+		return NULL;
+
+	e_cal_component_get_attendee_list (comp, &attendees);
+
+	for (a = attendees; a; a = a->next) {
+		ECalComponentAttendee *att = a->data;
+
+		if (att && att->cutype == ICAL_CUTYPE_INDIVIDUAL &&
+		    (att->role == ICAL_ROLE_CHAIR ||
+		     att->role == ICAL_ROLE_REQPARTICIPANT ||
+		     att->role == ICAL_ROLE_OPTPARTICIPANT)) {
+			have = TRUE;
+
+			for (i = 0; values[i].count != -1; i++) {
+				if (att->status == values[i].status || values[i].status == ICAL_PARTSTAT_NONE) {
+					values[i].count++;
+					break;
+				}
+			}
+		}
+	}
+
+	if (have) {
+		GString *str = g_string_new ("");
+
+		for (i = 0; values[i].count != -1; i++) {
+			if (values[i].count > 0) {
+				if (str->str && *str->str)
+					g_string_append (str, "   ");
+
+				g_string_append_printf (str, "%s: %d", _(values[i].caption), values[i].count);
+			}
+		}
+
+		g_string_prepend (str, ": ");
+
+		/* To Translators: 'Status' here means the state of the attendees, the resulting string will be in a form:
+		   Status: Accepted: X   Declined: Y   ... */
+		g_string_prepend (str, _("Status"));
+
+		res = g_string_free (str, FALSE);
+	}
+
+	if (attendees)
+		e_cal_component_free_attendee_list (attendees);
+
+	return res;
+}
+
 /*
  * It is expected to show the tooltips in this below format
  *
@@ -2138,6 +2215,7 @@ e_calendar_view_move_tip (GtkWidget *widget, int x, int y)
  * 	Organiser: NameOfTheUser<email@ofuser.com>
  * 	Location: PlaceOfTheMeeting
  * 	Time : DateAndTime (xx Minutes)
+ *      Status: Accepted: X   Declined: Y   ...
  */
 
 gboolean
@@ -2275,6 +2353,17 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	g_free (tmp);
 	g_free (tmp2);
 	g_free (tmp1);
+
+	tmp = e_calendar_view_get_attendees_status_info (newcomp);
+	if (tmp) {
+		hbox = gtk_hbox_new (FALSE, 0);
+		gtk_box_pack_start ((GtkBox *)hbox, gtk_label_new (tmp), FALSE, FALSE, 0);
+		ebox = gtk_event_box_new ();
+		gtk_container_add ((GtkContainer *)ebox, hbox);
+		gtk_box_pack_start ((GtkBox *)box, ebox, FALSE, FALSE, 0);
+
+		g_free (tmp);
+	}
 
 	pevent->tooltip = gtk_window_new (GTK_WINDOW_POPUP);
 	frame = gtk_frame_new (NULL);

@@ -1,3 +1,13 @@
+2008-11-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #559604
+
+	* gui/e-calendar-view.h: (e_calendar_view_get_attendees_status_info):
+	* gui/e-calendar-view.c: (e_calendar_view_get_attendees_status_info),
+	(e_calendar_view_get_tooltips):
+	* gui/e-calendar-table.c: (query_tooltip_cb):
+	Show attendees' status in the tooltip if available.
+
 2008-11-11  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #490503
