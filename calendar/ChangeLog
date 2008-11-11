@@ -1,3 +1,16 @@
+2008-11-11  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #490503
+
+	* gui/e-day-view.c (set_text_as_bold),
+	(e_day_view_update_event_label),
+	(e_day_view_update_long_event_label):
+	* gui/e-week-view.c (set_text_as_bold),
+	(e_week_view_reshape_event_span):
+	Summary of unaccepted meetings in calendar views now appear as bolded. 
+	If the meeting was sent to a mailing-list - the summary will always 
+	appear as normal. 
+
 2008-11-10  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #443190 (bugzilla.novell.com)

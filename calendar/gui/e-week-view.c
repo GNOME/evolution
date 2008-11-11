@@ -1877,41 +1877,38 @@ e_week_view_recalc_display_start_day	(EWeekView	*week_view)
 	return FALSE;
 }
 
-#if 0
-/*  Checks if the users participation status is Needs action and shows the summary as bold text*/
+/* Checks if the users participation status is NEEDS-ACTION and shows the summary as bold text */
 static void
 set_text_as_bold (EWeekViewEvent *event, EWeekViewEventSpan *span)
 {
 	ECalComponent *comp;
-	char *address;
-	GSList *attendees, *l;
+	GSList *attendees = NULL, *l;
+	gchar *address;
 	ECalComponentAttendee *at = NULL;
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 	address = itip_get_comp_attendee (comp, event->comp_data->client);
 	e_cal_component_get_attendee_list (comp, &attendees);
-
 	for (l = attendees; l; l = l->next) {
 		ECalComponentAttendee *attendee = l->data;
 
-		if (g_str_equal (itip_strip_mailto (attendee->value), address)) {
+		if ((g_str_equal (itip_strip_mailto (attendee->value), address)) 
+		 || (attendee->sentby && g_str_equal (itip_strip_mailto (attendee->sentby), address))) {
 			at = attendee;
 			break;
 		}
 	}
+	e_cal_component_free_attendee_list (attendees);
+	g_free (address);
+	g_object_unref (comp);
 
 	/* The attendee has not yet accepted the meeting, display the summary as bolded.
-	   If the attendee is not present, it might have come through a mailing list*/
-	if (!at || (at->status == ICAL_PARTSTAT_NEEDSACTION)) {
+	   If the attendee is not present, it might have come through a mailing list. 
+	   In that case, we never show the meeting as bold even if it is unaccepted. */
+	if (at && (at->status == ICAL_PARTSTAT_NEEDSACTION))
 		gnome_canvas_item_set (span->text_item, "bold", TRUE, NULL);
-	}
-
-	e_cal_component_free_attendee_list (attendees);
-	g_object_unref (comp);
-	g_free (address);
 }
-#endif
 
 /* This calls a given function for each event instance that matches the given
    uid. Note that it is safe for the callback to remove the event (since we
@@ -2816,11 +2813,10 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		if (free_text)
 			g_free ((gchar*)summary);
 
-/*		Uncomment once the pango fix is in
 		if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
 				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp)) {
 			set_text_as_bold (event, span);
-		} */
+		}
 		g_object_set_data (G_OBJECT (span->text_item), "event-num", GINT_TO_POINTER (event_num));
 		g_signal_connect (span->text_item, "event",
 				  G_CALLBACK (e_week_view_on_text_item_event),
