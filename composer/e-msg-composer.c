@@ -4808,14 +4808,16 @@ e_load_spell_languages (void)
 		const GtkhtmlSpellLanguage *language;
 
 		language = gtkhtml_spell_language_lookup (NULL);
-
-		spell_languages = g_list_prepend (
-			spell_languages, (gpointer) language);
+		
+		if (language) {
+			spell_languages = g_list_prepend (
+				spell_languages, (gpointer) language);
 
 		/* Don't overwrite the stored spell check language
 		 * codes if there was a problem retrieving them. */
-		if (error == NULL)
-			e_save_spell_languages (spell_languages);
+			if (error == NULL)
+				e_save_spell_languages (spell_languages);
+		}
 	}
 
 	if (error != NULL) {
