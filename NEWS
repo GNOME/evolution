@@ -1,3 +1,33 @@
+Evolution 2.24.1.1 2008-11-07
+----------------------------
+
+	Releasing Evolution under 'GNU LGPL V2 or (at your option) V3'. Refer COPYING file for more details
+
+Bug Fixes:
+	#437226: (Novell Bugzilla) Proper message is missing in mail sent by delegatee (Bharath Acharya)
+	#440007: (Novell Bugzilla) Print Preview of Calendar Event Shows Blank Page Before Data (Bharath Acharya)
+	#541121: Updated Meetings Need to Notify the Organizer Just as Brand New Meetings Do (Patrick Ohly)
+	#554450: drag and drop to attachment bar doesn't work (Matthew Barnes)
+	#557246: Unsubscribe other user's folder throws an error (Bharath Acharya)
+	#557613: evolution crashed with SIGSEGV in e_flag_set() (Matthew Barnes)
+	#557726: New address book creation dialog doesn't get refreshed (Bharath Acharya)
+	#558726: format string bugs causing potential crashes (Matthew Barnes)
+	#559028: Evolution: Reserve tab order in mail composer window is not the same as the forward tab order in reverse. (Matthew Barnes)
+	#559041: Please add translator comment (Matthew Barnes)
+	#559371: Evolution: spell-checker underlines even the words correctly spelled whilst language is ticked. (Matthew Barnes)
+
+Updated Translations:
+	Maxim Dziumanenko (uk)	
+	Leonardo Ferreira Fontenelle (pt_BR)
+	Gabor Kelemen (hu)	
+	Kenneth Nielsen (da)
+	Luca Ferretti (it)
+	iharh (be)	
+	Jorge Gonzalez (es)	
+	Priit Laes (et)	
+	Daniel Nylander (sv)	
+	Gil Forcada (ast)	
+
 Evolution 2.24.1 2008-10-20
 ---------------------------
 
