@@ -1,3 +1,10 @@
+2008-11-07  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #559701
+
+	* e-msg-composer.c: (e_load_spell_languages): Don't save when its
+	NULL.
+
 2008-11-05  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #559371
