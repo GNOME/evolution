@@ -1,3 +1,10 @@
+2008-11-12  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #559810
+
+	* e-util-labels.c: (e_util_labels_parse):
+	Do not localize empty label names, also localize them only first time.
+
 2008-11-02  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-util.c (do_format_number_as_float):
