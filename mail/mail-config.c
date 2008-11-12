@@ -248,6 +248,22 @@ gconf_style_changed (GConfClient *client, guint cnxn_id,
 }
 
 static void
+gconf_outlook_filenames_changed (GConfClient *client, guint cnxn_id,
+				 GConfEntry *entry, gpointer user_data)
+{
+	extern int camel_header_param_encode_filenames_in_rfc_2047;
+
+	g_return_if_fail (client != NULL);
+
+	/* pass option to the camel */
+	if (gconf_client_get_bool (client, "/apps/evolution/mail/composer/outlook_filenames", NULL)) {
+		camel_header_param_encode_filenames_in_rfc_2047 = 1;
+	} else {
+		camel_header_param_encode_filenames_in_rfc_2047 = 0;
+	}
+}
+
+static void
 gconf_jh_check_changed (GConfClient *client, guint cnxn_id,
 		     GConfEntry *entry, gpointer user_data)
 {
@@ -366,6 +382,12 @@ mail_config_init (void)
 
 	key = "/apps/evolution/mail/composer/spell_color";
 	func = (GConfClientNotifyFunc) gconf_style_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+
+	key = "/apps/evolution/mail/composer/outlook_filenames";
+	func = (GConfClientNotifyFunc) gconf_outlook_filenames_changed;
+	gconf_outlook_filenames_changed (config->gconf, 0, NULL, NULL);
 	gconf_client_notify_add (
 		config->gconf, key, func, NULL, NULL, NULL);
 

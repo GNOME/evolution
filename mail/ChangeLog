@@ -1,3 +1,15 @@
+2008-11-12  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #524377
+
+	* mail-config.glade:
+	* evolution-mail.schemas.in:
+	* em-composer-prefs.c: (em_composer_prefs_construct):
+	* mail-config.c: (gconf_outlook_filenames_changed), (mail_config_init):
+	Declare, be able to change and listen to changes on new key,
+	'/apps/evolution/mail/composer/outlook_filenames' to encode file names
+	header in camel based on the RFC 2047, instead of the correct RFC 2231.
+
 2008-11-07  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fix for bug #552583
