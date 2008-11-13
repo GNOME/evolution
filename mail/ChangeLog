@@ -1,3 +1,9 @@
+2008-11-13  Bharath Acharya  <abharath@novell.com>
+
+	* em-folder-view.c: (emfv_setting_notify):
+	* em-format-html.c: (efh_format_headers): Do not display the default 
+	headers when all the headers are disabled in Mail preferences.
+
 2008-11-12  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #524377

@@ -3114,7 +3114,6 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 	case EMFV_HEADERS: {
 		GSList *header_config_list, *p;
 		EMFormat *emf = (EMFormat *)emfv->preview;
-		int added_headers = 0;
 
 		header_config_list = gconf_client_get_list(gconf, "/apps/evolution/mail/display/headers", GCONF_VALUE_STRING, NULL);
       		em_format_clear_headers((EMFormat *)emfv->preview);
@@ -3126,15 +3125,12 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 			h = em_mailer_prefs_header_from_xml(xml);
 			if (h && h->enabled) {
 				em_format_add_header(emf, h->name, EM_FORMAT_HEADER_BOLD);
-				added_headers++;
 			}
 			em_mailer_prefs_header_free(h);
 			p = g_slist_next(p);
 		}
 		g_slist_foreach(header_config_list, (GFunc) g_free, NULL);
 		g_slist_free(header_config_list);
-		if (added_headers == 0)
-			em_format_default_headers(emf);
 		/* force a redraw */
 		if (emf->message)
 			em_format_redraw(emf);

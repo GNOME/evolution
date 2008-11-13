@@ -1923,7 +1923,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 
 	/* dump selected headers */
 	h = (EMFormatHeader *)emf->header_list.head;
-	if (h->next == NULL || emf->mode == EM_FORMAT_ALLHEADERS) {
+	if (emf->mode == EM_FORMAT_ALLHEADERS) {
 		header = ((CamelMimePart *)part)->headers;
 		while (header) {
 			efh_format_header(emf, stream, part, header, EM_FORMAT_HTML_HEADER_NOCOLUMNS, charset);
