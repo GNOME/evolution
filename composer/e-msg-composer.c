@@ -67,7 +67,6 @@
 #include "e-util/e-plugin-ui.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
-#include <mail/em-event.h>
 #include "e-signature-combo-box.h"
 #include "shell/e-shell.h"
 
@@ -87,12 +86,10 @@
 #endif
 
 #include "mail/em-composer-utils.h"
-#include "mail/em-menu.h"
 #include "mail/em-popup.h"
 #include "mail/em-utils.h"
 #include "mail/mail-config.h"
 #include "mail/mail-crypto.h"
-#include "mail/mail-mt.h"
 #include "mail/mail-ops.h"
 #include "mail/mail-tools.h"
 
