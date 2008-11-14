@@ -58,17 +58,18 @@ endif
 
 SUBDIRS = 			\
 	win32			\
-        data                    \
-        e-util                  \
+	data			\
+	e-util			\
 	a11y			\
 	filter			\
-        widgets                 \
-        shell                   \
+	widgets			\
+	shell			\
 	$(SMIME_DIR)		\
 	composer		\
 	addressbook		\
 	calendar		\
-        art                     \
+	mail			\
+	art			\
 	plugins			\
 	doc			\
 	ui			\

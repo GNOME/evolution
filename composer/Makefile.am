@@ -47,7 +47,7 @@ libcomposer_la_SOURCES = 			\
 	e-msg-composer.c			\
 	e-msg-composer.h
 
-libcomposer_la_LIBADD =						\
+libcomposer_la_LIBADD =							\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la
 
 uidir = $(evolutionuidir)

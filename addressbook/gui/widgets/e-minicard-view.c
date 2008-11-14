@@ -56,6 +56,8 @@ enum {
 
 
 enum {
+	CREATE_CONTACT,
+	CREATE_CONTACT_LIST,
 	RIGHT_CLICK,
 	LAST_SIGNAL
 };
@@ -383,13 +385,8 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 
 			g_object_get(view->adapter, "editable", &editable, NULL);
 
-			if (editable) {
-				EBook *book;
-				g_object_get(view, "book", &book, NULL);
-
-				if (book && E_IS_BOOK (book))
-					eab_show_contact_editor (book, e_contact_new(), TRUE, editable);
-			}
+			if (editable)
+				e_minicard_view_create_contact (view);
 			return TRUE;
 		}
 	case GDK_BUTTON_PRESS:
@@ -547,6 +544,22 @@ e_minicard_view_class_init (EMinicardViewClass *klass)
 							       FALSE,
 							       G_PARAM_READWRITE));
 
+	signals [CREATE_CONTACT] =
+		g_signal_new ("create-contact",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+			      0, NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
+
+	signals [CREATE_CONTACT_LIST] =
+		g_signal_new ("create-contact-list",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+			      0, NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
+
 	signals [RIGHT_CLICK] =
 		g_signal_new ("right_click",
 			      G_OBJECT_CLASS_TYPE (object_class),
@@ -654,4 +667,20 @@ e_minicard_view_get_card_list (EMinicardView *view)
 
 	mal.list = g_list_reverse (mal.list);
 	return mal.list;
+}
+
+void
+e_minicard_view_create_contact (EMinicardView *view)
+{
+	g_return_if_fail (E_IS_MINICARD_VIEW (view));
+
+	g_signal_emit (view, signals[CREATE_CONTACT], 0);
+}
+
+void
+e_minicard_view_create_contact_list (EMinicardView *view)
+{
+	g_return_if_fail (E_IS_MINICARD_VIEW (view));
+
+	g_signal_emit (view, signals[CREATE_CONTACT_LIST], 0);
 }

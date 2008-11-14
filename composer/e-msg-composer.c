@@ -69,8 +69,8 @@
 #include "e-util/e-util.h"
 #include <mail/em-event.h>
 #include "e-signature-combo-box.h"
+#include "shell/e-shell.h"
 
-#include <camel/camel-session.h>
 #include <camel/camel-charset-map.h>
 #include <camel/camel-iconv.h>
 #include <camel/camel-stream-filter.h>
@@ -94,7 +94,6 @@
 #include "mail/mail-crypto.h"
 #include "mail/mail-mt.h"
 #include "mail/mail-ops.h"
-#include "mail/mail-session.h"
 #include "mail/mail-tools.h"
 
 #include "e-msg-composer.h"
@@ -875,7 +874,9 @@ build_message (EMsgComposer *composer,
 
 		if (smime_sign) {
 			CamelMimePart *npart = camel_mime_part_new ();
+			CamelSession *session;
 
+			session = e_msg_composer_get_session (composer);
 			cipher = camel_smime_context_new (session);
 
 			/* if we're also encrypting, envelope-sign rather than clear-sign */
@@ -899,10 +900,13 @@ build_message (EMsgComposer *composer,
 		}
 
 		if (smime_encrypt) {
+			CamelSession *session;
+
 			/* check to see if we should encrypt to self, NB removed after use */
 			if (account->smime_encrypt_to_self)
 				g_ptr_array_add (recipients, g_strdup (account->smime_encrypt_key));
 
+			session = e_msg_composer_get_session (composer);
 			cipher = camel_smime_context_new (session);
 			camel_smime_context_set_encrypt_key ((CamelSMIMEContext *)cipher, TRUE, account->smime_encrypt_key);
 
@@ -2932,6 +2936,7 @@ create_composer (gint visible_mask)
 
 /**
  * e_msg_composer_new_with_type:
+ * @type: the type of composer to create
  *
  * Create a new message composer widget. The type can be
  * E_MSG_COMPOSER_MAIL, E_MSG_COMPOSER_POST or E_MSG_COMPOSER_MAIL_POST.
@@ -2940,7 +2945,7 @@ create_composer (gint visible_mask)
  **/
 
 EMsgComposer *
-e_msg_composer_new_with_type (int type)
+e_msg_composer_new_with_type (gint type)
 {
 	EMsgComposer *composer;
 	gint visible_mask;
@@ -3747,6 +3752,32 @@ e_msg_composer_new_redirect (CamelMimeMessage *message,
 	disable_editor (composer);
 
 	return composer;
+}
+
+/**
+ * e_msg_composer_get_session:
+ * @composer: an #EMsgComposer
+ *
+ * Returns the mail module's global #CamelSession instance.  Calling
+ * this function will load the mail module if it isn't already loaded.
+ *
+ * Returns: the mail module's #CamelSession
+ **/
+CamelSession *
+e_msg_composer_get_session (EMsgComposer *composer)
+{
+	EShellModule *shell_module;
+	CamelSession *session;
+	EShell *shell;
+
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
+
+	shell = e_shell_get_default ();
+	shell_module = e_shell_get_module_by_name (shell, "mail");
+	session = g_object_get_data (G_OBJECT (shell_module), "session");
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
+
+	return session;
 }
 
 /**

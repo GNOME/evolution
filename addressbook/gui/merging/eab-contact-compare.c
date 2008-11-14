@@ -24,8 +24,8 @@
 #include <config.h>
 #include <ctype.h>
 #include <string.h>
-#include "util/eab-book-util.h"
-#include "../component/addressbook.h"
+#include "addressbook/util/addressbook.h"
+#include "addressbook/util/eab-book-util.h"
 #include "eab-contact-compare.h"
 
 /* This is an "optimistic" combiner: the best of the two outcomes is

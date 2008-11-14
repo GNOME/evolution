@@ -35,7 +35,6 @@
 #include "e-minicard.h"
 #include "e-minicard-label.h"
 #include "e-minicard-view.h"
-#include "e-contact-editor.h"
 #include <e-util/e-html-utils.h>
 #include <e-util/e-icon-factory.h>
 #include <libebook/e-destination.h>
@@ -86,6 +85,7 @@ enum {
 enum {
 	SELECTED,
 	DRAG_BEGIN,
+	OPEN_CONTACT,
 	STYLE_SET,
 	LAST_SIGNAL
 };
@@ -101,7 +101,7 @@ common_location [] =
 	{ "OTHER", N_ ("Other Email") }
 };
 
-static guint e_minicard_signals [LAST_SIGNAL] = {0, };
+static guint signals [LAST_SIGNAL] = {0, };
 
 GType
 e_minicard_get_type (void)
@@ -200,7 +200,7 @@ e_minicard_class_init (EMinicardClass *class)
 							      E_TYPE_CONTACT,
 							      G_PARAM_READWRITE));
 
-	e_minicard_signals [SELECTED] =
+	signals [SELECTED] =
 		g_signal_new ("selected",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -209,7 +209,7 @@ e_minicard_class_init (EMinicardClass *class)
 			      e_marshal_INT__POINTER,
 			      G_TYPE_INT, 1, G_TYPE_POINTER);
 
-	e_minicard_signals [DRAG_BEGIN] =
+	signals [DRAG_BEGIN] =
 		g_signal_new ("drag_begin",
 			      G_OBJECT_CLASS_TYPE (object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -218,7 +218,17 @@ e_minicard_class_init (EMinicardClass *class)
 			      e_marshal_INT__POINTER,
 			      G_TYPE_INT, 1, G_TYPE_POINTER);
 
-	e_minicard_signals [STYLE_SET] =
+	signals [OPEN_CONTACT] =
+		g_signal_new ("open-contact",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EMinicardClass, open_contact),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__OBJECT,
+			      G_TYPE_NONE, 1,
+			      E_TYPE_CONTACT);
+
+	signals [STYLE_SET] =
 		g_signal_new ("style_set",
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_FIRST,
@@ -248,8 +258,6 @@ e_minicard_init (EMinicard *minicard)
 
 	minicard->list_icon_pixbuf = e_icon_factory_get_icon (LIST_ICON_NAME, E_ICON_SIZE_MENU);
 	minicard->list_icon_size   = gdk_pixbuf_get_height (minicard->list_icon_pixbuf);
-
-	minicard->editor           = NULL;
 
 	minicard->changed          = FALSE;
 
@@ -528,50 +536,12 @@ e_minicard_unrealize (GnomeCanvasItem *item)
 		(* GNOME_CANVAS_ITEM_CLASS(parent_class)->unrealize) (item);
 }
 
-/* Callback used when the contact editor is closed */
-static void
-editor_closed_cb (GtkObject *editor, gpointer data)
+void
+e_minicard_activate_editor (EMinicard *minicard)
 {
-	EMinicard *minicard = data;
-	g_object_unref (editor);
-	minicard->editor = NULL;
-}
+	g_return_if_fail (E_IS_MINICARD (minicard));
 
-gboolean
-e_minicard_activate_editor(EMinicard *minicard)
-{
-	GnomeCanvasItem *item = (GnomeCanvasItem *)minicard;
-
-	if (minicard->editor) {
-		eab_editor_raise (minicard->editor);
-	}
-	else {
-		EBook *book = NULL;
-		if (E_IS_MINICARD_VIEW(item->parent)) {
-			g_object_get(item->parent, "book", &book, NULL);
-		}
-
-		if (book != NULL) {
-			if (e_contact_get (minicard->contact, E_CONTACT_IS_LIST)) {
-				EContactListEditor *editor = eab_show_contact_list_editor (book, minicard->contact,
-											   FALSE, e_book_is_writable (book));
-				minicard->editor = EAB_EDITOR (editor);
-			}
-			else {
-				EContactEditor *editor = eab_show_contact_editor (book, minicard->contact,
-										  FALSE, e_book_is_writable (book));
-				minicard->editor = EAB_EDITOR (editor);
-			}
-
-			g_object_ref (minicard->editor);
-			g_signal_connect (minicard->editor, "editor_closed",
-							G_CALLBACK (editor_closed_cb), minicard);
-
-			g_object_unref (book);
-		}
-	}
-
-	return TRUE;
+	g_signal_emit (minicard, signals[OPEN_CONTACT], 0, minicard->contact);
 }
 
 static gboolean
@@ -655,7 +625,8 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 		break;
 	case GDK_2BUTTON_PRESS:
 		if (event->button.button == 1 && E_IS_MINICARD_VIEW (item->parent)) {
-			return e_minicard_activate_editor (e_minicard);
+			e_minicard_activate_editor (e_minicard);
+			return TRUE;
 		}
 		break;
 	case GDK_KEY_PRESS:
@@ -725,7 +696,8 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 		}
 		else if (event->key.keyval == GDK_Return ||
 				event->key.keyval == GDK_KP_Enter) {
-				return e_minicard_activate_editor (e_minicard);
+			e_minicard_activate_editor (e_minicard);
+			return TRUE;
 		}
 		break;
 	default:
@@ -1154,7 +1126,7 @@ e_minicard_drag_begin (EMinicard *minicard, GdkEvent *event)
 	gint ret_val = 0;
 	GnomeCanvasItem *parent;
 	g_signal_emit (minicard,
-		       e_minicard_signals[DRAG_BEGIN], 0,
+		       signals[DRAG_BEGIN], 0,
 		       event, &ret_val);
 
 	parent = GNOME_CANVAS_ITEM (minicard)->parent;

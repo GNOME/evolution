@@ -24,10 +24,11 @@
 
 #include <libebook/e-contact.h>
 
-#include <e-shell-content.h>
-#include <e-shell-view.h>
+#include "shell/e-shell-content.h"
+#include "shell/e-shell-view.h"
 
-#include <e-addressbook-view.h>
+#include "addressbook/gui/component/eab-composer-util.h"
+#include "addressbook/gui/widgets/e-addressbook-view.h"
 
 /* Standard GObject macros */
 #define E_TYPE_BOOK_SHELL_CONTENT \

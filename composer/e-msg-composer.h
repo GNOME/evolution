@@ -25,6 +25,7 @@
 
 #include <camel/camel-internet-address.h>
 #include <camel/camel-mime-message.h>
+#include <camel/camel-session.h>
 #include <libedataserver/e-account.h>
 #include <libebook/e-destination.h>
 #include <gtkhtml-editor.h>
@@ -78,6 +79,7 @@ EMsgComposer *	e_msg_composer_new_with_message	(CamelMimeMessage *msg);
 EMsgComposer *	e_msg_composer_new_from_url	(const gchar *url);
 EMsgComposer *	e_msg_composer_new_redirect	(CamelMimeMessage *message,
 						 const gchar *resent_from);
+CamelSession *	e_msg_composer_get_session	(EMsgComposer *composer);
 
 void		e_msg_composer_send		(EMsgComposer *composer);
 void		e_msg_composer_save_draft	(EMsgComposer *composer);
@@ -155,7 +157,7 @@ struct _EAttachmentBar *
 		e_msg_composer_get_attachment_bar
 						(EMsgComposer *composer);
 
-gboolean	e_msg_composer_is_exiting (EMsgComposer *composer);
+gboolean	e_msg_composer_is_exiting	(EMsgComposer *composer);
 
 G_END_DECLS
 

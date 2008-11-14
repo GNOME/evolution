@@ -32,15 +32,17 @@
 #include <libedataserver/e-sexp.h>
 #include <libedataserverui/e-source-selector.h>
 
-#include <e-util/gconf-bridge.h>
-#include <shell/e-shell-content.h>
-#include <shell/e-shell-sidebar.h>
+#include "e-util/gconf-bridge.h"
+#include "shell/e-shell-content.h"
+#include "shell/e-shell-sidebar.h"
 
-#include <eab-gui-util.h>
-#include <e-addressbook-view.h>
+#include "addressbook/gui/contact-editor/e-contact-editor.h"
+#include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"
+#include "addressbook/gui/widgets/eab-gui-util.h"
+#include "addressbook/gui/widgets/e-addressbook-view.h"
+
 #include <e-book-shell-content.h>
 #include <e-book-shell-sidebar.h>
-
 #include <e-book-shell-view-actions.h>
 
 #define E_BOOK_SHELL_VIEW_GET_PRIVATE(obj) \

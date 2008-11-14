@@ -362,11 +362,9 @@ static gboolean atk_action_interface_do_action (AtkAction *action, gint i)
 {
 	gboolean return_value = TRUE;
 	EMinicardView *card_view;
-	EContact *contact = e_contact_new();
 
 	AtkGObjectAccessible *atk_gobj= NULL;
         EReflow *reflow = NULL;
-	EBook *book;
 
 	atk_gobj = ATK_GOBJECT_ACCESSIBLE (action);
 	reflow = E_REFLOW (atk_gobject_accessible_get_object (atk_gobj));
@@ -375,26 +373,21 @@ static gboolean atk_action_interface_do_action (AtkAction *action, gint i)
 		return FALSE;
 
 	card_view = E_MINICARD_VIEW (reflow);
-	g_object_get(card_view,
-		     "book", &book,
-		     NULL);
-	g_return_val_if_fail (E_IS_BOOK (book), FALSE);
 
 	switch (i) {
 		case 0:
 		/* New Contact */
-			eab_show_contact_editor (book, contact, TRUE, TRUE);
+			e_minicard_view_create_contact (card_view);
 			break;
 		case 1:
 		/* New Contact List */
-			eab_show_contact_list_editor (book, contact, TRUE, TRUE);
+			e_minicard_view_create_contact_list (card_view);
 			break;
 		default:
                 	return_value = FALSE;
 			break;
 	}
-	g_object_unref (book);
-	g_object_unref (contact);
+
 	return return_value;
 }
 

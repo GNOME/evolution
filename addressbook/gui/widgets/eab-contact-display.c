@@ -62,6 +62,11 @@ enum {
 	PROP_MODE
 };
 
+enum {
+	SEND_MESSAGE,
+	LAST_SIGNAL
+};
+
 static struct {
 	gchar *name;
 	gchar *pretty_name;
@@ -101,6 +106,7 @@ static const gchar *ui =
 "</ui>";
 
 static gpointer parent_class;
+static guint signals[LAST_SIGNAL];
 
 static void
 action_copy_address_cb (GtkAction *action,
@@ -169,6 +175,7 @@ static void
 action_send_message_cb (GtkAction *action,
                         EABContactDisplay *display)
 {
+	EDestination *destination;
 	EContact *contact;
 	const gchar *uri;
 	gint row;
@@ -177,8 +184,11 @@ action_send_message_cb (GtkAction *action,
 	row = atoi (uri + strlen ("internal-mailto:"));
 	g_return_if_fail (row >= 0);
 
+	destination = e_destination_new ();
 	contact = eab_contact_display_get_contact (display);
-	eab_send_contact (contact, row, EAB_DISPOSITION_AS_TO);
+	e_destination_set_contact (destination, contact, row);
+	g_signal_emit (display, signals[SEND_MESSAGE], 0, destination);
+	g_object_unref (destination);
 }
 
 static GtkActionEntry email_entries[] = {
@@ -283,12 +293,19 @@ contact_display_on_link_clicked (GtkHTML *html,
 
 #ifdef HANDLE_MAILTO_INTERNALLY
 	if (!strncmp (url, "internal-mailto:", strlen ("internal-mailto:"))) {
-		int mail_num = atoi (url + strlen ("internal-mailto:"));
+		EDestination *destination;
+		EContact *contact;
+		gint email_num;
 
-		if (mail_num == -1)
+		email_num = atoi (url + strlen ("internal-mailto:"));
+		if (email_num == -1)
 			return;
 
-		eab_send_contact (display->priv->contact, mail_num, EAB_DISPOSITION_AS_TO);
+		destination = e_destination_new ();
+		contact = eab_contact_display_get_contact (display);
+		e_destination_set_contact (destination, contact, email_num);
+		g_signal_emit (display, signals[SEND_MESSAGE], 0, destination);
+		g_object_unref (destination);
 
 		return;
 	}
@@ -1067,6 +1084,16 @@ eab_contact_display_class_init (EABContactDisplayClass *class)
 			EAB_CONTACT_DISPLAY_RENDER_COMPACT,
 			EAB_CONTACT_DISPLAY_RENDER_NORMAL,
 			G_PARAM_READWRITE));
+
+	signals[SEND_MESSAGE] = g_signal_new (
+		"send-message",
+		G_OBJECT_CLASS_TYPE (class),
+		G_SIGNAL_RUN_FIRST,
+		G_STRUCT_OFFSET (EABContactDisplayClass, send_message),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_DESTINATION);
 }
 
 static void

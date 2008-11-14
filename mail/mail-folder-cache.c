@@ -198,7 +198,7 @@ real_flush_updates (EShellModule *shell_module)
 			t->name = em_folder_tree_model_get_folder_name (model, up->store, up->full_name);
 
 			if (t->new > 0)
-				e_shell_event (shell, "new-mail");
+				e_shell_event (shell, "new-mail", NULL);
 
 			/** @Event: folder.changed
 			 * @Title: Folder changed

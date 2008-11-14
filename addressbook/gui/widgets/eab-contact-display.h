@@ -25,6 +25,7 @@
 
 #include <gtkhtml/gtkhtml.h>
 #include <libebook/e-contact.h>
+#include <libebook/e-destination.h>
 
 /* Standard GObject macros */
 #define EAB_TYPE_CONTACT_DISPLAY \
@@ -63,6 +64,10 @@ struct _EABContactDisplay {
 
 struct _EABContactDisplayClass {
 	GtkHTMLClass parent_class;
+
+	/* Signals */
+	void	(*send_message)			(EABContactDisplay *display,
+						 EDestination *destination);
 };
 
 GType		eab_contact_display_get_type	(void);

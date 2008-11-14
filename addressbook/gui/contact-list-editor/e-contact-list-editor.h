@@ -70,7 +70,7 @@ struct _EContactListEditorClass
 };
 
 GType		e_contact_list_editor_get_type	(void);
-EContactListEditor * e_contact_list_editor_new	(EBook *book,
+GtkWidget *	e_contact_list_editor_new	(EBook *book,
 						 EContact *list_contact,
 						 gboolean is_new_list,
 						 gboolean editable);

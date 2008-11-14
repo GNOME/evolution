@@ -285,12 +285,30 @@ action_contact_forward_cb (GtkAction *action,
 {
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
+	GList *list, *iter;
 
 	book_shell_content = book_shell_view->priv->book_shell_content;
 	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
 
-	e_addressbook_view_send (view);
+	list = e_addressbook_view_get_selected (view);
+	g_return_if_fail (list != NULL);
+
+	/* Convert the list of contacts to a list of destinations. */
+	for (iter = list; iter != NULL; iter = iter->next) {
+		EContact *contact = iter->data;
+		EDestination *destination;
+
+		destination = e_destination_new ();
+		e_destination_set_contact (destination, contact, 0);
+		g_object_unref (contact);
+
+		iter->data = destination;
+	}
+
+	eab_send_message (list, EAB_DISPOSITION_AS_ATTACHMENT);
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 }
 
 static void
@@ -315,6 +333,7 @@ action_contact_new_cb (GtkAction *action,
 	EAddressbookView *view;
 	EAddressbookModel *model;
 	EContact *contact;
+	GtkWidget *editor;
 	EBook *book;
 
 	book_shell_content = book_shell_view->priv->book_shell_content;
@@ -326,7 +345,8 @@ action_contact_new_cb (GtkAction *action,
 	g_return_if_fail (book != NULL);
 
 	contact = e_contact_new ();
-	eab_show_contact_editor (book, contact, TRUE, TRUE);
+	editor = e_contact_editor_new (book, contact, TRUE, TRUE);
+	eab_editor_show (EAB_EDITOR (editor));
 	g_object_unref (contact);
 }
 
@@ -338,6 +358,7 @@ action_contact_new_list_cb (GtkAction *action,
 	EAddressbookView *view;
 	EAddressbookModel *model;
 	EContact *contact;
+	GtkWidget *editor;
 	EBook *book;
 
 	book_shell_content = book_shell_view->priv->book_shell_content;
@@ -349,7 +370,8 @@ action_contact_new_list_cb (GtkAction *action,
 	g_return_if_fail (book != NULL);
 
 	contact = e_contact_new ();
-	eab_show_contact_list_editor (book, contact, TRUE, TRUE);
+	editor = e_contact_list_editor_new (book, contact, TRUE, TRUE);
+	eab_editor_show (EAB_EDITOR (editor));
 	g_object_unref (contact);
 }
 
@@ -445,12 +467,30 @@ action_contact_send_message_cb (GtkAction *action,
 {
 	EBookShellContent *book_shell_content;
 	EAddressbookView *view;
+	GList *list, *iter;
 
 	book_shell_content = book_shell_view->priv->book_shell_content;
 	view = e_book_shell_content_get_current_view (book_shell_content);
 	g_return_if_fail (view != NULL);
 
-	e_addressbook_view_send_to (view);
+	list = e_addressbook_view_get_selected (view);
+	g_return_if_fail (list != NULL);
+
+	/* Convert the list of contacts to a list of destinations. */
+	for (iter = list; iter != NULL; iter = iter->next) {
+		EContact *contact = iter->data;
+		EDestination *destination;
+
+		destination = e_destination_new ();
+		e_destination_set_contact (destination, contact, 0);
+		g_object_unref (contact);
+
+		iter->data = destination;
+	}
+
+	eab_send_message (list, EAB_DISPOSITION_AS_TO);
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 }
 
 static void

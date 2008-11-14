@@ -1781,7 +1781,6 @@ shell_window_extract_actions (EShellWindow *shell_window,
 {
 	const gchar *current_view;
 	GList *match_list = NULL;
-	GList *primary = NULL;
 	GList *iter;
 
 	/* Pick out the actions from the source list that are tagged

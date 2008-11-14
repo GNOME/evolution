@@ -53,7 +53,6 @@
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 
-#include "e-contact-editor.h"
 #include <gdk/gdkkeysyms.h>
 #include <ctype.h>
 #include <string.h>
@@ -69,7 +68,6 @@ static void search_result      (EAddressbookView *view, EBookViewStatus status);
 static void folder_bar_message (EAddressbookView *view, const gchar *status);
 static void stop_state_changed (GtkObject *object, EAddressbookView *view);
 static void backend_died       (EAddressbookView *view);
-static GList *get_selected_contacts (EAddressbookView *view);
 
 static void command_state_change (EAddressbookView *view);
 
@@ -98,6 +96,7 @@ enum {
 };
 
 enum {
+	OPEN_CONTACT,
 	POPUP_EVENT,
 	COMMAND_STATE_CHANGE,
 	SELECTION_CHANGE,
@@ -119,6 +118,14 @@ static guint signals[LAST_SIGNAL];
 static GdkAtom clipboard_atom = GDK_NONE;
 
 static void
+addressbook_view_emit_open_contact (EAddressbookView *view,
+                                    EContact *contact,
+                                    gboolean is_new_contact)
+{
+	g_signal_emit (view, signals[OPEN_CONTACT], 0, contact, is_new_contact);
+}
+
+static void
 addressbook_view_emit_popup_event (EAddressbookView *view,
                                    GdkEvent *event)
 {
@@ -132,6 +139,34 @@ addressbook_view_emit_selection_change (EAddressbookView *view)
 }
 
 static void
+addressbook_view_open_contact (EAddressbookView *view,
+                               EContact *contact)
+{
+	addressbook_view_emit_open_contact (view, contact, FALSE);
+}
+
+static void
+addressbook_view_create_contact (EAddressbookView *view)
+{
+	EContact *contact;
+
+	contact = e_contact_new ();
+	addressbook_view_emit_open_contact (view, contact, TRUE);
+	g_object_unref (contact);
+}
+
+static void
+addressbook_view_create_contact_list (EAddressbookView *view)
+{
+	EContact *contact;
+
+	contact = e_contact_new ();
+	e_contact_set (contact, E_CONTACT_IS_LIST, GINT_TO_POINTER (TRUE));
+	addressbook_view_emit_open_contact (view, contact, TRUE);
+	g_object_unref (contact);
+}
+
+static void
 table_double_click (ETableScrolled *table,
                     gint row,
                     gint col,
@@ -140,23 +175,13 @@ table_double_click (ETableScrolled *table,
 {
 	EAddressbookModel *model;
 	EContact *contact;
-	EBook *book;
-	gboolean editable;
 
 	if (!E_IS_ADDRESSBOOK_TABLE_ADAPTER (view->priv->object))
 		return;
 
-	model = view->priv->model;
+	model = e_addressbook_view_get_model (view);
 	contact = e_addressbook_model_get_contact (model, row);
-	editable = e_addressbook_model_get_editable (model);
-	book = e_addressbook_model_get_book (model);
-	g_return_if_fail (E_IS_BOOK (book));
-
-	if (e_contact_get (contact, E_CONTACT_IS_LIST))
-		eab_show_contact_list_editor (book, contact, FALSE, editable);
-	else
-		eab_show_contact_editor (book, contact, FALSE, editable);
-
+	addressbook_view_emit_open_contact (view, contact, FALSE);
 	g_object_unref (contact);
 }
 
@@ -209,7 +234,7 @@ table_drag_data_get (ETable *table,
 	model = e_addressbook_view_get_model (view);
 	book = e_addressbook_model_get_book (model);
 
-	contact_list = get_selected_contacts (view);
+	contact_list = e_addressbook_view_get_selected (view);
 
 	switch (info) {
 		case DND_TARGET_TYPE_VCARD:
@@ -298,6 +323,18 @@ addressbook_view_create_minicard_view (EAddressbookView *view)
 	adapter = E_ADDRESSBOOK_REFLOW_ADAPTER (
 		e_addressbook_reflow_adapter_new (view->priv->model));
 	minicard_view = e_minicard_view_widget_new (adapter);
+
+	g_signal_connect_swapped (
+		adapter, "open-contact",
+		G_CALLBACK (addressbook_view_open_contact), view);
+
+	g_signal_connect_swapped (
+		minicard_view, "create-contact",
+		G_CALLBACK (addressbook_view_create_contact), view);
+
+	g_signal_connect_swapped (
+		minicard_view, "create-contact-list",
+		G_CALLBACK (addressbook_view_create_contact_list), view);
 
 	g_signal_connect_swapped (
 		minicard_view, "selection_change",
@@ -644,6 +681,16 @@ addressbook_view_class_init (EAddressbookViewClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 
+	signals[OPEN_CONTACT] = g_signal_new (
+		"open-contact",
+		G_TYPE_FROM_CLASS (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EAddressbookViewClass, open_contact),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_CONTACT);
+
 	signals[POPUP_EVENT] = g_signal_new (
 		"popup-event",
 		G_TYPE_FROM_CLASS (class),
@@ -799,6 +846,34 @@ e_addressbook_view_get_view_widget (EAddressbookView *view)
 	g_return_val_if_fail (E_IS_ADDRESSBOOK_VIEW (view), NULL);
 
 	return view->priv->widget;
+}
+
+/* Helper for e_addressbook_view_get_selected() */
+static void
+add_to_list (gint model_row, gpointer closure)
+{
+	GList **list = closure;
+	*list = g_list_prepend (*list, GINT_TO_POINTER (model_row));
+}
+
+GList *
+e_addressbook_view_get_selected (EAddressbookView *view)
+{
+	GList *list, *iter;
+	ESelectionModel *selection;
+
+	g_return_val_if_fail (E_IS_ADDRESSBOOK_VIEW (view), NULL);
+
+	list = NULL;
+	selection = e_addressbook_view_get_selection_model (view);
+	e_selection_model_foreach (selection, add_to_list, &list);
+
+	for (iter = list; iter != NULL; iter = iter->next)
+		iter->data = e_addressbook_model_get_contact (
+			view->priv->model, GPOINTER_TO_INT (iter->data));
+	list = g_list_reverse (list);
+
+	return list;
 }
 
 ESelectionModel *
@@ -1011,7 +1086,7 @@ e_addressbook_view_print (EAddressbookView *view,
 			query = NULL;
 		g_free (query_string);
 
-		contact_list = get_selected_contacts (view);
+		contact_list = e_addressbook_view_get_selected (view);
 		e_contact_print (book, query, contact_list, action);
 		g_list_foreach (contact_list, (GFunc) g_object_unref, NULL);
 		g_list_free (contact_list);
@@ -1054,6 +1129,62 @@ delete_contacts_cb (EBook *book,  EBookStatus status,  gpointer closure)
 	}
 }
 
+static gboolean
+addressbook_view_confirm_delete (GtkWindow *parent,
+                                 gboolean plural,
+                                 gboolean is_list,
+                                 const gchar *name)
+{
+	GtkWidget *dialog;
+	gchar *message;
+	gint response;
+
+	if (is_list) {
+		if (plural) {
+			message = g_strdup (
+				_("Are you sure you want to "
+				  "delete these contact lists?"));
+		} else if (name == NULL) {
+			message = g_strdup (
+				_("Are you sure you want to "
+				  "delete this contact list?"));
+		} else {
+			message = g_strdup_printf (
+				_("Are you sure you want to delete "
+				  "this contact list (%s)?"), name);
+		}
+	} else {
+		if (plural) {
+			message = g_strdup (
+				_("Are you sure you want to "
+				  "delete these contacts?"));
+		} else if (name == NULL) {
+			message = g_strdup (
+				_("Are you sure you want to "
+				  "delete this contact?"));
+		} else {
+			message = g_strdup_printf (
+				_("Are you sure you want to delete "
+				  "this contact (%s)?"), name);
+		}
+	}
+
+	dialog = gtk_message_dialog_new (
+		parent, 0, GTK_MESSAGE_QUESTION,
+		GTK_BUTTONS_NONE, "%s", message);
+	gtk_dialog_add_buttons (
+		GTK_DIALOG (dialog),
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		GTK_STOCK_DELETE, GTK_RESPONSE_ACCEPT,
+		NULL);
+	response = gtk_dialog_run (GTK_DIALOG (dialog));
+	gtk_widget_destroy (dialog);
+
+	g_free (message);
+
+	return (response == GTK_RESPONSE_ACCEPT);
+}
+
 void
 e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
 {
@@ -1076,7 +1207,7 @@ e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
 	view_instance = e_addressbook_view_get_view_instance (view);
 	gal_view = gal_view_instance_get_current_view (view_instance);
 
-	list = get_selected_contacts (view);
+	list = e_addressbook_view_get_selected (view);
 	contact = list->data;
 
 	if (g_list_next(list))
@@ -1100,9 +1231,9 @@ e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
 	}
 
 	/* confirm delete */
-	if (is_delete &&
-	    !eab_editor_confirm_delete(GTK_WINDOW(gtk_widget_get_toplevel(view->priv->widget)),
-				       plural, is_list, name)) {
+	if (is_delete && !addressbook_view_confirm_delete (
+			GTK_WINDOW (gtk_widget_get_toplevel (
+			view->priv->widget)), plural, is_list, name)) {
 		g_free (name);
 		g_list_foreach (list, (GFunc) g_object_unref, NULL);
 		g_list_free (list);
@@ -1168,30 +1299,6 @@ e_addressbook_view_delete_selection(EAddressbookView *view, gboolean is_delete)
 	g_list_free (list);
 }
 
-static void
-add_to_list (int model_row, gpointer closure)
-{
-	GList **list = closure;
-	*list = g_list_prepend (*list, GINT_TO_POINTER (model_row));
-}
-
-static GList *
-get_selected_contacts (EAddressbookView *view)
-{
-	GList *list;
-	GList *iterator;
-	ESelectionModel *selection = e_addressbook_view_get_selection_model (view);
-
-	list = NULL;
-	e_selection_model_foreach (selection, add_to_list, &list);
-
-	for (iterator = list; iterator; iterator = iterator->next) {
-		iterator->data = e_addressbook_model_get_contact (view->priv->model, GPOINTER_TO_INT (iterator->data));
-	}
-	list = g_list_reverse (list);
-	return list;
-}
-
 void
 e_addressbook_view_save_as (EAddressbookView *view,
                             gboolean all)
@@ -1210,7 +1317,7 @@ e_addressbook_view_save_as (EAddressbookView *view,
 		e_book_get_contacts (book, query, &list, NULL);
 	        e_book_query_unref (query);
 	} else
-		list = get_selected_contacts (view);
+		list = e_addressbook_view_get_selected (view);
 
 	if (list != NULL) {
 		eab_contact_list_save (_("Save as vCard..."), list, NULL);
@@ -1224,8 +1331,10 @@ e_addressbook_view_view (EAddressbookView *view)
 {
 	EAddressbookModel *model;
 	EBook *book;
-	GList *list;
+	GList *list, *iter;
 	gboolean editable;
+	gint response;
+	guint length;
 
 	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
 
@@ -1233,42 +1342,36 @@ e_addressbook_view_view (EAddressbookView *view)
 	book = e_addressbook_model_get_book (model);
 	editable = e_addressbook_model_get_editable (model);
 
-	list = get_selected_contacts (view);
-	eab_show_multiple_contacts (book, list, editable);
+	list = e_addressbook_view_get_selected (view);
+	length = g_list_length (list);
+	response = GTK_RESPONSE_YES;
+
+	if (length > 5) {
+		GtkWidget *dialog;
+
+		/* XXX Use e_error_new(). */
+		/* XXX Provide a parent window. */
+		dialog = gtk_message_dialog_new (
+			NULL, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
+			_("Opening %d contacts will open %d new windows as "
+			  "well.\nDo you really want to display all of these "
+			  "contacts?"), length, length);
+		gtk_dialog_add_buttons (
+			GTK_DIALOG (dialog),
+			_("_Don't Display"), GTK_RESPONSE_NO,
+			_("Display _All Contacts"), GTK_RESPONSE_YES,
+			NULL);
+		response = gtk_dialog_run (GTK_DIALOG (dialog));
+		gtk_widget_destroy (dialog);
+	}
+
+	if (response == GTK_RESPONSE_YES)
+		for (iter = list; iter != NULL; iter = iter->next)
+			addressbook_view_emit_open_contact (
+				view, iter->data, FALSE);
+
 	g_list_foreach (list, (GFunc) g_object_unref, NULL);
 	g_list_free (list);
-}
-
-void
-e_addressbook_view_send (EAddressbookView *view)
-{
-	GList *list;
-
-	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
-
-	list = get_selected_contacts (view);
-
-	if (list != NULL) {
-		eab_send_contact_list (list, EAB_DISPOSITION_AS_ATTACHMENT);
-		g_list_foreach (list, (GFunc) g_object_unref, NULL);
-		g_list_free (list);
-	}
-}
-
-void
-e_addressbook_view_send_to (EAddressbookView *view)
-{
-	GList *list;
-
-	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
-
-	list = get_selected_contacts (view);
-
-	if (list != NULL) {
-		eab_send_contact_list (list, EAB_DISPOSITION_AS_TO);
-		g_list_foreach (list, (GFunc) g_object_unref, NULL);
-		g_list_free (list);
-	}
 }
 
 void
@@ -1285,7 +1388,7 @@ e_addressbook_view_copy (EAddressbookView *view)
 {
 	g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (view));
 
-	view->priv->clipboard_contacts = get_selected_contacts (view);
+	view->priv->clipboard_contacts = e_addressbook_view_get_selected (view);
 
 	gtk_selection_owner_set (
 		view->priv->invisible,
@@ -1346,7 +1449,7 @@ view_transfer_contacts (EAddressbookView *view, gboolean delete_from_source, gbo
 	        e_book_query_unref(query);
 	}
 	else {
-		contacts = get_selected_contacts (view);
+		contacts = e_addressbook_view_get_selected (view);
 	}
 	parent_window = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (view)));
 

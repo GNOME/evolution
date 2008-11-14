@@ -38,17 +38,17 @@
       <menu action='window-menu'/>
       <menu action='layout-menu'>
         <menuitem action='show-toolbar'/>
-	<menuitem action='show-statusbar'/>
-	<menuitem action='show-sidebar'/>
+        <menuitem action='show-statusbar'/>
+        <menuitem action='show-sidebar'/>
       </menu>
       <placeholder name='view-custom-menus'/>
       <menu action='switcher-menu'>
         <menuitem action='switcher-style-both'/>
-	<menuitem action='switcher-style-icons'/>
-	<menuitem action='switcher-style-text'/>
-	<menuitem action='switcher-style-user'/>
-	<separator/>
-	<menuitem action='show-switcher'/>
+        <menuitem action='switcher-style-icons'/>
+        <menuitem action='switcher-style-text'/>
+        <menuitem action='switcher-style-user'/>
+        <separator/>
+        <menuitem action='show-switcher'/>
       </menu>
     </menu>
     <placeholder name='custom-menus'/>

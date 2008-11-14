@@ -32,10 +32,12 @@
 #include "shell/e-shell-window.h"
 
 #include "e-util/e-import.h"
+#include "addressbook/gui/widgets/eab-gui-util.h"
+#include "addressbook/gui/contact-editor/e-contact-editor.h"
+#include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"
 #include "addressbook/importers/evolution-addressbook-importers.h"
 
 #include <eab-config.h>
-#include <eab-gui-util.h>
 #include <addressbook-config.h>
 #include <autocompletion-config.h>
 
@@ -214,6 +216,7 @@ book_shell_module_book_loaded_cb (EBook *book,
 {
 	EContact *contact;
 	GtkAction *action;
+	GtkWidget *editor;
 	const gchar *action_name;
 
 	/* XXX Handle errors better. */
@@ -225,10 +228,12 @@ book_shell_module_book_loaded_cb (EBook *book,
 	action_name = gtk_action_get_name (action);
 
 	if (strcmp (action_name, "contact-new") == 0)
-		eab_show_contact_editor (book, contact, TRUE, TRUE);
+		editor = e_contact_editor_new (book, contact, TRUE, TRUE);
 
 	if (strcmp (action_name, "contact-new-list") == 0)
-		eab_show_contact_list_editor (book, contact, TRUE, TRUE);
+		editor = e_contact_list_editor_new (book, contact, TRUE, TRUE);
+
+	eab_editor_show (EAB_EDITOR (editor));
 
 	g_object_unref (contact);
 	g_object_unref (book);

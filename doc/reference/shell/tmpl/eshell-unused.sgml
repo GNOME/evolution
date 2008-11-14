@@ -1964,6 +1964,14 @@ intelligent
 @error: 
 @Returns: 
 
+<!-- ##### FUNCTION e_shell_new ##### -->
+<para>
+
+</para>
+
+@online: 
+@Returns: 
+
 <!-- ##### FUNCTION e_shell_sidebar_get_primary_text ##### -->
 <para>
 

@@ -161,8 +161,10 @@ libevolution_module_mail_la_LIBADD =			\
 	$(top_builddir)/widgets/table/libetable.la	\
 	$(top_builddir)/widgets/text/libetext.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
+	$(top_builddir)/mail/importers/libevolution-mail-importers.la \
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
-	$(top_builddir)/mail/importers/libevolution-mail-importers.la
+	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
+	$(SMIME_LIBS)
 
 # plugin mail api
 #mailinclude_HEADERS =				\

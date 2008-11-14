@@ -109,11 +109,11 @@ struct _EContactEditorClass
 	EABEditorClass parent_class;
 };
 
-EContactEditor *e_contact_editor_new                (EBook          *book,
-						     EContact       *contact,
-						     gboolean        is_new_contact,
-						     gboolean        editable);
-GType           e_contact_editor_get_type           (void);
+GType		e_contact_editor_get_type	(void);
+GtkWidget	*e_contact_editor_new		(EBook *book,
+						 EContact *contact,
+						 gboolean is_new_contact,
+						 gboolean editable);
 
 G_END_DECLS
 

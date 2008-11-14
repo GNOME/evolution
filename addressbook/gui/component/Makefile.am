@@ -30,8 +30,8 @@ libevolution_addressbook_la_SOURCES = 	\
 	addressbook-config.h		\
 	autocompletion-config.c		\
 	autocompletion-config.h		\
-	addressbook.c			\
-	addressbook.h			\
+	eab-composer-util.c		\
+	eab-composer-util.h		\
 	e-book-shell-content.c		\
 	e-book-shell-content.h		\
 	e-book-shell-module.c		\
@@ -53,6 +53,7 @@ endif
 libevolution_addressbook_la_LIBADD =							\
 	$(SMIME_LIB)									\
 	$(top_builddir)/e-util/libeutil.la						\
+	$(top_builddir)/composer/libcomposer.la					\
 	$(top_builddir)/addressbook/printing/libecontactprint.la			\
 	$(top_builddir)/shell/libeshell.la						\
 	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la			\

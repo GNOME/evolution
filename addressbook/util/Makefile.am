@@ -13,6 +13,8 @@ INCLUDES =						\
 privsolib_LTLIBRARIES = libeabutil.la
 
 libeabutil_la_SOURCES =					\
+	addressbook.c					\
+	addressbook.h					\
 	eab-book-util.c					\
 	eab-book-util.h
 

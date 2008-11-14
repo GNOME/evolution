@@ -24,7 +24,6 @@
 #define __E_MINICARD_H__
 
 #include <gtk/gtk.h>
-#include "addressbook/gui/contact-editor/eab-editor.h"
 #include <libgnomecanvas/gnome-canvas.h>
 #include <libebook/e-contact.h>
 
@@ -75,8 +74,6 @@ struct _EMinicard
 	GdkPixbuf *list_icon_pixbuf;
 	double list_icon_size;
 
-	EABEditor *editor;
-
 	GList *fields; /* Of type EMinicardField */
 	guint needs_remodeling : 1;
 
@@ -105,6 +102,7 @@ struct _EMinicardClass
 
 	gint (* selected) (EMinicard *minicard, GdkEvent *event);
 	gint (* drag_begin) (EMinicard *minicard, GdkEvent *event);
+	void (* open_contact) (EMinicard *minicard, EContact *contact);
 
 	void (* style_set) (EMinicard *minicard, GtkStyle *previous_style);
 };
@@ -125,7 +123,7 @@ int         e_minicard_compare      (EMinicard *minicard1,
 
 int         e_minicard_selected     (EMinicard *minicard,
 				     GdkEvent  *event);
-gboolean    e_minicard_activate_editor	(EMinicard *minicard);
+void        e_minicard_activate_editor	(EMinicard *minicard);
 
 #ifdef __cplusplus
 }

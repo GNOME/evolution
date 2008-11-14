@@ -62,6 +62,7 @@ enum {
 	LAST_SIGNAL
 };
 
+EShell *default_shell = NULL;
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
@@ -362,8 +363,9 @@ shell_class_init (EShellClass *class)
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST | G_SIGNAL_DETAILED | G_SIGNAL_ACTION,
 		0, NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
+		g_cclosure_marshal_VOID__POINTER,
+		G_TYPE_NONE, 1,
+		G_TYPE_POINTER);
 
 	signals[HANDLE_URI] = g_signal_new (
 		"handle-uri",
@@ -451,9 +453,12 @@ e_shell_get_type (void)
 }
 
 EShell *
-e_shell_new (gboolean online_mode)
+e_shell_get_default (void)
 {
-	return g_object_new (E_TYPE_SHELL, "online-mode", online_mode, NULL);
+	/* Emit a warning if we call this too early. */
+	g_return_val_if_fail (default_shell != NULL, NULL);
+
+	return default_shell;
 }
 
 GList *
@@ -626,7 +631,8 @@ e_shell_get_preferences_window (void)
 
 void
 e_shell_event (EShell *shell,
-               const gchar *event_name)
+               const gchar *event_name,
+               gpointer event_data)
 {
 	GQuark detail;
 
@@ -634,7 +640,7 @@ e_shell_event (EShell *shell,
 	g_return_if_fail (event_name != NULL);
 
 	detail = g_quark_from_string (event_name);
-	g_signal_emit (shell, signals[EVENT], detail);
+	g_signal_emit (shell, signals[EVENT], detail, event_data);
 }
 
 gboolean

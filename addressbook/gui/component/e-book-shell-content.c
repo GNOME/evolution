@@ -44,6 +44,16 @@ enum {
 static gpointer parent_class;
 
 static void
+book_shell_content_send_message_cb (EBookShellContent *book_shell_content,
+                                    EDestination *destination,
+                                    EABContactDisplay *display)
+{
+	GList node = { destination, NULL, NULL };
+
+	eab_send_message (&node, EAB_DISPOSITION_AS_TO);
+}
+
+static void
 book_shell_content_set_property (GObject *object,
                                  guint property_id,
                                  const GValue *value,
@@ -175,6 +185,10 @@ book_shell_content_constructed (GObject *object)
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->preview = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	g_signal_connect_swapped (
+		priv->preview, "send-message",
+		book_shell_content_send_message_cb, object);
 
 	/* Bind GObject properties to GConf keys. */
 

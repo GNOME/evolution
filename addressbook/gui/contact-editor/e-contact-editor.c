@@ -40,7 +40,7 @@
 
 #include <camel/camel.h>
 
-#include "addressbook/gui/component/addressbook.h"
+#include "addressbook/util/addressbook.h"
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "e-util/e-util.h"
@@ -199,6 +199,54 @@ static const gint email_default [] = { 0, 1, 2, 2 };
 #define STRING_IS_EMPTY(x)      (!(x) || !(*(x)))
 #define STRING_MAKE_NON_NULL(x) ((x) ? (x) : "")
 
+static void
+e_contact_editor_contact_added (EABEditor *editor,
+                                EBookStatus status,
+                                EContact *contact)
+{
+	if (status == E_BOOK_ERROR_OK)
+		return;
+
+	if (status == E_BOOK_ERROR_CANCELLED)
+		return;
+
+	eab_error_dialog (_("Error adding contact"), status);
+}
+
+static void
+e_contact_editor_contact_modified (EABEditor *editor,
+                                   EBookStatus status,
+                                   EContact *contact)
+{
+	if (status == E_BOOK_ERROR_OK)
+		return;
+
+	if (status == E_BOOK_ERROR_CANCELLED)
+		return;
+
+	eab_error_dialog (_("Error modifying contact"), status);
+}
+
+static void
+e_contact_editor_contact_deleted (EABEditor *editor,
+                                  EBookStatus status,
+                                  EContact *contact)
+{
+	if (status == E_BOOK_ERROR_OK)
+		return;
+
+	if (status == E_BOOK_ERROR_CANCELLED)
+		return;
+
+	eab_error_dialog (_("Error removing contact"), status);
+}
+
+static void
+e_contact_editor_closed (EABEditor *editor)
+{
+	g_object_unref (editor);
+}
+
 GType
 e_contact_editor_get_type (void)
 {
@@ -242,6 +290,10 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 	editor_class->save_contact = e_contact_editor_save_contact;
 	editor_class->is_changed = e_contact_editor_is_changed;
 	editor_class->get_window = e_contact_editor_get_window;
+	editor_class->contact_added = e_contact_editor_contact_added;
+	editor_class->contact_modified = e_contact_editor_contact_modified;
+	editor_class->contact_deleted = e_contact_editor_contact_deleted;
+	editor_class->editor_closed = e_contact_editor_closed;
 
 	g_object_class_install_property (object_class, PROP_SOURCE_BOOK,
 					 g_param_spec_object ("source_book",
@@ -3470,7 +3522,7 @@ contact_editor_destroy_notify (void *data,
 	eab_editor_remove (EAB_EDITOR (data));
 }
 
-EContactEditor *
+GtkWidget *
 e_contact_editor_new (EBook *book,
 		      EContact *contact,
 		      gboolean is_new_contact,
@@ -3496,7 +3548,7 @@ e_contact_editor_new (EBook *book,
 	if (book)
 		e_book_async_get_supported_fields (book, (EBookEListCallback)supported_fields_cb, ce);
 
-	return ce;
+	return GTK_WIDGET (ce);
 }
 
 static void

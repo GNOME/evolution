@@ -27,6 +27,31 @@
 #include <addressbook.h>
 
 static void
+open_contact (EBookShellView *book_shell_view,
+              EContact *contact,
+              gboolean is_new_contact,
+              EAddressbookView *view)
+{
+	EAddressbookModel *model;
+	GtkWidget *editor;
+	EBook *book;
+	gboolean editable;
+
+	model = e_addressbook_view_get_model (view);
+	book = e_addressbook_model_get_book (model);
+	editable = e_addressbook_model_get_editable (model);
+
+	if (e_contact_get (contact, E_CONTACT_IS_LIST))
+		editor = e_contact_list_editor_new (
+			book, contact, is_new_contact, editable);
+	else
+		editor = e_contact_editor_new (
+			book, contact, is_new_contact, editable);
+
+	eab_editor_show (EAB_EDITOR (editor));
+}
+
+static void
 popup_event (EBookShellView *book_shell_view,
              GdkEventButton *event)
 {
@@ -213,6 +238,10 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 		g_hash_table_insert (
 			hash_table, g_strdup (uid),
 			g_object_ref (widget));
+
+		g_signal_connect_swapped (
+			widget, "open-contact",
+			G_CALLBACK (open_contact), book_shell_view);
 
 		g_signal_connect_swapped (
 			widget, "popup-event",

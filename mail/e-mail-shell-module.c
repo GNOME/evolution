@@ -459,21 +459,30 @@ mail_shell_module_init_preferences (void)
 }
 
 static gboolean
-mail_shell_module_handle_uri (EShellModule *shell_module,
-                              const gchar *uri)
+mail_shell_module_handle_uri_cb (EShell *shell,
+                                 const gchar *uri,
+                                 EShellModule *shell_module)
 {
 	/* FIXME */
 	return FALSE;
 }
 
 static void
-mail_shell_module_window_created (EShellModule *shell_module,
-                                  EShellWindow *shell_window)
+mail_shell_module_window_weak_notify_cb (EShell *shell,
+                                         GObject *where_the_object_was)
 {
-	EShell *shell;
+	g_signal_handlers_disconnect_by_func (
+		shell, mail_shell_module_new_mail_cb,
+		where_the_object_was);
+}
+
+static void
+mail_shell_module_window_created_cb (EShell *shell,
+                                     EShellWindow *shell_window,
+                                     EShellModule *shell_module)
+{
 	const gchar *module_name;
 
-	shell = e_shell_module_get_shell (shell_module);
 	module_name = G_TYPE_MODULE (shell_module)->name;
 
 	e_shell_window_register_new_item_actions (
@@ -487,6 +496,10 @@ mail_shell_module_window_created (EShellModule *shell_module,
 	g_signal_connect_swapped (
 		shell, "event::new-mail",
 		G_CALLBACK (mail_shell_module_new_mail_cb), shell_window);
+
+	g_object_weak_ref (
+		G_OBJECT (shell_window), (GWeakNotify)
+		mail_shell_module_window_weak_notify_cb, shell);
 }
 
 static EShellModuleInfo module_info = {
@@ -532,13 +545,15 @@ e_shell_module_init (GTypeModule *type_module)
 
 	folder_tree_model = em_folder_tree_model_new (shell_module);
 
-	g_signal_connect_swapped (
+	g_signal_connect (
 		shell, "handle-uri",
-		G_CALLBACK (mail_shell_module_handle_uri), shell_module);
+		G_CALLBACK (mail_shell_module_handle_uri_cb),
+		shell_module);
 
-	g_signal_connect_swapped (
+	g_signal_connect (
 		shell, "window-created",
-		G_CALLBACK (mail_shell_module_window_created), shell_module);
+		G_CALLBACK (mail_shell_module_window_created_cb),
+		shell_module);
 
 	mail_config_init ();
 	mail_msg_init ();

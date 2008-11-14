@@ -91,6 +91,8 @@ void     e_minicard_view_remove_selection  (EMinicardView *view,
 void     e_minicard_view_jump_to_letter    (EMinicardView *view,
 					    gunichar       letter);
 GList   *e_minicard_view_get_card_list     (EMinicardView *view);
+void     e_minicard_view_create_contact    (EMinicardView *view);
+void     e_minicard_view_create_contact_list (EMinicardView *view);
 
 
 G_END_DECLS

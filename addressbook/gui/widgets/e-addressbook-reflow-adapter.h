@@ -48,7 +48,10 @@ struct _EAddressbookReflowAdapterClass {
 	/*
 	 * Signals
 	 */
-	gint (* drag_begin) (EAddressbookReflowAdapter *adapter, GdkEvent *event);
+	gint		(*drag_begin)		(EAddressbookReflowAdapter *adapter,
+						 GdkEvent *event);
+	void		(*open_contact)		(EAddressbookReflowAdapter *adapter,
+						 EContact *contact);
 };
 
 

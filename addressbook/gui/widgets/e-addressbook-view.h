@@ -25,6 +25,7 @@
 
 #include <e-shell-view.h>
 #include <libebook/e-book.h>
+#include <libebook/e-contact.h>
 #include <widgets/menus/gal-view-instance.h>
 #include <widgets/misc/e-selection-model.h>
 
@@ -65,6 +66,9 @@ struct _EAddressbookViewClass {
 	GtkVBoxClass parent_class;
 
 	/* Signals */
+	void	(*open_contact)			(EAddressbookView *view,
+						 EContact *contact,
+						 gboolean is_new_contact);
 	void	(*popup_event)			(EAddressbookView *view,
 						 GdkEvent *event);
 	void	(*status_message)		(EAddressbookView *view,
@@ -85,6 +89,7 @@ GObject *	e_addressbook_view_get_view_object
 						(EAddressbookView *view);
 GtkWidget *	e_addressbook_view_get_view_widget
 						(EAddressbookView *view);
+GList *		e_addressbook_view_get_selected	(EAddressbookView *view);
 ESelectionModel *
 		e_addressbook_view_get_selection_model
 						(EAddressbookView *view);
@@ -94,8 +99,6 @@ ESource *	e_addressbook_view_get_source	(EAddressbookView *view);
 void		e_addressbook_view_save_as	(EAddressbookView *view,
 						 gboolean all);
 void		e_addressbook_view_view		(EAddressbookView *view);
-void		e_addressbook_view_send		(EAddressbookView *view);
-void		e_addressbook_view_send_to	(EAddressbookView *view);
 void		e_addressbook_view_print	(EAddressbookView *view,
 						 GtkPrintOperationAction action);
 void		e_addressbook_view_delete_selection

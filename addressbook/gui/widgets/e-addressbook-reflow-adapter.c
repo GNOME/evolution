@@ -54,10 +54,11 @@ enum {
 
 enum {
 	DRAG_BEGIN,
+	OPEN_CONTACT,
 	LAST_SIGNAL
 };
 
-static guint e_addressbook_reflow_adapter_signals [LAST_SIGNAL] = {0, };
+static guint signals [LAST_SIGNAL] = {0, };
 
 static void
 unlink_model(EAddressbookReflowAdapter *adapter)
@@ -227,10 +228,18 @@ adapter_drag_begin (EMinicard *card, GdkEvent *event, EAddressbookReflowAdapter 
 	gint ret_val = 0;
 
 	g_signal_emit (adapter,
-		       e_addressbook_reflow_adapter_signals[DRAG_BEGIN], 0,
+		       signals[DRAG_BEGIN], 0,
 		       event, &ret_val);
 
 	return ret_val;
+}
+
+static void
+adapter_open_contact (EMinicard *card,
+                      EContact *contact,
+                      EAddressbookReflowAdapter *adapter)
+{
+	g_signal_emit (adapter, signals[OPEN_CONTACT], 0, contact);
 }
 
 static GnomeCanvasItem *
@@ -252,7 +261,10 @@ addressbook_incarnate (EReflowModel *erm, int i, GnomeCanvasGroup *parent)
 #endif
 
 	g_signal_connect (item, "drag_begin",
-			  G_CALLBACK(adapter_drag_begin), adapter);
+			  G_CALLBACK (adapter_drag_begin), adapter);
+
+	g_signal_connect (item, "open-contact",
+			  G_CALLBACK (adapter_open_contact), adapter);
 
 	return item;
 }
@@ -427,7 +439,7 @@ e_addressbook_reflow_adapter_class_init (GObjectClass *object_class)
 							      E_TYPE_ADDRESSBOOK_MODEL,
 							      G_PARAM_READABLE));
 
-	e_addressbook_reflow_adapter_signals [DRAG_BEGIN] =
+	signals [DRAG_BEGIN] =
 		g_signal_new ("drag_begin",
 			      G_OBJECT_CLASS_TYPE(object_class),
 			      G_SIGNAL_RUN_LAST,
@@ -435,6 +447,16 @@ e_addressbook_reflow_adapter_class_init (GObjectClass *object_class)
 			      NULL, NULL,
 			      e_marshal_INT__POINTER,
 			      G_TYPE_INT, 1, G_TYPE_POINTER);
+
+	signals [OPEN_CONTACT] =
+		g_signal_new ("open-contact",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EAddressbookReflowAdapterClass, open_contact),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__OBJECT,
+			      G_TYPE_NONE, 1,
+			      E_TYPE_CONTACT);
 
 	model_class->set_width = addressbook_set_width;
 	model_class->count = addressbook_count;

@@ -10,9 +10,7 @@ INCLUDES =										\
 	-I$(top_srcdir)/filter				\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/addressbook			\
-	-I$(top_srcdir)/addressbook/gui/contact-editor	\
 	-I$(top_srcdir)/addressbook/gui/merging		\
-	-I$(top_srcdir)/addressbook/gui/component	\
 	-I$(top_srcdir)/addressbook/util		\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_builddir)/shell				\
@@ -56,8 +54,8 @@ libeabwidgets_la_SOURCES =			\
 	gal-view-factory-minicard.h
 
 libeabwidgets_la_LIBADD =					\
-	$(top_builddir)/composer/libcomposer.la			\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la
+	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
+	$(top_builddir)/a11y/addressbook/libevolution-addressbook-a11y.la
 
 CLEANFILES = $(BUILT_SOURCES)
 

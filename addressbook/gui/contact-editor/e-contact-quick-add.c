@@ -29,7 +29,7 @@
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>
 #include <libedataserverui/e-source-combo-box.h>
-#include <addressbook/gui/component/addressbook.h>
+#include <addressbook/util/addressbook.h>
 #include <addressbook/util/eab-book-util.h>
 #include "e-contact-editor.h"
 #include "e-contact-quick-add.h"
@@ -195,7 +195,7 @@ ce_have_book (EBook *book, EBookStatus status, gpointer closure)
 		g_warning ("Couldn't open local address book.");
 		quick_add_unref (qa);
 	} else {
-		EContactEditor *contact_editor = e_contact_editor_new (book, qa->contact, TRUE, TRUE /* XXX */);
+		GtkWidget *contact_editor = e_contact_editor_new (book, qa->contact, TRUE, TRUE /* XXX */);
 
 		/* mark it as changed so the Save buttons are enabled when we bring up the dialog. */
 		g_object_set (contact_editor,

@@ -29,6 +29,7 @@ EShell
 </para>
 
 @eshell: the object which received the signal.
+@Param2: 
 
 <!-- ##### SIGNAL EShell::handle-uri ##### -->
 <para>
@@ -77,15 +78,6 @@ EShell
 @E_SHELL_LINE_STATUS_GOING_OFFLINE: 
 @E_SHELL_LINE_STATUS_OFFLINE: 
 @E_SHELL_LINE_STATUS_FORCED_OFFLINE: 
-
-<!-- ##### FUNCTION e_shell_new ##### -->
-<para>
-
-</para>
-
-@online: 
-@Returns: 
-
 
 <!-- ##### FUNCTION e_shell_list_modules ##### -->
 <para>

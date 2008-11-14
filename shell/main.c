@@ -96,10 +96,12 @@ static gboolean disable_eplugin = FALSE;
 static gboolean disable_preview = FALSE;
 static gboolean idle_cb (gchar **uris);
 
-static EShell *global_shell;
 static char *requested_view = NULL;
 static char *evolution_debug_log = NULL;
 static gchar **remaining_args;
+
+/* Defined in <e-shell.h> */
+extern EShell *default_shell;
 
 #ifdef KILL_PROCESS_CMD
 
@@ -265,12 +267,15 @@ destroy_config (GConfClient *client)
 static void
 open_uris (gchar **uris)
 {
+	EShell *shell;
 	guint ii;
 
 	g_return_if_fail (uris != NULL);
 
+	shell = e_shell_get_default ();
+
 	for (ii = 0; uris[ii] != NULL; ii++)
-		if (!e_shell_handle_uri (global_shell, uris[ii]))
+		if (!e_shell_handle_uri (shell, uris[ii]))
 			g_warning ("Invalid URI: %s", uris[ii]);
 }
 
@@ -279,6 +284,7 @@ open_uris (gchar **uris)
 static gboolean
 idle_cb (gchar **uris)
 {
+	EShell *shell;
 	GtkWidget *shell_window;
 	const gchar *initial_view;
 
@@ -293,8 +299,8 @@ idle_cb (gchar **uris)
 		return FALSE;
 	}
 
-	initial_view = e_shell_get_canonical_name (
-		global_shell, requested_view);
+	shell = e_shell_get_default ();
+	initial_view = e_shell_get_canonical_name (shell, requested_view);
 
 	if (initial_view != NULL) {
 		GConfClient *client;
@@ -306,7 +312,7 @@ idle_cb (gchar **uris)
 		g_object_unref (client);
 	}
 
-	shell_window = e_shell_create_window (global_shell);
+	shell_window = e_shell_create_window (shell);
 
 #if 0  /* MBARNES */
 	if (shell == NULL) {
@@ -481,7 +487,7 @@ master_client_die_cb (GnomeClient *client,
 }
 
 static void
-create_shell (void)
+create_default_shell (void)
 {
 	EShell *shell;
 	GConfClient *conf_client;
@@ -510,7 +516,7 @@ create_shell (void)
 		}
 	}
 
-	shell = e_shell_new (online_mode);
+	shell = g_object_new (E_TYPE_SHELL, "online-mode", online_mode, NULL);
 
 	g_signal_connect (
 		shell, "window-destroyed",
@@ -526,7 +532,7 @@ create_shell (void)
 
 	g_object_unref (conf_client);
 
-	global_shell = shell;
+	default_shell = shell;
 }
 
 int
@@ -662,7 +668,7 @@ main (int argc, char **argv)
 
 	g_object_unref (client);
 
-	create_shell ();
+	create_default_shell ();
 
 	gtk_main ();
 

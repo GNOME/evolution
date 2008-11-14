@@ -81,7 +81,7 @@ enum _EShellLineStatus {
 };
 
 GType		e_shell_get_type		(void);
-EShell *	e_shell_new			(gboolean online);
+EShell *	e_shell_get_default		(void);
 GList *		e_shell_list_modules		(EShell *shell);
 const gchar *	e_shell_get_canonical_name	(EShell *shell,
 						 const gchar *name);
@@ -104,7 +104,8 @@ void		e_shell_set_line_status		(EShell *shell,
                                                  EShellLineStatus status);
 GtkWidget *	e_shell_get_preferences_window	(void);
 void		e_shell_event			(EShell *shell,
-						 const gchar *event_name);
+						 const gchar *event_name,
+						 gpointer event_data);
 gboolean	e_shell_is_busy			(EShell *shell);
 gboolean	e_shell_do_quit			(EShell *shell);
 gboolean	e_shell_quit			(EShell *shell);
