@@ -23,9 +23,9 @@ INCLUDES =							\
 	$(LDAP_CFLAGS)						\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-module_LTLIBRARIES = libevolution-addressbook.la
+module_LTLIBRARIES = libevolution-module-contacts.la
 
-libevolution_addressbook_la_SOURCES = 	\
+libevolution_module_contacts_la_SOURCES = 	\
 	addressbook-config.c		\
 	addressbook-config.h		\
 	autocompletion-config.c		\
@@ -50,7 +50,7 @@ if ENABLE_SMIME
 SMIME_LIB=$(top_builddir)/smime/gui/libevolution-smime.la
 endif
 
-libevolution_addressbook_la_LIBADD =							\
+libevolution_module_contacts_la_LIBADD =							\
 	$(SMIME_LIB)									\
 	$(top_builddir)/e-util/libeutil.la						\
 	$(top_builddir)/composer/libcomposer.la					\
@@ -72,7 +72,8 @@ libevolution_addressbook_la_LIBADD =							\
 	$(EVOLUTION_ADDRESSBOOK_LIBS) $(LDAP_LIBS)
 
 
-libevolution_addressbook_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
+libevolution_module_contacts_la_LDFLAGS = \
+	-module -avoid-version $(NO_UNDEFINED)
 
 # GConf schemas
 

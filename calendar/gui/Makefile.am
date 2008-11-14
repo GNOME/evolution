@@ -178,6 +178,8 @@ libcal_gui_la_SOURCES =		\
 libcal_gui_la_LIBADD =					\
 	$(WIN32_BOOTSTRAP_LIBS)						\
 	$(top_builddir)/composer/libcomposer.la				\
+	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
+	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
 	$(top_builddir)/widgets/menus/libmenus.la			\
 	$(top_builddir)/shell/libeshell.la				\
 	$(top_builddir)/calendar/common/libevolution-calendarprivate.la	\
