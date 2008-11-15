@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution documentation\n"
 "POT-Creation-Date: 2008-09-29 14:25+0000\n"
-"PO-Revision-Date: 2008-11-08 13:49+0100\n"
+"PO-Revision-Date: 2008-11-12 12:26+0100\n"
 "Last-Translator: Jiri Eischmann <jiri@eischmann.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -5384,226 +5384,226 @@ msgstr "Zajdete čas, po jehož uplynutí se má adresář Google automaticky ob
 
 #: C/evolution.xml:3507(para)
 msgid "Evolution enables you to find the contact address quickly by using Customized Search. To find the contact address you are looking for, use the following procedure:"
-msgstr ""
+msgstr "Evolution vám umožnuje nalézt kontakt jednoduše pomocí Vlastního hledání. Abyste nalezli hledaný kontakt, následujte tento postup:"
 
 #: C/evolution.xml:3514(para)
 #: C/evolution.xml:4385(para)
 #: C/evolution.xml:4701(para)
 #: C/evolution.xml:4937(para)
 msgid "Specify the search criteria from any of the following:"
-msgstr ""
+msgstr "Zadejte jedno z následujících kritérií:"
 
 #: C/evolution.xml:3517(para)
 msgid "Name begins with"
-msgstr ""
+msgstr "Jméno začíná na"
 
 #: C/evolution.xml:3520(para)
 msgid "Email begins with"
-msgstr ""
+msgstr "E-mail začíná na"
 
 #: C/evolution.xml:3523(para)
 msgid "Any field contains"
-msgstr ""
+msgstr "Jakékoliv políčko obsahuje"
 
 #: C/evolution.xml:3528(para)
 msgid "Press Enter to begin the search"
-msgstr ""
+msgstr "Vyhledávání spustíte stisknutím Enter."
 
 #: C/evolution.xml:3531(para)
 msgid "For a more complex search, select Search Advanced and select criteria that describe your desired contact:"
-msgstr ""
+msgstr "Pro komplexnější vyhledávání zvolte Pokročilé hledání a vyberte kritéria, která popisují vámi požadovaný kontakt:"
 
 #: C/evolution.xml:3534(para)
 msgid "Name the rule in the Rule Name field."
-msgstr ""
+msgstr "Napište název pravidla do pole Název pravidla."
 
 #: C/evolution.xml:3537(para)
 msgid "Set up your criteria in the Find items field."
-msgstr ""
+msgstr "Nastavte kritéria v poli Najít položky."
 
 #: C/evolution.xml:3540(para)
 msgid "Select Add to add additional criteria."
-msgstr ""
+msgstr "Další kritérium přidáte kliknutím na Přidat."
 
 #: C/evolution.xml:3549(para)
 msgid "Displays all the contacts that match the built-in criteria you have selected from the drop-down list at the top left side, just above the Display pane."
-msgstr ""
+msgstr "Zobrazí všechny kontakty, které odpovídají předvoleným kritériím, které jste vybrali z rozbalovacího seznamu vlevo nahoře, právě nad panelem zobrazení."
 
 #: C/evolution.xml:3551(para)
 msgid "To perform quick search, use the following procedure:"
-msgstr ""
+msgstr "Chcete-li provést rychlé hledání, použijte následující postup:"
 
 #: C/evolution.xml:3560(para)
 #: C/evolution.xml:4453(para)
 #: C/evolution.xml:4804(para)
 #: C/evolution.xml:4999(para)
 msgid "Anniversary"
-msgstr ""
+msgstr "Výročí"
 
 #: C/evolution.xml:3563(para)
 #: C/evolution.xml:4456(para)
 #: C/evolution.xml:4807(para)
 #: C/evolution.xml:5002(para)
 msgid "Birthday"
-msgstr ""
+msgstr "Narozeniny"
 
 #: C/evolution.xml:3566(para)
 #: C/evolution.xml:4459(para)
 #: C/evolution.xml:4810(para)
 #: C/evolution.xml:5005(para)
 msgid "Business"
-msgstr ""
+msgstr "Práce"
 
 #: C/evolution.xml:3569(para)
 #: C/evolution.xml:4462(para)
 #: C/evolution.xml:4813(para)
 #: C/evolution.xml:5008(para)
 msgid "Competition"
-msgstr ""
+msgstr "Konkurence"
 
 #: C/evolution.xml:3572(para)
 #: C/evolution.xml:5011(para)
 msgid "Favorites"
-msgstr ""
+msgstr "Oblíbené"
 
 #: C/evolution.xml:3575(para)
 #: C/evolution.xml:4468(para)
 #: C/evolution.xml:4819(para)
 #: C/evolution.xml:5014(para)
 msgid "Gifts"
-msgstr ""
+msgstr "Dary"
 
 #: C/evolution.xml:3578(para)
 #: C/evolution.xml:4471(para)
 #: C/evolution.xml:4822(para)
 #: C/evolution.xml:5017(para)
 msgid "Goals/Objectives"
-msgstr ""
+msgstr "Cíle/Plány"
 
 #: C/evolution.xml:3581(para)
 #: C/evolution.xml:4474(para)
 msgid "Holiday"
-msgstr ""
+msgstr "Dovolená"
 
 #: C/evolution.xml:3584(para)
 #: C/evolution.xml:4477(para)
 #: C/evolution.xml:4828(para)
 #: C/evolution.xml:5023(para)
 msgid "Holiday Cards"
-msgstr ""
+msgstr "Blahopřání"
 
 #: C/evolution.xml:3587(para)
 msgid "Hot Contacts"
-msgstr ""
+msgstr "Důležité kontakty"
 
 #: C/evolution.xml:3590(para)
 #: C/evolution.xml:4480(para)
 #: C/evolution.xml:4831(para)
 #: C/evolution.xml:5026(para)
 msgid "Ideas"
-msgstr ""
+msgstr "Nápady"
 
 #: C/evolution.xml:3593(para)
 #: C/evolution.xml:4483(para)
 #: C/evolution.xml:4834(para)
 #: C/evolution.xml:5029(para)
 msgid "International"
-msgstr ""
+msgstr "Mezinárodní"
 
 #: C/evolution.xml:3596(para)
 #: C/evolution.xml:4486(para)
 msgid "Key Customer"
-msgstr ""
+msgstr "Klíčový zákazník"
 
 #: C/evolution.xml:3599(para)
 #: C/evolution.xml:4489(para)
 #: C/evolution.xml:4840(para)
 #: C/evolution.xml:5035(para)
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Různé"
 
 #: C/evolution.xml:3605(para)
 #: C/evolution.xml:4495(para)
 #: C/evolution.xml:4846(para)
 #: C/evolution.xml:5041(para)
 msgid "Phone Calls"
-msgstr ""
+msgstr "Telefonní hovory"
 
 #: C/evolution.xml:3611(para)
 #: C/evolution.xml:4501(para)
 #: C/evolution.xml:4852(para)
 #: C/evolution.xml:5047(para)
 msgid "Strategies"
-msgstr ""
+msgstr "Strategie"
 
 #: C/evolution.xml:3614(para)
 #: C/evolution.xml:4504(para)
 #: C/evolution.xml:4855(para)
 #: C/evolution.xml:5050(para)
 msgid "Suppliers"
-msgstr ""
+msgstr "Dodavatelé"
 
 #: C/evolution.xml:3617(para)
 #: C/evolution.xml:4507(para)
 #: C/evolution.xml:4858(para)
 #: C/evolution.xml:5053(para)
 msgid "Time &amp; Expenses"
-msgstr ""
+msgstr "Čas a výdaje"
 
 #: C/evolution.xml:3620(para)
 #: C/evolution.xml:4510(para)
 #: C/evolution.xml:4861(para)
 #: C/evolution.xml:5056(para)
 msgid "VIP"
-msgstr ""
+msgstr "VIP"
 
 #: C/evolution.xml:3623(para)
 #: C/evolution.xml:4513(para)
 #: C/evolution.xml:4864(para)
 #: C/evolution.xml:5059(para)
 msgid "Waiting"
-msgstr ""
+msgstr "Čekání"
 
 #: C/evolution.xml:3626(para)
 msgid "Weather: Cloudy"
-msgstr ""
+msgstr "Počasí: Zataženo"
 
 #: C/evolution.xml:3629(para)
 msgid "Weather: Fog"
-msgstr ""
+msgstr "Počasí: Mlha"
 
 #: C/evolution.xml:3632(para)
 msgid "Weather: Partly Cloudy"
-msgstr ""
+msgstr "Počasí: Polojasno"
 
 #: C/evolution.xml:3635(para)
 msgid "Weather: Rain"
-msgstr ""
+msgstr "Počasí: Déšť"
 
 #: C/evolution.xml:3638(para)
 msgid "Weather: Snow"
-msgstr ""
+msgstr "Počasí: Sníh"
 
 #: C/evolution.xml:3641(para)
 msgid "Weather: Sunny"
-msgstr ""
+msgstr "Počasí: Slunečno"
 
 #: C/evolution.xml:3644(para)
 msgid "Weather: Thunderstorms"
-msgstr ""
+msgstr "Počasí: Bouřky"
 
 #: C/evolution.xml:3649(para)
 msgid "Evolution displays the desired contacts."
-msgstr ""
+msgstr "Evolution zobrazí požadované kontakty."
 
 #: C/evolution.xml:3656(para)
 msgid "Evolution allows you to organize your contacts. You can create several individual address books, or contact lists. Within a given address book, you can have several categories of contacts."
-msgstr ""
+msgstr "Evolution vám umožňuje organizovat vaše kontakty. Můžete si vytvořit několik adresářů nebo seznamů kontaktů. V rámci jednoho adresáře můžete mít několik kategorií kontaktů."
 
 #: C/evolution.xml:3659(link)
 #: C/evolution.xml:3673(title)
 msgid "Contacts Groups"
-msgstr ""
+msgstr "Skupiny kontaktů"
 
 #: C/evolution.xml:3662(link)
 #: C/evolution.xml:3695(title)
@@ -5613,112 +5613,112 @@ msgstr "Vytvoření seznamu kontaktů"
 #: C/evolution.xml:3665(link)
 #: C/evolution.xml:3727(title)
 msgid "Grouping with Categories"
-msgstr ""
+msgstr "Seskupování podle kategorií"
 
 #: C/evolution.xml:3668(link)
 #: C/evolution.xml:3788(title)
 msgid "Configuring Evolution to use LDAP"
-msgstr ""
+msgstr "Nastavení Evolutionu k použití LDAP"
 
 #: C/evolution.xml:3674(para)
 msgid "Contacts Groups are nothing but Address Books. The simplest way to organize contacts is to create additional address books. You can create a new one by clicking File &gt; New &gt; Address Book. For contacts groups on your computer, you only need to provide a name. For contacts on the network, you need to provide more information about the contacts server you are trying to access."
-msgstr ""
+msgstr "Skupiny kontaktů není nic jiného než adresáře. Nejjednodušším způsobem, jak organizovat kontakty, je vytvořit další adresář. Nový můžete vytvořit kliknutím na Soubor &gt; Nový &gt; Adresář. Pro skupiny kontaktů ve vašem počítači potřebujete zadat pouze jméno. Pro kontakty v síti musíte zadat více informací o serveru, ke kterému se připojujete."
 
 #: C/evolution.xml:3675(para)
 msgid "To move a card from one group to another, just drag it from the main display of contacts and drop it to a different group. You cannot change the contents of most network contact groups."
-msgstr ""
+msgstr "Chcete-li přesunout kartu z jedné skupiny do druhé, jednoduše ji přetáhněte ze zobrazení kontaktů a pusťte do jiné skupiny. U většiny skupin kontaktů na síti obsah měnit nemůžete."
 
 #: C/evolution.xml:3677(para)
 msgid "Contacts groups are not the same as contact lists. A contact group is like a folder or address book full of contacts. A contact list is a single contact that contains other contacts, and is most often used to email several people at once."
-msgstr ""
+msgstr "Skupiny kontaktů nejsou to samé co seznamy kontaktů. Skupina kontaktů je jako složka nebo adresář plný kontaktů. Seznam kontaktů je jeden kontakt, který obsahuje další kontakty a nejčastěji se používá pro poslání e-mailu více lidem naráz."
 
 #: C/evolution.xml:3682(title)
 msgid "Importing Contacts"
-msgstr ""
+msgstr "Import kontaktů"
 
 #: C/evolution.xml:3683(para)
 msgid "You can import contacts from other contact management tools with the Import tool."
-msgstr ""
+msgstr "Pomocí nástroje pro import můžete importovat kontakty z jiných nástrojů pro správu kontaktů."
 
 #: C/evolution.xml:3688(para)
 msgid "Mail yourself a contact as vCard attachment."
-msgstr ""
+msgstr "Pošlete si kontakt jako přílohu vCard."
 
 #: C/evolution.xml:3689(para)
 msgid "Currently VCF and LDIF are supported. CSV and TAB format files are supported from Microsoft Outlook, Thunderbird, Mozilla, and Evolution."
-msgstr ""
+msgstr "Momentálně nejsou VCF a LDIF podporovány. Formáty CSV a TAB jsou podporovány z Microsoft Outlooku, Thunderbirdu, Mozilly a Evolutionu."
 
 #: C/evolution.xml:3696(para)
 msgid "A contact list is a set of contacts with a single nickname that you create. When you send email to the nickname, it is sent to every member of the list. This differs from a network mailing list in that it exists only on your computer as a convenience to you, rather than as an actual email address managed by a mailing list application on a server."
-msgstr ""
+msgstr "Seznam kontaktů je sdružení kontaktů s jednou přezdívkou, kterou jste vytvořili. Od konferencí jej odlišuje to, že existuje pouze ve vašem počítači jako zjednodušení vaší práce, a ne jako opravdová e-mailová adresa spravovaná aplikací pro konference na serveru."
 
 #: C/evolution.xml:3697(para)
 msgid "For example, you could create one card for each family member, then add those cards to a contact list called <quote>Family.</quote> Then, instead of entering each person's email address individually, you can send email to <quote>Family</quote> and the message would go to all of them."
-msgstr ""
+msgstr "Například můžete vytvořit jednu kartu pro každého člena rodiny a potom tyto karty přidat do seznamu kontaktů pojmenovaného <quote>Rodina.</quote> Potom, místo abyste zadávali každou adresu zvlášť, můžete poslat e-mail kontaktu <quote>Rodina</quote> a zpráva přijde všem."
 
 #: C/evolution.xml:3698(para)
 msgid "To create a list of contacts:"
-msgstr ""
+msgstr "Chcete-li vytvořit seznam kontaktů:"
 
 #: C/evolution.xml:3701(para)
 msgid "Open the list creation dialog box by clicking the New List button."
-msgstr ""
+msgstr "Otevřete okno pro vytvoření seznamu tak, že kliknete na tlačítko Nový seznam."
 
 #: C/evolution.xml:3703(para)
 msgid "Click File &gt; New &gt; Contact List."
-msgstr ""
+msgstr "Klikněte na Soubor &gt; Nový &gt; Seznam kontaktů."
 
 #: C/evolution.xml:3706(para)
 msgid "Specify a name for the list."
-msgstr ""
+msgstr "Zadejte jméno pro seznam."
 
 #: C/evolution.xml:3709(para)
 msgid "Specify the names or email addresses of contacts."
-msgstr ""
+msgstr "Zadejte jména nebo e-mailové adresy kontaktů."
 
 #: C/evolution.xml:3711(para)
 msgid "Drag contacts from the main window into the list."
-msgstr ""
+msgstr "Přetáhněte kontakty z hlavního okna do seznamu."
 
 #: C/evolution.xml:3714(para)
 msgid "Choose whether you want to hide the email addresses when you send a message to the list."
-msgstr ""
+msgstr "Vyberte, zda-li chcete skrýt e-mailové adresy, když posíláte seznamu zprávu."
 
 #: C/evolution.xml:3715(para)
 msgid "Unless it is a very small list, it is recommended that you leave the addresses hidden. This is the same thing as using the <quote>Bcc:</quote> feature discussed in <link linkend=\"usage-mail-getnsend-send-to-types\">Specifying Additional Recipients for Email</link>."
-msgstr ""
+msgstr "Pokud to není velmi krátký seznam, doporučuje se nechat adresy skryté. Stejně se chová funkce <quote>Skrytá kopie</quote>, které se věnuje <link linkend=\"usage-mail-getnsend-send-to-types\">Zadání dalších příjemců zprávy</link>."
 
 #: C/evolution.xml:3718(para)
 msgid "When you are finished, click OK."
-msgstr ""
+msgstr "Když jste hotovi, klikněte na Budiž."
 
 #: C/evolution.xml:3721(para)
 msgid "The list appears as a contact card, which you can use as you would any other card, including mailing the list to another person and sending email to the list."
-msgstr ""
+msgstr "Seznam se zobrazí jako karta kontaktu, kterou můžete používat stejně jako jakoukoliv jinou kartu, včetně poslání seznamu další osobě a posílání e-mailu seznamu."
 
 #: C/evolution.xml:3722(para)
 msgid "To mail the list, open a new email and type the name you chose for the list. Evolution addresses the message to the entire list when you send the message. You can also right-click the list's address card in the contacts tool and select Send Message to List."
-msgstr ""
+msgstr "Chcete-li napsat seznamu, otevřete nový e-mail a napište jméno, které jste pro seznam vybrali. Evolution adresuje zprávu celému seznamu, když zprávu posíláte. Taktéž můžete kliknout pravým pravým tlačítkem na kartu seznamu v nástroji kontaktů a vybrat Odeslat zprávu seznamu."
 
 #: C/evolution.xml:3723(para)
 msgid "Evolution cannot store contact lists on Microsoft Exchange servers."
-msgstr ""
+msgstr "Evolution neumí ukládat seznamy kontaktů na servery Microsoft Exchange."
 
 #: C/evolution.xml:3728(para)
 msgid "Another way to group cards is to mark them as belonging to different categories. You can mark a card as being in several categories or no category at all. For example, you put a friend's card in the <guilabel>Business</guilabel> category because he works with you and the <guilabel>Friends</guilabel> category because he's a friend."
-msgstr ""
+msgstr "Jiným způsobem, jako sdružovat karty, může být označit je jako patřící do různých skupin. Můžete kartu označit jako patřící do několika kategorií nebo do žádné kategorie. Například vložíte kartu přítele do kategorie <guilabel>Práce</guilabel>, protože s vámi pracuje, a do kategorie <guilabel>Přátelé</guilabel>, protože je váš přítel."
 
 #: C/evolution.xml:3729(para)
 msgid "To mark a card as belonging to a category,"
-msgstr ""
+msgstr "Chcete-li kartu označit jako patřící do kategorie,"
 
 #: C/evolution.xml:3732(para)
 msgid "Double click the card to appear the Contact Editor window"
-msgstr ""
+msgstr "Poklepejte na kartu, aby se zobrazilo okno Editoru kontaktů."
 
 #: C/evolution.xml:3735(para)
 msgid "Click the Categories button at the left."
-msgstr ""
+msgstr "Klikněte na tlačítko Kategorie nalevo."
 
 #: C/evolution.xml:3736(para)
 msgid "You can view the Categories dialog box as given below."
@@ -5726,47 +5726,47 @@ msgstr "Můžete vidět dialogové okno Kategorie tak, jak je ukázáno níže."
 
 #: C/evolution.xml:3748(para)
 msgid "Select the category from the list. You can select as many or as few categories as you like."
-msgstr ""
+msgstr "Vyberte kategorii ze seznamu. Můžete vybrat tolik kategorií, kolik chcete."
 
 #: C/evolution.xml:3751(para)
 msgid "If the master list of categories doesn't suit you, you can add your own categories. To add a new category,"
-msgstr ""
+msgstr "Pokud vám původní seznam kategorií nevyhovuje, můžete přidat vaše vlastní kategorie. Pro přidání nové kategorie,"
 
 #: C/evolution.xml:3754(para)
 msgid "Enter the new category in the entry box at the top."
-msgstr ""
+msgstr "Vložte novou kategorii do pole nahoře."
 
 #: C/evolution.xml:3758(para)
 msgid "You can view the category name appeared in the field next to Categories button in the Contact Editor."
-msgstr ""
+msgstr "Jméno kategorie můžete vidět v editoru kontaktu v poli vedle tlačítka Kategorie. "
 
 #: C/evolution.xml:3765(para)
 msgid "You can edit or set the color and icon for each categories available under categories list. To achieve that click Edit button at the bottom of the Categories window. Press the Delete button to delete the items from the list."
-msgstr ""
+msgstr "Můžete upravovat nebo nastavit barvu a ikonu pro každou kategorii v seznamu. Dosáhnete to tak, že kliknete na tlačítko Upravit dole v okně Kategorie. Chcete-li položku vymazat ze seznamu, stiskněte tlačítko Smazat."
 
 #: C/evolution.xml:3772(para)
 msgid "The <link linkend=\"ldap\">LDAP</link> protocol was created to let users share contact information over a network by sharing access to a central directory. LDAP allows a company to maintain a shared set of contact information. Many companies keep a common LDAP address book for all their employees or for client contacts."
-msgstr ""
+msgstr "Protokol <link linkend=\"ldap\">LDAP</link> byl vytvořený, aby uživatelům umožnil sdílet kontakty po síti pomocí sdílení přístupu do centrálního adresáře. LDAP umožňuje společnost udržovat sdílené kontakty. Mnoho společností udržuje společný LDAP adresář pro všechny své zaměstnance nebo klienty."
 
 #: C/evolution.xml:3773(para)
 msgid "To learn how to add a remote LDAP directory to your available address books, see <link linkend=\"config-prefs-contact\">Contact Management</link>. Remote groups of contacts appear under the On LDAP Servers item in the switcher. They work like a local folder of contact cards, with the following exceptions:"
-msgstr ""
+msgstr "Jak přidat vzdálený LDAP adresář, naleznete ve <link linkend=\"config-prefs-contact\">Správě kontaktů</link>. Vzdálené skupiny kontaktů se objeví v přepínači pod položkou Na serverech LDAP. Fungují stejně jako místní složky kontaktů s těmito výjimkami:"
 
 #: C/evolution.xml:3776(para)
 msgid "Network folders are only available when you are connected to the network. If you use a laptop or have a modem connection, you might want to copy or cache some of the network directory. You do this by dragging and dropping your desired contacts into the local address books."
-msgstr ""
+msgstr "Složky v síti jsou dostupné, pouze když jste k síti připojeni. Používáte-li notebook nebo máte modemové připojení, možná budete chtít kopírovat nebo ukládat do cache něco z adresáře v síti. Uděláte to přetažením a pustěním požadovaných kontaktů do místního adresáře."
 
 #: C/evolution.xml:3777(para)
 msgid "You can also mark the network folder for offline usage. To mark the folder, right-click the folder, then click Properties. Select Copy Folder Content Locally for Offline Operation."
-msgstr ""
+msgstr "Můžete také složku v síti označit pro offline použití. Složku označíte tak, že kliknete pravým tlačítkem na složku a vyberete Nastavení. Poté zaškrtněte Zkopírovat obsah adresáře lokálně pro práci při odpojení."
 
 #: C/evolution.xml:3780(para)
 msgid "To prevent excess network traffic, Evolution does not normally load data from the LDAP server upon opening."
-msgstr ""
+msgstr "Aby zbytečně nezatěžoval síťový provoz, Evolution normálně nenačítá data ze serveru LDAP, dokud složku neotevřete."
 
 #: C/evolution.xml:3783(para)
 msgid "Depending on your server settings, you might not be able to edit all the fields in a contact stored on an LDAP server. Some servers prohibit some or all changes, and others use a smaller set of fields than Evolution allows. Check with your system administrator if you need different settings."
-msgstr ""
+msgstr "V závislosti na nastavení vašeho serveru možná nebudete moci upravovat všechna pole v kontaktech uložených na serveru LDAP. Některé servery zakazují některé nebo veškeré změny, jiné používají menší sadu polí, než Evolution povoluje. Zeptejte se vašeho administrátora, zda-li potřebujete jiné nastavení."
 
 #: C/evolution.xml:3789(para)
 msgid "For information about setting up Evolution to use LDAP, refer to <link linkend=\"config-prefs-contact\">Contact Management</link>."
@@ -5774,16 +5774,16 @@ msgstr "Více informací o nastavení Evolutionu tak, aby používal LDAP nalezn
 
 #: C/evolution.xml:3795(para)
 msgid "When you get information about a person in the mail or in a calendar entry, you can add it to an address card. To do so, right-click any email address or email message, and click Add to Address Book on the menu that appears. If the sender already exists, the Editor tab opens and you can edit the detail. Evolution can also add cards from a hand-held device during HotSync* operation. For more information, see <link linkend=\"config-sync\">Synchronizing Your Handheld Device</link>."
-msgstr ""
+msgstr "Když dostanete informace o nějaké osobě v poště nebo v kalendáři, můžete je přidat do adresáře. Uděláte to tak, že kliknete pravým tlačítkem na e-mailovou adresu nebo e-mailovou zprávu a v nabídce, která se objeví, vyberete Přidat do adresáře.  Pokud odesílatel již existuje, otevře se okno editoru a můžete upravovat detaily. Evolution také umí přidávat kontakty z přenosného zařízení pomocí operace HotSync*. Více informací naleznete v  kapitole <link linkend=\"config-sync\">Synchronizace s přenosným zařízením</link>."
 
 #: C/evolution.xml:3801(para)
 msgid "This section shows you how to use the <trademark>Evolution</trademark> Calendar to manage your schedule alone or in conjunction with peers. To learn about importing calendar data, see <link linkend=\"importing-mail\">Importing Single Files</link>, which covers the Import tool."
-msgstr ""
+msgstr "Tato sekce ukazuje, jak použít Kalendář <trademark>Evolution</trademark> pro správu vašeho rozvrhu samostatně nebo ve spojení s kolegy. Jak importovat data kalendáře, se dozvíte v kapitole <link linkend=\"importing-mail\">Import jednotlivých souborů</link>."
 
 #: C/evolution.xml:3804(link)
 #: C/evolution.xml:3836(title)
 msgid "Ways of Looking at your Calendar"
-msgstr ""
+msgstr "Způsoby, jak se dívat na kalendář"
 
 #: C/evolution.xml:3807(link)
 #: C/evolution.xml:3994(title)
@@ -5793,46 +5793,46 @@ msgstr "Plánování s Kalendářem Evolution"
 #: C/evolution.xml:3810(link)
 #: C/evolution.xml:4374(title)
 msgid "Searching for Calendar Items"
-msgstr ""
+msgstr "Vyhledávání položek v kalendáři"
 
 #: C/evolution.xml:3813(link)
 #: C/evolution.xml:4522(title)
 msgid "Printing Displayed Items"
-msgstr ""
+msgstr "Tisk zobrazených položek"
 
 #: C/evolution.xml:3816(link)
 #: C/evolution.xml:4527(title)
 msgid "Deleting Old Appointments and Meetings"
-msgstr ""
+msgstr "Mazání starých události a schůzek"
 
 #: C/evolution.xml:3819(link)
 #: C/evolution.xml:4532(title)
 msgid "Delegating Meetings"
-msgstr ""
+msgstr "Postoupení schůzek"
 
 #: C/evolution.xml:3822(link)
 #: C/evolution.xml:4552(title)
 msgid "Multiple Calendars, Web Calendars, and CalDAV"
-msgstr ""
+msgstr "Více kalendářů, webové kalendáře a CalDAV."
 
 #: C/evolution.xml:3825(link)
 #: C/evolution.xml:4559(title)
 msgid "The Task List"
-msgstr ""
+msgstr "Seznam úkolů"
 
 #: C/evolution.xml:3828(link)
 #: C/evolution.xml:4874(title)
 msgid "Memos"
-msgstr ""
+msgstr "Poznámky"
 
 #: C/evolution.xml:3831(link)
 #: C/evolution.xml:5069(title)
 msgid "Configuring Time Zones"
-msgstr ""
+msgstr "Nastavení časových pásem"
 
 #: C/evolution.xml:3837(para)
 msgid "In Evolution, you can keep multiple calendars and overlay them one over the next. For example, you might have a schedule of events for work, one for home, and one for your favorite sports team. The side bar lists those calendars, and you can select or deselect the boxes next to them to show and hide the appointments in your calendar view. By hiding and showing different sets of appointments, you can be sure to avoid conflicts, while keeping a minimum of clutter in your view."
-msgstr ""
+msgstr "V Evolutionu můžete udržovat více kalendářů a překládat je jeden přes druhý. Například budete chtít rozvrh pro práci, domů a jeden pro váš oblíbený sportovní tým. Postranní lišta zobrazuje seznam těchto kalendářů a můžete zaškrtávat nebo odškrtávat přepínače vedle nich, tak zobrazíte nebo skryjete události v zobrazení kalendáře. Skrýváním a zobrazováním různých sad událostí si můžete být jistí, že se vyhnete konfliktům a přitom nemáte zobrazení přeplněné."
 
 #: C/evolution.xml:3838(para)
 msgid "Appointments for each calendar appear as a different color."
