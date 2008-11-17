@@ -439,6 +439,16 @@ new_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
+rename_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
+{
+	TasksComponentView *component_view = data;
+	ESourceSelector *selector;
+
+	selector = E_SOURCE_SELECTOR (component_view->source_selector);
+	e_source_selector_edit_primary_selection (selector);
+}
+
+static void
 edit_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	TasksComponentView *component_view = data;
@@ -479,6 +489,7 @@ mark_offline_cb (EPopup *ep, EPopupItem *pitem, void *data)
 static EPopupItem etc_source_popups[] = {
 	{ E_POPUP_ITEM, "10.new", N_("_New Task List"), new_task_list_cb, NULL, "stock_todo", 0, 0 },
 	{ E_POPUP_ITEM, "15.copy", N_("_Copy..."), copy_task_list_cb, NULL, "edit-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "18.rename", N_("_Rename..."), rename_task_list_cb, NULL, NULL, 0, E_CAL_POPUP_SOURCE_PRIMARY },
 
 	{ E_POPUP_BAR, "20.bar" },
 	{ E_POPUP_ITEM, "20.delete", N_("_Delete"), delete_task_list_cb, NULL, "edit-delete", 0, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY },

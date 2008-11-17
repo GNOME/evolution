@@ -911,6 +911,16 @@ new_addressbook_cb(EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
+rename_addressbook_cb (EPopup *ep, EPopupItem *pitem, void *data)
+{
+	AddressbookView *view = data;
+	ESourceSelector *selector;
+
+	selector = E_SOURCE_SELECTOR (view->priv->selector);
+	e_source_selector_edit_primary_selection (selector);
+}
+
+static void
 save_addressbook_cb(EPopup *ep, EPopupItem *pitem, void *data)
 {
 	AddressbookView *view = data;
@@ -940,6 +950,7 @@ primary_source_selection_changed_callback (ESourceSelector *selector,
 static EPopupItem abv_source_popups[] = {
 	{ E_POPUP_ITEM, "10.new", N_("_New Address Book"), new_addressbook_cb, NULL, "address-book-new", 0, 0 },
  	{ E_POPUP_ITEM, "20.saveasvcard", N_("Save As vCard..."), save_addressbook_cb, NULL,"document-save-as", 0, EAB_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "25.rename", N_("_Rename..."), rename_addressbook_cb, NULL, NULL, 0, EAB_POPUP_SOURCE_PRIMARY },
 
 	{ E_POPUP_BAR,  "30.bar" },
 	{ E_POPUP_ITEM, "30.delete", N_("_Delete"), delete_addressbook_cb, NULL, "edit-delete", 0, EAB_POPUP_SOURCE_USER|EAB_POPUP_SOURCE_PRIMARY },

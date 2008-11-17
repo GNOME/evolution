@@ -1,3 +1,15 @@
+2008-11-17  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #558322
+
+	* gui/calendar-component.c (rename_calendar_cb):
+	* gui/memos-component.c (rename_memo_list_cb):
+	* gui/tasks-component.c (rename_task_list_cb):
+	New "Rename" item in the source selector pop-up menu calls
+	the recently added e_source_selector_edit_primary_selection().
+	Still need to bind the "F2" key to this action, but I'm not
+	sure how whether EPopup supports that.
+
 2008-11-11  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #559604

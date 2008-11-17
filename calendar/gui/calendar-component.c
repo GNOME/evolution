@@ -607,6 +607,16 @@ new_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
+rename_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
+{
+	CalendarComponentView *component_view = data;
+	ESourceSelector *selector;
+
+	selector = E_SOURCE_SELECTOR (component_view->source_selector);
+	e_source_selector_edit_primary_selection (selector);
+}
+
+static void
 edit_calendar_cb (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	CalendarComponentView *component_view = data;
@@ -647,6 +657,7 @@ mark_offline_cb (EPopup *ep, EPopupItem *pitem, void *data)
 static EPopupItem ecc_source_popups[] = {
 	{ E_POPUP_ITEM, "10.new", N_("_New Calendar"), new_calendar_cb, NULL, "x-office-calendar", 0, 0 },
 	{ E_POPUP_ITEM, "15.copy", N_("_Copy..."), copy_calendar_cb, NULL, "edit-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "18.rename", N_("_Rename..."), rename_calendar_cb, NULL, NULL, 0, E_CAL_POPUP_SOURCE_PRIMARY },
 
 	{ E_POPUP_BAR, "20.bar" },
 	{ E_POPUP_ITEM, "20.delete", N_("_Delete"), delete_calendar_cb, NULL, "edit-delete", 0,E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY|E_CAL_POPUP_SOURCE_DELETE },
