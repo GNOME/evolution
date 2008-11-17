@@ -1,5 +1,14 @@
 2008-11-17  Matthew Barnes  <mbarnes@redhat.com>
 
+	** Fixes part of bug #557818
+
+	* gui/component/addressbook-view.c:
+	ESourceSelector now handles most of the drag-and-drop signals.
+	We just have to listen for the new "data-dropped" signal and
+	deal with it.  Gets rid of a lot of duplicate logic.
+
+2008-11-17  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes part of bug #558322
 
 	* gui/component/addressbook-view.c (rename_addressbook_cb):

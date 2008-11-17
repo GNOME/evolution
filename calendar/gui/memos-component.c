@@ -638,90 +638,6 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 }
 
 static gboolean
-selector_tree_drag_drop (GtkWidget *widget,
-			 GdkDragContext *context,
-			 int x,
-			 int y,
-			 guint time,
-			 CalendarComponent *component)
-{
-	GtkTreeViewColumn *column;
-	int cell_x;
-	int cell_y;
-	GtkTreePath *path;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gpointer data;
-
-	if (!gtk_tree_view_get_path_at_pos  (GTK_TREE_VIEW (widget), x, y, &path,
-					     &column, &cell_x, &cell_y))
-		return FALSE;
-
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-
-	if (!gtk_tree_model_get_iter (model, &iter, path)) {
-		gtk_tree_path_free (path);
-		return FALSE;
-	}
-
-	gtk_tree_model_get (model, &iter, 0, &data, -1);
-
-	if (E_IS_SOURCE_GROUP (data)) {
-		g_object_unref (data);
-		gtk_tree_path_free (path);
-		return FALSE;
-	}
-
-	gtk_tree_path_free (path);
-	return TRUE;
-}
-
-static gboolean
-selector_tree_drag_motion (GtkWidget *widget,
-			   GdkDragContext *context,
-			   int x,
-			   int y,
-			   guint time,
-			   gpointer user_data)
-{
-	GtkTreePath *path = NULL;
-	gpointer data = NULL;
-	GtkTreeViewDropPosition pos;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	GdkDragAction action = GDK_ACTION_DEFAULT;
-
-	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
-						x, y, &path, &pos))
-		goto finish;
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-
-	if (!gtk_tree_model_get_iter (model, &iter, path))
-		goto finish;
-
-	gtk_tree_model_get (model, &iter, 0, &data, -1);
-
-	if (E_IS_SOURCE_GROUP (data) || e_source_get_readonly (data))
-		goto finish;
-
-	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget), path, GTK_TREE_VIEW_DROP_INTO_OR_BEFORE);
-	action = context->suggested_action;
-	if (action == GDK_ACTION_COPY && (context->actions & GDK_ACTION_MOVE))
-		action=GDK_ACTION_MOVE;
-
- finish:
-	if (path)
-		gtk_tree_path_free (path);
-	if (data)
-		g_object_unref (data);
-
-	gdk_drag_status (context, action, time);
-	return TRUE;
-}
-
-static gboolean
 update_single_object (ECal *client, icalcomponent *icalcomp, gboolean fail_on_modify)
 {
 	char *uid;
@@ -782,43 +698,21 @@ update_objects (ECal *client, icalcomponent *icalcomp)
 	return TRUE;
 }
 
-static void
-selector_tree_drag_data_received (GtkWidget *widget,
-				  GdkDragContext *context,
-				  gint x,
-				  gint y,
-				  GtkSelectionData *data,
-				  guint info,
-				  guint time,
-				  gpointer user_data)
+static gboolean
+selector_tree_data_dropped (ESourceSelector *selector,
+                            GtkSelectionData *data,
+                            ESource *destination,
+                            GdkDragAction action,
+                            guint info,
+                            MemosComponent *component)
 {
-	GtkTreePath *path = NULL;
-	GtkTreeViewDropPosition pos;
-	gpointer source = NULL;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
 	gboolean success = FALSE;
 	icalcomponent *icalcomp = NULL;
 	ECal *client = NULL;
 	GSList *components, *p;
-	MemosComponent *component = MEMOS_COMPONENT (user_data);
 
-	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
-						x, y, &path, &pos))
-		goto finish;
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-
-	if (!gtk_tree_model_get_iter (model, &iter, path))
-		goto finish;
-
-
-	gtk_tree_model_get (model, &iter, 0, &source, -1);
-
-	if (E_IS_SOURCE_GROUP (source) || e_source_get_readonly (source) || !data->data)
-		goto finish;
-
-	client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_JOURNAL);
+	client = auth_new_cal_from_source (
+		destination, E_CAL_SOURCE_TYPE_JOURNAL);
 
 	if (!client || !e_cal_open (client, TRUE, NULL))
 		goto  finish;
@@ -844,7 +738,7 @@ selector_tree_drag_data_received (GtkWidget *widget,
 			continue;
 
 		/* FIXME deal with GDK_ACTION_ASK */
-		if (context->action == GDK_ACTION_COPY) {
+		if (action == GDK_ACTION_COPY) {
 			old_uid = g_strdup (icalcomponent_get_uid (icalcomp));
 			uid = e_cal_component_gen_uid ();
 			icalcomponent_set_uid (icalcomp, uid);
@@ -861,7 +755,7 @@ selector_tree_drag_data_received (GtkWidget *widget,
 				/* this will report success by last item, but we don't care */
 				success = update_objects (client, icalcomp);
 
-				if (success && context->action == GDK_ACTION_MOVE) {
+				if (success && action == GDK_ACTION_MOVE) {
 					/* remove components rather here, because we know which has been moved */
 					ESource *source_source;
 					ECal *source_client;
@@ -901,21 +795,9 @@ selector_tree_drag_data_received (GtkWidget *widget,
  finish:
 	if (client)
 		g_object_unref (client);
-	if (source)
-		g_object_unref (source);
-	if (path)
-		gtk_tree_path_free (path);
 
-	gtk_drag_finish (context, success, success && context->action == GDK_ACTION_MOVE, time);
+	return success;
 }
-
-static void
-selector_tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, gpointer data)
-{
-	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget),
-					NULL, GTK_TREE_VIEW_DROP_BEFORE);
-}
-
 
 static void
 control_activate_cb (BonoboControl *control, gboolean activate, gpointer data)
@@ -1113,14 +995,9 @@ create_component_view (MemosComponent *memos_component)
 	a11y = gtk_widget_get_accessible (GTK_WIDGET (component_view->source_selector));
 	atk_object_set_name (a11y, _("Memo Source Selector"));
 
-	g_signal_connect (component_view->source_selector, "drag-motion", G_CALLBACK (selector_tree_drag_motion),
-			  memos_component);
-	g_signal_connect (component_view->source_selector, "drag-leave", G_CALLBACK (selector_tree_drag_leave),
-			  memos_component);
-	g_signal_connect (component_view->source_selector, "drag-drop", G_CALLBACK (selector_tree_drag_drop),
-			  memos_component);
-	g_signal_connect (component_view->source_selector, "drag-data-received",
-			  G_CALLBACK (selector_tree_drag_data_received), memos_component);
+	g_signal_connect (
+		component_view->source_selector, "data-dropped",
+		G_CALLBACK (selector_tree_data_dropped), memos_component);
 
 	gtk_drag_dest_set(component_view->source_selector, GTK_DEST_DEFAULT_ALL, drag_types,
 			  num_drag_types, GDK_ACTION_COPY | GDK_ACTION_MOVE);

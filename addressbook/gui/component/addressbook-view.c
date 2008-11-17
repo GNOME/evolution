@@ -997,88 +997,6 @@ popup_event_callback(ESourceSelector *selector, ESource *source, GdkEventButton 
 	return TRUE;
 }
 
-static gboolean
-selector_tree_drag_drop (GtkWidget *widget,
-			 GdkDragContext *context,
-			 int x,
-			 int y,
-			 guint time,
-			 AddressbookView *view)
-{
-	GtkTreeViewColumn *column;
-	int cell_x;
-	int cell_y;
-	GtkTreePath *path;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gpointer data;
-
-	if (!gtk_tree_view_get_path_at_pos  (GTK_TREE_VIEW (widget), x, y, &path, &column, &cell_x, &cell_y))
-		return FALSE;
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-
-	if (!gtk_tree_model_get_iter (model, &iter, path)) {
-		gtk_tree_path_free (path);
-		return FALSE;
-	}
-
-	gtk_tree_model_get (model, &iter, 0, &data, -1);
-
-	if (E_IS_SOURCE_GROUP (data)) {
-		g_object_unref (data);
-		gtk_tree_path_free (path);
-		return FALSE;
-	}
-
-	gtk_tree_path_free (path);
-	return TRUE;
-}
-
-static gboolean
-selector_tree_drag_motion (GtkWidget *widget,
-			   GdkDragContext *context,
-			   int x,
-			   int y)
-{
-	GtkTreePath *path = NULL;
-	gpointer data = NULL;
-	GtkTreeViewDropPosition pos;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	GdkDragAction action = { 0, };
-
-	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
-						x, y, &path, &pos))
-		goto finish;
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-
-	if (!gtk_tree_model_get_iter (model, &iter, path))
-		goto finish;
-
-	gtk_tree_model_get (model, &iter, 0, &data, -1);
-
-	if (E_IS_SOURCE_GROUP (data) || e_source_get_readonly (data))
-		goto finish;
-
-	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget), path, GTK_TREE_VIEW_DROP_INTO_OR_BEFORE);
-	/* Make default action move, not copy */
-	if (context->actions & GDK_ACTION_MOVE)
-		action = GDK_ACTION_MOVE;
-	else
-		action = context->suggested_action;
-
- finish:
-	if (path)
-		gtk_tree_path_free (path);
-	if (data)
-		g_object_unref (data);
-
-	gdk_drag_status (context, action, GDK_CURRENT_TIME);
-	return TRUE;
-}
-
 typedef struct
 {
 	guint     remove_from_source : 1;
@@ -1153,42 +1071,19 @@ merged_contact_cb (EBook *book, EBookStatus status, const char *id, gpointer clo
 }
 
 static gboolean
-selector_tree_drag_data_received (GtkWidget *widget,
-				  GdkDragContext *context,
-				  gint x,
-				  gint y,
-				  GtkSelectionData *data,
-				  guint info,
-				  guint time,
-				  gpointer user_data)
+selector_tree_data_dropped (ESourceSelector *selector,
+                            GtkSelectionData *data,
+                            ESource *destination,
+                            GdkDragAction action,
+                            guint info,
+                            AddressbookView *view)
 {
-	GtkTreePath *path = NULL;
-	GtkTreeViewDropPosition pos;
-	gpointer target = NULL;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gboolean success = FALSE;
 	EBook *source_book, *target_book;
 	MergeContext *merge_context = NULL;
 	GList *contactlist;
-	AddressbookView *view;
 	EABView *v;
 
-	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
-						x, y, &path, &pos))
-		goto finish;
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-
-	if (!gtk_tree_model_get_iter (model, &iter, path))
-		goto finish;
-
-	gtk_tree_model_get (model, &iter, 0, &target, -1);
-
-	if (E_IS_SOURCE_GROUP (target) || e_source_get_readonly (target))
-		goto finish;
-
-	target_book = e_book_new (target, NULL);
+	target_book = e_book_new (destination, NULL);
 	if (!target_book) {
 		g_message (G_STRLOC ":Couldn't create EBook.");
 		return FALSE;
@@ -1197,7 +1092,6 @@ selector_tree_drag_data_received (GtkWidget *widget,
 
 	eab_book_and_contact_list_from_string ((char *)data->data, &source_book, &contactlist);
 
-	view = (AddressbookView *) user_data;
 	v = get_current_view (view);
 	g_object_get (v->model, "book",&source_book, NULL);
 
@@ -1211,30 +1105,15 @@ selector_tree_drag_data_received (GtkWidget *widget,
 	merge_context->current_contact = contactlist->data;
 	merge_context->remaining_contacts = g_list_delete_link (contactlist, contactlist);
 
-	merge_context->remove_from_source = context->action == GDK_ACTION_MOVE ? TRUE : FALSE;
+	merge_context->remove_from_source = action == GDK_ACTION_MOVE ? TRUE : FALSE;
 
 	/* Start merge */
 
 	eab_merging_book_add_contact (target_book, merge_context->current_contact,
 				      merged_contact_cb, merge_context);
 
- finish:
-	if (path)
-		gtk_tree_path_free (path);
-	if (target)
-		g_object_unref (target);
-
-	gtk_drag_finish (context, success, merge_context->remove_from_source, time);
-
 	return TRUE;
 }
-
-static void
-selector_tree_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, gpointer data)
-{
-	gtk_tree_view_set_drag_dest_row(GTK_TREE_VIEW (widget), NULL, GTK_TREE_VIEW_DROP_BEFORE);
-}
-
 
 static void
 destroy_callback(gpointer data, GObject *where_object_was)
@@ -1338,10 +1217,9 @@ addressbook_view_init (AddressbookView *view)
 
 	priv->selector = e_source_selector_new (priv->source_list);
 
-	g_signal_connect  (priv->selector, "drag-motion", G_CALLBACK (selector_tree_drag_motion), view);
-	g_signal_connect  (priv->selector, "drag-leave", G_CALLBACK (selector_tree_drag_leave), view);
-	g_signal_connect  (priv->selector, "drag-drop", G_CALLBACK (selector_tree_drag_drop), view);
-	g_signal_connect  (priv->selector, "drag-data-received", G_CALLBACK (selector_tree_drag_data_received), view);
+	g_signal_connect (
+		priv->selector, "data-dropped",
+		G_CALLBACK (selector_tree_data_dropped), view);
 	gtk_drag_dest_set (priv->selector, GTK_DEST_DEFAULT_ALL, drag_types, num_drag_types, GDK_ACTION_COPY | GDK_ACTION_MOVE);
 	a11y = gtk_widget_get_accessible (GTK_WIDGET (priv->selector));
 	atk_object_set_name (a11y, _("Contact Source Selector"));
