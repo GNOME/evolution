@@ -463,7 +463,7 @@ e_table_header_draw_button (GdkDrawable *drawable, ETableCol *ecol,
 	} else {
 		e_table_draw_elided_string (drawable, gc, widget,
 					    inner_x, inner_y,
-					    layout, ecol->text, inner_width, TRUE);
+					    layout, ecol->text, inner_width, FALSE);
 	}
 
 	g_object_unref (layout);
