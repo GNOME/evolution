@@ -277,7 +277,7 @@ idle_dates_changed (gpointer data)
 	}
 	g_object_notify (G_OBJECT (ea_cal_view), "accessible-name");
 	g_signal_emit_by_name (ea_cal_view, "visible_data_changed");
-	g_signal_emit_by_name (ea_cal_view, "children_changed", NULL);
+	g_signal_emit_by_name (ea_cal_view, "children_changed", NULL, NULL, NULL);
 #ifdef ACC_DEBUG
 	printf ("AccDebug: cal view date changed\n");
 #endif
