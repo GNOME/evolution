@@ -194,6 +194,9 @@ struct _GnomeCalendarPrivate {
 	/* We should know which calendar has been used to create object, so store it here
 	   before emitting "user_created" signal and make it NULL just after the emit. */
 	ECal *user_created_cal;
+
+	/* used in update_todo_view, to prevent interleaving when called in separate thread */
+	GMutex *todo_update_lock;
 };
 
 /* Signal IDs */
@@ -885,6 +888,8 @@ update_query_async (struct _date_query_msg *msg)
 
 	real_sexp = adjust_e_cal_view_sexp (gcal, priv->sexp);
 	if (!real_sexp) {
+		g_object_unref (msg->gcal);
+		g_slice_free (struct _date_query_msg, msg);
 		return; /* No time range is set, so don't start a query */
 	}
 	
@@ -1304,18 +1309,30 @@ timezone_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer 
 	set_timezone (calendar);
 }
 
+struct _mupdate_todo_msg {
+	Message header;
+	GnomeCalendar *gcal;
+};
+
 static void
-update_todo_view (GnomeCalendar *gcal)
+update_todo_view_async (struct _mupdate_todo_msg *msg)
 {
+	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
 	ECalModel *model;
 	char *sexp = NULL;
 
+	g_return_if_fail (msg != NULL);
+
+	gcal = msg->gcal;
 	priv = gcal->priv;
+
+	g_mutex_lock (priv->todo_update_lock);
 
 	/* Set the query on the task pad */
 	if (priv->todo_sexp) {
 		g_free (priv->todo_sexp);
+		priv->todo_sexp = NULL;
 	}
 
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo));
@@ -1330,6 +1347,22 @@ update_todo_view (GnomeCalendar *gcal)
 		e_cal_model_set_search_query (model, priv->todo_sexp);
 	}
 
+	g_mutex_unlock (priv->todo_update_lock);
+
+	g_object_unref (msg->gcal);
+	g_slice_free (struct _mupdate_todo_msg, msg);
+}
+
+static void
+update_todo_view (GnomeCalendar *gcal)
+{
+	struct _mupdate_todo_msg *msg;
+
+	msg = g_slice_new0 (struct _mupdate_todo_msg);
+	msg->header.func = (MessageFunc) update_todo_view_async;
+	msg->gcal = g_object_ref (gcal);
+
+	message_push ((Message *) msg);
 }
 
 static void
@@ -1661,7 +1694,7 @@ setup_widgets (GnomeCalendar *gcal)
 				     "TaskPad", NULL);
 	e_calendar_table_load_state (E_CALENDAR_TABLE (priv->todo), filename);
 
-	update_todo_view (gcal);
+	/* update_todo_view (gcal); */
 	g_free (filename);
 
 	etable = e_calendar_table_get_table (E_CALENDAR_TABLE (priv->todo));
@@ -1827,6 +1860,8 @@ gnome_calendar_init (GnomeCalendar *gcal)
 		non_intrusive_error_table = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 
 	e_categories_register_change_listener (G_CALLBACK (categories_changed_cb), gcal);
+
+	priv->todo_update_lock = g_mutex_new ();
 
 	priv->current_view_type = GNOME_CAL_DAY_VIEW;
 	priv->range_selected = FALSE;
@@ -2003,6 +2038,8 @@ gnome_calendar_destroy (GtkObject *object)
 				G_CALLBACK (view_progress_cb), gcal);
 		g_signal_handlers_disconnect_by_func (cal_model,
 				G_CALLBACK (view_done_cb), gcal);
+
+		g_mutex_free (priv->todo_update_lock);
 
 		g_free (priv);
 		gcal->priv = NULL;

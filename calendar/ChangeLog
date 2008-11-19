@@ -1,3 +1,14 @@
+2008-11-19  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #556224
+
+	* gui/gnome-cal.c: (struct _GnomeCalendarPrivate), (setup_widgets),
+	(update_todo_view_async), (update_todo_view), (gnome_calendar_init),
+	(gnome_calendar_destroy): Run always 'update_todo_view' in a separate
+	thread and guard its body with a mutex.
+
+	* gui/gnome-cal.c: (update_query_async): Do not leak.
+
 2008-11-17  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #557818
