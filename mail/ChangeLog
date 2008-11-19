@@ -1,3 +1,9 @@
+2008-11-19  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #555276
+
+	* mail/mail-vfolder.c: Don't load vfolder as subfolder.
+
 2008-11-13  Bharath Acharya  <abharath@novell.com>
 
 	* em-folder-view.c: (emfv_setting_notify):
