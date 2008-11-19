@@ -442,6 +442,7 @@ popup_menu_status (GtkStatusIcon *status_icon, guint button, guint activate_time
 	g_object_unref (menu);
 }
 
+#ifdef HAVE_LIBNOTIFY
 static void 
 notifyActionCallback (NotifyNotification *n, gchar *label, gpointer a)
 {
@@ -459,6 +460,7 @@ notifyActionCallback (NotifyNotification *n, gchar *label, gpointer a)
 	status_count = 0;	
 	g_static_mutex_unlock (&mlock);
 }
+#endif
 
 static void
 new_notify_status (EMEventTargetFolder *t)
