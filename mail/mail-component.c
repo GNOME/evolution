@@ -1571,26 +1571,6 @@ mail_component_stores_foreach (MailComponent *component, GHFunc func, void *user
 //	return mc_default_folders[id].uri;
 //}
 
-/**
- * mail_indicate_new_mail
- * Indicates new mail in a shell window.
- * @param have_new_mail TRUE when have new mail, false otherwise.
- **/
-//void
-//mail_indicate_new_mail (gboolean have_new_mail)
-//{
-//	const char *icon = NULL;
-//	MailComponent *mc = mail_component_peek ();
-//
-//	g_return_if_fail (mc != NULL);
-//
-//	if (have_new_mail)
-//		icon = "mail-unread";
-//
-//	if (mc->priv->component_view)
-//		e_component_view_set_button_icon (mc->priv->component_view, icon);
-//}
-
 void
 mail_component_show_logger (gpointer top)
 {

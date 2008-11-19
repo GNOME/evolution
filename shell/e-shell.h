@@ -30,6 +30,7 @@
 
 #include <shell/e-shell-common.h>
 #include <shell/e-shell-module.h>
+#include <shell/e-shell-settings.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL \
@@ -89,6 +90,7 @@ EShellModule *	e_shell_get_module_by_name	(EShell *shell,
 						 const gchar *name);
 EShellModule *	e_shell_get_module_by_scheme	(EShell *shell,
 						 const gchar *scheme);
+EShellSettings *e_shell_get_settings		(EShell *shell);
 GtkWidget *	e_shell_create_window		(EShell *shell);
 GtkWidget *	e_shell_get_focused_window	(EShell *shell);
 gboolean	e_shell_handle_uri		(EShell *shell,

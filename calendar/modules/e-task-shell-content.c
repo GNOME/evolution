@@ -76,21 +76,6 @@ static GtkTargetEntry drag_types[] = {
 static gpointer parent_class;
 
 static void
-task_shell_content_changed_cb (ETaskShellContent *task_shell_content,
-                               GalViewInstance *view_instance)
-{
-	EShellView *shell_view;
-	EShellContent *shell_content;
-	gchar *view_id;
-
-	shell_content = E_SHELL_CONTENT (task_shell_content);
-	shell_view = e_shell_content_get_shell_view (shell_content);
-	view_id = gal_view_instance_get_current_view_id (view_instance);
-	e_shell_view_set_view_id (shell_view, view_id);
-	g_free (view_id);
-}
-
-static void
 task_shell_content_display_view_cb (ETaskShellContent *task_shell_content,
                                     GalView *gal_view)
 {
@@ -308,8 +293,6 @@ task_shell_content_constructed (GObject *object)
 	ETaskShellContentPrivate *priv;
 	EShellContent *shell_content;
 	EShellView *shell_view;
-	EShellViewClass *shell_view_class;
-	GalViewCollection *view_collection;
 	GalViewInstance *view_instance;
 	ETable *table;
 	GConfBridge *bridge;
@@ -324,8 +307,6 @@ task_shell_content_constructed (GObject *object)
 
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
-	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	view_collection = shell_view_class->view_collection;
 
 	/* Build content widgets. */
 
@@ -404,11 +385,7 @@ task_shell_content_constructed (GObject *object)
 
 	/* Load the view instance. */
 
-	view_instance = gal_view_instance_new (view_collection, NULL);
-	g_signal_connect_swapped (
-		view_instance, "changed",
-		G_CALLBACK (task_shell_content_changed_cb),
-		object);
+	view_instance = e_shell_view_new_view_instance (shell_view, NULL);
 	g_signal_connect_swapped (
 		view_instance, "display-view",
 		G_CALLBACK (task_shell_content_display_view_cb),

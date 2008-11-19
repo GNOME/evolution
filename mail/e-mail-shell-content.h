@@ -25,6 +25,8 @@
 #include <shell/e-shell-content.h>
 #include <shell/e-shell-view.h>
 
+#include "em-folder-view.h"
+
 /* Standard GObject macros */
 #define E_TYPE_MAIL_SHELL_CONTENT \
 	(e_mail_shell_content_get_type ())
@@ -83,6 +85,8 @@ struct _EMailShellContentClass {
 
 GType		e_mail_shell_content_get_type	(void);
 GtkWidget *	e_mail_shell_content_new	(EShellView *shell_view);
+EMFolderView *	e_mail_shell_content_get_folder_view
+						(EMailShellContent *mail_shell_content);
 gboolean	e_mail_shell_content_get_preview_visible
 						(EMailShellContent *mail_shell_content);
 void		e_mail_shell_content_set_preview_visible
@@ -93,6 +97,8 @@ gboolean	e_mail_shell_content_get_vertical_view
 void		e_mail_shell_content_set_vertical_view
 						(EMailShellContent *mail_shell_content,
 						 gboolean vertical_view);
+void		e_mail_shell_content_update_view_instance
+						(EMailShellContent *mail_shell_content);
 
 G_END_DECLS
 

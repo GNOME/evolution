@@ -22,11 +22,16 @@
 #include "e-mail-shell-content.h"
 
 #include <glib/gi18n.h>
+#include <libedataserver/e-data-server-util.h>
 
 #include "e-util/gconf-bridge.h"
+#include "widgets/menus/gal-view-etable.h"
+#include "widgets/menus/gal-view-instance.h"
 
-#include "em-folder-browser.h"
+#include "em-folder-view.h"
 #include "em-search-context.h"
+#include "em-utils.h"
+#include "mail-config.h"
 
 #define E_MAIL_SHELL_CONTENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -34,8 +39,10 @@
 
 struct _EMailShellContentPrivate {
 	GtkWidget *paned;
-	GtkWidget *msglist;
+	GtkWidget *folder_view;
 	GtkWidget *preview;
+
+	GalViewInstance *view_instance;
 
 	guint paned_binding_id;
 
@@ -50,6 +57,20 @@ enum {
 };
 
 static gpointer parent_class;
+
+static void
+mail_shell_content_display_view_cb (EMailShellContent *mail_shell_content,
+                                    GalView *gal_view)
+{
+	EMFolderView *folder_view;
+
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	if (GAL_IS_VIEW_ETABLE (gal_view))
+		gal_view_etable_attach_tree (
+			GAL_VIEW_ETABLE (gal_view),
+			folder_view->list->tree);
+}
 
 static void
 mail_shell_content_set_property (GObject *object,
@@ -110,14 +131,19 @@ mail_shell_content_dispose (GObject *object)
 		priv->paned = NULL;
 	}
 
-	if (priv->msglist != NULL) {
-		g_object_unref (priv->msglist);
-		priv->msglist = NULL;
+	if (priv->folder_view != NULL) {
+		g_object_unref (priv->folder_view);
+		priv->folder_view = NULL;
 	}
 
 	if (priv->preview != NULL) {
 		g_object_unref (priv->preview);
 		priv->preview = NULL;
+	}
+
+	if (priv->view_instance != NULL) {
+		g_object_unref (priv->view_instance);
+		priv->view_instance = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -139,15 +165,24 @@ static void
 mail_shell_content_constructed (GObject *object)
 {
 	EMailShellContentPrivate *priv;
+	EShellContent *shell_content;
+	EShellView *shell_view;
+	EShellViewClass *shell_view_class;
 	GConfBridge *bridge;
 	GtkWidget *container;
 	GtkWidget *widget;
+	GalViewCollection *view_collection;
 	const gchar *key;
 
 	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
+
+	shell_content = E_SHELL_CONTENT (object);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	view_collection = shell_view_class->view_collection;
 
 	/* Build content widgets. */
 
@@ -160,10 +195,9 @@ mail_shell_content_constructed (GObject *object)
 
 	container = widget;
 
-	/*widget = em_folder_browser_new ();*/
-	widget = gtk_label_new ("Message List");
+	widget = em_folder_view_new ();
 	gtk_paned_add1 (GTK_PANED (container), widget);
-	priv->msglist = g_object_ref (widget);
+	priv->folder_view = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
@@ -174,6 +208,11 @@ mail_shell_content_constructed (GObject *object)
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
 	gtk_paned_add2 (GTK_PANED (container), widget);
 	gtk_widget_show (widget);
+
+	/* Load the view instance. */
+
+	e_mail_shell_content_update_view_instance (
+		E_MAIL_SHELL_CONTENT (object));
 
 	/* Bind GObject properties to GConf keys. */
 
@@ -189,6 +228,8 @@ mail_shell_content_check_state (EShellContent *shell_content)
 {
 	EMailShellContent *mail_shell_content;
 	guint32 state = 0;
+
+	/* FIXME */
 
 	mail_shell_content = E_MAIL_SHELL_CONTENT (shell_content);
 
@@ -284,6 +325,15 @@ e_mail_shell_content_new (EShellView *shell_view)
 		"shell-view", shell_view, NULL);
 }
 
+EMFolderView *
+e_mail_shell_content_get_folder_view (EMailShellContent *mail_shell_content)
+{
+	g_return_val_if_fail (
+		E_IS_MAIL_SHELL_CONTENT (mail_shell_content), NULL);
+
+	return EM_FOLDER_VIEW (mail_shell_content->priv->folder_view);
+}
+
 gboolean
 e_mail_shell_content_get_preview_visible (EMailShellContent *mail_shell_content)
 {
@@ -377,4 +427,141 @@ e_mail_shell_content_set_vertical_view (EMailShellContent *mail_shell_content,
 	mail_shell_content->priv->paned = g_object_ref (new_paned);
 
 	g_object_notify (G_OBJECT (mail_shell_content), "vertical-view");
+}
+
+void
+e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content)
+{
+	EShellContent *shell_content;
+	EShellView *shell_view;
+	EShellViewClass *shell_view_class;
+	GalViewCollection *view_collection;
+	GalViewInstance *view_instance;
+	EMFolderView *folder_view;
+	gboolean outgoing_folder;
+	gboolean show_vertical_view;
+	gchar *view_id;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_CONTENT (mail_shell_content));
+
+	shell_content = E_SHELL_CONTENT (mail_shell_content);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	view_collection = shell_view_class->view_collection;
+
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+	g_return_if_fail (folder_view->folder != NULL);
+	g_return_if_fail (folder_view->folder_uri != NULL);
+
+	if (mail_shell_content->priv->view_instance != NULL) {
+		g_object_unref (mail_shell_content->priv->view_instance);
+		mail_shell_content->priv->view_instance = NULL;
+	}
+
+	/* TODO: Should this go through the mail-config API? */
+	view_id = mail_config_folder_to_safe_url (folder_view->folder);
+	view_instance = e_shell_view_new_view_instance (shell_view, view_id);
+	mail_shell_content->priv->view_instance = view_instance;
+
+	show_vertical_view = folder_view->list_active &&
+		e_mail_shell_content_get_vertical_view (mail_shell_content);
+
+	if (show_vertical_view) {
+		gchar *filename;
+		gchar *safe_view_id;
+
+		/* Force the view instance into vertical view. */
+
+		g_free (view_instance->custom_filename);
+		g_free (view_instance->current_view_filename);
+
+		safe_view_id = g_strdup (view_id);
+		e_filename_make_safe (safe_view_id);
+
+		filename = g_strdup_printf (
+			"custom_wide_view-%s.xml", safe_view_id);
+		view_instance->custom_filename = g_build_filename (
+			view_collection->local_dir, filename, NULL);
+		g_free (filename);
+
+		filename = g_strdup_printf (
+			"current_wide_view-%s.xml", safe_view_id);
+		view_instance->current_view_filename = g_build_filename (
+			view_collection->local_dir, filename, NULL);
+		g_free (filename);
+
+		g_free (safe_view_id);
+	}
+
+	g_free (view_id);
+
+	outgoing_folder =
+		em_utils_folder_is_drafts (
+			folder_view->folder, folder_view->folder_uri) ||
+		em_utils_folder_is_outbox (
+			folder_view->folder, folder_view->folder_uri) ||
+		em_utils_folder_is_sent (
+			folder_view->folder, folder_view->folder_uri);
+
+	if (outgoing_folder) {
+		if (show_vertical_view)
+			gal_view_instance_set_default_view (
+				view_instance, "Wide_View_Sent");
+		else
+			gal_view_instance_set_default_view (
+				view_instance, "As_Sent_Folder");
+	} else if (show_vertical_view) {
+		gal_view_instance_set_default_view (
+			view_instance, "Wide_View_Normal");
+	}
+
+	gal_view_instance_load (view_instance);
+
+	if (!gal_view_instance_exists (view_instance)) {
+		gchar *state_filename;
+
+		state_filename = mail_config_folder_to_cachename (
+			folder_view->folder, "et-header-");
+
+		if (g_file_test (state_filename, G_FILE_TEST_IS_REGULAR)) {
+			ETableSpecification *spec;
+			ETableState *state;
+			GalView *view;
+			gchar *spec_filename;
+
+			spec = e_table_specification_new ();
+			spec_filename = g_build_filename (
+				EVOLUTION_ETSPECDIR,
+				"message-list.etspec",
+				NULL);
+			e_table_specification_load_from_file (
+				spec, spec_filename);
+			g_free (spec_filename);
+
+			state = e_table_state_new ();
+			view = gal_view_etable_new (spec, "");
+
+			e_table_state_load_from_file (
+				state, state_filename);
+			gal_view_etable_set_state (
+				GAL_VIEW_ETABLE (view), state);
+			gal_view_instance_set_custom_view (
+				view_instance, view);
+
+			g_object_unref (state);
+			g_object_unref (view);
+			g_object_unref (spec);
+		}
+
+		g_free (state_filename);
+	}
+
+	g_signal_connect (
+		view_instance, "display-view",
+		G_CALLBACK (mail_shell_content_display_view_cb),
+		mail_shell_content);
+
+	mail_shell_content_display_view_cb (
+		mail_shell_content,
+		gal_view_instance_get_current_view (view_instance));
 }

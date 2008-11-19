@@ -96,9 +96,9 @@ static GHashTable *non_intrusive_error_table = NULL;
 struct _GnomeCalendarPrivate {
 	/* The clients for display */
 
-	GHashTable *clients[E_CAL_SOURCE_TYPE_LAST];
-	GList *clients_list[E_CAL_SOURCE_TYPE_LAST];
-	ECal *default_client[E_CAL_SOURCE_TYPE_LAST];
+	GHashTable *clients;
+	GList *clients_list;
+	ECal *default_client;
 
 	/*
 	 * Fields for the calendar view
@@ -186,9 +186,6 @@ struct _GnomeCalendarPrivate {
 enum {
 	DATES_SHOWN_CHANGED,
 	CALENDAR_SELECTION_CHANGED,
-	MEMOPAD_SELECTION_CHANGED,
-	CALENDAR_FOCUS_CHANGE,
-	MEMOPAD_FOCUS_CHANGE,
 	GOTO_DATE,
 	SOURCE_ADDED,
 	SOURCE_REMOVED,
@@ -292,16 +289,6 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 				g_cclosure_marshal_VOID__VOID,
 				G_TYPE_NONE, 0);
 
-	gnome_calendar_signals[CALENDAR_FOCUS_CHANGE] =
-		g_signal_new ("calendar_focus_change",
-				G_TYPE_FROM_CLASS (object_class),
-				G_SIGNAL_RUN_FIRST,
-				G_STRUCT_OFFSET (GnomeCalendarClass, calendar_focus_change),
-				NULL, NULL,
-				g_cclosure_marshal_VOID__BOOLEAN,
-				G_TYPE_NONE, 1,
-				G_TYPE_BOOLEAN);
-
 	gnome_calendar_signals[SOURCE_ADDED] =
 		g_signal_new ("source_added",
 			      G_TYPE_FROM_CLASS (object_class),
@@ -309,9 +296,8 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			      G_STRUCT_OFFSET (GnomeCalendarClass, source_added),
 			      NULL, NULL,
 			      e_calendar_marshal_VOID__INT_OBJECT,
-			      G_TYPE_NONE,
-			      2,
-			      G_TYPE_INT, G_TYPE_OBJECT);
+			      G_TYPE_NONE, 1,
+			      G_TYPE_OBJECT);
 
 	gnome_calendar_signals[SOURCE_REMOVED] =
 		g_signal_new ("source_removed",
@@ -320,9 +306,8 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			      G_STRUCT_OFFSET (GnomeCalendarClass, source_removed),
 			      NULL, NULL,
 			      e_calendar_marshal_VOID__INT_OBJECT,
-			      G_TYPE_NONE,
-			      2,
-			      G_TYPE_INT, G_TYPE_OBJECT);
+			      G_TYPE_NONE, 1,
+			      G_TYPE_OBJECT);
 
 	gnome_calendar_signals[GOTO_DATE] =
 		g_signal_new ("goto_date",
@@ -350,7 +335,6 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 
 	class->dates_shown_changed = NULL;
 	class->calendar_selection_changed = NULL;
-	class->calendar_focus_change = NULL;
 	class->source_added = NULL;
 	class->source_removed = NULL;
 	class->goto_date = gnome_calendar_goto_date;
@@ -758,7 +742,7 @@ update_query_async (struct _date_query_msg *msg)
 	}
 	
 	/* create queries for each loaded client */
-	for (l = priv->clients_list[E_CAL_SOURCE_TYPE_EVENT]; l != NULL; l = l->next) {
+	for (l = priv->clients_list; l != NULL; l = l->next) {
 		GError *error = NULL;
 		gint tries = 0;
 
@@ -981,60 +965,6 @@ user_created_cb (GtkWidget *view, GnomeCalendar *gcal)
 }
 
 
-static gint
-calendar_focus_change_cb (GtkWidget *widget, GdkEventFocus *event, gpointer data)
-{
-	GnomeCalendar *gcal;
-
-	gcal = GNOME_CALENDAR (data);
-
-	g_signal_emit (gcal, gnome_calendar_signals [CALENDAR_FOCUS_CHANGE], 0,
-		       event->in ? TRUE : FALSE);
-
-	return FALSE;
-}
-
-/* Connects to the focus change signals of a day view widget */
-static void
-connect_day_view_focus (GnomeCalendar *gcal, EDayView *dv)
-{
-	g_signal_connect_after (dv->top_canvas, "focus_in_event",
-			  G_CALLBACK (calendar_focus_change_cb), gcal);
-	g_signal_connect_after (dv->top_canvas, "focus_out_event",
-			  G_CALLBACK (calendar_focus_change_cb), gcal);
-
-	g_signal_connect_after (dv->main_canvas, "focus_in_event",
-			  G_CALLBACK (calendar_focus_change_cb), gcal);
-	g_signal_connect_after (dv->main_canvas, "focus_out_event",
-				G_CALLBACK (calendar_focus_change_cb), gcal);
-}
-
-/* Connects to the focus change signals of a week view widget */
-static void
-connect_week_view_focus (GnomeCalendar *gcal, EWeekView *wv)
-{
-	if (!E_IS_WEEK_VIEW (wv))
-		return;
-
-	g_signal_connect (wv->main_canvas, "focus_in_event",
-			  G_CALLBACK (calendar_focus_change_cb), gcal);
-	g_signal_connect (wv->main_canvas, "focus_out_event",
-			  G_CALLBACK (calendar_focus_change_cb), gcal);
-}
-
-static void
-connect_list_view_focus (GnomeCalendar *gcal, ECalListView *lv)
-{
-	ETable *etable;
-
-	etable = e_table_scrolled_get_table (lv->table_scrolled);
-
-	g_signal_connect (etable->table_canvas, "focus_in_event",
-			  G_CALLBACK (calendar_focus_change_cb), gcal);
-	g_signal_connect (etable->table_canvas, "focus_out_event",
-			  G_CALLBACK (calendar_focus_change_cb), gcal);
-}
-
 static void
 set_week_start (GnomeCalendar *calendar)
 {
@@ -1087,28 +1017,24 @@ static void
 set_timezone (GnomeCalendar *calendar)
 {
 	GnomeCalendarPrivate *priv;
-	int i;
+	GList *l;
 
 	priv = calendar->priv;
 
 	priv->zone = calendar_config_get_icaltimezone ();
 
-	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
-		GList *l;
+	for (l = priv->clients_list; l != NULL; l = l->next) {
+		ECal *client = l->data;
 
-		for (l = priv->clients_list[i]; l != NULL; l = l->next) {
-			ECal *client = l->data;
-
-			if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
-				/* FIXME Error checking */
-				e_cal_set_default_timezone (client, priv->zone, NULL);
-		}
-
-		if (priv->default_client[i]
-		    && e_cal_get_load_state (priv->default_client[i]) == E_CAL_LOAD_LOADED)
+		if (e_cal_get_load_state (client) == E_CAL_LOAD_LOADED)
 			/* FIXME Error checking */
-			e_cal_set_default_timezone (priv->default_client[i], priv->zone, NULL);
+			e_cal_set_default_timezone (client, priv->zone, NULL);
 	}
+
+	if (priv->default_client[i]
+	    && e_cal_get_load_state (priv->default_client[i]) == E_CAL_LOAD_LOADED)
+		/* FIXME Error checking */
+		e_cal_set_default_timezone (priv->default_client[i], priv->zone, NULL);
 
 	if (priv->views [priv->current_view_type])
 		e_calendar_view_set_timezone (priv->views [priv->current_view_type], priv->zone);
@@ -1473,7 +1399,6 @@ setup_widgets (GnomeCalendar *gcal)
 	e_calendar_view_set_timezone (E_CALENDAR_VIEW (priv->day_view), priv->zone);
 	g_signal_connect (priv->day_view, "selection_changed",
 			  G_CALLBACK (view_selection_changed_cb), gcal);
-	connect_day_view_focus (gcal, E_DAY_VIEW (priv->day_view));
 
 	/* The Work Week View. */
 	priv->work_week_view = e_day_view_new (cal_model);
@@ -1482,7 +1407,6 @@ setup_widgets (GnomeCalendar *gcal)
 	e_day_view_set_days_shown (E_DAY_VIEW (priv->work_week_view), 5);
 	e_calendar_view_set_calendar (E_CALENDAR_VIEW (priv->work_week_view), gcal);
 	e_calendar_view_set_timezone (E_CALENDAR_VIEW (priv->work_week_view), priv->zone);
-	connect_day_view_focus (gcal, E_DAY_VIEW (priv->work_week_view));
 
 	/* The Marcus Bains line */
 	priv->update_marcus_bains_line_timeout = g_timeout_add_full (G_PRIORITY_LOW, 60000, (GSourceFunc) update_marcus_bains_line_cb, gcal, NULL);
@@ -1493,8 +1417,6 @@ setup_widgets (GnomeCalendar *gcal)
 	e_calendar_view_set_timezone (E_CALENDAR_VIEW (priv->week_view), priv->zone);
 	g_signal_connect (priv->week_view, "selection_changed",
 			  G_CALLBACK (view_selection_changed_cb), gcal);
-
-	connect_week_view_focus (gcal, E_WEEK_VIEW (priv->week_view));
 
 	adjustment = gtk_range_get_adjustment (GTK_RANGE (E_WEEK_VIEW (priv->week_view)->vscrollbar));
 	g_signal_connect (adjustment, "value_changed",
@@ -1515,8 +1437,6 @@ setup_widgets (GnomeCalendar *gcal)
 	g_signal_connect (priv->month_view, "selection_changed",
 			  G_CALLBACK (view_selection_changed_cb), gcal);
 
-	connect_week_view_focus (gcal, E_WEEK_VIEW (priv->month_view));
-
 	adjustment = gtk_range_get_adjustment (GTK_RANGE (E_WEEK_VIEW (priv->month_view)->vscrollbar));
 	g_signal_connect (adjustment, "value_changed",
 			  G_CALLBACK (month_view_adjustment_changed_cb),
@@ -1529,8 +1449,6 @@ setup_widgets (GnomeCalendar *gcal)
 	e_calendar_view_set_timezone (E_CALENDAR_VIEW (priv->list_view), priv->zone);
 	g_signal_connect (priv->list_view, "selection_changed",
 			  G_CALLBACK (view_selection_changed_cb), gcal);
-
-	connect_list_view_focus (gcal, E_CAL_LIST_VIEW (priv->list_view));
 
 	priv->views[GNOME_CAL_DAY_VIEW] = E_CALENDAR_VIEW (priv->day_view);
 	priv->configs[GNOME_CAL_DAY_VIEW] = G_OBJECT (e_day_view_config_new (E_DAY_VIEW (priv->views[GNOME_CAL_DAY_VIEW])));
@@ -1571,13 +1489,11 @@ static void
 gnome_calendar_init (GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
-	int i;
 
 	priv = g_new0 (GnomeCalendarPrivate, 1);
 	gcal->priv = priv;
 
-	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++)
-		priv->clients[i] = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+	priv->clients = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 
 	if (non_intrusive_error_table == NULL)
 		non_intrusive_error_table = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
@@ -1626,26 +1542,24 @@ gnome_calendar_destroy (GtkObject *object)
 		e_categories_unregister_change_listener (G_CALLBACK (categories_changed_cb), gcal);
 
 		/* Clean up the clients */
-		for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
-			for (l = priv->clients_list[i]; l != NULL; l = l->next) {
-				g_signal_handlers_disconnect_matched (l->data, G_SIGNAL_MATCH_DATA,
-								      0, 0, NULL, NULL, gcal);
-			}
-
-			g_hash_table_destroy (priv->clients[i]);
-			g_list_free (priv->clients_list[i]);
-
-			priv->clients[i] = NULL;
-			priv->clients_list[i] = NULL;
-
-			if (priv->default_client[i]) {
-				g_signal_handlers_disconnect_matched (priv->default_client[i],
-								      G_SIGNAL_MATCH_DATA,
-								      0, 0, NULL, NULL, gcal);
-				g_object_unref (priv->default_client[i]);
-			}
-			priv->default_client[i] = NULL;
+		for (l = priv->clients_list; l != NULL; l = l->next) {
+			g_signal_handlers_disconnect_matched (l->data, G_SIGNAL_MATCH_DATA,
+							      0, 0, NULL, NULL, gcal);
 		}
+
+		g_hash_table_destroy (priv->clients);
+		g_list_free (priv->clients_list);
+
+		priv->clients = NULL;
+		priv->clients_list = NULL;
+
+		if (priv->default_client) {
+			g_signal_handlers_disconnect_matched (priv->default_client,
+							      G_SIGNAL_MATCH_DATA,
+							      0, 0, NULL, NULL, gcal);
+			g_object_unref (priv->default_client);
+		}
+		priv->default_client = NULL;
 
 		for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
 			if (priv->configs[i]) 
@@ -2178,7 +2092,6 @@ static void
 client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
-	ECalSourceType source_type;
 	ESource *source;
 	ECalModel *model;
 	ECalLoadState state;
@@ -2188,19 +2101,10 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 
 	priv = gcal->priv;
 
-	source_type = e_cal_get_source_type (ecal);
 	source = e_cal_get_source (ecal);
 	state = e_cal_get_load_state (ecal);
 
-	switch (source_type) {
-	case E_CAL_SOURCE_TYPE_EVENT:
-		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1);
-		break;
-	default:
-		break;
-	}
-
-	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED && source_type == E_CAL_SOURCE_TYPE_EVENT)
+	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED)
 		auth_cal_forget_password (ecal);
 
 	switch (status) {
@@ -2238,30 +2142,27 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 			return;
 		}
 	case E_CALENDAR_STATUS_REPOSITORY_OFFLINE:
-		if (source_type == E_CAL_SOURCE_TYPE_EVENT)
-		{
-			/* check to see if we have dialog already running for this operation */
-			id = g_strdup ("calendar:unable-to-load-the-calendar");
+		/* check to see if we have dialog already running for this operation */
+		id = g_strdup ("calendar:unable-to-load-the-calendar");
 
-			if (g_hash_table_lookup(non_intrusive_error_table, id)) {
-				/* We already have it */
-				g_message("Error occurred while existing dialog active:\n");
-				return;
-			}
-
-			w = e_error_new(GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))), "calendar:unable-to-load-the-calendar", e_cal_get_error_message (status), NULL);
-			e_calendar_utils_show_error_silent (w);
-			g_hash_table_insert (non_intrusive_error_table, id, g_object_ref(w));
-			g_signal_connect(w, "destroy", G_CALLBACK(non_intrusive_error_remove), id);
+		if (g_hash_table_lookup(non_intrusive_error_table, id)) {
+			/* We already have it */
+			g_message("Error occurred while existing dialog active:\n");
+			return;
 		}
+
+		w = e_error_new(GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))), "calendar:unable-to-load-the-calendar", e_cal_get_error_message (status), NULL);
+		e_calendar_utils_show_error_silent (w);
+		g_hash_table_insert (non_intrusive_error_table, id, g_object_ref(w));
+		g_signal_connect(w, "destroy", G_CALLBACK(non_intrusive_error_remove), id);
 	default:
 		/* Make sure the source doesn't disappear on us */
 		g_object_ref (source);
 
-		priv->clients_list[source_type] = g_list_remove (priv->clients_list[source_type], ecal);
-		g_hash_table_remove (priv->clients[source_type], e_source_peek_uid (source));
+		priv->clients_list = g_list_remove (priv->clients_list, ecal);
+		g_hash_table_remove (priv->clients, e_source_peek_uid (source));
 
-		g_signal_emit (gcal, gnome_calendar_signals[SOURCE_REMOVED], 0, source_type, source);
+		g_signal_emit (gcal, gnome_calendar_signals[SOURCE_REMOVED], 0, source);
 		g_object_unref (source);
 
 		g_warning ("Unable to load the calendar %s \n", e_cal_get_error_message (status));
@@ -2271,48 +2172,31 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, client_cal_opened_cb, NULL);
 
-	switch (source_type) {
-	case E_CAL_SOURCE_TYPE_EVENT :
-		msg = g_strdup_printf (_("Loading appointments at %s"), e_cal_get_uri (ecal));
-		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), msg, -1);
-		g_free (msg);
+	msg = g_strdup_printf (_("Loading appointments at %s"), e_cal_get_uri (ecal));
+	e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), msg, -1);
+	g_free (msg);
 
-		/* add client to the views */
-		model = e_calendar_view_get_model (priv->views[priv->current_view_type]);
-		add_mclient (model, ecal);
+	/* add client to the views */
+	model = e_calendar_view_get_model (priv->views[priv->current_view_type]);
+	add_mclient (model, ecal);
 
-		/* update date navigator query */
-		update_query (gcal);
+	/* update date navigator query */
+	update_query (gcal);
 
-		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1);
-		break;
-
-	default:
-		g_return_if_reached ();
-	}
+	e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1);
 }
 
 static void
 default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 {
 	GnomeCalendarPrivate *priv;
-	ECalSourceType source_type;
 	ESource *source;
 	ECalLoadState state;
 
 	priv = gcal->priv;
 
-	source_type = e_cal_get_source_type (ecal);
 	source = e_cal_get_source (ecal);
 	state = e_cal_get_load_state (ecal);
-
-	switch (source_type) {
-	case E_CAL_SOURCE_TYPE_EVENT:
-		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1);
-		break;
-	default:
-		break;
-	}
 
 	switch (status) {
 	case E_CALENDAR_STATUS_OK:
@@ -2329,15 +2213,15 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 		g_object_ref (source);
 
 		/* FIXME should we do this to prevent multiple error dialogs? */
-		priv->clients_list[source_type] = g_list_remove (priv->clients_list[source_type], ecal);
-		g_hash_table_remove (priv->clients[source_type], e_source_peek_uid (source));
+		priv->clients_list = g_list_remove (priv->clients_list, ecal);
+		g_hash_table_remove (priv->clients, e_source_peek_uid (source));
 
 		/* FIXME Is there a better way to handle this? */
-		if (priv->default_client[source_type]) 
-			g_object_unref (priv->default_client[source_type]);
-		priv->default_client[source_type] = NULL;
+		if (priv->default_client) 
+			g_object_unref (priv->default_client);
+		priv->default_client = NULL;
 
-		g_signal_emit (gcal, gnome_calendar_signals[SOURCE_REMOVED], 0, source_type, source);
+		g_signal_emit (gcal, gnome_calendar_signals[SOURCE_REMOVED], 0, source);
 		g_object_unref (source);
 
 		g_warning ("Unable to load the calendar %s \n", e_cal_get_error_message (status));
@@ -2348,16 +2232,10 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, default_client_cal_opened_cb, NULL);
 
 
-	switch (source_type) {
-	case E_CAL_SOURCE_TYPE_EVENT:
-			e_cal_model_set_default_client (
-				e_calendar_view_get_model (E_CALENDAR_VIEW (priv->views[priv->current_view_type])),
-				ecal);
-		break;
-
-	default:
-		break;
-        }
+	e_cal_model_set_default_client (
+		e_calendar_view_get_model (
+		E_CALENDAR_VIEW (priv->views[priv->current_view_type])),
+		ecal);
 }
 
 typedef void (*open_func) (ECal *, ECalendarStatus, GnomeCalendar *);
@@ -2375,14 +2253,7 @@ open_ecal (GnomeCalendar *gcal, ECal *cal, gboolean only_if_exists, open_func of
 	e_cal_set_default_timezone (cal, zone, NULL);
 
 	msg = g_strdup_printf (_("Opening %s"), e_cal_get_uri (cal));
-	switch (e_cal_get_source_type (cal)) {
-	case E_CAL_SOURCE_TYPE_EVENT :
-		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), msg, -1);
-		break;
-	default:
-		g_free (msg);
-		g_return_val_if_reached (FALSE);
-	}
+	e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), msg, -1);
 
 	g_free (msg);
 
@@ -2427,7 +2298,6 @@ backend_died_cb (ECal *ecal, gpointer data)
 {
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
-	ECalSourceType source_type;
 	ESource *source;
 	const char *id;
 	GtkWidget *w = NULL;
@@ -2438,24 +2308,16 @@ backend_died_cb (ECal *ecal, gpointer data)
 	/* FIXME What about default sources? */
 
 	/* Make sure the source doesn't go away on us since we use it below */
-	source_type = e_cal_get_source_type (ecal);
 	source = g_object_ref (e_cal_get_source (ecal));
 
-	priv->clients_list[source_type] = g_list_remove (priv->clients_list[source_type], ecal);
-	g_hash_table_remove (priv->clients[source_type], e_source_peek_uid (source));
+	priv->clients_list = g_list_remove (priv->clients_list, ecal);
+	g_hash_table_remove (priv->clients, e_source_peek_uid (source));
 
-	switch (source_type) {
-	case E_CAL_SOURCE_TYPE_EVENT:
-		id = g_strdup ("calendar:calendar-crashed");
+	id = g_strdup ("calendar:calendar-crashed");
 
-		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1);
+	e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1);
 
-		g_signal_emit (gcal, gnome_calendar_signals[SOURCE_REMOVED], 0, source_type, source);
-		break;
-
-	default:
-		g_return_if_reached ();
-	}
+	g_signal_emit (gcal, gnome_calendar_signals[SOURCE_REMOVED], 0, source);
 
 	g_object_unref (source);
 
@@ -2547,7 +2409,7 @@ gnome_calendar_get_default_client (GnomeCalendar *gcal)
  * Returns: TRUE if successful, FALSE if error.
  */
 gboolean
-gnome_calendar_add_source (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source)
+gnome_calendar_add_source (GnomeCalendar *gcal, ESource *source)
 {
 	GnomeCalendarPrivate *priv;
 	ECal *client;
@@ -2558,7 +2420,7 @@ gnome_calendar_add_source (GnomeCalendar *gcal, ECalSourceType source_type, ESou
 
 	priv = gcal->priv;
 
-	client = g_hash_table_lookup (priv->clients[source_type], e_source_peek_uid (source));
+	client = g_hash_table_lookup (priv->clients, e_source_peek_uid (source));
 	if (client) {
 		/* We already have it */
 
@@ -2566,18 +2428,18 @@ gnome_calendar_add_source (GnomeCalendar *gcal, ECalSourceType source_type, ESou
 	} else {
 		ESource *default_source;
 
-		if (priv->default_client[source_type]) {
-			default_source = e_cal_get_source (priv->default_client[source_type]);
+		if (priv->default_client) {
+			default_source = e_cal_get_source (priv->default_client);
 
 			g_message ("Check if default client matches (%s %s)", e_source_peek_uid (default_source), e_source_peek_uid (source));
 			/* We don't have it but the default client is it */
 			if (!strcmp (e_source_peek_uid (default_source), e_source_peek_uid (source)))
-				client = g_object_ref (priv->default_client[source_type]);
+				client = g_object_ref (priv->default_client);
 		}
 
 		/* Create a new one */
 		if (!client) {
-			client = auth_new_cal_from_source (source, source_type);
+			client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
 			if (!client)
 				return FALSE;
 		}
@@ -2587,10 +2449,10 @@ gnome_calendar_add_source (GnomeCalendar *gcal, ECalSourceType source_type, ESou
 	g_signal_connect (G_OBJECT (client), "backend_died", G_CALLBACK (backend_died_cb), gcal);
 
 	/* add the client to internal structure */
-	g_hash_table_insert (priv->clients[source_type], g_strdup (e_source_peek_uid (source)), client);
-	priv->clients_list[source_type] = g_list_prepend (priv->clients_list[source_type], client);
+	g_hash_table_insert (priv->clients, g_strdup (e_source_peek_uid (source)), client);
+	priv->clients_list = g_list_prepend (priv->clients_list, client);
 
-	g_signal_emit (gcal, gnome_calendar_signals[SOURCE_ADDED], 0, source_type, source);
+	g_signal_emit (gcal, gnome_calendar_signals[SOURCE_ADDED], 0, source);
 
 	open_ecal (gcal, client, FALSE, client_cal_opened_cb);
 
@@ -2608,7 +2470,7 @@ gnome_calendar_add_source (GnomeCalendar *gcal, ECalSourceType source_type, ESou
  * Returns: TRUE if successful, FALSE otherwise.
  */
 gboolean
-gnome_calendar_remove_source (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source)
+gnome_calendar_remove_source (GnomeCalendar *gcal, ESource *source)
 {
 	gboolean result;
 
@@ -2616,15 +2478,15 @@ gnome_calendar_remove_source (GnomeCalendar *gcal, ECalSourceType source_type, E
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
 	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 
-	result = gnome_calendar_remove_source_by_uid (gcal, source_type, e_source_peek_uid (source));
+	result = gnome_calendar_remove_source_by_uid (gcal, e_source_peek_uid (source));
 	if (result)
-		g_signal_emit (gcal, gnome_calendar_signals[SOURCE_REMOVED], 0, source_type, source);
+		g_signal_emit (gcal, gnome_calendar_signals[SOURCE_REMOVED], 0, source);
 
 	return result;
 }
 
 gboolean
-gnome_calendar_remove_source_by_uid (GnomeCalendar *gcal, ECalSourceType source_type, const char *uid)
+gnome_calendar_remove_source_by_uid (GnomeCalendar *gcal, const char *uid)
 {
 	GnomeCalendarPrivate *priv;
 	ECal *client;
@@ -2637,41 +2499,34 @@ gnome_calendar_remove_source_by_uid (GnomeCalendar *gcal, ECalSourceType source_
 
 	priv = gcal->priv;
 
-	client = g_hash_table_lookup (priv->clients[source_type], uid);
+	client = g_hash_table_lookup (priv->clients, uid);
 	if (!client)
 		return TRUE;
 
-	priv->clients_list[source_type] = g_list_remove (priv->clients_list[source_type], client);
+	priv->clients_list = g_list_remove (priv->clients_list, client);
 	g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
 					      0, 0, NULL, NULL, gcal);
 
-	switch (source_type) {
-	case E_CAL_SOURCE_TYPE_EVENT:
-		/* remove the query for this client */
-		for (l = priv->dn_queries; l != NULL; l = l->next) {
-			ECalView *query = l->data;
+	/* remove the query for this client */
+	for (l = priv->dn_queries; l != NULL; l = l->next) {
+		ECalView *query = l->data;
 
-			if (query && (client == e_cal_view_get_client (query))) {
-				g_signal_handlers_disconnect_matched (query, G_SIGNAL_MATCH_DATA,
-								      0, 0, NULL, NULL, gcal);
-				priv->dn_queries = g_list_remove (priv->dn_queries, query);
-				g_object_unref (query);
-				break;
-			}
+		if (query && (client == e_cal_view_get_client (query))) {
+			g_signal_handlers_disconnect_matched (query, G_SIGNAL_MATCH_DATA,
+							      0, 0, NULL, NULL, gcal);
+			priv->dn_queries = g_list_remove (priv->dn_queries, query);
+			g_object_unref (query);
+			break;
 		}
-
-		model = e_calendar_view_get_model (priv->views[priv->current_view_type]);
-		e_cal_model_remove_client (model, client);
-
-		/* update date navigator query */
-		update_query (gcal);
-		break;
-
-	default:
-		g_return_val_if_reached (TRUE);
 	}
 
-	g_hash_table_remove (priv->clients[source_type], uid);
+	model = e_calendar_view_get_model (priv->views[priv->current_view_type]);
+	e_cal_model_remove_client (model, client);
+
+	/* update date navigator query */
+	update_query (gcal);
+
+	g_hash_table_remove (priv->clients, uid);
 
 	return TRUE;
 }
@@ -2689,7 +2544,7 @@ gnome_calendar_remove_source_by_uid (GnomeCalendar *gcal, ECalSourceType source_
  * otherwise
  **/
 gboolean
-gnome_calendar_set_default_source (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source)
+gnome_calendar_set_default_source (GnomeCalendar *gcal, ESource *source)
 {
 	GnomeCalendarPrivate *priv;
 	ECal *client;
@@ -2700,21 +2555,21 @@ gnome_calendar_set_default_source (GnomeCalendar *gcal, ECalSourceType source_ty
 
 	priv = gcal->priv;
 
-	client = g_hash_table_lookup (priv->clients[source_type], e_source_peek_uid (source));
+	client = g_hash_table_lookup (priv->clients, e_source_peek_uid (source));
 
-	if (priv->default_client[source_type])
-		g_object_unref (priv->default_client[source_type]);
+	if (priv->default_client)
+		g_object_unref (priv->default_client);
 
 	if (client) {
-		priv->default_client[source_type] = g_object_ref (client);
+		priv->default_client = g_object_ref (client);
 	} else {
-		priv->default_client[source_type] = auth_new_cal_from_source (source, source_type);
-		if (!priv->default_client[source_type])
+		priv->default_client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
+		if (!priv->default_client)
 			return FALSE;
 	}
 
 
-	open_ecal (gcal, priv->default_client[source_type], FALSE, default_client_cal_opened_cb);
+	open_ecal (gcal, priv->default_client, FALSE, default_client_cal_opened_cb);
 
 	return TRUE;
 }

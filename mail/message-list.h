@@ -28,6 +28,8 @@
 #include <table/e-table-simple.h>
 #include <table/e-tree-scrolled.h>
 
+#include <camel/camel-folder.h>
+
 #ifdef __cplusplus
 extern "C" {
 #pragma }

@@ -37,6 +37,7 @@
 
 struct _EShellPrivate {
 	GList *active_windows;
+	EShellSettings *settings;
 	EShellLineStatus line_status;
 
 	/* Shell Modules */
@@ -50,7 +51,8 @@ struct _EShellPrivate {
 
 enum {
 	PROP_0,
-	PROP_ONLINE_MODE
+	PROP_ONLINE_MODE,
+	PROP_SETTINGS
 };
 
 enum {
@@ -261,6 +263,12 @@ shell_get_property (GObject *object,
 				value, e_shell_get_online_mode (
 				E_SHELL (object)));
 			return;
+
+		case PROP_SETTINGS:
+			g_value_set_object (
+				value, e_shell_get_settings (
+				E_SHELL (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -272,6 +280,11 @@ shell_dispose (GObject *object)
 	EShellPrivate *priv;
 
 	priv = E_SHELL_GET_PRIVATE (object);
+
+	if (priv->settings != NULL) {
+		g_object_unref (priv->settings);
+		priv->settings = NULL;
+	}
 
 	g_list_foreach (
 		priv->loaded_modules,
@@ -358,6 +371,16 @@ shell_class_init (EShellClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
+	g_object_class_install_property (
+		object_class,
+		PROP_SETTINGS,
+		g_param_spec_object (
+			"settings",
+			_("Settings"),
+			_("Application settings"),
+			E_TYPE_SHELL_SETTINGS,
+			G_PARAM_READABLE));
+
 	signals[EVENT] = g_signal_new (
 		"event",
 		G_OBJECT_CLASS_TYPE (object_class),
@@ -415,6 +438,7 @@ shell_init (EShell *shell)
 	modules_by_name = g_hash_table_new (g_str_hash, g_str_equal);
 	modules_by_scheme = g_hash_table_new (g_str_hash, g_str_equal);
 
+	shell->priv->settings = g_object_new (E_TYPE_SHELL_SETTINGS, NULL);
 	shell->priv->modules_by_name = modules_by_name;
 	shell->priv->modules_by_scheme = modules_by_scheme;
 	shell->priv->safe_mode = e_file_lock_exists ();
@@ -515,6 +539,14 @@ e_shell_get_module_by_scheme (EShell *shell,
 	hash_table = shell->priv->modules_by_scheme;
 
 	return g_hash_table_lookup (hash_table, scheme);
+}
+
+EShellSettings *
+e_shell_get_settings (EShell *shell)
+{
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	return shell->priv->settings;
 }
 
 GtkWidget *

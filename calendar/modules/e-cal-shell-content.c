@@ -81,24 +81,10 @@ typedef enum {
 static gpointer parent_class;
 
 static void
-cal_shell_content_changed_cb (ECalShellContent *cal_shell_content,
-                              GalViewInstance *view_instance)
-{
-	EShellView *shell_view;
-	EShellContent *shell_content;
-	gchar *view_id;
-
-	shell_content = E_SHELL_CONTENT (cal_shell_content);
-	shell_view = e_shell_content_get_shell_view (shell_content);
-	view_id = gal_view_instance_get_current_view_id (view_instance);
-	e_shell_view_set_view_id (shell_view, view_id);
-	g_free (view_id);
-}
-
-static void
 cal_shell_content_display_view_cb (ECalShellContent *cal_shell_content,
                                    GalView *gal_view)
 {
+	/* FIXME */
 }
 
 static void
@@ -343,10 +329,8 @@ cal_shell_content_constructed (GObject *object)
 	EShellModule *shell_module;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EShellViewClass *shell_view_class;
 	EShellContent *foreign_content;
 	EShellView *foreign_view;
-	GalViewCollection *view_collection;
 	GalViewInstance *view_instance;
 	GConfBridge *bridge;
 	GtkWidget *container;
@@ -365,8 +349,6 @@ cal_shell_content_constructed (GObject *object)
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	view_collection = shell_view_class->view_collection;
 
 	shell_module = e_shell_view_get_shell_module (shell_view);
 	config_dir = e_shell_module_get_config_dir (shell_module);
@@ -557,11 +539,7 @@ cal_shell_content_constructed (GObject *object)
 
 	/* Load the view instance. */
 
-	view_instance = gal_view_instance_new (view_collection, NULL);
-	g_signal_connect_swapped (
-		view_instance, "changed",
-		G_CALLBACK (cal_shell_content_changed_cb),
-		object);
+	view_instance = e_shell_view_new_view_instance (shell_view, NULL);
 	g_signal_connect_swapped (
 		view_instance, "display-view",
 		G_CALLBACK (cal_shell_content_display_view_cb),

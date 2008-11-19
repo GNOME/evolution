@@ -111,6 +111,17 @@ shell_view_init_view_collection (EShellViewClass *shell_view_class)
 }
 
 static void
+shell_view_update_view_id (EShellView *shell_view,
+                           GalViewInstance *view_instance)
+{
+	gchar *view_id;
+
+	view_id = gal_view_instance_get_current_view_id (view_instance);
+	e_shell_view_set_view_id (shell_view, view_id);
+	g_free (view_id);
+}
+
+static void
 shell_view_emit_toggled (EShellView *shell_view)
 {
 	g_signal_emit (shell_view, signals[TOGGLED], 0);
@@ -966,4 +977,36 @@ e_shell_view_show_popup_menu (EShellView *shell_view,
 		gtk_menu_popup (
 			GTK_MENU (menu), NULL, NULL, NULL, NULL,
 			0, gtk_get_current_event_time ());
+}
+
+/**
+ * e_shell_view_new_view_instance:
+ * @shell_view: an #EShellView
+ * @instance_id: a name for the #GalViewInstance
+ *
+ * Creates a new #GalViewInstance and configures it to keep
+ * @shell_view<!-- -->'s #EShellView:view-id property up-to-date.
+ *
+ * Returns: a new #GalViewInstance
+ **/
+GalViewInstance *
+e_shell_view_new_view_instance (EShellView *shell_view,
+                                const gchar *instance_id)
+{
+	EShellViewClass *shell_view_class;
+	GalViewCollection *view_collection;
+	GalViewInstance *view_instance;
+
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+
+	view_collection = shell_view_class->view_collection;
+	view_instance = gal_view_instance_new (view_collection, instance_id);
+
+	g_signal_connect_swapped (
+		view_instance, "changed",
+		G_CALLBACK (shell_view_update_view_id), shell_view);
+
+	return view_instance;
 }

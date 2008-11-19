@@ -25,6 +25,7 @@
 
 #include <gtk/gtk.h>
 #include "mail/em-popup.h"
+#include "message-list.h"
 
 /* Standard GObject macros */
 #define EM_TYPE_FOLDER_VIEW \
@@ -47,7 +48,6 @@
 
 G_BEGIN_DECLS
 
-struct _MessageList;
 struct _EMFormatHTMLDisplay;
 struct _CamelFolder;
 struct _CamelMedium;
@@ -80,7 +80,7 @@ struct _EMFolderView {
 
 	struct _EMFolderViewPrivate *priv;
 
-	struct _MessageList *list;
+	MessageList *list;
 
 	struct _EMFormatHTMLDisplay *preview;
 

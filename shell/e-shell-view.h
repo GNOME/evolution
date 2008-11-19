@@ -36,6 +36,7 @@
 #include <shell/e-shell-window.h>
 
 #include <widgets/menus/gal-view-collection.h>
+#include <widgets/menus/gal-view-instance.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SHELL_VIEW \
@@ -174,6 +175,9 @@ void		e_shell_view_update_actions	(EShellView *shell_view);
 void		e_shell_view_show_popup_menu	(EShellView *shell_view,
 						 const gchar *widget_path,
 						 GdkEventButton *event);
+GalViewInstance *
+		e_shell_view_new_view_instance	(EShellView *shell_view,
+						 const gchar *instance_id);
 
 G_END_DECLS
 

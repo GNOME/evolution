@@ -373,15 +373,14 @@ mail_shell_module_load_accounts (EShellModule *shell_module)
 }
 
 static void
-mail_shell_module_new_mail_cb (EShellWindow *shell_window)
+mail_shell_module_mail_icon_cb (EShellWindow *shell_window,
+                                const gchar *icon_name)
 {
 	GtkAction *action;
 
 	action = e_shell_window_get_shell_view_action (
 		shell_window, MODULE_NAME);
-	g_object_set (action, "icon-name", "mail-unread", NULL);
-
-	g_print ("Shell Event: new-mail\n");
+	g_object_set (action, "icon-name", icon_name, NULL);
 }
 
 static void
@@ -419,7 +418,7 @@ static GtkActionEntry source_entries[] = {
 };
 
 static void
-mail_shell_module_init_preferences (void)
+mail_shell_module_init_preferences (EShell *shell)
 {
 	GtkWidget *preferences_window;
 
@@ -438,7 +437,7 @@ mail_shell_module_init_preferences (void)
 		"mail",
 		"preferences-mail",
 		_("Mail Preferences"),
-		em_mailer_prefs_new (),
+		em_mailer_prefs_new (shell),
 		300);
 
 	e_preferences_window_add_page (
@@ -458,6 +457,267 @@ mail_shell_module_init_preferences (void)
 		500);
 }
 
+static void
+mail_shell_module_init_settings (EShell *shell)
+{
+	EShellSettings *shell_settings;
+
+	shell_settings = e_shell_get_settings (shell);
+
+	/* XXX Default values should match the GConf schema.
+	 *     Yes it's redundant, but we're stuck with GConf. */
+
+	/*** Mail Preferences ***/
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
+			"mail-address-compress",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_int (
+			"mail-address-count",
+			NULL,
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_string (
+			"mail-citation-color",
+			NULL,
+			NULL,
+			"#737373",
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
+			"mail-check-for-junk",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
+			"mail-confirm-expunge",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
+			"mail-confirm-unwanted-html",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
+			"mail-empty-trash-on-exit",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
+			"mail-enable-search-folders",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_string (
+			"mail-font-monospace",
+			NULL,
+			NULL,
+			"",
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_string (
+			"mail-font-variable",
+			NULL,
+			NULL,
+			"",
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
+			"mail-force-message-limit",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
+			"mail-magic-spacebar",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
+			"mail-mark-citations",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
+			"mail-mark-seen",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_int (
+			"mail-mark-seen-timeout",
+			NULL,
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_int (
+			"mail-message-text-part-limit",
+			NULL,
+			NULL,
+			G_MININT,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
+			"mail-only-local-photos",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
+			"mail-show-animated-images",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
+			"mail-show-sender-photo",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
+			"mail-use-custom-fonts",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	/* Bind shell settings to GConf keys. */
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-address-compress",
+		"/apps/evolution/mail/display/address_compress");
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-address-count",
+		"/apps/evolution/mail/display/address_count");
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-citation-color",
+		"/apps/evolution/mail/display/citation_colour");
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-check-for-junk",
+		"/apps/evolution/mail/junk/check_incoming");
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-confirm-expunge",
+		"/apps/evolution/mail/prompts/expunge");
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-confirm-unwanted-html",
+		"/apps/evolution/mail/prompts/unwanted_html");
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-empty-trash-on-exit",
+		"/apps/evolution/mail/trash/empty_on_exit");
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-enable-search-folders",
+		"/apps/evolution/mail/display/enable_vfolders");
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-font-monospace",
+		"/apps/evolution/mail/display/fonts/monospace");
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-font-variable",
+		"/apps/evolution/mail/display/fonts/variable");
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-force-message-limit",
+		"/apps/evolution/mail/display/force_message_limit");
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-magic-spacebar",
+		"/apps/evolution/mail/display/magic_spacebar");
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-mark-citations",
+		"/apps/evolution/mail/display/mark_citations");
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-mark-seen",
+		"/apps/evolution/mail/display/mark_seen");
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-mark-seen-timeout",
+		"/apps/evolution/mail/display/mark_seen_timeout");
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-message-text-part-limit",
+		"/apps/evolution/mail/display/message_text_part_limit");
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-only-local-photos",
+		"/apps/evolution/mail/display/photo_local");
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-show-animated-images",
+		"/apps/evolution/mail/display/animated_images");
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-show-sender-photo",
+		"/apps/evolution/mail/display/sender_photo");
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-use-custom-fonts",
+		"/apps/evolution/mail/display/fonts/use_custom");
+}
+
 static gboolean
 mail_shell_module_handle_uri_cb (EShell *shell,
                                  const gchar *uri,
@@ -472,7 +732,7 @@ mail_shell_module_window_weak_notify_cb (EShell *shell,
                                          GObject *where_the_object_was)
 {
 	g_signal_handlers_disconnect_by_func (
-		shell, mail_shell_module_new_mail_cb,
+		shell, mail_shell_module_mail_icon_cb,
 		where_the_object_was);
 }
 
@@ -494,8 +754,8 @@ mail_shell_module_window_created_cb (EShell *shell,
 		source_entries, G_N_ELEMENTS (source_entries));
 
 	g_signal_connect_swapped (
-		shell, "event::new-mail",
-		G_CALLBACK (mail_shell_module_new_mail_cb), shell_window);
+		shell, "event::mail-icon",
+		G_CALLBACK (mail_shell_module_mail_icon_cb), shell_window);
 
 	g_object_weak_ref (
 		G_OBJECT (shell_window), (GWeakNotify)
@@ -560,7 +820,11 @@ e_shell_module_init (GTypeModule *type_module)
 
 	mail_shell_module_init_local_store (shell_module);
 	mail_shell_module_load_accounts (shell_module);
-	mail_shell_module_init_preferences ();
+
+	/* Initialize settings before initializing preferences,
+	 * since the preferences bind to the shell settings. */
+	mail_shell_module_init_settings (shell);
+	mail_shell_module_init_preferences (shell);
 }
 
 /******************************** Public API *********************************/
@@ -664,4 +928,21 @@ e_mail_shell_module_remove_store_by_uri (EShellModule *shell_module,
                                          const gchar *uri)
 {
 	/* FIXME */
+}
+
+void
+e_mail_shell_module_stores_foreach (EShellModule *shell_module,
+                                    GHFunc func,
+                                    gpointer user_data)
+{
+	GHashTableIter iter;
+	gpointer key, value;
+
+	g_return_if_fail (E_IS_SHELL_MODULE (shell_module));
+	g_return_if_fail (func != NULL);
+
+	g_hash_table_iter_init (&iter, store_hash);
+
+	while (g_hash_table_iter_next (&iter, &key, &value))
+		func (key, ((StoreInfo *) value)->name, user_data);
 }

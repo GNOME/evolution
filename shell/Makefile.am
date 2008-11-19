@@ -62,6 +62,7 @@ eshellinclude_HEADERS = 			\
 	e-shell-common.h			\
 	e-shell-content.h			\
 	e-shell-module.h			\
+	e-shell-settings.h			\
 	e-shell-sidebar.h			\
 	e-shell-switcher.h			\
 	e-shell-taskbar.h			\
@@ -74,6 +75,7 @@ libeshell_la_SOURCES =				\
 	$(IDL_GENERATED)			\
 	e-shell-content.c			\
 	e-shell-module.c			\
+	e-shell-settings.c			\
 	e-shell-sidebar.c			\
 	e-shell-switcher.c			\
 	e-shell-taskbar.c			\

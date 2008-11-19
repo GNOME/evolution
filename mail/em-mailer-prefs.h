@@ -26,6 +26,7 @@
 #include <gtk/gtk.h>
 #include <glade/glade.h>
 #include <gconf/gconf-client.h>
+#include <shell/e-shell.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_MAILER_PREFS \
@@ -61,42 +62,25 @@ struct _EMMailerPrefsHeader {
 struct _EMMailerPrefs {
 	GtkVBox parent_object;
 
+	EShell *shell;
 	GladeXML *gui;
 	GConfClient *gconf;
 
 	/* General tab */
 
 	/* Message Display */
-	GtkToggleButton *timeout_toggle;
 	GtkSpinButton *timeout;
-	GtkToggleButton *address_toggle;
-	GtkSpinButton *address_count;
-	GtkToggleButton *mlimit_toggle;
-	GtkSpinButton *mlimit_count;
 	GtkOptionMenu *charset;
-	GtkToggleButton *citation_highlight;
-	GtkColorButton *citation_color;
-	GtkToggleButton *enable_search_folders;
-	GtkToggleButton *magic_spacebar;
 
 	/* Deleting Mail */
-	GtkToggleButton *empty_trash;
 	GtkOptionMenu *empty_trash_days;
-	GtkToggleButton *confirm_expunge;
-
-	/* HTML Mail tab */
-	GtkFontButton *font_variable;
-	GtkFontButton *font_fixed;
-	GtkToggleButton *font_share;
 
 	/* Loading Images */
 	GtkToggleButton *images_always;
 	GtkToggleButton *images_sometimes;
 	GtkToggleButton *images_never;
 
-	GtkToggleButton *show_animated;
 	GtkToggleButton *autodetect_links;
-	GtkToggleButton *prompt_unwanted_html;
 
 	/* Labels and Colours tab */
 	GtkWidget *label_add;
@@ -112,11 +96,8 @@ struct _EMMailerPrefs {
 	GtkEntry *entry_header;
 	GtkTreeView *header_list;
 	GtkListStore *header_list_store;
-	GtkToggleButton *photo_show;
-	GtkToggleButton *photo_local;
 
 	/* Junk prefs */
-	GtkToggleButton *check_incoming;
 	GtkToggleButton *empty_junk;
 	GtkOptionMenu *empty_junk_days;
 	
@@ -142,7 +123,7 @@ struct _EMMailerPrefsClass {
 GType		em_mailer_prefs_get_type	(void);
 GtkWidget *	create_combo_text_widget	(void);
 
-GtkWidget *	em_mailer_prefs_new		(void);
+GtkWidget *	em_mailer_prefs_new		(EShell *shell);
 
 EMMailerPrefsHeader *
 		em_mailer_prefs_header_from_xml	(const gchar *xml);

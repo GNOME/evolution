@@ -27,6 +27,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
+#include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
 #include <libgnome/gnome-util.h>
@@ -57,13 +58,6 @@
 #include <camel/camel-offline-store.h>
 #include <camel/camel-vee-store.h>
 
-#include <bonobo/bonobo-main.h>
-#include <bonobo/bonobo-object.h>
-#include <bonobo/bonobo-generic-factory.h>
-#include <bonobo/bonobo-control.h>
-#include <bonobo/bonobo-ui-component.h>
-#include <bonobo/bonobo-ui-util.h>
-
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/gtkhtml-stream.h>
@@ -74,10 +68,8 @@
 #include "menus/gal-view-etable.h"
 #include "menus/gal-view-factory-etable.h"
 #include "menus/gal-view-instance.h"
-#include "menus/gal-view-menus.h"
 
 #include "misc/e-charset-picker.h"
-#include <misc/e-filter-bar.h>
 #include <misc/e-spinner.h>
 
 #include "e-util/e-error.h"
@@ -87,6 +79,7 @@
 #include "e-util/e-profile-event.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util-labels.h"
+#include "shell/e-shell.h"
 
 #include "filter/filter-rule.h"
 
@@ -101,19 +94,16 @@
 #include "message-list.h"
 #include "em-utils.h"
 #include "em-composer-utils.h"
-#include "em-marshal.h"
 #include "em-menu.h"
 #include "em-event.h"
+#include "e-mail-shell-module.h"
 
 #include "mail-mt.h"
 #include "mail-ops.h"
 #include "mail-config.h"
 #include "mail-autofilter.h"
 #include "mail-vfolder.h"
-#include "mail-component.h"
 #include "mail-tools.h"
-
-#include "evolution-shell-component-utils.h" /* Pixmap stuff, sigh */
 
 #ifdef HAVE_XFREE
 #include <X11/XF86keysym.h>
@@ -230,9 +220,6 @@ struct _EMFolderViewPrivate {
 
 	GtkWidget *invisible;
 	char *selection_uri;
-
-	GalViewInstance *view_instance;
-	GalViewMenus *view_menus;
 
 	char *selected_uid;
 };
@@ -415,7 +402,7 @@ emfv_class_init(GObjectClass *klass)
 					     G_SIGNAL_RUN_LAST,
 					     G_STRUCT_OFFSET (EMFolderViewClass, on_url),
 					     NULL, NULL,
-					     em_marshal_VOID__STRING_STRING,
+					     e_marshal_VOID__STRING_STRING,
 					     G_TYPE_NONE,
 					     2, G_TYPE_STRING, G_TYPE_STRING);
 
@@ -573,157 +560,6 @@ em_folder_view_open_selected(EMFolderView *emfv)
 	return i;
 }
 
-/* ******************************************************************************** */
-static void
-emfv_list_display_view(GalViewInstance *instance, GalView *view, EMFolderView *emfv)
-{
-	if (GAL_IS_VIEW_ETABLE(view))
-		gal_view_etable_attach_tree(GAL_VIEW_ETABLE(view), emfv->list->tree);
-}
-
-static void
-emfv_setup_view_instance(EMFolderView *emfv)
-{
-	static GalViewCollection *collection = NULL;
-	struct _EMFolderViewPrivate *p = emfv->priv;
-	gboolean outgoing, show_wide=FALSE;
-	char *id;
-
-	g_return_if_fail (emfv->folder);
-	g_return_if_fail (emfv->folder_uri);
-
-	if (collection == NULL) {
-		ETableSpecification *spec;
-		GalViewFactory *factory;
-		const char *evolution_dir;
-		char *dir;
-		char *galviewsmaildir;
-		char *etspecfile;
-
-		collection = gal_view_collection_new ();
-
-		gal_view_collection_set_title (collection, _("Mail"));
-
-		evolution_dir = mail_component_peek_base_directory (mail_component_peek ());
-		galviewsmaildir = g_build_filename (EVOLUTION_GALVIEWSDIR,
-						    "mail",
-						    NULL);
-		dir = g_build_filename (evolution_dir, "views", NULL);
-		gal_view_collection_set_storage_directories (collection, galviewsmaildir, dir);
-		g_free (dir);
-		g_free (galviewsmaildir);
-
-		spec = e_table_specification_new ();
-		etspecfile = g_build_filename (EVOLUTION_ETSPECDIR,
-					       "message-list.etspec",
-					       NULL);
-		if (!e_table_specification_load_from_file (spec, etspecfile))
-			g_error ("Unable to load ETable specification file "
-				 "for mail");
-		g_free (etspecfile);
-
-		factory = gal_view_factory_etable_new (spec);
-		g_object_unref (spec);
-		gal_view_collection_add_factory (collection, factory);
-		g_object_unref (factory);
-
-		gal_view_collection_load (collection);
-	}
-
-	if (p->view_instance) {
-		g_object_unref(p->view_instance);
-		p->view_instance = NULL;
-	}
-
-	if (p->view_menus) {
-		g_object_unref(p->view_menus);
-		p->view_menus = NULL;
-	}
-
-	/* TODO: should this go through mail-config api? */
-	id = mail_config_folder_to_safe_url (emfv->folder);
-	p->view_instance = gal_view_instance_new (collection, id);
-
-	show_wide = emfv->list_active ? em_folder_browser_get_wide ((EMFolderBrowser *) emfv):FALSE;
-	if (show_wide) {
-		char *safe_id, *filename;
-
-		/* Force to use the wide view */
-		g_free (p->view_instance->custom_filename);
-		g_free (p->view_instance->current_view_filename);
-		safe_id = g_strdup (id);
-		e_filename_make_safe (safe_id);
-		filename = g_strdup_printf ("custom_wide_view-%s.xml", safe_id);
-		p->view_instance->custom_filename = g_build_filename (collection->local_dir, filename, NULL);
-		g_free (filename);
-		filename = g_strdup_printf ("current_wide_view-%s.xml", safe_id);
-		p->view_instance->current_view_filename = g_build_filename (collection->local_dir, filename, NULL);
-		g_free (filename);
-		g_free (safe_id);
-	}
-	g_free (id);
-
-	outgoing = em_utils_folder_is_drafts (emfv->folder, emfv->folder_uri)
-		|| em_utils_folder_is_sent (emfv->folder, emfv->folder_uri)
-		|| em_utils_folder_is_outbox (emfv->folder, emfv->folder_uri);
-
-	if (outgoing) {
-		if (show_wide)
-			gal_view_instance_set_default_view(p->view_instance, "Wide_View_Sent");
-		else
-			gal_view_instance_set_default_view(p->view_instance, "As_Sent_Folder");
-	} else if (show_wide) {
-		gal_view_instance_set_default_view(p->view_instance, "Wide_View_Normal");
-	}
-
-	gal_view_instance_load(p->view_instance);
-
-	if (!gal_view_instance_exists(p->view_instance)) {
-		struct stat st;
-		char *path;
-
-		path = mail_config_folder_to_cachename (emfv->folder, "et-header-");
-		if (path && g_stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
-			ETableSpecification *spec;
-			ETableState *state;
-			GalView *view;
-			char *etspecfile;
-
-			spec = e_table_specification_new ();
-			etspecfile = g_build_filename (EVOLUTION_ETSPECDIR,
-						       "message-list.etspec",
-						       NULL);
-			e_table_specification_load_from_file (spec, etspecfile);
-			g_free (etspecfile);
-			view = gal_view_etable_new (spec, "");
-			g_object_unref (spec);
-
-			state = e_table_state_new ();
-			e_table_state_load_from_file (state, path);
-			gal_view_etable_set_state (GAL_VIEW_ETABLE (view), state);
-			g_object_unref (state);
-
-			gal_view_instance_set_custom_view(p->view_instance, view);
-			g_object_unref (view);
-		}
-
-		g_free (path);
-	}
-
-	g_signal_connect(p->view_instance, "display_view", G_CALLBACK(emfv_list_display_view), emfv);
-	emfv_list_display_view(p->view_instance, gal_view_instance_get_current_view(p->view_instance), emfv);
-
-	if (emfv->list_active && emfv->uic) {
-		p->view_menus = gal_view_menus_new(p->view_instance);
-		gal_view_menus_apply(p->view_menus, emfv->uic, NULL);
-	}
-}
-
-void em_folder_view_setup_view_instance (EMFolderView *emfv)
-{
-	emfv_setup_view_instance (emfv);
-}
-
 /* ********************************************************************** */
 
 static void
@@ -757,7 +593,9 @@ emfv_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 	if (folder) {
 		/* We need to set this up to get the right view options for the message-list,
 		 * even if we're not showing it */
+#if 0  /* KILL-BONOBO */
 		emfv_setup_view_instance(emfv);
+#endif
 		camel_object_ref(folder);
 	}
 
@@ -1567,7 +1405,8 @@ prepare_offline(void *key, void *value, void *data)
 static void
 emfv_prepare_offline(BonoboUIComponent *uid, void *data, const char *path)
 {
-	mail_component_stores_foreach(mail_component_peek(), prepare_offline, NULL);
+	e_mail_shell_module_stores_foreach (
+		mail_shell_module, prepare_offline, NULL);
 }
 
 static void
@@ -1820,6 +1659,7 @@ emfv_message_reply(EMFolderView *emfv, int mode)
 static void
 emfv_message_search(BonoboUIComponent *uic, void *data, const char *path)
 {
+#if 0  /* KILL-BONOBO */
 	EMFolderView *emfv = data;
 
 	if (!emfv->list_active) /* We are in new mail window */
@@ -1829,6 +1669,7 @@ emfv_message_search(BonoboUIComponent *uic, void *data, const char *path)
 		gtk_widget_grab_focus (((ESearchBar *)((EMFolderBrowser *) emfv)->search)->entry);
 		gtk_option_menu_set_history (GTK_OPTION_MENU (((ESearchBar *)((EMFolderBrowser *) emfv)->search)->scopeoption), 3);
 	}
+#endif
 }
 
 static void
@@ -2108,52 +1949,6 @@ static BonoboUIVerb emfv_message_verbs[] = {
 
 	BONOBO_UI_VERB_END
 };
-static EPixmap emfv_message_pixmaps[] = {
-
-	E_PIXMAP ("/commands/EditCopy", "edit-copy", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/EditCut", "edit-cut", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/EditPaste", "edit-paste", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MailCompose", "mail-message-new", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageApplyFilters", "stock_mail-filters-apply", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageCopy", "mail-copy", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageDelete", "user-trash", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageFilterJunk", "mail-mark-junk", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageFollowUpFlag", "stock_mail-flag-for-followup", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageForward", "mail-forward", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageMarkAsImportant", "mail-mark-important", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageMarkAsJunk", "mail-mark-junk", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageMarkAsNotJunk", "mail-mark-notjunk", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageMarkAsRead", "mail-mark-read", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageMarkAsUnRead", "mail-mark-unread", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageMove", "mail-move", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageReplyAll", "mail-reply-all", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageReplySender", "mail-reply-sender", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageSaveAs", "document-save-as", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageSearch", "edit-find", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/PrintMessage", "document-print", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/PrintPreviewMessage", "document-print-preview", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/TextZoomIn", "zoom-in", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/TextZoomOut", "zoom-out", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/TextZoomReset", "zoom-original", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/ViewLoadImages", "image-x-generic", E_ICON_SIZE_MENU),
-
-	E_PIXMAP ("/menu/MessagePlaceholder/Message/MessageNavigation/GoTo", "go-jump", E_ICON_SIZE_MENU),
-
-	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageReplySender", "mail-reply-sender", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageReplyAll", "mail-reply-all", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageForward", "mail-forward", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/MailMessageToolbar/PrintMessage", "document-print", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageMove", "mail-move", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageCopy", "mail-copy", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageDelete", "edit-delete", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageMarkAsJunk", "mail-mark-junk", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/MailMessageToolbar/MessageMarkAsNotJunk", "mail-mark-notjunk", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/MailNextButtons/MailNext", "go-next", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/MailNextButtons/MailPrevious", "go-previous", E_ICON_SIZE_LARGE_TOOLBAR),
-
-	E_PIXMAP_END
-};
-
 
 static void
 emfv_enable_menus(EMFolderView *emfv)
@@ -2262,7 +2057,6 @@ emfv_charset_changed(BonoboUIComponent *uic, const char *path, Bonobo_UIComponen
 static void
 emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 {
-	struct _EMFolderViewPrivate *p = emfv->priv;
 
 	if (act) {
 		em_format_mode_t style;
@@ -2275,8 +2069,6 @@ emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 			bonobo_ui_util_set_ui(uic, PREFIX, (char *)l->data, emfv->ui_app_name, NULL);
 
 		bonobo_ui_component_add_verb_list_with_data(uic, emfv_message_verbs, emfv);
-		e_pixmaps_update(uic, emfv_message_pixmaps);
-
 		/* must do plugin menu's after main ones because of bonobo bustedness */
 		if (emfv->menu)
 			e_menu_activate((EMenu *)emfv->menu, uic, act);
@@ -2302,8 +2094,10 @@ emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 			bonobo_ui_component_set_translate (uic, "/", "<status><item name=\"main\"/></status>", NULL);
 
 		/* We need to set this up to get the right view options for the message-list, even if we're not showing it */
+#if 0  /* KILL-BONOBO */
 		if (emfv->folder)
 			emfv_setup_view_instance(emfv);
+#endif
 	} else {
 		const BonoboUIVerb *v;
 
@@ -2313,16 +2107,6 @@ emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		/* TODO: Should this just rm /? */
 		for (v = &emfv_message_verbs[0]; v->cname; v++)
 			bonobo_ui_component_remove_verb(uic, v->cname);
-
-		if (p->view_instance) {
-			g_object_unref(p->view_instance);
-			p->view_instance = NULL;
-		}
-
-		if (p->view_menus) {
-			g_object_unref(p->view_menus);
-			p->view_menus = NULL;
-		}
 
 		if (emfv->folder)
 			mail_sync_folder(emfv->folder, NULL, NULL);
@@ -2464,6 +2248,7 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 	EMFolderView *emfv = data;
 	EMEvent *eme;
 	EMEventTargetMessage *target;
+	EShell *shell;
 
 	if (emfv->preview == NULL) {
 		emfv->priv->nomarkseen = FALSE;
@@ -2475,7 +2260,8 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 
 	e_profile_event_emit("goto.loaded", emfv->displayed_uid, 0);
 
-	mail_indicate_new_mail (FALSE);
+	shell = e_shell_module_get_shell (mail_shell_module);
+	e_shell_event (shell, "mail-icon", "evolution-mail");
 
 	/** @Event: message.reading
 	 * @Title: Viewing a message
@@ -3056,6 +2842,7 @@ static GHashTable *emfv_setting_key;
 static void
 emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFolderView *emfv)
 {
+#if 0  /* KILL-BONOBO */
 	GConfValue *value;
 	char *tkey;
 
@@ -3223,6 +3010,7 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 		gtk_paned_set_position (GTK_PANED (emfb->vpane), paned_size);
 		break; }
 	}
+#endif
 }
 
 static void

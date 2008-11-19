@@ -1788,16 +1788,21 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 
 	bridge = gconf_bridge_get ();
 
+	object = G_OBJECT (ACTION (MAIL_CARET_MODE));
+	key = "/apps/evolution/mail/display/caret_mode";
+	gconf_bridge_bind_property (bridge, key, object, "active");
+
 	object = G_OBJECT (ACTION (MAIL_PREVIEW));
 	key = "/apps/evolution/mail/display/show_preview";
 	gconf_bridge_bind_property (bridge, key, object, "active");
 
-	/* XXX This is ugly.  We're binding an integer property to a
-	 *     boolean GConf key.  But since there's only two possible
-	 *     mail views (for now, anyway), it happens to work. */
-	object = G_OBJECT (ACTION (MAIL_VIEW_CLASSIC));
+	object = G_OBJECT (ACTION (MAIL_VIEW_VERTICAL));
 	key = "/apps/evolution/mail/display/show_wide";
-	gconf_bridge_bind_property (bridge, key, object, "current-value");
+	gconf_bridge_bind_property (bridge, key, object, "active");
+
+	object = G_OBJECT (ACTION (MAIL_THREADS_GROUP_BY));
+	key = "/apps/evolution/mail/display/thread_list";
+	gconf_bridge_bind_property (bridge, key, object, "active");
 
 	/* Fine tuning. */
 

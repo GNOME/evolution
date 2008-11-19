@@ -365,19 +365,6 @@ addressbook_view_create_minicard_view (EAddressbookView *view)
 }
 
 static void
-addressbook_view_changed_cb (EAddressbookView *view,
-                             GalViewInstance *view_instance)
-{
-	EShellView *shell_view;
-	gchar *view_id;
-
-	shell_view = e_addressbook_view_get_shell_view (view);
-	view_id = gal_view_instance_get_current_view_id (view_instance);
-	e_shell_view_set_view_id (shell_view, view_id);
-	g_free (view_id);
-}
-
-static void
 addressbook_view_display_view_cb (EAddressbookView *view,
                                   GalView *gal_view)
 {
@@ -608,24 +595,16 @@ static void
 addressbook_view_constructed (GObject *object)
 {
 	EAddressbookView *view = E_ADDRESSBOOK_VIEW (object);
-	EShellView *shell_view;
-	EShellViewClass *shell_view_class;
-	GalViewCollection *view_collection;
 	GalViewInstance *view_instance;
+	EShellView *shell_view;
 	ESource *source;
 	gchar *uri;
 
 	shell_view = e_addressbook_view_get_shell_view (view);
-	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	view_collection = shell_view_class->view_collection;
-
 	source = e_addressbook_view_get_source (view);
 	uri = e_source_get_uri (source);
 
-	view_instance = gal_view_instance_new (view_collection, uri);
-	g_signal_connect_swapped (
-		view_instance, "changed",
-		G_CALLBACK (addressbook_view_changed_cb), view);
+	view_instance = e_shell_view_new_view_instance (shell_view, uri);
 	g_signal_connect_swapped (
 		view_instance, "display-view",
 		G_CALLBACK (addressbook_view_display_view_cb), view);

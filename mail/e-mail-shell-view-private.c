@@ -24,6 +24,32 @@
 #include <widgets/menus/gal-view-factory-etable.h>
 
 static void
+mail_shell_view_folder_tree_selected_cb (EMailShellView *mail_shell_view,
+                                         const gchar *full_name,
+                                         const gchar *uri,
+                                         guint32 flags,
+                                         EMFolderTree *folder_tree)
+{
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	if ((flags & CAMEL_FOLDER_NOSELECT) || full_name == NULL)
+		em_folder_view_set_folder (folder_view, NULL, NULL);
+	else {
+		EMFolderTreeModel *model;
+
+		model = em_folder_tree_get_model (folder_tree);
+		em_folder_tree_model_set_selected (model, uri);
+		em_folder_tree_model_save_state (model);
+
+		em_folder_view_set_folder_uri (folder_view, uri);
+	}
+}
+
+static void
 mail_shell_view_folder_tree_popup_event_cb (EShellView *shell_view,
                                             GdkEventButton *event)
 {
@@ -119,6 +145,11 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+
+	g_signal_connect_swapped (
+		folder_tree, "folder-selected",
+		G_CALLBACK (mail_shell_view_folder_tree_selected_cb),
+		mail_shell_view);
 
 	g_signal_connect_swapped (
 		folder_tree, "popup-event",

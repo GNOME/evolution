@@ -69,6 +69,10 @@ CamelStore *	e_mail_shell_module_load_store_by_uri
 void		e_mail_shell_module_remove_store_by_uri
 						(EShellModule *shell_module,
 						 const gchar *uri);
+void		e_mail_shell_module_stores_foreach
+						(EShellModule *shell_module,
+						 GHFunc func,
+						 gpointer user_data);
 
 G_END_DECLS
 

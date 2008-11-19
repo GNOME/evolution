@@ -87,17 +87,13 @@ struct _GnomeCalendarClass {
 	void (* dates_shown_changed)    (GnomeCalendar *gcal);
 
 	void (* calendar_selection_changed) (GnomeCalendar *gcal);
-	void (* taskpad_selection_changed) (GnomeCalendar *gcal);
-	void (* memopad_selection_changed) (GnomeCalendar *gcal);
 
 	void (* calendar_focus_change)  (GnomeCalendar *gcal, gboolean in);
-	void (* taskpad_focus_change)   (GnomeCalendar *gcal, gboolean in);
-	void (* memopad_focus_change)   (GnomeCalendar *gcal, gboolean in);
- 	void (* change_view) (GnomeCalendar *gcal,
- 			       GnomeCalendarViewType view_type);
+	void (* change_view) (GnomeCalendar *gcal,
+			       GnomeCalendarViewType view_type);
 
-        void (* source_added)           (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source);
-        void (* source_removed)         (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source);
+        void (* source_added)           (GnomeCalendar *gcal, ESource *source);
+        void (* source_removed)         (GnomeCalendar *gcal, ESource *source);
 
 	/* Action signals */
         void (* goto_date)              (GnomeCalendar *gcal, GnomeCalendarGotoDateType date);
@@ -114,10 +110,10 @@ ECalendarTable *gnome_calendar_get_task_pad	(GnomeCalendar *gcal);
 ECalModel *gnome_calendar_get_calendar_model    (GnomeCalendar *gcal);
 ECal *gnome_calendar_get_default_client    (GnomeCalendar *gcal);
 
-gboolean   gnome_calendar_add_source      (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source);
-gboolean   gnome_calendar_remove_source   (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source);
-gboolean   gnome_calendar_remove_source_by_uid   (GnomeCalendar *gcal, ECalSourceType source_type, const char *uid);
-gboolean   gnome_calendar_set_default_source (GnomeCalendar *gcal, ECalSourceType source_type, ESource *source);
+gboolean   gnome_calendar_add_source      (GnomeCalendar *gcal, ESource *source);
+gboolean   gnome_calendar_remove_source   (GnomeCalendar *gcal, ESource *source);
+gboolean   gnome_calendar_remove_source_by_uid   (GnomeCalendar *gcal, const char *uid);
+gboolean   gnome_calendar_set_default_source (GnomeCalendar *gcal, ESource *source);
 
 void       gnome_calendar_next             	(GnomeCalendar *gcal);
 void       gnome_calendar_previous         	(GnomeCalendar *gcal);

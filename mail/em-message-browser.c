@@ -52,8 +52,6 @@
 #include "em-message-browser.h"
 #include "em-menu.h"
 
-#include "evolution-shell-component-utils.h" /* Pixmap stuff, sigh */
-
 #define EM_MESSAGE_BROWSER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), EM_TYPE_MESSAGE_BROWSER, EMMessageBrowserPrivate))

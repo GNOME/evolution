@@ -85,6 +85,8 @@ libevolution_module_mail_la_SOURCES =			\
 	em-folder-tree.h				\
 	em-folder-tree-model.c				\
 	em-folder-tree-model.h				\
+	em-folder-view.c				\
+	em-folder-view.h				\
 	em-folder-utils.c				\
 	em-folder-utils.h				\
 	em-format.c					\
@@ -109,6 +111,10 @@ libevolution_module_mail_la_SOURCES =			\
 	em-junk-hook.h					\
 	em-mailer-prefs.c				\
 	em-mailer-prefs.h				\
+	em-menu.c					\
+	em-menu.h					\
+	em-message-browser.c				\
+	em-message-browser.h				\
 	em-network-prefs.c				\
 	em-network-prefs.h				\
 	em-popup.c					\
@@ -149,6 +155,8 @@ libevolution_module_mail_la_SOURCES =			\
 	mail-tools.h					\
 	mail-vfolder.c					\
 	mail-vfolder.h					\
+	message-list.c					\
+	message-list.h					\
 	message-tag-editor.c				\
 	message-tag-editor.h				\
 	message-tag-followup.c				\
