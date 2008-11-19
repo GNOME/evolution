@@ -1,3 +1,10 @@
+2008-11-19  Li Yuan <li.yuan@sun.com>
+
+	** Fix for bug #560329
+
+	* calendar/ea-cal-view.c (idle_dates_changed): Fix the signature of 
+	the "children-changed" signal emission. 
+
 2008-09-24  Sankar P  <psankar@novell.com>
 
 License Changes
