@@ -142,6 +142,30 @@ e-shell-constants
 e-shell-marshal
 
 
+<!-- ##### SECTION ./tmpl/e-shell-migrate.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/e-shell-migrate.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/e-shell-migrate.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-shell-migrate.sgml:Stability_Level ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-shell-migrate.sgml:Title ##### -->
+Migration
+
+
 <!-- ##### SECTION ./tmpl/e-shell-window-actions.sgml:Long_Description ##### -->
 <para>
 
@@ -1697,243 +1721,6 @@ intelligent
 @revision: 
 @Returns: 
 
-<!-- ##### FUNCTION e_shell_content_add_filter_separator_after ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@action_value: 
-
-<!-- ##### FUNCTION e_shell_content_get_context ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_content_get_filter_action ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_content_get_filter_value ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_content_get_filter_visible ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_content_get_scope_action ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_content_get_scope_value ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_content_get_scope_visible ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_content_get_search_context ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_content_get_search_rule ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_content_get_search_text ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_content_get_search_value ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_content_get_search_visible ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_content_get_shell_view ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_content_get_view_id ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_content_run_advanced_search_dialog ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-
-<!-- ##### FUNCTION e_shell_content_run_edit_searches_dialog ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-
-<!-- ##### FUNCTION e_shell_content_run_save_search_dialog ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-
-<!-- ##### FUNCTION e_shell_content_set_context ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@context: 
-
-<!-- ##### FUNCTION e_shell_content_set_filter_action ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@filter_action: 
-
-<!-- ##### FUNCTION e_shell_content_set_filter_value ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@filter_value: 
-
-<!-- ##### FUNCTION e_shell_content_set_filter_visible ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@filter_visible: 
-
-<!-- ##### FUNCTION e_shell_content_set_scope_action ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@scope_action: 
-
-<!-- ##### FUNCTION e_shell_content_set_scope_value ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@scope_value: 
-
-<!-- ##### FUNCTION e_shell_content_set_scope_visible ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@scope_visible: 
-
-<!-- ##### FUNCTION e_shell_content_set_search_rule ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@search_rule: 
-
-<!-- ##### FUNCTION e_shell_content_set_search_text ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@search_text: 
-
-<!-- ##### FUNCTION e_shell_content_set_search_value ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@search_value: 
-
-<!-- ##### FUNCTION e_shell_content_set_search_visible ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@search_visible: 
-
-<!-- ##### FUNCTION e_shell_content_set_view_id ##### -->
-<para>
-
-</para>
-
-@shell_content: 
-@view_id: 
-
 <!-- ##### FUNCTION e_shell_marshal_BOOLEAN__STRING ##### -->
 <para>
 
@@ -1951,6 +1738,13 @@ intelligent
 
 </para>
 
+
+<!-- ##### FUNCTION e_shell_migrate_error_quark ##### -->
+<para>
+
+</para>
+
+@Returns: 
 
 <!-- ##### FUNCTION e_shell_module_upgrade ##### -->
 <para>
@@ -1972,77 +1766,6 @@ intelligent
 @online: 
 @Returns: 
 
-<!-- ##### FUNCTION e_shell_sidebar_get_primary_text ##### -->
-<para>
-
-</para>
-
-@shell_sidebar: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_sidebar_get_secondary_text ##### -->
-<para>
-
-</para>
-
-@shell_sidebar: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_sidebar_get_shell_view ##### -->
-<para>
-
-</para>
-
-@shell_sidebar: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_sidebar_set_primary_text ##### -->
-<para>
-
-</para>
-
-@shell_sidebar: 
-@primary_text: 
-
-<!-- ##### FUNCTION e_shell_sidebar_set_secondary_text ##### -->
-<para>
-
-</para>
-
-@shell_sidebar: 
-@secondary_text: 
-
-<!-- ##### FUNCTION e_shell_taskbar_get_message ##### -->
-<para>
-
-</para>
-
-@shell_taskbar: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_taskbar_get_shell_view ##### -->
-<para>
-
-</para>
-
-@shell_taskbar: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_taskbar_set_message ##### -->
-<para>
-
-</para>
-
-@shell_taskbar: 
-@message: 
-
-<!-- ##### FUNCTION e_shell_taskbar_unset_message ##### -->
-<para>
-
-</para>
-
-@shell_taskbar: 
-
 <!-- ##### FUNCTION e_shell_upgrade_attempt ##### -->
 <para>
 
@@ -2050,102 +1773,6 @@ intelligent
 
 @shell: 
 @Returns: 
-
-<!-- ##### FUNCTION e_shell_window_get_action ##### -->
-<para>
-
-</para>
-
-@shell_window: 
-@action_name: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_window_get_action_group ##### -->
-<para>
-
-</para>
-
-@shell_window: 
-@group_name: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_window_get_active_view ##### -->
-<para>
-
-</para>
-
-@shell_window: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_window_get_managed_widget ##### -->
-<para>
-
-</para>
-
-@shell_window: 
-@widget_path: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_window_get_safe_mode ##### -->
-<para>
-
-</para>
-
-@shell_window: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_window_get_shell_view ##### -->
-<para>
-
-</para>
-
-@shell_window: 
-@view_name: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_window_get_ui_manager ##### -->
-<para>
-
-</para>
-
-@shell_window: 
-@Returns: 
-
-<!-- ##### FUNCTION e_shell_window_register_new_item_actions ##### -->
-<para>
-
-</para>
-
-@shell_window: 
-@module_name: 
-@entries: 
-@n_entries: 
-
-<!-- ##### FUNCTION e_shell_window_register_new_source_actions ##### -->
-<para>
-
-</para>
-
-@shell_window: 
-@module_name: 
-@entries: 
-@n_entries: 
-
-<!-- ##### FUNCTION e_shell_window_set_active_view ##### -->
-<para>
-
-</para>
-
-@shell_window: 
-@view_name: 
-
-<!-- ##### FUNCTION e_shell_window_set_safe_mode ##### -->
-<para>
-
-</para>
-
-@shell_window: 
-@safe_mode: 
 
 <!-- ##### VARIABLE e_test_shell_view_type ##### -->
 <para>

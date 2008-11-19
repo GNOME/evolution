@@ -57,3 +57,120 @@ EShellWindow
 @Returns: 
 
 
+<!-- ##### FUNCTION e_shell_window_get_shell_view ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@view_name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_window_get_shell_view_action ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@view_name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_window_get_ui_manager ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_window_get_action ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@action_name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_window_get_action_group ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@group_name: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_window_get_managed_widget ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@widget_path: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_window_get_active_view ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_window_set_active_view ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@view_name: 
+
+
+<!-- ##### FUNCTION e_shell_window_get_safe_mode ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_window_set_safe_mode ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@safe_mode: 
+
+
+<!-- ##### FUNCTION e_shell_window_register_new_item_actions ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@module_name: 
+@entries: 
+@n_entries: 
+
+
+<!-- ##### FUNCTION e_shell_window_register_new_source_actions ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@module_name: 
+@entries: 
+@n_entries: 
+
+

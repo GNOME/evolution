@@ -673,6 +673,7 @@ e_shell_switcher_get_visible (EShellSwitcher *switcher)
 /**
  * e_shell_switcher_set_visible:
  * @switcher: an #EShellSwitcher
+ * @visible: whether the switcher buttons should be visible
  *
  * Sets the switcher button visiblity to @visible.
  *

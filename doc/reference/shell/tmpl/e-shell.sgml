@@ -84,6 +84,14 @@ EShell
 @E_SHELL_LINE_STATUS_OFFLINE: 
 @E_SHELL_LINE_STATUS_FORCED_OFFLINE: 
 
+<!-- ##### FUNCTION e_shell_get_default ##### -->
+<para>
+
+</para>
+
+@Returns: 
+
+
 <!-- ##### FUNCTION e_shell_list_modules ##### -->
 <para>
 
@@ -123,7 +131,25 @@ EShell
 @Returns: 
 
 
+<!-- ##### FUNCTION e_shell_get_settings ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
 <!-- ##### FUNCTION e_shell_create_window ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_get_focused_window ##### -->
 <para>
 
 </para>
@@ -193,6 +219,16 @@ EShell
 </para>
 
 @Returns: 
+
+
+<!-- ##### FUNCTION e_shell_event ##### -->
+<para>
+
+</para>
+
+@shell: 
+@event_name: 
+@event_data: 
 
 
 <!-- ##### FUNCTION e_shell_is_busy ##### -->

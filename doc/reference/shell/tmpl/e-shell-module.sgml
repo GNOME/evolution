@@ -110,6 +110,15 @@ EShellModule
 @Returns: 
 
 
+<!-- ##### FUNCTION e_shell_module_get_shell_view_type ##### -->
+<para>
+
+</para>
+
+@shell_module: 
+@Returns: 
+
+
 <!-- ##### FUNCTION e_shell_module_add_activity ##### -->
 <para>
 

@@ -333,7 +333,7 @@ shell_sidebar_class_init (EShellSidebarClass *class)
 	container_class->forall = shell_sidebar_forall;
 
 	/**
-	 * EShellTaskbar:primary-text
+	 * EShellSidebar:primary-text
 	 *
 	 * The primary text is displayed in bold at the top of the sidebar.
 	 **/
@@ -348,7 +348,7 @@ shell_sidebar_class_init (EShellSidebarClass *class)
 			G_PARAM_READWRITE));
 
 	/**
-	 * EShellTaskbar:secondary-text
+	 * EShellSidebar:secondary-text
 	 *
 	 * The secondary text is displayed in a smaller font at the top of
 	 * the sidebar.
@@ -448,7 +448,7 @@ e_shell_sidebar_new (EShellView *shell_view)
 
 /**
  * e_shell_sidebar_check_state:
- * @shell_sidebar an #EShellSidebar
+ * @shell_sidebar: an #EShellSidebar
  *
  * #EShellSidebar subclasses should implement the
  * <structfield>check_state</structfield> method in #EShellSidebarClass
@@ -511,6 +511,7 @@ e_shell_sidebar_get_primary_text (EShellSidebar *shell_sidebar)
 /**
  * e_shell_sidebar_set_primary_text:
  * @shell_sidebar: an #EShellSidebar
+ * @primary_text: text to be displayed in a bold font
  *
  * Sets the primary text for @shell_sidebar.
  *
@@ -566,6 +567,7 @@ e_shell_sidebar_get_secondary_text (EShellSidebar *shell_sidebar)
 /**
  * e_shell_sidebar_set_secondary_text:
  * @shell_sidebar: an #EShellSidebar
+ * @secondary_text: text to be displayed in a smaller font
  *
  * Sets the secondary text for @shell_sidebar.
  *

@@ -225,6 +225,14 @@ Shell Actions
 @window: 
 
 
+<!-- ##### MACRO E_SHELL_WINDOW_ACTION_SWITCHER_INITIAL ##### -->
+<para>
+
+</para>
+
+@window: 
+
+
 <!-- ##### MACRO E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_BOTH ##### -->
 <para>
 

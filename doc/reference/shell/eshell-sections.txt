@@ -3,12 +3,14 @@
 <TITLE>EShell</TITLE>
 EShell
 EShellLineStatus
-e_shell_new
+e_shell_get_default
 e_shell_list_modules
 e_shell_get_canonical_name
 e_shell_get_module_by_name
 e_shell_get_module_by_scheme
+e_shell_get_settings
 e_shell_create_window
+e_shell_get_focused_window
 e_shell_handle_uri
 e_shell_send_receive
 e_shell_get_online_mode
@@ -16,6 +18,7 @@ e_shell_set_online_mode
 e_shell_get_line_status
 e_shell_set_line_status
 e_shell_get_preferences_window
+e_shell_event
 e_shell_is_busy
 e_shell_do_quit
 e_shell_quit
@@ -40,6 +43,7 @@ e_shell_migrate_error_quirk
 <TITLE>EShellContent</TITLE>
 EShellContent
 e_shell_content_new
+e_shell_content_check_state
 e_shell_content_get_shell_view
 e_shell_content_get_context
 e_shell_content_set_context
@@ -94,6 +98,7 @@ e_shell_module_get_config_dir
 e_shell_module_get_data_dir
 e_shell_module_get_filename
 e_shell_module_get_shell
+e_shell_module_get_shell_view_type
 e_shell_module_add_activity
 e_shell_module_is_busy
 e_shell_module_shutdown
@@ -113,10 +118,30 @@ EShellModulePrivate
 </SECTION>
 
 <SECTION>
+<FILE>e-shell-settings</FILE>
+<TITLE>EShellSettings</TITLE>
+EShellSettings
+e_shell_settings_install_property
+e_shell_settings_bind_to_gconf
+<SUBSECTION Standard>
+E_SHELL_SETTINGS
+E_IS_SHELL_SETTINGS
+E_TYPE_SHELL_SETTINGS
+E_SHELL_SETTINGS_CLASS
+E_IS_SHELL_SETTINGS_CLASS
+E_SHELL_SETTINGS_GET_CLASS
+EShellSettingsClass
+e_shell_settings_get_type
+<SUBSECTION Private>
+EShellSettingsPrivate
+</SECTION>
+
+<SECTION>
 <FILE>e-shell-sidebar</FILE>
 <TITLE>EShellSidebar</TITLE>
 EShellSidebar
 e_shell_sidebar_new
+e_shell_sidebar_check_state
 e_shell_sidebar_get_shell_view
 e_shell_sidebar_get_primary_text
 e_shell_sidebar_set_primary_text
@@ -195,6 +220,7 @@ e_shell_view_get_view_id
 e_shell_view_set_view_id
 e_shell_view_is_active
 e_shell_view_get_page_num
+e_shell_view_set_page_num
 e_shell_view_get_size_group
 e_shell_view_get_shell_content
 e_shell_view_get_shell_sidebar
@@ -203,6 +229,7 @@ e_shell_view_get_shell_window
 e_shell_view_get_shell_module
 e_shell_view_update_actions
 e_shell_view_show_popup_menu
+e_shell_view_new_view_instance
 <SUBSECTION Standard>
 E_SHELL_VIEW
 E_IS_SHELL_VIEW
@@ -222,6 +249,7 @@ EShellWindow
 e_shell_window_new
 e_shell_window_get_shell
 e_shell_window_get_shell_view
+e_shell_window_get_shell_view_action
 e_shell_window_get_ui_manager
 e_shell_window_get_action
 e_shell_window_get_action_group
@@ -281,6 +309,7 @@ E_SHELL_WINDOW_ACTION_SHOW_STATUSBAR
 E_SHELL_WINDOW_ACTION_SHOW_SWITCHER
 E_SHELL_WINDOW_ACTION_SHOW_TOOLBAR
 E_SHELL_WINDOW_ACTION_SUBMIT_BUG
+E_SHELL_WINDOW_ACTION_SWITCHER_INITIAL
 E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_BOTH
 E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_ICONS
 E_SHELL_WINDOW_ACTION_SWITCHER_STYLE_TEXT

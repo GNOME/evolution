@@ -60,9 +60,6 @@ typedef struct _EShellModuleInfo EShellModuleInfo;
 typedef struct _EShellModuleClass EShellModuleClass;
 typedef struct _EShellModulePrivate EShellModulePrivate;
 
-typedef struct _EShellModuleEvent EShellModuleEvent;
-typedef void (*EShellModuleEventFunc) (EShellModuleEvent *event);
-
 /**
  * EShellModuleInfo:
  * @name:	The name of the module.  Also becomes the name of

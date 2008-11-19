@@ -360,6 +360,11 @@ shell_class_init (EShellClass *class)
 	object_class->finalize = shell_finalize;
 	object_class->constructed = shell_constructed;
 
+	/**
+	 * EShell:online-mode
+	 *
+	 * Whether the shell is online.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_ONLINE_MODE,
@@ -371,6 +376,11 @@ shell_class_init (EShellClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
+	/**
+	 * EShell:settings
+	 *
+	 * The #EShellSettings object stores application settings.
+	 **/
 	g_object_class_install_property (
 		object_class,
 		PROP_SETTINGS,
@@ -381,6 +391,15 @@ shell_class_init (EShellClass *class)
 			E_TYPE_SHELL_SETTINGS,
 			G_PARAM_READABLE));
 
+	/**
+	 * EShell::event
+	 * @shell: the #EShell which emitted the signal
+	 * @event_data: data associated with the event
+	 *
+	 * This signal is used to broadcast custom events to the entire
+	 * application.  The nature of @event_data depends on the event
+	 * being broadcast.  The signal's detail denotes the event.
+	 **/
 	signals[EVENT] = g_signal_new (
 		"event",
 		G_OBJECT_CLASS_TYPE (object_class),
@@ -390,6 +409,18 @@ shell_class_init (EShellClass *class)
 		G_TYPE_NONE, 1,
 		G_TYPE_POINTER);
 
+	/**
+	 * EShell:handle-uri
+	 * @shell: the #EShell which emitted the signal
+	 * @uri: the URI to be handled
+	 *
+	 * Emitted when @shell receives a URI to be handled, usually by
+	 * way of a command-line argument.  An #EShellModule should listen
+	 * for this signal and try to handle the URI, usually by opening an
+	 * editor window for the identified resource.
+	 *
+	 * Returns: %TRUE if the URI could be handled, %FALSE otherwise
+	 **/
 	signals[HANDLE_URI] = g_signal_new (
 		"handle-uri",
 		G_OBJECT_CLASS_TYPE (object_class),
@@ -399,6 +430,14 @@ shell_class_init (EShellClass *class)
 		G_TYPE_BOOLEAN, 1,
 		G_TYPE_STRING);
 
+	/**
+	 * EShell:send-receive
+	 * @shell: the #EShell which emitted the signal
+	 * @parent: a parent #GtkWindow
+	 *
+	 * Emitted when the user chooses the "Send / Receive" action.
+	 * The parent window can be used for showing transient windows.
+	 **/
 	signals[SEND_RECEIVE] = g_signal_new (
 		"send-receive",
 		G_OBJECT_CLASS_TYPE (object_class),
@@ -408,6 +447,13 @@ shell_class_init (EShellClass *class)
 		G_TYPE_NONE, 1,
 		GTK_TYPE_WINDOW);
 
+	/**
+	 * EShell:window-created
+	 * @shell: the #EShell which emitted the signal
+	 * @shell_window: the newly created #EShellWindow
+	 *
+	 * Emitted when a new #EShellWindow is created.
+	 **/
 	signals[WINDOW_CREATED] = g_signal_new (
 		"window-created",
 		G_OBJECT_CLASS_TYPE (object_class),
@@ -417,6 +463,13 @@ shell_class_init (EShellClass *class)
 		G_TYPE_NONE, 1,
 		E_TYPE_SHELL_WINDOW);
 
+	/**
+	 * EShell:window-destroyed
+	 * @shell: the #EShell which emitted the signal
+	 * @last_window: whether that was the last #EShellWindow
+	 *
+	 * Emitted when an #EShellWindow is destroyed.
+	 **/
 	signals[WINDOW_DESTROYED] = g_signal_new (
 		"window-destroyed",
 		G_OBJECT_CLASS_TYPE (object_class),
@@ -476,6 +529,13 @@ e_shell_get_type (void)
 	return type;
 }
 
+/**
+ * e_shell_get_default:
+ *
+ * Returns the #EShell created by <function>main()</function>.
+ *
+ * Returns: the #EShell singleton
+ **/
 EShell *
 e_shell_get_default (void)
 {
@@ -485,6 +545,15 @@ e_shell_get_default (void)
 	return default_shell;
 }
 
+/**
+ * e_shell_list_modules:
+ * @shell: an #EShell
+ *
+ * Returns a list of loaded #EShellModule instances.  The list is
+ * owned by @shell and should not be modified or freed.
+ *
+ * Returns: a list of loaded #EShellModule instances
+ **/
 GList *
 e_shell_list_modules (EShell *shell)
 {
@@ -493,6 +562,18 @@ e_shell_list_modules (EShell *shell)
 	return shell->priv->loaded_modules;
 }
 
+/**
+ * e_shell_get_canonical_name:
+ * @shell: an #EShell
+ * @name: the name or alias of an #EShellModule
+ *
+ * Returns the canonical name for the #EShellModule whose name or alias
+ * is @name.
+ *
+ * XXX Not sure this function is worth keeping around.
+ *
+ * Returns: the canonical #EShellModule name
+ **/
 const gchar *
 e_shell_get_canonical_name (EShell *shell,
                             const gchar *name)
@@ -513,6 +594,16 @@ e_shell_get_canonical_name (EShell *shell,
 	return G_TYPE_MODULE (shell_module)->name;
 }
 
+/**
+ * e_shell_get_module_by_name:
+ * @shell: an #EShell
+ * @name: the name or alias of an #EShellModule
+ *
+ * Returns the corresponding #EShellModule for the given name or alias,
+ * or %NULL if @name is not recognized.
+ *
+ * Returns: the #EShellModule named @name, or %NULL
+ **/
 EShellModule *
 e_shell_get_module_by_name (EShell *shell,
                             const gchar *name)
@@ -527,6 +618,16 @@ e_shell_get_module_by_name (EShell *shell,
 	return g_hash_table_lookup (hash_table, name);
 }
 
+/**
+ * e_shell_get_module_by_scheme:
+ * @shell: an #EShell
+ * @scheme: a URI scheme
+ *
+ * Returns the #EShellModule that implements the given URI scheme,
+ * or %NULL if @scheme is not recognized.
+ *
+ * Returns: the #EShellModule that implements @scheme, or %NULL
+ **/
 EShellModule *
 e_shell_get_module_by_scheme (EShell *shell,
                               const gchar *scheme)
@@ -541,6 +642,14 @@ e_shell_get_module_by_scheme (EShell *shell,
 	return g_hash_table_lookup (hash_table, scheme);
 }
 
+/**
+ * e_shell_get_settings:
+ * @shell: an #EShell
+ *
+ * Returns the #EShellSettings instance for @shell.
+ *
+ * Returns: the #EShellSettings instance for @shell
+ **/
 EShellSettings *
 e_shell_get_settings (EShell *shell)
 {
@@ -549,6 +658,16 @@ e_shell_get_settings (EShell *shell)
 	return shell->priv->settings;
 }
 
+/**
+ * e_shell_create_window:
+ * @shell: an #EShell
+ *
+ * Creates a new #EShellWindow and emits the #EShell::window-created
+ * signal.  Use this function instead of e_shell_window_new() so that
+ * @shell can track the window.
+ *
+ * Returns: a new #EShellWindow
+ **/
 GtkWidget *
 e_shell_create_window (EShell *shell)
 {
@@ -582,6 +701,16 @@ e_shell_create_window (EShell *shell)
 	return shell_window;
 }
 
+/**
+ * e_shell_get_focused_window:
+ * @shell: an #EShell
+ *
+ * Returns the most recently focused #EShellWindow.  Useful for choosing
+ * a parent for a transient window.  This only works for windows created
+ * with e_shell_create_window().
+ *
+ * Returns: the most recently focused #EShellWindow
+ **/
 GtkWidget *
 e_shell_get_focused_window (EShell *shell)
 {
@@ -593,6 +722,15 @@ e_shell_get_focused_window (EShell *shell)
 	return GTK_WIDGET (shell->priv->active_windows->data);
 }
 
+/**
+ * e_shell_handle_uri:
+ * @shell: an #EShell
+ * @uri: the URI to be handled
+ *
+ * Emits the #EShell::handle-uri signal.
+ *
+ * Returns: %TRUE if the URI was handled, %FALSE otherwise
+ **/
 gboolean
 e_shell_handle_uri (EShell *shell,
                     const gchar *uri)
@@ -607,6 +745,13 @@ e_shell_handle_uri (EShell *shell,
 	return handled;
 }
 
+/**
+ * e_shell_send_receive:
+ * @shell: an #EShell
+ * @parent: the parent #GtkWindow
+ *
+ * Emits the #EShell::send-receive signal.
+ **/
 void
 e_shell_send_receive (EShell *shell,
                       GtkWindow *parent)
@@ -661,6 +806,17 @@ e_shell_get_preferences_window (void)
 	return preferences_window;
 }
 
+/**
+ * e_shell_event:
+ * @shell: an #EShell
+ * @event_name: the name of the event
+ * @event_data: data associated with the event
+ *
+ * The #EShell::event signal acts as a cheap mechanism for broadcasting
+ * events to the rest of the application, such as new mail arriving.  The
+ * @event_name is used as the signal detail, and @event_data may point to
+ * an object or data structure associated with the event.
+ **/
 void
 e_shell_event (EShell *shell,
                const gchar *event_name,

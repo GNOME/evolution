@@ -168,6 +168,15 @@ EShellView
 @Returns: 
 
 
+<!-- ##### FUNCTION e_shell_view_set_page_num ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@page_num: 
+
+
 <!-- ##### FUNCTION e_shell_view_get_size_group ##### -->
 <para>
 
@@ -238,5 +247,15 @@ EShellView
 @shell_view: 
 @widget_path: 
 @event: 
+
+
+<!-- ##### FUNCTION e_shell_view_new_view_instance ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@instance_id: 
+@Returns: 
 
 
