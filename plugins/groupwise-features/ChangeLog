@@ -1,3 +1,10 @@
+2008-11-20  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug bnc #446286
+
+	* status-track.c: (track_status): Remove the header check as we do a 
+	e_gw_connection_get_item for tracking the status.
+
 2008-11-04  Sankar P  <psankar@novell.com>
 
 	** Fix for bug bnc #434968

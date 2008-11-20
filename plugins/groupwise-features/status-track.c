@@ -79,8 +79,6 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 
 	gchar *boldmsg;
 
-	const char *status = NULL ;
-
 	int row = 0;
 
 	EGwConnection *cnc;
@@ -90,14 +88,6 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 	msg = camel_folder_get_message (t->folder, g_ptr_array_index (t->uids, 0), NULL);
 	if (!msg) {
 		g_print ("Error!! No message\n") ;
-		return ;
-	}
-
-	status = camel_medium_get_header ( CAMEL_MEDIUM(msg), "X-gw-status-opt") ;
-	if (!status) {
-		g_print ("Error!! No header\n");
-		/* No need to make any call if this header is not available.
-		This is the server side identifier for sent-items */
 		return ;
 	}
 
