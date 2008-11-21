@@ -28,23 +28,23 @@
 #include <gtk/gtk.h>
 
 /* Standard GObject macros */
-#define E_ACTION_TYPE_COMBO_BOX \
+#define E_TYPE_ACTION_COMBO_BOX \
 	(e_action_combo_box_get_type ())
 #define E_ACTION_COMBO_BOX(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
-	((obj), E_ACTION_TYPE_COMBO_BOX, EActionComboBox))
+	((obj), E_TYPE_ACTION_COMBO_BOX, EActionComboBox))
 #define E_ACTION_COMBO_BOX_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_CAST \
-	((cls), E_ACTION_TYPE_COMBO_BOX, EActionComboBoxClass))
+	((cls), E_TYPE_ACTION_COMBO_BOX, EActionComboBoxClass))
 #define E_ACTION_IS_COMBO_BOX(obj) \
 	(G_TYPE_CHECK_INSTANCE_TYPE \
-	((obj), E_ACTION_TYPE_COMBO_BOX))
+	((obj), E_TYPE_ACTION_COMBO_BOX))
 #define E_ACTION_IS_COMBO_BOX_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_TYPE \
-	((cls), E_ACTION_TYPE_COMBO_BOX))
+	((cls), E_TYPE_ACTION_COMBO_BOX))
 #define E_ACTION_COMBO_BOX_GET_CLASS(obj) \
 	(G_TYPE_INSTANCE_GET_CLASS \
-	((obj), E_ACTION_TYPE_COMBO_BOX, EActionComboBoxClass))
+	((obj), E_TYPE_ACTION_COMBO_BOX, EActionComboBoxClass))
 
 G_BEGIN_DECLS
 

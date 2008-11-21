@@ -24,7 +24,7 @@
 
 #define E_ACTION_COMBO_BOX_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_ACTION_TYPE_COMBO_BOX, EActionComboBoxPrivate))
+	((obj), E_TYPE_ACTION_COMBO_BOX, EActionComboBoxPrivate))
 
 enum {
 	COLUMN_ACTION,
@@ -422,7 +422,7 @@ e_action_combo_box_new (void)
 GtkWidget *
 e_action_combo_box_new_with_action (GtkRadioAction *action)
 {
-	return g_object_new (E_ACTION_TYPE_COMBO_BOX, "action", action, NULL);
+	return g_object_new (E_TYPE_ACTION_COMBO_BOX, "action", action, NULL);
 }
 
 GtkRadioAction *
