@@ -267,6 +267,11 @@ vfolder_adduri_exec (struct _adduri_msg *m)
 		g_warning("Folder '%s' disappeared while I was adding/remove it to/from my vfolder", m->uri);
 		return;
 	}
+	if (strncmp(m->uri, "vfolder:/", 9) == 0 ||
+		strncmp(m->uri, "email://vfolder@local", 21) == 0) {
+		printf("Ignoring loading vfolder as a subfolder \n");
+		return;
+	}
 
 	if (folder == NULL)
 		folder = mail_tool_uri_to_folder (m->uri, 0, &m->base.ex);

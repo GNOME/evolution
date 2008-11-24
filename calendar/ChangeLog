@@ -1,3 +1,87 @@
+2008-11-19  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #556224
+
+	* gui/gnome-cal.c: (struct _GnomeCalendarPrivate), (setup_widgets),
+	(update_todo_view_async), (update_todo_view), (gnome_calendar_init),
+	(gnome_calendar_destroy): Run always 'update_todo_view' in a separate
+	thread and guard its body with a mutex.
+
+	* gui/gnome-cal.c: (update_query_async): Do not leak.
+
+2008-11-17  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #557818
+
+	* gui/calendar-component.c:
+	* gui/memos-component.c:
+	* gui/tasks-component.c:
+	ESourceSelector now handles most of the drag-and-drop signals.
+	We just have to listen for the new "data-dropped" signal and
+	deal with it.  Gets rid of a lot of duplicate logic.
+
+2008-11-17  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #558322
+
+	* gui/calendar-component.c (rename_calendar_cb):
+	* gui/memos-component.c (rename_memo_list_cb):
+	* gui/tasks-component.c (rename_task_list_cb):
+	New "Rename" item in the source selector pop-up menu calls
+	the recently added e_source_selector_edit_primary_selection().
+	Still need to bind the "F2" key to this action, but I'm not
+	sure how whether EPopup supports that.
+
+2008-11-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #559604
+
+	* gui/e-calendar-view.h: (e_calendar_view_get_attendees_status_info):
+	* gui/e-calendar-view.c: (e_calendar_view_get_attendees_status_info),
+	(e_calendar_view_get_tooltips):
+	* gui/e-calendar-table.c: (query_tooltip_cb):
+	Show attendees' status in the tooltip if available.
+
+2008-11-11  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #490503
+
+	* gui/e-day-view.c (set_text_as_bold),
+	(e_day_view_update_event_label),
+	(e_day_view_update_long_event_label):
+	* gui/e-week-view.c (set_text_as_bold),
+	(e_week_view_reshape_event_span):
+	Summary of unaccepted meetings in calendar views now appear as bolded. 
+	If the meeting was sent to a mailing-list - the summary will always 
+	appear as normal. 
+
+2008-11-10  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #443190 (bugzilla.novell.com)
+
+	* gui/dialogs/comp-editor.c (fill_widgets), (real_edit_comp):
+	Block signals from attachment-bar while still filling the widgets. 
+
+2008-11-07  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #440007 (bugzilla.novell.com)
+
+	* gui/print.c: (print_comp_draw_real): Print the attendees only if
+	its the first page.
+
+2008-11-04  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #558354
+
+	* gui/alarm-notify/alarm-notify.glade:
+	* gui/alarm-notify/alarm-notify-dialog.h: (enum AlarmNotifyResult):
+	* gui/alarm-notify/alarm-notify-dialog.c: (struct AlarmNotify),
+	(dismiss_pressed_cb), (notified_alarms_dialog_new):
+	* gui/alarm-notify/alarm-queue.c: (notify_dialog_cb):
+	Changed "Close" button to "Dismiss All" and added a "Dismiss" button
+	to the alarm notification dialog to be able to dismiss only some of
+	the alarms shown in the dialog.
+
 2008-11-04  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/calendar-commands.c:

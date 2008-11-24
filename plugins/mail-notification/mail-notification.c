@@ -56,6 +56,7 @@
 
 static gboolean enabled = FALSE;
 static GtkWidget *get_cfg_widget (void);
+static GStaticMutex mlock = G_STATIC_MUTEX_INIT;
 
 /**
  * each part should "implement" its own "public" functions:
@@ -441,6 +442,26 @@ popup_menu_status (GtkStatusIcon *status_icon, guint button, guint activate_time
 	g_object_unref (menu);
 }
 
+#ifdef HAVE_LIBNOTIFY
+static void 
+notifyActionCallback (NotifyNotification *n, gchar *label, gpointer a)
+{
+	g_static_mutex_lock (&mlock);
+	
+	gtk_status_icon_set_visible (status_icon, FALSE);
+	g_object_unref (status_icon);
+
+	if (blink_timeout_id) {
+		g_source_remove (blink_timeout_id);
+		blink_timeout_id = 0;
+	}
+
+	status_icon = NULL;
+	status_count = 0;	
+	g_static_mutex_unlock (&mlock);
+}
+#endif
+
 static void
 new_notify_status (EMEventTargetFolder *t)
 {
@@ -487,6 +508,7 @@ new_notify_status (EMEventTargetFolder *t)
 
 			notify_notification_set_urgency (notify, NOTIFY_URGENCY_NORMAL);
 			notify_notification_set_timeout (notify, NOTIFY_EXPIRES_DEFAULT);
+			notify_notification_add_action(notify, "default", "Default", notifyActionCallback, NULL, NULL);
 			g_timeout_add (500, notification_callback, notify);
 		}
 	}
@@ -835,7 +857,6 @@ void org_gnome_mail_read_notify (EPlugin *ep, EMEventTargetMessage *t);
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
 GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
 
-static GStaticMutex mlock = G_STATIC_MUTEX_INIT;
 
 void
 org_gnome_mail_new_notify (EPlugin *ep, EMEventTargetFolder *t)

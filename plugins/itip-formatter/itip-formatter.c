@@ -686,9 +686,12 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		
 		/*
 		 * Only allow replies if backend doesn't do that automatically.
+                 * Only enable it for forwarded invitiations (PUBLISH) or direct
+                 * invitiations (REQUEST), but not replies (REPLY).
 		 * Replies only make sense for events with an organizer.
 		 */
 		if (!e_cal_get_static_capability (ecal, CAL_STATIC_CAPABILITY_SAVE_SCHEDULES) &&
+                    (pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST) &&
 		    pitip->has_organizer) {
 			rsvp_enabled = TRUE;
 		}

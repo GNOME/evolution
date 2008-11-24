@@ -559,7 +559,7 @@ add_proxy_sources (GwAccountInfo *info, const char *parent_name)
 
 	url = camel_url_new (info->source_url, NULL);
 
-	color = g_strdup_printf ("%u",  g_random_int_range (0x100000, 0xffffaa));
+	color = g_strdup_printf ("#%06X",  g_random_int_range (0x100000, 0xffffaa));
 	/* The above range is chosen so that the colors are neither too light nor too dark
 	and appealing in all the themes */
 

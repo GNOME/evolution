@@ -1,3 +1,12 @@
+2008-10-17  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #560882
+
+	* e-table-defines.h:
+	* e-table-header-utils.c (e_table_header_draw_button):
+	Left-align header labels instead of centering them, and adjust
+	the header padding so they look purdy.
+
 2008-10-17  Sankar P  <psankar@novell.com>
 
 License Changes

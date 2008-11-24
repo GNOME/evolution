@@ -1,3 +1,67 @@
+2008-11-23  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #552850
+
+	* evolution-mail.schemas.in:
+	Prefer the term "side bar" over "folder tree".
+
+2008-11-19  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #555276
+
+	* mail/mail-vfolder.c: Don't load vfolder as subfolder.
+
+2008-11-13  Bharath Acharya  <abharath@novell.com>
+
+	* em-folder-view.c: (emfv_setting_notify):
+	* em-format-html.c: (efh_format_headers): Do not display the default 
+	headers when all the headers are disabled in Mail preferences.
+
+2008-11-12  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #524377
+
+	* mail-config.glade:
+	* evolution-mail.schemas.in:
+	* em-composer-prefs.c: (em_composer_prefs_construct):
+	* mail-config.c: (gconf_outlook_filenames_changed), (mail_config_init):
+	Declare, be able to change and listen to changes on new key,
+	'/apps/evolution/mail/composer/outlook_filenames' to encode file names
+	header in camel based on the RFC 2047, instead of the correct RFC 2231.
+
+2008-11-07  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fix for bug #552583
+
+	* mail-config.c: (mail_config_get_account_by_source_url): 
+	Instead of preserving the authmech attribute in the two URLs 
+	being compared, strip the attributes out of both URLs and just do 
+	a simple string comparison.  We're just trying to match a URL to 
+	an account here.  The authentication method shouldn't be relevant.
+
+2008-11-07  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for BNC bug #437226
+
+	* em-format-html.c (efh_format_headers): Regression caused by r35319.
+	Check for the condition only after the while loop.
+	
+2008-11-05  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #559371
+
+	* em-composer-prefs.c (spell_language_save), (spell_setup):
+	Simplify the logic by using e_load_spell_languages() and
+	e_save_spell_languages().
+
+2008-11-04  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #386036
+
+	* vfoldertypes.xml:
+	* filtertypes.xml: Added new option "Sender or Recipients" which
+	filters on From/To/Cc/Bcc headers.
+
 2008-11-02  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #559042

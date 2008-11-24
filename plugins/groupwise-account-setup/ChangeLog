@@ -1,3 +1,10 @@
+2008-11-11  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #440646 (bugzilla.novell.com)
+
+	* camel-gw-listener.c (add_proxy_sources): Set the ESource color-spec 
+	for proxy accounts in the correct format. 
+
 2008-09-25  Philip Withnall  <philip@tecnocode.co.uk>
 
 	** Fix for bug #553148

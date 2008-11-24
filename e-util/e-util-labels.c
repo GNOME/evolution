@@ -79,7 +79,7 @@ e_util_labels_parse (GConfClient *client)
 
 		/* Needed for Backward Compatibility */
 		if (num < LABEL_DEFAULTS_NUM) {
-			label->name = g_strdup (_(buf));
+			label->name = g_strdup ((buf && *buf) ? buf : _(label_defaults[num].name));
 			label->tag = g_strdup (label_defaults[num].tag);
 			num++;
 		} else if (!tag) {

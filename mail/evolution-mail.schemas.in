@@ -186,6 +186,20 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/composer/outlook_filenames</key>
+      <applyto>/apps/evolution/mail/composer/outlook_filenames</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Encode file names in an Outlook/GMail way</short>
+         <long>
+          Encode file names in the mail headers same as Outlook or GMail does, to let them understand localized file names sent by Evolution, because they do not follow the RFC 2231, but uses incorrect RFC 2047 standard.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/composer/width</key>
       <applyto>/apps/evolution/mail/composer/width</applyto>
       <owner>evolution-mail</owner>
@@ -232,9 +246,9 @@
       <type>bool</type>
       <default>false</default>
       <locale name="C">
-         <short>Disable or enable ellipsizing of folder names in folder tree</short>
+         <short>Disable or enable ellipsizing of folder names in side bar</short>
          <long>
-           Whether disable ellipsizing feature of folder names in folder tree.
+           Whether disable ellipsizing feature of folder names in side bar.
          </long>
       </locale>
     </schema>

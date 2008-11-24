@@ -238,6 +238,16 @@ new_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static void
+rename_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
+{
+	TasksComponentView *component_view = data;
+	ESourceSelector *selector;
+
+	selector = E_SOURCE_SELECTOR (component_view->source_selector);
+	e_source_selector_edit_primary_selection (selector);
+}
+
+static void
 edit_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	TasksComponentView *component_view = data;
@@ -278,6 +288,7 @@ mark_offline_cb (EPopup *ep, EPopupItem *pitem, void *data)
 static EPopupItem etc_source_popups[] = {
 	{ E_POPUP_ITEM, "10.new", N_("_New Task List"), new_task_list_cb, NULL, "stock_todo", 0, 0 },
 	{ E_POPUP_ITEM, "15.copy", N_("_Copy..."), copy_task_list_cb, NULL, "edit-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, "18.rename", N_("_Rename..."), rename_task_list_cb, NULL, NULL, 0, E_CAL_POPUP_SOURCE_PRIMARY },
 
 	{ E_POPUP_BAR, "20.bar" },
 	{ E_POPUP_ITEM, "20.delete", N_("_Delete"), delete_task_list_cb, NULL, "edit-delete", 0, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY },
@@ -397,43 +408,21 @@ update_objects (ECal *client, icalcomponent *icalcomp)
 	return TRUE;
 }
 
-static void
-selector_tree_drag_data_received (GtkWidget *widget,
-				  GdkDragContext *context,
-				  gint x,
-				  gint y,
-				  GtkSelectionData *data,
-				  guint info,
-				  guint time,
-				  gpointer user_data)
+static gboolean
+selector_tree_data_dropped (ESourceSelector *selector,
+                            GtkSelectionData *data,
+                            ESource *destination,
+                            GdkDragAction action,
+                            guint info,
+                            TasksComponent *component)
 {
-	GtkTreePath *path = NULL;
-	GtkTreeViewDropPosition pos;
-	gpointer source = NULL;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
 	gboolean success = FALSE;
 	icalcomponent *icalcomp = NULL;
 	ECal *client = NULL;
 	GSList *components, *p;
-	TasksComponent *component = TASKS_COMPONENT (user_data);
 
-	if (!gtk_tree_view_get_dest_row_at_pos (GTK_TREE_VIEW (widget),
-						x, y, &path, &pos))
-		goto finish;
-
-	model = gtk_tree_view_get_model (GTK_TREE_VIEW (widget));
-
-	if (!gtk_tree_model_get_iter (model, &iter, path))
-		goto finish;
-
-
-	gtk_tree_model_get (model, &iter, 0, &source, -1);
-
-	if (E_IS_SOURCE_GROUP (source) || e_source_get_readonly (source) || !data->data)
-		goto finish;
-
-	client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
+	client = auth_new_cal_from_source (
+		destination, E_CAL_SOURCE_TYPE_TODO);
 
 	if (!client || !e_cal_open (client, TRUE, NULL))
 		goto  finish;
@@ -459,7 +448,7 @@ selector_tree_drag_data_received (GtkWidget *widget,
 			continue;
 
 		/* FIXME deal with GDK_ACTION_ASK */
-		if (context->action == GDK_ACTION_COPY) {
+		if (action == GDK_ACTION_COPY) {
 			old_uid = g_strdup (icalcomponent_get_uid (icalcomp));
 			uid = e_cal_component_gen_uid ();
 			icalcomponent_set_uid (icalcomp, uid);
@@ -476,7 +465,7 @@ selector_tree_drag_data_received (GtkWidget *widget,
 				/* this will report success by last item, but we don't care */
 				success = update_objects (client, icalcomp);
 
-				if (success && context->action == GDK_ACTION_MOVE) {
+				if (success && action == GDK_ACTION_MOVE) {
 					/* remove components rather here, because we know which has been moved */
 					ESource *source_source;
 					ECal *source_client;
@@ -516,12 +505,8 @@ selector_tree_drag_data_received (GtkWidget *widget,
  finish:
 	if (client)
 		g_object_unref (client);
-	if (source)
-		g_object_unref (source);
-	if (path)
-		gtk_tree_path_free (path);
 
-	gtk_drag_finish (context, success, context->action == GDK_ACTION_MOVE, time);
+	return success;
 }
 
 static void

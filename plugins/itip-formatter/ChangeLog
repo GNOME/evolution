@@ -1,3 +1,10 @@
+2008-11-06  Patrick Ohly  <patrick.ohly@gmx.de>
+
+	** Fix for bug #541121
+
+	* itip-formatter.c: don't allow sending a response to meeting
+	invitation replies
+
 2008-10-20  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #514989
@@ -18,7 +25,7 @@
 	* itip-formatter.c: (view_response_cb):
 	Use the proper functions to traverse messages in a folder's summary.
 
-2008-10-10  Patrick Ohly  <pohly@ecld0pohly>
+2008-10-10  Patrick Ohly  <patrick.ohly@gmx.de>
 
 	** #541121: improved itip formatter: allow replying to forwarded
 	and already imported invitations; honor RVSP flag in invitation

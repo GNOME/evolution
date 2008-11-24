@@ -249,6 +249,22 @@ gconf_style_changed (GConfClient *client, guint cnxn_id,
 }
 
 static void
+gconf_outlook_filenames_changed (GConfClient *client, guint cnxn_id,
+				 GConfEntry *entry, gpointer user_data)
+{
+	extern int camel_header_param_encode_filenames_in_rfc_2047;
+
+	g_return_if_fail (client != NULL);
+
+	/* pass option to the camel */
+	if (gconf_client_get_bool (client, "/apps/evolution/mail/composer/outlook_filenames", NULL)) {
+		camel_header_param_encode_filenames_in_rfc_2047 = 1;
+	} else {
+		camel_header_param_encode_filenames_in_rfc_2047 = 0;
+	}
+}
+
+static void
 gconf_jh_check_changed (GConfClient *client, guint cnxn_id,
 		     GConfEntry *entry, gpointer user_data)
 {
@@ -367,6 +383,12 @@ mail_config_init (void)
 
 	key = "/apps/evolution/mail/composer/spell_color";
 	func = (GConfClientNotifyFunc) gconf_style_changed;
+	gconf_client_notify_add (
+		config->gconf, key, func, NULL, NULL, NULL);
+
+	key = "/apps/evolution/mail/composer/outlook_filenames";
+	func = (GConfClientNotifyFunc) gconf_outlook_filenames_changed;
+	gconf_outlook_filenames_changed (config->gconf, 0, NULL, NULL);
 	gconf_client_notify_add (
 		config->gconf, key, func, NULL, NULL, NULL);
 
@@ -782,47 +804,48 @@ mail_config_get_account_by_uid (const char *uid)
 EAccount *
 mail_config_get_account_by_source_url (const char *source_url)
 {
-	CamelProvider *provider;
-	EAccount *account;
-	CamelURL *source;
+	EAccount *account = NULL;
 	EIterator *iter;
 
 	g_return_val_if_fail (source_url != NULL, NULL);
 
-	provider = camel_provider_get(source_url, NULL);
-	if (!provider)
-		return NULL;
-
-	source = camel_url_new (source_url, NULL);
-	if (!source)
-		return NULL;
-
 	iter = e_list_get_iterator ((EList *) config->accounts);
 	while (e_iterator_is_valid (iter)) {
+		CamelURL *url;
+		gchar *string;
+
 		account = (EAccount *) e_iterator_get (iter);
 
-		if (account->source && account->source->url && account->source->url[0]) {
-			CamelURL *url;
-
-			url = camel_url_new (account->source->url, NULL);
-			if (url && provider->url_equal (url, source)) {
-				camel_url_free (url);
-				camel_url_free (source);
-				g_object_unref (iter);
-
-				return account;
-			}
-
-			if (url)
-				camel_url_free (url);
-		}
-
 		e_iterator_next (iter);
+
+		if (account->source == NULL)
+			continue;
+
+		else if (account->source->url == NULL)
+			continue;
+
+		else if (*account->source->url == '\0')
+			continue;
+
+		url = camel_url_new (account->source->url, NULL);
+		if (url == NULL)
+			continue;
+
+		/* Simplify the account URL for comparison. */
+		string = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
+		if (string == NULL || strcmp (string, source_url) != 0)
+			account = NULL;  /* not a match */
+
+		camel_url_free (url);
+		g_free (string);
+
+		if (account != NULL) {
+			g_object_unref (iter);
+			return account;
+		}
 	}
 
 	g_object_unref (iter);
-
-	camel_url_free (source);
 
 	return NULL;
 }

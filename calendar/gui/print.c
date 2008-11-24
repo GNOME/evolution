@@ -2531,7 +2531,7 @@ print_comp_draw_real (GtkPrintOperation *operation,
 	top += 20;
 
 	/* Attendees */
-	if (e_cal_component_has_attendees (comp)) {
+	if ((page_nr == 0) && e_cal_component_has_attendees (comp)) {
 		top = bound_text (context, font, _("Attendees: "), -1, 0.0, top, width, height, FALSE, &page_start, &pages);
 		pango_font_description_free (font);
 		font = get_font_for_size (12, PANGO_WEIGHT_NORMAL);

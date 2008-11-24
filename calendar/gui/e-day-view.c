@@ -1776,41 +1776,38 @@ e_day_view_remove_event_cb (EDayView *day_view,
 	return TRUE;
 }
 
-#if 0
-/*  Checks if the users participation status is Needs action and shows the summary as bold text*/
+/* Checks if the users participation status is NEEDS-ACTION and shows the summary as bold text */
 static void
 set_text_as_bold (EDayViewEvent *event)
 {
 	ECalComponent *comp;
-	char *address;
-	GSList *attendees, *l;
+	GSList *attendees = NULL, *l;
+	gchar *address;
 	ECalComponentAttendee *at = NULL;
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 	address = itip_get_comp_attendee (comp, event->comp_data->client);
 	e_cal_component_get_attendee_list (comp, &attendees);
-
 	for (l = attendees; l; l = l->next) {
 		ECalComponentAttendee *attendee = l->data;
 
-		if (g_str_equal (itip_strip_mailto (attendee->value), address)) {
+		if ((g_str_equal (itip_strip_mailto (attendee->value), address)) 
+		 || (attendee->sentby && g_str_equal (itip_strip_mailto (attendee->sentby), address))) {
 			at = attendee;
 			break;
 		}
 	}
-
-	/* The attendee has not yet accepted the meeting, display the summary as bolded .
-	   If the attendee is not present, it might have come through a mailing list*/
-	if (!at || (at->status == ICAL_PARTSTAT_NEEDSACTION)) {
-		gnome_canvas_item_set (event->canvas_item, "bold", TRUE, NULL);
-	}
-
 	e_cal_component_free_attendee_list (attendees);
-	g_object_unref (comp);
 	g_free (address);
+	g_object_unref (comp);
+
+	/* The attendee has not yet accepted the meeting, display the summary as bolded.
+	   If the attendee is not present, it might have come through a mailing list. 
+	   In that case, we never show the meeting as bold even if it is unaccepted. */
+	if (at && (at->status == ICAL_PARTSTAT_NEEDSACTION))
+		gnome_canvas_item_set (event->canvas_item, "bold", TRUE, NULL);
 }
-#endif
 
 /* This updates the text shown for an event. If the event start or end do not
    lie on a row boundary, the time is displayed before the summary. */
@@ -1860,9 +1857,9 @@ e_day_view_update_event_label (EDayView *day_view,
 			       "text", text,
 			       NULL);
 
-/*	if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
+	if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
 				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp))
-		set_text_as_bold (event); */
+		set_text_as_bold (event);
 
 	if (free_text)
 		g_free (text);
@@ -1892,9 +1889,9 @@ e_day_view_update_long_event_label (EDayView *day_view,
 	if (free_text)
 		g_free ((gchar*)summary);
 
-/*	if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
+	if (e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_HAS_UNACCEPTED_MEETING)
 				&& e_cal_util_component_has_attendee (event->comp_data->icalcomp))
-		set_text_as_bold (event); */
+		set_text_as_bold (event);
 }
 
 

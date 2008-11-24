@@ -26,6 +26,7 @@
 
 #include <bonobo/bonobo-object.h>
 #include <libedataserver/e-source-list.h>
+#include <widgets/misc/e-activity-handler.h>
 #include "Evolution.h"
 
 

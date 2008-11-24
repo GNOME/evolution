@@ -1,3 +1,15 @@
+2008-11-07  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #557581
+
+	* main.c:
+	Replace DEVELOPMENT with STABLE_VERSION, which actually defines
+	the latest stable version (e.g. 2.24).  STABLE_VERSION is only
+	defined if the current version is _unstable_ (e.g. 2.25).
+
+	* main.c (show_development_warning):
+	Use STABLE_VERSION instead of hard-coding the version number.
+
 2008-10-30  Matthew Barnes  <mbarnes@redhat.com>
 
 	* importer/evolution-importer-client.h:

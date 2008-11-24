@@ -1,3 +1,10 @@
+2008-09-23  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #552850
+
+	* org-gnome-mail-folder-unsubscribe.eplug.xml:
+	Prefer the term "side bar" over "folder tree".
+
 2008-08-27  Sankar P  <psankar@novell.com>
 
 License Changes

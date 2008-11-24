@@ -33,7 +33,7 @@ extern "C" {
 #define GROUP_INDENT         (BUTTON_HEIGHT + (BUTTON_PADDING * 2))
 
 /* Padding around the contents of a header button */
-#define HEADER_PADDING 1
+#define HEADER_PADDING 3
 
 #define MIN_ARROW_SIZE 10
 

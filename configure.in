@@ -1,7 +1,17 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(evolution, 2.25.2, http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
+m4_define([evo_major_version], [2])
+m4_define([evo_minor_version], [25])
+m4_define([evo_micro_version], [2])
+m4_define([evo_version],
+          [evo_major_version.evo_minor_version.evo_micro_version])
+m4_define([evo_stable_version],
+          [m4_if(m4_eval(evo_minor_version % 2), [1],
+          [evo_major_version.m4_eval(evo_minor_version - 1)],
+          [evo_version])])
+
+AC_INIT(evolution, [evo_version], http://bugzilla.gnome.org/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 
 # Some requirements have versioned package names
@@ -13,7 +23,7 @@ GTKHTML_PACKAGE=3.14
 # Required Packages
 m4_define([glib_minimum_version], [2.18.0])
 m4_define([gtk_minimum_version], [2.12.0])
-m4_define([eds_minimum_version], [2.23.91])
+m4_define([eds_minimum_version], [2.25.2])
 m4_define([gnome_icon_theme_minimum_version], [2.19.91])
 m4_define([libbonobo_minimum_version], [2.20.3])
 m4_define([libbonoboui_minimum_version], [2.4.2])
@@ -53,6 +63,11 @@ ACLOCAL="$ACLOCAL $ACLOCAL_FLAGS"
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE
 
+if test "$evo_version" != "$evo_stable_version"; then
+        AC_DEFINE(STABLE_VERSION, ["evo_stable_version"],
+                  [Define to the latest stable version if this version is unstable])
+fi
+
 dnl *************************************************************************************************
 dnl Base Version
 dnl
@@ -74,16 +89,6 @@ dnl ****************************************************************************
 UPGRADE_REVISION=0
 AC_SUBST(UPGRADE_REVISION)
 AC_DEFINE_UNQUOTED(UPGRADE_REVISION, "$UPGRADE_REVISION", [The number of times we've upgraded since the BASE_VERSION release])
-
-dnl *************************************************************************************************
-dnl Development mode
-dnl 
-dnl The controls whether things like the development warning in shell/main.c are displayed.
-dnl
-dnl This should be set to 0 for stable releases and 1 for unstable releases
-dnl *************************************************************************************************
-AC_DEFINE(DEVELOPMENT, 1, [If we are in development mode or not])
-AC_SUBST(DEVELOPMENT)
 
 AC_ISC_POSIX
 AC_PROG_CC

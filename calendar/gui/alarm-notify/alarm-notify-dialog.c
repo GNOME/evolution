@@ -67,6 +67,7 @@ typedef struct {
 	GtkWidget *snooze_time_min;
 	GtkWidget *snooze_time_hrs;
 	GtkWidget *snooze_btn;
+	GtkWidget *dismiss_btn;
 	GtkWidget *minutes_label;
 	GtkWidget *hrs_label;
 	GtkWidget *description;
@@ -191,7 +192,30 @@ snooze_pressed_cb (GtkButton *button, gpointer user_data)
 	if (!snooze_timeout)
 		snooze_timeout = DEFAULT_SNOOZE_MINS;
 	(* funcinfo->func) (ALARM_NOTIFY_SNOOZE, snooze_timeout, funcinfo->func_data);
+}
 
+static void
+dismiss_pressed_cb (GtkButton *button, gpointer user_data)
+{
+	AlarmNotify *an = user_data;
+	GtkTreeModel *model = gtk_tree_view_get_model (GTK_TREE_VIEW (an->treeview));
+
+	g_return_if_fail (model != NULL);
+
+	if (gtk_tree_model_iter_n_children (model, NULL) <= 1) {
+		gtk_dialog_response (GTK_DIALOG (an->dialog), GTK_RESPONSE_CLOSE);
+	} else {
+		GtkTreeIter iter;
+		AlarmFuncInfo *funcinfo = NULL;
+		GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (an->treeview));
+
+		if (gtk_tree_selection_get_selected (selection, &model, &iter))
+			gtk_tree_model_get (model, &iter, ALARM_FUNCINFO_COLUMN, &funcinfo, -1);
+
+		g_return_if_fail (funcinfo);
+
+		(* funcinfo->func) (ALARM_NOTIFY_DISMISS, -1, funcinfo->func_data);
+	}
 }
 
 static void
@@ -256,10 +280,11 @@ notified_alarms_dialog_new (void)
 	an->scrolledwindow = glade_xml_get_widget (an->xml, "treeview-scrolledwindow");
 	snooze_btn = glade_xml_get_widget (an->xml, "snooze-button");
 	an->snooze_btn = snooze_btn;
+	an->dismiss_btn = glade_xml_get_widget (an->xml, "dismiss-button");
 	edit_btn = glade_xml_get_widget (an->xml, "edit-button");
 
 	if (!(an->dialog && an->scrolledwindow && an->treeview && an->snooze_time_min && an->snooze_time_hrs
-	      && an->description && an->location && edit_btn && snooze_btn)) {
+	      && an->description && an->location && edit_btn && snooze_btn && an->dismiss_btn)) {
 		g_message ("alarm_notify_dialog(): Could not find all widgets in Glade file!");
 		g_object_unref (an->xml);
 		g_free (an);
@@ -292,6 +317,7 @@ notified_alarms_dialog_new (void)
 
 	g_signal_connect (edit_btn, "clicked", G_CALLBACK (edit_pressed_cb), an);
 	g_signal_connect (snooze_btn, "clicked", G_CALLBACK (snooze_pressed_cb), an);
+	g_signal_connect (an->dismiss_btn, "clicked", G_CALLBACK (dismiss_pressed_cb), an);
 	g_signal_connect (G_OBJECT (an->dialog), "response", G_CALLBACK (dialog_response_cb), an);
 	g_signal_connect (G_OBJECT (an->dialog), "destroy", G_CALLBACK (dialog_destroyed_cb), an);
 
