@@ -246,9 +246,9 @@
       <type>bool</type>
       <default>false</default>
       <locale name="C">
-         <short>Disable or enable ellipsizing of folder names in folder tree</short>
+         <short>Disable or enable ellipsizing of folder names in side bar</short>
          <long>
-           Whether disable ellipsizing feature of folder names in folder tree.
+           Whether disable ellipsizing feature of folder names in side bar.
          </long>
       </locale>
     </schema>
