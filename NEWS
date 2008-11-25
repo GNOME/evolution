@@ -1,3 +1,17 @@
+Evolution 2.24.2 2008-11-24
+---------------------------
+
+Bug Fixes:
+	#434320: When the popup is clicked close the status icon (Srinivasa Ragavan)
+	#446286: Remove the header check as we do a e_gw_connection_get_item for tracking the status (Bharath Acharya)
+	#555276: Don't load vfolder as subfolder. (Srinivasa Ragavan)
+	#559810: Do not localize empty label names, also localize them only first time (Milan Crha)
+	#560329: Fix the signature of the "children-changed" signal emission (Li Yuan)
+	#560882: Left-align header labels instead of centering them, and adjust the header padding so they look purdy (Matthew Barnes)
+
+Updated Translations:
+	Nickolay V. Shmyrev (ru)
+
 Evolution 2.24.1.1 2008-11-07
 ----------------------------
 
