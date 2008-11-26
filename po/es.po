@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&amp;component=general\n"
-"POT-Creation-Date: 2008-11-12 20:03+0000\n"
-"PO-Revision-Date: 2008-11-14 20:56+0100\n"
+"POT-Creation-Date: 2008-11-24 01:11+0000\n"
+"PO-Revision-Date: 2008-11-26 19:15+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -159,7 +159,7 @@ msgid "calendar view for one or more days"
 msgstr "vista de calendario para uno o más días"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:186
-#: ../calendar/gui/calendar-component.c:792
+#: ../calendar/gui/calendar-component.c:803
 msgid "%A %d %b %Y"
 msgstr "%A, %e de %b de %Y"
 
@@ -170,7 +170,7 @@ msgstr "%A, %e de %b de %Y"
 #. You can change the order but don't change the
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:189
-#: ../calendar/gui/calendar-component.c:795
+#: ../calendar/gui/calendar-component.c:806
 #: ../calendar/gui/e-day-view-top-item.c:855 ../calendar/gui/e-day-view.c:1577
 #: ../calendar/gui/e-week-view-main-item.c:335
 msgid "%a %d %b"
@@ -179,9 +179,9 @@ msgstr "%a, %e de %b"
 #: ../a11y/calendar/ea-gnome-calendar.c:191
 #: ../a11y/calendar/ea-gnome-calendar.c:196
 #: ../a11y/calendar/ea-gnome-calendar.c:198
-#: ../calendar/gui/calendar-component.c:797
-#: ../calendar/gui/calendar-component.c:802
-#: ../calendar/gui/calendar-component.c:804
+#: ../calendar/gui/calendar-component.c:808
+#: ../calendar/gui/calendar-component.c:813
+#: ../calendar/gui/calendar-component.c:815
 msgid "%a %d %b %Y"
 msgstr "%a, %e de %b de %Y"
 
@@ -189,10 +189,10 @@ msgstr "%a, %e de %b de %Y"
 #: ../a11y/calendar/ea-gnome-calendar.c:221
 #: ../a11y/calendar/ea-gnome-calendar.c:227
 #: ../a11y/calendar/ea-gnome-calendar.c:229
-#: ../calendar/gui/calendar-component.c:816
-#: ../calendar/gui/calendar-component.c:823
-#: ../calendar/gui/calendar-component.c:829
-#: ../calendar/gui/calendar-component.c:831
+#: ../calendar/gui/calendar-component.c:827
+#: ../calendar/gui/calendar-component.c:834
+#: ../calendar/gui/calendar-component.c:840
+#: ../calendar/gui/calendar-component.c:842
 msgid "%d %b %Y"
 msgstr "%e de %B de %Y"
 
@@ -202,7 +202,7 @@ msgstr "%e de %B de %Y"
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:219
-#: ../calendar/gui/calendar-component.c:821
+#: ../calendar/gui/calendar-component.c:832
 #: ../calendar/gui/e-day-view-top-item.c:859 ../calendar/gui/e-day-view.c:1593
 #: ../calendar/gui/e-week-view-main-item.c:349
 msgid "%d %b"
@@ -614,7 +614,7 @@ msgstr "Configure el autocompletado aquí"
 
 #. Create the contacts group
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:5
-#: ../addressbook/gui/component/addressbook-view.c:1325
+#: ../addressbook/gui/component/addressbook-view.c:1215
 #: ../calendar/gui/calendar-component.c:307 ../calendar/gui/migration.c:396
 #: ../plugins/exchange-operations/exchange-delegates-user.c:78
 #: ../plugins/exchange-operations/exchange-folder.c:582
@@ -863,20 +863,27 @@ msgstr "Renombrar carpeta"
 msgid "Folder names cannot contain '/'"
 msgstr "Los nombres de carpetas no pueden contener el carácter «/»"
 
-#: ../addressbook/gui/component/addressbook-view.c:941
+#: ../addressbook/gui/component/addressbook-view.c:951
 msgid "_New Address Book"
 msgstr "Libreta de direcciones _nueva"
 
-#: ../addressbook/gui/component/addressbook-view.c:942
+#: ../addressbook/gui/component/addressbook-view.c:952
 msgid "Save As vCard..."
 msgstr "Guardar como vCard…"
 
-#: ../addressbook/gui/component/addressbook-view.c:945
+#: ../addressbook/gui/component/addressbook-view.c:953
+#: ../calendar/gui/calendar-component.c:660
+#: ../calendar/gui/memos-component.c:501 ../calendar/gui/tasks-component.c:492
+#: ../mail/em-folder-tree.c:2114 ../ui/evolution-mail-list.xml.h:39
+msgid "_Rename..."
+msgstr "_Renombrar…"
+
+#: ../addressbook/gui/component/addressbook-view.c:956
 #: ../addressbook/gui/widgets/e-addressbook-view.c:956
-#: ../calendar/gui/calendar-component.c:652
+#: ../calendar/gui/calendar-component.c:663
 #: ../calendar/gui/e-calendar-table.c:1608
 #: ../calendar/gui/e-calendar-view.c:1692 ../calendar/gui/e-memo-table.c:940
-#: ../calendar/gui/memos-component.c:493 ../calendar/gui/tasks-component.c:484
+#: ../calendar/gui/memos-component.c:504 ../calendar/gui/tasks-component.c:495
 #: ../mail/em-folder-tree.c:2111 ../mail/em-folder-view.c:1340
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:42
 #: ../ui/evolution-mail-list.xml.h:35 ../ui/evolution-memos.xml.h:16
@@ -884,16 +891,16 @@ msgstr "Guardar como vCard…"
 msgid "_Delete"
 msgstr "_Borrar"
 
-#: ../addressbook/gui/component/addressbook-view.c:948
-#: ../calendar/gui/calendar-component.c:657
+#: ../addressbook/gui/component/addressbook-view.c:959
+#: ../calendar/gui/calendar-component.c:668
 #: ../calendar/gui/dialogs/comp-editor.c:2043
-#: ../calendar/gui/memos-component.c:498 ../calendar/gui/tasks-component.c:489
+#: ../calendar/gui/memos-component.c:509 ../calendar/gui/tasks-component.c:500
 #: ../composer/e-msg-composer.c:1041 ../mail/em-folder-tree.c:2120
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:38
 msgid "_Properties"
 msgstr "_Propiedades"
 
-#: ../addressbook/gui/component/addressbook-view.c:1336
+#: ../addressbook/gui/component/addressbook-view.c:1225
 msgid "Contact Source Selector"
 msgstr "Selector de origen de contactos"
 
@@ -3442,7 +3449,7 @@ msgstr "Charla por vídeo"
 #: ../addressbook/gui/widgets/eab-contact-display.c:636
 #: ../calendar/gui/calendar-commands.c:94
 #: ../calendar/gui/dialogs/calendar-setup.c:369
-#: ../calendar/gui/gnome-cal.c:2462
+#: ../calendar/gui/gnome-cal.c:2499
 #: ../plugins/exchange-operations/exchange-delegates-user.c:78
 #: ../plugins/exchange-operations/exchange-folder.c:576
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:424
@@ -4645,8 +4652,8 @@ msgid "Calendar and Tasks"
 msgstr "Calendario y tareas"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
-#: ../calendar/gui/calendar-component.c:840
-#: ../calendar/gui/calendar-component.c:1437
+#: ../calendar/gui/calendar-component.c:851
+#: ../calendar/gui/calendar-component.c:1325
 msgid "Calendars"
 msgstr "Calendarios"
 
@@ -4688,17 +4695,17 @@ msgstr "_Notas"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: ../calendar/gui/e-memo-table.c:279 ../calendar/gui/e-memos.c:1120
-#: ../calendar/gui/gnome-cal.c:1777 ../calendar/gui/memos-component.c:575
-#: ../calendar/gui/memos-component.c:1128 ../calendar/gui/memos-control.c:354
+#: ../calendar/gui/gnome-cal.c:1810 ../calendar/gui/memos-component.c:586
+#: ../calendar/gui/memos-component.c:1016 ../calendar/gui/memos-control.c:354
 #: ../calendar/gui/memos-control.c:370
 msgid "Memos"
 msgstr "Notas"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
 #: ../calendar/gui/e-calendar-table.c:713 ../calendar/gui/e-tasks.c:1429
-#: ../calendar/gui/gnome-cal.c:1645 ../calendar/gui/print.c:1984
-#: ../calendar/gui/tasks-component.c:566
-#: ../calendar/gui/tasks-component.c:1117 ../calendar/gui/tasks-control.c:492
+#: ../calendar/gui/gnome-cal.c:1678 ../calendar/gui/print.c:1984
+#: ../calendar/gui/tasks-component.c:577
+#: ../calendar/gui/tasks-component.c:1005 ../calendar/gui/tasks-control.c:492
 #: ../calendar/gui/tasks-control.c:508
 #: ../calendar/importers/icalendar-importer.c:76
 #: ../calendar/importers/icalendar-importer.c:749
@@ -5482,93 +5489,93 @@ msgstr "Cumpleaños y aniversarios"
 msgid "Weather"
 msgstr "Meteorología"
 
-#: ../calendar/gui/calendar-component.c:648
+#: ../calendar/gui/calendar-component.c:658
 msgid "_New Calendar"
 msgstr "Calendario _nuevo"
 
-#: ../calendar/gui/calendar-component.c:649
-#: ../calendar/gui/memos-component.c:490 ../calendar/gui/tasks-component.c:481
+#: ../calendar/gui/calendar-component.c:659
+#: ../calendar/gui/memos-component.c:500 ../calendar/gui/tasks-component.c:491
 #: ../mail/em-folder-tree.c:2106
 msgid "_Copy..."
 msgstr "_Copiar…"
 
-#: ../calendar/gui/calendar-component.c:653
-#: ../calendar/gui/memos-component.c:494 ../calendar/gui/tasks-component.c:485
+#: ../calendar/gui/calendar-component.c:664
+#: ../calendar/gui/memos-component.c:505 ../calendar/gui/tasks-component.c:496
 msgid "_Make available for offline use"
 msgstr "_Hacer esto disponible para su uso desconectado"
 
-#: ../calendar/gui/calendar-component.c:654
-#: ../calendar/gui/memos-component.c:495 ../calendar/gui/tasks-component.c:486
+#: ../calendar/gui/calendar-component.c:665
+#: ../calendar/gui/memos-component.c:506 ../calendar/gui/tasks-component.c:497
 msgid "_Do not make available for offline use"
 msgstr "_No hacer esto disponible sin conexión"
 
-#: ../calendar/gui/calendar-component.c:984
+#: ../calendar/gui/calendar-component.c:995
 msgid "Failed upgrading calendars."
 msgstr "Falló al actualizar calendarios."
 
-#: ../calendar/gui/calendar-component.c:1283
+#: ../calendar/gui/calendar-component.c:1176
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr ""
 "No es posible abrir el calendario «%s» para crear acontecimientos y reuniones"
 
-#: ../calendar/gui/calendar-component.c:1299
+#: ../calendar/gui/calendar-component.c:1192
 msgid "There is no calendar available for creating events and meetings"
 msgstr "No hay un calendario disponible para crear acontecimientos y reuniones"
 
-#: ../calendar/gui/calendar-component.c:1412
+#: ../calendar/gui/calendar-component.c:1305
 msgid "Calendar Source Selector"
 msgstr "Selector de origen del calendario"
 
-#: ../calendar/gui/calendar-component.c:1633
+#: ../calendar/gui/calendar-component.c:1521
 msgid "New appointment"
 msgstr "Cita nueva"
 
-#: ../calendar/gui/calendar-component.c:1634
+#: ../calendar/gui/calendar-component.c:1522
 msgctxt "New"
 msgid "_Appointment"
 msgstr "_Cita"
 
-#: ../calendar/gui/calendar-component.c:1635
+#: ../calendar/gui/calendar-component.c:1523
 msgid "Create a new appointment"
 msgstr "Crea una cita nueva"
 
-#: ../calendar/gui/calendar-component.c:1641
+#: ../calendar/gui/calendar-component.c:1529
 msgid "New meeting"
 msgstr "Reunión nueva"
 
-#: ../calendar/gui/calendar-component.c:1642
+#: ../calendar/gui/calendar-component.c:1530
 msgctxt "New"
 msgid "M_eeting"
 msgstr "_Reunión"
 
-#: ../calendar/gui/calendar-component.c:1643
+#: ../calendar/gui/calendar-component.c:1531
 msgid "Create a new meeting request"
 msgstr "Crea una solicitud de reunión nueva"
 
-#: ../calendar/gui/calendar-component.c:1649
+#: ../calendar/gui/calendar-component.c:1537
 msgid "New all day appointment"
 msgstr "Cita nueva para todo el día"
 
-#: ../calendar/gui/calendar-component.c:1650
+#: ../calendar/gui/calendar-component.c:1538
 msgctxt "New"
 msgid "All Day A_ppointment"
 msgstr "Cita para todo el _día"
 
-#: ../calendar/gui/calendar-component.c:1651
+#: ../calendar/gui/calendar-component.c:1539
 msgid "Create a new all-day appointment"
 msgstr "Crea una cita nueva para todo el día"
 
-#: ../calendar/gui/calendar-component.c:1657
+#: ../calendar/gui/calendar-component.c:1545
 msgid "New calendar"
 msgstr "Calendario nuevo"
 
-#: ../calendar/gui/calendar-component.c:1658
+#: ../calendar/gui/calendar-component.c:1546
 msgctxt "New"
 msgid "Cale_ndar"
 msgstr "Cale_ndario"
 
-#: ../calendar/gui/calendar-component.c:1659
+#: ../calendar/gui/calendar-component.c:1547
 msgid "Create a new calendar"
 msgstr "Crea un calendario nuevo"
 
@@ -7400,7 +7407,7 @@ msgid "%s for an unknown trigger type"
 msgstr "%s para un tipo de disparador desconocido"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:75
-#: ../calendar/gui/e-cal-component-preview.c:73 ../mail/em-folder-view.c:3312
+#: ../calendar/gui/e-cal-component-preview.c:73 ../mail/em-folder-view.c:3308
 #, c-format
 msgid "Click to open %s"
 msgstr "Pulse para abrir %s"
@@ -8579,39 +8586,39 @@ msgstr "Seleccione la zona horaria"
 msgid "%d %B"
 msgstr "%e de %B"
 
-#: ../calendar/gui/gnome-cal.c:2587
+#: ../calendar/gui/gnome-cal.c:2624
 msgid "_Custom View"
 msgstr "Vista _personalizada"
 
-#: ../calendar/gui/gnome-cal.c:2588
+#: ../calendar/gui/gnome-cal.c:2625
 msgid "_Save Custom View"
 msgstr "_Guardar vista personalizada"
 
-#: ../calendar/gui/gnome-cal.c:2593
+#: ../calendar/gui/gnome-cal.c:2630
 msgid "_Define Views..."
 msgstr "_Definir vistas…"
 
-#: ../calendar/gui/gnome-cal.c:2835
+#: ../calendar/gui/gnome-cal.c:2872
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Cargando citas de %s"
 
-#: ../calendar/gui/gnome-cal.c:2850
+#: ../calendar/gui/gnome-cal.c:2887
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Cargando tareas de %s"
 
-#: ../calendar/gui/gnome-cal.c:2859
+#: ../calendar/gui/gnome-cal.c:2896
 #, c-format
 msgid "Loading memos at %s"
 msgstr "Cargando notas en %s"
 
-#: ../calendar/gui/gnome-cal.c:2964
+#: ../calendar/gui/gnome-cal.c:3001
 #, c-format
 msgid "Opening %s"
 msgstr "Abriendo %s"
 
-#: ../calendar/gui/gnome-cal.c:3932
+#: ../calendar/gui/gnome-cal.c:3969
 msgid "Purging"
 msgstr "Compactando"
 
@@ -8725,79 +8732,79 @@ msgstr "Información de iCalendar"
 msgid "You must be an attendee of the event."
 msgstr "Debe ser un participante en el acontecimiento."
 
-#: ../calendar/gui/memos-component.c:489
+#: ../calendar/gui/memos-component.c:499
 msgid "_New Memo List"
 msgstr "Lista de notas _nueva"
 
-#: ../calendar/gui/memos-component.c:571
+#: ../calendar/gui/memos-component.c:582
 #, c-format
 msgid "%d memo"
 msgid_plural "%d memos"
 msgstr[0] "%d nota"
 msgstr[1] "%d notas"
 
-#: ../calendar/gui/memos-component.c:573 ../calendar/gui/tasks-component.c:564
+#: ../calendar/gui/memos-component.c:584 ../calendar/gui/tasks-component.c:575
 #, c-format
 msgid ", %d selected"
 msgid_plural ", %d selected"
 msgstr[0] ", %d seleccionado"
 msgstr[1] ", %d seleccionados"
 
-#: ../calendar/gui/memos-component.c:620
+#: ../calendar/gui/memos-component.c:631
 msgid "Failed upgrading memos."
 msgstr "Fallo al actualizar las notas."
 
-#: ../calendar/gui/memos-component.c:980
+#: ../calendar/gui/memos-component.c:873
 #, c-format
 msgid "Unable to open the memo list '%s' for creating events and meetings"
 msgstr ""
 "No es posible abrir la lista de notas «%s» para crear acontecimientos y "
 "reuniones"
 
-#: ../calendar/gui/memos-component.c:993
+#: ../calendar/gui/memos-component.c:886
 msgid "There is no calendar available for creating memos"
 msgstr "No hay un calendario disponible para crear notas"
 
-#: ../calendar/gui/memos-component.c:1103
+#: ../calendar/gui/memos-component.c:996
 msgid "Memo Source Selector"
 msgstr "Selector de origen de notas"
 
-#: ../calendar/gui/memos-component.c:1287
+#: ../calendar/gui/memos-component.c:1175
 msgid "New memo"
 msgstr "Nota nueva"
 
-#: ../calendar/gui/memos-component.c:1288
+#: ../calendar/gui/memos-component.c:1176
 msgctxt "New"
 msgid "Mem_o"
 msgstr "_Nota"
 
-#: ../calendar/gui/memos-component.c:1289
+#: ../calendar/gui/memos-component.c:1177
 msgid "Create a new memo"
 msgstr "Crea una nota nueva"
 
-#: ../calendar/gui/memos-component.c:1295
+#: ../calendar/gui/memos-component.c:1183
 msgid "New shared memo"
 msgstr "Nota nueva compartida"
 
-#: ../calendar/gui/memos-component.c:1296
+#: ../calendar/gui/memos-component.c:1184
 msgctxt "New"
 msgid "_Shared memo"
 msgstr "Nota _compartida"
 
-#: ../calendar/gui/memos-component.c:1297
+#: ../calendar/gui/memos-component.c:1185
 msgid "Create a shared new memo"
 msgstr "Crea una nota compartida nueva"
 
-#: ../calendar/gui/memos-component.c:1303
+#: ../calendar/gui/memos-component.c:1191
 msgid "New memo list"
 msgstr "Lista de notas nueva"
 
-#: ../calendar/gui/memos-component.c:1304
+#: ../calendar/gui/memos-component.c:1192
 msgctxt "New"
 msgid "Memo li_st"
 msgstr "_Lista de notas"
 
-#: ../calendar/gui/memos-component.c:1305
+#: ../calendar/gui/memos-component.c:1193
 msgid "Create a new memo list"
 msgstr "Crea una lista de notas nueva"
 
@@ -9058,72 +9065,72 @@ msgstr "Categorías: %s"
 msgid "Contacts: "
 msgstr "Contactos: "
 
-#: ../calendar/gui/tasks-component.c:480
+#: ../calendar/gui/tasks-component.c:490
 msgid "_New Task List"
 msgstr "Lista de tareas _nueva"
 
-#: ../calendar/gui/tasks-component.c:562
+#: ../calendar/gui/tasks-component.c:573
 #, c-format
 msgid "%d task"
 msgid_plural "%d tasks"
 msgstr[0] "%d tarea"
 msgstr[1] "%d tareas"
 
-#: ../calendar/gui/tasks-component.c:611
+#: ../calendar/gui/tasks-component.c:622
 msgid "Failed upgrading tasks."
 msgstr "Fallo al actualizar las tareas."
 
-#: ../calendar/gui/tasks-component.c:968
+#: ../calendar/gui/tasks-component.c:861
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr ""
 "No es posible abrir la lista de tareas «%s» para crear acontecimientos y "
 "reuniones"
 
-#: ../calendar/gui/tasks-component.c:981
+#: ../calendar/gui/tasks-component.c:874
 msgid "There is no calendar available for creating tasks"
 msgstr "No hay un calendario disponible para crear tareas"
 
-#: ../calendar/gui/tasks-component.c:1092
+#: ../calendar/gui/tasks-component.c:985
 msgid "Task Source Selector"
 msgstr "Selector de origen de tareas"
 
-#: ../calendar/gui/tasks-component.c:1352
+#: ../calendar/gui/tasks-component.c:1240
 msgid "New task"
 msgstr "Tarea nueva"
 
-#: ../calendar/gui/tasks-component.c:1353
+#: ../calendar/gui/tasks-component.c:1241
 msgctxt "New"
 msgid "_Task"
 msgstr "_Tarea"
 
-#: ../calendar/gui/tasks-component.c:1354
+#: ../calendar/gui/tasks-component.c:1242
 msgid "Create a new task"
 msgstr "Crea una tarea nueva"
 
-#: ../calendar/gui/tasks-component.c:1360
+#: ../calendar/gui/tasks-component.c:1248
 msgid "New assigned task"
 msgstr "Nueva tarea asignada"
 
-#: ../calendar/gui/tasks-component.c:1361
+#: ../calendar/gui/tasks-component.c:1249
 msgctxt "New"
 msgid "Assigne_d Task"
 msgstr "Tarea _asignada"
 
-#: ../calendar/gui/tasks-component.c:1362
+#: ../calendar/gui/tasks-component.c:1250
 msgid "Create a new assigned task"
 msgstr "Crea una tarea nueva asignada"
 
-#: ../calendar/gui/tasks-component.c:1368
+#: ../calendar/gui/tasks-component.c:1256
 msgid "New task list"
 msgstr "Lista de tareas nueva"
 
-#: ../calendar/gui/tasks-component.c:1369
+#: ../calendar/gui/tasks-component.c:1257
 msgctxt "New"
 msgid "Tas_k list"
 msgstr "Lista de ta_reas"
 
-#: ../calendar/gui/tasks-component.c:1370
+#: ../calendar/gui/tasks-component.c:1258
 msgid "Create a new task list"
 msgstr "Crea una lista de tareas nueva"
 
@@ -12285,7 +12292,7 @@ msgstr "_Nombre de la carpeta:"
 
 #. load store to mail component
 #: ../mail/em-folder-tree-model.c:204 ../mail/em-folder-tree-model.c:206
-#: ../mail/mail-vfolder.c:975 ../mail/mail-vfolder.c:1042
+#: ../mail/mail-vfolder.c:980 ../mail/mail-vfolder.c:1047
 msgid "Search Folders"
 msgstr "Carpetas de búsqueda"
 
@@ -12384,10 +12391,6 @@ msgstr "Carpeta _nueva…"
 #: ../mail/em-folder-tree.c:2107
 msgid "_Move..."
 msgstr "_Mover…"
-
-#: ../mail/em-folder-tree.c:2114 ../ui/evolution-mail-list.xml.h:39
-msgid "_Rename..."
-msgstr "_Renombrar…"
 
 #: ../mail/em-folder-tree.c:2115 ../ui/evolution-mail-list.xml.h:21
 msgid "Re_fresh"
@@ -12590,17 +12593,17 @@ msgstr "_Desde esta dirección"
 msgid "_To this Address"
 msgstr "_A esta dirección"
 
-#: ../mail/em-folder-view.c:3293
+#: ../mail/em-folder-view.c:3289
 #, c-format
 msgid "Click to mail %s"
 msgstr "Pulse para enviar correo a %s"
 
-#: ../mail/em-folder-view.c:3305
+#: ../mail/em-folder-view.c:3301
 #, c-format
 msgid "Click to call %s"
 msgstr "Pulse para llamar a %s"
 
-#: ../mail/em-folder-view.c:3310
+#: ../mail/em-folder-view.c:3306
 msgid "Click to hide/unhide addresses"
 msgstr "Pulse para ocultar/mostrar las direcciones"
 
@@ -13390,10 +13393,10 @@ msgid "Directory for saving mail component files."
 msgstr "Directorio para guardar archivos enviados por correo."
 
 #: ../mail/evolution-mail.schemas.in.h:41
-msgid "Disable or enable ellipsizing of folder names in folder tree"
+msgid "Disable or enable ellipsizing of folder names in side bar"
 msgstr ""
-"Desactivar o activar la elipsis de los nombres de las carpetas en el árbol "
-"de carpetas"
+"Desactivar o activar la elipsis de los nombres de las carpetas en la barra "
+"lateral"
 
 #: ../mail/evolution-mail.schemas.in.h:42
 msgid "Draw spelling error indicators on words as you type."
@@ -14076,10 +14079,10 @@ msgstr ""
 "cada mensaje."
 
 #: ../mail/evolution-mail.schemas.in.h:178
-msgid "Whether disable ellipsizing feature of folder names in folder tree."
+msgid "Whether disable ellipsizing feature of folder names in side bar."
 msgstr ""
 "Indica si se debe desactivar la característica de elipsis de los nombres de "
-"las carpetas en el árbol de carpetas."
+"las carpetas en la barra lateral."
 
 #: ../mail/evolution-mail.schemas.in.h:179
 msgid ""
@@ -15381,11 +15384,11 @@ msgstr "Actualizando carpetas de búsqueda para «%s: %s»"
 msgid "Updating Search Folders for '%s'"
 msgstr "Actualizando carpetas de búsqueda para «%s»"
 
-#: ../mail/mail-vfolder.c:1081
+#: ../mail/mail-vfolder.c:1086
 msgid "Edit Search Folder"
 msgstr "Editar carpeta de búsqueda"
 
-#: ../mail/mail-vfolder.c:1170
+#: ../mail/mail-vfolder.c:1175
 msgid "New Search Folder"
 msgstr "Carpeta de búsqueda nueva"
 
@@ -17841,10 +17844,10 @@ msgid "Unsubscribing from folder \"%s\""
 msgstr "Desuscribiéndose de la carpeta «%s»"
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:1
-msgid "Allows unsubscribing of mail folders in the folder tree context menu."
+msgid "Allows unsubscribing of mail folders in the side bar context menu."
 msgstr ""
-"Permite desuscribirse de las listas de correo en el menú contextual del "
-"árbol de carpetas."
+"Permite desuscribirse de las listas de correo en el menú contextual de la "
+"barra lateral."
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
 msgid "Unsubscribe Folders"
@@ -18246,56 +18249,56 @@ msgstr "Añadir   "
 msgid "Modify"
 msgstr "Modificar"
 
-#: ../plugins/groupwise-features/status-track.c:107
+#: ../plugins/groupwise-features/status-track.c:97
 msgid "Message Status"
 msgstr "Estado del mensaje"
 
 #. Subject
-#: ../plugins/groupwise-features/status-track.c:121
+#: ../plugins/groupwise-features/status-track.c:111
 msgid "Subject:"
 msgstr "Asunto:"
 
-#: ../plugins/groupwise-features/status-track.c:135
+#: ../plugins/groupwise-features/status-track.c:125
 msgid "From:"
 msgstr "De:"
 
-#: ../plugins/groupwise-features/status-track.c:150
+#: ../plugins/groupwise-features/status-track.c:140
 msgid "Creation date:"
 msgstr "Fecha de creación:"
 
-#: ../plugins/groupwise-features/status-track.c:189
+#: ../plugins/groupwise-features/status-track.c:179
 msgid "Recipient: "
 msgstr "Destinatario: "
 
-#: ../plugins/groupwise-features/status-track.c:196
+#: ../plugins/groupwise-features/status-track.c:186
 msgid "Delivered: "
 msgstr "Entregado: "
 
-#: ../plugins/groupwise-features/status-track.c:202
+#: ../plugins/groupwise-features/status-track.c:192
 msgid "Opened: "
 msgstr "Abierto: "
 
-#: ../plugins/groupwise-features/status-track.c:207
+#: ../plugins/groupwise-features/status-track.c:197
 msgid "Accepted: "
 msgstr "Aceptado: "
 
-#: ../plugins/groupwise-features/status-track.c:212
+#: ../plugins/groupwise-features/status-track.c:202
 msgid "Deleted: "
 msgstr "Borrado: "
 
-#: ../plugins/groupwise-features/status-track.c:217
+#: ../plugins/groupwise-features/status-track.c:207
 msgid "Declined: "
 msgstr "Rechazado: "
 
-#: ../plugins/groupwise-features/status-track.c:222
+#: ../plugins/groupwise-features/status-track.c:212
 msgid "Completed: "
 msgstr "Completado: "
 
-#: ../plugins/groupwise-features/status-track.c:227
+#: ../plugins/groupwise-features/status-track.c:217
 msgid "Undelivered: "
 msgstr "Sin entregar: "
 
-#: ../plugins/groupwise-features/status-track.c:251
+#: ../plugins/groupwise-features/status-track.c:241
 msgid "Track Message Status..."
 msgstr "Seguir el estado del mensaje…"
 
@@ -19218,20 +19221,20 @@ msgstr ""
 "Indica si se deben notificar sólo los mensajes en la carpeta bandeja de "
 "entrada."
 
-#: ../plugins/mail-notification/mail-notification.c:255
+#: ../plugins/mail-notification/mail-notification.c:256
 msgid "Generate a _D-Bus message"
 msgstr "Generar un mensaje _D-Bus"
 
-#: ../plugins/mail-notification/mail-notification.c:378
+#: ../plugins/mail-notification/mail-notification.c:379
 msgid "Evolution's Mail Notification"
 msgstr "Notificación de correo de Evolution"
 
-#: ../plugins/mail-notification/mail-notification.c:399
+#: ../plugins/mail-notification/mail-notification.c:400
 msgid "Mail Notification Properties"
 msgstr "Propiedades de la notificación de correo"
 
 #. To translators: '%d' is the number of mails recieved and '%s' is the name of the folder
-#: ../plugins/mail-notification/mail-notification.c:458
+#: ../plugins/mail-notification/mail-notification.c:479
 #, c-format
 msgid ""
 "You have received %d new message\n"
@@ -19246,55 +19249,55 @@ msgstr[1] ""
 "Ha recibido %d mensajes nuevos\n"
 "en %s."
 
-#: ../plugins/mail-notification/mail-notification.c:463
+#: ../plugins/mail-notification/mail-notification.c:484
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
 msgstr[0] "Ha recibido %d mensaje nuevo."
 msgstr[1] "Ha recibido %d mensajes nuevos."
 
-#: ../plugins/mail-notification/mail-notification.c:480
-#: ../plugins/mail-notification/mail-notification.c:485
+#: ../plugins/mail-notification/mail-notification.c:501
+#: ../plugins/mail-notification/mail-notification.c:506
 msgid "New email"
 msgstr "Nuevo correo-e"
 
-#: ../plugins/mail-notification/mail-notification.c:544
+#: ../plugins/mail-notification/mail-notification.c:566
 msgid "Show icon in _notification area"
 msgstr "Mostrar icono en el área de _notificación"
 
-#: ../plugins/mail-notification/mail-notification.c:547
+#: ../plugins/mail-notification/mail-notification.c:569
 msgid "B_link icon in notification area"
 msgstr "Icono pa_rpadeante en el área de notificación"
 
-#: ../plugins/mail-notification/mail-notification.c:549
+#: ../plugins/mail-notification/mail-notification.c:571
 msgid "Popup _message together with the icon"
 msgstr "_Mensaje emergente junto con el icono"
 
-#: ../plugins/mail-notification/mail-notification.c:730
+#: ../plugins/mail-notification/mail-notification.c:752
 msgid "_Play sound when new messages arrive"
 msgstr "Re_producir un sonido cuando llegue correo nuevo"
 
-#: ../plugins/mail-notification/mail-notification.c:736
+#: ../plugins/mail-notification/mail-notification.c:758
 msgid "_Beep"
 msgstr "_Pitar"
 
-#: ../plugins/mail-notification/mail-notification.c:737
+#: ../plugins/mail-notification/mail-notification.c:759
 msgid "Play _sound file"
 msgstr "Reproducir archivo de _sonido"
 
-#: ../plugins/mail-notification/mail-notification.c:748
+#: ../plugins/mail-notification/mail-notification.c:770
 msgid "Specify _filename:"
 msgstr "Especificar nombre de a_rchivo:"
 
-#: ../plugins/mail-notification/mail-notification.c:749
+#: ../plugins/mail-notification/mail-notification.c:771
 msgid "Select sound file"
 msgstr "Seleccione un arhivo de sonido"
 
-#: ../plugins/mail-notification/mail-notification.c:750
+#: ../plugins/mail-notification/mail-notification.c:772
 msgid "Pl_ay"
 msgstr "Reprod_ucir"
 
-#: ../plugins/mail-notification/mail-notification.c:807
+#: ../plugins/mail-notification/mail-notification.c:829
 msgid "Notify new messages for _Inbox only"
 msgstr "Notificar nuevos mensajes sólo para la _bandeja de entrada"
 
