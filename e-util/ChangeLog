@@ -1,3 +1,10 @@
+2008-11-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #332729
+
+	* e-config.c: (ep_finalise): Disconnect handlers on the widget before
+	freeing the structure it is using.
+
 2008-11-12  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #559810
