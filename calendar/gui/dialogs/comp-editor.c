@@ -3046,7 +3046,8 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 			set_attendees_for_delegation (send_comp, address, method);
 	}
 
-	if (!e_cal_component_has_attachments (priv->comp)) {
+		if (!e_cal_component_has_attachments (priv->comp) 
+		 || e_cal_get_static_capability (priv->client, CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
 		if (itip_send_comp (method, send_comp, priv->client,
 					NULL, NULL, users)) {
 			g_object_unref (send_comp);

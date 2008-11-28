@@ -1,3 +1,12 @@
+2008-11-28  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #561467
+
+	* gui/dialogs/comp-editor.c (real_send_comp): Don't replace 
+	attachment list if backend can CREATE_MESSAGES
+	* gui/itip-utils.c (itip_send_comp): Check whether backend 
+	could handle sending requests/updates. 
+
 2008-11-25  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #560138
