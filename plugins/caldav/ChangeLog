@@ -1,3 +1,15 @@
+2008-11-28  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #359745
+
+	* caldav-source.c: (ensure_caldav_source_group),
+	(e_plugin_lib_enable): Ensure source group for VTODO and VJOURNAL too.
+	* caldav-source.c: (set_refresh_time), (get_refresh_minutes),
+	(spin_changed), (option_changed), (oge_caldav):
+	Be able to change refresh time for the CalDAV sources.
+	* org-gnome-evolution-caldav.eplug.xml:
+	Show CalDAV options under all the other standard options.
+
 2008-09-02  Sankar P  <psankar@novell.com>
 
 License Changes
