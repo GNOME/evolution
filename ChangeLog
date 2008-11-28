@@ -1,3 +1,10 @@
+2008-11-28  Felix Riemann  <friemann@svn.gnome.org>
+
+	** Part of fix for bug #554464
+
+	* configure.in: Bump gtk+ minimum version to 2.14.0 which pulls in a
+	recent enough Pango version.
+
 2008-11-12  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #524377

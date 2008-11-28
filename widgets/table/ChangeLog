@@ -1,3 +1,10 @@
+2008-11-28  Felix Riemann  <friemann@svn.gnome.org>
+
+	** Part of fix for bug #554464
+
+	* e-cell-text.c: (build_layout): Let Pango handle the ellipsizing,
+	which should be faster.
+
 2008-10-17  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #560882
