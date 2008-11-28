@@ -191,11 +191,12 @@ user_changed (GtkEntry *editable, ESource *source)
 	euri = e_uri_new (uri);
 	g_free (euri->user);
 
-	if (user != NULL) {
+	if (user != NULL && *user) {
 		euri->user = g_strdup (user);
 		e_source_set_property (source, "auth", "1");
 	} else {
 		e_source_set_property (source, "auth", NULL);
+		euri->user = NULL;
 	}
 
 	e_source_set_property (source, "username", euri->user);

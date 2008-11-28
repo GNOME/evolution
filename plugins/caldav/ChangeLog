@@ -1,5 +1,12 @@
 2008-11-28  Milan Crha  <mcrha@redhat.com>
 
+	** Part of fix for bug #503662
+
+	* caldav-source.c: (user_changed):
+	Set NULL properly to protect against using already freed memory.
+
+2008-11-28  Milan Crha  <mcrha@redhat.com>
+
 	** Part of fix for bug #359745
 
 	* caldav-source.c: (ensure_caldav_source_group),
