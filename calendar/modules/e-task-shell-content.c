@@ -26,6 +26,7 @@
 #include "e-util/gconf-bridge.h"
 
 #include "calendar/gui/calendar-config.h"
+#include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-model-tasks.h"
 #include "calendar/gui/e-calendar-table.h"
 #include "calendar/gui/e-calendar-table-config.h"
@@ -92,6 +93,45 @@ task_shell_content_display_view_cb (ETaskShellContent *task_shell_content,
 }
 
 static void
+task_shell_content_table_foreach_cb (gint model_row,
+                                     gpointer user_data)
+{
+	ECalModelComponent *comp_data;
+	icalcomponent *clone;
+	icalcomponent *vcal;
+	gchar *string;
+
+	struct {
+		ECalModel *model;
+		GSList *list;
+	} *foreach_data = user_data;
+
+	comp_data = e_cal_model_get_component_at (
+		foreach_data->model, model_row);
+
+	vcal = e_cal_util_new_top_level ();
+	clone = icalcomponent_new_clone (comp_data->icalcomp);
+	e_cal_util_add_timezones_from_component (vcal, comp_data->icalcomp);
+	icalcomponent_add_component (vcal, clone);
+
+	/* String is owned by libical; do not free. */
+	string = icalcomponent_as_ical_string (vcal);
+	if (string != NULL) {
+		ESource *source;
+		const gchar *source_uid;
+
+		source = e_cal_get_source (comp_data->client);
+		source_uid = e_source_peek_uid (source);
+
+		foreach_data->list = g_slist_prepend (
+			foreach_data->list,
+			g_strdup_printf ("%s\n%s", source_uid, string));
+	}
+
+	icalcomponent_free (vcal);
+}
+
+static void
 task_shell_content_table_drag_data_get_cb (ETaskShellContent *task_shell_content,
                                            gint row,
                                            gint col,
@@ -100,7 +140,33 @@ task_shell_content_table_drag_data_get_cb (ETaskShellContent *task_shell_content
                                            guint info,
                                            guint time)
 {
-	/* FIXME */
+	ECalendarTable *task_table;
+	ETable *table;
+
+	struct {
+		ECalModel *model;
+		GSList *list;
+	} foreach_data;
+
+	if (info != TARGET_VCALENDAR)
+		return;
+
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	table = e_calendar_table_get_table (task_table);
+
+	foreach_data.model = e_calendar_table_get_model (task_table);
+	foreach_data.list = NULL;
+
+	e_table_selected_row_foreach (
+		table, task_shell_content_table_foreach_cb,
+		&foreach_data);
+
+	if (foreach_data.list != NULL) {
+		cal_comp_selection_set_string_list (
+			selection_data, foreach_data.list);
+		g_slist_foreach (foreach_data.list, (GFunc) g_free, NULL);
+		g_slist_free (foreach_data.list);
+	}
 }
 
 static void

@@ -18,6 +18,7 @@
 
 #include "eab-composer-util.h"
 
+#include <string.h>
 #include <glib/gi18n.h>
 #include <libebook/e-contact.h>
 #include <libebook/e-destination.h>

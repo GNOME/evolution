@@ -23,6 +23,7 @@
 
 #include <libedataserver/e-source-list.h>
 #include <libedataserverui/e-source-selector.h>
+#include "e-addressbook-view.h"
 
 /* Standard GObject macros */
 #define E_TYPE_ADDRESSBOOK_SELECTOR \
@@ -60,6 +61,12 @@ struct _EAddressbookSelectorClass {
 
 GType		e_addressbook_selector_get_type	(void);
 GtkWidget *	e_addressbook_selector_new	(ESourceList *source_list);
+EAddressbookView *
+		e_addressbook_selector_get_current_view
+						(EAddressbookSelector *selector);
+void		e_addressbook_selector_set_current_view
+						(EAddressbookSelector *selector,
+						 EAddressbookView *current_view);
 
 G_END_DECLS
 

@@ -40,6 +40,7 @@
 #include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "addressbook/gui/widgets/e-addressbook-view.h"
+#include "addressbook/gui/widgets/e-addressbook-selector.h"
 
 #include <e-book-shell-content.h>
 #include <e-book-shell-sidebar.h>

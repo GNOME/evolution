@@ -276,6 +276,12 @@ book_shell_view_activate_selected_source (EBookShellView *book_shell_view,
 	e_book_shell_content_set_current_view (
 		book_shell_content, E_ADDRESSBOOK_VIEW (widget));
 
+	/* XXX We have to keep the addressbook selector informed of the
+	 *     current view so it can move contacts via drag-and-drop. */
+	e_addressbook_selector_set_current_view (
+		E_ADDRESSBOOK_SELECTOR (selector),
+		E_ADDRESSBOOK_VIEW (widget));
+
 	view_instance = e_addressbook_view_get_view_instance (view);
 	view_id = gal_view_instance_get_current_view_id (view_instance);
 	e_shell_view_set_view_id (shell_view, view_id);

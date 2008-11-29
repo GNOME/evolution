@@ -103,129 +103,16 @@ calendar_selector_update_objects (ECal *client,
 	return TRUE;
 }
 
-static void
-calendar_selector_drag_leave (GtkWidget *widget,
-                              GdkDragContext *context,
-                              guint time_)
-{
-	/* XXX This is exactly the same as in EAddressbookSelector.
-	 *     Consider merging this callback into ESourceSelector. */
-
-	GtkTreeView *tree_view;
-	GtkTreeViewDropPosition pos;
-
-	tree_view = GTK_TREE_VIEW (widget);
-	pos = GTK_TREE_VIEW_DROP_BEFORE;
-
-	gtk_tree_view_set_drag_dest_row (tree_view, NULL, pos);
-}
-
 static gboolean
-calendar_selector_drag_motion (GtkWidget *widget,
-                               GdkDragContext *context,
-                               gint x,
-                               gint y,
-                               guint time_)
+calendar_selector_data_dropped (ESourceSelector *selector,
+                                GtkSelectionData *selection_data,
+                                ESource *destination,
+                                GdkDragAction action,
+                                guint info)
 {
-	/* XXX This is exactly the same as in EAddressbookSelector.
-	 *     Consider merging this callback into ESourceSelector. */
-
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
 	GtkTreePath *path = NULL;
-	GtkTreeIter iter;
-	GtkTreeViewDropPosition pos;
-	GdkDragAction action = 0;
-	gpointer object;
-
-	tree_view = GTK_TREE_VIEW (widget);
-	model = gtk_tree_view_get_model (tree_view);
-
-	if (!gtk_tree_view_get_dest_row_at_pos (tree_view, x, y, &path, NULL))
-		goto exit;
-
-	if (!gtk_tree_model_get_iter (model, &iter, path))
-		goto exit;
-
-	gtk_tree_model_get (model, &iter, 0, &object, -1);
-
-	if (E_IS_SOURCE_GROUP (object) || e_source_get_readonly (object))
-		goto exit;
-
-	pos = GTK_TREE_VIEW_DROP_INTO_OR_BEFORE;
-	gtk_tree_view_set_drag_dest_row (tree_view, path, pos);
-
-	if (context->actions & GDK_ACTION_MOVE)
-		action = GDK_ACTION_MOVE;
-	else
-		action = context->suggested_action;
-
-exit:
-	if (path != NULL)
-		gtk_tree_path_free (path);
-
-	if (object != NULL)
-		g_object_unref (object);
-
-	gdk_drag_status (context, action, time_);
-
-	return TRUE;
-}
-
-static gboolean
-calendar_selector_drag_drop (GtkWidget *widget,
-                             GdkDragContext *context,
-                             gint x,
-                             gint y,
-                             guint time_)
-{
-	/* XXX This is exactly the same as in EAddressbookSelector.
-	 *     Consider merging this callback into ESourceSelector. */
-
-	GtkTreeView *tree_view;
-	GtkTreeModel *model;
-	GtkTreePath *path;
-	GtkTreeIter iter;
-	gboolean drop_zone;
-	gboolean valid;
-	gpointer object;
-
-	tree_view = GTK_TREE_VIEW (widget);
-	model = gtk_tree_view_get_model (tree_view);
-
-	if (!gtk_tree_view_get_path_at_pos (
-		tree_view, x, y, &path, NULL, NULL, NULL))
-		return FALSE;
-
-	valid = gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_path_free (path);
-	g_return_val_if_fail (valid, FALSE);
-
-	gtk_tree_model_get (model, &iter, 0, &object, -1);
-	drop_zone = E_IS_SOURCE (object);
-	g_object_unref (object);
-
-	return drop_zone;
-}
-
-static void
-calendar_selector_drag_data_received (GtkWidget *widget,
-                                      GdkDragContext *context,
-                                      gint x,
-                                      gint y,
-                                      GtkSelectionData *selection_data,
-                                      guint info,
-                                      guint time_)
-{
-	/* XXX This is NEARLY the same as in EAddressbookSelector.
-	 *     Consider merging this callback into ESourceSelector.
-	 *     Use a callback to allow subclasses to handle the
-	 *     received selection data. */
-
-	GtkTreeView *tree_view;
-	GtkTreeModel *model;
-	GtkTreePath *path = NULL;
-	GtkTreeIter iter;
 	ECal *client;
 	icalcomponent *icalcomp;
 	const gchar *string;
@@ -233,22 +120,11 @@ calendar_selector_drag_data_received (GtkWidget *widget,
 	gboolean success = FALSE;
 	gpointer object = NULL;
 
-	tree_view = GTK_TREE_VIEW (widget);
+	tree_view = GTK_TREE_VIEW (selector);
 	model = gtk_tree_view_get_model (tree_view);
 
 	string = (const gchar *) selection_data->data;
-	remove_from_source = (context->action == GDK_ACTION_MOVE);
-
-	if (!gtk_tree_view_get_dest_row_at_pos (tree_view, x, y, &path, NULL))
-		goto exit;
-
-	if (!gtk_tree_model_get_iter (model, &iter, path))
-		goto exit;
-
-	gtk_tree_model_get (model, &iter, 0, &object, -1);
-
-	if (!E_IS_SOURCE (object) || e_source_get_readonly (object))
-		goto exit;
+	remove_from_source = (action == GDK_ACTION_MOVE);
 
 	icalcomp = icalparser_parse_string (string);
 
@@ -256,7 +132,7 @@ calendar_selector_drag_data_received (GtkWidget *widget,
 		goto exit;
 
 	/* FIXME Deal with GDK_ACTION_ASK. */
-	if (context->action == GDK_ACTION_COPY) {
+	if (action == GDK_ACTION_COPY) {
 		gchar *uid;
 
 		uid = e_cal_component_gen_uid ();
@@ -264,7 +140,7 @@ calendar_selector_drag_data_received (GtkWidget *widget,
 	}
 
 	client = auth_new_cal_from_source (
-		E_SOURCE (object), E_CAL_SOURCE_TYPE_EVENT);
+		destination, E_CAL_SOURCE_TYPE_EVENT);
 
 	if (client != NULL) {
 		if (e_cal_open (client, TRUE, NULL)) {
@@ -277,6 +153,8 @@ calendar_selector_drag_data_received (GtkWidget *widget,
 
 	icalcomponent_free (icalcomp);
 
+	success = TRUE;
+
 exit:
 	if (path != NULL)
 		gtk_tree_path_free (path);
@@ -284,22 +162,19 @@ exit:
 	if (object != NULL)
 		g_object_unref (object);
 
-	gtk_drag_finish (context, success, remove_from_source, time_);
+	return TRUE;
 }
 
 static void
 calendar_selector_class_init (ECalendarSelectorClass *class)
 {
-	GtkWidgetClass *widget_class;
+	ESourceSelectorClass *source_selector_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (ECalendarSelectorPrivate));
 
-	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->drag_leave = calendar_selector_drag_leave;
-	widget_class->drag_motion = calendar_selector_drag_motion;
-	widget_class->drag_drop = calendar_selector_drag_drop;
-	widget_class->drag_data_received = calendar_selector_drag_data_received;
+	source_selector_class = E_SOURCE_SELECTOR_CLASS (class);
+	source_selector_class->data_dropped = calendar_selector_data_dropped;
 }
 
 static void

@@ -29,7 +29,7 @@
 #include "e-util/e-util.h"
 #include "calendar/common/authentication.h"
 #include "calendar/gui/calendar-config.h"
-#include "calendar/gui/e-calendar-selector.h"
+#include "calendar/gui/e-memo-list-selector.h"
 #include "calendar/gui/misc.h"
 
 #include "e-memo-shell-view.h"
@@ -388,7 +388,7 @@ memo_shell_sidebar_constructed (GObject *object)
 
 	container = GTK_CONTAINER (widget);
 
-	widget = e_calendar_selector_new (source_list);
+	widget = e_memo_list_selector_new (source_list);
 	e_source_selector_set_select_new (E_SOURCE_SELECTOR (widget), TRUE);
 	gtk_container_add (container, widget);
 	a11y = gtk_widget_get_accessible (widget);

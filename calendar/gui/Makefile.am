@@ -133,6 +133,8 @@ libcal_gui_la_SOURCES =		\
 	e-meeting-types.h			\
 	e-meeting-utils.c			\
 	e-meeting-utils.h			\
+	e-memo-list-selector.c			\
+	e-memo-list-selector.h			\
 	e-memo-table.c				\
 	e-memo-table.h				\
 	e-memo-table-config.c			\
@@ -143,6 +145,8 @@ libcal_gui_la_SOURCES =		\
 	e-select-names-editable.h		\
 	e-select-names-renderer.c		\
 	e-select-names-renderer.h		\
+	e-task-list-selector.c			\
+	e-task-list-selector.h			\
 	e-week-view-config.c			\
 	e-week-view-config.h			\
 	e-week-view-event-item.c		\

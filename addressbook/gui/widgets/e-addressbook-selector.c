@@ -33,7 +33,7 @@
 typedef struct _MergeContext MergeContext;
 
 struct _EAddressbookSelectorPrivate {
-	gint dummy_value;
+	EAddressbookView *current_view;
 };
 
 struct _MergeContext {
@@ -46,6 +46,11 @@ struct _MergeContext {
 
 	gint remove_from_source : 1;
 	gint copy_done          : 1;
+};
+
+enum {
+	PROP_0,
+	PROP_CURRENT_VIEW
 };
 
 enum {
@@ -192,187 +197,63 @@ addressbook_selector_load_primary_source (ESourceSelector *selector)
 }
 
 static void
-addressbook_selector_drag_leave (GtkWidget *widget,
-                                 GdkDragContext *context,
-                                 guint time_)
+addressbook_selector_set_property (GObject *object,
+                                   guint property_id,
+                                   const GValue *value,
+                                   GParamSpec *pspec)
 {
-	/* XXX This is exactly the same as in ECalendarSelector.
-	 *     Consider merging this callback into ESourceSelector. */
+	switch (property_id) {
+		case PROP_CURRENT_VIEW:
+			e_addressbook_selector_set_current_view (
+				E_ADDRESSBOOK_SELECTOR (object),
+				g_value_get_object (value));
+			return;
+	}
 
-	GtkTreeView *tree_view;
-	GtkTreeViewDropPosition pos;
-
-	tree_view = GTK_TREE_VIEW (widget);
-	pos = GTK_TREE_VIEW_DROP_BEFORE;
-
-	gtk_tree_view_set_drag_dest_row (tree_view, NULL, pos);
-}
-
-static gboolean
-addressbook_selector_drag_motion (GtkWidget *widget,
-                                  GdkDragContext *context,
-                                  gint x,
-                                  gint y,
-                                  guint time_)
-{
-	/* XXX This is exactly the same as in ECalendarSelector.
-	 *     Consider merging this callback into ESourceSelector. */
-
-	GtkTreeView *tree_view;
-	GtkTreeModel *model;
-	GtkTreePath *path = NULL;
-	GtkTreeIter iter;
-	GtkTreeViewDropPosition pos;
-	GdkDragAction action = 0;
-	gpointer object;
-
-	tree_view = GTK_TREE_VIEW (widget);
-	model = gtk_tree_view_get_model (tree_view);
-
-	if (!gtk_tree_view_get_dest_row_at_pos (tree_view, x, y, &path, NULL))
-		goto exit;
-
-	if (!gtk_tree_model_get_iter (model, &iter, path))
-		goto exit;
-
-	gtk_tree_model_get (model, &iter, 0, &object, -1);
-
-	if (!E_IS_SOURCE (object) || e_source_get_readonly (object))
-		goto exit;
-
-	gtk_tree_view_set_drag_dest_row (
-		tree_view, path, GTK_TREE_VIEW_DROP_INTO_OR_BEFORE);
-
-	pos = GTK_TREE_VIEW_DROP_INTO_OR_BEFORE;
-	gtk_tree_view_set_drag_dest_row (tree_view, path, pos);
-
-	if (context->actions & GDK_ACTION_MOVE)
-		action = GDK_ACTION_MOVE;
-	else
-		action = context->suggested_action;
-
-exit:
-	if (path != NULL)
-		gtk_tree_path_free (path);
-
-	if (object != NULL)
-		g_object_unref (object);
-
-	gdk_drag_status (context, action, time_);
-
-	return TRUE;
-}
-
-static gboolean
-addressbook_selector_drag_drop (GtkWidget *widget,
-                                GdkDragContext *context,
-                                gint x,
-                                gint y,
-                                guint time_)
-{
-	/* XXX This is exactly the same as in ECalendarSelector.
-	 *     Consider merging this callback into ESourceSelector. */
-
-	GtkTreeView *tree_view;
-	GtkTreeModel *model;
-	GtkTreePath *path;
-	GtkTreeIter iter;
-	gboolean drop_zone;
-	gboolean valid;
-	gpointer object;
-
-	tree_view = GTK_TREE_VIEW (widget);
-	model = gtk_tree_view_get_model (tree_view);
-
-	if (!gtk_tree_view_get_path_at_pos (
-		tree_view, x, y, &path, NULL, NULL, NULL))
-		return FALSE;
-
-	valid = gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_path_free (path);
-	g_return_val_if_fail (valid, FALSE);
-
-	gtk_tree_model_get (model, &iter, 0, &object, -1);
-	drop_zone = E_IS_SOURCE (object);
-	g_object_unref (object);
-
-	return drop_zone;
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 }
 
 static void
-addressbook_selector_drag_data_received (GtkWidget *widget,
-                                         GdkDragContext *context,
-                                         gint x,
-                                         gint y,
-                                         GtkSelectionData *selection_data,
-                                         guint info,
-                                         guint time_)
+addressbook_selector_get_property (GObject *object,
+                                   guint property_id,
+                                   GValue *value,
+                                   GParamSpec *pspec)
 {
-	/* XXX This is NEARLY the same as in ECalendarSelector.
-	 *     Consider merging this callback into ESourceSelector.
-	 *     Use a callback to allow subclasses to handle the
-	 *     received selection data. */
+	switch (property_id) {
+		case PROP_CURRENT_VIEW:
+			g_value_set_object (
+				value,
+				e_addressbook_selector_get_current_view (
+				E_ADDRESSBOOK_SELECTOR (object)));
+			return;
+	}
 
-	MergeContext *merge_context;
-	GtkTreeView *tree_view;
-	GtkTreeModel *model;
-	GtkTreePath *path = NULL;
-	GtkTreeIter iter;
-	EBook *source_book;
-	EBook *target_book;
-	GList *list;
-	const gchar *string;
-	gboolean remove_from_source;
-	gboolean success = FALSE;
-	gpointer object;
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
 
-	tree_view = GTK_TREE_VIEW (widget);
-	model = gtk_tree_view_get_model (tree_view);
+static void
+addressbook_selector_dispose (GObject *object)
+{
+	EAddressbookSelectorPrivate *priv;
 
-	string = (const gchar *) selection_data->data;
-	remove_from_source = (context->action == GDK_ACTION_MOVE);
+	priv = E_ADDRESSBOOK_SELECTOR_GET_PRIVATE (object);
 
-	if (!gtk_tree_view_get_dest_row_at_pos (tree_view, x, y, &path, NULL))
-		goto exit;
+	if (priv->current_view != NULL) {
+		g_object_unref (priv->current_view);
+		priv->current_view = NULL;
+	}
 
-	if (!gtk_tree_model_get_iter (model, &iter, path))
-		goto exit;
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
 
-	gtk_tree_model_get (model, &iter, 0, &object, -1);
+static void
+addressbook_selector_constructed (GObject *object)
+{
+	ESourceSelector *selector;
 
-	if (!E_IS_SOURCE (object) || e_source_get_readonly (object))
-		goto exit;
-
-	target_book = e_book_new (object, NULL);
-	if (target_book == NULL)
-		goto exit;
-
-	e_book_open (target_book, FALSE, NULL);
-
-	eab_book_and_contact_list_from_string (string, &source_book, &list);
-	if (list == NULL)
-		goto exit;
-
-	/* XXX Get the currently selected EBook. */
-
-	merge_context = merge_context_new (source_book, target_book, list);
-	merge_context->remove_from_source = remove_from_source;
-
-	eab_merging_book_add_contact (
-		target_book, merge_context->current_contact,
-		(EBookIdCallback) addressbook_selector_merge_next_cb,
-		merge_context);
-
-	success = TRUE;
-
-exit:
-	if (path != NULL)
-		gtk_tree_path_free (path);
-
-	if (object != NULL)
-		g_object_unref (object);
-
-	gtk_drag_finish (context, success, remove_from_source, time_);
+	selector = E_SOURCE_SELECTOR (object);
+	addressbook_selector_load_primary_source (selector);
 }
 
 static void
@@ -397,37 +278,84 @@ addressbook_selector_primary_selection_changed (ESourceSelector *selector)
 	g_object_unref (client);
 }
 
-static void
-addressbook_selector_constructed (GObject *object)
+static gboolean
+addressbook_selector_data_dropped (ESourceSelector *selector,
+                                   GtkSelectionData *selection_data,
+                                   ESource *destination,
+                                   GdkDragAction action,
+                                   guint info)
 {
-	ESourceSelector *selector;
+	EAddressbookSelectorPrivate *priv;
+	MergeContext *merge_context;
+	EAddressbookModel *model;
+	EBook *source_book;
+	EBook *target_book;
+	GList *list;
+	const gchar *string;
+	gboolean remove_from_source;
 
-	selector = E_SOURCE_SELECTOR (object);
-	addressbook_selector_load_primary_source (selector);
+	priv = E_ADDRESSBOOK_SELECTOR_GET_PRIVATE (selector);
+	g_return_val_if_fail (priv->current_view != NULL, FALSE);
+
+	string = (const gchar *) selection_data->data;
+	remove_from_source = (action == GDK_ACTION_MOVE);
+
+	target_book = e_book_new (destination, NULL);
+	if (target_book == NULL)
+		return FALSE;
+
+	e_book_open (target_book, FALSE, NULL);
+
+	/* XXX Function assumes both out arguments are provided.  All we
+	 *     care about is the contact list; source_book will be NULL. */
+	eab_book_and_contact_list_from_string (string, &source_book, &list);
+	if (list == NULL)
+		return FALSE;
+
+	model = e_addressbook_view_get_model (priv->current_view);
+	source_book = e_addressbook_model_get_book (model);
+	g_return_val_if_fail (E_IS_BOOK (source_book), FALSE);
+
+	merge_context = merge_context_new (source_book, target_book, list);
+	merge_context->remove_from_source = remove_from_source;
+
+	eab_merging_book_add_contact (
+		target_book, merge_context->current_contact,
+		(EBookIdCallback) addressbook_selector_merge_next_cb,
+		merge_context);
+
+	return TRUE;
 }
 
 static void
 addressbook_selector_class_init (EAddressbookSelectorClass *class)
 {
 	GObjectClass *object_class;
-	GtkWidgetClass *widget_class;
 	ESourceSelectorClass *selector_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EAddressbookSelectorPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = addressbook_selector_set_property;
+	object_class->get_property = addressbook_selector_get_property;
+	object_class->dispose = addressbook_selector_dispose;
 	object_class->constructed = addressbook_selector_constructed;
-
-	widget_class = GTK_WIDGET_CLASS (class);
-	widget_class->drag_leave = addressbook_selector_drag_leave;
-	widget_class->drag_motion = addressbook_selector_drag_motion;
-	widget_class->drag_drop = addressbook_selector_drag_drop;
-	widget_class->drag_data_received = addressbook_selector_drag_data_received;
 
 	selector_class = E_SOURCE_SELECTOR_CLASS (class);
 	selector_class->primary_selection_changed =
 		addressbook_selector_primary_selection_changed;
+	selector_class->data_dropped = addressbook_selector_data_dropped;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CURRENT_VIEW,
+		g_param_spec_object (
+			"current-view",
+			NULL,
+			NULL,
+			E_TYPE_ADDRESSBOOK_VIEW,
+			G_PARAM_READWRITE));
 }
 
 static void
@@ -476,4 +404,40 @@ e_addressbook_selector_new (ESourceList *source_list)
 	return g_object_new (
 		E_TYPE_ADDRESSBOOK_SELECTOR,
 		"source-list", source_list, NULL);
+}
+
+EAddressbookView *
+e_addressbook_selector_get_current_view (EAddressbookSelector *selector)
+{
+	g_return_val_if_fail (E_IS_ADDRESSBOOK_SELECTOR (selector), NULL);
+
+	return selector->priv->current_view;
+}
+
+void
+e_addressbook_selector_set_current_view (EAddressbookSelector *selector,
+                                         EAddressbookView *current_view)
+{
+	/* XXX This is only needed for moving contacts via drag-and-drop.
+	 *     The selection data doesn't include the source of the data
+	 *     (the model for the currently selected address book view),
+	 *     so we have to rely on it being provided to us.  I would
+	 *     be happy to see this function go away. */
+
+	g_return_if_fail (E_IS_ADDRESSBOOK_SELECTOR (selector));
+
+	if (current_view != NULL)
+		g_return_if_fail (E_IS_ADDRESSBOOK_VIEW (current_view));
+
+	if (selector->priv->current_view != NULL) {
+		g_object_unref (selector->priv->current_view);
+		selector->priv->current_view = NULL;
+	}
+
+	if (current_view != NULL)
+		g_object_ref (current_view);
+
+	selector->priv->current_view = current_view;
+
+	g_object_notify (G_OBJECT (selector), "current-view");
 }

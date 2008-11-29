@@ -21,6 +21,7 @@
 
 #include "e-cal-shell-content.h"
 
+#include <string.h>
 #include <glib/gi18n.h>
 
 #include "e-util/gconf-bridge.h"

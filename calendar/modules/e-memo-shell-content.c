@@ -26,6 +26,7 @@
 #include "e-util/gconf-bridge.h"
 
 #include "calendar/gui/calendar-config.h"
+#include "calendar/gui/comp-util.h"
 #include "calendar/gui/e-cal-model-memos.h"
 #include "calendar/gui/e-memo-table.h"
 #include "calendar/gui/e-memo-table-config.h"
@@ -91,6 +92,45 @@ memo_shell_content_display_view_cb (EMemoShellContent *memo_shell_content,
 }
 
 static void
+memo_shell_content_table_foreach_cb (gint model_row,
+                                     gpointer user_data)
+{
+	ECalModelComponent *comp_data;
+	icalcomponent *clone;
+	icalcomponent *vcal;
+	gchar *string;
+
+	struct {
+		ECalModel *model;
+		GSList *list;
+	} *foreach_data = user_data;
+
+	comp_data = e_cal_model_get_component_at (
+		foreach_data->model, model_row);
+
+	vcal = e_cal_util_new_top_level ();
+	clone = icalcomponent_new_clone (comp_data->icalcomp);
+	e_cal_util_add_timezones_from_component (vcal, comp_data->icalcomp);
+	icalcomponent_add_component (vcal, clone);
+
+	/* String is owned by libical; do not free. */
+	string = icalcomponent_as_ical_string (vcal);
+	if (string != NULL) {
+		ESource *source;
+		const gchar *source_uid;
+
+		source = e_cal_get_source (comp_data->client);
+		source_uid = e_source_peek_uid (source);
+
+		foreach_data->list = g_slist_prepend (
+			foreach_data->list,
+			g_strdup_printf ("%s\n%s", source_uid, string));
+	}
+
+	icalcomponent_free (vcal);
+}
+
+static void
 memo_shell_content_table_drag_data_get_cb (EMemoShellContent *memo_shell_content,
                                            gint row,
                                            gint col,
@@ -99,7 +139,33 @@ memo_shell_content_table_drag_data_get_cb (EMemoShellContent *memo_shell_content
                                            guint info,
                                            guint time)
 {
-	/* FIXME */
+	EMemoTable *memo_table;
+	ETable *table;
+
+	struct {
+		ECalModel *model;
+		GSList *list;
+	} foreach_data;
+
+	if (info != TARGET_VCALENDAR)
+		return;
+
+	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+	table = e_memo_table_get_table (memo_table);
+
+	foreach_data.model = e_memo_table_get_model (memo_table);
+	foreach_data.list = NULL;
+
+	e_table_selected_row_foreach (
+		table, memo_shell_content_table_foreach_cb,
+		&foreach_data);
+
+	if (foreach_data.list != NULL) {
+		cal_comp_selection_set_string_list (
+			selection_data, foreach_data.list);
+		g_slist_foreach (foreach_data.list, (GFunc) g_free, NULL);
+		g_slist_free (foreach_data.list);
+	}
 }
 
 static void
@@ -110,7 +176,7 @@ memo_shell_content_table_drag_data_delete_cb (EMemoShellContent *memo_shell_cont
 {
 	/* Moved components are deleted from source immediately when moved,
 	 * because some of them can be part of destination source, and we
-	 * don't want to delete not-moved tasks.  There is no such information
+	 * don't want to delete not-moved memos.  There is no such information
 	 * which event has been moved and which not, so skip this method. */
 }
 
