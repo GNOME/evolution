@@ -613,6 +613,30 @@ mailbox_editor_entry_changed (GtkWidget *entry, EConfig *config)
 	update_mailbox_param_in_url (target->account, E_ACCOUNT_TRANSPORT_URL, mailbox);
 }
 
+static void
+want_mailbox_toggled (GtkWidget *toggle, EConfig *config)
+{
+	GtkWidget *entry;
+
+	g_return_if_fail (toggle != NULL);
+	g_return_if_fail (config != NULL);
+
+	entry = g_object_get_data (G_OBJECT (toggle), "mailbox-entry");
+	if (entry) {
+		gboolean is_active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (toggle));
+		EMConfigTargetAccount *target;
+		const char *mailbox;
+
+		gtk_widget_set_sensitive (entry, is_active);
+		
+		target = (EMConfigTargetAccount *)config->target;
+		mailbox = gtk_entry_get_text (GTK_ENTRY (entry));
+
+		update_mailbox_param_in_url (target->account, E_ACCOUNT_SOURCE_URL, is_active ? mailbox : NULL);
+		update_mailbox_param_in_url (target->account, E_ACCOUNT_TRANSPORT_URL, is_active ? mailbox : NULL);
+	}
+}
+
 static char *
 construct_owa_url (CamelURL *url)
 {
@@ -645,8 +669,8 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	EMConfigTargetAccount *target_account;
 	const char *source_url;
-	char *owa_url = NULL, *mailbox_name;
-	GtkWidget *owa_entry, *mailbox_entry;
+	char *owa_url = NULL, *mailbox_name, *username;
+	GtkWidget *owa_entry, *mailbox_entry, *want_mailbox_check;
 	CamelURL *url;
 	int row;
 	GtkWidget *hbox, *label, *button;
@@ -679,6 +703,7 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	owa_url = g_strdup (camel_url_get_param(url, "owa_url"));
 	mailbox_name = g_strdup (camel_url_get_param (url, "mailbox"));
+	username = g_strdup (url->user);
 
 	/* if the host is null, then user+other info is dropped silently, force it to be kept */
 	if (url->host == NULL) {
@@ -740,6 +765,19 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 	owa_editor_entry_changed (owa_entry, data->config);
 
 	row++;
+	want_mailbox_check = gtk_check_button_new_with_mnemonic (_("S_pecify the mailbox name"));
+	gtk_widget_show (want_mailbox_check);
+	gtk_table_attach (GTK_TABLE (data->parent), want_mailbox_check, 1, 2, row, row+1, GTK_FILL, GTK_FILL, 0, 0);
+	if (!username || !*username || !mailbox_name || !*mailbox_name ||
+	    g_ascii_strcasecmp (username, mailbox_name) == 0 ||
+	    (strchr (username, '/') && g_ascii_strcasecmp (strchr (username, '/') + 1, mailbox_name) == 0)) {
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (want_mailbox_check), FALSE);
+	} else {
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (want_mailbox_check), TRUE);
+	}
+	g_signal_connect (want_mailbox_check, "toggled", G_CALLBACK (want_mailbox_toggled), data->config);
+
+	row++;
 	label = gtk_label_new_with_mnemonic (_("_Mailbox:"));
 	gtk_widget_show (label);
 
@@ -750,14 +788,18 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	gtk_label_set_mnemonic_widget (GTK_LABEL (label), mailbox_entry);
 
+	gtk_widget_set_sensitive (mailbox_entry, gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (want_mailbox_check)));
+
 	g_signal_connect (mailbox_entry, "changed", G_CALLBACK (mailbox_editor_entry_changed), data->config);
 	g_object_set_data (G_OBJECT (button), "mailbox-entry", mailbox_entry);
+	g_object_set_data (G_OBJECT (want_mailbox_check), "mailbox-entry", mailbox_entry);
 
 	gtk_table_attach (GTK_TABLE (data->parent), label, 0, 1, row, row+1, 0, 0, 0, 0);
 	gtk_table_attach (GTK_TABLE (data->parent), mailbox_entry, 1, 2, row, row+1, GTK_FILL|GTK_EXPAND, GTK_FILL, 0, 0);
 
 	g_free (owa_url);
 	g_free (mailbox_name);
+	g_free (username);
 
 	return hbox;
 }
