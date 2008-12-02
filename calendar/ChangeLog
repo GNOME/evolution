@@ -1,3 +1,17 @@
+2008-12-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #348299
+
+	* gui/dialogs/event-page.c (get_widgets):
+	* gui/dialogs/memo-page.c (get_widgets):
+	* gui/dialogs/task-page.c (get_widgets):
+	Use category completion in the Categories field.
+
+	* gui/dialogs/event-editor.c:
+	* gui/dialogs/memo-editor.c:
+	* gui/dialogs/task-editor.c:
+	Fix some reference count leaks.
+
 2008-11-28  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #561467

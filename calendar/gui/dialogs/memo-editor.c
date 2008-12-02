@@ -134,7 +134,6 @@ memo_editor_init (MemoEditor *me)
 	}
 
 	me->priv->memo_page = memo_page_new (editor);
-	g_object_ref_sink (me->priv->memo_page);
 	comp_editor_append_page (
 		COMP_EDITOR (me),
 		COMP_EDITOR_PAGE (me->priv->memo_page),

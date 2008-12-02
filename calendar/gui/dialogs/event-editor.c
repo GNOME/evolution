@@ -124,7 +124,6 @@ create_schedule_page (CompEditor *editor)
 
 	priv->sched_page = schedule_page_new (priv->model, editor);
 	page = COMP_EDITOR_PAGE (priv->sched_page);
-	g_object_ref_sink (priv->sched_page);
 	gtk_container_add (
 		GTK_CONTAINER (GTK_DIALOG (priv->sched_window)->vbox),
 		comp_editor_page_get_widget (page));
@@ -290,7 +289,6 @@ event_editor_constructor (GType type,
 	gtk_action_group_set_visible (action_group, is_meeting);
 
 	priv->event_page = event_page_new (priv->model, editor);
-	g_object_ref_sink (priv->event_page);
 	comp_editor_append_page (
 		editor, COMP_EDITOR_PAGE (priv->event_page),
 		_("Appoint_ment"), TRUE);
@@ -307,7 +305,6 @@ event_editor_constructor (GType type,
 
 	priv->recur_page = recurrence_page_new (editor);
 	page = COMP_EDITOR_PAGE (priv->recur_page);
-	g_object_ref_sink (priv->recur_page);
 	gtk_container_add (
 		GTK_CONTAINER ((GTK_DIALOG (priv->recur_window)->vbox)),
 		comp_editor_page_get_widget (page));

@@ -312,7 +312,6 @@ task_editor_init (TaskEditor *te)
 	te->priv->updating = FALSE;
 
 	te->priv->task_page = task_page_new (te->priv->model, editor);
-	g_object_ref_sink (te->priv->task_page);
 	comp_editor_append_page (
 		editor, COMP_EDITOR_PAGE (te->priv->task_page),
 		_("_Task"), TRUE);
@@ -328,7 +327,6 @@ task_editor_init (TaskEditor *te)
 		G_CALLBACK(gtk_widget_hide), NULL);
 
 	te->priv->task_details_page = task_details_page_new (editor);
-	g_object_ref_sink (te->priv->task_details_page);
 	gtk_container_add (
 		GTK_CONTAINER (GTK_DIALOG (te->priv->task_details_window)->vbox),
 		comp_editor_page_get_widget ((CompEditorPage *) te->priv->task_details_page));

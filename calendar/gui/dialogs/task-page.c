@@ -34,6 +34,7 @@
 #include <glib/gi18n.h>
 #include <glade/glade.h>
 #include <gdk/gdkkeysyms.h>
+#include <libedataserverui/e-category-completion.h>
 #include <libedataserverui/e-source-combo-box.h>
 #include <misc/e-dateedit.h>
 #include <e-util/e-dialog-utils.h>
@@ -1377,6 +1378,7 @@ static gboolean
 get_widgets (TaskPage *tpage)
 {
 	CompEditorPage *page = COMP_EDITOR_PAGE (tpage);
+	GtkEntryCompletion *completion;
 	TaskPagePrivate *priv;
 	GSList *accel_groups;
 	GtkWidget *toplevel;
@@ -1448,6 +1450,10 @@ get_widgets (TaskPage *tpage)
 	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->calendar_label), priv->source_selector);
 
 #undef GW
+
+	completion = e_category_completion_new ();
+	gtk_entry_set_completion (GTK_ENTRY (priv->categories), completion);
+	g_object_unref (completion);
 
 	return (priv->summary
 		&& priv->summary_label
