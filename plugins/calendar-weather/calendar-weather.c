@@ -21,6 +21,7 @@
 
 #include <gtk/gtk.h>
 #include <e-util/e-config.h>
+#include "e-util/e-icon-factory.h"
 #include <calendar/gui/e-cal-config.h>
 #include <calendar/gui/e-cal-event.h>
 #include <calendar/gui/calendar-component.h>
@@ -32,14 +33,17 @@
 #include <libxml/tree.h>
 #include <string.h>
 
+#define GWEATHER_I_KNOW_THIS_IS_UNSTABLE
+#include <libgweather/weather.h>
+#include <libgweather/gweather-xml.h>
+#undef GWEATHER_I_KNOW_THIS_IS_UNSTABLE
+
 GtkWidget *e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *e_calendar_weather_refresh (EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget *e_calendar_weather_units (EPlugin *epl, EConfigHookItemFactoryData *data);
 gboolean   e_calendar_weather_check (EPlugin *epl, EConfigHookPageCheckData *data);
 void       e_calendar_weather_migrate (EPlugin *epl, ECalEventTargetComponent *data);
 int        e_plugin_lib_enable (EPluginLib *epl, int enable);
-
-static GtkTreeStore *store = NULL;
 
 #define WEATHER_BASE_URI "weather://"
 
@@ -48,22 +52,44 @@ e_plugin_lib_enable (EPluginLib *epl, int enable)
 {
 	GList *l;
 	gboolean found = FALSE;
+	const char *tmp;
+
+	static struct {
+		const char *description;
+		const char *icon_name;
+	} categories[] = {
+		{ N_("Weather: Fog"), 		"weather-fog" },
+		{ N_("Weather: Cloudy"), 	"weather-few-clouds" },
+		{ N_("Weather: Cloudy Night"),	"weather-few-clouds-night" },
+		{ N_("Weather: Overcast"),	"weather-overcast" },
+		{ N_("Weather: Showers"), 	"weather-showers" },
+		{ N_("Weather: Snow"), 		"weather-snow" },
+		{ N_("Weather: Sunny"), 	"weather-clear" },
+		{ N_("Weather: Clear Night"), 	"weather-clear-night" },
+		{ N_("Weather: Thunderstorms"), "weather-storm" },
+		{ NULL,				NULL }
+	};
+
+	tmp = _(categories [0].description);
 
 	/* Add the categories icons if we don't have them. */
 	for (l = e_categories_get_list (); l; l = g_list_next (l)) {
-		if (!strcmp ((const char *)l->data, _("Weather: Cloudy"))) {
+		if (!strcmp ((const char *)l->data, tmp)) {
 			found = TRUE;
 			break;
 		}
 	}
+
 	if (!found) {
-		e_categories_add (_("Weather: Cloudy"), NULL, WEATHER_DATADIR "/category_weather_cloudy_16.png", FALSE);
-		e_categories_add (_("Weather: Fog"), NULL, WEATHER_DATADIR "/category_weather_fog_16.png", FALSE);
-		e_categories_add (_("Weather: Partly Cloudy"), NULL, WEATHER_DATADIR "/category_weather_partly_cloudy_16.png", FALSE);
-		e_categories_add (_("Weather: Rain"), NULL, WEATHER_DATADIR "/category_weather_rain_16.png", FALSE);
-		e_categories_add (_("Weather: Snow"), NULL, WEATHER_DATADIR "/category_weather_snow_16.png", FALSE);
-		e_categories_add (_("Weather: Sunny"), NULL, WEATHER_DATADIR "/category_weather_sun_16.png", FALSE);
-		e_categories_add (_("Weather: Thunderstorms"), NULL, WEATHER_DATADIR "/category_weather_tstorm_16.png", FALSE);
+		int i;
+
+		for (i = 0; categories[i].description; i++) {
+			char *filename;
+
+			filename = e_icon_factory_get_icon_filename (categories[i].icon_name, E_ICON_SIZE_MENU);
+			e_categories_add (_(categories[i].description), NULL, filename, FALSE);
+			g_free (filename);
+		}
 	}
 
 	return 0;
@@ -110,87 +136,15 @@ e_calendar_weather_migrate (EPlugin *epl, ECalEventTargetComponent *data)
 }
 
 static void
-parse_subtree (GtkTreeIter *parent, xmlNode *node)
-{
-	GtkTreeIter iter;
-	xmlNode *child;
-
-	if (node->type == XML_ELEMENT_NODE) {
-		gtk_tree_store_append (store, &iter, parent);
-		if (strcmp ((const char *)node->name, "location") == 0) {
-			xmlAttr *attr;
-
-			child = node->children;
-			g_assert (child->type == XML_TEXT_NODE);
-			gtk_tree_store_set (store, &iter, 0, child->content, -1);
-
-			for (attr = node->properties; attr; attr = attr->next) {
-				if (strcmp ((const char *)attr->name, "code") == 0)
-					gtk_tree_store_set (store, &iter, 1, attr->children->content, -1);
-				else if (strcmp ((const char *)attr->name, "url") == 0)
-					gtk_tree_store_set (store, &iter, 2, attr->children->content, -1);
-				else if (strcmp ((const char *)attr->name, "type") == 0)
-					gtk_tree_store_set (store, &iter, 3, attr->children->content, -1);
-			}
-		} else {
-			xmlAttr *attr;
-
-			for (child = node->children; child; child = child->next)
-				parse_subtree (&iter, child);
-
-			for (attr = node->properties; attr; attr = attr->next)
-				if (strcmp ((const char *)attr->name, "name") == 0)
-					gtk_tree_store_set (store, &iter, 0, attr->children->content, -1);
-		}
-	}
-}
-
-static void
-load_locations (void)
-{
-	xmlDoc *doc;
-	xmlNode *root, *child;
-
-	LIBXML_TEST_VERSION
-
-	doc = xmlParseFile (WEATHER_EDS_DATADIR "/Locations.xml");
-	if (doc == NULL) {
-		g_warning ("failed to read locations file");
-		return;
-	}
-
-	if (store == NULL)
-		store = gtk_tree_store_new (4,
-			G_TYPE_STRING,	/* name */
-			G_TYPE_STRING,	/* code */
-			G_TYPE_STRING,	/* URL  */
-			G_TYPE_STRING);	/* type */
-
-	root = xmlDocGetRootElement (doc);
-	for (child = root->children; child; child = child->next)
-		parse_subtree (NULL, child);
-	xmlFreeDoc (doc);
-}
-
-static void
 selection_changed (GtkTreeSelection *selection, GtkDialog *dialog)
 {
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-		gchar *code = NULL;
-		gtk_tree_model_get (model, &iter, 1, &code, -1);
-		if (code != NULL) {
-			gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, TRUE);
-		} else {
-			GtkTreeView *view = gtk_tree_selection_get_tree_view (selection);
-			GtkTreePath *path;
-			path = gtk_tree_model_get_path (model, &iter);
-			gtk_tree_view_expand_row (view, path, FALSE);
-			gtk_tree_path_free (path);
-			gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
-		}
+		WeatherLocation *loc = NULL;
+		gtk_tree_model_get (model, &iter, GWEATHER_XML_COL_POINTER, &loc, -1);
+		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, loc != NULL);
 	} else {
 		gtk_dialog_set_response_sensitive (GTK_DIALOG (dialog), GTK_RESPONSE_OK, FALSE);
 	}
@@ -198,6 +152,7 @@ selection_changed (GtkTreeSelection *selection, GtkDialog *dialog)
 
 static struct
 {
+	gboolean is_old;
 	gchar **ids;
 	GtkTreeIter *result;
 } find_data;
@@ -205,13 +160,13 @@ static struct
 static gboolean
 find_location_func (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *node, gpointer data)
 {
-	gchar *type, *code, *name;
-	gtk_tree_model_get (model, node, 0, &name, 1, &code, 3, &type, -1);
-	if (name == NULL || code == NULL || type == NULL)
+	WeatherLocation *wl = NULL;
+
+	gtk_tree_model_get (model, node, GWEATHER_XML_COL_POINTER, &wl, -1);
+	if (!wl || !wl->name || !wl->code)
 		return FALSE;
-	if ((!strcmp (type, find_data.ids[0])) &&
-	    (!strcmp (code, find_data.ids[1])) &&
-	    (!strcmp (name, find_data.ids[2]))) {
+	if (((!strcmp (wl->code, find_data.ids[0])) || (find_data.is_old && !strcmp (wl->code + 1, find_data.ids[0]))) &&
+	     (!strcmp (wl->name, find_data.ids[1]))) {
 		find_data.result = gtk_tree_iter_copy (node);
 		return TRUE;
 	}
@@ -219,12 +174,18 @@ find_location_func (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *node, g
 }
 
 static GtkTreeIter *
-find_location (gchar *relative_url)
+find_location (GtkTreeModel *model, gchar *relative_url)
 {
-	/* type/code/name */
+	/* old URL uses type/code/name, but new uses only code/name */
+	if (strncmp (relative_url, "ccf/", 4) == 0) {
+		relative_url = relative_url + 4;
+		find_data.is_old = TRUE;
+	} else
+		find_data.is_old = FALSE;
+
 	find_data.ids = g_strsplit (relative_url, "/", -1);
 	find_data.result = NULL;
-	gtk_tree_model_foreach (GTK_TREE_MODEL (store), (GtkTreeModelForeachFunc) find_location_func, NULL);
+	gtk_tree_model_foreach (model, (GtkTreeModelForeachFunc) find_location_func, NULL);
 
 	g_strfreev (find_data.ids);
 	return find_data.result;
@@ -239,9 +200,9 @@ treeview_clicked (GtkTreeView *treeview, GdkEventButton *event, GtkDialog *dialo
 		GtkTreeIter iter;
 
 		if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-			gchar *code = NULL;
-			gtk_tree_model_get (model, &iter, 1, &code, -1);
-			if (code != NULL) {
+			WeatherLocation *wl = NULL;
+			gtk_tree_model_get (model, &iter, GWEATHER_XML_COL_POINTER, &wl, -1);
+			if (wl != NULL && wl->code != NULL && wl->name != NULL) {
 				gtk_dialog_response (dialog, GTK_RESPONSE_OK);
 				return TRUE;
 			}
@@ -249,6 +210,8 @@ treeview_clicked (GtkTreeView *treeview, GdkEventButton *event, GtkDialog *dialo
 	}
 	return FALSE;
 }
+
+static GtkTreeModel *store = NULL;
 
 static GtkDialog *
 create_source_selector (ESource *source)
@@ -274,7 +237,7 @@ create_source_selector (ESource *source)
 	scrolledwindow = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolledwindow), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 	gtk_widget_show (scrolledwindow);
-	treeview = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
+	treeview = gtk_tree_view_new_with_model (store);
 	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (treeview), FALSE);
 	gtk_widget_show (treeview);
 	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolledwindow), treeview);
@@ -286,7 +249,7 @@ create_source_selector (ESource *source)
 	uri_text = e_source_get_uri (source);
 	uri = e_uri_new (uri_text);
 	if (uri->path && strlen (uri->path)) {
-		GtkTreeIter *iter = find_location (uri_text + 10);
+		GtkTreeIter *iter = find_location (store, uri_text + 10);
 		GtkTreePath *path = gtk_tree_model_get_path (GTK_TREE_MODEL (store), iter);
 		gtk_tree_view_expand_to_path (GTK_TREE_VIEW (treeview), path);
 		gtk_tree_selection_select_path (selection, path);
@@ -317,11 +280,11 @@ build_location_path (GtkTreeIter *iter)
 	GtkTreeIter parent;
 	gchar *path, *temp1, *temp2;
 
-	gtk_tree_model_get (GTK_TREE_MODEL (store), iter, 0, &temp1, -1);
+	gtk_tree_model_get (GTK_TREE_MODEL (store), iter, GWEATHER_XML_COL_LOC, &temp1, -1);
 	path = g_strdup (temp1);
 
 	while (gtk_tree_model_iter_parent (GTK_TREE_MODEL (store), &parent, iter)) {
-		gtk_tree_model_get (GTK_TREE_MODEL (store), &parent, 0, &temp1, -1);
+		gtk_tree_model_get (GTK_TREE_MODEL (store), &parent, GWEATHER_XML_COL_LOC, &temp1, -1);
 		temp2 = g_strdup_printf ("%s : %s", temp1, path);
 		g_free (path);
 		path = temp2;
@@ -347,17 +310,17 @@ location_clicked (GtkButton *button, ESource *source)
 		GtkTreeModel *model;
 		GtkTreeIter iter;
 		GtkWidget *label;
-		gchar *type, *code, *name;
+		WeatherLocation *wl = NULL;
 		gchar *path, *uri;
 
 		gtk_tree_selection_get_selected (selection, &model, &iter);
-		gtk_tree_model_get (model, &iter, 0, &name, 1, &code, 3, &type, -1);
+		gtk_tree_model_get (model, &iter, GWEATHER_XML_COL_POINTER, &wl, -1);
 		path = build_location_path (&iter);
 
 		label = gtk_bin_get_child (GTK_BIN (button));
 		gtk_label_set_text (GTK_LABEL (label), path);
 
-		uri = g_strdup_printf ("%s/%s/%s", type, code, name);
+		uri = g_strdup_printf ("%s/%s", wl->code, wl->name);
 		/* FIXME - url_encode (&uri); */
 		e_source_set_relative_uri (source, uri);
 		g_free (uri);
@@ -387,7 +350,7 @@ e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data)
 	static GtkWidget *hidden;
 
 	if (store == NULL)
-		load_locations ();
+		store = gweather_xml_load_locations ();
 
 	if (!hidden)
 		hidden = gtk_label_new ("");
@@ -416,7 +379,7 @@ e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_widget_show (button);
 
 	if (uri->path && strlen (uri->path)) {
-		GtkTreeIter *iter = find_location (uri_text + 10);
+		GtkTreeIter *iter = find_location (store, uri_text + 10);
 		gchar *location = build_location_path (iter);
 		text = gtk_label_new (location);
 		g_free (location);
