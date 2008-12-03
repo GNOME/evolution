@@ -1,3 +1,12 @@
+2008-12-03  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #560420 (patch by hp@syntomax.com)
+
+	* em-junk-filter.c (pipe_to_sa_full):
+	spamc and spamassassin use error codes >= 64 to denote execution
+	errors.  Positive error codes < 64 means the message was identified
+	as spam.
+
 2008-09-29  Sankar P  <psankar@novell.com>
 
 License Changes
