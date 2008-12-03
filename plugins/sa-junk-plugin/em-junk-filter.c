@@ -250,7 +250,7 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 		else
 			res = rv_err;
 
-		if (res != 0)
+		if (res >= 64)
 			g_set_error (error, EM_JUNK_ERROR, res, _("Pipe to SpamAssassin failed, error code: %d"), res);
 
 		return res;
