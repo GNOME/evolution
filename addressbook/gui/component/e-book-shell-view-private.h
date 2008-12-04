@@ -78,7 +78,8 @@ struct _EditorUidClosure {
 /* List these in the order to be displayed.
  * Positive values are reserved for categories. */
 enum {
-	CONTACT_FILTER_ANY_CATEGORY = -1
+	CONTACT_FILTER_ANY_CATEGORY = -2,
+	CONTACT_FILTER_UNMATCHED    = -1
 };
 
 /* List these in the order to be displayed. */

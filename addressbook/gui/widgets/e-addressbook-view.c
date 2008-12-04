@@ -666,9 +666,10 @@ addressbook_view_class_init (EAddressbookViewClass *class)
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EAddressbookViewClass, open_contact),
 		NULL, NULL,
-		g_cclosure_marshal_VOID__OBJECT,
-		G_TYPE_NONE, 1,
-		E_TYPE_CONTACT);
+		e_marshal_VOID__OBJECT_BOOLEAN,
+		G_TYPE_NONE, 2,
+		E_TYPE_CONTACT,
+		G_TYPE_BOOLEAN);
 
 	signals[POPUP_EVENT] = g_signal_new (
 		"popup-event",

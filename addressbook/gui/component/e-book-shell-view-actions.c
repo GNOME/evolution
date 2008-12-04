@@ -753,7 +753,14 @@ static GtkRadioActionEntry contact_filter_entries[] = {
 	  N_("Any Category"),
 	  NULL,
 	  NULL,
-	  CONTACT_FILTER_ANY_CATEGORY }
+	  CONTACT_FILTER_ANY_CATEGORY },
+
+	{ "contact-filter-unmatched",
+	  NULL,
+	  N_("Unmatched"),
+	  NULL,
+	  NULL,
+	  CONTACT_FILTER_UNMATCHED }
 };
 
 static GtkRadioActionEntry contact_search_entries[] = {
@@ -898,4 +905,7 @@ e_book_shell_view_update_search_filter (EBookShellView *book_shell_view)
 
 	/* Use any action in the group; doesn't matter which. */
 	e_shell_content_set_filter_action (shell_content, radio_action);
+
+	ii = CONTACT_FILTER_UNMATCHED;
+	e_shell_content_add_filter_separator_after (shell_content, ii);
 }

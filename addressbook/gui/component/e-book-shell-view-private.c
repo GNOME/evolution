@@ -575,6 +575,15 @@ e_book_shell_view_execute_search (EBookShellView *book_shell_view)
 		case CONTACT_FILTER_ANY_CATEGORY:
 			break;
 
+		case CONTACT_FILTER_UNMATCHED:
+			temp = g_strdup_printf (
+				"(and (not (and (exists \"CATEGORIES\") "
+				"(not (is \"CATEGORIES\" \"\")))) %s)",
+				query);
+			g_free (query);
+			query = temp;
+			break;
+
 		default:
 		{
 			GList *categories;
