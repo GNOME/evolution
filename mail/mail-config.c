@@ -800,18 +800,40 @@ mail_config_get_account_by_uid (const char *uid)
 	return (EAccount *) e_account_list_find (config->accounts, E_ACCOUNT_FIND_UID, uid);
 }
 
+static gboolean
+mail_config_account_url_equal (const CamelURL *u1,
+                               const CamelURL *u2)
+{
+	/* For the purpose of matching a URL to an EAccount, only compare
+	 * the protocol, user, host and port and disregard the rest. */
+
+	if (g_strcmp0 (u1->protocol, u2->protocol) != 0)
+		return FALSE;
+
+	if (g_strcmp0 (u1->user, u2->user) != 0)
+		return FALSE;
+
+	if (g_strcmp0 (u1->host, u2->host) != 0)
+		return FALSE;
+
+	return (u1->port == u2->port);
+}
+
 EAccount *
 mail_config_get_account_by_source_url (const char *source_url)
 {
 	EAccount *account = NULL;
 	EIterator *iter;
+	CamelURL *url;
 
 	g_return_val_if_fail (source_url != NULL, NULL);
 
+	url = camel_url_new (source_url, NULL);
+	g_return_val_if_fail (url != NULL, NULL);
+
 	iter = e_list_get_iterator ((EList *) config->accounts);
-	while (e_iterator_is_valid (iter)) {
-		CamelURL *url;
-		gchar *string;
+	while (account == NULL && e_iterator_is_valid (iter)) {
+		CamelURL *account_url;
 
 		account = (EAccount *) e_iterator_get (iter);
 
@@ -826,27 +848,19 @@ mail_config_get_account_by_source_url (const char *source_url)
 		else if (*account->source->url == '\0')
 			continue;
 
-		url = camel_url_new (account->source->url, NULL);
-		if (url == NULL)
+		account_url = camel_url_new (account->source->url, NULL);
+		if (account_url == NULL)
 			continue;
 
-		/* Simplify the account URL for comparison. */
-		string = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-		if (string == NULL || strcmp (string, source_url) != 0)
+		if (!mail_config_account_url_equal (url, account_url))
 			account = NULL;  /* not a match */
 
-		camel_url_free (url);
-		g_free (string);
-
-		if (account != NULL) {
-			g_object_unref (iter);
-			return account;
-		}
+		camel_url_free (account_url);
 	}
 
 	g_object_unref (iter);
 
-	return NULL;
+	return account;
 }
 
 EAccount *
@@ -854,13 +868,16 @@ mail_config_get_account_by_transport_url (const char *transport_url)
 {
 	EAccount *account = NULL;
 	EIterator *iter;
+	CamelURL *url;
 
 	g_return_val_if_fail (transport_url != NULL, NULL);
 
+	url = camel_url_new (transport_url, NULL);
+	g_return_val_if_fail (url != NULL, NULL);
+
 	iter = e_list_get_iterator ((EList *) config->accounts);
-	while (e_iterator_is_valid (iter)) {
-		CamelURL *url;
-		gchar *string;
+	while (account == NULL && e_iterator_is_valid (iter)) {
+		CamelURL *account_url;
 
 		account = (EAccount *) e_iterator_get (iter);
 
@@ -875,27 +892,19 @@ mail_config_get_account_by_transport_url (const char *transport_url)
 		else if (*account->transport->url == '\0')
 			continue;
 
-		url = camel_url_new (account->transport->url, NULL);
-		if (url == NULL)
+		account_url = camel_url_new (account->transport->url, NULL);
+		if (account_url == NULL)
 			continue;
 
-		/* Simplify the account URL for comparison. */
-		string = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-		if (string == NULL || strcmp (string, transport_url) != 0)
+		if (!mail_config_account_url_equal (url, account_url))
 			account = NULL;  /* not a match */
 
 		camel_url_free (url);
-		g_free (string);
-
-		if (account != NULL) {
-			g_object_unref (iter);
-			return account;
-		}
 	}
 
 	g_object_unref (iter);
 
-	return NULL;
+	return account;
 }
 
 int
