@@ -1403,8 +1403,12 @@ search_activated (ESearchBar *esb, EABView *v)
 
 		if (subid) {
 			master_list = get_master_list (FALSE);
-			category_name = g_list_nth_data (master_list, subid-1);
-			view_sexp = g_strdup_printf ("(is \"category_list\" \"%s\")", category_name);
+			if (subid < 3) {
+				view_sexp = g_strdup ("(not (and (exists \"CATEGORIES\") (not (is \"CATEGORIES\" \"\"))))");
+			} else {
+				category_name = g_list_nth_data (master_list, subid-3);
+				view_sexp = g_strdup_printf ("(is \"category_list\" \"%s\")", category_name);
+			}
 			search_query = g_strconcat ("(and ", view_sexp, search_query, ")", NULL);
 			g_free (view_sexp);
 		}
@@ -1518,24 +1522,32 @@ make_suboptions (EABView *view)
 
 	master_list = get_master_list (FALSE);
 	N = g_list_length (master_list);
-	subitems = g_new (EABSearchBarItem, N+2);
+	subitems = g_new (EABSearchBarItem, N+4);
 
 	subitems[0].search.id = 0;
 	subitems[0].search.text = g_strdup (_("Any Category"));
 	subitems[0].image = NULL;
 
+	subitems[1].search.text = g_strdup (_("Unmatched"));
+	subitems[1].search.id = 1;
+	subitems[1].image = NULL;
+
+	subitems[2].search.text = NULL;
+	subitems[2].search.id = 0;
+	subitems[2].image = NULL;
+
 	for (i=0; i<N; ++i) {
 		const char *category = g_list_nth_data (master_list, i);
-		subitems[i+1].search.id = i+1;
-		subitems[i+1].search.text = g_strdup (category);
-		subitems[i+1].image = (char *)e_categories_get_icon_file_for (category);
+		subitems[i+3].search.id = i+3;
+		subitems[i+3].search.text = g_strdup (category);
+		subitems[i+3].image = (char *)e_categories_get_icon_file_for (category);
 	}
 
-	subitems[N+1].search.id = -1;
-	subitems[N+1].search.text = NULL;
-	subitems[N+1].image = NULL;
+	subitems[N+3].search.id = -1;
+	subitems[N+3].search.text = NULL;
+	subitems[N+3].image = NULL;
 
-	qsort (subitems + 1, N, sizeof (subitems[0]), compare_subitems);
+	qsort (subitems + 3, N, sizeof (subitems[0]), compare_subitems);
 	menu = generate_viewoption_menu (subitems);
 	e_search_bar_set_viewoption_menu ((ESearchBar *)view->search, menu);
 
