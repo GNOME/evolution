@@ -125,6 +125,8 @@ gboolean	e_util_read_file		(const gchar *filename,
 						 gsize *read,
 						 GError **error);
 
+GSList *e_util_get_category_filter_options      (void);
+
 G_END_DECLS
 
 #endif /* _E_UTIL_H_ */

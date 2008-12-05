@@ -46,6 +46,8 @@
 #endif
 
 #include <libedataserver/e-data-server-util.h>
+#include <libedataserver/e-categories.h>
+#include "filter/filter-option.h"
 #include "e-util.h"
 #include "e-util-private.h"
 
@@ -1224,3 +1226,23 @@ e_util_read_file (const char *filename, gboolean filename_is_uri, char **buffer,
 	return res;
 }
 
+GSList *
+e_util_get_category_filter_options (void)
+{
+	GSList *res = NULL;
+	GList *clist, *l;
+
+	clist = e_categories_get_list ();
+	for (l = clist; l; l = l->next) {
+		const char *cname = l->data;
+		struct _filter_option *fo = g_new0 (struct _filter_option, 1);
+
+		fo->title = g_strdup (cname);
+		fo->value = g_strdup (cname);
+		res = g_slist_prepend (res, fo);
+	}
+
+	g_list_free (clist);
+
+	return g_slist_reverse (res);
+}

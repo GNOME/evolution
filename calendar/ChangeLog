@@ -1,3 +1,12 @@
+2008-12-05  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #332629
+
+	* gui/caltypes.xml:
+	* gui/memotypes.xml:
+	* gui/tasktypes.xml:
+	Use dynamically created list of categories in the option's widget.
+
 2008-12-03  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #352287

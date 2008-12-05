@@ -1,3 +1,10 @@
+2008-12-05  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #332629
+
+	* gui/widgets/addresstypes.xml:
+	Use dynamically created list of categories in the option's widget.
+
 2008-12-04  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #263268

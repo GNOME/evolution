@@ -165,76 +165,7 @@
                 </option>
             </input>
             <input type="optionlist" name="category">
-                <option value="Anniversary">
-                    <_title>Anniversary</_title>
-                </option>
-                <option value="Holiday">
-                    <_title>Holiday</_title>
-                </option>
-                <option value="Ideas">
-                    <_title>Ideas</_title>ke
-                </option>
-                <option value="Status">
-                    <_title>Status</_title>
-                </option>
-                <option value="Holiday Cards">
-                    <_title>Holiday Cards</_title>
-                </option>
-                <option value="Hot Contacts">
-                    <_title>Hot Contacts</_title>
-                </option>
-                <option value="International">
-                    <_title>International</_title>
-                </option>
-                <option value="Next 7 days">
-                    <_title>Next 7 days</_title>
-                </option>
-                <option value="Birthday">
-                    <_title>Birthday</_title>
-                </option>
-                <option value="VIP">
-                    <_title>VIP</_title>
-                </option>
-                <option value="Gifts">
-                    <_title>Gifts</_title>
-                </option>
-                <option value="Waiting">
-                    <_title>Waiting</_title>
-                </option>
-                <option value="Key Customer">
-                    <_title>Key Customer</_title>
-                </option>
-                <option value="Time &amp; Expenses">
-                    <_title>Time &amp; Expenses </_title>
-                </option>
-                <option value="Miscellaneous">
-                    <_title>Miscellaneous</_title>
-                </option>
-                <option value="Business">
-                    <_title>Business</_title>
-                </option>
-                <option value="Personal">
-                    ke
-                    <_title>Personal</_title>
-                </option>
-                <option value="Suppliers">
-                    <_title>Suppliers</_title>
-                </option>
-                <option value="Goals/Objectives">
-                    <_title>Goals/Objectives</_title>
-                </option>
-                <option value="Strategies">
-                    <_title>Strategies</_title>
-                </option>
-                <option value="Competition">
-                    <_title>Competition</_title>
-                </option>
-                <option value="Favourites">
-                    <_title>Favourites</_title>
-                </option>
-                <option value="Phone Calls">
-                    <_title>Phone Calls</_title>
-                </option>
+		<dynamic func="e_util_get_category_filter_options"/>
             </input>
         </part>
 

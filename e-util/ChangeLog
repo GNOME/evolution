@@ -1,3 +1,11 @@
+2008-12-05  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #332629
+
+	* e-util.h: (e_util_get_category_filter_options):
+	* e-util.c: (e_util_get_category_filter_options):
+	New helper function to be used in FilterOption.
+
 2008-11-27  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #332729

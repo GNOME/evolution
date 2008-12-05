@@ -192,7 +192,7 @@ fill_options (FilterOption *fo)
 		if (tag && strncmp (tag, "$Label", 6) == 0)
 			tag += 6;
 
-		filter_option_add (fo, tag, title, NULL);
+		filter_option_add (fo, tag, title, NULL, FALSE);
 
 		g_free (title);
 	}

@@ -1,3 +1,15 @@
+2008-12-05  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #332629
+
+	* filter-option.h: (struct _filter_option),
+	(struct _FilterOption), (filter_option_add):
+	* filter-option.c: (filter_option_init), (filter_option_finalise),
+	(filter_option_add), (xml_create), (get_widget), (clone):
+	Be able to define optionlist with dynamically created list of options.
+
+	* filter-label.c: (fill_options): Adapt.
+
 2008-10-17  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fix for bug #503898
