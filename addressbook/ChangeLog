@@ -1,3 +1,15 @@
+2008-12-08  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #270376
+
+	* gui/contact-editor/e-contact-editor.c: (im_service []),
+	(non_string_fields[]):
+	* gui/widgets/eab-contact-display.c: (render_contact):
+	Support Skype field in a contact.
+
+	* gui/contact-editor/e-contact-editor-im.c:
+	Changes here too, but file doesn't seem to be used.
+
 2008-12-08  Jennifer Newman  <jennifer.newman@tufts.edu>
 
 	** Fix for bug #549964
