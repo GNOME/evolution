@@ -1,3 +1,10 @@
+2008-12-08  Jennifer Newman  <jennifer.newman@tufts.edu>
+
+	** Fix for bug #555371
+
+	* gui/dialogs/comp-editor.c: Added print menu option to task, memo and
+	event editors. 
+
 2008-12-08  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fix for bug #350725
