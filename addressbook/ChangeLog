@@ -1,3 +1,10 @@
+2008-12-08  Jennifer Newman  <jennifer.newman@tufts.edu>
+
+	** Fix for bug #549964
+
+	* gui/widgets/eab-gui-util.c (eab_load_error_dialog),
+	(eab_search_result_dialog): Fix for a few erroneous strings. 
+
 2008-12-05  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #332629
