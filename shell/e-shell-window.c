@@ -796,7 +796,7 @@ setup_widgets (EShellWindow *window)
 			info->icon_name, width, 0);
 		g_string_append_printf(xml, "\" pixtype=\"filename\" pixname=\"%s\"/>"
 				       "</placeholder></submenu></submenu>\n",
-				       gtk_icon_info_get_filename (icon_info));
+				       icon_info ? gtk_icon_info_get_filename (icon_info) : "");
 		gtk_icon_info_free (icon_info);
 		bonobo_ui_component_set_translate (e_shell_window_peek_bonobo_ui_component (window),
 						   "/menu",

@@ -1,3 +1,13 @@
+2008-12-08  Jeff Cai  <jeff.cai@sun.com>
+
+	** Fix for bug #563077
+
+	* e-shell-window.c (setup_widgets): Don't pass NULL to 
+	gtk_icon_info_get_filename(). 
+
+	Fixes a crash if the gnome-settings-daemon is not running.
+	Observed on SUN Solaris. 
+
 2008-11-07  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #557581
