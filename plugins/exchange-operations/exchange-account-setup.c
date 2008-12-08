@@ -181,6 +181,7 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 	const char *source_url;
 	char *message = NULL, *txt = NULL, *oof_message;
 	gboolean oof_state = FALSE;
+	gint offline_status;
 
 	GtkVBox *vbox_settings;
 
@@ -233,6 +234,14 @@ org_gnome_exchange_settings(EPlugin *epl, EConfigHookItemFactoryData *data)
 		camel_url_free (url);
 
 	account = exchange_operations_get_exchange_account ();
+
+	exchange_config_listener_get_offline_status (exchange_global_config_listener,
+								    &offline_status);
+	if (offline_status == OFFLINE_MODE) {
+		e_error_run (NULL, ERROR_DOMAIN ":exchange-settings-offline", NULL);
+	
+		return NULL;
+	}	
 
 	oof_data = g_new0 (OOFData, 1);
 
@@ -857,7 +866,8 @@ destroy_oof_data (void)
 {
 	if (oof_data->message)
 		g_free (oof_data->message);
-	g_free (oof_data);
+	if (oof_data)
+		g_free (oof_data);
 }
 
 void
@@ -866,6 +876,7 @@ org_gnome_exchange_commit (EPlugin *epl, EConfigHookItemFactoryData *data)
 	EMConfigTargetAccount *target_account;
 	const char *source_url;
 	CamelURL *url;
+	gint offline_status;
 
 	target_account = (EMConfigTargetAccount *)data->config->target;
 	source_url = e_account_get_string (target_account->account,  E_ACCOUNT_SOURCE_URL);
@@ -886,6 +897,14 @@ org_gnome_exchange_commit (EPlugin *epl, EConfigHookItemFactoryData *data)
 	}
 
 	camel_url_free (url);
+	
+	exchange_config_listener_get_offline_status (exchange_global_config_listener,
+								    &offline_status);
+	
+	if (offline_status == OFFLINE_MODE) {
+                return;
+	}
+	
 	/* Set oof data in exchange account */
 	set_oof_info ();
 	destroy_oof_data ();
