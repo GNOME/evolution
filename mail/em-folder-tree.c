@@ -1896,7 +1896,8 @@ emft_tree_row_expanded (GtkTreeView *treeview, GtkTreeIter *root, GtkTreePath *t
 		return;
 	}
 
-	gtk_tree_store_set((GtkTreeStore *)model, root, COL_BOOL_LOAD_SUBDIRS, FALSE, -1);
+	/* do not set LOAD_SUBDIRS to FALSE until we are really done with loading */
+	/* gtk_tree_store_set ((GtkTreeStore *)model, root, COL_BOOL_LOAD_SUBDIRS, FALSE, -1); */
 
 	m = mail_msg_new (&get_folder_info_info);
 	m->root = gtk_tree_row_reference_new (model, tree_path);

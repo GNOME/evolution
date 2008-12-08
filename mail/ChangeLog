@@ -1,3 +1,11 @@
+2008-12-08  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #337082
+
+	* em-folder-tree.c: (emft_tree_row_expanded): Do not set we finished
+	with loading until we are really done with it. The previous behavior
+	can cause duplicate nodes in tree for subscribed folders.
+
 2008-12-08  Sankar P  <psankar@novell.com>
 
 	** Fixes bug #552583
