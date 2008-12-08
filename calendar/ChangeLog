@@ -1,3 +1,24 @@
+2008-12-08  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #350725
+
+	* gui/e-calendar-view.c (e_calendar_view_class_init),
+	(clipboard_clear_calendar_cb), (clipboard_get_calendar_cb),
+	(e_calendar_view_copy_clipboard), (clipboard_get_calendar_data),
+	(e_calendar_view_paste_text), (clipboard_paste_received_cb),
+	(e_calendar_view_paste_clipboard):
+	* gui/e-calendar-view.h:
+	* gui/e-day-view.c (e_day_view_class_init),
+	(e_day_view_add_new_event_in_selected_range),
+	(e_day_view_do_key_press), (e_day_view_get_num_events_selected),
+	(e_day_view_paste_text):
+	* gui/e-week-view.c (e_week_view_class_init),
+	(e_week_view_add_new_event_in_selected_range),
+	(e_week_view_do_key_press), (e_week_view_is_jump_button_visible),
+	(e_week_view_paste_text):
+
+	Copy/Paste support in day/week views. 
+
 2008-12-08  Paul Bolle  <pebolle@tiscali.nl>
 
 	** Fix for bug #551599

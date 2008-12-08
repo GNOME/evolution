@@ -112,6 +112,7 @@ struct _ECalendarViewClass {
 	gboolean (* get_visible_time_range) (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
 	void (* update_query) (ECalendarView *cal_view);
 	void (* open_event) (ECalendarView *cal_view);
+	void (* paste_text) (ECalendarView *cal_view);
 };
 
 GType          e_calendar_view_get_type (void);
