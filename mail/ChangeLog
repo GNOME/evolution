@@ -1,3 +1,11 @@
+2008-12-08  Sankar P  <psankar@novell.com>
+
+	** Fixes bug #552583
+
+	* mail-config.c (mail_config_get_account_by_source_url),
+	(mail_config_get_account_by_transport_url):
+	Fix bugs in the account checking logic.
+
 2008-12-04  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #552583

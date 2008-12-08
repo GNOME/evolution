@@ -817,14 +817,11 @@ mail_config_get_account_by_source_url (const char *source_url)
 
 		e_iterator_next (iter);
 
-		if (account->source == NULL)
+		if ( !account || (account->source == NULL) || 
+			(account->source->url == NULL) || (*account->source->url == '\0')) {
+			account = NULL;
 			continue;
-
-		else if (account->source->url == NULL)
-			continue;
-
-		else if (*account->source->url == '\0')
-			continue;
+		}
 
 		account_url = camel_url_new (account->source->url, NULL);
 		if (account_url == NULL)
@@ -861,14 +858,11 @@ mail_config_get_account_by_transport_url (const char *transport_url)
 
 		e_iterator_next (iter);
 
-		if (account->transport == NULL)
-			continue;
-
-		else if (account->transport->url == NULL)
-			continue;
-
-		else if (*account->transport->url == '\0')
-			continue;
+		if ( !account || (account->transport == NULL) || 
+			(account->transport->url == NULL) || (*account->transport->url == '\0')) {
+				account = NULL;
+				continue;
+		}
 
 		account_url = camel_url_new (account->transport->url, NULL);
 		if (account_url == NULL)
