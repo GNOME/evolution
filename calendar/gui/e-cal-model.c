@@ -2226,6 +2226,7 @@ copy_ecdv (ECellDateEditValue *ecdv)
 
 
 struct _ECalModelComponentPrivate {
+	char nouse;
 };
 
 static void e_cal_model_component_finalize (GObject *object);

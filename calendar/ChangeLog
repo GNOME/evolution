@@ -1,3 +1,9 @@
+2008-12-08  Jeff Cai <jeff.cai@sun.com>
+
+	** Fix for bug #563633
+
+	* gui/e-cal-model.c: Add an unused member for _ECalModelComponentPrivate
+
 2008-12-08  Jennifer Newman  <jennifer.newman@tufts.edu>
 
 	** Fix for bug #555371
