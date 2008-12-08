@@ -1,3 +1,11 @@
+2008-12-08  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fix for bug #551599
+
+	* gui/dialogs/alarm-dialog.c: (populate_widgets_from_alarm):
+	Do not fallback to default 15 minutes alarm offset if alarm is
+	triggered at start (or end) of appointment.
+
 2008-11-25  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #560138

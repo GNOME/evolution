@@ -623,19 +623,18 @@ populate_widgets_from_alarm (Dialog *dialog)
 		break;
 	}
 
-	if ( trigger->u.rel_duration.hours ) {
-		e_dialog_option_menu_set (dialog->value_units, HOURS, value_map);
-		e_dialog_spin_set (dialog->interval_value, trigger->u.rel_duration.hours);
-	}
-
-	if ( trigger->u.rel_duration.minutes ){
-		e_dialog_option_menu_set (dialog->value_units, MINUTES, value_map);
-		e_dialog_spin_set (dialog->interval_value, trigger->u.rel_duration.minutes);
-	}
-
-	if ( trigger->u.rel_duration.days ){
+	if ( trigger->u.rel_duration.days ) {
 		e_dialog_option_menu_set (dialog->value_units, DAYS, value_map);
 		e_dialog_spin_set (dialog->interval_value, trigger->u.rel_duration.days);
+	} else if ( trigger->u.rel_duration.hours ) {
+		e_dialog_option_menu_set (dialog->value_units, HOURS, value_map);
+		e_dialog_spin_set (dialog->interval_value, trigger->u.rel_duration.hours);
+	} else if ( trigger->u.rel_duration.minutes ) {
+		e_dialog_option_menu_set (dialog->value_units, MINUTES, value_map);
+		e_dialog_spin_set (dialog->interval_value, trigger->u.rel_duration.minutes);
+	} else {
+		e_dialog_option_menu_set (dialog->value_units, MINUTES, value_map);
+		e_dialog_spin_set (dialog->interval_value, 0);
 	}
 
 	/* Repeat options */
