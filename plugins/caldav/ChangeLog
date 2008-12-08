@@ -1,3 +1,10 @@
+2008-12-08  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #562990
+
+	* caldav-source.c: (user_changed), (oge_caldav): Use 'username'
+	property of the ESource to read/write user name, not the uri.
+
 2008-11-28  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #503662

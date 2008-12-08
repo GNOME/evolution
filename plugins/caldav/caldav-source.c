@@ -190,16 +190,15 @@ user_changed (GtkEntry *editable, ESource *source)
 
 	euri = e_uri_new (uri);
 	g_free (euri->user);
+	euri->user = NULL;
 
 	if (user != NULL && *user) {
-		euri->user = g_strdup (user);
 		e_source_set_property (source, "auth", "1");
 	} else {
 		e_source_set_property (source, "auth", NULL);
-		euri->user = NULL;
 	}
 
-	e_source_set_property (source, "username", euri->user);
+	e_source_set_property (source, "username", user);
 	ruri = print_uri_noproto (euri);
 	e_source_set_relative_uri (source, ruri);
 	g_free (ruri);
@@ -328,9 +327,11 @@ oge_caldav  (EPlugin                    *epl,
 		return NULL;
 	}
 
-	username = euri->user;
+	g_free (euri->user);
 	euri->user = NULL;
 	uri = e_uri_to_string (euri, FALSE);
+
+	username = e_source_get_duped_property (source, "username");
 
 	ssl_prop = e_source_get_property (source, "ssl");
 	if (ssl_prop && ssl_prop[0] == '1') {
