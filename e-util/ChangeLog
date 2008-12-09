@@ -1,3 +1,10 @@
+2008-12-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #555663
+
+	* gconf-bridge.c: (struct WindowBinding), (gconf_bridge_bind_window),
+	(window_binding_unbind): Do not overwrite signal id.
+
 2008-11-27  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #332729
