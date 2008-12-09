@@ -502,6 +502,8 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	if (si->store == mail_component_peek_local_store(NULL)) {
 		if (!strcmp(fi->full_name, "Drafts")) {
 			name = _("Drafts");
+		} else if (!strcmp(fi->full_name, "Templates")) {
+			name = _("Templates");
 		} else if (!strcmp(fi->full_name, "Inbox")) {
 			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) | CAMEL_FOLDER_TYPE_INBOX;
 			name = _("Inbox");

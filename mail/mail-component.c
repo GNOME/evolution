@@ -579,7 +579,7 @@ view_changed(EMFolderView *emfv, EComponentView *component_view)
 
 		if (emfv->folder->parent_store == mail_component_peek_local_store(NULL)
 		    && (!strcmp (name, "Drafts") || !strcmp (name, "Inbox")
-			|| !strcmp (name, "Outbox") || !strcmp (name, "Sent")))
+			|| !strcmp (name, "Outbox") || !strcmp (name, "Sent") || !strcmp (name, "Templates")))
 			use_name = _(name);
 		else if (!strcmp (name, "INBOX"))
  			use_name = _("Inbox");

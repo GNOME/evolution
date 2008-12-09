@@ -1,5 +1,13 @@
 2008-12-09  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #563369
+
+	* em-folder-properties.c: (emfp_dialog_got_folder_quota):
+	* em-folder-tree-model.c: (em_folder_tree_model_set_folder_info):
+	* mail-component.c: (view_changed): Translate "Templates" folder name.
+
+2008-12-09  Milan Crha  <mcrha@redhat.com>
+
 	** Part of fix for bug #563669
 
 	* mail-config.glade:

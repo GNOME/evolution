@@ -343,6 +343,7 @@ emfp_dialog_got_folder_quota (CamelFolder *folder, CamelFolderQuotaInfo *quota, 
 
 	if (store == mail_component_peek_local_store(NULL)
 	    && (!strcmp(prop_data->name, "Drafts")
+		|| !strcmp(prop_data->name, "Templates")
 		|| !strcmp(prop_data->name, "Inbox")
 		|| !strcmp(prop_data->name, "Outbox")
 		|| !strcmp(prop_data->name, "Sent"))) {
