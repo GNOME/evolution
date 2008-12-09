@@ -1,3 +1,10 @@
+2008-12-09  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #563669
+
+	* filter.glade:
+	Use zero GtkSpinButton's PageSize, as Gtk+ requires.
+
 2008-12-05  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #332629

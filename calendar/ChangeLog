@@ -1,3 +1,16 @@
+2008-12-09  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #563669
+
+	* gui/dialogs/recurrence-page.glade:
+	* gui/dialogs/alarm-dialog.glade:
+	* gui/dialogs/event-page.glade:
+	* gui/dialogs/task-details-page.glade:
+	* gui/dialogs/cal-prefs-dialog.glade:
+	* gui/alarm-notify/alarm-notify.glade:
+	* gui/goto-dialog.glade:
+	Use zero GtkSpinButton's PageSize, as Gtk+ requires.
+
 2008-12-08  Jeff Cai <jeff.cai@sun.com>
 
 	** Fix for bug #563633
