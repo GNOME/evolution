@@ -846,8 +846,10 @@ mail_config_get_account_by_source_url (const char *source_url)
 		}
 
 		account_url = camel_url_new (account->source->url, NULL);
-		if (account_url == NULL)
+		if (account_url == NULL) {
+			account = NULL;
 			continue;
+		}
 
 		if (!mail_config_account_url_equal (url, account_url))
 			account = NULL;  /* not a match */
@@ -887,8 +889,10 @@ mail_config_get_account_by_transport_url (const char *transport_url)
 		}
 
 		account_url = camel_url_new (account->transport->url, NULL);
-		if (account_url == NULL)
+		if (account_url == NULL) {
+			account = NULL;
 			continue;
+		}
 
 		if (!mail_config_account_url_equal (url, account_url))
 			account = NULL;  /* not a match */
