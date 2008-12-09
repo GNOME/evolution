@@ -5864,6 +5864,15 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			ECalendarViewPosition pos;
 			gboolean main_canvas = TRUE;
 
+			if (day_view->editing_event_num != -1)
+				break;
+
+			if (day_view->resize_event_num != -1)
+				break;
+
+			if (day_view->drag_event_num != -1)
+				break;
+
 			/* Convert the coords to the main canvas window, or return if the
 			   window is not found. */
 			if (!e_day_view_convert_event_coords (day_view, (GdkEvent*) event,
@@ -5892,15 +5901,11 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			}
 
 			if (pos == E_CALENDAR_VIEW_POS_OUTSIDE)
-				return FALSE;
-
-			if (day_view->editing_event_num != -1)
 				break;
 
-			if (day_view->resize_event_num != -1)
-				break;
-
-			if (day_view->drag_event_num != -1)
+			/* even when returns position inside, or other, then the day and/or event_num
+			   can be unknown, thus check for this here, otherwise it will crash later */
+			if (day == -1 || event_num == -1)
 				break;
 
 			pevent = tooltip_get_view_event (day_view, day, event_num);

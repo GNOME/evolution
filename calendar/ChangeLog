@@ -1,5 +1,13 @@
 2008-12-09  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #333224
+
+	* gui/e-day-view.c: (e_day_view_on_text_item_event): Sanitize returned
+	values from 'e_day_view_convert_position_in_main_canvas', because it
+	can let the 'event_num' or 'day' set to -1, which means invalid value.
+
+2008-12-09  Milan Crha  <mcrha@redhat.com>
+
 	** Part of fix for bug #563669
 
 	* gui/dialogs/recurrence-page.glade:
