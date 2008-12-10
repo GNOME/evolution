@@ -1,3 +1,11 @@
+2008-12-10  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #552583
+
+	* mail-config.c: (mail_config_get_account_by_source_url),
+	(mail_config_get_account_by_transport_url): Extending Sankar's fix
+	of account checking logic a bit, to be more consistent.
+
 2008-12-09  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #563369
