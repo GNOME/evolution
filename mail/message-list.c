@@ -66,8 +66,6 @@
 #include "table/e-cell-vbox.h"
 #include "table/e-cell-hbox.h"
 
-#include "filter/filter-label.h"
-
 #include "em-popup.h"
 #include "em-utils.h"
 #include "mail-config.h"

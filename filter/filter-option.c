@@ -45,6 +45,7 @@ static FilterElement *clone (FilterElement *fe);
 static GtkWidget *get_widget (FilterElement *fe);
 static void build_code (FilterElement *fe, GString *out, struct _FilterPart *ff);
 static void format_sexp (FilterElement *, GString *);
+static GSList *get_dynamic_options (FilterOption *fo);
 
 static void filter_option_class_init (FilterOptionClass *klass);
 static void filter_option_init (FilterOption *fo);
@@ -275,10 +276,23 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 
 				fn = xmlGetProp (n, (const unsigned char *)"func");
 				if (fn && *fn) {
+					GSList *items, *i;
+					struct _filter_option *op;
+
 					fo->dynamic_func = g_strdup ((const char *)fn);
 
-					/* to remember where to place them */
-					filter_option_add (fo, "fake_dynamic", "fake_dynamic", NULL, TRUE);
+					/* get options now, to have them available when reading saved rules */
+					items = get_dynamic_options (fo);
+					for (i = items; i; i = i->next) {
+						op = i->data;
+
+						if (op) {
+							filter_option_add (fo, op->value, op->title, op->code, TRUE);
+							free_option (op, NULL);
+						}
+					}
+
+					g_slist_free (items);
 				} else {
 					g_warning ("Missing 'func' attribute within '%s' node in optionlist '%s'", n->name, fe->name);
 				}
@@ -335,6 +349,30 @@ option_changed (GtkWidget *widget, FilterElement *fe)
 	fo->current = g_object_get_data ((GObject *) widget, "option");
 }
 
+static GSList *
+get_dynamic_options (FilterOption *fo)
+{
+	void *module;
+	GSList *(*get_func)(void);
+	GSList *res = NULL;
+
+	if (!fo || !fo->dynamic_func)
+		return res;
+
+	module = dlopen (NULL, RTLD_LAZY);
+
+	get_func = dlsym (module, fo->dynamic_func);
+	if (get_func) {
+		res = get_func ();
+	} else {
+		g_warning ("optionlist dynamic fill function '%s' not found", fo->dynamic_func);
+	}
+
+	dlclose (module);
+
+	return res;
+}
+
 static GtkWidget *
 get_widget (FilterElement *fe)
 {
@@ -349,10 +387,9 @@ get_widget (FilterElement *fe)
 
 	if (fo->dynamic_func) {
 		/* it is dynamically filled, thus remove all dynamics and put there the fresh ones */
+		GSList *items, *i;
 		GList *old_ops;
 		struct _filter_option *old_cur;
-		void *module;
-		GSList *(*get_func)(void);
 
 		old_ops = fo->options;
 		old_cur = fo->current;
@@ -372,27 +409,17 @@ get_widget (FilterElement *fe)
 			}
 		}
 
-		module = dlopen (NULL, RTLD_LAZY);
+		items = get_dynamic_options (fo);
+		for (i = items; i; i = i->next) {
+			op = i->data;
 
-		get_func = dlsym (module, fo->dynamic_func);
-		if (get_func) {
-			GSList *items, *i;
-
-			items = get_func ();
-			for (i = items; i; i = i->next) {
-				op = i->data;
-
-				if (op) {
-					filter_option_add (fo, op->value, op->title, op->code, TRUE);
-					free_option (op, NULL);
-				}
+			if (op) {
+				filter_option_add (fo, op->value, op->title, op->code, TRUE);
+				free_option (op, NULL);
 			}
+		}
 
-			g_slist_free (items);
-		} else
-			g_warning ("optionlist dynamic fill function '%s' not found", fo->dynamic_func);
-
-		dlclose (module);
+		g_slist_free (items);
 
 		/* maybe some static left after those dynamic, add them too */
 		for (; l; l = l->next) {

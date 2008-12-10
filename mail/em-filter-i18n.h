@@ -1,19 +1,3 @@
-/*
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2 of the License, or (at your option) version 3.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
- *
- * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
- */
 /* Automatically generated. Do not edit. */
 char *s = N_("Adjust Score");
 char *s = N_("Assign Color");
@@ -65,7 +49,6 @@ char *s = N_("Message is not Junk");
 char *s = N_("Move to Folder");
 char *s = N_("Pipe to Program");
 char *s = N_("Play Sound");
-/* Translators: "Read" as in "has been read" (em-filter-i18n.h) */
 char *s = N_("Read");
 char *s = N_("Recipients");
 char *s = N_("Regex Match");
@@ -76,6 +59,7 @@ char *s = N_("returns less than");
 char *s = N_("Run Program");
 char *s = N_("Score");
 char *s = N_("Sender");
+char *s = N_("Sender or Recipients");
 char *s = N_("Set Label");
 char *s = N_("Set Status");
 char *s = N_("Size (kB)");

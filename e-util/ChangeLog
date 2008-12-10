@@ -1,3 +1,11 @@
+2008-12-10  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #563870
+
+	* e-util-labels.h: (e_util_labels_get_filter_options):
+	* e-util-labels.c: (e_util_labels_get_filter_options):
+	New helper function to be used in FilterOption.
+
 2008-12-09  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #555663

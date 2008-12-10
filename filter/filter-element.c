@@ -279,7 +279,6 @@ clone (FilterElement *fe)
 #include "filter-datespec.h"
 #include "filter-int.h"
 #include "filter-file.h"
-#include "filter-label.h"
 
 static void
 copy_value(FilterElement *de, FilterElement *se)

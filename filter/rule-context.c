@@ -48,7 +48,6 @@
 #include "filter-file.h"
 #include "filter-input.h"
 #include "filter-int.h"
-#include "filter-label.h"
 #include "filter-marshal.h"
 #include "filter-option.h"
 #include "filter-rule.h"
@@ -922,8 +921,6 @@ new_element(RuleContext *rc, const char *type)
 		return (FilterElement *) filter_int_new ();
 	} else if (!strcmp (type, "regex")) {
 		return (FilterElement *) filter_input_new_type_name (type);
-	} else if (!strcmp (type, "label")) {
-		return (FilterElement *) filter_label_new ();
 	}else if (!strcmp(type, "completedpercent")) {
                  return (FilterElement *) filter_int_new_type("completedpercent", 0,100);
 

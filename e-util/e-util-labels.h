@@ -52,4 +52,6 @@ const char *e_util_labels_get_name      (GSList *labels, const char *tag);
 gboolean    e_util_labels_get_color     (GSList *labels, const char *tag, GdkColor *color);
 const char *e_util_labels_get_color_str (GSList *labels, const char *tag);
 
+GSList *    e_util_labels_get_filter_options (void);
+
 #endif /* _E_UTIL_LABELS_H */

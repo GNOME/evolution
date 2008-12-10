@@ -29,8 +29,10 @@
 
 #include <camel/camel-utf8.h>
 
+#include "e-util.h"
 #include "e-util-labels.h"
 #include "e-dialog-utils.h"
+#include "filter/filter-option.h"
 
 /* Note, the first element of each EUtilLabel must NOT be translated */
 EUtilLabel label_defaults[LABEL_DEFAULTS_NUM] = {
@@ -542,4 +544,39 @@ e_util_labels_get_color_str (GSList *labels, const char *tag)
 		return FALSE;
 
 	return label->colour;
+}
+
+/**
+ * e_util_labels_get_filter_options:
+ * Returns list of newly allocated struct _filter_option-s, to be used in filters.
+ **/
+GSList *
+e_util_labels_get_filter_options (void)
+{
+	GSList *known = e_util_labels_parse (NULL), *l;
+	GSList *res = NULL;
+
+	for (l = known; l; l = l->next) {
+		EUtilLabel *label = l->data;
+		const char *tag;
+		struct _filter_option *fo;
+
+		if (!label)
+			continue;
+
+		tag = label->tag;
+
+		if (tag && strncmp (tag, "$Label", 6) == 0)
+			tag += 6;
+
+		fo = g_new0 (struct _filter_option, 1);
+		fo->title = e_str_without_underscores (label->name);
+		fo->value = g_strdup (tag);
+
+		res = g_slist_prepend (res, fo);
+	}
+
+	e_util_labels_free (known);
+
+	return g_slist_reverse (res);
 }
