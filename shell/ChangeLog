@@ -1,3 +1,10 @@
+2008-12-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #563250
+
+	* main.c (main):
+	Load on startup and save on shutdown, custom keyboard accelerators.
+
 2008-12-08  Jeff Cai  <jeff.cai@sun.com>
 
 	** Fix for bug #563077

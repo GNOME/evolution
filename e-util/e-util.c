@@ -39,7 +39,7 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <libgnome/gnome-help.h>
-#include <libgnome/gnome-util.h>
+#include <libgnome/gnome-init.h>
 
 #ifdef G_OS_WIN32
 #include <windows.h>
@@ -69,6 +69,27 @@ e_get_user_data_dir (void)
 			g_get_home_dir (), ".evolution", NULL);
 
 	return dirname;
+}
+
+/**
+ * e_get_accels_filename:
+ *
+ * Returns the name of the user data file containing custom keyboard
+ * accelerator specifications.
+ *
+ * Returns: filename for accelerator specifications
+ **/
+const gchar *
+e_get_accels_filename (void)
+{
+	static gchar *filename = NULL;
+
+	if (G_UNLIKELY (filename == NULL))
+		filename = g_build_filename (
+			gnome_user_dir_get (),
+			"accels", PACKAGE, NULL);
+
+	return filename;
 }
 
 /**

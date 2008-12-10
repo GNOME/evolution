@@ -661,6 +661,7 @@ main (int argc, char **argv)
 		exit (0);
 
 	gnome_sound_init ("localhost");
+	gtk_accel_map_load (e_get_accels_filename ());
 
 	if (!disable_eplugin) {
 		e_plugin_register_type(e_plugin_lib_get_type());
@@ -692,6 +693,8 @@ main (int argc, char **argv)
 	g_object_unref (client);
 
 	bonobo_main ();
+
+	gtk_accel_map_save (e_get_accels_filename ());
 
 	e_icon_factory_shutdown ();
 	g_object_unref (program);

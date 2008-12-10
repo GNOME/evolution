@@ -1,3 +1,12 @@
+2008-12-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #563250
+
+	* e-util.c (e_get_accels_filename):
+	New function returns the filename where custom keyboard
+	accelerators are stored.  Currently only applies to the
+	various editor windows in Evolution.
+
 2008-12-10  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #563870
