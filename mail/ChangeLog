@@ -1,5 +1,12 @@
 2008-12-10  Milan Crha  <mcrha@redhat.com>
 
+	** Part of fix for bug #552357
+
+	* e-searching-tokenizer.c: (e_searching_tokenizer_begin):
+	Function prototype changed.
+
+2008-12-10  Milan Crha  <mcrha@redhat.com>
+
 	** Part of fix for bug #563870
 
 	* vfoldertypes.xml:

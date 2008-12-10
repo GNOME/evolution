@@ -45,7 +45,7 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0, };
 
-static void     e_searching_tokenizer_begin      (HTMLTokenizer *, char *);
+static void     e_searching_tokenizer_begin      (HTMLTokenizer *, const char *);
 static void     e_searching_tokenizer_end        (HTMLTokenizer *);
 static char    *e_searching_tokenizer_peek_token (HTMLTokenizer *);
 static char    *e_searching_tokenizer_next_token (HTMLTokenizer *);
@@ -1070,7 +1070,7 @@ static char *get_token(HTMLTokenizer *t)
 }
 
 static void
-e_searching_tokenizer_begin (HTMLTokenizer *t, char *content_type)
+e_searching_tokenizer_begin (HTMLTokenizer *t, const char *content_type)
 {
 	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (t);
 	struct _ESearchingTokenizerPrivate *p = st->priv;
