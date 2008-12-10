@@ -43,6 +43,7 @@ m4_define([dbus_minimum_version], [1.0.0])
 m4_define([hal_minimum_version], [0.5.4])
 m4_define([libnotify_minimum_version], [0.3.0])
 m4_define([gnome_pilot_minimum_version], [2.0.15])
+m4_define([gweather_minimum_version], [2.25.3])
 
 # GNOME Documentation
 GNOME_DOC_INIT
@@ -1206,6 +1207,25 @@ AC_SUBST(MANUAL_NSS_CFLAGS)
 AC_SUBST(MANUAL_NSS_LIBS)
 
 dnl **************************************************
+dnl Check if we should build the weather calendar plugin
+dnl **************************************************
+AC_MSG_CHECKING(if we should build the weather calendar plugin)
+AC_ARG_WITH([weather], 
+  [AS_HELP_STRING([--with-weather], [Build the weather calendar setup plugin (default=yes)])],
+  [use_gweather=$withval], 
+  [use_gweather=yes])
+AC_MSG_RESULT($use_gweather)
+
+if test $use_gweather = yes; then
+	PKG_CHECK_MODULES([LIBGWEATHER], 
+	   [gweather >= gweather_minimum_version],
+	   [CALENDAR_WEATHER="calendar-weather"], 
+	   [AC_MSG_ERROR([The weather calendar setup plugin requires GWeather >= gweather_minimum_version. Alternatively, you may specify --without-weather as a configure option to avoid building the plugin.])])
+else 
+	CALENDAR_WEATHER=""
+fi
+
+dnl **************************************************
 dnl Exchange support.
 dnl **************************************************
 AC_ARG_ENABLE([exchange],
@@ -1734,7 +1754,7 @@ AC_ARG_ENABLE([plugins],
 	      [enable_plugins="$enableval"],[enable_plugins=all])
 
 dnl Add any new plugins here
-plugins_base_always="calendar-file calendar-http calendar-weather itip-formatter plugin-manager default-source addressbook-file startup-wizard mark-all-read groupwise-features groupwise-account-setup mail-account-disable publish-calendar caldav imap-features google-account-setup webdav-account-setup"
+plugins_base_always="calendar-file calendar-http $CALENDAR_WEATHER itip-formatter plugin-manager default-source addressbook-file startup-wizard mark-all-read groupwise-features groupwise-account-setup mail-account-disable publish-calendar caldav imap-features google-account-setup webdav-account-setup"
 
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN " 
 all_plugins_base="$plugins_base_always sa-junk-plugin bogo-junk-plugin exchange-operations mono"

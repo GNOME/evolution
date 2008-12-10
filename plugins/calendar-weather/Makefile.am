@@ -1,7 +1,5 @@
 eds_datadir = `pkg-config --variable=privdatadir evolution-data-server-1.2`
 weatherdatadir = $(datadir)/evolution/$(BASE_VERSION)/weather
-LIBGWEATHER_CFLAGS = `pkg-config --cflags gweather`
-LIBGWEATHER_LIBS = `pkg-config --libs gweather`
 
 INCLUDES =									\
 	-I$(top_srcdir)								\
