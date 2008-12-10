@@ -39,13 +39,15 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <libgnome/gnome-help.h>
-#include <libgnome/gnome-util.h>
+#include <libgnome/gnome-init.h>
 
 #ifdef G_OS_WIN32
 #include <windows.h>
 #endif
 
 #include <libedataserver/e-data-server-util.h>
+#include <libedataserver/e-categories.h>
+#include "filter/filter-option.h"
 #include "e-util.h"
 #include "e-util-private.h"
 
@@ -67,6 +69,27 @@ e_get_user_data_dir (void)
 			g_get_home_dir (), ".evolution", NULL);
 
 	return dirname;
+}
+
+/**
+ * e_get_accels_filename:
+ *
+ * Returns the name of the user data file containing custom keyboard
+ * accelerator specifications.
+ *
+ * Returns: filename for accelerator specifications
+ **/
+const gchar *
+e_get_accels_filename (void)
+{
+	static gchar *filename = NULL;
+
+	if (G_UNLIKELY (filename == NULL))
+		filename = g_build_filename (
+			gnome_user_dir_get (),
+			"accels", PACKAGE, NULL);
+
+	return filename;
 }
 
 /**
@@ -1282,3 +1305,23 @@ e_util_read_file (const char *filename, gboolean filename_is_uri, char **buffer,
 	return res;
 }
 
+GSList *
+e_util_get_category_filter_options (void)
+{
+	GSList *res = NULL;
+	GList *clist, *l;
+
+	clist = e_categories_get_list ();
+	for (l = clist; l; l = l->next) {
+		const char *cname = l->data;
+		struct _filter_option *fo = g_new0 (struct _filter_option, 1);
+
+		fo->title = g_strdup (cname);
+		fo->value = g_strdup (cname);
+		res = g_slist_prepend (res, fo);
+	}
+
+	g_list_free (clist);
+
+	return g_slist_reverse (res);
+}

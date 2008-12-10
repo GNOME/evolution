@@ -469,6 +469,7 @@ calendar_table_query_tooltip_cb (ECalendarTable *cal_table,
 
 	if (tmp2->len) {
 		l = gtk_label_new (tmp2->str);
+		gtk_label_set_line_wrap (GTK_LABEL (l), TRUE);
 		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
 		gtk_box_pack_start (GTK_BOX (box), l, FALSE, FALSE, 0);
 	}

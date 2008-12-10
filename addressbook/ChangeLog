@@ -1,3 +1,51 @@
+2008-12-09  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #563669
+
+	* gui/component/ldap-config.glade:
+	* printing/e-contact-print.glade:
+	Use zero GtkSpinButton's PageSize, as Gtk+ requires.
+
+2008-12-08  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #270376
+
+	* gui/contact-editor/e-contact-editor.c: (im_service []),
+	(non_string_fields[]):
+	* gui/widgets/eab-contact-display.c: (render_contact):
+	Support Skype field in a contact.
+
+	* gui/contact-editor/e-contact-editor-im.c:
+	Changes here too, but file doesn't seem to be used.
+
+2008-12-08  Jennifer Newman  <jennifer.newman@tufts.edu>
+
+	** Fix for bug #549964
+
+	* gui/widgets/eab-gui-util.c (eab_load_error_dialog),
+	(eab_search_result_dialog): Fix for a few erroneous strings. 
+
+2008-12-05  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #332629
+
+	* gui/widgets/addresstypes.xml:
+	Use dynamically created list of categories in the option's widget.
+
+2008-12-04  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #263268
+
+	* gui/widgets/e-addressbook-view.c: (search_activated),
+	(make_suboptions): Be able to search for contacts without category.
+
+2008-12-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #348299
+
+	* gui/contact-editor/e-contact-editor.c (e_contact_editor_init):
+	Use category completion in the Categories field.
+
 2008-11-17  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #557818

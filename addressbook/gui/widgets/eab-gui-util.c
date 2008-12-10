@@ -101,46 +101,45 @@ eab_load_error_dialog (GtkWidget *parent, ESource *source, EBookStatus status)
 
 	if (status == E_BOOK_ERROR_OFFLINE_UNAVAILABLE) {
 		can_detail_error = FALSE;
-		label_string = _("We were unable to open this address book. This either means "
-                                 "this book is not marked for offline usage or not yet downloaded "
+		label_string = _("This address book cannot be opened. This either means this "
+                                 "book is not marked for offline usage or not yet downloaded "
                                  "for offline usage. Please load the address book once in online mode "
-                                 "to download its contents");
+                                 "to download its contents.");
 	}
 
 	else if (!strncmp (uri, "file:", 5)) {
 		char *path = g_filename_from_uri (uri, NULL, NULL);
 		label = g_strdup_printf (
-			_("We were unable to open this address book.  Please check that the "
-			  "path %s exists and that you have permission to access it."), path);
+			_("This address book cannot be opened.  Please check that the "
+			  "path %s exists and that permissions are set to access it."), path);
 		g_free (path);
 		label_string = label;
 	}
+
+#ifndef HAVE_LDAP
 	else if (!strncmp (uri, "ldap:", 5)) {
 		/* special case for ldap: contact folders so we can tell the user about openldap */
-#ifdef HAVE_LDAP
-		label_string =
-			_("We were unable to open this address book.  This either "
-			  "means you have entered an incorrect URI, or the LDAP server "
-			  "is unreachable.");
-#else
+
 		can_detail_error = FALSE;
 		label_string =
 			_("This version of Evolution does not have LDAP support "
-			  "compiled in to it.  If you want to use LDAP in Evolution, "
-			  "you must install an LDAP-enabled Evolution package.");
+			  "compiled in to it.  To use LDAP in Evolution "
+			  "an LDAP-enabled Evolution package must be installed.");
+
+	}
 #endif
-	} else {
-		/* other network folders */
+	 else {
+		/* other network folders (or if ldap is enabled and server is unreachable) */
 		label_string =
-			_("We were unable to open this address book.  This either "
-			  "means you have entered an incorrect URI, or the server "
+			_("This address book cannot be opened.  This either "
+			  "means that an incorrect URI was entered, or the server "
 			  "is unreachable.");
 	}
 
 	if (can_detail_error) {
 		/* do not show repository offline message, it's kind of generic error */
 		if (status != E_BOOK_ERROR_REPOSITORY_OFFLINE && status > 0 && status < G_N_ELEMENTS (status_to_string) && status_to_string [status]) {
-			label = g_strconcat (label_string, "\n\n", _("Detailed error:"), " ", _(status_to_string [status]), NULL);
+			label = g_strconcat (label_string, "\n\n", _("Detailed error message:"), " ", _(status_to_string [status]), NULL);
 			label_string = label;
 		}
 	}
@@ -170,7 +169,7 @@ eab_search_result_dialog      (GtkWidget *parent,
 		break;
 	case E_BOOK_VIEW_STATUS_TIME_LIMIT_EXCEEDED:
 		str = _("The time to execute this query exceeded the server limit or the limit\n"
-			"you have configured for this address book.  Please make your search\n"
+			"configured for this address book.  Please make your search\n"
 			"more specific or raise the time limit in the directory server\n"
 			"preferences for this address book.");
 		break;

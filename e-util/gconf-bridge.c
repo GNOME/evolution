@@ -70,6 +70,7 @@ typedef struct {
 
         GtkWindow *window;
         gulong configure_event_id;
+	gulong window_state_event_id;
         gulong unmap_id;
         guint sync_timeout_id;
 } WindowBinding;
@@ -819,7 +820,7 @@ gconf_bridge_bind_window (GConfBridge *bridge,
                                         (window_binding_configure_event_cb),
                                   binding);
 
-        binding->configure_event_id =
+        binding->window_state_event_id =
                 g_signal_connect (window,
                                   "window_state_event",
                                   G_CALLBACK
@@ -856,6 +857,8 @@ window_binding_unbind (WindowBinding *binding)
         if (binding->window) {
                 g_signal_handler_disconnect (binding->window,
                                              binding->configure_event_id);
+                g_signal_handler_disconnect (binding->window,
+					     binding->window_state_event_id);
                 g_signal_handler_disconnect (binding->window,
                                              binding->unmap_id);
 

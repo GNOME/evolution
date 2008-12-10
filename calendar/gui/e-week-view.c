@@ -113,6 +113,7 @@ static GList *e_week_view_get_selected_events (ECalendarView *cal_view);
 static gboolean e_week_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
 static void e_week_view_set_selected_time_range (ECalendarView *cal_view, time_t start_time, time_t end_time);
 static gboolean e_week_view_get_visible_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
+static void e_week_view_paste_text (ECalendarView *week_view);
 static void e_week_view_update_query (EWeekView *week_view);
 static void e_week_view_draw_shadow (EWeekView *week_view);
 
@@ -224,6 +225,7 @@ e_week_view_class_init (EWeekViewClass *class)
 	view_class->get_selected_time_range = e_week_view_get_selected_time_range;
 	view_class->set_selected_time_range = e_week_view_set_selected_time_range;
 	view_class->get_visible_time_range = e_week_view_get_visible_time_range;
+	view_class->paste_text = e_week_view_paste_text;
 
 #if 0  /* KILL-BONOBO */
 	/* init the accessibility support for e_week_view */
@@ -3929,7 +3931,7 @@ e_week_view_cursor_key_right (EWeekView *week_view, GnomeCalendarViewType view_t
 }
 
 static gboolean
-e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
+e_week_view_add_new_event_in_selected_range (EWeekView *week_view, const gchar *initial_text)
 {
 #if 0  /* KILL-BONOBO */
 	EWeekView *week_view;
@@ -3938,15 +3940,96 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	ECalComponent *comp;
 	icalcomponent *icalcomp;
 	gint event_num;
-	gchar *initial_text;
 	ECalComponentDateTime date;
 	struct icaltimetype itt;
 	time_t dtstart, dtend;
 	const char *uid;
 	AddEventData add_event_data;
-	guint keyval;
 	gboolean read_only = TRUE;
+	EWeekViewEvent *wvevent;
+	EWeekViewEventSpan *span;
+
+	/* Check if the client is read only */
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
+	ecal = e_cal_model_get_default_client (model);
+	if (!e_cal_is_read_only (ecal, &read_only, NULL) || read_only)
+		return FALSE;
+
+	/* Add a new event covering the selected range. */
+	icalcomp = e_cal_model_create_component_with_defaults (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)));
+	if (!icalcomp)
+		return FALSE;
+	uid = icalcomponent_get_uid (icalcomp);
+
+	comp = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (comp, icalcomp);
+
+	dtstart = week_view->day_starts[week_view->selection_start_day];
+	dtend = week_view->day_starts[week_view->selection_end_day + 1];
+
+	date.value = &itt;
+	date.tzid = NULL;
+
+	/* We use DATE values now, so we don't need the timezone. */
+	/*date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));*/
+
+	*date.value = icaltime_from_timet_with_zone (dtstart, TRUE,
+						     e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
+	e_cal_component_set_dtstart (comp, &date);
+
+	*date.value = icaltime_from_timet_with_zone (dtend, TRUE,
+						     e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
+	e_cal_component_set_dtend (comp, &date);
+
+	/* Editor default in week/month view */
+	e_cal_component_set_transparency (comp, E_CAL_COMPONENT_TRANSP_TRANSPARENT);
+
+	e_cal_component_set_categories (
+		comp, e_calendar_view_get_default_category (E_CALENDAR_VIEW (week_view)));
+
+	/* We add the event locally and start editing it. We don't send it
+	   to the server until the user finishes editing it. */
+	add_event_data.week_view = week_view;
+	add_event_data.comp_data = NULL;
+	e_week_view_add_event (comp, dtstart, dtend, TRUE, &add_event_data);
+	e_week_view_check_layout (week_view);
+	gtk_widget_queue_draw (week_view->main_canvas);
+
+	if (!e_week_view_find_event_from_uid (week_view, ecal, uid, NULL, &event_num)) {
+		g_warning ("Couldn't find event to start editing.\n");
+		g_object_unref (comp);
+		return FALSE;
+	}
+
+	wvevent = &g_array_index (week_view->events, EWeekViewEvent,
+				  event_num);
+	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
+			       wvevent->spans_index + 0);
+
+	/* If the event can't be fit on the screen, don't try to edit it. */
+	if (!span->text_item) {
+		e_week_view_foreach_event_with_uid (week_view, uid,
+				e_week_view_remove_event_cb, NULL);
+		g_object_unref (comp);
+		return FALSE;
+	} else {
+		e_week_view_start_editing_event (week_view, event_num, 0,
+				(gchar *) initial_text);
+	}
+
+	g_object_unref (comp);
+
+	return TRUE;
+}
+
+static gboolean
+e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
+{
+	EWeekView *week_view;
+	gchar *initial_text;
+	guint keyval;
 	gboolean stop_emission;
+	gboolean ret_val;
 	GnomeCalendarViewType view_type;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
@@ -4022,12 +4105,6 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	if (week_view->selection_start_day == -1)
 		return FALSE;
 
-	/* Check if the client is read only */
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
-	ecal = e_cal_model_get_default_client (model);
-	if (!e_cal_is_read_only (ecal, &read_only, NULL) || read_only)
-		return FALSE;
-
 	/* We only want to start an edit with a return key or a simple
 	   character. */
 	if (event->keyval == GDK_Return) {
@@ -4040,75 +4117,13 @@ e_week_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 	} else
 		initial_text = e_utf8_from_gtk_event_key (widget, event->keyval, event->string);
 
-	/* Add a new event covering the selected range. */
-	icalcomp = e_cal_model_create_component_with_defaults (e_calendar_view_get_model (E_CALENDAR_VIEW (week_view)));
-	if (!icalcomp)
-		return FALSE;
-	uid = icalcomponent_get_uid (icalcomp);
-
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomp);
-
-	dtstart = week_view->day_starts[week_view->selection_start_day];
-	dtend = week_view->day_starts[week_view->selection_end_day + 1];
-
-	date.value = &itt;
-	date.tzid = NULL;
-
-	/* We use DATE values now, so we don't need the timezone. */
-	/*date.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));*/
-
-	*date.value = icaltime_from_timet_with_zone (dtstart, TRUE,
-						     e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-	e_cal_component_set_dtstart (comp, &date);
-
-	*date.value = icaltime_from_timet_with_zone (dtend, TRUE,
-						     e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-	e_cal_component_set_dtend (comp, &date);
-
-       /* Editor default in week/month view */
-       e_cal_component_set_transparency (comp, E_CAL_COMPONENT_TRANSP_TRANSPARENT);
-
-	e_cal_component_set_categories (
-		comp, e_calendar_view_get_default_category (E_CALENDAR_VIEW (week_view)));
-
-	/* We add the event locally and start editing it. We don't send it
-	   to the server until the user finishes editing it. */
-	add_event_data.week_view = week_view;
-	add_event_data.comp_data = NULL;
-	e_week_view_add_event (comp, dtstart, dtend, TRUE, &add_event_data);
-	e_week_view_check_layout (week_view);
-	gtk_widget_queue_draw (week_view->main_canvas);
-
-	if (e_week_view_find_event_from_uid (week_view, ecal, uid, NULL, &event_num)) {
-		EWeekViewEvent *wvevent;
-		EWeekViewEventSpan *span;
-
-		wvevent = &g_array_index (week_view->events, EWeekViewEvent,
-					  event_num);
-		span = &g_array_index (week_view->spans, EWeekViewEventSpan,
-				       wvevent->spans_index + 0);
-
-		/* If the event can't be fit on the screen, don't try to edit it. */
-		if (!span->text_item) {
-			e_week_view_foreach_event_with_uid (week_view, uid,
-							    e_week_view_remove_event_cb, NULL);
-		} else {
-			e_week_view_start_editing_event (week_view, event_num, 0,
-							 initial_text);
-		}
-
-	} else {
-		g_warning ("Couldn't find event to start editing.\n");
-	}
+	ret_val = e_week_view_add_new_event_in_selected_range (week_view, initial_text);
 
 	if (initial_text)
 		g_free (initial_text);
 
-	g_object_unref (comp);
+	return ret_val;
 #endif
-
-	return TRUE;
 }
 
 static gint
@@ -4367,4 +4382,31 @@ e_week_view_is_jump_button_visible (EWeekView *week_view, gint day)
 	if ((day >= 0) && (day < E_WEEK_VIEW_MAX_WEEKS * 7))
 		return week_view->jump_buttons[day]->object.flags & GNOME_CANVAS_ITEM_VISIBLE;
 	return FALSE;
+}
+
+static void
+e_week_view_paste_text (ECalendarView *cal_view)
+{
+	EWeekViewEvent *event;
+	EWeekViewEventSpan *span;
+	EWeekView *week_view;
+
+	g_return_if_fail (E_IS_WEEK_VIEW (cal_view));
+
+	week_view = E_WEEK_VIEW (cal_view);
+
+	if (week_view->editing_event_num == -1 &&
+	    !e_week_view_add_new_event_in_selected_range (week_view, NULL))
+		return;
+
+	event = &g_array_index (week_view->events, EWeekViewEvent,
+				week_view->editing_event_num);
+	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
+			       event->spans_index + week_view->editing_span_num);
+
+	if (span->text_item &&
+	    E_IS_TEXT (span->text_item) &&
+	    E_TEXT (span->text_item)->editing) {
+		e_text_paste_clipboard (E_TEXT (span->text_item));
+	}
 }

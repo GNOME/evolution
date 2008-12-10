@@ -34,6 +34,7 @@
 #include <glib/gi18n.h>
 #include <glade/glade.h>
 #include <gdk/gdkkeysyms.h>
+#include <libedataserverui/e-category-completion.h>
 #include <libedataserverui/e-source-combo-box.h>
 #include "common/authentication.h"
 #include "e-util/e-categories-config.h"
@@ -2152,6 +2153,7 @@ static gboolean
 get_widgets (EventPage *epage)
 {
 	CompEditorPage *page = COMP_EDITOR_PAGE (epage);
+	GtkEntryCompletion *completion;
 	EventPagePrivate *priv;
 	GSList *accel_groups;
 	GtkWidget *toplevel;
@@ -2244,6 +2246,10 @@ get_widgets (EventPage *epage)
 	priv->source_selector = GW ("source");
 
 #undef GW
+
+	completion = e_category_completion_new ();
+	gtk_entry_set_completion (GTK_ENTRY (priv->categories), completion);
+	g_object_unref (completion);
 
 	return (priv->summary
 		&& priv->location

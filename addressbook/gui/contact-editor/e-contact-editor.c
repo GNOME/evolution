@@ -36,6 +36,7 @@
 #include <misc/e-gui-utils.h>
 
 #include <libebook/e-address-western.h>
+#include <libedataserverui/e-category-completion.h>
 #include <libedataserverui/e-source-combo-box.h>
 
 #include <camel/camel.h>
@@ -176,7 +177,8 @@ im_service [] =
 	{ E_CONTACT_IM_GADUGADU,  N_ ("Gadu-Gadu") },
 	{ E_CONTACT_IM_MSN,       N_ ("MSN")       },
 	{ E_CONTACT_IM_ICQ,       N_ ("ICQ")       },
-	{ E_CONTACT_IM_GROUPWISE, N_ ("GroupWise") }
+	{ E_CONTACT_IM_GROUPWISE, N_ ("GroupWise") },
+	{ E_CONTACT_IM_SKYPE,     N_ ("Skype") }
 };
 
 /* Defaults from the table above */
@@ -3102,6 +3104,7 @@ static const EContactField  non_string_fields [] = {
 	E_CONTACT_IM_GADUGADU,
 	E_CONTACT_IM_MSN,
 	E_CONTACT_IM_ICQ,
+	E_CONTACT_IM_SKYPE,
 	E_CONTACT_PHOTO,
 	E_CONTACT_LOGO,
 	E_CONTACT_X509_CERT,
@@ -3357,6 +3360,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 {
 	GladeXML *gui;
 	GtkWidget *widget, *label;
+	GtkEntryCompletion *completion;
 	char *gladefile;
 
 	e_contact_editor->name = e_contact_name_new();
@@ -3416,6 +3420,11 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	widget = glade_xml_get_widget (e_contact_editor->gui, "entry-fullname");
 	if (widget)
 		gtk_widget_grab_focus (widget);
+
+	widget = glade_xml_get_widget (e_contact_editor->gui, "entry-categories");
+	completion = e_category_completion_new ();
+	gtk_entry_set_completion (GTK_ENTRY (widget), completion);
+	g_object_unref (completion);
 
 	/* Connect to the deletion of the dialog */
 

@@ -47,8 +47,8 @@ enum {
 	PROP_EDITABLE
 };
 
-#define FIRST_IM_TYPE E_CONTACT_IM_AIM
-#define LAST_IM_TYPE  E_CONTACT_IM_ICQ
+/*#define FIRST_IM_TYPE E_CONTACT_IM_AIM
+#define LAST_IM_TYPE  E_CONTACT_IM_ICQ*/
 
 static const char *im_labels[] = {
 	N_("AOL Instant Messenger"),
@@ -57,7 +57,8 @@ static const char *im_labels[] = {
 	N_("Yahoo Messenger"),
 	N_("Gadu-Gadu Messenger"),
 	N_("MSN Messenger"),
-	N_("ICQ")
+	N_("ICQ"),
+	N_("Skype")
 };
 
 static const char *im_images[] = {
@@ -67,8 +68,46 @@ static const char *im_images[] = {
 	"im-yahoo",
 	"im-gadugadu",
 	"im-msn",
-	"im-icq"
+	"im-icq",
+	"stock_people"
 };
+
+/**
+ * Decodes from service (E_CONTACT_IM_ value to the index in the above
+ * fields and back, depending on the second parameter.
+ * @param val Value to decode
+ * @param val_is_service TRUE, if val is E_CONTACT_IM_ value, otherwise it's an index number.
+ **/
+static int
+decode_service (int val, gboolean val_is_service)
+{
+	static const int fields[] = {
+		E_CONTACT_IM_AIM,
+		E_CONTACT_IM_GROUPWISE,
+		E_CONTACT_IM_JABBER,
+		E_CONTACT_IM_YAHOO,
+		E_CONTACT_IM_GADUGADU,
+		E_CONTACT_IM_MSN,
+		E_CONTACT_IM_ICQ,
+		E_CONTACT_IM_SKYPE
+	};
+
+	int i, sz = G_N_ELEMENTS (fields);
+	if (val_is_service) {
+		for (i = 0; i < sz; i++) {
+			if (val == fields[i])
+				break;
+		}
+		if (i >= sz)
+			i = 0;
+	} else if (val >= 0 && val < sz) {
+		i = fields [val];
+	} else {
+		i = fields [0];
+	}
+
+	return i;
+}
 
 GType
 e_contact_editor_im_get_type (void)
@@ -111,9 +150,9 @@ e_contact_editor_im_class_init (EContactEditorImClass *klass)
 					 g_param_spec_int ("service",
 							   _("Service"),
 							   /*_( */"XXX blurb" /*)*/,
-							   FIRST_IM_TYPE,
-							   LAST_IM_TYPE,
-							   FIRST_IM_TYPE,
+							   E_CONTACT_IM_AIM,
+							   E_CONTACT_IM_SKYPE,
+							   E_CONTACT_IM_AIM,
 							   G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_LOCATION,
@@ -141,7 +180,7 @@ e_contact_editor_im_class_init (EContactEditorImClass *klass)
 static void
 service_changed_cb(GtkWidget *optmenu, EContactEditorIm *editor)
 {
-	editor->service = gtk_option_menu_get_history(GTK_OPTION_MENU(optmenu)) + FIRST_IM_TYPE;
+	editor->service = decode_service (gtk_option_menu_get_history(GTK_OPTION_MENU(optmenu)), FALSE);
 }
 
 static void
@@ -254,7 +293,7 @@ e_contact_editor_im_init (EContactEditorIm *e_contact_editor_im)
 
 	gtk_window_set_resizable(GTK_WINDOW(e_contact_editor_im), TRUE);
 
-	e_contact_editor_im->service = FIRST_IM_TYPE;
+	e_contact_editor_im->service = decode_service (0, FALSE);
 	e_contact_editor_im->location = g_strdup("HOME");
 	e_contact_editor_im->username = NULL;
 
@@ -440,7 +479,7 @@ fill_in_info(EContactEditorIm *editor)
 	optmenu = glade_xml_get_widget(editor->gui, "optmenu-service");
 
 	if (optmenu != NULL)
-		gtk_option_menu_set_history(GTK_OPTION_MENU(optmenu), editor->service - FIRST_IM_TYPE);
+		gtk_option_menu_set_history(GTK_OPTION_MENU(optmenu), decode_service (editor->service, TRUE));
 
 	optmenu = glade_xml_get_widget(editor->gui, "optmenu-location");
 

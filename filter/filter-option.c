@@ -29,6 +29,7 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
+#include <dlfcn.h>
 
 #include "filter-option.h"
 #include "filter-part.h"
@@ -44,6 +45,7 @@ static FilterElement *clone (FilterElement *fe);
 static GtkWidget *get_widget (FilterElement *fe);
 static void build_code (FilterElement *fe, GString *out, struct _FilterPart *ff);
 static void format_sexp (FilterElement *, GString *);
+static GSList *get_dynamic_options (FilterOption *fo);
 
 static void filter_option_class_init (FilterOptionClass *klass);
 static void filter_option_init (FilterOption *fo);
@@ -102,6 +104,7 @@ static void
 filter_option_init (FilterOption *fo)
 {
 	fo->type = "option";
+	fo->dynamic_func = NULL;
 }
 
 static void
@@ -120,6 +123,7 @@ filter_option_finalise (GObject *obj)
 
 	g_list_foreach (fo->options, (GFunc)free_option, NULL);
 	g_list_free (fo->options);
+	g_free (fo->dynamic_func);
 
         G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
@@ -164,7 +168,7 @@ filter_option_set_current (FilterOption *option, const char *name)
 
 /* used by implementers to add additional options */
 struct _filter_option *
-filter_option_add(FilterOption *fo, const char *value, const char *title, const char *code)
+filter_option_add(FilterOption *fo, const char *value, const char *title, const char *code, gboolean is_dynamic)
 {
 	struct _filter_option *op;
 
@@ -175,6 +179,7 @@ filter_option_add(FilterOption *fo, const char *value, const char *title, const 
 	op->title = g_strdup(title);
 	op->value = g_strdup(value);
 	op->code = g_strdup(code);
+	op->is_dynamic = is_dynamic;
 
 	fo->options = g_list_append(fo->options, op);
 	if (fo->current == NULL)
@@ -253,10 +258,47 @@ xml_create (FilterElement *fe, xmlNodePtr node)
 				work = work->next;
 			}
 
-			filter_option_add (fo, value, title, code);
+			filter_option_add (fo, value, title, code, FALSE);
 			xmlFree (value);
 			g_free (title);
 			g_free (code);
+		} else if (g_str_equal ((char *)n->name, "dynamic")) {
+			if (fo->dynamic_func) {
+				g_warning ("Only one 'dynamic' node is acceptable in the optionlist '%s'", fe->name);
+			} else {
+				/* Expecting only one <dynamic func="cb" /> in the option list,
+				   The 'cb' should be of this prototype:
+				   GSList *cb (void);
+				   returning GSList of struct _filter_option, all newly allocated, because it'll
+				   be freed with g_free and g_slist_free. 'is_dynamic' member is ignored here.
+				*/
+				xmlChar *fn;
+
+				fn = xmlGetProp (n, (const unsigned char *)"func");
+				if (fn && *fn) {
+					GSList *items, *i;
+					struct _filter_option *op;
+
+					fo->dynamic_func = g_strdup ((const char *)fn);
+
+					/* get options now, to have them available when reading saved rules */
+					items = get_dynamic_options (fo);
+					for (i = items; i; i = i->next) {
+						op = i->data;
+
+						if (op) {
+							filter_option_add (fo, op->value, op->title, op->code, TRUE);
+							free_option (op, NULL);
+						}
+					}
+
+					g_slist_free (items);
+				} else {
+					g_warning ("Missing 'func' attribute within '%s' node in optionlist '%s'", n->name, fe->name);
+				}
+
+				xmlFree (fn);
+			}
 		} else if (n->type == XML_ELEMENT_NODE) {
 			g_warning ("Unknown xml node within optionlist: %s\n", n->name);
 		}
@@ -307,6 +349,30 @@ option_changed (GtkWidget *widget, FilterElement *fe)
 	fo->current = g_object_get_data ((GObject *) widget, "option");
 }
 
+static GSList *
+get_dynamic_options (FilterOption *fo)
+{
+	void *module;
+	GSList *(*get_func)(void);
+	GSList *res = NULL;
+
+	if (!fo || !fo->dynamic_func)
+		return res;
+
+	module = dlopen (NULL, RTLD_LAZY);
+
+	get_func = dlsym (module, fo->dynamic_func);
+	if (get_func) {
+		res = get_func ();
+	} else {
+		g_warning ("optionlist dynamic fill function '%s' not found", fo->dynamic_func);
+	}
+
+	dlclose (module);
+
+	return res;
+}
+
 static GtkWidget *
 get_widget (FilterElement *fe)
 {
@@ -315,11 +381,64 @@ get_widget (FilterElement *fe)
 	GtkWidget *omenu;
 	GtkWidget *item;
 	GtkWidget *first = NULL;
-	GList *l = fo->options;
+	GList *l;
 	struct _filter_option *op;
 	int index = 0, current = 0;
 
+	if (fo->dynamic_func) {
+		/* it is dynamically filled, thus remove all dynamics and put there the fresh ones */
+		GSList *items, *i;
+		GList *old_ops;
+		struct _filter_option *old_cur;
+
+		old_ops = fo->options;
+		old_cur = fo->current;
+		l = old_ops;
+
+		/* start with an empty list */
+		fo->current = NULL;
+		fo->options = NULL;
+
+		for (l = fo->options; l; l = l->next) {
+			op = l->data;
+
+			if (op->is_dynamic) {
+				break;
+			} else {
+				filter_option_add (fo, op->value, op->title, op->code, FALSE);
+			}
+		}
+
+		items = get_dynamic_options (fo);
+		for (i = items; i; i = i->next) {
+			op = i->data;
+
+			if (op) {
+				filter_option_add (fo, op->value, op->title, op->code, TRUE);
+				free_option (op, NULL);
+			}
+		}
+
+		g_slist_free (items);
+
+		/* maybe some static left after those dynamic, add them too */
+		for (; l; l = l->next) {
+			op = l->data;
+
+			if (!op->is_dynamic)
+				filter_option_add (fo, op->value, op->title, op->code, FALSE);
+		}
+
+		if (old_cur)
+			filter_option_set_current (fo, old_cur->value);
+
+		/* free old list */
+		g_list_foreach (old_ops, (GFunc)free_option, NULL);
+		g_list_free (old_ops);
+	}
+
 	menu = gtk_menu_new ();
+	l = fo->options;
 	while (l) {
 		op = l->data;
 		item = gtk_menu_item_new_with_label (_(op->title));
@@ -382,11 +501,13 @@ clone (FilterElement *fe)
 	l = fo->options;
 	while (l) {
 		op = l->data;
-		newop = filter_option_add (new, op->value, op->title, op->code);
+		newop = filter_option_add (new, op->value, op->title, op->code, op->is_dynamic);
 		if (fo->current == op)
 			new->current = newop;
 		l = l->next;
 	}
+
+	new->dynamic_func = g_strdup (fo->dynamic_func);
 
 	d(printf ("cloning option code %p, current = %p\n", new, new->current));
 

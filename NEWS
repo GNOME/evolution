@@ -1,3 +1,52 @@
+Evolution 2.25.2 2008-12-01
+---------------------------
+
+New in 2.25.2:
+       Added a "Dismiss" button to the alarm notification dialog to be able to dismiss only some of the alarms shown in the dialog (Milan Crha)
+       Show attendees' status in the tooltip if available (Milan Crha)
+       Support for evolution-mapi support (Suman Manjunath)
+
+Bug Fixes:
+       #332729: Disconnect handlers on the widget before freeing the structure it is using (Milan Crha)
+       #359745: Show CalDAV options under all the other standard options (Milan Crha)
+       #386036: Added new option "Sender or Recipients" which filters on From/To/Cc/Bcc headers (Milan Crha)
+       #434320: (Novell Bugzilla) When the popup is clicked close the status icon (Srinivasa Ragavan)
+       #437226: (Novell Bugzilla) Proper message to hint the mail is being sent by delegatee (Bharath Acharya)
+       #440007: (Novell Bugzilla) Print Preview of Calendar Event Shows Blank Page Before Data fixed (Bharath Acharya)
+       #440646: (Novell Bugzilla) Set the ESource color-spec for proxy accounts in the correct format (Suman Manjunath)
+       #443190: (Novell Bugzilla) Block signals from attachment-bar while still filling the widgets (Suman Manjunath)
+       #446286: (Novell Bugzilla) Remove the header check as we do a e_gw_connection_get_item for tracking the status (Bharath Acharya)
+       #490503: Show summary of unaccepted meetings as bold in calendar views (Suman Manjunath)
+       #503662: Set NULL properly to protect against using already freed memory (Milan Crha)
+       #524377: Declare, be able to change and listen to changes on new key, '/apps/evolution/mail/composer/outlook_filenames' to encode file names header in camel based on the RFC 2047, instead of the correct RFC 2231 (Milan Crha)
+       #541121: Itip-formatter: don't allow sending a response to meeting invitation replies (Patrick Ohly)
+       #552583: Strip the attributes out of both URLs and just do a simple string comparison. Try to match a URL to an account (Matthew Barnes)
+       #552850: Prefer the term "side bar" over "folder tree" (Matthew Barnes)
+       #554450: Get drag-and-drop to the attachment bar working again (Matthew Barnes)
+       #554464: Bump gtk+ minimum version to 2.14.0 which pulls in a recent enough Pango version (Felix Riemann)
+       #555276: Don't load vfolder as subfolder (Srinivasa Ragavan)
+       #556224: Run always 'update_todo_view' in a separate thread and guard its body with a mutex (Milan Crha)
+       #557246: Pop up the "Unsubscribe Folder" option only for the subscribed folders and not to the Other's folder hierarchy (Bharath Acharya)
+       #557581: Break up the version definitions such that we can calculate the latest stable version and pass a STABLE_VERSION definition (Matthew Barnes)
+       #557726: Destroy the widgets created by the google contacts group (Bharath Acharya)
+       #557818: ESourceSelector now handles most of the drag-and-drop signals. We just have to listen for the new "data-dropped" signal and deal with it (Matthew Barnes)
+       #558322: New "Rename" item in the source selector pop-up menu calls the recently added e_source_selector_edit_primary_selection (Matthew Barnes)
+       #558354: Changed "Close" button to "Dismiss all" and added a "Dismiss" button to the alarm notification dialog to be able to dismiss only some of the alarms shown in the dialog (Milan Crha)
+       #559371: Opening _either_ Preferences or a new composer window with no spell checking language chosen will pick a default language for you (Matthew Barnes)
+       #559518: Desensitizes the button when the username field is blank for the google source (Matthew Barnes)
+       #559604: Show attendees' status in the tooltip if available (Milan Crha)
+       #559701: Edit Preferences crashes when there are no spell checking dictionaries added.  Don't save when its NULL (Srinivasa Ragavan)
+       #559810: Do not localize empty label names, also localize them only first time (Milan Crha)
+       #560138: Let wrap description text in a tooltip (Milan Crha)
+       #560329: Fix the signature of the 'children-changed' signal emission (Li Yuan)
+       #560882: Left-align header labels instead of centering them, and adjust the header padding so they look purdy (Matthew Barnes)
+       #561467: some changes in the core code needed for evolution-mapi (Suman Manjunath)
+
+Updated Translations:
+       Jorge Gonzalez (es)
+       Petr Kovar (cs)
+       Nickolay V. Shmyrev (ru)
+
 Evolution 2.25.1 2008-11-03
 ---------------------------
 

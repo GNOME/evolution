@@ -41,6 +41,7 @@ typedef enum {
 } EFocus;
 
 const gchar *	e_get_user_data_dir		(void);
+const gchar *	e_get_accels_filename		(void);
 void		e_display_help			(GtkWindow *parent,
 						 const gchar *link_id);
 guint		e_load_ui_definition		(GtkUIManager *ui_manager,
@@ -128,6 +129,8 @@ gboolean	e_util_read_file		(const gchar *filename,
 						 gchar **buffer,
 						 gsize *read,
 						 GError **error);
+
+GSList *e_util_get_category_filter_options      (void);
 
 G_END_DECLS
 

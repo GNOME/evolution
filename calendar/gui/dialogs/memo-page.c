@@ -34,6 +34,7 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <glade/glade.h>
+#include <libedataserverui/e-category-completion.h>
 #include <libedataserverui/e-source-combo-box.h>
 #include <libedataserverui/e-name-selector.h>
 #include <libedataserverui/e-name-selector-entry.h>
@@ -746,6 +747,7 @@ static gboolean
 get_widgets (MemoPage *mpage)
 {
 	CompEditorPage *page = COMP_EDITOR_PAGE (mpage);
+	GtkEntryCompletion *completion;
 	MemoPagePrivate *priv;
 	GSList *accel_groups;
 	GtkWidget *toplevel;
@@ -794,6 +796,10 @@ get_widgets (MemoPage *mpage)
 	priv->source_selector = GW ("source");
 
 #undef GW
+
+	completion = e_category_completion_new ();
+	gtk_entry_set_completion (GTK_ENTRY (priv->categories), completion);
+	g_object_unref (completion);
 
 	return (priv->memo_content
 		&& priv->categories_btn

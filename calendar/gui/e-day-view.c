@@ -152,6 +152,7 @@ static GList *e_day_view_get_selected_events (ECalendarView *cal_view);
 static gboolean e_day_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
 static void e_day_view_set_selected_time_range (ECalendarView *cal_view, time_t start_time, time_t end_time);
 static gboolean e_day_view_get_visible_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
+static void e_day_view_paste_text (ECalendarView *day_view);
 static void e_day_view_update_query (EDayView *day_view);
 static void e_day_view_goto_start_of_work_day (EDayView *day_view);
 static void e_day_view_goto_end_of_work_day (EDayView *day_view);
@@ -466,6 +467,7 @@ e_day_view_class_init (EDayViewClass *class)
 	view_class->get_selected_time_range = e_day_view_get_selected_time_range;
 	view_class->set_selected_time_range = e_day_view_set_selected_time_range;
 	view_class->get_visible_time_range = e_day_view_get_visible_time_range;
+	view_class->paste_text = e_day_view_paste_text;
 
 #if 0  /* KILL-BONOBO */
 	/* init the accessibility support for e_day_view */
@@ -4725,22 +4727,93 @@ e_day_view_event_sort_func (const void *arg1,
 }
 
 static gboolean
-e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
+e_day_view_add_new_event_in_selected_range (EDayView *day_view, GdkEventKey *key_event)
 {
-	EDayView *day_view;
 	icalcomponent *icalcomp;
 	ECal *ecal;
 	ECalModel *model;
 	ECalComponent *comp;
 	gint day, event_num;
-	guint keyval;
-	gboolean stop_emission;
 	time_t dtstart, dtend;
 	ECalComponentDateTime start_dt, end_dt;
 	struct icaltimetype start_tt, end_tt;
         const char *uid;
 	AddEventData add_event_data;
 	gboolean read_only = TRUE;
+
+	/* Check if the client is read only */
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
+	ecal = e_cal_model_get_default_client (model);
+	if (!e_cal_is_read_only (ecal, &read_only, NULL) || read_only)
+		return FALSE;
+
+	icalcomp = e_cal_model_create_component_with_defaults (model);
+	if (!icalcomp)
+		return FALSE;
+
+	uid = icalcomponent_get_uid (icalcomp);
+
+	comp = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (comp, icalcomp);
+
+	e_day_view_get_selected_time_range ((ECalendarView *) day_view, &dtstart, &dtend);
+
+	start_tt = icaltime_from_timet_with_zone (dtstart, FALSE,
+						  e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+
+	end_tt = icaltime_from_timet_with_zone (dtend, FALSE,
+						e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+
+	if (day_view->selection_in_top_canvas) {
+		start_dt.tzid = NULL;
+		start_tt.is_date = 1;
+		end_tt.is_date = 1;
+
+		/* Editor default in day/work-week view - top canvas */
+		e_cal_component_set_transparency (comp, E_CAL_COMPONENT_TRANSP_TRANSPARENT);
+	} else {
+		start_dt.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+
+		/* Editor default in day/work-week view - main canvas */
+		e_cal_component_set_transparency (comp, E_CAL_COMPONENT_TRANSP_OPAQUE);
+	}
+
+	start_dt.value = &start_tt;
+	end_dt.value = &end_tt;
+	end_dt.tzid = start_dt.tzid;
+	e_cal_component_set_dtstart (comp, &start_dt);
+	e_cal_component_set_dtend (comp, &end_dt);
+
+	e_cal_component_set_categories (
+		comp, e_calendar_view_get_default_category (E_CALENDAR_VIEW (day_view)));
+
+	/* We add the event locally and start editing it. We don't send it
+	   to the server until the user finishes editing it. */
+	add_event_data.day_view = day_view;
+	add_event_data.comp_data = NULL;
+	e_day_view_add_event (comp, dtstart, dtend, &add_event_data);
+	e_day_view_check_layout (day_view);
+	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
+
+	if (!e_day_view_find_event_from_uid (day_view, ecal, uid, NULL, &day, &event_num)) {
+		g_warning ("Couldn't find event to start editing.\n");
+		g_object_unref (comp);
+		return FALSE;
+	}
+
+	e_day_view_start_editing_event (day_view, day, event_num, key_event);
+
+	g_object_unref (comp);
+	return TRUE;
+}
+
+static gboolean
+e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
+{
+	EDayView *day_view;
+	guint keyval;
+	gboolean stop_emission;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (E_IS_DAY_VIEW (widget), FALSE);
@@ -4865,12 +4938,6 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 		return FALSE;
 	}
 
-	/* Check if the client is read only */
-	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
-	ecal = e_cal_model_get_default_client (model);
-	if (!e_cal_is_read_only (ecal, &read_only, NULL) || read_only)
-		return FALSE;
-
 	/* We only want to start an edit with a return key or a simple
 	   character. */
 	if ((keyval != GDK_Return) &&
@@ -4881,64 +4948,7 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 		return FALSE;
 	}
 
-	/* Add a new event covering the selected range */
-	icalcomp = e_cal_model_create_component_with_defaults (model);
-	if (!icalcomp)
-		return FALSE;
-	uid = icalcomponent_get_uid (icalcomp);
-
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomp);
-
-	e_day_view_get_selected_time_range ((ECalendarView *) day_view, &dtstart, &dtend);
-
-	start_tt = icaltime_from_timet_with_zone (dtstart, FALSE,
-						  e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-
-	end_tt = icaltime_from_timet_with_zone (dtend, FALSE,
-						e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-
-	if (day_view->selection_in_top_canvas) {
-		start_dt.tzid = NULL;
-		start_tt.is_date = 1;
-		end_tt.is_date = 1;
-
-		/* Editor default in day/work-week view - top canvas */
-		e_cal_component_set_transparency (comp, E_CAL_COMPONENT_TRANSP_TRANSPARENT);
-	} else {
-		start_dt.tzid = icaltimezone_get_tzid (e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
-
-		/* Editor default in day/work-week view - main canvas */
-		e_cal_component_set_transparency (comp, E_CAL_COMPONENT_TRANSP_OPAQUE);
-	}
-
-	start_dt.value = &start_tt;
-	end_dt.value = &end_tt;
-	end_dt.tzid = start_dt.tzid;
-	e_cal_component_set_dtstart (comp, &start_dt);
-	e_cal_component_set_dtend (comp, &end_dt);
-
-	e_cal_component_set_categories (
-		comp, e_calendar_view_get_default_category (E_CALENDAR_VIEW (day_view)));
-
-	/* We add the event locally and start editing it. We don't send it
-	   to the server until the user finishes editing it. */
-	add_event_data.day_view = day_view;
-	add_event_data.comp_data = NULL;
-	e_day_view_add_event (comp, dtstart, dtend, &add_event_data);
-	e_day_view_check_layout (day_view);
-	gtk_widget_queue_draw (day_view->top_canvas);
-	gtk_widget_queue_draw (day_view->main_canvas);
-
-	if (e_day_view_find_event_from_uid (day_view, ecal, uid, NULL, &day, &event_num)) {
-		e_day_view_start_editing_event (day_view, day, event_num, event);
-	} else {
-		g_warning ("Couldn't find event to start editing.\n");
-	}
-
-	g_object_unref (comp);
-
-	return TRUE;
+	return e_day_view_add_new_event_in_selected_range (day_view, event);
 }
 
 static gboolean
@@ -5861,6 +5871,15 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			ECalendarViewPosition pos;
 			gboolean main_canvas = TRUE;
 
+			if (day_view->editing_event_num != -1)
+				break;
+
+			if (day_view->resize_event_num != -1)
+				break;
+
+			if (day_view->drag_event_num != -1)
+				break;
+
 			/* Convert the coords to the main canvas window, or return if the
 			   window is not found. */
 			if (!e_day_view_convert_event_coords (day_view, (GdkEvent*) event,
@@ -5889,15 +5908,11 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			}
 
 			if (pos == E_CALENDAR_VIEW_POS_OUTSIDE)
-				return FALSE;
-
-			if (day_view->editing_event_num != -1)
 				break;
 
-			if (day_view->resize_event_num != -1)
-				break;
-
-			if (day_view->drag_event_num != -1)
+			/* even when returns position inside, or other, then the day and/or event_num
+			   can be unknown, thus check for this here, otherwise it will crash later */
+			if (day == -1 || event_num == -1)
 				break;
 
 			pevent = tooltip_get_view_event (day_view, day, event_num);
@@ -7847,4 +7862,35 @@ e_day_view_get_num_events_selected (EDayView *day_view)
 	g_return_val_if_fail (E_IS_DAY_VIEW (day_view), 0);
 
 	return (day_view->editing_event_day != -1) ? 1 : 0;
+}
+
+static void
+e_day_view_paste_text (ECalendarView *cal_view)
+{
+	EDayView *day_view;
+	EDayViewEvent *event;
+
+	g_return_if_fail (E_IS_DAY_VIEW (cal_view));
+
+	day_view = E_DAY_VIEW (cal_view);
+
+	if (day_view->editing_event_num == -1 &&
+	    !e_day_view_add_new_event_in_selected_range (day_view, NULL))
+		return;
+
+	if (day_view->editing_event_day == E_DAY_VIEW_LONG_EVENT) {
+		event = &g_array_index (day_view->long_events,
+				        EDayViewEvent,
+					day_view->editing_event_num);
+	} else {
+		event = &g_array_index (day_view->events[day_view->editing_event_day],
+					EDayViewEvent,
+					day_view->editing_event_num);
+	}
+
+	if (event->canvas_item &&
+	    E_IS_TEXT (event->canvas_item) &&
+	    E_TEXT (event->canvas_item)->editing) {
+		e_text_paste_clipboard (E_TEXT (event->canvas_item));
+	}
 }

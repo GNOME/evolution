@@ -17,7 +17,7 @@
 	     	   id="org.gnome.evolution.calendar.calendarProperties">
 		
 	     	 	<item type="item_table"
-		 		path="00.general/00.source/15.caldav"
+		 		path="00.general/00.source/99.caldav"
 		 		factory="oge_caldav"/>
             
             </group>

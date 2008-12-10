@@ -48,6 +48,11 @@
   <_secondary>Cannot display folders.</_secondary>
  </error>
 
+ <error id="exchange-settings-offline" type="info">
+  <_primary>Exchange Account is offline.</_primary>
+  <_secondary>Cannot access the "Exchange settings" tab in offline mode.</_secondary>
+ </error>
+
  <error id="account-offline-generic" type="info">
   <_primary>Exchange Account is offline.</_primary>
   <_secondary>Cannot perform the operation.</_secondary>

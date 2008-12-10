@@ -1,3 +1,42 @@
+2008-12-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #563250
+
+	* e-util.c (e_get_accels_filename):
+	New function returns the filename where custom keyboard
+	accelerators are stored.  Currently only applies to the
+	various editor windows in Evolution.
+
+2008-12-10  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #563870
+
+	* e-util-labels.h: (e_util_labels_get_filter_options):
+	* e-util-labels.c: (e_util_labels_get_filter_options):
+	New helper function to be used in FilterOption.
+
+2008-12-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #555663
+
+	* gconf-bridge.c: (struct WindowBinding), (gconf_bridge_bind_window),
+	(window_binding_unbind): Do not overwrite signal id.
+
+2008-12-05  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #332629
+
+	* e-util.h: (e_util_get_category_filter_options):
+	* e-util.c: (e_util_get_category_filter_options):
+	New helper function to be used in FilterOption.
+
+2008-11-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #332729
+
+	* e-config.c: (ep_finalise): Disconnect handlers on the widget before
+	freeing the structure it is using.
+
 2008-11-12  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #559810

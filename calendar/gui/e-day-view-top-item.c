@@ -33,6 +33,7 @@
 #include "e-util/e-categories-config.h"
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-data-server-util.h>
+#include <libedataserver/e-categories.h>
 #include "e-calendar-view.h"
 #include "e-day-view-top-item.h"
 
@@ -687,29 +688,28 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	e_cal_component_get_categories_list (comp, &categories_list);
 	for (elem = categories_list; elem; elem = elem->next) {
 		char *category;
-		GdkPixmap *pixmap = NULL;
-		GdkBitmap *mask = NULL;
+		const char *file;
+		GdkPixbuf *pixbuf;
 
 		category = (char *) elem->data;
-		e_categories_config_get_icon_for (category, &pixmap, &mask);
-		if (pixmap == NULL)
+		file = e_categories_get_icon_file_for (category);
+		if (!file)
+			continue;
+
+		pixbuf = gdk_pixbuf_new_from_file (file, NULL);
+		if (pixbuf == NULL)
 			continue;
 
 		if (icon_x <= max_icon_x) {
 			gdk_gc_set_clip_origin (gc, icon_x, icon_y);
-			if (mask != NULL)
-				gdk_gc_set_clip_mask (gc, mask);
-			gdk_draw_drawable (drawable, gc,
-					 pixmap,
+			gdk_draw_pixbuf (drawable, gc,
+					 pixbuf,
 					 0, 0, icon_x, icon_y,
 					 E_DAY_VIEW_ICON_WIDTH,
-					 E_DAY_VIEW_ICON_HEIGHT);
+					 E_DAY_VIEW_ICON_HEIGHT,
+					 GDK_RGB_DITHER_NORMAL, 0, 0);
 			icon_x -= icon_x_inc;
 		}
-
-		g_object_unref (pixmap);
-		if (mask != NULL)
-			g_object_unref (mask);
 	}
 
 	e_cal_component_free_categories_list (categories_list);

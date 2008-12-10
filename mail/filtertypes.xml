@@ -635,7 +635,9 @@
     </code>
    </option>
   </input>
-  <input type="label" name="versus"/>
+  <input type="optionlist" name="versus">
+     <dynamic func="e_util_labels_get_filter_options"/>
+  </input>
  </part>
 
  <part name="score">
@@ -920,7 +922,9 @@
  <part name="label">
   <title>Set Label</title>
   <code>(set-label ${label})</code>
-  <input type="label" name="label"/>
+  <input type="optionlist" name="label">
+     <dynamic func="e_util_labels_get_filter_options"/>
+  </input>
  </part>
  <part name="colour">
   <title>Assign Color</title>

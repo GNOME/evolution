@@ -1,3 +1,41 @@
+2008-12-10  Suman Manjunath  <msuman@novell.com>
+
+	* configure.in: Build the weather calendar setup plugin unless 
+	explicitly requested not to, thereby making the libgweather 
+	dependency optional. 
+
+2008-12-01  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS: Evolution 2.25.2 release changes.
+
+2008-11-28  Felix Riemann  <friemann@svn.gnome.org>
+
+	** Part of fix for bug #554464
+
+	* configure.in: Bump gtk+ minimum version to 2.14.0 which pulls in a
+	recent enough Pango version.
+
+2008-11-12  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #524377
+
+	* configure.in: Bump eds minimum version to 2.25.2 because of
+	camel's int camel_header_param_encode_filenames_in_rfc_2047.
+
+2008-11-07  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #557581
+
+	* configure.in:
+	Break up the version definitions such that we can calculate the
+	latest stable version and pass a STABLE_VERSION definition to
+	shell/main.c.
+
+2008-11-07  Sankar P  <psankar@novell.com>
+
+	* Makefile.am:
+	Ship COPYING.OPENLDAP also
+
 2008-11-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* configure.in, NEWS: Evolution 2.25.1 release and version bump

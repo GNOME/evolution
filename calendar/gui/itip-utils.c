@@ -1147,7 +1147,7 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	gchar *subject = NULL;
 	gboolean retval = FALSE;
 
-	/* check whether backend could handle sending requests/updates */
+	/* check whether backend could handle auto-saving requests/updates */
 	if (method != E_CAL_COMPONENT_METHOD_PUBLISH && e_cal_get_save_schedules (client))
 		return TRUE;
 
@@ -1155,6 +1155,15 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	if (method != E_CAL_COMPONENT_METHOD_PUBLISH) {
 		if (!comp_server_send (method, send_comp, client, zones, &users))
 			goto cleanup;
+	}
+
+	/* check whether backend could handle sending requests/updates */
+	if (method != E_CAL_COMPONENT_METHOD_PUBLISH && e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
+		if (users) {
+			g_list_foreach (users, (GFunc) g_free, NULL);
+			g_list_free (users);
+		}
+		return TRUE;
 	}
 
 	/* Tidy up the comp */

@@ -3888,16 +3888,19 @@ handle_mailto (EMsgComposer *composer, const gchar *mailto)
 			clen = strcspn (p, "&");
 
 			content = g_strndup (p, clen);
-			camel_url_decode (content);
 
 			if (!g_ascii_strcasecmp (header, "to")) {
+				camel_url_decode (content);
 				to = add_recipients (to, content);
 			} else if (!g_ascii_strcasecmp (header, "cc")) {
+				camel_url_decode (content);
 				cc = add_recipients (cc, content);
 			} else if (!g_ascii_strcasecmp (header, "bcc")) {
+				camel_url_decode (content);
 				bcc = add_recipients (bcc, content);
 			} else if (!g_ascii_strcasecmp (header, "subject")) {
 				g_free (subject);
+				camel_url_decode (content);
 				if (g_utf8_validate (content, -1, NULL)) {
 					subject = content;
 					content = NULL;
@@ -3911,6 +3914,7 @@ handle_mailto (EMsgComposer *composer, const gchar *mailto)
 				}
 			} else if (!g_ascii_strcasecmp (header, "body")) {
 				g_free (body);
+				camel_url_decode (content);
 				if (g_utf8_validate (content, -1, NULL)) {
 					body = content;
 					content = NULL;
@@ -3944,6 +3948,7 @@ handle_mailto (EMsgComposer *composer, const gchar *mailto)
 				/* ignore */
 			} else {
 				/* add an arbitrary header? */
+				camel_url_decode (content);
 				e_msg_composer_add_header (composer, header, content);
 			}
 
@@ -3952,7 +3957,7 @@ handle_mailto (EMsgComposer *composer, const gchar *mailto)
 			p += clen;
 			if (*p == '&') {
 				p++;
-				if (!strcmp (p, "amp;"))
+				if (!g_ascii_strncasecmp (p, "amp;", 4))
 					p += 4;
 			}
 		}

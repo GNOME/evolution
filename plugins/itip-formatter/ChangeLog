@@ -1,3 +1,11 @@
+2008-11-28  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #561467
+
+	* itip-formatter.c (update_x), (update_attendee_status): Copy
+	required X-* properties . This might be needed for special cases
+	in certain backends.
+
 2008-11-06  Patrick Ohly  <patrick.ohly@gmx.de>
 
 	** Fix for bug #541121

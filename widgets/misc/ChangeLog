@@ -1,3 +1,17 @@
+2008-12-10  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #556303
+
+	* e-attachment-bar.c: (eab_icon_clicked_cb):
+	Check whether attachment has a body already before accessing it.
+
+2008-12-09  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #563669
+
+	* e-send-options.glade:
+	Use zero GtkSpinButton's PageSize, as Gtk+ requires.
+
 2008-10-29  Sankar P  <psankar@novell.com>
 
 License Changes

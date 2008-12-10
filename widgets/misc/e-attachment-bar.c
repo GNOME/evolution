@@ -1001,7 +1001,8 @@ eab_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, gpointer *dummy)
 
 	if (E_IS_ATTACHMENT_BAR (bar) && event->type == GDK_2BUTTON_PRESS) {
 		p = e_attachment_bar_get_selected (bar);
-		if (p && p->next == NULL) {
+		/* check if has body already, remote files can take longer to fetch */
+		if (p && p->next == NULL && ((EAttachment *)p->data)->body) {
 			attachment = p->data;
 
 			/* Check if the file is stored already */

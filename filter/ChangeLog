@@ -1,3 +1,36 @@
+2008-12-10  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #563870
+
+	* Makefile.am:
+	* filter-label.h:
+	* filter-label.c: Drop, not used anywhere.
+	* filter-element.c:
+	* rule-context.c: Remove dropped include and code.
+
+	* filter-option.c: (get_dynamic_options), (xml_create), (get_widget):
+	Evaluate dynamic options even on create, to have them available for
+	saved searches even before the widget itself is shown.
+
+2008-12-09  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #563669
+
+	* filter.glade:
+	Use zero GtkSpinButton's PageSize, as Gtk+ requires.
+
+2008-12-05  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #332629
+
+	* filter-option.h: (struct _filter_option),
+	(struct _FilterOption), (filter_option_add):
+	* filter-option.c: (filter_option_init), (filter_option_finalise),
+	(filter_option_add), (xml_create), (get_widget), (clone):
+	Be able to define optionlist with dynamically created list of options.
+
+	* filter-label.c: (fill_options): Adapt.
+
 2008-10-17  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fix for bug #503898

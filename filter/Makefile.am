@@ -26,8 +26,6 @@ libfilter_la_SOURCES =				\
 	filter-input.h				\
 	filter-int.c				\
 	filter-int.h				\
-	filter-label.c				\
-	filter-label.h				\
 	filter-option.c				\
 	filter-option.h				\
 	filter-part.c				\

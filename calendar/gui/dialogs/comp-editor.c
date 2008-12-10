@@ -137,6 +137,7 @@ static const gchar *ui =
 "  <menubar action='main-menu'>"
 "    <menu action='file-menu'>"
 "      <menuitem action='save'/>"
+"      <menuitem action='print'/>"
 "      <menuitem action='close'/>"
 "    </menu>"
 "    <menu action='edit-menu'>"
@@ -158,6 +159,7 @@ static const gchar *ui =
 "  </menubar>"
 "  <toolbar name='main-toolbar'>"
 "    <toolitem action='save'/>"
+"    <toolitem action='print'/>"
 "    <toolitem action='close'/>"
 "    <separator/>"
 "    <toolitem action='attach'/>"
@@ -1306,7 +1308,7 @@ static GtkActionEntry core_entries[] = {
 	{ "print",
 	  GTK_STOCK_PRINT,
 	  NULL,
-	  NULL,
+	  "<Control>p",
 	  NULL,
 	  G_CALLBACK (action_print_cb) },
 
@@ -3080,7 +3082,8 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 			set_attendees_for_delegation (send_comp, address, method);
 	}
 
-	if (!e_cal_component_has_attachments (priv->comp)) {
+		if (!e_cal_component_has_attachments (priv->comp) 
+		 || e_cal_get_static_capability (priv->client, CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
 		if (itip_send_comp (method, send_comp, priv->client,
 					NULL, NULL, users)) {
 			g_object_unref (send_comp);

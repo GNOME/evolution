@@ -122,6 +122,10 @@ ep_finalise(GObject *o)
 	}
 
 	while ( (wn = (struct _widget_node *)e_dlist_remhead(&p->widgets)) ) {
+		/* disconnect the gtk_widget_destroyed function from the widget */
+		if (wn->widget)
+			g_signal_handlers_disconnect_matched (wn->widget, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, &wn->widget);
+
 		g_free(wn);
 	}
 

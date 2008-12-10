@@ -1,3 +1,112 @@
+2008-12-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #333224
+
+	* gui/e-day-view.c: (e_day_view_on_text_item_event): Sanitize returned
+	values from 'e_day_view_convert_position_in_main_canvas', because it
+	can let the 'event_num' or 'day' set to -1, which means invalid value.
+
+2008-12-09  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #563669
+
+	* gui/dialogs/recurrence-page.glade:
+	* gui/dialogs/alarm-dialog.glade:
+	* gui/dialogs/event-page.glade:
+	* gui/dialogs/task-details-page.glade:
+	* gui/dialogs/cal-prefs-dialog.glade:
+	* gui/alarm-notify/alarm-notify.glade:
+	* gui/goto-dialog.glade:
+	Use zero GtkSpinButton's PageSize, as Gtk+ requires.
+
+2008-12-08  Jeff Cai <jeff.cai@sun.com>
+
+	** Fix for bug #563633
+
+	* gui/e-cal-model.c: Add an unused member for _ECalModelComponentPrivate
+
+2008-12-08  Jennifer Newman  <jennifer.newman@tufts.edu>
+
+	** Fix for bug #555371
+
+	* gui/dialogs/comp-editor.c: Added print menu option to task, memo and
+	event editors. 
+
+2008-12-08  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #350725
+
+	* gui/e-calendar-view.c (e_calendar_view_class_init),
+	(clipboard_clear_calendar_cb), (clipboard_get_calendar_cb),
+	(e_calendar_view_copy_clipboard), (clipboard_get_calendar_data),
+	(e_calendar_view_paste_text), (clipboard_paste_received_cb),
+	(e_calendar_view_paste_clipboard):
+	* gui/e-calendar-view.h:
+	* gui/e-day-view.c (e_day_view_class_init),
+	(e_day_view_add_new_event_in_selected_range),
+	(e_day_view_do_key_press), (e_day_view_get_num_events_selected),
+	(e_day_view_paste_text):
+	* gui/e-week-view.c (e_week_view_class_init),
+	(e_week_view_add_new_event_in_selected_range),
+	(e_week_view_do_key_press), (e_week_view_is_jump_button_visible),
+	(e_week_view_paste_text):
+
+	Copy/Paste support in day/week views. 
+
+2008-12-08  Paul Bolle  <pebolle@tiscali.nl>
+
+	** Fix for bug #551599
+
+	* gui/dialogs/alarm-dialog.c: (populate_widgets_from_alarm):
+	Do not fallback to default 15 minutes alarm offset if alarm is
+	triggered at start (or end) of appointment.
+
+2008-12-05  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #332629
+
+	* gui/caltypes.xml:
+	* gui/memotypes.xml:
+	* gui/tasktypes.xml:
+	Use dynamically created list of categories in the option's widget.
+
+2008-12-03  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #352287
+
+	* gui/e-day-view-top-item.c: (e_day_view_top_item_draw_long_event):
+	Draw top icons in full detail/color depth (for weather, for example).
+
+2008-12-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #348299
+
+	* gui/dialogs/event-page.c (get_widgets):
+	* gui/dialogs/memo-page.c (get_widgets):
+	* gui/dialogs/task-page.c (get_widgets):
+	Use category completion in the Categories field.
+
+	* gui/dialogs/event-editor.c:
+	* gui/dialogs/memo-editor.c:
+	* gui/dialogs/task-editor.c:
+	Fix some reference count leaks.
+
+2008-11-28  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #561467
+
+	* gui/dialogs/comp-editor.c (real_send_comp): Don't replace 
+	attachment list if backend can CREATE_MESSAGES
+	* gui/itip-utils.c (itip_send_comp): Check whether backend 
+	could handle sending requests/updates. 
+
+2008-11-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #560138
+
+	* gui/e-calendar-table.c: (query_tooltip_cb):
+	Let wrap description text in a tooltip.
+
 2008-11-19  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #556224

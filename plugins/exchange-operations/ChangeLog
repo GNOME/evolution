@@ -1,3 +1,20 @@
+2008-12-08  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #558498
+
+	* exchange-account-setup.c: (org_gnome_exchange_settings),
+	(destroy_oof_data), (org_gnome_exchange_commit):
+	* org-gnome-exchange-operations.error.xml:Check for the offline status
+	before setting up the Exchange settings.
+
+2008-12-02  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #562228
+
+	* exchange-account-setup.c: (want_mailbox_toggled),
+	(org_gnome_exchange_owa_url):
+	Make it clearer the mailbox entry is optional.
+
 2008-10-22  Bharath Acharya  <abharath@novell.com>
 
 	** Fix for bug #557246

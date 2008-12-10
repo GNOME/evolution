@@ -74,7 +74,6 @@ static void e_calendar_view_set_property (GObject *object, guint property_id, co
 static void e_calendar_view_destroy (GtkObject *object);
 static void open_event_with_flags (ECalendarView *cal_view, ECal *client, icalcomponent *icalcomp, guint32 flags);
 
-static GdkAtom clipboard_atom = GDK_NONE;
 
 /* Property IDs */
 enum props {
@@ -98,6 +97,17 @@ enum {
 static guint e_calendar_view_signals[LAST_SIGNAL] = { 0 };
 
 G_DEFINE_TYPE (ECalendarView, e_calendar_view, GTK_TYPE_TABLE)
+
+enum TargetType{
+	TARGET_TYPE_VCALENDAR
+};
+
+static GtkTargetEntry target_types[] = {
+	{ "text/x-calendar", 0, TARGET_TYPE_VCALENDAR },
+	{ "text/calendar",   0, TARGET_TYPE_VCALENDAR }
+};
+
+static guint n_target_types = G_N_ELEMENTS (target_types);
 
 static void
 e_calendar_view_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
@@ -158,6 +168,7 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 	klass->get_visible_time_range = NULL;
 	klass->update_query = NULL;
 	klass->open_event = e_calendar_view_open_event;
+	klass->paste_text = NULL;
 
 	g_object_class_install_property (gobject_class, PROP_MODEL,
 					 g_param_spec_object ("model", NULL, NULL, E_TYPE_CAL_MODEL,
@@ -226,11 +237,6 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 			      NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
-
-	/* clipboard atom */
-	if (!clipboard_atom)
-		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
-
 
         /*
          * Key bindings
@@ -663,6 +669,34 @@ e_calendar_view_cut_clipboard (ECalendarView *cal_view)
 	g_list_free (selected);
 }
 
+static void
+clipboard_clear_calendar_cb (GtkClipboard *clipboard,
+			     gpointer data)
+{
+	g_free (data);
+}
+
+static void
+clipboard_get_calendar_cb (GtkClipboard *clipboard,
+			   GtkSelectionData *selection_data,
+			   guint info,
+			   gpointer data)
+{
+	gchar *comp_str = (gchar *) data;
+
+	switch (info) {
+	case TARGET_TYPE_VCALENDAR:
+		gtk_selection_data_set (selection_data,
+					selection_data->target,
+					8,
+					(const guchar *) comp_str,
+					(gint) strlen (comp_str));
+		break;
+	default:
+		break;
+	}
+}
+
 void
 e_calendar_view_copy_clipboard (ECalendarView *cal_view)
 {
@@ -671,6 +705,7 @@ e_calendar_view_copy_clipboard (ECalendarView *cal_view)
 	icalcomponent *vcal_comp;
 	icalcomponent *new_icalcomp;
 	ECalendarViewEvent *event;
+	GtkClipboard *clipboard;
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
@@ -704,19 +739,25 @@ e_calendar_view_copy_clipboard (ECalendarView *cal_view)
 	}
 
 	/* copy the VCALENDAR to the clipboard */
+	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (cal_view), GDK_SELECTION_CLIPBOARD);
 	comp_str = icalcomponent_as_ical_string (vcal_comp);
-	gtk_clipboard_set_text (gtk_widget_get_clipboard (GTK_WIDGET (cal_view), clipboard_atom),
-				(const gchar *) comp_str,
-				strlen (comp_str));
+
+	if (!gtk_clipboard_set_with_data (clipboard, target_types, n_target_types,
+					  clipboard_get_calendar_cb,
+					  clipboard_clear_calendar_cb,
+					  comp_str)) {
+		g_free (comp_str);
+	} else {
+		gtk_clipboard_set_can_store (clipboard, target_types + 1, n_target_types - 1);
+	}
 
 	/* free memory */
 	icalcomponent_free (vcal_comp);
-	g_free (comp_str);
 	g_list_free (selected);
 }
 
 static void
-clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarView *cal_view)
+clipboard_get_calendar_data (ECalendarView *cal_view, const gchar *text)
 {
 	icalcomponent *icalcomp;
 	icalcomponent_kind kind;
@@ -796,13 +837,48 @@ clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarView
 #endif
 }
 
-void
-e_calendar_view_paste_clipboard (ECalendarView *cal_view)
+static void
+e_calendar_view_paste_text (ECalendarView *cal_view)
 {
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
-	gtk_clipboard_request_text (gtk_widget_get_clipboard (GTK_WIDGET (cal_view), clipboard_atom),
-				    (GtkClipboardTextReceivedFunc) clipboard_get_text_cb, cal_view);
+	if (E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->paste_text)
+		E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->paste_text (cal_view);
+}
+
+static void
+clipboard_paste_received_cb (GtkClipboard *clipboard,
+			     GtkSelectionData *selection_data,
+			     gpointer data)
+{
+	if (gtk_clipboard_wait_is_text_available (clipboard)) {
+		e_calendar_view_paste_text (E_CALENDAR_VIEW (data));
+	} else {
+		GdkAtom type = selection_data->type;
+		if (type == gdk_atom_intern (target_types[TARGET_TYPE_VCALENDAR].target, TRUE)) {
+			gchar *result = NULL;
+			result = g_strndup ((const gchar *) selection_data->data,
+					    selection_data->length);
+			clipboard_get_calendar_data (E_CALENDAR_VIEW (data), result);
+			g_free (result);
+		}
+	}
+	g_object_unref (data);
+}
+
+void
+e_calendar_view_paste_clipboard (ECalendarView *cal_view)
+{
+	GtkClipboard *clipboard;
+
+	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+
+	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (cal_view), GDK_SELECTION_CLIPBOARD);
+	g_object_ref (cal_view);
+
+	gtk_clipboard_request_contents (clipboard,
+					gdk_atom_intern (target_types[TARGET_TYPE_VCALENDAR].target, FALSE),
+					clipboard_paste_received_cb, cal_view);
 }
 
 static void

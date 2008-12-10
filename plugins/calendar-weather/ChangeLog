@@ -1,3 +1,19 @@
+2008-12-10  Suman Manjunath  <msuman@novell.com>
+
+	* Makefile.am: Don't try to specify LIBGWEATHER_(CFLAGS|LIBS), they
+	will be provided by configure.in.
+
+2008-12-03  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #352287
+
+	* Makefile.am: Compile and link with libgweather.
+	* calendar-weather.c: (e_plugin_lib_enable), (selection_changed),
+	(find_location_func), (find_location), (treeview_clicked),
+	(create_source_selector), (build_location_path),
+	(location_clicked), (e_calendar_weather_location):
+	Use libgweather for weather calendar.
+
 2008-07-31  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #545568

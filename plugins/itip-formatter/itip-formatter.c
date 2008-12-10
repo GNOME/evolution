@@ -1186,6 +1186,26 @@ remove_delegate (struct _itip_puri *pitip, const char *delegate, const char *del
 
 }
 
+static void 
+update_x (ECalComponent *pitip_comp, ECalComponent *comp) 
+{
+	icalcomponent *itip_icalcomp = e_cal_component_get_icalcomponent (pitip_comp);
+	icalcomponent *icalcomp = e_cal_component_get_icalcomponent (comp);
+
+	icalproperty *prop = icalcomponent_get_first_property (itip_icalcomp, ICAL_X_PROPERTY);
+	while (prop) {
+		const char *name = icalproperty_get_x_name (prop);
+		if (!g_ascii_strcasecmp (name, "X-EVOLUTION-IS-REPLY")) {
+			icalproperty *new_prop = icalproperty_new_x (icalproperty_get_x (prop));
+			icalproperty_set_x_name (new_prop, "X-EVOLUTION-IS-REPLY");
+			icalcomponent_add_property (icalcomp, new_prop);
+		}
+		prop = icalcomponent_get_next_property (itip_icalcomp, ICAL_X_PROPERTY);
+	}
+
+	e_cal_component_set_icalcomponent (comp, icalcomp);
+}
+
 static void
 update_attendee_status (struct _itip_puri *pitip)
 {
@@ -1285,6 +1305,8 @@ update_attendee_status (struct _itip_puri *pitip)
 				}
 			}
 		}
+
+		update_x (pitip->comp, comp);
 
 		if (itip_view_get_update (ITIP_VIEW (pitip->view))) {
 			e_cal_component_commit_sequence (comp);

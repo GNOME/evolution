@@ -1,3 +1,9 @@
+2008-12-08  Jennifer Newman  <jennifer.newman@tufts.edu>
+
+	** Fix for bug #549964
+
+	* org-gnome-mailing-list-actions.error.xml: Fix for an erroneous string
+
 2008-09-04  Sankar P  <psankar@novell.com>
 
 License Changes

@@ -1,3 +1,60 @@
+2008-12-10  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #563870
+
+	* vfoldertypes.xml:
+	* filtertypes.xml:
+	* searchtypes.xml: Use dynamic filter option.
+	* message-list.c: Drop unused header include.
+
+2008-12-09  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #552583
+
+	* mail-config.c: (mail_config_get_account_by_source_url),
+	(mail_config_get_account_by_transport_url): Extending Sankar's fix
+	of account checking logic a bit, to be more consistent.
+
+2008-12-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #563369
+
+	* em-folder-properties.c: (emfp_dialog_got_folder_quota):
+	* em-folder-tree-model.c: (em_folder_tree_model_set_folder_info):
+	* mail-component.c: (view_changed): Translate "Templates" folder name.
+
+2008-12-09  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #563669
+
+	* mail-config.glade:
+	Use zero GtkSpinButton's PageSize, as Gtk+ requires.
+
+2008-12-08  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #337082
+
+	* em-folder-tree.c: (emft_tree_row_expanded): Do not set we finished
+	with loading until we are really done with it. The previous behavior
+	can cause duplicate nodes in tree for subscribed folders.
+
+2008-12-08  Sankar P  <psankar@novell.com>
+
+	** Fixes bug #552583
+
+	* mail/mail-config.c: (mail_config_get_account_by_source_url)
+	(mail_config_get_account_by_transport_url):
+	Fix the errors in the account checking logic.
+
+2008-12-04  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #552583
+
+	* mail-config.c (mail_config_get_account_by_source_url),
+	(mail_config_get_account_by_transport_url):
+	For the purpose of matching a URL to an EAccount, only compare
+	the protocol, user, host and port and disregard the rest.
+
 2008-11-23  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #552850
