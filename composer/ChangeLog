@@ -1,8 +1,15 @@
+2008-12-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #562450
+
+	* e-msg-composer.c (handle_multipart_signed):
+	Fix a typo that broke "Edit as New Message" for signed messages.
+
 2008-12-04  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #562886
 
-	* e-msg-composer (handle_mailto):
+	* e-msg-composer.c (handle_mailto):
 	Don't double-decode attachment URIs.  Also, parse &amp; correctly.
 
 2008-11-07  Srinivasa Ragavan  <sragavan@novell.com>

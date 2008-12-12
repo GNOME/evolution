@@ -3149,7 +3149,7 @@ handle_multipart_signed (EMsgComposer *composer,
 	mime_part = camel_multipart_get_part (
 		multipart, CAMEL_MULTIPART_SIGNED_CONTENT);
 
-	if (mime_part != NULL)
+	if (mime_part == NULL)
 		return;
 
 	content_type = camel_mime_part_get_content_type (mime_part);
