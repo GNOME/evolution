@@ -1,3 +1,10 @@
+2008-12-13  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #564351 (patch by Tal Benavidor)
+
+	* em-icon-stream.c:
+	Fix single-header include issue for GdkPixbuf.
+
 2008-12-10  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #552357
