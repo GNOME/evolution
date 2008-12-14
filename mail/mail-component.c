@@ -1126,104 +1126,104 @@ call_mail_sync (gpointer user_data)
 	return !camel_application_is_exiting;
 }
 
-struct _setline_data {
-	GNOME_Evolution_Listener listener;
-	CORBA_boolean status;
-	int pending;
-};
+//struct _setline_data {
+//	GNOME_Evolution_Listener listener;
+//	CORBA_boolean status;
+//	int pending;
+//};
 
-static void
-setline_done(CamelStore *store, void *data)
-{
-	struct _setline_data *sd = data;
+//static void
+//setline_done(CamelStore *store, void *data)
+//{
+//	struct _setline_data *sd = data;
+//
+//	g_return_if_fail (sd->pending > 0);
+//
+//	sd->pending--;
+//	if (sd->pending == 0) {
+//		CORBA_Environment ev = { NULL };
+//
+//		GNOME_Evolution_Listener_complete(sd->listener, &ev);
+//		CORBA_exception_free(&ev);
+//		CORBA_Object_release(sd->listener, &ev);
+//		CORBA_exception_free(&ev);
+//		if (!sd->status)
+//			camel_session_set_online(session, sd->status);
+//		g_free(sd);
+//	}
+//}
 
-	g_return_if_fail (sd->pending > 0);
+//static void
+//setline_check(void *key, void *value, void *data)
+//{
+//	CamelService *service = key;
+//	struct _setline_data *sd = data;
+//
+//	if (CAMEL_IS_DISCO_STORE(service)
+//	    || CAMEL_IS_OFFLINE_STORE(service)) {
+//		sd->pending++;
+//		mail_store_set_offline((CamelStore *)service, !sd->status, setline_done, sd);
+//	}
+//}
 
-	sd->pending--;
-	if (sd->pending == 0) {
-		CORBA_Environment ev = { NULL };
+//int
+//status_check (GNOME_Evolution_ShellState shell_state)
+//{
+//	int status = 0;
+//
+//	switch (shell_state)
+//	{
+//	    case GNOME_Evolution_USER_OFFLINE:
+//		    status = OFFLINE;
+//		    if (em_utils_prompt_user (NULL, "/apps/evolution/mail/prompts/quick_offline", "mail:ask-quick-offline", NULL))
+//		    	break;
+//	    case GNOME_Evolution_FORCED_OFFLINE:
+//		    /*Network is down so change network state on the camel session*/
+//		    status = OFFLINE;
+//		    /* Cancel all operations as they wont happen anyway cos Network is down*/
+//		    mail_cancel_all ();
+//		    camel_session_set_network_state (session, FALSE);
+//		    break;
+//	    case GNOME_Evolution_USER_ONLINE:
+//		    camel_session_set_network_state (session, TRUE);
+//		    status = ONLINE;
+//	}
+//
+//	return status;
+//}
 
-		GNOME_Evolution_Listener_complete(sd->listener, &ev);
-		CORBA_exception_free(&ev);
-		CORBA_Object_release(sd->listener, &ev);
-		CORBA_exception_free(&ev);
-		if (!sd->status)
-			camel_session_set_online(session, sd->status);
-		g_free(sd);
-	}
-}
-
-static void
-setline_check(void *key, void *value, void *data)
-{
-	CamelService *service = key;
-	struct _setline_data *sd = data;
-
-	if (CAMEL_IS_DISCO_STORE(service)
-	    || CAMEL_IS_OFFLINE_STORE(service)) {
-		sd->pending++;
-		mail_store_set_offline((CamelStore *)service, !sd->status, setline_done, sd);
-	}
-}
-
-int
-status_check (GNOME_Evolution_ShellState shell_state)
-{
-	int status = 0;
-
-	switch (shell_state)
-	{
-	    case GNOME_Evolution_USER_OFFLINE:
-		    status = OFFLINE;
-		    if (em_utils_prompt_user (NULL, "/apps/evolution/mail/prompts/quick_offline", "mail:ask-quick-offline", NULL))
-		    	break;
-	    case GNOME_Evolution_FORCED_OFFLINE:
-		    /*Network is down so change network state on the camel session*/
-		    status = OFFLINE;
-		    /* Cancel all operations as they wont happen anyway cos Network is down*/
-		    mail_cancel_all ();
-		    camel_session_set_network_state (session, FALSE);
-		    break;
-	    case GNOME_Evolution_USER_ONLINE:
-		    camel_session_set_network_state (session, TRUE);
-		    status = ONLINE;
-	}
-
-	return status;
-}
-
-static void
-impl_setLineStatus(PortableServer_Servant servant, GNOME_Evolution_ShellState shell_state, GNOME_Evolution_Listener listener, CORBA_Environment *ev)
-{
-	struct _setline_data *sd;
-	int status = status_check(shell_state);
-
-	/* This will dis/enable further auto-mail-check action. */
-	/* FIXME: If send/receive active, wait for it to finish? */
-	if (status)
-		camel_session_set_online(session, status);
-
-	sd = g_malloc0(sizeof(*sd));
-	sd->status = status;
-	sd->listener = CORBA_Object_duplicate(listener, ev);
-	if (ev->_major == CORBA_NO_EXCEPTION)
-		mail_component_stores_foreach(mail_component_peek(), setline_check, sd);
-	else
-		CORBA_exception_free(ev);
-
-	if (sd->pending == 0) {
-		if (sd->listener) {
-			CORBA_Object_release(sd->listener, ev);
-			CORBA_exception_free(ev);
-		}
-
-		g_free(sd);
-
-		if (!status)
-			camel_session_set_online(session, status);
-		GNOME_Evolution_Listener_complete(listener, ev);
-	}
-}
+//static void
+//impl_setLineStatus(PortableServer_Servant servant, GNOME_Evolution_ShellState shell_state, GNOME_Evolution_Listener listener, CORBA_Environment *ev)
+//{
+//	struct _setline_data *sd;
+//	int status = status_check(shell_state);
+//
+//	/* This will dis/enable further auto-mail-check action. */
+//	/* FIXME: If send/receive active, wait for it to finish? */
+//	if (status)
+//		camel_session_set_online(session, status);
+//
+//	sd = g_malloc0(sizeof(*sd));
+//	sd->status = status;
+//	sd->listener = CORBA_Object_duplicate(listener, ev);
+//	if (ev->_major == CORBA_NO_EXCEPTION)
+//		mail_component_stores_foreach(mail_component_peek(), setline_check, sd);
+//	else
+//		CORBA_exception_free(ev);
+//
+//	if (sd->pending == 0) {
+//		if (sd->listener) {
+//			CORBA_Object_release(sd->listener, ev);
+//			CORBA_exception_free(ev);
+//		}
+//
+//		g_free(sd);
+//
+//		if (!status)
+//			camel_session_set_online(session, status);
+//		GNOME_Evolution_Listener_complete(listener, ev);
+//	}
+//}
 
 static void
 impl_mail_test(PortableServer_Servant servant, CORBA_Environment *ev)
@@ -1484,27 +1484,27 @@ mail_component_remove_store_by_uri (MailComponent *component, const char *uri)
 //	return g_hash_table_size (component->priv->store_hash);
 //}
 
-/* need to map from internal struct to external api */
-struct _store_foreach_data {
-	GHFunc func;
-	void *data;
-};
+///* need to map from internal struct to external api */
+//struct _store_foreach_data {
+//	GHFunc func;
+//	void *data;
+//};
 
-static void
-mc_stores_foreach(CamelStore *store, struct _store_info *si, struct _store_foreach_data *data)
-{
-	data->func((void *)store, (void *)si->name, data->data);
-}
+//static void
+//mc_stores_foreach(CamelStore *store, struct _store_info *si, struct _store_foreach_data *data)
+//{
+//	data->func((void *)store, (void *)si->name, data->data);
+//}
 
-void
-mail_component_stores_foreach (MailComponent *component, GHFunc func, void *user_data)
-{
-	struct _store_foreach_data data = { func, user_data };
-
-	MAIL_COMPONENT_DEFAULT(component);
-
-	g_hash_table_foreach (component->priv->store_hash, (GHFunc)mc_stores_foreach, &data);
-}
+//void
+//mail_component_stores_foreach (MailComponent *component, GHFunc func, void *user_data)
+//{
+//	struct _store_foreach_data data = { func, user_data };
+//
+//	MAIL_COMPONENT_DEFAULT(component);
+//
+//	g_hash_table_foreach (component->priv->store_hash, (GHFunc)mc_stores_foreach, &data);
+//}
 
 //void
 //mail_component_remove_folder (MailComponent *component, CamelStore *store, const char *path)

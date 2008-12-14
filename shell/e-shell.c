@@ -46,7 +46,7 @@ struct _EShellPrivate {
 	GHashTable *modules_by_name;
 	GHashTable *modules_by_scheme;
 
-	gpointer preparing_for_offline;  /* weak pointer */
+	gpointer preparing_for_line_change;  /* weak pointer */
 
 	guint auto_reconnect	: 1;
 	guint network_available	: 1;
@@ -65,6 +65,7 @@ enum {
 	EVENT,
 	HANDLE_URI,
 	PREPARE_FOR_OFFLINE,
+	PREPARE_FOR_ONLINE,
 	SEND_RECEIVE,
 	WINDOW_CREATED,
 	WINDOW_DESTROYED,
@@ -164,27 +165,74 @@ static void
 shell_prepare_for_offline (EShell *shell)
 {
 	/* Are preparations already in progress? */
-	if (shell->priv->preparing_for_offline != NULL)
+	if (shell->priv->preparing_for_line_change != NULL)
 		return;
 
 	g_message ("Preparing for offline mode...");
 
-	shell->priv->preparing_for_offline =
+	shell->priv->preparing_for_line_change =
 		e_activity_new (_("Preparing to go offline..."));
 
 	g_object_add_toggle_ref (
-		G_OBJECT (shell->priv->preparing_for_offline),
+		G_OBJECT (shell->priv->preparing_for_line_change),
 		(GToggleNotify) shell_ready_for_offline, shell);
 
 	g_object_add_weak_pointer (
-		G_OBJECT (shell->priv->preparing_for_offline),
-		&shell->priv->preparing_for_offline);
+		G_OBJECT (shell->priv->preparing_for_line_change),
+		&shell->priv->preparing_for_line_change);
 
 	g_signal_emit (
 		shell, signals[PREPARE_FOR_OFFLINE], 0,
-		shell->priv->preparing_for_offline);
+		shell->priv->preparing_for_line_change);
 
-	g_object_unref (shell->priv->preparing_for_offline);
+	g_object_unref (shell->priv->preparing_for_line_change);
+}
+
+static void
+shell_ready_for_online (EShell *shell,
+                        EActivity *activity,
+                        gboolean is_last_ref)
+{
+	if (!is_last_ref)
+		return;
+
+	e_activity_complete (activity);
+
+	g_object_remove_toggle_ref (
+		G_OBJECT (activity), (GToggleNotify)
+		shell_ready_for_online, shell);
+
+	shell->priv->online_mode = TRUE;
+	g_object_notify (G_OBJECT (shell), "online-mode");
+
+	g_message ("Online preparations complete.");
+}
+
+static void
+shell_prepare_for_online (EShell *shell)
+{
+	/* Are preparations already in progress? */
+	if (shell->priv->preparing_for_line_change != NULL)
+		return;
+
+	g_message ("Preparing for online mode...");
+
+	shell->priv->preparing_for_line_change =
+		e_activity_new (_("Preparing to go online..."));
+
+	g_object_add_toggle_ref (
+		G_OBJECT (shell->priv->preparing_for_line_change),
+		(GToggleNotify) shell_ready_for_online, shell);
+
+	g_object_add_weak_pointer (
+		G_OBJECT (shell->priv->preparing_for_line_change),
+		&shell->priv->preparing_for_line_change);
+
+	g_signal_emit (
+		shell, signals[PREPARE_FOR_ONLINE], 0,
+		shell->priv->preparing_for_line_change);
+
+	g_object_unref (shell->priv->preparing_for_line_change);
 }
 
 /* Helper for shell_query_module() */
@@ -535,10 +583,35 @@ shell_class_init (EShellClass *class)
 	 * the #EShellModule should reference the @activity until
 	 * preparations are complete, and then unreference the @activity.
 	 * This will delay Evolution from actually going to offline mode
-	 * until the all modules have unreferenced @activity.
-	 */
+	 * until all modules have unreferenced @activity.
+	 **/
 	signals[PREPARE_FOR_OFFLINE] = g_signal_new (
 		"prepare-for-offline",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		0, NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_ACTIVITY);
+
+	/**
+	 * EShell:prepare-for-online
+	 * @shell: the #EShell which emitted the signal
+	 * @activity: the #EActivity for offline preparations
+	 *
+	 * Emitted when the user elects to work online.  An #EShellModule
+	 * should listen for this signal and make preparations for working
+	 * in online mode.
+	 *
+	 * If preparations for working online cannot immediately be
+	 * completed (such as when re-connecting to a remote server), the
+	 * #EShellModule should reference the @activity until preparations
+	 * are complete, and then unreference the @activity.  This will
+	 * delay Evolution from actually going to online mode until all
+	 * modules have unreferenced @activity.
+	 **/
+	signals[PREPARE_FOR_ONLINE] = g_signal_new (
+		"prepare-for-online",
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_FIRST,
 		0, NULL, NULL,
@@ -957,7 +1030,7 @@ e_shell_get_online_mode (EShell *shell)
  * @shell: an #EShell
  * @online_mode: whether to put Evolution in online mode
  *
- * Puts Evolution in online or offline mode.
+ * Asynchronously places Evolution in online or offline mode.
  **/
 void
 e_shell_set_online_mode (EShell *shell,
@@ -968,20 +1041,10 @@ e_shell_set_online_mode (EShell *shell,
 	if (online_mode == shell->priv->online_mode)
 		return;
 
-	if (!online_mode && e_shell_get_network_available (shell))
+	if (online_mode)
+		shell_prepare_for_online (shell);
+	else
 		shell_prepare_for_offline (shell);
-	else {
-		EActivity *activity;
-
-		shell->priv->online_mode = online_mode;
-		g_object_notify (G_OBJECT (shell), "online-mode");
-
-		/* If we're being forced offline and we've already started
-		 * preparing for offline mode, cancel the preparations. */
-		activity = shell->priv->preparing_for_offline;
-		if (!online_mode && activity != NULL)
-			e_activity_cancel (activity);
-	}
 }
 
 GtkWidget *

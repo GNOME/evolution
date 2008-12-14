@@ -20,6 +20,8 @@
  */
 
 #include <glib/gi18n.h>
+#include <camel/camel-disco-store.h>
+#include <camel/camel-offline-store.h>
 #include <camel/camel-session.h>
 #include <camel/camel-url.h>
 
@@ -48,6 +50,7 @@
 #include "mail-config.h"
 #include "mail-folder-cache.h"
 #include "mail-mt.h"
+#include "mail-ops.h"
 #include "mail-send-recv.h"
 #include "mail-session.h"
 #include "mail-vfolder.h"
@@ -461,6 +464,17 @@ mail_shell_module_init_preferences (EShell *shell)
 		500);
 }
 
+static void
+mail_shell_module_notify_online_mode_cb (EShell *shell,
+                                         GParamSpec *pspec,
+                                         EShellModule *shell_module)
+{
+	gboolean online;
+
+	online = e_shell_get_online_mode (shell);
+	camel_session_set_online (session, online);
+}
+
 static gboolean
 mail_shell_module_handle_uri_cb (EShell *shell,
                                  const gchar *uri,
@@ -468,6 +482,80 @@ mail_shell_module_handle_uri_cb (EShell *shell,
 {
 	/* FIXME */
 	return FALSE;
+}
+
+/* Helper for mail_shell_module_prepare_for_[off|on]line_cb() */
+static void
+mail_shell_store_line_transition_done_cb (CamelStore *store,
+                                          gpointer user_data)
+{
+	EActivity *activity = user_data;
+
+	g_object_unref (activity);
+}
+
+/* Helper for mail_shell_module_prepare_for_offline_cb() */
+static void
+mail_shell_store_prepare_for_offline_cb (CamelService *service,
+                                         gpointer unused,
+                                         EActivity *activity)
+{
+	if (CAMEL_IS_DISCO_STORE (service) || CAMEL_IS_OFFLINE_STORE (service))
+		mail_store_set_offline (
+			CAMEL_STORE (service), TRUE,
+			mail_shell_store_line_transition_done_cb,
+			g_object_ref (activity));
+}
+
+static void
+mail_shell_module_prepare_for_offline_cb (EShell *shell,
+                                          EActivity *activity,
+                                          EShellModule *shell_module)
+{
+	GtkWidget *parent;
+	gboolean synchronize = FALSE;
+
+	parent = e_shell_get_focused_window (shell);
+
+	if (e_shell_get_network_available (shell))
+		synchronize = em_utils_prompt_user (
+			GTK_WINDOW (parent),
+			"/apps/evolution/mail/prompts/quick_offline",
+			"mail:ask-quick-offline", NULL);
+
+	if (!synchronize) {
+		mail_cancel_all ();
+		camel_session_set_network_state (session, FALSE);
+	}
+
+	e_mail_shell_module_stores_foreach (
+		shell_module, (GHFunc)
+		mail_shell_store_prepare_for_offline_cb, activity);
+}
+
+/* Helper for mail_shell_module_prepare_for_online_cb() */
+static void
+mail_shell_store_prepare_for_online_cb (CamelService *service,
+                                        gpointer unused,
+                                        EActivity *activity)
+{
+	if (CAMEL_IS_DISCO_STORE (service) || CAMEL_IS_OFFLINE_STORE (service))
+		mail_store_set_offline (
+			CAMEL_STORE (service), FALSE,
+			mail_shell_store_line_transition_done_cb,
+			g_object_ref (activity));
+}
+
+static void
+mail_shell_module_prepare_for_online_cb (EShell *shell,
+                                         EActivity *activity,
+                                         EShellModule *shell_module)
+{
+	camel_session_set_online (session, TRUE);
+
+	e_mail_shell_module_stores_foreach (
+		shell_module, (GHFunc)
+		mail_shell_store_prepare_for_online_cb, activity);
 }
 
 static void
@@ -559,8 +647,23 @@ e_shell_module_init (GTypeModule *type_module)
 	folder_tree_model = em_folder_tree_model_new (shell_module);
 
 	g_signal_connect (
+		shell, "notify::online-mode",
+		G_CALLBACK (mail_shell_module_notify_online_mode_cb),
+		shell_module);
+
+	g_signal_connect (
 		shell, "handle-uri",
 		G_CALLBACK (mail_shell_module_handle_uri_cb),
+		shell_module);
+
+	g_signal_connect (
+		shell, "prepare-for-offline",
+		G_CALLBACK (mail_shell_module_prepare_for_offline_cb),
+		shell_module);
+
+	g_signal_connect (
+		shell, "prepare-for-online",
+		G_CALLBACK (mail_shell_module_prepare_for_online_cb),
 		shell_module);
 
 	g_signal_connect (
