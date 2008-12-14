@@ -375,40 +375,40 @@ struct _MailComponentPrivate {
 //	}
 //}
 
-static void
-mc_startup(MailComponent *mc)
-{
-	static int started = 0;
-	GConfClient *gconf;
+//static void
+//mc_startup(MailComponent *mc)
+//{
+//	static int started = 0;
+//	GConfClient *gconf;
+//
+//	if (started)
+//		return;
+//	started = 1;
+//
+//	mc_setup_local_store(mc);
+//	load_accounts(mc, mail_config_get_accounts());
+//
+//	gconf = mail_config_get_gconf_client();
+//
+//	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/display/enable_vfolders", NULL))
+//		vfolder_load_storage();
+//}
 
-	if (started)
-		return;
-	started = 1;
-
-	mc_setup_local_store(mc);
-	load_accounts(mc, mail_config_get_accounts());
-
-	gconf = mail_config_get_gconf_client();
-
-	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/display/enable_vfolders", NULL))
-		vfolder_load_storage();
-}
-
-static void
-folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, guint32 flags, EMFolderView *view)
-{
-	EMFolderTreeModel *model;
-
-	if ((flags & CAMEL_FOLDER_NOSELECT) || !path) {
-		em_folder_view_set_folder (view, NULL, NULL);
-	} else {
-		model = em_folder_tree_get_model (emft);
-		em_folder_tree_model_set_selected (model, uri);
-		em_folder_tree_model_save_state (model);
-
-		em_folder_view_set_folder_uri (view, uri);
-	}
-}
+//static void
+//folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, guint32 flags, EMFolderView *view)
+//{
+//	EMFolderTreeModel *model;
+//
+//	if ((flags & CAMEL_FOLDER_NOSELECT) || !path) {
+//		em_folder_view_set_folder (view, NULL, NULL);
+//	} else {
+//		model = em_folder_tree_get_model (emft);
+//		em_folder_tree_model_set_selected (model, uri);
+//		em_folder_tree_model_save_state (model);
+//
+//		em_folder_view_set_folder_uri (view, uri);
+//	}
+//}
 
 static int
 check_autosave(void *data)
@@ -1061,12 +1061,12 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 	}
 }
 
-static void
-impl_sendAndReceive (PortableServer_Servant servant, CORBA_Environment *ev)
-{
-	em_utils_clear_get_password_canceled_accounts_flag ();
-	mail_send_receive ();
-}
+//static void
+//impl_sendAndReceive (PortableServer_Servant servant, CORBA_Environment *ev)
+//{
+//	em_utils_clear_get_password_canceled_accounts_flag ();
+//	mail_send_receive ();
+//}
 
 //static void
 //impl_upgradeFromVersion (PortableServer_Servant servant, const short major, const short minor, const short revision, CORBA_Environment *ev)

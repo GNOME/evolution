@@ -22,12 +22,14 @@
 #include "e-shell.h"
 
 #include <glib/gi18n.h>
-#include <e-preferences-window.h>
-#include <e-util/e-util.h>
+#include <libedataserverui/e-passwords.h>
 
-#include <e-shell-migrate.h>
-#include <e-shell-module.h>
-#include <e-shell-window.h>
+#include "e-util/e-util.h"
+#include "widgets/misc/e-preferences-window.h"
+
+#include "e-shell-migrate.h"
+#include "e-shell-module.h"
+#include "e-shell-window.h"
 
 #define SHUTDOWN_TIMEOUT	500  /* milliseconds */
 
@@ -38,19 +40,23 @@
 struct _EShellPrivate {
 	GList *active_windows;
 	EShellSettings *settings;
-	EShellLineStatus line_status;
 
 	/* Shell Modules */
 	GList *loaded_modules;
 	GHashTable *modules_by_name;
 	GHashTable *modules_by_scheme;
 
-	guint online_mode : 1;
-	guint safe_mode   : 1;
+	gpointer preparing_for_offline;  /* weak pointer */
+
+	guint auto_reconnect	: 1;
+	guint network_available	: 1;
+	guint online_mode	: 1;
+	guint safe_mode		: 1;
 };
 
 enum {
 	PROP_0,
+	PROP_NETWORK_AVAILABLE,
 	PROP_ONLINE_MODE,
 	PROP_SETTINGS
 };
@@ -58,6 +64,7 @@ enum {
 enum {
 	EVENT,
 	HANDLE_URI,
+	PREPARE_FOR_OFFLINE,
 	SEND_RECEIVE,
 	WINDOW_CREATED,
 	WINDOW_DESTROYED,
@@ -110,6 +117,15 @@ shell_window_focus_in_event_cb (EShell *shell,
 }
 
 static void
+shell_notify_online_mode_cb (EShell *shell)
+{
+	gboolean online;
+
+	online = e_shell_get_online_mode (shell);
+	e_passwords_set_online (online);
+}
+
+static void
 shell_window_weak_notify_cb (EShell *shell,
                              GObject *where_the_object_was)
 {
@@ -122,6 +138,53 @@ shell_window_weak_notify_cb (EShell *shell,
 
 	last_window = (shell->priv->active_windows == NULL);
 	g_signal_emit (shell, signals[WINDOW_DESTROYED], 0, last_window);
+}
+
+static void
+shell_ready_for_offline (EShell *shell,
+                         EActivity *activity,
+                         gboolean is_last_ref)
+{
+	if (!is_last_ref)
+		return;
+
+	e_activity_complete (activity);
+
+	g_object_remove_toggle_ref (
+		G_OBJECT (activity), (GToggleNotify)
+		shell_ready_for_offline, shell);
+
+	shell->priv->online_mode = FALSE;
+	g_object_notify (G_OBJECT (shell), "online-mode");
+
+	g_message ("Offline preparations complete.");
+}
+
+static void
+shell_prepare_for_offline (EShell *shell)
+{
+	/* Are preparations already in progress? */
+	if (shell->priv->preparing_for_offline != NULL)
+		return;
+
+	g_message ("Preparing for offline mode...");
+
+	shell->priv->preparing_for_offline =
+		e_activity_new (_("Preparing to go offline..."));
+
+	g_object_add_toggle_ref (
+		G_OBJECT (shell->priv->preparing_for_offline),
+		(GToggleNotify) shell_ready_for_offline, shell);
+
+	g_object_add_weak_pointer (
+		G_OBJECT (shell->priv->preparing_for_offline),
+		&shell->priv->preparing_for_offline);
+
+	g_signal_emit (
+		shell, signals[PREPARE_FOR_OFFLINE], 0,
+		shell->priv->preparing_for_offline);
+
+	g_object_unref (shell->priv->preparing_for_offline);
 }
 
 /* Helper for shell_query_module() */
@@ -241,6 +304,12 @@ shell_set_property (GObject *object,
                     GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_NETWORK_AVAILABLE:
+			e_shell_set_network_available (
+				E_SHELL (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_ONLINE_MODE:
 			e_shell_set_online_mode (
 				E_SHELL (object),
@@ -258,6 +327,12 @@ shell_get_property (GObject *object,
                     GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_NETWORK_AVAILABLE:
+			g_value_set_boolean (
+				value, e_shell_get_network_available (
+				E_SHELL (object)));
+			return;
+
 		case PROP_ONLINE_MODE:
 			g_value_set_boolean (
 				value, e_shell_get_online_mode (
@@ -361,6 +436,22 @@ shell_class_init (EShellClass *class)
 	object_class->constructed = shell_constructed;
 
 	/**
+	 * EShell:network-available
+	 *
+	 * Whether the network is available.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_NETWORK_AVAILABLE,
+		g_param_spec_boolean (
+			"network-available",
+			_("Network Available"),
+			_("Whether the network is available"),
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	/**
 	 * EShell:online-mode
 	 *
 	 * Whether the shell is online.
@@ -429,6 +520,31 @@ shell_class_init (EShellClass *class)
 		e_marshal_BOOLEAN__STRING,
 		G_TYPE_BOOLEAN, 1,
 		G_TYPE_STRING);
+
+	/**
+	 * EShell:prepare-for-offline
+	 * @shell: the #EShell which emitted the signal
+	 * @activity: the #EActivity for offline preparations
+	 *
+	 * Emitted when the user elects to work offline.  An #EShellModule
+	 * should listen for this signal and make preparations for working
+	 * in offline mode.
+	 *
+	 * If preparations for working offline cannot immediately be
+	 * completed (such as when synchronizing with a remote server),
+	 * the #EShellModule should reference the @activity until
+	 * preparations are complete, and then unreference the @activity.
+	 * This will delay Evolution from actually going to offline mode
+	 * until the all modules have unreferenced @activity.
+	 */
+	signals[PREPARE_FOR_OFFLINE] = g_signal_new (
+		"prepare-for-offline",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_FIRST,
+		0, NULL, NULL,
+		g_cclosure_marshal_VOID__OBJECT,
+		G_TYPE_NONE, 1,
+		E_TYPE_ACTIVITY);
 
 	/**
 	 * EShell:send-receive
@@ -501,6 +617,10 @@ shell_init (EShell *shell)
 #endif
 
 	e_file_lock_create ();
+
+	g_signal_connect (
+		shell, "notify::online-mode",
+		G_CALLBACK (shell_notify_online_mode_cb), NULL);
 }
 
 GType
@@ -762,6 +882,68 @@ e_shell_send_receive (EShell *shell,
 	g_signal_emit (shell, signals[SEND_RECEIVE], 0, parent);
 }
 
+/**
+ * e_shell_get_network_available:
+ * @shell: an #EShell
+ *
+ * Returns %TRUE if a network is available.
+ *
+ * Returns: %TRUE if a network is available
+ **/
+gboolean
+e_shell_get_network_available (EShell *shell)
+{
+	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
+
+	return shell->priv->network_available;
+}
+
+/**
+ * e_shell_set_network_available:
+ * @shell: an #EShell
+ * @network_available: whether a network is available
+ *
+ * Sets whether a network is available.  This is usually called in
+ * response to a status change signal from NetworkManager.  If the
+ * network becomes unavailable while #EShell:online-mode is %TRUE,
+ * the @shell will force #EShell:online-mode to %FALSE until the
+ * network becomes available again.
+ **/
+void
+e_shell_set_network_available (EShell *shell,
+                               gboolean network_available)
+{
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	if (network_available == shell->priv->network_available)
+		return;
+
+	shell->priv->network_available = network_available;
+	g_object_notify (G_OBJECT (shell), "network-available");
+
+	/* If we're being forced offline, perhaps due to a network outage,
+	 * reconnect automatically when the network becomes available. */
+	if (!network_available && shell->priv->online_mode) {
+		g_message ("Network disconnected.  Forced offline.");
+		e_shell_set_online_mode (shell, FALSE);
+		shell->priv->auto_reconnect = TRUE;
+	} else if (network_available && shell->priv->auto_reconnect) {
+		g_message ("Connection established.  Going online.");
+		e_shell_set_online_mode (shell, TRUE);
+		shell->priv->auto_reconnect = FALSE;
+	}
+}
+
+/**
+ * e_shell_get_online_mode:
+ * @shell: an #EShell
+ *
+ * Returns %TRUE if Evolution is in online mode, %FALSE if Evolution is
+ * offline.  Evolution may be offline because the user elected to work
+ * offline, or because the network has become unavailable.
+ *
+ * Returns: %TRUE if Evolution is in online mode
+ **/
 gboolean
 e_shell_get_online_mode (EShell *shell)
 {
@@ -770,29 +952,36 @@ e_shell_get_online_mode (EShell *shell)
 	return shell->priv->online_mode;
 }
 
+/**
+ * e_shell_set_online_mode:
+ * @shell: an #EShell
+ * @online_mode: whether to put Evolution in online mode
+ *
+ * Puts Evolution in online or offline mode.
+ **/
 void
 e_shell_set_online_mode (EShell *shell,
                          gboolean online_mode)
 {
 	g_return_if_fail (E_IS_SHELL (shell));
 
-	shell->priv->online_mode = online_mode;
+	if (online_mode == shell->priv->online_mode)
+		return;
 
-	g_object_notify (G_OBJECT (shell), "online-mode");
-}
+	if (!online_mode && e_shell_get_network_available (shell))
+		shell_prepare_for_offline (shell);
+	else {
+		EActivity *activity;
 
-EShellLineStatus
-e_shell_get_line_status (EShell *shell)
-{
-	g_return_val_if_fail (E_IS_SHELL (shell), E_SHELL_LINE_STATUS_OFFLINE);
+		shell->priv->online_mode = online_mode;
+		g_object_notify (G_OBJECT (shell), "online-mode");
 
-	return shell->priv->line_status;
-}
-
-void
-e_shell_set_line_status (EShell *shell,
-                         EShellLineStatus status)
-{
+		/* If we're being forced offline and we've already started
+		 * preparing for offline mode, cancel the preparations. */
+		activity = shell->priv->preparing_for_offline;
+		if (!online_mode && activity != NULL)
+			e_activity_cancel (activity);
+	}
 }
 
 GtkWidget *

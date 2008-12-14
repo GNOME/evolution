@@ -4159,6 +4159,7 @@ e_week_view_get_adjust_days_for_move_right (EWeekView *week_view,gint current_da
 static gboolean
 e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 {
+#if 0  /* KILL-BONOBO */
 	gboolean handled = FALSE;
 	handled = e_week_view_do_key_press (widget, event);
 
@@ -4166,6 +4167,7 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	if (!handled)
 		handled = GTK_WIDGET_CLASS (e_week_view_parent_class)->key_press_event (widget, event);
 	return handled;
+#endif
 }
 
 static void

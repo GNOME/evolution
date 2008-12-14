@@ -39,6 +39,8 @@ libevolution_module_mail_la_SOURCES =			\
 	e-mail-shell-module.h				\
 	e-mail-shell-module-migrate.c			\
 	e-mail-shell-module-migrate.h			\
+	e-mail-shell-module-settings.c			\
+	e-mail-shell-module-settings.h			\
 	e-mail-shell-content.c				\
 	e-mail-shell-content.h				\
 	e-mail-shell-sidebar.c				\

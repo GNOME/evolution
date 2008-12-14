@@ -74,13 +74,6 @@ struct _EShellClass {
 	GObjectClass parent_class;
 };
 
-enum _EShellLineStatus {
-	E_SHELL_LINE_STATUS_ONLINE,
-	E_SHELL_LINE_STATUS_GOING_OFFLINE, /* NB: really means changing state in either direction */
-	E_SHELL_LINE_STATUS_OFFLINE,
-	E_SHELL_LINE_STATUS_FORCED_OFFLINE
-};
-
 GType		e_shell_get_type		(void);
 EShell *	e_shell_get_default		(void);
 GList *		e_shell_list_modules		(EShell *shell);
@@ -97,13 +90,12 @@ gboolean	e_shell_handle_uri		(EShell *shell,
                                                  const gchar *uri);
 void		e_shell_send_receive		(EShell *shell,
 						 GtkWindow *parent);
+gboolean	e_shell_get_network_available	(EShell *shell);
+void		e_shell_set_network_available	(EShell *shell,
+						 gboolean network_available);
 gboolean	e_shell_get_online_mode		(EShell *shell);
 void		e_shell_set_online_mode		(EShell *shell,
 						 gboolean online_mode);
-EShellLineStatus
-		e_shell_get_line_status		(EShell *shell);
-void		e_shell_set_line_status		(EShell *shell,
-                                                 EShellLineStatus status);
 GtkWidget *	e_shell_get_preferences_window	(void);
 void		e_shell_event			(EShell *shell,
 						 const gchar *event_name,

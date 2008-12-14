@@ -661,10 +661,19 @@ emae_signaturetype_changed(GtkComboBox *dropdown, EMAccountEditor *emae)
 static void
 emae_signature_new(GtkWidget *w, EMAccountEditor *emae)
 {
-	/* TODO: why is this in composer prefs? apart from it being somewhere to put it? */
-	em_composer_prefs_new_signature((GtkWindow *)gtk_widget_get_toplevel(w),
-					gconf_client_get_bool(mail_config_get_gconf_client(),
-							      "/apps/evolution/mail/composer/send_html", NULL));
+	EShell *shell;
+	EShellSettings *shell_settings;
+	GtkWidget *parent;
+	gboolean html_mode;
+
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_settings (shell);
+	parent = gtk_widget_get_toplevel (w);
+
+	g_object_get (
+		shell_settings, "composer-format-html", &html_mode, NULL);
+
+	em_composer_prefs_new_signature (GTK_WINDOW (parent), html_mode);
 }
 
 static GtkWidget *

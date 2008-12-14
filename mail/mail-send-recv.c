@@ -362,7 +362,10 @@ get_receive_type(const char *url)
 }
 
 static struct _send_data *
-build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destination)
+build_dialog (GtkWindow *parent,
+              EAccountList *accounts,
+              CamelFolder *outbox,
+              const gchar *destination)
 {
 	GtkDialog *gd;
 	GtkWidget *table;
@@ -382,7 +385,10 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 	EIterator *iter;
 	EMEventTargetSendReceive *target;
 
-	gd = (GtkDialog *)(send_recv_dialog = gtk_dialog_new_with_buttons(_("Send & Receive Mail"), NULL, GTK_DIALOG_NO_SEPARATOR, NULL));
+	send_recv_dialog = gtk_dialog_new_with_buttons (
+		_("Send & Receive Mail"), parent,
+		GTK_DIALOG_NO_SEPARATOR, NULL);
+	gd = GTK_DIALOG (send_recv_dialog);
 	gtk_window_set_modal ((GtkWindow *) gd, FALSE);
 
 	gconf_bridge_bind_window_size (
@@ -904,7 +910,7 @@ receive_update_got_store (char *uri, CamelStore *store, void *data)
 }
 
 GtkWidget *
-mail_send_receive (void)
+mail_send_receive (GtkWindow *parent)
 {
 	CamelFolder *outbox_folder;
 	struct _send_data *data;
@@ -931,7 +937,8 @@ mail_send_receive (void)
 
 	outbox_folder = e_mail_shell_module_get_folder (
 		mail_shell_module, E_MAIL_FOLDER_OUTBOX);
-	data = build_dialog (accounts, outbox_folder, account->transport->url);
+	data = build_dialog (
+		parent, accounts, outbox_folder, account->transport->url);
 	scan = data->infos;
 	while (scan) {
 		struct _send_info *info = scan->data;

@@ -20,10 +20,12 @@
  *
  */
 
-#ifndef __EM_COMPOSER_PREFS_H__
-#define __EM_COMPOSER_PREFS_H__
+#ifndef EM_COMPOSER_PREFS_H
+#define EM_COMPOSER_PREFS_H
 
 #include <gtk/gtk.h>
+#include <glade/glade.h>
+#include <shell/e-shell.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_COMPOSER_PREFS \
@@ -50,19 +52,17 @@ typedef struct _EMComposerPrefs EMComposerPrefs;
 typedef struct _EMComposerPrefsClass EMComposerPrefsClass;
 
 struct _ESignature;
-struct _GladeXML;
 
 struct _EMComposerPrefs {
 	GtkVBox parent;
 
-	struct _GladeXML *gui;
+	GladeXML *gui;
 
 	/* General tab */
 
 	/* Default Behavior */
 	GtkOptionMenu *charset;
 
-	GtkColorButton *color;
 	GtkTreeModel *language_model;
 
 	/* Forwards and Replies */
@@ -81,7 +81,7 @@ struct _EMComposerPrefs {
 	GtkButton *sig_delete;
 	struct _GtkHTML *sig_preview;
 
-	struct _GladeXML *sig_script_gui;
+	GladeXML *sig_script_gui;
 	GtkWidget *sig_script_dialog;
 
 	guint sig_added_id;
@@ -94,7 +94,7 @@ struct _EMComposerPrefsClass {
 };
 
 GType		em_composer_prefs_get_type	(void);
-GtkWidget *	em_composer_prefs_new		(void);
+GtkWidget *	em_composer_prefs_new		(EShell *shell);
 void		em_composer_prefs_new_signature (GtkWindow *parent,
 						 gboolean html_mode);
 
@@ -104,4 +104,4 @@ void		em_composer_prefs_new_signature (GtkWindow *parent,
 
 G_END_DECLS
 
-#endif /* __EM_COMPOSER_PREFS_H__ */
+#endif /* EM_COMPOSER_PREFS_H */

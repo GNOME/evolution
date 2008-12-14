@@ -29,6 +29,7 @@
 #include "e-composer-actions.h"
 #include "e-composer-autosave.h"
 #include "e-composer-header-table.h"
+#include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
 
 #define E_MSG_COMPOSER_GET_PRIVATE(obj) \
@@ -123,8 +124,6 @@ struct _EMsgComposerPrivate {
 	guint32 application_exiting    : 1;
 
 	CamelMimeMessage *redirect;
-
-	guint notify_id;
 
 	gboolean send_invoked;
 };

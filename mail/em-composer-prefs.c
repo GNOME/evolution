@@ -30,6 +30,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+#include "e-util/e-binding.h"
 #include "e-util/e-signature.h"
 #include "e-util/e-signature-list.h"
 #include "e-util/gconf-bridge.h"
@@ -37,12 +38,11 @@
 #include "em-composer-prefs.h"
 #include "composer/e-msg-composer.h"
 
-#include <bonobo/bonobo-generic-factory.h>
-
 #include <camel/camel-iconv.h>
 
 #include <misc/e-gui-utils.h>
 
+#include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
 
@@ -58,6 +58,38 @@
 #include "em-config.h"
 
 static gpointer parent_class;
+
+static gboolean
+transform_color_to_string (const GValue *src_value,
+                           GValue *dst_value,
+                           gpointer user_data)
+{
+	const GdkColor *color;
+	gchar *string;
+
+	color = g_value_get_boxed (src_value);
+	string = gdk_color_to_string (color);
+	g_value_set_string (dst_value, string);
+	g_free (string);
+
+	return TRUE;
+}
+
+static gboolean
+transform_string_to_color (const GValue *src_value,
+                           GValue *dst_value,
+                           gpointer user_data)
+{
+	GdkColor color;
+	const gchar *string;
+	gboolean success;
+
+	string = g_value_get_string (src_value);
+	if (gdk_color_parse (string, &color))
+		g_value_set_boxed (dst_value, &color);
+
+	return success;
+}
 
 static void
 composer_prefs_dispose (GObject *object)
@@ -539,25 +571,6 @@ url_requested (GtkHTML *html,
 }
 
 static void
-spell_color_set (GtkColorButton *color_button,
-                 EMComposerPrefs *prefs)
-{
-	GConfClient *client;
-	const gchar *key;
-	GdkColor color;
-	gchar *string;
-
-	gtk_color_button_get_color (color_button, &color);
-	string = gdk_color_to_string (&color);
-
-	client = mail_config_get_gconf_client ();
-	key = "/apps/evolution/mail/composer/spell_color";
-	gconf_client_set_string (client, key, string, NULL);
-
-	g_free (string);
-}
-
-static void
 spell_language_toggled_cb (GtkCellRendererToggle *renderer,
                            const gchar *path_string,
                            EMComposerPrefs *prefs)
@@ -621,9 +634,6 @@ spell_setup (EMComposerPrefs *prefs)
 	GList *active_languages;
 	GConfClient *client;
 	GtkListStore *store;
-	GdkColor color;
-	const gchar *key;
-	gchar *string;
 
 	client = mail_config_get_gconf_client ();
 	store = GTK_LIST_STORE (prefs->language_model);
@@ -652,16 +662,6 @@ spell_setup (EMComposerPrefs *prefs)
 	}
 
 	g_list_free (active_languages);
-
-	key = "/apps/evolution/mail/composer/spell_color";
-	string = gconf_client_get_string (client, key, NULL);
-	if (string == NULL || !gdk_color_parse (string, &color))
-		gdk_color_parse ("Red", &color);
-	gtk_color_button_set_color (GTK_COLOR_BUTTON (prefs->color), &color);
-
-	g_signal_connect (
-		prefs->color, "color_set",
-		G_CALLBACK (spell_color_set), prefs);
 }
 
 static gint
@@ -832,9 +832,11 @@ sig_tree_event_cb (GtkTreeView *tree_view,
 }
 
 static void
-em_composer_prefs_construct (EMComposerPrefs *prefs)
+em_composer_prefs_construct (EMComposerPrefs *prefs,
+                             EShell *shell)
 {
 	GtkWidget *toplevel, *widget, *menu, *info_pixmap;
+	EShellSettings *shell_settings;
 	GtkDialog *dialog;
 	GladeXML *gui;
 	GtkTreeView *view;
@@ -855,6 +857,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 
 	bridge = gconf_bridge_get ();
 	client = mail_config_get_gconf_client ();
+	shell_settings = e_shell_get_settings (shell);
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "mail-config.glade",
@@ -881,57 +884,50 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	/* General tab */
 
 	/* Default Behavior */
-	key = "/apps/evolution/mail/composer/send_html";
 	widget = glade_xml_get_widget (gui, "chkSendHTML");
-	if (!gconf_client_key_is_writable (client, key, NULL))
-		gtk_widget_set_sensitive (widget, FALSE);
-	gconf_bridge_bind_property (bridge, key, G_OBJECT (widget), "active");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "composer-format-html",
+		G_OBJECT (widget), "active");
 
-	key = "/apps/evolution/mail/prompts/empty_subject";
 	widget = glade_xml_get_widget (gui, "chkPromptEmptySubject");
-	if (!gconf_client_key_is_writable (client, key, NULL))
-		gtk_widget_set_sensitive (widget, FALSE);
-	gconf_bridge_bind_property (bridge, key, G_OBJECT (widget), "active");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "composer-prompt-empty-subject",
+		G_OBJECT (widget), "active");
 
-	key = "/apps/evolution/mail/prompts/only_bcc";
 	widget = glade_xml_get_widget (gui, "chkPromptBccOnly");
-	if (!gconf_client_key_is_writable (client, key, NULL))
-		gtk_widget_set_sensitive (widget, FALSE);
-	gconf_bridge_bind_property (bridge, key, G_OBJECT (widget), "active");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "composer-prompt-only-bcc",
+		G_OBJECT (widget), "active");
 
-	key = "/apps/evolution/mail/composer/magic_smileys";
 	widget = glade_xml_get_widget (gui, "chkAutoSmileys");
-	if (!gconf_client_key_is_writable (client, key, NULL))
-		gtk_widget_set_sensitive (widget, FALSE);
-	gconf_bridge_bind_property (bridge, key, G_OBJECT (widget), "active");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "composer-magic-smileys",
+		G_OBJECT (widget), "active");
 
-	key = "/apps/evolution/mail/composer/request_receipt";
 	widget = glade_xml_get_widget (gui, "chkRequestReceipt");
-	if (!gconf_client_key_is_writable (client, key, NULL))
-		gtk_widget_set_sensitive (widget, FALSE);
-	gconf_bridge_bind_property (bridge, key, G_OBJECT (widget), "active");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "composer-request-receipt",
+		G_OBJECT (widget), "active");
 
-	key = "/apps/evolution/mail/composer/reply_start_bottom";
 	widget = glade_xml_get_widget (gui, "chkReplyStartBottom");
-	if (!gconf_client_key_is_writable (client, key, NULL))
-		gtk_widget_set_sensitive (widget, FALSE);
-	gconf_bridge_bind_property (bridge, key, G_OBJECT (widget), "active");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "composer-reply-start-bottom",
+		G_OBJECT (widget), "active");
 
-	key = "/apps/evolution/mail/composer/outlook_filenames";
 	widget = glade_xml_get_widget (gui, "chkOutlookFilenames");
-	if (!gconf_client_key_is_writable (client, key, NULL))
-		gtk_widget_set_sensitive (widget, FALSE);
-	gconf_bridge_bind_property (bridge, key, G_OBJECT (widget), "active");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "composer-outlook-filenames",
+		G_OBJECT (widget), "active");
 
-	key = "/apps/evolution/mail/composer/top_signature";
 	widget = glade_xml_get_widget (gui, "chkTopSignature");
-	if (!gconf_client_key_is_writable (client, key, NULL))
-		gtk_widget_set_sensitive (widget, FALSE);
-	gconf_bridge_bind_property (bridge, key, G_OBJECT (widget), "active");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "composer-top-signature",
+		G_OBJECT (widget), "active");
 
-	key = "/apps/evolution/mail/composer/inline_spelling";
 	widget = glade_xml_get_widget (gui, "chkEnableSpellChecking");
-	gconf_bridge_bind_property (bridge, key, G_OBJECT (widget), "active");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "composer-inline-spelling",
+		G_OBJECT (widget), "active");
 
 	prefs->charset = GTK_OPTION_MENU (
 		glade_xml_get_widget (gui, "omenuCharset1"));
@@ -947,8 +943,6 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	g_free (buf);
 
 	/* Spell Checking */
-	widget = glade_xml_get_widget (gui, "colorButtonSpellCheckColor");
-	prefs->color = GTK_COLOR_BUTTON (widget);
 	widget = glade_xml_get_widget (gui, "listSpellCheckLanguage");
 	view = GTK_TREE_VIEW (widget);
 	store = gtk_list_store_new (
@@ -976,6 +970,15 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	gtk_image_set_from_stock (
 		GTK_IMAGE (info_pixmap),
 		GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_BUTTON);
+
+	widget = glade_xml_get_widget (gui, "colorButtonSpellCheckColor");
+	e_mutual_binding_new_full (
+		G_OBJECT (shell_settings), "composer-spell-color",
+		G_OBJECT (widget), "color",
+		transform_string_to_color,
+		transform_color_to_string,
+		NULL, NULL);
+
 	spell_setup (prefs);
 
 	/* Forwards and Replies */
@@ -1094,12 +1097,14 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 }
 
 GtkWidget *
-em_composer_prefs_new (void)
+em_composer_prefs_new (EShell *shell)
 {
 	EMComposerPrefs *prefs;
 
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
 	prefs = g_object_new (EM_TYPE_COMPOSER_PREFS, NULL);
-	em_composer_prefs_construct (prefs);
+	em_composer_prefs_construct (prefs, shell);
 
 	return GTK_WIDGET (prefs);
 }

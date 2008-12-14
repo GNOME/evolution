@@ -1353,14 +1353,16 @@ set_editor_text (EMsgComposer *composer,
                  const gchar *text,
                  gboolean set_signature)
 {
+	EShell *shell;
+	EShellSettings *shell_settings;
 	gboolean reply_signature_on_top;
 	gchar *body = NULL, *html = NULL;
-	GConfClient *gconf;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (text != NULL);
 
-	gconf = gconf_client_get_default ();
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_settings (shell);
 
 	/*
 
@@ -1376,9 +1378,9 @@ set_editor_text (EMsgComposer *composer,
 
 	 */
 
-	reply_signature_on_top = gconf_client_get_bool (gconf, COMPOSER_GCONF_TOP_SIGNATURE_KEY, NULL);
-
-	g_object_unref (gconf);
+	g_object_get (
+		shell_settings, "composer-top-signature",
+		&reply_signature_on_top, NULL);
 
 	if (set_signature && reply_signature_on_top) {
 		gchar *tmp = NULL;
@@ -1778,46 +1780,6 @@ msg_composer_attach_message (EMsgComposer *composer,
 	camel_object_unref (mime_part);
 }
 
-static void
-msg_composer_update_preferences (GConfClient *client,
-                                 guint cnxn_id,
-                                 GConfEntry *entry,
-                                 EMsgComposer *composer)
-{
-	GtkhtmlEditor *editor;
-	gboolean enable;
-	GError *error = NULL;
-
-	editor = GTKHTML_EDITOR (composer);
-
-	enable = gconf_client_get_bool (
-		client, COMPOSER_GCONF_INLINE_SPELLING_KEY, &error);
-	if (error == NULL)
-		gtkhtml_editor_set_inline_spelling (editor, enable);
-	else {
-		g_warning ("%s", error->message);
-		g_clear_error (&error);
-	}
-
-	enable = gconf_client_get_bool (
-		client, COMPOSER_GCONF_MAGIC_LINKS_KEY, &error);
-	if (error == NULL)
-		gtkhtml_editor_set_magic_links (editor, enable);
-	else {
-		g_warning ("%s", error->message);
-		g_clear_error (&error);
-	}
-
-	enable = gconf_client_get_bool (
-		client, COMPOSER_GCONF_MAGIC_SMILEYS_KEY, &error);
-	if (error == NULL)
-		gtkhtml_editor_set_magic_smileys (editor, enable);
-	else {
-		g_warning ("%s", error->message);
-		g_clear_error (&error);
-	}
-}
-
 struct _drop_data {
 	EMsgComposer *composer;
 
@@ -2082,11 +2044,12 @@ msg_composer_constructor (GType type,
                           guint n_construct_properties,
                           GObjectConstructParam *construct_properties)
 {
+	EShell *shell;
+	EShellSettings *shell_settings;
 	GObject *object;
 	EMsgComposer *composer;
 	GtkToggleAction *action;
 	GList *spell_languages;
-	GConfClient *client;
 	GArray *array;
 	gboolean active;
 	guint binding_id;
@@ -2096,8 +2059,10 @@ msg_composer_constructor (GType type,
 		type, n_construct_properties, construct_properties);
 
 	composer = E_MSG_COMPOSER (object);
-	client = gconf_client_get_default ();
 	array = composer->priv->gconf_bridge_binding_ids;
+
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_settings (shell);
 
 	/* Restore Persistent State */
 
@@ -2145,13 +2110,12 @@ msg_composer_constructor (GType type,
 
 	/* Honor User Preferences */
 
-	active = gconf_client_get_bool (
-		client, COMPOSER_GCONF_SEND_HTML_KEY, NULL);
+	g_object_get (shell_settings, "composer-format-html", &active, NULL);
 	gtkhtml_editor_set_html_mode (GTKHTML_EDITOR (composer), active);
 
 	action = GTK_TOGGLE_ACTION (ACTION (REQUEST_READ_RECEIPT));
-	active = gconf_client_get_bool (
-		client, COMPOSER_GCONF_REQUEST_RECEIPT_KEY, NULL);
+	g_object_get (
+		shell_settings, "composer-request-receipt", &active, NULL);
 	gtk_toggle_action_set_active (action, active);
 
 	spell_languages = e_load_spell_languages ();
@@ -2159,15 +2123,17 @@ msg_composer_constructor (GType type,
 		GTKHTML_EDITOR (composer), spell_languages);
 	g_list_free (spell_languages);
 
-	gconf_client_add_dir (
-		client, COMPOSER_GCONF_PREFIX,
-		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	composer->priv->notify_id = gconf_client_notify_add (
-		client, COMPOSER_GCONF_PREFIX, (GConfClientNotifyFunc)
-		msg_composer_update_preferences, composer, NULL, NULL);
-	msg_composer_update_preferences (client, 0, NULL, composer);
+	e_binding_new (
+		G_OBJECT (shell_settings), "composer-inline-spelling",
+		G_OBJECT (composer), "inline-spelling");
 
-	g_object_unref (client);
+	e_binding_new (
+		G_OBJECT (shell_settings), "composer-magic-links",
+		G_OBJECT (composer), "magic-links");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "composer-magic-smileys",
+		G_OBJECT (composer), "magic-smileys");
 
 	return object;
 }
@@ -2212,15 +2178,6 @@ msg_composer_destroy (GtkObject *object)
 	if (composer->priv->address_dialog != NULL) {
 		gtk_widget_destroy (composer->priv->address_dialog);
 		composer->priv->address_dialog = NULL;
-	}
-
-	if (composer->priv->notify_id) {
-		GConfClient *client;
-
-		client = gconf_client_get_default ();
-		gconf_client_notify_remove (client, composer->priv->notify_id);
-		composer->priv->notify_id = 0;
-		g_object_unref (client);
 	}
 
 	/* Chain up to parent's destroy() method. */

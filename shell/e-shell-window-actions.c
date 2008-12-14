@@ -1365,7 +1365,7 @@ action_work_offline_cb (GtkAction *action,
 	EShell *shell;
 
 	shell = e_shell_window_get_shell (shell_window);
-	e_shell_set_line_status (shell, E_SHELL_LINE_STATUS_OFFLINE);
+	e_shell_set_online_mode (shell, FALSE);
 }
 
 /**
@@ -1383,7 +1383,7 @@ action_work_online_cb (GtkAction *action,
 	EShell *shell;
 
 	shell = e_shell_window_get_shell (shell_window);
-	e_shell_set_line_status (shell, E_SHELL_LINE_STATUS_ONLINE);
+	e_shell_set_online_mode (shell, TRUE);
 }
 
 /**

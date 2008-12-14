@@ -52,15 +52,14 @@ e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
                          gpointer user_data)
 {
 	DBusError error = DBUS_ERROR_INIT;
-	const gchar *object;
 	EShell *shell = user_data;
-	EShellLineStatus line_status;
-	gboolean device_active;
+	const gchar *path;
+	guint32 state;
 
-	object = dbus_message_get_path (message);
+	path = dbus_message_get_path (message);
 
 	if (dbus_message_is_signal (message, DBUS_INTERFACE_LOCAL, "Disconnected") &&
-		object != NULL && strcmp (object, DBUS_PATH_LOCAL) == 0) {
+		path != NULL && strcmp (path, DBUS_PATH_LOCAL) == 0) {
 		dbus_connection_unref (dbus_connection);
 		dbus_connection = NULL;
 
@@ -69,23 +68,29 @@ e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
 		return DBUS_HANDLER_RESULT_HANDLED;
 	}
 
-	if (dbus_message_is_signal (message, NM_DBUS_INTERFACE, "DeviceNoLongerActive"))
-		device_active = FALSE;
-	else if (dbus_message_is_signal (message, NM_DBUS_INTERFACE, "DeviceNowActive"))
-		device_active = TRUE;
-	else
+	if (!dbus_message_is_signal (message, NM_DBUS_INTERFACE, "StateChanged"))
 		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 
-	if (!dbus_message_get_args (message, &error, DBUS_TYPE_OBJECT_PATH,
-				    &object, DBUS_TYPE_INVALID))
+	dbus_message_get_args (
+		message, &error,
+		DBUS_TYPE_UINT32, &state,
+		DBUS_TYPE_INVALID);
+
+	if (dbus_error_is_set (&error)) {
+		g_warning ("%s", error.message);
 		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+	}
 
-	line_status = e_shell_get_line_status (shell);
-
-	if (line_status == E_SHELL_LINE_STATUS_ONLINE && !device_active)
-		e_shell_set_line_status (shell, E_SHELL_LINE_STATUS_FORCED_OFFLINE);
-	else if (line_status == E_SHELL_LINE_STATUS_FORCED_OFFLINE && device_active)
-		e_shell_set_line_status (shell, E_SHELL_LINE_STATUS_ONLINE);
+	switch (state) {
+		case NM_STATE_CONNECTED:
+			e_shell_set_network_available (shell, TRUE);
+			break;
+		case NM_STATE_DISCONNECTED:
+			e_shell_set_network_available (shell, FALSE);
+			break;
+		default:
+			break;
+	}
 
 	return DBUS_HANDLER_RESULT_HANDLED;
 }
