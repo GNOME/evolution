@@ -1,3 +1,10 @@
+2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for BNC bug #435452
+
+	* gui/e-meeting-list-view.c: (ense_update), (editing_started_cb),
+	(build_table):
+
 2008-12-09  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #333224
