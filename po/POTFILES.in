@@ -200,7 +200,6 @@ e-util/gconf-bridge.c
 filter/filter-datespec.c
 filter/filter-file.c
 filter/filter-input.c
-filter/filter-label.c
 filter/filter-option.c
 filter/filter-part.c
 filter/filter-rule.c

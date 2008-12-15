@@ -1,3 +1,8 @@
+2008-12-15  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* POTFILES.in: Remove deleted file.
+	* nb.po: Updated Norwegian bokmål translation.
+
 2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* POTFILES.in: Add e-utils/*intrusive*.[ch]
