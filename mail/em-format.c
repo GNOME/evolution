@@ -1653,6 +1653,8 @@ emf_inlinepgp_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart
 	CamelCipherValidity *valid;
 	CamelException *ex;
 	CamelMimePart *opart;
+	CamelDataWrapper *dw;
+	char *mime_type;
 
 	cipher = camel_gpg_context_new(emf->session);
 	ex = camel_exception_new();
@@ -1670,6 +1672,19 @@ emf_inlinepgp_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart
 		camel_object_unref(opart);
 		return;
 	}
+
+	dw = camel_medium_get_content_object ((CamelMedium *)opart);
+	mime_type = camel_data_wrapper_get_mime_type (dw);
+
+	/* this ensures to show the 'opart' as inlined, if possible */
+	if (mime_type && g_ascii_strcasecmp (mime_type, "application/octet-stream") == 0) {
+		const char *snoop = em_utils_snoop_type (opart);
+
+		if (snoop)
+			camel_data_wrapper_set_mime_type (dw, snoop);
+	}
+
+	g_free (mime_type);
 
 	/* Pass it off to the real formatter */
 	em_format_format_secure(emf, stream, opart, valid);

@@ -1,5 +1,13 @@
 2008-12-15  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #564007
+
+	* em-format.c: (emf_inlinepgp_encrypted): Guess the decrypted
+	part mime type if not known from the decryptor, thus show the
+	content really inline, if possible.
+
+2008-12-15  Milan Crha  <mcrha@redhat.com>
+
 	** Part of fix for bug #563669
 
 	* em-account-editor.c: (emae_option_checkspin):
