@@ -1,3 +1,7 @@
+2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* POTFILES.in: Add e-utils/*intrusive*.[ch]
+
 2008-12-13  Leonardo Ferreira Fontenelle  <leonardof@gnome.org>
 
 	* pt_BR.po: Merged from branch gnome-2-24 minor fixes to the Brazilian
