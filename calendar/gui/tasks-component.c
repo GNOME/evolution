@@ -1076,7 +1076,6 @@ destroy_component_view (TasksComponentView *component_view)
 {
 	GList *l;
 
-	g_signal_handlers_disconnect_by_func (component_view->table, G_CALLBACK (table_selection_change_cb), component_view);
 	g_signal_handlers_disconnect_matched (component_view->model, G_SIGNAL_MATCH_DATA, 0, 0, 0, 0, component_view);
 
 	if (component_view->source_list)

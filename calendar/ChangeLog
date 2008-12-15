@@ -1,5 +1,12 @@
 2008-12-15  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #540181
+
+	* gui/tasks-component.c: (destroy_component_view):
+	Do not touch already freed object.
+
+2008-12-15  Milan Crha  <mcrha@redhat.com>
+
 	** Part of fix for bug #564229
 
 	* gui/dialogs/alarm-dialog.c: (populate_widgets_from_alarm):
