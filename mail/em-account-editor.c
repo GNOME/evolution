@@ -2001,7 +2001,7 @@ emae_option_checkspin(EMAccountEditorService *service, CamelURL *url, const char
 
 	spin = gtk_spin_button_new((GtkAdjustment *)gtk_adjustment_new(def, min, max, 1, 1, 1), 1, 0);
 	if (post)
-		label = gtk_label_new(post);
+		label = gtk_label_new_with_mnemonic(post);
 	gtk_box_pack_start((GtkBox *)hbox, check, FALSE, TRUE, 0);
 	gtk_box_pack_start((GtkBox *)hbox, spin, FALSE, TRUE, 0);
 	if (label)

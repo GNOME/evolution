@@ -1,3 +1,9 @@
+2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* em-account-editor.c: (emae_option_checkspin):
+	* em-folder-tree.c: (emft_popup_uvfolder), (emft_popup): Add the
+	unread vfolder hack.
+
 2008-12-15  Lucian Langa  <lucilanga@gnome.org>
 
 	** Fixes bug #564519
