@@ -1,3 +1,10 @@
+2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for #546637
+
+	* message-list.c: (message_list_finalise), (regen_list_exec),
+	(regen_list_done): Don't loose uids.
+
 2008-12-10  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #552583
