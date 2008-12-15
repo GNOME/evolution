@@ -40,6 +40,8 @@
 #include "mail/em-config.h"
 #include <mail/em-junk-hook.h>
 #include <camel/camel-data-wrapper.h>
+#include <camel/camel-mime-message.h>
+#include <camel/camel-mime-parser.h>
 #include <camel/camel-stream-fs.h>
 #include <camel/camel-debug.h>
 #include <gconf/gconf-client.h>
@@ -69,6 +71,7 @@ void *em_junk_bf_validate_binary (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_bf_report_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_bf_report_non_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_bf_commit_reports (EPlugin *ep, EMJunkHookTarget *target);
+static gint pipe_to_bogofilter (CamelMimeMessage *msg, gchar **argv, GError **error);
 
 /* eplugin stuff */
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
@@ -77,6 +80,37 @@ int e_plugin_lib_enable (EPluginLib *ep, int enable);
 
 
 static gboolean em_junk_bf_unicode = TRUE;
+
+static void
+init_db ()
+{
+	CamelStream *stream = camel_stream_fs_new_with_name (WELCOME_MESSAGE, O_RDONLY, 0);
+	CamelMimeParser *parser = camel_mime_parser_new ();
+	CamelMimeMessage *msg = camel_mime_message_new ();
+	gchar *argv[] = {
+		em_junk_bf_binary,
+		"-n",
+		NULL,
+		NULL
+	};
+
+	camel_mime_parser_init_with_stream (parser, stream);
+	camel_mime_parser_scan_from (parser, FALSE);
+	camel_object_unref (stream);
+	
+	camel_mime_part_construct_from_parser ((CamelMimePart *) msg, parser);
+	camel_object_unref (parser);
+
+	d(fprintf (stderr, "Initing the bogofilter DB with Welcome message\n"));
+
+	if (em_junk_bf_unicode) {
+		argv[2] = "--unicode=yes";
+	}
+
+	pipe_to_bogofilter (msg, argv, NULL);	
+	camel_object_unref (msg);
+
+}
 
 static gint
 pipe_to_bogofilter (CamelMimeMessage *msg, gchar **argv, GError **error)
@@ -88,7 +122,9 @@ pipe_to_bogofilter (CamelMimeMessage *msg, gchar **argv, GError **error)
 	gint status;
 	gint waitres;
 	gint res;
+	static gboolean only_once = FALSE;
 
+retry:	
 	if (camel_debug_start ("junk")) {
 		int i;
 
@@ -153,8 +189,17 @@ pipe_to_bogofilter (CamelMimeMessage *msg, gchar **argv, GError **error)
 		res = BOGOFILTER_ERROR;
 	}
 
-	if (res < 0 || res > 2)
+	if (res < 0 || res > 2) {
+		if (!only_once) {
+			/* Create wordlist.db */
+			only_once = TRUE;
+			init_db();
+
+			goto retry;
+		}
 		g_set_error (error, EM_JUNK_ERROR, res, _("Pipe to Bogofilter failed, error code: %d."), res);
+	
+	}
 
 	return res;
 }

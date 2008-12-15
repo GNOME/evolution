@@ -1,5 +1,6 @@
 INCLUDES =						\
 	-I$(top_srcdir)					\
+	-DWELCOME_MESSAGE=\""$(privdatadir)/default/C/mail/local/Inbox"\" 	\
 	$(EVOLUTION_MAIL_CFLAGS)
 
 @EVO_PLUGIN_RULE@
