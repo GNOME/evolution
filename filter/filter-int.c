@@ -241,7 +241,7 @@ get_widget (FilterElement *fe)
 	GtkObject *adjustment;
 	FilterInt *fs = (FilterInt *)fe;
 
-	adjustment = gtk_adjustment_new (0.0, (gfloat)fs->min, (gfloat)fs->max, 1.0, 1.0, 1.0);
+	adjustment = gtk_adjustment_new (0.0, (gfloat)fs->min, (gfloat)fs->max, 1.0, 1.0, 0);
 	spin = gtk_spin_button_new (GTK_ADJUSTMENT (adjustment), fs->max>fs->min+1000?5.0:1.0, 0);
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (spin), TRUE);
 

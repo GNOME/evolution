@@ -1,3 +1,10 @@
+2008-12-15  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #563669
+
+	* filter-int.c: (get_widget):
+	Use zero GtkSpinButton's PageSize, as Gtk+ requires.
+
 2008-12-10  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #563870

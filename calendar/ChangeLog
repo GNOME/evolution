@@ -1,3 +1,11 @@
+2008-12-15  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #563669
+
+	* gui/dialogs/recurrence-page.c: (make_ending_count_special):
+	* conduits/todo/todo-conduit.c: (e_todo_gui_new):
+	Use zero GtkSpinButton's PageSize, as Gtk+ requires.
+
 2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for BNC bug #435452
