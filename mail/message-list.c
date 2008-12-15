@@ -2359,6 +2359,11 @@ message_list_finalise (GObject *object)
 
 	g_hash_table_destroy (message_list->normalised_hash);
 
+	if (message_list->ensure_uid) {
+		g_free (message_list->ensure_uid);
+		message_list->ensure_uid = NULL;
+	}
+
 	if (message_list->thread_tree)
 		camel_folder_thread_messages_unref(message_list->thread_tree);
 
@@ -4031,13 +4036,11 @@ regen_list_exec (struct _regen_list_msg *m)
 		uids = camel_folder_get_uids (m->folder);
 	} else {
 		searchuids = uids = camel_folder_search_by_expression (m->folder, expr, &m->base.ex);
-
 		/* If m->changes is not NULL, then it means we are called from folder_changed event,
 		   thus we will keep the selected message to be sure it doesn't disappear because
 		   it no longer belong to our search filter. */
-		if (uids && m->ml->search && ((m->changes && m->ml->cursor_uid) || m->ml->ensure_uid)) {
+		if (uids && ((m->changes && m->ml->cursor_uid) || m->ml->ensure_uid)) {
 			const char *looking_for = m->ml->cursor_uid;
-
 			/* ensure_uid has precedence of cursor_uid */
 			if (m->ml->ensure_uid)
 				looking_for = m->ml->ensure_uid;
@@ -4202,10 +4205,6 @@ regen_list_done (struct _regen_list_msg *m)
 	if (m->ml->priv->destroyed)
 		return;
 
-	if (m->ml->ensure_uid) {
-		g_free (m->ml->ensure_uid);
-		m->ml->ensure_uid = NULL;
-	}
 
 	if (!m->complete)
 		return;

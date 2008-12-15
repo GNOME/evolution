@@ -1,5 +1,12 @@
 2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for #546637
+
+	* message-list.c: (message_list_finalise), (regen_list_exec),
+	(regen_list_done): Don't loose uids.
+
+2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
+
 
 	* em-format-html-display.c: (efhd_bonobo_unknown),
 	(efhd_find_handler), (efhd_bonobo_object),
