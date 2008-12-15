@@ -1,3 +1,10 @@
+2008-12-15  Lucian Langa  <lucilanga@gnome.org>
+
+	** Fixes bug #564519
+
+	* mail-send-recv.c: (build_dialog):
+	Count also deleted unsent messages when displaying SMTP server
+
 2008-12-13  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #564351 (patch by Tal Benavidor)
