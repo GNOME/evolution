@@ -49,6 +49,7 @@
 #include <bonobo/bonobo-control-frame.h>
 #include <bonobo/bonobo-stream-memory.h>
 #include <bonobo/bonobo-widget.h>
+#include <bonobo-activation/bonobo-activation-mime.h>
 
 #include <camel/camel-stream.h>
 #include <camel/camel-stream-filter.h>

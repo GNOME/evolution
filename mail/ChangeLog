@@ -1,5 +1,9 @@
 2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* em-format-html-display.c: Fix a impllicit warning
+
+2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #552583
 
 	* mail-config.c: (mail_config_get_account_by_transport_url): Free the
