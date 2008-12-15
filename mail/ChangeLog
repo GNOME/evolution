@@ -1,5 +1,12 @@
 2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #552583
+
+	* mail-config.c: (mail_config_get_account_by_transport_url): Free the
+	right url.
+
+2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for #546637
 
 	* message-list.c: (message_list_finalise), (regen_list_exec),
