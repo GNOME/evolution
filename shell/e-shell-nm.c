@@ -36,11 +36,6 @@
 #include <dbus/dbus-glib.h>
 #include <NetworkManager/NetworkManager.h>
 
-typedef enum _ShellLineStatus {
-	E_SHELL_LINE_DOWN,
-	E_SHELL_LINE_UP
-} ShellLineStatus;
-
 gboolean e_shell_dbus_initialise (EShell *shell);
 
 static DBusConnection *dbus_connection = NULL;
@@ -63,11 +58,11 @@ e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
                          DBusMessage *message, void *user_data)
 {
 	const char *object;
-	ShellLineStatus status;
 	EShell *shell = user_data;
 	GNOME_Evolution_ShellState shell_state;
 	EShellLineStatus line_status;
 	DBusError error = DBUS_ERROR_INIT;
+	guint32 state;
 
 	object = dbus_message_get_path (message);
 
@@ -81,23 +76,25 @@ e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
 		return DBUS_HANDLER_RESULT_HANDLED;
 	}
 
-	if (dbus_message_is_signal (message, NM_DBUS_INTERFACE, "DeviceNoLongerActive"))
-		status = E_SHELL_LINE_DOWN;
-	else if (dbus_message_is_signal (message, NM_DBUS_INTERFACE, "DeviceNowActive"))
-		status = E_SHELL_LINE_UP;
-	else
+	if (!dbus_message_is_signal (message, NM_DBUS_INTERFACE, "StateChanged"))
 		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
 
-	if (!dbus_message_get_args (message, &error, DBUS_TYPE_OBJECT_PATH,
-				    &object, DBUS_TYPE_INVALID))
+	dbus_message_get_args (
+		message, &error,
+		DBUS_TYPE_UINT32, &state,
+		DBUS_TYPE_INVALID);
+
+	if (dbus_error_is_set (&error)) {
+		g_warning ("%s", error.message);
 		return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+	}
 
 	line_status = e_shell_get_line_status (shell);
 
-	if (line_status == E_SHELL_LINE_STATUS_ONLINE && status == E_SHELL_LINE_DOWN) {
+	if (line_status == E_SHELL_LINE_STATUS_ONLINE && state == NM_STATE_DISCONNECTED) {
 		shell_state = GNOME_Evolution_FORCED_OFFLINE;
 		e_shell_set_line_status (shell, shell_state);
-	} else if (line_status == E_SHELL_LINE_STATUS_FORCED_OFFLINE && status == E_SHELL_LINE_UP) {
+	} else if (line_status == E_SHELL_LINE_STATUS_FORCED_OFFLINE && state == NM_STATE_CONNECTED) {
 		shell_state = GNOME_Evolution_USER_ONLINE;
 		e_shell_set_line_status (shell, shell_state);
 	}

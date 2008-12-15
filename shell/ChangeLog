@@ -1,3 +1,11 @@
+2008-12-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #564416
+
+	* e-shell-nm.c:
+	We've been listening for obsolete D-Bus signals.
+	Update to NetworkManager's current D-Bus API.
+
 2008-12-10  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #563250
