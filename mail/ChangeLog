@@ -1,5 +1,14 @@
 2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
+
+	* em-format-html-display.c: (efhd_bonobo_unknown),
+	(efhd_find_handler), (efhd_bonobo_object),
+	(efhd_check_server_prop), (efhd_use_component),
+	(efhd_format_attachment): Restore the code for BONOBO components need
+	by the vcard inline viewer.
+
+2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
+
 	* em-account-editor.c: (emae_option_checkspin):
 	* em-folder-tree.c: (emft_popup_uvfolder), (emft_popup): Add the
 	unread vfolder hack.
