@@ -989,7 +989,7 @@ free_tray_icon_data (TrayIconData *tray_data)
 	}
 
 	if (tray_data->location){
-		g_free (tray_data->description);
+		g_free (tray_data->location);
 		tray_data->location = NULL;
 	}
 

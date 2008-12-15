@@ -642,7 +642,7 @@ populate_widgets_from_alarm (Dialog *dialog)
 
 	/* Alarm options */
 	e_dialog_option_menu_set (dialog->action, *action, action_map);
-	action_selection_done_cb (GTK_MENU_SHELL (dialog->action), dialog);
+	action_selection_done_cb (GTK_MENU_SHELL (gtk_option_menu_get_menu (GTK_OPTION_MENU (dialog->action))), dialog);
 
 	switch (*action) {
 	case E_CAL_COMPONENT_ALARM_AUDIO:
