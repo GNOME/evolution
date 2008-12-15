@@ -1,3 +1,10 @@
+2008-12-15  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #557176
+
+	* e-table-state.c: (e_table_state_load_from_node):
+	Ensure the 'sort_info' member is never NULL.
+
 2008-10-18  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #560882 (with release-team approval)

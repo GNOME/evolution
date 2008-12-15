@@ -189,6 +189,9 @@ e_table_state_load_from_node (ETableState *state,
 	state->columns = g_new(int, state->col_count);
 	state->expansions = g_new(double, state->col_count);
 
+	if (!state->sort_info)
+		state->sort_info = e_table_sort_info_new ();
+
 	for (iterator = list, i = 0; iterator; i++) {
 		int_and_double *column_info = iterator->data;
 
