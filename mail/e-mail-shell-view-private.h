@@ -30,7 +30,9 @@
 #include "e-util/gconf-bridge.h"
 #include "widgets/menus/gal-view-instance.h"
 
+#include "em-folder-selector.h"
 #include "em-utils.h"
+#include "mail-ops.h"
 
 #include "e-mail-shell-content.h"
 #include "e-mail-shell-module.h"

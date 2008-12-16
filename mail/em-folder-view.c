@@ -811,41 +811,41 @@ emfv_popup_flag_clear(EPopup *ep, EPopupItem *pitem, void *data)
 		em_format_redraw (emfv->preview);
 }
 
-static void
-emfv_popup_mark_read(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-}
+//static void
+//emfv_popup_mark_read(EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+//}
 
-static void
-emfv_popup_mark_unread(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED, 0);
+//static void
+//emfv_popup_mark_unread(EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_DELETED, 0);
+//
+//	if (emfv->list->seen_id) {
+//		g_source_remove(emfv->list->seen_id);
+//		emfv->list->seen_id = 0;
+//	}
+//}
 
-	if (emfv->list->seen_id) {
-		g_source_remove(emfv->list->seen_id);
-		emfv->list->seen_id = 0;
-	}
-}
+//static void
+//emfv_popup_mark_important(EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_FLAGGED|CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_FLAGGED);
+//}
 
-static void
-emfv_popup_mark_important(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_FLAGGED|CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_FLAGGED);
-}
+//static void
+//emfv_popup_mark_unimportant(EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_FLAGGED, 0);
+//}
 
-static void
-emfv_popup_mark_unimportant(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_FLAGGED, 0);
-}
-
-static void
-emfv_select_next_message (EMFolderView *emfv, int count, gboolean always_can_previous)
+void
+em_folder_view_select_next_message (EMFolderView *emfv, int count, gboolean always_can_previous)
 {
 	if (emfv && count == 1) {
 		if (!message_list_select (emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0) && (emfv->hide_deleted || always_can_previous))
@@ -853,31 +853,31 @@ emfv_select_next_message (EMFolderView *emfv, int count, gboolean always_can_pre
 	}
 }
 
-static void
-emfv_popup_mark_junk (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	int count;
+//static void
+//emfv_popup_mark_junk (EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	int count;
+//
+//	count = em_folder_view_mark_selected(emfv,
+//					     CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_NOTJUNK|CAMEL_MESSAGE_JUNK_LEARN,
+//					     CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_JUNK_LEARN);
+//
+//	em_folder_view_select_next_message (emfv, count, TRUE);
+//}
 
-	count = em_folder_view_mark_selected(emfv,
-					     CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_NOTJUNK|CAMEL_MESSAGE_JUNK_LEARN,
-					     CAMEL_MESSAGE_SEEN|CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_JUNK_LEARN);
-
-	emfv_select_next_message (emfv, count, TRUE);
-}
-
-static void
-emfv_popup_mark_nojunk (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	int count;
-
-	count = em_folder_view_mark_selected(emfv,
-					     CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_NOTJUNK|CAMEL_MESSAGE_JUNK_LEARN,
-					     CAMEL_MESSAGE_NOTJUNK|CAMEL_MESSAGE_JUNK_LEARN);
-
-	emfv_select_next_message (emfv, count, TRUE);
-}
+//static void
+//emfv_popup_mark_nojunk (EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	int count;
+//
+//	count = em_folder_view_mark_selected(emfv,
+//					     CAMEL_MESSAGE_JUNK|CAMEL_MESSAGE_NOTJUNK|CAMEL_MESSAGE_JUNK_LEARN,
+//					     CAMEL_MESSAGE_NOTJUNK|CAMEL_MESSAGE_JUNK_LEARN);
+//
+//	em_folder_view_select_next_message (emfv, count, TRUE);
+//}
 
 #define DelInVFolderCheckName  "DelInVFolderCheck"
 #define DelInVFolderKey        "/apps/evolution/mail/prompts/delete_in_vfolder"
@@ -942,7 +942,7 @@ emfv_delete_msg_response (GtkWidget *dialog, int response, gpointer data)
 		message_list_free_uids(emfv->list, uids);
 		camel_folder_thaw(emfv->folder);
 
-		emfv_select_next_message (emfv, count, FALSE);
+		em_folder_view_select_next_message (emfv, count, FALSE);
 	}
 
 	if (dialog)
@@ -985,59 +985,59 @@ emfv_popup_undelete(EPopup *ep, EPopupItem *pitem, void *data)
 	em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_DELETED, 0);
 }
 
-struct _move_data {
-	EMFolderView *emfv;
-	GPtrArray *uids;
-	int delete;
-};
+//struct _move_data {
+//	EMFolderView *emfv;
+//	GPtrArray *uids;
+//	int delete;
+//};
 
-static char *default_xfer_messages_uri = NULL;
+//static char *default_xfer_messages_uri = NULL;
 
-static void
-emfv_popup_move_cb(const char *uri, void *data)
-{
-	struct _move_data *d = data;
+//static void
+//emfv_popup_move_cb(const char *uri, void *data)
+//{
+//	struct _move_data *d = data;
+//
+//	if (uri) {
+//		g_free (default_xfer_messages_uri);
+//		default_xfer_messages_uri = g_strdup (uri);
+//		mail_transfer_messages(d->emfv->folder, d->uids, d->delete, uri, 0, NULL, NULL);
+//	} else
+//		em_utils_uids_free(d->uids);
+//
+//	g_object_unref(d->emfv);
+//	g_free(d);
+//}
 
-	if (uri) {
-		g_free (default_xfer_messages_uri);
-		default_xfer_messages_uri = g_strdup (uri);
-		mail_transfer_messages(d->emfv->folder, d->uids, d->delete, uri, 0, NULL, NULL);
-	} else
-		em_utils_uids_free(d->uids);
+//static void
+//emfv_popup_move(EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	struct _move_data *d;
+//
+//	d = g_malloc(sizeof(*d));
+//	d->emfv = emfv;
+//	g_object_ref(emfv);
+//	d->uids = message_list_get_selected(emfv->list);
+//	d->delete = TRUE;
+//
+//	em_select_folder ((GtkWindow *) emfv, _("Select folder"), _("_Move"), default_xfer_messages_uri, NULL, emfv_popup_move_cb, d);
+//}
 
-	g_object_unref(d->emfv);
-	g_free(d);
-}
-
-static void
-emfv_popup_move(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	struct _move_data *d;
-
-	d = g_malloc(sizeof(*d));
-	d->emfv = emfv;
-	g_object_ref(emfv);
-	d->uids = message_list_get_selected(emfv->list);
-	d->delete = TRUE;
-
-	em_select_folder ((GtkWindow *) emfv, _("Select folder"), _("_Move"), default_xfer_messages_uri, NULL, emfv_popup_move_cb, d);
-}
-
-static void
-emfv_popup_copy(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	struct _move_data *d;
-
-	d = g_malloc(sizeof(*d));
-	d->emfv = emfv;
-	g_object_ref(emfv);
-	d->uids = message_list_get_selected(emfv->list);
-	d->delete = FALSE;
-
-	em_select_folder ((GtkWindow *) emfv, _("Select folder"), _("C_opy"), default_xfer_messages_uri, NULL, emfv_popup_move_cb, d);
-}
+//static void
+//emfv_popup_copy(EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	struct _move_data *d;
+//
+//	d = g_malloc(sizeof(*d));
+//	d->emfv = emfv;
+//	g_object_ref(emfv);
+//	d->uids = message_list_get_selected(emfv->list);
+//	d->delete = FALSE;
+//
+//	em_select_folder ((GtkWindow *) emfv, _("Select folder"), _("C_opy"), default_xfer_messages_uri, NULL, emfv_popup_move_cb, d);
+//}
 
 static void
 emfv_set_label (EMFolderView *emfv, const char *label)
@@ -1177,16 +1177,16 @@ static EPopupItem emfv_popup_items[] = {
 	{ E_POPUP_BAR, "40.emfv", NULL, NULL, NULL, NULL },
 	{ E_POPUP_ITEM, "40.emfv.00", N_("_Delete"), emfv_popup_delete, NULL, "edit-delete", EM_POPUP_SELECT_DELETE|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, "40.emfv.01", N_("U_ndelete"), emfv_popup_undelete, NULL, NULL, EM_POPUP_SELECT_UNDELETE|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "40.emfv.02", N_("_Move to Folder..."), emfv_popup_move, NULL, "mail-move", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "40.emfv.03", N_("_Copy to Folder..."), emfv_popup_copy, NULL, "mail-copy", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
+//	{ E_POPUP_ITEM, "40.emfv.02", N_("_Move to Folder..."), emfv_popup_move, NULL, "mail-move", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
+//	{ E_POPUP_ITEM, "40.emfv.03", N_("_Copy to Folder..."), emfv_popup_copy, NULL, "mail-copy", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
 
 	{ E_POPUP_BAR, "50.emfv", NULL, NULL, NULL, NULL },
-	{ E_POPUP_ITEM, "50.emfv.00", N_("Mar_k as Read"), emfv_popup_mark_read, NULL, "mail-mark-read", EM_POPUP_SELECT_MARK_READ|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "50.emfv.01", N_("Mark as _Unread"), emfv_popup_mark_unread, NULL, "mail-mark-unread", EM_POPUP_SELECT_MARK_UNREAD|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "50.emfv.02", N_("Mark as _Important"), emfv_popup_mark_important, NULL, "mail-mark-important", EM_POPUP_SELECT_MARK_IMPORTANT|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "50.emfv.03", N_("Mark as Un_important"), emfv_popup_mark_unimportant, NULL, NULL, EM_POPUP_SELECT_MARK_UNIMPORTANT|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "50.emfv.04", N_("Mark as _Junk"), emfv_popup_mark_junk, NULL, "mail-mark-junk", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY|EM_POPUP_SELECT_JUNK },
-	{ E_POPUP_ITEM, "50.emfv.05", N_("Mark as _Not Junk"), emfv_popup_mark_nojunk, NULL, "mail-mark-notjunk", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY|EM_POPUP_SELECT_NOT_JUNK },
+//	{ E_POPUP_ITEM, "50.emfv.00", N_("Mar_k as Read"), emfv_popup_mark_read, NULL, "mail-mark-read", EM_POPUP_SELECT_MARK_READ|EM_FOLDER_VIEW_SELECT_LISTONLY },
+//	{ E_POPUP_ITEM, "50.emfv.01", N_("Mark as _Unread"), emfv_popup_mark_unread, NULL, "mail-mark-unread", EM_POPUP_SELECT_MARK_UNREAD|EM_FOLDER_VIEW_SELECT_LISTONLY },
+//	{ E_POPUP_ITEM, "50.emfv.02", N_("Mark as _Important"), emfv_popup_mark_important, NULL, "mail-mark-important", EM_POPUP_SELECT_MARK_IMPORTANT|EM_FOLDER_VIEW_SELECT_LISTONLY },
+//	{ E_POPUP_ITEM, "50.emfv.03", N_("Mark as Un_important"), emfv_popup_mark_unimportant, NULL, NULL, EM_POPUP_SELECT_MARK_UNIMPORTANT|EM_FOLDER_VIEW_SELECT_LISTONLY },
+//	{ E_POPUP_ITEM, "50.emfv.04", N_("Mark as _Junk"), emfv_popup_mark_junk, NULL, "mail-mark-junk", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY|EM_POPUP_SELECT_JUNK },
+//	{ E_POPUP_ITEM, "50.emfv.05", N_("Mark as _Not Junk"), emfv_popup_mark_nojunk, NULL, "mail-mark-notjunk", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY|EM_POPUP_SELECT_NOT_JUNK },
 	{ E_POPUP_ITEM, "50.emfv.06", N_("Mark for Follo_w Up..."), emfv_popup_flag_followup, NULL, "stock_mail-flag-for-followup",  EM_POPUP_SELECT_FLAG_FOLLOWUP|EM_FOLDER_VIEW_SELECT_LISTONLY },
 
 	{ E_POPUP_SUBMENU, "60.label.00", N_("_Label"), NULL, NULL, NULL, EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
@@ -1360,18 +1360,18 @@ from(BonoboUIComponent *uid, void *data, const char *path)	\
 EMFV_MAP_CALLBACK(emfv_add_sender_addressbook, emfv_popup_add_sender)
 EMFV_MAP_CALLBACK(emfv_message_apply_filters, emfv_popup_apply_filters)
 EMFV_MAP_CALLBACK(emfv_message_filter_junk, emfv_popup_filter_junk)
-EMFV_MAP_CALLBACK(emfv_message_copy, emfv_popup_copy)
-EMFV_MAP_CALLBACK(emfv_message_move, emfv_popup_move)
+//EMFV_MAP_CALLBACK(emfv_message_copy, emfv_popup_copy)
+//EMFV_MAP_CALLBACK(emfv_message_move, emfv_popup_move)
 EMFV_MAP_CALLBACK(emfv_message_forward, emfv_popup_forward)
 EMFV_MAP_CALLBACK(emfv_message_reply_all, emfv_popup_reply_all)
 EMFV_MAP_CALLBACK(emfv_message_reply_list, emfv_popup_reply_list)
 EMFV_MAP_CALLBACK(emfv_message_reply_sender, emfv_popup_reply_sender)
-EMFV_MAP_CALLBACK(emfv_message_mark_read, emfv_popup_mark_read)
-EMFV_MAP_CALLBACK(emfv_message_mark_unread, emfv_popup_mark_unread)
-EMFV_MAP_CALLBACK(emfv_message_mark_important, emfv_popup_mark_important)
-EMFV_MAP_CALLBACK(emfv_message_mark_unimportant, emfv_popup_mark_unimportant)
-EMFV_MAP_CALLBACK(emfv_message_mark_junk, emfv_popup_mark_junk)
-EMFV_MAP_CALLBACK(emfv_message_mark_nojunk, emfv_popup_mark_nojunk)
+//EMFV_MAP_CALLBACK(emfv_message_mark_read, emfv_popup_mark_read)
+//EMFV_MAP_CALLBACK(emfv_message_mark_unread, emfv_popup_mark_unread)
+//EMFV_MAP_CALLBACK(emfv_message_mark_important, emfv_popup_mark_important)
+//EMFV_MAP_CALLBACK(emfv_message_mark_unimportant, emfv_popup_mark_unimportant)
+//EMFV_MAP_CALLBACK(emfv_message_mark_junk, emfv_popup_mark_junk)
+//EMFV_MAP_CALLBACK(emfv_message_mark_nojunk, emfv_popup_mark_nojunk)
 EMFV_MAP_CALLBACK(emfv_message_delete, emfv_popup_delete)
 EMFV_MAP_CALLBACK(emfv_message_undelete, emfv_popup_undelete)
 EMFV_MAP_CALLBACK(emfv_message_followup_flag, emfv_popup_flag_followup)
@@ -1894,7 +1894,7 @@ static BonoboUIVerb emfv_message_verbs[] = {
 
 	BONOBO_UI_UNSAFE_VERB ("MessageApplyFilters", emfv_message_apply_filters),
 	BONOBO_UI_UNSAFE_VERB ("MessageFilterJunk", emfv_message_filter_junk),
-	BONOBO_UI_UNSAFE_VERB ("MessageCopy", emfv_message_copy),
+//	BONOBO_UI_UNSAFE_VERB ("MessageCopy", emfv_message_copy),
 	BONOBO_UI_UNSAFE_VERB ("MessageDelete", emfv_message_delete),
 	BONOBO_UI_UNSAFE_VERB ("MessageDeleteKey", emfv_message_delete),
 	BONOBO_UI_UNSAFE_VERB ("MessageForward", emfv_message_forward),
@@ -1902,16 +1902,16 @@ static BonoboUIVerb emfv_message_verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageForwardInline", emfv_message_forward_inline),
 	BONOBO_UI_UNSAFE_VERB ("MessageForwardQuoted", emfv_message_forward_quoted),
 	BONOBO_UI_UNSAFE_VERB ("MessageRedirect", emfv_message_redirect),
-	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsRead", emfv_message_mark_read),
-	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsUnRead", emfv_message_mark_unread),
-	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsImportant", emfv_message_mark_important),
-	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsUnimportant", emfv_message_mark_unimportant),
-	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsJunk", emfv_message_mark_junk),
-	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsNotJunk", emfv_message_mark_nojunk),
+//	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsRead", emfv_message_mark_read),
+//	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsUnRead", emfv_message_mark_unread),
+//	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsImportant", emfv_message_mark_important),
+//	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsUnimportant", emfv_message_mark_unimportant),
+//	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsJunk", emfv_message_mark_junk),
+//	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsNotJunk", emfv_message_mark_nojunk),
 	BONOBO_UI_UNSAFE_VERB ("MessageFollowUpFlag", emfv_message_followup_flag),
 	BONOBO_UI_UNSAFE_VERB ("MessageFollowUpComplete", emfv_message_followup_completed),
 	BONOBO_UI_UNSAFE_VERB ("MessageFollowUpClear", emfv_message_followup_clear),
-	BONOBO_UI_UNSAFE_VERB ("MessageMove", emfv_message_move),
+//	BONOBO_UI_UNSAFE_VERB ("MessageMove", emfv_message_move),
 	BONOBO_UI_UNSAFE_VERB ("MessageOpen", emfv_message_open),
 	BONOBO_UI_UNSAFE_VERB ("MessagePostReply", emfv_message_post_reply),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplyAll", emfv_message_reply_all),

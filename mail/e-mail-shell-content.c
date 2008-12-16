@@ -29,6 +29,7 @@
 #include "widgets/menus/gal-view-instance.h"
 
 #include "em-folder-view.h"
+#include "em-format-html-display.h"
 #include "em-search-context.h"
 #include "em-utils.h"
 #include "mail-config.h"
@@ -40,8 +41,8 @@
 struct _EMailShellContentPrivate {
 	GtkWidget *paned;
 	GtkWidget *folder_view;
-	GtkWidget *preview;
 
+	EMFormatHTMLDisplay *preview;
 	GalViewInstance *view_instance;
 
 	guint paned_binding_id;
@@ -196,7 +197,9 @@ mail_shell_content_constructed (GObject *object)
 	container = widget;
 
 	widget = em_folder_view_new ();
-	gtk_paned_add1 (GTK_PANED (container), widget);
+	gtk_paned_add1 (GTK_PANED (container), ((EMFolderView *) widget)->list);
+	gtk_widget_show (((EMFolderView *) widget)->list);
+	/*gtk_paned_add1 (GTK_PANED (container), widget);*/
 	priv->folder_view = g_object_ref (widget);
 	gtk_widget_show (widget);
 
@@ -208,6 +211,12 @@ mail_shell_content_constructed (GObject *object)
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
 	gtk_paned_add2 (GTK_PANED (container), widget);
 	gtk_widget_show (widget);
+
+	container = widget;
+
+	priv->preview = ((EMFolderView *) priv->folder_view)->preview;
+	gtk_container_add (GTK_CONTAINER (container), ((EMFormatHTML *) priv->preview)->html);
+	gtk_widget_show (((EMFormatHTML *) priv->preview)->html);
 
 	/* Load the view instance. */
 

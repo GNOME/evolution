@@ -21,6 +21,9 @@
 
 #include "e-mail-shell-view-private.h"
 
+/* Remembers the previously selected folder when transferring messages. */
+static gchar *default_xfer_messages_uri;
+
 static void
 action_mail_add_sender_cb (GtkAction *action,
                                    EMailShellView *mail_shell_view)
@@ -57,8 +60,62 @@ static void
 action_mail_copy_cb (GtkAction *action,
                      EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EShellModule *shell_module;
+	EShellView *shell_view;
+	EMFolderTreeModel *model;
+	EMFolderView *folder_view;
+	GtkWidget *folder_tree;
+	GtkWidget *dialog;
+	GPtrArray *selected;
+	const gchar *uri;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_module = e_shell_view_get_shell_module (shell_view);
+	model = e_mail_shell_module_get_folder_tree_model (shell_module);
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+	selected = message_list_get_selected (folder_view->list);
+
+	folder_tree = em_folder_tree_new_with_model (model);
+
+	em_folder_tree_set_excluded (
+		EM_FOLDER_TREE (folder_tree),
+		EMFT_EXCLUDE_NOSELECT | EMFT_EXCLUDE_VIRTUAL |
+		EMFT_EXCLUDE_VTRASH);
+
+	dialog = em_folder_selector_new (
+		EM_FOLDER_TREE (folder_tree),
+		EM_FOLDER_SELECTOR_CAN_CREATE,
+		_("Select Folder"), NULL, _("C_opy"));
+
+	if (default_xfer_messages_uri != NULL)
+		em_folder_selector_set_selected (
+			EM_FOLDER_SELECTOR (dialog),
+			default_xfer_messages_uri);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
+		goto exit;
+
+	uri = em_folder_selector_get_selected_uri (
+		EM_FOLDER_SELECTOR (dialog));
+
+	g_free (default_xfer_messages_uri);
+	default_xfer_messages_uri = g_strdup (uri);
+
+	if (uri != NULL) {
+		mail_transfer_messages (
+			folder_view->folder, selected,
+			FALSE, uri, 0, NULL, NULL);
+		selected = NULL;
+	}
+
+exit:
+	if (selected != NULL)
+		em_utils_uids_free (selected);
+
+	gtk_widget_destroy (dialog);
 }
 
 static void
@@ -337,48 +394,114 @@ static void
 action_mail_mark_important_cb (GtkAction *action,
                                EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	guint32 mask, set;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	mask = CAMEL_MESSAGE_FLAGGED | CAMEL_MESSAGE_DELETED;
+	set = CAMEL_MESSAGE_FLAGGED;
+
+	em_folder_view_mark_selected (folder_view, mask, set);
 }
 
 static void
 action_mail_mark_junk_cb (GtkAction *action,
                           EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	guint32 mask, set;
+	gint count;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	mask = CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_JUNK |
+		CAMEL_MESSAGE_NOTJUNK | CAMEL_MESSAGE_JUNK_LEARN;
+	set = CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_JUNK |
+		CAMEL_MESSAGE_JUNK_LEARN;
+
+	count = em_folder_view_mark_selected (folder_view, mask, set);
+	em_folder_view_select_next_message (folder_view, count, TRUE);
 }
 
 static void
 action_mail_mark_notjunk_cb (GtkAction *action,
                              EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	guint32 mask, set;
+	gint count;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	mask = CAMEL_MESSAGE_JUNK | CAMEL_MESSAGE_NOTJUNK |
+		CAMEL_MESSAGE_JUNK_LEARN;
+	set = CAMEL_MESSAGE_NOTJUNK | CAMEL_MESSAGE_JUNK_LEARN;
+
+	count = em_folder_view_mark_selected (folder_view, mask, set);
+	em_folder_view_select_next_message (folder_view, count, TRUE);
 }
 
 static void
 action_mail_mark_read_cb (GtkAction *action,
                           EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	guint32 mask, set;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	mask = CAMEL_MESSAGE_SEEN;
+	set = CAMEL_MESSAGE_SEEN;
+
+	em_folder_view_mark_selected (folder_view, mask, set);
 }
 
 static void
 action_mail_mark_unimportant_cb (GtkAction *action,
                                  EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	guint32 mask, set;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	mask = CAMEL_MESSAGE_FLAGGED;
+	set = 0;
+
+	em_folder_view_mark_selected (folder_view, mask, set);
 }
 
 static void
 action_mail_mark_unread_cb (GtkAction *action,
                             EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	guint32 mask, set;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	mask = CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_DELETED;
+	set = 0;
+
+	em_folder_view_mark_selected (folder_view, mask, set);
+
+	if (folder_view->list->seen_id != 0) {
+		g_source_remove (folder_view->list->seen_id);
+		folder_view->list->seen_id = 0;
+	}
 }
 
 static void
@@ -417,8 +540,62 @@ static void
 action_mail_move_cb (GtkAction *action,
                      EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EShellModule *shell_module;
+	EShellView *shell_view;
+	EMFolderTreeModel *model;
+	EMFolderView *folder_view;
+	GtkWidget *folder_tree;
+	GtkWidget *dialog;
+	GPtrArray *selected;
+	const gchar *uri;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_module = e_shell_view_get_shell_module (shell_view);
+	model = e_mail_shell_module_get_folder_tree_model (shell_module);
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+	selected = message_list_get_selected (folder_view->list);
+
+	folder_tree = em_folder_tree_new_with_model (model);
+
+	em_folder_tree_set_excluded (
+		EM_FOLDER_TREE (folder_tree),
+		EMFT_EXCLUDE_NOSELECT | EMFT_EXCLUDE_VIRTUAL |
+		EMFT_EXCLUDE_VTRASH);
+
+	dialog = em_folder_selector_new (
+		EM_FOLDER_TREE (folder_tree),
+		EM_FOLDER_SELECTOR_CAN_CREATE,
+		_("Select Folder"), NULL, _("_Move"));
+
+	if (default_xfer_messages_uri != NULL)
+		em_folder_selector_set_selected (
+			EM_FOLDER_SELECTOR (dialog),
+			default_xfer_messages_uri);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK)
+		goto exit;
+
+	uri = em_folder_selector_get_selected_uri (
+		EM_FOLDER_SELECTOR (dialog));
+
+	g_free (default_xfer_messages_uri);
+	default_xfer_messages_uri = g_strdup (uri);
+
+	if (uri != NULL) {
+		mail_transfer_messages (
+			folder_view->folder, selected,
+			TRUE, uri, 0, NULL, NULL);
+		selected = NULL;
+	}
+
+exit:
+	if (selected != NULL)
+		em_utils_uids_free (selected);
+
+	gtk_widget_destroy (dialog);
 }
 
 static void
