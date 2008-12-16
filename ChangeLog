@@ -1,3 +1,10 @@
+2008-12-16  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #564248
+
+	* configure.in: Bump libgtkhtml_minimum_version to 3.25.4
+	because of new html editor functions.
+
 2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* NEWS: Evolution 2.25.3.1 release
