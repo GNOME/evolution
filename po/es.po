@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&amp;component=general\n"
-"POT-Creation-Date: 2008-12-08 11:01+0000\n"
-"PO-Revision-Date: 2008-12-16 21:21+0100\n"
+"POT-Creation-Date: 2008-12-16 20:34+0000\n"
+"PO-Revision-Date: 2008-12-16 21:37+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -663,7 +663,7 @@ msgstr "Gestione sus certificados S/MIME aquí"
 #: ../calendar/gui/tasks-component.c:195 ../mail/em-folder-tree-model.c:200
 #: ../mail/em-folder-tree-model.c:202 ../mail/em-migrate.c:2906
 #: ../mail/mail-component.c:316 ../mail/mail-vfolder.c:223
-#: ../mail/message-list.c:1518
+#: ../mail/message-list.c:1516
 msgid "On This Computer"
 msgstr "En este equipo"
 
@@ -873,7 +873,7 @@ msgstr "Guardar como vCard…"
 #: ../addressbook/gui/component/addressbook-view.c:953
 #: ../calendar/gui/calendar-component.c:660
 #: ../calendar/gui/memos-component.c:501 ../calendar/gui/tasks-component.c:492
-#: ../mail/em-folder-tree.c:2115 ../ui/evolution-mail-list.xml.h:39
+#: ../mail/em-folder-tree.c:2132 ../ui/evolution-mail-list.xml.h:39
 msgid "_Rename..."
 msgstr "_Renombrar…"
 
@@ -883,7 +883,7 @@ msgstr "_Renombrar…"
 #: ../calendar/gui/e-calendar-table.c:1609
 #: ../calendar/gui/e-calendar-view.c:1768 ../calendar/gui/e-memo-table.c:940
 #: ../calendar/gui/memos-component.c:504 ../calendar/gui/tasks-component.c:495
-#: ../mail/em-folder-tree.c:2112 ../mail/em-folder-view.c:1340
+#: ../mail/em-folder-tree.c:2129 ../mail/em-folder-view.c:1340
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:42
 #: ../ui/evolution-mail-list.xml.h:35 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -894,7 +894,7 @@ msgstr "_Borrar"
 #: ../calendar/gui/calendar-component.c:668
 #: ../calendar/gui/dialogs/comp-editor.c:2045
 #: ../calendar/gui/memos-component.c:509 ../calendar/gui/tasks-component.c:500
-#: ../composer/e-msg-composer.c:1041 ../mail/em-folder-tree.c:2121
+#: ../composer/e-msg-composer.c:1042 ../mail/em-folder-tree.c:2138
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:38
 msgid "_Properties"
 msgstr "_Propiedades"
@@ -1303,7 +1303,7 @@ msgstr "tarjetas"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:9
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:27
 #: ../calendar/gui/dialogs/event-page.glade.h:20 ../filter/filter.glade.h:17
-#: ../plugins/caldav/caldav-source.c:429
+#: ../plugins/caldav/caldav-source.c:430
 #: ../plugins/calendar-http/calendar-http.c:279
 #: ../plugins/calendar-weather/calendar-weather.c:524
 #: ../plugins/google-account-setup/google-source.c:671
@@ -1378,6 +1378,7 @@ msgid "Full _Name..."
 msgstr "_Nombre completo…"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:15
+#: ../composer/e-msg-composer.c:2475
 msgid "Image"
 msgstr "Imagen"
 
@@ -3003,7 +3004,7 @@ msgstr "Fuente"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:234
 #: ../calendar/gui/e-calendar-table.etspec.h:12
-#: ../calendar/gui/e-meeting-list-view.c:508
+#: ../calendar/gui/e-meeting-list-view.c:525
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 #: ../calendar/gui/e-memo-table.etspec.h:5
 msgid "Type"
@@ -3074,8 +3075,8 @@ msgstr "Cor_tar"
 #: ../calendar/gui/dialogs/comp-editor.c:486
 #: ../calendar/gui/e-calendar-table.c:1595
 #: ../calendar/gui/e-calendar-view.c:1753 ../calendar/gui/e-memo-table.c:931
-#: ../composer/e-msg-composer.c:2052 ../mail/em-folder-tree.c:1005
-#: ../mail/em-folder-view.c:1325 ../mail/message-list.c:2106
+#: ../composer/e-msg-composer.c:2053 ../mail/em-folder-tree.c:1005
+#: ../mail/em-folder-view.c:1325 ../mail/message-list.c:2104
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-message.xml.h:103 ../ui/evolution-memos.xml.h:15
 #: ../ui/evolution-tasks.xml.h:23
@@ -3231,7 +3232,7 @@ msgid "Radio"
 msgstr "Radio"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
-#: ../calendar/gui/e-meeting-list-view.c:520
+#: ../calendar/gui/e-meeting-list-view.c:537
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:715
 msgid "Role"
@@ -4740,7 +4741,7 @@ msgstr[1] "minutos"
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:7
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:25
 #: ../calendar/gui/dialogs/event-page.glade.h:19 ../filter/filter.glade.h:15
-#: ../plugins/caldav/caldav-source.c:430
+#: ../plugins/caldav/caldav-source.c:431
 #: ../plugins/calendar-http/calendar-http.c:280
 #: ../plugins/calendar-weather/calendar-weather.c:525
 #: ../plugins/google-account-setup/google-source.c:672
@@ -4818,6 +4819,7 @@ msgstr "Tiene %d alertas"
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1694
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1722
+#: ../e-util/e-non-intrusive-error-dialog.h:41
 msgid "Warning"
 msgstr "Advertencia"
 
@@ -5456,7 +5458,7 @@ msgstr "Purgar acontecimientos anteriores a"
 
 #: ../calendar/gui/calendar-commands.c:330
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:21 ../filter/filter.glade.h:14
-#: ../plugins/caldav/caldav-source.c:431
+#: ../plugins/caldav/caldav-source.c:432
 #: ../plugins/calendar-http/calendar-http.c:281
 #: ../plugins/calendar-weather/calendar-weather.c:526
 #: ../plugins/google-account-setup/google-source.c:673
@@ -5492,7 +5494,7 @@ msgstr "Calendario _nuevo"
 
 #: ../calendar/gui/calendar-component.c:659
 #: ../calendar/gui/memos-component.c:500 ../calendar/gui/tasks-component.c:491
-#: ../mail/em-folder-tree.c:2107
+#: ../mail/em-folder-tree.c:2124
 msgid "_Copy..."
 msgstr "_Copiar…"
 
@@ -5598,7 +5600,7 @@ msgid "Any Field"
 msgstr "Cualquier campo"
 
 #: ../calendar/gui/caltypes.xml.h:3 ../calendar/gui/memotypes.xml.h:3
-#: ../calendar/gui/tasktypes.xml.h:5 ../mail/em-filter-i18n.h:21
+#: ../calendar/gui/tasktypes.xml.h:5 ../mail/em-filter-i18n.h:5
 msgid "Attachments"
 msgstr "Adjuntos"
 
@@ -5637,12 +5639,12 @@ msgid "Description Contains"
 msgstr "La descripción contiene"
 
 #: ../calendar/gui/caltypes.xml.h:10 ../calendar/gui/memotypes.xml.h:9
-#: ../calendar/gui/tasktypes.xml.h:12 ../mail/em-filter-i18n.h:38
+#: ../calendar/gui/tasktypes.xml.h:12 ../mail/em-filter-i18n.h:22
 msgid "Do Not Exist"
 msgstr "No existen"
 
 #: ../calendar/gui/caltypes.xml.h:11 ../calendar/gui/memotypes.xml.h:10
-#: ../calendar/gui/tasktypes.xml.h:13 ../mail/em-filter-i18n.h:41
+#: ../calendar/gui/tasktypes.xml.h:13 ../mail/em-filter-i18n.h:25
 msgid "Exist"
 msgstr "Existen"
 
@@ -5684,22 +5686,22 @@ msgid "Summary Contains"
 msgstr "El resumen contiene"
 
 #: ../calendar/gui/caltypes.xml.h:19 ../calendar/gui/memotypes.xml.h:16
-#: ../calendar/gui/tasktypes.xml.h:25 ../mail/em-filter-i18n.h:26
+#: ../calendar/gui/tasktypes.xml.h:25 ../mail/em-filter-i18n.h:10
 msgid "contains"
 msgstr "contiene"
 
 #: ../calendar/gui/caltypes.xml.h:20 ../calendar/gui/memotypes.xml.h:17
-#: ../calendar/gui/tasktypes.xml.h:26 ../mail/em-filter-i18n.h:32
+#: ../calendar/gui/tasktypes.xml.h:26 ../mail/em-filter-i18n.h:16
 msgid "does not contain"
 msgstr "no contiene"
 
 #: ../calendar/gui/caltypes.xml.h:21 ../calendar/gui/memotypes.xml.h:18
-#: ../calendar/gui/tasktypes.xml.h:27 ../mail/em-filter-i18n.h:46
+#: ../calendar/gui/tasktypes.xml.h:27 ../mail/em-filter-i18n.h:30
 msgid "is"
 msgstr "es"
 
 #: ../calendar/gui/caltypes.xml.h:22 ../calendar/gui/memotypes.xml.h:19
-#: ../calendar/gui/tasktypes.xml.h:30 ../mail/em-filter-i18n.h:52
+#: ../calendar/gui/tasktypes.xml.h:30 ../mail/em-filter-i18n.h:36
 msgid "is not"
 msgstr "no es"
 
@@ -6238,22 +6240,22 @@ msgstr "Mensaje adjunto: %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:243
-#: ../calendar/gui/dialogs/comp-editor.c:416 ../composer/e-msg-composer.c:1766
-#: ../composer/e-msg-composer.c:1985
+#: ../calendar/gui/dialogs/comp-editor.c:416 ../composer/e-msg-composer.c:1767
+#: ../composer/e-msg-composer.c:1986
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
 msgstr[0] "Mensaje adjunto"
 msgstr[1] "%d mensajes adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:487 ../composer/e-msg-composer.c:2053
+#: ../calendar/gui/dialogs/comp-editor.c:487 ../composer/e-msg-composer.c:2054
 #: ../mail/em-folder-tree.c:1006 ../mail/em-folder-utils.c:364
-#: ../mail/em-folder-view.c:1186 ../mail/message-list.c:2107
+#: ../mail/em-folder-view.c:1186 ../mail/message-list.c:2105
 msgid "_Move"
 msgstr "_Mover"
 
-#: ../calendar/gui/dialogs/comp-editor.c:489 ../composer/e-msg-composer.c:2055
-#: ../mail/em-folder-tree.c:1008 ../mail/message-list.c:2109
+#: ../calendar/gui/dialogs/comp-editor.c:489 ../composer/e-msg-composer.c:2056
+#: ../mail/em-folder-tree.c:1008 ../mail/message-list.c:2107
 msgid "Cancel _Drag"
 msgstr "Cancelar _arrastre"
 
@@ -6353,7 +6355,7 @@ msgstr "_Insertar"
 msgid "_Options"
 msgstr "_Opciones"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1373 ../mail/em-folder-tree.c:2099
+#: ../calendar/gui/dialogs/comp-editor.c:1373 ../mail/em-folder-tree.c:2116
 #: ../ui/evolution-addressbook.xml.h:64 ../ui/evolution-mail-global.xml.h:34
 #: ../ui/evolution-mail-messagedisplay.xml.h:8 ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:55
@@ -6442,7 +6444,7 @@ msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Conmuta indicando si se muestra el campo «Tipo de participante»"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1776
-#: ../composer/e-composer-private.c:64 ../widgets/misc/e-attachment-bar.c:1381
+#: ../composer/e-composer-private.c:64 ../widgets/misc/e-attachment-bar.c:1382
 msgid "Recent _Documents"
 msgstr "_Documentos recientes"
 
@@ -6469,7 +6471,7 @@ msgstr "Mostrar _barra de adjuntos"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2044
 #: ../calendar/gui/dialogs/event-page.c:1876
-#: ../calendar/gui/dialogs/task-page.c:1198 ../composer/e-msg-composer.c:1040
+#: ../calendar/gui/dialogs/task-page.c:1198 ../composer/e-msg-composer.c:1041
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
 #: ../plugins/groupwise-features/properties.glade.h:13
 #: ../widgets/table/e-table-config.glade.h:21
@@ -6477,13 +6479,13 @@ msgid "_Remove"
 msgstr "_Quitar"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2047
-#: ../composer/e-msg-composer.c:1043
+#: ../composer/e-msg-composer.c:1044
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
 msgid "_Add attachment..."
 msgstr "_Añadir adjunto…"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2255
-#: ../mail/em-format-html-display.c:2201
+#: ../mail/em-format-html-display.c:2380
 msgid "Show Attachments"
 msgstr "Mostrar adjuntos"
 
@@ -7106,7 +7108,7 @@ msgstr "Terminado"
 #: ../calendar/gui/dialogs/task-details-page.glade.h:5
 #: ../calendar/gui/e-cal-component-preview.c:272
 #: ../calendar/gui/e-calendar-table.c:577 ../calendar/gui/tasktypes.xml.h:14
-#: ../mail/message-list.c:1066
+#: ../mail/message-list.c:1064
 msgid "High"
 msgstr "Alta"
 
@@ -7123,14 +7125,14 @@ msgstr "En proceso"
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
 #: ../calendar/gui/e-cal-component-preview.c:276
 #: ../calendar/gui/e-calendar-table.c:579 ../calendar/gui/tasktypes.xml.h:16
-#: ../mail/message-list.c:1064
+#: ../mail/message-list.c:1062
 msgid "Low"
 msgstr "Baja"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
 #: ../calendar/gui/e-cal-component-preview.c:274
 #: ../calendar/gui/e-cal-model.c:985 ../calendar/gui/e-calendar-table.c:578
-#: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1065
+#: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1063
 msgid "Normal"
 msgstr "Normal"
 
@@ -7424,7 +7426,7 @@ msgstr "Asignado"
 msgid "Save As..."
 msgstr "Guardar como…"
 
-#: ../calendar/gui/e-cal-popup.c:200 ../mail/em-format-html-display.c:2035
+#: ../calendar/gui/e-cal-popup.c:200 ../mail/em-format-html-display.c:2214
 msgid "Select folder to save selected attachments..."
 msgstr "Seleccione la carpeta donde guardar los adjuntos seleccionados…"
 
@@ -7634,9 +7636,9 @@ msgstr "Fecha de inicio"
 #. Status: Accepted: X   Declined: Y   ...
 #: ../calendar/gui/e-calendar-table.etspec.h:10
 #: ../calendar/gui/e-calendar-view.c:2276
-#: ../calendar/gui/e-meeting-list-view.c:545
+#: ../calendar/gui/e-meeting-list-view.c:562
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10
-#: ../calendar/gui/tasktypes.xml.h:21 ../mail/em-filter-i18n.h:86
+#: ../calendar/gui/tasktypes.xml.h:21 ../mail/em-filter-i18n.h:70
 #: ../mail/message-list.etspec.h:17
 msgid "Status"
 msgstr "Estado"
@@ -8306,12 +8308,12 @@ msgid "Needs Action"
 msgstr "Necesita acción"
 
 #. The extra space is just a hack to occupy more space for Attendee
-#: ../calendar/gui/e-meeting-list-view.c:491
+#: ../calendar/gui/e-meeting-list-view.c:506
 msgid "Attendee                          "
 msgstr "Participante                          "
 
 #. To translators: RSVP means "please reply"
-#: ../calendar/gui/e-meeting-list-view.c:533
+#: ../calendar/gui/e-meeting-list-view.c:550
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "Confirmar"
@@ -8993,42 +8995,42 @@ msgstr "No hay un calendario disponible para crear tareas"
 msgid "Task Source Selector"
 msgstr "Selector de origen de tareas"
 
-#: ../calendar/gui/tasks-component.c:1240
+#: ../calendar/gui/tasks-component.c:1239
 msgid "New task"
 msgstr "Tarea nueva"
 
-#: ../calendar/gui/tasks-component.c:1241
+#: ../calendar/gui/tasks-component.c:1240
 msgctxt "New"
 msgid "_Task"
 msgstr "_Tarea"
 
-#: ../calendar/gui/tasks-component.c:1242
+#: ../calendar/gui/tasks-component.c:1241
 msgid "Create a new task"
 msgstr "Crea una tarea nueva"
 
-#: ../calendar/gui/tasks-component.c:1248
+#: ../calendar/gui/tasks-component.c:1247
 msgid "New assigned task"
 msgstr "Nueva tarea asignada"
 
-#: ../calendar/gui/tasks-component.c:1249
+#: ../calendar/gui/tasks-component.c:1248
 msgctxt "New"
 msgid "Assigne_d Task"
 msgstr "Tarea _asignada"
 
-#: ../calendar/gui/tasks-component.c:1250
+#: ../calendar/gui/tasks-component.c:1249
 msgid "Create a new assigned task"
 msgstr "Crea una tarea nueva asignada"
 
-#: ../calendar/gui/tasks-component.c:1256
+#: ../calendar/gui/tasks-component.c:1255
 msgid "New task list"
 msgstr "Lista de tareas nueva"
 
-#: ../calendar/gui/tasks-component.c:1257
+#: ../calendar/gui/tasks-component.c:1256
 msgctxt "New"
 msgid "Tas_k list"
 msgstr "Lista de ta_reas"
 
-#: ../calendar/gui/tasks-component.c:1258
+#: ../calendar/gui/tasks-component.c:1257
 msgid "Create a new task list"
 msgstr "Crea una lista de tareas nueva"
 
@@ -9065,11 +9067,11 @@ msgstr "Cancelado"
 msgid "In progress"
 msgstr "En proceso"
 
-#: ../calendar/gui/tasktypes.xml.h:28 ../mail/em-filter-i18n.h:50
+#: ../calendar/gui/tasktypes.xml.h:28 ../mail/em-filter-i18n.h:34
 msgid "is greater than"
 msgstr "es mayor que"
 
-#: ../calendar/gui/tasktypes.xml.h:29 ../mail/em-filter-i18n.h:51
+#: ../calendar/gui/tasktypes.xml.h:29 ../mail/em-filter-i18n.h:35
 msgid "is less than"
 msgstr "es menor que"
 
@@ -10922,18 +10924,18 @@ msgstr "Elija las carpetas en las que publicar el mensaje."
 msgid "Click here to select folders to post to"
 msgstr "Pulse aquí para seleccionar carpetas en las que publicar"
 
-#: ../composer/e-composer-private.c:179 ../composer/e-msg-composer.c:1553
+#: ../composer/e-composer-private.c:179 ../composer/e-msg-composer.c:1554
 msgid "Show _Attachment Bar"
 msgstr "Mostrar _barra de adjuntos"
 
-#: ../composer/e-msg-composer.c:867
+#: ../composer/e-msg-composer.c:868
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "No es posible firmar el mensaje saliente: No hay establecido un certificado "
 "de firma para esta cuenta"
 
-#: ../composer/e-msg-composer.c:874
+#: ../composer/e-msg-composer.c:875
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
@@ -10941,23 +10943,23 @@ msgstr ""
 "No es posible cifrar el mensaje saliente: no hay establecido un certificado "
 "de cifrado para esta cuenta"
 
-#: ../composer/e-msg-composer.c:1495 ../mail/em-format-html-display.c:1919
-#: ../mail/em-format-html-display.c:2411 ../mail/mail-config.glade.h:45
+#: ../composer/e-msg-composer.c:1496 ../mail/em-format-html-display.c:1949
+#: ../mail/em-format-html-display.c:2596 ../mail/mail-config.glade.h:45
 #: ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgid_plural "Attachments"
 msgstr[0] "Adjunto"
 msgstr[1] "Adjuntos"
 
-#: ../composer/e-msg-composer.c:1551
+#: ../composer/e-msg-composer.c:1552
 msgid "Hide _Attachment Bar"
 msgstr "Ocultar _barra de adjuntos"
 
-#: ../composer/e-msg-composer.c:1568 ../composer/e-msg-composer.c:2770
+#: ../composer/e-msg-composer.c:1569 ../composer/e-msg-composer.c:2801
 msgid "Compose Message"
 msgstr "Redactar un mensaje"
 
-#: ../composer/e-msg-composer.c:4071
+#: ../composer/e-msg-composer.c:4102
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -11169,6 +11171,63 @@ msgstr "Componente"
 msgid "Name of the component being logged"
 msgstr "El nombre del componente que registrar"
 
+#: ../e-util/e-non-intrusive-error-dialog.c:190
+msgid "Debug Logs"
+msgstr "Depuración de sucesos"
+
+#: ../e-util/e-non-intrusive-error-dialog.c:204
+msgid "Show _errors in the status bar for"
+msgstr "Mostrar _errores en la barra de estado para"
+
+#. Translators: This is the second part of the sentence
+#. * "Show _errors in the status bar for" - XXX - "second(s)."
+#: ../e-util/e-non-intrusive-error-dialog.c:222
+msgid "second(s)."
+msgstr "segundo(s)."
+
+#: ../e-util/e-non-intrusive-error-dialog.c:228
+msgid "Log Messages:"
+msgstr "Mensajes de sucesos:"
+
+#: ../e-util/e-non-intrusive-error-dialog.c:273
+msgid "Log Level"
+msgstr "Nivel de sucesos"
+
+#: ../e-util/e-non-intrusive-error-dialog.c:281
+#: ../widgets/misc/e-dateedit.c:389
+msgid "Time"
+msgstr "Hora"
+
+#: ../e-util/e-non-intrusive-error-dialog.c:291 ../mail/message-list.c:2522
+#: ../mail/message-list.etspec.h:10
+msgid "Messages"
+msgstr "Mensajes"
+
+#: ../e-util/e-non-intrusive-error-dialog.c:300
+#: ../ui/evolution-mail-messagedisplay.xml.h:2 ../ui/evolution.xml.h:4
+msgid "Close this window"
+msgstr "Cierra esta ventana"
+
+#: ../e-util/e-non-intrusive-error-dialog.h:40
+msgid "Error"
+msgstr "Error"
+
+#: ../e-util/e-non-intrusive-error-dialog.h:40
+msgid "Errors"
+msgstr "Errores"
+
+#: ../e-util/e-non-intrusive-error-dialog.h:41
+msgid "Warnings and Errors"
+msgstr "Avisos y errores"
+
+#: ../e-util/e-non-intrusive-error-dialog.h:42
+msgid "Debug"
+msgstr "Depurar"
+
+#: ../e-util/e-non-intrusive-error-dialog.h:42
+msgid "Error, Warnings and Debug messages"
+msgstr "Mensajes de error, avisos y depuración"
+
 #: ../e-util/e-plugin.c:308 ../filter/rule-editor.c:798
 #: ../mail/em-account-prefs.c:482 ../mail/em-composer-prefs.c:966
 #: ../plugins/plugin-manager/plugin-manager.c:355
@@ -11224,51 +11283,51 @@ msgstr "¿Sobreescribir archivo?"
 msgid "_Overwrite"
 msgstr "_Sobreescribir"
 
-#: ../e-util/e-util.c:98
+#: ../e-util/e-util.c:119
 msgid "Could not display help for Evolution."
 msgstr "No se pudo mostrar la ayuda de Evolution."
 
-#: ../e-util/e-util-labels.c:37
+#: ../e-util/e-util-labels.c:39
 msgid "I_mportant"
 msgstr "_Importante"
 
 #. red
-#: ../e-util/e-util-labels.c:38
+#: ../e-util/e-util-labels.c:40
 msgid "_Work"
 msgstr "_Trabajo"
 
 #. orange
-#: ../e-util/e-util-labels.c:39
+#: ../e-util/e-util-labels.c:41
 msgid "_Personal"
 msgstr "_Privado"
 
 #. green
-#: ../e-util/e-util-labels.c:40
+#: ../e-util/e-util-labels.c:42
 msgid "_To Do"
 msgstr "_Tareas pendientes"
 
 #. blue
-#: ../e-util/e-util-labels.c:41
+#: ../e-util/e-util-labels.c:43
 msgid "_Later"
 msgstr "_Más tarde"
 
-#: ../e-util/e-util-labels.c:309
+#: ../e-util/e-util-labels.c:311
 msgid "Label _Name:"
 msgstr "_Nombre de la etiqueta:"
 
-#: ../e-util/e-util-labels.c:332
+#: ../e-util/e-util-labels.c:334
 msgid "Edit Label"
 msgstr "Editar etiqueta"
 
-#: ../e-util/e-util-labels.c:332
+#: ../e-util/e-util-labels.c:334
 msgid "Add Label"
 msgstr "Añadir etiqueta"
 
-#: ../e-util/e-util-labels.c:351
+#: ../e-util/e-util-labels.c:353
 msgid "Label name cannot be empty."
 msgstr "El nombre de la etiqueta no puede estar vacío."
 
-#: ../e-util/e-util-labels.c:356
+#: ../e-util/e-util-labels.c:358
 msgid ""
 "A label having the same tag already exists on the server. Please rename your "
 "label."
@@ -11276,12 +11335,12 @@ msgstr ""
 "Ya existe una etiqueta con el mismo nombre en el servidor. Renombre la "
 "etiqueta."
 
-#: ../e-util/gconf-bridge.c:1218
+#: ../e-util/gconf-bridge.c:1221
 #, c-format
 msgid "GConf error: %s"
 msgstr "Error de GConf: %s"
 
-#: ../e-util/gconf-bridge.c:1228
+#: ../e-util/gconf-bridge.c:1231
 msgid "All further errors shown only on terminal."
 msgstr "En adelante todos los errores sólo se mostrarán en el terminal."
 
@@ -11572,7 +11631,7 @@ msgstr "la fecha actual"
 msgid "the time you specify"
 msgstr "la fecha que especifique"
 
-#: ../filter/filter.glade.h:22 ../plugins/caldav/caldav-source.c:432
+#: ../filter/filter.glade.h:22 ../plugins/caldav/caldav-source.c:433
 #: ../plugins/calendar-http/calendar-http.c:282
 #: ../plugins/calendar-weather/calendar-weather.c:527
 #: ../plugins/google-account-setup/google-source.c:674
@@ -11766,7 +11825,7 @@ msgid "Protocol"
 msgstr "Protocolo"
 
 #: ../mail/em-composer-prefs.c:303 ../mail/em-composer-prefs.c:438
-#: ../mail/mail-config.c:1184 ../mail/mail-signature-editor.c:478
+#: ../mail/mail-config.c:1190 ../mail/mail-signature-editor.c:478
 msgid "Unnamed"
 msgstr "Sin nombre"
 
@@ -11809,64 +11868,48 @@ msgstr "-----Mensaje original-----"
 msgid "_Filter Rules"
 msgstr "Reglas de _filtrado"
 
-#.
-#. * This program is free software; you can redistribute it and/or
-#. * modify it under the terms of the GNU Lesser General Public
-#. * License as published by the Free Software Foundation; either
-#. * version 2 of the License, or (at your option) version 3.
-#. *
-#. * This program is distributed in the hope that it will be useful,
-#. * but WITHOUT ANY WARRANTY; without even the implied warranty of
-#. * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-#. * Lesser General Public License for more details.
-#. *
-#. * You should have received a copy of the GNU Lesser General Public
-#. * License along with the program; if not, see <http://www.gnu.org/licenses/>
-#. *
-#. * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
-#.
 #. Automatically generated. Do not edit.
-#: ../mail/em-filter-i18n.h:18
+#: ../mail/em-filter-i18n.h:2
 msgid "Adjust Score"
 msgstr "Ajustar puntuación"
 
-#: ../mail/em-filter-i18n.h:19
+#: ../mail/em-filter-i18n.h:3
 msgid "Assign Color"
 msgstr "Asignar color"
 
-#: ../mail/em-filter-i18n.h:20
+#: ../mail/em-filter-i18n.h:4
 msgid "Assign Score"
 msgstr "Asignar puntuación"
 
-#: ../mail/em-filter-i18n.h:22
+#: ../mail/em-filter-i18n.h:6
 msgid "BCC"
 msgstr "Cco"
 
-#: ../mail/em-filter-i18n.h:23
+#: ../mail/em-filter-i18n.h:7
 msgid "Beep"
 msgstr "Pitar"
 
-#: ../mail/em-filter-i18n.h:24
+#: ../mail/em-filter-i18n.h:8
 msgid "CC"
 msgstr "Cc"
 
-#: ../mail/em-filter-i18n.h:25
+#: ../mail/em-filter-i18n.h:9
 msgid "Completed On"
 msgstr "Completado en"
 
-#: ../mail/em-filter-i18n.h:27
+#: ../mail/em-filter-i18n.h:11
 msgid "Copy to Folder"
 msgstr "Copiar a la carpeta"
 
-#: ../mail/em-filter-i18n.h:28
+#: ../mail/em-filter-i18n.h:12
 msgid "Date received"
 msgstr "Fecha de recepción"
 
-#: ../mail/em-filter-i18n.h:29
+#: ../mail/em-filter-i18n.h:13
 msgid "Date sent"
 msgstr "Fecha de envío"
 
-#: ../mail/em-filter-i18n.h:30
+#: ../mail/em-filter-i18n.h:14
 #: ../plugins/groupwise-features/share-folder.c:768
 #: ../ui/evolution-addressbook.xml.h:15 ../ui/evolution-calendar.xml.h:5
 #: ../ui/evolution-mail-message.xml.h:25 ../ui/evolution-memos.xml.h:6
@@ -11874,202 +11917,205 @@ msgstr "Fecha de envío"
 msgid "Delete"
 msgstr "Borrar"
 
-#: ../mail/em-filter-i18n.h:31
+#: ../mail/em-filter-i18n.h:15
 msgid "Deleted"
 msgstr "Borrado"
 
-#: ../mail/em-filter-i18n.h:33
+#: ../mail/em-filter-i18n.h:17
 msgid "does not end with"
 msgstr "no acaba en"
 
-#: ../mail/em-filter-i18n.h:34
+#: ../mail/em-filter-i18n.h:18
 msgid "does not exist"
 msgstr "no existe"
 
-#: ../mail/em-filter-i18n.h:35
+#: ../mail/em-filter-i18n.h:19
 msgid "does not return"
 msgstr "no devuelve"
 
-#: ../mail/em-filter-i18n.h:36
+#: ../mail/em-filter-i18n.h:20
 msgid "does not sound like"
 msgstr "no suena como"
 
-#: ../mail/em-filter-i18n.h:37
+#: ../mail/em-filter-i18n.h:21
 msgid "does not start with"
 msgstr "no comienza por"
 
-#: ../mail/em-filter-i18n.h:39
+#: ../mail/em-filter-i18n.h:23
 msgid "Draft"
 msgstr "Borrador"
 
-#: ../mail/em-filter-i18n.h:40
+#: ../mail/em-filter-i18n.h:24
 msgid "ends with"
 msgstr "acaba en"
 
-#: ../mail/em-filter-i18n.h:42
+#: ../mail/em-filter-i18n.h:26
 msgid "exists"
 msgstr "existe"
 
-#: ../mail/em-filter-i18n.h:43
+#: ../mail/em-filter-i18n.h:27
 msgid "Expression"
 msgstr "Expresión"
 
-#: ../mail/em-filter-i18n.h:44
+#: ../mail/em-filter-i18n.h:28
 msgid "Follow Up"
 msgstr "Seguimiento"
 
-#: ../mail/em-filter-i18n.h:45 ../mail/em-migrate.c:1056
+#: ../mail/em-filter-i18n.h:29 ../mail/em-migrate.c:1056
 msgid "Important"
 msgstr "Importante"
 
-#: ../mail/em-filter-i18n.h:47
+#: ../mail/em-filter-i18n.h:31
 msgid "is after"
 msgstr "es posterior a"
 
-#: ../mail/em-filter-i18n.h:48
+#: ../mail/em-filter-i18n.h:32
 msgid "is before"
 msgstr "es anterior a"
 
-#: ../mail/em-filter-i18n.h:49
+#: ../mail/em-filter-i18n.h:33
 msgid "is Flagged"
 msgstr "está marcado"
 
-#: ../mail/em-filter-i18n.h:53
+#: ../mail/em-filter-i18n.h:37
 msgid "is not Flagged"
 msgstr "no está marcado"
 
-#: ../mail/em-filter-i18n.h:54
+#: ../mail/em-filter-i18n.h:38
 msgid "is not set"
 msgstr "no está establecida"
 
-#: ../mail/em-filter-i18n.h:55
+#: ../mail/em-filter-i18n.h:39
 msgid "is set"
 msgstr "está establecida"
 
-#: ../mail/em-filter-i18n.h:56 ../mail/mail-config.glade.h:98
+#: ../mail/em-filter-i18n.h:40 ../mail/mail-config.glade.h:98
 #: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
 msgstr "SPAM"
 
-#: ../mail/em-filter-i18n.h:57
+#: ../mail/em-filter-i18n.h:41
 msgid "Junk Test"
 msgstr "Detección de SPAM"
 
-#: ../mail/em-filter-i18n.h:58 ../widgets/misc/e-expander.c:190
+#: ../mail/em-filter-i18n.h:42 ../widgets/misc/e-expander.c:190
 msgid "Label"
 msgstr "Etiqueta"
 
-#: ../mail/em-filter-i18n.h:59
+#: ../mail/em-filter-i18n.h:43
 msgid "Mailing list"
 msgstr "Lista de correo"
 
-#: ../mail/em-filter-i18n.h:60
+#: ../mail/em-filter-i18n.h:44
 msgid "Match All"
 msgstr "Coincidir con todo"
 
-#: ../mail/em-filter-i18n.h:61
+#: ../mail/em-filter-i18n.h:45
 msgid "Message Body"
 msgstr "Cuerpo del mensaje"
 
-#: ../mail/em-filter-i18n.h:62
+#: ../mail/em-filter-i18n.h:46
 msgid "Message Header"
 msgstr "Cabecera del mensaje"
 
-#: ../mail/em-filter-i18n.h:63
+#: ../mail/em-filter-i18n.h:47
 msgid "Message is Junk"
 msgstr "El mensaje es SPAM"
 
-#: ../mail/em-filter-i18n.h:64
+#: ../mail/em-filter-i18n.h:48
 msgid "Message is not Junk"
 msgstr "El mensaje no es SPAM"
 
-#: ../mail/em-filter-i18n.h:65
+#: ../mail/em-filter-i18n.h:49
 msgid "Move to Folder"
 msgstr "Mover a la carpeta"
 
-#: ../mail/em-filter-i18n.h:66
+#: ../mail/em-filter-i18n.h:50
 msgid "Pipe to Program"
 msgstr "Encauzar al programa"
 
-#: ../mail/em-filter-i18n.h:67
+#: ../mail/em-filter-i18n.h:51
 msgid "Play Sound"
 msgstr "Reproducir un sonido"
 
-#. Translators: "Read" as in "has been read" (em-filter-i18n.h)
 #. Translators: "Read" as in "has been read" (message-tag-followup.c)
-#: ../mail/em-filter-i18n.h:69 ../mail/message-tag-followup.c:63
+#: ../mail/em-filter-i18n.h:52 ../mail/message-tag-followup.c:63
 msgid "Read"
 msgstr "Leído"
 
-#: ../mail/em-filter-i18n.h:70 ../mail/message-list.etspec.h:12
+#: ../mail/em-filter-i18n.h:53 ../mail/message-list.etspec.h:12
 msgid "Recipients"
 msgstr "Destinatarios"
 
-#: ../mail/em-filter-i18n.h:71
+#: ../mail/em-filter-i18n.h:54
 msgid "Regex Match"
 msgstr "Coincide con la expresión regular"
 
-#: ../mail/em-filter-i18n.h:72
+#: ../mail/em-filter-i18n.h:55
 msgid "Replied to"
 msgstr "Respondió a"
 
-#: ../mail/em-filter-i18n.h:73
+#: ../mail/em-filter-i18n.h:56
 msgid "returns"
 msgstr "devuelve"
 
-#: ../mail/em-filter-i18n.h:74
+#: ../mail/em-filter-i18n.h:57
 msgid "returns greater than"
 msgstr "devuelve mayor que"
 
-#: ../mail/em-filter-i18n.h:75
+#: ../mail/em-filter-i18n.h:58
 msgid "returns less than"
 msgstr "devuelve menor que"
 
-#: ../mail/em-filter-i18n.h:76
+#: ../mail/em-filter-i18n.h:59
 msgid "Run Program"
 msgstr "Ejecutar programa"
 
-#: ../mail/em-filter-i18n.h:77 ../mail/message-list.etspec.h:13
+#: ../mail/em-filter-i18n.h:60 ../mail/message-list.etspec.h:13
 msgid "Score"
 msgstr "Puntuación"
 
-#: ../mail/em-filter-i18n.h:78 ../mail/message-list.etspec.h:14
+#: ../mail/em-filter-i18n.h:61 ../mail/message-list.etspec.h:14
 msgid "Sender"
 msgstr "Remitente"
 
-#: ../mail/em-filter-i18n.h:79
+#: ../mail/em-filter-i18n.h:62
+msgid "Sender or Recipients"
+msgstr "Remitente o destinatarios"
+
+#: ../mail/em-filter-i18n.h:63
 msgid "Set Label"
 msgstr "Establecer etiqueta"
 
-#: ../mail/em-filter-i18n.h:80
+#: ../mail/em-filter-i18n.h:64
 msgid "Set Status"
 msgstr "Poner estado"
 
-#: ../mail/em-filter-i18n.h:81
+#: ../mail/em-filter-i18n.h:65
 msgid "Size (kB)"
 msgstr "Tamaño (Kib)"
 
-#: ../mail/em-filter-i18n.h:82
+#: ../mail/em-filter-i18n.h:66
 msgid "sounds like"
 msgstr "suena como"
 
-#: ../mail/em-filter-i18n.h:83
+#: ../mail/em-filter-i18n.h:67
 msgid "Source Account"
 msgstr "Cuenta de origen"
 
-#: ../mail/em-filter-i18n.h:84
+#: ../mail/em-filter-i18n.h:68
 msgid "Specific header"
 msgstr "Cabecera específica"
 
-#: ../mail/em-filter-i18n.h:85
+#: ../mail/em-filter-i18n.h:69
 msgid "starts with"
 msgstr "comienza por"
 
-#: ../mail/em-filter-i18n.h:87
+#: ../mail/em-filter-i18n.h:71
 msgid "Stop Processing"
 msgstr "Parar de procesar"
 
-#: ../mail/em-filter-i18n.h:88 ../mail/em-format-quote.c:342
+#: ../mail/em-filter-i18n.h:72 ../mail/em-format-quote.c:342
 #: ../mail/em-format.c:889 ../mail/em-mailer-prefs.c:80
 #: ../mail/message-list.etspec.h:18 ../mail/message-tag-followup.c:312
 #: ../plugins/groupwise-features/properties.glade.h:7
@@ -12077,7 +12123,7 @@ msgstr "Parar de procesar"
 msgid "Subject"
 msgstr "Asunto"
 
-#: ../mail/em-filter-i18n.h:89
+#: ../mail/em-filter-i18n.h:73
 msgid "Unset Status"
 msgstr "Quitar estado"
 
@@ -12164,15 +12210,15 @@ msgid "Quota usage"
 msgstr "Uso de cuota"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-properties.c:358 ../mail/em-folder-tree-model.c:507
-#: ../mail/em-folder-tree.c:2561 ../mail/mail-component.c:164
+#: ../mail/em-folder-properties.c:359 ../mail/em-folder-tree-model.c:509
+#: ../mail/em-folder-tree.c:2597 ../mail/mail-component.c:164
 #: ../mail/mail-component.c:585
 #: ../plugins/exchange-operations/exchange-delegates-user.c:78
 #: ../plugins/exchange-operations/exchange-folder.c:594
 msgid "Inbox"
 msgstr "Bandeja de entrada"
 
-#: ../mail/em-folder-properties.c:389
+#: ../mail/em-folder-properties.c:390
 #: ../plugins/groupwise-features/properties.glade.h:4
 msgid "Folder Properties"
 msgstr "Propiedades de la carpeta"
@@ -12204,15 +12250,20 @@ msgstr "NO COINCIDENTE"
 msgid "Drafts"
 msgstr "Borradores"
 
-#: ../mail/em-folder-tree-model.c:510 ../mail/mail-component.c:166
+#: ../mail/em-folder-tree-model.c:506 ../mail/mail-component.c:168
+#: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
+msgid "Templates"
+msgstr "Plantillas"
+
+#: ../mail/em-folder-tree-model.c:512 ../mail/mail-component.c:166
 msgid "Outbox"
 msgstr "Bandeja de salida"
 
-#: ../mail/em-folder-tree-model.c:512 ../mail/mail-component.c:167
+#: ../mail/em-folder-tree-model.c:514 ../mail/mail-component.c:167
 msgid "Sent"
 msgstr "Correo enviado"
 
-#: ../mail/em-folder-tree-model.c:534 ../mail/em-folder-tree-model.c:841
+#: ../mail/em-folder-tree-model.c:536 ../mail/em-folder-tree-model.c:843
 msgid "Loading..."
 msgstr "Cargando…"
 
@@ -12251,12 +12302,12 @@ msgstr "Moviendo la carpeta %s"
 msgid "Copying folder %s"
 msgstr "Copiando la carpeta %s"
 
-#: ../mail/em-folder-tree.c:909 ../mail/message-list.c:2015
+#: ../mail/em-folder-tree.c:909 ../mail/message-list.c:2013
 #, c-format
 msgid "Moving messages into folder %s"
 msgstr "Moviendo los mensajes a la carpeta %s"
 
-#: ../mail/em-folder-tree.c:911 ../mail/message-list.c:2017
+#: ../mail/em-folder-tree.c:911 ../mail/message-list.c:2015
 #, c-format
 msgid "Copying messages into folder %s"
 msgstr "Copiando los mensajes a la carpeta %s"
@@ -12278,30 +12329,34 @@ msgstr "_Mover a la carpeta"
 msgid "Scanning folders in \"%s\""
 msgstr "Analizando carpetas en «%s»"
 
-#: ../mail/em-folder-tree.c:2100
+#: ../mail/em-folder-tree.c:2117
 msgid "Open in _New Window"
 msgstr "Abrir en una ventana _nueva"
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2105
+#: ../mail/em-folder-tree.c:2122
 msgid "_New Folder..."
 msgstr "Carpeta _nueva…"
 
-#: ../mail/em-folder-tree.c:2108
+#: ../mail/em-folder-tree.c:2125
 msgid "_Move..."
 msgstr "_Mover…"
 
-#: ../mail/em-folder-tree.c:2116 ../ui/evolution-mail-list.xml.h:21
+#: ../mail/em-folder-tree.c:2133 ../ui/evolution-mail-list.xml.h:21
 msgid "Re_fresh"
 msgstr "A_ctualizar"
 
-#: ../mail/em-folder-tree.c:2117
+#: ../mail/em-folder-tree.c:2134
 msgid "Fl_ush Outbox"
 msgstr "Enviar correos pe_ndientes"
 
-#: ../mail/em-folder-tree.c:2123 ../mail/mail.error.xml.h:138
+#: ../mail/em-folder-tree.c:2140 ../mail/mail.error.xml.h:138
 msgid "_Empty Trash"
 msgstr "_Vaciar papelera"
+
+#: ../mail/em-folder-tree.c:2243
+msgid "_Unread Search Folder"
+msgstr "Carpeta de búsqueda de _no leídos"
 
 #: ../mail/em-folder-utils.c:101
 #, c-format
@@ -12507,33 +12562,33 @@ msgid "Click to hide/unhide addresses"
 msgstr "Pulse para ocultar/mostrar las direcciones"
 
 #. message-search popup match count string
-#: ../mail/em-format-html-display.c:471
+#: ../mail/em-format-html-display.c:474
 #, c-format
 msgid "Matches: %d"
 msgstr "Coincide con: %d"
 
-#: ../mail/em-format-html-display.c:615
+#: ../mail/em-format-html-display.c:618
 msgid "Fin_d:"
 msgstr "_Buscar:"
 
 #. gtk_box_pack_start ((GtkBox *)(hbox2), p->search_entry_box, TRUE, TRUE, 5);
-#: ../mail/em-format-html-display.c:639
+#: ../mail/em-format-html-display.c:642
 msgid "_Previous"
 msgstr "_Anterior"
 
-#: ../mail/em-format-html-display.c:644
+#: ../mail/em-format-html-display.c:647
 msgid "_Next"
 msgstr "_Siguiente"
 
-#: ../mail/em-format-html-display.c:649
+#: ../mail/em-format-html-display.c:652
 msgid "M_atch case"
 msgstr "_Coincidir con capitalización"
 
-#: ../mail/em-format-html-display.c:948 ../mail/em-format-html.c:650
+#: ../mail/em-format-html-display.c:951 ../mail/em-format-html.c:650
 msgid "Unsigned"
 msgstr "No firmado"
 
-#: ../mail/em-format-html-display.c:948
+#: ../mail/em-format-html-display.c:951
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
@@ -12541,11 +12596,11 @@ msgstr ""
 "Este mensaje no está firmado. No hay garantía de que el mensaje sea "
 "auténtico."
 
-#: ../mail/em-format-html-display.c:949 ../mail/em-format-html.c:651
+#: ../mail/em-format-html-display.c:952 ../mail/em-format-html.c:651
 msgid "Valid signature"
 msgstr "Firma válida"
 
-#: ../mail/em-format-html-display.c:949
+#: ../mail/em-format-html-display.c:952
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
@@ -12553,11 +12608,11 @@ msgstr ""
 "Este mensaje está firmado y es válido, lo que significa que es muy probable "
 "que el mensaje sea auténtico."
 
-#: ../mail/em-format-html-display.c:950 ../mail/em-format-html.c:652
+#: ../mail/em-format-html-display.c:953 ../mail/em-format-html.c:652
 msgid "Invalid signature"
 msgstr "Firma no válida"
 
-#: ../mail/em-format-html-display.c:950
+#: ../mail/em-format-html-display.c:953
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
@@ -12565,11 +12620,11 @@ msgstr ""
 "La firma de este mensaje no se puede verificar, pudo haber sido alterada en "
 "tránsito."
 
-#: ../mail/em-format-html-display.c:951 ../mail/em-format-html.c:653
+#: ../mail/em-format-html-display.c:954 ../mail/em-format-html.c:653
 msgid "Valid signature, but cannot verify sender"
 msgstr "Firma válida, pero no se puede verificar el remitente"
 
-#: ../mail/em-format-html-display.c:951
+#: ../mail/em-format-html-display.c:954
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
@@ -12577,11 +12632,11 @@ msgstr ""
 "Este mensaje está firmado con una firma válida, pero el remitente del "
 "mensaje no se pudo verificar."
 
-#: ../mail/em-format-html-display.c:952 ../mail/em-format-html.c:654
+#: ../mail/em-format-html-display.c:955 ../mail/em-format-html.c:654
 msgid "Signature exists, but need public key"
 msgstr "La firma existe pero se necesita la clave pública"
 
-#: ../mail/em-format-html-display.c:952
+#: ../mail/em-format-html-display.c:955
 msgid ""
 "This message is signed with a signature, but there is no corresponding "
 "public key."
@@ -12589,11 +12644,11 @@ msgstr ""
 "Este mensaje está firmado con una firma pero no existe una clave pública "
 "correspondiente."
 
-#: ../mail/em-format-html-display.c:959 ../mail/em-format-html.c:660
+#: ../mail/em-format-html-display.c:962 ../mail/em-format-html.c:660
 msgid "Unencrypted"
 msgstr "Descifrado"
 
-#: ../mail/em-format-html-display.c:959
+#: ../mail/em-format-html-display.c:962
 msgid ""
 "This message is not encrypted. Its content may be viewed in transit across "
 "the Internet."
@@ -12601,11 +12656,11 @@ msgstr ""
 "Este mensaje no está cifrado. Su contenido puede verse en tránsito a través "
 "de Internet."
 
-#: ../mail/em-format-html-display.c:960 ../mail/em-format-html.c:661
+#: ../mail/em-format-html-display.c:963 ../mail/em-format-html.c:661
 msgid "Encrypted, weak"
 msgstr "Cifrado, débil"
 
-#: ../mail/em-format-html-display.c:960
+#: ../mail/em-format-html-display.c:963
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm. It would be "
 "difficult, but not impossible for an outsider to view the content of this "
@@ -12615,11 +12670,11 @@ msgstr ""
 "ser difícil, pero no imposible para un espía ver el contenido de este "
 "mensaje empleando algo de tiempo."
 
-#: ../mail/em-format-html-display.c:961 ../mail/em-format-html.c:662
+#: ../mail/em-format-html-display.c:964 ../mail/em-format-html.c:662
 msgid "Encrypted"
 msgstr "Cifrado"
 
-#: ../mail/em-format-html-display.c:961
+#: ../mail/em-format-html-display.c:964
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
@@ -12627,11 +12682,11 @@ msgstr ""
 "Este mensaje está cifrado. Sería difícil para un espía ver el contenido de "
 "este mensaje."
 
-#: ../mail/em-format-html-display.c:962 ../mail/em-format-html.c:663
+#: ../mail/em-format-html-display.c:965 ../mail/em-format-html.c:663
 msgid "Encrypted, strong"
 msgstr "Cifrado, fuerte"
 
-#: ../mail/em-format-html-display.c:962
+#: ../mail/em-format-html-display.c:965
 msgid ""
 "This message is encrypted, with a strong encryption algorithm. It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -12641,87 +12696,87 @@ msgstr ""
 "difícil que un espía vea el contenido de este mensaje en empleando un tiempo "
 "razonable."
 
-#: ../mail/em-format-html-display.c:1063 ../smime/gui/smime-ui.glade.h:48
+#: ../mail/em-format-html-display.c:1066 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
 msgstr "_Ver certificado"
 
-#: ../mail/em-format-html-display.c:1078
+#: ../mail/em-format-html-display.c:1081
 msgid "This certificate is not viewable"
 msgstr "Certificado no es visible"
 
-#: ../mail/em-format-html-display.c:1377
+#: ../mail/em-format-html-display.c:1407
 msgid "Completed on %B %d, %Y, %l:%M %p"
 msgstr "Terminado el %e de %B de %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1385
+#: ../mail/em-format-html-display.c:1415
 msgid "Overdue:"
 msgstr "Atrasado:"
 
-#: ../mail/em-format-html-display.c:1388
+#: ../mail/em-format-html-display.c:1418
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "antes del %e de %B de %Y, %l:%M %p"
 
-#: ../mail/em-format-html-display.c:1466
+#: ../mail/em-format-html-display.c:1496
 msgid "_View Inline"
 msgstr "_Ver incluido"
 
-#: ../mail/em-format-html-display.c:1467
+#: ../mail/em-format-html-display.c:1497
 msgid "_Hide"
 msgstr "_Ocultar"
 
-#: ../mail/em-format-html-display.c:1468
+#: ../mail/em-format-html-display.c:1498
 msgid "_Fit to Width"
 msgstr "_Ajustar al ancho"
 
-#: ../mail/em-format-html-display.c:1469
+#: ../mail/em-format-html-display.c:1499
 msgid "Show _Original Size"
 msgstr "Mostrar tamaño _original"
 
-#: ../mail/em-format-html-display.c:1989
+#: ../mail/em-format-html-display.c:2168
 msgid "Save attachment as"
 msgstr "Guarda los adjuntos como"
 
-#: ../mail/em-format-html-display.c:1993
+#: ../mail/em-format-html-display.c:2172
 msgid "Select folder to save all attachments"
 msgstr "Seleccione la carpeta donde guardar todos los adjuntos"
 
-#: ../mail/em-format-html-display.c:2044
+#: ../mail/em-format-html-display.c:2223
 msgid "_Save Selected..."
 msgstr "_Guardar seleccionados…"
 
 #. Cant i put in the number of attachments here ?
-#: ../mail/em-format-html-display.c:2111
+#: ../mail/em-format-html-display.c:2290
 #, c-format
 msgid "%d at_tachment"
 msgid_plural "%d at_tachments"
 msgstr[0] "%d a_djunto"
 msgstr[1] "%d a_djuntos"
 
-#: ../mail/em-format-html-display.c:2118 ../mail/em-format-html-display.c:2207
+#: ../mail/em-format-html-display.c:2297 ../mail/em-format-html-display.c:2386
 msgid "S_ave"
 msgstr "_Guardar"
 
-#: ../mail/em-format-html-display.c:2129
+#: ../mail/em-format-html-display.c:2308
 msgid "S_ave All"
 msgstr "Guardar _todo"
 
-#: ../mail/em-format-html-display.c:2203
+#: ../mail/em-format-html-display.c:2382
 msgid "No Attachment"
 msgstr "Sin adjunto"
 
-#: ../mail/em-format-html-display.c:2344 ../mail/em-format-html-display.c:2383
+#: ../mail/em-format-html-display.c:2529 ../mail/em-format-html-display.c:2568
 msgid "View _Unformatted"
 msgstr "Ver _sin formato"
 
-#: ../mail/em-format-html-display.c:2346
+#: ../mail/em-format-html-display.c:2531
 msgid "Hide _Unformatted"
 msgstr "Ocultar _sin formato"
 
-#: ../mail/em-format-html-display.c:2403
+#: ../mail/em-format-html-display.c:2588
 msgid "O_pen With"
 msgstr "Abrir _con"
 
-#: ../mail/em-format-html-display.c:2479
+#: ../mail/em-format-html-display.c:2664
 msgid ""
 "Evolution cannot render this email as it is too large to process. You can "
 "view it unformatted or with an external text editor."
@@ -12879,11 +12934,11 @@ msgstr "Error al verificar la firma"
 msgid "Unknown error verifying signature"
 msgstr "Error desconocido al verificar la firma"
 
-#: ../mail/em-format.c:1663
+#: ../mail/em-format.c:1665
 msgid "Could not parse PGP message"
 msgstr "No es posible interpretar el mensaje PGP"
 
-#: ../mail/em-format.c:1663
+#: ../mail/em-format.c:1665
 msgid "Could not parse PGP message: Unknown error"
 msgstr "No es posible interpretar el mensaje PGP: Error desconocido"
 
@@ -14083,11 +14138,6 @@ msgstr "Lista de correo %s"
 msgid "Add Filter Rule"
 msgstr "Añadir regla de filtrado"
 
-#: ../mail/mail-component.c:168
-#: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
-msgid "Templates"
-msgstr "Plantillas"
-
 #: ../mail/mail-component.c:550
 #, c-format
 msgid "%d selected, "
@@ -14754,7 +14804,7 @@ msgstr "_Usuario:"
 msgid "Use Authe_ntication"
 msgstr "Usar aute_nticación"
 
-#: ../mail/mail-config.glade.h:159 ../plugins/caldav/caldav-source.c:386
+#: ../mail/mail-config.glade.h:159 ../plugins/caldav/caldav-source.c:387
 #: ../plugins/google-account-setup/google-source.c:634
 #: ../plugins/google-account-setup/google-contacts-source.c:288
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:323
@@ -15041,11 +15091,11 @@ msgstr "Enviando mensaje %d de %d"
 msgid "Failed to send %d of %d messages"
 msgstr "Falló al enviar %d de %d mensajes"
 
-#: ../mail/mail-ops.c:764 ../mail/mail-send-recv.c:698
+#: ../mail/mail-ops.c:764 ../mail/mail-send-recv.c:700
 msgid "Canceled."
 msgstr "Cancelado."
 
-#: ../mail/mail-ops.c:766 ../mail/mail-send-recv.c:700
+#: ../mail/mail-ops.c:766 ../mail/mail-send-recv.c:702
 msgid "Complete."
 msgstr "Completado."
 
@@ -15196,15 +15246,15 @@ msgstr "Enviar y recibir correo"
 msgid "Cancel _All"
 msgstr "Cancelar _todo"
 
-#: ../mail/mail-send-recv.c:502
+#: ../mail/mail-send-recv.c:503
 msgid "Updating..."
 msgstr "Actualizando…"
 
-#: ../mail/mail-send-recv.c:502 ../mail/mail-send-recv.c:578
+#: ../mail/mail-send-recv.c:503 ../mail/mail-send-recv.c:580
 msgid "Waiting..."
 msgstr "Esperando…"
 
-#: ../mail/mail-send-recv.c:804
+#: ../mail/mail-send-recv.c:806
 #, c-format
 msgid "Checking for new mail"
 msgstr "Comprobando correo nuevo"
@@ -15909,83 +15959,79 @@ msgstr "C_ompactar"
 msgid "_Open Messages"
 msgstr "_Abrir mensajes"
 
-#: ../mail/message-list.c:1053
+#: ../mail/message-list.c:1051
 msgid "Unseen"
 msgstr "Sin leer"
 
-#: ../mail/message-list.c:1054
+#: ../mail/message-list.c:1052
 msgid "Seen"
 msgstr "Visto"
 
-#: ../mail/message-list.c:1055
+#: ../mail/message-list.c:1053
 msgid "Answered"
 msgstr "Contestado"
 
-#: ../mail/message-list.c:1056
+#: ../mail/message-list.c:1054
 msgid "Forwarded"
 msgstr "Reenviado"
 
-#: ../mail/message-list.c:1057
+#: ../mail/message-list.c:1055
 msgid "Multiple Unseen Messages"
 msgstr "Múltiples mensajes sin leer"
 
-#: ../mail/message-list.c:1058
+#: ../mail/message-list.c:1056
 msgid "Multiple Messages"
 msgstr "Múltiples mensajes"
 
-#: ../mail/message-list.c:1062
+#: ../mail/message-list.c:1060
 msgid "Lowest"
 msgstr "La más baja"
 
-#: ../mail/message-list.c:1063
+#: ../mail/message-list.c:1061
 msgid "Lower"
 msgstr "Más baja"
 
-#: ../mail/message-list.c:1067
+#: ../mail/message-list.c:1065
 msgid "Higher"
 msgstr "Más alta"
 
-#: ../mail/message-list.c:1068
+#: ../mail/message-list.c:1066
 msgid "Highest"
 msgstr "La más alta"
 
-#: ../mail/message-list.c:1657 ../widgets/table/e-cell-date.c:55
+#: ../mail/message-list.c:1655 ../widgets/table/e-cell-date.c:55
 msgid "?"
 msgstr "?"
 
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
-#: ../mail/message-list.c:1664 ../plugins/itip-formatter/itip-view.c:203
+#: ../mail/message-list.c:1662 ../plugins/itip-formatter/itip-view.c:203
 #: ../widgets/table/e-cell-date.c:70
 msgid "Today %l:%M %p"
 msgstr "Hoy %l:%M %p"
 
-#: ../mail/message-list.c:1673 ../widgets/table/e-cell-date.c:80
+#: ../mail/message-list.c:1671 ../widgets/table/e-cell-date.c:80
 msgid "Yesterday %l:%M %p"
 msgstr "Ayer %l:%M %p"
 
-#: ../mail/message-list.c:1685 ../widgets/table/e-cell-date.c:92
+#: ../mail/message-list.c:1683 ../widgets/table/e-cell-date.c:92
 msgid "%a %l:%M %p"
 msgstr "%a %l:%M %p"
 
-#: ../mail/message-list.c:1693 ../widgets/table/e-cell-date.c:100
+#: ../mail/message-list.c:1691 ../widgets/table/e-cell-date.c:100
 msgid "%b %d %l:%M %p"
 msgstr "%b %e %l:%M %p"
 
-#: ../mail/message-list.c:1695 ../widgets/table/e-cell-date.c:102
+#: ../mail/message-list.c:1693 ../widgets/table/e-cell-date.c:102
 msgid "%b %d %Y"
 msgstr "%e %b %Y"
 
-#: ../mail/message-list.c:2519 ../mail/message-list.etspec.h:10
-msgid "Messages"
-msgstr "Mensajes"
-
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:3981 ../mail/message-list.c:4452
+#: ../mail/message-list.c:3984 ../mail/message-list.c:4449
 msgid "Generating message list"
 msgstr "Generando la lista de mensajes"
 
-#: ../mail/message-list.c:4291
+#: ../mail/message-list.c:4288
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -15993,7 +16039,7 @@ msgstr ""
 "Ningún mensaje satisface su criterio de búsqueda. Limpie el criterio de "
 "selección con el elemento del menú Buscar->Limpiar o cámbielo."
 
-#: ../mail/message-list.c:4293
+#: ../mail/message-list.c:4290
 msgid "There are no messages in this folder."
 msgstr "No hay mensajes en esta carpeta."
 
@@ -16439,27 +16485,27 @@ msgid "BBDB"
 msgstr "BBDB"
 
 #. For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself.
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:119
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:155
 #, c-format
 msgid "Error occurred while spawning %s: %s."
 msgstr "Ocurrió un error al crear %s: %s."
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:143
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:179
 #, c-format
 msgid "Bogofilter child process does not respond, killing..."
 msgstr "El proceso hijo de Bogofilter no está respondiendo, matándolo…"
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:145
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:181
 #, c-format
 msgid "Wait for Bogofilter child process interrupted, terminating..."
 msgstr "Espere a que el proceso hijo de Bogofilter se interrumpa, terminando…"
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:157
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:200
 #, c-format
 msgid "Pipe to Bogofilter failed, error code: %d."
 msgstr "Falló la tubería hacia Bogofilter, código de error: %d"
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:318
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:363
 msgid "Convert message text to _Unicode"
 msgstr "Convertir el texto del correo a _Unicode"
 
@@ -16492,19 +16538,19 @@ msgstr "Filtra mensajes SPAM usando Bogofilter."
 msgid "CalDAV"
 msgstr "CalDAV"
 
-#: ../plugins/caldav/caldav-source.c:347
+#: ../plugins/caldav/caldav-source.c:348
 #: ../plugins/calendar-http/calendar-http.c:126
 msgid "_URL:"
 msgstr "_URL:"
 
-#: ../plugins/caldav/caldav-source.c:371
+#: ../plugins/caldav/caldav-source.c:372
 #: ../plugins/google-account-setup/google-source.c:627
 #: ../plugins/google-account-setup/google-contacts-source.c:311
 msgid "Use _SSL"
 msgstr "Usar _SSL"
 
 #. add refresh option
-#: ../plugins/caldav/caldav-source.c:414
+#: ../plugins/caldav/caldav-source.c:415
 #: ../plugins/calendar-http/calendar-http.c:264
 #: ../plugins/calendar-weather/calendar-weather.c:509
 #: ../plugins/google-account-setup/google-source.c:651
@@ -22345,10 +22391,6 @@ msgstr "_Ampliar"
 msgid "Close"
 msgstr "Cerrar"
 
-#: ../ui/evolution-mail-messagedisplay.xml.h:2 ../ui/evolution.xml.h:4
-msgid "Close this window"
-msgstr "Cierra esta ventana"
-
 #: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:18
 msgid "Main toolbar"
 msgstr "Barra de herramientas principal"
@@ -22842,7 +22884,7 @@ msgstr "Tipo de vista"
 msgid "Type of view:"
 msgstr "Tipo de vista:"
 
-#: ../widgets/misc/e-attachment-bar.c:1137
+#: ../widgets/misc/e-attachment-bar.c:1138
 msgid "Attachment Bar"
 msgstr "Barra de adjuntos"
 
@@ -23065,10 +23107,6 @@ msgstr "Pulse este botón para mostrar un calendario"
 #: ../widgets/misc/e-dateedit.c:388
 msgid "Drop-down combination box to select time"
 msgstr "Caja combo desplegable para seleccionar la hora"
-
-#: ../widgets/misc/e-dateedit.c:389
-msgid "Time"
-msgstr "Hora"
 
 #: ../widgets/misc/e-dateedit.c:464
 msgid "No_w"
@@ -24021,36 +24059,6 @@ msgstr "Tirador emergente"
 
 #~ msgid "A_dd Filter Criteria"
 #~ msgstr "_Añadir regla de filtrado"
-
-#~ msgid "Error"
-#~ msgstr "Error"
-
-#~ msgid "Errors"
-#~ msgstr "Errores"
-
-#~ msgid "Warnings and Errors"
-#~ msgstr "Avisos y errores"
-
-#~ msgid "Debug"
-#~ msgstr "Depurar"
-
-#~ msgid "Error, Warnings and Debug messages"
-#~ msgstr "Mensajes de error, avisos y depuración"
-
-#~ msgid "Debug Logs"
-#~ msgstr "Depuración de sucesos"
-
-#~ msgid "Show _errors in the status bar for"
-#~ msgstr "Mostrar _errores en la barra de estado para"
-
-#~ msgid "second(s)."
-#~ msgstr "segundo(s)."
-
-#~ msgid "Log Messages:"
-#~ msgstr "Mensajes de sucesos:"
-
-#~ msgid "Log Level"
-#~ msgstr "Nivel de sucesos"
 
 #~ msgid "Please enter user name first."
 #~ msgstr "Introduzca el nombre de usuario primero."
