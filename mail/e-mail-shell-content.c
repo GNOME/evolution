@@ -450,7 +450,12 @@ e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content
 	view_collection = shell_view_class->view_collection;
 
 	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
-	g_return_if_fail (folder_view->folder != NULL);
+
+	/* If no folder is selected, return silently. */
+	if (folder_view->folder == NULL)
+		return;
+
+	/* If we have a folder, we should also have a URI. */
 	g_return_if_fail (folder_view->folder_uri != NULL);
 
 	if (mail_shell_content->priv->view_instance != NULL) {

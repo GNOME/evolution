@@ -25,12 +25,15 @@
 #include "e-mail-shell-view.h"
 
 #include <glib/gi18n.h>
+#include <camel/camel-vtrash-folder.h>
 
 #include "e-util/gconf-bridge.h"
-
 #include "widgets/menus/gal-view-instance.h"
 
+#include "em-utils.h"
+
 #include "e-mail-shell-content.h"
+#include "e-mail-shell-module.h"
 #include "e-mail-shell-sidebar.h"
 #include "e-mail-shell-view-actions.h"
 
@@ -119,6 +122,8 @@ void		e_mail_shell_view_private_finalize
 /* Private Utilities */
 
 void		e_mail_shell_view_actions_init
+					(EMailShellView *mail_shell_view);
+void		e_mail_shell_view_update_sidebar
 					(EMailShellView *mail_shell_view);
 
 G_END_DECLS

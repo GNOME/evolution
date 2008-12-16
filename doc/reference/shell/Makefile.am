@@ -106,7 +106,6 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/filter/.libs/filter-file.o			\
 	$(top_builddir)/filter/.libs/filter-input.o			\
 	$(top_builddir)/filter/.libs/filter-int.o			\
-	$(top_builddir)/filter/.libs/filter-label.o			\
 	$(top_builddir)/filter/.libs/filter-option.o			\
 	$(top_builddir)/filter/.libs/filter-part.o			\
 	$(top_builddir)/filter/.libs/filter-rule.o			\

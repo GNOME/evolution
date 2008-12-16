@@ -110,6 +110,11 @@ static MailAsyncEvent *async_event;
 static EMFolderTreeModel *folder_tree_model;
 static CamelStore *local_store;
 
+static gint mail_sync_in_progress;
+static guint mail_sync_timeout_source_id;
+
+extern gint camel_application_is_exiting;
+
 G_LOCK_DEFINE_STATIC (local_store);
 
 static StoreInfo *
@@ -465,6 +470,44 @@ mail_shell_module_init_preferences (EShell *shell)
 }
 
 static void
+mail_shell_module_sync_store_done_cb (CamelStore *store,
+                                      gpointer user_data)
+{
+	mail_sync_in_progress--;
+}
+
+static void
+mail_shell_module_sync_store_cb (CamelStore *store)
+{
+	if (!camel_application_is_exiting) {
+		mail_sync_in_progress++;
+		mail_sync_store (
+			store, FALSE,
+			mail_shell_module_sync_store_done_cb, NULL);
+	}
+}
+
+static gboolean
+mail_shell_module_mail_sync (EShellModule *shell_module)
+{
+	if (camel_application_is_exiting)
+		return FALSE;
+
+	if (mail_sync_in_progress)
+		goto exit;
+
+	if (session == NULL || !camel_session_is_online (session))
+		goto exit;
+
+	e_mail_shell_module_stores_foreach (
+		shell_module, (GHFunc)
+		mail_shell_module_sync_store_cb, NULL);
+
+exit:
+	return !camel_application_is_exiting;
+}
+
+static void
 mail_shell_module_notify_online_mode_cb (EShell *shell,
                                          GParamSpec *pspec,
                                          EShellModule *shell_module)
@@ -693,6 +736,14 @@ e_shell_module_init (GTypeModule *type_module)
 		&enable_search_folders, NULL);
 	if (enable_search_folders)
 		vfolder_load_storage ();
+
+	mail_autoreceive_init (session);
+
+	if (g_getenv ("CAMEL_FLUSH_CHANGES") != NULL)
+		mail_sync_timeout_source_id = g_timeout_add_seconds (
+			mail_config_get_sync_timeout (),
+			(GSourceFunc) mail_shell_module_mail_sync,
+			shell_module);
 }
 
 /******************************** Public API *********************************/

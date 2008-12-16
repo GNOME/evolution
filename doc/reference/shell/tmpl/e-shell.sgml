@@ -40,6 +40,22 @@ EShell
 @arg1: 
 @Returns: 
 
+<!-- ##### SIGNAL EShell::prepare-for-offline ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+@arg1: 
+
+<!-- ##### SIGNAL EShell::prepare-for-online ##### -->
+<para>
+
+</para>
+
+@eshell: the object which received the signal.
+@arg1: 
+
 <!-- ##### SIGNAL EShell::send-receive ##### -->
 <para>
 
@@ -64,6 +80,11 @@ EShell
 @eshell: the object which received the signal.
 @arg1: 
 
+<!-- ##### ARG EShell:network-available ##### -->
+<para>
+
+</para>
+
 <!-- ##### ARG EShell:online-mode ##### -->
 <para>
 
@@ -73,16 +94,6 @@ EShell
 <para>
 
 </para>
-
-<!-- ##### ENUM EShellLineStatus ##### -->
-<para>
-
-</para>
-
-@E_SHELL_LINE_STATUS_ONLINE: 
-@E_SHELL_LINE_STATUS_GOING_OFFLINE: 
-@E_SHELL_LINE_STATUS_OFFLINE: 
-@E_SHELL_LINE_STATUS_FORCED_OFFLINE: 
 
 <!-- ##### FUNCTION e_shell_get_default ##### -->
 <para>
@@ -193,24 +204,6 @@ EShell
 
 @shell: 
 @online_mode: 
-
-
-<!-- ##### FUNCTION e_shell_get_line_status ##### -->
-<para>
-
-</para>
-
-@shell: 
-@Returns: 
-
-
-<!-- ##### FUNCTION e_shell_set_line_status ##### -->
-<para>
-
-</para>
-
-@shell: 
-@status: 
 
 
 <!-- ##### FUNCTION e_shell_get_preferences_window ##### -->

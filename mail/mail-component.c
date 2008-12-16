@@ -518,86 +518,86 @@ view_on_url (GObject *emitter, const char *url, const char *nice_url, MailCompon
 	e_activity_handler_set_message (priv->activity_handler, nice_url);
 }
 
-static void
-view_changed(EMFolderView *emfv, EComponentView *component_view)
-{
-	EInfoLabel *el = g_object_get_data((GObject *)component_view, "info-label");
-	CORBA_Environment ev;
-
-	CORBA_exception_init(&ev);
-
-	if (emfv->folder) {
-		char *name, *title;
-		const char *use_name; /* will contain localized name, if necessary */
-		guint32 visible, unread, deleted, junked, junked_not_deleted;
-		GPtrArray *selected;
-		GString *tmp = g_string_new("");
-
-		camel_object_get(emfv->folder, NULL,
-				 CAMEL_FOLDER_NAME, &name,
-				 CAMEL_FOLDER_DELETED, &deleted,
-				 CAMEL_FOLDER_VISIBLE, &visible,
-				 CAMEL_FOLDER_JUNKED, &junked,
-				 CAMEL_FOLDER_JUNKED_NOT_DELETED, &junked_not_deleted,
-				 CAMEL_FOLDER_UNREAD, &unread, NULL);
-
-		selected = message_list_get_selected(emfv->list);
-
-		/* This is so that if any of these are
-		 * shared/reused, we fallback to the standard
-		 * display behaviour */
-		if (selected->len > 1)
-			g_string_append_printf(tmp, ngettext ("%d selected, ", "%d selected, ", selected->len), selected->len);
-
-		if (CAMEL_IS_VTRASH_FOLDER(emfv->folder)) {
-			if (((CamelVTrashFolder *)emfv->folder)->type == CAMEL_VTRASH_FOLDER_TRASH) {
-				g_string_append_printf(tmp, ngettext ("%d deleted", "%d deleted", deleted), deleted);
-			} else {
-				guint32 num = junked_not_deleted;
-
-				if (!emfv->hide_deleted)
-					num = junked;
-
-				g_string_append_printf (tmp, ngettext ("%d junk", "%d junk", num), num);
-			}
-		} else if (em_utils_folder_is_drafts(emfv->folder, emfv->folder_uri)) {
-			g_string_append_printf(tmp, ngettext ("%d draft", "%d drafts", visible), visible);
-		} else if (em_utils_folder_is_sent(emfv->folder, emfv->folder_uri)) {
-			g_string_append_printf(tmp, ngettext ("%d sent", "%d sent", visible), visible);
-		} else if (em_utils_folder_is_outbox(emfv->folder, emfv->folder_uri)) {
-			g_string_append_printf(tmp, ngettext ("%d unsent", "%d unsent", visible), visible);
-			/* HACK: hardcoded inbox or maildir '.' folder */
-		} else {
-			if (!emfv->hide_deleted)
-				visible += deleted - junked + junked_not_deleted;
-			if (unread && selected->len <= 1)
-				g_string_append_printf(tmp, ngettext ("%d unread, ", "%d unread, ", unread), unread);
-			g_string_append_printf(tmp, ngettext ("%d total", "%d total", visible), visible);
-		}
-
-		message_list_free_uids(emfv->list, selected);
-
-		if (emfv->folder->parent_store == mail_component_peek_local_store(NULL)
-		    && (!strcmp (name, "Drafts") || !strcmp (name, "Inbox")
-			|| !strcmp (name, "Outbox") || !strcmp (name, "Sent") || !strcmp (name, "Templates")))
-			use_name = _(name);
-		else if (!strcmp (name, "INBOX"))
- 			use_name = _("Inbox");
-		else
-			use_name = name;
-
-		e_info_label_set_info (el, use_name, tmp->str);
-		title = g_strdup_printf ("%s (%s)", use_name, tmp->str);
-		e_component_view_set_title(component_view, title);
-		g_free(title);
-
-		g_string_free(tmp, TRUE);
-		camel_object_free(emfv->folder, CAMEL_FOLDER_NAME, name);
-	} else {
-		e_info_label_set_info(el, _("Mail"), "");
-		e_component_view_set_title(component_view, _("Mail"));
-	}
-}
+//static void
+//view_changed(EMFolderView *emfv, EComponentView *component_view)
+//{
+//	EInfoLabel *el = g_object_get_data((GObject *)component_view, "info-label");
+//	CORBA_Environment ev;
+//
+//	CORBA_exception_init(&ev);
+//
+//	if (emfv->folder) {
+//		char *name, *title;
+//		const char *use_name; /* will contain localized name, if necessary */
+//		guint32 visible, unread, deleted, junked, junked_not_deleted;
+//		GPtrArray *selected;
+//		GString *tmp = g_string_new("");
+//
+//		camel_object_get(emfv->folder, NULL,
+//				 CAMEL_FOLDER_NAME, &name,
+//				 CAMEL_FOLDER_DELETED, &deleted,
+//				 CAMEL_FOLDER_VISIBLE, &visible,
+//				 CAMEL_FOLDER_JUNKED, &junked,
+//				 CAMEL_FOLDER_JUNKED_NOT_DELETED, &junked_not_deleted,
+//				 CAMEL_FOLDER_UNREAD, &unread, NULL);
+//
+//		selected = message_list_get_selected(emfv->list);
+//
+//		/* This is so that if any of these are
+//		 * shared/reused, we fallback to the standard
+//		 * display behaviour */
+//		if (selected->len > 1)
+//			g_string_append_printf(tmp, ngettext ("%d selected, ", "%d selected, ", selected->len), selected->len);
+//
+//		if (CAMEL_IS_VTRASH_FOLDER(emfv->folder)) {
+//			if (((CamelVTrashFolder *)emfv->folder)->type == CAMEL_VTRASH_FOLDER_TRASH) {
+//				g_string_append_printf(tmp, ngettext ("%d deleted", "%d deleted", deleted), deleted);
+//			} else {
+//				guint32 num = junked_not_deleted;
+//
+//				if (!emfv->hide_deleted)
+//					num = junked;
+//
+//				g_string_append_printf (tmp, ngettext ("%d junk", "%d junk", num), num);
+//			}
+//		} else if (em_utils_folder_is_drafts(emfv->folder, emfv->folder_uri)) {
+//			g_string_append_printf(tmp, ngettext ("%d draft", "%d drafts", visible), visible);
+//		} else if (em_utils_folder_is_sent(emfv->folder, emfv->folder_uri)) {
+//			g_string_append_printf(tmp, ngettext ("%d sent", "%d sent", visible), visible);
+//		} else if (em_utils_folder_is_outbox(emfv->folder, emfv->folder_uri)) {
+//			g_string_append_printf(tmp, ngettext ("%d unsent", "%d unsent", visible), visible);
+//			/* HACK: hardcoded inbox or maildir '.' folder */
+//		} else {
+//			if (!emfv->hide_deleted)
+//				visible += deleted - junked + junked_not_deleted;
+//			if (unread && selected->len <= 1)
+//				g_string_append_printf(tmp, ngettext ("%d unread, ", "%d unread, ", unread), unread);
+//			g_string_append_printf(tmp, ngettext ("%d total", "%d total", visible), visible);
+//		}
+//
+//		message_list_free_uids(emfv->list, selected);
+//
+//		if (emfv->folder->parent_store == mail_component_peek_local_store(NULL)
+//		    && (!strcmp (name, "Drafts") || !strcmp (name, "Inbox")
+//			|| !strcmp (name, "Outbox") || !strcmp (name, "Sent") || !strcmp (name, "Templates")))
+//			use_name = _(name);
+//		else if (!strcmp (name, "INBOX"))
+// 			use_name = _("Inbox");
+//		else
+//			use_name = name;
+//
+//		e_info_label_set_info (el, use_name, tmp->str);
+//		title = g_strdup_printf ("%s (%s)", use_name, tmp->str);
+//		e_component_view_set_title(component_view, title);
+//		g_free(title);
+//
+//		g_string_free(tmp, TRUE);
+//		camel_object_free(emfv->folder, CAMEL_FOLDER_NAME, name);
+//	} else {
+//		e_info_label_set_info(el, _("Mail"), "");
+//		e_component_view_set_title(component_view, _("Mail"));
+//	}
+//}
 
 static void
 view_changed_timeout_remove (EComponentView *component_view)
@@ -733,22 +733,22 @@ impl_createView (PortableServer_Servant servant,
 		em_folder_browser_suppress_message_selection (
 			(EMFolderBrowser *) view_widget);
 
-	tree_widget = (GtkWidget *) em_folder_tree_new_with_model (priv->model);
-	em_folder_tree_set_excluded ((EMFolderTree *) tree_widget, 0);
-	em_folder_tree_enable_drag_and_drop ((EMFolderTree *) tree_widget);
+//	tree_widget = (GtkWidget *) em_folder_tree_new_with_model (priv->model);
+//	em_folder_tree_set_excluded ((EMFolderTree *) tree_widget, 0);
+//	em_folder_tree_enable_drag_and_drop ((EMFolderTree *) tree_widget);
 
-	if ((uri = em_folder_tree_model_get_selected (priv->model))) {
-		gboolean expanded;
-
-		expanded = em_folder_tree_model_get_expanded_uri (priv->model, uri);
-		em_folder_tree_set_selected ((EMFolderTree *) tree_widget, uri, FALSE);
-		em_folder_view_set_folder_uri ((EMFolderView *) view_widget, uri);
-
-		if (!expanded)
-			em_folder_tree_model_set_expanded_uri (priv->model, uri, expanded);
-
-		g_free (uri);
-	}
+//	if ((uri = em_folder_tree_model_get_selected (priv->model))) {
+//		gboolean expanded;
+//
+//		expanded = em_folder_tree_model_get_expanded_uri (priv->model, uri);
+//		em_folder_tree_set_selected ((EMFolderTree *) tree_widget, uri, FALSE);
+//		em_folder_view_set_folder_uri ((EMFolderView *) view_widget, uri);
+//
+//		if (!expanded)
+//			em_folder_tree_model_set_expanded_uri (priv->model, uri, expanded);
+//
+//		g_free (uri);
+//	}
 
 	em_format_set_session ((EMFormat *) ((EMFolderView *) view_widget)->preview, session);
 
@@ -781,12 +781,12 @@ impl_createView (PortableServer_Servant servant,
 
 
 	g_signal_connect (component_view->view_control, "activate", G_CALLBACK (view_control_activate_cb), view_widget);
-	g_signal_connect (tree_widget, "folder-selected", G_CALLBACK (folder_selected_cb), view_widget);
+//	g_signal_connect (tree_widget, "folder-selected", G_CALLBACK (folder_selected_cb), view_widget);
 
 	g_signal_connect((EMFolderBrowser *)view_widget, "account_search_cleared", G_CALLBACK (enable_folder_tree), tree_widget);
 	g_signal_connect(((EMFolderBrowser *)view_widget), "account_search_activated", G_CALLBACK (disable_folder_tree), tree_widget);
-	g_signal_connect(view_widget, "changed", G_CALLBACK(view_changed_cb), component_view);
-	g_signal_connect(view_widget, "loaded", G_CALLBACK(view_changed_cb), component_view);
+//	g_signal_connect(view_widget, "changed", G_CALLBACK(view_changed_cb), component_view);
+//	g_signal_connect(view_widget, "loaded", G_CALLBACK(view_changed_cb), component_view);
 
 	g_object_set_data((GObject*)info, "folderview", view_widget);
 	g_object_set_data((GObject*)view_widget, "foldertree", tree_widget);
@@ -1089,42 +1089,42 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 //	camel_exception_clear (&ex);
 //}
 
-static void
-mc_sync_store_done (CamelStore *store, void *data)
-{
-	MailComponent *mc = (MailComponent *) data;
+//static void
+//mc_sync_store_done (CamelStore *store, void *data)
+//{
+//	MailComponent *mc = (MailComponent *) data;
+//
+//	mc->priv->mail_sync_in_progress--;
+//}
 
-	mc->priv->mail_sync_in_progress--;
-}
+//static void
+//mc_sync_store (gpointer key, gpointer value, gpointer user_data)
+//{
+//	extern int camel_application_is_exiting;
+//	MailComponent *mc = (MailComponent *) user_data;
+//
+//	mc->priv->mail_sync_in_progress++;
+//
+//	if (!camel_application_is_exiting)
+//		mail_sync_store (CAMEL_STORE (key), FALSE, mc_sync_store_done, mc);
+//	else
+//		mc_sync_store_done (CAMEL_STORE (key), mc);
+//}
 
-static void
-mc_sync_store (gpointer key, gpointer value, gpointer user_data)
-{
-	extern int camel_application_is_exiting;
-	MailComponent *mc = (MailComponent *) user_data;
-
-	mc->priv->mail_sync_in_progress++;
-
-	if (!camel_application_is_exiting)
-		mail_sync_store (CAMEL_STORE (key), FALSE, mc_sync_store_done, mc);
-	else
-		mc_sync_store_done (CAMEL_STORE (key), mc);
-}
-
-static gboolean
-call_mail_sync (gpointer user_data)
-{
-	extern int camel_application_is_exiting;
-	MailComponent *mc = (MailComponent *)user_data;
-
-	if (camel_application_is_exiting)
-		return FALSE;
-
-	if (!mc->priv->mail_sync_in_progress && session && camel_session_is_online (session))
-		mail_component_stores_foreach (mc, mc_sync_store, mc);
-
-	return !camel_application_is_exiting;
-}
+//static gboolean
+c//all_mail_sync (gpointer user_data)
+//{
+//	extern int camel_application_is_exiting;
+//	MailComponent *mc = (MailComponent *)user_data;
+//
+//	if (camel_application_is_exiting)
+//		return FALSE;
+//
+//	if (!mc->priv->mail_sync_in_progress && session && camel_session_is_online (session))
+//		mail_component_stores_foreach (mc, mc_sync_store, mc);
+//
+//	return !camel_application_is_exiting;
+//}
 
 //struct _setline_data {
 //	GNOME_Evolution_Listener listener;
@@ -1276,42 +1276,42 @@ mail_component_init (MailComponent *component)
 	priv->lock = g_mutex_new();
 	priv->quit_state = -1;
 
-	/* FIXME This is used as both a filename and URI path throughout
-	 *       the mail code.  Need to clean this up; maybe provide a
-	 *       mail_component_get_base_uri() function. */
-	priv->base_directory = g_build_filename (e_get_user_data_dir (), "mail", NULL);
-#ifdef G_OS_WIN32
-	{
-		char *p = priv->base_directory;
-		while ((p = strchr(p, '\\')))
-			*p++ = '/';
-	}
-#endif
+//	/* FIXME This is used as both a filename and URI path throughout
+//	 *       the mail code.  Need to clean this up; maybe provide a
+//	 *       mail_component_get_base_uri() function. */
+//	priv->base_directory = g_build_filename (e_get_user_data_dir (), "mail", NULL);
+//#ifdef G_OS_WIN32
+//	{
+//		char *p = priv->base_directory;
+//		while ((p = strchr(p, '\\')))
+//			*p++ = '/';
+//	}
+//#endif
 
-	if (g_mkdir_with_parents (e_get_user_data_dir (), 0777) == -1 && errno != EEXIST)
-		abort ();
+//	if (g_mkdir_with_parents (e_get_user_data_dir (), 0777) == -1 && errno != EEXIST)
+//		abort ();
 
-	priv->model = em_folder_tree_model_new (e_get_user_data_dir ());
+//	priv->model = em_folder_tree_model_new (e_get_user_data_dir ());
 	priv->logger = e_logger_create ("mail");
 	priv->activity_handler = e_activity_handler_new ();
 	e_activity_handler_set_logger (priv->activity_handler, priv->logger);
 	e_activity_handler_set_error_flush_time (priv->activity_handler, mail_config_get_error_timeout ()*1000);
 
-	mail_session_init (e_get_user_data_dir ());
+//	mail_session_init (e_get_user_data_dir ());
 
-	priv->async_event = mail_async_event_new();
-	priv->store_hash = g_hash_table_new_full (
-		NULL, NULL,
-		(GDestroyNotify) NULL,
-		(GDestroyNotify) store_hash_free);
+//	priv->async_event = mail_async_event_new();
+//	priv->store_hash = g_hash_table_new_full (
+//		NULL, NULL,
+//		(GDestroyNotify) NULL,
+//		(GDestroyNotify) store_hash_free);
 
-	mail_autoreceive_init (session);
+//	mail_autoreceive_init (session);
 
-	priv->mail_sync_in_progress = 0;
-	if (g_getenv("CAMEL_FLUSH_CHANGES"))
-		priv->mail_sync_id = g_timeout_add_seconds (mail_config_get_sync_timeout (), call_mail_sync, component);
-	else 
-		priv->mail_sync_id = 0;
+//	priv->mail_sync_in_progress = 0;
+//	if (g_getenv("CAMEL_FLUSH_CHANGES"))
+//		priv->mail_sync_id = g_timeout_add_seconds (mail_config_get_sync_timeout (), call_mail_sync, component);
+//	else 
+//		priv->mail_sync_id = 0;
 }
 
 /* Public API.  */

@@ -433,6 +433,16 @@ intelligent
 @minor: 
 @revision: 
 
+<!-- ##### ENUM EShellLineStatus ##### -->
+<para>
+
+</para>
+
+@E_SHELL_LINE_STATUS_ONLINE: 
+@E_SHELL_LINE_STATUS_GOING_OFFLINE: 
+@E_SHELL_LINE_STATUS_OFFLINE: 
+@E_SHELL_LINE_STATUS_FORCED_OFFLINE: 
+
 <!-- ##### STRUCT EShellWindowPrivate ##### -->
 <para>
 
@@ -1721,6 +1731,14 @@ intelligent
 @revision: 
 @Returns: 
 
+<!-- ##### FUNCTION e_shell_get_line_status ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
 <!-- ##### FUNCTION e_shell_marshal_BOOLEAN__STRING ##### -->
 <para>
 
@@ -1765,6 +1783,14 @@ intelligent
 
 @online: 
 @Returns: 
+
+<!-- ##### FUNCTION e_shell_set_line_status ##### -->
+<para>
+
+</para>
+
+@shell: 
+@status: 
 
 <!-- ##### FUNCTION e_shell_upgrade_attempt ##### -->
 <para>
