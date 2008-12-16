@@ -24,6 +24,7 @@
 #include <libedataserverui/e-passwords.h>
 #include <libedataserver/e-url.h>
 #include <glib.h>
+#include <glib/gi18n.h>
 #include <string.h>
 #include <e-util/e-util-private.h>
 
@@ -455,6 +456,11 @@ url_editor_dialog_new (GtkTreeModel *url_list_model, EPublishUri *uri)
 	dialog = (UrlEditorDialog *) g_object_new (URL_EDITOR_DIALOG_TYPE, NULL);
 	dialog->url_list_model = g_object_ref (url_list_model);
 	dialog->uri = uri;
+
+	if (!uri)
+		gtk_window_set_title (GTK_WINDOW (dialog), _("New Location"));
+	else
+		gtk_window_set_title (GTK_WINDOW (dialog), _("Edit Location"));
 
 	if (url_editor_dialog_construct (dialog))
 		return GTK_WIDGET (dialog);
