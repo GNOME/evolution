@@ -1,3 +1,10 @@
+2008-12-16  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #564248
+
+	* e-msg-composer.c: (msg_composer_paste_clipboard):
+	Attach images pasted from a clipboard.
+
 2008-12-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #562450

@@ -67,6 +67,7 @@
 #include "e-util/e-plugin-ui.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
+#include "e-util/e-mktemp.h"
 #include <mail/em-event.h>
 #include "e-signature-combo-box.h"
 
@@ -2454,6 +2455,7 @@ msg_composer_paste_clipboard (GtkhtmlEditor *editor)
 	EMsgComposer *composer;
 	GtkWidget *parent;
 	GtkWidget *widget;
+	GtkClipboard *clipboard;
 
 	composer = E_MSG_COMPOSER (editor);
 	widget = gtk_window_get_focus (GTK_WINDOW (editor));
@@ -2464,8 +2466,37 @@ msg_composer_paste_clipboard (GtkhtmlEditor *editor)
 		return;
 	}
 
-	/* Chain up to parent's paste_clipboard() method. */
-	GTKHTML_EDITOR_CLASS (parent_class)->paste_clipboard (editor);
+	clipboard = gtk_widget_get_clipboard (widget, GDK_SELECTION_CLIPBOARD);
+	if (clipboard && gtk_clipboard_wait_is_image_available (clipboard)) {
+		GdkPixbuf *pixbuf;
+
+		pixbuf = gtk_clipboard_wait_for_image (clipboard);
+		if (pixbuf) {
+			char *tmpl = g_strconcat (_("Image"), "-XXXXXX", NULL);
+			char *filename = e_mktemp (tmpl);
+
+			g_free (tmpl);
+
+			if (filename && gdk_pixbuf_save (pixbuf, filename, "png", NULL, NULL)) {
+				if (gtkhtml_editor_get_html_mode (editor)) {
+					char *uri = g_strconcat ("file://", filename, NULL);
+					/* this loads image async, thus cannot remove file from this */
+					gtkhtml_editor_insert_image (editor, uri);
+					g_free (uri);
+				} else {
+					/* this loads image immediately, remove file from cache to free up disk space */
+					e_attachment_bar_attach (E_ATTACHMENT_BAR (composer->priv->attachment_bar), filename, "image/png");
+					g_remove (filename);
+				}
+			}
+
+			g_free (filename);
+			g_object_unref (pixbuf);
+		}
+	} else {
+		/* Chain up to parent's paste_clipboard() method. */
+		GTKHTML_EDITOR_CLASS (parent_class)->paste_clipboard (editor);
+	}
 }
 
 static void
