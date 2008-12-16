@@ -836,6 +836,7 @@ mail_config_get_account_by_source_url (const char *source_url)
 	}
 
 	g_object_unref (iter);
+	camel_url_free (url);
 
 	return account;
 }
@@ -879,6 +880,7 @@ mail_config_get_account_by_transport_url (const char *transport_url)
 	}
 
 	g_object_unref (iter);
+	camel_url_free (url);
 
 	return account;
 }
