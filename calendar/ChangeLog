@@ -1,3 +1,8 @@
+2008-12-17  Milan Crha  <mcrha@redhat.com>
+
+	* gui/e-cal-model.c: (update_e_cal_view_for_client):
+	Show reason of a failure on a console too.
+
 2008-12-15  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #540181
