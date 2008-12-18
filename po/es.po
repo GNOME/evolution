@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&amp;component=general\n"
-"POT-Creation-Date: 2008-12-16 20:34+0000\n"
-"PO-Revision-Date: 2008-12-16 21:37+0100\n"
+"POT-Creation-Date: 2008-12-18 12:32+0000\n"
+"PO-Revision-Date: 2008-12-18 19:54+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -6449,7 +6449,7 @@ msgid "Recent _Documents"
 msgstr "_Documentos recientes"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1795
-#: ../composer/e-composer-actions.c:697
+#: ../composer/e-composer-actions.c:696
 msgid "Attach"
 msgstr "Adjuntar"
 
@@ -10721,8 +10721,8 @@ msgid "Save the current file with a different name"
 msgstr "Guardar el archivo actual con un nombre diferente"
 
 #: ../composer/e-composer-actions.c:511
-msgid "Save _Draft"
-msgstr "Guardar _borrador"
+msgid "Save as _Draft"
+msgstr "Guardar como _borrador"
 
 #: ../composer/e-composer-actions.c:513
 msgid "Save as draft"
@@ -10859,6 +10859,10 @@ msgstr "Campo «_Para»"
 #: ../composer/e-composer-actions.c:656
 msgid "Toggles whether the To field is displayed"
 msgstr "Conmutador que indica si se muestra el campo «Para»"
+
+#: ../composer/e-composer-actions.c:699
+msgid "Save Draft"
+msgstr "Guardar borrador"
 
 #: ../composer/e-composer-header-table.c:64
 msgid "Enter the recipients of the message"
