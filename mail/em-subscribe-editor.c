@@ -786,7 +786,8 @@ window_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 	g_object_unref (gconf);
 }
 
-GtkDialog *em_subscribe_editor_new(void)
+GtkWidget *
+em_subscribe_editor_new(void)
 {
 	EMSubscribeEditor *se;
 	EAccountList *accounts;
@@ -890,5 +891,5 @@ GtkDialog *em_subscribe_editor_new(void)
 	gtk_window_set_default_size ((GtkWindow *) se->dialog, window_size.width, window_size.height);
 	g_signal_connect (se->dialog, "size-allocate", G_CALLBACK (window_size_allocate), NULL);
 
-	return se->dialog;
+	return GTK_WIDGET (se->dialog);
 }

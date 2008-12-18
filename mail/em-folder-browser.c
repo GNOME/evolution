@@ -1459,156 +1459,156 @@ emfb_edit_select_all(BonoboUIComponent *uid, void *data, const char *path)
 		}
 }
 
-static void
-emfb_edit_select_thread(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
+//static void
+//emfb_edit_select_thread(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	message_list_select_thread(emfv->list);
+//}
 
-	message_list_select_thread(emfv->list);
-}
+//static void
+//emfb_edit_select_subthread(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	message_list_select_subthread (emfv->list);
+//}
 
-static void
-emfb_edit_select_subthread(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-
-	message_list_select_subthread (emfv->list);
-}
-
-static void
-emfb_folder_properties(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderBrowser *emfb = data;
-
-	if (emfb->view.folder_uri)
-		em_folder_properties_show(NULL, emfb->view.folder, emfb->view.folder_uri);
-}
+//static void
+//emfb_folder_properties(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderBrowser *emfb = data;
+//
+//	if (emfb->view.folder_uri)
+//		em_folder_properties_show(NULL, emfb->view.folder, emfb->view.folder_uri);
+//}
 
 /* VIEWTHREADED*/
-static void
-emfb_expand_all_threads(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
+//static void
+//emfb_expand_all_threads(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	message_list_set_threaded_expand_all(emfv->list);
+//
+//}
 
-	message_list_set_threaded_expand_all(emfv->list);
+//static void
+//emfb_collapse_all_threads(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	message_list_set_threaded_collapse_all(emfv->list);
+//}
 
-}
+//static void
+//emfb_folder_copy(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderBrowser *emfb = data;
+//	CamelFolderInfo *fi = NULL;
+//	CamelException ex;
+//
+//	/* FIXME: This function MUST become multi-threaded.
+//	   FIXME: This interface should NOT use a folderinfo */
+//
+//	camel_exception_init (&ex);
+//
+//	if ((fi = camel_store_get_folder_info (emfb->view.folder->parent_store,
+//					       emfb->view.folder->full_name,
+//					       CAMEL_STORE_FOLDER_INFO_FAST,
+//					       &ex)) != NULL)
+//		em_folder_utils_copy_folder(fi, FALSE);
+//
+//	camel_exception_clear (&ex);
+//
+//	return;
+//}
 
-static void
-emfb_collapse_all_threads(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
+//static void
+//emfb_folder_move(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderBrowser *emfb = data;
+//	CamelFolderInfo *fi = NULL;
+//	CamelException ex;
+//
+//	camel_exception_init (&ex);
+//
+//	/* FIXME: This function MUST become multi-threaded.
+//	   FIXME: This interface should NOT use a folderinfo */
+//
+//	if ((fi = camel_store_get_folder_info (emfb->view.folder->parent_store,
+//					       emfb->view.folder->full_name,
+//					       CAMEL_STORE_FOLDER_INFO_FAST,
+//					       &ex)) != NULL)
+//		em_folder_utils_copy_folder(fi, TRUE);
+//
+//	camel_exception_clear (&ex);
+//
+//	return;
+//}
 
-	message_list_set_threaded_collapse_all(emfv->list);
-}
+//static void
+//emfb_folder_delete(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderBrowser *emfb = data;
+//
+//	em_folder_utils_delete_folder (emfb->view.folder);
+//
+//	return;
+//}
 
-static void
-emfb_folder_copy(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderBrowser *emfb = data;
-	CamelFolderInfo *fi = NULL;
-	CamelException ex;
-
-	/* FIXME: This function MUST become multi-threaded.
-	   FIXME: This interface should NOT use a folderinfo */
-
-	camel_exception_init (&ex);
-
-	if ((fi = camel_store_get_folder_info (emfb->view.folder->parent_store,
-					       emfb->view.folder->full_name,
-					       CAMEL_STORE_FOLDER_INFO_FAST,
-					       &ex)) != NULL)
-		em_folder_utils_copy_folder(fi, FALSE);
-
-	camel_exception_clear (&ex);
-
-	return;
-}
-
-static void
-emfb_folder_move(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderBrowser *emfb = data;
-	CamelFolderInfo *fi = NULL;
-	CamelException ex;
-
-	camel_exception_init (&ex);
-
-	/* FIXME: This function MUST become multi-threaded.
-	   FIXME: This interface should NOT use a folderinfo */
-
-	if ((fi = camel_store_get_folder_info (emfb->view.folder->parent_store,
-					       emfb->view.folder->full_name,
-					       CAMEL_STORE_FOLDER_INFO_FAST,
-					       &ex)) != NULL)
-		em_folder_utils_copy_folder(fi, TRUE);
-
-	camel_exception_clear (&ex);
-
-	return;
-}
-
-static void
-emfb_folder_delete(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderBrowser *emfb = data;
-
-	em_folder_utils_delete_folder (emfb->view.folder);
-
-	return;
-}
-
-static void
-emfb_folder_refresh(BonoboUIComponent *uid, void *data, const char *path)
-{
-        EMFolderBrowser *emfb = data;
-	EMFolderTree *tree = g_object_get_data (G_OBJECT (emfb), "foldertree");
-        CamelFolder *folder;
-
-        if ((folder = em_folder_tree_get_selected_folder (tree)) != NULL)
-                mail_refresh_folder(folder, NULL, NULL);
-}
+//static void
+//emfb_folder_refresh(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//        EMFolderBrowser *emfb = data;
+//	EMFolderTree *tree = g_object_get_data (G_OBJECT (emfb), "foldertree");
+//        CamelFolder *folder;
+//
+//        if ((folder = em_folder_tree_get_selected_folder (tree)) != NULL)
+//                mail_refresh_folder(folder, NULL, NULL);
+//}
 
 
-static void
-emfb_folder_rename(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderBrowser *emfb = data;
+//static void
+//emfb_folder_rename(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderBrowser *emfb = data;
+//
+//	em_folder_utils_rename_folder (emfb->view.folder);
+//
+//	return;
+//}
 
-	em_folder_utils_rename_folder (emfb->view.folder);
+//static void
+//emfb_folder_create(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderBrowser *emfb = data;
+//	CamelFolderInfo *fi = NULL;
+//	EMFolderTree *tree = g_object_get_data (G_OBJECT (emfb), "foldertree");
+//
+//	/* FIXME: This function MUST be multithreaded
+//	   FIXME: This interface should NOT use a folderinfo */
+//	if (emfb->view.folder) {
+//		if ((fi = em_folder_tree_get_selected_folder_info (tree)) != NULL) {
+//			em_folder_utils_create_folder(fi, tree);
+//			camel_folder_info_free(fi);
+//		}
+//	} else {
+//		em_folder_utils_create_folder(NULL, tree);
+//	}
+//
+//	return;
+//}
 
-	return;
-}
-
-static void
-emfb_folder_create(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderBrowser *emfb = data;
-	CamelFolderInfo *fi = NULL;
-	EMFolderTree *tree = g_object_get_data (G_OBJECT (emfb), "foldertree");
-
-	/* FIXME: This function MUST be multithreaded
-	   FIXME: This interface should NOT use a folderinfo */
-	if (emfb->view.folder) {
-		if ((fi = em_folder_tree_get_selected_folder_info (tree)) != NULL) {
-			em_folder_utils_create_folder(fi, tree);
-			camel_folder_info_free(fi);
-		}
-	} else {
-		em_folder_utils_create_folder(NULL, tree);
-	}
-
-	return;
-}
-
-static void
-emfb_folder_expunge(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderBrowser *emfb = data;
-
-	if (emfb->view.folder)
-		em_utils_expunge_folder(gtk_widget_get_toplevel((GtkWidget *)emfb), emfb->view.folder);
-}
+//static void
+//emfb_folder_expunge(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderBrowser *emfb = data;
+//
+//	if (emfb->view.folder)
+//		em_utils_expunge_folder(gtk_widget_get_toplevel((GtkWidget *)emfb), emfb->view.folder);
+//}
 
 static void
 emfb_mark_all_read(BonoboUIComponent *uid, void *data, const char *path)
@@ -1630,83 +1630,83 @@ emfb_mark_all_read(BonoboUIComponent *uid, void *data, const char *path)
 	}
 }
 
-static void
-emfb_view_hide_read(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
+//static void
+//emfb_view_hide_read(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	message_list_hide_add(emfv->list, "(match-all (system-flag \"seen\"))", ML_HIDE_SAME, ML_HIDE_SAME);
+//}
 
-	message_list_hide_add(emfv->list, "(match-all (system-flag \"seen\"))", ML_HIDE_SAME, ML_HIDE_SAME);
-}
+//static void
+//emfb_view_hide_selected(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//	GPtrArray *uids;
+//
+//	/* TODO: perhaps this should sit directly on message_list? */
+//	/* is it worth it, it's so trivial */
+//
+//	/* A new flag CAMEL_MESSAGE_HIDDEN is added by Sankar
+//	while extending the CAMEL_MESSAGE_FLAGS for proxy permissions.
+//	This can be used to hide messages.  */
+//
+//	uids = message_list_get_selected(emfv->list);
+//	message_list_hide_uids(emfv->list, uids);
+//	message_list_free_uids(emfv->list, uids);
+//}
 
-static void
-emfb_view_hide_selected(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-	GPtrArray *uids;
-
-	/* TODO: perhaps this should sit directly on message_list? */
-	/* is it worth it, it's so trivial */
-
-	/* A new flag CAMEL_MESSAGE_HIDDEN is added by Sankar
-	while extending the CAMEL_MESSAGE_FLAGS for proxy permissions.
-	This can be used to hide messages.  */
-
-	uids = message_list_get_selected(emfv->list);
-	message_list_hide_uids(emfv->list, uids);
-	message_list_free_uids(emfv->list, uids);
-}
-
-static void
-emfb_view_show_all(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-
-	message_list_hide_clear(emfv->list);
-}
+//static void
+//emfb_view_show_all(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	message_list_hide_clear(emfv->list);
+//}
 
 /* ********************************************************************** */
 
-static void
-emfb_mail_stop(BonoboUIComponent *uid, void *data, const char *path)
-{
-	mail_cancel_all();
-}
+//static void
+//emfb_mail_stop(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	mail_cancel_all();
+//}
 
-static void
-emfb_mail_post(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-	em_utils_post_to_folder (emfv->folder);
-}
+//static void
+//emfb_mail_post(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//	em_utils_post_to_folder (emfv->folder);
+//}
 
-static void
-emfb_tools_filters(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderBrowser *emfb = data;
+//static void
+//emfb_tools_filters(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderBrowser *emfb = data;
+//
+//	em_utils_edit_filters ((GtkWidget *) emfb);
+//}
 
-	em_utils_edit_filters ((GtkWidget *) emfb);
-}
+//static void
+//emfb_subscribe_editor_destroy(GtkWidget *w, EMFolderBrowser *emfb)
+//{
+//	emfb->priv->subscribe_editor = NULL;
+//}
 
-static void
-emfb_subscribe_editor_destroy(GtkWidget *w, EMFolderBrowser *emfb)
-{
-	emfb->priv->subscribe_editor = NULL;
-}
-
-static void
-emfb_tools_subscriptions(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderBrowser *emfb = data;
-
-	if (emfb->priv->subscribe_editor) {
-		gdk_window_show(emfb->priv->subscribe_editor->window);
-	} else {
-		emfb->priv->subscribe_editor = (GtkWidget *)em_subscribe_editor_new();
-		e_dialog_set_transient_for((GtkWindow *)emfb->priv->subscribe_editor, (GtkWidget *)emfb);
-		g_signal_connect(emfb->priv->subscribe_editor, "destroy", G_CALLBACK(emfb_subscribe_editor_destroy), emfb);
-		gtk_widget_show(emfb->priv->subscribe_editor);
-	}
-}
+//static void
+//emfb_tools_subscriptions(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderBrowser *emfb = data;
+//
+//	if (emfb->priv->subscribe_editor) {
+//		gdk_window_show(emfb->priv->subscribe_editor->window);
+//	} else {
+//		emfb->priv->subscribe_editor = (GtkWidget *)em_subscribe_editor_new();
+//		e_dialog_set_transient_for((GtkWindow *)emfb->priv->subscribe_editor, (GtkWidget *)emfb);
+/		g_signal_connect(emfb->priv->subscribe_editor, "destroy", G_CALLBACK(emfb_subscribe_editor_destroy), emfb);
+///		gtk_widget_show(emfb->priv->subscribe_editor);
+//	}
+//}
 
 static void
 emfb_focus_search(BonoboUIComponent *uid, void *data, const char *path)
@@ -1722,12 +1722,12 @@ emfb_help_debug (BonoboUIComponent *uid, void *data, const char *path)
 	mail_component_show_logger ((GtkWidget *) data);
 }
 
-static void
-emfb_tools_vfolders(BonoboUIComponent *uid, void *data, const char *path)
-{
-	/* FIXME: rename/refactor this */
-	vfolder_edit();
-}
+//static void
+//emfb_tools_vfolders(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	/* FIXME: rename/refactor this */
+//	vfolder_edit();
+//}
 
 static BonoboUIVerb emfb_verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("EditCut", emfb_edit_cut),
@@ -1736,33 +1736,33 @@ static BonoboUIVerb emfb_verbs[] = {
 
 	BONOBO_UI_UNSAFE_VERB ("EditInvertSelection", emfb_edit_invert_selection),
 	BONOBO_UI_UNSAFE_VERB ("EditSelectAll", emfb_edit_select_all),
-        BONOBO_UI_UNSAFE_VERB ("EditSelectThread", emfb_edit_select_thread),
-	BONOBO_UI_UNSAFE_VERB ("EditSelectSubthread", emfb_edit_select_subthread),
-	BONOBO_UI_UNSAFE_VERB ("ChangeFolderProperties", emfb_folder_properties),
-	BONOBO_UI_UNSAFE_VERB ("FolderExpunge", emfb_folder_expunge),
+//        BONOBO_UI_UNSAFE_VERB ("EditSelectThread", emfb_edit_select_thread),
+//	BONOBO_UI_UNSAFE_VERB ("EditSelectSubthread", emfb_edit_select_subthread),
+//	BONOBO_UI_UNSAFE_VERB ("ChangeFolderProperties", emfb_folder_properties),
+//	BONOBO_UI_UNSAFE_VERB ("FolderExpunge", emfb_folder_expunge),
 	/* HideDeleted is a toggle */
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAllAsRead", emfb_mark_all_read),
-	BONOBO_UI_UNSAFE_VERB ("ViewHideRead", emfb_view_hide_read),
-	BONOBO_UI_UNSAFE_VERB ("ViewHideSelected", emfb_view_hide_selected),
-	BONOBO_UI_UNSAFE_VERB ("ViewShowAll", emfb_view_show_all),
+//	BONOBO_UI_UNSAFE_VERB ("ViewHideRead", emfb_view_hide_read),
+//	BONOBO_UI_UNSAFE_VERB ("ViewHideSelected", emfb_view_hide_selected),
+//	BONOBO_UI_UNSAFE_VERB ("ViewShowAll", emfb_view_show_all),
 	/* ViewThreaded is a toggle */
 
-	BONOBO_UI_UNSAFE_VERB ("ViewThreadsExpandAll", emfb_expand_all_threads),
-	BONOBO_UI_UNSAFE_VERB ("ViewThreadsCollapseAll", emfb_collapse_all_threads),
+//	BONOBO_UI_UNSAFE_VERB ("ViewThreadsExpandAll", emfb_expand_all_threads),
+//	BONOBO_UI_UNSAFE_VERB ("ViewThreadsCollapseAll", emfb_collapse_all_threads),
 
-	BONOBO_UI_UNSAFE_VERB ("FolderCopy", emfb_folder_copy),
-	BONOBO_UI_UNSAFE_VERB ("FolderMove", emfb_folder_move),
-	BONOBO_UI_UNSAFE_VERB ("FolderDelete", emfb_folder_delete),
-	BONOBO_UI_UNSAFE_VERB ("FolderRefresh", emfb_folder_refresh),
-	BONOBO_UI_UNSAFE_VERB ("FolderRename", emfb_folder_rename),
-	BONOBO_UI_UNSAFE_VERB ("FolderCreate", emfb_folder_create),
+//	BONOBO_UI_UNSAFE_VERB ("FolderCopy", emfb_folder_copy),
+//	BONOBO_UI_UNSAFE_VERB ("FolderMove", emfb_folder_move),
+//	BONOBO_UI_UNSAFE_VERB ("FolderDelete", emfb_folder_delete),
+//	BONOBO_UI_UNSAFE_VERB ("FolderRefresh", emfb_folder_refresh),
+//	BONOBO_UI_UNSAFE_VERB ("FolderRename", emfb_folder_rename),
+//	BONOBO_UI_UNSAFE_VERB ("FolderCreate", emfb_folder_create),
 	BONOBO_UI_UNSAFE_VERB ("HelpDebug", emfb_help_debug),
 
-	BONOBO_UI_UNSAFE_VERB ("MailPost", emfb_mail_post),
-	BONOBO_UI_UNSAFE_VERB ("MailStop", emfb_mail_stop),
-	BONOBO_UI_UNSAFE_VERB ("ToolsFilters", emfb_tools_filters),
+//	BONOBO_UI_UNSAFE_VERB ("MailPost", emfb_mail_post),
+//	BONOBO_UI_UNSAFE_VERB ("MailStop", emfb_mail_stop),
+//	BONOBO_UI_UNSAFE_VERB ("ToolsFilters", emfb_tools_filters),
 	BONOBO_UI_UNSAFE_VERB ("ToolsSubscriptions", emfb_tools_subscriptions),
-	BONOBO_UI_UNSAFE_VERB ("ToolsVFolders", emfb_tools_vfolders),
+//	BONOBO_UI_UNSAFE_VERB ("ToolsVFolders", emfb_tools_vfolders),
 	BONOBO_UI_UNSAFE_VERB ("FocusSearch", emfb_focus_search),
 
 	/* ViewPreview is a toggle */

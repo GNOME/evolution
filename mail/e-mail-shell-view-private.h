@@ -35,6 +35,7 @@
 #include "em-folder-properties.h"
 #include "em-folder-selector.h"
 #include "em-folder-utils.h"
+#include "em-subscribe-editor.h"
 #include "em-utils.h"
 #include "mail-autofilter.h"
 #include "mail-ops.h"

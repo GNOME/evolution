@@ -125,6 +125,8 @@ libevolution_module_mail_la_SOURCES =			\
 	em-search-context.h				\
 	em-stripsig-filter.c				\
 	em-stripsig-filter.h				\
+	em-subscribe-editor.c				\
+	em-subscribe-editor.h				\
 	em-sync-stream.c				\
 	em-sync-stream.h				\
 	em-utils.c					\

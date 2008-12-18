@@ -31,8 +31,8 @@
 #include <camel/camel-vee-folder.h>
 #include <camel/camel-vee-store.h>
 #include <camel/camel-vtrash-folder.h>
+#include <libedataserver/e-account-list.h>
 
-#include "libedataserver/e-account-list.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 
@@ -1024,48 +1024,42 @@ vfolder_revert(void)
 	g_free(user);
 }
 
-static GtkWidget *vfolder_editor = NULL;
-
-static void
-em_vfolder_editor_response (GtkWidget *dialog, int button, void *data)
-{
-	const gchar *data_dir;
-	char *user;
-
-	data_dir = e_shell_module_get_data_dir (mail_shell_module);
-	user = g_build_filename (data_dir, "vfolders.xml", NULL);
-
-	switch(button) {
-	case GTK_RESPONSE_OK:
-		rule_context_save((RuleContext *)context, user);
-		break;
-	default:
-		rule_context_revert((RuleContext *)context, user);
-	}
-
-	vfolder_editor = NULL;
-
-	gtk_widget_destroy(dialog);
-
-	g_free (user);
-}
-
 void
-vfolder_edit (void)
+vfolder_edit (EShellView *shell_view)
 {
-	if (vfolder_editor) {
-		gdk_window_raise (GTK_WIDGET (vfolder_editor)->window);
-		return;
-	}
+	EShellModule *shell_module;
+	EShellWindow *shell_window;
+	GtkWidget *dialog;
+	const gchar *data_dir;
+	gchar *filename;
+
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+
+	shell_module = e_shell_view_get_shell_module (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	data_dir = e_shell_module_get_data_dir (shell_module);
+	filename = g_build_filename (data_dir, "vfolders.xml", NULL);
 
 	/* ensures vfolder is running */
 	vfolder_load_storage ();
 
-	vfolder_editor = GTK_WIDGET (em_vfolder_editor_new (context));
-	gtk_window_set_title (GTK_WINDOW (vfolder_editor), _("Search Folders"));
-	g_signal_connect(vfolder_editor, "response", G_CALLBACK(em_vfolder_editor_response), NULL);
+	dialog = em_vfolder_editor_new (context);
+	gtk_window_set_title (
+		GTK_WINDOW (dialog), _("Search Folders"));
+	gtk_window_set_transient_for (
+		GTK_WINDOW (dialog), GTK_WINDOW (shell_window));
 
-	gtk_widget_show (vfolder_editor);
+	switch (gtk_dialog_run (GTK_DIALOG (dialog))) {
+		case GTK_RESPONSE_OK:
+			rule_context_save ((RuleContext *) context, filename);
+			break;
+		default:
+			rule_context_revert ((RuleContext *) context, filename);
+			break;
+	}
+
+	gtk_widget_destroy (dialog);
 }
 
 static void

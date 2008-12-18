@@ -22,6 +22,8 @@
 #ifndef _MAIL_VFOLDER_H
 #define _MAIL_VFOLDER_H
 
+#include <shell/e-shell-view.h>
+
 struct _CamelStore;
 struct _FilterPart;
 struct _FilterRule;
@@ -32,7 +34,7 @@ struct _CamelInternetAddress;
 void vfolder_load_storage(void);
 void vfolder_revert(void);
 
-void vfolder_edit (void);
+void vfolder_edit (EShellView *shell_view);
 void vfolder_edit_rule(const char *name);
 struct _FilterPart *vfolder_create_part (const char *name);
 struct _FilterRule *vfolder_clone_rule (struct _FilterRule *in);

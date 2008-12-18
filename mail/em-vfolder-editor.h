@@ -47,6 +47,6 @@ struct _EMVFolderEditorClass {
 
 GType em_vfolder_editor_get_type (void);
 
-EMVFolderEditor *em_vfolder_editor_new (EMVFolderContext *vc);
+GtkWidget *em_vfolder_editor_new (EMVFolderContext *vc);
 
 #endif /* ! _EM_VFOLDER_EDITOR_H */

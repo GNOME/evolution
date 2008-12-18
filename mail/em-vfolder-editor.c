@@ -99,7 +99,7 @@ em_vfolder_editor_get_type (void)
  *
  * Return value: A new #EMVFolderEditor object.
  **/
-EMVFolderEditor *
+GtkWidget *
 em_vfolder_editor_new (EMVFolderContext *vc)
 {
 	EMVFolderEditor *ve = (EMVFolderEditor *) g_object_new (em_vfolder_editor_get_type(), NULL);
@@ -116,7 +116,7 @@ em_vfolder_editor_new (EMVFolderContext *vc)
         gtk_widget_hide(glade_xml_get_widget (gui, "filter_source"));
 	g_object_unref (gui);
 
-	return ve;
+	return GTK_WIDGET (ve);
 }
 
 static FilterRule *
