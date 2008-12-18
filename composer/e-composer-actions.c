@@ -508,7 +508,7 @@ static GtkActionEntry entries[] = {
 
 	{ "save-draft",
 	  GTK_STOCK_SAVE,
-	  N_("Save _Draft"),
+	  N_("Save as _Draft"),
 	  "<Shift><Control>s",
 	  N_("Save as draft"),
 	  G_CALLBACK (action_save_draft_cb) },
@@ -693,8 +693,10 @@ e_composer_actions_init (EMsgComposer *composer)
 	/* Fine Tuning */
 
 	g_object_set (
-		G_OBJECT (ACTION (ATTACH)),
-		"short-label", _("Attach"), NULL);
+		ACTION (ATTACH), "short-label", _("Attach"), NULL);
+
+	g_object_set (
+		ACTION (SAVE_DRAFT), "short-label", _("Save Draft"), NULL);
 
 #if defined (HAVE_NSS)
 	visible = TRUE;

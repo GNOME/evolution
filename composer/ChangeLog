@@ -1,3 +1,10 @@
+2008-12-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-composer-actions.c:
+	Change "Save Draft" menu item to "Save as Draft" to be consistent
+	with "Save as Template".  I like that better.  But leave the toolbar
+	button alone.
+
 2008-12-16  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #564248
