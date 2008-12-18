@@ -26,10 +26,40 @@ static gchar *default_xfer_messages_uri;
 
 static void
 action_mail_add_sender_cb (GtkAction *action,
-                                   EMailShellView *mail_shell_view)
+                           EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+	CamelMessageInfo *info;
+	GPtrArray *uids;
+	const gchar *address;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	uids = message_list_get_selected (folder_view->list);
+
+	if (uids->len != 1)
+		goto exit;
+
+	info = camel_folder_get_message_info (
+		folder_view->folder, uids->pdata[0]);
+	if (info == NULL)
+		goto exit;
+
+	address = camel_message_info_from (info);
+	if (address == NULL || *address == '\0')
+		goto exit;
+
+	em_utils_add_address (GTK_WIDGET (shell_window), address);
+
+exit:
+	em_utils_uids_free (uids);
 }
 
 static void
@@ -44,16 +74,29 @@ static void
 action_mail_check_for_junk_cb (GtkAction *action,
                                EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	GPtrArray *uids;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	uids = message_list_get_selected (folder_view->list);
+
+	mail_filter_junk (folder_view->folder, uids);
 }
 
 static void
 action_mail_clipboard_copy_cb (GtkAction *action,
                                EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	GtkWidget *preview;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	preview = e_mail_shell_content_get_preview_widget (mail_shell_content);
+
+	gtk_html_copy (GTK_HTML (preview));
 }
 
 static void
@@ -146,8 +189,13 @@ static void
 action_mail_empty_trash_cb (GtkAction *action,
                             EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	em_utils_empty_trash (GTK_WIDGET (shell_window));
 }
 
 static void
@@ -186,8 +234,16 @@ static void
 action_mail_filters_apply_cb (GtkAction *action,
                               EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	GPtrArray *uids;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	uids = message_list_get_selected (folder_view->list);
+
+	mail_filter_on_demand (folder_view->folder, uids);
 }
 
 static void
@@ -330,32 +386,100 @@ static void
 action_mail_forward_cb (GtkAction *action,
                         EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+	GPtrArray *uids;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	if (!em_utils_check_user_can_send_mail (GTK_WIDGET (shell_window)))
+		return;
+
+	uids = message_list_get_selected (folder_view->list);
+
+	em_utils_forward_messages (
+		folder_view->folder, uids, folder_view->folder_uri);
 }
 
 static void
 action_mail_forward_attached_cb (GtkAction *action,
                                  EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+	GPtrArray *uids;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	if (!em_utils_check_user_can_send_mail (GTK_WIDGET (shell_window)))
+		return;
+
+	uids = message_list_get_selected (folder_view->list);
+
+	em_utils_forward_attached (
+		folder_view->folder, uids, folder_view->folder_uri);
 }
 
 static void
 action_mail_forward_inline_cb (GtkAction *action,
                                EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+	GPtrArray *uids;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	if (!em_utils_check_user_can_send_mail (GTK_WIDGET (shell_window)))
+		return;
+
+	uids = message_list_get_selected (folder_view->list);
+
+	em_utils_forward_inline (
+		folder_view->folder, uids, folder_view->folder_uri);
 }
 
 static void
 action_mail_forward_quoted_cb (GtkAction *action,
                                EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+	GPtrArray *uids;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	if (!em_utils_check_user_can_send_mail (GTK_WIDGET (shell_window)))
+		return;
+
+	uids = message_list_get_selected (folder_view->list);
+
+	em_utils_forward_quoted (
+		folder_view->folder, uids, folder_view->folder_uri);
 }
 
 static void
@@ -386,8 +510,13 @@ static void
 action_mail_load_images_cb (GtkAction *action,
                             EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFormatHTMLDisplay *format;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	format = e_mail_shell_content_get_preview_format (mail_shell_content);
+
+	em_format_html_load_http ((EMFormatHTML *) format);
 }
 
 static void
@@ -508,16 +637,45 @@ static void
 action_mail_message_edit_cb (GtkAction *action,
                              EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+	GPtrArray *uids;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	if (!em_utils_check_user_can_send_mail (GTK_WIDGET (shell_window)))
+		return;
+
+	uids = message_list_get_selected (folder_view->list);
+
+	em_utils_edit_messages (folder_view->folder, uids, FALSE);
 }
 
 static void
 action_mail_message_new_cb (GtkAction *action,
                             EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	if (!em_utils_check_user_can_send_mail (GTK_WIDGET (shell_window)))
+		return;
+
+	em_utils_compose_new_message (folder_view->folder_uri);
 }
 
 static void
@@ -602,32 +760,70 @@ static void
 action_mail_next_cb (GtkAction *action,
                      EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	MessageListSelectDirection direction;
+	EMFolderView *folder_view;
+	guint32 flags, mask;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	direction = MESSAGE_LIST_SELECT_NEXT;
+	flags = 0;
+	mask = 0;
+
+	message_list_select (folder_view->list, direction, flags, mask);
 }
 
 static void
 action_mail_next_important_cb (GtkAction *action,
                                EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	MessageListSelectDirection direction;
+	EMFolderView *folder_view;
+	guint32 flags, mask;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	direction = MESSAGE_LIST_SELECT_NEXT | MESSAGE_LIST_SELECT_WRAP;
+	flags = CAMEL_MESSAGE_FLAGGED;
+	mask = CAMEL_MESSAGE_FLAGGED;
+
+	message_list_select (folder_view->list, direction, flags, mask);
 }
 
 static void
 action_mail_next_thread_cb (GtkAction *action,
                             EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	message_list_select_next_thread (folder_view->list);
 }
 
 static void
 action_mail_next_unread_cb (GtkAction *action,
                             EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	MessageListSelectDirection direction;
+	EMFolderView *folder_view;
+	guint32 flags, mask;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	direction = MESSAGE_LIST_SELECT_NEXT | MESSAGE_LIST_SELECT_WRAP;
+	flags = 0;
+	mask = CAMEL_MESSAGE_SEEN;
+
+	message_list_select (folder_view->list, direction, flags, mask);
 }
 
 static void
@@ -648,88 +844,198 @@ static void
 action_mail_previous_cb (GtkAction *action,
                          EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	MessageListSelectDirection direction;
+	EMFolderView *folder_view;
+	guint32 flags, mask;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	direction = MESSAGE_LIST_SELECT_PREVIOUS;
+	flags = 0;
+	mask = 0;
+
+	message_list_select (folder_view->list, direction, flags, mask);
 }
 
 static void
 action_mail_previous_important_cb (GtkAction *action,
                                    EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	MessageListSelectDirection direction;
+	EMFolderView *folder_view;
+	guint32 flags, mask;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	direction = MESSAGE_LIST_SELECT_PREVIOUS | MESSAGE_LIST_SELECT_WRAP;
+	flags = CAMEL_MESSAGE_FLAGGED;
+	mask = CAMEL_MESSAGE_FLAGGED;
+
+	message_list_select (folder_view->list, direction, flags, mask);
 }
 
 static void
 action_mail_previous_unread_cb (GtkAction *action,
                                 EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	MessageListSelectDirection direction;
+	EMFolderView *folder_view;
+	guint32 flags, mask;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	direction = MESSAGE_LIST_SELECT_PREVIOUS | MESSAGE_LIST_SELECT_WRAP;
+	flags = 0;
+	mask = CAMEL_MESSAGE_SEEN;
+
+	message_list_select (folder_view->list, direction, flags, mask);
 }
 
 static void
 action_mail_print_cb (GtkAction *action,
                       EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	GtkPrintOperationAction print_action;
+	EMFolderView *folder_view;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
+	em_folder_view_print (folder_view, print_action);
 }
 
 static void
 action_mail_print_preview_cb (GtkAction *action,
                               EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	GtkPrintOperationAction print_action;
+	EMFolderView *folder_view;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	print_action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
+	em_folder_view_print (folder_view, print_action);
 }
 
 static void
 action_mail_redirect_cb (GtkAction *action,
                          EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	if (folder_view->list->cursor_uid == NULL)
+		return;
+
+	if (!em_utils_check_user_can_send_mail (GTK_WIDGET (shell_window)))
+		return;
+
+	em_utils_redirect_message_by_uid (
+		folder_view->folder, folder_view->list->cursor_uid);
 }
 
 static void
 action_mail_reply_all_cb (GtkAction *action,
                           EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	em_folder_view_message_reply (folder_view, REPLY_MODE_ALL);
 }
 
 static void
 action_mail_reply_list_cb (GtkAction *action,
                            EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	em_folder_view_message_reply (folder_view, REPLY_MODE_LIST);
 }
 
 static void
 action_mail_reply_post_cb (GtkAction *action,
                            EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	if (folder_view->list->cursor_uid == NULL)
+		return;
+
+	if (!em_utils_check_user_can_send_mail (GTK_WIDGET (shell_window)))
+		return;
+
+	em_utils_post_reply_to_message_by_uid (
+		folder_view->folder, folder_view->list->cursor_uid);
 }
 
 static void
 action_mail_reply_sender_cb (GtkAction *action,
                              EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	em_folder_view_message_reply (folder_view, REPLY_MODE_SENDER);
 }
 
 static void
 action_mail_save_as_cb (GtkAction *action,
                         EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+	GPtrArray *uids;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	uids = message_list_get_selected (folder_view->list);
+
+	em_utils_save_messages (
+		GTK_WIDGET (shell_window), folder_view->folder, uids);
 }
 
 static void
@@ -856,8 +1162,17 @@ static void
 action_mail_undelete_cb (GtkAction *action,
                          EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	guint32 mask, set;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	mask = CAMEL_MESSAGE_DELETED;
+	set = 0;
+
+	em_folder_view_mark_selected (folder_view, mask, set);
 }
 
 static void
@@ -904,24 +1219,39 @@ static void
 action_mail_zoom_100_cb (GtkAction *action,
                          EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFormatHTMLDisplay *format;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	format = e_mail_shell_content_get_preview_format (mail_shell_content);
+
+	em_format_html_display_zoom_reset (format);
 }
 
 static void
 action_mail_zoom_in_cb (GtkAction *action,
                         EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFormatHTMLDisplay *format;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	format = e_mail_shell_content_get_preview_format (mail_shell_content);
+
+	em_format_html_display_zoom_in (format);
 }
 
 static void
 action_mail_zoom_out_cb (GtkAction *action,
                          EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFormatHTMLDisplay *format;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	format = e_mail_shell_content_get_preview_format (mail_shell_content);
+
+	em_format_html_display_zoom_out (format);
 }
 
 static void

@@ -1,6 +1,9 @@
 <ui>
   <menubar name='main-menu'>
     <menu action='file-menu'>
+      <placeholder name='file-actions'>
+        <menuitem action='mail-save-as'/>
+      </placeholder>
       <placeholder name='print-actions'>
         <menuitem action='mail-print-preview'/>
         <menuitem action='mail-print'/>

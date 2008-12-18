@@ -126,7 +126,6 @@ static void emfv_set_folder_uri(EMFolderView *emfv, const char *uri);
 static void emfv_set_message(EMFolderView *emfv, const char *uid, int nomarkseen);
 static void emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int state);
 
-static void emfv_message_reply(EMFolderView *emfv, int mode);
 static void vfolder_type_current (EMFolderView *emfv, int type);
 static void filter_type_current (EMFolderView *emfv, int type);
 
@@ -667,51 +666,51 @@ emfv_popup_open(EPopup *ep, EPopupItem *pitem, void *data)
 	em_folder_view_open_selected(emfv);
 }
 
-static void
-emfv_popup_edit (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	GPtrArray *uids;
+//static void
+//emfv_popup_edit (EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	GPtrArray *uids;
+//
+//	if (!em_utils_check_user_can_send_mail((GtkWidget *)emfv))
+//		return;
+//
+//	uids = message_list_get_selected(emfv->list);
+//	em_utils_edit_messages (emfv->folder, uids, FALSE);
+//}
 
-	if (!em_utils_check_user_can_send_mail((GtkWidget *)emfv))
-		return;
+//static void
+//emfv_popup_saveas(EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	GPtrArray *uids;
+//
+//	uids = message_list_get_selected(emfv->list);
+//	em_utils_save_messages((GtkWidget *)emfv, emfv->folder, uids);
+//}
 
-	uids = message_list_get_selected(emfv->list);
-	em_utils_edit_messages (emfv->folder, uids, FALSE);
-}
+//static void
+//emfv_view_load_images(BonoboUIComponent *uic, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	if (emfv->preview)
+//		em_format_html_load_http((EMFormatHTML *)emfv->preview);
+//}
 
-static void
-emfv_popup_saveas(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	GPtrArray *uids;
+//static void
+//emfv_popup_print(EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	em_folder_view_print(emfv, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
+//}
 
-	uids = message_list_get_selected(emfv->list);
-	em_utils_save_messages((GtkWidget *)emfv, emfv->folder, uids);
-}
-
-static void
-emfv_view_load_images(BonoboUIComponent *uic, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-
-	if (emfv->preview)
-		em_format_html_load_http((EMFormatHTML *)emfv->preview);
-}
-
-static void
-emfv_popup_print(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	em_folder_view_print(emfv, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
-}
-
-static void
-emfv_popup_copy_text(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	gtk_html_copy (((EMFormatHTML *)emfv->preview)->html);
-}
+//static void
+//emfv_popup_copy_text(EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	gtk_html_copy (((EMFormatHTML *)emfv->preview)->html);
+//}
 
 static void
 emfv_popup_source(EPopup *ep, EPopupItem *pitem, void *data)
@@ -732,50 +731,50 @@ emfv_popup_source(EPopup *ep, EPopupItem *pitem, void *data)
 	message_list_free_uids(emfv->list, uids);
 }
 
-static void
-emfv_mail_compose(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
+//static void
+//emfv_mail_compose(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	if (!em_utils_check_user_can_send_mail((GtkWidget *)emfv))
+//		return;
+//
+//	em_utils_compose_new_message(emfv->folder_uri);
+//}
 
-	if (!em_utils_check_user_can_send_mail((GtkWidget *)emfv))
-		return;
+//static void
+//emfv_popup_reply_sender(EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	em_folder_view_message_reply(emfv, REPLY_MODE_SENDER);
+//}
 
-	em_utils_compose_new_message(emfv->folder_uri);
-}
+//static void
+//emfv_popup_reply_list(EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	em_folder_view_message_reply(emfv, REPLY_MODE_LIST);
+//}
 
-static void
-emfv_popup_reply_sender(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	emfv_message_reply(emfv, REPLY_MODE_SENDER);
-}
+//static void
+//emfv_popup_reply_all(EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	em_folder_view_message_reply(emfv, REPLY_MODE_ALL);
+//}
 
-static void
-emfv_popup_reply_list(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	emfv_message_reply(emfv, REPLY_MODE_LIST);
-}
-
-static void
-emfv_popup_reply_all(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	emfv_message_reply(emfv, REPLY_MODE_ALL);
-}
-
-static void
-emfv_popup_forward(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	GPtrArray *uids;
-
-	if (!em_utils_check_user_can_send_mail((GtkWidget *)emfv))
-		return;
-
-	uids = message_list_get_selected(emfv->list);
-	em_utils_forward_messages (emfv->folder, uids, emfv->folder_uri);
-}
+//static void
+//emfv_popup_forward(EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	GPtrArray *uids;
+//
+//	if (!em_utils_check_user_can_send_mail((GtkWidget *)emfv))
+//		return;
+//
+//	uids = message_list_get_selected(emfv->list);
+//	em_utils_forward_messages (emfv->folder, uids, emfv->folder_uri);
+//}
 
 static void
 emfv_popup_flag_followup(EPopup *ep, EPopupItem *pitem, void *data)
@@ -978,12 +977,12 @@ emfv_popup_delete (EPopup *ep, EPopupItem *pitem, void *data)
 #undef DelInVFolderCheckName
 #undef DelInVFolderKey
 
-static void
-emfv_popup_undelete(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_DELETED, 0);
-}
+//static void
+//emfv_popup_undelete(EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	em_folder_view_mark_selected(emfv, CAMEL_MESSAGE_DELETED, 0);
+//}
 
 //struct _move_data {
 //	EMFolderView *emfv;
@@ -1101,40 +1100,40 @@ emfv_popup_label_new (EPopup *ep, EPopupItem *pitem, void *data)
 	}
 }
 
-static void
-emfv_popup_add_sender(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	GPtrArray *uids = message_list_get_selected(emfv->list);
-	CamelMessageInfo *info;
-	const char *addr;
+//static void
+//emfv_popup_add_sender(EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	GPtrArray *uids = message_list_get_selected(emfv->list);
+//	CamelMessageInfo *info;
+//	const char *addr;
+//
+//	if (uids->len == 1
+//	    && (info = camel_folder_get_message_info(emfv->folder, uids->pdata[0])) != NULL
+//	    && (addr = camel_message_info_from(info)) != NULL
+//	    && addr[0] != 0)
+//		em_utils_add_address((GtkWidget *)emfv, addr);
+//
+//	em_utils_uids_free(uids);
+//}
 
-	if (uids->len == 1
-	    && (info = camel_folder_get_message_info(emfv->folder, uids->pdata[0])) != NULL
-	    && (addr = camel_message_info_from(info)) != NULL
-	    && addr[0] != 0)
-		em_utils_add_address((GtkWidget *)emfv, addr);
+//static void
+//emfv_popup_apply_filters(EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	GPtrArray *uids = message_list_get_selected(emfv->list);
+//
+//	mail_filter_on_demand(emfv->folder, uids);
+//}
 
-	em_utils_uids_free(uids);
-}
-
-static void
-emfv_popup_apply_filters(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	GPtrArray *uids = message_list_get_selected(emfv->list);
-
-	mail_filter_on_demand(emfv->folder, uids);
-}
-
-static void
-emfv_popup_filter_junk(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	GPtrArray *uids = message_list_get_selected(emfv->list);
-
-	mail_filter_junk(emfv->folder, uids);
-}
+//static void
+//emfv_popup_filter_junk(EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	GPtrArray *uids = message_list_get_selected(emfv->list);
+//
+//	mail_filter_junk(emfv->folder, uids);
+//}
 
 /* filter callbacks, this will eventually be a wizard, see
    filter_type_current/vfolder_type_current for implementation */
@@ -1160,23 +1159,23 @@ EMFV_POPUP_AUTO_TYPE(filter_type_current, emfv_popup_filter_mlist, AUTO_MLIST)
 /* TODO: Move some of these to be 'standard' menu's */
 
 static EPopupItem emfv_popup_items[] = {
-	{ E_POPUP_ITEM, "00.emfv.00", N_("_Copy"), emfv_popup_copy_text, NULL, "edit-copy", EM_FOLDER_VIEW_SELECT_DISPLAY|EM_FOLDER_VIEW_SELECT_SELECTION },
+//	{ E_POPUP_ITEM, "00.emfv.00", N_("_Copy"), emfv_popup_copy_text, NULL, "edit-copy", EM_FOLDER_VIEW_SELECT_DISPLAY|EM_FOLDER_VIEW_SELECT_SELECTION },
 
 	{ E_POPUP_BAR, "10.emfv", NULL, NULL, NULL, NULL },
 
-	{ E_POPUP_ITEM, "10.emfv.00", N_("_Reply to Sender"), emfv_popup_reply_sender, NULL, "mail-reply-sender", EM_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "10.emfv.01", N_("Reply to _All"), emfv_popup_reply_all, NULL, "mail-reply-all", EM_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "10.emfv.02", N_("_Forward"), emfv_popup_forward, NULL, "mail-forward", EM_POPUP_SELECT_MANY },
+//	{ E_POPUP_ITEM, "10.emfv.00", N_("_Reply to Sender"), emfv_popup_reply_sender, NULL, "mail-reply-sender", EM_POPUP_SELECT_ONE },
+//	{ E_POPUP_ITEM, "10.emfv.01", N_("Reply to _All"), emfv_popup_reply_all, NULL, "mail-reply-all", EM_POPUP_SELECT_ONE },
+//	{ E_POPUP_ITEM, "10.emfv.02", N_("_Forward"), emfv_popup_forward, NULL, "mail-forward", EM_POPUP_SELECT_MANY },
 
 	{ E_POPUP_BAR, "20.emfv", NULL, NULL, NULL, NULL },
 	/* EM_POPUP_EDIT was used here. This is changed to EM_POPUP_SELECT_ONE as Edit-as-new-messaeg need not be restricted to Sent-Items folder alone */
-	{ E_POPUP_ITEM, "20.emfv.00", N_("_Edit as New Message..."), emfv_popup_edit, NULL, NULL, EM_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "20.emfv.01", N_("_Save As..."), emfv_popup_saveas, NULL, "document-save-as", EM_POPUP_SELECT_MANY },
-	{ E_POPUP_ITEM, "20.emfv.02", N_("_Print..."), emfv_popup_print, NULL, "document-print", EM_POPUP_SELECT_ONE },
+//	{ E_POPUP_ITEM, "20.emfv.00", N_("_Edit as New Message..."), emfv_popup_edit, NULL, NULL, EM_POPUP_SELECT_ONE },
+//	{ E_POPUP_ITEM, "20.emfv.01", N_("_Save As..."), emfv_popup_saveas, NULL, "document-save-as", EM_POPUP_SELECT_MANY },
+//	{ E_POPUP_ITEM, "20.emfv.02", N_("_Print..."), emfv_popup_print, NULL, "document-print", EM_POPUP_SELECT_ONE },
 
 	{ E_POPUP_BAR, "40.emfv", NULL, NULL, NULL, NULL },
 	{ E_POPUP_ITEM, "40.emfv.00", N_("_Delete"), emfv_popup_delete, NULL, "edit-delete", EM_POPUP_SELECT_DELETE|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "40.emfv.01", N_("U_ndelete"), emfv_popup_undelete, NULL, NULL, EM_POPUP_SELECT_UNDELETE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+//	{ E_POPUP_ITEM, "40.emfv.01", N_("U_ndelete"), emfv_popup_undelete, NULL, NULL, EM_POPUP_SELECT_UNDELETE|EM_FOLDER_VIEW_SELECT_LISTONLY },
 //	{ E_POPUP_ITEM, "40.emfv.02", N_("_Move to Folder..."), emfv_popup_move, NULL, "mail-move", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
 //	{ E_POPUP_ITEM, "40.emfv.03", N_("_Copy to Folder..."), emfv_popup_copy, NULL, "mail-copy", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
 
@@ -1357,15 +1356,15 @@ from(BonoboUIComponent *uid, void *data, const char *path)	\
 	to(NULL, NULL, data);					\
 }
 
-EMFV_MAP_CALLBACK(emfv_add_sender_addressbook, emfv_popup_add_sender)
-EMFV_MAP_CALLBACK(emfv_message_apply_filters, emfv_popup_apply_filters)
-EMFV_MAP_CALLBACK(emfv_message_filter_junk, emfv_popup_filter_junk)
+//EMFV_MAP_CALLBACK(emfv_add_sender_addressbook, emfv_popup_add_sender)
+//EMFV_MAP_CALLBACK(emfv_message_apply_filters, emfv_popup_apply_filters)
+//EMFV_MAP_CALLBACK(emfv_message_filter_junk, emfv_popup_filter_junk)
 //EMFV_MAP_CALLBACK(emfv_message_copy, emfv_popup_copy)
 //EMFV_MAP_CALLBACK(emfv_message_move, emfv_popup_move)
-EMFV_MAP_CALLBACK(emfv_message_forward, emfv_popup_forward)
-EMFV_MAP_CALLBACK(emfv_message_reply_all, emfv_popup_reply_all)
-EMFV_MAP_CALLBACK(emfv_message_reply_list, emfv_popup_reply_list)
-EMFV_MAP_CALLBACK(emfv_message_reply_sender, emfv_popup_reply_sender)
+//EMFV_MAP_CALLBACK(emfv_message_forward, emfv_popup_forward)
+//EMFV_MAP_CALLBACK(emfv_message_reply_all, emfv_popup_reply_all)
+//EMFV_MAP_CALLBACK(emfv_message_reply_list, emfv_popup_reply_list)
+//EMFV_MAP_CALLBACK(emfv_message_reply_sender, emfv_popup_reply_sender)
 //EMFV_MAP_CALLBACK(emfv_message_mark_read, emfv_popup_mark_read)
 //EMFV_MAP_CALLBACK(emfv_message_mark_unread, emfv_popup_mark_unread)
 //EMFV_MAP_CALLBACK(emfv_message_mark_important, emfv_popup_mark_important)
@@ -1373,23 +1372,23 @@ EMFV_MAP_CALLBACK(emfv_message_reply_sender, emfv_popup_reply_sender)
 //EMFV_MAP_CALLBACK(emfv_message_mark_junk, emfv_popup_mark_junk)
 //EMFV_MAP_CALLBACK(emfv_message_mark_nojunk, emfv_popup_mark_nojunk)
 EMFV_MAP_CALLBACK(emfv_message_delete, emfv_popup_delete)
-EMFV_MAP_CALLBACK(emfv_message_undelete, emfv_popup_undelete)
+//EMFV_MAP_CALLBACK(emfv_message_undelete, emfv_popup_undelete)
 EMFV_MAP_CALLBACK(emfv_message_followup_flag, emfv_popup_flag_followup)
 EMFV_MAP_CALLBACK(emfv_message_followup_clear, emfv_popup_flag_clear)
 EMFV_MAP_CALLBACK(emfv_message_followup_completed, emfv_popup_flag_completed)
 EMFV_MAP_CALLBACK(emfv_message_open, emfv_popup_open)
-EMFV_MAP_CALLBACK(emfv_message_edit, emfv_popup_edit)
-EMFV_MAP_CALLBACK(emfv_message_saveas, emfv_popup_saveas)
-EMFV_MAP_CALLBACK(emfv_print_message, emfv_popup_print)
+//EMFV_MAP_CALLBACK(emfv_message_edit, emfv_popup_edit)
+//EMFV_MAP_CALLBACK(emfv_message_saveas, emfv_popup_saveas)
+//EMFV_MAP_CALLBACK(emfv_print_message, emfv_popup_print)
 EMFV_MAP_CALLBACK(emfv_message_source, emfv_popup_source)
 
-static void
-emfv_empty_trash(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-
-	em_utils_empty_trash (gtk_widget_get_toplevel ((GtkWidget *) emfv));
-}
+//static void
+//emfv_empty_trash(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	em_utils_empty_trash (gtk_widget_get_toplevel ((GtkWidget *) emfv));
+//}
 
 static void
 prepare_offline(void *key, void *value, void *data)
@@ -1451,132 +1450,132 @@ emfv_select_all_text(BonoboUIComponent *uid, void *data, const char *path)
 
 }
 
-static void
-emfv_mail_next(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
+//static void
+//emfv_mail_next(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	e_profile_event_emit("goto.next", "", 0);
+//
+//	message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0);
+//}
 
-	e_profile_event_emit("goto.next", "", 0);
+//static void
+//emfv_mail_next_flagged(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT|MESSAGE_LIST_SELECT_WRAP, CAMEL_MESSAGE_FLAGGED, CAMEL_MESSAGE_FLAGGED);
+//}
 
-	message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, 0, 0);
-}
+//static void
+//emfv_mail_next_unread(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	gtk_widget_grab_focus((GtkWidget *) emfv->list);
+//	message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT|MESSAGE_LIST_SELECT_WRAP, 0, CAMEL_MESSAGE_SEEN);
+//}
 
-static void
-emfv_mail_next_flagged(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
+//static void
+//emfv_mail_next_thread(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	message_list_select_next_thread(emfv->list);
+//}
 
-	message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT|MESSAGE_LIST_SELECT_WRAP, CAMEL_MESSAGE_FLAGGED, CAMEL_MESSAGE_FLAGGED);
-}
+//static void
+//emfv_mail_previous(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	message_list_select(emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
+//}
 
-static void
-emfv_mail_next_unread(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
+//static void
+//emfv_mail_previous_flagged(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	message_list_select(emfv->list, MESSAGE_LIST_SELECT_PREVIOUS|MESSAGE_LIST_SELECT_WRAP, CAMEL_MESSAGE_FLAGGED, CAMEL_MESSAGE_FLAGGED);
+//}
 
-	gtk_widget_grab_focus((GtkWidget *) emfv->list);
-	message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT|MESSAGE_LIST_SELECT_WRAP, 0, CAMEL_MESSAGE_SEEN);
-}
+//static void
+//emfv_mail_previous_unread(BonoboUIComponent *uid, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	gtk_widget_grab_focus((GtkWidget *) emfv->list);
+//	message_list_select(emfv->list, MESSAGE_LIST_SELECT_PREVIOUS|MESSAGE_LIST_SELECT_WRAP, 0, CAMEL_MESSAGE_SEEN);
+//}
 
-static void
-emfv_mail_next_thread(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
+//static void
+//emfv_message_forward_attached (BonoboUIComponent *uic, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//	GPtrArray *uids;
+//
+//	if (!em_utils_check_user_can_send_mail ((GtkWidget *) emfv))
+//		return;
+//
+//	uids = message_list_get_selected (emfv->list);
+//	em_utils_forward_attached (emfv->folder, uids, emfv->folder_uri);
+//}
 
-	message_list_select_next_thread(emfv->list);
-}
+//static void
+//emfv_message_forward_inline (BonoboUIComponent *uic, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//	GPtrArray *uids;
+//
+//	if (!em_utils_check_user_can_send_mail ((GtkWidget *) emfv))
+//		return;
+//
+//	uids = message_list_get_selected (emfv->list);
+//	em_utils_forward_inline (emfv->folder, uids, emfv->folder_uri);
+//}
 
-static void
-emfv_mail_previous(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
+//static void
+//emfv_message_forward_quoted (BonoboUIComponent *uic, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//	GPtrArray *uids;
+//
+//	if (!em_utils_check_user_can_send_mail ((GtkWidget *) emfv))
+//		return;
+//
+//	uids = message_list_get_selected (emfv->list);
+//	em_utils_forward_quoted (emfv->folder, uids, emfv->folder_uri);
+//}
 
-	message_list_select(emfv->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, 0);
-}
+//static void
+//emfv_message_redirect (BonoboUIComponent *uic, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	if (emfv->list->cursor_uid == NULL)
+//		return;
+//
+//	if (!em_utils_check_user_can_send_mail ((GtkWidget *) emfv))
+//		return;
+//
+//	em_utils_redirect_message_by_uid (emfv->folder, emfv->list->cursor_uid);
+//}
 
-static void
-emfv_mail_previous_flagged(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-
-	message_list_select(emfv->list, MESSAGE_LIST_SELECT_PREVIOUS|MESSAGE_LIST_SELECT_WRAP, CAMEL_MESSAGE_FLAGGED, CAMEL_MESSAGE_FLAGGED);
-}
-
-static void
-emfv_mail_previous_unread(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-
-	gtk_widget_grab_focus((GtkWidget *) emfv->list);
-	message_list_select(emfv->list, MESSAGE_LIST_SELECT_PREVIOUS|MESSAGE_LIST_SELECT_WRAP, 0, CAMEL_MESSAGE_SEEN);
-}
-
-static void
-emfv_message_forward_attached (BonoboUIComponent *uic, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-	GPtrArray *uids;
-
-	if (!em_utils_check_user_can_send_mail ((GtkWidget *) emfv))
-		return;
-
-	uids = message_list_get_selected (emfv->list);
-	em_utils_forward_attached (emfv->folder, uids, emfv->folder_uri);
-}
-
-static void
-emfv_message_forward_inline (BonoboUIComponent *uic, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-	GPtrArray *uids;
-
-	if (!em_utils_check_user_can_send_mail ((GtkWidget *) emfv))
-		return;
-
-	uids = message_list_get_selected (emfv->list);
-	em_utils_forward_inline (emfv->folder, uids, emfv->folder_uri);
-}
-
-static void
-emfv_message_forward_quoted (BonoboUIComponent *uic, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-	GPtrArray *uids;
-
-	if (!em_utils_check_user_can_send_mail ((GtkWidget *) emfv))
-		return;
-
-	uids = message_list_get_selected (emfv->list);
-	em_utils_forward_quoted (emfv->folder, uids, emfv->folder_uri);
-}
-
-static void
-emfv_message_redirect (BonoboUIComponent *uic, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-
-	if (emfv->list->cursor_uid == NULL)
-		return;
-
-	if (!em_utils_check_user_can_send_mail ((GtkWidget *) emfv))
-		return;
-
-	em_utils_redirect_message_by_uid (emfv->folder, emfv->list->cursor_uid);
-}
-
-static void
-emfv_message_post_reply (BonoboUIComponent *uic, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-
-	if (emfv->list->cursor_uid == NULL)
-		return;
-
-	if (!em_utils_check_user_can_send_mail ((GtkWidget *) emfv))
-		return;
-
-	em_utils_post_reply_to_message_by_uid (emfv->folder, emfv->list->cursor_uid);
-}
+//static void
+//emfv_message_post_reply (BonoboUIComponent *uic, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	if (emfv->list->cursor_uid == NULL)
+//		return;
+//
+//	if (!em_utils_check_user_can_send_mail ((GtkWidget *) emfv))
+//		return;
+//
+//	em_utils_post_reply_to_message_by_uid (emfv->folder, emfv->list->cursor_uid);
+//}
 
 static gboolean
 html_contains_nonwhitespace (const char *html, gint len)
@@ -1616,8 +1615,8 @@ html_contains_nonwhitespace (const char *html, gint len)
 	return p - html < len - 1 && c != 0;
 }
 
-static void
-emfv_message_reply(EMFolderView *emfv, int mode)
+void
+em_folder_view_message_reply(EMFolderView *emfv, int mode)
 {
 	char *html = NULL;
 	gint len;
@@ -1672,40 +1671,40 @@ emfv_message_search(BonoboUIComponent *uic, void *data, const char *path)
 #endif
 }
 
-static void
-emfv_print_preview_message(BonoboUIComponent *uic, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
+//static void
+//emfv_print_preview_message(BonoboUIComponent *uic, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	em_folder_view_print(emfv, GTK_PRINT_OPERATION_ACTION_PREVIEW);
+//}
 
-	em_folder_view_print(emfv, GTK_PRINT_OPERATION_ACTION_PREVIEW);
-}
+//static void
+//emfv_text_zoom_in(BonoboUIComponent *uic, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	if (emfv->preview)
+//		em_format_html_display_zoom_in(emfv->preview);
+//}
 
-static void
-emfv_text_zoom_in(BonoboUIComponent *uic, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
+//static void
+//emfv_text_zoom_out(BonoboUIComponent *uic, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	if (emfv->preview)
+//		em_format_html_display_zoom_out(emfv->preview);
+//}
 
-	if (emfv->preview)
-		em_format_html_display_zoom_in(emfv->preview);
-}
-
-static void
-emfv_text_zoom_out(BonoboUIComponent *uic, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-
-	if (emfv->preview)
-		em_format_html_display_zoom_out(emfv->preview);
-}
-
-static void
-emfv_text_zoom_reset(BonoboUIComponent *uic, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-
-	if (emfv->preview)
-		em_format_html_display_zoom_reset(emfv->preview);
-}
+//static void
+//emfv_text_zoom_reset(BonoboUIComponent *uic, void *data, const char *path)
+//{
+//	EMFolderView *emfv = data;
+//
+//	if (emfv->preview)
+//		em_format_html_display_zoom_reset(emfv->preview);
+//}
 
 /* ********************************************************************** */
 
@@ -1874,7 +1873,7 @@ EMFV_MAP_CALLBACK(emfv_tools_vfolder_mlist, emfv_popup_vfolder_mlist)
 /* ********************************************************************** */
 
 static BonoboUIVerb emfv_message_verbs[] = {
-	BONOBO_UI_UNSAFE_VERB ("EmptyTrash", emfv_empty_trash),
+//	BONOBO_UI_UNSAFE_VERB ("EmptyTrash", emfv_empty_trash),
 	BONOBO_UI_UNSAFE_VERB ("PrepareForOffline", emfv_prepare_offline),
 	BONOBO_UI_UNSAFE_VERB ("EditCut", emfv_edit_cut),
 	BONOBO_UI_UNSAFE_VERB ("EditCopy", emfv_edit_copy),
@@ -1882,26 +1881,26 @@ static BonoboUIVerb emfv_message_verbs[] = {
 
 	BONOBO_UI_UNSAFE_VERB ("SelectAllText", emfv_select_all_text),
 
-	BONOBO_UI_UNSAFE_VERB ("MailNext", emfv_mail_next),
-	BONOBO_UI_UNSAFE_VERB ("MailNextFlagged", emfv_mail_next_flagged),
-	BONOBO_UI_UNSAFE_VERB ("MailNextUnread", emfv_mail_next_unread),
-	BONOBO_UI_UNSAFE_VERB ("MailNextThread", emfv_mail_next_thread),
-	BONOBO_UI_UNSAFE_VERB ("MailPrevious", emfv_mail_previous),
-	BONOBO_UI_UNSAFE_VERB ("MailPreviousFlagged", emfv_mail_previous_flagged),
-	BONOBO_UI_UNSAFE_VERB ("MailPreviousUnread", emfv_mail_previous_unread),
+//	BONOBO_UI_UNSAFE_VERB ("MailNext", emfv_mail_next),
+//	BONOBO_UI_UNSAFE_VERB ("MailNextFlagged", emfv_mail_next_flagged),
+//	BONOBO_UI_UNSAFE_VERB ("MailNextUnread", emfv_mail_next_unread),
+//	BONOBO_UI_UNSAFE_VERB ("MailNextThread", emfv_mail_next_thread),
+//	BONOBO_UI_UNSAFE_VERB ("MailPrevious", emfv_mail_previous),
+//	BONOBO_UI_UNSAFE_VERB ("MailPreviousFlagged", emfv_mail_previous_flagged),
+//	BONOBO_UI_UNSAFE_VERB ("MailPreviousUnread", emfv_mail_previous_unread),
 
-	BONOBO_UI_UNSAFE_VERB ("AddSenderToAddressbook", emfv_add_sender_addressbook),
+//	BONOBO_UI_UNSAFE_VERB ("AddSenderToAddressbook", emfv_add_sender_addressbook),
 
-	BONOBO_UI_UNSAFE_VERB ("MessageApplyFilters", emfv_message_apply_filters),
-	BONOBO_UI_UNSAFE_VERB ("MessageFilterJunk", emfv_message_filter_junk),
+//	BONOBO_UI_UNSAFE_VERB ("MessageApplyFilters", emfv_message_apply_filters),
+//	BONOBO_UI_UNSAFE_VERB ("MessageFilterJunk", emfv_message_filter_junk),
 //	BONOBO_UI_UNSAFE_VERB ("MessageCopy", emfv_message_copy),
 	BONOBO_UI_UNSAFE_VERB ("MessageDelete", emfv_message_delete),
 	BONOBO_UI_UNSAFE_VERB ("MessageDeleteKey", emfv_message_delete),
-	BONOBO_UI_UNSAFE_VERB ("MessageForward", emfv_message_forward),
-	BONOBO_UI_UNSAFE_VERB ("MessageForwardAttached", emfv_message_forward_attached),
-	BONOBO_UI_UNSAFE_VERB ("MessageForwardInline", emfv_message_forward_inline),
-	BONOBO_UI_UNSAFE_VERB ("MessageForwardQuoted", emfv_message_forward_quoted),
-	BONOBO_UI_UNSAFE_VERB ("MessageRedirect", emfv_message_redirect),
+//	BONOBO_UI_UNSAFE_VERB ("MessageForward", emfv_message_forward),
+//	BONOBO_UI_UNSAFE_VERB ("MessageForwardAttached", emfv_message_forward_attached),
+//	BONOBO_UI_UNSAFE_VERB ("MessageForwardInline", emfv_message_forward_inline),
+//	BONOBO_UI_UNSAFE_VERB ("MessageForwardQuoted", emfv_message_forward_quoted),
+//	BONOBO_UI_UNSAFE_VERB ("MessageRedirect", emfv_message_redirect),
 //	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsRead", emfv_message_mark_read),
 //	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsUnRead", emfv_message_mark_unread),
 //	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsImportant", emfv_message_mark_important),
@@ -1913,25 +1912,25 @@ static BonoboUIVerb emfv_message_verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageFollowUpClear", emfv_message_followup_clear),
 //	BONOBO_UI_UNSAFE_VERB ("MessageMove", emfv_message_move),
 	BONOBO_UI_UNSAFE_VERB ("MessageOpen", emfv_message_open),
-	BONOBO_UI_UNSAFE_VERB ("MessagePostReply", emfv_message_post_reply),
-	BONOBO_UI_UNSAFE_VERB ("MessageReplyAll", emfv_message_reply_all),
-	BONOBO_UI_UNSAFE_VERB ("MessageReplyList", emfv_message_reply_list),
-	BONOBO_UI_UNSAFE_VERB ("MessageReplySender", emfv_message_reply_sender),
-	BONOBO_UI_UNSAFE_VERB ("MessageEdit", emfv_message_edit),
-	BONOBO_UI_UNSAFE_VERB ("MessageSaveAs", emfv_message_saveas),
+//	BONOBO_UI_UNSAFE_VERB ("MessagePostReply", emfv_message_post_reply),
+//	BONOBO_UI_UNSAFE_VERB ("MessageReplyAll", emfv_message_reply_all),
+//	BONOBO_UI_UNSAFE_VERB ("MessageReplyList", emfv_message_reply_list),
+//	BONOBO_UI_UNSAFE_VERB ("MessageReplySender", emfv_message_reply_sender),
+//	BONOBO_UI_UNSAFE_VERB ("MessageEdit", emfv_message_edit),
+//	BONOBO_UI_UNSAFE_VERB ("MessageSaveAs", emfv_message_saveas),
 	BONOBO_UI_UNSAFE_VERB ("MessageSearch", emfv_message_search),
-	BONOBO_UI_UNSAFE_VERB ("MessageUndelete", emfv_message_undelete),
+//	BONOBO_UI_UNSAFE_VERB ("MessageUndelete", emfv_message_undelete),
 
-	BONOBO_UI_UNSAFE_VERB ("PrintMessage", emfv_print_message),
-	BONOBO_UI_UNSAFE_VERB ("PrintPreviewMessage", emfv_print_preview_message),
+//	BONOBO_UI_UNSAFE_VERB ("PrintMessage", emfv_print_message),
+//	BONOBO_UI_UNSAFE_VERB ("PrintPreviewMessage", emfv_print_preview_message),
 
-	BONOBO_UI_UNSAFE_VERB ("TextZoomIn", emfv_text_zoom_in),
-	BONOBO_UI_UNSAFE_VERB ("TextZoomOut", emfv_text_zoom_out),
-	BONOBO_UI_UNSAFE_VERB ("TextZoomReset", emfv_text_zoom_reset),
+//	BONOBO_UI_UNSAFE_VERB ("TextZoomIn", emfv_text_zoom_in),
+//	BONOBO_UI_UNSAFE_VERB ("TextZoomOut", emfv_text_zoom_out),
+//	BONOBO_UI_UNSAFE_VERB ("TextZoomReset", emfv_text_zoom_reset),
 
 	BONOBO_UI_UNSAFE_VERB ("ViewSource", emfv_message_source),
 
-	BONOBO_UI_UNSAFE_VERB ("MailCompose", emfv_mail_compose),
+//	BONOBO_UI_UNSAFE_VERB ("MailCompose", emfv_mail_compose),
 
 	/* TODO: This stuff should just be 1 item that runs a wizard */
 	BONOBO_UI_UNSAFE_VERB ("ToolsFilterMailingList", emfv_tools_filter_mlist),
@@ -1943,7 +1942,7 @@ static BonoboUIVerb emfv_message_verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderSender", emfv_tools_vfolder_sender),
 	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderSubject", emfv_tools_vfolder_subject),
 
-	BONOBO_UI_UNSAFE_VERB ("ViewLoadImages", emfv_view_load_images),
+//	BONOBO_UI_UNSAFE_VERB ("ViewLoadImages", emfv_view_load_images),
 	/* ViewHeaders stuff is a radio */
 	/* CaretMode is a toggle */
 
@@ -2446,7 +2445,7 @@ emfv_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 		break;
 #ifdef HAVE_XFREE
 	case XF86XK_Reply:
-		emfv_message_reply(emfv, REPLY_MODE_ALL);
+		em_folder_view_message_reply(emfv, REPLY_MODE_ALL);
 		break;
 	case XF86XK_MailForward:
 		uids = message_list_get_selected(emfv->list);

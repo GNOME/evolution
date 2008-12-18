@@ -26,6 +26,7 @@
 #include <shell/e-shell-view.h>
 
 #include "em-folder-view.h"
+#include "em-format-html-display.h"
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_SHELL_CONTENT \
@@ -87,11 +88,16 @@ GType		e_mail_shell_content_get_type	(void);
 GtkWidget *	e_mail_shell_content_new	(EShellView *shell_view);
 EMFolderView *	e_mail_shell_content_get_folder_view
 						(EMailShellContent *mail_shell_content);
+EMFormatHTMLDisplay *
+		e_mail_shell_content_get_preview_format
+						(EMailShellContent *mail_shell_content);
 gboolean	e_mail_shell_content_get_preview_visible
 						(EMailShellContent *mail_shell_content);
 void		e_mail_shell_content_set_preview_visible
 						(EMailShellContent *mail_shell_content,
 						 gboolean preview_visible);
+GtkWidget *	e_mail_shell_content_get_preview_widget
+						(EMailShellContent *mail_shell_content);
 gboolean	e_mail_shell_content_get_vertical_view
 						(EMailShellContent *mail_shell_content);
 void		e_mail_shell_content_set_vertical_view

@@ -25,11 +25,13 @@
 #include "e-mail-shell-view.h"
 
 #include <glib/gi18n.h>
+#include <gtkhtml/gtkhtml.h>
 #include <camel/camel-vtrash-folder.h>
 
 #include "e-util/gconf-bridge.h"
 #include "widgets/menus/gal-view-instance.h"
 
+#include "em-composer-utils.h"
 #include "em-folder-selector.h"
 #include "em-utils.h"
 #include "mail-ops.h"

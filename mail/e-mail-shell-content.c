@@ -29,7 +29,6 @@
 #include "widgets/menus/gal-view-instance.h"
 
 #include "em-folder-view.h"
-#include "em-format-html-display.h"
 #include "em-search-context.h"
 #include "em-utils.h"
 #include "mail-config.h"
@@ -196,11 +195,10 @@ mail_shell_content_constructed (GObject *object)
 
 	container = widget;
 
-	widget = em_folder_view_new ();
-	gtk_paned_add1 (GTK_PANED (container), ((EMFolderView *) widget)->list);
-	gtk_widget_show (((EMFolderView *) widget)->list);
-	/*gtk_paned_add1 (GTK_PANED (container), widget);*/
-	priv->folder_view = g_object_ref (widget);
+	/* XXX Kill EMFolderView? */
+	priv->folder_view = em_folder_view_new ();
+	widget = GTK_WIDGET (((EMFolderView *) priv->folder_view)->list);
+	gtk_paned_add1 (GTK_PANED (container), widget);
 	gtk_widget_show (widget);
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
@@ -214,9 +212,11 @@ mail_shell_content_constructed (GObject *object)
 
 	container = widget;
 
+	/* XXX Kill EMFolderView? */
 	priv->preview = ((EMFolderView *) priv->folder_view)->preview;
-	gtk_container_add (GTK_CONTAINER (container), ((EMFormatHTML *) priv->preview)->html);
-	gtk_widget_show (((EMFormatHTML *) priv->preview)->html);
+	widget = GTK_WIDGET (((EMFormatHTML *) priv->preview)->html);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
 
 	/* Load the view instance. */
 
@@ -343,6 +343,15 @@ e_mail_shell_content_get_folder_view (EMailShellContent *mail_shell_content)
 	return EM_FOLDER_VIEW (mail_shell_content->priv->folder_view);
 }
 
+EMFormatHTMLDisplay *
+e_mail_shell_content_get_preview_format (EMailShellContent *mail_shell_content)
+{
+	g_return_val_if_fail (
+		E_IS_MAIL_SHELL_CONTENT (mail_shell_content), NULL);
+
+	return mail_shell_content->priv->preview;
+}
+
 gboolean
 e_mail_shell_content_get_preview_visible (EMailShellContent *mail_shell_content)
 {
@@ -375,6 +384,19 @@ e_mail_shell_content_set_preview_visible (EMailShellContent *mail_shell_content,
 	mail_shell_content->priv->preview_visible = preview_visible;
 
 	g_object_notify (G_OBJECT (mail_shell_content), "preview-visible");
+}
+
+GtkWidget *
+e_mail_shell_content_get_preview_widget (EMailShellContent *mail_shell_content)
+{
+	EMFormatHTML *format;
+
+	g_return_val_if_fail (
+		E_IS_MAIL_SHELL_CONTENT (mail_shell_content), NULL);
+
+	format = (EMFormatHTML *) mail_shell_content->priv->preview;
+
+	return GTK_WIDGET (format->html);
 }
 
 gboolean

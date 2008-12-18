@@ -141,6 +141,7 @@ GtkWidget *em_folder_view_new(void);
 #define em_folder_view_set_message(emfv, uid, nomarkseen) EM_FOLDER_VIEW_GET_CLASS (emfv)->set_message((emfv), (uid), (nomarkseen))
 
 void em_folder_view_select_next_message(EMFolderView *emfv, int count, gboolean always_can_previous);
+void em_folder_view_message_reply(EMFolderView *emfv, int mode);
 
 EMPopupTargetSelect *em_folder_view_get_popup_target(EMFolderView *emfv, EMPopup *emp, int on_display);
 
