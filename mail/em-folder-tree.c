@@ -2012,53 +2012,6 @@ emft_tree_row_activated (GtkTreeView *treeview, GtkTreePath *tree_path, GtkTreeV
 	g_free(uri);
 }
 
-#if 0
-static void
-emft_popup_view (GtkWidget *item, EMFolderTree *emft)
-{
-
-}
-
-static void
-emft_popup_open_new (GtkWidget *item, EMFolderTree *emft)
-{
-}
-#endif
-
-static void
-emft_popup_copy(EPopup *ep, EPopupItem *item, void *data)
-{
-	EMFolderTree *emft = data;
-	CamelFolderInfo *fi = NULL;
-
-	/* FIXME: use async apis */
-	if ((fi = em_folder_tree_get_selected_folder_info (emft)) != NULL)
-		em_folder_utils_copy_folder(fi, FALSE);
-}
-
-static void
-emft_popup_move(EPopup *ep, EPopupItem *item, void *data)
-{
-	EMFolderTree *emft = data;
-	CamelFolderInfo *fi = NULL;
-
-	/* FIXME: use async apis */
-	if ((fi = em_folder_tree_get_selected_folder_info (emft)) != NULL)
-		em_folder_utils_copy_folder(fi, TRUE);
-}
-
-static void
-emft_popup_new_folder (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderTree *emft = data;
-	CamelFolderInfo *fi;
-
-	if ((fi = em_folder_tree_get_selected_folder_info (emft)) != NULL) {
-		em_folder_utils_create_folder(fi, emft);
-		camel_folder_info_free(fi);
-	}
-}
-
 static void
 selfunc (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data)
 {
@@ -2085,216 +2038,12 @@ emft_selection_get_selected (GtkTreeSelection *selection, GtkTreeModel **model, 
 	}
 }
 
-static void
-emft_popup_delete_folder (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderTree *emft = data;
-	CamelFolder *folder;
-
-	if ((folder = em_folder_tree_get_selected_folder (emft)) != NULL) {
-		em_folder_utils_delete_folder(folder);
-	}
-}
-
-static void
-emft_popup_rename_folder (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderTree *emft = data;
-	CamelFolder *folder;
-
-	if ((folder = em_folder_tree_get_selected_folder (emft)) != NULL) {
-		em_folder_utils_rename_folder(folder);
-	}
-}
-
-static void
-emft_popup_refresh_folder (EPopup *ep, EPopupItem *pitem, void *data)
-{
-        EMFolderTree *emft = data;
-        CamelFolder *folder;
-
-        if ((folder = em_folder_tree_get_selected_folder (emft)) != NULL)
-                mail_refresh_folder(folder, NULL, NULL);
-}
-
-static void
-emft_popup_flush_outbox (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	mail_send ();
-}
-
-static void
-emft_popup_empty_trash (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	em_utils_empty_trash (data);
-}
-
-static void
-emft_popup_properties (EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderTree *emft = data;
-	GtkTreeSelection *selection;
-	GtkTreeView *tree_view;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	char *uri;
-
-	tree_view = GTK_TREE_VIEW (emft);
-	selection = gtk_tree_view_get_selection (tree_view);
-	if (!emft_selection_get_selected (selection, &model, &iter))
-		return;
-
-	gtk_tree_model_get (model, &iter, COL_STRING_URI, &uri, -1);
-	em_folder_properties_show (NULL, NULL, uri);
-	g_free (uri);
-}
-
-static EPopupItem emft_popup_items[] = {
-#if 0
-	{ E_POPUP_ITEM, "00.emc.00", N_("_View"), emft_popup_view, NULL, NULL, EM_POPUP_FOLDER_SELECT },
-	{ E_POPUP_ITEM, "00.emc.01", N_("Open in _New Window"), emft_popup_open_new, NULL, NULL, EM_POPUP_FOLDER_SELECT },
-
-	{ E_POPUP_BAR, "10.emc" },
-#endif
-	/* FIXME: need to disable for nochildren folders */
-	{ E_POPUP_ITEM, "10.emc.00", N_("_New Folder..."), emft_popup_new_folder, NULL, "folder-new", 0, EM_POPUP_FOLDER_INFERIORS },
-
-	{ E_POPUP_ITEM, "10.emc.05", N_("_Copy..."), emft_popup_copy, NULL, "folder-copy", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT },
-	{ E_POPUP_ITEM, "10.emc.06", N_("_Move..."), emft_popup_move, NULL, "folder-move", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
-
-	/* FIXME: need to disable for undeletable folders */
-	{ E_POPUP_BAR,  "20.emc" },
-	{ E_POPUP_ITEM, "20.emc.01", N_("_Delete"), emft_popup_delete_folder, NULL, "edit-delete", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
-
-	{ E_POPUP_BAR, "30.emc" },
-	{ E_POPUP_ITEM, "30.emc.02", N_("_Rename..."), emft_popup_rename_folder, NULL, NULL, 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
-	{ E_POPUP_ITEM, "30.emc.03", N_("Re_fresh"), emft_popup_refresh_folder, NULL, "view-refresh", EM_POPUP_FOLDER_NONSTATIC, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT},
-	{ E_POPUP_ITEM, "30.emc.04", N_("Fl_ush Outbox"), emft_popup_flush_outbox, NULL, "mail-send", EM_POPUP_FOLDER_OUTBOX, 0 },
-
-
-	{ E_POPUP_BAR, "99.emc" },
-	{ E_POPUP_ITEM, "99.emc.00", N_("_Properties"), emft_popup_properties, NULL, "document-properties", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT }
-};
-static EPopupItem trash_popup_item = {E_POPUP_ITEM, "30.emc.05", N_("_Empty Trash"), emft_popup_empty_trash,NULL,NULL, 1, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT};
-
-static void
-emft_popup_free(EPopup *ep, GSList *items, void *data)
-{
-	g_slist_free(items);
-}
-
-static gboolean
-emft_popup (EMFolderTree *emft, GdkEvent *event)
-{
-	GtkTreeView *tree_view;
-	GtkTreeSelection *selection;
-	CamelStore *local, *store;
-	EMPopupTargetFolder *target;
-	EShellModule *shell_module;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	GSList *menus = NULL;
-	guint32 info_flags = 0;
-	guint32 flags = 0;
-	guint32 folder_type_flags = 0;
-	gboolean isstore;
-	char *uri, *full_name;
-	GtkMenu *menu;
-	EMPopup *emp;
-	CamelFolder *selfolder = NULL;
-	int i;
-
-	tree_view = GTK_TREE_VIEW (emft);
-
-	/* this centralises working out when the user's done something */
-	emft_tree_user_event(tree_view, (GdkEvent *)event, emft);
-
-	/* FIXME: we really need the folderinfo to build a proper menu */
-	selection = gtk_tree_view_get_selection (tree_view);
-	if (!emft_selection_get_selected (selection, &model, &iter))
-		return FALSE;
-
-	shell_module = em_folder_tree_model_get_shell_module (emft->priv->model);
-
-	gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store,
-			    COL_STRING_URI, &uri, COL_STRING_FULL_NAME, &full_name,
-			    COL_BOOL_IS_STORE, &isstore, COL_UINT_FLAGS, &folder_type_flags, -1);
-
-	/* Stores have full_name == NULL, otherwise its just a placeholder */
-	/* NB: This is kind of messy */
-	if (!isstore && full_name == NULL) {
-		g_free (uri);
-		return FALSE;
-	}
-
-	/* TODO: em_popup_target_folder_new? */
-	if (isstore) {
-		flags |= EM_POPUP_FOLDER_STORE;
-	} else {
-		flags |= EM_POPUP_FOLDER_FOLDER;
-
-		local = e_mail_shell_module_get_local_store (shell_module);
-
-		/* don't allow deletion of special local folders */
-		if (!(store == local && is_special_local_folder (full_name)))
-			flags |= EM_POPUP_FOLDER_DELETE;
-
-		/* hack for vTrash/vJunk */
-		if (!strcmp (full_name, CAMEL_VTRASH_NAME) || !strcmp (full_name, CAMEL_VJUNK_NAME))
-			info_flags |= CAMEL_FOLDER_VIRTUAL | CAMEL_FOLDER_NOINFERIORS;
-
-		selfolder = em_folder_tree_get_selected_folder (emft);
-
-		if (folder_type_flags & CAMEL_FOLDER_SYSTEM)
-			flags &= ~EM_POPUP_FOLDER_DELETE;
-
-		if (em_utils_folder_is_outbox (selfolder, NULL))
-			info_flags |= CAMEL_FOLDER_TYPE_OUTBOX;
-	}
-
-	folder_tree_emit_popup_event (emft, event);
-
-#if 0  /* KILL-BONOBO */
-	/** @HookPoint-EMPopup: Folder Tree Context Menu
-	 * @Id: org.gnome.evolution.mail.foldertree.popup
-	 * @Class: org.gnome.evolution.mail.popup:1.0
-	 * @Target: EMPopupTargetFolder
-	 *
-	 * This is the context menu shown on the folder tree.
-	 */
-	emp = em_popup_new ("org.gnome.evolution.mail.foldertree.popup");
-
-	/* FIXME: pass valid fi->flags here */
-	target = em_popup_target_new_folder (emp, uri, info_flags, flags);
-
-	for (i = 0; i < sizeof (emft_popup_items) / sizeof (emft_popup_items[0]); i++)
-		menus = g_slist_prepend (menus, &emft_popup_items[i]);
-
-	if ((folder_type_flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_TRASH)
-		menus = g_slist_prepend (menus, &trash_popup_item);
-
-	e_popup_add_items ((EPopup *)emp, menus, NULL, emft_popup_free, emft);
-
-	menu = e_popup_create_menu_once ((EPopup *)emp, (EPopupTarget *)target, 0);
-
-	if (event == NULL || event->type == GDK_KEY_PRESS) {
-		/* FIXME: menu pos function */
-		gtk_menu_popup (menu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
-	} else {
-		gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event->button.button, event->button.time);
-	}
-#endif
-
-	g_free (full_name);
-	g_free (uri);
-
-	return TRUE;
-}
-
 static gboolean
 emft_popup_menu (GtkWidget *widget)
 {
-	return emft_popup (EM_FOLDER_TREE (widget), NULL);
+	folder_tree_emit_popup_event (EM_FOLDER_TREE (widget), NULL);
+
+	return TRUE;
 }
 
 static gboolean
@@ -2325,7 +2074,9 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 
 	gtk_tree_path_free (tree_path);
 
-	return emft_popup (emft, (GdkEvent *)event);
+	folder_tree_emit_popup_event (emft, (GdkEvent *) event);
+
+	return TRUE;
 }
 
 /* This is called for keyboard and mouse events, it seems the only way

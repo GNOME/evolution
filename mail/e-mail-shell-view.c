@@ -67,9 +67,10 @@ mail_shell_view_constructed (GObject *object)
 static void
 mail_shell_view_update_actions (EShellView *shell_view)
 {
-#if 0  /* FIXME */
 	EMailShellViewPrivate *priv;
 	EMailShellSidebar *mail_shell_sidebar;
+	EShellContent *shell_content;
+	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
 	EMFolderTree *folder_tree;
 	GtkAction *action;
@@ -77,6 +78,15 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gchar *uri;
 	gboolean sensitive;
 	gboolean visible;
+	guint32 state;
+
+	/* Be descriptive. */
+	gboolean folder_allows_children;
+	gboolean folder_can_be_deleted;
+	gboolean folder_is_junk;
+	gboolean folder_is_outbox;
+	gboolean folder_is_store;
+	gboolean folder_is_trash;
 
 	priv = E_MAIL_SHELL_VIEW_GET_PRIVATE (shell_view);
 
@@ -85,48 +95,63 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	mail_shell_sidebar = priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	state = e_shell_sidebar_check_state (shell_sidebar);
+
+	folder_allows_children =
+		(state & E_MAIL_SHELL_SIDEBAR_FOLDER_ALLOWS_CHILDREN);
+	folder_can_be_deleted =
+		(state & E_MAIL_SHELL_SIDEBAR_FOLDER_CAN_DELETE);
+	folder_is_junk =
+		(state & E_MAIL_SHELL_SIDEBAR_FOLDER_IS_JUNK);
+	folder_is_outbox =
+		(state & E_MAIL_SHELL_SIDEBAR_FOLDER_IS_OUTBOX);
+	folder_is_store =
+		(state & E_MAIL_SHELL_SIDEBAR_FOLDER_IS_STORE);
+	folder_is_trash =
+		(state & E_MAIL_SHELL_SIDEBAR_FOLDER_IS_TRASH);
+
 	uri = em_folder_tree_get_selected_uri (folder_tree);
 	camel_url = camel_url_new (uri, NULL);
 	g_free (uri);
 
 	action = ACTION (MAIL_EMPTY_TRASH);
-	visible = is_trash;
+	visible = folder_is_trash;
 	gtk_action_set_visible (action, visible);
 
 	action = ACTION (MAIL_FLUSH_OUTBOX);
-	visible = is_outbox;
+	visible = folder_is_outbox;
 	gtk_action_set_visible (action, visible);
 
 	action = ACTION (MAIL_FOLDER_COPY);
-	sensitive = is_folder && is_selected;
+	sensitive = !folder_is_store;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_DELETE);
-	sensitive = is_folder && can_delete;
+	sensitive = !folder_is_store && folder_can_be_deleted;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_MOVE);
-	sensitive = is_folder && can_delete;
+	sensitive = !folder_is_store && folder_can_be_deleted;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_NEW);
-	sensitive = inferiors;
+	sensitive = folder_allows_children;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_PROPERTIES);
-	sensitive = is_folder && is_selected;
+	sensitive = !folder_is_store;
 	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_REFRESH);
-	sensitive = is_folder && is_selected;
-	visible = nonstatic;
+	sensitive = !folder_is_store;
+	visible = !folder_is_outbox;
 	gtk_action_set_sensitive (action, sensitive);
 	gtk_action_set_visible (action, visible);
 
 	action = ACTION (MAIL_FOLDER_RENAME);
-	sensitive = is_folder && can_delete;
+	sensitive = !folder_is_store && folder_can_be_deleted;
 	gtk_action_set_sensitive (action, sensitive);
-#endif
 }
 
 static void

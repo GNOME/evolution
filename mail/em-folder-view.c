@@ -126,9 +126,6 @@ static void emfv_set_folder_uri(EMFolderView *emfv, const char *uri);
 static void emfv_set_message(EMFolderView *emfv, const char *uid, int nomarkseen);
 static void emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int state);
 
-static void vfolder_type_current (EMFolderView *emfv, int type);
-static void filter_type_current (EMFolderView *emfv, int type);
-
 static void emfv_setting_setup(EMFolderView *emfv);
 
 static void emfv_on_url_cb(GObject *emitter, const char *url, EMFolderView *emfv);
@@ -1138,23 +1135,23 @@ emfv_popup_label_new (EPopup *ep, EPopupItem *pitem, void *data)
 /* filter callbacks, this will eventually be a wizard, see
    filter_type_current/vfolder_type_current for implementation */
 
-#define EMFV_POPUP_AUTO_TYPE(autotype, name, type)	\
-static void						\
-name(EPopup *ep, EPopupItem *item, void *data)		\
-{							\
-	EMFolderView *emfv = data;			\
-	autotype(emfv, type);				\
-}
+//#define EMFV_POPUP_AUTO_TYPE(autotype, name, type)	\
+//static void						\
+//name(EPopup *ep, EPopupItem *item, void *data)		\
+//{							\
+//	EMFolderView *emfv = data;			\
+//	autotype(emfv, type);				\
+//}
 
-EMFV_POPUP_AUTO_TYPE(vfolder_type_current, emfv_popup_vfolder_subject, AUTO_SUBJECT)
-EMFV_POPUP_AUTO_TYPE(vfolder_type_current, emfv_popup_vfolder_sender, AUTO_FROM)
-EMFV_POPUP_AUTO_TYPE(vfolder_type_current, emfv_popup_vfolder_recipients, AUTO_TO)
-EMFV_POPUP_AUTO_TYPE(vfolder_type_current, emfv_popup_vfolder_mlist, AUTO_MLIST)
+//EMFV_POPUP_AUTO_TYPE(vfolder_type_current, emfv_popup_vfolder_subject, AUTO_SUBJECT)
+//EMFV_POPUP_AUTO_TYPE(vfolder_type_current, emfv_popup_vfolder_sender, AUTO_FROM)
+//EMFV_POPUP_AUTO_TYPE(vfolder_type_current, emfv_popup_vfolder_recipients, AUTO_TO)
+//EMFV_POPUP_AUTO_TYPE(vfolder_type_current, emfv_popup_vfolder_mlist, AUTO_MLIST)
 
-EMFV_POPUP_AUTO_TYPE(filter_type_current, emfv_popup_filter_subject, AUTO_SUBJECT)
-EMFV_POPUP_AUTO_TYPE(filter_type_current, emfv_popup_filter_sender, AUTO_FROM)
-EMFV_POPUP_AUTO_TYPE(filter_type_current, emfv_popup_filter_recipients, AUTO_TO)
-EMFV_POPUP_AUTO_TYPE(filter_type_current, emfv_popup_filter_mlist, AUTO_MLIST)
+//EMFV_POPUP_AUTO_TYPE(filter_type_current, emfv_popup_filter_subject, AUTO_SUBJECT)
+//EMFV_POPUP_AUTO_TYPE(filter_type_current, emfv_popup_filter_sender, AUTO_FROM)
+//EMFV_POPUP_AUTO_TYPE(filter_type_current, emfv_popup_filter_recipients, AUTO_TO)
+//EMFV_POPUP_AUTO_TYPE(filter_type_current, emfv_popup_filter_mlist, AUTO_MLIST)
 
 /* TODO: Move some of these to be 'standard' menu's */
 
@@ -1202,19 +1199,19 @@ static EPopupItem emfv_popup_items[] = {
 	{ E_POPUP_BAR, "90.filter", NULL, NULL, NULL, NULL },
 	{ E_POPUP_SUBMENU, "90.filter.00", N_("Crea_te Rule From Message"), NULL, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	/* Translators: The following strings are used while creating a new search folder, to specify what parameter the search folder would be based on. */ 
-	{ E_POPUP_ITEM, "90.filter.00/00.00", N_("Search Folder based on _Subject"), emfv_popup_vfolder_subject, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "90.filter.00/00.01", N_("Search Folder based on Se_nder"), emfv_popup_vfolder_sender, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "90.filter.00/00.02", N_("Search Folder based on _Recipients"), emfv_popup_vfolder_recipients, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "90.filter.00/00.03", N_("Search Folder based on Mailing _List"),
-	  emfv_popup_vfolder_mlist, NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST|EM_FOLDER_VIEW_SELECT_LISTONLY },
+//	{ E_POPUP_ITEM, "90.filter.00/00.00", N_("Search Folder based on _Subject"), emfv_popup_vfolder_subject, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+//	{ E_POPUP_ITEM, "90.filter.00/00.01", N_("Search Folder based on Se_nder"), emfv_popup_vfolder_sender, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+//	{ E_POPUP_ITEM, "90.filter.00/00.02", N_("Search Folder based on _Recipients"), emfv_popup_vfolder_recipients, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+//	{ E_POPUP_ITEM, "90.filter.00/00.03", N_("Search Folder based on Mailing _List"),
+//	  emfv_popup_vfolder_mlist, NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST|EM_FOLDER_VIEW_SELECT_LISTONLY },
 
 	{ E_POPUP_BAR, "90.filter.00/10", NULL, NULL, NULL, NULL },
 	/* Translators: The following strings are used while creating a new message filter, to specify what parameter the filter would be based on. */ 
-	{ E_POPUP_ITEM, "90.filter.00/10.00", N_("Filter based on Sub_ject"), emfv_popup_filter_subject, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "90.filter.00/10.01", N_("Filter based on Sen_der"), emfv_popup_filter_sender, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "90.filter.00/10.02", N_("Filter based on Re_cipients"), emfv_popup_filter_recipients,  NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "90.filter.00/10.03", N_("Filter based on _Mailing List"),
-	  emfv_popup_filter_mlist, NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST|EM_FOLDER_VIEW_SELECT_LISTONLY },
+//	{ E_POPUP_ITEM, "90.filter.00/10.00", N_("Filter based on Sub_ject"), emfv_popup_filter_subject, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+//	{ E_POPUP_ITEM, "90.filter.00/10.01", N_("Filter based on Sen_der"), emfv_popup_filter_sender, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+//	{ E_POPUP_ITEM, "90.filter.00/10.02", N_("Filter based on Re_cipients"), emfv_popup_filter_recipients,  NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
+//	{ E_POPUP_ITEM, "90.filter.00/10.03", N_("Filter based on _Mailing List"),
+//	  emfv_popup_filter_mlist, NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST|EM_FOLDER_VIEW_SELECT_LISTONLY },
 };
 
 static enum _e_popup_t
@@ -1708,77 +1705,77 @@ emfv_message_search(BonoboUIComponent *uic, void *data, const char *path)
 
 /* ********************************************************************** */
 
-struct _filter_data {
-	const char *source;
-	char *uri;
-	int type;
-};
+//struct _filter_data {
+//	const char *source;
+//	char *uri;
+//	int type;
+//};
 
-static void
-filter_data_free (struct _filter_data *fdata)
-{
-	g_free (fdata->uri);
-	g_free (fdata);
-}
+//static void
+//filter_data_free (struct _filter_data *fdata)
+//{
+//	g_free (fdata->uri);
+//	g_free (fdata);
+//}
 
-static void
-filter_type_got_message (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *user_data)
-{
-	struct _filter_data *data = user_data;
+//static void
+//filter_type_got_message (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *user_data)
+//{
+//	struct _filter_data *data = user_data;
+//
+//	if (msg)
+//		filter_gui_add_from_message (msg, data->source, data->type);
+//
+//	filter_data_free (data);
+//}
 
-	if (msg)
-		filter_gui_add_from_message (msg, data->source, data->type);
+//static void
+//filter_type_uid (CamelFolder *folder, const char *uid, const char *source, int type)
+//{
+//	struct _filter_data *data;
+//
+//	data = g_malloc0 (sizeof (*data));
+//	data->type = type;
+//	data->source = source;
+//
+//	mail_get_message (folder, uid, filter_type_got_message, data, mail_msg_unordered_push);
+//}
 
-	filter_data_free (data);
-}
+//static void
+//filter_type_current (EMFolderView *emfv, int type)
+//{
+//	const char *source;
+//	GPtrArray *uids;
+//
+//	if (em_utils_folder_is_sent (emfv->folder, emfv->folder_uri)
+//	    || em_utils_folder_is_outbox (emfv->folder, emfv->folder_uri))
+//		source = FILTER_SOURCE_OUTGOING;
+//	else
+//		source = FILTER_SOURCE_INCOMING;
+//
+//	uids = message_list_get_selected (emfv->list);
+//
+//	if (uids->len == 1)
+//		filter_type_uid (emfv->folder, (char *) uids->pdata[0], source, type);
+//
+//	em_utils_uids_free (uids);
+//}
 
-static void
-filter_type_uid (CamelFolder *folder, const char *uid, const char *source, int type)
-{
-	struct _filter_data *data;
+//EMFV_MAP_CALLBACK(emfv_tools_filter_subject, emfv_popup_filter_subject)
+//EMFV_MAP_CALLBACK(emfv_tools_filter_sender, emfv_popup_filter_sender)
+//EMFV_MAP_CALLBACK(emfv_tools_filter_recipient, emfv_popup_filter_recipients)
+//EMFV_MAP_CALLBACK(emfv_tools_filter_mlist, emfv_popup_filter_mlist)
 
-	data = g_malloc0 (sizeof (*data));
-	data->type = type;
-	data->source = source;
-
-	mail_get_message (folder, uid, filter_type_got_message, data, mail_msg_unordered_push);
-}
-
-static void
-filter_type_current (EMFolderView *emfv, int type)
-{
-	const char *source;
-	GPtrArray *uids;
-
-	if (em_utils_folder_is_sent (emfv->folder, emfv->folder_uri)
-	    || em_utils_folder_is_outbox (emfv->folder, emfv->folder_uri))
-		source = FILTER_SOURCE_OUTGOING;
-	else
-		source = FILTER_SOURCE_INCOMING;
-
-	uids = message_list_get_selected (emfv->list);
-
-	if (uids->len == 1)
-		filter_type_uid (emfv->folder, (char *) uids->pdata[0], source, type);
-
-	em_utils_uids_free (uids);
-}
-
-EMFV_MAP_CALLBACK(emfv_tools_filter_subject, emfv_popup_filter_subject)
-EMFV_MAP_CALLBACK(emfv_tools_filter_sender, emfv_popup_filter_sender)
-EMFV_MAP_CALLBACK(emfv_tools_filter_recipient, emfv_popup_filter_recipients)
-EMFV_MAP_CALLBACK(emfv_tools_filter_mlist, emfv_popup_filter_mlist)
-
-static void
-vfolder_type_got_message (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *user_data)
-{
-	struct _filter_data *data = user_data;
-
-	if (msg)
-		vfolder_gui_add_from_message (msg, data->type, data->uri);
-
-	filter_data_free (data);
-}
+//static void
+//vfolder_type_got_message (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *user_data)
+//{
+//	struct _filter_data *data = user_data;
+//
+//	if (msg)
+//		vfolder_gui_add_from_message (msg, data->type, data->uri);
+//
+//	filter_data_free (data);
+//}
 
 static void
 emp_uri_popup_vfolder_sender(EPopup *ep, EPopupItem *pitem, void *data)
@@ -1836,39 +1833,39 @@ emp_uri_popup_vfolder_recipient(EPopup *ep, EPopupItem *pitem, void *data)
 	camel_url_free(url);
 }
 
-static void
-vfolder_type_uid (CamelFolder *folder, const char *uid, const char *uri, int type)
-{
-	struct _filter_data *data;
+//static void
+//vfolder_type_uid (CamelFolder *folder, const char *uid, const char *uri, int type)
+//{
+//	struct _filter_data *data;
+//
+//	data = g_malloc0 (sizeof (*data));
+//	data->type = type;
+//	data->uri = g_strdup (uri);
+//
+//	mail_get_message (folder, uid, vfolder_type_got_message, data, mail_msg_unordered_push);
+//}
 
-	data = g_malloc0 (sizeof (*data));
-	data->type = type;
-	data->uri = g_strdup (uri);
+//static void
+//vfolder_type_current (EMFolderView *emfv, int type)
+//{
+//	GPtrArray *uids;
+//
+//	uids = message_list_get_selected (emfv->list);
+//
+//	if (uids->len == 1) {
+//		/* ensures vfolder is running */
+//		vfolder_load_storage ();
+//
+//		vfolder_type_uid (emfv->folder, (char *) uids->pdata[0], emfv->folder_uri, type);
+//	}
+//
+//	em_utils_uids_free (uids);
+//}
 
-	mail_get_message (folder, uid, vfolder_type_got_message, data, mail_msg_unordered_push);
-}
-
-static void
-vfolder_type_current (EMFolderView *emfv, int type)
-{
-	GPtrArray *uids;
-
-	uids = message_list_get_selected (emfv->list);
-
-	if (uids->len == 1) {
-		/* ensures vfolder is running */
-		vfolder_load_storage ();
-
-		vfolder_type_uid (emfv->folder, (char *) uids->pdata[0], emfv->folder_uri, type);
-	}
-
-	em_utils_uids_free (uids);
-}
-
-EMFV_MAP_CALLBACK(emfv_tools_vfolder_subject, emfv_popup_vfolder_subject)
-EMFV_MAP_CALLBACK(emfv_tools_vfolder_sender, emfv_popup_vfolder_sender)
-EMFV_MAP_CALLBACK(emfv_tools_vfolder_recipient, emfv_popup_vfolder_recipients)
-EMFV_MAP_CALLBACK(emfv_tools_vfolder_mlist, emfv_popup_vfolder_mlist)
+//EMFV_MAP_CALLBACK(emfv_tools_vfolder_subject, emfv_popup_vfolder_subject)
+//EMFV_MAP_CALLBACK(emfv_tools_vfolder_sender, emfv_popup_vfolder_sender)
+//EMFV_MAP_CALLBACK(emfv_tools_vfolder_recipient, emfv_popup_vfolder_recipients)
+//EMFV_MAP_CALLBACK(emfv_tools_vfolder_mlist, emfv_popup_vfolder_mlist)
 
 /* ********************************************************************** */
 
@@ -1933,14 +1930,14 @@ static BonoboUIVerb emfv_message_verbs[] = {
 //	BONOBO_UI_UNSAFE_VERB ("MailCompose", emfv_mail_compose),
 
 	/* TODO: This stuff should just be 1 item that runs a wizard */
-	BONOBO_UI_UNSAFE_VERB ("ToolsFilterMailingList", emfv_tools_filter_mlist),
-	BONOBO_UI_UNSAFE_VERB ("ToolsFilterRecipient", emfv_tools_filter_recipient),
-	BONOBO_UI_UNSAFE_VERB ("ToolsFilterSender", emfv_tools_filter_sender),
-	BONOBO_UI_UNSAFE_VERB ("ToolsFilterSubject", emfv_tools_filter_subject),
-	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderMailingList", emfv_tools_vfolder_mlist),
-	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderRecipient", emfv_tools_vfolder_recipient),
-	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderSender", emfv_tools_vfolder_sender),
-	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderSubject", emfv_tools_vfolder_subject),
+//	BONOBO_UI_UNSAFE_VERB ("ToolsFilterMailingList", emfv_tools_filter_mlist),
+//	BONOBO_UI_UNSAFE_VERB ("ToolsFilterRecipient", emfv_tools_filter_recipient),
+//	BONOBO_UI_UNSAFE_VERB ("ToolsFilterSender", emfv_tools_filter_sender),
+//	BONOBO_UI_UNSAFE_VERB ("ToolsFilterSubject", emfv_tools_filter_subject),
+//	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderMailingList", emfv_tools_vfolder_mlist),
+//	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderRecipient", emfv_tools_vfolder_recipient),
+//	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderSender", emfv_tools_vfolder_sender),
+//	BONOBO_UI_UNSAFE_VERB ("ToolsVFolderSubject", emfv_tools_vfolder_subject),
 
 //	BONOBO_UI_UNSAFE_VERB ("ViewLoadImages", emfv_view_load_images),
 	/* ViewHeaders stuff is a radio */

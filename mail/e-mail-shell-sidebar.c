@@ -24,6 +24,8 @@
 #include <string.h>
 #include <camel/camel.h>
 
+#include "em-utils.h"
+
 #include "e-mail-shell-module.h"
 
 #define E_MAIL_SHELL_SIDEBAR_GET_PRIVATE(obj) \
@@ -130,7 +132,6 @@ mail_shell_sidebar_constructed (GObject *object)
 static guint32
 mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 {
-#if 0
 	EMailShellSidebar *mail_shell_sidebar;
 	EShellModule *shell_module;
 	EShellView *shell_view;
@@ -144,10 +145,12 @@ mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	CamelStore *store;
 	gchar *full_name;
 	gchar *uri;
-	gboolean is_virtual = FALSE;
+	gboolean allows_children = TRUE;
 	gboolean can_delete = TRUE;
+	gboolean is_junk = FALSE;
 	gboolean is_outbox = FALSE;
 	gboolean is_store;
+	gboolean is_trash = FALSE;
 	guint32 folder_flags = 0;
 	guint32 state = 0;
 
@@ -169,29 +172,41 @@ mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 		COL_STRING_FULL_NAME, &full_name,
 		COL_BOOL_IS_STORE, &is_store,
 		COL_UINT_FLAGS, &folder_flags,
-		COL_STRING_URI, &uri, NULL);
+		COL_STRING_URI, &uri, -1);
 
 	if (!is_store) {
-		if (strcmp (full_name, CAMEL_VJUNK_NAME) == 0)
-			is_virtual = TRUE;
+		is_junk = (strcmp (full_name, CAMEL_VJUNK_NAME) == 0);
+		is_trash = (strcmp (full_name, CAMEL_VTRASH_NAME) == 0);
+		allows_children = !(is_junk || is_trash);
 
-		if (strcmp (full_name, CAMEL_VTRASH_NAME) == 0)
-			is_virtual = TRUE;
+		/* Don't allow deletion of special local folders. */
+		if (store == local_store)
+			can_delete =
+				(strcmp (full_name, "Drafts") != 0) &&
+				(strcmp (full_name, "Inbox") != 0) &&
+				(strcmp (full_name, "Outbox") != 0) &&
+				(strcmp (full_name, "Sent") != 0) &&
+				(strcmp (full_name, "Templates") != 0);
 
 		folder = em_folder_tree_get_selected_folder (folder_tree);
 		is_outbox = em_utils_folder_is_outbox (folder, NULL);
+		can_delete &= !(folder_flags & CAMEL_FOLDER_SYSTEM);
 	}
 
-	if (is_virtual)
-		state |= E_MAIL_SHELL_SIDEBAR_ALLOWS_CHILDREN;
+	if (allows_children)
+		state |= E_MAIL_SHELL_SIDEBAR_FOLDER_ALLOWS_CHILDREN;
+	if (can_delete)
+		state |= E_MAIL_SHELL_SIDEBAR_FOLDER_CAN_DELETE;
+	if (is_junk)
+		state |= E_MAIL_SHELL_SIDEBAR_FOLDER_IS_JUNK;
 	if (is_outbox)
 		state |= E_MAIL_SHELL_SIDEBAR_FOLDER_IS_OUTBOX;
 	if (is_store)
 		state |= E_MAIL_SHELL_SIDEBAR_FOLDER_IS_STORE;
+	if (is_trash)
+		state |= E_MAIL_SHELL_SIDEBAR_FOLDER_IS_TRASH;
 
 	return state;
-#endif
-        return 0;
 }
 
 static void

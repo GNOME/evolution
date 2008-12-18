@@ -156,7 +156,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 
 	/* Cache these to avoid lots of awkward casting. */
 	priv->mail_shell_content = g_object_ref (shell_content);
-	priv->mail_shell_sidebar = g_object_ref (shell_content);
+	priv->mail_shell_sidebar = g_object_ref (shell_sidebar);
 
 	mail_shell_content = E_MAIL_SHELL_CONTENT (shell_content);
 	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
@@ -371,4 +371,127 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 
 	camel_object_free (folder, CAMEL_FOLDER_NAME, folder_name);
 	g_string_free (buffer, TRUE);
+}
+
+/* Helper for e_mail_shell_view_create_filter_from_selected() */
+static void
+mail_shell_view_create_filter_cb (CamelFolder *folder,
+                                  const gchar *uid,
+                                  CamelMimeMessage *message,
+                                  gpointer user_data)
+{
+	struct {
+		const gchar *source;
+		gint type;
+	} *filter_data = user_data;
+
+	if (message != NULL)
+		filter_gui_add_from_message (
+			message, filter_data->source, filter_data->type);
+
+	g_free (filter_data);
+}
+
+void
+e_mail_shell_view_create_filter_from_selected (EMailShellView *mail_shell_view,
+                                               gint filter_type)
+{
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	CamelFolder *folder;
+	const gchar *filter_source;
+	const gchar *folder_uri;
+	GPtrArray *uids;
+
+	struct {
+		const gchar *source;
+		gint type;
+	} *filter_data;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+	folder_uri = folder_view->folder_uri;
+	folder = folder_view->folder;
+
+	if (em_utils_folder_is_sent (folder, folder_uri))
+		filter_source = FILTER_SOURCE_OUTGOING;
+	else if (em_utils_folder_is_outbox (folder, folder_uri))
+		filter_source = FILTER_SOURCE_OUTGOING;
+	else
+		filter_source = FILTER_SOURCE_INCOMING;
+
+	uids = message_list_get_selected (folder_view->list);
+
+	if (uids->len == 1) {
+		filter_data = g_malloc (sizeof (*filter_data));
+		filter_data->source = filter_source;
+		filter_data->type = filter_type;
+
+		mail_get_message (
+			folder, uids->pdata[0],
+			mail_shell_view_create_filter_cb,
+			filter_data, mail_msg_unordered_push);
+	}
+
+	em_utils_uids_free (uids);
+}
+
+/* Helper for e_mail_shell_view_create_vfolder_from_selected() */
+static void
+mail_shell_view_create_vfolder_cb (CamelFolder *folder,
+                                   const gchar *uid,
+                                   CamelMimeMessage *message,
+                                   gpointer user_data)
+{
+	struct {
+		gchar *uri;
+		gint type;
+	} *vfolder_data = user_data;
+
+	if (message != NULL)
+		vfolder_gui_add_from_message (
+			message, vfolder_data->type, vfolder_data->uri);
+
+	g_free (vfolder_data->uri);
+	g_free (vfolder_data);
+}
+
+void
+e_mail_shell_view_create_vfolder_from_selected (EMailShellView *mail_shell_view,
+                                                gint vfolder_type)
+{
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	CamelFolder *folder;
+	const gchar *folder_uri;
+	GPtrArray *uids;
+
+	struct {
+		gchar *uri;
+		gint type;
+	} *vfolder_data;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+	folder_uri = folder_view->folder_uri;
+	folder = folder_view->folder;
+
+	uids = message_list_get_selected (folder_view->list);
+
+	if (uids->len == 1) {
+		vfolder_data = g_malloc (sizeof (*vfolder_data));
+		vfolder_data->uri = g_strdup (folder_uri);
+		vfolder_data->type = vfolder_type;
+
+		mail_get_message (
+			folder, uids->pdata[0],
+			mail_shell_view_create_vfolder_cb,
+			vfolder_data, mail_msg_unordered_push);
+	}
+
+	em_utils_uids_free (uids);
 }

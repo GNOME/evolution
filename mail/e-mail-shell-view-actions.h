@@ -61,6 +61,8 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-flag-completed")
 #define E_SHELL_WINDOW_ACTION_MAIL_FLAG_FOR_FOLLOWUP(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-flag-for-followup")
+#define E_SHELL_WINDOW_ACTION_MAIL_FLUSH_OUTBOX(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-flush-outbox")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_COPY(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-folder-copy")
 #define E_SHELL_WINDOW_ACTION_MAIL_FOLDER_DELETE(window) \

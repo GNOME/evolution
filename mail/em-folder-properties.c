@@ -458,6 +458,9 @@ em_folder_properties_show (EShellView *shell_view,
                            CamelFolder *folder,
                            const gchar *uri)
 {
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (uri != NULL);
+
 	/* HACK: its the old behaviour, not very 'neat' but it works */
 	if (!strncmp (uri, "vfolder:", 8)) {
 		CamelURL *url = camel_url_new (uri, NULL);
@@ -476,7 +479,7 @@ em_folder_properties_show (EShellView *shell_view,
 	}
 
 	if (folder == NULL)
-		mail_get_folder(uri, 0, emfp_dialog_got_folder, NULL, mail_msg_unordered_push);
+		mail_get_folder(uri, 0, emfp_dialog_got_folder, shell_view, mail_msg_unordered_push);
 	else
-		emfp_dialog_got_folder((char *)uri, folder, NULL);
+		emfp_dialog_got_folder((char *)uri, folder, shell_view);
 }

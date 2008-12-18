@@ -32,9 +32,14 @@
 #include "widgets/menus/gal-view-instance.h"
 
 #include "em-composer-utils.h"
+#include "em-folder-properties.h"
 #include "em-folder-selector.h"
+#include "em-folder-utils.h"
 #include "em-utils.h"
+#include "mail-autofilter.h"
 #include "mail-ops.h"
+#include "mail-send-recv.h"
+#include "mail-vfolder.h"
 
 #include "e-mail-shell-content.h"
 #include "e-mail-shell-module.h"
@@ -129,6 +134,12 @@ void		e_mail_shell_view_actions_init
 					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_update_sidebar
 					(EMailShellView *mail_shell_view);
+void		e_mail_shell_view_create_filter_from_selected
+					(EMailShellView *mail_shell_view,
+					 gint filter_type);
+void		e_mail_shell_view_create_vfolder_from_selected
+					(EMailShellView *mail_shell_view,
+					 gint vfolder_type);
 
 G_END_DECLS
 

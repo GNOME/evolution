@@ -322,6 +322,50 @@ folder_selection_button_class_init (EMFolderSelectionButtonClass *class)
 	button_class = GTK_BUTTON_CLASS (class);
 	button_class->clicked = folder_selection_button_clicked;
 
+	g_object_class_install_property (
+		object_class,
+		PROP_CAPTION,
+		g_param_spec_string (
+			"caption",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MODEL,
+		g_param_spec_object (
+			"model",
+			NULL,
+			NULL,
+			EM_TYPE_FOLDER_TREE_MODEL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MULTISELECT,
+		g_param_spec_boolean (
+			"multiselect",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_TITLE,
+		g_param_spec_string (
+			"title",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
 	signals[SELECTED] = g_signal_new (
 		"selected",
 		G_OBJECT_CLASS_TYPE (object_class),
@@ -335,7 +379,6 @@ folder_selection_button_class_init (EMFolderSelectionButtonClass *class)
 static void
 folder_selection_button_init (EMFolderSelectionButton *emfsb)
 {
-	struct _EMFolderSelectionButtonPrivate *priv;
 	GtkWidget *box;
 
 	emfsb->priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (emfsb);
@@ -345,7 +388,7 @@ folder_selection_button_init (EMFolderSelectionButton *emfsb)
 	box = gtk_hbox_new (FALSE, 4);
 
 	emfsb->priv->icon = gtk_image_new ();
-	gtk_widget_show (priv->icon);
+	gtk_widget_show (emfsb->priv->icon);
 	gtk_box_pack_start (GTK_BOX (box), emfsb->priv->icon, FALSE, TRUE, 0);
 
 	emfsb->priv->label = gtk_label_new ("");

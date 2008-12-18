@@ -202,32 +202,32 @@ static void
 action_mail_filter_on_mailing_list_cb (GtkAction *action,
                                        EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	e_mail_shell_view_create_filter_from_selected (
+		mail_shell_view, AUTO_MLIST);
 }
 
 static void
 action_mail_filter_on_recipients_cb (GtkAction *action,
                                      EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	e_mail_shell_view_create_filter_from_selected (
+		mail_shell_view, AUTO_TO);
 }
 
 static void
 action_mail_filter_on_sender_cb (GtkAction *action,
                                  EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	e_mail_shell_view_create_filter_from_selected (
+		mail_shell_view, AUTO_FROM);
 }
 
 static void
 action_mail_filter_on_subject_cb (GtkAction *action,
                                   EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	e_mail_shell_view_create_filter_from_selected (
+		mail_shell_view, AUTO_SUBJECT);
 }
 
 static void
@@ -282,24 +282,40 @@ static void
 action_mail_flush_outbox_cb (GtkAction *action,
                              EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	mail_send ();
 }
 
 static void
 action_mail_folder_copy_cb (GtkAction *action,
                             EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellSidebar *mail_shell_sidebar;
+	CamelFolderInfo *folder_info;
+	EMFolderTree *folder_tree;
+
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+	folder_info = em_folder_tree_get_selected_folder_info (folder_tree);
+	g_return_if_fail (folder_info != NULL);
+
+	/* XXX Leaking folder_info? */
+	em_folder_utils_copy_folder (folder_info, FALSE);
 }
 
 static void
 action_mail_folder_delete_cb (GtkAction *action,
                               EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellSidebar *mail_shell_sidebar;
+	EMFolderTree *folder_tree;
+	CamelFolder *folder;
+
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+	folder = em_folder_tree_get_selected_folder (folder_tree);
+	g_return_if_fail (folder != NULL);
+
+	em_folder_utils_delete_folder (folder);
 }
 
 static void
@@ -322,40 +338,93 @@ static void
 action_mail_folder_move_cb (GtkAction *action,
                             EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellSidebar *mail_shell_sidebar;
+	CamelFolderInfo *folder_info;
+	EMFolderTree *folder_tree;
+
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+	folder_info = em_folder_tree_get_selected_folder_info (folder_tree);
+	g_return_if_fail (folder_info != NULL);
+
+	/* XXX Leaking folder_info? */
+	em_folder_utils_copy_folder (folder_info, TRUE);
 }
 
 static void
 action_mail_folder_new_cb (GtkAction *action,
                            EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellSidebar *mail_shell_sidebar;
+	CamelFolderInfo *folder_info;
+	EMFolderTree *folder_tree;
+
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+	folder_info = em_folder_tree_get_selected_folder_info (folder_tree);
+	g_return_if_fail (folder_info != NULL);
+
+	em_folder_utils_create_folder (folder_info, folder_tree);
+	camel_folder_info_free (folder_info);
 }
 
 static void
 action_mail_folder_properties_cb (GtkAction *action,
                                   EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellSidebar *mail_shell_sidebar;
+	EMFolderTree *folder_tree;
+	EShellView *shell_view;
+	GtkTreeSelection *selection;
+	GtkTreeView *tree_view;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gchar *uri;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+
+	tree_view = GTK_TREE_VIEW (folder_tree);
+	selection = gtk_tree_view_get_selection (tree_view);
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
+		return;
+
+	gtk_tree_model_get (model, &iter, COL_STRING_URI, &uri, -1);
+	em_folder_properties_show (shell_view, NULL, uri);
+	g_free (uri);
 }
 
 static void
 action_mail_folder_refresh_cb (GtkAction *action,
                                EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellSidebar *mail_shell_sidebar;
+	EMFolderTree *folder_tree;
+	CamelFolder *folder;
+
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+	folder = em_folder_tree_get_selected_folder (folder_tree);
+	g_return_if_fail (folder != NULL);
+
+	mail_refresh_folder (folder, NULL, NULL);
 }
 
 static void
 action_mail_folder_rename_cb (GtkAction *action,
                               EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellSidebar *mail_shell_sidebar;
+	EMFolderTree *folder_tree;
+	CamelFolder *folder;
+
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+	folder = em_folder_tree_get_selected_folder (folder_tree);
+	g_return_if_fail (folder != NULL);
+
+	em_folder_utils_rename_folder (folder);
 }
 
 static void
@@ -1042,32 +1111,32 @@ static void
 action_mail_search_folder_from_mailing_list_cb (GtkAction *action,
                                                 EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	e_mail_shell_view_create_vfolder_from_selected (
+		mail_shell_view, AUTO_MLIST);
 }
 
 static void
 action_mail_search_folder_from_recipients_cb (GtkAction *action,
                                               EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	e_mail_shell_view_create_vfolder_from_selected (
+		mail_shell_view, AUTO_TO);
 }
 
 static void
 action_mail_search_folder_from_sender_cb (GtkAction *action,
                                           EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	e_mail_shell_view_create_vfolder_from_selected (
+		mail_shell_view, AUTO_FROM);
 }
 
 static void
 action_mail_search_folder_from_subject_cb (GtkAction *action,
                                            EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	e_mail_shell_view_create_vfolder_from_selected (
+		mail_shell_view, AUTO_SUBJECT);
 }
 
 static void
