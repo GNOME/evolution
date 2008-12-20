@@ -773,39 +773,39 @@ emfv_popup_source(EPopup *ep, EPopupItem *pitem, void *data)
 //	em_utils_forward_messages (emfv->folder, uids, emfv->folder_uri);
 //}
 
-static void
-emfv_popup_flag_followup(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	GPtrArray *uids = message_list_get_selected(emfv->list);
+//static void
+//emfv_popup_flag_followup(EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	GPtrArray *uids = message_list_get_selected(emfv->list);
+//
+//	em_utils_flag_for_followup((GtkWidget *)emfv, emfv->folder, uids);
+//}
 
-	em_utils_flag_for_followup((GtkWidget *)emfv, emfv->folder, uids);
-}
+//static void
+//emfv_popup_flag_completed(EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	GPtrArray *uids;
+//
+//	uids = message_list_get_selected(emfv->list);
+//	em_utils_flag_for_followup_completed((GtkWidget *)emfv, emfv->folder, uids);
+//
+//	if (emfv->preview)
+//		em_format_redraw (emfv->preview);
+//}
 
-static void
-emfv_popup_flag_completed(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	GPtrArray *uids;
-
-	uids = message_list_get_selected(emfv->list);
-	em_utils_flag_for_followup_completed((GtkWidget *)emfv, emfv->folder, uids);
-
-	if (emfv->preview)
-		em_format_redraw (emfv->preview);
-}
-
-static void
-emfv_popup_flag_clear(EPopup *ep, EPopupItem *pitem, void *data)
-{
-	EMFolderView *emfv = data;
-	GPtrArray *uids = message_list_get_selected(emfv->list);
-
-	em_utils_flag_for_followup_clear((GtkWidget *)emfv, emfv->folder, uids);
-
-	if (emfv->preview)
-		em_format_redraw (emfv->preview);
-}
+//static void
+//emfv_popup_flag_clear(EPopup *ep, EPopupItem *pitem, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	GPtrArray *uids = message_list_get_selected(emfv->list);
+//
+//	em_utils_flag_for_followup_clear((GtkWidget *)emfv, emfv->folder, uids);
+//
+//	if (emfv->preview)
+//		em_format_redraw (emfv->preview);
+//}
 
 //static void
 //emfv_popup_mark_read(EPopup *ep, EPopupItem *pitem, void *data)
@@ -1183,7 +1183,7 @@ static EPopupItem emfv_popup_items[] = {
 //	{ E_POPUP_ITEM, "50.emfv.03", N_("Mark as Un_important"), emfv_popup_mark_unimportant, NULL, NULL, EM_POPUP_SELECT_MARK_UNIMPORTANT|EM_FOLDER_VIEW_SELECT_LISTONLY },
 //	{ E_POPUP_ITEM, "50.emfv.04", N_("Mark as _Junk"), emfv_popup_mark_junk, NULL, "mail-mark-junk", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY|EM_POPUP_SELECT_JUNK },
 //	{ E_POPUP_ITEM, "50.emfv.05", N_("Mark as _Not Junk"), emfv_popup_mark_nojunk, NULL, "mail-mark-notjunk", EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY|EM_POPUP_SELECT_NOT_JUNK },
-	{ E_POPUP_ITEM, "50.emfv.06", N_("Mark for Follo_w Up..."), emfv_popup_flag_followup, NULL, "stock_mail-flag-for-followup",  EM_POPUP_SELECT_FLAG_FOLLOWUP|EM_FOLDER_VIEW_SELECT_LISTONLY },
+//	{ E_POPUP_ITEM, "50.emfv.06", N_("Mark for Follo_w Up..."), emfv_popup_flag_followup, NULL, "stock_mail-flag-for-followup",  EM_POPUP_SELECT_FLAG_FOLLOWUP|EM_FOLDER_VIEW_SELECT_LISTONLY },
 
 	{ E_POPUP_SUBMENU, "60.label.00", N_("_Label"), NULL, NULL, NULL, EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, "60.label.00/00.label", N_("_None"), emfv_popup_label_clear, NULL, NULL, EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
@@ -1193,8 +1193,8 @@ static EPopupItem emfv_popup_items[] = {
 
 	{ E_POPUP_BAR, "70.emfv.06", NULL, NULL, NULL, NULL },
 
-	{ E_POPUP_ITEM, "70.emfv.07", N_("Fla_g Completed"), emfv_popup_flag_completed, NULL, "stock_mail-flag-for-followup-done", EM_POPUP_SELECT_FLAG_COMPLETED|EM_FOLDER_VIEW_SELECT_LISTONLY },
-	{ E_POPUP_ITEM, "70.emfv.08", N_("Cl_ear Flag"), emfv_popup_flag_clear, NULL, NULL, EM_POPUP_SELECT_FLAG_CLEAR|EM_FOLDER_VIEW_SELECT_LISTONLY },
+//	{ E_POPUP_ITEM, "70.emfv.07", N_("Fla_g Completed"), emfv_popup_flag_completed, NULL, "stock_mail-flag-for-followup-done", EM_POPUP_SELECT_FLAG_COMPLETED|EM_FOLDER_VIEW_SELECT_LISTONLY },
+//	{ E_POPUP_ITEM, "70.emfv.08", N_("Cl_ear Flag"), emfv_popup_flag_clear, NULL, NULL, EM_POPUP_SELECT_FLAG_CLEAR|EM_FOLDER_VIEW_SELECT_LISTONLY },
 
 	{ E_POPUP_BAR, "90.filter", NULL, NULL, NULL, NULL },
 	{ E_POPUP_SUBMENU, "90.filter.00", N_("Crea_te Rule From Message"), NULL, NULL, NULL, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY },
@@ -1370,9 +1370,9 @@ from(BonoboUIComponent *uid, void *data, const char *path)	\
 //EMFV_MAP_CALLBACK(emfv_message_mark_nojunk, emfv_popup_mark_nojunk)
 EMFV_MAP_CALLBACK(emfv_message_delete, emfv_popup_delete)
 //EMFV_MAP_CALLBACK(emfv_message_undelete, emfv_popup_undelete)
-EMFV_MAP_CALLBACK(emfv_message_followup_flag, emfv_popup_flag_followup)
-EMFV_MAP_CALLBACK(emfv_message_followup_clear, emfv_popup_flag_clear)
-EMFV_MAP_CALLBACK(emfv_message_followup_completed, emfv_popup_flag_completed)
+//EMFV_MAP_CALLBACK(emfv_message_followup_flag, emfv_popup_flag_followup)
+//EMFV_MAP_CALLBACK(emfv_message_followup_clear, emfv_popup_flag_clear)
+//EMFV_MAP_CALLBACK(emfv_message_followup_completed, emfv_popup_flag_completed)
 EMFV_MAP_CALLBACK(emfv_message_open, emfv_popup_open)
 //EMFV_MAP_CALLBACK(emfv_message_edit, emfv_popup_edit)
 //EMFV_MAP_CALLBACK(emfv_message_saveas, emfv_popup_saveas)
@@ -1904,9 +1904,9 @@ static BonoboUIVerb emfv_message_verbs[] = {
 //	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsUnimportant", emfv_message_mark_unimportant),
 //	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsJunk", emfv_message_mark_junk),
 //	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsNotJunk", emfv_message_mark_nojunk),
-	BONOBO_UI_UNSAFE_VERB ("MessageFollowUpFlag", emfv_message_followup_flag),
-	BONOBO_UI_UNSAFE_VERB ("MessageFollowUpComplete", emfv_message_followup_completed),
-	BONOBO_UI_UNSAFE_VERB ("MessageFollowUpClear", emfv_message_followup_clear),
+//	BONOBO_UI_UNSAFE_VERB ("MessageFollowUpFlag", emfv_message_followup_flag),
+//	BONOBO_UI_UNSAFE_VERB ("MessageFollowUpComplete", emfv_message_followup_completed),
+//	BONOBO_UI_UNSAFE_VERB ("MessageFollowUpClear", emfv_message_followup_clear),
 //	BONOBO_UI_UNSAFE_VERB ("MessageMove", emfv_message_move),
 	BONOBO_UI_UNSAFE_VERB ("MessageOpen", emfv_message_open),
 //	BONOBO_UI_UNSAFE_VERB ("MessagePostReply", emfv_message_post_reply),

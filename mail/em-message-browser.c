@@ -96,7 +96,7 @@ emmb_set_message (EMFolderView *emfv,
 	folder_view_class = EM_FOLDER_VIEW_CLASS (parent_class);
 	folder_view_class->set_message (emfv, uid, nomarkseen);
 
-	if (uid == NULL) {
+	f (uid == NULL) {
 		gtk_widget_destroy (GTK_WIDGET (emfv));
 		return;
 	}

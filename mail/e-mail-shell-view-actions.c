@@ -66,8 +66,15 @@ static void
 action_mail_caret_mode_cb (GtkToggleAction *action,
                            EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFormatHTMLDisplay *format;
+	gboolean active;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	format = e_mail_shell_content_get_preview_format (mail_shell_content);
+	active = gtk_toggle_action_get_active (action);
+
+	em_format_html_display_set_caret_mode (format, active);
 }
 
 static void
@@ -258,24 +265,74 @@ static void
 action_mail_flag_clear_cb (GtkAction *action,
                            EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFormatHTMLDisplay *format;
+	EMFolderView *folder_view;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+	GPtrArray *uids;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+	format = e_mail_shell_content_get_preview_format (mail_shell_content);
+
+	uids = message_list_get_selected (folder_view->list);
+
+	em_utils_flag_for_followup_clear (
+		GTK_WIDGET (shell_window), folder_view->folder, uids);
+
+	em_format_redraw ((EMFormat *) format);
 }
 
 static void
 action_mail_flag_completed_cb (GtkAction *action,
                                EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFormatHTMLDisplay *format;
+	EMFolderView *folder_view;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+	GPtrArray *uids;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+	format = e_mail_shell_content_get_preview_format (mail_shell_content);
+
+	uids = message_list_get_selected (folder_view->list);
+
+	em_utils_flag_for_followup_completed (
+		GTK_WIDGET (shell_window), folder_view->folder, uids);
+
+	em_format_redraw ((EMFormat *) format);
 }
 
 static void
 action_mail_flag_for_followup_cb (GtkAction *action,
                                   EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+	GPtrArray *uids;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	uids = message_list_get_selected (folder_view->list);
+
+	em_utils_flag_for_followup (
+		GTK_WIDGET (shell_window), folder_view->folder, uids);
 }
 
 static void
