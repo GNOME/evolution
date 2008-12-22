@@ -1,5 +1,12 @@
 2008-12-22  Sankar P  <psankar@novell.com>
 
+	* em-migrate.c (migrate_to_db):
+	Don't add new strings in stable branch.
+	Change the string to what it was earlier.
+	Revert case changes.
+
+2008-12-22  Sankar P  <psankar@novell.com>
+
 	** Part of fix for #559153
 
 	* em-migrate.c (update_progress_in_main_thread), (migrate_folders),
