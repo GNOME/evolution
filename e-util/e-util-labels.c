@@ -69,6 +69,10 @@ e_util_labels_parse (GConfClient *client)
 		char *color, *name, *tag;
 		name = buf = list->data;
 		color = strrchr (buf, ':');
+		if (color == NULL) {
+			g_free (buf);
+			continue;
+		}
 
 		*color++ = '\0';
 		tag = strchr (color, '|');
