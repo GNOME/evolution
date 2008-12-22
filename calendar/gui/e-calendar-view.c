@@ -2213,7 +2213,7 @@ e_calendar_view_move_tip (GtkWidget *widget, int x, int y)
  * Free returned pointer with g_free.
  **/
 char *
-e_calendar_view_get_attendees_status_info (ECalComponent *comp)
+e_calendar_view_get_attendees_status_info (ECalComponent *comp, ECal *client)
 {
 	struct _values {
 		icalparameter_partstat status;
@@ -2234,7 +2234,7 @@ e_calendar_view_get_attendees_status_info (ECalComponent *comp)
 	char *res = NULL;
 	int i;
 
-	if (!comp || !e_cal_component_has_attendees (comp))
+	if (!comp || !e_cal_component_has_attendees (comp) || !itip_organizer_is_user (comp, client))
 		return NULL;
 
 	e_cal_component_get_attendee_list (comp, &attendees);
@@ -2430,7 +2430,7 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	g_free (tmp2);
 	g_free (tmp1);
 
-	tmp = e_calendar_view_get_attendees_status_info (newcomp);
+	tmp = e_calendar_view_get_attendees_status_info (newcomp, pevent->comp_data->client);
 	if (tmp) {
 		hbox = gtk_hbox_new (FALSE, 0);
 		gtk_box_pack_start ((GtkBox *)hbox, gtk_label_new (tmp), FALSE, FALSE, 0);

@@ -176,7 +176,7 @@ gboolean	e_calendar_view_get_tooltips (ECalendarViewEventData *data);
 void           e_calendar_view_move_tip (GtkWidget *widget, int x, int y);
 
 const gchar *e_calendar_view_get_icalcomponent_summary (ECal *ecal, icalcomponent *icalcomp, gboolean *free_text);
-char *e_calendar_view_get_attendees_status_info (ECalComponent *comp);
+char *e_calendar_view_get_attendees_status_info (ECalComponent *comp, ECal *client);
 
 void           draw_curved_rectangle (cairo_t *cr,
                                       double x0,

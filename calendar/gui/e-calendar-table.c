@@ -432,7 +432,7 @@ query_tooltip_cb (GtkWidget *widget, gint x, gint y, gboolean keyboard_mode, Gtk
 	e_cal_component_free_datetime (&dtstart);
 	e_cal_component_free_datetime (&dtdue);
 
-	tmp = e_calendar_view_get_attendees_status_info (new_comp);
+	tmp = e_calendar_view_get_attendees_status_info (new_comp, comp->client);
 	if (tmp) {
 		l = gtk_label_new (tmp);
 		gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
