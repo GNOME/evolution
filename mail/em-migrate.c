@@ -2842,20 +2842,54 @@ em_update_sa_junk_setting_2_23 (void)
 	g_object_unref (client);
 }
 
-
+static gboolean
+update_progress_in_main_thread (double *progress)
+{
+		em_migrate_set_progress (*progress);
+		return FALSE;
+}
+ 
 static void
-migrate_folders(CamelStore *store, CamelFolderInfo *fi, const char *acc, CamelException *ex)
+migrate_folders(CamelStore *store, gboolean is_local, CamelFolderInfo *fi, const char *acc, CamelException *ex, gboolean *done, int *nth_folder, int total_folders)
 {
 	CamelFolder *folder;
 
 	while (fi) {
+		double progress;
+
+		*nth_folder = *nth_folder + 1;
+
 		char *tmp = g_strdup_printf ("%s/%s", acc, fi->full_name);
 		em_migrate_set_folder_name (tmp);
 		g_free (tmp);
-		folder = camel_store_get_folder (store, fi->full_name, 0, ex);
+		
+		progress = (double) (*nth_folder) / total_folders;
+		g_idle_add ((GSourceFunc) update_progress_in_main_thread, &progress);
+
+		if (is_local)
+				folder = camel_store_get_folder (store, fi->full_name, CAMEL_STORE_IS_MIGRATING, ex);
+		else
+				folder = camel_store_get_folder (store, fi->full_name, 0, ex);
+
 		if (folder != NULL)
 			camel_folder_summary_migrate_infos (folder->summary);
-		migrate_folders(store, fi->child, acc, ex);
+
+		migrate_folders(store, is_local, fi->child, acc, ex, done, nth_folder, total_folders);
+
+		fi = fi->next;
+	}
+
+	if ( (*nth_folder) == (total_folders - 1))
+		*done = TRUE;
+}
+
+/* This could be in CamelStore.ch */
+static void
+count_folders (CamelFolderInfo *fi, int *count)
+{
+	while (fi) {
+		*count = *count + 1;
+		count_folders (fi->child , count);
 		fi = fi->next;
 	}
 }
@@ -2878,75 +2912,111 @@ setup_local_store (MailComponent *mc)
 	return store;
 	
 }
+
+struct migrate_folders_to_db_structure {
+		char *account_name;
+		CamelException ex;
+		CamelStore *store;
+		CamelFolderInfo *info;
+		gboolean done;
+		gboolean is_local_store;
+};
+ 
+static void migrate_folders_to_db_thread (struct migrate_folders_to_db_structure *migrate_dbs)
+{
+		int num_of_folders = 0, nth_folder = 0;
+		count_folders (migrate_dbs->info, &num_of_folders);
+		migrate_folders (migrate_dbs->store, migrate_dbs->is_local_store, migrate_dbs->info, 
+						migrate_dbs->account_name, &(migrate_dbs->ex), &(migrate_dbs->done), 
+						&nth_folder, num_of_folders);
+}
+
 static void
 migrate_to_db()
 {
-	EAccountList *accounts;
-	EIterator *iter;
-	int i=0, len;
-	MailComponent *component = mail_component_peek ();
-	CamelStore *store = NULL;
-	CamelFolderInfo *info;
-	
-	if (!(accounts = mail_config_get_accounts ()))
-		return;
-	
-	iter = e_list_get_iterator ((EList *) accounts);
-	len = e_list_length ((EList *) accounts);
-	
-	camel_session_set_online ((CamelSession *) session, FALSE);
-	em_migrate_setup_progress_dialog (_("The summary format of the Evolution mailbox "
-			     "folders has been moved to sqlite since Evolution 2.24.\n\nPlease be "
-			     "patient while Evolution migrates your folders..."));
+		EAccountList *accounts;
+		EIterator *iter;
+		int i=0, len;
+		MailComponent *component = mail_component_peek ();
+		CamelStore *store = NULL;
+		CamelFolderInfo *info;
 
-	em_migrate_set_progress ( (double)i/(len+1));
-	store = setup_local_store (component);
-	info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, NULL);	
-	if (info) {
-		migrate_folders(store, info, _("On This Computer"), NULL);
-	}
-	i++;
-	em_migrate_set_progress ( (double)i/(len+1));
+		if (!(accounts = mail_config_get_accounts ()))
+				return;
 
-	
-	while (e_iterator_is_valid (iter)) {
-		EAccount *account = (EAccount *) e_iterator_get (iter);
-		EAccountService *service;
-		const char *name;
+		iter = e_list_get_iterator ((EList *) accounts);
+		len = e_list_length ((EList *) accounts);
 
-		
-		service = account->source;
-		name = account->name;
-		em_migrate_set_progress ( (double)i/(len+1));		
-		if (account->enabled
-		    && service->url != NULL
-		    && service->url[0]
-		    && strncmp(service->url, "mbox:", 5) != 0) {
+		camel_session_set_online ((CamelSession *) session, FALSE);
 
-			CamelException ex;
+		em_migrate_setup_progress_dialog (_("The summary format of the Evolution mailbox "
+								"folders has been moved to SQLite since Evolution 2.24.\n\nPlease be "
+								"patient while Evolution migrates your folders..."));
 
-			camel_exception_init (&ex);
-			mail_component_load_store_by_uri (component, service->url, name);
+		store = setup_local_store (component);
+		info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, NULL);	
 
-			store = (CamelStore *) camel_session_get_service (session, service->url, CAMEL_PROVIDER_STORE, &ex);
-			info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, &ex);
-			if (info) {
-				migrate_folders(store, info, account->name, &ex);
-				
-			} else
-				printf("%s:%s: failed to get folder infos \n", G_STRLOC, G_STRFUNC);
-			camel_exception_clear(&ex);
-				
+		if (info) {
+				struct migrate_folders_to_db_structure migrate_dbs;
+
+				if (g_str_has_suffix (((CamelService *)store)->url->path, ".evolution/mail/local"))
+						migrate_dbs.is_local_store = TRUE;
+				else 
+						migrate_dbs.is_local_store = FALSE;
+				camel_exception_init (&migrate_dbs.ex);
+				migrate_dbs.account_name = _("On This Computer");
+				migrate_dbs.info = info;
+				migrate_dbs.store = store;
+				migrate_dbs.done = FALSE;
+
+				GThread *thread;
+				thread = g_thread_create ((GThreadFunc) migrate_folders_to_db_thread, &migrate_dbs, TRUE, NULL);
+				while (!migrate_dbs.done)
+						g_main_context_iteration (NULL, TRUE);
 		}
 		i++;
-		e_iterator_next (iter);
+		while (e_iterator_is_valid (iter)) {
+				EAccount *account = (EAccount *) e_iterator_get (iter);
+				EAccountService *service;
+				const char *name;
 
-	}
+				service = account->source;
+				name = account->name;
+				if (account->enabled
+								&& service->url != NULL
+								&& service->url[0]
+								&& strncmp(service->url, "mbox:", 5) != 0) {
 
-	//camel_session_set_online ((CamelSession *) session, TRUE);
+						CamelException ex;
 
-	g_object_unref (iter);
-	em_migrate_close_progress_dialog ();
+						camel_exception_init (&ex);
+						mail_component_load_store_by_uri (component, service->url, name);
+
+						store = (CamelStore *) camel_session_get_service (session, service->url, CAMEL_PROVIDER_STORE, &ex);
+						info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, &ex);
+						if (info) {
+								struct migrate_folders_to_db_structure migrate_dbs;
+
+								migrate_dbs.ex = ex;
+								migrate_dbs.account_name = account->name;
+								migrate_dbs.info = info;
+								migrate_dbs.store = store;
+								migrate_dbs.done = FALSE;
+
+								GThread *thread;
+								thread = g_thread_create ((GThreadFunc) migrate_folders_to_db_thread, &migrate_dbs, TRUE, NULL);
+								while (!migrate_dbs.done)
+										g_main_context_iteration (NULL, TRUE);
+						} else
+								printf("%s:%s: failed to get folder infos \n", G_STRLOC, G_STRFUNC);
+						camel_exception_clear(&ex);
+				}
+				i++;
+				e_iterator_next (iter);
+		}
+		//camel_session_set_online ((CamelSession *) session, TRUE);
+		g_object_unref (iter);
+		em_migrate_close_progress_dialog ();
 }
 
 int
