@@ -111,6 +111,12 @@ struct _EMSubscribeNode {
 	GtkTreePath *path;
 };
 
+typedef struct _MailMsgListNode MailMsgListNode;
+struct _MailMsgListNode {
+	EDListNode node;	
+	MailMsg *msg;
+};
+
 static void sub_editor_busy(EMSubscribeEditor *se, int dir);
 static int sub_queue_fill_level(EMSubscribe *sub, EMSubscribeNode *node);
 static void sub_selection_changed(GtkTreeSelection *selection, EMSubscribe *sub);
@@ -185,6 +191,7 @@ sub_folder_done (struct _zsubscribe_msg *m)
 	GtkTreeModel *model;
 	EMSubscribeNode *node;
 	gboolean subscribed, issub;
+	MailMsgListNode *msgListNode;
 
 	m->sub->subscribe_id = -1;
 	if (m->sub->cancel)
@@ -209,10 +216,13 @@ sub_folder_done (struct _zsubscribe_msg *m)
 	}
 
 	/* queue any further ones, or if out, update the ui */
-	next = (struct _zsubscribe_msg *)e_dlist_remhead(&m->sub->subscribe);
-	if (next) {
+	msgListNode = (MailMsgListNode *) e_dlist_remhead(&m->sub->subscribe);
+	if (msgListNode) {
+		next = (struct _zsubscribe_msg *) msgListNode->msg;
+	        /* Free the memory of the MailMsgListNode which won't be used anymore. */
+        	g_free(msgListNode);
 		next->sub->subscribe_id = next->base.seq;
-		mail_msg_unordered_push (next);
+                mail_msg_unordered_push (next);
 	} else {
 		/* should it go off the model instead? */
 		sub_selection_changed(gtk_tree_view_get_selection(m->sub->tree), m->sub);
@@ -239,6 +249,7 @@ static int
 sub_subscribe_folder (EMSubscribe *sub, EMSubscribeNode *node, int state, const char *spath)
 {
 	struct _zsubscribe_msg *m;
+	MailMsgListNode *msgListNode;
 	int id;
 
 	m = mail_msg_new (&sub_subscribe_folder_info);
@@ -254,8 +265,10 @@ sub_subscribe_folder (EMSubscribe *sub, EMSubscribeNode *node, int state, const 
 		d(printf("running subscribe folder '%s'\n", spath));
 		mail_msg_unordered_push (m);
 	} else {
+		msgListNode = g_malloc0(sizeof(MailMsgListNode)); 
+		msgListNode->msg = (MailMsg *) m;
 		d(printf("queueing subscribe folder '%s'\n", spath));
-		e_dlist_addtail(&sub->subscribe, (EDListNode *)m);
+		e_dlist_addtail(&sub->subscribe, (EDListNode *)msgListNode);
 	}
 
 	return id;
@@ -541,6 +554,7 @@ static void
 sub_destroy(GtkWidget *w, EMSubscribe *sub)
 {
 	struct _zsubscribe_msg *m;
+	MailMsgListNode *msgListNode;	
 
 	d(printf("subscribe closed\n"));
 	sub->cancel = TRUE;
@@ -551,8 +565,12 @@ sub_destroy(GtkWidget *w, EMSubscribe *sub)
 	if (sub->subscribe_id != -1)
 		mail_msg_cancel(sub->subscribe_id);
 
-	while ( (m = (struct _zsubscribe_msg *)e_dlist_remhead(&sub->subscribe)) )
+	while ( (msgListNode = (MailMsgListNode *)e_dlist_remhead(&sub->subscribe))) {
+		m = (struct _zsubscribe_msg *) msgListNode->msg;
+		/* Free the memory of MailMsgListNode which won't be used anymore. */
+		g_free(msgListNode);
 		mail_msg_unref(m);
+	}
 
 	sub_unref(sub);
 }
