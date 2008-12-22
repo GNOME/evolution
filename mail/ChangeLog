@@ -1,3 +1,12 @@
+2008-12-22  Sankar P  <psankar@novell.com>
+
+	** Part of fix for bug #559153
+
+	* em-migrate.c (update_progress_in_main_thread), (migrate_folders),
+	(count_folders), (migrate_folders_to_db_thread), (migrate_to_db),
+	(em_migrate):
+	Migration Improvements
+
 2008-12-22  Norman Wang  <zhichao.wang@sun.com>
 
    ** Fix for bug #558337
