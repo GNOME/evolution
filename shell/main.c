@@ -537,6 +537,8 @@ set_paths (void)
 		g_warning ("Could not set PATH for Evolution and its child processes");
 
 	g_free (path);
+	g_free (exe_folder_utf8);
+	g_free (components_folder_utf8);
 
 	/* Set BONOBO_ACTIVATION_PATH */
 	if (g_getenv ("BONOBO_ACTIVATION_PATH" ) == NULL) {

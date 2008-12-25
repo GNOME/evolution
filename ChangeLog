@@ -1,3 +1,8 @@
+2008-12-25  Ignacio Casal Quinteiro  <nacho.resa@gmail.com>
+
+	* shell/main.c:
+	Fix memory leak. (Fixes bug #565628).
+
 2008-12-22  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in:
