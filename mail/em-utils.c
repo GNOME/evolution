@@ -193,13 +193,14 @@ druid_destroy_cb (gpointer user_data, GObject *deadbeef)
  * otherwise.
  **/
 gboolean
-em_utils_configure_account (GtkWidget *parent)
+em_utils_configure_account (GtkWindow *parent)
 {
 	EMAccountEditor *emae;
 
+	g_return_val_if_fail (GTK_IS_WINDOW (parent), FALSE);
+
 	emae = em_account_editor_new(NULL, EMAE_DRUID, "org.gnome.evolution.mail.config.accountDruid");
-	if (parent != NULL)
-		e_dialog_set_transient_for((GtkWindow *)emae->editor, parent);
+	gtk_window_set_transient_for (GTK_WINDOW (emae->editor), parent);
 
 	g_object_weak_ref((GObject *)emae->editor, (GWeakNotify) druid_destroy_cb, NULL);
 	gtk_widget_show(emae->editor);
@@ -223,9 +224,11 @@ em_utils_configure_account (GtkWidget *parent)
  * or %FALSE otherwise.
  **/
 gboolean
-em_utils_check_user_can_send_mail (GtkWidget *parent)
+em_utils_check_user_can_send_mail (GtkWindow *parent)
 {
 	EAccount *account;
+
+	g_return_val_if_fail (GTK_IS_WINDOW (parent), FALSE);
 
 	if (!mail_config_is_configured ()) {
 		if (!em_utils_configure_account (parent))
@@ -387,11 +390,13 @@ emu_save_get_filename_for_part (CamelMimePart *part)
  * Saves a mime part to disk (prompting the user for filename).
  **/
 void
-em_utils_save_part (GtkWidget *parent, const char *prompt, CamelMimePart *part)
+em_utils_save_part (GtkWindow *parent, const char *prompt, CamelMimePart *part)
 {
 	GtkWidget *file_chooser;
 	const gchar *utf8_filename;
 	gchar *uri = NULL, *filename;
+
+	g_return_if_fail (GTK_IS_WINDOW (parent));
 
 	utf8_filename = emu_save_get_filename_for_part (part);
 	filename = g_filename_from_utf8 (utf8_filename, -1, NULL, NULL, NULL);
@@ -502,7 +507,7 @@ get_unique_file_names (GSList *parts)
 }
 
 void
-em_utils_save_parts (GtkWidget *parent, const gchar *prompt, GSList *parts)
+em_utils_save_parts (GtkWindow *parent, const gchar *prompt, GSList *parts)
 {
 	GtkWidget *file_chooser;
 	gchar *path_uri;
@@ -558,7 +563,7 @@ exit:
  * Returns %TRUE if saving succeeded, %FALSE otherwise
  **/
 gboolean
-em_utils_save_part_to_file(GtkWidget *parent, const char *filename, CamelMimePart *part)
+em_utils_save_part_to_file(GtkWindow *parent, const char *filename, CamelMimePart *part)
 {
 	int done;
 	char *dirname;
@@ -569,7 +574,7 @@ em_utils_save_part_to_file(GtkWidget *parent, const char *filename, CamelMimePar
 
 	dirname = g_path_get_dirname(filename);
 	if (g_mkdir_with_parents(dirname, 0777) == -1) {
-		GtkWidget *w = e_error_new((GtkWindow *)parent, "mail:no-create-path", filename, g_strerror(errno), NULL);
+		GtkWidget *w = e_error_new(parent, "mail:no-create-path", filename, g_strerror(errno), NULL);
 		g_free(dirname);
 		em_utils_show_error_silent (w);
 		return FALSE;
@@ -578,13 +583,13 @@ em_utils_save_part_to_file(GtkWidget *parent, const char *filename, CamelMimePar
 
 	if (g_access(filename, F_OK) == 0) {
 		if (g_access(filename, W_OK) != 0) {
-			e_error_run((GtkWindow *)parent, E_ERROR_ASK_FILE_EXISTS_OVERWRITE, filename, NULL);
+			e_error_run(parent, E_ERROR_ASK_FILE_EXISTS_OVERWRITE, filename, NULL);
 			return FALSE;
 		}
 	}
 
 	if (g_stat(filename, &st) != -1 && !S_ISREG(st.st_mode)) {
-		GtkWidget *w = e_error_new((GtkWindow *)parent, "mail:no-write-path-notfile", filename, NULL);
+		GtkWidget *w = e_error_new(parent, "mail:no-write-path-notfile", filename, NULL);
 		em_utils_show_error_silent (w);
 		return FALSE;
 	}
@@ -637,13 +642,14 @@ emu_save_messages_response(GtkWidget *filesel, int response, struct _save_messag
  * user for filename).
  **/
 void
-em_utils_save_messages (GtkWidget *parent, CamelFolder *folder, GPtrArray *uids)
+em_utils_save_messages (GtkWindow *parent, CamelFolder *folder, GPtrArray *uids)
 {
 	struct _save_messages_data *data;
 	GtkWidget *filesel;
 	char *filename = NULL;
 	CamelMessageInfo *info = NULL;
 
+	g_return_if_fail (GTK_IS_WINDOW (parent));
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
 
@@ -683,7 +689,7 @@ emu_add_address_cb(BonoboListener *listener, const char *name, const CORBA_any *
 
 /* one of email or vcard should be always NULL, never both of them */
 static void
-emu_add_address_or_vcard (struct _GtkWidget *parent, const char *email, const char *vcard)
+emu_add_address_or_vcard (GtkWindow *parent, const char *email, const char *vcard)
 {
 	GtkWidget *win;
 	GtkWidget *control;
@@ -706,14 +712,7 @@ emu_add_address_or_vcard (struct _GtkWidget *parent, const char *email, const ch
 	win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title((GtkWindow *)win, _("Add address"));
 
-	if (parent && !GTK_IS_WINDOW (parent)) {
-		parent = gtk_widget_get_toplevel (parent);
-		if (!parent || !(GTK_WIDGET_TOPLEVEL (parent)))
-			parent = NULL;
-	}
-
-	if (parent)
-		gtk_window_set_transient_for((GtkWindow *)win, ((GtkWindow *)parent));
+	gtk_window_set_transient_for((GtkWindow *)win, parent);
 
 	gtk_window_set_position((GtkWindow *)win, GTK_WIN_POS_CENTER_ON_PARENT);
 	gtk_window_set_type_hint((GtkWindow *)win, GDK_WINDOW_TYPE_HINT_DIALOG);
@@ -744,8 +743,10 @@ emu_add_address_or_vcard (struct _GtkWidget *parent, const char *email, const ch
  * Add address @email to the addressbook.
  **/
 void
-em_utils_add_address (struct _GtkWidget *parent, const char *email)
+em_utils_add_address (GtkWindow *parent, const char *email)
 {
+	g_return_if_fail (GTK_IS_WINDOW (parent));
+
 	emu_add_address_or_vcard (parent, email, NULL);
 }
 
@@ -754,8 +755,10 @@ em_utils_add_address (struct _GtkWidget *parent, const char *email)
  * Adds whole vCard to the addressbook.
  **/
 void
-em_utils_add_vcard (struct _GtkWidget *parent, const char *vcard)
+em_utils_add_vcard (GtkWindow *parent, const char *vcard)
 {
+	g_return_if_fail (GTK_IS_WINDOW (parent));
+
 	emu_add_address_or_vcard (parent, NULL, vcard);
 }
 
@@ -822,19 +825,18 @@ tag_editor_response (GtkWidget *dialog, int button, struct ted_t *ted)
  * @folder and @uids.
  **/
 void
-em_utils_flag_for_followup (GtkWidget *parent, CamelFolder *folder, GPtrArray *uids)
+em_utils_flag_for_followup (GtkWindow *parent, CamelFolder *folder, GPtrArray *uids)
 {
 	GtkWidget *editor;
 	struct ted_t *ted;
 	int i;
 
+	g_return_if_fail (GTK_IS_WINDOW (parent));
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
 
 	editor = (GtkWidget *) message_tag_followup_new ();
-
-	if (parent != NULL)
-		e_dialog_set_transient_for ((GtkWindow *) editor, parent);
+	gtk_window_set_transient_for (GTK_WINDOW (editor), parent);
 
 	camel_object_ref (folder);
 
@@ -886,10 +888,11 @@ em_utils_flag_for_followup (GtkWidget *parent, CamelFolder *folder, GPtrArray *u
  * @folder and @uids.
  **/
 void
-em_utils_flag_for_followup_clear (GtkWidget *parent, CamelFolder *folder, GPtrArray *uids)
+em_utils_flag_for_followup_clear (GtkWindow *parent, CamelFolder *folder, GPtrArray *uids)
 {
 	int i;
 
+	g_return_if_fail (GTK_IS_WINDOW (parent));
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
 
@@ -920,11 +923,12 @@ em_utils_flag_for_followup_clear (GtkWidget *parent, CamelFolder *folder, GPtrAr
  * Flag-for-Followup.
  **/
 void
-em_utils_flag_for_followup_completed (GtkWidget *parent, CamelFolder *folder, GPtrArray *uids)
+em_utils_flag_for_followup_completed (GtkWindow *parent, CamelFolder *folder, GPtrArray *uids)
 {
 	char *now;
 	int i;
 
+	g_return_if_fail (GTK_IS_WINDOW (parent));
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (uids != NULL);
 

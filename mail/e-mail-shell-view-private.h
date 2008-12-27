@@ -31,6 +31,7 @@
 #include "e-util/gconf-bridge.h"
 #include "widgets/menus/gal-view-instance.h"
 
+#include "e-mail-reader.h"
 #include "em-composer-utils.h"
 #include "em-folder-properties.h"
 #include "em-folder-selector.h"

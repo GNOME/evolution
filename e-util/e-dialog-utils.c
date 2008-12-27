@@ -344,29 +344,29 @@ e_file_dialog_save_folder (const char *title)
  * no signals connected and is not shown.
  **/
 GtkWidget *
-e_file_get_save_filesel (GtkWidget *parent, const char *title, const char *name, GtkFileChooserAction action)
+e_file_get_save_filesel (GtkWindow *parent, const char *title, const char *name, GtkFileChooserAction action)
 {
 	GtkWidget *filesel;
 	char *uri;
 
-	filesel = gtk_file_chooser_dialog_new (title,
-					       NULL,
-					       action,
-					       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-					       (action == GTK_FILE_CHOOSER_ACTION_OPEN) ? GTK_STOCK_OPEN:GTK_STOCK_SAVE, GTK_RESPONSE_OK,
-					       NULL);
+	g_return_val_if_fail (GTK_IS_WINDOW (parent), NULL);
+
+	filesel = gtk_file_chooser_dialog_new (
+		title, parent, action,
+		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+		(action == GTK_FILE_CHOOSER_ACTION_OPEN) ?
+		GTK_STOCK_OPEN : GTK_STOCK_SAVE, GTK_RESPONSE_OK, NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (filesel), GTK_RESPONSE_OK);
 	gtk_file_chooser_set_local_only (GTK_FILE_CHOOSER (filesel), FALSE);
 
-	if (parent)
-		e_dialog_set_transient_for((GtkWindow *)filesel, parent);
+	uri = e_file_get_save_path ();
 
-	uri = e_file_get_save_path();
-
-	gtk_file_chooser_set_current_folder_uri (GTK_FILE_CHOOSER (filesel), uri);
+	gtk_file_chooser_set_current_folder_uri (
+		GTK_FILE_CHOOSER (filesel), uri);
 
 	if (name && name[0])
-		gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER (filesel), name);
+		gtk_file_chooser_set_current_name (
+			GTK_FILE_CHOOSER (filesel), name);
 
 	g_free (uri);
 

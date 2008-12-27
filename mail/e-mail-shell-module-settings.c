@@ -245,6 +245,18 @@ e_mail_shell_module_init_settings (EShell *shell)
 
 	e_shell_settings_install_property (
 		g_param_spec_boolean (
+			"mail-prompt-delete-in-vfolder",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-prompt-delete-in-vfolder",
+		"/apps/evolution/mail/prompts/delete_in_vfolder");
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
 			"mail-show-animated-images",
 			NULL,
 			NULL,

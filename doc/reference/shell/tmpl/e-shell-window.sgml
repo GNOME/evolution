@@ -38,6 +38,11 @@ EShellWindow
 
 </para>
 
+<!-- ##### ARG EShellWindow:ui-manager ##### -->
+<para>
+
+</para>
+
 <!-- ##### FUNCTION e_shell_window_new ##### -->
 <para>
 

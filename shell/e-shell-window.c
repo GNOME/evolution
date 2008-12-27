@@ -32,7 +32,8 @@ enum {
 	PROP_0,
 	PROP_ACTIVE_VIEW,
 	PROP_SAFE_MODE,
-	PROP_SHELL
+	PROP_SHELL,
+	PROP_UI_MANAGER
 };
 
 static gpointer parent_class;
@@ -195,6 +196,12 @@ shell_window_get_property (GObject *object,
 				value, e_shell_window_get_shell (
 				E_SHELL_WINDOW (object)));
 			return;
+
+		case PROP_UI_MANAGER:
+			g_value_set_object (
+				value, e_shell_window_get_ui_manager (
+				E_SHELL_WINDOW (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -285,6 +292,21 @@ shell_window_class_init (EShellWindowClass *class)
 			E_TYPE_SHELL,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
+
+	/**
+	 * EShellWindow:ui-manager
+	 *
+	 * The shell window's #GtkUIManager.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_UI_MANAGER,
+		g_param_spec_object (
+			"ui-manager",
+			_("UI Manager"),
+			_("The shell window's GtkUIManager"),
+			GTK_TYPE_UI_MANAGER,
+			G_PARAM_READABLE));
 }
 
 static void

@@ -59,6 +59,7 @@ enum {
 	PROP_PAGE_NUM,
 	PROP_TITLE,
 	PROP_SHELL_CONTENT,
+	PROP_SHELL_MODULE,
 	PROP_SHELL_SIDEBAR,
 	PROP_SHELL_TASKBAR,
 	PROP_SHELL_WINDOW,
@@ -230,6 +231,11 @@ shell_view_get_property (GObject *object,
 				value, e_shell_view_get_shell_content (
 				E_SHELL_VIEW (object)));
 			return;
+
+		case PROP_SHELL_MODULE:
+			g_value_set_object (
+				value, e_shell_view_get_shell_module (
+				E_SHELL_VIEW (object)));
 
 		case PROP_SHELL_SIDEBAR:
 			g_value_set_object (
@@ -443,6 +449,21 @@ shell_view_class_init (EShellViewClass *class)
 			_("The content widget appears in "
 			  "a shell window's right pane"),
 			E_TYPE_SHELL_CONTENT,
+			G_PARAM_READABLE));
+
+	/**
+	 * EShellView::shell-module
+	 *
+	 * The #EShellModule for this shell view.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL_MODULE,
+		g_param_spec_object (
+			"shell-module",
+			_("Shell Module"),
+			_("The EShellModule for this shell view"),
+			E_TYPE_SHELL_MODULE,
 			G_PARAM_READABLE));
 
 	/**

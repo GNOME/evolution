@@ -34,6 +34,9 @@
 #include "em-utils.h"
 #include "mail-config.h"
 
+#include "e-mail-reader.h"
+#include "e-mail-shell-module.h"
+
 #define E_MAIL_SHELL_CONTENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_SHELL_CONTENT, EMailShellContentPrivate))
@@ -359,6 +362,101 @@ mail_shell_content_check_state (EShellContent *shell_content)
 	return state;
 }
 
+static GtkActionGroup *
+mail_shell_content_get_action_group (EMailReader *reader)
+{
+	EShellContent *shell_content;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+
+	shell_content = E_SHELL_CONTENT (reader);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	return e_shell_window_get_action_group (shell_window, "mail");
+}
+
+static EMFormatHTMLDisplay *
+mail_shell_content_get_display (EMailReader *reader)
+{
+	EMailShellContent *mail_shell_content;
+
+	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
+
+	return e_mail_shell_content_get_preview_format (mail_shell_content);
+}
+
+static CamelFolder *
+mail_shell_content_get_folder (EMailReader *reader)
+{
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+
+	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	return folder_view->folder;
+}
+
+static const gchar *
+mail_shell_content_get_folder_uri (EMailReader *reader)
+{
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+
+	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	return folder_view->folder_uri;
+}
+
+static gboolean
+mail_shell_content_get_hide_deleted (EMailReader *reader)
+{
+	/* FIXME */
+	return TRUE;
+}
+
+static MessageList *
+mail_shell_content_get_message_list (EMailReader *reader)
+{
+	EMailShellContent *mail_shell_content;
+	EMFolderView *folder_view;
+
+	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
+	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+
+	return folder_view->list;
+}
+
+static EMFolderTreeModel *
+mail_shell_content_get_tree_model (EMailReader *reader)
+{
+	EShellContent *shell_content;
+	EShellModule *shell_module;
+	EShellView *shell_view;
+
+	shell_content = E_SHELL_CONTENT (reader);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_module = e_shell_view_get_shell_module (shell_view);
+
+	return e_mail_shell_module_get_folder_tree_model (shell_module);
+}
+
+static GtkWindow *
+mail_shell_content_get_window (EMailReader *reader)
+{
+	EShellContent *shell_content;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+
+	shell_content = E_SHELL_CONTENT (reader);
+	shell_view = e_shell_content_get_shell_view (shell_content);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	return GTK_WINDOW (shell_window);
+}
+
 static void
 mail_shell_content_class_init (EMailShellContentClass *class)
 {
@@ -401,6 +499,19 @@ mail_shell_content_class_init (EMailShellContentClass *class)
 }
 
 static void
+mail_shell_content_iface_init (EMailReaderIface *iface)
+{
+	iface->get_action_group = mail_shell_content_get_action_group;
+	iface->get_display = mail_shell_content_get_display;
+	iface->get_folder = mail_shell_content_get_folder;
+	iface->get_folder_uri = mail_shell_content_get_folder_uri;
+	iface->get_hide_deleted = mail_shell_content_get_hide_deleted;
+	iface->get_message_list = mail_shell_content_get_message_list;
+	iface->get_tree_model = mail_shell_content_get_tree_model;
+	iface->get_window = mail_shell_content_get_window;
+}
+
+static void
 mail_shell_content_init (EMailShellContent *mail_shell_content)
 {
 	mail_shell_content->priv =
@@ -430,9 +541,18 @@ e_mail_shell_content_get_type (void)
 			NULL   /* value_table */
 		};
 
+		static const GInterfaceInfo iface_info = {
+			(GInterfaceInitFunc) mail_shell_content_iface_init,
+			(GInterfaceFinalizeFunc) NULL,
+			NULL  /* interface_data */
+		};
+
 		type = g_type_register_static (
 			E_TYPE_SHELL_CONTENT, "EMailShellContent",
 			&type_info, 0);
+
+		g_type_add_interface_static (
+			type, E_TYPE_MAIL_READER, &iface_info);
 	}
 
 	return type;

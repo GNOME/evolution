@@ -38,9 +38,11 @@
 
 #include "em-account-prefs.h"
 #include "em-composer-prefs.h"
+#include "em-composer-utils.h"
 #include "em-config.h"
 #include "em-event.h"
 #include "em-folder-tree-model.h"
+#include "em-folder-utils.h"
 #include "em-format-hook.h"
 #include "em-format-html-display.h"
 #include "em-junk-hook.h"
@@ -399,14 +401,58 @@ static void
 action_mail_folder_new_cb (GtkAction *action,
                            EShellWindow *shell_window)
 {
-	/* FIXME */
+	EMFolderTree *folder_tree = NULL;
+	EMailShellSidebar *mail_shell_sidebar;
+	EShellSidebar *shell_sidebar;
+	EShellView *shell_view;
+	const gchar *view_name;
+
+	/* Take care not to unnecessarily load the mail shell view. */
+	view_name = e_shell_window_get_active_view (shell_window);
+	if (g_strcmp0 (view_name, MODULE_NAME) != 0)
+		goto exit;
+
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+
+	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+
+exit:
+	em_folder_utils_create_folder (NULL, folder_tree);
 }
 
 static void
 action_mail_message_new_cb (GtkAction *action,
                             EShellWindow *shell_window)
 {
-	/* FIXME */
+	GtkWindow *window = GTK_WINDOW (shell_window);
+	EMailShellSidebar *mail_shell_sidebar;
+	EShellSidebar *shell_sidebar;
+	EShellView *shell_view;
+	EMFolderTree *folder_tree;
+	const gchar *view_name;
+	gchar *uri = NULL;
+
+	if (!em_utils_check_user_can_send_mail (window))
+		return;
+
+	/* Take care not to unnecessarily load the mail shell view. */
+	view_name = e_shell_window_get_active_view (shell_window);
+	if (g_strcmp0 (view_name, MODULE_NAME) != 0)
+		goto exit;
+
+	shell_view = e_shell_window_get_shell_view (shell_window, view_name);
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+
+	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+	uri = em_folder_tree_get_selected_uri (folder_tree);
+
+exit:
+	em_utils_compose_new_message (uri);
+
+	g_free (uri);
 }
 
 static GtkActionEntry item_entries[] = {
@@ -842,11 +888,65 @@ fail:
 	return NULL;
 }
 
+/* Helper for e_mail_shell_module_remove_store() */
+static void
+mail_shell_module_remove_store_cb (CamelStore *store,
+                                   gpointer event_data,
+                                   gpointer user_data)
+{
+	camel_service_disconnect (CAMEL_SERVICE (store), TRUE, NULL);
+	camel_object_unref (store);
+}
+
+void
+e_mail_shell_module_remove_store (EShellModule *shell_module,
+                                  CamelStore *store)
+{
+	g_return_if_fail (E_IS_SHELL_MODULE (shell_module));
+	g_return_if_fail (CAMEL_IS_STORE (store));
+
+	/* Because the store hash holds a reference to each store used
+	 * as a key in it, none of them will ever be gc'ed, meaning any
+	 * call to camel_session_get_{service,store} with the same URL
+	 * will always return the same object.  So this works. */
+
+	if (g_hash_table_lookup (store_hash, store) == NULL)
+		return;
+
+	camel_object_ref (store);
+	g_hash_table_remove (store_hash, store);
+	mail_note_store_remove (store);
+	em_folder_tree_model_remove_store (folder_tree_model, store);
+
+	mail_async_event_emit (
+		async_event, MAIL_ASYNC_THREAD,
+		(MailAsyncFunc) mail_shell_module_remove_store_cb,
+		store, NULL, NULL);
+}
+
 void
 e_mail_shell_module_remove_store_by_uri (EShellModule *shell_module,
                                          const gchar *uri)
 {
-	/* FIXME */
+	CamelStore *store;
+	CamelProvider *provider;
+
+	g_return_if_fail (E_IS_SHELL_MODULE (shell_module));
+	g_return_if_fail (uri != NULL);
+
+	provider = camel_provider_get (uri, NULL);
+	if (provider == NULL)
+		return;
+
+	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
+		return;
+
+	store = (CamelStore *) camel_session_get_service (
+		session, uri, CAMEL_PROVIDER_STORE, NULL);
+	if (store != NULL) {
+		e_mail_shell_module_remove_store (shell_module, store);
+		camel_object_unref (store);
+	}
 }
 
 void

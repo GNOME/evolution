@@ -35,6 +35,12 @@ module_LTLIBRARIES =					\
 	libevolution-module-mail.la
 
 libevolution_module_mail_la_SOURCES =			\
+	e-mail-browser.c				\
+	e-mail-browser.h				\
+	e-mail-reader.c					\
+	e-mail-reader.h					\
+	e-mail-reader-utils.c				\
+	e-mail-reader-utils.h				\
 	e-mail-shell-module.c				\
 	e-mail-shell-module.h				\
 	e-mail-shell-module-migrate.c			\

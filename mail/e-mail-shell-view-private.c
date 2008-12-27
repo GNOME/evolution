@@ -125,6 +125,8 @@ e_mail_shell_view_private_init (EMailShellView *mail_shell_view,
 {
 	EMailShellViewPrivate *priv = mail_shell_view->priv;
 
+	/* Note: EMailShellContent retrieves the "mail" action group
+	 *       by name to satisfy its EMailReader interface. */
 	priv->mail_actions = gtk_action_group_new ("mail");
 	priv->filter_actions = gtk_action_group_new ("mail-filter");
 
@@ -186,6 +188,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		mail_shell_view);
 
 	e_mail_shell_view_actions_init (mail_shell_view);
+	e_mail_reader_init (E_MAIL_READER (mail_shell_content));
 
 	/* Restore the previously selected folder. */
 	folder_tree_model = em_folder_tree_get_model (folder_tree);

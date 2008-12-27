@@ -97,7 +97,6 @@
 
 #define d(x)
 
-static void create_local_item_cb(EUserCreatableItemsHandler *handler, const char *item_type_name, void *data);
 static void view_changed_timeout_remove (EComponentView *component_view);
 
 #define MAIL_COMPONENT_DEFAULT(mc) if (mc == NULL) mc = mail_component_peek();
@@ -942,44 +941,44 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 //	return list;
 //}
 
-static int
-create_item(const char *type, EMFolderTreeModel *model, const char *uri, gpointer tree)
-{
-	if (strcmp(type, "message") == 0) {
-		if (!em_utils_check_user_can_send_mail(NULL))
-			return 0;
+//static int
+//create_item(const char *type, EMFolderTreeModel *model, const char *uri, gpointer tree)
+//{
+//	if (strcmp(type, "message") == 0) {
+//		if (!em_utils_check_user_can_send_mail(NULL))
+//			return 0;
+//
+//		em_utils_compose_new_message(uri);
+//	} else if (strcmp(type, "folder") == 0) {
+//		em_folder_utils_create_folder(NULL, tree);
+//	} else
+//		return -1;
+//
+//	return 0;
+//}
 
-		em_utils_compose_new_message(uri);
-	} else if (strcmp(type, "folder") == 0) {
-		em_folder_utils_create_folder(NULL, tree);
-	} else
-		return -1;
+//static void
+//create_local_item_cb(EUserCreatableItemsHandler *handler, const char *item_type_name, void *data)
+//{
+//	EMFolderTree *tree = data;
+//	char *uri = em_folder_tree_get_selected_uri(tree);
+//
+//	create_item(item_type_name, em_folder_tree_get_model(tree), uri, (gpointer) tree);
+//	g_free(uri);
+//}
 
-	return 0;
-}
-
-static void
-create_local_item_cb(EUserCreatableItemsHandler *handler, const char *item_type_name, void *data)
-{
-	EMFolderTree *tree = data;
-	char *uri = em_folder_tree_get_selected_uri(tree);
-
-	create_item(item_type_name, em_folder_tree_get_model(tree), uri, (gpointer) tree);
-	g_free(uri);
-}
-
-static void
-impl_requestCreateItem (PortableServer_Servant servant,
-			const CORBA_char *item_type_name,
-			CORBA_Environment *ev)
-{
-	MailComponent *mc = MAIL_COMPONENT(bonobo_object_from_servant(servant));
-
-	if (create_item(item_type_name, mc->priv->model, NULL, NULL) == -1) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Component_UnknownType, NULL);
-	}
-}
+//static void
+//impl_requestCreateItem (PortableServer_Servant servant,
+//			const CORBA_char *item_type_name,
+//			CORBA_Environment *ev)
+//{
+//	MailComponent *mc = MAIL_COMPONENT(bonobo_object_from_servant(servant));
+//
+//	if (create_item(item_type_name, mc->priv->model, NULL, NULL) == -1) {
+//		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+//				     ex_GNOME_Evolution_Component_UnknownType, NULL);
+//	}
+//}
 
 static void
 handleuri_got_folder(char *uri, CamelFolder *folder, void *data)
@@ -1258,12 +1257,12 @@ mail_component_class_init (MailComponentClass *class)
 	mepv->test = impl_mail_test;
 }
 
-static void
-store_hash_free (struct _store_info *si)
-{
-	si->removed = 1;
-	store_info_unref(si);
-}
+//static void
+//store_hash_free (struct _store_info *si)
+//{
+//	si->removed = 1;
+//	store_info_unref(si);
+//}
 
 static void
 mail_component_init (MailComponent *component)
@@ -1417,63 +1416,63 @@ struct _CamelSession *mail_component_peek_session(MailComponent *component)
 //	return store;
 //}
 
-static void
-store_disconnect (CamelStore *store, void *event_data, void *user_data)
-{
-	camel_service_disconnect (CAMEL_SERVICE (store), TRUE, NULL);
-	camel_object_unref (store);
-}
+//static void
+//store_disconnect (CamelStore *store, void *event_data, void *user_data)
+//{
+//	camel_service_disconnect (CAMEL_SERVICE (store), TRUE, NULL);
+//	camel_object_unref (store);
+//}
 
-void
-mail_component_remove_store (MailComponent *component, CamelStore *store)
-{
-	MailComponentPrivate *priv;
+//void
+//mail_component_remove_store (MailComponent *component, CamelStore *store)
+//{
+//	MailComponentPrivate *priv;
+//
+//	MAIL_COMPONENT_DEFAULT(component);
+//
+//	priv = component->priv;
+//
+//	/* Because the store_hash holds a reference to each store
+//	 * used as a key in it, none of them will ever be gc'ed, meaning
+//	 * any call to camel_session_get_{service,store} with the same
+//	 * URL will always return the same object. So this works.
+//	 */
+//
+//	if (g_hash_table_lookup (priv->store_hash, store) == NULL)
+//		return;
+//
+//	camel_object_ref (store);
+//	g_hash_table_remove (priv->store_hash, store);
+//
+//	/* so i guess potentially we could have a race, add a store while one
+//	   being removed.  ?? */
+//	mail_note_store_remove (store);
+//
+//	em_folder_tree_model_remove_store (priv->model, store);
+//
+//	mail_async_event_emit (priv->async_event, MAIL_ASYNC_THREAD, (MailAsyncFunc) store_disconnect, store, NULL, NULL);
+//}
 
-	MAIL_COMPONENT_DEFAULT(component);
-
-	priv = component->priv;
-
-	/* Because the store_hash holds a reference to each store
-	 * used as a key in it, none of them will ever be gc'ed, meaning
-	 * any call to camel_session_get_{service,store} with the same
-	 * URL will always return the same object. So this works.
-	 */
-
-	if (g_hash_table_lookup (priv->store_hash, store) == NULL)
-		return;
-
-	camel_object_ref (store);
-	g_hash_table_remove (priv->store_hash, store);
-
-	/* so i guess potentially we could have a race, add a store while one
-	   being removed.  ?? */
-	mail_note_store_remove (store);
-
-	em_folder_tree_model_remove_store (priv->model, store);
-
-	mail_async_event_emit (priv->async_event, MAIL_ASYNC_THREAD, (MailAsyncFunc) store_disconnect, store, NULL, NULL);
-}
-
-void
-mail_component_remove_store_by_uri (MailComponent *component, const char *uri)
-{
-	CamelProvider *prov;
-	CamelStore *store;
-
-	MAIL_COMPONENT_DEFAULT(component);
-
-	if (!(prov = camel_provider_get(uri, NULL)))
-		return;
-
-	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE))
-		return;
-
-	store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, NULL);
-	if (store != NULL) {
-		mail_component_remove_store (component, store);
-		camel_object_unref (store);
-	}
-}
+//void
+//mail_component_remove_store_by_uri (MailComponent *component, const char *uri)
+//{
+//	CamelProvider *prov;
+//	CamelStore *store;
+//
+//	MAIL_COMPONENT_DEFAULT(component);
+//
+//	if (!(prov = camel_provider_get(uri, NULL)))
+//		return;
+//
+//	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE))
+//		return;
+//
+//	store = (CamelStore *) camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, NULL);
+//	if (store != NULL) {
+//		mail_component_remove_store (component, store);
+//		camel_object_unref (store);
+//	}
+//}
 
 // [KILL-BONOBO] Unused.
 //int
