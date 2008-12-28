@@ -29,6 +29,7 @@
 #include "e-util/e-util.h"
 #include "shell/e-shell.h"
 #include "shell/e-shell-window.h"
+#include "composer/e-msg-composer.h"
 #include "widgets/misc/e-preferences-window.h"
 
 #include "e-mail-shell-view.h"
@@ -564,13 +565,91 @@ mail_shell_module_notify_online_mode_cb (EShell *shell,
 	camel_session_set_online (session, online);
 }
 
+static void
+mail_shell_module_handle_email_uri_cb (gchar *uri,
+                                       CamelFolder *folder,
+                                       gpointer user_data)
+{
+	CamelURL *url = user_data;
+	const gchar *forward;
+	const gchar *reply;
+	const gchar *uid;
+
+	if (folder == NULL) {
+		g_warning ("Could not open folder '%s'", uri);
+		goto exit;
+	}
+
+	forward = camel_url_get_param (url, "forward");
+	reply = camel_url_get_param (url, "reply");
+	uid = camel_url_get_param (url, "uid");
+
+	if (reply != NULL) {
+		gint mode;
+
+		if (g_strcmp0 (reply, "all") == 0)
+			mode = REPLY_MODE_ALL;
+		else if (g_strcmp0 (reply, "list") == 0)
+			mode = REPLY_MODE_LIST;
+		else
+			mode = REPLY_MODE_SENDER;
+
+		em_utils_reply_to_message (folder, uid, NULL, mode, NULL);
+
+	} else if (forward != NULL) {
+		GPtrArray *uids;
+
+		uids = g_ptr_array_new ();
+		g_ptr_array_add (uids, g_strdup (uid));
+
+		if (g_strcmp0 (forward, "attached") == 0)
+			em_utils_forward_attached (folder, uids, uri);
+		else if (g_strcmp0 (forward, "inline") == 0)
+			em_utils_forward_inline (folder, uids, uri);
+		else if (g_strcmp0 (forward, "quoted") == 0)
+			em_utils_forward_quoted (folder, uids, uri);
+		else
+			em_utils_forward_messages (folder, uids, uri);
+
+	} else
+		/* FIXME Create a EMailBrowser */;
+
+exit:
+	camel_url_free (url);
+}
+
 static gboolean
 mail_shell_module_handle_uri_cb (EShell *shell,
                                  const gchar *uri,
                                  EShellModule *shell_module)
 {
-	/* FIXME */
-	return FALSE;
+	gboolean handled = TRUE;
+
+	if (g_str_has_prefix (uri, "mailto:")) {
+		if (em_utils_check_user_can_send_mail (NULL))
+			em_utils_compose_new_message_with_mailto (uri, NULL);
+
+	} else if (g_str_has_prefix (uri, "email:")) {
+		CamelURL *url;
+
+		url = camel_url_new (uri, NULL);
+		if (camel_url_get_param (url, "uid") != NULL) {
+			gchar *curi = em_uri_to_camel (uri);
+
+			mail_get_folder (
+				curi, 0,
+				mail_shell_module_handle_email_uri_cb,
+				url, mail_msg_unordered_push);
+			g_free (curi);
+
+		} else {
+			g_warning ("Email URI's must include a uid parameter");
+			camel_url_free (url);
+		}
+	} else
+		handled = FALSE;
+
+	return TRUE;
 }
 
 /* Helper for mail_shell_module_prepare_for_[off|on]line_cb() */
@@ -670,6 +749,7 @@ mail_shell_module_window_created_cb (EShell *shell,
                                      EShellWindow *shell_window,
                                      EShellModule *shell_module)
 {
+	static gboolean first_time = TRUE;
 	const gchar *module_name;
 
 	module_name = G_TYPE_MODULE (shell_module)->name;
@@ -689,6 +769,13 @@ mail_shell_module_window_created_cb (EShell *shell,
 	g_object_weak_ref (
 		G_OBJECT (shell_window), (GWeakNotify)
 		mail_shell_module_window_weak_notify_cb, shell);
+
+	if (first_time) {
+		g_signal_connect (
+			shell_window, "map-event",
+			G_CALLBACK (e_msg_composer_check_autosave), NULL);
+		first_time = FALSE;
+	}
 }
 
 static EShellModuleInfo module_info = {

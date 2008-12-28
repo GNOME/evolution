@@ -1037,28 +1037,28 @@ handleuri_got_folder(char *uri, CamelFolder *folder, void *data)
 	camel_url_free(url);
 }
 
-static void
-impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environment *ev)
-{
-	if (!strncmp (uri, "mailto:", 7)) {
-		if (!em_utils_check_user_can_send_mail(NULL))
-			return;
-
-		em_utils_compose_new_message_with_mailto (uri, NULL);
-	} else if (!strncmp(uri, "email:", 6)) {
-		CamelURL *url = camel_url_new(uri, NULL);
-
-		if (camel_url_get_param(url, "uid") != NULL) {
-			char *curi = em_uri_to_camel(uri);
-
-			mail_get_folder(curi, 0, handleuri_got_folder, url, mail_msg_unordered_push);
-			g_free(curi);
-		} else {
-			g_warning("email uri's must include a uid parameter");
-			camel_url_free(url);
-		}
-	}
-}
+//static void
+//impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environment *ev)
+//{
+//	if (!strncmp (uri, "mailto:", 7)) {
+//		if (!em_utils_check_user_can_send_mail(NULL))
+//			return;
+//
+//		em_utils_compose_new_message_with_mailto (uri, NULL);
+//	} else if (!strncmp(uri, "email:", 6)) {
+//		CamelURL *url = camel_url_new(uri, NULL);
+//
+//		if (camel_url_get_param(url, "uid") != NULL) {
+//			char *curi = em_uri_to_camel(uri);
+//
+//			mail_get_folder(curi, 0, handleuri_got_folder, url, mail_msg_unordered_push);
+//			g_free(curi);
+//		} else {
+//			g_warning("email uri's must include a uid parameter");
+//			camel_url_free(url);
+//		}
+//	}
+//}
 
 //static void
 //impl_sendAndReceive (PortableServer_Servant servant, CORBA_Environment *ev)
@@ -1224,11 +1224,11 @@ c//all_mail_sync (gpointer user_data)
 //	}
 //}
 
-static void
-impl_mail_test(PortableServer_Servant servant, CORBA_Environment *ev)
-{
-	printf("*** Testing mail interface!! ***\n");
-}
+//static void
+//impl_mail_test(PortableServer_Servant servant, CORBA_Environment *ev)
+//{
+//	printf("*** Testing mail interface!! ***\n");
+//}
 
 /* Initialization.  */
 
@@ -1247,14 +1247,14 @@ mail_component_class_init (MailComponentClass *class)
 	epv->createView          = impl_createView;
 	epv->requestQuit = impl_requestQuit;
 	epv->quit = impl_quit;
-	epv->_get_userCreatableItems = impl__get_userCreatableItems;
-	epv->requestCreateItem       = impl_requestCreateItem;
-	epv->handleURI               = impl_handleURI;
-	epv->sendAndReceive          = impl_sendAndReceive;
-	epv->upgradeFromVersion      = impl_upgradeFromVersion;
-	epv->setLineStatus	     = impl_setLineStatus;
+//	epv->_get_userCreatableItems = impl__get_userCreatableItems;
+//	epv->requestCreateItem       = impl_requestCreateItem;
+//	epv->handleURI               = impl_handleURI;
+//	epv->sendAndReceive          = impl_sendAndReceive;
+//	epv->upgradeFromVersion      = impl_upgradeFromVersion;
+//	epv->setLineStatus	     = impl_setLineStatus;
 
-	mepv->test = impl_mail_test;
+//	mepv->test = impl_mail_test;
 }
 
 //static void

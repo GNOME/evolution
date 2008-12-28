@@ -228,8 +228,6 @@ em_utils_check_user_can_send_mail (GtkWindow *parent)
 {
 	EAccount *account;
 
-	g_return_val_if_fail (GTK_IS_WINDOW (parent), FALSE);
-
 	if (!mail_config_is_configured ()) {
 		if (!em_utils_configure_account (parent))
 			return FALSE;
