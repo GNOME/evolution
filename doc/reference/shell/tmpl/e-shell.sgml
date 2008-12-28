@@ -188,6 +188,24 @@ EShell
 @parent: 
 
 
+<!-- ##### FUNCTION e_shell_get_network_available ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_set_network_available ##### -->
+<para>
+
+</para>
+
+@shell: 
+@network_available: 
+
+
 <!-- ##### FUNCTION e_shell_get_online_mode ##### -->
 <para>
 

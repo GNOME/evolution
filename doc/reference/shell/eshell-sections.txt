@@ -2,7 +2,6 @@
 <FILE>e-shell</FILE>
 <TITLE>EShell</TITLE>
 EShell
-EShellLineStatus
 e_shell_get_default
 e_shell_list_modules
 e_shell_get_canonical_name
@@ -13,10 +12,10 @@ e_shell_create_window
 e_shell_get_focused_window
 e_shell_handle_uri
 e_shell_send_receive
+e_shell_get_network_available
+e_shell_set_network_available
 e_shell_get_online_mode
 e_shell_set_online_mode
-e_shell_get_line_status
-e_shell_set_line_status
 e_shell_get_preferences_window
 e_shell_event
 e_shell_is_busy
@@ -35,7 +34,7 @@ EShellClass
 e_shell_get_type
 <SUBSECTION Private>
 EShellPrivate
-e_shell_migrate_error_quirk
+e_shell_migrate_error_quark
 </SECTION>
 
 <SECTION>

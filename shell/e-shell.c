@@ -549,7 +549,7 @@ shell_class_init (EShellClass *class)
 		G_TYPE_POINTER);
 
 	/**
-	 * EShell:handle-uri
+	 * EShell::handle-uri
 	 * @shell: the #EShell which emitted the signal
 	 * @uri: the URI to be handled
 	 *
@@ -570,7 +570,7 @@ shell_class_init (EShellClass *class)
 		G_TYPE_STRING);
 
 	/**
-	 * EShell:prepare-for-offline
+	 * EShell::prepare-for-offline
 	 * @shell: the #EShell which emitted the signal
 	 * @activity: the #EActivity for offline preparations
 	 *
@@ -595,7 +595,7 @@ shell_class_init (EShellClass *class)
 		E_TYPE_ACTIVITY);
 
 	/**
-	 * EShell:prepare-for-online
+	 * EShell::prepare-for-online
 	 * @shell: the #EShell which emitted the signal
 	 * @activity: the #EActivity for offline preparations
 	 *
@@ -620,7 +620,7 @@ shell_class_init (EShellClass *class)
 		E_TYPE_ACTIVITY);
 
 	/**
-	 * EShell:send-receive
+	 * EShell::send-receive
 	 * @shell: the #EShell which emitted the signal
 	 * @parent: a parent #GtkWindow
 	 *
@@ -637,7 +637,7 @@ shell_class_init (EShellClass *class)
 		GTK_TYPE_WINDOW);
 
 	/**
-	 * EShell:window-created
+	 * EShell::window-created
 	 * @shell: the #EShell which emitted the signal
 	 * @shell_window: the newly created #EShellWindow
 	 *
@@ -653,7 +653,7 @@ shell_class_init (EShellClass *class)
 		E_TYPE_SHELL_WINDOW);
 
 	/**
-	 * EShell:window-destroyed
+	 * EShell::window-destroyed
 	 * @shell: the #EShell which emitted the signal
 	 * @last_window: whether that was the last #EShellWindow
 	 *
