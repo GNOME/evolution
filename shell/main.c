@@ -335,10 +335,10 @@ idle_cb (gchar **uris)
 		startup_line_mode = E_SHELL_STARTUP_LINE_MODE_OFFLINE;
 
 	shell = e_shell_new (startup_line_mode, &result);
-	e_shell_set_crash_recovery (shell, e_file_lock_exists ());
 
 	switch (result) {
 	case E_SHELL_CONSTRUCT_RESULT_OK:
+		e_shell_set_crash_recovery (shell, e_file_lock_exists ());
 		g_signal_connect (shell, "no_windows_left", G_CALLBACK (no_windows_left_cb), NULL);
 		g_object_weak_ref (G_OBJECT (shell), shell_weak_notify, NULL);
 		corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
