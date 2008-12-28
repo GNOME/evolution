@@ -1,3 +1,13 @@
+2008-12-28  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Related to bug #562155
+
+	* main.c (idle_cb):
+	Only call e_shell_set_crash_recovery() if the EShell Bonobo object
+	was constructed successfully, otherwise it will be NULL.  This fixes
+	a warning shown in the terminal output of bug #562155, but the bug
+	is not reproducible so it's not clear whether this fixes the bug.
+
 2008-12-10  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #563250
