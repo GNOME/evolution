@@ -282,7 +282,7 @@ static GtkActionEntry item_entries[] = {
 
 	{ "task-new",
 	  "stock_task",
-	  N_("_Task"),  /* XXX Need C_() here */
+	  NC_("New", "_Task"),
 	  "<Shift><Control>t",
 	  N_("Create a new task"),
 	  G_CALLBACK (action_task_new_cb) },
@@ -299,7 +299,7 @@ static GtkActionEntry source_entries[] = {
 
 	{ "task-list-new",
 	  "stock_todo",
-	  N_("Tas_k List"),
+	  NC_("New", "Tas_k List"),
 	  NULL,
 	  N_("Create a new task list"),
 	  G_CALLBACK (action_task_list_new_cb) }

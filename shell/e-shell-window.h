@@ -103,12 +103,12 @@ void		e_shell_window_set_safe_mode	(EShellWindow *shell_window,
 void		e_shell_window_register_new_item_actions
 						(EShellWindow *shell_window,
 						 const gchar *module_name,
-						 const GtkActionEntry *entries,
+						 GtkActionEntry *entries,
 						 guint n_entries);
 void		e_shell_window_register_new_source_actions
 						(EShellWindow *shell_window,
 						 const gchar *module_name,
-						 const GtkActionEntry *entries,
+						 GtkActionEntry *entries,
 						 guint n_entries);
 
 G_END_DECLS

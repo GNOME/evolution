@@ -727,12 +727,14 @@ e_shell_window_set_safe_mode (EShellWindow *shell_window,
  * #EShellModuleInfo).
  *
  * The registered #GtkAction<!-- -->s should be for creating individual
- * items such as an email message or a calendar appointment.
+ * items such as an email message or a calendar appointment.  The action
+ * labels should be marked for translation with the "New" context using
+ * the NC_() macro.
  **/
 void
 e_shell_window_register_new_item_actions (EShellWindow *shell_window,
                                           const gchar *module_name,
-                                          const GtkActionEntry *entries,
+                                          GtkActionEntry *entries,
                                           guint n_entries)
 {
 	GtkActionGroup *action_group;
@@ -748,6 +750,19 @@ e_shell_window_register_new_item_actions (EShellWindow *shell_window,
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
 	module_name = g_intern_string (module_name);
+
+	/* XXX The action label translations are retrieved from the
+	 *     message context "New", but gtk_action_group_add_actions()
+	 *     does not support message contexts.  So we have to fetch
+	 *     the label translations ourselves before adding them to
+	 *     the action group.
+	 *
+	 *     gtk_action_group_set_translate_func() does not help here
+	 *     because the action tooltips do not use a message context
+	 *     (though I suppose they could). */
+	for (ii = 0; ii < n_entries; ii++)
+		entries[ii].label = g_dpgettext2 (
+			GETTEXT_PACKAGE, "New", entries[ii].label);
 
 	gtk_action_group_add_actions (
 		action_group, entries, n_entries, shell_window);
@@ -801,12 +816,14 @@ e_shell_window_register_new_item_actions (EShellWindow *shell_window,
  * #EShellModuleInfo).
  *
  * The registered #GtkAction<!-- -->s should be for creating item
- * containers such as an email folder or a calendar.
+ * containers such as an email folder or a calendar.  The action labels
+ * should be marked for translation with the "New" context using the
+ * NC_() macro.
  **/
 void
 e_shell_window_register_new_source_actions (EShellWindow *shell_window,
                                             const gchar *module_name,
-                                            const GtkActionEntry *entries,
+                                            GtkActionEntry *entries,
                                             guint n_entries)
 {
 	GtkActionGroup *action_group;
@@ -822,6 +839,19 @@ e_shell_window_register_new_source_actions (EShellWindow *shell_window,
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
 	module_name = g_intern_string (module_name);
+
+	/* XXX The action label translations are retrieved from the
+	 *     message context "New", but gtk_action_group_add_actions()
+	 *     does not support message contexts.  So we have to fetch
+	 *     the label translations ourselves before adding them to
+	 *     the action group.
+	 *
+	 *     gtk_action_group_set_translate_func() does not help here
+	 *     because the action tooltips do not use a message context
+	 *     (though I suppose they could). */
+	for (ii = 0; ii < n_entries; ii++)
+		entries[ii].label = g_dpgettext2 (
+			GETTEXT_PACKAGE, "New", entries[ii].label);
 
 	gtk_action_group_add_actions (
 		action_group, entries, n_entries, shell_window);

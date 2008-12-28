@@ -288,7 +288,7 @@ static GtkActionEntry item_entries[] = {
 
 	{ "contact-new",
 	  "contact-new",
-	  N_("_Contact"),  /* XXX Need C_() here */
+	  NC_("New", "_Contact"),
 	  "<Shift><Control>c",
 	  N_("Create a new contact"),
 	  G_CALLBACK (action_contact_new_cb) },
@@ -305,7 +305,7 @@ static GtkActionEntry source_entries[] = {
 
 	{ "address-book-new",
 	  "address-book-new",
-	  N_("Address _Book"),
+	  NC_("New", "Address _Book"),
 	  NULL,
 	  N_("Create a new address book"),
 	  G_CALLBACK (action_address_book_new_cb) }

@@ -1521,7 +1521,7 @@ e_mail_reader_init (EMailReader *reader)
 	action = gtk_action_group_get_action (action_group, "mail-previous");
 	g_object_set (action, "short-label", _("Previous"), NULL);
 
-	action = gtk_action_group_get_action (action_group, "mail-reply");
+	action = gtk_action_group_get_action (action_group, "mail-reply-sender");
 	g_object_set (action, "short-label", _("Reply"), NULL);
 
 	/* Connect signals. */

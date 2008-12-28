@@ -459,7 +459,7 @@ static GtkActionEntry item_entries[] = {
 
 	{ "mail-message-new",
 	  "mail-message-new",
-	  N_("_Mail Message"),  /* XXX C_() here */
+	  NC_("New", "_Mail Message"),
 	  "<Shift><Control>m",
 	  N_("Compose a new mail message"),
 	  G_CALLBACK (action_mail_message_new_cb) }
@@ -469,7 +469,7 @@ static GtkActionEntry source_entries[] = {
 
 	{ "mail-folder-new",
 	  "folder-new",
-	  N_("Mail _Folder"),
+	  NC_("New", "Mail _Folder"),
 	  NULL,
 	  N_("Create a new mail folder"),
 	  G_CALLBACK (action_mail_folder_new_cb) }

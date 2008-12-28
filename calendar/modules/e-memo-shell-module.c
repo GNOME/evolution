@@ -282,7 +282,7 @@ static GtkActionEntry item_entries[] = {
 
 	{ "memo-new",
 	  "stock_insert-note",
-	  N_("Mem_o"),  /* XXX Need C_() here */
+	  NC_("New", "Mem_o"),
 	  "<Shift><Control>o",
 	  N_("Create a new memo"),
 	  G_CALLBACK (action_memo_new_cb) },
@@ -299,7 +299,7 @@ static GtkActionEntry source_entries[] = {
 
 	{ "memo-list-new",
 	  "stock_notes",
-	  N_("Memo Li_st"),
+	  NC_("New", "Memo Li_st"),
 	  NULL,
 	  N_("Create a new memo list"),
 	  G_CALLBACK (action_memo_list_new_cb) }

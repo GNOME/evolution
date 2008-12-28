@@ -376,21 +376,21 @@ static GtkActionEntry item_entries[] = {
 
 	{ "event-new",
 	  "appointment-new",
-	  N_("_Appointment"),  /* XXX Need C_() here */
+	  NC_("New", "_Appointment"),
 	  "<Control>a",
 	  N_("Create a new appointment"),
 	  G_CALLBACK (action_event_new_cb) },
 
 	{ "event-all-day-new",
 	  "stock_new-24h-appointment",
-	  N_("All Day A_ppointment"),
+	  NC_("New", "All Day A_ppointment"),
 	  NULL,
 	  N_("Create a new all-day appointment"),
 	  G_CALLBACK (action_event_new_cb) },
 
 	{ "event-meeting-new",
 	  "stock_new-meeting",
-	  N_("M_eeting"),
+	  NC_("New", "M_eeting"),
 	  "<Control>e",
 	  N_("Create a new meeting request"),
 	  G_CALLBACK (action_event_new_cb) }
@@ -400,7 +400,7 @@ static GtkActionEntry source_entries[] = {
 
 	{ "calendar-new",
 	  "x-office-calendar",
-	  N_("Cale_ndar"),
+	  NC_("New", "Cale_ndar"),
 	  NULL,
 	  N_("Create a new calendar"),
 	  G_CALLBACK (action_calendar_new_cb) }

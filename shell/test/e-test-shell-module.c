@@ -53,7 +53,7 @@ static GtkActionEntry item_entries[] = {
 
 	{ "test-item-new",
 	  "document-new",
-	  N_("_Test Item"),
+	  NC_("New", "_Test Item"),
 	  NULL,
 	  N_("Create a new test item"),
 	  G_CALLBACK (action_test_item_new_cb) }
@@ -63,7 +63,7 @@ static GtkActionEntry source_entries[] = {
 
 	{ "test-source-new",
 	  "folder-new",
-	  N_("Test _Source"),
+	  NC_("New", "Test _Source"),
 	  NULL,
 	  N_("Create a new test source"),
 	  G_CALLBACK (action_test_source_new_cb) }
