@@ -1,3 +1,14 @@
+2008-12-29  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #565857
+
+	* e-searching-tokenizer.c (searcher_next_token):
+	The HTMLTokenizer now expects a newly-allocated string from its
+	next_token() method, so duplicate the returned string.  This fixes
+	a memory leak whereby previously, some implementations of next_token()
+	did return a newly-allocated string, some did not.  Those that did
+	leaked those strings.
+
 2008-12-22  Sankar P  <psankar@novell.com>
 
 	** Part of fix for bug #559153

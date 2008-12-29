@@ -811,7 +811,7 @@ searcher_next_token(struct _searcher *s)
 
 	s->current = token = (struct _token *)e_dlist_remhead(&s->output);
 
-	return token?token->tok:NULL;
+	return token ? g_strdup (token->tok) : NULL;
 }
 
 static char *
