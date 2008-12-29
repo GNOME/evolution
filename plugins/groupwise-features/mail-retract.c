@@ -104,8 +104,8 @@ void org_gnome_retract_message (EPlugin *ep, EMPopupTargetSelect *t)
 
 		/* for translation*/
 		if (!first) {
-			popup_items[0].label =  _(popup_items[0].label);
-			popup_items[0].user_data = g_strdup((char *) g_ptr_array_index(uids, 0));
+			popup_items[1].label =  _(popup_items[1].label);
+			popup_items[1].user_data = g_strdup((char *) g_ptr_array_index(uids, 0));
 		}
 
 		first++;

@@ -1,3 +1,10 @@
+2008-12-29  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug bnc #435694
+
+	* mail-retract.c: (org_gnome_retract_message): Since we now add a bar,
+	lets set the popup items right.
+
 2008-11-20  Bharath Acharya  <abharath@novell.com>
 
 	** Fix for bug bnc #446286
