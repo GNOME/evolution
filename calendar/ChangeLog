@@ -1,3 +1,12 @@
+2008-12-29  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #446285 (bnc)
+
+	* gui/e-select-names-editable.c:
+	(e_select_names_editable_get_emails),
+	(e_select_names_editable_get_names): Traverse all the entries in the 
+	added list.
+
 2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for BNC bug #435452
