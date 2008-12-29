@@ -1,3 +1,11 @@
+2008-12-29  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #439998 (bnc)
+
+	* gui/dialogs/comp-editor.c: (remove_event_dialog),
+	(action_save_cb): Ask the user if he wants to remove the delegated 
+	events or keep a copy.
+	
 2008-12-22  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #559604
