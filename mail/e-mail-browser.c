@@ -24,6 +24,9 @@
 #include <glib/gi18n.h>
 #include <camel/camel-folder.h>
 
+#include "e-util/e-util.h"
+#include "e-util/gconf-bridge.h"
+
 #include "mail/e-mail-reader.h"
 #include "mail/e-mail-shell-module.h"
 #include "mail/em-folder-tree-model.h"
@@ -34,10 +37,18 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MAIL_BROWSER, EMailBrowserPrivate))
 
+#define MAIL_BROWSER_GCONF_PREFIX "/apps/evolution/mail/mail_browser"
+
 struct _EMailBrowserPrivate {
 	GtkUIManager *ui_manager;
 	EShellModule *shell_module;
 	GtkActionGroup *action_group;
+	EMFormatHTMLDisplay *html_display;
+
+	GtkWidget *main_menu;
+	GtkWidget *main_toolbar;
+	GtkWidget *message_list;
+	GtkWidget *statusbar;
 };
 
 enum {
@@ -47,6 +58,132 @@ enum {
 };
 
 static gpointer parent_class;
+
+/* This is too trivial to put in a file.
+ * It gets merged with the EMailReader UI. */
+static const gchar *ui =
+"<ui>"
+"  <menubar name='main-menu'>"
+"    <menu action='file-menu'>"
+"      <placeholder name='file-actions'/>"
+"      <placeholder name='print-actions'/>"
+"      <separator/>"
+"      <menuitem action='close'/>"
+"    </menu>"
+"  </menubar>"
+"</ui>";
+
+static void
+action_close_cb (GtkAction *action,
+                 EMailBrowser *browser)
+{
+	gtk_widget_destroy (GTK_WIDGET (browser));
+}
+
+static GtkActionEntry mail_browser_entries[] = {
+
+	{ "close",
+	  GTK_STOCK_CLOSE,
+	  NULL,
+	  NULL,
+	  N_("Close this window"),
+	  G_CALLBACK (action_close_cb) },
+
+	/*** Menus ***/
+
+	{ "file-menu",
+	  NULL,
+	  N_("_File"),
+	  NULL,
+	  NULL,
+	  NULL },
+
+	{ "edit-menu",
+	  NULL,
+	  N_("_Edit"),
+	  NULL,
+	  NULL,
+	  NULL },
+
+	{ "view-menu",
+	  NULL,
+	  N_("_View"),
+	  NULL,
+	  NULL,
+	  NULL }
+};
+
+static void
+mail_browser_menu_item_select_cb (EMailBrowser *browser,
+                                  GtkWidget *menu_item)
+{
+	GtkAction *action;
+	GtkStatusbar *statusbar;
+	gchar *tooltip = NULL;
+	guint context_id;
+	gpointer data;
+
+	action = g_object_get_data (G_OBJECT (menu_item), "action");
+	g_return_if_fail (GTK_IS_ACTION (action));
+
+	data = g_object_get_data (G_OBJECT (menu_item), "context-id");
+	context_id = GPOINTER_TO_UINT (data);
+
+	g_object_get (action, "tooltip", &tooltip, NULL);
+
+	if (tooltip == NULL)
+		return;
+
+	statusbar = GTK_STATUSBAR (browser->priv->statusbar);
+	gtk_statusbar_push (statusbar, context_id, tooltip);
+}
+
+static void
+mail_browser_menu_item_deselect_cb (EMailBrowser *browser,
+                                    GtkWidget *menu_item)
+{
+	GtkStatusbar *statusbar;
+	guint context_id;
+	gpointer data;
+
+	data = g_object_get_data (G_OBJECT (menu_item), "context-id");
+	context_id = GPOINTER_TO_UINT (data);
+
+	statusbar = GTK_STATUSBAR (browser->priv->statusbar);
+	gtk_statusbar_pop (statusbar, context_id);
+}
+
+static void
+mail_browser_connect_proxy_cb (EMailBrowser *browser,
+                               GtkAction *action,
+                               GtkWidget *proxy)
+{
+	GtkStatusbar *statusbar;
+	guint context_id;
+
+	if (!GTK_IS_MENU_ITEM (proxy))
+		return;
+
+	statusbar = GTK_STATUSBAR (browser->priv->statusbar);
+	context_id = gtk_statusbar_get_context_id (statusbar, G_STRFUNC);
+
+	g_object_set_data_full (
+		G_OBJECT (proxy),
+		"action", g_object_ref (action),
+		(GDestroyNotify) g_object_unref);
+
+	g_object_set_data (
+		G_OBJECT (proxy), "context-id",
+		GUINT_TO_POINTER (context_id));
+
+	g_signal_connect_swapped (
+		proxy, "select",
+		G_CALLBACK (mail_browser_menu_item_select_cb), browser);
+
+	g_signal_connect_swapped (
+		proxy, "deselect",
+		G_CALLBACK (mail_browser_menu_item_deselect_cb), browser);
+}
 
 static void
 mail_browser_set_shell_module (EMailBrowser *browser,
@@ -119,6 +256,31 @@ mail_browser_dispose (GObject *object)
 		priv->action_group = NULL;
 	}
 
+	if (priv->html_display != NULL) {
+		g_object_unref (priv->html_display);
+		priv->html_display = NULL;
+	}
+
+	if (priv->main_menu != NULL) {
+		g_object_unref (priv->main_menu);
+		priv->main_menu = NULL;
+	}
+
+	if (priv->main_toolbar != NULL) {
+		g_object_unref (priv->main_toolbar);
+		priv->main_toolbar = NULL;
+	}
+
+	if (priv->message_list != NULL) {
+		g_object_unref (priv->message_list);
+		priv->message_list = NULL;
+	}
+
+	if (priv->statusbar != NULL) {
+		g_object_unref (priv->statusbar);
+		priv->statusbar = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
@@ -126,6 +288,75 @@ mail_browser_dispose (GObject *object)
 static void
 mail_browser_constructed (GObject *object)
 {
+	EMailBrowserPrivate *priv;
+	EMailReader *reader;
+	GtkAccelGroup *accel_group;
+	GtkActionGroup *action_group;
+	GtkUIManager *ui_manager;
+	GtkWidget *container;
+	GtkWidget *widget;
+
+	priv = E_MAIL_BROWSER_GET_PRIVATE (object);
+
+	reader = E_MAIL_READER (object);
+	action_group = priv->action_group;
+	ui_manager = priv->ui_manager;
+
+	e_mail_reader_init (reader);
+
+	gtk_action_group_add_actions (
+		action_group, mail_browser_entries,
+		G_N_ELEMENTS (mail_browser_entries), object);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+
+	e_load_ui_definition (ui_manager, E_MAIL_READER_UI_DEFINITION);
+	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, NULL);
+
+	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
+	gtk_window_add_accel_group (GTK_WINDOW (object), accel_group);
+
+	g_signal_connect_swapped (
+		ui_manager, "connect-proxy",
+		G_CALLBACK (mail_browser_connect_proxy_cb), object);
+
+	/* Construct window widgets. */
+
+	widget = gtk_vbox_new (FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (object), widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	/* Create the status bar before connecting proxy widgets. */
+	widget = gtk_statusbar_new ();
+	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	priv->statusbar = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	widget = gtk_ui_manager_get_widget (ui_manager, "/main-menu");
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	priv->main_menu = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	widget = gtk_ui_manager_get_widget (ui_manager, "/main-toolbar");
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	priv->main_toolbar = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	widget = gtk_scrolled_window_new (NULL, NULL);
+	gtk_scrolled_window_set_policy (
+		GTK_SCROLLED_WINDOW (widget),
+		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (
+		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = GTK_WIDGET (((EMFormatHTML *) priv->html_display)->html);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
 }
 
 static GtkActionGroup *
@@ -136,11 +367,6 @@ mail_browser_get_action_group (EMailReader *reader)
 	priv = E_MAIL_BROWSER_GET_PRIVATE (reader);
 
 	return priv->action_group;
-}
-
-static EMFormatHTMLDisplay *
-mail_browser_get_display (EMailReader *reader)
-{
 }
 
 static CamelFolder *
@@ -158,9 +384,24 @@ mail_browser_get_hide_deleted (EMailReader *reader)
 {
 }
 
+static EMFormatHTMLDisplay *
+mail_browser_get_html_display (EMailReader *reader)
+{
+	EMailBrowserPrivate *priv;
+
+	priv = E_MAIL_BROWSER_GET_PRIVATE (reader);
+
+	return priv->html_display;
+}
+
 static MessageList *
 mail_browser_get_message_list (EMailReader *reader)
 {
+	EMailBrowserPrivate *priv;
+
+	priv = E_MAIL_BROWSER_GET_PRIVATE (reader);
+
+	return MESSAGE_LIST (priv->message_list);
 }
 
 static EMFolderTreeModel *
@@ -211,10 +452,10 @@ static void
 mail_browser_iface_init (EMailReaderIface *iface)
 {
 	iface->get_action_group = mail_browser_get_action_group;
-	iface->get_display = mail_browser_get_display;
 	iface->get_folder = mail_browser_get_folder;
 	iface->get_folder_uri = mail_browser_get_folder_uri;
 	iface->get_hide_deleted = mail_browser_get_hide_deleted;
+	iface->get_html_display = mail_browser_get_html_display;
 	iface->get_message_list = mail_browser_get_message_list;
 	iface->get_tree_model = mail_browser_get_tree_model;
 	iface->get_window = mail_browser_get_window;
@@ -223,10 +464,24 @@ mail_browser_iface_init (EMailReaderIface *iface)
 static void
 mail_browser_init (EMailBrowser *browser)
 {
+	GConfBridge *bridge;
+	const gchar *prefix;
+
 	browser->priv = E_MAIL_BROWSER_GET_PRIVATE (browser);
 
 	browser->priv->ui_manager = gtk_ui_manager_new ();
 	browser->priv->action_group = gtk_action_group_new ("mail-browser");
+	browser->priv->html_display = em_format_html_display_new ();
+
+	/* The message list is a widget, but it is not shown in the browser.
+	 * Unfortunately, the widget is inseparable from its model, and the
+	 * model is all we need. */
+	browser->priv->message_list = message_list_new ();
+	g_object_ref_sink (browser->priv->message_list);
+
+	bridge = gconf_bridge_get ();
+	prefix = "/apps/evolution/mail/mail_browser";
+	gconf_bridge_bind_window_size (bridge, prefix, GTK_WINDOW (browser));
 }
 
 GType
@@ -258,7 +513,7 @@ e_mail_browser_get_type (void)
 			GTK_TYPE_WINDOW, "EMailBrowser", &type_info, 0);
 
 		g_type_add_interface_static (
-			type, E_TYPE_MAIL_BROWSER, &iface_info);
+			type, E_TYPE_MAIL_READER, &iface_info);
 	}
 
 	return type;

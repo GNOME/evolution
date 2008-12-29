@@ -37,6 +37,7 @@
 #include "e-mail-shell-module-migrate.h"
 #include "e-mail-shell-module-settings.h"
 
+#include "e-mail-browser.h"
 #include "em-account-prefs.h"
 #include "em-composer-prefs.h"
 #include "em-composer-utils.h"
@@ -611,8 +612,14 @@ mail_shell_module_handle_email_uri_cb (gchar *uri,
 		else
 			em_utils_forward_messages (folder, uids, uri);
 
-	} else
-		/* FIXME Create a EMailBrowser */;
+	} else {
+		GtkWidget *browser;
+
+		/* XXX Should pass in the shell module. */
+		browser = e_mail_browser_new (mail_shell_module);
+		/* FIXME This is incomplete... */
+		gtk_widget_show (browser);
+	}
 
 exit:
 	camel_url_free (url);

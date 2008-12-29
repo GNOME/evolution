@@ -42,6 +42,9 @@
 	(G_TYPE_INSTANCE_GET_INTERFACE \
 	((obj), E_TYPE_MAIL_READER, EMailReaderIface))
 
+/* Basename of the UI definition file. */
+#define E_MAIL_READER_UI_DEFINITION	"evolution-mail-reader.ui"
+
 G_BEGIN_DECLS
 
 typedef struct _EMailReader EMailReader;
@@ -53,11 +56,11 @@ struct _EMailReaderIface {
 	/* XXX This is getting kinda bloated.  Try to reduce. */
 	GtkActionGroup *
 			(*get_action_group)	(EMailReader *reader);
-	EMFormatHTMLDisplay *
-			(*get_display)		(EMailReader *reader);
 	CamelFolder *	(*get_folder)		(EMailReader *reader);
 	const gchar *	(*get_folder_uri)	(EMailReader *reader);
 	gboolean	(*get_hide_deleted)	(EMailReader *reader);
+	EMFormatHTMLDisplay *
+			(*get_html_display)	(EMailReader *reader);
 	MessageList *	(*get_message_list)	(EMailReader *reader);
 	EShellSettings *(*get_shell_settings)	(EMailReader *reader);
 	EMFolderTreeModel *
@@ -69,11 +72,11 @@ GType		e_mail_reader_get_type		(void);
 void		e_mail_reader_init		(EMailReader *reader);
 GtkActionGroup *
 		e_mail_reader_get_action_group	(EMailReader *reader);
-EMFormatHTMLDisplay *
-		e_mail_reader_get_display	(EMailReader *reader);
 CamelFolder *	e_mail_reader_get_folder	(EMailReader *reader);
 const gchar *	e_mail_reader_get_folder_uri	(EMailReader *reader);
 gboolean	e_mail_reader_get_hide_deleted	(EMailReader *reader);
+EMFormatHTMLDisplay *
+		e_mail_reader_get_html_display	(EMailReader *reader);
 MessageList *	e_mail_reader_get_message_list	(EMailReader *reader);
 EShellSettings *e_mail_reader_get_shell_settings(EMailReader *reader);
 EMFolderTreeModel *

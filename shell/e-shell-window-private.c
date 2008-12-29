@@ -173,6 +173,7 @@ e_shell_window_private_init (EShellWindow *shell_window)
 {
 	EShellWindowPrivate *priv = shell_window->priv;
 	GHashTable *loaded_views;
+	GtkAccelGroup *accel_group;
 	GtkToolItem *item;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -202,9 +203,8 @@ e_shell_window_private_init (EShellWindow *shell_window)
 
 	e_shell_window_actions_init (shell_window);
 
-	gtk_window_add_accel_group (
-		GTK_WINDOW (shell_window),
-		gtk_ui_manager_get_accel_group (priv->ui_manager));
+	accel_group = gtk_ui_manager_get_accel_group (priv->ui_manager);
+	gtk_window_add_accel_group (GTK_WINDOW (shell_window), accel_group);
 
 	g_signal_connect_swapped (
 		priv->ui_manager, "connect-proxy",

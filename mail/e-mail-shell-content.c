@@ -376,16 +376,6 @@ mail_shell_content_get_action_group (EMailReader *reader)
 	return e_shell_window_get_action_group (shell_window, "mail");
 }
 
-static EMFormatHTMLDisplay *
-mail_shell_content_get_display (EMailReader *reader)
-{
-	EMailShellContent *mail_shell_content;
-
-	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
-
-	return e_mail_shell_content_get_preview_format (mail_shell_content);
-}
-
 static CamelFolder *
 mail_shell_content_get_folder (EMailReader *reader)
 {
@@ -415,6 +405,16 @@ mail_shell_content_get_hide_deleted (EMailReader *reader)
 {
 	/* FIXME */
 	return TRUE;
+}
+
+static EMFormatHTMLDisplay *
+mail_shell_content_get_html_display (EMailReader *reader)
+{
+	EMailShellContent *mail_shell_content;
+
+	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
+
+	return e_mail_shell_content_get_preview_format (mail_shell_content);
 }
 
 static MessageList *
@@ -502,10 +502,10 @@ static void
 mail_shell_content_iface_init (EMailReaderIface *iface)
 {
 	iface->get_action_group = mail_shell_content_get_action_group;
-	iface->get_display = mail_shell_content_get_display;
 	iface->get_folder = mail_shell_content_get_folder;
 	iface->get_folder_uri = mail_shell_content_get_folder_uri;
 	iface->get_hide_deleted = mail_shell_content_get_hide_deleted;
+	iface->get_html_display = mail_shell_content_get_html_display;
 	iface->get_message_list = mail_shell_content_get_message_list;
 	iface->get_tree_model = mail_shell_content_get_tree_model;
 	iface->get_window = mail_shell_content_get_window;

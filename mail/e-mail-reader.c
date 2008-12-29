@@ -80,13 +80,13 @@ static void
 action_mail_caret_mode_cb (GtkToggleAction *action,
                            EMailReader *reader)
 {
-	EMFormatHTMLDisplay *display;
+	EMFormatHTMLDisplay *html_display;
 	gboolean active;
 
-	display = e_mail_reader_get_display (reader);
 	active = gtk_toggle_action_get_active (action);
+	html_display = e_mail_reader_get_html_display (reader);
 
-	em_format_html_display_set_caret_mode (display, active);
+	em_format_html_display_set_caret_mode (html_display, active);
 }
 
 static void
@@ -109,11 +109,11 @@ static void
 action_mail_clipboard_copy_cb (GtkAction *action,
                                EMailReader *reader)
 {
-	EMFormatHTMLDisplay *display;
+	EMFormatHTMLDisplay *html_display;
 	GtkHTML *html;
 
-	display = e_mail_reader_get_display (reader);
-	html = ((EMFormatHTML *) display)->html;
+	html_display = e_mail_reader_get_html_display (reader);
+	html = ((EMFormatHTML *) html_display)->html;
 
 	gtk_html_copy (html);
 }
@@ -246,14 +246,14 @@ static void
 action_mail_flag_clear_cb (GtkAction *action,
                            EMailReader *reader)
 {
-	EMFormatHTMLDisplay *display;
+	EMFormatHTMLDisplay *html_display;
 	MessageList *message_list;
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
 
-	display = e_mail_reader_get_display (reader);
 	folder = e_mail_reader_get_folder (reader);
+	html_display = e_mail_reader_get_html_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 	window = e_mail_reader_get_window (reader);
 
@@ -261,21 +261,21 @@ action_mail_flag_clear_cb (GtkAction *action,
 
 	em_utils_flag_for_followup_clear (window, folder, uids);
 
-	em_format_redraw ((EMFormat *) display);
+	em_format_redraw ((EMFormat *) html_display);
 }
 
 static void
 action_mail_flag_completed_cb (GtkAction *action,
                                EMailReader *reader)
 {
-	EMFormatHTMLDisplay *display;
+	EMFormatHTMLDisplay *html_display;
 	MessageList *message_list;
 	CamelFolder *folder;
 	GtkWindow *window;
 	GPtrArray *uids;
 
-	display = e_mail_reader_get_display (reader);
 	folder = e_mail_reader_get_folder (reader);
+	html_display = e_mail_reader_get_html_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 	window = e_mail_reader_get_window (reader);
 
@@ -283,7 +283,7 @@ action_mail_flag_completed_cb (GtkAction *action,
 
 	em_utils_flag_for_followup_completed (window, folder, uids);
 
-	em_format_redraw ((EMFormat *) display);
+	em_format_redraw ((EMFormat *) html_display);
 }
 
 static void
@@ -400,11 +400,11 @@ static void
 action_mail_load_images_cb (GtkAction *action,
                             EMailReader *reader)
 {
-	EMFormatHTMLDisplay *display;
+	EMFormatHTMLDisplay *html_display;
 
-	display = e_mail_reader_get_display (reader);
+	html_display = e_mail_reader_get_html_display (reader);
 
-	em_format_html_load_http ((EMFormatHTML *) display);
+	em_format_html_load_http ((EMFormatHTML *) html_display);
 }
 
 static void
@@ -898,33 +898,33 @@ static void
 action_mail_zoom_100_cb (GtkAction *action,
                          EMailReader *reader)
 {
-	EMFormatHTMLDisplay *display;
+	EMFormatHTMLDisplay *html_display;
 
-	display = e_mail_reader_get_display (reader);
+	html_display = e_mail_reader_get_html_display (reader);
 
-	em_format_html_display_zoom_reset (display);
+	em_format_html_display_zoom_reset (html_display);
 }
 
 static void
 action_mail_zoom_in_cb (GtkAction *action,
                         EMailReader *reader)
 {
-	EMFormatHTMLDisplay *display;
+	EMFormatHTMLDisplay *html_display;
 
-	display = e_mail_reader_get_display (reader);
+	html_display = e_mail_reader_get_html_display (reader);
 
-	em_format_html_display_zoom_in (display);
+	em_format_html_display_zoom_in (html_display);
 }
 
 static void
 action_mail_zoom_out_cb (GtkAction *action,
                          EMailReader *reader)
 {
-	EMFormatHTMLDisplay *display;
+	EMFormatHTMLDisplay *html_display;
 
-	display = e_mail_reader_get_display (reader);
+	html_display = e_mail_reader_get_html_display (reader);
 
-	em_format_html_display_zoom_out (display);
+	em_format_html_display_zoom_out (html_display);
 }
 
 static GtkActionEntry mail_reader_entries[] = {
@@ -1548,19 +1548,6 @@ e_mail_reader_get_action_group (EMailReader *reader)
 	return iface->get_action_group (reader);
 }
 
-EMFormatHTMLDisplay *
-e_mail_reader_get_display (EMailReader *reader)
-{
-	EMailReaderIface *iface;
-
-	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
-
-	iface = E_MAIL_READER_GET_IFACE (reader);
-	g_return_val_if_fail (iface->get_display != NULL, NULL);
-
-	return iface->get_display (reader);
-}
-
 CamelFolder *
 e_mail_reader_get_folder (EMailReader *reader)
 {
@@ -1598,6 +1585,19 @@ e_mail_reader_get_hide_deleted (EMailReader *reader)
 	g_return_val_if_fail (iface->get_hide_deleted != NULL, FALSE);
 
 	return iface->get_hide_deleted (reader);
+}
+
+EMFormatHTMLDisplay *
+e_mail_reader_get_html_display (EMailReader *reader)
+{
+	EMailReaderIface *iface;
+
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
+
+	iface = E_MAIL_READER_GET_IFACE (reader);
+	g_return_val_if_fail (iface->get_html_display != NULL, NULL);
+
+	return iface->get_html_display (reader);
 }
 
 MessageList *
