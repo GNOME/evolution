@@ -1,3 +1,7 @@
+2008-12-30  Andre Klapper  <a9016009@gmx.de>
+
+	* POTFILES.in: add missing file (cf. bug #359010)
+
 2008-12-28  Marcel Telka  <marcel@telka.sk>
 
 	* sk.po: Updated Slovak translation.
