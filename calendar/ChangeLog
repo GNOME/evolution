@@ -1,3 +1,11 @@
+2008-12-31  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fix for bug #562091
+
+	* gui/dialogs/memo-editor.c (memo_editor_constructed),
+	(memo_editor_class_init), (memo_editor_init): Create MemoPage
+	after the base class object has been created and initialized. 
+
 2008-12-29  Bharath Acharya  <abharath@novell.com>
 
 	** Fix for bug #446285 (bnc)
