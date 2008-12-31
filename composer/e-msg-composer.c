@@ -66,7 +66,6 @@
 #include "e-util/e-error.h"
 #include "e-util/e-plugin-ui.h"
 #include "e-util/e-util-private.h"
-#include "e-util/e-util.h"
 #include "e-signature-combo-box.h"
 #include "shell/e-shell.h"
 

@@ -65,11 +65,38 @@ mail_shell_view_constructed (GObject *object)
 }
 
 static void
+mail_shell_view_toggled (EShellView *shell_view)
+{
+	EMailShellViewPrivate *priv;
+	EShellWindow *shell_window;
+	GtkUIManager *ui_manager;
+	const gchar *basename;
+
+	/* Chain up to parent's toggled() method. */
+	E_SHELL_VIEW_CLASS (parent_class)->toggled (shell_view);
+
+	priv = E_MAIL_SHELL_VIEW_GET_PRIVATE (shell_view);
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	basename = E_MAIL_READER_UI_DEFINITION;
+
+	if (e_shell_view_is_active (shell_view)) {
+		priv->merge_id = e_load_ui_definition (ui_manager, basename);
+		e_mail_reader_create_charset_menu (
+			E_MAIL_READER (priv->mail_shell_content),
+			ui_manager, priv->merge_id);
+	} else
+		gtk_ui_manager_remove_ui (ui_manager, priv->merge_id);
+
+	gtk_ui_manager_ensure_update (ui_manager);
+}
+
+static void
 mail_shell_view_update_actions (EShellView *shell_view)
 {
 	EMailShellViewPrivate *priv;
 	EMailShellSidebar *mail_shell_sidebar;
-	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
 	EMFolderTree *folder_tree;
@@ -179,6 +206,7 @@ mail_shell_view_class_init (EMailShellViewClass *class,
 	shell_view_class->type_module = type_module;
 	shell_view_class->new_shell_content = e_mail_shell_content_new;
 	shell_view_class->new_shell_sidebar = e_mail_shell_sidebar_new;
+	shell_view_class->toggled = mail_shell_view_toggled;
 	shell_view_class->update_actions = mail_shell_view_update_actions;
 }
 

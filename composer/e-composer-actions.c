@@ -106,7 +106,7 @@ action_charset_cb (GtkRadioAction *action,
 	if (action != current)
 		return;
 
-	charset = gtk_action_get_name (GTK_ACTION (current));
+	charset = g_object_get_data (G_OBJECT (action), "charset");
 
 	g_free (composer->priv->charset);
 	composer->priv->charset = g_strdup (charset);
@@ -686,7 +686,7 @@ e_composer_actions_init (EMsgComposer *composer)
 	gtk_action_group_set_translation_domain (
 		action_group, GETTEXT_PACKAGE);
 	e_charset_add_radio_actions (
-		action_group, composer->priv->charset,
+		action_group, "charset-", composer->priv->charset,
 		G_CALLBACK (action_charset_cb), composer);
 	gtk_ui_manager_insert_action_group (manager, action_group, 0);
 

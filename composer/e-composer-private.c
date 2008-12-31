@@ -29,9 +29,11 @@ composer_setup_charset_menu (EMsgComposer *composer)
 	guint merge_id;
 
 	manager = gtkhtml_editor_get_ui_manager (GTKHTML_EDITOR (composer));
-	list = gtk_action_group_list_actions (composer->priv->charset_actions);
 	path = "/main-menu/edit-menu/pre-spell-check/charset-menu";
 	merge_id = gtk_ui_manager_new_merge_id (manager);
+
+	list = gtk_action_group_list_actions (composer->priv->charset_actions);
+	list = g_list_sort (list, (GCompareFunc) e_action_compare_by_label);
 
 	while (list != NULL) {
 		GtkAction *action = list->data;

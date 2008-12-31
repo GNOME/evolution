@@ -393,12 +393,16 @@ e_composer_post_header_set_folder_tree_model (EComposerPostHeader *header,
                                               EMFolderTreeModel *model)
 {
 	g_return_if_fail (E_IS_COMPOSER_POST_HEADER (header));
-	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+
+	if (model != NULL) {
+		g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+		g_object_ref (model);
+	}
 
 	if (header->priv->model != NULL)
 		g_object_unref (header->priv->model);
 
-	header->priv->model = g_object_ref (model);
+	header->priv->model = model;
 
 	g_object_notify (G_OBJECT (header), "folder-tree-model");
 }

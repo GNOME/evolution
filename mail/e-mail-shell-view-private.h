@@ -28,6 +28,7 @@
 #include <gtkhtml/gtkhtml.h>
 #include <camel/camel-vtrash-folder.h>
 
+#include "e-util/e-util.h"
 #include "e-util/gconf-bridge.h"
 #include "widgets/menus/gal-view-instance.h"
 
@@ -118,6 +119,9 @@ struct _EMailShellViewPrivate {
 	/* These are just for convenience. */
 	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
+
+	/* For UI merging and unmerging. */
+	guint merge_id;
 };
 
 void		e_mail_shell_view_private_init

@@ -35,7 +35,10 @@
           <menuitem action='mail-zoom-100'/>
         </menu>
         <separator/>
-        <menu action='mail-encoding-menu'/>
+        <menu action='mail-encoding-menu'>
+          <menuitem action='mail-charset-default'/>
+          <separator/>
+        </menu>
       </placeholder>
     </menu>
     <placeholder name='custom-menus'>

@@ -376,30 +376,6 @@ mail_shell_content_get_action_group (EMailReader *reader)
 	return e_shell_window_get_action_group (shell_window, "mail");
 }
 
-static CamelFolder *
-mail_shell_content_get_folder (EMailReader *reader)
-{
-	EMailShellContent *mail_shell_content;
-	EMFolderView *folder_view;
-
-	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
-	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
-
-	return folder_view->folder;
-}
-
-static const gchar *
-mail_shell_content_get_folder_uri (EMailReader *reader)
-{
-	EMailShellContent *mail_shell_content;
-	EMFolderView *folder_view;
-
-	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
-	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
-
-	return folder_view->folder_uri;
-}
-
 static gboolean
 mail_shell_content_get_hide_deleted (EMailReader *reader)
 {
@@ -429,18 +405,16 @@ mail_shell_content_get_message_list (EMailReader *reader)
 	return folder_view->list;
 }
 
-static EMFolderTreeModel *
-mail_shell_content_get_tree_model (EMailReader *reader)
+static EShellModule *
+mail_shell_content_get_shell_module (EMailReader *reader)
 {
 	EShellContent *shell_content;
-	EShellModule *shell_module;
 	EShellView *shell_view;
 
 	shell_content = E_SHELL_CONTENT (reader);
 	shell_view = e_shell_content_get_shell_view (shell_content);
-	shell_module = e_shell_view_get_shell_module (shell_view);
 
-	return e_mail_shell_module_get_folder_tree_model (shell_module);
+	return e_shell_view_get_shell_module (shell_view);
 }
 
 static GtkWindow *
@@ -502,12 +476,10 @@ static void
 mail_shell_content_iface_init (EMailReaderIface *iface)
 {
 	iface->get_action_group = mail_shell_content_get_action_group;
-	iface->get_folder = mail_shell_content_get_folder;
-	iface->get_folder_uri = mail_shell_content_get_folder_uri;
 	iface->get_hide_deleted = mail_shell_content_get_hide_deleted;
 	iface->get_html_display = mail_shell_content_get_html_display;
 	iface->get_message_list = mail_shell_content_get_message_list;
-	iface->get_tree_model = mail_shell_content_get_tree_model;
+	iface->get_shell_module = mail_shell_content_get_shell_module;
 	iface->get_window = mail_shell_content_get_window;
 }
 

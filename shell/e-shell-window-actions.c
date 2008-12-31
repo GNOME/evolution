@@ -1753,27 +1753,6 @@ static GtkRadioActionEntry shell_gal_view_radio_entries[] = {
 	  -1 }
 };
 
-static gint
-shell_window_compare_actions (GtkAction *action1,
-                              GtkAction *action2)
-{
-	gchar *label1, *label2;
-	gint result;
-
-	/* XXX This is really inefficient, but we're only sorting
-	 *     a small number of actions (repeatedly, though). */
-
-	g_object_get (action1, "label", &label1, NULL);
-	g_object_get (action2, "label", &label2, NULL);
-
-	result = g_utf8_collate (label1, label2);
-
-	g_free (label1);
-	g_free (label2);
-
-	return result;
-}
-
 static void
 shell_window_extract_actions (EShellWindow *shell_window,
                               GList **source_list,
@@ -1914,13 +1893,13 @@ e_shell_window_create_new_menu (EShellWindow *shell_window)
 
 	new_item_actions = g_list_sort (
 		gtk_action_group_list_actions (action_group),
-		(GCompareFunc) shell_window_compare_actions);
+		(GCompareFunc) e_action_compare_by_label);
 
 	action_group = shell_window->priv->new_source_actions;
 
 	new_source_actions = g_list_sort (
 		gtk_action_group_list_actions (action_group),
-		(GCompareFunc) shell_window_compare_actions);
+		(GCompareFunc) e_action_compare_by_label);
 
 	/* Give priority to actions that belong to this shell view. */
 

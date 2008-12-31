@@ -1210,61 +1210,61 @@ emfv_enable_menus(EMFolderView *emfv)
 	g_string_free(name, TRUE);
 }
 
-static void
-emfv_view_mode(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
-{
-	EMFolderView *emfv = data;
-	int i;
+//static void
+//emfv_view_mode(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
+//{
+//	EMFolderView *emfv = data;
+//	int i;
+//
+//	if (type != Bonobo_UIComponent_STATE_CHANGED)
+//		return;
+//
+//	/* TODO: I don't like this stuff much, is there any way we can move listening for such events
+//	   elsehwere?  Probably not I guess, unless there's a EMFolderViewContainer for bonobo usage
+//	   of a folder view */
+//
+//	i = state[0] != '0';
+//
+//			em_format_set_mode((EMFormat *)emfv->preview, i);
+//
+//			if (EM_FOLDER_VIEW_GET_CLASS (emfv)->update_message_style) {
+//				GConfClient *gconf = mail_config_get_gconf_client ();
+//
+//				gconf_client_set_int (gconf, "/apps/evolution/mail/display/message_style", i, NULL);
+//			}
+//}
 
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
+//static void
+//emfv_caret_mode(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
+//{
+//	EMFolderView *emfv = data;
+//
+//	if (type != Bonobo_UIComponent_STATE_CHANGED)
+//		return;
+//
+//	em_format_html_display_set_caret_mode(emfv->preview, state[0] != '0');
+//
+//	gconf_client_set_bool(mail_config_get_gconf_client(), "/apps/evolution/mail/display/caret_mode", state[0] != '0', NULL);
+//}
 
-	/* TODO: I don't like this stuff much, is there any way we can move listening for such events
-	   elsehwere?  Probably not I guess, unless there's a EMFolderViewContainer for bonobo usage
-	   of a folder view */
-
-	i = state[0] != '0';
-
-			em_format_set_mode((EMFormat *)emfv->preview, i);
-
-			if (EM_FOLDER_VIEW_GET_CLASS (emfv)->update_message_style) {
-				GConfClient *gconf = mail_config_get_gconf_client ();
-
-				gconf_client_set_int (gconf, "/apps/evolution/mail/display/message_style", i, NULL);
-			}
-}
-
-static void
-emfv_caret_mode(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
-{
-	EMFolderView *emfv = data;
-
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-
-	em_format_html_display_set_caret_mode(emfv->preview, state[0] != '0');
-
-	gconf_client_set_bool(mail_config_get_gconf_client(), "/apps/evolution/mail/display/caret_mode", state[0] != '0', NULL);
-}
-
-static void
-emfv_charset_changed(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
-{
-	EMFolderView *emfv = data;
-
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-
-	/* menu items begin with "Charset-" = 8 characters */
-	if (state[0] != '0' && strlen(path) > 8) {
-		path += 8;
-		/* default charset used in mail view */
-		if (!strcmp(path, _("Default")))
-			path = NULL;
-
-		em_format_set_charset((EMFormat *)emfv->preview, path);
-	}
-}
+//static void
+//emfv_charset_changed(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
+//{
+//	EMFolderView *emfv = data;
+//
+//	if (type != Bonobo_UIComponent_STATE_CHANGED)
+//		return;
+//
+//	/* menu items begin with "Charset-" = 8 characters */
+//	if (state[0] != '0' && strlen(path) > 8) {
+//		path += 8;
+//		/* default charset used in mail view */
+//		if (!strcmp(path, _("Default")))
+//			path = NULL;
+//
+//		em_format_set_charset((EMFormat *)emfv->preview, path);
+//	}
+//}
 
 static void
 emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
@@ -1285,21 +1285,21 @@ emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		if (emfv->menu)
 			e_menu_activate((EMenu *)emfv->menu, uic, act);
 
-		state = emfv->preview->caret_mode;
-		bonobo_ui_component_set_prop(uic, "/commands/CaretMode", "state", state?"1":"0", NULL);
-		bonobo_ui_component_add_listener(uic, "CaretMode", emfv_caret_mode, emfv);
+//		state = emfv->preview->caret_mode;
+//		bonobo_ui_component_set_prop(uic, "/commands/CaretMode", "state", state?"1":"0", NULL);
+//		bonobo_ui_component_add_listener(uic, "CaretMode", emfv_caret_mode, emfv);
 
-		style = ((EMFormat *)emfv->preview)->mode?EM_FORMAT_ALLHEADERS:EM_FORMAT_NORMAL;
-		if (style)
-			bonobo_ui_component_set_prop(uic, "/commands/ViewFullHeaders", "state", "1", NULL);
-		bonobo_ui_component_add_listener(uic, "ViewFullHeaders", emfv_view_mode, emfv);
-		em_format_set_mode((EMFormat *)emfv->preview, style);
+//		style = ((EMFormat *)emfv->preview)->mode?EM_FORMAT_ALLHEADERS:EM_FORMAT_NORMAL;
+//		if (style)
+//			bonobo_ui_component_set_prop(uic, "/commands/ViewFullHeaders", "state", "1", NULL);
+//		bonobo_ui_component_add_listener(uic, "ViewFullHeaders", emfv_view_mode, emfv);
+//		em_format_set_mode((EMFormat *)emfv->preview, style);
 
 		if (emfv->folder)
 			bonobo_ui_component_set_prop(uic, "/commands/MessageEdit", "sensitive", "0", NULL);
 
-		/* default charset used in mail view */
-		e_charset_picker_bonobo_ui_populate (uic, "/menu/View", _("Default"), emfv_charset_changed, emfv);
+//		/* default charset used in mail view */
+//		e_charset_picker_bonobo_ui_populate (uic, "/menu/View", _("Default"), emfv_charset_changed, emfv);
 
 		emfv_enable_menus(emfv);
 		if (emfv->statusbar_active)

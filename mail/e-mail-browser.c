@@ -21,6 +21,7 @@
 
 #include "e-mail-browser.h"
 
+#include <string.h>
 #include <glib/gi18n.h>
 #include <camel/camel-folder.h>
 
@@ -220,8 +221,8 @@ mail_browser_get_property (GObject *object,
 	switch (property_id) {
 		case PROP_SHELL_MODULE:
 			g_value_set_object (
-				value, e_mail_browser_get_shell_module (
-				E_MAIL_BROWSER (object)));
+				value, e_mail_reader_get_shell_module (
+				E_MAIL_READER (object)));
 			return;
 
 		case PROP_UI_MANAGER:
@@ -295,15 +296,19 @@ mail_browser_constructed (GObject *object)
 	GtkUIManager *ui_manager;
 	GtkWidget *container;
 	GtkWidget *widget;
+	const gchar *domain;
+	guint merge_id;
 
 	priv = E_MAIL_BROWSER_GET_PRIVATE (object);
 
 	reader = E_MAIL_READER (object);
-	action_group = priv->action_group;
 	ui_manager = priv->ui_manager;
+	domain = GETTEXT_PACKAGE;
 
 	e_mail_reader_init (reader);
 
+	action_group = priv->action_group;
+	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_action_group_add_actions (
 		action_group, mail_browser_entries,
 		G_N_ELEMENTS (mail_browser_entries), object);
@@ -311,6 +316,9 @@ mail_browser_constructed (GObject *object)
 
 	e_load_ui_definition (ui_manager, E_MAIL_READER_UI_DEFINITION);
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, NULL);
+
+	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
+	e_mail_reader_create_charset_menu (reader, ui_manager, merge_id);
 
 	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
 	gtk_window_add_accel_group (GTK_WINDOW (object), accel_group);
@@ -369,16 +377,6 @@ mail_browser_get_action_group (EMailReader *reader)
 	return priv->action_group;
 }
 
-static CamelFolder *
-mail_browser_get_folder (EMailReader *reader)
-{
-}
-
-static const gchar *
-mail_browser_get_folder_uri (EMailReader *reader)
-{
-}
-
 static gboolean
 mail_browser_get_hide_deleted (EMailReader *reader)
 {
@@ -404,16 +402,14 @@ mail_browser_get_message_list (EMailReader *reader)
 	return MESSAGE_LIST (priv->message_list);
 }
 
-static EMFolderTreeModel *
-mail_browser_get_tree_model (EMailReader *reader)
+static EShellModule *
+mail_browser_get_shell_module (EMailReader *reader)
 {
 	EMailBrowserPrivate *priv;
-	EShellModule *shell_module;
 
 	priv = E_MAIL_BROWSER_GET_PRIVATE (reader);
-	shell_module = priv->shell_module;
 
-	return e_mail_shell_module_get_folder_tree_model (shell_module);
+	return priv->shell_module;
 }
 
 static GtkWindow *
@@ -452,12 +448,10 @@ static void
 mail_browser_iface_init (EMailReaderIface *iface)
 {
 	iface->get_action_group = mail_browser_get_action_group;
-	iface->get_folder = mail_browser_get_folder;
-	iface->get_folder_uri = mail_browser_get_folder_uri;
 	iface->get_hide_deleted = mail_browser_get_hide_deleted;
 	iface->get_html_display = mail_browser_get_html_display;
 	iface->get_message_list = mail_browser_get_message_list;
-	iface->get_tree_model = mail_browser_get_tree_model;
+	iface->get_shell_module = mail_browser_get_shell_module;
 	iface->get_window = mail_browser_get_window;
 }
 
@@ -527,14 +521,6 @@ e_mail_browser_new (EShellModule *shell_module)
 	return g_object_new (
 		E_TYPE_MAIL_BROWSER,
 		"shell-module", shell_module, NULL);
-}
-
-EShellModule *
-e_mail_browser_get_shell_module (EMailBrowser *browser)
-{
-	g_return_val_if_fail (E_IS_MAIL_BROWSER (browser), NULL);
-
-	return browser->priv->shell_module;
 }
 
 GtkUIManager *

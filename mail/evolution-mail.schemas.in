@@ -354,6 +354,20 @@
     </schema>   
 
     <schema>
+      <key>/schema/apps/evolution/mail/display/show_all_headers</key>
+      <applyto>/apps/evolution/mail/display/show_all_headers</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Show all message headers</short>
+        <long>
+          Show all the headers when viewing a messages.
+        </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/display/headers</key>
       <applyto>/apps/evolution/mail/display/headers</applyto>
       <owner>evolution-mail</owner>

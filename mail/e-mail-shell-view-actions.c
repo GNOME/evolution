@@ -988,7 +988,6 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
 	GConfBridge *bridge;
-	GtkAction *action;
 	GObject *object;
 	const gchar *domain;
 	const gchar *key;

@@ -33,16 +33,10 @@ char *		e_charset_picker_dialog		(const char *title,
 						 const char *default_charset,
 						 GtkWindow *parent);
 
-void		e_charset_add_radio_actions	(GtkActionGroup *action_group,
+GSList *	e_charset_add_radio_actions	(GtkActionGroup *action_group,
+						 const gchar *action_prefix,
 						 const gchar *default_charset,
 						 GCallback callback,
-						 gpointer user_data);
-
-void		e_charset_picker_bonobo_ui_populate
-						(BonoboUIComponent *uic,
-						 const char *path,
-						 const char *default_charset,
-						 BonoboUIListenerFn cb,
 						 gpointer user_data);
 
 G_END_DECLS

@@ -164,6 +164,41 @@ e_load_ui_definition (GtkUIManager *ui_manager,
 }
 
 /**
+ * e_action_compare_by_label:
+ * @action1: a #GtkAction
+ * @action2: a #GtkAction
+ *
+ * Compares the labels for @action1 and @action2 using g_utf8_collate().
+ *
+ * Returns: &lt; 0 if @action1 compares before @action2, 0 if they
+ *          compare equal, &gt; 0 if @action1 compares after @action2
+ **/
+gint
+e_action_compare_by_label (GtkAction *action1,
+                           GtkAction *action2)
+{
+	gchar *label1;
+	gchar *label2;
+	gint result;
+
+	/* XXX This is horribly inefficient but will generally only be
+	 *     used on short lists of actions during UI construction. */
+
+	if (action1 == action2)
+		return 0;
+
+	g_object_get (action1, "label", &label1, NULL);
+	g_object_get (action2, "label", &label2, NULL);
+
+	result = g_utf8_collate (label1, label2);
+
+	g_free (label1);
+	g_free (label2);
+
+	return result;
+}
+
+/**
  * e_action_group_remove_all_actions:
  * @action_group: a #GtkActionGroup
  *

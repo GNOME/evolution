@@ -24,10 +24,9 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel-folder.h>
-#include <mail/em-folder-tree-model.h>
 #include <mail/em-format-html-display.h>
 #include <mail/message-list.h>
-#include <shell/e-shell-settings.h>
+#include <shell/e-shell-module.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_READER \
@@ -53,19 +52,18 @@ typedef struct _EMailReaderIface EMailReaderIface;
 struct _EMailReaderIface {
 	GTypeInterface parent_iface;
 
-	/* XXX This is getting kinda bloated.  Try to reduce. */
 	GtkActionGroup *
 			(*get_action_group)	(EMailReader *reader);
-	CamelFolder *	(*get_folder)		(EMailReader *reader);
-	const gchar *	(*get_folder_uri)	(EMailReader *reader);
 	gboolean	(*get_hide_deleted)	(EMailReader *reader);
 	EMFormatHTMLDisplay *
 			(*get_html_display)	(EMailReader *reader);
 	MessageList *	(*get_message_list)	(EMailReader *reader);
-	EShellSettings *(*get_shell_settings)	(EMailReader *reader);
-	EMFolderTreeModel *
-			(*get_tree_model)	(EMailReader *reader);
+	EShellModule *	(*get_shell_module)	(EMailReader *reader);
 	GtkWindow *	(*get_window)		(EMailReader *reader);
+
+	void		(*set_folder)		(EMailReader *reader,
+						 CamelFolder *folder,
+						 const gchar *folder_uri);
 };
 
 GType		e_mail_reader_get_type		(void);
@@ -78,10 +76,15 @@ gboolean	e_mail_reader_get_hide_deleted	(EMailReader *reader);
 EMFormatHTMLDisplay *
 		e_mail_reader_get_html_display	(EMailReader *reader);
 MessageList *	e_mail_reader_get_message_list	(EMailReader *reader);
-EShellSettings *e_mail_reader_get_shell_settings(EMailReader *reader);
-EMFolderTreeModel *
-		e_mail_reader_get_tree_model	(EMailReader *reader);
+EShellModule *	e_mail_reader_get_shell_module	(EMailReader *reader);
 GtkWindow *	e_mail_reader_get_window	(EMailReader *reader);
+void		e_mail_reader_set_folder	(EMailReader *reader,
+						 CamelFolder *folder,
+						 const gchar *folder_uri);
+void		e_mail_reader_create_charset_menu
+						(EMailReader *reader,
+						 GtkUIManager *ui_manager,
+						 guint merge_id);
 
 G_END_DECLS
 

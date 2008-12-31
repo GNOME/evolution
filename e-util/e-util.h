@@ -46,6 +46,8 @@ void		e_display_help			(GtkWindow *parent,
 						 const gchar *link_id);
 guint		e_load_ui_definition		(GtkUIManager *ui_manager,
 						 const gchar *basename);
+gint		e_action_compare_by_label	(GtkAction *action1,
+						 GtkAction *action2);
 void		e_action_group_remove_all_actions
 						(GtkActionGroup *action_group);
 
