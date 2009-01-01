@@ -1,5 +1,9 @@
 2009-01-01  Andre Klapper  <a9016009@gmx.de>
 
+	* de/de.po: Update German translation.
+
+2009-01-01  Andre Klapper  <a9016009@gmx.de>
+
 	* quickref/Makefile.am:	
 	* quickref/cs/Makefile.am:
 	* quickref/cs/quickref.tex:
