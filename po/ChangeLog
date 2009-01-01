@@ -1,3 +1,7 @@
+2009-01-01  Andre Klapper  <a9016009@gmx.de>
+
+	* POTFILES.in: Fix my last commit so l10n.gnome.org is happy.
+
 2008-12-30  Andre Klapper  <a9016009@gmx.de>
 
 	* POTFILES.in: add missing file (cf. bug #359010)

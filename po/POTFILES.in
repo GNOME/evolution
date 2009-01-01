@@ -401,7 +401,7 @@ plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml
 plugins/publish-calendar/org-gnome-publish-calendar.xml
 plugins/publish-calendar/publish-calendar.c
 plugins/publish-calendar/publish-calendar.glade
-plugins/publish-calendar/url-editor-dialog.c 
+plugins/publish-calendar/url-editor-dialog.c
 plugins/python/example/org-gnome-hello-python-ui.xml
 plugins/python/example/org-gnome-hello-python.eplug.xml
 plugins/python/org-gnome-evolution-python.eplug.xml
