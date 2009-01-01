@@ -1,13 +1,13 @@
 # Czech translation of evolution documentation.
 # Copyright (C) 2008 the author(s) of evolution.
 # This file is distributed under GNU Free Documentation License 1.2.
-# Jiri Eischmann <jiri@eischmann.cz>, 2008.
+# Jiri Eischmann <jiri@eischmann.cz>, 2008, 2009.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution documentation\n"
 "POT-Creation-Date: 2008-09-29 14:25+0000\n"
-"PO-Revision-Date: 2008-11-12 12:26+0100\n"
+"PO-Revision-Date: 2009-01-01 16:40+0100\n"
 "Last-Translator: Jiri Eischmann <jiri@eischmann.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -659,7 +659,7 @@ msgstr "Kalendář v Evolutionu"
 #: C/evolution.xml:103(link)
 #: C/evolution.xml:5093(title)
 msgid "Connecting to Exchange Servers"
-msgstr "Spojení s Exchange servery"
+msgstr "Spojení se servery Exchange"
 
 #: C/evolution.xml:106(link)
 #: C/evolution.xml:5648(title)
@@ -5836,79 +5836,79 @@ msgstr "V Evolutionu můžete udržovat více kalendářů a překládat je jede
 
 #: C/evolution.xml:3838(para)
 msgid "Appointments for each calendar appear as a different color."
-msgstr ""
+msgstr "Události mají různé barvy podle toho, v jakém jsou kalendáři."
 
 #: C/evolution.xml:3839(para)
 msgid "The toolbar offers you five different buttons that can show you different views of your calendar."
-msgstr ""
+msgstr "Lišta nástrojů vám nabízí pět různých tlačítek, pomocí nichž můžete zobrazit různé náhledy kalendáře."
 
 #: C/evolution.xml:3847(para)
 msgid "Calendar View"
-msgstr ""
+msgstr "Náhled kalendáře"
 
 #: C/evolution.xml:3850(para)
 msgid "Shortcut Keys"
-msgstr ""
+msgstr "Klávesové zkratky"
 
 #: C/evolution.xml:3857(para)
 msgid "Day"
-msgstr ""
+msgstr "Den"
 
 #: C/evolution.xml:3860(para)
 msgid "control+y"
-msgstr ""
+msgstr "ctrl+y"
 
 #: C/evolution.xml:3865(para)
 msgid "Work Week"
-msgstr ""
+msgstr "Pracovní týden"
 
 #: C/evolution.xml:3868(para)
 msgid "control+j"
-msgstr ""
+msgstr "ctrl+j"
 
 #: C/evolution.xml:3873(para)
 msgid "Week"
-msgstr ""
+msgstr "Týden"
 
 #: C/evolution.xml:3876(para)
 msgid "control+k"
-msgstr ""
+msgstr "ctrl+k"
 
 #: C/evolution.xml:3881(para)
 msgid "Month"
-msgstr ""
+msgstr "Měsíc"
 
 #: C/evolution.xml:3884(para)
 msgid "control+m"
-msgstr ""
+msgstr "ctrl+m"
 
 #: C/evolution.xml:3889(para)
 msgid "List"
-msgstr ""
+msgstr "Seznam"
 
 #: C/evolution.xml:3892(para)
 msgid "control+l"
-msgstr ""
+msgstr "ctrl+l"
 
 #: C/evolution.xml:3898(para)
 msgid "You can also select an arbitrary range of days in the small calendar in the side bar. To do this, select the days that you want to view in your calendar."
-msgstr ""
+msgstr "Můžete také vybrat vlastní rozsah dnů v malém kalendáři v postranním panelu. Chcete-li to udělat, vyberte táhnutím dny, které chcete v kalendáři vidět."
 
 #: C/evolution.xml:3900(para)
 msgid "The Previous and Next buttons move you forward and back in your calendar pages. If you are using a week or month view, you can move by week or month. To return to today's listing, click the Today button in the toolbar."
-msgstr ""
+msgstr "Tlačítky Předchozí a Další se pohybujeme v kalendáři dopředu a zpět. Používáte-li zobrazení po týdnech nebo měsících, budete se pohybovat po týdnech a měsích. Pro návrat na zobrazení pod dnech klikněte na tlačítko Den v liště nástrojů."
 
 #: C/evolution.xml:3901(para)
 msgid "To visit calendar entries for a specific date, click Go To and select the date in the dialog box that appears."
-msgstr ""
+msgstr "Chcete-li najít konkrétní datum, klikněte na Jít na a vyberte datum v dialogovém okně, které se zobrazí."
 
 #: C/evolution.xml:3904(title)
 msgid "Calendar Properties"
-msgstr ""
+msgstr "Vlastnosti kalendáře"
 
 #: C/evolution.xml:3905(para)
 msgid "Evolution allows you to edit the label of your calendar, assign color, and copy content for offline use. To set your calendar properties"
-msgstr ""
+msgstr "Evolution vám umožňuje upravovat název kalendáře, přiřadit barvu a kopírovat obsah pro práci offline. Chcete-li nastavit vlastnosti kalendáře"
 
 #: C/evolution.xml:3908(para)
 msgid "Select the calendar from the side bar at the left."
@@ -5924,79 +5924,79 @@ msgstr "Vyberte Vlastnosti, abyste otevřeli dialogové okno Vlastností kalend�
 
 #: C/evolution.xml:3926(para)
 msgid "Edit the label from Name field."
-msgstr ""
+msgstr "Upravte název v poli Název."
 
 #: C/evolution.xml:3929(para)
 msgid "To assign a color for the calendar, click the Color button."
-msgstr ""
+msgstr "Barvu kalendáři přiřadíte tak, že kliknete na tlačítko Barva."
 
 #: C/evolution.xml:3932(para)
 msgid "Select the color and click OK."
-msgstr ""
+msgstr "Vyberte barvu a klikněte na OK."
 
 #: C/evolution.xml:3935(para)
 msgid "To mark your calendar content for offline use, click Copy calendar contents locally for offline operations."
-msgstr ""
+msgstr "Chcete-li kalendář označit pro práci při odpojení, klikněte na Z_kopírovat obsah kalendáře lokálně pro práci při odpojení"
 
 #: C/evolution.xml:3937(para)
 msgid "Right-click on the calendar at the left and select Mark Calendar for offline use. For more information on working offline refer <link linkend=\"usage-mail-getnsend-offline\">Working Offline</link>."
-msgstr ""
+msgstr "Klikněte pravým tlačítkem na kalendář nalevo a vyberte Zpřístupnit pro použití off-line. Více informací o práci offline naleznete v <link linkend=\"usage-mail-getnsend-offline\">Práci offline</link>. "
 
 #: C/evolution.xml:3939(para)
 msgid "To export or share or to store a calendar locally in iCal format, right click on the calendar in the calendar view at the left and select Save to Disk."
-msgstr ""
+msgstr "Chcete-li exportovat, sdílet či uložit kalendář lokálně ve formátu iCal, klikněte pravým tlačíkem na kalendář v zobrazení kalendářů nalevo a a vyberte Uložit na disk."
 
 #: C/evolution.xml:3941(para)
 msgid "Click Mark as default folder if you want to mark this folder as your default calendar folder."
-msgstr ""
+msgstr "Klikněte na Označit jako výchozí složku, chcete-li tuto složku označit jako výchozí pro kalendáře."
 
 #: C/evolution.xml:3945(title)
 msgid "Google Calendar"
-msgstr ""
+msgstr "Kalendář Google"
 
 #: C/evolution.xml:3946(para)
 msgid "Evolution allows you to access your Google calendar. You can view the Google calendar offline or create, modify, and delete the calendar items online."
-msgstr ""
+msgstr "Evolution vám umožňuje přistupovat k vašemu kalendáři u Googlu. Můžete Kalendář Google zobrazovat offline nebo vytvářet, měnit a mazat položky kalendáře online."
 
 #: C/evolution.xml:3947(para)
 msgid "To integrate the Google calendar to Evolution:"
-msgstr ""
+msgstr "Kalendář Google do Evolutionu integrujete tak, že:"
 
 #: C/evolution.xml:3950(para)
 msgid "Click New, then select Calendar to open the New Calendar dialog."
-msgstr ""
+msgstr "Klikněte na Nový, potom vyberte Kalendář a otevře se dialog Nový kalendář. "
 
 #: C/evolution.xml:3958(para)
 msgid "Specify the following:"
-msgstr ""
+msgstr "Zadejte následující:"
 
 #: C/evolution.xml:3962(title)
 msgid "Name:"
-msgstr ""
+msgstr "Jméno:"
 
 #: C/evolution.xml:3963(para)
 msgid "Specify a name for the Google calendar"
-msgstr ""
+msgstr "Zadejte jméno pro Kalendář Google."
 
 #: C/evolution.xml:3969(para)
 msgid "Specify your username for your Google account"
-msgstr ""
+msgstr "Zadejte vaše jméno uživatele k účtu u Googlu."
 
 #: C/evolution.xml:3975(para)
 msgid "Set the time to automatically refresh the calendar."
-msgstr ""
+msgstr "Zadejte čas, za jaký se má kalendář automaticky obnovovat."
 
 #: C/evolution.xml:3978(para)
 msgid "Select Use SSL to enable a secure connection between Evolution and the Google server."
-msgstr ""
+msgstr "Vyberte Použít SSL, chcete-li aktivovat zabezpečené spojení mezi Evolutionem a serverem Googlu."
 
 #: C/evolution.xml:3981(para)
 msgid "If you want to set a color label for the calendar, click the Color tab, select the desired color, then click OK."
-msgstr ""
+msgstr "Chcete-li pro kalendář nastavit barvu, klikněte na tlačítko Barva a vyberte požadovanou barvu, potom klikněte na OK."
 
 #: C/evolution.xml:3984(para)
 msgid "If you want to view the calendar items offline, select Copy calendar content locally for offline operation check box."
-msgstr ""
+msgstr "Chcete-li prohlížet položky kalendáře offline, zaškrtněte Zkopírovat obsah kalendáře lokálně pro práci při odpojení."
 
 #: C/evolution.xml:3985(para)
 msgid "If you select this option, you cannot modify or create the calendar items."
@@ -6004,88 +6004,88 @@ msgstr "Pokud zvolíte tuto možnost, nebudete moci měnit nebo vytvářet polo�
 
 #: C/evolution.xml:3995(para)
 msgid "There are two types of events you can schedule with Evolution: appointments and meetings. An appointment is an event you schedule for yourself only, and a meeting is an event that you schedule multiple people for. You can also use the busy/free search for meetings to determine the availability of invitees."
-msgstr ""
+msgstr "Jsou dva druhy jevů, které můžete s Evolutionem plánovat: události a schůzky. Událost je jev, který můžete plánovat jen pro sebe, a schůzka je události, kterou můžete plánovat pro více lidí. Můžete také využít vyhledávání ve volno/obsazeno, abyste určili, zda mají pozvaní volno. "
 
 #: C/evolution.xml:3998(link)
 #: C/evolution.xml:4021(title)
 msgid "Appointments"
-msgstr ""
+msgstr "Události"
 
 #: C/evolution.xml:4001(link)
 #: C/evolution.xml:4193(title)
 msgid "Sending a Meeting Invitation"
-msgstr ""
+msgstr "Zaslání pozvánky na schůzku"
 
 #: C/evolution.xml:4004(link)
 #: C/evolution.xml:4282(title)
 msgid "Accepting and Replying to a Meeting Request"
-msgstr ""
+msgstr "Akceptování a odpověď na požadavek na schůzku"
 
 #: C/evolution.xml:4007(link)
 #: C/evolution.xml:4300(title)
 msgid "Reading Responses to Meeting Requests"
-msgstr ""
+msgstr "Čtení odpovědí na požadavky na schůzku"
 
 #: C/evolution.xml:4010(link)
 #: C/evolution.xml:4305(title)
 msgid "Using the Free/Busy View"
-msgstr ""
+msgstr "Použití zobrazení Volno/obsazeno"
 
 #: C/evolution.xml:4013(link)
 #: C/evolution.xml:4334(title)
 msgid "Publishing Calendar and Free/Busy Information Without a Groupware Server"
-msgstr ""
+msgstr "Zveřejňování kalendáře a informací Volno/obsazeno bez serveru Groupware"
 
 #: C/evolution.xml:4016(link)
 #: C/evolution.xml:4367(title)
 msgid "Accessing Free/Busy Data Without a Groupware Server"
-msgstr ""
+msgstr "Přístup k datům Volno/obsazeno bez server Groupware"
 
 #: C/evolution.xml:4022(para)
 msgid "In Evolution, an appointment is an event you schedule for yourself."
-msgstr ""
+msgstr "V Evolutionu jsou události jevy, které si plánujete pro sebe."
 
 #: C/evolution.xml:4025(link)
 #: C/evolution.xml:4039(title)
 msgid "Creating Appointments"
-msgstr ""
+msgstr "Vytváření událostí"
 
 #: C/evolution.xml:4028(link)
 #: C/evolution.xml:4127(title)
 #: C/evolution.xml:5557(title)
 msgid "Reminders"
-msgstr ""
+msgstr "Připomínky"
 
 #: C/evolution.xml:4031(link)
 #: C/evolution.xml:4163(title)
 msgid "Classifications"
-msgstr ""
+msgstr "Klasifikace"
 
 #: C/evolution.xml:4034(link)
 #: C/evolution.xml:4186(title)
 msgid "Recurrence"
-msgstr ""
+msgstr "Opakování"
 
 #: C/evolution.xml:4042(para)
 msgid "Click File &gt; New &gt; Appointment."
-msgstr ""
+msgstr "Klikněte na Soubor &gt; Nový &gt; Událost."
 
 #: C/evolution.xml:4044(para)
 msgid "Click Calendars on the Switcher, then click File &gt; New &gt; Appointment."
-msgstr ""
+msgstr "Klikněte na Kalendář na přepínači, potom klikněte na Soubor &gt; Nový &gt; Událost."
 
 #: C/evolution.xml:4046(para)
 msgid "Double-click in a blank space on the calendar view to open an Appointment dialog box. The particular time on the calendar view against which you have double clicked on will be suggested for the new appointment."
-msgstr ""
+msgstr "Poklepejte na prázdné místo v zobrazení kalendáře a otevře se dialogové okno Událost. Čas navržený pro novou událost bude ten, na který jste poklepali."
 
 #: C/evolution.xml:4048(para)
 msgid "Select the required duration on the calender view and enter the summary."
-msgstr ""
+msgstr "Zadejte požadovanou délku trvání v zobrazení kalendáře a vložte shrnutí."
 
 #: C/evolution.xml:4051(para)
 #: C/evolution.xml:4206(para)
 msgid "Select a calendar in the Calendar drop-down list."
-msgstr ""
+msgstr "Vyberte kalendář v rozbalovacím seznamu kalendářů."
 
 #: C/evolution.xml:4052(para)
 #: C/evolution.xml:4063(para)
@@ -6109,57 +6109,57 @@ msgstr "Zvolte datum a čas."
 #: C/evolution.xml:4066(para)
 #: C/evolution.xml:4227(para)
 msgid "To select this appointment as an all day event, click Options &gt; All Day Event."
-msgstr ""
+msgstr "Chcete-li tuto událost vybrat jako celodenní, klikněte na Volby &gt; Celodenní událost."
 
 #: C/evolution.xml:4068(para)
 #: C/evolution.xml:4229(para)
 msgid "Click the All Day Event button on the toolbar."
-msgstr ""
+msgstr "Klikněte na tlačítko Celodenní událost na liště nástrojů."
 
 #: C/evolution.xml:4071(para)
 #: C/evolution.xml:4232(para)
 msgid "If the event is an all day event, specify a starting date and an ending date."
-msgstr ""
+msgstr "Pokud se jedná o celodenní událost, stanovte počáteční a konečné datum."
 
 #: C/evolution.xml:4074(para)
 #: C/evolution.xml:4235(para)
 msgid "If the event is not an all day event, specify a starting time and an ending time."
-msgstr ""
+msgstr "Pokud se nejedná o celodenní událost, stanovte počáteční a konečný čas."
 
 #: C/evolution.xml:4077(para)
 #: C/evolution.xml:4238(para)
 msgid "Select For to specify the duration."
-msgstr ""
+msgstr "Vyberte Po, chcete-li zadat délku trvání."
 
 #: C/evolution.xml:4079(para)
 #: C/evolution.xml:4240(para)
 msgid "Select Until to specify the ending time of the event."
-msgstr ""
+msgstr "Vyberte Až do, chcete-li zadat konečný čas události."
 
 #: C/evolution.xml:4082(para)
 #: C/evolution.xml:4243(para)
 #: C/evolution.xml:4613(para)
 #: C/evolution.xml:4664(para)
 msgid "Type the time zone information in the Time Zone field."
-msgstr ""
+msgstr "Vyplňte informace o časovém pásmu do pole Časové pásmo."
 
 #: C/evolution.xml:4084(para)
 #: C/evolution.xml:4245(para)
 #: C/evolution.xml:4615(para)
 #: C/evolution.xml:4666(para)
 msgid "Click the globe to customize the time zone."
-msgstr ""
+msgstr "Klikněte na glóbus pro přizpůsobení časového pásma."
 
 #: C/evolution.xml:4085(para)
 #: C/evolution.xml:4246(para)
 #: C/evolution.xml:4616(para)
 #: C/evolution.xml:4667(para)
 msgid "To hide or show the Time Zone field, click View &gt; Time Zone."
-msgstr ""
+msgstr "Chcete-li skrýt nebo zobrazit pole Časové pásmo, klikněte na Zobrazit &gt; Časové pásmo."
 
 #: C/evolution.xml:4088(para)
 msgid "To show the time as busy, click Options &gt; Show Time as Busy."
-msgstr ""
+msgstr "Chcete-li zobrazit čas jako obsazený, klikněte na Volby &gt; Zobrazovat čas jako obsazený."
 
 #: C/evolution.xml:4091(para)
 #: C/evolution.xml:4169(para)
@@ -6167,14 +6167,14 @@ msgstr ""
 #: C/evolution.xml:4670(para)
 #: C/evolution.xml:4886(para)
 msgid "(Optional) Type a category in the Categories field."
-msgstr ""
+msgstr "(Volitelně) Napište kategorii do pole Kategorie."
 
 #: C/evolution.xml:4092(para)
 #: C/evolution.xml:4175(para)
 #: C/evolution.xml:4620(para)
 #: C/evolution.xml:4671(para)
 msgid "To show or hide the Categories field, click View &gt; Categories."
-msgstr ""
+msgstr "Chcete-li zobrazit nebo skrýt pole Kategorie, klikněte na Zobrazit &gt; Kategorie."
 
 #: C/evolution.xml:4095(para)
 #: C/evolution.xml:4623(para)
@@ -6188,18 +6188,18 @@ msgstr "(Volitelně) Napište popis do pole Popis."
 #: C/evolution.xml:4153(para)
 #: C/evolution.xml:4249(para)
 msgid "To create an alarm for this appointment, click Alarms on the toolbar, or click Options &gt; Alarms."
-msgstr ""
+msgstr "Chcete-li vytvořit alarm k této události, klikněte na Alarmy na liště nástrojů nebo klikněte na Volby &gt; Alarmy."
 
 #: C/evolution.xml:4099(para)
 #: C/evolution.xml:4156(para)
 #: C/evolution.xml:4250(para)
 msgid "Select Customize to add or remove customized alarms for the event."
-msgstr ""
+msgstr "Vyberte Přizpůsobit, chcete-li přidat nebo odstranit vlastní alarmy pro událost."
 
 #: C/evolution.xml:4100(para)
 #: C/evolution.xml:4251(para)
 msgid "For more information on reminders, see <link linkend=\"bshly4v\">Reminders</link>."
-msgstr ""
+msgstr "Více informací o přípomínkách naleznete v <link linkend=\"bshly4v\">Připomínkách</link>."
 
 #: C/evolution.xml:4103(para)
 #: C/evolution.xml:4254(para)
@@ -6215,136 +6215,136 @@ msgstr "(Volitelně) Chcete-li přidat přílohu, táhněte a pusťte přílohu 
 #: C/evolution.xml:4679(para)
 #: C/evolution.xml:4901(para)
 msgid "Click the Attach button on the toolbar, or click Insert &gt; Attachment and then browse to the attachment."
-msgstr ""
+msgstr "Klikněte na tlačítko Příloha na liště nástrojů nebo na Vložit &gt; Přílohu a potom přílohu vyberte."
 
 #: C/evolution.xml:4108(para)
 #: C/evolution.xml:4259(para)
 msgid "(Optional) Select a classification (Public, Private, or Confidential) by clicking &gt; Options &gt; Classifications."
-msgstr ""
+msgstr "(Volitelně) Vyberte klasifikaci (Veřejné, Důvěrné nebo Soukromé) kliknutím na Volby &gt; Klasifikace."
 
 #: C/evolution.xml:4111(para)
 #: C/evolution.xml:4262(para)
 msgid "(Optional) Click the Recurrence button on the toolbar."
-msgstr ""
+msgstr "(Volitelně) Klikněte na tlačítko Opakování na liště nástrojů."
 
 #: C/evolution.xml:4113(para)
 #: C/evolution.xml:4264(para)
 msgid "Click Options &gt; Recurrence, and specify whether you want the appointment to recur and how often."
-msgstr ""
+msgstr "Klikněte na Volby &gt; Opakování a zadejte, zda chcete, aby se událost opakovala a jak často."
 
 #: C/evolution.xml:4118(title)
 msgid "All Day Event"
-msgstr ""
+msgstr "Celodenní událost"
 
 #: C/evolution.xml:4119(para)
 msgid "An All Day event appears at the top of a day's appointment list, in the header under the date, rather than inside. That makes it easy to have appointments that overlap and fit inside each other. For example, a conference might be an All Day appointment, and the meetings at the conference could be timed appointments. Appointments with specific starting and ending times can also overlap. When they do they display as multiple columns in the day view of the calendar."
-msgstr ""
+msgstr "Celodenní událost se zobrazuje v seznamu událostí daného dne nahoře v hlavičce pod datem, ne uvnitř. Tak je jednodušší mít události, které se překrývají a zanořují jedna do druhé. Například konference je celodenní událost a schůzky během ní jsou časové události. Události s daným počátečním a koncovým časem se mohou překrývat. Pokud tomu tak je, zobrazují se jako více sloupců v denním zobrazení kalendáře. "
 
 #: C/evolution.xml:4120(para)
 msgid "If you create calendar appointments that overlap, Evolution displays them side by side in your calendar."
-msgstr ""
+msgstr "Vytvoříte-li události, které se překrývají, Evolution je zobrazí v kalendáři vedle sebe."
 
 #: C/evolution.xml:4128(para)
 msgid "You can have several Reminders for individual appointments, any time prior to the appointment you schedule. You can have one reminder of each of the following types:"
-msgstr ""
+msgstr "Můžete mít také několik Připomínek pro jednotlivé události jakýkoliv čas před. Můžete mít připomínky následujících typů:"
 
 #: C/evolution.xml:4132(title)
 msgid "Display:"
-msgstr ""
+msgstr "Zobrazení:"
 
 #: C/evolution.xml:4133(para)
 msgid "A notification pops up on your screen to remind you of your appointment."
-msgstr ""
+msgstr "Oznámení vyskočí na obrazovce, aby vám událost připomnělo."
 
 #: C/evolution.xml:4138(title)
 msgid "Audio:"
-msgstr ""
+msgstr "Zvuk:"
 
 #: C/evolution.xml:4139(para)
 msgid "Your computer delivers a sound alarm."
-msgstr ""
+msgstr "Váš počítač provede zvukový alarm."
 
 #: C/evolution.xml:4144(title)
 msgid "Program:"
-msgstr ""
+msgstr "Program:"
 
 #: C/evolution.xml:4145(para)
 msgid "You can run a program as a reminder. You can enter its name in the text field, or find it with the Browse button."
-msgstr ""
+msgstr "Jako připomínku můžete spustit program. Můžete jeho název vložit do textového pole nebo jej vyhledat po kliknutí na tlačítko Procházet."
 
 #: C/evolution.xml:4149(para)
 msgid "Apart from the above notifications, the Evolution alarm icon blinks in the notification area. To pause the alarm or view the event, click the notification icon."
-msgstr ""
+msgstr "Kromě připomínek výše bliká alarmující ikona Evolutionu v oznamovací oblasti. Chcete-li alarm přerušit nebo se podívat na událost, klikněte na ikonu."
 
 #: C/evolution.xml:4150(para)
 msgid "To create a reminder:"
-msgstr ""
+msgstr "Chcete-li vytvořit připomínku:"
 
 #: C/evolution.xml:4159(para)
 msgid "If you have stored reminders in a local calendar, they work from the moment you log in. However, for reminders stored on any remote server like GroupWise or Exchange which requires authentication, you must run Evolution at least once after logging in. No matter where the reminders are stored, you can quit Evolution and still be reminded of an upcoming appointment."
-msgstr ""
+msgstr "Pokud máte připomínky uložené v lokálním kalendáři, fungují od momentu, kdy se přihlásíte do systému. Nicméně máte-li připomínky uložené na jakémkoliv vzdáleném serveru jako GroupWise nebo Exchange, který vyžaduje autentizaci, musíte po přihlášení do systému spustit Evolution alespoň jednou. Bez ohledu na to, kde máte připomínky uložené, můžete Evolution zavřít a stále budete upomínání na aktuální události."
 
 #: C/evolution.xml:4164(para)
 msgid "If you are using a calendar on a Novell <trademark class=\"registered\">GroupWise</trademark> or Microsoft Exchange server, select a classification for the appointment to determine who can view it. Public is the default category, and a public appointment can be viewed by anyone on the calendar-sharing network. Private denotes one level of security, and Confidential an even higher level. The different levels vary depending on your server settings; check with your system administrator or adjust your delegation settings."
-msgstr ""
+msgstr "Používáte-li kalendář na serverech Novell <trademark class=\"registered\">GroupWise</trademark> nebo Microsoft Exchange, vyberte klasifikaci události, tak rozhodnete, kdo ji může vidět. Veřejné je výchozí kategorie, veřejné události může prohlížet kdokoliv na síti pro sdílení kalendářů. Soukromé udává první úroveň utajení a Důvěrné je ještě vyšší úroveň. Různé úrovně se mohou lišit v závislosti na nastavení vašeho serveru; konzultujte to se svým systémovým administrátorem nebo upravte vaše nastavení delegací. "
 
 #: C/evolution.xml:4165(para)
 msgid "If you are using a Novell GroupWise or Microsoft Exchange server, other people on the server can check your schedule to see if you are available at any given time. If you have an appointment that is flexible or that you want to designate as Free rather than Busy time, select the Free box in the Show Time As section. Normally, appointments display as Busy."
-msgstr ""
+msgstr "Používáte-li server Novell GroupWise nebo Microsoft Exchange, ostatní lidé na serveru mohou zkontrolovat váš rozvrh, zda máte v určitý čas volno. Pokud máte událost, kterou můžete posunout, nebo ji chcete označit jako volný spíše než obsazený čas, vyberte Volný místo Obsazený v sekci Zobrazovat čas jako. Normálně jsou události zobrazené jako obsazené. "
 
 #: C/evolution.xml:4166(para)
 msgid "You can categorize appointments in the same way you can categorize contacts."
-msgstr ""
+msgstr "Události můžete rozdělovat do kategorií stejným způsobem jako kontakty."
 
 #: C/evolution.xml:4172(para)
 msgid "Select the check box next to each category that matches the appointment you are creating."
-msgstr ""
+msgstr "Zatrhněte políčko vedle každé kategorie, které chce událost přiřadit."
 
 #: C/evolution.xml:4179(para)
 msgid "You can add a new category to your category list by clicking Edit Master Category List, then click Click Here To Add A Category."
-msgstr ""
+msgstr "Můžete do seznamu přidat novou kategorii kliknutím na Upravit hlavní seznam kategorií a potom na Kliknutím zde přidáte kategorii."
 
 #: C/evolution.xml:4181(para)
 msgid "After you have selected your categories, click OK to assign these categories to the appointment. The categories you selected are now listed in the text box to the right of the Categories button."
-msgstr ""
+msgstr "Poté, co máte kategorie vybrané, klikněte na OK a přiřadíte tyto kategorie dané události. Kategorie, které jste vybrali, jsou seřazeny v textovém poli vedle tlačítka Kategorie."
 
 #: C/evolution.xml:4182(para)
 msgid "Appointments with categories appear with icons in the calendar display, and you can also search for appointments by category. To display only the appointments in a particular category, select the corresponding category in the search bar at the top of the calendar."
-msgstr ""
+msgstr "Události s kategoriemi se zobrazují v kalendáři s ikonami a můžete také vyhledávat události podle kategorií. Chcete-li zobrazit události pouze dané kategorie, vyberte kategorii v liště hledání v horní části kalendáře."
 
 #: C/evolution.xml:4187(para)
 msgid "The Recurrence tool button lets you describe repetition in appointments ranging from once every day up to once every 100 years. You can then choose a time and date when the appointment stops recurring, and, under Exceptions, pick individual days when the appointment does not recur. Make your selections from left to right, and you form a sentence: <quote>Every two weeks on Monday and Friday until January 3, 2008</quote> or <quote>Every month on the first Friday for 12 occurrences.</quote>"
-msgstr ""
+msgstr "Tlačítko Opakování vám umožňuje popsat opakování událostí v rozsahu od každého dne po jednou za 100 let. Poté můžete vybrat časy a data, kdy se má opakování události ukončit. Pod Výjimkami, můžete vybrat jednotlivé dny, kdy se událost neopakuje. Tvořte své výběry zleva doprava a vytvoříte větu: <quote>Každé dva týdny v pondělí a pátek až do 3.ledna, 2008</quote> nebo <quote>Každý měsíc první pátek po 12 opakování.</quote>"
 
 #: C/evolution.xml:4188(para)
 msgid "After you have finished settings, click the Save button in the toolbar to save and close the appointment editor window. If you want, you can alter an appointment summary in the calendar view by clicking it and typing. You can change other settings by right-clicking the appointment then choosing Open, or double-clicking the appointment."
-msgstr ""
+msgstr "Poté, co máte nastavení hotové, klikněte v liště nástrojů na tlačítko Uložit a zavřete okno pro editaci události. Pokud chcete, můžete měnit shrnutí události tak, že na ni v zobrazení kalendáře kliknete a začnete psát. Ostatní nastavení můžete měnit tak, že kliknete pravým tlačítkem na událost a vyberete Otevřít nebo na událost poklepete."
 
 #: C/evolution.xml:4194(para)
 msgid "A meeting is an event you schedule for multiple people. Evolution can be used to schedule group meetings and help you manage responses to meeting requests."
-msgstr ""
+msgstr "Schůzka je událost, kterou plánujete pro více lidí. Evolution lze použít pro plánování schůzek skupin a pomůže vám spravovat odpovědi na požadavky na schůzku."
 
 #: C/evolution.xml:4195(para)
 msgid "When you create a meeting or group appointment, you can specify the attendees in several categories, such as <quote>chair</quote> or <quote>required</quote>. When you save the meeting listing, each attendee is sent an email with the meeting information, which also gives them the option to respond."
-msgstr ""
+msgstr "Když vytváříte schůzku nebo skupinovou událost, můžete zadat účastníky v několika kategoriích jako <quote>předsedové</quote> nebo <quote>vyžadování účastníci</quote>. Když uložíte seznam schůzky, každému účastníkovi je zaslán e-mail s informací o schůzce, což jim také dává možnost podpovědět."
 
 #: C/evolution.xml:4196(para)
 msgid "If you don't need to collect attendance information when you're scheduling an event, and would rather just announce the event, right-click the meeting and select Forward as iCalendar. This opens a new email message with the event notification attached as an announcement. Recipients can add the event to their calendars with one click, but it won't automatically send you email about whether they plan to attend."
-msgstr ""
+msgstr "Nepotřebujete-li sbírat informace od účastníků, když plánujete schůzku, a raději byste schůzku jen oznámili, klikněte pravým tlačítkem na schůzku a vyberte Odeslat jako iCalendar. To otevře nový e-mail s upozorněním v příloze. Příjemci mohou přidat událost do svých kalendářů jedním kliknutím, ale nepošle vám to automaticky e-mail, zda se zúčastní nebo ne."
 
 #: C/evolution.xml:4197(para)
 msgid "To schedule a meeting:"
-msgstr ""
+msgstr "Chcete-li naplánovat schůzku:"
 
 #: C/evolution.xml:4200(para)
 #: C/evolution.xml:4310(para)
 msgid "Click File &gt; New &gt; Meeting."
-msgstr ""
+msgstr "Klikněte na Soubor &gt; Nový &gt; Schůzka."
 
 #: C/evolution.xml:4203(para)
 #: C/evolution.xml:4649(para)
 msgid "If you have multiple email accounts, select the one to use by selecting an item in the Organizer field."
-msgstr ""
+msgstr "Máte-li více e-mailových účtů, vyberte v poli Organizátor ten, který chcete používat."
 
 #: C/evolution.xml:4209(para)
 #: C/evolution.xml:4313(para)
@@ -6353,235 +6353,235 @@ msgstr "Klikněte na Přidat, abyste přidali e-mailové adresy lidí, které ch
 
 #: C/evolution.xml:4212(para)
 msgid "To remove an attendee from the list, select an attendee and press Remove."
-msgstr ""
+msgstr "Chcete-li účastníka odstranit ze seznamu, označte jej a klikněte na Ostranit."
 
 #: C/evolution.xml:4215(para)
 msgid "To edit a field, select the field and click Edit."
-msgstr ""
+msgstr "Chcete-li upravit pole, označte jej a klikněte na Upravit."
 
 #: C/evolution.xml:4218(para)
 msgid "Click View on the menu bar to show or hide the Type, Role, Status, and RSVP fields."
-msgstr ""
+msgstr "Klikněte na Zobrazit, chcete-li zobrazit nebo skrýt pole Typ, Funkci, Stav a RSVP."
 
 #: C/evolution.xml:4267(para)
 msgid "To query free/busy information for the attendees, click the Free/Busy button on the toolbar."
-msgstr ""
+msgstr "Chcete-li se zeptat na informace o volnu/obsazenu účastníků, klikněte v liště nástrojů na Volno/obsazeno."
 
 #: C/evolution.xml:4269(para)
 msgid "Click Options &gt; Free/Busy."
-msgstr ""
+msgstr "Klikněte na Volby &gt; Volno/obsazeno."
 
 #: C/evolution.xml:4272(para)
 msgid "Click Save to save the meeting."
-msgstr ""
+msgstr "Schůzku uložíte tak, že kliknete na Uložit."
 
 #: C/evolution.xml:4275(para)
 msgid "An email is sent out to all the recipients, inviting them to your event."
-msgstr ""
+msgstr "E-mail je odeslán všem příjemcům zvouce je na schůzku."
 
 #: C/evolution.xml:4277(para)
 msgid "In Evolution, a meeting can have only one organizer, and only the organizer can add participants to that meeting. Though it is possible to change the organizer of a meeting, this is not recommended as a means to invite additional participants to meetings. If you want to invite additional people to a meeting and are not that meeting's organizer, it is recommended that you forward the invitation message you received from the original meeting organiser to additional participants."
-msgstr ""
+msgstr "V Evolutionu může mít schůzka pouze jednoho organizátora a pouze organizátor může přidávat schůzce účastníky. Ačkoliv je možné změnit organizátora schůzky, nelze to doporučit jako způsob, jak pozvat na schůzku další účastníky. Chcete-li pozvat na schůzku další lidi a nejste organizátorem schůzky, je doporučováno přeposlat dalším účastníkům zvací e-mail, který jste obdrželi od původního organizátora schůzky. "
 
 #: C/evolution.xml:4283(para)
 msgid "Meeting requests are sent as iCal attachments. To view or respond to one, click the attachment icon and view it inline in the mail window. All the details are shown about the event, including time and dates. Then you can choose how to reply to the invitation. Your choices are:"
-msgstr ""
+msgstr "Žádosti o schůzky jsou zasílány jako přílohy iCal. Chcete-li ji zobrazit nebo na ni odpovědět, klikněte na ikonu přílohy a zobrazí se v okně zprávy. Zobrazeny jsou všechny detaily o události včetně času a datů. Poté můžete vybrat, jak na pozvánku odpovědět. Možnosti jsou tyto:"
 
 #: C/evolution.xml:4286(para)
 msgid "Accept"
-msgstr ""
+msgstr "Akceptovat"
 
 #: C/evolution.xml:4289(para)
 msgid "Tentatively Accept"
-msgstr ""
+msgstr "Předběžně akceptovat"
 
 #: C/evolution.xml:4292(para)
 msgid "Decline"
-msgstr ""
+msgstr "Odmítnout"
 
 #: C/evolution.xml:4295(para)
 msgid "Click OK to send an email to the organizer with your answer. The event is also added to your calendar if you accept."
-msgstr ""
+msgstr "Klikněte na Ok a odešlete organizátorovi e-mail s vaší odpovědí. Pokud ji akceptujete, je událost přidána do vašeho kalendáře."
 
 #: C/evolution.xml:4296(para)
 msgid "After you add the meeting to your calendar, you can make changes to the information, but if the original organizer sends out another update, your changes might be overwritten."
-msgstr ""
+msgstr "Poté, co přidáte schůzku do kalendáře, můžete provádět změny v informacích, ale pokud původní organizátor rozešle aktualizované informace, vaše změny mohou být přepsány."
 
 #: C/evolution.xml:4301(para)
 msgid "When you get a reply to a meeting invitation you sent, you can view it inline by clicking the attachment and selecting View Inline."
-msgstr ""
+msgstr "Když dostanete odpověď na pozvánku, kterou jste poslali, můžete ji kliknutím na přílohu a zvolením Zobrazit v textu prohlížet vloženou ve zprávě."
 
 #: C/evolution.xml:4306(para)
 msgid "In addition to the standard meeting scheduling tools, you can use the Free/Busy view to check whether people are available in advance. The Free/Busy feature is normally a function of dedicated groupware servers such as Microsoft Exchange and Novell GroupWise. However, you can also publish Free/Busy information online, and access Free/Busy information published elsewhere. If not everyone you collaborate with publishes Free/Busy data, you can still use iCal event invitations to coordinate schedules with other people."
-msgstr ""
+msgstr "Kromě standardních nástrojů pro plánování schůzek můžete využít také zobrazení Volno/obsazeno, chcete-li dopředu zjistit, zda mají lidé volno. Funkce Volno/obsazeno je normálně funkcí vyhrazených groupware serverů jako Microsoft Exchange a Novell GroupWise. Nicméně můžete publikovat informace o volnu/obsazenu také online a přistupovat k informacím o volnu/obsazenu někde jinde. Pokud ne každý, s kým spolupracujete, používá volno/obsazeno, můžete pořád použít pozvánku na událost iCal, chcete-li ji koordinovat i s ostatními."
 
 #: C/evolution.xml:4307(para)
 msgid "To access the free/busy view:"
-msgstr ""
+msgstr "Pro přístup k zobrazení volno/obsazeno:"
 
 #: C/evolution.xml:4316(para)
 msgid "Click the Free/Busy button on the toolbar, or click Options &gt; Free/Busy."
-msgstr ""
+msgstr "Klikněte na tlačítko Volno/obsazeno v liště nástrojů nebo na Volby &gt; Volno/obsazeno. "
 
 #: C/evolution.xml:4321(para)
 msgid "Adjust the meeting time, either by dragging the meeting borders or by using the Autopick buttons to choose a time automatically, then click Save and Close. Attendees on an Exchange server have the appointment updated automatically; others receive email notification of any change in plans."
-msgstr ""
+msgstr "Nastavte čas schůzky buď přetažením hranic schůzky nebo použitím tlačítka Automatický výběr, které vybere čas automaticky, potom klikněte na Uložit a Zavřít. Účastníci na server Exchange mají událost aktualizovanou automaticky; ostatní obdrží upozornění na jakoukoliv změnu plánů e-mailem."
 
 #: C/evolution.xml:4325(title)
 msgid "Attendee List:"
-msgstr ""
+msgstr "Seznam účastníků:"
 
 #: C/evolution.xml:4326(para)
 msgid "The Attendee List shows the people who have been invited to the appointment."
-msgstr ""
+msgstr "Seznam účastníků ukazuje lidi, kteří byly na událost pozvaní."
 
 #: C/evolution.xml:4329(title)
 msgid "Schedule Grid:"
-msgstr ""
+msgstr "Rastr rozvrhu:"
 
 #: C/evolution.xml:4330(para)
 msgid "The Schedule Grid shows the published Free/Busy information for the people you have invited. This is where you compare schedules to find free time to schedule the appointment. Individuals have visible scheduling information only if they use the same Novell GroupWise or Microsoft Exchange server you do (that is, if they are in the same organization as you), or if they publish free/busy information at a URL you can reach and you have entered that URL into their contact cards using the contact editor."
-msgstr ""
+msgstr "Rastr rozvrhu zobrazuje zveřejněné informace o volnu/obsazenu lidí, které jste pozvali. Je to místo, kde můžete srovnávat rozvrhy, abyste nalezli volný čas pro naplánování schůzky. jednotlivci mají viditelné informace o rozvrhu pouze, když používají stejný server Novell GroupWise nebo Microsoft Exchange jako vy (to je, když jsou ve stejné organizaci jako vy) nebo když zveřejňují informace o volnu/obsazenu na URL, ke kterému máte přístup a máte ho vložené v jejich kartách kontaktů."
 
 #: C/evolution.xml:4335(para)
 msgid "You can publish Calendar and Free/Busy information to a WebDAV, FTP server, or remote machine through secure shell or other Web server with HTTP PUT support. Check with your system administrator if you are not sure you have this functionality."
-msgstr ""
+msgstr "Můžete zveřejňovat informace kalendáře a o volnu/obsazenu na servery WebDAV a FTP nebo na vzdálený počítač skrze ssh nebo na ostatní webové servery s podporou HTTP PUT. Konzultujte to svým administrátorem, pokud si nejste jistí, že tuto funkcionalitu máte."
 
 #: C/evolution.xml:4336(para)
 msgid "To set up Calendar or Free/Busy publishing:"
-msgstr ""
+msgstr "Chcete-li nastavit zveřejnění kalendáře nebo Volno/obsazeno:"
 
 #: C/evolution.xml:4339(para)
 #: C/evolution.xml:5073(para)
 msgid "Click Edit &gt; Preferences, then click Calendar and Tasks."
-msgstr ""
+msgstr "Klikněte na Upravit &gt; Nastavení a potom na Kalendář a úkoly."
 
 #: C/evolution.xml:4342(para)
 msgid "Click the Calendar Publishing tab, click Add, then select the information you want to publish."
-msgstr ""
+msgstr "Klikněte na tlačítko Zveřejňování kalendáře, potom na Přidat a vyberte informace, které chcete zveřejnit."
 
 #: C/evolution.xml:4345(para)
 msgid "Select the frequency with which you want to upload data."
-msgstr ""
+msgstr "Zvolte s frekvenci, s jakou chcete data uploadovat."
 
 #: C/evolution.xml:4348(para)
 msgid "Select the calendars you want to display data for."
-msgstr ""
+msgstr "Vyberte kalendáře, jejichž data chcete zveřejnit."
 
 #: C/evolution.xml:4351(para)
 msgid "Specify the publishing location for the upload server."
-msgstr ""
+msgstr "Zadejte umístění pro upload na server."
 
 #: C/evolution.xml:4354(para)
 msgid "Type your username and password."
-msgstr ""
+msgstr "Napište vaše jméno uživatele a heslo."
 
 #: C/evolution.xml:4360(para)
 msgid "To immediately publish calendar information, go to the Calendar tool and click Actions &gt; Publish Calendar Information."
-msgstr ""
+msgstr "Chcete-li kalendář zveřejnit okamžitě, běžte do komponenty Kalendář a klikněte na Akce &gt; Zveřejnit kalendář. "
 
 #: C/evolution.xml:4362(para)
 #: C/evolution.xml:6915(para)
 msgid "You can specify a template to use when posting to the Free/Busy server."
-msgstr ""
+msgstr "Můžete zadat šablonu, která se má použít při umístění na server pro volno/obsazeno."
 
 #: C/evolution.xml:4368(para)
 msgid "If individuals give you a URL for Free/Busy data or for their Web calendar, you can enter it as part of the contact information in the Contacts tool. Then, when you schedule a meeting with them, Evolution looks up the schedule and displays it in the Free/Busy data."
-msgstr ""
+msgstr "Pokud vám jednotlivci dávají URL pro data volno/obsazeno nebo pro jejich webové kalendáře, můžete je vložit jako kontaktní informace v nástroji Kontakty. Potom, když s nimi plánujete schůzku, Evolution se podívá do rozvrhu a zobrazí ho v datech volno/obsazeno."
 
 #: C/evolution.xml:4375(para)
 msgid "You can use a customized search, an advanced search, or a quick search to search for Calendar items."
-msgstr ""
+msgstr "Můžete použít vlastní hledání, pokročilé hledání nebo rychlé hledání pro vyhledávání položek v kalendáři."
 
 #: C/evolution.xml:4378(para)
 msgid "Evolution enables you to find the Calendar items by using a Customized Search."
-msgstr ""
+msgstr "Evolution vám umožňuje nalézt položky v kalendáři pomocí vlastního hledání."
 
 #: C/evolution.xml:4388(para)
 #: C/evolution.xml:4704(para)
 #: C/evolution.xml:4940(para)
 msgid "Summary contains"
-msgstr ""
+msgstr "Shrnutí obsahuje"
 
 #: C/evolution.xml:4391(para)
 #: C/evolution.xml:4707(para)
 #: C/evolution.xml:4943(para)
 msgid "Description contains"
-msgstr ""
+msgstr "Popis obsahuje"
 
 #: C/evolution.xml:4394(para)
 #: C/evolution.xml:4710(para)
 #: C/evolution.xml:4946(para)
 msgid "Any field Contains"
-msgstr ""
+msgstr "Jakékoliv políčko obsahuje"
 
 #: C/evolution.xml:4399(para)
 #: C/evolution.xml:4951(para)
 msgid "Evolution displays the desired Calendar items."
-msgstr ""
+msgstr "Evolution zobrazí požadované položky kalendáře."
 
 #: C/evolution.xml:4411(para)
 #: C/evolution.xml:4725(para)
 #: C/evolution.xml:4963(para)
 msgid "Select Advanced Search to open Advanced Search dialog box."
-msgstr ""
+msgstr "Vyberte Pokročilé hledání a otevře se dialogové okno Pokročilé hledání."
 
 #: C/evolution.xml:4412(para)
 #: C/evolution.xml:4726(para)
 #: C/evolution.xml:4964(para)
 msgid "Search name field displays the search type you have selected."
-msgstr ""
+msgstr "Pole Název pravidla zobrazuje typ vyhledávání, které jste vybrali. "
 
 #: C/evolution.xml:4417(para)
 #: C/evolution.xml:4731(para)
 #: C/evolution.xml:4969(para)
 msgid "Click Add to add rules."
-msgstr ""
+msgstr "Pro přidání pravidla klikněte na Přidat pravidlo filtru."
 
 #: C/evolution.xml:4420(para)
 #: C/evolution.xml:4734(para)
 #: C/evolution.xml:4972(para)
 msgid "Select the criteria, and then type a search entry in the given field."
-msgstr ""
+msgstr "Zvolte kritérium a potom napište hledaný výraz do daného pole."
 
 #: C/evolution.xml:4426(para)
 #: C/evolution.xml:4978(para)
 msgid "Click Save to save your search results."
-msgstr ""
+msgstr "Pro uložení výsledku klikněte na Uložit."
 
 #: C/evolution.xml:4431(para)
 msgid "Displays all the Calendar items that match the criteria that you have selected from the drop-down list in the Search bar."
-msgstr ""
+msgstr "Zobrazí všechny položky kalendáře, které odpovídají kritériu, které jste vybrali z rozbalovacího seznamu v liště hledání."
 
 #: C/evolution.xml:4435(para)
 #: C/evolution.xml:4987(para)
 msgid "Click the Show drop-down list."
-msgstr ""
+msgstr "Klikněte na rozbalovací seznam vedle Zobrazit."
 
 #: C/evolution.xml:4441(para)
 #: C/evolution.xml:4783(para)
 #: C/evolution.xml:4993(para)
 msgid "Any Category"
-msgstr ""
+msgstr "Jakákoliv kategorie"
 
 #: C/evolution.xml:4444(para)
 #: C/evolution.xml:4786(para)
 #: C/evolution.xml:4996(para)
 msgid "Unmatched"
-msgstr ""
+msgstr "Nepřiřazené"
 
 #: C/evolution.xml:4447(para)
 msgid "Active Appointments"
-msgstr ""
+msgstr "Aktivní události"
 
 #: C/evolution.xml:4450(para)
 msgid "Next 7 Days' Appointments"
-msgstr ""
+msgstr "Události v následujících 7 dnech"
 
 #: C/evolution.xml:4465(para)
 #: C/evolution.xml:4816(para)
 msgid "Favourites"
-msgstr ""
+msgstr "Oblíbené"
 
 #: C/evolution.xml:4518(para)
 msgid "You can view the desired items listed in the Calendar view."
@@ -6589,19 +6589,19 @@ msgstr "Můžete vidět požadované položky obsažené v náhledu kalendáře.
 
 #: C/evolution.xml:4523(para)
 msgid "To print the displayed calendar items, click File &gt; Print."
-msgstr ""
+msgstr "Chcete-li vytisknout zobrazené položky kalendáře, klikněte na Soubor &gt; Tisknout."
 
 #: C/evolution.xml:4528(para)
 msgid "Keeping a list of everything you did in the past eventually slows down your calendar. To delete old events, click Actions &gt; Purge, then enter the number of days of past events you want to keep. Click OK to purge the items."
-msgstr ""
+msgstr "Ponechávání seznamu všeho, co jste v minulosti udělali, časem zpomaluje váš kalendář. Chcete-li vymazat staré události, klikněte na Akce &gt; Vyčistit, potom zadejte počet dnů do minulosti, které chcete ponechat. Klikněte na OK a položky se vymažou."
 
 #: C/evolution.xml:4533(para)
 msgid "Only attendees of a meeting can delegate a meeting."
-msgstr ""
+msgstr "Pouze účastníci schůzky ji mohou postoupit."
 
 #: C/evolution.xml:4536(para)
 msgid "In the Calendar, right-click the meeting you want to delegate."
-msgstr ""
+msgstr "V kalendáři klikněte pravým tlačítkem na schůzku, kterou chcete postoupit."
 
 #: C/evolution.xml:4539(para)
 msgid "Click Delegate Meeting."
@@ -6609,66 +6609,66 @@ msgstr "Klikněte na Delegovat schůzku."
 
 #: C/evolution.xml:4542(para)
 msgid "Select the contacts you want to delegate the meeting to."
-msgstr ""
+msgstr "Vyberte kontakty, kterým chcete schůzku postoupit."
 
 #: C/evolution.xml:4548(para)
 msgid "Each contact receives a copy of the meeting invitation."
-msgstr ""
+msgstr "Každý kontakt obdrží kopii pozvánky na schůzku."
 
 #: C/evolution.xml:4553(para)
 msgid "To create a new calendar, click File &gt; New &gt; Calendar. If the calendar is one you plan to store locally, you need only provide a name and color. If it is a remote calendar, specify the name, color, URL, and a refresh frequency. The refresh frequency determines how often Evolution checks to see if the calendar has changed. If you are working with someone who publishes an online calendar, you might want to check for updates every thirty minutes. On the other hand, if you have displayed a sports team schedule in your calendar, you might not need to refresh it more than once a week."
-msgstr ""
+msgstr "Chcete-li vytvořit nový kalendář, klikněte na Soubor &gt; Nový &gt; Kalendář. Jestliže se jedná o kalendář, který chcete mít uložený lokálně, jediné, co potřebujete zadat, je název a barva. Je-li to vzdálený kalendář, musíte zadat název, barvu, URL a obnovovací frekvenci. Ta určuje, jak často bude Evolution kontrolovat změny v kalendáři. Pokud pracujete s někým, kdo zveřejňuje online kalendář, budete možná chtít kontrolovat změny každých 30 minut. Na druhou stranu, pokud kalendář reprezentuje rozvrh sportovního týmu, nebudete jen možná chtít aktualizovat častěji než jednou týdně."
 
 #: C/evolution.xml:4554(para)
 msgid "The <ulink url=\"http://icalshare.com\">icalshare.com Web site</ulink> has an extensive list of shared online calendars, including national and religious holidays, phases of the moon, sports, and local and regional events."
-msgstr ""
+msgstr "<ulink url=\"http://icalshare.com\">Server icalshare.com</ulink> nabízí rozsáhlý seznam online kalendářů, včetně národních a náboženských svátků, fází měsíce, sportovních, místních a regionálních událostí."
 
 #: C/evolution.xml:4555(para)
 msgid "Evolution lets you view and manage calendars on remote CalDAV servers. The procedure to create a CalDAV calendar source is similar to that of a remote Web calendar source. You can view and create calendar events on CalDav accounts just like other calendars on Evolution."
-msgstr ""
+msgstr "Evolution umožňuje zobrazit a spravovat kalendáře na vzdálených serverech CalDAV. Postup vytvoření kalendáře CalDAV je podobný tomu při vytváření kalendáře na WWW. Můžete zobrazit a vytvářet události v kalendáři účtů CalDAV stejně jako v jiných kalendářích Evolutionu."
 
 #: C/evolution.xml:4560(para)
 msgid "The Task List, located in the upper-right corner of the calendar, lets you keep a list of tasks separate from your calendar appointments."
-msgstr ""
+msgstr "Seznam úkolů, umístěný v pravém horním rohu kalendáře, vám umožňuje mít úkoly oddělené od událostí v kalendáři."
 
 #: C/evolution.xml:4561(para)
 msgid "You can use the list in a larger window by clicking the Tasks button in the side bar."
-msgstr ""
+msgstr "Můžete používat seznam ve větším okně tak, že kliknete na tlačítko Úkoly v postranním panelu."
 
 #: C/evolution.xml:4562(para)
 msgid "Task Lists are more easily organized in the dedicated Tasks tool. Each task list is assigned a color, and you can use the Tasks tool switcher to hide and show task lists just like calendars. In the calendar display task pad, tasks from all visible task lists appear, color coded by list."
-msgstr ""
+msgstr "Seznamy úkolů jsou jednodušeji organizované ve speciálním nástroji Úkoly. Každý seznam úkolů má přidělenou barvu a můžete použít přepínač úkolů pro skrývání a zobrazování seznamů úkolů stejně jako u kalendářů."
 
 #: C/evolution.xml:4565(link)
 #: C/evolution.xml:4576(title)
 msgid "Creating a New Task List"
-msgstr ""
+msgstr "Vytvoření nového seznamu úkolů"
 
 #: C/evolution.xml:4568(link)
 #: C/evolution.xml:4595(title)
 msgid "Creating a New Task"
-msgstr ""
+msgstr "Vytvoření nového úkolu"
 
 #: C/evolution.xml:4571(link)
 #: C/evolution.xml:4640(title)
 msgid "Assigned Tasks"
-msgstr ""
+msgstr "Přidělené úkoly"
 
 #: C/evolution.xml:4579(para)
 msgid "Click File &gt; New &gt; Task List."
-msgstr ""
+msgstr "Klikněte na Soubor &gt; Nový &gt; Seznam úkolů."
 
 #: C/evolution.xml:4582(para)
 msgid "Specify the name and color for the task list."
-msgstr ""
+msgstr "Zadejte název a barvu nového seznamu úkolů."
 
 #: C/evolution.xml:4585(para)
 msgid "(Optional) If the task is an online list, specify the URL of the task list."
-msgstr ""
+msgstr "(Volitelně) Pokud se jedná o online seznam, zadejte URL."
 
 #: C/evolution.xml:4591(para)
 msgid "After you have added a task to your to-do list, its summary appears in the Summary section of the task list. To view or edit a detailed description of an item, double-click it, or right-click it and select Open. You can delete items by selecting them, then clicking Delete. The list of tasks is sorted in a similar way to the list of email messages in Evolution Mail. Click once on a message header to change the direction and type of sorting, or right-click to add or remove columns from the display."
-msgstr ""
+msgstr "Poté, co jste přidali úkol do seznamu úkolů, jeho shrnutí se objeví v sekci Shrnutí seznamu úkolů. Chcete-li zobrazit nebo upravit detailní popis položky, poklepejte na ni nebo klikněte pravým tlačítkem a vyberte Otevřít. Položky můžete vymazat tak, že na ně kliknete a potom kliknete na Odstranit. Seznam úkolů je seřazen podobným způsobem jako e-mailové zprávy v Poště Evolutionu. Klikněte jednou na hlavičku seznamu a změní se směr a způsob řazení, nebo klikněte pravým tlačítkem a přidejde nebo odstraňte sloupce ze zobrazení."
 
 #: C/evolution.xml:4598(para)
 msgid "Click File &gt; New &gt; Task."
@@ -6677,50 +6677,50 @@ msgstr "Klikněte na Soubor &gt; Nová &gt; Úkol."
 #: C/evolution.xml:4601(para)
 #: C/evolution.xml:4652(para)
 msgid "Select a group for the task."
-msgstr ""
+msgstr "Vyberte skupinu úkolu."
 
 #: C/evolution.xml:4607(para)
 msgid "(Optional) Specify a starting date and ending date for the task."
-msgstr ""
+msgstr "(Volitelně) Zadejte počáteční a konečné datum úkolu."
 
 #: C/evolution.xml:4610(para)
 msgid "(Optional) Specify a starting time and ending time for the task."
-msgstr ""
+msgstr "(Volitelně) Zadejte počáteční a konečný čas úkolu."
 
 #: C/evolution.xml:4626(para)
 #: C/evolution.xml:4682(para)
 #: C/evolution.xml:4904(para)
 msgid "(Optional) Click Options &gt; Classifications, then select a classification (as Public, Private or Confidential)."
-msgstr ""
+msgstr "(Volitelně) Klikněte na Volby &gt; Klasifikace, potom vyberte klasifikaci (jako Veřejné, Soukromé nebo Důvěrné)."
 
 #: C/evolution.xml:4629(para)
 #: C/evolution.xml:4685(para)
 msgid "(Optional) To specify a status for the task, click Options &gt; Status Details."
-msgstr ""
+msgstr "(Volitelně) Zadejte stav úkolu tak, že kliknete na Volby &gt; Podrobnosti úkolu."
 
 #: C/evolution.xml:4641(para)
 msgid "Evolution can be used to assign a task to multiple people."
-msgstr ""
+msgstr "Evolution může být použit k přidělení úkolu více lidem."
 
 #: C/evolution.xml:4642(para)
 msgid "When you assign a task, you can specify the attendees in several categories, such as <quote>chair</quote> or <quote>required.</quote> When you save the task, each attendee is sent an email with the task information, which also gives them the option to respond."
-msgstr ""
+msgstr "Když úkol přidělujete, můžete zadat účastníky v několika kategoriích jako <quote>předseda</quote> nebo <quote>vyžadovaný účastník.</quote> Když úkol uložíte, každému účastníkovi je rozeslán e-mail s informacemi o úkolu, který mu navíc dává možnost odpovědět."
 
 #: C/evolution.xml:4643(para)
 msgid "To assign a new task:"
-msgstr ""
+msgstr "Chcete-li přidělit nový úkol:"
 
 #: C/evolution.xml:4646(para)
 msgid "Click File &gt; New &gt; Assigned Task."
-msgstr ""
+msgstr "Klikněte na Soubor &gt; Nový &gt; Přidělený úkol."
 
 #: C/evolution.xml:4655(para)
 msgid "Click Add, or press Insert key, or right click and then press Add to add the email addresses of people you want to assign the task. To remove an attendee from the list, select an attendee, then press Remove. To edit a field, select the field, then click Edit. Click View on the menu bar to show or hide the Type, Role, Status, and RSVP fields."
-msgstr ""
+msgstr "Klikněte na Přidat nebo stiskněte Insert nebo klikněte pravým tlačítkem a vyberte Přidat, chcete-li přidat e-mailové adresy osob, kterým chcete úkol přidělit. Chcete-li účastníka z listru odstranit, vyberte jej a klikněte na Odstranit. Chcete-li upravit podle, označte jej a klikněte na Upravit. Klikněte v liště nabídky na Zobrazit, chcete-li zobrazit nebo skrýt pole Typ, Funkce, Stav a RSVP. "
 
 #: C/evolution.xml:4661(para)
 msgid "(Optional) Specify a starting date and time, and a due date and time for the task."
-msgstr ""
+msgstr "(Volitelně) Zadejte datum a čas začátku a datum a čas, dokdy má být úkol hotov. "
 
 #: C/evolution.xml:4691(title)
 msgid "Searching for Task Items"
@@ -6728,71 +6728,71 @@ msgstr "Vyhledávání úkolů"
 
 #: C/evolution.xml:4694(para)
 msgid "Evolution enables you to find the task items by using Customized Search."
-msgstr ""
+msgstr "Evolution vám umožňuje nalézt položky v úkolech pomocí Vlastního hledání."
 
 #: C/evolution.xml:4715(para)
 msgid "Evolution displays the desired Task items."
-msgstr ""
+msgstr "Evolution zobrazí požadované úkoly."
 
 #: C/evolution.xml:4739(para)
 msgid "Displays all the task items that match the criteria that you have selected from the drop-down list at the top left side, just above the display pane."
-msgstr ""
+msgstr "Zobrazí všechny úkoly, které vyhovují kritériím, které jste vybrali z rozbalovacího seznamu vlevo nahoře nad panelem zobrazení."
 
 #: C/evolution.xml:4741(para)
 msgid "This feature provides the following best quick search options. This allows you to quickly see when tasks are due, as it can become unwieldy for planning if you have a lot of tasks in hand."
-msgstr ""
+msgstr "Tato funkce nabízí následující rychlé možnosti. Umožňuje vám rychle vidět, kdy mají úkoly hotovy, v případě, kdy se množství úkolů stává nepohodlným pro plánování. "
 
 #: C/evolution.xml:4743(title)
 msgid "Any Category:"
-msgstr ""
+msgstr "Jakákoliv kategorie:"
 
 #: C/evolution.xml:4744(para)
 msgid "Displays all the tasks that fall under any category."
-msgstr ""
+msgstr "Zobrazuje všechny úkoly, které spadají pod nějakou kategorii."
 
 #: C/evolution.xml:4747(title)
 msgid "Unmatched:"
-msgstr ""
+msgstr "Nepřiřazené:"
 
 #: C/evolution.xml:4748(para)
 msgid "Displays all the tasks that do not fall under any of the categories listed here."
-msgstr ""
+msgstr "Zobrazuje všechny úkoly, které nespadají ani pod jednu kategorii tady uvedenou."
 
 #: C/evolution.xml:4751(title)
 msgid "Next 7 Days' Tasks:"
-msgstr ""
+msgstr "Úkoly v příštích 7 dnech:"
 
 #: C/evolution.xml:4752(para)
 msgid "Displays all the active tasks that are due within the next seven days."
-msgstr ""
+msgstr "Zobrazuje všechny aktivní úkoly, které mají být hotovy do následujících sedmi dnů."
 
 #: C/evolution.xml:4755(title)
 msgid "Active Tasks:"
-msgstr ""
+msgstr "Aktivní úkoly:"
 
 #: C/evolution.xml:4756(para)
 msgid "Displays all the tasks whose due date is yet to come. This allows you to see the date due for tasks due in the future."
-msgstr ""
+msgstr "Zobrazuje všechny úkoly, jejichž čas dokončení ještě nenadešel. Umožňuje vám to vidět čas dokončení úkolů, které mají být dokončeny v budoucnosti."
 
 #: C/evolution.xml:4759(title)
 msgid "Over Due Tasks:"
-msgstr ""
+msgstr "Úkoly ve zpoždění:"
 
 #: C/evolution.xml:4760(para)
 msgid "Displays all the tasks whose end date has already passed."
-msgstr ""
+msgstr "Zobrazuje všechny úkoly, jejichž čas dokončení již vypršel."
 
 #: C/evolution.xml:4763(title)
 msgid "Completed Tasks:"
-msgstr ""
+msgstr "Dokončené úkoly:"
 
 #: C/evolution.xml:4764(para)
 msgid "Displays the tasks whose status is 100% completed."
-msgstr ""
+msgstr "Zobrazuje úkoly, jejichž stav je 100% kompletní."
 
 #: C/evolution.xml:4767(title)
 msgid "Tasks With Attachment:"
-msgstr ""
+msgstr "Úkoly s přílohami:"
 
 #: C/evolution.xml:4768(para)
 msgid "Displays all the tasks with attachments."
@@ -6800,79 +6800,79 @@ msgstr "Zobrazuje všechny úkoly s přílohami."
 
 #: C/evolution.xml:4771(title)
 msgid "&lt;List of Categories&gt;:"
-msgstr ""
+msgstr "&lt;Seznam kategorií&gt;:"
 
 #: C/evolution.xml:4772(para)
 msgid "Lists all the tasks that belong to a particular category such as Anniversary, Holidays, Gifts, etc."
-msgstr ""
+msgstr "Seznam všech úkolů, které patří do dané kategorie jako Výročí, Prázdniny, Dary atd. "
 
 #: C/evolution.xml:4774(para)
 msgid "To perform quick search,"
-msgstr ""
+msgstr "Chcete-li provést rychlé hledání,"
 
 #: C/evolution.xml:4777(para)
 msgid "Click the Show drop-down list from the Search bar."
-msgstr ""
+msgstr "Klikněte na rozbalovací seznam vedle tlačítka Zobrazit v listě hledání."
 
 #: C/evolution.xml:4789(para)
 msgid "Next 7 Days Tasks"
-msgstr ""
+msgstr "Úkoly v příštích 7 dnech"
 
 #: C/evolution.xml:4792(para)
 msgid "Active Tasks"
-msgstr ""
+msgstr "Aktivní úkoly"
 
 #: C/evolution.xml:4795(para)
 msgid "Over Due Tasks"
-msgstr ""
+msgstr "Úkoly ve zpoždění"
 
 #: C/evolution.xml:4798(para)
 msgid "Completed Tasks"
-msgstr ""
+msgstr "Dokončené úkoly"
 
 #: C/evolution.xml:4801(para)
 msgid "Tasks With Attachments"
-msgstr ""
+msgstr "Úkoly s přílohami"
 
 #: C/evolution.xml:4825(para)
 #: C/evolution.xml:5020(para)
 msgid "Holidays"
-msgstr ""
+msgstr "Prázdniny"
 
 #: C/evolution.xml:4837(para)
 #: C/evolution.xml:5032(para)
 msgid "Key Customers"
-msgstr ""
+msgstr "Klíčoví zákazníci"
 
 #: C/evolution.xml:4869(para)
 msgid "You can view the desired items listed in the Task view."
-msgstr ""
+msgstr "Požadované položky můžete vidět v zobrazení úkolů."
 
 #: C/evolution.xml:4875(para)
 msgid "In Evolution, the Memos component lets you create, edit, and store journal entries without dates, using the filesystem as a backend."
-msgstr ""
+msgstr "V Evolutionu vám komponenta Poznámky umožňuje vytvářet, upravovat a ukládat záznamy bez datumů pomocí souborového systému na pozadí."
 
 #: C/evolution.xml:4877(para)
 msgid "To create a new memo entry:"
-msgstr ""
+msgstr "Chcete-li vytvořit novou poznámku:"
 
 #: C/evolution.xml:4880(para)
 msgid "Click File &gt; New &gt; Memo."
-msgstr ""
+msgstr "Klikněte na Soubor &gt; Nový &gt; Poznámka."
 
 #: C/evolution.xml:4883(para)
 #: C/evolution.xml:5953(para)
 msgid "Select the Group in which you would like to create the entry."
-msgstr ""
+msgstr "Vyberte skupinu, v které byste chtěli poznámku vytvořit."
 
 #: C/evolution.xml:4887(para)
 msgid "To show or hide Categories field, click View &gt; Categories."
-msgstr ""
+msgstr "Chcete-li zobrazit nebo skrýt pole Kategorie, klikněte na Zobrazit &gt; Kategorie."
 
 #: C/evolution.xml:4893(para)
 #: C/evolution.xml:5959(para)
 msgid "In the Start Date field, type the date this reminder note should appear in the recipients' Calendars."
-msgstr ""
+msgstr "Do pole Začátek zadejte datum, tato upomínka by se měla objevit v kalendářích příjemců."
 
 #: C/evolution.xml:4909(title)
 msgid "The Memo List"
@@ -6880,19 +6880,19 @@ msgstr "Seznam poznámek"
 
 #: C/evolution.xml:4910(para)
 msgid "As with calendars and tasks, you can create multiple memo lists. Each memo list is assigned a color, and you can use the side bar to hide and show memo lists."
-msgstr ""
+msgstr "Stejně jako v případě kalendářů a úkolů můžete vytvořit více seznamů poznámek. Každý seznam má přidělenou barvu a můžete využít postranní panel a můžete je skrýt a zobrazit."
 
 #: C/evolution.xml:4911(para)
 msgid "To create a new memo list:"
-msgstr ""
+msgstr "Chcete-li vytvočit nový seznam poznámek:"
 
 #: C/evolution.xml:4914(para)
 msgid "Click File &gt; New &gt; Memo List."
-msgstr ""
+msgstr "Klikněte na Soubor &gt; Nový &gt; Seznam poznámek."
 
 #: C/evolution.xml:4917(para)
 msgid "Enter the type, name and color for the memo list."
-msgstr ""
+msgstr "Zadejte pro něj typ, název a barvu."
 
 #: C/evolution.xml:4926(title)
 msgid "Searching for Memo Items"
@@ -6900,89 +6900,89 @@ msgstr "Vyhledávání poznámek"
 
 #: C/evolution.xml:4927(para)
 msgid "You can use a customized search, an advanced search, or a quick search to search for Memo Items."
-msgstr ""
+msgstr "Pro vyhledávání poznámek můžete použít vlastní, pokročilé a rychlé hledání."
 
 #: C/evolution.xml:4930(para)
 msgid "Evolution enables you to find the Memo items by using a Customized Search."
-msgstr ""
+msgstr "Evolution vám umožňuje nalézt poznámky pomocí vlastního hledání."
 
 #: C/evolution.xml:4960(para)
 msgid "Select the desired search type from the drop-down list."
-msgstr ""
+msgstr "Vyberte požadovaný typ z rozbalovacího seznamu."
 
 #: C/evolution.xml:4983(para)
 msgid "Displays all the Memo items that match the criteria that you have selected from the Show drop-down list in the Search bar."
-msgstr ""
+msgstr "Zobrazí všechny poznámky, které vyhovují kritériu, které jste vybrali z rozbalovacího seznamu vedle tlačítka Zobrazit v liště hledání."
 
 #: C/evolution.xml:5062(para)
 msgid "You can view the desired items listed in the Memo view."
-msgstr ""
+msgstr "Požadované položky můžete vidět v zobrazení poznámek."
 
 #: C/evolution.xml:5070(para)
 msgid "Evolution supports the use of time zones. If you share calendar files with friends or co-workers, you might need to configure your time zone."
-msgstr ""
+msgstr "Evolution podporuje použití časových pásem. Pokud sdílíte kalendáře s přáteli nebo spolupracovníky, možná budete chtít své časové pásmo nastavit."
 
 #: C/evolution.xml:5076(para)
 msgid "Click the icon next to the Time Zone field, then select your location."
-msgstr ""
+msgstr "Klikněte na ikonu vedle pole Časové pásmo a vyberte vaše umístění."
 
 #: C/evolution.xml:5077(para)
 msgid "Each red dot represents a major city."
-msgstr ""
+msgstr "Každá červená tečka reprezentuje větší město."
 
 #: C/evolution.xml:5080(para)
 msgid "Select a city, then click OK."
-msgstr ""
+msgstr "Vyberte město a klikněte na OK."
 
 #: C/evolution.xml:5083(para)
 msgid "You can also configure time zone information specific to each appointment. To do that, simply create a new appointment and click the globe to customize the time zone that the time exists in. For example, if you live in New York but have a telephone meeting set for noon with someone in California, you need to make sure that your schedules are coordinated. Setting time zones on a per-appointment basis helps avoid that potential confusion."
-msgstr ""
+msgstr "Můžete také nastavit časové pásmo každé události. Uděláte to tak, že jednoduše vytvoříte novou událost, kliknete na glóbus a nastavíte časové pásmo. Například pokud žijete v New Yorku, ale budete mít telefonát domluvený na poledne s někým z Kalifornie, musíte si být jistí, že jsou vaše rozvrhy zkoordinovány. Nastavení časových pásem pro každou událost samostatně pomáhá vyhnout se nedorozumění."
 
 #: C/evolution.xml:5087(title)
 msgid "Marcus Bains Line"
-msgstr ""
+msgstr "Čára Marcuse Bainse"
 
 #: C/evolution.xml:5088(para)
 msgid "The Marcus Bains Line is a marker to show the current date and time. This feature is available in the Evolution calendar."
-msgstr ""
+msgstr "Čára Marca Bainse je značka, která ukazuje aktuální datum a čas. Tato funkce je k dispozici v kalendáři Evolutionu."
 
 #: C/evolution.xml:5094(para)
 msgid "<trademark>Evolution</trademark> Exchange for Microsoft Exchange allows Evolution clients to access accounts on Microsoft Exchange 2000 and 2003 servers. Like Evolution, it is free software and is licensed under the GPL."
-msgstr ""
+msgstr "<trademark>Evolution</trademark> Exchange pro Microsoft Exchange umožňuje Evolutionu jakožto klientu přistupovat na účty na serverech Microsoft Exchange 2000 a 2003. Stejně jako Evolution se jedná o svobodný software licencovaný pod GPL."
 
 #: C/evolution.xml:5097(link)
 #: C/evolution.xml:5117(title)
 msgid "Evolution Exchange Features"
-msgstr ""
+msgstr "Funkce Evolution Exchange"
 
 #: C/evolution.xml:5100(link)
 #: C/evolution.xml:5219(title)
 msgid "Adding Your Exchange Account to Evolution"
-msgstr ""
+msgstr "Přidání vašeho účtu na Exchange do Evolutionu"
 
 #: C/evolution.xml:5103(link)
 #: C/evolution.xml:5337(title)
 msgid "Accessing the Exchange Server"
-msgstr ""
+msgstr "Přístup k serveru Exchange"
 
 #: C/evolution.xml:5106(link)
 #: C/evolution.xml:5345(title)
 msgid "Settings Exclusive to Evolution Exchange"
-msgstr ""
+msgstr "Nastavení speciálně pro Evolution Exchange"
 
 #: C/evolution.xml:5109(link)
 #: C/evolution.xml:5368(link)
 #: C/evolution.xml:5590(title)
 msgid "Scheduling Meetings with Free/Busy"
-msgstr ""
+msgstr "Plánování schůzek s Volno/obsazeno"
 
 #: C/evolution.xml:5113(para)
 msgid "Evolution Exchange works only with Exchange 2000 and later, and requires that Outlook Web Access be enabled. Each user needs a valid Microsoft Exchange server account, including a license."
-msgstr ""
+msgstr "Evolution Exchange funguje jen s Exchange 2000 a pozdějšími a vyžaduje aktivované Outlook Web Access. Každý uživatel potřebuje platný účet na serveru Microsoft Exchange včetně licence."
 
 #: C/evolution.xml:5118(para)
 msgid "Evolution Exchange supports the following basic Microsoft Exchange features:"
-msgstr ""
+msgstr "Evolution Exchange podporuje následující základní funkce Microsoft Exchange:"
 
 #: C/evolution.xml:5121(para)
 #: C/evolution.xml:6771(link)
@@ -6990,44 +6990,44 @@ msgstr ""
 #: C/evolution.xml:6830(link)
 #: C/evolution.xml:6844(title)
 msgid "General"
-msgstr ""
+msgstr "Obecné"
 
 #: C/evolution.xml:5125(title)
 msgid "Remote Exchange Information Store:"
-msgstr ""
+msgstr "Vzdálené uložení informací na Exchange:"
 
 #: C/evolution.xml:5126(para)
 msgid "Allows you to access mail, address book (including the Global Address List folder), calendars, and task folders on an Exchange server from Evolution."
-msgstr ""
+msgstr "Umožňuje vám přistupovat k poště, adresáři (včetně složky Globální seznam adres)"
 
 #: C/evolution.xml:5131(title)
 msgid "Palm Synchronization:"
-msgstr ""
+msgstr "Synchronizace s Palmem:"
 
 #: C/evolution.xml:5132(para)
 msgid "Supported for Contacts and Calendars on Exchange."
-msgstr ""
+msgstr "Podporováno pro kontakty a kalendáře na Exchange."
 
 #: C/evolution.xml:5137(title)
 msgid "Password Management:"
-msgstr ""
+msgstr "Správa hesel:"
 
 #: C/evolution.xml:5138(para)
 msgid "Allows you to reset your password. If your password has expired, Evolution asks you to change your password at startup."
-msgstr ""
+msgstr "Umožňuje vám obnovit heslo. Když vaše heslo vyprší, Evolution se vás při startu zeptá, zda jej chcete změnit."
 
 #: C/evolution.xml:5144(para)
 #: C/evolution.xml:5679(para)
 msgid "Mail"
-msgstr ""
+msgstr "Pošta"
 
 #: C/evolution.xml:5148(title)
 msgid "Viewing Mail in Exchange Folders:"
-msgstr ""
+msgstr "Prohlížení pošty ve složkách Exchange:"
 
 #: C/evolution.xml:5149(para)
 msgid "Mail stored on the Exchange server is visible in the Mail component in Evolution."
-msgstr ""
+msgstr "Pošta uložená na serveru Exchange je viditelná v komponentě Pošta."
 
 #: C/evolution.xml:5154(title)
 msgid "Sending Email via Exchange Protocols:"
@@ -7035,161 +7035,161 @@ msgstr "Posílání pošty přes protokoly Exchange:"
 
 #: C/evolution.xml:5155(para)
 msgid "If you use the Microsoft Exchange mail transport protocol to send email, make sure that the address you have entered as your email address is exactly the one that the Exchange server has on file. This might be <quote>yourname@exchange-server.example.com</quote> rather than <quote>yourname@example.com.</quote>"
-msgstr ""
+msgstr "Pokud použijte pro odeslání e-mailu poštovní transportní protokol Microsoft Exchange, ujistěte se, že adresa, kterou jste zadali jako vaši e-mailovou adresu, je přesně ta, kterou má v evidenci server Exchange. Tou může být <quote>yourname@exchange-server.example.com</quote> spíše než <quote>yourname@example.com.</quote>"
 
 #: C/evolution.xml:5160(title)
 msgid "Out of Office Message:"
-msgstr ""
+msgstr "Zpráva typu Mimo kancelář:"
 
 #: C/evolution.xml:5161(para)
 msgid "You can set <quote>out of Office</quote> message that will automatically be sent to people who send mail to you while you are away from office."
-msgstr ""
+msgstr "Můžete nastavit zprávu typu <quote>Mimo kancelář</quote>, která bude automaticky odeslána těm, kteří poštu pošlou vám, zatímco jste mimo kancelář."
 
 #: C/evolution.xml:5166(title)
 msgid "Send Options:"
-msgstr ""
+msgstr "Možnosti odeslání:"
 
 #: C/evolution.xml:5167(para)
 msgid "You can set the priority and sensitivity of the sent message so that the recipients will know how important the message is.The priority can have one of the three values - High, Normal or Low and sensitivity can have one of the four values-Normal, Personal, Private and Confidential respectively. You can also enable delivery receipt request and read receipt request for the messages sent."
-msgstr ""
+msgstr "Můžete nastavit prioritu a citlivost odesílaných zpráv, aby přijemci věděli, jak důležitá zpráva je. Priorita může mít jednu ze tří hodnot - Vysoká, Normální, Nízká a citlivost jednu ze čtyř - Normální, Osobní, Soukromá, Důvěrné. Můžete také pro odeslané zprávy aktivovat požadavek na potvrzení o doručení a o přečtení. "
 
 #: C/evolution.xml:5173(para)
 #: C/evolution.xml:5702(para)
 #: C/evolution.xml:7350(link)
 #: C/evolution.xml:7420(title)
 msgid "Calendar"
-msgstr ""
+msgstr "Kalendář"
 
 #: C/evolution.xml:5177(title)
 msgid "Meeting Requests/Proposal:"
-msgstr ""
+msgstr "Žádost o schůzku/návrh:"
 
 #: C/evolution.xml:5178(para)
 msgid "Allows Evolution users to schedule meetings. You can check when other users are busy according to their calendars and send the meeting requests accordingly."
-msgstr ""
+msgstr "Umožňuje uživatelům Evolutionu plánovat schůzky. Můžete podle jejich kalendářů kontrolovat, zda jsou ostatní uživatelé zaneprádnění, a poslat jim podle toho žádost o schůzku. "
 
 #: C/evolution.xml:5183(title)
 msgid "Adding iCalendar Meeting Requests to the Calendar:"
-msgstr ""
+msgstr "Přidávání žádostí o schůzku ve formátu iCalendar do kalendáře:"
 
 #: C/evolution.xml:5184(para)
 msgid "Allows you to add the iCalendar meeting requests you receive to your Exchange calendar. Note that you need to specify the calendar from the list, to which you want to add your meeting schedules."
-msgstr ""
+msgstr "Umožňuje vám přidávat žádosti o schůzku ve formátu iCalendar, které obdržíte, do vašeho kalendáře na Exchange. Všimněte si, že musíte vybrat ze seznamu kalendář, do kterého chcete schůzky přidávat."
 
 #: C/evolution.xml:5190(para)
 #: C/evolution.xml:5614(para)
 #: C/evolution.xml:5713(para)
 msgid "Contacts"
-msgstr ""
+msgstr "Kontakty"
 
 #: C/evolution.xml:5194(title)
 msgid "Address Completion:"
-msgstr ""
+msgstr "Doplňování adres:"
 
 #: C/evolution.xml:5195(para)
 msgid "Supported for your Exchange Contacts folder."
-msgstr ""
+msgstr "Podporováno pro Kontakty serveru Microsoft Exchange."
 
 #: C/evolution.xml:5200(title)
 msgid "Adding vCards to the Address Book:"
-msgstr ""
+msgstr "Přidávání vCard do adresáře:"
 
 #: C/evolution.xml:5201(para)
 msgid "Allows you to save the vCards you receive in attachment to your Exchange address book.New Address Book entries can also be created on Exchange from received email messages with a single click."
-msgstr ""
+msgstr "Umožňuje vám ukládat do vašeho adresáře na serveru Exchange vCard, které jste obdrželi v příloze. Nové záznamy v adresáři mohou být na serveru Exchange také vytvářeny jedním kliknutím z přijatých zpráv."
 
 #: C/evolution.xml:5207(para)
 msgid "Work Offline (disconnected mode)"
-msgstr ""
+msgstr "Práce offline (režim při odpojení)"
 
 #: C/evolution.xml:5208(para)
 msgid "To mark a folder for offline usage, right-click the folder, then click Properties. Click Copy Folder Content Locally for Offline Operation. For more information see <link linkend=\"usage-mail-getnsend-offline\">Working Offline</link>."
-msgstr ""
+msgstr "Chcete-li označit složku pro použití offline, klikněte pravým tlačítkem na složku, potom na Vlastnosti. Vyberte Kopírovat obsah složky lokálně pro práci při odpojení. Více informací naleznete v části <link linkend=\"usage-mail-getnsend-offline\">Práce off-line</link>."
 
 #: C/evolution.xml:5213(para)
 msgid "Recall Message function is not available."
-msgstr ""
+msgstr "Funkce Odvolání zprávy není k dispozici."
 
 #: C/evolution.xml:5220(para)
 msgid "After you have installed Evolution Exchange, you need to set up access for your Exchange account on both the Exchange server and within Evolution."
-msgstr ""
+msgstr "Poté, co jste nainstalovali Evolution Exchange, musíte nastavit váš účet Exchange jak na serveru Exchange, tak v rámci Evolutionu."
 
 #: C/evolution.xml:5223(link)
 #: C/evolution.xml:5240(title)
 msgid "Exchange Server Settings"
-msgstr ""
+msgstr "Nastavení serveru Exchange"
 
 #: C/evolution.xml:5226(link)
 #: C/evolution.xml:5254(title)
 msgid "Standard Configuration Tool for Evolution Exchange"
-msgstr ""
+msgstr "Standardní konfigurační nástroj pro Evolution Exchange"
 
 #: C/evolution.xml:5229(link)
 #: C/evolution.xml:5258(title)
 msgid "Simple Configuration Tool for Evolution Exchange"
-msgstr ""
+msgstr "Jednoduchý konfigurační nástroj pro Evolution Exchange"
 
 #: C/evolution.xml:5232(link)
 #: C/evolution.xml:5265(title)
 msgid "Creating a New Exchange Account"
-msgstr ""
+msgstr "Vytvoření nového účtu Exchange"
 
 #: C/evolution.xml:5235(link)
 #: C/evolution.xml:5289(title)
 msgid "Configuring an Existing Account for Evolution Exchange Account"
-msgstr ""
+msgstr "Nastavení existujícího účtu pro Evolution Exchange."
 
 #: C/evolution.xml:5241(para)
 msgid "Check with your system administrator to ensure that:"
-msgstr ""
+msgstr "Ujistěte se u vašeho administrátora, že:"
 
 #: C/evolution.xml:5244(para)
 msgid "You have a valid account on the Exchange server."
-msgstr ""
+msgstr "Máte platný účet na serveru Exchange."
 
 #: C/evolution.xml:5247(para)
 msgid "You are permitted to access the account with WebDAV. This is the default setting for the Exchange server, so unless your system administrator has specifically turned it off, no changes should be necessary."
-msgstr ""
+msgstr "Máte povolené přistupovat k účtu přes WebDAV. To je výchozí nastavení serveru Exchange. Takže pokud jej váš administrátor nevypnul, žádné změny nebudou potřeba."
 
 #: C/evolution.xml:5250(para)
 msgid "The <ulink url=\"http://support.novell.com\"><trademark class=\"registered\">Novell</trademark> Web site Knowledgebase</ulink> has additional information about checking to make sure that your Exchange server accepts connections from Evolution."
-msgstr ""
+msgstr "Na <ulink url=\"http://support.novell.com\"><trademark class=\"registered\">Novell</trademark> Web site Knowledgebase</ulink> naleznete další informace o tom, jak se ujistit, že server Exchange akceptuje připojení z Evolutionu."
 
 #: C/evolution.xml:5255(para)
 msgid "When you know that your server is ready for you to connect, you are ready to add your Exchange account to Evolution Exchange."
-msgstr ""
+msgstr "V momentě, kdy víte, že je server připravený pro vaše připojení, jste připravení přidat váš účet Exchange do Evolution Exchange."
 
 #: C/evolution.xml:5259(para)
 msgid "Evolution Exchange comes with a simple account creation tool for Exchange accounts."
-msgstr ""
+msgstr "Evolution Exchange přichází s jednoduchým nástrojem pro vytvoření účtu pro účty Exchange."
 
 #: C/evolution.xml:5260(para)
 msgid "If you have no accounts configured, the simple account configuration assistant starts when you start Evolution. It asks only for the Outlook Web Access URL, and your username and password. Evolution Exchange determines the remaining information for you."
-msgstr ""
+msgstr "Pokud nemáte nastavený žádný účet, spustí se při startu Evolutionu jednoduchý asistent pro nastavení účtu. Ptá se pouze na URL Outlook Web Access, jméno uživatele a heslo. Evolution Exchange rozhodne o ostatních věcech za vás."
 
 #: C/evolution.xml:5261(para)
 msgid "If the simple account configuration tool does not run automatically, you need to create an account manually. For more information on how to do this, see <link linkend=\"config-exchange-new-account\">Creating a New Exchange Account</link>."
-msgstr ""
+msgstr "Jestliže se jednoduchý nástroj pro nastavení účtu nespustí automaticky, musíte účet vytvořit ručně. Jak to udělat, se dozvíte ve <link linkend=\"config-exchange-new-account\">Vytvoření nového účtu Exchange</link>."
 
 #: C/evolution.xml:5276(para)
 msgid "Create the account following the procedure in <link linkend=\"usage-mainwindow-starting\">Starting Evolution for the First Time</link>. Remember to select Microsoft Exchange as server type in the Receiving Mail section."
-msgstr ""
+msgstr "Vytvořte účet tak, že budete sledovat postup v <link linkend=\"usage-mainwindow-starting\">Začínáme poprvé s Evolutionem</link>. Pamatujte, že musíte vybrat Microsoft Exchange jako typ serveru v části Příjem pošty."
 
 #: C/evolution.xml:5282(para)
 msgid "Only one Microsoft Exchange account can be configured in Evolution."
-msgstr ""
+msgstr "V Evolutionu může být nastaven pouze jeden účet Microsoft Exchange."
 
 #: C/evolution.xml:5290(para)
 msgid "Use the following procedure to configure your existing account for Evolution Exchange:"
-msgstr ""
+msgstr "Použijte následující postup, chcete-li nastavit již existující účet pro Evolution Exchange:"
 
 #: C/evolution.xml:5296(para)
 msgid "Select the account you want to convert, then click Edit to appear the Account Editor."
-msgstr ""
+msgstr "Vyberte účet, který chcete převést, potom klikněte na Upravit a objeví se Editor účtu."
 
 #: C/evolution.xml:5297(para)
 msgid "You can view Identity tab enabled."
-msgstr ""
+msgstr "Můžete vidět aktivovanou kartu Identita."
 
 #: C/evolution.xml:5302(para)
 #: C/evolution.xml:5876(para)
@@ -7198,11 +7198,11 @@ msgstr "Změňte vaši e-mailovou adresu, jak potřebujete."
 
 #: C/evolution.xml:5305(para)
 msgid "Click the Receiving Mail tab, then select Microsoft Exchange as your server type."
-msgstr ""
+msgstr "Klikněte na kartu Příjem pošty, potom vyberte jako typ serveru Microsoft Exchange."
 
 #: C/evolution.xml:5310(para)
 msgid "Type your user name, and the Outlook Web Access (OWA) URL. Click Authenticate, then enter the password at the prompt. The Exchange server authenticates your account."
-msgstr ""
+msgstr "Vyplňte jméno uživatele a URL Outlook Web Access (OWA). Klikněte na Autentizovat a po vyžádání zadejte heslo. Server Exchange autentizuje váš účet."
 
 #: C/evolution.xml:5318(para)
 #: C/evolution.xml:5890(para)
@@ -7211,7 +7211,7 @@ msgstr "Klikněte na kartu Možnosti příjmu."
 
 #: C/evolution.xml:5319(para)
 msgid "Specify how often to check for new mail, your Global Catalog server name and whether to apply filters to messages in your Inbox, check for junk, set a password expiry period, and any other settings you want to include."
-msgstr ""
+msgstr "Zadejte, jak často chcete kontrolovat novou poštu, jméno vašeho Globálního katalogového serveru a jestli aplikovat filtry na zprávy v Příchozí, hledat nevyžádanou poštu, nastavit datum vypršení hesla a další nastavení, které chcete zahrnout."
 
 #: C/evolution.xml:5322(para)
 msgid "Use the Defaults tab to define folders, send cc: or bcc: messages to certain IDs, and set options for message receipts."
