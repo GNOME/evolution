@@ -28,6 +28,7 @@
 #include <stdlib.h>
 
 #include <gtk/gtk.h>
+#include <glib/gi18n.h>
 
 #include <libgnomeui/gnome-druid.h>
 #include <libgnomeui/gnome-druid-page-standard.h>
@@ -422,9 +423,13 @@ ec_rebuild(EConfig *emp)
 
 	for (wn = (struct _widget_node *)p->widgets.head;wn->next;wn=wn->next) {
 		struct _EConfigItem *item = wn->item;
+		const gchar *translated_label = NULL;
 		GtkWidget *w;
 
 		d(printf(" '%s'\n", item->path));
+
+		if (item->label != NULL)
+			translated_label = gettext (item->label);
 
 		/* If the last section doesn't contain anything, hide it */
 		if (sectionnode != NULL
@@ -524,7 +529,7 @@ ec_rebuild(EConfig *emp)
 				} else {
 					page = gnome_druid_page_edge_new(item->type == E_CONFIG_PAGE_START?GNOME_EDGE_START:GNOME_EDGE_FINISH);
 					gtk_widget_show(page);
-					gnome_druid_page_edge_set_title((GnomeDruidPageEdge *)page, item->label);
+					gnome_druid_page_edge_set_title((GnomeDruidPageEdge *)page, translated_label);
 					gnome_druid_insert_page((GnomeDruid *)druid, pagenode?(GnomeDruidPage *)pagenode->frame:NULL, (GnomeDruidPage *)page);
 				}
 				if (item->type == E_CONFIG_PAGE_FINISH) {
@@ -579,13 +584,13 @@ ec_rebuild(EConfig *emp)
 				if (emp->type == E_CONFIG_DRUID) {
 					w = gnome_druid_page_standard_new();
 					gtk_widget_show(w);
-					gnome_druid_page_standard_set_title((GnomeDruidPageStandard *)w, item->label);
+					gnome_druid_page_standard_set_title((GnomeDruidPageStandard *)w, translated_label);
 					gnome_druid_insert_page((GnomeDruid *)druid, pagenode?(GnomeDruidPage *)pagenode->frame:NULL, (GnomeDruidPage *)w);
 					wn->frame = w;
 					page = ((GnomeDruidPageStandard *)w)->vbox;
 					connect = TRUE;
 				} else {
-					w = gtk_label_new_with_mnemonic (item->label);
+					w = gtk_label_new_with_mnemonic (translated_label);
 					gtk_widget_show(w);
 					page = gtk_vbox_new(FALSE, 12);
 					gtk_container_set_border_width((GtkContainer *)page, 12);
@@ -653,8 +658,8 @@ ec_rebuild(EConfig *emp)
 					wn->frame = NULL;
 				}
 
-				if (item->label) {
-					char *txt = g_strdup_printf("<span weight=\"bold\">%s</span>", item->label);
+				if (translated_label != NULL) {
+					char *txt = g_strdup_printf("<span weight=\"bold\">%s</span>", translated_label);
 
 					label = g_object_new(gtk_label_get_type(),
 							     "label", txt,

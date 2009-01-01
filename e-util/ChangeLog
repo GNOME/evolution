@@ -1,3 +1,8 @@
+2009-01-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-config.c (ec_rebuild):
+	Use the translated the EConfigItem label when building the UI.
+
 2008-12-22  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #564860
