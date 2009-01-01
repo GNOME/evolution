@@ -1,3 +1,8 @@
+2009-01-01  Andre Klapper  <a9016009@gmx.de>
+
+	* e-shell-window-commands.c:
+	update Copyright to 2009.
+
 2008-12-28  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Related to bug #562155

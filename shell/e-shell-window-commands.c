@@ -52,7 +52,7 @@
 #include "e-shell-importer.h"
 
 #define EVOLUTION_COPYRIGHT \
-	"Copyright \xC2\xA9 1999 - 2008 Novell, Inc. and Others"
+	"Copyright \xC2\xA9 1999 - 2009 Novell, Inc. and Others"
 
 #define EVOLUTION_WEBSITE \
 	"http://www.gnome.org/projects/evolution/"
