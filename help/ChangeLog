@@ -1,5 +1,108 @@
 2009-01-01  Andre Klapper  <a9016009@gmx.de>
 
+	* de/figures/account_editor_a.png:
+	* de/figures/calendar.png:
+	* de/figures/categories_a.png:
+	* de/figures/collap_head_a.png:
+	* de/figures/config-cal.png:
+	* de/figures/config-mail.png:
+	* de/figures/contact-editor.png:
+	* de/figures/contact.png:
+	* de/figures/contacts_mainwindow_a.png:
+	* de/figures/evo_account_editor_a.png:
+	* de/figures/evo_account_info_a.png:
+	* de/figures/evo_add_rule_a.png:
+	* de/figures/evo_adv_search_a.png:
+	* de/figures/evo_allday_a.png:
+	* de/figures/evo_cal_ prop_a.png:
+	* de/figures/evo_cal_a.png:
+	* de/figures/evo_cal_callout_a.png:
+	* de/figures/evo_calender_appointmnt.png:
+	* de/figures/evo_contacteditor_a.png:
+	* de/figures/evo_edit_rule_a.png:
+	* de/figures/evo_edit_search.png:
+	* de/figures/evo_email_a.png:
+	* de/figures/evo_flag_follow_up_a.png:
+	* de/figures/evo_gwreceiveedit_a.png:
+	* de/figures/evo_gwreceiveoptedit_a.png:
+	* de/figures/evo_identityedit_a.png:
+	* de/figures/evo_imapheader_a.png:
+	* de/figures/evo_import_asst_a.png:
+	* de/figures/evo_mail_a.png:
+	* de/figures/evo_mail_callout_a.png:
+	* de/figures/evo_mereceive_a.png:
+	* de/figures/evo_message_filters_a.png:
+	* de/figures/evo_newmess_a.png:
+	* de/figures/evo_proxyadd_a.png:
+	* de/figures/evo_receive_setup2_a.png:
+	* de/figures/evo_rmdrnotes_a.png:
+	* de/figures/evo_rule_a.png:
+	* de/figures/evo_select_add_folder.png:
+	* de/figures/evo_select_folder.png:
+	* de/figures/evo_shd_memo_a.png:
+	* de/figures/exchange-delegation.png:
+	* de/figures/exchange-identity.png:
+	* de/figures/exchange-receive-options.png:
+	* de/figures/exchange-receive.png:
+	* de/figures/exchg-identity.png:
+	* de/figures/exchng-identity.png:
+	* de/figures/exchng-rec-mail.png:
+	* de/figures/exchng-rec-mails.png:
+	* de/figures/exchng-rec-option.png:
+	* de/figures/exchng-rec-options.png:
+	* de/figures/filter-new-fig.png:
+	* de/figures/free_busy.png:
+	* de/figures/full-1.png:
+	* de/figures/full-2.png:
+	* de/figures/full-3.png:
+	* de/figures/full-4.png:
+	* de/figures/full-5.png:
+	* de/figures/full-6.png:
+	* de/figures/full-7.png:
+	* de/figures/mail_mainwindow_a.png:
+	* de/figures/mail-druid-pic.png:
+	* de/figures/mail-inbox.png:
+	* de/figures/mail-threaded.png:
+	* de/figures/mainwindow-pic.png:
+	* de/figures/minus.png:
+	* de/figures/newmsg.png:
+	* de/figures/plus.png:
+	* de/figures/proxy-cal.png:
+	* de/figures/proxy-login.png:
+	* de/figures/quick_add_a.png:
+	* de/figures/replymsg.png:
+	* de/figures/schedule.png:
+	* de/figures/Screenshot-Evolution-mailer-Preferences.png:
+	* de/figures/Screenshot-Free-Busy.png:
+	* de/figures/stock_search.png:
+	* de/figures/sub-others-folder.png:
+	* de/figures/sub-pub-fold.png:
+	* de/figures/ver_view_a.png:
+	* de/figures/vfolder-createrule-fig.png:
+	* es/figures/evo_blink.png:
+	* es/figures/evo_dialog-info.png:
+	* es/figures/evo_dialog-warning.png:
+	* es/figures/full-1.png:
+	* es/figures/full-2.png:
+	* es/figures/full-3.png:
+	* es/figures/full-4.png:
+	* es/figures/full-5.png:
+	* es/figures/full-6.png:
+	* es/figures/full-7.png:
+	* es/figures/minus.png:
+	* es/figures/plus.png:
+	* es/figures/stock_search.png:
+	* no/figures/full-1.png:
+	* no/figures/full-2.png:
+	* no/figures/full-3.png:
+	* no/figures/full-4.png:
+	* no/figures/full-5.png:
+	* no/figures/full-6.png:
+	* no/figures/full-7.png:
+	Remove unlovalized screenshots from SVN. Fixes bug #566206.
+
+2009-01-01  Andre Klapper  <a9016009@gmx.de>
+
 	* cs/cs.po: Updated Czech translation of manual by Jiri Eischmann.
 
 2008-12-29  Andre Klapper  <a9016009@gmx.de>

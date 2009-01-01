@@ -1,0 +1,117 @@
+% To rebuild the .pdf from this source, use something like the following
+%	latex quickref.tex
+%	dvips -t letter -f -Pcmz < quickref.dvi >| quickref.ps
+%	ps2pdf -sPAPERSIZE=letter quickref.ps
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+%\usepackage[latin1]{inputenc}
+\usepackage{lscape}
+\usepackage{setspace}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage[normalem]{ulem}
+\usepackage[english]{babel}
+\usepackage{color}
+\usepackage{hyperref}
+
+\textheight=9in
+\textwidth=7.5in
+\headheight=0pt
+\headsep=0pt
+\topmargin=0in
+\oddsidemargin=-0.4in
+\evensidemargin=-0.6in
+\parindent=0pt
+\parsep=1pt
+\pagestyle{empty}
+
+\date {}
+
+\makeatother
+
+\begin{document}
+	\begin{landscape}
+
+%	\textit{Dan Kuester's all-leather}
+
+	\begin{center}
+	\begin{minipage}[m]
+		{1in}\includegraphics[height=0.9in]{../evolution-logo.eps}\hspace{5mm}
+	\end{minipage}
+	\hspace{5mm}
+	\textbf{\Huge{Stručná příručka Evolutionu}}
+	\end{center}
+
+	\begin{center}
+	\begin{multicols}{2}
+	\section*{Globální}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Komponenty}}		&					\\
+		Pošta					& \textbf{Ctrl+1}			\\
+		Kontakty				& \textbf{Ctrl+2}			\\
+		Kalendáře				& \textbf{Ctrl+3}			\\
+		Úkoly					& \textbf{Ctrl+4}			\\
+		\vspace{1.5mm}
+		Poznámky				& \textbf{Ctrl+5}			\\
+		\textit{\textbf{Ovládání}}		&					\\
+		Nová položka v aktuálním režimu		& \textbf{Ctrl+N}			\\
+		Přepíná zaměření mezi panely		& \textbf{F6}				\\
+		Vymazat lištu hledání			& \textbf{Shift+Ctrl+Q}			\\
+		Zavřít okno				& \textbf{Ctrl+W}			\\
+		Otevřít nové okno			& \textbf{Shift+Ctrl+W}			\\
+		\vspace{1.5mm}
+		Ukončit					& \textbf{Ctrl+Q}			\\
+		\textit{\textbf{Výběr}}			&					\\
+		Tisknout výběr				& \textbf{Ctrl+P}			\\
+		Uložit výběr				& \textbf{Ctrl+S}			\\
+		Odstranit výběr				& \textbf{Del} nebo \textbf{Backspace}	\\
+		Přesunout zprávy/kontakty do složky	& \textbf{Shift+Ctrl+V}			\\
+		Kopírovat zprávy/kontakty do složky	& \textbf{Shift+Ctrl+Y}			\\
+	\end{tabular*}
+	\section*{Komponenta adresáře/poznámky}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Obecné příkazy}}	&					\\
+		Nový kontakt				& \textbf{Shift+Ctrl+C}			\\
+		Nový seznam kontaktů			& \textbf{Shift+Ctrl+L}			\\
+		Nová poznámka				& \textbf{Shift+Ctrl+O}			\\
+	\end{tabular*}
+%	{\\ \vspace{5mm} \footnotesize \textit{* denotes the feature may not be implemented yet}}
+	\section*{Komponenta pošty}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Obecné příkazy}}	&					\\
+		Nová zpráva				& \textbf{Shift+Ctrl+M}			\\
+		\vspace{1.5mm}
+		Odeslat/přijmout zprávy			& \textbf{F9}				\\
+		\textit{\textbf{Výběr}}			&					\\
+		Použít filtry				& \textbf{Ctrl+Y}			\\
+		Otevřít v novém okně 			& \textbf{Enter} nebo \textbf{Ctrl+O}	\\
+		\vspace{1.5mm}
+		Přeposlat výběr				& \textbf{Ctrl+F}			\\
+		\textit{\textbf{Seznam zpráv}}		&					\\
+		Následující nepřečtená zpráva		& \textbf{.} nebo \textbf{]}		\\
+		\vspace{1.5mm}
+		Předchozí nepřečtená zpráva		& \textbf{,} nebo \textbf{[}		\\
+		\textit{\textbf{Panel náhledu}}		&					\\
+		Odpovědět odesílateli			& \textbf{Ctrl+R}			\\
+		Odpovědět do konference			& \textbf{Ctrl+L}			\\
+		Odpovědět všem		 		& \textbf{Shift+Ctrl+R}			\\
+		Posunout nahoru				& \textbf{Backspace}			\\
+		Posunout dolů				& \textbf{Mezerník}			\\
+	\end{tabular*}
+	\section*{Komponenta kalendáře/úkolů}
+	\begin{tabular*}{4in}{rp{1.5in}}
+		\textit{\textbf{Obecné příkazy}}	&					\\
+		Nová událost				& \textbf{Shift+Ctrl+A}			\\
+		Nová schůzka				& \textbf{Shift+Ctrl+E}			\\
+		\vspace{1.5mm}
+		Nový úkol				& \textbf{Shift+Ctrl+T}			\\
+%		\vspace{1.5mm}
+%		Expunge/Purge old schedules		& \textbf{Ctrl+E}			\\
+		\textit{\textbf{Navigace}}		&					\\
+		Jít na dnešek				& \textbf{Ctrl+T}			\\
+		Jít na datum				& \textbf{Ctrl+G}			\\
+	\end{tabular*}
+	\end{multicols}
+	\end{center}
+	\end{landscape}
+ \end{document}
