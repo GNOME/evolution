@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: oc\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution&component=general\n"
 "POT-Creation-Date: 2008-12-30 13:14+0000\n"
-"PO-Revision-Date: 2009-01-01 23:41+0100\n"
+"PO-Revision-Date: 2009-01-02 11:31+0100\n"
 "Last-Translator: Yannig Marchegay <yannig@marchegay.org>\n"
 "Language-Team: Occitan <>\n"
 "MIME-Version: 1.0\n"
@@ -427,9 +427,8 @@ msgid "Some features may not work properly with your current server"
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:21
-#, fuzzy
 msgid "The Evolution address book has quit unexpectedly."
-msgstr "quasernet d'adreças d'evolution"
+msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:22
 msgid "The image you have selected is large. Do you want to resize and store it?"
@@ -443,7 +442,6 @@ msgid ""
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:24
-#, fuzzy
 msgid "This address book could not be opened."
 msgstr "Impossible de dobrir aqueste quasernet d'adreças."
 
@@ -466,7 +464,6 @@ msgid "This server does not support LDAPv3 schema information."
 msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:29
-#, fuzzy
 msgid "Unable to open address book"
 msgstr "Impossible de dobrir de quasernet d'adreças"
 
@@ -549,7 +546,6 @@ msgstr ""
 
 #: ../addressbook/conduit/address-conduit.c:1321
 #: ../addressbook/conduit/address-conduit.c:1322
-#, fuzzy
 msgid "Could not load address book"
 msgstr "Impossible de cargar lo quasernet d'adreças"
 
@@ -654,7 +650,6 @@ msgid "On LDAP Servers"
 msgstr "Suls servidors LDAP"
 
 #: ../addressbook/gui/component/addressbook-component.c:229
-#, fuzzy
 msgctxt "New"
 msgid "_Contact"
 msgstr "_Contacte"
@@ -664,7 +659,6 @@ msgid "Create a new contact"
 msgstr "Crear un contacte novèl"
 
 #: ../addressbook/gui/component/addressbook-component.c:237
-#, fuzzy
 msgctxt "New"
 msgid "Contact _List"
 msgstr "_Tièra de contactes"
@@ -679,7 +673,6 @@ msgid "New Address Book"
 msgstr "Quasernet d'adreças novèl"
 
 #: ../addressbook/gui/component/addressbook-component.c:245
-#, fuzzy
 msgctxt "New"
 msgid "Address _Book"
 msgstr "_Quasernet d'adreças"
@@ -749,7 +742,7 @@ msgstr "Descarga"
 #: ../addressbook/gui/component/addressbook-config.c:1221
 #: ../addressbook/gui/component/ldap-config.glade.h:11
 msgid "Address Book Properties"
-msgstr "Propietats del quasernet d'adreças"
+msgstr "Proprietats del quasernet d'adreças"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:74
 #: ../calendar/gui/migration.c:148 ../mail/em-migrate.c:1207
@@ -758,7 +751,7 @@ msgstr "Migracion..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:126
 #: ../calendar/gui/migration.c:195 ../mail/em-migrate.c:1247
-#, fuzzy, c-format
+#, c-format
 msgid "Migrating '%s':"
 msgstr "Migracion de '%s' :"
 
@@ -850,7 +843,7 @@ msgstr "_Suprimir"
 #: ../composer/e-msg-composer.c:1042 ../mail/em-folder-tree.c:2138
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:38
 msgid "_Properties"
-msgstr "_Propietats"
+msgstr "_Proprietats"
 
 #: ../addressbook/gui/component/addressbook-view.c:1225
 msgid "Contact Source Selector"
@@ -939,9 +932,8 @@ msgid "Always _show address of the autocompleted contact"
 msgstr ""
 
 #: ../addressbook/gui/component/autocompletion-config.c:180
-#, fuzzy
 msgid "Look up in address books"
-msgstr "quasernet d'adreças d'evolution"
+msgstr ""
 
 #: ../addressbook/gui/component/ldap-config.glade.h:1
 msgid "1"
@@ -1310,9 +1302,8 @@ msgstr "Es_cais :"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:55
-#, fuzzy
 msgid "Novell GroupWise"
-msgstr "GroupWise"
+msgstr "Novell GroupWise"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
 msgid "Novell Groupwise"
@@ -2474,9 +2465,8 @@ msgstr "ICQ"
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:61
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:183
 #: ../addressbook/gui/widgets/eab-contact-display.c:622
-#, fuzzy
 msgid "Skype"
-msgstr "Tipe"
+msgstr "Skype"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:151
 msgid "Service"
@@ -3235,7 +3225,6 @@ msgid "Column Width"
 msgstr "Largor de la colomna"
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:178
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -3243,7 +3232,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Recercar lo contacte."
+"Recèrcar de contacte..."
 
 #: ../addressbook/gui/widgets/e-minicard-view.c:181
 msgid ""
@@ -3555,9 +3544,8 @@ msgid ""
 msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:148
-#, fuzzy
 msgid "Detailed error message:"
-msgstr "_Suprimir lo messatge"
+msgstr ""
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:171
 msgid ""
@@ -3726,9 +3714,8 @@ msgid "Show Compact vCard"
 msgstr ""
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:282
-#, fuzzy
 msgid "Save in address book"
-msgstr "Enregistrar dins un quasernet d'adreças"
+msgstr "Enregistrar dins lo quasernet d'adreças"
 
 #: ../addressbook/gui/widgets/gal-view-factory-minicard.c:37
 msgid "Card View"
@@ -3989,7 +3976,6 @@ msgid "Can not open file"
 msgstr "Impossible de dobrir lo fichièr"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:44
-#, fuzzy
 msgid "Couldn't get list of address books"
 msgstr "Impossible d'obténer la tièra dels quasernets d'adreças"
 
@@ -4006,9 +3992,8 @@ msgid "OUTPUTFILE"
 msgstr ""
 
 #: ../addressbook/tools/evolution-addressbook-export.c:52
-#, fuzzy
 msgid "List local address book folders"
-msgstr "Crear un repertòri de quasernet d'adreças"
+msgstr ""
 
 #: ../addressbook/tools/evolution-addressbook-export.c:55
 msgid "Show cards as vcard or csv file"
@@ -4250,11 +4235,8 @@ msgstr "Error al moment de cargar la tièra de prètzfaches"
 
 #. For Translators: {0} is specify the backend server
 #: ../calendar/calendar.error.xml.h:44
-#, fuzzy
 msgid "Error on '{0}'"
 msgstr ""
-"Error dins %s :\n"
-" %s"
 
 #: ../calendar/calendar.error.xml.h:45
 msgid ""
@@ -4285,19 +4267,16 @@ msgid "No response from the server."
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:49
-#, fuzzy
 msgid "Save Appointment"
-msgstr "Rendètz-vos novèl"
+msgstr ""
 
 #: ../calendar/calendar.error.xml.h:50
-#, fuzzy
 msgid "Save Memo"
-msgstr "Memò _partejat"
+msgstr ""
 
 #: ../calendar/calendar.error.xml.h:51
-#, fuzzy
 msgid "Save Task"
-msgstr "Enregistrar coma..."
+msgstr "Enregistrar lo prètzfach"
 
 #: ../calendar/calendar.error.xml.h:52
 msgid ""
@@ -4332,9 +4311,8 @@ msgid "The Evolution calendar has quit unexpectedly."
 msgstr ""
 
 #: ../calendar/calendar.error.xml.h:59
-#, fuzzy
 msgid "The Evolution calendars have quit unexpectedly."
-msgstr "element de calendièr d'Evolution"
+msgstr ""
 
 #: ../calendar/calendar.error.xml.h:60
 msgid "The Evolution memo has quit unexpectedly."
@@ -5304,7 +5282,6 @@ msgid "New appointment"
 msgstr "Rendètz-vos novèl"
 
 #: ../calendar/gui/calendar-component.c:1522
-#, fuzzy
 msgctxt "New"
 msgid "_Appointment"
 msgstr "_Rendètz-vos"
@@ -5318,7 +5295,6 @@ msgid "New meeting"
 msgstr "Amassada novèla"
 
 #: ../calendar/gui/calendar-component.c:1530
-#, fuzzy
 msgctxt "New"
 msgid "M_eeting"
 msgstr "A_massada"
@@ -5332,7 +5308,6 @@ msgid "New all day appointment"
 msgstr "Rendètz-vos novèl per tota la jornada"
 
 #: ../calendar/gui/calendar-component.c:1538
-#, fuzzy
 msgctxt "New"
 msgid "All Day A_ppointment"
 msgstr "Rendètz-vos _per tota la jornada"
@@ -5346,7 +5321,6 @@ msgid "New calendar"
 msgstr "Calendièr novèl"
 
 #: ../calendar/gui/calendar-component.c:1546
-#, fuzzy
 msgctxt "New"
 msgid "Cale_ndar"
 msgstr "Cale_ndièr"
@@ -5914,7 +5888,7 @@ msgstr "Tièra de memòs"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:476
 msgid "Calendar Properties"
-msgstr "Propietats del calendièr"
+msgstr "Proprietats del calendièr"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:476
 msgid "New Calendar"
@@ -5930,7 +5904,7 @@ msgstr "Tièra de prètzfaches novèla"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:588
 msgid "Memo List Properties"
-msgstr "Propietats de la tièra de memòs"
+msgstr "Proprietats de la tièra de memòs"
 
 #: ../calendar/gui/dialogs/calendar-setup.c:588
 msgid "New Memo List"
@@ -6072,9 +6046,8 @@ msgid "Memo - %s"
 msgstr "Memòs - %s"
 
 #: ../calendar/gui/dialogs/comp-editor.c:974
-#, fuzzy
 msgid "No Summary"
-msgstr "Resumit"
+msgstr "Pas de resumit"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1115
 msgid "Keep original item?"
@@ -6125,9 +6098,8 @@ msgid "_Help"
 msgstr "_Ajuda"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1401
-#, fuzzy
 msgid "_Insert"
-msgstr "I_nserir"
+msgstr "_Inserir"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1408
 msgid "_Options"
@@ -6178,7 +6150,6 @@ msgid "_Private"
 msgstr "_Privat"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1463
-#, fuzzy
 msgid "Classify as private"
 msgstr "Classificar coma privat"
 
@@ -6187,7 +6158,6 @@ msgid "_Confidential"
 msgstr "_Confidencial"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1470
-#, fuzzy
 msgid "Classify as confidential"
 msgstr "Classificar coma confidencial"
 
@@ -6397,9 +6367,8 @@ msgid "Toggles whether to have All Day Event"
 msgstr ""
 
 #: ../calendar/gui/dialogs/event-editor.c:227
-#, fuzzy
 msgid "Show Time as _Busy"
-msgstr "Visualizar la _barra laterala"
+msgstr ""
 
 #: ../calendar/gui/dialogs/event-editor.c:229
 msgid "Toggles whether to show time as busy"
@@ -6994,7 +6963,6 @@ msgid "Categor_ies..."
 msgstr "Categor_ias..."
 
 #: ../calendar/gui/dialogs/task-page.glade.h:3
-#, fuzzy
 msgid "D_ue date:"
 msgstr "Data de _tèrme :"
 
@@ -7232,9 +7200,8 @@ msgid "Open in %s..."
 msgstr "Dobrir dins %s..."
 
 #: ../calendar/gui/e-calendar-table.c:337
-#, fuzzy
 msgid "* No Summary *"
-msgstr "Resumit"
+msgstr "* Pas de resumit *"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
 #: ../calendar/gui/e-calendar-table.c:373
@@ -7252,14 +7219,12 @@ msgid "Organizer: %s"
 msgstr "Organizaire : %s"
 
 #: ../calendar/gui/e-calendar-table.c:407
-#, fuzzy
 msgid "Start: "
-msgstr "Aviar"
+msgstr "Aviar :"
 
 #: ../calendar/gui/e-calendar-table.c:419
-#, fuzzy
 msgid "Due: "
-msgstr "Tèrme"
+msgstr "Tèrme :"
 
 #: ../calendar/gui/e-calendar-table.c:599
 msgid "0%"
@@ -7535,9 +7500,8 @@ msgid "Delegated"
 msgstr ""
 
 #: ../calendar/gui/e-calendar-view.c:2227
-#, fuzzy
 msgid "Needs action"
-msgstr "Seleccionatz un emplaçament"
+msgstr ""
 
 #. To Translators: It will display "Location: PlaceOfTheMeeting"
 #: ../calendar/gui/e-calendar-view.c:2388 ../calendar/gui/print.c:2510
@@ -7655,7 +7619,7 @@ msgstr[0] "Cada an"
 msgstr[1] "Cada %d ans"
 
 #: ../calendar/gui/e-itip-control.c:874
-#, fuzzy, c-format
+#, c-format
 msgid "a total of %d time"
 msgid_plural "a total of %d times"
 msgstr[0] "un total de %d còp"
@@ -8445,7 +8409,6 @@ msgid "New memo"
 msgstr "Memò novèl"
 
 #: ../calendar/gui/memos-component.c:1176
-#, fuzzy
 msgctxt "New"
 msgid "Mem_o"
 msgstr "M_emò"
@@ -8459,7 +8422,6 @@ msgid "New shared memo"
 msgstr "Memò partejat novèl"
 
 #: ../calendar/gui/memos-component.c:1184
-#, fuzzy
 msgctxt "New"
 msgid "_Shared memo"
 msgstr "Memò _partejat"
@@ -8473,7 +8435,6 @@ msgid "New memo list"
 msgstr "Tièra de memòs novèla"
 
 #: ../calendar/gui/memos-component.c:1192
-#, fuzzy
 msgctxt "New"
 msgid "Memo li_st"
 msgstr "Tiè_ra de memòs"
@@ -8761,7 +8722,6 @@ msgid "New task"
 msgstr "Prètzfach novèl"
 
 #: ../calendar/gui/tasks-component.c:1240
-#, fuzzy
 msgctxt "New"
 msgid "_Task"
 msgstr "_Prètzfach"
@@ -8775,10 +8735,9 @@ msgid "New assigned task"
 msgstr ""
 
 #: ../calendar/gui/tasks-component.c:1248
-#, fuzzy
 msgctxt "New"
 msgid "Assigne_d Task"
-msgstr "Prètzfaches actius"
+msgstr ""
 
 #: ../calendar/gui/tasks-component.c:1249
 msgid "Create a new assigned task"
@@ -8789,10 +8748,9 @@ msgid "New task list"
 msgstr "Tièra de prètzfaches novèla"
 
 #: ../calendar/gui/tasks-component.c:1256
-#, fuzzy
 msgctxt "New"
 msgid "Tas_k list"
-msgstr "Tièra de prètzfaches novèla"
+msgstr "Tièra de prèt_zfaches"
 
 #: ../calendar/gui/tasks-component.c:1257
 msgid "Create a new task list"
@@ -10482,9 +10440,8 @@ msgid "Save the current file with a different name"
 msgstr "Enregistra lo fichièr actual jos un autre nom"
 
 #: ../composer/e-composer-actions.c:511
-#, fuzzy
 msgid "Save as _Draft"
-msgstr "Enregistrar coma borrolhon"
+msgstr "Enregistrar coma _borrolhon"
 
 #: ../composer/e-composer-actions.c:513
 msgid "Save as draft"
@@ -10503,14 +10460,12 @@ msgid "Insert Send options"
 msgstr "Inserir d'opcions de mandadís"
 
 #: ../composer/e-composer-actions.c:532
-#, fuzzy
 msgid "New _Message"
-msgstr "_Messatge"
+msgstr "_Messatge novèl"
 
 #: ../composer/e-composer-actions.c:534
-#, fuzzy
 msgid "Open New Message window"
-msgstr "_Enviar un messatge novèl a..."
+msgstr "Dobrir una fenèstra de messatge novèl"
 
 #: ../composer/e-composer-actions.c:541
 msgid "Character _Encoding"
@@ -10625,9 +10580,8 @@ msgid "Toggles whether the To field is displayed"
 msgstr ""
 
 #: ../composer/e-composer-actions.c:699
-#, fuzzy
 msgid "Save Draft"
-msgstr "Enregistrar lo _borrolhon"
+msgstr "Enregistrar lo borrolhon"
 
 #: ../composer/e-composer-header-table.c:64
 msgid "Enter the recipients of the message"
@@ -10849,9 +10803,8 @@ msgid "You need to configure an account before you can compose mail."
 msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:29
-#, fuzzy
 msgid "_Continue Editing"
-msgstr "Contunhar"
+msgstr "_Contunhar a modificar"
 
 #: ../composer/mail-composer.error.xml.h:31
 msgid "_Do not Recover"
@@ -10862,9 +10815,8 @@ msgid "_Recover"
 msgstr ""
 
 #: ../composer/mail-composer.error.xml.h:33
-#, fuzzy
 msgid "_Save Draft"
-msgstr "Enregistrar lo _borrolhon"
+msgstr "_Enregistrar lo borrolhon"
 
 #: ../data/evolution.desktop.in.in.h:1
 msgid "Evolution Mail and Calendar"
@@ -11026,9 +10978,8 @@ msgid "_Overwrite"
 msgstr "_Remplaçar"
 
 #: ../e-util/e-util.c:119
-#, fuzzy
 msgid "Could not display help for Evolution."
-msgstr "Impossible de metre a jorn las permissions del repertòri."
+msgstr "Impossible de visualizar l'ajuda d'Evolucion."
 
 #: ../e-util/e-util-labels.c:39
 msgid "I_mportant"
@@ -11219,17 +11170,14 @@ msgid "Find items that meet the following conditions"
 msgstr ""
 
 #: ../filter/filter-rule.c:915
-#, fuzzy
 msgid "A_dd Condition"
-msgstr "Apondre una ac_cion"
+msgstr "Apon_dre un critèri"
 
 #: ../filter/filter-rule.c:921
-#, fuzzy
 msgid "If all conditions are met"
 msgstr "Se totes los criteris son respectats"
 
 #: ../filter/filter-rule.c:921
-#, fuzzy
 msgid "If any conditions are met"
 msgstr "Se al mens un criteri es respectat"
 
@@ -11810,9 +11758,8 @@ msgid "Sender"
 msgstr "Expeditor"
 
 #: ../mail/em-filter-i18n.h:62
-#, fuzzy
 msgid "Sender or Recipients"
-msgstr "Enviar l'acusé"
+msgstr "Expedidor o destinatari"
 
 #: ../mail/em-filter-i18n.h:63
 msgid "Set Label"
@@ -11952,7 +11899,7 @@ msgstr "Brústia de recepcion"
 #: ../mail/em-folder-properties.c:390
 #: ../plugins/groupwise-features/properties.glade.h:4
 msgid "Folder Properties"
-msgstr "Propietats del repertòri"
+msgstr "Proprietats del repertòri"
 
 #: ../mail/em-folder-selection-button.c:120
 msgid "<click here to select a folder>"
@@ -11983,9 +11930,8 @@ msgstr "Borrolhons"
 
 #: ../mail/em-folder-tree-model.c:506 ../mail/mail-component.c:168
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
-#, fuzzy
 msgid "Templates"
-msgstr "Modèl :"
+msgstr "Modèls"
 
 #: ../mail/em-folder-tree-model.c:512 ../mail/mail-component.c:166
 msgid "Outbox"
@@ -12015,10 +11961,10 @@ msgstr "Cargament..."
 #. * from your translation.
 #.
 #: ../mail/em-folder-tree.c:380
-#, fuzzy, c-format
+#, c-format
 msgctxt "folder-display"
 msgid "%s (%u)"
-msgstr "%s (...)"
+msgstr "%s (%u)"
 
 #: ../mail/em-folder-tree.c:741
 msgid "Mail Folder Tree"
@@ -12087,9 +12033,8 @@ msgid "_Empty Trash"
 msgstr "_Voidar la banasta"
 
 #: ../mail/em-folder-tree.c:2243
-#, fuzzy
 msgid "_Unread Search Folder"
-msgstr "Crear un repertòri de _recèrca"
+msgstr "Repertòri de recèrca de messatges _pas legits"
 
 #: ../mail/em-folder-utils.c:101
 #, c-format
@@ -13792,7 +13737,6 @@ msgid "New Mail Message"
 msgstr "Messatge electronic novèl"
 
 #: ../mail/mail-component.c:928
-#, fuzzy
 msgctxt "New"
 msgid "_Mail Message"
 msgstr "Messatge _electronic"
@@ -13806,7 +13750,6 @@ msgid "New Mail Folder"
 msgstr ""
 
 #: ../mail/mail-component.c:936
-#, fuzzy
 msgctxt "New"
 msgid "Mail _Folder"
 msgstr "_Repertòri de messatges electronics"
@@ -14123,7 +14066,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:87
 msgid "Font Properties"
-msgstr "Propietats de la poliça"
+msgstr "Proprietats de la poliça"
 
 #: ../mail/mail-config.glade.h:88
 msgid "Format messages in _HTML"
@@ -14283,9 +14226,8 @@ msgid "S_tandard Font:"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:133
-#, fuzzy
 msgid "Select Drafts Folder"
-msgstr "Seleccionar un repertòri"
+msgstr "Seleccionar lo repertòri de borrolhons"
 
 #: ../mail/mail-config.glade.h:134
 msgid "Select HTML fixed width font"
@@ -14304,9 +14246,8 @@ msgid "Select HTML variable width font for printing"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:138
-#, fuzzy
 msgid "Select Sent Folder"
-msgstr "Seleccionar un repertòri"
+msgstr "Seleccionar lo repertòri de mandadís"
 
 #: ../mail/mail-config.glade.h:140
 msgid "Sending Mail"
@@ -14434,9 +14375,8 @@ msgid "_Load images in messages from contacts"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:174
-#, fuzzy
 msgid "_Lookup in local address book only"
-msgstr "Impossible de cargar lo quasernet d'adreças"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:175
 msgid "_Make this my default account"
@@ -14749,7 +14689,7 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: ../mail/mail-ops.c:2010
-#, fuzzy, c-format
+#, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] "Enregistrament de %d messatge"
@@ -15575,9 +15515,8 @@ msgid "Size"
 msgstr "Talha"
 
 #: ../mail/message-list.etspec.h:19
-#, fuzzy
 msgid "Subject - Trimmed"
-msgstr "Zòna de _subjècte"
+msgstr ""
 
 #: ../mail/message-tag-followup.c:56
 msgid "Call"
@@ -15636,9 +15575,8 @@ msgid "Subject contains"
 msgstr "Dins lo tèma, i a"
 
 #: ../mail/searchtypes.xml.h:6
-#, fuzzy
 msgid "Subject or Recipients contains"
-msgstr "Dins lo tèma o l'expedidor, i a"
+msgstr "Dins lo tèma o los destinataris, i a"
 
 #: ../mail/searchtypes.xml.h:7
 msgid "Subject or Sender contains"
@@ -15884,9 +15822,8 @@ msgid "Please select a valid backup file to restore."
 msgstr ""
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
-#, fuzzy
 msgid "The selected folder is not writable."
-msgstr "Copiar lo repertòri seleccionat dins un autre repertòri"
+msgstr "Se pòt pas escriure dins lo repertòri seleccionat."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:8
 msgid ""
@@ -16065,19 +16002,16 @@ msgid "Weather: Cloudy"
 msgstr "Meteò : nivolós"
 
 #: ../plugins/calendar-weather/calendar-weather.c:63
-#, fuzzy
 msgid "Weather: Cloudy Night"
-msgstr "Meteò : nivolós"
+msgstr "Metèo : nuèch nivolosa"
 
 #: ../plugins/calendar-weather/calendar-weather.c:64
-#, fuzzy
 msgid "Weather: Overcast"
-msgstr "Meteò : pluèja"
+msgstr ""
 
 #: ../plugins/calendar-weather/calendar-weather.c:65
-#, fuzzy
 msgid "Weather: Showers"
-msgstr "Meteò : nèu"
+msgstr ""
 
 #: ../plugins/calendar-weather/calendar-weather.c:66
 msgid "Weather: Snow"
@@ -16088,9 +16022,8 @@ msgid "Weather: Sunny"
 msgstr "Meteò : solelh"
 
 #: ../plugins/calendar-weather/calendar-weather.c:68
-#, fuzzy
 msgid "Weather: Clear Night"
-msgstr "Calendièrs meteò"
+msgstr ""
 
 #: ../plugins/calendar-weather/calendar-weather.c:69
 msgid "Weather: Thunderstorms"
@@ -16187,9 +16120,8 @@ msgid "_Custom Header"
 msgstr "Encap _personalizat"
 
 #: ../plugins/email-custom-header/email-custom-header.c:881
-#, fuzzy
 msgid "Key"
-msgstr "Kenia"
+msgstr ""
 
 #: ../plugins/email-custom-header/email-custom-header.c:892
 #: ../plugins/templates/templates.c:396
@@ -16219,9 +16151,8 @@ msgid "Custom Header"
 msgstr "Encap personalizat"
 
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:1
-#, fuzzy
 msgid "List of Custom Headers"
-msgstr "Encaps personalizats"
+msgstr "Tièra dels encaps personalizats"
 
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:2
 msgid ""
@@ -16707,7 +16638,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:11
 msgid "Folder owner"
-msgstr "Propietari del repertòri"
+msgstr "Proprietari del repertòri"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:12
 msgid "Folder visible"
@@ -17151,9 +17082,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:1
-#, fuzzy
 msgid "Compose in _External Editor"
-msgstr "Escriure dins un editor extèrne"
+msgstr "Escriure dins un editor _extèrne"
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:2
 msgid "Compose messages using an external editor"
@@ -17226,9 +17156,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/google-account-setup/google-source.c:702
-#, fuzzy
 msgid "Cal_endar:"
-msgstr "_Calendièr :"
+msgstr "Cal_endièr :"
 
 #: ../plugins/google-account-setup/google-source.c:737
 msgid "Retrieve _list"
@@ -17236,14 +17165,12 @@ msgstr ""
 
 #: ../plugins/google-account-setup/google-contacts-source.c:278
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:300
-#, fuzzy
 msgid "<b>Server</b>"
-msgstr "<b>Sòcis</b>"
+msgstr "<b>Servidor</b>"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin to setup Google Calendar and Contacts."
-msgstr "Un ajuston per configurar lo calendièr google."
+msgstr ""
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:2
 msgid "Google sources"
@@ -17254,14 +17181,12 @@ msgid "Checklist"
 msgstr ""
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin to setup GroupWise calendar and contacts sources."
-msgstr "Un ajuston per configurar lo calendièr google."
+msgstr ""
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:2
-#, fuzzy
 msgid "GroupWise Account Setup"
-msgstr "Configuracion del compte Hula"
+msgstr "Configuracion del compte GroupWise"
 
 #: ../plugins/groupwise-features/install-shared.c:220
 #, c-format
@@ -17344,12 +17269,10 @@ msgid "Add Send Options to GroupWise messages"
 msgstr ""
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin for the features in GroupWise accounts."
 msgstr "Un ajuston per las foncions dels comptes Groupwise."
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
-#, fuzzy
 msgid "GroupWise Features"
 msgstr "Foncions de Groupwise"
 
@@ -17396,11 +17319,10 @@ msgid "Account Already Exists"
 msgstr "Lo compte existís ja"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:4
-#, fuzzy
 msgid ""
 "Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email "
 "address and try again."
-msgstr "Un repertòri que s'apèla \"{0}\" existís ja. Utilisatz un autre nom."
+msgstr ""
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:3
 msgid "This is a recurring meeting"
@@ -17408,22 +17330,17 @@ msgstr ""
 
 #. Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting")
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:5
-#, fuzzy
 msgid "Would you like to accept it?"
-msgstr "De que volètz {0} ?"
+msgstr "Lo volètz acceptar ?"
 
 #. Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting")
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:7
-#, fuzzy
 msgid "Would you like to decline it?"
-msgstr "Volètz enregistrar vòstras modificacions ?"
+msgstr ""
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:8
-#, fuzzy
 msgid "You cannot share this folder with the specified user &quot;{0}&quot;"
-msgstr ""
-"Podètz pas partejar un repertòri que l'utilizaire especific es &quot;{0}"
-"&quot;"
+msgstr "Podètz pas partejar aqueste repertòri amb l'utilizaire &quot;{0}&quot;"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:9
 msgid "You have to specify a user name which you want to add to the list"
@@ -17553,9 +17470,8 @@ msgid "The Proxy tab will be available only when the account is enabled."
 msgstr ""
 
 #: ../plugins/groupwise-features/send-options.c:214
-#, fuzzy
 msgid "Advanced send options"
-msgstr "Inserir d'opcions de mandadís"
+msgstr "Opcions avançadas de mandadís"
 
 #: ../plugins/groupwise-features/share-folder-common.c:321
 #: ../plugins/groupwise-features/share-folder.c:751
@@ -18460,11 +18376,10 @@ msgid "Generates a D-Bus message when new mail messages arrive."
 msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
-#, fuzzy
 msgid ""
 "If \"true\", then beep, otherwise will play sound file when new messages "
 "arrive."
-msgstr "Legir un son quand de messatges novèls arriban."
+msgstr ""
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Notify new messages for Inbox only."
@@ -18511,14 +18426,12 @@ msgid "Generate a _D-Bus message"
 msgstr ""
 
 #: ../plugins/mail-notification/mail-notification.c:379
-#, fuzzy
 msgid "Evolution's Mail Notification"
-msgstr "Notificacion personalizada"
+msgstr ""
 
 #: ../plugins/mail-notification/mail-notification.c:400
-#, fuzzy
 msgid "Mail Notification Properties"
-msgstr "Propietats de la tièra de memòs"
+msgstr ""
 
 #. To translators: '%d' is the number of mails recieved and '%s' is the name of the folder
 #: ../plugins/mail-notification/mail-notification.c:479
@@ -18796,9 +18709,8 @@ msgid "_Unsubscribe from List"
 msgstr ""
 
 #: ../plugins/mark-all-read/mark-all-read.c:39
-#, fuzzy
 msgid "Also mark messages in subfolders?"
-msgstr "Desplaçament dels messatges dins lo repertòri %s"
+msgstr "Seleccionar tanben los messatges dels josrepertòris ?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:41
 msgid ""
@@ -18933,9 +18845,8 @@ msgid "_Publish Calendar Information"
 msgstr "_Publicar las entresenhas del calendièr"
 
 #: ../plugins/publish-calendar/publish-calendar.c:596
-#, fuzzy
 msgid "Are you sure you want to remove this location?"
-msgstr "Sètz segur que volètz suprimir aquesta URL ?"
+msgstr "Sètz segur que volètz suprimir aqueste emplaçament ?"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:2
 msgid "<span weight=\"bold\">Location</span>"
@@ -19015,14 +18926,12 @@ msgstr ""
 "Liure/ocupat"
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:461
-#, fuzzy
 msgid "New Location"
-msgstr "Emplaçament"
+msgstr "Emplaçament novèl"
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:463
-#, fuzzy
 msgid "Edit Location"
-msgstr "Emplaçament"
+msgstr "Modificar l'emplaçament"
 
 #
 #: ../plugins/python/example/org-gnome-hello-python-ui.xml.h:1
@@ -19104,7 +19013,6 @@ msgid ""
 msgstr ""
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
-#, fuzzy
 msgid "SpamAssassin Options"
 msgstr "Opcions de Spamassassin"
 
@@ -19278,9 +19186,8 @@ msgid "Guides you through your initial account setup."
 msgstr ""
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:2
-#, fuzzy
 msgid "Setup Assistant"
-msgstr "Assistent"
+msgstr "Assistent de configuracion"
 
 #: ../plugins/startup-wizard/startup-wizard.c:85
 msgid "Evolution Setup Assistant"
@@ -20520,11 +20427,11 @@ msgstr ""
 
 #: ../ui/evolution-addressbook.xml.h:1
 msgid "Address _Book Properties"
-msgstr "Propietats del _quasernet d'adreças"
+msgstr "Proprietats del _quasernet d'adreças"
 
 #: ../ui/evolution-addressbook.xml.h:3
 msgid "Change the properties of the selected folder"
-msgstr "Modificar las propietats del repertòri seleccionat"
+msgstr "Modificar las proprietats del repertòri seleccionat"
 
 #: ../ui/evolution-addressbook.xml.h:4
 msgid "Co_py All Contacts To..."
@@ -20966,7 +20873,7 @@ msgstr "Modificar lo nom d'aqueste repertòri"
 
 #: ../ui/evolution-mail-list.xml.h:2
 msgid "Change the properties of this folder"
-msgstr "Modificar las propietats d'aqueste repertòri"
+msgstr "Modificar las proprietats d'aqueste repertòri"
 
 #: ../ui/evolution-mail-list.xml.h:3
 msgid "Collapse All _Threads"
@@ -22049,7 +21956,7 @@ msgstr ""
 
 #: ../widgets/misc/e-attachment.glade.h:1
 msgid "Attachment Properties"
-msgstr "Propietats dels fichièrs junts"
+msgstr "Proprietats dels fichièrs junts"
 
 #: ../widgets/misc/e-attachment.glade.h:3
 msgid "File name:"
