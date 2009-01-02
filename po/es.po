@@ -9,15 +9,15 @@
 # Héctor García Álvarez <hector@scouts-es.org>, 2002.
 # Pablo Gonzalo del Campo <pablodc@bigfoot.com>,2003 (revisión).
 # Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003, 2004, 2005, 2006.
-# Jorge González <jorgegonz@svn.gnome.org>, 2007, 2008.
-#: ../shell/main.c:594
+# Jorge González <jorgegonz@svn.gnome.org>, 2007, 200, 2009.
+#: ../shell/main.c:596
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=evolution&amp;component=general\n"
-"POT-Creation-Date: 2008-12-18 12:32+0000\n"
-"PO-Revision-Date: 2008-12-18 19:54+0100\n"
+"product=evolution&component=general\n"
+"POT-Creation-Date: 2008-12-30 13:14+0000\n"
+"PO-Revision-Date: 2009-01-02 15:07+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -661,7 +661,7 @@ msgstr "Gestione sus certificados S/MIME aquí"
 #: ../calendar/gui/memos-component.c:199 ../calendar/gui/migration.c:475
 #: ../calendar/gui/migration.c:577 ../calendar/gui/migration.c:1091
 #: ../calendar/gui/tasks-component.c:195 ../mail/em-folder-tree-model.c:200
-#: ../mail/em-folder-tree-model.c:202 ../mail/em-migrate.c:2906
+#: ../mail/em-folder-tree-model.c:202 ../mail/em-migrate.c:2967
 #: ../mail/mail-component.c:316 ../mail/mail-vfolder.c:223
 #: ../mail/message-list.c:1516
 msgid "On This Computer"
@@ -892,7 +892,7 @@ msgstr "_Borrar"
 
 #: ../addressbook/gui/component/addressbook-view.c:959
 #: ../calendar/gui/calendar-component.c:668
-#: ../calendar/gui/dialogs/comp-editor.c:2045
+#: ../calendar/gui/dialogs/comp-editor.c:2087
 #: ../calendar/gui/memos-component.c:509 ../calendar/gui/tasks-component.c:500
 #: ../composer/e-msg-composer.c:1042 ../mail/em-folder-tree.c:2138
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:38
@@ -3016,7 +3016,7 @@ msgid "Save as vCard..."
 msgstr "Guardar como vCard…"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:934
-#: ../calendar/gui/dialogs/comp-editor.c:2043
+#: ../calendar/gui/dialogs/comp-editor.c:2085
 #: ../calendar/gui/e-calendar-table.c:1587
 #: ../calendar/gui/e-calendar-view.c:1746 ../calendar/gui/e-memo-table.c:923
 #: ../ui/evolution-addressbook.xml.h:56
@@ -4778,7 +4778,7 @@ msgid "_Dismiss"
 msgstr "_Descartar"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:5
-#: ../calendar/gui/dialogs/comp-editor.c:1338
+#: ../calendar/gui/dialogs/comp-editor.c:1380
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:10
 #: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:170
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:15
@@ -6260,7 +6260,7 @@ msgid "Cancel _Drag"
 msgstr "Cancelar _arrastre"
 
 #: ../calendar/gui/dialogs/comp-editor.c:622
-#: ../calendar/gui/dialogs/comp-editor.c:3260 ../mail/em-utils.c:372
+#: ../calendar/gui/dialogs/comp-editor.c:3302 ../mail/em-utils.c:372
 #: ../plugins/prefer-plain/prefer-plain.c:91
 #: ../widgets/misc/e-attachment-bar.c:453
 msgid "attachment"
@@ -6303,173 +6303,177 @@ msgstr "Nota - %s"
 msgid "No Summary"
 msgstr "Sin resumen"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1268
+#: ../calendar/gui/dialogs/comp-editor.c:1115
+msgid "Keep original item?"
+msgstr "¿Mantener el elemento original?"
+
+#: ../calendar/gui/dialogs/comp-editor.c:1310
 msgid "Click here to close the current window"
 msgstr "Pulse aquí para cerrar la ventana actual"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1275
+#: ../calendar/gui/dialogs/comp-editor.c:1317
 msgid "Copy selected text to the clipboard"
 msgstr "Copia el texto seleccionado al portapapeles"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1282
+#: ../calendar/gui/dialogs/comp-editor.c:1324
 msgid "Cut selected text to the clipboard"
 msgstr "Corta el texto seleccionado al portapapeles"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1289
+#: ../calendar/gui/dialogs/comp-editor.c:1331
 msgid "Click here to view help available"
 msgstr "Pulse aquí para ver la ayuda disponible"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1296
+#: ../calendar/gui/dialogs/comp-editor.c:1338
 msgid "Paste text from the clipboard"
 msgstr "Pega texto desde el portapapeles"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1317
+#: ../calendar/gui/dialogs/comp-editor.c:1359
 msgid "Click here to save the current window"
 msgstr "Pulse aquí para guardar la vista actual"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1324
+#: ../calendar/gui/dialogs/comp-editor.c:1366
 msgid "Select all text"
 msgstr "Selecciona todo el texto"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1331
+#: ../calendar/gui/dialogs/comp-editor.c:1373
 msgid "_Classification"
 msgstr "_Clasificación"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1345
+#: ../calendar/gui/dialogs/comp-editor.c:1387
 #: ../mail/mail-signature-editor.c:208
 #: ../ui/evolution-mail-messagedisplay.xml.h:6 ../ui/evolution.xml.h:43
 msgid "_File"
 msgstr "_Archivo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1352
+#: ../calendar/gui/dialogs/comp-editor.c:1394
 #: ../ui/evolution-calendar.xml.h:44 ../ui/evolution-mail-global.xml.h:24
 #: ../ui/evolution.xml.h:46
 msgid "_Help"
 msgstr "Ay_uda"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1359
+#: ../calendar/gui/dialogs/comp-editor.c:1401
 msgid "_Insert"
 msgstr "_Insertar"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1366
+#: ../calendar/gui/dialogs/comp-editor.c:1408
 msgid "_Options"
 msgstr "_Opciones"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1373 ../mail/em-folder-tree.c:2116
+#: ../calendar/gui/dialogs/comp-editor.c:1415 ../mail/em-folder-tree.c:2116
 #: ../ui/evolution-addressbook.xml.h:64 ../ui/evolution-mail-global.xml.h:34
 #: ../ui/evolution-mail-messagedisplay.xml.h:8 ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:55
 msgid "_View"
 msgstr "_Ver"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1383
+#: ../calendar/gui/dialogs/comp-editor.c:1425
 #: ../composer/e-composer-actions.c:469
 msgid "_Attachment..."
 msgstr "_Adjunto…"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1385
+#: ../calendar/gui/dialogs/comp-editor.c:1427
 msgid "Click here to attach a file"
 msgstr "Pulse aquí para adjuntar un archivo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1393
+#: ../calendar/gui/dialogs/comp-editor.c:1435
 msgid "_Categories"
 msgstr "_Categorías"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1395
+#: ../calendar/gui/dialogs/comp-editor.c:1437
 msgid "Toggles whether to display categories"
 msgstr "Conmuta cuando se muestran las categorías"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1401
+#: ../calendar/gui/dialogs/comp-editor.c:1443
 msgid "Time _Zone"
 msgstr "_Zona horaria"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1403
+#: ../calendar/gui/dialogs/comp-editor.c:1445
 msgid "Toggles whether the time zone is displayed"
 msgstr "Conmuta cuando se muestra la «Zona horaria»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1412
+#: ../calendar/gui/dialogs/comp-editor.c:1454
 msgid "Pu_blic"
 msgstr "Pú_blico"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1414
+#: ../calendar/gui/dialogs/comp-editor.c:1456
 msgid "Classify as public"
 msgstr "Clasificar como público"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1419
+#: ../calendar/gui/dialogs/comp-editor.c:1461
 msgid "_Private"
 msgstr "_Privado"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1421
+#: ../calendar/gui/dialogs/comp-editor.c:1463
 msgid "Classify as private"
 msgstr "Clasificar como privado"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1426
+#: ../calendar/gui/dialogs/comp-editor.c:1468
 msgid "_Confidential"
 msgstr "_Confidencial"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1428
+#: ../calendar/gui/dialogs/comp-editor.c:1470
 msgid "Classify as confidential"
 msgstr "Clasificar como confidencial"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1436
+#: ../calendar/gui/dialogs/comp-editor.c:1478
 msgid "R_ole Field"
 msgstr "Campo «_Rol»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1438
+#: ../calendar/gui/dialogs/comp-editor.c:1480
 msgid "Toggles whether the Role field is displayed"
 msgstr "Conmuta cuando se muestra el campo «Rol»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1444
+#: ../calendar/gui/dialogs/comp-editor.c:1486
 msgid "_RSVP"
 msgstr "_Confirmar"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1446
+#: ../calendar/gui/dialogs/comp-editor.c:1488
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Conmuta cuando se muestra el campo «Confirmar»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1452
+#: ../calendar/gui/dialogs/comp-editor.c:1494
 msgid "_Status Field"
 msgstr "Campo de _estado"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1454
+#: ../calendar/gui/dialogs/comp-editor.c:1496
 msgid "Toggles whether the Status field is displayed"
 msgstr "Conmuta cuando se muestra el campo «Estado»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1460
+#: ../calendar/gui/dialogs/comp-editor.c:1502
 msgid "_Type Field"
 msgstr "Campo de _tipo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1462
+#: ../calendar/gui/dialogs/comp-editor.c:1504
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Conmuta indicando si se muestra el campo «Tipo de participante»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1776
+#: ../calendar/gui/dialogs/comp-editor.c:1818
 #: ../composer/e-composer-private.c:64 ../widgets/misc/e-attachment-bar.c:1382
 msgid "Recent _Documents"
 msgstr "_Documentos recientes"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1795
+#: ../calendar/gui/dialogs/comp-editor.c:1837
 #: ../composer/e-composer-actions.c:696
 msgid "Attach"
 msgstr "Adjuntar"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1890
+#: ../calendar/gui/dialogs/comp-editor.c:1932
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
 msgstr[0] "<b>%d</b> adjunto"
 msgstr[1] "<b>%d</b> adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1922
+#: ../calendar/gui/dialogs/comp-editor.c:1964
 msgid "Hide Attachment _Bar"
 msgstr "Ocultar _barra de adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1925
-#: ../calendar/gui/dialogs/comp-editor.c:2233
+#: ../calendar/gui/dialogs/comp-editor.c:1967
+#: ../calendar/gui/dialogs/comp-editor.c:2275
 msgid "Show Attachment _Bar"
 msgstr "Mostrar _barra de adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2044
+#: ../calendar/gui/dialogs/comp-editor.c:2086
 #: ../calendar/gui/dialogs/event-page.c:1876
 #: ../calendar/gui/dialogs/task-page.c:1198 ../composer/e-msg-composer.c:1041
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
@@ -6478,30 +6482,30 @@ msgstr "Mostrar _barra de adjuntos"
 msgid "_Remove"
 msgstr "_Quitar"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2047
+#: ../calendar/gui/dialogs/comp-editor.c:2089
 #: ../composer/e-msg-composer.c:1044
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
 msgid "_Add attachment..."
 msgstr "_Añadir adjunto…"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2255
+#: ../calendar/gui/dialogs/comp-editor.c:2297
 #: ../mail/em-format-html-display.c:2380
 msgid "Show Attachments"
 msgstr "Mostrar adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2256
+#: ../calendar/gui/dialogs/comp-editor.c:2298
 msgid "Press space key to toggle attachment bar"
 msgstr "Pulse la barra espaciadora para cambiar la barra de adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2400
-#: ../calendar/gui/dialogs/comp-editor.c:2447
-#: ../calendar/gui/dialogs/comp-editor.c:3293
+#: ../calendar/gui/dialogs/comp-editor.c:2442
+#: ../calendar/gui/dialogs/comp-editor.c:2489
+#: ../calendar/gui/dialogs/comp-editor.c:3335
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Los cambios efectuados a este elemento pueden descartarse si llega una "
 "actualización por correo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3322
+#: ../calendar/gui/dialogs/comp-editor.c:3364
 msgid "Unable to use current version!"
 msgstr "Imposible usar la versión actual."
 
@@ -11315,23 +11319,23 @@ msgstr "_Tareas pendientes"
 msgid "_Later"
 msgstr "_Más tarde"
 
-#: ../e-util/e-util-labels.c:311
+#: ../e-util/e-util-labels.c:315
 msgid "Label _Name:"
 msgstr "_Nombre de la etiqueta:"
 
-#: ../e-util/e-util-labels.c:334
+#: ../e-util/e-util-labels.c:338
 msgid "Edit Label"
 msgstr "Editar etiqueta"
 
-#: ../e-util/e-util-labels.c:334
+#: ../e-util/e-util-labels.c:338
 msgid "Add Label"
 msgstr "Añadir etiqueta"
 
-#: ../e-util/e-util-labels.c:353
+#: ../e-util/e-util-labels.c:357
 msgid "Label name cannot be empty."
 msgstr "El nombre de la etiqueta no puede estar vacío."
 
-#: ../e-util/e-util-labels.c:358
+#: ../e-util/e-util-labels.c:362
 msgid ""
 "A label having the same tag already exists on the server. Please rename your "
 "label."
@@ -13061,7 +13065,7 @@ msgstr "No es posible copiar los datos POP3 keep-on-server «%s»: %s"
 msgid "Failed to create local mail storage `%s': %s"
 msgstr "No es posible crear el almacén de correo local «%s»: %s"
 
-#: ../mail/em-migrate.c:2898
+#: ../mail/em-migrate.c:2952
 msgid ""
 "The summary format of the Evolution mailbox folders has been moved to SQLite "
 "since Evolution 2.24.\n"
@@ -13073,12 +13077,12 @@ msgstr ""
 "\n"
 "Tenga paciencia mientras Evolution migra sus carpetas…"
 
-#: ../mail/em-migrate.c:2963
+#: ../mail/em-migrate.c:3034
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
 msgstr "No es posible crear las carpetas de correo local en: «%s»: %s"
 
-#: ../mail/em-migrate.c:2982
+#: ../mail/em-migrate.c:3053
 msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
@@ -13100,24 +13104,24 @@ msgstr "Responder a la _lista"
 msgid "_Add to Address Book"
 msgstr "_Añadir a la libreta de direcciones"
 
-#: ../mail/em-subscribe-editor.c:582
+#: ../mail/em-subscribe-editor.c:600
 msgid "This store does not support subscriptions, or they are not enabled."
 msgstr "Este almacén no soporta suscripciones, o no están activadas."
 
-#: ../mail/em-subscribe-editor.c:615
+#: ../mail/em-subscribe-editor.c:633
 msgid "Subscribed"
 msgstr "Suscrito"
 
-#: ../mail/em-subscribe-editor.c:619
+#: ../mail/em-subscribe-editor.c:637
 msgid "Folder"
 msgstr "Carpeta"
 
 #. FIXME: This is just to get the shadow, is there a better way?
-#: ../mail/em-subscribe-editor.c:821
+#: ../mail/em-subscribe-editor.c:839
 msgid "Please select a server."
 msgstr "Seleccione un servidor."
 
-#: ../mail/em-subscribe-editor.c:842
+#: ../mail/em-subscribe-editor.c:860
 msgid "No server has been selected"
 msgstr "No se ha seleccionado ningún servidor"
 
@@ -16691,7 +16695,7 @@ msgid "Do you want to make Evolution your default e-mail client?"
 msgstr "¿Quiere que Evolution sea su cliente de correo predeterminado?"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
-#: ../shell/main.c:590
+#: ../shell/main.c:592
 msgid "Evolution"
 msgstr "Evolution"
 
@@ -19735,6 +19739,14 @@ msgstr ""
 "Disponibilidad\n"
 "iCal"
 
+#: ../plugins/publish-calendar/url-editor-dialog.c:461
+msgid "New Location"
+msgstr "Ubicación nueva"
+
+#: ../plugins/publish-calendar/url-editor-dialog.c:463
+msgid "Edit Location"
+msgstr "Editar ubicación"
+
 #: ../plugins/python/example/org-gnome-hello-python-ui.xml.h:1
 msgid "Hello Python"
 msgstr "Hello Python"
@@ -20500,7 +20512,7 @@ msgstr "No es posible ejecutar Bug Buddy."
 #: ../shell/e-shell-window-commands.c:942
 msgid "translator-credits"
 msgstr ""
-"Jorge González <jorgegonz@svn.gnome.org>, 2007-2008\n"
+"Jorge González <jorgegonz@svn.gnome.org>, 2007-2009\n"
 "Francisco Javier F. Serrador <serrador@cvs.gnome.org>, 2003-2006\n"
 "QA: Pablo Gonzalo del Campo <pablodc@bigfoot.com>, 2003\n"
 "Ismael Olea <ismael@olea.org>, 2001, (revisiones) 2003\n"
@@ -20712,11 +20724,11 @@ msgstr "Desactivar la carga de cualquier complemento."
 msgid "Disable preview pane of Mail, Contacts and Tasks."
 msgstr "Desactivar la vista previa del correo, contactos y tareas."
 
-#: ../shell/main.c:577
+#: ../shell/main.c:579
 msgid "- The Evolution PIM and Email Client"
 msgstr "El cliente de correo-e y GIP Evolution"
 
-#: ../shell/main.c:605
+#: ../shell/main.c:607
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
