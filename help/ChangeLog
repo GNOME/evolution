@@ -1,3 +1,10 @@
+2009-01-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #546437
+
+	* C/evolution.xml:
+	Fix various typos and poor wording in chapters 1-4.
+
 2009-01-01  Andre Klapper  <a9016009@gmx.de>
 
 	* de/de.po: Update German translation.
