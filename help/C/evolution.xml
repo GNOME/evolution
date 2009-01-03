@@ -3416,7 +3416,7 @@
     <para>To configure your Google Address Book in Evolution contacts:</para>
     <orderedlist>
      <listitem id="b1dl9x1r">
-      <para>Select File &gt; New &gt; Address book to open the New Address Book window.</para>
+      <para>Click File &gt; New &gt; Address Book.</para>
       <mediaobject id="b1dl9yef"><imageobject><imagedata format="PNG" fileref="figures/evo_googlecontacts.png"/></imageobject></mediaobject>
       
      </listitem>
