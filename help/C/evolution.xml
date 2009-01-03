@@ -819,7 +819,7 @@
 
    <section id="usage-mainwindow-shortcutbar">
     <title>The Sidebar</title>
-    <para>Sidebar is the vertical panel on the left side of the Evolution main window. At the bottom of the side bar is the Switcher, that lets you switch between the Evolution tools like Mail, Memo, Tasks and Contacts. Above the Switcher you can see a list of folders for the current Evolution tool.</para>
+    <para>The Sidebar is the vertical panel on the left side of the Evolution main window. At the bottom of the Sidebar is the Switcher. This lets you switch between different Evolution tools like Mail, Memo, Tasks, and Contacts. Above the Switcher is a list of folders related to the current Evolution tool.</para>
     <para>The folder list organizes your email, calendars, address books, task lists and memo lists in a tree, similar to a <link linkend="filetree">file tree</link>. Most people find one to four folders at the base of the tree, depending on the tool and their system configuration. Each Evolution tool has at least one folder, called On This Computer, for local information. For example, the folder list for the email tool shows any remote email storage you have set up, plus local folders and search folders, which are discussed in <link linkend="usage-mail-organize-vfolders">Using Search Folders</link>.</para>
     <para>If you get large amounts of email, you might want more folders than just your Inbox. You can also create multiple calendar, task, or contacts folders.</para>
     <para>To create a new folder:</para>

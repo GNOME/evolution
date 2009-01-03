@@ -1,5 +1,10 @@
 2009-01-03  Andre Klapper  <a9016009@gmx.de>
 
+	* C/evolution.xml: Fix grammatical errors.
+	Fixes bug #558492. Patch by Nanley Chery.
+
+2009-01-03  Andre Klapper  <a9016009@gmx.de>
+
 	* C/evolution.xml: Fix non-sense split sentences.
 	Fixes bug #544340, bug #544339.
 
