@@ -3444,13 +3444,13 @@
        <listitem>
         <formalpara id="b1dla28w">
          <title>Username:</title>
-         <para>Specify the username of your Google account.</para>
+         <para>Specify your username for your Google account.</para>
         </formalpara>
        </listitem>
        <listitem>
         <formalpara id="b1dla46h">
          <title>Use SSL:</title>
-         <para> Select Use SSL to enable a secure connection between Evolution and the server</para>
+         <para> Select Use SSL to enable a secure connection between Evolution and the server.</para>
         </formalpara>
        </listitem>
        <listitem>
@@ -3921,13 +3921,13 @@
        <listitem>
         <formalpara id="b1a4aey4">
          <title>Name:</title>
-         <para> Specify a name for the Google calendar</para>
+         <para>Specify a name for the Google calendar.</para>
         </formalpara>
        </listitem>
        <listitem>
         <formalpara id="b1a4af9o">
          <title>Username:</title>
-         <para> Specify your username for your Google account</para>
+         <para>Specify your username for your Google account.</para>
         </formalpara>
        </listitem>
       </itemizedlist>
@@ -3936,7 +3936,7 @@
       <para>Set the time to automatically refresh the calendar.</para>
      </listitem>
      <listitem id="b1a4ak4r">
-      <para>Select Use SSL to enable a secure connection between Evolution and the Google server.</para>
+      <para>Select Use SSL to enable a secure connection between Evolution and the server.</para>
      </listitem>
      <listitem id="b1a4amec">
       <para>If you want to set a color label for the calendar, click the Color tab, select the desired color, then click OK.</para>
