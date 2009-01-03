@@ -66,7 +66,7 @@
    <abstract role="description">
      <para>
        A user's guide to Evolution which explains how to use
-       its mail, calendar, addressbook, and task list features.
+       its mail, calendar, address book, and task list features.
      </para>
    </abstract>
    <productname class="trade">&appname;</productname>
@@ -143,7 +143,7 @@
 
  <chapter id="usage-mainwindow">
   <title>Getting Started</title>
-  <para><trademark>Evolution</trademark> is a <link linkend="groupware">groupware</link> application that helps you work in a group by handling email, address, memos, tasks, and one or more calendars. This makes the tasks of storing, organizing, and retrieving your personal information easy, so you can work and communicate more effectively with others.</para>
+  <para><trademark>Evolution</trademark> is a <link linkend="groupware">groupware</link> application that helps you work in a group by handling email, address, memos, tasks, and one or more calendars. This makes the tasks of storing, organizing, and retrieving your personal information easy, so you can work and communicate effectively with others.</para>
   <itemizedlist>
    <listitem>
     <para><link linkend="usage-mainwindow-starting">Starting Evolution for the First Time</link></para>
@@ -737,7 +737,7 @@
      <para>Before importing email from Netscape&z-3rdParty;, Mozilla and Netscape users need to click File &gt; Compact &gt; All Folders from within the Netscape or Mozilla mail tool. Otherwise, Evolution imports and undeletes the messages in your Trash folders.</para>
      <tip>
       <para>Evolution uses standard file types for email and calendar information, so you can copy those files from your <command>~/.evolution</command> directory. The file formats used are <emphasis>mbox</emphasis> for email and <emphasis>iCal</emphasis> for calendar information.</para>
-      <para>Contacts files are stored in a database, but can be saved as a standard vCard&z-3rdParty;. To export an addressbook, click File &gt; Save Address Book As VCard". If you want to export only one contact, click File &gt; Save Contact as VCard.</para>
+      <para>Contacts files are stored in a database, but can be saved as a standard vCard&z-3rdParty;. To export an address book, click File &gt; Save Address Book As VCard". If you want to export only one contact, click File &gt; Save Contact as VCard.</para>
      </tip>
     </section>
    </section>
@@ -1598,7 +1598,7 @@
       <mediaobject id="b17rcni6"><imageobject><imagedata format="PNG" fileref="figures/evo_attachreminder_plugin.png"/></imageobject></mediaobject>
      </listitem>
      <listitem id="b17rcq0r">
-      <para>Select keywords such as <quote>Attach</quote> or <quote>Attachment</quote> and click Add.</para>
+      <para>Click Add, then enter keywords such as <quote>Attach</quote> or <quote>Attachment</quote>.</para>
       <para>Based on the keywords you have added here, it searches every mail you are sending. If it finds the keywords such as <quote>attach</quote> in your mail and there is no actual attached file, you are reminded of missing attachments.</para>
      </listitem>
      <listitem id="b1a57zh3">
@@ -5125,7 +5125,7 @@
       <listitem>
        <formalpara id="b15fkslg">
         <title>Send Options:</title>
-        <para>You can set the priority and sensitivity of the sent message so that the recipients will know how important the message is.The priority can have one of the three values - High, Normal or Low and sensitivity can have one of the four values-Normal, Personal, Private and Confidential respectively. You can also enable delivery receipt request and read receipt request for the messages sent.</para>
+        <para>You can set the priority and sensitivity of the sent message so that the recipients will know how important the message is. You can also enable delivery receipt request and read receipt request for the messages sent.</para>
        </formalpara>
       </listitem>
      </itemizedlist>
@@ -5159,7 +5159,7 @@
       <listitem>
        <formalpara id="b10fqk4l">
         <title>Adding vCards to the Address Book:</title>
-        <para>Allows you to save the vCards you receive in attachment to your Exchange address book.New Address Book entries can also be created on Exchange from received email messages with a single click.</para>
+        <para>Allows you to save the vCards you receive in attachment to your Exchange address book. New Address Book entries can also be created on Exchange from received email messages with a single click.</para>
        </formalpara>
       </listitem>
      </itemizedlist>
@@ -5332,7 +5332,7 @@
 
    <section id="b15flgn7">
     <title>Send Options</title>
-    <para> You can set the priority and sensitivity of the sent message from an exchange account so that the recipients will know how important the message is.The priority can have one of the three options - High, Normal or Low and sensitivity can have one of the four options-Normal, Personal, Private and Confidential respectively. You can also enable delivery receipt request and read receipt request for the messages sent.</para>
+    <para>You can set the priority and sensitivity of the sent message from an exchange account so that the recipients will know how important the message is. The priority can have one of the three options: High, Normal or Low; and sensitivity can have one of the four options: Normal, Personal, Private and Confidential. You can also enable delivery receipt request and read receipt request for the messages sent.</para>
 
     <section id="b17reifv">
      <title>Tracking Options</title>
@@ -5549,7 +5549,7 @@
 
   <section id="full-advantage">
    <title>Scheduling Meetings with Free/Busy</title>
-   <para>Evolution helps you fix a convenient time for a meeting according to the availability of the attendees.It's Free/Busy feature allows you to perform a check on other user's Exchange calendar to find whether they are busy according to their Exchange calendars, if so, you can reschedule the meeting altogether.</para>
+   <para>Evolution helps you fix a convenient time for a meeting according to the availability of the attendees. Its Free/Busy feature allows you to perform a check on other user's Exchange calendar to find whether they are busy according to their Exchange calendars, if so, you can reschedule the meeting altogether.</para>
    <mediaobject id="bs4aw7n"><imageobject><imagedata format="PNG" fileref="figures/free_busy.png"/></imageobject></mediaobject>
    <orderedlist>
     <listitem id="bsbgc5a">
@@ -5607,7 +5607,7 @@
 
  <chapter id="usage-groupwise">
   <title>Connecting to GroupWise</title>
-  <para><trademark>Evolution</trademark> can access accounts on <trademark class="registered">Novell</trademark> <trademark class="registered">GroupWise</trademark> 7 system.</para>
+  <para><trademark>Evolution</trademark> can access accounts on <trademark class="registered">Novell</trademark> <trademark class="registered">GroupWise</trademark> 7 systems.</para>
   <itemizedlist>
    <listitem>
     <para><link linkend="bv7wchf">GroupWise Features</link></para>
@@ -5680,7 +5680,7 @@
        <para>If you receive a card attachment and click Save in Address Book, it is saved to your Personal address book. New Address Book entries can also be added to your personal address book from received Email messages.</para>
       </listitem>
       <listitem>
-       <para>To create your GroupWise Frequent contacts and Personal address books, you need to access your GroupWise account once through GroupWise Java client because Evolution currently does not support creating them. The GroupWise system address book is marked for offline use by default.This boosts performance.</para>
+       <para>To create your GroupWise Frequent contacts and Personal address books, you need to access your GroupWise account once through GroupWise Java client because Evolution currently does not support creating them. The GroupWise system address book is marked for offline use by default. This boosts performance.</para>
       </listitem>
      </itemizedlist>
     </listitem>
@@ -5892,7 +5892,7 @@
 
   <section id="b15iirao">
    <title>Reminder Notes</title>
-   <para>GroupWise Reminder notes are like mail messages except they are scheduled for a particular day and appear on the Calendar for that date. You can use reminder notes to show vacations, holidays, pay days, birthdays, and so forth.Posted reminder notes are placed in your Calendar on the date you specify. They are not placed in your Mailbox or in any other user's Mailbox.</para>
+   <para>GroupWise Reminder notes are like mail messages except they are scheduled for a particular day and appear on the Calendar for that date. You can use reminder notes to show vacations, holidays, pay days, birthdays, and so on. Posted reminder notes are placed in your Calendar on the date you specify. They are not placed in your Mailbox or in any other user's Mailbox.</para>
    <para>Evolution integrates this feature into its Memo component so that you can view the Reminder notes listed under Memo at the right bottom side of the calender view.</para>
    <note>
     <para>Select the memo or the Reminder notes under the Memo component to display it on the Calendar view.</para>
@@ -6012,7 +6012,7 @@
        <para>For more information, see <link linkend="Aal54a9">Checking the Status of an Item You Have Sent</link>.</para>
       </listitem>
       <listitem id="b17qtcil">
-       <para>(Optional)Select the check box next to Auto-delete sent item to automatically delete the sent item from the Sent folder.</para>
+       <para>(Optional) Select the check box next to Auto-delete sent item to automatically delete the sent item from the Sent folder.</para>
       </listitem>
       <listitem id="b17qte6b">
        <para>Under Return Notification, specify the type of return receipt you want.</para>
@@ -6469,7 +6469,7 @@
    </formalpara>
    <formalpara id="bsbhe10">
     <title>Receiving Email:</title>
-    <para>Select the way you receive email. You can download email from a <link linkend="pop">POP server</link>, read and keep it on the server (Microsoft Exchange, <trademark class="registered">Novell</trademark> <trademark class="registered">GroupWise</trademark>, or IMAP<link linkend="imap">IMAP</link>), or read it from files that already exist on your desktop computer. If your server requires you to use a secure connection, you can select from the given three options: No encryption, TLS encryption or SSL encryption.</para>
+    <para>Select the way you receive email. You can download email from a <link linkend="pop">POP server</link>, read and keep it on the server (Microsoft Exchange, <trademark class="registered">Novell</trademark> <trademark class="registered">GroupWise</trademark>, or <link linkend="imap">IMAP</link>), or read it from files that already exist on your desktop computer. If your server requires you to use a secure connection, you can select from the given three options: No encryption, TLS encryption or SSL encryption.</para>
    </formalpara>
    <para>Your system administrator might ask you to connect to a specific port on a mail server. To specify which port you use, just type a colon and the port number after the server name. For example, to connect to port 143 on the server smtp.example.com, specify smtp.example.com:143 as the server name.</para>
    <para>For additional information, see <link linkend="second-step">Receiving Mail</link>.</para>
@@ -6665,7 +6665,7 @@
      <para>This feature adds support for viewing the photograph of the sender at the right side of the preview pane.</para>
     </formalpara>
     <para>To enable this feature, select Edit &gt; Preferences &gt; Mail Preferences &gt; Headers &gt; Show the photograph of sender in the email preview. Deselect this option to disable this feature.</para>
-    <para>By default it searches only in the local addressbooks enabled for autocompletion. If you deselect the option <guilabel>Search for sender photograph only in the local addressbook</guilabel>, it searches in all the addressbooks enabled for autocompletion. If there are multiple matches for the same contact, it always takes the first one. Consider a contact that has multiple matches - the first one with a photograph and the second without a photo. Here, Evolution takes the first contact regardless of it not having a photograph.</para>
+    <para>By default it searches only in the local address books enabled for autocompletion. If you deselect the option <guilabel>Search for sender photograph only in the local address book</guilabel>, it searches in all the address books enabled for autocompletion. If there are multiple matches for the same contact, it always takes the first one. Consider a contact that has multiple matches - the first one with a photograph and the second without a photo. Here, Evolution takes the first contact regardless of it not having a photograph.</para>
     <para>This feature is disabled by default as it causes delay in fetching the messages.</para>
    </section>
 

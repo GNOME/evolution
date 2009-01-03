@@ -1,3 +1,8 @@
+2009-01-03  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Fix typos. Bug #544335.
+	Patch by Philip Withnall.
+
 2009-01-02  Andre Klapper  <a9016009@gmx.de>
 
 	* de/figures: Added a few translated screenshots.
