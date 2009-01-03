@@ -1,5 +1,10 @@
 2009-01-03  Andre Klapper  <a9016009@gmx.de>
 
+	* C/evolution.xml: Fix non-sense split sentences.
+	Fixes bug #544340, bug #544339.
+
+2009-01-03  Andre Klapper  <a9016009@gmx.de>
+
 	* C/evolution.xml: Fix typos. Bug #544335.
 	Patch by Philip Withnall.
 

@@ -6176,10 +6176,10 @@
       <thead valign="top">
        <row id="b10fqugl">
         <entry colname="1">
-         <para>This Right</para>
+         <para>Permission:</para>
         </entry>
         <entry colname="2">
-         <para>Lets your proxy do this</para>
+         <para>Allows your proxy to do:</para>
         </entry>
        </row>
       </thead>
