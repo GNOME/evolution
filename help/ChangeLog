@@ -1,5 +1,10 @@
 2009-01-03  Andre Klapper  <a9016009@gmx.de>
 
+	* C/evolution.xml: Link sentence "You can also enable Magic 
+	spacebar" against the corresponding section. Fixes bug #550604.
+
+2009-01-03  Andre Klapper  <a9016009@gmx.de>
+
 	* C/evolution.xml: s/and/or. Fixes bug #566233.
 
 2009-01-03  Andre Klapper  <a9016009@gmx.de>
