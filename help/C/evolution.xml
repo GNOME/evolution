@@ -1173,7 +1173,7 @@
    <section id="b17qh4uo">
     <title>New Mail Notification</title>
     <para>Evolution can notify you of new messages. When you receive a new message in your inbox, a blinking icon appears on the Switcher.</para>
-    <para>You can also view a blinking icon<inlinegraphic format="PNG" fileref="figures/evo_blink.png"/> in the notification area that disappears when you open the new message. Mouse over the icon to view the notification message.</para>
+    <para>You can also view a blinking icon (<inlinegraphic format="PNG" fileref="figures/evo_blink.png"/>) in the notification area that disappears when you open the new message. Mouse over the icon to view the notification message.</para>
     <mediaobject id="b1a5asi6"><imageobject><imagedata format="PNG" fileref="figures/evo_newmail.png"/></imageobject></mediaobject>
     <para>To enable this feature, select Edit &gt; Plugins, then select the Mail Notification check box. You can configure the plugin by specifing the following in the Plugin Manager.</para>
     <mediaobject id="b1dl90p1"><imageobject><imagedata format="PNG" fileref="figures/evo_mailnotification.png"/></imageobject></mediaobject>
