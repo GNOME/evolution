@@ -3342,7 +3342,7 @@
      <title>Mailing Address:</title>
      <para>Contains the individual's mailing address.</para>
     </formalpara>
-    <para>You can also use the Forward Contact menu item in the Action menu, which opens a new message with the card already attached, and Send Message to Contact, which opens a new message to the contact's email address.</para>
+    <para>You can also use the Forward Contact menu item in the Action menu, which opens a new message with the card already attached, or Send Message to Contact, which opens a new message to the contact's email address.</para>
     <para>You can add a card from within an email message or calendar appointment. In an open email, right-click any email address or message, and click Add to Address Book or select Add Sender to Address Book from the Message menu.</para>
     <para>Most of the items in the contact editor simply display the information you enter, but some of them have additional features:</para>
     <formalpara id="b13psuii">
