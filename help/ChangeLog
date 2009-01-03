@@ -1,5 +1,10 @@
 2009-01-03  Andre Klapper  <a9016009@gmx.de>
 
+	* C/evolution.xml: Add warning that PGP Encrypt will not 
+	encrypt subject lines. Fixes bug #543580.
+
+2009-01-03  Andre Klapper  <a9016009@gmx.de>
+
 	* C/evolution.xml: Sync strings.
 	Fixes bug #566236, bug #566238.
 

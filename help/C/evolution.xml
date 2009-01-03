@@ -2315,6 +2315,9 @@
       <para>Click Send.</para>
      </listitem>
     </orderedlist>
+    <note>
+    <para>The Subject line of the message will not be encrypted and should not be used for sensitive information.</para>
+    </note>
     <para>You can set Evolution to always sign your email messages:</para>
     <orderedlist>
      <listitem id="bsaj12e">
