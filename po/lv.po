@@ -3753,7 +3753,7 @@ msgstr "Izpilda vaicājumu adrešu grāmatā..."
 #, c-format
 msgid "There is one other contact."
 msgid_plural "There are %d other contacts."
-msgstr[0] "Ir vēl viens kontakts."
+msgstr[0] "Ir vēl %d kontakts."
 msgstr[1] "Ir vēl %d kontakti."
 msgstr[2] "Ir vēl %d kontaktu."
 
@@ -5922,7 +5922,7 @@ msgstr "Pievienots ziņojums - %s"
 #, c-format
 msgid "Attached message"
 msgid_plural "%d attached messages"
-msgstr[0] "Pievienots ziņojums"
+msgstr[0] "Pievienots %d ziņojums"
 msgstr[1] "Pievienoti %d ziņojumi"
 msgstr[2] "Pievienotu %d ziņojumu"
 
@@ -7295,7 +7295,7 @@ msgstr "Jā. (Sarežģīta atkārtošanās)"
 #, c-format
 msgid "Every day"
 msgid_plural "Every %d days"
-msgstr[0] "Katru dienu"
+msgstr[0] "Katru %d dienu"
 msgstr[1] "Katras %d dienas"
 msgstr[2] "Katras %d dienas"
 
@@ -7308,7 +7308,7 @@ msgstr[2] "Katras %d dienas"
 #, c-format
 msgid "Every week"
 msgid_plural "Every %d weeks"
-msgstr[0] "Katru nedēļu"
+msgstr[0] "Katru %d nedēļu"
 msgstr[1] "Katras %d nedēļas"
 msgstr[2] "Katras %d nedēļas"
 
@@ -7318,7 +7318,7 @@ msgstr[2] "Katras %d nedēļas"
 #, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
-msgstr[0] "Katru nedēļu "
+msgstr[0] "Katru %d nedēļu "
 msgstr[1] "Katras %d nedēļas "
 msgstr[2] "Katras %d nedēļas "
 
@@ -7350,7 +7350,7 @@ msgstr "%s %s no "
 #, c-format
 msgid "every month"
 msgid_plural "every %d months"
-msgstr[0] "katru mēnesi"
+msgstr[0] "katru %d mēnesi"
 msgstr[1] "katrus %d mēnešus"
 msgstr[2] "katrus %d mēnešus"
 
@@ -7363,7 +7363,7 @@ msgstr[2] "katrus %d mēnešus"
 #, c-format
 msgid "Every year"
 msgid_plural "Every %d years"
-msgstr[0] "Katru gadu"
+msgstr[0] "Katru %d gadu"
 msgstr[1] "Katrus %d gadus"
 msgstr[2] "Katrus %d gadus"
 
@@ -10533,7 +10533,7 @@ msgstr "_Pārrakstīt"
 #, c-format
 msgid "1 second ago"
 msgid_plural "%d seconds ago"
-msgstr[0] "Pirms 1 sekundes"
+msgstr[0] "Pirms %d sekundes"
 msgstr[1] "Pirms %d sekundēm"
 msgstr[2] "Pirms %d sekundēm"
 
@@ -10541,7 +10541,7 @@ msgstr[2] "Pirms %d sekundēm"
 #, c-format
 msgid "1 second in the future"
 msgid_plural "%d seconds in the future"
-msgstr[0] "pēc 1 sekundes"
+msgstr[0] "pēc %d sekundes"
 msgstr[1] "pēc %d sekundēm"
 msgstr[2] "pēc %d sekundēm"
 
@@ -10549,7 +10549,7 @@ msgstr[2] "pēc %d sekundēm"
 #, c-format
 msgid "1 minute ago"
 msgid_plural "%d minutes ago"
-msgstr[0] "Pirms 1 minūtes"
+msgstr[0] "Pirms %d minūtes"
 msgstr[1] "Pirms %d minūtēm"
 msgstr[2] "Pirms %d minūtēm"
 
@@ -10557,7 +10557,7 @@ msgstr[2] "Pirms %d minūtēm"
 #, c-format
 msgid "1 minute in the future"
 msgid_plural "%d minutes in the future"
-msgstr[0] "pēc 1 minūtes"
+msgstr[0] "pēc %d minūtes"
 msgstr[1] "pēc %d sekundēm"
 msgstr[2] "pēc %d sekundēm"
 
@@ -10565,7 +10565,7 @@ msgstr[2] "pēc %d sekundēm"
 #, c-format
 msgid "1 hour ago"
 msgid_plural "%d hours ago"
-msgstr[0] "Pirms 1 stundas"
+msgstr[0] "Pirms %d stundas"
 msgstr[1] "Pirms %d stundām"
 msgstr[2] "Pirms %d stundām"
 
@@ -10573,7 +10573,7 @@ msgstr[2] "Pirms %d stundām"
 #, c-format
 msgid "1 hour in the future"
 msgid_plural "%d hours in the future"
-msgstr[0] "pēc 1 stundas"
+msgstr[0] "pēc %d stundas"
 msgstr[1] "pēc %d stundām"
 msgstr[2] "pēc %d stundām"
 
@@ -10581,7 +10581,7 @@ msgstr[2] "pēc %d stundām"
 #, c-format
 msgid "1 day ago"
 msgid_plural "%d days ago"
-msgstr[0] "Pirms 1 dienas"
+msgstr[0] "Pirms %d dienas"
 msgstr[1] "Pirms %d dienām"
 msgstr[2] "Pirms %d dienām"
 
@@ -10589,7 +10589,7 @@ msgstr[2] "Pirms %d dienām"
 #, c-format
 msgid "1 day in the future"
 msgid_plural "%d days in the future"
-msgstr[0] "pēc 1 dienas"
+msgstr[0] "pēc %d dienas"
 msgstr[1] "pēc %d dienām"
 msgstr[2] "pēc %d dienām"
 
@@ -10597,7 +10597,7 @@ msgstr[2] "pēc %d dienām"
 #, c-format
 msgid "1 week ago"
 msgid_plural "%d weeks ago"
-msgstr[0] "Pirms 1 nedēļas"
+msgstr[0] "Pirms %d nedēļas"
 msgstr[1] "Pirms %d nedēļām"
 msgstr[2] "Pirms %d nedēļām"
 
@@ -10605,7 +10605,7 @@ msgstr[2] "Pirms %d nedēļām"
 #, c-format
 msgid "1 week in the future"
 msgid_plural "%d weeks in the future"
-msgstr[0] "pēc 1 nedēļas"
+msgstr[0] "pēc %d nedēļas"
 msgstr[1] "pēc %d nedēļām"
 msgstr[2] "pēc %d nedēļām"
 
@@ -10613,7 +10613,7 @@ msgstr[2] "pēc %d nedēļām"
 #, c-format
 msgid "1 month ago"
 msgid_plural "%d months ago"
-msgstr[0] "Pirms 1 mēneša"
+msgstr[0] "Pirms %d mēneša"
 msgstr[1] "Pirms %d mēnešiem"
 msgstr[2] "Pirms %d mēnešiem"
 
@@ -10621,7 +10621,7 @@ msgstr[2] "Pirms %d mēnešiem"
 #, c-format
 msgid "1 month in the future"
 msgid_plural "%d months in the future"
-msgstr[0] "pēc 1 mēneša"
+msgstr[0] "pēc %d mēneša"
 msgstr[1] "pēc %d mēnešiem"
 msgstr[2] "pēc %d mēnešiem"
 
@@ -10629,7 +10629,7 @@ msgstr[2] "pēc %d mēnešiem"
 #, c-format
 msgid "1 year ago"
 msgid_plural "%d years ago"
-msgstr[0] "Pirms 1 gada"
+msgstr[0] "Pirms %d gada"
 msgstr[1] "Pirms %d gadiem"
 msgstr[2] "Pirms %d gadiem"
 
@@ -10637,7 +10637,7 @@ msgstr[2] "Pirms %d gadiem"
 #, c-format
 msgid "1 year in the future"
 msgid_plural "%d years in the future"
-msgstr[0] "pēc 1 gada"
+msgstr[0] "pēc %d gada"
 msgstr[1] "pēc %d gadiem"
 msgstr[2] "pēc %d gadiem"
 
