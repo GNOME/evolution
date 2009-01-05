@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "POT-Creation-Date: 2009-01-03 23:15+0000\n"
-"PO-Revision-Date: 2009-01-05 10:09+0100\n"
+"PO-Revision-Date: 2009-01-05 11:22+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2153,12 +2153,10 @@ msgstr ""
 "mensajes."
 
 #: C/evolution.xml:771(title)
-#, fuzzy
 msgid "Side Bar:"
 msgstr "Barra lateral:"
 
 #: C/evolution.xml:772(para)
-#, fuzzy
 msgid ""
 "The side bar lets you switch between folders and between Evolution tools. At "
 "the bottom of the side bar is the switcher that lets you switch Evolution "
@@ -2252,13 +2250,12 @@ msgid "Edit:"
 msgstr "Editar:"
 
 #: C/evolution.xml:796(para)
-#, fuzzy
 msgid ""
 "Holds useful tools that help you edit text and move it around. Also lets you "
 "access the settings and configuration options."
 msgstr ""
-"Contiene herramientas útiles que le ayudan a editar texto y moverlo. Le "
-"permite acceder a los ajustes y opciones de configuración en el menú Editar."
+"Contiene herramientas útiles que le ayudan a editar texto y moverlo. También "
+"le permite acceder a los ajustes y a las opciones de configuración."
 
 #: C/evolution.xml:799(title)
 msgid "View:"
@@ -2321,7 +2318,6 @@ msgid "Help:"
 msgstr "Ayuda:"
 
 #: C/evolution.xml:816(para)
-#, fuzzy
 msgid "Opens the Evolution help files."
 msgstr "Abre los archivos de ayuda de Evolution."
 
@@ -2330,7 +2326,6 @@ msgid "The Sidebar"
 msgstr "La barra lateral"
 
 #: C/evolution.xml:822(para)
-#, fuzzy
 msgid ""
 "The Sidebar is the vertical panel on the left side of the Evolution main "
 "window. At the bottom of the Sidebar is the Switcher. This lets you switch "
@@ -2341,7 +2336,7 @@ msgstr ""
 "La barra lateral es el panel vertical en la parte lateral de la ventana "
 "principal de Evolution. En la parte inferior de la barra lateral está el "
 "Selector, que le permite cambiar entre las herramientas de Evolution, como "
-"correo y Contactos que son atajos. Sobre ellos hay una lista de carpetas "
+"Correo y Contactos que son atajos. Sobre ellos hay una lista de carpetas "
 "para la herramienta actual de Evolution."
 
 #: C/evolution.xml:823(para)
@@ -2366,7 +2361,6 @@ msgstr ""
 "organize-vfolders\">Uso de carpetas de búsqueda</link>."
 
 #: C/evolution.xml:824(para)
-#, fuzzy
 msgid ""
 "If you get large amounts of email, you might want more folders than just "
 "your Inbox. You can also create multiple calendar, task, or contacts folders."
@@ -2424,14 +2418,13 @@ msgid "Changing Switcher Appearance:"
 msgstr "Cambiar la apariencia del selector:"
 
 #: C/evolution.xml:843(para)
-#, fuzzy
 msgid ""
 "To change the appearance of your switcher click <emphasis>View &gt; Switcher "
 "Appearance</emphasis> from the Menu Bar. Under Switcher Appearance you can "
 "select:"
 msgstr ""
 "Para cambiar la apariencia de su selector pulse <emphasis>Ver &gt; "
-"Apariencia del selector</emphasis> desde la barra de Menú. Bajo Apariencia "
+"Apariencia del selector</emphasis> desde la barra de menú. Bajo Apariencia "
 "del selector puede seleccionar:"
 
 #: C/evolution.xml:845(title)
@@ -2505,13 +2498,12 @@ msgid "Move:"
 msgstr "Mover:"
 
 #: C/evolution.xml:875(para)
-#, fuzzy
 msgid ""
 "Moves the folder to another location. When you select this item, Evolution "
 "offers a choice of locations to move the folder to."
 msgstr ""
-"Copia la carpeta a un lugar diferente. Cuando seleccione este elemento, "
-"Evolution ofrece una selección de lugares donde copiar la carpeta."
+"Mueve la carpeta a un lugar diferente. Cuando seleccione este elemento, "
+"Evolution ofrece una selección de lugares donde mover la carpeta."
 
 #: C/evolution.xml:878(title)
 msgid "Mark Messages As Read:"
@@ -2599,14 +2591,13 @@ msgstr ""
 "envío y recepción de múltiples archivos adjuntos."
 
 #: C/evolution.xml:914(para)
-#, fuzzy
 msgid ""
 "It supports multiple email sources, including <link linkend=\"imap\">IMAP</"
 "link>, <link linkend=\"pop\">POP3</link>, and local mbox or MH spools and "
 "files created by other email programs."
 msgstr ""
-"Soporta múltiples fuentes de correo, como <link linkend=\"imap\">IMAP</"
-"link>, <link linkend=\"pop\">POP3</link>, y archivos locales mbox o spool mh "
+"Soporta múltiples fuentes de correo, incluyendo <link linkend=\"imap\">IMAP</"
+"link>, <link linkend=\"pop\">POP3</link>, y archivos locales mbox o spool MH "
 "y archivos creados por otros programas de correo."
 
 #: C/evolution.xml:917(para)
@@ -2622,7 +2613,6 @@ msgid "It lets you guard your privacy with encryption."
 msgstr "Permite proteger su privacidad utilizando cifrado."
 
 #: C/evolution.xml:923(para)
-#, fuzzy
 msgid ""
 "However, Evolution has some important differences from other email programs. "
 "First, it is built to handle very large amounts of email. The <link linkend="
@@ -2690,7 +2680,6 @@ msgstr ""
 "marcarlos como spam."
 
 #: C/evolution.xml:935(para)
-#, fuzzy
 msgid ""
 "Most of the email-related actions you want to perform are listed in the "
 "Message menu and Folder menu in the menu bar. The most frequently used ones, "
@@ -2698,8 +2687,8 @@ msgid ""
 "are also located in the right-click menu and as keyboard shortcuts."
 msgstr ""
 "Muchas de las acciones más frecuentes relacionadas con el correo-e aparecen "
-"en los menús Mensajes y Carpeta de la barra del menú. Los más frecuentes "
-"como Responder o Reenviar también aparecen como botones en la barra de "
+"en los menús Mensaje y Carpeta de la barra del menú. Los más frecuentes como "
+"Responder o Reenviar también aparecen como botones en la barra de "
 "herramientas. La mayoría de ellos también aparecen también en el menú "
 "contextual (con el botón derecho) y como atajos de teclado."
 
@@ -2717,7 +2706,6 @@ msgid "The Calendar"
 msgstr "El calendario"
 
 #: C/evolution.xml:941(para)
-#, fuzzy
 msgid ""
 "To begin using the calendar, click Calendar in the Switcher. By default, the "
 "calendar shows today's schedule on a ruled background. At the left bottom, "
@@ -2797,7 +2785,6 @@ msgstr ""
 "directorios <link linkend=\"ldap\">LDAP</link> conectados a una red."
 
 #: C/evolution.xml:961(para)
-#, fuzzy
 msgid ""
 "To use the contacts tool, click Contacts in the Switcher. By default, the "
 "display shows all your contacts in alphabetical order, in a minicard view. "
@@ -2846,12 +2833,10 @@ msgstr ""
 "direcciones</link>."
 
 #: C/evolution.xml:971(title)
-#, fuzzy
 msgid "Backing Up and Restoring Evolution"
 msgstr "Respaldar y restaurar Evolution"
 
 #: C/evolution.xml:972(para)
-#, fuzzy
 msgid ""
 "With the Backup and Restore plugin enabled, you can successfully back up "
 "Evolution to your machine and restore it whenever it is required. The backup "
@@ -2860,8 +2845,8 @@ msgid ""
 msgstr ""
 "Con el complemento para respaldar y restaurar activado puede respaldar "
 "Evolution en su equipo y restaurarlo siempre que sea necesario. El respaldo "
-"guarda sus ajustes de Evolution de gconf, correos, contactos, tareas, notas "
-"y calendarios y crea un archivador."
+"guarda sus ajustes, correos, contactos, tareas, notas y calendarios de "
+"Evolution y crea un archivador."
 
 #: C/evolution.xml:975(para)
 msgid ""
@@ -2909,18 +2894,16 @@ msgid "This feature restores your settings from the archive."
 msgstr "Esta característica restaura sus ajustes desde el archivo."
 
 #: C/evolution.xml:997(para)
-#, fuzzy
 msgid ""
 "Select File &gt; Restore Settings to open the available evolution-backup.tar."
 "gz files."
 msgstr ""
 "Seleccione Archivo &gt; Restaurar ajustes... para abrir los archivos "
-"evolution.tar.gz disponibles."
+"evolution-backup.tar.gz disponibles."
 
 #: C/evolution.xml:1000(para)
-#, fuzzy
 msgid "Select the evolution-backup.tar.gz and click Save."
-msgstr "Seleccione el archivo evolution.tar.gz y pulse Guardar."
+msgstr "Seleccione el archivo evolution-backup.tar.gz y pulse Guardar."
 
 #: C/evolution.xml:1001(para)
 msgid ""
@@ -2985,7 +2968,6 @@ msgstr ""
 "Deshabilita todos los paneles de vista preliminar cuando inicie Evolution."
 
 #: C/evolution.xml:1045(para)
-#, fuzzy
 msgid ""
 "This prevents Evolution from opening the most recently selected message, "
 "task or contact, thus providing a way to avoid an application crash caused "
@@ -3137,7 +3119,6 @@ msgstr ""
 "izquierdo ([) para el mensaje anterior no leído."
 
 #: C/evolution.xml:1135(title)
-#, fuzzy
 msgid "Magic Spacebar for Reading Mail"
 msgstr "Barra espaciadora mágica para leer correos"
 
@@ -3268,7 +3249,6 @@ msgstr ""
 "nuevo correo en su buzón aparecerá un icono parpadeante en el Selector."
 
 #: C/evolution.xml:1176(para)
-#, fuzzy
 msgid ""
 "You can also view a blinking icon (<inlinegraphic format=\"PNG\" fileref="
 "\"figures/evo_blink.png\"/>) in the notification area that disappears when "
