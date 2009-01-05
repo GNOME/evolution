@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "POT-Creation-Date: 2009-01-03 23:15+0000\n"
-"PO-Revision-Date: 2009-01-04 17:13+0100\n"
+"PO-Revision-Date: 2009-01-05 10:09+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -818,7 +818,6 @@ msgid "This manual describes version 2.24 of Evolution"
 msgstr "Este manual describe la versión 2.24 de Evolution"
 
 #: C/evolution.xml:67(para)
-#, fuzzy
 msgid ""
 "A user's guide to Evolution which explains how to use its mail, calendar, "
 "address book, and task list features."
@@ -951,7 +950,6 @@ msgstr ""
 "marca registrada de terceras partes."
 
 #: C/evolution.xml:146(para)
-#, fuzzy
 msgid ""
 "<trademark>Evolution</trademark> is a <link linkend=\"groupware\">groupware</"
 "link> application that helps you work in a group by handling email, address, "
@@ -962,9 +960,9 @@ msgstr ""
 "<trademark>Evolution</trademark> es una aplicación de <link linkend="
 "\"groupware\">trabajo en grupo</link> que le ayuda a trabajar en grupo "
 "gestionando correo-e, direcciones, notas, tareas y uno o más calendarios. "
-"Esto hace sencillo el almacenamiento, organización y obtención de su "
-"información personal, de tal forma que puede trabajar y comunicarse de una "
-"forma más efectiva con los demás."
+"Esto facilita el almacenamiento, organización y obtención de su información "
+"personal, de tal forma que puede trabajar y comunicarse de una forma más "
+"efectiva con los demás."
 
 #: C/evolution.xml:149(link) C/evolution.xml:157(title)
 msgid "Starting Evolution for the First Time"
@@ -1007,7 +1005,6 @@ msgid "Using the First-Run Assistant"
 msgstr "Uso del asistente para la primera ejecución"
 
 #: C/evolution.xml:198(para)
-#, fuzzy
 msgid ""
 "The first time you run Evolution, it creates a directory named <emphasis>."
 "evolution</emphasis> in your home directory, where it stores all of its "
@@ -1241,7 +1238,6 @@ msgid "USENET News:"
 msgstr "Noticias USENET:"
 
 #: C/evolution.xml:280(para)
-#, fuzzy
 msgid ""
 "Connects to a news server and downloads a list of available news digests. "
 "For configuration instructions, see <link linkend=\"bstfw13\">Remote "
@@ -1276,7 +1272,6 @@ msgid "MH Format Mail Directories:"
 msgstr "Directorios de correo en formato MH:"
 
 #: C/evolution.xml:288(para)
-#, fuzzy
 msgid ""
 "If you download your email using MH or another MH-style program, you should "
 "use this option. You need to provide the path to the mail directory you want "
@@ -1293,20 +1288,18 @@ msgid "Maildir Format Mail Directories:"
 msgstr "Directorios de correo en formato Maildir:"
 
 #: C/evolution.xml:292(para)
-#, fuzzy
 msgid ""
 "If you download your email using Qmail or another Maildir-style program, you "
 "should use this option. You need to provide the path to the mail directory "
 "you want to use. For configuration instructions, see <link linkend=\"bstgbqn"
 "\">Local Configuration Options</link>."
 msgstr ""
-"Si descarga su correo usando Qmail u otro programa tipo maildir, querrá usar "
+"Si descarga su correo usando Qmail u otro programa tipo Maildir, querrá usar "
 "esta opción. Debe escribir la ruta de acceso al directorio de correo que "
 "quiere usar. Para las instrucciones de configuración, consulte <link linkend="
 "\"bstgbqn\">Opciones de configuración local</link>."
 
 #: C/evolution.xml:295(title)
-#, fuzzy
 msgid "Standard Unix mbox Spool File:"
 msgstr "Archivo spool mbox estándar de Unix:"
 
@@ -1324,9 +1317,8 @@ msgstr ""
 "locales</link>."
 
 #: C/evolution.xml:299(title)
-#, fuzzy
 msgid "Standard Unix mbox Spool Directory:"
-msgstr "Directorio spool estándar de Unix:"
+msgstr "Directorio spool mbox estándar de Unix:"
 
 #: C/evolution.xml:300(para)
 msgid ""
@@ -1371,7 +1363,6 @@ msgstr ""
 "Teclee el nombre del servidor de su correo electrónico en el campo «Servidor»."
 
 #: C/evolution.xml:315(para) C/evolution.xml:678(para)
-#, fuzzy
 msgid ""
 "If you are unsure what your server address is, contact your system "
 "administrator."
@@ -1428,7 +1419,6 @@ msgid "or"
 msgstr "o"
 
 #: C/evolution.xml:328(para)
-#, fuzzy
 msgid ""
 "Click Check for Supported Types to have Evolution check for supported "
 "authentication mechanisms. Some servers do not announce the authentication "
@@ -1474,7 +1464,6 @@ msgid "Local Configuration Options"
 msgstr "Opciones de configuración local"
 
 #: C/evolution.xml:344(para)
-#, fuzzy
 msgid ""
 "If you selected Local Delivery, MH-Format Mail Directories, Maildir-Format "
 "Mail Directories, Standard Unix mbox spool file or Standard Unix mbox spool "
@@ -1620,7 +1609,6 @@ msgstr ""
 "descargar los correos a su sistema local."
 
 #: C/evolution.xml:405(para) C/evolution.xml:496(para)
-#, fuzzy
 msgid ""
 "Evolution, by default, downloads only the header information such as From, "
 "Subject, and Date. The body of the message and the attachments are "
@@ -1635,7 +1623,6 @@ msgstr ""
 "recibe."
 
 #: C/evolution.xml:406(para) C/evolution.xml:497(para)
-#, fuzzy
 msgid ""
 "If you check this option, Evolution fetches the headers as well as the body "
 "of the message simultaneously. In this case, the time taken to open a "
@@ -1703,7 +1690,6 @@ msgstr ""
 "contacte con su administrador de sistemas."
 
 #: C/evolution.xml:438(para)
-#, fuzzy
 msgid ""
 "Select if you want to limit the number of Global Address List (GAL) "
 "responses."
@@ -1720,7 +1706,6 @@ msgstr ""
 "selecciona esta opción, necesita especificar el número máximo de respuestas."
 
 #: C/evolution.xml:442(para)
-#, fuzzy
 msgid "Select if you want to use a password expiry warning time period."
 msgstr "Marque si quiere usar una advertencia de expiración de contraseña."
 
@@ -1873,7 +1858,6 @@ msgstr ""
 "recepción, necesita especificar las opciones siguientes:"
 
 #: C/evolution.xml:609(title)
-#, fuzzy
 msgid "Standard Unix mbox Spool File Receiving Options"
 msgstr "Opciones de recepción para el archivo spool mbox estándar de Unix"
 
@@ -1885,19 +1869,18 @@ msgstr ""
 "Pine y Mutt."
 
 #: C/evolution.xml:631(title)
-#, fuzzy
 msgid "Standard Unix mbox Spool Directory Receiving Options"
 msgstr ""
-"Opciones de recepción para directorios de correo en formato estándar de Unix"
+"Opciones de recepción para directorios de correo mbox en formato estándar de "
+"Unix"
 
 #: C/evolution.xml:632(para)
-#, fuzzy
 msgid ""
 "If you select Standard Unix mbox Spool Directory as your receiving server "
 "type, you need to specify the following options:"
 msgstr ""
-"Si selecciona directorios estándar Unix de correo como su tipo de servidor "
-"de recepción, necesita especificar las opciones siguientes:"
+"Si selecciona directorios mbox estándar de Unix de correo como su tipo de "
+"servidor de recepción, necesita especificar las opciones siguientes:"
 
 #: C/evolution.xml:656(para)
 msgid ""
@@ -2068,7 +2051,6 @@ msgstr ""
 "importa y recupera los mensajes en sus carpetas de papelera."
 
 #: C/evolution.xml:739(para)
-#, fuzzy
 msgid ""
 "Evolution uses standard file types for email and calendar information, so "
 "you can copy those files from your <command>~/.evolution</command> "
@@ -2076,13 +2058,12 @@ msgid ""
 "<emphasis>iCal</emphasis> for calendar information."
 msgstr ""
 "Evolution usa tipos de archivo estándar para el correo-e y la información de "
-"calendario, asíque puede copiar dichos archivos desde su directorio "
+"calendario, así que puede copiar dichos archivos desde su directorio "
 "<command>~/.evolution</command>. Los formatos de archivo usados son "
-"<command>mbox</command> para el correo-e e iCal para la información de "
-"calendario."
+"<command>mbox</command> para el correo-e e <emphasis>iCal</emphasis> para la "
+"información de calendario."
 
 #: C/evolution.xml:740(para)
-#, fuzzy
 msgid ""
 "Contacts files are stored in a database, but can be saved as a standard "
 "vCard*. To export an address book, click File &gt; Save Address Book As VCard"
