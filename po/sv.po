@@ -1,11 +1,11 @@
 # Swedish messages for Evolution.
-# Copyright (C) 2000-2008 Free Software Foundation, Inc.
+# Copyright (C) 2000-2009 Free Software Foundation, Inc.
 # Andreas Hyden <a.hyden@cyberpoint.se>, 2000.
 # Richard Hult <rhult@codefactory.se>, 2000, 2001.
 # Christian Rose <menthos@menthos.com>, 2000, 2001, 2002, 2003, 2004, 2005.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <johan@gnome.org>, 2001, 2006.
-# Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008.
+# Daniel Nylander <po@danielnylander.se>, 2006, 2007, 2008, 2009.
 #
 # Terminology
 # appointment = möte
@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-12-13 09:32+0100\n"
-"PO-Revision-Date: 2008-12-13 09:33+0100\n"
+"POT-Creation-Date: 2009-01-06 15:33+0100\n"
+"PO-Revision-Date: 2009-01-06 15:33+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -618,7 +618,7 @@ msgstr "Hantera dina S/MIME-certifikat här"
 #: ../calendar/gui/tasks-component.c:195
 #: ../mail/em-folder-tree-model.c:200
 #: ../mail/em-folder-tree-model.c:202
-#: ../mail/em-migrate.c:2906
+#: ../mail/em-migrate.c:2967
 #: ../mail/mail-component.c:311
 #: ../mail/mail-vfolder.c:223
 #: ../mail/message-list.c:1457
@@ -842,7 +842,7 @@ msgstr "Spara som vCard..."
 #: ../calendar/gui/e-memo-table.c:940
 #: ../calendar/gui/memos-component.c:468
 #: ../calendar/gui/tasks-component.c:459
-#: ../mail/em-folder-tree.c:2112
+#: ../mail/em-folder-tree.c:2129
 #: ../mail/em-folder-view.c:1340
 #: ../ui/evolution-addressbook.xml.h:49
 #: ../ui/evolution-calendar.xml.h:40
@@ -858,7 +858,7 @@ msgstr "_Ta bort"
 #: ../calendar/gui/memos-component.c:471
 #: ../calendar/gui/tasks-component.c:462
 #: ../composer/e-msg-composer.c:1041
-#: ../mail/em-folder-tree.c:2121
+#: ../mail/em-folder-tree.c:2138
 #: ../ui/evolution-addressbook.xml.h:59
 #: ../ui/evolution-mail-list.xml.h:38
 msgid "_Properties"
@@ -2867,7 +2867,7 @@ msgstr "Källkod"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:234
 #: ../calendar/gui/e-calendar-table.etspec.h:12
-#: ../calendar/gui/e-meeting-list-view.c:508
+#: ../calendar/gui/e-meeting-list-view.c:525
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 #: ../calendar/gui/e-memo-table.etspec.h:5
 msgid "Type"
@@ -3096,7 +3096,7 @@ msgid "Radio"
 msgstr "Radio"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
-#: ../calendar/gui/e-meeting-list-view.c:520
+#: ../calendar/gui/e-meeting-list-view.c:537
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:715
 msgid "Role"
@@ -5201,7 +5201,7 @@ msgstr "_Ny kalender"
 #: ../calendar/gui/calendar-component.c:616
 #: ../calendar/gui/memos-component.c:465
 #: ../calendar/gui/tasks-component.c:456
-#: ../mail/em-folder-tree.c:2107
+#: ../mail/em-folder-tree.c:2124
 msgid "_Copy..."
 msgstr "_Kopiera..."
 
@@ -5472,7 +5472,7 @@ msgstr "Upprepning"
 
 #: ../calendar/gui/caltypes.xml.h:34
 #: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/e-meeting-list-view.c:545
+#: ../calendar/gui/e-meeting-list-view.c:562
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10
 #: ../calendar/gui/memotypes.xml.h:31
 #: ../calendar/gui/tasktypes.xml.h:38
@@ -6113,7 +6113,7 @@ msgid "Cancel _Drag"
 msgstr "Avbryt _dragning"
 
 #: ../calendar/gui/dialogs/comp-editor.c:620
-#: ../calendar/gui/dialogs/comp-editor.c:3257
+#: ../calendar/gui/dialogs/comp-editor.c:3259
 #: ../mail/em-utils.c:372
 #: ../plugins/prefer-plain/prefer-plain.c:91
 #: ../widgets/misc/e-attachment-bar.c:453
@@ -6211,7 +6211,7 @@ msgid "_Options"
 msgstr "_Alternativ"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1371
-#: ../mail/em-folder-tree.c:2099
+#: ../mail/em-folder-tree.c:2116
 #: ../ui/evolution-addressbook.xml.h:64
 #: ../ui/evolution-mail-global.xml.h:34
 #: ../ui/evolution-mail-messagedisplay.xml.h:8
@@ -6355,13 +6355,13 @@ msgstr "Visa bilagor"
 msgid "Press space key to toggle attachment bar"
 msgstr "Tryck på blankstegstangenten för att växla bilageraden"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2398
-#: ../calendar/gui/dialogs/comp-editor.c:2445
-#: ../calendar/gui/dialogs/comp-editor.c:3290
+#: ../calendar/gui/dialogs/comp-editor.c:2399
+#: ../calendar/gui/dialogs/comp-editor.c:2447
+#: ../calendar/gui/dialogs/comp-editor.c:3292
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "Ändringar som görs i detta objekt kan komma att kastas om en uppdatering kommer"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3319
+#: ../calendar/gui/dialogs/comp-editor.c:3321
 msgid "Unable to use current version!"
 msgstr "Kan inte använda aktuell version!"
 
@@ -6700,7 +6700,7 @@ msgstr "Ko_ntakter..."
 msgid "Organizer:"
 msgstr "Organisatör:"
 
-#: ../calendar/gui/dialogs/memo-editor.c:141
+#: ../calendar/gui/dialogs/memo-editor.c:111
 #: ../calendar/gui/print.c:2478
 msgid "Memo"
 msgstr "Memo"
@@ -8236,14 +8236,14 @@ msgid "Delegated"
 msgstr "Delegerat"
 
 #. The extra space is just a hack to occupy more space for Attendee
-#: ../calendar/gui/e-meeting-list-view.c:491
+#: ../calendar/gui/e-meeting-list-view.c:506
 msgid "Attendee                          "
 msgstr "Deltagare                         "
 
 # RSVP borde kanske förklaras med en kommentar?
 # http://bugzilla.ximian.com/show_bug.cgi?id=61071
 #. To translators: RSVP means "please reply"
-#: ../calendar/gui/e-meeting-list-view.c:533
+#: ../calendar/gui/e-meeting-list-view.c:550
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "OSA"
@@ -11171,23 +11171,23 @@ msgstr "A_tt-göra"
 msgid "_Later"
 msgstr "Se_nare"
 
-#: ../e-util/e-util-labels.c:309
+#: ../e-util/e-util-labels.c:313
 msgid "Label _Name:"
 msgstr "Etikett_namn:"
 
-#: ../e-util/e-util-labels.c:332
+#: ../e-util/e-util-labels.c:336
 msgid "Edit Label"
 msgstr "Redigera etikett"
 
-#: ../e-util/e-util-labels.c:332
+#: ../e-util/e-util-labels.c:336
 msgid "Add Label"
 msgstr "Lägg till etikett"
 
-#: ../e-util/e-util-labels.c:351
+#: ../e-util/e-util-labels.c:355
 msgid "Label name cannot be empty."
 msgstr "Etikettnamnet får inte vara tomt."
 
-#: ../e-util/e-util-labels.c:356
+#: ../e-util/e-util-labels.c:360
 msgid "A label having the same tag already exists on the server. Please rename your label."
 msgstr "En etikett som har samma tagg finns redan på servern. Byt namn på din etikett."
 
@@ -11697,7 +11697,7 @@ msgstr "Protokoll"
 
 #: ../mail/em-composer-prefs.c:303
 #: ../mail/em-composer-prefs.c:438
-#: ../mail/mail-config.c:1166
+#: ../mail/mail-config.c:1168
 #: ../mail/mail-signature-editor.c:478
 msgid "Unnamed"
 msgstr "Namnlös"
@@ -12109,7 +12109,7 @@ msgstr "Kvotanvändning"
 #. translators: standard local mailbox names
 #: ../mail/em-folder-properties.c:359
 #: ../mail/em-folder-tree-model.c:509
-#: ../mail/em-folder-tree.c:2561
+#: ../mail/em-folder-tree.c:2597
 #: ../mail/mail-component.c:159
 #: ../mail/mail-component.c:580
 #: ../plugins/exchange-operations/exchange-delegates-user.c:78
@@ -12241,36 +12241,40 @@ msgstr "_Flytta till mapp"
 msgid "Scanning folders in \"%s\""
 msgstr "Söker igenom mappar på \"%s\""
 
-#: ../mail/em-folder-tree.c:2100
+#: ../mail/em-folder-tree.c:2117
 msgid "Open in _New Window"
 msgstr "Öppna i _nytt fönster"
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2105
+#: ../mail/em-folder-tree.c:2122
 msgid "_New Folder..."
 msgstr "_Ny mapp..."
 
-#: ../mail/em-folder-tree.c:2108
+#: ../mail/em-folder-tree.c:2125
 msgid "_Move..."
 msgstr "_Flytta..."
 
-#: ../mail/em-folder-tree.c:2115
+#: ../mail/em-folder-tree.c:2132
 #: ../ui/evolution-mail-list.xml.h:39
 msgid "_Rename..."
 msgstr "_Byt namn..."
 
-#: ../mail/em-folder-tree.c:2116
+#: ../mail/em-folder-tree.c:2133
 msgid "Re_fresh"
 msgstr "Upp_datera"
 
-#: ../mail/em-folder-tree.c:2117
+#: ../mail/em-folder-tree.c:2134
 msgid "Fl_ush Outbox"
 msgstr "Tö_m utkorg"
 
-#: ../mail/em-folder-tree.c:2123
+#: ../mail/em-folder-tree.c:2140
 #: ../mail/mail.error.xml.h:138
 msgid "_Empty Trash"
 msgstr "Töm papperskor_gen"
+
+#: ../mail/em-folder-tree.c:2243
+msgid "_Unread Search Folder"
+msgstr "_Oläst sökmapp"
 
 #: ../mail/em-folder-utils.c:101
 #, c-format
@@ -12845,11 +12849,11 @@ msgstr "Fel vid verifiering av signatur"
 msgid "Unknown error verifying signature"
 msgstr "Okänt fel vid verifiering av signatur"
 
-#: ../mail/em-format.c:1663
+#: ../mail/em-format.c:1665
 msgid "Could not parse PGP message"
 msgstr "Kunde inte tolka PGP-meddelande"
 
-#: ../mail/em-format.c:1663
+#: ../mail/em-format.c:1665
 msgid "Could not parse PGP message: Unknown error"
 msgstr "Kunde inte tolka PGP-meddelande: Okänt fel"
 
@@ -12967,7 +12971,7 @@ msgstr "Kan inte kopiera POP3-behåll-på-server-data \"%s\": %s"
 msgid "Failed to create local mail storage `%s': %s"
 msgstr "Misslyckades med att skapa lokalt e-postlager \"%s\": %s"
 
-#: ../mail/em-migrate.c:2898
+#: ../mail/em-migrate.c:2952
 msgid ""
 "The summary format of the Evolution mailbox folders has been moved to sqlite since Evolution 2.24.\n"
 "\n"
@@ -12977,12 +12981,12 @@ msgstr ""
 "\n"
 "Vänta medan Evolution migrerar dina mappar..."
 
-#: ../mail/em-migrate.c:2963
+#: ../mail/em-migrate.c:3033
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
 msgstr "Kan inte skapa lokala brevlådemappar på \"%s\": %s"
 
-#: ../mail/em-migrate.c:2982
+#: ../mail/em-migrate.c:3052
 msgid "Unable to read settings from previous Evolution install, `evolution/config.xmldb' does not exist or is corrupt."
 msgstr "Kan inte läsa inställningar från tidigare Evolution-installation, \"evolution/config.xmldb\" finns inte eller är skadad."
 
@@ -13003,24 +13007,24 @@ msgstr "Svara till _lista"
 msgid "_Add to Address Book"
 msgstr "_Lägg till i adressbok"
 
-#: ../mail/em-subscribe-editor.c:582
+#: ../mail/em-subscribe-editor.c:600
 msgid "This store does not support subscriptions, or they are not enabled."
 msgstr "Detta lager stöder inte prenumerationer, eller så är de inte aktiverade."
 
-#: ../mail/em-subscribe-editor.c:615
+#: ../mail/em-subscribe-editor.c:633
 msgid "Subscribed"
 msgstr "Prenumererar"
 
-#: ../mail/em-subscribe-editor.c:619
+#: ../mail/em-subscribe-editor.c:637
 msgid "Folder"
 msgstr "Mapp"
 
 #. FIXME: This is just to get the shadow, is there a better way?
-#: ../mail/em-subscribe-editor.c:821
+#: ../mail/em-subscribe-editor.c:839
 msgid "Please select a server."
 msgstr "Välj en server."
 
-#: ../mail/em-subscribe-editor.c:842
+#: ../mail/em-subscribe-editor.c:860
 msgid "No server has been selected"
 msgstr "Ingen server har valts"
 
@@ -13987,7 +13991,7 @@ msgid "Time"
 msgstr "Tid"
 
 #: ../mail/mail-component.c:1820
-#: ../mail/message-list.c:2457
+#: ../mail/message-list.c:2462
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Meddelanden"
@@ -15698,16 +15702,16 @@ msgid "%b %d %Y"
 msgstr "%d %b %Y"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:3919
-#: ../mail/message-list.c:4390
+#: ../mail/message-list.c:3924
+#: ../mail/message-list.c:4388
 msgid "Generating message list"
 msgstr "Genererar meddelandelista"
 
-#: ../mail/message-list.c:4229
+#: ../mail/message-list.c:4227
 msgid "No message satisfies your search criteria. Either clear search with Search->Clear menu item or change it."
 msgstr "Inga meddelanden matchar dina sökkriteria. Antingen töm sökningen med menyobjektet Sök->Töm eller ändra den."
 
-#: ../mail/message-list.c:4231
+#: ../mail/message-list.c:4229
 msgid "There are no messages in this folder."
 msgstr "Det finns inga meddelanden i denna mapp."
 
@@ -16094,27 +16098,27 @@ msgid "BBDB"
 msgstr "BBDB"
 
 #. For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself.
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:119
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:155
 #, c-format
 msgid "Error occurred while spawning %s: %s."
 msgstr "Fel inträffade vid start av %s: %s."
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:143
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:179
 #, c-format
 msgid "Bogofilter child process does not respond, killing..."
 msgstr "Bogofilter-barnprocessen svarar inte, dödar..."
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:145
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:181
 #, c-format
 msgid "Wait for Bogofilter child process interrupted, terminating..."
 msgstr "Väntan på Bogofilter-barnprocessen avbröts, terminerar..."
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:157
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:200
 #, c-format
 msgid "Pipe to Bogofilter failed, error code: %d."
 msgstr "Rör till Bogofilter misslyckades, felkod: %d."
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:318
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:363
 msgid "Convert message text to _Unicode"
 msgstr "Konvertera meddelandetext till _Unicode"
 
