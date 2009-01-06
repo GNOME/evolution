@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "POT-Creation-Date: 2009-01-03 23:15+0000\n"
-"PO-Revision-Date: 2009-01-06 11:54+0100\n"
+"PO-Revision-Date: 2009-01-06 14:35+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3802,7 +3802,6 @@ msgstr ""
 "el mensaje y después pulse Borrar."
 
 #: C/evolution.xml:1411(para)
-#, fuzzy
 msgid ""
 "When you press Delete or click the Trash folder, your mail is not actually "
 "deleted, but is marked for deletion. Your email is recoverable until you "
@@ -3812,7 +3811,7 @@ msgid ""
 "striken off for later deletion. You can also find deleted messages in your "
 "Trash folder."
 msgstr ""
-"Cuando pulsa Borrar o pulsa en el la carpeta de la papelera, su correo no se "
+"Cuando pulsa Borrar o pulsa en el la carpeta de la Papelera, su correo no se "
 "borra realmente sino que se marca para ser eliminado. Su correo es "
 "recuperable hasta que no lo haya purgado. Cuando Purga una carpeta realmente "
 "está eliminando todo el correo marcado como borrado. Para mostrar los "
@@ -4370,13 +4369,12 @@ msgstr ""
 "faltantes está seleccionado."
 
 #: C/evolution.xml:1601(para)
-#, fuzzy
 msgid ""
 "Click Add, then enter keywords such as <quote>Attach</quote> or "
 "<quote>Attachment</quote>."
 msgstr ""
-"Seleccione las palabras clave tales como <quote>Adjuntar</quote> o "
-"<quote>Adjunto</quote> y pulse Añadir."
+"Pulse Añadir, después introduzca las palabras clave tales como "
+"<quote>Adjuntar</quote> o <quote>Adjunto</quote>."
 
 #: C/evolution.xml:1602(para)
 msgid ""
@@ -4439,13 +4437,11 @@ msgstr ""
 "\">Crear una lista de contactos</link>."
 
 #: C/evolution.xml:1617(para)
-#, fuzzy
 msgid ""
 "Evolution allows you to specify the Reply-To header in an email. To do this:"
 msgstr ""
-"Evolution tiene la capacidad de permitirle especificar el campo Responder a: "
-"en un correo-e. Usando esto, puede establecer un Responder a: especial para "
-"un correo-e. Para hacer esto:"
+"Evolution le permite especificar el campo Responder a: en un correo-e. Para "
+"ello haga:"
 
 #: C/evolution.xml:1620(para)
 msgid "Open a compose window."
@@ -4474,7 +4470,6 @@ msgid "Click Send."
 msgstr "Pulse Enviar."
 
 #: C/evolution.xml:1639(para)
-#, fuzzy
 msgid ""
 "Address auto-completion is enabled in Evolution by default when you create "
 "contacts. Evolution makes it easy for you to quickly fill in the address "
@@ -4582,7 +4577,6 @@ msgstr ""
 "Cco: de su mensaje original porque tal lista no ha sido compartida con nadie."
 
 #: C/evolution.xml:1653(para)
-#, fuzzy
 msgid ""
 "If you subscribe to a mailing list, and want your reply to go just to the "
 "list rather than to the sender, select Reply to List instead of Reply or "
@@ -4605,7 +4599,6 @@ msgid "Shortcuts"
 msgstr "Atajos"
 
 #: C/evolution.xml:1675(para)
-#, fuzzy
 msgid "Reply to Sender"
 msgstr "Responder al remitente"
 
@@ -4860,7 +4853,6 @@ msgid "Alignment:"
 msgstr "Alineación:"
 
 #: C/evolution.xml:1813(para)
-#, fuzzy
 msgid ""
 "Located next to the text style buttons, the three paragraph icons should be "
 "familiar to users of most word processing software. The left-most button "
@@ -5063,7 +5055,6 @@ msgid "Default Settings"
 msgstr "Ajustes predeterminados"
 
 #: C/evolution.xml:1925(para)
-#, fuzzy
 msgid ""
 "Evolution allows you to change the default settings. You can organize your "
 "Draft folder and Sent folder, set the addresses to which you want to sent "
@@ -5071,10 +5062,9 @@ msgid ""
 "for message receipts."
 msgstr ""
 "Evolution le permite cambiar los ajustes predeterminados. Puede organizar su "
-"carpeta de borradores y Correo enviado y establecer las direcciones a las "
+"carpeta de Borradores y Correo enviado y establecer las direcciones a las "
 "que quiere que se envíen copias de carbón y copias de carbón ocultas. "
-"También puede cambiar los ajustes para los destinatarios de los mensajes "
-"desde la ventana Predeterminados."
+"También puede cambiar los ajustes para los destinatarios de los mensajes."
 
 #: C/evolution.xml:1927(para)
 msgid "To change your default settings,"
@@ -5087,17 +5077,14 @@ msgstr ""
 "predeterminados."
 
 #: C/evolution.xml:1936(para)
-#, fuzzy
 msgid "Click Edit to open the Account Editor window."
-msgstr "Pulse Editar para abrir la ventana del editor de cuentas."
+msgstr "Pulse Editar para abrir la ventana del Editor de cuentas."
 
 #: C/evolution.xml:1939(para)
-#, fuzzy
 msgid "Click the Default tab."
 msgstr "Pulse sobre la solapa Predeterminados."
 
 #: C/evolution.xml:1942(para)
-#, fuzzy
 msgid ""
 "Click the respective check boxes and enter the email addresses you want to "
 "always CC and BCC."
@@ -5118,7 +5105,6 @@ msgstr ""
 "Cambiar la carpeta predeterminada para el Correo enviado y los Borradores"
 
 #: C/evolution.xml:1951(para)
-#, fuzzy
 msgid ""
 "By default, all the sent messages directly go to the Sent folder and those "
 "messages marked as drafts are saved in the Drafts folder. To change the "
@@ -5130,17 +5116,15 @@ msgstr ""
 "borradores,"
 
 #: C/evolution.xml:1954(para)
-#, fuzzy
 msgid "Click the Drafts button to open the folder selection window."
-msgstr "Pulse el botón Borradores para abrir la vista de carpeta."
+msgstr ""
+"Pulse el botón Borradores para abrir la ventana de selección de carpeta."
 
 #: C/evolution.xml:1957(para)
-#, fuzzy
 msgid "Select the folder you want to save drafts to."
 msgstr "Seleccione la carpeta en la que quiere guardar los borradores."
 
 #: C/evolution.xml:1963(para) C/evolution.xml:1979(para)
-#, fuzzy
 msgid "Click the Revert button to revert back to previous settings."
 msgstr "Pulse el botón Revertir para revertir al ajuste anterior."
 
@@ -5149,9 +5133,9 @@ msgid "To change the default folder for sent items,"
 msgstr "Para cambiar la carpeta predeterminada para los elementos enviados,"
 
 #: C/evolution.xml:1970(para)
-#, fuzzy
 msgid "Click the Sent button to open the folder selection window."
-msgstr "Pulse el botón Correo enviado para abrir la vista de carpeta."
+msgstr ""
+"Pulse el botón Correo enviado para abrir la ventana de selección de carpeta."
 
 #: C/evolution.xml:1973(para)
 msgid "Select the desired folder for sent items."
@@ -5797,18 +5781,17 @@ msgid "If you want, you can upload your keys to a key server."
 msgstr "Si lo desea puede subir sus claves a un servidor de claves."
 
 #: C/evolution.xml:2252(para)
-#, fuzzy
 msgid ""
 "Check your public key ID with gpg--list-keys. It is the string after "
 "<quote>1024D</quote> on the line beginning with <quote>pub</quote>. In the "
 "example above, it is <quote>32j38dk2</quote>."
 msgstr ""
 "Compruebe su identificador de clave pública con gpg --list-keys. Su "
-"identificador será la cadena que está detrás de 1024D en la línea que "
-"empieza con «pub». En este ejemplo es 32j38dk2."
+"identificador será la cadena que está detrás de <quote>1024D</quote> en la "
+"línea que empieza con <quote>pub</quote>. En este ejemplo es "
+"<quote>32j38dk2</quote>."
 
 #: C/evolution.xml:2255(para)
-#, fuzzy
 msgid ""
 "Enter the command <command>gpg --send-keys --keyserver wwwkeys.pgp.net "
 "<varname>32j38dk2</varname></command>. Substitute your key ID for "
@@ -6038,7 +6021,6 @@ msgstr ""
 "proporciona un archivo de certificado."
 
 #: C/evolution.xml:2354(para)
-#, fuzzy
 msgid ""
 "If you want to use S/MIME independently, you can extract an identification "
 "certificate from your Mozilla* or Netscape* Web browser. See the <ulink url="
@@ -6047,7 +6029,7 @@ msgid ""
 msgstr ""
 "Si quiere usar S/MIME independientemente puede extraer un certificado de "
 "identificación de su navegador Mozilla* o Netscape*. Para obtener más "
-"información acerca de certificados consulte la <ulink url=\"http://www."
+"información acerca de los certificados consulte la <ulink url=\"http://www."
 "mozilla.org/projects/security/pki/psm/help_21/using_certs_help.html\">ayuda "
 "de Mozilla</ulink>."
 
@@ -6073,7 +6055,6 @@ msgid "Select the file to import, then click Open."
 msgstr "Seleccione el archivo a importar, después pulse Abrir."
 
 #: C/evolution.xml:2376(para)
-#, fuzzy
 msgid ""
 "Similarly, you can add certificates that are sent to you independently of "
 "any authority by clicking the Contact Certificates tab and using the same "
