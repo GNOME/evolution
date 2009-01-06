@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "POT-Creation-Date: 2009-01-03 23:15+0000\n"
-"PO-Revision-Date: 2009-01-06 14:35+0100\n"
+"PO-Revision-Date: 2009-01-06 15:55+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4490,7 +4490,6 @@ msgstr ""
 "se refiere."
 
 #: C/evolution.xml:1640(para)
-#, fuzzy
 msgid ""
 "If Evolution does not complete addresses automatically, click Edit &gt; "
 "Preferences, then click Autocompletion. Then, select the address book you "
@@ -4498,7 +4497,7 @@ msgid ""
 msgstr ""
 "Si Evolution no completa automáticamente las direcciones, pulse Editar &gt; "
 "Preferencias, después pulse Autocompletado. Allí seleccione la libreta de "
-"direcciones quequiere usar para el autocompletado de direcciones en el "
+"direcciones que quiere usar para el autocompletado de direcciones en el "
 "correo."
 
 #: C/evolution.xml:1641(para)
@@ -6675,12 +6674,10 @@ msgid "You can view the messages in the desired order in the message list."
 msgstr "Puede ver los mensajes en el orden deseado en la lista de mensajes."
 
 #: C/evolution.xml:2660(title)
-#, fuzzy
 msgid "Using the Follow-Up Feature"
 msgstr "Usar la característica de Marca de seguimiento"
 
 #: C/evolution.xml:2661(para)
-#, fuzzy
 msgid ""
 "To make sure you don't forget about a message, you can use the follow-up "
 "feature."
@@ -6705,22 +6702,18 @@ msgid "You can also open the Flag to Follow Up window by"
 msgstr "También puede abrir la ventana de Marcar para seguimiento así"
 
 #: C/evolution.xml:2676(para)
-#, fuzzy
 msgid "Selecting the messages."
 msgstr "Seleccione los mensajes."
 
 #: C/evolution.xml:2679(para)
-#, fuzzy
 msgid "Selecting the Message menu."
-msgstr "Seleccione Menú de mensaje."
+msgstr "Seleccione el menú Mensaje."
 
 #: C/evolution.xml:2682(para)
-#, fuzzy
 msgid "Clicking Mark as."
 msgstr "Pulse en Marcar como."
 
 #: C/evolution.xml:2685(para)
-#, fuzzy
 msgid "Selecting Follow Up or pressing Shift+Ctrl+G."
 msgstr "Seleccione Marcar para seguimiento o pulse Mayús+Ctrl+G."
 
@@ -6883,7 +6876,6 @@ msgstr ""
 "existen en esta carpeta, hasta que las mueva hacia otro lugar."
 
 #: C/evolution.xml:2718(para)
-#, fuzzy
 msgid ""
 "Most email clients can search for messages for you, but Evolution does it "
 "differently and efficiently giving you faster search results with quick "
@@ -6891,8 +6883,8 @@ msgid ""
 msgstr ""
 "La mayoría de clientes de correo electrónico pueden buscar los mensajes, "
 "pero Evolution lo hace de una forma diferente y eficiente proporcionándole "
-"una búsqueda más rápida con Búsqueda rápida, Búsqueda personalizada y "
-"Búsqueda avanzada."
+"una búsqueda más rápida con la búsqueda rápida, búsqueda personalizada y "
+"búsqueda avanzada."
 
 #: C/evolution.xml:2720(title) C/evolution.xml:3519(title)
 #: C/evolution.xml:4394(title) C/evolution.xml:4702(title)
@@ -6901,20 +6893,18 @@ msgid "Quick Search:"
 msgstr "Búsqueda rápida:"
 
 #: C/evolution.xml:2721(para)
-#, fuzzy
 msgid ""
 "Quick Search displays all the messages that match the built-in criteria you "
 "selected from the drop-down list at the top left side, just above the "
 "message list."
 msgstr ""
-"La Búsqueda rápida muestra todos los mensajes que coincidan con los "
+"La búsqueda rápida muestra todos los mensajes que coincidan con los "
 "criterios integrados que ha seleccionado de la lista desplegable en la parte "
 "superior izquierda, justo encima de la lista de mensajes."
 
 #: C/evolution.xml:2723(para)
-#, fuzzy
 msgid "To perform a quick search:"
-msgstr "Para realizar una búsqueda rápida,"
+msgstr "Para realizar una búsqueda rápida:"
 
 #: C/evolution.xml:2726(para) C/evolution.xml:2805(para)
 #: C/evolution.xml:3482(para) C/evolution.xml:3525(para)
@@ -7018,12 +7008,11 @@ msgid "Customized Search:"
 msgstr "Búsqueda personalizada:"
 
 #: C/evolution.xml:2801(para)
-#, fuzzy
 msgid ""
 "Evolution allows you to perform customized search. To search for a message:"
 msgstr ""
 "Evolution le permite realizar búsquedas personalizadas. Para buscar un "
-"mensaje use el siguiente procedimiento:"
+"mensaje:"
 
 #: C/evolution.xml:2807(title)
 msgid "Subject or Sender Contain:"
@@ -7165,10 +7154,8 @@ msgid "Select the Search menu."
 msgstr "Seleccione el menú Buscar."
 
 #: C/evolution.xml:2871(para)
-#, fuzzy
 msgid "Click Advanced Search to open the Advanced Search window."
-msgstr ""
-"Pulse Búsqueda avanzada para abrir el cuadro de diálogo Búsqueda avanzada."
+msgstr "Pulse Búsqueda avanzada para abrir la ventana Búsqueda avanzada."
 
 #: C/evolution.xml:2876(para)
 msgid "Enter the Search name."
@@ -7216,23 +7203,19 @@ msgid "Select Search from the menu bar."
 msgstr "Seleccione Buscar en la barra de menú."
 
 #: C/evolution.xml:2901(para)
-#, fuzzy
 msgid "Click Edit Saved Searches to open the Searches window."
-msgstr ""
-"Pulse Editar búsquedas guardadas para abrir el cuadro de diálogo Búsquedas."
+msgstr "Pulse Editar búsquedas guardadas para abrir la ventana Búsquedas."
 
 #: C/evolution.xml:2906(para)
-#, fuzzy
 msgid "Click the Edit button to open the Edit Rule window."
-msgstr "Pulse el botón Editar para abrir el cuadro de diálogo Editar regla."
+msgstr "Pulse el botón Editar para abrir la ventana Editar regla."
 
 #: C/evolution.xml:2907(para)
-#, fuzzy
 msgid ""
 "You can also add or remove searches from the list by using the respective "
 "buttons available at the right."
 msgstr ""
-"También puede añadir o quitar Búsquedas de la lista usando los respectivos "
+"También puede añadir o quitar búsquedas de la lista usando los respectivos "
 "botones disponibles a la derecha."
 
 #: C/evolution.xml:2912(para)
@@ -7855,11 +7838,9 @@ msgstr ""
 "basada en el Asunto, Remitente, Destinatario o Lista de correo."
 
 #: C/evolution.xml:3174(para)
-#, fuzzy
 msgid "Select Search &gt; Create Search Folder From Search."
 msgstr ""
-"Seleccione el menú Buscar &gt; Crear una carpeta de búsqueda desde la "
-"búsqueda."
+"Seleccione Buscar &gt; Crear una carpeta de búsqueda desde la búsqueda."
 
 #: C/evolution.xml:3176(para)
 msgid ""
@@ -7900,7 +7881,6 @@ msgid "Recipients:"
 msgstr "Destinatarios:"
 
 #: C/evolution.xml:3208(title)
-#, fuzzy
 msgid "Expression (for programmers only):"
 msgstr "Expresión (sólo para programadores):"
 
@@ -8077,7 +8057,6 @@ msgstr ""
 "mail-options\">Opciones de recepción de correo</link>."
 
 #: C/evolution.xml:3298(para)
-#, fuzzy
 msgid ""
 "SpamAssassin is an application that scans through the mail box to find junk "
 "mail. Evolution uses SpamAssassin as the default spam-filtering application. "
@@ -8450,9 +8429,8 @@ msgid "Username:"
 msgstr "Usuario:"
 
 #: C/evolution.xml:3450(para) C/evolution.xml:3933(para)
-#, fuzzy
 msgid "Specify your username for your Google account."
-msgstr "Especifique su nombre de usuario para su cuenta en Google"
+msgstr "Especifique su nombre de usuario para su cuenta en Google."
 
 #: C/evolution.xml:3455(title)
 msgid "Use SSL:"
@@ -8478,14 +8456,13 @@ msgstr ""
 "automáticamente."
 
 #: C/evolution.xml:3478(para)
-#, fuzzy
 msgid ""
 "Evolution enables you to find the contact address quickly by using "
 "customized search. To find the contact address you are looking for, use the "
 "following procedure:"
 msgstr ""
 "Evolution le permite buscar direcciones de contactos rápidamente usando la "
-"Búsqueda personalizada. Para buscar la dirección del contacto que está "
+"búsqueda personalizada. Para buscar la dirección del contacto que está "
 "buscando, use el siguiente procedimiento:"
 
 #: C/evolution.xml:3485(para) C/evolution.xml:4349(para)
