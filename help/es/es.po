@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "POT-Creation-Date: 2009-01-03 23:15+0000\n"
-"PO-Revision-Date: 2009-01-06 15:55+0100\n"
+"PO-Revision-Date: 2009-01-06 17:47+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -4525,7 +4525,6 @@ msgstr ""
 "calendario de Evolution</link>."
 
 #: C/evolution.xml:1647(para)
-#, fuzzy
 msgid ""
 "To reply to a message, select the message to reply to in the message list "
 "and click the Reply button in the toolbar, or right-click within the message "
@@ -4536,14 +4535,15 @@ msgid ""
 "or with the &gt; character before each line (in plain text mode), to "
 "indicate that it is part of the previous message."
 msgstr ""
-"Para responder a un mensaje, pulse en el mensaje para responder en la lista "
-"y pulse Responder, o pulse con el botón derecho en el mensaje y seleccione "
-"Responder al remitente. Esto abrirá el editor de mensajes. Los campos Para: "
-"y Asunto: ya estarán completos, aunque puede cambiarlos si lo desea. Además "
-"se insertará el texto completo del mensaje antiguo en el nuevo mensaje, en "
-"gris o bien con una línea azul a un lado (sólo para correos en HTML) o con "
-"el carácter &gt; antes de cada línea (para el modo texto plano), para "
-"indicar que es parte del mensaje anterior."
+"Para responder a un mensaje, seleccione el mensaje al que responder en la "
+"lista de mensajes y pulse el botón Responder en la barra de tareas, o pulse "
+"con el botón derecho en el mensaje y seleccione Responder al remitente. Esto "
+"abrirá el editor de mensajes. Los campos Para: y Asunto: ya estarán "
+"rellenados, aunque puede cambiarlos si lo desea. Además se insertará el "
+"texto completo del mensaje antiguo en el nuevo mensaje, en gris o bien con "
+"una línea azul a un lado (sólo para correos en HTML) o con el carácter &gt; "
+"antes de cada línea (para el modo texto plano), para indicar que es parte "
+"del mensaje anterior."
 
 #: C/evolution.xml:1648(para)
 msgid ""
@@ -5203,15 +5203,14 @@ msgstr ""
 "ningún adjunto."
 
 #: C/evolution.xml:2010(para)
-#, fuzzy
 msgid ""
 "Don't forward chain letters. If you must, watch out for hoaxes and urban "
 "legends, and make sure the message doesn't have multiple layers of greater-"
 "than signs (&gt;), indicating multiple layers of careless in-line forwarding."
 msgstr ""
-"No reenvíe los mensajes en cadena. Y si tiene que hacerlo, cuídese de "
-"mensajes falsos o de leyendas urbanas y asegúrese de que el mensaje no tiene "
-"varias capas de signos de mayor que (&gt;) que indican sucesivos reenvíos "
+"No reenvíe los mensajes en cadena. Si tiene que hacerlo, cuídese de mensajes "
+"falsos o de leyendas urbanas y asegúrese de que el mensaje no tiene varias "
+"capas de signos de mayor que (&gt;) que indican sucesivos reenvíos "
 "descuidados."
 
 #: C/evolution.xml:2013(para)
@@ -6416,7 +6415,6 @@ msgstr ""
 "conversaciones."
 
 #: C/evolution.xml:2541(para)
-#, fuzzy
 msgid ""
 "There is a GConf key to toggle between the collapsed or expanded state of "
 "mail thread. By default, it is collapsed and you can change this at /apps/"
@@ -6425,8 +6423,8 @@ msgid ""
 "arranged to this state. This is a highly advanced option only for the "
 "advanced users."
 msgstr ""
-"Existe hay una clave de gconf para conmutar entre el estado contraído o "
-"expandido de una conversación. De forma predeterminada están contraidas y "
+"Existe hay una clave de GConf para conmutar entre el estado contraído o "
+"expandido de una conversación. De forma predeterminada están contraídas y "
 "puede cambiarlo en /apps/evolution/mail/display/thread_expand. Si el valor "
 "es «false», se recordarán los estados expandidos. Cuando reinicie Evolution, "
 "todas las conversaciones toman este estado. Es una opción muy avanzada sólo "
@@ -6558,7 +6556,6 @@ msgid "Custom"
 msgstr "Personalizado"
 
 #: C/evolution.xml:2621(para)
-#, fuzzy
 msgid ""
 "Clicking each sort criteria cycles take you through three possibilities. "
 "Sort by criteria in ascending or descending order or unsort the message. "
@@ -6569,7 +6566,7 @@ msgid ""
 "the reverse order. For the next click, messages will be displayed unsorted."
 msgstr ""
 "Pulsar por cada criterio de ordenación rota entre tres posibilidades. "
-"Criterio de ordenación ascendente o descendente o sin orden. Cuando pulsa "
+"Criterio de ordenación ascendente, descendente o sin orden. Cuando pulsa "
 "sobre cualquier criterio de ordenación reiterativamente, Evolution ordena "
 "los mensajes de forma secuencial, ascendente, descendente y sin ordenar. Por "
 "ejemplo, cuando pulsa Destinatarios la primera vez, Evolution ordena los "
@@ -6594,7 +6591,6 @@ msgid "Sort Descending:"
 msgstr "Orden descendente:"
 
 #: C/evolution.xml:2629(para)
-#, fuzzy
 msgid ""
 "Sort descending reverts the order and returns you the sorted message list in "
 "the order of newest to oldest."
@@ -6718,22 +6714,20 @@ msgid "Selecting Follow Up or pressing Shift+Ctrl+G."
 msgstr "Seleccione Marcar para seguimiento o pulse Mayús+Ctrl+G."
 
 #: C/evolution.xml:2686(para)
-#, fuzzy
 msgid "A window opens to allow you to set the type of flag and the due date."
 msgstr ""
-"Se abrirá una caja de diálogo para permitirle establecer el tipo de marca y "
-"la fecha de vencimiento."
+"Se abrirá una ventana para permitirle establecer el tipo de marca y la fecha "
+"de vencimiento."
 
 #: C/evolution.xml:2690(para)
-#, fuzzy
 msgid ""
 "The flag itself is the action you want to remind yourself about. Several are "
 "provided for you, such as Call, Forward and Reply, but you can enter your "
 "own note or action if you want."
 msgstr ""
-"Con Marcar especifica qué acción es la que se quiere recordar a sí mismo. "
-"Tiene varias disponibles, como Llamar, Reenviar y Responder, pero puede "
-"escribir la nota o acción que prefiera."
+"La marca en si es la acción que quiere que recordarse a si mismo. Tiene "
+"varias disponibles, como Llamar, Reenviar y Responder, pero puede escribir "
+"la nota o acción que prefiera."
 
 #: C/evolution.xml:2691(para)
 msgid ""
@@ -6776,7 +6770,6 @@ msgid "Mark as Important Feature:"
 msgstr "Característica Marcar como importante:"
 
 #: C/evolution.xml:2696(para)
-#, fuzzy
 msgid ""
 "If you prefer a simpler way to remind yourself about messages, you can mark "
 "them as important by right-clicking the message, then click Mark as "
@@ -6784,8 +6777,8 @@ msgid ""
 msgstr ""
 "Si prefiere una forma más sencilla de recordarse a sí mismo los mensajes, "
 "puede marcarlos como importantes pulsando con el botón derecho del ratón "
-"sobre el mensaje y después pulsando Marcar como importante o Seleccionar "
-"mensaje &gt; Marcar como &gt; Importante desde la barra de menú,"
+"sobre el mensaje y después pulsando Marcar como importante o seleccionar "
+"Mensaje &gt; Marcar como &gt; Importante desde la barra de menú."
 
 #: C/evolution.xml:2703(para)
 msgid ""
@@ -6823,7 +6816,6 @@ msgstr ""
 "cualquiera de las carpetas listadas."
 
 #: C/evolution.xml:2707(para)
-#, fuzzy
 msgid ""
 "If you want to create a new folder click New at the bottom left of the "
 "window. Specify the location and enter the label of the folder in the entry "
@@ -7701,7 +7693,6 @@ msgstr ""
 "por ningún otro filtro."
 
 #: C/evolution.xml:3125(para)
-#, fuzzy
 msgid ""
 "When you first open the Filters window, you are shown the list of filters "
 "sorted in the order in which they will be applied. You can move them up and "
@@ -7997,7 +7988,6 @@ msgstr ""
 "sólo se muestran en la carpeta SPAM."
 
 #: C/evolution.xml:3292(para)
-#, fuzzy
 msgid ""
 "The junk mail filter can learn which kinds of mail are legitimate and which "
 "are not if you train it. When you first start using junk mail blocking, "
@@ -8116,7 +8106,6 @@ msgid "Send Me a Card: Adding New Cards Quickly"
 msgstr "Envíeme una tarjeta: Cómo añadir tarjetas rápidamente"
 
 #: C/evolution.xml:3327(para)
-#, fuzzy
 msgid ""
 "Contacts are the individuals you have chosen to add to your address book so "
 "you can keep track of information about them and send email to them. In "
@@ -8139,7 +8128,6 @@ msgid "The Contact Editor"
 msgstr "El editor de contactos"
 
 #: C/evolution.xml:3331(para)
-#, fuzzy
 msgid ""
 "If you want to add or change cards, use the contact editor. You can edit "
 "email addresses, telephone numbers, mailing addresses and all other contact "
@@ -8183,14 +8171,13 @@ msgid "Contains the individual's mailing address."
 msgstr "Contiene las direcciones de correo individuales."
 
 #: C/evolution.xml:3345(para)
-#, fuzzy
 msgid ""
 "You can also use the Forward Contact menu item in the Action menu, which "
 "opens a new message with the card already attached, or Send Message to "
 "Contact, which opens a new message to the contact's email address."
 msgstr ""
 "También puede usar el menú Acciones para Reenviar un contacto, lo que abrirá "
-"un nuevo mensaje con la tarjeta adjuntada, y Enviar mensaje al contacto, que "
+"un nuevo mensaje con la tarjeta adjuntada, o Enviar mensaje al contacto, que "
 "abrirá un nuevo mensaje con la dirección de correo-e del contacto."
 
 #: C/evolution.xml:3346(para)
@@ -8218,7 +8205,6 @@ msgid "Full Name:"
 msgstr "Nombre completo:"
 
 #: C/evolution.xml:3350(para)
-#, fuzzy
 msgid ""
 "Specify the name of your contact here. You can type a name into the Full "
 "Name field, but you can also click the Full Name button to bring up a small "
@@ -8285,7 +8271,6 @@ msgid "Free/Busy and Calendar URLs:"
 msgstr "URL de Disponibilidad y Calendario:"
 
 #: C/evolution.xml:3362(para)
-#, fuzzy
 msgid ""
 "Click the Personal Information tab to enter Web addresses for the contact. "
 "If the contact publishes free/busy or calendar data online, using a server "
@@ -8297,7 +8282,7 @@ msgstr ""
 "para el contacto. Si el contacto publica su Disponibilidad o su calendario "
 "en línea, usando un servidor Exchange o GroupWise, puede especificar las "
 "direcciones para esos servidores aquí. Después de hacerlo, puede comprobar "
-"sus horarios cuando cree citas con el Calendario."
+"sus horarios cuando cree citas con el calendario."
 
 #: C/evolution.xml:3367(title)
 msgid "Creating and Editing Contacts"
@@ -8484,9 +8469,8 @@ msgid "Any field contains"
 msgstr "Cualquier campo contiene"
 
 #: C/evolution.xml:3499(para)
-#, fuzzy
 msgid "Press Enter to begin the search."
-msgstr "Pulse Intro para iniciar la búsqueda"
+msgstr "Pulse Intro para iniciar la búsqueda."
 
 #: C/evolution.xml:3502(para)
 msgid ""
@@ -8509,7 +8493,6 @@ msgid "Select Add to add additional criteria."
 msgstr "Seleccione Añadir para añadir el criterio adicional."
 
 #: C/evolution.xml:3520(para)
-#, fuzzy
 msgid ""
 "Displays all the contacts that match the built-in criteria you have selected "
 "from the drop-down list at the top left side, just above the display pane."
@@ -8661,7 +8644,6 @@ msgstr ""
 "libreta de direcciones dada puede tener varias categorías para los contactos."
 
 #: C/evolution.xml:3630(link) C/evolution.xml:3644(title)
-#, fuzzy
 msgid "Contact Groups"
 msgstr "Grupos de contactos"
 
@@ -8678,7 +8660,6 @@ msgid "Configuring Evolution to use LDAP"
 msgstr "Configuración de Evolution para utilizar LDAP"
 
 #: C/evolution.xml:3645(para)
-#, fuzzy
 msgid ""
 "Contact groups are nothing but address books. The simplest way to organize "
 "contacts is to create additional address books. You can create a new one by "
@@ -8687,10 +8668,10 @@ msgid ""
 "need to provide more information about the contacts server you are trying to "
 "access."
 msgstr ""
-"Los Grupos de contactos no son más que una Libreta de direcciones. La forma "
+"Los Grupos de contactos no son más que una libreta de direcciones. La forma "
 "más sencilla de organizar los contactos es crear libretas de direcciones "
 "adicionales. Puede crear una nueva pulsando Archivo &gt; Nuevo &gt; Libreta "
-"de direcciones. Para los grupos de contactos en su equipo, sólo necesitara "
+"de direcciones. Para los grupos de contactos en su equipo, sólo necesitará "
 "proporcionar un nombre. Para los contactos en la red debe proporcionar más "
 "información acerca del servidor de contactos al que está intentando acceder."
 
@@ -8730,7 +8711,6 @@ msgstr ""
 "la herramienta Importar."
 
 #: C/evolution.xml:3659(para)
-#, fuzzy
 msgid "Mail yourself a contact as a vCard attachment."
 msgstr "Envíese a si mismo un contacto como un adjunto vCard."
 
@@ -8902,7 +8882,6 @@ msgstr ""
 "Introduzca la nueva categoría en la caja de entrada de la parte superior."
 
 #: C/evolution.xml:3722(para)
-#, fuzzy
 msgid ""
 "You can view the category name in the field next to Categories button in the "
 "Contact Editor window."
@@ -8911,7 +8890,6 @@ msgstr ""
 "Categorías en el Editor de contactos."
 
 #: C/evolution.xml:3729(para)
-#, fuzzy
 msgid ""
 "You can edit or set the color and icon for each categories available under "
 "categories list. To achieve that click the Edit button at the bottom of the "
@@ -8932,14 +8910,12 @@ msgid ""
 msgstr ""
 "El protocolo <link linkend=\"ldap\">LDAP</link> permite a los usuarios "
 "compartir información de contactos en red, mediante accesos compartidos a "
-"una libreta de direcciones central. El protocolo LDAP permite que una "
-"organización ponga un conjunto de contactos a la disposición de sus "
-"miembros, o de un departamento. Numerosas organizaciones conservan en una "
-"libreta LDAP las direcciones de todos sus empleados o los contactos de "
-"clientes."
+"una libreta de direcciones central. LDAP permite que una organización ponga "
+"un conjunto de contactos a la disposición de sus miembros, o de un "
+"departamento. Muchas empresas conservan en una libreta LDAP las direcciones "
+"de todos sus empleados o los contactos de clientes."
 
 #: C/evolution.xml:3737(para)
-#, fuzzy
 msgid ""
 "To learn how to add a remote LDAP directory to your available address books, "
 "see <link linkend=\"config-prefs-contact\">Contact Management</link>. Remote "
@@ -8948,7 +8924,7 @@ msgid ""
 "exceptions:"
 msgstr ""
 "Para aprender a añadir un directorio LDAP remoto a sus libretas de "
-"direcciones disponiblesconsulte <link linkend=\"config-prefs-contact"
+"direcciones disponibles consulte <link linkend=\"config-prefs-contact"
 "\">Gestión de contactos</link>. Los grupos de contactos remotos aparecen "
 "bajo el elemento En servidores LDAP en el selector. Funciona como una "
 "carpeta de tarjetas locales, con las siguientes excepciones:"
@@ -8966,7 +8942,6 @@ msgstr ""
 "arrastre los contactos deseados dentro de la lista de contactos local."
 
 #: C/evolution.xml:3741(para)
-#, fuzzy
 msgid ""
 "You can also mark the network folder for offline usage. To mark the folder, "
 "right-click the folder, click Properties and select Copy Folder Content "
@@ -8974,7 +8949,7 @@ msgid ""
 msgstr ""
 "También puede marcar la carpeta de red para su uso desconectado. Para marcar "
 "la carpeta, pulse con el botón derecho sobre la carpeta, después pulse "
-"Propiedades. Seleccione Copiar el contenido de la carpeta localmente para "
+"Propiedades y seleccione Copiar el contenido de la carpeta localmente para "
 "operación desconectada."
 
 #: C/evolution.xml:3744(para)
@@ -9007,7 +8982,6 @@ msgstr ""
 "LDAP, vea <link linkend=\"config-prefs-contact\">Gestión de contactos</link>."
 
 #: C/evolution.xml:3759(para)
-#, fuzzy
 msgid ""
 "When you get information about a person in the mail or in a calendar entry, "
 "you can add it to an address card. To do so, right-click any email address "
@@ -9293,9 +9267,8 @@ msgid "Name:"
 msgstr "Nombre:"
 
 #: C/evolution.xml:3927(para)
-#, fuzzy
 msgid "Specify a name for the Google calendar."
-msgstr "Especifique un nombre para el calendario en Google"
+msgstr "Especifique un nombre para el calendario en Google."
 
 #: C/evolution.xml:3939(para)
 msgid "Set the time to automatically refresh the calendar."
@@ -10900,18 +10873,15 @@ msgid "Send Options:"
 msgstr "Opciones de envío:"
 
 #: C/evolution.xml:5131(para)
-#, fuzzy
 msgid ""
 "You can set the priority and sensitivity of the sent message so that the "
 "recipients will know how important the message is. You can also enable "
 "delivery receipt request and read receipt request for the messages sent."
 msgstr ""
 "Puede establecer la prioridad y sensibilidad de los mensajes enviados para "
-"que los destinatarios conozcan la importancia del mensaje. La prioridad "
-"puede tener uno de estos valores - Alta, Normal o Baja y la sensibilidad "
-"puede ser uno de estos cuatro valores - Normal, Personal, Privado y "
-"Confidencial respectivamente. También puede activar la confirmación de envío "
-"de mensaje y de lectura de mensaje para los mensajes enviados."
+"que los destinatarios conozcan la importancia del mensaje. También puede "
+"activar la confirmación de envío de mensaje y de lectura de mensaje para los "
+"mensajes enviados."
 
 #: C/evolution.xml:5137(para) C/evolution.xml:5666(para)
 #: C/evolution.xml:7314(link) C/evolution.xml:7384(title)
@@ -10964,7 +10934,6 @@ msgid "Adding vCards to the Address Book:"
 msgstr "Añadir vCards a la libreta de direcciones:"
 
 #: C/evolution.xml:5165(para)
-#, fuzzy
 msgid ""
 "Allows you to save the vCards you receive in attachment to your Exchange "
 "address book. New Address Book entries can also be created on Exchange from "
@@ -11274,7 +11243,6 @@ msgid "Setting an Out of Office Message"
 msgstr "Configuración un mensaje de Estoy fuera"
 
 #: C/evolution.xml:5338(para)
-#, fuzzy
 msgid ""
 "You can set the priority and sensitivity of the sent message from an "
 "exchange account so that the recipients will know how important the message "
@@ -11675,7 +11643,6 @@ msgstr ""
 "que vuelva y seleccione Ahora estoy en la oficina."
 
 #: C/evolution.xml:5555(para)
-#, fuzzy
 msgid ""
 "Evolution helps you fix a convenient time for a meeting according to the "
 "availability of the attendees. Its Free/Busy feature allows you to perform a "
@@ -11786,7 +11753,6 @@ msgstr ""
 "los lados de la reunión hacia las horas que desea seleccionar."
 
 #: C/evolution.xml:5613(para)
-#, fuzzy
 msgid ""
 "<trademark>Evolution</trademark> can access accounts on <trademark class="
 "\"registered\">Novell</trademark><trademark class=\"registered\">GroupWise</"
@@ -11900,7 +11866,6 @@ msgstr ""
 "de direcciones personal desde mensajes de correo-e recibidos."
 
 #: C/evolution.xml:5686(para)
-#, fuzzy
 msgid ""
 "To create your GroupWise Frequent contacts and Personal address books, you "
 "need to access your GroupWise account once through GroupWise Java client "
@@ -12104,7 +12069,6 @@ msgid "Reminder Notes"
 msgstr "Notas de recordatorios"
 
 #: C/evolution.xml:5898(para)
-#, fuzzy
 msgid ""
 "GroupWise Reminder notes are like mail messages except they are scheduled "
 "for a particular day and appear on the Calendar for that date. You can use "
@@ -12370,7 +12334,6 @@ msgstr ""
 "el estado de un elemento que ha enviado</link>."
 
 #: C/evolution.xml:6018(para)
-#, fuzzy
 msgid ""
 "(Optional) Select the check box next to Auto-delete sent item to "
 "automatically delete the sent item from the Sent folder."
@@ -12597,14 +12560,12 @@ msgstr ""
 "describe los permisos que puede otorgar a los usuarios:"
 
 #: C/evolution.xml:6182(para)
-#, fuzzy
 msgid "Permission:"
-msgstr "Expresión:"
+msgstr "Permiso:"
 
 #: C/evolution.xml:6185(para)
-#, fuzzy
 msgid "Allows your proxy to do:"
-msgstr "Para establecer su proxy en KDE:"
+msgstr "Le permite a su proxy hacer:"
 
 #: C/evolution.xml:6192(para)
 msgid "Read"
@@ -13138,7 +13099,6 @@ msgid "Receiving Email:"
 msgstr "Recibir correo electrónico:"
 
 #: C/evolution.xml:6475(para)
-#, fuzzy
 msgid ""
 "Select the way you receive email. You can download email from a <link "
 "linkend=\"pop\">POP server</link>, read and keep it on the server (Microsoft "
@@ -13520,7 +13480,6 @@ msgid "Message Display:"
 msgstr "Vista de los mensajes:"
 
 #: C/evolution.xml:6598(para)
-#, fuzzy
 msgid ""
 "Choose how long you want to wait before marking a message read, how to "
 "highlight quotations, and the default encoding. Enable <guilabel>Fall back "
@@ -13543,10 +13502,11 @@ msgstr ""
 "las cabeceras Para / Cc / Cco a</guilabel>. También puede ajustar el límite "
 "para la renderización del contenido de texto en el mensaje que recibe. De "
 "forma predeterminada, cuando recibe un mensaje cuyo contenido de texto es "
-"mayor de 4096 Kilobytes, Evolution no renderiza el texto en el panel de "
+"mayor de 4096 Kilobytes, Evolution no renderizará el texto en el panel de "
 "vista preliminar. Puede ver el texto sin formato en línea o usando una "
-"aplicación externa. También puede activar la barra espaciadora mágica y las "
-"carpetas de búsqueda."
+"aplicación externa. También puede activar la <link linkend=\"b17rgdac"
+"\">Barra espaciadora mágica</link> y las <link linkend=\"usage-mail-organize-"
+"vfolders\">carpetas de búsqueda</link>."
 
 #: C/evolution.xml:6600(para)
 msgid ""
@@ -13735,7 +13695,6 @@ msgstr ""
 "característica."
 
 #: C/evolution.xml:6671(para)
-#, fuzzy
 msgid ""
 "By default it searches only in the local address books enabled for "
 "autocompletion. If you deselect the option <guilabel>Search for sender "
