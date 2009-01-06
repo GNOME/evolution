@@ -2094,6 +2094,23 @@ emft_popup_properties (EPopup *ep, EPopupItem *pitem, void *data)
 	g_free (uri);
 }
 
+static void
+emft_popup_uvfolder (EPopup *ep, EPopupItem *pitem, void *data)
+{
+	EMFolderTree *emft = data;
+	CamelFolder *folder;
+	char *meta = camel_object_meta_get(folder, "vfolder:unread");
+
+	if ((folder = em_folder_tree_get_selected_folder (emft)) != NULL) {
+		if (!meta || strcmp(meta, "false") == 0)
+			camel_object_meta_set(folder, "vfolder:unread", "true");
+		else
+			camel_object_meta_set(folder, "vfolder:unread", "false");
+	}
+	camel_object_state_write (folder);
+	g_free (meta);
+}
+
 static EPopupItem emft_popup_items[] = {
 #if 0
 	{ E_POPUP_ITEM, "00.emc.00", N_("_View"), emft_popup_view, NULL, NULL, EM_POPUP_FOLDER_SELECT },
@@ -2211,6 +2228,25 @@ emft_popup (EMFolderTree *emft, GdkEvent *event)
 
 	if ((folder_type_flags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_TRASH)
 		menus = g_slist_prepend (menus, &trash_popup_item);
+	if (!isstore && strstr(uri, "vfolder")) {
+		/* This is a vfolder, so lets add hacked up menu item. */
+		static EPopupItem *item = NULL;
+		char *meta = camel_object_meta_get (selfolder, "vfolder:unread");
+
+		if (!item)
+			item = g_malloc0(sizeof(*item));
+		if (meta && (strcmp (meta, "true") == 0))
+			item->type = E_POPUP_TOGGLE | E_POPUP_ACTIVE;
+		else
+			item->type = E_POPUP_TOGGLE & ~E_POPUP_ACTIVE;
+		item->path = "99.emc.99";
+		item->label = _("_Unread Search Folder");
+		item->activate = emft_popup_uvfolder;
+		item->visible = EM_POPUP_FOLDER_SELECT;
+		item->user_data = NULL;
+		menus = g_slist_prepend (menus, item);
+		g_free (meta);
+	}
 
 	e_popup_add_items ((EPopup *)emp, menus, NULL, emft_popup_free, emft);
 

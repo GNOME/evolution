@@ -1,3 +1,10 @@
+2009-01-06  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #546637
+
+	* em-folder-tree.c: (emft_popup_uvfolder), (emft_popup): Hack for
+	unread vfolder to work better. This is just for now, not for ever.
+
 2008-12-22  Sankar P  <psankar@novell.com>
 
 	* em-migrate.c (migrate_to_db):
