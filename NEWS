@@ -1,3 +1,29 @@
+Evolution 2.25.4 2009-01-05
+---------------------------
+
+Bug Fixes:
+	#435694: (Novell Bugzilla) Since we now add a bar, lets set the popup items right (Bharath Acharya)
+	#439998: (Novell Bugzilla) Ask the user if he wants to remove the delegated events or keep a copy (Bharath Acharya)
+	#446285: (Novell Bugzilla) Traverse all the entries in the added list (Bharath Acharya)
+	#546437: Fix various typos and poor wording in chapters 1-4 (Matthew Barnes)
+	#546860: Don't craash on malformed label strings (Matthew Barnes)
+	#558337: Fix a crash while managing IMAP folder subscriptions (Norman Wang)
+	#559153: Migration improvements (Sankar P)
+	#559604: Show additional status information for the meeting only when user is an organizer (Milan Crha)
+	#562091: Fix the problem of normal memo window popup when trying to create a shared memo (Matthew Barnes)
+	#562155: Fix a warning shown in the terminal output (Matthew Barnes)
+	#564248: Bump minimum version required for gtkhtml because of new html editor functions (Milan Crha)
+	#565628: Fix memory leak (Ignacio Casal Quinteiro)
+	#565857: Fixes a memory leak (Matthew Barnes)
+	#566206: Remove unlocalized screenshots (Andre Klapper)
+
+Updated Translations:
+	Jorge Gonzalez (es)
+	Yannig Marchegay (oc)
+	Marcel Telka (sk)
+	Leonardo Ferreira Fontenelle (pt_BR)
+	Andre Klapper (de)
+
 Evolution 2.25.3 2008-12-15
 ---------------------------
 
