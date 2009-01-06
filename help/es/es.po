@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
 "POT-Creation-Date: 2009-01-03 23:15+0000\n"
-"PO-Revision-Date: 2009-01-05 11:22+0100\n"
+"PO-Revision-Date: 2009-01-06 11:54+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3385,16 +3385,14 @@ msgid "Click Open to select the sound file."
 msgstr "Pulse Abrir para seleccionar el archivo de sonido."
 
 #: C/evolution.xml:1236(para)
-#, fuzzy
 msgid "Click Play to listen to the file."
-msgstr "Pulse Abrir para seleccionar el archivo de sonido."
+msgstr "Pulse Reproducir para escuchar el archivo de sonido."
 
 #: C/evolution.xml:1242(title)
 msgid "Vertical View Versus Classical View"
 msgstr "Vista vertical y vista clásica"
 
 #: C/evolution.xml:1243(para)
-#, fuzzy
 msgid ""
 "Evolution provides a vertical view in addition to the classical view. In the "
 "vertical view, the message preview pane is located at the right side of the "
@@ -3406,20 +3404,20 @@ msgstr ""
 "vista vertical, el panel de vista previa se encuentra situado en el lado "
 "derecho del panel de mensajes en comparación con la vista clásica, donde el "
 "panel de vista previa de mensajes se encuentra bajo la lista de mensajes. La "
-"vista vertical le permite usar la anchura extra en los monitores de pantalla "
-"panorámica."
+"vista vertical le permite usar la anchura adicional en los monitores de "
+"pantalla panorámica."
 
 #: C/evolution.xml:1245(title)
 msgid "Vertical View:"
 msgstr "Vista vertical:"
 
 #: C/evolution.xml:1246(para)
-#, fuzzy
 msgid "To switch to vertical view, click View &gt; Preview &gt; Vertical View."
-msgstr "Pulse Ver &gt; Vista previa &gt; Vista vertical"
+msgstr ""
+"Para cambiar a la vista vertical, pulse Ver &gt; Vista previa &gt; Vista "
+"vertical."
 
 #: C/evolution.xml:1248(para)
-#, fuzzy
 msgid ""
 "In vertical view, the message list contains double lines of compressed "
 "headers, which enables you to consume the extra width in the preview column. "
@@ -3437,23 +3435,23 @@ msgid "Classical View:"
 msgstr "Vista clásica:"
 
 #: C/evolution.xml:1252(para)
-#, fuzzy
 msgid ""
 "To switch to classical view, click View &gt; Preview &gt; Classical View."
-msgstr "Pulse Ver &gt; Vista previa &gt; Vista clásica"
+msgstr ""
+"Para cambiar a la vista clásica, pulse Ver &gt; Vista previa &gt; Vista "
+"clásica."
 
 #: C/evolution.xml:1257(title)
 msgid "Collapsible Message Headers"
 msgstr "Cabeceras de mensajes contraíbles"
 
 #: C/evolution.xml:1258(para)
-#, fuzzy
 msgid ""
 "Evolution compresses the TO, CC and BCC headers of received mail and shows "
 "only limited addresses. You can set the limit of the number of addresses to "
 "be displayed in the preview pane."
 msgstr ""
-"Evolution comprime las cabeceras Para, CC, BCC recibidas en los correos y "
+"Evolution comprime las cabeceras Para, Cc, Cco recibidas en los correos y "
 "muestra sólo direcciones limitadas. Puede establecer un límite en el número "
 "de direcciones para mostrar en el panel de vista previa."
 
@@ -3461,7 +3459,7 @@ msgstr ""
 msgid ""
 "Use the following procedure to set the limit of addresses to be displayed:"
 msgstr ""
-"Use el siguiente procedimiento para establecer el límite de direcciones a "
+"Use el siguiente procedimiento para establecer el límite de direcciones para "
 "mostrar:"
 
 #: C/evolution.xml:1263(para) C/evolution.xml:1930(para)
@@ -3487,7 +3485,6 @@ msgid "Enter the limit in the field."
 msgstr "Introduzca el límite en el campo."
 
 #: C/evolution.xml:1275(para)
-#, fuzzy
 msgid ""
 "You can expand the message headers by clicking the <inlinegraphic format="
 "\"PNG\" fileref=\"figures/plus.png\"/> icon or the ellipsis (<guilabel>...</"
@@ -3496,9 +3493,10 @@ msgid ""
 "in the preview pane."
 msgstr ""
 "Puede expandir las cabeceras del mensaje pulsando el icono <inlinegraphic "
-"format=\"PNG\" fileref=\"figures/plus.png\"/> o el <guilabel>...</guilabel> "
-"en el panel de vista previa. Para contraerlas pulse el icono <inlinegraphic "
-"format=\"PNG\" fileref=\"figures/minus.png\"/> en el panel de vista previa."
+"format=\"PNG\" fileref=\"figures/plus.png\"/> o la elipsis (<guilabel>...</"
+"guilabel>) en el panel de vista previa. Para contraer las cabeceras del "
+"mensaje, pulse el icono <inlinegraphic format=\"PNG\" fileref=\"figures/"
+"minus.png\"/> en el panel de vista previa."
 
 #: C/evolution.xml:1279(title)
 msgid "Sharing Mailboxes with Other Mail Programs"
@@ -3557,7 +3555,6 @@ msgid "Working with Attachments and HTML Mail"
 msgstr "Trabajar con adjuntos y correo HTML"
 
 #: C/evolution.xml:1302(para)
-#, fuzzy
 msgid ""
 "If someone sends you an <link linkend=\"attachment\">attachment</link>, "
 "Evolution displays a file icon at the end of the message to which it is "
@@ -3661,7 +3658,6 @@ msgstr ""
 "composición del mensaje."
 
 #: C/evolution.xml:1341(para)
-#, fuzzy
 msgid ""
 "Some images are links in a message, rather than being part of the message. "
 "Evolution can download those images from the Internet, but does not do so "
@@ -3678,9 +3674,9 @@ msgstr ""
 "privacidad."
 
 #: C/evolution.xml:1342(para)
-#, fuzzy
 msgid "To load the images for one message, click View &gt; Load Images."
-msgstr "Para cargar las imágenes de un mensaje:"
+msgstr ""
+"Para cargar las imágenes de un mensaje, pulse Ver &gt; Cargar imágenes."
 
 #: C/evolution.xml:1343(para)
 msgid "To set the default action for loading images:"
@@ -3753,7 +3749,6 @@ msgid "Using Evolution for News"
 msgstr "Usar Evolution para noticias"
 
 #: C/evolution.xml:1393(para)
-#, fuzzy
 msgid ""
 "USENET newsgroups are similar to mail, so it is often convenient to read "
 "news and mail side by side. You can add a news source, called an NNTP "
@@ -3796,7 +3791,6 @@ msgid "Deleting Mail"
 msgstr "Borrado de correo"
 
 #: C/evolution.xml:1410(para)
-#, fuzzy
 msgid ""
 "Evolution allows you to delete unwanted messages. To delete a message, "
 "select it and press the Delete key, or click the Delete button in the "
@@ -3805,7 +3799,7 @@ msgstr ""
 "Evolution le permite borrar correos no deseados. Para borrar un correo, "
 "selecciónelo y pulse la tecla Suprimir, o pulse el botón Borrar en la barra "
 "de herramientas, pulse Ctrl+D o pulse con el botón derecho del ratón sobre "
-"él y después pulse Borrar."
+"el mensaje y después pulse Borrar."
 
 #: C/evolution.xml:1411(para)
 #, fuzzy
@@ -3883,7 +3877,6 @@ msgstr ""
 "marca y el mensaje se borrará de la carpeta Papelera."
 
 #: C/evolution.xml:1426(para)
-#, fuzzy
 msgid ""
 "You can start writing a new email message by clicking File &gt; New &gt; "
 "Mail Message, by pressing Ctrl+N when in the mail tool, or by clicking New "
@@ -4140,13 +4133,12 @@ msgstr ""
 "vez que se conecte a Internet y envíe o reciba correo."
 
 #: C/evolution.xml:1514(para)
-#, fuzzy
 msgid ""
 "Click File &gt; Save Draft to store your messages in the Drafts folder for "
 "later revision."
 msgstr ""
 "Pulse Archivo &gt; Guardar borrador para guardar sus mensajes en la carpeta "
-"de borradores y poder revisarlos después."
+"Borradores y poder revisarlos después."
 
 #: C/evolution.xml:1517(para)
 msgid ""
@@ -4200,7 +4192,6 @@ msgstr ""
 "Pulse Copiar el contenido de la carpeta localmente para operar desconectado."
 
 #: C/evolution.xml:1535(para)
-#, fuzzy
 msgid ""
 "Your connection status is shown by the small icon in the lower left corner "
 "of the Evolution main window. When you are online, it displays two connected "
@@ -4224,13 +4215,12 @@ msgstr ""
 "conexión en la esquina inferior izquierda de la pantalla."
 
 #: C/evolution.xml:1540(para)
-#, fuzzy
 msgid ""
 "A message pops up and asks you whether you want to go offline immediately or "
 "synchronize folders locally before you go offline."
 msgstr ""
 "Un mensaje emergerá y le preguntará si quiere desconectarse inmediatamente o "
-"cachear antes de desconectarse."
+"quiere sincronizar las carpetas localmente antes de desconectarse."
 
 #: C/evolution.xml:1545(para)
 msgid ""
@@ -4261,13 +4251,12 @@ msgstr ""
 "emergente. Lo predeterminado es no sincronizar al desconectar."
 
 #: C/evolution.xml:1551(para)
-#, fuzzy
 msgid ""
 "When you want to reconnect, click File &gt; Work Online, or click the "
 "connection status icon again."
 msgstr ""
-"Pulse Archivo &gt; Trabajar conectado o pulse el icono de estado de la "
-"conexión de nuevo."
+"Cuando quiera reconectarse, pulse Archivo &gt; Trabajar conectado o pulse el "
+"icono de estado de la conexión de nuevo."
 
 #: C/evolution.xml:1554(title)
 msgid "Download Messages for Offline Operations"
@@ -4286,11 +4275,12 @@ msgstr ""
 "botón de desconexión sin descargar los mensajes."
 
 #: C/evolution.xml:1556(para)
-#, fuzzy
 msgid ""
 "To download messages for offline operations, select File &gt; Download "
 "messages for offline."
-msgstr "Seleccione Archivo &gt; Descargar mensajes para trabajar sin conexión."
+msgstr ""
+"Para descargar los mensajes para operaciones en modo desconectado, "
+"seleccione Archivo &gt; Descargar mensajes para trabajar sin conexión."
 
 #: C/evolution.xml:1560(title)
 msgid "Automatic Network State Handling"
@@ -4314,7 +4304,6 @@ msgid "To attach a file to your email:"
 msgstr "Para adjuntar un archivo a su correo-e:"
 
 #: C/evolution.xml:1570(para)
-#, fuzzy
 msgid "Click the Attach button in the composer toolbar."
 msgstr "Pulse el botón Adjuntar en la barra de herramientas del editor."
 
@@ -4343,9 +4332,8 @@ msgstr ""
 "enviados y recibidos."
 
 #: C/evolution.xml:1583(title)
-#, fuzzy
 msgid "Attachment Reminder"
-msgstr "Recuerdo de adjuntos:"
+msgstr "Recuerdo de adjuntos"
 
 #: C/evolution.xml:1584(para)
 msgid ""
