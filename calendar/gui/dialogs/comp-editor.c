@@ -2389,6 +2389,7 @@ comp_editor_set_summary (CompEditor *editor,
 
 	show_warning =
 		!editor->priv->warned &&
+		!(editor->priv->flags & COMP_EDITOR_DELEGATE) &&
 		editor->priv->existing_org &&
 		!editor->priv->user_org;
 
@@ -2437,6 +2438,7 @@ comp_editor_set_changed (CompEditor *editor,
 
 	show_warning =
 		changed && !editor->priv->warned &&
+		!(editor->priv->flags & COMP_EDITOR_DELEGATE) &&
 		editor->priv->existing_org && !editor->priv->user_org;
 
 	if (show_warning) {
