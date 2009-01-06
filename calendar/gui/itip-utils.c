@@ -661,16 +661,32 @@ comp_subject (ECalComponentItipMethod method, ECalComponent *comp)
 
 			switch (a->status) {
 			case ICAL_PARTSTAT_ACCEPTED:
-				prefix = _("Accepted");
+				/* Translators: This is part of the subject
+				 * line of a meeting request or update email.
+				 * The full subject line would be:
+				 * "Accepted: Meeting Name". */
+				prefix = C_("Meeting", "Accepted");
 				break;
 			case ICAL_PARTSTAT_TENTATIVE:
-				prefix = _("Tentatively Accepted");
+				/* Translators: This is part of the subject
+				 * line of a meeting request or update email.
+				 * The full subject line would be:
+				 * "Tentatively Accepted: Meeting Name". */
+				prefix = C_("Meeting", "Tentatively Accepted");
 				break;
 			case ICAL_PARTSTAT_DECLINED:
-				prefix = _("Declined");
+				/* Translators: This is part of the subject
+				 * line of a meeting request or update email.
+				 * The full subject line would be:
+				 * "Declined: Meeting Name". */
+				prefix = C_("Meeting", "Declined");
 				break;
 			case ICAL_PARTSTAT_DELEGATED:
-				prefix = _("Delegated");
+				/* Translators: This is part of the subject
+				 * line of a meeting request or update email.
+				 * The full subject line would be:
+				 * "Delegated: Meeting Name". */
+				prefix = C_("Meeting", "Delegated");
 				break;
 			default:
 				break;
@@ -680,23 +696,38 @@ comp_subject (ECalComponentItipMethod method, ECalComponent *comp)
 		break;
 
 	case E_CAL_COMPONENT_METHOD_ADD:
-		prefix = _("Updated");
+		/* Translators: This is part of the subject line of a
+		 * meeting request or update email.  The full subject
+		 * line would be: "Updated: Meeting Name". */
+		prefix = C_("Meeting", "Updated");
 		break;
 
 	case E_CAL_COMPONENT_METHOD_CANCEL:
-		prefix = _("Cancel");
+		/* Translators: This is part of the subject line of a
+		 * meeting request or update email.  The full subject
+		 * line would be: "Cancel: Meeting Name". */
+		prefix = C_("Meeting", "Cancel");
 		break;
 
 	case E_CAL_COMPONENT_METHOD_REFRESH:
-		prefix = _("Refresh");
+		/* Translators: This is part of the subject line of a
+		 * meeting request or update email.  The full subject
+		 * line would be: "Refresh: Meeting Name". */
+		prefix = C_("Meeting", "Refresh");
 		break;
 
 	case E_CAL_COMPONENT_METHOD_COUNTER:
-		prefix = _("Counter-proposal");
+		/* Translators: This is part of the subject line of a
+		 * meeting request or update email.  The full subject
+		 * line would be: "Counter-proposal: Meeting Name". */
+		prefix = C_("Meeting", "Counter-proposal");
 		break;
 
 	case E_CAL_COMPONENT_METHOD_DECLINECOUNTER:
-		prefix = _("Declined");
+		/* Translators: This is part of the subject line of a
+		 * meeting request or update email.  The full subject
+		 * line would be: "Declined: Meeting Name". */
+		prefix = C_("Meeting", "Declined");
 		break;
 
 	default:
