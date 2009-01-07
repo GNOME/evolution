@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution&component=general\n"
-"POT-Creation-Date: 2008-12-30 13:14+0000\n"
-"PO-Revision-Date: 2009-01-02 15:07+0100\n"
+"POT-Creation-Date: 2009-01-06 16:52+0000\n"
+"PO-Revision-Date: 2009-01-07 20:33+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -892,7 +892,7 @@ msgstr "_Borrar"
 
 #: ../addressbook/gui/component/addressbook-view.c:959
 #: ../calendar/gui/calendar-component.c:668
-#: ../calendar/gui/dialogs/comp-editor.c:2087
+#: ../calendar/gui/dialogs/comp-editor.c:2088
 #: ../calendar/gui/memos-component.c:509 ../calendar/gui/tasks-component.c:500
 #: ../composer/e-msg-composer.c:1042 ../mail/em-folder-tree.c:2138
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:38
@@ -3016,7 +3016,7 @@ msgid "Save as vCard..."
 msgstr "Guardar como vCard…"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:934
-#: ../calendar/gui/dialogs/comp-editor.c:2085
+#: ../calendar/gui/dialogs/comp-editor.c:2086
 #: ../calendar/gui/e-calendar-table.c:1587
 #: ../calendar/gui/e-calendar-view.c:1746 ../calendar/gui/e-memo-table.c:923
 #: ../ui/evolution-addressbook.xml.h:56
@@ -3072,7 +3072,7 @@ msgid "Cu_t"
 msgstr "Cor_tar"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:954
-#: ../calendar/gui/dialogs/comp-editor.c:486
+#: ../calendar/gui/dialogs/comp-editor.c:487
 #: ../calendar/gui/e-calendar-table.c:1595
 #: ../calendar/gui/e-calendar-view.c:1753 ../calendar/gui/e-memo-table.c:931
 #: ../composer/e-msg-composer.c:2053 ../mail/em-folder-tree.c:1005
@@ -3476,7 +3476,7 @@ msgstr "Calendario"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:639
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#: ../calendar/gui/dialogs/event-editor.c:115
+#: ../calendar/gui/dialogs/event-editor.c:116
 msgid "Free/Busy"
 msgstr "Disponibilidad"
 
@@ -4778,7 +4778,7 @@ msgid "_Dismiss"
 msgstr "_Descartar"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:5
-#: ../calendar/gui/dialogs/comp-editor.c:1380
+#: ../calendar/gui/dialogs/comp-editor.c:1381
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:10
 #: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:170
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:15
@@ -5667,7 +5667,7 @@ msgid "Public"
 msgstr "Público"
 
 #: ../calendar/gui/caltypes.xml.h:16
-#: ../calendar/gui/dialogs/event-editor.c:297
+#: ../calendar/gui/dialogs/event-editor.c:304
 msgid "Recurrence"
 msgstr "Repetición"
 
@@ -6233,14 +6233,14 @@ msgstr " (Vence "
 msgid "Due "
 msgstr "Vence "
 
-#: ../calendar/gui/dialogs/comp-editor.c:238
+#: ../calendar/gui/dialogs/comp-editor.c:239
 #, c-format
 msgid "Attached message - %s"
 msgstr "Mensaje adjunto: %s"
 
 #. translators, this count will always be >1
-#: ../calendar/gui/dialogs/comp-editor.c:243
-#: ../calendar/gui/dialogs/comp-editor.c:416 ../composer/e-msg-composer.c:1767
+#: ../calendar/gui/dialogs/comp-editor.c:244
+#: ../calendar/gui/dialogs/comp-editor.c:417 ../composer/e-msg-composer.c:1767
 #: ../composer/e-msg-composer.c:1986
 #, c-format
 msgid "Attached message"
@@ -6248,232 +6248,232 @@ msgid_plural "%d attached messages"
 msgstr[0] "Mensaje adjunto"
 msgstr[1] "%d mensajes adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:487 ../composer/e-msg-composer.c:2054
+#: ../calendar/gui/dialogs/comp-editor.c:488 ../composer/e-msg-composer.c:2054
 #: ../mail/em-folder-tree.c:1006 ../mail/em-folder-utils.c:364
 #: ../mail/em-folder-view.c:1186 ../mail/message-list.c:2105
 msgid "_Move"
 msgstr "_Mover"
 
-#: ../calendar/gui/dialogs/comp-editor.c:489 ../composer/e-msg-composer.c:2056
+#: ../calendar/gui/dialogs/comp-editor.c:490 ../composer/e-msg-composer.c:2056
 #: ../mail/em-folder-tree.c:1008 ../mail/message-list.c:2107
 msgid "Cancel _Drag"
 msgstr "Cancelar _arrastre"
 
-#: ../calendar/gui/dialogs/comp-editor.c:622
-#: ../calendar/gui/dialogs/comp-editor.c:3302 ../mail/em-utils.c:372
+#: ../calendar/gui/dialogs/comp-editor.c:623
+#: ../calendar/gui/dialogs/comp-editor.c:3305 ../mail/em-utils.c:372
 #: ../plugins/prefer-plain/prefer-plain.c:91
 #: ../widgets/misc/e-attachment-bar.c:453
 msgid "attachment"
 msgstr "adjunto"
 
-#: ../calendar/gui/dialogs/comp-editor.c:848
+#: ../calendar/gui/dialogs/comp-editor.c:849
 msgid "Could not update object"
 msgstr "No es posible actualizar el objeto"
 
-#: ../calendar/gui/dialogs/comp-editor.c:936
+#: ../calendar/gui/dialogs/comp-editor.c:937
 msgid "Edit Appointment"
 msgstr "Editar cita"
 
-#: ../calendar/gui/dialogs/comp-editor.c:943
+#: ../calendar/gui/dialogs/comp-editor.c:944
 #, c-format
 msgid "Meeting - %s"
 msgstr "Reunión: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:945
+#: ../calendar/gui/dialogs/comp-editor.c:946
 #, c-format
 msgid "Appointment - %s"
 msgstr "Cita: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:951
+#: ../calendar/gui/dialogs/comp-editor.c:952
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Tarea asignada: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:953
+#: ../calendar/gui/dialogs/comp-editor.c:954
 #, c-format
 msgid "Task - %s"
 msgstr "Tarea: %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:958
+#: ../calendar/gui/dialogs/comp-editor.c:959
 #, c-format
 msgid "Memo - %s"
 msgstr "Nota - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:974
+#: ../calendar/gui/dialogs/comp-editor.c:975
 msgid "No Summary"
 msgstr "Sin resumen"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1115
+#: ../calendar/gui/dialogs/comp-editor.c:1116
 msgid "Keep original item?"
 msgstr "¿Mantener el elemento original?"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1310
+#: ../calendar/gui/dialogs/comp-editor.c:1311
 msgid "Click here to close the current window"
 msgstr "Pulse aquí para cerrar la ventana actual"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1317
+#: ../calendar/gui/dialogs/comp-editor.c:1318
 msgid "Copy selected text to the clipboard"
 msgstr "Copia el texto seleccionado al portapapeles"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1324
+#: ../calendar/gui/dialogs/comp-editor.c:1325
 msgid "Cut selected text to the clipboard"
 msgstr "Corta el texto seleccionado al portapapeles"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1331
+#: ../calendar/gui/dialogs/comp-editor.c:1332
 msgid "Click here to view help available"
 msgstr "Pulse aquí para ver la ayuda disponible"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1338
+#: ../calendar/gui/dialogs/comp-editor.c:1339
 msgid "Paste text from the clipboard"
 msgstr "Pega texto desde el portapapeles"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1359
+#: ../calendar/gui/dialogs/comp-editor.c:1360
 msgid "Click here to save the current window"
 msgstr "Pulse aquí para guardar la vista actual"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1366
+#: ../calendar/gui/dialogs/comp-editor.c:1367
 msgid "Select all text"
 msgstr "Selecciona todo el texto"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1373
+#: ../calendar/gui/dialogs/comp-editor.c:1374
 msgid "_Classification"
 msgstr "_Clasificación"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1387
+#: ../calendar/gui/dialogs/comp-editor.c:1388
 #: ../mail/mail-signature-editor.c:208
 #: ../ui/evolution-mail-messagedisplay.xml.h:6 ../ui/evolution.xml.h:43
 msgid "_File"
 msgstr "_Archivo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1394
+#: ../calendar/gui/dialogs/comp-editor.c:1395
 #: ../ui/evolution-calendar.xml.h:44 ../ui/evolution-mail-global.xml.h:24
 #: ../ui/evolution.xml.h:46
 msgid "_Help"
 msgstr "Ay_uda"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1401
+#: ../calendar/gui/dialogs/comp-editor.c:1402
 msgid "_Insert"
 msgstr "_Insertar"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1408
+#: ../calendar/gui/dialogs/comp-editor.c:1409
 msgid "_Options"
 msgstr "_Opciones"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1415 ../mail/em-folder-tree.c:2116
+#: ../calendar/gui/dialogs/comp-editor.c:1416 ../mail/em-folder-tree.c:2116
 #: ../ui/evolution-addressbook.xml.h:64 ../ui/evolution-mail-global.xml.h:34
 #: ../ui/evolution-mail-messagedisplay.xml.h:8 ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:55
 msgid "_View"
 msgstr "_Ver"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1425
+#: ../calendar/gui/dialogs/comp-editor.c:1426
 #: ../composer/e-composer-actions.c:469
 msgid "_Attachment..."
 msgstr "_Adjunto…"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1427
+#: ../calendar/gui/dialogs/comp-editor.c:1428
 msgid "Click here to attach a file"
 msgstr "Pulse aquí para adjuntar un archivo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1435
+#: ../calendar/gui/dialogs/comp-editor.c:1436
 msgid "_Categories"
 msgstr "_Categorías"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1437
+#: ../calendar/gui/dialogs/comp-editor.c:1438
 msgid "Toggles whether to display categories"
 msgstr "Conmuta cuando se muestran las categorías"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1443
+#: ../calendar/gui/dialogs/comp-editor.c:1444
 msgid "Time _Zone"
 msgstr "_Zona horaria"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1445
+#: ../calendar/gui/dialogs/comp-editor.c:1446
 msgid "Toggles whether the time zone is displayed"
 msgstr "Conmuta cuando se muestra la «Zona horaria»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1454
+#: ../calendar/gui/dialogs/comp-editor.c:1455
 msgid "Pu_blic"
 msgstr "Pú_blico"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1456
+#: ../calendar/gui/dialogs/comp-editor.c:1457
 msgid "Classify as public"
 msgstr "Clasificar como público"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1461
+#: ../calendar/gui/dialogs/comp-editor.c:1462
 msgid "_Private"
 msgstr "_Privado"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1463
+#: ../calendar/gui/dialogs/comp-editor.c:1464
 msgid "Classify as private"
 msgstr "Clasificar como privado"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1468
+#: ../calendar/gui/dialogs/comp-editor.c:1469
 msgid "_Confidential"
 msgstr "_Confidencial"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1470
+#: ../calendar/gui/dialogs/comp-editor.c:1471
 msgid "Classify as confidential"
 msgstr "Clasificar como confidencial"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1478
+#: ../calendar/gui/dialogs/comp-editor.c:1479
 msgid "R_ole Field"
 msgstr "Campo «_Rol»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1480
+#: ../calendar/gui/dialogs/comp-editor.c:1481
 msgid "Toggles whether the Role field is displayed"
 msgstr "Conmuta cuando se muestra el campo «Rol»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1486
+#: ../calendar/gui/dialogs/comp-editor.c:1487
 msgid "_RSVP"
 msgstr "_Confirmar"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1488
+#: ../calendar/gui/dialogs/comp-editor.c:1489
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Conmuta cuando se muestra el campo «Confirmar»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1494
+#: ../calendar/gui/dialogs/comp-editor.c:1495
 msgid "_Status Field"
 msgstr "Campo de _estado"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1496
+#: ../calendar/gui/dialogs/comp-editor.c:1497
 msgid "Toggles whether the Status field is displayed"
 msgstr "Conmuta cuando se muestra el campo «Estado»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1502
+#: ../calendar/gui/dialogs/comp-editor.c:1503
 msgid "_Type Field"
 msgstr "Campo de _tipo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1504
+#: ../calendar/gui/dialogs/comp-editor.c:1505
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Conmuta indicando si se muestra el campo «Tipo de participante»"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1818
+#: ../calendar/gui/dialogs/comp-editor.c:1819
 #: ../composer/e-composer-private.c:64 ../widgets/misc/e-attachment-bar.c:1382
 msgid "Recent _Documents"
 msgstr "_Documentos recientes"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1837
+#: ../calendar/gui/dialogs/comp-editor.c:1838
 #: ../composer/e-composer-actions.c:696
 msgid "Attach"
 msgstr "Adjuntar"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1932
+#: ../calendar/gui/dialogs/comp-editor.c:1933
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
 msgstr[0] "<b>%d</b> adjunto"
 msgstr[1] "<b>%d</b> adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1964
+#: ../calendar/gui/dialogs/comp-editor.c:1965
 msgid "Hide Attachment _Bar"
 msgstr "Ocultar _barra de adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1967
-#: ../calendar/gui/dialogs/comp-editor.c:2275
+#: ../calendar/gui/dialogs/comp-editor.c:1968
+#: ../calendar/gui/dialogs/comp-editor.c:2276
 msgid "Show Attachment _Bar"
 msgstr "Mostrar _barra de adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2086
+#: ../calendar/gui/dialogs/comp-editor.c:2087
 #: ../calendar/gui/dialogs/event-page.c:1876
 #: ../calendar/gui/dialogs/task-page.c:1198 ../composer/e-msg-composer.c:1041
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
@@ -6482,30 +6482,30 @@ msgstr "Mostrar _barra de adjuntos"
 msgid "_Remove"
 msgstr "_Quitar"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2089
+#: ../calendar/gui/dialogs/comp-editor.c:2090
 #: ../composer/e-msg-composer.c:1044
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
 msgid "_Add attachment..."
 msgstr "_Añadir adjunto…"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2297
+#: ../calendar/gui/dialogs/comp-editor.c:2298
 #: ../mail/em-format-html-display.c:2380
 msgid "Show Attachments"
 msgstr "Mostrar adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2298
+#: ../calendar/gui/dialogs/comp-editor.c:2299
 msgid "Press space key to toggle attachment bar"
 msgstr "Pulse la barra espaciadora para cambiar la barra de adjuntos"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2442
-#: ../calendar/gui/dialogs/comp-editor.c:2489
-#: ../calendar/gui/dialogs/comp-editor.c:3335
+#: ../calendar/gui/dialogs/comp-editor.c:2444
+#: ../calendar/gui/dialogs/comp-editor.c:2492
+#: ../calendar/gui/dialogs/comp-editor.c:3338
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Los cambios efectuados a este elemento pueden descartarse si llega una "
 "actualización por correo"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3364
+#: ../calendar/gui/dialogs/comp-editor.c:3367
 msgid "Unable to use current version!"
 msgstr "Imposible usar la versión actual."
 
@@ -6586,59 +6586,59 @@ msgstr "Delegar en:"
 msgid "Enter Delegate"
 msgstr "Introducir un delegado"
 
-#: ../calendar/gui/dialogs/event-editor.c:195
+#: ../calendar/gui/dialogs/event-editor.c:202
 msgid "_Alarms"
 msgstr "_Alertas"
 
-#: ../calendar/gui/dialogs/event-editor.c:197
+#: ../calendar/gui/dialogs/event-editor.c:204
 msgid "Click here to set or unset alarms for this event"
 msgstr "Pulse aquí para poner o quitar alertas para este acontecimiento"
 
-#: ../calendar/gui/dialogs/event-editor.c:202
+#: ../calendar/gui/dialogs/event-editor.c:209
 msgid "_Recurrence"
 msgstr "_Repetición"
 
-#: ../calendar/gui/dialogs/event-editor.c:204
+#: ../calendar/gui/dialogs/event-editor.c:211
 msgid "Make this a recurring event"
 msgstr "Convertir en acontecimiento repetitivo"
 
-#: ../calendar/gui/dialogs/event-editor.c:209
+#: ../calendar/gui/dialogs/event-editor.c:216
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../plugins/groupwise-features/send-options.c:212
 #: ../widgets/misc/e-send-options.glade.h:19
 msgid "Send Options"
 msgstr "Opciones de envío"
 
-#: ../calendar/gui/dialogs/event-editor.c:211
+#: ../calendar/gui/dialogs/event-editor.c:218
 #: ../calendar/gui/dialogs/task-editor.c:125
 msgid "Insert advanced send options"
 msgstr "Opciones de envío avanzadas"
 
-#: ../calendar/gui/dialogs/event-editor.c:219
+#: ../calendar/gui/dialogs/event-editor.c:226
 msgid "All _Day Event"
 msgstr "Acontecimiento para todo el _día"
 
-#: ../calendar/gui/dialogs/event-editor.c:221
+#: ../calendar/gui/dialogs/event-editor.c:228
 msgid "Toggles whether to have All Day Event"
 msgstr "Se activa cuando se tiene un «Acontecimiento para todo el día»"
 
-#: ../calendar/gui/dialogs/event-editor.c:227
+#: ../calendar/gui/dialogs/event-editor.c:234
 msgid "Show Time as _Busy"
 msgstr "Mostrar hora como _ocupada"
 
-#: ../calendar/gui/dialogs/event-editor.c:229
+#: ../calendar/gui/dialogs/event-editor.c:236
 msgid "Toggles whether to show time as busy"
 msgstr "Se activa cuando se deben mostrar la hora como ocupada"
 
-#: ../calendar/gui/dialogs/event-editor.c:238
+#: ../calendar/gui/dialogs/event-editor.c:245
 msgid "_Free/Busy"
 msgstr "_Disponibilidad"
 
-#: ../calendar/gui/dialogs/event-editor.c:240
+#: ../calendar/gui/dialogs/event-editor.c:247
 msgid "Query free / busy information for the attendees"
 msgstr "Consultar información de disponibilidad para los participantes"
 
-#: ../calendar/gui/dialogs/event-editor.c:294
+#: ../calendar/gui/dialogs/event-editor.c:301
 msgid "Appoint_ment"
 msgstr "_Cita"
 
@@ -6840,7 +6840,7 @@ msgstr "_Contactos…"
 msgid "Organizer:"
 msgstr "Organizador:"
 
-#: ../calendar/gui/dialogs/memo-editor.c:140 ../calendar/gui/print.c:2478
+#: ../calendar/gui/dialogs/memo-editor.c:111 ../calendar/gui/print.c:2478
 msgid "Memo"
 msgstr "Nota"
 
@@ -7730,7 +7730,6 @@ msgstr "Borrar tod_as las repeticiones"
 #: ../calendar/gui/e-itip-control.c:1191
 #: ../calendar/gui/e-meeting-list-view.c:203
 #: ../calendar/gui/e-meeting-store.c:173 ../calendar/gui/e-meeting-store.c:196
-#: ../calendar/gui/itip-utils.c:664
 #: ../plugins/itip-formatter/itip-formatter.c:2126
 msgid "Accepted"
 msgstr "Aceptado"
@@ -7739,7 +7738,6 @@ msgstr "Aceptado"
 #: ../calendar/gui/e-itip-control.c:1199
 #: ../calendar/gui/e-meeting-list-view.c:204
 #: ../calendar/gui/e-meeting-store.c:175 ../calendar/gui/e-meeting-store.c:198
-#: ../calendar/gui/itip-utils.c:670 ../calendar/gui/itip-utils.c:699
 #: ../plugins/itip-formatter/itip-formatter.c:2132
 msgid "Declined"
 msgstr "Rehusado"
@@ -7754,7 +7752,6 @@ msgstr "Provisional"
 #: ../calendar/gui/e-calendar-view.c:2226
 #: ../calendar/gui/e-meeting-list-view.c:206
 #: ../calendar/gui/e-meeting-store.c:179 ../calendar/gui/e-meeting-store.c:202
-#: ../calendar/gui/itip-utils.c:673
 #: ../plugins/itip-formatter/itip-formatter.c:2135
 msgid "Delegated"
 msgstr "Delegado"
@@ -7936,7 +7933,7 @@ msgstr ""
 "<br> Revise la siguiente información y seleccione una acción del menú de "
 "abajo."
 
-#: ../calendar/gui/e-itip-control.c:1195 ../calendar/gui/itip-utils.c:667
+#: ../calendar/gui/e-itip-control.c:1195
 #: ../plugins/itip-formatter/itip-formatter.c:2129
 msgid "Tentatively Accepted"
 msgstr "Aceptado provisionalmente"
@@ -8178,6 +8175,13 @@ msgstr "El elemento no pudo enviarse.\n"
 msgid "Choose an action:"
 msgstr "Elija una acción:"
 
+#. To translators: RSVP means "please reply"
+#: ../calendar/gui/e-itip-control.c:2285
+#: ../calendar/gui/e-meeting-list-view.c:550
+#: ../calendar/gui/e-meeting-time-sel.etspec.h:8
+msgid "RSVP"
+msgstr "Confirmar"
+
 #: ../calendar/gui/e-itip-control.c:2327
 msgid "Update"
 msgstr "Actualizar"
@@ -8208,8 +8212,7 @@ msgstr "Actualizar el estado del remitente"
 msgid "Send Latest Information"
 msgstr "Enviar la última información"
 
-#: ../calendar/gui/e-itip-control.c:2470 ../calendar/gui/itip-utils.c:687
-#: ../ui/evolution-mail-global.xml.h:1
+#: ../calendar/gui/e-itip-control.c:2470 ../ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -8315,12 +8318,6 @@ msgstr "Necesita acción"
 #: ../calendar/gui/e-meeting-list-view.c:506
 msgid "Attendee                          "
 msgstr "Participante                          "
-
-#. To translators: RSVP means "please reply"
-#: ../calendar/gui/e-meeting-list-view.c:550
-#: ../calendar/gui/e-meeting-time-sel.etspec.h:8
-msgid "RSVP"
-msgstr "Confirmar"
 
 #: ../calendar/gui/e-meeting-store.c:183 ../calendar/gui/e-meeting-store.c:206
 msgid "In Process"
@@ -8595,19 +8592,19 @@ msgstr "Debe especificar un organizador."
 msgid "At least one attendee is necessary"
 msgstr "Es necesario por lo menos un participante"
 
-#: ../calendar/gui/itip-utils.c:626 ../calendar/gui/itip-utils.c:741
+#: ../calendar/gui/itip-utils.c:626 ../calendar/gui/itip-utils.c:772
 msgid "Event information"
 msgstr "Información del acontecimiento"
 
-#: ../calendar/gui/itip-utils.c:628 ../calendar/gui/itip-utils.c:744
+#: ../calendar/gui/itip-utils.c:628 ../calendar/gui/itip-utils.c:775
 msgid "Task information"
 msgstr "Información de la tarea"
 
-#: ../calendar/gui/itip-utils.c:630 ../calendar/gui/itip-utils.c:747
+#: ../calendar/gui/itip-utils.c:630 ../calendar/gui/itip-utils.c:778
 msgid "Memo information"
 msgstr "Información de la nota"
 
-#: ../calendar/gui/itip-utils.c:632 ../calendar/gui/itip-utils.c:765
+#: ../calendar/gui/itip-utils.c:632 ../calendar/gui/itip-utils.c:796
 msgid "Free/Busy information"
 msgstr "Información de disponibilidad"
 
@@ -8615,28 +8612,87 @@ msgstr "Información de disponibilidad"
 msgid "Calendar information"
 msgstr "Información de calendario"
 
-#: ../calendar/gui/itip-utils.c:683
+#. Translators: This is part of the subject
+#. * line of a meeting request or update email.
+#. * The full subject line would be:
+#. * "Accepted: Meeting Name".
+#: ../calendar/gui/itip-utils.c:668
+msgctxt "Meeting"
+msgid "Accepted"
+msgstr "Aceptado"
+
+#. Translators: This is part of the subject
+#. * line of a meeting request or update email.
+#. * The full subject line would be:
+#. * "Tentatively Accepted: Meeting Name".
+#: ../calendar/gui/itip-utils.c:675
+msgctxt "Meeting"
+msgid "Tentatively Accepted"
+msgstr "Aceptado provisionalmente"
+
+#. Translators: This is part of the subject
+#. * line of a meeting request or update email.
+#. * The full subject line would be:
+#. * "Declined: Meeting Name".
+#. Translators: This is part of the subject line of a
+#. * meeting request or update email.  The full subject
+#. * line would be: "Declined: Meeting Name".
+#: ../calendar/gui/itip-utils.c:682 ../calendar/gui/itip-utils.c:730
+msgctxt "Meeting"
+msgid "Declined"
+msgstr "Rehusado"
+
+#. Translators: This is part of the subject
+#. * line of a meeting request or update email.
+#. * The full subject line would be:
+#. * "Delegated: Meeting Name".
+#: ../calendar/gui/itip-utils.c:689
+msgctxt "Meeting"
+msgid "Delegated"
+msgstr "Delegado"
+
+#. Translators: This is part of the subject line of a
+#. * meeting request or update email.  The full subject
+#. * line would be: "Updated: Meeting Name".
+#: ../calendar/gui/itip-utils.c:702
+msgctxt "Meeting"
 msgid "Updated"
 msgstr "Actualizado"
 
-#: ../calendar/gui/itip-utils.c:691
+#. Translators: This is part of the subject line of a
+#. * meeting request or update email.  The full subject
+#. * line would be: "Cancel: Meeting Name".
+#: ../calendar/gui/itip-utils.c:709
+msgctxt "Meeting"
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. Translators: This is part of the subject line of a
+#. * meeting request or update email.  The full subject
+#. * line would be: "Refresh: Meeting Name".
+#: ../calendar/gui/itip-utils.c:716
+msgctxt "Meeting"
 msgid "Refresh"
 msgstr "Actualizar"
 
-#: ../calendar/gui/itip-utils.c:695
+#. Translators: This is part of the subject line of a
+#. * meeting request or update email.  The full subject
+#. * line would be: "Counter-proposal: Meeting Name".
+#: ../calendar/gui/itip-utils.c:723
+msgctxt "Meeting"
 msgid "Counter-proposal"
 msgstr "Contra-propuesta"
 
-#: ../calendar/gui/itip-utils.c:762
+#: ../calendar/gui/itip-utils.c:793
 #, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Información de disponibilidad (de %s a %s)"
 
-#: ../calendar/gui/itip-utils.c:770
+#: ../calendar/gui/itip-utils.c:801
 msgid "iCalendar information"
 msgstr "Información de iCalendar"
 
-#: ../calendar/gui/itip-utils.c:941
+#: ../calendar/gui/itip-utils.c:972
 msgid "You must be an attendee of the event."
 msgstr "Debe ser un participante en el acontecimiento."
 
