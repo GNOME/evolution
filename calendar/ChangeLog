@@ -1,3 +1,13 @@
+2009-01-07  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #443544 (bugzilla.novell.com)
+
+	* gui/e-meeting-attendee.c (e_meeting_attendee_add_busy_period):
+	* gui/e-meeting-store.c (process_free_busy_comp):
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
+	* gui/e-meeting-types.h:
+	Handle E_MEETING_FREE_BUSY_FREE.
+
 2009-01-06  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #566599

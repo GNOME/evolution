@@ -845,6 +845,10 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 	if (compare_times (&period.start, &period.end) > 0)
 		return FALSE;
 
+	/* If the busy_type is FREE, then there is no need to render it in UI */
+	if (busy_type == E_MEETING_FREE_BUSY_FREE)
+		goto done; 
+
 	/* If the busy range is not set elsewhere, track it as best we can */
 	if (!priv->start_busy_range_set) {
 		if (!g_date_valid (&priv->busy_periods_start.date)) {
@@ -871,6 +875,7 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 			}
 		}
 	}
+
 	if (!priv->end_busy_range_set) {
 		if (!g_date_valid (&priv->busy_periods_end.date)) {
 			priv->busy_periods_end.date = period.end.date;
@@ -898,11 +903,13 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 	}
 
 	g_array_append_val (priv->busy_periods, period);
-	priv->has_calendar_info = TRUE;
-	priv->busy_periods_sorted = FALSE;
 
 	period_in_days = g_date_get_julian (&period.end.date) - g_date_get_julian (&period.start.date) + 1;
 	priv->longest_period_in_days = MAX (priv->longest_period_in_days, period_in_days);
+
+done:
+	priv->has_calendar_info = TRUE;
+	priv->busy_periods_sorted = FALSE;
 
 	return TRUE;
 }

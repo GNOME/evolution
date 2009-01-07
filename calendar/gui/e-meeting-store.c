@@ -1017,6 +1017,10 @@ process_free_busy_comp (EMeetingAttendee *attendee,
 			busy_type = E_MEETING_FREE_BUSY_TENTATIVE;
 			break;
 
+		case ICAL_FBTYPE_FREE:
+			busy_type = E_MEETING_FREE_BUSY_FREE;
+			break;
+
 		default:
 			break;
 		}
