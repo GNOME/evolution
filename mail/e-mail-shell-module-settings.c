@@ -26,7 +26,7 @@ e_mail_shell_module_init_settings (EShell *shell)
 {
 	EShellSettings *shell_settings;
 
-	shell_settings = e_shell_get_settings (shell);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	/* XXX Default values should match the GConf schema.
 	 *     Yes it's redundant, but we're stuck with GConf. */

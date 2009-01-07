@@ -1108,7 +1108,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	char *gladefile;
 
 	prefs->shell = g_object_ref (shell);
-	shell_settings = e_shell_get_settings (shell);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "mail-config.glade",

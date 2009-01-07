@@ -64,14 +64,15 @@ struct _EMailReaderIface {
 	void		(*set_folder)		(EMailReader *reader,
 						 CamelFolder *folder,
 						 const gchar *folder_uri);
+	void		(*set_message)		(EMailReader *reader,
+						 const gchar *uid,
+						 gboolean mark_read);
 };
 
 GType		e_mail_reader_get_type		(void);
 void		e_mail_reader_init		(EMailReader *reader);
 GtkActionGroup *
 		e_mail_reader_get_action_group	(EMailReader *reader);
-CamelFolder *	e_mail_reader_get_folder	(EMailReader *reader);
-const gchar *	e_mail_reader_get_folder_uri	(EMailReader *reader);
 gboolean	e_mail_reader_get_hide_deleted	(EMailReader *reader);
 EMFormatHTMLDisplay *
 		e_mail_reader_get_html_display	(EMailReader *reader);
@@ -81,6 +82,9 @@ GtkWindow *	e_mail_reader_get_window	(EMailReader *reader);
 void		e_mail_reader_set_folder	(EMailReader *reader,
 						 CamelFolder *folder,
 						 const gchar *folder_uri);
+void		e_mail_reader_set_message	(EMailReader *reader,
+						 const gchar *uid,
+						 gboolean mark_read);
 void		e_mail_reader_create_charset_menu
 						(EMailReader *reader,
 						 GtkUIManager *ui_manager,

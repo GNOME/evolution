@@ -90,7 +90,6 @@
 #include "em-folder-browser.h"
 #include "em-mailer-prefs.h"
 #include "em-folder-browser.h"
-#include "em-message-browser.h"
 #include "message-list.h"
 #include "em-utils.h"
 #include "em-composer-utils.h"
@@ -528,6 +527,7 @@ em_folder_view_open_selected(EMFolderView *emfv)
 		}
 	}
 
+#if 0  /* KILL-BONOBO */
 	/* TODO: have an em_utils_open_messages call? */
 	for (i=0; i<views->len; i++) {
 		EMMessageBrowser *emmb;
@@ -547,6 +547,7 @@ em_folder_view_open_selected(EMFolderView *emfv)
 		em_utils_handle_receipt (emfv->folder, uids->pdata[i], NULL);
 		g_free(views->pdata[i]);
 	}
+#endif
 	g_ptr_array_free(views, TRUE);
 
 	message_list_free_uids(emfv->list, uids);
@@ -664,6 +665,7 @@ emfv_popup_open(EPopup *ep, EPopupItem *pitem, void *data)
 static void
 emfv_popup_source(EPopup *ep, EPopupItem *pitem, void *data)
 {
+#if 0  /* KILL-BONOBO */
 	EMFolderView *emfv = data;
 	EMMessageBrowser *emmb;
 	GPtrArray *uids;
@@ -678,6 +680,7 @@ emfv_popup_source(EPopup *ep, EPopupItem *pitem, void *data)
 	gtk_widget_show(emmb->window);
 
 	message_list_free_uids(emfv->list, uids);
+#endif
 }
 
 //#define DelInVFolderCheckName  "DelInVFolderCheck"

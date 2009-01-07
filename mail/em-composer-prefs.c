@@ -857,7 +857,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 
 	bridge = gconf_bridge_get ();
 	client = mail_config_get_gconf_client ();
-	shell_settings = e_shell_get_settings (shell);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "mail-config.glade",

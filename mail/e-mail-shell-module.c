@@ -687,10 +687,13 @@ mail_shell_module_prepare_for_offline_cb (EShell *shell,
                                           EActivity *activity,
                                           EShellModule *shell_module)
 {
-	GtkWidget *parent;
+	GList *shell_windows;
+	GtkWidget *parent = NULL;
 	gboolean synchronize = FALSE;
 
-	parent = e_shell_get_focused_window (shell);
+	shell_windows = e_shell_get_shell_windows (shell);
+	if (shell_windows != NULL)
+		parent = GTK_WIDGET (shell_windows->data);
 
 	if (e_shell_get_network_available (shell))
 		synchronize = em_utils_prompt_user (
@@ -871,7 +874,7 @@ e_shell_module_init (GTypeModule *type_module)
 	mail_shell_module_init_preferences (shell);
 
 	g_object_get (
-		e_shell_get_settings (shell),
+		e_shell_get_shell_settings (shell),
 		"mail-enable-search-folders",
 		&enable_search_folders, NULL);
 	if (enable_search_folders)

@@ -29,6 +29,7 @@
 #include "e-util/gconf-bridge.h"
 
 #include "mail/e-mail-reader.h"
+#include "mail/e-mail-reader-utils.h"
 #include "mail/e-mail-shell-module.h"
 #include "mail/em-folder-tree-model.h"
 #include "mail/em-format-html-display.h"
@@ -78,7 +79,7 @@ static void
 action_close_cb (GtkAction *action,
                  EMailBrowser *browser)
 {
-	gtk_widget_destroy (GTK_WIDGET (browser));
+	e_mail_browser_close (browser);
 }
 
 static GtkActionEntry mail_browser_entries[] = {
@@ -184,6 +185,35 @@ mail_browser_connect_proxy_cb (EMailBrowser *browser,
 	g_signal_connect_swapped (
 		proxy, "deselect",
 		G_CALLBACK (mail_browser_menu_item_deselect_cb), browser);
+}
+
+static void
+mail_browser_message_selected_cb (EMailBrowser *browser,
+                                  const gchar *uid)
+{
+	EMFormatHTMLDisplay *html_display;
+	MessageList *message_list;
+	CamelMessageInfo *info;
+	EMailReader *reader;
+
+	if (uid == NULL)
+		return;
+
+	reader = E_MAIL_READER (browser);
+	html_display = e_mail_reader_get_html_display (reader);
+	message_list = e_mail_reader_get_message_list (reader);
+	info = camel_folder_get_message_info (message_list->folder, uid);
+
+	if (info == NULL)
+		return;
+
+	gtk_window_set_title (
+		GTK_WINDOW (browser),
+		camel_message_info_subject (info));
+	gtk_widget_grab_focus (
+		GTK_WIDGET (((EMFormatHTML *) html_display)->html));
+
+	camel_folder_free_message_info (message_list->folder, info);
 }
 
 static void
@@ -367,6 +397,20 @@ mail_browser_constructed (GObject *object)
 	gtk_widget_show (widget);
 }
 
+static gboolean
+mail_browser_key_press_event (GtkWidget *widget,
+                              GdkEventKey *event)
+{
+	if (event->keyval == GDK_Escape) {
+		e_mail_browser_close (E_MAIL_BROWSER (widget));
+		return TRUE;
+	}
+
+	/* Chain up to parent's key_press_event() method. */
+	return GTK_WIDGET_CLASS (parent_class)->
+		key_press_event (widget, event);
+}
+
 static GtkActionGroup *
 mail_browser_get_action_group (EMailReader *reader)
 {
@@ -419,9 +463,45 @@ mail_browser_get_window (EMailReader *reader)
 }
 
 static void
+mail_browser_set_message (EMailReader *reader,
+                          const gchar *uid,
+                          gboolean mark_read)
+{
+	EMailReaderIface *iface;
+	MessageList *message_list;
+	CamelMessageInfo *info;
+	CamelFolder *folder;
+
+	/* Chain up to parent's set_message() method. */
+	iface = g_type_default_interface_peek (E_TYPE_MAIL_READER);
+	iface->set_message (reader, uid, mark_read);
+
+	if (uid == NULL) {
+		e_mail_browser_close (E_MAIL_BROWSER (reader));
+		return;
+	}
+
+	message_list = e_mail_reader_get_message_list (reader);
+
+	folder = message_list->folder;
+	info = camel_folder_get_message_info (folder, uid);
+
+	if (info != NULL) {
+		gtk_window_set_title (
+			GTK_WINDOW (reader),
+			camel_message_info_subject (info));
+		camel_folder_free_message_info (folder, info);
+	}
+
+	if (mark_read)
+		e_mail_reader_mark_as_read (reader, uid);
+}
+
+static void
 mail_browser_class_init (EMailBrowserClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailBrowserPrivate));
@@ -431,6 +511,9 @@ mail_browser_class_init (EMailBrowserClass *class)
 	object_class->get_property = mail_browser_get_property;
 	object_class->dispose = mail_browser_dispose;
 	object_class->constructed = mail_browser_constructed;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->key_press_event = mail_browser_key_press_event;
 
 	g_object_class_install_property (
 		object_class,
@@ -453,6 +536,7 @@ mail_browser_iface_init (EMailReaderIface *iface)
 	iface->get_message_list = mail_browser_get_message_list;
 	iface->get_shell_module = mail_browser_get_shell_module;
 	iface->get_window = mail_browser_get_window;
+	iface->set_message = mail_browser_set_message;
 }
 
 static void
@@ -473,9 +557,15 @@ mail_browser_init (EMailBrowser *browser)
 	browser->priv->message_list = message_list_new ();
 	g_object_ref_sink (browser->priv->message_list);
 
+	g_signal_connect_swapped (
+		browser->priv->message_list, "message-selected",
+		G_CALLBACK (mail_browser_message_selected_cb), browser);
+
 	bridge = gconf_bridge_get ();
 	prefix = "/apps/evolution/mail/mail_browser";
 	gconf_bridge_bind_window_size (bridge, prefix, GTK_WINDOW (browser));
+
+	gtk_window_set_title (GTK_WINDOW (browser), _("Evolution"));
 }
 
 GType
@@ -521,6 +611,14 @@ e_mail_browser_new (EShellModule *shell_module)
 	return g_object_new (
 		E_TYPE_MAIL_BROWSER,
 		"shell-module", shell_module, NULL);
+}
+
+void
+e_mail_browser_close (EMailBrowser *browser)
+{
+	g_return_if_fail (E_IS_MAIL_BROWSER (browser));
+
+	gtk_widget_destroy (GTK_WIDGET (browser));
 }
 
 GtkUIManager *

@@ -159,7 +159,6 @@ efh_init(GObject *o)
 	gtk_html_set_default_content_type(efh->html, "text/html; charset=utf-8");
 	gtk_html_set_editable(efh->html, FALSE);
 
-	g_signal_connect(efh->html, "destroy", G_CALLBACK(efh_gtkhtml_destroy), efh);
 	g_signal_connect(efh->html, "url_requested", G_CALLBACK(efh_url_requested), efh);
 	g_signal_connect(efh->html, "object_requested", G_CALLBACK(efh_object_requested), efh);
 

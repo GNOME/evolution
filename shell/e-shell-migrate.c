@@ -56,7 +56,7 @@ shell_migrate_attempt (EShell *shell,
 	GList *modules;
 	gboolean success = TRUE;
 
-	modules = e_shell_list_modules (shell);
+	modules = e_shell_get_shell_modules (shell);
 
 	while (success && modules != NULL) {
 		EShellModule *shell_module = modules->data;

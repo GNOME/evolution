@@ -173,6 +173,7 @@ e_shell_window_private_init (EShellWindow *shell_window)
 {
 	EShellWindowPrivate *priv = shell_window->priv;
 	GHashTable *loaded_views;
+	GArray *signal_handler_ids;
 	GtkAccelGroup *accel_group;
 	GtkToolItem *item;
 	GtkWidget *container;
@@ -185,6 +186,8 @@ e_shell_window_private_init (EShellWindow *shell_window)
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_object_unref);
 
+	signal_handler_ids = g_array_new (FALSE, FALSE, sizeof (gulong));
+
 	priv->ui_manager = gtk_ui_manager_new ();
 	priv->shell_actions = gtk_action_group_new ("shell");
 	priv->gal_view_actions = gtk_action_group_new ("gal-view");
@@ -194,6 +197,7 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	priv->switcher_actions = gtk_action_group_new ("switcher");
 	priv->loaded_views = loaded_views;
 	priv->active_view = "unknown";
+	priv->signal_handler_ids = signal_handler_ids;
 
 	merge_id = gtk_ui_manager_new_merge_id (priv->ui_manager);
 	priv->custom_rule_merge_id = merge_id;
@@ -368,6 +372,21 @@ void
 e_shell_window_private_dispose (EShellWindow *shell_window)
 {
 	EShellWindowPrivate *priv = shell_window->priv;
+
+	/* Need to disconnect handlers before we unref the shell. */
+	if (priv->signal_handler_ids != NULL) {
+		GArray *array = priv->signal_handler_ids;
+		gulong handler_id;
+		guint ii;
+
+		for (ii = 0; ii < array->len; ii++) {
+			handler_id = g_array_index (array, gulong, ii);
+			g_signal_handler_disconnect (priv->shell, handler_id);
+		}
+
+		g_array_free (array, TRUE);
+		priv->signal_handler_ids = NULL;
+	}
 
 	DISPOSE (priv->shell);
 

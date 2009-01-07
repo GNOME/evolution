@@ -58,7 +58,7 @@ enum {
 	PROP_0,
 	PROP_NETWORK_AVAILABLE,
 	PROP_ONLINE_MODE,
-	PROP_SETTINGS
+	PROP_SHELL_SETTINGS
 };
 
 enum {
@@ -131,14 +131,12 @@ shell_window_weak_notify_cb (EShell *shell,
                              GObject *where_the_object_was)
 {
 	GList *active_windows;
-	gboolean last_window;
 
 	active_windows = shell->priv->active_windows;
 	active_windows = g_list_remove (active_windows, where_the_object_was);
 	shell->priv->active_windows = active_windows;
 
-	last_window = (shell->priv->active_windows == NULL);
-	g_signal_emit (shell, signals[WINDOW_DESTROYED], 0, last_window);
+	g_signal_emit (shell, signals[WINDOW_DESTROYED], 0);
 }
 
 static void
@@ -306,7 +304,7 @@ shell_shutdown_timeout (EShell *shell)
 	static guint message_timer = 1;
 
 	/* Module list is read-only; do not free. */
-	list = e_shell_list_modules (shell);
+	list = e_shell_get_shell_modules (shell);
 
 	/* Any module can defer shutdown if it's still busy. */
 	for (iter = list; proceed && iter != NULL; iter = iter->next) {
@@ -387,9 +385,9 @@ shell_get_property (GObject *object,
 				E_SHELL (object)));
 			return;
 
-		case PROP_SETTINGS:
+		case PROP_SHELL_SETTINGS:
 			g_value_set_object (
-				value, e_shell_get_settings (
+				value, e_shell_get_shell_settings (
 				E_SHELL (object)));
 			return;
 	}
@@ -522,11 +520,11 @@ shell_class_init (EShellClass *class)
 	 **/
 	g_object_class_install_property (
 		object_class,
-		PROP_SETTINGS,
+		PROP_SHELL_SETTINGS,
 		g_param_spec_object (
-			"settings",
-			_("Settings"),
-			_("Application settings"),
+			"shell-settings",
+			_("Shell Settings"),
+			_("Application-wide settings"),
 			E_TYPE_SHELL_SETTINGS,
 			G_PARAM_READABLE));
 
@@ -655,7 +653,6 @@ shell_class_init (EShellClass *class)
 	/**
 	 * EShell::window-destroyed
 	 * @shell: the #EShell which emitted the signal
-	 * @last_window: whether that was the last #EShellWindow
 	 *
 	 * Emitted when an #EShellWindow is destroyed.
 	 **/
@@ -664,9 +661,8 @@ shell_class_init (EShellClass *class)
 		G_OBJECT_CLASS_TYPE (object_class),
 		G_SIGNAL_RUN_LAST,
 		0, NULL, NULL,
-		g_cclosure_marshal_VOID__BOOLEAN,
-		G_TYPE_NONE, 1,
-		G_TYPE_BOOLEAN);
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 static void
@@ -739,7 +735,7 @@ e_shell_get_default (void)
 }
 
 /**
- * e_shell_list_modules:
+ * e_shell_get_shell_modules:
  * @shell: an #EShell
  *
  * Returns a list of loaded #EShellModule instances.  The list is
@@ -748,11 +744,31 @@ e_shell_get_default (void)
  * Returns: a list of loaded #EShellModule instances
  **/
 GList *
-e_shell_list_modules (EShell *shell)
+e_shell_get_shell_modules (EShell *shell)
 {
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	return shell->priv->loaded_modules;
+}
+
+/**
+ * e_shell_get_shell_windows:
+ * @shell: an #EShell
+ *
+ * Returns a list of active #EShellWindow instances that were created by
+ * e_shell_create_shell_window().  The list is sorted by the most recently
+ * focused window, such that the first instance is the currently focused
+ * window.  (Useful for choosing a parent for a transient window.)  The
+ * list is owned by @shell and should not be modified or freed.
+ *
+ * Returns: a list of active #EShellWindow instances
+ **/
+GList *
+e_shell_get_shell_windows (EShell *shell)
+{
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	return shell->priv->active_windows;
 }
 
 /**
@@ -834,9 +850,8 @@ e_shell_get_module_by_scheme (EShell *shell,
 
 	return g_hash_table_lookup (hash_table, scheme);
 }
-
 /**
- * e_shell_get_settings:
+ * e_shell_get_shell_settings:
  * @shell: an #EShell
  *
  * Returns the #EShellSettings instance for @shell.
@@ -844,7 +859,7 @@ e_shell_get_module_by_scheme (EShell *shell,
  * Returns: the #EShellSettings instance for @shell
  **/
 EShellSettings *
-e_shell_get_settings (EShell *shell)
+e_shell_get_shell_settings (EShell *shell)
 {
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
@@ -852,7 +867,7 @@ e_shell_get_settings (EShell *shell)
 }
 
 /**
- * e_shell_create_window:
+ * e_shell_create_shell_window:
  * @shell: an #EShell
  *
  * Creates a new #EShellWindow and emits the #EShell::window-created
@@ -862,7 +877,7 @@ e_shell_get_settings (EShell *shell)
  * Returns: a new #EShellWindow
  **/
 GtkWidget *
-e_shell_create_window (EShell *shell)
+e_shell_create_shell_window (EShell *shell)
 {
 	GList *active_windows;
 	GtkWidget *shell_window;
@@ -892,27 +907,6 @@ e_shell_create_window (EShell *shell)
 	gtk_widget_show (shell_window);
 
 	return shell_window;
-}
-
-/**
- * e_shell_get_focused_window:
- * @shell: an #EShell
- *
- * Returns the most recently focused #EShellWindow.  Useful for choosing
- * a parent for a transient window.  This only works for windows created
- * with e_shell_create_window().
- *
- * Returns: the most recently focused #EShellWindow
- **/
-GtkWidget *
-e_shell_get_focused_window (EShell *shell)
-{
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-
-	if (shell->priv->active_windows == NULL)
-		return NULL;
-
-	return GTK_WIDGET (shell->priv->active_windows->data);
 }
 
 /**

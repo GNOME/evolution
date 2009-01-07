@@ -24,6 +24,7 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <gtkhtml/gtkhtml.h>
+#include <gtkhtml/gtkhtml-stream.h>
 
 #ifdef HAVE_XFREE
 #include <X11/XF86keysym.h>
@@ -31,11 +32,13 @@
 
 #include "e-util/e-util.h"
 #include "e-util/gconf-bridge.h"
+#include "shell/e-shell.h"
 #include "widgets/misc/e-charset-picker.h"
 
 #include "mail/e-mail-reader-utils.h"
 #include "mail/e-mail-shell-module.h"
 #include "mail/em-composer-utils.h"
+#include "mail/em-event.h"
 #include "mail/em-folder-selector.h"
 #include "mail/em-folder-tree.h"
 #include "mail/em-utils.h"
@@ -1485,6 +1488,164 @@ mail_reader_key_press_cb (EMailReader *reader,
 	return TRUE;
 }
 
+static gboolean
+mail_reader_message_read_cb (EMailReader *reader)
+{
+	MessageList *message_list;
+	const gchar *uid;
+
+	message_list = e_mail_reader_get_message_list (reader);
+
+	uid = g_object_get_data (G_OBJECT (reader), "mark-read-uid");
+	g_return_if_fail (uid != NULL);
+
+	if (g_strcmp0 (message_list->cursor_uid, uid) == 0)
+		e_mail_reader_mark_as_read (reader, uid);
+}
+
+static void
+mail_reader_message_loaded_cb (CamelFolder *folder,
+                               const gchar *message_uid,
+                               CamelMimeMessage *message,
+                               gpointer user_data,
+                               CamelException *ex)
+{
+	EMailReader *reader = user_data;
+	EMFormatHTMLDisplay *html_display;
+	MessageList *message_list;
+	EShellModule *shell_module;
+	EShellSettings *shell_settings;
+	EShell *shell;
+	EMEvent *event;
+	EMEventTargetMessage *target;
+	gboolean mark_read;
+	gint timeout_interval;
+	gpointer data;
+
+	html_display = e_mail_reader_get_html_display (reader);
+	message_list = e_mail_reader_get_message_list (reader);
+
+	shell_module = e_mail_reader_get_shell_module (reader);
+	shell = e_shell_module_get_shell (shell_module);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	/* If the user picked a different message in the time it took
+	 * to fetch this message, then don't bother rendering it. */
+	if (g_strcmp0 (message_list->cursor_uid, message_uid) != 0)
+		return;
+
+	/** @Event: message.reading
+	 * @Title: Viewing a message
+	 * @Target: EMEventTargetMessage
+	 *
+	 * message.reading is emitted whenever a user views a message.
+	 */
+	event = em_event_peek ();
+	target = em_event_target_new_message (
+		event, folder, message, message_uid, 0);
+	e_event_emit (
+		(EEvent *) event, "message.reading",
+		(EEventTarget *) target);
+
+	em_format_format (
+		(EMFormat *) html_display, folder, message_uid, message);
+
+	/* Reset the shell view icon. */
+	e_shell_event (shell, "mail-icon", "evolution-mail");
+
+	/* Determine whether to mark the message as read. */
+	g_object_get (
+		shell_settings,
+		"mail-mark-seen", &mark_read,
+		"mail-mark-seen-timeout", &timeout_interval, NULL);
+
+	g_object_set_data_full (
+		G_OBJECT (reader), "mark-read-uid",
+		g_strdup (message_uid), (GDestroyNotify) g_free);
+
+	if (message_list->seen_id > 0)
+		g_source_remove (message_list->seen_id);
+
+	if (mark_read) {
+		message_list->seen_id = g_timeout_add (
+			timeout_interval, (GSourceFunc)
+			mail_reader_message_read_cb, reader);
+
+	} else if (camel_exception_is_set (ex)) {
+		GtkHTMLStream *stream;
+
+		/* Display the error inline and clear the exception. */
+		stream = gtk_html_begin (
+			((EMFormatHTML *) html_display)->html);
+		gtk_html_stream_printf (
+			stream, "<h2>%s</h2><p>%s</p>",
+			_("Unable to retrieve message"),
+			ex->desc);
+		gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
+		camel_exception_clear (ex);
+	}
+
+	/* We referenced this in the call to mail_get_messagex(). */
+	g_object_unref (reader);
+}
+
+static gboolean
+mail_reader_message_selected_timeout_cb (EMailReader *reader)
+{
+	EMFormatHTMLDisplay *html_display;
+	MessageList *message_list;
+	const gchar *cursor_uid;
+	const gchar *format_uid;
+	const gchar *key;
+
+	html_display = e_mail_reader_get_html_display (reader);
+	message_list = e_mail_reader_get_message_list (reader);
+
+	cursor_uid = message_list->cursor_uid;
+	format_uid = ((EMFormat *) html_display)->uid;
+
+	if (cursor_uid != NULL) {
+		if (g_strcmp0 (cursor_uid, format_uid) != 0)
+			mail_get_messagex (
+				message_list->folder, cursor_uid,
+				mail_reader_message_loaded_cb,
+				g_object_ref (reader),
+				mail_msg_fast_ordered_push);
+	} else
+		em_format_format ((EMFormat *) html_display, NULL, NULL, NULL);
+
+	key = "message-selected-timeout";
+	g_object_set_data (G_OBJECT (reader), key, NULL);
+
+	return FALSE;
+}
+
+static void
+mail_reader_message_selected_cb (EMailReader *reader,
+                                 const gchar *uid)
+{
+	const gchar *key;
+	guint source_id;
+	gpointer data;
+
+	/* XXX This is kludgy, but we have no other place to store
+	 *     timeout state information. */
+
+	key = "message-selected-timeout";
+	data = g_object_get_data (G_OBJECT (reader), key);
+	source_id = GPOINTER_TO_UINT (data);
+
+	if (source_id > 0)
+		g_source_remove (source_id);
+
+	source_id = g_timeout_add (
+		100, (GSourceFunc)
+		mail_reader_message_selected_timeout_cb, reader);
+
+	data = GUINT_TO_POINTER (source_id);
+	g_object_set_data (G_OBJECT (reader), key, data);
+}
+
 static void
 mail_reader_set_folder (EMailReader *reader,
                         CamelFolder *folder,
@@ -1506,6 +1667,18 @@ mail_reader_set_folder (EMailReader *reader,
 
 	em_format_format ((EMFormat *) html_display, NULL, NULL, NULL);
 	message_list_set_folder (message_list, folder, folder_uri, outgoing);
+}
+
+static void
+mail_reader_set_message (EMailReader *reader,
+                         const gchar *uid,
+                         gboolean mark_read)
+{
+	MessageList *message_list;
+	gpointer data;
+
+	message_list = e_mail_reader_get_message_list (reader);
+	message_list_select_uid (message_list, uid);
 }
 
 static void
@@ -1541,6 +1714,7 @@ static void
 mail_reader_class_init (EMailReaderIface *iface)
 {
 	iface->set_folder = mail_reader_set_folder;
+	iface->set_message = mail_reader_set_message;
 }
 
 GType
@@ -1624,6 +1798,10 @@ e_mail_reader_init (EMailReader *reader)
 	g_object_set (action, "short-label", _("Reply"), NULL);
 
 	/* Connect signals. */
+
+	g_signal_connect_swapped (
+		message_list, "message-selected",
+		G_CALLBACK (mail_reader_message_selected_cb), reader);
 
 	g_signal_connect_swapped (
 		message_list->tree, "double-click",
@@ -1727,6 +1905,21 @@ e_mail_reader_set_folder (EMailReader *reader,
 	g_return_if_fail (iface->set_folder != NULL);
 
 	iface->set_folder (reader, folder, folder_uri);
+}
+
+void
+e_mail_reader_set_message (EMailReader *reader,
+                           const gchar *uid,
+                           gboolean mark_read)
+{
+	EMailReaderIface *iface;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	iface = E_MAIL_READER_GET_IFACE (reader);
+	g_return_if_fail (iface->set_message != NULL);
+
+	iface->set_message (reader, uid, mark_read);
 }
 
 void

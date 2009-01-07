@@ -433,6 +433,12 @@ intelligent
 @minor: 
 @revision: 
 
+<!-- ##### ARG EShell:settings ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### ENUM EShellLineStatus ##### -->
 <para>
 
@@ -1731,7 +1737,55 @@ intelligent
 @revision: 
 @Returns: 
 
+<!-- ##### FUNCTION e_shell_create_window ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_get_focused_window ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
 <!-- ##### FUNCTION e_shell_get_line_status ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_get_settings ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_list_modules ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_list_shell_modules ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_list_shell_windows ##### -->
 <para>
 
 </para>

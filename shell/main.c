@@ -317,7 +317,7 @@ idle_cb (gchar **uris)
 		g_object_unref (client);
 	}
 
-	shell_window = e_shell_create_window (shell);
+	shell_window = e_shell_create_shell_window (shell);
 
 #if 0  /* MBARNES */
 	if (shell == NULL) {
@@ -462,10 +462,9 @@ set_paths (void)
 #endif
 
 static void
-shell_window_destroyed_cb (EShell *shell,
-                           gboolean last_window)
+shell_window_destroyed_cb (EShell *shell)
 {
-	if (last_window)
+	if (e_shell_get_shell_windows (shell) == NULL)
 		gtk_main_quit ();
 }
 

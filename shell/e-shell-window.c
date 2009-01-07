@@ -129,16 +129,56 @@ shell_window_online_mode_notify_cb (EShell *shell,
 }
 
 static void
+shell_window_update_close_action_cb (EShellWindow *shell_window)
+{
+	EShell *shell;
+	GList *shell_windows;
+	gboolean sensitive;
+
+	shell = e_shell_window_get_shell (shell_window);
+	shell_windows = e_shell_get_shell_windows (shell);
+	g_return_if_fail (shell_windows != NULL);
+
+	/* Disable Close Window if there's only one window.
+	 * Helps prevent users from accidentally quitting. */
+	sensitive = (g_list_length (shell_windows) > 1);
+	gtk_action_set_sensitive (ACTION (CLOSE), sensitive);
+}
+
+static void
 shell_window_set_shell (EShellWindow *shell_window,
                         EShell *shell)
 {
+	GArray *array;
+	gulong handler_id;
+
 	g_return_if_fail (shell_window->priv->shell == NULL);
 	shell_window->priv->shell = g_object_ref (shell);
 
-	g_signal_connect (
+	/* Need to disconnect these when the window is closing. */
+
+	array = shell_window->priv->signal_handler_ids;
+
+	handler_id = g_signal_connect (
 		shell, "notify::online-mode",
 		G_CALLBACK (shell_window_online_mode_notify_cb),
 		shell_window);
+
+	g_array_append_val (array, handler_id);
+
+	handler_id = g_signal_connect_swapped (
+		shell, "window-created",
+		G_CALLBACK (shell_window_update_close_action_cb),
+		shell_window);
+
+	g_array_append_val (array, handler_id);
+
+	handler_id = g_signal_connect_swapped (
+		shell, "window-destroyed",
+		G_CALLBACK (shell_window_update_close_action_cb),
+		shell_window);
+
+	g_array_append_val (array, handler_id);
 
 	g_object_notify (G_OBJECT (shell), "online-mode");
 }

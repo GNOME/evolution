@@ -133,10 +133,9 @@ test_module_window_created_cb (EShellModule *shell_module,
 }
 
 static void
-test_module_window_destroyed_cb (EShellModule *shell_module,
-                                 gboolean last_window)
+test_module_window_destroyed_cb (EShellModule *shell_module)
 {
-	g_debug ("%s (last=%d)", G_STRFUNC, last_window);
+	g_debug ("%s", G_STRFUNC);
 }
 
 static EShellModuleInfo module_info = {

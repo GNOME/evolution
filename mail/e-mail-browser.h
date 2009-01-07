@@ -61,6 +61,7 @@ struct _EMailBrowserClass {
 
 GType		e_mail_browser_get_type		(void);
 GtkWidget *	e_mail_browser_new		(EShellModule *shell_module);
+void		e_mail_browser_close		(EMailBrowser *browser);
 GtkUIManager *	e_mail_browser_get_ui_manager	(EMailBrowser *browser);
 
 G_END_DECLS

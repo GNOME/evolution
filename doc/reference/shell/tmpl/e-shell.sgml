@@ -78,7 +78,6 @@ EShell
 </para>
 
 @eshell: the object which received the signal.
-@arg1: 
 
 <!-- ##### ARG EShell:network-available ##### -->
 <para>
@@ -90,7 +89,7 @@ EShell
 
 </para>
 
-<!-- ##### ARG EShell:settings ##### -->
+<!-- ##### ARG EShell:shell-settings ##### -->
 <para>
 
 </para>
@@ -103,7 +102,16 @@ EShell
 @Returns: 
 
 
-<!-- ##### FUNCTION e_shell_list_modules ##### -->
+<!-- ##### FUNCTION e_shell_get_shell_modules ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_get_shell_windows ##### -->
 <para>
 
 </para>
@@ -142,7 +150,7 @@ EShell
 @Returns: 
 
 
-<!-- ##### FUNCTION e_shell_get_settings ##### -->
+<!-- ##### FUNCTION e_shell_get_shell_settings ##### -->
 <para>
 
 </para>
@@ -151,16 +159,7 @@ EShell
 @Returns: 
 
 
-<!-- ##### FUNCTION e_shell_create_window ##### -->
-<para>
-
-</para>
-
-@shell: 
-@Returns: 
-
-
-<!-- ##### FUNCTION e_shell_get_focused_window ##### -->
+<!-- ##### FUNCTION e_shell_create_shell_window ##### -->
 <para>
 
 </para>

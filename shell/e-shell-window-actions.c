@@ -863,7 +863,7 @@ action_new_window_cb (GtkAction *action,
 	EShell *shell;
 
 	shell = e_shell_window_get_shell (shell_window);
-	e_shell_create_window (shell);
+	e_shell_create_shell_window (shell);
 }
 
 /**
@@ -1970,7 +1970,7 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 	shell = e_shell_window_get_shell (shell_window);
-	list = e_shell_list_modules (shell);
+	list = e_shell_get_shell_modules (shell);
 
 	/* Construct a group of radio actions from the various EShellView
 	 * subclasses and register them with the EShellSwitcher.  These

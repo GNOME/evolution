@@ -459,35 +459,35 @@ shell_content_dispose (GObject *object)
 		priv->filter_label = NULL;
 	}
 
-        if (priv->filter_combo_box != NULL) {
-                g_object_unref (priv->filter_combo_box);
-                priv->filter_combo_box = NULL;
-        }
+	if (priv->filter_combo_box != NULL) {
+		g_object_unref (priv->filter_combo_box);
+		priv->filter_combo_box = NULL;
+	}
 
 	if (priv->search_context != NULL) {
 		g_object_unref (priv->search_context);
 		priv->search_context = NULL;
 	}
 
-        if (priv->search_label != NULL) {
-                g_object_unref (priv->search_label);
-                priv->search_label = NULL;
-        }
+	if (priv->search_label != NULL) {
+		g_object_unref (priv->search_label);
+		priv->search_label = NULL;
+	}
 
-        if (priv->search_entry != NULL) {
-                g_object_unref (priv->search_entry);
-                priv->search_entry = NULL;
-        }
+	if (priv->search_entry != NULL) {
+		g_object_unref (priv->search_entry);
+		priv->search_entry = NULL;
+	}
 
-        if (priv->scope_label != NULL) {
-                g_object_unref (priv->scope_label);
-                priv->scope_label = NULL;
-        }
+	if (priv->scope_label != NULL) {
+		g_object_unref (priv->scope_label);
+		priv->scope_label = NULL;
+	}
 
-        if (priv->scope_combo_box != NULL) {
-                g_object_unref (priv->scope_combo_box);
-                priv->scope_combo_box = NULL;
-        }
+	if (priv->scope_combo_box != NULL) {
+		g_object_unref (priv->scope_combo_box);
+		priv->scope_combo_box = NULL;
+	}
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);

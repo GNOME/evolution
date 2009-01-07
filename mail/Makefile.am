@@ -121,8 +121,6 @@ libevolution_module_mail_la_SOURCES =			\
 	em-mailer-prefs.h				\
 	em-menu.c					\
 	em-menu.h					\
-	em-message-browser.c				\
-	em-message-browser.h				\
 	em-network-prefs.c				\
 	em-network-prefs.h				\
 	em-popup.c					\
@@ -205,7 +203,6 @@ libevolution_module_mail_la_LIBADD =			\
 #	em-inline-filter.h			\
 #	em-junk-hook.h				\
 #	em-menu.h				\
-#	em-message-browser.h			\
 #	em-popup.h				\
 #	em-stripsig-filter.h			\
 #	em-sync-stream.h			\
@@ -269,7 +266,6 @@ libevolution_module_mail_la_LIBADD =			\
 #	em-inline-filter.c			\
 #	em-junk-hook.c				\
 #	em-menu.c				\
-#	em-message-browser.c			\
 #	em-migrate.c				\
 #	em-migrate.h				\
 #	em-popup.c				\

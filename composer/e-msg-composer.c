@@ -1361,7 +1361,7 @@ set_editor_text (EMsgComposer *composer,
 	g_return_if_fail (text != NULL);
 
 	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_settings (shell);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	/*
 
@@ -2061,7 +2061,7 @@ msg_composer_constructor (GType type,
 	array = composer->priv->gconf_bridge_binding_ids;
 
 	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_settings (shell);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	/* Restore Persistent State */
 

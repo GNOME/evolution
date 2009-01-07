@@ -3,13 +3,13 @@
 <TITLE>EShell</TITLE>
 EShell
 e_shell_get_default
-e_shell_list_modules
+e_shell_get_shell_modules
+e_shell_get_shell_windows
 e_shell_get_canonical_name
 e_shell_get_module_by_name
 e_shell_get_module_by_scheme
-e_shell_get_settings
-e_shell_create_window
-e_shell_get_focused_window
+e_shell_get_shell_settings
+e_shell_create_shell_window
 e_shell_handle_uri
 e_shell_send_receive
 e_shell_get_network_available

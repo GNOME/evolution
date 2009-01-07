@@ -667,7 +667,7 @@ emae_signature_new(GtkWidget *w, EMAccountEditor *emae)
 	gboolean html_mode;
 
 	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_settings (shell);
+	shell_settings = e_shell_get_shell_settings (shell);
 	parent = gtk_widget_get_toplevel (w);
 
 	g_object_get (

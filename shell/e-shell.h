@@ -76,16 +76,16 @@ struct _EShellClass {
 
 GType		e_shell_get_type		(void);
 EShell *	e_shell_get_default		(void);
-GList *		e_shell_list_modules		(EShell *shell);
+GList *		e_shell_get_shell_modules	(EShell *shell);
+GList *		e_shell_get_shell_windows	(EShell *shell);
 const gchar *	e_shell_get_canonical_name	(EShell *shell,
 						 const gchar *name);
 EShellModule *	e_shell_get_module_by_name	(EShell *shell,
 						 const gchar *name);
 EShellModule *	e_shell_get_module_by_scheme	(EShell *shell,
 						 const gchar *scheme);
-EShellSettings *e_shell_get_settings		(EShell *shell);
-GtkWidget *	e_shell_create_window		(EShell *shell);
-GtkWidget *	e_shell_get_focused_window	(EShell *shell);
+EShellSettings *e_shell_get_shell_settings	(EShell *shell);
+GtkWidget *	e_shell_create_shell_window	(EShell *shell);
 gboolean	e_shell_handle_uri		(EShell *shell,
                                                  const gchar *uri);
 void		e_shell_send_receive		(EShell *shell,
