@@ -548,7 +548,6 @@ static void
 action_mail_message_open_cb (GtkAction *action,
                              EMailReader *reader)
 {
-	/* FIXME This belongs in EMailShellView */
 	e_mail_reader_open_selected (reader);
 }
 
@@ -1456,13 +1455,27 @@ mail_reader_key_press_cb (EMailReader *reader,
 	const gchar *action_name;
 
 	if ((event->key.state & GDK_CONTROL_MASK) != 0)
-		return FALSE;
+		goto ctrl;
 
+	/* <keyval> alone */
 	switch (event->key.keyval) {
+		case GDK_Delete:
+		case GDK_KP_Delete:
+			action_name = "mail-delete";
+			break;
+
 		case GDK_Return:
 		case GDK_KP_Enter:
 		case GDK_ISO_Enter:
 			action_name = "mail-message-open";
+			break;
+
+		case GDK_period:
+			action_name = "mail-next-unread";
+			break;
+
+		case GDK_comma:
+			action_name = "mail-previous-unread";
 			break;
 
 #ifdef HAVE_XFREE
@@ -1483,6 +1496,25 @@ mail_reader_key_press_cb (EMailReader *reader,
 			return FALSE;
 	}
 
+	goto exit;
+
+ctrl:
+
+	/* Ctrl + <keyval> */
+	switch (event->key.keyval) {
+		case GDK_period:
+			action_name = "mail-next-unread";
+			break;
+
+		case GDK_comma:
+			action_name = "mail-previous-unread";
+			break;
+
+		default:
+			return FALSE;
+	}
+
+exit:
 	e_mail_reader_activate (reader, action_name);
 
 	return TRUE;
@@ -1520,7 +1552,6 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	EMEventTargetMessage *target;
 	gboolean mark_read;
 	gint timeout_interval;
-	gpointer data;
 
 	html_display = e_mail_reader_get_html_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
@@ -1675,7 +1706,6 @@ mail_reader_set_message (EMailReader *reader,
                          gboolean mark_read)
 {
 	MessageList *message_list;
-	gpointer data;
 
 	message_list = e_mail_reader_get_message_list (reader);
 	message_list_select_uid (message_list, uid);
@@ -1905,6 +1935,30 @@ e_mail_reader_set_folder (EMailReader *reader,
 	g_return_if_fail (iface->set_folder != NULL);
 
 	iface->set_folder (reader, folder, folder_uri);
+}
+
+/* Helper for e_mail_reader_set_folder_uri() */
+static void
+mail_reader_got_folder_cb (gchar *folder_uri,
+                           CamelFolder *folder,
+                           gpointer user_data)
+{
+	EMailReader *reader = user_data;
+
+	e_mail_reader_set_folder (reader, folder, folder_uri);
+}
+
+void
+e_mail_reader_set_folder_uri (EMailReader *reader,
+                              const gchar *folder_uri)
+{
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+	g_return_if_fail (folder_uri != NULL);
+
+	/* Fetch the CamelFolder asynchronously. */
+	mail_get_folder (
+		folder_uri, 0, mail_reader_got_folder_cb,
+		reader, mail_msg_fast_ordered_push);
 }
 
 void

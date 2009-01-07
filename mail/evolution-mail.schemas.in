@@ -570,16 +570,19 @@
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/mail/display/show_wide</key>
-      <applyto>/apps/evolution/mail/display/show_wide</applyto>
+      <key>/schemas/apps/evolution/mail/display/layout</key>
+      <applyto>/apps/evolution/mail/display/layout</applyto>
       <owner>evolution-mail</owner>
-      <type>bool</type>
-      <default>false</default>
+      <type>int</type>
+      <default>0</default>
       <locale name="C">
-         <short>Use side-by-side or wide layout</short>
-         <long>
-	  If the &quot;Preview&quot; pane is on, then show it side-by-side rather than vertically.
-         </long>
+        <short>Layout style</short>
+        <long>
+          The layout style determines where to place the preview pane
+          in relation to the message list.  "0" (Classic View) places
+          the preview pane below the message list.  "1" (Vertical View)
+          places the preview pane next to the message list.
+        </long>
       </locale>
     </schema>
 

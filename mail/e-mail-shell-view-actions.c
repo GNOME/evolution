@@ -455,24 +455,6 @@ static GtkActionEntry mail_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_mail_create_search_folder_cb) },
 
-#if 0
-	/* XXX Work around one-accelerator-per-action limit. */
-	{ "mail-delete-1",
-	  NULL,
-	  NULL,
-	  "Delete",
-	  NULL,
-	  G_CALLBACK (action_mail_delete_cb) },
-
-	/* XXX Work around one-accelerator-per-action limit. */
-	{ "mail-delete-2",
-	  NULL,
-	  NULL,
-	  "KP_Delete",
-	  NULL,
-	  G_CALLBACK (action_mail_delete_cb) },
-#endif
-
 	{ "mail-download",
 	  NULL,
 	  N_("_Download Messages for Offline Usage"),
@@ -591,40 +573,6 @@ static GtkActionEntry mail_entries[] = {
 	  NULL,
 	  N_("Temporarily hide the selected messages"),
 	  G_CALLBACK (action_mail_hide_selected_cb) },
-
-#if 0
-	/* XXX Work around one-accelerator-per-action limit. */
-	{ "mail-next-unread-1",
-	  NULL,
-	  NULL,
-	  "period",
-	  NULL,
-	  G_CALLBACK (action_mail_next_unread_cb) },
-
-	/* XXX Work around one-accelerator-per-action limit. */
-	{ "mail-next-unread-2",
-	  NULL,
-	  NULL,
-	  "<Control>period",
-	  NULL,
-	  G_CALLBACK (action_mail_next_unread_cb) },
-
-	/* XXX Work around one-accelerator-per-action limit. */
-	{ "mail-previous-unread-1",
-	  NULL,
-	  NULL,
-	  "comma",
-	  NULL,
-	  G_CALLBACK (action_mail_previous_unread_cb) },
-
-	/* XXX Work around one-accelerator-per-action limit. */
-	{ "mail-previous-unread-2",
-	  NULL,
-	  NULL,
-	  "<Control>comma",
-	  NULL,
-	  G_CALLBACK (action_mail_previous_unread_cb) },
-#endif
 
 	{ "mail-show-hidden",
 	  NULL,
@@ -1029,11 +977,11 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	key = "/apps/evolution/mail/display/show_preview";
 	gconf_bridge_bind_property (bridge, key, object, "active");
 
-	object = G_OBJECT (ACTION (MAIL_VIEW_VERTICAL));
-	key = "/apps/evolution/mail/display/show_wide";
-	gconf_bridge_bind_property (bridge, key, object, "active");
-
 	object = G_OBJECT (ACTION (MAIL_THREADS_GROUP_BY));
 	key = "/apps/evolution/mail/display/thread_list";
 	gconf_bridge_bind_property (bridge, key, object, "active");
+
+	object = G_OBJECT (ACTION (MAIL_VIEW_VERTICAL));
+	key = "/apps/evolution/mail/display/layout";
+	gconf_bridge_bind_property (bridge, key, object, "current-value");
 }

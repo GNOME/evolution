@@ -82,6 +82,8 @@ GtkWindow *	e_mail_reader_get_window	(EMailReader *reader);
 void		e_mail_reader_set_folder	(EMailReader *reader,
 						 CamelFolder *folder,
 						 const gchar *folder_uri);
+void		e_mail_reader_set_folder_uri	(EMailReader *reader,
+						 const gchar *folder_uri);
 void		e_mail_reader_set_message	(EMailReader *reader,
 						 const gchar *uid,
 						 gboolean mark_read);

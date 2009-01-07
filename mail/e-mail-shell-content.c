@@ -663,6 +663,8 @@ e_mail_shell_content_set_vertical_view (EMailShellContent *mail_shell_content,
 	mail_shell_content->priv->paned_binding_id = binding_id;
 	mail_shell_content->priv->paned = g_object_ref (new_paned);
 
+	e_mail_shell_content_update_view_instance (mail_shell_content);
+
 	g_object_notify (G_OBJECT (mail_shell_content), "vertical-view");
 }
 
@@ -700,12 +702,11 @@ e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content
 		mail_shell_content->priv->view_instance = NULL;
 	}
 
-	/* TODO: Should this go through the mail-config API? */
 	view_id = mail_config_folder_to_safe_url (folder_view->folder);
 	view_instance = e_shell_view_new_view_instance (shell_view, view_id);
 	mail_shell_content->priv->view_instance = view_instance;
 
-	show_vertical_view = folder_view->list_active &&
+	show_vertical_view =
 		e_mail_shell_content_get_vertical_view (mail_shell_content);
 
 	if (show_vertical_view) {
