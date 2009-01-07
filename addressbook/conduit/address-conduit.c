@@ -35,6 +35,8 @@
 #include <pi-socket.h>
 #include <pi-dlp.h>
 #include <pi-address.h>
+#include <pi-appinfo.h>
+#include <libedataserver/e-categories.h>
 #include <libedataserver/e-url.h>
 #include <libedataserverui/e-passwords.h>
 #include <libebook/e-book.h>
@@ -64,6 +66,7 @@ void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 
 #define WARN g_warning
 #define INFO g_message
+#define PILOT_MAX_CATEGORIES 16
 
 enum {
 	LABEL_WORK,
@@ -154,6 +157,194 @@ struct _EAddrConduitCfg {
 
 	gchar *last_uri;
 };
+
+/* NOTE: copied from calendar/conduit/common/libecalendar-common-conduit.c
+ * Adds a category to the category app info structure (name and ID),
+ * sets category->renamed[i] to true if possible to rename.
+ *
+ * This will be packed and written to the app info block during post_sync.
+ *
+ * NOTE: cat_to_add MUST be in PCHAR format. Evolution stores categories
+ *       in UTF-8 format. A conversion must take place before calling
+ *       this function (see e_pilot_utf8_to_pchar() in e-pilot-util.c)
+ */
+static int
+e_pilot_add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *category)
+{
+	int i, j;
+	int retval = 0; /* 0 is the Unfiled category */
+	LOG(g_message("e_pilot_add_category_if_possible\n"));
+
+	for(i=0; i<PILOT_MAX_CATEGORIES; i++){
+		/* if strlen is 0, then the category is empty
+		   the PalmOS doesn't let 0-length strings for
+		   categories */
+		if(strlen(category->name[i]) == 0){
+			int cat_to_add_len;
+			int desktopUniqueID;
+
+			cat_to_add_len = strlen(cat_to_add);
+			retval = i;
+
+			if(cat_to_add_len > 15){
+				char tmpstr[16];
+				strncpy(tmpstr, cat_to_add,16);
+				tmpstr[16] = '\0';
+				/* Have to truncate the category name */
+				LOG (g_warning ("*** Desktop category '%s' too long for PDA."
+						    "Truncating to '%s' ***",cat_to_add, tmpstr));
+				cat_to_add_len = 15;
+			}
+
+			/* only 15 characters for category, 16th is
+			 * '\0' can't do direct mem transfer due to
+			 * declaration type
+			 */
+			for(j=0; j<cat_to_add_len; j++){
+				category->name[i][j] = cat_to_add[j];
+			}
+
+			for(j=cat_to_add_len; j<16; j++) {
+				category->name[i][j] = '\0';
+			}
+
+			//find a desktop id that is not in use between 128 and 255
+			/* XXX desktopUniqueID should really be used for tracking
+			 * categories across renaming operations, but as Evo
+			 * doesn't have a concept of category UIDs or renaming,
+			 * we don't have much use for it at present.
+			 */
+			for (desktopUniqueID = 128; desktopUniqueID <= 255; desktopUniqueID++) {
+				int found = 0;
+				for(j=0; j<PILOT_MAX_CATEGORIES; j++){
+					if (category->ID[j] == desktopUniqueID) {
+						found = 1;
+					}
+				}
+				if (found == 0) {
+					break;
+				}
+				if (desktopUniqueID == 255) {
+					LOG (g_warning ("*** no more categories available on PC ***"));
+				}
+			}
+			category->ID[i] = desktopUniqueID;
+
+			category->renamed[i] = TRUE;
+
+			break;
+		}
+	}
+
+	if(retval == 0){
+		LOG (g_warning ("*** not adding category - category list already full ***"));
+	}
+
+	return retval;
+}
+
+/*
+ * conversion from an evolution category to a palm category.
+ * we iterate over the list of desktop categories to see if
+ * there is matching palm category.  If not, we create
+ * a new palm category from the first evo category.
+ * If a category was not found and could not be created,
+ * or if there are no desktop categories, then *pilotCategory
+ * is set to zero ("Unfiled").
+ */
+static
+void e_pilot_local_category_to_remote(int * pilotCategory,
+    EContact *contact, struct CategoryAppInfo *category)
+{
+	GList *c_list = NULL, *l;
+	char * category_string, *first_category = NULL;
+	int i;
+	*pilotCategory = 0; /* default to "Unfiled" */
+	c_list = e_contact_get (contact, E_CONTACT_CATEGORY_LIST);
+	if (c_list) {
+		/* remember the first category */
+		first_category = e_pilot_utf8_to_pchar((const char *)c_list->data);
+	}
+	l = c_list;
+	while(l && *pilotCategory == 0) {
+		//list != 0, so at least 1 category is assigned
+		category_string = e_pilot_utf8_to_pchar((const char *)l->data);
+		for (i=0; i < PILOT_MAX_CATEGORIES; i++) {
+			/* only 15 chars + nul in palm category name */
+			if (strncmp(category_string,category->name[i], 15) == 0) {
+				*pilotCategory = i;
+				break;
+			}
+		}
+		g_free(category_string);
+		l = l->next;
+	}
+	if (*pilotCategory == 0 && first_category && *first_category) {
+		/* category not available on palm, try to create it */
+		/* XXX e_pilot_add_category_if_possible can be called
+		 *  when we're doing a 'copy from pilot'.  This should
+		 *  really be avoided.
+		 */
+		*pilotCategory = e_pilot_add_category_if_possible(
+		    first_category,category);
+		g_free(first_category);
+	}
+	g_list_foreach (c_list, (GFunc)g_free, NULL);
+	g_list_free(c_list);
+	/*end category*/
+}
+
+/*
+ * conversion from a palm category to an evolution category
+ */
+static
+void e_pilot_remote_category_to_local(int pilotCategory,
+    EContact *contact, struct CategoryAppInfo *category)
+{
+	char *category_string = NULL;
+
+	if (pilotCategory != 0) {
+		/* pda has category assigned */
+		category_string = e_pilot_utf8_from_pchar(
+		    category->name[pilotCategory]);
+
+		LOG(g_message("PDA Category: %s\n", category_string));
+
+		if(e_categories_exist(category_string) == FALSE){
+			/* add if it doesn't exist */
+			LOG(g_message("Category created on pc\n"));
+			e_categories_add(category_string, NULL, NULL, TRUE);
+		}
+	}
+
+	/* store the data in EContact */
+	if (category_string == NULL) {
+		/* remove categories from desktop. */
+		e_contact_set (contact, E_CONTACT_CATEGORY_LIST, NULL);
+	}
+	else {
+
+		/* Since the first first category is synced with the PDA, add the PDA's
+		 * category to the beginning of the category list */
+		GList *c_list = NULL;
+		GList *newcat_in_list;
+		c_list = e_contact_get (contact, E_CONTACT_CATEGORY_LIST);
+
+		/* remove old item from list so we don't have duplicate entries */
+		newcat_in_list = g_list_find_custom(c_list, category_string, (GCompareFunc)strcmp);
+		if(newcat_in_list != NULL)
+		{
+			g_free(newcat_in_list->data);
+			c_list = g_list_remove(c_list, newcat_in_list->data);
+		}
+
+		c_list = g_list_prepend(c_list, category_string);
+		e_contact_set (contact, E_CONTACT_CATEGORY_LIST, c_list);
+
+		g_list_foreach (c_list, (GFunc)g_free, NULL);
+		g_list_free(c_list);
+	}
+}
 
 static EAddrConduitCfg *
 addrconduit_load_configuration (guint32 pilot_id)
@@ -920,6 +1111,9 @@ local_record_from_ecard (EAddrLocalRecord *local, EContact *contact, EAddrCondui
 #endif
 	}
 
+	/*Category support*/
+	e_pilot_local_category_to_remote(&(local->local.category), contact, &(ctxt->ai.category));
+
 	local->addr->entry[entryFirstname] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_GIVEN_NAME));
 	local->addr->entry[entryLastname] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_FAMILY_NAME));
 	local->addr->entry[entryCompany] = e_pilot_utf8_to_pchar (e_contact_get_const (contact, E_CONTACT_ORG));
@@ -1105,11 +1299,17 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	else
 		contact = e_contact_duplicate (in_contact);
 
+	/*Category support*/
+	e_pilot_remote_category_to_local(remote->category, contact, &(ctxt->ai.category));
+
 	/* Name */
 	name = e_contact_name_new ();
 	name->given = get_entry_text (address, entryFirstname);
 	name->family = get_entry_text (address, entryLastname);
 
+	/* set the name, respecting the pilot's given/family names */
+	e_contact_set (contact, E_CONTACT_NAME, name);
+	/* now set the full_name */
 	full_name = e_contact_name_to_string (name);
 	e_contact_set (contact, E_CONTACT_FULL_NAME, full_name);
 	e_contact_name_free (name);
@@ -1424,8 +1624,28 @@ post_sync (GnomePilotConduit *conduit,
 {
 	GList *changed;
 	gchar *filename, *change_id;
+	unsigned char *buf;
+	int dlpRetVal, len;
 
 	LOG (g_message ( "post_sync: Address Conduit v.%s", CONDUIT_VERSION ));
+
+	/* Write AppBlock to PDA - updates categories */
+	buf = (unsigned char*)g_malloc (0xffff);
+
+	len = pack_AddressAppInfo (&(ctxt->ai), buf, 0xffff);
+
+	dlpRetVal = dlp_WriteAppBlock (dbi->pilot_socket, dbi->db_handle,
+			      (unsigned char *)buf, len);
+
+	g_free (buf);
+
+	if (dlpRetVal < 0) {
+		WARN ( ("Could not write pilot's Address application block"));
+		WARN ("dlp_WriteAppBlock(...) = %d", dlpRetVal);
+		/*gnome_pilot_conduit_error (conduit,
+					   _("Could not write pilot's Address application block"));*/
+		return -1;
+	}
 
 	g_free (ctxt->cfg->last_uri);
 	ctxt->cfg->last_uri = g_strdup (e_book_get_uri (ctxt->ebook));

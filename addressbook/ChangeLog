@@ -1,3 +1,10 @@
+2009-01-07  Matt Davey  <mcdavey@mrao.cam.ac.uk>
+
+	** Fix for bugs #201167 and #269342
+	* conduit/address-conduit.c:
+	Add support for category syncing.  Also, retain an existing
+	given/first name split if it exists in the pilot record.
+
 2009-01-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	* ui/component/addressbook-config.c (eabc_general_offline):
