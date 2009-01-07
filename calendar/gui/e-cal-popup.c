@@ -139,7 +139,7 @@ temp_save_part(CamelMimePart *part, char *path, gboolean file)
 		usepath = g_strjoin (NULL, "file://", path, NULL);
 
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	stream = camel_stream_vfs_new_with_uri (path, CAMEL_STREAM_VFS_CREATE);
+	stream = camel_stream_vfs_new_with_uri (usepath, CAMEL_STREAM_VFS_CREATE);
 
 	if (usepath != path)
 		g_free (usepath);
