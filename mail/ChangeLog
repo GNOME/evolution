@@ -1,3 +1,18 @@
+2009-01-08  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #565376
+
+	* vfoldertypes.xml:
+	* searchtypes.xml: Merge some search types together.
+	* em-vfolder-context.c: (vfolder_new_element): More elements.
+	* em-filter-folder-element.h: (struct _EMFilterFolderElement):
+	* em-filter-folder-element.c: (xml_encode), (xml_decode),
+	(folder_selected), (get_widget), (format_sexp):
+	Support storing folder uri in a camel's way.
+
+	* em-format-html-display.c: (efhd_use_component):
+	Compiler warning fix.
+
 2008-12-29  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #565857

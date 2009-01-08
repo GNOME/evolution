@@ -2129,7 +2129,7 @@ type_ok:
 	}
 	
 	/* FIXME: How should I free the Bonobo_ServerInfo's ? */
-	g_list_foreach (components, CORBA_free, NULL);
+	g_list_foreach (components, (GFunc)CORBA_free, NULL);
 	g_list_free (components);
 	 
 	return component != NULL; 	 
