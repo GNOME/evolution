@@ -1,5 +1,11 @@
 2009-01-08  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #567031
+
+	* rule-editor.c: (rule_editor_new): Hide also label of the combo.
+
+2009-01-08  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #339879
 
 	* filter-code.h: (filter_code_new):
