@@ -49,7 +49,7 @@ struct _FilterCodeClass {
 };
 
 GType filter_code_get_type (void);
-FilterCode *filter_code_new (void);
+FilterCode *filter_code_new (gboolean raw_code);
 
 /* methods */
 

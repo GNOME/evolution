@@ -906,7 +906,9 @@ new_element(RuleContext *rc, const char *type)
 		/* FIXME: temporary ... need real address type */
 		return (FilterElement *) filter_input_new_type_name (type);
 	} else if (!strcmp (type, "code")) {
-		return (FilterElement *) filter_code_new ();
+		return (FilterElement *) filter_code_new (FALSE);
+	} else if (!strcmp (type, "rawcode")) {
+		return (FilterElement *) filter_code_new (TRUE);
 	} else if (!strcmp (type, "colour")) {
 		return (FilterElement *) filter_colour_new ();
 	} else if (!strcmp (type, "optionlist")) {

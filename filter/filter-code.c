@@ -98,9 +98,16 @@ filter_code_finalise (GObject *obj)
  * Return value: A new #FilterCode object.
  **/
 FilterCode *
-filter_code_new (void)
+filter_code_new (gboolean raw_code)
 {
-	return (FilterCode *) g_object_new (FILTER_TYPE_CODE, NULL, NULL);
+	FilterCode *fc = (FilterCode *) g_object_new (FILTER_TYPE_CODE, NULL, NULL);
+
+	if (fc && raw_code) {
+		xmlFree (((FilterInput *) fc)->type);
+		((FilterInput *) fc)->type = (char *)xmlStrdup ((const unsigned char *)"rawcode");
+	}
+
+	return fc;
 }
 
 /* here, the string IS the code */
@@ -109,14 +116,19 @@ build_code (FilterElement *fe, GString *out, struct _FilterPart *ff)
 {
 	GList *l;
 	FilterInput *fi = (FilterInput *)fe;
+	gboolean is_rawcode = fi && fi->type && g_str_equal (fi->type, "rawcode");
 
-	g_string_append(out, "(match-all ");
+	if (!is_rawcode)
+		g_string_append(out, "(match-all ");
+
 	l = fi->values;
 	while (l) {
 		g_string_append(out, (char *)l->data);
 		l = g_list_next(l);
 	}
-	g_string_append(out, ")");
+
+	if (!is_rawcode)
+		g_string_append (out, ")");
 }
 
 /* and we have no value */

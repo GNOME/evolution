@@ -1,6 +1,14 @@
+2009-01-08  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #339879
+
+	* gui/widgets/addresstypes.xml: Use "rawcode" instead of "code"
+	to have not added a "match-all" into the expression.
+
 2009-01-07  Matt Davey  <mcdavey@mrao.cam.ac.uk>
 
 	** Fix for bugs #201167 and #269342
+
 	* conduit/address-conduit.c:
 	Add support for category syncing.  Also, retain an existing
 	given/first name split if it exists in the pilot record.
