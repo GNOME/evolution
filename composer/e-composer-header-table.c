@@ -18,7 +18,7 @@
 #include "e-composer-header-table.h"
 
 #include <string.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <libedataserverui/e-name-selector.h>
 
 #include "e-signature-combo-box.h"

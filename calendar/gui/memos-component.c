@@ -27,7 +27,7 @@
 
 #include <errno.h>
 #include <string.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-exception.h>
 #include <gconf/gconf-client.h>
@@ -1285,6 +1285,9 @@ memos_component_class_init (MemosComponentClass *klass)
 {
 	POA_GNOME_Evolution_Component__epv *epv = &klass->epv;
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
+	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
 	parent_class = g_type_class_peek_parent (klass);
 

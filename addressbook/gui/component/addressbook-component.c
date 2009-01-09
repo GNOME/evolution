@@ -44,7 +44,7 @@
 
 #include <string.h>
 #include <gtk/gtk.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <gconf/gconf-client.h>
 #include <e-util/e-util.h>
 #include <libedataserver/e-url.h>
@@ -461,6 +461,9 @@ addressbook_component_class_init (AddressbookComponentClass *class)
 {
 	POA_GNOME_Evolution_Component__epv *epv = &class->epv;
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
+
+	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
 	epv->createView              = impl_createView;
 	epv->_get_userCreatableItems = impl__get_userCreatableItems;

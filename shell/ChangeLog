@@ -1,3 +1,14 @@
+2009-01-09  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	Reviewed by Matthew Barnes  <mbarnes@redhat.com>
+
+	* Fix for bug #566011
+
+	* e-user-creatable-items-handler.c
+	(e_user_creatable_items_handler_class_ini):
+	Include <glib/gi18n-lib.h> instead of <glib/gi18n.h> and
+	add bindtextdomain().
+
 2009-01-01  Andre Klapper  <a9016009@gmx.de>
 
 	* e-shell-window-commands.c:

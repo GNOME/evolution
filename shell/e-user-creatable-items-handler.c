@@ -36,7 +36,7 @@
 #include <bonobo/bonobo-control.h>
 
 #include <gtk/gtk.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include <stdlib.h>
 #include <ctype.h>
@@ -837,6 +837,9 @@ static void
 e_user_creatable_items_handler_class_init (EUserCreatableItemsHandlerClass *klass)
 {
 	GObjectClass *object_class;
+
+	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
 	object_class = G_OBJECT_CLASS (klass);
 	object_class->dispose      = impl_dispose;

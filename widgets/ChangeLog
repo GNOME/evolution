@@ -1,3 +1,13 @@
+2009-01-09  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	Reviewed by Matthew Barnes  <mbarnes@redhat.com>
+
+	* Fix for bug #566011
+
+	* misc/e-charset-picker.c:
+	* misc/e-signature-combo-box.c:
+	Include <glib/gi18n-lib.h> instead of <glib/gi18n.h>.
+
 2008-11-03  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #559041

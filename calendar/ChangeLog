@@ -1,3 +1,17 @@
+2009-01-09  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	Reviewed by Matthew Barnes  <mbarnes@redhat.com>
+
+	* Fix for bug #566011
+
+	* gui/Makefile.am:
+	* gui/calendar-component.c (calendar_component_class_init):
+	* gui/dialogs/comp-editor.c:
+	* gui/memos-component.c (memos_component_class_init):
+	* gui/tasks-component.c (tasks_component_class_init):
+	Include <glib/gi18n-lib.h> instead of <glib/gi18n.h> and
+	add bindtextdomain().
+
 2009-01-07  Ashish Shrivastava  <shashish@novell.com>
 
 	** Fix for bug #565553, #462372 (bnc)

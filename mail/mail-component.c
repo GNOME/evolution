@@ -80,7 +80,7 @@
 
 #include <table/e-tree.h>
 #include <table/e-tree-memory.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include <camel/camel-file-utils.h>
 #include <camel/camel-vtrash-folder.h>
@@ -1239,6 +1239,9 @@ mail_component_class_init (MailComponentClass *class)
 	POA_GNOME_Evolution_Component__epv *epv = &((EvolutionComponentClass *)class)->epv;
 	POA_GNOME_Evolution_MailComponent__epv *mepv = &class->epv;
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
+
+	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
 	parent_class = g_type_class_peek_parent (class);
 

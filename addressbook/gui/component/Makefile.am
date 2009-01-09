@@ -15,6 +15,7 @@ INCLUDES =							\
 	-I$(top_srcdir)/addressbook/gui/widgets			\
 	-I$(top_srcdir)/a11y/addressbook			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"		\
 	-DPREFIX=\""$(prefix)"\"				\
 	$(LDAP_CFLAGS)						\

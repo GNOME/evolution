@@ -1,3 +1,13 @@
+2009-01-09  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	Reviewed by Matthew Barnes  <mbarnes@redhat.com>
+
+	* Fix for bug #566011
+
+	* e-composer-header-table.c:
+	* e-composer-private.h:
+	Include <glib/gi18n-lib.h> instead of <glib/gi18n.h>.
+
 2008-12-18  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-composer-actions.c:
