@@ -349,16 +349,20 @@ shell_view_toggled (EShellView *shell_view)
 	EShellWindow *shell_window;
 	GtkUIManager *ui_manager;
 	const gchar *basename;
+	gboolean view_is_active;
 
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	view_is_active = e_shell_view_is_active (shell_view);
 	basename = shell_view_class->ui_definition;
 
-	if (e_shell_view_is_active (shell_view))
+	if (view_is_active && priv->merge_id == 0)
 		priv->merge_id = e_load_ui_definition (ui_manager, basename);
-	else
+	else if (!view_is_active && priv->merge_id != 0) {
 		gtk_ui_manager_remove_ui (ui_manager, priv->merge_id);
+		priv->merge_id = 0;
+	}
 
 	gtk_ui_manager_ensure_update (ui_manager);
 }

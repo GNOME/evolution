@@ -71,6 +71,7 @@ mail_shell_view_toggled (EShellView *shell_view)
 	EShellWindow *shell_window;
 	GtkUIManager *ui_manager;
 	const gchar *basename;
+	gboolean view_is_active;
 
 	/* Chain up to parent's toggled() method. */
 	E_SHELL_VIEW_CLASS (parent_class)->toggled (shell_view);
@@ -79,15 +80,18 @@ mail_shell_view_toggled (EShellView *shell_view)
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	view_is_active = e_shell_view_is_active (shell_view);
 	basename = E_MAIL_READER_UI_DEFINITION;
 
-	if (e_shell_view_is_active (shell_view)) {
+	if (view_is_active && priv->merge_id == 0) {
 		priv->merge_id = e_load_ui_definition (ui_manager, basename);
 		e_mail_reader_create_charset_menu (
 			E_MAIL_READER (priv->mail_shell_content),
 			ui_manager, priv->merge_id);
-	} else
+	} else if (!view_is_active && priv->merge_id != 0) {
 		gtk_ui_manager_remove_ui (ui_manager, priv->merge_id);
+		priv->merge_id = 0;
+	}
 
 	gtk_ui_manager_ensure_update (ui_manager);
 }
