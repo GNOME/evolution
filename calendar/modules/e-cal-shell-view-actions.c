@@ -633,7 +633,7 @@ static GtkActionEntry calendar_entries[] = {
 	{ "calendar-print",
 	  GTK_STOCK_PRINT,
 	  NULL,
-	  NULL,
+	  "<Control>p",
 	  N_("Print this calendar"),
 	  G_CALLBACK (action_calendar_print_cb) },
 

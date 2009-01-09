@@ -670,7 +670,7 @@ static GtkActionEntry contact_entries[] = {
 	{ "contact-print",
 	  GTK_STOCK_PRINT,
 	  NULL,
-	  NULL,
+	  "<Control>p",
 	  N_("Print selected contacts"),
 	  G_CALLBACK (action_contact_print_cb) },
 

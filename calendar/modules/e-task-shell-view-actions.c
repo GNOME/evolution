@@ -707,7 +707,7 @@ static GtkActionEntry task_entries[] = {
 	{ "task-list-print",
 	  GTK_STOCK_PRINT,
 	  NULL,
-	  NULL,
+	  "<Control>p",
 	  N_("Print the list of tasks"),
 	  G_CALLBACK (action_task_list_print_cb) },
 

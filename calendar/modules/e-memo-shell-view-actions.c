@@ -582,7 +582,7 @@ static GtkActionEntry memo_entries[] = {
 	{ "memo-list-print",
 	  GTK_STOCK_PRINT,
 	  NULL,
-	  NULL,
+	  "<Control>p",
 	  N_("Print the list of memos"),
 	  G_CALLBACK (action_memo_list_print_cb) },
 

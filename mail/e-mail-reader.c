@@ -1230,7 +1230,7 @@ static GtkActionEntry mail_reader_entries[] = {
 	{ "mail-print",
 	  GTK_STOCK_PRINT,
 	  NULL,
-	  NULL,
+	  "<Control>p",
 	  N_("Print this message"),
 	  G_CALLBACK (action_mail_print_cb) },
 
