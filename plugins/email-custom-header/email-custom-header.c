@@ -367,7 +367,7 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 				(temp_header_value_ptr->sub_header_string_value)->str);
 		}
 
-		gtk_combo_box_append_text (GTK_COMBO_BOX (sub_combo_box_ptr->header_value_combo_box),"None");
+		gtk_combo_box_append_text (GTK_COMBO_BOX (sub_combo_box_ptr->header_value_combo_box), _("None"));
 		gtk_widget_show (sub_combo_box_ptr->header_value_combo_box);
 	}
 }
