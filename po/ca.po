@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-07 23:17+0000\n"
-"PO-Revision-Date: 2008-10-12 20:59+0200\n"
+"POT-Creation-Date: 2009-01-09 01:54+0100\n"
+"PO-Revision-Date: 2009-01-09 01:56+0100\n"
 "Last-Translator: David Planella <david.planella@gmail.com>\n"
 "Language-Team: Catalan <tradgnome@softcatala.org>\n"
 "MIME-Version: 1.0\n"
@@ -209,7 +209,7 @@ msgstr "%d %b"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:245
 #: ../a11y/calendar/ea-gnome-calendar.c:253
-#: ../calendar/importers/icalendar-importer.c:768
+#: ../calendar/importers/icalendar-importer.c:780
 msgid "Gnome Calendar"
 msgstr "Calendari del Gnome"
 
@@ -422,7 +422,7 @@ msgstr "No es pot autenticar amb el servidor LDAP."
 
 #. Unknown error
 #: ../addressbook/addressbook.error.xml.h:16
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1735
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1734
 msgid "Failed to delete contact"
 msgstr "No s'ha pogut suprimir el contacte"
 
@@ -580,17 +580,17 @@ msgstr "{0}"
 msgid "{1}"
 msgstr "{1}"
 
-#: ../addressbook/conduit/address-conduit.c:299
+#: ../addressbook/conduit/address-conduit.c:300
 msgid "Default Sync Address:"
 msgstr "Adreça de sincronització predeterminada:"
 
-#: ../addressbook/conduit/address-conduit.c:1320
 #: ../addressbook/conduit/address-conduit.c:1321
+#: ../addressbook/conduit/address-conduit.c:1322
 msgid "Could not load address book"
 msgstr "No s'ha pogut carregar la llibreta d'adreces"
 
-#: ../addressbook/conduit/address-conduit.c:1398
-#: ../addressbook/conduit/address-conduit.c:1401
+#: ../addressbook/conduit/address-conduit.c:1399
+#: ../addressbook/conduit/address-conduit.c:1402
 msgid "Could not read pilot's Address application block"
 msgstr "No s'ha pogut llegir el bloc d'aplicació d'adreces del pilot"
 
@@ -660,8 +660,8 @@ msgstr "Gestioneu els vostres certificats S/MIME aquí"
 #: ../calendar/gui/memos-component.c:199 ../calendar/gui/migration.c:475
 #: ../calendar/gui/migration.c:577 ../calendar/gui/migration.c:1091
 #: ../calendar/gui/tasks-component.c:195 ../mail/em-folder-tree-model.c:200
-#: ../mail/em-folder-tree-model.c:202 ../mail/em-migrate.c:2906
-#: ../mail/mail-component.c:311 ../mail/mail-vfolder.c:216
+#: ../mail/em-folder-tree-model.c:202 ../mail/em-migrate.c:2967
+#: ../mail/mail-component.c:311 ../mail/mail-vfolder.c:223
 #: ../mail/message-list.c:1457
 msgid "On This Computer"
 msgstr "En aquest ordinador"
@@ -744,11 +744,11 @@ msgstr ""
 #: ../addressbook/gui/component/addressbook-config.c:998
 #: ../addressbook/gui/component/ldap-config.glade.h:22
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
-#: ../calendar/gui/dialogs/calendar-setup.c:367
-#: ../calendar/gui/dialogs/calendar-setup.c:378
-#: ../calendar/gui/dialogs/calendar-setup.c:389
+#: ../calendar/gui/dialogs/calendar-setup.c:368
+#: ../calendar/gui/dialogs/calendar-setup.c:379
+#: ../calendar/gui/dialogs/calendar-setup.c:390
 #: ../mail/em-folder-properties.c:283 ../mail/mail-config.glade.h:89
-#: ../plugins/itip-formatter/itip-formatter.c:2367
+#: ../plugins/itip-formatter/itip-formatter.c:2439
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "General"
@@ -876,10 +876,10 @@ msgstr "Desa com a vCard..."
 #: ../addressbook/gui/component/addressbook-view.c:945
 #: ../addressbook/gui/widgets/e-addressbook-view.c:956
 #: ../calendar/gui/calendar-component.c:619
-#: ../calendar/gui/e-calendar-table.c:1595
+#: ../calendar/gui/e-calendar-table.c:1599
 #: ../calendar/gui/e-calendar-view.c:1692 ../calendar/gui/e-memo-table.c:940
 #: ../calendar/gui/memos-component.c:468 ../calendar/gui/tasks-component.c:459
-#: ../mail/em-folder-tree.c:2111 ../mail/em-folder-view.c:1340
+#: ../mail/em-folder-tree.c:2129 ../mail/em-folder-view.c:1340
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:35 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -888,9 +888,9 @@ msgstr "_Suprimeix"
 
 #: ../addressbook/gui/component/addressbook-view.c:948
 #: ../calendar/gui/calendar-component.c:622
-#: ../calendar/gui/dialogs/comp-editor.c:2035
+#: ../calendar/gui/dialogs/comp-editor.c:2043
 #: ../calendar/gui/memos-component.c:471 ../calendar/gui/tasks-component.c:462
-#: ../composer/e-msg-composer.c:1041 ../mail/em-folder-tree.c:2120
+#: ../composer/e-msg-composer.c:1041 ../mail/em-folder-tree.c:2138
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:38
 msgid "_Properties"
 msgstr "_Propietats"
@@ -916,7 +916,7 @@ msgstr "Introduïu la contrasenya per a %s (usuari %s)"
 
 #: ../addressbook/gui/component/addressbook.c:222
 #: ../calendar/common/authentication.c:51
-#: ../plugins/google-account-setup/google-source.c:444
+#: ../plugins/google-account-setup/google-source.c:441
 #: ../plugins/publish-calendar/publish-calendar.c:191
 #: ../smime/gui/component.c:49
 msgid "Enter password"
@@ -1278,8 +1278,8 @@ msgstr "targetes"
 #: ../calendar/gui/dialogs/event-page.glade.h:20 ../filter/filter.glade.h:17
 #: ../plugins/calendar-http/calendar-http.c:279
 #: ../plugins/calendar-weather/calendar-weather.c:561
-#: ../plugins/google-account-setup/google-source.c:662
-#: ../plugins/google-account-setup/google-contacts-source.c:328
+#: ../plugins/google-account-setup/google-source.c:671
+#: ../plugins/google-account-setup/google-contacts-source.c:338
 msgid "minutes"
 msgstr "minuts"
 
@@ -1515,8 +1515,8 @@ msgstr "Adreça"
 #: ../addressbook/gui/widgets/e-minicard-view.c:545
 #: ../addressbook/gui/widgets/e-minicard.c:192
 #: ../widgets/menus/gal-define-views-model.c:178
-#: ../widgets/table/e-cell-text.c:1835 ../widgets/text/e-text.c:3687
-#: ../widgets/text/e-text.c:3688
+#: ../widgets/table/e-cell-text.c:1835 ../widgets/text/e-text.c:3688
+#: ../widgets/text/e-text.c:3689
 msgid "Editable"
 msgstr "Editable"
 
@@ -2795,8 +2795,8 @@ msgstr "Serve_i de MI:"
 #: ../addressbook/gui/contact-editor/im.glade.h:4
 #: ../calendar/gui/dialogs/event-page.glade.h:16
 #: ../plugins/calendar-weather/calendar-weather.c:409
-#: ../plugins/exchange-operations/exchange-calendar.c:243
-#: ../plugins/exchange-operations/exchange-contacts.c:235
+#: ../plugins/exchange-operations/exchange-calendar.c:247
+#: ../plugins/exchange-operations/exchange-contacts.c:239
 msgid "_Location:"
 msgstr "_Ubicació:"
 
@@ -2900,7 +2900,7 @@ msgstr "Fusiona el contacte"
 #: ../addressbook/gui/widgets/eab-contact-display.c:597
 #: ../addressbook/gui/widgets/eab-contact-display.c:600
 #: ../addressbook/gui/widgets/eab-contact-display.c:879
-#: ../plugins/groupwise-features/junk-settings.c:416 ../smime/lib/e-cert.c:827
+#: ../plugins/groupwise-features/junk-settings.c:416 ../smime/lib/e-cert.c:810
 msgid "Email"
 msgstr "Adreça electrònica"
 
@@ -2947,8 +2947,8 @@ msgstr "S'ha produït un error en obtenir la visualització de la llibreta"
 #: ../widgets/table/e-table-click-to-add.c:509
 #: ../widgets/table/e-table-selection-model.c:302
 #: ../widgets/table/e-table.c:3354
-#: ../widgets/table/e-tree-selection-model.c:820 ../widgets/text/e-text.c:3551
-#: ../widgets/text/e-text.c:3552
+#: ../widgets/table/e-tree-selection-model.c:820 ../widgets/text/e-text.c:3552
+#: ../widgets/text/e-text.c:3553
 msgid "Model"
 msgstr "Model"
 
@@ -2966,20 +2966,20 @@ msgstr "Font"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:234
 #: ../calendar/gui/e-calendar-table.etspec.h:12
-#: ../calendar/gui/e-meeting-list-view.c:508
+#: ../calendar/gui/e-meeting-list-view.c:525
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 #: ../calendar/gui/e-memo-table.etspec.h:5
 msgid "Type"
 msgstr "Tipus"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:813
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1954
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1953
 msgid "Save as vCard..."
 msgstr "Desa com a vCard..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:934
-#: ../calendar/gui/dialogs/comp-editor.c:2033
-#: ../calendar/gui/e-calendar-table.c:1573
+#: ../calendar/gui/dialogs/comp-editor.c:2041
+#: ../calendar/gui/e-calendar-table.c:1577
 #: ../calendar/gui/e-calendar-view.c:1670 ../calendar/gui/e-memo-table.c:923
 #: ../ui/evolution-addressbook.xml.h:56
 msgid "_Open"
@@ -3034,8 +3034,8 @@ msgid "Cu_t"
 msgstr "Re_talla"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:954
-#: ../calendar/gui/dialogs/comp-editor.c:480
-#: ../calendar/gui/e-calendar-table.c:1581
+#: ../calendar/gui/dialogs/comp-editor.c:484
+#: ../calendar/gui/e-calendar-table.c:1585
 #: ../calendar/gui/e-calendar-view.c:1677 ../calendar/gui/e-memo-table.c:931
 #: ../composer/e-msg-composer.c:2052 ../mail/em-folder-tree.c:1005
 #: ../mail/em-folder-view.c:1325 ../mail/message-list.c:2044
@@ -3050,9 +3050,9 @@ msgid "P_aste"
 msgstr "Engan_xa"
 
 #. All, unmatched, separator
-#: ../addressbook/gui/widgets/e-addressbook-view.c:1525
-#: ../calendar/gui/cal-search-bar.c:629 ../calendar/gui/cal-search-bar.c:672
-#: ../calendar/gui/cal-search-bar.c:691
+#: ../addressbook/gui/widgets/e-addressbook-view.c:1524
+#: ../calendar/gui/cal-search-bar.c:628 ../calendar/gui/cal-search-bar.c:671
+#: ../calendar/gui/cal-search-bar.c:690
 msgid "Any Category"
 msgstr "Qualsevol categoria"
 
@@ -3188,7 +3188,7 @@ msgid "Radio"
 msgstr "Ràdio"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
-#: ../calendar/gui/e-meeting-list-view.c:520
+#: ../calendar/gui/e-meeting-list-view.c:537
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:715
 msgid "Role"
@@ -3228,7 +3228,7 @@ msgstr "Lloc web"
 #: ../addressbook/gui/widgets/e-minicard-label.c:116
 #: ../addressbook/gui/widgets/e-minicard.c:155
 #: ../widgets/misc/e-canvas-vbox.c:85 ../widgets/misc/e-canvas-vbox.c:86
-#: ../widgets/misc/e-reflow.c:1433 ../widgets/misc/e-reflow.c:1434
+#: ../widgets/misc/e-reflow.c:1424 ../widgets/misc/e-reflow.c:1425
 #: ../widgets/table/e-table-click-to-add.c:523
 #: ../widgets/table/e-table-col.c:98
 #: ../widgets/table/e-table-field-chooser-item.c:654
@@ -3237,14 +3237,14 @@ msgstr "Lloc web"
 #: ../widgets/table/e-table-group-leaf.c:637
 #: ../widgets/table/e-table-group-leaf.c:638
 #: ../widgets/table/e-table-item.c:3077 ../widgets/table/e-table-item.c:3078
-#: ../widgets/text/e-text.c:3729 ../widgets/text/e-text.c:3730
+#: ../widgets/text/e-text.c:3730 ../widgets/text/e-text.c:3731
 msgid "Width"
 msgstr "Amplada"
 
 #: ../addressbook/gui/widgets/e-minicard-label.c:123
 #: ../addressbook/gui/widgets/e-minicard.c:162
 #: ../widgets/misc/e-canvas-vbox.c:97 ../widgets/misc/e-canvas-vbox.c:98
-#: ../widgets/misc/e-reflow.c:1441 ../widgets/misc/e-reflow.c:1442
+#: ../widgets/misc/e-reflow.c:1432 ../widgets/misc/e-reflow.c:1433
 #: ../widgets/table/e-table-click-to-add.c:530
 #: ../widgets/table/e-table-field-chooser-item.c:661
 #: ../widgets/table/e-table-group-container.c:985
@@ -3252,7 +3252,7 @@ msgstr "Amplada"
 #: ../widgets/table/e-table-group-leaf.c:630
 #: ../widgets/table/e-table-group-leaf.c:631
 #: ../widgets/table/e-table-item.c:3083 ../widgets/table/e-table-item.c:3084
-#: ../widgets/text/e-text.c:3737 ../widgets/text/e-text.c:3738
+#: ../widgets/text/e-text.c:3738 ../widgets/text/e-text.c:3739
 msgid "Height"
 msgstr "Alçada"
 
@@ -3369,7 +3369,7 @@ msgid "_Open Link in Browser"
 msgstr "_Obre l'enllaç en el navegador"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:173
-#: ../mail/em-folder-view.c:2795
+#: ../mail/em-folder-view.c:2792
 msgid "_Copy Link Location"
 msgstr "_Copia la ubicació de l'enllaç"
 
@@ -3416,8 +3416,8 @@ msgid "Video Chat"
 msgstr "Xat de vídeo"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:636
-#: ../calendar/gui/calendar-commands.c:92
-#: ../calendar/gui/dialogs/calendar-setup.c:368
+#: ../calendar/gui/calendar-commands.c:93
+#: ../calendar/gui/dialogs/calendar-setup.c:369
 #: ../calendar/gui/gnome-cal.c:2451
 #: ../plugins/exchange-operations/exchange-delegates-user.c:78
 #: ../plugins/exchange-operations/exchange-folder.c:576
@@ -3533,7 +3533,7 @@ msgstr "El protocol no és compatible"
 #: ../calendar/gui/e-cal-model-tasks.c:364
 #: ../calendar/gui/e-cal-model-tasks.c:681
 #: ../calendar/gui/e-calendar-table.c:239
-#: ../calendar/gui/e-calendar-table.c:642 ../calendar/gui/print.c:2557
+#: ../calendar/gui/e-calendar-table.c:643 ../calendar/gui/print.c:2557
 msgid "Canceled"
 msgstr "S'ha cancel·lat"
 
@@ -3828,7 +3828,7 @@ msgstr "Visualització de targeta"
 #: ../addressbook/importers/evolution-ldif-importer.c:513
 #: ../addressbook/importers/evolution-vcard-importer.c:252
 #: ../calendar/importers/icalendar-importer.c:308
-#: ../calendar/importers/icalendar-importer.c:673 ../shell/shell.error.xml.h:7
+#: ../calendar/importers/icalendar-importer.c:685 ../shell/shell.error.xml.h:7
 msgid "Importing..."
 msgstr "S'està important..."
 
@@ -3917,7 +3917,7 @@ msgstr "Format"
 #: ../widgets/table/e-table-field-chooser-dialog.c:81
 #: ../widgets/table/e-table-field-chooser-item.c:647
 #: ../widgets/table/e-table-field-chooser.c:80
-#: ../widgets/table/e-table-header-item.c:1908
+#: ../widgets/table/e-table-header-item.c:1907
 #: ../widgets/table/e-table-selection-model.c:309
 msgid "Header"
 msgstr "Capçalera"
@@ -4020,9 +4020,9 @@ msgstr "Ombrejat"
 
 #. FIXME: Take care of i18n
 #: ../addressbook/printing/e-contact-print.glade.h:36
-#: ../plugins/exchange-operations/exchange-account-setup.c:1071
-#: ../plugins/exchange-operations/exchange-calendar.c:232
-#: ../plugins/exchange-operations/exchange-contacts.c:218
+#: ../plugins/exchange-operations/exchange-account-setup.c:1080
+#: ../plugins/exchange-operations/exchange-calendar.c:236
+#: ../plugins/exchange-operations/exchange-contacts.c:222
 msgid "Size:"
 msgstr "Mida:"
 
@@ -4073,8 +4073,8 @@ msgstr "Prova de la impressió de contactes"
 msgid "This should test the contact print code"
 msgstr "Això hauria de provar el codi d'impressió de contactes"
 
-#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:667
-#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:703
+#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:656
+#: ../addressbook/tools/evolution-addressbook-export-list-cards.c:692
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:50
 msgid "Can not open file"
 msgstr "No es pot obrir el fitxer"
@@ -4536,7 +4536,7 @@ msgstr "Fins que no reinicieu l'Evolution no estaran disponibles les tasques."
 msgid "_Discard Changes"
 msgstr "_Descarta els canvis"
 
-#: ../calendar/calendar.error.xml.h:80 ../composer/e-composer-actions.c:499
+#: ../calendar/calendar.error.xml.h:80 ../composer/e-composer-actions.c:497
 msgid "_Save"
 msgstr "_Desa"
 
@@ -4559,50 +4559,50 @@ msgstr "E_nvia l'avís"
 msgid "{0}."
 msgstr "{0}."
 
-#: ../calendar/conduits/calendar/calendar-conduit.c:256
+#: ../calendar/conduits/calendar/calendar-conduit.c:258
 msgid "Split Multi-Day Events:"
 msgstr "Divideix els esdeveniments de múltiples dies:"
 
-#: ../calendar/conduits/calendar/calendar-conduit.c:1521
-#: ../calendar/conduits/calendar/calendar-conduit.c:1522
-#: ../calendar/conduits/memo/memo-conduit.c:820
+#: ../calendar/conduits/calendar/calendar-conduit.c:1523
+#: ../calendar/conduits/calendar/calendar-conduit.c:1524
 #: ../calendar/conduits/memo/memo-conduit.c:821
-#: ../calendar/conduits/todo/todo-conduit.c:1018
+#: ../calendar/conduits/memo/memo-conduit.c:822
 #: ../calendar/conduits/todo/todo-conduit.c:1019
+#: ../calendar/conduits/todo/todo-conduit.c:1020
 msgid "Could not start evolution-data-server"
 msgstr "No s'ha pogut iniciar l'evolution-data-server"
 
-#: ../calendar/conduits/calendar/calendar-conduit.c:1629
-#: ../calendar/conduits/calendar/calendar-conduit.c:1632
+#: ../calendar/conduits/calendar/calendar-conduit.c:1631
+#: ../calendar/conduits/calendar/calendar-conduit.c:1634
 msgid "Could not read pilot's Calendar application block"
 msgstr "No s'ha pogut llegir el bloc d'aplicació de calendari del Pilot"
 
-#: ../calendar/conduits/memo/memo-conduit.c:914
-#: ../calendar/conduits/memo/memo-conduit.c:917
+#: ../calendar/conduits/memo/memo-conduit.c:915
+#: ../calendar/conduits/memo/memo-conduit.c:918
 msgid "Could not read pilot's Memo application block"
 msgstr "No s'ha pogut llegir el bloc d'aplicació d'anotacions del Pilot"
 
-#: ../calendar/conduits/memo/memo-conduit.c:961
-#: ../calendar/conduits/memo/memo-conduit.c:964
+#: ../calendar/conduits/memo/memo-conduit.c:962
+#: ../calendar/conduits/memo/memo-conduit.c:965
 msgid "Could not write pilot's Memo application block"
 msgstr "No s'ha pogut escriure el bloc d'aplicació d'anotacions del Pilot"
 
-#: ../calendar/conduits/todo/todo-conduit.c:240
+#: ../calendar/conduits/todo/todo-conduit.c:241
 msgid "Default Priority:"
 msgstr "Prioritat predeterminada:"
 
-#: ../calendar/conduits/todo/todo-conduit.c:1102
-#: ../calendar/conduits/todo/todo-conduit.c:1105
+#: ../calendar/conduits/todo/todo-conduit.c:1103
+#: ../calendar/conduits/todo/todo-conduit.c:1106
 msgid "Could not read pilot's ToDo application block"
 msgstr "No s'ha pogut llegir el bloc d'aplicació de tasques del Pilot"
 
-#: ../calendar/conduits/todo/todo-conduit.c:1147
-#: ../calendar/conduits/todo/todo-conduit.c:1150
+#: ../calendar/conduits/todo/todo-conduit.c:1148
+#: ../calendar/conduits/todo/todo-conduit.c:1151
 msgid "Could not write pilot's ToDo application block"
 msgstr "No s'ha pogut llegir el bloc d'aplicació de tasques del Pilot"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#: ../plugins/itip-formatter/itip-formatter.c:2358
+#: ../plugins/itip-formatter/itip-formatter.c:2430
 msgid "Calendar and Tasks"
 msgstr "Calendari i tasques"
 
@@ -4658,13 +4658,13 @@ msgid "Memos"
 msgstr "Anotacions"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
-#: ../calendar/gui/e-calendar-table.c:703 ../calendar/gui/e-tasks.c:1429
+#: ../calendar/gui/e-calendar-table.c:704 ../calendar/gui/e-tasks.c:1429
 #: ../calendar/gui/gnome-cal.c:1642 ../calendar/gui/print.c:1984
 #: ../calendar/gui/tasks-component.c:539
 #: ../calendar/gui/tasks-component.c:1090 ../calendar/gui/tasks-control.c:492
 #: ../calendar/gui/tasks-control.c:508
 #: ../calendar/importers/icalendar-importer.c:76
-#: ../calendar/importers/icalendar-importer.c:737
+#: ../calendar/importers/icalendar-importer.c:749
 #: ../plugins/exchange-operations/exchange-delegates-user.c:78
 #: ../plugins/exchange-operations/exchange-folder.c:588
 #: ../plugins/groupwise-account-setup/camel-gw-listener.c:425
@@ -4698,8 +4698,8 @@ msgstr[1] "minuts"
 #: ../calendar/gui/dialogs/event-page.glade.h:19 ../filter/filter.glade.h:15
 #: ../plugins/calendar-http/calendar-http.c:280
 #: ../plugins/calendar-weather/calendar-weather.c:562
-#: ../plugins/google-account-setup/google-source.c:663
-#: ../plugins/google-account-setup/google-contacts-source.c:329
+#: ../plugins/google-account-setup/google-source.c:672
+#: ../plugins/google-account-setup/google-contacts-source.c:339
 msgid "hours"
 msgid_plural "hours"
 msgstr[0] "hora"
@@ -4728,7 +4728,7 @@ msgid "Snooze _time:"
 msgstr "_Temps de migdiada:"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#: ../calendar/gui/dialogs/comp-editor.c:1332
+#: ../calendar/gui/dialogs/comp-editor.c:1336
 #: ../calendar/gui/dialogs/recurrence-page.glade.h:10
 #: ../filter/filter.glade.h:11 ../mail/mail-config.glade.h:169
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:15
@@ -5331,46 +5331,46 @@ msgstr "El comentari conté"
 msgid "Location contains"
 msgstr "La ubicació conté"
 
-#: ../calendar/gui/cal-search-bar.c:633 ../calendar/gui/cal-search-bar.c:676
-#: ../calendar/gui/cal-search-bar.c:695
+#: ../calendar/gui/cal-search-bar.c:632 ../calendar/gui/cal-search-bar.c:675
+#: ../calendar/gui/cal-search-bar.c:694
 msgid "Unmatched"
 msgstr "Sense coincidència"
 
-#: ../calendar/gui/cal-search-bar.c:641
+#: ../calendar/gui/cal-search-bar.c:640
 msgid "Next 7 Days' Tasks"
 msgstr "Tasques dels propers 7 dies"
 
-#: ../calendar/gui/cal-search-bar.c:645
+#: ../calendar/gui/cal-search-bar.c:644
 msgid "Active Tasks"
 msgstr "Tasques actives"
 
-#: ../calendar/gui/cal-search-bar.c:649
+#: ../calendar/gui/cal-search-bar.c:648
 msgid "Overdue Tasks"
 msgstr "Tasques vençudes"
 
-#: ../calendar/gui/cal-search-bar.c:653
+#: ../calendar/gui/cal-search-bar.c:652
 msgid "Completed Tasks"
 msgstr "Tasques completades"
 
-#: ../calendar/gui/cal-search-bar.c:657
+#: ../calendar/gui/cal-search-bar.c:656
 msgid "Tasks with Attachments"
 msgstr "Tasques amb fitxers adjunts"
 
-#: ../calendar/gui/cal-search-bar.c:703
+#: ../calendar/gui/cal-search-bar.c:702
 msgid "Active Appointments"
 msgstr "Cites actives"
 
-#: ../calendar/gui/cal-search-bar.c:707
+#: ../calendar/gui/cal-search-bar.c:706
 msgid "Next 7 Days' Appointments"
 msgstr "Cites dels propers 7 dies"
 
-#: ../calendar/gui/calendar-commands.c:92 ../ui/evolution-addressbook.xml.h:26
+#: ../calendar/gui/calendar-commands.c:93 ../ui/evolution-addressbook.xml.h:26
 #: ../ui/evolution-calendar.xml.h:20 ../ui/evolution-mail-message.xml.h:75
 #: ../ui/evolution-memos.xml.h:11 ../ui/evolution-tasks.xml.h:14
 msgid "Print"
 msgstr "Imprimeix"
 
-#: ../calendar/gui/calendar-commands.c:317
+#: ../calendar/gui/calendar-commands.c:318
 msgid ""
 "This operation will permanently erase all events older than the selected "
 "amount of time. If you continue, you will not be able to recover these "
@@ -5379,16 +5379,16 @@ msgstr ""
 "Aquesta operació suprimirà tots els esdeveniments anteriors a l'interval de "
 "temps seleccionat; si continueu no podreu recuperar-los."
 
-#: ../calendar/gui/calendar-commands.c:323
+#: ../calendar/gui/calendar-commands.c:324
 msgid "Purge events older than"
 msgstr "Buida els esdeveniments anteriors a"
 
-#: ../calendar/gui/calendar-commands.c:328
+#: ../calendar/gui/calendar-commands.c:329
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:21 ../filter/filter.glade.h:14
 #: ../plugins/calendar-http/calendar-http.c:281
 #: ../plugins/calendar-weather/calendar-weather.c:563
-#: ../plugins/google-account-setup/google-source.c:664
-#: ../plugins/google-account-setup/google-contacts-source.c:330
+#: ../plugins/google-account-setup/google-source.c:673
+#: ../plugins/google-account-setup/google-contacts-source.c:340
 #: ../widgets/misc/e-send-options.glade.h:39
 msgid "days"
 msgstr "dies"
@@ -5420,7 +5420,7 @@ msgstr "Calendari no_u"
 
 #: ../calendar/gui/calendar-component.c:616
 #: ../calendar/gui/memos-component.c:465 ../calendar/gui/tasks-component.c:456
-#: ../mail/em-folder-tree.c:2106
+#: ../mail/em-folder-tree.c:2124
 msgid "_Copy..."
 msgstr "_Copia..."
 
@@ -5547,7 +5547,7 @@ msgid "Competition"
 msgstr "Competició"
 
 #: ../calendar/gui/caltypes.xml.h:11 ../calendar/gui/e-cal-list-view.c:250
-#: ../calendar/gui/e-cal-model.c:348 ../calendar/gui/e-calendar-table.c:546
+#: ../calendar/gui/e-cal-model.c:348 ../calendar/gui/e-calendar-table.c:547
 #: ../calendar/gui/memotypes.xml.h:10
 msgid "Confidential"
 msgstr "Confidencial"
@@ -5640,14 +5640,14 @@ msgid "Phone Calls"
 msgstr "Trucades"
 
 #: ../calendar/gui/caltypes.xml.h:31 ../calendar/gui/e-cal-list-view.c:249
-#: ../calendar/gui/e-cal-model.c:346 ../calendar/gui/e-calendar-table.c:545
+#: ../calendar/gui/e-cal-model.c:346 ../calendar/gui/e-calendar-table.c:546
 #: ../calendar/gui/memotypes.xml.h:29
 msgid "Private"
 msgstr "Privat"
 
 #: ../calendar/gui/caltypes.xml.h:32 ../calendar/gui/e-cal-list-view.c:248
 #: ../calendar/gui/e-cal-model.c:337 ../calendar/gui/e-cal-model.c:344
-#: ../calendar/gui/e-calendar-table.c:544 ../calendar/gui/memotypes.xml.h:30
+#: ../calendar/gui/e-calendar-table.c:545 ../calendar/gui/memotypes.xml.h:30
 msgid "Public"
 msgstr "Públic"
 
@@ -5658,7 +5658,7 @@ msgstr "Periodicitat"
 
 #: ../calendar/gui/caltypes.xml.h:34
 #: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/e-meeting-list-view.c:545
+#: ../calendar/gui/e-meeting-list-view.c:562
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10
 #: ../calendar/gui/memotypes.xml.h:31 ../calendar/gui/tasktypes.xml.h:38
 #: ../mail/em-filter-i18n.h:86 ../mail/message-list.etspec.h:17
@@ -5866,7 +5866,7 @@ msgid "Alarms"
 msgstr "Alarmes"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:82
-#: ../composer/e-composer-actions.c:64
+#: ../composer/e-composer-actions.c:62
 msgid "_Suggest automatic display of attachment"
 msgstr "_Suggereix visualitzar l'adjunció automàticament"
 
@@ -6133,56 +6133,56 @@ msgstr "d_c"
 msgid "before every appointment"
 msgstr "abans de cada cita"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:270
+#: ../calendar/gui/dialogs/calendar-setup.c:271
 msgid "Cop_y calendar contents locally for offline operation"
 msgstr ""
 "Copi_a el contingut dels calendaris localment per a treballar fora de línia"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:272
+#: ../calendar/gui/dialogs/calendar-setup.c:273
 msgid "Cop_y task list contents locally for offline operation"
 msgstr ""
 "Cop_ia localment el contingut de la llista de tasques per a treballar fora "
 "de línia"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:274
+#: ../calendar/gui/dialogs/calendar-setup.c:275
 msgid "Cop_y memo list contents locally for offline operation"
 msgstr ""
 "Cop_ia localment el contingut de la llista d'anotacions per a treballar fora "
 "de línia"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:344
+#: ../calendar/gui/dialogs/calendar-setup.c:345
 msgid "Colo_r:"
 msgstr "C_olor:"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:379
+#: ../calendar/gui/dialogs/calendar-setup.c:380
 msgid "Task List"
 msgstr "Llista de tasques"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:390
+#: ../calendar/gui/dialogs/calendar-setup.c:391
 msgid "Memo List"
 msgstr "Llista d'anotacions"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:475
+#: ../calendar/gui/dialogs/calendar-setup.c:476
 msgid "Calendar Properties"
 msgstr "Propietats del calendari"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:475
+#: ../calendar/gui/dialogs/calendar-setup.c:476
 msgid "New Calendar"
 msgstr "Calendari nou"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:531
+#: ../calendar/gui/dialogs/calendar-setup.c:532
 msgid "Task List Properties"
 msgstr "Propietats de la llista de tasques"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:531
+#: ../calendar/gui/dialogs/calendar-setup.c:532
 msgid "New Task List"
 msgstr "Llista de tasques nova"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:587
+#: ../calendar/gui/dialogs/calendar-setup.c:588
 msgid "Memo List Properties"
 msgstr "Propietats de la llista d'anotacions"
 
-#: ../calendar/gui/dialogs/calendar-setup.c:587
+#: ../calendar/gui/dialogs/calendar-setup.c:588
 msgid "New Memo List"
 msgstr "Llista d'anotacions nova"
 
@@ -6256,14 +6256,14 @@ msgstr " (Venciment "
 msgid "Due "
 msgstr "Venciment "
 
-#: ../calendar/gui/dialogs/comp-editor.c:232
+#: ../calendar/gui/dialogs/comp-editor.c:236
 #, c-format
 msgid "Attached message - %s"
 msgstr "Missatge adjunt - %s"
 
 #. translators, this count will always be >1
-#: ../calendar/gui/dialogs/comp-editor.c:237
-#: ../calendar/gui/dialogs/comp-editor.c:410 ../composer/e-msg-composer.c:1766
+#: ../calendar/gui/dialogs/comp-editor.c:241
+#: ../calendar/gui/dialogs/comp-editor.c:414 ../composer/e-msg-composer.c:1766
 #: ../composer/e-msg-composer.c:1985
 #, c-format
 msgid "Attached message"
@@ -6271,228 +6271,228 @@ msgid_plural "%d attached messages"
 msgstr[0] "Missatge adjunt"
 msgstr[1] "%d missatges adjunts"
 
-#: ../calendar/gui/dialogs/comp-editor.c:481 ../composer/e-msg-composer.c:2053
+#: ../calendar/gui/dialogs/comp-editor.c:485 ../composer/e-msg-composer.c:2053
 #: ../mail/em-folder-tree.c:1006 ../mail/em-folder-utils.c:364
 #: ../mail/em-folder-view.c:1186 ../mail/message-list.c:2045
 msgid "_Move"
 msgstr "_Mou"
 
-#: ../calendar/gui/dialogs/comp-editor.c:483 ../composer/e-msg-composer.c:2055
+#: ../calendar/gui/dialogs/comp-editor.c:487 ../composer/e-msg-composer.c:2055
 #: ../mail/em-folder-tree.c:1008 ../mail/message-list.c:2047
 msgid "Cancel _Drag"
 msgstr "Cance_l·la l'arrossegament"
 
-#: ../calendar/gui/dialogs/comp-editor.c:616
-#: ../calendar/gui/dialogs/comp-editor.c:3249 ../mail/em-utils.c:371
+#: ../calendar/gui/dialogs/comp-editor.c:620
+#: ../calendar/gui/dialogs/comp-editor.c:3259 ../mail/em-utils.c:372
 #: ../plugins/prefer-plain/prefer-plain.c:91
 #: ../widgets/misc/e-attachment-bar.c:453
 msgid "attachment"
 msgstr "adjunció"
 
-#: ../calendar/gui/dialogs/comp-editor.c:842
+#: ../calendar/gui/dialogs/comp-editor.c:846
 msgid "Could not update object"
 msgstr "No s'ha pogut actualitzar l'objecte"
 
-#: ../calendar/gui/dialogs/comp-editor.c:930
+#: ../calendar/gui/dialogs/comp-editor.c:934
 msgid "Edit Appointment"
 msgstr "Edita la cita"
 
-#: ../calendar/gui/dialogs/comp-editor.c:937
+#: ../calendar/gui/dialogs/comp-editor.c:941
 #, c-format
 msgid "Meeting - %s"
 msgstr "Reunió - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:939
+#: ../calendar/gui/dialogs/comp-editor.c:943
 #, c-format
 msgid "Appointment - %s"
 msgstr "Cita - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:945
+#: ../calendar/gui/dialogs/comp-editor.c:949
 #, c-format
 msgid "Assigned Task - %s"
 msgstr "Tasca assignada - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:947
+#: ../calendar/gui/dialogs/comp-editor.c:951
 #, c-format
 msgid "Task - %s"
 msgstr "Tasca - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:952
+#: ../calendar/gui/dialogs/comp-editor.c:956
 #, c-format
 msgid "Memo - %s"
 msgstr "Anotació - %s"
 
-#: ../calendar/gui/dialogs/comp-editor.c:968
+#: ../calendar/gui/dialogs/comp-editor.c:972
 msgid "No Summary"
 msgstr "Sense resum"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1262
+#: ../calendar/gui/dialogs/comp-editor.c:1266
 msgid "Click here to close the current window"
 msgstr "Feu clic per a tancar la finestra actual"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1269
+#: ../calendar/gui/dialogs/comp-editor.c:1273
 msgid "Copy selected text to the clipboard"
 msgstr "Copia el text seleccionat al porta-retalls"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1276
+#: ../calendar/gui/dialogs/comp-editor.c:1280
 msgid "Cut selected text to the clipboard"
 msgstr "Retalla el text seleccionat al porta-retalls"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1283
+#: ../calendar/gui/dialogs/comp-editor.c:1287
 msgid "Click here to view help available"
 msgstr "Feu clic per a veure l'ajuda disponible"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1290
+#: ../calendar/gui/dialogs/comp-editor.c:1294
 msgid "Paste text from the clipboard"
 msgstr "Enganxa el text del porta-retalls"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1311
+#: ../calendar/gui/dialogs/comp-editor.c:1315
 msgid "Click here to save the current window"
 msgstr "Feu clic per a desar la finestra actual"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1318
+#: ../calendar/gui/dialogs/comp-editor.c:1322
 msgid "Select all text"
 msgstr "Selecciona tot el text"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1325
+#: ../calendar/gui/dialogs/comp-editor.c:1329
 msgid "_Classification"
 msgstr "_Classificació"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1339
+#: ../calendar/gui/dialogs/comp-editor.c:1343
 #: ../mail/mail-signature-editor.c:208
 #: ../ui/evolution-mail-messagedisplay.xml.h:6 ../ui/evolution.xml.h:43
 msgid "_File"
 msgstr "_Fitxer"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1346
+#: ../calendar/gui/dialogs/comp-editor.c:1350
 #: ../ui/evolution-mail-global.xml.h:24 ../ui/evolution.xml.h:46
 msgid "_Help"
 msgstr "A_juda"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1353
+#: ../calendar/gui/dialogs/comp-editor.c:1357
 msgid "_Insert"
 msgstr "_Insereix"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1360
+#: ../calendar/gui/dialogs/comp-editor.c:1364
 msgid "_Options"
 msgstr "_Opcions"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1367 ../mail/em-folder-tree.c:2098
+#: ../calendar/gui/dialogs/comp-editor.c:1371 ../mail/em-folder-tree.c:2116
 #: ../ui/evolution-addressbook.xml.h:64 ../ui/evolution-mail-global.xml.h:34
 #: ../ui/evolution-mail-messagedisplay.xml.h:8 ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:55
 msgid "_View"
 msgstr "_Visualitza"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1377
-#: ../composer/e-composer-actions.c:471
+#: ../calendar/gui/dialogs/comp-editor.c:1381
+#: ../composer/e-composer-actions.c:469
 msgid "_Attachment..."
 msgstr "Fitxer _adjunt..."
 
-#: ../calendar/gui/dialogs/comp-editor.c:1379
+#: ../calendar/gui/dialogs/comp-editor.c:1383
 msgid "Click here to attach a file"
 msgstr "Feu clic per a adjuntar un fitxer"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1387
+#: ../calendar/gui/dialogs/comp-editor.c:1391
 msgid "_Categories"
 msgstr "_Categories"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1389
+#: ../calendar/gui/dialogs/comp-editor.c:1393
 msgid "Toggles whether to display categories"
 msgstr "Commuta la visualització de categories"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1395
+#: ../calendar/gui/dialogs/comp-editor.c:1399
 msgid "Time _Zone"
 msgstr "Fus h_orari"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1397
+#: ../calendar/gui/dialogs/comp-editor.c:1401
 msgid "Toggles whether the time zone is displayed"
 msgstr "Commuta la visualització del fus horari"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1406
+#: ../calendar/gui/dialogs/comp-editor.c:1410
 msgid "Pu_blic"
 msgstr "Pú_blic"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1408
+#: ../calendar/gui/dialogs/comp-editor.c:1412
 msgid "Classify as public"
 msgstr "Classifica com a públic"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1413
+#: ../calendar/gui/dialogs/comp-editor.c:1417
 msgid "_Private"
 msgstr "_Privat"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1415
+#: ../calendar/gui/dialogs/comp-editor.c:1419
 msgid "Classify as private"
 msgstr "Classifica com a privat"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1420
+#: ../calendar/gui/dialogs/comp-editor.c:1424
 msgid "_Confidential"
 msgstr "_Confidencial"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1422
+#: ../calendar/gui/dialogs/comp-editor.c:1426
 msgid "Classify as confidential"
 msgstr "Classifica com a confidencial"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1430
+#: ../calendar/gui/dialogs/comp-editor.c:1434
 msgid "R_ole Field"
 msgstr "Camp del r_ol"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1432
+#: ../calendar/gui/dialogs/comp-editor.c:1436
 msgid "Toggles whether the Role field is displayed"
 msgstr "Commuta la visualització del camp del rol"
 
 # Prové de «Répondez s'il-vous-plaît» (dpm)
-#: ../calendar/gui/dialogs/comp-editor.c:1438
+#: ../calendar/gui/dialogs/comp-editor.c:1442
 msgid "_RSVP"
 msgstr "Esperem la vostra _resposta"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1440
+#: ../calendar/gui/dialogs/comp-editor.c:1444
 msgid "Toggles whether the RSVP field is displayed"
 msgstr "Commuta si s'ha de mostrar el camp RSVP"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1446
+#: ../calendar/gui/dialogs/comp-editor.c:1450
 msgid "_Status Field"
 msgstr "Camp d'e_stat"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1448
+#: ../calendar/gui/dialogs/comp-editor.c:1452
 msgid "Toggles whether the Status field is displayed"
 msgstr "Commuta la visualització del camp d'estat"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1454
+#: ../calendar/gui/dialogs/comp-editor.c:1458
 msgid "_Type Field"
 msgstr "Camp de _tipus"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1456
+#: ../calendar/gui/dialogs/comp-editor.c:1460
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "Commuta la visualització del camp del tipus d'assistent"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1766
-#: ../composer/e-composer-private.c:65 ../widgets/misc/e-attachment-bar.c:1381
+#: ../calendar/gui/dialogs/comp-editor.c:1774
+#: ../composer/e-composer-private.c:64 ../widgets/misc/e-attachment-bar.c:1382
 msgid "Recent _Documents"
 msgstr "Documents _recents"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1785
-#: ../composer/e-composer-actions.c:699
+#: ../calendar/gui/dialogs/comp-editor.c:1793
+#: ../composer/e-composer-actions.c:697
 msgid "Attach"
 msgstr "Adjunta"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1880
+#: ../calendar/gui/dialogs/comp-editor.c:1888
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
 msgstr[0] "<b>%d</b> fitxer adjunt"
 msgstr[1] "<b>%d</b> fitxers adjunts"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1912
+#: ../calendar/gui/dialogs/comp-editor.c:1920
 msgid "Hide Attachment _Bar"
 msgstr "Amaga la _barra d'adjuncions"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1915
-#: ../calendar/gui/dialogs/comp-editor.c:2223
+#: ../calendar/gui/dialogs/comp-editor.c:1923
+#: ../calendar/gui/dialogs/comp-editor.c:2231
 msgid "Show Attachment _Bar"
 msgstr "Mostra la barra _d'adjuncions"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2034
+#: ../calendar/gui/dialogs/comp-editor.c:2042
 #: ../calendar/gui/dialogs/event-page.c:1875
 #: ../calendar/gui/dialogs/task-page.c:1197 ../composer/e-msg-composer.c:1040
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
@@ -6501,30 +6501,30 @@ msgstr "Mostra la barra _d'adjuncions"
 msgid "_Remove"
 msgstr "Sup_rimeix"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2037
+#: ../calendar/gui/dialogs/comp-editor.c:2045
 #: ../composer/e-msg-composer.c:1043
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
 msgid "_Add attachment..."
 msgstr "_Afegeix una adjunció..."
 
-#: ../calendar/gui/dialogs/comp-editor.c:2245
+#: ../calendar/gui/dialogs/comp-editor.c:2253
 #: ../mail/em-format-html-display.c:2201
 msgid "Show Attachments"
 msgstr "Mostra les adjuncions"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2246
+#: ../calendar/gui/dialogs/comp-editor.c:2254
 msgid "Press space key to toggle attachment bar"
 msgstr "Premeu la barra d'espai per a commutar la barra d'adjuncions"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2390
-#: ../calendar/gui/dialogs/comp-editor.c:2437
-#: ../calendar/gui/dialogs/comp-editor.c:3282
+#: ../calendar/gui/dialogs/comp-editor.c:2399
+#: ../calendar/gui/dialogs/comp-editor.c:2447
+#: ../calendar/gui/dialogs/comp-editor.c:3292
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Els canvis realitzats en aquest element es descartaran en produir-se una "
 "actualització"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3311
+#: ../calendar/gui/dialogs/comp-editor.c:3321
 msgid "Unable to use current version!"
 msgstr "No s'ha pogut utilitzar la versió actual"
 
@@ -6629,7 +6629,7 @@ msgstr "Fes-lo un esdeveniment periòdic"
 
 #: ../calendar/gui/dialogs/event-editor.c:210
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
-#: ../plugins/groupwise-features/send-options.c:213
+#: ../plugins/groupwise-features/send-options.c:212
 #: ../widgets/misc/e-send-options.glade.h:19
 msgid "Send Options"
 msgstr "Opcions d'enviament"
@@ -6784,9 +6784,9 @@ msgstr "Personalitza"
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates-user.c:195
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#: ../plugins/itip-formatter/itip-formatter.c:2021
-#: ../widgets/misc/e-cell-date-edit.c:306 ../widgets/misc/e-dateedit.c:1513
-#: ../widgets/misc/e-dateedit.c:1727
+#: ../plugins/itip-formatter/itip-formatter.c:2091
+#: ../widgets/misc/e-cell-date-edit.c:306 ../widgets/misc/e-dateedit.c:1511
+#: ../widgets/misc/e-dateedit.c:1725
 #: ../widgets/misc/e-signature-combo-box.c:70
 msgid "None"
 msgstr "Cap"
@@ -6866,7 +6866,7 @@ msgstr "Co_ntactes..."
 msgid "Organizer:"
 msgstr "Organitzador:"
 
-#: ../calendar/gui/dialogs/memo-editor.c:141 ../calendar/gui/print.c:2478
+#: ../calendar/gui/dialogs/memo-editor.c:111 ../calendar/gui/print.c:2478
 msgid "Memo"
 msgstr "Anotació"
 
@@ -7127,7 +7127,7 @@ msgstr "<span weight=\"bold\">Estat</span>"
 #: ../calendar/gui/e-cal-model-tasks.c:362
 #: ../calendar/gui/e-cal-model-tasks.c:679
 #: ../calendar/gui/e-calendar-table.c:237
-#: ../calendar/gui/e-calendar-table.c:641 ../calendar/gui/e-itip-control.c:946
+#: ../calendar/gui/e-calendar-table.c:642 ../calendar/gui/e-itip-control.c:946
 #: ../calendar/gui/e-meeting-store.c:181 ../calendar/gui/e-meeting-store.c:204
 #: ../calendar/gui/print.c:2554 ../calendar/gui/tasktypes.xml.h:13
 #: ../plugins/save-calendar/csv-format.c:366
@@ -7136,7 +7136,7 @@ msgstr "Completada"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:5
 #: ../calendar/gui/e-cal-component-preview.c:272
-#: ../calendar/gui/e-calendar-table.c:566 ../calendar/gui/tasktypes.xml.h:21
+#: ../calendar/gui/e-calendar-table.c:567 ../calendar/gui/tasktypes.xml.h:21
 #: ../mail/message-list.c:1065
 msgid "High"
 msgstr "Alta"
@@ -7147,20 +7147,20 @@ msgstr "Alta"
 #: ../calendar/gui/e-cal-model-tasks.c:677
 #: ../calendar/gui/e-cal-model-tasks.c:754
 #: ../calendar/gui/e-calendar-table.c:235
-#: ../calendar/gui/e-calendar-table.c:640 ../calendar/gui/print.c:2551
+#: ../calendar/gui/e-calendar-table.c:641 ../calendar/gui/print.c:2551
 msgid "In Progress"
 msgstr "En procés"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
 #: ../calendar/gui/e-cal-component-preview.c:276
-#: ../calendar/gui/e-calendar-table.c:568 ../calendar/gui/tasktypes.xml.h:29
+#: ../calendar/gui/e-calendar-table.c:569 ../calendar/gui/tasktypes.xml.h:29
 #: ../mail/message-list.c:1063
 msgid "Low"
 msgstr "Baixa"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
 #: ../calendar/gui/e-cal-component-preview.c:274
-#: ../calendar/gui/e-cal-model.c:985 ../calendar/gui/e-calendar-table.c:567
+#: ../calendar/gui/e-cal-model.c:985 ../calendar/gui/e-calendar-table.c:568
 #: ../calendar/gui/tasktypes.xml.h:32 ../mail/message-list.c:1064
 msgid "Normal"
 msgstr "Normal"
@@ -7170,7 +7170,7 @@ msgstr "Normal"
 #: ../calendar/gui/e-cal-model-tasks.c:358
 #: ../calendar/gui/e-cal-model-tasks.c:675
 #: ../calendar/gui/e-calendar-table.c:233
-#: ../calendar/gui/e-calendar-table.c:639 ../calendar/gui/print.c:2548
+#: ../calendar/gui/e-calendar-table.c:640 ../calendar/gui/print.c:2548
 #: ../calendar/gui/tasktypes.xml.h:33
 msgid "Not Started"
 msgstr "No s'ha iniciat"
@@ -7184,7 +7184,7 @@ msgid "Stat_us:"
 msgstr "_Estat:"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:12
-#: ../calendar/gui/e-calendar-table.c:569 ../calendar/gui/tasktypes.xml.h:44
+#: ../calendar/gui/e-calendar-table.c:570 ../calendar/gui/tasktypes.xml.h:44
 msgid "Undefined"
 msgstr "No s'ha definit"
 
@@ -7211,7 +7211,7 @@ msgstr ""
 "Feu clic per a canviar o visualitzar els detalls de l'estat de la tasca"
 
 #: ../calendar/gui/dialogs/task-editor.c:123
-#: ../composer/e-composer-actions.c:527
+#: ../composer/e-composer-actions.c:525
 msgid "_Send Options"
 msgstr "_Opcions d'enviament"
 
@@ -7330,7 +7330,7 @@ msgid "%s for an unknown trigger type"
 msgstr "%s per a un tipus d'activador desconegut"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:75
-#: ../calendar/gui/e-cal-component-preview.c:73 ../mail/em-folder-view.c:3315
+#: ../calendar/gui/e-cal-component-preview.c:73 ../mail/em-folder-view.c:3312
 #, c-format
 msgid "Click to open %s"
 msgstr "Feu clic per a obrir %s"
@@ -7373,7 +7373,7 @@ msgstr "Data de venciment:"
 #. Status
 #: ../calendar/gui/e-cal-component-preview.c:246
 #: ../calendar/gui/e-itip-control.c:1186
-#: ../plugins/exchange-operations/exchange-account-setup.c:269
+#: ../plugins/exchange-operations/exchange-account-setup.c:275
 #: ../plugins/itip-formatter/itip-view.c:1029
 msgid "Status:"
 msgstr "Estat:"
@@ -7392,12 +7392,12 @@ msgid "Start Date"
 msgstr "Data d'inici"
 
 #: ../calendar/gui/e-cal-model-calendar.c:187
-#: ../calendar/gui/e-calendar-table.c:618
+#: ../calendar/gui/e-calendar-table.c:619
 msgid "Free"
 msgstr "Lliure"
 
 #: ../calendar/gui/e-cal-model-calendar.c:190
-#: ../calendar/gui/e-calendar-table.c:619
+#: ../calendar/gui/e-calendar-table.c:620
 #: ../calendar/gui/e-meeting-time-sel.c:396
 msgid "Busy"
 msgstr "Ocupat"
@@ -7435,9 +7435,9 @@ msgstr "No"
 #: ../calendar/gui/e-meeting-list-view.c:181
 #: ../calendar/gui/e-meeting-store.c:111 ../calendar/gui/e-meeting-store.c:146
 #: ../calendar/gui/e-meeting-store.c:209 ../calendar/gui/print.c:987
-#: ../calendar/gui/print.c:1004 ../mail/em-utils.c:1340
-#: ../plugins/itip-formatter/itip-formatter.c:409
-#: ../plugins/itip-formatter/itip-formatter.c:2046
+#: ../calendar/gui/print.c:1004 ../mail/em-utils.c:1341
+#: ../plugins/itip-formatter/itip-formatter.c:447
+#: ../plugins/itip-formatter/itip-formatter.c:2116
 #: ../plugins/plugin-manager/plugin-manager.c:89
 #: ../widgets/misc/e-attachment-bar.c:821
 #: ../widgets/misc/e-charset-picker.c:56
@@ -7465,7 +7465,7 @@ msgstr "Seleccioneu la carpeta on desar les adjuncions..."
 msgid "untitled_image.%s"
 msgstr "imatge_sense_nom.%s"
 
-#: ../calendar/gui/e-cal-popup.c:286 ../calendar/gui/e-calendar-table.c:1575
+#: ../calendar/gui/e-cal-popup.c:286 ../calendar/gui/e-calendar-table.c:1579
 #: ../calendar/gui/e-calendar-view.c:1671 ../calendar/gui/e-memo-table.c:925
 #: ../mail/em-folder-view.c:1336 ../mail/em-popup.c:561 ../mail/em-popup.c:572
 msgid "_Save As..."
@@ -7512,88 +7512,88 @@ msgstr "Inici: "
 msgid "Due: "
 msgstr "Venciment: "
 
-#: ../calendar/gui/e-calendar-table.c:588
+#: ../calendar/gui/e-calendar-table.c:589
 msgid "0%"
 msgstr "0%"
 
-#: ../calendar/gui/e-calendar-table.c:589
+#: ../calendar/gui/e-calendar-table.c:590
 msgid "10%"
 msgstr "10%"
 
-#: ../calendar/gui/e-calendar-table.c:590
+#: ../calendar/gui/e-calendar-table.c:591
 msgid "20%"
 msgstr "20%"
 
-#: ../calendar/gui/e-calendar-table.c:591
+#: ../calendar/gui/e-calendar-table.c:592
 msgid "30%"
 msgstr "30%"
 
-#: ../calendar/gui/e-calendar-table.c:592
+#: ../calendar/gui/e-calendar-table.c:593
 msgid "40%"
 msgstr "40%"
 
-#: ../calendar/gui/e-calendar-table.c:593
+#: ../calendar/gui/e-calendar-table.c:594
 msgid "50%"
 msgstr "50%"
 
-#: ../calendar/gui/e-calendar-table.c:594
+#: ../calendar/gui/e-calendar-table.c:595
 msgid "60%"
 msgstr "60%"
 
-#: ../calendar/gui/e-calendar-table.c:595
+#: ../calendar/gui/e-calendar-table.c:596
 msgid "70%"
 msgstr "70%"
 
-#: ../calendar/gui/e-calendar-table.c:596
+#: ../calendar/gui/e-calendar-table.c:597
 msgid "80%"
 msgstr "80%"
 
-#: ../calendar/gui/e-calendar-table.c:597
+#: ../calendar/gui/e-calendar-table.c:598
 msgid "90%"
 msgstr "90%"
 
-#: ../calendar/gui/e-calendar-table.c:598
+#: ../calendar/gui/e-calendar-table.c:599
 msgid "100%"
 msgstr "100%"
 
-#: ../calendar/gui/e-calendar-table.c:878
+#: ../calendar/gui/e-calendar-table.c:879
 #: ../calendar/gui/e-calendar-view.c:664 ../calendar/gui/e-memo-table.c:438
 msgid "Deleting selected objects"
 msgstr "S'estan suprimint els objectes seleccionats"
 
-#: ../calendar/gui/e-calendar-table.c:1162
+#: ../calendar/gui/e-calendar-table.c:1163
 #: ../calendar/gui/e-calendar-view.c:794 ../calendar/gui/e-memo-table.c:644
 msgid "Updating objects"
 msgstr "S'estan actualitzant els objectes"
 
-#: ../calendar/gui/e-calendar-table.c:1347
+#: ../calendar/gui/e-calendar-table.c:1351
 #: ../calendar/gui/e-calendar-view.c:1220 ../calendar/gui/e-memo-table.c:820
-#: ../composer/e-composer-actions.c:277
+#: ../composer/e-composer-actions.c:275
 msgid "Save as..."
 msgstr "Anomena i desa..."
 
-#: ../calendar/gui/e-calendar-table.c:1570
+#: ../calendar/gui/e-calendar-table.c:1574
 #: ../calendar/gui/e-calendar-view.c:1653
 msgid "New _Task"
 msgstr "_Tasca nova"
 
-#: ../calendar/gui/e-calendar-table.c:1574 ../calendar/gui/e-memo-table.c:924
+#: ../calendar/gui/e-calendar-table.c:1578 ../calendar/gui/e-memo-table.c:924
 msgid "Open _Web Page"
 msgstr "Obre una pàgina _web"
 
-#: ../calendar/gui/e-calendar-table.c:1576
+#: ../calendar/gui/e-calendar-table.c:1580
 #: ../calendar/gui/e-calendar-view.c:1656 ../calendar/gui/e-memo-table.c:926
 msgid "P_rint..."
 msgstr "Im_primeix..."
 
-#: ../calendar/gui/e-calendar-table.c:1580
+#: ../calendar/gui/e-calendar-table.c:1584
 #: ../calendar/gui/e-calendar-view.c:1676 ../calendar/gui/e-memo-table.c:930
 #: ../ui/evolution-addressbook.xml.h:2 ../ui/evolution-calendar.xml.h:1
 #: ../ui/evolution-memos.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "Re_talla"
 
-#: ../calendar/gui/e-calendar-table.c:1582
+#: ../calendar/gui/e-calendar-table.c:1586
 #: ../calendar/gui/e-calendar-view.c:1659
 #: ../calendar/gui/e-calendar-view.c:1678 ../calendar/gui/e-memo-table.c:932
 #: ../ui/evolution-addressbook.xml.h:57 ../ui/evolution-calendar.xml.h:43
@@ -7601,36 +7601,36 @@ msgstr "Re_talla"
 msgid "_Paste"
 msgstr "Engan_xa"
 
-#: ../calendar/gui/e-calendar-table.c:1586 ../ui/evolution-tasks.xml.h:22
+#: ../calendar/gui/e-calendar-table.c:1590 ../ui/evolution-tasks.xml.h:22
 msgid "_Assign Task"
 msgstr "_Assigna una tasca"
 
-#: ../calendar/gui/e-calendar-table.c:1587 ../calendar/gui/e-memo-table.c:936
+#: ../calendar/gui/e-calendar-table.c:1591 ../calendar/gui/e-memo-table.c:936
 #: ../ui/evolution-tasks.xml.h:26
 msgid "_Forward as iCalendar"
 msgstr "R_eenvia com a iCalendar"
 
-#: ../calendar/gui/e-calendar-table.c:1588
+#: ../calendar/gui/e-calendar-table.c:1592
 msgid "_Mark as Complete"
 msgstr "_Marca com a acabada"
 
-#: ../calendar/gui/e-calendar-table.c:1589
+#: ../calendar/gui/e-calendar-table.c:1593
 msgid "_Mark Selected Tasks as Complete"
 msgstr "_Marca les tasques seleccionades com a acabades"
 
-#: ../calendar/gui/e-calendar-table.c:1590
+#: ../calendar/gui/e-calendar-table.c:1594
 msgid "_Mark as Incomplete"
 msgstr "_Marca com a incomplet"
 
-#: ../calendar/gui/e-calendar-table.c:1591
+#: ../calendar/gui/e-calendar-table.c:1595
 msgid "_Mark Selected Tasks as Incomplete"
 msgstr "_Marca les tasques seleccionades com a incompletes"
 
-#: ../calendar/gui/e-calendar-table.c:1596
+#: ../calendar/gui/e-calendar-table.c:1600
 msgid "_Delete Selected Tasks"
 msgstr "Suprimeix les tasques selecciona_des"
 
-#: ../calendar/gui/e-calendar-table.c:1833
+#: ../calendar/gui/e-calendar-table.c:1837
 #: ../calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
 msgstr "Feu clic per a afegir una tasca"
@@ -7918,12 +7918,12 @@ msgstr ""
 #: ../calendar/gui/e-meeting-list-view.c:203
 #: ../calendar/gui/e-meeting-store.c:173 ../calendar/gui/e-meeting-store.c:196
 #: ../calendar/gui/itip-utils.c:664
-#: ../plugins/itip-formatter/itip-formatter.c:2034
+#: ../plugins/itip-formatter/itip-formatter.c:2104
 msgid "Accepted"
 msgstr "Acceptat"
 
 #: ../calendar/gui/e-itip-control.c:1195 ../calendar/gui/itip-utils.c:667
-#: ../plugins/itip-formatter/itip-formatter.c:2037
+#: ../plugins/itip-formatter/itip-formatter.c:2107
 msgid "Tentatively Accepted"
 msgstr "Acceptat provisionalment"
 
@@ -7931,7 +7931,7 @@ msgstr "Acceptat provisionalment"
 #: ../calendar/gui/e-meeting-list-view.c:204
 #: ../calendar/gui/e-meeting-store.c:175 ../calendar/gui/e-meeting-store.c:198
 #: ../calendar/gui/itip-utils.c:670 ../calendar/gui/itip-utils.c:699
-#: ../plugins/itip-formatter/itip-formatter.c:2040
+#: ../plugins/itip-formatter/itip-formatter.c:2110
 msgid "Declined"
 msgstr "Declinat"
 
@@ -8154,7 +8154,7 @@ msgid "Attendee status updated\n"
 msgstr "S'ha actualitzat l'estat de l'assistent\n"
 
 #: ../calendar/gui/e-itip-control.c:2080
-#: ../plugins/itip-formatter/itip-formatter.c:1253
+#: ../plugins/itip-formatter/itip-formatter.c:1304
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "No es pot actualitzar l'estat de l'assistent perquè l'element ja no existeix"
@@ -8313,18 +8313,18 @@ msgstr "Provisionalment"
 #: ../calendar/gui/e-meeting-list-view.c:206
 #: ../calendar/gui/e-meeting-store.c:179 ../calendar/gui/e-meeting-store.c:202
 #: ../calendar/gui/itip-utils.c:673
-#: ../plugins/itip-formatter/itip-formatter.c:2043
+#: ../plugins/itip-formatter/itip-formatter.c:2113
 msgid "Delegated"
 msgstr "Delegat"
 
 #. The extra space is just a hack to occupy more space for Attendee
-#: ../calendar/gui/e-meeting-list-view.c:491
+#: ../calendar/gui/e-meeting-list-view.c:506
 msgid "Attendee                          "
 msgstr "Assistent"
 
 # Prové de «Répondez s'il-vous-plaît» (dpm)
 #. To translators: RSVP means "please reply"
-#: ../calendar/gui/e-meeting-list-view.c:533
+#: ../calendar/gui/e-meeting-list-view.c:550
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "Esperem la vostra resposta"
@@ -9095,8 +9095,8 @@ msgid "Appointments and Meetings"
 msgstr "Cites i reunions"
 
 #: ../calendar/importers/icalendar-importer.c:333
-#: ../calendar/importers/icalendar-importer.c:616
-#: ../plugins/itip-formatter/itip-formatter.c:1577
+#: ../calendar/importers/icalendar-importer.c:628
+#: ../plugins/itip-formatter/itip-formatter.c:1638
 msgid "Opening calendar"
 msgstr "Calendari d'apertura"
 
@@ -9108,23 +9108,23 @@ msgstr "Fitxers de l'iCalendar (.ics)"
 msgid "Evolution iCalendar importer"
 msgstr "Importador de l'iCalendar de l'Evolution"
 
-#: ../calendar/importers/icalendar-importer.c:517
+#: ../calendar/importers/icalendar-importer.c:529
 msgid "Reminder!"
 msgstr "Recordatori"
 
-#: ../calendar/importers/icalendar-importer.c:569
+#: ../calendar/importers/icalendar-importer.c:581
 msgid "vCalendar files (.vcf)"
 msgstr "Fitxers del vCalendar (.vcf)"
 
-#: ../calendar/importers/icalendar-importer.c:570
+#: ../calendar/importers/icalendar-importer.c:582
 msgid "Evolution vCalendar importer"
 msgstr "Importador del vCalendar de l'Evolution"
 
-#: ../calendar/importers/icalendar-importer.c:732
+#: ../calendar/importers/icalendar-importer.c:744
 msgid "Calendar Events"
 msgstr "Esdeveniments del calendari"
 
-#: ../calendar/importers/icalendar-importer.c:769
+#: ../calendar/importers/icalendar-importer.c:781
 msgid "Evolution Calendar intelligent importer"
 msgstr "Importador intel·ligent del calendari de l'Evolution"
 
@@ -10677,213 +10677,213 @@ msgstr "Pacífic/Wallis"
 msgid "Pacific/Yap"
 msgstr "Pacífic/Yap"
 
-#: ../composer/e-composer-autosave.c:275
+#: ../composer/e-composer-autosave.c:273
 msgid "Could not open autosave file"
 msgstr "No es pot obrir el fitxer de desament automàtic"
 
-#: ../composer/e-composer-autosave.c:282
+#: ../composer/e-composer-autosave.c:280
 msgid "Unable to retrieve message from editor"
 msgstr "No s'ha pogut recuperar el missatge de l'editor"
 
-#: ../composer/e-composer-actions.c:47
+#: ../composer/e-composer-actions.c:45
 msgid "Insert Attachment"
 msgstr "Insereix un fitxer adjunt"
 
-#: ../composer/e-composer-actions.c:51
+#: ../composer/e-composer-actions.c:49
 msgid "A_ttach"
 msgstr "Adjun_ta"
 
-#: ../composer/e-composer-actions.c:142
+#: ../composer/e-composer-actions.c:140
 msgid "Untitled Message"
 msgstr "Missatges sense títol"
 
-#: ../composer/e-composer-actions.c:473
+#: ../composer/e-composer-actions.c:471
 msgid "Attach a file"
 msgstr "Adjunta un fitxer"
 
-#: ../composer/e-composer-actions.c:478 ../mail/mail-signature-editor.c:194
+#: ../composer/e-composer-actions.c:476 ../mail/mail-signature-editor.c:194
 #: ../ui/evolution-mail-messagedisplay.xml.h:4
 msgid "_Close"
 msgstr "Tan_ca"
 
-#: ../composer/e-composer-actions.c:480
+#: ../composer/e-composer-actions.c:478
 msgid "Close the current file"
 msgstr "Tanca el fitxer actual"
 
-#: ../composer/e-composer-actions.c:485 ../mail/em-folder-view.c:1337
+#: ../composer/e-composer-actions.c:483 ../mail/em-folder-view.c:1337
 #: ../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:123 ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
 msgstr "Im_primeix..."
 
-#: ../composer/e-composer-actions.c:492 ../ui/evolution-addressbook.xml.h:27
+#: ../composer/e-composer-actions.c:490 ../ui/evolution-addressbook.xml.h:27
 #: ../ui/evolution-calendar.xml.h:21 ../ui/evolution-mail-message.xml.h:76
 #: ../ui/evolution-memos.xml.h:12 ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
 msgstr "Pre_visualització d'impressió"
 
-#: ../composer/e-composer-actions.c:501
+#: ../composer/e-composer-actions.c:499
 msgid "Save the current file"
 msgstr "Desa el fitxer actual"
 
-#: ../composer/e-composer-actions.c:506
+#: ../composer/e-composer-actions.c:504
 msgid "Save _As..."
 msgstr "_Anomena i desa..."
 
-#: ../composer/e-composer-actions.c:508
+#: ../composer/e-composer-actions.c:506
 msgid "Save the current file with a different name"
 msgstr "Desa el fitxer actual amb un nom diferent"
 
-#: ../composer/e-composer-actions.c:513
+#: ../composer/e-composer-actions.c:511
 msgid "Save _Draft"
 msgstr "_Desa com a esborrany"
 
-#: ../composer/e-composer-actions.c:515
+#: ../composer/e-composer-actions.c:513
 msgid "Save as draft"
 msgstr "Desa com a esborrany"
 
-#: ../composer/e-composer-actions.c:520
+#: ../composer/e-composer-actions.c:518
 msgid "S_end"
 msgstr "E_nvia"
 
-#: ../composer/e-composer-actions.c:522
+#: ../composer/e-composer-actions.c:520
 msgid "Send this message"
 msgstr "Envia aquest missatge"
 
-#: ../composer/e-composer-actions.c:529
+#: ../composer/e-composer-actions.c:527
 msgid "Insert Send options"
 msgstr "Insereix opcions d'enviament"
 
-#: ../composer/e-composer-actions.c:534
+#: ../composer/e-composer-actions.c:532
 msgid "New _Message"
 msgstr "_Missatge nou"
 
-#: ../composer/e-composer-actions.c:536
+#: ../composer/e-composer-actions.c:534
 msgid "Open New Message window"
 msgstr "Obre una finestra de missatge nou"
 
-#: ../composer/e-composer-actions.c:543
+#: ../composer/e-composer-actions.c:541
 msgid "Character _Encoding"
 msgstr "_Codificació dels caràcters"
 
-#: ../composer/e-composer-actions.c:550
+#: ../composer/e-composer-actions.c:548
 msgid "_Security"
 msgstr "_Seguretat"
 
-#: ../composer/e-composer-actions.c:560
+#: ../composer/e-composer-actions.c:558
 msgid "PGP _Encrypt"
 msgstr "_Xifra amb PGP"
 
-#: ../composer/e-composer-actions.c:562
+#: ../composer/e-composer-actions.c:560
 msgid "Encrypt this message with PGP"
 msgstr "Xifra aquest missatge amb el PGP"
 
-#: ../composer/e-composer-actions.c:568
+#: ../composer/e-composer-actions.c:566
 msgid "PGP _Sign"
 msgstr "_Signa amb PGP"
 
-#: ../composer/e-composer-actions.c:570
+#: ../composer/e-composer-actions.c:568
 msgid "Sign this message with your PGP key"
 msgstr "Signa aquest missatge amb la vostra clau PGP"
 
-#: ../composer/e-composer-actions.c:576
+#: ../composer/e-composer-actions.c:574
 msgid "_Prioritize Message"
 msgstr "_Prioritza el missatge"
 
-#: ../composer/e-composer-actions.c:578
+#: ../composer/e-composer-actions.c:576
 msgid "Set the message priority to high"
 msgstr "Estableix el missatge a prioritat alta"
 
-#: ../composer/e-composer-actions.c:584
+#: ../composer/e-composer-actions.c:582
 msgid "Re_quest Read Receipt"
 msgstr "Sol·licita la confirmació de l_ectura"
 
-#: ../composer/e-composer-actions.c:586
+#: ../composer/e-composer-actions.c:584
 msgid "Get delivery notification when your message is read"
 msgstr "Obteniu una notificació d'entrega quan es llegeixi el missatge"
 
-#: ../composer/e-composer-actions.c:592
+#: ../composer/e-composer-actions.c:590
 msgid "S/MIME En_crypt"
 msgstr "Xi_fra amb S/MIME"
 
-#: ../composer/e-composer-actions.c:594
+#: ../composer/e-composer-actions.c:592
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "Xifra aquest missatge amb el vostre certificat de xifratge S/MIME"
 
-#: ../composer/e-composer-actions.c:600
+#: ../composer/e-composer-actions.c:598
 msgid "S/MIME Sig_n"
 msgstr "Si_gna amb S/MIME"
 
-#: ../composer/e-composer-actions.c:602
+#: ../composer/e-composer-actions.c:600
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "Signa aquest missatge amb el vostre certificat de signatures S/MIME"
 
-#: ../composer/e-composer-actions.c:608
+#: ../composer/e-composer-actions.c:606
 msgid "_Bcc Field"
 msgstr "Camp _CCO"
 
-#: ../composer/e-composer-actions.c:610
+#: ../composer/e-composer-actions.c:608
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Commuta la visualització del camp «CCO»"
 
-#: ../composer/e-composer-actions.c:616
+#: ../composer/e-composer-actions.c:614
 msgid "_Cc Field"
 msgstr "Camp _CC"
 
-#: ../composer/e-composer-actions.c:618
+#: ../composer/e-composer-actions.c:616
 msgid "Toggles whether the CC field is displayed"
 msgstr "Commuta la visualització del camp «CC»"
 
-#: ../composer/e-composer-actions.c:624
+#: ../composer/e-composer-actions.c:622
 msgid "_From Field"
 msgstr "Camp _De"
 
-#: ../composer/e-composer-actions.c:626
+#: ../composer/e-composer-actions.c:624
 msgid "Toggles whether the From chooser is displayed"
 msgstr "Commuta la visualització del camp «De»"
 
-#: ../composer/e-composer-actions.c:632
+#: ../composer/e-composer-actions.c:630
 msgid "_Post-To Field"
 msgstr "Cam_p Envia-a"
 
-#: ../composer/e-composer-actions.c:634
+#: ../composer/e-composer-actions.c:632
 msgid "Toggles whether the Post-To field is displayed"
 msgstr "Commuta la visualització del camp «Envia-a»"
 
-#: ../composer/e-composer-actions.c:640
+#: ../composer/e-composer-actions.c:638
 msgid "_Reply-To Field"
 msgstr "Camp _Respon-a"
 
-#: ../composer/e-composer-actions.c:642
+#: ../composer/e-composer-actions.c:640
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Commuta la visualització del camp «Respon-a»"
 
-#: ../composer/e-composer-actions.c:648
+#: ../composer/e-composer-actions.c:646
 msgid "_Subject Field"
 msgstr "Camp de l'_Assumpte"
 
-#: ../composer/e-composer-actions.c:650
+#: ../composer/e-composer-actions.c:648
 msgid "Toggles whether the Subject field is displayed"
 msgstr "Commuta la visualització del camp de l'Assumpte"
 
-#: ../composer/e-composer-actions.c:656
+#: ../composer/e-composer-actions.c:654
 msgid "_To Field"
 msgstr "Camp _Per a"
 
-#: ../composer/e-composer-actions.c:658
+#: ../composer/e-composer-actions.c:656
 msgid "Toggles whether the To field is displayed"
 msgstr "Commuta la visualització del camp «Per a»"
 
-#: ../composer/e-composer-header-table.c:66
+#: ../composer/e-composer-header-table.c:64
 msgid "Enter the recipients of the message"
 msgstr "Introduïu els destinataris del missatge"
 
-#: ../composer/e-composer-header-table.c:68
+#: ../composer/e-composer-header-table.c:66
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Introduïu les adreces que rebran una còpia del missatge"
 
-#: ../composer/e-composer-header-table.c:71
+#: ../composer/e-composer-header-table.c:69
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message"
@@ -10891,35 +10891,35 @@ msgstr ""
 "Introduïu les adreces que rebran una còpia del missatge sense aparèixer a la "
 "llista de destinataris del missatge"
 
-#: ../composer/e-composer-header-table.c:645
+#: ../composer/e-composer-header-table.c:643
 msgid "Fr_om:"
 msgstr "D_e:"
 
-#: ../composer/e-composer-header-table.c:654
+#: ../composer/e-composer-header-table.c:652
 msgid "_Reply-To:"
 msgstr "_Respon a:"
 
-#: ../composer/e-composer-header-table.c:658
+#: ../composer/e-composer-header-table.c:656
 msgid "_To:"
 msgstr "_Per a:"
 
-#: ../composer/e-composer-header-table.c:663
+#: ../composer/e-composer-header-table.c:661
 msgid "_Cc:"
 msgstr "_CC:"
 
-#: ../composer/e-composer-header-table.c:668
+#: ../composer/e-composer-header-table.c:666
 msgid "_Bcc:"
 msgstr "CC_O:"
 
-#: ../composer/e-composer-header-table.c:673
+#: ../composer/e-composer-header-table.c:671
 msgid "_Post To:"
 msgstr "_Envia a:"
 
-#: ../composer/e-composer-header-table.c:677
+#: ../composer/e-composer-header-table.c:675
 msgid "S_ubject:"
 msgstr "Ass_umpte:"
 
-#: ../composer/e-composer-header-table.c:686
+#: ../composer/e-composer-header-table.c:684
 msgid "Si_gnature:"
 msgstr "Si_gnatura:"
 
@@ -10939,7 +10939,7 @@ msgstr "Escolliu a quines carpetes s'enviarà el missatge."
 msgid "Click here to select folders to post to"
 msgstr "Feu clic per a seleccionar les carpetes on enviar"
 
-#: ../composer/e-composer-private.c:180 ../composer/e-msg-composer.c:1553
+#: ../composer/e-composer-private.c:179 ../composer/e-msg-composer.c:1553
 msgid "Show _Attachment Bar"
 msgstr "Mostra la barra _de fitxers adjunts"
 
@@ -10970,11 +10970,11 @@ msgstr[1] "Fitxers adjunts"
 msgid "Hide _Attachment Bar"
 msgstr "Amaga la _barra de fitxers adjunts"
 
-#: ../composer/e-msg-composer.c:1568 ../composer/e-msg-composer.c:2775
+#: ../composer/e-msg-composer.c:1568 ../composer/e-msg-composer.c:2770
 msgid "Compose Message"
 msgstr "Redacta un missatge"
 
-#: ../composer/e-msg-composer.c:4050
+#: ../composer/e-msg-composer.c:4071
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -11188,7 +11188,7 @@ msgid "Name of the component being logged"
 msgstr "Nom del component que s'està enregistrant"
 
 #: ../e-util/e-plugin.c:308 ../filter/rule-editor.c:798
-#: ../mail/em-account-prefs.c:482 ../mail/em-composer-prefs.c:988
+#: ../mail/em-account-prefs.c:482 ../mail/em-composer-prefs.c:960
 #: ../plugins/plugin-manager/plugin-manager.c:355
 #: ../plugins/publish-calendar/publish-calendar.c:690
 msgid "Enabled"
@@ -11240,7 +11240,7 @@ msgstr "Voleu sobreescriure el fitxer?"
 msgid "_Overwrite"
 msgstr "S_obreescriu"
 
-#: ../e-util/e-util.c:96
+#: ../e-util/e-util.c:117
 msgid "Could not display help for Evolution."
 msgstr "No s'ha pogut mostrar l'ajuda de l'Evolution."
 
@@ -11268,23 +11268,23 @@ msgstr "P_er fer"
 msgid "_Later"
 msgstr "D_esprés"
 
-#: ../e-util/e-util-labels.c:309
+#: ../e-util/e-util-labels.c:313
 msgid "Label _Name:"
 msgstr "_Nom de l'etiqueta:"
 
-#: ../e-util/e-util-labels.c:332
+#: ../e-util/e-util-labels.c:336
 msgid "Edit Label"
 msgstr "Edita l'etiqueta"
 
-#: ../e-util/e-util-labels.c:332
+#: ../e-util/e-util-labels.c:336
 msgid "Add Label"
 msgstr "Afegeix una etiqueta"
 
-#: ../e-util/e-util-labels.c:351
+#: ../e-util/e-util-labels.c:355
 msgid "Label name cannot be empty."
 msgstr "En nom de l'etiqueta no pot ser buit."
 
-#: ../e-util/e-util-labels.c:356
+#: ../e-util/e-util-labels.c:360
 msgid ""
 "A label having the same tag already exists on the server. Please rename your "
 "label."
@@ -11292,12 +11292,12 @@ msgstr ""
 "Ja existeix una etiqueta amb el mateix nom al servidor. Hauríeu de canviar-"
 "li el nom."
 
-#: ../e-util/gconf-bridge.c:1218
+#: ../e-util/gconf-bridge.c:1221
 #, c-format
 msgid "GConf error: %s"
 msgstr "S'ha produït un error del GConf: %s"
 
-#: ../e-util/gconf-bridge.c:1228
+#: ../e-util/gconf-bridge.c:1231
 msgid "All further errors shown only on terminal."
 msgstr "La resta d'errors es mostraran només al terminal."
 
@@ -11471,11 +11471,11 @@ msgid "I_nclude threads"
 msgstr "I_nclou els fils"
 
 #: ../filter/filter-rule.c:1045 ../filter/filter.glade.h:3
-#: ../mail/em-utils.c:308
+#: ../mail/em-utils.c:309
 msgid "Incoming"
 msgstr "Entrada"
 
-#: ../filter/filter-rule.c:1045 ../mail/em-utils.c:309
+#: ../filter/filter-rule.c:1045 ../mail/em-utils.c:310
 msgid "Outgoing"
 msgstr "Sortida"
 
@@ -11591,8 +11591,8 @@ msgstr "l'hora que indiqueu"
 
 #: ../filter/filter.glade.h:22 ../plugins/calendar-http/calendar-http.c:282
 #: ../plugins/calendar-weather/calendar-weather.c:564
-#: ../plugins/google-account-setup/google-source.c:665
-#: ../plugins/google-account-setup/google-contacts-source.c:331
+#: ../plugins/google-account-setup/google-source.c:674
+#: ../plugins/google-account-setup/google-contacts-source.c:341
 msgid "weeks"
 msgstr "setmanes"
 
@@ -11749,7 +11749,7 @@ msgstr "Opcions predeterminades"
 
 #. Security settings
 #: ../mail/em-account-editor.c:2451 ../mail/mail-config.glade.h:131
-#: ../plugins/exchange-operations/exchange-account-setup.c:317
+#: ../plugins/exchange-operations/exchange-account-setup.c:323
 msgid "Security"
 msgstr "Seguretat"
 
@@ -11784,19 +11784,19 @@ msgid "Protocol"
 msgstr "Protocol"
 
 #: ../mail/em-composer-prefs.c:303 ../mail/em-composer-prefs.c:438
-#: ../mail/mail-config.c:1158 ../mail/mail-signature-editor.c:478
+#: ../mail/mail-config.c:1168 ../mail/mail-signature-editor.c:478
 msgid "Unnamed"
 msgstr "Sense nom"
 
-#: ../mail/em-composer-prefs.c:992
+#: ../mail/em-composer-prefs.c:964
 msgid "Language(s)"
 msgstr "Idiomes"
 
-#: ../mail/em-composer-prefs.c:1041
+#: ../mail/em-composer-prefs.c:1013
 msgid "Add signature script"
 msgstr "Afegeix un script de signatura"
 
-#: ../mail/em-composer-prefs.c:1083
+#: ../mail/em-composer-prefs.c:1055
 msgid "Signature(s)"
 msgstr "Signatures"
 
@@ -12091,7 +12091,7 @@ msgstr "Atura el processament"
 #: ../mail/em-format.c:889 ../mail/em-mailer-prefs.c:80
 #: ../mail/message-list.etspec.h:18 ../mail/message-tag-followup.c:312
 #: ../plugins/groupwise-features/properties.glade.h:7
-#: ../smime/lib/e-cert.c:1132
+#: ../smime/lib/e-cert.c:1115
 msgid "Subject"
 msgstr "Assumpte"
 
@@ -12186,15 +12186,15 @@ msgid "Quota usage"
 msgstr "Quota d'utilització d'espai"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-properties.c:358 ../mail/em-folder-tree-model.c:507
-#: ../mail/em-folder-tree.c:2556 ../mail/mail-component.c:159
+#: ../mail/em-folder-properties.c:359 ../mail/em-folder-tree-model.c:509
+#: ../mail/em-folder-tree.c:2597 ../mail/mail-component.c:159
 #: ../mail/mail-component.c:580
 #: ../plugins/exchange-operations/exchange-delegates-user.c:78
 #: ../plugins/exchange-operations/exchange-folder.c:594
 msgid "Inbox"
 msgstr "Safata d'entrada"
 
-#: ../mail/em-folder-properties.c:389
+#: ../mail/em-folder-properties.c:390
 #: ../plugins/groupwise-features/properties.glade.h:4
 msgid "Folder Properties"
 msgstr "Propietats de la carpeta"
@@ -12213,7 +12213,7 @@ msgstr "_Nom de la carpeta:"
 
 #. load store to mail component
 #: ../mail/em-folder-tree-model.c:204 ../mail/em-folder-tree-model.c:206
-#: ../mail/mail-vfolder.c:960 ../mail/mail-vfolder.c:1027
+#: ../mail/mail-vfolder.c:980 ../mail/mail-vfolder.c:1047
 msgid "Search Folders"
 msgstr "Carpetes de cerca"
 
@@ -12226,15 +12226,20 @@ msgstr "Cap concordança"
 msgid "Drafts"
 msgstr "Esborranys"
 
-#: ../mail/em-folder-tree-model.c:510 ../mail/mail-component.c:161
+#: ../mail/em-folder-tree-model.c:506 ../mail/mail-component.c:163
+#: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
+msgid "Templates"
+msgstr "Plantilles"
+
+#: ../mail/em-folder-tree-model.c:512 ../mail/mail-component.c:161
 msgid "Outbox"
 msgstr "Safata de sortida"
 
-#: ../mail/em-folder-tree-model.c:512 ../mail/mail-component.c:162
+#: ../mail/em-folder-tree-model.c:514 ../mail/mail-component.c:162
 msgid "Sent"
 msgstr "Enviat"
 
-#: ../mail/em-folder-tree-model.c:534 ../mail/em-folder-tree-model.c:841
+#: ../mail/em-folder-tree-model.c:536 ../mail/em-folder-tree-model.c:843
 msgid "Loading..."
 msgstr "S'està carregant..."
 
@@ -12300,34 +12305,38 @@ msgstr "_Mou a la carpeta"
 msgid "Scanning folders in \"%s\""
 msgstr "S'estan analitzant les carpetes a «%s»"
 
-#: ../mail/em-folder-tree.c:2099
+#: ../mail/em-folder-tree.c:2117
 msgid "Open in _New Window"
 msgstr "Obre e_n una finestra nova"
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2104
+#: ../mail/em-folder-tree.c:2122
 msgid "_New Folder..."
 msgstr "Carpeta _nova..."
 
-#: ../mail/em-folder-tree.c:2107
+#: ../mail/em-folder-tree.c:2125
 msgid "_Move..."
 msgstr "_Mou..."
 
-#: ../mail/em-folder-tree.c:2114 ../ui/evolution-mail-list.xml.h:39
+#: ../mail/em-folder-tree.c:2132 ../ui/evolution-mail-list.xml.h:39
 msgid "_Rename..."
 msgstr "Can_via el nom..."
 
-#: ../mail/em-folder-tree.c:2115
+#: ../mail/em-folder-tree.c:2133
 msgid "Re_fresh"
 msgstr "Re_fresca"
 
-#: ../mail/em-folder-tree.c:2116
+#: ../mail/em-folder-tree.c:2134
 msgid "Fl_ush Outbox"
 msgstr "Bui_da la safata de sortida"
 
-#: ../mail/em-folder-tree.c:2122 ../mail/mail.error.xml.h:138
+#: ../mail/em-folder-tree.c:2140 ../mail/mail.error.xml.h:138
 msgid "_Empty Trash"
 msgstr "Buida la _paperera"
+
+#: ../mail/em-folder-tree.c:2243
+msgid "_Unread Search Folder"
+msgstr "Marca la carpeta de cerca com a _no llegida"
 
 #: ../mail/em-folder-utils.c:101
 #, c-format
@@ -12430,7 +12439,7 @@ msgstr "_Etiqueta"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../mail/em-folder-view.c:1355 ../widgets/misc/e-dateedit.c:480
+#: ../mail/em-folder-view.c:1355 ../widgets/misc/e-dateedit.c:478
 msgid "_None"
 msgstr "_Cap"
 
@@ -12489,8 +12498,8 @@ msgstr "Fil_tre a partir de la llista de correu"
 #. other user means other calendars subscribed
 #: ../mail/em-folder-view.c:2255 ../mail/em-folder-view.c:2298
 #: ../plugins/google-account-setup/google-source.c:251
-#: ../plugins/google-account-setup/google-source.c:532
-#: ../plugins/google-account-setup/google-source.c:718
+#: ../plugins/google-account-setup/google-source.c:529
+#: ../plugins/google-account-setup/google-source.c:727
 msgid "Default"
 msgstr "Predeterminat"
 
@@ -12502,33 +12511,33 @@ msgstr "No s'ha pogut recuperar el missatge"
 msgid "Retrieving Message..."
 msgstr "S'està recuperant el missatge..."
 
-#: ../mail/em-folder-view.c:2794
+#: ../mail/em-folder-view.c:2791
 msgid "C_all To..."
 msgstr "_Truca..."
 
-#: ../mail/em-folder-view.c:2797
+#: ../mail/em-folder-view.c:2794
 msgid "Create _Search Folder"
 msgstr "Crea una carpeta de _cerca"
 
-#: ../mail/em-folder-view.c:2798
+#: ../mail/em-folder-view.c:2795
 msgid "_From this Address"
 msgstr "D'a_questa adreça"
 
-#: ../mail/em-folder-view.c:2799
+#: ../mail/em-folder-view.c:2796
 msgid "_To this Address"
 msgstr "Per a aques_ta adreça"
 
-#: ../mail/em-folder-view.c:3296
+#: ../mail/em-folder-view.c:3293
 #, c-format
 msgid "Click to mail %s"
 msgstr "Feu clic per a enviar un correu a en/na %s"
 
-#: ../mail/em-folder-view.c:3308
+#: ../mail/em-folder-view.c:3305
 #, c-format
 msgid "Click to call %s"
 msgstr "Feu clic per a trucar en/na %s"
 
-#: ../mail/em-folder-view.c:3313
+#: ../mail/em-folder-view.c:3310
 msgid "Click to hide/unhide addresses"
 msgstr "Feu clic per a mostrar/amagar adreces"
 
@@ -12839,7 +12848,7 @@ msgstr " (%R %Z)"
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
 #.
-#: ../mail/em-format-html.c:1907
+#: ../mail/em-format-html.c:1912
 #, c-format
 msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
 msgstr "Aquest missatge fou enviat per <b>%s</b> en nom de <b>%s</b>"
@@ -12856,8 +12865,8 @@ msgid "Reply-To"
 msgstr "Respon"
 
 #: ../mail/em-format.c:890 ../mail/em-mailer-prefs.c:81
-#: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:327
-#: ../widgets/misc/e-dateedit.c:349
+#: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:325
+#: ../widgets/misc/e-dateedit.c:347
 msgid "Date"
 msgstr "Data"
 
@@ -12907,11 +12916,11 @@ msgstr "S'ha produït un error en verificar la contrasenya"
 msgid "Unknown error verifying signature"
 msgstr "S'ha produït un error desconegut en verificar la contrasenya"
 
-#: ../mail/em-format.c:1663
+#: ../mail/em-format.c:1665
 msgid "Could not parse PGP message"
 msgstr "No s'ha pogut analitzar el missatge PGP"
 
-#: ../mail/em-format.c:1663
+#: ../mail/em-format.c:1665
 msgid "Could not parse PGP message: Unknown error"
 msgstr "No s'ha pogut analitzar el missatge PGP: error desconegut"
 
@@ -13036,7 +13045,7 @@ msgstr "No s'han pogut copiar les dades «%s» POP3 keep-on-server: %s"
 msgid "Failed to create local mail storage `%s': %s"
 msgstr "No s'ha pogut crear el magatzem de correu local «%s»: %s"
 
-#: ../mail/em-migrate.c:2898
+#: ../mail/em-migrate.c:2952
 msgid ""
 "The summary format of the Evolution mailbox folders has been moved to sqlite "
 "since Evolution 2.24.\n"
@@ -13048,12 +13057,12 @@ msgstr ""
 "\n"
 "Espereu mentre l'Evolution migra les vostres carpetes..."
 
-#: ../mail/em-migrate.c:2963
+#: ../mail/em-migrate.c:3033
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
 msgstr "No s'ha pogut crear les carpetes de correu local a «%s»: %s"
 
-#: ../mail/em-migrate.c:2982
+#: ../mail/em-migrate.c:3052
 msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
@@ -13075,51 +13084,51 @@ msgstr "Respon a _la llista"
 msgid "_Add to Address Book"
 msgstr "_Afegeix a la llibreta d'adreces"
 
-#: ../mail/em-subscribe-editor.c:582
+#: ../mail/em-subscribe-editor.c:600
 msgid "This store does not support subscriptions, or they are not enabled."
 msgstr "El magatzem no permet subscripcions, o no estan habilitades."
 
-#: ../mail/em-subscribe-editor.c:615
+#: ../mail/em-subscribe-editor.c:633
 msgid "Subscribed"
 msgstr "Subscrit"
 
-#: ../mail/em-subscribe-editor.c:619
+#: ../mail/em-subscribe-editor.c:637
 msgid "Folder"
 msgstr "Carpeta"
 
 #. FIXME: This is just to get the shadow, is there a better way?
-#: ../mail/em-subscribe-editor.c:821
+#: ../mail/em-subscribe-editor.c:839
 msgid "Please select a server."
 msgstr "Heu de seleccionar un servidor."
 
-#: ../mail/em-subscribe-editor.c:842
+#: ../mail/em-subscribe-editor.c:860
 msgid "No server has been selected"
 msgstr "No s'ha seleccionat cap servidor"
 
 #. Check buttons
-#: ../mail/em-utils.c:120
+#: ../mail/em-utils.c:121
 #: ../plugins/attachment-reminder/attachment-reminder.c:128
 msgid "_Do not show this message again."
 msgstr "No _tornis a mostrar aquest missatge."
 
-#: ../mail/em-utils.c:316
+#: ../mail/em-utils.c:317
 msgid "Message Filters"
 msgstr "Filtres de missatge"
 
-#: ../mail/em-utils.c:369
+#: ../mail/em-utils.c:370
 msgid "message"
 msgstr "missatge"
 
-#: ../mail/em-utils.c:653
+#: ../mail/em-utils.c:654
 msgid "Save Message..."
 msgstr "Desa el missatge..."
 
-#: ../mail/em-utils.c:703
+#: ../mail/em-utils.c:704
 msgid "Add address"
 msgstr "Afegeix una adreça"
 
 #. Drop filename for messages from a mailbox
-#: ../mail/em-utils.c:1224
+#: ../mail/em-utils.c:1225
 #, c-format
 msgid "Messages from %s"
 msgstr "Missatges de %s"
@@ -14125,12 +14134,6 @@ msgstr "Llista de correu %s"
 msgid "Add Filter Rule"
 msgstr "Afegeix una regla de filtre"
 
-#: ../mail/mail-component.c:163 ../plugins/templates/templates.c:519
-#: ../plugins/templates/templates.c:689 ../plugins/templates/templates.c:724
-#: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
-msgid "Templates"
-msgstr "Plantilles"
-
 #: ../mail/mail-component.c:545
 #, c-format
 msgid "%d selected, "
@@ -14259,11 +14262,11 @@ msgstr "Missatges de registre:"
 msgid "Log Level"
 msgstr "Nivell de registre"
 
-#: ../mail/mail-component.c:1810 ../widgets/misc/e-dateedit.c:391
+#: ../mail/mail-component.c:1810 ../widgets/misc/e-dateedit.c:389
 msgid "Time"
 msgstr "Hora"
 
-#: ../mail/mail-component.c:1820 ../mail/message-list.c:2454
+#: ../mail/mail-component.c:1820 ../mail/message-list.c:2462
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "Missatges"
@@ -14858,8 +14861,8 @@ msgid "Use Authe_ntication"
 msgstr "Utilitza au_tenticació"
 
 #: ../mail/mail-config.glade.h:158 ../plugins/caldav/caldav-source.c:284
-#: ../plugins/google-account-setup/google-source.c:625
-#: ../plugins/google-account-setup/google-contacts-source.c:278
+#: ../plugins/google-account-setup/google-source.c:634
+#: ../plugins/google-account-setup/google-contacts-source.c:288
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:323
 msgid "User_name:"
 msgstr "Nom d'_usuari:"
@@ -15315,26 +15318,26 @@ msgstr "S'està esperant..."
 msgid "Checking for new mail"
 msgstr "Comprovació de correu nou"
 
-#: ../mail/mail-session.c:207
+#: ../mail/mail-session.c:209
 #, c-format
 msgid "Enter Passphrase for %s"
 msgstr "Introduïu la contrasenya per a %s"
 
-#: ../mail/mail-session.c:209
+#: ../mail/mail-session.c:211
 msgid "Enter Passphrase"
 msgstr "Introduïu la contrasenya"
 
-#: ../mail/mail-session.c:212
+#: ../mail/mail-session.c:214
 #: ../plugins/exchange-operations/exchange-config-listener.c:708
 #, c-format
 msgid "Enter Password for %s"
 msgstr "Introduïu la contrasenya per a %s"
 
-#: ../mail/mail-session.c:214
+#: ../mail/mail-session.c:216
 msgid "Enter Password"
 msgstr "Introduïu la contrasenya"
 
-#: ../mail/mail-session.c:256
+#: ../mail/mail-session.c:258
 msgid "User canceled operation."
 msgstr "L'usuari ha cancel·lat l'operació."
 
@@ -15379,21 +15382,21 @@ msgstr "La carpeta no és vàlida: «%s»"
 msgid "Setting up Search Folder: %s"
 msgstr "S'està configurant la carpeta de cerca: %s"
 
-#: ../mail/mail-vfolder.c:233
+#: ../mail/mail-vfolder.c:240
 #, c-format
 msgid "Updating Search Folders for '%s:%s'"
 msgstr "S'estan actualitzant les carpetes de cerca per a «%s:%s»"
 
-#: ../mail/mail-vfolder.c:240
+#: ../mail/mail-vfolder.c:247
 #, c-format
 msgid "Updating Search Folders for '%s'"
 msgstr "S'estan actualitzant les carpetes de cerca per a «%s»"
 
-#: ../mail/mail-vfolder.c:1066
+#: ../mail/mail-vfolder.c:1086
 msgid "Edit Search Folder"
 msgstr "Edita les carpetes de cerca"
 
-#: ../mail/mail-vfolder.c:1155
+#: ../mail/mail-vfolder.c:1175
 msgid "New Search Folder"
 msgstr "Carpeta de cerca nova"
 
@@ -16085,11 +16088,11 @@ msgid "%b %d %Y"
 msgstr "%d de %b del %Y"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:3916 ../mail/message-list.c:4376
+#: ../mail/message-list.c:3924 ../mail/message-list.c:4388
 msgid "Generating message list"
 msgstr "S'està generant la llista de missatges"
 
-#: ../mail/message-list.c:4224
+#: ../mail/message-list.c:4227
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -16097,7 +16100,7 @@ msgstr ""
 "No hi ha cap missatge que satisfaci els vostres criteris de cerca. Netegeu "
 "la cerca a través de l'element de menú Cerca -> Neteja, o bé canvieu-la."
 
-#: ../mail/message-list.c:4226
+#: ../mail/message-list.c:4229
 msgid "There are no messages in this folder."
 msgstr "No hi ha cap missatge en aquesta carpeta."
 
@@ -16219,7 +16222,7 @@ msgstr ""
 "cos del missatge."
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:475
-#: ../plugins/templates/templates.c:392
+#: ../plugins/templates/templates.c:390
 msgid "Keywords"
 msgstr "Paraules clau"
 
@@ -16550,30 +16553,30 @@ msgid "BBDB"
 msgstr "BBDB"
 
 #. For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself.
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:114
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:155
 #, c-format
 msgid "Error occurred while spawning %s: %s."
 msgstr "S'ha produït un error en executar %s: %s."
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:138
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:179
 #, c-format
 msgid "Bogofilter child process does not respond, killing..."
 msgstr "El procés fill del Bogofilter no respon; se suprimirà..."
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:140
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:181
 #, c-format
 msgid "Wait for Bogofilter child process interrupted, terminating..."
 msgstr ""
 "S'ha interromput l'espera per al procés fill del Bogofilter; es terminarà..."
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:152
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:200
 #, c-format
 msgid "Pipe to Bogofilter failed, error code: %d."
 msgstr ""
 "Ha fallat la creació d'un conducte cap al Bogofilter; el codi d'error fou: %"
 "d."
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:313
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:363
 msgid "Convert message text to _Unicode"
 msgstr "Converteix el text del missatge a _Unicode"
 
@@ -16611,8 +16614,8 @@ msgid "_URL:"
 msgstr "_URL:"
 
 #: ../plugins/caldav/caldav-source.c:271
-#: ../plugins/google-account-setup/google-source.c:618
-#: ../plugins/google-account-setup/google-contacts-source.c:301
+#: ../plugins/google-account-setup/google-source.c:627
+#: ../plugins/google-account-setup/google-contacts-source.c:311
 msgid "Use _SSL"
 msgstr "Utilitza l'_SSL"
 
@@ -16634,8 +16637,8 @@ msgstr "Proporciona funcionalitat central per als calendaris locals."
 
 #: ../plugins/calendar-http/calendar-http.c:264
 #: ../plugins/calendar-weather/calendar-weather.c:546
-#: ../plugins/google-account-setup/google-source.c:642
-#: ../plugins/google-account-setup/google-contacts-source.c:320
+#: ../plugins/google-account-setup/google-source.c:651
+#: ../plugins/google-account-setup/google-contacts-source.c:330
 msgid "Re_fresh:"
 msgstr "Re_fresca:"
 
@@ -16785,7 +16788,7 @@ msgid "Key"
 msgstr "Clau"
 
 #: ../plugins/email-custom-header/email-custom-header.c:892
-#: ../plugins/templates/templates.c:398
+#: ../plugins/templates/templates.c:396
 msgid "Values"
 msgstr "Valors"
 
@@ -16869,11 +16872,11 @@ msgstr ""
 "Amb aquesta opció es connectarà al servidor Exchange mitjançant una "
 "contrasenya de text sense xifrar."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:257
+#: ../plugins/exchange-operations/exchange-account-setup.c:263
 msgid "Out Of Office"
 msgstr "Fora de l'oficina"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:264
+#: ../plugins/exchange-operations/exchange-account-setup.c:270
 msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
@@ -16882,88 +16885,88 @@ msgstr ""
 "persones\n"
 "que us enviïn un correu quan no sigueu a l'oficina."
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:276
-#: ../plugins/exchange-operations/exchange-account-setup.c:281
+#: ../plugins/exchange-operations/exchange-account-setup.c:282
+#: ../plugins/exchange-operations/exchange-account-setup.c:287
 msgid "I am out of the office"
 msgstr "No sóc a l'oficina"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:277
-#: ../plugins/exchange-operations/exchange-account-setup.c:280
+#: ../plugins/exchange-operations/exchange-account-setup.c:283
+#: ../plugins/exchange-operations/exchange-account-setup.c:286
 msgid "I am in the office"
 msgstr "Sóc a l'oficina"
 
 #. Change Password
-#: ../plugins/exchange-operations/exchange-account-setup.c:328
+#: ../plugins/exchange-operations/exchange-account-setup.c:334
 msgid "Change the password for Exchange account"
 msgstr "Canvia la contrasenya per al compte de l'Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:330
+#: ../plugins/exchange-operations/exchange-account-setup.c:336
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:1
 msgid "Change Password"
 msgstr "Canvia la contrasenya"
 
 #. Delegation Assistant
-#: ../plugins/exchange-operations/exchange-account-setup.c:335
+#: ../plugins/exchange-operations/exchange-account-setup.c:341
 msgid "Manage the delegate settings for Exchange account"
 msgstr "Gestiona la configuració de delegats per al compte de l'Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:337
+#: ../plugins/exchange-operations/exchange-account-setup.c:343
 msgid "Delegation Assistant"
 msgstr "Assistent de delegació"
 
 #. Miscelleneous settings
-#: ../plugins/exchange-operations/exchange-account-setup.c:349
+#: ../plugins/exchange-operations/exchange-account-setup.c:355
 msgid "Miscelleneous"
 msgstr "Miscel·lània"
 
 #. Folder Size
-#: ../plugins/exchange-operations/exchange-account-setup.c:359
+#: ../plugins/exchange-operations/exchange-account-setup.c:365
 msgid "View the size of all Exchange folders"
 msgstr "Visualitza la mida de totes les carpetes de l'Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:361
+#: ../plugins/exchange-operations/exchange-account-setup.c:367
 msgid "Folders Size"
 msgstr "Mida de les carpetes"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:368
+#: ../plugins/exchange-operations/exchange-account-setup.c:374
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:3
 msgid "Exchange Settings"
 msgstr "Configuració de l'Exchange"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:690
+#: ../plugins/exchange-operations/exchange-account-setup.c:696
 msgid "_OWA URL:"
 msgstr "URL _OWA:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:716
+#: ../plugins/exchange-operations/exchange-account-setup.c:722
 msgid "A_uthenticate"
 msgstr "A_utenticació"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:737
+#: ../plugins/exchange-operations/exchange-account-setup.c:743
 msgid "_Mailbox:"
 msgstr "_Bústia de correu:"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:938
+#: ../plugins/exchange-operations/exchange-account-setup.c:944
 msgid "_Authentication Type"
 msgstr "Tipus d'_autenticació"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:952
+#: ../plugins/exchange-operations/exchange-account-setup.c:958
 msgid "Ch_eck for Supported Types"
 msgstr "Comprova els tipus _disponibles"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:1064
-#: ../plugins/exchange-operations/exchange-contacts.c:213
+#: ../plugins/exchange-operations/exchange-account-setup.c:1073
+#: ../plugins/exchange-operations/exchange-contacts.c:217
 #, c-format
 msgid "%s KB"
 msgstr "%s KB"
 
-#: ../plugins/exchange-operations/exchange-account-setup.c:1066
-#: ../plugins/exchange-operations/exchange-contacts.c:215
+#: ../plugins/exchange-operations/exchange-account-setup.c:1075
+#: ../plugins/exchange-operations/exchange-contacts.c:219
 #, c-format
 msgid "0 KB"
 msgstr "0 KB"
 
-#: ../plugins/exchange-operations/exchange-calendar.c:192
-#: ../plugins/exchange-operations/exchange-contacts.c:166
+#: ../plugins/exchange-operations/exchange-calendar.c:196
+#: ../plugins/exchange-operations/exchange-contacts.c:170
 msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
@@ -17684,7 +17687,7 @@ msgid "Unknown error looking up {0}"
 msgstr "S'ha produït un error desconegut en cercar {0}"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
-#: ../plugins/google-account-setup/google-source.c:543
+#: ../plugins/google-account-setup/google-source.c:540
 msgid "Unknown error."
 msgstr "S'ha produït un error desconegut."
 
@@ -17876,24 +17879,20 @@ msgstr "Cancel·la la s_ubscripció"
 
 #: ../plugins/google-account-setup/google-source.c:83
 #: ../plugins/google-account-setup/google-source.c:90
-#: ../plugins/google-account-setup/google-contacts-source.c:52
-#: ../plugins/google-account-setup/google-contacts-source.c:57
-#: ../plugins/google-account-setup/google-contacts-source.c:83
+#: ../plugins/google-account-setup/google-contacts-source.c:53
+#: ../plugins/google-account-setup/google-contacts-source.c:58
+#: ../plugins/google-account-setup/google-contacts-source.c:84
 msgid "Google"
 msgstr "Google"
 
-#: ../plugins/google-account-setup/google-source.c:439
-msgid "Please enter user name first."
-msgstr "Hauríeu d'introduir el nom d'usuari abans de res."
-
-#: ../plugins/google-account-setup/google-source.c:443
+#: ../plugins/google-account-setup/google-source.c:440
 #, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
 msgstr ""
 "Introduïu la contrasenya de l'usuari %s per a accedir a la llista de "
 "subscripcions a calendaris."
 
-#: ../plugins/google-account-setup/google-source.c:543
+#: ../plugins/google-account-setup/google-source.c:540
 #, c-format
 msgid ""
 "Cannot read data from Google server.\n"
@@ -17902,15 +17901,15 @@ msgstr ""
 "No es poden llegir les dades del servidor del Google.\n"
 "%s"
 
-#: ../plugins/google-account-setup/google-source.c:693
+#: ../plugins/google-account-setup/google-source.c:702
 msgid "Cal_endar:"
 msgstr "_Calendari:"
 
-#: ../plugins/google-account-setup/google-source.c:728
+#: ../plugins/google-account-setup/google-source.c:737
 msgid "Retrieve _list"
 msgstr "Recupera la _llista"
 
-#: ../plugins/google-account-setup/google-contacts-source.c:268
+#: ../plugins/google-account-setup/google-contacts-source.c:278
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:300
 msgid "<b>Server</b>"
 msgstr "<b>Servidor</b>"
@@ -18238,7 +18237,7 @@ msgstr ""
 "La pestanya del delegat només estarà disponible quan el compte estigui "
 "habilitat."
 
-#: ../plugins/groupwise-features/send-options.c:215
+#: ../plugins/groupwise-features/send-options.c:214
 msgid "Advanced send options"
 msgstr "Opcions d'enviament avançades"
 
@@ -18271,56 +18270,56 @@ msgstr "Afegeix   "
 msgid "Modify"
 msgstr "Modifica"
 
-#: ../plugins/groupwise-features/status-track.c:107
+#: ../plugins/groupwise-features/status-track.c:97
 msgid "Message Status"
 msgstr "Estat del missatge"
 
 #. Subject
-#: ../plugins/groupwise-features/status-track.c:121
+#: ../plugins/groupwise-features/status-track.c:111
 msgid "Subject:"
 msgstr "Assumpte:"
 
-#: ../plugins/groupwise-features/status-track.c:135
+#: ../plugins/groupwise-features/status-track.c:125
 msgid "From:"
 msgstr "De:"
 
-#: ../plugins/groupwise-features/status-track.c:150
+#: ../plugins/groupwise-features/status-track.c:140
 msgid "Creation date:"
 msgstr "Data de creació:"
 
-#: ../plugins/groupwise-features/status-track.c:189
+#: ../plugins/groupwise-features/status-track.c:179
 msgid "Recipient: "
 msgstr "Destinatari: "
 
-#: ../plugins/groupwise-features/status-track.c:196
+#: ../plugins/groupwise-features/status-track.c:186
 msgid "Delivered: "
 msgstr "Entregat: "
 
-#: ../plugins/groupwise-features/status-track.c:202
+#: ../plugins/groupwise-features/status-track.c:192
 msgid "Opened: "
 msgstr "Obert: "
 
-#: ../plugins/groupwise-features/status-track.c:207
+#: ../plugins/groupwise-features/status-track.c:197
 msgid "Accepted: "
 msgstr "Acceptat: "
 
-#: ../plugins/groupwise-features/status-track.c:212
+#: ../plugins/groupwise-features/status-track.c:202
 msgid "Deleted: "
 msgstr "Suprimit: "
 
-#: ../plugins/groupwise-features/status-track.c:217
+#: ../plugins/groupwise-features/status-track.c:207
 msgid "Declined: "
 msgstr "Declinat: "
 
-#: ../plugins/groupwise-features/status-track.c:222
+#: ../plugins/groupwise-features/status-track.c:212
 msgid "Completed: "
 msgstr "Completat: "
 
-#: ../plugins/groupwise-features/status-track.c:227
+#: ../plugins/groupwise-features/status-track.c:217
 msgid "Undelivered: "
 msgstr "No entregat: "
 
-#: ../plugins/groupwise-features/status-track.c:251
+#: ../plugins/groupwise-features/status-track.c:241
 msgid "Track Message Status..."
 msgstr "Segueix l'estat del missatge..."
 
@@ -18468,131 +18467,131 @@ msgstr "Sincronitza l'iPod"
 msgid "iPod Synchronization"
 msgstr "Sincronització de l'iPod"
 
-#: ../plugins/itip-formatter/itip-formatter.c:443
-#: ../plugins/itip-formatter/itip-formatter.c:568
+#: ../plugins/itip-formatter/itip-formatter.c:481
+#: ../plugins/itip-formatter/itip-formatter.c:606
 #, c-format
 msgid "Failed to load the calendar '%s'"
 msgstr "No s'ha pogut carregar el calendari «%s»"
 
-#: ../plugins/itip-formatter/itip-formatter.c:588
+#: ../plugins/itip-formatter/itip-formatter.c:626
 #, c-format
 msgid "An appointment in the calendar '%s' conflicts with this meeting"
 msgstr "Un esdeveniment del calendari «%s» coincideix amb aquesta reunió"
 
 # c-format
-#: ../plugins/itip-formatter/itip-formatter.c:614
+#: ../plugins/itip-formatter/itip-formatter.c:652
 #, c-format
 msgid "Found the appointment in the calendar '%s'"
 msgstr "S'ha trobat l'esdeveniment al calendari «%s»"
 
-#: ../plugins/itip-formatter/itip-formatter.c:690
+#: ../plugins/itip-formatter/itip-formatter.c:741
 msgid "Unable to find any calendars"
 msgstr "No s'ha pogut trobat cap calendari"
 
-#: ../plugins/itip-formatter/itip-formatter.c:697
+#: ../plugins/itip-formatter/itip-formatter.c:748
 msgid "Unable to find this meeting in any calendar"
 msgstr "No s'ha pogut trobar aquesta reunió en cap calendari"
 
-#: ../plugins/itip-formatter/itip-formatter.c:701
+#: ../plugins/itip-formatter/itip-formatter.c:752
 msgid "Unable to find this task in any task list"
 msgstr "No s'ha pogut trobar la tasca a la llista de tasques"
 
-#: ../plugins/itip-formatter/itip-formatter.c:705
+#: ../plugins/itip-formatter/itip-formatter.c:756
 msgid "Unable to find this memo in any memo list"
 msgstr "No s'ha pogut trobar aquesta anotació a la llista d'anotacions"
 
-#: ../plugins/itip-formatter/itip-formatter.c:776
+#: ../plugins/itip-formatter/itip-formatter.c:827
 msgid "Searching for an existing version of this appointment"
 msgstr "S'està buscant una versió existent d'aquesta cita"
 
-#: ../plugins/itip-formatter/itip-formatter.c:945
+#: ../plugins/itip-formatter/itip-formatter.c:996
 msgid "Unable to parse item"
 msgstr "No s'ha pogut analitzar l'element"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1003
+#: ../plugins/itip-formatter/itip-formatter.c:1054
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "No s'ha pogut enviar l'element al calendari «%s». %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1015
+#: ../plugins/itip-formatter/itip-formatter.c:1066
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "S'ha enviat al calendari «%s» com a acceptat"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1019
+#: ../plugins/itip-formatter/itip-formatter.c:1070
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "S'ha enviat al calendari «%s» com a provisional"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1024
+#: ../plugins/itip-formatter/itip-formatter.c:1075
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "S'ha enviat al calendari «%s» com a rebutjat"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1029
+#: ../plugins/itip-formatter/itip-formatter.c:1080
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "S'ha enviat al calendari «%s» com a cancel·lat"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1123
+#: ../plugins/itip-formatter/itip-formatter.c:1174
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "L'organitzador ha suprimit el delegat %s "
 
-#: ../plugins/itip-formatter/itip-formatter.c:1130
+#: ../plugins/itip-formatter/itip-formatter.c:1181
 msgid "Sent a cancelation notice to the delegate"
 msgstr "Envia un avís de cancel·lació al delegat"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1132
+#: ../plugins/itip-formatter/itip-formatter.c:1183
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "No s'ha pogut enviar un avís de cancel·lació al delegat"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1218
+#: ../plugins/itip-formatter/itip-formatter.c:1269
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr ""
 "L'estat de l'assistent no s'ha pogut actualitzar perquè l'estat no és vàlid"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1245
+#: ../plugins/itip-formatter/itip-formatter.c:1296
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "No s'ha pogut actualitzar l'assistent. %s"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1249
+#: ../plugins/itip-formatter/itip-formatter.c:1300
 msgid "Attendee status updated"
 msgstr "S'ha actualitzat l'estat de l'assistent"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1275
+#: ../plugins/itip-formatter/itip-formatter.c:1326
 msgid "Meeting information sent"
 msgstr "S'ha enviat la informació de la reunió"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1278
+#: ../plugins/itip-formatter/itip-formatter.c:1329
 msgid "Task information sent"
 msgstr "S'ha enviat la informació de la tasca"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1281
+#: ../plugins/itip-formatter/itip-formatter.c:1332
 msgid "Memo information sent"
 msgstr "S'ha enviat la informació de l'anotació"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1290
+#: ../plugins/itip-formatter/itip-formatter.c:1341
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "No s'ha pogut enviar la informació de la reunió; la reunió no existeix"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1293
+#: ../plugins/itip-formatter/itip-formatter.c:1344
 msgid "Unable to send task information, the task does not exist"
 msgstr "No s'ha pogut enviar la informació de la tasca; la tasca no existeix"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1296
+#: ../plugins/itip-formatter/itip-formatter.c:1347
 msgid "Unable to send memo information, the memo does not exist"
 msgstr ""
 "No s'ha pogut enviar la informació de l'anotació; l'anotació no existeix"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1365
-#: ../plugins/itip-formatter/itip-formatter.c:1376
+#: ../plugins/itip-formatter/itip-formatter.c:1416
+#: ../plugins/itip-formatter/itip-formatter.c:1427
 msgid "The calendar attached is not valid"
 msgstr "El calendari adjunt no és vàlid"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1366
-#: ../plugins/itip-formatter/itip-formatter.c:1377
+#: ../plugins/itip-formatter/itip-formatter.c:1417
+#: ../plugins/itip-formatter/itip-formatter.c:1428
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -18600,15 +18599,15 @@ msgstr ""
 "El missatge no conté un calendari iCalendar vàlid, tot i que diu contenir-ne "
 "un."
 
-#: ../plugins/itip-formatter/itip-formatter.c:1417
-#: ../plugins/itip-formatter/itip-formatter.c:1435
-#: ../plugins/itip-formatter/itip-formatter.c:1517
+#: ../plugins/itip-formatter/itip-formatter.c:1468
+#: ../plugins/itip-formatter/itip-formatter.c:1496
+#: ../plugins/itip-formatter/itip-formatter.c:1578
 msgid "The item in the calendar is not valid"
 msgstr "L'element en el calendari no és vàlid"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1418
-#: ../plugins/itip-formatter/itip-formatter.c:1436
-#: ../plugins/itip-formatter/itip-formatter.c:1518
+#: ../plugins/itip-formatter/itip-formatter.c:1469
+#: ../plugins/itip-formatter/itip-formatter.c:1497
+#: ../plugins/itip-formatter/itip-formatter.c:1579
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -18616,11 +18615,11 @@ msgstr ""
 "El missatge conté un calendari, però el calendari no conté esdeveniments, "
 "tasques o informació de lliure/ocupat"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1447
+#: ../plugins/itip-formatter/itip-formatter.c:1508
 msgid "The calendar attached contains multiple items"
 msgstr "El calendari adjunt conté múltiples elements"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1448
+#: ../plugins/itip-formatter/itip-formatter.c:1509
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -18628,31 +18627,31 @@ msgstr ""
 "Per processar tots els elements, s'hauria de desar el fitxer i importar el "
 "calendari"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2148
+#: ../plugins/itip-formatter/itip-formatter.c:2218
 msgid "This meeting recurs"
 msgstr "Aquesta _reunió és periòdica"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2151
+#: ../plugins/itip-formatter/itip-formatter.c:2221
 msgid "This task recurs"
 msgstr "Aquesta tas_ca és periòdica"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2154
+#: ../plugins/itip-formatter/itip-formatter.c:2224
 msgid "This memo recurs"
 msgstr "Aquesta a_notació és periòdica"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2383
+#: ../plugins/itip-formatter/itip-formatter.c:2455
 msgid "_Delete message after acting"
 msgstr "Suprimeix el missatge _després d'actuar"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2393
-#: ../plugins/itip-formatter/itip-formatter.c:2425
+#: ../plugins/itip-formatter/itip-formatter.c:2465
+#: ../plugins/itip-formatter/itip-formatter.c:2497
 msgid "Conflict Search"
 msgstr "Cerca de conflictes"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2408
+#: ../plugins/itip-formatter/itip-formatter.c:2480
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "Seleccioneu els calendaris on cercar conflictes entre reunions"
 
@@ -19256,20 +19255,20 @@ msgstr "Si la icona ha de parpellejar o no."
 msgid "Whether to notify new messages in Inbox folder only."
 msgstr "Si s'ha de notificar només per al correu nou a la safata d'entrada."
 
-#: ../plugins/mail-notification/mail-notification.c:255
+#: ../plugins/mail-notification/mail-notification.c:256
 msgid "Generate a _D-Bus message"
 msgstr "Genera un missatge del _D-Bus"
 
-#: ../plugins/mail-notification/mail-notification.c:378
+#: ../plugins/mail-notification/mail-notification.c:379
 msgid "Evolution's Mail Notification"
 msgstr "Notificació de correu de l'Evolution"
 
-#: ../plugins/mail-notification/mail-notification.c:399
+#: ../plugins/mail-notification/mail-notification.c:400
 msgid "Mail Notification Properties"
 msgstr "Propietats de la notificació de correu"
 
 #. To translators: '%d' is the number of mails recieved and '%s' is the name of the folder
-#: ../plugins/mail-notification/mail-notification.c:458
+#: ../plugins/mail-notification/mail-notification.c:480
 #, c-format
 msgid ""
 "You have received %d new message\n"
@@ -19280,55 +19279,55 @@ msgid_plural ""
 msgstr[0] "Heu rebut %d missatge nou a %s."
 msgstr[1] "Heu rebut %d missatges nous a %s."
 
-#: ../plugins/mail-notification/mail-notification.c:463
+#: ../plugins/mail-notification/mail-notification.c:485
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
 msgstr[0] "Heu rebut %d missatge nou."
 msgstr[1] "Heu rebut %d missatges nous."
 
-#: ../plugins/mail-notification/mail-notification.c:480
-#: ../plugins/mail-notification/mail-notification.c:485
+#: ../plugins/mail-notification/mail-notification.c:502
+#: ../plugins/mail-notification/mail-notification.c:507
 msgid "New email"
 msgstr "Correu nou"
 
-#: ../plugins/mail-notification/mail-notification.c:544
+#: ../plugins/mail-notification/mail-notification.c:567
 msgid "Show icon in _notification area"
 msgstr "Mostra una icona a l'àrea de _notificació"
 
-#: ../plugins/mail-notification/mail-notification.c:547
+#: ../plugins/mail-notification/mail-notification.c:570
 msgid "B_link icon in notification area"
 msgstr "Parpe_lleja la icona a l'àrea de notificació"
 
-#: ../plugins/mail-notification/mail-notification.c:549
+#: ../plugins/mail-notification/mail-notification.c:572
 msgid "Popup _message together with the icon"
 msgstr "Mostra un _missatge emergent juntament amb la icona"
 
-#: ../plugins/mail-notification/mail-notification.c:730
+#: ../plugins/mail-notification/mail-notification.c:753
 msgid "_Play sound when new messages arrive"
 msgstr "Re_produeix un de so quan arribi correu nou"
 
-#: ../plugins/mail-notification/mail-notification.c:736
+#: ../plugins/mail-notification/mail-notification.c:759
 msgid "_Beep"
 msgstr "_Emet un to"
 
-#: ../plugins/mail-notification/mail-notification.c:737
+#: ../plugins/mail-notification/mail-notification.c:760
 msgid "Play _sound file"
 msgstr "_Reprodueix un fitxer de so"
 
-#: ../plugins/mail-notification/mail-notification.c:748
+#: ../plugins/mail-notification/mail-notification.c:771
 msgid "Specify _filename:"
 msgstr "Especifiqueu un nom de _fitxer:"
 
-#: ../plugins/mail-notification/mail-notification.c:749
+#: ../plugins/mail-notification/mail-notification.c:772
 msgid "Select sound file"
 msgstr "Seleccioneu un fitxer de so"
 
-#: ../plugins/mail-notification/mail-notification.c:750
+#: ../plugins/mail-notification/mail-notification.c:773
 msgid "Pl_ay"
 msgstr "Reproduei_x"
 
-#: ../plugins/mail-notification/mail-notification.c:807
+#: ../plugins/mail-notification/mail-notification.c:830
 msgid "Notify new messages for _Inbox only"
 msgstr "Notifica només per als missatges a la safata _d'entrada"
 
@@ -20150,15 +20149,15 @@ msgstr ""
 "Llista de parells de clau/valor que el connector de plantilles substituirà "
 "en el cos d'un missatge."
 
-#: ../plugins/templates/templates.c:613
+#: ../plugins/templates/templates.c:603
 msgid "No title"
 msgstr "Sense títol"
 
-#: ../plugins/templates/templates.c:741
+#: ../plugins/templates/templates.c:711
 msgid "Save as _Template"
 msgstr "Desa com a _plantilla"
 
-#: ../plugins/templates/templates.c:743
+#: ../plugins/templates/templates.c:713
 msgid "Save as Template"
 msgstr "Desa com a plantilla"
 
@@ -21029,7 +21028,7 @@ msgid "Purposes"
 msgstr "Finalitats"
 
 #: ../smime/gui/certificate-manager.c:289 ../smime/gui/smime-ui.glade.h:37
-#: ../smime/lib/e-cert.c:570
+#: ../smime/lib/e-cert.c:553
 msgid "Serial Number"
 msgstr "Número de sèrie"
 
@@ -21148,7 +21147,7 @@ msgstr ""
 "propòsit, n'hauríeu d'examinar el certificat i la seva política i "
 "procediments (si estan disponibles)."
 
-#: ../smime/gui/smime-ui.glade.h:14 ../smime/lib/e-cert.c:1077
+#: ../smime/gui/smime-ui.glade.h:14 ../smime/lib/e-cert.c:1060
 msgid "Certificate"
 msgstr "Certificat"
 
@@ -21225,11 +21224,11 @@ msgstr "Unitat organitzacional (OU)"
 msgid "SHA1 Fingerprint"
 msgstr "Empremta electrònica SHA1"
 
-#: ../smime/gui/smime-ui.glade.h:35 ../smime/lib/e-cert.c:819
+#: ../smime/gui/smime-ui.glade.h:35 ../smime/lib/e-cert.c:802
 msgid "SSL Client Certificate"
 msgstr "Certificat SSL del client"
 
-#: ../smime/gui/smime-ui.glade.h:36 ../smime/lib/e-cert.c:823
+#: ../smime/gui/smime-ui.glade.h:36 ../smime/lib/e-cert.c:806
 msgid "SSL Server Certificate"
 msgstr "Certificat SSL del servidor"
 
@@ -21281,185 +21280,185 @@ msgid "_Edit CA Trust"
 msgstr "_Edita la confiança en l'entitat certificadora"
 
 #. XXX we shouldn't be popping up dialogs in this code.
-#: ../smime/lib/e-cert-db.c:672
+#: ../smime/lib/e-cert-db.c:656
 msgid "Certificate already exists"
 msgstr "El certificat ja existeix"
 
-#: ../smime/lib/e-cert.c:239 ../smime/lib/e-cert.c:249
+#: ../smime/lib/e-cert.c:222 ../smime/lib/e-cert.c:232
 msgid "%d/%m/%Y"
 msgstr "%d/%m/%Y"
 
 #. x509 certificate usage types
-#: ../smime/lib/e-cert.c:425
+#: ../smime/lib/e-cert.c:408
 msgid "Sign"
 msgstr "Signa"
 
-#: ../smime/lib/e-cert.c:426
+#: ../smime/lib/e-cert.c:409
 msgid "Encrypt"
 msgstr "Xifra"
 
-#: ../smime/lib/e-cert.c:531
+#: ../smime/lib/e-cert.c:514
 msgid "Version"
 msgstr "Versió"
 
-#: ../smime/lib/e-cert.c:546
+#: ../smime/lib/e-cert.c:529
 msgid "Version 1"
 msgstr "Versió 1"
 
-#: ../smime/lib/e-cert.c:549
+#: ../smime/lib/e-cert.c:532
 msgid "Version 2"
 msgstr "Versió 2"
 
-#: ../smime/lib/e-cert.c:552
+#: ../smime/lib/e-cert.c:535
 msgid "Version 3"
 msgstr "Versió 3"
 
-#: ../smime/lib/e-cert.c:634
+#: ../smime/lib/e-cert.c:617
 msgid "PKCS #1 MD2 With RSA Encryption"
 msgstr "PKCS #1 MD2 amb xifratge RSA"
 
-#: ../smime/lib/e-cert.c:637
+#: ../smime/lib/e-cert.c:620
 msgid "PKCS #1 MD5 With RSA Encryption"
 msgstr "PKCS #1 MD5 amb xifratge RSA"
 
-#: ../smime/lib/e-cert.c:640
+#: ../smime/lib/e-cert.c:623
 msgid "PKCS #1 SHA-1 With RSA Encryption"
 msgstr "PKCS #1 SHA-1 amb xifratge RSA"
 
-#: ../smime/lib/e-cert.c:667
+#: ../smime/lib/e-cert.c:650
 msgid "PKCS #1 RSA Encryption"
 msgstr "Xifratge PKCS #1 RSA"
 
-#: ../smime/lib/e-cert.c:670
+#: ../smime/lib/e-cert.c:653
 msgid "Certificate Key Usage"
 msgstr "Ús de la clau de certificat"
 
-#: ../smime/lib/e-cert.c:673
+#: ../smime/lib/e-cert.c:656
 msgid "Netscape Certificate Type"
 msgstr "Tipus de certificat del Netscape"
 
-#: ../smime/lib/e-cert.c:676
+#: ../smime/lib/e-cert.c:659
 msgid "Certificate Authority Key Identifier"
 msgstr "Identificador de clau de l'entitat certificadora"
 
-#: ../smime/lib/e-cert.c:688
+#: ../smime/lib/e-cert.c:671
 #, c-format
 msgid "Object Identifier (%s)"
 msgstr "Identificador de l'objecte (%s)"
 
-#: ../smime/lib/e-cert.c:739
+#: ../smime/lib/e-cert.c:722
 msgid "Algorithm Identifier"
 msgstr "Identificador de l'algorisme"
 
-#: ../smime/lib/e-cert.c:747
+#: ../smime/lib/e-cert.c:730
 msgid "Algorithm Parameters"
 msgstr "Paràmetres de l'algorisme"
 
-#: ../smime/lib/e-cert.c:769
+#: ../smime/lib/e-cert.c:752
 msgid "Subject Public Key Info"
 msgstr "Informació de clau pública de l'assumpte"
 
-#: ../smime/lib/e-cert.c:774
+#: ../smime/lib/e-cert.c:757
 msgid "Subject Public Key Algorithm"
 msgstr "Algorisme de clau pública de l'assumpte"
 
-#: ../smime/lib/e-cert.c:789
+#: ../smime/lib/e-cert.c:772
 msgid "Subject's Public Key"
 msgstr "Clau pública de l'assumpte"
 
-#: ../smime/lib/e-cert.c:810 ../smime/lib/e-cert.c:859
+#: ../smime/lib/e-cert.c:793 ../smime/lib/e-cert.c:842
 msgid "Error: Unable to process extension"
 msgstr "S'ha produït un error: no es pot processar l'extensió"
 
-#: ../smime/lib/e-cert.c:831 ../smime/lib/e-cert.c:843
+#: ../smime/lib/e-cert.c:814 ../smime/lib/e-cert.c:826
 msgid "Object Signer"
 msgstr "Signador de l'objecte"
 
-#: ../smime/lib/e-cert.c:835
+#: ../smime/lib/e-cert.c:818
 msgid "SSL Certificate Authority"
 msgstr "Entitat certificadora de l'SSL"
 
-#: ../smime/lib/e-cert.c:839
+#: ../smime/lib/e-cert.c:822
 msgid "Email Certificate Authority"
 msgstr "Entitat certificadora del correu electrònic"
 
-#: ../smime/lib/e-cert.c:867
+#: ../smime/lib/e-cert.c:850
 msgid "Signing"
 msgstr "Signatura"
 
 # FIXME: si algú vol canviar-ho, aquí hi ha un bon article
 # sobre el tema: http://www.firstmonday.org/issues/issue5_8/mccullagh/
 # (dpm)
-#: ../smime/lib/e-cert.c:871
+#: ../smime/lib/e-cert.c:854
 msgid "Non-repudiation"
 msgstr "Propietat de no refús"
 
-#: ../smime/lib/e-cert.c:875
+#: ../smime/lib/e-cert.c:858
 msgid "Key Encipherment"
 msgstr "Xifrat de clau"
 
-#: ../smime/lib/e-cert.c:879
+#: ../smime/lib/e-cert.c:862
 msgid "Data Encipherment"
 msgstr "Xifrat de dades"
 
-#: ../smime/lib/e-cert.c:883
+#: ../smime/lib/e-cert.c:866
 msgid "Key Agreement"
 msgstr "Acord sobre la clau"
 
-#: ../smime/lib/e-cert.c:887
+#: ../smime/lib/e-cert.c:870
 msgid "Certificate Signer"
 msgstr "Signador del certificat"
 
-#: ../smime/lib/e-cert.c:891
+#: ../smime/lib/e-cert.c:874
 msgid "CRL Signer"
 msgstr "Signador CRL"
 
-#: ../smime/lib/e-cert.c:939
+#: ../smime/lib/e-cert.c:922
 msgid "Critical"
 msgstr "És crític"
 
-#: ../smime/lib/e-cert.c:941 ../smime/lib/e-cert.c:944
+#: ../smime/lib/e-cert.c:924 ../smime/lib/e-cert.c:927
 msgid "Not Critical"
 msgstr "No és crític"
 
-#: ../smime/lib/e-cert.c:965
+#: ../smime/lib/e-cert.c:948
 msgid "Extensions"
 msgstr "Extensions"
 
-#: ../smime/lib/e-cert.c:1036
+#: ../smime/lib/e-cert.c:1019
 #, c-format
 msgid "%s = %s"
 msgstr "%s = %s"
 
-#: ../smime/lib/e-cert.c:1092 ../smime/lib/e-cert.c:1212
+#: ../smime/lib/e-cert.c:1075 ../smime/lib/e-cert.c:1195
 msgid "Certificate Signature Algorithm"
 msgstr "Algorisme de la signatura del certificat"
 
-#: ../smime/lib/e-cert.c:1101
+#: ../smime/lib/e-cert.c:1084
 msgid "Issuer"
 msgstr "Emissor"
 
-#: ../smime/lib/e-cert.c:1155
+#: ../smime/lib/e-cert.c:1138
 msgid "Issuer Unique ID"
 msgstr "Identificador únic de l'emissor"
 
-#: ../smime/lib/e-cert.c:1174
+#: ../smime/lib/e-cert.c:1157
 msgid "Subject Unique ID"
 msgstr "Identificador únic de l'assumpte"
 
-#: ../smime/lib/e-cert.c:1217
+#: ../smime/lib/e-cert.c:1200
 msgid "Certificate Signature Value"
 msgstr "Valor de la signatura de certificat"
 
-#: ../smime/lib/e-pkcs12.c:244
+#: ../smime/lib/e-pkcs12.c:249
 msgid "PKCS12 File Password"
 msgstr "Fitxer de contrasenya PKCS12"
 
-#: ../smime/lib/e-pkcs12.c:244
+#: ../smime/lib/e-pkcs12.c:249
 msgid "Enter password for PKCS12 file:"
 msgstr "Introduïu la contrasenya per al fitxer PKCS12:"
 
-#: ../smime/lib/e-pkcs12.c:343
+#: ../smime/lib/e-pkcs12.c:348
 msgid "Imported Certificate"
 msgstr "Certificat importat"
 
@@ -21595,7 +21594,7 @@ msgstr "Desa els contactes seleccionats com a VCard."
 msgid "Save the contacts of the selected folder as VCard"
 msgstr "Desa els contactes de la carpeta seleccionada com a VCard."
 
-#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2723
+#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2724
 msgid "Select All"
 msgstr "Selecciona-ho tot"
 
@@ -22929,7 +22928,7 @@ msgstr "Defineix les visualitzacions per a «%s»"
 
 # gal/menus/gal-view-factory-etable.c:38
 #: ../widgets/menus/gal-view-factory-etable.c:37
-#: ../widgets/table/e-table-header-item.c:1922
+#: ../widgets/table/e-table-header-item.c:1921
 #: ../widgets/table/e-table-scrolled.c:215
 #: ../widgets/table/e-table-scrolled.c:216
 msgid "Table"
@@ -23013,7 +23012,7 @@ msgstr "Tipus de visualització"
 msgid "Type of view:"
 msgstr "Tipus de visualització:"
 
-#: ../widgets/misc/e-attachment-bar.c:1137
+#: ../widgets/misc/e-attachment-bar.c:1138
 msgid "Attachment Bar"
 msgstr "Barra de fitxers adjunts"
 
@@ -23055,24 +23054,24 @@ msgstr "Calendari mensual"
 
 # gal/e-table/e-table-field-chooser.glade.h:1
 #: ../widgets/misc/e-canvas-background.c:454
-#: ../widgets/misc/e-canvas-background.c:455 ../widgets/text/e-text.c:3643
-#: ../widgets/text/e-text.c:3644
+#: ../widgets/misc/e-canvas-background.c:455 ../widgets/text/e-text.c:3644
+#: ../widgets/text/e-text.c:3645
 msgid "Fill color"
 msgstr "Color per emplenar"
 
 #: ../widgets/misc/e-canvas-background.c:461
 #: ../widgets/misc/e-canvas-background.c:462
 #: ../widgets/misc/e-canvas-background.c:468
-#: ../widgets/misc/e-canvas-background.c:469 ../widgets/text/e-text.c:3650
-#: ../widgets/text/e-text.c:3651 ../widgets/text/e-text.c:3658
-#: ../widgets/text/e-text.c:3659
+#: ../widgets/misc/e-canvas-background.c:469 ../widgets/text/e-text.c:3651
+#: ../widgets/text/e-text.c:3652 ../widgets/text/e-text.c:3659
+#: ../widgets/text/e-text.c:3660
 msgid "GDK fill color"
 msgstr "Color GDK per emplenar"
 
 # gal/widgets/color-palette.c:595
 #: ../widgets/misc/e-canvas-background.c:475
-#: ../widgets/misc/e-canvas-background.c:476 ../widgets/text/e-text.c:3665
-#: ../widgets/text/e-text.c:3666
+#: ../widgets/misc/e-canvas-background.c:476 ../widgets/text/e-text.c:3666
+#: ../widgets/text/e-text.c:3667
 msgid "Fill stipple"
 msgstr "Omple puntejant"
 
@@ -23096,14 +23095,14 @@ msgstr "Y1"
 msgid "Y2"
 msgstr "Y2"
 
-#: ../widgets/misc/e-canvas-vbox.c:91 ../widgets/misc/e-reflow.c:1426
+#: ../widgets/misc/e-canvas-vbox.c:91 ../widgets/misc/e-reflow.c:1417
 #: ../widgets/table/e-table-group-container.c:999
 #: ../widgets/table/e-table-group-leaf.c:644
 #: ../widgets/table/e-table-item.c:3070
 msgid "Minimum width"
 msgstr "Amplada mínima"
 
-#: ../widgets/misc/e-canvas-vbox.c:92 ../widgets/misc/e-reflow.c:1427
+#: ../widgets/misc/e-canvas-vbox.c:92 ../widgets/misc/e-reflow.c:1418
 #: ../widgets/table/e-table-group-container.c:1000
 #: ../widgets/table/e-table-group-leaf.c:645
 #: ../widgets/table/e-table-item.c:3071
@@ -23223,35 +23222,35 @@ msgstr "Altres..."
 msgid "Ch_aracter Encoding"
 msgstr "Codificació dels c_aràcters"
 
-#: ../widgets/misc/e-dateedit.c:305
+#: ../widgets/misc/e-dateedit.c:303
 msgid "Date and Time"
 msgstr "Data i hora"
 
-#: ../widgets/misc/e-dateedit.c:326
+#: ../widgets/misc/e-dateedit.c:324
 msgid "Text entry to input date"
 msgstr "Entrada de text per a la data"
 
-#: ../widgets/misc/e-dateedit.c:348
+#: ../widgets/misc/e-dateedit.c:346
 msgid "Click this button to show a calendar"
 msgstr "Feu clic a aquest botó per a mostrar un calendari"
 
-#: ../widgets/misc/e-dateedit.c:390
+#: ../widgets/misc/e-dateedit.c:388
 msgid "Drop-down combination box to select time"
 msgstr "Quadre combinat per a seleccionar l'hora"
 
-#: ../widgets/misc/e-dateedit.c:466
+#: ../widgets/misc/e-dateedit.c:464
 msgid "No_w"
 msgstr "A_ra"
 
-#: ../widgets/misc/e-dateedit.c:472
+#: ../widgets/misc/e-dateedit.c:470
 msgid "_Today"
 msgstr "A_vui"
 
-#: ../widgets/misc/e-dateedit.c:1637
+#: ../widgets/misc/e-dateedit.c:1635
 msgid "Invalid Date Value"
 msgstr "El valor de la data no és vàlid"
 
-#: ../widgets/misc/e-dateedit.c:1666
+#: ../widgets/misc/e-dateedit.c:1664
 msgid "Invalid Time Value"
 msgstr "El valor de l'hora no és vàlid"
 
@@ -23392,15 +23391,15 @@ msgstr "Sincronitza els registres privats:"
 msgid "Sync Categories:"
 msgstr "Categories de sincronització:"
 
-#: ../widgets/misc/e-reflow.c:1448 ../widgets/misc/e-reflow.c:1449
+#: ../widgets/misc/e-reflow.c:1439 ../widgets/misc/e-reflow.c:1440
 msgid "Empty message"
 msgstr "Missatge buit"
 
-#: ../widgets/misc/e-reflow.c:1455 ../widgets/misc/e-reflow.c:1456
+#: ../widgets/misc/e-reflow.c:1446 ../widgets/misc/e-reflow.c:1447
 msgid "Reflow model"
 msgstr "Model de reflux"
 
-#: ../widgets/misc/e-reflow.c:1462 ../widgets/misc/e-reflow.c:1463
+#: ../widgets/misc/e-reflow.c:1453 ../widgets/misc/e-reflow.c:1454
 msgid "Column width"
 msgstr "Amplada de la columna"
 
@@ -23430,8 +23429,8 @@ msgstr "_Neteja"
 msgid "Item ID"
 msgstr "ID de l'element"
 
-#: ../widgets/misc/e-search-bar.c:872 ../widgets/text/e-text.c:3565
-#: ../widgets/text/e-text.c:3566
+#: ../widgets/misc/e-search-bar.c:872 ../widgets/text/e-text.c:3566
+#: ../widgets/text/e-text.c:3567
 msgid "Text"
 msgstr "Text"
 
@@ -23605,19 +23604,19 @@ msgid "_When opened:"
 msgstr "En _obrir:"
 
 #. For Translator only: %s is status message that is displayed (eg "moving items", "updating objects")
-#: ../widgets/misc/e-task-widget.c:255
+#: ../widgets/misc/e-task-widget.c:252
 #, c-format
 msgid "%s (...)"
 msgstr "%s (...)"
 
 #. For Translator only: %s is status message that is displayed (eg "moving items", "updating objects");
 #. %d is a number between 0 and 100, describing the percentage of operation complete
-#: ../widgets/misc/e-task-widget.c:261
+#: ../widgets/misc/e-task-widget.c:258
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% completat)"
 
-#: ../widgets/misc/e-url-entry.c:106
+#: ../widgets/misc/e-url-entry.c:105
 msgid "Click here to go to URL"
 msgstr "Feu clic per a anar a l'URL"
 
@@ -23721,7 +23720,7 @@ msgstr "Camps disponi_bles:"
 # gal/e-table/e-table-config.glade.h:3
 # gal/e-table/e-table-config-no-group.glade.h:3
 #: ../widgets/table/e-table-config.glade.h:2
-#: ../widgets/table/e-table-header-item.c:1583
+#: ../widgets/table/e-table-header-item.c:1582
 msgid "Ascending"
 msgstr "Ascendent"
 
@@ -23736,7 +23735,7 @@ msgstr "Neteja-ho _tot"
 # gal/e-table/e-table-config.glade.h:5
 # gal/e-table/e-table-config-no-group.glade.h:5
 #: ../widgets/table/e-table-config.glade.h:5
-#: ../widgets/table/e-table-header-item.c:1583
+#: ../widgets/table/e-table-header-item.c:1582
 msgid "Descending"
 msgstr "Descendent"
 
@@ -23807,14 +23806,14 @@ msgstr "_Ordena..."
 #: ../widgets/table/e-table-field-chooser-dialog.c:67
 #: ../widgets/table/e-table-field-chooser-item.c:633
 #: ../widgets/table/e-table-field-chooser.c:66
-#: ../widgets/table/e-table-header-item.c:1887
+#: ../widgets/table/e-table-header-item.c:1886
 msgid "DnD code"
 msgstr "Codi DnD"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:74
 #: ../widgets/table/e-table-field-chooser-item.c:640
 #: ../widgets/table/e-table-field-chooser.c:73
-#: ../widgets/table/e-table-header-item.c:1901
+#: ../widgets/table/e-table-header-item.c:1900
 msgid "Full Header"
 msgstr "Capçalera completa"
 
@@ -23928,84 +23927,84 @@ msgid "Frozen"
 msgstr "Aturat"
 
 # gal/e-table/e-table-header-item.c:1444
-#: ../widgets/table/e-table-header-item.c:1453
+#: ../widgets/table/e-table-header-item.c:1452
 msgid "Customize Current View"
 msgstr "Personalitza la visualització actual"
 
 # gal/e-table/e-table-header-item.c:1465
-#: ../widgets/table/e-table-header-item.c:1473
+#: ../widgets/table/e-table-header-item.c:1472
 msgid "Sort _Ascending"
 msgstr "Ordena en sentit _ascendent"
 
 # gal/e-table/e-table-header-item.c:1466
-#: ../widgets/table/e-table-header-item.c:1474
+#: ../widgets/table/e-table-header-item.c:1473
 msgid "Sort _Descending"
 msgstr "Ordena en sentit _descendent"
 
 # gal/e-table/e-table-header-item.c:1467
-#: ../widgets/table/e-table-header-item.c:1475
+#: ../widgets/table/e-table-header-item.c:1474
 msgid "_Unsort"
 msgstr "De_sordena"
 
 # gal/e-table/e-table-header-item.c:1469
-#: ../widgets/table/e-table-header-item.c:1477
+#: ../widgets/table/e-table-header-item.c:1476
 msgid "Group By This _Field"
 msgstr "Agrupa per aquest _camp"
 
 # gal/e-table/e-table-header-item.c:1470
-#: ../widgets/table/e-table-header-item.c:1478
+#: ../widgets/table/e-table-header-item.c:1477
 msgid "Group By _Box"
 msgstr "Agrupa per _quadre"
 
 # gal/e-table/e-table-header-item.c:1472
-#: ../widgets/table/e-table-header-item.c:1480
+#: ../widgets/table/e-table-header-item.c:1479
 msgid "Remove This _Column"
 msgstr "Suprimeix aquesta co_lumna"
 
 # gal/e-table/e-table-header-item.c:1473
-#: ../widgets/table/e-table-header-item.c:1481
+#: ../widgets/table/e-table-header-item.c:1480
 msgid "Add a C_olumn..."
 msgstr "Afegeix una c_olumna..."
 
 # gal/e-table/e-table-header-item.c:1475
-#: ../widgets/table/e-table-header-item.c:1483
+#: ../widgets/table/e-table-header-item.c:1482
 msgid "A_lignment"
 msgstr "Ali_neació"
 
 # gal/e-table/e-table-header-item.c:1476
-#: ../widgets/table/e-table-header-item.c:1484
+#: ../widgets/table/e-table-header-item.c:1483
 msgid "B_est Fit"
 msgstr "Aj_ust automàtic"
 
 # gal/e-table/e-table-header-item.c:1477
-#: ../widgets/table/e-table-header-item.c:1485
+#: ../widgets/table/e-table-header-item.c:1484
 msgid "Format Column_s..."
 msgstr "Formata les columne_s..."
 
 # gal/e-table/e-table-header-item.c:1479
-#: ../widgets/table/e-table-header-item.c:1487
+#: ../widgets/table/e-table-header-item.c:1486
 msgid "Custo_mize Current View..."
 msgstr "Personalit_za la visualització actual..."
 
-#: ../widgets/table/e-table-header-item.c:1543
+#: ../widgets/table/e-table-header-item.c:1542
 msgid "_Sort By"
 msgstr "_Ordena per"
 
 #. Custom
-#: ../widgets/table/e-table-header-item.c:1561
+#: ../widgets/table/e-table-header-item.c:1560
 msgid "_Custom"
 msgstr "_Personalitzat"
 
-#: ../widgets/table/e-table-header-item.c:1894
+#: ../widgets/table/e-table-header-item.c:1893
 msgid "Font Description"
 msgstr "Descripció del tipus de lletra"
 
-#: ../widgets/table/e-table-header-item.c:1915
+#: ../widgets/table/e-table-header-item.c:1914
 #: ../widgets/table/e-table-sorter.c:172
 msgid "Sort Info"
 msgstr "Ordena informació"
 
-#: ../widgets/table/e-table-header-item.c:1929
+#: ../widgets/table/e-table-header-item.c:1928
 #: ../widgets/table/e-tree-scrolled.c:225
 #: ../widgets/table/e-tree-scrolled.c:226
 msgid "Tree"
@@ -24044,110 +24043,114 @@ msgstr "Aparença retro"
 msgid "Draw lines and +/- expanders."
 msgstr "Dibuixa línies i expansors +/-."
 
-#: ../widgets/text/e-text.c:2735
+#: ../widgets/text/e-text.c:2736
 msgid "Input Methods"
 msgstr "Mètodes d'entrada"
 
-#: ../widgets/text/e-text.c:3558 ../widgets/text/e-text.c:3559
+#: ../widgets/text/e-text.c:3559 ../widgets/text/e-text.c:3560
 msgid "Event Processor"
 msgstr "Processador d'esdeveniments"
 
 # gal/widgets/color-palette.c:591
-#: ../widgets/text/e-text.c:3572 ../widgets/text/e-text.c:3573
+#: ../widgets/text/e-text.c:3573 ../widgets/text/e-text.c:3574
 msgid "Bold"
 msgstr "Negreta"
 
-#: ../widgets/text/e-text.c:3579 ../widgets/text/e-text.c:3580
+#: ../widgets/text/e-text.c:3580 ../widgets/text/e-text.c:3581
 msgid "Strikeout"
 msgstr "Ratllat"
 
-#: ../widgets/text/e-text.c:3586 ../widgets/text/e-text.c:3587
+#: ../widgets/text/e-text.c:3587 ../widgets/text/e-text.c:3588
 msgid "Anchor"
 msgstr "Àncora"
 
-#: ../widgets/text/e-text.c:3594 ../widgets/text/e-text.c:3595
+#: ../widgets/text/e-text.c:3595 ../widgets/text/e-text.c:3596
 msgid "Justification"
 msgstr "Justificació"
 
-#: ../widgets/text/e-text.c:3601 ../widgets/text/e-text.c:3602
+#: ../widgets/text/e-text.c:3602 ../widgets/text/e-text.c:3603
 msgid "Clip Width"
 msgstr "Amplada del tall"
 
-#: ../widgets/text/e-text.c:3608 ../widgets/text/e-text.c:3609
+#: ../widgets/text/e-text.c:3609 ../widgets/text/e-text.c:3610
 msgid "Clip Height"
 msgstr "Alçada del tall"
 
-#: ../widgets/text/e-text.c:3615 ../widgets/text/e-text.c:3616
+#: ../widgets/text/e-text.c:3616 ../widgets/text/e-text.c:3617
 msgid "Clip"
 msgstr "Talla"
 
-#: ../widgets/text/e-text.c:3622 ../widgets/text/e-text.c:3623
+#: ../widgets/text/e-text.c:3623 ../widgets/text/e-text.c:3624
 msgid "Fill clip rectangle"
 msgstr "Emplena el rectangle de tall"
 
-#: ../widgets/text/e-text.c:3629 ../widgets/text/e-text.c:3630
+#: ../widgets/text/e-text.c:3630 ../widgets/text/e-text.c:3631
 msgid "X Offset"
 msgstr "Desplaçament en X"
 
-#: ../widgets/text/e-text.c:3636 ../widgets/text/e-text.c:3637
+#: ../widgets/text/e-text.c:3637 ../widgets/text/e-text.c:3638
 msgid "Y Offset"
 msgstr "Desplaçament en Y"
 
-#: ../widgets/text/e-text.c:3672 ../widgets/text/e-text.c:3673
+#: ../widgets/text/e-text.c:3673 ../widgets/text/e-text.c:3674
 msgid "Text width"
 msgstr "Amplada de text"
 
-#: ../widgets/text/e-text.c:3679 ../widgets/text/e-text.c:3680
+#: ../widgets/text/e-text.c:3680 ../widgets/text/e-text.c:3681
 msgid "Text height"
 msgstr "Alçada del text"
 
-#: ../widgets/text/e-text.c:3694 ../widgets/text/e-text.c:3695
+#: ../widgets/text/e-text.c:3695 ../widgets/text/e-text.c:3696
 msgid "Use ellipsis"
 msgstr "Utilitza els punts suspensius"
 
-#: ../widgets/text/e-text.c:3701 ../widgets/text/e-text.c:3702
+#: ../widgets/text/e-text.c:3702 ../widgets/text/e-text.c:3703
 msgid "Ellipsis"
 msgstr "Punts suspensius"
 
-#: ../widgets/text/e-text.c:3708 ../widgets/text/e-text.c:3709
+#: ../widgets/text/e-text.c:3709 ../widgets/text/e-text.c:3710
 msgid "Line wrap"
 msgstr "Ajustament de línia"
 
-#: ../widgets/text/e-text.c:3715 ../widgets/text/e-text.c:3716
+#: ../widgets/text/e-text.c:3716 ../widgets/text/e-text.c:3717
 msgid "Break characters"
 msgstr "Caràcters de trencament"
 
-#: ../widgets/text/e-text.c:3722 ../widgets/text/e-text.c:3723
+#: ../widgets/text/e-text.c:3723 ../widgets/text/e-text.c:3724
 msgid "Max lines"
 msgstr "Màxim de línies"
 
-#: ../widgets/text/e-text.c:3744 ../widgets/text/e-text.c:3745
+#: ../widgets/text/e-text.c:3745 ../widgets/text/e-text.c:3746
 msgid "Draw borders"
 msgstr "Dibuixa les cantonades"
 
-#: ../widgets/text/e-text.c:3751 ../widgets/text/e-text.c:3752
+#: ../widgets/text/e-text.c:3752 ../widgets/text/e-text.c:3753
 msgid "Allow newlines"
 msgstr "Permet les línies noves"
 
-#: ../widgets/text/e-text.c:3758 ../widgets/text/e-text.c:3759
+#: ../widgets/text/e-text.c:3759 ../widgets/text/e-text.c:3760
 msgid "Draw background"
 msgstr "Dibuixa el fons"
 
-#: ../widgets/text/e-text.c:3765 ../widgets/text/e-text.c:3766
+#: ../widgets/text/e-text.c:3766 ../widgets/text/e-text.c:3767
 msgid "Draw button"
 msgstr "Dibuixa el botó"
 
-#: ../widgets/text/e-text.c:3772 ../widgets/text/e-text.c:3773
+#: ../widgets/text/e-text.c:3773 ../widgets/text/e-text.c:3774
 msgid "Cursor position"
 msgstr "Posició del cursor"
 
-#: ../widgets/text/e-text.c:3779 ../widgets/text/e-text.c:3780
+#. Translators: Input Method Context
+#: ../widgets/text/e-text.c:3781 ../widgets/text/e-text.c:3783
 msgid "IM Context"
 msgstr "Context de MI"
 
-#: ../widgets/text/e-text.c:3786 ../widgets/text/e-text.c:3787
+#: ../widgets/text/e-text.c:3789 ../widgets/text/e-text.c:3790
 msgid "Handle Popup"
 msgstr "Menú emergent de l'ansa"
+
+#~ msgid "Please enter user name first."
+#~ msgstr "Hauríeu d'introduir el nom d'usuari abans de res."
 
 #~ msgid "Recent Docu_ments"
 #~ msgstr "Do_cuments recents"
@@ -25817,4 +25820,3 @@ msgstr "Menú emergent de l'ansa"
 
 #~ msgid "Update every"
 #~ msgstr "Actualitza cada"
-
