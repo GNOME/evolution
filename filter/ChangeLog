@@ -1,3 +1,10 @@
+2009-01-11  Tor Lillqvist  <tml@novell.com>
+
+	** Bug #567244
+
+	* filter-option.c (get_dynamic_options): For portability, use
+	<gmodule.h> API instead of <dlfcn.h> API.
+
 2009-01-08  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #567031
