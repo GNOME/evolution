@@ -27,10 +27,8 @@
 #include "e-activity-handler.h"
 
 #include <gtk/gtk.h>
-#include <gdk-pixbuf/gdk-pixbuf.h>
-
 #include <glib/gi18n.h>
-#include <libgnomeui/gnome-popup-menu.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 
 #include <misc/e-popup-menu.h>
 
