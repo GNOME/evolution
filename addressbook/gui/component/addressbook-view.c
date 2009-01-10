@@ -28,7 +28,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-href.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-ui-util.h>
