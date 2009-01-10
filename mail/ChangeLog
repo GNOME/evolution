@@ -1,5 +1,12 @@
 2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
 
+	** Fixes bug #567280
+
+	* message-tag-followup.c:
+	Remove unneeded #include <libgnomeui/gnome-pixmap.h>.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes part of bug #567285
 
 	* mail-autofilter.c:

@@ -33,7 +33,6 @@
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 
-#include <libgnomeui/gnome-pixmap.h>
 #include <glib/gi18n.h>
 
 #include "e-util/e-util-private.h"
