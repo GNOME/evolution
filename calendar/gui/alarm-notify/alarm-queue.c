@@ -36,7 +36,6 @@
 #include <glib/gi18n.h>
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-sound.h>
-#include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-uidefs.h>
 
 #include <libecal/e-cal-time-util.h>

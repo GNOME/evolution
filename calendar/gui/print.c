@@ -36,7 +36,6 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <libgnomeui/gnome-stock-icons.h>
 #include <libedataserver/e-time-utils.h>

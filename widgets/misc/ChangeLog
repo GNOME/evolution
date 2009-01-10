@@ -1,5 +1,12 @@
 2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
 
+	** Fixes part of bug #567276
+
+	* test-color.c:
+	We don't ship this.  Remove it.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes part of bug #567285
 
 	* e-activity-handler.c:

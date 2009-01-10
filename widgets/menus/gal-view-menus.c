@@ -33,7 +33,6 @@
 #include <gtk/gtk.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
-#include <libgnomeui/gnome-dialog.h>
 #include <glib/gi18n.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <e-util/e-util.h>

@@ -247,9 +247,6 @@ void calendar_config_set_free_busy_template (const gchar *template);
 guint calendar_config_add_notification_free_busy_template (GConfClientNotifyFunc func,
 							   gpointer data);
 
-/* Shows the timezone dialog if the user hasn't set a default timezone. */
-void	  calendar_config_check_timezone_set	(void);
-
 /* Returns TRUE if the locale has 'am' and 'pm' strings defined, i.e. it
    supports 12-hour time format. */
 gboolean  calendar_config_locale_supports_12_hour_format(void);

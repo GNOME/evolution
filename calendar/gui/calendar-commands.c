@@ -37,7 +37,6 @@
 #include <errno.h>
 
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-messagebox.h>
 #include <libgnomeui/gnome-stock-icons.h>
 #include <libgnome/gnome-util.h>

@@ -29,7 +29,6 @@
 #include <bonobo/bonobo-persist-file.h>
 #include <bonobo/bonobo-context.h>
 #include <glade/glade.h>
-#include <libgnomeui/gnome-dialog-util.h>
 
 #include <libecal/e-cal-time-util.h>
 #include <gui/gnome-cal.h>

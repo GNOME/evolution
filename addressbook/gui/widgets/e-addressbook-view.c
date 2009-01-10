@@ -32,7 +32,6 @@
 #include <filter/rule-editor.h>
 #include <widgets/menus/gal-view-etable.h>
 #include <e-util/e-xml-utils.h>
-#include <libgnomeui/gnome-dialog-util.h>
 
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/gui/widgets/eab-popup.h"

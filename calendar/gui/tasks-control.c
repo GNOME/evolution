@@ -28,8 +28,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libgnome/gnome-util.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-stock-icons.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-ui-util.h>
@@ -320,12 +318,6 @@ tasks_control_activate (BonoboControl *control, ETasks *tasks)
 
 	bonobo_ui_component_add_listener(uic, "ViewPreview", tasks_control_view_preview, tasks);
 	bonobo_ui_component_set_prop(uic, "/commands/ViewPreview", "state", state?"1":"0", NULL);
-	/* Show the dialog for setting the timezone if the user hasn't chosen
-	   a default timezone already. This is done in the startup wizard now,
-	   so we don't do it here. */
-#if 0
-	calendar_config_check_timezone_set ();
-#endif
 }
 
 

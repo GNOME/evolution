@@ -34,8 +34,6 @@
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-stock-icons.h>
 #include <libgnomeui/gnome-uidefs.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-exception.h>
 #include <gtkhtml/gtkhtml.h>

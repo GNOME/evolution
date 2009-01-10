@@ -1,3 +1,10 @@
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #567276
+
+	* menus/gal-view-menus.c:
+	Remove unneeded #include <libgnomeui/gnome-dialog.h>.
+
 2009-01-09  Takao Fujiwara  <takao.fujiwara@sun.com>
 
 	Reviewed by Matthew Barnes  <mbarnes@redhat.com>

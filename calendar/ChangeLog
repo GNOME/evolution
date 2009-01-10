@@ -1,3 +1,23 @@
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #567276
+
+	* gui/calendar-commands.c:
+	* gui/control-factory.c:
+	* gui/e-itip-control.c:
+	* gui/gnome-cal.c:
+	* gui/goto.c:
+	* gui/memos-control.c:
+	* gui/print.c:
+	* gui/tasks-control.c:
+	* gui/alarm-notify/alarm-queue.c:
+	* gui/dialogs/schedule-page.c:
+	Remove unneeded #include <libgnomeui/gnome-dialog-util.h>.
+
+	* gui/calendar-config.c:
+	* gui/calendar-config.h:
+	Removed unused function calendar_config_check_timezone_set().
+
 2009-01-09  Takao Fujiwara  <takao.fujiwara@sun.com>
 
 	Reviewed by Matthew Barnes  <mbarnes@redhat.com>

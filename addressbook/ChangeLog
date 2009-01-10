@@ -1,3 +1,11 @@
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #567276
+
+	* gui/widgets/e-addressbook-view.c:
+	* printing/test-print.c:
+	Remove unneeded #include <libgnomeui/gnome-dialog-util.h>.
+
 2009-01-10  Andre Klapper  <a9016009@gmx.de>
 
 	* Fix for bug #567282

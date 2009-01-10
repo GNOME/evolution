@@ -30,8 +30,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libgnome/gnome-util.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-stock-icons.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-ui-util.h>

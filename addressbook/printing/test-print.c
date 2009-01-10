@@ -24,7 +24,6 @@
 
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-ui-init.h>
 #include <glade/glade.h>
 #include <bonobo/bonobo-main.h>
