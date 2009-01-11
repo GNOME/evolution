@@ -261,43 +261,57 @@
        <para>The following is a list of server types that are available:</para>
        <formalpara id="bsj74dr">
         <title>Novell GroupWise:</title>
-        <para>Select this option if you connect to Novell <trademark class="registered">GroupWise</trademark>. Novell GroupWise keeps email, calendar, and contact information on the server. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
+        <para>Select this option if you connect to a Novell <trademark class="registered">GroupWise</trademark> server.</para>
+        <para>Email, calendar, and contact information are stored on the server.</para>
+        <para>For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
        </formalpara>
        <formalpara id="bsj74ds">
         <title>Microsoft Exchange:</title>
-        <para>Available only if you have installed the Connector for Microsoft&z-3rdParty; Exchange. It allows you to connect to a Microsoft Exchange 2000 or 2003 server, which stores email, calendar, and contact information on the server. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
+        <para>Available only if you have installed the Connector for Microsoft&z-3rdParty; Exchange. Select this option if you connect to a Microsoft Exchange 2000 or 2003 server.</para>
+        <para>Email, calendar, and contact information are stored on the server.</para>
+        <para>For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
        </formalpara>
        <formalpara id="bsj74dt">
         <title>IMAP:</title>
-        <para>Keeps the email on your server so you can access your email from multiple systems. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
+        <para>Keeps the email on your server so you can access your email from multiple systems.</para>
+        <para>For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
        </formalpara>
        <formalpara id="bsj74du">
         <title>POP:</title>
-        <para>Downloads your email to your hard disk for permanent storage, freeing up space on the email server. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
+        <para>Downloads your email to your hard disk for permanent storage, freeing up space on the email server.</para>
+        <para>For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
        </formalpara>
        <formalpara id="bstgdhu">
         <title>USENET News:</title>
-        <para>Connects to a news server and downloads a list of available news digests. For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
+        <para>Connects to a news server and downloads a list of available news digests.</para>
+        <para>For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
        </formalpara>
        <formalpara id="bsj74dv">
         <title>Local Delivery:</title>
-        <para>Choose this option if you want to move email from the spool (the location where mail waits for delivery) and store it in your home directory. You need to provide the path to the mail spool you want to use. If you want to leave email in your system's spool files, choose the Standard Unix Mbox Spool option instead. For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
+        <para>Choose this option if you want to move email from the spool (the location where mail waits for delivery) and store it in your home directory. You need to provide the path to the mail spool you want to use. If you want to leave email in your system's spool files, choose the Standard Unix Mbox Spool option instead.</para>
+        <para>For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
        </formalpara>
        <formalpara id="bsj74dw">
         <title>MH Format Mail Directories:</title>
-        <para>If you download your email using MH or another MH-style program, you should use this option. You need to provide the path to the mail directory you want to use. For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
+        <para>If you download your email using MH or another MH-style program, you should use this option.</para>
+        <para>You need to provide the path to the mail directory you want to use.</para>
+        <para>For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
        </formalpara>
        <formalpara id="bsj74dx">
         <title>Maildir Format Mail Directories:</title>
-        <para>If you download your email using Qmail or another Maildir-style program, you should use this option. You need to provide the path to the mail directory you want to use. For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
+        <para>If you download your email using Qmail or another Maildir-style program, you should use this option.</para>
+        <para>You need to provide the path to the mail directory you want to use.</para>
+        <para>For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
        </formalpara>
        <formalpara id="bsj74dy">
         <title>Standard Unix mbox Spool File:</title>
-        <para>If you want to read and store email in the mail spool file on your local system, choose this option. You need to provide the path to the mail spool file you want to use. For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
+        <para>If you want to read and store email in the mail spool file on your local system, choose this option. You need to provide the path to the mail spool file you want to use.</para>
+        <para>For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
        </formalpara>
        <formalpara id="b185ajx5">
         <title>Standard Unix mbox Spool Directory:</title>
-        <para>If you want to read and store email in the mail spool directory on your local system, choose this option. You need to provide the path to the mail spool directory you want to use. For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
+        <para>If you want to read and store email in the mail spool directory on your local system, choose this option. You need to provide the path to the mail spool directory you want to use.</para>
+       <para>For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
        </formalpara>
        <formalpara id="bsj74dz">
         <title>None:</title>
@@ -380,7 +394,7 @@
 
      <section id="bsthktw">
       <title>Novell GroupWise Receiving Options</title>
-      <para>If you select Novell GroupWise as your receiving server type, you need to specify the following options:</para>
+      <para>You need to specify the following options for this server type:</para>
       <orderedlist>
        <listitem id="bv7wblf">
         <para>Select if you want Evolution to automatically check for new mail.</para>
@@ -420,7 +434,7 @@
 
      <section id="bstgjve">
       <title>Microsoft Exchange Receiving Options</title>
-      <para>If you select Microsoft Exchange as your receiving server type, you need to specify the following options:</para>
+      <para>You need to specify the following options for this server type:</para>
       <mediaobject id="bsu2c0q"><imageobject><imagedata format="PNG" fileref="figures/evo_mereceive_a.png"/></imageobject></mediaobject>
       <orderedlist>
        <listitem id="bstgk36">
@@ -461,7 +475,7 @@
 
      <section id="bstggh0">
       <title>IMAP Receiving Options</title>
-      <para>If you select IMAP as your receiving server type, you need to specify the following options:</para>
+      <para>You need to specify the following options for this server type:</para>
       <mediaobject id="bsu2dp4"><imageobject><imagedata format="PNG" fileref="figures/evo_imapreceive_a.png"/></imageobject></mediaobject>
       <orderedlist>
        <listitem id="bstggly">
@@ -506,7 +520,7 @@
      <section id="bspcfg3">
       <title>POP Receiving Options</title>
       <mediaobject id="bsu2e8x"><imageobject><imagedata format="PNG" fileref="figures/evo_popreceive_a.png"/></imageobject></mediaobject>
-      <para>If you select POP as your receiving server type, you need to specify the following options:</para>
+      <para>You need to specify the following options for this server type:</para>
       <orderedlist>
        <listitem id="bsthozk">
         <para>Select if you want Evolution to automatically check for new mail.</para>
@@ -528,7 +542,7 @@
      <section id="bsthqql">
       <title>USENET News Receiving Options</title>
       <mediaobject id="bsu2evz"><imageobject><imagedata format="PNG" fileref="figures/evo_usereceive_a.png"/></imageobject></mediaobject>
-      <para>If you select USENET News as your receiving server type, you need to specify the following options:</para>
+      <para>You need to specify the following options for this server type:</para>
       <orderedlist>
        <listitem id="bsthqws">
         <para>Select if you want Evolution to automatically check for new mail.</para>
@@ -551,7 +565,7 @@
 
      <section id="bsthseo">
       <title>Local Delivery Receiving Options</title>
-      <para>If you select Local Delivery as your receiving server type, you need to specify the following options:</para>
+      <para>You need to specify the following options for this server type:</para>
       <orderedlist>
        <listitem id="bsthsnr">
         <para>Select if you want Evolution to automatically check for new mail.</para>
@@ -566,7 +580,7 @@
 
      <section id="bsthszn">
       <title>MH-Format Mail Directories Receiving Options</title>
-      <para>If you select MH-Format Mail Directories as your receiving server type, you need to specify the following options:</para>
+      <para>You need to specify the following options for this server type:</para>
       <orderedlist>
        <listitem id="bsthtg0">
         <para>Select if you want Evolution to automatically check for new mail.</para>
@@ -586,7 +600,7 @@
 
      <section id="bsthu34">
       <title>Maildir-Format Mail Directories Receiving Options</title>
-      <para>If you select Maildir-Format Mail Directories as your receiving server type, you need to specify the following options:</para>
+      <para>You need to specify the following options for this server type:</para>
       <orderedlist>
        <listitem id="bsthu9o">
         <para>Select if you want Evolution to automatically check for new mail.</para>
@@ -629,7 +643,7 @@
 
      <section id="b185akx6">
       <title>Standard Unix mbox Spool Directory Receiving Options</title>
-      <para>If you select Standard Unix mbox Spool Directory as your receiving server type, you need to specify the following options:</para>
+      <para>You need to specify the following options for this server type:</para>
       <orderedlist>
        <listitem id="b185aln9">
         <para>Select if you want Evolution to automatically check for new mail.</para>
@@ -4069,7 +4083,7 @@
        <para>Click the Attach button on the toolbar, or click Insert &gt; Attachment and then browse to the attachment.</para>
       </listitem>
       <listitem id="b10fo4ao">
-       <para>(Optional) Select a classification (Public, Private, or Confidential) by clicking &gt; Options &gt; Classifications.</para>
+       <para>(Optional) Click Options &gt; Classifications, then select a classification (as Public, Private or Confidential).</para>
       </listitem>
       <listitem id="b10fo4rj">
        <para>(Optional) Click the Recurrence button on the toolbar.</para>
@@ -4220,7 +4234,7 @@
       <para>Click the Attach button on the toolbar, or click Insert &gt; Attachment and then browse to the attachment.</para>
      </listitem>
      <listitem id="b10fof8f">
-      <para>(Optional) Select a classification (Public, Private, or Confidential) by clicking &gt; Options &gt; Classifications.</para>
+      <para>(Optional) Click Options &gt; Classifications, then select a classification (as Public, Private or Confidential).</para>
      </listitem>
      <listitem id="b10fof8g">
       <para>(Optional) Click the Recurrence button on the toolbar.</para>
@@ -6004,13 +6018,12 @@
        <para>In the Compose Message window, click Insert &gt; Send Options.</para>
        <para>Select Status Tracking.</para>
        <mediaobject id="b17qsuu3"><imageobject><imagedata format="PNG" fileref="figures/evo_gwstatustrack.png"/></imageobject></mediaobject>
-       
       </listitem>
       <listitem id="b17qt9nx">
        <para>Select the check box next to Create a sent item to track information.</para>
       </listitem>
       <listitem id="b17qt9yd">
-       <para>Select any of the options given (Delivered, Delivered and opened, All information)</para>
+       <para>Select any of the options given (Delivered, Delivered and opened, All information).</para>
        <para>Based on this selection, you can view the status of the send message in the Sent Items folder.</para>
        <para>For more information, see <link linkend="Aal54a9">Checking the Status of an Item You Have Sent</link>.</para>
       </listitem>
@@ -6044,7 +6057,7 @@
       <para>In the Compose Message window, click Insert &gt; Send Options.</para>
      </listitem>
      <listitem id="bv7vmrw">
-      <para>Select High Priority, Standard Priority, Low Priority, or Undefined.</para>
+      <para>Select the priority for your sent message from the given three options (Normal, High, Low).</para>
       <para>The small icon next to an item in the Mailbox is red when the priority is high.</para>
      </listitem>
      <listitem id="bv7vmrx">
@@ -6115,7 +6128,8 @@
      <title>Enabling Status Tracking</title>
      <orderedlist>
       <listitem id="b17rearj">
-       <para>In the Compose Meeting window, click Insert &gt; Send Options &gt; Status Tracking</para>
+       <para>In the Compose Meeting window, click Insert &gt; Send Options.</para>
+       <para>Select Status Tracking.</para>
        <mediaobject id="b17reckf"><imageobject><imagedata format="PNG" fileref="figures/evo_calstatus_a.png"/></imageobject></mediaobject>
       </listitem>
       <listitem id="b17recrx">
@@ -6126,7 +6140,7 @@
        <para>Based on this selection, you can view the status of the send message in the Sent Items folder.</para>
       </listitem>
       <listitem id="b17red21">
-       <para>(Optional)Select the check box next to Auto-delete sent item to automatically delete the sent item from the Sent folder.</para>
+       <para>(Optional) Select the check box next to Auto-delete sent item to automatically delete the sent item from the Sent folder.</para>
       </listitem>
       <listitem id="b17red4i">
        <para>Under Return Notification, specify the type of return receipt you want.</para>
@@ -6588,7 +6602,7 @@
 
    <section id="config-prefs-mail-general">
     <title>General Mail Settings</title>
-    <para>The General page has the following options:</para>
+    <para>The following options are available:</para>
     <formalpara id="bsbhnw0">
      <title>Message Fonts:</title>
      <para>Normally, Evolution uses the same fonts as other GNOME applications. To choose different fonts, deselect Use the same fonts as other applications and select one font for standard typefaces and a second for monospace.</para>
@@ -6610,7 +6624,7 @@
 
    <section id="mail-prefs-html">
     <title>HTML Mail Preferences</title>
-    <para>The HTML Mail page has the following options:</para>
+    <para>The following options are available:</para>
     <formalpara id="bsbhqot">
      <title>Show Image Animations:</title>
      <para>Turns image animation (e.g. GIF files) on or off.</para>
@@ -6744,7 +6758,7 @@
 
    <section id="bshpixy">
     <title>General</title>
-    <para>The General page has the following options:</para>
+    <para>The following options are available:</para>
     <formalpara id="bsbhs8n">
      <title>Default Behavior:</title>
      <para>Choose how to normally forward and reply to messages, what character set they will use, whether they are in HTML, and whether that HTML can contain graphic emoticons.</para>
@@ -6806,7 +6820,7 @@
 
    <section id="bshpskx">
     <title>General</title>
-    <para>The General page lets you set the following options:</para>
+    <para>The following options are available:</para>
     <formalpara id="bsbhukf">
      <title>Time Zone:</title>
      <para>The city you're located in, to specify your time zone.</para>
@@ -6892,7 +6906,7 @@
    <title>Network Preferences</title>
    <para>This interface lets you configure your network proxy settings.</para>
    <mediaobject id="b15m5vi1"><imageobject><imagedata format="PNG" fileref="figures/network_pref.png"/></imageobject></mediaobject>
-   <para>Use the following four options to configure the proxy settings:</para>
+   <para>The following options are available:</para>
    <formalpara id="b15m5zr2">
     <title>Use system defaults:</title>
     <para>Select this option to use the system wide proxy settings configured through Control Center &gt; Network Proxies in GNOME. When this option is selected, Evolution uses the proxy settings in the /system/http_proxy and /system/proxy/gconf keys.</para>
@@ -7171,8 +7185,7 @@
      <mediaobject id="b1a4or91"><imageobject><imagedata format="PNG" fileref="figures/evo_debuglogs_a.png"/></imageobject></mediaobject>
     </listitem>
     <listitem id="b1a4orv0">
-     <para>Specify the display duration for the error messages.</para>
-     <para>The messages remain in the statusbar for this specified time.</para>
+     <para>Specify for how long error messages will be displayed in the statusbar.</para>
     </listitem>
    </orderedlist>
    <note>
