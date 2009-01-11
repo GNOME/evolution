@@ -27,7 +27,6 @@
 #endif
 
 #include <glib/gi18n.h>
-#include <libgnomeui/gnome-uidefs.h>
 #include "recur-comp.h"
 
 

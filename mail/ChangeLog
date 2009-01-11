@@ -1,5 +1,11 @@
 2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
 
+	* mail-autofilter.c:
+	Remove unneeded #include <libgnomeui/gnome-app.h>.
+	Remove unneeded #include <libgnomeui/gnome-app-helper.h>.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes bug #567280
 
 	* message-tag-followup.c:

@@ -1,5 +1,25 @@
 2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
 
+	* gui/calendar-commands.c:
+	* gui/e-cell-date-edit-text.c:
+	* gui/e-itip-control.c:
+	* gui/memos-control.c:
+	* gui/print.c:
+	* gui/tasks-control.c:
+	Remove unneeded #include <libgnomeui/gnome-stock-icons.h>.
+
+	* gui/alarm-notify/alarm-queue.c:
+	* gui/dialogs/cal-attachment-select-file.c:
+	* gui/dialogs/cancel-comp.c:
+	* gui/dialogs/changed-comp.c:
+	* gui/dialogs/delete-error.c:
+	* gui/dialogs/recur-comp.c:
+	* gui/e-itip-control.c:
+	* gui/print.c:
+	Remove unneeded #include <libgnomeui/gnome-uidefs.h>.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes part of bug #567281
 
 	* gui/calendar-commands.c:

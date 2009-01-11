@@ -24,8 +24,6 @@
 #ifndef __EAB_EDITOR_H__
 #define __EAB_EDITOR_H__
 
-#include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-app-helper.h>
 #include <bonobo/bonobo-ui-component.h>
 #include <glade/glade.h>
 

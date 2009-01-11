@@ -23,8 +23,6 @@
 #ifndef __E_CONTACT_LIST_EDITOR_H__
 #define __E_CONTACT_LIST_EDITOR_H__
 
-#include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-app-helper.h>
 #include <glade/glade.h>
 #include <libedataserverui/e-name-selector.h>
 
