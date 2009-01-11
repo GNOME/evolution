@@ -5283,10 +5283,10 @@
        <para>Specify how often to check for new mail, your Global Catalog server name and whether to apply filters to messages in your Inbox, check for junk, set a password expiry period, and any other settings you want to include.</para>
       </listitem>
       <listitem id="bshnjw0">
-       <para>Use the Defaults tab to define folders, send cc: or bcc: messages to certain IDs, and set options for message receipts.</para>
+       <para>Use the Defaults tab to define folders, send CC or BCC messages to certain email addresses, and set options for message receipts.</para>
       </listitem>
       <listitem id="bshnkmu">
-       <para>Use the Security tab to set PGP and s/MIME options.</para>
+       <para>Use the Security tab to set PGP and S/MIME options.</para>
       </listitem>
       <listitem id="bxn65fw">
        <para>Quit Evolution and restart it.</para>
@@ -5300,7 +5300,7 @@
   <section id="access">
    <title>Accessing the Exchange Server</title>
    <para>When you have installed Evolution Exchange, you can access public folders and perform certain Exchange actions like delegation and password management, and subscribing to other user's calendars, tasks, and contact folders. You can also carry out any folder-related operations like adding, deleting, and renaming folders, and selecting folder permissions on calendars, tasks, and contact folders. Use the regular Mail tool for mail, the Contacts tool for contacts, and the Calendar tool for setting schedules.</para>
-   <para>If you are using both an Exchange account and a local mail account, you should be aware that whenever you save an email address or appointment from an email message, it is saved in your Exchange contacts list or calendar, rather than in your local account. The same is true for synchronization with Palm OS devices; tasks, and appointments.Addresses from your Palm OS device are synchronized in the Exchange folders rather than in local folders.</para>
+   <para>If you are using both an Exchange account and a local mail account, you should be aware that whenever you save an email address or appointment from an email message, it is saved in your Exchange contacts list or calendar, rather than in your local account. The same is true for synchronization with Palm OS devices; tasks, and appointments. Addresses from your Palm OS device are synchronized in the Exchange folders rather than in local folders.</para>
    <para>To avoid unnecessary strain on the server, the Global Address List (GAL) appears empty until you search for something in it.</para>
    <para></para>
   </section>
@@ -5349,12 +5349,12 @@
        <para>Select the exchange account from the From field.</para>
       </listitem>
       <listitem id="b15flmjn">
-       <para>Click Insert &gt; Send Options to open the Send Option dialog box</para>
+       <para>Click Insert &gt; Send Options.</para>
        <mediaobject id="b15fliu0"><imageobject><imagedata format="PNG" fileref="figures/evo_send_option_a.png"/></imageobject></mediaobject>
        
       </listitem>
       <listitem id="b15flnox">
-       <para>Select the priority for your sent message from the given three options (Normal, High, Low)</para>
+       <para>Select the priority for your sent message from the given three options (Normal, High, Low).</para>
       </listitem>
       <listitem id="b15flo2b">
        <para>Select the sensitivity for your sent message from the given four options (Normal, Personal, Private, Confidential).</para>
@@ -6595,7 +6595,7 @@
     </formalpara>
     <formalpara id="bsbho3f">
      <title>Message Display:</title>
-     <para>Choose how long you want to wait before marking a message read, how to highlight quotations, and the default encoding. Enable <guilabel>Fall back to threading message by subject</guilabel> to group the messages as message threads. You can also set the limit to the number of addresses displayed in the message header by enabling <guilabel>Shrink To/CC/BCC header to</guilabel> option.You can also set the limit for rendering text content in the message you receive. By default, when you receive a message with text content more than 4096 Kilo Bytes, Evolution will not render the message in the preview pane. You can view unformatted text either inline or using an external application. You can also enable the <link linkend="b17rgdac">Magic spacebar</link> and <link linkend="usage-mail-organize-vfolders">search folders</link>.</para>
+     <para>Choose how long you want to wait before marking a message read, how to highlight quotations, and the default encoding. Enable <guilabel>Fall back to threading message by subject</guilabel> to group the messages as message threads. You can also set the limit to the number of addresses displayed in the message header by enabling <guilabel>Shrink To/CC/BCC header to</guilabel> option. You can also set the limit for rendering text content in the message you receive. By default, when you receive a message with text content more than 4096 Kilo Bytes, Evolution will not render the message in the preview pane. You can view unformatted text either inline or using an external application. You can also enable the <link linkend="b17rgdac">Magic spacebar</link> and <link linkend="usage-mail-organize-vfolders">search folders</link>.</para>
     </formalpara>
     <para>To group the messages as threads select View &gt; Group By threads or press Ctrl+T.</para>
     <formalpara id="bsbhq3y">
