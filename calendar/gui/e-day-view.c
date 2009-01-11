@@ -39,7 +39,6 @@
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <glib/gi18n.h>
 #include <libgnome/gnome-exec.h>
-#include <libgnome/gnome-util.h>
 #include <e-util/e-categories-config.h>
 #include <e-util/e-dialog-utils.h>
 

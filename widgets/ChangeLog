@@ -1,5 +1,11 @@
 2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
 
+	* menus/gal-view-collection.c:
+	* menus/gal-view-instance.c:
+	Remove unneeded #include <libgnome/gnome-util.h>.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes part of bug #567276
 
 	* menus/gal-view-menus.c:

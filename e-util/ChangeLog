@@ -1,5 +1,10 @@
 2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
 
+	* e-dialog-utils.c:
+	Remove unneeded #include <libgnome/gnome-util.h>.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
 	* e-util.c (e_display_help):
 	Now that we require GTK+ 2.14, use gtk_show_uri() instead of
 	gnome_help_display().

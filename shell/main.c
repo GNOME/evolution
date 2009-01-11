@@ -51,7 +51,6 @@
 #include <gconf/gconf-client.h>
 
 #include <glib/gi18n.h>
-#include <libgnome/gnome-util.h>
 #include <libgnome/gnome-sound.h>
 #include <libgnomeui/gnome-ui-init.h>
 #include <libgnomeui/gnome-client.h>

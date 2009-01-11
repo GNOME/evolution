@@ -1,3 +1,9 @@
+2009-10-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-folder-view.c:
+	* importers/mail-importer.c:
+	Remove unneeded #include <libgnome/gnome-util.h>.
+
 2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
 
 	* mail-autofilter.c:

@@ -23,7 +23,6 @@
 #include <config.h>
 #include "e-contact-editor-fullname.h"
 #include <e-util/e-util-private.h>
-#include <libgnome/gnome-util.h>
 #include <glib/gi18n.h>
 
 static void e_contact_editor_fullname_init		(EContactEditorFullname		 *card);

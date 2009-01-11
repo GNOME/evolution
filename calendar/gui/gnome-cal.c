@@ -36,7 +36,6 @@
 #include <glib.h>
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n.h>
-#include <libgnome/gnome-util.h>
 #include <bonobo/bonobo-exception.h>
 #include <libedataserver/e-categories.h>
 #include <libedataserver/e-url.h>

@@ -29,7 +29,6 @@
 #include <gtk/gtk.h>
 
 #include <libgnome/gnome-config.h>
-/*#include <libgnome/gnome-util.h>*/
 #include <glib/gi18n.h>
 
 #include <bonobo/bonobo-object.h>

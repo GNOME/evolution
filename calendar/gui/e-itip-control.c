@@ -31,7 +31,6 @@
 #include <unistd.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
-#include <libgnome/gnome-util.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-exception.h>
 #include <gtkhtml/gtkhtml.h>

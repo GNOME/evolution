@@ -1,6 +1,20 @@
 2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/calendar-commands.c:
+	* gui/e-cal-list-view.c:
+	* gui/e-day-view.c:
+	* gui/e-itip-control.c:
+	* gui/e-meeting-list-view.c:
+	* gui/e-meeting-store.c:
+	* gui/e-week-view.c:
+	* gui/gnome-cal.c:
+	* gui/memos-control.c:
+	* gui/tasks-control.c:
+	Remove unneeded #include <libgnome/gnome-util.h>.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/calendar-commands.c:
 	* gui/e-cell-date-edit-text.c:
 	* gui/e-itip-control.c:
 	* gui/memos-control.c:

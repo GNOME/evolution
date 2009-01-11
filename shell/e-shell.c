@@ -43,7 +43,6 @@
 #endif
 
 #include <glib/gi18n.h>
-#include <libgnome/gnome-util.h>
 
 #include <gconf/gconf-client.h>
 

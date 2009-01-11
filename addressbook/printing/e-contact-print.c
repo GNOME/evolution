@@ -29,7 +29,6 @@
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
-#include <libgnome/gnome-util.h>
 #include <glib/gi18n.h>
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>

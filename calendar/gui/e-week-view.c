@@ -36,7 +36,6 @@
 #include <gdk/gdkkeysyms.h>
 #include <glib/gi18n.h>
 #include <libgnome/gnome-exec.h>
-#include <libgnome/gnome-util.h>
 #include <libgnomecanvas/gnome-canvas-pixbuf.h>
 #include <text/e-text.h>
 #include <misc/e-canvas-utils.h>

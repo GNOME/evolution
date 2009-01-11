@@ -27,7 +27,6 @@
 
 #include <gio/gio.h>
 #include <glib/gi18n.h>
-#include <libgnome/gnome-util.h>
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal-util.h>
 #include <libecal/e-cal-time-util.h>

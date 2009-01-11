@@ -24,7 +24,6 @@
 #include <config.h>
 
 #include <glib/gi18n.h>
-#include <libgnome/gnome-util.h>
 #include <table/e-table-scrolled.h>
 #include <table/e-table-model.h>
 #include <misc/e-gui-utils.h>
@@ -554,7 +553,8 @@ init_collection (void)
 
 		gal_view_collection_set_title (collection, _("Address Book"));
 
-		galview = gnome_util_prepend_user_home("/.evolution/addressbook/views");
+		galview = g_build_filename (
+			e_get_user_data_dir (), "addressbook", "views", NULL);
 		addressbookdir = g_build_filename (EVOLUTION_GALVIEWSDIR,
 						   "addressbook",
 						   NULL);

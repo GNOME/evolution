@@ -1,5 +1,14 @@
 2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
 
+	* gui/contact-editor/e-contact-editor-fullname.c:
+	* gui/contact-editor/e-contact-editor-im.c:
+	* gui/contact-editor/e-contact-editor-address.c:
+	* gui/widgets/e-addressbook-view.c:
+	* printing/e-contact-print.c:
+	Remove unneeded #include <libgnome/gnome-util.h>.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
 	* gui/component/addressbook-view.c:
 	* gui/contact-editor/e-contact-editor.h:
 	* gui/contact-editor/e-contact-quick-add.c:

@@ -29,7 +29,6 @@
 
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnome/gnome-util.h>
 
 #ifdef G_OS_WIN32
 /* Work around 'DATADIR' and 'interface' lossage in <windows.h> */

@@ -29,7 +29,6 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <libgnome/gnome-util.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo/bonobo-exception.h>

@@ -1,3 +1,11 @@
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-shell.c:
+	* evolution-shell-component-utils.c:
+	* importer/intelligent.c:
+	* main.c:
+	Remove unneeded #include <libgnome/gnome-util.h>.
+
 2009-01-09  Takao Fujiwara  <takao.fujiwara@sun.com>
 
 	Reviewed by Matthew Barnes  <mbarnes@redhat.com>
