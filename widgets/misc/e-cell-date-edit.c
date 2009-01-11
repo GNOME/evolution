@@ -42,7 +42,6 @@
 #include <table/e-table-item.h>
 #include <table/e-cell-text.h>
 
-#include <libgnomeui/gnome-messagebox.h>
 #include <glib/gi18n.h>
 
 #include <libedataserver/e-time-utils.h>

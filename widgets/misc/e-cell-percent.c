@@ -34,7 +34,6 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include <stdio.h>
-#include <libgnomeui/gnome-messagebox.h>
 #include <glib/gi18n.h>
 
 #include "e-cell-percent.h"

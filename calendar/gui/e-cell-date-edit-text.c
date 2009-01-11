@@ -29,7 +29,6 @@
 #include <time.h>
 #include <unistd.h>
 #include <string.h>
-#include <libgnomeui/gnome-messagebox.h>
 #include <libgnomeui/gnome-stock-icons.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-time-utils.h>

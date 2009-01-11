@@ -1,5 +1,13 @@
 2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
 
+	** Fixes part of bug #567281
+
+	* gui/calendar-commands.c:
+	* gui/e-cell-date-edit-text.c:
+	Remove unneeded #include <libgnomeui/gnome-messagebox.h>.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
 	** Fixes part of bug #567276
 
 	* gui/calendar-commands.c:
