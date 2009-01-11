@@ -29,26 +29,6 @@
 #include <bonobo/bonobo-main.h>
 #include "e-contact-print.h"
 
-#if 0
-static void about_callback( GtkWidget *widget, gpointer data )
-{
-
-  const gchar *authors[] =
-  {
-    "Christopher James Lahey <clahey@umich.edu>",
-    NULL
-  };
-
-  GtkWidget *about =
-    gnome_about_new ( _( "Contact Print Test" ), VERSION,
-		      _( "Copyright (C) 2000, Ximian, Inc." ),
-		      authors,
-		      _( "This should test the contact print code" ),
-		      NULL);
-  gtk_widget_show (about);
-}
-#endif
-
 int main( int argc, char *argv[] )
 {
   GList *shown_fields = NULL;

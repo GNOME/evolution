@@ -1,3 +1,12 @@
+2009-10-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #567270
+
+	* gui/contact-editor/test-editor.c:
+	* printing/test-contact-style-editor.c:
+	* printing/test-print.c:
+	Remove already-disabled use of gnome_about_new().
+
 2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #567276

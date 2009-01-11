@@ -92,26 +92,6 @@ editor_closed_cb (EContactEditor *ce, gpointer data)
 		exit (0);
 }
 
-#if 0
-static void about_callback( GtkWidget *widget, gpointer data )
-{
-
-  const gchar *authors[] =
-  {
-    "Christopher James Lahey <clahey@umich.edu>",
-    NULL
-  };
-
-  GtkWidget *about =
-    gnome_about_new ( _( "Contact Editor Test" ), VERSION,
-		      _( "Copyright (C) 2000, Ximian, Inc." ),
-		      authors,
-		      _( "This should test the contact editor canvas item" ),
-		      NULL);
-  gtk_widget_show (about);
-}
-#endif
-
 int main( int argc, char *argv[] )
 {
 	char *cardstr;
