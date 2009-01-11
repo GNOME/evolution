@@ -38,7 +38,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
-#include <libgnome/gnome-help.h>
 #include <libgnome/gnome-init.h>
 
 #ifdef G_OS_WIN32
@@ -106,11 +105,23 @@ void
 e_display_help (GtkWindow *parent,
                 const gchar *link_id)
 {
+	GString *uri;
 	GtkWidget *dialog;
+	GdkScreen *screen = NULL;
 	GError *error = NULL;
+	guint32 timestamp;
 
-	if (gnome_help_display ("evolution.xml", link_id, &error))
-		return;
+	uri = g_string_new ("ghelp:" PACKAGE);
+	timestamp = gtk_get_current_event_time ();
+
+	if (parent != NULL)
+		screen = gtk_widget_get_screen (GTK_WIDGET (parent));
+
+	if (link_id != NULL)
+		g_string_append_printf (uri, "?%s", link_id);
+
+	if (gtk_show_uri (screen, uri->str, timestamp, &error))
+		goto exit;
 
 	dialog = gtk_message_dialog_new_with_markup (
 		parent, GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -125,6 +136,9 @@ e_display_help (GtkWindow *parent,
 
 	gtk_widget_destroy (dialog);
 	g_error_free (error);
+
+exit:
+	g_string_free (uri, TRUE);
 }
 
 /**
