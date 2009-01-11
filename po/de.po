@@ -7,7 +7,7 @@
 # Hendrik Richter <hendrikr@gnome.org>, 2004, 2005, 2006, 2007, 2008.
 # Frank Arnold <frank@scirocco-5v-turbo.de>, 2005.
 # Christian Kintner <mail@christian-kintner.de>, 2006, 2007.
-# Andre Klapper <ak-47@gmx.net>, 2007, 2008.
+# Andre Klapper <ak-47@gmx.net>, 2007, 2008, 2009.
 #
 # Sprachregelungen:
 # task = Aufgabe (Auftrag klingt nach Buchhaltung)
@@ -22,8 +22,8 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-11 00:48+0100\n"
-"PO-Revision-Date: 2008-10-23 13:21+0200\n"
-"Last-Translator: Philipp Kerling <k.philipp@gmail.com>\n"
+"PO-Revision-Date: 2009-01-12 00:38+0100\n"
+"Last-Translator: Andre Klapper <ak-47@gmx.net>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12217,9 +12217,8 @@ msgid "Sender"
 msgstr "Absender"
 
 #: ../mail/em-filter-i18n.h:62
-#, fuzzy
 msgid "Sender or Recipients"
-msgstr "Bestätigung senden"
+msgstr "Absender oder Empfänger"
 
 #: ../mail/em-filter-i18n.h:63
 msgid "Set Label"
@@ -13211,14 +13210,13 @@ msgid "Failed to create local mail storage `%s': %s"
 msgstr "Lokaler E-Mail-Speicher unter »%s« konnte nicht angelegt werden: %s"
 
 #: ../mail/em-migrate.c:2952
-#, fuzzy
 msgid ""
 "The summary format of the Evolution mailbox folders has been moved to SQLite "
 "since Evolution 2.24.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Das Zusammenfassungsformat der Evolution-E-Mail-Ordner hat sich inEvolution "
+"Das Zusammenfassungsformat der Evolution-E-Mail-Ordner hat sich in Evolution "
 "2.24 verändert.\n"
 "\n"
 "Bitte haben Sie etwas Geduld. Evolution migriert Ihre Ordner …"
@@ -13509,9 +13507,8 @@ msgid "Directory for saving mail component files."
 msgstr "Ordner zum Speichern der E-Mailkomponenten-Dateien."
 
 #: ../mail/evolution-mail.schemas.in.h:41
-#, fuzzy
 msgid "Disable or enable ellipsizing of folder names in side bar"
-msgstr "Zu lange Ordnernamen in Baumansicht abkürzen"
+msgstr "Zu lange Ordnernamen in Seitenleiste abkürzen"
 
 #: ../mail/evolution-mail.schemas.in.h:42
 msgid "Draw spelling error indicators on words as you type."
@@ -18302,12 +18299,10 @@ msgid "Would you like to decline it?"
 msgstr "Wollen Sie dies ablehnen?"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:8
-#, fuzzy
 msgid "You cannot share this folder with the specified user &quot;{0}&quot;"
-msgstr "Sie können keine Ordner mit dem angegebenen Benutzer »{0}« teilen"
+msgstr "Sie können diesen Ordner nicht mit dem angegebenen Benutzer »{0}« teilen"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:9
-#, fuzzy
 msgid "You have to specify a user name which you want to add to the list"
 msgstr ""
 "Sie müssen einen Benutzernamen festlegen, der der Liste hinzugefügt werden "
@@ -19905,9 +19900,8 @@ msgid "_Publish Calendar Information"
 msgstr "Kalenderinformationen verö_ffentlichen"
 
 #: ../plugins/publish-calendar/publish-calendar.c:596
-#, fuzzy
 msgid "Are you sure you want to remove this location?"
-msgstr "Sind Sie sicher, dass Sie diese URL entfernen wollen?"
+msgstr "Sind Sie sicher, dass Sie diesen Ort entfernen wollen?"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:2
 msgid "<span weight=\"bold\">Location</span>"
@@ -19944,7 +19938,6 @@ msgid "Publishing _Frequency:"
 msgstr "Veröffentlichungsin_tervall:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:13
-#, fuzzy
 msgid ""
 "Secure FTP (SSH)\n"
 "Public FTP\n"
@@ -19954,7 +19947,7 @@ msgid ""
 "Secure WebDAV (HTTPS)\n"
 "Custom Location"
 msgstr ""
-"SSH\n"
+"FTP (sicher, SSH)\n"
 "FTP (öffentlich)\n"
 "FTP (mit Anmeldung)\n"
 "Windows Share\n"
@@ -20019,7 +20012,6 @@ msgid "Test Plugin for Python EPlugin loader."
 msgstr "Python-Plugin-Loader."
 
 #: ../plugins/python/org-gnome-evolution-python.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin which loads other plugins written using Python."
 msgstr "Lädt andere Plugins, die in Python geschrieben wurden."
 
@@ -20053,7 +20045,7 @@ msgid "SpamAssassin child process does not respond, killing..."
 msgstr "SpamAssassin-Kindprozess antwortet nicht. Wird abgewürgt …"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:245
-#, fuzzy, c-format
+#, c-format
 msgid "Wait for SpamAssassin child process interrupted, terminating..."
 msgstr "Warten auf SpamAssassin-Kindprozess abgebrochen. Wird beendet …"
 
@@ -20353,7 +20345,6 @@ msgid "Drafts based template plugin"
 msgstr "Vorlagen-Plugin basierend auf Entwürfen"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
-#, fuzzy
 msgid "A simple plugin which uses yTNEF to decode TNEF attachments."
 msgstr "Ein Plugin, welches ytnef benutzt, um tnef-Anlagen zu dekodieren."
 
@@ -20380,9 +20371,8 @@ msgid "URL:"
 msgstr "URL:"
 
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:338
-#, fuzzy
 msgid "_Avoid IfMatch (needed on Apache < 2.2.8)"
-msgstr "IfMatch _vermeiden (benötigt Apache < 2.2.8)"
+msgstr "IfMatch _vermeiden (benötigt von Apache < 2.2.8)"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
@@ -20895,9 +20885,8 @@ msgid "Importer Type"
 msgstr "Importeurtyp"
 
 #: ../shell/import.glade.h:6
-#, fuzzy
 msgid "Select Information to Import"
-msgstr "Wählen Sie den Ordner, in den importiert werden soll"
+msgstr "Zu importierende Informationen auswählen"
 
 #: ../shell/import.glade.h:7
 msgid "Select a File"
@@ -21012,9 +21001,8 @@ msgstr ""
 "Sind Sie sicher, dass alle Passworterinnerungen verworfen werden sollen?"
 
 #: ../shell/shell.error.xml.h:2
-#, fuzzy
 msgid "Cannot start Evolution"
-msgstr "Evolution neu starten"
+msgstr "Evolution kann nicht gestartet werden"
 
 #: ../shell/shell.error.xml.h:3
 msgid "Continue"
@@ -21068,7 +21056,6 @@ msgstr ""
 "vorherigen Evolution-Version zurückkehren.\n"
 
 #: ../shell/shell.error.xml.h:16
-#, fuzzy
 msgid ""
 "The previous version of Evolution stored its data in a different location.\n"
 "\n"
@@ -21677,9 +21664,8 @@ msgid "Copy"
 msgstr "Kopieren"
 
 #: ../ui/evolution-addressbook.xml.h:7
-#, fuzzy
 msgid "Copy selected contacts to another folder"
-msgstr "Gewählte Kontakte in einen anderen Ordner kopieren …"
+msgstr "Gewählte Kontakte in einen anderen Ordner kopieren"
 
 #: ../ui/evolution-addressbook.xml.h:8
 msgid "Copy the contacts of the selected folder into another folder"
@@ -21727,9 +21713,8 @@ msgid "Mo_ve All Contacts To..."
 msgstr "Alle Kontakte _verschieben nach …"
 
 #: ../ui/evolution-addressbook.xml.h:20
-#, fuzzy
 msgid "Move selected contacts to another folder"
-msgstr "Gewählte Kontakte in einen anderen Ordner verschieben …"
+msgstr "Gewählte Kontakte in einen anderen Ordner verschieben"
 
 #: ../ui/evolution-addressbook.xml.h:21
 msgid "Move the contacts of the selected folder into another folder"
@@ -21769,9 +21754,8 @@ msgid "Save as VCard..."
 msgstr "Als VCard speichern …"
 
 #: ../ui/evolution-addressbook.xml.h:32
-#, fuzzy
 msgid "Save selected contacts as a VCard"
-msgstr "Die gewählten Kontakte als VCard speichern."
+msgstr "Gewählte Kontakte als VCard speichern"
 
 #: ../ui/evolution-addressbook.xml.h:33
 msgid "Save the contacts of the selected folder as VCard"
@@ -21790,18 +21774,16 @@ msgid "Select all contacts"
 msgstr "Alle Kontakte auswählen"
 
 #: ../ui/evolution-addressbook.xml.h:37
-#, fuzzy
 msgid "Send a message to the selected contacts"
-msgstr "Eine Nachricht an die gewählten Kontakte schicken."
+msgstr "Eine Nachricht an die gewählten Kontakte schicken"
 
 #: ../ui/evolution-addressbook.xml.h:38
 msgid "Send message to contact"
 msgstr "Nachricht an Kontakt schicken"
 
 #: ../ui/evolution-addressbook.xml.h:39
-#, fuzzy
 msgid "Send selected contacts to another person"
-msgstr "Die gewählten Kontakte an jemanden schicken"
+msgstr "Gewählte Kontakte an jemanden verschicken"
 
 #: ../ui/evolution-addressbook.xml.h:40
 msgid "Show contact preview window"
@@ -22099,9 +22081,8 @@ msgstr "_Vorschau"
 #. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
 #.
 #: ../ui/evolution-mail-global.xml.h:32
-#, fuzzy
 msgid "_Subscriptions..."
-msgstr "A_bonnements"
+msgstr "A_bonnements …"
 
 # CHECK - macht überhaupt keinen Sinn
 #: ../ui/evolution-mail-global.xml.h:33
