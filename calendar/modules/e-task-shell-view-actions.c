@@ -480,14 +480,17 @@ static void
 action_task_open_url_cb (GtkAction *action,
                          ETaskShellView *task_shell_view)
 {
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	ETaskShellContent *task_shell_content;
 	ECalendarTable *task_table;
 	ECalModelComponent *comp_data;
 	icalproperty *prop;
-	GdkScreen *screen;
 	const gchar *uri;
 	GSList *list;
-	GError *error = NULL;
+
+	shell_view = E_SHELL_VIEW (task_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
@@ -501,14 +504,8 @@ action_task_open_url_cb (GtkAction *action,
 		comp_data->icalcomp, ICAL_URL_PROPERTY);
 	g_return_if_fail (prop == NULL);
 
-	screen = gtk_widget_get_screen (GTK_WIDGET (task_shell_view));
 	uri = icalproperty_get_url (prop);
-	gtk_show_uri (screen, uri, GDK_CURRENT_TIME, &error);
-
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
+	e_show_uri (GTK_WINDOW (shell_window), uri);
 }
 
 static void

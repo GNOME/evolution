@@ -31,6 +31,7 @@
 #include <libedataserver/e-categories.h>
 #include <gtkhtml/gtkhtml-stream.h>
 #include <libedataserver/e-time-utils.h>
+#include <e-util/e-util.h>
 #include <e-util/e-categories-config.h>
 #include "calendar-config.h"
 #include <camel/camel-mime-filter-tohtml.h>
@@ -47,18 +48,10 @@ static gpointer parent_class;
 
 static void
 cal_component_preview_link_clicked (GtkHTML *html,
-                                    const gchar *url)
+                                    const gchar *uri)
 {
-	GdkScreen *screen;
-        GError *error = NULL;
-
-	screen = gtk_widget_get_screen (GTK_WIDGET (html));
-	gtk_show_uri (screen, url, GDK_CURRENT_TIME, &error);
-
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-                g_error_free (error);
-        }
+	/* FIXME Pass a parent window. */
+	e_show_uri (NULL, uri);
 }
 
 static void

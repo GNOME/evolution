@@ -30,14 +30,12 @@ mail_shell_view_folder_tree_selected_cb (EMailShellView *mail_shell_view,
                                          guint32 flags,
                                          EMFolderTree *folder_tree)
 {
-	EMailShellContent *mail_shell_content;
-	EMFolderView *folder_view;
+	EMailReader *reader;
 
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 
 	if ((flags & CAMEL_FOLDER_NOSELECT) || full_name == NULL)
-		em_folder_view_set_folder (folder_view, NULL, NULL);
+		e_mail_reader_set_folder (reader, NULL, NULL);
 	else {
 		EMFolderTreeModel *model;
 
@@ -45,7 +43,7 @@ mail_shell_view_folder_tree_selected_cb (EMailShellView *mail_shell_view,
 		em_folder_tree_model_set_selected (model, uri);
 		em_folder_tree_model_save_state (model);
 
-		em_folder_view_set_folder_uri (folder_view, uri);
+		e_mail_reader_set_folder_uri (reader, uri);
 	}
 }
 
@@ -59,9 +57,23 @@ mail_shell_view_folder_tree_popup_event_cb (EShellView *shell_view,
 	e_shell_view_show_popup_menu (shell_view, widget_path, event);
 }
 
+static gboolean
+mail_shell_view_message_list_right_click_cb (EShellView *shell_view,
+                                             gint row,
+                                             ETreePath path,
+                                             gint col,
+                                             GdkEventButton *event)
+{
+	const gchar *widget_path;
+
+	widget_path = "/mail-message-popup";
+	e_shell_view_show_popup_menu (shell_view, widget_path, event);
+
+	return TRUE;
+}
+
 static void
-mail_shell_view_folder_view_changed_cb (EMailShellView *mail_shell_view,
-                                        EMFolderView *folder_view)
+mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view)
 {
 	EMailShellContent *mail_shell_content;
 
@@ -142,14 +154,14 @@ void
 e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 {
 	EMailShellViewPrivate *priv = mail_shell_view->priv;
-	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 	EShellView *shell_view;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EMFolderTreeModel *folder_tree_model;
 	EMFolderTree *folder_tree;
-	EMFolderView *folder_view;
+	MessageList *message_list;
+	EMailReader *reader;
 	gchar *uri;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
@@ -160,8 +172,8 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	priv->mail_shell_content = g_object_ref (shell_content);
 	priv->mail_shell_sidebar = g_object_ref (shell_sidebar);
 
-	mail_shell_content = E_MAIL_SHELL_CONTENT (shell_content);
-	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+	reader = E_MAIL_READER (shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
 
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
@@ -177,18 +189,23 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		mail_shell_view);
 
 	g_signal_connect_swapped (
-		folder_view, "changed",
-		G_CALLBACK (mail_shell_view_folder_view_changed_cb),
+		message_list->tree, "right-click",
+		G_CALLBACK (mail_shell_view_message_list_right_click_cb),
+		mail_shell_view);
+
+	g_signal_connect_swapped (
+		reader, "changed",
+		G_CALLBACK (mail_shell_view_reader_changed_cb),
 		mail_shell_view);
 
 	/* Use the same callback as "changed". */
 	g_signal_connect_swapped (
-		folder_view, "loaded",
-		G_CALLBACK (mail_shell_view_folder_view_changed_cb),
+		reader, "folder-loaded",
+		G_CALLBACK (mail_shell_view_reader_changed_cb),
 		mail_shell_view);
 
 	e_mail_shell_view_actions_init (mail_shell_view);
-	e_mail_reader_init (E_MAIL_READER (mail_shell_content));
+	e_mail_reader_init (reader);
 
 	/* Restore the previously selected folder. */
 	folder_tree_model = em_folder_tree_get_model (folder_tree);
@@ -199,7 +216,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		expanded = em_folder_tree_model_get_expanded_uri (
 			folder_tree_model, uri);
 		em_folder_tree_set_selected (folder_tree, uri, FALSE);
-		em_folder_view_set_folder_uri (folder_view, uri);
+		e_mail_reader_set_folder_uri (reader, uri);
 
 		if (!expanded)
 			em_folder_tree_model_set_expanded_uri (
@@ -229,11 +246,11 @@ e_mail_shell_view_private_finalize (EMailShellView *mail_shell_view)
 void
 e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 {
-	EMailShellContent *mail_shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellModule *shell_module;
 	EShellView *shell_view;
-	EMFolderView *folder_view;
+	EMailReader *reader;
+	MessageList *message_list;
 	CamelStore *local_store;
 	CamelFolder *folder;
 	GPtrArray *selected;
@@ -255,10 +272,10 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	local_store = e_mail_shell_module_get_local_store (shell_module);
 
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
-	folder_uri = folder_view->folder_uri;
-	folder = folder_view->folder;
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+	folder_uri = message_list->folder_uri;
+	folder = message_list->folder;
 
 	/* If no folder is selected, reset the sidebar banners
 	 * to their default values and stop. */
@@ -286,7 +303,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 		NULL);
 
 	buffer = g_string_sized_new (256);
-	selected = message_list_get_selected (folder_view->list);
+	selected = message_list_get_selected (message_list);
 
 	if (selected->len > 1)
 		g_string_append_printf (
@@ -305,7 +322,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 				"%d deleted", num_deleted), num_deleted);
 
 		/* "Junk" folder (hide deleted messages) */
-		else if (folder_view->hide_deleted)
+		else if (e_mail_reader_get_hide_deleted (reader))
 			g_string_append_printf (
 				buffer, ngettext ("%d junk",
 				"%d junk", num_junked_not_deleted),
@@ -337,7 +354,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 
 	/* Normal folder */
 	} else {
-		if (!folder_view->hide_deleted)
+		if (!e_mail_reader_get_hide_deleted (reader))
 			num_visible +=
 				num_deleted - num_junked +
 				num_junked_not_deleted;
@@ -351,7 +368,7 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 			num_visible), num_visible);
 	}
 
-	message_list_free_uids (folder_view->list, selected);
+	message_list_free_uids (message_list, selected);
 
 	/* Choose a suitable folder name for displaying. */
 	if (folder->parent_store == local_store && (
@@ -399,8 +416,8 @@ void
 e_mail_shell_view_create_filter_from_selected (EMailShellView *mail_shell_view,
                                                gint filter_type)
 {
-	EMailShellContent *mail_shell_content;
-	EMFolderView *folder_view;
+	EMailReader *reader;
+	MessageList *message_list;
 	CamelFolder *folder;
 	const gchar *filter_source;
 	const gchar *folder_uri;
@@ -413,10 +430,10 @@ e_mail_shell_view_create_filter_from_selected (EMailShellView *mail_shell_view,
 
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
-	folder_uri = folder_view->folder_uri;
-	folder = folder_view->folder;
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+	folder_uri = message_list->folder_uri;
+	folder = message_list->folder;
 
 	if (em_utils_folder_is_sent (folder, folder_uri))
 		filter_source = FILTER_SOURCE_OUTGOING;
@@ -425,7 +442,7 @@ e_mail_shell_view_create_filter_from_selected (EMailShellView *mail_shell_view,
 	else
 		filter_source = FILTER_SOURCE_INCOMING;
 
-	uids = message_list_get_selected (folder_view->list);
+	uids = message_list_get_selected (message_list);
 
 	if (uids->len == 1) {
 		filter_data = g_malloc (sizeof (*filter_data));
@@ -465,8 +482,8 @@ void
 e_mail_shell_view_create_vfolder_from_selected (EMailShellView *mail_shell_view,
                                                 gint vfolder_type)
 {
-	EMailShellContent *mail_shell_content;
-	EMFolderView *folder_view;
+	EMailReader *reader;
+	MessageList *message_list;
 	CamelFolder *folder;
 	const gchar *folder_uri;
 	GPtrArray *uids;
@@ -478,12 +495,12 @@ e_mail_shell_view_create_vfolder_from_selected (EMailShellView *mail_shell_view,
 
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
-	folder_uri = folder_view->folder_uri;
-	folder = folder_view->folder;
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+	folder_uri = message_list->folder_uri;
+	folder = message_list->folder;
 
-	uids = message_list_get_selected (folder_view->list);
+	uids = message_list_get_selected (message_list);
 
 	if (uids->len == 1) {
 		vfolder_data = g_malloc (sizeof (*vfolder_data));

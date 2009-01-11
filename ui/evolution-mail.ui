@@ -80,34 +80,6 @@
     <separator/>
     <menuitem action='mail-folder-properties'/>
   </popup>
-  <popup name='mail-message-popup'>
-    <menuitem action='mail-reply-sender'/>
-    <menuitem action='mail-reply-all'/>
-    <menuitem action='mail-forward'/>
-    <separator/>
-    <menuitem action='mail-message-edit'/>
-    <menuitem action='mail-save-as'/>
-    <menuitem action='mail-print'/>
-    <separator/>
-    <menuitem action='mail-delete'/>
-    <menuitem action='mail-copy'/>
-    <menuitem action='mail-move'/>
-    <separator/>
-    <menuitem action='mail-mark-unread'/>
-    <menuitem action='mail-mark-important'/>
-    <menuitem action='mail-mark-junk'/>
-    <menuitem action='mail-flag-for-followup'/>
-    <menu action='mail-label-menu'/>
-  </popup>
-  <popup name='mail-uri-popup'>
-    <menuitem action='mail-uri-call-to'/>
-    <menuitem action='mail-uri-copy'/>
-    <menuitem action='mail-uri-copy-address'/>
-    <menu action='mail-uri-to-search-folder-menu'>
-      <menuitem action='mail-uri-to-search-folder-sender'/>
-      <menuitem action='mail-uri-to-search-folder-recipient'/>
-    </menu>
-  </popup>
   <popup name='mail-search-options'>
     <menuitem action='mail-search-subject-or-sender-contains'/>
     <menuitem action='mail-search-subject-or-recipients-contains'/>

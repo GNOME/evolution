@@ -993,7 +993,6 @@ static gboolean
 eab_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, gpointer *dummy)
 {
 	EAttachment *attachment;
-	GError *error = NULL;
 	gboolean ret = FALSE;
 	CamelURL *url;
 	char *path;
@@ -1015,13 +1014,8 @@ eab_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, gpointer *dummy)
 				g_free (path);
 			}
 
-			/* launch the url now */
-			gnome_url_show (attachment->store_uri, &error);
-			if (error) {
-				g_message ("DEBUG: Launch failed: %s\n", error->message);
-				g_error_free (error);
-				error = NULL;
-			}
+			/* FIXME Pass a parent window. */
+			e_show_uri (NULL, attachment->store_uri);
 
 			ret = TRUE;
 		}

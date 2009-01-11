@@ -27,13 +27,13 @@
 #include "eab-contact-display.h"
 
 #include "eab-gui-util.h"
+#include "e-util/e-util.h"
 #include "e-util/e-html-utils.h"
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-plugin-ui.h"
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <libgnome/gnome-url.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
 
@@ -158,18 +158,8 @@ static void
 action_open_link_cb (GtkAction *action,
                      EABContactDisplay *display)
 {
-	GdkScreen *screen;
-	const gchar *uri;
-	GError *error = NULL;
-
-	screen = gtk_widget_get_screen (GTK_WIDGET (display));
-	uri = display->priv->selected_uri;
-	g_return_if_fail (uri != NULL);
-
-	if (!gtk_show_uri (screen, uri, GDK_CURRENT_TIME, &error)) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
+	/* XXX Pass a parent window. */
+	e_show_uri (NULL, display->priv->selected_uri);
 }
 
 static void
@@ -287,18 +277,16 @@ contact_display_on_url_requested (GtkHTML *html,
 
 static void
 contact_display_on_link_clicked (GtkHTML *html,
-                                 const gchar *url,
+                                 const gchar *uri,
                                  EABContactDisplay *display)
 {
-	GError *err = NULL;
-
 #ifdef HANDLE_MAILTO_INTERNALLY
-	if (!strncmp (url, "internal-mailto:", strlen ("internal-mailto:"))) {
+	if (!strncmp (uri, "internal-mailto:", strlen ("internal-mailto:"))) {
 		EDestination *destination;
 		EContact *contact;
 		gint email_num;
 
-		email_num = atoi (url + strlen ("internal-mailto:"));
+		email_num = atoi (uri + strlen ("internal-mailto:"));
 		if (email_num == -1)
 			return;
 
@@ -312,12 +300,8 @@ contact_display_on_link_clicked (GtkHTML *html,
 	}
 #endif
 
-	gnome_url_show (url, &err);
-
-	if (err) {
-		g_warning ("gnome_url_show: %s", err->message);
-		g_error_free (err);
-	}
+	/* FIXME Pass a parent window. */
+	e_show_uri (NULL, uri);
 }
 
 static void

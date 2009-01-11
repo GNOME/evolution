@@ -760,7 +760,7 @@ e_shell_window_set_safe_mode (EShellWindow *shell_window,
  *
  * Registers a list of #GtkAction<!-- -->s to appear in
  * @shell_window<!-- -->'s "New" menu and toolbar button.  This
- * function should be called from an #EShellModule<!-- -->'s
+ * function should be called from an #EShell<!-- -->'s
  * #EShell::window-created signal handler.  The #EShellModule calling
  * this function should pass its own name for the @module_name argument
  * (i.e. the <structfield>name</structfield> field from its own
@@ -849,7 +849,7 @@ e_shell_window_register_new_item_actions (EShellWindow *shell_window,
  *
  * Registers a list of #GtkAction<!-- -->s to appear in
  * @shell_window<!-- -->'s "New" menu and toolbar button.  This
- * function should be called from an #EShellModule<!-- -->'s
+ * function should be called from an #EShell<!-- -->'s
  * #EShell::window-created signal handler.  The #EShellModule calling
  * this function should pass its own name for the @module_name argument
  * (i.e. the <structfield>name</structfield> field from its own

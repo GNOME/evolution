@@ -43,9 +43,9 @@
 
 struct _EMailShellContentPrivate {
 	GtkWidget *paned;
-	GtkWidget *folder_view;
+	GtkWidget *message_list;
 
-	EMFormatHTMLDisplay *preview;
+	EMFormatHTMLDisplay *html_display;
 	GalViewInstance *view_instance;
 
 	guint paned_binding_id;
@@ -66,14 +66,15 @@ static void
 mail_shell_content_display_view_cb (EMailShellContent *mail_shell_content,
                                     GalView *gal_view)
 {
-	EMFolderView *folder_view;
+	EMailReader *reader;
+	MessageList *message_list;
 
-	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
 
 	if (GAL_IS_VIEW_ETABLE (gal_view))
 		gal_view_etable_attach_tree (
-			GAL_VIEW_ETABLE (gal_view),
-			folder_view->list->tree);
+			GAL_VIEW_ETABLE (gal_view), message_list->tree);
 }
 
 static void
@@ -135,14 +136,14 @@ mail_shell_content_dispose (GObject *object)
 		priv->paned = NULL;
 	}
 
-	if (priv->folder_view != NULL) {
-		g_object_unref (priv->folder_view);
-		priv->folder_view = NULL;
+	if (priv->message_list != NULL) {
+		g_object_unref (priv->message_list);
+		priv->message_list = NULL;
 	}
 
-	if (priv->preview != NULL) {
-		g_object_unref (priv->preview);
-		priv->preview = NULL;
+	if (priv->html_display != NULL) {
+		g_object_unref (priv->html_display);
+		priv->html_display = NULL;
 	}
 
 	if (priv->view_instance != NULL) {
@@ -199,11 +200,9 @@ mail_shell_content_constructed (GObject *object)
 
 	container = widget;
 
-	/* XXX Kill EMFolderView? */
-	priv->folder_view = em_folder_view_new ();
-	g_object_ref_sink (priv->folder_view);
-	widget = GTK_WIDGET (((EMFolderView *) priv->folder_view)->list);
+	widget = message_list_new ();
 	gtk_paned_add1 (GTK_PANED (container), widget);
+	priv->message_list = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
@@ -217,9 +216,8 @@ mail_shell_content_constructed (GObject *object)
 
 	container = widget;
 
-	/* XXX Kill EMFolderView? */
-	priv->preview = ((EMFolderView *) priv->folder_view)->preview;
-	widget = GTK_WIDGET (((EMFormatHTML *) priv->preview)->html);
+	priv->html_display = em_format_html_display_new ();
+	widget = GTK_WIDGET (((EMFormatHTML *) priv->html_display)->html);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
@@ -240,8 +238,9 @@ mail_shell_content_constructed (GObject *object)
 static guint32
 mail_shell_content_check_state (EShellContent *shell_content)
 {
+	EMailReader *reader;
 	EMailShellContent *mail_shell_content;
-	EMFolderView *folder_view;
+	MessageList *message_list;
 	GPtrArray *uids;
 	CamelFolder *folder;
 	CamelStore *store;
@@ -262,11 +261,12 @@ mail_shell_content_check_state (EShellContent *shell_content)
 	guint32 state = 0;
 	guint ii;
 
+	reader = E_MAIL_READER (shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
 	mail_shell_content = E_MAIL_SHELL_CONTENT (shell_content);
-	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
-	uids = message_list_get_selected (folder_view->list);
-	folder_uri = folder_view->folder_uri;
-	folder = folder_view->folder;
+	uids = message_list_get_selected (message_list);
+	folder_uri = message_list->folder_uri;
+	folder = message_list->folder;
 	store = CAMEL_STORE (folder->parent_store);
 
 	draft_or_outbox =
@@ -386,23 +386,21 @@ mail_shell_content_get_hide_deleted (EMailReader *reader)
 static EMFormatHTMLDisplay *
 mail_shell_content_get_html_display (EMailReader *reader)
 {
-	EMailShellContent *mail_shell_content;
+	EMailShellContentPrivate *priv;
 
-	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
+	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
 
-	return e_mail_shell_content_get_preview_format (mail_shell_content);
+	return priv->html_display;
 }
 
 static MessageList *
 mail_shell_content_get_message_list (EMailReader *reader)
 {
-	EMailShellContent *mail_shell_content;
-	EMFolderView *folder_view;
+	EMailShellContentPrivate *priv;
 
-	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
-	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
 
-	return folder_view->list;
+	return MESSAGE_LIST (priv->message_list);
 }
 
 static EShellModule *
@@ -540,24 +538,6 @@ e_mail_shell_content_new (EShellView *shell_view)
 		"shell-view", shell_view, NULL);
 }
 
-EMFolderView *
-e_mail_shell_content_get_folder_view (EMailShellContent *mail_shell_content)
-{
-	g_return_val_if_fail (
-		E_IS_MAIL_SHELL_CONTENT (mail_shell_content), NULL);
-
-	return EM_FOLDER_VIEW (mail_shell_content->priv->folder_view);
-}
-
-EMFormatHTMLDisplay *
-e_mail_shell_content_get_preview_format (EMailShellContent *mail_shell_content)
-{
-	g_return_val_if_fail (
-		E_IS_MAIL_SHELL_CONTENT (mail_shell_content), NULL);
-
-	return mail_shell_content->priv->preview;
-}
-
 gboolean
 e_mail_shell_content_get_preview_visible (EMailShellContent *mail_shell_content)
 {
@@ -590,19 +570,6 @@ e_mail_shell_content_set_preview_visible (EMailShellContent *mail_shell_content,
 	mail_shell_content->priv->preview_visible = preview_visible;
 
 	g_object_notify (G_OBJECT (mail_shell_content), "preview-visible");
-}
-
-GtkWidget *
-e_mail_shell_content_get_preview_widget (EMailShellContent *mail_shell_content)
-{
-	EMFormatHTML *format;
-
-	g_return_val_if_fail (
-		E_IS_MAIL_SHELL_CONTENT (mail_shell_content), NULL);
-
-	format = (EMFormatHTML *) mail_shell_content->priv->preview;
-
-	return GTK_WIDGET (format->html);
 }
 
 gboolean
@@ -671,12 +638,13 @@ e_mail_shell_content_set_vertical_view (EMailShellContent *mail_shell_content,
 void
 e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content)
 {
+	EMailReader *reader;
 	EShellContent *shell_content;
 	EShellView *shell_view;
 	EShellViewClass *shell_view_class;
 	GalViewCollection *view_collection;
 	GalViewInstance *view_instance;
-	EMFolderView *folder_view;
+	MessageList *message_list;
 	gboolean outgoing_folder;
 	gboolean show_vertical_view;
 	gchar *view_id;
@@ -688,21 +656,22 @@ e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	view_collection = shell_view_class->view_collection;
 
-	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
 
 	/* If no folder is selected, return silently. */
-	if (folder_view->folder == NULL)
+	if (message_list->folder == NULL)
 		return;
 
 	/* If we have a folder, we should also have a URI. */
-	g_return_if_fail (folder_view->folder_uri != NULL);
+	g_return_if_fail (message_list->folder_uri != NULL);
 
 	if (mail_shell_content->priv->view_instance != NULL) {
 		g_object_unref (mail_shell_content->priv->view_instance);
 		mail_shell_content->priv->view_instance = NULL;
 	}
 
-	view_id = mail_config_folder_to_safe_url (folder_view->folder);
+	view_id = mail_config_folder_to_safe_url (message_list->folder);
 	view_instance = e_shell_view_new_view_instance (shell_view, view_id);
 	mail_shell_content->priv->view_instance = view_instance;
 
@@ -740,11 +709,11 @@ e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content
 
 	outgoing_folder =
 		em_utils_folder_is_drafts (
-			folder_view->folder, folder_view->folder_uri) ||
+			message_list->folder, message_list->folder_uri) ||
 		em_utils_folder_is_outbox (
-			folder_view->folder, folder_view->folder_uri) ||
+			message_list->folder, message_list->folder_uri) ||
 		em_utils_folder_is_sent (
-			folder_view->folder, folder_view->folder_uri);
+			message_list->folder, message_list->folder_uri);
 
 	if (outgoing_folder) {
 		if (show_vertical_view)
@@ -764,7 +733,7 @@ e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content
 		gchar *state_filename;
 
 		state_filename = mail_config_folder_to_cachename (
-			folder_view->folder, "et-header-");
+			message_list->folder, "et-header-");
 
 		if (g_file_test (state_filename, G_FILE_TEST_IS_REGULAR)) {
 			ETableSpecification *spec;

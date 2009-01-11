@@ -1945,7 +1945,6 @@ open_attachment (EAttachmentBar *bar, CompEditor *editor)
 	GList *p;
 	int num;
 	char *attach_file_url;
-	GError *error = NULL;
 
 	if (E_IS_ATTACHMENT_BAR (bar)) {
 		icon_list = GNOME_ICON_LIST (bar);
@@ -1970,11 +1969,7 @@ open_attachment (EAttachmentBar *bar, CompEditor *editor)
 			attach_file_url = g_build_path ("/", local_store, filename, NULL);
 
 			/* launch the url now */
-			/* TODO should send GError and handle error conditions
-			 * here */
-			gnome_url_show (attach_file_url, &error);
-			if (error)
-				g_message ("DEBUG: gnome_url_show(%s) failed\n", attach_file_url);
+			e_show_uri (GTK_WINDOW (editor), attach_file_url);
 
 			g_free (filename);
 			g_free (attach_file_url); }
@@ -2587,11 +2582,15 @@ comp_editor_get_managed_widget (CompEditor *editor,
 CompEditor *
 comp_editor_find_instance (const gchar *uid)
 {
+	GList *link;
+
 	g_return_val_if_fail (uid != NULL, NULL);
 
-	return g_list_find_custom (
+	link = g_list_find_custom (
 		active_editors, uid,
 		(GCompareFunc) comp_editor_compare);
+
+	return (link != NULL) ? link->data : NULL;
 }
 
 /**

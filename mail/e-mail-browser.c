@@ -424,6 +424,8 @@ mail_browser_get_action_group (EMailReader *reader)
 static gboolean
 mail_browser_get_hide_deleted (EMailReader *reader)
 {
+	/* FIXME */
+	return FALSE;
 }
 
 static EMFormatHTMLDisplay *

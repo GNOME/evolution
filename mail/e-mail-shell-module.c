@@ -119,8 +119,6 @@ static guint mail_sync_timeout_source_id;
 
 extern gint camel_application_is_exiting;
 
-G_LOCK_DEFINE_STATIC (local_store);
-
 static StoreInfo *
 store_info_new (CamelStore *store,
                 const gchar *name)

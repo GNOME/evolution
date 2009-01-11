@@ -29,7 +29,6 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <gconf/gconf-client.h>
-#include <libgnome/gnome-url.h>
 
 #include "camel/camel-multipart.h"
 #include "camel/camel-mime-part.h"
@@ -170,11 +169,9 @@ void emla_list_action_do (CamelFolder *folder, const char *uid, CamelMimeMessage
 
 			goto exit;
 		} else {
-			GError *err = NULL;
-			gnome_url_show (url, &err);
-			if (!err)
-				goto exit;
-			g_error_free (err);
+			/* FIXME Pass a parent window. */
+			e_show_uri (NULL, url);
+			goto exit;
 		}
 		g_free (url);
 		url = NULL;

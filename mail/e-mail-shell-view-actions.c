@@ -94,20 +94,20 @@ static void
 action_mail_folder_expunge_cb (GtkAction *action,
                                EMailShellView *mail_shell_view)
 {
-	EMailShellContent *mail_shell_content;
-	EMFolderView *folder_view;
+	EMailReader *reader;
+	MessageList *message_list;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
-	g_return_if_fail (folder_view->folder != NULL);
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+	g_return_if_fail (message_list->folder != NULL);
 
 	em_utils_expunge_folder (
-		GTK_WIDGET (shell_window), folder_view->folder);
+		GTK_WIDGET (shell_window), message_list->folder);
 }
 
 static void
@@ -223,26 +223,26 @@ static void
 action_mail_folder_select_thread_cb (GtkAction *action,
                                      EMailShellView *mail_shell_view)
 {
-	EMailShellContent *mail_shell_content;
-	EMFolderView *folder_view;
+	MessageList *message_list;
+	EMailReader *reader;
 
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select_thread (folder_view->list);
+	message_list_select_thread (message_list);
 }
 
 static void
 action_mail_folder_select_subthread_cb (GtkAction *action,
                                         EMailShellView *mail_shell_view)
 {
-	EMailShellContent *mail_shell_content;
-	EMFolderView *folder_view;
+	MessageList *message_list;
+	EMailReader *reader;
 
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_select_subthread (folder_view->list);
+	message_list_select_subthread (message_list);
 }
 
 static void
@@ -257,14 +257,14 @@ static void
 action_mail_hide_read_cb (GtkAction *action,
                           EMailShellView *mail_shell_view)
 {
-	EMailShellContent *mail_shell_content;
-	EMFolderView *folder_view;
+	MessageList *message_list;
+	EMailReader *reader;
 
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
 
 	message_list_hide_add (
-		folder_view->list,
+		message_list,
 		"(match-all (system-flag \"seen\"))",
 		ML_HIDE_SAME, ML_HIDE_SAME);
 }
@@ -273,16 +273,16 @@ static void
 action_mail_hide_selected_cb (GtkAction *action,
                               EMailShellView *mail_shell_view)
 {
-	EMailShellContent *mail_shell_content;
-	EMFolderView *folder_view;
+	MessageList *message_list;
+	EMailReader *reader;
 	GPtrArray *uids;
 
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
 
-	uids = message_list_get_selected (folder_view->list);
-	message_list_hide_uids (folder_view->list, uids);
-	message_list_free_uids (folder_view->list, uids);
+	uids = message_list_get_selected (message_list);
+	message_list_hide_uids (message_list, uids);
+	message_list_free_uids (message_list, uids);
 }
 
 static void
@@ -303,13 +303,13 @@ static void
 action_mail_show_hidden_cb (GtkAction *action,
                             EMailShellView *mail_shell_view)
 {
-	EMailShellContent *mail_shell_content;
-	EMFolderView *folder_view;
+	MessageList *message_list;
+	EMailReader *reader;
 
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_hide_clear (folder_view->list);
+	message_list_hide_clear (message_list);
 }
 
 static void
@@ -323,26 +323,26 @@ static void
 action_mail_threads_collapse_all_cb (GtkAction *action,
                                      EMailShellView *mail_shell_view)
 {
-	EMailShellContent *mail_shell_content;
-	EMFolderView *folder_view;
+	MessageList *message_list;
+	EMailReader *reader;
 
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_set_threaded_collapse_all (folder_view->list);
+	message_list_set_threaded_collapse_all (message_list);
 }
 
 static void
 action_mail_threads_expand_all_cb (GtkAction *action,
                                    EMailShellView *mail_shell_view)
 {
-	EMailShellContent *mail_shell_content;
-	EMFolderView *folder_view;
+	MessageList *message_list;
+	EMailReader *reader;
 
-	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	folder_view = e_mail_shell_content_get_folder_view (mail_shell_content);
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
 
-	message_list_set_threaded_expand_all (folder_view->list);
+	message_list_set_threaded_expand_all (message_list);
 }
 
 static void
@@ -389,46 +389,6 @@ action_mail_tools_subscriptions_cb (GtkAction *action,
 		GTK_WINDOW (dialog), GTK_WINDOW (shell_window));
 	gtk_dialog_run (GTK_DIALOG (dialog));
 	/* XXX Dialog destroys itself. */
-}
-
-static void
-action_mail_uri_call_to_cb (GtkAction *action,
-                            EMailShellView *mail_shell_view)
-{
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
-}
-
-static void
-action_mail_uri_copy_cb (GtkAction *action,
-                         EMailShellView *mail_shell_view)
-{
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
-}
-
-static void
-action_mail_uri_copy_address_cb (GtkAction *action,
-                                 EMailShellView *mail_shell_view)
-{
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
-}
-
-static void
-action_mail_uri_to_search_folder_recipient_cb (GtkAction *action,
-                                               EMailShellView *mail_shell_view)
-{
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
-}
-
-static void
-action_mail_uri_to_search_folder_sender_cb (GtkAction *action,
-                                            EMailShellView *mail_shell_view)
-{
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
 }
 
 static void
@@ -623,41 +583,6 @@ static GtkActionEntry mail_entries[] = {
 	  N_("Subscribe or unsubscribe to folders on remote servers"),
 	  G_CALLBACK (action_mail_tools_subscriptions_cb) },
 
-	{ "mail-uri-call-to",
-	  NULL,
-	  N_("C_all To..."),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_mail_uri_call_to_cb) },
-
-	{ "mail-uri-copy",
-	  GTK_STOCK_COPY,
-	  N_("_Copy Link Location"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_mail_uri_copy_cb) },
-
-	{ "mail-uri-copy-address",
-	  GTK_STOCK_COPY,
-	  N_("Copy _Email Address"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_mail_uri_copy_address_cb) },
-
-	{ "mail-uri-to-search-folder-recipient",
-	  NULL,
-	  N_("_To This Address"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_mail_uri_to_search_folder_recipient_cb) },
-
-	{ "mail-uri-to-search-folder-sender",
-	  NULL,
-	  N_("_From This Address"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_mail_uri_to_search_folder_sender_cb) },
-
 	/*** Menus ***/
 
 	{ "mail-folder-menu",
@@ -667,23 +592,9 @@ static GtkActionEntry mail_entries[] = {
 	  NULL,
 	  NULL },
 
-	{ "mail-label-menu",
-	  NULL,
-	  N_("_Label"),
-	  NULL,
-	  NULL,
-	  NULL },
-
 	{ "mail-preview-menu",
 	  NULL,
 	  N_("_Preview"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "mail-uri-to-search-folder-menu",
-	  NULL,
-	  N_("Create _Search Folder"),
 	  NULL,
 	  NULL,
 	  NULL }

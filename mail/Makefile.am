@@ -93,8 +93,6 @@ libevolution_module_mail_la_SOURCES =			\
 	em-folder-tree.h				\
 	em-folder-tree-model.c				\
 	em-folder-tree-model.h				\
-	em-folder-view.c				\
-	em-folder-view.h				\
 	em-folder-utils.c				\
 	em-folder-utils.h				\
 	em-format.c					\

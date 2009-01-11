@@ -735,15 +735,7 @@ static void
 action_faq_cb (GtkAction *action,
                EShellWindow *shell_window)
 {
-	GError *error = NULL;
-
-	gtk_show_uri (NULL, EVOLUTION_FAQ, GDK_CURRENT_TIME, &error);
-
-	if (error != NULL) {
-		/* FIXME Show an error dialog. */
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
+	e_show_uri (GTK_WINDOW (shell_window), EVOLUTION_FAQ);
 }
 
 /**

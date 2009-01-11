@@ -188,7 +188,7 @@ book_shell_content_constructed (GObject *object)
 
 	g_signal_connect_swapped (
 		priv->preview, "send-message",
-		book_shell_content_send_message_cb, object);
+		G_CALLBACK (book_shell_content_send_message_cb), object);
 
 	/* Bind GObject properties to GConf keys. */
 

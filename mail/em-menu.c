@@ -29,8 +29,6 @@
 
 #include <gtk/gtk.h>
 
-#include <libgnome/gnome-url.h>
-
 #include "em-menu.h"
 #include "libedataserver/e-msgport.h"
 #include "em-utils.h"

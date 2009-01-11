@@ -337,38 +337,38 @@ task_module_handle_uri (EShellModule *shell_module,
 		goto exit;
 
 	while (*cp != '\0') {
-                gchar *header;
-                gchar *content;
-                gsize header_len;
-                gsize content_len;
+		gchar *header;
+		gchar *content;
+		gsize header_len;
+		gsize content_len;
 
-                header_len = strcspn (cp, "=&");
+		header_len = strcspn (cp, "=&");
 
-                /* If it's malformed, give up. */
-                if (cp[header_len] != '=')
-                        break;
+		/* If it's malformed, give up. */
+		if (cp[header_len] != '=')
+			break;
 
-                header = (gchar *) cp;
-                header[header_len] = '\0';
-                cp += header_len + 1;
+		header = (gchar *) cp;
+		header[header_len] = '\0';
+		cp += header_len + 1;
 
-                content_len = strcspn (cp, "&");
+		content_len = strcspn (cp, "&");
 
-                content = g_strndup (cp, content_len);
-                if (g_ascii_strcasecmp (header, "source-uid") == 0)
-                        source_uid = g_strdup (content);
-                else if (g_ascii_strcasecmp (header, "comp-uid") == 0)
-                        comp_uid = g_strdup (content);
-                else if (g_ascii_strcasecmp (header, "comp-rid") == 0)
-                        comp_rid = g_strdup (content);
-                g_free (content);
+		content = g_strndup (cp, content_len);
+		if (g_ascii_strcasecmp (header, "source-uid") == 0)
+			source_uid = g_strdup (content);
+		else if (g_ascii_strcasecmp (header, "comp-uid") == 0)
+			comp_uid = g_strdup (content);
+		else if (g_ascii_strcasecmp (header, "comp-rid") == 0)
+			comp_rid = g_strdup (content);
+		g_free (content);
 
-                cp += content_len;
-                if (*cp == '&') {
-                        cp++;
-                        if (strcmp (cp, "amp;") == 0)
-                                cp += 4;
-                }
+		cp += content_len;
+		if (*cp == '&') {
+			cp++;
+			if (strcmp (cp, "amp;") == 0)
+				cp += 4;
+		}
 	}
 
 	if (source_uid != NULL || comp_uid != NULL)
@@ -452,25 +452,25 @@ static void
 task_module_window_created (EShellModule *shell_module,
                             EShellWindow *shell_window)
 {
-        const gchar *module_name;
+	const gchar *module_name;
 
-        module_name = G_TYPE_MODULE (shell_module)->name;
+	module_name = G_TYPE_MODULE (shell_module)->name;
 
-        e_shell_window_register_new_item_actions (
-                shell_window, module_name,
-                item_entries, G_N_ELEMENTS (item_entries));
+	e_shell_window_register_new_item_actions (
+		shell_window, module_name,
+		item_entries, G_N_ELEMENTS (item_entries));
 
-        e_shell_window_register_new_source_actions (
-                shell_window, module_name,
-                source_entries, G_N_ELEMENTS (source_entries));
+	e_shell_window_register_new_source_actions (
+		shell_window, module_name,
+		source_entries, G_N_ELEMENTS (source_entries));
 }
 
 static EShellModuleInfo module_info = {
 
-        MODULE_NAME,
-        MODULE_ALIASES,
-        MODULE_SCHEMES,
-        MODULE_SORT_ORDER,
+	MODULE_NAME,
+	MODULE_ALIASES,
+	MODULE_SCHEMES,
+	MODULE_SORT_ORDER,
 
 	/* is_busy */ NULL,
 	/* shutdown */ NULL,
@@ -480,23 +480,23 @@ static EShellModuleInfo module_info = {
 void
 e_shell_module_init (GTypeModule *type_module)
 {
-        EShell *shell;
-        EShellModule *shell_module;
+	EShell *shell;
+	EShellModule *shell_module;
 
-        shell_module = E_SHELL_MODULE (type_module);
-        shell = e_shell_module_get_shell (shell_module);
+	shell_module = E_SHELL_MODULE (type_module);
+	shell = e_shell_module_get_shell (shell_module);
 
-        e_shell_module_set_info (
+	e_shell_module_set_info (
 		shell_module, &module_info,
 		e_task_shell_view_get_type (type_module));
 
 	task_module_ensure_sources (shell_module);
 
-        g_signal_connect_swapped (
-                shell, "handle-uri",
-                G_CALLBACK (task_module_handle_uri), shell_module);
+	g_signal_connect_swapped (
+		shell, "handle-uri",
+		G_CALLBACK (task_module_handle_uri), shell_module);
 
-        g_signal_connect_swapped (
-                shell, "window-created",
-                G_CALLBACK (task_module_window_created), shell_module);
+	g_signal_connect_swapped (
+		shell, "window-created",
+		G_CALLBACK (task_module_window_created), shell_module);
 }

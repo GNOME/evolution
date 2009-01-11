@@ -71,6 +71,7 @@ struct _EMailReaderIface {
 
 GType		e_mail_reader_get_type		(void);
 void		e_mail_reader_init		(EMailReader *reader);
+void		e_mail_reader_changed		(EMailReader *reader);
 GtkActionGroup *
 		e_mail_reader_get_action_group	(EMailReader *reader);
 gboolean	e_mail_reader_get_hide_deleted	(EMailReader *reader);
