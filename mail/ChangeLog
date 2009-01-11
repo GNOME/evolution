@@ -1,3 +1,13 @@
+2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-config.c:
+	* em-menu.c:
+	Remove unneeded #include <libgnome/gnome-url.h>
+
+	* em-folder-view.c (emfv_format_link_clicked):
+	* em-popup.c (emp_uri_popup_link_open):
+	Call e_show_uri() instead of gnome_url_show().
+
 2009-10-10  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-folder-view.c:

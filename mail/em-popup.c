@@ -31,8 +31,6 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 
-#include <libgnome/gnome-url.h>
-
 #include "em-popup.h"
 #include "libedataserver/e-msgport.h"
 #include "em-utils.h"
@@ -587,13 +585,9 @@ static void
 emp_uri_popup_link_open(EPopup *ep, EPopupItem *item, void *data)
 {
 	EMPopupTargetURI *t = (EMPopupTargetURI *)ep->target;
-	GError *err = NULL;
 
-	gnome_url_show(t->uri, &err);
-	if (err) {
-		g_warning("gnome_url_show: %s", err->message);
-		g_error_free(err);
-	}
+	/* FIXME Pass a parent window. */
+	e_show_uri (NULL, t->uri);
 }
 
 static void

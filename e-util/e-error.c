@@ -30,10 +30,10 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libgnome/gnome-url.h>
 
 #include <libedataserver/e-xml-utils.h>
 
+#include "e-util.h"
 #include "e-util-private.h"
 #include "e-error.h"
 
@@ -395,15 +395,9 @@ ee_build_label(GString *out, const char *fmt, GPtrArray *args,
 static void
 ee_response(GtkWidget *w, guint button, struct _e_error *e)
 {
-	GError *err = NULL;
-
 	if (button == GTK_RESPONSE_HELP) {
 		g_signal_stop_emission_by_name(w, "response");
-		gnome_url_show(e->help_uri, &err);
-		if (err) {
-			g_warning("Unable to run help uri: %s", err->message);
-			g_error_free(err);
-		}
+		e_display_help (GTK_WINDOW (w), e->help_uri);
 	}
 }
 

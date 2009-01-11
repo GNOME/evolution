@@ -1,3 +1,11 @@
+2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/e-cal-component-preview (on_link_clicked):
+	* gui/e-cal-component-memo-preview (on_link_clicked):
+	* gui/e-memo-table.c (open_url_cb):
+	* gui/dialogs/comp-editor.c (open_attachment):
+	Call e_show_uri() instead of gnome_url_show().
+
 2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/calendar-commands.c:

@@ -56,8 +56,6 @@
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 
-#include <libgnome/gnome-url.h>
-
 #include <glade/glade.h>
 
 #include "e-util/e-dialog-utils.h"
@@ -2628,8 +2626,6 @@ static void
 msg_composer_link_clicked (GtkhtmlEditor *editor,
                            const gchar *uri)
 {
-	GError *error = NULL;
-
 	if (uri == NULL || *uri == '\0')
 		return;
 
@@ -2642,12 +2638,7 @@ msg_composer_link_clicked (GtkhtmlEditor *editor,
 	if (g_ascii_strncasecmp (uri, "cid:", 4) == 0)
 		return;
 
-	gnome_url_show (uri, &error);
-
-	if (error) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
+	e_show_uri (GTK_WINDOW (editor), uri);
 }
 
 static void

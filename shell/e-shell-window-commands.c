@@ -29,7 +29,6 @@
 
 #include <libgnome/gnome-exec.h>
 #include <glib/gi18n.h>
-#include <libgnome/gnome-url.h>
 
 #include <gio/gio.h>
 
@@ -43,6 +42,7 @@
 #include "e-util/e-error.h"
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-print.h"
+#include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 
 #include "e-shell-window-commands.h"
@@ -963,15 +963,11 @@ command_open_faq (BonoboUIComponent *uih,
 		  EShellWindow *window,
  		  const char *path)
 {
- 	GError *error = NULL;
+	const gchar *uri;
 
-	gnome_url_show ("http://www.go-evolution.org/FAQ", &error);
-	if (error != NULL) {
-		e_notice (NULL, GTK_MESSAGE_ERROR,
-				_("Error opening the FAQ webpage."));
- 		g_error_free (error);
- 	}
- }
+	uri = "http://www.go-evolution.org/FAQ";
+	e_show_uri (GTK_WINDOW (window), uri);
+}
 
 static void
 command_quick_reference (BonoboUIComponent *uih,

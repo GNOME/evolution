@@ -1,3 +1,9 @@
+2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/widgets/eab-contact-display.c (eab_uri_popup_link_open),
+	(on_link_clicked):
+	Call e_show_uri() instead of gnome_url_show().
+
 2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/contact-editor/e-contact-editor-fullname.c:

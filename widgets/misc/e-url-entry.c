@@ -25,9 +25,9 @@
 #endif
 
 #include <gtk/gtk.h>
-#include <libgnome/gnome-url.h>
 #include <glib/gi18n.h>
 #include "e-url-entry.h"
+#include "e-util/e-util.h"
 
 struct _EUrlEntryPrivate {
 	GtkWidget *entry;
@@ -170,11 +170,15 @@ button_clicked_cb (GtkWidget *widget, gpointer data)
 {
 	EUrlEntry *url_entry;
 	EUrlEntryPrivate *priv;
+	const gchar *uri;
 
 	url_entry = E_URL_ENTRY (data);
 	priv = url_entry->priv;
 
-	gnome_url_show (gtk_entry_get_text (GTK_ENTRY (priv->entry)), NULL);
+	uri = gtk_entry_get_text (GTK_ENTRY (priv->entry));
+
+	/* FIXME Pass a parent window. */
+	e_show_uri (NULL, uri);
 }
 
 static void

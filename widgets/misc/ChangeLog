@@ -1,3 +1,9 @@
+2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-attachment-bar.c (eab_icon_clicked_cb):
+	* e-url-entry.c (button_clicked_cb):
+	Call e_show_uri() instead of gnome_url_show().
+
 2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
 
 	* test-dropdown-button.c:

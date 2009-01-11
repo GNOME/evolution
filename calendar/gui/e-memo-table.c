@@ -36,7 +36,6 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnome/gnome-url.h>
 #include <widgets/misc/e-gui-utils.h>
 #include <table/e-cell-checkbox.h>
 #include <table/e-cell-toggle.h>
@@ -907,7 +906,8 @@ open_url_cb (EPopup *ep, EPopupItem *pitem, void *data)
 	if (!prop)
 		return;
 
-	gnome_url_show (icalproperty_get_url (prop), NULL);
+	/* FIXME Pass a parent window. */
+	e_show_uri (NULL, icalproperty_get_url (prop));
 }
 
 /* Callback for the "delete tasks" menu item */

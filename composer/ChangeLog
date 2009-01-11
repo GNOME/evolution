@@ -1,3 +1,8 @@
+2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-msg-composer.c (msg_composer_link_clicked):
+	Call e_show_uri() instead of gnome_url_show().
+
 2009-01-09  Takao Fujiwara  <takao.fujiwara@sun.com>
 
 	Reviewed by Matthew Barnes  <mbarnes@redhat.com>

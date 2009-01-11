@@ -26,6 +26,7 @@
 #include <config.h>
 #endif
 
+#include <errno.h>
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -34,7 +35,6 @@
 #include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnome/libgnome.h>
 #include <e-util/e-util.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
@@ -1975,7 +1975,6 @@ open_attachment (EAttachmentBar *bar, CompEditor *editor)
 	GList *p;
 	int num;
 	char *attach_file_url;
-	GError *error = NULL;
 
 	if (E_IS_ATTACHMENT_BAR (bar)) {
 		icon_list = GNOME_ICON_LIST (bar);
@@ -2000,11 +1999,7 @@ open_attachment (EAttachmentBar *bar, CompEditor *editor)
 			attach_file_url = g_build_path ("/", local_store, filename, NULL);
 
 			/* launch the url now */
-			/* TODO should send GError and handle error conditions
-			 * here */
-			gnome_url_show (attach_file_url, &error);
-			if (error)
-				g_message ("DEBUG: gnome_url_show(%s) failed\n", attach_file_url);
+			e_show_uri (GTK_WINDOW (editor), attach_file_url);
 
 			g_free (filename);
 			g_free (attach_file_url); }

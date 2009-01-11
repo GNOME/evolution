@@ -28,12 +28,12 @@
 #include "eab-popup.h"
 
 #include "eab-gui-util.h"
+#include "e-util/e-util.h"
 #include "e-util/e-html-utils.h"
 #include "e-util/e-icon-factory.h"
 
 #include <string.h>
 #include <glib/gi18n.h>
-#include <libgnome/gnome-url.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
 
@@ -81,13 +81,9 @@ static void
 eab_uri_popup_link_open(EPopup *ep, EPopupItem *item, void *data)
 {
 	EABPopupTargetURI *t = (EABPopupTargetURI *)ep->target;
-	GError *err = NULL;
 
-	gnome_url_show(t->uri, &err);
-	if (err) {
-		g_warning("gnome_url_show: %s", err->message);
-		g_error_free(err);
-	}
+	/* FIXME Pass a parent window. */
+	e_show_uri (NULL, t->uri);
 }
 
 static void
@@ -258,13 +254,11 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 }
 
 static void
-on_link_clicked (GtkHTML *html, const char *url, EABContactDisplay *display)
+on_link_clicked (GtkHTML *html, const char *uri, EABContactDisplay *display)
 {
-	GError *err = NULL;
-
 #ifdef HANDLE_MAILTO_INTERNALLY
-	if (!strncmp (url, "internal-mailto:", strlen ("internal-mailto:"))) {
-		int mail_num = atoi (url + strlen ("internal-mailto:"));
+	if (!strncmp (uri, "internal-mailto:", strlen ("internal-mailto:"))) {
+		int mail_num = atoi (uri + strlen ("internal-mailto:"));
 
 		if (mail_num == -1)
 			return;
@@ -275,12 +269,8 @@ on_link_clicked (GtkHTML *html, const char *url, EABContactDisplay *display)
 	}
 #endif
 
-	gnome_url_show (url, &err);
-
-	if (err) {
-		g_warning ("gnome_url_show: %s", err->message);
-		g_error_free (err);
-	}
+	/* FIXME Pass a parent window. */
+	e_show_uri (NULL, uri);
 }
 
 #if 0

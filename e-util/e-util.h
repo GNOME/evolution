@@ -42,6 +42,8 @@ typedef enum {
 
 const gchar *	e_get_user_data_dir		(void);
 const gchar *	e_get_accels_filename		(void);
+void		e_show_uri			(GtkWindow *parent,
+						 const gchar *uri);
 void		e_display_help			(GtkWindow *parent,
 						 const gchar *link_id);
 

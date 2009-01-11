@@ -30,12 +30,12 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libgnome/gnome-url.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-categories.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-stream.h>
 #include <libedataserver/e-time-utils.h>
+#include <e-util/e-util.h>
 #include <e-util/e-categories-config.h>
 #include "calendar-config.h"
 #include "e-cal-component-memo-preview.h"
@@ -54,14 +54,8 @@ G_DEFINE_TYPE (ECalComponentMemoPreview, e_cal_component_memo_preview, GTK_TYPE_
 static void
 on_link_clicked (GtkHTML *html, const char *url, gpointer data)
 {
-        GError *err = NULL;
-
-        gnome_url_show (url, &err);
-
-	if (err) {
-		g_warning ("gnome_url_show: %s", err->message);
-                g_error_free (err);
-        }
+	/* FIXME Pass a parent window. */
+	e_show_uri (NULL, url);
 }
 
 static void

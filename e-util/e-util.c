@@ -92,6 +92,50 @@ e_get_accels_filename (void)
 }
 
 /**
+ * e_show_uri:
+ * @parent: a parent #GtkWindow or %NULL
+ * @uri: the URI to show
+ *
+ * Launches the default application to show the given URI.  The URI must
+ * be of a form understood by GIO.  If the URI cannot be shown, it presents
+ * a dialog describing the error.  The dialog is set as transient to @parent
+ * if @parent is non-%NULL.
+ **/
+void
+e_show_uri (GtkWindow *parent,
+            const gchar *uri)
+{
+	GtkWidget *dialog;
+	GdkScreen *screen = NULL;
+	GError *error = NULL;
+	guint32 timestamp;
+
+	g_return_if_fail (uri != NULL);
+
+	timestamp = gtk_get_current_event_time ();
+
+	if (parent != NULL)
+		screen = gtk_widget_get_screen (GTK_WIDGET (parent));
+
+	if (gtk_show_uri (screen, uri, timestamp, &error))
+		return;
+
+	dialog = gtk_message_dialog_new_with_markup (
+		parent, GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+		"<big><b>%s</b></big>",
+		_("Could not open the link."));
+
+	gtk_message_dialog_format_secondary_text (
+		GTK_MESSAGE_DIALOG (dialog), "%s", error->message);
+
+	gtk_dialog_run (GTK_DIALOG (dialog));
+
+	gtk_widget_destroy (dialog);
+	g_error_free (error);
+}
+
+/**
  * e_display_help:
  * @parent: a parent #GtkWindow or %NULL
  * @link_id: help section to present or %NULL

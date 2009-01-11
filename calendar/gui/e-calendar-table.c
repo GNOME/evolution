@@ -1554,7 +1554,8 @@ open_url_cb (EPopup *ep, EPopupItem *pitem, void *data)
 	if (!prop)
 		return;
 
-	gnome_url_show (icalproperty_get_url (prop), NULL);
+	/* FIXME Pass a parent window. */
+	e_show_uri (NULL, icalproperty_get_url (prop));
 }
 
 /* Opens a new task editor */

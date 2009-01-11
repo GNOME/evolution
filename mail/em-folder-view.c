@@ -38,8 +38,6 @@
 #undef interface
 #endif
 
-#include <libgnome/gnome-url.h>
-
 #include <gconf/gconf-client.h>
 
 #include <camel/camel-mime-message.h>
@@ -2731,14 +2729,8 @@ emfv_format_link_clicked(EMFormatHTMLDisplay *efhd, const char *uri, EMFolderVie
 	} else if (!g_ascii_strncasecmp (uri, "cid:", 4)) {
 		/* ignore */
 	} else {
-		GError *err = NULL;
-
-		gnome_url_show (uri, &err);
-
-		if (err) {
-			g_warning ("gnome_url_show: %s", err->message);
-			g_error_free (err);
-		}
+		/* FIXME Pass a parent window. */
+		e_show_uri (NULL, uri);
 	}
 }
 

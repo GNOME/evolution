@@ -1,3 +1,8 @@
+2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* mailing-list-actions.c (emla_list_action_do):
+	Call e_show_uri() instead of gnome_url_show().
+
 2008-12-08  Jennifer Newman  <jennifer.newman@tufts.edu>
 
 	** Fix for bug #549964

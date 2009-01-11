@@ -1,3 +1,12 @@
+2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-error.c (ee_response):
+	Call e_display_help() instead of gnome_url_show().
+
+	* e-util.c (e_show_uri):
+	New convenience function calls gtk_show_uri() and displays an
+	error dialog if the URI cannot be shown.
+
 2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-dialog-utils.c:
