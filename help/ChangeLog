@@ -1,5 +1,10 @@
 2009-01-11  Andre Klapper  <a9016009@gmx.de>
 
+	* C/evolution.xml: Sync two strings. Remove explicit mentioning
+	of some translators.
+
+2009-01-11  Andre Klapper  <a9016009@gmx.de>
+
 	* C/evolution.xml: Remove more redundancy; split up more strings.
 
 2009-01-11  Andre Klapper  <a9016009@gmx.de>

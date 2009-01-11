@@ -5571,7 +5571,7 @@
      <para>Create a new appointment in the calendar.</para>
     </listitem>
     <listitem id="bsbgc8b">
-     <para>Right-click the appointment, then select Schedule Meeting to appear Evolution Meeting editor.</para>
+     <para>Right-click the appointment, then select Schedule Meeting.</para>
     </listitem>
     <listitem id="b13pcsbd">
      <para>Click the Add tab to enter the email addresses into the list.</para>
@@ -7476,21 +7476,6 @@
    </listitem>
   </itemizedlist>
   <para>Please file comments and suggestions for this manual as bugs in the GNOME bug tracking system. If you contributed to this project but do not see your name here, please contact Radhika PC (pradhika@novell.com) or Srinivasa Ragavan (sragavan@novell.com) and either of them will list you.</para>
-  <para>Partial list of Documentation Translators (application translated to numerous additional languages):</para>
-  <itemizedlist>
-   <listitem>
-    <para>Daniel Persson for Swedish (.se)</para>
-   </listitem>
-   <listitem>
-    <para>Hector Garcia Alvarez and Francisco Javier F. Serrador for Spanish (.es)</para>
-   </listitem>
-   <listitem>
-    <para>Kjartan Maraas for Norwegian (.no)</para>
-   </listitem>
-   <listitem>
-    <para>Sergey V. Mironov for Russian (.ru)</para>
-   </listitem>
-  </itemizedlist>
  </appendix>
 
  <glossary id="apx-gloss">
