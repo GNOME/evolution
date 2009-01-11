@@ -698,7 +698,7 @@
          <listitem id="bsw0acl">
           <para>Select your authentication type in the Authentication list.</para>
           <para>or</para>
-          <para>Click Check for Supported Types to have Evolution check for supported types. Some servers do not announce the authentication mechanisms they support, so clicking this button is not a guarantee that available mechanisms actually work.</para>
+          <para>Click Check for Supported Types to have Evolution check for supported authentication mechanisms. Some servers do not announce the authentication mechanisms they support, so clicking this button is not a guarantee that available mechanisms actually work.</para>
          </listitem>
          <listitem id="bsw0aqr">
           <para>Type your username in the Username field.</para>
@@ -1944,10 +1944,10 @@
       <para>Select Edit &gt; Preferences.</para>
      </listitem>
      <listitem id="b13uu2g0">
-      <para>Select the mail account whose default settings you want to change.</para>
+      <para>Select the mail account whose settings you want to change.</para>
      </listitem>
      <listitem id="b13uu7dv">
-      <para>Click Edit to open the Account Editor window.</para>
+      <para>Click Edit to open the Account Editor.</para>
      </listitem>
      <listitem id="b13uu7rw">
       <para>Click the Default tab.</para>
@@ -5271,10 +5271,9 @@
        <para>Select Edit &gt; Preferences, then select Mail Accounts.</para>
       </listitem>
       <listitem id="bsqdqvl">
-       <para>Select the account you want to convert, then click Edit to appear the Account Editor.</para>
-       <para>You can view Identity tab enabled.</para>
+       <para>Select the account you want to convert, then click Edit.</para>
+       <para>Click the Identity tab.</para>
        <mediaobject id="b13p90wc"><imageobject><imagedata format="PNG" fileref="figures/exchg-identity.png"/></imageobject></mediaobject>
-       
       </listitem>
       <listitem id="bshngg7">
        <para>Change your email address as needed.</para>
@@ -5282,7 +5281,6 @@
       <listitem id="bshngsm">
        <para>Click the Receiving Mail tab, then select Microsoft Exchange as your server type.</para>
        <mediaobject id="b13pb2z0"><imageobject><imagedata format="PNG" fileref="figures/exchng-rec-mail.png"/></imageobject></mediaobject>
-       
       </listitem>
       <listitem id="bshnh8h">
        <para>Type your user name, and the Outlook Web Access (OWA) URL. Click Authenticate, then enter the password at the prompt. The Exchange server authenticates your account.</para>
@@ -6478,7 +6476,9 @@
    <title>Working with Mail Accounts</title>
    <para>Evolution allows you to maintain multiple accounts, or identities. When you are writing an email message, you can choose which account to use by selecting from the drop-down list next to the From field in the message composer.</para>
    <para>Click Send/Receive to update all mail sources that are not disabled. If you don't want to check mail for a given account, select the account in Edit &gt; Preferences &gt; Mail Accounts page and click the Disable button.</para>
-   <para>To add a new account, click Add to open the Evolution configuration assistant. To alter an existing account, select it in the Preferences window, then click Edit to open the account editor dialog box.</para>
+   <para>To add a new account, click Add to open the Evolution configuration assistant.</para>
+   <para>To alter an existing account, select it in the Preferences window.</para>
+   <para>Click Edit to open the Account Editor.</para>
    <para>The account editor dialog box has seven sections:</para>
    <formalpara id="bsbhdwn">
     <title>Identity:</title>
@@ -6524,10 +6524,10 @@
 
   <section id="b15fx7uz">
    <title>IMAP Mail Headers</title>
-   <para>Evolution allows you to choose the headers that you want to download so that you can reduce the download time and filter or move your mail around the way you like it. Evolution help you customize your IMAP Mail header preferences and thus save the download time. The IMAP Mail header options are as follows:</para>
+   <para>Evolution allows you to choose the headers that you want to download so that you can reduce the download time and filter or move your mail around the way you like it. Evolution helps you to customize your IMAP Mail header preferences and thus save the download time. The IMAP Mail header options are as follows:</para>
    <formalpara id="b15fzvdp">
     <title>All Headers:</title>
-    <para>This includes all the available IMAP Mail headers. By choosing this option, Evolution will download all the headers for all the messages.</para>
+    <para>All available IMAP mail headers for all the messages will be downloaded.</para>
    </formalpara>
    <formalpara id="b15fzvjw">
     <title>Basic Headers:</title>
@@ -6544,7 +6544,8 @@
      <para>Select Edit &gt; Preferences.</para>
     </listitem>
     <listitem id="b15fy3hq">
-     <para>Select the IMAP account and click Edit to open the Account Editor.</para>
+     <para>Select the IMAP account.</para>
+     <para>Click Edit to open the Account Editor.</para>
     </listitem>
     <listitem id="b15fy4cs">
      <para>On the Account Editor, click IMAP Headers tab to open IMAP Headers to the Account Editor.</para>

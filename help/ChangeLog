@@ -1,5 +1,9 @@
 2009-01-11  Andre Klapper  <a9016009@gmx.de>
 
+	* C/evolution.xml: Remove more redundancy; split up more strings.
+
+2009-01-11  Andre Klapper  <a9016009@gmx.de>
+
 	* C/evolution.xml: Remove redundancy; split up strings.
 	Fixes bug #567409.
 
