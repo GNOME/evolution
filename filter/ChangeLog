@@ -1,5 +1,10 @@
 2009-01-11  Tor Lillqvist  <tml@novell.com>
 
+	* filter-option.c (get_dynamic_options): Add cast to avoid
+	warning.
+
+2009-01-11  Tor Lillqvist  <tml@novell.com>
+
 	** Bug #567244
 
 	* filter-option.c (get_dynamic_options): For portability, use

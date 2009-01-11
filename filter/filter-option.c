@@ -361,7 +361,7 @@ get_dynamic_options (FilterOption *fo)
 
 	module = g_module_open (NULL, G_MODULE_BIND_LAZY);
 
-	if (g_module_symbol (module, fo->dynamic_func, &get_func)) {
+	if (g_module_symbol (module, fo->dynamic_func, (gpointer) &get_func)) {
 		res = get_func ();
 	} else {
 		g_warning ("optionlist dynamic fill function '%s' not found", fo->dynamic_func);
