@@ -1,3 +1,8 @@
+2009-01-12  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Bump minimum_eds_version to 2.24.3 for CAMEL_STORE_IS_MIGRATING.
+
 2009-01-12  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* NEWS: Evolution 2.24.3 release
