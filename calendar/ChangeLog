@@ -1,3 +1,10 @@
+2009-01-12  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fix for bug #567148
+
+	* gui/e-timezone-entry.c (e_timezone_entry_init): Use a labelled button
+	to bring up the timezone selector widget. 
+
 2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/e-cal-component-preview (on_link_clicked):

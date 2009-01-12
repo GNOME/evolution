@@ -104,7 +104,6 @@ static void
 e_timezone_entry_init		(ETimezoneEntry	*tentry)
 {
 	ETimezoneEntryPrivate *priv;
-	GtkWidget *image;
 	AtkObject *a11y;
 
 	tentry->priv = priv = g_new0 (ETimezoneEntryPrivate, 1);
@@ -119,7 +118,7 @@ e_timezone_entry_init		(ETimezoneEntry	*tentry)
 	gtk_widget_show (priv->entry);
 	g_signal_connect (priv->entry, "changed", G_CALLBACK (on_entry_changed), tentry);
 
-	priv->button = gtk_button_new ();
+	priv->button = gtk_button_new_with_label (_("Select..."));
 	g_signal_connect (priv->button, "clicked", G_CALLBACK (on_button_clicked), tentry);
 	gtk_box_pack_start (GTK_BOX (tentry), priv->button, FALSE, FALSE, 6);
 	gtk_widget_show (priv->button);
@@ -127,11 +126,6 @@ e_timezone_entry_init		(ETimezoneEntry	*tentry)
 	if (a11y != NULL) {
 		atk_object_set_name (a11y, _("Select Timezone"));
 	}
-
-	image = gtk_image_new_from_icon_name (
-		"stock_timezone", GTK_ICON_SIZE_BUTTON);
-	gtk_container_add (GTK_CONTAINER (priv->button), image);
-	gtk_widget_show (image);
 }
 
 
