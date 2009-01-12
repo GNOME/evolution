@@ -44,6 +44,7 @@ struct _CalendarPrefsDialog {
 
 	/* General tab */
 	GtkWidget *timezone;
+	GtkWidget *day_second_zone;
 	GtkWidget *daylight_saving;
 	GtkWidget *working_days[7];
 	GtkWidget *week_start_day;

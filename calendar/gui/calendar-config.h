@@ -258,4 +258,11 @@ gboolean calendar_config_get_daylight_saving (void);
 void calendar_config_set_daylight_saving (gboolean daylight_saving);
 guint calendar_config_add_notification_daylight_saving (GConfClientNotifyFunc func, gpointer data);
 
+GSList *calendar_config_get_day_second_zones (void);
+void    calendar_config_free_day_second_zones (GSList *zones);
+void    calendar_config_set_day_second_zone (const char *location);
+char *  calendar_config_get_day_second_zone (void);
+void    calendar_config_select_day_second_zone (void);
+guint   calendar_config_add_notification_day_second_zone (GConfClientNotifyFunc func, gpointer data);
+
 #endif /* _CALENDAR_CONFIG_H_ */

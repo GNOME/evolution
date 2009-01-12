@@ -132,6 +132,101 @@ timezone_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 }
 
 static void
+update_day_second_zone_caption (CalendarPrefsDialog *prefs)
+{
+	char *location;
+	const char *caption;
+	icaltimezone *zone;
+
+	g_return_if_fail (prefs != NULL);
+
+	caption = _("None");
+
+	location = calendar_config_get_day_second_zone ();
+	if (location && *location) {
+		zone = icaltimezone_get_builtin_timezone (location);
+		if (zone && icaltimezone_get_display_name (zone)) {
+			caption = icaltimezone_get_display_name (zone);
+		}
+	}
+	g_free (location);
+
+	gtk_button_set_label (GTK_BUTTON (prefs->day_second_zone), caption);
+}
+
+static void
+on_set_day_second_zone (GtkWidget *item, CalendarPrefsDialog *prefs)
+{
+	if (!gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM (item)))
+		return;
+
+	calendar_config_set_day_second_zone (g_object_get_data (G_OBJECT (item), "timezone"));
+	update_day_second_zone_caption (prefs);
+}
+
+static void
+on_select_day_second_zone (GtkWidget *item, CalendarPrefsDialog *prefs)
+{
+	g_return_if_fail (prefs != NULL);
+
+	calendar_config_select_day_second_zone ();
+	update_day_second_zone_caption (prefs);
+}
+
+static void
+day_second_zone_clicked (GtkWidget *widget, CalendarPrefsDialog *prefs)
+{
+	GtkWidget *menu, *item;
+	GSList *group = NULL, *recent_zones, *s;
+	char *location;
+	icaltimezone *zone, *second_zone = NULL;
+
+	menu = gtk_menu_new ();
+
+	location = calendar_config_get_day_second_zone ();
+	if (location && *location)
+		second_zone = icaltimezone_get_builtin_timezone (location);
+	g_free (location);
+
+	group = NULL;
+	item = gtk_radio_menu_item_new_with_label (group, _("None"));
+	group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
+	if (!second_zone)
+		gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), TRUE);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	g_signal_connect (item, "toggled", G_CALLBACK (on_set_day_second_zone), prefs);
+
+	recent_zones = calendar_config_get_day_second_zones ();
+	for (s = recent_zones; s != NULL; s = s->next) {
+		zone = icaltimezone_get_builtin_timezone (s->data);
+		if (!zone)
+			continue;
+
+		item = gtk_radio_menu_item_new_with_label (group, icaltimezone_get_display_name (zone));
+		group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
+		/* both comes from builtin, thus no problem to compare pointers */
+		if (zone == second_zone)
+			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), TRUE);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+		g_object_set_data_full (G_OBJECT (item), "timezone", g_strdup (s->data), g_free);
+		g_signal_connect (item, "toggled", G_CALLBACK (on_set_day_second_zone), prefs);
+	}
+	calendar_config_free_day_second_zones (recent_zones);
+
+	item = gtk_separator_menu_item_new ();
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	item = gtk_menu_item_new_with_label (_("Select..."));
+	g_signal_connect (item, "activate", G_CALLBACK (on_select_day_second_zone), prefs);
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+
+	gtk_widget_show_all (menu);
+
+	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,
+			0, gtk_get_current_event_time ());
+}
+
+static void
 daylight_saving_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 {
 	gboolean set = gtk_toggle_button_get_active ((GtkToggleButton *) prefs->daylight_saving);
@@ -373,6 +468,7 @@ setup_changes (CalendarPrefsDialog *prefs)
 		g_signal_connect (G_OBJECT (prefs->working_days[i]), "toggled", G_CALLBACK (working_days_changed), prefs);
 
 	g_signal_connect (G_OBJECT (prefs->timezone), "changed", G_CALLBACK (timezone_changed), prefs);
+	g_signal_connect (G_OBJECT (prefs->day_second_zone), "clicked", G_CALLBACK (day_second_zone_clicked), prefs);
 	g_signal_connect (G_OBJECT (prefs->daylight_saving), "toggled", G_CALLBACK (daylight_saving_changed), prefs);
 
 	g_signal_connect (G_OBJECT (prefs->start_of_day), "changed", G_CALLBACK (start_of_day_changed), prefs);
@@ -513,6 +609,9 @@ show_config (CalendarPrefsDialog *prefs)
 	set = calendar_config_get_daylight_saving ();
 	gtk_toggle_button_set_active ((GtkToggleButton *) prefs->daylight_saving, set);
 
+	/* Day's second zone */
+	update_day_second_zone_caption (prefs);
+
 	/* Working Days. */
 	working_days = calendar_config_get_working_days ();
 	mask = 1 << 0;
@@ -637,6 +736,7 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs)
 
 	/* General tab */
 	prefs->timezone = glade_xml_get_widget (gui, "timezone");
+	prefs->day_second_zone = glade_xml_get_widget (gui, "day_second_zone");
 	prefs->daylight_saving = glade_xml_get_widget (gui, "daylight_cb");
 	for (i = 0; i < 7; i++)
 		prefs->working_days[i] = glade_xml_get_widget (gui, working_day_names[i]);

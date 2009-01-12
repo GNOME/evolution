@@ -1,4 +1,36 @@
-2009-01-11  Milan Crha  <mcrha@redhat.com>
+2009-01-12  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #563364
+
+	* gui/e-day-view-time-item.h: (EDayViewTimeItem):
+	* gui/e-day-view-time-item.c: (e_day_view_time_item_class_init),
+	(e_day_view_time_item_init), (e_day_view_time_item_finalize),
+	(e_day_view_time_item_get_column_width), (edvti_draw_zone),
+	(e_day_view_time_item_draw), (edvti_second_zone_changed_cb),
+	(edvti_on_select_zone), (edvti_on_set_zone),
+	(e_day_view_time_item_show_popup_menu):
+	Show two timezones in the day view's time column.
+
+	* gui/apps_evolution_calendar.schemas.in:
+	* gui/calendar-config-keys.h:
+	* gui/calendar-config.h:
+	* gui/calendar-config.c: (calendar_config_get_day_second_zones),
+	(calendar_config_free_day_second_zones),
+	(calendar_config_set_day_second_zone),
+	(calendar_config_get_day_second_zone),
+	(calendar_config_select_day_second_zone),
+	(calendar_config_add_notification_day_second_zone):
+	Access configuration for the second day time zone.
+
+	* gui/dialogs/cal-prefs-dialog.glade:
+	* gui/dialogs/cal-prefs-dialog.h: (struct _CalendarPrefsDialog):
+	* gui/dialogs/cal-prefs-dialog.c: (update_day_second_zone_caption),
+	(on_set_day_second_zone), (on_select_day_second_zone),
+	(day_second_zone_clicked), (setup_changes), (show_config),
+	(calendar_prefs_dialog_construct):
+	Manage the second day zone in a Preferences dialog.
+
+2009-01-12  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #555310
 
