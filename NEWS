@@ -1,3 +1,48 @@
+Evolution 2.24.3 2009-01-12
+---------------------------
+
+Bug Fixes:
+	#332729: Invalid write with outspring from e-config.c (Milan Crha)
+	#337082: Unnamed imap folder (Milan Crha)
+	#435452: (Novell Bugzilla) Adding People to Meeting Loses Attendee if Add or Busy Search Selected (Srinivasa Ragavan)
+	#435694: (Novell Bugzilla) Retract of Email from Sent Items Does not Work (Bharath Acharya)
+	#439733: (Novell Bugzilla) Checking for junk before training (Srinivasa Ragavan)
+	#446285: (Novell Bugzilla) Meeting Entry Does Not Allow Multiple Names (Bharath Acharya)
+	#458968: (Novell Bugzilla) Don't warn the user about changes being lost if he is trying to delegate the meeting (Suman Manjunath)
+	#546637: Mail opened from the "Unread mails" displays empty (Srinivasa Ragavan)
+	#551599: Do not fallback to default 15 minutes alarm offset if alarm is triggered at start (or end) of appointment (Paul Bolle)
+	#552583: Passwords don't get stored when using other authentication type than "Password" (Milan Crha)
+	#552583: Free the right url (Srinivasa Ragavan)
+	#552583: Account checking logic a bit more consistent (Milan Crha)
+	#552583: Fix bugs in the account checking logic (Sankar P)
+	#552583: Compare the protocol, user, host and port and disregard the rest (Matthew Barnes)
+	#555663: Evolution crashed with SIGSEGV in gconf-bridge (Milan Crha)
+	#556303: Evolution crashed with SIGSEGV in camel_mime_part_get_filename (Milan Crha)
+	#557176: Crash while trying to click on 'Contacts' (Milan Crha)
+	#558337: Evolution crashes while managing IMAP folder subscriptions (Norman Wang)
+	#559153: Unable to convert mailboxes from Hardy to Intrepid versions (Sankar P)
+	#560420: Failed spamassassin pipe on Evolution (hp@syntomax.com)
+	#562091: New share memo window doesn't come up (Matthew Barnes)
+	#562155: Evolution stopped to start (e_shell_set_crash_recovery) (Matthew Barnes)
+	#562450: Edit as New Message doesn't copy the content of a GPG signed message (Matthew Barnes)
+	#562886: Evolution mailto CLI cannot handle attachments with "#" in filename (Matthew Barnes)
+	#563077: Evolution crashes if gnome-settings-daemon is not started on Solaris (Jeff Cai)
+	#563250: Save and restore custom composer accelerators (Matthew Barnes)
+	#563369: "Templates" folder not translated (Milan Crha)
+	#564007: Messages do not show inline decrypted message by default (Milan Crha)
+	#564860: Evolution crashes in e_util_labels_parse if the labels don't have the correct format (Matthew Barnes)
+	#565553: Right click on an attachment in calendar event and chose application does not work (Ashish Shrivastava)
+	#566653: Local folder's DnD aren't saved well to DB (Srinivasa Ragavan)
+
+Updated Translations:
+	Jorge Gonzalez (es)
+	Gil Forcada (ca)
+	Claude Paroz (fr)
+	Leonardo Ferreira Fontenelle (pt_BR)
+	Daniel Nylander (sv)
+	Andre Klapper (de,cs)
+	Changwoo Ryu (ko)
+	
 Evolution 2.24.2 2008-11-24
 ---------------------------
 
