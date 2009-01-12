@@ -420,6 +420,7 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 				    ((flags & CAMEL_MESSAGE_DELETED) == 0) &&
 				    (camel_message_info_date_received (info) > last_newmail))
 					new++;
+				camel_message_info_free (info);
 			}
 		}
 	}
