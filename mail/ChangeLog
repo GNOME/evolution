@@ -1,3 +1,9 @@
+2009-01-12  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #566653
+
+	* mail-folder-cache.c: (folder_changed): Fix a leaked info
+
 2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-config.c:
