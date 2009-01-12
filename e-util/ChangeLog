@@ -1,3 +1,35 @@
+2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-error.c (ee_response):
+	Call e_display_help() instead of gnome_url_show().
+
+	* e-util.c (e_show_uri):
+	New convenience function calls gtk_show_uri() and displays an
+	error dialog if the URI cannot be shown.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-dialog-utils.c:
+	Remove unneeded #include <libgnome/gnome-util.h>.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-util.c (e_display_help):
+	Now that we require GTK+ 2.14, use gtk_show_uri() instead of
+	gnome_help_display().
+
+2009-01-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-config.c (ec_rebuild):
+	Use the translated the EConfigItem label when building the UI.
+
+2008-12-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #564860
+
+	* e-util-label.c (e_util_labels_parse):
+	Don't crash on malformed label strings.
+
 2008-12-10  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #563250

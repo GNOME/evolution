@@ -23,8 +23,6 @@
 #ifndef __E_CONTACT_EDITOR_H__
 #define __E_CONTACT_EDITOR_H__
 
-#include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-app-helper.h>
 #include <glade/glade.h>
 
 #include "addressbook/gui/contact-editor/eab-editor.h"

@@ -26,7 +26,6 @@
 #include <e-util/e-util-private.h>
 
 #include <glib/gi18n.h>
-#include <libgnome/gnome-util.h>
 #include <misc/e-gui-utils.h>
 #include <string.h>
 #include <stdlib.h>

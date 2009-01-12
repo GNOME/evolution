@@ -18,6 +18,7 @@ INCLUDES =							\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
 	-DEVOLUTION_GALVIEWSDIR=\""$(viewsdir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"		\
 	-DPREFIX=\""$(prefix)"\"				\
 	$(LDAP_CFLAGS)						\

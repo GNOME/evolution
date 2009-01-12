@@ -32,7 +32,6 @@
 
 #include <gtk/gtk.h>
 
-#include <libgnomeui/gnome-uidefs.h>
 #include <glib/gi18n.h>
 
 #include "cal-attachment-select-file.h"

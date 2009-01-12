@@ -1,3 +1,10 @@
+2008-12-15  srinivasa ragavan  <sragavan@novell.com>
+
+	* makefile.am:
+	* bf-junk-filter.c: (init_db), (pipe_to_bogofilter): init the
+	bogofilter if it wasn't. say that evolution's welcome message is not
+	junk.
+
 2008-10-14  Sankar P  <psankar@novell.com>
 
 License Changes

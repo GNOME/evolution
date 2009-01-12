@@ -1655,7 +1655,7 @@ try_again:
 			goto try_again;	
 		}	
 
-		g_warning (G_STRLOC ": Unable to get query");
+		g_warning (G_STRLOC ": Unable to get query, %s", error->message);
 
 		return;
 	}

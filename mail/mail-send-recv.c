@@ -424,7 +424,8 @@ build_dialog (GtkWindow *parent,
 	g_object_unref (iter);
 
 	/* Check to see if we have to send any mails --- if we don't, don't display the SMTP row in the table */
-	if (outbox && destination && camel_folder_get_message_count (outbox) == 0)
+	if (outbox && destination 
+	 && (camel_folder_get_message_count(outbox) - camel_folder_get_deleted_message_count(outbox)) == 0)
 		num_sources--;
 
 	table = gtk_table_new (num_sources, 4, FALSE);
@@ -552,7 +553,8 @@ build_dialog (GtkWindow *parent,
 	e_event_emit ((EEvent *)em_event_peek (), "mail.sendreceive", (EEventTarget *) target);
 
 	/* Skip displaying the SMTP row if we've got no outbox, destination or unsent mails */
-	if (outbox && destination && camel_folder_get_message_count (outbox) != 0) {
+	if (outbox && destination 
+	 && (camel_folder_get_message_count(outbox) - camel_folder_get_deleted_message_count(outbox)) != 0) {
 		info = g_hash_table_lookup (data->active, SEND_URI_KEY);
 		if (info == NULL) {
 			info = g_malloc0 (sizeof (*info));

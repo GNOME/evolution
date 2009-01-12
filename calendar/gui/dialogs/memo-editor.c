@@ -96,6 +96,21 @@ memo_editor_dispose (GObject *object)
 }
 
 static void
+memo_editor_constructed (GObject *object)
+{
+	MemoEditorPrivate *priv;
+	CompEditor *editor;
+
+	priv = MEMO_EDITOR_GET_PRIVATE (object);
+	editor = COMP_EDITOR (object);
+
+	priv->memo_page = memo_page_new (editor);
+	comp_editor_append_page (
+		editor, COMP_EDITOR_PAGE (priv->memo_page),
+		_("Memo"), TRUE);
+}
+
+static void
 memo_editor_class_init (MemoEditorClass *class)
 {
 	GObjectClass *object_class;
@@ -105,6 +120,7 @@ memo_editor_class_init (MemoEditorClass *class)
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->dispose = memo_editor_dispose;
+	object_class->constructed = memo_editor_constructed;
 
 	/* TODO Add a help section for memos. */
 	editor_class = COMP_EDITOR_CLASS (class);
@@ -131,12 +147,6 @@ memo_editor_init (MemoEditor *me)
 		g_critical ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
 	}
-
-	me->priv->memo_page = memo_page_new (editor);
-	comp_editor_append_page (
-		COMP_EDITOR (me),
-		COMP_EDITOR_PAGE (me->priv->memo_page),
-		_("Memo"), TRUE);
 }
 
 /**

@@ -29,7 +29,7 @@
 #include <string.h>
 #include <iconv.h>
 
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #include <bonobo/bonobo-ui-node.h>
 #include <bonobo/bonobo-ui-util.h>

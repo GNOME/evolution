@@ -32,7 +32,7 @@
 #include <string.h>
 #include "addressbook/gui/widgets/eab-contact-display.h"
 #include "e-util/e-util-private.h"
-#include <libgnome/gnome-i18n.h>
+#include <glib/gi18n.h>
 
 typedef struct dropdown_data dropdown_data;
 typedef enum {

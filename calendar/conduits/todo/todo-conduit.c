@@ -240,7 +240,7 @@ e_todo_gui_new (EPilotSettings *ps)
 	rows = E_PILOT_SETTINGS_TABLE_ROWS;
 	lbl = gtk_label_new (_("Default Priority:"));
 	gtk_misc_set_alignment (GTK_MISC (lbl), 0.0, 0.5);
-	adj = gtk_adjustment_new (1, 1, 5, 1, 5, 5);
+	adj = gtk_adjustment_new (1, 1, 5, 1, 5, 0);
 	gui->priority = gtk_spin_button_new (GTK_ADJUSTMENT (adj), 1.0, 0);
 	gtk_spin_button_set_numeric (GTK_SPIN_BUTTON (gui->priority), TRUE);
 	gtk_table_attach_defaults (GTK_TABLE (ps), lbl, 0, 1, rows, rows + 1);

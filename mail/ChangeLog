@@ -1,3 +1,168 @@
+2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-config.c:
+	* em-menu.c:
+	Remove unneeded #include <libgnome/gnome-url.h>
+
+	* em-folder-view.c (emfv_format_link_clicked):
+	* em-popup.c (emp_uri_popup_link_open):
+	Call e_show_uri() instead of gnome_url_show().
+
+2009-10-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-folder-view.c:
+	* importers/mail-importer.c:
+	Remove unneeded #include <libgnome/gnome-util.h>.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	* mail-autofilter.c:
+	Remove unneeded #include <libgnomeui/gnome-app.h>.
+	Remove unneeded #include <libgnomeui/gnome-app-helper.h>.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #567280
+
+	* message-tag-followup.c:
+	Remove unneeded #include <libgnomeui/gnome-pixmap.h>.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #567285
+
+	* mail-autofilter.c:
+	Remove unneeded #include <libgnomeui/gnome-popup-menu.h>.
+
+2009-01-09  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	Reviewed by Matthew Barnes  <mbarnes@redhat.com>
+
+	* Fix for bug #566011
+
+	* mail-component.c (mail_component_class_init):
+	Include <glib/gi18n-lib.h> instead of <glib/gi18n.h> and
+	add bindtextdomain().
+
+2009-01-08  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #565376
+
+	* vfoldertypes.xml:
+	* searchtypes.xml: Merge some search types together.
+	* em-vfolder-context.c: (vfolder_new_element): More elements.
+	* em-filter-folder-element.h: (struct _EMFilterFolderElement):
+	* em-filter-folder-element.c: (xml_encode), (xml_decode),
+	(folder_selected), (get_widget), (format_sexp):
+	Support storing folder uri in a camel's way.
+
+	* em-format-html-display.c: (efhd_use_component):
+	Compiler warning fix.
+
+2008-12-29  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #565857
+
+	* e-searching-tokenizer.c (searcher_next_token):
+	The HTMLTokenizer now expects a newly-allocated string from its
+	next_token() method, so duplicate the returned string.  This fixes
+	a memory leak whereby previously, some implementations of next_token()
+	did return a newly-allocated string, some did not.  Those that did
+	leaked those strings.
+
+2008-12-22  Sankar P  <psankar@novell.com>
+
+	** Part of fix for bug #559153
+
+	* em-migrate.c (update_progress_in_main_thread), (migrate_folders),
+	(count_folders), (migrate_folders_to_db_thread), (migrate_to_db),
+	(em_migrate):
+	Migration Improvements
+
+2008-12-22  Norman Wang  <zhichao.wang@sun.com>
+
+   ** Fix for bug #558337
+
+   * mail/em-subscribe-editor.c: Create a wrapper class MailMsgListNode of
+   _zsubscribe_msg message. The MailMsgListNode class is the subclass of
+   EDListNode class. So the _zsubscribe_msg can be added into the EDList.
+
+2008-12-16  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #552583
+
+	* mail-config.c: (mail_config_get_account_by_source_url),
+	(mail_config_get_account_by_transport_url): Do not leak.
+
+2008-12-15  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #564007
+
+	* em-format.c: (emf_inlinepgp_encrypted): Guess the decrypted
+	part mime type if not known from the decryptor, thus show the
+	content really inline, if possible.
+
+2008-12-15  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #563669
+
+	* em-account-editor.c: (emae_option_checkspin):
+	Use zero GtkSpinButton's PageSize, as Gtk+ requires.
+
+2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* em-format-html-display.c: Fix a impllicit warning
+
+2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #552583
+
+	* mail-config.c: (mail_config_get_account_by_transport_url): Free the
+	right url.
+
+2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for #546637
+
+	* message-list.c: (message_list_finalise), (regen_list_exec),
+	(regen_list_done): Don't loose uids.
+
+2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
+
+
+	* em-format-html-display.c: (efhd_bonobo_unknown),
+	(efhd_find_handler), (efhd_bonobo_object),
+	(efhd_check_server_prop), (efhd_use_component),
+	(efhd_format_attachment): Restore the code for BONOBO components need
+	by the vcard inline viewer.
+
+2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* em-account-editor.c: (emae_option_checkspin):
+	* em-folder-tree.c: (emft_popup_uvfolder), (emft_popup): Add the
+	unread vfolder hack.
+
+2008-12-15  Lucian Langa  <lucilanga@gnome.org>
+
+	** Fixes bug #564519
+
+	* mail-send-recv.c: (build_dialog):
+	Count also deleted unsent messages when displaying SMTP server
+
+2008-12-13  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #564351 (patch by Tal Benavidor)
+
+	* em-icon-stream.c:
+	Fix single-header include issue for GdkPixbuf.
+
+2008-12-10  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #552357
+
+	* e-searching-tokenizer.c: (e_searching_tokenizer_begin):
+	Function prototype changed.
+
 2008-12-10  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #563870

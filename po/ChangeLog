@@ -1,3 +1,77 @@
+2009-01-12  Andre Klapper  <a9016009@gmx.de>
+
+	* de.po: Updated German translation.
+
+2009-01-11  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es.po: Updated Spanish translation.
+
+2009-01-11  Andre Klapper  <a9016009@gmx.de>
+
+	* de.po: Updated German translation.
+
+2009-01-10  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es.po: Updated Spanish translation.  
+
+2009-01-07  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es.po: Updated Spanish translation.
+
+2009-01-05  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* nb.po: Updated Norwegian bokmål translation.
+
+2009-01-04  Raivis Dejus  <orvils@gmail.com>
+
+	* lv.po: Updated latvian translation
+
+2009-01-02  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es.po: Updated Spanish translation.
+
+2009-01-01  Yannig Marchegay  <yannig@marchegay.org>
+
+	* oc.po: Updated Occitan translation
+
+2009-01-01  Andre Klapper  <a9016009@gmx.de>
+
+	* POTFILES.in: Fix my last commit so l10n.gnome.org is happy.
+
+2008-12-30  Andre Klapper  <a9016009@gmx.de>
+
+	* POTFILES.in: add missing file (cf. bug #359010)
+
+2008-12-28  Marcel Telka  <marcel@telka.sk>
+
+	* sk.po: Updated Slovak translation.
+
+2008-12-21  Leonardo Ferreira Fontenelle  <leonardof@gnome.org>
+
+	* pt_BR.po: Fixed terminology in the Brazilian Portuguese translation.
+
+2008-12-18  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es.po: Updated Spanish translation.
+
+2008-12-16  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es.po: Updated Spanish translation.
+
+2008-12-15  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* POTFILES.in: Remove deleted file.
+	* nb.po: Updated Norwegian bokmål translation.
+
+2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* POTFILES.in: Add e-utils/*intrusive*.[ch]
+
+2008-12-13  Leonardo Ferreira Fontenelle  <leonardof@gnome.org>
+
+	* pt_BR.po: Merged from branch gnome-2-24 minor fixes to the Brazilian
+	Portuguese translation.
+
 2008-12-09  Ilkka Tuohela <hile@iki.fi>
 
 	* fi.po: Updated Finnish translation.

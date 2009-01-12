@@ -22,7 +22,6 @@
 
 #include <config.h>
 #include "e-contact-editor-im.h"
-#include <libgnome/gnome-util.h>
 #include <glib/gi18n.h>
 #include <string.h>
 #include <e-util/e-util-private.h>

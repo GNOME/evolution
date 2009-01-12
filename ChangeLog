@@ -1,3 +1,46 @@
+2009-01-08  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #565376
+
+	* configure.in:
+	Bump eds requirement to 2.25.5 because of new functionality.
+
+2009-01-05  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS: Evolution 2.25.4 release
+
+2009-01-01  Andre Klapper  <a9016009@gmx.de>
+
+	* configure.in:
+	Added Czech translation of quickref.
+
+2008-12-25  Ignacio Casal Quinteiro  <nacho.resa@gmail.com>
+
+	* shell/main.c:
+	Fix memory leak. (Fixes bug #565628).
+
+2008-12-22  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Bump eds_minimum_version to 2.25.4 for CAMEL_STORE_IS_MIGRATING.
+
+2008-12-16  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #564248
+
+	* configure.in: Bump libgtkhtml_minimum_version to 3.25.4
+	because of new html editor functions.
+
+2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS: Evolution 2.25.3.1 release
+
+2008-12-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Bump libgtkhtml_minimum_version to 3.25.3 to pick up
+	HTMLTokenizer changes (ABI break, actually).
+
 2008-12-10  Suman Manjunath  <msuman@novell.com>
 
 	* configure.in: Build the weather calendar setup plugin unless 

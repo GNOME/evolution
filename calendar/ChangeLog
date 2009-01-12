@@ -1,3 +1,206 @@
+2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/e-cal-component-preview (on_link_clicked):
+	* gui/e-cal-component-memo-preview (on_link_clicked):
+	* gui/e-memo-table.c (open_url_cb):
+	* gui/dialogs/comp-editor.c (open_attachment):
+	Call e_show_uri() instead of gnome_url_show().
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/calendar-commands.c:
+	* gui/e-cal-list-view.c:
+	* gui/e-day-view.c:
+	* gui/e-itip-control.c:
+	* gui/e-meeting-list-view.c:
+	* gui/e-meeting-store.c:
+	* gui/e-week-view.c:
+	* gui/gnome-cal.c:
+	* gui/memos-control.c:
+	* gui/tasks-control.c:
+	Remove unneeded #include <libgnome/gnome-util.h>.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/calendar-commands.c:
+	* gui/e-cell-date-edit-text.c:
+	* gui/e-itip-control.c:
+	* gui/memos-control.c:
+	* gui/print.c:
+	* gui/tasks-control.c:
+	Remove unneeded #include <libgnomeui/gnome-stock-icons.h>.
+
+	* gui/alarm-notify/alarm-queue.c:
+	* gui/dialogs/cal-attachment-select-file.c:
+	* gui/dialogs/cancel-comp.c:
+	* gui/dialogs/changed-comp.c:
+	* gui/dialogs/delete-error.c:
+	* gui/dialogs/recur-comp.c:
+	* gui/e-itip-control.c:
+	* gui/print.c:
+	Remove unneeded #include <libgnomeui/gnome-uidefs.h>.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #567281
+
+	* gui/calendar-commands.c:
+	* gui/e-cell-date-edit-text.c:
+	Remove unneeded #include <libgnomeui/gnome-messagebox.h>.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #567276
+
+	* gui/calendar-commands.c:
+	* gui/control-factory.c:
+	* gui/e-itip-control.c:
+	* gui/gnome-cal.c:
+	* gui/goto.c:
+	* gui/memos-control.c:
+	* gui/print.c:
+	* gui/tasks-control.c:
+	* gui/alarm-notify/alarm-queue.c:
+	* gui/dialogs/schedule-page.c:
+	Remove unneeded #include <libgnomeui/gnome-dialog-util.h>.
+
+	* gui/calendar-config.c:
+	* gui/calendar-config.h:
+	Removed unused function calendar_config_check_timezone_set().
+
+2009-01-09  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	Reviewed by Matthew Barnes  <mbarnes@redhat.com>
+
+	* Fix for bug #566011
+
+	* gui/Makefile.am:
+	* gui/calendar-component.c (calendar_component_class_init):
+	* gui/dialogs/comp-editor.c:
+	* gui/memos-component.c (memos_component_class_init):
+	* gui/tasks-component.c (tasks_component_class_init):
+	Include <glib/gi18n-lib.h> instead of <glib/gi18n.h> and
+	add bindtextdomain().
+
+2009-01-07  Ashish Shrivastava  <shashish@novell.com>
+
+	** Fix for bug #565553, #462372 (bnc)
+
+	* gui/e-cal-popup.c (temp_save_part):
+	Add supported URI format.
+
+2009-01-07  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #443544 (bugzilla.novell.com)
+
+	* gui/e-meeting-attendee.c (e_meeting_attendee_add_busy_period):
+	* gui/e-meeting-store.c (process_free_busy_comp):
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
+	* gui/e-meeting-types.h:
+	Handle E_MEETING_FREE_BUSY_FREE.
+
+2009-01-06  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #566599
+
+	* gui/itip-utils.c (comp_subject):
+	Add translator comments and gettext context for meeting mail
+	subject prefixes.
+
+2009-01-06  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #458968 (bugzilla.novell.com)
+
+	* gui/dialogs/comp-editor.c (comp_editor_set_summary),
+	(comp_editor_set_changed): Don't warn the user about changes being lost
+	if he is trying to delegate the meeting. 
+
+2009-01-05  Ashish Shrivastava  <shashish@novell.com>
+
+	** Fix for bug #458153 (bugzilla.novell.com)
+
+	* gui/dialogs/comp-editor.c: Added a separator in the toolbar.
+	* gui/dialogs/event-editor.c (action_all_day_event_cb): Toggle 'Show
+	time as busy' in all_day_event callback. 
+
+2008-01-04  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #566566
+
+	* gui/e-itip-control.c (insert_rsvp):
+	Mark "RSVP" for translation.
+
+2008-12-31  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fix for bug #562091
+
+	* gui/dialogs/memo-editor.c (memo_editor_constructed),
+	(memo_editor_class_init), (memo_editor_init): Create MemoPage
+	after the base class object has been created and initialized. 
+
+2008-12-29  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #446285 (bnc)
+
+	* gui/e-select-names-editable.c:
+	(e_select_names_editable_get_emails),
+	(e_select_names_editable_get_names): Traverse all the entries in the 
+	added list.
+
+2008-12-29  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #439998 (bnc)
+
+	* gui/dialogs/comp-editor.c: (remove_event_dialog),
+	(action_save_cb): Ask the user if he wants to remove the delegated 
+	events or keep a copy.
+	
+2008-12-22  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #559604
+
+	* gui/e-calendar-view.h: (e_calendar_view_get_attendees_status_info):
+	* gui/e-calendar-view.c: (e_calendar_view_get_attendees_status_info),
+	(e_calendar_view_get_tooltips):
+	* gui/e-calendar-table.c: (query_tooltip_cb): Show additional status
+	information for the meeting only when user is an organizer.
+
+2008-12-17  Milan Crha  <mcrha@redhat.com>
+
+	* gui/e-cal-model.c: (update_e_cal_view_for_client):
+	Show reason of a failure on a console too.
+
+2008-12-15  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #540181
+
+	* gui/tasks-component.c: (destroy_component_view):
+	Do not touch already freed object.
+
+2008-12-15  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #564229
+
+	* gui/dialogs/alarm-dialog.c: (populate_widgets_from_alarm):
+	Cast to proper object.
+	* gui/alarm-notify/alarm-queue.c: (free_tray_icon_data):
+	Do not leak.
+
+2008-12-15  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #563669
+
+	* gui/dialogs/recurrence-page.c: (make_ending_count_special):
+	* conduits/todo/todo-conduit.c: (e_todo_gui_new):
+	Use zero GtkSpinButton's PageSize, as Gtk+ requires.
+
+2008-12-15  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for BNC bug #435452
+
+	* gui/e-meeting-list-view.c: (ense_update), (editing_started_cb),
+	(build_table):
+
 2008-12-09  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #333224

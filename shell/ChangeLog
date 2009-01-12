@@ -1,3 +1,50 @@
+2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-shell-window-commands.c (command_open_faq):
+	Call e_show_uri() instead of gnome_url_show().
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-shell.c:
+	* evolution-shell-component-utils.c:
+	* importer/intelligent.c:
+	* main.c:
+	Remove unneeded #include <libgnome/gnome-util.h>.
+
+2009-01-09  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	Reviewed by Matthew Barnes  <mbarnes@redhat.com>
+
+	* Fix for bug #566011
+
+	* e-user-creatable-items-handler.c
+	(e_user_creatable_items_handler_class_ini):
+	Include <glib/gi18n-lib.h> instead of <glib/gi18n.h> and
+	add bindtextdomain().
+
+2009-01-01  Andre Klapper  <a9016009@gmx.de>
+
+	* e-shell-window-commands.c:
+	update Copyright to 2009.
+
+2008-12-28  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Related to bug #562155
+
+	* main.c (idle_cb):
+	Only call e_shell_set_crash_recovery() if the EShell Bonobo object
+	was constructed successfully, otherwise it will be NULL.  This fixes
+	a warning shown in the terminal output of bug #562155, but the bug
+	is not reproducible so it's not clear whether this fixes the bug.
+
+2008-12-14  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #564416
+
+	* e-shell-nm.c:
+	We've been listening for obsolete D-Bus signals.
+	Update to NetworkManager's current D-Bus API.
+
 2008-12-10  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #563250

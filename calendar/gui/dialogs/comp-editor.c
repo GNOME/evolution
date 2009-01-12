@@ -26,15 +26,15 @@
 #include <config.h>
 #endif
 
+#include <errno.h>
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <unistd.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnome/libgnome.h>
 #include <e-util/e-util.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
@@ -163,6 +163,7 @@ static const gchar *ui =
 "    <toolitem action='close'/>"
 "    <separator/>"
 "    <toolitem action='attach'/>"
+"    <separator/>"
 "  </toolbar>"
 "</ui>";
 
@@ -1111,6 +1112,24 @@ action_print_preview_cb (GtkAction *action,
 	g_object_unref (comp);
 }
 
+static gboolean
+remove_event_dialog (ECal *client,
+		     ECalComponent *comp,
+		     GtkWindow *parent)
+{
+	GtkWidget *dialog;
+	gboolean ret;
+
+	g_return_val_if_fail (E_IS_CAL_COMPONENT (comp), TRUE);
+
+	dialog = gtk_message_dialog_new (parent, 0, GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO, "%s", _("Keep original item?"));
+	gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);
+	ret = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
+	gtk_widget_destroy (dialog);
+
+	return ret;
+}
+
 static void
 action_save_cb (GtkAction *action,
                 CompEditor *editor)
@@ -1162,9 +1181,33 @@ action_save_cb (GtkAction *action,
 	if (!text.value)
 		if (!send_component_prompt_subject ((GtkWindow *) editor, priv->client, priv->comp))
 			return;
-	if (save_comp_with_send (editor))
-		close_dialog (editor);
 
+	if (save_comp_with_send (editor)) {
+		CompEditorFlags flags;
+		gboolean delegate;
+
+		flags = comp_editor_get_flags (editor);
+		delegate = flags & COMP_EDITOR_DELEGATE;
+
+		if (delegate && !remove_event_dialog (priv->client, priv->comp, GTK_WINDOW (editor))) {
+			const char *uid = NULL; 
+			GError *error = NULL;
+
+			e_cal_component_get_uid (priv->comp, &uid);
+
+			if (e_cal_component_is_instance (priv->comp) || e_cal_component_has_recurrences (priv->comp)) {
+				gchar *rid;
+				rid = e_cal_component_get_recurid_as_string (priv->comp);
+				e_cal_remove_object_with_mod (priv->client, uid, rid, priv->mod, &error);
+				g_free (rid);
+			} else
+				e_cal_remove_object (priv->client, uid, &error);
+
+			g_clear_error (&error);
+		}
+	}
+
+	close_dialog (editor);
 }
 
 static void
@@ -2410,6 +2453,7 @@ comp_editor_set_summary (CompEditor *editor,
 
 	show_warning =
 		!editor->priv->warned &&
+		!(editor->priv->flags & COMP_EDITOR_DELEGATE) &&
 		editor->priv->existing_org &&
 		!editor->priv->user_org;
 
@@ -2458,6 +2502,7 @@ comp_editor_set_changed (CompEditor *editor,
 
 	show_warning =
 		changed && !editor->priv->warned &&
+		!(editor->priv->flags & COMP_EDITOR_DELEGATE) &&
 		editor->priv->existing_org && !editor->priv->user_org;
 
 	if (show_warning) {

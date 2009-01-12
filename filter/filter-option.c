@@ -29,7 +29,7 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <dlfcn.h>
+#include <gmodule.h>
 
 #include "filter-option.h"
 #include "filter-part.h"
@@ -352,23 +352,22 @@ option_changed (GtkWidget *widget, FilterElement *fe)
 static GSList *
 get_dynamic_options (FilterOption *fo)
 {
-	void *module;
+	GModule *module;
 	GSList *(*get_func)(void);
 	GSList *res = NULL;
 
 	if (!fo || !fo->dynamic_func)
 		return res;
 
-	module = dlopen (NULL, RTLD_LAZY);
+	module = g_module_open (NULL, G_MODULE_BIND_LAZY);
 
-	get_func = dlsym (module, fo->dynamic_func);
-	if (get_func) {
+	if (g_module_symbol (module, fo->dynamic_func, (gpointer) &get_func)) {
 		res = get_func ();
 	} else {
 		g_warning ("optionlist dynamic fill function '%s' not found", fo->dynamic_func);
 	}
 
-	dlclose (module);
+	g_module_close (module);
 
 	return res;
 }

@@ -27,7 +27,6 @@
 
 #include <gio/gio.h>
 #include <glib/gi18n.h>
-#include <libgnome/gnome-util.h>
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal-util.h>
 #include <libecal/e-cal-time-util.h>
@@ -1015,6 +1014,10 @@ process_free_busy_comp (EMeetingAttendee *attendee,
 
 		case ICAL_FBTYPE_BUSYTENTATIVE:
 			busy_type = E_MEETING_FREE_BUSY_TENTATIVE;
+			break;
+
+		case ICAL_FBTYPE_FREE:
+			busy_type = E_MEETING_FREE_BUSY_FREE;
 			break;
 
 		default:

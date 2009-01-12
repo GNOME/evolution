@@ -1,3 +1,64 @@
+Evolution 2.25.4 2009-01-05
+---------------------------
+
+Bug Fixes:
+	#435694: (Novell Bugzilla) Since we now add a bar, lets set the popup items right (Bharath Acharya)
+	#439998: (Novell Bugzilla) Ask the user if he wants to remove the delegated events or keep a copy (Bharath Acharya)
+	#446285: (Novell Bugzilla) Traverse all the entries in the added list (Bharath Acharya)
+	#546437: Fix various typos and poor wording in chapters 1-4 (Matthew Barnes)
+	#546860: Don't craash on malformed label strings (Matthew Barnes)
+	#558337: Fix a crash while managing IMAP folder subscriptions (Norman Wang)
+	#559153: Migration improvements (Sankar P)
+	#559604: Show additional status information for the meeting only when user is an organizer (Milan Crha)
+	#562091: Fix the problem of normal memo window popup when trying to create a shared memo (Matthew Barnes)
+	#562155: Fix a warning shown in the terminal output (Matthew Barnes)
+	#564248: Bump minimum version required for gtkhtml because of new html editor functions (Milan Crha)
+	#565628: Fix memory leak (Ignacio Casal Quinteiro)
+	#565857: Fixes a memory leak (Matthew Barnes)
+	#566206: Remove unlocalized screenshots (Andre Klapper)
+
+Updated Translations:
+	Jorge Gonzalez (es)
+	Yannig Marchegay (oc)
+	Marcel Telka (sk)
+	Leonardo Ferreira Fontenelle (pt_BR)
+	Andre Klapper (de)
+
+Evolution 2.25.3 2008-12-15
+---------------------------
+
+Bug Fixes:
+	#332629: New helper function to be used in FilterOption (Milan Crha)
+	#332629: Use dynamically created list of categories in the option's widget (Milan Crha)
+	#333224: Fix a crash when changing the time of an exchange appointment (Milan Crha)
+	#337082: Do not set we finished with loading until we are really done with it. The previous behavior can cause duplicate nodes in tree for subscribed folders (Milan Crha)
+	#348299: Use category completion in the Categories field. Fix some reference count leaks (Matthew Barnes)
+	#350725: Copy/Paste support in day/week views (Hiroyuki Ikezoe)
+	#352287: Draw top icons in full detail/color depth (Milan Crha)
+	#549964: Fix for an errorneous string (Jennifer Newman)
+	#551599: Do not fallback to default 15 minutes alarm offset if alarm is triggered at start (or end) of appointment (Paul Bolle)
+	#552357: Function prototype (Milan Crha)
+	#552583: Extending Sankar's fix of account checking logic a bit, to be more consistent (Milan Crha)
+	#552583: For the purpose of matching a URL to an EAccount, only compare the protocol, user, host and port and disregard the rest. Fix the errors in the account checking logic (Matthew Barnes,Sankar P)
+	#555371: Added print menu option to task, memo and event editors (Jennifer Newman)
+	#555663: Do not overwrite signal id (Milan Crha)
+	#556303: Check whether attachment has a body already before accessing it (Milan Crha)
+	#558498: Check for the offline status before setting up the Exchange settings (Bharath Acharya)
+	#560420: spamc and spamassassin use error codes >= 64 to denote execution errors. Positive error codes < 64 means the message was identified as Spam (hp@syntomax.com)
+	#562228: Make it clearer then mailbox entry is optional (Milan Crha)
+	#562990: Use 'username' property to read/write user name, not the url (Milan Crha)
+	#563077: Fixes a crash if the gnome-settings-daemon is not running. Observed on SUN Solaris (Jeff Cai)
+	#563250: Load on startup and save on shutdown, custom keyboard accelerators (Matthew Barnes)
+	#563369: Translate "Templates" folder name (Milan Crha)
+	#563633: SUN compiler doesn't understand an empty structure (Jeff Cai)
+	#563669: Use zero GtkSpinButton's Pagesize, as Gtk+ requires (Milan Crha)
+	#563870: Drop unused header include (Milan Crha)
+	#564351: Fix single header include issue for GdkPixbuf (Tal Benavidor)
+
+Updated Translations:
+	Ilkka Tuohela (fi)
+	Leonardo Ferreira Fontenelle (pt_BR)
+
 Evolution 2.25.2 2008-12-01
 ---------------------------
 

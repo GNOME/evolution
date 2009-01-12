@@ -31,7 +31,6 @@
 #include <bonobo/bonobo-widget.h>
 #include <bonobo/bonobo-exception.h>
 #include <glib/gi18n.h>
-#include <libgnome/gnome-util.h>
 #include <libebook/e-book.h>
 #include <libebook/e-vcard.h>
 #include <libecal/e-cal-component.h>
@@ -471,6 +470,21 @@ status_edited_cb (GtkCellRenderer *renderer, const gchar *path, const gchar *tex
 }
 
 static void
+ense_update (GtkWidget *w, gpointer data1, gpointer user_data)
+{
+	gtk_cell_editable_editing_done ((GtkCellEditable *)w);
+}
+
+static void
+editing_started_cb (GtkCellRenderer *renderer,
+		    GtkCellEditable *editable,
+		    gchar           *path,
+		    gpointer         user_data)
+{
+		g_signal_connect (editable, "updated", G_CALLBACK(ense_update), NULL);
+}
+
+static void
 build_table (EMeetingListView *lview)
 {
 	GtkCellRenderer *renderer;
@@ -501,6 +515,8 @@ build_table (EMeetingListView *lview)
 	g_object_set_data (G_OBJECT (col), "mtg-store-col", GINT_TO_POINTER (E_MEETING_STORE_ATTENDEE_COL));
 	g_signal_connect (renderer, "cell_edited", G_CALLBACK (attendee_edited_cb), view);
 	g_signal_connect (renderer, "editing-canceled", G_CALLBACK (attendee_editing_canceled_cb), view);
+	g_signal_connect (renderer, "editing-started", G_CALLBACK (editing_started_cb), view);
+
 	g_hash_table_insert (edit_table, GINT_TO_POINTER (E_MEETING_STORE_ATTENDEE_COL), renderer);
 
 	renderer = e_cell_renderer_combo_new ();

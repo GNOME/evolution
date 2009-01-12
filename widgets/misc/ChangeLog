@@ -1,3 +1,37 @@
+2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-attachment-bar.c (eab_icon_clicked_cb):
+	* e-url-entry.c (button_clicked_cb):
+	Call e_show_uri() instead of gnome_url_show().
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	* test-dropdown-button.c:
+	Remove unneeded #include <libgnomeui/gnome-stock-icons.h>.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #567281
+
+	* e-cell-date-edit.c:
+	* e-cell-percent.c:
+	Remove unneeded #include <libgnomeui/gnome-messagebox.h>.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #567276
+
+	* test-color.c:
+	We don't ship this.  Remove it.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #567285
+
+	* e-activity-handler.c:
+	* e-dropdown-button.c:
+	Remove unneeded #include <libgnomeui/gnome-popup-menu.h>.
+
 2008-12-10  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #556303

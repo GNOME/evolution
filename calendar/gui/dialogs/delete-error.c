@@ -28,7 +28,6 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libgnomeui/gnome-uidefs.h>
 #include "delete-error.h"
 
 

@@ -79,7 +79,7 @@
  </part>
  <part name="sexp">
    <title>Expression</title>
-   <input type="code" name="code"/>
+   <input type="rawcode" name="rawcode"/>
   </part>
 </partset>
 

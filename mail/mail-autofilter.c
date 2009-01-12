@@ -29,9 +29,6 @@
 
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-app-helper.h>
-#include <libgnomeui/gnome-popup-menu.h>
 
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"

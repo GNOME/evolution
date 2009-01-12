@@ -31,7 +31,6 @@
 
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libgnomeui/gnome-dialog-util.h>
 #include <glade/glade.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-util-private.h>

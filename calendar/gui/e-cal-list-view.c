@@ -43,7 +43,6 @@
 #include <misc/e-popup-menu.h>
 #include <misc/e-cell-date-edit.h>
 #include <libgnome/gnome-exec.h>
-#include <libgnome/gnome-util.h>
 #include <e-util/e-categories-config.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>

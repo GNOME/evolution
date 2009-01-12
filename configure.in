@@ -3,7 +3,7 @@ AC_PREREQ(2.52)
 
 m4_define([evo_major_version], [2])
 m4_define([evo_minor_version], [25])
-m4_define([evo_micro_version], [3])
+m4_define([evo_micro_version], [5])
 m4_define([evo_version],
           [evo_major_version.evo_minor_version.evo_micro_version])
 m4_define([evo_stable_version],
@@ -23,11 +23,11 @@ GTKHTML_PACKAGE=3.14
 # Required Packages
 m4_define([glib_minimum_version], [2.18.0])
 m4_define([gtk_minimum_version], [2.14.0])
-m4_define([eds_minimum_version], [2.25.3])
+m4_define([eds_minimum_version], [2.25.5])
 m4_define([gnome_icon_theme_minimum_version], [2.19.91])
 m4_define([libbonobo_minimum_version], [2.20.3])
 m4_define([libbonoboui_minimum_version], [2.4.2])
-m4_define([libgtkhtml_minimum_version], [3.23.5])
+m4_define([libgtkhtml_minimum_version], [3.25.4])
 m4_define([gconf_minimum_version], [2.0.0])             # XXX Just a Guess
 m4_define([libglade_minimum_version], [2.0.0])          # XXX Just a Guess
 m4_define([libgnomecanvas_minimum_version], [2.0.0])    # XXX Just a Guess
@@ -2004,6 +2004,7 @@ filter/Makefile
 help/Makefile
 help/quickref/Makefile
 help/quickref/C/Makefile
+help/quickref/cs/Makefile
 help/quickref/de/Makefile
 help/quickref/es/Makefile
 help/quickref/hu/Makefile

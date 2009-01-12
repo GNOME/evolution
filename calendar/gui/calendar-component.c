@@ -27,7 +27,7 @@
 
 #include <string.h>
 #include <errno.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-exception.h>
 #include <libical/icalvcal.h>
@@ -608,6 +608,9 @@ calendar_component_class_init (CalendarComponentClass *class)
 {
 	POA_GNOME_Evolution_Component__epv *epv = &class->epv;
 	GObjectClass *object_class = G_OBJECT_CLASS (class);
+
+	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
 	parent_class = g_type_class_peek_parent (class);
 

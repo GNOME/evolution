@@ -28,7 +28,6 @@
 #include "e-dropdown-button.h"
 
 #include <stdio.h>
-#include <libgnomeui/gnome-popup-menu.h>
 
 struct _EDropdownButtonPrivate {
 	GtkAccelGroup *accel_group;

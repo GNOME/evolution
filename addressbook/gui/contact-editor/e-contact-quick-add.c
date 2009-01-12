@@ -25,7 +25,6 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libgnomeui/gnome-app.h>
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>
 #include <libedataserverui/e-source-combo-box.h>

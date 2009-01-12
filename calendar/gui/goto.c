@@ -26,7 +26,6 @@
 
 #include <config.h>
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-dialog.h>
 #include <glade/glade.h>
 #include "e-util/e-util-private.h"
 #include "calendar-config.h"
@@ -112,7 +111,6 @@ ecal_event (ECalendarItem *calitem, gpointer user_data)
 	gnome_calendar_goto (dlg->gcal, et);
 
 	gtk_dialog_response (GTK_DIALOG (dlg->dialog), GTK_RESPONSE_NONE);
-	/* gnome_dialog_close (GNOME_DIALOG (dlg->dialog)); */
 #endif
 }
 

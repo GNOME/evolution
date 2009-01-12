@@ -24,8 +24,6 @@
 #ifndef __EAB_EDITOR_H__
 #define __EAB_EDITOR_H__
 
-#include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-app-helper.h>
 #include <glade/glade.h>
 
 #include <libebook/e-book.h>

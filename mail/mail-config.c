@@ -859,6 +859,7 @@ mail_config_get_account_by_source_url (const char *source_url)
 	}
 
 	g_object_unref (iter);
+	camel_url_free (url);
 
 	return account;
 }
@@ -898,10 +899,11 @@ mail_config_get_account_by_transport_url (const char *transport_url)
 		if (!mail_config_account_url_equal (url, account_url))
 			account = NULL;  /* not a match */
 
-		camel_url_free (url);
+		camel_url_free (account_url);
 	}
 
 	g_object_unref (iter);
+	camel_url_free (url);
 
 	return account;
 }

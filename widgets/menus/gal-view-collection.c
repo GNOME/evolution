@@ -28,7 +28,6 @@
 
 #include <glib.h>
 #include <libxml/parser.h>
-#include <libgnome/gnome-util.h>
 #include <libedataserver/e-xml-utils.h>
 
 #include <glib/gi18n.h>

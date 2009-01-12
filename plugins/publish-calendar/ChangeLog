@@ -1,3 +1,10 @@
+2008-12-16  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #359010
+
+	* url-editor-dialog.c: (url_editor_dialog_new):
+	Set title of the window based on the parameter/action.
+
 2008-10-03  Sankar P  <psankar@novell.com>
 
 License Changes

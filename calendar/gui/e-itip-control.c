@@ -31,11 +31,6 @@
 #include <unistd.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
-#include <libgnome/gnome-util.h>
-#include <libgnomeui/gnome-stock-icons.h>
-#include <libgnomeui/gnome-uidefs.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-exception.h>
 #include <gtkhtml/gtkhtml.h>
@@ -2282,7 +2277,7 @@ insert_rsvp (GtkWidget *hbox, EItipControl *itip)
 	priv = itip->priv;
 
 	/* To translators: RSVP means "please reply" */
-	btn = gtk_check_button_new_with_label ("RSVP");
+	btn = gtk_check_button_new_with_label (_("RSVP"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (btn), TRUE);
 	priv->rsvp = TRUE;
 

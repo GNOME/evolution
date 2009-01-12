@@ -27,6 +27,7 @@
 
 #include "e-dialog-utils.h"
 
+#include <errno.h>
 #include <unistd.h>
 #include <glib/gstdio.h>
 
@@ -36,7 +37,6 @@
 
 #include <gconf/gconf-client.h>
 #include <glib/gi18n.h>
-#include <libgnome/gnome-util.h>
 
 #include "e-util/e-util.h"
 #include "e-util/e-error.h"

@@ -40,6 +40,7 @@ struct _EMFilterFolderElement {
 	FilterElement parent_object;
 
 	char *uri;
+	gboolean store_camel_uri; /* true if uri should contain camel uri, otherwise contains evolution's uri with an Account ID */
 };
 
 struct _EMFilterFolderElementClass {

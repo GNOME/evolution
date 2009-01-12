@@ -1,3 +1,231 @@
+2009-01-11  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Sync two strings. Remove explicit mentioning
+	of some translators.
+
+2009-01-11  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Remove more redundancy; split up more strings.
+
+2009-01-11  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Remove redundancy; split up strings.
+	Fixes bug #567409.
+
+2009-01-11  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Fix typos. Fixes bug #566572.
+
+2009-01-11  Andre Klapper  <a9016009@gmx.de>
+
+	* de/de.po: Updated German translation.
+
+2009-01-08  Matthew Barnes  <mbarnes@redhat.com>
+
+	* quickref/evolution-logo.eps:
+	B & W version of our new logo to replace the old Ximian logo.
+
+	* quickref/*/quickref.pdf:
+	Regenerate the Quick Reference PDFs with the new logo.
+
+2009-01-06  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+
+2009-01-05  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+	* es/figures/*.png: Added three screenshots
+
+2009-01-04  Andre Klapper  <a9016009@gmx.de>
+
+	* de/de.po: Updated German translation.
+
+2009-01-04  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation
+
+2009-01-03  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Link sentence "You can also enable Magic 
+	spacebar" against the corresponding section. Fixes bug #550604.
+
+2009-01-03  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: s/and/or. Fixes bug #566233.
+
+2009-01-03  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Fix wrong sentence. Fixes bug #566228.
+
+2009-01-03  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Add missing whitespace.
+
+2009-01-03  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Add warning that PGP Encrypt will not 
+	encrypt subject lines. Fixes bug #543580.
+
+2009-01-03  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Sync strings.
+	Fixes bug #566236, bug #566238.
+
+2009-01-03  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Sync strings.
+	Fixes bug #566234.
+
+2009-01-03  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Fix grammatical errors.
+	Fixes bug #558492. Patch by Nanley Chery.
+
+2009-01-03  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Fix non-sense split sentences.
+	Fixes bug #544340, bug #544339.
+
+2009-01-03  Andre Klapper  <a9016009@gmx.de>
+
+	* C/evolution.xml: Fix typos. Bug #544335.
+	Patch by Philip Withnall.
+
+2009-01-02  Andre Klapper  <a9016009@gmx.de>
+
+	* de/figures: Added a few translated screenshots.
+
+2009-01-02  Andre Klapper  <a9016009@gmx.de>
+
+	* de/de.po: Update German translation.
+
+2009-01-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #546437
+
+	* C/evolution.xml:
+	Fix various typos and poor wording in chapters 1-4.
+
+2009-01-01  Andre Klapper  <a9016009@gmx.de>
+
+	* de/de.po: Update German translation.
+
+2009-01-01  Andre Klapper  <a9016009@gmx.de>
+
+	* quickref/Makefile.am:	
+	* quickref/cs/Makefile.am:
+	* quickref/cs/quickref.tex:
+	* quickref/cs/quickref.pdf:
+	Added Czech translation of quickref (already in last commit).
+
+2009-01-01  Andre Klapper  <a9016009@gmx.de>
+
+	* de/figures/account_editor_a.png:
+	* de/figures/calendar.png:
+	* de/figures/categories_a.png:
+	* de/figures/collap_head_a.png:
+	* de/figures/config-cal.png:
+	* de/figures/config-mail.png:
+	* de/figures/contact-editor.png:
+	* de/figures/contact.png:
+	* de/figures/contacts_mainwindow_a.png:
+	* de/figures/evo_account_editor_a.png:
+	* de/figures/evo_account_info_a.png:
+	* de/figures/evo_add_rule_a.png:
+	* de/figures/evo_adv_search_a.png:
+	* de/figures/evo_allday_a.png:
+	* de/figures/evo_cal_ prop_a.png:
+	* de/figures/evo_cal_a.png:
+	* de/figures/evo_cal_callout_a.png:
+	* de/figures/evo_calender_appointmnt.png:
+	* de/figures/evo_contacteditor_a.png:
+	* de/figures/evo_edit_rule_a.png:
+	* de/figures/evo_edit_search.png:
+	* de/figures/evo_email_a.png:
+	* de/figures/evo_flag_follow_up_a.png:
+	* de/figures/evo_gwreceiveedit_a.png:
+	* de/figures/evo_gwreceiveoptedit_a.png:
+	* de/figures/evo_identityedit_a.png:
+	* de/figures/evo_imapheader_a.png:
+	* de/figures/evo_import_asst_a.png:
+	* de/figures/evo_mail_a.png:
+	* de/figures/evo_mail_callout_a.png:
+	* de/figures/evo_mereceive_a.png:
+	* de/figures/evo_message_filters_a.png:
+	* de/figures/evo_newmess_a.png:
+	* de/figures/evo_proxyadd_a.png:
+	* de/figures/evo_receive_setup2_a.png:
+	* de/figures/evo_rmdrnotes_a.png:
+	* de/figures/evo_rule_a.png:
+	* de/figures/evo_select_add_folder.png:
+	* de/figures/evo_select_folder.png:
+	* de/figures/evo_shd_memo_a.png:
+	* de/figures/exchange-delegation.png:
+	* de/figures/exchange-identity.png:
+	* de/figures/exchange-receive-options.png:
+	* de/figures/exchange-receive.png:
+	* de/figures/exchg-identity.png:
+	* de/figures/exchng-identity.png:
+	* de/figures/exchng-rec-mail.png:
+	* de/figures/exchng-rec-mails.png:
+	* de/figures/exchng-rec-option.png:
+	* de/figures/exchng-rec-options.png:
+	* de/figures/filter-new-fig.png:
+	* de/figures/free_busy.png:
+	* de/figures/full-1.png:
+	* de/figures/full-2.png:
+	* de/figures/full-3.png:
+	* de/figures/full-4.png:
+	* de/figures/full-5.png:
+	* de/figures/full-6.png:
+	* de/figures/full-7.png:
+	* de/figures/mail_mainwindow_a.png:
+	* de/figures/mail-druid-pic.png:
+	* de/figures/mail-inbox.png:
+	* de/figures/mail-threaded.png:
+	* de/figures/mainwindow-pic.png:
+	* de/figures/minus.png:
+	* de/figures/newmsg.png:
+	* de/figures/plus.png:
+	* de/figures/proxy-cal.png:
+	* de/figures/proxy-login.png:
+	* de/figures/quick_add_a.png:
+	* de/figures/replymsg.png:
+	* de/figures/schedule.png:
+	* de/figures/Screenshot-Evolution-mailer-Preferences.png:
+	* de/figures/Screenshot-Free-Busy.png:
+	* de/figures/stock_search.png:
+	* de/figures/sub-others-folder.png:
+	* de/figures/sub-pub-fold.png:
+	* de/figures/ver_view_a.png:
+	* de/figures/vfolder-createrule-fig.png:
+	* es/figures/evo_blink.png:
+	* es/figures/evo_dialog-info.png:
+	* es/figures/evo_dialog-warning.png:
+	* es/figures/full-1.png:
+	* es/figures/full-2.png:
+	* es/figures/full-3.png:
+	* es/figures/full-4.png:
+	* es/figures/full-5.png:
+	* es/figures/full-6.png:
+	* es/figures/full-7.png:
+	* es/figures/minus.png:
+	* es/figures/plus.png:
+	* es/figures/stock_search.png:
+	* no/figures/full-1.png:
+	* no/figures/full-2.png:
+	* no/figures/full-3.png:
+	* no/figures/full-4.png:
+	* no/figures/full-5.png:
+	* no/figures/full-6.png:
+	* no/figures/full-7.png:
+	Remove unlovalized screenshots from SVN. Fixes bug #566206.
+
+2009-01-01  Andre Klapper  <a9016009@gmx.de>
+
+	* cs/cs.po: Updated Czech translation of manual by Jiri Eischmann.
+
 2008-11-15  Petr Kovar  <pknbe@volny.cz>
 
 	* cs/cs.po: Updated Czech translation of manual by Jiri Eischmann.

@@ -25,6 +25,7 @@
 #include <config.h>
 #endif
 
+#include <errno.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/types.h>
@@ -36,7 +37,6 @@
 #include <glib/gstdio.h>
 
 #include <gmodule.h>
-#include <libgnome/gnome-util.h>
 #include <glib/gi18n.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-store.h>

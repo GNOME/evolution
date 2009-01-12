@@ -1,8 +1,44 @@
+2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-msg-composer.c (msg_composer_link_clicked):
+	Call e_show_uri() instead of gnome_url_show().
+
+2009-01-09  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	Reviewed by Matthew Barnes  <mbarnes@redhat.com>
+
+	* Fix for bug #566011
+
+	* e-composer-header-table.c:
+	* e-composer-private.h:
+	Include <glib/gi18n-lib.h> instead of <glib/gi18n.h>.
+
+2008-12-18  Matthew Barnes  <mbarnes@redhat.com>
+
+	* e-composer-actions.c:
+	Change "Save Draft" menu item to "Save as Draft" to be consistent
+	with "Save as Template".  I like that better.  But leave the toolbar
+	button alone.
+
+2008-12-16  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #564248
+
+	* e-msg-composer.c: (msg_composer_paste_clipboard):
+	Attach images pasted from a clipboard.
+
+2008-12-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #562450
+
+	* e-msg-composer.c (handle_multipart_signed):
+	Fix a typo that broke "Edit as New Message" for signed messages.
+
 2008-12-04  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #562886
 
-	* e-msg-composer (handle_mailto):
+	* e-msg-composer.c (handle_mailto):
 	Don't double-decode attachment URIs.  Also, parse &amp; correctly.
 
 2008-11-07  Srinivasa Ragavan  <sragavan@novell.com>

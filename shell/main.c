@@ -49,7 +49,6 @@
 #include <gconf/gconf-client.h>
 
 #include <glib/gi18n.h>
-#include <libgnome/gnome-util.h>
 #include <libgnome/gnome-sound.h>
 #include <libgnomeui/gnome-ui-init.h>
 #include <libgnomeui/gnome-client.h>
@@ -456,6 +455,8 @@ set_paths (void)
 		g_warning ("Could not set PATH for Evolution and its child processes");
 
 	g_free (path);
+	g_free (exe_folder_utf8);
+	g_free (components_folder_utf8);
 
 	g_free (top_folder_utf8);
 }

@@ -48,11 +48,12 @@ typedef struct _EMeetingFreeBusyPeriod     EMeetingFreeBusyPeriod;
    used as for loop counters, so they should start at 0 and be ordered. */
 typedef enum
 {
-	E_MEETING_FREE_BUSY_TENTATIVE       = 0,
+	E_MEETING_FREE_BUSY_TENTATIVE		= 0,
 	E_MEETING_FREE_BUSY_OUT_OF_OFFICE	= 1,
 	E_MEETING_FREE_BUSY_BUSY		= 2,
+	E_MEETING_FREE_BUSY_FREE		= 3,
 
-	E_MEETING_FREE_BUSY_LAST		= 3
+	E_MEETING_FREE_BUSY_LAST		= 4
 } EMeetingFreeBusyType;
 
 /* This is our representation of a time. We use a GDate to store the day,

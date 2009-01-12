@@ -1,3 +1,38 @@
+2009-01-11  Tor Lillqvist  <tml@novell.com>
+
+	* filter-option.c (get_dynamic_options): Add cast to avoid
+	warning.
+
+2009-01-11  Tor Lillqvist  <tml@novell.com>
+
+	** Bug #567244
+
+	* filter-option.c (get_dynamic_options): For portability, use
+	<gmodule.h> API instead of <dlfcn.h> API.
+
+2009-01-08  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #567031
+
+	* rule-editor.c: (rule_editor_new): Hide also label of the combo.
+
+2009-01-08  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #339879
+
+	* filter-code.h: (filter_code_new):
+	* filter-code.c: (filter_code_new), (build_code):
+	* rule-context.c: (new_element):
+	Have two types of code expression, one "code", which adds also
+	a "match-all" into the expression, and a "rawcode" without it.
+
+2008-12-15  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #563669
+
+	* filter-int.c: (get_widget):
+	Use zero GtkSpinButton's PageSize, as Gtk+ requires.
+
 2008-12-10  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #563870

@@ -648,6 +648,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	e_meeting_time_selector_alloc_named_color (mts, "white", &mts->attendee_list_bg_color);
 
 	e_meeting_time_selector_alloc_named_color (mts, "snow4", &mts->meeting_time_bg_color);
+	e_meeting_time_selector_alloc_named_color (mts, "snow", &mts->busy_colors[E_MEETING_FREE_BUSY_FREE]);
 	e_meeting_time_selector_alloc_named_color (mts, "yellow", &mts->busy_colors[E_MEETING_FREE_BUSY_TENTATIVE]);
 	e_meeting_time_selector_alloc_named_color (mts, "blue", &mts->busy_colors[E_MEETING_FREE_BUSY_BUSY]);
 	e_meeting_time_selector_alloc_named_color (mts, "orange4", &mts->busy_colors[E_MEETING_FREE_BUSY_OUT_OF_OFFICE]);

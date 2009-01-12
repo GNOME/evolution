@@ -31,7 +31,6 @@
 
 #include <gtk/gtk.h>
 #include <libxml/parser.h>
-#include <libgnome/gnome-util.h>
 #include <glib/gstdio.h>
 #include <libedataserver/e-xml-utils.h>
 #include <libedataserver/e-data-server-util.h>

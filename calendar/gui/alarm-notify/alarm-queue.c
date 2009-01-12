@@ -36,8 +36,6 @@
 #include <glib/gi18n.h>
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-sound.h>
-#include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-uidefs.h>
 
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-component.h>
@@ -991,7 +989,7 @@ free_tray_icon_data (TrayIconData *tray_data)
 	}
 
 	if (tray_data->location){
-		g_free (tray_data->description);
+		g_free (tray_data->location);
 		tray_data->location = NULL;
 	}
 

@@ -1,3 +1,89 @@
+2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/widgets/eab-contact-display.c (eab_uri_popup_link_open),
+	(on_link_clicked):
+	Call e_show_uri() instead of gnome_url_show().
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/contact-editor/e-contact-editor-fullname.c:
+	* gui/contact-editor/e-contact-editor-im.c:
+	* gui/contact-editor/e-contact-editor-address.c:
+	* gui/widgets/e-addressbook-view.c:
+	* printing/e-contact-print.c:
+	Remove unneeded #include <libgnome/gnome-util.h>.
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/component/addressbook-view.c:
+	* gui/contact-editor/e-contact-editor.h:
+	* gui/contact-editor/e-contact-quick-add.c:
+	* gui/contact-editor/eab-editor.h:
+	* gui/contact-list-editor/e-contact-list-editor.h:
+	Remove unneeded #include <libgnomeui/gnome-app.h>.
+	Remove unneeded #include <libgnomeui/gnome-app-helper.h>
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #567270
+
+	* gui/contact-editor/test-editor.c:
+	* printing/test-contact-style-editor.c:
+	* printing/test-print.c:
+	Remove already-disabled use of gnome_about_new().
+
+2009-01-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #567276
+
+	* gui/widgets/e-addressbook-view.c:
+	* printing/test-print.c:
+	Remove unneeded #include <libgnomeui/gnome-dialog-util.h>.
+
+2009-01-10  Andre Klapper  <a9016009@gmx.de>
+
+	* Fix for bug #567282
+
+	* /gui/component/addressbook-view.c:
+	Remove unrequired #include of <libgnomeui/gnome-href.h>.
+
+2009-01-09  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	Reviewed by Matthew Barnes  <mbarnes@redhat.com>
+
+	* Fix for bug #566011
+
+	* gui/component/Makefile.am:
+	* gui/component/addressbook-component.c
+	(addressbook_component_class_init):
+	Include <glib/gi18n-lib.h> instead of <glib/gi18n.h> and
+	add bindtextdomain().
+
+2009-01-08  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #339879
+
+	* gui/widgets/addresstypes.xml: Use "rawcode" instead of "code"
+	to have not added a "match-all" into the expression.
+
+2009-01-07  Matt Davey  <mcdavey@mrao.cam.ac.uk>
+
+	** Fix for bugs #201167 and #269342
+
+	* conduit/address-conduit.c:
+	Add support for category syncing.  Also, retain an existing
+	given/first name split if it exists in the pilot record.
+
+2009-01-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* ui/component/addressbook-config.c (eabc_general_offline):
+	Use the correct macro when marking strings for translation.
+
+2008-12-23  Andre Klapper  <a9016009@gmx.de>
+
+	* gui/merging/eab-contact-merging.c:
+	Include <glib/gi18n.h> instead of <libgnome/gnome-i18n.h>
+
 2008-12-09  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #563669

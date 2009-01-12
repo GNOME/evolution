@@ -26,7 +26,7 @@
 
 #include <errno.h>
 #include <string.h>
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-exception.h>
 #include <gconf/gconf-client.h>
@@ -691,7 +691,6 @@ destroy_component_view (TasksComponentView *component_view)
 {
 	GList *l;
 
-	g_signal_handlers_disconnect_by_func (component_view->table, G_CALLBACK (table_selection_change_cb), component_view);
 	g_signal_handlers_disconnect_matched (component_view->model, G_SIGNAL_MATCH_DATA, 0, 0, 0, 0, component_view);
 
 	if (component_view->source_list)
@@ -884,6 +883,9 @@ tasks_component_class_init (TasksComponentClass *klass)
 {
 	POA_GNOME_Evolution_Component__epv *epv = &klass->epv;
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+
+	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
+	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 
 	parent_class = g_type_class_peek_parent (klass);
 

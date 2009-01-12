@@ -43,6 +43,7 @@
 #include "mail/mail-ops.h"
 #include "mail/mail-mt.h"
 #include "mail/mail-config.h"
+#include "e-util/e-util.h"
 #include "e-util/e-error.h"
 
 typedef enum {

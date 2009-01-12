@@ -33,6 +33,8 @@
 #include "filter/filter-option.h"
 #include "filter/filter-int.h"
 
+#include "em-filter-folder-element.h"
+
 static FilterElement *vfolder_new_element(RuleContext *rc, const char *type);
 
 static RuleContextClass *parent_class = NULL;
@@ -108,6 +110,13 @@ vfolder_new_element(RuleContext *rc, const char *type)
 		return (FilterElement *) filter_option_new();
 	} else if (!strcmp(type, "score")) {
 		return (FilterElement *) filter_int_new_type("score", -3, 3);
+	} else if (!strcmp(type, "folder-curi")) {
+		EMFilterFolderElement *ff = em_filter_folder_element_new ();
+		if (ff)
+			ff->store_camel_uri = TRUE;
+		return (FilterElement *) ff;
+	} else if (!strcmp(type, "folder")) {
+		return (FilterElement *) em_filter_folder_element_new();
 	} else {
 		return parent_class->new_element(rc, type);
 	}

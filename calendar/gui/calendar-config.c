@@ -32,7 +32,6 @@
 #include <time.h>
 #include <string.h>
 #include <e-util/e-util.h>
-#include <libgnomeui/gnome-dialog.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-data-server-util.h>
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
@@ -46,13 +45,6 @@ static GConfClient *config = NULL;
 
 /* Store the zones here, this is not destroyed as the ical timezones */
 static GHashTable *custom_zones = NULL;
-
-static void on_timezone_set		(GnomeDialog	*dialog,
-					 int		 button,
-					 ETimezoneDialog *etd);
-static gboolean on_timezone_dialog_delete_event	(GnomeDialog	*dialog,
-						 GdkEvent	*event,
-						 ETimezoneDialog *etd);
 
 static void
 do_cleanup (void)
@@ -1238,59 +1230,6 @@ calendar_config_set_confirm_purge (gboolean confirm)
 	calendar_config_init ();
 
 	gconf_client_set_bool (config, CALENDAR_CONFIG_PROMPT_PURGE, confirm, NULL);
-}
-
-void
-calendar_config_check_timezone_set (void)
-{
-	ETimezoneDialog *timezone_dialog;
-	GtkWidget *dialog;
-	GList *elem;
-	char *zone;
-
-	zone = calendar_config_get_timezone ();
-	if (zone && zone[0])
-		return;
-
-	/* Show timezone dialog. */
-	timezone_dialog = e_timezone_dialog_new ();
-	dialog = e_timezone_dialog_get_toplevel (timezone_dialog);
-
-	/* Hide the cancel button, which is the 2nd button. */
-	elem = g_list_nth (GNOME_DIALOG (dialog)->buttons, 1);
-	gtk_widget_hide (elem->data);
-
-	g_signal_connect (dialog, "clicked",
-			  G_CALLBACK (on_timezone_set), timezone_dialog);
-	g_signal_connect (dialog, "delete-event",
-			  G_CALLBACK (on_timezone_dialog_delete_event), timezone_dialog);
-
-	gtk_widget_show (dialog);
-}
-
-
-static void
-on_timezone_set			(GnomeDialog	*dialog,
-				 int		 button,
-				 ETimezoneDialog *etd)
-{
-	icaltimezone *zone;
-
-	zone = e_timezone_dialog_get_timezone (etd);
-	if (zone)
-		calendar_config_set_timezone (icaltimezone_get_location (zone));
-
-	g_object_unref (etd);
-}
-
-
-static gboolean
-on_timezone_dialog_delete_event	(GnomeDialog	*dialog,
-				 GdkEvent	*event,
-				 ETimezoneDialog *etd)
-{
-	g_object_unref (etd);
-	return TRUE;
 }
 
 

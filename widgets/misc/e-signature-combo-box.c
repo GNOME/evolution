@@ -18,9 +18,13 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "e-signature-combo-box.h"
 
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 
 #define E_SIGNATURE_COMBO_BOX_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

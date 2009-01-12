@@ -20,7 +20,7 @@
 
 #include "e-msg-composer.h"
 
-#include <glib/gi18n.h>
+#include <glib/gi18n-lib.h>
 #include <glib/gstdio.h>
 
 #include <camel/camel-iconv.h>

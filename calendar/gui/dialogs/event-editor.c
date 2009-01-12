@@ -78,20 +78,21 @@ static const gchar *ui =
 "    <menu action='options-menu'>"
 "      <menuitem action='alarms'/>"
 "      <menuitem action='show-time-busy'/>"
+"      <menuitem action='recurrence'/>"
 "      <menuitem action='all-day-event'/>"
+"      <menuitem action='free-busy'/>"
 "      <menu action='classification-menu'>"
 "        <menuitem action='classify-public'/>"
 "        <menuitem action='classify-private'/>"
 "        <menuitem action='classify-confidential'/>"
 "      </menu>"
-"      <menuitem action='recurrence'/>"
-"      <menuitem action='free-busy'/>"
 "    </menu>"
 "  </menubar>"
 "  <toolbar name='main-toolbar'>"
 "    <toolitem action='alarms'/>"
-"    <toolitem action='all-day-event'/>"
+"    <toolitem action='show-time-busy'/>"
 "    <toolitem action='recurrence'/>"
+"    <toolitem action='all-day-event'/>"
 "    <toolitem action='free-busy'/>"
 "  </toolbar>"
 "</ui>";
@@ -148,9 +149,15 @@ action_all_day_event_cb (GtkToggleAction *action,
                          EventEditor *editor)
 {
 	gboolean active;
+	GtkAction *action_show_busy;
+	CompEditor *comp_editor = COMP_EDITOR (editor);
 
 	active = gtk_toggle_action_get_active (action);
 	event_page_set_all_day_event (editor->priv->event_page, active);
+
+	action_show_busy = comp_editor_get_action (comp_editor, "show-time-busy");
+	gtk_toggle_action_set_active (GTK_TOGGLE_ACTION (action_show_busy), !active);
+	event_page_set_show_time_busy (editor->priv->event_page, !active);
 }
 
 static void
@@ -222,7 +229,7 @@ static GtkToggleActionEntry event_toggle_entries[] = {
 	  FALSE },
 
 	{ "show-time-busy",
-	  NULL,
+	  GTK_STOCK_DIALOG_ERROR,
 	  N_("Show Time as _Busy"),
 	  NULL,
 	  N_("Toggles whether to show time as busy"),
