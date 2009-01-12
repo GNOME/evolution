@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution gnome-2-24\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-10-20 23:44+0900\n"
-"PO-Revision-Date: 2008-10-20 23:19+0900\n"
+"POT-Creation-Date: 2009-01-12 21:35+0900\n"
+"PO-Revision-Date: 2009-01-12 21:34+0900\n"
 "Last-Translator: Takeshi AIHANA <takeshi.aihana@gmail.com>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -642,7 +642,7 @@ msgstr "ここでお使いの S/MIME 型の証明書を管理します"
 #: ../calendar/gui/memos-component.c:199 ../calendar/gui/migration.c:475
 #: ../calendar/gui/migration.c:577 ../calendar/gui/migration.c:1091
 #: ../calendar/gui/tasks-component.c:195 ../mail/em-folder-tree-model.c:200
-#: ../mail/em-folder-tree-model.c:202 ../mail/em-migrate.c:2906
+#: ../mail/em-folder-tree-model.c:202 ../mail/em-migrate.c:2967
 #: ../mail/mail-component.c:311 ../mail/mail-vfolder.c:223
 #: ../mail/message-list.c:1457
 msgid "On This Computer"
@@ -727,7 +727,7 @@ msgstr "オフライン時に連絡先の内容をローカルへコピーする
 #: ../calendar/gui/dialogs/calendar-setup.c:379
 #: ../calendar/gui/dialogs/calendar-setup.c:390
 #: ../mail/em-folder-properties.c:283 ../mail/mail-config.glade.h:89
-#: ../plugins/itip-formatter/itip-formatter.c:2436
+#: ../plugins/itip-formatter/itip-formatter.c:2439
 #: ../smime/gui/smime-ui.glade.h:28
 msgid "General"
 msgstr "全般"
@@ -854,10 +854,10 @@ msgstr "vCard 形式で保存..."
 #: ../addressbook/gui/component/addressbook-view.c:945
 #: ../addressbook/gui/widgets/e-addressbook-view.c:956
 #: ../calendar/gui/calendar-component.c:619
-#: ../calendar/gui/e-calendar-table.c:1598
+#: ../calendar/gui/e-calendar-table.c:1599
 #: ../calendar/gui/e-calendar-view.c:1692 ../calendar/gui/e-memo-table.c:940
 #: ../calendar/gui/memos-component.c:468 ../calendar/gui/tasks-component.c:459
-#: ../mail/em-folder-tree.c:2111 ../mail/em-folder-view.c:1340
+#: ../mail/em-folder-tree.c:2129 ../mail/em-folder-view.c:1340
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-list.xml.h:35 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -866,9 +866,9 @@ msgstr "削除(_D)"
 
 #: ../addressbook/gui/component/addressbook-view.c:948
 #: ../calendar/gui/calendar-component.c:622
-#: ../calendar/gui/dialogs/comp-editor.c:2039
+#: ../calendar/gui/dialogs/comp-editor.c:2043
 #: ../calendar/gui/memos-component.c:471 ../calendar/gui/tasks-component.c:462
-#: ../composer/e-msg-composer.c:1041 ../mail/em-folder-tree.c:2120
+#: ../composer/e-msg-composer.c:1041 ../mail/em-folder-tree.c:2138
 #: ../ui/evolution-addressbook.xml.h:59 ../ui/evolution-mail-list.xml.h:38
 msgid "_Properties"
 msgstr "プロパティ(_P)"
@@ -894,7 +894,7 @@ msgstr "%s (ユーザ %s) のパスワードを入力して下さい"
 
 #: ../addressbook/gui/component/addressbook.c:222
 #: ../calendar/common/authentication.c:51
-#: ../plugins/google-account-setup/google-source.c:444
+#: ../plugins/google-account-setup/google-source.c:441
 #: ../plugins/publish-calendar/publish-calendar.c:191
 #: ../smime/gui/component.c:49
 msgid "Enter password"
@@ -1250,8 +1250,8 @@ msgstr "カード"
 #: ../calendar/gui/dialogs/event-page.glade.h:20 ../filter/filter.glade.h:17
 #: ../plugins/calendar-http/calendar-http.c:279
 #: ../plugins/calendar-weather/calendar-weather.c:561
-#: ../plugins/google-account-setup/google-source.c:662
-#: ../plugins/google-account-setup/google-contacts-source.c:328
+#: ../plugins/google-account-setup/google-source.c:671
+#: ../plugins/google-account-setup/google-contacts-source.c:338
 msgid "minutes"
 msgstr "分"
 
@@ -2936,7 +2936,7 @@ msgstr "情報ソース"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:234
 #: ../calendar/gui/e-calendar-table.etspec.h:12
-#: ../calendar/gui/e-meeting-list-view.c:508
+#: ../calendar/gui/e-meeting-list-view.c:525
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:11
 #: ../calendar/gui/e-memo-table.etspec.h:5
 msgid "Type"
@@ -2948,8 +2948,8 @@ msgid "Save as vCard..."
 msgstr "vCard 形式で保存..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:934
-#: ../calendar/gui/dialogs/comp-editor.c:2037
-#: ../calendar/gui/e-calendar-table.c:1576
+#: ../calendar/gui/dialogs/comp-editor.c:2041
+#: ../calendar/gui/e-calendar-table.c:1577
 #: ../calendar/gui/e-calendar-view.c:1670 ../calendar/gui/e-memo-table.c:923
 #: ../ui/evolution-addressbook.xml.h:56
 msgid "_Open"
@@ -3005,7 +3005,7 @@ msgstr "切り取り(_T)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:954
 #: ../calendar/gui/dialogs/comp-editor.c:484
-#: ../calendar/gui/e-calendar-table.c:1584
+#: ../calendar/gui/e-calendar-table.c:1585
 #: ../calendar/gui/e-calendar-view.c:1677 ../calendar/gui/e-memo-table.c:931
 #: ../composer/e-msg-composer.c:2052 ../mail/em-folder-tree.c:1005
 #: ../mail/em-folder-view.c:1325 ../mail/message-list.c:2044
@@ -3158,7 +3158,7 @@ msgid "Radio"
 msgstr "ラジオ"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:33
-#: ../calendar/gui/e-meeting-list-view.c:520
+#: ../calendar/gui/e-meeting-list-view.c:537
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:9
 #: ../plugins/exchange-operations/exchange-permissions-dialog.c:715
 msgid "Role"
@@ -3339,7 +3339,7 @@ msgid "_Open Link in Browser"
 msgstr "リンクをブラウザで開く(_O)"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:173
-#: ../mail/em-folder-view.c:2795
+#: ../mail/em-folder-view.c:2792
 msgid "_Copy Link Location"
 msgstr "リンク先のコピー(_C)"
 
@@ -3503,7 +3503,7 @@ msgstr "プロトコルがサポートされていません"
 #: ../calendar/gui/e-cal-model-tasks.c:364
 #: ../calendar/gui/e-cal-model-tasks.c:681
 #: ../calendar/gui/e-calendar-table.c:239
-#: ../calendar/gui/e-calendar-table.c:642 ../calendar/gui/print.c:2557
+#: ../calendar/gui/e-calendar-table.c:643 ../calendar/gui/print.c:2557
 msgid "Canceled"
 msgstr "キャンセル済み"
 
@@ -4481,7 +4481,7 @@ msgstr "Evolution を再起動するまでタスクは利用できません。"
 msgid "_Discard Changes"
 msgstr "変更を破棄する(_D)"
 
-#: ../calendar/calendar.error.xml.h:80 ../composer/e-composer-actions.c:499
+#: ../calendar/calendar.error.xml.h:80 ../composer/e-composer-actions.c:497
 msgid "_Save"
 msgstr "保存(_S)"
 
@@ -4546,7 +4546,7 @@ msgid "Could not write pilot's ToDo application block"
 msgstr "パイロットの ToDo アプリケーション・ブロックを書き込めませんでした"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
-#: ../plugins/itip-formatter/itip-formatter.c:2427
+#: ../plugins/itip-formatter/itip-formatter.c:2430
 msgid "Calendar and Tasks"
 msgstr "カレンダとタスク"
 
@@ -4601,7 +4601,7 @@ msgid "Memos"
 msgstr "メモ"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
-#: ../calendar/gui/e-calendar-table.c:703 ../calendar/gui/e-tasks.c:1429
+#: ../calendar/gui/e-calendar-table.c:704 ../calendar/gui/e-tasks.c:1429
 #: ../calendar/gui/gnome-cal.c:1642 ../calendar/gui/print.c:1984
 #: ../calendar/gui/tasks-component.c:539
 #: ../calendar/gui/tasks-component.c:1090 ../calendar/gui/tasks-control.c:492
@@ -4641,8 +4641,8 @@ msgstr[1] "分間"
 #: ../calendar/gui/dialogs/event-page.glade.h:19 ../filter/filter.glade.h:15
 #: ../plugins/calendar-http/calendar-http.c:280
 #: ../plugins/calendar-weather/calendar-weather.c:562
-#: ../plugins/google-account-setup/google-source.c:663
-#: ../plugins/google-account-setup/google-contacts-source.c:329
+#: ../plugins/google-account-setup/google-source.c:672
+#: ../plugins/google-account-setup/google-contacts-source.c:339
 msgid "hours"
 msgid_plural "hours"
 msgstr[0] "時"
@@ -5296,8 +5296,8 @@ msgstr "次より古いイベントを抹消する"
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:21 ../filter/filter.glade.h:14
 #: ../plugins/calendar-http/calendar-http.c:281
 #: ../plugins/calendar-weather/calendar-weather.c:563
-#: ../plugins/google-account-setup/google-source.c:664
-#: ../plugins/google-account-setup/google-contacts-source.c:330
+#: ../plugins/google-account-setup/google-source.c:673
+#: ../plugins/google-account-setup/google-contacts-source.c:340
 #: ../widgets/misc/e-send-options.glade.h:39
 msgid "days"
 msgstr "日"
@@ -5329,7 +5329,7 @@ msgstr "新しいカレンダ(_N)"
 
 #: ../calendar/gui/calendar-component.c:616
 #: ../calendar/gui/memos-component.c:465 ../calendar/gui/tasks-component.c:456
-#: ../mail/em-folder-tree.c:2106
+#: ../mail/em-folder-tree.c:2124
 msgid "_Copy..."
 msgstr "コピー(_C)..."
 
@@ -5455,7 +5455,7 @@ msgid "Competition"
 msgstr "競合他社"
 
 #: ../calendar/gui/caltypes.xml.h:11 ../calendar/gui/e-cal-list-view.c:250
-#: ../calendar/gui/e-cal-model.c:348 ../calendar/gui/e-calendar-table.c:546
+#: ../calendar/gui/e-cal-model.c:348 ../calendar/gui/e-calendar-table.c:547
 #: ../calendar/gui/memotypes.xml.h:10
 msgid "Confidential"
 msgstr "極秘"
@@ -5548,14 +5548,14 @@ msgid "Phone Calls"
 msgstr "携帯電話"
 
 #: ../calendar/gui/caltypes.xml.h:31 ../calendar/gui/e-cal-list-view.c:249
-#: ../calendar/gui/e-cal-model.c:346 ../calendar/gui/e-calendar-table.c:545
+#: ../calendar/gui/e-cal-model.c:346 ../calendar/gui/e-calendar-table.c:546
 #: ../calendar/gui/memotypes.xml.h:29
 msgid "Private"
 msgstr "非公開"
 
 #: ../calendar/gui/caltypes.xml.h:32 ../calendar/gui/e-cal-list-view.c:248
 #: ../calendar/gui/e-cal-model.c:337 ../calendar/gui/e-cal-model.c:344
-#: ../calendar/gui/e-calendar-table.c:544 ../calendar/gui/memotypes.xml.h:30
+#: ../calendar/gui/e-calendar-table.c:545 ../calendar/gui/memotypes.xml.h:30
 msgid "Public"
 msgstr "公開"
 
@@ -5566,7 +5566,7 @@ msgstr "繰り返し"
 
 #: ../calendar/gui/caltypes.xml.h:34
 #: ../calendar/gui/e-calendar-table.etspec.h:10
-#: ../calendar/gui/e-meeting-list-view.c:545
+#: ../calendar/gui/e-meeting-list-view.c:562
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:10
 #: ../calendar/gui/memotypes.xml.h:31 ../calendar/gui/tasktypes.xml.h:38
 #: ../mail/em-filter-i18n.h:86 ../mail/message-list.etspec.h:17
@@ -5774,7 +5774,7 @@ msgid "Alarms"
 msgstr "アラーム"
 
 #: ../calendar/gui/dialogs/cal-attachment-select-file.c:82
-#: ../composer/e-composer-actions.c:64
+#: ../composer/e-composer-actions.c:62
 msgid "_Suggest automatic display of attachment"
 msgstr "添付ファイルを自動的に表示するか提示する(_S)"
 
@@ -6179,7 +6179,7 @@ msgid "Cancel _Drag"
 msgstr "ドラッグのキャンセル(_D)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:620
-#: ../calendar/gui/dialogs/comp-editor.c:3253 ../mail/em-utils.c:372
+#: ../calendar/gui/dialogs/comp-editor.c:3259 ../mail/em-utils.c:372
 #: ../plugins/prefer-plain/prefer-plain.c:91
 #: ../widgets/misc/e-attachment-bar.c:453
 msgid "attachment"
@@ -6273,7 +6273,7 @@ msgstr "添付(_I)"
 msgid "_Options"
 msgstr "オプション(_O)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1371 ../mail/em-folder-tree.c:2098
+#: ../calendar/gui/dialogs/comp-editor.c:1371 ../mail/em-folder-tree.c:2116
 #: ../ui/evolution-addressbook.xml.h:64 ../ui/evolution-mail-global.xml.h:34
 #: ../ui/evolution-mail-messagedisplay.xml.h:8 ../ui/evolution-tasks.xml.h:30
 #: ../ui/evolution.xml.h:55
@@ -6281,7 +6281,7 @@ msgid "_View"
 msgstr "表示(_V)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1381
-#: ../composer/e-composer-actions.c:471
+#: ../composer/e-composer-actions.c:469
 msgid "_Attachment..."
 msgstr "ファイルの添付(_A)..."
 
@@ -6361,33 +6361,33 @@ msgstr "種類(_T)"
 msgid "Toggles whether the Attendee Type is displayed"
 msgstr "出席者の種類の表示/非表示を切り替えます"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1770
-#: ../composer/e-composer-private.c:66 ../widgets/misc/e-attachment-bar.c:1381
+#: ../calendar/gui/dialogs/comp-editor.c:1774
+#: ../composer/e-composer-private.c:64 ../widgets/misc/e-attachment-bar.c:1382
 msgid "Recent _Documents"
 msgstr "最近開いたドキュメント(_D)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1789
-#: ../composer/e-composer-actions.c:699
+#: ../calendar/gui/dialogs/comp-editor.c:1793
+#: ../composer/e-composer-actions.c:697
 msgid "Attach"
 msgstr "添付"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1884
+#: ../calendar/gui/dialogs/comp-editor.c:1888
 #, c-format
 msgid "<b>%d</b> Attachment"
 msgid_plural "<b>%d</b> Attachments"
 msgstr[0] "添付ファイル: <b>%d</b>個"
 msgstr[1] "添付ファイル: <b>%d</b>個"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1916
+#: ../calendar/gui/dialogs/comp-editor.c:1920
 msgid "Hide Attachment _Bar"
 msgstr "添付ファイル・バーを隠す(_B)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:1919
-#: ../calendar/gui/dialogs/comp-editor.c:2227
+#: ../calendar/gui/dialogs/comp-editor.c:1923
+#: ../calendar/gui/dialogs/comp-editor.c:2231
 msgid "Show Attachment _Bar"
 msgstr "添付ファイル・バーを表示する(_B)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2038
+#: ../calendar/gui/dialogs/comp-editor.c:2042
 #: ../calendar/gui/dialogs/event-page.c:1875
 #: ../calendar/gui/dialogs/task-page.c:1197 ../composer/e-msg-composer.c:1040
 #: ../plugins/groupwise-features/junk-settings.glade.h:8
@@ -6396,28 +6396,28 @@ msgstr "添付ファイル・バーを表示する(_B)"
 msgid "_Remove"
 msgstr "削除(_R)"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2041
+#: ../calendar/gui/dialogs/comp-editor.c:2045
 #: ../composer/e-msg-composer.c:1043
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:4
 msgid "_Add attachment..."
 msgstr "添付ファイルの追加(_A)..."
 
-#: ../calendar/gui/dialogs/comp-editor.c:2249
+#: ../calendar/gui/dialogs/comp-editor.c:2253
 #: ../mail/em-format-html-display.c:2201
 msgid "Show Attachments"
 msgstr "添付ファイルの表示"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2250
+#: ../calendar/gui/dialogs/comp-editor.c:2254
 msgid "Press space key to toggle attachment bar"
 msgstr "[SPACE] キーを押すと添付ファイル・バーの表示が切り替わります"
 
-#: ../calendar/gui/dialogs/comp-editor.c:2394
-#: ../calendar/gui/dialogs/comp-editor.c:2441
-#: ../calendar/gui/dialogs/comp-editor.c:3286
+#: ../calendar/gui/dialogs/comp-editor.c:2399
+#: ../calendar/gui/dialogs/comp-editor.c:2447
+#: ../calendar/gui/dialogs/comp-editor.c:3292
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "更新が届いたらこのアイテムに対する変更を破棄する"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3315
+#: ../calendar/gui/dialogs/comp-editor.c:3321
 msgid "Unable to use current version!"
 msgstr "現在のバージョンを使用できません！"
 
@@ -6670,7 +6670,7 @@ msgstr "その他"
 #: ../plugins/calendar-weather/calendar-weather.c:424
 #: ../plugins/exchange-operations/exchange-delegates-user.c:195
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:9
-#: ../plugins/itip-formatter/itip-formatter.c:2088
+#: ../plugins/itip-formatter/itip-formatter.c:2091
 #: ../widgets/misc/e-cell-date-edit.c:306 ../widgets/misc/e-dateedit.c:1511
 #: ../widgets/misc/e-dateedit.c:1725
 #: ../widgets/misc/e-signature-combo-box.c:70
@@ -6752,7 +6752,7 @@ msgstr "連絡先(_N)..."
 msgid "Organizer:"
 msgstr "主催者:"
 
-#: ../calendar/gui/dialogs/memo-editor.c:141 ../calendar/gui/print.c:2478
+#: ../calendar/gui/dialogs/memo-editor.c:111 ../calendar/gui/print.c:2478
 msgid "Memo"
 msgstr "メモ"
 
@@ -7013,7 +7013,7 @@ msgstr "<span weight=\"bold\">ステータス</span>"
 #: ../calendar/gui/e-cal-model-tasks.c:362
 #: ../calendar/gui/e-cal-model-tasks.c:679
 #: ../calendar/gui/e-calendar-table.c:237
-#: ../calendar/gui/e-calendar-table.c:641 ../calendar/gui/e-itip-control.c:946
+#: ../calendar/gui/e-calendar-table.c:642 ../calendar/gui/e-itip-control.c:946
 #: ../calendar/gui/e-meeting-store.c:181 ../calendar/gui/e-meeting-store.c:204
 #: ../calendar/gui/print.c:2554 ../calendar/gui/tasktypes.xml.h:13
 #: ../plugins/save-calendar/csv-format.c:366
@@ -7022,7 +7022,7 @@ msgstr "完了"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:5
 #: ../calendar/gui/e-cal-component-preview.c:272
-#: ../calendar/gui/e-calendar-table.c:566 ../calendar/gui/tasktypes.xml.h:21
+#: ../calendar/gui/e-calendar-table.c:567 ../calendar/gui/tasktypes.xml.h:21
 #: ../mail/message-list.c:1065
 msgid "High"
 msgstr "高い"
@@ -7033,20 +7033,20 @@ msgstr "高い"
 #: ../calendar/gui/e-cal-model-tasks.c:677
 #: ../calendar/gui/e-cal-model-tasks.c:754
 #: ../calendar/gui/e-calendar-table.c:235
-#: ../calendar/gui/e-calendar-table.c:640 ../calendar/gui/print.c:2551
+#: ../calendar/gui/e-calendar-table.c:641 ../calendar/gui/print.c:2551
 msgid "In Progress"
 msgstr "進行中"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
 #: ../calendar/gui/e-cal-component-preview.c:276
-#: ../calendar/gui/e-calendar-table.c:568 ../calendar/gui/tasktypes.xml.h:29
+#: ../calendar/gui/e-calendar-table.c:569 ../calendar/gui/tasktypes.xml.h:29
 #: ../mail/message-list.c:1063
 msgid "Low"
 msgstr "低い"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
 #: ../calendar/gui/e-cal-component-preview.c:274
-#: ../calendar/gui/e-cal-model.c:985 ../calendar/gui/e-calendar-table.c:567
+#: ../calendar/gui/e-cal-model.c:985 ../calendar/gui/e-calendar-table.c:568
 #: ../calendar/gui/tasktypes.xml.h:32 ../mail/message-list.c:1064
 msgid "Normal"
 msgstr "普通"
@@ -7056,7 +7056,7 @@ msgstr "普通"
 #: ../calendar/gui/e-cal-model-tasks.c:358
 #: ../calendar/gui/e-cal-model-tasks.c:675
 #: ../calendar/gui/e-calendar-table.c:233
-#: ../calendar/gui/e-calendar-table.c:639 ../calendar/gui/print.c:2548
+#: ../calendar/gui/e-calendar-table.c:640 ../calendar/gui/print.c:2548
 #: ../calendar/gui/tasktypes.xml.h:33
 msgid "Not Started"
 msgstr "開始していない"
@@ -7070,7 +7070,7 @@ msgid "Stat_us:"
 msgstr "ステータス(_U):"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:12
-#: ../calendar/gui/e-calendar-table.c:569 ../calendar/gui/tasktypes.xml.h:44
+#: ../calendar/gui/e-calendar-table.c:570 ../calendar/gui/tasktypes.xml.h:44
 msgid "Undefined"
 msgstr "未定義"
 
@@ -7096,7 +7096,7 @@ msgid "Click to change or view the status details of the task"
 msgstr "タスクの詳細を表示したり変更します"
 
 #: ../calendar/gui/dialogs/task-editor.c:123
-#: ../composer/e-composer-actions.c:527
+#: ../composer/e-composer-actions.c:525
 msgid "_Send Options"
 msgstr "送信オプション(_S)"
 
@@ -7215,7 +7215,7 @@ msgid "%s for an unknown trigger type"
 msgstr "トリガーの種類が不明な %s"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:75
-#: ../calendar/gui/e-cal-component-preview.c:73 ../mail/em-folder-view.c:3315
+#: ../calendar/gui/e-cal-component-preview.c:73 ../mail/em-folder-view.c:3312
 #, c-format
 msgid "Click to open %s"
 msgstr "クリックすると %s を開きます"
@@ -7277,12 +7277,12 @@ msgid "Start Date"
 msgstr "開始日"
 
 #: ../calendar/gui/e-cal-model-calendar.c:187
-#: ../calendar/gui/e-calendar-table.c:618
+#: ../calendar/gui/e-calendar-table.c:619
 msgid "Free"
 msgstr "予定なし"
 
 #: ../calendar/gui/e-cal-model-calendar.c:190
-#: ../calendar/gui/e-calendar-table.c:619
+#: ../calendar/gui/e-calendar-table.c:620
 #: ../calendar/gui/e-meeting-time-sel.c:396
 msgid "Busy"
 msgstr "予定あり"
@@ -7322,7 +7322,7 @@ msgstr "いいえ"
 #: ../calendar/gui/e-meeting-store.c:209 ../calendar/gui/print.c:987
 #: ../calendar/gui/print.c:1004 ../mail/em-utils.c:1341
 #: ../plugins/itip-formatter/itip-formatter.c:447
-#: ../plugins/itip-formatter/itip-formatter.c:2113
+#: ../plugins/itip-formatter/itip-formatter.c:2116
 #: ../plugins/plugin-manager/plugin-manager.c:89
 #: ../widgets/misc/e-attachment-bar.c:821
 #: ../widgets/misc/e-charset-picker.c:56
@@ -7350,7 +7350,7 @@ msgstr "選択した添付ファイルを保存するフォルダの選択..."
 msgid "untitled_image.%s"
 msgstr "untitled_image.%s"
 
-#: ../calendar/gui/e-cal-popup.c:286 ../calendar/gui/e-calendar-table.c:1578
+#: ../calendar/gui/e-cal-popup.c:286 ../calendar/gui/e-calendar-table.c:1579
 #: ../calendar/gui/e-calendar-view.c:1671 ../calendar/gui/e-memo-table.c:925
 #: ../mail/em-folder-view.c:1336 ../mail/em-popup.c:561 ../mail/em-popup.c:572
 msgid "_Save As..."
@@ -7397,88 +7397,88 @@ msgstr "開始: "
 msgid "Due: "
 msgstr "期日: "
 
-#: ../calendar/gui/e-calendar-table.c:588
+#: ../calendar/gui/e-calendar-table.c:589
 msgid "0%"
 msgstr "0%"
 
-#: ../calendar/gui/e-calendar-table.c:589
+#: ../calendar/gui/e-calendar-table.c:590
 msgid "10%"
 msgstr "10%"
 
-#: ../calendar/gui/e-calendar-table.c:590
+#: ../calendar/gui/e-calendar-table.c:591
 msgid "20%"
 msgstr "20%"
 
-#: ../calendar/gui/e-calendar-table.c:591
+#: ../calendar/gui/e-calendar-table.c:592
 msgid "30%"
 msgstr "30%"
 
-#: ../calendar/gui/e-calendar-table.c:592
+#: ../calendar/gui/e-calendar-table.c:593
 msgid "40%"
 msgstr "40%"
 
-#: ../calendar/gui/e-calendar-table.c:593
+#: ../calendar/gui/e-calendar-table.c:594
 msgid "50%"
 msgstr "50%"
 
-#: ../calendar/gui/e-calendar-table.c:594
+#: ../calendar/gui/e-calendar-table.c:595
 msgid "60%"
 msgstr "60%"
 
-#: ../calendar/gui/e-calendar-table.c:595
+#: ../calendar/gui/e-calendar-table.c:596
 msgid "70%"
 msgstr "70%"
 
-#: ../calendar/gui/e-calendar-table.c:596
+#: ../calendar/gui/e-calendar-table.c:597
 msgid "80%"
 msgstr "80%"
 
-#: ../calendar/gui/e-calendar-table.c:597
+#: ../calendar/gui/e-calendar-table.c:598
 msgid "90%"
 msgstr "90%"
 
-#: ../calendar/gui/e-calendar-table.c:598
+#: ../calendar/gui/e-calendar-table.c:599
 msgid "100%"
 msgstr "100%"
 
-#: ../calendar/gui/e-calendar-table.c:878
+#: ../calendar/gui/e-calendar-table.c:879
 #: ../calendar/gui/e-calendar-view.c:664 ../calendar/gui/e-memo-table.c:438
 msgid "Deleting selected objects"
 msgstr "指定したオブジェクトを削除します"
 
-#: ../calendar/gui/e-calendar-table.c:1162
+#: ../calendar/gui/e-calendar-table.c:1163
 #: ../calendar/gui/e-calendar-view.c:794 ../calendar/gui/e-memo-table.c:644
 msgid "Updating objects"
 msgstr "オブジェクトの更新"
 
-#: ../calendar/gui/e-calendar-table.c:1350
+#: ../calendar/gui/e-calendar-table.c:1351
 #: ../calendar/gui/e-calendar-view.c:1220 ../calendar/gui/e-memo-table.c:820
-#: ../composer/e-composer-actions.c:277
+#: ../composer/e-composer-actions.c:275
 msgid "Save as..."
 msgstr "別名で保存..."
 
-#: ../calendar/gui/e-calendar-table.c:1573
+#: ../calendar/gui/e-calendar-table.c:1574
 #: ../calendar/gui/e-calendar-view.c:1653
 msgid "New _Task"
 msgstr "新しいタスク(_T)"
 
-#: ../calendar/gui/e-calendar-table.c:1577 ../calendar/gui/e-memo-table.c:924
+#: ../calendar/gui/e-calendar-table.c:1578 ../calendar/gui/e-memo-table.c:924
 msgid "Open _Web Page"
 msgstr "ウェブ・ページを開く(_W)"
 
-#: ../calendar/gui/e-calendar-table.c:1579
+#: ../calendar/gui/e-calendar-table.c:1580
 #: ../calendar/gui/e-calendar-view.c:1656 ../calendar/gui/e-memo-table.c:926
 msgid "P_rint..."
 msgstr "印刷(_R)..."
 
-#: ../calendar/gui/e-calendar-table.c:1583
+#: ../calendar/gui/e-calendar-table.c:1584
 #: ../calendar/gui/e-calendar-view.c:1676 ../calendar/gui/e-memo-table.c:930
 #: ../ui/evolution-addressbook.xml.h:2 ../ui/evolution-calendar.xml.h:1
 #: ../ui/evolution-memos.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "切り取り(_U)"
 
-#: ../calendar/gui/e-calendar-table.c:1585
+#: ../calendar/gui/e-calendar-table.c:1586
 #: ../calendar/gui/e-calendar-view.c:1659
 #: ../calendar/gui/e-calendar-view.c:1678 ../calendar/gui/e-memo-table.c:932
 #: ../ui/evolution-addressbook.xml.h:57 ../ui/evolution-calendar.xml.h:43
@@ -7486,36 +7486,36 @@ msgstr "切り取り(_U)"
 msgid "_Paste"
 msgstr "貼り付け(_P)"
 
-#: ../calendar/gui/e-calendar-table.c:1589 ../ui/evolution-tasks.xml.h:22
+#: ../calendar/gui/e-calendar-table.c:1590 ../ui/evolution-tasks.xml.h:22
 msgid "_Assign Task"
 msgstr "タスクの割当て(_A)"
 
-#: ../calendar/gui/e-calendar-table.c:1590 ../calendar/gui/e-memo-table.c:936
+#: ../calendar/gui/e-calendar-table.c:1591 ../calendar/gui/e-memo-table.c:936
 #: ../ui/evolution-tasks.xml.h:26
 msgid "_Forward as iCalendar"
 msgstr "iCalender 形式で転送(_F)"
 
-#: ../calendar/gui/e-calendar-table.c:1591
+#: ../calendar/gui/e-calendar-table.c:1592
 msgid "_Mark as Complete"
 msgstr "完了としてマーク(_M)"
 
-#: ../calendar/gui/e-calendar-table.c:1592
+#: ../calendar/gui/e-calendar-table.c:1593
 msgid "_Mark Selected Tasks as Complete"
 msgstr "選択したタスクに完了マークの付与(_M)"
 
-#: ../calendar/gui/e-calendar-table.c:1593
+#: ../calendar/gui/e-calendar-table.c:1594
 msgid "_Mark as Incomplete"
 msgstr "未完了としてマーク(_M)"
 
-#: ../calendar/gui/e-calendar-table.c:1594
+#: ../calendar/gui/e-calendar-table.c:1595
 msgid "_Mark Selected Tasks as Incomplete"
 msgstr "選択したタスクに未完了マークの付与(_M)"
 
-#: ../calendar/gui/e-calendar-table.c:1599
+#: ../calendar/gui/e-calendar-table.c:1600
 msgid "_Delete Selected Tasks"
 msgstr "指定したタスクの削除(_D)"
 
-#: ../calendar/gui/e-calendar-table.c:1836
+#: ../calendar/gui/e-calendar-table.c:1837
 #: ../calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
 msgstr "<ここをクリックしてタスクを追加して下さい>"
@@ -7803,12 +7803,12 @@ msgstr ""
 #: ../calendar/gui/e-meeting-list-view.c:203
 #: ../calendar/gui/e-meeting-store.c:173 ../calendar/gui/e-meeting-store.c:196
 #: ../calendar/gui/itip-utils.c:664
-#: ../plugins/itip-formatter/itip-formatter.c:2101
+#: ../plugins/itip-formatter/itip-formatter.c:2104
 msgid "Accepted"
 msgstr "受諾済"
 
 #: ../calendar/gui/e-itip-control.c:1195 ../calendar/gui/itip-utils.c:667
-#: ../plugins/itip-formatter/itip-formatter.c:2104
+#: ../plugins/itip-formatter/itip-formatter.c:2107
 msgid "Tentatively Accepted"
 msgstr "仮承認済"
 
@@ -7816,7 +7816,7 @@ msgstr "仮承認済"
 #: ../calendar/gui/e-meeting-list-view.c:204
 #: ../calendar/gui/e-meeting-store.c:175 ../calendar/gui/e-meeting-store.c:198
 #: ../calendar/gui/itip-utils.c:670 ../calendar/gui/itip-utils.c:699
-#: ../plugins/itip-formatter/itip-formatter.c:2107
+#: ../plugins/itip-formatter/itip-formatter.c:2110
 msgid "Declined"
 msgstr "辞退済"
 
@@ -8035,7 +8035,7 @@ msgid "Attendee status updated\n"
 msgstr "出席状況を更新しました\n"
 
 #: ../calendar/gui/e-itip-control.c:2080
-#: ../plugins/itip-formatter/itip-formatter.c:1301
+#: ../plugins/itip-formatter/itip-formatter.c:1304
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "アイテムがまだ存在していないので出席状況を更新できませんでした"
 
@@ -8193,17 +8193,17 @@ msgstr "仮承認"
 #: ../calendar/gui/e-meeting-list-view.c:206
 #: ../calendar/gui/e-meeting-store.c:179 ../calendar/gui/e-meeting-store.c:202
 #: ../calendar/gui/itip-utils.c:673
-#: ../plugins/itip-formatter/itip-formatter.c:2110
+#: ../plugins/itip-formatter/itip-formatter.c:2113
 msgid "Delegated"
 msgstr "委任済"
 
 #. The extra space is just a hack to occupy more space for Attendee
-#: ../calendar/gui/e-meeting-list-view.c:491
+#: ../calendar/gui/e-meeting-list-view.c:506
 msgid "Attendee                          "
 msgstr "出席者                          "
 
 #. To translators: RSVP means "please reply"
-#: ../calendar/gui/e-meeting-list-view.c:533
+#: ../calendar/gui/e-meeting-list-view.c:550
 #: ../calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "返信の有無"
@@ -8971,7 +8971,7 @@ msgstr "予定と会議"
 
 #: ../calendar/importers/icalendar-importer.c:333
 #: ../calendar/importers/icalendar-importer.c:628
-#: ../plugins/itip-formatter/itip-formatter.c:1635
+#: ../plugins/itip-formatter/itip-formatter.c:1638
 msgid "Opening calendar"
 msgstr "カレンダを開く"
 
@@ -10553,213 +10553,213 @@ msgstr "太平洋/ウォーリス"
 msgid "Pacific/Yap"
 msgstr "太平洋/ヤップ"
 
-#: ../composer/e-composer-autosave.c:275
+#: ../composer/e-composer-autosave.c:273
 msgid "Could not open autosave file"
 msgstr "自動保存用のファイルを開けませんでした"
 
-#: ../composer/e-composer-autosave.c:282
+#: ../composer/e-composer-autosave.c:280
 msgid "Unable to retrieve message from editor"
 msgstr "エディタからメッセージを取得できません"
 
-#: ../composer/e-composer-actions.c:47
+#: ../composer/e-composer-actions.c:45
 msgid "Insert Attachment"
 msgstr "添付ファイルの挿入"
 
-#: ../composer/e-composer-actions.c:51
+#: ../composer/e-composer-actions.c:49
 msgid "A_ttach"
 msgstr "添付する(_T)"
 
-#: ../composer/e-composer-actions.c:142
+#: ../composer/e-composer-actions.c:140
 msgid "Untitled Message"
 msgstr "タイトルなしのメッセージ"
 
-#: ../composer/e-composer-actions.c:473
+#: ../composer/e-composer-actions.c:471
 msgid "Attach a file"
 msgstr "ファイルを添付します"
 
-#: ../composer/e-composer-actions.c:478 ../mail/mail-signature-editor.c:194
+#: ../composer/e-composer-actions.c:476 ../mail/mail-signature-editor.c:194
 #: ../ui/evolution-mail-messagedisplay.xml.h:4
 msgid "_Close"
 msgstr "閉じる(_C)"
 
-#: ../composer/e-composer-actions.c:480
+#: ../composer/e-composer-actions.c:478
 msgid "Close the current file"
 msgstr "現在のファイルを閉じます"
 
-#: ../composer/e-composer-actions.c:485 ../mail/em-folder-view.c:1337
+#: ../composer/e-composer-actions.c:483 ../mail/em-folder-view.c:1337
 #: ../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:44
 #: ../ui/evolution-mail-message.xml.h:123 ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
 msgid "_Print..."
 msgstr "印刷(_P)..."
 
-#: ../composer/e-composer-actions.c:492 ../ui/evolution-addressbook.xml.h:27
+#: ../composer/e-composer-actions.c:490 ../ui/evolution-addressbook.xml.h:27
 #: ../ui/evolution-calendar.xml.h:21 ../ui/evolution-mail-message.xml.h:76
 #: ../ui/evolution-memos.xml.h:12 ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
 msgstr "印刷プレビュー(_V)"
 
-#: ../composer/e-composer-actions.c:501
+#: ../composer/e-composer-actions.c:499
 msgid "Save the current file"
 msgstr "現在のファイルを保存します"
 
-#: ../composer/e-composer-actions.c:506
+#: ../composer/e-composer-actions.c:504
 msgid "Save _As..."
 msgstr "別名で保存(_A)..."
 
-#: ../composer/e-composer-actions.c:508
+#: ../composer/e-composer-actions.c:506
 msgid "Save the current file with a different name"
 msgstr "現在のファイルを別名で保存します"
 
-#: ../composer/e-composer-actions.c:513
+#: ../composer/e-composer-actions.c:511
 msgid "Save _Draft"
 msgstr "草案の保存(_D)"
 
-#: ../composer/e-composer-actions.c:515
+#: ../composer/e-composer-actions.c:513
 msgid "Save as draft"
 msgstr "草案として保存します"
 
-#: ../composer/e-composer-actions.c:520
+#: ../composer/e-composer-actions.c:518
 msgid "S_end"
 msgstr "送信(_E)"
 
-#: ../composer/e-composer-actions.c:522
+#: ../composer/e-composer-actions.c:520
 msgid "Send this message"
 msgstr "メッセージを送信します"
 
-#: ../composer/e-composer-actions.c:529
+#: ../composer/e-composer-actions.c:527
 msgid "Insert Send options"
 msgstr "送信用の拡張オプションを挿入します"
 
-#: ../composer/e-composer-actions.c:534
+#: ../composer/e-composer-actions.c:532
 msgid "New _Message"
 msgstr "新しいメッセージ(_M)"
 
-#: ../composer/e-composer-actions.c:536
+#: ../composer/e-composer-actions.c:534
 msgid "Open New Message window"
 msgstr "新しいメッセージ作成ウィンドウを開きます"
 
-#: ../composer/e-composer-actions.c:543
+#: ../composer/e-composer-actions.c:541
 msgid "Character _Encoding"
 msgstr "文字エンコーディング(_E)"
 
-#: ../composer/e-composer-actions.c:550
+#: ../composer/e-composer-actions.c:548
 msgid "_Security"
 msgstr "セキュリティ(_S)"
 
-#: ../composer/e-composer-actions.c:560
+#: ../composer/e-composer-actions.c:558
 msgid "PGP _Encrypt"
 msgstr "PGP による暗号化(_E)"
 
-#: ../composer/e-composer-actions.c:562
+#: ../composer/e-composer-actions.c:560
 msgid "Encrypt this message with PGP"
 msgstr "PGP でこのメッセージを暗号化します"
 
-#: ../composer/e-composer-actions.c:568
+#: ../composer/e-composer-actions.c:566
 msgid "PGP _Sign"
 msgstr "PGP の署名(_S)"
 
-#: ../composer/e-composer-actions.c:570
+#: ../composer/e-composer-actions.c:568
 msgid "Sign this message with your PGP key"
 msgstr "PGP 鍵でこのメッセージに署名します"
 
-#: ../composer/e-composer-actions.c:576
+#: ../composer/e-composer-actions.c:574
 msgid "_Prioritize Message"
 msgstr "メッセージの優先度を上げる(_P)"
 
-#: ../composer/e-composer-actions.c:578
+#: ../composer/e-composer-actions.c:576
 msgid "Set the message priority to high"
 msgstr "メッセージの優先度を高くします"
 
-#: ../composer/e-composer-actions.c:584
+#: ../composer/e-composer-actions.c:582
 msgid "Re_quest Read Receipt"
 msgstr "開封通知を要求する(_Q)"
 
-#: ../composer/e-composer-actions.c:586
+#: ../composer/e-composer-actions.c:584
 msgid "Get delivery notification when your message is read"
 msgstr "相手がメッセージを読んだ時に配送通知を取得します"
 
-#: ../composer/e-composer-actions.c:592
+#: ../composer/e-composer-actions.c:590
 msgid "S/MIME En_crypt"
 msgstr "S/MIME による暗号化(_C)"
 
-#: ../composer/e-composer-actions.c:594
+#: ../composer/e-composer-actions.c:592
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
 msgstr "このメッセージを S/MIME 暗号認証を用いて暗号化します"
 
-#: ../composer/e-composer-actions.c:600
+#: ../composer/e-composer-actions.c:598
 msgid "S/MIME Sig_n"
 msgstr "S/MIME の署名(_N)"
 
-#: ../composer/e-composer-actions.c:602
+#: ../composer/e-composer-actions.c:600
 msgid "Sign this message with your S/MIME Signature Certificate"
 msgstr "S/MIME 署名証明書でこのメッセージに署名します"
 
-#: ../composer/e-composer-actions.c:608
+#: ../composer/e-composer-actions.c:606
 msgid "_Bcc Field"
 msgstr "Bcc(_B)"
 
-#: ../composer/e-composer-actions.c:610
+#: ../composer/e-composer-actions.c:608
 msgid "Toggles whether the BCC field is displayed"
 msgstr "Bcc の表示/非表示を切り替えます"
 
-#: ../composer/e-composer-actions.c:616
+#: ../composer/e-composer-actions.c:614
 msgid "_Cc Field"
 msgstr "Cc(_C)"
 
-#: ../composer/e-composer-actions.c:618
+#: ../composer/e-composer-actions.c:616
 msgid "Toggles whether the CC field is displayed"
 msgstr "Cc の表示/非表示を切り替えます"
 
-#: ../composer/e-composer-actions.c:624
+#: ../composer/e-composer-actions.c:622
 msgid "_From Field"
 msgstr "差出人(_F)"
 
-#: ../composer/e-composer-actions.c:626
+#: ../composer/e-composer-actions.c:624
 msgid "Toggles whether the From chooser is displayed"
 msgstr "差出人の表示/非表示を切り替えます"
 
-#: ../composer/e-composer-actions.c:632
+#: ../composer/e-composer-actions.c:630
 msgid "_Post-To Field"
 msgstr "送信先(_P)"
 
-#: ../composer/e-composer-actions.c:634
+#: ../composer/e-composer-actions.c:632
 msgid "Toggles whether the Post-To field is displayed"
 msgstr "送信先の表示/非表示を切り替えます"
 
-#: ../composer/e-composer-actions.c:640
+#: ../composer/e-composer-actions.c:638
 msgid "_Reply-To Field"
 msgstr "返信先(_R)"
 
-#: ../composer/e-composer-actions.c:642
+#: ../composer/e-composer-actions.c:640
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "返信先の表示/非表示を切り替えます"
 
-#: ../composer/e-composer-actions.c:648
+#: ../composer/e-composer-actions.c:646
 msgid "_Subject Field"
 msgstr "件名(_S)"
 
-#: ../composer/e-composer-actions.c:650
+#: ../composer/e-composer-actions.c:648
 msgid "Toggles whether the Subject field is displayed"
 msgstr "件名の表示/非表示を切り替えます"
 
-#: ../composer/e-composer-actions.c:656
+#: ../composer/e-composer-actions.c:654
 msgid "_To Field"
 msgstr "宛先(_T)"
 
-#: ../composer/e-composer-actions.c:658
+#: ../composer/e-composer-actions.c:656
 msgid "Toggles whether the To field is displayed"
 msgstr "宛先の表示/非表示を切り替えます"
 
-#: ../composer/e-composer-header-table.c:66
+#: ../composer/e-composer-header-table.c:64
 msgid "Enter the recipients of the message"
 msgstr "メッセージの宛先を入力します"
 
-#: ../composer/e-composer-header-table.c:68
+#: ../composer/e-composer-header-table.c:66
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "メッセージのカーボン・コピー (Cc) を受けとる人のアドレスを入力します"
 
-#: ../composer/e-composer-header-table.c:71
+#: ../composer/e-composer-header-table.c:69
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message"
@@ -10767,35 +10767,35 @@ msgstr ""
 "メッセージの宛先には入れずにカーボン・コピー (Bcc) としてメッセージを受け取る"
 "人のアドレスを入力します"
 
-#: ../composer/e-composer-header-table.c:645
+#: ../composer/e-composer-header-table.c:643
 msgid "Fr_om:"
 msgstr "差出人(_O):"
 
-#: ../composer/e-composer-header-table.c:654
+#: ../composer/e-composer-header-table.c:652
 msgid "_Reply-To:"
 msgstr "返信先(_R):"
 
-#: ../composer/e-composer-header-table.c:658
+#: ../composer/e-composer-header-table.c:656
 msgid "_To:"
 msgstr "宛先(_T):"
 
-#: ../composer/e-composer-header-table.c:663
+#: ../composer/e-composer-header-table.c:661
 msgid "_Cc:"
 msgstr "Cc(_C):"
 
-#: ../composer/e-composer-header-table.c:668
+#: ../composer/e-composer-header-table.c:666
 msgid "_Bcc:"
 msgstr "Bcc(_B):"
 
-#: ../composer/e-composer-header-table.c:673
+#: ../composer/e-composer-header-table.c:671
 msgid "_Post To:"
 msgstr "送信先(_P):"
 
-#: ../composer/e-composer-header-table.c:677
+#: ../composer/e-composer-header-table.c:675
 msgid "S_ubject:"
 msgstr "件名(_U):"
 
-#: ../composer/e-composer-header-table.c:686
+#: ../composer/e-composer-header-table.c:684
 msgid "Si_gnature:"
 msgstr "署名(_G):"
 
@@ -10815,7 +10815,7 @@ msgstr "メッセージを投稿するフォルダを選択して下さい。"
 msgid "Click here to select folders to post to"
 msgstr "<ここをクリックして投稿するフォルダを選択して下さい>"
 
-#: ../composer/e-composer-private.c:181 ../composer/e-msg-composer.c:1553
+#: ../composer/e-composer-private.c:179 ../composer/e-msg-composer.c:1553
 msgid "Show _Attachment Bar"
 msgstr "添付ファイル・バーを表示する(_A)"
 
@@ -10846,11 +10846,11 @@ msgstr[1] "添付ファイル"
 msgid "Hide _Attachment Bar"
 msgstr "添付ファイル・バーを隠す(_A)"
 
-#: ../composer/e-msg-composer.c:1568 ../composer/e-msg-composer.c:2775
+#: ../composer/e-msg-composer.c:1568 ../composer/e-msg-composer.c:2770
 msgid "Compose Message"
 msgstr "メッセージの作成"
 
-#: ../composer/e-msg-composer.c:4050
+#: ../composer/e-msg-composer.c:4071
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -11062,7 +11062,7 @@ msgid "Name of the component being logged"
 msgstr "ログを記録するコンポーネントの名前です"
 
 #: ../e-util/e-plugin.c:308 ../filter/rule-editor.c:798
-#: ../mail/em-account-prefs.c:482 ../mail/em-composer-prefs.c:988
+#: ../mail/em-account-prefs.c:482 ../mail/em-composer-prefs.c:960
 #: ../plugins/plugin-manager/plugin-manager.c:355
 #: ../plugins/publish-calendar/publish-calendar.c:690
 msgid "Enabled"
@@ -11113,7 +11113,7 @@ msgstr "ファイルを上書きしますか？"
 msgid "_Overwrite"
 msgstr "上書きする(_O)"
 
-#: ../e-util/e-util.c:96
+#: ../e-util/e-util.c:117
 msgid "Could not display help for Evolution."
 msgstr "Evolution のヘルプを表示できませんでした。"
 
@@ -11141,23 +11141,23 @@ msgstr "ToDo(_T)"
 msgid "_Later"
 msgstr "保留(_L)"
 
-#: ../e-util/e-util-labels.c:309
+#: ../e-util/e-util-labels.c:313
 msgid "Label _Name:"
 msgstr "ラベルの名前(_N):"
 
-#: ../e-util/e-util-labels.c:332
+#: ../e-util/e-util-labels.c:336
 msgid "Edit Label"
 msgstr "ラベルの編集"
 
-#: ../e-util/e-util-labels.c:332
+#: ../e-util/e-util-labels.c:336
 msgid "Add Label"
 msgstr "ラベルの追加"
 
-#: ../e-util/e-util-labels.c:351
+#: ../e-util/e-util-labels.c:355
 msgid "Label name cannot be empty."
 msgstr "ラベルの名前を指定して下さい。"
 
-#: ../e-util/e-util-labels.c:356
+#: ../e-util/e-util-labels.c:360
 msgid ""
 "A label having the same tag already exists on the server. Please rename your "
 "label."
@@ -11165,12 +11165,12 @@ msgstr ""
 "既に同じタグを持つラベルがサーバに存在しているので、別の名前に変更して下さ"
 "い。"
 
-#: ../e-util/gconf-bridge.c:1218
+#: ../e-util/gconf-bridge.c:1221
 #, c-format
 msgid "GConf error: %s"
 msgstr "GConf のエラー: %s"
 
-#: ../e-util/gconf-bridge.c:1228
+#: ../e-util/gconf-bridge.c:1231
 msgid "All further errors shown only on terminal."
 msgstr "これ以上のエラーは全て端末にだけ表示されます。"
 
@@ -11464,8 +11464,8 @@ msgstr "指定した時間"
 
 #: ../filter/filter.glade.h:22 ../plugins/calendar-http/calendar-http.c:282
 #: ../plugins/calendar-weather/calendar-weather.c:564
-#: ../plugins/google-account-setup/google-source.c:665
-#: ../plugins/google-account-setup/google-contacts-source.c:331
+#: ../plugins/google-account-setup/google-source.c:674
+#: ../plugins/google-account-setup/google-contacts-source.c:341
 msgid "weeks"
 msgstr "週"
 
@@ -11653,19 +11653,19 @@ msgid "Protocol"
 msgstr "プロトコル"
 
 #: ../mail/em-composer-prefs.c:303 ../mail/em-composer-prefs.c:438
-#: ../mail/mail-config.c:1158 ../mail/mail-signature-editor.c:478
+#: ../mail/mail-config.c:1168 ../mail/mail-signature-editor.c:478
 msgid "Unnamed"
 msgstr "名前なし"
 
-#: ../mail/em-composer-prefs.c:992
+#: ../mail/em-composer-prefs.c:964
 msgid "Language(s)"
 msgstr "言語"
 
-#: ../mail/em-composer-prefs.c:1041
+#: ../mail/em-composer-prefs.c:1013
 msgid "Add signature script"
 msgstr "署名スクリプトの追加"
 
-#: ../mail/em-composer-prefs.c:1083
+#: ../mail/em-composer-prefs.c:1055
 msgid "Signature(s)"
 msgstr "署名"
 
@@ -12051,15 +12051,15 @@ msgid "Quota usage"
 msgstr "クォータの使用量"
 
 #. translators: standard local mailbox names
-#: ../mail/em-folder-properties.c:358 ../mail/em-folder-tree-model.c:507
-#: ../mail/em-folder-tree.c:2556 ../mail/mail-component.c:159
+#: ../mail/em-folder-properties.c:359 ../mail/em-folder-tree-model.c:509
+#: ../mail/em-folder-tree.c:2597 ../mail/mail-component.c:159
 #: ../mail/mail-component.c:580
 #: ../plugins/exchange-operations/exchange-delegates-user.c:78
 #: ../plugins/exchange-operations/exchange-folder.c:594
 msgid "Inbox"
 msgstr "受信箱"
 
-#: ../mail/em-folder-properties.c:389
+#: ../mail/em-folder-properties.c:390
 #: ../plugins/groupwise-features/properties.glade.h:4
 msgid "Folder Properties"
 msgstr "フォルダのプロパティ"
@@ -12079,7 +12079,7 @@ msgstr "フォルダ名(_N):"
 # "検索フォルダ"は適訳ではない
 #. load store to mail component
 #: ../mail/em-folder-tree-model.c:204 ../mail/em-folder-tree-model.c:206
-#: ../mail/mail-vfolder.c:975 ../mail/mail-vfolder.c:1042
+#: ../mail/mail-vfolder.c:980 ../mail/mail-vfolder.c:1047
 msgid "Search Folders"
 msgstr "仮想フォルダ"
 
@@ -12092,15 +12092,20 @@ msgstr "該当しないもの"
 msgid "Drafts"
 msgstr "草案"
 
-#: ../mail/em-folder-tree-model.c:510 ../mail/mail-component.c:161
+#: ../mail/em-folder-tree-model.c:506 ../mail/mail-component.c:163
+#: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
+msgid "Templates"
+msgstr "テンプレート"
+
+#: ../mail/em-folder-tree-model.c:512 ../mail/mail-component.c:161
 msgid "Outbox"
 msgstr "送信トレイ"
 
-#: ../mail/em-folder-tree-model.c:512 ../mail/mail-component.c:162
+#: ../mail/em-folder-tree-model.c:514 ../mail/mail-component.c:162
 msgid "Sent"
 msgstr "送信済み"
 
-#: ../mail/em-folder-tree-model.c:534 ../mail/em-folder-tree-model.c:841
+#: ../mail/em-folder-tree-model.c:536 ../mail/em-folder-tree-model.c:843
 msgid "Loading..."
 msgstr "読み込み中..."
 
@@ -12166,34 +12171,38 @@ msgstr "フォルダへ移動(_M)"
 msgid "Scanning folders in \"%s\""
 msgstr "\"%s\" フォルダの走査中"
 
-#: ../mail/em-folder-tree.c:2099
+#: ../mail/em-folder-tree.c:2117
 msgid "Open in _New Window"
 msgstr "新しいウィンドウで開く(_N)"
 
 #. FIXME: need to disable for nochildren folders
-#: ../mail/em-folder-tree.c:2104
+#: ../mail/em-folder-tree.c:2122
 msgid "_New Folder..."
 msgstr "新しいフォルダ(_N)"
 
-#: ../mail/em-folder-tree.c:2107
+#: ../mail/em-folder-tree.c:2125
 msgid "_Move..."
 msgstr "移動(_M)..."
 
-#: ../mail/em-folder-tree.c:2114 ../ui/evolution-mail-list.xml.h:39
+#: ../mail/em-folder-tree.c:2132 ../ui/evolution-mail-list.xml.h:39
 msgid "_Rename..."
 msgstr "名前の変更(_R)..."
 
-#: ../mail/em-folder-tree.c:2115
+#: ../mail/em-folder-tree.c:2133
 msgid "Re_fresh"
 msgstr "リフレッシュ(_F)"
 
-#: ../mail/em-folder-tree.c:2116
+#: ../mail/em-folder-tree.c:2134
 msgid "Fl_ush Outbox"
 msgstr "送信トレイのフラッシュ(_U)"
 
-#: ../mail/em-folder-tree.c:2122 ../mail/mail.error.xml.h:138
+#: ../mail/em-folder-tree.c:2140 ../mail/mail.error.xml.h:138
 msgid "_Empty Trash"
 msgstr "ゴミ箱を空にする(_E)"
+
+#: ../mail/em-folder-tree.c:2243
+msgid "_Unread Search Folder"
+msgstr "未読の仮想フォルダ(_U)"
 
 #: ../mail/em-folder-utils.c:101
 #, c-format
@@ -12355,8 +12364,8 @@ msgstr "メーリング・リストのフィルタ(_M)"
 #. other user means other calendars subscribed
 #: ../mail/em-folder-view.c:2255 ../mail/em-folder-view.c:2298
 #: ../plugins/google-account-setup/google-source.c:251
-#: ../plugins/google-account-setup/google-source.c:532
-#: ../plugins/google-account-setup/google-source.c:718
+#: ../plugins/google-account-setup/google-source.c:529
+#: ../plugins/google-account-setup/google-source.c:727
 msgid "Default"
 msgstr "デフォルト"
 
@@ -12368,33 +12377,33 @@ msgstr "メッセージを取得できません"
 msgid "Retrieving Message..."
 msgstr "メッセージの取得中..."
 
-#: ../mail/em-folder-view.c:2794
+#: ../mail/em-folder-view.c:2791
 msgid "C_all To..."
 msgstr "呼び出す(_A)..."
 
-#: ../mail/em-folder-view.c:2797
+#: ../mail/em-folder-view.c:2794
 msgid "Create _Search Folder"
 msgstr "仮想フォルダの作成(_S)"
 
-#: ../mail/em-folder-view.c:2798
+#: ../mail/em-folder-view.c:2795
 msgid "_From this Address"
 msgstr "この宛先から(_F)"
 
-#: ../mail/em-folder-view.c:2799
+#: ../mail/em-folder-view.c:2796
 msgid "_To this Address"
 msgstr "この宛先へ(_T)"
 
-#: ../mail/em-folder-view.c:3296
+#: ../mail/em-folder-view.c:3293
 #, c-format
 msgid "Click to mail %s"
 msgstr "クリックすると %s さんにメールします"
 
-#: ../mail/em-folder-view.c:3308
+#: ../mail/em-folder-view.c:3305
 #, c-format
 msgid "Click to call %s"
 msgstr "クリックすると %s さんを呼び出します"
 
-#: ../mail/em-folder-view.c:3313
+#: ../mail/em-folder-view.c:3310
 msgid "Click to hide/unhide addresses"
 msgstr "クリックすると E-メール・アドレスの表示/非表示を切り替えます"
 
@@ -12700,7 +12709,7 @@ msgstr " (%R %Z)"
 #. To translators: This message suggests to the receipients that the sender of the mail is
 #. different from the one listed in From field.
 #.
-#: ../mail/em-format-html.c:1907
+#: ../mail/em-format-html.c:1912
 #, c-format
 msgid "This message was sent by <b>%s</b> on behalf of <b>%s</b>"
 msgstr ""
@@ -12769,11 +12778,11 @@ msgstr "署名を検証する際にエラーが発生しました"
 msgid "Unknown error verifying signature"
 msgstr "署名を検証する際に原因不明のエラーが発生しました"
 
-#: ../mail/em-format.c:1663
+#: ../mail/em-format.c:1665
 msgid "Could not parse PGP message"
 msgstr "PGP メッセージを作成できませんでした"
 
-#: ../mail/em-format.c:1663
+#: ../mail/em-format.c:1665
 msgid "Could not parse PGP message: Unknown error"
 msgstr "PGP メッセージを解析できませんでした: 原因不明のエラーです"
 
@@ -12893,7 +12902,7 @@ msgstr "POP3 keep-on-server のデータ '%s' をコピーできません: %s"
 msgid "Failed to create local mail storage `%s': %s"
 msgstr "ローカルのメール・フォルダ '%s' の作成に失敗しました: %s"
 
-#: ../mail/em-migrate.c:2898
+#: ../mail/em-migrate.c:2952
 msgid ""
 "The summary format of the Evolution mailbox folders has been moved to sqlite "
 "since Evolution 2.24.\n"
@@ -12905,12 +12914,12 @@ msgstr ""
 "\n"
 "Evolution がお使いのフォルダを変換している間、少々お待ち下さい..."
 
-#: ../mail/em-migrate.c:2963
+#: ../mail/em-migrate.c:3033
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
 msgstr "'%s' にあるローカルのメール・フォルダを作成できません: %s"
 
-#: ../mail/em-migrate.c:2982
+#: ../mail/em-migrate.c:3052
 msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
@@ -12932,24 +12941,24 @@ msgstr "メーリング・リストへ返信(_L)"
 msgid "_Add to Address Book"
 msgstr "アドレス帳に追加(_A)"
 
-#: ../mail/em-subscribe-editor.c:582
+#: ../mail/em-subscribe-editor.c:600
 msgid "This store does not support subscriptions, or they are not enabled."
 msgstr "この格納場所は購読をサポートしていないか、有効になっていません。"
 
-#: ../mail/em-subscribe-editor.c:615
+#: ../mail/em-subscribe-editor.c:633
 msgid "Subscribed"
 msgstr "購読済み"
 
-#: ../mail/em-subscribe-editor.c:619
+#: ../mail/em-subscribe-editor.c:637
 msgid "Folder"
 msgstr "フォルダ"
 
 #. FIXME: This is just to get the shadow, is there a better way?
-#: ../mail/em-subscribe-editor.c:821
+#: ../mail/em-subscribe-editor.c:839
 msgid "Please select a server."
 msgstr "サーバを一つ選択して下さい。"
 
-#: ../mail/em-subscribe-editor.c:842
+#: ../mail/em-subscribe-editor.c:860
 msgid "No server has been selected"
 msgstr "サーバが指定されていません"
 
@@ -13953,11 +13962,6 @@ msgstr "メーリング・リストが %s のメール"
 msgid "Add Filter Rule"
 msgstr "フィルタ・ルールの追加"
 
-#: ../mail/mail-component.c:163
-#: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
-msgid "Templates"
-msgstr "テンプレート"
-
 #: ../mail/mail-component.c:545
 #, c-format
 msgid "%d selected, "
@@ -14090,7 +14094,7 @@ msgstr "ログのレベル"
 msgid "Time"
 msgstr "時刻"
 
-#: ../mail/mail-component.c:1820 ../mail/message-list.c:2457
+#: ../mail/mail-component.c:1820 ../mail/message-list.c:2462
 #: ../mail/message-list.etspec.h:10
 msgid "Messages"
 msgstr "メッセージ"
@@ -14328,7 +14332,7 @@ msgstr ""
 "Evolution を使って\n"
 "メールを送受信する準備が整いました。\n"
 "\n"
-"\"適用\" をクリックして設定を保存して下さい。"
+"[適用] をクリックして設定を保存して下さい。"
 
 #: ../mail/mail-config.glade.h:65
 msgid "De_fault"
@@ -14675,8 +14679,8 @@ msgid "Use Authe_ntication"
 msgstr "認証する(_N)"
 
 #: ../mail/mail-config.glade.h:158 ../plugins/caldav/caldav-source.c:284
-#: ../plugins/google-account-setup/google-source.c:625
-#: ../plugins/google-account-setup/google-contacts-source.c:278
+#: ../plugins/google-account-setup/google-source.c:634
+#: ../plugins/google-account-setup/google-contacts-source.c:288
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:323
 msgid "User_name:"
 msgstr "ユーザ名(_N):"
@@ -14912,7 +14916,7 @@ msgstr "フラグ付き(_F):"
 msgid "_Tick this to accept the license agreement"
 msgstr "ライセンス同意書を受諾する場合はここをチェックする(_T)"
 
-#: ../mail/mail-folder-cache.c:833
+#: ../mail/mail-folder-cache.c:834
 #, c-format
 msgid "Pinging %s"
 msgstr "%s へ ping 中に"
@@ -15201,11 +15205,11 @@ msgstr "仮想フォルダ '%s:%s' の更新中"
 msgid "Updating Search Folders for '%s'"
 msgstr "仮想フォルダ '%s' の更新中"
 
-#: ../mail/mail-vfolder.c:1081
+#: ../mail/mail-vfolder.c:1086
 msgid "Edit Search Folder"
 msgstr "フォルダの編集"
 
-#: ../mail/mail-vfolder.c:1170
+#: ../mail/mail-vfolder.c:1175
 msgid "New Search Folder"
 msgstr "新しい仮想フォルダ"
 
@@ -15893,11 +15897,11 @@ msgid "%b %d %Y"
 msgstr "%Y年%B%e日"
 
 #. there is some info why the message list is empty, let it be something useful
-#: ../mail/message-list.c:3919 ../mail/message-list.c:4390
+#: ../mail/message-list.c:3924 ../mail/message-list.c:4388
 msgid "Generating message list"
 msgstr "メッセージ一覧の作成中"
 
-#: ../mail/message-list.c:4229
+#: ../mail/message-list.c:4227
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
@@ -15905,7 +15909,7 @@ msgstr ""
 "検索条件を満足するメッセージはありません。検索条件をクリアするか変更して下さ"
 "い。"
 
-#: ../mail/message-list.c:4231
+#: ../mail/message-list.c:4229
 msgid "There are no messages in this folder."
 msgstr "このフォルダにメッセージはありません。"
 
@@ -16339,27 +16343,27 @@ msgid "BBDB"
 msgstr "BBDB"
 
 #. For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself.
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:119
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:155
 #, c-format
 msgid "Error occurred while spawning %s: %s."
 msgstr "%s を子プロセスで実行する際にエラーが発生しました: %s"
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:143
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:179
 #, c-format
 msgid "Bogofilter child process does not respond, killing..."
 msgstr "Bogofilter の子プロセスから応答がないので強制終了させています..."
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:145
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:181
 #, c-format
 msgid "Wait for Bogofilter child process interrupted, terminating..."
 msgstr "Bogofilter の子プロセスからの割り込み待ちに入ります..."
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:157
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:200
 #, c-format
 msgid "Pipe to Bogofilter failed, error code: %d."
 msgstr "Bogofilter に対するパイプが失敗しました (エラー・コード: %d)"
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:318
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:363
 msgid "Convert message text to _Unicode"
 msgstr "メッセージを Unicode に変換する(_U)"
 
@@ -16398,8 +16402,8 @@ msgid "_URL:"
 msgstr "URL(_U):"
 
 #: ../plugins/caldav/caldav-source.c:271
-#: ../plugins/google-account-setup/google-source.c:618
-#: ../plugins/google-account-setup/google-contacts-source.c:301
+#: ../plugins/google-account-setup/google-source.c:627
+#: ../plugins/google-account-setup/google-contacts-source.c:311
 msgid "Use _SSL"
 msgstr "SSL を使用する(_S)"
 
@@ -16421,8 +16425,8 @@ msgstr "ローカルのカレンダ機能を提供するために必要なプラ
 
 #: ../plugins/calendar-http/calendar-http.c:264
 #: ../plugins/calendar-weather/calendar-weather.c:546
-#: ../plugins/google-account-setup/google-source.c:642
-#: ../plugins/google-account-setup/google-contacts-source.c:320
+#: ../plugins/google-account-setup/google-source.c:651
+#: ../plugins/google-account-setup/google-contacts-source.c:330
 msgid "Re_fresh:"
 msgstr "リフレッシュ(_F):"
 
@@ -17460,7 +17464,7 @@ msgid "Unknown error looking up {0}"
 msgstr "{0} の検索中に原因不明のエラー"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:70
-#: ../plugins/google-account-setup/google-source.c:543
+#: ../plugins/google-account-setup/google-source.c:540
 msgid "Unknown error."
 msgstr "原因を特定できないエラーです。"
 
@@ -17655,24 +17659,20 @@ msgstr "購読の停止(_U)"
 
 #: ../plugins/google-account-setup/google-source.c:83
 #: ../plugins/google-account-setup/google-source.c:90
-#: ../plugins/google-account-setup/google-contacts-source.c:52
-#: ../plugins/google-account-setup/google-contacts-source.c:57
-#: ../plugins/google-account-setup/google-contacts-source.c:83
+#: ../plugins/google-account-setup/google-contacts-source.c:53
+#: ../plugins/google-account-setup/google-contacts-source.c:58
+#: ../plugins/google-account-setup/google-contacts-source.c:84
 msgid "Google"
 msgstr "Google"
 
-#: ../plugins/google-account-setup/google-source.c:439
-msgid "Please enter user name first."
-msgstr "まず最初にユーザ名を指定して下さい。"
-
-#: ../plugins/google-account-setup/google-source.c:443
+#: ../plugins/google-account-setup/google-source.c:440
 #, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
 msgstr ""
 "カレンダの一覧にアクセスするために %s というユーザのパスワードを入力して下さ"
 "い。"
 
-#: ../plugins/google-account-setup/google-source.c:543
+#: ../plugins/google-account-setup/google-source.c:540
 #, c-format
 msgid ""
 "Cannot read data from Google server.\n"
@@ -17681,15 +17681,15 @@ msgstr ""
 "Google サーバからデータを取得できません:\n"
 "%s"
 
-#: ../plugins/google-account-setup/google-source.c:693
+#: ../plugins/google-account-setup/google-source.c:702
 msgid "Cal_endar:"
 msgstr "カレンダ(_E):"
 
-#: ../plugins/google-account-setup/google-source.c:728
+#: ../plugins/google-account-setup/google-source.c:737
 msgid "Retrieve _list"
 msgstr "リストを取得する(_L)"
 
-#: ../plugins/google-account-setup/google-contacts-source.c:268
+#: ../plugins/google-account-setup/google-contacts-source.c:278
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:300
 msgid "<b>Server</b>"
 msgstr "<b>サーバ</b>"
@@ -18043,56 +18043,56 @@ msgstr "追加"
 msgid "Modify"
 msgstr "変更"
 
-#: ../plugins/groupwise-features/status-track.c:107
+#: ../plugins/groupwise-features/status-track.c:97
 msgid "Message Status"
 msgstr "メッセージの状態"
 
 #. Subject
-#: ../plugins/groupwise-features/status-track.c:121
+#: ../plugins/groupwise-features/status-track.c:111
 msgid "Subject:"
 msgstr "件名:"
 
-#: ../plugins/groupwise-features/status-track.c:135
+#: ../plugins/groupwise-features/status-track.c:125
 msgid "From:"
 msgstr "差出人:"
 
-#: ../plugins/groupwise-features/status-track.c:150
+#: ../plugins/groupwise-features/status-track.c:140
 msgid "Creation date:"
 msgstr "作成日:"
 
-#: ../plugins/groupwise-features/status-track.c:189
+#: ../plugins/groupwise-features/status-track.c:179
 msgid "Recipient: "
 msgstr "宛先: "
 
-#: ../plugins/groupwise-features/status-track.c:196
+#: ../plugins/groupwise-features/status-track.c:186
 msgid "Delivered: "
 msgstr "配送したもの: "
 
-#: ../plugins/groupwise-features/status-track.c:202
+#: ../plugins/groupwise-features/status-track.c:192
 msgid "Opened: "
 msgstr "開いたもの: "
 
-#: ../plugins/groupwise-features/status-track.c:207
+#: ../plugins/groupwise-features/status-track.c:197
 msgid "Accepted: "
 msgstr "受諾済: "
 
-#: ../plugins/groupwise-features/status-track.c:212
+#: ../plugins/groupwise-features/status-track.c:202
 msgid "Deleted: "
 msgstr "削除済み: "
 
-#: ../plugins/groupwise-features/status-track.c:217
+#: ../plugins/groupwise-features/status-track.c:207
 msgid "Declined: "
 msgstr "辞退済: "
 
-#: ../plugins/groupwise-features/status-track.c:222
+#: ../plugins/groupwise-features/status-track.c:212
 msgid "Completed: "
 msgstr "完了: "
 
-#: ../plugins/groupwise-features/status-track.c:227
+#: ../plugins/groupwise-features/status-track.c:217
 msgid "Undelivered: "
 msgstr "未配送のもの: "
 
-#: ../plugins/groupwise-features/status-track.c:251
+#: ../plugins/groupwise-features/status-track.c:241
 msgid "Track Message Status..."
 msgstr "メッセージの状態を監視する..."
 
@@ -18256,113 +18256,113 @@ msgstr "カレンダ '%s' の予定がこの会議の時間と重なっていま
 msgid "Found the appointment in the calendar '%s'"
 msgstr "カレンダ '%s' の中に予定がありました"
 
-#: ../plugins/itip-formatter/itip-formatter.c:738
+#: ../plugins/itip-formatter/itip-formatter.c:741
 msgid "Unable to find any calendars"
 msgstr "カレンダが見つかりませんでした"
 
-#: ../plugins/itip-formatter/itip-formatter.c:745
+#: ../plugins/itip-formatter/itip-formatter.c:748
 msgid "Unable to find this meeting in any calendar"
 msgstr "この会議の予定を記録したカレンダが見つかりませんでした"
 
-#: ../plugins/itip-formatter/itip-formatter.c:749
+#: ../plugins/itip-formatter/itip-formatter.c:752
 msgid "Unable to find this task in any task list"
 msgstr "このタスクを記録したタスクの一覧が見つかりませんでした"
 
-#: ../plugins/itip-formatter/itip-formatter.c:753
+#: ../plugins/itip-formatter/itip-formatter.c:756
 msgid "Unable to find this memo in any memo list"
 msgstr "このタスクを記録したタスクの一覧が見つかりませんでした"
 
 # 要再考
-#: ../plugins/itip-formatter/itip-formatter.c:824
+#: ../plugins/itip-formatter/itip-formatter.c:827
 msgid "Searching for an existing version of this appointment"
 msgstr "この予定の既存バージョンの検索"
 
-#: ../plugins/itip-formatter/itip-formatter.c:993
+#: ../plugins/itip-formatter/itip-formatter.c:996
 msgid "Unable to parse item"
 msgstr "アイテムを解析できません"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1051
+#: ../plugins/itip-formatter/itip-formatter.c:1054
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "アイテムをカレンダ '%s' に保存できません (%s)"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1063
+#: ../plugins/itip-formatter/itip-formatter.c:1066
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "承認したものとしてカレンダ '%s' に保存しました"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1067
+#: ../plugins/itip-formatter/itip-formatter.c:1070
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr "仮承認したものとしてカレンダ '%s' に保存しました"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1072
+#: ../plugins/itip-formatter/itip-formatter.c:1075
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "辞退したものとしてカレンダ '%s' に保存しました"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1077
+#: ../plugins/itip-formatter/itip-formatter.c:1080
 #, c-format
 msgid "Sent to calendar '%s' as canceled"
 msgstr "キャンセルしたものとしてカレンダ '%s' に保存しました"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1171
+#: ../plugins/itip-formatter/itip-formatter.c:1174
 #, c-format
 msgid "Organizer has removed the delegate %s "
 msgstr "Organizer が DeleGate %s を削除しました"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1178
+#: ../plugins/itip-formatter/itip-formatter.c:1181
 msgid "Sent a cancelation notice to the delegate"
 msgstr "DeleGate へキャンセル通知を送信しました"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1180
+#: ../plugins/itip-formatter/itip-formatter.c:1183
 msgid "Could not send the cancelation notice to the delegate"
 msgstr "DeleGate へキャンセル通知を送信できませんでした"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1266
+#: ../plugins/itip-formatter/itip-formatter.c:1269
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "不正なステータスのため出席状況が更新できませんでした"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1293
+#: ../plugins/itip-formatter/itip-formatter.c:1296
 #, c-format
 msgid "Unable to update attendee. %s"
 msgstr "出席者 %s を更新できません"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1297
+#: ../plugins/itip-formatter/itip-formatter.c:1300
 msgid "Attendee status updated"
 msgstr "出席状況を更新しました"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1323
+#: ../plugins/itip-formatter/itip-formatter.c:1326
 msgid "Meeting information sent"
 msgstr "会議の情報の送信"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1326
+#: ../plugins/itip-formatter/itip-formatter.c:1329
 msgid "Task information sent"
 msgstr "タスク情報の送信"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1329
+#: ../plugins/itip-formatter/itip-formatter.c:1332
 msgid "Memo information sent"
 msgstr "メモ情報の送信"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1338
+#: ../plugins/itip-formatter/itip-formatter.c:1341
 msgid "Unable to send meeting information, the meeting does not exist"
 msgstr "会議が存在しないので、その会議の情報を送信できません"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1341
+#: ../plugins/itip-formatter/itip-formatter.c:1344
 msgid "Unable to send task information, the task does not exist"
 msgstr "タスクが存在しないので、そのタスクの情報を送信できません"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1344
+#: ../plugins/itip-formatter/itip-formatter.c:1347
 msgid "Unable to send memo information, the memo does not exist"
 msgstr "メモが存在しないので、そのメモの情報を送信できません"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1413
-#: ../plugins/itip-formatter/itip-formatter.c:1424
+#: ../plugins/itip-formatter/itip-formatter.c:1416
+#: ../plugins/itip-formatter/itip-formatter.c:1427
 msgid "The calendar attached is not valid"
 msgstr "添付されたカレンダが不正です"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1414
-#: ../plugins/itip-formatter/itip-formatter.c:1425
+#: ../plugins/itip-formatter/itip-formatter.c:1417
+#: ../plugins/itip-formatter/itip-formatter.c:1428
 msgid ""
 "The message claims to contain a calendar, but the calendar is not a valid "
 "iCalendar."
@@ -18370,15 +18370,15 @@ msgstr ""
 "メッセージにカレンダが添付されていますが、そのカレンダは妥当な iCalendar 形式"
 "ではありません。"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1465
-#: ../plugins/itip-formatter/itip-formatter.c:1493
-#: ../plugins/itip-formatter/itip-formatter.c:1575
+#: ../plugins/itip-formatter/itip-formatter.c:1468
+#: ../plugins/itip-formatter/itip-formatter.c:1496
+#: ../plugins/itip-formatter/itip-formatter.c:1578
 msgid "The item in the calendar is not valid"
 msgstr "カレンダのアイテムが不正です"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1466
-#: ../plugins/itip-formatter/itip-formatter.c:1494
-#: ../plugins/itip-formatter/itip-formatter.c:1576
+#: ../plugins/itip-formatter/itip-formatter.c:1469
+#: ../plugins/itip-formatter/itip-formatter.c:1497
+#: ../plugins/itip-formatter/itip-formatter.c:1579
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
@@ -18386,11 +18386,11 @@ msgstr ""
 "メッセージにカレンダが添付されていますが、そのカレンダにはイベントまたタス"
 "ク、予定の有無が含まれていません。"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1505
+#: ../plugins/itip-formatter/itip-formatter.c:1508
 msgid "The calendar attached contains multiple items"
 msgstr "添付されたカレンダには複数のアイテムが含まれています"
 
-#: ../plugins/itip-formatter/itip-formatter.c:1506
+#: ../plugins/itip-formatter/itip-formatter.c:1509
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
@@ -18398,31 +18398,31 @@ msgstr ""
 "これらのアイテムの全てを処理するには、ファイルを保存してカレンダをインポート"
 "して下さい"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2215
+#: ../plugins/itip-formatter/itip-formatter.c:2218
 msgid "This meeting recurs"
 msgstr "この会議を繰り返す"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2218
+#: ../plugins/itip-formatter/itip-formatter.c:2221
 msgid "This task recurs"
 msgstr "このタスクを繰り返す"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2221
+#: ../plugins/itip-formatter/itip-formatter.c:2224
 msgid "This memo recurs"
 msgstr "このメモを繰り返す"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: ../plugins/itip-formatter/itip-formatter.c:2452
+#: ../plugins/itip-formatter/itip-formatter.c:2455
 msgid "_Delete message after acting"
 msgstr "会議開催後にメッセージを削除する(_D)"
 
-#: ../plugins/itip-formatter/itip-formatter.c:2462
-#: ../plugins/itip-formatter/itip-formatter.c:2494
+#: ../plugins/itip-formatter/itip-formatter.c:2465
+#: ../plugins/itip-formatter/itip-formatter.c:2497
 msgid "Conflict Search"
 msgstr "重複するイベントの検索"
 
 #. Source selector
-#: ../plugins/itip-formatter/itip-formatter.c:2477
+#: ../plugins/itip-formatter/itip-formatter.c:2480
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "重複する会議を検索するカレンダを選択して下さい:"
 
@@ -19005,20 +19005,20 @@ msgstr "アイコンを点滅させるかどうかです。"
 msgid "Whether to notify new messages in Inbox folder only."
 msgstr "受信箱 (Inbox) フォルダのみ新着メッセージを通知するかどうかです。"
 
-#: ../plugins/mail-notification/mail-notification.c:255
+#: ../plugins/mail-notification/mail-notification.c:256
 msgid "Generate a _D-Bus message"
 msgstr "D-BUS メッセージを生成する(_D)"
 
-#: ../plugins/mail-notification/mail-notification.c:378
+#: ../plugins/mail-notification/mail-notification.c:379
 msgid "Evolution's Mail Notification"
 msgstr "Evolution のメール通知機能"
 
-#: ../plugins/mail-notification/mail-notification.c:399
+#: ../plugins/mail-notification/mail-notification.c:400
 msgid "Mail Notification Properties"
 msgstr "メール通知のプロパティ"
 
 #. To translators: '%d' is the number of mails recieved and '%s' is the name of the folder
-#: ../plugins/mail-notification/mail-notification.c:458
+#: ../plugins/mail-notification/mail-notification.c:480
 #, c-format
 msgid ""
 "You have received %d new message\n"
@@ -19029,55 +19029,55 @@ msgid_plural ""
 msgstr[0] "%2$s に%1$d通の新しいメッセージが届いています"
 msgstr[1] "%2$s に%1$d通の新しいメッセージが届いています"
 
-#: ../plugins/mail-notification/mail-notification.c:463
+#: ../plugins/mail-notification/mail-notification.c:485
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
 msgstr[0] "%d通の新しいメッセージが届いています"
 msgstr[1] "%d通の新しいメッセージが届いています"
 
-#: ../plugins/mail-notification/mail-notification.c:480
-#: ../plugins/mail-notification/mail-notification.c:485
+#: ../plugins/mail-notification/mail-notification.c:502
+#: ../plugins/mail-notification/mail-notification.c:507
 msgid "New email"
 msgstr "新しいメール"
 
-#: ../plugins/mail-notification/mail-notification.c:544
+#: ../plugins/mail-notification/mail-notification.c:567
 msgid "Show icon in _notification area"
 msgstr "パネルの通知スペースにアイコンを表示する(_N)"
 
-#: ../plugins/mail-notification/mail-notification.c:547
+#: ../plugins/mail-notification/mail-notification.c:570
 msgid "B_link icon in notification area"
 msgstr "通知スペースでアイコンを点滅させる(_L)"
 
-#: ../plugins/mail-notification/mail-notification.c:549
+#: ../plugins/mail-notification/mail-notification.c:572
 msgid "Popup _message together with the icon"
 msgstr "アイコンと共にメッセージもポップアップ表示する(_M)"
 
-#: ../plugins/mail-notification/mail-notification.c:730
+#: ../plugins/mail-notification/mail-notification.c:753
 msgid "_Play sound when new messages arrive"
 msgstr "新しいメールが届いたら演奏する(_P)"
 
-#: ../plugins/mail-notification/mail-notification.c:736
+#: ../plugins/mail-notification/mail-notification.c:759
 msgid "_Beep"
 msgstr "ビープ音を鳴らす(_B)"
 
-#: ../plugins/mail-notification/mail-notification.c:737
+#: ../plugins/mail-notification/mail-notification.c:760
 msgid "Play _sound file"
 msgstr "サウンド・ファイルを演奏する(_S)"
 
-#: ../plugins/mail-notification/mail-notification.c:748
+#: ../plugins/mail-notification/mail-notification.c:771
 msgid "Specify _filename:"
 msgstr "ファイル名の指定(_F):"
 
-#: ../plugins/mail-notification/mail-notification.c:749
+#: ../plugins/mail-notification/mail-notification.c:772
 msgid "Select sound file"
 msgstr "サウンド・ファイルの選択"
 
-#: ../plugins/mail-notification/mail-notification.c:750
+#: ../plugins/mail-notification/mail-notification.c:773
 msgid "Pl_ay"
 msgstr "演奏(_A)"
 
-#: ../plugins/mail-notification/mail-notification.c:807
+#: ../plugins/mail-notification/mail-notification.c:830
 msgid "Notify new messages for _Inbox only"
 msgstr "受信箱の新着メールだけ通知する(_I)"
 
@@ -22692,7 +22692,7 @@ msgstr "ビューの種類"
 msgid "Type of view:"
 msgstr "ビューの種類:"
 
-#: ../widgets/misc/e-attachment-bar.c:1137
+#: ../widgets/misc/e-attachment-bar.c:1138
 msgid "Attachment Bar"
 msgstr "添付ファイル・バー"
 
@@ -23281,19 +23281,19 @@ msgid "_When opened:"
 msgstr "開いた時(_W):"
 
 #. For Translator only: %s is status message that is displayed (eg "moving items", "updating objects")
-#: ../widgets/misc/e-task-widget.c:255
+#: ../widgets/misc/e-task-widget.c:252
 #, c-format
 msgid "%s (...)"
 msgstr "%s (...)"
 
 #. For Translator only: %s is status message that is displayed (eg "moving items", "updating objects");
 #. %d is a number between 0 and 100, describing the percentage of operation complete
-#: ../widgets/misc/e-task-widget.c:261
+#: ../widgets/misc/e-task-widget.c:258
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完了)"
 
-#: ../widgets/misc/e-url-entry.c:106
+#: ../widgets/misc/e-url-entry.c:105
 msgid "Click here to go to URL"
 msgstr "ここをクリックすると URL へジャンプします"
 
@@ -23783,10 +23783,11 @@ msgstr "ボタンを描画する"
 msgid "Cursor position"
 msgstr "カーソル位置"
 
-#: ../widgets/text/e-text.c:3780 ../widgets/text/e-text.c:3781
+#. Translators: Input Method Context
+#: ../widgets/text/e-text.c:3781 ../widgets/text/e-text.c:3783
 msgid "IM Context"
 msgstr "IM コンテキスト"
 
-#: ../widgets/text/e-text.c:3787 ../widgets/text/e-text.c:3788
+#: ../widgets/text/e-text.c:3789 ../widgets/text/e-text.c:3790
 msgid "Handle Popup"
 msgstr "ハンドルのポップアップ"
