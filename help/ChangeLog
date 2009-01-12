@@ -1,3 +1,8 @@
+2009-01-12  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* quickref/Makefile.am: Fixed a build break due to Czech quick ref
+	addition
+
 2009-01-03  Andre Klapper  <a9016009@gmx.de>
 
 	* quickref/Makefile.am:	
