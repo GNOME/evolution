@@ -1,3 +1,10 @@
+2009-01-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #555310
+
+	* importers/icalendar-importer.c: (ivcal_getwidget):
+	Localize strings properly.
+
 2009-01-12  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fix for bug #567148
