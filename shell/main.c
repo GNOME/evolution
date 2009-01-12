@@ -396,6 +396,14 @@ idle_cb (gchar **uris)
 		bonobo_main_quit ();
 	}
 
+	/* This must be done after Bonobo has created all the components. For 
+	 * example the mail component makes the global variable `session` which
+	 * is being used by several EPlugins */
+
+	if (!disable_eplugin) {
+		e_plugin_load_plugins_with_missing_symbols ();
+	}
+
 	return FALSE;
 }
 
@@ -674,7 +682,7 @@ main (int argc, char **argv)
 		e_plugin_hook_register_type(e_plugin_type_hook_get_type());
 		e_plugin_hook_register_type(e_import_hook_get_type());
 		e_plugin_hook_register_type(E_TYPE_PLUGIN_UI_HOOK);
-		e_plugin_load_plugins();
+		e_plugin_load_plugins ();
 	}
 
 #ifdef DEVELOPMENT

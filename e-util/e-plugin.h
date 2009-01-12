@@ -134,6 +134,7 @@ GType e_plugin_get_type(void);
 int e_plugin_construct(EPlugin *ep, xmlNodePtr root);
 void e_plugin_add_load_path(const char *);
 int e_plugin_load_plugins(void);
+void e_plugin_load_plugins_with_missing_symbols(void);
 GSList * e_plugin_list_plugins(void);
 
 void e_plugin_register_type(GType type);

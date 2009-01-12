@@ -1,3 +1,11 @@
+2009-01-12  Philip Van hoof  <philip@codeminded.be>
+
+	* e-util/e-plugin.c
+	* e-util/e-plugin.h
+	* shell/main.c: EPlugins must be loaded after Bonobo init, else variables
+	like `session` are not available for plugin's initialization functions.
+	(Fixes Bug #565681)
+
 2009-01-08  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #565376

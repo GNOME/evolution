@@ -608,8 +608,7 @@ e_plugin_load_plugins(void)
 			}
 
 			while ( (d = g_dir_read_name(dir)) ) {
-				if (strlen(d) > 6
-						&& !strcmp(d + strlen(d) - 6, ".eplug")) {
+				if (g_str_has_suffix  (d, ".eplug")) {
 					char * name = g_build_filename(path, d, NULL);
 
 					ep_load(name, i);
@@ -987,8 +986,10 @@ static gpointer epl_parent_class;
    pages.
 */
 
+static GList *missing_symbols = NULL;
+
 static int
-epl_loadmodule(EPlugin *ep)
+epl_loadmodule(EPlugin *ep, gboolean fatal)
 {
 	EPluginLib *epl = E_PLUGIN_LIB (ep);
 	EPluginLibEnableFunc enable;
@@ -997,7 +998,10 @@ epl_loadmodule(EPlugin *ep)
 		return 0;
 
 	if ((epl->module = g_module_open(epl->location, 0)) == NULL) {
-		g_warning("can't load plugin '%s': %s", epl->location, g_module_error());
+		if (fatal)
+			g_warning("can't load plugin '%s': %s", epl->location, g_module_error());
+		else
+			missing_symbols = g_list_prepend (missing_symbols, g_object_ref (ep));
 		return -1;
 	}
 
@@ -1013,6 +1017,22 @@ epl_loadmodule(EPlugin *ep)
 	return 0;
 }
 
+void
+e_plugin_load_plugins_with_missing_symbols (void)
+{
+	GList *list = missing_symbols;
+
+	while (list) {
+		EPlugin *ep = list->data;
+		epl_loadmodule (ep, TRUE);
+		g_object_unref (ep);
+		list = g_list_next (list);
+	}
+
+	g_list_free (missing_symbols);
+	missing_symbols = NULL;
+}
+
 static void *
 epl_invoke(EPlugin *ep, const char *name, void *data)
 {
@@ -1024,7 +1044,7 @@ epl_invoke(EPlugin *ep, const char *name, void *data)
 		return NULL;
 	}
 
-	if (epl_loadmodule(ep) != 0)
+	if (epl_loadmodule(ep, FALSE) != 0)
 		return NULL;
 
 	if (!g_module_symbol(epl->module, name, (void *)&cb)) {
@@ -1041,7 +1061,7 @@ epl_get_symbol(EPlugin *ep, const gchar *name)
 	EPluginLib *epl = E_PLUGIN_LIB (ep);
 	gpointer symbol;
 
-	if (epl_loadmodule (ep) != 0)
+	if (epl_loadmodule (ep, FALSE) != 0)
 		return NULL;
 
 	if (!g_module_symbol (epl->module, name, &symbol))
@@ -1080,9 +1100,15 @@ epl_construct(EPlugin *ep, xmlNodePtr root)
 
 		tmp = xmlGetProp(root, (const unsigned char *)"load-on-startup");
 		if (tmp) {
+			if (strcmp (tmp, "after-ui") == 0) {
+				missing_symbols = g_list_prepend (missing_symbols, g_object_ref (ep));
+			} else {
+				if (epl_loadmodule(ep, FALSE) != 0) {
+					xmlFree(tmp);
+					return -1;
+				}
+			}
 			xmlFree(tmp);
-			if (epl_loadmodule(ep) != 0)
-				return -1;
 		}
 	}
 
@@ -1097,7 +1123,7 @@ epl_get_configure_widget (EPlugin *ep)
 
 	pd (printf ("\n epl_get_configure_widget \n"));
 
-	if (epl_loadmodule (ep) != 0) {
+	if (epl_loadmodule (ep, FALSE) != 0) {
 		pd (printf ("\n epl_loadmodule  \n"));
 		return NULL;
 	}
@@ -1122,7 +1148,7 @@ epl_enable(EPlugin *ep, int state)
 		return;
 
 	/* this will noop if we're disabling since we tested it above */
-	if (epl_loadmodule(ep) != 0)
+	if (epl_loadmodule(ep, FALSE) != 0)
 		return;
 
 	if (g_module_symbol(epl->module, "e_plugin_lib_enable", (void *)&enable)) {
