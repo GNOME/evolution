@@ -903,6 +903,37 @@ fill_component (RecurrencePage *rpage, ECalComponent *comp)
 	e_cal_component_set_exdate_list (comp, list);
 	e_cal_component_free_exdate_list (list);
 
+	if (GTK_WIDGET_VISIBLE (priv->ending_menu) && GTK_WIDGET_IS_SENSITIVE (priv->ending_menu) &&
+	    e_dialog_option_menu_get (priv->ending_menu, ending_types_map) == ENDING_UNTIL) {
+		/* check whether the "until" date is in the future */
+		struct icaltimetype tt;
+		gboolean ok = TRUE;
+
+		if (e_date_edit_get_date (E_DATE_EDIT (priv->ending_date_edit), &tt.year, &tt.month, &tt.day)) {
+			ECalComponentDateTime dtstart;
+
+			/* the dtstart should be set already */
+			e_cal_component_get_dtstart (comp, &dtstart);
+
+			tt.is_date = 1;
+			tt.zone = NULL;
+
+			if (dtstart.value && icaltime_is_valid_time (*dtstart.value)) {
+				ok = icaltime_compare_date_only (*dtstart.value, tt) <= 0;
+
+				if (!ok)
+					e_date_edit_set_date (E_DATE_EDIT (priv->ending_date_edit), dtstart.value->year, dtstart.value->month, dtstart.value->day);
+			}
+
+			e_cal_component_free_datetime (&dtstart);
+		}
+
+		if (!ok) {
+			comp_editor_page_display_validation_error (COMP_EDITOR_PAGE (rpage), _("End time of the recurrence was before event's start"), priv->ending_date_edit);
+			return FALSE;
+		}
+	}
+
 	return TRUE;
 }
 

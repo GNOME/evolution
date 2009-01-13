@@ -1,5 +1,12 @@
 2009-01-13  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #489437
+
+	* gui/dialogs/recurrence-page.c: (fill_component): Check whether
+	the 'until' date is in the future, and report error if not.
+
+2009-01-13  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #567045
 
 	* gui/e-meeting-time-sel.c: (e_meeting_time_selector_construct),
