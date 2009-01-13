@@ -186,6 +186,7 @@ static void e_meeting_time_selector_update_start_date_edit (EMeetingTimeSelector
 static void e_meeting_time_selector_update_end_date_edit (EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_ensure_meeting_time_shown (EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_update_dates_shown (EMeetingTimeSelector *mts);
+static gboolean e_meeting_time_selector_on_canvas_scroll_event (GtkWidget *widget, GdkEventScroll *event, EMeetingTimeSelector *mts);
 
 static void row_inserted_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
 static void row_changed_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
@@ -359,6 +360,8 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 			  G_CALLBACK (e_meeting_time_selector_on_canvas_realized), mts);
 	g_signal_connect (mts->display_main, "size_allocate",
 			  G_CALLBACK (e_meeting_time_selector_on_canvas_size_allocate), mts);
+	g_signal_connect (mts->display_main, "scroll-event",
+			  G_CALLBACK (e_meeting_time_selector_on_canvas_scroll_event), mts);
 
 	gtk_scrolled_window_set_vadjustment (GTK_SCROLLED_WINDOW (sw), GTK_LAYOUT (mts->display_main)->vadjustment);
 
@@ -2307,6 +2310,17 @@ e_meeting_time_selector_on_canvas_size_allocate (GtkWidget *widget,
 	e_meeting_time_selector_update_main_canvas_scroll_region (mts);
 
 	e_meeting_time_selector_ensure_meeting_time_shown (mts);
+}
+
+static gboolean
+e_meeting_time_selector_on_canvas_scroll_event (GtkWidget *widget, GdkEventScroll *event, EMeetingTimeSelector *mts)
+{
+	gboolean return_val = FALSE;
+
+	/* escalate to the list view's parent, which is a scrolled window */
+	g_signal_emit_by_name (gtk_widget_get_parent (GTK_WIDGET (mts->list_view)), "scroll-event", event, &return_val);
+
+	return return_val;
 }
 
 /* This updates the canvas scroll regions according to the number of attendees.

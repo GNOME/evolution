@@ -1,3 +1,11 @@
+2009-01-13  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #567045
+
+	* gui/e-meeting-time-sel.c: (e_meeting_time_selector_construct),
+	(e_meeting_time_selector_on_canvas_scroll_event): Escalate scroll
+	event's to a scrolled window, to let mouse wheel work over data too.
+
 2009-01-12  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #563364
