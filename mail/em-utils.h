@@ -117,6 +117,9 @@ const char *em_utils_snoop_type(struct _CamelMimePart *part);
 /* clears flag 'get_password_canceled' at every known accounts, so if needed, get_password will show dialog */
 void em_utils_clear_get_password_canceled_accounts_flag (void);
 
+/* Unescapes &amp; back to a real & in URIs */
+gchar *em_utils_url_unescape_amp (const gchar *url);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

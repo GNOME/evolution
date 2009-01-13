@@ -1,3 +1,13 @@
+2009-01-13  Felix Riemann  <friemann@svn.gnome.org>
+
+	** Fix for bug #563867
+
+	* em-folder-view.c (emp_uri_popup_link_copy):
+	* em-popup.c (emp_uri_popup_link_open):
+	* em-utils.c (em_utils_url_unescape_amp):
+	* em-utils.h:
+	Unescape "&amp;" when passing the link to browsers. 
+
 2009-01-12  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #566653
