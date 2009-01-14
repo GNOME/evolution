@@ -1518,6 +1518,15 @@ e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer user_d
 			id = e_cal_component_get_id (comp);
 
 			comp_data = search_by_id_and_client (priv, client, id);
+
+			e_cal_component_free_id (id);
+			g_object_unref (comp);
+
+			if (!comp_data) {
+				/* the modified component is not in the model yet, just skip it */
+				continue;
+			}
+
 			if (comp_data->icalcomp)
 				icalcomponent_free (comp_data->icalcomp);
 			if (comp_data->dtstart) {
