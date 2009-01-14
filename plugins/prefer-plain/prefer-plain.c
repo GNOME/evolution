@@ -119,9 +119,7 @@ org_gnome_prefer_plain_multipart_alternative(void *ep, EMFormatHookTarget *t)
 		/* Try to find text/html part even when not as last and force to show it.
 		   Old handler will show the last part of multipart/alternate, but if we
 		   can offer HTML, then offer it, regardless of position in multipart.
-		   But do this only when have text/plain in a list, because otherwise it
-		   can be something else (like outlooks meeting invites with only text/html
-		   part and calendar part).
+		   But do this when have only text/plain and text/html parts, not more.
 		*/
 		nparts = camel_multipart_get_number (mp);
 		for (i = 0; i < nparts; i++) {
@@ -148,7 +146,7 @@ org_gnome_prefer_plain_multipart_alternative(void *ep, EMFormatHookTarget *t)
 			}
 		}
 
-		if (display_part && have_plain) {
+		if (display_part && have_plain && nparts == 2) {
 			g_string_append_printf (t->format->part_id, ".alternative.%d", displayid);
 			em_format_part_as (t->format, t->stream, display_part, "text/html");
 			g_string_truncate (t->format->part_id, partidlen);
