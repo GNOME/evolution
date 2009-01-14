@@ -1,3 +1,10 @@
+2009-01-14  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #567687
+
+	* prefer-plain.c: (org_gnome_prefer_plain_multipart_alternative):
+	Force text/html part only when choosing between text/plain and it.
+
 2008-09-09  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #551492
