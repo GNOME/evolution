@@ -509,7 +509,7 @@ shell_class_init (EShellClass *class)
 			"online-mode",
 			_("Online Mode"),
 			_("Whether the shell is online"),
-			TRUE,
+			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 

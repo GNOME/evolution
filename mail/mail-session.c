@@ -46,6 +46,7 @@
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 #include "e-account-combo-box.h"
+#include "shell/e-shell.h"
 
 #include "em-filter-context.h"
 #include "em-filter-rule.h"
@@ -694,11 +695,16 @@ mail_session_check_junk_notify (GConfClient *gconf, guint id, GConfEntry *entry,
 void
 mail_session_init (EShellModule *shell_module)
 {
-	const gchar *data_dir;
+	EShell *shell;
 	GConfClient *gconf;
+	gboolean online_mode;
+	const gchar *data_dir;
 
 	mail_shell_module = shell_module;
 	data_dir = e_shell_module_get_data_dir (shell_module);
+
+	shell = e_shell_module_get_shell (shell_module);
+	online_mode = e_shell_get_online_mode (shell);
 
 	if (camel_init (data_dir, TRUE) != 0)
 		exit (0);
@@ -719,8 +725,7 @@ mail_session_init (EShellModule *shell_module)
 								session, NULL, NULL);
 	session->junk_plugin = NULL;
 
-	/* The shell will tell us to go online. */
-	camel_session_set_online ((CamelSession *) session, FALSE);
+	camel_session_set_online ((CamelSession *) session, online_mode);
 	mail_config_reload_junk_headers ();
 }
 
