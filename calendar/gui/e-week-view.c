@@ -3431,10 +3431,10 @@ e_week_view_change_event_time (EWeekView *week_view, time_t start_dt, time_t end
 
 	*date.value = icaltime_from_timet_with_zone (start_dt, is_all_day,
 						     e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-	e_cal_component_set_dtstart (comp, &date);
+	cal_comp_set_dtstart_with_oldzone (client, comp, &date);
 	*date.value = icaltime_from_timet_with_zone (end_dt, is_all_day,
 						     e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
-	e_cal_component_set_dtend (comp, &date);
+	cal_comp_set_dtend_with_oldzone (client, comp, &date);
 
 	e_cal_component_commit_sequence (comp);
 

@@ -1,5 +1,22 @@
 2009-01-15  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #245156
+
+	* gui/e-day-view.c: (e_day_view_finish_long_event_resize),
+	(e_day_view_finish_resize), (e_day_view_change_event_time),
+	(e_day_view_on_top_canvas_drag_data_received),
+	(e_day_view_on_main_canvas_drag_data_received):
+	* gui/e-week-view.c: (e_week_view_change_event_time):
+	* gui/e-calendar-view.c: (on_unrecur_appointment):
+	Keep old timezone for dtstart/dtend when changing it.
+	* gui/comp-util.h: (cal_comp_set_dtstart_with_oldzone),
+	(cal_comp_set_dtend_with_oldzone):
+	* gui/comp-util.c: (cal_comp_set_dtstart_with_oldzone),
+	(cal_comp_set_dtend_with_oldzone), (datetime_to_zone):
+	Helper functions to make it easier.
+
+2009-01-15  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #246313
 
 	* gui/e-day-view.c: (e_day_view_check_if_new_event_fits): Removed.

@@ -530,3 +530,80 @@ cal_comp_selection_get_string_list (GtkSelectionData *data)
 
 	return list;
 }
+
+static void
+datetime_to_zone (ECal *client, ECalComponentDateTime *date, const char *tzid)
+{
+	icaltimezone *from, *to;
+
+	g_return_if_fail (date != NULL);
+
+	if (date->tzid == NULL || tzid == NULL ||
+	    date->tzid == tzid || g_str_equal (date->tzid, tzid))
+		return;
+
+	from = icaltimezone_get_builtin_timezone_from_tzid (date->tzid);
+	if (!from) {
+		if (!e_cal_get_timezone (client, date->tzid, &from, NULL))
+			g_warning ("%s: Could not get timezone from server: %s", G_STRFUNC, date->tzid ? date->tzid : "");
+	}
+
+	to = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+	if (!to) {
+		/* do not check failure here, maybe the zone is not available there */
+		e_cal_get_timezone (client, tzid, &to, NULL);
+	}
+
+	icaltimezone_convert_time (date->value, from, to);
+	date->tzid = tzid;
+}
+
+/**
+ * cal_comp_set_dtstart_with_oldzone:
+ * Changes 'dtstart' of the component, but converts time to the old timezone.
+ * @param client ECal structure, to retrieve timezone from, when required.
+ * @param comp Component, where make the change.
+ * @param pdate Value, to change to.
+ **/
+void
+cal_comp_set_dtstart_with_oldzone (ECal *client, ECalComponent *comp, const ECalComponentDateTime *pdate)
+{
+	ECalComponentDateTime olddate, date;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (pdate != NULL);
+
+	e_cal_component_get_dtstart (comp, &olddate);
+
+	date = *pdate;
+
+	datetime_to_zone (client, &date, olddate.tzid);
+	e_cal_component_set_dtstart (comp, &date);
+
+	e_cal_component_free_datetime (&olddate);
+}
+
+/**
+ * cal_comp_set_dtend_with_oldzone:
+ * Changes 'dtend' of the component, but converts time to the old timezone.
+ * @param client ECal structure, to retrieve timezone from, when required.
+ * @param comp Component, where make the change.
+ * @param pdate Value, to change to.
+ **/
+void
+cal_comp_set_dtend_with_oldzone (ECal *client, ECalComponent *comp, const ECalComponentDateTime *pdate)
+{
+	ECalComponentDateTime olddate, date;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (pdate != NULL);
+
+	e_cal_component_get_dtend (comp, &olddate);
+
+	date = *pdate;
+
+	datetime_to_zone (client, &date, olddate.tzid);
+	e_cal_component_set_dtend (comp, &date);
+
+	e_cal_component_free_datetime (&olddate);
+}

@@ -54,4 +54,7 @@ ECalComponent *cal_comp_memo_new_with_defaults (ECal *client);
 void    cal_comp_selection_set_string_list (GtkSelectionData *data, GSList *str_list);
 GSList *cal_comp_selection_get_string_list (GtkSelectionData *data);
 
+void cal_comp_set_dtstart_with_oldzone (ECal *client, ECalComponent *comp, const ECalComponentDateTime *pdate);
+void cal_comp_set_dtend_with_oldzone (ECal *client, ECalComponent *comp, const ECalComponentDateTime *pdate);
+
 #endif
