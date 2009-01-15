@@ -1,0 +1,9 @@
+2009-01-15  Bharath Acharya  <abharath@novell.com>
+
+	Basic functionality implemented by 
+	Chris Halls <chris.halls@credativ.co.uk>
+
+	** Added PST-Import plugin
+	* Makefile.am:
+	* org-gnome-pst.eplug.xml:
+	* pst-importer.c: 

@@ -1,3 +1,7 @@
+2009-01-15  Bharath Acharya  <abharath@novell.com>
+
+	* POTFILES.in: Added plugins/pst-import/org-gnome-pst-import.eplug.xml
+
 2009-01-14  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es.po: Updated Spanish translation.

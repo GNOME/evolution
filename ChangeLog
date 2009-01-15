@@ -1,3 +1,9 @@
+2009-01-15  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #208426
+
+	* configure.in: Added support for importing .pst files into Evolution.
+
 2009-01-12  Philip Van hoof  <philip@codeminded.be>
 
 	* e-util/e-plugin.c
