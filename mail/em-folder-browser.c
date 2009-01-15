@@ -245,38 +245,6 @@ static ESearchBarItem emfb_search_scope_items[] = {
 
 static EMFolderViewClass *emfb_parent;
 
-/* Needed since the paned wont take the position its given otherwise ... */
-//static void
-//emfb_pane_realised(GtkWidget *w, EMFolderBrowser *emfb)
-//{
-//	GConfClient *gconf;
-//
-//	gconf = mail_config_get_gconf_client ();
-//
-//	if (emfb->priv->show_wide)
-//		gtk_paned_set_position((GtkPaned *)emfb->vpane, gconf_client_get_int(gconf, "/apps/evolution/mail/display/hpaned_size", NULL));
-//	else
-//		gtk_paned_set_position((GtkPaned *)emfb->vpane, gconf_client_get_int(gconf, "/apps/evolution/mail/display/paned_size", NULL));
-//}
-
-//static gboolean
-//emfb_pane_button_release_event(GtkWidget *w, GdkEventButton *e, EMFolderBrowser *emfb)
-//{
-//	GConfClient *gconf = mail_config_get_gconf_client ();
-//
-//	if (GTK_WIDGET_REALIZED (w)) {
-//		if (emfb->priv->show_wide)
-//			gconf_client_set_int(gconf, "/apps/evolution/mail/display/hpaned_size",
-//					     gtk_paned_get_position(GTK_PANED(w)), NULL);
-//		else
-//			gconf_client_set_int(gconf, "/apps/evolution/mail/display/paned_size",
-//					     gtk_paned_get_position(GTK_PANED(w)), NULL);
-//
-//	}
-//
-//	return FALSE;
-//}
-
 static void
 free_one_ui_file (gpointer data,
 		  gpointer user_data)
@@ -748,42 +716,6 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 gboolean em_folder_browser_get_wide (EMFolderBrowser *emfb)
 {
 	return emfb->priv->show_wide;
-}
-
-void em_folder_browser_show_wide(EMFolderBrowser *emfb, gboolean state)
-{
-	GtkWidget *w;
-	int paned_size;
-
-	if ((emfb->priv->show_wide &&  state)
-	    || emfb->view.list == NULL) {
-		emfb->priv->show_wide = state;
-		return;
-	}
-
-	emfb->priv->show_wide = state;
-
-	w = emfb->priv->show_wide?gtk_hpaned_new():gtk_vpaned_new();
-
-	g_signal_handler_disconnect(emfb->vpane, emfb->priv->vpane_resize_id);
-//	g_signal_connect(w, "realize", G_CALLBACK(emfb_pane_realised), emfb);
-//	emfb->priv->vpane_resize_id = g_signal_connect(w, "button_release_event", G_CALLBACK(emfb_pane_button_release_event), emfb);
-
-	gtk_box_pack_start_defaults((GtkBox *)emfb, w);
-	gtk_widget_reparent((GtkWidget *)emfb->view.list, w);
-	gtk_widget_reparent((GtkWidget *)emfb->priv->preview, w);
-	gtk_widget_destroy(emfb->vpane);
-	gtk_container_child_set (GTK_CONTAINER (w), GTK_WIDGET (emfb->view.list),     "resize", FALSE, "shrink", FALSE, NULL);
-	gtk_container_child_set (GTK_CONTAINER (w), GTK_WIDGET (emfb->priv->preview), "resize", TRUE,  "shrink", FALSE, NULL);
-	gtk_container_resize_children ((GtkContainer *)w);
-	emfb->vpane = w;
-	gtk_widget_show(w);
-
-	paned_size = gconf_client_get_int(mail_config_get_gconf_client(), emfb->priv->show_wide ? "/apps/evolution/mail/display/hpaned_size":"/apps/evolution/mail/display/paned_size", NULL);
-	gtk_paned_set_position (GTK_PANED (emfb->vpane), paned_size);
-
-	if (((EMFolderView *)emfb)->folder)
-		em_folder_view_setup_view_instance ((EMFolderView *) emfb);
 }
 
 /* ********************************************************************** */
@@ -1382,333 +1314,6 @@ emfb_list_message_selected (MessageList *ml, const char *uid, EMFolderBrowser *e
 /* ********************************************************************** */
 
 static void
-emfb_edit_cut(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderBrowser *emfb = data;
-
-	/* TODO: pity we can't sucblass this method, ugh, virtualise it? */
-
-	if (GTK_WIDGET_HAS_FOCUS(((ESearchBar *)emfb->search)->entry))
-		gtk_editable_cut_clipboard((GtkEditable *)((ESearchBar *)emfb->search)->entry);
-	else if (GTK_WIDGET_HAS_FOCUS(emfb->view.preview->formathtml.html))
-		em_format_html_display_cut(emfb->view.preview);
-	else
-		message_list_copy(emfb->view.list, TRUE);
-}
-
-static void
-emfb_edit_copy(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderBrowser *emfb = data;
-
-	if (GTK_WIDGET_HAS_FOCUS(((ESearchBar *)emfb->search)->entry))
-		gtk_editable_copy_clipboard((GtkEditable *)((ESearchBar *)emfb->search)->entry);
-	else if (GTK_WIDGET_HAS_FOCUS(emfb->view.preview->formathtml.html))
-		em_format_html_display_copy(emfb->view.preview);
-	else
-		message_list_copy(emfb->view.list, FALSE);
-}
-
-static void
-emfb_edit_paste(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderBrowser *emfb = data;
-
-	if (GTK_WIDGET_HAS_FOCUS(((ESearchBar *)emfb->search)->entry))
-		gtk_editable_paste_clipboard((GtkEditable *)((ESearchBar *)emfb->search)->entry);
-	else
-		message_list_paste(emfb->view.list);
-}
-
-static void
-emfb_edit_invert_selection(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-
-	message_list_invert_selection(emfv->list);
-}
-
-static gboolean
-emfb_select_all_daemon (MessageList *ml)
-{
-		message_list_select_all(ml);
-		gtk_widget_grab_focus ((GtkWidget *)ml);
-		return FALSE;
-}
-
-static void
-emfb_edit_select_all(BonoboUIComponent *uid, void *data, const char *path)
-{
-		EMFolderView *emfv = data;
-
-		if (emfv->list->threaded) {
-
-				emfb_expand_all_threads (uid, data, path);
-
-				/* The time out below is added so that the execution thread to 
-				   expand all conversations threads would've completed. 
-
-				   The timeout 505 is just to ensure that the value is a small delta
-				   more than the timeout value in expand_all_threads thread. */
-
-				g_timeout_add (505, (GSourceFunc) emfb_select_all_daemon, emfv->list);
-
-		} else {
-				/* If there is no threading, just select-all immediately */
-				emfb_select_all_daemon (emfv->list);
-		}
-}
-
-//static void
-//emfb_edit_select_thread(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//	EMFolderView *emfv = data;
-//
-//	message_list_select_thread(emfv->list);
-//}
-
-//static void
-//emfb_edit_select_subthread(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//	EMFolderView *emfv = data;
-//
-//	message_list_select_subthread (emfv->list);
-//}
-
-//static void
-//emfb_folder_properties(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//	EMFolderBrowser *emfb = data;
-//
-//	if (emfb->view.folder_uri)
-//		em_folder_properties_show(NULL, emfb->view.folder, emfb->view.folder_uri);
-//}
-
-/* VIEWTHREADED*/
-//static void
-//emfb_expand_all_threads(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//	EMFolderView *emfv = data;
-//
-//	message_list_set_threaded_expand_all(emfv->list);
-//
-//}
-
-//static void
-//emfb_collapse_all_threads(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//	EMFolderView *emfv = data;
-//
-//	message_list_set_threaded_collapse_all(emfv->list);
-//}
-
-//static void
-//emfb_folder_copy(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//	EMFolderBrowser *emfb = data;
-//	CamelFolderInfo *fi = NULL;
-//	CamelException ex;
-//
-//	/* FIXME: This function MUST become multi-threaded.
-//	   FIXME: This interface should NOT use a folderinfo */
-//
-//	camel_exception_init (&ex);
-//
-//	if ((fi = camel_store_get_folder_info (emfb->view.folder->parent_store,
-//					       emfb->view.folder->full_name,
-//					       CAMEL_STORE_FOLDER_INFO_FAST,
-//					       &ex)) != NULL)
-//		em_folder_utils_copy_folder(fi, FALSE);
-//
-//	camel_exception_clear (&ex);
-//
-//	return;
-//}
-
-//static void
-//emfb_folder_move(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//	EMFolderBrowser *emfb = data;
-//	CamelFolderInfo *fi = NULL;
-//	CamelException ex;
-//
-//	camel_exception_init (&ex);
-//
-//	/* FIXME: This function MUST become multi-threaded.
-//	   FIXME: This interface should NOT use a folderinfo */
-//
-//	if ((fi = camel_store_get_folder_info (emfb->view.folder->parent_store,
-//					       emfb->view.folder->full_name,
-//					       CAMEL_STORE_FOLDER_INFO_FAST,
-//					       &ex)) != NULL)
-//		em_folder_utils_copy_folder(fi, TRUE);
-//
-//	camel_exception_clear (&ex);
-//
-//	return;
-//}
-
-//static void
-//emfb_folder_delete(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//	EMFolderBrowser *emfb = data;
-//
-//	em_folder_utils_delete_folder (emfb->view.folder);
-//
-//	return;
-//}
-
-//static void
-//emfb_folder_refresh(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//        EMFolderBrowser *emfb = data;
-//	EMFolderTree *tree = g_object_get_data (G_OBJECT (emfb), "foldertree");
-//        CamelFolder *folder;
-//
-//        if ((folder = em_folder_tree_get_selected_folder (tree)) != NULL)
-//                mail_refresh_folder(folder, NULL, NULL);
-//}
-
-
-//static void
-//emfb_folder_rename(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//	EMFolderBrowser *emfb = data;
-//
-//	em_folder_utils_rename_folder (emfb->view.folder);
-//
-//	return;
-//}
-
-//static void
-//emfb_folder_create(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//	EMFolderBrowser *emfb = data;
-//	CamelFolderInfo *fi = NULL;
-//	EMFolderTree *tree = g_object_get_data (G_OBJECT (emfb), "foldertree");
-//
-//	/* FIXME: This function MUST be multithreaded
-//	   FIXME: This interface should NOT use a folderinfo */
-//	if (emfb->view.folder) {
-//		if ((fi = em_folder_tree_get_selected_folder_info (tree)) != NULL) {
-//			em_folder_utils_create_folder(fi, tree);
-//			camel_folder_info_free(fi);
-//		}
-//	} else {
-//		em_folder_utils_create_folder(NULL, tree);
-//	}
-//
-//	return;
-//}
-
-//static void
-//emfb_folder_expunge(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//	EMFolderBrowser *emfb = data;
-//
-//	if (emfb->view.folder)
-//		em_utils_expunge_folder(gtk_widget_get_toplevel((GtkWidget *)emfb), emfb->view.folder);
-//}
-
-static void
-emfb_mark_all_read(BonoboUIComponent *uid, void *data, const char *path)
-{
-	/* FIXME: make a 'mark messages' function? */
-	EMFolderView *emfv = data;
-	GPtrArray *uids;
-	int i;
-
-	if (emfv->folder == NULL)
-		return;
-	if( em_utils_prompt_user((GtkWindow *)emfv, "/apps/evolution/mail/prompts/mark_all_read","mail:ask-mark-all-read", NULL)){
-		uids = message_list_get_uids(emfv->list);
-		camel_folder_freeze(emfv->folder);
-		for (i=0;i<uids->len;i++)
-			camel_folder_set_message_flags(emfv->folder, uids->pdata[i], CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
-		camel_folder_thaw(emfv->folder);
-		message_list_free_uids(emfv->list, uids);
-	}
-}
-
-//static void
-//emfb_view_hide_read(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//	EMFolderView *emfv = data;
-//
-//	message_list_hide_add(emfv->list, "(match-all (system-flag \"seen\"))", ML_HIDE_SAME, ML_HIDE_SAME);
-//}
-
-//static void
-//emfb_view_hide_selected(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//	EMFolderView *emfv = data;
-//	GPtrArray *uids;
-//
-//	/* TODO: perhaps this should sit directly on message_list? */
-//	/* is it worth it, it's so trivial */
-//
-//	/* A new flag CAMEL_MESSAGE_HIDDEN is added by Sankar
-//	while extending the CAMEL_MESSAGE_FLAGS for proxy permissions.
-//	This can be used to hide messages.  */
-//
-//	uids = message_list_get_selected(emfv->list);
-//	message_list_hide_uids(emfv->list, uids);
-//	message_list_free_uids(emfv->list, uids);
-//}
-
-//static void
-//emfb_view_show_all(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//	EMFolderView *emfv = data;
-//
-//	message_list_hide_clear(emfv->list);
-//}
-
-/* ********************************************************************** */
-
-//static void
-//emfb_mail_stop(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//	mail_cancel_all();
-//}
-
-//static void
-//emfb_mail_post(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//	EMFolderView *emfv = data;
-//	em_utils_post_to_folder (emfv->folder);
-//}
-
-//static void
-//emfb_tools_filters(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//	EMFolderBrowser *emfb = data;
-//
-//	em_utils_edit_filters ((GtkWidget *) emfb);
-//}
-
-//static void
-//emfb_subscribe_editor_destroy(GtkWidget *w, EMFolderBrowser *emfb)
-//{
-//	emfb->priv->subscribe_editor = NULL;
-//}
-
-//static void
-//emfb_tools_subscriptions(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//	EMFolderBrowser *emfb = data;
-//
-//	if (emfb->priv->subscribe_editor) {
-//		gdk_window_show(emfb->priv->subscribe_editor->window);
-//	} else {
-//		emfb->priv->subscribe_editor = (GtkWidget *)em_subscribe_editor_new();
-//		e_dialog_set_transient_for((GtkWindow *)emfb->priv->subscribe_editor, (GtkWidget *)emfb);
-/		g_signal_connect(emfb->priv->subscribe_editor, "destroy", G_CALLBACK(emfb_subscribe_editor_destroy), emfb);
-///		gtk_widget_show(emfb->priv->subscribe_editor);
-//	}
-//}
-
-static void
 emfb_focus_search(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderBrowser *emfb = data;
@@ -1722,64 +1327,15 @@ emfb_help_debug (BonoboUIComponent *uid, void *data, const char *path)
 	mail_component_show_logger ((GtkWidget *) data);
 }
 
-//static void
-//emfb_tools_vfolders(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//	/* FIXME: rename/refactor this */
-//	vfolder_edit();
-//}
-
 static BonoboUIVerb emfb_verbs[] = {
-	BONOBO_UI_UNSAFE_VERB ("EditCut", emfb_edit_cut),
-	BONOBO_UI_UNSAFE_VERB ("EditCopy", emfb_edit_copy),
-	BONOBO_UI_UNSAFE_VERB ("EditPaste", emfb_edit_paste),
-
-	BONOBO_UI_UNSAFE_VERB ("EditInvertSelection", emfb_edit_invert_selection),
-	BONOBO_UI_UNSAFE_VERB ("EditSelectAll", emfb_edit_select_all),
-//        BONOBO_UI_UNSAFE_VERB ("EditSelectThread", emfb_edit_select_thread),
-//	BONOBO_UI_UNSAFE_VERB ("EditSelectSubthread", emfb_edit_select_subthread),
-//	BONOBO_UI_UNSAFE_VERB ("ChangeFolderProperties", emfb_folder_properties),
-//	BONOBO_UI_UNSAFE_VERB ("FolderExpunge", emfb_folder_expunge),
-	/* HideDeleted is a toggle */
-	BONOBO_UI_UNSAFE_VERB ("MessageMarkAllAsRead", emfb_mark_all_read),
-//	BONOBO_UI_UNSAFE_VERB ("ViewHideRead", emfb_view_hide_read),
-//	BONOBO_UI_UNSAFE_VERB ("ViewHideSelected", emfb_view_hide_selected),
-//	BONOBO_UI_UNSAFE_VERB ("ViewShowAll", emfb_view_show_all),
-	/* ViewThreaded is a toggle */
-
-//	BONOBO_UI_UNSAFE_VERB ("ViewThreadsExpandAll", emfb_expand_all_threads),
-//	BONOBO_UI_UNSAFE_VERB ("ViewThreadsCollapseAll", emfb_collapse_all_threads),
-
-//	BONOBO_UI_UNSAFE_VERB ("FolderCopy", emfb_folder_copy),
-//	BONOBO_UI_UNSAFE_VERB ("FolderMove", emfb_folder_move),
-//	BONOBO_UI_UNSAFE_VERB ("FolderDelete", emfb_folder_delete),
-//	BONOBO_UI_UNSAFE_VERB ("FolderRefresh", emfb_folder_refresh),
-//	BONOBO_UI_UNSAFE_VERB ("FolderRename", emfb_folder_rename),
-//	BONOBO_UI_UNSAFE_VERB ("FolderCreate", emfb_folder_create),
 	BONOBO_UI_UNSAFE_VERB ("HelpDebug", emfb_help_debug),
 
-//	BONOBO_UI_UNSAFE_VERB ("MailPost", emfb_mail_post),
-//	BONOBO_UI_UNSAFE_VERB ("MailStop", emfb_mail_stop),
-//	BONOBO_UI_UNSAFE_VERB ("ToolsFilters", emfb_tools_filters),
-	BONOBO_UI_UNSAFE_VERB ("ToolsSubscriptions", emfb_tools_subscriptions),
-//	BONOBO_UI_UNSAFE_VERB ("ToolsVFolders", emfb_tools_vfolders),
 	BONOBO_UI_UNSAFE_VERB ("FocusSearch", emfb_focus_search),
 
 	/* ViewPreview is a toggle */
 
 	BONOBO_UI_VERB_END
 };
-
-static EPixmap emfb_pixmaps[] = {
-	E_PIXMAP ("/commands/FolderCreate", "folder-new", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/ChangeFolderProperties", "document-properties", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/FolderCopy", "folder-copy", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/FolderMove", "folder-move", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageMarkAllAsRead", "mail-read", E_ICON_SIZE_MENU),
-
-	E_PIXMAP_END
-};
-
 
 static void
 emfb_hide_deleted(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
@@ -1793,76 +1349,6 @@ emfb_hide_deleted(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_E
 	gconf = mail_config_get_gconf_client ();
 	gconf_client_set_bool(gconf, "/apps/evolution/mail/display/show_deleted", state[0] == '0', NULL);
 	em_folder_view_set_hide_deleted(emfv, state[0] != '0');
-}
-
-static void
-emfb_view_threaded(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
-{
-	GConfClient *gconf;
-	EMFolderView *emfv = data;
-
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-
-	gconf = mail_config_get_gconf_client ();
-	gconf_client_set_bool(gconf, "/apps/evolution/mail/display/thread_list", state[0] != '0', NULL);
-
-	if (camel_object_meta_set(emfv->folder, "evolution:thread_list", state))
-		camel_object_state_write(emfv->folder);
-
-	/* FIXME: do set_threaded via meta-data listener on folder? */
-	message_list_set_threaded(emfv->list, state[0] != '0');
-
-	/* FIXME: update selection state? */
-}
-
-static void
-emfb_view_preview(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
-{
-	GConfClient *gconf;
-	EMFolderView *emfv = data;
-
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-
-	gconf = mail_config_get_gconf_client ();
-	gconf_client_set_bool(gconf, "/apps/evolution/mail/display/show_preview", state[0] != '0', NULL);
-
-	if (camel_object_meta_set(emfv->folder, "evolution:show_preview", state))
-		camel_object_state_write(emfv->folder);
-
-	/* FIXME: do this via folder listener */
-	em_folder_browser_show_preview((EMFolderBrowser *)emfv, state[0] != '0');
-}
-
-static void
-emfb_show_next(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
-{
-	GConfClient *gconf;
-	EMFolderBrowser *emfb = data;
-
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-
-	gconf = mail_config_get_gconf_client ();
-	gconf_client_set_bool(gconf, "/apps/evolution/mail/display/show_wide", state[0] != '0', NULL);
-
-	em_folder_browser_show_wide(emfb, state[0] != '0');
-}
-
-static void
-emfb_show_below(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
-{
-	GConfClient *gconf;
-	EMFolderBrowser *emfb = data;
-
-	if (type != Bonobo_UIComponent_STATE_CHANGED)
-		return;
-
-	gconf = mail_config_get_gconf_client ();
-	gconf_client_set_bool(gconf, "/apps/evolution/mail/display/show_wide", state[0] == '0', NULL);
-
-	em_folder_browser_show_wide(emfb, state[0] == '0');
 }
 
 static void
@@ -2169,8 +1655,6 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		emfb_parent->activate(emfv, uic, act);
 
 		bonobo_ui_component_add_verb_list_with_data(uic, emfb_verbs, emfv);
-		e_pixmaps_update(uic, emfb_pixmaps);
-
 		/* FIXME: finish */
 		/* (Pre)view pane size (do this first because it affects the
 	           preview settings - see folder_browser_set_message_preview()
@@ -2178,19 +1662,6 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		g_signal_handler_block(emfb->vpane, emfb->priv->vpane_resize_id);
 		gtk_paned_set_position((GtkPaned *)emfb->vpane, gconf_client_get_int (gconf, emfb->priv->show_wide ? "/apps/evolution/mail/display/hpaned_size": "/apps/evolution/mail/display/paned_size", NULL));
 		g_signal_handler_unblock(emfb->vpane, emfb->priv->vpane_resize_id);
-
-		/* (Pre)view toggle */
-		if (emfv->folder
-		    && (sstate = camel_object_meta_get(emfv->folder, "evolution:show_preview"))) {
-			state = sstate[0] == '1';
-			g_free(sstate);
-		} else {
-			state = gconf_client_get_bool(gconf, "/apps/evolution/mail/display/show_preview", NULL);
-		}
-
-		bonobo_ui_component_set_prop(uic, "/commands/ViewPreview", "state", state?"1":"0", NULL);
-		em_folder_browser_show_preview((EMFolderBrowser *)emfv, state);
-		bonobo_ui_component_add_listener(uic, "ViewPreview", emfb_view_preview, emfv);
 
 		/* Stop button */
 		state = mail_msg_active((unsigned int)-1);
@@ -2206,42 +1677,6 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "state", state ? "1" : "0", NULL);
 		bonobo_ui_component_add_listener(uic, "HideDeleted", emfb_hide_deleted, emfv);
 		em_folder_view_set_hide_deleted(emfv, state); /* <- not sure if this optimal, but it'll do */
-
-		/* FIXME: If we have no folder, we can't do a few of the lookups we need,
-		   perhaps we should postpone till we can */
-
-		/* ViewThreaded */
-		if (emfv->folder
-		    && (sstate = camel_object_meta_get(emfv->folder, "evolution:thread_list"))) {
-			state = sstate[0] != '0';
-			g_free(sstate);
-		} else {
-			state = gconf_client_get_bool(gconf, "/apps/evolution/mail/display/thread_list", NULL);
-		}
-
-		bonobo_ui_component_set_prop(uic, "/commands/ViewThreaded", "state", state?"1":"0", NULL);
-		bonobo_ui_component_set_prop(uic, "/commands/ViewThreadsCollapseAll", "sensitive", state?"1":"0", NULL);
-		bonobo_ui_component_set_prop(uic, "/commands/ViewThreadsExpandAll", "sensitive", state?"1":"0", NULL);
-		bonobo_ui_component_add_listener(uic, "ViewThreaded", emfb_view_threaded, emfv);
-		message_list_set_threaded(emfv->list, state);
-
-		/* Show wide display */
-		if (emfb->priv->show_wide) {
-			bonobo_ui_component_set_prop(uic, "/commands/ViewAfter", "state", "1", NULL);
-			bonobo_ui_component_set_prop(uic, "/commands/ViewBelow", "state", "0", NULL);
-		} else {
-			bonobo_ui_component_set_prop(uic, "/commands/ViewAfter", "state", "0", NULL);
-			bonobo_ui_component_set_prop(uic, "/commands/ViewBelow", "state", "1", NULL);
-		}
-
-		bonobo_ui_component_add_listener(uic, "ViewAfter", emfb_show_next, emfv);
-		bonobo_ui_component_add_listener(uic, "ViewBelow", emfb_show_below, emfv);
-		/* em_folder_browser_show_wide((EMFolderBrowser *)emfv, state); */
-
-		/* FIXME: Selection state */
-
-		/* FIXME: property menu customisation */
-		/*folder_browser_setup_property_menu (fb, fb->uicomp);*/
 
 		if (((EMFolderBrowser *)emfv)->search)
 			e_search_bar_set_ui_component((ESearchBar *)((EMFolderBrowser *)emfv)->search, uic);

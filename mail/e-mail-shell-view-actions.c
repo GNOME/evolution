@@ -114,8 +114,42 @@ static void
 action_mail_folder_mark_all_as_read_cb (GtkAction *action,
                                         EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailReader *reader;
+	MessageList *message_list;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+	CamelFolder *folder;
+	GtkWindow *parent;
+	GPtrArray *uids;
+	const gchar *key;
+	const gchar *prompt;
+	guint ii;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	parent = GTK_WINDOW (shell_window);
+
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+	folder = message_list->folder;
+	g_return_if_fail (folder != NULL);
+
+	key = "/apps/evolution/mail/prompts/mark_all_read";
+	prompt = "mail:ask-mark-all-read";
+
+	if (!em_utils_prompt_user (parent, key, prompt, NULL))
+		return;
+
+	uids = message_list_get_uids (message_list);
+
+	camel_folder_freeze (folder);
+	for (ii = 0; ii < uids->len; ii++)
+		camel_folder_set_message_flags (
+			folder, uids->pdata[ii],
+			CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
+	camel_folder_thaw (folder);
+
+	message_list_free_uids (message_list, uids);
 }
 
 static void
@@ -211,12 +245,46 @@ action_mail_folder_rename_cb (GtkAction *action,
 	em_folder_utils_rename_folder (folder);
 }
 
+/* Helper for action_mail_folder_select_all_cb() */
+static gboolean
+action_mail_folder_select_all_timeout_cb (MessageList *message_list)
+{
+	message_list_select_all (message_list);
+	gtk_widget_grab_focus (GTK_WIDGET (message_list));
+
+	return FALSE;
+}
+
 static void
 action_mail_folder_select_all_cb (GtkAction *action,
                                   EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailReader *reader;
+	MessageList *message_list;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+
+	if (message_list->threaded) {
+		gtk_action_activate (ACTION (MAIL_THREADS_EXPAND_ALL));
+
+		/* XXX The timeout below is added so that the execution
+		 *     thread to expand all conversation threads would
+		 *     have completed.  The timeout 505 is just to ensure
+		 *     that the value is a small delta more than the
+		 *     timeout value in mail_regen_list(). */
+		g_timeout_add (
+			505, (GSourceFunc)
+			action_mail_folder_select_all_timeout_cb,
+			message_list);
+	} else
+		/* If there is no threading, just select all immediately. */
+		action_mail_folder_select_all_timeout_cb (message_list);
 }
 
 static void
@@ -290,13 +358,24 @@ action_mail_preview_cb (GtkToggleAction *action,
                         EMailShellView *mail_shell_view)
 {
 	EMailShellContent *mail_shell_content;
-	gboolean preview_visible;
+	MessageList *message_list;
+	CamelFolder *folder;
+	EMailReader *reader;
+	const gchar *state;
+	gboolean active;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
-	preview_visible = gtk_toggle_action_get_active (action);
+	active = gtk_toggle_action_get_active (action);
+	state = active ? "1" : "0";
 
-	e_mail_shell_content_set_preview_visible (
-		mail_shell_content, preview_visible);
+	reader = E_MAIL_READER (mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+	folder = message_list->folder;
+
+	if (camel_object_meta_set (folder, "evolution:show_preview", state))
+		camel_object_state_write (folder);
+
+	e_mail_shell_content_set_preview_visible (mail_shell_content, active);
 }
 
 static void
@@ -349,8 +428,25 @@ static void
 action_mail_threads_group_by_cb (GtkToggleAction *action,
                                  EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EMailShellContent *mail_shell_content;
+	MessageList *message_list;
+	EMailReader *reader;
+	CamelFolder *folder;
+	const gchar *state;
+	gboolean active;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	active = gtk_toggle_action_get_active (action);
+	state = active ? "1" : "0";
+
+	reader = E_MAIL_READER (mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+	folder = message_list->folder;
+
+	if (camel_object_meta_set (folder, "evolution:thread_list", state))
+		camel_object_state_write (folder);
+
+	message_list_set_threaded (message_list, active);
 }
 
 static void
