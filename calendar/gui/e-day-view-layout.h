@@ -39,10 +39,11 @@ void e_day_view_layout_long_events	(GArray	   *events,
 					 gint	   *rows_in_top_display);
 
 
-void e_day_view_layout_day_events	(GArray	   *events,
+gint e_day_view_layout_day_events	(GArray	   *events,
 					 gint	    rows,
 					 gint	    mins_per_row,
-					 guint8	   *cols_per_row);
+					 guint8	   *cols_per_row,
+					 gint       max_cols);
 
 gboolean   e_day_view_find_long_event_days	(EDayViewEvent	*event,
 						 gint		 days_shown,

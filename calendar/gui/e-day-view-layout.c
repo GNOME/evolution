@@ -29,6 +29,7 @@
 #include <config.h>
 
 #include "e-day-view-layout.h"
+#include "e-util/e-bit-array.h"
 
 static void e_day_view_layout_long_event (EDayViewEvent	  *event,
 					  guint8	  *grid,
@@ -37,13 +38,14 @@ static void e_day_view_layout_long_event (EDayViewEvent	  *event,
 					  gint		  *rows_in_top_display);
 
 static void e_day_view_layout_day_event (EDayViewEvent    *event,
-					 guint8	          *grid,
+					 EBitArray       **grid,
 					 guint16	  *group_starts,
 					 guint8	          *cols_per_row,
 					 gint	           rows,
-					 gint	           mins_per_row);
+					 gint	           mins_per_row,
+					 gint              max_cols);
 static void e_day_view_expand_day_event (EDayViewEvent    *event,
-					 guint8	          *grid,
+					 EBitArray       **grid,
 					 guint8	          *cols_per_row,
 					 gint	           mins_per_row);
 static void e_day_view_recalc_cols_per_row (gint           rows,
@@ -127,15 +129,17 @@ e_day_view_layout_long_event (EDayViewEvent *event,
 }
 
 
-void
+/* returns maximum number of columns among all rows */
+gint
 e_day_view_layout_day_events (GArray	   *events,
 			      gint	    rows,
 			      gint	    mins_per_row,
-			      guint8	   *cols_per_row)
+			      guint8	   *cols_per_row,
+			      gint          max_cols)
 {
 	EDayViewEvent *event;
-	gint row, event_num;
-	guint8 *grid;
+	gint row, event_num, res;
+	EBitArray **grid;
 
 	/* This is a temporary array which keeps track of rows which are
 	   connected. When an appointment spans multiple rows then the number
@@ -145,18 +149,20 @@ e_day_view_layout_day_events (GArray	   *events,
 	   rows. */
 	guint16 group_starts[12 * 24];
 
+	/* This is a temporary 2-d grid which is used to place events.
+	   Each element is 0 if the position is empty, or 1 if occupied. */
+	grid = g_new0 (EBitArray *, rows);
+
 	/* Reset the cols_per_row array, and initialize the connected rows so
 	   that all rows are not connected - each row is the start of a new
 	   group. */
 	for (row = 0; row < rows; row++) {
 		cols_per_row[row] = 0;
 		group_starts[row] = row;
+
+		/* row doesn't contain any event at the moment */
+		grid [row] = e_bit_array_new (0);
 	}
-
-	/* This is a temporary 2-d grid which is used to place events.
-	   Each element is 0 if the position is empty, or 1 if occupied. */
-	grid = g_new0 (guint8, rows * E_DAY_VIEW_MAX_COLUMNS);
-
 
 	/* Iterate over the events, finding which rows they cover, and putting
 	   them in the first free column available. Increment the number of
@@ -166,7 +172,7 @@ e_day_view_layout_day_events (GArray	   *events,
 		event = &g_array_index (events, EDayViewEvent, event_num);
 
 		e_day_view_layout_day_event (event, grid, group_starts,
-					     cols_per_row, rows, mins_per_row);
+					     cols_per_row, rows, mins_per_row, max_cols);
 	}
 
 	/* Recalculate the number of columns needed in each row. */
@@ -180,8 +186,15 @@ e_day_view_layout_day_events (GArray	   *events,
 					     mins_per_row);
 	}
 
-	/* Free the grid. */
+	/* Free the grid and compute maximum number of columns used. */
+	res = 0;
+	for (row = 0; row < rows; row++) {
+		res = MAX (res, e_bit_array_bit_count (grid [row]));
+		g_object_unref (grid [row]);
+	}
 	g_free (grid);
+
+	return res;
 }
 
 
@@ -190,11 +203,12 @@ e_day_view_layout_day_events (GArray	   *events,
    sure they are all in one group. */
 static void
 e_day_view_layout_day_event (EDayViewEvent *event,
-			     guint8	   *grid,
+			     EBitArray    **grid,
 			     guint16	   *group_starts,
 			     guint8	   *cols_per_row,
 			     gint	    rows,
-			     gint	    mins_per_row)
+			     gint	    mins_per_row,
+			     gint           max_cols)
 {
 	gint start_row, end_row, free_col, col, row, group_start;
 
@@ -214,10 +228,11 @@ e_day_view_layout_day_event (EDayViewEvent *event,
 	end_row = CLAMP (end_row, 0, rows - 1);
 
 	/* Try each column until we find a free one. */
-	for (col = 0; col < E_DAY_VIEW_MAX_COLUMNS; col++) {
+	for (col = 0; max_cols <= 0 || col < max_cols; col++) {
 		free_col = col;
 		for (row = start_row; row <= end_row; row++) {
-			if (grid[row * E_DAY_VIEW_MAX_COLUMNS + col]) {
+			if (e_bit_array_bit_count (grid [row]) > col &&
+			    e_bit_array_value_at (grid [row], col)) {
 				free_col = -1;
 				break;
 			}
@@ -243,7 +258,11 @@ e_day_view_layout_day_event (EDayViewEvent *event,
 	   all the events have been layed out. Also make sure all the rows that
 	   the event covers are in one group. */
 	for (row = start_row; row <= end_row; row++) {
-		grid[row * E_DAY_VIEW_MAX_COLUMNS + free_col] = 1;
+		/* resize the array if necessary */
+		if (e_bit_array_bit_count (grid [row]) <= free_col)
+			e_bit_array_insert (grid [row], e_bit_array_bit_count (grid [row]), free_col - e_bit_array_bit_count (grid [row]) + 1);
+
+		e_bit_array_change_one_row (grid [row], free_col, TRUE);
 		cols_per_row[row]++;
 		group_starts[row] = group_start;
 	}
@@ -284,7 +303,7 @@ e_day_view_recalc_cols_per_row (gint      rows,
 /* Expands the event horizontally to fill any free space. */
 static void
 e_day_view_expand_day_event (EDayViewEvent *event,
-			     guint8	   *grid,
+			     EBitArray    **grid,
 			     guint8	   *cols_per_row,
 			     gint	    mins_per_row)
 {
@@ -300,7 +319,8 @@ e_day_view_expand_day_event (EDayViewEvent *event,
 	clashed = FALSE;
 	for (col = event->start_row_or_col + 1; col < cols_per_row[start_row]; col++) {
 		for (row = start_row; row <= end_row; row++) {
-			if (grid[row * E_DAY_VIEW_MAX_COLUMNS + col]) {
+			if (e_bit_array_bit_count (grid [row]) > col &&
+			    e_bit_array_value_at (grid [row], col)) {
 				clashed = TRUE;
 				break;
 			}

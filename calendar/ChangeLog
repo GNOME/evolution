@@ -1,3 +1,19 @@
+2009-01-15  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #246313
+
+	* gui/e-day-view.c: (e_day_view_check_if_new_event_fits): Removed.
+	* gui/e-day-view.h: (struct _EDayView):
+	* gui/e-day-view.c: (e_day_view_init), (e_day_view_size_allocate),
+	(e_day_view_recalc_main_canvas_size), (e_day_view_recalc_cell_sizes),
+	(e_day_view_update_scroll_regions), (e_day_view_check_layout):
+	* gui/e-day-view-layout.h: (e_day_view_layout_day_events):
+	* gui/e-day-view-layout.c: (e_day_view_layout_day_events),
+	(e_day_view_layout_day_event), (e_day_view_expand_day_event):
+	Added ability to show all event in one-day view, but show only up
+	to 6 columns in a multi-day view.
+	* gui/print.c: (print_day_details): Always print all events.
+
 2009-01-14  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #554454

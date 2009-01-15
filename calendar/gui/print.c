@@ -1335,7 +1335,7 @@ print_day_details (GtkPrintContext *context, GnomeCalendar *gcal, time_t whence,
 
 	/* lay out the short events, within the day. */
 	e_day_view_layout_day_events (pdi.events[0], DAY_VIEW_ROWS,
-				      DAY_VIEW_MINS_PER_ROW, pdi.cols_per_row);
+				      DAY_VIEW_MINS_PER_ROW, pdi.cols_per_row, -1);
 
 	/* print the short events. */
 	if (top > bottom )
