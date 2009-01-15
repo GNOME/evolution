@@ -2793,7 +2793,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		break;
 	}
 
-	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED && source_type == E_CAL_SOURCE_TYPE_EVENT)
+	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED || status == E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED)
 		auth_cal_forget_password (ecal);
 
 	switch (status) {
@@ -2819,17 +2819,10 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 
 		status = E_CALENDAR_STATUS_OK;
 		break;
-	case E_CALENDAR_STATUS_AUTHENTICATION_FAILED: 
-		{
-			const gchar *auth_domain = e_source_get_property (source, "auth-domain");
-			const gchar *component_name;
-			
-			component_name = auth_domain ? auth_domain : "Calendar";
-
-			/* Warn the user password is wrong */
-			e_passwords_forget_password (component_name, e_cal_get_uri(ecal));
-			return;
-		}
+	case E_CALENDAR_STATUS_AUTHENTICATION_FAILED:
+		/* try to reopen calendar - it'll ask for a password once again */
+		e_cal_open_async (ecal, FALSE);
+		return;
 	case E_CALENDAR_STATUS_REPOSITORY_OFFLINE:
 		if (source_type == E_CAL_SOURCE_TYPE_EVENT)
 		{
@@ -2850,6 +2843,8 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	default:
 		/* Make sure the source doesn't disappear on us */
 		g_object_ref (source);
+
+		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, gcal);
 
 		priv->clients_list[source_type] = g_list_remove (priv->clients_list[source_type], ecal);
 		g_hash_table_remove (priv->clients[source_type], e_source_peek_uid (source));
@@ -2915,6 +2910,9 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 	source = e_cal_get_source (ecal);
 	state = e_cal_get_load_state (ecal);
 
+	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED || status == E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED)
+		auth_cal_forget_password (ecal);
+
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
 		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL, -1);
@@ -2936,12 +2934,17 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 		if (state == E_CAL_LOAD_NOT_LOADED)
 			e_cal_open_async (ecal, FALSE);
 		return;
-	case E_CALENDAR_STATUS_INVALID_SERVER_VERSION :
+	case E_CALENDAR_STATUS_AUTHENTICATION_FAILED:
+		/* try to reopen calendar - it'll ask for a password once again */
+		e_cal_open_async (ecal, FALSE);
+		return;
+	case E_CALENDAR_STATUS_INVALID_SERVER_VERSION:
 		e_error_run (NULL, "calendar:server-version", NULL);
-		status = E_CALENDAR_STATUS_OK;
 	default:
 		/* Make sure the source doesn't disappear on us */
 		g_object_ref (source);
+
+		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, gcal);
 
 		/* FIXME should we do this to prevent multiple error dialogs? */
 		priv->clients_list[source_type] = g_list_remove (priv->clients_list[source_type], ecal);
@@ -2961,7 +2964,6 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 	}
 
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, default_client_cal_opened_cb, NULL);
-
 
 	switch (source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:

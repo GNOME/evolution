@@ -802,6 +802,9 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, EMemos *memos)
 
 	source = e_cal_get_source (ecal);
 
+	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED || status == E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED)
+		auth_cal_forget_password (ecal);
+
 	switch (status) {
 	case E_CALENDAR_STATUS_OK :
 		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, client_cal_opened_cb, NULL);
@@ -813,11 +816,14 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, EMemos *memos)
 		set_timezone (memos);
 		set_status_message (memos, NULL);
 		break;
+	case E_CALENDAR_STATUS_AUTHENTICATION_FAILED:
+		/* try to reopen calendar - it'll ask for a password once again */
+		e_cal_open_async (ecal, FALSE);
+		return;
 	case E_CALENDAR_STATUS_BUSY :
 		break;
 	case E_CALENDAR_STATUS_REPOSITORY_OFFLINE:
 		e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (memos))), "calendar:prompt-no-contents-offline-memos", NULL);
-		break;
 	default :
 		/* Make sure the source doesn't disappear on us */
 		g_object_ref (source);
@@ -849,6 +855,9 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, EMemos *memos)
 
 	source = e_cal_get_source (ecal);
 
+	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED || status == E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED)
+		auth_cal_forget_password (ecal);
+
 	switch (status) {
 	case E_CALENDAR_STATUS_OK :
 		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, default_client_cal_opened_cb, NULL);
@@ -858,6 +867,10 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, EMemos *memos)
 		e_cal_model_set_default_client (model, ecal);
 		set_status_message (memos, NULL);
 		break;
+	case E_CALENDAR_STATUS_AUTHENTICATION_FAILED:
+		/* try to reopen calendar - it'll ask for a password once again */
+		e_cal_open_async (ecal, FALSE);
+		return;
 	case E_CALENDAR_STATUS_BUSY:
 		break;
 	default :

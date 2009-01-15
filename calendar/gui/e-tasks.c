@@ -953,7 +953,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
 
 	source = e_cal_get_source (ecal);
 	
-	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED)
+	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED || status == E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED)
 		auth_cal_forget_password (ecal);
 
 	switch (status) {
@@ -966,6 +966,10 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
 
 		set_status_message (tasks, NULL);
 		break;
+	case E_CALENDAR_STATUS_AUTHENTICATION_FAILED:
+		/* try to reopen calendar - it'll ask for a password once again */
+		e_cal_open_async (ecal, FALSE);
+		return;
 	case E_CALENDAR_STATUS_BUSY :
 		break;
 	case E_CALENDAR_STATUS_REPOSITORY_OFFLINE:
@@ -1001,7 +1005,7 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
 
 	source = e_cal_get_source (ecal);
 
-	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED)
+	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED || status == E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED)
 		auth_cal_forget_password (ecal);
 
 	switch (status) {
@@ -1012,6 +1016,10 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
 		e_cal_model_set_default_client (model, ecal);
 		set_status_message (tasks, NULL);
 		break;
+	case E_CALENDAR_STATUS_AUTHENTICATION_FAILED:
+		/* try to reopen calendar - it'll ask for a password once again */
+		e_cal_open_async (ecal, FALSE);
+		return;
 	case E_CALENDAR_STATUS_BUSY:
 		break;
 	default :

@@ -1,5 +1,25 @@
 2009-01-15  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #303738
+
+	* gui/gnome-cal.c: (client_cal_opened_cb),
+	(default_client_cal_opened_cb):
+	* gui/e-memos.c: (client_cal_opened_cb),
+	(default_client_cal_opened_cb):
+	* gui/e-tasks.c: (client_cal_opened_cb),
+	(default_client_cal_opened_cb):
+	Forget password on AuthFailed or AuthRequired and try to reopen
+	on AuthFailed status, which will ask for a password again.
+
+	* gui/comp-editor-factory.c: (cal_opened_cb):
+	Show "Authentication Required" on such status returned.
+
+	* common/authentication.c: (auth_cal_forget_password):
+	Do not free memory which hold ECal. Also always forget password
+	for calendar with the URL key.
+
+2009-01-15  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #245156
 
 	* gui/e-day-view.c: (e_day_view_finish_long_event_resize),
