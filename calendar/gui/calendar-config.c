@@ -1567,3 +1567,132 @@ calendar_config_get_dir_path (void)
 
 	return path;
 }
+
+/* contains list of strings, locations, recently used as the second timezone in a day view.
+   Free with calendar_config_free_day_second_zones. */
+GSList *
+calendar_config_get_day_second_zones (void)
+{
+	GSList *res;
+
+	calendar_config_init ();
+
+	res = gconf_client_get_list (config, CALENDAR_CONFIG_DAY_SECOND_ZONES_LIST, GCONF_VALUE_STRING, NULL);
+
+	return res;
+}
+
+/* frees list from calendar_config_get_day_second_zones */
+void
+calendar_config_free_day_second_zones (GSList *zones)
+{
+	if (zones) {
+		g_slist_foreach (zones, (GFunc)g_free, NULL);
+		g_slist_free (zones);
+	}
+}
+
+/* keeps max 'day_second_zones_max' zones, if 'location' is already in a list, then it'll became first there */
+void
+calendar_config_set_day_second_zone (const char *location)
+{
+	calendar_config_init ();
+
+	if (location && *location) {
+		GSList *lst, *l;
+		GError *error = NULL;
+		int max_zones;
+
+		/* configurable max number of timezones to remember */
+		max_zones = gconf_client_get_int (config, CALENDAR_CONFIG_DAY_SECOND_ZONES_MAX, &error);
+
+		if (error) {
+			g_error_free (error);
+			max_zones = -1;
+		}
+
+		if (max_zones <= 0)
+			max_zones = 5;
+
+		lst = calendar_config_get_day_second_zones ();
+		for (l = lst; l; l = l->next) {
+			if (l->data && g_str_equal (l->data, location)) {
+				if (l != lst) {
+					/* isn't first in the list */
+					char *val = l->data;
+
+					lst = g_slist_remove (lst, val);
+					lst = g_slist_prepend (lst, val);
+				}
+				break;
+			}
+		}
+
+		if (!l) {
+			/* not in the list yet */
+			lst = g_slist_prepend (lst, g_strdup (location));
+		}
+
+		while (g_slist_length (lst) > max_zones) {
+			l = g_slist_last (lst);
+			g_free (l->data);
+			lst = g_slist_delete_link (lst, l);
+		}
+
+		gconf_client_set_list (config, CALENDAR_CONFIG_DAY_SECOND_ZONES_LIST, GCONF_VALUE_STRING, lst, NULL);
+
+		calendar_config_free_day_second_zones (lst);
+	}
+
+	gconf_client_set_string (config, CALENDAR_CONFIG_DAY_SECOND_ZONE, location ? location : "", NULL);
+}
+
+/* location of the second time zone user has selected. Free with g_free. */
+char *
+calendar_config_get_day_second_zone (void)
+{
+	calendar_config_init ();
+
+	return gconf_client_get_string (config, CALENDAR_CONFIG_DAY_SECOND_ZONE, NULL);
+}
+
+void
+calendar_config_select_day_second_zone (void)
+{
+	icaltimezone *zone = NULL;
+	ETimezoneDialog *tzdlg;
+	GtkWidget *dialog;
+	char *second_location;
+
+	second_location = calendar_config_get_day_second_zone ();
+	if (second_location && *second_location)
+		zone = icaltimezone_get_builtin_timezone (second_location);
+	g_free (second_location);
+
+	if (!zone)
+		zone = calendar_config_get_icaltimezone ();
+
+	tzdlg = e_timezone_dialog_new ();
+	e_timezone_dialog_set_timezone (tzdlg, zone);
+
+	dialog = e_timezone_dialog_get_toplevel (tzdlg);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
+		zone = e_timezone_dialog_get_timezone (tzdlg);
+		calendar_config_set_day_second_zone (zone ? icaltimezone_get_location (zone) : NULL);
+	}
+
+	g_object_unref (tzdlg);
+}
+
+guint
+calendar_config_add_notification_day_second_zone (GConfClientNotifyFunc func, gpointer data)
+{
+	guint id;
+
+	calendar_config_init ();
+
+	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DAY_SECOND_ZONE, func, data, NULL, NULL);
+
+	return id;
+}

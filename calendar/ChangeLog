@@ -1,3 +1,72 @@
+2009-01-14  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #554454
+
+	* gui/e-cal-model.c: (e_cal_view_objects_modified_cb):
+	Do not crash when received 'modified' event for something
+	not in a model. And a leak fix.
+
+2009-01-13  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #489437
+
+	* gui/dialogs/recurrence-page.c: (fill_component): Check whether
+	the 'until' date is in the future, and report error if not.
+
+2009-01-13  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #567045
+
+	* gui/e-meeting-time-sel.c: (e_meeting_time_selector_construct),
+	(e_meeting_time_selector_on_canvas_scroll_event): Escalate scroll
+	event's to a scrolled window, to let mouse wheel work over data too.
+
+2009-01-12  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #563364
+
+	* gui/e-day-view-time-item.h: (EDayViewTimeItem):
+	* gui/e-day-view-time-item.c: (e_day_view_time_item_class_init),
+	(e_day_view_time_item_init), (e_day_view_time_item_finalize),
+	(e_day_view_time_item_get_column_width), (edvti_draw_zone),
+	(e_day_view_time_item_draw), (edvti_second_zone_changed_cb),
+	(edvti_on_select_zone), (edvti_on_set_zone),
+	(e_day_view_time_item_show_popup_menu):
+	Show two timezones in the day view's time column.
+
+	* gui/apps_evolution_calendar.schemas.in:
+	* gui/calendar-config-keys.h:
+	* gui/calendar-config.h:
+	* gui/calendar-config.c: (calendar_config_get_day_second_zones),
+	(calendar_config_free_day_second_zones),
+	(calendar_config_set_day_second_zone),
+	(calendar_config_get_day_second_zone),
+	(calendar_config_select_day_second_zone),
+	(calendar_config_add_notification_day_second_zone):
+	Access configuration for the second day time zone.
+
+	* gui/dialogs/cal-prefs-dialog.glade:
+	* gui/dialogs/cal-prefs-dialog.h: (struct _CalendarPrefsDialog):
+	* gui/dialogs/cal-prefs-dialog.c: (update_day_second_zone_caption),
+	(on_set_day_second_zone), (on_select_day_second_zone),
+	(day_second_zone_clicked), (setup_changes), (show_config),
+	(calendar_prefs_dialog_construct):
+	Manage the second day zone in a Preferences dialog.
+
+2009-01-12  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #555310
+
+	* importers/icalendar-importer.c: (ivcal_getwidget):
+	Localize strings properly.
+
+2009-01-12  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fix for bug #567148
+
+	* gui/e-timezone-entry.c (e_timezone_entry_init): Use a labelled button
+	to bring up the timezone selector widget. 
+
 2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/e-cal-component-preview (on_link_clicked):

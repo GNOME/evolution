@@ -53,6 +53,10 @@ typedef struct {
 
 	/* TRUE if we are currently dragging the selection times. */
 	gboolean dragging_selection;
+
+	/* the second timezone shown here; NULL if none; do not free it, it's from the builtin zones */
+	guint second_zone_changed_id;
+	icaltimezone *second_zone;
 } EDayViewTimeItem;
 
 typedef struct {

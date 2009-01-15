@@ -61,6 +61,9 @@ G_BEGIN_DECLS
 #define CALENDAR_CONFIG_COMPRESS_WEEKEND CALENDAR_CONFIG_PREFIX "/display/compress_weekend"
 #define CALENDAR_CONFIG_SHOW_EVENT_END CALENDAR_CONFIG_PREFIX "/display/show_event_end"
 #define CALENDAR_CONFIG_WORKING_DAYS CALENDAR_CONFIG_PREFIX "/display/working_days"
+#define CALENDAR_CONFIG_DAY_SECOND_ZONE CALENDAR_CONFIG_PREFIX "/display/day_second_zone"
+#define CALENDAR_CONFIG_DAY_SECOND_ZONES_LIST CALENDAR_CONFIG_PREFIX "/display/day_second_zones"
+#define CALENDAR_CONFIG_DAY_SECOND_ZONES_MAX CALENDAR_CONFIG_PREFIX "/display/day_second_zones_max"
 
 /* Date navigator settings */
 #define CALENDAR_CONFIG_DN_SHOW_WEEK_NUMBERS CALENDAR_CONFIG_PREFIX "/date_navigator/show_week_numbers"

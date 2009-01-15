@@ -327,6 +327,14 @@ idle_cb (gchar **uris)
 	}
 #endif
 
+	/* This must be done after Bonobo has created all the components. For 
+	 * example the mail component makes the global variable `session` which
+	 * is being used by several EPlugins */
+
+	if (!disable_eplugin) {
+		e_plugin_load_plugins_with_missing_symbols ();
+	}
+
 	return FALSE;
 }
 

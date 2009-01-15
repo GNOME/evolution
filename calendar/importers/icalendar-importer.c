@@ -247,7 +247,7 @@ ivcal_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 
 		g_signal_connect (selector, "primary_selection_changed", G_CALLBACK (primary_selection_changed_cb), target);
 
-		rb = gtk_radio_button_new_with_label (group, import_type_strings[i]);
+		rb = gtk_radio_button_new_with_label (group, _(import_type_strings[i]));
 		gtk_box_pack_start (GTK_BOX (hbox), rb, FALSE, FALSE, 6);
 
 		sd = g_malloc0(sizeof(*sd));

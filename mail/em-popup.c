@@ -585,9 +585,11 @@ static void
 emp_uri_popup_link_open(EPopup *ep, EPopupItem *item, void *data)
 {
 	EMPopupTargetURI *t = (EMPopupTargetURI *)ep->target;
+	gchar *unescaped_uri = em_utils_url_unescape_amp (t->uri);
 
 	/* FIXME Pass a parent window. */
-	e_show_uri (NULL, t->uri);
+	e_show_uri (NULL, unescaped_uri);
+	g_free (unescaped_uri);
 }
 
 static void

@@ -16,6 +16,43 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/calendar/display/day_second_zone</key>
+      <applyto>/apps/evolution/calendar/display/day_second_zone</applyto>
+      <owner>evolution-calendar</owner>
+      <type>string</type>
+      <default></default>
+      <locale name="C">
+        <short>The second timezone for a Day View</short>
+        <long>Shows the second time zone in a Day View, if set. Value is similar to one used in a 'timezone' key.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/calendar/display/day_second_zones</key>
+      <applyto>/apps/evolution/calendar/display/day_second_zones</applyto>
+      <owner>evolution-calendar</owner>
+      <type>list</type>
+      <list_type>string</list_type>
+      <default>[]</default>
+      <locale name="C">
+        <short>Recently used second time zones in a Day View</short>
+        <long>List of recently used second time zones in a Day View.</long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/calendar/display/day_second_zones_max</key>
+      <applyto>/apps/evolution/calendar/display/day_second_zones_max</applyto>
+      <owner>evolution-calendar</owner>
+      <type>int</type>
+      <default>5</default>
+      <locale name="C">
+        <short>Maximum number of recently used timezones to remember.</short>
+        <long>Maximum number of recently used timezones to remember in a 'day_second_zones' list.</long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/calendar/display/use_daylight_saving</key>
       <applyto>/apps/evolution/calendar/display/use_daylight_saving</applyto>
       <owner>evolution-calendar</owner>
