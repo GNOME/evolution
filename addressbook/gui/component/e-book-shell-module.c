@@ -19,6 +19,8 @@
  *
  */
 
+#include <config.h>
+
 #include <string.h>
 #include <glib/gi18n.h>
 #include <libebook/e-book.h>
@@ -43,6 +45,11 @@
 
 #include "e-book-shell-view.h"
 #include "e-book-shell-module-migrate.h"
+
+#ifdef ENABLE_SMIME
+#include "smime/gui/component.h"
+#include "smime/gui/certificate-manager.h"
+#endif
 
 #define MODULE_NAME		"addressbook"
 #define MODULE_ALIASES		"contacts"
@@ -432,6 +439,13 @@ e_shell_module_init (GTypeModule *type_module)
 	e_shell_module_set_info (
 		shell_module, &module_info,
 		e_book_shell_view_get_type (type_module));
+
+	/* XXX Why is this here?  Address books aren't the only
+	 *     things that use S/MIME.  Maybe put it in EShell? */
+#ifdef ENABLE_SMIME
+	smime_component_init ();
+	certificate_manager_config_init ();
+#endif
 
 	book_shell_module_init_importers ();
 	book_shell_module_ensure_sources (shell_module);
