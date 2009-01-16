@@ -1203,7 +1203,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 {
 	ECalComponent *comp;
 	struct Appointment appt;
-	struct icaltimetype now = icaltime_from_timet_with_zone (time (NULL), FALSE, timezone), it;
+	struct icaltimetype now = icaltime_current_time_with_zone (icaltimezone_get_utc_timezone ()), it;
 	struct icalrecurrencetype recur;
 	ECalComponentText summary = {NULL, NULL};
 	ECalComponentDateTime dt = {NULL, NULL};

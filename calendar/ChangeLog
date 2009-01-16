@@ -1,5 +1,12 @@
 2009-01-16  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #360813
+
+	* conduits/calendar/calendar-conduit.c: (comp_from_remote_record):
+	RFC 2445 - CREATED/DTSTAMP/LAST-MODIFIED always in UTC.
+
+2009-01-16  Milan Crha  <mcrha@redhat.com>
+
 	** Partial fix for bug #310844
 
 	* gui/e-calendar-view.c: (transfer_item_to):
