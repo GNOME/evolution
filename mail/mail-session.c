@@ -43,6 +43,7 @@
 #include <camel/camel-filter-driver.h>
 #include <camel/camel-i18n.h>
 
+#include "e-util/e-util.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 #include "e-account-combo-box.h"
@@ -701,11 +702,11 @@ mail_session_init (EShellModule *shell_module)
 	const gchar *data_dir;
 
 	mail_shell_module = shell_module;
-	data_dir = e_shell_module_get_data_dir (shell_module);
 
 	shell = e_shell_module_get_shell (shell_module);
 	online_mode = e_shell_get_online_mode (shell);
 
+	data_dir = e_get_user_data_dir ();
 	if (camel_init (data_dir, TRUE) != 0)
 		exit (0);
 
@@ -715,6 +716,7 @@ mail_session_init (EShellModule *shell_module)
 	e_account_combo_box_set_session (session);  /* XXX Don't ask... */
 	e_account_writable(NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD); /* Init the EAccount Setup */
 
+	data_dir = e_shell_module_get_data_dir (shell_module);
 	camel_session_construct (session, data_dir);
 
 	gconf = mail_config_get_gconf_client ();

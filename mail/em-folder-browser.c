@@ -1649,20 +1649,6 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		char *sstate;
 		EMFolderBrowser *emfb = (EMFolderBrowser *) emfv;
 
-		gconf = mail_config_get_gconf_client ();
-
-		/* parent loads all ui files via ui_files */
-		emfb_parent->activate(emfv, uic, act);
-
-		bonobo_ui_component_add_verb_list_with_data(uic, emfb_verbs, emfv);
-		/* FIXME: finish */
-		/* (Pre)view pane size (do this first because it affects the
-	           preview settings - see folder_browser_set_message_preview()
-	           internals for details) */
-		g_signal_handler_block(emfb->vpane, emfb->priv->vpane_resize_id);
-		gtk_paned_set_position((GtkPaned *)emfb->vpane, gconf_client_get_int (gconf, emfb->priv->show_wide ? "/apps/evolution/mail/display/hpaned_size": "/apps/evolution/mail/display/paned_size", NULL));
-		g_signal_handler_unblock(emfb->vpane, emfb->priv->vpane_resize_id);
-
 		/* Stop button */
 		state = mail_msg_active((unsigned int)-1);
 		bonobo_ui_component_set_prop(uic, "/commands/MailStop", "sensitive", state?"1":"0", NULL);
@@ -1677,19 +1663,6 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		bonobo_ui_component_set_prop(uic, "/commands/HideDeleted", "state", state ? "1" : "0", NULL);
 		bonobo_ui_component_add_listener(uic, "HideDeleted", emfb_hide_deleted, emfv);
 		em_folder_view_set_hide_deleted(emfv, state); /* <- not sure if this optimal, but it'll do */
-
-		if (((EMFolderBrowser *)emfv)->search)
-			e_search_bar_set_ui_component((ESearchBar *)((EMFolderBrowser *)emfv)->search, uic);
-	} else {
-		const BonoboUIVerb *v;
-
-		for (v = &emfb_verbs[0]; v->cname; v++)
-			bonobo_ui_component_remove_verb(uic, v->cname);
-
-		if (((EMFolderBrowser *)emfv)->search)
-			e_search_bar_set_ui_component((ESearchBar *)((EMFolderBrowser *)emfv)->search, NULL);
-
-		emfb_parent->activate(emfv, uic, act);
 	}
 }
 
