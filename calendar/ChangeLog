@@ -1,3 +1,10 @@
+2009-01-16  Milan Crha  <mcrha@redhat.com>
+
+	** Partial fix for bug #310844
+
+	* gui/e-calendar-view.c: (transfer_item_to):
+	Transfer master object instead of the instance for recurring events.
+
 2009-01-15  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #303738

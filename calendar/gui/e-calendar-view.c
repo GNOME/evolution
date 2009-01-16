@@ -1350,7 +1350,28 @@ transfer_item_to (ECalendarViewEvent *event, ECal *dest_client, gboolean remove_
 		if (!e_cal_modify_object (dest_client, event->comp_data->icalcomp, CALOBJ_MOD_ALL, NULL))
 			return;
 	} else {
-		orig_icalcomp = icalcomponent_new_clone (event->comp_data->icalcomp);
+		if (e_cal_util_component_is_instance (event->comp_data->icalcomp)) {
+			icalcomponent *icalcomp = NULL;
+
+			if (e_cal_get_object (event->comp_data->client, uid, NULL, &icalcomp, NULL)) {
+				/* use master object when working with recurring event */
+				orig_icalcomp = icalcomponent_new_clone (icalcomp);
+				icalcomponent_free (icalcomp);
+			} else {
+				/* ... or remove the recurrence id property... */
+				orig_icalcomp = icalcomponent_new_clone (event->comp_data->icalcomp);
+
+				if (e_cal_util_component_has_recurrences (orig_icalcomp)) {
+					/* ... for non-detached instances, to make it a master object */
+					icalproperty *prop;
+
+					prop = icalcomponent_get_first_property (orig_icalcomp, ICAL_RECURRENCEID_PROPERTY);
+					if (prop)
+						icalcomponent_remove_property (orig_icalcomp, prop);
+				}
+			}
+		} else
+			orig_icalcomp = icalcomponent_new_clone (event->comp_data->icalcomp);
 
 		icalprop = icalproperty_new_x ("1");
 		icalproperty_set_x_name (icalprop, "X-EVOLUTION-MOVE-CALENDAR");
@@ -1377,10 +1398,16 @@ transfer_item_to (ECalendarViewEvent *event, ECal *dest_client, gboolean remove_
 
 	/* remove the item from the source calendar */
 	if (remove_item) {
-		if (e_cal_util_component_is_instance (event->comp_data->icalcomp) || e_cal_util_component_is_instance (event->comp_data->icalcomp))
-			e_cal_remove_object_with_mod (event->comp_data->client, uid,
-					NULL, CALOBJ_MOD_ALL, NULL);
-		else
+		if (e_cal_util_component_is_instance (event->comp_data->icalcomp) || e_cal_util_component_has_recurrences (event->comp_data->icalcomp)) {
+			char *rid = NULL;
+			struct icaltimetype recur_id = icalcomponent_get_recurrenceid (event->comp_data->icalcomp);
+
+			if (!icaltime_is_null_time (recur_id))
+				rid = icaltime_as_ical_string (recur_id);
+
+			e_cal_remove_object_with_mod (event->comp_data->client, uid, rid, CALOBJ_MOD_ALL, NULL);
+			g_free (rid);
+		} else
 			e_cal_remove_object (event->comp_data->client, uid, NULL);
 	}
 }
