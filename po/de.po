@@ -21,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-06 11:21+0100\n"
-"PO-Revision-Date: 2009-01-06 11:22+0100\n"
-"Last-Translator: Andre Klapper <ak-47@gmx.net>\n"
+"POT-Creation-Date: 2009-01-16 20:19+0100\n"
+"PO-Revision-Date: 2009-01-16 20:21+0100\n"
+"Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -3368,16 +3368,16 @@ msgstr "Gewählt"
 msgid "Has Cursor"
 msgstr "Hat Cursor"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:172 ../mail/em-popup.c:627
+#: ../addressbook/gui/widgets/eab-contact-display.c:172 ../mail/em-popup.c:629
 msgid "_Open Link in Browser"
 msgstr "Link im Browser ö_ffnen"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:173
-#: ../mail/em-folder-view.c:2792
+#: ../mail/em-folder-view.c:2761
 msgid "_Copy Link Location"
 msgstr "Link-Ziel _kopieren"
 
-#: ../addressbook/gui/widgets/eab-contact-display.c:174 ../mail/em-popup.c:628
+#: ../addressbook/gui/widgets/eab-contact-display.c:174 ../mail/em-popup.c:630
 msgid "_Send New Message To..."
 msgstr "Neue Nachricht _schicken an …"
 
@@ -7363,7 +7363,7 @@ msgid "%s for an unknown trigger type"
 msgstr "%s für einen unbekannten Auslösertyp."
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:75
-#: ../calendar/gui/e-cal-component-preview.c:73 ../mail/em-folder-view.c:3312
+#: ../calendar/gui/e-cal-component-preview.c:73 ../mail/em-folder-view.c:3281
 #, c-format
 msgid "Click to open %s"
 msgstr "Klicken Sie hier, um %s zu öffnen"
@@ -7431,7 +7431,7 @@ msgstr "Frei"
 
 #: ../calendar/gui/e-cal-model-calendar.c:190
 #: ../calendar/gui/e-calendar-table.c:620
-#: ../calendar/gui/e-meeting-time-sel.c:396
+#: ../calendar/gui/e-meeting-time-sel.c:399
 msgid "Busy"
 msgstr "Beschäftigt"
 
@@ -7513,7 +7513,7 @@ msgstr "Zum _Hintergrund machen"
 msgid "_Save Selected"
 msgstr "Auswahl _speichern"
 
-#: ../calendar/gui/e-cal-popup.c:429 ../mail/em-popup.c:831
+#: ../calendar/gui/e-cal-popup.c:429 ../mail/em-popup.c:833
 #, c-format
 msgid "Open in %s..."
 msgstr "In %s öffnen …"
@@ -8345,7 +8345,7 @@ msgstr "Erfordert Maßnahme"
 
 #: ../calendar/gui/e-meeting-list-view.c:205
 #: ../calendar/gui/e-meeting-store.c:177 ../calendar/gui/e-meeting-store.c:200
-#: ../calendar/gui/e-meeting-time-sel.c:395
+#: ../calendar/gui/e-meeting-time-sel.c:398
 msgid "Tentative"
 msgstr "Vorläufig"
 
@@ -8374,7 +8374,7 @@ msgstr "In Bearbeitung"
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: ../calendar/gui/e-meeting-time-sel-item.c:467
-#: ../calendar/gui/e-meeting-time-sel.c:2120
+#: ../calendar/gui/e-meeting-time-sel.c:2123
 msgid "%A, %B %d, %Y"
 msgstr "%a, %d. %B %Y"
 
@@ -8383,7 +8383,7 @@ msgstr "%a, %d. %B %Y"
 #. This is a strftime() format string %a = abbreviated weekday name,
 #. %m = month number, %d = month day, %Y = full year.
 #: ../calendar/gui/e-meeting-time-sel-item.c:471
-#: ../calendar/gui/e-meeting-time-sel.c:2151
+#: ../calendar/gui/e-meeting-time-sel.c:2154
 msgid "%a %m/%d/%Y"
 msgstr "%a, %d.%m.%Y"
 
@@ -8393,67 +8393,67 @@ msgstr "%a, %d.%m.%Y"
 msgid "%m/%d/%Y"
 msgstr "%d.%m.%Y"
 
-#: ../calendar/gui/e-meeting-time-sel.c:397
+#: ../calendar/gui/e-meeting-time-sel.c:400
 msgid "Out of Office"
 msgstr "Nicht im Büro"
 
-#: ../calendar/gui/e-meeting-time-sel.c:398
+#: ../calendar/gui/e-meeting-time-sel.c:401
 msgid "No Information"
 msgstr "Keine Informationen"
 
-#: ../calendar/gui/e-meeting-time-sel.c:413
+#: ../calendar/gui/e-meeting-time-sel.c:416
 msgid "A_ttendees..."
 msgstr "_Teilnehmer …"
 
-#: ../calendar/gui/e-meeting-time-sel.c:434
+#: ../calendar/gui/e-meeting-time-sel.c:437
 msgid "O_ptions"
 msgstr "_Einstellungen"
 
-#: ../calendar/gui/e-meeting-time-sel.c:451
+#: ../calendar/gui/e-meeting-time-sel.c:454
 msgid "Show _only working hours"
 msgstr "Nur _Arbeitszeit anzeigen"
 
-#: ../calendar/gui/e-meeting-time-sel.c:461
+#: ../calendar/gui/e-meeting-time-sel.c:464
 msgid "Show _zoomed out"
 msgstr "Ver_kleinert anzeigen"
 
-#: ../calendar/gui/e-meeting-time-sel.c:476
+#: ../calendar/gui/e-meeting-time-sel.c:479
 msgid "_Update free/busy"
 msgstr "Verfügbarkeit _aktualisieren"
 
-#: ../calendar/gui/e-meeting-time-sel.c:491
+#: ../calendar/gui/e-meeting-time-sel.c:494
 msgid "_<<"
 msgstr "_<<"
 
-#: ../calendar/gui/e-meeting-time-sel.c:509
+#: ../calendar/gui/e-meeting-time-sel.c:512
 msgid "_Autopick"
 msgstr "_Auto-Auswählen"
 
-#: ../calendar/gui/e-meeting-time-sel.c:524
+#: ../calendar/gui/e-meeting-time-sel.c:527
 msgid ">_>"
 msgstr ">_>"
 
-#: ../calendar/gui/e-meeting-time-sel.c:541
+#: ../calendar/gui/e-meeting-time-sel.c:544
 msgid "_All people and resources"
 msgstr "_Alle Personen und Ressourcen"
 
-#: ../calendar/gui/e-meeting-time-sel.c:550
+#: ../calendar/gui/e-meeting-time-sel.c:553
 msgid "All _people and one resource"
 msgstr "Alle _Personen und eine Ressource"
 
-#: ../calendar/gui/e-meeting-time-sel.c:559
+#: ../calendar/gui/e-meeting-time-sel.c:562
 msgid "_Required people"
 msgstr "_Benötigte Personen"
 
-#: ../calendar/gui/e-meeting-time-sel.c:568
+#: ../calendar/gui/e-meeting-time-sel.c:571
 msgid "Required people and _one resource"
 msgstr "Benötigte Personen und _eine Ressource"
 
-#: ../calendar/gui/e-meeting-time-sel.c:604
+#: ../calendar/gui/e-meeting-time-sel.c:607
 msgid "_Start time:"
 msgstr "_Anfangszeit:"
 
-#: ../calendar/gui/e-meeting-time-sel.c:631
+#: ../calendar/gui/e-meeting-time-sel.c:634
 msgid "_End time:"
 msgstr "_Endzeit:"
 
@@ -12564,33 +12564,33 @@ msgstr "Nachricht konnte nicht abgerufen werden"
 msgid "Retrieving Message..."
 msgstr "Nachricht wird abgerufen …"
 
-#: ../mail/em-folder-view.c:2791
+#: ../mail/em-folder-view.c:2760
 msgid "C_all To..."
 msgstr "_Anrufen …"
 
-#: ../mail/em-folder-view.c:2794
+#: ../mail/em-folder-view.c:2763
 msgid "Create _Search Folder"
 msgstr "_Suchordner anlegen"
 
-#: ../mail/em-folder-view.c:2795
+#: ../mail/em-folder-view.c:2764
 msgid "_From this Address"
 msgstr "_Von dieser Adresse"
 
-#: ../mail/em-folder-view.c:2796
+#: ../mail/em-folder-view.c:2765
 msgid "_To this Address"
 msgstr "_Zu dieser Adresse"
 
-#: ../mail/em-folder-view.c:3293
+#: ../mail/em-folder-view.c:3262
 #, c-format
 msgid "Click to mail %s"
 msgstr "Klicken Sie hier, um eine E-Mail an %s zu verfassen"
 
-#: ../mail/em-folder-view.c:3305
+#: ../mail/em-folder-view.c:3274
 #, c-format
 msgid "Click to call %s"
 msgstr "Klicken Sie hier, um %s anzurufen"
 
-#: ../mail/em-folder-view.c:3310
+#: ../mail/em-folder-view.c:3279
 msgid "Click to hide/unhide addresses"
 msgstr "Adressen anzeigen/verbergen"
 
@@ -13137,7 +13137,7 @@ msgid "Reply to _List"
 msgstr "Antwort an Lis_te"
 
 #. make it first item
-#: ../mail/em-popup.c:629 ../mail/em-popup.c:852
+#: ../mail/em-popup.c:631 ../mail/em-popup.c:854
 msgid "_Add to Address Book"
 msgstr "Zum Adressbuch _hinzufügen"
 
@@ -15173,7 +15173,7 @@ msgstr "_Markierung:"
 msgid "_Tick this to accept the license agreement"
 msgstr "Ha_ken Sie dies ab, um die Lizenzvereinbarung zu akzeptieren"
 
-#: ../mail/mail-folder-cache.c:833
+#: ../mail/mail-folder-cache.c:834
 #, c-format
 msgid "Pinging %s"
 msgstr "Ping zu %s wird ermittelt"
@@ -19781,19 +19781,19 @@ msgstr "Einfacher Textmodus"
 msgid "Prefer plain-text"
 msgstr "Einfachen Text bevorzugen"
 
-#: ../plugins/prefer-plain/prefer-plain.c:191
+#: ../plugins/prefer-plain/prefer-plain.c:189
 msgid "Show HTML if present"
 msgstr "HTML anzeigen, wenn vorhanden"
 
-#: ../plugins/prefer-plain/prefer-plain.c:192
+#: ../plugins/prefer-plain/prefer-plain.c:190
 msgid "Prefer PLAIN"
 msgstr "Einfachen Text bevorzugen"
 
-#: ../plugins/prefer-plain/prefer-plain.c:193
+#: ../plugins/prefer-plain/prefer-plain.c:191
 msgid "Only ever show PLAIN"
 msgstr "Immer als einfachen Text anzeigen"
 
-#: ../plugins/prefer-plain/prefer-plain.c:236
+#: ../plugins/prefer-plain/prefer-plain.c:234
 msgid "HTML _Mode"
 msgstr "HTML-_Modus"
 
@@ -23655,7 +23655,7 @@ msgstr "_Alle Informationen"
 #. To translators: This means Delay the message delivery for some time
 #: ../widgets/misc/e-send-options.glade.h:32
 msgid "_Delay message delivery"
-msgstr "Ver_zögerungsnachricht zustellen"
+msgstr "Nachrichtenzustellung ver_zögern"
 
 #: ../widgets/misc/e-send-options.glade.h:33
 msgid "_Delivered"
