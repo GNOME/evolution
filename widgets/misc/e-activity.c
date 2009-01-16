@@ -430,7 +430,7 @@ e_activity_describe (EActivity *activity)
 		/* Translators: This is an activity whose percent
 		 * complete is known. */
 		g_string_printf (
-			string, _("%s (%d%% complete"), text,
+			string, _("%s (%d%% complete)"), text,
 			(gint) (percent * 100.0 + 0.5));
 	}
 
