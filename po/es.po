@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-01-13 12:25+0000\n"
-"PO-Revision-Date: 2009-01-14 20:10+0100\n"
+"POT-Creation-Date: 2009-01-15 14:38+0000\n"
+"PO-Revision-Date: 2009-01-17 12:18+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -171,7 +171,7 @@ msgstr "%A, %e de %b de %Y"
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:189
 #: ../calendar/gui/calendar-component.c:806
-#: ../calendar/gui/e-day-view-top-item.c:855 ../calendar/gui/e-day-view.c:1578
+#: ../calendar/gui/e-day-view-top-item.c:855 ../calendar/gui/e-day-view.c:1584
 #: ../calendar/gui/e-week-view-main-item.c:335
 msgid "%a %d %b"
 msgstr "%a, %e de %b"
@@ -203,7 +203,7 @@ msgstr "%e de %B de %Y"
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:219
 #: ../calendar/gui/calendar-component.c:832
-#: ../calendar/gui/e-day-view-top-item.c:859 ../calendar/gui/e-day-view.c:1594
+#: ../calendar/gui/e-day-view-top-item.c:859 ../calendar/gui/e-day-view.c:1600
 #: ../calendar/gui/e-week-view-main-item.c:349
 msgid "%d %b"
 msgstr "%e de %b"
@@ -5898,7 +5898,6 @@ msgid "Selected Calendars for Alarms"
 msgstr "Calendarios seleccionados para alertas"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
-#| msgid "Show _field in View"
 msgid "(Shown in a Day View)"
 msgstr "(Mostrado en la Vista diaria)"
 
@@ -6020,7 +6019,6 @@ msgid "Saturday"
 msgstr "sábado"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
-#| msgid "Send To:"
 msgid "Se_cond zone:"
 msgstr "Zona se_cundaria:"
 
@@ -7837,7 +7835,6 @@ msgid "%02i minute divisions"
 msgstr "divisiones de %02i minutos"
 
 #: ../calendar/gui/e-day-view-time-item.c:771
-#| msgid "Show the \"Preview\" pane"
 msgid "Show the second time zone"
 msgstr "Muestra la segunda zona horaria"
 
@@ -7847,19 +7844,19 @@ msgstr "Muestra la segunda zona horaria"
 #. month, %B = full month name. You can change the
 #. order but don't change the specifiers or add
 #. anything.
-#: ../calendar/gui/e-day-view-top-item.c:851 ../calendar/gui/e-day-view.c:1561
+#: ../calendar/gui/e-day-view-top-item.c:851 ../calendar/gui/e-day-view.c:1567
 #: ../calendar/gui/e-week-view-main-item.c:326 ../calendar/gui/print.c:1671
 msgid "%A %d %B"
 msgstr "%A %e de %B"
 
 #. String to use in 12-hour time format for times in the morning.
-#: ../calendar/gui/e-day-view.c:801 ../calendar/gui/e-week-view.c:541
+#: ../calendar/gui/e-day-view.c:799 ../calendar/gui/e-week-view.c:541
 #: ../calendar/gui/print.c:828
 msgid "am"
 msgstr "am"
 
 #. String to use in 12-hour time format for times in the afternoon.
-#: ../calendar/gui/e-day-view.c:804 ../calendar/gui/e-week-view.c:544
+#: ../calendar/gui/e-day-view.c:802 ../calendar/gui/e-week-view.c:544
 #: ../calendar/gui/print.c:830
 msgid "pm"
 msgstr "pm"
@@ -18259,7 +18256,8 @@ msgstr "_Escribir"
 msgid "permission to read|_Read"
 msgstr "_Lectura"
 
-#: ../plugins/groupwise-features/proxy-listing.glade.h:1
+#. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
+#: ../plugins/groupwise-features/proxy-listing.glade.h:2
 msgid "Proxy"
 msgstr "Proxy"
 
@@ -18267,7 +18265,8 @@ msgstr "Proxy"
 msgid "<b>Account Name</b>"
 msgstr "<b>Nombre de la cuenta</b>"
 
-#: ../plugins/groupwise-features/proxy-login-dialog.glade.h:2
+#. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
+#: ../plugins/groupwise-features/proxy-login-dialog.glade.h:3
 msgid "Proxy Login"
 msgstr "Sesión proxy"
 
@@ -19720,19 +19719,19 @@ msgstr "Modo de texto sin formato"
 msgid "Prefer plain-text"
 msgstr "Preferir texto sin formato"
 
-#: ../plugins/prefer-plain/prefer-plain.c:191
+#: ../plugins/prefer-plain/prefer-plain.c:189
 msgid "Show HTML if present"
 msgstr "Mostrar HTML si está presente"
 
-#: ../plugins/prefer-plain/prefer-plain.c:192
+#: ../plugins/prefer-plain/prefer-plain.c:190
 msgid "Prefer PLAIN"
 msgstr "Preferir sin formato"
 
-#: ../plugins/prefer-plain/prefer-plain.c:193
+#: ../plugins/prefer-plain/prefer-plain.c:191
 msgid "Only ever show PLAIN"
 msgstr "Sólo mostrar sin formato"
 
-#: ../plugins/prefer-plain/prefer-plain.c:236
+#: ../plugins/prefer-plain/prefer-plain.c:234
 msgid "HTML _Mode"
 msgstr "_Modo HTML"
 
@@ -19743,6 +19742,20 @@ msgstr "Perfilador de Evolution"
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
 msgid "Writes a log of profiling data events."
 msgstr "Escribe un registro perfilando los datos de los eventos."
+
+#: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:1
+#| msgid "Import mail from Pine."
+msgid "Import Outlook messages from PST file"
+msgstr "Importar mensajes de Outlook desde un archivo PST"
+
+#: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:2
+#| msgid "Outlook CSV and Tab Importer"
+msgid "Outlook PST import"
+msgstr "Importador PST de Outlook"
+
+#: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:3
+msgid "Outlook personal folders (.pst)"
+msgstr "Carpetas personales de Outlook (.pst)"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:1
 msgid "Allows calendars to be published to the web"
