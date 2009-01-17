@@ -31,12 +31,15 @@ mail_shell_view_folder_tree_selected_cb (EMailShellView *mail_shell_view,
                                          EMFolderTree *folder_tree)
 {
 	EMailReader *reader;
+	gboolean folder_selected;
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 
-	if ((flags & CAMEL_FOLDER_NOSELECT) || uri == NULL)
-		e_mail_reader_set_folder (reader, NULL, NULL);
-	else {
+	folder_selected =
+		!(flags & CAMEL_FOLDER_NOSELECT) &&
+		full_name != NULL;
+
+	if (folder_selected) {
 		EMFolderTreeModel *model;
 
 		model = em_folder_tree_get_model (folder_tree);
@@ -44,7 +47,8 @@ mail_shell_view_folder_tree_selected_cb (EMailShellView *mail_shell_view,
 		em_folder_tree_model_save_state (model);
 
 		e_mail_reader_set_folder_uri (reader, uri);
-	}
+	} else
+		e_mail_reader_set_folder (reader, NULL, NULL);
 
 	e_shell_view_update_actions (E_SHELL_VIEW (mail_shell_view));
 }

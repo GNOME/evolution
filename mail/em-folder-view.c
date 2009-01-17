@@ -279,7 +279,7 @@ emfv_init(GObject *o)
 //	struct _EMFolderViewPrivate *p = emfv->priv;
 //
 //	g_slist_foreach (emfv->ui_files, free_one_ui_file, NULL);
-/	g_slist_free(emfv->ui_files);
+//	g_slist_free(emfv->ui_files);
 ///	g_slist_free(emfv->enable_map);
 //
 //	g_free(p);

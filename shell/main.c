@@ -187,7 +187,6 @@ categories_icon_theme_hack (void)
 
 	/* Extract the directory components. */
 	dirname = g_path_get_dirname (filename);
-	g_debug ("Category Icon Path: %s", dirname);
 
 	/* Add it to the icon theme's search path.  This relies on
 	 * GtkIconTheme's legacy feature of using image files found

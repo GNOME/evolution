@@ -264,6 +264,7 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	gtk_widget_show (widget);
 
 	widget = gtk_hbox_new (FALSE, 2);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 1);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	priv->status_area = g_object_ref (widget);
 	gtk_widget_show (widget);

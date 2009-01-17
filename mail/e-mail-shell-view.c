@@ -91,9 +91,8 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
 	EMFolderTree *folder_tree;
-	EAccount *account;
+	EAccount *account = NULL;
 	GtkAction *action;
-	CamelURL *camel_url;
 	const gchar *label;
 	gchar *uri;
 	gboolean sensitive;
@@ -133,15 +132,16 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		(state & E_MAIL_SHELL_SIDEBAR_FOLDER_IS_TRASH);
 
 	uri = em_folder_tree_get_selected_uri (folder_tree);
-	account = mail_config_get_account_by_source_url (uri);
-	camel_url = camel_url_new (uri, NULL);
+	if (uri != NULL) {
+		account = mail_config_get_account_by_source_url (uri);
 
-	/* FIXME This belongs in a GroupWise plugin. */
-	account_is_groupwise =
-		(g_strrstr (uri, "groupwise://") != NULL) &&
-		account != NULL && account->parent_uid != NULL;
+		/* FIXME This belongs in a GroupWise plugin. */
+		account_is_groupwise =
+			(g_strrstr (uri, "groupwise://") != NULL) &&
+			account != NULL && account->parent_uid != NULL;
 
-	g_free (uri);
+		g_free (uri);
+	}
 
 	action = ACTION (MAIL_ACCOUNT_DISABLE);
 	visible = (account != NULL) && folder_is_store;
