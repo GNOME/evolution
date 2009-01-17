@@ -43,6 +43,7 @@ struct _EActionComboBoxPrivate {
 	guint changed_handler_id;		/* action::changed */
 	guint group_sensitive_handler_id;	/* action-group::sensitive */
 	guint group_visible_handler_id;		/* action-group::visible */
+	gboolean group_has_icons : 1;
 };
 
 static gpointer parent_class;
@@ -95,8 +96,13 @@ action_combo_box_render_pixbuf (GtkCellLayout *layout,
 	gchar *stock_id;
 	gboolean sensitive;
 	gboolean visible;
+	gint width;
 
 	gtk_tree_model_get (model, iter, COLUMN_ACTION, &action, -1);
+
+	/* Do any of the actions have an icon? */
+	if (!combo_box->priv->group_has_icons)
+		return;
 
 	/* A NULL action means the row is a separator. */
 	if (action == NULL)
@@ -110,14 +116,31 @@ action_combo_box_render_pixbuf (GtkCellLayout *layout,
 		"visible", &visible,
 		NULL);
 
-	g_object_set (
-		G_OBJECT (renderer),
-		"icon-name", icon_name,
-		"sensitive", sensitive,
-		"stock-id", stock_id,
-		"stock-size", GTK_ICON_SIZE_MENU,
-		"visible", visible,
-		NULL);
+	/* Keep the pixbuf renderer a fixed size for proper alignment. */
+	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, &width, NULL);
+
+	/* We can't set both "icon-name" and "stock-id" because setting
+	 * one unsets the other.  So pick the one that has a non-NULL
+	 * value.  If both are non-NULL, "stock-id" wins. */
+
+	if (stock_id != NULL)
+		g_object_set (
+			G_OBJECT (renderer),
+			"sensitive", sensitive,
+			"stock-id", stock_id,
+			"stock-size", GTK_ICON_SIZE_MENU,
+			"visible", visible,
+			"width", width,
+			NULL);
+	else
+		g_object_set (
+			G_OBJECT (renderer),
+			"icon-name", icon_name,
+			"sensitive", sensitive,
+			"stock-size", GTK_ICON_SIZE_MENU,
+			"visible", visible,
+			"width", width,
+			NULL);
 
 	g_free (icon_name);
 	g_free (stock_id);
@@ -135,6 +158,7 @@ action_combo_box_render_text (GtkCellLayout *layout,
 	gchar *label;
 	gboolean sensitive;
 	gboolean visible;
+	gint xpad;
 
 	gtk_tree_model_get (model, iter, COLUMN_ACTION, &action, -1);
 
@@ -155,11 +179,14 @@ action_combo_box_render_text (GtkCellLayout *layout,
 	label = g_strjoinv (NULL, strv);
 	g_strfreev (strv);
 
+	xpad = combo_box->priv->group_has_icons ? 3 : 0;
+
 	g_object_set (
 		G_OBJECT (renderer),
 		"sensitive", sensitive,
 		"text", label,
 		"visible", visible,
+		"xpad", xpad,
 		NULL);
 
 	g_free (label);
@@ -201,13 +228,24 @@ action_combo_box_update_model (EActionComboBox *combo_box)
 		2, GTK_TYPE_RADIO_ACTION, G_TYPE_FLOAT);
 
 	list = gtk_radio_action_get_group (combo_box->priv->action);
+	combo_box->priv->group_has_icons = FALSE;
 
 	while (list != NULL) {
 		GtkTreeRowReference *reference;
 		GtkRadioAction *action = list->data;
 		GtkTreePath *path;
 		GtkTreeIter iter;
+		gchar *icon_name;
+		gchar *stock_id;
 		gint value;
+
+		g_object_get (
+			action, "icon-name", &icon_name,
+			"stock-id", &stock_id, NULL);
+		combo_box->priv->group_has_icons |=
+			(icon_name != NULL || stock_id != NULL);
+		g_free (icon_name);
+		g_free (stock_id);
 
 		gtk_list_store_append (list_store, &iter);
 		g_object_get (G_OBJECT (action), "value", &value, NULL);

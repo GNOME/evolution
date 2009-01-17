@@ -91,14 +91,17 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
 	EMFolderTree *folder_tree;
+	EAccount *account;
 	GtkAction *action;
 	CamelURL *camel_url;
+	const gchar *label;
 	gchar *uri;
 	gboolean sensitive;
 	gboolean visible;
 	guint32 state;
 
 	/* Be descriptive. */
+	gboolean account_is_groupwise;
 	gboolean folder_allows_children;
 	gboolean folder_can_be_deleted;
 	gboolean folder_is_junk;
@@ -130,8 +133,24 @@ mail_shell_view_update_actions (EShellView *shell_view)
 		(state & E_MAIL_SHELL_SIDEBAR_FOLDER_IS_TRASH);
 
 	uri = em_folder_tree_get_selected_uri (folder_tree);
+	account = mail_config_get_account_by_source_url (uri);
 	camel_url = camel_url_new (uri, NULL);
+
+	/* FIXME This belongs in a GroupWise plugin. */
+	account_is_groupwise =
+		(g_strrstr (uri, "groupwise://") != NULL) &&
+		account != NULL && account->parent_uid != NULL;
+
 	g_free (uri);
+
+	action = ACTION (MAIL_ACCOUNT_DISABLE);
+	visible = (account != NULL) && folder_is_store;
+	if (account_is_groupwise)
+		label = _("Proxy _Logout");
+	else
+		label = _("_Disable Account");
+	gtk_action_set_visible (action, visible);
+	g_object_set (action, "label", label, NULL);
 
 	action = ACTION (MAIL_EMPTY_TRASH);
 	visible = folder_is_trash;

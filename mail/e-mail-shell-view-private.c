@@ -34,7 +34,7 @@ mail_shell_view_folder_tree_selected_cb (EMailShellView *mail_shell_view,
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 
-	if ((flags & CAMEL_FOLDER_NOSELECT) || full_name == NULL)
+	if ((flags & CAMEL_FOLDER_NOSELECT) || uri == NULL)
 		e_mail_reader_set_folder (reader, NULL, NULL);
 	else {
 		EMFolderTreeModel *model;
@@ -45,6 +45,8 @@ mail_shell_view_folder_tree_selected_cb (EMailShellView *mail_shell_view,
 
 		e_mail_reader_set_folder_uri (reader, uri);
 	}
+
+	e_shell_view_update_actions (E_SHELL_VIEW (mail_shell_view));
 }
 
 static void

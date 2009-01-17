@@ -22,6 +22,45 @@
 #include "e-mail-shell-view-private.h"
 
 static void
+action_mail_account_disable_cb (GtkAction *action,
+                                EMailShellView *mail_shell_view)
+{
+	EMailShellSidebar *mail_shell_sidebar;
+	EShellModule *shell_module;
+	EShellView *shell_view;
+	EMFolderTree *folder_tree;
+	EAccountList *account_list;
+	EAccount *account;
+	gchar *folder_uri;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_module = e_shell_view_get_shell_module (shell_view);
+
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+	folder_uri = em_folder_tree_get_selected_uri (folder_tree);
+	g_return_if_fail (folder_uri != NULL);
+
+	account = mail_config_get_account_by_source_url (folder_uri);
+	g_return_if_fail (account != NULL);
+
+	if (mail_config_has_proxies (account))
+		mail_config_remove_account_proxies (account);
+
+	account->enabled = !account->enabled;
+	account_list = mail_config_get_accounts ();
+	e_account_list_change (account_list, account);
+	e_mail_shell_module_remove_store_by_uri (shell_module, folder_uri);
+
+	if (account->parent_uid != NULL)
+		mail_config_remove_account (account);
+
+	mail_config_save_accounts ();
+
+	g_free (folder_uri);
+}
+
+static void
 action_mail_create_search_folder_cb (GtkAction *action,
                                      EMailShellView *mail_shell_view)
 {
@@ -504,6 +543,13 @@ action_mail_view_cb (GtkRadioAction *action,
 
 static GtkActionEntry mail_entries[] = {
 
+	{ "mail-account-disable",
+	  NULL,
+	  N_("_Disable Account"),
+	  NULL,
+	  N_("Disable this account"),
+	  G_CALLBACK (action_mail_account_disable_cb) },
+
 	{ "mail-create-search-folder",
 	  NULL,
 	  N_("C_reate Search Folder From Search..."),
@@ -678,6 +724,57 @@ static GtkActionEntry mail_entries[] = {
 	  NULL,
 	  N_("Subscribe or unsubscribe to folders on remote servers"),
 	  G_CALLBACK (action_mail_tools_subscriptions_cb) },
+
+	/*** Popup Menu Variations ***/
+
+	{ "mail-popup-folder-copy",
+	  "folder-copy",
+	  N_("_Copy Folder To..."),
+	  NULL,
+	  N_("Copy the selected folder into another folder"),
+	  G_CALLBACK (action_mail_folder_copy_cb) },
+
+	{ "mail-popup-folder-delete",
+	  GTK_STOCK_DELETE,
+	  NULL,
+	  NULL,
+	  N_("Permanently remove this folder"),
+	  G_CALLBACK (action_mail_folder_delete_cb) },
+
+	{ "mail-popup-folder-move",
+	  "folder-move",
+	  N_("_Move Folder To..."),
+	  NULL,
+	  N_("Move the selected folder into another folder"),
+	  G_CALLBACK (action_mail_folder_move_cb) },
+
+	{ "mail-popup-folder-new",
+	  "folder-new",
+	  N_("_New Folder..."),
+	  NULL,
+	  N_("Create a new folder for storing mail"),
+	  G_CALLBACK (action_mail_folder_new_cb) },
+
+	{ "mail-popup-folder-properties",
+	  GTK_STOCK_PROPERTIES,
+	  NULL,
+	  NULL,
+	  N_("Change the properties of this folder"),
+	  G_CALLBACK (action_mail_folder_properties_cb) },
+
+	{ "mail-popup-folder-refresh",
+	  GTK_STOCK_REFRESH,
+	  NULL,
+	  NULL,
+	  N_("Refresh the folder"),
+	  G_CALLBACK (action_mail_folder_refresh_cb) },
+
+	{ "mail-popup-folder-rename",
+	  NULL,
+	  N_("_Rename..."),
+	  NULL,
+	  N_("Change the name of this folder"),
+	  G_CALLBACK (action_mail_folder_rename_cb) },
 
 	/*** Menus ***/
 
@@ -991,4 +1088,34 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	object = G_OBJECT (ACTION (MAIL_VIEW_VERTICAL));
 	key = "/apps/evolution/mail/display/layout";
 	gconf_bridge_bind_property (bridge, key, object, "current-value");
+
+	/* Fine tuning. */
+
+	e_binding_new (
+		G_OBJECT (ACTION (MAIL_FOLDER_COPY)), "sensitive",
+		G_OBJECT (ACTION (MAIL_POPUP_FOLDER_COPY)), "visible");
+
+	e_binding_new (
+		G_OBJECT (ACTION (MAIL_FOLDER_DELETE)), "sensitive",
+		G_OBJECT (ACTION (MAIL_POPUP_FOLDER_DELETE)), "visible");
+
+	e_binding_new (
+		G_OBJECT (ACTION (MAIL_FOLDER_MOVE)), "sensitive",
+		G_OBJECT (ACTION (MAIL_POPUP_FOLDER_MOVE)), "visible");
+
+	e_binding_new (
+		G_OBJECT (ACTION (MAIL_FOLDER_NEW)), "sensitive",
+		G_OBJECT (ACTION (MAIL_POPUP_FOLDER_NEW)), "visible");
+
+	e_binding_new (
+		G_OBJECT (ACTION (MAIL_FOLDER_PROPERTIES)), "sensitive",
+		G_OBJECT (ACTION (MAIL_POPUP_FOLDER_PROPERTIES)), "visible");
+
+	e_binding_new (
+		G_OBJECT (ACTION (MAIL_FOLDER_REFRESH)), "sensitive",
+		G_OBJECT (ACTION (MAIL_POPUP_FOLDER_REFRESH)), "visible");
+
+	e_binding_new (
+		G_OBJECT (ACTION (MAIL_FOLDER_RENAME)), "sensitive",
+		G_OBJECT (ACTION (MAIL_POPUP_FOLDER_RENAME)), "visible");
 }

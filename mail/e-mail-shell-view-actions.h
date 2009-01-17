@@ -25,6 +25,8 @@
 #include <shell/e-shell-window-actions.h>
 
 /* Mail Actions */
+#define E_SHELL_WINDOW_ACTION_MAIL_ACCOUNT_DISABLE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-account-disable")
 #define E_SHELL_WINDOW_ACTION_MAIL_ADD_SENDER(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-add-sender")
 #define E_SHELL_WINDOW_ACTION_MAIL_CARET_MODE(window) \
@@ -133,6 +135,20 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-next-thread")
 #define E_SHELL_WINDOW_ACTION_MAIL_NEXT_UNREAD(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-next-unread")
+#define E_SHELL_WINDOW_ACTION_MAIL_POPUP_FOLDER_COPY(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-popup-folder-copy")
+#define E_SHELL_WINDOW_ACTION_MAIL_POPUP_FOLDER_DELETE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-popup-folder-delete")
+#define E_SHELL_WINDOW_ACTION_MAIL_POPUP_FOLDER_MOVE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-popup-folder-move")
+#define E_SHELL_WINDOW_ACTION_MAIL_POPUP_FOLDER_NEW(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-popup-folder-new")
+#define E_SHELL_WINDOW_ACTION_MAIL_POPUP_FOLDER_PROPERTIES(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-popup-folder-properties")
+#define E_SHELL_WINDOW_ACTION_MAIL_POPUP_FOLDER_REFRESH(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-popup-folder-refresh")
+#define E_SHELL_WINDOW_ACTION_MAIL_POPUP_FOLDER_RENAME(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-popup-folder-rename")
 #define E_SHELL_WINDOW_ACTION_MAIL_PREVIEW(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-preview")
 #define E_SHELL_WINDOW_ACTION_MAIL_PREVIOUS(window) \

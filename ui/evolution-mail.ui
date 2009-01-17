@@ -67,18 +67,19 @@
     <placeholder name='mail-toolbar-navigation'/>
   </toolbar>
   <popup name='mail-folder-popup'>
-    <menuitem action='mail-folder-new'/>
-    <menuitem action='mail-folder-copy'/>
-    <menuitem action='mail-folder-move'/>
+    <menuitem action='mail-popup-folder-new'/>
+    <menuitem action='mail-popup-folder-copy'/>
+    <menuitem action='mail-popup-folder-move'/>
     <separator/>
-    <menuitem action='mail-folder-delete'/>
+    <menuitem action='mail-popup-folder-delete'/>
     <separator/>
-    <menuitem action='mail-folder-rename'/>
-    <menuitem action='mail-folder-refresh'/>
+    <menuitem action='mail-popup-folder-rename'/>
+    <menuitem action='mail-popup-folder-refresh'/>
     <menuitem action='mail-flush-outbox'/>
     <menuitem action='mail-empty-trash'/>
+    <menuitem action='mail-account-disable'/>
     <separator/>
-    <menuitem action='mail-folder-properties'/>
+    <menuitem action='mail-popup-folder-properties'/>
   </popup>
   <popup name='mail-search-options'>
     <menuitem action='mail-search-subject-or-sender-contains'/>

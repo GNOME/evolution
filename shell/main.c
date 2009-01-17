@@ -57,6 +57,7 @@
 
 #include <bonobo-activation/bonobo-activation.h>
 
+#include <libedataserver/e-categories.h>
 #include <libedataserverui/e-passwords.h>
 
 #include <glade/glade.h>
@@ -165,6 +166,37 @@ kill_old_dataserver (void)
 	CORBA_exception_free (&ev);
 }
 #endif
+
+static void
+categories_icon_theme_hack (void)
+{
+	GtkIconTheme *icon_theme;
+	const gchar *category_name;
+	const gchar *filename;
+	gchar *dirname;
+
+	/* XXX Allow the category icons to be referenced as named
+	 *     icons, since GtkAction does not support GdkPixbufs. */
+
+	/* Get the icon file for some default category.  Doesn't matter
+	 * which, so long as it has an icon.  We're just interested in
+	 * the directory components. */
+	category_name = _("Birthday");
+	filename = e_categories_get_icon_file_for (category_name);
+	g_return_if_fail (filename != NULL && *filename != '\0');
+
+	/* Extract the directory components. */
+	dirname = g_path_get_dirname (filename);
+	g_debug ("Category Icon Path: %s", dirname);
+
+	/* Add it to the icon theme's search path.  This relies on
+	 * GtkIconTheme's legacy feature of using image files found
+	 * directly in the search path. */
+	icon_theme = gtk_icon_theme_get_default ();
+	gtk_icon_theme_append_search_path (icon_theme, dirname);
+
+	g_free (dirname);
+}
 
 
 #ifdef DEVELOPMENT
@@ -650,6 +682,7 @@ main (int argc, char **argv)
 	if (setup_only)
 		exit (0);
 
+	categories_icon_theme_hack ();
 	gnome_sound_init ("localhost");
 	gtk_accel_map_load (e_get_accels_filename ());
 

@@ -790,6 +790,7 @@ e_memo_shell_view_update_search_filter (EMemoShellView *memo_shell_view)
 	list = e_categories_get_list ();
 	for (iter = list, ii = 0; iter != NULL; iter = iter->next, ii++) {
 		const gchar *category_name = iter->data;
+		const gchar *filename;
 		GtkAction *action;
 		gchar *action_name;
 
@@ -798,6 +799,24 @@ e_memo_shell_view_update_search_filter (EMemoShellView *memo_shell_view)
 		radio_action = gtk_radio_action_new (
 			action_name, category_name, NULL, NULL, ii);
 		g_free (action_name);
+
+		/* Convert the category icon file to a themed icon name. */
+		filename = e_categories_get_icon_file_for (category_name);
+		if (filename != NULL && *filename != '\0') {
+			gchar *basename;
+			gchar *cp;
+
+			basename = g_path_get_basename (filename);
+
+			/* Lose the file extension. */
+			if ((cp = strrchr (basename, '.')) != NULL)
+				*cp = '\0';
+
+			g_object_set (
+				radio_action, "icon-name", basename, NULL);
+
+			g_free (basename);
+		}
 
 		gtk_radio_action_set_group (radio_action, group);
 		group = gtk_radio_action_get_group (radio_action);

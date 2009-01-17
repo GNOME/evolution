@@ -51,8 +51,8 @@ int
 e_plugin_lib_enable (EPluginLib *epl, int enable)
 {
 	GList *l;
-	gboolean found = FALSE;
-	const char *tmp;
+	const gchar *tmp;
+	gint ii;
 
 	static struct {
 		const char *description;
@@ -74,24 +74,21 @@ e_plugin_lib_enable (EPluginLib *epl, int enable)
 
 	/* Add the categories icons if we don't have them. */
 	for (l = e_categories_get_list (); l; l = g_list_next (l)) {
-		if (!strcmp ((const char *)l->data, tmp)) {
-			found = TRUE;
-			break;
-		}
+		if (!strcmp ((const char *)l->data, tmp))
+			goto exit;
 	}
 
-	if (!found) {
-		int i;
+	for (ii = 0; categories[ii].description; ii++) {
+		char *filename;
 
-		for (i = 0; categories[i].description; i++) {
-			char *filename;
-
-			filename = e_icon_factory_get_icon_filename (categories[i].icon_name, E_ICON_SIZE_MENU);
-			e_categories_add (_(categories[i].description), NULL, filename, FALSE);
-			g_free (filename);
-		}
+		filename = e_icon_factory_get_icon_filename (
+			categories[ii].icon_name, E_ICON_SIZE_MENU);
+		e_categories_add (
+			_(categories[ii].description), NULL, filename, FALSE);
+		g_free (filename);
 	}
 
+exit:
 	return 0;
 }
 

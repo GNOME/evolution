@@ -29,6 +29,7 @@
 #include <camel/camel-vtrash-folder.h>
 
 #include "e-util/e-util.h"
+#include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
 #include "widgets/menus/gal-view-instance.h"
 
@@ -40,6 +41,7 @@
 #include "em-subscribe-editor.h"
 #include "em-utils.h"
 #include "mail-autofilter.h"
+#include "mail-config.h"
 #include "mail-ops.h"
 #include "mail-send-recv.h"
 #include "mail-vfolder.h"
