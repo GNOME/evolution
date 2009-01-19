@@ -678,6 +678,36 @@ calendar_config_add_notification_marcus_bains (GConfClientNotifyFunc func, gpoin
 	*not_tcolor = gconf_client_notify_add (config, CALENDAR_CONFIG_MARCUS_BAINS_COLOR_TIMEBAR, func, data, NULL, NULL);
 }
 
+/* Whether we show week number in the Day View. */
+gboolean
+calendar_config_get_dview_show_week_no (void)
+{
+	calendar_config_init ();
+
+	return gconf_client_get_bool (config, CALENDAR_CONFIG_DV_WEEK_NUMBER, NULL);
+}
+
+
+void
+calendar_config_set_dview_show_week_no (gboolean show_week_no)
+{
+	calendar_config_init ();
+
+	gconf_client_set_bool (config, CALENDAR_CONFIG_DV_WEEK_NUMBER, show_week_no, NULL);
+}
+
+guint
+calendar_config_add_notification_dview_show_week_no (GConfClientNotifyFunc func, gpointer data)
+{
+	guint id;
+
+	calendar_config_init ();
+
+	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DV_WEEK_NUMBER, func, data, NULL, NULL);
+
+	return id;
+}
+
 /* Whether we show week numbers in the Date Navigator. */
 gboolean
 calendar_config_get_dnav_show_week_no	(void)

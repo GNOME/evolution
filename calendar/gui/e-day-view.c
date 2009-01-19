@@ -702,6 +702,12 @@ timezone_changed_cb (ECalendarView *cal_view, icaltimezone *old_zone,
 }
 
 static void
+dview_show_week_no_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
+{
+	e_day_view_set_show_week_number (data, calendar_config_get_dview_show_week_no ());
+}
+
+static void
 e_day_view_init (EDayView *day_view)
 {
 	gint day;
@@ -804,6 +810,12 @@ e_day_view_init (EDayView *day_view)
 	day_view->bc_event_time = 0;
 	day_view->before_click_dtstart = 0;
 	day_view->before_click_dtend = 0;
+
+	day_view->week_number_label = gtk_label_new ("");
+	gtk_table_attach (GTK_TABLE (day_view), day_view->week_number_label, 0, 1, 0, 1, GTK_FILL, GTK_FILL, 0, 0);
+	day_view->wn_notif_id = calendar_config_add_notification_dview_show_week_no (dview_show_week_no_changed_cb, day_view);
+	if (calendar_config_get_dview_show_week_no ())
+		gtk_widget_show (day_view->week_number_label);
 
 	/*
 	 * Top Canvas
@@ -1080,6 +1092,11 @@ e_day_view_destroy (GtkObject *object)
 	e_day_view_cancel_layout (day_view);
 
 	e_day_view_stop_auto_scroll (day_view);
+
+	if (day_view->wn_notif_id) {
+		calendar_config_remove_notification (day_view->wn_notif_id);
+		day_view->wn_notif_id = 0;
+	}
 
 	if (day_view->large_font_desc) {
 		pango_font_description_free (day_view->large_font_desc);
@@ -2281,6 +2298,9 @@ e_day_view_recalc_day_starts (EDayView *day_view,
 			      time_t start_time)
 {
 	gint day;
+	char *str;
+	struct icaltimetype tt;
+	GDate dt;
 
 	day_view->day_starts[0] = start_time;
 	for (day = 1; day <= day_view->days_shown; day++) {
@@ -2294,8 +2314,36 @@ e_day_view_recalc_day_starts (EDayView *day_view,
 
 	day_view->lower = start_time;
 	day_view->upper = day_view->day_starts[day_view->days_shown];
+
+	tt = icaltime_from_timet_with_zone (day_view->day_starts[0], FALSE, e_calendar_view_get_timezone (E_CALENDAR_VIEW (day_view)));
+	g_date_clear (&dt, 1);
+	g_date_set_dmy (&dt, tt.day, tt.month, tt.year);
+	/* To Translators: the %d stands for a week number, it's value between 1 and 52/53 */
+	str = g_strdup_printf (_("Week %d"), g_date_get_iso8601_week_of_year (&dt));
+	gtk_label_set_text (GTK_LABEL (day_view->week_number_label), str);
+	g_free (str);
 }
 
+gboolean
+e_day_view_get_show_week_number (EDayView *day_view)
+{
+	g_return_val_if_fail (day_view != NULL, FALSE);
+
+	return GTK_WIDGET_VISIBLE (day_view->week_number_label);
+}
+
+void
+e_day_view_set_show_week_number (EDayView *day_view, gboolean show)
+{
+	g_return_if_fail (day_view != NULL);
+
+	if (e_day_view_get_show_week_number (day_view) != show) {
+		if (show)
+			gtk_widget_show (day_view->week_number_label);
+		else
+			gtk_widget_hide (day_view->week_number_label);
+	}
+}
 
 /* Whether we are displaying a work-week, in which case the display always
    starts on the first day of the working week. */

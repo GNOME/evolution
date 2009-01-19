@@ -333,6 +333,12 @@ dnav_show_week_no_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
 }
 
 static void
+dview_show_week_no_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
+{
+	calendar_config_set_dview_show_week_no (gtk_toggle_button_get_active (toggle));
+}
+
+static void
 hide_completed_tasks_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
 {
 	gboolean hide;
@@ -483,6 +489,7 @@ setup_changes (CalendarPrefsDialog *prefs)
 	g_signal_connect (G_OBJECT (prefs->show_end_times), "toggled", G_CALLBACK (show_end_times_toggled), prefs);
 	g_signal_connect (G_OBJECT (prefs->compress_weekend), "toggled", G_CALLBACK (compress_weekend_toggled), prefs);
 	g_signal_connect (G_OBJECT (prefs->dnav_show_week_no), "toggled", G_CALLBACK (dnav_show_week_no_toggled), prefs);
+	g_signal_connect (G_OBJECT (prefs->dview_show_week_no), "toggled", G_CALLBACK (dview_show_week_no_toggled), prefs);
 
 	g_signal_connect (G_OBJECT (prefs->tasks_hide_completed), "toggled",
 			  G_CALLBACK (hide_completed_tasks_toggled), prefs);
@@ -654,6 +661,9 @@ show_config (CalendarPrefsDialog *prefs)
 	/* Date Navigator - Show Week Numbers. */
 	e_dialog_toggle_set (prefs->dnav_show_week_no, calendar_config_get_dnav_show_week_no ());
 
+	/* Day/Work Week view - Show Week Number. */
+	e_dialog_toggle_set (prefs->dview_show_week_no, calendar_config_get_dview_show_week_no ());
+
 	/* Task list */
 	show_task_list_config (prefs);
 
@@ -755,6 +765,7 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs)
 	prefs->show_end_times = glade_xml_get_widget (gui, "show_end_times");
 	prefs->compress_weekend = glade_xml_get_widget (gui, "compress_weekend");
 	prefs->dnav_show_week_no = glade_xml_get_widget (gui, "dnav_show_week_no");
+	prefs->dview_show_week_no = glade_xml_get_widget (gui, "dview_show_week_no");
 	prefs->tasks_due_today_color = glade_xml_get_widget (gui, "tasks_due_today_color");
 	prefs->tasks_overdue_color = glade_xml_get_widget (gui, "tasks_overdue_color");
 	prefs->tasks_hide_completed = glade_xml_get_widget (gui, "tasks_hide_completed");

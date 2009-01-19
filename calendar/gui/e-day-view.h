@@ -220,6 +220,11 @@ struct _EDayView
 
 	GtkWidget *vscrollbar;
 
+	/* label showing week number in upper-left corner */
+	GtkWidget *week_number_label;
+	/* option change notification id for week number */
+	guint wn_notif_id;
+
 	/* S-expression for query and the query object */
 	ECalView *query;
 
@@ -607,8 +612,11 @@ void e_day_view_ensure_rows_visible (EDayView *day_view,
 				     gint start_row,
 				     gint end_row);
 
-
 void e_day_view_update_marcus_bains (EDayView *day_view);
+
+/* Week number in upper-left corner of the day view widget */
+gboolean e_day_view_get_show_week_number (EDayView *day_view);
+void e_day_view_set_show_week_number (EDayView *day_view, gboolean show);
 
 G_END_DECLS
 

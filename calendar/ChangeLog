@@ -1,3 +1,25 @@
+2009-01-19  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #200254
+
+	* gui/apps_evolution_calendar.schemas.in:
+	* gui/dialogs/cal-prefs-dialog.glade:
+	* gui/dialogs/cal-prefs-dialog.h: (struct _CalendarPrefsDialog):
+	* gui/dialogs/cal-prefs-dialog.c: (dview_show_week_no_toggled),
+	(setup_changes), (show_config), (calendar_prefs_dialog_construct):
+	* gui/calendar-config-keys.h:
+	* gui/calendar-config.h:
+	* gui/calendar-config.c: (calendar_config_get_dview_show_week_no),
+	(calendar_config_set_dview_show_week_no),
+	(calendar_config_add_notification_dview_show_week_no):
+	New option whether to show week number in Day and Work Week view.
+	* gui/e-day-view.h: (struct _EDayView),
+	(e_day_view_get_show_week_number), (e_day_view_set_show_week_number):
+	* gui/e-day-view.c: (dview_show_week_no_changed_cb), (e_day_view_init),
+	(e_day_view_destroy), (e_day_view_recalc_day_starts),
+	(e_day_view_get_show_week_number), (e_day_view_set_show_week_number):
+	New widget showing week number of the first day in a view.
+
 2009-01-16  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #360813

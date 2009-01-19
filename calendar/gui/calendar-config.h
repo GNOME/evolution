@@ -154,6 +154,11 @@ gboolean  calendar_config_get_dnav_show_week_no	(void);
 void	  calendar_config_set_dnav_show_week_no	(gboolean     show_week_no);
 guint calendar_config_add_notification_dnav_show_week_no (GConfClientNotifyFunc func, gpointer data);
 
+/* Whether we show week number in the day view. */
+gboolean  calendar_config_get_dview_show_week_no (void);
+void	  calendar_config_set_dview_show_week_no (gboolean show_week_no);
+guint calendar_config_add_notification_dview_show_week_no (GConfClientNotifyFunc func, gpointer data);
+
 /* The positions of the panes in the normal and month views. */
 gint      calendar_config_get_hpane_pos		(void);
 void	  calendar_config_set_hpane_pos		(gint	      hpane_pos);
