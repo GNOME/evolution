@@ -1,3 +1,14 @@
+2009-01-19  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #204891
+
+	* filtertypes.xml:
+	* em-composer-utils.h: (em_utils_forward_message_raw):
+	* em-composer-utils.c: (emu_forward_raw_done),
+	(em_utils_forward_message_raw):
+	* mail-session.c: (ms_forward_to), (class_init):
+	Implement "forward-to" rule for message filters.
+
 2009-01-13  Felix Riemann  <friemann@svn.gnome.org>
 
 	** Fix for bug #563867

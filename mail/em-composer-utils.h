@@ -33,6 +33,7 @@ extern "C" {
 
 struct _CamelFolder;
 struct _CamelMimeMessage;
+struct _CamelException;
 struct _EMsgComposer;
 struct _EMFormat;
 struct _EAccount;
@@ -64,6 +65,8 @@ void em_utils_forward_messages (struct _CamelFolder *folder, GPtrArray *uids, co
 
 void em_utils_redirect_message (struct _CamelMimeMessage *message);
 void em_utils_redirect_message_by_uid (struct _CamelFolder *folder, const char *uid);
+
+void em_utils_forward_message_raw (struct _CamelFolder *folder, struct _CamelMimeMessage *message, const char *address, struct _CamelException *ex);
 
 void em_utils_handle_receipt (struct _CamelFolder *folder, const char *uid, struct _CamelMimeMessage *msg);
 void em_utils_send_receipt   (struct _CamelFolder *folder, struct _CamelMimeMessage *message);

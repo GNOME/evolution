@@ -1012,5 +1012,11 @@
   <code>(pipe-message "/bin/sh" "-c" ${command})</code>
   <input type="command" name="command"/>
  </part>
+
+ <part name="forward">
+  <title>Forward to</title>
+  <code>(forward-to ${address})</code>
+  <input type="address" name="address"/>
+ </part>
 </actionset>
 </filterdescription>
