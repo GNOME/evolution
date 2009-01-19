@@ -1,5 +1,23 @@
 2009-01-19  Milan Crha  <mcrha@redhat.com>
 
+	** Part of fix for bug #260853
+
+	* gui/calendar-config-keys.h:
+	* gui/calendar-config.h:
+	(calendar_config_get_ba_reminder), (calendar_config_set_ba_reminder):
+	* gui/calendar-config.c:
+	(calendar_config_get_ba_reminder), (calendar_config_set_ba_reminder),
+	(string_to_units), (calendar_config_get_default_reminder_units):
+	* gui/dialogs/cal-prefs-dialog.glade:
+	* gui/dialogs/cal-prefs-dialog.h: (struct _CalendarPrefsDialog):
+	* gui/dialogs/cal-prefs-dialog.c: (ba_reminder_toggled),
+	(ba_reminder_interval_changed), (ba_reminder_units_changed),
+	(setup_changes), (show_config), (calendar_prefs_dialog_construct):
+	User interface and related function to allow use change setup of
+	the alarm for Birthdays and Anniversaries calendar.
+
+2009-01-19  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #225712
 
 	* gui/dialogs/comp-editor.h: (CompEditorClass::send_comp),

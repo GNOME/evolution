@@ -270,4 +270,8 @@ char *  calendar_config_get_day_second_zone (void);
 void    calendar_config_select_day_second_zone (void);
 guint   calendar_config_add_notification_day_second_zone (GConfClientNotifyFunc func, gpointer data);
 
+/* Birthdays & Anniversaries reminder settings */
+gboolean calendar_config_get_ba_reminder (int *interval, CalUnits *units);
+void calendar_config_set_ba_reminder (gboolean *enabled, int *interval, CalUnits *units);
+
 #endif /* _CALENDAR_CONFIG_H_ */

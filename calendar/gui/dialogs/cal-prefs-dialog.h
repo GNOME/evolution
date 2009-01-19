@@ -56,6 +56,9 @@ struct _CalendarPrefsDialog {
 	GtkWidget *default_reminder;
 	GtkWidget *default_reminder_interval;
 	GtkWidget *default_reminder_units;
+	GtkWidget *ba_reminder;
+	GtkWidget *ba_reminder_interval;
+	GtkWidget *ba_reminder_units;
 
 	/* Display tab */
 	GtkWidget *time_divisions;

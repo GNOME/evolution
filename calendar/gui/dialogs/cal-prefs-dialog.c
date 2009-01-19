@@ -49,6 +49,7 @@ static const int hide_completed_units_map[] = {
 	CAL_MINUTES, CAL_HOURS, CAL_DAYS, -1
 };
 
+/* same is used for Birthdays & Anniversaries calendar */
 static const int default_reminder_units_map[] = {
 	CAL_MINUTES, CAL_HOURS, CAL_DAYS, -1
 };
@@ -414,6 +415,34 @@ default_reminder_units_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 }
 
 static void
+ba_reminder_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
+{
+	gboolean enabled = gtk_toggle_button_get_active (toggle);
+
+	calendar_config_set_ba_reminder (&enabled, NULL, NULL);
+}
+
+static void
+ba_reminder_interval_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
+{
+	const gchar *str;
+	int value;
+
+	str = gtk_entry_get_text (GTK_ENTRY (widget));
+	value = (int) g_ascii_strtod (str, NULL);
+
+	calendar_config_set_ba_reminder (NULL, &value, NULL);
+}
+
+static void
+ba_reminder_units_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
+{
+	CalUnits units = e_dialog_combo_box_get (prefs->ba_reminder_units, default_reminder_units_map);
+
+	calendar_config_set_ba_reminder (NULL, NULL, &units);
+}
+
+static void
 alarms_selection_changed (ESourceSelector *selector, CalendarPrefsDialog *prefs)
 {
 	ESourceList *source_list = prefs->alarms_list;
@@ -506,6 +535,11 @@ setup_changes (CalendarPrefsDialog *prefs)
 	g_signal_connect (G_OBJECT (prefs->default_reminder_interval), "changed",
 			  G_CALLBACK (default_reminder_interval_changed), prefs);
 	g_signal_connect (G_OBJECT (prefs->default_reminder_units), "changed", G_CALLBACK (default_reminder_units_changed), prefs);
+
+	g_signal_connect (G_OBJECT (prefs->ba_reminder), "toggled", G_CALLBACK (ba_reminder_toggled), prefs);
+	g_signal_connect (G_OBJECT (prefs->ba_reminder_interval), "changed",
+			  G_CALLBACK (ba_reminder_interval_changed), prefs);
+	g_signal_connect (G_OBJECT (prefs->ba_reminder_units), "changed", G_CALLBACK (ba_reminder_units_changed), prefs);
 
 	g_signal_connect (G_OBJECT (prefs->alarm_list_widget), "selection_changed", G_CALLBACK (alarms_selection_changed), prefs);
 
@@ -600,6 +634,8 @@ show_config (CalendarPrefsDialog *prefs)
 	gboolean sensitive, set = FALSE;
 	icalcomponent *icalcomp, *dl_comp;
 	char *location;
+	CalUnits units;
+	int interval;
 
 	/* Timezone. */
 	location = calendar_config_get_timezone ();
@@ -678,6 +714,13 @@ show_config (CalendarPrefsDialog *prefs)
 	e_dialog_toggle_set (prefs->default_reminder, calendar_config_get_use_default_reminder ());
 	e_dialog_spin_set (prefs->default_reminder_interval, calendar_config_get_default_reminder_interval ());
 	e_dialog_combo_box_set (prefs->default_reminder_units, calendar_config_get_default_reminder_units (), default_reminder_units_map);
+
+	/* Birthdays & Anniversaries reminder */
+	set = calendar_config_get_ba_reminder (&interval, &units);
+
+	e_dialog_toggle_set (prefs->ba_reminder, set);
+	e_dialog_spin_set (prefs->ba_reminder_interval, interval);
+	e_dialog_combo_box_set (prefs->ba_reminder_units, units, default_reminder_units_map);
 }
 
 /* plugin meta-data */
@@ -759,6 +802,9 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs)
 	prefs->default_reminder = glade_xml_get_widget (gui, "default_reminder");
 	prefs->default_reminder_interval = glade_xml_get_widget (gui, "default_reminder_interval");
 	prefs->default_reminder_units = glade_xml_get_widget (gui, "default_reminder_units");
+	prefs->ba_reminder = glade_xml_get_widget (gui, "ba_reminder");
+	prefs->ba_reminder_interval = glade_xml_get_widget (gui, "ba_reminder_interval");
+	prefs->ba_reminder_units = glade_xml_get_widget (gui, "ba_reminder_units");
 
 	/* Display tab */
 	prefs->time_divisions = glade_xml_get_widget (gui, "time_divisions");

@@ -106,6 +106,22 @@ units_to_string (CalUnits units)
 	}
 }
 
+/* opposite function to 'units_to_string' */
+static CalUnits
+string_to_units (const char *units)
+{
+	CalUnits res;
+
+	if (units && !strcmp (units, "days"))
+		res = CAL_DAYS;
+	else if (units && !strcmp (units, "hours"))
+		res = CAL_HOURS;
+	else
+		res = CAL_MINUTES;
+
+	return res;
+}
+
 /*
  * Calendar Settings.
  */
@@ -1454,13 +1470,7 @@ calendar_config_get_default_reminder_units (void)
 	calendar_config_init ();
 
 	units = gconf_client_get_string (config, CALENDAR_CONFIG_DEFAULT_REMINDER_UNITS, NULL);
-
-	if (units && !strcmp (units, "days"))
-		cu = CAL_DAYS;
-	else if (units && !strcmp (units, "hours"))
-		cu = CAL_HOURS;
-	else
-		cu = CAL_MINUTES;
+	cu = string_to_units (units);
 	g_free (units);
 
 	return cu;
@@ -1478,6 +1488,59 @@ calendar_config_set_default_reminder_units (CalUnits units)
 	calendar_config_init ();
 
 	gconf_client_set_string (config, CALENDAR_CONFIG_DEFAULT_REMINDER_UNITS, units_to_string(units), NULL);
+}
+
+/**
+ * calendar_config_get_ba_reminder:
+ * Retrieves setup of the Birthdays & Anniversaries reminder.
+ *
+ * @interval: Retrieves the interval setup for the reminder; can be NULL.
+ * @units: Retrieves units for the interval; can be NULL.
+ *
+ * Returns whether the reminder is on or off. The values for interval and/or units
+ * are retrieved even when returns FALSE.
+ **/
+gboolean
+calendar_config_get_ba_reminder (int *interval, CalUnits *units)
+{
+	calendar_config_init ();
+
+	if (interval) {
+		*interval = gconf_client_get_int (config, CALENDAR_CONFIG_BA_REMINDER_INTERVAL, NULL);
+	}
+
+	if (units) {
+		char *str;
+
+		str = gconf_client_get_string (config, CALENDAR_CONFIG_BA_REMINDER_UNITS, NULL);
+		*units = string_to_units (str);
+		g_free (str);
+	}
+
+	return gconf_client_get_bool (config, CALENDAR_CONFIG_BA_REMINDER, NULL);
+}
+
+/**
+ * calendar_config_set_ba_reminder:
+ * Stores new values for Birthdays & Anniversaries reminder to GConf. Only those, which are not NULL.
+ *
+ * @enabled: The enabled state; can be NULL.
+ * @interval: The reminder interval; can be NULL.
+ * @units: The units of the reminder; can be NULL.
+ **/
+void
+calendar_config_set_ba_reminder (gboolean *enabled, int *interval, CalUnits *units)
+{
+	calendar_config_init ();
+
+	if (enabled)
+		gconf_client_set_bool (config, CALENDAR_CONFIG_BA_REMINDER, *enabled, NULL);
+
+	if (interval)
+		gconf_client_set_int (config, CALENDAR_CONFIG_BA_REMINDER_INTERVAL, *interval, NULL);
+
+	if (units)
+		gconf_client_set_string (config, CALENDAR_CONFIG_BA_REMINDER_UNITS, units_to_string (*units), NULL);
 }
 
 /**

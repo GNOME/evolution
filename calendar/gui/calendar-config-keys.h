@@ -96,6 +96,11 @@ G_BEGIN_DECLS
 #define CALENDAR_CONFIG_TEMPLATE CALENDAR_CONFIG_PREFIX"/publish/template"
 
 #define CALENDAR_CONFIG_SAVE_DIR CALENDAR_CONFIG_PREFIX"/audio_dir"
+
+/* Birthday & Anniversary reminder */
+#define CALENDAR_CONFIG_BA_REMINDER CALENDAR_CONFIG_PREFIX "/other/use_ba_reminder"
+#define CALENDAR_CONFIG_BA_REMINDER_INTERVAL CALENDAR_CONFIG_PREFIX "/other/ba_reminder_interval"
+#define CALENDAR_CONFIG_BA_REMINDER_UNITS CALENDAR_CONFIG_PREFIX "/other/ba_reminder_units"
 G_END_DECLS
 
 #endif
