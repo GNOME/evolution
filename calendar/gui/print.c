@@ -1061,13 +1061,33 @@ print_attendees (GtkPrintContext *context, PangoFontDescription *font, cairo_t *
 	return top;
 }
 
+static char *
+get_summary_with_location (icalcomponent *icalcomp)
+{
+	const gchar *summary, *location;
+	char *text;
+
+	g_return_val_if_fail (icalcomp != NULL, NULL);
+
+	summary = icalcomponent_get_summary (icalcomp);
+	text = summary ? (char*) summary : "";
+
+	location = icalcomponent_get_location (icalcomp);
+	if (location && *location) {
+		text = g_strdup_printf ("%s (%s)", text, location);
+	} else {
+		text = g_strdup (text);
+	}
+
+	return text;
+}
+
 static void
 print_day_long_event (GtkPrintContext *context, PangoFontDescription *font,
 		      double left, double right, double top, double bottom,
 		      double row_height, EDayViewEvent *event,
 		      struct pdinfo *pdi, ECalModel *model)
 {
-	const gchar *summary;
 	double x1, x2, y1, y2;
 	double left_triangle_width = -1.0, right_triangle_width = -1.0;
 	char *text;
@@ -1133,12 +1153,13 @@ print_day_long_event (GtkPrintContext *context, PangoFontDescription *font,
 	}
 
 	/* Print the text. */
-	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
-	text = summary ? (char*) summary : "";
+	text = get_summary_with_location (event->comp_data->icalcomp);
 
 	x1 += 4;
 	x2 -= 4;
 	print_text (context, font, text, PANGO_ALIGN_CENTER, x1, x2, y1, y2);
+
+	g_free (text);
 }
 
 
@@ -1147,11 +1168,10 @@ print_day_event (GtkPrintContext *context, PangoFontDescription *font,
 		 double left, double right, double top, double bottom,
 		 EDayViewEvent *event, struct pdinfo *pdi, ECalModel *model)
 {
-	const gchar *summary, *location;
 	double x1, x2, y1, y2, col_width, row_height;
 	int start_offset, end_offset, start_row, end_row;
 	char *text, start_buffer[32], end_buffer[32];
-	gboolean display_times = FALSE, free_text = FALSE;
+	gboolean display_times = FALSE;
 	struct tm date_tm;
 	double red, green, blue;
 
@@ -1187,14 +1207,7 @@ print_day_event (GtkPrintContext *context, PangoFontDescription *font,
 	e_cal_model_get_rgb_color_for_component (model, event->comp_data, &red, &green, &blue);
 	print_border_rgb (context, x1, x2, y1, y2, 1.0, red, green, blue);
 
-	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
-	text = summary ? (char*) summary : "";
-
-	location = icalcomponent_get_location (event->comp_data->icalcomp);
-	if (location && *location) {
-		text = g_strdup_printf ("%s (%s)", text, location);
-		free_text = TRUE;
-	}
+	text = get_summary_with_location (event->comp_data->icalcomp);
 
 	if (display_times) {
 		gchar *t = NULL;
@@ -1216,22 +1229,16 @@ print_day_event (GtkPrintContext *context, PangoFontDescription *font,
 		e_time_format_time (&date_tm, pdi->use_24_hour_format, FALSE,
 				    end_buffer, sizeof (end_buffer));
 
-		if (free_text)
-			t = text;
-
+		t = text;
 		text = g_strdup_printf ("%s - %s %s ", start_buffer,
 					end_buffer, text);
 
-		free_text = TRUE;
-
-		if (t)
-			g_free (t);
+		g_free (t);
 	}
 
 	bound_text (context, font, text, -1, x1 + 2, y1, x2 - 2, y2, FALSE, NULL, NULL);
 
-	if (free_text)
-		g_free (text);
+	g_free (text);
 }
 
 
@@ -1494,15 +1501,13 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 {
 	EWeekViewEventSpan *span;
 	gint span_num;
-	const gchar *summary;
 	char *text;
 	int num_days, start_x, start_y, start_h, end_x, end_y, end_h;
 	double x1, x2, y1, y2;
 	double red, green, blue;
 	GdkPixbuf *pixbuf = NULL;
 
-	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
-	text = summary ? (char*) summary : "";
+	text = get_summary_with_location (event->comp_data->icalcomp);
 
 	for (span_num = 0; span_num < event->num_spans; span_num++) {
 		span = &g_array_index (spans, EWeekViewEventSpan,
@@ -1607,6 +1612,8 @@ print_week_event (GtkPrintContext *context, PangoFontDescription *font,
 
 	if (pixbuf)
 		g_object_unref (pixbuf);
+
+	g_free (text);
 }
 
 
