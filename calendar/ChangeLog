@@ -1,5 +1,17 @@
 2009-01-19  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #567850
+
+	* gui/e-cal-model.h: (e_cal_model_set_default_time_func):
+	* gui/e-cal-model.c: (struct _ECalModelPrivate), (ecm_append_row),
+	(e_cal_model_set_default_time_func):
+	New functionality to retrieve a default time for a model's new
+	event created from a "click-to-add" row.
+	* gui/gnome-cal.c: (gc_get_default_time), (setup_widgets):
+	Set the new time callback for the memo table.
+
+2009-01-19  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #550735
 
 	* gui/print.c: (get_summary_with_location), (print_day_long_event),

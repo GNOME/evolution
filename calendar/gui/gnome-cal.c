@@ -1595,6 +1595,20 @@ gnome_calendar_get_tag (GnomeCalendar *gcal)
 	return GTK_WIDGET (gcal->priv->date_navigator);
 }
 
+static time_t
+gc_get_default_time (ECalModel *model, gpointer user_data)
+{
+	GnomeCalendar *gcal = user_data;
+	time_t res = 0, end;
+
+	g_return_val_if_fail (model != NULL, 0);
+	g_return_val_if_fail (GNOME_IS_CALENDAR (user_data), 0);
+
+	gnome_calendar_get_current_time_range (gcal, &res, &end);
+
+	return res;
+}
+
 static void
 setup_widgets (GnomeCalendar *gcal)
 {
@@ -1820,6 +1834,8 @@ setup_widgets (GnomeCalendar *gcal)
 	filename = g_build_filename (memos_component_peek_config_directory (memos_component_peek ()),
 				     "MemoPad", NULL);
 	e_memo_table_load_state (E_MEMO_TABLE (priv->memo), filename);
+
+	e_cal_model_set_default_time_func (e_memo_table_get_model (E_MEMO_TABLE (priv->memo)), gc_get_default_time, gcal);
 
 	update_memo_view (gcal);
 	g_free (filename);

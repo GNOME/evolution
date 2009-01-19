@@ -121,6 +121,8 @@ typedef struct {
 	void (* cal_view_done) (ECalModel *model, ECalendarStatus status, ECalSourceType type);
 } ECalModelClass;
 
+typedef time_t (*ECalModelDefaultTimeFunc)(ECalModel *model, gpointer user_data);
+
 GType               e_cal_model_get_type                       (void);
 GType 		    e_cal_model_component_get_type 	       (void);
 icalcomponent_kind  e_cal_model_get_component_kind             (ECalModel           *model);
@@ -183,6 +185,8 @@ void e_cal_model_set_instance_times (ECalModelComponent *comp_data, const icalti
 void e_cal_model_set_search_query_with_time_range (ECalModel *model, const char *sexp, time_t start, time_t end);
 
 gboolean e_cal_model_test_row_editable (ECalModel *model, int row);
+
+void e_cal_model_set_default_time_func (ECalModel *model, ECalModelDefaultTimeFunc func, gpointer user_data);
 
 G_END_DECLS
 
