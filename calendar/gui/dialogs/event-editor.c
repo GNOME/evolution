@@ -99,7 +99,7 @@ static const gchar *ui =
 "</ui>";
 
 static void event_editor_edit_comp (CompEditor *editor, ECalComponent *comp);
-static gboolean event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method);
+static gboolean event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean strip_alarms);
 
 G_DEFINE_TYPE (EventEditor, event_editor, TYPE_COMP_EDITOR)
 
@@ -620,7 +620,7 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 }
 
 static gboolean
-event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method)
+event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean strip_alarms)
 {
 	EventEditorPrivate *priv;
 	ECalComponent *comp = NULL;
@@ -639,7 +639,7 @@ event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 
 		client = e_meeting_store_get_e_cal (priv->model);
 		result = itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
-				client, NULL, NULL, NULL);
+				client, NULL, NULL, NULL, strip_alarms);
 		g_object_unref (comp);
 
 		return result;
@@ -647,7 +647,7 @@ event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 
  parent:
 	if (COMP_EDITOR_CLASS (event_editor_parent_class)->send_comp)
-		return COMP_EDITOR_CLASS (event_editor_parent_class)->send_comp (editor, method);
+		return COMP_EDITOR_CLASS (event_editor_parent_class)->send_comp (editor, method, strip_alarms);
 
 	return FALSE;
 }

@@ -630,6 +630,16 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 
 
 	if (!pitip->current_ecal && e_cal_get_object (ecal, fd->uid, fd->rid, &icalcomp, NULL)) {
+		if ((pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST) &&
+		    (icalcomponent_get_first_component (icalcomp, ICAL_VALARM_COMPONENT) ||
+		    icalcomponent_get_first_component (icalcomp, ICAL_XAUDIOALARM_COMPONENT) ||
+		    icalcomponent_get_first_component (icalcomp, ICAL_XDISPLAYALARM_COMPONENT) ||
+		    icalcomponent_get_first_component (icalcomp, ICAL_XPROCEDUREALARM_COMPONENT) ||
+		    icalcomponent_get_first_component (icalcomp, ICAL_XEMAILALARM_COMPONENT)))
+			itip_view_set_show_keep_alarm_check (ITIP_VIEW (pitip->view), TRUE);
+		else
+			itip_view_set_show_keep_alarm_check (ITIP_VIEW (pitip->view), FALSE);
+
 		icalcomponent_free (icalcomp);
 
 		pitip->current_ecal = ecal;
@@ -652,7 +662,8 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 						      _("Found the appointment in the calendar '%s'"), e_source_peek_name (source));
 
 		set_buttons_sensitive (pitip);
-	}
+	} else if (!pitip->current_ecal)
+		itip_view_set_show_keep_alarm_check (ITIP_VIEW (pitip->view), FALSE);
 
 	if (pitip->current_ecal) {
 		if (e_cal_get_static_capability (pitip->current_ecal, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER)) {
@@ -991,6 +1002,19 @@ update_item (struct _itip_puri *pitip, ItipViewResponse response)
 	icalcomponent_add_component (pitip->top_level, clone);
 	icalcomponent_set_method (pitip->top_level, pitip->method);
 
+	if (!itip_view_get_inherit_alarm_check_state (ITIP_VIEW (pitip->view))) {
+		icalcomponent *alarm_comp;
+		icalcompiter alarm_iter;
+
+		alarm_iter = icalcomponent_begin_component (clone, ICAL_VALARM_COMPONENT);
+		while ((alarm_comp = icalcompiter_deref (&alarm_iter)) != NULL) {
+			icalcompiter_next (&alarm_iter);
+
+			icalcomponent_remove_component (clone, alarm_comp);
+			icalcomponent_free (alarm_comp);
+		}
+	}
+
 	clone_comp = e_cal_component_new ();
 	if (!e_cal_component_set_icalcomponent (clone_comp, clone)) {
 		itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, _("Unable to parse item"));
@@ -998,6 +1022,35 @@ update_item (struct _itip_puri *pitip, ItipViewResponse response)
 		goto cleanup;
 	}
 	source = e_cal_get_source (pitip->current_ecal);
+
+	if (itip_view_get_keep_alarm_check_state (ITIP_VIEW (pitip->view))) {
+		ECalComponent *real_comp;
+		GList *alarms, *l;
+		ECalComponentAlarm *alarm;
+
+		real_comp = get_real_item (pitip);
+		if (real_comp != NULL) {
+			alarms = e_cal_component_get_alarm_uids (real_comp);
+
+			for (l = alarms; l; l = l->next) {
+				alarm = e_cal_component_get_alarm (real_comp, (const char *)l->data);
+
+				if (alarm) {
+					ECalComponentAlarm *aclone = e_cal_component_alarm_clone (alarm);
+
+					if (aclone) {
+						e_cal_component_add_alarm (clone_comp, aclone);
+						e_cal_component_alarm_free (aclone);
+					}
+
+					e_cal_component_alarm_free (alarm);
+				}
+			}
+
+			cal_obj_uid_list_free (alarms);
+			g_object_unref (real_comp);
+		}
+	}
 
 	if ((response != ITIP_VIEW_RESPONSE_CANCEL)
 		&& (response != ITIP_VIEW_RESPONSE_DECLINE)){
@@ -1160,7 +1213,7 @@ send_comp_to_attendee (ECalComponentItipMethod method, ECalComponent *comp, cons
 	}
 
 	/* FIXME send the attachments in the request */
-	status = itip_send_comp (method, send_comp, client, NULL, NULL, NULL);
+	status = itip_send_comp (method, send_comp, client, NULL, NULL, NULL, TRUE);
 
 	g_object_unref (send_comp);
 
@@ -1310,7 +1363,7 @@ update_attendee_status (struct _itip_puri *pitip)
 
 		if (itip_view_get_update (ITIP_VIEW (pitip->view))) {
 			e_cal_component_commit_sequence (comp);
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, pitip->current_ecal, NULL, NULL, NULL);
+			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, pitip->current_ecal, NULL, NULL, NULL, TRUE);
 		}
 
 		if (!e_cal_modify_object (pitip->current_ecal, icalcomp, rid ? CALOBJ_MOD_THIS : CALOBJ_MOD_ALL, &error)) {
@@ -1340,7 +1393,7 @@ send_item (struct _itip_puri *pitip)
 	comp = get_real_item (pitip);
 
 	if (comp != NULL) {
-		itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, pitip->current_ecal, NULL, NULL, NULL);
+		itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, pitip->current_ecal, NULL, NULL, NULL, TRUE);
 		g_object_unref (comp);
 
 		switch (pitip->type) {
@@ -1421,7 +1474,7 @@ set_itip_error (struct _itip_puri *pitip, GtkContainer *container, const char *p
 }
 
 static gboolean
-extract_itip_data (struct _itip_puri *pitip, GtkContainer *container)
+extract_itip_data (struct _itip_puri *pitip, GtkContainer *container, gboolean *have_alarms)
 {
 	icalproperty *prop;
 	icalcomponent_kind kind = ICAL_NO_COMPONENT;
@@ -1581,13 +1634,23 @@ extract_itip_data (struct _itip_puri *pitip, GtkContainer *container)
 			prop = icalcomponent_get_next_property (pitip->ical_comp, ICAL_X_PROPERTY);
 		}
 
-		/* Strip out alarms for security purposes */
+		/* Strip out procedural alarms for security purposes */
 		alarm_iter = icalcomponent_begin_component (pitip->ical_comp, ICAL_VALARM_COMPONENT);
 		while ((alarm_comp = icalcompiter_deref (&alarm_iter)) != NULL) {
+			icalproperty *p;
+
 			icalcompiter_next (&alarm_iter);
 
-			icalcomponent_remove_component (pitip->ical_comp, alarm_comp);
+			p = icalcomponent_get_first_property (alarm_comp, ICAL_ACTION_PROPERTY);
+			if (icalproperty_get_action (p) == ICAL_ACTION_PROCEDURE)
+				icalcomponent_remove_component (pitip->ical_comp, alarm_comp);
+
 			icalcomponent_free (alarm_comp);
+		}
+
+		if (have_alarms) {
+			alarm_iter = icalcomponent_begin_component (pitip->ical_comp, ICAL_VALARM_COMPONENT);
+			*have_alarms = icalcompiter_deref (&alarm_iter) != NULL;
 		}
 	}
 
@@ -1911,7 +1974,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 		}
 
                 e_cal_component_rescan (comp);
-                if (itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, pitip->current_ecal, pitip->top_level, NULL, NULL)) {
+                if (itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, pitip->current_ecal, pitip->top_level, NULL, NULL, TRUE)) {
 			camel_folder_set_message_flags (pitip->folder, pitip->uid, CAMEL_MESSAGE_ANSWERED, CAMEL_MESSAGE_ANSWERED);
 		}
 
@@ -1974,6 +2037,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	const char *string, *org;
 	int i;
 	gboolean response_enabled;
+	gboolean have_alarms = FALSE;
 
 	info = (struct _itip_puri *) em_format_find_puri((EMFormat *)efh, pobject->classid);
 	
@@ -1991,7 +2055,7 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	}
 
 	/* FIXME Handle multiple VEVENTS with the same UID, ie detached instances */
-	if (!extract_itip_data (info, GTK_CONTAINER (eb)))
+	if (!extract_itip_data (info, GTK_CONTAINER (eb), &have_alarms))
 		return TRUE;
 
 	info->view = itip_view_new ();
@@ -2003,6 +2067,8 @@ format_itip_object (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject 
 	if (!response_enabled) {
 		itip_view_set_mode (ITIP_VIEW (info->view), ITIP_VIEW_MODE_HIDE_ALL);
 	} else {
+		itip_view_set_show_inherit_alarm_check (ITIP_VIEW (info->view), have_alarms && (info->method == ICAL_METHOD_PUBLISH || info->method ==  ICAL_METHOD_REQUEST));
+
 		switch (info->method) {
 		case ICAL_METHOD_PUBLISH:
 		case ICAL_METHOD_REQUEST:

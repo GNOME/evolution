@@ -88,7 +88,7 @@ static const gchar *ui =
 "</ui>";
 
 static void task_editor_edit_comp (CompEditor *editor, ECalComponent *comp);
-static gboolean task_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method);
+static gboolean task_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean strip_alarms);
 
 G_DEFINE_TYPE (TaskEditor, task_editor, TYPE_COMP_EDITOR)
 
@@ -446,7 +446,7 @@ task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 }
 
 static gboolean
-task_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method)
+task_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean strip_alarms)
 {
 	TaskEditorPrivate *priv;
 	ECalComponent *comp = NULL;
@@ -465,7 +465,7 @@ task_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 
 		client = e_meeting_store_get_e_cal (priv->model);
 		result = itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
-				client, NULL, NULL, NULL);
+				client, NULL, NULL, NULL, strip_alarms);
 		g_object_unref (comp);
 
 		if (!result)
@@ -474,7 +474,7 @@ task_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 
  parent:
 	if (COMP_EDITOR_CLASS (task_editor_parent_class)->send_comp)
-		return COMP_EDITOR_CLASS (task_editor_parent_class)->send_comp (editor, method);
+		return COMP_EDITOR_CLASS (task_editor_parent_class)->send_comp (editor, method, strip_alarms);
 
 	return FALSE;
 }

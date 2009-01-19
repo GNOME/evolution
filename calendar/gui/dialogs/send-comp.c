@@ -26,10 +26,43 @@
 #include <config.h>
 #endif
 
+#include <glib/gi18n-lib.h>
 #include "e-util/e-error.h"
 #include "send-comp.h"
 
 
+
+static gboolean
+have_nonprocedural_alarm (ECalComponent *comp)
+{
+	GList *uids, *l;
+
+	g_return_val_if_fail (comp != NULL, FALSE);
+
+	uids = e_cal_component_get_alarm_uids (comp);
+
+	for (l = uids; l; l = l->next) {
+		ECalComponentAlarm *alarm;
+		ECalComponentAlarmAction action = E_CAL_COMPONENT_ALARM_UNKNOWN;
+
+		alarm = e_cal_component_get_alarm (comp, (const char *)l->data);
+		if (alarm) {
+			e_cal_component_alarm_get_action (alarm, &action);
+			e_cal_component_alarm_free (alarm);
+
+			if (action != E_CAL_COMPONENT_ALARM_NONE &&
+			    action != E_CAL_COMPONENT_ALARM_PROCEDURE &&
+			    action != E_CAL_COMPONENT_ALARM_UNKNOWN) {
+				cal_obj_uid_list_free (uids);
+				return TRUE;
+			}
+		}
+	}
+
+	cal_obj_uid_list_free (uids);
+
+	return FALSE;
+}
 
 /**
  * send_component_dialog:
@@ -40,10 +73,13 @@
  * Return value: TRUE if the user clicked Yes, FALSE otherwise.
  **/
 gboolean
-send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gboolean new)
+send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gboolean new, gboolean *strip_alarms)
 {
 	ECalComponentVType vtype;
 	const char *id;
+
+	if (strip_alarms)
+		*strip_alarms = TRUE;
 
 	if (e_cal_get_save_schedules (client))
 		return FALSE;
@@ -72,10 +108,32 @@ send_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, gbo
 		return FALSE;
 	}
 
-	if (e_error_run (parent, id, NULL) == GTK_RESPONSE_YES)
-		return TRUE;
-	else
-		return FALSE;
+	if (strip_alarms && have_nonprocedural_alarm (comp)) {
+		GtkWidget *dialog, *checkbox, *align;
+		gboolean res;
+
+		dialog = e_error_new (parent, id, NULL);
+		checkbox = gtk_check_button_new_with_label (_("Send my alarms with this event"));
+		align = gtk_alignment_new (0.5, 0.5, 0.0, 0.0);
+		gtk_container_add (GTK_CONTAINER (align), checkbox);
+		gtk_widget_show (checkbox);
+		gtk_box_pack_end (GTK_BOX (GTK_DIALOG (dialog)->vbox), align, TRUE, TRUE, 6);
+		gtk_widget_show (align);
+
+		res = gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES;
+
+		if (res)
+			*strip_alarms = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox));
+
+		gtk_widget_destroy (GTK_WIDGET (dialog));
+
+		return res;
+	} else {
+		if (e_error_run (parent, id, NULL) == GTK_RESPONSE_YES)
+			return TRUE;
+		else
+			return FALSE;
+	}
 }
 
 gboolean

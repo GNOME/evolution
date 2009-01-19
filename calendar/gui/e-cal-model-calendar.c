@@ -382,8 +382,10 @@ ecmc_set_value_at (ETableModel *etm, int col, int row, const void *value)
 	}
 
 	if (e_cal_modify_object (comp_data->client, comp_data->icalcomp, mod, NULL)) {
+		gboolean strip_alarms = TRUE;
+
 		if (itip_organizer_is_user (comp, comp_data->client) &&
-		    send_component_dialog (NULL, comp_data->client, comp, FALSE)) {
+		    send_component_dialog (NULL, comp_data->client, comp, FALSE, &strip_alarms)) {
 			ECalComponent *send_comp = NULL;
 
 			if (mod == CALOBJ_MOD_ALL && e_cal_component_is_instance (comp)) {
@@ -403,7 +405,7 @@ ecmc_set_value_at (ETableModel *etm, int col, int row, const void *value)
 			}
 
 			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, send_comp ? send_comp : comp,
-					comp_data->client, NULL, NULL, NULL);
+					comp_data->client, NULL, NULL, NULL, strip_alarms);
 
 			if (send_comp)
 				g_object_unref (send_comp);
