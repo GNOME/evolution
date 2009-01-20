@@ -193,10 +193,6 @@ book_shell_view_update_actions (EShellView *shell_view)
 	sensitive = has_primary_source && !primary_source_is_system;
 	gtk_action_set_sensitive (action, sensitive);
 
-	action = ACTION (ADDRESS_BOOK_POPUP_DELETE);
-	sensitive = has_primary_source && !primary_source_is_system;
-	gtk_action_set_sensitive (action, sensitive);
-
 	action = ACTION (ADDRESS_BOOK_RENAME);
 	sensitive = has_primary_source;
 	gtk_action_set_sensitive (action, sensitive);

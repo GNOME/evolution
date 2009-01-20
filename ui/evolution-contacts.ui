@@ -49,7 +49,7 @@
   </toolbar>
   <popup name='address-book-popup'>
     <menuitem action='address-book-new'/>
-    <menuitem action='address-book-rename'/>
+    <menuitem action='address-book-popup-rename'/>
     <menuitem action='address-book-popup-save-as'/>
     <separator/>
     <menuitem action='address-book-popup-delete'/>
@@ -57,23 +57,23 @@
     <menuitem action='address-book-popup-properties'/>
   </popup>
   <popup name='contact-popup'>
-    <menuitem action='contact-open'/>
+    <menuitem action='contact-popup-open'/>
     <separator/>
     <menuitem action='contact-new'/>
     <menuitem action='contact-new-list'/>
     <separator/>
-    <menuitem action='contact-save-as'/>
-    <menuitem action='contact-forward'/>
-    <menuitem action='contact-send-message'/>
-    <menuitem action='contact-print'/>
+    <menuitem action='contact-popup-save-as'/>
+    <menuitem action='contact-popup-forward'/>
+    <menuitem action='contact-popup-send-message'/>
+    <menuitem action='contact-popup-print'/>
     <separator/>
-    <menuitem action='contact-copy'/>
-    <menuitem action='contact-move'/>
+    <menuitem action='contact-popup-copy'/>
+    <menuitem action='contact-popup-move'/>
     <separator/>
-    <menuitem action='contact-clipboard-cut'/>
-    <menuitem action='contact-clipboard-copy'/>
-    <menuitem action='contact-clipboard-paste'/>
-    <menuitem action='contact-delete'/>
+    <menuitem action='contact-popup-clipboard-cut'/>
+    <menuitem action='contact-popup-clipboard-copy'/>
+    <menuitem action='contact-popup-clipboard-paste'/>
+    <menuitem action='contact-popup-delete'/>
   </popup>
   <popup name='contact-search-options'>
     <menuitem action='contact-search-name-contains'/>

@@ -709,30 +709,70 @@ static GtkActionEntry contact_entries[] = {
 	  N_("_Actions"),
 	  NULL,
 	  NULL,
-	  NULL },
+	  NULL }
+};
 
-	/*** Address Book Popup Actions ***/
+static EPopupActionEntry contact_popup_entries[] = {
 
 	{ "address-book-popup-delete",
-	  GTK_STOCK_DELETE,
-	  NULL,
-	  NULL,
-	  N_("Delete this address book"),
-	  G_CALLBACK (action_address_book_delete_cb) },
+	  N_("_Delete"),
+	  "address-book-delete" },
 
 	{ "address-book-popup-properties",
-	  GTK_STOCK_PROPERTIES,
+	  N_("_Properties"),
+	  "address-book-properties" },
+
+	{ "address-book-popup-rename",
 	  NULL,
-	  NULL,
-	  N_("Show properties of this address book"),
-	  G_CALLBACK (action_address_book_properties_cb) },
+	  "address-book-rename" },
 
 	{ "address-book-popup-save-as",
-	  GTK_STOCK_SAVE_AS,
 	  N_("_Save as vCard..."),
+	  "address-book-save-as" },
+
+	{ "contact-popup-clipboard-copy",
 	  NULL,
-	  N_("Save the contents of this address book as a vCard"),
-	  G_CALLBACK (action_address_book_save_as_cb) }
+	  "contact-clipboard-copy" },
+
+	{ "contact-popup-clipboard-cut",
+	  NULL,
+	  "contact-clipboard-cut" },
+
+	{ "contact-popup-clipboard-paste",
+	  NULL,
+	  "contact-clipboard-paste" },
+
+	{ "contact-popup-copy",
+	  NULL,
+	  "contact-copy" },
+
+	{ "contact-popup-delete",
+	  NULL,
+	  "contact-delete" },
+
+	{ "contact-popup-forward",
+	  NULL,
+	  "contact-forward" },
+
+	{ "contact-popup-move",
+	  NULL,
+	  "contact-move" },
+
+	{ "contact-popup-open",
+	  NULL,
+	  "contact-open" },
+
+	{ "contact-popup-print",
+	  NULL,
+	  "contact-print" },
+
+	{ "contact-popup-save-as",
+	  NULL,
+	  "contact-save-as" },
+
+	{ "contact-popup-send-message",
+	  NULL,
+	  "contact-send-message" },
 };
 
 static GtkToggleActionEntry contact_toggle_entries[] = {
@@ -811,6 +851,9 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	gtk_action_group_add_actions (
 		action_group, contact_entries,
 		G_N_ELEMENTS (contact_entries), book_shell_view);
+	e_action_group_add_popup_actions (
+		action_group, contact_popup_entries,
+		G_N_ELEMENTS (contact_popup_entries));
 	gtk_action_group_add_toggle_actions (
 		action_group, contact_toggle_entries,
 		G_N_ELEMENTS (contact_toggle_entries), book_shell_view);

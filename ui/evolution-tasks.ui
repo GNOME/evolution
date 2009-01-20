@@ -43,31 +43,31 @@
   <popup name='task-popup'>
     <menuitem action='task-new'/>
     <separator/>
-    <menuitem action='task-open'/>
-    <menuitem action='task-open-url'/>
-    <menuitem action='task-save-as'/>
-    <menuitem action='task-print'/>
+    <menuitem action='task-popup-open'/>
+    <menuitem action='task-popup-open-url'/>
+    <menuitem action='task-popup-save-as'/>
+    <menuitem action='task-popup-print'/>
     <separator/>
-    <menuitem action='task-clipboard-cut'/>
-    <menuitem action='task-clipboard-copy'/>
-    <menuitem action='task-clipboard-paste'/>
+    <menuitem action='task-popup-clipboard-cut'/>
+    <menuitem action='task-popup-clipboard-copy'/>
+    <menuitem action='task-popup-clipboard-paste'/>
     <separator/>
-    <menuitem action='task-assign'/>
-    <menuitem action='task-forward'/>
-    <menuitem action='task-mark-complete'/>
-    <menuitem action='task-mark-incomplete'/>
+    <menuitem action='task-popup-assign'/>
+    <menuitem action='task-popup-forward'/>
+    <menuitem action='task-popup-mark-complete'/>
+    <menuitem action='task-popup-mark-incomplete'/>
     <separator/>
-    <menuitem action='task-delete'/>
+    <menuitem action='task-popup-delete'/>
   </popup>
   <popup name='task-list-popup'>
     <menuitem action='task-list-new'/>
-    <menuitem action='task-list-copy'/>
-    <menuitem action='task-list-rename'/>
+    <menuitem action='task-list-popup-copy'/>
+    <menuitem action='task-list-popup-rename'/>
     <separator/>
-    <menuitem action='task-list-delete'/>
-    <menuitem action='task-list-select-one'/>
+    <menuitem action='task-list-popup-delete'/>
+    <menuitem action='task-list-popup-select-one'/>
     <separator/>
-    <menuitem action='task-list-properties'/>
+    <menuitem action='task-list-popup-properties'/>
   </popup>
   <popup name='task-search-options'>
     <menuitem action='task-search-summary-contains'/>

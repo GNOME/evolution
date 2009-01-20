@@ -34,6 +34,7 @@
 #include "e-util/e-error.h"
 #include "e-util/e-util.h"
 #include "e-util/gconf-bridge.h"
+#include "widgets/misc/e-popup-action.h"
 
 #include "calendar/common/authentication.h"
 #include "calendar/gui/calendar-config.h"

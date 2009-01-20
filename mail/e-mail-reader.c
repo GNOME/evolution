@@ -31,9 +31,11 @@
 #endif
 
 #include "e-util/e-util.h"
+#include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
 #include "shell/e-shell.h"
 #include "widgets/misc/e-charset-picker.h"
+#include "widgets/misc/e-popup-action.h"
 
 #include "mail/e-mail-browser.h"
 #include "mail/e-mail-reader-utils.h"
@@ -872,7 +874,6 @@ action_mail_select_all_cb (GtkAction *action,
                            EMailReader *reader)
 {
 	EMFormatHTMLDisplay *html_display;
-	GtkActionGroup *action_group;
 	GtkHTML *html;
 	const gchar *action_name;
 	gboolean selection_active;
@@ -883,8 +884,7 @@ action_mail_select_all_cb (GtkAction *action,
 	gtk_html_select_all (html);
 
 	action_name = "mail-clipboard-copy";
-	action_group = e_mail_reader_get_action_group (reader);
-	action = gtk_action_group_get_action (action_group, action_name);
+	action = e_mail_reader_get_action (reader, action_name);
 	selection_active = gtk_html_command (html, "is-selection-active");
 	gtk_action_set_sensitive (action, selection_active);
 }
@@ -1484,57 +1484,6 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Decrease the text size"),
 	  G_CALLBACK (action_mail_zoom_out_cb) },
 
-	/*** Popup Menu Variations ***/
-
-	{ "mail-popup-flag-for-followup",
-	  "stock_mail-flag-for-followup",
-	  N_("Mark for Follo_w Up..."),
-	  NULL,
-	  N_("Flag the selected messages for follow-up"),
-	  G_CALLBACK (action_mail_flag_for_followup_cb) },
-
-	{ "mail-popup-mark-important",
-	  "mail-mark-important",
-	  N_("Mark as _Important"),
-	  NULL,
-	  N_("Mark the selected messages as important"),
-	  G_CALLBACK (action_mail_mark_important_cb) },
-
-	{ "mail-popup-mark-junk",
-	  "mail-mark-junk",
-	  N_("Mark as _Junk"),
-	  NULL,
-	  N_("Mark the selected messages as junk"),
-	  G_CALLBACK (action_mail_mark_junk_cb) },
-
-	{ "mail-popup-mark-notjunk",
-	  "mail-mark-notjunk",
-	  N_("Mark as _Not Junk"),
-	  NULL,
-	  N_("Mark the selected messages as not being junk"),
-	  G_CALLBACK (action_mail_mark_notjunk_cb) },
-
-	{ "mail-popup-mark-read",
-	  "mail-mark-read",
-	  N_("Mark as _Read"),
-	  NULL,
-	  N_("Mark the selected messages as having been read"),
-	  G_CALLBACK (action_mail_mark_read_cb) },
-
-	{ "mail-popup-mark-unimportant",
-	  NULL,
-	  N_("Mark as Uni_mportant"),
-	  NULL,
-	  N_("Mark the selected message as unimportant"),
-	  G_CALLBACK (action_mail_mark_unimportant_cb) },
-
-	{ "mail-popup-mark-unread",
-	  "mail-mark-unread",
-	  N_("Mark as _Unread"),
-	  NULL,
-	  N_("Mark the selected messages as not having been read"),
-	  G_CALLBACK (action_mail_mark_unread_cb) },
-
 	/*** Menus ***/
 
 	{ "mail-create-rule-menu",
@@ -1601,6 +1550,77 @@ static GtkActionEntry mail_reader_entries[] = {
 	  NULL }
 };
 
+static EPopupActionEntry mail_reader_popup_entries[] = {
+
+	{ "mail-popup-copy",
+	  NULL,
+	  "mail-copy" },
+
+	{ "mail-popup-delete",
+	  NULL,
+	  "mail-delete" },
+
+	{ "mail-popup-flag-for-followup",
+	  N_("Mark for Follo_w Up..."),
+	  "mail-flag-for-followup" },
+
+	{ "mail-popup-forward",
+	  NULL,
+	  "mail-forward" },
+
+	{ "mail-popup-mark-important",
+	  N_("Mark as _Important"),
+	  "mail-mark-important" },
+
+	{ "mail-popup-mark-junk",
+	  N_("Mark as _Junk"),
+	  "mail-mark-junk" },
+
+	{ "mail-popup-mark-notjunk",
+	  N_("Mark as _Not Junk"),
+	  "mail-mark-notjunk" },
+
+	{ "mail-popup-mark-read",
+	  N_("Mark as _Read"),
+	  "mail-mark-read" },
+
+	{ "mail-popup-mark-unimportant",
+	  N_("Mark as Uni_mportant"),
+	  "mail-mark-unimportant" },
+
+	{ "mail-popup-mark-unread",
+	  N_("Mark as _Unread"),
+	  "mail-mark-unread" },
+
+	{ "mail-popup-message-edit",
+	  NULL,
+	  "mail-message-edit" },
+
+	{ "mail-popup-move",
+	  NULL,
+	  "mail-move" },
+
+	{ "mail-popup-print",
+	  NULL,
+	  "mail-print" },
+
+	{ "mail-popup-reply-all",
+	  NULL,
+	  "mail-reply-all" },
+
+	{ "mail-popup-reply-sender",
+	  NULL,
+	  "mail-reply-sender" },
+
+	{ "mail-popup-save-as",
+	  NULL,
+	  "mail-save-as" },
+
+	{ "mail-popup-undelete",
+	  NULL,
+	  "mail-undelete" }
+};
+
 static GtkToggleActionEntry mail_reader_toggle_entries[] = {
 
 	{ "mail-caret-mode",
@@ -1659,14 +1679,12 @@ mail_reader_html_button_release_event_cb (EMailReader *reader,
                                           GdkEventButton *button,
                                           GtkHTML *html)
 {
-	GtkActionGroup *action_group;
 	GtkAction *action;
 	const gchar *action_name;
 	gboolean selection_active;
 
 	action_name = "mail-clipboard-copy";
-	action_group = e_mail_reader_get_action_group (reader);
-	action = gtk_action_group_get_action (action_group, action_name);
+	action = e_mail_reader_get_action (reader, action_name);
 	selection_active = gtk_html_command (html, "is-selection-active");
 	gtk_action_set_sensitive (action, selection_active);
 
@@ -1859,6 +1877,8 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 		gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
 		camel_exception_clear (ex);
 	}
+
+	e_mail_reader_update_actions (reader);
 
 	/* We referenced this in the call to mail_get_messagex(). */
 	g_object_unref (reader);
@@ -2066,6 +2086,9 @@ e_mail_reader_init (EMailReader *reader)
 	gtk_action_group_add_actions (
 		action_group, mail_reader_entries,
 		G_N_ELEMENTS (mail_reader_entries), reader);
+	e_action_group_add_popup_actions (
+		action_group, mail_reader_popup_entries,
+		G_N_ELEMENTS (mail_reader_popup_entries));
 	gtk_action_group_add_toggle_actions (
 		action_group, mail_reader_toggle_entries,
 		G_N_ELEMENTS (mail_reader_toggle_entries), reader);
@@ -2078,34 +2101,34 @@ e_mail_reader_init (EMailReader *reader)
 
 	action_name = "mail-caret-mode";
 	key = "/apps/evolution/mail/display/caret_mode";
-	action = gtk_action_group_get_action (action_group, action_name);
+	action = e_mail_reader_get_action (reader, action_name);
 	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
 
 	action_name = "mail-show-all-headers";
 	key = "/apps/evolution/mail/display/show_all_headers";
-	action = gtk_action_group_get_action (action_group, action_name);
+	action = e_mail_reader_get_action (reader, action_name);
 	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
 
 	/* Fine tuning. */
 
 	action_name = "mail-clipboard-copy";
-	action = gtk_action_group_get_action (action_group, action_name);
+	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, FALSE);
 
 	action_name = "mail-delete";
-	action = gtk_action_group_get_action (action_group, action_name);
+	action = e_mail_reader_get_action (reader, action_name);
 	g_object_set (action, "short-label", _("Delete"), NULL);
 
 	action_name = "mail-next";
-	action = gtk_action_group_get_action (action_group, action_name);
+	action = e_mail_reader_get_action (reader, action_name);
 	g_object_set (action, "short-label", _("Next"), NULL);
 
 	action_name = "mail-previous";
-	action = gtk_action_group_get_action (action_group, action_name);
+	action = e_mail_reader_get_action (reader, action_name);
 	g_object_set (action, "short-label", _("Previous"), NULL);
 
 	action_name = "mail-reply-sender";
-	action = gtk_action_group_get_action (action_group, action_name);
+	action = e_mail_reader_get_action (reader, action_name);
 	g_object_set (action, "short-label", _("Reply"), NULL);
 
 	/* Connect signals. */
@@ -2145,6 +2168,405 @@ e_mail_reader_changed (EMailReader *reader)
 	g_return_if_fail (E_IS_MAIL_READER (reader));
 
 	g_signal_emit (reader, signals[CHANGED], 0);
+}
+
+guint32
+e_mail_reader_check_state (EMailReader *reader)
+{
+	MessageList *message_list;
+	GPtrArray *uids;
+	CamelFolder *folder;
+	CamelStore *store = NULL;
+	const gchar *folder_uri;
+	const gchar *tag;
+	gboolean can_clear_flags = FALSE;
+	gboolean can_flag_completed = FALSE;
+	gboolean can_flag_for_followup = FALSE;
+	gboolean has_deleted = FALSE;
+	gboolean has_important = FALSE;
+	gboolean has_junk = FALSE;
+	gboolean has_not_junk = FALSE;
+	gboolean has_read = FALSE;
+	gboolean has_undeleted = FALSE;
+	gboolean has_unimportant = FALSE;
+	gboolean has_unread = FALSE;
+	gboolean draft_or_outbox;
+	guint32 state = 0;
+	guint ii;
+
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), 0);
+
+	message_list = e_mail_reader_get_message_list (reader);
+	uids = message_list_get_selected (message_list);
+	folder_uri = message_list->folder_uri;
+	folder = message_list->folder;
+
+	if (folder != NULL)
+		store = CAMEL_STORE (folder->parent_store);
+
+	draft_or_outbox =
+		em_utils_folder_is_drafts (folder, folder_uri) ||
+		em_utils_folder_is_outbox (folder, folder_uri);
+	if (!draft_or_outbox && store != NULL) {
+		has_junk = !(store->flags & CAMEL_STORE_VJUNK);
+		has_not_junk = TRUE;
+	}
+
+	for (ii = 0; ii < uids->len; ii++) {
+		CamelMessageInfo *info;
+		guint32 flags;
+
+		info = camel_folder_get_message_info (
+			folder, uids->pdata[ii]);
+		if (info == NULL)
+			continue;
+
+		flags = camel_message_info_flags (info);
+
+		if (flags & CAMEL_MESSAGE_SEEN)
+			has_read = TRUE;
+		else
+			has_unread = TRUE;
+
+		if (flags & CAMEL_MESSAGE_DELETED)
+			has_deleted = TRUE;
+		else
+			has_undeleted = TRUE;
+
+		if (flags & CAMEL_MESSAGE_FLAGGED)
+			has_important = TRUE;
+		else
+			has_unimportant = TRUE;
+
+		tag = camel_message_info_user_tag (info, "follow-up");
+		if (tag != NULL && *tag != '\0') {
+			can_clear_flags = TRUE;
+			tag = camel_message_info_user_tag (
+				info, "completed-on");
+			if (tag != NULL && *tag != '\0')
+				can_flag_completed = TRUE;
+		} else
+			can_flag_for_followup = TRUE;
+	}
+
+	if (uids->len == 1)
+		state |= E_MAIL_READER_SELECTION_SINGLE;
+	if (uids->len > 1)
+		state |= E_MAIL_READER_SELECTION_MULTIPLE;
+	if (!draft_or_outbox && uids->len == 1)
+		state |= E_MAIL_READER_SELECTION_CAN_ADD_SENDER;
+#if 0  /* FIXME */
+	if (can_edit)
+		state |= E_MAIL_READER_SELECTION_CAN_EDIT;
+#endif
+	if (can_clear_flags)
+		state |= E_MAIL_READER_SELECTION_FLAG_CLEAR;
+	if (can_flag_completed)
+		state |= E_MAIL_READER_SELECTION_FLAG_COMPLETED;
+	if (can_flag_for_followup)
+		state |= E_MAIL_READER_SELECTION_FLAG_FOLLOWUP;
+	if (has_deleted)
+		state |= E_MAIL_READER_SELECTION_HAS_DELETED;
+	if (has_important)
+		state |= E_MAIL_READER_SELECTION_HAS_IMPORTANT;
+	if (has_junk)
+		state |= E_MAIL_READER_SELECTION_HAS_JUNK;
+	if (has_not_junk)
+		state |= E_MAIL_READER_SELECTION_HAS_NOT_JUNK;
+	if (has_read)
+		state |= E_MAIL_READER_SELECTION_HAS_READ;
+	if (has_undeleted)
+		state |= E_MAIL_READER_SELECTION_HAS_UNDELETED;
+	if (has_unimportant)
+		state |= E_MAIL_READER_SELECTION_HAS_UNIMPORTANT;
+	if (has_unread)
+		state |= E_MAIL_READER_SELECTION_HAS_UNREAD;
+#if 0  /* FIXME */
+	if (has_callto_uri)
+		state |= E_MAIL_READER_SELECTION_HAS_URI_CALLTO;
+	if (has_http_uri)
+		state |= E_MAIL_READER_SELECTION_HAS_URI_HTTP;
+	if (has_mailto_uri)
+		state |= E_MAIL_READER_SELECTION_HAS_URI_MAILTO;
+	if (is_mailing_list)
+		state |= E_MAIL_READER_SELECTION_IS_MAILING_LIST;
+#endif
+
+	em_utils_uids_free (uids);
+
+	return state;
+
+}
+
+void
+e_mail_reader_update_actions (EMailReader *reader)
+{
+	GtkAction *action;
+	GtkActionGroup *action_group;
+	const gchar *action_name;
+	gboolean sensitive;
+	guint32 state;
+
+	/* Be descriptive. */
+	gboolean any_messages_selected;
+	gboolean enable_flag_clear;
+	gboolean enable_flag_completed;
+	gboolean enable_flag_for_followup;
+	gboolean single_message_selected;
+	gboolean multiple_messages_selected;
+	gboolean selection_has_deleted_messages;
+	gboolean selection_has_important_messages;
+	gboolean selection_has_junk_messages;
+	gboolean selection_has_not_junk_messages;
+	gboolean selection_has_read_messages;
+	gboolean selection_has_undeleted_messages;
+	gboolean selection_has_unimportant_messages;
+	gboolean selection_has_unread_messages;
+	gboolean selection_is_mailing_list;
+
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	action_group = e_mail_reader_get_action_group (reader);
+	state = e_mail_reader_check_state (reader);
+
+	single_message_selected =
+		(state & E_MAIL_READER_SELECTION_SINGLE);
+	multiple_messages_selected =
+		(state & E_MAIL_READER_SELECTION_MULTIPLE);
+	/* FIXME Missing booleans */
+	enable_flag_clear =
+		(state & E_MAIL_READER_SELECTION_FLAG_CLEAR);
+	enable_flag_completed =
+		(state & E_MAIL_READER_SELECTION_FLAG_COMPLETED);
+	enable_flag_for_followup =
+		(state & E_MAIL_READER_SELECTION_FLAG_FOLLOWUP);
+	selection_has_deleted_messages =
+		(state & E_MAIL_READER_SELECTION_HAS_DELETED);
+	selection_has_important_messages =
+		(state & E_MAIL_READER_SELECTION_HAS_IMPORTANT);
+	selection_has_junk_messages =
+		(state & E_MAIL_READER_SELECTION_HAS_JUNK);
+	selection_has_not_junk_messages =
+		(state & E_MAIL_READER_SELECTION_HAS_NOT_JUNK);
+	selection_has_read_messages =
+		(state & E_MAIL_READER_SELECTION_HAS_READ);
+	selection_has_undeleted_messages =
+		(state & E_MAIL_READER_SELECTION_HAS_UNDELETED);
+	selection_has_unimportant_messages =
+		(state & E_MAIL_READER_SELECTION_HAS_UNIMPORTANT);
+	selection_has_unread_messages =
+		(state & E_MAIL_READER_SELECTION_HAS_UNREAD);
+	/* FIXME Missing booleans */
+	selection_is_mailing_list =
+		(state & E_MAIL_READER_SELECTION_IS_MAILING_LIST);
+
+	any_messages_selected =
+		(single_message_selected || multiple_messages_selected);
+
+	action_name = "mail-check-for-junk";
+	sensitive = any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-copy";
+	sensitive = any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-delete";
+	sensitive = selection_has_undeleted_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-filters-apply";
+	sensitive = any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-forward";
+	sensitive = any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-forward-attached";
+	sensitive = any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-forward-inline";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-forward-quoted";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-load-images";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-mark-important";
+	sensitive = selection_has_unimportant_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-mark-junk";
+	sensitive = selection_has_not_junk_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-mark-notjunk";
+	sensitive = selection_has_junk_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-mark-read";
+	sensitive = selection_has_unread_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-mark-unimportant";
+	sensitive = selection_has_important_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-mark-unread";
+	sensitive = selection_has_read_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-message-edit";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-message-open";
+	sensitive = any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-move";
+	sensitive = any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-next-important";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-next-thread";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-next-unread";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-previous-important";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-previous-unread";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-print";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-print-preview";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-redirect";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-reply-all";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-reply-list";
+	sensitive = single_message_selected && selection_is_mailing_list;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-reply-post";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-reply-sender";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-save-as";
+	sensitive = any_messages_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-select-all";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-show-source";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-undelete";
+	sensitive = selection_has_deleted_messages;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-zoom-100";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-zoom-in";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+
+	action_name = "mail-zoom-out";
+	sensitive = single_message_selected;
+	action = e_mail_reader_get_action (reader, action_name);
+	gtk_action_set_sensitive (action, sensitive);
+}
+
+GtkAction *
+e_mail_reader_get_action (EMailReader *reader,
+                          const gchar *action_name)
+{
+	GtkActionGroup *action_group;
+	GtkAction *action;
+
+	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
+	g_return_val_if_fail (action_name != NULL, NULL);
+
+	action_group = e_mail_reader_get_action_group (reader);
+	action = gtk_action_group_get_action (action_group, action_name);
+
+	if (action == NULL)
+		g_critical (
+			"%s: action `%s' not found", G_STRFUNC, action_name);
+
+	return action;
 }
 
 GtkActionGroup *
@@ -2284,7 +2706,6 @@ e_mail_reader_create_charset_menu (EMailReader *reader,
                                    GtkUIManager *ui_manager,
                                    guint merge_id)
 {
-	GtkActionGroup *action_group;
 	GtkAction *action;
 	const gchar *action_name;
 	const gchar *path;
@@ -2294,8 +2715,7 @@ e_mail_reader_create_charset_menu (EMailReader *reader,
 	g_return_if_fail (GTK_IS_UI_MANAGER (ui_manager));
 
 	action_name = "mail-charset-default";
-	action_group = e_mail_reader_get_action_group (reader);
-	action = gtk_action_group_get_action (action_group, action_name);
+	action = e_mail_reader_get_action (reader, action_name);
 	g_return_if_fail (action != NULL);
 
 	list = gtk_radio_action_get_group (GTK_RADIO_ACTION (action));

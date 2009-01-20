@@ -22,6 +22,7 @@
       </placeholder>
     </menu>
     <menu action='view-menu'>
+      <separator/>
       <placeholder name='mail-message-list-actions'/>
       <separator/>
       <placeholder name='mail-message-view-actions'>
@@ -124,17 +125,18 @@
     </placeholder>
   </toolbar>
   <popup name='mail-message-popup'>
-    <menuitem action='mail-reply-sender'/>
-    <menuitem action='mail-reply-all'/>
-    <menuitem action='mail-forward'/>
+    <menuitem action='mail-popup-reply-sender'/>
+    <menuitem action='mail-popup-reply-all'/>
+    <menuitem action='mail-popup-forward'/>
     <separator/>
-    <menuitem action='mail-message-edit'/>
-    <menuitem action='mail-save-as'/>
-    <menuitem action='mail-print'/>
+    <menuitem action='mail-popup-message-edit'/>
+    <menuitem action='mail-popup-save-as'/>
+    <menuitem action='mail-popup-print'/>
     <separator/>
-    <menuitem action='mail-delete'/>
-    <menuitem action='mail-copy'/>
-    <menuitem action='mail-move'/>
+    <menuitem action='mail-popup-delete'/>
+    <menuitem action='mail-popup-undelete'/>
+    <menuitem action='mail-popup-copy'/>
+    <menuitem action='mail-popup-move'/>
     <separator/>
     <menuitem action='mail-popup-mark-read'/>
     <menuitem action='mail-popup-mark-unread'/>

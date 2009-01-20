@@ -35,6 +35,7 @@
 #include "e-util/gconf-bridge.h"
 #include "shell/e-shell-content.h"
 #include "shell/e-shell-sidebar.h"
+#include "widgets/misc/e-popup-action.h"
 
 #include "addressbook/gui/contact-editor/e-contact-editor.h"
 #include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"

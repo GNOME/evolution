@@ -48,48 +48,48 @@
   </toolbar>
   <popup name='calendar-popup'>
     <menuitem action='calendar-new'/>
-    <menuitem action='calendar-copy'/>
-    <menuitem action='calendar-rename'/>
+    <menuitem action='calendar-popup-copy'/>
+    <menuitem action='calendar-popup-rename'/>
     <separator/>
-    <menuitem action='calendar-delete'/>
-    <menuitem action='calendar-select-one'/>
+    <menuitem action='calendar-popup-delete'/>
+    <menuitem action='calendar-popup-select-one'/>
     <separator/>
-    <menuitem action='calendar-properties'/>
+    <menuitem action='calendar-popup-properties'/>
   </popup>
   <popup name='calendar-empty-popup'>
     <menuitem action='event-new'/>
     <menuitem action='event-all-day-new'/>
     <menuitem action='event-meeting-new'/>
     <separator/>
-    <menuitem action='event-print'/>
+    <menuitem action='event-popup-print'/>
     <separator/>
-    <menuitem action='event-clipboard-paste'/>
+    <menuitem action='event-popup-clipboard-paste'/>
     <separator/>
     <menuitem action='gal-view-menu'/>
-    <menuitem action='calendar-go-today'/>
-    <menuitem action='calendar-jump-to'/>
+    <menuitem action='calendar-popup-go-today'/>
+    <menuitem action='calendar-popup-jump-to'/>
   </popup>
   <popup name='calendar-event-popup'>
-    <menuitem action='event-open'/>
-    <menuitem action='event-save-as'/>
-    <menuitem action='event-print'/>
+    <menuitem action='event-popup-open'/>
+    <menuitem action='event-popup-save-as'/>
+    <menuitem action='event-popup-print'/>
     <separator/>
-    <menuitem action='event-clipboard-cut'/>
-    <menuitem action='event-clipboard-copy'/>
-    <menuitem action='event-clipboard-paste'/>
+    <menuitem action='event-popup-clipboard-cut'/>
+    <menuitem action='event-popup-clipboard-copy'/>
+    <menuitem action='event-popup-clipboard-paste'/>
     <separator/>
-    <menuitem action='event-copy'/>
-    <menuitem action='event-move'/>
-    <menuitem action='event-delegate'/>
-    <menuitem action='event-schedule'/>
-    <menuitem action='event-forward'/>
-    <menuitem action='event-reply'/>
-    <menuitem action='event-reply-all'/>
+    <menuitem action='event-popup-copy'/>
+    <menuitem action='event-popup-move'/>
+    <menuitem action='event-popup-delegate'/>
+    <menuitem action='event-popup-schedule'/>
+    <menuitem action='event-popup-forward'/>
+    <menuitem action='event-popup-reply'/>
+    <menuitem action='event-popup-reply-all'/>
     <separator/>
-    <menuitem action='event-occurrence-movable'/>
-    <menuitem action='event-delete'/>
-    <menuitem action='event-delete-occurrence'/>
-    <menuitem action='event-delete-occurrence-all'/>
+    <menuitem action='event-popup-occurrence-movable'/>
+    <menuitem action='event-popup-delete'/>
+    <menuitem action='event-popup-delete-occurrence'/>
+    <menuitem action='event-popup-delete-occurrence-all'/>
   </popup>
   <popup name='calendar-memopad-popup'>
     <menuitem action='calendar-memopad-new'/>

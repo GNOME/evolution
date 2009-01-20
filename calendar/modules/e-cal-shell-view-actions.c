@@ -812,14 +812,117 @@ static GtkActionEntry calendar_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_event_schedule_cb) },
 
-        /*** Menus ***/
+	/*** Menus ***/
 
-        { "calendar-actions-menu",
-          NULL,
-          N_("_Actions"),
-          NULL,
-          NULL,
-          NULL }
+	{ "calendar-actions-menu",
+	  NULL,
+	  N_("_Actions"),
+	  NULL,
+	  NULL,
+	  NULL }
+};
+
+static EPopupActionEntry calendar_popup_entries[] = {
+
+	/* FIXME No equivalent main menu items for the any of the calendar
+	 *       popup menu items and for many of the event popup menu items.
+	 *       This is an accessibility issue. */
+
+	{ "calendar-popup-copy",
+	  NULL,
+	  "calendar-copy" },
+
+	{ "calendar-popup-delete",
+	  NULL,
+	  "calendar-delete" },
+
+	{ "calendar-popup-go-today",
+	  NULL,
+	  "calendar-go-today" },
+
+	{ "calendar-popup-jump-to",
+	  NULL,
+	  "calendar-jump-to" },
+
+	{ "calendar-popup-properties",
+	  NULL,
+	  "calendar-properties" },
+
+	{ "calendar-popup-rename",
+	  NULL,
+	  "calendar-rename" },
+
+	{ "calendar-popup-select-one",
+	  NULL,
+	  "calendar-select-one" },
+
+	{ "event-popup-clipboard-copy",
+	  NULL,
+	  "event-clipboard-copy" },
+
+	{ "event-popup-clipboard-cut",
+	  NULL,
+	  "event-clipboard-cut" },
+
+	{ "event-popup-clipboard-paste",
+	  NULL,
+	  "event-clipboard-paste" },
+
+	{ "event-popup-copy",
+	  NULL,
+	  "event-copy" },
+
+	{ "event-popup-delegate",
+	  NULL,
+	  "event-delegate" },
+
+	{ "event-popup-delete",
+	  NULL,
+	  "event-delete" },
+
+	{ "event-popup-delete-occurrence",
+	  NULL,
+	  "event-delete-occurrence" },
+
+	{ "event-popup-delete-occurrence-all",
+	  NULL,
+	  "event-delete-occurrence-all" },
+
+	{ "event-popup-forward",
+	  NULL,
+	  "event-forward" },
+
+	{ "event-popup-move",
+	  NULL,
+	  "event-move" },
+
+	{ "event-popup-occurrence-movable",
+	  NULL,
+	  "event-occurrence-movable" },
+
+	{ "event-popup-open",
+	  NULL,
+	  "event-open" },
+
+	{ "event-popup-print",
+	  NULL,
+	  "event-print" },
+
+	{ "event-popup-reply",
+	  NULL,
+	  "event-reply" },
+
+	{ "event-popup-reply-all",
+	  NULL,
+	  "event-reply-all" },
+
+	{ "event-popup-save-as",
+	  NULL,
+	  "event-save-as" },
+
+	{ "event-popup-schedule",
+	  NULL,
+	  "event-schedule" }
 };
 
 static GtkRadioActionEntry calendar_view_entries[] = {

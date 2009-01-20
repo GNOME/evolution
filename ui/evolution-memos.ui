@@ -35,28 +35,28 @@
   <popup name='memo-popup'>
     <menuitem action='memo-new'/>
     <separator/>
-    <menuitem action='memo-open'/>
-    <menuitem action='memo-open-url'/>
-    <menuitem action='memo-save-as'/>
-    <menuitem action='memo-print'/>
+    <menuitem action='memo-popup-open'/>
+    <menuitem action='memo-popup-open-url'/>
+    <menuitem action='memo-popup-save-as'/>
+    <menuitem action='memo-popup-print'/>
     <separator/>
-    <menuitem action='memo-clipboard-cut'/>
-    <menuitem action='memo-clipboard-copy'/>
-    <menuitem action='memo-clipboard-paste'/>
+    <menuitem action='memo-popup-clipboard-cut'/>
+    <menuitem action='memo-popup-clipboard-copy'/>
+    <menuitem action='memo-popup-clipboard-paste'/>
     <separator/>
-    <menuitem action='memo-forward'/>
+    <menuitem action='memo-popup-forward'/>
     <separator/>
-    <menuitem action='memo-delete'/>
+    <menuitem action='memo-popup-delete'/>
   </popup>
   <popup name='memo-list-popup'>
     <menuitem action='memo-list-new'/>
-    <menuitem action='memo-list-copy'/>
-    <menuitem action='memo-list-rename'/>
+    <menuitem action='memo-list-popup-copy'/>
+    <menuitem action='memo-list-popup-rename'/>
     <separator/>
-    <menuitem action='memo-list-delete'/>
-    <menuitem action='memo-list-select-one'/>
+    <menuitem action='memo-list-popup-delete'/>
+    <menuitem action='memo-list-popup-select-one'/>
     <separator/>
-    <menuitem action='memo-list-properties'/>
+    <menuitem action='memo-list-popup-properties'/>
   </popup>
   <popup name='memo-search-options'>
     <menuitem action='memo-search-summary-contains'/>

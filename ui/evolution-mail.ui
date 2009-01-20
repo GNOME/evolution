@@ -21,6 +21,7 @@
           <menuitem action='mail-view-vertical'/>
         </menu>
       </placeholder>
+      <separator/>
       <placeholder name='mail-message-list-actions'>
         <menuitem action='mail-threads-group-by'/>
         <menuitem action='mail-threads-expand-all'/>
@@ -75,9 +76,9 @@
     <separator/>
     <menuitem action='mail-popup-folder-rename'/>
     <menuitem action='mail-popup-folder-refresh'/>
-    <menuitem action='mail-flush-outbox'/>
-    <menuitem action='mail-empty-trash'/>
-    <menuitem action='mail-account-disable'/>
+    <menuitem action='mail-popup-flush-outbox'/>
+    <menuitem action='mail-popup-empty-trash'/>
+    <menuitem action='mail-popup-account-disable'/>
     <separator/>
     <menuitem action='mail-popup-folder-properties'/>
   </popup>

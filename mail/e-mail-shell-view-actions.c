@@ -725,57 +725,6 @@ static GtkActionEntry mail_entries[] = {
 	  N_("Subscribe or unsubscribe to folders on remote servers"),
 	  G_CALLBACK (action_mail_tools_subscriptions_cb) },
 
-	/*** Popup Menu Variations ***/
-
-	{ "mail-popup-folder-copy",
-	  "folder-copy",
-	  N_("_Copy Folder To..."),
-	  NULL,
-	  N_("Copy the selected folder into another folder"),
-	  G_CALLBACK (action_mail_folder_copy_cb) },
-
-	{ "mail-popup-folder-delete",
-	  GTK_STOCK_DELETE,
-	  NULL,
-	  NULL,
-	  N_("Permanently remove this folder"),
-	  G_CALLBACK (action_mail_folder_delete_cb) },
-
-	{ "mail-popup-folder-move",
-	  "folder-move",
-	  N_("_Move Folder To..."),
-	  NULL,
-	  N_("Move the selected folder into another folder"),
-	  G_CALLBACK (action_mail_folder_move_cb) },
-
-	{ "mail-popup-folder-new",
-	  "folder-new",
-	  N_("_New Folder..."),
-	  NULL,
-	  N_("Create a new folder for storing mail"),
-	  G_CALLBACK (action_mail_folder_new_cb) },
-
-	{ "mail-popup-folder-properties",
-	  GTK_STOCK_PROPERTIES,
-	  NULL,
-	  NULL,
-	  N_("Change the properties of this folder"),
-	  G_CALLBACK (action_mail_folder_properties_cb) },
-
-	{ "mail-popup-folder-refresh",
-	  GTK_STOCK_REFRESH,
-	  NULL,
-	  NULL,
-	  N_("Refresh the folder"),
-	  G_CALLBACK (action_mail_folder_refresh_cb) },
-
-	{ "mail-popup-folder-rename",
-	  NULL,
-	  N_("_Rename..."),
-	  NULL,
-	  N_("Change the name of this folder"),
-	  G_CALLBACK (action_mail_folder_rename_cb) },
-
 	/*** Menus ***/
 
 	{ "mail-folder-menu",
@@ -791,6 +740,49 @@ static GtkActionEntry mail_entries[] = {
 	  NULL,
 	  NULL,
 	  NULL }
+};
+
+static EPopupActionEntry mail_popup_entries[] = {
+
+	{ "mail-popup-account-disable",
+	  NULL,
+	  "mail-account-disable" },
+
+	{ "mail-popup-empty-trash",
+	  NULL,
+	  "mail-empty-trash" },
+
+	{ "mail-popup-flush-outbox",
+	  NULL,
+	  "mail-flush-outbox" },
+
+	{ "mail-popup-folder-copy",
+	  NULL,
+	  "mail-folder-copy" },
+
+	{ "mail-popup-folder-delete",
+	  NULL,
+	  "mail-folder-delete" },
+
+	{ "mail-popup-folder-move",
+	  NULL,
+	  "mail-folder-move" },
+
+	{ "mail-popup-folder-new",
+	  N_("_New Folder..."),
+	  "mail-folder-new" },
+
+	{ "mail-popup-folder-properties",
+	  NULL,
+	  "mail-folder-properties" },
+
+	{ "mail-popup-folder-refresh",
+	  NULL,
+	  "mail-folder-refresh" },
+
+	{ "mail-popup-folder-rename",
+	  NULL,
+	  "mail-folder-rename" }
 };
 
 static GtkToggleActionEntry mail_toggle_entries[] = {
@@ -1054,6 +1046,9 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	gtk_action_group_add_actions (
 		action_group, mail_entries,
 		G_N_ELEMENTS (mail_entries), mail_shell_view);
+	e_action_group_add_popup_actions (
+		action_group, mail_popup_entries,
+		G_N_ELEMENTS (mail_popup_entries));
 	gtk_action_group_add_toggle_actions (
 		action_group, mail_toggle_entries,
 		G_N_ELEMENTS (mail_toggle_entries), mail_shell_view);
@@ -1088,34 +1083,4 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	object = G_OBJECT (ACTION (MAIL_VIEW_VERTICAL));
 	key = "/apps/evolution/mail/display/layout";
 	gconf_bridge_bind_property (bridge, key, object, "current-value");
-
-	/* Fine tuning. */
-
-	e_binding_new (
-		G_OBJECT (ACTION (MAIL_FOLDER_COPY)), "sensitive",
-		G_OBJECT (ACTION (MAIL_POPUP_FOLDER_COPY)), "visible");
-
-	e_binding_new (
-		G_OBJECT (ACTION (MAIL_FOLDER_DELETE)), "sensitive",
-		G_OBJECT (ACTION (MAIL_POPUP_FOLDER_DELETE)), "visible");
-
-	e_binding_new (
-		G_OBJECT (ACTION (MAIL_FOLDER_MOVE)), "sensitive",
-		G_OBJECT (ACTION (MAIL_POPUP_FOLDER_MOVE)), "visible");
-
-	e_binding_new (
-		G_OBJECT (ACTION (MAIL_FOLDER_NEW)), "sensitive",
-		G_OBJECT (ACTION (MAIL_POPUP_FOLDER_NEW)), "visible");
-
-	e_binding_new (
-		G_OBJECT (ACTION (MAIL_FOLDER_PROPERTIES)), "sensitive",
-		G_OBJECT (ACTION (MAIL_POPUP_FOLDER_PROPERTIES)), "visible");
-
-	e_binding_new (
-		G_OBJECT (ACTION (MAIL_FOLDER_REFRESH)), "sensitive",
-		G_OBJECT (ACTION (MAIL_POPUP_FOLDER_REFRESH)), "visible");
-
-	e_binding_new (
-		G_OBJECT (ACTION (MAIL_FOLDER_RENAME)), "sensitive",
-		G_OBJECT (ACTION (MAIL_POPUP_FOLDER_RENAME)), "visible");
 }

@@ -802,6 +802,77 @@ static GtkActionEntry task_entries[] = {
 	  NULL }
 };
 
+static EPopupActionEntry task_popup_entries[] = {
+
+	{ "task-list-popup-copy",
+	  NULL,
+	  "task-list-copy" },
+
+	{ "task-list-popup-delete",
+	  NULL,
+	  "task-list-delete" },
+
+	{ "task-list-popup-properties",
+	  NULL,
+	  "task-list-properties" },
+
+	{ "task-list-popup-rename",
+	  NULL,
+	  "task-list-rename" },
+
+	{ "task-list-popup-select-one",
+	  NULL,
+	  "task-list-select-one" },
+
+	{ "task-popup-assign",
+	  NULL,
+	  "task-assign" },
+
+	{ "task-popup-clipboard-copy",
+	  NULL,
+	  "task-clipboard-copy" },
+
+	{ "task-popup-clipboard-cut",
+	  NULL,
+	  "task-clipboard-cut" },
+
+	{ "task-popup-clipboard-paste",
+	  NULL,
+	  "task-clipboard-paste" },
+
+	{ "task-popup-delete",
+	  NULL,
+	  "task-delete" },
+
+	{ "task-popup-forward",
+	  NULL,
+	  "task-forward" },
+
+	{ "task-popup-mark-complete",
+	  NULL,
+	  "task-mark-complete" },
+
+	{ "task-popup-mark-incomplete",
+	  NULL,
+	  "task-mark-incomplete" },
+
+	{ "task-popup-open",
+	  NULL,
+	  "task-open" },
+
+	{ "task-popup-open-url",
+	  NULL,
+	  "task-open-url" },
+
+	{ "task-popup-print",
+	  NULL,
+	  "task-print" },
+
+	{ "task-popup-save-as",
+	  NULL,
+	  "task-save-as" },
+};
+
 static GtkToggleActionEntry task_toggle_entries[] = {
 
 	{ "task-preview",
@@ -912,6 +983,9 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 	gtk_action_group_add_actions (
 		action_group, task_entries,
 		G_N_ELEMENTS (task_entries), task_shell_view);
+	e_action_group_add_popup_actions (
+		action_group, task_popup_entries,
+		G_N_ELEMENTS (task_popup_entries));
 	gtk_action_group_add_toggle_actions (
 		action_group, task_toggle_entries,
 		G_N_ELEMENTS (task_toggle_entries), task_shell_view);

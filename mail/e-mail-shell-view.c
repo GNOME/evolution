@@ -88,6 +88,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 {
 	EMailShellViewPrivate *priv;
 	EMailShellSidebar *mail_shell_sidebar;
+	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
 	EMFolderTree *folder_tree;
@@ -96,7 +97,6 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	const gchar *label;
 	gchar *uri;
 	gboolean sensitive;
-	gboolean visible;
 	guint32 state;
 
 	/* Be descriptive. */
@@ -111,6 +111,9 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	priv = E_MAIL_SHELL_VIEW_GET_PRIVATE (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	e_mail_reader_update_actions (E_MAIL_READER (shell_content));
 
 	mail_shell_sidebar = priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
@@ -144,21 +147,21 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	}
 
 	action = ACTION (MAIL_ACCOUNT_DISABLE);
-	visible = (account != NULL) && folder_is_store;
+	sensitive = (account != NULL) && folder_is_store;
 	if (account_is_groupwise)
 		label = _("Proxy _Logout");
 	else
 		label = _("_Disable Account");
-	gtk_action_set_visible (action, visible);
+	gtk_action_set_sensitive (action, sensitive);
 	g_object_set (action, "label", label, NULL);
 
 	action = ACTION (MAIL_EMPTY_TRASH);
-	visible = folder_is_trash;
-	gtk_action_set_visible (action, visible);
+	sensitive = folder_is_trash;
+	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FLUSH_OUTBOX);
-	visible = folder_is_outbox;
-	gtk_action_set_visible (action, visible);
+	sensitive = folder_is_outbox;
+	gtk_action_set_sensitive (action, sensitive);
 
 	action = ACTION (MAIL_FOLDER_COPY);
 	sensitive = !folder_is_store;
@@ -182,9 +185,7 @@ mail_shell_view_update_actions (EShellView *shell_view)
 
 	action = ACTION (MAIL_FOLDER_REFRESH);
 	sensitive = !folder_is_store;
-	visible = !folder_is_outbox;
 	gtk_action_set_sensitive (action, sensitive);
-	gtk_action_set_visible (action, visible);
 
 	action = ACTION (MAIL_FOLDER_RENAME);
 	sensitive = !folder_is_store && folder_can_be_deleted;

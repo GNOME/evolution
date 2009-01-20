@@ -29,8 +29,8 @@
 #include <camel/camel-vtrash-folder.h>
 
 #include "e-util/e-util.h"
-#include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
+#include "widgets/misc/e-popup-action.h"
 #include "widgets/menus/gal-view-instance.h"
 
 #include "e-mail-reader.h"

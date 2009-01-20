@@ -647,6 +647,61 @@ static GtkActionEntry memo_entries[] = {
 	  G_CALLBACK (action_memo_save_as_cb) }
 };
 
+static EPopupActionEntry memo_popup_entries[] = {
+
+	{ "memo-list-popup-copy",
+	  NULL,
+	  "memo-list-copy" },
+
+	{ "memo-list-popup-delete",
+	  NULL,
+	  "memo-list-delete" },
+
+	{ "memo-list-popup-properties",
+	  NULL,
+	  "memo-list-properties" },
+
+	{ "memo-list-popup-rename",
+	  NULL,
+	  "memo-list-rename" },
+
+	{ "memo-list-popup-select-one",
+	  NULL,
+	  "memo-list-select-one" },
+
+	{ "memo-popup-clipboard-copy",
+	  NULL,
+	  "memo-clipboard-copy" },
+
+	{ "memo-popup-clipboard-cut",
+	  NULL,
+	  "memo-clipboard-cut" },
+
+	{ "memo-popup-delete",
+	  NULL,
+	  "memo-delete" },
+
+	{ "memo-popup-forward",
+	  NULL,
+	  "memo-forward" },
+
+	{ "memo-popup-open",
+	  NULL,
+	  "memo-open" },
+
+	{ "memo-popup-open-url",
+	  NULL,
+	  "memo-open-url" },
+
+	{ "memo-popup-print",
+	  NULL,
+	  "memo-print" },
+
+	{ "memo-popup-save-as",
+	  NULL,
+	  "memo-save-as" }
+};
+
 static GtkToggleActionEntry memo_toggle_entries[] = {
 
 	{ "memo-preview",
@@ -722,6 +777,9 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 	gtk_action_group_add_actions (
 		action_group, memo_entries,
 		G_N_ELEMENTS (memo_entries), memo_shell_view);
+	e_action_group_add_popup_actions (
+		action_group, memo_popup_entries,
+		G_N_ELEMENTS (memo_popup_entries));
 	gtk_action_group_add_toggle_actions (
 		action_group, memo_toggle_entries,
 		G_N_ELEMENTS (memo_toggle_entries), memo_shell_view);

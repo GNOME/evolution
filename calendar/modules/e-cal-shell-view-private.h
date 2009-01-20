@@ -30,8 +30,9 @@
 #include <libedataserver/e-categories.h>
 #include <libedataserver/e-data-server-util.h>
 
-#include "e-util/e-dialog-utils.h"
 #include "e-util/e-util.h"
+#include "e-util/e-dialog-utils.h"
+#include "widgets/misc/e-popup-action.h"
 
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/comp-util.h"
