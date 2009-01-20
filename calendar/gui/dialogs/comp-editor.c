@@ -1720,6 +1720,14 @@ comp_editor_class_init (CompEditorClass *class)
 }
 
 static void
+classification_changed_cb (GtkRadioAction *action, GtkRadioAction *current, CompEditor *editor)
+{
+	g_return_if_fail (IS_COMP_EDITOR (editor));
+
+	comp_editor_set_changed (editor, TRUE);
+}
+
+static void
 comp_editor_init (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
@@ -1768,7 +1776,7 @@ comp_editor_init (CompEditor *editor)
 		action_group, classification_radio_entries,
 		G_N_ELEMENTS (classification_radio_entries),
 		E_CAL_COMPONENT_CLASS_PUBLIC,
-		NULL, NULL);  /* no callback */
+		G_CALLBACK (classification_changed_cb), editor);
 	action = e_attachment_bar_recent_action_new (
 		E_ATTACHMENT_BAR (priv->attachment_bar),
 		"attach-recent", _("Recent _Documents"));
@@ -2898,6 +2906,7 @@ fill_widgets (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
 	GList *l;
+	GtkAction *action;
 
 	priv = editor->priv;
 
@@ -2912,8 +2921,13 @@ fill_widgets (CompEditor *editor)
 		g_slist_free (attachment_list);
 	}
 
+	action = comp_editor_get_action (editor, "classify-public");
+	g_signal_handlers_block_by_func (action, G_CALLBACK (classification_changed_cb), editor);
+
 	for (l = priv->pages; l != NULL; l = l->next)
 		comp_editor_page_fill_widgets (l->data, priv->comp);
+
+	g_signal_handlers_unblock_by_func (action, G_CALLBACK (classification_changed_cb), editor);
 }
 
 static void

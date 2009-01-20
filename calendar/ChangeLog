@@ -1,5 +1,14 @@
 2009-01-20  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #568331
+
+	* gui/dialogs/comp-editor.c: (classification_changed_cb),
+	(comp_editor_init): Notify changes of the classification.
+	* gui/dialogs/comp-editor.c: (fill_widgets): Block classification
+	change signal when filling widgets with values from a component.
+
+2009-01-20  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #353460
 
 	* gui/gnome-cal.c: (setup_widgets):
