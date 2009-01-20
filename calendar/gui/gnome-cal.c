@@ -1646,7 +1646,7 @@ setup_widgets (GnomeCalendar *gcal)
 
 	priv->todo = e_calendar_table_new ();
 	priv->todo_config = e_calendar_table_config_new (E_CALENDAR_TABLE (priv->todo));
-	gtk_paned_pack1 (GTK_PANED (priv->vpane), vbox, FALSE, TRUE);
+	gtk_paned_pack1 (GTK_PANED (priv->vpane), vbox, FALSE, FALSE);
 	gtk_box_pack_end ((GtkBox *)vbox, priv->todo, TRUE, TRUE, 0);
 
 	gtk_widget_show (priv->todo);
@@ -1777,7 +1777,7 @@ setup_widgets (GnomeCalendar *gcal)
 	gtk_box_pack_start ((GtkBox *)vbox, label, FALSE, TRUE, 0);
 	priv->memo = e_memo_table_new ();
 	priv->memo_config = e_memo_table_config_new (E_MEMO_TABLE (priv->memo));
-	gtk_paned_pack2 (GTK_PANED (priv->vpane), vbox, TRUE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (priv->vpane), vbox, TRUE, FALSE);
 	gtk_box_pack_end ((GtkBox *)vbox, priv->memo, TRUE, TRUE, 0);
 
 	gtk_widget_show (priv->memo);

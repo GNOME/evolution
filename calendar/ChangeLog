@@ -1,3 +1,10 @@
+2009-01-20  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #353460
+
+	* gui/gnome-cal.c: (setup_widgets):
+	Do not allow shrinking of Tasks/Memos components in calendar view.
+
 2009-01-16  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #360813
