@@ -37,14 +37,6 @@ struct _EMsgComposer;
 struct _EMFormat;
 struct _EAccount;
 
-void em_composer_utils_setup_callbacks (struct _EMsgComposer *composer, struct _CamelFolder *folder, const char *uid,
-					guint32 flags, guint32 set, struct _CamelFolder *drafts, const char *drafts_uid);
-
-#define em_composer_utils_setup_default_callbacks(composer) em_composer_utils_setup_callbacks (composer, NULL, NULL, 0, 0, NULL, NULL)
-
-void em_utils_composer_send_cb(struct _EMsgComposer *composer, gpointer user_data);
-void em_utils_composer_save_draft_cb(struct _EMsgComposer *composer, gpointer user_data);
-
 void em_utils_compose_new_message (const char *fromuri);
 
 /* FIXME: mailto?  url?  should make up its mind what its called.  imho use 'uri' */
@@ -77,6 +69,8 @@ enum {
 void em_utils_reply_to_message (struct _CamelFolder *, const char *uid, struct _CamelMimeMessage *message, int mode, struct _EMFormat *source);
 
 void em_utils_post_reply_to_message_by_uid (struct _CamelFolder *folder, const char *uid);
+
+void em_configure_new_composer (struct _EMsgComposer *composer);
 
 #ifdef __cplusplus
 }

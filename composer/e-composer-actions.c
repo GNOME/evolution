@@ -339,7 +339,7 @@ action_send_options_cb (GtkAction *action,
 
 static void
 action_new_message_cb (GtkAction *action,
-                        EMsgComposer *composer)
+                       EMsgComposer *composer)
 {
 	em_utils_compose_new_message (NULL);
 }

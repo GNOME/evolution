@@ -83,7 +83,6 @@
 #include <camel/camel-smime-context.h>
 #endif
 
-#include "mail/em-composer-utils.h"
 #include "mail/em-popup.h"
 #include "mail/em-utils.h"
 #include "mail/mail-config.h"
@@ -1436,14 +1435,6 @@ autosave_load_draft (const gchar *filename)
 		if (e_composer_autosave_snapshot (composer))
 			g_unlink (filename);
 
-		g_signal_connect (
-			composer, "send",
-			G_CALLBACK (em_utils_composer_send_cb), NULL);
-
-		g_signal_connect (
-			composer, "save-draft",
-			G_CALLBACK (em_utils_composer_save_draft_cb), NULL);
-
 		gtk_widget_show (GTK_WIDGET (composer));
 	}
 
@@ -2132,6 +2123,8 @@ msg_composer_constructor (GType type,
 	e_binding_new (
 		G_OBJECT (shell_settings), "composer-magic-smileys",
 		G_OBJECT (composer), "magic-smileys");
+
+	e_shell_event (shell, "new-editor", object);
 
 	return object;
 }
@@ -4671,17 +4664,8 @@ e_msg_composer_load_from_file (const gchar *filename)
 	camel_object_unref (stream);
 
 	composer = e_msg_composer_new_with_message (msg);
-	if (composer != NULL) {
-		g_signal_connect (
-			composer, "send",
-			G_CALLBACK (em_utils_composer_send_cb), NULL);
-
-		g_signal_connect (
-			composer, "save-draft",
-			G_CALLBACK (em_utils_composer_save_draft_cb), NULL);
-
+	if (composer != NULL)
 		gtk_widget_show (GTK_WIDGET (composer));
-	}
 
 	return composer;
 }

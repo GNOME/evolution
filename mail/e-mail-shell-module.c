@@ -554,6 +554,18 @@ exit:
 }
 
 static void
+mail_shell_module_event_new_editor_cb (EShell *shell,
+                                       GtkWindow *editor,
+                                       EShellModule *shell_module)
+{
+	if (!E_IS_MSG_COMPOSER (editor))
+		return;
+
+	/* Integrate the new composer into the mail module. */
+	em_configure_new_composer (E_MSG_COMPOSER (editor));
+}
+
+static void
 mail_shell_module_notify_online_mode_cb (EShell *shell,
                                          GParamSpec *pspec,
                                          EShellModule *shell_module)
@@ -829,6 +841,11 @@ e_shell_module_init (GTypeModule *type_module)
 	async_event = mail_async_event_new ();
 
 	folder_tree_model = em_folder_tree_model_new (shell_module);
+
+	g_signal_connect (
+		shell, "event::new-editor",
+		G_CALLBACK (mail_shell_module_event_new_editor_cb),
+		shell_module);
 
 	g_signal_connect (
 		shell, "notify::online-mode",

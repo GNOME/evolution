@@ -23,7 +23,6 @@
 #include <libebook/e-contact.h>
 #include <libebook/e-destination.h>
 
-#include "mail/em-composer-utils.h"
 #include "composer/e-msg-composer.h"
 #include "addressbook/util/eab-book-util.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
@@ -46,7 +45,6 @@ eab_send_as_to (GList *destinations)
 
 	composer = e_msg_composer_new ();
 	table = e_msg_composer_get_header_table (composer);
-	em_composer_utils_setup_default_callbacks (composer);
 
 	to_array = g_ptr_array_new ();
 	bcc_array = g_ptr_array_new ();
@@ -124,7 +122,6 @@ eab_send_as_attachment (GList *destinations)
 
 	composer = e_msg_composer_new ();
 	table = e_msg_composer_get_header_table (composer);
-	em_composer_utils_setup_default_callbacks (composer);
 
 	attachment = camel_mime_part_new ();
 
