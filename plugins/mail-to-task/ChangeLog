@@ -1,3 +1,7 @@
+2009-01-21  Milan Crha  <mcrha@redhat.com>
+
+	* Makefile.am: Use also EVOLUTION_CALENDAR_CFLAGS.
+
 2008-10-31  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #558726 (patch by Frederic van Starbmann)

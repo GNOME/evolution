@@ -6,6 +6,7 @@ INCLUDES =						\
 	-DDATADIR=\""$(datadir)"\"			\
 	-DLIBDIR=\""$(libdir)"\"			\
 	-I$(top_srcdir)					\
+	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	$(SHELL_CFLAGS)					\
 	$(E_UTIL_CFLAGS)				
 
