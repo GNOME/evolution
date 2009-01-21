@@ -189,6 +189,9 @@ ensure_sources (TasksComponent *component)
 		       and too late to prevent user seeing "Can not Open ... because of invalid uri" error.*/
 		    e_source_list_sync (source_list,NULL);
 		}
+
+		/* ensure the group name is in current locale, not read from configuration */
+		e_source_group_set_name (on_this_computer, _("On This Computer"));
 	}
 	else {
 		/* create the local source group */
@@ -198,7 +201,10 @@ ensure_sources (TasksComponent *component)
 		on_this_computer = group;
 	}
 
-	if (!personal_source) {
+	if (personal_source) {
+		/* ensure the source name is in current locale, not read from configuration */
+		e_source_set_name (personal_source, _("Personal"));
+	} else {
 		GSList *tasks_selected;
 		/* Create the default Person addressbook */
 		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
@@ -232,6 +238,9 @@ ensure_sources (TasksComponent *component)
 		e_source_list_add_group (source_list, group, -1);
 
 		on_the_web = group;
+	} else {
+		/* ensure the group name is in current locale, not read from configuration */
+		e_source_group_set_name (on_the_web, _("On The Web"));
 	}
 
 	component->priv->source_list = source_list;

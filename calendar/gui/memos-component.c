@@ -193,6 +193,9 @@ ensure_sources (MemosComponent *component)
 		       and too late to prevent user seeing "Can not Open ... because of invalid uri" error.*/
 		    e_source_list_sync (source_list,NULL);
 		}
+
+		/* ensure the group name is in current locale, not read from configuration */
+		e_source_group_set_name (on_this_computer, _("On This Computer"));
 	}
 	else {
 		/* create the local source group */
@@ -202,7 +205,10 @@ ensure_sources (MemosComponent *component)
 		on_this_computer = group;
 	}
 
-	if (!personal_source) {
+	if (personal_source) {
+		/* ensure the source name is in current locale, not read from configuration */
+		e_source_set_name (personal_source, _("Personal"));
+	} else {
 		GSList *memos_selected;
 		/* Create the default Person addressbook */
 		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
@@ -230,8 +236,11 @@ ensure_sources (MemosComponent *component)
 		personal_source = source;
 	}
 
-	if (!on_the_web) {
-		/* Create the LDAP source group */
+	if (on_the_web) {
+		/* ensure the group name is in current locale, not read from configuration */
+		e_source_group_set_name (on_the_web, _("On The Web"));
+	} else {
+		/* Create the source group */
 		group = e_source_group_new (_("On The Web"), WEB_BASE_URI);
 		e_source_list_add_group (source_list, group, -1);
 

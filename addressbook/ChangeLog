@@ -1,3 +1,11 @@
+2009-01-21  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #362754
+
+	* gui/component/addressbook-component.c: (ensure_sources):
+	Ensure to show default groups and sources with actual
+	localized name, not the one it was stored last time.
+
 2009-01-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	* ui/component/addressbook-config.c (eabc_general_offline):
