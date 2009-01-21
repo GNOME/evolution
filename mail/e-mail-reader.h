@@ -34,9 +34,15 @@
 #define E_MAIL_READER(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_MAIL_READER, EMailReader))
+#define E_MAIL_READER_IFACE(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_MAIL_READER, EMailReaderIface))
 #define E_IS_MAIL_READER(obj) \
 	(G_TYPE_CHECK_INSTANCE_TYPE \
 	((obj), E_TYPE_MAIL_READER))
+#define E_IS_MAIL_READER_IFACE(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_MAIL_READER))
 #define E_MAIL_READER_GET_IFACE(obj) \
 	(G_TYPE_INSTANCE_GET_INTERFACE \
 	((obj), E_TYPE_MAIL_READER, EMailReaderIface))

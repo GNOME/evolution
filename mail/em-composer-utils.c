@@ -1647,7 +1647,7 @@ em_utils_forward_message_raw (CamelFolder *folder, CamelMimeMessage *message, co
 	g_free (subject);
 
 	/* and send it */
-	out_folder = mail_component_get_folder (NULL, MAIL_COMPONENT_FOLDER_OUTBOX);
+	out_folder = e_mail_shell_module_get_folder (mail_shell_module, E_MAIL_FOLDER_OUTBOX);
 	info = camel_message_info_new (NULL);
 	camel_message_info_set_flags (info, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 	mail_append_mail (out_folder, forward, info, emu_forward_raw_done, NULL);
@@ -2523,6 +2523,8 @@ em_utils_post_reply_to_message_by_uid (CamelFolder *folder, const char *uid)
 void
 em_configure_new_composer (EMsgComposer *composer)
 {
+	EComposerHeaderTable *table;
+	EMFolderTreeModel *model;
 	struct emcs_t *emcs;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
@@ -2541,5 +2543,8 @@ em_configure_new_composer (EMsgComposer *composer)
 		composer, "save-draft",
 		G_CALLBACK (em_utils_composer_save_draft_cb), NULL);
 
-	g_debug ("Composer configured.");
+	/* Supply the composer with a folder tree model. */
+	table = e_msg_composer_get_header_table (composer);
+	model = e_mail_shell_module_get_folder_tree_model (mail_shell_module);
+	e_composer_header_table_set_folder_tree_model (table, model);
 }

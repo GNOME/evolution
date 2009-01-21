@@ -203,13 +203,13 @@ static guint signals[LAST_SIGNAL];
 static void emfv_selection_get(GtkWidget *widget, GtkSelectionData *data, guint info, guint time_stamp, EMFolderView *emfv);
 static void emfv_selection_clear_event(GtkWidget *widget, GdkEventSelection *event, EMFolderView *emfv);
 
-#ifdef ENABLE_PROFILING
-static void
-emfv_format_complete(EMFormat *emf, EMFolderView *emfv)
-{
-	e_profile_event_emit("goto.done", emf->uid?emf->uid:"", 0);
-}
-#endif
+//#ifdef ENABLE_PROFILING
+//static void
+//emfv_format_complete(EMFormat *emf, EMFolderView *emfv)
+//{
+//	e_profile_event_emit("goto.done", emf->uid?emf->uid:"", 0);
+//}
+//#endif
 
 static void
 emfv_init(GObject *o)
@@ -237,23 +237,23 @@ emfv_init(GObject *o)
 //	emfv->list = (MessageList *)message_list_new();
 //	g_signal_connect(emfv->list, "message_selected", G_CALLBACK(emfv_list_message_selected), emfv);
 //	g_signal_connect(emfv->list, "message_list_built", G_CALLBACK(emfv_list_built), emfv);
-
-	/* FIXME: should this hang off message-list instead? */
+//
+//	/* FIXME: should this hang off message-list instead? */
 //	g_signal_connect(emfv->list->tree, "right_click", G_CALLBACK(emfv_list_right_click), emfv);
 //	g_signal_connect(emfv->list->tree, "double_click", G_CALLBACK(emfv_list_double_click), emfv);
 //	g_signal_connect(emfv->list->tree, "key_press", G_CALLBACK(emfv_list_key_press), emfv);
 //	g_signal_connect(emfv->list->tree, "selection_change", G_CALLBACK(emfv_list_selection_change), emfv);
-
-	emfv->preview = (EMFormatHTMLDisplay *)em_format_html_display_new();
-	/* FIXME: set_session should NOT be called here.  Should it be a constructor attribute? */
-	em_format_set_session ((EMFormat *) emfv->preview, session);
+//
+//	emfv->preview = (EMFormatHTMLDisplay *)em_format_html_display_new();
+//	/* FIXME: set_session should NOT be called here.  Should it be a constructor attribute? */
+//	em_format_set_session ((EMFormat *) emfv->preview, session);
 //	g_signal_connect(emfv->preview, "link_clicked", G_CALLBACK(emfv_format_link_clicked), emfv);
 	g_signal_connect(emfv->preview, "popup_event", G_CALLBACK(emfv_format_popup_event), emfv);
 	g_signal_connect (emfv->preview, "on_url", G_CALLBACK (emfv_on_url_cb), emfv);
 //	g_signal_connect (((EMFormatHTML *)emfv->preview)->html, "button-release-event", G_CALLBACK (emfv_on_html_button_released_cb), emfv);
-#ifdef ENABLE_PROFILING
-	g_signal_connect(emfv->preview, "complete", G_CALLBACK (emfv_format_complete), emfv);
-#endif
+//#ifdef ENABLE_PROFILING
+//	g_signal_connect(emfv->preview, "complete", G_CALLBACK (emfv_format_complete), emfv);
+//#endif
 	p->invisible = gtk_invisible_new();
 	g_signal_connect(p->invisible, "selection_get", G_CALLBACK(emfv_selection_get), emfv);
 	g_signal_connect(p->invisible, "selection_clear_event", G_CALLBACK(emfv_selection_clear_event), emfv);
@@ -418,8 +418,8 @@ emfv_class_init(GObjectClass *klass)
 //	return (GtkWidget *)emfv;
 //}
 
-/* flag all selected messages. Return number flagged */
-/* FIXME: Should this be part of message-list instead? */
+///* flag all selected messages. Return number flagged */
+///* FIXME: Should this be part of message-list instead? */
 //int
 //em_folder_view_mark_selected(EMFolderView *emfv, guint32 mask, guint32 set)
 //{
@@ -812,15 +812,7 @@ emfv_popup_label_new (EPopup *ep, EPopupItem *pitem, void *data)
 
 static EPopupItem emfv_popup_items[] = {
 
-	{ E_POPUP_BAR, "10.emfv", NULL, NULL, NULL, NULL },
-
-
-	{ E_POPUP_BAR, "20.emfv", NULL, NULL, NULL, NULL },
-
-	{ E_POPUP_BAR, "40.emfv", NULL, NULL, NULL, NULL },
 //	{ E_POPUP_ITEM, "40.emfv.00", N_("_Delete"), emfv_popup_delete, NULL, "edit-delete", EM_POPUP_SELECT_DELETE|EM_FOLDER_VIEW_SELECT_LISTONLY },
-
-	{ E_POPUP_BAR, "50.emfv", NULL, NULL, NULL, NULL },
 
 	{ E_POPUP_SUBMENU, "60.label.00", N_("_Label"), NULL, NULL, NULL, EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
 	{ E_POPUP_ITEM, "60.label.00/00.label", N_("_None"), emfv_popup_label_clear, NULL, NULL, EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
@@ -828,12 +820,6 @@ static EPopupItem emfv_popup_items[] = {
 	{ E_POPUP_BAR, "60.label.00/01.label", NULL, NULL, NULL, NULL },
 	{ E_POPUP_ITEM, "60.label.00/01.label.00", N_("_New Label"), emfv_popup_label_new, NULL, NULL, EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY },
 
-	{ E_POPUP_BAR, "70.emfv.06", NULL, NULL, NULL, NULL },
-
-
-	{ E_POPUP_BAR, "90.filter", NULL, NULL, NULL, NULL },
-
-	{ E_POPUP_BAR, "90.filter.00/10", NULL, NULL, NULL, NULL },
 };
 
 static enum _e_popup_t

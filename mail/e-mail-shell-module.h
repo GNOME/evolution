@@ -33,8 +33,8 @@ G_BEGIN_DECLS
 
 /* Globally available shell module. 
  *
- * XXX I don't like having this globally available but passing it around to
- *     all the various utilities that need to access to the module's data
+ * XXX I don't like having this globally available but passing it around
+ *     to all the various utilities that need to access the module's data
  *     directory and local folders is too much of a pain for now. */
 extern EShellModule *mail_shell_module;
 

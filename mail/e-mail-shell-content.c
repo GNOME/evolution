@@ -48,7 +48,17 @@ struct _EMailShellContentPrivate {
 	EMFormatHTMLDisplay *html_display;
 	GalViewInstance *view_instance;
 
+	gchar *selected_uid;
+
+	/* ETable scrolling hack */
+	gdouble default_scrollbar_position;
+
 	guint paned_binding_id;
+	guint scroll_timeout_id;
+
+	/* Signal handler IDs */
+	guint message_list_built_id;
+	guint message_list_scrolled_id;
 
 	guint preview_visible	: 1;
 	guint vertical_view	: 1;
@@ -63,6 +73,133 @@ enum {
 static gpointer parent_class;
 
 static void
+mail_shell_content_etree_unfreeze (MessageList *message_list,
+                                   GdkEvent *event)
+{
+	ETableItem *item;
+	GObject *object;
+
+	item = e_tree_get_item (message_list->tree);
+	object = G_OBJECT (((GnomeCanvasItem *) item)->canvas);
+
+	g_object_set_data (object, "freeze-cursor", 0);
+}
+
+static void
+mail_shell_content_message_list_scrolled_cb (EMailShellContent *mail_shell_content,
+                                             MessageList *message_list)
+{
+	const gchar *key;
+	gdouble position;
+	gchar *value;
+
+	/* Save the scrollbar position for the current folder. */
+
+	key = "evolution:list_scroll_position";
+	position = message_list_get_scrollbar_position (message_list);
+	value = g_strdup_printf ("%f", position);
+
+	if (camel_object_meta_set (message_list->folder, key, value))
+		camel_object_state_write (message_list->folder);
+
+	g_free (value);
+}
+
+static gboolean
+mail_shell_content_scroll_timeout_cb (EMailShellContent *mail_shell_content)
+{
+	EMailShellContentPrivate *priv = mail_shell_content->priv;
+	MessageList *message_list;
+	EMailReader *reader;
+	const gchar *key;
+	gdouble position;
+	gchar *value;
+
+	/* Initialize the scrollbar position for the current folder
+	 * and setup a callback to handle scrollbar position changes. */
+
+	reader = E_MAIL_READER (mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+	position = priv->default_scrollbar_position;
+
+	key = "evolution:list_scroll_position";
+	value = camel_object_meta_get (message_list->folder, key);
+
+	if (value != NULL) {
+		position = strtod (value, NULL);
+		g_free (value);
+	}
+
+	message_list_set_scrollbar_position (message_list, position);
+
+	priv->message_list_scrolled_id = g_signal_connect_swapped (
+		message_list, "message-list-scrolled",
+		G_CALLBACK (mail_shell_content_message_list_scrolled_cb),
+		mail_shell_content);
+
+	priv->scroll_timeout_id = 0;
+
+	return FALSE;
+}
+
+static void
+mail_shell_content_message_list_built_cb (EMailShellContent *mail_shell_content,
+                                          MessageList *message_list)
+{
+	EMailShellContentPrivate *priv = mail_shell_content->priv;
+	GtkScrolledWindow *scrolled_window;
+	GtkWidget *vscrollbar;
+	gdouble position = 0.0;
+
+	g_signal_handler_disconnect (
+		message_list, priv->message_list_built_id);
+	priv->message_list_built_id = 0;
+
+	if (message_list->cursor_uid == NULL && priv->selected_uid != NULL) {
+		CamelMessageInfo *info;
+
+		/* If the message isn't in the folder yet, keep selected_uid
+		 * around, as it could be caught by a set_folder() at some
+		 * later date. */
+		info = camel_folder_get_message_info (
+			message_list->folder, priv->selected_uid);
+		if (info != NULL) {
+			camel_folder_free_message_info (
+				message_list->folder, info);
+			e_mail_reader_set_message (
+				E_MAIL_READER (mail_shell_content),
+				priv->selected_uid, TRUE);
+			g_free (priv->selected_uid);
+			priv->selected_uid = NULL;
+		}
+
+		position = message_list_get_scrollbar_position (message_list);
+	}
+
+	priv->default_scrollbar_position = position;
+
+	/* FIXME This is a gross workaround for an ETable bug that I can't
+	 *       fix (Ximian bug #55303).
+	 *
+	 *       Since e_canvas_item_region_show_relay() uses a timeout,
+	 *       we have to use a timeout of the same interval but a lower
+	 *       priority. */
+	priv->scroll_timeout_id = g_timeout_add_full (
+		G_PRIORITY_LOW, 250, (GSourceFunc)
+		mail_shell_content_scroll_timeout_cb,
+		mail_shell_content, NULL);
+
+	/* FIXME This is another ugly hack to hide a side-effect of the
+	 *       previous workaround. */
+	scrolled_window = GTK_SCROLLED_WINDOW (message_list);
+	vscrollbar = gtk_scrolled_window_get_vscrollbar (scrolled_window);
+	g_signal_connect_swapped (
+		vscrollbar, "button-press-event",
+		G_CALLBACK (mail_shell_content_etree_unfreeze),
+		message_list);
+}
+
+static void
 mail_shell_content_display_view_cb (EMailShellContent *mail_shell_content,
                                     GalView *gal_view)
 {
@@ -75,6 +212,24 @@ mail_shell_content_display_view_cb (EMailShellContent *mail_shell_content,
 	if (GAL_IS_VIEW_ETABLE (gal_view))
 		gal_view_etable_attach_tree (
 			GAL_VIEW_ETABLE (gal_view), message_list->tree);
+}
+
+static void
+mail_shell_content_message_selected_cb (EMailShellContent *mail_shell_content,
+                                        const gchar *selected_uid,
+                                        MessageList *message_list)
+{
+	const gchar *key = "evolution:selected_uid";
+	CamelFolder *folder;
+
+	folder = message_list->folder;
+	g_return_if_fail (folder != NULL);
+
+	if (camel_object_meta_set (folder, key, selected_uid))
+		camel_object_state_write (folder);
+
+	g_free (mail_shell_content->priv->selected_uid);
+	mail_shell_content->priv->selected_uid = NULL;
 }
 
 static void
@@ -162,6 +317,8 @@ mail_shell_content_finalize (GObject *object)
 
 	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (object);
 
+	g_free (priv->selected_uid);
+
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -173,6 +330,8 @@ mail_shell_content_constructed (GObject *object)
 	EShellContent *shell_content;
 	EShellView *shell_view;
 	EShellViewClass *shell_view_class;
+	EMailReader *reader;
+	MessageList *message_list;
 	GConfBridge *bridge;
 	GtkWidget *container;
 	GtkWidget *widget;
@@ -224,7 +383,7 @@ mail_shell_content_constructed (GObject *object)
 	/* Load the view instance. */
 
 	e_mail_shell_content_update_view_instance (
-		E_MAIL_SHELL_CONTENT (object));
+		E_MAIL_SHELL_CONTENT (shell_content));
 
 	/* Bind GObject properties to GConf keys. */
 
@@ -233,6 +392,16 @@ mail_shell_content_constructed (GObject *object)
 	object = G_OBJECT (priv->paned);
 	key = "/apps/evolution/mail/display/paned_size";
 	gconf_bridge_bind_property_delayed (bridge, key, object, "position");
+
+	/* Message list customizations. */
+
+	reader = E_MAIL_READER (shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+
+	g_signal_connect_swapped (
+		message_list, "message-selected",
+		G_CALLBACK (mail_shell_content_message_selected_cb),
+		shell_content);
 }
 
 static guint32
@@ -309,6 +478,35 @@ mail_shell_content_get_window (EMailReader *reader)
 }
 
 static void
+mail_shell_content_set_folder (EMailReader *reader,
+                               CamelFolder *folder,
+                               const gchar *folder_uri)
+{
+	EMailShellContentPrivate *priv;
+	EMailReaderIface *default_iface;
+	MessageList *message_list;
+
+	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
+
+	message_list = e_mail_reader_get_message_list (reader);
+
+	message_list_freeze (message_list);
+
+	/* Chain up to interface's default set_folder() method. */
+	default_iface = g_type_default_interface_peek (E_TYPE_MAIL_READER);
+	default_iface->set_folder (reader, folder, folder_uri);
+
+	/* This is a one-time-only callback. */
+	if (message_list->cursor_uid == NULL && priv->message_list_built_id == 0)
+		priv->message_list_built_id = g_signal_connect_swapped (
+			message_list, "message-list-built",
+			G_CALLBACK (mail_shell_content_message_list_built_cb),
+			reader);
+
+	message_list_thaw (message_list);
+}
+
+static void
 mail_shell_content_class_init (EMailShellContentClass *class)
 {
 	GObjectClass *object_class;
@@ -358,6 +556,7 @@ mail_shell_content_iface_init (EMailReaderIface *iface)
 	iface->get_message_list = mail_shell_content_get_message_list;
 	iface->get_shell_module = mail_shell_content_get_shell_module;
 	iface->get_window = mail_shell_content_get_window;
+	iface->set_folder = mail_shell_content_set_folder;
 }
 
 static void

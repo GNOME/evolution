@@ -269,9 +269,6 @@ struct _EMFormatClass {
 	void (*complete)(EMFormat *);
 };
 
-/* helper entry point */
-void em_format_set_session(EMFormat *emf, struct _CamelSession *s);
-
 void em_format_set_mode(EMFormat *emf, em_format_mode_t type);
 void em_format_set_charset(EMFormat *emf, const char *charset);
 void em_format_set_default_charset(EMFormat *emf, const char *charset);

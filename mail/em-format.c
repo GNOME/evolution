@@ -53,6 +53,7 @@
 #include "em-format.h"
 #include "em-utils.h"
 #include "mail-config.h"
+#include "mail-session.h"
 
 #define d(x)
 
@@ -125,6 +126,9 @@ emf_init(GObject *o)
 	e_dlist_init(&emf->header_list);
 	em_format_default_headers(emf);
 	emf->part_id = g_string_new("");
+
+	emf->session = session;
+	camel_object_ref (emf->session);
 }
 
 static void
@@ -772,25 +776,6 @@ emf_busy(EMFormat *emf)
  * e.g. to print what the user has shown inline.
  **/
 /* e_format_format_clone is a macro */
-
-/**
- * em_format_set_session:
- * @emf:
- * @s:
- *
- * Set the CamelSession to be used for signature verification and decryption
- * purposes.  If this is not set, then signatures cannot be verified or
- * encrypted messages viewed.
- **/
-void
-em_format_set_session(EMFormat *emf, struct _CamelSession *s)
-{
-	if (s)
-		camel_object_ref(s);
-	if (emf->session)
-		camel_object_unref(emf->session);
-	emf->session = s;
-}
 
 /**
  * em_format_set_mode:

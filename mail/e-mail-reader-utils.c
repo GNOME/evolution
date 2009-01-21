@@ -318,9 +318,6 @@ e_mail_reader_print (EMailReader *reader,
 
 	html_print = em_format_html_print_new (
 		(EMFormatHTML *) html_display, action);
-	em_format_set_session (
-		(EMFormat *) html_print,
-		((EMFormat *) html_display)->session);
 	em_format_merge_handler (
 		(EMFormat *) html_print,
 		(EMFormat *) html_display);

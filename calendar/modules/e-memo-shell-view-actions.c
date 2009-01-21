@@ -677,6 +677,10 @@ static EPopupActionEntry memo_popup_entries[] = {
 	  NULL,
 	  "memo-clipboard-cut" },
 
+	{ "memo-popup-clipboard-paste",
+	  NULL,
+	  "memo-clipboard-paste" },
+
 	{ "memo-popup-delete",
 	  NULL,
 	  "memo-delete" },

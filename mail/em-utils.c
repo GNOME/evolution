@@ -83,8 +83,6 @@
 
 static void emu_save_part_done (CamelMimePart *part, char *name, int done, void *data);
 
-extern struct _CamelSession *session;
-
 #define d(x)
 
 /**
@@ -1685,7 +1683,6 @@ em_utils_part_to_html(CamelMimePart *part, ssize_t *len, EMFormat *source)
 
 	emfq = em_format_quote_new(NULL, (CamelStream *)mem, 0);
 	((EMFormat *) emfq)->composer = TRUE;
-	em_format_set_session((EMFormat *)emfq, session);
 	if (source) {
 		/* copy over things we can, other things are internal, perhaps need different api than 'clone' */
 		if (source->default_charset)
@@ -1735,7 +1732,6 @@ em_utils_message_to_html(CamelMimeMessage *message, const char *credits, guint32
 
 	emfq = em_format_quote_new(credits, (CamelStream *)mem, flags);
 	((EMFormat *) emfq)->composer = TRUE;
-	em_format_set_session((EMFormat *)emfq, session);
 
 	if (!source) {
 		GConfClient *gconf;
