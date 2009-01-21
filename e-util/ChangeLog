@@ -1,3 +1,7 @@
+2009-01-15  Milan Crha  <mcrha@redhat.com>
+
+	* e-plugin.c: (epl_construct): Compiler warning fix.
+
 2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-error.c (ee_response):

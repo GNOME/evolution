@@ -77,21 +77,21 @@ auth_cal_forget_password (ECal *ecal)
 {
 	ESource *source = NULL;
 	const char *auth_domain = NULL, *component_name = NULL,  *auth_type = NULL;
-	char *key = NULL;
 
 	source = e_cal_get_source (ecal);
 	auth_domain = e_source_get_property (source, "auth-domain");
 	component_name = auth_domain ? auth_domain : "Calendar";
 
 	auth_type = e_source_get_property (source, "auth-type");
-	if (auth_type)
+	if (auth_type) {
+		char *key = NULL;
+
 		key = build_pass_key (ecal);
-	else
-		key = e_source_get_uri (source);
+		e_passwords_forget_password (component_name, key);
+		g_free (key);
+	}
 
-	e_passwords_forget_password (component_name, key);
-
-	g_free (key);
+	e_passwords_forget_password (component_name, e_source_get_uri (source));
 }
 
 ECal *

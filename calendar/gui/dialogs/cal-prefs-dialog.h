@@ -55,12 +55,16 @@ struct _CalendarPrefsDialog {
 	GtkWidget *default_reminder;
 	GtkWidget *default_reminder_interval;
 	GtkWidget *default_reminder_units;
+	GtkWidget *ba_reminder;
+	GtkWidget *ba_reminder_interval;
+	GtkWidget *ba_reminder_units;
 
 	/* Display tab */
 	GtkWidget *time_divisions;
 	GtkWidget *show_end_times;
 	GtkWidget *compress_weekend;
 	GtkWidget *dnav_show_week_no;
+	GtkWidget *dview_show_week_no;
 	GtkWidget *tasks_due_today_color;
 	GtkWidget *tasks_overdue_color;
 	GtkWidget *tasks_hide_completed;

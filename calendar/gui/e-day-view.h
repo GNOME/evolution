@@ -45,8 +45,11 @@ G_BEGIN_DECLS
    of a normal event. */
 #define E_DAY_VIEW_LONG_EVENT		E_DAY_VIEW_MAX_DAYS
 
-/* The maximum number of columns of appointments within a day. */
-#define E_DAY_VIEW_MAX_COLUMNS		6
+/* The maximum number of columns of appointments within a day in multi-day view. */
+#define E_DAY_VIEW_MULTI_DAY_MAX_COLUMNS 6
+
+/* minimum width of the event in one-day view in pixels */
+#define E_DAY_VIEW_MIN_DAY_COL_WIDTH	60
 
 /* The width of the gap between appointments. This should be at least
    E_DAY_VIEW_BAR_WIDTH, since in the top canvas we use this space to draw
@@ -204,6 +207,9 @@ struct _EDayView
 	/* scrollbar for top_canvas */
 	GtkWidget *tc_vscrollbar;
 
+	/* horizontal scrollbar for main_canvas */
+	GtkWidget *mc_hscrollbar;
+
 	/* The main canvas where the rest of the appointments are shown. */
 	GtkWidget *main_canvas;
 	GnomeCanvasItem *main_canvas_item;
@@ -213,6 +219,11 @@ struct _EDayView
 	GnomeCanvasItem *time_canvas_item;
 
 	GtkWidget *vscrollbar;
+
+	/* label showing week number in upper-left corner */
+	GtkWidget *week_number_label;
+	/* option change notification id for week number */
+	guint wn_notif_id;
 
 	/* S-expression for query and the query object */
 	ECalView *query;
@@ -310,6 +321,8 @@ struct _EDayView
 	   Note that there are a maximum of 12 * 24 rows (when a row is 5 mins)
 	   but we don't always have that many rows. */
 	guint8 cols_per_row[E_DAY_VIEW_MAX_DAYS][12 * 24];
+	/* The maximum number of columns from all rows in cols_per_row */
+	gint max_cols;
 
 	/* Sizes of the various time strings. */
 	gint small_hour_widths[24];
@@ -599,8 +612,11 @@ void e_day_view_ensure_rows_visible (EDayView *day_view,
 				     gint start_row,
 				     gint end_row);
 
-
 void e_day_view_update_marcus_bains (EDayView *day_view);
+
+/* Week number in upper-left corner of the day view widget */
+gboolean e_day_view_get_show_week_number (EDayView *day_view);
+void e_day_view_set_show_week_number (EDayView *day_view, gboolean show);
 
 G_END_DECLS
 

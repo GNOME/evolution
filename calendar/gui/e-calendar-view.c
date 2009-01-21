@@ -372,6 +372,8 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 	/* FIXME Error handling */
 	uid = NULL;
 	if (e_cal_create_object (client, e_cal_component_get_icalcomponent (comp), &uid, NULL)) {
+		gboolean strip_alarms = TRUE;
+
 		if (uid) {
 			e_cal_component_set_uid (comp, uid);
 			g_free (uid);
@@ -379,9 +381,9 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 
 		if ((itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp)) &&
 		    send_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
-					   client, comp, TRUE)) {
+					   client, comp, TRUE, &strip_alarms)) {
 			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp,
-				client, NULL, NULL, NULL);
+				client, NULL, NULL, NULL, strip_alarms);
 		}
 	} else {
 		g_message (G_STRLOC ": Could not create the object!");
@@ -635,7 +637,7 @@ e_calendar_view_cut_clipboard (ECalendarView *cal_view)
 		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 						event->comp_data->client, comp, TRUE))
 			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
-					event->comp_data->client, NULL, NULL, NULL);
+					event->comp_data->client, NULL, NULL, NULL, TRUE);
 
 		e_cal_component_get_uid (comp, &uid);
 		if (e_cal_component_is_instance (comp)) {
@@ -985,7 +987,7 @@ delete_event (ECalendarView *cal_view, ECalendarViewEvent *event)
 						event->comp_data->client,
 						comp, TRUE))
 			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
-					event->comp_data->client, NULL, NULL, NULL);
+					event->comp_data->client, NULL, NULL, NULL, TRUE);
 
 		e_cal_component_get_uid (comp, &uid);
 		if (!uid || !*uid) {
@@ -1134,7 +1136,7 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 
 				e_cal_component_free_datetime (&range.datetime);
 			}
-			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp, event->comp_data->client, NULL, NULL, NULL);
+			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp, event->comp_data->client, NULL, NULL, NULL, TRUE);
 		}
 
 		if (is_instance)
@@ -1312,7 +1314,28 @@ transfer_item_to (ECalendarViewEvent *event, ECal *dest_client, gboolean remove_
 		if (!e_cal_modify_object (dest_client, event->comp_data->icalcomp, CALOBJ_MOD_ALL, NULL))
 			return;
 	} else {
-		orig_icalcomp = icalcomponent_new_clone (event->comp_data->icalcomp);
+		if (e_cal_util_component_is_instance (event->comp_data->icalcomp)) {
+			icalcomponent *icalcomp = NULL;
+
+			if (e_cal_get_object (event->comp_data->client, uid, NULL, &icalcomp, NULL)) {
+				/* use master object when working with recurring event */
+				orig_icalcomp = icalcomponent_new_clone (icalcomp);
+				icalcomponent_free (icalcomp);
+			} else {
+				/* ... or remove the recurrence id property... */
+				orig_icalcomp = icalcomponent_new_clone (event->comp_data->icalcomp);
+
+				if (e_cal_util_component_has_recurrences (orig_icalcomp)) {
+					/* ... for non-detached instances, to make it a master object */
+					icalproperty *prop;
+
+					prop = icalcomponent_get_first_property (orig_icalcomp, ICAL_RECURRENCEID_PROPERTY);
+					if (prop)
+						icalcomponent_remove_property (orig_icalcomp, prop);
+				}
+			}
+		} else
+			orig_icalcomp = icalcomponent_new_clone (event->comp_data->icalcomp);
 
 		icalprop = icalproperty_new_x ("1");
 		icalproperty_set_x_name (icalprop, "X-EVOLUTION-MOVE-CALENDAR");
@@ -1339,10 +1362,16 @@ transfer_item_to (ECalendarViewEvent *event, ECal *dest_client, gboolean remove_
 
 	/* remove the item from the source calendar */
 	if (remove_item) {
-		if (e_cal_util_component_is_instance (event->comp_data->icalcomp) || e_cal_util_component_is_instance (event->comp_data->icalcomp))
-			e_cal_remove_object_with_mod (event->comp_data->client, uid,
-					NULL, CALOBJ_MOD_ALL, NULL);
-		else
+		if (e_cal_util_component_is_instance (event->comp_data->icalcomp) || e_cal_util_component_has_recurrences (event->comp_data->icalcomp)) {
+			char *rid = NULL;
+			struct icaltimetype recur_id = icalcomponent_get_recurrenceid (event->comp_data->icalcomp);
+
+			if (!icaltime_is_null_time (recur_id))
+				rid = icaltime_as_ical_string (recur_id);
+
+			e_cal_remove_object_with_mod (event->comp_data->client, uid, rid, CALOBJ_MOD_ALL, NULL);
+			g_free (rid);
+		} else
 			e_cal_remove_object (event->comp_data->client, uid, NULL);
 	}
 }
@@ -1521,7 +1550,7 @@ on_forward (EPopup *ep, EPopupItem *pitem, void *data)
 
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
-		itip_send_comp (E_CAL_COMPONENT_METHOD_PUBLISH, comp, event->comp_data->client, NULL, NULL, NULL);
+		itip_send_comp (E_CAL_COMPONENT_METHOD_PUBLISH, comp, event->comp_data->client, NULL, NULL, NULL, TRUE);
 
 		g_list_free (selected);
 		g_object_unref (comp);
@@ -1629,10 +1658,10 @@ on_unrecur_appointment (EPopup *ep, EPopupItem *pitem, void *data)
 
 	*date.value = icaltime_from_timet_with_zone (event->comp_data->instance_start, FALSE,
 						     e_calendar_view_get_timezone (cal_view));
-	e_cal_component_set_dtstart (new_comp, &date);
+	cal_comp_set_dtstart_with_oldzone (client, new_comp, &date);
 	*date.value = icaltime_from_timet_with_zone (event->comp_data->instance_end, FALSE,
 						     e_calendar_view_get_timezone (cal_view));
-	e_cal_component_set_dtend (new_comp, &date);
+	cal_comp_set_dtend_with_oldzone (client, new_comp, &date);
 	e_cal_component_commit_sequence (new_comp);
 
 	/* Now update both ECalComponents. Note that we do this last since at
@@ -2012,8 +2041,10 @@ e_calendar_view_modify_and_send (ECalComponent *comp,
 				 gboolean new)
 {
 	if (e_cal_modify_object (client, e_cal_component_get_icalcomponent (comp), mod, NULL)) {
+		gboolean strip_alarms = TRUE;
+
 		if ((itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp)) &&
-		    send_component_dialog (toplevel, client, comp, new)) {
+		    send_component_dialog (toplevel, client, comp, new, &strip_alarms)) {
 			ECalComponent *send_comp = NULL;
 
 			if (mod == CALOBJ_MOD_ALL && e_cal_component_is_instance (comp)) {
@@ -2032,7 +2063,7 @@ e_calendar_view_modify_and_send (ECalComponent *comp,
 				}
 			}
 
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, send_comp ? send_comp : comp, client, NULL, NULL, NULL);
+			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, send_comp ? send_comp : comp, client, NULL, NULL, NULL, strip_alarms);
 
 			if (send_comp)
 				g_object_unref (send_comp);

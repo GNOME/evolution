@@ -1,3 +1,164 @@
+2009-01-19  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #567850
+
+	* gui/e-cal-model.h: (e_cal_model_set_default_time_func):
+	* gui/e-cal-model.c: (struct _ECalModelPrivate), (ecm_append_row),
+	(e_cal_model_set_default_time_func):
+	New functionality to retrieve a default time for a model's new
+	event created from a "click-to-add" row.
+	* gui/gnome-cal.c: (gc_get_default_time), (setup_widgets):
+	Set the new time callback for the memo table.
+
+2009-01-19  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #550735
+
+	* gui/print.c: (get_summary_with_location), (print_day_long_event),
+	(print_day_event), (print_week_event):
+	Print location with summary in all views, not only in a day view.
+
+2009-01-19  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #260853
+
+	* gui/calendar-config-keys.h:
+	* gui/calendar-config.h:
+	(calendar_config_get_ba_reminder), (calendar_config_set_ba_reminder):
+	* gui/calendar-config.c:
+	(calendar_config_get_ba_reminder), (calendar_config_set_ba_reminder),
+	(string_to_units), (calendar_config_get_default_reminder_units):
+	* gui/dialogs/cal-prefs-dialog.glade:
+	* gui/dialogs/cal-prefs-dialog.h: (struct _CalendarPrefsDialog):
+	* gui/dialogs/cal-prefs-dialog.c: (ba_reminder_toggled),
+	(ba_reminder_interval_changed), (ba_reminder_units_changed),
+	(setup_changes), (show_config), (calendar_prefs_dialog_construct):
+	User interface and related function to allow use change setup of
+	the alarm for Birthdays and Anniversaries calendar.
+
+2009-01-19  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #225712
+
+	* gui/dialogs/comp-editor.h: (CompEditorClass::send_comp),
+	(comp_editor_send_comp): Changed function prototypes.
+	* gui/dialogs/comp-editor.c: (real_send_comp), (save_comp_with_send),
+	(comp_editor_send_comp): Strip alarms based on user's choice.
+	* gui/dialogs/send-comp.h: (send_component_dialog):
+	* gui/dialogs/send-comp.c: (have_nonprocedural_alarm),
+	(send_component_dialog): Show option "Send my alarms with this event"
+	when prompting to send event or not, but only if have any non-procedure
+	alarms and if it the caller want to know user's opinion. Default is
+	to strip all alarms. Procedure alarms are always strip out.
+	* gui/dialogs/event-editor.c: (event_editor_send_comp):
+	* gui/dialogs/task-editor.c: (task_editor_send_comp):
+	Honor function prototype changes and use new parameter strip_alarms.
+	* gui/itip-utils.h: (itip_send_comp):
+	* gui/itip-utils.c: (comp_compliant), (itip_send_comp),
+	(reply_to_calendar_comp):
+	New parameter to strip all alarms or only procedure alarms.
+	* gui/tasks-control.c: (tasks_control_forward_cmd):
+	* gui/e-itip-control.c: (send_item), (send_freebusy), (ok_clicked_cb):
+	* gui/e-calendar-table.c: (e_calendar_table_on_forward):
+	* gui/e-memo-table.c: (e_memo_table_on_forward):
+	* gui/e-calendar-view.c: (e_calendar_view_cut_clipboard),
+	(delete_event), (e_calendar_view_delete_selected_occurrence),
+	(on_forward):
+	Always strip alarms when sending component.
+	* gui/e-calendar-view.c: (e_calendar_view_add_event),
+	(e_calendar_view_modify_and_send):
+	* gui/e-cal-model-calendar.c: (ecmc_set_value_at):
+	Strip alarms based on user's choice.
+
+2009-01-19  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #200254
+
+	* gui/apps_evolution_calendar.schemas.in:
+	* gui/dialogs/cal-prefs-dialog.glade:
+	* gui/dialogs/cal-prefs-dialog.h: (struct _CalendarPrefsDialog):
+	* gui/dialogs/cal-prefs-dialog.c: (dview_show_week_no_toggled),
+	(setup_changes), (show_config), (calendar_prefs_dialog_construct):
+	* gui/calendar-config-keys.h:
+	* gui/calendar-config.h:
+	* gui/calendar-config.c: (calendar_config_get_dview_show_week_no),
+	(calendar_config_set_dview_show_week_no),
+	(calendar_config_add_notification_dview_show_week_no):
+	New option whether to show week number in Day and Work Week view.
+	* gui/e-day-view.h: (struct _EDayView),
+	(e_day_view_get_show_week_number), (e_day_view_set_show_week_number):
+	* gui/e-day-view.c: (dview_show_week_no_changed_cb), (e_day_view_init),
+	(e_day_view_destroy), (e_day_view_recalc_day_starts),
+	(e_day_view_get_show_week_number), (e_day_view_set_show_week_number):
+	New widget showing week number of the first day in a view.
+
+2009-01-16  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #360813
+
+	* conduits/calendar/calendar-conduit.c: (comp_from_remote_record):
+	RFC 2445 - CREATED/DTSTAMP/LAST-MODIFIED always in UTC.
+
+2009-01-16  Milan Crha  <mcrha@redhat.com>
+
+	** Partial fix for bug #310844
+
+	* gui/e-calendar-view.c: (transfer_item_to):
+	Transfer master object instead of the instance for recurring events.
+
+2009-01-15  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #303738
+
+	* gui/gnome-cal.c: (client_cal_opened_cb),
+	(default_client_cal_opened_cb):
+	* gui/e-memos.c: (client_cal_opened_cb),
+	(default_client_cal_opened_cb):
+	* gui/e-tasks.c: (client_cal_opened_cb),
+	(default_client_cal_opened_cb):
+	Forget password on AuthFailed or AuthRequired and try to reopen
+	on AuthFailed status, which will ask for a password again.
+
+	* gui/comp-editor-factory.c: (cal_opened_cb):
+	Show "Authentication Required" on such status returned.
+
+	* common/authentication.c: (auth_cal_forget_password):
+	Do not free memory which hold ECal. Also always forget password
+	for calendar with the URL key.
+
+2009-01-15  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #245156
+
+	* gui/e-day-view.c: (e_day_view_finish_long_event_resize),
+	(e_day_view_finish_resize), (e_day_view_change_event_time),
+	(e_day_view_on_top_canvas_drag_data_received),
+	(e_day_view_on_main_canvas_drag_data_received):
+	* gui/e-week-view.c: (e_week_view_change_event_time):
+	* gui/e-calendar-view.c: (on_unrecur_appointment):
+	Keep old timezone for dtstart/dtend when changing it.
+	* gui/comp-util.h: (cal_comp_set_dtstart_with_oldzone),
+	(cal_comp_set_dtend_with_oldzone):
+	* gui/comp-util.c: (cal_comp_set_dtstart_with_oldzone),
+	(cal_comp_set_dtend_with_oldzone), (datetime_to_zone):
+	Helper functions to make it easier.
+
+2009-01-15  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #246313
+
+	* gui/e-day-view.c: (e_day_view_check_if_new_event_fits): Removed.
+	* gui/e-day-view.h: (struct _EDayView):
+	* gui/e-day-view.c: (e_day_view_init), (e_day_view_size_allocate),
+	(e_day_view_recalc_main_canvas_size), (e_day_view_recalc_cell_sizes),
+	(e_day_view_update_scroll_regions), (e_day_view_check_layout):
+	* gui/e-day-view-layout.h: (e_day_view_layout_day_events):
+	* gui/e-day-view-layout.c: (e_day_view_layout_day_events),
+	(e_day_view_layout_day_event), (e_day_view_expand_day_event):
+	Added ability to show all event in one-day view, but show only up
+	to 6 columns in a multi-day view.
+	* gui/print.c: (print_day_details): Always print all events.
+
 2009-01-14  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #554454

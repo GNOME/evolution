@@ -111,7 +111,6 @@ action_calendar_taskpad_forward_cb (GtkAction *action,
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
 	icalcomponent *clone;
-	ECalComponentItipMethod method;
 	GSList *list;
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
@@ -125,9 +124,10 @@ action_calendar_taskpad_forward_cb (GtkAction *action,
 	/* XXX We only forward the first selected task. */
 	comp = e_cal_component_new ();
 	clone = icalcomponent_new_clone (comp_data->icalcomp);
-	method = E_CAL_COMPONENT_METHOD_PUBLISH;
 	e_cal_component_set_icalcomponent (comp, clone);
-	itip_send_comp (method, comp, comp_data->client, NULL, NULL, NULL);
+	itip_send_comp (
+		E_CAL_COMPONENT_METHOD_PUBLISH, comp,
+		comp_data->client, NULL, NULL, NULL, TRUE);
 	g_object_unref (comp);
 }
 

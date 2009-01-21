@@ -49,6 +49,7 @@
 #include "e-account-combo-box.h"
 #include "shell/e-shell.h"
 
+#include "em-composer-utils.h"
 #include "em-filter-context.h"
 #include "em-filter-rule.h"
 #include "em-utils.h"
@@ -95,6 +96,7 @@ static gboolean lookup_addressbook(CamelSession *session, const char *name);
 static void ms_thread_status(CamelSession *session, CamelSessionThreadMsg *msg, const char *text, int pc);
 static void *ms_thread_msg_new(CamelSession *session, CamelSessionThreadOps *ops, unsigned int size);
 static void ms_thread_msg_free(CamelSession *session, CamelSessionThreadMsg *m);
+static void ms_forward_to (CamelSession *session, CamelFolder *folder, CamelMimeMessage *message, const char *address, CamelException *ex);
 
 static void
 init (MailSession *session)
@@ -126,6 +128,7 @@ class_init (MailSessionClass *mail_session_class)
 	camel_session_class->thread_msg_new = ms_thread_msg_new;
 	camel_session_class->thread_msg_free = ms_thread_msg_free;
 	camel_session_class->thread_status = ms_thread_status;
+	camel_session_class->forward_to = ms_forward_to;
 }
 
 static CamelType
@@ -620,6 +623,16 @@ static void ms_thread_status(CamelSession *session, CamelSessionThreadMsg *msg, 
 {
 	/* This should never be called since we bypass it in alloc! */
 	printf("Thread status '%s' %d%%\n", text, pc);
+}
+
+static void
+ms_forward_to (CamelSession *session, CamelFolder *folder, CamelMimeMessage *message, const char *address, CamelException *ex)
+{
+	g_return_if_fail (session != NULL);
+	g_return_if_fail (message != NULL);
+	g_return_if_fail (address != NULL);
+
+	em_utils_forward_message_raw (folder, message, address, ex);
 }
 
 char *

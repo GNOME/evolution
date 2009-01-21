@@ -473,7 +473,7 @@ cal_shell_content_constructed (GObject *object)
 	container = priv->vpaned;
 
 	widget = gtk_vbox_new (FALSE, 0);
-	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, TRUE);
+	gtk_paned_pack1 (GTK_PANED (container), widget, FALSE, FALSE);
 	gtk_widget_show (widget);
 
 	container = widget;
@@ -501,7 +501,7 @@ cal_shell_content_constructed (GObject *object)
 	container = priv->vpaned;
 
 	widget = gtk_vbox_new (FALSE, 0);
-	gtk_paned_pack2 (GTK_PANED (container), widget, TRUE, TRUE);
+	gtk_paned_pack2 (GTK_PANED (container), widget, TRUE, FALSE);
 	gtk_widget_show (widget);
 
 	container = widget;

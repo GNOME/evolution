@@ -1038,6 +1038,9 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 	gtk_action_group_add_actions (
 		action_group, calendar_entries,
 		G_N_ELEMENTS (calendar_entries), cal_shell_view);
+	e_action_group_add_popup_actions (
+		action_group, calendar_popup_entries,
+		G_N_ELEMENTS (calendar_popup_entries));
 	gtk_action_group_add_radio_actions (
 		action_group, calendar_view_entries,
 		G_N_ELEMENTS (calendar_view_entries), GNOME_CAL_DAY_VIEW,

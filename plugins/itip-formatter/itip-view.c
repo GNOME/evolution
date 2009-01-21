@@ -121,6 +121,8 @@ struct _ItipViewPrivate {
 
 	GtkWidget *options_box;
 	GtkWidget *free_time_check;
+	GtkWidget *keep_alarm_check;
+	GtkWidget *inherit_alarm_check;
 
 	GtkWidget *button_box;
 	gboolean buttons_sensitive;
@@ -947,6 +949,18 @@ recur_toggled_cb (GtkWidget *widget, gpointer data)
 	itip_view_set_mode (view, priv->mode);
 }
 
+/*
+  alarm_check_toggled_cb
+  check1 was changed, so make the second available based on state of the first check.
+*/
+static void
+alarm_check_toggled_cb (GtkWidget *check1, GtkWidget *check2)
+{
+	g_return_if_fail (check1 != NULL);
+	g_return_if_fail (check2 != NULL);
+
+	gtk_widget_set_sensitive (check2, !(GTK_WIDGET_VISIBLE (check1) && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check1))));
+}
 
 static void
 itip_view_init (ItipView *view)
@@ -1118,6 +1132,17 @@ itip_view_init (ItipView *view)
 
 	priv->free_time_check = gtk_check_button_new_with_mnemonic (_("Show time as _free"));
 	gtk_box_pack_start (GTK_BOX (priv->options_box), priv->free_time_check, FALSE, FALSE, 0);
+
+	priv->keep_alarm_check = gtk_check_button_new_with_mnemonic (_("_Preserve my reminder"));
+	/* default value is to keep user's alarms */
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (view->priv->keep_alarm_check), TRUE);
+	gtk_box_pack_start (GTK_BOX (priv->options_box), priv->keep_alarm_check, FALSE, FALSE, 0);
+
+	priv->inherit_alarm_check = gtk_check_button_new_with_mnemonic (_("_Inherit reminder"));
+	gtk_box_pack_start (GTK_BOX (priv->options_box), priv->inherit_alarm_check, FALSE, FALSE, 0);
+
+	g_signal_connect (priv->keep_alarm_check, "toggled", G_CALLBACK (alarm_check_toggled_cb), priv->inherit_alarm_check);
+	g_signal_connect (priv->inherit_alarm_check, "toggled", G_CALLBACK (alarm_check_toggled_cb), priv->keep_alarm_check);
 
 	/* The buttons for actions */
 	priv->button_box = gtk_hbutton_box_new ();
@@ -2118,7 +2143,7 @@ itip_view_set_show_recur_check (ItipView *view, gboolean show)
 
 	if (show)
 		gtk_widget_show (view->priv->recur_check);
-	else  {
+	else {
 		gtk_widget_hide (view->priv->recur_check);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (view->priv->recur_check), FALSE);
 	}
@@ -2132,7 +2157,7 @@ itip_view_set_show_free_time_check (ItipView *view, gboolean show)
 	
 	if (show)
 		gtk_widget_show (view->priv->free_time_check);
-	else  {
+	else {
 		gtk_widget_hide (view->priv->free_time_check);
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (view->priv->free_time_check), FALSE);
 	}
@@ -2144,4 +2169,52 @@ itip_view_get_free_time_check_state (ItipView *view)
 	g_return_val_if_fail (view != NULL, FALSE);
 
 	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (view->priv->free_time_check));
+}
+
+void
+itip_view_set_show_keep_alarm_check (ItipView *view, gboolean show)
+{
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	if (show)
+		gtk_widget_show (view->priv->keep_alarm_check);
+	else
+		gtk_widget_hide (view->priv->keep_alarm_check);
+
+	/* and update state of the second check */
+	alarm_check_toggled_cb (view->priv->keep_alarm_check, view->priv->inherit_alarm_check);
+}
+
+gboolean
+itip_view_get_keep_alarm_check_state (ItipView *view)
+{
+	g_return_val_if_fail (view != NULL, FALSE);
+
+	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (view->priv->keep_alarm_check));
+}
+
+void
+itip_view_set_show_inherit_alarm_check (ItipView *view, gboolean show)
+{
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (ITIP_IS_VIEW (view));	
+	
+	if (show)
+		gtk_widget_show (view->priv->inherit_alarm_check);
+	else {
+		gtk_widget_hide (view->priv->inherit_alarm_check);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (view->priv->inherit_alarm_check), FALSE);
+	}
+
+	/* and update state of the second check */
+	alarm_check_toggled_cb (view->priv->inherit_alarm_check, view->priv->keep_alarm_check);
+}
+
+gboolean
+itip_view_get_inherit_alarm_check_state (ItipView *view)
+{
+	g_return_val_if_fail (view != NULL, FALSE);
+
+	return gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (view->priv->inherit_alarm_check));
 }

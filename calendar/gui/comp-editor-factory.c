@@ -417,6 +417,12 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer data)
 						 "%s", _("Permission denied to open the calendar"));
 		break;
 
+	case E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED:
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+						 "%s", _("Authentication Required"));
+		break;
+
 	case E_CALENDAR_STATUS_AUTHENTICATION_FAILED :
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,

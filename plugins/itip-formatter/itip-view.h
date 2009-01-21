@@ -180,6 +180,12 @@ void itip_view_set_needs_decline (ItipView *view, gboolean needs_decline);
 void itip_view_set_show_free_time_check (ItipView *view, gboolean show);
 gboolean itip_view_get_free_time_check_state (ItipView *view);
 
+void itip_view_set_show_keep_alarm_check (ItipView *view, gboolean show);
+gboolean itip_view_get_keep_alarm_check_state (ItipView *view);
+
+void itip_view_set_show_inherit_alarm_check (ItipView *view, gboolean show);
+gboolean itip_view_get_inherit_alarm_check_state (ItipView *view);
+
 G_END_DECLS
 
 #endif

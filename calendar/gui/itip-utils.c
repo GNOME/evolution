@@ -1023,7 +1023,7 @@ comp_minimal (ECalComponent *comp, gboolean attendee)
 }
 
 static ECalComponent *
-comp_compliant (ECalComponentItipMethod method, ECalComponent *comp, ECal *client, icalcomponent *zones)
+comp_compliant (ECalComponentItipMethod method, ECalComponent *comp, ECal *client, icalcomponent *zones, gboolean strip_alarms)
 {
 	ECalComponent *clone, *temp_clone;
 	struct icaltimetype itt;
@@ -1080,8 +1080,31 @@ comp_compliant (ECalComponentItipMethod method, ECalComponent *comp, ECal *clien
 		e_cal_component_free_recur_list (rrule_list);
 	}
 
-	/* We delete incoming alarms anyhow, and this helps with outlook */
-	e_cal_component_remove_all_alarms (clone);
+	/* We delete incoming alarms if requested, even this helps with outlook */
+	if (strip_alarms) {
+		e_cal_component_remove_all_alarms (clone);
+	} else {
+		/* Always strip procedure alarms, because of security */
+		GList *uids, *l;
+
+		uids = e_cal_component_get_alarm_uids (clone);
+
+		for (l = uids; l; l = l->next) {
+			ECalComponentAlarm *alarm;
+			ECalComponentAlarmAction action = E_CAL_COMPONENT_ALARM_UNKNOWN;
+
+			alarm = e_cal_component_get_alarm (clone, (const char *)l->data);
+			if (alarm) {
+				e_cal_component_alarm_get_action (alarm, &action);
+				e_cal_component_alarm_free (alarm);
+
+				if (action == E_CAL_COMPONENT_ALARM_PROCEDURE)
+					e_cal_component_remove_alarm (clone, (const char *)l->data);
+			}
+		}
+
+		cal_obj_uid_list_free (uids);
+	}
 
 	/* Strip X-LIC-ERROR stuff */
 	e_cal_component_strip_errors (clone);
@@ -1164,7 +1187,7 @@ append_cal_attachments (EMsgComposer *composer,
 
 gboolean
 itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
-		ECal *client, icalcomponent *zones, GSList *attachments_list, GList *users)
+		ECal *client, icalcomponent *zones, GSList *attachments_list, GList *users, gboolean strip_alarms)
 {
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
@@ -1197,7 +1220,7 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	}
 
 	/* Tidy up the comp */
-	comp = comp_compliant (method, send_comp, client, zones);
+	comp = comp_compliant (method, send_comp, client, zones, strip_alarms);
 
 	if (comp == NULL)
 		goto cleanup;
@@ -1312,7 +1335,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 	gboolean retval = FALSE;
 
 	/* Tidy up the comp */
-	comp = comp_compliant (method, send_comp, client, zones);
+	comp = comp_compliant (method, send_comp, client, zones, TRUE);
 	if (comp == NULL)
 		goto cleanup;
 

@@ -1100,7 +1100,7 @@ epl_construct(EPlugin *ep, xmlNodePtr root)
 
 		tmp = xmlGetProp(root, (const unsigned char *)"load-on-startup");
 		if (tmp) {
-			if (strcmp (tmp, "after-ui") == 0) {
+			if (strcmp ((const char *)tmp, "after-ui") == 0) {
 				missing_symbols = g_list_prepend (missing_symbols, g_object_ref (ep));
 			} else {
 				if (epl_loadmodule(ep, FALSE) != 0) {

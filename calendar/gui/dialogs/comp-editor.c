@@ -171,7 +171,7 @@ static void comp_editor_show_help (CompEditor *editor);
 static void setup_widgets (CompEditor *editor);
 
 static void real_edit_comp (CompEditor *editor, ECalComponent *comp);
-static gboolean real_send_comp (CompEditor *editor, ECalComponentItipMethod method);
+static gboolean real_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean strip_alarms);
 static gboolean prompt_and_save_changes (CompEditor *editor, gboolean send);
 static void close_dialog (CompEditor *editor);
 
@@ -897,6 +897,7 @@ save_comp_with_send (CompEditor *editor)
 	CompEditorFlags flags;
 	gboolean send;
 	gboolean delegate;
+	gboolean strip_alarms = TRUE;
 
 	priv = editor->priv;
 
@@ -916,18 +917,18 @@ save_comp_with_send (CompEditor *editor)
 	if (!save_comp (editor))
 		return FALSE;
 
-	if ((delegate && !e_cal_get_save_schedules (priv->client)) || (send && send_component_dialog ((GtkWindow *) editor, priv->client, priv->comp, !priv->existing_org))) {
+	if ((delegate && !e_cal_get_save_schedules (priv->client)) || (send && send_component_dialog ((GtkWindow *) editor, priv->client, priv->comp, !priv->existing_org, &strip_alarms))) {
  		if ((itip_organizer_is_user (priv->comp, priv->client) || itip_sentby_is_user (priv->comp))) {
  			if (e_cal_component_get_vtype (priv->comp) == E_CAL_COMPONENT_JOURNAL)
-				return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_PUBLISH);
+				return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_PUBLISH, strip_alarms);
 			else
-				return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REQUEST);
+				return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REQUEST, strip_alarms);
 		} else {
-			if (!comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REQUEST))
+			if (!comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REQUEST, strip_alarms))
 				return FALSE;
 
 			if (delegate)
-				return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REPLY);
+				return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_REPLY, strip_alarms);
 		}
  	}
 
@@ -3083,7 +3084,7 @@ get_users_from_memo_comp (ECalComponent *comp, GList **users)
 }
 
 static gboolean
-real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
+real_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean strip_alarms)
 {
 	CompEditorPrivate *priv;
 	CompEditorFlags flags;
@@ -3129,7 +3130,7 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 		if (!e_cal_component_has_attachments (priv->comp) 
 		 || e_cal_get_static_capability (priv->client, CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
 		if (itip_send_comp (method, send_comp, priv->client,
-					NULL, NULL, users)) {
+					NULL, NULL, users, strip_alarms)) {
 			g_object_unref (send_comp);
 			return TRUE;
 		}
@@ -3150,7 +3151,7 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 		/* mime_attach_list is freed by itip_send_comp */
 		mime_attach_list = comp_editor_get_mime_attach_list (editor);
 		if (itip_send_comp (method, send_comp, priv->client,
-					NULL, mime_attach_list, users)) {
+					NULL, mime_attach_list, users, strip_alarms)) {
 			save_comp (editor);
 			g_object_unref (send_comp);
 			return TRUE;
@@ -3272,7 +3273,7 @@ comp_editor_delete_comp (CompEditor *editor)
  *
  **/
 gboolean
-comp_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method)
+comp_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean strip_alarms)
 {
 	CompEditorClass *class;
 
@@ -3281,7 +3282,7 @@ comp_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method)
 	class = COMP_EDITOR_GET_CLASS (editor);
 
 	if (class->send_comp)
-		return class->send_comp (editor, method);
+		return class->send_comp (editor, method, strip_alarms);
 
 	return FALSE;
 }

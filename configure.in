@@ -23,7 +23,7 @@ GTKHTML_PACKAGE=3.14
 # Required Packages
 m4_define([glib_minimum_version], [2.18.0])
 m4_define([gtk_minimum_version], [2.14.0])
-m4_define([eds_minimum_version], [2.25.5])
+m4_define([eds_minimum_version], [evo_version])
 m4_define([gnome_icon_theme_minimum_version], [2.19.91])
 m4_define([libbonobo_minimum_version], [2.20.3])
 m4_define([libbonoboui_minimum_version], [2.4.2])
@@ -1763,7 +1763,7 @@ plugins_base_always="calendar-file calendar-http $CALENDAR_WEATHER itip-formatte
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN " 
 all_plugins_base="$plugins_base_always sa-junk-plugin bogo-junk-plugin exchange-operations mono"
 
-plugins_standard_always="bbdb subject-thread save-calendar copy-tool mail-to-task audio-inline mailing-list-actions default-mailer import-ics-attachments prefer-plain mail-notification attachment-reminder face backup-restore email-custom-header templates" 
+plugins_standard_always="bbdb subject-thread save-calendar copy-tool mail-to-task audio-inline mailing-list-actions default-mailer import-ics-attachments prefer-plain mail-notification attachment-reminder face backup-restore email-custom-header templates pst-import"
 
 plugins_standard="$plugins_standard_always"
 all_plugins_standard="$plugins_standard"
@@ -1795,6 +1795,7 @@ dnl mark-all-read
 dnl mono
 dnl plugin-manager
 dnl prefer-plain
+dnl pst-import
 dnl publish-calendar
 dnl python
 dnl startup-wizard
@@ -1903,6 +1904,23 @@ if echo ${plugins_enabled} | grep "exchange-operations" > /dev/null ; then
 	else
 		plugins_enabled=`echo $plugins_enabled | sed -e "s/exchange-operations//g"`
 		echo "warning: libevolution-exchange-$EDS_PACKAGE was not found, Exchange Operations plugin will not be built."
+	fi
+fi
+
+if echo ${plugins_enabled} | grep "pst-import" > /dev/null
+then
+	if ${PKG_CONFIG} --exists libpst
+	then
+		dnl *********************
+		dnl libpst
+		dnl *********************
+		PKG_CHECK_MODULES(LIBPST, libpst)
+		AC_SUBST(LIBPST_CFLAGS)
+		AC_SUBST(LIBPST_LIBS)
+	else
+		plugins_enabled=`echo $plugins_enabled | sed -e "s/pst-import//g"`
+		echo "warning: libpst was not found, pst-import plugin will not be built."
+		echo "you are probably missing libpst-devel package."
 	fi
 fi
 
@@ -2109,6 +2127,7 @@ plugins/import-ics-attachments/Makefile
 plugins/imap-features/Makefile
 plugins/tnef-attachments/Makefile
 plugins/templates/Makefile
+plugins/pst-import/Makefile
 plugins/face/Makefile
 plugins/external-editor/Makefile
 plugins/webdav-account-setup/Makefile

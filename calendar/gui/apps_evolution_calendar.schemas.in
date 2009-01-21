@@ -538,6 +538,18 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/calendar/display/day_view_show_week_number</key>
+      <applyto>/apps/evolution/calendar/display/day_view_show_week_number</applyto>
+      <owner>evolution-calendar</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Show week number in Day and Work Week View</short>
+        <long>Whether to show week number in the Day and Work Week View.</long>
+      </locale>
+    </schema>
+
     <!-- Date navigator -->
 
     <schema>

@@ -1,3 +1,21 @@
+2009-01-19  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #225712
+
+	* itip-view.h:
+	* itip-view.c: (itip_view_set_show_keep_alarm_check),
+	(itip_view_get_keep_alarm_check_state),
+	(itip_view_set_show_inherit_alarm_check),
+	(itip_view_get_inherit_alarm_check_state): New functions to new
+	options to either inherit reminder from the incoming event or to
+	preserve users reminders in already existing event in the calendar.
+	* itip-view.c: (struct _ItipViewPrivate), (alarm_check_toggled_cb),
+	(itip_view_init): Properly initialize new option's members.
+	* itip-formatter.c: (find_cal_opened_cb), (update_item),
+	(send_comp_to_attendee), (update_attendee_status), (send_item),
+	(extract_itip_data), (view_response_cb), (format_itip_object):
+	Setup new options based on the actual data.
+
 2008-11-28  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #561467

@@ -67,7 +67,7 @@ struct _CompEditorClass {
 	/* Virtual functions */
 	void (*edit_comp) (CompEditor *page, ECalComponent *comp);
 	void (*object_created) (CompEditor *page);
-	gboolean (*send_comp) (CompEditor *page, ECalComponentItipMethod method);
+	gboolean (*send_comp) (CompEditor *page, ECalComponentItipMethod method, gboolean strip_alarms);
 
 	void (*show_categories) (CompEditor *editor, gboolean visible);
 	void (*show_role) (CompEditor *editor, gboolean visible);
@@ -131,7 +131,8 @@ gboolean	comp_editor_save_comp		(CompEditor *editor,
 						 gboolean send);
 void		comp_editor_delete_comp		(CompEditor *editor);
 gboolean	comp_editor_send_comp		(CompEditor *editor,
-						 ECalComponentItipMethod method);
+						 ECalComponentItipMethod method,
+						 gboolean strip_alarms);
 GSList *	comp_editor_get_mime_attach_list(CompEditor *editor);
 gboolean	comp_editor_close		(CompEditor *editor);
 

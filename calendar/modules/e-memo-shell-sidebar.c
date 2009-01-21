@@ -194,6 +194,10 @@ memo_shell_sidebar_client_opened_cb (EMemoShellSidebar *memo_shell_sidebar,
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
+	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED ||
+		status == E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED)
+		auth_cal_forget_password (client);
+
 	switch (status) {
 		case E_CALENDAR_STATUS_OK:
 			g_signal_handlers_disconnect_matched (
@@ -206,6 +210,10 @@ memo_shell_sidebar_client_opened_cb (EMemoShellSidebar *memo_shell_sidebar,
 				memo_shell_sidebar, client);
 			memo_shell_sidebar_emit_status_message (
 				memo_shell_sidebar, NULL);
+			break;
+
+		case E_CALENDAR_STATUS_AUTHENTICATION_FAILED:
+			e_cal_open_async (client, FALSE);
 			break;
 
 		case E_CALENDAR_STATUS_BUSY:

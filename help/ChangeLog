@@ -1,3 +1,17 @@
+2009-01-19  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation.
+
+2009-01-16  Johnny Jacob  <jjohnny@novell.com>
+	
+	** Committed on behalf of PC Radhika <pradhika@novell.com>
+	
+	* C/figures/account_editor_a.png:
+	* C/figures/attach_reminder_a.png:
+	* C/figures/evo_newmess_a.png:
+	* C/figures/google_cal_view.png: 
+	Updated screenshots.
+
 2009-01-11  Andre Klapper  <a9016009@gmx.de>
 
 	* C/evolution.xml: Sync two strings. Remove explicit mentioning

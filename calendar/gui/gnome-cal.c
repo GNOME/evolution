@@ -1328,6 +1328,20 @@ gnome_calendar_get_tag (GnomeCalendar *gcal)
 	return GTK_WIDGET (gcal->priv->date_navigator);
 }
 
+static time_t
+gc_get_default_time (ECalModel *model, gpointer user_data)
+{
+	GnomeCalendar *gcal = user_data;
+	time_t res = 0, end;
+
+	g_return_val_if_fail (model != NULL, 0);
+	g_return_val_if_fail (GNOME_IS_CALENDAR (user_data), 0);
+
+	gnome_calendar_get_current_time_range (gcal, &res, &end);
+
+	return res;
+}
+
 static void
 setup_widgets (GnomeCalendar *gcal)
 {
@@ -1510,6 +1524,8 @@ setup_widgets (GnomeCalendar *gcal)
 	gtk_box_pack_start ((GtkBox *)vbox, label, FALSE, TRUE, 0);
 	gtk_widget_show (label);
 	gtk_widget_show (vbox);
+
+	e_cal_model_set_default_time_func (e_memo_table_get_model (E_MEMO_TABLE (priv->memo)), gc_get_default_time, gcal);
 
 	update_memo_view (gcal);
 }
@@ -2138,7 +2154,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	source = e_cal_get_source (ecal);
 	state = e_cal_get_load_state (ecal);
 
-	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED)
+	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED || status == E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED)
 		auth_cal_forget_password (ecal);
 
 	switch (status) {
@@ -2164,17 +2180,10 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 
 		status = E_CALENDAR_STATUS_OK;
 		break;
-	case E_CALENDAR_STATUS_AUTHENTICATION_FAILED: 
-		{
-			const gchar *auth_domain = e_source_get_property (source, "auth-domain");
-			const gchar *component_name;
-			
-			component_name = auth_domain ? auth_domain : "Calendar";
-
-			/* Warn the user password is wrong */
-			e_passwords_forget_password (component_name, e_cal_get_uri(ecal));
-			return;
-		}
+	case E_CALENDAR_STATUS_AUTHENTICATION_FAILED:
+		/* try to reopen calendar - it'll ask for a password once again */
+		e_cal_open_async (ecal, FALSE);
+		return;
 	case E_CALENDAR_STATUS_REPOSITORY_OFFLINE:
 		/* check to see if we have dialog already running for this operation */
 		id = g_strdup ("calendar:unable-to-load-the-calendar");
@@ -2232,6 +2241,9 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 	source = e_cal_get_source (ecal);
 	state = e_cal_get_load_state (ecal);
 
+	if (status == E_CALENDAR_STATUS_AUTHENTICATION_FAILED || status == E_CALENDAR_STATUS_AUTHENTICATION_REQUIRED)
+		auth_cal_forget_password (ecal);
+
 	switch (status) {
 	case E_CALENDAR_STATUS_OK:
 		break;
@@ -2239,12 +2251,17 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 		if (state == E_CAL_LOAD_NOT_LOADED)
 			e_cal_open_async (ecal, FALSE);
 		return;
-	case E_CALENDAR_STATUS_INVALID_SERVER_VERSION :
+	case E_CALENDAR_STATUS_AUTHENTICATION_FAILED:
+		/* try to reopen calendar - it'll ask for a password once again */
+		e_cal_open_async (ecal, FALSE);
+		return;
+	case E_CALENDAR_STATUS_INVALID_SERVER_VERSION:
 		e_error_run (NULL, "calendar:server-version", NULL);
-		status = E_CALENDAR_STATUS_OK;
 	default:
 		/* Make sure the source doesn't disappear on us */
 		g_object_ref (source);
+
+		g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, gcal);
 
 		/* FIXME should we do this to prevent multiple error dialogs? */
 		priv->clients_list = g_list_remove (priv->clients_list, ecal);
@@ -2264,7 +2281,6 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 	}
 
 	g_signal_handlers_disconnect_matched (ecal, G_SIGNAL_MATCH_FUNC, 0, 0, NULL, default_client_cal_opened_cb, NULL);
-
 
 	e_cal_model_set_default_client (
 		e_calendar_view_get_model (

@@ -1,3 +1,15 @@
+2009-10-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in:
+	Keep evolution and evolution-data-server versions in lockstep
+	from now on to avoid any more dependency screw ups.
+
+2009-01-15  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #208426
+
+	* configure.in: Added support for importing .pst files into Evolution.
+
 2009-01-12  Philip Van hoof  <philip@codeminded.be>
 
 	* e-util/e-plugin.c

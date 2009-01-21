@@ -397,6 +397,7 @@ plugins/plugin-manager/plugin-manager.c
 plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml
 plugins/prefer-plain/prefer-plain.c
 plugins/profiler/org-gnome-evolution-profiler.eplug.xml
+plugins/pst-import/org-gnome-pst-import.eplug.xml
 plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml
 plugins/publish-calendar/org-gnome-publish-calendar.xml
 plugins/publish-calendar/publish-calendar.c

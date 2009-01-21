@@ -49,6 +49,7 @@ static const int hide_completed_units_map[] = {
 	CAL_MINUTES, CAL_HOURS, CAL_DAYS, -1
 };
 
+/* same is used for Birthdays & Anniversaries calendar */
 static const int default_reminder_units_map[] = {
 	CAL_MINUTES, CAL_HOURS, CAL_DAYS, -1
 };
@@ -333,6 +334,12 @@ dnav_show_week_no_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
 }
 
 static void
+dview_show_week_no_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
+{
+	calendar_config_set_dview_show_week_no (gtk_toggle_button_get_active (toggle));
+}
+
+static void
 hide_completed_tasks_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
 {
 	gboolean hide;
@@ -405,6 +412,34 @@ default_reminder_units_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 {
 	calendar_config_set_default_reminder_units (
 		e_dialog_combo_box_get (prefs->default_reminder_units, default_reminder_units_map));
+}
+
+static void
+ba_reminder_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
+{
+	gboolean enabled = gtk_toggle_button_get_active (toggle);
+
+	calendar_config_set_ba_reminder (&enabled, NULL, NULL);
+}
+
+static void
+ba_reminder_interval_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
+{
+	const gchar *str;
+	int value;
+
+	str = gtk_entry_get_text (GTK_ENTRY (widget));
+	value = (int) g_ascii_strtod (str, NULL);
+
+	calendar_config_set_ba_reminder (NULL, &value, NULL);
+}
+
+static void
+ba_reminder_units_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
+{
+	CalUnits units = e_dialog_combo_box_get (prefs->ba_reminder_units, default_reminder_units_map);
+
+	calendar_config_set_ba_reminder (NULL, NULL, &units);
 }
 
 static void
@@ -483,6 +518,7 @@ setup_changes (CalendarPrefsDialog *prefs)
 	g_signal_connect (G_OBJECT (prefs->show_end_times), "toggled", G_CALLBACK (show_end_times_toggled), prefs);
 	g_signal_connect (G_OBJECT (prefs->compress_weekend), "toggled", G_CALLBACK (compress_weekend_toggled), prefs);
 	g_signal_connect (G_OBJECT (prefs->dnav_show_week_no), "toggled", G_CALLBACK (dnav_show_week_no_toggled), prefs);
+	g_signal_connect (G_OBJECT (prefs->dview_show_week_no), "toggled", G_CALLBACK (dview_show_week_no_toggled), prefs);
 
 	g_signal_connect (G_OBJECT (prefs->tasks_hide_completed), "toggled",
 			  G_CALLBACK (hide_completed_tasks_toggled), prefs);
@@ -499,6 +535,11 @@ setup_changes (CalendarPrefsDialog *prefs)
 	g_signal_connect (G_OBJECT (prefs->default_reminder_interval), "changed",
 			  G_CALLBACK (default_reminder_interval_changed), prefs);
 	g_signal_connect (G_OBJECT (prefs->default_reminder_units), "changed", G_CALLBACK (default_reminder_units_changed), prefs);
+
+	g_signal_connect (G_OBJECT (prefs->ba_reminder), "toggled", G_CALLBACK (ba_reminder_toggled), prefs);
+	g_signal_connect (G_OBJECT (prefs->ba_reminder_interval), "changed",
+			  G_CALLBACK (ba_reminder_interval_changed), prefs);
+	g_signal_connect (G_OBJECT (prefs->ba_reminder_units), "changed", G_CALLBACK (ba_reminder_units_changed), prefs);
 
 	g_signal_connect (G_OBJECT (prefs->alarm_list_widget), "selection_changed", G_CALLBACK (alarms_selection_changed), prefs);
 
@@ -593,6 +634,8 @@ show_config (CalendarPrefsDialog *prefs)
 	gboolean sensitive, set = FALSE;
 	icalcomponent *icalcomp, *dl_comp;
 	char *location;
+	CalUnits units;
+	int interval;
 
 	/* Timezone. */
 	location = calendar_config_get_timezone ();
@@ -654,6 +697,9 @@ show_config (CalendarPrefsDialog *prefs)
 	/* Date Navigator - Show Week Numbers. */
 	e_dialog_toggle_set (prefs->dnav_show_week_no, calendar_config_get_dnav_show_week_no ());
 
+	/* Day/Work Week view - Show Week Number. */
+	e_dialog_toggle_set (prefs->dview_show_week_no, calendar_config_get_dview_show_week_no ());
+
 	/* Task list */
 	show_task_list_config (prefs);
 
@@ -668,6 +714,13 @@ show_config (CalendarPrefsDialog *prefs)
 	e_dialog_toggle_set (prefs->default_reminder, calendar_config_get_use_default_reminder ());
 	e_dialog_spin_set (prefs->default_reminder_interval, calendar_config_get_default_reminder_interval ());
 	e_dialog_combo_box_set (prefs->default_reminder_units, calendar_config_get_default_reminder_units (), default_reminder_units_map);
+
+	/* Birthdays & Anniversaries reminder */
+	set = calendar_config_get_ba_reminder (&interval, &units);
+
+	e_dialog_toggle_set (prefs->ba_reminder, set);
+	e_dialog_spin_set (prefs->ba_reminder_interval, interval);
+	e_dialog_combo_box_set (prefs->ba_reminder_units, units, default_reminder_units_map);
 }
 
 /* plugin meta-data */
@@ -749,12 +802,16 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs)
 	prefs->default_reminder = glade_xml_get_widget (gui, "default_reminder");
 	prefs->default_reminder_interval = glade_xml_get_widget (gui, "default_reminder_interval");
 	prefs->default_reminder_units = glade_xml_get_widget (gui, "default_reminder_units");
+	prefs->ba_reminder = glade_xml_get_widget (gui, "ba_reminder");
+	prefs->ba_reminder_interval = glade_xml_get_widget (gui, "ba_reminder_interval");
+	prefs->ba_reminder_units = glade_xml_get_widget (gui, "ba_reminder_units");
 
 	/* Display tab */
 	prefs->time_divisions = glade_xml_get_widget (gui, "time_divisions");
 	prefs->show_end_times = glade_xml_get_widget (gui, "show_end_times");
 	prefs->compress_weekend = glade_xml_get_widget (gui, "compress_weekend");
 	prefs->dnav_show_week_no = glade_xml_get_widget (gui, "dnav_show_week_no");
+	prefs->dview_show_week_no = glade_xml_get_widget (gui, "dview_show_week_no");
 	prefs->tasks_due_today_color = glade_xml_get_widget (gui, "tasks_due_today_color");
 	prefs->tasks_overdue_color = glade_xml_get_widget (gui, "tasks_overdue_color");
 	prefs->tasks_hide_completed = glade_xml_get_widget (gui, "tasks_hide_completed");

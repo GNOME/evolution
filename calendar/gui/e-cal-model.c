@@ -77,6 +77,10 @@ struct _ECalModelPrivate {
 
 	/* Whether we display dates in 24-hour format. */
         gboolean use_24_hour_format;
+
+	/* callback, to retrieve start time for newly added rows by click-to-add */
+	ECalModelDefaultTimeFunc get_default_time;
+	gpointer get_default_time_user_data;
 };
 
 #define E_CAL_MODEL_COMPONENT_GET_PRIVATE(obj) \
@@ -816,8 +820,25 @@ ecm_append_row (ETableModel *etm, ETableModel *source, int row)
 	set_categories (&comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_CATEGORIES, row));
 	set_classification (&comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_CLASSIFICATION, row));
 	set_description (&comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_DESCRIPTION, row));
-	set_dtstart (model, &comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_DTSTART, row));
 	set_summary (&comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_SUMMARY, row));
+
+	if (e_table_model_value_at (source, E_CAL_MODEL_FIELD_DTSTART, row)) {
+		set_dtstart (model, &comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_DTSTART, row));
+	} else if (model->priv->get_default_time) {
+		time_t tt = model->priv->get_default_time (model, model->priv->get_default_time_user_data);
+
+		if (tt > 0) {
+			struct icaltimetype itt = icaltime_from_timet_with_zone (tt, FALSE, e_cal_model_get_timezone (model));
+			icalproperty *prop = icalcomponent_get_first_property (comp_data.icalcomp, ICAL_DTSTART_PROPERTY);
+
+			if (prop) {
+				icalproperty_set_dtstart (prop, itt);
+			} else {
+				prop = icalproperty_new_dtstart (itt);
+				icalcomponent_add_property (comp_data.icalcomp, prop);
+			}
+		}
+	}
 
 	/* call the class' method for filling the component */
 	model_class = (ECalModelClass *) G_OBJECT_GET_CLASS (model);
@@ -2459,4 +2480,18 @@ e_cal_model_set_instance_times (ECalModelComponent *comp_data, const icaltimezon
 
 	}
 	comp_data->instance_end = icaltime_as_timet_with_zone (end_time, zone);
+}
+
+/**
+ * e_cal_model_set_default_time_func:
+ * This function will be used when creating new item from the "click-to-add",
+ * when user didn't fill a start date there.
+ **/
+void
+e_cal_model_set_default_time_func (ECalModel *model, ECalModelDefaultTimeFunc func, gpointer user_data)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	model->priv->get_default_time = func;
+	model->priv->get_default_time_user_data = user_data;
 }
