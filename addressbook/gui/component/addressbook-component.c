@@ -137,6 +137,9 @@ ensure_sources (AddressbookComponent *component)
 		       and too late to prevent user seeing "Can not Open ... because of invalid uri" error.*/
 		    e_source_list_sync (source_list,NULL);
 		}
+
+		/* ensure the group name is in current locale, not read from configuration */
+		e_source_group_set_name (on_this_computer, _("On This Computer"));
 	}
 	else {
 		/* create the local source group */
@@ -146,7 +149,10 @@ ensure_sources (AddressbookComponent *component)
 		on_this_computer = group;
 	}
 
-	if (!personal_source) {
+	if (personal_source) {
+		/* ensure the source name is in current locale, not read from configuration */
+		e_source_set_name (personal_source, _("Personal"));
+	} else {
 		/* Create the default Person addressbook */
 		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (on_this_computer, source, -1);
@@ -157,7 +163,10 @@ ensure_sources (AddressbookComponent *component)
 		personal_source = source;
 	}
 
-	if (!on_ldap_servers) {
+	if (on_ldap_servers) {
+		/* ensure the group name is in current locale, not read from configuration */
+		e_source_group_set_name (on_ldap_servers, _("On LDAP Servers"));
+	} else {
 		/* Create the LDAP source group */
 		group = e_source_group_new (_("On LDAP Servers"), LDAP_BASE_URI);
 		e_source_list_add_group (source_list, group, -1);

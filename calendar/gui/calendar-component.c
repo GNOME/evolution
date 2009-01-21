@@ -238,6 +238,9 @@ ensure_sources (CalendarComponent *component)
 		       and too late to prevent user seeing "Can not Open ... because of invalid uri" error.*/
 		    e_source_list_sync (source_list,NULL);
 		}
+
+		/* ensure the group name is in current locale, not read from configuration */
+		e_source_group_set_name (on_this_computer, _("On This Computer"));
 	}
 	else {
 		/* create the local source group */
@@ -247,7 +250,10 @@ ensure_sources (CalendarComponent *component)
 		on_this_computer = group;
 	}
 
-	if (!personal_source) {
+	if (personal_source) {
+		/* ensure the source name is in current locale, not read from configuration */
+		e_source_set_name (personal_source, _("Personal"));
+	} else {
 		char *primary_calendar = calendar_config_get_primary_calendar();
 		GSList *calendars_selected;
 
@@ -276,13 +282,17 @@ ensure_sources (CalendarComponent *component)
 		e_source_set_color_spec (personal_source, "#BECEDD");
 	}
 
-	if (!on_the_web) {
+	if (on_the_web) {
+		/* ensure the group name is in current locale, not read from configuration */
+		e_source_group_set_name (on_the_web, _("On The Web"));
+	} else {
 		/* Create the On the web source group */
 		group = e_source_group_new (_("On The Web"), WEB_BASE_URI);
 		e_source_list_add_group (source_list, group, -1);
 
 		on_the_web = group;
 	}
+
 	if (contacts) {
 		GSList *sources = e_source_group_peek_sources (contacts);
 		if (sources) {
@@ -301,8 +311,10 @@ ensure_sources (CalendarComponent *component)
 				g_slist_free (l);
 			}
 		}
-	}
-	else  {
+
+		/* ensure the group name is in current locale, not read from configuration */
+		e_source_group_set_name (contacts, _("Contacts"));
+	} else {
 		/* Create the contacts group */
 		group = e_source_group_new (_("Contacts"), CONTACTS_BASE_URI);
 		e_source_list_add_group (source_list, group, -1);
@@ -314,7 +326,10 @@ ensure_sources (CalendarComponent *component)
 		e_source_group_set_property (contacts, "create_source", "no");
 	g_free (create_source);
 
-	if (!birthdays_source) {
+	if (birthdays_source) {
+		/* ensure the source name is in current locale, not read from configuration */
+		e_source_set_name (birthdays_source, _("Birthdays & Anniversaries"));
+	} else {
 		birthdays_source = e_source_new (_("Birthdays & Anniversaries"), "/");
 		e_source_group_add_source (contacts, birthdays_source, -1);
 		g_object_unref (birthdays_source);
@@ -326,7 +341,10 @@ ensure_sources (CalendarComponent *component)
 	if (e_source_peek_color_spec (birthdays_source) == NULL)
 		e_source_set_color_spec (birthdays_source, "#DDBECE");
 
-	if (!weather) {
+	if (weather) {
+		/* ensure the group name is in current locale, not read from configuration */
+		e_source_group_set_name (weather, _("Weather"));
+	} else {
 		/* Create the weather group */
 		group = e_source_group_new (_("Weather"), WEATHER_BASE_URI);
 		e_source_list_add_group (source_list, group, -1);
