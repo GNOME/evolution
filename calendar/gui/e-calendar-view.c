@@ -790,7 +790,7 @@ e_calendar_view_copy_clipboard (ECalendarView *cal_view)
 
 	/* copy the VCALENDAR to the clipboard */
 	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (cal_view), GDK_SELECTION_CLIPBOARD);
-	comp_str = icalcomponent_as_ical_string (vcal_comp);
+	comp_str = icalcomponent_as_ical_string_r (vcal_comp);
 
 	if (!gtk_clipboard_set_with_data (clipboard, target_types, n_target_types,
 					  clipboard_get_calendar_cb,
@@ -1405,7 +1405,7 @@ transfer_item_to (ECalendarViewEvent *event, ECal *dest_client, gboolean remove_
 			struct icaltimetype recur_id = icalcomponent_get_recurrenceid (event->comp_data->icalcomp);
 
 			if (!icaltime_is_null_time (recur_id))
-				rid = icaltime_as_ical_string (recur_id);
+				rid = icaltime_as_ical_string_r (recur_id);
 
 			e_cal_remove_object_with_mod (event->comp_data->client, uid, rid, CALOBJ_MOD_ALL, NULL);
 			g_free (rid);
@@ -2506,7 +2506,7 @@ icalcomp_contains_category (icalcomponent *icalcomp, const gchar *category)
 	for (property = icalcomponent_get_first_property (icalcomp, ICAL_CATEGORIES_PROPERTY);
 	     property != NULL;
 	     property = icalcomponent_get_next_property (icalcomp, ICAL_CATEGORIES_PROPERTY)) {
-		char *value = icalproperty_get_value_as_string (property);
+		char *value = icalproperty_get_value_as_string_r (property);
 
 		if (value && strcmp (category, value) == 0){
 			g_free (value);

@@ -89,7 +89,7 @@ do_save_calendar_ical (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSourc
 		stream = open_for_writing (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (target->selector))), dest_uri, &error);
 
 		if (stream && !error) {
-			char *ical_str = icalcomponent_as_ical_string (top_level);
+			char *ical_str = icalcomponent_as_ical_string_r (top_level);
 
 			g_output_stream_write_all (stream, ical_str, strlen (ical_str), NULL, NULL, &error);
 			g_output_stream_close (stream, NULL, NULL);

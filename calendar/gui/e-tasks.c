@@ -502,7 +502,7 @@ obtain_list_of_components (gpointer data, gpointer user_data)
 		e_cal_util_add_timezones_from_component (vcal, comp_data->icalcomp);
 		icalcomponent_add_component (vcal, icalcomponent_new_clone (comp_data->icalcomp));
 
-		comp_str = icalcomponent_as_ical_string (vcal);
+		comp_str = icalcomponent_as_ical_string_r (vcal);
 		if (comp_str) {
 			ESource *source = e_cal_get_source (comp_data->client);
 			const char *source_uid = e_source_peek_uid (source);

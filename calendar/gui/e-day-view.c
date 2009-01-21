@@ -564,7 +564,7 @@ update_row (EDayView *day_view, int row)
 
 		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_RECURRENCEID_PROPERTY);
 		if (prop)
-			rid = icaltime_as_ical_string (icalcomponent_get_recurrenceid (comp_data->icalcomp));
+			rid = icaltime_as_ical_string_r (icalcomponent_get_recurrenceid (comp_data->icalcomp));
 	}
 
 	if (e_day_view_find_event_from_uid (day_view, comp_data->client, uid, rid, &day, &event_num))
@@ -658,7 +658,7 @@ model_comps_deleted_cb (ETableModel *etm, gpointer data, gpointer user_data)
 
 			prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_RECURRENCEID_PROPERTY);
 			if (prop)
-				rid = icaltime_as_ical_string (icalcomponent_get_recurrenceid (comp_data->icalcomp));
+				rid = icaltime_as_ical_string_r (icalcomponent_get_recurrenceid (comp_data->icalcomp));
 		}
 
 		if (e_day_view_find_event_from_uid (day_view, comp_data->client, uid, rid, &day, &event_num))
@@ -1993,7 +1993,7 @@ e_day_view_find_event_from_uid (EDayView *day_view,
 			u = icalcomponent_get_uid (event->comp_data->icalcomp);
 			if (u && !strcmp (uid, u)) {
 				if (rid && *rid) {
-					r = icaltime_as_ical_string (icalcomponent_get_recurrenceid (event->comp_data->icalcomp));
+					r = icaltime_as_ical_string_r (icalcomponent_get_recurrenceid (event->comp_data->icalcomp));
 					if (!r || !*r)
 						continue;
 					if (strcmp (rid, r) != 0) {
@@ -4586,7 +4586,7 @@ e_day_view_reshape_day_events (EDayView *day_view,
 
 		e_day_view_reshape_day_event (day_view, day, event_num);
 		event = &g_array_index (day_view->events[day], EDayViewEvent, event_num);
-		current_comp_string = icalcomponent_as_ical_string (event->comp_data->icalcomp);
+		current_comp_string = icalcomponent_as_ical_string_r (event->comp_data->icalcomp);
 		if (day_view->last_edited_comp_string == NULL) {
 			g_free (current_comp_string);
 			continue;
@@ -7364,7 +7364,7 @@ e_day_view_on_drag_data_get (GtkWidget          *widget,
 		e_cal_util_add_timezones_from_component (vcal, event->comp_data->icalcomp);
 		icalcomponent_add_component (vcal, icalcomponent_new_clone (event->comp_data->icalcomp));
 
-		comp_str = icalcomponent_as_ical_string (vcal);
+		comp_str = icalcomponent_as_ical_string_r (vcal);
 		if (comp_str) {
 			gtk_selection_data_set (selection_data, selection_data->target,
 						8, (unsigned char *)comp_str, strlen (comp_str));

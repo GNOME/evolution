@@ -1,3 +1,45 @@
+2009-01-21  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #541209
+
+	** Adapt to the new APIs from upstream libical. Changes made include
+	using the "_r" counterpart for the following APIs:
+	+ icalproperty_as_ical_string ()
+	+ icalvalue_as_ical_string ()
+	+ icalcomponent_as_ical_string ()
+	+ icalparameter_as_ical_string ()
+	+ icaldurationtype_as_ical_string ()
+	+ icalenum_reqstat_code ()
+	+ icallangbind_property_eval_string ()
+	+ icallangbind_quote_as_ical ()
+	+ icalmime_text_end_part ()
+	+ icalperiodtype_as_ical_string ()
+	+ icalproperty_enum_to_string ()
+	+ icalproperty_get_parameter_as_string ()
+	+ icalproperty_get_value_as_string ()
+	+ icalproperty_get_property_name ()
+	+ icalrecurrencetype_as_string ()
+	+ icaltime_as_ical_string ()
+	+ icalreqstattype_as_string ()
+	+ icalvalue_binary_as_ical_string ()
+	+ icalvalue_int_as_ical_string ()
+	+ icalvalue_utcoffset_as_ical_string ()
+	+ icalvalue_string_as_ical_string ()
+	+ icalvalue_recur_as_ical_string ()
+	+ icalvalue_text_as_ical_string ()
+	+ icalvalue_attach_as_ical_string ()
+	+ icalvalue_duration_as_ical_string ()
+	+ icalvalue_date_as_ical_string ()
+	+ icalvalue_datetime_as_ical_string ()
+	+ icalvalue_float_as_ical_string ()
+	+ icalvalue_geo_as_ical_string ()
+	+ icalvalue_datetimeperiod_as_ical_string ()
+	+ icalvalue_period_as_ical_string ()
+	+ icalvalue_trigger_as_ical_string ()
+	+ icalvalue_as_ical_string ()
+
+	* send-options.c (put_options_in_source):
+
 2009-01-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #567744

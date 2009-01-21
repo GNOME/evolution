@@ -350,7 +350,7 @@ update_row (EWeekView *week_view, int row)
 
 		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_RECURRENCEID_PROPERTY);
 		if (prop)
-			rid = icaltime_as_ical_string (icalcomponent_get_recurrenceid (comp_data->icalcomp));
+			rid = icaltime_as_ical_string_r (icalcomponent_get_recurrenceid (comp_data->icalcomp));
 	}
 
 	if (e_week_view_find_event_from_uid (week_view, comp_data->client, uid, rid, &event_num))
@@ -440,7 +440,7 @@ model_comps_deleted_cb (ETableModel *etm, gpointer data, gpointer user_data)
 
 			prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_RECURRENCEID_PROPERTY);
 			if (prop)
-				rid = icaltime_as_ical_string (icalcomponent_get_recurrenceid (comp_data->icalcomp));
+				rid = icaltime_as_ical_string_r (icalcomponent_get_recurrenceid (comp_data->icalcomp));
 		}
 
 		if (e_week_view_find_event_from_uid (week_view, comp_data->client, uid, rid, &event_num))
@@ -2565,7 +2565,7 @@ e_week_view_reshape_events (EWeekView *week_view)
 							span_num);
 			if (week_view->last_edited_comp_string == NULL)
 				continue;
-			current_comp_string = icalcomponent_as_ical_string (event->comp_data->icalcomp);
+			current_comp_string = icalcomponent_as_ical_string_r (event->comp_data->icalcomp);
 			if (strncmp (current_comp_string, week_view->last_edited_comp_string,50) == 0) {
 				EWeekViewEventSpan *span;
 				span = &g_array_index (week_view->spans, EWeekViewEventSpan, event->spans_index + span_num);
@@ -3715,7 +3715,7 @@ e_week_view_find_event_from_uid (EWeekView	  *week_view,
 		u = icalcomponent_get_uid (event->comp_data->icalcomp);
 		if (u && !strcmp (uid, u)) {
 			if (rid && *rid) {
-				r = icaltime_as_ical_string (icalcomponent_get_recurrenceid (event->comp_data->icalcomp));
+				r = icaltime_as_ical_string_r (icalcomponent_get_recurrenceid (event->comp_data->icalcomp));
 				if (!r || !*r)
 					continue;
 				if (strcmp (rid, r) != 0) {

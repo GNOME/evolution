@@ -1338,7 +1338,7 @@ search_by_id_and_client (ECalModelPrivate *priv, ECal *client, const ECalCompone
 			gboolean has_rid = (id->rid && *id->rid);
 
 			uid = icalcomponent_get_uid (comp_data->icalcomp);
-			rid = icaltime_as_ical_string (icalcomponent_get_recurrenceid (comp_data->icalcomp));
+			rid = icaltime_as_ical_string_r (icalcomponent_get_recurrenceid (comp_data->icalcomp));
 
 			if (uid && *uid) {
 				if ((!client || comp_data->client == client) && !strcmp (id->uid, uid)) {

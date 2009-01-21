@@ -859,7 +859,7 @@ comp_limit_attendees (ECalComponent *comp)
 			continue;
 		}
 
-		attendee = icalproperty_get_value_as_string (prop);
+		attendee = icalproperty_get_value_as_string_r (prop);
 		if (!attendee)
 			continue;
 
@@ -1256,7 +1256,7 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	content_type = comp_content_type (comp, method);
 
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
-	ical_string = icalcomponent_as_ical_string (top_level);
+	ical_string = icalcomponent_as_ical_string_r (top_level);
 
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT) {
 		e_msg_composer_set_body (composer, ical_string, content_type);
@@ -1361,7 +1361,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 	e_destination_freev (destinations);
 
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
-	ical_string = icalcomponent_as_ical_string (top_level);
+	ical_string = icalcomponent_as_ical_string_r (top_level);
 
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT){
 
@@ -1671,7 +1671,7 @@ itip_publish_comp (ECal *client, gchar *uri, gchar *username,
 	}
 
 	soup_message_set_flags (msg, SOUP_MESSAGE_NO_REDIRECT);
-	ical_string = icalcomponent_as_ical_string (toplevel);
+	ical_string = icalcomponent_as_ical_string_r (toplevel);
 	soup_message_set_request (msg, "text/calendar", SOUP_MEMORY_TEMPORARY,
 				  ical_string, strlen (ical_string));
 
