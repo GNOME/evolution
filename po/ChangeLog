@@ -1,3 +1,7 @@
+2009-01-22  Wadim Dziedzic  <wdziedzic@aviary.pl>
+
+	* pl.po: Fixed bug 567778 in Polish translation
+
 2009-01-19  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es.po: Updated Spanish translation.
