@@ -898,8 +898,12 @@ name_selector_dialog_close_cb (ENameSelectorDialog *dialog, gint response, gpoin
 
 		ma = e_meeting_store_find_attendee (store, email, &i);
 
-		if (ma)
-			e_meeting_store_remove_attendee (store, ma);
+		if (ma) {
+			if (e_meeting_attendee_get_edit_level (ma) != E_MEETING_ATTENDEE_EDIT_FULL)
+				g_warning ("Not enough rights to delete attendee: %s\n", e_meeting_attendee_get_address (ma));
+			else
+				e_meeting_store_remove_attendee (store, ma);
+		}
 	}
 
 	g_slist_free (la);

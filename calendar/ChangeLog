@@ -1,3 +1,13 @@
+2009-01-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #442869
+
+	* gui/dialogs/task-page.c: (attendee_added_cb):
+	* gui/dialogs/event-page.c: (attendee_added_cb): Do not work
+	with NULL delegator and do not set 'delfrom' with two MAILTO.
+	* gui/e-meeting-list-view.c: (name_selector_dialog_close_cb):
+	Delete attendee only if we have enough rights for it.
+
 2009-01-21  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #362754
