@@ -1087,6 +1087,7 @@ eab_contact_display_init (EABContactDisplay *display)
 {
 	GtkActionGroup *action_group;
 	GtkHTML *html;
+	const gchar *id;
 
 	display->priv = EAB_CONTACT_DISPLAY_GET_PRIVATE (display);
 	display->priv->mode = EAB_CONTACT_DISPLAY_RENDER_NORMAL;
@@ -1146,8 +1147,9 @@ eab_contact_display_init (EABContactDisplay *display)
 		display->priv->invisible,
 		GDK_SELECTION_CLIPBOARD, GDK_SELECTION_TYPE_STRING, 1);
 
-	e_plugin_ui_register_manager (
-		"contact-display", display->priv->ui_manager, display);
+	id = "org.gnome.evolution.contact-display";
+	e_plugin_ui_register_manager (display->priv->ui_manager, id, display);
+	e_plugin_ui_enable_manager (display->priv->ui_manager, id);
 }
 
 GType

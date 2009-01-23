@@ -4,7 +4,7 @@ INCLUDES =						\
 
 @EVO_PLUGIN_RULE@
 
-plugin_DATA = org-gnome-plugin-manager.eplug org-gnome-plugin-manager.xml
+plugin_DATA = org-gnome-plugin-manager.eplug
 plugin_LTLIBRARIES = liborg-gnome-plugin-manager.la
 
 liborg_gnome_plugin_manager_la_SOURCES = plugin-manager.c
@@ -13,9 +13,8 @@ liborg_gnome_plugin_manager_la_LIBADD =			\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(EVOLUTION_MAIL_LIBS)
 
-EXTRA_DIST =						\
-	org-gnome-plugin-manager.eplug.xml		\
-	org-gnome-plugin-manager.xml
+EXTRA_DIST = \
+	org-gnome-plugin-manager.eplug.xml
 
 BUILT_SOURCES = org-gnome-plugin-manager.eplug
 

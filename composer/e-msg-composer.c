@@ -2726,6 +2726,7 @@ msg_composer_init (EMsgComposer *composer)
 	GtkUIManager *manager;
 	GtkhtmlEditor *editor;
 	GtkHTML *html;
+	const gchar *id;
 
 	composer->priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
 
@@ -2833,8 +2834,9 @@ msg_composer_init (EMsgComposer *composer)
 	/* Initialization may have tripped the "changed" state. */
 	gtkhtml_editor_set_changed (editor, FALSE);
 
-	e_plugin_ui_register_manager (
-		"org.gnome.evolution.composer", manager, composer);
+	id = "org.gnome.evolution.composer";
+	e_plugin_ui_register_manager (manager, id, composer);
+	e_plugin_ui_enable_manager (manager, id);
 }
 
 GType

@@ -465,6 +465,7 @@ event_editor_init (EventEditor *ee)
 	GtkUIManager *manager;
 	GtkActionGroup *action_group;
 	GtkAction *action;
+	const gchar *id;
 	GError *error = NULL;
 
 	ee->priv = EVENT_EDITOR_GET_PRIVATE (ee);
@@ -487,7 +488,10 @@ event_editor_init (EventEditor *ee)
 
 	manager = comp_editor_get_ui_manager (editor);
 	gtk_ui_manager_add_ui_from_string (manager, ui, -1, &error);
-	e_plugin_ui_register_manager ("event-editor", manager, ee);
+
+	id = "org.gnome.evolution.event-editor";
+	e_plugin_ui_register_manager (manager, id, ee);
+	e_plugin_ui_enable_manager (manager, id);
 
 	if (error != NULL) {
 		g_critical ("%s: %s", G_STRFUNC, error->message);

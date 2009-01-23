@@ -62,10 +62,13 @@ typedef gboolean	(*EPluginUIInitFunc)	(GtkUIManager *manager,
 
 GType		e_plugin_ui_hook_get_type	(void);
 
-void		e_plugin_ui_register_manager	(const gchar *id,
-						 GtkUIManager *manager,
+void		e_plugin_ui_register_manager	(GtkUIManager *manager,
+						 const gchar *id,
 						 gpointer user_data);
-const gchar *	e_plugin_ui_get_manager_id	(GtkUIManager *manager);
+void		e_plugin_ui_enable_manager	(GtkUIManager *manager,
+						 const gchar *id);
+void		e_plugin_ui_disable_manager	(GtkUIManager *manager,
+						 const gchar *id);
 
 G_END_DECLS
 

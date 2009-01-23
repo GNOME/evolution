@@ -134,6 +134,7 @@ memo_editor_init (MemoEditor *me)
 {
 	CompEditor *editor = COMP_EDITOR (me);
 	GtkUIManager *manager;
+	const gchar *id;
 	GError *error = NULL;
 
 	me->priv = MEMO_EDITOR_GET_PRIVATE (me);
@@ -141,7 +142,10 @@ memo_editor_init (MemoEditor *me)
 
 	manager = comp_editor_get_ui_manager (editor);
 	gtk_ui_manager_add_ui_from_string (manager, ui, -1, &error);
-	e_plugin_ui_register_manager ("memo-editor", manager, me);
+
+	id = "org.gnome.evolution.memo-editor";
+	e_plugin_ui_register_manager (manager, id, me);
+	e_plugin_ui_enable_manager (manager, id);
 
 	if (error != NULL) {
 		g_critical ("%s: %s", G_STRFUNC, error->message);

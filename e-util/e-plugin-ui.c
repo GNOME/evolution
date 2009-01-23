@@ -25,7 +25,6 @@
 
 #define E_PLUGIN_UI_INIT_FUNC		"e_plugin_ui_init"
 #define E_PLUGIN_UI_HOOK_CLASS_ID       "org.gnome.evolution.ui:1.0"
-#define E_PLUGIN_UI_MANAGER_ID_KEY	"e-plugin-ui-manager-id"
 
 struct _EPluginUIHookPrivate {
 
@@ -33,9 +32,11 @@ struct _EPluginUIHookPrivate {
 	 *
 	 * For example:
 	 *
-	 *     <ui-manager id="org.gnome.evolution.sample">
- 	 *             ... UI definition ...
-	 *     </ui-manager>
+	 *     <hook class="org.gnome.evolution.ui:1.0">
+	 *       <ui-manager id="org.gnome.evolution.sample">
+	 *               ... UI definition ...
+	 *       </ui-manager>
+	 *     </hook>
 	 *
 	 * Results in:
 	 *
@@ -49,165 +50,109 @@ struct _EPluginUIHookPrivate {
 	 * optional.
 	 */
 	GHashTable *ui_definitions;
+
+	/* The registry is the heart of EPluginUI.  It tracks GtkUIManager
+	 * instances, GtkUIManager IDs, and UI merge IDs as a hash table of
+	 * hash tables:
+	 *
+	 *     GtkUIManager instance -> GtkUIManager ID -> UI Merge ID
+	 *
+	 * A GtkUIManager instance and ID form a unique key for looking up
+	 * UI merge IDs.  The reason both are needed is because the same
+	 * GtkUIManager instance and be registered under multiple IDs.
+	 *
+	 * This is done primarily to support shell views, which share a
+	 * common GtkUIManager instance for a particular shell window.
+	 * Each shell view registers the same GtkUIManager instance under
+	 * a unique ID:
+	 *
+	 *     "org.gnome.evolution.mail"      }
+	 *     "org.gnome.evolution.contacts"  }  aliases for a common
+	 *     "org.gnome.evolution.calendar"  }  GtkUIManager instance
+	 *     "org.gnome.evolution.memos"     }
+	 *     "org.gnome.evolution.tasks"     }
+	 *
+	 * Note: The shell window also registers the same GtkUIManager
+	 *       instance as "org.gnome.evolution.shell".
+	 *
+	 * This way, plugins that extend a shell view's UI will follow the
+	 * merging and unmerging of the shell view automatically.
+	 *
+	 * The presence or absence of GtkUIManager IDs in the registry is
+	 * significant.  Presence of a (instance, ID) pair indicates that
+	 * UI manager is active, absence indicates inactive.  Furthermore,
+	 * a non-zero merge ID for an active UI manager indicates the
+	 * plugin is enabled.  Zero indicates disabled.
+	 *
+	 * Here's a quick scenario to illustrate:
+	 *
+	 * Suppose we have a plugin that extends the mail shell view UI.
+	 * Its EPlugin definition file has this section:
+	 *
+	 *     <hook class="org.gnome.evolution.ui:1.0">
+	 *       <ui-manager id="org.gnome.evolution.mail">
+	 *               ... UI definition ...
+	 *       </ui-manager>
+	 *     </hook>
+	 *
+	 * The plugin is enabled and the active shell view is "mail".
+	 * Let "ManagerA" denote the common GtkUIManager instance for
+	 * this shell window.  Here's what happens to the registry as
+	 * the user performs various actions;
+	 *
+	 *     - Initial State                            Merge ID
+	 *                                                   V
+	 *       { "ManagerA", { "org.gnome.evolution.mail", 3 } }
+	 *
+	 *     - User Disables the Plugin
+	 *
+	 *       { "ManagerA", { "org.gnome.evolution.mail", 0 } }
+	 *
+	 *     - User Enables the Plugin
+	 *
+	 *       { "ManagerA", { "org.gnome.evolution.mail", 4 } }
+	 *
+	 *     - User Switches to Calendar View
+	 *
+	 *       { "ManagerA", { } }
+	 *
+	 *     - User Disables the Plugin
+	 *
+	 *       { "ManagerA", { } }
+	 *
+	 *     - User Switches to Mail View
+	 *
+	 *       { "ManagerA", { "org.gnome.evolution.mail", 0 } }
+	 *
+	 *     - User Enables the Plugin
+	 *
+	 *       { "ManagerA", { "org.gnome.evolution.mail", 5 } }
+	 */
+	GHashTable *registry;
 };
 
-/* The registry is a hash table of hash tables.  It maps
- *
- *    EPluginUIHook instance --> GtkUIManager instance --> UI merge id
- *
- * GtkUIManager instances are automatically removed when finalized.
- */
-static GHashTable *registry;
 static gpointer parent_class;
 
 static void
-plugin_ui_registry_remove (EPluginUIHook *hook,
-                           GtkUIManager *manager)
+plugin_ui_hook_unregister_manager (EPluginUIHook *hook,
+                                   GtkUIManager *manager)
 {
-	GHashTable *hash_table;
+	GHashTable *registry;
 
 	/* Note: Manager may already be finalized. */
-
-	hash_table = g_hash_table_lookup (registry, hook);
-	g_return_if_fail (hash_table != NULL);
-
-	g_hash_table_remove (hash_table, manager);
-	if (g_hash_table_size (hash_table) == 0)
-		g_hash_table_remove (registry, hook);
-}
-
-static void
-plugin_ui_registry_insert (EPluginUIHook *hook,
-                           GtkUIManager *manager,
-                           guint merge_id)
-{
-	GHashTable *hash_table;
-
-	if (registry == NULL)
-		registry = g_hash_table_new_full (
-			g_direct_hash, g_direct_equal,
-			(GDestroyNotify) NULL,
-			(GDestroyNotify) g_hash_table_destroy);
-
-	hash_table = g_hash_table_lookup (registry, hook);
-	if (hash_table == NULL) {
-		hash_table = g_hash_table_new (g_direct_hash, g_direct_equal);
-		g_hash_table_insert (registry, hook, hash_table);
-	}
-
-	g_object_weak_ref (
-		G_OBJECT (manager), (GWeakNotify)
-		plugin_ui_registry_remove, hook);
-
-	g_hash_table_insert (hash_table, manager, GUINT_TO_POINTER (merge_id));
-}
-
-/* Helper for plugin_ui_hook_merge_ui() */
-static void
-plugin_ui_hook_merge_foreach (GtkUIManager *manager,
-                              const gchar *ui_definition,
-                              GHashTable *hash_table)
-{
-	guint merge_id;
-	GError *error = NULL;
-
-	/* Merge the UI definition into the manager. */
-	merge_id = gtk_ui_manager_add_ui_from_string (
-		manager, ui_definition, -1, &error);
-	gtk_ui_manager_ensure_update (manager);
-	if (error != NULL) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
-
-	/* Merge ID will be 0 on error, which is what we want. */
-	g_hash_table_insert (hash_table, manager, GUINT_TO_POINTER (merge_id));
-}
-
-static void
-plugin_ui_hook_merge_ui (EPluginUIHook *hook)
-{
-	GHashTable *old_merge_ids;
-	GHashTable *new_merge_ids;
-	GHashTable *intermediate;
-	GList *keys;
-
-	old_merge_ids = g_hash_table_lookup (registry, hook);
-	if (old_merge_ids == NULL)
-		return;
-
-	/* The GtkUIManager instances and UI definitions live in separate
-	 * tables, so we need to build an intermediate table that we can
-	 * easily iterate over. */
-	keys = g_hash_table_get_keys (old_merge_ids);
-	intermediate = g_hash_table_new (g_direct_hash, g_direct_equal);
-
-	while (keys != NULL) {
-		GtkUIManager *manager = keys->data;
-		gchar *ui_definition;
-
-		ui_definition = g_hash_table_lookup (
-			hook->priv->ui_definitions,
-			e_plugin_ui_get_manager_id (manager));
-
-		g_hash_table_insert (intermediate, manager, ui_definition);
-
-		keys = g_list_delete_link (keys, keys);
-	}
-
-	new_merge_ids = g_hash_table_new (g_direct_hash, g_direct_equal);
-
-	g_hash_table_foreach (
-		intermediate, (GHFunc)
-		plugin_ui_hook_merge_foreach, new_merge_ids);
-
-	g_hash_table_insert (registry, hook, new_merge_ids);
-
-	g_hash_table_destroy (intermediate);
-}
-
-/* Helper for plugin_ui_hook_unmerge_ui() */
-static void
-plugin_ui_hook_unmerge_foreach (GtkUIManager *manager,
-                                gpointer value,
-                                GHashTable *hash_table)
-{
-	guint merge_id;
-
-	merge_id = GPOINTER_TO_UINT (value);
-	gtk_ui_manager_remove_ui (manager, merge_id);
-
-	g_hash_table_insert (hash_table, manager, GUINT_TO_POINTER (0));
-}
-
-static void
-plugin_ui_hook_unmerge_ui (EPluginUIHook *hook)
-{
-	GHashTable *old_merge_ids;
-	GHashTable *new_merge_ids;
-
-	old_merge_ids = g_hash_table_lookup (registry, hook);
-	if (old_merge_ids == NULL)
-		return;
-
-	new_merge_ids = g_hash_table_new (g_direct_hash, g_direct_equal);
-
-	g_hash_table_foreach (
-		old_merge_ids, (GHFunc)
-		plugin_ui_hook_unmerge_foreach, new_merge_ids);
-
-	g_hash_table_insert (registry, hook, new_merge_ids);
+	registry = hook->priv->registry;
+	g_hash_table_remove (registry, manager);
 }
 
 static void
 plugin_ui_hook_register_manager (EPluginUIHook *hook,
                                  GtkUIManager *manager,
-                                 const gchar *ui_definition,
                                  gpointer user_data)
 {
 	EPlugin *plugin;
 	EPluginUIInitFunc func;
-	guint merge_id = 0;
+	GHashTable *registry;
+	GHashTable *hash_table;
 
 	plugin = ((EPluginHook *) hook)->plugin;
 	func = e_plugin_get_symbol (plugin, E_PLUGIN_UI_INIT_FUNC);
@@ -219,31 +164,195 @@ plugin_ui_hook_register_manager (EPluginUIHook *hook,
 	if (func != NULL && !func (manager, user_data))
 		return;
 
-	if (plugin->enabled) {
-		GError *error = NULL;
+	g_object_weak_ref (
+		G_OBJECT (manager), (GWeakNotify)
+		plugin_ui_hook_unregister_manager, hook);
 
-		/* Merge the UI definition into the manager. */
-		merge_id = gtk_ui_manager_add_ui_from_string (
-			manager, ui_definition, -1, &error);
-		gtk_ui_manager_ensure_update (manager);
-		if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_error_free (error);
-		}
+	registry = hook->priv->registry;
+	hash_table = g_hash_table_lookup (registry, manager);
+
+	if (hash_table == NULL) {
+		hash_table = g_hash_table_new_full (
+			g_str_hash, g_str_equal,
+			(GDestroyNotify) g_free,
+			(GDestroyNotify) NULL);
+		g_hash_table_insert (registry, manager, hash_table);
+	}
+}
+
+static guint
+plugin_ui_hook_merge_ui (EPluginUIHook *hook,
+                         GtkUIManager *manager,
+                         const gchar *id)
+{
+	GHashTable *hash_table;
+	const gchar *ui_definition;
+	guint merge_id;
+	GError *error = NULL;
+
+	hash_table = hook->priv->ui_definitions;
+	ui_definition = g_hash_table_lookup (hash_table, id);
+	g_return_val_if_fail (ui_definition != NULL, 0);
+
+	merge_id = gtk_ui_manager_add_ui_from_string (
+		manager, ui_definition, -1, &error);
+
+	if (error != NULL) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
 	}
 
-	/* Save merge ID's for later use. */
-	plugin_ui_registry_insert (hook, manager, merge_id);
+	return merge_id;
+}
+
+static void
+plugin_ui_enable_manager (EPluginUIHook *hook,
+                          GtkUIManager *manager,
+                          const gchar *id)
+{
+	GHashTable *hash_table;
+	GHashTable *ui_definitions;
+	GList *keys;
+
+	hash_table = hook->priv->registry;
+	hash_table = g_hash_table_lookup (hash_table, manager);
+
+	if (hash_table == NULL)
+		return;
+
+	if (id != NULL)
+		keys = g_list_prepend (NULL, (gpointer) id);
+	else
+		keys = g_hash_table_get_keys (hash_table);
+
+	ui_definitions = hook->priv->ui_definitions;
+
+	while (keys != NULL) {
+		guint merge_id;
+		gpointer data;
+
+		id = keys->data;
+		keys = g_list_delete_link (keys, keys);
+
+		if (g_hash_table_lookup (ui_definitions, id) == NULL)
+			continue;
+
+		data = g_hash_table_lookup (hash_table, id);
+		merge_id = GPOINTER_TO_UINT (data);
+
+		if (merge_id > 0)
+			continue;
+
+		if (((EPluginHook *) hook)->plugin->enabled)
+			merge_id = plugin_ui_hook_merge_ui (hook, manager, id);
+
+		/* Merge ID will be 0 on error, which is what we want. */
+		data = GUINT_TO_POINTER (merge_id);
+		g_hash_table_insert (hash_table, g_strdup (id), data);
+	}
+}
+
+static void
+plugin_ui_disable_manager (EPluginUIHook *hook,
+                           GtkUIManager *manager,
+                           const gchar *id,
+                           gboolean remove)
+{
+	GHashTable *hash_table;
+	GHashTable *ui_definitions;
+	GList *keys;
+
+	hash_table = hook->priv->registry;
+	hash_table = g_hash_table_lookup (hash_table, manager);
+
+	if (hash_table == NULL)
+		return;
+
+	if (id != NULL)
+		keys = g_list_prepend (NULL, (gpointer) id);
+	else
+		keys = g_hash_table_get_keys (hash_table);
+
+	ui_definitions = hook->priv->ui_definitions;
+
+	while (keys != NULL) {
+		guint merge_id;
+		gpointer data;
+
+		id = keys->data;
+		keys = g_list_delete_link (keys, keys);
+
+		if (g_hash_table_lookup (ui_definitions, id) == NULL)
+			continue;
+
+		data = g_hash_table_lookup (hash_table, id);
+		merge_id = GPOINTER_TO_UINT (data);
+
+		/* Merge ID could be 0 if the plugin is disabled. */
+		if (merge_id > 0)
+			gtk_ui_manager_remove_ui (manager, merge_id);
+
+		if (remove)
+			g_hash_table_remove (hash_table, id);
+		else
+			g_hash_table_insert (hash_table, g_strdup (id), NULL);
+	}
+}
+
+static void
+plugin_ui_enable_hook (EPluginUIHook *hook)
+{
+	GHashTable *hash_table;
+	GHashTableIter iter;
+	gpointer key;
+
+	/* Enable all GtkUIManagers for this hook. */
+
+	hash_table = hook->priv->registry;
+	g_hash_table_iter_init (&iter, hash_table);
+
+	while (g_hash_table_iter_next (&iter, &key, NULL)) {
+		GtkUIManager *manager = key;
+		plugin_ui_enable_manager (hook, manager, NULL);
+	}
+}
+
+static void
+plugin_ui_disable_hook (EPluginUIHook *hook)
+{
+	GHashTable *hash_table;
+	GHashTableIter iter;
+	gpointer key;
+
+	/* Disable all GtkUIManagers for this hook. */
+
+	hash_table = hook->priv->registry;
+	g_hash_table_iter_init (&iter, hash_table);
+
+	while (g_hash_table_iter_next (&iter, &key, NULL)) {
+		GtkUIManager *manager = key;
+		plugin_ui_disable_manager (hook, manager, NULL, FALSE);
+	}
 }
 
 static void
 plugin_ui_hook_finalize (GObject *object)
 {
 	EPluginUIHookPrivate *priv;
+	GHashTableIter iter;
+	gpointer manager;
 
 	priv = E_PLUGIN_UI_HOOK_GET_PRIVATE (object);
 
+	/* Remove weak reference callbacks to GtkUIManagers. */
+	g_hash_table_iter_init (&iter, priv->registry);
+	while (g_hash_table_iter_next (&iter, &manager, NULL))
+		g_object_weak_unref (
+			G_OBJECT (manager), (GWeakNotify)
+			plugin_ui_hook_unregister_manager, object);
+
 	g_hash_table_destroy (priv->ui_definitions);
+	g_hash_table_destroy (priv->registry);
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
@@ -304,9 +413,9 @@ plugin_ui_hook_enable (EPluginHook *hook,
                        gint state)
 {
 	if (state)
-		plugin_ui_hook_merge_ui (E_PLUGIN_UI_HOOK (hook));
+		plugin_ui_enable_hook (E_PLUGIN_UI_HOOK (hook));
 	else
-		plugin_ui_hook_unmerge_ui (E_PLUGIN_UI_HOOK (hook));
+		plugin_ui_disable_hook (E_PLUGIN_UI_HOOK (hook));
 }
 
 static void
@@ -331,14 +440,18 @@ static void
 plugin_ui_hook_init (EPluginUIHook *hook)
 {
 	GHashTable *ui_definitions;
+	GHashTable *registry;
 
 	ui_definitions = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) g_free,
 		(GDestroyNotify) g_free);
 
+	registry = g_hash_table_new (g_direct_hash, g_direct_equal);
+
 	hook->priv = E_PLUGIN_UI_HOOK_GET_PRIVATE (hook);
 	hook->priv->ui_definitions = ui_definitions;
+	hook->priv->registry = registry;
 }
 
 GType
@@ -368,17 +481,14 @@ e_plugin_ui_hook_get_type (void)
 }
 
 void
-e_plugin_ui_register_manager (const gchar *id,
-                              GtkUIManager *manager,
+e_plugin_ui_register_manager (GtkUIManager *manager,
+                              const gchar *id,
                               gpointer user_data)
 {
-	const gchar *key = E_PLUGIN_UI_MANAGER_ID_KEY;
 	GSList *plugin_list;
 
-	g_return_if_fail (id != NULL);
 	g_return_if_fail (GTK_IS_UI_MANAGER (manager));
-
-	g_object_set_data (G_OBJECT (manager), key, (gpointer) id);
+	g_return_if_fail (id != NULL);
 
 	/* Loop over all installed plugins. */
 	plugin_list = e_plugin_list_plugins ();
@@ -386,36 +496,84 @@ e_plugin_ui_register_manager (const gchar *id,
 		EPlugin *plugin = plugin_list->data;
 		GSList *iter;
 
+		plugin_list = g_slist_next (plugin_list);
+
 		/* Look for hooks of type EPluginUIHook. */
 		for (iter = plugin->hooks; iter != NULL; iter = iter->next) {
 			EPluginUIHook *hook = iter->data;
-			const gchar *ui_definition;
+			GHashTable *hash_table;
 
 			if (!E_IS_PLUGIN_UI_HOOK (hook))
 				continue;
 
+			hash_table = hook->priv->ui_definitions;
+
 			/* Check if the hook has a UI definition
 			 * for the GtkUIManager being registered. */
-			ui_definition = g_hash_table_lookup (
-				hook->priv->ui_definitions, id);
-			if (ui_definition == NULL)
+			if (g_hash_table_lookup (hash_table, id) == NULL)
 				continue;
 
 			/* Register the manager with the hook. */
 			plugin_ui_hook_register_manager (
-				hook, manager, ui_definition, user_data);
+				hook, manager, user_data);
 		}
-
-		plugin_list = g_slist_next (plugin_list);
 	}
 }
 
-const gchar *
-e_plugin_ui_get_manager_id (GtkUIManager *manager)
+void
+e_plugin_ui_enable_manager (GtkUIManager *manager,
+                            const gchar *id)
 {
-	const gchar *key = E_PLUGIN_UI_MANAGER_ID_KEY;
+	GSList *plugin_list;
 
-	g_return_val_if_fail (GTK_IS_UI_MANAGER (manager), NULL);
+	g_return_if_fail (GTK_IS_UI_MANAGER (manager));
+	g_return_if_fail (id != NULL);
 
-	return g_object_get_data (G_OBJECT (manager), key);
+	/* Loop over all installed plugins. */
+	plugin_list = e_plugin_list_plugins ();
+	while (plugin_list != NULL) {
+		EPlugin *plugin = plugin_list->data;
+		GSList *iter;
+
+		plugin_list = g_slist_next (plugin_list);
+
+		/* Look for hooks of type EPluginUIHook. */
+		for (iter = plugin->hooks; iter != NULL; iter = iter->next) {
+			EPluginUIHook *hook = iter->data;
+
+			if (!E_IS_PLUGIN_UI_HOOK (hook))
+				continue;
+
+			plugin_ui_enable_manager (hook, manager, id);
+		}
+	}
+}
+
+void
+e_plugin_ui_disable_manager (GtkUIManager *manager,
+                             const gchar *id)
+{
+	GSList *plugin_list;
+
+	g_return_if_fail (GTK_IS_UI_MANAGER (manager));
+	g_return_if_fail (id != NULL);
+
+	/* Loop over all installed plugins. */
+	plugin_list = e_plugin_list_plugins ();
+	while (plugin_list != NULL) {
+		EPlugin *plugin = plugin_list->data;
+		GSList *iter;
+
+		plugin_list = g_slist_next (plugin_list);
+
+		/* Look for hooks of type EPluginUIHook. */
+		for (iter = plugin->hooks; iter != NULL; iter = iter->next) {
+			EPluginUIHook *hook = iter->data;
+
+			if (!E_IS_PLUGIN_UI_HOOK (hook))
+				continue;
+
+			plugin_ui_disable_manager (hook, manager, id, TRUE);
+		}
+	}
 }

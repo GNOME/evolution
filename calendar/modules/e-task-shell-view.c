@@ -232,6 +232,7 @@ task_shell_view_class_init (ETaskShellViewClass *class,
 	shell_view_class->label = _("Tasks");
 	shell_view_class->icon_name = "evolution-tasks";
 	shell_view_class->ui_definition = "evolution-tasks.ui";
+	shell_view_class->ui_manager_id = "org.gnome.evolution.tasks";
 	shell_view_class->search_options = "/task-search-options";
 	shell_view_class->search_rules = "tasktypes.xml";
 	shell_view_class->type_module = type_module;

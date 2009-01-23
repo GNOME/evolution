@@ -194,6 +194,7 @@ cal_shell_view_class_init (ECalShellViewClass *class,
 	shell_view_class->label = _("Calendar");
 	shell_view_class->icon_name = "x-office-calendar";
 	shell_view_class->ui_definition = "evolution-calendars.ui";
+	shell_view_class->ui_manager_id = "org.gnome.evolution.calendars";
 	shell_view_class->search_options = "/calendar-search-options";
 	shell_view_class->search_rules = "caltypes.xml";
 	shell_view_class->type_module = type_module;

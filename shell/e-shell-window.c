@@ -353,6 +353,7 @@ static void
 shell_window_init (EShellWindow *shell_window)
 {
 	GtkUIManager *ui_manager;
+	const gchar *id;
 
 	shell_window->priv = E_SHELL_WINDOW_GET_PRIVATE (shell_window);
 
@@ -362,8 +363,9 @@ shell_window_init (EShellWindow *shell_window)
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 
-	e_plugin_ui_register_manager (
-		"org.gnome.evolution.shell", ui_manager, shell_window);
+	id = "org.gnome.evolution.shell";
+	e_plugin_ui_register_manager (ui_manager, id, shell_window);
+	e_plugin_ui_enable_manager (ui_manager, id);
 }
 
 GType

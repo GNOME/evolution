@@ -286,6 +286,7 @@ book_shell_view_class_init (EBookShellViewClass *class,
 	shell_view_class->label = _("Contacts");
 	shell_view_class->icon_name = "x-office-address-book";
 	shell_view_class->ui_definition = "evolution-contacts.ui";
+	shell_view_class->ui_manager_id = "org.gnome.evolution.contacts";
 	shell_view_class->search_options = "/contact-search-options";
 	shell_view_class->search_rules = "addresstypes.xml";
 	shell_view_class->type_module = type_module;

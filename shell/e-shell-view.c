@@ -25,6 +25,7 @@
 #include <glib/gi18n.h>
 
 #include "e-util/e-util.h"
+#include "e-util/e-plugin-ui.h"
 
 #include "e-shell-content.h"
 #include "e-shell-module.h"
@@ -76,7 +77,7 @@ static gpointer parent_class;
 static gulong signals[LAST_SIGNAL];
 
 static void
-shell_view_init_view_collection (EShellViewClass *shell_view_class)
+shell_view_init_view_collection (EShellViewClass *class)
 {
 	EShellModule *shell_module;
 	const gchar *base_dir;
@@ -84,8 +85,8 @@ shell_view_init_view_collection (EShellViewClass *shell_view_class)
 	gchar *system_dir;
 	gchar *local_dir;
 
-	shell_module = E_SHELL_MODULE (shell_view_class->type_module);
-	module_name = shell_view_class->type_module->name;
+	shell_module = E_SHELL_MODULE (class->type_module);
+	module_name = class->type_module->name;
 
 	base_dir = EVOLUTION_GALVIEWSDIR;
 	system_dir = g_build_filename (base_dir, module_name, NULL);
@@ -94,15 +95,13 @@ shell_view_init_view_collection (EShellViewClass *shell_view_class)
 	local_dir = g_build_filename (base_dir, "views", NULL);
 
 	/* The view collection is never destroyed. */
-	shell_view_class->view_collection = gal_view_collection_new ();
+	class->view_collection = gal_view_collection_new ();
 
 	gal_view_collection_set_title (
-		shell_view_class->view_collection,
-		shell_view_class->label);
+		class->view_collection, class->label);
 
 	gal_view_collection_set_storage_directories (
-		shell_view_class->view_collection,
-		system_dir, local_dir);
+		class->view_collection, system_dir, local_dir);
 
 	g_free (system_dir);
 	g_free (local_dir);
@@ -319,12 +318,21 @@ shell_view_finalize (GObject *object)
 static void
 shell_view_constructed (GObject *object)
 {
+	EShellWindow *shell_window;
 	EShellView *shell_view;
 	EShellViewClass *class;
+	GtkUIManager *ui_manager;
 	GtkWidget *widget;
+	const gchar *id;
 
 	shell_view = E_SHELL_VIEW (object);
 	class = E_SHELL_VIEW_GET_CLASS (object);
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	id = class->ui_manager_id;
+
+	e_plugin_ui_register_manager (ui_manager, id, shell_view);
 
 	/* Invoke factory methods. */
 
@@ -345,21 +353,24 @@ static void
 shell_view_toggled (EShellView *shell_view)
 {
 	EShellViewPrivate *priv = shell_view->priv;
-	EShellViewClass *shell_view_class;
+	EShellViewClass *class;
 	EShellWindow *shell_window;
 	GtkUIManager *ui_manager;
 	const gchar *basename;
 	gboolean view_is_active;
 
-	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	view_is_active = e_shell_view_is_active (shell_view);
-	basename = shell_view_class->ui_definition;
+	basename = class->ui_definition;
 
-	if (view_is_active && priv->merge_id == 0)
+	if (view_is_active && priv->merge_id == 0) {
 		priv->merge_id = e_load_ui_definition (ui_manager, basename);
-	else if (!view_is_active && priv->merge_id != 0) {
+		e_plugin_ui_enable_manager (ui_manager, class->ui_manager_id);
+
+	} else if (!view_is_active && priv->merge_id != 0) {
+		e_plugin_ui_disable_manager (ui_manager, class->ui_manager_id);
 		gtk_ui_manager_remove_ui (ui_manager, priv->merge_id);
 		priv->merge_id = 0;
 	}
@@ -581,7 +592,7 @@ shell_view_class_init (EShellViewClass *class)
 
 static void
 shell_view_init (EShellView *shell_view,
-                 EShellViewClass *shell_view_class)
+                 EShellViewClass *class)
 {
 	GtkSizeGroup *size_group;
 
@@ -590,8 +601,8 @@ shell_view_init (EShellView *shell_view,
 	shell_view->priv = E_SHELL_VIEW_GET_PRIVATE (shell_view);
 	shell_view->priv->size_group = size_group;
 
-	if (shell_view_class->view_collection == NULL)
-		shell_view_init_view_collection (shell_view_class);
+	if (class->view_collection == NULL)
+		shell_view_init_view_collection (class);
 }
 
 GType
@@ -785,17 +796,17 @@ e_shell_view_get_shell_window (EShellView *shell_view)
 EShellModule *
 e_shell_view_get_shell_module (EShellView *shell_view)
 {
-	EShellViewClass *shell_view_class;
+	EShellViewClass *class;
 
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	/* Calling this function during the shell view's instance
 	 * initialization function will return the wrong result,
 	 * so watch for that and emit a warning. */
-	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	g_return_val_if_fail (E_IS_SHELL_VIEW_CLASS (shell_view_class), NULL);
+	class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	g_return_val_if_fail (E_IS_SHELL_VIEW_CLASS (class), NULL);
 
-	return E_SHELL_MODULE (shell_view_class->type_module);
+	return E_SHELL_MODULE (class->type_module);
 }
 
 /**
@@ -1018,15 +1029,15 @@ GalViewInstance *
 e_shell_view_new_view_instance (EShellView *shell_view,
                                 const gchar *instance_id)
 {
-	EShellViewClass *shell_view_class;
+	EShellViewClass *class;
 	GalViewCollection *view_collection;
 	GalViewInstance *view_instance;
 
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
-	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	class = E_SHELL_VIEW_GET_CLASS (shell_view);
 
-	view_collection = shell_view_class->view_collection;
+	view_collection = class->view_collection;
 	view_instance = gal_view_instance_new (view_collection, instance_id);
 
 	g_signal_connect_swapped (

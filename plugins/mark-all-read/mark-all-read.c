@@ -28,12 +28,17 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <e-util/e-config.h>
-#include <mail/em-popup.h>
+#include <e-util/e-plugin-ui.h>
+#include <mail/e-mail-shell-sidebar.h>
+#include <mail/em-folder-tree.h>
 #include <mail/mail-ops.h>
 #include <mail/mail-mt.h>
 #include <camel/camel-vee-folder.h>
 #include "e-util/e-error.h"
+
+#include <shell/e-shell-sidebar.h>
+#include <shell/e-shell-window.h>
+#include <shell/e-shell-window-actions.h>
 
 #define PRIMARY_TEXT \
 	N_("Also mark messages in subfolders?")
@@ -41,7 +46,9 @@
 	N_("Do you want to mark messages as read in the current folder " \
 	   "only, or in the current folder as well as all subfolders?")
 
-void org_gnome_mark_all_read (EPlugin *ep, EMPopupTargetFolder *target);
+gboolean	e_plugin_ui_init		(GtkUIManager *manager,
+						 EShellView *shell_view);
+
 static void mar_got_folder (char *uri, CamelFolder *folder, void *data);
 static void mar_all_sub_folders (CamelStore *store, CamelFolderInfo *fi, CamelException *ex);
 
@@ -190,16 +197,6 @@ prompt_user (void)
 	return response;
 }
 
-void
-org_gnome_mark_all_read (EPlugin *ep, EMPopupTargetFolder *t)
-{
-	if (t->uri == NULL) {
-		return;
-	}
-
-	mail_get_folder(t->uri, 0, mar_got_folder, NULL, mail_msg_unordered_push);
-}
-
 static void
 mark_all_as_read (CamelFolder *folder)
 {
@@ -269,4 +266,53 @@ mar_all_sub_folders (CamelStore *store, CamelFolderInfo *fi, CamelException *ex)
 
 		fi = fi->next;
 	}
+}
+
+static void
+action_mail_mark_read_recursive_cb (GtkAction *action,
+                                    EShellView *shell_view)
+{
+	EMailShellSidebar *mail_shell_sidebar;
+	EShellSidebar *shell_sidebar;
+	EMFolderTree *folder_tree;
+	const gchar *folder_uri;
+
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	g_return_if_fail (E_IS_MAIL_SHELL_SIDEBAR (shell_sidebar));
+
+	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+	folder_uri = em_folder_tree_get_selected_uri (folder_tree);
+	g_return_if_fail (folder_uri != NULL);
+
+	mail_get_folder (
+		folder_uri, 0, mar_got_folder, NULL, mail_msg_unordered_push);
+}
+
+static GtkActionEntry entries[] = {
+
+	{ "mail-mark-read-recursive",
+	  "mail-mark-read",
+	  N_("Mark Me_ssages as Read"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_mail_mark_read_recursive_cb) }
+};
+
+gboolean
+e_plugin_ui_init (GtkUIManager *manager,
+                  EShellView *shell_view)
+{
+	EShellWindow *shell_window;
+	GtkActionGroup *action_group;
+
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	action_group = E_SHELL_WINDOW_ACTION_GROUP_SHELL (shell_window);
+
+	/* Add actions to the "shell" action group. */
+	gtk_action_group_add_actions (
+		action_group, entries,
+		G_N_ELEMENTS (entries), shell_view);
+
+	return TRUE;
 }

@@ -85,6 +85,9 @@ struct _EShellView {
  * 			e_shell_view_get_action().
  * @ui_definition:	Base name of the UI definintion file to add
  * 			when the shell view is activated.
+ * @ui_manager_id:	The #GtkUIManager ID for #EPluginUI.  Plugins
+ * 			should use to this ID in their "eplug" files to
+ * 			add menu and toolbar items to the shell view.
  * @search_options:	Widget path in the UI definition to the search
  * 			options popup menu.  The menu gets shown when the
  * 			user clicks the "find" icon in the search entry.
@@ -128,6 +131,9 @@ struct _EShellViewClass {
 
 	/* Base name of the UI definition file. */
 	const gchar *ui_definition;
+
+	/* GtkUIManager ID for use with EPluginUI. */
+	const gchar *ui_manager_id;
 
 	/* Widget path to the search options popup menu. */
 	const gchar *search_options;

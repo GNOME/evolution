@@ -91,6 +91,7 @@ EShellView
 @label: 
 @icon_name: 
 @ui_definition: 
+@ui_manager_id: 
 @search_options: 
 @search_rules: 
 @type_module: 

@@ -74,6 +74,7 @@
     <separator/>
     <menuitem action='mail-popup-folder-delete'/>
     <separator/>
+    <placeholder name='mail-folder-popup-actions'/>
     <menuitem action='mail-popup-folder-rename'/>
     <menuitem action='mail-popup-folder-refresh'/>
     <menuitem action='mail-popup-flush-outbox'/>

@@ -211,6 +211,7 @@ mail_shell_view_class_init (EMailShellViewClass *class,
 	shell_view_class->label = _("Mail");
 	shell_view_class->icon_name = "evolution-mail";
 	shell_view_class->ui_definition = "evolution-mail.ui";
+	shell_view_class->ui_manager_id = "org.gnome.evolution.mail";
 	shell_view_class->search_options = "/mail-search-options";
 	shell_view_class->search_rules = "searchtypes.xml";
 	shell_view_class->type_module = type_module;
