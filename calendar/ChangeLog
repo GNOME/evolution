@@ -1,5 +1,15 @@
 2009-01-23  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #559604
+
+	* gui/itip-utils.h: (itip_organizer_is_user_ex):
+	* gui/itip-utils.c: (itip_organizer_is_user_ex),
+	(itip_organizer_is_user):
+	* gui/e-calendar-view.c: (e_calendar_view_get_attendees_status_info):
+	Let the feature work with Groupwise too.
+
+2009-01-23  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #442869
 
 	* gui/dialogs/task-page.c: (attendee_added_cb):

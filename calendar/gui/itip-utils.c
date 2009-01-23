@@ -83,13 +83,13 @@ itip_addresses_get_default (void)
 }
 
 gboolean
-itip_organizer_is_user (ECalComponent *comp, ECal *client)
+itip_organizer_is_user_ex (ECalComponent *comp, ECal *client, gboolean skip_cap_test)
 {
 	ECalComponentOrganizer organizer;
 	const char *strip;
 	gboolean user_org = FALSE;
 
-	if (!e_cal_component_has_organizer (comp) || e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_ORGANIZER))
+	if (!e_cal_component_has_organizer (comp) || (!skip_cap_test && e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_ORGANIZER)))
 		return FALSE;
 
 	e_cal_component_get_organizer (comp, &organizer);
@@ -114,6 +114,12 @@ itip_organizer_is_user (ECalComponent *comp, ECal *client)
 	}
 
 	return user_org;
+}
+
+gboolean
+itip_organizer_is_user (ECalComponent *comp, ECal *client)
+{
+	return itip_organizer_is_user_ex (comp, client, FALSE);
 }
 
 gboolean

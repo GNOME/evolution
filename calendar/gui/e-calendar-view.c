@@ -2265,7 +2265,7 @@ e_calendar_view_get_attendees_status_info (ECalComponent *comp, ECal *client)
 	char *res = NULL;
 	int i;
 
-	if (!comp || !e_cal_component_has_attendees (comp) || !itip_organizer_is_user (comp, client))
+	if (!comp || !e_cal_component_has_attendees (comp) || !itip_organizer_is_user_ex (comp, client, TRUE))
 		return NULL;
 
 	e_cal_component_get_attendee_list (comp, &attendees);
