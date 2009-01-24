@@ -23,6 +23,12 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ONLINE_BUTTON, EOnlineButtonPrivate))
 
+#define ONLINE_TOOLTIP \
+	"Evolution is currently online.  Click this button to work offline."
+
+#define OFFLINE_TOOLTIP \
+	"Evolution is currently offline.  Click this button to work online."
+
 struct _EOnlineButtonPrivate {
 	GtkWidget *image;
 	gboolean online;
@@ -175,6 +181,7 @@ e_online_button_set_online (EOnlineButton *button,
 	GtkIconTheme *icon_theme;
 	const gchar *filename;
 	const gchar *icon_name;
+	const gchar *tooltip;
 
 	g_return_if_fail (E_IS_ONLINE_BUTTON (button));
 
@@ -190,6 +197,9 @@ e_online_button_set_online (EOnlineButton *button,
 	filename = gtk_icon_info_get_filename (icon_info);
 	gtk_image_set_from_file (image, filename);
 	gtk_icon_info_free (icon_info);
+
+	tooltip = _(online ? ONLINE_TOOLTIP : OFFLINE_TOOLTIP);
+	gtk_widget_set_tooltip_text (GTK_WIDGET (button), tooltip);
 
 	g_object_notify (G_OBJECT (button), "online");
 }

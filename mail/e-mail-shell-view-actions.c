@@ -397,22 +397,10 @@ action_mail_preview_cb (GtkToggleAction *action,
                         EMailShellView *mail_shell_view)
 {
 	EMailShellContent *mail_shell_content;
-	MessageList *message_list;
-	CamelFolder *folder;
-	EMailReader *reader;
-	const gchar *state;
 	gboolean active;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	active = gtk_toggle_action_get_active (action);
-	state = active ? "1" : "0";
-
-	reader = E_MAIL_READER (mail_shell_content);
-	message_list = e_mail_reader_get_message_list (reader);
-	folder = message_list->folder;
-
-	if (camel_object_meta_set (folder, "evolution:show_preview", state))
-		camel_object_state_write (folder);
 
 	e_mail_shell_content_set_preview_visible (mail_shell_content, active);
 }
@@ -470,20 +458,13 @@ action_mail_threads_group_by_cb (GtkToggleAction *action,
 	EMailShellContent *mail_shell_content;
 	MessageList *message_list;
 	EMailReader *reader;
-	CamelFolder *folder;
-	const gchar *state;
 	gboolean active;
 
 	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 	active = gtk_toggle_action_get_active (action);
-	state = active ? "1" : "0";
 
 	reader = E_MAIL_READER (mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
-	folder = message_list->folder;
-
-	if (camel_object_meta_set (folder, "evolution:thread_list", state))
-		camel_object_state_write (folder);
 
 	message_list_set_threaded (message_list, active);
 }
@@ -1033,6 +1014,8 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	GtkUIManager *ui_manager;
 	GConfBridge *bridge;
 	GObject *object;
+	GObject *src_object;
+	GObject *dst_object;
 	const gchar *domain;
 	const gchar *key;
 
@@ -1083,4 +1066,20 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	object = G_OBJECT (ACTION (MAIL_VIEW_VERTICAL));
 	key = "/apps/evolution/mail/display/layout";
 	gconf_bridge_bind_property (bridge, key, object, "current-value");
+
+	/* Fine tuning. */
+
+	src_object = G_OBJECT (ACTION (MAIL_THREADS_GROUP_BY));
+
+	dst_object = G_OBJECT (ACTION (MAIL_FOLDER_SELECT_THREAD));
+	e_binding_new (src_object, "active", dst_object, "sensitive");
+
+	dst_object = G_OBJECT (ACTION (MAIL_FOLDER_SELECT_SUBTHREAD));
+	e_binding_new (src_object, "active", dst_object, "sensitive");
+
+	dst_object = G_OBJECT (ACTION (MAIL_THREADS_COLLAPSE_ALL));
+	e_binding_new (src_object, "active", dst_object, "sensitive");
+
+	dst_object = G_OBJECT (ACTION (MAIL_THREADS_EXPAND_ALL));
+	e_binding_new (src_object, "active", dst_object, "sensitive");
 }

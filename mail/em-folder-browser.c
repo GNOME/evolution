@@ -509,30 +509,30 @@ emfb_init(GObject *o)
 
 //	emfb->priv->show_wide = gconf_client_get_bool(mail_config_get_gconf_client(), "/apps/evolution/mail/display/show_wide", NULL);
 //	emfb->vpane = emfb->priv->show_wide?gtk_hpaned_new():gtk_vpaned_new();
-
+//
 //	g_signal_connect(emfb->vpane, "realize", G_CALLBACK(emfb_pane_realised), emfb);
 //	emfb->priv->vpane_resize_id = g_signal_connect(emfb->vpane, "button_release_event", G_CALLBACK(emfb_pane_button_release_event), emfb);
-
+//
 //	gtk_widget_show(emfb->vpane);
-
-	gtk_box_pack_start_defaults((GtkBox *)emfb, emfb->vpane);
-
-	gtk_paned_pack1 (GTK_PANED (emfb->vpane), GTK_WIDGET (emfb->view.list), FALSE, FALSE);
-	gtk_widget_show((GtkWidget *)emfb->view.list);
-
-	/* currently: just use a scrolledwindow for preview widget */
-	p->scroll = gtk_scrolled_window_new(NULL, NULL);
-	gtk_scrolled_window_set_policy((GtkScrolledWindow *)p->scroll, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type((GtkScrolledWindow *)p->scroll, GTK_SHADOW_IN);
-	gtk_widget_show(p->scroll);
-
-	p->preview = gtk_vbox_new (FALSE, 6);
-	gtk_container_add((GtkContainer *)p->scroll, (GtkWidget *)emfb->view.preview->formathtml.html);
-	gtk_widget_show((GtkWidget *)emfb->view.preview->formathtml.html);
-	gtk_box_pack_start ((GtkBox *)p->preview, p->scroll, TRUE, TRUE, 0);
-	gtk_box_pack_start ((GtkBox *)p->preview, em_format_html_get_search_dialog (emfb->view.preview), FALSE, FALSE, 0);
-	gtk_paned_pack2 (GTK_PANED (emfb->vpane), p->preview, TRUE, FALSE);
-	gtk_widget_show(p->preview);
+//
+//	gtk_box_pack_start_defaults((GtkBox *)emfb, emfb->vpane);
+//
+//	gtk_paned_pack1 (GTK_PANED (emfb->vpane), GTK_WIDGET (emfb->view.list), FALSE, FALSE);
+//	gtk_widget_show((GtkWidget *)emfb->view.list);
+//
+//	/* currently: just use a scrolledwindow for preview widget */
+//	p->scroll = gtk_scrolled_window_new(NULL, NULL);
+//	gtk_scrolled_window_set_policy((GtkScrolledWindow *)p->scroll, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+//	gtk_scrolled_window_set_shadow_type((GtkScrolledWindow *)p->scroll, GTK_SHADOW_IN);
+//	gtk_widget_show(p->scroll);
+//
+//	p->preview = gtk_vbox_new (FALSE, 6);
+//	gtk_container_add((GtkContainer *)p->scroll, (GtkWidget *)emfb->view.preview->formathtml.html);
+//	gtk_widget_show((GtkWidget *)emfb->view.preview->formathtml.html);
+//	gtk_box_pack_start ((GtkBox *)p->preview, p->scroll, TRUE, TRUE, 0);
+//	gtk_box_pack_start ((GtkBox *)p->preview, em_format_html_get_search_dialog (emfb->view.preview), FALSE, FALSE, 0);
+//	gtk_paned_pack2 (GTK_PANED (emfb->vpane), p->preview, TRUE, FALSE);
+//	gtk_widget_show(p->preview);
 
 	g_signal_connect (((EMFolderView *) emfb)->list->tree, "key_press", G_CALLBACK(emfb_list_key_press), emfb);
 	g_signal_connect (((EMFolderView *) emfb)->list, "message_selected", G_CALLBACK (emfb_list_message_selected), emfb);
@@ -570,8 +570,8 @@ emfb_destroy(GtkObject *o)
 		emfb->priv->idle_scroll_id = 0;
 	}
 
-	if (emfb->view.folder && emfb->priv->folder_changed_id)
-		camel_object_remove_event(emfb->view.folder, emfb->priv->folder_changed_id);
+//	if (emfb->view.folder && emfb->priv->folder_changed_id)
+//		camel_object_remove_event(emfb->view.folder, emfb->priv->folder_changed_id);
 
 	if (emfb->priv->labels_change_notify_id) {
 		GConfClient *gconf = mail_config_get_gconf_client ();
@@ -591,74 +591,74 @@ emfb_destroy(GtkObject *o)
 	((GtkObjectClass *)emfb_parent)->destroy(o);
 }
 
-static void
-emfb_class_init(GObjectClass *klass)
-{
-	klass->finalize = emfb_finalise;
+//static void
+//emfb_class_init(GObjectClass *klass)
+//{
+//	klass->finalize = emfb_finalise;
+//
+//	folder_browser_signals[ACCOUNT_SEARCH_ACTIVATED] =
+//		g_signal_new ("account_search_activated",
+//			      G_TYPE_FROM_CLASS (klass),
+//			      G_SIGNAL_RUN_LAST,
+//			      G_STRUCT_OFFSET (EMFolderBrowserClass, account_search_activated),
+//			      NULL,
+//			      NULL,
+//			      g_cclosure_marshal_VOID__VOID,
+//			      G_TYPE_NONE, 0);
+//
+//	folder_browser_signals[ACCOUNT_SEARCH_CLEARED] =
+//		g_signal_new ("account_search_cleared",
+//			      G_TYPE_FROM_CLASS (klass),
+//			      G_SIGNAL_RUN_LAST,
+//			      G_STRUCT_OFFSET (EMFolderBrowserClass, account_search_cleared),
+//			      NULL,
+//			      NULL,
+//			      g_cclosure_marshal_VOID__VOID,
+//			      G_TYPE_NONE, 0);
+//
+//
+//	((GtkObjectClass *)klass)->destroy = emfb_destroy;
+//	((EMFolderViewClass *)klass)->set_folder = emfb_set_folder;
+//	((EMFolderViewClass *)klass)->activate = emfb_activate;
+//}
 
-	folder_browser_signals[ACCOUNT_SEARCH_ACTIVATED] =
-		g_signal_new ("account_search_activated",
-			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EMFolderBrowserClass, account_search_activated),
-			      NULL,
-			      NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
+//GType
+//em_folder_browser_get_type(void)
+//{
+//	static GType type = 0;
+//
+//	if (type == 0) {
+//		static const GTypeInfo info = {
+//			sizeof(EMFolderBrowserClass),
+//			NULL, NULL,
+//			(GClassInitFunc)emfb_class_init,
+//			NULL, NULL,
+//			sizeof(EMFolderBrowser), 0,
+//			(GInstanceInitFunc)emfb_init
+//		};
+//		emfb_parent = g_type_class_ref(em_folder_view_get_type());
+//		type = g_type_register_static(em_folder_view_get_type(), "EMFolderBrowser", &info, 0);
+//	}
+//
+//	return type;
+//}
 
-	folder_browser_signals[ACCOUNT_SEARCH_CLEARED] =
-		g_signal_new ("account_search_cleared",
-			      G_TYPE_FROM_CLASS (klass),
-			      G_SIGNAL_RUN_LAST,
-			      G_STRUCT_OFFSET (EMFolderBrowserClass, account_search_cleared),
-			      NULL,
-			      NULL,
-			      g_cclosure_marshal_VOID__VOID,
-			      G_TYPE_NONE, 0);
-
-
-	((GtkObjectClass *)klass)->destroy = emfb_destroy;
-	((EMFolderViewClass *)klass)->set_folder = emfb_set_folder;
-	((EMFolderViewClass *)klass)->activate = emfb_activate;
-}
-
-GType
-em_folder_browser_get_type(void)
-{
-	static GType type = 0;
-
-	if (type == 0) {
-		static const GTypeInfo info = {
-			sizeof(EMFolderBrowserClass),
-			NULL, NULL,
-			(GClassInitFunc)emfb_class_init,
-			NULL, NULL,
-			sizeof(EMFolderBrowser), 0,
-			(GInstanceInitFunc)emfb_init
-		};
-		emfb_parent = g_type_class_ref(em_folder_view_get_type());
-		type = g_type_register_static(em_folder_view_get_type(), "EMFolderBrowser", &info, 0);
-	}
-
-	return type;
-}
-
-GtkWidget *em_folder_browser_new(void)
-{
-	EMFolderBrowser *emfb = g_object_new(em_folder_browser_get_type(), 0);
-
-	/** @HookPoint-EMMenu: Main Mail Menu
-	 * @Id: org.gnome.evolution.mail.browser
-	 * @Class: org.gnome.evolution.mail.bonobomenu:1.0
-	 * @Target: EMMenuTargetSelect
-	 *
-	 * The main menu of mail view of the main application window.
-	 * If the folder is NULL (not selected), the target will be empty, not NULL.
-	 */
-	((EMFolderView *)emfb)->menu = em_menu_new("org.gnome.evolution.mail.browser");
-
-	return (GtkWidget *)emfb;
-}
+//GtkWidget *em_folder_browser_new(void)
+//{
+//	EMFolderBrowser *emfb = g_object_new(em_folder_browser_get_type(), 0);
+//
+//	/** @HookPoint-EMMenu: Main Mail Menu
+//	 * @Id: org.gnome.evolution.mail.browser
+//	 * @Class: org.gnome.evolution.mail.bonobomenu:1.0
+//	 * @Target: EMMenuTargetSelect
+//	 *
+//	 * The main menu of mail view of the main application window.
+//	 * If the folder is NULL (not selected), the target will be empty, not NULL.
+//	 */
+//	((EMFolderView *)emfb)->menu = em_menu_new("org.gnome.evolution.mail.browser");
+//
+//	return (GtkWidget *)emfb;
+//}
 
 void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 {
@@ -1390,30 +1390,30 @@ emfb_hide_deleted(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_E
 //	return FALSE;
 //}
 
-static void
-emfb_gui_folder_changed(CamelFolder *folder, void *dummy, EMFolderBrowser *emfb)
-{
-	if (emfb->priv->select_uid) {
-		CamelMessageInfo *mi;
+//static void
+//emfb_gui_folder_changed(CamelFolder *folder, void *dummy, EMFolderBrowser *emfb)
+//{
+//	if (emfb->priv->select_uid) {
+//		CamelMessageInfo *mi;
+//
+//		mi = camel_folder_get_message_info(emfb->view.folder, emfb->priv->select_uid);
+//		if (mi) {
+//			camel_folder_free_message_info(emfb->view.folder, mi);
+//			em_folder_view_set_message(&emfb->view, emfb->priv->select_uid, FALSE);
+//			g_free (emfb->priv->select_uid);
+//			emfb->priv->select_uid = NULL;
+//		}
+//	}
+//
+//	g_object_unref(emfb);
+//}
 
-		mi = camel_folder_get_message_info(emfb->view.folder, emfb->priv->select_uid);
-		if (mi) {
-			camel_folder_free_message_info(emfb->view.folder, mi);
-			em_folder_view_set_message(&emfb->view, emfb->priv->select_uid, FALSE);
-			g_free (emfb->priv->select_uid);
-			emfb->priv->select_uid = NULL;
-		}
-	}
-
-	g_object_unref(emfb);
-}
-
-static void
-emfb_folder_changed(CamelFolder *folder, CamelFolderChangeInfo *changes, EMFolderBrowser *emfb)
-{
-	g_object_ref(emfb);
-	mail_async_event_emit(emfb->view.async, MAIL_ASYNC_GUI, (MailAsyncFunc)emfb_gui_folder_changed, folder, NULL, emfb);
-}
+//static void
+//emfb_folder_changed(CamelFolder *folder, CamelFolderChangeInfo *changes, EMFolderBrowser *emfb)
+//{
+//	g_object_ref(emfb);
+//	mail_async_event_emit(emfb->view.async, MAIL_ASYNC_GUI, (MailAsyncFunc)emfb_gui_folder_changed, folder, NULL, emfb);
+//}
 
 //static void
 //emfb_etree_unfreeze (GtkWidget *widget, GdkEvent *event, EMFolderView *emfv)
@@ -1488,10 +1488,10 @@ emfb_set_search_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		emfb->priv->idle_scroll_id = 0;
 	}
 
-	if (emfb->view.folder) {
-		camel_object_remove_event(emfb->view.folder, emfb->priv->folder_changed_id);
-		emfb->priv->folder_changed_id = 0;
-	}
+//	if (emfb->view.folder) {
+//		camel_object_remove_event(emfb->view.folder, emfb->priv->folder_changed_id);
+//		emfb->priv->folder_changed_id = 0;
+//	}
 
 	emfb_parent->set_folder(emfv, folder, uri);
 
@@ -1514,7 +1514,7 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 	struct _EMFolderBrowserPrivate *p = emfb->priv;
 	gboolean different_folder;
 
-	message_list_freeze(emfv->list);
+//	message_list_freeze(emfv->list);
 
 	if (emfb->priv->list_scrolled_id) {
 		g_signal_handler_disconnect (emfv->list, emfb->priv->list_scrolled_id);
@@ -1526,16 +1526,16 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 		emfb->priv->idle_scroll_id = 0;
 	}
 
-	if (emfb->view.folder && emfb->priv->folder_changed_id) {
-		camel_object_remove_event(emfb->view.folder, emfb->priv->folder_changed_id);
-		emfb->priv->folder_changed_id = 0;
-	}
-
-	different_folder =
-		emfb->view.folder != NULL &&
-		folder != emfb->view.folder;
-
-	emfb_parent->set_folder(emfv, folder, uri);
+//	if (emfb->view.folder && emfb->priv->folder_changed_id) {
+//		camel_object_remove_event(emfb->view.folder, emfb->priv->folder_changed_id);
+//		emfb->priv->folder_changed_id = 0;
+//	}
+//
+//	different_folder =
+//		emfb->view.folder != NULL &&
+//		folder != emfb->view.folder;
+//
+//	emfb_parent->set_folder(emfv, folder, uri);
 
 	/* This is required since we get activated the first time
 	   before the folder is open and need to override the
@@ -1557,32 +1557,32 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 			gconf_client_set_bool (gconf, "/apps/evolution/mail/display/safe_list", FALSE, NULL);
 		}
 
-		mail_refresh_folder(folder, NULL, NULL);
-
-		emfb->priv->folder_changed_id = camel_object_hook_event(folder, "folder_changed",
-									(CamelObjectEventHookFunc)emfb_folder_changed, emfb);
-
-		/* FIXME: this mostly copied from activate() */
-		if ((sstate = camel_object_meta_get(folder, "evolution:show_preview"))) {
-			state = sstate[0] != '0';
-			g_free(sstate);
-		} else
-			state = gconf_client_get_bool(gconf, "/apps/evolution/mail/display/show_preview", NULL);
-		em_folder_browser_show_preview(emfb, state);
-		if (emfv->uic)
-			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewPreview", "state", state?"1":"0", NULL);
-
-		if ((sstate = camel_object_meta_get(folder, "evolution:thread_list"))) {
-			state = sstate[0] != '0';
-			g_free(sstate);
-		} else
-			state = gconf_client_get_bool(gconf, "/apps/evolution/mail/display/thread_list", NULL);
-		message_list_set_threaded(emfv->list, state);
-		if (emfv->uic) {
-			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewThreaded", "state", state?"1":"0", NULL);
-			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewThreadsCollapseAll", "sensitive", state?"1":"0", NULL);
-			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewThreadsExpandAll", "sensitive", state?"1":"0", NULL);
-		}
+//		mail_refresh_folder(folder, NULL, NULL);
+//
+//		emfb->priv->folder_changed_id = camel_object_hook_event(folder, "folder_changed",
+//									(CamelObjectEventHookFunc)emfb_folder_changed, emfb);
+//
+//		/* FIXME: this mostly copied from activate() */
+//		if ((sstate = camel_object_meta_get(folder, "evolution:show_preview"))) {
+//			state = sstate[0] != '0';
+//			g_free(sstate);
+//		} else
+//			state = gconf_client_get_bool(gconf, "/apps/evolution/mail/display/show_preview", NULL);
+//		em_folder_browser_show_preview(emfb, state);
+//		if (emfv->uic)
+//			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewPreview", "state", state?"1":"0", NULL);
+//
+//		if ((sstate = camel_object_meta_get(folder, "evolution:thread_list"))) {
+//			state = sstate[0] != '0';
+//			g_free(sstate);
+//		} else
+//			state = gconf_client_get_bool(gconf, "/apps/evolution/mail/display/thread_list", NULL);
+//		message_list_set_threaded(emfv->list, state);
+//		if (emfv->uic) {
+//			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewThreaded", "state", state?"1":"0", NULL);
+//			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewThreadsCollapseAll", "sensitive", state?"1":"0", NULL);
+//			bonobo_ui_component_set_prop(emfv->uic, "/commands/ViewThreadsExpandAll", "sensitive", state?"1":"0", NULL);
+//		}
 
 		if (emfv->uic) {
 			state = (folder->folder_flags & CAMEL_FOLDER_IS_TRASH) == 0;
@@ -1618,26 +1618,26 @@ emfb_set_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 			e_search_bar_paint ((ESearchBar *)emfb->search);
 		}
 
-		/* This function gets triggered several times at startup,
-		 * so we don't want to reset the message suppression state
-		 * unless we're actually switching to a different folder. */
-		if (different_folder)
-			p->suppress_message_selection = FALSE;
-
-		if (!p->suppress_message_selection)
-			sstate = camel_object_meta_get (
-				folder, "evolution:selected_uid");
-		else
-			sstate = NULL;
-
-		g_free (p->select_uid);
-		p->select_uid = sstate;
-
-		if (emfv->list->cursor_uid == NULL && emfb->priv->list_built_id == 0)
-			p->list_built_id = g_signal_connect(emfv->list, "message_list_built", G_CALLBACK (emfb_list_built), emfv);
-	}
-
-	message_list_thaw(emfv->list);
+//		/* This function gets triggered several times at startup,
+//		 * so we don't want to reset the message suppression state
+//		 * unless we're actually switching to a different folder. */
+//		if (different_folder)
+//			p->suppress_message_selection = FALSE;
+//
+//		if (!p->suppress_message_selection)
+//			sstate = camel_object_meta_get (
+//				folder, "evolution:selected_uid");
+//		else
+//			sstate = NULL;
+//
+//		g_free (p->select_uid);
+//		p->select_uid = sstate;
+//
+//		if (emfv->list->cursor_uid == NULL && emfb->priv->list_built_id == 0)
+//			p->list_built_id = g_signal_connect(emfv->list, "message_list_built", G_CALLBACK (emfb_list_built), emfv);
+//	}
+//
+//	message_list_thaw(emfv->list);
 }
 
 static void

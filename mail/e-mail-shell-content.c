@@ -33,6 +33,7 @@
 #include "em-search-context.h"
 #include "em-utils.h"
 #include "mail-config.h"
+#include "mail-ops.h"
 
 #include "e-mail-reader.h"
 #include "e-mail-shell-module.h"
@@ -60,8 +61,9 @@ struct _EMailShellContentPrivate {
 	guint message_list_built_id;
 	guint message_list_scrolled_id;
 
-	guint preview_visible	: 1;
-	guint vertical_view	: 1;
+	guint preview_visible			: 1;
+	guint suppress_message_selection	: 1;
+	guint vertical_view			: 1;
 };
 
 enum {
@@ -485,6 +487,8 @@ mail_shell_content_set_folder (EMailReader *reader,
 	EMailShellContentPrivate *priv;
 	EMailReaderIface *default_iface;
 	MessageList *message_list;
+	gboolean different_folder;
+	gchar *meta_data;
 
 	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
 
@@ -492,9 +496,33 @@ mail_shell_content_set_folder (EMailReader *reader,
 
 	message_list_freeze (message_list);
 
+	different_folder =
+		message_list->folder != NULL &&
+		folder != message_list->folder;
+
 	/* Chain up to interface's default set_folder() method. */
 	default_iface = g_type_default_interface_peek (E_TYPE_MAIL_READER);
 	default_iface->set_folder (reader, folder, folder_uri);
+
+	if (folder == NULL)
+		goto exit;
+
+	mail_refresh_folder (folder, NULL, NULL);
+
+	/* This function gets triggered several times at startup,
+	 * so we don't want to reset the message suppression state
+	 * unless we're actually switching to a different folder. */
+	if (different_folder)
+		priv->suppress_message_selection = FALSE;
+
+	if (!priv->suppress_message_selection)
+		meta_data = camel_object_meta_get (
+			folder, "evolution:selected_uid");
+	else
+		meta_data = NULL;
+
+	g_free (priv->selected_uid);
+	priv->selected_uid = meta_data;
 
 	/* This is a one-time-only callback. */
 	if (message_list->cursor_uid == NULL && priv->message_list_built_id == 0)
@@ -503,6 +531,7 @@ mail_shell_content_set_folder (EMailReader *reader,
 			G_CALLBACK (mail_shell_content_message_list_built_cb),
 			reader);
 
+exit:
 	message_list_thaw (message_list);
 }
 
