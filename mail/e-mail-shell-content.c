@@ -97,6 +97,9 @@ mail_shell_content_message_list_scrolled_cb (EMailShellContent *mail_shell_conte
 
 	/* Save the scrollbar position for the current folder. */
 
+	if (message_list->folder == NULL)
+		return;
+
 	key = "evolution:list_scroll_position";
 	position = message_list_get_scrollbar_position (message_list);
 	value = g_strdup_printf ("%f", position);
@@ -225,7 +228,12 @@ mail_shell_content_message_selected_cb (EMailShellContent *mail_shell_content,
 	CamelFolder *folder;
 
 	folder = message_list->folder;
-	g_return_if_fail (folder != NULL);
+
+	/* This also gets triggered when selecting a store name on
+	 * the sidebar such as "On This Computer", in which case
+	 * 'folder' will be NULL. */
+	if (folder == NULL)
+		return;
 
 	if (camel_object_meta_set (folder, key, selected_uid))
 		camel_object_state_write (folder);

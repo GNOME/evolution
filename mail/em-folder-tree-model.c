@@ -51,6 +51,7 @@
 #include "mail-folder-cache.h"
 
 #include "em-utils.h"
+#include "em-folder-utils.h"
 
 #include <camel/camel-folder.h>
 #include <camel/camel-vee-store.h>
@@ -71,11 +72,13 @@ struct _EMFolderTreeModelPrivate {
 static GType col_types[] = {
 	G_TYPE_STRING,   /* display name */
 	G_TYPE_POINTER,  /* store object */
-	G_TYPE_STRING,   /* path */
+	G_TYPE_STRING,   /* full name */
+	G_TYPE_STRING,   /* icon name */
 	G_TYPE_STRING,   /* uri */
 	G_TYPE_UINT,     /* unread count */
 	G_TYPE_UINT,     /* flags */
 	G_TYPE_BOOLEAN,  /* is a store node */
+	G_TYPE_BOOLEAN,  /* is a folder node */
 	G_TYPE_BOOLEAN,  /* has not-yet-loaded subfolders */
 };
 
@@ -555,6 +558,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 {
 	EShellModule *shell_module;
 	GtkTreeRowReference *uri_row, *path_row;
+	GtkTreeStore *tree_store;
 	unsigned int unread;
 	GtkTreePath *path;
 	GtkTreeIter sub;
@@ -562,12 +566,14 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	CamelFolder *folder;
 	gboolean emitted = FALSE;
 	const char *name;
+	const gchar *icon_name;
 	guint32 flags;
 
 	/* make sure we don't already know about it? */
 	if (g_hash_table_lookup (si->full_hash, fi->full_name))
 		return;
 
+	tree_store = GTK_TREE_STORE (model);
 	shell_module = model->priv->shell_module;
 
 	if (!fully_loaded)
@@ -642,31 +648,40 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 		}
 	}
 
-	gtk_tree_store_set ((GtkTreeStore *) model, iter,
-			    COL_STRING_DISPLAY_NAME, name,
-			    COL_POINTER_CAMEL_STORE, si->store,
-			    COL_STRING_FULL_NAME, fi->full_name,
-			    COL_STRING_URI, fi->uri,
-			    COL_UINT_FLAGS, flags,
-			    COL_BOOL_IS_STORE, FALSE,
-			    COL_BOOL_LOAD_SUBDIRS, load,
-			    -1);
+	/* Choose an icon name for the folder. */
+	icon_name = em_folder_utils_get_icon_name (flags);
+
+	gtk_tree_store_set (
+		tree_store, iter,
+		COL_STRING_DISPLAY_NAME, name,
+		COL_POINTER_CAMEL_STORE, si->store,
+		COL_STRING_FULL_NAME, fi->full_name,
+		COL_STRING_ICON_NAME, icon_name,
+		COL_STRING_URI, fi->uri,
+		COL_UINT_FLAGS, flags,
+		COL_BOOL_IS_STORE, FALSE,
+		COL_BOOL_IS_FOLDER, TRUE,
+		COL_BOOL_LOAD_SUBDIRS, load,
+		-1);
 
 	if (unread != ~0)
-		gtk_tree_store_set ((GtkTreeStore *) model, iter, COL_UINT_UNREAD, unread, -1);
+		gtk_tree_store_set (tree_store, iter, COL_UINT_UNREAD, unread, -1);
 
 	if (load) {
 		/* create a placeholder node for our subfolders... */
-		gtk_tree_store_append ((GtkTreeStore *) model, &sub, iter);
-		gtk_tree_store_set ((GtkTreeStore *) model, &sub,
-				    COL_STRING_DISPLAY_NAME, _("Loading..."),
-				    COL_POINTER_CAMEL_STORE, NULL,
-				    COL_STRING_FULL_NAME, NULL,
-				    COL_BOOL_LOAD_SUBDIRS, FALSE,
-				    COL_BOOL_IS_STORE, FALSE,
-				    COL_STRING_URI, NULL,
-				    COL_UINT_UNREAD, 0,
-				    -1);
+		gtk_tree_store_append (tree_store, &sub, iter);
+		gtk_tree_store_set (
+			tree_store, &sub,
+			COL_STRING_DISPLAY_NAME, _("Loading..."),
+			COL_POINTER_CAMEL_STORE, NULL,
+			COL_STRING_FULL_NAME, NULL,
+			COL_STRING_ICON_NAME, NULL,
+			COL_BOOL_LOAD_SUBDIRS, FALSE,
+			COL_BOOL_IS_STORE, FALSE,
+			COL_BOOL_IS_FOLDER, FALSE,
+			COL_STRING_URI, NULL,
+			COL_UINT_UNREAD, 0,
+			-1);
 
 		path = gtk_tree_model_get_path ((GtkTreeModel *) model, iter);
 		g_signal_emit (model, signals[LOADING_ROW], 0, path, iter);
@@ -678,7 +693,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 		fi = fi->child;
 
 		do {
-			gtk_tree_store_append ((GtkTreeStore *) model, &sub, iter);
+			gtk_tree_store_append (tree_store, &sub, iter);
 
 			if (!emitted) {
 				path = gtk_tree_model_get_path ((GtkTreeModel *) model, iter);

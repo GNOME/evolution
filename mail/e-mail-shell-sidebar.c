@@ -25,6 +25,7 @@
 #include <camel/camel.h>
 
 #include "em-utils.h"
+#include "em-folder-utils.h"
 
 #include "e-mail-shell-module.h"
 
@@ -42,6 +43,42 @@ enum {
 };
 
 static gpointer parent_class;
+
+static void
+mail_shell_sidebar_selection_changed_cb (EShellSidebar *shell_sidebar,
+                                         GtkTreeSelection *selection)
+{
+	EShellView *shell_view;
+	EShellViewClass *shell_view_class;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	const gchar *icon_name;
+	gchar *display_name = NULL;
+	gboolean is_folder = FALSE;
+	guint flags = 0;
+
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+
+	if (gtk_tree_selection_get_selected (selection, &model, &iter))
+		gtk_tree_model_get (
+			model, &iter,
+			COL_STRING_DISPLAY_NAME, &display_name,
+			COL_BOOL_IS_FOLDER, &is_folder,
+			COL_UINT_FLAGS, &flags, -1);
+
+	if (is_folder)
+		icon_name = em_folder_utils_get_icon_name (flags);
+	else {
+		icon_name = shell_view_class->icon_name;
+		display_name = g_strdup (shell_view_class->label);
+	}
+
+	e_shell_sidebar_set_icon_name (shell_sidebar, icon_name);
+	e_shell_sidebar_set_primary_text (shell_sidebar, display_name);
+
+	g_free (display_name);
+}
 
 static void
 mail_shell_sidebar_get_property (GObject *object,
@@ -94,6 +131,8 @@ mail_shell_sidebar_constructed (GObject *object)
 	EShellSidebar *shell_sidebar;
 	EShellModule *shell_module;
 	EShellView *shell_view;
+	GtkTreeSelection *selection;
+	GtkTreeView *tree_view;
 	GtkWidget *container;
 	GtkWidget *widget;
 
@@ -127,6 +166,14 @@ mail_shell_sidebar_constructed (GObject *object)
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->folder_tree = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	tree_view = GTK_TREE_VIEW (priv->folder_tree);
+	selection = gtk_tree_view_get_selection (tree_view);
+
+	g_signal_connect_swapped (
+		selection, "changed",
+		G_CALLBACK (mail_shell_sidebar_selection_changed_cb),
+		shell_sidebar);
 }
 
 static guint32

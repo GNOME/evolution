@@ -40,8 +40,6 @@
 #include <glib/gi18n.h>
 
 #include <camel/camel-session.h>
-#include <camel/camel-store.h>
-#include <camel/camel-folder.h>
 #include <camel/camel-vee-store.h>
 #include <camel/camel-vtrash-folder.h>
 #include <camel/camel-stream-mem.h>
@@ -695,4 +693,39 @@ em_folder_utils_create_folder (CamelFolderInfo *folderinfo, EMFolderTree *emft) 
 		em_folder_selector_set_selected ((EMFolderSelector *) dialog, folderinfo->uri);
 	g_signal_connect (dialog, "response", G_CALLBACK (emfu_popup_new_folder_response), emft);
 	gtk_widget_show (dialog);
+}
+
+const gchar *
+em_folder_utils_get_icon_name (guint32 flags)
+{
+	const gchar *icon_name;
+
+	switch (flags & CAMEL_FOLDER_TYPE_MASK) {
+		case CAMEL_FOLDER_TYPE_INBOX:
+			icon_name = "mail-inbox";
+			break;
+		case CAMEL_FOLDER_TYPE_OUTBOX:
+			icon_name = "mail-outbox";
+			break;
+		case CAMEL_FOLDER_TYPE_TRASH:
+			icon_name = "user-trash";
+			break;
+		case CAMEL_FOLDER_TYPE_JUNK:
+			icon_name = "mail-mark-junk";
+			break;
+		case CAMEL_FOLDER_TYPE_SENT:
+			icon_name = "mail-sent";
+			break;
+		default:
+			if (flags & CAMEL_FOLDER_SHARED_TO_ME)
+				icon_name = "stock_shared-to-me";
+			else if (flags & CAMEL_FOLDER_SHARED_BY_ME)
+				icon_name = "stock_shared-by-me";
+			else if (flags & CAMEL_FOLDER_VIRTUAL)
+				icon_name = "folder-saved-search";
+			else
+				icon_name = "folder";
+	}
+
+	return icon_name;
 }

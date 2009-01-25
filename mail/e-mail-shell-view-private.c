@@ -271,6 +271,8 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	guint32 num_unread;
 	guint32 num_visible;
 
+	/* FIXME The sidebar should handle icon name and primary text. */
+
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
@@ -290,11 +292,12 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 		gchar *label;
 
 		action = e_shell_view_get_action (shell_view);
+
 		g_object_get (action, "label", &label, NULL);
-		e_shell_sidebar_set_primary_text (shell_sidebar, label);
 		e_shell_sidebar_set_secondary_text (shell_sidebar, NULL);
 		e_shell_view_set_title (shell_view, label);
 		g_free (label);
+
 		return;
 	}
 
@@ -390,7 +393,6 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 		display_name = folder_name;
 
 	title = g_strdup_printf ("%s (%s)", display_name, buffer->str);
-	e_shell_sidebar_set_primary_text (shell_sidebar, display_name);
 	e_shell_sidebar_set_secondary_text (shell_sidebar, buffer->str);
 	e_shell_view_set_title (shell_view, title);
 	g_free (title);

@@ -132,7 +132,8 @@ struct _EShellViewClass {
 	/* Base name of the UI definition file. */
 	const gchar *ui_definition;
 
-	/* GtkUIManager ID for use with EPluginUI. */
+	/* GtkUIManager identifier for use with EPluginUI.
+	 * Usually "org.gnome.evolution.$(VIEW_NAME)". */
 	const gchar *ui_manager_id;
 
 	/* Widget path to the search options popup menu. */

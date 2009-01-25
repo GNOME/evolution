@@ -80,6 +80,9 @@ GtkWidget *	e_shell_sidebar_new		(struct _EShellView *shell_view);
 guint32		e_shell_sidebar_check_state	(EShellSidebar *shell_sidebar);
 struct _EShellView *
 		e_shell_sidebar_get_shell_view	(EShellSidebar *shell_sidebar);
+const gchar *	e_shell_sidebar_get_icon_name	(EShellSidebar *shell_sidebar);
+void		e_shell_sidebar_set_icon_name	(EShellSidebar *shell_sidebar,
+						 const gchar *icon_name);
 const gchar *	e_shell_sidebar_get_primary_text(EShellSidebar *shell_sidebar);
 void		e_shell_sidebar_set_primary_text(EShellSidebar *shell_sidebar,
 						 const gchar *primary_text);

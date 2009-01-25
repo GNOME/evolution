@@ -32,6 +32,7 @@ struct _EShellSidebarPrivate {
 	gpointer shell_view;  /* weak pointer */
 
 	GtkWidget *event_box;
+	GtkWidget *image;
 	GtkWidget *primary_label;
 	GtkWidget *secondary_label;
 	gchar *primary_text;
@@ -40,6 +41,7 @@ struct _EShellSidebarPrivate {
 
 enum {
 	PROP_0,
+	PROP_ICON_NAME,
 	PROP_PRIMARY_TEXT,
 	PROP_SECONDARY_TEXT,
 	PROP_SHELL_VIEW
@@ -67,6 +69,12 @@ shell_sidebar_set_property (GObject *object,
                             GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ICON_NAME:
+			e_shell_sidebar_set_icon_name (
+				E_SHELL_SIDEBAR (object),
+				g_value_get_string (value));
+			return;
+
 		case PROP_PRIMARY_TEXT:
 			e_shell_sidebar_set_primary_text (
 				E_SHELL_SIDEBAR (object),
@@ -96,6 +104,12 @@ shell_sidebar_get_property (GObject *object,
                             GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_ICON_NAME:
+			g_value_set_string (
+				value, e_shell_sidebar_get_icon_name (
+				E_SHELL_SIDEBAR (object)));
+			return;
+
 		case PROP_PRIMARY_TEXT:
 			g_value_set_string (
 				value, e_shell_sidebar_get_primary_text (
@@ -129,6 +143,11 @@ shell_sidebar_dispose (GObject *object)
 		g_object_remove_weak_pointer (
 			G_OBJECT (priv->shell_view), &priv->shell_view);
 		priv->shell_view = NULL;
+	}
+
+	if (priv->image != NULL) {
+		g_object_unref (priv->image);
+		priv->image = NULL;
 	}
 
 	if (priv->event_box != NULL) {
@@ -174,6 +193,7 @@ shell_sidebar_constructed (GObject *object)
 	GtkWidget *container;
 	GtkWidget *widget;
 	gchar *label;
+	gchar *icon_name;
 
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
@@ -192,8 +212,9 @@ shell_sidebar_constructed (GObject *object)
 
 	container = widget;
 
-	widget = gtk_action_create_icon (action, GTK_ICON_SIZE_MENU);
+	widget = gtk_image_new ();
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	shell_sidebar->priv->image = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new (NULL);
@@ -209,6 +230,10 @@ shell_sidebar_constructed (GObject *object)
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	shell_sidebar->priv->secondary_label = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	g_object_get (action, "icon-name", &icon_name, NULL);
+	e_shell_sidebar_set_icon_name (shell_sidebar, icon_name);
+	g_free (icon_name);
 
 	g_object_get (action, "label", &label, NULL);
 	e_shell_sidebar_set_primary_text (shell_sidebar, label);
@@ -331,6 +356,21 @@ shell_sidebar_class_init (EShellSidebarClass *class)
 	container_class = GTK_CONTAINER_CLASS (class);
 	container_class->remove = shell_sidebar_remove;
 	container_class->forall = shell_sidebar_forall;
+
+	/**
+	 * EShellSidebar:icon-name
+	 *
+	 * The named icon is displayed at the top of the sidebar.
+	 */
+	g_object_class_install_property (
+		object_class,
+		PROP_ICON_NAME,
+		g_param_spec_string (
+			"icon-name",
+			NULL,
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
 
 	/**
 	 * EShellSidebar:primary-text
@@ -486,6 +526,47 @@ e_shell_sidebar_get_shell_view (EShellSidebar *shell_sidebar)
 	g_return_val_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar), NULL);
 
 	return E_SHELL_VIEW (shell_sidebar->priv->shell_view);
+}
+
+/**
+ * e_shell_sidebar_get_icon_name:
+ * @shell_sidebar: an #EShellSidebar
+ *
+ * Returns the icon name displayed at the top of the sidebar.
+ *
+ * Returns: the icon name for @shell_sidebar
+ **/
+const gchar *
+e_shell_sidebar_get_icon_name (EShellSidebar *shell_sidebar)
+{
+	GtkImage *image;
+	const gchar *icon_name;
+
+	g_return_val_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar), NULL);
+
+	image = GTK_IMAGE (shell_sidebar->priv->image);
+	gtk_image_get_icon_name (image, &icon_name, NULL);
+
+	return icon_name;
+}
+
+/**
+ * e_shell_sidebar_set_icon_name:
+ *
+ * Sets the icon name displayed at the top of the sidebar.
+ **/
+void
+e_shell_sidebar_set_icon_name (EShellSidebar *shell_sidebar,
+                               const gchar *icon_name)
+{
+	GtkImage *image;
+
+	g_return_if_fail (E_IS_SHELL_SIDEBAR (shell_sidebar));
+
+	image = GTK_IMAGE (shell_sidebar->priv->image);
+	gtk_image_set_from_icon_name (image, icon_name, GTK_ICON_SIZE_MENU);
+
+	g_object_notify (G_OBJECT (shell_sidebar), "icon-name");
 }
 
 /**
