@@ -151,6 +151,9 @@ activity_proxy_dispose (GObject *object)
 	priv = E_ACTIVITY_PROXY_GET_PRIVATE (object);
 
 	if (priv->activity != NULL) {
+		g_signal_handlers_disconnect_matched (
+			priv->activity, G_SIGNAL_MATCH_FUNC, 0, 0,
+			NULL, activity_proxy_update, NULL);
 		g_object_unref (priv->activity);
 		priv->activity = NULL;
 	}

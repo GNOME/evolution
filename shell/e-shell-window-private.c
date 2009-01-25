@@ -263,15 +263,15 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	priv->content_pane = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	widget = gtk_hbox_new (FALSE, 2);
-	gtk_container_set_border_width (GTK_CONTAINER (widget), 1);
+	widget = gtk_hbox_new (FALSE, 3);
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 3);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	priv->status_area = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	/* Make the status area as large as the task bar. */
 	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, NULL, &height);
-	gtk_widget_set_size_request (widget, -1, height * 2);
+	gtk_widget_set_size_request (widget, -1, (height * 2) + 6);
 
 	container = priv->content_pane;
 

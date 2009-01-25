@@ -283,7 +283,7 @@ shell_taskbar_init (EShellTaskbar *shell_taskbar)
 	shell_taskbar->priv->label = g_object_ref (widget);
 	gtk_widget_hide (widget);
 
-	widget = gtk_hbox_new (FALSE, 1);
+	widget = gtk_hbox_new (FALSE, 3);
 	gtk_box_pack_start (GTK_BOX (shell_taskbar), widget, TRUE, TRUE, 0);
 	shell_taskbar->priv->hbox = g_object_ref (widget);
 	gtk_widget_hide (widget);
@@ -293,7 +293,7 @@ shell_taskbar_init (EShellTaskbar *shell_taskbar)
 	 *     The true value is probably buried in a style property. */
 	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, NULL, &height);
 	gtk_widget_set_size_request (
-		GTK_WIDGET (shell_taskbar), -1, height * 2);
+		GTK_WIDGET (shell_taskbar), -1, (height * 2) + 6);
 }
 
 GType
