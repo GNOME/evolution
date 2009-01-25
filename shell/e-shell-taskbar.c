@@ -293,7 +293,7 @@ shell_taskbar_init (EShellTaskbar *shell_taskbar)
 	 *     The true value is probably buried in a style property. */
 	gtk_icon_size_lookup (GTK_ICON_SIZE_MENU, NULL, &height);
 	gtk_widget_set_size_request (
-		GTK_WIDGET (shell_taskbar), -1, (height * 2) + 6);
+		GTK_WIDGET (shell_taskbar), -1, (height * 2));
 }
 
 GType

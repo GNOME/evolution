@@ -926,7 +926,6 @@ action_mail_show_source_cb (GtkAction *action,
 	uids = message_list_get_selected (message_list);
 	g_return_if_fail (uids->len > 0);
 
-	/* FIXME Set session. */
 	browser = e_mail_browser_new (shell_module);
 	reader = E_MAIL_READER (browser);
 	html_display = e_mail_reader_get_html_display (reader);

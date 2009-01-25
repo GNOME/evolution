@@ -38,6 +38,7 @@
 #include "e-mail-shell-module-settings.h"
 
 #include "e-mail-browser.h"
+#include "e-mail-reader.h"
 #include "em-account-prefs.h"
 #include "em-composer-prefs.h"
 #include "em-composer-utils.h"
@@ -577,7 +578,7 @@ mail_shell_module_notify_online_mode_cb (EShell *shell,
 }
 
 static void
-mail_shell_module_handle_email_uri_cb (gchar *uri,
+mail_shell_module_handle_email_uri_cb (gchar *folder_uri,
                                        CamelFolder *folder,
                                        gpointer user_data)
 {
@@ -587,7 +588,7 @@ mail_shell_module_handle_email_uri_cb (gchar *uri,
 	const gchar *uid;
 
 	if (folder == NULL) {
-		g_warning ("Could not open folder '%s'", uri);
+		g_warning ("Could not open folder '%s'", folder_uri);
 		goto exit;
 	}
 
@@ -614,20 +615,23 @@ mail_shell_module_handle_email_uri_cb (gchar *uri,
 		g_ptr_array_add (uids, g_strdup (uid));
 
 		if (g_strcmp0 (forward, "attached") == 0)
-			em_utils_forward_attached (folder, uids, uri);
+			em_utils_forward_attached (folder, uids, folder_uri);
 		else if (g_strcmp0 (forward, "inline") == 0)
-			em_utils_forward_inline (folder, uids, uri);
+			em_utils_forward_inline (folder, uids, folder_uri);
 		else if (g_strcmp0 (forward, "quoted") == 0)
-			em_utils_forward_quoted (folder, uids, uri);
+			em_utils_forward_quoted (folder, uids, folder_uri);
 		else
-			em_utils_forward_messages (folder, uids, uri);
+			em_utils_forward_messages (folder, uids, folder_uri);
 
 	} else {
 		GtkWidget *browser;
 
-		/* XXX Should pass in the shell module. */
+		/* FIXME Should pass in the shell module. */
 		browser = e_mail_browser_new (mail_shell_module);
-		/* FIXME This is incomplete... */
+		e_mail_reader_set_folder (
+			E_MAIL_READER (browser), folder, folder_uri);
+		e_mail_reader_set_message (
+			E_MAIL_READER (browser), uid, FALSE);
 		gtk_widget_show (browser);
 	}
 

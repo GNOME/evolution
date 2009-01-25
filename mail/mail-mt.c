@@ -255,6 +255,8 @@ mail_msg_unref (gpointer msg)
 		return;
 	} else {
 		activity = mail_msg->priv->activity;
+		if (activity != NULL)
+			g_object_ref (activity);
 		error = mail_msg->priv->error;
 	}
 
@@ -266,7 +268,7 @@ mail_msg_unref (gpointer msg)
 		mail_async_event_emit (
 			mail_async_event, MAIL_ASYNC_GUI,
 			(MailAsyncFunc) end_event_callback,
-			NULL, g_object_ref (activity), error);
+			NULL, activity, error);
 }
 
 /* hash table of ops->dialogue of active errors */

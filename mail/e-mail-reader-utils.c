@@ -282,7 +282,6 @@ e_mail_reader_open_selected (EMailReader *reader)
 			E_MAIL_READER (browser), folder, folder_uri);
 		e_mail_reader_set_message (
 			E_MAIL_READER (browser), uid, FALSE);
-		/* FIXME This is incomplete... */
 		gtk_widget_show (browser);
 	}
 
