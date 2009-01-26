@@ -122,6 +122,12 @@ EShellModulePrivate
 EShellSettings
 e_shell_settings_install_property
 e_shell_settings_bind_to_gconf
+e_shell_settings_get_boolean
+e_shell_settings_set_boolean
+e_shell_settings_get_int
+e_shell_settings_set_int
+e_shell_settings_get_string
+e_shell_settings_set_string
 <SUBSECTION Standard>
 E_SHELL_SETTINGS
 E_IS_SHELL_SETTINGS

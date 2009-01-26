@@ -1375,9 +1375,8 @@ set_editor_text (EMsgComposer *composer,
 
 	 */
 
-	g_object_get (
-		shell_settings, "composer-top-signature",
-		&reply_signature_on_top, NULL);
+	reply_signature_on_top = e_shell_settings_get_boolean (
+		shell_settings, "composer-top-signature");
 
 	if (set_signature && reply_signature_on_top) {
 		gchar *tmp = NULL;
@@ -2099,12 +2098,13 @@ msg_composer_constructor (GType type,
 
 	/* Honor User Preferences */
 
-	g_object_get (shell_settings, "composer-format-html", &active, NULL);
+	active = e_shell_settings_get_boolean (
+		shell_settings, "composer-format-html");
 	gtkhtml_editor_set_html_mode (GTKHTML_EDITOR (composer), active);
 
 	action = GTK_TOGGLE_ACTION (ACTION (REQUEST_READ_RECEIPT));
-	g_object_get (
-		shell_settings, "composer-request-receipt", &active, NULL);
+	active = e_shell_settings_get_boolean (
+		shell_settings, "composer-request-receipt");
 	gtk_toggle_action_set_active (action, active);
 
 	spell_languages = e_load_spell_languages ();

@@ -29,7 +29,6 @@
 
 #define G_LOG_DOMAIN "eaddrconduit"
 
-#include <bonobo.h>
 #include <libxml/parser.h>
 #include <pi-source.h>
 #include <pi-socket.h>

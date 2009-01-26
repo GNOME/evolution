@@ -98,23 +98,14 @@ install-data-local:
 	fi
 endif
 
-server_in_files = GNOME_Evolution_Addressbook.server.in.in
-server_DATA = $(server_in_files:.server.in.in=.server)
-@EVO_SERVER_RULE@
-@INTLTOOL_SERVER_RULE@
-
 glade_DATA =			\
 	ldap-config.glade
-
-BUILT_SOURCES = $(server_DATA)
-CLEANFILES    = $(BUILT_SOURCES)
 
 DISTCLEANFILES = $(schema_DATA)
 
 EXTRA_DIST =			\
 	$(glade_DATA)		\
 	$(schema_in_files)	\
-	$(server_in_files)	\
 	openldap-extract.h
 
 dist-hook:

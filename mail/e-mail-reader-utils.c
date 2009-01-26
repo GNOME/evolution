@@ -87,9 +87,8 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 
 	folder = message_list->folder;
 
-	g_object_get (
-		shell_settings, "mail-prompt-delete-in-vfolder",
-		&prompt_delete_in_vfolder, NULL);
+	prompt_delete_in_vfolder = e_shell_settings_get_boolean (
+		shell_settings, "mail-prompt-delete-in-vfolder");
 
 	if (!CAMEL_IS_VEE_STORE (folder->parent_store))
 		return TRUE;
@@ -114,11 +113,11 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 	response = gtk_dialog_run (GTK_DIALOG (dialog));
 
 	if (response == GTK_RESPONSE_OK)
-		g_object_set (
+		e_shell_settings_set_boolean (
 			shell_settings,
 			"mail-prompt-delete-in-vfolder",
 			gtk_toggle_button_get_active (
-			GTK_TOGGLE_BUTTON (check_button)), NULL);
+			GTK_TOGGLE_BUTTON (check_button)));
 
 	gtk_widget_destroy (dialog);
 

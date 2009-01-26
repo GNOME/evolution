@@ -31,9 +31,6 @@
 
 #include <glib/gi18n-lib.h>
 
-#include <bonobo/bonobo-ui-node.h>
-#include <bonobo/bonobo-ui-util.h>
-
 typedef enum {
 	E_CHARSET_UNKNOWN,
 	E_CHARSET_ARABIC,

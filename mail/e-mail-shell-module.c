@@ -819,10 +819,12 @@ e_shell_module_init (GTypeModule *type_module)
 {
 	EShell *shell;
 	EShellModule *shell_module;
+	EShellSettings *shell_settings;
 	gboolean enable_search_folders;
 
 	shell_module = E_SHELL_MODULE (type_module);
 	shell = e_shell_module_get_shell (shell_module);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	e_shell_module_set_info (
 		shell_module, &module_info,
@@ -892,10 +894,8 @@ e_shell_module_init (GTypeModule *type_module)
 	e_mail_shell_module_init_settings (shell);
 	mail_shell_module_init_preferences (shell);
 
-	g_object_get (
-		e_shell_get_shell_settings (shell),
-		"mail-enable-search-folders",
-		&enable_search_folders, NULL);
+	enable_search_folders = e_shell_settings_get_boolean (
+		shell_settings, "mail-enable-search-folders");
 	if (enable_search_folders)
 		vfolder_load_storage ();
 

@@ -1071,6 +1071,5 @@ set_stop (int sensitive)
 	if (last == sensitive)
 		return;
 
-	/*bonobo_ui_component_set_prop (uic, "/commands/MailStop", "sensitive", sensitive ? "1" : "0", NULL);*/
 	last = sensitive;
 }

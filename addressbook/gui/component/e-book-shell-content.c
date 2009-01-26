@@ -50,7 +50,7 @@ book_shell_content_send_message_cb (EBookShellContent *book_shell_content,
 {
 	GList node = { destination, NULL, NULL };
 
-	eab_send_message (&node, EAB_DISPOSITION_AS_TO);
+	eab_send_as_to (&node);
 }
 
 static void

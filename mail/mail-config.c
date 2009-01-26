@@ -37,6 +37,7 @@
 
 #include <gtk/gtk.h>
 #include <glib/gstdio.h>
+#include <glib/gi18n-lib.h>
 
 #ifndef G_OS_WIN32
 #include <sys/wait.h>
@@ -47,12 +48,6 @@
 
 #include <libxml/tree.h>
 #include <libxml/parser.h>
-
-#include <bonobo/bonobo-object.h>
-#include <bonobo/bonobo-generic-factory.h>
-#include <bonobo/bonobo-context.h>
-#include <bonobo/bonobo-moniker-util.h>
-#include <bonobo/bonobo-exception.h>
 
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>

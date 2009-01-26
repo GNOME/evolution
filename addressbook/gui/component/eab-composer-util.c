@@ -27,7 +27,7 @@
 #include "addressbook/util/eab-book-util.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 
-static void
+void
 eab_send_as_to (GList *destinations)
 {
 	EMsgComposer *composer;
@@ -108,7 +108,7 @@ get_email (EContact *contact, EContactField field_id, gchar **to_free)
 	return value;
 }
 
-static void
+void
 eab_send_as_attachment (GList *destinations)
 {
 	EMsgComposer *composer;
@@ -194,19 +194,4 @@ eab_send_as_attachment (GList *destinations)
 	}
 
 	gtk_widget_show (GTK_WIDGET (composer));
-}
-
-void
-eab_send_message (GList *destinations,
-                  EABDisposition disposition)
-{
-	switch (disposition) {
-		case EAB_DISPOSITION_AS_TO:
-			eab_send_as_to (destinations);
-			break;
-
-		case EAB_DISPOSITION_AS_ATTACHMENT:
-			eab_send_as_attachment (destinations);
-			break;
-	}
 }

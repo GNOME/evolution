@@ -25,6 +25,7 @@
 #endif
 
 #include <string.h>
+#include <glib/gi18n-lib.h>
 
 #include "em-mailer-prefs.h"
 #include "em-format.h"
@@ -33,7 +34,6 @@
 #include <gtkhtml/gtkhtml-properties.h>
 #include <libxml/tree.h>
 #include "misc/e-charset-picker.h"
-#include <bonobo/bonobo-generic-factory.h>
 
 #include <glade/glade.h>
 

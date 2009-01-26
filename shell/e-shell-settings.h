@@ -77,6 +77,26 @@ void		e_shell_settings_bind_to_gconf	(EShellSettings *shell_settings,
 						 const gchar *property_name,
 						 const gchar *gconf_key);
 
+/* Getters and setters for common EShellSettings property types.
+ * Add more types as needed.  If GObject ever adds similar functions,
+ * kill these. */
+
+gboolean	e_shell_settings_get_boolean	(EShellSettings *shell_settings,
+						 const gchar *property_name);
+void		e_shell_settings_set_boolean	(EShellSettings *shell_settings,
+						 const gchar *property_name,
+						 gboolean v_boolean);
+gint		e_shell_settings_get_int	(EShellSettings *shell_settings,
+						 const gchar *property_name);
+void		e_shell_settings_set_int	(EShellSettings *shell_settings,
+						 const gchar *property_name,
+						 gint v_int);
+gchar *		e_shell_settings_get_string	(EShellSettings *shell_settings,
+						 const gchar *property_name);
+void		e_shell_settings_set_string	(EShellSettings *shell_settings,
+						 const gchar *property_name,
+						 const gchar *v_string);
+
 G_END_DECLS
 
 #endif /* E_SHELL_SETTINGS_H */

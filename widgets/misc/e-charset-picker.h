@@ -22,7 +22,6 @@
 #define E_CHARSETPICKER_H
 
 #include <gtk/gtk.h>
-#include <bonobo/bonobo-ui-component.h>
 
 G_BEGIN_DECLS
 

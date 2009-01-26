@@ -142,6 +142,15 @@ e_shell_settings_get_type (void)
 	return type;
 }
 
+/**
+ * e_shell_settings_install_property:
+ * @pspec: a #GParamSpec
+ *
+ * Installs a new class property for #EShellSettings.  This is usually
+ * done during initialization of a #EShellModule or plugin, followed by
+ * a call to e_shell_settings_bind_to_gconf() to bind the property to a
+ * GConf key.
+ **/
 void
 e_shell_settings_install_property (GParamSpec *pspec)
 {
@@ -186,6 +195,23 @@ e_shell_settings_install_property (GParamSpec *pspec)
 	}
 }
 
+/**
+ * e_shell_settings_bind_to_gconf:
+ * @shell_settings: an #EShellSettings
+ * @property_name: the name of the property to bind
+ * @gconf_key: the GConf key to bind the property to
+ *
+ * Binds @property_name to @gconf_key, causing them to have the same value
+ * at all times.
+ *
+ * The types of @property_name and @gconf_key should be compatible.  Floats
+ * and doubles, and ints, uints, longs, unlongs, int64s, uint64s, chars,
+ * uchars and enums can be matched up.  Booleans and strings can only be
+ * matched to their respective types.
+ *
+ * On calling this function, @property_name is initialized to the current
+ * value of @gconf_key.
+ **/
 void
 e_shell_settings_bind_to_gconf (EShellSettings *shell_settings,
                                 const gchar *property_name,
@@ -198,4 +224,178 @@ e_shell_settings_bind_to_gconf (EShellSettings *shell_settings,
 	gconf_bridge_bind_property (
 		gconf_bridge_get (), gconf_key,
 		G_OBJECT (shell_settings), property_name);
+}
+
+/**
+ * e_shell_settings_get_boolean:
+ * @shell_settings: an #EShellSettings
+ * @property_name: an installed property name
+ *
+ * Return the contents of an #EShellSettings property of type
+ * #G_TYPE_BOOLEAN.
+ *
+ * Returns: boolean contents of @property_name
+ **/
+gboolean
+e_shell_settings_get_boolean (EShellSettings *shell_settings,
+                              const gchar *property_name)
+{
+	GObject *object;
+	GValue value = { 0, };
+	gboolean v_boolean;
+
+	g_return_val_if_fail (E_IS_SHELL_SETTINGS (shell_settings), FALSE);
+	g_return_val_if_fail (property_name != NULL, FALSE);
+
+	object = G_OBJECT (shell_settings);
+	g_value_init (&value, G_TYPE_BOOLEAN);
+	g_object_get_property (object, property_name, &value);
+	v_boolean = g_value_get_boolean (&value);
+	g_value_unset (&value);
+
+	return v_boolean;
+}
+
+/**
+ * e_shell_settings_set_boolean:
+ * @shell_settings: an #EShellSettings
+ * @property_name: an installed property name
+ * @v_boolean: boolean value to be set
+ *
+ * Sets the contents of an #EShellSettings property of type #G_TYPE_BOOLEAN
+ * to @v_boolean.  If @property_name is bound to a GConf key, the GConf key
+ * will also be set to @v_boolean.
+ **/
+void
+e_shell_settings_set_boolean (EShellSettings *shell_settings,
+                              const gchar *property_name,
+                              gboolean v_boolean)
+{
+	GObject *object;
+	GValue value = { 0, };
+
+	g_return_if_fail (E_IS_SHELL_SETTINGS (shell_settings));
+	g_return_if_fail (property_name != NULL);
+
+	object = G_OBJECT (shell_settings);
+	g_value_init (&value, G_TYPE_BOOLEAN);
+	g_value_set_boolean (&value, v_boolean);
+	g_object_set_property (object, property_name, &value);
+	g_value_unset (&value);
+}
+
+/**
+ * e_shell_settings_get_int:
+ * @shell_settings: an #EShellSettings
+ * @property_name: an installed property name
+ *
+ * Returns the contents of an #EShellSettings property of type
+ * #G_TYPE_INT.
+ *
+ * Returns: integer contents of @property_name
+ **/
+gint
+e_shell_settings_get_int (EShellSettings *shell_settings,
+                          const gchar *property_name)
+{
+	GObject *object;
+	GValue value = { 0, };
+	gint v_int;
+
+	g_return_val_if_fail (E_IS_SHELL_SETTINGS (shell_settings), 0);
+	g_return_val_if_fail (property_name != NULL, 0);
+
+	object = G_OBJECT (shell_settings);
+	g_value_init (&value, G_TYPE_INT);
+	g_object_get_property (object, property_name, &value);
+	v_int = g_value_get_int (&value);
+	g_value_unset (&value);
+
+	return v_int;
+}
+
+/**
+ * e_shell_settings_set_int:
+ * @shell_settings: an #EShellSettings
+ * @property_name: an installed property name
+ * @v_int: integer value to be set
+ *
+ * Sets the contents of an #EShellSettings property of type #G_TYPE_INT
+ * to @v_int.  If @property_name is bound to a GConf key, the GConf key
+ * will also be set to @v_int.
+ **/
+void
+e_shell_settings_set_int (EShellSettings *shell_settings,
+                          const gchar *property_name,
+                          gint v_int)
+{
+	GObject *object;
+	GValue value = { 0, };
+
+	g_return_if_fail (E_IS_SHELL_SETTINGS (shell_settings));
+	g_return_if_fail (property_name != NULL);
+
+	object = G_OBJECT (shell_settings);
+	g_value_init (&value, G_TYPE_INT);
+	g_value_set_int (&value, v_int);
+	g_object_set_property (object, property_name, &value);
+	g_value_unset (&value);
+}
+
+/**
+ * e_shell_settings_get_string:
+ * @shell_settings: an #EShellSettings
+ * @property_name: an installed property name
+ *
+ * Returns the contents of an #EShellSettings property of type
+ * #G_TYPE_STRING.  The returned string should be freed using g_free().
+ *
+ * Returns: string contents of @property_name
+ **/
+gchar *
+e_shell_settings_get_string (EShellSettings *shell_settings,
+                             const gchar *property_name)
+{
+	GObject *object;
+	GValue value = { 0, };
+	gchar *v_string;
+
+	g_return_val_if_fail (E_IS_SHELL_SETTINGS (shell_settings), NULL);
+	g_return_val_if_fail (property_name != NULL, NULL);
+
+	object = G_OBJECT (shell_settings);
+	g_value_init (&value, G_TYPE_STRING);
+	g_object_get_property (object, property_name, &value);
+	v_string = g_value_dup_string (&value);
+	g_value_unset (&value);
+
+	return v_string;
+}
+
+/**
+ * e_shell_settings_set_string:
+ * @shell_settings: an #EShellSettings
+ * @property_name: an installed property name
+ * @v_string: string to be set
+ *
+ * Sets the contents of an #EShellSettings property of type #G_TYPE_STRING
+ * to @v_string.  If @property_name is bound to a GConf key, the GConf key
+ * will also be set to @v_string.
+ **/
+void
+e_shell_settings_set_string (EShellSettings *shell_settings,
+                             const gchar *property_name,
+                             const gchar *v_string)
+{
+	GObject *object;
+	GValue value = { 0, };
+
+	g_return_if_fail (E_IS_SHELL_SETTINGS (shell_settings));
+	g_return_if_fail (property_name != NULL);
+
+	object = G_OBJECT (shell_settings);
+	g_value_init (&value, G_TYPE_STRING);
+	g_value_set_string (&value, v_string);
+	g_object_set_property (object, property_name, &value);
+	g_value_unset (&value);
 }

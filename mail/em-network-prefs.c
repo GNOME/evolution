@@ -32,8 +32,6 @@
 
 #include "em-network-prefs.h"
 
-#include <bonobo/bonobo-generic-factory.h>
-
 #include <gdk/gdkkeysyms.h>
 #include <gconf/gconf-client.h>
 #include <glade/glade.h>

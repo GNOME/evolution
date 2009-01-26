@@ -23,13 +23,8 @@
 
 G_BEGIN_DECLS
 
-typedef enum {
-	EAB_DISPOSITION_AS_ATTACHMENT,
-	EAB_DISPOSITION_AS_TO,
-} EABDisposition;
-
-void		eab_send_message		(GList *destinations,
-						 EABDisposition  disposition);
+void		eab_send_as_to			(GList *destinations);
+void		eab_send_as_attachment		(GList *destinations);
 
 G_END_DECLS
 

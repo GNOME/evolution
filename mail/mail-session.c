@@ -784,13 +784,6 @@ mail_session_set_interactive (gboolean interactive)
 }
 
 void
-mail_session_forget_passwords (BonoboUIComponent *uih, void *user_data,
-			       const char *path)
-{
-	e_passwords_forget_passwords ();
-}
-
-void
 mail_session_flush_filter_log (void)
 {
 	MailSession *ms = (MailSession *) session;

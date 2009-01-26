@@ -306,7 +306,7 @@ action_contact_forward_cb (GtkAction *action,
 		iter->data = destination;
 	}
 
-	eab_send_message (list, EAB_DISPOSITION_AS_ATTACHMENT);
+	eab_send_as_attachment (list);
 	g_list_foreach (list, (GFunc) g_object_unref, NULL);
 	g_list_free (list);
 }
@@ -488,7 +488,7 @@ action_contact_send_message_cb (GtkAction *action,
 		iter->data = destination;
 	}
 
-	eab_send_message (list, EAB_DISPOSITION_AS_TO);
+	eab_send_as_to (list);
 	g_list_foreach (list, (GFunc) g_object_unref, NULL);
 	g_list_free (list);
 }

@@ -24,51 +24,35 @@
 
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-ui-init.h>
-#include <bonobo/bonobo-main.h>
 #include "e-contact-print-style-editor.h"
 
-/* This is a horrible thing to do, but it is just a test. */
-static GtkWidget *editor;
-
-static void destroy_callback(GtkWidget *app, gpointer data)
+int
+main (int argc, char *argv[])
 {
-	static int count = 2;
-	count --;
-	if ( count <= 0 )
-		exit(0);
-}
+	GtkWidget *editor;
+	GtkWidget *window;
+	const gchar *title;
 
-int main( int argc, char *argv[] )
-{
-  GtkWidget *app;
+	title = "Contact Print Style Editor Test";
 
-  /*  bindtextdomain (PACKAGE, GNOMELOCALEDIR);
-      textdomain (PACKAGE);*/
+	gtk_init (&argc, &argv);
 
-  gnome_program_init ("Contact Print Style Editor Test", VERSION,
-		      LIBGNOMEUI_MODULE,
-		      argc, argv,
-		      NULL);
+	glade_init ();
 
-  glade_init ();
+	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title (GTK_WINDOW (window), title);
 
-  app = gnome_app_new("Contact Print Style Editor Test", NULL);
+	editor = e_contact_print_style_editor_new ("");
+	gtk_container_add (GTK_CONTAINER (window), editor);
 
-  editor = e_contact_print_style_editor_new("");
+	g_signal_connect (
+		window, "delete-event",
+		G_CALLBACK (gtk_main_quit), NULL);
 
-  gnome_app_set_contents( GNOME_APP( app ), editor );
+	gtk_widget_show_all (window);
 
-  /* Connect the signals */
-  g_signal_connect( app, "destroy",
-		    G_CALLBACK ( destroy_callback ),
-		    ( gpointer ) app );
+	gtk_main ();
 
-  gtk_widget_show_all( app );
-
-  bonobo_main();
-
-  /* Not reached. */
-  return 0;
+	/* Not reached. */
+	return 0;
 }

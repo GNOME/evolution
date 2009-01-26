@@ -1846,10 +1846,10 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	e_shell_event (shell, "mail-icon", "evolution-mail");
 
 	/* Determine whether to mark the message as read. */
-	g_object_get (
-		shell_settings,
-		"mail-mark-seen", &mark_read,
-		"mail-mark-seen-timeout", &timeout_interval, NULL);
+	mark_read = e_shell_settings_get_boolean (
+		shell_settings, "mail-mark-seen");
+	timeout_interval = e_shell_settings_get_int (
+		shell_settings, "mail-mark-seen-timeout");
 
 	g_object_set_data_full (
 		G_OBJECT (reader), "mark-read-uid",
