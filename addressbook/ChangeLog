@@ -1,3 +1,9 @@
+2009-01-26  Matthew Barnes  <mbarnes@redhat.com>
+
+	* printing/test-print.c:
+	* printing/test-contact-print-style-editor.c:
+	Migrate the test programs off libgnomeui/libbonobo.
+
 2009-01-21  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #362754

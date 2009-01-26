@@ -24,35 +24,28 @@
 
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-ui-init.h>
 #include <glade/glade.h>
-#include <bonobo/bonobo-main.h>
 #include "e-contact-print.h"
 
-int main( int argc, char *argv[] )
+int
+main (int argc, char *argv[])
 {
-  GList *shown_fields = NULL;
+	GList *shown_fields = NULL;
 
-  /*  bindtextdomain (PACKAGE, GNOMELOCALEDIR);
-      textdomain (PACKAGE);*/
+	gtk_init (&argc, &argv);
 
-  gnome_program_init ("Contact Print Test", VERSION,
-		      LIBGNOMEUI_MODULE,
-		      argc, argv,
-		      NULL);
+	glade_init ();
 
-  glade_init ();
+	shown_fields = g_list_append (shown_fields, "First field");
+	shown_fields = g_list_append (shown_fields, "Second field");
+	shown_fields = g_list_append (shown_fields, "Third field");
+	shown_fields = g_list_append (shown_fields, "Fourth field");
 
-  shown_fields = g_list_append(shown_fields, "First field");
-  shown_fields = g_list_append(shown_fields, "Second field");
-  shown_fields = g_list_append(shown_fields, "Third field");
-  shown_fields = g_list_append(shown_fields, "Fourth field");
+	/* does nothing */
+	e_contact_print (NULL, NULL, NULL, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
 
-  /* does nothing */
-  e_contact_print (NULL, NULL, NULL, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
+	gtk_main ();
 
-  bonobo_main();
-
-  /* Not reached. */
-  return 0;
+	/* Not reached. */
+	return 0;
 }
