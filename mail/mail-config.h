@@ -26,7 +26,7 @@
 #include <glib.h>
 #include <glib-object.h>
 
-#include "camel/camel-provider.h" /* can't forward-declare enums, bah */
+#include <camel/camel-provider.h>
 
 struct _EAccount;
 struct _EAccountList;
@@ -96,7 +96,6 @@ void mail_config_write_on_exit (void);
 struct _GConfClient *mail_config_get_gconf_client (void);
 
 /* General Accessor functions */
-gboolean mail_config_is_configured            (void);
 gboolean mail_config_is_corrupt               (void);
 
 GSList *mail_config_get_labels (void);
@@ -106,40 +105,17 @@ const char **mail_config_get_allowable_mime_types (void);
 void mail_config_service_set_save_passwd (struct _EAccountService *service, gboolean save_passwd);
 
 /* accounts */
-gboolean mail_config_find_account (struct _EAccount *account);
-struct _EAccount *mail_config_get_default_account (void);
-struct _EAccount *mail_config_get_account_by_name (const char *account_name);
-struct _EAccount *mail_config_get_account_by_uid (const char *uid);
 struct _EAccount *mail_config_get_account_by_source_url (const char *url);
 struct _EAccount *mail_config_get_account_by_transport_url (const char *url);
 
-struct _EAccountList *mail_config_get_accounts (void);
-void mail_config_add_account (struct _EAccount *account);
-void mail_config_remove_account (struct _EAccount *account);
-void mail_config_set_default_account (struct _EAccount *account);
 int mail_config_get_address_count (void);
 int mail_config_get_message_limit (void);
 gboolean mail_config_get_enable_magic_spacebar (void);
 
-void mail_config_remove_account_proxies (struct _EAccount *account);
-void mail_config_prune_proxies (void);
-int mail_config_has_proxies (struct _EAccount *account);
-
-struct _EAccountIdentity *mail_config_get_default_identity (void);
 struct _EAccountService  *mail_config_get_default_transport (void);
-
-void mail_config_save_accounts (void);
 
 /* signatures */
 struct _ESignature *mail_config_signature_new (const char *filename, gboolean script, gboolean html);
-struct _ESignature *mail_config_get_signature_by_uid (const char *uid);
-struct _ESignature *mail_config_get_signature_by_name (const char *name);
-
-struct _ESignatureList *mail_config_get_signatures (void);
-void mail_config_add_signature (struct _ESignature *signature);
-void mail_config_remove_signature (struct _ESignature *signature);
-
-void mail_config_save_signatures (void);
 
 char *mail_config_signature_run_script (const char *script);
 

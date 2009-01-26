@@ -37,6 +37,7 @@
 
 #include "e-util/e-util.h"
 #include "e-util/e-mktemp.h"
+#include "e-util/e-account-utils.h"
 
 #include <glib/gi18n.h>
 
@@ -386,7 +387,7 @@ folder_tree_model_init (EMFolderTreeModel *model)
 		GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID,
 		GTK_SORT_ASCENDING);
 
-	model->accounts = mail_config_get_accounts ();
+	model->accounts = e_get_account_list ();
 	model->account_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	model->account_changed_id = g_signal_connect (
 		model->accounts, "account-changed",

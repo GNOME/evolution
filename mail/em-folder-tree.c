@@ -48,6 +48,7 @@
 #include <camel/camel-file-utils.h>
 #include <camel/camel-stream-fs.h>
 
+#include "e-util/e-account-utils.h"
 #include "e-util/e-mktemp.h"
 #include "e-util/e-request.h"
 #include "e-util/e-icon-factory.h"
@@ -565,7 +566,7 @@ emft_expand_node (EMFolderTreeModel *model, const char *key, EMFolderTree *emft)
 	tree_view = GTK_TREE_VIEW (emft);
 	shell_module = em_folder_tree_model_get_shell_module (model);
 
-	if ((account = mail_config_get_account_by_uid (uid)) && account->enabled) {
+	if ((account = e_get_account_by_uid (uid)) && account->enabled) {
 		CamelException ex;
 
 		camel_exception_init (&ex);
@@ -634,7 +635,7 @@ emft_maybe_expand_row (EMFolderTreeModel *model, GtkTreePath *tree_path, GtkTree
 			    -1);
 
 	si = g_hash_table_lookup (model->store_hash, store);
-	if ((account = mail_config_get_account_by_name (si->display_name))) {
+	if ((account = e_get_account_by_name (si->display_name))) {
 	        key = g_strdup_printf ("%s/%s", account->uid, full_name ? full_name : "");
 	} else if (CAMEL_IS_VEE_STORE (store)) {
 		/* vfolder store */
@@ -1831,7 +1832,7 @@ emft_update_model_expanded_state (struct _EMFolderTreePrivate *priv, GtkTreeIter
 			    -1);
 
 	si = g_hash_table_lookup (priv->model->store_hash, store);
-	if ((account = mail_config_get_account_by_name (si->display_name))) {
+	if ((account = e_get_account_by_name (si->display_name))) {
 	        key = g_strdup_printf ("%s/%s", account->uid, full_name ? full_name : "");
 	} else if (CAMEL_IS_VEE_STORE (store)) {
 		/* vfolder store */

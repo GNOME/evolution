@@ -484,11 +484,14 @@ static CORBA_boolean
 impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	MailComponent *mc = MAIL_COMPONENT(bonobo_object_from_servant(servant));
+	EAccountList *account_list;
 
 	if (mc->priv->quit_state == -1)
 		mc->priv->quit_state = MC_QUIT_START;
 
-	mail_config_prune_proxies ();
+	account_list = e_get_account_list ();
+	e_account_list_prune_proxies (account_list);
+
 	switch (mc->priv->quit_state) {
 	case MC_QUIT_START: {
 		extern int camel_application_is_exiting;

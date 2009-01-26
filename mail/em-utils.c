@@ -67,7 +67,7 @@
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-mktemp.h"
-#include "libedataserver/e-account-list.h"
+#include "e-util/e-account-utils.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-error.h"
 
@@ -194,6 +194,7 @@ gboolean
 em_utils_configure_account (GtkWindow *parent)
 {
 	EMAccountEditor *emae;
+	EAccountList *account_list;
 
 	g_return_val_if_fail (GTK_IS_WINDOW (parent), FALSE);
 
@@ -205,7 +206,9 @@ em_utils_configure_account (GtkWindow *parent)
 	gtk_grab_add(emae->editor);
 	gtk_main();
 
-	return mail_config_is_configured();
+	account_list = e_get_account_list ();
+
+	return (e_list_length ((EList *) account_list) > 0);
 }
 
 /**
@@ -224,14 +227,17 @@ em_utils_configure_account (GtkWindow *parent)
 gboolean
 em_utils_check_user_can_send_mail (GtkWindow *parent)
 {
+	EAccountList *account_list;
 	EAccount *account;
 
-	if (!mail_config_is_configured ()) {
+	account_list = e_get_account_list ();
+
+	if (e_list_length ((EList *) account_list) > 0) {
 		if (!em_utils_configure_account (parent))
 			return FALSE;
 	}
 
-	if (!(account = mail_config_get_default_account ()))
+	if (!(account = e_get_default_account ()))
 		return FALSE;
 
 	/* Check for a transport */
@@ -1396,7 +1402,7 @@ em_utils_folder_is_templates (CamelFolder *folder, const char *uri)
 	if (uri == NULL)
 		return FALSE;
 		
-	accounts = mail_config_get_accounts();
+	accounts = e_get_account_list ();
 	iter = e_list_get_iterator ((EList *)accounts);
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *)e_iterator_get (iter);
@@ -1447,7 +1453,7 @@ em_utils_folder_is_drafts(CamelFolder *folder, const char *uri)
 	if (uri == NULL)
 		return FALSE;
 
-	accounts = mail_config_get_accounts();
+	accounts = e_get_account_list ();
 	iter = e_list_get_iterator((EList *)accounts);
 	while (e_iterator_is_valid(iter)) {
 		account = (EAccount *)e_iterator_get(iter);
@@ -1498,7 +1504,7 @@ em_utils_folder_is_sent(CamelFolder *folder, const char *uri)
 	if (uri == NULL)
 		return FALSE;
 
-	accounts = mail_config_get_accounts();
+	accounts = e_get_account_list ();
 	iter = e_list_get_iterator((EList *)accounts);
 	while (e_iterator_is_valid(iter)) {
 		account = (EAccount *)e_iterator_get(iter);
@@ -1805,7 +1811,7 @@ em_utils_empty_trash (GtkWidget *parent)
 	camel_exception_init (&ex);
 
 	/* expunge all remote stores */
-	accounts = mail_config_get_accounts ();
+	accounts = e_get_account_list ();
 	iter = e_list_get_iterator ((EList *) accounts);
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
@@ -1974,7 +1980,7 @@ char *em_uri_to_camel(const char *euri)
 		uid = g_strdup(eurl->host);
 	}
 
-	accounts = mail_config_get_accounts();
+	accounts = e_get_account_list ();
 	account = e_account_list_find(accounts, E_ACCOUNT_FIND_UID, uid);
 	g_free(uid);
 
@@ -2417,7 +2423,7 @@ em_utils_clear_get_password_canceled_accounts_flag (void)
 {
 	EAccountList *accounts;
 
-	accounts = mail_config_get_accounts ();
+	accounts = e_get_account_list ();
 	if (accounts) {
 		EIterator *iter;
 

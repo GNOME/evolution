@@ -58,6 +58,7 @@
 
 #include <libedataserver/e-data-server-util.h>
 #include "e-util/e-util.h"
+#include "e-util/e-account-utils.h"
 #include "e-util/e-util-private.h"
 
 #include "em-filter-rule.h"
@@ -475,9 +476,9 @@ mail_send_message(CamelFolder *queue, const char *uid, const char *destination, 
 		char *name;
 
 		name = g_strstrip(g_strdup(tmp));
-		if ((account = mail_config_get_account_by_uid(name))
+		if ((account = e_get_account_by_uid (name))
 		    /* 'old' x-evolution-account stored the name, how silly */
-		    || (account = mail_config_get_account_by_name(name))) {
+		    || (account = e_get_account_by_name (name))) {
 			if (account->transport && account->transport->url)
 				transport_url = g_strdup (account->transport->url);
 

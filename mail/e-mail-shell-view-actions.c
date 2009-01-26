@@ -41,21 +41,21 @@ action_mail_account_disable_cb (GtkAction *action,
 	folder_uri = em_folder_tree_get_selected_uri (folder_tree);
 	g_return_if_fail (folder_uri != NULL);
 
+	account_list = e_get_account_list ();
 	account = mail_config_get_account_by_source_url (folder_uri);
 	g_return_if_fail (account != NULL);
 
-	if (mail_config_has_proxies (account))
-		mail_config_remove_account_proxies (account);
+	if (e_account_list_account_has_proxies (account_list, account))
+		e_account_list_remove_account_proxies (account_list, account);
 
 	account->enabled = !account->enabled;
-	account_list = mail_config_get_accounts ();
 	e_account_list_change (account_list, account);
 	e_mail_shell_module_remove_store_by_uri (shell_module, folder_uri);
 
 	if (account->parent_uid != NULL)
-		mail_config_remove_account (account);
+		e_account_list_remove (account_list, account);
 
-	mail_config_save_accounts ();
+	e_account_list_save (account_list);
 
 	g_free (folder_uri);
 }

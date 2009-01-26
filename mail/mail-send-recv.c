@@ -45,7 +45,9 @@
 #include "mail-send-recv.h"
 #include "mail-folder-cache.h"
 #include "em-event.h"
-#include <e-util/gconf-bridge.h>
+
+#include "e-util/e-account-utils.h"
+#include "e-util/gconf-bridge.h"
 
 #include "e-mail-shell-module.h"
 
@@ -931,11 +933,11 @@ mail_send_receive (GtkWindow *parent)
 	if (!camel_session_is_online (session))
 		return send_recv_dialog;
 
-	account = mail_config_get_default_account ();
+	account = e_get_default_account ();
 	if (!account || !account->transport->url)
 		return send_recv_dialog;
 
-	accounts = mail_config_get_accounts ();
+	accounts = e_get_account_list ();
 
 	outbox_folder = e_mail_shell_module_get_folder (
 		mail_shell_module, E_MAIL_FOLDER_OUTBOX);
@@ -1076,7 +1078,7 @@ auto_online(CamelObject *o, void *ed, void *d)
 	if (!GPOINTER_TO_INT(ed))
 		return;
 
-	accounts = mail_config_get_accounts ();
+	accounts = e_get_account_list ();
 	for (iter = e_list_get_iterator((EList *)accounts);e_iterator_is_valid(iter);e_iterator_next(iter)) {
 		info  = g_object_get_data((GObject *)e_iterator_get(iter), "mail-autoreceive");
 		if (info && info->timeout_id)
@@ -1095,7 +1097,7 @@ mail_autoreceive_init (CamelSession *session)
 	if (auto_active)
 		return;
 
-	accounts = mail_config_get_accounts ();
+	accounts = e_get_account_list ();
 	auto_active = g_hash_table_new(g_str_hash, g_str_equal);
 
 	g_signal_connect(accounts, "account-added", G_CALLBACK(auto_account_added), NULL);

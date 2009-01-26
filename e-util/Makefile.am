@@ -40,6 +40,7 @@ INCLUDES =								\
 privsolib_LTLIBRARIES = libeutil.la libeconduit.la
 
 eutilinclude_HEADERS = 				\
+	e-account-utils.h			\
 	e-bconf-map.h				\
 	e-binding.h				\
 	e-categories-config.h			\
@@ -70,6 +71,7 @@ eutilinclude_HEADERS = 				\
 	e-request.h				\
 	e-signature.h				\
 	e-signature-list.h			\
+	e-signature-utils.h			\
 	e-bit-array.h				\
 	e-sorter.h				\
 	e-sorter-array.h			\
@@ -82,6 +84,7 @@ eutilinclude_HEADERS = 				\
 
 libeutil_la_SOURCES =				\
 	$(eutilinclude_HEADERS)			\
+	e-account-utils.c			\
 	e-bconf-map.c				\
 	e-binding.c				\
 	e-categories-config.c			\
@@ -112,6 +115,7 @@ libeutil_la_SOURCES =				\
 	e-request.c				\
 	e-signature.c				\
 	e-signature-list.c			\
+	e-signature-utils.c			\
 	e-bit-array.c				\
 	e-sorter.c				\
 	e-sorter-array.c			\

@@ -21,11 +21,19 @@
 
 #include "e-mail-shell-module-settings.h"
 
+#include <gconf/gconf-client.h>
+#include <libedataserver/e-account-list.h>
+
+#include "e-util/e-signature-list.h"
+
 void
 e_mail_shell_module_init_settings (EShell *shell)
 {
+	GConfClient *client;
 	EShellSettings *shell_settings;
+	gpointer object;
 
+	client = gconf_client_get_default ();
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	/* XXX Default values should match the GConf schema.
@@ -425,4 +433,33 @@ e_mail_shell_module_init_settings (EShell *shell)
 	e_shell_settings_bind_to_gconf (
 		shell_settings, "composer-top-signature",
 		"/apps/evolution/mail/composer/top_signature");
+
+	/* These properties are not bound directly to GConf keys.
+	 * XXX Nor should they be stored in GConf to begin with. */
+
+	e_shell_settings_install_property (
+		g_param_spec_object (
+			"accounts",
+			NULL,
+			NULL,
+			E_TYPE_ACCOUNT_LIST,
+			G_PARAM_READWRITE));
+
+	object = e_account_list_new (client);
+	e_shell_settings_set_object (shell_settings, "accounts", object);
+	g_object_unref (object);
+
+	e_shell_settings_install_property (
+		g_param_spec_object (
+			"signatures",
+			NULL,
+			NULL,
+			E_TYPE_SIGNATURE_LIST,
+			G_PARAM_READWRITE));
+
+	object = e_signature_list_new (client);
+	e_shell_settings_set_object (shell_settings, "signatures", object);
+	g_object_unref (object);
+
+	g_object_unref (client);
 }

@@ -25,6 +25,7 @@
 #include <camel/camel-session.h>
 #include <camel/camel-url.h>
 
+#include "e-util/e-account-utils.h"
 #include "e-util/e-import.h"
 #include "e-util/e-util.h"
 #include "shell/e-shell.h"
@@ -353,7 +354,7 @@ mail_shell_module_load_accounts (EShellModule *shell_module)
 	EAccountList *account_list;
 	EIterator *iter;
 
-	account_list = mail_config_get_accounts ();
+	account_list = e_get_account_list ();
 
 	for (iter = e_list_get_iterator ((EList *) account_list);
 		e_iterator_is_valid (iter); e_iterator_next (iter)) {

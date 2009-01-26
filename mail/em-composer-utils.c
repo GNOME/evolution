@@ -39,6 +39,7 @@
 #include "mail-send-recv.h"
 
 #include "e-util/e-error.h"
+#include "e-util/e-account-utils.h"
 
 #include "em-utils.h"
 #include "em-composer-utils.h"
@@ -47,8 +48,6 @@
 #include "em-format-html.h"
 #include "em-format-quote.h"
 #include "em-event.h"
-
-#include "libedataserver/e-account-list.h"
 
 #include <camel/camel-folder.h>
 #include <camel/camel-multipart.h>
@@ -1663,10 +1662,10 @@ generate_account_hash (void)
 	EAccountList *accounts;
 	EIterator *iter;
 
-	accounts = mail_config_get_accounts ();
+	accounts = e_get_account_list ();
 	account_hash = g_hash_table_new (camel_strcase_hash, camel_strcase_equal);
 
-	def = mail_config_get_default_account ();
+	def = e_get_default_account ();
 
 	iter = e_list_get_iterator ((EList *) accounts);
 	while (e_iterator_is_valid (iter)) {

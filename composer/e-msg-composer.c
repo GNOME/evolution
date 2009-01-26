@@ -23,17 +23,6 @@
  *
  */
 
-/*
-
-   TODO
-
-   - Somehow users should be able to see if any file (s) are attached even when
-     the attachment bar is not shown.
-
-   Should use EventSources to keep track of global changes made to configuration
-   values.  Right now it ignores the problem olympically. Miguel.
-*/
-
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -65,6 +54,8 @@
 #include "e-util/e-mktemp.h"
 #include "e-util/e-plugin-ui.h"
 #include "e-util/e-util-private.h"
+#include "e-util/e-account-utils.h"
+#include "e-util/e-signature-utils.h"
 #include "e-signature-combo-box.h"
 #include "shell/e-shell.h"
 
@@ -1683,7 +1674,7 @@ msg_composer_account_changed_cb (EMsgComposer *composer)
 		bcc_addrs = account->bcc_addrs;
 
 	uid = account->id->sig_uid;
-	signature = uid ? mail_config_get_signature_by_uid (uid) : NULL;
+	signature = uid ? e_get_signature_by_uid (uid) : NULL;
 	e_composer_header_table_set_signature (table, signature);
 
 	/* XXX This should be done more generically.  The composer
@@ -2776,9 +2767,9 @@ msg_composer_init (EMsgComposer *composer)
 	/* Configure Headers */
 
 	e_composer_header_table_set_account_list (
-		table, mail_config_get_accounts ());
+		table, e_get_account_list ());
 	e_composer_header_table_set_signature_list (
-		table, mail_config_get_signatures ());
+		table, e_get_signature_list ());
 
 	g_signal_connect_swapped (
 		table, "notify::account",
@@ -3364,11 +3355,11 @@ set_signature_gui (EMsgComposer *composer)
 	data = gtkhtml_editor_get_paragraph_data (editor, "signature_name");
 	if (g_str_has_prefix (data, "uid:")) {
 		decoded = decode_signature_name (data + 4);
-		signature = mail_config_get_signature_by_uid (decoded);
+		signature = e_get_signature_by_uid (decoded);
 		g_free (decoded);
 	} else if (g_str_has_prefix (data, "name:")) {
 		decoded = decode_signature_name (data + 5);
-		signature = mail_config_get_signature_by_name (decoded);
+		signature = e_get_signature_by_name (decoded);
 		g_free (decoded);
 	}
 
@@ -3437,10 +3428,12 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 		account_name = g_strdup (account_name);
 		g_strstrip (account_name);
 
-		if ((account = mail_config_get_account_by_uid (account_name)) == NULL)
-			/* 'old' setting */
-			account = mail_config_get_account_by_name (account_name);
-		if (account) {
+		account = e_get_account_by_uid (account_name);
+		if (account == NULL)
+			/* XXX Backwards compatibility */
+			account = e_get_account_by_name (account_name);
+
+		if (account != NULL) {
 			g_free (account_name);
 			account_name = g_strdup (account->name);
 		}

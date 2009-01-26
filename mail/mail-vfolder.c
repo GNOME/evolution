@@ -35,6 +35,7 @@
 
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
+#include "e-util/e-account-utils.h"
 
 #include "em-folder-tree-model.h"
 #include "em-utils.h"
@@ -231,7 +232,7 @@ vfolder_adduri_desc (struct _adduri_msg *m)
 				else
 					uid = g_strdup_printf("%s@%s", url->user, url->host);
 
-				account = e_account_list_find(mail_config_get_accounts(), E_ACCOUNT_FIND_UID, uid);
+				account = e_get_account_by_uid (uid);
 				g_free(uid);
 				if (account != NULL)
 					loc = account->name;
@@ -373,7 +374,7 @@ uri_is_ignore(CamelStore *store, const char *uri)
 	if (found)
 		return found;
 
-	accounts = mail_config_get_accounts ();
+	accounts = e_get_account_list ();
 	iter = e_list_get_iterator ((EList *) accounts);
 	while (e_iterator_is_valid (iter)) {
 		char *curi;

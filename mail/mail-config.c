@@ -53,9 +53,12 @@
 #include <e-util/e-util.h>
 #include <misc/e-gui-utils.h>
 #include "e-util/e-util-labels.h"
+#include "e-util/e-account-utils.h"
 
-#include <libedataserver/e-account-list.h>
 #include <e-util/e-signature-list.h>
+
+#include "shell/e-shell.h"
+#include "shell/e-shell-settings.h"
 
 #include <camel/camel-service.h>
 #include <camel/camel-stream-mem.h>
@@ -74,13 +77,11 @@
 
 typedef struct {
 	GConfClient *gconf;
+	EShellSettings *shell_settings;
 
 	gboolean corrupt;
 
 	char *gtkrc;
-
-	EAccountList *accounts;
-	ESignatureList *signatures;
 
 	GSList *labels;
 
@@ -104,18 +105,6 @@ typedef struct {
 static MailConfig *config = NULL;
 static guint config_write_timeout = 0;
 
-
-void
-mail_config_save_accounts (void)
-{
-	e_account_list_save (config->accounts);
-}
-
-void
-mail_config_save_signatures (void)
-{
-	e_signature_list_save (config->signatures);
-}
 
 static void
 config_clear_mime_types (void)
@@ -351,22 +340,27 @@ void
 mail_config_init (void)
 {
 	GConfClientNotifyFunc func;
+	EShellSettings *shell_settings;
+	EShell *shell;
 	const gchar *key;
+
+	g_return_if_fail (E_IS_SHELL_SETTINGS (shell_settings));
 
 	if (config)
 		return;
 
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
+
 	config = g_new0 (MailConfig, 1);
 	config->gconf = gconf_client_get_default ();
+	config->shell_settings = g_object_ref (shell_settings);
 	config->mime_types = g_ptr_array_new ();
 	config->gtkrc = g_build_filename (
 		e_get_user_data_dir (), "mail",
 		"config", "gtkrc-mail-fonts", NULL);
 
 	mail_config_clear ();
-
-	config->accounts = e_account_list_new (config->gconf);
-	config->signatures = e_signature_list_new (config->gconf);
 
 	gtk_rc_parse (config->gtkrc);
 
@@ -546,16 +540,6 @@ mail_config_clear (void)
 	if (!config)
 		return;
 
-	if (config->accounts) {
-		g_object_unref (config->accounts);
-		config->accounts = NULL;
-	}
-
-	if (config->signatures) {
-		g_object_unref (config->signatures);
-		config->signatures = NULL;
-	}
-
 	config_clear_labels ();
 	config_clear_mime_types ();
 }
@@ -564,18 +548,30 @@ mail_config_clear (void)
 void
 mail_config_write (void)
 {
+	EAccountList *account_list;
+	ESignatureList *signature_list;
+
 	if (!config)
 		return;
 
-	e_account_list_save (config->accounts);
-	e_signature_list_save (config->signatures);
+	account_list = e_shell_settings_get_object (
+		config->shell_settings, "accounts");
+	signature_list = e_shell_settings_get_object (
+		config->shell_settings, "signatures");
+
+	e_account_list_save (account_list);
+	e_signature_list_save (signature_list);
 
 	gconf_client_suggest_sync (config->gconf, NULL);
+
+	g_object_unref (account_list);
+	g_object_unref (signature_list);
 }
 
 void
 mail_config_write_on_exit (void)
 {
+	EAccountList *account_list;
 	EAccount *account;
 	EIterator *iter;
 
@@ -589,7 +585,8 @@ mail_config_write_on_exit (void)
 
 	/* then we make sure the ones we want to remember are in the
            session cache */
-	iter = e_list_get_iterator ((EList *) config->accounts);
+	account_list = e_get_account_list ();
+	iter = e_list_get_iterator ((EList *) account_list);
 	while (e_iterator_is_valid (iter)) {
 		char *passwd;
 
@@ -618,7 +615,7 @@ mail_config_write_on_exit (void)
 	e_passwords_clear_passwords ("Mail");
 
 	/* then we remember them */
-	iter = e_list_get_iterator ((EList *) config->accounts);
+	iter = e_list_get_iterator ((EList *) account_list);
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
 
@@ -650,12 +647,6 @@ mail_config_get_gconf_client (void)
 		mail_config_init ();
 
 	return config->gconf;
-}
-
-gboolean
-mail_config_is_configured (void)
-{
-	return e_list_length ((EList *) config->accounts) > 0;
 }
 
 gboolean
@@ -749,53 +740,6 @@ mail_config_get_allowable_mime_types (void)
 	return (const char **) config->mime_types->pdata;
 }
 
-gboolean
-mail_config_find_account (EAccount *account)
-{
-	EAccount *acnt;
-	EIterator *iter;
-
-	iter = e_list_get_iterator ((EList *) config->accounts);
-	while (e_iterator_is_valid (iter)) {
-		acnt = (EAccount *) e_iterator_get (iter);
-		if (acnt == account) {
-			g_object_unref (iter);
-			return TRUE;
-		}
-
-		e_iterator_next (iter);
-	}
-
-	g_object_unref (iter);
-
-	return FALSE;
-}
-
-EAccount *
-mail_config_get_default_account (void)
-{
-	if (config == NULL)
-		mail_config_init ();
-
-	if (!config->accounts)
-		return NULL;
-
-	/* should probably return const */
-	return (EAccount *)e_account_list_get_default(config->accounts);
-}
-
-EAccount *
-mail_config_get_account_by_name (const char *account_name)
-{
-	return (EAccount *)e_account_list_find(config->accounts, E_ACCOUNT_FIND_NAME, account_name);
-}
-
-EAccount *
-mail_config_get_account_by_uid (const char *uid)
-{
-	return (EAccount *) e_account_list_find (config->accounts, E_ACCOUNT_FIND_UID, uid);
-}
-
 static gboolean
 mail_config_account_url_equal (const CamelURL *u1,
                                const CamelURL *u2)
@@ -818,6 +762,7 @@ mail_config_account_url_equal (const CamelURL *u1,
 EAccount *
 mail_config_get_account_by_source_url (const char *source_url)
 {
+	EAccountList *account_list;
 	EAccount *account = NULL;
 	EIterator *iter;
 	CamelURL *url;
@@ -827,7 +772,8 @@ mail_config_get_account_by_source_url (const char *source_url)
 	url = camel_url_new (source_url, NULL);
 	g_return_val_if_fail (url != NULL, NULL);
 
-	iter = e_list_get_iterator ((EList *) config->accounts);
+	account_list = e_get_account_list ();
+	iter = e_list_get_iterator ((EList *) account_list);
 	while (account == NULL && e_iterator_is_valid (iter)) {
 		CamelURL *account_url;
 
@@ -862,6 +808,7 @@ mail_config_get_account_by_source_url (const char *source_url)
 EAccount *
 mail_config_get_account_by_transport_url (const char *transport_url)
 {
+	EAccountList *account_list;
 	EAccount *account = NULL;
 	EIterator *iter;
 	CamelURL *url;
@@ -871,7 +818,8 @@ mail_config_get_account_by_transport_url (const char *transport_url)
 	url = camel_url_new (transport_url, NULL);
 	g_return_val_if_fail (url != NULL, NULL);
 
-	iter = e_list_get_iterator ((EList *) config->accounts);
+	account_list = e_get_account_list ();
+	iter = e_list_get_iterator ((EList *) account_list);
 	while (account == NULL && e_iterator_is_valid (iter)) {
 		CamelURL *account_url;
 
@@ -903,77 +851,21 @@ mail_config_get_account_by_transport_url (const char *transport_url)
 	return account;
 }
 
-int
-mail_config_has_proxies (EAccount *account)
-{
-	return e_account_list_account_has_proxies (config->accounts, account);
-}
-
-void
-mail_config_remove_account_proxies (EAccount *account)
-{
-	e_account_list_remove_account_proxies (config->accounts, account);
-}
-
-void
-mail_config_prune_proxies (void)
-{
-	e_account_list_prune_proxies (config->accounts);
-}
-
-EAccountList *
-mail_config_get_accounts (void)
-{
-	if (config == NULL)
-		mail_config_init ();
-
-	return config->accounts;
-}
-
-void
-mail_config_add_account (EAccount *account)
-{
-	e_account_list_add(config->accounts, account);
-	mail_config_save_accounts ();
-}
-
-void
-mail_config_remove_account (EAccount *account)
-{
-	e_account_list_remove(config->accounts, account);
-	mail_config_save_accounts ();
-}
-
-void
-mail_config_set_default_account (EAccount *account)
-{
-	e_account_list_set_default(config->accounts, account);
-}
-
-EAccountIdentity *
-mail_config_get_default_identity (void)
-{
-	EAccount *account;
-
-	account = mail_config_get_default_account ();
-	if (account)
-		return account->id;
-	else
-		return NULL;
-}
-
 EAccountService *
 mail_config_get_default_transport (void)
 {
+	EAccountList *account_list;
 	EAccount *account;
 	EIterator *iter;
 
-	account = mail_config_get_default_account ();
+	account_list = e_get_account_list ();
+	account = e_get_default_account ();
+
 	if (account && account->enabled && account->transport && account->transport->url && account->transport->url[0])
 		return account->transport;
 
 	/* return the first account with a transport? */
-	iter = e_list_get_iterator ((EList *) config->accounts);
+	iter = e_list_get_iterator ((EList *) account_list);
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
 
@@ -1014,6 +906,7 @@ uri_to_evname (const char *uri, const char *prefix)
 void
 mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new)
 {
+	EAccountList *account_list;
 	EAccount *account;
 	EIterator *iter;
 	int i, work = 0;
@@ -1025,7 +918,8 @@ mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new)
 			       "*views/custom_view-",
 			       NULL };
 
-	iter = e_list_get_iterator ((EList *) config->accounts);
+	account_list = e_get_account_list ();
+	iter = e_list_get_iterator ((EList *) account_list);
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
 
@@ -1066,6 +960,7 @@ mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new)
 void
 mail_config_uri_deleted (GCompareFunc uri_cmp, const char *uri)
 {
+	EAccountList *account_list;
 	EAccount *account;
 	EIterator *iter;
 	int work = 0;
@@ -1078,7 +973,8 @@ mail_config_uri_deleted (GCompareFunc uri_cmp, const char *uri)
 	local_sent_folder_uri = e_mail_shell_module_get_folder_uri (
 		mail_shell_module, E_MAIL_FOLDER_SENT);
 
-	iter = e_list_get_iterator ((EList *) config->accounts);
+	account_list = e_get_account_list ();
+	iter = e_list_get_iterator ((EList *) account_list);
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *) e_iterator_get (iter);
 
@@ -1134,12 +1030,6 @@ mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
 	g_free (url);
 
 	return filename;
-}
-
-ESignatureList *
-mail_config_get_signatures (void)
-{
-	return config->signatures;
 }
 
 static char *
@@ -1200,35 +1090,6 @@ mail_config_signature_new (const char *filename, gboolean script, gboolean html)
 		sig->filename = g_strdup (filename);
 
 	return sig;
-}
-
-ESignature *
-mail_config_get_signature_by_uid (const char *uid)
-{
-	return (ESignature *) e_signature_list_find (config->signatures, E_SIGNATURE_FIND_UID, uid);
-}
-
-ESignature *
-mail_config_get_signature_by_name (const char *name)
-{
-	return (ESignature *) e_signature_list_find (config->signatures, E_SIGNATURE_FIND_NAME, name);
-}
-
-void
-mail_config_add_signature (ESignature *signature)
-{
-	e_signature_list_add (config->signatures, signature);
-	mail_config_save_signatures ();
-}
-
-void
-mail_config_remove_signature (ESignature *signature)
-{
-	if (signature->filename && !signature->script)
-		g_unlink (signature->filename);
-
-	e_signature_list_remove (config->signatures, signature);
-	mail_config_save_signatures ();
 }
 
 void

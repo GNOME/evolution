@@ -56,12 +56,12 @@
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-xml-utils.h>
 
+#include "e-util/e-account-utils.h"
 #include "e-util/e-bconf-map.h"
-#include "libedataserver/e-account-list.h"
-#include "e-util/e-signature-list.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-plugin.h"
+#include "e-util/e-signature-utils.h"
 
 #include "e-mail-shell-module.h"
 #include "shell/e-shell-migrate.h"
@@ -1999,7 +1999,7 @@ get_nth_sig (int id)
 	char *uid = NULL;
 	int i = 0;
 
-	list = mail_config_get_signatures ();
+	list = e_get_signature_list ();
 	iter = e_list_get_iterator ((EList *) list);
 
 	while (e_iterator_is_valid (iter) && i < id) {
@@ -2023,7 +2023,7 @@ em_upgrade_accounts_1_4 (void)
 	EAccountList *accounts;
 	EIterator *iter;
 
-	if (!(accounts = mail_config_get_accounts ()))
+	if (!(accounts = e_get_account_list ()))
 		return;
 
 	iter = e_list_get_iterator ((EList *) accounts);
@@ -2056,7 +2056,7 @@ em_upgrade_accounts_1_4 (void)
 
 	g_object_unref (iter);
 
-	mail_config_save_accounts ();
+	e_account_list_save (accounts);
 }
 
 static gboolean
@@ -2475,7 +2475,7 @@ em_migrate_imap_cmeta_1_4(const char *data_dir, GError **error)
 	EAccountList *accounts;
 	const EAccount *account;
 
-	if (!(accounts = mail_config_get_accounts()))
+	if (!(accounts = e_get_account_list ()))
 		return TRUE;
 
 	gconf = gconf_client_get_default();
@@ -2671,7 +2671,7 @@ em_update_accounts_2_11 (void)
 	EIterator *iter;
 	gboolean changed = FALSE;
 
-	if (!(accounts = mail_config_get_accounts ()))
+	if (!(accounts = e_get_account_list ()))
 		return;
 
 	iter = e_list_get_iterator ((EList *) accounts);
@@ -2694,7 +2694,7 @@ em_update_accounts_2_11 (void)
 	g_object_unref (iter);
 
 	if (changed)
-		mail_config_save_accounts ();
+		e_account_list_save (accounts);
 }
 
 #endif	/* !G_OS_WIN32 */
@@ -2913,7 +2913,7 @@ migrate_to_db (EShellModule *shell_module)
 	CamelFolderInfo *info;
 	const gchar *data_dir;
 
-	if (!(accounts = mail_config_get_accounts ()))
+	if (!(accounts = e_get_account_list ()))
 		return;
 
 	iter = e_list_get_iterator ((EList *) accounts);

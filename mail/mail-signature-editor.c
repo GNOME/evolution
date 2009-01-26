@@ -27,7 +27,7 @@
 #include <glib/gi18n.h>
 
 #include <e-util/e-error.h>
-#include <e-util/e-signature-list.h>
+#include <e-util/e-signature-utils.h>
 #include <composer/e-msg-composer.h>
 
 #include "mail-config.h"
@@ -147,7 +147,7 @@ action_save_and_close_cb (GtkAction *action,
 		return;
 	}
 
-	signature_list = mail_config_get_signatures ();
+	signature_list = e_get_signature_list ();
 
 	signature_name = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
 	g_strstrip (signature_name);
@@ -181,8 +181,10 @@ action_save_and_close_cb (GtkAction *action,
 
 	if (editor->priv->signature != NULL)
 		e_signature_list_change (signature_list, signature);
-	else
-		mail_config_add_signature (signature);
+	else {
+		e_signature_list_add (signature_list, signature);
+		e_signature_list_save (signature_list);
+	}
 
 	gtk_widget_destroy (GTK_WIDGET (editor));
 }

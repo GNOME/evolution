@@ -31,8 +31,7 @@
 #include <fcntl.h>
 
 #include "e-util/e-binding.h"
-#include "e-util/e-signature.h"
-#include "e-util/e-signature-list.h"
+#include "e-util/e-signature-utils.h"
 #include "e-util/gconf-bridge.h"
 
 #include "em-composer-prefs.h"
@@ -97,7 +96,7 @@ composer_prefs_dispose (GObject *object)
 	EMComposerPrefs *prefs = (EMComposerPrefs *) object;
 	ESignatureList *signature_list;
 
-	signature_list = mail_config_get_signatures ();
+	signature_list = e_get_signature_list ();
 
 	if (prefs->sig_added_id != 0) {
 		g_signal_handler_disconnect (
@@ -380,12 +379,19 @@ sig_delete_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	ESignature *signature;
+	ESignatureList *signature_list;
 
+	signature_list = e_get_signature_list ();
 	selection = gtk_tree_view_get_selection (prefs->sig_list);
 
 	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
 		gtk_tree_model_get (model, &iter, 1, &signature, -1);
-		mail_config_remove_signature (signature);
+
+		if (signature->filename && !signature->script)
+			g_unlink (signature->filename);
+
+		e_signature_list_remove (signature_list, signature);
+		e_signature_list_save (signature_list);
 	}
 	gtk_widget_grab_focus ((GtkWidget *)prefs->sig_list);
 }
@@ -425,7 +431,10 @@ sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 			struct stat st;
 
 			if (g_stat (argv[0], &st) == 0 && S_ISREG (st.st_mode) && g_access (argv[0], X_OK) == 0) {
+				ESignatureList *signature_list;
 				ESignature *signature;
+
+				signature_list = e_get_signature_list ();
 
 				if ((signature = g_object_get_data ((GObject *) entry, "sig"))) {
 					/* we're just editing an existing signature script */
@@ -433,16 +442,16 @@ sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 					signature->name = g_strdup (name);
 					g_free(signature->filename);
 					signature->filename = g_strdup(script);
-					e_signature_list_change (mail_config_get_signatures (), signature);
+					e_signature_list_change (signature_list, signature);
 				} else {
 					signature = mail_config_signature_new (script, TRUE, TRUE);
 					signature->name = g_strdup (name);
 
-					e_signature_list_add (mail_config_get_signatures (), signature);
+					e_signature_list_add (signature_list, signature);
 					g_object_unref (signature);
 				}
 
-				mail_config_save_signatures();
+				e_signature_list_save (signature_list);
 
 				gtk_widget_hide (prefs->sig_script_dialog);
 				g_strfreev (argv);
@@ -505,7 +514,7 @@ sig_fill_list (EMComposerPrefs *prefs)
 	model = gtk_tree_view_get_model (prefs->sig_list);
 	gtk_list_store_clear (GTK_LIST_STORE (model));
 
-	signature_list = mail_config_get_signatures ();
+	signature_list = e_get_signature_list ();
 	iterator = e_list_get_iterator ((EList *) signature_list);
 
 	while (e_iterator_is_valid (iterator)) {

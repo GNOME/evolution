@@ -51,10 +51,11 @@
 #include <libgnomeui/gnome-druid.h>
 #include <libgnomeui/gnome-druid-page-standard.h>
 
-#include <libedataserver/e-account-list.h>
 #include <e-util/e-signature-list.h>
 
 #include "e-util/e-error.h"
+#include "e-util/e-account-utils.h"
+#include "e-util/e-signature-utils.h"
 #include "e-util/e-util-private.h"
 
 #include "em-config.h"
@@ -210,7 +211,7 @@ emae_finalise(GObject *o)
 	EMAccountEditorPrivate *p = emae->priv;
 
 	if (p->sig_added_id) {
-		ESignatureList *signatures = mail_config_get_signatures();
+		ESignatureList *signatures = e_get_signature_list ();
 
 		g_signal_handler_disconnect(signatures, p->sig_added_id);
 		g_signal_handler_disconnect(signatures, p->sig_removed_id);
@@ -698,7 +699,7 @@ emae_setup_signatures(EMAccountEditor *emae, GladeXML *xml)
 	gtk_list_store_append(store, &iter);
 	gtk_list_store_set(store, &iter, 0, _("None"), 1, NULL, -1);
 
-	signatures = mail_config_get_signatures ();
+	signatures = e_get_signature_list ();
 
 	if (p->sig_added_id == 0) {
 		p->sig_added_id = g_signal_connect(signatures, "signature-added", G_CALLBACK(emae_signature_added), emae);
@@ -1791,8 +1792,8 @@ emae_identity_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 	gui->management_frame = glade_xml_get_widget(xml, "management_frame");
 
 	gui->default_account = GTK_TOGGLE_BUTTON (glade_xml_get_widget (xml, "management_default"));
-	if (!mail_config_get_default_account ()
-		|| (account == mail_config_get_default_account ())
+	if (!e_get_default_account ()
+		|| (account == e_get_default_account ())
 		|| (GPOINTER_TO_INT(g_object_get_data (G_OBJECT (emae->account), "default_flagged"))) )
 			gtk_toggle_button_set_active (gui->default_account, TRUE);
 
@@ -2729,7 +2730,7 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 				len = strlen(tmp);
 				template = alloca(len + 14);
 				strcpy(template, tmp);
-				while (mail_config_get_account_by_name(template))
+				while (e_get_account_by_name (template))
 					sprintf(template + len, " (%d)", i++);
 
 				gtk_entry_set_text(emae->priv->identity_entries[0], template);
@@ -2773,7 +2774,7 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 	if (ok && (pageid == NULL || !strcmp(pageid, "40.management"))) {
 		ok = (tmp = e_account_get_string(emae->account, E_ACCOUNT_NAME))
 			&& tmp[0]
-			&& ((ea = mail_config_get_account_by_name(tmp)) == NULL
+			&& ((ea = e_get_account_by_name (tmp)) == NULL
 			    || ea == emae->original);
 		if (!ok)
 			d(printf("management page incomplete\n"));
@@ -2801,7 +2802,7 @@ static void
 emae_commit(EConfig *ec, GSList *items, void *data)
 {
 	EMAccountEditor *emae = data;
-	EAccountList *accounts = mail_config_get_accounts();
+	EAccountList *accounts = e_get_account_list ();
 	EAccount *account;
 
 	/* the mail-config*acconts* api needs a lot of work */

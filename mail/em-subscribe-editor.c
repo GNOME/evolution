@@ -35,8 +35,9 @@
 #include "camel/camel-exception.h"
 #include "camel/camel-store.h"
 #include "camel/camel-session.h"
-#include "libedataserver/e-account-list.h"
 #include "libedataserver/e-msgport.h"
+
+#include "e-util/e-account-utils.h"
 #include "e-util/e-util-private.h"
 
 #include "em-subscribe-editor.h"
@@ -862,7 +863,7 @@ em_subscribe_editor_new(void)
 	gtk_widget_show(w);
 	gtk_menu_shell_append ((GtkMenuShell *)menu, w);
 
-	accounts = mail_config_get_accounts ();
+	accounts = e_get_account_list ();
 	for (iter = e_list_get_iterator ((EList *) accounts);
 	     e_iterator_is_valid (iter);
 	     e_iterator_next (iter)) {
