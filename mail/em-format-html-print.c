@@ -52,7 +52,7 @@ efhp_finalize (GObject *o)
 static void
 efhp_class_init (GObjectClass *class)
 {
-	parent_class = g_type_class_ref(EM_TYPE_FORMAT_HTML_PRINT);
+	parent_class = g_type_class_peek_parent (class);
 	class->finalize = efhp_finalize;
 }
 
