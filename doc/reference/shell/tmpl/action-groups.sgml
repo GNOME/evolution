@@ -65,6 +65,14 @@ Action Groups
 @window: 
 
 
+<!-- ##### MACRO E_SHELL_WINDOW_ACTION_GROUP_LOCKDOWN_APPLICATION_HANDLERS ##### -->
+<para>
+
+</para>
+
+@window: 
+
+
 <!-- ##### MACRO E_SHELL_WINDOW_ACTION_GROUP_LOCKDOWN_PRINTING ##### -->
 <para>
 

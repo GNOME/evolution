@@ -341,14 +341,12 @@ e_cal_shell_view_memopad_actions_init (ECalShellView *cal_shell_view)
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
-	GtkUIManager *ui_manager;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
 
 	/* Calendar Actions */
-	action_group = cal_shell_view->priv->calendar_actions;
+	action_group = ACTION_GROUP (CALENDAR);
 	gtk_action_group_add_actions (
 		action_group, calendar_memopad_entries,
 		G_N_ELEMENTS (calendar_memopad_entries), cal_shell_view);

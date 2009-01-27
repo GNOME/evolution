@@ -97,6 +97,8 @@ void		e_shell_window_set_active_view	(EShellWindow *shell_window,
 gboolean	e_shell_window_get_safe_mode	(EShellWindow *shell_window);
 void		e_shell_window_set_safe_mode	(EShellWindow *shell_window,
 						 gboolean safe_mode);
+void		e_shell_window_add_action_group (EShellWindow *shell_window,
+						 const gchar *group_name);
 
 /* These should be called from the shell module's window_created() handler. */
 

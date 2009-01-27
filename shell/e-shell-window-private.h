@@ -70,15 +70,6 @@ struct _EShellWindowPrivate {
 	/*** UI Management ***/
 
 	GtkUIManager *ui_manager;
-	GtkActionGroup *shell_actions;
-	GtkActionGroup *gal_view_actions;
-	GtkActionGroup *new_item_actions;
-	GtkActionGroup *new_source_actions;
-	GtkActionGroup *custom_rule_actions;
-	GtkActionGroup *switcher_actions;
-	GtkActionGroup *lockdown_printing;
-	GtkActionGroup *lockdown_print_setup;
-	GtkActionGroup *lockdown_save_to_disk;
 	guint custom_rule_merge_id;
 	guint gal_view_merge_id;
 

@@ -88,11 +88,6 @@ struct _EMemoShellViewPrivate {
 
 	ESourceList *source_list;
 
-	/*** UI Management ***/
-
-	GtkActionGroup *memo_actions;
-	GtkActionGroup *filter_actions;
-
 	/*** Other Stuff ***/
 
 	/* These are just for convenience. */

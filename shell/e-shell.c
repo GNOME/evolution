@@ -689,6 +689,14 @@ shell_class_init (EShellClass *class)
 
 	e_shell_settings_install_property (
 		g_param_spec_boolean (
+			"disable-application-handlers",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
 			"disable-command-line",
 			NULL,
 			NULL,
@@ -747,6 +755,10 @@ shell_init (EShell *shell)
 	g_signal_connect (
 		shell, "notify::online-mode",
 		G_CALLBACK (shell_notify_online_mode_cb), NULL);
+
+	e_shell_settings_bind_to_gconf (
+		shell->priv->settings, "disable-application-handlers",
+		"/desktop/gnome/lockdown/disable_application_handlers");
 
 	e_shell_settings_bind_to_gconf (
 		shell->priv->settings, "disable-command-line",

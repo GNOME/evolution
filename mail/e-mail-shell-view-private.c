@@ -141,13 +141,6 @@ void
 e_mail_shell_view_private_init (EMailShellView *mail_shell_view,
                                 EShellViewClass *shell_view_class)
 {
-	EMailShellViewPrivate *priv = mail_shell_view->priv;
-
-	/* Note: EMailShellContent retrieves the "mail" action group
-	 *       by name to satisfy its EMailReader interface. */
-	priv->mail_actions = gtk_action_group_new ("mail");
-	priv->filter_actions = gtk_action_group_new ("mail-filter");
-
 	if (!gal_view_collection_loaded (shell_view_class->view_collection))
 		mail_shell_view_load_view_collection (shell_view_class);
 
@@ -164,6 +157,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	EShellView *shell_view;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
+	EShellWindow *shell_window;
 	EMFolderTreeModel *folder_tree_model;
 	EMFolderTree *folder_tree;
 	MessageList *message_list;
@@ -173,6 +167,10 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	e_shell_window_add_action_group (shell_window, "mail");
+	e_shell_window_add_action_group (shell_window, "mail-filter");
 
 	/* Cache these to avoid lots of awkward casting. */
 	priv->mail_shell_content = g_object_ref (shell_content);
@@ -236,9 +234,6 @@ void
 e_mail_shell_view_private_dispose (EMailShellView *mail_shell_view)
 {
 	EMailShellViewPrivate *priv = mail_shell_view->priv;
-
-	DISPOSE (priv->mail_actions);
-	DISPOSE (priv->filter_actions);
 
 	DISPOSE (priv->mail_shell_content);
 	DISPOSE (priv->mail_shell_sidebar);

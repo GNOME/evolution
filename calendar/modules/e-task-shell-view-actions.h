@@ -99,5 +99,7 @@
 /* Action Groups */
 #define E_SHELL_WINDOW_ACTION_GROUP_TASKS(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "tasks")
+#define E_SHELL_WINDOW_ACTION_GROUP_TASKS_FILTER(window) \
+	E_SHELL_WINDOW_ACTION_GROUP ((window), "tasks-filter")
 
 #endif /* E_TASK_SHELL_VIEW_ACTIONS_H */

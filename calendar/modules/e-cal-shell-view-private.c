@@ -229,8 +229,6 @@ e_cal_shell_view_private_init (ECalShellView *cal_shell_view,
 	g_return_if_fail (E_IS_SOURCE_LIST (source_list));
 
 	priv->source_list = g_object_ref (source_list);
-	priv->calendar_actions = gtk_action_group_new ("calendars");
-	priv->filter_actions = gtk_action_group_new ("calendars-filter");
 
 	if (!gal_view_collection_loaded (shell_view_class->view_collection))
 		cal_shell_view_load_view_collection (shell_view_class);
@@ -248,6 +246,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	ECalShellSidebar *cal_shell_sidebar;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
+	EShellWindow *shell_window;
 	EShellView *shell_view;
 	GnomeCalendar *calendar;
 	ECalendar *mini_calendar;
@@ -259,6 +258,10 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	e_shell_window_add_action_group (shell_window, "calendar");
+	e_shell_window_add_action_group (shell_window, "calendar-filter");
 
 	/* Cache these to avoid lots of awkward casting. */
 	priv->cal_shell_content = g_object_ref (shell_content);
@@ -359,9 +362,6 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 	GList *iter;
 
 	DISPOSE (priv->source_list);
-
-	DISPOSE (priv->calendar_actions);
-	DISPOSE (priv->filter_actions);
 
 	DISPOSE (priv->cal_shell_content);
 	DISPOSE (priv->cal_shell_sidebar);

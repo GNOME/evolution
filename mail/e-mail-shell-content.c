@@ -37,6 +37,7 @@
 
 #include "e-mail-reader.h"
 #include "e-mail-shell-module.h"
+#include "e-mail-shell-view-actions.h"
 
 #define E_MAIL_SHELL_CONTENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -431,7 +432,7 @@ mail_shell_content_get_action_group (EMailReader *reader)
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	return e_shell_window_get_action_group (shell_window, "mail");
+	return E_SHELL_WINDOW_ACTION_GROUP_MAIL (shell_window);
 }
 
 static gboolean

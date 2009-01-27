@@ -770,21 +770,16 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
-	GtkUIManager *ui_manager;
 	GConfBridge *bridge;
 	GtkAction *action;
 	GObject *object;
-	const gchar *domain;
 	const gchar *key;
 
 	shell_view = E_SHELL_VIEW (memo_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	domain = GETTEXT_PACKAGE;
 
 	/* Memo Actions */
-	action_group = memo_shell_view->priv->memo_actions;
-	gtk_action_group_set_translation_domain (action_group, domain);
+	action_group = ACTION_GROUP (MEMOS);
 	gtk_action_group_add_actions (
 		action_group, memo_entries,
 		G_N_ELEMENTS (memo_entries), memo_shell_view);
@@ -799,7 +794,6 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 		G_N_ELEMENTS (memo_search_entries),
 		MEMO_SEARCH_SUMMARY_CONTAINS,
 		NULL, NULL);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	/* Lockdown Printing Actions */
 	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
@@ -836,6 +830,7 @@ void
 e_memo_shell_view_update_search_filter (EMemoShellView *memo_shell_view)
 {
 	EShellContent *shell_content;
+	EShellWindow *shell_window;
 	EShellView *shell_view;
 	GtkActionGroup *action_group;
 	GtkRadioAction *radio_action;
@@ -845,8 +840,9 @@ e_memo_shell_view_update_search_filter (EMemoShellView *memo_shell_view)
 
 	shell_view = E_SHELL_VIEW (memo_shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
-	action_group = memo_shell_view->priv->filter_actions;
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
+	action_group = ACTION_GROUP (MEMOS_FILTER);
 	e_action_group_remove_all_actions (action_group);
 
 	/* Add the standard filter actions. */

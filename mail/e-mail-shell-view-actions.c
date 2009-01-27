@@ -1011,21 +1011,17 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
-	GtkUIManager *ui_manager;
 	GConfBridge *bridge;
 	GObject *object;
 	GObject *src_object;
 	GObject *dst_object;
-	const gchar *domain;
 	const gchar *key;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	domain = GETTEXT_PACKAGE;
 
-	action_group = mail_shell_view->priv->mail_actions;
-	gtk_action_group_set_translation_domain (action_group, domain);
+	/* Mail Actions */
+	action_group = ACTION_GROUP (MAIL);
 	gtk_action_group_add_actions (
 		action_group, mail_entries,
 		G_N_ELEMENTS (mail_entries), mail_shell_view);
@@ -1049,7 +1045,6 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 		G_N_ELEMENTS (mail_scope_entries),
 		MAIL_SCOPE_CURRENT_FOLDER,
 		NULL, NULL);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	/* Bind GObject properties for GConf keys. */
 

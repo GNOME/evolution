@@ -145,7 +145,9 @@
 	E_SHELL_WINDOW_ACTION ((window), "calendar-search-summary-contains")
 
 /* Action Groups */
-#define E_SHELL_WINDOW_ACTION_GROUP_CALS(window) \
-	E_SHELL_WINDOW_ACTION_GROUP ((window), "calendars")
+#define E_SHELL_WINDOW_ACTION_GROUP_CALENDAR(window) \
+	E_SHELL_WINDOW_ACTION_GROUP ((window), "calendar")
+#define E_SHELL_WINDOW_ACTION_GROUP_CALENDAR_FILTER(window) \
+	E_SHELL_WINDOW_ACTION_GROUP ((window), "calendar-filter")
 
 #endif /* E_CAL_SHELL_VIEW_ACTIONS_H */

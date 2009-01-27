@@ -113,11 +113,6 @@ enum {
 
 struct _EMailShellViewPrivate {
 
-	/*** UI Management ***/
-
-	GtkActionGroup *mail_actions;
-	GtkActionGroup *filter_actions;
-
 	/*** Other Stuff ***/
 
 	/* These are just for convenience. */

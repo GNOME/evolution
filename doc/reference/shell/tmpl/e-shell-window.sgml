@@ -157,6 +157,15 @@ EShellWindow
 @safe_mode: 
 
 
+<!-- ##### FUNCTION e_shell_window_add_action_group ##### -->
+<para>
+
+</para>
+
+@shell_window: 
+@group_name: 
+
+
 <!-- ##### FUNCTION e_shell_window_register_new_item_actions ##### -->
 <para>
 

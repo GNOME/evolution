@@ -972,21 +972,16 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
-	GtkUIManager *ui_manager;
 	GConfBridge *bridge;
 	GtkAction *action;
 	GObject *object;
-	const gchar *domain;
 	const gchar *key;
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	domain = GETTEXT_PACKAGE;
 
 	/* Task Actions */
-	action_group = task_shell_view->priv->task_actions;
-	gtk_action_group_set_translation_domain (action_group, domain);
+	action_group = ACTION_GROUP (TASKS);
 	gtk_action_group_add_actions (
 		action_group, task_entries,
 		G_N_ELEMENTS (task_entries), task_shell_view);
@@ -1001,7 +996,6 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 		G_N_ELEMENTS (task_search_entries),
 		TASK_SEARCH_SUMMARY_CONTAINS,
 		NULL, NULL);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	/* Lockdown Printing Actions */
 	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
@@ -1038,6 +1032,7 @@ void
 e_task_shell_view_update_search_filter (ETaskShellView *task_shell_view)
 {
 	EShellContent *shell_content;
+	EShellWindow *shell_window;
 	EShellView *shell_view;
 	GtkActionGroup *action_group;
 	GtkRadioAction *radio_action;
@@ -1047,8 +1042,9 @@ e_task_shell_view_update_search_filter (ETaskShellView *task_shell_view)
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
-	action_group = task_shell_view->priv->filter_actions;
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
+	action_group = ACTION_GROUP (TASKS_FILTER);
 	e_action_group_remove_all_actions (action_group);
 
 	/* Add the standard filter actions. */

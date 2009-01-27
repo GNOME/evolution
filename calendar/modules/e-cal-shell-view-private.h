@@ -94,11 +94,6 @@ struct _ECalShellViewPrivate {
 
 	ESourceList *source_list;
 
-	/*** UI Management ***/
-
-	GtkActionGroup *calendar_actions;
-	GtkActionGroup *filter_actions;
-
 	/* These are just for convenience. */
 	ECalShellContent *cal_shell_content;
 	ECalShellSidebar *cal_shell_sidebar;

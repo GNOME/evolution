@@ -1030,18 +1030,13 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	GtkActionGroup *action_group;
-	GtkUIManager *ui_manager;
 	GtkAction *action;
-	const gchar *domain;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	domain = GETTEXT_PACKAGE;
 
 	/* Calendar Actions */
-	action_group = cal_shell_view->priv->calendar_actions;
-	gtk_action_group_set_translation_domain (action_group, domain);
+	action_group = ACTION_GROUP (CALENDAR);
 	gtk_action_group_add_actions (
 		action_group, calendar_entries,
 		G_N_ELEMENTS (calendar_entries), cal_shell_view);
@@ -1057,7 +1052,6 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 		G_N_ELEMENTS (calendar_search_entries),
 		CALENDAR_SEARCH_SUMMARY_CONTAINS,
 		NULL, NULL);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	/* Lockdown Printing Actions */
 	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
@@ -1070,11 +1064,11 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 
 	/* Fine tuning. */
 
-        action = ACTION (CALENDAR_GO_TODAY);
-        g_object_set (action, "short-label", _("Today"), NULL);
+	action = ACTION (CALENDAR_GO_TODAY);
+	g_object_set (action, "short-label", _("Today"), NULL);
 
-        action = ACTION (CALENDAR_JUMP_TO);
-        g_object_set (action, "short-label", _("Go To"), NULL);
+	action = ACTION (CALENDAR_JUMP_TO);
+	g_object_set (action, "short-label", _("Go To"), NULL);
 
 	action = ACTION (EVENT_DELETE);
 	g_object_set (action, "short-label", _("Delete"), NULL);
@@ -1096,6 +1090,7 @@ void
 e_cal_shell_view_update_search_filter (ECalShellView *cal_shell_view)
 {
 	EShellContent *shell_content;
+	EShellWindow *shell_window;
 	EShellView *shell_view;
 	GtkActionGroup *action_group;
 	GtkRadioAction *radio_action;
@@ -1105,8 +1100,9 @@ e_cal_shell_view_update_search_filter (ECalShellView *cal_shell_view)
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
-	action_group = cal_shell_view->priv->filter_actions;
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
+	action_group = ACTION_GROUP (CALENDAR_FILTER);
 	e_action_group_remove_all_actions (action_group);
 
 	/* Add the standard filter actions. */

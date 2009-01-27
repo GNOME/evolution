@@ -420,8 +420,6 @@ e_book_shell_view_private_init (EBookShellView *book_shell_view,
 		(GDestroyNotify) g_free);
 
 	priv->source_list = g_object_ref (source_list);
-	priv->contact_actions = gtk_action_group_new ("contacts");
-	priv->filter_actions = gtk_action_group_new ("contacts-filter");
 	priv->uid_to_view = uid_to_view;
 	priv->uid_to_editor = uid_to_editor;
 
@@ -447,6 +445,9 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	e_shell_window_add_action_group (shell_window, "contacts");
+	e_shell_window_add_action_group (shell_window, "contacts-filter");
 
 	/* Cache these to avoid lots of awkward casting. */
 	priv->book_shell_content = g_object_ref (shell_content);
@@ -490,9 +491,6 @@ e_book_shell_view_private_dispose (EBookShellView *book_shell_view)
 	EBookShellViewPrivate *priv = book_shell_view->priv;
 
 	DISPOSE (priv->source_list);
-
-	DISPOSE (priv->contact_actions);
-	DISPOSE (priv->filter_actions);
 
 	DISPOSE (priv->book_shell_content);
 	DISPOSE (priv->book_shell_sidebar);

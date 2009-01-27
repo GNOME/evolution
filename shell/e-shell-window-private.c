@@ -189,21 +189,20 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	signal_handler_ids = g_array_new (FALSE, FALSE, sizeof (gulong));
 
 	priv->ui_manager = gtk_ui_manager_new ();
-	priv->shell_actions = gtk_action_group_new ("shell");
-	priv->gal_view_actions = gtk_action_group_new ("gal-view");
-	priv->new_item_actions = gtk_action_group_new ("new-item");
-	priv->new_source_actions = gtk_action_group_new ("new-source");
-	priv->custom_rule_actions = gtk_action_group_new ("custom-rules");
-	priv->switcher_actions = gtk_action_group_new ("switcher");
-	priv->lockdown_printing =
-		gtk_action_group_new ("lockdown-printing");
-	priv->lockdown_print_setup =
-		gtk_action_group_new ("lockdown-print-setup");
-	priv->lockdown_save_to_disk =
-		gtk_action_group_new ("lockdown-save-to-disk");
 	priv->loaded_views = loaded_views;
 	priv->active_view = "unknown";
 	priv->signal_handler_ids = signal_handler_ids;
+
+	e_shell_window_add_action_group (shell_window, "shell");
+	e_shell_window_add_action_group (shell_window, "gal-view");
+	e_shell_window_add_action_group (shell_window, "new-item");
+	e_shell_window_add_action_group (shell_window, "new-source");
+	e_shell_window_add_action_group (shell_window, "custom-rules");
+	e_shell_window_add_action_group (shell_window, "switcher");
+	e_shell_window_add_action_group (shell_window, "lockdown-application-handlers");
+	e_shell_window_add_action_group (shell_window, "lockdown-printing");
+	e_shell_window_add_action_group (shell_window, "lockdown-print-setup");
+	e_shell_window_add_action_group (shell_window, "lockdown-save-to-disk");
 
 	merge_id = gtk_ui_manager_new_merge_id (priv->ui_manager);
 	priv->custom_rule_merge_id = merge_id;
@@ -422,17 +421,7 @@ e_shell_window_private_dispose (EShellWindow *shell_window)
 	}
 
 	DISPOSE (priv->shell);
-
 	DISPOSE (priv->ui_manager);
-	DISPOSE (priv->shell_actions);
-	DISPOSE (priv->gal_view_actions);
-	DISPOSE (priv->new_item_actions);
-	DISPOSE (priv->new_source_actions);
-	DISPOSE (priv->custom_rule_actions);
-	DISPOSE (priv->switcher_actions);
-	DISPOSE (priv->lockdown_printing);
-	DISPOSE (priv->lockdown_print_setup);
-	DISPOSE (priv->lockdown_save_to_disk);
 
 	g_hash_table_remove_all (priv->loaded_views);
 

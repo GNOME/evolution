@@ -103,6 +103,8 @@
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "custom-rules")
 #define E_SHELL_WINDOW_ACTION_GROUP_GAL_VIEW(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "gal-view")
+#define E_SHELL_WINDOW_ACTION_GROUP_LOCKDOWN_APPLICATION_HANDLERS(window) \
+	E_SHELL_WINDOW_ACTION_GROUP ((window), "lockdown-application-handlers")
 #define E_SHELL_WINDOW_ACTION_GROUP_LOCKDOWN_PRINTING(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "lockdown-printing")
 #define E_SHELL_WINDOW_ACTION_GROUP_LOCKDOWN_PRINT_SETUP(window) \

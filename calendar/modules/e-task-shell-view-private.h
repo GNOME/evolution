@@ -97,11 +97,6 @@ struct _ETaskShellViewPrivate {
 
 	ESourceList *source_list;
 
-	/*** UI Management ***/
-
-	GtkActionGroup *task_actions;
-	GtkActionGroup *filter_actions;
-
 	/*** Other Stuff ***/
 
 	/* These are just for convenience. */

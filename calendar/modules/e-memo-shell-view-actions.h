@@ -81,5 +81,7 @@
 /* Action Groups */
 #define E_SHELL_WINDOW_ACTION_GROUP_MEMOS(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "memos")
+#define E_SHELL_WINDOW_ACTION_GROUP_MEMOS_FILTER(window) \
+	E_SHELL_WINDOW_ACTION_GROUP ((window), "memos-filter")
 
 #endif /* E_MEMO_SHELL_VIEW_ACTIONS_H */

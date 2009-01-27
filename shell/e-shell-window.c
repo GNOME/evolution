@@ -754,6 +754,35 @@ e_shell_window_set_safe_mode (EShellWindow *shell_window,
 }
 
 /**
+ * e_shell_window_add_action_group:
+ * @shell_window: an #EShellWindow
+ * @group_name: the name of the new action group
+ *
+ * Creates a new #GtkActionGroup and adds it to @shell_window<!-- -->'s
+ * user interface manager.  This also takes care of details like setting
+ * the translation domain.
+ **/
+void
+e_shell_window_add_action_group (EShellWindow *shell_window,
+                                 const gchar *group_name)
+{
+	GtkActionGroup *action_group;
+	GtkUIManager *ui_manager;
+	const gchar *domain;
+
+	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
+	g_return_if_fail (group_name != NULL);
+
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+	domain = GETTEXT_PACKAGE;
+
+	action_group = gtk_action_group_new (group_name);
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	g_object_unref (action_group);
+}
+
+/**
  * e_shell_window_register_new_item_actions:
  * @shell_window: an #EShellWindow
  * @module_name: name of an #EShellModule
@@ -788,7 +817,7 @@ e_shell_window_register_new_item_actions (EShellWindow *shell_window,
 	g_return_if_fail (module_name != NULL);
 	g_return_if_fail (entries != NULL);
 
-	action_group = shell_window->priv->new_item_actions;
+	action_group = ACTION_GROUP (NEW_ITEM);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
 	module_name = g_intern_string (module_name);
@@ -877,7 +906,7 @@ e_shell_window_register_new_source_actions (EShellWindow *shell_window,
 	g_return_if_fail (module_name != NULL);
 	g_return_if_fail (entries != NULL);
 
-	action_group = shell_window->priv->new_source_actions;
+	action_group = ACTION_GROUP (NEW_SOURCE);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
 	module_name = g_intern_string (module_name);

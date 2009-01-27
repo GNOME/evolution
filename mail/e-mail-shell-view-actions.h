@@ -255,5 +255,7 @@
 /* Action Groups */
 #define E_SHELL_WINDOW_ACTION_GROUP_MAIL(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "mail")
+#define E_SHELL_WINDOW_ACTION_GROUP_MAIL_FILTER(window) \
+	E_SHELL_WINDOW_ACTION_GROUP ((window), "mail-filter")
 
 #endif /* E_MAIL_SHELL_VIEW_ACTIONS_H */

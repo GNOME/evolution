@@ -1806,18 +1806,15 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 {
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
-	const gchar *domain;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	domain = GETTEXT_PACKAGE;
 
 	e_load_ui_definition (ui_manager, "evolution-shell.ui");
 
 	/* Shell Actions */
-	action_group = shell_window->priv->shell_actions;
-	gtk_action_group_set_translation_domain (action_group, domain);
+	action_group = ACTION_GROUP (SHELL);
 	gtk_action_group_add_actions (
 		action_group, shell_entries,
 		G_N_ELEMENTS (shell_entries), shell_window);
@@ -1836,55 +1833,20 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 		action_group, shell_gal_view_radio_entries,
 		G_N_ELEMENTS (shell_gal_view_radio_entries),
 		0, G_CALLBACK (action_gal_view_cb), shell_window);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-
-	/* GAL View Actions (empty) */
-	action_group = shell_window->priv->gal_view_actions;
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-
-	/* New Item Actions (empty) */
-	action_group = shell_window->priv->new_item_actions;
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-
-	/* New Source Actions (empty) */
-	action_group = shell_window->priv->new_source_actions;
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-
-	/* Custom Rule Actions (empty) */
-	action_group = shell_window->priv->custom_rule_actions;
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	/* Switcher Actions */
-	action_group = shell_window->priv->switcher_actions;
-	gtk_action_group_set_translation_domain (action_group, domain);
+	action_group = ACTION_GROUP (SWITCHER);
 	gtk_action_group_add_radio_actions (
 		action_group, shell_switcher_entries,
 		G_N_ELEMENTS (shell_switcher_entries),
 		-1, G_CALLBACK (action_switcher_cb), shell_window);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-
-	/* Lockdown Printing Actions */
-	action_group = shell_window->priv->lockdown_printing;
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	/* Lockdown Print Setup Actions */
-	action_group = shell_window->priv->lockdown_print_setup;
-	gtk_action_group_set_translation_domain (action_group, domain);
+	action_group = ACTION_GROUP (LOCKDOWN_PRINT_SETUP);
 	gtk_action_group_add_actions (
 		action_group, shell_lockdown_print_setup_entries,
 		G_N_ELEMENTS (shell_lockdown_print_setup_entries),
 		shell_window);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-
-	/* Lockdown Save-to-Disk Actions */
-	action_group = shell_window->priv->lockdown_save_to_disk;
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	/* Fine tuning. */
 
@@ -1903,13 +1865,13 @@ e_shell_window_create_new_menu (EShellWindow *shell_window)
 
 	/* Get sorted lists of "new item" and "new source" actions. */
 
-	action_group = shell_window->priv->new_item_actions;
+	action_group = ACTION_GROUP (NEW_ITEM);
 
 	new_item_actions = g_list_sort (
 		gtk_action_group_list_actions (action_group),
 		(GCompareFunc) e_action_compare_by_label);
 
-	action_group = shell_window->priv->new_source_actions;
+	action_group = ACTION_GROUP (NEW_SOURCE);
 
 	new_source_actions = g_list_sort (
 		gtk_action_group_list_actions (action_group),
@@ -1979,7 +1941,7 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
 
-	action_group = shell_window->priv->switcher_actions;
+	action_group = ACTION_GROUP (SWITCHER);
 	switcher = E_SHELL_SWITCHER (shell_window->priv->switcher);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
@@ -2106,7 +2068,7 @@ e_shell_window_update_view_menu (EShellWindow *shell_window)
 	view_id = e_shell_view_get_view_id (shell_view);
 	g_return_if_fail (view_collection != NULL);
 
-	action_group = shell_window->priv->gal_view_actions;
+	action_group = ACTION_GROUP (GAL_VIEW);
 	merge_id = shell_window->priv->gal_view_merge_id;
 
 	/* Unmerge the previous menu. */
@@ -2213,7 +2175,7 @@ e_shell_window_update_search_menu (EShellWindow *shell_window)
 
 	/* Add custom rules to the Search menu. */
 
-	action_group = shell_window->priv->custom_rule_actions;
+	action_group = ACTION_GROUP (CUSTOM_RULES);
 	merge_id = shell_window->priv->custom_rule_merge_id;
 
 	/* Unmerge the previous menu. */

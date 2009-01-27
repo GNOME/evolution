@@ -223,8 +223,6 @@ e_task_shell_view_private_init (ETaskShellView *task_shell_view,
 	g_return_if_fail (E_IS_SOURCE_LIST (source_list));
 
 	priv->source_list = g_object_ref (source_list);
-	priv->task_actions = gtk_action_group_new ("tasks");
-	priv->filter_actions = gtk_action_group_new ("tasks-filter");
 
 	if (!gal_view_collection_loaded (shell_view_class->view_collection))
 		task_shell_view_load_view_collection (shell_view_class);
@@ -243,6 +241,7 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	EShellView *shell_view;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
+	EShellWindow *shell_window;
 	ECalendarTable *task_table;
 	ECalModel *model;
 	ETable *table;
@@ -252,6 +251,10 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	shell_view = E_SHELL_VIEW (task_shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	e_shell_window_add_action_group (shell_window, "tasks");
+	e_shell_window_add_action_group (shell_window, "tasks-filter");
 
 	/* Cache these to avoid lots of awkward casting. */
 	priv->task_shell_content = g_object_ref (shell_content);
@@ -380,9 +383,6 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 	GList *iter;
 
 	DISPOSE (priv->source_list);
-
-	DISPOSE (priv->task_actions);
-	DISPOSE (priv->filter_actions);
 
 	DISPOSE (priv->task_shell_content);
 	DISPOSE (priv->task_shell_sidebar);
