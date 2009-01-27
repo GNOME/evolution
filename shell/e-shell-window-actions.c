@@ -1459,13 +1459,6 @@ static GtkActionEntry shell_entries[] = {
 	  N_("Create a new window displaying this view"),
 	  G_CALLBACK (action_new_window_cb) },
 
-	{ "page-setup",
-	  GTK_STOCK_PAGE_SETUP,
-	  NULL,
-	  NULL,
-	  N_("Change the page settings for your current printer"),
-	  G_CALLBACK (action_page_setup_cb) },
-
 	{ "preferences",
 	  GTK_STOCK_PREFERENCES,
 	  NULL,
@@ -1745,6 +1738,16 @@ static GtkRadioActionEntry shell_gal_view_radio_entries[] = {
 	  -1 }
 };
 
+static GtkActionEntry shell_lockdown_print_setup_entries[] = {
+
+	{ "page-setup",
+	  GTK_STOCK_PAGE_SETUP,
+	  NULL,
+	  NULL,
+	  N_("Change the page settings for your current printer"),
+	  G_CALLBACK (action_page_setup_cb) }
+};
+
 static void
 shell_window_extract_actions (EShellWindow *shell_window,
                               GList **source_list,
@@ -1862,6 +1865,25 @@ e_shell_window_actions_init (EShellWindow *shell_window)
 		action_group, shell_switcher_entries,
 		G_N_ELEMENTS (shell_switcher_entries),
 		-1, G_CALLBACK (action_switcher_cb), shell_window);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+
+	/* Lockdown Printing Actions */
+	action_group = shell_window->priv->lockdown_printing;
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+
+	/* Lockdown Print Setup Actions */
+	action_group = shell_window->priv->lockdown_print_setup;
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_action_group_add_actions (
+		action_group, shell_lockdown_print_setup_entries,
+		G_N_ELEMENTS (shell_lockdown_print_setup_entries),
+		shell_window);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+
+	/* Lockdown Save-to-Disk Actions */
+	action_group = shell_window->priv->lockdown_save_to_disk;
+	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	/* Fine tuning. */

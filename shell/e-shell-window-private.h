@@ -28,6 +28,7 @@
 #include <glib/gi18n.h>
 
 #include <e-util/e-util.h>
+#include <e-util/e-binding.h>
 #include <e-util/gconf-bridge.h>
 #include <widgets/misc/e-menu-tool-button.h>
 #include <widgets/misc/e-online-button.h>
@@ -75,6 +76,9 @@ struct _EShellWindowPrivate {
 	GtkActionGroup *new_source_actions;
 	GtkActionGroup *custom_rule_actions;
 	GtkActionGroup *switcher_actions;
+	GtkActionGroup *lockdown_printing;
+	GtkActionGroup *lockdown_print_setup;
+	GtkActionGroup *lockdown_save_to_disk;
 	guint custom_rule_merge_id;
 	guint gal_view_merge_id;
 

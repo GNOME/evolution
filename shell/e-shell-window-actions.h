@@ -103,6 +103,12 @@
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "custom-rules")
 #define E_SHELL_WINDOW_ACTION_GROUP_GAL_VIEW(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "gal-view")
+#define E_SHELL_WINDOW_ACTION_GROUP_LOCKDOWN_PRINTING(window) \
+	E_SHELL_WINDOW_ACTION_GROUP ((window), "lockdown-printing")
+#define E_SHELL_WINDOW_ACTION_GROUP_LOCKDOWN_PRINT_SETUP(window) \
+	E_SHELL_WINDOW_ACTION_GROUP ((window), "lockdown-print-setup")
+#define E_SHELL_WINDOW_ACTION_GROUP_LOCKDOWN_SAVE_TO_DISK(window) \
+	E_SHELL_WINDOW_ACTION_GROUP ((window), "lockdown-save-to-disk")
 #define E_SHELL_WINDOW_ACTION_GROUP_NEW_ITEM(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "new-item")
 #define E_SHELL_WINDOW_ACTION_GROUP_NEW_SOURCE(window) \

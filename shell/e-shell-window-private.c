@@ -195,6 +195,12 @@ e_shell_window_private_init (EShellWindow *shell_window)
 	priv->new_source_actions = gtk_action_group_new ("new-source");
 	priv->custom_rule_actions = gtk_action_group_new ("custom-rules");
 	priv->switcher_actions = gtk_action_group_new ("switcher");
+	priv->lockdown_printing =
+		gtk_action_group_new ("lockdown-printing");
+	priv->lockdown_print_setup =
+		gtk_action_group_new ("lockdown-print-setup");
+	priv->lockdown_save_to_disk =
+		gtk_action_group_new ("lockdown-save-to-disk");
 	priv->loaded_views = loaded_views;
 	priv->active_view = "unknown";
 	priv->signal_handler_ids = signal_handler_ids;
@@ -325,14 +331,40 @@ void
 e_shell_window_private_constructed (EShellWindow *shell_window)
 {
 	EShellWindowPrivate *priv = shell_window->priv;
+	EShellSettings *shell_settings;
+	EShell *shell;
 	GConfBridge *bridge;
+	GtkActionGroup *action_group;
 	GObject *object;
 	const gchar *key;
+
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	/* Create the switcher actions before we set the initial
 	 * shell view, because the shell view relies on them for
 	 * default settings during construction. */
 	e_shell_window_create_switcher_actions (shell_window);
+
+	/* Support lockdown. */
+
+	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
+
+	e_binding_new_with_negation (
+		G_OBJECT (shell_settings), "disable-printing",
+		G_OBJECT (action_group), "sensitive");
+
+	action_group = ACTION_GROUP (LOCKDOWN_PRINT_SETUP);
+
+	e_binding_new_with_negation (
+		G_OBJECT (shell_settings), "disable-print-setup",
+		G_OBJECT (action_group), "sensitive");
+
+	action_group = ACTION_GROUP (LOCKDOWN_SAVE_TO_DISK);
+
+	e_binding_new_with_negation (
+		G_OBJECT (shell_settings), "disable-save-to-disk",
+		G_OBJECT (action_group), "sensitive");
 
 	/* Bind GObject properties to GConf keys. */
 
@@ -398,6 +430,9 @@ e_shell_window_private_dispose (EShellWindow *shell_window)
 	DISPOSE (priv->new_source_actions);
 	DISPOSE (priv->custom_rule_actions);
 	DISPOSE (priv->switcher_actions);
+	DISPOSE (priv->lockdown_printing);
+	DISPOSE (priv->lockdown_print_setup);
+	DISPOSE (priv->lockdown_save_to_disk);
 
 	g_hash_table_remove_all (priv->loaded_views);
 

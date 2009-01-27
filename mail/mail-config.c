@@ -54,11 +54,7 @@
 #include <misc/e-gui-utils.h>
 #include "e-util/e-util-labels.h"
 #include "e-util/e-account-utils.h"
-
-#include <e-util/e-signature-list.h>
-
-#include "shell/e-shell.h"
-#include "shell/e-shell-settings.h"
+#include "e-util/e-signature-utils.h"
 
 #include <camel/camel-service.h>
 #include <camel/camel-stream-mem.h>
@@ -77,9 +73,6 @@
 
 typedef struct {
 	GConfClient *gconf;
-	EShellSettings *shell_settings;
-
-	gboolean corrupt;
 
 	char *gtkrc;
 
@@ -340,21 +333,13 @@ void
 mail_config_init (void)
 {
 	GConfClientNotifyFunc func;
-	EShellSettings *shell_settings;
-	EShell *shell;
 	const gchar *key;
-
-	g_return_if_fail (E_IS_SHELL_SETTINGS (shell_settings));
 
 	if (config)
 		return;
 
-	shell = e_shell_get_default ();
-	shell_settings = e_shell_get_shell_settings (shell);
-
 	config = g_new0 (MailConfig, 1);
 	config->gconf = gconf_client_get_default ();
-	config->shell_settings = g_object_ref (shell_settings);
 	config->mime_types = g_ptr_array_new ();
 	config->gtkrc = g_build_filename (
 		e_get_user_data_dir (), "mail",
@@ -554,18 +539,13 @@ mail_config_write (void)
 	if (!config)
 		return;
 
-	account_list = e_shell_settings_get_object (
-		config->shell_settings, "accounts");
-	signature_list = e_shell_settings_get_object (
-		config->shell_settings, "signatures");
+	account_list = e_get_account_list ();
+	signature_list = e_get_signature_list ();
 
 	e_account_list_save (account_list);
 	e_signature_list_save (signature_list);
 
 	gconf_client_suggest_sync (config->gconf, NULL);
-
-	g_object_unref (account_list);
-	g_object_unref (signature_list);
 }
 
 void
@@ -647,12 +627,6 @@ mail_config_get_gconf_client (void)
 		mail_config_init ();
 
 	return config->gconf;
-}
-
-gboolean
-mail_config_is_corrupt (void)
-{
-	return config->corrupt;
 }
 
 int
@@ -1123,15 +1097,6 @@ mail_config_get_lookup_book_local_only (void)
 	return config->book_lookup_local_only;
 }
 
-gboolean
-mail_config_scripts_disabled (void)
-{
-	if (config == NULL)
-		mail_config_init ();
-
-	return config->scripts_disabled;
-}
-
 char *
 mail_config_signature_run_script (const char *script)
 {
@@ -1140,7 +1105,10 @@ mail_config_signature_run_script (const char *script)
 	int in_fds[2];
 	pid_t pid;
 
-	if (mail_config_scripts_disabled ())
+	if (config == NULL)
+		mail_config_init ();
+
+	if (config->scripts_disabled)
 		return NULL;
 
 	if (pipe (in_fds) == -1) {

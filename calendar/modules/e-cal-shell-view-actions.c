@@ -630,20 +630,6 @@ static GtkActionEntry calendar_entries[] = {
 	  N_("Create a new calendar"),
 	  G_CALLBACK (action_calendar_new_cb) },
 
-	{ "calendar-print",
-	  GTK_STOCK_PRINT,
-	  NULL,
-	  "<Control>p",
-	  N_("Print this calendar"),
-	  G_CALLBACK (action_calendar_print_cb) },
-
-	{ "calendar-print-preview",
-	  GTK_STOCK_PRINT_PREVIEW,
-	  NULL,
-	  NULL,
-	  N_("Preview the calendar to be printed"),
-	  G_CALLBACK (action_calendar_print_preview_cb) },
-
 	{ "calendar-properties",
 	  GTK_STOCK_PROPERTIES,
 	  NULL,
@@ -777,13 +763,6 @@ static GtkActionEntry calendar_entries[] = {
 	  N_("View the current appointment"),
 	  G_CALLBACK (action_event_open_cb) },
 
-	{ "event-print",
-	  GTK_STOCK_PRINT,
-	  NULL,
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_event_print_cb) },
-
 	{ "event-reply",
 	  "mail-reply-sender",
 	  N_("_Reply"),
@@ -904,10 +883,6 @@ static EPopupActionEntry calendar_popup_entries[] = {
 	  NULL,
 	  "event-open" },
 
-	{ "event-popup-print",
-	  NULL,
-	  "event-print" },
-
 	{ "event-popup-reply",
 	  NULL,
 	  "event-reply" },
@@ -1018,6 +993,37 @@ static GtkRadioActionEntry calendar_search_entries[] = {
 	  CALENDAR_SEARCH_SUMMARY_CONTAINS }
 };
 
+static GtkActionEntry lockdown_printing_entries[] = {
+
+	{ "calendar-print",
+	  GTK_STOCK_PRINT,
+	  NULL,
+	  "<Control>p",
+	  N_("Print this calendar"),
+	  G_CALLBACK (action_calendar_print_cb) },
+
+	{ "calendar-print-preview",
+	  GTK_STOCK_PRINT_PREVIEW,
+	  NULL,
+	  NULL,
+	  N_("Preview the calendar to be printed"),
+	  G_CALLBACK (action_calendar_print_preview_cb) },
+
+	{ "event-print",
+	  GTK_STOCK_PRINT,
+	  NULL,
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_event_print_cb) }
+};
+
+static EPopupActionEntry lockdown_printing_popup_entries[] = {
+
+	{ "event-popup-print",
+	  NULL,
+	  "event-print" }
+};
+
 void
 e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 {
@@ -1033,6 +1039,7 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	domain = GETTEXT_PACKAGE;
 
+	/* Calendar Actions */
 	action_group = cal_shell_view->priv->calendar_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_action_group_add_actions (
@@ -1051,6 +1058,15 @@ e_cal_shell_view_actions_init (ECalShellView *cal_shell_view)
 		CALENDAR_SEARCH_SUMMARY_CONTAINS,
 		NULL, NULL);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+
+	/* Lockdown Printing Actions */
+	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
+	gtk_action_group_add_actions (
+		action_group, lockdown_printing_entries,
+		G_N_ELEMENTS (lockdown_printing_entries), cal_shell_view);
+	e_action_group_add_popup_actions (
+		action_group, lockdown_printing_popup_entries,
+		G_N_ELEMENTS (lockdown_printing_popup_entries));
 
 	/* Fine tuning. */
 

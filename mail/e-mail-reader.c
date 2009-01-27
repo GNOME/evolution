@@ -2300,6 +2300,9 @@ e_mail_reader_check_state (EMailReader *reader)
 void
 e_mail_reader_update_actions (EMailReader *reader)
 {
+	EShell *shell;
+	EShellModule *shell_module;
+	EShellSettings *shell_settings;
 	GtkAction *action;
 	GtkActionGroup *action_group;
 	const gchar *action_name;
@@ -2308,6 +2311,7 @@ e_mail_reader_update_actions (EMailReader *reader)
 
 	/* Be descriptive. */
 	gboolean any_messages_selected;
+	gboolean disable_printing;
 	gboolean enable_flag_clear;
 	gboolean enable_flag_completed;
 	gboolean enable_flag_for_followup;
@@ -2327,6 +2331,13 @@ e_mail_reader_update_actions (EMailReader *reader)
 
 	action_group = e_mail_reader_get_action_group (reader);
 	state = e_mail_reader_check_state (reader);
+
+	shell_module = e_mail_reader_get_shell_module (reader);
+	shell = e_shell_module_get_shell (shell_module);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	disable_printing = e_shell_settings_get_boolean (
+		shell_settings, "disable-printing");
 
 	single_message_selected =
 		(state & E_MAIL_READER_SELECTION_SINGLE);
@@ -2478,12 +2489,12 @@ e_mail_reader_update_actions (EMailReader *reader)
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-print";
-	sensitive = single_message_selected;
+	sensitive = single_message_selected && !disable_printing;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 
 	action_name = "mail-print-preview";
-	sensitive = single_message_selected;
+	sensitive = single_message_selected && !disable_printing;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 

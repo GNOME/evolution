@@ -65,3 +65,27 @@ Action Groups
 @window: 
 
 
+<!-- ##### MACRO E_SHELL_WINDOW_ACTION_GROUP_LOCKDOWN_PRINTING ##### -->
+<para>
+
+</para>
+
+@window: 
+
+
+<!-- ##### MACRO E_SHELL_WINDOW_ACTION_GROUP_LOCKDOWN_PRINT_SETUP ##### -->
+<para>
+
+</para>
+
+@window: 
+
+
+<!-- ##### MACRO E_SHELL_WINDOW_ACTION_GROUP_LOCKDOWN_SAVE_TO_DISK ##### -->
+<para>
+
+</para>
+
+@window: 
+
+

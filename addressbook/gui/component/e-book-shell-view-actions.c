@@ -667,20 +667,6 @@ static GtkActionEntry contact_entries[] = {
 	  N_("View the current contact"),
 	  G_CALLBACK (action_contact_open_cb) },
 
-	{ "contact-print",
-	  GTK_STOCK_PRINT,
-	  NULL,
-	  "<Control>p",
-	  N_("Print selected contacts"),
-	  G_CALLBACK (action_contact_print_cb) },
-
-	{ "contact-print-preview",
-	  GTK_STOCK_PRINT_PREVIEW,
-	  NULL,
-	  NULL,
-	  N_("Preview the contacts to be printed"),
-	  G_CALLBACK (action_contact_print_preview_cb) },
-
 	{ "contact-save-as",
 	  GTK_STOCK_SAVE_AS,
 	  N_("Save as vCard..."),
@@ -762,10 +748,6 @@ static EPopupActionEntry contact_popup_entries[] = {
 	  NULL,
 	  "contact-open" },
 
-	{ "contact-popup-print",
-	  NULL,
-	  "contact-print" },
-
 	{ "contact-popup-save-as",
 	  NULL,
 	  "contact-save-as" },
@@ -827,6 +809,30 @@ static GtkRadioActionEntry contact_search_entries[] = {
 	  CONTACT_SEARCH_NAME_CONTAINS }
 };
 
+static GtkActionEntry lockdown_printing_entries[] = {
+
+	{ "contact-print",
+	  GTK_STOCK_PRINT,
+	  NULL,
+	  "<Control>p",
+	  N_("Print selected contacts"),
+	  G_CALLBACK (action_contact_print_cb) },
+
+	{ "contact-print-preview",
+	  GTK_STOCK_PRINT_PREVIEW,
+	  NULL,
+	  NULL,
+	  N_("Preview the contacts to be printed"),
+	  G_CALLBACK (action_contact_print_preview_cb) }
+};
+
+static EPopupActionEntry lockdown_printing_popup_entries[] = {
+
+	{ "contact-popup-print",
+	  NULL,
+	  "contact-print" }
+};
+
 void
 e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 {
@@ -868,6 +874,15 @@ e_book_shell_view_actions_init (EBookShellView *book_shell_view)
 	action_group = book_shell_view->priv->filter_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+
+	/* Lockdown Printing Actions */
+	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
+	gtk_action_group_add_actions (
+		action_group, lockdown_printing_entries,
+		G_N_ELEMENTS (lockdown_printing_entries), book_shell_view);
+	e_action_group_add_popup_actions (
+		action_group, lockdown_printing_popup_entries,
+		G_N_ELEMENTS (lockdown_printing_popup_entries));
 
 	/* Bind GObject properties to GConf keys. */
 

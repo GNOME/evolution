@@ -701,20 +701,6 @@ static GtkActionEntry task_entries[] = {
 	  N_("Create a new task list"),
 	  G_CALLBACK (action_task_list_new_cb) },
 
-	{ "task-list-print",
-	  GTK_STOCK_PRINT,
-	  NULL,
-	  "<Control>p",
-	  N_("Print the list of tasks"),
-	  G_CALLBACK (action_task_list_print_cb) },
-
-	{ "task-list-print-preview",
-	  GTK_STOCK_PRINT_PREVIEW,
-	  NULL,
-	  NULL,
-	  N_("Preview the list of tasks to be printed"),
-	  G_CALLBACK (action_task_list_print_preview_cb) },
-
 	{ "task-list-properties",
 	  GTK_STOCK_PROPERTIES,
 	  NULL,
@@ -770,13 +756,6 @@ static GtkActionEntry task_entries[] = {
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_task_open_url_cb) },
-
-	{ "task-print",
-	  GTK_STOCK_PRINT,
-	  NULL,
-	  NULL,
-	  N_("Print the selected task"),
-	  G_CALLBACK (action_task_print_cb) },
 
 	{ "task-purge",
 	  NULL,
@@ -863,10 +842,6 @@ static EPopupActionEntry task_popup_entries[] = {
 	{ "task-popup-open-url",
 	  NULL,
 	  "task-open-url" },
-
-	{ "task-popup-print",
-	  NULL,
-	  "task-print" },
 
 	{ "task-popup-save-as",
 	  NULL,
@@ -960,6 +935,37 @@ static GtkRadioActionEntry task_search_entries[] = {
 	  TASK_SEARCH_SUMMARY_CONTAINS }
 };
 
+static GtkActionEntry lockdown_printing_entries[] = {
+
+	{ "task-list-print",
+	  GTK_STOCK_PRINT,
+	  NULL,
+	  "<Control>p",
+	  N_("Print the list of tasks"),
+	  G_CALLBACK (action_task_list_print_cb) },
+
+	{ "task-list-print-preview",
+	  GTK_STOCK_PRINT_PREVIEW,
+	  NULL,
+	  NULL,
+	  N_("Preview the list of tasks to be printed"),
+	  G_CALLBACK (action_task_list_print_preview_cb) },
+
+	{ "task-print",
+	  GTK_STOCK_PRINT,
+	  NULL,
+	  NULL,
+	  N_("Print the selected task"),
+	  G_CALLBACK (action_task_print_cb) }
+};
+
+static EPopupActionEntry lockdown_printing_popup_entries[] = {
+
+	{ "task-popup-print",
+	  NULL,
+	  "task-print" }
+};
+
 void
 e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 {
@@ -978,6 +984,7 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	domain = GETTEXT_PACKAGE;
 
+	/* Task Actions */
 	action_group = task_shell_view->priv->task_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_action_group_add_actions (
@@ -995,6 +1002,15 @@ e_task_shell_view_actions_init (ETaskShellView *task_shell_view)
 		TASK_SEARCH_SUMMARY_CONTAINS,
 		NULL, NULL);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+
+	/* Lockdown Printing Actions */
+	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
+	gtk_action_group_add_actions (
+		action_group, lockdown_printing_entries,
+		G_N_ELEMENTS (lockdown_printing_entries), task_shell_view);
+	e_action_group_add_popup_actions (
+		action_group, lockdown_printing_popup_entries,
+		G_N_ELEMENTS (lockdown_printing_popup_entries));
 
 	/* Bind GObject properties to GConf keys. */
 

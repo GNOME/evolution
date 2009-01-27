@@ -82,6 +82,7 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/shell/.libs/e-shell-window-actions.o		\
 	$(top_builddir)/shell/.libs/e-shell-window.o			\
 	$(top_builddir)/e-util/.libs/e-bconf-map.o			\
+	$(top_builddir)/e-util/.libs/e-binding.o			\
 	$(top_builddir)/e-util/.libs/e-dialog-utils.o			\
 	$(top_builddir)/e-util/.libs/e-error.o				\
 	$(top_builddir)/e-util/.libs/e-event.o				\

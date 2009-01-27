@@ -72,6 +72,14 @@ enum {
 	LAST_SIGNAL
 };
 
+enum {
+	DEBUG_KEY_SETTINGS = 1 << 0
+};
+
+static GDebugKey debug_keys[] = {
+	{ "settings",	DEBUG_KEY_SETTINGS }
+};
+
 EShell *default_shell = NULL;
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
@@ -79,6 +87,19 @@ static guint signals[LAST_SIGNAL];
 #if NM_SUPPORT
 void e_shell_dbus_initialize (EShell *shell);
 #endif
+
+static void
+shell_parse_debug_string (EShell *shell)
+{
+	guint flags;
+
+	flags = g_parse_debug_string (
+		g_getenv ("EVOLUTION_DEBUG"),
+		debug_keys, G_N_ELEMENTS (debug_keys));
+
+	if (flags & DEBUG_KEY_SETTINGS)
+		e_shell_settings_enable_debug (shell->priv->settings);
+}
 
 static gboolean
 shell_window_delete_event_cb (EShell *shell,
@@ -663,6 +684,40 @@ shell_class_init (EShellClass *class)
 		0, NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
+
+	/* Install some desktop-wide settings. */
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
+			"disable-command-line",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
+			"disable-printing",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
+			"disable-print-setup",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_boolean (
+			"disable-save-to-disk",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
 }
 
 static void
@@ -687,9 +742,27 @@ shell_init (EShell *shell)
 
 	e_file_lock_create ();
 
+	shell_parse_debug_string (shell);
+
 	g_signal_connect (
 		shell, "notify::online-mode",
 		G_CALLBACK (shell_notify_online_mode_cb), NULL);
+
+	e_shell_settings_bind_to_gconf (
+		shell->priv->settings, "disable-command-line",
+		"/desktop/gnome/lockdown/disable_command_line");
+
+	e_shell_settings_bind_to_gconf (
+		shell->priv->settings, "disable-printing",
+		"/desktop/gnome/lockdown/disable_printing");
+
+	e_shell_settings_bind_to_gconf (
+		shell->priv->settings, "disable-print-setup",
+		"/desktop/gnome/lockdown/disable_print_setup");
+
+	e_shell_settings_bind_to_gconf (
+		shell->priv->settings, "disable-save-to-disk",
+		"/desktop/gnome/lockdown/disable_save_to_disk");
 }
 
 GType

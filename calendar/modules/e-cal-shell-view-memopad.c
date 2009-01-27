@@ -317,19 +317,22 @@ static GtkActionEntry calendar_memopad_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_calendar_memopad_open_url_cb) },
 
-	{ "calendar-memopad-print",
-	  GTK_STOCK_PRINT,
-	  NULL,
-	  NULL,
-	  N_("Print the selected memo"),
-	  G_CALLBACK (action_calendar_memopad_print_cb) },
-
 	{ "calendar-memopad-save-as",
 	  GTK_STOCK_SAVE_AS,
 	  NULL,
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_calendar_memopad_save_as_cb) }
+};
+
+static GtkActionEntry lockdown_printing_entries[] = {
+
+	{ "calendar-memopad-print",
+	  GTK_STOCK_PRINT,
+	  NULL,
+	  NULL,
+	  N_("Print the selected memo"),
+	  G_CALLBACK (action_calendar_memopad_print_cb) }
 };
 
 void
@@ -344,10 +347,17 @@ e_cal_shell_view_memopad_actions_init (ECalShellView *cal_shell_view)
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 
+	/* Calendar Actions */
 	action_group = cal_shell_view->priv->calendar_actions;
 	gtk_action_group_add_actions (
 		action_group, calendar_memopad_entries,
 		G_N_ELEMENTS (calendar_memopad_entries), cal_shell_view);
+
+	/* Lockdown Printing Actions */
+	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
+	gtk_action_group_add_actions (
+		action_group, lockdown_printing_entries,
+		G_N_ELEMENTS (lockdown_printing_entries), cal_shell_view);
 }
 
 void

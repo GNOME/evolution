@@ -29,6 +29,7 @@
 
 struct _EShellSettingsPrivate {
 	GArray *value_array;
+	guint debug	: 1;
 };
 
 static GList *instances;
@@ -51,6 +52,16 @@ shell_settings_set_property (GObject *object,
 
 	g_value_copy (value, dest_value);
 	g_object_notify (object, pspec->name);
+
+	if (priv->debug) {
+		gchar *contents;
+
+		contents = g_strdup_value_contents (value);
+		g_debug (
+			"Setting '%s' set to '%s' (%s)",
+			pspec->name, contents, G_VALUE_TYPE_NAME (value));
+		g_free (contents);
+	}
 }
 
 static void
@@ -106,6 +117,8 @@ shell_settings_init (EShellSettings *shell_settings,
                      GObjectClass *object_class)
 {
 	GArray *value_array;
+	GParamSpec **pspecs;
+	guint ii;
 
 	instances = g_list_prepend (instances, shell_settings);
 
@@ -114,6 +127,22 @@ shell_settings_init (EShellSettings *shell_settings,
 
 	shell_settings->priv = E_SHELL_SETTINGS_GET_PRIVATE (shell_settings);
 	shell_settings->priv->value_array = value_array;
+
+	g_object_freeze_notify (G_OBJECT (shell_settings));
+
+	pspecs = g_object_class_list_properties (object_class, NULL);
+	for (ii = 0; ii < property_count; ii++) {
+		GParamSpec *pspec = pspecs[ii];
+		GValue *value;
+
+		value = &g_array_index (value_array, GValue, ii);
+		g_value_init (value, G_PARAM_SPEC_VALUE_TYPE (pspec));
+		g_param_value_set_default (pspec, value);
+		g_object_notify (G_OBJECT (shell_settings), pspec->name);
+	}
+	g_free (pspecs);
+
+	g_object_thaw_notify (G_OBJECT (shell_settings));
 }
 
 GType
@@ -224,6 +253,20 @@ e_shell_settings_bind_to_gconf (EShellSettings *shell_settings,
 	gconf_bridge_bind_property (
 		gconf_bridge_get (), gconf_key,
 		G_OBJECT (shell_settings), property_name);
+}
+
+/**
+ * e_shell_settings_enable_debug:
+ * @shell_settings: an #EShellSettings
+ *
+ * Print a debug message to standard output when a property value changes.
+ **/
+void
+e_shell_settings_enable_debug (EShellSettings *shell_settings)
+{
+	g_return_if_fail (E_IS_SHELL_SETTINGS (shell_settings));
+
+	shell_settings->priv->debug = TRUE;
 }
 
 /**

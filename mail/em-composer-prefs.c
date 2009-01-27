@@ -1044,7 +1044,9 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	prefs->sig_add = GTK_BUTTON (widget);
 
 	widget = glade_xml_get_widget (gui, "cmdSignatureAddScript");
-	gtk_widget_set_sensitive (widget, sensitive && !mail_config_scripts_disabled ());
+	e_binding_new_with_negation (
+		G_OBJECT (shell_settings), "disable-command-line",
+		G_OBJECT (widget), "sensitive");
 	g_signal_connect (
 		widget, "clicked",
 		G_CALLBACK (sig_add_script_cb), prefs);

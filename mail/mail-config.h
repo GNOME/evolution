@@ -96,8 +96,6 @@ void mail_config_write_on_exit (void);
 struct _GConfClient *mail_config_get_gconf_client (void);
 
 /* General Accessor functions */
-gboolean mail_config_is_corrupt               (void);
-
 GSList *mail_config_get_labels (void);
 
 const char **mail_config_get_allowable_mime_types (void);
@@ -135,8 +133,6 @@ gint mail_config_get_sync_timeout (void);
 void mail_config_reload_junk_headers (void);
 gboolean mail_config_get_lookup_book (void);
 gboolean mail_config_get_lookup_book_local_only (void);
-
-gboolean mail_config_scripts_disabled (void);
 
 GType evolution_mail_config_get_type (void);
 

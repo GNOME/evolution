@@ -76,6 +76,7 @@ void		e_shell_settings_install_property
 void		e_shell_settings_bind_to_gconf	(EShellSettings *shell_settings,
 						 const gchar *property_name,
 						 const gchar *gconf_key);
+void		e_shell_settings_enable_debug	(EShellSettings *shell_settings);
 
 /* Getters and setters for common EShellSettings property types.
  * These are more convenient than g_object_get() / g_object_set().
@@ -97,11 +98,6 @@ gchar *		e_shell_settings_get_string	(EShellSettings *shell_settings,
 void		e_shell_settings_set_string	(EShellSettings *shell_settings,
 						 const gchar *property_name,
 						 const gchar *v_string);
-gpointer	e_shell_settings_get_object	(EShellSettings *shell_settings,
-						 const gchar *property_name);
-void		e_shell_settings_set_object	(EShellSettings *shell_settings,
-						 const gchar *property_name,
-						 gpointer v_object);
 
 G_END_DECLS
 

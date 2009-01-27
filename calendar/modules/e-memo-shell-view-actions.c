@@ -576,20 +576,6 @@ static GtkActionEntry memo_entries[] = {
 	  N_("Create a new memo list"),
 	  G_CALLBACK (action_memo_list_new_cb) },
 
-	{ "memo-list-print",
-	  GTK_STOCK_PRINT,
-	  NULL,
-	  "<Control>p",
-	  N_("Print the list of memos"),
-	  G_CALLBACK (action_memo_list_print_cb) },
-
-	{ "memo-list-print-preview",
-	  GTK_STOCK_PRINT_PREVIEW,
-	  NULL,
-	  NULL,
-	  N_("Preview the list of memos to be printed"),
-	  G_CALLBACK (action_memo_list_print_preview_cb) },
-
 	{ "memo-list-properties",
 	  GTK_STOCK_PROPERTIES,
 	  NULL,
@@ -631,13 +617,6 @@ static GtkActionEntry memo_entries[] = {
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_memo_open_url_cb) },
-
-	{ "memo-print",
-	  GTK_STOCK_PRINT,
-	  NULL,
-	  NULL,
-	  N_("Print the selected memo"),
-	  G_CALLBACK (action_memo_print_cb) },
 
 	{ "memo-save-as",
 	  GTK_STOCK_SAVE_AS,
@@ -697,10 +676,6 @@ static EPopupActionEntry memo_popup_entries[] = {
 	  NULL,
 	  "memo-open-url" },
 
-	{ "memo-popup-print",
-	  NULL,
-	  "memo-print" },
-
 	{ "memo-popup-save-as",
 	  NULL,
 	  "memo-save-as" }
@@ -758,6 +733,37 @@ static GtkRadioActionEntry memo_search_entries[] = {
 	  MEMO_SEARCH_SUMMARY_CONTAINS }
 };
 
+static GtkActionEntry lockdown_printing_entries[] = {
+
+	{ "memo-list-print",
+	  GTK_STOCK_PRINT,
+	  NULL,
+	  "<Control>p",
+	  N_("Print the list of memos"),
+	  G_CALLBACK (action_memo_list_print_cb) },
+
+	{ "memo-list-print-preview",
+	  GTK_STOCK_PRINT_PREVIEW,
+	  NULL,
+	  NULL,
+	  N_("Preview the list of memos to be printed"),
+	  G_CALLBACK (action_memo_list_print_preview_cb) },
+
+	{ "memo-print",
+	  GTK_STOCK_PRINT,
+	  NULL,
+	  NULL,
+	  N_("Print the selected memo"),
+	  G_CALLBACK (action_memo_print_cb) }
+};
+
+static EPopupActionEntry lockdown_printing_popup_entries[] = {
+
+	{ "memo-popup-print",
+	  NULL,
+	  "memo-print" }
+};
+
 void
 e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 {
@@ -776,6 +782,7 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	domain = GETTEXT_PACKAGE;
 
+	/* Memo Actions */
 	action_group = memo_shell_view->priv->memo_actions;
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_action_group_add_actions (
@@ -793,6 +800,15 @@ e_memo_shell_view_actions_init (EMemoShellView *memo_shell_view)
 		MEMO_SEARCH_SUMMARY_CONTAINS,
 		NULL, NULL);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+
+	/* Lockdown Printing Actions */
+	action_group = ACTION_GROUP (LOCKDOWN_PRINTING);
+	gtk_action_group_add_actions (
+		action_group, lockdown_printing_entries,
+		G_N_ELEMENTS (lockdown_printing_entries), memo_shell_view);
+	e_action_group_add_popup_actions (
+		action_group, lockdown_printing_popup_entries,
+		G_N_ELEMENTS (lockdown_printing_popup_entries));
 
 	/* Bind GObject properties to GConf keys. */
 
