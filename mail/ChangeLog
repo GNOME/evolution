@@ -1,3 +1,10 @@
+2009-01-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #561628
+
+	* em-format-html-print.c: (efhp_class_init):
+	Initialize 'parent_class' with its parent, not with itself.
+
 2009-01-19  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #204891
