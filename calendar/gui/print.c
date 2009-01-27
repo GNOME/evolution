@@ -129,9 +129,9 @@ get_font_size (PangoFontDescription *font)
 
 /* The width of the small calendar months, the space from the right edge of
    the header rectangle, and the space between the months. */
-#define SMALL_MONTH_WIDTH	80
-#define SMALL_MONTH_PAD		4
-#define SMALL_MONTH_SPACING	12
+#define SMALL_MONTH_WIDTH	100
+#define SMALL_MONTH_PAD		5
+#define SMALL_MONTH_SPACING	20
 
 /* The minimum number of rows we leave space for for the long events in the
    day view. */
@@ -502,7 +502,7 @@ titled_box (GtkPrintContext *context, const char *text,
 	*x1 += 2;
 	*x2 -= 2;
 	*y2 += 2;
-	print_text (context, font, text, alignment, *x1, *x2, *y1, *y1 + size * 1.4);
+	print_text (context, font, text, alignment, *x1, *x2, *y1 + 1.0, *y1 + size * 1.4);
 	*y1 += size * 1.4;
 }
 
@@ -841,10 +841,10 @@ print_day_background (GtkPrintContext *context, GnomeCalendar *gcal,
 		sprintf (buf, "%d", hour);
 		print_text (context, font_hour, buf, PANGO_ALIGN_RIGHT,
 			    left, hour_minute_x,
-			    y - yinc + yinc / 2, y - yinc + yinc / 2 + hour_font_size);
+			    y - yinc, y - yinc + hour_font_size);
 		print_text (context, font_minute, minute, PANGO_ALIGN_LEFT,
 			    hour_minute_x, left + width - 3,
-			    y - yinc + yinc / 2, y - yinc + yinc / 2 + minute_font_size);
+			    y - yinc, y - yinc + minute_font_size);
 
                 /* Draw the horizontal line between hours, across the entire
 		   width of the day view. */
@@ -2082,7 +2082,7 @@ print_day_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 
 		/* Print the filled border around the header. */
 		print_border (context, 0.0, width,
-			      0.0, HEADER_HEIGHT + 2.0, 1.0, 0.9);
+			      0.0, HEADER_HEIGHT + 3.5, 1.0, 0.9);
 
 		/* Print the 2 mini calendar-months. */
 		l = width - SMALL_MONTH_PAD - SMALL_MONTH_WIDTH * 2  - SMALL_MONTH_SPACING;
@@ -2167,14 +2167,14 @@ print_week_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 	l = width - SMALL_MONTH_PAD - SMALL_MONTH_WIDTH * 2
 		- SMALL_MONTH_SPACING;
 	print_month_small (context, gcal, when,
-			   l, 4, l + SMALL_MONTH_WIDTH, HEADER_HEIGHT + 30,
+			   l, 4, l + SMALL_MONTH_WIDTH, HEADER_HEIGHT + 10,
 			   DATE_MONTH | DATE_YEAR, when,
 			   time_add_week_with_zone (when, 1, zone), FALSE);
 
 	l += SMALL_MONTH_SPACING + SMALL_MONTH_WIDTH;
 	print_month_small (context, gcal,
 			   time_add_month_with_zone (when, 1, zone),
-			   l, 4, l + SMALL_MONTH_WIDTH, HEADER_HEIGHT + 30,
+			   l, 4, l + SMALL_MONTH_WIDTH, HEADER_HEIGHT + 10,
 			   DATE_MONTH | DATE_YEAR, when,
 			   time_add_week_with_zone (when, 1, zone), FALSE);
 
@@ -2200,6 +2200,7 @@ print_month_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	char buf[100];
 	gdouble width, height;
+	double l;
 
 	setup = gtk_print_context_get_page_setup (context);
 
@@ -2210,17 +2211,19 @@ print_month_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 	print_month_summary (context, gcal, date, 0.0, width, HEADER_HEIGHT, height);
 
 	/* Print the border around the header. */
-	print_border (context, 0.0, width, 0.0, HEADER_HEIGHT, 1.0, 0.9);
+	print_border (context, 0.0, width, 0.0, HEADER_HEIGHT + 10, 1.0, 0.9);
+
+	l = width - SMALL_MONTH_PAD - SMALL_MONTH_WIDTH;
 
 	/* Print the 2 mini calendar-months. */
 	print_month_small (context, gcal,
 			   time_add_month_with_zone (date, 1, zone),
-			   width - width / 7 + 2, 4,
-			   width - 8, HEADER_HEIGHT,
+			   l, 4, l + SMALL_MONTH_WIDTH, HEADER_HEIGHT + 4,
 			   DATE_MONTH | DATE_YEAR, 0, 0, FALSE);
+
 	print_month_small (context, gcal,
 			   time_add_month_with_zone (date, -1, zone),
-			   8, 4, width / 7 - 2, HEADER_HEIGHT,
+			   8, 4, width / 7 + 20, HEADER_HEIGHT + 4,
 			   DATE_MONTH | DATE_YEAR, 0, 0, FALSE);
 
 	/* Print the month, e.g. 'May 2001'. */
