@@ -232,7 +232,7 @@ em_utils_check_user_can_send_mail (GtkWindow *parent)
 
 	account_list = e_get_account_list ();
 
-	if (e_list_length ((EList *) account_list) > 0) {
+	if (e_list_length ((EList *) account_list) == 0) {
 		if (!em_utils_configure_account (parent))
 			return FALSE;
 	}
