@@ -7366,8 +7366,18 @@ e_day_view_on_drag_data_get (GtkWidget          *widget,
 
 		comp_str = icalcomponent_as_ical_string_r (vcal);
 		if (comp_str) {
+			ESource *source = e_cal_get_source (event->comp_data->client);
+			const char *source_uid = e_source_peek_uid (source);
+			char *tmp;
+
+			if (!source_uid)
+				source_uid = "";
+
+			tmp = g_strconcat (source_uid, "\n", comp_str, NULL);
 			gtk_selection_data_set (selection_data, selection_data->target,
-						8, (unsigned char *)comp_str, strlen (comp_str));
+						8, (unsigned char *)tmp, strlen (tmp));
+
+			g_free (tmp);
 		}
 
 		icalcomponent_free (vcal);

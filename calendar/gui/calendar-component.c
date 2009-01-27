@@ -1020,94 +1020,42 @@ impl_upgradeFromVersion (PortableServer_Servant servant,
 }
 
 static gboolean
-update_single_object (ECal *client, icalcomponent *icalcomp)
-{
-	char *uid;
-	icalcomponent *tmp_icalcomp;
-
-	uid = (char *) icalcomponent_get_uid (icalcomp);
-
-	if (e_cal_get_object (client, uid, NULL, &tmp_icalcomp, NULL))
-		return e_cal_modify_object (client, icalcomp, CALOBJ_MOD_ALL, NULL);
-
-	return e_cal_create_object (client, icalcomp, &uid, NULL);
-}
-
-static gboolean
-update_objects (ECal *client, icalcomponent *icalcomp)
-{
-	icalcomponent *subcomp;
-	icalcomponent_kind kind;
-
-	kind = icalcomponent_isa (icalcomp);
-	if (kind == ICAL_VTODO_COMPONENT || kind == ICAL_VEVENT_COMPONENT)
-		return update_single_object (client, icalcomp);
-	else if (kind != ICAL_VCALENDAR_COMPONENT)
-		return FALSE;
-
-	subcomp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
-	while (subcomp) {
-		gboolean success;
-
-		kind = icalcomponent_isa (subcomp);
-		if (kind == ICAL_VTIMEZONE_COMPONENT) {
-			icaltimezone *zone;
-
-			zone = icaltimezone_new ();
-			icaltimezone_set_component (zone, subcomp);
-
-			success = e_cal_add_timezone (client, zone, NULL);
-			icaltimezone_free (zone, 1);
-			if (!success)
-				return success;
-		} else if (kind == ICAL_VTODO_COMPONENT ||
-			   kind == ICAL_VEVENT_COMPONENT) {
-			success = update_single_object (client, subcomp);
-			if (!success)
-				return success;
-		}
-
-		subcomp = icalcomponent_get_next_component (icalcomp, ICAL_ANY_COMPONENT);
-	}
-
-	return TRUE;
-}
-
-static gboolean
 selector_tree_data_dropped (ESourceSelector *selector,
                             GtkSelectionData *data,
                             ESource *destination,
                             GdkDragAction action,
-                            guint info)
+                            guint info,
+			    CalendarComponent *component)
 {
 	gboolean success = FALSE;
-	icalcomponent *icalcomp = NULL;
-	ECal *client = NULL;
+	ECal *client;
 
-	icalcomp = icalparser_parse_string ((char *)data->data);
+	client = auth_new_cal_from_source (destination, E_CAL_SOURCE_TYPE_EVENT);
 
-	if (icalcomp) {
-		char * uid;
-
-		/* FIXME deal with GDK_ACTION_ASK */
-		if (action == GDK_ACTION_COPY) {
-			uid = e_cal_component_gen_uid ();
-			icalcomponent_set_uid (icalcomp, uid);
-		}
-
-		client = auth_new_cal_from_source (destination,
-						   E_CAL_SOURCE_TYPE_EVENT);
-
-		if (client) {
-			if (e_cal_open (client, TRUE, NULL)) {
-				success = TRUE;
-				update_objects (client, icalcomp);
-			}
-
+	if (!client || !e_cal_open (client, TRUE, NULL)) {
+		if (client)
 			g_object_unref (client);
-		}
 
-		icalcomponent_free (icalcomp);
+		return FALSE;
+	}
+
+	if (data->data) {
+		icalcomponent *icalcomp = NULL;
+		char *comp_str; /* do not free this! */
+
+		/* data->data is "source_uid\ncomponent_string" */
+		comp_str = strchr ((char *)data->data, '\n');
+		if (comp_str) {
+			comp_str [0] = 0;
+			comp_str++;
+
+			icalcomp = icalparser_parse_string (comp_str);
+
+			if (icalcomp) {
+				success = cal_comp_process_source_list_drop (client, icalcomp, action, (char *)data->data, component->priv->source_list);
+				icalcomponent_free (icalcomp);
+			}
+		}
 	}
 
 	return success;
@@ -1324,7 +1272,7 @@ create_component_view (CalendarComponent *calendar_component)
 
 	g_signal_connect (
 		component_view->source_selector, "data-dropped",
-		G_CALLBACK (selector_tree_data_dropped), NULL);
+		G_CALLBACK (selector_tree_data_dropped), calendar_component);
 
 	gtk_drag_dest_set(component_view->source_selector, GTK_DEST_DEFAULT_ALL, drag_types,
 			  num_drag_types, GDK_ACTION_COPY | GDK_ACTION_MOVE);

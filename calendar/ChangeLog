@@ -1,3 +1,24 @@
+2009-01-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #318003
+
+	* gui/memos-component.c: (selector_tree_data_dropped):
+	* gui/tasks-component.c: (selector_tree_data_dropped):
+	* gui/calendar-component.c: (selector_tree_data_dropped),
+	(create_component_view):
+	* gui/comp-util.h: (cal_comp_process_source_list_drop):
+	* gui/comp-util.c: (update_single_object), (update_objects),
+	(cal_comp_process_source_list_drop):
+	Support move of the event in day view when dropped over the source
+	list. Use the same function for events/tasks/memos.
+
+	* gui/e-day-view.c: (e_day_view_on_drag_data_get):
+	Encode string data same as memos and tasks do, with a source UID.
+
+	* gui/e-calendar-table.c: (e_calendar_table_copy_clipboard):
+	* gui/e-memo-table.c: (e_memo_table_copy_clipboard):
+	Removed inappropriate comments.
+
 2009-01-27  Bharath Acharya  <abharath@novell.com>
 
 	** Fix for bug #463597, bug #463594, bug#463599 (BNC) and 

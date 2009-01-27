@@ -1129,8 +1129,7 @@ e_calendar_table_copy_clipboard (ECalendarTable *cal_table)
 					 clipboard_get_calendar_cb,
 					 NULL, comp_str)) {
 
-		/* do not free this pointer, it owns libical */
-		/* g_free (comp_str); */
+		/* no-op */
 	} else {
 		gtk_clipboard_set_can_store (clipboard, target_types + 1, n_target_types - 1);
 	}

@@ -601,8 +601,7 @@ e_memo_table_copy_clipboard (EMemoTable *memo_table)
 	if (!gtk_clipboard_set_with_data(clipboard, target_types, n_target_types,
 					 clipboard_get_calendar_cb,
 					 NULL, comp_str)) {
-		/* do not free this pointer, it owns libical */
-		/* g_free (comp_str); */
+		/* no-op */
 	} else {
 		gtk_clipboard_set_can_store (clipboard, target_types + 1, n_target_types - 1);
 	}
