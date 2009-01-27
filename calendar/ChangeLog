@@ -1,3 +1,26 @@
+2009-01-27  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #463597, bug #463594, bug#463599 (BNC) and 
+	**	   bug #567824(BGO)
+
+	* gui/print.c (titled_box), (print_day_background),
+	(print_day_view), (print_week_view), (print_month_view): Fix all header
+	related bugs in calendar printing.
+
+	Bug reports:
+	1) Daily Printouts Display Hour In Wrong Spot :
+	When you print your daily calendar, it prints the hours in the left 
+	column below the :30 time slot
+
+	2) Font Problems On Printout, Days Of Week
+
+	3) Calendar Heading Printout Problems, Overlapping Fonts
+	In print preview, short week day names in the header of the page are 
+	overlapped.
+
+	Fixes all header issues mentioned at 
+	http://www.go-evolution.org/CalendarPrintoutLove
+
 2009-01-23  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #559604
