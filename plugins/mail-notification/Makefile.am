@@ -1,5 +1,8 @@
 if OS_WIN32
-NO_UNDEFINED_REQUIRED_LIBS = $(GNOME_PLATFORM_LIBS)
+NO_UNDEFINED_REQUIRED_LIBS =				\
+	$(top_builddir)/mail/libevolution-mail.la	\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(GNOME_PLATFORM_LIBS)
 endif
 
 INCLUDES =					\
