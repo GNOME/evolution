@@ -1,3 +1,8 @@
+2009-01-28  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am: Use -no-undefined and link with more libs on
+	Windows.
+
 2008-09-19  Sankar P  <psankar@novell.com>
 
 License Changes
