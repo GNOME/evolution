@@ -1,3 +1,12 @@
+2009-01-28  Tor Lillqvist  <tml@novell.com>
+
+	Windows port by Fridrich Strba.
+
+	* Makefile.am: Use -no-undefined and link with more libraries on
+	Windows.
+
+	* external-editor.c: Check HAVE_SYS_WAIT_H.
+
 2008-08-27  Sankar P  <psankar@novell.com>
 
 License Changes
