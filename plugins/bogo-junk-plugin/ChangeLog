@@ -1,3 +1,11 @@
+2009-01-28  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am: Use -no-undefined on Windows. Link with libeutil.
+
+	* bf-junk-filter.c: Tentative port to Windows even though this
+	plugin isn't even compiled on Windows for now. Just for
+	completeness.
+
 2008-12-15  srinivasa ragavan  <sragavan@novell.com>
 
 	* makefile.am:
