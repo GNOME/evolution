@@ -1,3 +1,15 @@
+2009-01-28  Tor Lillqvist  <tml@novell.com>
+
+	Make it compile on Windows, by Fridrich Strbra. (Just compile;
+	little chance of it actually doing anything sensible on Windows at
+	this point...)
+
+	* Makefile.am: Use -no-undefined on Windows. Link with libeutil.
+
+	* backup.c: Remove unused <sys/wait.h>.
+
+	* backup-restore.c: Check HAVE_SYS_WAIT_H.
+	
 2009-01-21  Milan Crha  <mcrha@redhat.com>
 
 	* Makefile.am: Use also EVOLUTION_CALENDAR_CFLAGS.
