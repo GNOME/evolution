@@ -78,7 +78,6 @@ struct _EShellClass {
 GType		e_shell_get_type		(void);
 EShell *	e_shell_get_default		(void);
 GList *		e_shell_get_shell_modules	(EShell *shell);
-GList *		e_shell_get_shell_windows	(EShell *shell);
 const gchar *	e_shell_get_canonical_name	(EShell *shell,
 						 const gchar *name);
 EShellModule *	e_shell_get_module_by_name	(EShell *shell,
@@ -89,7 +88,10 @@ EShellSettings *e_shell_get_shell_settings	(EShell *shell);
 GtkWidget *	e_shell_create_shell_window	(EShell *shell,
 						 const gchar *view_name);
 guint		e_shell_handle_uris		(EShell *shell,
-                                                 const gchar **uris);
+						 gchar **uris);
+void		e_shell_watch_window		(EShell *shell,
+						 GtkWindow *window);
+GList *		e_shell_get_watched_windows	(EShell *shell);
 void		e_shell_send_receive		(EShell *shell,
 						 GtkWindow *parent);
 gboolean	e_shell_get_network_available	(EShell *shell);

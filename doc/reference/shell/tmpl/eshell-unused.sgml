@@ -1769,6 +1769,23 @@ intelligent
 @shell: 
 @Returns: 
 
+<!-- ##### FUNCTION e_shell_get_shell_windows ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_handle_uri ##### -->
+<para>
+
+</para>
+
+@shell: 
+@uri: 
+@Returns: 
+
 <!-- ##### FUNCTION e_shell_list_modules ##### -->
 <para>
 

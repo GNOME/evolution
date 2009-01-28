@@ -115,20 +115,23 @@ test_module_send_receive_cb (EShellModule *shell_module,
 
 static void
 test_module_window_created_cb (EShellModule *shell_module,
-                               EShellWindow *shell_window)
+                               GtkWindow *window)
 {
 	const gchar *module_name;
 
-	g_debug ("%s (window=%p)", G_STRFUNC, shell_window);
+	g_debug ("%s (%s)", G_STRFUNC, G_OBJECT_TYPE_NAME (window));
+
+	if (!E_IS_SHELL_WINDOW (window))
+		return;
 
 	module_name = G_TYPE_MODULE (shell_module)->name;
 
 	e_shell_window_register_new_item_actions (
-		shell_window, module_name,
+		E_SHELL_WINDOW (window), module_name,
 		item_entries, G_N_ELEMENTS (item_entries));
 
 	e_shell_window_register_new_source_actions (
-		shell_window, module_name,
+		E_SHELL_WINDOW (window), module_name,
 		source_entries, G_N_ELEMENTS (source_entries));
 }
 

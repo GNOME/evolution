@@ -39,6 +39,7 @@
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
 #include <e-util/gconf-bridge.h>
+#include <shell/e-shell.h>
 
 #include <camel/camel-url.h>
 #include <camel/camel-exception.h>
@@ -1780,6 +1781,7 @@ comp_editor_init (CompEditor *editor)
 	CompEditorPrivate *priv;
 	GtkActionGroup *action_group;
 	GtkAction *action;
+	EShell *shell;
 	GError *error = NULL;
 
 	editor->priv = priv = COMP_EDITOR_GET_PRIVATE (editor);
@@ -1871,6 +1873,10 @@ comp_editor_init (CompEditor *editor)
 	g_signal_connect(editor, "drag-motion", G_CALLBACK(drag_motion), editor);
 
 	gtk_window_set_type_hint (GTK_WINDOW (editor), GDK_WINDOW_TYPE_HINT_NORMAL);
+
+	/* FIXME Shell should be passed in. */
+	shell = e_shell_get_default ();
+	e_shell_watch_window (shell, GTK_WINDOW (editor));
 }
 
 static gboolean

@@ -111,15 +111,6 @@ EShell
 @Returns: 
 
 
-<!-- ##### FUNCTION e_shell_get_shell_windows ##### -->
-<para>
-
-</para>
-
-@shell: 
-@Returns: 
-
-
 <!-- ##### FUNCTION e_shell_get_canonical_name ##### -->
 <para>
 
@@ -165,16 +156,35 @@ EShell
 </para>
 
 @shell: 
+@view_name: 
 @Returns: 
 
 
-<!-- ##### FUNCTION e_shell_handle_uri ##### -->
+<!-- ##### FUNCTION e_shell_handle_uris ##### -->
 <para>
 
 </para>
 
 @shell: 
-@uri: 
+@uris: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_watch_window ##### -->
+<para>
+
+</para>
+
+@shell: 
+@window: 
+
+
+<!-- ##### FUNCTION e_shell_get_watched_windows ##### -->
+<para>
+
+</para>
+
+@shell: 
 @Returns: 
 
 

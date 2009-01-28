@@ -38,7 +38,7 @@
 	((obj), E_TYPE_SHELL, EShellPrivate))
 
 struct _EShellPrivate {
-	GList *active_windows;
+	GList *watched_windows;
 	EShellSettings *settings;
 
 	/* Shell Modules */
@@ -101,43 +101,6 @@ shell_parse_debug_string (EShell *shell)
 		e_shell_settings_enable_debug (shell->priv->settings);
 }
 
-static gboolean
-shell_window_delete_event_cb (EShell *shell,
-                              EShellWindow *shell_window)
-{
-	/* If other windows are open we can safely close this one. */
-	if (g_list_length (shell->priv->active_windows) > 1)
-		return FALSE;
-
-	/* Otherwise we initiate application shutdown. */
-	return !e_shell_quit (shell);
-}
-
-static gboolean
-shell_window_focus_in_event_cb (EShell *shell,
-                                GdkEventFocus *event,
-                                EShellWindow *shell_window)
-{
-	GList *list, *link;
-
-	/* Keep the active windows list sorted by most recently focused,
-	 * so the first item in the list should always be the currently
-	 * focused shell window. */
-
-	list = shell->priv->active_windows;
-	link = g_list_find (list, shell_window);
-	g_return_val_if_fail (link != NULL, FALSE);
-
-	if (link != list) {
-		list = g_list_remove_link (list, link);
-		list = g_list_concat (link, list);
-	}
-
-	shell->priv->active_windows = list;
-
-	return FALSE;
-}
-
 static void
 shell_notify_online_mode_cb (EShell *shell)
 {
@@ -147,15 +110,52 @@ shell_notify_online_mode_cb (EShell *shell)
 	e_passwords_set_online (online);
 }
 
+static gboolean
+shell_window_delete_event_cb (EShell *shell,
+                              GtkWindow *window)
+{
+	/* If other windows are open we can safely close this one. */
+	if (g_list_length (shell->priv->watched_windows) > 1)
+		return FALSE;
+
+	/* Otherwise we initiate application shutdown. */
+	return !e_shell_quit (shell);
+}
+
+static gboolean
+shell_window_focus_in_event_cb (EShell *shell,
+                                GdkEventFocus *event,
+                                GtkWindow *window)
+{
+	GList *list, *link;
+
+	/* Keep the watched windows list sorted by most recently focused,
+	 * so the first item in the list should always be the currently
+	 * focused window. */
+
+	list = shell->priv->watched_windows;
+	link = g_list_find (list, window);
+	g_return_val_if_fail (link != NULL, FALSE);
+
+	if (link != list) {
+		list = g_list_remove_link (list, link);
+		list = g_list_concat (link, list);
+	}
+
+	shell->priv->watched_windows = list;
+
+	return FALSE;
+}
+
 static void
 shell_window_weak_notify_cb (EShell *shell,
                              GObject *where_the_object_was)
 {
-	GList *active_windows;
+	GList *list;
 
-	active_windows = shell->priv->active_windows;
-	active_windows = g_list_remove (active_windows, where_the_object_was);
-	shell->priv->active_windows = active_windows;
+	list = shell->priv->watched_windows;
+	list = g_list_remove (list, where_the_object_was);
+	shell->priv->watched_windows = list;
 
 	g_signal_emit (shell, signals[WINDOW_DESTROYED], 0);
 }
@@ -380,7 +380,7 @@ shell_shutdown_timeout (EShell *shell)
 	 * the act of destroying a shell window will modify the active
 	 * windows list, which would otherwise derail the iteration. */
 	if (proceed) {
-		list = g_list_copy (shell->priv->active_windows);
+		list = g_list_copy (shell->priv->watched_windows);
 		g_list_foreach (list, (GFunc) gtk_widget_destroy, NULL);
 		g_list_free (list);
 
@@ -748,9 +748,9 @@ shell_class_init (EShellClass *class)
 	/**
 	 * EShell::window-created
 	 * @shell: the #EShell which emitted the signal
-	 * @shell_window: the newly created #EShellWindow
+	 * @window: the newly created #GtkWindow
 	 *
-	 * Emitted when a new #EShellWindow is created.
+	 * Emitted when @shell begins watching a newly created window.
 	 **/
 	signals[WINDOW_CREATED] = g_signal_new (
 		"window-created",
@@ -759,7 +759,7 @@ shell_class_init (EShellClass *class)
 		0, NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
 		G_TYPE_NONE, 1,
-		E_TYPE_SHELL_WINDOW);
+		GTK_TYPE_WINDOW);
 
 	/**
 	 * EShell::window-destroyed
@@ -896,6 +896,9 @@ e_shell_get_type (void)
  *
  * Returns the #EShell created by <function>main()</function>.
  *
+ * Try to obtain the #EShell from elsewhere if you can.  This function
+ * is intended as a temporary workaround for when that proves difficult.
+ *
  * Returns: the #EShell singleton
  **/
 EShell *
@@ -922,26 +925,6 @@ e_shell_get_shell_modules (EShell *shell)
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	return shell->priv->loaded_modules;
-}
-
-/**
- * e_shell_get_shell_windows:
- * @shell: an #EShell
- *
- * Returns a list of active #EShellWindow instances that were created by
- * e_shell_create_shell_window().  The list is sorted by the most recently
- * focused window, such that the first instance is the currently focused
- * window.  (Useful for choosing a parent for a transient window.)  The
- * list is owned by @shell and should not be modified or freed.
- *
- * Returns: a list of active #EShellWindow instances
- **/
-GList *
-e_shell_get_shell_windows (EShell *shell)
-{
-	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
-
-	return shell->priv->active_windows;
 }
 
 /**
@@ -1052,7 +1035,6 @@ GtkWidget *
 e_shell_create_shell_window (EShell *shell,
                              const gchar *view_name)
 {
-	GList *active_windows;
 	GtkWidget *shell_window;
 	UniqueMessageData *data;
 	UniqueApp *app;
@@ -1085,25 +1067,6 @@ e_shell_create_shell_window (EShell *shell,
 	}
 
 	shell_window = e_shell_window_new (shell, shell->priv->safe_mode);
-	unique_app_watch_window (app, GTK_WINDOW (shell_window));
-
-	active_windows = shell->priv->active_windows;
-	active_windows = g_list_prepend (active_windows, shell_window);
-	shell->priv->active_windows = active_windows;
-
-	g_signal_connect_swapped (
-		shell_window, "delete-event",
-		G_CALLBACK (shell_window_delete_event_cb), shell);
-
-	g_signal_connect_swapped (
-		shell_window, "focus-in-event",
-		G_CALLBACK (shell_window_focus_in_event_cb), shell);
-
-	g_object_weak_ref (
-		G_OBJECT (shell_window), (GWeakNotify)
-		shell_window_weak_notify_cb, shell);
-
-	g_signal_emit (shell, signals[WINDOW_CREATED], 0, shell_window);
 
 	gtk_widget_show (shell_window);
 
@@ -1135,7 +1098,7 @@ unique:  /* Send a message to the other Evolution process. */
  **/
 guint
 e_shell_handle_uris (EShell *shell,
-                     const gchar **uris)
+                     gchar **uris)
 {
 	UniqueApp *app;
 	UniqueMessageData *data;
@@ -1163,15 +1126,79 @@ e_shell_handle_uris (EShell *shell,
 
 unique:  /* Send a message to the other Evolution process. */
 
-	/* XXX Do something with UniqueResponse?
-	 * XXX set_uris() should take a "const" URI list. */
+	/* XXX Do something with UniqueResponse? */
 
 	data = unique_message_data_new ();
-	unique_message_data_set_uris (data, (gchar **) uris);
+	unique_message_data_set_uris (data, uris);
 	unique_app_send_message (app, UNIQUE_OPEN, data);
 	unique_message_data_free (data);
 
 	return 0;
+}
+
+/**
+ * e_shell_watch_window:
+ * @shell: an #EShell
+ * @window: a #GtkWindow
+ *
+ * Makes @shell "watch" a newly created toplevel window, and emits the
+ * #EShell::window-created signal.  All #EShellWindow<!-- -->s should be
+ * watched, along with any editor or viewer windows that may be shown in
+ * response to e_shell_handle_uris().  When the last watched window is
+ * closed, Evolution terminates.
+ **/
+void
+e_shell_watch_window (EShell *shell,
+                      GtkWindow *window)
+{
+	GList *list;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (GTK_IS_WINDOW (window));
+
+	list = shell->priv->watched_windows;
+
+	/* Ignore duplicates. */
+	if (g_list_find (list, window) != NULL)
+		return;
+
+	list = g_list_prepend (list, window);
+	shell->priv->watched_windows = list;
+
+	unique_app_watch_window (UNIQUE_APP (shell), window);
+
+	g_signal_connect_swapped (
+		window, "delete-event",
+		G_CALLBACK (shell_window_delete_event_cb), shell);
+
+	g_signal_connect_swapped (
+		window, "focus-in-event",
+		G_CALLBACK (shell_window_focus_in_event_cb), shell);
+
+	g_object_weak_ref (
+		G_OBJECT (window), (GWeakNotify)
+		shell_window_weak_notify_cb, shell);
+
+	g_signal_emit (shell, signals[WINDOW_CREATED], 0, window);
+}
+
+/**
+ * e_shell_get_watched_windows:
+ * @shell: an #EShell
+ *
+ * Returns a list of windows being watched by @shell.  The list is sorted
+ * by the most recently focused window, such that the first instance is the
+ * currently focused window.  (Useful for choosing a parent for a transient
+ * window.)  The list is owned by @shell and should not be modified or freed.
+ *
+ * Returns: a list of watched windows
+ **/
+GList *
+e_shell_get_watched_windows (EShell *shell)
+{
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	return shell->priv->watched_windows;
 }
 
 /**

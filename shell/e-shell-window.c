@@ -132,17 +132,22 @@ static void
 shell_window_update_close_action_cb (EShellWindow *shell_window)
 {
 	EShell *shell;
-	GList *shell_windows;
-	gboolean sensitive;
+	GList *watched_windows;
+	gint n_shell_windows = 0;
 
 	shell = e_shell_window_get_shell (shell_window);
-	shell_windows = e_shell_get_shell_windows (shell);
-	g_return_if_fail (shell_windows != NULL);
+	watched_windows = e_shell_get_watched_windows (shell);
 
-	/* Disable Close Window if there's only one window.
+	/* Count the shell windows. */
+	while (watched_windows != NULL) {
+		if (E_IS_SHELL_WINDOW (watched_windows->data))
+			n_shell_windows++;
+		watched_windows = g_list_next (watched_windows);
+	}
+
+	/* Disable Close Window if there's only one shell window.
 	 * Helps prevent users from accidentally quitting. */
-	sensitive = (g_list_length (shell_windows) > 1);
-	gtk_action_set_sensitive (ACTION (CLOSE), sensitive);
+	gtk_action_set_sensitive (ACTION (CLOSE), n_shell_windows > 1);
 }
 
 static void

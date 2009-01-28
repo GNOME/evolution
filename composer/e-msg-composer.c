@@ -2115,7 +2115,7 @@ msg_composer_constructor (GType type,
 		G_OBJECT (shell_settings), "composer-magic-smileys",
 		G_OBJECT (composer), "magic-smileys");
 
-	e_shell_event (shell, "new-editor", object);
+	e_shell_watch_window (shell, GTK_WINDOW (object));
 
 	return object;
 }

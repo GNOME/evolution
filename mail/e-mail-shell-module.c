@@ -556,18 +556,6 @@ exit:
 }
 
 static void
-mail_shell_module_event_new_editor_cb (EShell *shell,
-                                       GtkWindow *editor,
-                                       EShellModule *shell_module)
-{
-	if (!E_IS_MSG_COMPOSER (editor))
-		return;
-
-	/* Integrate the new composer into the mail module. */
-	em_configure_new_composer (E_MSG_COMPOSER (editor));
-}
-
-static void
 mail_shell_module_notify_online_mode_cb (EShell *shell,
                                          GParamSpec *pspec,
                                          EShellModule *shell_module)
@@ -702,13 +690,13 @@ mail_shell_module_prepare_for_offline_cb (EShell *shell,
                                           EActivity *activity,
                                           EShellModule *shell_module)
 {
-	GList *shell_windows;
+	GList *watched_windows;
 	GtkWidget *parent = NULL;
 	gboolean synchronize = FALSE;
 
-	shell_windows = e_shell_get_shell_windows (shell);
-	if (shell_windows != NULL)
-		parent = GTK_WIDGET (shell_windows->data);
+	watched_windows = e_shell_get_watched_windows (shell);
+	if (watched_windows != NULL)
+		parent = GTK_WIDGET (watched_windows->data);
 
 	if (e_shell_get_network_available (shell))
 		synchronize = em_utils_prompt_user (
@@ -771,33 +759,42 @@ mail_shell_module_window_weak_notify_cb (EShell *shell,
 
 static void
 mail_shell_module_window_created_cb (EShell *shell,
-                                     EShellWindow *shell_window,
+                                     GtkWindow *window,
                                      EShellModule *shell_module)
 {
 	static gboolean first_time = TRUE;
 	const gchar *module_name;
 
+	if (E_IS_MSG_COMPOSER (window)) {
+		/* Integrate the new composer into the mail module. */
+		em_configure_new_composer (E_MSG_COMPOSER (window));
+		return;
+	}
+
+	if (!E_IS_SHELL_WINDOW (window))
+		return;
+
 	module_name = G_TYPE_MODULE (shell_module)->name;
 
 	e_shell_window_register_new_item_actions (
-		shell_window, module_name,
+		E_SHELL_WINDOW (window), module_name,
 		item_entries, G_N_ELEMENTS (item_entries));
 
 	e_shell_window_register_new_source_actions (
-		shell_window, module_name,
+		E_SHELL_WINDOW (window), module_name,
 		source_entries, G_N_ELEMENTS (source_entries));
 
 	g_signal_connect_swapped (
 		shell, "event::mail-icon",
-		G_CALLBACK (mail_shell_module_mail_icon_cb), shell_window);
+		G_CALLBACK (mail_shell_module_mail_icon_cb), window);
 
 	g_object_weak_ref (
-		G_OBJECT (shell_window), (GWeakNotify)
+		G_OBJECT (window), (GWeakNotify)
 		mail_shell_module_window_weak_notify_cb, shell);
 
 	if (first_time) {
 		g_signal_connect (
-			shell_window, "map-event",
+			window, "map-event",
 			G_CALLBACK (e_msg_composer_check_autosave), NULL);
 		first_time = FALSE;
 	}
@@ -848,11 +845,6 @@ e_shell_module_init (GTypeModule *type_module)
 	async_event = mail_async_event_new ();
 
 	folder_tree_model = em_folder_tree_model_new (shell_module);
-
-	g_signal_connect (
-		shell, "event::new-editor",
-		G_CALLBACK (mail_shell_module_event_new_editor_cb),
-		shell_module);
 
 	g_signal_connect (
 		shell, "notify::online-mode",

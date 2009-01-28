@@ -423,27 +423,30 @@ cal_module_init_preferences (void)
 }
 
 static gboolean
-cal_module_handle_uri (EShellModule *shell_module,
-                       const gchar *uri)
+cal_module_handle_uri_cb (EShellModule *shell_module,
+                          const gchar *uri)
 {
 	/* FIXME */
 	return FALSE;
 }
 
 static void
-cal_module_window_created (EShellModule *shell_module,
-                           EShellWindow *shell_window)
+cal_module_window_created_cb (EShellModule *shell_module,
+                              GtkWindow *window)
 {
 	const gchar *module_name;
+
+	if (!E_IS_SHELL_WINDOW (window))
+		return;
 
 	module_name = G_TYPE_MODULE (shell_module)->name;
 
 	e_shell_window_register_new_item_actions (
-		shell_window, module_name,
+		E_SHELL_WINDOW (window), module_name,
 		item_entries, G_N_ELEMENTS (item_entries));
 
 	e_shell_window_register_new_source_actions (
-		shell_window, module_name,
+		E_SHELL_WINDOW (window), module_name,
 		source_entries, G_N_ELEMENTS (source_entries));
 }
 
@@ -476,11 +479,11 @@ e_shell_module_init (GTypeModule *type_module)
 
 	g_signal_connect_swapped (
 		shell, "handle-uri",
-		G_CALLBACK (cal_module_handle_uri), shell_module);
+		G_CALLBACK (cal_module_handle_uri_cb), shell_module);
 
 	g_signal_connect_swapped (
 		shell, "window-created",
-		G_CALLBACK (cal_module_window_created), shell_module);
+		G_CALLBACK (cal_module_window_created_cb), shell_module);
 
 	cal_module_init_preferences ();
 }

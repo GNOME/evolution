@@ -52,6 +52,7 @@
 #include "misc/e-url-entry.h"
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-util-private.h"
+#include "shell/e-shell.h"
 
 #include "eab-contact-merging.h"
 
@@ -3359,6 +3360,7 @@ static void
 e_contact_editor_init (EContactEditor *e_contact_editor)
 {
 	GladeXML *gui;
+	EShell *shell;
 	GtkWidget *widget, *label;
 	GtkEntryCompletion *completion;
 	char *gladefile;
@@ -3436,6 +3438,10 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 
 	/* show window */
 	gtk_widget_show (e_contact_editor->app);
+
+	/* FIXME Shell should be passed in. */
+	shell = e_shell_get_default ();
+	e_shell_watch_window (shell, GTK_WINDOW (e_contact_editor->app));
 }
 
 static void

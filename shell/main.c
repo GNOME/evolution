@@ -306,7 +306,6 @@ static gboolean
 idle_cb (gchar **uris)
 {
 	EShell *shell;
-	guint ii;
 
 #ifdef KILL_PROCESS_CMD
 	kill_old_dataserver ();
@@ -314,23 +313,21 @@ idle_cb (gchar **uris)
 
 	shell = e_shell_get_default ();
 
-	/* These calls do the right thing when there's another
-	 * Evolution process running. */
+	/* These calls do the right thing when another Evolution
+	 * process is running. */
 	if (uris != NULL && *uris != NULL)
 		e_shell_handle_uris (shell, uris);
 	else
 		e_shell_create_shell_window (shell, requested_view);
 
-	if (unique_app_is_running (UNIQUE_APP (shell))) {
+	/* If another Evolution process is running, we're done. */
+	if (unique_app_is_running (UNIQUE_APP (shell)))
 		gtk_main_quit ();
-		return FALSE;
-	}
 
 	/* This must be done after EShell has loaded all the modules.
 	 * For example the mail module makes the global variable `session`
 	 * which is being used by several EPlugins */
-
-	if (uris == NULL && !disable_eplugin)
+	else if (uris == NULL && !disable_eplugin)
 		e_plugin_load_plugins_with_missing_symbols ();
 
 	return FALSE;
@@ -471,7 +468,7 @@ set_paths (void)
 static void
 shell_window_destroyed_cb (EShell *shell)
 {
-	if (e_shell_get_shell_windows (shell) == NULL)
+	if (e_shell_get_watched_windows (shell) == NULL)
 		gtk_main_quit ();
 }
 

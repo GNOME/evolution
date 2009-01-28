@@ -27,6 +27,7 @@
 
 #include "e-util/e-util.h"
 #include "e-util/gconf-bridge.h"
+#include "shell/e-shell.h"
 
 #include "mail/e-mail-reader.h"
 #include "mail/e-mail-reader-utils.h"
@@ -321,6 +322,8 @@ mail_browser_constructed (GObject *object)
 {
 	EMailBrowserPrivate *priv;
 	EMailReader *reader;
+	EShellModule *shell_module;
+	EShell *shell;
 	GtkAccelGroup *accel_group;
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
@@ -336,6 +339,10 @@ mail_browser_constructed (GObject *object)
 	domain = GETTEXT_PACKAGE;
 
 	e_mail_reader_init (reader);
+
+	shell_module = e_mail_reader_get_shell_module (reader);
+	shell = e_shell_module_get_shell (shell_module);
+	e_shell_watch_window (shell, GTK_WINDOW (object));
 
 	action_group = priv->action_group;
 	gtk_action_group_set_translation_domain (action_group, domain);

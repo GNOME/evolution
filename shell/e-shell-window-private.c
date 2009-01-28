@@ -340,6 +340,8 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
 
+	e_shell_watch_window (shell, GTK_WINDOW (shell_window));
+
 	/* Create the switcher actions before we set the initial
 	 * shell view, because the shell view relies on them for
 	 * default settings during construction. */
