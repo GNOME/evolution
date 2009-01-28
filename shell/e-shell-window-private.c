@@ -420,7 +420,6 @@ e_shell_window_private_dispose (EShellWindow *shell_window)
 		priv->signal_handler_ids = NULL;
 	}
 
-	DISPOSE (priv->shell);
 	DISPOSE (priv->ui_manager);
 
 	g_hash_table_remove_all (priv->loaded_views);

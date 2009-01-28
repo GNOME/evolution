@@ -44,7 +44,7 @@ struct _EShellModulePrivate {
 	GModule *module;
 	gchar *filename;
 
-	EShell *shell;
+	gpointer shell;  /* weak pointer */
 	gchar *config_dir;
 	gchar *data_dir;
 
@@ -82,7 +82,12 @@ shell_module_set_shell (EShellModule *shell_module,
                         EShell *shell)
 {
 	g_return_if_fail (shell_module->priv->shell == NULL);
-	shell_module->priv->shell = g_object_ref (shell);
+
+	shell_module->priv->shell = shell;
+
+	g_object_add_weak_pointer (
+		G_OBJECT (shell_module),
+		&shell_module->priv->shell);
 }
 
 static void
@@ -129,22 +134,6 @@ shell_module_get_property (GObject *object,
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
-
-static void
-shell_module_dispose (GObject *object)
-{
-	EShellModulePrivate *priv;
-
-	priv = E_SHELL_MODULE_GET_PRIVATE (object);
-
-	if (priv->shell != NULL) {
-		g_object_unref (priv->shell);
-		priv->shell = NULL;
-	}
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
@@ -217,7 +206,6 @@ shell_module_class_init (EShellModuleClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = shell_module_set_property;
 	object_class->get_property = shell_module_get_property;
-	object_class->dispose = shell_module_dispose;
 	object_class->finalize = shell_module_finalize;
 
 	type_module_class = G_TYPE_MODULE_CLASS (class);
@@ -420,7 +408,7 @@ e_shell_module_get_shell (EShellModule *shell_module)
 {
 	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), NULL);
 
-	return shell_module->priv->shell;
+	return E_SHELL (shell_module->priv->shell);
 }
 
 /**

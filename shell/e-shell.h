@@ -28,6 +28,7 @@
 #ifndef E_SHELL_H
 #define E_SHELL_H
 
+#include <unique/unique.h>
 #include <shell/e-shell-common.h>
 #include <shell/e-shell-module.h>
 #include <shell/e-shell-settings.h>
@@ -66,12 +67,12 @@ typedef enum _EShellLineStatus EShellLineStatus;
  * functions below.
  **/
 struct _EShell {
-	GObject parent;
+	UniqueApp parent;
 	EShellPrivate *priv;
 };
 
 struct _EShellClass {
-	GObjectClass parent_class;
+	UniqueAppClass parent_class;
 };
 
 GType		e_shell_get_type		(void);
@@ -85,9 +86,10 @@ EShellModule *	e_shell_get_module_by_name	(EShell *shell,
 EShellModule *	e_shell_get_module_by_scheme	(EShell *shell,
 						 const gchar *scheme);
 EShellSettings *e_shell_get_shell_settings	(EShell *shell);
-GtkWidget *	e_shell_create_shell_window	(EShell *shell);
-gboolean	e_shell_handle_uri		(EShell *shell,
-                                                 const gchar *uri);
+GtkWidget *	e_shell_create_shell_window	(EShell *shell,
+						 const gchar *view_name);
+guint		e_shell_handle_uris		(EShell *shell,
+                                                 const gchar **uris);
 void		e_shell_send_receive		(EShell *shell,
 						 GtkWindow *parent);
 gboolean	e_shell_get_network_available	(EShell *shell);

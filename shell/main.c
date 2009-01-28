@@ -23,6 +23,7 @@
 #include <config.h>
 
 #include <gtk/gtk.h>
+#include <gdk/gdkx.h>  /* for copied UniqueApp code */
 #include <glib/gstdio.h>
 
 #ifdef G_OS_WIN32
@@ -101,8 +102,8 @@ static gboolean disable_eplugin = FALSE;
 static gboolean disable_preview = FALSE;
 static gboolean idle_cb (gchar **uris);
 
-static char *requested_view = NULL;
-static char *evolution_debug_log = NULL;
+static gchar *requested_view = NULL;
+static gchar *evolution_debug_log = NULL;
 static gchar **remaining_args;
 
 /* Defined in <e-shell.h> */
@@ -299,72 +300,38 @@ destroy_config (GConfClient *client)
 
 #endif /* DEVELOPMENT */
 
-static void
-open_uris (gchar **uris)
-{
-	EShell *shell;
-	guint ii;
-
-	g_return_if_fail (uris != NULL);
-
-	shell = e_shell_get_default ();
-
-	for (ii = 0; uris[ii] != NULL; ii++)
-		if (!e_shell_handle_uri (shell, uris[ii]))
-			g_warning ("Invalid URI: %s", uris[ii]);
-}
-
 /* This is for doing stuff that requires the GTK+ loop to be running already.  */
 
 static gboolean
 idle_cb (gchar **uris)
 {
 	EShell *shell;
-	GtkWidget *shell_window;
-	const gchar *initial_view;
-
-	g_return_val_if_fail (uris == NULL || g_strv_length (uris) > 0, FALSE);
+	guint ii;
 
 #ifdef KILL_PROCESS_CMD
 	kill_old_dataserver ();
 #endif
 
-	if (uris != NULL) {
-		open_uris (uris);
+	shell = e_shell_get_default ();
+
+	/* These calls do the right thing when there's another
+	 * Evolution process running. */
+	if (uris != NULL && *uris != NULL)
+		e_shell_handle_uris (shell, uris);
+	else
+		e_shell_create_shell_window (shell, requested_view);
+
+	if (unique_app_is_running (UNIQUE_APP (shell))) {
+		gtk_main_quit ();
 		return FALSE;
 	}
 
-	shell = e_shell_get_default ();
-	initial_view = e_shell_get_canonical_name (shell, requested_view);
+	/* This must be done after EShell has loaded all the modules.
+	 * For example the mail module makes the global variable `session`
+	 * which is being used by several EPlugins */
 
-	if (initial_view != NULL) {
-		GConfClient *client;
-		const gchar *key;
-
-		client = gconf_client_get_default ();
-		key = "/apps/evolution/shell/view_defaults/component_id";
-		gconf_client_set_string (client, key, initial_view, NULL);
-		g_object_unref (client);
-	}
-
-	shell_window = e_shell_create_shell_window (shell);
-
-#if 0  /* MBARNES */
-	if (shell == NULL) {
-		/*there is another instance but because we don't open any windows
-		we must notify the startup was complete manually*/
-		gdk_notify_startup_complete ();
-		bonobo_main_quit ();
-	}
-#endif
-
-	/* This must be done after Bonobo has created all the components. For 
-	 * example the mail component makes the global variable `session` which
-	 * is being used by several EPlugins */
-
-	if (!disable_eplugin) {
+	if (uris == NULL && !disable_eplugin)
 		e_plugin_load_plugins_with_missing_symbols ();
-	}
 
 	return FALSE;
 }
@@ -530,6 +497,84 @@ master_client_die_cb (GnomeClient *client,
 	e_shell_do_quit (shell);
 }
 
+/* taken from nautilus */
+static guint32
+slowly_and_stupidly_obtain_timestamp (GdkDisplay *display)
+{
+	Display *xdisplay;
+	Window xwindow;
+	XEvent event;
+	XSetWindowAttributes attrs;
+	Atom atom_name;
+	Atom atom_type;
+	char *name;
+
+	xdisplay = GDK_DISPLAY_XDISPLAY (display);
+
+	attrs.override_redirect = True;
+	attrs.event_mask = PropertyChangeMask | StructureNotifyMask;
+
+	xwindow = XCreateWindow (
+		xdisplay, RootWindow (xdisplay, 0),
+		-100, -100, 1, 1,
+		0,
+		CopyFromParent,
+		CopyFromParent,
+		CopyFromParent,
+		CWOverrideRedirect | CWEventMask,
+		&attrs);
+
+	atom_name = XInternAtom (xdisplay, "WM_NAME", TRUE);
+	g_assert (atom_name != None);
+
+	atom_type = XInternAtom (xdisplay, "STRING", TRUE);
+	g_assert (atom_type != None);
+
+	name = "Fake Window";
+	XChangeProperty (
+		xdisplay, xwindow, atom_name, atom_type,
+		8, PropModeReplace, (unsigned char *) name,
+		strlen (name));
+
+	XWindowEvent (
+		xdisplay, xwindow, PropertyChangeMask, &event);
+
+	XDestroyWindow (xdisplay, xwindow);
+
+	return event.xproperty.time;
+}
+
+static gchar *
+pick_startup_id (void)
+{
+	GdkDisplay *display;
+	const gchar *startup_id;
+	gchar *id;
+
+	/* XXX This copies logic from unique_app_new(), which we can't use
+	 *     because we're subclassing UniqueApp.  I already sent ebassi
+	 *     a patch to fix this. */
+
+	display = gdk_display_get_default ();
+
+	/* Try and get the startup notification ID from GDK, the
+	 * environment or, if everything else failed, fake one. */
+	startup_id = gdk_x11_display_get_startup_notification_id (display);
+
+	if (!startup_id || startup_id[0] == '\0')
+		startup_id = g_getenv ("DESKTOP_STARTUP_ID");
+
+	if (!startup_id || startup_id[0] == '\0') {
+		guint32 timestamp;
+
+		timestamp = slowly_and_stupidly_obtain_timestamp (display);
+		id = g_strdup_printf ("_TIME%lu", (gulong) timestamp);
+	} else
+		id = g_strdup (startup_id);
+
+	return id;
+}
+
 static void
 create_default_shell (void)
 {
@@ -537,6 +582,7 @@ create_default_shell (void)
 	GConfClient *conf_client;
 	GnomeClient *master_client;
 	gboolean online_mode = TRUE;
+	gchar *startup_id;
 	GError *error = NULL;
 
 	conf_client = gconf_client_get_default ();
@@ -560,7 +606,16 @@ create_default_shell (void)
 		}
 	}
 
-	shell = g_object_new (E_TYPE_SHELL, "online-mode", online_mode, NULL);
+	startup_id = pick_startup_id ();
+
+	shell = g_object_new (
+		E_TYPE_SHELL,
+		"name", "org.gnome.evolution",
+		"online-mode", online_mode,
+		"startup-id", startup_id,
+		NULL);
+
+	g_free (startup_id);
 
 	g_signal_connect (
 		shell, "window-destroyed",
@@ -718,6 +773,11 @@ main (int argc, char **argv)
 
 	gtk_main ();
 
+	/* Emit a warning if the shell is not finalized. */
+	g_object_unref (default_shell);
+	if (E_IS_SHELL (default_shell))
+		g_warning ("Shell not finalized on exit");
+
 	gtk_accel_map_save (e_get_accels_filename ());
 
 	e_icon_factory_shutdown ();
@@ -727,9 +787,6 @@ main (int argc, char **argv)
 #ifdef G_OS_WIN32
 	link_shutdown ();
 #endif
-
-	/* Indicates a clean shut down to the next session. */
-	e_file_lock_destroy ();
 
 	return 0;
 }

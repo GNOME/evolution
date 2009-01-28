@@ -52,7 +52,6 @@
 
 static void em_mailer_prefs_class_init (EMMailerPrefsClass *class);
 static void em_mailer_prefs_init       (EMMailerPrefs *dialog);
-static void em_mailer_prefs_dispose    (GObject *object);
 static void em_mailer_prefs_finalize   (GObject *object);
 
 static GtkVBoxClass *parent_class = NULL;
@@ -129,7 +128,6 @@ em_mailer_prefs_class_init (EMMailerPrefsClass *klass)
 	object_class = (GObjectClass *) klass;
 	parent_class = g_type_class_ref (gtk_vbox_get_type ());
 
-	object_class->dispose = em_mailer_prefs_dispose;
 	object_class->finalize = em_mailer_prefs_finalize;
 }
 
@@ -137,20 +135,6 @@ static void
 em_mailer_prefs_init (EMMailerPrefs *preferences)
 {
 	preferences->gconf = mail_config_get_gconf_client ();
-}
-
-static void
-em_mailer_prefs_dispose (GObject *object)
-{
-	EMMailerPrefs *prefs = (EMMailerPrefs *) object;
-
-	if (prefs->shell != NULL) {
-		g_object_unref (prefs->shell);
-		prefs->shell = NULL;
-	}
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 static void
@@ -1107,7 +1091,6 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	GSList *l;
 	char *gladefile;
 
-	prefs->shell = g_object_ref (shell);
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,

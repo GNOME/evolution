@@ -160,7 +160,7 @@ activity_proxy_dispose (GObject *object)
 
 	if (priv->button != NULL) {
 		g_object_unref (priv->button);
-		priv->image = NULL;
+		priv->button = NULL;
 	}
 
 	if (priv->image != NULL) {

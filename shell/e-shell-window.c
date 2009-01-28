@@ -153,7 +153,12 @@ shell_window_set_shell (EShellWindow *shell_window,
 	gulong handler_id;
 
 	g_return_if_fail (shell_window->priv->shell == NULL);
-	shell_window->priv->shell = g_object_ref (shell);
+
+	shell_window->priv->shell = shell;
+
+	g_object_add_weak_pointer (
+		G_OBJECT (shell_window),
+		&shell_window->priv->shell);
 
 	/* Need to disconnect these when the window is closing. */
 
@@ -435,7 +440,7 @@ e_shell_window_get_shell (EShellWindow *shell_window)
 {
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
 
-	return shell_window->priv->shell;
+	return E_SHELL (shell_window->priv->shell);
 }
 
 /**

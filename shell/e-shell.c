@@ -316,6 +316,37 @@ shell_query_module (EShell *shell,
 			modules_by_scheme, string, shell_module);
 }
 
+static void
+shell_load_modules (EShell *shell)
+{
+	GDir *dir;
+	const gchar *dirname;
+	const gchar *basename;
+	GError *error = NULL;
+
+	dirname = EVOLUTION_MODULEDIR;
+
+	dir = g_dir_open (dirname, 0, &error);
+	if (dir == NULL) {
+		g_critical ("%s", error->message);
+		g_error_free (error);
+		return;
+	}
+
+	while ((basename = g_dir_read_name (dir)) != NULL) {
+		gchar *filename;
+
+		if (!g_str_has_suffix (basename, "." G_MODULE_SUFFIX))
+			continue;
+
+		filename = g_build_filename (dirname, basename, NULL);
+		shell_query_module (shell, filename);
+		g_free (filename);
+	}
+
+	g_dir_close (dir);
+}
+
 static gboolean
 shell_shutdown_timeout (EShell *shell)
 {
@@ -448,6 +479,10 @@ shell_finalize (GObject *object)
 	g_hash_table_destroy (priv->modules_by_name);
 	g_hash_table_destroy (priv->modules_by_scheme);
 
+	/* Indicates a clean shut down to the next session. */
+	if (!unique_app_is_running (UNIQUE_APP (object)))
+		e_file_lock_destroy ();
+
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -455,42 +490,94 @@ shell_finalize (GObject *object)
 static void
 shell_constructed (GObject *object)
 {
-	GDir *dir;
-	EShell *shell;
-	const gchar *dirname;
-	const gchar *basename;
-	GError *error = NULL;
-
-	shell = E_SHELL (object);
-	dirname = EVOLUTION_MODULEDIR;
-
-	dir = g_dir_open (dirname, 0, &error);
-	if (dir == NULL) {
-		g_critical ("%s", error->message);
-		g_error_free (error);
+	/* UniqueApp will have by this point determined whether we're
+	 * the only Evolution process running.  If so, proceed normally.
+	 * Otherwise we just issue commands to the other process. */
+	if (unique_app_is_running (UNIQUE_APP (object)))
 		return;
+
+	e_file_lock_create ();
+
+	shell_load_modules (E_SHELL (object));
+	e_shell_migrate_attempt (E_SHELL (object));
+}
+
+static gboolean
+shell_message_handle_new (EShell *shell,
+                          UniqueMessageData *data)
+{
+	gchar *view_name;
+
+	view_name = unique_message_data_get_text (data);
+	e_shell_create_shell_window (shell, view_name);
+	g_free (view_name);
+
+	return TRUE;
+}
+
+static gboolean
+shell_message_handle_open (EShell *shell,
+                           UniqueMessageData *data)
+{
+	gchar **uris;
+
+	uris = unique_message_data_get_uris (data);
+	e_shell_handle_uris (shell, uris);
+	g_strfreev (uris);
+
+	return TRUE;
+}
+
+static gboolean
+shell_message_handle_close (EShell *shell,
+                            UniqueMessageData *data)
+{
+	e_shell_quit (shell);
+
+	return TRUE;
+}
+
+static UniqueResponse
+shell_message_received (UniqueApp *app,
+                        gint command,
+                        UniqueMessageData *data,
+                        guint time_)
+{
+	EShell *shell = E_SHELL (app);
+
+	switch (command) {
+		case UNIQUE_ACTIVATE:
+			break;  /* use the default behavior */
+
+		case UNIQUE_NEW:
+			if (shell_message_handle_new (shell, data))
+				return UNIQUE_RESPONSE_OK;
+			break;
+
+		case UNIQUE_OPEN:
+			if (shell_message_handle_open (shell, data))
+				return UNIQUE_RESPONSE_OK;
+			break;
+
+		case UNIQUE_CLOSE:
+			if (shell_message_handle_close (shell, data))
+				return UNIQUE_RESPONSE_OK;
+			break;
+
+		default:
+			break;
 	}
 
-	while ((basename = g_dir_read_name (dir)) != NULL) {
-		gchar *filename;
-
-		if (!g_str_has_suffix (basename, "." G_MODULE_SUFFIX))
-			continue;
-
-		filename = g_build_filename (dirname, basename, NULL);
-		shell_query_module (shell, filename);
-		g_free (filename);
-	}
-
-	g_dir_close (dir);
-
-	e_shell_migrate_attempt (shell);
+	/* Chain up to parent's message_received() method. */
+	return UNIQUE_APP_CLASS (parent_class)->
+		message_received (app, command, data, time_);
 }
 
 static void
 shell_class_init (EShellClass *class)
 {
 	GObjectClass *object_class;
+	UniqueAppClass *unique_app_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EShellPrivate));
@@ -501,6 +588,9 @@ shell_class_init (EShellClass *class)
 	object_class->dispose = shell_dispose;
 	object_class->finalize = shell_finalize;
 	object_class->constructed = shell_constructed;
+
+	unique_app_class = UNIQUE_APP_CLASS (class);
+	unique_app_class->message_received = shell_message_received;
 
 	/**
 	 * EShell:network-available
@@ -748,8 +838,6 @@ shell_init (EShell *shell)
 	e_shell_dbus_initialize (shell);
 #endif
 
-	e_file_lock_create ();
-
 	shell_parse_debug_string (shell);
 
 	g_signal_connect (
@@ -797,7 +885,7 @@ e_shell_get_type (void)
 		};
 
 		type = g_type_register_static (
-			G_TYPE_OBJECT, "EShell", &type_info, 0);
+			UNIQUE_TYPE_APP, "EShell", &type_info, 0);
 	}
 
 	return type;
@@ -863,8 +951,6 @@ e_shell_get_shell_windows (EShell *shell)
  *
  * Returns the canonical name for the #EShellModule whose name or alias
  * is @name.
- *
- * XXX Not sure this function is worth keeping around.
  *
  * Returns: the canonical #EShellModule name
  **/
@@ -954,6 +1040,7 @@ e_shell_get_shell_settings (EShell *shell)
 /**
  * e_shell_create_shell_window:
  * @shell: an #EShell
+ * @view_name: name of the initial shell view, or %NULL
  *
  * Creates a new #EShellWindow and emits the #EShell::window-created
  * signal.  Use this function instead of e_shell_window_new() so that
@@ -962,14 +1049,43 @@ e_shell_get_shell_settings (EShell *shell)
  * Returns: a new #EShellWindow
  **/
 GtkWidget *
-e_shell_create_shell_window (EShell *shell)
+e_shell_create_shell_window (EShell *shell,
+                             const gchar *view_name)
 {
 	GList *active_windows;
 	GtkWidget *shell_window;
+	UniqueMessageData *data;
+	UniqueApp *app;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
+	app = UNIQUE_APP (shell);
+
+	if (unique_app_is_running (app))
+		goto unique;
+
+	view_name = e_shell_get_canonical_name (shell, view_name);
+
+	/* EShellWindow initializes its active view from a GConf key,
+	 * so set the key ahead of time to control the intial view. */
+	if (view_name != NULL) {
+		GConfClient *client;
+		const gchar *key;
+		GError *error = NULL;
+
+		client = gconf_client_get_default ();
+		key = "/apps/evolution/shell/view_defaults/component_id";
+		gconf_client_set_string (client, key, view_name, &error);
+		g_object_unref (client);
+
+		if (error != NULL) {
+			g_warning ("%s", error->message);
+			g_error_free (error);
+		}
+	}
+
 	shell_window = e_shell_window_new (shell, shell->priv->safe_mode);
+	unique_app_watch_window (app, GTK_WINDOW (shell_window));
 
 	active_windows = shell->priv->active_windows;
 	active_windows = g_list_prepend (active_windows, shell_window);
@@ -992,29 +1108,70 @@ e_shell_create_shell_window (EShell *shell)
 	gtk_widget_show (shell_window);
 
 	return shell_window;
+
+unique:  /* Send a message to the other Evolution process. */
+
+	/* XXX Do something with UniqueResponse? */
+
+	if (view_name != NULL) {
+		data = unique_message_data_new ();
+		unique_message_data_set_text (data, view_name, -1);
+		unique_app_send_message (app, UNIQUE_NEW, data);
+		unique_message_data_free (data);
+	} else
+		unique_app_send_message (app, UNIQUE_ACTIVATE, NULL);
+
+	return NULL;
 }
 
 /**
- * e_shell_handle_uri:
+ * e_shell_handle_uris:
  * @shell: an #EShell
- * @uri: the URI to be handled
+ * @uris: %NULL-terminated list of URIs
  *
- * Emits the #EShell::handle-uri signal.
+ * Emits the #EShell::handle-uri signal for each URI.
  *
- * Returns: %TRUE if the URI was handled, %FALSE otherwise
+ * Returns: the number of URIs successfully handled
  **/
-gboolean
-e_shell_handle_uri (EShell *shell,
-                    const gchar *uri)
+guint
+e_shell_handle_uris (EShell *shell,
+                     const gchar **uris)
 {
-	gboolean handled;
+	UniqueApp *app;
+	UniqueMessageData *data;
+	guint n_handled = 0;
+	gint ii;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
-	g_return_val_if_fail (uri != NULL, FALSE);
+	g_return_val_if_fail (uris != NULL, FALSE);
 
-	g_signal_emit (shell, signals[HANDLE_URI], 0, uri, &handled);
+	app = UNIQUE_APP (shell);
 
-	return handled;
+	if (unique_app_is_running (app))
+		goto unique;
+
+	for (ii = 0; uris[ii] != NULL; ii++) {
+		gboolean handled;
+
+		g_signal_emit (
+			shell, signals[HANDLE_URI],
+			0, uris[ii], &handled);
+		n_handled += handled ? 1 : 0;
+	}
+
+	return n_handled;
+
+unique:  /* Send a message to the other Evolution process. */
+
+	/* XXX Do something with UniqueResponse?
+	 * XXX set_uris() should take a "const" URI list. */
+
+	data = unique_message_data_new ();
+	unique_message_data_set_uris (data, (gchar **) uris);
+	unique_app_send_message (app, UNIQUE_OPEN, data);
+	unique_message_data_free (data);
+
+	return 0;
 }
 
 /**

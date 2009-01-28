@@ -853,9 +853,12 @@ action_new_window_cb (GtkAction *action,
                       EShellWindow *shell_window)
 {
 	EShell *shell;
+	const gchar *view_name;
 
 	shell = e_shell_window_get_shell (shell_window);
-	e_shell_create_shell_window (shell);
+	view_name = e_shell_window_get_active_view (shell_window);
+
+	e_shell_create_shell_window (shell, view_name);
 }
 
 /**

@@ -65,7 +65,7 @@ G_BEGIN_DECLS
 
 struct _EShellWindowPrivate {
 
-	EShell *shell;
+	gpointer shell;  /* weak pointer */
 
 	/*** UI Management ***/
 

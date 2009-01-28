@@ -62,7 +62,6 @@ struct _EMMailerPrefsHeader {
 struct _EMMailerPrefs {
 	GtkVBox parent_object;
 
-	EShell *shell;
 	GladeXML *gui;
 	GConfClient *gconf;
 
