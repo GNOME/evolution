@@ -888,6 +888,7 @@ emfv_popup_source(EPopup *ep, EPopupItem *pitem, void *data)
 
 	emmb = (EMMessageBrowser *)em_message_browser_window_new();
 	em_format_set_session((EMFormat *)((EMFolderView *)emmb)->preview, ((EMFormat *)emfv->preview)->session);
+	message_list_ensure_message (((EMFolderView *)emmb)->list, uids->pdata[0]);	
 	em_folder_view_set_folder((EMFolderView *)emmb, emfv->folder, emfv->folder_uri);
 	em_format_set_mode((EMFormat *)((EMFolderView *)emmb)->preview, EM_FORMAT_SOURCE);
 	em_folder_view_set_message((EMFolderView *)emmb, uids->pdata[0], FALSE);
