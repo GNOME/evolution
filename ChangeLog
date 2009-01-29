@@ -1,3 +1,7 @@
+2009-01-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* tools/killev.c: Added another pattern to killev.
+
 2009-01-19  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* NEWS: Evolution 2.25.5 release
