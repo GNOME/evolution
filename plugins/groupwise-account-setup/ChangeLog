@@ -1,3 +1,10 @@
+2009-01-29  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #470474 (bugzilla.novell.com)
+
+	* groupwise-account-setup.c (set_esource_props): a corruption. Cleanup
+	unused strings.
+
 2008-11-11  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #440646 (bugzilla.novell.com)
