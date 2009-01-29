@@ -28,4 +28,6 @@ void       ensure_google_contacts_source_group (void);
 
 void       remove_google_contacts_source_group (void);
 
+ESourceGroup *manage_google_group (ESourceList *slist, gboolean only_return);
+
 #endif

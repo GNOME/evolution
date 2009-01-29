@@ -1,3 +1,12 @@
+2009-01-29  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #539467
+
+	* webdav-contacts-source.c: (find_webdav_group),
+	(ensure_webdav_contacts_source_group),
+	(remove_webdav_contacts_source_group):
+	Find group by its base uri, not by a localized name.
+
 2008-08-12  Bharath Acharya  <abharath@novell.com>
 
 	* Makefile.am:	Added necessary libraries to link to. Build break while 

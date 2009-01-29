@@ -1,3 +1,14 @@
+2009-01-29  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #539467
+
+	* google-contacts-source.h: (manage_google_group):
+	* google-contacts-source.c: (manage_google_group),
+	(ensure_google_contacts_source_group),
+	(remove_google_contacts_source_group):
+	* google-source.c: (ensure_google_source_group):
+	Find group by its base uri, not by a localized name.
+
 2008-11-07  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fix for bug #559518
