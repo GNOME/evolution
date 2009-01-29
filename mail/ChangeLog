@@ -1,3 +1,9 @@
+2009-01-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #567654
+
+	* message-list.c: (regen_list_exec): Don't free the reffable string.
+
 2009-01-27  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #561628

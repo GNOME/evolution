@@ -4061,7 +4061,7 @@ regen_list_exec (struct _regen_list_msg *m)
 				   on the flag whether we can view deleted messages or not. */
 
 				if (!was_deleted || (was_deleted && !m->hidedel))
-					g_ptr_array_add (uids, g_strdup (looking_for));
+					g_ptr_array_add (uids, camel_pstring_strdup (looking_for));
 			}
 		}
 	}
