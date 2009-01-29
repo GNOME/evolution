@@ -1,8 +1,8 @@
 # Finnish messages for evolution
-# Copyright (C) 2000-2008 Free Software Foundation, Inc.
+# Copyright (C) 2000-2009 Free Software Foundation, Inc.
 # Jarkko Ranta <jjranta@cc.joensuu.fi> 2000-2001,
 # Sami Pesonen <sampeson@iki.fi> 2001-2003,
-# Ilkka Tuohela <hile@iki.fi> 2003-2008.
+# Ilkka Tuohela <hile@iki.fi> 2003-2009.
 # Timo Jyrinki <timo.jyrinki@iki.fi> 2008.
 #
 # Huomautus: PIM ei ole suomennettu, evolution on suomeksi
@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-28 17:15+0300\n"
-"PO-Revision-Date: 2008-12-15 14:36+0200\n"
-"Last-Translator: Timo Jyrinki <timo.jyrinki@iki.fi>\n"
+"POT-Creation-Date: 2009-01-29 18:39+0300\n"
+"PO-Revision-Date: 2009-01-28 18:36+0300\n"
+"Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -897,7 +897,7 @@ msgstr "_Nimeä uudestaan..."
 #: ../calendar/gui/e-calendar-table.c:1609
 #: ../calendar/gui/e-calendar-view.c:1797 ../calendar/gui/e-memo-table.c:939
 #: ../calendar/gui/memos-component.c:513 ../calendar/gui/tasks-component.c:504
-#: ../mail/em-folder-tree.c:2129 ../mail/em-folder-view.c:1337
+#: ../mail/em-folder-tree.c:2129 ../mail/em-folder-view.c:1342
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:42
 #: ../ui/evolution-mail-list.xml.h:35 ../ui/evolution-memos.xml.h:16
 #: ../ui/evolution-tasks.xml.h:24
@@ -934,7 +934,7 @@ msgstr "Syötä salasana palvelulle %s (käyttäjä %s)"
 
 #: ../addressbook/gui/component/addressbook.c:222
 #: ../calendar/common/authentication.c:51
-#: ../plugins/google-account-setup/google-source.c:441
+#: ../plugins/google-account-setup/google-source.c:422
 #: ../plugins/publish-calendar/publish-calendar.c:191
 #: ../smime/gui/component.c:49
 msgid "Enter password"
@@ -1313,8 +1313,8 @@ msgstr "kortteja"
 #: ../plugins/caldav/caldav-source.c:430
 #: ../plugins/calendar-http/calendar-http.c:279
 #: ../plugins/calendar-weather/calendar-weather.c:524
-#: ../plugins/google-account-setup/google-source.c:671
-#: ../plugins/google-account-setup/google-contacts-source.c:338
+#: ../plugins/google-account-setup/google-source.c:652
+#: ../plugins/google-account-setup/google-contacts-source.c:366
 msgid "minutes"
 msgstr "minuutti"
 
@@ -3085,7 +3085,7 @@ msgstr "_Leikkaa"
 #: ../calendar/gui/e-calendar-table.c:1595
 #: ../calendar/gui/e-calendar-view.c:1782 ../calendar/gui/e-memo-table.c:930
 #: ../composer/e-msg-composer.c:2051 ../mail/em-folder-tree.c:1005
-#: ../mail/em-folder-view.c:1322 ../mail/message-list.c:2104
+#: ../mail/em-folder-view.c:1327 ../mail/message-list.c:2104
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:40
 #: ../ui/evolution-mail-message.xml.h:103 ../ui/evolution-memos.xml.h:15
 #: ../ui/evolution-tasks.xml.h:23
@@ -3422,7 +3422,7 @@ msgid "_Open Link in Browser"
 msgstr "_Avaa linkki selaimessa"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:170
-#: ../mail/em-folder-view.c:2752
+#: ../mail/em-folder-view.c:2757
 msgid "_Copy Link Location"
 msgstr "_Kopioi linkin sijainti"
 
@@ -4706,8 +4706,9 @@ msgstr "Tehtävät"
 msgid "_Calendars"
 msgstr "_Kalenterit"
 
+#. Tasks
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:15
-#: ../views/tasks/galview.xml.h:3
+#: ../plugins/pst-import/pst-importer.c:331 ../views/tasks/galview.xml.h:3
 msgid "_Tasks"
 msgstr "_Tehtävät"
 
@@ -4728,8 +4729,8 @@ msgstr[1] "minuuttia"
 #: ../plugins/caldav/caldav-source.c:431
 #: ../plugins/calendar-http/calendar-http.c:280
 #: ../plugins/calendar-weather/calendar-weather.c:525
-#: ../plugins/google-account-setup/google-source.c:672
-#: ../plugins/google-account-setup/google-contacts-source.c:339
+#: ../plugins/google-account-setup/google-source.c:653
+#: ../plugins/google-account-setup/google-contacts-source.c:367
 msgid "hours"
 msgid_plural "hours"
 msgstr[0] "tunti"
@@ -5440,8 +5441,8 @@ msgstr "Poista vanhemmat tapahtumat kuin"
 #: ../plugins/caldav/caldav-source.c:432
 #: ../plugins/calendar-http/calendar-http.c:281
 #: ../plugins/calendar-weather/calendar-weather.c:526
-#: ../plugins/google-account-setup/google-source.c:673
-#: ../plugins/google-account-setup/google-contacts-source.c:340
+#: ../plugins/google-account-setup/google-source.c:654
+#: ../plugins/google-account-setup/google-contacts-source.c:368
 #: ../widgets/misc/e-send-options.glade.h:39
 msgid "days"
 msgstr "päivä"
@@ -5992,7 +5993,7 @@ msgstr "Lauantai"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "Se_cond zone:"
-msgstr ""
+msgstr "_Toinen aikavyöhyke:"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "Select the calendars for alarm notification"
@@ -6272,7 +6273,7 @@ msgstr[1] "%d liitettyä viestiä"
 
 #: ../calendar/gui/dialogs/comp-editor.c:488 ../composer/e-msg-composer.c:2052
 #: ../mail/em-folder-tree.c:1006 ../mail/em-folder-utils.c:364
-#: ../mail/em-folder-view.c:1183 ../mail/message-list.c:2105
+#: ../mail/em-folder-view.c:1188 ../mail/message-list.c:2105
 msgid "_Move"
 msgstr "_Siirrä"
 
@@ -7315,7 +7316,7 @@ msgid "%s for an unknown trigger type"
 msgstr "%s tuntemattomalle liipasintyypille"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:69
-#: ../calendar/gui/e-cal-component-preview.c:67 ../mail/em-folder-view.c:3268
+#: ../calendar/gui/e-cal-component-preview.c:67 ../mail/em-folder-view.c:3273
 #, c-format
 msgid "Click to open %s"
 msgstr "Napsauta avataksesi %s"
@@ -7452,7 +7453,7 @@ msgstr "nimetön_kuva.%s"
 
 #: ../calendar/gui/e-cal-popup.c:286 ../calendar/gui/e-calendar-table.c:1589
 #: ../calendar/gui/e-calendar-view.c:1776 ../calendar/gui/e-memo-table.c:924
-#: ../mail/em-folder-view.c:1333 ../mail/em-popup.c:559 ../mail/em-popup.c:570
+#: ../mail/em-folder-view.c:1338 ../mail/em-popup.c:559 ../mail/em-popup.c:570
 msgid "_Save As..."
 msgstr "Tallenna _nimellä..."
 
@@ -7719,7 +7720,7 @@ msgstr "_Välitä iCalendar-muodossa..."
 msgid "_Reply"
 msgstr "_Vastaa"
 
-#: ../calendar/gui/e-calendar-view.c:1793 ../mail/em-folder-view.c:1327
+#: ../calendar/gui/e-calendar-view.c:1793 ../mail/em-folder-view.c:1332
 #: ../mail/em-popup.c:564 ../mail/em-popup.c:575
 #: ../ui/evolution-mail-message.xml.h:82
 msgid "Reply to _All"
@@ -9118,7 +9119,7 @@ msgstr ""
 "\n"
 "Valmis poistaa nämä tehtävät?"
 
-#: ../calendar/gui/tasks-control.c:445 ../mail/em-folder-view.c:1123
+#: ../calendar/gui/tasks-control.c:445 ../mail/em-folder-view.c:1128
 msgid "Do not ask me again."
 msgstr "Älä kysy enää uudestaan"
 
@@ -10767,7 +10768,7 @@ msgstr "_Sulje"
 msgid "Close the current file"
 msgstr "Sulje nykyinen tiedosto"
 
-#: ../composer/e-composer-actions.c:483 ../mail/em-folder-view.c:1334
+#: ../composer/e-composer-actions.c:483 ../mail/em-folder-view.c:1339
 #: ../ui/evolution-addressbook.xml.h:58 ../ui/evolution-calendar.xml.h:47
 #: ../ui/evolution-mail-message.xml.h:123 ../ui/evolution-memos.xml.h:20
 #: ../ui/evolution-tasks.xml.h:29
@@ -11314,7 +11315,7 @@ msgstr "käytössä"
 
 #: ../e-util/e-plugin.c:309
 msgid "Whether the plugin is enabled"
-msgstr "Onko liitännäinen käytössä"
+msgstr "Onko lisäosa käytössä"
 
 #: ../e-util/e-print.c:160
 msgid "An error occurred while printing"
@@ -11712,8 +11713,8 @@ msgstr "määrittelemäsi aika"
 #: ../filter/filter.glade.h:22 ../plugins/caldav/caldav-source.c:433
 #: ../plugins/calendar-http/calendar-http.c:282
 #: ../plugins/calendar-weather/calendar-weather.c:527
-#: ../plugins/google-account-setup/google-source.c:674
-#: ../plugins/google-account-setup/google-contacts-source.c:341
+#: ../plugins/google-account-setup/google-source.c:655
+#: ../plugins/google-account-setup/google-contacts-source.c:369
 msgid "weeks"
 msgstr "viikkoa"
 
@@ -11785,7 +11786,7 @@ msgstr "Evolutionin sähköpostin asetukset"
 msgid "Evolution Network configuration control"
 msgstr "Evolutionin verkkoyhteyden asetukset"
 
-#: ../mail/GNOME_Evolution_Mail.server.in.in.h:13 ../mail/em-folder-view.c:602
+#: ../mail/GNOME_Evolution_Mail.server.in.in.h:13 ../mail/em-folder-view.c:604
 #: ../mail/importers/elm-importer.c:327 ../mail/importers/pine-importer.c:378
 #: ../mail/mail-component.c:597 ../mail/mail-component.c:598
 #: ../mail/mail-component.c:767
@@ -11808,6 +11809,7 @@ msgid "Network Preferences"
 msgstr "Verkkoasetukset"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:17
+#: ../plugins/pst-import/pst-importer.c:300
 msgid "_Mail"
 msgstr "_Sähköposti"
 
@@ -12451,13 +12453,14 @@ msgstr ""
 msgid "Copying `%s' to `%s'"
 msgstr "Kopioidaan %s paikkaan %s"
 
-#: ../mail/em-folder-utils.c:364 ../mail/em-folder-view.c:1183
-#: ../mail/em-folder-view.c:1198
+#: ../mail/em-folder-utils.c:364 ../mail/em-folder-view.c:1188
+#: ../mail/em-folder-view.c:1203
 #: ../mail/importers/evolution-mbox-importer.c:82
+#: ../plugins/pst-import/pst-importer.c:305
 msgid "Select folder"
 msgstr "Valitse kansio"
 
-#: ../mail/em-folder-utils.c:364 ../mail/em-folder-view.c:1198
+#: ../mail/em-folder-utils.c:364 ../mail/em-folder-view.c:1203
 msgid "C_opy"
 msgstr "_Kopioi"
 
@@ -12479,173 +12482,173 @@ msgstr "Luo uusi kansio"
 msgid "Specify where to create the folder:"
 msgstr "Määrittele mihin kansio luodaan:"
 
-#: ../mail/em-folder-view.c:1087 ../mail/mail.error.xml.h:70
+#: ../mail/em-folder-view.c:1091 ../mail/mail.error.xml.h:70
 msgid "Mail Deletion Failed"
 msgstr "Sähköpostin poisto epäonnistui"
 
-#: ../mail/em-folder-view.c:1088 ../mail/mail.error.xml.h:126
+#: ../mail/em-folder-view.c:1092 ../mail/mail.error.xml.h:126
 msgid "You do not have sufficient permissions to delete this mail."
 msgstr "Oikeutesi eivät riitä tämän sähköpostin poistamiseen."
 
-#: ../mail/em-folder-view.c:1326 ../ui/evolution-mail-message.xml.h:127
+#: ../mail/em-folder-view.c:1331 ../ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
 msgstr "_Vastaa lähettäjälle"
 
-#: ../mail/em-folder-view.c:1328 ../mail/em-popup.c:566 ../mail/em-popup.c:577
+#: ../mail/em-folder-view.c:1333 ../mail/em-popup.c:566 ../mail/em-popup.c:577
 #: ../ui/evolution-mail-message.xml.h:109
 msgid "_Forward"
 msgstr "_Välitä"
 
 #. EM_POPUP_EDIT was used here. This is changed to EM_POPUP_SELECT_ONE as Edit-as-new-messaeg need not be restricted to Sent-Items folder alone
-#: ../mail/em-folder-view.c:1332 ../ui/evolution-mail-message.xml.h:106
+#: ../mail/em-folder-view.c:1337 ../ui/evolution-mail-message.xml.h:106
 msgid "_Edit as New Message..."
 msgstr "_Muokkaa uutena viestinä..."
 
-#: ../mail/em-folder-view.c:1338
+#: ../mail/em-folder-view.c:1343
 msgid "U_ndelete"
 msgstr "_Palauta"
 
-#: ../mail/em-folder-view.c:1339
+#: ../mail/em-folder-view.c:1344
 msgid "_Move to Folder..."
 msgstr "_Siirrä kansioon..."
 
-#: ../mail/em-folder-view.c:1340
+#: ../mail/em-folder-view.c:1345
 msgid "_Copy to Folder..."
 msgstr "_Kopioi kansioon..."
 
-#: ../mail/em-folder-view.c:1343
+#: ../mail/em-folder-view.c:1348
 msgid "Mar_k as Read"
 msgstr "Merkitse _luetuksi"
 
-#: ../mail/em-folder-view.c:1344
+#: ../mail/em-folder-view.c:1349
 msgid "Mark as _Unread"
 msgstr "Merkitse _lukemattomaksi"
 
-#: ../mail/em-folder-view.c:1345
+#: ../mail/em-folder-view.c:1350
 msgid "Mark as _Important"
 msgstr "Merkitse _tärkeäksi"
 
-#: ../mail/em-folder-view.c:1346
+#: ../mail/em-folder-view.c:1351
 msgid "Mark as Un_important"
 msgstr "Merkitse yhden_tekeväksi"
 
-#: ../mail/em-folder-view.c:1347
+#: ../mail/em-folder-view.c:1352
 msgid "Mark as _Junk"
 msgstr "Luokittele _roskapostiksi"
 
-#: ../mail/em-folder-view.c:1348
+#: ../mail/em-folder-view.c:1353
 msgid "Mark as _Not Junk"
 msgstr "Luokittele _ei-roskapostiksi"
 
-#: ../mail/em-folder-view.c:1349
+#: ../mail/em-folder-view.c:1354
 msgid "Mark for Follo_w Up..."
 msgstr "_Merkitse _edelleen lähetettäväksi..."
 
-#: ../mail/em-folder-view.c:1351
+#: ../mail/em-folder-view.c:1356
 msgid "_Label"
 msgstr "_Merkintä"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
-#: ../mail/em-folder-view.c:1352 ../widgets/misc/e-dateedit.c:478
+#: ../mail/em-folder-view.c:1357 ../widgets/misc/e-dateedit.c:478
 msgid "_None"
 msgstr "_Ei mitään"
 
-#: ../mail/em-folder-view.c:1355
+#: ../mail/em-folder-view.c:1360
 msgid "_New Label"
 msgstr "_uusi merkintä"
 
-#: ../mail/em-folder-view.c:1359
+#: ../mail/em-folder-view.c:1364
 msgid "Fla_g Completed"
 msgstr "_Merkitse valmiiksi"
 
-#: ../mail/em-folder-view.c:1360
+#: ../mail/em-folder-view.c:1365
 msgid "Cl_ear Flag"
 msgstr "_Poista merkki"
 
-#: ../mail/em-folder-view.c:1363
+#: ../mail/em-folder-view.c:1368
 msgid "Crea_te Rule From Message"
 msgstr "_Luo viestistä sääntö"
 
 #. Translators: The following strings are used while creating a new search folder, to specify what parameter the search folder would be based on.
-#: ../mail/em-folder-view.c:1365
+#: ../mail/em-folder-view.c:1370
 msgid "Search Folder based on _Subject"
 msgstr "Hakunäkymä _aiheen perusteella"
 
-#: ../mail/em-folder-view.c:1366
+#: ../mail/em-folder-view.c:1371
 msgid "Search Folder based on Se_nder"
 msgstr "Hakunäkymä _lähettäjän perusteella"
 
-#: ../mail/em-folder-view.c:1367
+#: ../mail/em-folder-view.c:1372
 msgid "Search Folder based on _Recipients"
 msgstr "Hakunäkymä _vastaanottajien perusteella"
 
-#: ../mail/em-folder-view.c:1368
+#: ../mail/em-folder-view.c:1373
 msgid "Search Folder based on Mailing _List"
 msgstr "Hakunäkymä _postituslistan perusteella"
 
 #. Translators: The following strings are used while creating a new message filter, to specify what parameter the filter would be based on.
-#: ../mail/em-folder-view.c:1373
+#: ../mail/em-folder-view.c:1378
 msgid "Filter based on Sub_ject"
 msgstr "Suodata a_iheen mukaan"
 
-#: ../mail/em-folder-view.c:1374
+#: ../mail/em-folder-view.c:1379
 msgid "Filter based on Sen_der"
 msgstr "Suodata _lähettäjän mukaan"
 
-#: ../mail/em-folder-view.c:1375
+#: ../mail/em-folder-view.c:1380
 msgid "Filter based on Re_cipients"
 msgstr "Suodata _vastaanottajien mukaan"
 
-#: ../mail/em-folder-view.c:1376
+#: ../mail/em-folder-view.c:1381
 msgid "Filter based on _Mailing List"
 msgstr "Suodata _postituslistan mukaan"
 
 #. default charset used in mail view
 #. we changed user, thus reset the chosen calendar combo too, because
 #. other user means other calendars subscribed
-#: ../mail/em-folder-view.c:2252 ../mail/em-folder-view.c:2295
-#: ../plugins/google-account-setup/google-source.c:251
-#: ../plugins/google-account-setup/google-source.c:529
-#: ../plugins/google-account-setup/google-source.c:727
+#: ../mail/em-folder-view.c:2257 ../mail/em-folder-view.c:2300
+#: ../plugins/google-account-setup/google-source.c:232
+#: ../plugins/google-account-setup/google-source.c:510
+#: ../plugins/google-account-setup/google-source.c:708
 msgid "Default"
 msgstr "Oletukset"
 
-#: ../mail/em-folder-view.c:2513
+#: ../mail/em-folder-view.c:2518
 msgid "Unable to retrieve message"
 msgstr "Viestiä ei voi hakea"
 
-#: ../mail/em-folder-view.c:2532
+#: ../mail/em-folder-view.c:2537
 msgid "Retrieving Message..."
 msgstr "Noudetaan viestiä..."
 
-#: ../mail/em-folder-view.c:2751
+#: ../mail/em-folder-view.c:2756
 msgid "C_all To..."
 msgstr "_Soita..."
 
-#: ../mail/em-folder-view.c:2754
+#: ../mail/em-folder-view.c:2759
 msgid "Create _Search Folder"
 msgstr "Luo uusi hakunäkymä"
 
-#: ../mail/em-folder-view.c:2755
+#: ../mail/em-folder-view.c:2760
 msgid "_From this Address"
 msgstr "_Tästä osoitteesta"
 
-#: ../mail/em-folder-view.c:2756
+#: ../mail/em-folder-view.c:2761
 msgid "_To this Address"
 msgstr "_Osoitteeseen:"
 
-#: ../mail/em-folder-view.c:3249
+#: ../mail/em-folder-view.c:3254
 #, c-format
 msgid "Click to mail %s"
 msgstr "Napsauta lähettääksesi %s"
 
-#: ../mail/em-folder-view.c:3261
+#: ../mail/em-folder-view.c:3266
 #, c-format
 msgid "Click to call %s"
 msgstr "Soita numeroon %s napsauttamalla"
 
-#: ../mail/em-folder-view.c:3266
+#: ../mail/em-folder-view.c:3271
 msgid "Click to hide/unhide addresses"
 msgstr "Napsauta piilottaaksesi tai näyttääksesi osoitteet"
 
@@ -13076,7 +13079,7 @@ msgstr "Merkintä"
 #: ../mail/em-mailer-prefs.c:1079 ../mail/em-mailer-prefs.c:1133
 #, c-format
 msgid "%s plugin is available and the binary is installed."
-msgstr "%s-liitännäinen on käytettävissä ja ohjelma on asennettu."
+msgstr "%s-lisäosa on käytettävissä ja ohjelma on asennettu."
 
 #. May be a better text
 #: ../mail/em-mailer-prefs.c:1087 ../mail/em-mailer-prefs.c:1142
@@ -13084,11 +13087,11 @@ msgstr "%s-liitännäinen on käytettävissä ja ohjelma on asennettu."
 msgid ""
 "%s plugin is not available. Please check whether the package is installed."
 msgstr ""
-"%s-liitännäinen ei ole käytettävissä. Tarkista että sen paketti on asennettu."
+"%s-lisäosa ei ole käytettävissä. Tarkista että sen paketti on asennettu."
 
 #: ../mail/em-mailer-prefs.c:1108
 msgid "No Junk plugin available"
-msgstr "Roskapostiliitännäistä ei ole saatavilla"
+msgstr "Roskapostilisäosaa ei ole saatavilla"
 
 #. green
 #: ../mail/em-migrate.c:1059
@@ -13895,7 +13898,7 @@ msgstr "Tekstin viestiosan kokoraja"
 
 #: ../mail/evolution-mail.schemas.in.h:137
 msgid "The default plugin for Junk hook"
-msgstr "Roskapostikäsittelijän oletusliitännäinen"
+msgstr "Roskapostikäsittelijän oletuslisäosa"
 
 #: ../mail/evolution-mail.schemas.in.h:138
 msgid "The last time empty junk was run, in days since the epoch."
@@ -13936,9 +13939,9 @@ msgid ""
 "enabled. If the default listed plugin is disabled, then it won't fall back "
 "to the other available plugins."
 msgstr ""
-"Tämä on roskapostin käsittelyn oletusliitännäinen, vaikka useita olisi "
-"käytössä. Jos oletusliitännäinen ei ole käytössä, ei palata käyttämään muita "
-"käytössä olevia liitännäisiä."
+"Tämä on roskapostin käsittelyn oletuslisäosa, vaikka useita olisi käytössä. "
+"Jos oletuslisäosaei ole käytössä, ei palata käyttämään muita käytössä olevia "
+"lisäosia."
 
 #: ../mail/evolution-mail.schemas.in.h:145
 msgid ""
@@ -14144,10 +14147,12 @@ msgid "Import mail from Elm."
 msgstr "Tuodaan sähköpostit Elmistä."
 
 #: ../mail/importers/evolution-mbox-importer.c:79
+#: ../plugins/pst-import/pst-importer.c:312
 msgid "Destination folder:"
 msgstr "Kohdekansio:"
 
 #: ../mail/importers/evolution-mbox-importer.c:82
+#: ../plugins/pst-import/pst-importer.c:305
 msgid "Select folder to import into"
 msgstr "Valitse kansio, johon tuodaan"
 
@@ -14163,7 +14168,10 @@ msgstr "Berkeley Mailbox-muotoisten kansioiden tuoja"
 msgid "Importing mailbox"
 msgstr "Tuodaan kansiota"
 
-#: ../mail/importers/mail-importer.c:231 ../shell/e-shell-importer.c:512
+#. Destination folder, was set in our widget
+#: ../mail/importers/mail-importer.c:231
+#: ../plugins/pst-import/pst-importer.c:457
+#: ../plugins/pst-import/pst-importer.c:563 ../shell/e-shell-importer.c:512
 #, c-format
 msgid "Importing `%s'"
 msgstr "Tuodaan '%s'"
@@ -14873,9 +14881,9 @@ msgid "Use Authe_ntication"
 msgstr "Käytä _tunnistautumista"
 
 #: ../mail/mail-config.glade.h:159 ../plugins/caldav/caldav-source.c:387
-#: ../plugins/google-account-setup/google-source.c:634
-#: ../plugins/google-account-setup/google-contacts-source.c:288
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:323
+#: ../plugins/google-account-setup/google-source.c:615
+#: ../plugins/google-account-setup/google-contacts-source.c:316
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:348
 msgid "User_name:"
 msgstr "Käyttäjät_unnus:"
 
@@ -14907,7 +14915,7 @@ msgstr "_Automaattisten välipalvelinasetusten URL:"
 
 #: ../mail/mail-config.glade.h:167
 msgid "_Default junk plugin:"
-msgstr "_Roskapostin oletusliitännäinen"
+msgstr "_Roskapostin oletuslisäosa"
 
 #: ../mail/mail-config.glade.h:168
 msgid "_Direct connection to the Internet"
@@ -16262,34 +16270,34 @@ msgid ""
 "A formatter plugin which displays audio attachments inline and allows you to "
 "play them directly from Evolution."
 msgstr ""
-"Muotoiluliitännäinen, joka esittää ääniliitteet sisäkkäisesti ja sallii "
-"niiden soittamisen suoraan Evolutionista."
+"Muotoilulisäosa, joka esittää ääniliitteet sisäkkäisesti ja sallii niiden "
+"soittamisen suoraan Evolutionista."
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
 msgid "Audio inline plugin"
-msgstr "Äänensoiton liitännäinen"
+msgstr "Äänensoiton lisäosa"
 
-#: ../plugins/backup-restore/backup-restore.c:127
+#: ../plugins/backup-restore/backup-restore.c:138
 msgid "Select name of the Evolution backup file"
 msgstr "Valitse Evolutionin varmuuskopiotiedoston nimi"
 
-#: ../plugins/backup-restore/backup-restore.c:156
+#: ../plugins/backup-restore/backup-restore.c:167
 msgid "_Restart Evolution after backup"
 msgstr "Käynnistä Evolution _uudestaan varmuuskopioinnin jälkeen"
 
-#: ../plugins/backup-restore/backup-restore.c:179
+#: ../plugins/backup-restore/backup-restore.c:190
 msgid "Select name of the Evolution backup file to restore"
 msgstr "Valitse palautettavan Evolutionin varmuuskopiotiedoston nimi"
 
-#: ../plugins/backup-restore/backup-restore.c:203
+#: ../plugins/backup-restore/backup-restore.c:214
 msgid "_Restart Evolution after restore"
 msgstr "Käynnistä Evolution _uudestaan varmuuskopioinnin jälkeen"
 
-#: ../plugins/backup-restore/backup-restore.c:276
+#: ../plugins/backup-restore/backup-restore.c:287
 msgid "Restore from backup"
 msgstr "Palauta varmuuskopio"
 
-#: ../plugins/backup-restore/backup-restore.c:278
+#: ../plugins/backup-restore/backup-restore.c:289
 msgid ""
 "You can restore Evolution from your backup. It can restore all the Mails, "
 "Calendars, Tasks, Memos, Contacts. \n"
@@ -16299,118 +16307,118 @@ msgstr ""
 "sähköpostit, kalenterit, tehtävät, muistiot ja osoitekirjat.\n"
 "Palautus palauttaa myös kaikki asetukset, sähköpostisuotimet jne."
 
-#: ../plugins/backup-restore/backup-restore.c:284
+#: ../plugins/backup-restore/backup-restore.c:295
 msgid "_Restore Evolution from the backup file"
 msgstr "_Palauta Evolution varmuuskopiotiedostosta"
 
-#: ../plugins/backup-restore/backup-restore.c:291
+#: ../plugins/backup-restore/backup-restore.c:302
 msgid "Please select an Evolution Archive to restore:"
 msgstr "Valitse palautettava Evolution-varmuuskopio:"
 
-#: ../plugins/backup-restore/backup-restore.c:294
+#: ../plugins/backup-restore/backup-restore.c:305
 msgid "Choose a file to restore"
 msgstr "Valitse palautettava tiedosto"
 
-#: ../plugins/backup-restore/backup.c:66
+#: ../plugins/backup-restore/backup.c:65
 msgid "Backup Evolution directory"
 msgstr "Varmuuskopioi Evolutionin hakemisto"
 
-#: ../plugins/backup-restore/backup.c:68
+#: ../plugins/backup-restore/backup.c:67
 msgid "Restore Evolution directory"
 msgstr "Palauta Evolutionin hakemisto"
 
-#: ../plugins/backup-restore/backup.c:70
+#: ../plugins/backup-restore/backup.c:69
 msgid "Check Evolution Backup"
 msgstr "Tarkista evolutionin varmuuskopio"
 
-#: ../plugins/backup-restore/backup.c:72
+#: ../plugins/backup-restore/backup.c:71
 msgid "Restart Evolution"
 msgstr "Käynnistä Evolution uudestaan"
 
-#: ../plugins/backup-restore/backup.c:74
+#: ../plugins/backup-restore/backup.c:73
 msgid "With Graphical User Interface"
 msgstr "Graafisen käyttöliittymän kanssa"
 
-#: ../plugins/backup-restore/backup.c:125
-#: ../plugins/backup-restore/backup.c:258
+#: ../plugins/backup-restore/backup.c:124
+#: ../plugins/backup-restore/backup.c:257
 msgid "Shutting down Evolution"
 msgstr "Sammutetaan Evolutionia"
 
-#: ../plugins/backup-restore/backup.c:132
+#: ../plugins/backup-restore/backup.c:131
 msgid "Backing Evolution accounts and settings"
 msgstr "Varmuuskopioidaan Evolutionin tilejä ja asetuksia"
 
-#: ../plugins/backup-restore/backup.c:136
+#: ../plugins/backup-restore/backup.c:135
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
 "Varmuuskopioidaan Evolutionin tietoja (viestejä, yhteystietoja, "
 "kalentereita, tehtäviä ja muistioita)"
 
-#: ../plugins/backup-restore/backup.c:147
+#: ../plugins/backup-restore/backup.c:146
 msgid "Backup complete"
 msgstr "Varmuuskopio on valmis"
 
-#: ../plugins/backup-restore/backup.c:152
-#: ../plugins/backup-restore/backup.c:339
+#: ../plugins/backup-restore/backup.c:151
+#: ../plugins/backup-restore/backup.c:338
 msgid "Restarting Evolution"
 msgstr "Käynnistetään Evolution uudestaan"
 
-#: ../plugins/backup-restore/backup.c:262
+#: ../plugins/backup-restore/backup.c:261
 msgid "Backup current Evolution data"
 msgstr "Varmuuskopioi tämänhetkiset Evolutionin tiedot"
 
-#: ../plugins/backup-restore/backup.c:267
+#: ../plugins/backup-restore/backup.c:266
 msgid "Extracting files from backup"
 msgstr "Puretaan tiedostoja varmuuskopiosta"
 
-#: ../plugins/backup-restore/backup.c:274
+#: ../plugins/backup-restore/backup.c:273
 msgid "Loading Evolution settings"
 msgstr "Ladataan Evolutionin asetuksia"
 
-#: ../plugins/backup-restore/backup.c:278
+#: ../plugins/backup-restore/backup.c:277
 msgid "Removing temporary backup files"
 msgstr "Poistetaan varmuuskopioinnin väliaikaistiedostoja"
 
-#: ../plugins/backup-restore/backup.c:285
+#: ../plugins/backup-restore/backup.c:284
 msgid "Ensuring local sources"
 msgstr "Tarkistetaan paikalliset lähteet"
 
-#: ../plugins/backup-restore/backup.c:455
+#: ../plugins/backup-restore/backup.c:454
 #, c-format
 msgid "Backing up to the folder %s"
 msgstr "Varmuuskopioidaan kansioon %s"
 
-#: ../plugins/backup-restore/backup.c:460
+#: ../plugins/backup-restore/backup.c:459
 #, c-format
 msgid "Restoring from the folder %s"
 msgstr "Palautetaan kansiosta %s"
 
 #. Backup / Restore only can have GUI. We should restrict the rest
-#: ../plugins/backup-restore/backup.c:479
+#: ../plugins/backup-restore/backup.c:478
 msgid "Evolution Backup"
 msgstr "Evolutionin varmuuskopiointi"
 
-#: ../plugins/backup-restore/backup.c:479
+#: ../plugins/backup-restore/backup.c:478
 msgid "Evolution Restore"
 msgstr "Evolutionin palautus"
 
-#: ../plugins/backup-restore/backup.c:514
+#: ../plugins/backup-restore/backup.c:513
 msgid "Backing up Evolution Data"
 msgstr "Varmuuskopioidaan Evolutionin tietoja"
 
-#: ../plugins/backup-restore/backup.c:515
+#: ../plugins/backup-restore/backup.c:514
 msgid "Please wait while Evolution is backing up your data."
 msgstr "Odota, että Evolution ottaa varmuuskopion tiedoistasi."
 
-#: ../plugins/backup-restore/backup.c:517
+#: ../plugins/backup-restore/backup.c:516
 msgid "Restoring Evolution Data"
 msgstr "Palautetaan Evolutionin tietoja"
 
-#: ../plugins/backup-restore/backup.c:518
+#: ../plugins/backup-restore/backup.c:517
 msgid "Please wait while Evolution is restoring your data."
 msgstr "Odota, että Evolution palauttaa tietosi."
 
-#: ../plugins/backup-restore/backup.c:536
+#: ../plugins/backup-restore/backup.c:535
 msgid "This may take a while depending on the amount of data in your account."
 msgstr ""
 "Tämä saattaa kestää hetken, riippuen tililläsi olevien tietojen määrästä."
@@ -16422,7 +16430,7 @@ msgstr "Varmuuskopioi ja palauta Evolutionin tietoja ja asetuksia."
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
 msgid "Backup and restore plugin"
-msgstr "Varmuuskopioinnin ja palautuksen liitännäinen"
+msgstr "Varmuuskopioinnin ja palautuksen lisäosa"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:1
 msgid "Are you sure you want to close Evolution?"
@@ -16534,27 +16542,27 @@ msgid "BBDB"
 msgstr "BBDB"
 
 #. For Translators: The first %s stands for the executable full path with a file name, the second is the error message itself.
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:155
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:161
 #, c-format
 msgid "Error occurred while spawning %s: %s."
 msgstr "Tapahtui virhe käynnistettäessä %s: %s."
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:179
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:186
 #, c-format
 msgid "Bogofilter child process does not respond, killing..."
 msgstr "Bogofilter-lapsiprosessi ei vastaa, tapetaan..."
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:181
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:188
 #, c-format
 msgid "Wait for Bogofilter child process interrupted, terminating..."
 msgstr "Bogofilter-lapsiprosessin odotus keskeytettiin, lopetetaan..."
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:200
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:211
 #, c-format
 msgid "Pipe to Bogofilter failed, error code: %d."
 msgstr "Putki bogofilterille epäonnistui, virhekoodi: %d."
 
-#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:363
+#: ../plugins/bogo-junk-plugin/bf-junk-filter.c:374
 msgid "Convert message text to _Unicode"
 msgstr "Muunna viestin teksti _Unicode-muotoon"
 
@@ -16576,7 +16584,7 @@ msgstr "Bogofilter-asetukset"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
 msgid "Bogofilter junk plugin"
-msgstr "Bogofilter-roskapostiliitännäinen"
+msgstr "Bogofilter-roskapostilisäosa"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
 msgid "Filters junk messages using Bogofilter."
@@ -16593,8 +16601,8 @@ msgid "_URL:"
 msgstr "_URL:"
 
 #: ../plugins/caldav/caldav-source.c:372
-#: ../plugins/google-account-setup/google-source.c:627
-#: ../plugins/google-account-setup/google-contacts-source.c:311
+#: ../plugins/google-account-setup/google-source.c:608
+#: ../plugins/google-account-setup/google-contacts-source.c:339
 msgid "Use _SSL"
 msgstr "Käytä _SSLää"
 
@@ -16602,8 +16610,8 @@ msgstr "Käytä _SSLää"
 #: ../plugins/caldav/caldav-source.c:415
 #: ../plugins/calendar-http/calendar-http.c:264
 #: ../plugins/calendar-weather/calendar-weather.c:509
-#: ../plugins/google-account-setup/google-source.c:651
-#: ../plugins/google-account-setup/google-contacts-source.c:330
+#: ../plugins/google-account-setup/google-source.c:632
+#: ../plugins/google-account-setup/google-contacts-source.c:358
 msgid "Re_fresh:"
 msgstr "Vi_rkistä:"
 
@@ -16704,7 +16712,7 @@ msgid ""
 "A test plugin which demonstrates a popup menu plugin which lets you copy "
 "things to the clipboard."
 msgstr ""
-"Testiliitännäinen, joka tarjoaa ponnahdusikkunan jolla voit kopioida asioita "
+"Testilisäosa, joka tarjoaa ponnahdusikkunan jolla voit kopioida asioita "
 "leikepöydälle."
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:3
@@ -17407,8 +17415,8 @@ msgid ""
 "A plugin that manages a collection of Exchange account specific operations "
 "and features."
 msgstr ""
-"Liitännäinen, jolla voidaan hallita tiettyjä Exchange-tiliin liittyviä "
-"toimintoja ja ominaisuuksia."
+"Lisäosa, jolla voidaan hallita tiettyjä Exchange-tiliin liittyviä toimintoja "
+"ja ominaisuuksia."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
 msgid "Exchange Operations"
@@ -17675,7 +17683,7 @@ msgid "Unknown error looking up {0}"
 msgstr "Tuntematon virhe etsittäessä {0}"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:71
-#: ../plugins/google-account-setup/google-source.c:540
+#: ../plugins/google-account-setup/google-source.c:521
 msgid "Unknown error."
 msgstr "Tuntematon virhe."
 
@@ -17772,7 +17780,7 @@ msgid ""
 "A plugin for using an external editor as the composer. You can send only "
 "plain-text messages."
 msgstr ""
-"Liitännäinen, jonka avulla voit käyttää ulkoista muokkainta viestien "
+"Lisäosa, jonka avulla voit käyttää ulkoista muokkainta viestien "
 "kirjoittamiseen. Voit lähettää tällä vain muotoilematonta tekstiä (ei HTML-"
 "viestejä)."
 
@@ -17802,7 +17810,7 @@ msgid ""
 "The external editor set in your plugin preferences cannot be launched. Try "
 "setting a different editor."
 msgstr ""
-"Liitännäisen asetuksissa määriteltyä ulkoista muokkainta ei voi käynnistää. "
+"Lisäosien asetuksissa määriteltyä ulkoista muokkainta ei voi käynnistää. "
 "Yritä käyttää muuta komentoa."
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:1
@@ -17813,11 +17821,11 @@ msgstr "_Kirjoita viestit ulkoisessa muokkaimessa"
 msgid "Compose messages using an external editor"
 msgstr "Kirjoita viestit käyttäen ulkoista muokkainta"
 
-#: ../plugins/external-editor/external-editor.c:112
+#: ../plugins/external-editor/external-editor.c:114
 msgid "Command to be executed to launch the editor: "
 msgstr "Ulkoisen muokkaimen käynnistyskomento: "
 
-#: ../plugins/external-editor/external-editor.c:113
+#: ../plugins/external-editor/external-editor.c:115
 msgid ""
 "For Emacs use \"xemacs\"\n"
 "For VI use \"gvim\""
@@ -17866,20 +17874,12 @@ msgstr "Peru kansioiden tilauksia"
 msgid "_Unsubscribe"
 msgstr "_Peru tilaus"
 
-#: ../plugins/google-account-setup/google-source.c:83
-#: ../plugins/google-account-setup/google-source.c:90
-#: ../plugins/google-account-setup/google-contacts-source.c:53
-#: ../plugins/google-account-setup/google-contacts-source.c:58
-#: ../plugins/google-account-setup/google-contacts-source.c:84
-msgid "Google"
-msgstr "Google"
-
-#: ../plugins/google-account-setup/google-source.c:440
+#: ../plugins/google-account-setup/google-source.c:421
 #, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
 msgstr "Syötä salasana käyttäjälle %s tilattujen kalentereiden käyttöä varten."
 
-#: ../plugins/google-account-setup/google-source.c:540
+#: ../plugins/google-account-setup/google-source.c:521
 #, c-format
 msgid ""
 "Cannot read data from Google server.\n"
@@ -17888,22 +17888,27 @@ msgstr ""
 "Ei voi lukea tietoja Googlen palvelimelta.\n"
 "%s"
 
-#: ../plugins/google-account-setup/google-source.c:702
+#: ../plugins/google-account-setup/google-source.c:683
 msgid "Cal_endar:"
 msgstr "_Kalenteri:"
 
-#: ../plugins/google-account-setup/google-source.c:737
+#: ../plugins/google-account-setup/google-source.c:718
 msgid "Retrieve _list"
 msgstr "Nouda _luettelo"
 
-#: ../plugins/google-account-setup/google-contacts-source.c:278
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:300
+#: ../plugins/google-account-setup/google-contacts-source.c:69
+#: ../plugins/google-account-setup/google-contacts-source.c:71
+msgid "Google"
+msgstr "Google"
+
+#: ../plugins/google-account-setup/google-contacts-source.c:306
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:325
 msgid "<b>Server</b>"
 msgstr "<b>Palvelin</b>"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
 msgid "A plugin to setup Google Calendar and Contacts."
-msgstr "Google-kalenterin ja yhteystietojen liitännäinen."
+msgstr "Google-kalenterin ja yhteystietojen lisäosa."
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:2
 msgid "Google sources"
@@ -17915,7 +17920,7 @@ msgstr "Muistilista"
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
 msgid "A plugin to setup GroupWise calendar and contacts sources."
-msgstr "Groupwise-kalenterien ja yhteystietolähteiden liitännäinen."
+msgstr "Groupwise-kalenterien ja yhteystietolähteiden lisäosa."
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:2
 msgid "GroupWise Account Setup"
@@ -18013,7 +18018,7 @@ msgstr "Lisää lähetysvalintoja groupwise-viesteihin"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
 msgid "A plugin for the features in GroupWise accounts."
-msgstr "Liitännäinen GroupWise-tilien ominaisuuksille."
+msgstr "Lisäosa GroupWise-tilien ominaisuuksille."
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
 msgid "GroupWise Features"
@@ -18307,7 +18312,7 @@ msgstr "Seuraa viestin tilaa..."
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:1
 msgid "A plugin to setup hula calendar sources."
-msgstr "Hula-kalenterien lähteiden määrittelyn liitännäinen."
+msgstr "Hula-kalenterien lähteiden määrittelyn lisäosa."
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
 msgid "Hula Account Setup"
@@ -18365,7 +18370,7 @@ msgstr ""
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:1
 msgid "A plugin for the features in the IMAP accounts."
-msgstr "Liitännäinen IMAP-tilien ominaisuuksille."
+msgstr "Lisäosa IMAP-tilien ominaisuuksille."
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:2
 msgid "IMAP Features"
@@ -19313,8 +19318,7 @@ msgid ""
 "A plugin which allows the creation of meetings from the contents of a mail "
 "message."
 msgstr ""
-"Liitännäinen, jonka avulla voidaan luoda tapaamisia viestin sisällön "
-"perusteella."
+"Lisäosa, jonka avulla voidaan luoda tapaamisia viestin sisällön perusteella."
 
 #: ../plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml.h:2
 msgid "Con_vert to Meeting"
@@ -19342,8 +19346,7 @@ msgid ""
 "A plugin which allows the creation of tasks from the contents of a mail "
 "message."
 msgstr ""
-"Liitännäinen, jonka avulla voidaan luoda tehtäviä viestin sisällön "
-"perusteella."
+"Lisäosa, jonka avulla voidaan luoda tehtäviä viestin sisällön perusteella."
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:1
@@ -19559,29 +19562,29 @@ msgstr "Käytetään merkitsemään kaikki kansion viestit luetuiksi"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
 msgid "A plugin which implements mono plugins."
-msgstr "Liitännäinen, joka toteuttaa mono-liitännäiset."
+msgstr "Lisäosa, joka toteuttaa mono-lisäosat."
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:2
 msgid "Mono Loader"
-msgstr "Monon latain"
+msgstr "Mono-lataaja"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
 msgid "A plugin for managing which plugins are enabled or disabled."
-msgstr "Liitännäinen, jolla voidaan hallita muiden liitännäistä käyttöä."
+msgstr "Lisäosa, jolla voidaan hallita muiden lisäosien käyttöä."
 
 #. Setup the ui
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:2
 #: ../plugins/plugin-manager/plugin-manager.c:252
 msgid "Plugin Manager"
-msgstr "Liitännäisten hallinta"
+msgstr "Lisäosien hallinta"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
-msgstr "Käytä ja poista käytöstä liitännäisiä"
+msgstr "Käytä ja poista käytöstä lisäosia"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.xml.h:2
 msgid "_Plugins"
-msgstr "_Liitännäiset"
+msgstr "_Lisäosat"
 
 #: ../plugins/plugin-manager/plugin-manager.c:58
 msgid "Author(s)"
@@ -19603,7 +19606,7 @@ msgstr "Yhteenveto"
 #: ../plugins/plugin-manager/plugin-manager.c:362
 #: ../plugins/plugin-manager/plugin-manager.c:424
 msgid "Plugin"
-msgstr "Liitännäinen"
+msgstr "Lisäosa"
 
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:1
 msgid ""
@@ -19612,10 +19615,10 @@ msgid ""
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
-"Testiliitännäinen, joka demonstroi muotoilija-liitännäistä, jolla  voit "
-"estää HTML-sähköpostit.\n"
+"Testilisäosa, joka demonstroi muotoilija-lisäosaa, jolla  voit estää HTML-"
+"sähköpostit.\n"
 "\n"
-"Tämä liitännäinen on tukematonta demo-koodia.\n"
+"Tämä lisäosa on tukematonta demo-koodia.\n"
 
 #. but then we also need to create our own section frame
 #: ../plugins/prefer-plain/org-gnome-prefer-plain.eplug.xml.h:6
@@ -19661,6 +19664,29 @@ msgstr "Outlookin PST-tuoja"
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:3
 msgid "Outlook personal folders (.pst)"
 msgstr "Outlookin omat kansiot (.pst)"
+
+#. Address book
+#: ../plugins/pst-import/pst-importer.c:318
+#, fuzzy
+msgid "_Address Book"
+msgstr "Osoitekirja"
+
+#. Appointments
+#: ../plugins/pst-import/pst-importer.c:325
+#, fuzzy
+msgid "A_ppointments"
+msgstr "Tapaamiset"
+
+#. Journal
+#: ../plugins/pst-import/pst-importer.c:337
+#, fuzzy
+msgid "_Journal entries"
+msgstr "Päiväkirja"
+
+#: ../plugins/pst-import/pst-importer.c:352
+#, fuzzy
+msgid "Importing Outlook data"
+msgstr "Tuodaan tietoja Elmistä"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:1
 msgid "Allows calendars to be published to the web"
@@ -19784,15 +19810,15 @@ msgstr "Pythonin liittännäislataimen testit"
 
 #: ../plugins/python/example/org-gnome-hello-python.eplug.xml.h:1
 msgid "Python Test Plugin"
-msgstr "Python-testiliitännäinen"
+msgstr "Python-testilisäosa"
 
 #: ../plugins/python/example/org-gnome-hello-python.eplug.xml.h:2
 msgid "Test Plugin for Python EPlugin loader."
-msgstr "Testiliitännäinen pythonin EPlugin-lataimelle."
+msgstr "Testilisäosa pythonin EPlugin-lataimelle."
 
 #: ../plugins/python/org-gnome-evolution-python.eplug.xml.h:1
 msgid "A plugin which loads other plugins written using Python."
-msgstr "Muita pythonilla tehtyjä liitännäisiä lataava liitännäinen."
+msgstr "Muita pythonilla tehtyjä lisäosia lataava lisäosa."
 
 #: ../plugins/python/org-gnome-evolution-python.eplug.xml.h:2
 msgid "Python Loader"
@@ -19851,8 +19877,8 @@ msgid ""
 "Filters junk messages using SpamAssassin. This plugin requires SpamAssassin "
 "to be installed."
 msgstr ""
-"Suodattaa roskapostia käyttäen Spamassassinia. Tämä liitännäinen vaatii, "
-"että spamassassin on asennettu."
+"Suodattaa roskapostia käyttäen Spamassassinia. Tämä lisäosa vaatii, että "
+"spamassassin on asennettu."
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 msgid "SpamAssassin Options"
@@ -19860,11 +19886,11 @@ msgstr "Spamassassin-valitsimet"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:3
 msgid "SpamAssassin junk plugin"
-msgstr "Spamassassin-roskapostiliitännäinen"
+msgstr "Spamassassin-roskapostilisäosa"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
 msgid "A plugin for saving all attachments or parts of a message at once."
-msgstr "Liitännäinen kaikkien liitteiden tallentamiseen kerralla."
+msgstr "Lisäosa kaikkien liitteiden tallentamiseen kerralla."
 
 #. the path to the shared library
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:3
@@ -20097,8 +20123,8 @@ msgid ""
 "List of keyword/value pairs for the Templates plugin to substitute in a "
 "message body."
 msgstr ""
-"Luettelo avainsana- ja arvopareista, joita pohjat-liitännäinen käyttää "
-"viestin rungon osien korvaamiseen."
+"Luettelo avainsana- ja arvopareista, joita pohjat-lisäosa käyttää viestin "
+"rungon osien korvaamiseen."
 
 #: ../plugins/templates/templates.c:603
 msgid "No title"
@@ -20114,11 +20140,11 @@ msgstr "Tallenna pohjana"
 
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Drafts based template plugin"
-msgstr "Pohjiin perustuva malliliitännäinen"
+msgstr "Pohjiin perustuva mallilisäosa"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
 msgid "A simple plugin which uses yTNEF to decode TNEF attachments."
-msgstr "Liitännäinen, joka voita avata TNEF-liitteitä ytnef-ohjelman avulla."
+msgstr "Lisäosa, joka voita avata TNEF-liitteitä ytnef-ohjelman avulla."
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:2
 msgid "TNEF Attachment decoder"
@@ -20126,23 +20152,22 @@ msgstr "TNEF-liitteiden purkaja"
 
 #: ../plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml.h:1
 msgid "A plugin to setup WebDAV contacts."
-msgstr "WebDAV-yhteystietojen liitännäinen."
+msgstr "WebDAV-yhteystietojen lisäosa."
 
 #: ../plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml.h:2
 msgid "WebDAV contacts"
 msgstr "WebDAV-yhteystiedot"
 
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:69
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:74
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:100
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:96
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:107
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:311
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:336
 msgid "URL:"
 msgstr "URL:"
 
-#: ../plugins/webdav-account-setup/webdav-contacts-source.c:338
+#: ../plugins/webdav-account-setup/webdav-contacts-source.c:363
 msgid "_Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "_Vältä IfMatch-komentoa (vaaditaan apache-versiolle < 2.2.8)"
 
@@ -20731,7 +20756,7 @@ msgstr "Lähetä testitulosteet kaikista komponenteista tiedostoon."
 
 #: ../shell/main.c:497
 msgid "Disable loading of any plugins."
-msgstr "Älä lataa mitään liitännäisiä."
+msgstr "Älä lataa mitään lisäosia."
 
 #: ../shell/main.c:499
 msgid "Disable preview pane of Mail, Contacts and Tasks."
@@ -22210,7 +22235,7 @@ msgstr "Liitä viestit leikepöydältä"
 
 #: ../ui/evolution-mail-message.xml.h:68
 msgid "Pos_t New Message to Folder"
-msgstr "Pos_tita uusi viesti kansioon"
+msgstr "L_isää uusi viesti kansioon"
 
 #: ../ui/evolution-mail-message.xml.h:69
 msgid "Post a Repl_y"
