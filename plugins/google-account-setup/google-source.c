@@ -69,36 +69,17 @@ GtkWidget *      plugin_google               (EPlugin                    *epl,
 
 
 static void
-ensure_google_source_group ()
+ensure_google_source_group (void)
 {
 	ESourceList  *slist;
-	ESourceGroup *group;
-
 
 	if (!e_cal_get_sources (&slist, E_CAL_SOURCE_TYPE_EVENT, NULL)) {
 		g_warning ("Could not get calendar source list from GConf!");
 		return;
 	}
 
-	group = e_source_list_peek_group_by_name (slist, _("Google"));
-
-	if (group == NULL)
-		 g_message ("\n Google Group Not found ");
-
-	if (group == NULL) {
-		gboolean res;
-		group = e_source_group_new (_("Google"), "Google://");
-		res = e_source_list_add_group (slist, group, -1);
-
-		if (res == FALSE) {
-			g_warning ("Could not add Google source group!");
-		} else {
-			e_source_list_sync (slist, NULL);
-		}
-
-		g_object_unref (group);
-		g_object_unref (slist);
-	}
+	manage_google_group (slist, FALSE);
+	g_object_unref (slist);
 }
 
 int
