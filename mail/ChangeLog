@@ -1,5 +1,12 @@
 2009-01-29  Srinivasa Ragavan  <sragavan@novell.com>
 
+	** Fix for bug #562449
+
+	* em-folder-view.c: (em_folder_view_mark_selected),
+	(emfv_delete_msg_response): Dont emit for vfolders
+
+2009-01-29  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #567654
 
 	* message-list.c: (regen_list_exec): Don't free reffable string.
