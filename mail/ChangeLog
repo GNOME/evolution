@@ -1,5 +1,9 @@
 2009-01-29  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* em-format.c: (em_format_format_text): Handle empty messages well.
+
+2009-01-29  Srinivasa Ragavan  <sragavan@novell.com>
+
 	** Fix for bug #546637
 
 	* em-folder-view.c: (emfv_popup_source): Ensure uid for source view
