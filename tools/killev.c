@@ -83,7 +83,7 @@ kill_process (const char *proc_name, KillevComponent *comp)
 }
 
 static const char *patterns[] = {
-	"%s", "%.16s", "lt-%s", "lt-%.13s"
+	"%s", "%.16s", "lt-%s", "lt-%.13s", "%s.bin"
 };
 static const int n_patterns = G_N_ELEMENTS (patterns);
 
