@@ -2173,7 +2173,8 @@ efhd_update_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pob
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
 	struct _EMFormatHTMLDisplayPrivate *priv = efhd->priv;
 
-	e_attachment_bar_refresh (E_ATTACHMENT_BAR (priv->attachment_bar));
+	if (priv->attachment_bar)
+		e_attachment_bar_refresh (E_ATTACHMENT_BAR (priv->attachment_bar));
 
 	return TRUE;
 }
@@ -2256,7 +2257,7 @@ efhd_message_update_bar(EMFormat *emf, CamelStream *stream, CamelMimePart *part,
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *) emf;
 	const char *classid = "attachment-bar-refresh";
 
-	if (efhd->nobar || efhd->priv->updated || !efhd->priv->attachment_bar)
+	if (efhd->nobar || efhd->priv->updated)
 		return;
 
 	efhd->priv->files = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);

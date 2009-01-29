@@ -1,5 +1,11 @@
 2009-01-29  Srinivasa Ragavan  <sragavan@novell.com>
 
+	* em-format-html-display.c: (efhd_update_bar),
+	(efhd_message_update_bar): Show attachment bar at all times. Seems
+	like the contents are missing at times.
+
+2009-01-29  Srinivasa Ragavan  <sragavan@novell.com>
+
 	* em-format.c: (em_format_format_text): Handle empty messages well.
 
 2009-01-29  Srinivasa Ragavan  <sragavan@novell.com>
