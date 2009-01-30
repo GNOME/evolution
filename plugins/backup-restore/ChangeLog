@@ -1,3 +1,7 @@
+2009-01-30  Milan Crha  <mcrha@redhat.com>
+
+	*  backup-restore.c: (sanity_check): Removed dangling '*/'.
+
 2009-01-28  Tor Lillqvist  <tml@novell.com>
 
 	Make it compile on Windows, by Fridrich Strbra. (Just compile;

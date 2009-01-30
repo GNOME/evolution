@@ -81,7 +81,7 @@ sanity_check (const char *filename)
 #ifdef HAVE_SYS_WAIT_H
 	g_message ("Sanity check result %d:%d %d", WIFEXITED (result), WEXITSTATUS (result), result);
 
-	return WIFEXITED (result) && (WEXITSTATUS (result) == 0); */
+	return WIFEXITED (result) && (WEXITSTATUS (result) == 0);
 #else	
 	return result;
 #endif
