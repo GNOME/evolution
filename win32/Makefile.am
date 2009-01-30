@@ -29,36 +29,36 @@ noinst_DATA = $(BOOTSTRAP_LIBS)
 libemiscwidgets.la: dummy.la libemiscwidgets.def
 	sed -e s!%DLL%!libemiscwidgets-0! -e s!%LIB%!libemiscwidgets! -e s!%PFX%!$(prefix)! <dummy.la >$@
 	mkdir -p .libs
-	dlltool --output-lib=.libs/libemiscwidgets.dll.a --dllname=libemiscwidgets-0.dll --input-def=libemiscwidgets.def
+	$(DLLTOOL) --output-lib=.libs/libemiscwidgets.dll.a --dllname=libemiscwidgets-0.dll --input-def=libemiscwidgets.def
 
 libetable.la: dummy.la libetable.def
 	sed -e s!%DLL%!libetable-0! -e s!%LIB%!libetable! -e s!%PFX%!$(prefix)! <dummy.la >$@
 	mkdir -p .libs
-	dlltool --output-lib=.libs/libetable.dll.a --dllname=libetable-0.dll --input-def=libetable.def
+	$(DLLTOOL) --output-lib=.libs/libetable.dll.a --dllname=libetable-0.dll --input-def=libetable.def
 
 libetext.la: dummy.la libetext.def
 	sed -e s!%DLL%!libetext-0! -e s!%LIB%!libetext! -e s!%PFX%!$(prefix)! <dummy.la >$@
 	mkdir -p .libs
-	dlltool --output-lib=.libs/libetext.dll.a --dllname=libetext-0.dll --input-def=libetext.def
+	$(DLLTOOL) --output-lib=.libs/libetext.dll.a --dllname=libetext-0.dll --input-def=libetext.def
 
 libevolution-addressbook.la: dummy.la libevolution-addressbook.def
 	sed -e s!%DLL%!libevolution-addressbook! -e s!%LIB%!libevolution-addressbook! -e s!%PFX%!$(prefix)! <dummy.la >$@
 	mkdir -p .libs
-	dlltool --output-lib=.libs/libevolution-addressbook.dll.a --dllname=libevolution-addressbook.dll --input-def=libevolution-addressbook.def
+	$(DLLTOOL) --output-lib=.libs/libevolution-addressbook.dll.a --dllname=libevolution-addressbook.dll --input-def=libevolution-addressbook.def
 
 libevolution-calendar.la: dummy.la libevolution-calendar.def
 	sed -e s!%DLL%!libevolution-calendar! -e s!%LIB%!libevolution-calendar! -e s!%PFX%!$(prefix)! <dummy.la >$@
 	mkdir -p .libs
-	dlltool --output-lib=.libs/libevolution-calendar.dll.a --dllname=libevolution-calendar.dll --input-def=libevolution-calendar.def
+	$(DLLTOOL) --output-lib=.libs/libevolution-calendar.dll.a --dllname=libevolution-calendar.dll --input-def=libevolution-calendar.def
 
 libevolution-mail.la: dummy.la libevolution-mail.def
 	sed -e s!%DLL%!libevolution-mail! -e s!%LIB%!libevolution-mail! -e s!%PFX%!$(prefix)! <dummy.la >$@
 	mkdir -p .libs
-	dlltool --output-lib=.libs/libevolution-mail.dll.a --dllname=libevolution-mail.dll --input-def=libevolution-mail.def
+	$(DLLTOOL) --output-lib=.libs/libevolution-mail.dll.a --dllname=libevolution-mail.dll --input-def=libevolution-mail.def
 
 libfilter.la: dummy.la libfilter.def
 	sed -e s!%DLL%!libfilter-0! -e s!%LIB%!libfilter! -e s!%PFX%!$(prefix)! <dummy.la >$@
 	mkdir -p .libs
-	dlltool --output-lib=.libs/libfilter.dll.a --dllname=libfilter-0.dll --input-def=libfilter.def
+	$(DLLTOOL) --output-lib=.libs/libfilter.dll.a --dllname=libfilter-0.dll --input-def=libfilter.def
 
 CLEANFILES = $(BOOTSTRAP_LIBS)
