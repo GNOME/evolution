@@ -2019,7 +2019,7 @@ e_calendar_view_new_appointment_full (ECalendarView *cal_view, gboolean all_day,
 
 	/* We either need rounding or don't want to set all_day for this, we will rather use actual */
 	/* time in this cases; dtstart should be a midnight in this case */
-	if (do_rounding || (!all_day && (dtend - dtstart) % (60 * 60 * 24) == 0)) {
+	if (do_rounding || (!all_day && (dtend - dtstart) == (60 * 60 * 24))) {
 		struct tm local = *localtime (&now);
 		int time_div = calendar_config_get_time_divisions ();
 		int hours, mins;

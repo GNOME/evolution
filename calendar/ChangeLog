@@ -1,5 +1,12 @@
 2009-01-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	Fixes #450535 (bnc)
+	* calendar/gui/e-calendar-view.c: If multiple days are
+	selected in month view, show same selected times in the
+	editor also.
+
+2009-01-30  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Fixes #347287
 	* calendar/gui/e-cal-model.c:
 	* calendar/gui/gnome-cal.c: Increased the number of tries
