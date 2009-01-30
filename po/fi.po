@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-01-29 18:39+0300\n"
-"PO-Revision-Date: 2009-01-28 18:36+0300\n"
+"POT-Creation-Date: 2009-01-30 07:04+0300\n"
+"PO-Revision-Date: 2009-01-30 07:05+0300\n"
 "Last-Translator: Ilkka Tuohela <hile@iki.fi>\n"
 "Language-Team: Finnish <gnome-fi-laatu@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -1201,11 +1201,12 @@ msgstr ""
 "hakupohjastasi alaspäin."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:41
-#, fuzzy
 msgid ""
 "This is the full name of your LDAP server. For example, \"ldap.mycompany.com"
 "\"."
-msgstr "LDAP-palvelimesi koko nimi, esimerkiksi \"ldap.mycompany.com\"."
+msgstr ""
+"Tämä kenttä on LDAP-palvelimesi koko nimi, esimerkiksi \"ldap.mycompany.com"
+"\"."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:42
 msgid ""
@@ -1216,13 +1217,12 @@ msgstr ""
 "asettaminen liian suureksi hidastaa osoitekirjaasi."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:43
-#, fuzzy
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your LDAP "
 "server."
 msgstr ""
-"Tämä on menetelmä, jota Evolution käyttää tunnistamiseesi. Huomaa, että tämä "
+"Tämä on menetelmä, jota evolution käyttää tunnistamiseesi. Huomaa, että "
 "asettaminen arvoon \"Sähköpostiosoite\" vaatii anonyymiä pääsyä LDAP-"
 "palvelimellesi."
 
@@ -3637,7 +3637,6 @@ msgid "Unsupported authentication method"
 msgstr "Tunnistautumistapa ei ole tuettu"
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:110
-#, fuzzy
 msgid ""
 "This address book cannot be opened. This either means this book is not "
 "marked for offline usage or not yet downloaded for offline usage. Please "
@@ -3645,10 +3644,10 @@ msgid ""
 msgstr ""
 "Tätä osoitekirjaa ei voitu avata. Joko tämä osoitekirja ei ole merkitty "
 "yhteydettömään käyttöön tai sitä ei ole vielä haettu yhteydettömään tilaan. "
-"Lataa osoitekirja kerran yhteydellisessä tilassa hakeaksesi sen sisällön."
+"Nouda osoitekirjan sisältö ollessasi yhteydellisessä tilassa."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:119
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This address book cannot be opened.  Please check that the path %s exists "
 "and that permissions are set to access it."
@@ -3657,21 +3656,19 @@ msgstr ""
 "sinulla on oikeudet käyttää sitä."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:131
-#, fuzzy
 msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  To "
 "use LDAP in Evolution an LDAP-enabled Evolution package must be installed."
 msgstr ""
 "Tässä Evolutionin versiossa ei ole LDAP-tukea käytettävissä. Jos haluat LDAP-"
-"tuen Evolutioniin, asenna versio joka on käännetty LDAP-tuen kanssa."
+"tuen evolutioniin, asenna versio joka on käännetty LDAP-tuen kanssa."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:140
-#, fuzzy
 msgid ""
 "This address book cannot be opened.  This either means that an incorrect URI "
 "was entered, or the server is unreachable."
 msgstr ""
-"Tätä osoitekirjaa ei voitu avata. Syötit joko virheellisen URIn tai "
+"Tätä osoitekirjaa ei voitu avata. Osoitekirjan URI voi olla virheellinen tai "
 "palvelinta ei voi tavoittaa."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:148
@@ -3691,17 +3688,15 @@ msgstr ""
 "osoitekirjan hakemistopalvelimen asetuksissa."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:177
-#, fuzzy
 msgid ""
 "The time to execute this query exceeded the server limit or the limit\n"
 "configured for this address book.  Please make your search\n"
 "more specific or raise the time limit in the directory server\n"
 "preferences for this address book."
 msgstr ""
-"Tämän kyselyn suorittaminen kesti pidempään kuin palvelimen\n"
-"aikarajoitus, jonka olet asettanut tällä osoitekirjalle. Tarkenna\n"
-"hakuasi tai pidennä palvelimen aikarajoitusta tämän osoitekirjan\n"
-"hakemistopalvelimen asetuksissa."
+"Tämän kyselyn suorittaminen kesti pidempään kuin palvelimen asetuksissa\n"
+"annettu aikaraja. Tarkenna hakuasi, tai pidennä palvelimen aikarajaa tämän "
+"osoitekirjan hakemistopalvelimen asetuksissa."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:183
 msgid "The backend for this address book was unable to parse this query."
@@ -5007,7 +5002,7 @@ msgstr "Taso, jonka jälkeen viesti lokitetaan."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:30
 msgid "List of recently used second time zones in a Day View."
-msgstr ""
+msgstr "Luettelo äskettäin valituista toissijaisista aikavyöhykkeistä."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:31
 msgid "List of server URLs for free/busy publishing."
@@ -5030,10 +5025,12 @@ msgid ""
 "Maximum number of recently used timezones to remember in a "
 "'day_second_zones' list."
 msgstr ""
+"Enimmäismäärä äskettäin valittuja toissijaisia aikavyöhykkeitä avaimen "
+"\"day_second_zones\" luettelossa."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:36
 msgid "Maximum number of recently used timezones to remember."
-msgstr ""
+msgstr "Kuinka monta äskettäin valittua aikavyöhykettä muistetaan."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:37
 msgid "Minute the workday ends on, 0 to 59."
@@ -5117,7 +5114,7 @@ msgstr "Ohjelmat, joita voidaan suorittaa hälytyksistä."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:51
 msgid "Recently used second time zones in a Day View"
-msgstr ""
+msgstr "Päivänäkymässä äskettäin käytetyt toissijaiset aikavyöhykkeet"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:52
 msgid "Save directory for alarm audio"
@@ -5166,9 +5163,8 @@ msgid "Show type field in the event/task/meeting editor"
 msgstr "Näytä tyyppikenttä tapahtuman, tehtävän tai kokouksen muokkaimessa"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:63
-#, fuzzy
 msgid "Show week number in Day and Work Week View"
-msgstr "Näytä viikkonumerot päivämääräselaimessa"
+msgstr "Näytä viikkonumerot päivä- ja työviikkonäkymissä"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:64
 msgid "Show week numbers in date navigator"
@@ -5179,6 +5175,8 @@ msgid ""
 "Shows the second time zone in a Day View, if set. Value is similar to one "
 "used in a 'timezone' key."
 msgstr ""
+"Näyttää toissijaisen aikavyöhykkeen aikanäkymässä, jos asetettu. Arvo on "
+"samanlainen kuin avaimessa \"timezone\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:66
 msgid "Tasks due today color"
@@ -5208,10 +5206,9 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:71
 msgid "The second timezone for a Day View"
-msgstr ""
+msgstr "Päivänäkymän toissijainen aikavyöhyke"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:72
-#, fuzzy
 msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
@@ -5333,9 +5330,8 @@ msgstr ""
 "Näytetäänkö tyyppikenttä tapahtuman, tehtävän tai kokouksen muokkaimessa"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:98
-#, fuzzy
 msgid "Whether to show week number in the Day and Work Week View."
-msgstr "Näytetäänkö viikkonumerot päivämääräselaimessa."
+msgstr "Näytetäänkö viikkonumerot päivämäärä- ja työviikkonäkymissä."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:99
 msgid "Whether to show week numbers in the date navigator."
@@ -6133,7 +6129,7 @@ msgstr "_Ke"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:76
 msgid "before every anniversary/birthday"
-msgstr ""
+msgstr "ennen joka vuosipäivää ja syntymäpäivää"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:77
 msgid "before every appointment"
@@ -6328,7 +6324,7 @@ msgstr "Ei yhteenvetoa"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1117
 msgid "Keep original item?"
-msgstr ""
+msgstr "Säilytä alkuperäinen?"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1312
 msgid "Click here to close the current window"
@@ -6512,7 +6508,7 @@ msgid "_Add attachment..."
 msgstr "_Lisää liite..."
 
 #: ../calendar/gui/dialogs/comp-editor.c:2302
-#: ../mail/em-format-html-display.c:2380
+#: ../mail/em-format-html-display.c:2381
 msgid "Show Attachments"
 msgstr "Näytä liitteet"
 
@@ -7088,7 +7084,7 @@ msgstr "vuosi"
 
 #: ../calendar/gui/dialogs/send-comp.c:116
 msgid "Send my alarms with this event"
-msgstr ""
+msgstr "Lähetä hälytys tälle tapahtumalle"
 
 #: ../calendar/gui/dialogs/task-details-page.c:377
 #: ../calendar/gui/dialogs/task-details-page.c:397
@@ -8662,7 +8658,7 @@ msgstr "Hylätty"
 #: ../calendar/gui/itip-utils.c:695
 msgctxt "Meeting"
 msgid "Delegated"
-msgstr ""
+msgstr "Valtuutettu"
 
 #. Translators: This is part of the subject line of a
 #. * meeting request or update email.  The full subject
@@ -11021,7 +11017,7 @@ msgstr ""
 "tilille"
 
 #: ../composer/e-msg-composer.c:1494 ../mail/em-format-html-display.c:1949
-#: ../mail/em-format-html-display.c:2596 ../mail/mail-config.glade.h:45
+#: ../mail/em-format-html-display.c:2597 ../mail/mail-config.glade.h:45
 #: ../mail/message-list.etspec.h:1
 msgid "Attachment"
 msgid_plural "Attachments"
@@ -11126,13 +11122,12 @@ msgstr ""
 "Viestin palautuksen avulla voit jatkaa siitä, mihin jäit."
 
 #: ../composer/mail-composer.error.xml.h:17
-#, fuzzy
 msgid ""
 "Send options available only for Novell GroupWise and Microsoft Exchange "
 "accounts."
 msgstr ""
 "Lähetysasetukset ovat käytettävissä vain Novell Groupwise- ja Microsoft "
-"Exchange -tileillä."
+"Exchange -tileille."
 
 #: ../composer/mail-composer.error.xml.h:18
 msgid "Send options not available."
@@ -11255,13 +11250,13 @@ msgstr "Vianetsintälokit"
 
 #: ../e-util/e-non-intrusive-error-dialog.c:204
 msgid "Show _errors in the status bar for"
-msgstr ""
+msgstr "Näytä _viestit tilarivillä"
 
 #. Translators: This is the second part of the sentence
 #. * "Show _errors in the status bar for" - XXX - "second(s)."
 #: ../e-util/e-non-intrusive-error-dialog.c:222
 msgid "second(s)."
-msgstr "sekuntia."
+msgstr "sekunnin ajan."
 
 #: ../e-util/e-non-intrusive-error-dialog.c:228
 msgid "Log Messages:"
@@ -11929,11 +11924,11 @@ msgstr "------- Välitetty viesti ---------"
 #: ../mail/em-composer-utils.c:1602
 msgid ""
 "No destination address provided, forward of the message has been cancelled."
-msgstr ""
+msgstr "Kohdeosoitetta ei annettu, viestin edelleenlähetys on peruttu."
 
 #: ../mail/em-composer-utils.c:1608
 msgid "No account found to use, forward of the message has been cancelled."
-msgstr ""
+msgstr "Käytettävää tiliä ei löydy, viestin edelleenlähetys on peruttu."
 
 #: ../mail/em-composer-utils.c:2058
 msgid "an unknown sender"
@@ -12843,7 +12838,7 @@ msgid_plural "%d at_tachments"
 msgstr[0] "%d lii_te"
 msgstr[1] "%d lii_tettä"
 
-#: ../mail/em-format-html-display.c:2297 ../mail/em-format-html-display.c:2386
+#: ../mail/em-format-html-display.c:2297 ../mail/em-format-html-display.c:2387
 msgid "S_ave"
 msgstr "T_allenna"
 
@@ -12851,23 +12846,23 @@ msgstr "T_allenna"
 msgid "S_ave All"
 msgstr "Tallenna _kaikki"
 
-#: ../mail/em-format-html-display.c:2382
+#: ../mail/em-format-html-display.c:2383
 msgid "No Attachment"
 msgstr "Ei liitteitä"
 
-#: ../mail/em-format-html-display.c:2529 ../mail/em-format-html-display.c:2568
+#: ../mail/em-format-html-display.c:2530 ../mail/em-format-html-display.c:2569
 msgid "View _Unformatted"
 msgstr "Näytä _muotoilematon"
 
-#: ../mail/em-format-html-display.c:2531
+#: ../mail/em-format-html-display.c:2532
 msgid "Hide _Unformatted"
 msgstr "Piilota _muotoilematon"
 
-#: ../mail/em-format-html-display.c:2588
+#: ../mail/em-format-html-display.c:2589
 msgid "O_pen With"
 msgstr "Avaa _ohjelmalla"
 
-#: ../mail/em-format-html-display.c:2664
+#: ../mail/em-format-html-display.c:2665
 msgid ""
 "Evolution cannot render this email as it is too large to process. You can "
 "view it unformatted or with an external text editor."
@@ -13151,7 +13146,6 @@ msgid "Failed to create local mail storage `%s': %s"
 msgstr "Paikallista sähköpostitilaa '%s' ei voi luoda: %s"
 
 #: ../mail/em-migrate.c:2952
-#, fuzzy
 msgid ""
 "The summary format of the Evolution mailbox folders has been moved to SQLite "
 "since Evolution 2.24.\n"
@@ -13159,9 +13153,9 @@ msgid ""
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
 "Evolutionin sähköpostikansioiden yhteenvedon esitys on siirretty sqlite-"
-"tietokantaan versiossa 2.24\n"
+"tietokantaan version 2.24 jälkeen.\n"
 "\n"
-"Odota kärsivällisesti, että Evolution muuntaa kansioitasi..."
+"Odota kärsivällisesti, että Evolution muuntaa kansioiden tietoja..."
 
 #: ../mail/em-migrate.c:3034
 #, c-format
@@ -16828,6 +16822,8 @@ msgstr ""
 msgid ""
 "[Security=Personal;Unclassified;Protected;InConfidence;Secret;Topsecret]"
 msgstr ""
+"[Turvataso=Henkilökohtainen;Luokittelematon;Suojattu;Luottamuksellinen;"
+"Salainen;Erittäin salainen]"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:1
 msgid "Open Other User's Folder"
@@ -19100,11 +19096,11 @@ msgstr "Näytä aika _vapaana"
 
 #: ../plugins/itip-formatter/itip-view.c:1136
 msgid "_Preserve my reminder"
-msgstr ""
+msgstr "_Säilytä oma muistitus"
 
 #: ../plugins/itip-formatter/itip-view.c:1141
 msgid "_Inherit reminder"
-msgstr ""
+msgstr "_Peri muistututs"
 
 #: ../plugins/itip-formatter/itip-view.c:1895
 msgid "_Tasks :"
@@ -19667,26 +19663,22 @@ msgstr "Outlookin omat kansiot (.pst)"
 
 #. Address book
 #: ../plugins/pst-import/pst-importer.c:318
-#, fuzzy
 msgid "_Address Book"
-msgstr "Osoitekirja"
+msgstr "_Osoitekirja"
 
 #. Appointments
 #: ../plugins/pst-import/pst-importer.c:325
-#, fuzzy
 msgid "A_ppointments"
-msgstr "Tapaamiset"
+msgstr "_Tapaamiset"
 
 #. Journal
 #: ../plugins/pst-import/pst-importer.c:337
-#, fuzzy
 msgid "_Journal entries"
-msgstr "Päiväkirja"
+msgstr "_Päiväkirjamerkinnät"
 
 #: ../plugins/pst-import/pst-importer.c:352
-#, fuzzy
 msgid "Importing Outlook data"
-msgstr "Tuodaan tietoja Elmistä"
+msgstr "Tuodaan tietoja Outlookista"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:1
 msgid "Allows calendars to be published to the web"
@@ -22408,7 +22400,7 @@ msgstr "_Lainattuna"
 #. Translators: "Read" as in "has been read" (evolution-mail-message.xml)
 #: ../ui/evolution-mail-message.xml.h:126
 msgid "_Read"
-msgstr "_Lue"
+msgstr "_Luettu"
 
 #: ../ui/evolution-mail-message.xml.h:128
 msgid "_Save Message..."
@@ -22420,7 +22412,7 @@ msgstr "_Palauta viesti"
 
 #: ../ui/evolution-mail-message.xml.h:130
 msgid "_Unread"
-msgstr "l_ukematon"
+msgstr "L_ukematon"
 
 #: ../ui/evolution-mail-message.xml.h:131
 msgid "_Zoom"
