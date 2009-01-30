@@ -898,10 +898,10 @@ try_again:
 		old_query = NULL;
 		if (!e_cal_get_query ((ECal *) l->data, real_sexp, &old_query, &error)) {
 			/* If calendar is busy try again for 3 times. */
-			if (error->code == E_CALENDAR_STATUS_BUSY && tries != 3) {
+			if (error->code == E_CALENDAR_STATUS_BUSY && tries != 10) {
 				tries++;
 				/*TODO chose an optimal value */
-				g_usleep (50);
+				g_usleep (500);
 				
 				g_clear_error (&error);
 				goto try_again;	

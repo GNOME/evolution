@@ -1,3 +1,10 @@
+2009-01-30 Chenthill Palanisamy <pchenthill@novell.com>
+	
+	Fixes #347287
+	* calendar/gui/e-cal-model.c:
+	* calendar/gui/gnome-cal.c: Increased the number of tries
+	to 10 and wait to 500 micro seconds. 
+
 2009-01-27  Bharath Acharya  <abharath@novell.com>
 
 	** Fix for bug #463597, bug #463594, bug#463599 (BNC) and 

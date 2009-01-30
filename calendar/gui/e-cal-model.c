@@ -1656,10 +1656,10 @@ update_e_cal_view_for_client (ECalModel *model, ECalModelClient *client_data)
 
 try_again:		
 	if (!e_cal_get_query (client_data->client, priv->full_sexp, &client_data->query, &error)) {
-		if (error->code == E_CALENDAR_STATUS_BUSY && tries != 3) {
+		if (error->code == E_CALENDAR_STATUS_BUSY && tries != 10) {
 			tries++;
 			/*TODO chose an optimal value */
-			g_usleep (50);
+			g_usleep (500);
 			g_clear_error (&error);
 			goto try_again;	
 		}	
