@@ -600,7 +600,7 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	GdkGC *gc;
 	GdkColor bg_color;
 	ECalComponent *comp;
-	gint num_icons, icon_x, icon_y, icon_x_inc, icon_y_inc;
+	gint num_icons, icon_x, icon_y, icon_x_inc = 0, icon_y_inc = 0;
 	gint max_icon_w, max_icon_h;
 	gboolean draw_reminder_icon, draw_recurrence_icon, draw_timezone_icon, draw_meeting_icon;
 	gboolean draw_attach_icon;
@@ -993,92 +993,6 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	else if (bar_y2 < scroll_flag)
 		event->end_minute -= day_view->mins_per_row;
 
-	if (!short_event)
-	{
-		if (event->start_minute % day_view->mins_per_row != 0
-			|| (day_view->show_event_end_times
-		    	&& event->end_minute % day_view->mins_per_row != 0)) {
-				offset = day_view->first_hour_shown * 60
-				+ day_view->first_minute_shown;
-				show_span = TRUE;
-			} else {
-				offset = 0;
-		}
-		start_minute = offset + event->start_minute;
-		end_minute = offset + event->end_minute;
-
-		format_time = (((end_minute - start_minute)/day_view->mins_per_row) >= 2) ? TRUE : FALSE;
-
-		start_hour = start_minute / 60;
-		start_minute = start_minute % 60;
-
-		end_hour = end_minute / 60;
-		end_minute = end_minute % 60;
-
-		e_day_view_convert_time_to_display (day_view, start_hour,
-						    &start_display_hour,
-						    &start_suffix,
-						    &start_suffix_width);
-		e_day_view_convert_time_to_display (day_view, end_hour,
-						    &end_display_hour,
-						    &end_suffix,
-						    &end_suffix_width);
-
-		if (e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (day_view))) {
-			if (day_view->show_event_end_times && show_span) {
-				/* 24 hour format with end time. */
-				text = g_strdup_printf
-					("%2i:%02i-%2i:%02i",
-					 start_display_hour, start_minute,
-					 end_display_hour, end_minute);
-			} else {
-				if (format_time) {
-				/* 24 hour format without end time. */
-				text = g_strdup_printf
-					("%2i:%02i",
-					 start_display_hour, start_minute);
-				}
-			}
-		} else {
-			if (day_view->show_event_end_times && show_span) {
-				/* 12 hour format with end time. */
-				text = g_strdup_printf
-					("%2i:%02i%s-%2i:%02i%s",
-					 start_display_hour, start_minute,
-					 start_suffix,
-					 end_display_hour, end_minute, end_suffix);
-			} else {
-				/* 12 hour format without end time. */
-				text = g_strdup_printf
-					("%2i:%02i%s",
-					 start_display_hour, start_minute,
-					 start_suffix);
-			}
-		}
-
-		cairo_save (cr);
-		cairo_rectangle (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + 2.75,
-			item_w - E_DAY_VIEW_BAR_WIDTH - 4.5,
-			14);
-		cairo_clip (cr);
-		cairo_new_path (cr);
-		if (resize_flag)
-			cairo_move_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 10, item_y + 13);
-		else
-			cairo_move_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 14, item_y + 13);
-		if ((red/cc > 0.7) || (green/cc > 0.7) || (blue/cc > 0.7 ))
-			cairo_set_source_rgb (cr, 0, 0, 0);
-		else
-			cairo_set_source_rgb (cr, 1, 1, 1);
-		cairo_set_font_size (cr, 14.0);
-		cairo_set_font_options (cr, font_options);
-		cairo_show_text (cr, text);
-		cairo_close_path (cr);
-		cairo_restore (cr);
-	}
-
-	if (font_options)
-		cairo_font_options_destroy (font_options);
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
@@ -1295,6 +1209,98 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 		/* free memory */
 		e_cal_component_free_categories_list (categories_list);
 	}
+
+	if (!short_event)
+	{
+		if (event->start_minute % day_view->mins_per_row != 0
+			|| (day_view->show_event_end_times
+		    	&& event->end_minute % day_view->mins_per_row != 0)) {
+				offset = day_view->first_hour_shown * 60
+				+ day_view->first_minute_shown;
+				show_span = TRUE;
+			} else {
+				offset = 0;
+		}
+		start_minute = offset + event->start_minute;
+		end_minute = offset + event->end_minute;
+
+		format_time = (((end_minute - start_minute)/day_view->mins_per_row) >= 2) ? TRUE : FALSE;
+
+		start_hour = start_minute / 60;
+		start_minute = start_minute % 60;
+
+		end_hour = end_minute / 60;
+		end_minute = end_minute % 60;
+
+		e_day_view_convert_time_to_display (day_view, start_hour,
+						    &start_display_hour,
+						    &start_suffix,
+						    &start_suffix_width);
+		e_day_view_convert_time_to_display (day_view, end_hour,
+						    &end_display_hour,
+						    &end_suffix,
+						    &end_suffix_width);
+
+		if (e_calendar_view_get_use_24_hour_format (E_CALENDAR_VIEW (day_view))) {
+			if (day_view->show_event_end_times && show_span) {
+				/* 24 hour format with end time. */
+				text = g_strdup_printf
+					("%2i:%02i-%2i:%02i",
+					 start_display_hour, start_minute,
+					 end_display_hour, end_minute);
+			} else {
+				if (format_time) {
+				/* 24 hour format without end time. */
+				text = g_strdup_printf
+					("%2i:%02i",
+					 start_display_hour, start_minute);
+				}
+			}
+		} else {
+			if (day_view->show_event_end_times && show_span) {
+				/* 12 hour format with end time. */
+				text = g_strdup_printf
+					("%2i:%02i%s-%2i:%02i%s",
+					 start_display_hour, start_minute,
+					 start_suffix,
+					 end_display_hour, end_minute, end_suffix);
+			} else {
+				/* 12 hour format without end time. */
+				text = g_strdup_printf
+					("%2i:%02i%s",
+					 start_display_hour, start_minute,
+					 start_suffix);
+			}
+		}
+
+		cairo_save (cr);
+		cairo_rectangle (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 1.75, item_y + 2.75,
+			item_w - E_DAY_VIEW_BAR_WIDTH - 4.5,
+			14);
+
+		cairo_clip (cr);
+		cairo_new_path (cr);
+
+		if (icon_x_inc == 0)
+			icon_x += 14;
+
+		if (resize_flag)
+			cairo_move_to (cr, item_x + E_DAY_VIEW_BAR_WIDTH + 10, item_y + 13);
+		else
+			cairo_move_to (cr, icon_x, item_y + 13);
+		if ((red/cc > 0.7) || (green/cc > 0.7) || (blue/cc > 0.7 ))
+			cairo_set_source_rgb (cr, 0, 0, 0);
+		else
+			cairo_set_source_rgb (cr, 1, 1, 1);
+		cairo_set_font_size (cr, 14.0);
+		cairo_set_font_options (cr, font_options);
+		cairo_show_text (cr, text);
+		cairo_close_path (cr);
+		cairo_restore (cr);
+	}
+
+	if (font_options)
+		cairo_font_options_destroy (font_options);
 
 	g_free (text);
 	g_object_unref (comp);

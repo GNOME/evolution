@@ -1,5 +1,11 @@
 2009-01-30  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	Fixes #463602 (bnc)
+	* calendar/gui/e-day-view-main-item.c: Align the summary
+	so that it does not intercept with time.
+
+2009-01-30  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Fixes #450535 (bnc)
 	* calendar/gui/e-calendar-view.c: If multiple days are
 	selected in month view, show same selected times in the
