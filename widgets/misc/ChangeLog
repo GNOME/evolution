@@ -1,3 +1,13 @@
+2009-01-30  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #342446
+
+	** Committing on behalf of Behnam Esfahbod
+
+	* e-calendar-item.c (e_calendar_item_draw_day_numbers),
+	(e_calendar_item_recalc_sizes), (e_calendar_item_position_menu):
+	Use localized digits in the calendar widget.
+
 2008-12-10  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #556303

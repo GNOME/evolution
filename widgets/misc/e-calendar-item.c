@@ -1395,7 +1395,7 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 	gboolean today, selected, has_focus, drop_target = FALSE;
 	gboolean bold, draw_day, finished = FALSE;
 	gint today_year, today_month, today_mday, month_offset;
-	gchar buffer[2];
+	gchar buffer[9];
 	gint day_style = 0;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
@@ -1505,12 +1505,12 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 			if (week_num >= 10) {
 				digit = week_num / 10;
 				text_x -= calitem->week_number_digit_widths[digit];
-				buffer[num_chars++] = digit + '0';
+				num_chars += sprintf (&buffer[num_chars], "%Id", digit);
 			}
 
 			digit = week_num % 10;
 			text_x -= calitem->week_number_digit_widths[digit] + 6;
-			buffer[num_chars++] = digit + '0';
+			num_chars += sprintf (&buffer[num_chars], "%Id", digit);
 
 			cairo_save (cr);
 			gdk_cairo_set_source_color (cr, &style->text[GTK_STATE_ACTIVE]);
@@ -1618,12 +1618,12 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 				if (day_num >= 10) {
 					digit = day_num / 10;
 					day_x -= calitem->digit_widths[digit];
-					buffer[num_chars++] = digit + '0';
+					num_chars += sprintf (&buffer[num_chars], "%Id", digit);
 				}
 
 				digit = day_num % 10;
 				day_x -= calitem->digit_widths[digit];
-				buffer[num_chars++] = digit + '0';
+				num_chars += sprintf (&buffer[num_chars], "%Id", digit);
 
 				cairo_save (cr);
 				if (fg_color) {
@@ -1913,7 +1913,6 @@ e_calendar_item_recalc_sizes		(ECalendarItem *calitem)
 {
 	GnomeCanvasItem *canvas_item;
 	GtkStyle *style;
-	gchar *digits = "0123456789";
 	gint day, max_day_width, digit, max_digit_width, max_week_number_digit_width;
 	gint char_height, width, min_cell_width, min_cell_height;
 	PangoFontDescription *font_desc, *wkfont_desc;
@@ -1956,7 +1955,12 @@ e_calendar_item_recalc_sizes		(ECalendarItem *calitem)
 	max_digit_width = 0;
 	max_week_number_digit_width = 0;
 	for (digit = 0; digit < 10; digit++) {
-		pango_layout_set_text (layout, &digits [digit], 1);
+		gchar locale_digit[5];
+		int locale_digit_len;
+		
+		locale_digit_len = sprintf (locale_digit, "%Id", digit);
+
+		pango_layout_set_text (layout, locale_digit, locale_digit_len);
 		pango_layout_get_pixel_size (layout, &width, NULL);
 
 		calitem->digit_widths[digit] = width;
@@ -1966,7 +1970,7 @@ e_calendar_item_recalc_sizes		(ECalendarItem *calitem)
 			pango_context_set_font_description (pango_context, wkfont_desc);
 			pango_layout_context_changed (layout);
 
-			pango_layout_set_text (layout, &digits [digit], 1);
+			pango_layout_set_text (layout, locale_digit, locale_digit_len);
 			pango_layout_get_pixel_size (layout, &width, NULL);
 
 			calitem->week_number_digit_widths[digit] = width;
@@ -3352,7 +3356,9 @@ e_calendar_item_position_menu	(GtkMenu            *menu,
 
 	gtk_widget_get_child_requisition (GTK_WIDGET (menu), &requisition);
 
-	*x -= 2;
+	*x -= (gtk_widget_get_direction(GTK_WIDGET(menu)) == GTK_TEXT_DIR_RTL)
+		? requisition.width - 2
+		: 2;
 	*y -= requisition.height / 2;
 
 	screen_width = gdk_screen_width ();
