@@ -565,6 +565,8 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 		}
 
 		if (!(delegate && e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY))) {
+			event_page_remove_all_attendees (priv->event_page);
+
 			for (l = attendees; l != NULL; l = l->next) {
 				ECalComponentAttendee *ca = l->data;
 				EMeetingAttendee *ia;

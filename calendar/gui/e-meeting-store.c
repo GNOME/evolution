@@ -780,7 +780,7 @@ e_meeting_store_remove_attendee (EMeetingStore *store, EMeetingAttendee *attende
 		gtk_tree_model_row_deleted (GTK_TREE_MODEL (store), path);
 		gtk_tree_path_free (path);
 
-		g_ptr_array_remove_index (store->priv->attendees, row);		
+		g_ptr_array_remove_index (store->priv->attendees, row);
 		g_object_unref (attendee);
 	}
 }
@@ -788,22 +788,20 @@ e_meeting_store_remove_attendee (EMeetingStore *store, EMeetingAttendee *attende
 void
 e_meeting_store_remove_all_attendees (EMeetingStore *store)
 {
-	gint i;
-	GtkTreePath *path = gtk_tree_path_new ();
+	gint i, j, k;
 
-	gtk_tree_path_append_index (path, 0);
-
-	for (i = 0; i < store->priv->attendees->len; i++) {
-		EMeetingAttendee *attendee = g_ptr_array_index (store->priv->attendees, i);
-
+	for (i = 0, j = e_meeting_store_count_actual_attendees (store), k = 0; i < j; i++) {
+	/* Always try to remove the attendee at index 0 since it is the only one that will
+	 * continue to exist until all attendees are removed. */
+		EMeetingAttendee *attendee = g_ptr_array_index (store->priv->attendees, k);
+		GtkTreePath *path = gtk_tree_path_new ();
+		gtk_tree_path_append_index (path, k);
 		gtk_tree_model_row_deleted (GTK_TREE_MODEL (store), path);
-		gtk_tree_path_next (path);
+		gtk_tree_path_free (path);
 
+		g_ptr_array_remove_index (store->priv->attendees, k);
 		g_object_unref (attendee);
 	}
-
-	g_ptr_array_set_size (store->priv->attendees, 0);
-	gtk_tree_path_free (path);
 }
 
 EMeetingAttendee *

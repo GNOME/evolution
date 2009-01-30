@@ -3273,3 +3273,23 @@ event_page_add_attendee (EventPage *epage, EMeetingAttendee *attendee)
 	e_meeting_store_add_attendee (priv->model, attendee);
 	e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (priv->list_view), attendee);
 }
+
+/**
+ * event_page_remove_all_attendees
+ * Removes all attendees from the meeting store and name selector.
+ * @param epage EventPage.
+ **/
+void
+event_page_remove_all_attendees (EventPage *epage)
+{
+	EventPagePrivate *priv;
+
+	g_return_if_fail (epage != NULL);
+	g_return_if_fail (IS_EVENT_PAGE (epage));
+	
+	priv = epage->priv;
+
+	e_meeting_store_remove_all_attendees (priv->model);
+	e_meeting_list_view_remove_all_attendees_from_name_selector (E_MEETING_LIST_VIEW (priv->list_view));
+}
+
