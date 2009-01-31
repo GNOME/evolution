@@ -132,6 +132,7 @@ typedef enum {
 enum {
 	SEND,
 	SAVE_DRAFT,
+	PRINT,
 	LAST_SIGNAL
 };
 
@@ -2695,7 +2696,7 @@ msg_composer_class_init (EMsgComposerClass *class)
 
 	signals[SEND] = g_signal_new (
 		"send",
-		E_TYPE_MSG_COMPOSER,
+		G_OBJECT_CLASS_TYPE (class),
 		G_SIGNAL_RUN_LAST,
 		0, NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
@@ -2703,11 +2704,20 @@ msg_composer_class_init (EMsgComposerClass *class)
 
 	signals[SAVE_DRAFT] = g_signal_new (
 		"save-draft",
-		E_TYPE_MSG_COMPOSER,
+		G_OBJECT_CLASS_TYPE (class),
 		G_SIGNAL_RUN_LAST,
 		0, NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
+
+	signals[PRINT] = g_signal_new (
+		"print",
+		G_OBJECT_CLASS_TYPE (class),
+		G_SIGNAL_RUN_LAST,
+		0, NULL, NULL,
+		g_cclosure_marshal_VOID__ENUM,
+		G_TYPE_NONE, 1,
+		GTK_TYPE_PRINT_OPERATION_ACTION);
 }
 
 static void
@@ -3783,6 +3793,22 @@ e_msg_composer_save_draft (EMsgComposer *composer)
 	/* XXX This should be elsewhere. */
 	gtkhtml_editor_set_changed (editor, FALSE);
 	e_composer_autosave_set_saved (composer, FALSE);
+}
+
+/**
+ * e_msg_composer_print:
+ * @composer: an #EMsgComposer
+ * @action: the print action to start
+ *
+ * Print the message in @composer.
+ **/
+void
+e_msg_composer_print (EMsgComposer *composer,
+                      GtkPrintOperationAction action)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	g_signal_emit (composer, signals[PRINT], 0, action);
 }
 
 static GList *

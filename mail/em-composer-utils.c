@@ -46,6 +46,7 @@
 #include "composer/e-msg-composer.h"
 #include "composer/e-composer-autosave.h"
 #include "em-format-html.h"
+#include "em-format-html-print.h"
 #include "em-format-quote.h"
 #include "em-event.h"
 
@@ -640,6 +641,20 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer)
 	mail_append_mail (folder, msg, info, save_draft_done, sdi);
 	camel_object_unref (folder);
 	camel_object_unref (msg);
+}
+
+static void
+em_utils_composer_print_cb (EMsgComposer *composer,
+                            GtkPrintOperationAction action)
+{
+	CamelMimeMessage *message;
+	EMFormatHTMLPrint *efhp;
+
+	message = e_msg_composer_get_message_print (composer, 1);
+
+	efhp = em_format_html_print_new (NULL, action);
+	em_format_html_print_raw_message (efhp, message);
+	g_object_unref (efhp);
 }
 
 /* Composing messages... */
@@ -2541,6 +2556,10 @@ em_configure_new_composer (EMsgComposer *composer)
 	g_signal_connect (
 		composer, "save-draft",
 		G_CALLBACK (em_utils_composer_save_draft_cb), NULL);
+
+	g_signal_connect (
+		composer, "print",
+		G_CALLBACK (em_utils_composer_print_cb), NULL);
 
 	/* Supply the composer with a folder tree model. */
 	table = e_msg_composer_get_header_table (composer);

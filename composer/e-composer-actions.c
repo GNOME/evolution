@@ -22,7 +22,6 @@
 #include <fcntl.h>
 #include <e-util/e-error.h>
 #include <mail/em-event.h>
-#include <mail/em-format-html-print.h>
 #include <mail/em-composer-utils.h>
 
 #include "misc/e-charset-picker.h"
@@ -184,15 +183,9 @@ action_print_cb (GtkAction *action,
                  EMsgComposer *composer)
 {
 	GtkPrintOperationAction print_action;
-	CamelMimeMessage *message;
-	EMFormatHTMLPrint *efhp;
 
 	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
-	message = e_msg_composer_get_message (composer, 1);
-
-	efhp = em_format_html_print_new (NULL, print_action);
-	em_format_html_print_raw_message (efhp, message);
-	g_object_unref (efhp);
+	e_msg_composer_print (composer, print_action);
 }
 
 static void
@@ -200,15 +193,9 @@ action_print_preview_cb (GtkAction *action,
                          EMsgComposer *composer)
 {
 	GtkPrintOperationAction print_action;
-	CamelMimeMessage *message;
-	EMFormatHTMLPrint *efhp;
 
 	print_action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
-	message = e_msg_composer_get_message_print (composer, 1);
-
-	efhp = em_format_html_print_new (NULL, print_action);
-	em_format_html_print_raw_message (efhp, message);
-	g_object_unref (efhp);
+	e_msg_composer_print (composer, print_action);
 }
 
 static void

@@ -137,7 +137,7 @@ void		e_mail_shell_view_private_finalize
 
 void		e_mail_shell_view_actions_init
 					(EMailShellView *mail_shell_view);
-void		e_mail_shell_view_update_sidebar
+void		e_mail_shell_view_execute_search
 					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_create_filter_from_selected
 					(EMailShellView *mail_shell_view,
@@ -145,6 +145,10 @@ void		e_mail_shell_view_create_filter_from_selected
 void		e_mail_shell_view_create_vfolder_from_selected
 					(EMailShellView *mail_shell_view,
 					 gint vfolder_type);
+void		e_mail_shell_view_update_sidebar
+					(EMailShellView *mail_shell_view);
+void		e_mail_shell_view_update_search_filter
+					(EMailShellView *mail_shell_view);
 
 G_END_DECLS
 

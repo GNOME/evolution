@@ -83,6 +83,8 @@ CamelSession *	e_msg_composer_get_session	(EMsgComposer *composer);
 
 void		e_msg_composer_send		(EMsgComposer *composer);
 void		e_msg_composer_save_draft	(EMsgComposer *composer);
+void		e_msg_composer_print		(EMsgComposer *composer,
+						 GtkPrintOperationAction action);
 
 void		e_msg_composer_set_alternative	(EMsgComposer *composer,
 						 gboolean alt);

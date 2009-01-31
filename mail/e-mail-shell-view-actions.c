@@ -522,6 +522,14 @@ action_mail_view_cb (GtkRadioAction *action,
 		mail_shell_content, vertical_view);
 }
 
+static void
+action_search_filter_cb (GtkRadioAction *action,
+                         GtkRadioAction *current,
+                         EMailShellView *mail_shell_view)
+{
+	e_mail_shell_view_execute_search (mail_shell_view);
+}
+
 static GtkActionEntry mail_entries[] = {
 
 	{ "mail-account-disable",
@@ -1077,4 +1085,42 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 
 	dst_object = G_OBJECT (ACTION (MAIL_THREADS_EXPAND_ALL));
 	e_binding_new (src_object, "active", dst_object, "sensitive");
+}
+
+void
+e_mail_shell_view_update_search_filter (EMailShellView *mail_shell_view)
+{
+	EShellContent *shell_content;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+	GtkActionGroup *action_group;
+	GtkRadioAction *radio_action;
+	GList *list, *iter;
+	GSList *group;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	action_group = ACTION_GROUP (MAIL_FILTER);
+	e_action_group_remove_all_actions (action_group);
+
+	/* Add the standard filter actions. */
+	gtk_action_group_add_radio_actions (
+		action_group, mail_filter_entries,
+		G_N_ELEMENTS (mail_filter_entries),
+		MAIL_FILTER_ALL_MESSAGES,
+		G_CALLBACK (action_search_filter_cb),
+		mail_shell_view);
+
+	/* Retrieve the radio group from an action we just added. */
+	list = gtk_action_group_list_actions (action_group);
+	radio_action = GTK_RADIO_ACTION (list->data);
+	group = gtk_radio_action_get_group (radio_action);
+	g_list_free (list);
+
+	/* FIXME Build the label actions. */
+
+	/* User any action in the group; doesn't matter which. */
+	e_shell_content_set_filter_action (shell_content, radio_action);
 }
