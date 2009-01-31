@@ -84,7 +84,7 @@ write_calendar (gchar *uid, ESourceList *source_list, GOutputStream *stream)
 			objects = g_list_remove (objects, comp);
 		}
 
-		ical_string = icalcomponent_as_ical_string (top_level);
+		ical_string = icalcomponent_as_ical_string_r (top_level);
 		res = g_output_stream_write_all (stream, ical_string, strlen (ical_string), NULL, NULL, &error);
 
 		g_free (ical_string);

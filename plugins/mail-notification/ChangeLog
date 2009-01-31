@@ -1,3 +1,8 @@
+2009-01-28  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am: Use -no-undefined and link with more libraries on
+	Windows.
+
 2008-11-19  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* mail-notification.c: Fix compilation error.

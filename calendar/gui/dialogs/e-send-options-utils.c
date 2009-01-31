@@ -192,7 +192,7 @@ e_sendoptions_utils_fill_component (ESendOptionsDialog *sod, ECalComponent *comp
 			icaltimezone *zone = calendar_config_get_icaltimezone ();
 			temp = icaltime_from_timet_with_zone (gopts->delay_until, FALSE, zone);
 
-			str = icaltime_as_ical_string (temp);
+			str = icaltime_as_ical_string_r (temp);
 			prop = icalproperty_new_x (str);
 			g_free (str);
 			icalproperty_set_x_name (prop, "X-EVOLUTION-OPTIONS-DELAY");

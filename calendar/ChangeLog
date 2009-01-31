@@ -1,3 +1,191 @@
+2009-01-30  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #450554 (bugzilla.novell.com)
+
+	* gui/dialogs/event-editor.c (event_editor_edit_comp):
+	* gui/dialogs/event-page.c (event_page_remove_all_attendees):
+	* gui/dialogs/event-page.h:
+	Remove all attendees from the list-view and name-selector before
+	populating it on 'event_changed' callback.
+	* gui/e-meeting-list-view.c
+	(e_meeting_list_view_remove_attendee_from_name_selector),
+	(e_meeting_list_view_remove_all_attendees_from_name_selector):
+	Fix the GtkTreePath when iterating over the attendee list. It used
+	to cause a mis-match between the model and the view (critical)
+	* gui/e-meeting-list-view.h:
+	* gui/e-meeting-store.c (e_meeting_store_remove_all_attendees):
+	New function added.
+
+2009-01-30  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #463602 (bnc)
+	* calendar/gui/e-day-view-main-item.c: Align the summary
+	so that it does not intercept with time.
+
+2009-01-30  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #450535 (bnc)
+	* calendar/gui/e-calendar-view.c: If multiple days are
+	selected in month view, show same selected times in the
+	editor also.
+
+2009-01-30  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #347287
+	* calendar/gui/e-cal-model.c:
+	* calendar/gui/gnome-cal.c: Increased the number of tries
+	to 10 and wait to 500 micro seconds.
+
+2009-01-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #318003
+
+	* gui/memos-component.c: (selector_tree_data_dropped):
+	* gui/tasks-component.c: (selector_tree_data_dropped):
+	* gui/calendar-component.c: (selector_tree_data_dropped),
+	(create_component_view):
+	* gui/comp-util.h: (cal_comp_process_source_list_drop):
+	* gui/comp-util.c: (update_single_object), (update_objects),
+	(cal_comp_process_source_list_drop):
+	Support move of the event in day view when dropped over the source
+	list. Use the same function for events/tasks/memos.
+
+	* gui/e-day-view.c: (e_day_view_on_drag_data_get):
+	Encode string data same as memos and tasks do, with a source UID.
+
+	* gui/e-calendar-table.c: (e_calendar_table_copy_clipboard):
+	* gui/e-memo-table.c: (e_memo_table_copy_clipboard):
+	Removed inappropriate comments.
+
+2009-01-27  Bharath Acharya  <abharath@novell.com>
+
+	** Fix for bug #463597, bug #463594, bug#463599 (BNC) and 
+	**	   bug #567824(BGO)
+
+	* gui/print.c (titled_box), (print_day_background),
+	(print_day_view), (print_week_view), (print_month_view): Fix all header
+	related bugs in calendar printing.
+
+	Bug reports:
+	1) Daily Printouts Display Hour In Wrong Spot :
+	When you print your daily calendar, it prints the hours in the left 
+	column below the :30 time slot
+
+	2) Font Problems On Printout, Days Of Week
+
+	3) Calendar Heading Printout Problems, Overlapping Fonts
+	In print preview, short week day names in the header of the page are 
+	overlapped.
+
+	Fixes all header issues mentioned at 
+	http://www.go-evolution.org/CalendarPrintoutLove
+
+2009-01-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #559604
+
+	* gui/itip-utils.h: (itip_organizer_is_user_ex):
+	* gui/itip-utils.c: (itip_organizer_is_user_ex),
+	(itip_organizer_is_user):
+	* gui/e-calendar-view.c: (e_calendar_view_get_attendees_status_info):
+	Let the feature work with Groupwise too.
+
+2009-01-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #442869
+
+	* gui/dialogs/task-page.c: (attendee_added_cb):
+	* gui/dialogs/event-page.c: (attendee_added_cb): Do not work
+	with NULL delegator and do not set 'delfrom' with two MAILTO.
+	* gui/e-meeting-list-view.c: (name_selector_dialog_close_cb):
+	Delete attendee only if we have enough rights for it.
+
+2009-01-21  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #362754
+
+	* gui/tasks-component.c: (ensure_sources):
+	* gui/memos-component.c: (ensure_sources):
+	* gui/calendar-component.c: (ensure_sources):
+	Ensure to show default groups and sources with actual
+	localized name, not the one it was stored last time.
+
+2009-01-21  Suman Manjunath  <msuman@novell.com>
+
+	** Fix for bug #541209
+
+	** Adapt to the new APIs from upstream libical. Changes made include
+	using the "_r" counterpart for the following APIs:
+	+ icalproperty_as_ical_string ()
+	+ icalvalue_as_ical_string ()
+	+ icalcomponent_as_ical_string ()
+	+ icalparameter_as_ical_string ()
+	+ icaldurationtype_as_ical_string ()
+	+ icalenum_reqstat_code ()
+	+ icallangbind_property_eval_string ()
+	+ icallangbind_quote_as_ical ()
+	+ icalmime_text_end_part ()
+	+ icalperiodtype_as_ical_string ()
+	+ icalproperty_enum_to_string ()
+	+ icalproperty_get_parameter_as_string ()
+	+ icalproperty_get_value_as_string ()
+	+ icalproperty_get_property_name ()
+	+ icalrecurrencetype_as_string ()
+	+ icaltime_as_ical_string ()
+	+ icalreqstattype_as_string ()
+	+ icalvalue_binary_as_ical_string ()
+	+ icalvalue_int_as_ical_string ()
+	+ icalvalue_utcoffset_as_ical_string ()
+	+ icalvalue_string_as_ical_string ()
+	+ icalvalue_recur_as_ical_string ()
+	+ icalvalue_text_as_ical_string ()
+	+ icalvalue_attach_as_ical_string ()
+	+ icalvalue_duration_as_ical_string ()
+	+ icalvalue_date_as_ical_string ()
+	+ icalvalue_datetime_as_ical_string ()
+	+ icalvalue_float_as_ical_string ()
+	+ icalvalue_geo_as_ical_string ()
+	+ icalvalue_datetimeperiod_as_ical_string ()
+	+ icalvalue_period_as_ical_string ()
+	+ icalvalue_trigger_as_ical_string ()
+	+ icalvalue_as_ical_string ()
+
+	* gui/dialogs/e-send-options-utils.c
+	(e_sendoptions_utils_fill_component):
+	* gui/e-cal-model.c (search_by_id_and_client):
+	* gui/e-calendar-table.c (copy_row_cb),
+	(e_calendar_table_copy_clipboard):
+	* gui/e-calendar-view.c (e_calendar_view_copy_clipboard),
+	(transfer_item_to), (icalcomp_contains_category):
+	* gui/e-day-view.c (update_row), (model_comps_deleted_cb),
+	(e_day_view_find_event_from_uid), (e_day_view_reshape_day_events),
+	(e_day_view_on_drag_data_get):
+	* gui/e-itip-control.c (update_item):
+	* gui/e-memo-table.c (copy_row_cb), (e_memo_table_copy_clipboard):
+	* gui/e-memos.c (obtain_list_of_components):
+	* gui/e-tasks.c (obtain_list_of_components):
+	* gui/e-week-view.c (update_row), (model_comps_deleted_cb),
+	(e_week_view_reshape_events), (e_week_view_find_event_from_uid):
+	* gui/gnome-cal.c (gnome_calendar_purge):
+	* gui/itip-utils.c (comp_limit_attendees), (itip_send_comp),
+	(reply_to_calendar_comp), (itip_publish_comp):
+
+2009-01-20  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #353460
+
+	* gui/gnome-cal.c: (setup_widgets):
+	Do not allow shrinking of Tasks/Memos components in calendar view.
+
+2009-01-20  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #568331
+
+	* gui/dialogs/comp-editor.c: (classification_changed_cb),
+	(comp_editor_init): Notify changes of the classification.
+	* gui/dialogs/comp-editor.c: (fill_widgets): Block classification
+	change signal when filling widgets with values from a component.
+
 2009-01-19  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #567850

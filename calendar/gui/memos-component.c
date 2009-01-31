@@ -158,67 +158,6 @@ source_selection_changed_cb (ESourceSelector *selector, MemosComponentView *comp
 /* Evolution::Component CORBA methods */
 
 static gboolean
-update_single_object (ECal *client, icalcomponent *icalcomp, gboolean fail_on_modify)
-{
-	char *uid;
-	icalcomponent *tmp_icalcomp;
-
-	d(g_message("memos-component.c: update_single_object called");)
-
-	uid = (char *) icalcomponent_get_uid (icalcomp);
-
-	if (e_cal_get_object (client, uid, NULL, &tmp_icalcomp, NULL)) {
-		if (fail_on_modify)
-			return FALSE;
-		else
-			return e_cal_modify_object (client, icalcomp, CALOBJ_MOD_ALL, NULL);
-	}
-
-	return e_cal_create_object (client, icalcomp, &uid, NULL);
-}
-
-static gboolean
-update_objects (ECal *client, icalcomponent *icalcomp)
-{
-	icalcomponent *subcomp;
-	icalcomponent_kind kind;
-
-	d(g_message("memos-component.c: update_objects called");)
-
-	kind = icalcomponent_isa (icalcomp);
-	if (kind == ICAL_VJOURNAL_COMPONENT)
-		return update_single_object (client, icalcomp, TRUE);
-	else if (kind != ICAL_VCALENDAR_COMPONENT)
-		return FALSE;
-
-	subcomp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
-	while (subcomp) {
-		gboolean success;
-
-		kind = icalcomponent_isa (subcomp);
-		if (kind == ICAL_VTIMEZONE_COMPONENT) {
-			icaltimezone *zone;
-
-			zone = icaltimezone_new ();
-			icaltimezone_set_component (zone, subcomp);
-
-			success = e_cal_add_timezone (client, zone, NULL);
-			icaltimezone_free (zone, 1);
-			if (!success)
-				return success;
-		} else if (kind == ICAL_VJOURNAL_COMPONENT) {
-			success = update_single_object (client, subcomp, TRUE);
-			if (!success)
-				return success;
-		}
-
-		subcomp = icalcomponent_get_next_component (icalcomp, ICAL_ANY_COMPONENT);
-	}
-
-	return TRUE;
-}
-
-static gboolean
 selector_tree_data_dropped (ESourceSelector *selector,
                             GtkSelectionData *data,
                             ESource *destination,
@@ -238,11 +177,8 @@ selector_tree_data_dropped (ESourceSelector *selector,
 		goto  finish;
 
 	components = cal_comp_selection_get_string_list (data);
-	for (p = components; p; p = p->next) {
-		const char * uid;
-		char *old_uid = NULL;
-		icalcomponent *tmp_icalcomp = NULL;
-		GError *error = NULL;
+	success = components != NULL;
+	for (p = components; p && success; p = p->next) {
 		char *comp_str; /* do not free this! */
 
 		/* p->data is "source_uid\ncomponent_string" */
@@ -257,58 +193,10 @@ selector_tree_data_dropped (ESourceSelector *selector,
 		if (!icalcomp)
 			continue;
 
-		/* FIXME deal with GDK_ACTION_ASK */
-		if (action == GDK_ACTION_COPY) {
-			old_uid = g_strdup (icalcomponent_get_uid (icalcomp));
-			uid = e_cal_component_gen_uid ();
-			icalcomponent_set_uid (icalcomp, uid);
-		}
-
-		uid = icalcomponent_get_uid (icalcomp);
-		if (!old_uid)
-			old_uid = g_strdup (uid);
-
-		if (!e_cal_get_object (client, uid, NULL, &tmp_icalcomp, &error)) {
-			if ((error != NULL) && (error->code != E_CALENDAR_STATUS_OBJECT_NOT_FOUND))
-				g_message ("Failed to search the object in destination task list: %s",error->message);
-			else {
-				/* this will report success by last item, but we don't care */
-				success = update_objects (client, icalcomp);
-
-				if (success && action == GDK_ACTION_MOVE) {
-					/* remove components rather here, because we know which has been moved */
-					ESource *source_source;
-					ECal *source_client;
-
-					source_source = e_source_list_peek_source_by_uid (component->priv->source_list, p->data);
-
-					if (source_source && !E_IS_SOURCE_GROUP (source_source) && !e_source_get_readonly (source_source)) {
-						source_client = auth_new_cal_from_source (source_source, E_CAL_SOURCE_TYPE_JOURNAL);
-
-						if (source_client) {
-							gboolean read_only = TRUE;
-
-							e_cal_is_read_only (source_client, &read_only, NULL);
-
-							if (!read_only && e_cal_open (source_client, TRUE, NULL))
-								e_cal_remove_object (source_client, old_uid, NULL);
-							else if (!read_only)
-								g_message ("Cannot open source client to remove old memo");
-
-							g_object_unref (source_client);
-						} else
-							g_message ("Cannot create source client to remove old memo");
-					}
-				}
-			}
-
-			g_clear_error (&error);
-		} else
-			icalcomponent_free (tmp_icalcomp);
-
-		g_free (old_uid);
+		success = cal_comp_process_source_list_drop (client, icalcomp, action, p->data, component->priv->source_list);
 		icalcomponent_free (icalcomp);
 	}
+
 	g_slist_foreach (components, (GFunc)g_free, NULL);
 	g_slist_free (components);
 

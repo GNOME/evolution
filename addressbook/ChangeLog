@@ -1,3 +1,17 @@
+2009-01-26  Matthew Barnes  <mbarnes@redhat.com>
+
+	* printing/test-print.c:
+	* printing/test-contact-print-style-editor.c:
+	Migrate the test programs off libgnomeui/libbonobo.
+
+2009-01-21  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #362754
+
+	* gui/component/addressbook-component.c: (ensure_sources):
+	Ensure to show default groups and sources with actual
+	localized name, not the one it was stored last time.
+
 2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/widgets/eab-contact-display.c (eab_uri_popup_link_open),

@@ -756,10 +756,10 @@ try_again:
 		old_query = NULL;
 		if (!e_cal_get_query ((ECal *) l->data, real_sexp, &old_query, &error)) {
 			/* If calendar is busy try again for 3 times. */
-			if (error->code == E_CALENDAR_STATUS_BUSY && tries != 3) {
+			if (error->code == E_CALENDAR_STATUS_BUSY && tries != 10) {
 				tries++;
 				/*TODO chose an optimal value */
-				g_usleep (50);
+				g_usleep (500);
 				
 				g_clear_error (&error);
 				goto try_again;	
@@ -3162,7 +3162,7 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 					struct icaltimetype recur_id = icalcomponent_get_recurrenceid (m->data);
 
 					if (!icaltime_is_null_time (recur_id) )
-						rid = icaltime_as_ical_string (recur_id);
+						rid = icaltime_as_ical_string_r (recur_id);
 
 					e_cal_remove_object_with_mod (client, uid, rid, CALOBJ_MOD_ALL, &error);
 					g_free (rid);

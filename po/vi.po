@@ -5049,13 +5049,13 @@ msgstr "Định dạng thời gian 24 giờ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:68
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
-msgstr "Đơn vị cho bộ nhắc nhở mặc định: « phút », « giờ » hay « ngày »."
+msgstr "Đơn vị cho bộ nhắc nhở mặc định, \"minutes\" (phút), \"hours\" (giờ) hoặc \"days\" (ngày)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:69
 msgid ""
 "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
 msgstr ""
-"Đơn vị để quyết định lúc nào ẩn cộng việc: « phút », « giờ » hay « ngày »."
+"Đơn vị để quyết định lúc nào ẩn cộng việc, \"minutes\" (phút), \"hours\" (giờ) hoặc \"days\" (ngày)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:71
 msgid "Week start"
@@ -12961,7 +12961,7 @@ msgstr "Độ rộng mặc định của Cửa sổ thư"
 
 #: ../mail/evolution-mail.schemas.in.h:91
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-msgstr "Kiểu dáng hiển thị thư (chuẩn, dòng đầu đây đủ, mã nguồn)"
+msgstr "Kiểu dáng hiển thị thư (\"normal\" - chuẩn, \"full headers\" - dòng đầu đây đủ, \"source\" - mã nguồn)"
 
 #: ../mail/evolution-mail.schemas.in.h:92
 msgid "Minimum days between emptying the junk on exit"
@@ -19444,8 +19444,8 @@ msgid ""
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
 msgstr ""
-"Kiểu dạng mọi cái nút cửa sổ. Có thể là « chữ », « ảnh », « cả hai » hay « thanh "
-"công cụ ». Nếu lập « thanh công cụ » thì thiết lập thanh công cụ GNOME sẽ "
+"Kiểu dạng mọi cái nút cửa sổ. Có thể là \"text\" (chữ), \"icons\" (ảnh), \"both\" (cả hai) hay \"toolbar\""
+" (thanh công cụ). Nếu lập « thanh công cụ » thì thiết lập thanh công cụ GNOME sẽ "
 "quyết định kiểu dạng các cái nút này."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:44

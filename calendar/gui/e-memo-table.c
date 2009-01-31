@@ -1009,7 +1009,7 @@ copy_row_cb (int model_row, gpointer data)
 	e_cal_util_add_timezones_from_component (memo_table->tmp_vcal, comp_data->icalcomp);
 
 	/* add the new component to the VCALENDAR component */
-	comp_str = icalcomponent_as_ical_string (comp_data->icalcomp);
+	comp_str = icalcomponent_as_ical_string_r (comp_data->icalcomp);
 	child = icalparser_parse_string (comp_str);
 	if (child) {
 		icalcomponent_add_component (memo_table->tmp_vcal,
@@ -1039,13 +1039,12 @@ e_memo_table_copy_clipboard (EMemoTable *memo_table)
 
 	etable = e_memo_table_get_table (memo_table);
 	e_table_selected_row_foreach (etable, copy_row_cb, memo_table);
-	comp_str = icalcomponent_as_ical_string (memo_table->tmp_vcal);
+	comp_str = icalcomponent_as_ical_string_r (memo_table->tmp_vcal);
 	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (memo_table), clipboard_atom);
 	if (!gtk_clipboard_set_with_data(clipboard, target_types, n_target_types,
 					 clipboard_get_calendar_cb,
 					 NULL, comp_str)) {
-		/* do not free this pointer, it owns libical */
-		/* g_free (comp_str); */
+		/* no-op */
 	} else {
 		gtk_clipboard_set_can_store (clipboard, target_types + 1, n_target_types - 1);
 	}

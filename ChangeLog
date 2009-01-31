@@ -1,3 +1,25 @@
+2009-01-29  Tor Lillqvist  <tml@novell.com>
+
+	Cross-compilation from Linux to Windows support by Fridrich Strba.
+
+	* configure.in: Check for <sys/wait.h>. Don't look for socklen_t
+	on Windows.
+
+	If cross-compiling, we obviously can't run the test to find out
+	the preferred formats for charset names of iconv(). We know them a
+	priori for Windows, though. For cross-compilation to other
+	platforms more change is needed.
+
+	* win32/Makefile.am: Use $(DLLTOOL) instead of hardcoding name.
+
+2009-01-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* tools/killev.c: Added another pattern to killev.
+
+2009-01-19  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS: Evolution 2.25.5 release
+
 2009-10-19  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in:

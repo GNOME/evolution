@@ -1950,7 +1950,7 @@ update_item (EItipControl *itip)
 	 * and you then look at it in Outlook).
 	 */
 	stamp = icaltime_current_time_with_zone (icaltimezone_get_utc_timezone ());
-	str = icaltime_as_ical_string (stamp);
+	str = icaltime_as_ical_string_r (stamp);
 	prop = icalproperty_new_x (str);
 	g_free (str);
 	icalproperty_set_x_name (prop, "X-MICROSOFT-CDO-REPLYTIME");

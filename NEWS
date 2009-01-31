@@ -1,3 +1,63 @@
+Evolution 2.25.5 2009-01-19
+---------------------------
+
+Updated Translations:
+	Andre Klapper  (de)
+	David Planella (ca)
+	Hendrik Richter  (de)
+	Jorge Gonzalez  (es)
+	Kjartan Maraas  (nb)
+	Luca Ferretti  (it)
+	Wadim Dziedzic  (pl)
+
+Bug Fixes:
+	#208426 : Added support for importing .pst files into Evolution (Bharath Acharya  )
+	#245156 : Helper functions to make it easier. (Milan Crha)
+	#246313 : Added ability to show all event in one-day view, but show only up to 6 columns in a multi-day view. (Milan Crha)
+	#303738 : Forget password on AuthFailed or AuthRequired and try to reopen on AuthFailed status, which will ask for a password again. Show "Authentication Required" on such status returned. Do not free memory which hold ECal. Also always forget password for calendar with the URL key. (Milan Crha)
+	#310844 : Transfer master object instead of the instance for recurring events. (Milan Crha)
+	#339879 : Have two types of code expression, one "code", which adds also a "match-all" into the expression, and a "rawcode" without it. (Milan Crha)
+	#360813 : RFC 2445 - CREATED/DTSTAMP/LAST-MODIFIED always in UTC. (Milan Crha)
+	#443544 (bugzilla.novell.com) : Handle E_MEETING_FREE_BUSY_FREE. (Suman Manjunath)
+	#458968 (bugzilla.novell.com) : Don't warn the user about changes being lost if he is trying to delegate the meeting. (Suman Manjunath)
+	#462372 (bnc) : Add supported URI format. (Ashish Shrivastava)
+	#489437 : Check whether the 'until' date is in the future, and report error if not. (Milan Crha)
+	#554454 : Do not crash when received 'modified' event for something not in a model. And a leak fix. (Milan Crha)
+	#555310 : Localize strings properly. (Milan Crha)
+	#563364 : Manage the second day zone in a Preferences dialog. (Milan Crha)
+	#563867 : Unescape "&amp;" when passing the link to browsers. (Felix Riemann)
+	#565376 : Support storing folder uri in a camel's way. Compiler warning fix. (Milan Crha)
+	#565376 : Bump eds requirement to 2.25.5 because of new functionality. (Milan Crha)
+	#565681 : EPlugins must be loaded after Bonobo init, else variables like `session` are not available for plugin's initialization functions (Philip Van hoof)
+	#566011 : Include <glib/gi18n-lib.h> instead of <glib/gi18n.h> and add bindtextdomain(). (Takao Fujiwara)
+	#566572 : Fix typos.  (Andre Klapper)
+	#566599 : Add translator comments and gettext context for meeting mail subject prefixes. (Matthew Barnes)
+	#566653 : Fix a leaked info (Srinivasa Ragavan)
+	#567031 : Hide also label of the combo. (Milan Crha)
+	#567045 : Escalate scroll event's to a scrolled window, to let mouse wheel work over data too. (Milan Crha)
+	#567129 : Add <default> tag in C locale to localize the value. Add gettext. (Takao Fujiwara)
+	#567148 : Use a labelled button to bring up the timezone selector widget.  (Matthew Barnes)
+	#567270 : Remove already-disabled use of gnome_about_new(). (Matthew Barnes)
+	#567276 : Remove unneeded #include <libgnomeui/gnome-dialog-util.h>. Removed unused function calendar_config_check_timezone_set(). (Matthew Barnes)
+	#567280 : Remove unneeded #include <libgnomeui/gnome-pixmap.h>. (Matthew Barnes)
+	#567281 : Remove unneeded #include <libgnomeui/gnome-messagebox.h>. (Matthew Barnes)
+	#567282 : Remove unrequired #include of <libgnomeui/gnome-href.h>. (Andre Klapper)
+	#567285 : Remove unneeded #include <libgnomeui/gnome-popup-menu.h>. (Matthew Barnes)
+	#567409 : Remove redundancy; split up strings (Andre Klapper)
+	#567687 : Force text/html part only when choosing between text/plain and it. (Milan Crha)
+	#567744 : Comment attribute in property tag should be plural. e.g. <property comments="...">  (Matthew Barnes)
+
+Other contributions:
+	Call e_show_uri() instead of gnome_url_show().  (Matthew Barnes)
+	<gmodule.h> API instead of <dlfcn.h> API.  (Tor Lillqvist)
+	Add support for category syncing. Also, retain an existing given/first name split if it exists in the pilot record. (Matt Davey)
+	B & W version of our new logo to replace the old Ximian logo. Regenerate the Quick Reference PDFs with the new logo. (Matthew Barnes)
+	Call e_display_help() instead of gnome_url_show(). New convenience function calls gtk_show_uri() and displays an error dialog if the URI cannot be shown. (Matthew Barnes)
+	Now that we require GTK 2.14, use gtk_show_uri() instead of gnome_help_display(). (Matthew Barnes)
+	Updated screenshots.  ( pc radhika )
+	Remove explicit mentioning of some translators. (Andre Klapper)
+	Add cast to avoid warning.  (Tor Lillqvist)
+
 Evolution 2.25.4 2009-01-05
 ---------------------------
 

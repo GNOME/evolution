@@ -169,7 +169,7 @@ find_attendee (icalcomponent *ical_comp, const char *address)
 		char *attendee;
 		char *text;
 
-		attendee = icalproperty_get_value_as_string (prop);
+		attendee = icalproperty_get_value_as_string_r (prop);
 
 		 if (!attendee)
 			continue;
@@ -253,7 +253,7 @@ find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparamet
 				if (param)
 					pitip->to_name = g_strdup (icalparameter_get_cn (param));
 
-				text = icalproperty_get_value_as_string (prop);
+				text = icalproperty_get_value_as_string_r (prop);
 
 				pitip->to_address = g_strdup (itip_strip_mailto (text));
 				g_free (text);
@@ -309,7 +309,7 @@ find_to_address (struct _itip_puri *pitip, icalcomponent *ical_comp, icalparamet
 				if (param)
 					pitip->to_name = g_strdup (icalparameter_get_cn (param));
 
-				text = icalproperty_get_value_as_string (prop);
+				text = icalproperty_get_value_as_string_r (prop);
 
 				pitip->to_address = g_strdup (itip_strip_mailto (text));
 				g_free (text);
@@ -352,7 +352,7 @@ find_from_address (struct _itip_puri *pitip, icalcomponent *ical_comp)
 	if (!prop)
 		return;
 
-	organizer = icalproperty_get_value_as_string (prop);
+	organizer = icalproperty_get_value_as_string_r (prop);
 	if (organizer) {
 		organizer_clean = g_strdup (itip_strip_mailto (organizer));
 		organizer_clean = g_strstrip (organizer_clean);
@@ -992,7 +992,7 @@ update_item (struct _itip_puri *pitip, ItipViewResponse response)
 	 * and you then look at it in Outlook).
 	 */
 	stamp = icaltime_current_time_with_zone (icaltimezone_get_utc_timezone ());
-	str = icaltime_as_ical_string (stamp);
+	str = icaltime_as_ical_string_r (stamp);
 	prop = icalproperty_new_x (str);
 	g_free (str);
 	icalproperty_set_x_name (prop, "X-MICROSOFT-CDO-REPLYTIME");

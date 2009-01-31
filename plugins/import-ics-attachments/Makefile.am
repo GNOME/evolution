@@ -3,6 +3,7 @@ INCLUDES =						\
 	-I$(top_srcdir)/camel                           \
 	-I$(top_srcdir)/widgets/misc			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
+	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	-DEVOLUTION_ICONSDIR=\""$(imagesdir)"\"		\

@@ -51,17 +51,9 @@ set_esource_props (const char *path, EAccount *a, GConfClient *client, const cha
 {
 	ESourceList *list;
         GSList *groups;
-	char *old_relative_uri;
-	const char *poa_address;
-	CamelURL *url = camel_url_new (a->source->url, NULL);
 	
-	old_relative_uri =  g_strdup_printf ("%s@%s/", url->user, poa_address);
         list = e_source_list_new_for_gconf (client, path);
 	groups = e_source_list_peek_groups (list);
-	poa_address = url->host;
-
-	if (!poa_address || !*poa_address)
-		return;
 
 	for ( ; groups != NULL; groups = g_slist_next (groups)) {
 		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
@@ -87,9 +79,6 @@ set_esource_props (const char *path, EAccount *a, GConfClient *client, const cha
 	e_source_list_sync (list, NULL);
 
 	g_object_unref (list);
-	g_free (old_relative_uri);
-	camel_url_free (url);
-
 }
 
 void

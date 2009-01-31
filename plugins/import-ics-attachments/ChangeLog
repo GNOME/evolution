@@ -1,3 +1,7 @@
+2009-01-21  Milan Crha  <mcrha@redhat.com>
+
+	* Makefile.am: Use also EVOLUTION_CALENDAR_CFLAGS.
+
 2008-09-02  Sankar P  <psankar@novell.com>
 
 License Changes

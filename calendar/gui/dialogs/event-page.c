@@ -1820,27 +1820,28 @@ attendee_added_cb (EMeetingListView *emlv,
 	client = comp_editor_get_client (editor);
 	flags = comp_editor_get_flags (editor);
 
-	if (flags & COMP_EDITOR_DELEGATE) {
-	   if (existing_attendee (ia, priv->comp))
-		   e_meeting_store_remove_attendee (priv->model, ia);
-	   else {
-		   if (!e_cal_get_static_capability (client,
-					   CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY)) {
-			   const char *delegator_id = e_meeting_attendee_get_delfrom (ia);
-			   EMeetingAttendee *delegator;
+	if (!(flags & COMP_EDITOR_DELEGATE))
+		return;
 
-			   delegator = e_meeting_store_find_attendee (priv->model, delegator_id, NULL);
-			   e_meeting_attendee_set_delto (delegator,
-					   g_strdup (e_meeting_attendee_get_address (ia)));
+	if (existing_attendee (ia, priv->comp)) {
+		e_meeting_store_remove_attendee (priv->model, ia);
+	} else {
+		if (!e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_DELEGATE_TO_MANY)) {
+			const char *delegator_id = e_meeting_attendee_get_delfrom (ia);
+			EMeetingAttendee *delegator;
 
-			   e_meeting_attendee_set_delfrom (ia, g_strdup_printf ("MAILTO:%s", delegator_id));
-			   gtk_widget_set_sensitive (priv->invite, FALSE);
-			   gtk_widget_set_sensitive (priv->add, FALSE);
-			   gtk_widget_set_sensitive (priv->edit, FALSE);
-		   }
-	   }
-}
+			delegator = e_meeting_store_find_attendee (priv->model, delegator_id, NULL);
 
+			g_return_if_fail (delegator != NULL);
+
+			e_meeting_attendee_set_delto (delegator, g_strdup (e_meeting_attendee_get_address (ia)));
+
+			e_meeting_attendee_set_delfrom (ia, g_strdup (delegator_id));
+			gtk_widget_set_sensitive (priv->invite, FALSE);
+			gtk_widget_set_sensitive (priv->add, FALSE);
+			gtk_widget_set_sensitive (priv->edit, FALSE);
+		}
+	}
 }
 
 /* Callbacks for list view*/
@@ -3250,3 +3251,23 @@ event_page_add_attendee (EventPage *epage, EMeetingAttendee *attendee)
 	e_meeting_store_add_attendee (priv->model, attendee);
 	e_meeting_list_view_add_attendee_to_name_selector (E_MEETING_LIST_VIEW (priv->list_view), attendee);
 }
+
+/**
+ * event_page_remove_all_attendees
+ * Removes all attendees from the meeting store and name selector.
+ * @param epage EventPage.
+ **/
+void
+event_page_remove_all_attendees (EventPage *epage)
+{
+	EventPagePrivate *priv;
+
+	g_return_if_fail (epage != NULL);
+	g_return_if_fail (IS_EVENT_PAGE (epage));
+	
+	priv = epage->priv;
+
+	e_meeting_store_remove_all_attendees (priv->model);
+	e_meeting_list_view_remove_all_attendees_from_name_selector (E_MEETING_LIST_VIEW (priv->list_view));
+}
+

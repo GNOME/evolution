@@ -74,6 +74,7 @@ book_module_ensure_sources (EShellModule *shell_module)
 	ESource *personal;
 	GSList *groups, *iter;
 	const gchar *data_dir;
+	const gchar *name;
 	gchar *base_uri;
 	gchar *filename;
 
@@ -120,9 +121,14 @@ book_module_ensure_sources (EShellModule *shell_module)
 			on_ldap_servers = source_group;
 	}
 
+	name = _("On This Computer");
+
 	if (on_this_computer != NULL) {
 		GSList *sources;
 		const gchar *group_base_uri;
+
+		/* Force the group name to the current locale. */
+		e_source_group_set_name (on_this_computer, name);
 
 		sources = e_source_group_peek_sources (on_this_computer);
 		group_base_uri = e_source_group_peek_base_uri (on_this_computer);
@@ -159,34 +165,38 @@ book_module_ensure_sources (EShellModule *shell_module)
 
 	} else {
 		ESourceGroup *source_group;
-		const gchar *name;
 
-		name = _("On This Computer");
 		source_group = e_source_group_new (name, base_uri);
 		e_source_list_add_group (source_list, source_group, -1);
 		g_object_unref (source_group);
 	}
 
+	name = _("Personal");
+
 	if (personal == NULL) {
 		ESource *source;
-		const gchar *name;
 
 		/* Create the default Personal address book. */
-		name = _("Personal");
 		source = e_source_new (name, PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (on_this_computer, source, -1);
 		e_source_set_property (source, "completion", "true");
 		g_object_unref (source);
+	} else {
+		/* Force the source name to the current locale. */
+		e_source_set_name (personal, name);
 	}
+
+	name = _("On LDAP Servers");
 
 	if (on_ldap_servers == NULL) {
 		ESourceGroup *source_group;
-		const gchar *name;
 
-		name = _("On LDAP Servers");
 		source_group = e_source_group_new (name, LDAP_BASE_URI);
 		e_source_list_add_group (source_list, source_group, -1);
 		g_object_unref (source_group);
+	} else {
+		/* Force the source name to the current locale. */
+		e_source_set_name (on_ldap_servers, name);
 	}
 
 	g_free (base_uri);

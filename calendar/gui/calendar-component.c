@@ -352,6 +352,88 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 }
 
 static void
+<<<<<<< .working
+=======
+impl_upgradeFromVersion (PortableServer_Servant servant,
+			 CORBA_short major,
+			 CORBA_short minor,
+			 CORBA_short revision,
+			 CORBA_Environment *ev)
+{
+	GError *err = NULL;
+	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
+
+	if (!migrate_calendars (calendar_component, major, minor, revision, &err)) {
+		GNOME_Evolution_Component_UpgradeFailed *failedex;
+
+		failedex = GNOME_Evolution_Component_UpgradeFailed__alloc();
+		failedex->what = CORBA_string_dup(_("Failed upgrading calendars."));
+		failedex->why = CORBA_string_dup(err->message);
+		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UpgradeFailed, failedex);
+	}
+
+	if (err)
+		g_error_free(err);
+}
+
+static gboolean
+selector_tree_data_dropped (ESourceSelector *selector,
+                            GtkSelectionData *data,
+                            ESource *destination,
+                            GdkDragAction action,
+                            guint info,
+			    CalendarComponent *component)
+{
+	gboolean success = FALSE;
+	ECal *client;
+
+	client = auth_new_cal_from_source (destination, E_CAL_SOURCE_TYPE_EVENT);
+
+	if (!client || !e_cal_open (client, TRUE, NULL)) {
+		if (client)
+			g_object_unref (client);
+
+		return FALSE;
+	}
+
+	if (data->data) {
+		icalcomponent *icalcomp = NULL;
+		char *comp_str; /* do not free this! */
+
+		/* data->data is "source_uid\ncomponent_string" */
+		comp_str = strchr ((char *)data->data, '\n');
+		if (comp_str) {
+			comp_str [0] = 0;
+			comp_str++;
+
+			icalcomp = icalparser_parse_string (comp_str);
+
+			if (icalcomp) {
+				success = cal_comp_process_source_list_drop (client, icalcomp, action, (char *)data->data, component->priv->source_list);
+				icalcomponent_free (icalcomp);
+			}
+		}
+	}
+
+	return success;
+}
+
+static void
+control_activate_cb (BonoboControl *control, gboolean activate, gpointer data)
+{
+	CalendarComponentView *component_view = data;
+
+	if (activate) {
+		BonoboUIComponent *uic;
+		uic = bonobo_control_get_ui_component (component_view->view_control);
+
+		e_user_creatable_items_handler_activate (component_view->creatable_items_handler, uic);
+	}
+}
+
+
+static void
+>>>>>>> .merge-right.r37199
 config_create_ecal_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
 	CalendarComponent *calendar_component = data;
@@ -475,6 +557,16 @@ create_component_view (CalendarComponent *calendar_component)
 	/* Create sidebar selector */
 	component_view->source_selector = e_source_selector_new (calendar_component->priv->source_list);
 
+<<<<<<< .working
+=======
+	g_signal_connect (
+		component_view->source_selector, "data-dropped",
+		G_CALLBACK (selector_tree_data_dropped), calendar_component);
+
+	gtk_drag_dest_set(component_view->source_selector, GTK_DEST_DEFAULT_ALL, drag_types,
+			  num_drag_types, GDK_ACTION_COPY | GDK_ACTION_MOVE);
+
+>>>>>>> .merge-right.r37199
 	gtk_widget_show (component_view->source_selector);
 
 	/* Set up the "new" item handler */

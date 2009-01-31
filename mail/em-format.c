@@ -1109,7 +1109,7 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 	camel_object_unref(filter_stream);
 	camel_stream_reset (mem_stream);
 
-	if (max == -1 || size < (max * 1024) || emf->composer) {
+	if (max == -1 || size == -1 || size < (max * 1024) || emf->composer) {
 		camel_stream_write_to_stream(mem_stream, (CamelStream *)stream);
 		camel_stream_flush((CamelStream *)stream);
 	} else {

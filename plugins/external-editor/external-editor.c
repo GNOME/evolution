@@ -38,7 +38,9 @@
 #include <glib/gstdio.h>
 
 #include <sys/stat.h>
-#include <sys/wait.h>
+#ifdef HAVE_SYS_WAIT_H
+#  include <sys/wait.h>
+#endif
 
 #include <stdlib.h>
 #include <string.h>
@@ -151,7 +153,11 @@ async_external_editor (GArray *array)
 		return ;
 	}
 	
+#ifdef HAVE_SYS_WAIT_H
 	if (WEXITSTATUS (status) != 0) {
+#else
+	if (status) {
+#endif
 		d(printf ("\n\nsome problem here with external editor\n\n"));
 		return ;
 	} else {

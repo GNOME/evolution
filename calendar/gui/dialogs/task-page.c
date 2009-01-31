@@ -1155,8 +1155,11 @@ attendee_added_cb (EMeetingListView *emlv,
 			EMeetingAttendee *delegator;
 
 			delegator = e_meeting_store_find_attendee (priv->model, delegator_id, NULL);
+
+			g_return_if_fail (delegator != NULL);
+
 			e_meeting_attendee_set_delto (delegator,
-				   g_strdup (e_meeting_attendee_get_address (ia)));
+				g_strdup (e_meeting_attendee_get_address (ia)));
 
 			gtk_widget_set_sensitive (priv->invite, FALSE);
 			gtk_widget_set_sensitive (priv->add, FALSE);

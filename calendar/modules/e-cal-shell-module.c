@@ -70,6 +70,7 @@ cal_module_ensure_sources (EShellModule *shell_module)
 	ESource *personal;
 	GSList *groups, *iter;
 	const gchar *data_dir;
+	const gchar *name;
 	gchar *base_uri;
 	gchar *filename;
 	gchar *property;
@@ -128,9 +129,14 @@ cal_module_ensure_sources (EShellModule *shell_module)
 			weather = source_group;
 	}
 
+	name = _("On This Computer");
+
 	if (on_this_computer != NULL) {
 		GSList *sources;
 		const gchar *group_base_uri;
+
+		/* Force the group name to the current locale. */
+		e_source_group_set_name (on_this_computer, name);
 
 		sources = e_source_group_peek_sources (on_this_computer);
 		group_base_uri = e_source_group_peek_base_uri (on_this_computer);
@@ -167,21 +173,19 @@ cal_module_ensure_sources (EShellModule *shell_module)
 
 	} else {
 		ESourceGroup *source_group;
-		const gchar *name;
 
-		name = _("On This Computer");
 		source_group = e_source_group_new (name, base_uri);
 		e_source_list_add_group (source_list, source_group, -1);
 		g_object_unref (source_group);
 	}
 
+	name = _("Personal");
+
 	if (personal == NULL) {
 		ESource *source;
 		GSList *selected;
-		const gchar *name;
 		gchar *primary;
 
-		name = _("Personal");
 		source = e_source_new (name, PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (on_this_computer, source, -1);
 		g_object_unref (source);
@@ -202,20 +206,31 @@ cal_module_ensure_sources (EShellModule *shell_module)
 		g_slist_foreach (selected, (GFunc) g_free, NULL);
 		g_slist_free (selected);
 		g_free (primary);
+	} else {
+		/* Force the source name to the current locale. */
+		e_source_set_name (personal, name);
 	}
+
+	name = _("On The Web");
 
 	if (on_the_web == NULL) {
 		ESourceGroup *source_group;
-		const gchar *name;
 
-		name = _("On The Web");
 		source_group = e_source_group_new (name, WEB_BASE_URI);
 		e_source_list_add_group (source_list, source_group, -1);
 		g_object_unref (source_group);
+	} else {
+		/* Force the group name to the current locale. */
+		e_source_group_set_name (on_the_web, name);
 	}
+
+	name = _("Contacts");
 
 	if (contacts != NULL) {
 		GSList *sources;
+
+		/* Force the group name to the current locale. */
+		e_source_group_set_name (contacts, name);
 
 		sources = e_source_group_peek_sources (contacts);
 
@@ -239,9 +254,7 @@ cal_module_ensure_sources (EShellModule *shell_module)
 		}
 	} else {
 		ESourceGroup *source_group;
-		const gchar *name;
 
-		name = _("Contacts");
 		source_group = e_source_group_new (name, CONTACTS_BASE_URI);
 		e_source_list_add_group (source_list, source_group, -1);
 		g_object_unref (source_group);
@@ -258,6 +271,8 @@ cal_module_ensure_sources (EShellModule *shell_module)
 		e_source_group_set_property (contacts, "create_source", "no");
 	g_free (property);
 
+	name = _("Birthdays & Anniversaries");
+
 	if (birthdays == NULL) {
 		ESource *source;
 		const gchar *name;
@@ -269,6 +284,9 @@ cal_module_ensure_sources (EShellModule *shell_module)
 
 		/* This is now a borrowed reference. */
 		birthdays = source;
+	} else {
+		/* Force the source name to the current locale. */
+		e_source_set_name (birthdays, name);
 	}
 
 	if (e_source_get_property (birthdays, "delete") == NULL)
@@ -277,14 +295,17 @@ cal_module_ensure_sources (EShellModule *shell_module)
 	if (e_source_peek_color_spec (birthdays) == NULL)
 		e_source_set_color_spec (birthdays, "#DDBECE");
 
+	name = _("Weather");
+
 	if (weather == NULL) {
 		ESourceGroup *source_group;
-		const gchar *name;
 
-		name = _("Weather");
 		source_group = e_source_group_new (name, WEATHER_BASE_URI);
 		e_source_list_add_group (source_list, source_group, -1);
 		g_object_unref (source_group);
+	} else {
+		/* Force the group name to the current locale. */
+		e_source_group_set_name (weather, name);
 	}
 
 	g_free (base_uri);

@@ -25,7 +25,6 @@
 #include "config.h"
 #endif
 
-#include <sys/wait.h>
 #include <signal.h>
 #include <unistd.h>
 #include <errno.h>
@@ -34,6 +33,13 @@
 #define G_LOG_DOMAIN "bf-junk-filter"
 
 #include <glib.h>
+
+#ifndef G_OS_WIN32
+#  include <sys/wait.h>
+#else
+#  include <windows.h>
+#endif
+
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <e-util/e-plugin.h>
@@ -163,6 +169,7 @@ retry:
 	camel_stream_close (stream);
 	camel_object_unref (stream);
 
+#ifndef G_OS_WIN32
 	waitres = waitpid (child_pid, &status, 0);
 	if (waitres < 0 && errno == EINTR) {
 		/* child process is hanging... */
@@ -181,13 +188,17 @@ retry:
 			g_set_error (error, EM_JUNK_ERROR, -3, _("Wait for Bogofilter child process interrupted, terminating..."));
 	}
 
-	g_spawn_close_pid (child_pid);
-
 	if (waitres >= 0 && WIFEXITED (status)) {
 		res = WEXITSTATUS (status);
 	} else {
 		res = BOGOFILTER_ERROR;
 	}
+#else
+	WaitForSingleObject (child_pid, INFINITE);
+	GetExitCodeProcess (child_pid, &res);
+#endif
+
+	g_spawn_close_pid (child_pid);
 
 	if (res < 0 || res > 2) {
 		if (!only_once) {

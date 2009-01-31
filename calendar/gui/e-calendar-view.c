@@ -742,7 +742,7 @@ e_calendar_view_copy_clipboard (ECalendarView *cal_view)
 
 	/* copy the VCALENDAR to the clipboard */
 	clipboard = gtk_widget_get_clipboard (GTK_WIDGET (cal_view), GDK_SELECTION_CLIPBOARD);
-	comp_str = icalcomponent_as_ical_string (vcal_comp);
+	comp_str = icalcomponent_as_ical_string_r (vcal_comp);
 
 	if (!gtk_clipboard_set_with_data (clipboard, target_types, n_target_types,
 					  clipboard_get_calendar_cb,
@@ -1367,7 +1367,7 @@ transfer_item_to (ECalendarViewEvent *event, ECal *dest_client, gboolean remove_
 			struct icaltimetype recur_id = icalcomponent_get_recurrenceid (event->comp_data->icalcomp);
 
 			if (!icaltime_is_null_time (recur_id))
-				rid = icaltime_as_ical_string (recur_id);
+				rid = icaltime_as_ical_string_r (recur_id);
 
 			e_cal_remove_object_with_mod (event->comp_data->client, uid, rid, CALOBJ_MOD_ALL, NULL);
 			g_free (rid);
@@ -1922,7 +1922,7 @@ e_calendar_view_new_appointment_full (ECalendarView *cal_view, gboolean all_day,
 
 	/* We either need rounding or don't want to set all_day for this, we will rather use actual */
 	/* time in this cases; dtstart should be a midnight in this case */
-	if (do_rounding || (!all_day && (dtend - dtstart) % (60 * 60 * 24) == 0)) {
+	if (do_rounding || (!all_day && (dtend - dtstart) == (60 * 60 * 24))) {
 		struct tm local = *localtime (&now);
 		int time_div = calendar_config_get_time_divisions ();
 		int hours, mins;
@@ -2168,7 +2168,7 @@ e_calendar_view_get_attendees_status_info (ECalComponent *comp, ECal *client)
 	char *res = NULL;
 	int i;
 
-	if (!comp || !e_cal_component_has_attendees (comp) || !itip_organizer_is_user (comp, client))
+	if (!comp || !e_cal_component_has_attendees (comp) || !itip_organizer_is_user_ex (comp, client, TRUE))
 		return NULL;
 
 	e_cal_component_get_attendee_list (comp, &attendees);
@@ -2409,7 +2409,7 @@ icalcomp_contains_category (icalcomponent *icalcomp, const gchar *category)
 	for (property = icalcomponent_get_first_property (icalcomp, ICAL_CATEGORIES_PROPERTY);
 	     property != NULL;
 	     property = icalcomponent_get_next_property (icalcomp, ICAL_CATEGORIES_PROPERTY)) {
-		char *value = icalproperty_get_value_as_string (property);
+		char *value = icalproperty_get_value_as_string_r (property);
 
 		if (value && strcmp (category, value) == 0){
 			g_free (value);

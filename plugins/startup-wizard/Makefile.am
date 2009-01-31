@@ -1,6 +1,7 @@
 INCLUDES = -I .						\
 	-I$(top_srcdir)	                                \
 	-I$(top_builddir)/shell				\
+	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	$(EVOLUTION_MAIL_CFLAGS)
 
 @EVO_PLUGIN_RULE@

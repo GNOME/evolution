@@ -296,15 +296,56 @@ e_meeting_list_view_remove_attendee_from_name_selector (EMeetingListView *view, 
 			}
 		} else {
 			attendee = e_destination_get_email (des);
-
 			if (madd && attendee && g_str_equal (madd, attendee)) {
-			attendee = e_destination_get_email (des);
-			e_destination_store_remove_destination (destination_store, des);
+				e_destination_store_remove_destination (destination_store, des);
 			}
 		}
 	}
 
 	g_list_free (destinations);
+}
+
+void
+e_meeting_list_view_remove_all_attendees_from_name_selector (EMeetingListView *view)
+{
+	ENameSelectorModel *name_selector_model;
+	EMeetingListViewPrivate *priv;
+	guint i;
+
+	priv = view->priv;
+
+	name_selector_model = e_name_selector_peek_model (priv->name_selector);
+
+	for (i = 0; sections[i] != NULL; i++) {
+		EDestinationStore *destination_store = NULL;
+		GList             *destinations = NULL, *l = NULL;
+
+		e_name_selector_model_peek_section (name_selector_model, sections[i],
+						    NULL, &destination_store);
+		if (!destination_store) {
+			g_warning ("destination store is NULL\n");
+			continue;
+		}
+
+		destinations = e_destination_store_list_destinations (destination_store);
+		for (l = destinations; l; l = g_list_next (l)) {
+			EDestination *des = l->data;
+
+			if (e_destination_is_evolution_list (des)) {
+				GList *m, *dl;
+
+				dl = (GList *)e_destination_list_get_dests (des);
+
+				for (m = dl; m; m = m->next) {
+					g_object_unref (m->data);
+					m = g_list_remove (m, l->data);
+				}
+			} else {
+				e_destination_store_remove_destination (destination_store, des);
+			}
+		}
+		g_list_free (destinations);
+	}
 }
 
 static void
@@ -898,8 +939,12 @@ name_selector_dialog_close_cb (ENameSelectorDialog *dialog, gint response, gpoin
 
 		ma = e_meeting_store_find_attendee (store, email, &i);
 
-		if (ma)
-			e_meeting_store_remove_attendee (store, ma);
+		if (ma) {
+			if (e_meeting_attendee_get_edit_level (ma) != E_MEETING_ATTENDEE_EDIT_FULL)
+				g_warning ("Not enough rights to delete attendee: %s\n", e_meeting_attendee_get_address (ma));
+			else
+				e_meeting_store_remove_attendee (store, ma);
+		}
 	}
 
 	g_slist_free (la);

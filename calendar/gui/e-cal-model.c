@@ -1338,7 +1338,7 @@ search_by_id_and_client (ECalModelPrivate *priv, ECal *client, const ECalCompone
 			gboolean has_rid = (id->rid && *id->rid);
 
 			uid = icalcomponent_get_uid (comp_data->icalcomp);
-			rid = icaltime_as_ical_string (icalcomponent_get_recurrenceid (comp_data->icalcomp));
+			rid = icaltime_as_ical_string_r (icalcomponent_get_recurrenceid (comp_data->icalcomp));
 
 			if (uid && *uid) {
 				if ((!client || comp_data->client == client) && !strcmp (id->uid, uid)) {
@@ -1677,10 +1677,10 @@ update_e_cal_view_for_client (ECalModel *model, ECalModelClient *client_data)
 
 try_again:		
 	if (!e_cal_get_query (client_data->client, priv->full_sexp, &client_data->query, &error)) {
-		if (error->code == E_CALENDAR_STATUS_BUSY && tries != 3) {
+		if (error->code == E_CALENDAR_STATUS_BUSY && tries != 10) {
 			tries++;
 			/*TODO chose an optimal value */
-			g_usleep (50);
+			g_usleep (500);
 			g_clear_error (&error);
 			goto try_again;	
 		}	

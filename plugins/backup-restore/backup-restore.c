@@ -18,9 +18,16 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <unistd.h>
 #include <sys/types.h>
-#include <sys/wait.h>
+#ifdef HAVE_SYS_WAIT_H
+#  include <sys/wait.h>
+#endif
+#include <stdlib.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
@@ -71,9 +78,13 @@ sanity_check (const char *filename)
 	result = system (command);
 	g_free (command);
 
+#ifdef HAVE_SYS_WAIT_H
 	g_message ("Sanity check result %d:%d %d", WIFEXITED (result), WEXITSTATUS (result), result);
 
 	return WIFEXITED (result) && (WEXITSTATUS (result) == 0);
+#else	
+	return result;
+#endif
 }
 
 static guint32

@@ -1,13 +1,14 @@
 # translation of evolution manual to german
 # Andre Klapper <ak-47@gmx.net>, 2007, 2008, 2009.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: manual_evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-01-07 22:30+0000\n"
-"PO-Revision-Date: 2009-01-11 21:03+0100\n"
-"Last-Translator: \n"
-"Language-Team: American English <kde-i18n-doc@lists.kde.org>\n"
+"PO-Revision-Date: 2009-01-24 18:11+0100\n"
+"Last-Translator: Andre Klapper <ak-47@gmx.net>\n"
+"Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -749,7 +750,7 @@ msgstr "Weiterführende Einstellungen"
 
 #: C/evolution.xml:108(link) C/evolution.xml:7185(title)
 msgid "Synchronizing Your Handheld Device"
-msgstr "Mit tragbaren Geräten synchronisieren"
+msgstr "Mit tragbaren Geräten abgleichen"
 
 #: C/evolution.xml:111(link) C/evolution.xml:7242(title)
 msgid "Migration from Outlook to Evolution"
@@ -1465,7 +1466,7 @@ msgid ""
 "Select Automatically synchronize remote mail locally to download the "
 "messages to your local system."
 msgstr ""
-"Wählen Sie »Entfernte E-Mails automatisch lokal synchronisieren« um E-Mails "
+"Wählen Sie »Entfernte E-Mails automatisch lokal abgleichen« um E-Mails "
 "automatisch auf Ihre Festplatte herunterzuladen."
 
 #: C/evolution.xml:405(para) C/evolution.xml:496(para)
@@ -4072,7 +4073,7 @@ msgid ""
 "Click Synchronize to download all the messages to the folders marked for "
 "offline."
 msgstr ""
-"Klicken Sie auf »Synchronisieren« um die Nachrichten in den Ordnern "
+"Klicken Sie auf »Abgleichen« um die Nachrichten in den Ordnern "
 "herunterzuladen, die für den Offline-Modus markiert wurden."
 
 #: C/evolution.xml:1546(para) C/evolution.xml:3900(para)
@@ -4084,7 +4085,7 @@ msgid ""
 "Click Do not synchronize to go offline immediately, without downloading the "
 "messages locally for offline operations."
 msgstr ""
-"Klicken Sie »Nicht synchronisieren« falls Sie sofort offline gehen möchten, "
+"Klicken Sie »Nicht abgleichen« falls Sie sofort offline gehen möchten, "
 "ohne zuvor die Nachrichten für die Offline-Nutzung herunterzuladen."
 
 #: C/evolution.xml:1548(para)
@@ -4094,7 +4095,7 @@ msgid ""
 msgstr ""
 "Wählen Sie »Diese Meldung nicht mehr anzeigen«, damit die Nachfrage in "
 "Zukunft nicht mehr angezeigt wird. Die Vorgabe-Einstellung ist es, beim "
-"Offline-Gehen nicht zu synchronisieren."
+"Offline-Gehen nicht abzugleichen."
 
 #: C/evolution.xml:1551(para)
 msgid ""
@@ -8820,7 +8821,7 @@ msgstr ""
 "Kontakt-Editor-Fenster zu erhalten. Evolution kann auch Kontakte von einem "
 "tragbaren Gerät während der HotSync*-Durchführung hinzufügen. Für weitere "
 "Informationen siehe <link linkend=\"config-sync\">Mit tragbaren Geräten "
-"synchronisieren</link>."
+"abgleichen</link>."
 
 #: C/evolution.xml:3765(para)
 msgid ""
@@ -10641,7 +10642,7 @@ msgstr ""
 
 #: C/evolution.xml:5095(title)
 msgid "Palm Synchronization:"
-msgstr ""
+msgstr "Palm-Datenabgleich:"
 
 #: C/evolution.xml:5096(para)
 msgid "Supported for Contacts and Calendars on Exchange."
@@ -14156,16 +14157,16 @@ msgid ""
 "only supports Palm OS devices like the PalmPilot* and the Handspring Visor. "
 "Third, you should decide what sort of synchronization behavior you want."
 msgstr ""
-"Dieses Kapitel behandelt drei Themen: Erstens: Das Aktivieren der "
-"Synchronisation. Zweitens muss der Computer das tragbare Gerät erkennen und "
+"Dieses Kapitel behandelt drei Themen: Erstens: Das Aktivieren des "
+"Datenabgleichs. Zweitens muss der Computer das tragbare Gerät erkennen und "
 "darauf zugreifen können. Momentan unterstützt <trademark>Evolution</"
 "trademark> nur Geräte, auf den Palm OS läuft, wie zum Beispiel den "
 "PalmPilot* oder den Handspring Visor. Drittens müssen Sie entscheiden, was "
-"genau synchronisiert werden soll."
+"genau abgeglichen werden soll."
 
 #: C/evolution.xml:7189(link) C/evolution.xml:7200(title)
 msgid "Enabling Synchronization"
-msgstr "Aktivieren der Synchronisation"
+msgstr "Aktivieren des Datenabgleichs"
 
 #: C/evolution.xml:7192(link) C/evolution.xml:7205(title)
 msgid "Selecting Conduits"
@@ -14173,7 +14174,7 @@ msgstr "Conduits auswählen"
 
 #: C/evolution.xml:7195(link) C/evolution.xml:7228(title)
 msgid "Synchronizing Information"
-msgstr "Informationen synchronisieren"
+msgstr "Informationen abgleichen"
 
 #: C/evolution.xml:7201(para)
 msgid ""
@@ -14235,7 +14236,7 @@ msgstr "Nichts tun."
 
 #: C/evolution.xml:7213(title)
 msgid "Synchronize:"
-msgstr "Synchronisieren/Abgleichen:"
+msgstr "Abgleichen:"
 
 #: C/evolution.xml:7214(para)
 msgid ""
@@ -14245,7 +14246,7 @@ msgid ""
 msgstr ""
 "Kopiert neue Daten vom Computer auf das tragbare Geräte und vom tragbaren "
 "Gerät auf den Computer. Entfernt Elemente, die auf beiden Systemen waren "
-"aber seit der letzten Synchronisation auf einem System gelöscht wurden."
+"aber seit dem letzten Datenabgleich auf einem System gelöscht wurden."
 
 #: C/evolution.xml:7217(title)
 msgid "Copy From Pilot:"
@@ -14271,8 +14272,7 @@ msgid ""
 "not sure, use Synchronize."
 msgstr ""
 "Wählen Sie das gewünschte Verhalten für jedes Conduit, welches Sie benutzen "
-"wollen. Falls Sie sich nicht sicher sind, so benutzen Sie »Synchronisieren/"
-"Abgleichen«."
+"wollen. Falls Sie sich nicht sicher sind, so benutzen Sie »Abgleichen«."
 
 #: C/evolution.xml:7229(para)
 msgid ""
@@ -14288,7 +14288,7 @@ msgid ""
 "the <command>.evolution</command> directory inside your home directory."
 msgstr ""
 "Falls Sie eine Sicherheitskopie Ihrer Evolution-Daten machen möchten, bevor "
-"Sie synchronisieren, so kopieren Sie das <command>.evolution</command>-"
+"Sie abgleichen, so kopieren Sie das <command>.evolution</command>-"
 "Verzeichnis in Ihrem Heimatverzeichnis."
 
 #: C/evolution.xml:7233(para)
@@ -14307,14 +14307,14 @@ msgid ""
 msgstr ""
 "Falls Sie Palm OS Version 4.0 benutzen und der Passwortschutz aktiviert ist, "
 "so könnten Sie auf Probleme stoßen. Falls dies passiert, so stellen Sie den "
-"Passwortschutz für Ihr tragbares Gerät ab, synchronisieren Sie es mit dem "
-"Computer, und aktivieren Sie dann wieder den Passwortschutz."
+"Passwortschutz für Ihr tragbares Gerät ab, gleichen Sie dessen Daten mit dem "
+"Computer ab, und aktivieren Sie dann wieder den Passwortschutz."
 
 #: C/evolution.xml:7237(para)
 msgid ""
 "If you have followed the setup instructions properly, your Palm OS device "
 "will synchronize data with Evolution."
-msgstr "Nun sollte Ihr Palm-OS-Gerät Daten mit Evolution synchronisieren."
+msgstr "Nun sollte Ihr Palm-OS-Gerät Daten mit Evolution abgleichen."
 
 #: C/evolution.xml:7243(para)
 msgid ""

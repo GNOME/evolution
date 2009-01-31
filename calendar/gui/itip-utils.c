@@ -82,13 +82,13 @@ itip_addresses_get_default (void)
 }
 
 gboolean
-itip_organizer_is_user (ECalComponent *comp, ECal *client)
+itip_organizer_is_user_ex (ECalComponent *comp, ECal *client, gboolean skip_cap_test)
 {
 	ECalComponentOrganizer organizer;
 	const char *strip;
 	gboolean user_org = FALSE;
 
-	if (!e_cal_component_has_organizer (comp) || e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_ORGANIZER))
+	if (!e_cal_component_has_organizer (comp) || (!skip_cap_test && e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_ORGANIZER)))
 		return FALSE;
 
 	e_cal_component_get_organizer (comp, &organizer);
@@ -113,6 +113,12 @@ itip_organizer_is_user (ECalComponent *comp, ECal *client)
 	}
 
 	return user_org;
+}
+
+gboolean
+itip_organizer_is_user (ECalComponent *comp, ECal *client)
+{
+	return itip_organizer_is_user_ex (comp, client, FALSE);
 }
 
 gboolean
@@ -858,7 +864,7 @@ comp_limit_attendees (ECalComponent *comp)
 			continue;
 		}
 
-		attendee = icalproperty_get_value_as_string (prop);
+		attendee = icalproperty_get_value_as_string_r (prop);
 		if (!attendee)
 			continue;
 
@@ -1254,7 +1260,7 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	content_type = comp_content_type (comp, method);
 
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
-	ical_string = icalcomponent_as_ical_string (top_level);
+	ical_string = icalcomponent_as_ical_string_r (top_level);
 
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT) {
 		e_msg_composer_set_body (composer, ical_string, content_type);
@@ -1358,7 +1364,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 	e_destination_freev (destinations);
 
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
-	ical_string = icalcomponent_as_ical_string (top_level);
+	ical_string = icalcomponent_as_ical_string_r (top_level);
 
 	if (e_cal_component_get_vtype (comp) == E_CAL_COMPONENT_EVENT){
 
@@ -1668,7 +1674,7 @@ itip_publish_comp (ECal *client, gchar *uri, gchar *username,
 	}
 
 	soup_message_set_flags (msg, SOUP_MESSAGE_NO_REDIRECT);
-	ical_string = icalcomponent_as_ical_string (toplevel);
+	ical_string = icalcomponent_as_ical_string_r (toplevel);
 	soup_message_set_request (msg, "text/calendar", SOUP_MEMORY_TEMPORARY,
 				  ical_string, strlen (ical_string));
 

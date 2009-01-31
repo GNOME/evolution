@@ -6,6 +6,7 @@ INCLUDES =						\
 	-DDATADIR=\""$(datadir)"\"			\
 	-DLIBDIR=\""$(libdir)"\"			\
 	-I$(top_srcdir)					\
+	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	$(SHELL_CFLAGS)					\
 	$(E_UTIL_CFLAGS)				
 
@@ -20,7 +21,8 @@ plugin_LTLIBRARIES = liborg-gnome-backup-restore.la
 liborg_gnome_backup_restore_la_SOURCES = backup-restore.c
 liborg_gnome_backup_restore_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_backup_restore_la_LIBADD =	\
-	$(EVOLUTION_MAIL_LIBS)
+	$(EVOLUTION_MAIL_LIBS) \
+	$(top_builddir)/e-util/libeutil.la
 
 privlibexec_PROGRAMS = evolution-backup
 evolution_backup_SOURCES = backup.c

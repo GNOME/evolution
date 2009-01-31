@@ -66,8 +66,8 @@
 #include <mail/mail-tools.h>
 #include <mail/em-utils.h>
 
-#include <libpst/libpst.h>
 #include <libpst/define.h>
+#include <libpst/libpst.h>
 #include <libpst/timeconv.h>
 
 typedef struct _PstImporter PstImporter;

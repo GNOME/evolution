@@ -454,7 +454,7 @@ put_options_in_source (ESource *source, EGwSendOptionsGeneral *gopts, EGwSendOpt
 		if (gopts->delay_enabled) {
 				tt = icaltime_today ();
 				icaltime_adjust (&tt, gopts->delay_until, 0, 0, 0);
-				val = icaltime_as_ical_string (tt);
+				val = icaltime_as_ical_string_r (tt);
 		} else
 			val = "none";
 		e_source_set_property (source, "delay-delivery", val);

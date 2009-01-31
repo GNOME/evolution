@@ -63,6 +63,7 @@ task_module_ensure_sources (EShellModule *shell_module)
 	ESource *personal;
 	GSList *groups, *iter;
 	const gchar *data_dir;
+	const gchar *name;
 	gchar *base_uri;
 	gchar *filename;
 
@@ -109,9 +110,14 @@ task_module_ensure_sources (EShellModule *shell_module)
 			on_the_web = source_group;
 	}
 
+	name = _("On This Computer");
+
 	if (on_this_computer != NULL) {
 		GSList *sources;
 		const gchar *group_base_uri;
+
+		/* Force the group name to the current locale. */
+		e_source_group_set_name (on_this_computer, name);
 
 		sources = e_source_group_peek_sources (on_this_computer);
 		group_base_uri = e_source_group_peek_base_uri (on_this_computer);
@@ -148,13 +154,13 @@ task_module_ensure_sources (EShellModule *shell_module)
 
 	} else {
 		ESourceGroup *source_group;
-		const gchar *name;
 
-		name = _("On This Computer");
 		source_group = e_source_group_new (name, base_uri);
 		e_source_list_add_group (source_list, source_group, -1);
 		g_object_unref (source_group);
 	}
+
+	name = _("Personal");
 
 	if (personal == NULL) {
 		ESource *source;
@@ -162,7 +168,6 @@ task_module_ensure_sources (EShellModule *shell_module)
 		const gchar *name;
 		gchar *primary;
 
-		name = _("Personal");
 		source = e_source_new (name, PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (on_this_computer, source, -1);
 		g_object_unref (source);
@@ -183,16 +188,22 @@ task_module_ensure_sources (EShellModule *shell_module)
 		g_slist_foreach (selected, (GFunc) g_free, NULL);
 		g_slist_free (selected);
 		g_free (primary);
+	} else {
+		/* Force the source name to the current locale. */
+		e_source_set_name (personal, name);
 	}
+
+	name = _("On The Web");
 
 	if (on_the_web == NULL) {
 		ESourceGroup *source_group;
-		const gchar *name;
 
-		name = _("On The Web");
 		source_group = e_source_group_new (name, WEB_BASE_URI);
 		e_source_list_add_group (source_list, source_group, -1);
 		g_object_unref (source_group);
+	} else {
+		/* Force the group name to the current locale. */
+		e_source_group_set_name (on_the_web, name);
 	}
 
 	g_free (base_uri);

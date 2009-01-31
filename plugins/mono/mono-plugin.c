@@ -28,6 +28,7 @@
 #include <mono/metadata/object.h>
 #include <mono/metadata/appdomain.h>
 #include <mono/metadata/assembly.h>
+#include <mono/metadata/threads.h>
 #include <mono/jit/jit.h>
 
 #define d(x) (x)

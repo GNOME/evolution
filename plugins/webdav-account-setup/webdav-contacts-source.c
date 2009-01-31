@@ -54,6 +54,28 @@ plugin_webdav_contacts(EPlugin *epl, EConfigHookItemFactoryData *data);
 int
 e_plugin_lib_enable(EPluginLib *ep, int enable);
 
+static ESourceGroup *
+find_webdav_group (ESourceList *slist)
+{
+	GSList *groups, *g;
+	ESourceGroup *group = NULL;
+
+	g_return_val_if_fail (slist != NULL, NULL);
+
+	groups = e_source_list_peek_groups (slist);
+	for (g = groups; g; g = g->next) {
+		group = E_SOURCE_GROUP (g->data);
+
+		if (group && e_source_group_peek_base_uri (group) &&
+		    g_ascii_strncasecmp (BASE_URI, e_source_group_peek_base_uri (group), strlen (BASE_URI)) == 0)
+			break;
+
+		group = NULL;
+	}
+
+	return group;
+}
+
 static void
 ensure_webdav_contacts_source_group(void)
 {
@@ -66,7 +88,7 @@ ensure_webdav_contacts_source_group(void)
 		return;
 	}
 
-	group = e_source_list_peek_group_by_name(source_list, _("WebDAV"));
+	group = find_webdav_group (source_list);
 
 	if (group == NULL) {
 		gboolean res;
@@ -81,7 +103,10 @@ ensure_webdav_contacts_source_group(void)
 		}
 
 		g_object_unref(group);
+	} else {
+		e_source_group_set_name (group, _("WebDAV"));
 	}
+
 	g_object_unref(source_list);
 }
 
@@ -97,7 +122,7 @@ remove_webdav_contacts_source_group(void)
 		return;
 	}
 
-	group = e_source_list_peek_group_by_name(source_list, _("WebDAV"));
+	group = find_webdav_group (source_list);
 
 	if (group) {
 		GSList *sources;

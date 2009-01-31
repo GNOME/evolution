@@ -1,3 +1,44 @@
+2009-01-30  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* message-list.c: (regen_list_exec): Fix compiler warnings
+
+2009-01-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* em-format-html-display.c: (efhd_update_bar),
+	(efhd_message_update_bar): Show attachment bar at all times. Seems
+	like the contents are missing at times.
+
+2009-01-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* em-format.c: (em_format_format_text): Handle empty messages well.
+
+2009-01-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #546637
+
+	* em-folder-view.c: (emfv_popup_source): Ensure uid for source view
+	also.
+
+2009-01-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #562449
+
+	* em-folder-view.c: (em_folder_view_mark_selected),
+	(emfv_delete_msg_response): Don't emit for vfolders.
+
+2009-01-29  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #567654
+
+	* message-list.c: (regen_list_exec): Don't free the reffable string.
+
+2009-01-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #561628
+
+	* em-format-html-print.c: (efhp_class_init):
+	Initialize 'parent_class' with its parent, not with itself.
+
 2009-01-19  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #204891
