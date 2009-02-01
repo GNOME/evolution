@@ -46,7 +46,7 @@ struct _AlarmNotifyPrivate {
         GMutex *mutex;
 };
 
-#define d(x) x
+#define d(x)
 
 
 static void alarm_notify_class_init (AlarmNotifyClass *klass);

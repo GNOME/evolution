@@ -34,7 +34,7 @@
 #include "gal-view-minicard.h"
 
 #define PARENT_TYPE gal_view_get_type ()
-#define d(x) x
+#define d(x)
 
 static GalViewClass *gal_view_minicard_parent_class;
 

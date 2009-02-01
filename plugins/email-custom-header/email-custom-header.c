@@ -39,7 +39,7 @@
 #include "email-custom-header.h"
 
 
-#define d(x) x
+#define d(x)
 #define GCONF_KEY_CUSTOM_HEADER "/apps/evolution/eplugin/email_custom_header/customHeader"
 
 typedef struct {

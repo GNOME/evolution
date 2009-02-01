@@ -46,7 +46,7 @@
 #include "e-util/e-import.h"
 #include "e-util/e-error.h"
 
-#define d(x) x
+#define d(x)
 
 struct _elm_import_msg {
 	MailMsg base;

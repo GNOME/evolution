@@ -57,7 +57,7 @@
 
 
 
-#define d(x) x
+#define d(x)
 
 /* The dialog with alarm nofications */
 static AlarmNotificationsDialog *alarm_notifications_dialog = NULL;

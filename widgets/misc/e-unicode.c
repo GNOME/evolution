@@ -46,7 +46,7 @@
 #include <glib/gi18n.h>
 #include "e-unicode.h"
 
-#define d(x) x
+#define d(x)
 
 #define FONT_TESTING
 #define MAX_DECOMP 8
