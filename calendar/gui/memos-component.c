@@ -118,7 +118,6 @@ struct _MemosComponentPrivate {
 	GList *notifications;
 };
 
-/* #define d(x) x */
 #define d(x)
 
 static void

@@ -32,7 +32,7 @@
 #include <e-util/e-error.h>
 #include <e-util/e-util.h>
 
-#define d(x) x
+#define d(x)
 
 gboolean	e_plugin_ui_init		(GtkUIManager *manager,
 						 EMsgComposer *composer);

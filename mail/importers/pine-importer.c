@@ -49,7 +49,7 @@
 #include "e-util/e-import.h"
 #include "e-util/e-error.h"
 
-#define d(x) x
+#define d(x)
 
 struct _pine_import_msg {
 	MailMsg base;

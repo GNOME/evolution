@@ -77,7 +77,7 @@ static const GOptionEntry options[] = {
 	{ NULL }
 };
 
-#define d(x) x
+#define d(x)
 
 #define rc(x) G_STMT_START { g_message (x); system (x); } G_STMT_END
 

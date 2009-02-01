@@ -91,7 +91,7 @@
 #define G_MAXINT32	((gint32)  0x7fffffff)
 #endif
 
-#define d(x) x
+#define d(x)
 
 /* Private part of the GnomeCalendar structure */
 struct _GnomeCalendarPrivate {

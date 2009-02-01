@@ -73,7 +73,7 @@
 #include "em-utils.h"
 #include "em-migrate.h"
 
-#define d(x) x
+#define d(x)
 
 #ifndef G_OS_WIN32
 /* No versions previous to 2.8 or thereabouts have been available on
