@@ -44,10 +44,16 @@ typedef struct _EMEventClass EMEventClass;
 /* Current target description */
 enum _em_event_target_t {
 	EM_EVENT_TARGET_FOLDER,
+	EM_EVENT_TARGET_FOLDER_BROWSER,
 	EM_EVENT_TARGET_MESSAGE,
 	EM_EVENT_TARGET_COMPOSER,
 	EM_EVENT_TARGET_SEND_RECEIVE,
 	EM_EVENT_TARGET_CUSTOM_ICON,
+};
+
+/* Flags for FOLDER BROWSER Events*/
+enum {
+	EM_EVENT_FOLDER_BROWSER = 1<< 0,
 };
 
 /* Flags that describe TARGET_FOLDER */
@@ -101,6 +107,15 @@ struct _EMEventTargetComposer {
 
 	struct _EMsgComposer *composer;
 };
+
+typedef struct _EMEventTargetFolderBrowser EMEventTargetFolderBrowser;
+
+struct _EMEventTargetFolderBrowser {
+	EEventTarget target;
+
+	struct _EMFolderBrowser *emfb;
+};
+
 
 typedef struct _EMEventTargetSendReceive EMEventTargetSendReceive;
 

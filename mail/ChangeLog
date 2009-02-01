@@ -1,3 +1,10 @@
+2009-02-01  Johnny Jacob  <jjohnny@novell.com>
+
+	* em-event.h (struct _EMEventTargetFolderBrowser): Added.
+	* em-event.c (em_event_target_new_folder_browser): Added.
+	(EEventHookTargetMask emeh_folder_browser_masks): Added.
+	* em-folder-browser.c (emfb_init): New e-plugin Hook point.
+
 2009-01-30  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* message-list.c: (regen_list_exec): Fix compiler warnings
