@@ -1,3 +1,10 @@
+2009-02-02  Matt McCutchen 2  <matt@mattmccutchen.net>
+
+	** Fix for bug #567935
+
+	* em-folder-tree.c (emft_popup_uvfolder): Don't use an uninitialized 
+	variable.
+
 2009-02-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	* em-event.c:
