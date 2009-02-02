@@ -2099,16 +2099,16 @@ emft_popup_uvfolder (EPopup *ep, EPopupItem *pitem, void *data)
 {
 	EMFolderTree *emft = data;
 	CamelFolder *folder;
-	char *meta = camel_object_meta_get(folder, "vfolder:unread");
 
 	if ((folder = em_folder_tree_get_selected_folder (emft)) != NULL) {
+		char *meta = camel_object_meta_get(folder, "vfolder:unread");
 		if (!meta || strcmp(meta, "false") == 0)
 			camel_object_meta_set(folder, "vfolder:unread", "true");
 		else
 			camel_object_meta_set(folder, "vfolder:unread", "false");
+		camel_object_state_write (folder);
+		g_free (meta);
 	}
-	camel_object_state_write (folder);
-	g_free (meta);
 }
 
 static EPopupItem emft_popup_items[] = {
