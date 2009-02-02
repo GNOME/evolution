@@ -1,3 +1,11 @@
+2009-02-02  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #548787
+
+	* itip-view.c (set_info_items), (itip_view_init),
+	(itip_view_set_source_list): Enable CnP for all the text info present
+	in calendar related messages.
+
 2008-11-06  Patrick Ohly  <patrick.ohly@gmx.de>
 
 	** Fix for bug #541121

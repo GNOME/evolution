@@ -735,6 +735,7 @@ set_info_items (GtkWidget *info_box, GSList *info_items)
 		}
 
 		label = gtk_label_new (item->message);
+		gtk_label_set_selectable (GTK_LABEL (label), TRUE);		
 		gtk_widget_show (label);
 		gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 6);
 
@@ -977,6 +978,7 @@ itip_view_init (ItipView *view)
 	/* The first section listing the sender */
 	/* FIXME What to do if the send and organizer do not match */
 	priv->sender_label = gtk_label_new (NULL);
+	gtk_label_set_selectable (GTK_LABEL (priv->sender_label), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (priv->sender_label), 0, 0.5);
 	gtk_widget_show (priv->sender_label);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->sender_label, FALSE, FALSE, 0);
@@ -994,6 +996,7 @@ itip_view_init (ItipView *view)
 
 	/* Summary */
 	priv->summary_label = gtk_label_new (NULL);
+	gtk_label_set_selectable (GTK_LABEL (priv->summary_label), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (priv->summary_label), 0, 0.5);
 	gtk_label_set_line_wrap_mode (GTK_LABEL (priv->summary_label), PANGO_WRAP_WORD);
 	gtk_label_set_line_wrap (GTK_LABEL (priv->summary_label), TRUE);
@@ -1003,6 +1006,8 @@ itip_view_init (ItipView *view)
 	/* Location */
 	priv->location_header = gtk_label_new (_("Location:"));
 	priv->location_label = gtk_label_new (NULL);
+	gtk_label_set_selectable (GTK_LABEL (priv->location_header), TRUE);
+	gtk_label_set_selectable (GTK_LABEL (priv->location_label), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (priv->location_header), 0, 0.5);
 	gtk_misc_set_alignment (GTK_MISC (priv->location_label), 0, 0.5);
 	gtk_table_attach (GTK_TABLE (table), priv->location_header, 0, 1, 1, 2, GTK_FILL, 0, 0, 0);
@@ -1011,6 +1016,8 @@ itip_view_init (ItipView *view)
 	/* Start time */
 	priv->start_header = gtk_label_new (_("Start time:"));
 	priv->start_label = gtk_label_new (NULL);
+	gtk_label_set_selectable (GTK_LABEL (priv->start_header), TRUE);
+	gtk_label_set_selectable (GTK_LABEL (priv->start_label), TRUE);	
 	gtk_misc_set_alignment (GTK_MISC (priv->start_header), 0, 0.5);
 	gtk_misc_set_alignment (GTK_MISC (priv->start_label), 0, 0.5);
 	gtk_widget_show (priv->start_header);
@@ -1020,6 +1027,8 @@ itip_view_init (ItipView *view)
 	/* End time */
 	priv->end_header = gtk_label_new (_("End time:"));
 	priv->end_label = gtk_label_new (NULL);
+	gtk_label_set_selectable (GTK_LABEL (priv->end_header), TRUE);
+	gtk_label_set_selectable (GTK_LABEL (priv->end_label), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (priv->end_header), 0, 0.5);
 	gtk_misc_set_alignment (GTK_MISC (priv->end_label), 0, 0.5);
 	gtk_table_attach (GTK_TABLE (table), priv->end_header, 0, 1, 3, 4, GTK_FILL, 0, 0, 0);
@@ -1028,6 +1037,8 @@ itip_view_init (ItipView *view)
 	/* Status */
 	priv->status_header = gtk_label_new (_("Status:"));
 	priv->status_label = gtk_label_new (NULL);
+	gtk_label_set_selectable (GTK_LABEL (priv->status_header), TRUE);
+	gtk_label_set_selectable (GTK_LABEL (priv->status_label), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (priv->status_header), 0, 0.5);
 	gtk_misc_set_alignment (GTK_MISC (priv->status_label), 0, 0.5);
 	gtk_table_attach (GTK_TABLE (table), priv->status_header, 0, 1, 4, 5, GTK_FILL, 0, 0, 0);
@@ -1036,6 +1047,8 @@ itip_view_init (ItipView *view)
 	/* Comment */
 	priv->comment_header = gtk_label_new (_("Comment:"));
 	priv->comment_label = gtk_label_new (NULL);
+	gtk_label_set_selectable (GTK_LABEL (priv->comment_header), TRUE);
+	gtk_label_set_selectable (GTK_LABEL (priv->comment_label), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (priv->comment_header), 0, 0.5);
 	gtk_misc_set_alignment (GTK_MISC (priv->comment_label), 0, 0.5);
 	gtk_table_attach (GTK_TABLE (table), priv->comment_header, 0, 1, 5, 6, GTK_FILL, 0, 0, 0);
@@ -1048,6 +1061,7 @@ itip_view_init (ItipView *view)
 
 	/* Description */
 	priv->description_label = gtk_label_new (NULL);
+	gtk_label_set_selectable (GTK_LABEL (priv->description_label), TRUE);	
 	gtk_label_set_line_wrap (GTK_LABEL (priv->description_label), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (priv->description_label), 0, 0.5);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->description_label, FALSE, FALSE, 0);
@@ -1081,10 +1095,12 @@ itip_view_init (ItipView *view)
 	gtk_box_pack_start (GTK_BOX (priv->rsvp_box), hbox, FALSE, FALSE, 0);
 
 	label = gtk_label_new (NULL);
+	gtk_label_set_selectable (GTK_LABEL (label), TRUE);	
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
 	priv->rsvp_comment_header = gtk_label_new (_("Comment:"));
+	gtk_label_set_selectable (GTK_LABEL (priv->rsvp_comment_header), TRUE);	
 	gtk_widget_set_sensitive (priv->rsvp_comment_header, FALSE);
 	gtk_widget_show (priv->rsvp_comment_header);
 	gtk_box_pack_start (GTK_BOX (hbox), priv->rsvp_comment_header, FALSE, FALSE, 0);
@@ -1871,6 +1887,7 @@ itip_view_set_source_list (ItipView *view, ESourceList *source_list)
 		else if (priv->type == E_CAL_SOURCE_TYPE_JOURNAL)
 			priv->escb_header = gtk_label_new_with_mnemonic (_("Memos :"));
 
+		gtk_label_set_selectable (GTK_LABEL (priv->escb_header), TRUE);
 		gtk_label_set_mnemonic_widget (GTK_LABEL (priv->escb_header), priv->escb);
 		gtk_widget_show (priv->escb_header);
 	}
