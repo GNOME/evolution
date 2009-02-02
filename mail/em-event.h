@@ -27,6 +27,7 @@
 #include <glib-object.h>
 
 #include "e-util/e-event.h"
+#include "mail/em-folder-browser.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -154,6 +155,7 @@ GType em_event_get_type(void);
 EMEvent *em_event_peek(void);
 
 EMEventTargetFolder *em_event_target_new_folder(EMEvent *emp, const char *uri, guint32 flags);
+EMEventTargetFolderBrowser *em_event_target_new_folder_browser (EMEvent *eme, EMFolderBrowser *emfb);
 EMEventTargetComposer *em_event_target_new_composer(EMEvent *emp, const struct _EMsgComposer *composer, guint32 flags);
 EMEventTargetMessage *em_event_target_new_message(EMEvent *emp, struct _CamelFolder *folder, struct _CamelMimeMessage *message, const char *uid, guint32 flags);
 EMEventTargetSendReceive * em_event_target_new_send_receive(EMEvent *eme, struct _GtkWidget *table, gpointer data, int row, guint32 flags);

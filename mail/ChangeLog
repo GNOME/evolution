@@ -1,3 +1,10 @@
+2009-02-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-event.c:
+	* em-event.h:
+	* em-migrate.c:
+	Fix compiler warnings.
+
 2009-02-01  Johnny Jacob  <jjohnny@novell.com>
 
 	* em-event.h (struct _EMEventTargetFolderBrowser): Added.

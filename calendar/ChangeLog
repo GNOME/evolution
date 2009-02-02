@@ -1,3 +1,14 @@
+2009-02-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/calendar-config.c:
+	* gui/calendar-config.h:
+	* gui/e-itip-control.c:
+	* gui/alarm-notify/alarm-queue.c:
+	* gui/dialogs/event-page.c:
+	* gui/dialogs/task-details-page.c:
+	* gui/dialogs/task-page.c:
+	Fix compiler warnings.
+
 2009-01-30  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #450554 (bugzilla.novell.com)

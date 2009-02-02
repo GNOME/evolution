@@ -661,7 +661,7 @@ write_label_piece (EItipControl *itip, ECalComponentDateTime *dt,
 	struct tm tmp_tm;
 	char time_buf[64];
 	icaltimezone *zone = NULL;
-	char *display_name;
+	const char *display_name;
 
 	priv = itip->priv;
 

@@ -477,7 +477,7 @@ add_component_alarms (ClientAlarms *ca, ECalComponentAlarms *alarms)
 		ECalComponentAlarmInstance *instance;
 		gpointer alarm_id;
 		QueuedAlarm *qa;
-		time_t tnow = time(NULL);
+		d(time_t tnow = time(NULL));
 
 		instance = l->data;
 

@@ -244,7 +244,8 @@ calendar_config_get_icaltimezone (void)
 			icalproperty *tz_prop, *offset_to;
 			icaltimezone *st_zone = NULL;
 			int offset;
-			char *n_tzid, *tzid;
+			const char *tzid;
+			char *n_tzid;
 
 			tzid = icaltimezone_get_tzid (zone);
 			n_tzid = g_strconcat (tzid, "-(Standard)", NULL);
@@ -296,7 +297,7 @@ calendar_config_get_icaltimezone (void)
 /* Sets the timezone. If set to NULL it defaults to UTC.
    FIXME: Should check it is being set to a valid timezone. */
 void
-calendar_config_set_timezone (gchar *timezone)
+calendar_config_set_timezone (const gchar *timezone)
 {
 	calendar_config_init ();
 
