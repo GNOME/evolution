@@ -147,7 +147,6 @@ case "$host" in
 *-mingw*)
     os_win32=yes
     NO_UNDEFINED='-no-undefined'
-    MWINDOWS='-mwindows'
     SOEXT='.dll'
     SA_JUNK_PLUGIN=''
     BF_JUNK_PLUGIN=''
@@ -157,7 +156,6 @@ case "$host" in
     ;;
 *)  os_win32=no
     NO_UNDEFINED=''
-    MWINDOWS=''
     SOEXT='.so'
     SA_JUNK_PLUGIN=sa-junk-plugin 
     BF_JUNK_PLUGIN=bogo-junk-plugin
@@ -169,7 +167,6 @@ esac
 AC_MSG_RESULT([$os_win32])
 AM_CONDITIONAL(OS_WIN32, [test $os_win32 = yes])
 AC_SUBST(NO_UNDEFINED)
-AC_SUBST(MWINDOWS)
 AC_SUBST(SOEXT)
 
 # Check for base dependencies early.
