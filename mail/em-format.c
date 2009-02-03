@@ -120,6 +120,7 @@ emf_init(GObject *o)
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) emf_free_cache);
 	emf->composer = FALSE;
+	emf->print = FALSE;
 	emf->show_photo = TRUE;
 	emf->photo_local = TRUE;
 	e_dlist_init(&emf->header_list);

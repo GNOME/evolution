@@ -1,3 +1,13 @@
+2009-02-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #569986
+
+	* mail/em-format-html-print.c: Handle printers while doing attachment
+	bar rendering.
+	* mail/em-format-html.c:
+	* mail/em-format.c:
+	* mail/em-format.h:
+
 2009-02-02  Matt McCutchen 2  <matt@mattmccutchen.net>
 
 	** Fix for bug #567935
