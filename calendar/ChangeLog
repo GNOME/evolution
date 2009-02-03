@@ -1,3 +1,8 @@
+2009-02-03  Gabor Kelemen  <kelemeng@gnome.hu>
+
+	* gui/alarm-notify/alarm-notify.glade:
+	Mark a string for translation. Fixes bug #570364
+
 2009-02-01  Matthew Barnes  <mbarnes@redhat.com>
 
 	* gui/calendar-config.c:
