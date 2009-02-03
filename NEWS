@@ -1,3 +1,33 @@
+Evolution 2.24.4 2009-01-30
+---------------------------
+
+Updated Translations:
+	Hendrik Richter (de)
+	Takeshi AIHANA (ja)
+
+Bug Fixes:
+	#353460 : Do not allow shrinking of Tasks/Memos components in calendar view. (Milan Crha)
+	#360813 : RFC 2445 - CREATED/DTSTAMP/LAST-MODIFIED always in UTC. (Milan Crha)
+	#362754 : Ensure to show default groups and sources with actual localized name, not the one it was stored last time. (Milan Crha)
+	#470474 (bugzilla.novell.com) : Evolution crashes on startup with a Groupwise account (Bharath Acharya)
+	#539467 : Find group by its base uri, not by a localized name. (Milan Crha)
+	#539467 : Find group by its base uri, not by a localized name. (Milan Crha)
+	#546637 : Partial fix for unread vfolders (Srinivasa Ragavan)
+	#554454 : Do not crash when received 'modified' event for something not in a model. And a leak fix. (Milan Crha)
+	#555310 : Localize strings properly. (Milan Crha)
+	#561628 : Initialize 'parent_class' with its parent, not with itself. (Milan Crha)
+	#562449 : Dont emit for vfolders (Srinivasa Ragavan)
+	#563867 : Unescape "&amp;" when passing the link to browsers. (Felix Riemann)
+	#567045 : Escalate scroll event's to a scrolled window, to let mouse wheel work over data too. (Milan Crha)
+	#567654 : Evolution dies with SIGSEGV on vee_get_message() (Srinivasa Ragavan)
+	#567687 : Force text/html part only when choosing between text/plain and it. (Milan Crha)
+	#567824 : Fix all header related bugs in calendar printing. 
+	#568331 : Notify changes of the classification. change signal when filling widgets with values from a component. (Milan Crha)
+
+Other contributions:
+	Bump minimum_eds_version to 2.24.3 for CAMEL_STORE_IS_MIGRATING. (Matthew Barnes)
+	Show attachment bar at all times. Seems like the contents are missing at times. (Srinivasa Ragavan)
+
 Evolution 2.24.3 2009-01-12
 ---------------------------
 

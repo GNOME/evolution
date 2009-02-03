@@ -1,3 +1,7 @@
+2009-01-30  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS: Evolution 2.24.4 release
+
 2009-01-31  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Disable debug macros (#define d(x) x) throughout.  (#569638)
