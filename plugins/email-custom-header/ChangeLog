@@ -1,3 +1,14 @@
+2009-02-02  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	Reviewed by Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #567568
+
+	* apps_evolution_email_custom_header.schemas.in:
+	Remove translatable <default> tag.
+	* email-custom-header.c (epech_setup_widgets):
+	Added gettext for the default custom header.
+
 2009-01-09  Takao Fujiwara  <takao.fujiwara@sun.com>
 
 	Reviewed by Matthew Barnes  <mbarnes@redhat.com>
