@@ -150,6 +150,10 @@ evolution_LDADD =							\
 	$(TZDIALOG_LIBS)						\
 	$(SHELL_LIBS)
 
+if OS_WIN32
+evolution_LDFLAGS = -mwindows
+endif
+
 # Misc stuff
 
 server_in_files = GNOME_Evolution_Shell.server.in.in
