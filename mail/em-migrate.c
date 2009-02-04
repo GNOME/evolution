@@ -1199,50 +1199,71 @@ static GtkLabel *label;
 static GtkProgressBar *progress;
 
 static void
-em_migrate_setup_progress_dialog (const char *desc)
+em_migrate_setup_progress_dialog (const char *title, const char *desc)
 {
 	GtkWidget *vbox, *hbox, *w;
+	gchar *markup;
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	gtk_window_set_title ((GtkWindow *) window, _("Migrating..."));
-	gtk_window_set_modal ((GtkWindow *) window, TRUE);
-	gtk_container_set_border_width ((GtkContainer *) window, 6);
 
-	vbox = gtk_vbox_new (FALSE, 6);
+	gtk_window_set_title (GTK_WINDOW (window), _("Migrating..."));
+	gtk_window_set_modal (GTK_WINDOW (window), TRUE);
+	gtk_window_set_resizable (GTK_WINDOW (window), FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (window), 6);
+
+	hbox = gtk_hbox_new (FALSE, 24);
+
+	/* Install the info image */
+	w = gtk_image_new_from_stock (GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_DIALOG);
+	gtk_misc_set_alignment (GTK_MISC (w), 0.5, 0.0);
+	gtk_box_pack_start_defaults (GTK_BOX (hbox), w);
+
+	/* Prepare the message */
+	vbox = gtk_vbox_new (FALSE, 12);
 	gtk_widget_show (vbox);
-	gtk_container_add ((GtkContainer *) window, vbox);
+	gtk_box_pack_start_defaults (GTK_BOX (hbox), vbox);
 
-	w = gtk_label_new (desc);
+	w = gtk_label_new (NULL);
+	gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.0);
+	markup = g_strconcat ("<big><b>", title ? title : _("Migration"), "</b></big>", NULL);
+	gtk_label_set_markup (GTK_LABEL (w), markup);
+	gtk_box_pack_start_defaults (GTK_BOX (vbox), w);
+	g_free (markup);
 	
-	gtk_label_set_line_wrap ((GtkLabel *) w, TRUE);
-	gtk_widget_show (w);
-	gtk_box_pack_start_defaults ((GtkBox *) vbox, w);
+	w = gtk_label_new (desc);
+	gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.0);
+	gtk_label_set_line_wrap (GTK_LABEL (w), TRUE);
+	gtk_box_pack_start_defaults (GTK_BOX (vbox), w);
 
-	hbox = gtk_hbox_new (FALSE, 6);
-	gtk_widget_show (hbox);
-	gtk_box_pack_start_defaults ((GtkBox *) vbox, hbox);
+	/* Progress bar */
+	w = gtk_vbox_new (FALSE, 6);
+	gtk_box_pack_start_defaults (GTK_BOX (vbox), w);
+	
+	label = GTK_LABEL (gtk_label_new (""));
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
+	gtk_label_set_line_wrap (label, TRUE);
+	gtk_widget_show (GTK_WIDGET (label));
+	gtk_box_pack_start_defaults (GTK_BOX (w), GTK_WIDGET (label));
 
-	label = (GtkLabel *) gtk_label_new ("");
-	gtk_widget_show ((GtkWidget *) label);
-	gtk_box_pack_start_defaults ((GtkBox *) hbox, (GtkWidget *) label);
+	progress = GTK_PROGRESS_BAR (gtk_progress_bar_new ());
+	gtk_widget_show (GTK_WIDGET (progress));
+	gtk_box_pack_start_defaults (GTK_BOX (w), GTK_WIDGET (progress));
 
-	progress = (GtkProgressBar *) gtk_progress_bar_new ();
-	gtk_widget_show ((GtkWidget *) progress);
-	gtk_box_pack_start_defaults ((GtkBox *) hbox, (GtkWidget *) progress);
-
+	gtk_container_add (GTK_CONTAINER (window), hbox);
+	gtk_widget_show_all (hbox);
 	gtk_widget_show (window);
 }
 
 static void
 em_migrate_close_progress_dialog (void)
 {
-	gtk_widget_destroy ((GtkWidget *) window);
+	gtk_widget_destroy (GTK_WIDGET (window));
 }
 
 static void
 em_migrate_set_folder_name (const char *folder_name)
 {
-	char *text;
+	gchar *text;
 
 	text = g_strdup_printf (_("Migrating '%s':"), folder_name);
 	gtk_label_set_text (label, text);
@@ -1865,7 +1886,7 @@ em_migrate_local_folders_1_4 (EMMigrateSession *session, CamelException *ex)
 		return -1;
 	}
 
-	em_migrate_setup_progress_dialog (_("The location and hierarchy of the Evolution mailbox "
+	em_migrate_setup_progress_dialog (NULL, _("The location and hierarchy of the Evolution mailbox "
 			     "folders has changed since Evolution 1.x.\n\nPlease be "
 			     "patient while Evolution migrates your folders..."));
 
@@ -2950,7 +2971,7 @@ migrate_to_db()
 
 		camel_session_set_online ((CamelSession *) session, FALSE);
 
-		em_migrate_setup_progress_dialog (_("The summary format of the Evolution mailbox "
+	em_migrate_setup_progress_dialog (_("Migrating Folders"), _("The summary format of the Evolution mailbox "
 								"folders has been moved to SQLite since Evolution 2.24.\n\nPlease be "
 								"patient while Evolution migrates your folders..."));
 
