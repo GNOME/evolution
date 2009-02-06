@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-02-03 14:17+0000\n"
-"PO-Revision-Date: 2009-02-03 20:37+0100\n"
+"POT-Creation-Date: 2009-02-04 22:33+0000\n"
+"PO-Revision-Date: 2009-02-06 20:27+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -673,7 +673,7 @@ msgstr "Gestione sus certificados S/MIME aquí"
 #: ../calendar/gui/migration.c:475 ../calendar/gui/migration.c:577
 #: ../calendar/gui/migration.c:1091 ../calendar/gui/tasks-component.c:194
 #: ../calendar/gui/tasks-component.c:198 ../mail/em-folder-tree-model.c:200
-#: ../mail/em-folder-tree-model.c:202 ../mail/em-migrate.c:2969
+#: ../mail/em-folder-tree-model.c:202 ../mail/em-migrate.c:2990
 #: ../mail/mail-component.c:316 ../mail/mail-vfolder.c:223
 #: ../mail/message-list.c:1517
 msgid "On This Computer"
@@ -809,12 +809,12 @@ msgid "Address Book Properties"
 msgstr "Propiedades de la libreta de direcciones"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:74
-#: ../calendar/gui/migration.c:148 ../mail/em-migrate.c:1207
+#: ../calendar/gui/migration.c:148 ../mail/em-migrate.c:1209
 msgid "Migrating..."
 msgstr "Migrando…"
 
 #: ../addressbook/gui/component/addressbook-migrate.c:126
-#: ../calendar/gui/migration.c:195 ../mail/em-migrate.c:1247
+#: ../calendar/gui/migration.c:195 ../mail/em-migrate.c:1268
 #, c-format
 msgid "Migrating '%s':"
 msgstr "Migrando «%s»:"
@@ -4768,7 +4768,6 @@ msgid "Appointments"
 msgstr "Citas"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
-#| msgid "_Dismiss"
 msgid "Dismiss _All"
 msgstr "Descartar _todo"
 
@@ -13206,22 +13205,27 @@ msgstr "Tareas pendientes"
 msgid "Later"
 msgstr "Más tarde"
 
-#: ../mail/em-migrate.c:1652
+#: ../mail/em-migrate.c:1228
+#| msgid "Migrating..."
+msgid "Migration"
+msgstr "Migración"
+
+#: ../mail/em-migrate.c:1673
 #, c-format
 msgid "Unable to create new folder `%s': %s"
 msgstr "No es posible crear la carpeta nueva: «%s»: %s"
 
-#: ../mail/em-migrate.c:1678
+#: ../mail/em-migrate.c:1699
 #, c-format
 msgid "Unable to copy folder `%s' to `%s': %s"
 msgstr "No es posible copiar el la carpeta «%s» a «%s»: %s"
 
-#: ../mail/em-migrate.c:1863
+#: ../mail/em-migrate.c:1884
 #, c-format
 msgid "Unable to scan for existing mailboxes at `%s': %s"
 msgstr "No es posible buscar buzones existentes en «%s»: %s"
 
-#: ../mail/em-migrate.c:1868
+#: ../mail/em-migrate.c:1889
 msgid ""
 "The location and hierarchy of the Evolution mailbox folders has changed "
 "since Evolution 1.x.\n"
@@ -13233,27 +13237,32 @@ msgstr ""
 "\n"
 "Tenga paciencia mientras Evolution migra sus carpetas…"
 
-#: ../mail/em-migrate.c:2069
+#: ../mail/em-migrate.c:2090
 #, c-format
 msgid "Unable to open old POP keep-on-server data `%s': %s"
 msgstr "No es posible abrir los datos antiguos POP keep-on-server «%s»: %s"
 
-#: ../mail/em-migrate.c:2083
+#: ../mail/em-migrate.c:2104
 #, c-format
 msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
 msgstr "Fallo al crear directorio de datos POP3 keep-on-server «%s»: %s"
 
-#: ../mail/em-migrate.c:2112
+#: ../mail/em-migrate.c:2133
 #, c-format
 msgid "Unable to copy POP3 keep-on-server data `%s': %s"
 msgstr "No es posible copiar los datos POP3 keep-on-server «%s»: %s"
 
-#: ../mail/em-migrate.c:2583 ../mail/em-migrate.c:2595
+#: ../mail/em-migrate.c:2604 ../mail/em-migrate.c:2616
 #, c-format
 msgid "Failed to create local mail storage `%s': %s"
 msgstr "No es posible crear el almacén de correo local «%s»: %s"
 
-#: ../mail/em-migrate.c:2953
+#: ../mail/em-migrate.c:2974
+#| msgid "Creating folder `%s'"
+msgid "Migrating Folders"
+msgstr "Migrando carpetas"
+
+#: ../mail/em-migrate.c:2974
 msgid ""
 "The summary format of the Evolution mailbox folders has been moved to SQLite "
 "since Evolution 2.24.\n"
@@ -13265,12 +13274,12 @@ msgstr ""
 "\n"
 "Tenga paciencia mientras Evolution migra sus carpetas…"
 
-#: ../mail/em-migrate.c:3035
+#: ../mail/em-migrate.c:3056
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
 msgstr "No es posible crear las carpetas de correo local en: «%s»: %s"
 
-#: ../mail/em-migrate.c:3054
+#: ../mail/em-migrate.c:3075
 msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
