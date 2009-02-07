@@ -190,6 +190,20 @@ e_mail_shell_module_init_settings (EShell *shell)
 		"/apps/evolution/mail/display/force_message_limit");
 
 	e_shell_settings_install_property (
+		g_param_spec_int (
+			"mail-forward-style",
+			NULL,
+			NULL,
+			0,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-forward-style",
+		"/apps/evolution/mail/format/forward_style");
+
+	e_shell_settings_install_property (
 		g_param_spec_boolean (
 			"mail-magic-spacebar",
 			NULL,
@@ -276,6 +290,23 @@ e_mail_shell_module_init_settings (EShell *shell)
 	e_shell_settings_bind_to_gconf (
 		shell_settings, "mail-prompt-delete-in-vfolder",
 		"/apps/evolution/mail/prompts/delete_in_vfolder");
+
+	/* Note: This value corresponds to MailConfigReplyStyle enum,
+	 *       but the ordering of the combo box items in preferences
+	 *       has changed.  We use transformation functions there. */
+	e_shell_settings_install_property (
+		g_param_spec_int (
+			"mail-reply-style",
+			NULL,
+			NULL,
+			0,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-reply-style",
+		"/apps/evolution/mail/format/reply_style");
 
 	e_shell_settings_install_property (
 		g_param_spec_boolean (

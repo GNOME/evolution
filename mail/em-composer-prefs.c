@@ -90,6 +90,76 @@ transform_string_to_color (const GValue *src_value,
 	return success;
 }
 
+static gboolean
+transform_old_to_new_reply_style (const GValue *src_value,
+                                  GValue *dst_value,
+                                  gpointer user_data)
+{
+	gboolean success = TRUE;
+
+	/* XXX This is the kind of legacy crap we wind up
+	 *     with when we don't migrate things properly. */
+
+	switch (g_value_get_int (src_value)) {
+		case 0:  /* Quoted: 0 -> 2 */
+			g_value_set_int (dst_value, 2);
+			break;
+
+		case 1:  /* Do Not Quote: 1 -> 3 */
+			g_value_set_int (dst_value, 3);
+			break;
+
+		case 2:  /* Attach: 2 -> 0 */
+			g_value_set_int (dst_value, 0);
+			break;
+
+		case 3:  /* Outlook: 3 -> 1 */
+			g_value_set_int (dst_value, 1);
+			break;
+
+		default:
+			success = FALSE;
+			break;
+	}
+
+	return success;
+}
+
+static gboolean
+transform_new_to_old_reply_style (const GValue *src_value,
+                                  GValue *dst_value,
+                                  gpointer user_data)
+{
+	gboolean success = TRUE;
+
+	/* XXX This is the kind of legacy crap we wind up
+	 *     with when we don't migrate things properly. */
+
+	switch (g_value_get_int (src_value)) {
+		case 0:  /* Attach: 0 -> 2 */
+			g_value_set_int (dst_value, 2);
+			break;
+
+		case 1:  /* Outlook: 1 -> 3 */
+			g_value_set_int (dst_value, 3);
+			break;
+
+		case 2:  /* Quoted: 2 -> 0 */
+			g_value_set_int (dst_value, 0);
+			break;
+
+		case 3:  /* Do Not Quote: 3 -> 1 */
+			g_value_set_int (dst_value, 1);
+			break;
+
+		default:
+			success = FALSE;
+			break;
+	}
+
+	return success;
+}
+
 static void
 composer_prefs_dispose (GObject *object)
 {
@@ -673,65 +743,6 @@ spell_setup (EMComposerPrefs *prefs)
 	g_list_free (active_languages);
 }
 
-static gint
-attach_style_reply_new_order (gint style_id,
-                              gboolean from_enum_to_option_id)
-{
-	gint values[] = {
-		MAIL_CONFIG_REPLY_ATTACH, 0,
-		MAIL_CONFIG_REPLY_OUTLOOK, 1,
-		MAIL_CONFIG_REPLY_QUOTED, 2,
-		MAIL_CONFIG_REPLY_DO_NOT_QUOTE, 3,
-		-1, -1};
-	gint ii;
-
-	for (ii = from_enum_to_option_id ? 0 : 1; values[ii] != -1; ii += 2) {
-		if (values[ii] == style_id)
-			return values [from_enum_to_option_id ? ii + 1 : ii - 1];
-	}
-
-	return style_id;
-}
-
-static void
-attach_style_info (GtkWidget *item,
-                   gpointer user_data)
-{
-	gint *style = user_data;
-
-	g_object_set_data (
-		G_OBJECT (item), "style", GINT_TO_POINTER (*style));
-
-	(*style)++;
-}
-
-static void
-attach_style_info_reply (GtkWidget *item,
-                         gpointer user_data)
-{
-	gint *style = user_data;
-
-	g_object_set_data (
-		G_OBJECT (item), "style", GINT_TO_POINTER (
-		attach_style_reply_new_order (*style, FALSE)));
-
-	(*style)++;
-}
-
-static void
-style_activate (GtkWidget *item,
-                EMComposerPrefs *prefs)
-{
-	GConfClient *client;
-	const gchar *key;
-	gint style;
-
-	client = mail_config_get_gconf_client ();
-	key = g_object_get_data (G_OBJECT (item), "key");
-	style = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "style"));
-	gconf_client_set_int (client, key, style, NULL);
-}
-
 static void
 charset_activate (GtkWidget *item,
                   EMComposerPrefs *prefs)
@@ -855,7 +866,6 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	GConfBridge *bridge;
 	GConfClient *client;
 	const gchar *key;
-	int style;
 	gchar *buf;
 	EMConfig *ec;
 	EMConfigTargetPrefs *target;
@@ -971,7 +981,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 
 	gtk_tree_view_insert_column_with_attributes (
 		view, -1, _("Language(s)"),
-     		gtk_cell_renderer_text_new (),
+		gtk_cell_renderer_text_new (),
 		"text", 1, NULL);
 	selection = gtk_tree_view_get_selection (view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_NONE);
@@ -991,31 +1001,18 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	spell_setup (prefs);
 
 	/* Forwards and Replies */
-	prefs->forward_style = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuForwardStyle")); 
-	style = gconf_client_get_int (client, "/apps/evolution/mail/format/forward_style", NULL);
-	gtk_option_menu_set_history (prefs->forward_style, style);
-	style = 0;
+	widget = glade_xml_get_widget (gui, "comboboxForwardStyle");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "mail-forward-style",
+		G_OBJECT (widget), "active");
 
-	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (prefs->forward_style)),
-				attach_style_info, &style);
-
-	if (gtk_option_menu_get_menu (prefs->forward_style)) {
-		option_menu_connect (prefs, prefs->forward_style, G_CALLBACK (style_activate),
-				"/apps/evolution/mail/format/forward_style");
-	}
-
-	prefs->reply_style = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuReplyStyle"));
-	style = gconf_client_get_int (client, "/apps/evolution/mail/format/reply_style", NULL);
-	gtk_option_menu_set_history (prefs->reply_style, attach_style_reply_new_order (style, TRUE));
-	style = 0;
-	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (prefs->reply_style)),
-			       attach_style_info_reply, &style);
-	
-	
-	if (gtk_option_menu_get_menu (prefs->reply_style)) {
-		option_menu_connect (prefs, prefs->reply_style, G_CALLBACK (style_activate),
-				"/apps/evolution/mail/format/reply_style");
-	}
+	widget = glade_xml_get_widget (gui, "comboboxReplyStyle");
+	e_mutual_binding_new_full (
+		G_OBJECT (shell_settings), "mail-reply-style",
+		G_OBJECT (widget), "active",
+		transform_old_to_new_reply_style,
+		transform_new_to_old_reply_style,
+		NULL, NULL);
 
 	/* Signatures */
 	dialog = (GtkDialog *) gtk_dialog_new ();

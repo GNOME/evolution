@@ -1132,6 +1132,7 @@ For example: "Work" or "Personal"</property>
                     <property name="visible">True</property>
                   </widget>
                   <packing>
+                    <property name="expand">False</property>
                     <property name="position">1</property>
                   </packing>
                 </child>
@@ -4230,6 +4231,33 @@ For example: "Work" or "Personal"</property>
                                 <property name="column_spacing">12</property>
                                 <property name="row_spacing">6</property>
                                 <child>
+                                  <widget class="GtkComboBox" id="comboboxReplyStyle">
+                                    <property name="visible">True</property>
+                                    <property name="items" translatable="yes">Attachment
+Inline (Outlook style)
+Quoted
+Do Not Quote</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkComboBox" id="comboboxForwardStyle">
+                                    <property name="visible">True</property>
+                                    <property name="items" translatable="yes">Attachment
+Inline
+Quoted</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
                                   <widget class="GtkLabel" id="lblCharset">
                                     <property name="visible">True</property>
                                     <property name="label" translatable="yes">C_haracter set:</property>
@@ -4250,7 +4278,6 @@ For example: "Work" or "Personal"</property>
                                     <property name="label" translatable="yes">_Forward style:</property>
                                     <property name="use_underline">True</property>
                                     <property name="justify">GTK_JUSTIFY_CENTER</property>
-                                    <property name="mnemonic_widget">omenuForwardStyle</property>
                                   </widget>
                                   <packing>
                                     <property name="x_options">GTK_FILL</property>
@@ -4273,62 +4300,12 @@ For example: "Work" or "Personal"</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkHBox" id="hboxForwardStyle">
-                                    <property name="visible">True</property>
-                                    <child>
-                                      <widget class="GtkOptionMenu" id="omenuForwardStyle">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="response_id">0</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                      </packing>
-                                    </child>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options">GTK_FILL</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkAlignment" id="alignment25">
-                                    <property name="visible">True</property>
-                                    <property name="xalign">7.4505801528346183e-09</property>
-                                    <property name="xscale">0</property>
-                                    <child>
-                                      <widget class="GtkHBox" id="hboxReplyStyle">
-                                        <property name="visible">True</property>
-                                        <child>
-                                          <widget class="GtkOptionMenu" id="omenuReplyStyle">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="response_id">0</property>
-                                          </widget>
-                                        </child>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                    <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
                                   <widget class="GtkLabel" id="lblReplyStyle">
                                     <property name="visible">True</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">_Reply style:</property>
                                     <property name="use_underline">True</property>
                                     <property name="justify">GTK_JUSTIFY_CENTER</property>
-                                    <property name="mnemonic_widget">omenuReplyStyle</property>
                                   </widget>
                                   <packing>
                                     <property name="top_attach">1</property>
