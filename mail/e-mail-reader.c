@@ -46,6 +46,7 @@
 #include "mail/em-folder-tree.h"
 #include "mail/em-utils.h"
 #include "mail/mail-autofilter.h"
+#include "mail/mail-config.h"
 #include "mail/mail-ops.h"
 
 enum {
@@ -1509,13 +1510,6 @@ static GtkActionEntry mail_reader_entries[] = {
 	{ "mail-goto-menu",
 	  GTK_STOCK_JUMP_TO,
 	  N_("_Go To"),
-	  NULL,
-	  NULL,
-	  NULL },
-
-	{ "mail-label-menu",
-	  NULL,
-	  N_("_Label"),
 	  NULL,
 	  NULL,
 	  NULL },

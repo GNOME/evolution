@@ -43,8 +43,8 @@
 
 #include "e-util/e-binding.h"
 #include "e-util/e-util-private.h"
-#include "e-util/e-util-labels.h"
 
+#include "e-mail-label-manager.h"
 #include "mail-config.h"
 #include "em-junk-hook.h"
 #include "em-config.h"
@@ -214,120 +214,9 @@ transform_string_to_color (const GValue *src_value,
 }
 
 enum {
-	LABEL_LIST_COLUMN_COLOR,
-	LABEL_LIST_COLUMN_TAG,
-	LABEL_LIST_COLUMN_NAME
-};
-
-enum {
 	JH_LIST_COLUMN_NAME,
 	JH_LIST_COLUMN_VALUE,
 };
-static void
-label_sensitive_buttons (EMMailerPrefs *prefs)
-{
-	gboolean can_remove = FALSE, have_selected = FALSE, locked;
-
-	g_return_if_fail (prefs);
-
-	/* it's not sensitive if it's locked for updates */
-	locked = !GTK_WIDGET_IS_SENSITIVE (prefs->label_tree);
-
-	if (!locked) {
-		GtkTreeSelection *selection;
-		GtkTreeModel *model;
-		GtkTreeIter iter;
-
-		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (prefs->label_tree));
-		if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-			gchar *tag = NULL;
-
-			gtk_tree_model_get (model, &iter, LABEL_LIST_COLUMN_TAG, &tag, -1);
-
-			can_remove = tag && !e_util_labels_is_system (tag);
-			have_selected = TRUE;
-
-			g_free (tag);
-		}
-	}
-
-	gtk_widget_set_sensitive (prefs->label_remove, !locked && can_remove);
-	gtk_widget_set_sensitive (prefs->label_edit,  !locked && have_selected);
-}
-
-static void
-label_tree_cursor_changed (GtkWidget *widget, gpointer user_data)
-{
-	label_sensitive_buttons (user_data);
-}
-
-static void
-label_tree_refill (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
-{
-	EMMailerPrefs *prefs = (EMMailerPrefs *)user_data;
-	GSList *labels, *l;
-	GtkTreeSelection *selection;
-	GtkListStore *store;
-	GtkTreeModel *model;
-	GtkTreeIter last_iter;
-	gchar *last_path = NULL;
-
-	g_return_if_fail (prefs != NULL);
-
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (prefs->label_tree));
-	if (gtk_tree_selection_get_selected (selection, &model, &last_iter))
-		last_path = gtk_tree_model_get_string_from_iter (model, &last_iter);
-
-	store = GTK_LIST_STORE (model);
-	gtk_list_store_clear (store);
-
-	/* cannot use mail-config cache here, because it's (or can be) updated later than this function call */
-	labels = e_util_labels_parse (client);
-
-	for (l = labels; l; l = l->next) {
-		GdkColor color;
-		GtkTreeIter iter;
-		EUtilLabel *label = l->data;
-
-		if (label->colour)
-			gdk_color_parse (label->colour, &color);
-
-		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (
-			store, &iter,
-			LABEL_LIST_COLUMN_COLOR, label->colour ? &color : NULL,
-			LABEL_LIST_COLUMN_NAME, label->name,
-			LABEL_LIST_COLUMN_TAG, label->tag,
-			-1);
-	}
-
-	if (last_path) {
-		gint children;
-
-		children = gtk_tree_model_iter_n_children (model, NULL);
-		if (children > 0) {
-			GtkTreePath *path;
-
-			if (!gtk_tree_model_get_iter_from_string (model, &last_iter, last_path))
-				gtk_tree_model_iter_nth_child (model, &last_iter, NULL, children - 1);
-
-			path = gtk_tree_model_get_path (model, &last_iter);
-			if (path) {
-				GtkTreeViewColumn *focus_col = gtk_tree_view_get_column (GTK_TREE_VIEW (prefs->label_tree), LABEL_LIST_COLUMN_NAME);
-
-				gtk_tree_view_set_cursor (GTK_TREE_VIEW (prefs->label_tree), path, focus_col, FALSE);
-				gtk_tree_view_row_activated (GTK_TREE_VIEW (prefs->label_tree), path, focus_col);
-				gtk_tree_path_free (path);
-			}
-		}
-
-		g_free (last_path);
-	}
-
-	label_sensitive_buttons (prefs);
-	e_util_labels_free (labels);
-}
-
 
 static void
 jh_tree_refill (EMMailerPrefs *prefs)
@@ -473,103 +362,7 @@ init_junk_tree (GtkWidget *label_tree, EMMailerPrefs *prefs)
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (label_tree), -1, _("Contains Value"), renderer, "text", JH_LIST_COLUMN_VALUE, NULL);
 	g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
 
-	label_tree_refill (NULL, 0, NULL, prefs);
-
 	return store;
-}
-
-static GtkListStore *
-init_label_tree (GtkWidget *label_tree, EMMailerPrefs *prefs, gboolean locked)
-{
-	GtkListStore *store;
-	GtkCellRenderer *renderer;
-	gint col;
-
-	g_return_val_if_fail (label_tree != NULL, NULL);
-	g_return_val_if_fail (prefs != NULL, NULL);
-
-	store = gtk_list_store_new (3, GDK_TYPE_COLOR, G_TYPE_STRING, G_TYPE_STRING);
-	gtk_tree_view_set_model (GTK_TREE_VIEW (label_tree), GTK_TREE_MODEL (store));
-
-	renderer = e_cell_renderer_color_new ();
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (label_tree), -1, _("Color"), renderer, "color", LABEL_LIST_COLUMN_COLOR, NULL);
-
-	renderer = gtk_cell_renderer_text_new ();
-	col = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (label_tree), -1, _("Tag"), renderer, "text", LABEL_LIST_COLUMN_TAG, NULL);
-	g_object_set (G_OBJECT (renderer), "editable", FALSE, NULL);
-	gtk_tree_view_column_set_visible (gtk_tree_view_get_column (GTK_TREE_VIEW (label_tree), col - 1), FALSE);
-
-	renderer = gtk_cell_renderer_text_new ();
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (label_tree), -1, _("Name"), renderer, "text", LABEL_LIST_COLUMN_NAME, NULL);
-	g_object_set (G_OBJECT (renderer), "editable", FALSE, NULL);
-
-	if (!locked)
-		g_signal_connect (label_tree, "cursor-changed", G_CALLBACK (label_tree_cursor_changed), prefs);
-
-	label_tree_refill (NULL, 0, NULL, prefs);
-
-	prefs->labels_change_notify_id = gconf_client_notify_add (prefs->gconf, E_UTIL_LABELS_GCONF_KEY, label_tree_refill, prefs, NULL, NULL);
-
-	return store;
-}
-
-static void
-label_add_cb (GtkWidget *widget, gpointer user_data)
-{
-	char *tag;
-
-	tag = e_util_labels_add_with_dlg (GTK_WINDOW (gtk_widget_get_toplevel (widget)), NULL);
-
-	g_free (tag);
-}
-
-static void
-label_remove_cb (GtkWidget *widget, gpointer user_data)
-{
-	EMMailerPrefs *prefs = user_data;
-	GtkTreeSelection *selection;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-
-	g_return_if_fail (prefs != NULL);
-
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (prefs->label_tree));
-	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-		gchar *tag = NULL;
-
-		gtk_tree_model_get (model, &iter, LABEL_LIST_COLUMN_TAG, &tag, -1);
-
-		if (tag && !e_util_labels_is_system (tag))
-			e_util_labels_remove (tag);
-
-		g_free (tag);
-	}
-}
-
-static void
-label_edit_cb (GtkWidget *widget, gpointer user_data)
-{
-	EMMailerPrefs *prefs = user_data;
-	GtkTreeSelection *selection;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-
-	g_return_if_fail (prefs != NULL);
-
-	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (prefs->label_tree));
-	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-		gchar *tag = NULL;
-
-		gtk_tree_model_get (model, &iter, LABEL_LIST_COLUMN_TAG, &tag, -1);
-
-		if (tag) {
-			char *str = e_util_labels_add_with_dlg (GTK_WINDOW (gtk_widget_get_toplevel (widget)), tag);
-
-			g_free (str);
-		}
-
-		g_free (tag);
-	}
 }
 
 static void
@@ -1079,6 +872,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	EShellSettings *shell_settings;
 	GHashTable *default_header_hash;
 	GtkWidget *toplevel;
+	GtkWidget *container;
 	GtkWidget *widget;
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
@@ -1267,25 +1061,14 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 		G_OBJECT (shell_settings), "mail-confirm-unwanted-html",
 		G_OBJECT (widget), "active");
 
-	/* Labels... */
-	locked = !gconf_client_key_is_writable (prefs->gconf, E_UTIL_LABELS_GCONF_KEY, NULL);
-	prefs->label_add    = glade_xml_get_widget (gui, "labelAdd");
-	prefs->label_edit   = glade_xml_get_widget (gui, "labelEdit");
-	prefs->label_remove = glade_xml_get_widget (gui, "labelRemove");
-	prefs->label_tree   = glade_xml_get_widget (gui, "labelTree");
+	container = glade_xml_get_widget (gui, "labels-alignment");
+	widget = e_mail_label_manager_new ();
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
 
-	gtk_widget_set_sensitive (prefs->label_add, !locked);
-	gtk_widget_set_sensitive (prefs->label_remove, !locked);
-	gtk_widget_set_sensitive (prefs->label_edit, !locked);
-	gtk_widget_set_sensitive (prefs->label_tree, !locked);
-
-	prefs->label_list_store = init_label_tree (prefs->label_tree, prefs, locked);
-
-	if (!locked) {
-		g_signal_connect (G_OBJECT (prefs->label_add), "clicked", G_CALLBACK (label_add_cb), prefs);
-		g_signal_connect (G_OBJECT (prefs->label_remove), "clicked", G_CALLBACK (label_remove_cb), prefs);
-		g_signal_connect (G_OBJECT (prefs->label_edit), "clicked", G_CALLBACK (label_edit_cb), prefs);
-	}
+	e_binding_new (
+		G_OBJECT (shell_settings), "mail-label-list-store",
+		G_OBJECT (widget), "list-store");
 
 	/* headers */
 	locked = !gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/headers", NULL);

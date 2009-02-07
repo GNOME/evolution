@@ -442,3 +442,61 @@ e_shell_settings_set_string (EShellSettings *shell_settings,
 	g_object_set_property (object, property_name, &value);
 	g_value_unset (&value);
 }
+
+/**
+ * e_shell_settings_get_object:
+ * @shell_settings: an #EShellSettings
+ * @property_name: an installed property name
+ *
+ * Returns the contents of an #EShellSettings property of type
+ * #G_TYPE_OBJECT.  The caller owns the reference to the returned
+ * object, and should call g_object_unref() when finished with it.
+ *
+ * Returns: a new reference to the object under @property_name
+ **/
+gpointer
+e_shell_settings_get_object (EShellSettings *shell_settings,
+                             const gchar *property_name)
+{
+	GObject *object;
+	GValue value = { 0, };
+	gpointer v_object;
+
+	g_return_val_if_fail (E_IS_SHELL_SETTINGS (shell_settings), NULL);
+	g_return_val_if_fail (property_name != NULL, NULL);
+
+	object = G_OBJECT (shell_settings);
+	g_value_init (&value, G_TYPE_OBJECT);
+	g_object_get_property (object, property_name, &value);
+	v_object = g_value_dup_object (&value);
+	g_value_unset (&value);
+
+	return v_object;
+}
+
+/**
+ * e_shell_settings_set_object:
+ * @shell_settings: an #EShellSettings
+ * @property_name: an installed property name
+ * @v_object: object to be set
+ *
+ * Sets the contents of an #EShellSettings property of type #G_TYPE_OBJECT
+ * to @v_object.
+ **/
+void
+e_shell_settings_set_object (EShellSettings *shell_settings,
+                             const gchar *property_name,
+                             gpointer v_object)
+{
+	GObject *object;
+	GValue value = { 0, };
+
+	g_return_if_fail (E_IS_SHELL_SETTINGS (shell_settings));
+	g_return_if_fail (property_name != NULL);
+
+	object = G_OBJECT (shell_settings);
+	g_value_init (&value, G_TYPE_OBJECT);
+	g_value_set_object (&value, v_object);
+	g_object_set_property (object, property_name, &value);
+	g_value_unset (&value);
+}

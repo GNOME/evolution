@@ -96,8 +96,6 @@ void mail_config_write_on_exit (void);
 struct _GConfClient *mail_config_get_gconf_client (void);
 
 /* General Accessor functions */
-GSList *mail_config_get_labels (void);
-
 const char **mail_config_get_allowable_mime_types (void);
 
 void mail_config_service_set_save_passwd (struct _EAccountService *service, gboolean save_passwd);

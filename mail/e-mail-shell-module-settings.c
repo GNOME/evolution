@@ -25,16 +25,33 @@
 #include <libedataserver/e-account-list.h>
 
 #include "e-util/e-signature-list.h"
+#include "mail/e-mail-label-list-store.h"
 
 void
 e_mail_shell_module_init_settings (EShell *shell)
 {
 	EShellSettings *shell_settings;
+	gpointer object;
 
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	/* XXX Default values should match the GConf schema.
 	 *     Yes it's redundant, but we're stuck with GConf. */
+
+	/*** Global Objects ***/
+
+	e_shell_settings_install_property (
+		g_param_spec_object (
+			"mail-label-list-store",
+			NULL,
+			NULL,
+			E_TYPE_MAIL_LABEL_LIST_STORE,
+			G_PARAM_READWRITE));
+
+	object = e_mail_label_list_store_new ();
+	e_shell_settings_set_object (
+		shell_settings, "mail-label-list-store", object);
+	g_object_unref (object);
 
 	/*** Mail Preferences ***/
 

@@ -73,6 +73,9 @@ gint		e_action_combo_box_get_current_value
 void		e_action_combo_box_set_current_value
 						(EActionComboBox *combo_box,
 						 gint current_value);
+void		e_action_combo_box_add_separator_before
+						(EActionComboBox *combo_box,
+						 gint action_value);
 void		e_action_combo_box_add_separator_after
 						(EActionComboBox *combo_box,
 						 gint action_value);

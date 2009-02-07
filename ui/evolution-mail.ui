@@ -83,6 +83,29 @@
     <separator/>
     <menuitem action='mail-popup-folder-properties'/>
   </popup>
+  <popup name='mail-message-popup'>
+    <placeholder name='mail-message-popup-common-actions'/>
+    <separator/>
+    <menuitem action='mail-popup-delete'/>
+    <menuitem action='mail-popup-undelete'/>
+    <menuitem action='mail-popup-copy'/>
+    <menuitem action='mail-popup-move'/>
+    <separator/>
+    <menuitem action='mail-popup-mark-read'/>
+    <menuitem action='mail-popup-mark-unread'/>
+    <menuitem action='mail-popup-mark-important'/>
+    <menuitem action='mail-popup-mark-unimportant'/>
+    <menuitem action='mail-popup-mark-junk'/>
+    <menuitem action='mail-popup-mark-notjunk'/>
+    <menuitem action='mail-popup-flag-for-followup'/>
+    <menu action='mail-label-menu'>
+      <menuitem action='mail-label-none'/>
+      <separator/>
+      <placeholder name='mail-label-actions'/>
+      <separator/>
+      <menuitem action='mail-label-new'/>
+    </menu>
+  </popup>
   <popup name='mail-search-options'>
     <menuitem action='mail-search-subject-or-sender-contains'/>
     <menuitem action='mail-search-subject-or-recipients-contains'/>

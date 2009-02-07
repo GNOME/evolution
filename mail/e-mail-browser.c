@@ -338,11 +338,21 @@ mail_browser_constructed (GObject *object)
 	ui_manager = priv->ui_manager;
 	domain = GETTEXT_PACKAGE;
 
-	e_mail_reader_init (reader);
-
 	shell_module = e_mail_reader_get_shell_module (reader);
 	shell = e_shell_module_get_shell (shell_module);
 	e_shell_watch_window (shell, GTK_WINDOW (object));
+
+	/* The message list is a widget, but it is not shown in the browser.
+	 * Unfortunately, the widget is inseparable from its model, and the
+	 * model is all we need. */
+	priv->message_list = message_list_new (shell_module);
+	g_object_ref_sink (priv->message_list);
+
+	g_signal_connect_swapped (
+		priv->message_list, "message-selected",
+		G_CALLBACK (mail_browser_message_selected_cb), object);
+
+	e_mail_reader_init (reader);
 
 	action_group = priv->action_group;
 	gtk_action_group_set_translation_domain (action_group, domain);
@@ -559,16 +569,6 @@ mail_browser_init (EMailBrowser *browser)
 	browser->priv->ui_manager = gtk_ui_manager_new ();
 	browser->priv->action_group = gtk_action_group_new ("mail-browser");
 	browser->priv->html_display = em_format_html_display_new ();
-
-	/* The message list is a widget, but it is not shown in the browser.
-	 * Unfortunately, the widget is inseparable from its model, and the
-	 * model is all we need. */
-	browser->priv->message_list = message_list_new ();
-	g_object_ref_sink (browser->priv->message_list);
-
-	g_signal_connect_swapped (
-		browser->priv->message_list, "message-selected",
-		G_CALLBACK (mail_browser_message_selected_cb), browser);
 
 	bridge = gconf_bridge_get ();
 	prefix = "/apps/evolution/mail/mail_browser";

@@ -35,6 +35,8 @@
 #include "widgets/misc/e-popup-action.h"
 #include "widgets/menus/gal-view-instance.h"
 
+#include "e-mail-label-dialog.h"
+#include "e-mail-label-list-store.h"
 #include "e-mail-reader.h"
 #include "em-composer-utils.h"
 #include "em-folder-properties.h"
@@ -74,22 +76,21 @@
 
 G_BEGIN_DECLS
 
-/* Filter items are displayed in ascending order. */
+/* Filter items are displayed in ascending order.
+ * Labels are numbered from zero, so subsequent items must have
+ * sufficiently large values.  Unfortunately this introduces an
+ * arbitrary upper bound on labels. */
 enum {
-	MAIL_FILTER_ALL_MESSAGES,
-	MAIL_FILTER_UNREAD_MESSAGES,
-	MAIL_FILTER_NO_LABEL,
-	MAIL_FILTER_LABEL_IMPORTANT,
-	MAIL_FILTER_LABEL_WORK,
-	MAIL_FILTER_LABEL_PERSONAL,
-	MAIL_FILTER_LABEL_TO_DO,
-	MAIL_FILTER_LABEL_LATER,
-	MAIL_FILTER_READ_MESSAGES,
-	MAIL_FILTER_RECENT_MESSAGES,
-	MAIL_FILTER_LAST_5_DAYS_MESSAGES,
-	MAIL_FILTER_MESSAGES_WITH_ATTACHMENTS,
-	MAIL_FILTER_IMPORTANT_MESSAGES,
-	MAIL_FILTER_MESSAGES_NOT_JUNK
+	MAIL_FILTER_ALL_MESSAGES		= -3,
+	MAIL_FILTER_UNREAD_MESSAGES		= -2,
+	MAIL_FILTER_NO_LABEL			= -1,
+	/* Labels go here */
+	MAIL_FILTER_READ_MESSAGES		= 5000,
+	MAIL_FILTER_RECENT_MESSAGES		= 5001,
+	MAIL_FILTER_LAST_5_DAYS_MESSAGES	= 5002,
+	MAIL_FILTER_MESSAGES_WITH_ATTACHMENTS	= 5003,
+	MAIL_FILTER_IMPORTANT_MESSAGES		= 5004,
+	MAIL_FILTER_MESSAGES_NOT_JUNK		= 5005
 };
 
 /* Search items are displayed in ascending order. */
@@ -121,6 +122,7 @@ struct _EMailShellViewPrivate {
 
 	/* For UI merging and unmerging. */
 	guint merge_id;
+	guint label_merge_id;
 };
 
 void		e_mail_shell_view_private_init
@@ -145,9 +147,11 @@ void		e_mail_shell_view_create_filter_from_selected
 void		e_mail_shell_view_create_vfolder_from_selected
 					(EMailShellView *mail_shell_view,
 					 gint vfolder_type);
-void		e_mail_shell_view_update_sidebar
+void		e_mail_shell_view_update_popup_labels
 					(EMailShellView *mail_shell_view);
 void		e_mail_shell_view_update_search_filter
+					(EMailShellView *mail_shell_view);
+void		e_mail_shell_view_update_sidebar
 					(EMailShellView *mail_shell_view);
 
 G_END_DECLS

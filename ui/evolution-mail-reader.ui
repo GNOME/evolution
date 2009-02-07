@@ -125,27 +125,15 @@
     </placeholder>
   </toolbar>
   <popup name='mail-message-popup'>
-    <menuitem action='mail-popup-reply-sender'/>
-    <menuitem action='mail-popup-reply-all'/>
-    <menuitem action='mail-popup-forward'/>
-    <separator/>
-    <menuitem action='mail-popup-message-edit'/>
-    <menuitem action='mail-popup-save-as'/>
-    <menuitem action='mail-popup-print'/>
-    <separator/>
-    <menuitem action='mail-popup-delete'/>
-    <menuitem action='mail-popup-undelete'/>
-    <menuitem action='mail-popup-copy'/>
-    <menuitem action='mail-popup-move'/>
-    <separator/>
-    <menuitem action='mail-popup-mark-read'/>
-    <menuitem action='mail-popup-mark-unread'/>
-    <menuitem action='mail-popup-mark-important'/>
-    <menuitem action='mail-popup-mark-unimportant'/>
-    <menuitem action='mail-popup-mark-junk'/>
-    <menuitem action='mail-popup-mark-notjunk'/>
-    <menuitem action='mail-popup-flag-for-followup'/>
-    <menu action='mail-label-menu'/>
+    <placeholder name='mail-message-popup-common-actions'>
+      <menuitem action='mail-popup-reply-sender'/>
+      <menuitem action='mail-popup-reply-all'/>
+      <menuitem action='mail-popup-forward'/>
+      <separator/>
+      <menuitem action='mail-popup-message-edit'/>
+      <menuitem action='mail-popup-save-as'/>
+      <menuitem action='mail-popup-print'/>
+    </placeholder>
   </popup>
   <popup name='mail-uri-popup'>
     <menuitem action='mail-uri-call-to'/>

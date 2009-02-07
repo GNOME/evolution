@@ -154,23 +154,39 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 {
 	EMailShellViewPrivate *priv = mail_shell_view->priv;
 	EMailShellSidebar *mail_shell_sidebar;
+	EShell *shell;
 	EShellView *shell_view;
 	EShellContent *shell_content;
+	EShellSettings *shell_settings;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
 	EMFolderTreeModel *folder_tree_model;
 	EMFolderTree *folder_tree;
+	GtkTreeModel *tree_model;
+	GtkUIManager *ui_manager;
 	MessageList *message_list;
 	EMailReader *reader;
+	guint merge_id;
 	gchar *uri;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+	ui_manager = e_shell_window_get_ui_manager (shell_window);
+
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	tree_model = e_shell_settings_get_object (
+		shell_settings, "mail-label-list-store");
 
 	e_shell_window_add_action_group (shell_window, "mail");
 	e_shell_window_add_action_group (shell_window, "mail-filter");
+	e_shell_window_add_action_group (shell_window, "mail-label");
+
+	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
+	priv->label_merge_id = merge_id;
 
 	/* Cache these to avoid lots of awkward casting. */
 	priv->mail_shell_content = g_object_ref (shell_content);
@@ -206,6 +222,21 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	g_signal_connect_swapped (
 		reader, "folder-loaded",
 		G_CALLBACK (mail_shell_view_reader_changed_cb),
+		mail_shell_view);
+
+	g_signal_connect_swapped (
+		tree_model, "row-changed",
+		G_CALLBACK (e_mail_shell_view_update_search_filter),
+		mail_shell_view);
+
+	g_signal_connect_swapped (
+		tree_model, "row-deleted",
+		G_CALLBACK (e_mail_shell_view_update_search_filter),
+		mail_shell_view);
+
+	g_signal_connect_swapped (
+		tree_model, "row-inserted",
+		G_CALLBACK (e_mail_shell_view_update_search_filter),
 		mail_shell_view);
 
 	e_mail_shell_view_actions_init (mail_shell_view);

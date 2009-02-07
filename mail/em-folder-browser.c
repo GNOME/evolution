@@ -212,29 +212,6 @@ enum {
 /* label IDs are set above this number */
 #define VIEW_ITEMS_MASK 63
 
-/* Options for View */
-static EMFBSearchBarItem emfb_view_items[] = {
-	{{ N_("All Messages"), VIEW_ALL_MESSAGES, 0 }, NULL},
-	{{ N_("Unread Messages"), VIEW_UNREAD_MESSAGES, 0 }, "mail-unread"},
-	{{ NULL, 0, 0 }, NULL},
-	{{ N_("No Label"),VIEW_NO_LABEL, 0 }, NULL},
-	{{ NULL, -1, 0 }, NULL}
-};
-
-/* TODO: Following options should be  customizable */
-static EMFBSearchBarItem temp_view_items[] = {
-	{{ NULL, 0, 0 }, NULL},
-	{{ N_("Read Messages"), VIEW_READ_MESSAGES, 0 }, "mail-read"},
-	{{ N_("Recent Messages"), VIEW_RECENT_MESSAGES, 0 }, NULL},
-	{{ N_("Last 5 Days' Messages"), VIEW_LAST_FIVE_DAYS, 0 }, NULL},
-	{{ N_("Messages with Attachments"), VIEW_WITH_ATTACHMENTS, 0 }, "mail-attachment"},
-	{{ N_("Important Messages"), VIEW_MESSAGES_MARKED_AS_IMPORTANT, 0}, "emblem-important"},
-	{{ N_("Messages Not Junk"), VIEW_NOT_JUNK, 0 }, "mail-mark-notjunk"},
-/* 	{ NULL, 0, NULL }, */
-/* 	{ N_("Customize"), NOT_IMPLEMENTED, NULL }, */
-	{{ NULL, -1, 0 }, NULL}
-};
-
 static ESearchBarItem emfb_search_scope_items[] = {
 	E_FILTERBAR_CURRENT_FOLDER,
 	E_FILTERBAR_CURRENT_ACCOUNT,
@@ -244,165 +221,6 @@ static ESearchBarItem emfb_search_scope_items[] = {
 };
 
 static EMFolderViewClass *emfb_parent;
-
-static void
-free_one_ui_file (gpointer data,
-		  gpointer user_data)
-{
-	g_free (data);
-}
-
-static GtkWidget *
-generate_viewoption_menu (GtkWidget *emfv)
-{
-	GtkWidget *menu, *menu_item;
-	gint i = 0;
-	GSList *l;
-
-	menu = gtk_menu_new ();
-
-	for (i = 0; emfb_view_items[i].search.id != -1; ++i) {
-		if (emfb_view_items[i].search.text) {
-			char *str;
-
-			str = e_str_without_underscores (_(emfb_view_items[i].search.text));
-			menu_item = gtk_image_menu_item_new_with_label (str);
- 			if (emfb_view_items[i].image) {
-				GtkWidget *image;
-
-				image = gtk_image_new_from_icon_name (
-					emfb_view_items[i].image,
-					GTK_ICON_SIZE_MENU);
-				gtk_image_menu_item_set_image (
-					GTK_IMAGE_MENU_ITEM (menu_item),
-					image);
-			}
-			g_free (str);
-		} else {
-			menu_item = gtk_menu_item_new ();
-			gtk_widget_set_sensitive (menu_item, FALSE);
-		}
-
-		g_object_set_data (G_OBJECT (menu_item), "EsbItemId",
-				   GINT_TO_POINTER (emfb_view_items[i].search.id));
-
-		gtk_widget_show (menu_item);
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
-	}
-
-	/* Add the labels */
-	for (l = mail_config_get_labels (), i = 0; l; l = l->next, i++) {
-		EUtilLabel *label = l->data;
-		if (label->name && *(label->name)) {
-			char *str;
-			GdkPixmap *pixmap;
-			GdkColor colour;
-			GdkGC *gc;
-			GtkWidget *image;
-
-			gdk_color_parse(label->colour, &colour);
-			gdk_colormap_alloc_color(gdk_colormap_get_system(), &colour, FALSE, TRUE);
-
-			pixmap = gdk_pixmap_new(((GtkWidget *)emfv)->window, 16, 16, -1);
-			gc = gdk_gc_new(((GtkWidget *)emfv)->window);
-			gdk_gc_set_foreground(gc, &colour);
-			gdk_draw_rectangle(pixmap, gc, TRUE, 0, 0, 16, 16);
-			g_object_unref(gc);
-
-			image = gtk_image_new_from_pixmap(pixmap, NULL);
-			str = e_str_without_underscores (label->name);
-			menu_item = gtk_image_menu_item_new_with_label (str);
-			g_free (str);
-			gtk_image_menu_item_set_image ((GtkImageMenuItem *)menu_item, image);
-			g_object_set_data (G_OBJECT (menu_item), "EsbItemId",
-					   GINT_TO_POINTER (VIEW_LABEL + (VIEW_ITEMS_MASK + 1) * i));
-
-			g_object_set_data_full (G_OBJECT (menu_item), "LabelTag",
-						g_strdup (strncmp (label->tag, "$Label", 6) == 0 ? label->tag + 6 : label->tag),
-						g_free);
-		}
-
-		gtk_widget_show (menu_item);
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
-	}
-
-	for (i = 0; temp_view_items[i].search.id != -1; ++i) {
-		if (temp_view_items[i].search.text) {
-			char *str;
-			str = e_str_without_underscores (_(temp_view_items[i].search.text));
-			menu_item = gtk_image_menu_item_new_with_label (str);
-			if (temp_view_items[i].image) {
-				GtkWidget *image;
-
-				image = gtk_image_new_from_icon_name (
-					temp_view_items[i].image,
-					GTK_ICON_SIZE_MENU);
-				gtk_image_menu_item_set_image (
-					GTK_IMAGE_MENU_ITEM (menu_item),
-					image);
-			}
-			g_free (str);
-		} else {
-			menu_item = gtk_menu_item_new ();
-			gtk_widget_set_sensitive (menu_item, FALSE);
-		}
-
-		g_object_set_data (G_OBJECT (menu_item), "EsbItemId",
-				   GINT_TO_POINTER (temp_view_items[i].search.id));
-
-		gtk_widget_show (menu_item);
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
-	}
-
-	return menu;
-}
-
-#if 0
-static GArray *
-viewoption_menu_generator ()
-{
-	GArray *menu = g_array_new (FALSE, FALSE, sizeof (ESearchBarItem));
-	gint i = 0;
-	ESearchBarItem dup_item;
-	GSList *l;
-
-	for (i = 0; emfb_view_items[i].search.id != -1; i++)
-		g_array_append_vals (menu, &emfb_view_items[i], 1);
-
-	for (l = mail_config_get_labels (); l; l = l->next) {
-		ESearchBarItem item;
-		EUtilLabel *label = l->data;
-
-		item.text = label->name;
-		item.id = VIEW_LABEL;
-
-		g_array_append_vals (menu, &item, 1);
-	}
-
-	dup_item.id = -1;
-	dup_item.text = NULL;
-	g_array_append_vals (menu, &dup_item, 1);
-
-	return menu;
-}
-#endif
-
-static void
-emfb_realize (GtkWidget *widget)
-{
-	GtkWidget *menu;
-	EMFolderBrowser *emfb = (EMFolderBrowser *)widget;
-	int id;
-
-	menu = generate_viewoption_menu (widget);
-	id = e_search_bar_get_viewitem_id (E_SEARCH_BAR (emfb->search));
-
-	e_search_bar_set_viewoption_menu (E_SEARCH_BAR (emfb->search), menu);
-
-	/* restore last selected ID, if any */
-	if (id != -1)
-		e_search_bar_set_viewitem_id (E_SEARCH_BAR (emfb->search), id);
-}
 
 static void
 html_scroll (GtkHTML *html,
@@ -422,29 +240,6 @@ html_scroll (GtkHTML *html,
 		gtk_widget_grab_focus ((GtkWidget *)((EMFolderView *) emfb)->list);
 		message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN);
 	}
-}
-
-static gboolean
-labels_changed_idle_cb (gpointer user_data)
-{
-	EMFolderBrowser *emfb = (EMFolderBrowser*) user_data;
-
-	emfb_realize (GTK_WIDGET (emfb));
-
-	emfb->priv->labels_change_idle_id = 0;
-
-	return FALSE;
-}
-
-static void
-gconf_labels_changed (GConfClient *client, guint cnxn_id,
-		      GConfEntry *entry, gpointer user_data)
-{
-	EMFolderBrowser *emfb = (EMFolderBrowser*) user_data;
-
-	/* regenerate menu option whenever something changed in labels */
-	if (emfb && !emfb->priv->labels_change_idle_id)
-		emfb->priv->labels_change_idle_id = g_idle_add (labels_changed_idle_cb, emfb);
 }
 
 static void
@@ -503,8 +298,8 @@ emfb_init(GObject *o)
 
 		gtk_box_pack_start((GtkBox *)emfb, (GtkWidget *)emfb->search, FALSE, TRUE, 0);
 
-		gconf = mail_config_get_gconf_client ();
-		emfb->priv->labels_change_notify_id = gconf_client_notify_add (gconf, E_UTIL_LABELS_GCONF_KEY, gconf_labels_changed, emfb, NULL, NULL);
+//		gconf = mail_config_get_gconf_client ();
+//		emfb->priv->labels_change_notify_id = gconf_client_notify_add (gconf, E_UTIL_LABELS_GCONF_KEY, gconf_labels_changed, emfb, NULL, NULL);
 	}
 
 //	emfb->priv->show_wide = gconf_client_get_bool(mail_config_get_gconf_client(), "/apps/evolution/mail/display/show_wide", NULL);
@@ -538,17 +333,6 @@ emfb_init(GObject *o)
 	g_signal_connect (((EMFolderView *) emfb)->list, "message_selected", G_CALLBACK (emfb_list_message_selected), emfb);
 
 }
-
-//static void
-//emfb_finalise(GObject *o)
-//{
-//	EMFolderBrowser *emfb = (EMFolderBrowser *)o;
-//
-//	g_free (emfb->priv->select_uid);
-//	g_free (emfb->priv);
-//
-//	((GObjectClass *)emfb_parent)->finalize(o);
-//}
 
 static void
 emfb_destroy(GtkObject *o)
@@ -590,75 +374,6 @@ emfb_destroy(GtkObject *o)
 
 	((GtkObjectClass *)emfb_parent)->destroy(o);
 }
-
-//static void
-//emfb_class_init(GObjectClass *klass)
-//{
-//	klass->finalize = emfb_finalise;
-//
-//	folder_browser_signals[ACCOUNT_SEARCH_ACTIVATED] =
-//		g_signal_new ("account_search_activated",
-//			      G_TYPE_FROM_CLASS (klass),
-//			      G_SIGNAL_RUN_LAST,
-//			      G_STRUCT_OFFSET (EMFolderBrowserClass, account_search_activated),
-//			      NULL,
-//			      NULL,
-//			      g_cclosure_marshal_VOID__VOID,
-//			      G_TYPE_NONE, 0);
-//
-//	folder_browser_signals[ACCOUNT_SEARCH_CLEARED] =
-//		g_signal_new ("account_search_cleared",
-//			      G_TYPE_FROM_CLASS (klass),
-//			      G_SIGNAL_RUN_LAST,
-//			      G_STRUCT_OFFSET (EMFolderBrowserClass, account_search_cleared),
-//			      NULL,
-//			      NULL,
-//			      g_cclosure_marshal_VOID__VOID,
-//			      G_TYPE_NONE, 0);
-//
-//
-//	((GtkObjectClass *)klass)->destroy = emfb_destroy;
-//	((EMFolderViewClass *)klass)->set_folder = emfb_set_folder;
-//	((EMFolderViewClass *)klass)->activate = emfb_activate;
-//}
-
-//GType
-//em_folder_browser_get_type(void)
-//{
-//	static GType type = 0;
-//
-//	if (type == 0) {
-//		static const GTypeInfo info = {
-//			sizeof(EMFolderBrowserClass),
-//			NULL, NULL,
-//			(GClassInitFunc)emfb_class_init,
-//			NULL, NULL,
-//			sizeof(EMFolderBrowser), 0,
-//			(GInstanceInitFunc)emfb_init
-//		};
-//		emfb_parent = g_type_class_ref(em_folder_view_get_type());
-//		type = g_type_register_static(em_folder_view_get_type(), "EMFolderBrowser", &info, 0);
-//	}
-//
-//	return type;
-//}
-
-//GtkWidget *em_folder_browser_new(void)
-//{
-//	EMFolderBrowser *emfb = g_object_new(em_folder_browser_get_type(), 0);
-//
-//	/** @HookPoint-EMMenu: Main Mail Menu
-//	 * @Id: org.gnome.evolution.mail.browser
-//	 * @Class: org.gnome.evolution.mail.bonobomenu:1.0
-//	 * @Target: EMMenuTargetSelect
-//	 *
-//	 * The main menu of mail view of the main application window.
-//	 * If the folder is NULL (not selected), the target will be empty, not NULL.
-//	 */
-//	((EMFolderView *)emfb)->menu = em_menu_new("org.gnome.evolution.mail.browser");
-//
-//	return (GtkWidget *)emfb;
-//}
 
 void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 {

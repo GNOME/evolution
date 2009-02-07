@@ -339,6 +339,7 @@ mail_shell_content_constructed (GObject *object)
 {
 	EMailShellContentPrivate *priv;
 	EShellContent *shell_content;
+	EShellModule *shell_module;
 	EShellView *shell_view;
 	EShellViewClass *shell_view_class;
 	EMailReader *reader;
@@ -357,6 +358,7 @@ mail_shell_content_constructed (GObject *object)
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+	shell_module = e_shell_view_get_shell_module (shell_view);
 	view_collection = shell_view_class->view_collection;
 
 	/* Build content widgets. */
@@ -370,7 +372,7 @@ mail_shell_content_constructed (GObject *object)
 
 	container = widget;
 
-	widget = message_list_new ();
+	widget = message_list_new (shell_module);
 	gtk_paned_add1 (GTK_PANED (container), widget);
 	priv->message_list = g_object_ref (widget);
 	gtk_widget_show (widget);

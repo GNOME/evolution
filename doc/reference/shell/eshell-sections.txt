@@ -53,6 +53,7 @@ e_shell_content_get_filter_value
 e_shell_content_set_filter_value
 e_shell_content_get_filter_visible
 e_shell_content_set_filter_visible
+e_shell_content_add_filter_separator_before
 e_shell_content_add_filter_separator_after
 e_shell_content_get_search_context
 e_shell_content_get_search_rule
@@ -130,6 +131,8 @@ e_shell_settings_get_int
 e_shell_settings_set_int
 e_shell_settings_get_string
 e_shell_settings_set_string
+e_shell_settings_get_object
+e_shell_settings_set_object
 <SUBSECTION Standard>
 E_SHELL_SETTINGS
 E_IS_SHELL_SETTINGS

@@ -49,9 +49,11 @@
 #include "e-util/e-profile-event.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util.h"
-#include "e-util/e-util-labels.h"
 
 #include "misc/e-gui-utils.h"
+
+#include "shell/e-shell.h"
+#include "shell/e-shell-settings.h"
 
 #include "table/e-cell-checkbox.h"
 #include "table/e-cell-hbox.h"
@@ -66,6 +68,7 @@
 #include "table/e-cell-vbox.h"
 #include "table/e-cell-hbox.h"
 
+#include "e-mail-label-list-store.h"
 #include "em-popup.h"
 #include "em-utils.h"
 #include "mail-config.h"
@@ -96,6 +99,10 @@
 #define d(x)
 #define t(x)
 
+#define MESSAGE_LIST_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), MESSAGE_LIST_TYPE, MessageListPrivate))
+
 struct _MLSelection {
 	GPtrArray *uids;
 	CamelFolder *folder;
@@ -105,11 +112,18 @@ struct _MLSelection {
 struct _MessageListPrivate {
 	GtkWidget *invisible;	/* 4 selection */
 
+	EShellModule *shell_module;
+
 	struct _MLSelection clipboard;
 	gboolean destroyed;
 
 	gboolean thread_latest;
 	gboolean any_row_changed; /* save state before regen list when this is set to true */
+};
+
+enum {
+	PROP_0,
+	PROP_SHELL_MODULE
 };
 
 static struct {
@@ -808,7 +822,7 @@ message_list_invert_selection (MessageList *message_list)
 void
 message_list_copy(MessageList *ml, gboolean cut)
 {
-	struct _MessageListPrivate *p = ml->priv;
+	MessageListPrivate *p = ml->priv;
 	GPtrArray *uids;
 
 	clear_selection(ml, &p->clipboard);
@@ -1221,50 +1235,121 @@ sanitize_recipients (const gchar *string)
 }
 
 static int
-get_all_labels (CamelMessageInfo *msg_info, char **label_str, gboolean get_tags)
+get_all_labels (MessageList *message_list,
+                CamelMessageInfo *msg_info,
+                gchar **label_str,
+                gboolean get_tags)
 {
+	EShell *shell;
+	EShellModule *shell_module;
+	EShellSettings *shell_settings;
+	EMailLabelListStore *store;
+	GtkTreeIter iter;
 	GString *str;
-	const char *old_label;
+	const gchar *property_name;
+	const gchar *old_label;
+	gchar *new_label;
 	int count = 0;
 	const CamelFlag *flag;
-	GSList *labels;
 
-	labels = mail_config_get_labels ();
+	shell_module = message_list_get_shell_module (message_list);
+	shell = e_shell_module_get_shell (shell_module);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	property_name = "mail-label-list-store";
+	store = e_shell_settings_get_object (shell_settings, property_name);
+
 	str = g_string_new ("");
 
 	for (flag = camel_message_info_user_flags (msg_info); flag; flag = flag->next) {
-		const char *name = e_util_labels_get_name (labels, flag->name);
+		gchar *item;
 
-		if (name) {
-			if (str->len)
-				g_string_append (str, ", ");
+		if (!e_mail_label_list_store_lookup (store, flag->name, &iter))
+			continue;
 
-			if (get_tags)
-				name = flag->name;
+		if (get_tags)
+			item = e_mail_label_list_store_get_tag (store, &iter);
+		else
+			item = e_mail_label_list_store_get_name (store, &iter);
 
-			g_string_append (str, name);
-			count++;
-		}
+		if (str->len)
+			g_string_append (str, ", ");
+
+		g_string_append (str, item);
+		count++;
+
+		g_free (item);
 	}
 
-	old_label = e_util_labels_get_new_tag (camel_message_info_user_tag (msg_info, "label"));
+	old_label = camel_message_info_user_tag (msg_info, "label");
+	if (old_label == NULL)
+		goto exit;
 
-	if (old_label != NULL) {
-		const char *name = NULL;
+	/* Convert old-style labels ("<name>") to "$Label<name>". */
+	new_label = g_alloca (strlen (old_label) + 10);
+	g_stpcpy (g_stpcpy (new_label, "$Label"), old_label);
+
+	if (e_mail_label_list_store_lookup (store, new_label, &iter)) {
+		gchar *name = NULL;
 
 		if (str->len)
 			g_string_append (str, ", ");
 
 		if (!get_tags)
-			name = e_util_labels_get_name (labels, old_label);
+			name = e_mail_label_list_store_get_name (store, &iter);
 
 		g_string_append (str, (get_tags || !name) ? old_label : name);
-		++count;
+		count++;
+
+		g_free (name);
 	}
 
+exit:
 	*label_str = g_string_free (str, FALSE);
 
+	g_object_unref (store);
+
 	return count;
+}
+
+static const gchar *
+get_label_color (MessageList *message_list,
+                 const gchar *tag)
+{
+	EShell *shell;
+	EShellModule *shell_module;
+	EShellSettings *shell_settings;
+	EMailLabelListStore *store;
+	GtkTreeIter iter;
+	GdkColor color;
+	const gchar *property_name;
+	const gchar *interned = NULL;
+	gchar *color_spec;
+
+	/* FIXME get_all_labels() should return an array of tree iterators,
+	 *       not strings.  Now we just have to lookup the tag again. */
+
+	shell_module = message_list_get_shell_module (message_list);
+	shell = e_shell_module_get_shell (shell_module);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	property_name = "mail-label-list-store";
+	store = e_shell_settings_get_object (shell_settings, property_name);
+
+	if (!e_mail_label_list_store_lookup (store, tag, &iter))
+		goto exit;
+
+	e_mail_label_list_store_get_color (store, &iter, &color);
+
+	/* XXX Hack to avoid returning an allocated string. */
+	color_spec = gdk_color_to_string (&color);
+	interned = g_intern_string (color_spec);
+	g_free (color_spec);
+
+exit:
+	g_object_unref (store);
+
+	return interned;
 }
 
 static const char *
@@ -1468,9 +1553,8 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		completed = camel_message_info_user_tag(msg_info, "completed-on");
 		followup = camel_message_info_user_tag(msg_info, "follow-up");
 		if (colour == NULL) {
-			if ((n = get_all_labels (msg_info,  &labels_string, TRUE)) == 1) {
-
-				colour = e_util_labels_get_color_str (mail_config_get_labels (), labels_string);
+			if ((n = get_all_labels (message_list, msg_info,  &labels_string, TRUE)) == 1) {
+				colour = get_label_color (message_list, labels_string);
 			} else if (camel_message_info_flags(msg_info) & CAMEL_MESSAGE_FLAGGED) {
 				/* FIXME: extract from the important.xpm somehow. */
 				colour = "#A7453E";
@@ -1549,7 +1633,7 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 
 		cleansed_str = g_string_new ("");
 
-		if (get_all_labels (msg_info, &str, FALSE)) {
+		if (get_all_labels (message_list, msg_info, &str, FALSE)) {
 			int i;
 			for (i = 0; str[i] != '\0'; ++i) {
 				if (str[i] != '_') {
@@ -1945,7 +2029,7 @@ ml_selection_get(GtkWidget *widget, GtkSelectionData *data, guint info, guint ti
 static gboolean
 ml_selection_clear_event(GtkWidget *widget, GdkEventSelection *event, MessageList *ml)
 {
-	struct _MessageListPrivate *p = ml->priv;
+	MessageListPrivate *p = ml->priv;
 
 	clear_selection(ml, &p->clipboard);
 
@@ -2240,12 +2324,24 @@ on_model_row_changed (ETableModel *model, int row, MessageList *ml)
 /*
  * GObject::init
  */
+
+static void
+message_list_set_shell_module (MessageList *message_list,
+                               EShellModule *shell_module)
+{
+	g_return_if_fail (message_list->priv->shell_module == NULL);
+
+	message_list->priv->shell_module = g_object_ref (shell_module);
+}
+
 static void
 message_list_init (MessageList *message_list)
 {
-	struct _MessageListPrivate *p;
+	MessageListPrivate *p;
 	GtkAdjustment *adjustment;
 	GdkAtom matom;
+
+	message_list->priv = MESSAGE_LIST_GET_PRIVATE (message_list);
 
 	adjustment = (GtkAdjustment *) gtk_adjustment_new (0.0, 0.0, G_MAXDOUBLE, 0.0, 0.0, 0.0);
 	gtk_scrolled_window_set_vadjustment ((GtkScrolledWindow *) message_list, adjustment);
@@ -2275,7 +2371,7 @@ message_list_init (MessageList *message_list)
 	message_list->regen_lock = g_mutex_new ();
 
 	/* TODO: Should this only get the selection if we're realised? */
-	p = message_list->priv = g_malloc0(sizeof(*message_list->priv));
+	p = message_list->priv;
 	p->invisible = gtk_invisible_new();
 	p->destroyed = FALSE;
 	g_object_ref_sink(p->invisible);
@@ -2296,7 +2392,7 @@ static void
 message_list_destroy(GtkObject *object)
 {
 	MessageList *message_list = MESSAGE_LIST (object);
-	struct _MessageListPrivate *p = message_list->priv;
+	MessageListPrivate *p = message_list->priv;
 
 	p->destroyed = TRUE;
 
@@ -2348,14 +2444,65 @@ message_list_destroy(GtkObject *object)
 		message_list->seen_id = 0;
 	}
 
+	/* Chain up to parent's destroy() method. */
 	GTK_OBJECT_CLASS (message_list_parent_class)->destroy(object);
 }
 
 static void
-message_list_finalise (GObject *object)
+message_list_set_property (GObject *object,
+                           guint property_id,
+                           const GValue *value,
+                           GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SHELL_MODULE:
+			message_list_set_shell_module (
+				MESSAGE_LIST (object),
+				g_value_get_object (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+message_list_get_property (GObject *object,
+                           guint property_id,
+                           GValue *value,
+                           GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SHELL_MODULE:
+			g_value_set_object (
+				value, message_list_get_shell_module (
+				MESSAGE_LIST (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+message_list_dispose (GObject *object)
+{
+	MessageListPrivate *priv;
+
+	priv = MESSAGE_LIST_GET_PRIVATE (object);
+
+	if (priv->shell_module != NULL) {
+		g_object_unref (priv->shell_module);
+		priv->shell_module = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (message_list_parent_class)->dispose (object);
+}
+
+static void
+message_list_finalize (GObject *object)
 {
 	MessageList *message_list = MESSAGE_LIST (object);
-	struct _MessageListPrivate *p = message_list->priv;
+	MessageListPrivate *priv = message_list->priv;
 
 	g_hash_table_destroy (message_list->normalised_hash);
 
@@ -2385,10 +2532,9 @@ message_list_finalise (GObject *object)
 	g_free(message_list->folder_uri);
 	message_list->folder_uri = NULL;
 
-	clear_selection(message_list, &p->clipboard);
+	clear_selection(message_list, &priv->clipboard);
 
-	g_free(p);
-
+	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (message_list_parent_class)->finalize (object);
 }
 
@@ -2396,17 +2542,36 @@ message_list_finalise (GObject *object)
  * GObjectClass::init
  */
 static void
-message_list_class_init (MessageListClass *message_list_class)
+message_list_class_init (MessageListClass *class)
 {
-	GObjectClass *object_class = (GObjectClass *) message_list_class;
-	GtkObjectClass *gtkobject_class = (GtkObjectClass *) message_list_class;
+	GObjectClass *object_class;
+	GtkObjectClass *gtk_object_class;
 	int i;
 
 	for (i=0;i<sizeof(ml_drag_info)/sizeof(ml_drag_info[0]);i++)
 		ml_drag_info[i].atom = gdk_atom_intern(ml_drag_info[i].target, FALSE);
 
-	object_class->finalize = message_list_finalise;
-	gtkobject_class->destroy = message_list_destroy;
+	g_type_class_add_private (class, sizeof (MessageListPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = message_list_set_property;
+	object_class->get_property = message_list_get_property;
+	object_class->dispose = message_list_dispose;
+	object_class->finalize = message_list_finalize;
+
+	gtk_object_class = GTK_OBJECT_CLASS (class);
+	gtk_object_class->destroy = message_list_destroy;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL_MODULE,
+		g_param_spec_object (
+			"shell-module",
+			_("Shell Module"),
+			_("The mail shell module"),
+			E_TYPE_SHELL_MODULE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 
 	message_list_signals[MESSAGE_SELECTED] =
 		g_signal_new ("message_selected",
@@ -2559,17 +2724,28 @@ message_list_construct (MessageList *message_list)
  * Returns a new message-list widget.
  **/
 GtkWidget *
-message_list_new (void)
+message_list_new (EShellModule *shell_module)
 {
 	MessageList *message_list;
+
+	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), NULL);
 
 	message_list = MESSAGE_LIST (g_object_new(message_list_get_type (),
 						  "hadjustment", NULL,
 						  "vadjustment", NULL,
+						  "shell-module", shell_module,
 						  NULL));
 	message_list_construct (message_list);
 
 	return GTK_WIDGET (message_list);
+}
+
+EShellModule *
+message_list_get_shell_module (MessageList *message_list)
+{
+	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), NULL);
+
+	return message_list->priv->shell_module;
 }
 
 static void

@@ -86,7 +86,7 @@ mail_shell_view_toggled (EShellView *shell_view)
 static void
 mail_shell_view_update_actions (EShellView *shell_view)
 {
-	EMailShellViewPrivate *priv;
+	EMailShellView *mail_shell_view;
 	EMailShellSidebar *mail_shell_sidebar;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
@@ -108,14 +108,14 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	gboolean folder_is_store;
 	gboolean folder_is_trash;
 
-	priv = E_MAIL_SHELL_VIEW_GET_PRIVATE (shell_view);
+	mail_shell_view = E_MAIL_SHELL_VIEW (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	e_mail_reader_update_actions (E_MAIL_READER (shell_content));
 
-	mail_shell_sidebar = priv->mail_shell_sidebar;
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
@@ -190,6 +190,8 @@ mail_shell_view_update_actions (EShellView *shell_view)
 	action = ACTION (MAIL_FOLDER_RENAME);
 	sensitive = !folder_is_store && folder_can_be_deleted;
 	gtk_action_set_sensitive (action, sensitive);
+
+	e_mail_shell_view_update_popup_labels (mail_shell_view);
 }
 
 static void

@@ -103,6 +103,10 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-hide-read")
 #define E_SHELL_WINDOW_ACTION_MAIL_HIDE_SELECTED(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-hide-selected")
+#define E_SHELL_WINDOW_ACTION_MAIL_LABEL_NEW(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-label-new")
+#define E_SHELL_WINDOW_ACTION_MAIL_LABEL_NONE(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-label-none")
 #define E_SHELL_WINDOW_ACTION_MAIL_LOAD_IMAGES(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-load-images")
 #define E_SHELL_WINDOW_ACTION_MAIL_MARK_IMPORTANT(window) \
@@ -205,16 +209,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-filter-all-messages")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_IMPORTANT_MESSAGES(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-filter-important-messages")
-#define E_SHELL_WINDOW_ACTION_MAIL_FILTER_LABEL_IMPORTANT(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-label-important")
-#define E_SHELL_WINDOW_ACTION_MAIL_FILTER_LABEL_LATER(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-label-later")
-#define E_SHELL_WINDOW_ACTION_MAIL_FILTER_LABEL_PERSONAL(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-label-personal")
-#define E_SHELL_WINDOW_ACTION_MAIL_FILTER_LABEL_TO_DO(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-label-to-do")
-#define E_SHELL_WINDOW_ACTION_MAIL_FILTER_LABEL_WORK(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-filter-label-work")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_LAST_5_DAYS_MESSAGES(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-filter-last-5-days-messages")
 #define E_SHELL_WINDOW_ACTION_MAIL_FILTER_MESSAGES_NOT_JUNK(window) \
@@ -257,5 +251,7 @@
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "mail")
 #define E_SHELL_WINDOW_ACTION_GROUP_MAIL_FILTER(window) \
 	E_SHELL_WINDOW_ACTION_GROUP ((window), "mail-filter")
+#define E_SHELL_WINDOW_ACTION_GROUP_MAIL_LABEL(window) \
+	E_SHELL_WINDOW_ACTION_GROUP ((window), "mail-label")
 
 #endif /* E_MAIL_SHELL_VIEW_ACTIONS_H */

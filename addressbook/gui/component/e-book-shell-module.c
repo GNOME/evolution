@@ -195,8 +195,8 @@ book_module_ensure_sources (EShellModule *shell_module)
 		e_source_list_add_group (source_list, source_group, -1);
 		g_object_unref (source_group);
 	} else {
-		/* Force the source name to the current locale. */
-		e_source_set_name (on_ldap_servers, name);
+		/* Force the group name to the current locale. */
+		e_source_group_set_name (on_ldap_servers, name);
 	}
 
 	g_free (base_uri);

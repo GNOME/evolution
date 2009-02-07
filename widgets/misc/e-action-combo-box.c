@@ -548,6 +548,23 @@ e_action_combo_box_set_current_value (EActionComboBox *combo_box,
 }
 
 void
+e_action_combo_box_add_separator_before (EActionComboBox *combo_box,
+                                         gint action_value)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+
+	g_return_if_fail (E_ACTION_IS_COMBO_BOX (combo_box));
+
+	/* NULL actions are rendered as separators. */
+	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box));
+	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
+	gtk_list_store_set (
+		GTK_LIST_STORE (model), &iter, COLUMN_ACTION,
+		NULL, COLUMN_SORT, (gfloat) action_value - 0.5, -1);
+}
+
+void
 e_action_combo_box_add_separator_after (EActionComboBox *combo_box,
                                         gint action_value)
 {

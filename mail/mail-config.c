@@ -52,7 +52,6 @@
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-util.h>
 #include <misc/e-gui-utils.h>
-#include "e-util/e-util-labels.h"
 #include "e-util/e-account-utils.h"
 #include "e-util/e-signature-utils.h"
 
@@ -189,33 +188,6 @@ config_write_style (void)
 	fclose (rc);
 
 	gtk_rc_reparse_all ();
-}
-
-static void
-config_clear_labels (void)
-{
-	if (!config)
-		return;
-
-	e_util_labels_free (config->labels);
-	config->labels = NULL;
-}
-
-static void
-config_cache_labels (GConfClient *client)
-{
-	if (!config)
-		return;
-
-	config->labels = e_util_labels_parse (client);
-}
-
-static void
-gconf_labels_changed (GConfClient *client, guint cnxn_id,
-		      GConfEntry *entry, gpointer user_data)
-{
-	config_clear_labels ();
-	config_cache_labels (client);
 }
 
 static void
@@ -449,18 +421,6 @@ mail_config_init (void)
 	gconf_client_notify_add (
 		config->gconf, key, func, NULL, NULL, NULL);
 
-	/* Label Configuration */
-
-	gconf_client_add_dir (
-		config->gconf, E_UTIL_LABELS_GCONF_KEY,
-		GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-
-	gconf_client_notify_add (
-		config->gconf, E_UTIL_LABELS_GCONF_KEY,
-		gconf_labels_changed, NULL, NULL, NULL);
-
-	config_cache_labels (config->gconf);
-
 	/* MIME Type Configuration */
 
 	gconf_client_add_dir (
@@ -525,7 +485,6 @@ mail_config_clear (void)
 	if (!config)
 		return;
 
-	config_clear_labels ();
 	config_clear_mime_types ();
 }
 
@@ -694,18 +653,6 @@ gboolean
 mail_config_get_enable_magic_spacebar ()
 {
 	return config->magic_spacebar;
-}
-
-/**
- * mail_config_get_labels
- *
- * @return list of known labels, each member data is EUtilLabel structure.
- *         Returned list should not be freed, neither data inside it.
- **/
-GSList *
-mail_config_get_labels (void)
-{
-	return config->labels;
 }
 
 const char **

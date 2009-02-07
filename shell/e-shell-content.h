@@ -101,6 +101,9 @@ gboolean	e_shell_content_get_filter_visible
 void		e_shell_content_set_filter_visible
 						(EShellContent *shell_content,
 						 gboolean filter_visible);
+void		e_shell_content_add_filter_separator_before
+						(EShellContent *shell_content,
+						 gint action_value);
 void		e_shell_content_add_filter_separator_after
 						(EShellContent *shell_content,
 						 gint action_value);
