@@ -63,21 +63,6 @@
 #define GCONF_E_USE_PROXY_KEY GCONF_E_SHELL_NETWORK_CONFIG_PATH "use_http_proxy"
 #define GCONF_E_AUTOCONFIG_URL_KEY GCONF_E_SHELL_NETWORK_CONFIG_PATH "autoconfig_url"
 
-#define GCONF_SYS_PROXY_PATH "/system/proxy/"
-#define GCONF_SYS_HTTP_PROXY_PATH "/system/http_proxy"
-#define GCONF_SYS_HTTP_HOST_KEY GCONF_SYS_HTTP_PROXY_PATH "host"
-#define GCONF_SYS_HTTP_PORT_KEY GCONF_SYS_HTTP_PROXY_PATH "port"
-#define GCONF_SYS_HTTPS_HOST_KEY GCONF_SYS_PROXY_PATH "secure_host"
-#define GCONF_SYS_HTTPS_PORT_KEY GCONF_SYS_PROXY_PATH "secure_port"
-#define GCONF_SYS_SOCKS_HOST_KEY GCONF_SYS_PROXY_PATH "socks_host"
-#define GCONF_SYS_SOCKS_PORT_KEY GCONF_SYS_PROXY_PATH "socks_port"
-#define GCONF_SYS_AUTOCONFIG_URL_KEY GCONF_SYS_PROXY_PATH "autoconfig_url"
-#define GCONF_SYS_IGNORE_HOSTS_KEY GCONF_SYS_HTTP_PROXY_PATH "ignore_hosts"
-#define GCONF_SYS_USE_PROXY_KEY GCONF_SYS_HTTP_PROXY_PATH "use_http_proxy"
-#define GCONF_SYS_USE_AUTH_KEY GCONF_SYS_HTTP_PROXY_PATH "use_authentication"
-#define GCONF_SYS_AUTH_USER_KEY GCONF_SYS_HTTP_PROXY_PATH "authentication_user"
-#define GCONF_SYS_AUTH_PWD_KEY GCONF_SYS_HTTP_PROXY_PATH "authentication_password"
-
 static void em_network_prefs_class_init (EMNetworkPrefsClass *class);
 static void em_network_prefs_init       (EMNetworkPrefs *dialog);
 static void em_network_prefs_destroy    (GtkObject *obj);
@@ -197,20 +182,21 @@ emnp_set_sensitiveness (EMNetworkPrefs *prefs, NetworkConfigProxyType type, gboo
 
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->http_host, sensitivity);
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->https_host, sensitivity);
-		gtk_widget_set_sensitive ((GtkWidget *) prefs->socks_host, sensitivity);
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->ignore_hosts, sensitivity);
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->use_auth, sensitivity);
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->http_port, sensitivity);
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->https_port, sensitivity);
-		gtk_widget_set_sensitive ((GtkWidget *) prefs->socks_port, sensitivity);
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->lbl_ignore_hosts, sensitivity);
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->lbl_http_host, sensitivity);
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->lbl_http_port, sensitivity);
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->lbl_https_host, sensitivity);
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->lbl_https_port, sensitivity);
+#if 0
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->socks_host, sensitivity);
+		gtk_widget_set_sensitive ((GtkWidget *) prefs->socks_port, sensitivity);
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->lbl_socks_host, sensitivity);
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->lbl_socks_port, sensitivity);
-
+#endif
 		state = sensitivity && gtk_toggle_button_get_active (prefs->use_auth);
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->lbl_auth_user, state);
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->lbl_auth_pwd, state);
@@ -218,91 +204,6 @@ emnp_set_sensitiveness (EMNetworkPrefs *prefs, NetworkConfigProxyType type, gboo
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->auth_pwd, state);
 
 		d(g_print ("Setting sensitivity of manual proxy to: %d\n", sensitivity));
-	}
-}
-
-static void
-emnp_parse_ignore_hosts (gpointer data, gpointer user_data)
-{
-	GString *str = (GString *)user_data;
-
-	if (!str)
-		return;
-
-	/* FIXME: Remove trailing , */
-	if (data) {
-		str = g_string_append (str, data);
-		str = g_string_append_c (str, ',');
-	}
-}
-
-static void 
-emnp_load_sys_settings (GConfClient *gconf)
-{
-	char *buf;
-	int port;
-	GSList *ignore_hosts;
-	gboolean toggle;
-	GString *str = NULL;
-
-	if (!gconf)
-		return;
-	
-	toggle = gconf_client_get_bool (gconf, GCONF_SYS_USE_PROXY_KEY, NULL);
-	if (!toggle) {
-		gconf_client_set_bool (gconf, GCONF_E_USE_PROXY_KEY, toggle, NULL);
-		return;
-	}
-
-	toggle = gconf_client_get_bool (gconf, GCONF_SYS_USE_AUTH_KEY, NULL);
-	gconf_client_set_bool (gconf, GCONF_E_USE_AUTH_KEY, toggle, NULL);
-
-	buf = gconf_client_get_string (gconf, GCONF_SYS_HTTP_HOST_KEY, NULL);
-	gconf_client_set_string (gconf, GCONF_E_HTTP_HOST_KEY, buf, NULL);
-	g_free (buf);
-
-	buf = gconf_client_get_string (gconf, GCONF_SYS_HTTPS_HOST_KEY, NULL);
-	gconf_client_set_string (gconf, GCONF_E_HTTPS_HOST_KEY, buf, NULL);
-	g_free (buf);
-
-	buf = gconf_client_get_string (gconf, GCONF_SYS_SOCKS_HOST_KEY, NULL);
-	gconf_client_set_string (gconf, GCONF_E_SOCKS_HOST_KEY, buf, NULL);
-	g_free (buf);
-
-#if 0
-	buf = gconf_client_get_string (gconf, GCONF_SYS_AUTOCONFIG_URL_KEY, NULL);
-	gconf_client_set_string (gconf, GCONF_E_AUTOCONFIG_URL_KEY, buf, NULL);
-	g_free (buf);
-#endif
-
-	buf = gconf_client_get_string (gconf, GCONF_SYS_AUTH_USER_KEY, NULL);
-	gconf_client_set_string (gconf, GCONF_E_AUTH_USER_KEY, buf, NULL);
-	g_free (buf);
-
-	buf = gconf_client_get_string (gconf, GCONF_SYS_AUTH_PWD_KEY, NULL);
-	gconf_client_set_string (gconf, GCONF_E_AUTH_PWD_KEY, buf, NULL);
-	g_free (buf);
-
-	port = gconf_client_get_int (gconf, GCONF_SYS_HTTP_PORT_KEY, NULL);
-	gconf_client_set_int (gconf, GCONF_E_HTTP_PORT_KEY, port, NULL);
-
-	port = gconf_client_get_int (gconf, GCONF_SYS_HTTPS_PORT_KEY, NULL);
-	gconf_client_set_int (gconf, GCONF_E_HTTPS_PORT_KEY, port, NULL);
-
-	port = gconf_client_get_int (gconf, GCONF_SYS_SOCKS_PORT_KEY, NULL);
-	gconf_client_set_int (gconf, GCONF_E_SOCKS_PORT_KEY, port, NULL);
-
-	ignore_hosts = gconf_client_get_list (gconf, GCONF_SYS_IGNORE_HOSTS_KEY, 
-						GCONF_VALUE_STRING, NULL);
-	if (ignore_hosts) {
-		str = g_string_sized_new (32);
-		g_slist_foreach (ignore_hosts, (GFunc) emnp_parse_ignore_hosts, str);
-		g_slist_foreach (ignore_hosts, (GFunc) g_free, NULL);	
-		g_slist_free (ignore_hosts);
-
-		gconf_client_set_string (gconf, GCONF_E_IGNORE_HOSTS_KEY, 
-					 str->str, NULL);
-		g_string_free (str, TRUE);
 	}
 }
 
@@ -330,11 +231,6 @@ notify_proxy_type_changed (GtkWidget *widget, EMNetworkPrefs *prefs)
 	    type == NETWORK_PROXY_SYS_SETTINGS) {
 		emnp_set_sensitiveness (prefs, NETWORK_PROXY_MANUAL, FALSE);
 		emnp_set_sensitiveness (prefs, NETWORK_PROXY_AUTOCONFIG, FALSE);
-		if (type == NETWORK_PROXY_SYS_SETTINGS) {
-			d(g_print ("%s:%s: Loading sys settings... \n", G_STRLOC, G_STRFUNC));
-			emnp_load_sys_settings (prefs->gconf);
-		}
-
 	} else if (type == NETWORK_PROXY_AUTOCONFIG) {
 		emnp_set_sensitiveness (prefs, NETWORK_PROXY_MANUAL, FALSE);
 		emnp_set_sensitiveness (prefs, NETWORK_PROXY_AUTOCONFIG, TRUE);
@@ -448,7 +344,6 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 
 	prefs->sys_proxy = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "rdoSysSettings"));
 	gtk_toggle_button_set_active (prefs->sys_proxy, val == NETWORK_PROXY_SYS_SETTINGS);
-	g_signal_connect (prefs->sys_proxy, "toggled", G_CALLBACK (notify_proxy_type_changed), prefs);
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->sys_proxy, FALSE);
 
@@ -456,7 +351,6 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 
 	prefs->no_proxy = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "rdoNoProxy"));
 	gtk_toggle_button_set_active (prefs->no_proxy, val == NETWORK_PROXY_DIRECT_CONNECTION);
-	g_signal_connect (prefs->no_proxy, "toggled", G_CALLBACK (notify_proxy_type_changed), prefs);
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->no_proxy, FALSE);
 
@@ -469,7 +363,6 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 
 	gtk_toggle_button_set_active (prefs->auto_proxy, val == NETWORK_PROXY_AUTOCONFIG);
 
-	g_signal_connect (prefs->auto_proxy, "toggled", G_CALLBACK (notify_proxy_type_changed), prefs);
 	g_signal_connect(prefs->auto_proxy_url, "changed", G_CALLBACK(widget_entry_changed_cb), GCONF_E_AUTOCONFIG_URL_KEY);
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->auto_proxy, FALSE);
@@ -480,17 +373,13 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	prefs->manual_proxy = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "rdoManualProxy"));
 	prefs->http_host = GTK_ENTRY (glade_xml_get_widget (gui, "txtHttpHost"));
 	prefs->https_host = GTK_ENTRY (glade_xml_get_widget (gui, "txtHttpsHost"));
-	prefs->socks_host = GTK_ENTRY (glade_xml_get_widget (gui, "txtSocksHost"));
 	prefs->ignore_hosts = GTK_ENTRY (glade_xml_get_widget (gui, "txtIgnoreHosts"));
 	prefs->http_port = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spnHttpPort"));
 	prefs->https_port = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spnHttpsPort"));
-	prefs->socks_port = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spnSocksPort"));
 	prefs->lbl_http_host = GTK_LABEL (glade_xml_get_widget (gui, "lblHttpHost"));
 	prefs->lbl_http_port = GTK_LABEL (glade_xml_get_widget (gui, "lblHttpPort"));
 	prefs->lbl_https_host = GTK_LABEL (glade_xml_get_widget (gui, "lblHttpsHost"));
 	prefs->lbl_https_port = GTK_LABEL (glade_xml_get_widget (gui, "lblHttpsPort"));
-	prefs->lbl_socks_host = GTK_LABEL (glade_xml_get_widget (gui, "lblSocksHost"));
-	prefs->lbl_socks_port = GTK_LABEL (glade_xml_get_widget (gui, "lblSocksPort"));
 	prefs->lbl_ignore_hosts = GTK_LABEL (glade_xml_get_widget (gui, "lblIgnoreHosts"));
 	prefs->use_auth = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkUseAuth"));
 	toggle_button_init (prefs, prefs->use_auth, GCONF_E_USE_AUTH_KEY);
@@ -498,28 +387,40 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	prefs->lbl_auth_pwd = GTK_LABEL (glade_xml_get_widget (gui, "lblAuthPwd"));
 	prefs->auth_user = GTK_ENTRY (glade_xml_get_widget (gui, "txtAuthUser"));
 	prefs->auth_pwd = GTK_ENTRY (glade_xml_get_widget (gui, "txtAuthPwd"));
+
+#if 0
+	prefs->socks_host = GTK_ENTRY (glade_xml_get_widget (gui, "txtSocksHost"));
+	prefs->socks_port = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spnSocksPort"));
+	prefs->lbl_socks_host = GTK_LABEL (glade_xml_get_widget (gui, "lblSocksHost"));
+	prefs->lbl_socks_port = GTK_LABEL (glade_xml_get_widget (gui, "lblSocksPort"));
+	g_signal_connect (prefs->socks_host, "changed", 
+			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_SOCKS_HOST_KEY);
+	g_signal_connect (prefs->socks_port, "value_changed", 
+			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_SOCKS_PORT_KEY);
+#endif
 	
 	/* Manual proxy options */
 	g_signal_connect (prefs->http_host, "changed", 
 			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_HTTP_HOST_KEY);
 	g_signal_connect (prefs->https_host, "changed", 
 			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_HTTPS_HOST_KEY);
-	g_signal_connect (prefs->socks_host, "changed", 
-			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_SOCKS_HOST_KEY);
 	g_signal_connect (prefs->ignore_hosts, "changed", 
 			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_IGNORE_HOSTS_KEY);
 	g_signal_connect (prefs->http_port, "value_changed", 
 			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_HTTP_PORT_KEY);
 	g_signal_connect (prefs->https_port, "value_changed", 
 			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_HTTPS_PORT_KEY);
-	g_signal_connect (prefs->socks_port, "value_changed", 
-			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_SOCKS_PORT_KEY);
 	g_signal_connect (prefs->auth_user, "changed", 
 			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_AUTH_USER_KEY);
 	g_signal_connect (prefs->auth_pwd, "changed", 
 			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_AUTH_PWD_KEY);
 
 	gtk_toggle_button_set_active (prefs->manual_proxy, val == NETWORK_PROXY_MANUAL);
+	g_signal_connect (prefs->sys_proxy, "toggled", G_CALLBACK (notify_proxy_type_changed), prefs);
+	g_signal_connect (prefs->no_proxy, "toggled", G_CALLBACK (notify_proxy_type_changed), prefs);
+#if 0
+	g_signal_connect (prefs->auto_proxy, "toggled", G_CALLBACK (notify_proxy_type_changed), prefs);
+#endif
 	g_signal_connect (prefs->manual_proxy, "toggled", G_CALLBACK (notify_proxy_type_changed), prefs);
 
 	if (locked)
@@ -532,10 +433,6 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 
 	buf = gconf_client_get_string (prefs->gconf, GCONF_E_HTTPS_HOST_KEY, NULL);
 	gtk_entry_set_text (prefs->https_host, buf ? buf : "");
-	g_free (buf);
-
-	buf = gconf_client_get_string (prefs->gconf, GCONF_E_SOCKS_HOST_KEY, NULL);
-	gtk_entry_set_text (prefs->socks_host, buf ? buf : "");
 	g_free (buf);
 
 	buf = gconf_client_get_string (prefs->gconf, GCONF_E_IGNORE_HOSTS_KEY, NULL);
@@ -556,17 +453,20 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	port = gconf_client_get_int (prefs->gconf, GCONF_E_HTTPS_PORT_KEY, NULL);
 	gtk_spin_button_set_value (prefs->https_port, (gdouble)port);
 
+#if 0
+	buf = gconf_client_get_string (prefs->gconf, GCONF_E_SOCKS_HOST_KEY, NULL);
+	gtk_entry_set_text (prefs->socks_host, buf ? buf : "");
+	g_free (buf);
+
 	port = gconf_client_get_int (prefs->gconf, GCONF_E_SOCKS_PORT_KEY, NULL);
 	gtk_spin_button_set_value (prefs->socks_port, (gdouble)port);
-
+#endif
 	emnp_set_markups (prefs);
 
 	if (val == NETWORK_PROXY_DIRECT_CONNECTION ||
 	    val == NETWORK_PROXY_SYS_SETTINGS) {
 		emnp_set_sensitiveness (prefs, NETWORK_PROXY_MANUAL, FALSE);
 		emnp_set_sensitiveness (prefs, NETWORK_PROXY_AUTOCONFIG, FALSE);
-		if (val == NETWORK_PROXY_SYS_SETTINGS)
-			emnp_load_sys_settings (prefs->gconf);
 	} else if (val == NETWORK_PROXY_AUTOCONFIG) {
 		emnp_set_sensitiveness (prefs, NETWORK_PROXY_MANUAL, FALSE);
 		emnp_set_sensitiveness (prefs, NETWORK_PROXY_AUTOCONFIG, TRUE);

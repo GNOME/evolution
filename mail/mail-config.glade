@@ -9329,7 +9329,7 @@ for display purposes only. </property>
 				</packing>
 			      </child>
 
-			      <child>
+			      <!--<child>
 				<widget class="GtkLabel" id="lblSocksHost">
 				  <property name="visible">True</property>
 				  <property name="label" translatable="yes">S_OCKS Host:</property>
@@ -9356,7 +9356,7 @@ for display purposes only. </property>
 				  <property name="x_options">fill</property>
 				  <property name="y_options"></property>
 				</packing>
-			      </child>
+			      </child>-->
 
 			      <child>
 				<widget class="GtkLabel" id="lblIgnoreHosts">
@@ -9429,7 +9429,7 @@ for display purposes only. </property>
 				</packing>
 			      </child>
 
-			      <child>
+			      <!--<child>
 				<widget class="GtkEntry" id="txtSocksHost">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
@@ -9448,7 +9448,7 @@ for display purposes only. </property>
 				  <property name="bottom_attach">3</property>
 				  <property name="y_options"></property>
 				</packing>
-			      </child>
+			      </child>-->
 
 			      <child>
 				<widget class="GtkLabel" id="lblHttpPort">
@@ -9506,7 +9506,7 @@ for display purposes only. </property>
 				</packing>
 			      </child>
 
-			      <child>
+			      <!--<child>
 				<widget class="GtkLabel" id="lblSocksPort">
 				  <property name="visible">True</property>
 				  <property name="label" translatable="yes">Port:</property>
@@ -9532,7 +9532,7 @@ for display purposes only. </property>
 				  <property name="x_options">fill</property>
 				  <property name="y_options"></property>
 				</packing>
-			      </child>
+			      </child>-->
 
 			      <child>
 				<widget class="GtkSpinButton" id="spnHttpPort">
@@ -9576,7 +9576,7 @@ for display purposes only. </property>
 				</packing>
 			      </child>
 
-			      <child>
+			      <!--<child>
 				<widget class="GtkSpinButton" id="spnSocksPort">
 				  <property name="visible">True</property>
 				  <property name="can_focus">True</property>
@@ -9595,7 +9595,7 @@ for display purposes only. </property>
 				  <property name="bottom_attach">3</property>
 				  <property name="y_options"></property>
 				</packing>
-			      </child>
+			      </child>-->
 
 			      <child>
 				<widget class="GtkEntry" id="txtIgnoreHosts">

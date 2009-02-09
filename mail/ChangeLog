@@ -1,5 +1,23 @@
 2009-02-09  Milan Crha  <mcrha@redhat.com>
 
+	** Part of fix for bug #555888
+
+	* mail-config.glade:
+	* em-network-prefs.h: (struct _EMNetworkPrefs):
+	* em-network-prefs.c: (emnp_parse_ignore_hosts),
+	(emnp_load_sys_settings), (notify_proxy_type_changed),
+	(em_network_prefs_construct):
+	Do not overwrite user settings with system proxy settings.
+	Register signals at the end, when all widgets are read.
+	Hide socks settings, it is not used at the moment.
+
+	* em-utils.h: (em_utils_get_proxy_uri):
+	* em-utils.c: (em_utils_get_proxy_uri), (emu_proxy_setup):
+	* em-format-html.c: (emfh_gethttp):
+	Use proxy configurable within Evolution.
+
+2009-02-09  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #548623
 
 	* mail-config.glade:

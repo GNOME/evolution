@@ -70,7 +70,6 @@ struct _EMNetworkPrefs {
 
 	struct _GtkEntry *http_host;
 	struct _GtkEntry *https_host;
-	struct _GtkEntry *socks_host;
 	struct _GtkEntry *ignore_hosts;
 #if 0
 	struct _GtkEntry *auto_proxy_url;
@@ -82,15 +81,18 @@ struct _EMNetworkPrefs {
 	struct _GtkLabel *lbl_http_port;
 	struct _GtkLabel *lbl_https_host;
 	struct _GtkLabel *lbl_https_port;
-	struct _GtkLabel *lbl_socks_host;
-	struct _GtkLabel *lbl_socks_port;	
 	struct _GtkLabel *lbl_ignore_hosts;
 	struct _GtkLabel *lbl_auth_user;
 	struct _GtkLabel *lbl_auth_pwd;
 
 	struct _GtkSpinButton *http_port;
 	struct _GtkSpinButton *https_port;
-	struct _GtkSpinButton *socks_port;	
+#if 0
+	struct _GtkLabel *lbl_socks_host;
+	struct _GtkEntry *socks_host;
+	struct _GtkLabel *lbl_socks_port;
+	struct _GtkSpinButton *socks_port;
+#endif
 };
 
 struct _EMNetworkPrefsClass {

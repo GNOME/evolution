@@ -498,9 +498,11 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, int cancelled)
 
 		instream = camel_http_stream_new(CAMEL_HTTP_METHOD_GET, ((EMFormat *)job->format)->session, url);
 		camel_http_stream_set_user_agent((CamelHttpStream *)instream, "CamelHttpStream/1.0 Evolution/" VERSION);
-		proxy = em_utils_get_proxy_uri();
-		camel_http_stream_set_proxy((CamelHttpStream *)instream, proxy);
-		g_free(proxy);
+		proxy = em_utils_get_proxy_uri (job->u.uri);
+		if (proxy) {
+			camel_http_stream_set_proxy ((CamelHttpStream *)instream, proxy);
+			g_free (proxy);
+		}
 		camel_operation_start(NULL, _("Retrieving `%s'"), job->u.uri);
 		tmp_stream = (CamelHttpStream *)instream;
 		content_type = camel_http_stream_get_content_type(tmp_stream);
