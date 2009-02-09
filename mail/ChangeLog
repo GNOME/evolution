@@ -1,3 +1,14 @@
+2009-02-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #548623
+
+	* mail-config.glade:
+	* em-network-prefs.h:
+	* em-network-prefs.c: (emnp_set_sensitiveness),
+	(emnp_load_sys_settings), (notify_proxy_type_changed),
+	(em_network_prefs_construct), (emnp_set_markups):
+	No auto-proxy at the moment.
+
 2009-02-05  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #554458

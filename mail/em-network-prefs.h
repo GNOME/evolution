@@ -63,14 +63,18 @@ struct _EMNetworkPrefs {
 	struct _GtkToggleButton *sys_proxy;
 	struct _GtkToggleButton *no_proxy;
 	struct _GtkToggleButton *manual_proxy;
+#if 0
 	struct _GtkToggleButton *auto_proxy;
+#endif
 	struct _GtkToggleButton *use_auth;
 
 	struct _GtkEntry *http_host;
 	struct _GtkEntry *https_host;
 	struct _GtkEntry *socks_host;
 	struct _GtkEntry *ignore_hosts;
+#if 0
 	struct _GtkEntry *auto_proxy_url;
+#endif
 	struct _GtkEntry *auth_user;
 	struct _GtkEntry *auth_pwd;
 

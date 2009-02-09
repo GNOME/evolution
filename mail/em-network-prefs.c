@@ -186,10 +186,13 @@ emnp_widget_glade(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 static void
 emnp_set_sensitiveness (EMNetworkPrefs *prefs, NetworkConfigProxyType type, gboolean sensitivity)
 {
+#if 0
 	if (type == NETWORK_PROXY_AUTOCONFIG) {
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->auto_proxy_url, sensitivity);
 		d(g_print ("Setting sensitivity of autoconfig to: %d\n", sensitivity));
-	} else if (type == NETWORK_PROXY_MANUAL) {
+	} else
+#endif	
+	if (type == NETWORK_PROXY_MANUAL) {
 		gboolean state; 
 
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->http_host, sensitivity);
@@ -266,9 +269,11 @@ emnp_load_sys_settings (GConfClient *gconf)
 	gconf_client_set_string (gconf, GCONF_E_SOCKS_HOST_KEY, buf, NULL);
 	g_free (buf);
 
+#if 0
 	buf = gconf_client_get_string (gconf, GCONF_SYS_AUTOCONFIG_URL_KEY, NULL);
 	gconf_client_set_string (gconf, GCONF_E_AUTOCONFIG_URL_KEY, buf, NULL);
 	g_free (buf);
+#endif
 
 	buf = gconf_client_get_string (gconf, GCONF_SYS_AUTH_USER_KEY, NULL);
 	gconf_client_set_string (gconf, GCONF_E_AUTH_USER_KEY, buf, NULL);
@@ -313,7 +318,11 @@ notify_proxy_type_changed (GtkWidget *widget, EMNetworkPrefs *prefs)
 	else if (gtk_toggle_button_get_active (prefs->manual_proxy))
 		type = NETWORK_PROXY_MANUAL;
 	else
+#if 0
 		type = NETWORK_PROXY_AUTOCONFIG;
+#else
+		type = NETWORK_PROXY_SYS_SETTINGS;
+#endif
 
 	gconf_client_set_int (prefs->gconf, "/apps/evolution/shell/network_config/proxy_type", type, NULL);
 
@@ -385,7 +394,9 @@ emnp_set_markups (EMNetworkPrefs *prefs)
 	gtk_label_set_use_markup (GTK_LABEL (GTK_BIN(prefs->sys_proxy)->child), TRUE);
 	gtk_label_set_use_markup (GTK_LABEL (GTK_BIN(prefs->no_proxy)->child), TRUE);
 	gtk_label_set_use_markup (GTK_LABEL (GTK_BIN(prefs->manual_proxy)->child), TRUE);
+#if 0
 	gtk_label_set_use_markup (GTK_LABEL (GTK_BIN(prefs->auto_proxy)->child), TRUE);
+#endif
 }
 
 static void
@@ -430,6 +441,11 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	locked = !gconf_client_key_is_writable (prefs->gconf, GCONF_E_PROXY_TYPE_KEY, NULL);
 
 	val = gconf_client_get_int (prefs->gconf, GCONF_E_PROXY_TYPE_KEY, NULL);
+
+	/* no auto-proxy at the moment */
+	if (val == NETWORK_PROXY_AUTOCONFIG)
+		val = NETWORK_PROXY_SYS_SETTINGS;
+
 	prefs->sys_proxy = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "rdoSysSettings"));
 	gtk_toggle_button_set_active (prefs->sys_proxy, val == NETWORK_PROXY_SYS_SETTINGS);
 	g_signal_connect (prefs->sys_proxy, "toggled", G_CALLBACK (notify_proxy_type_changed), prefs);
@@ -446,15 +462,18 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 
 	d(g_print ("No proxy settings ----!!! \n"));
 
+	/* no auto-proxy at the moment */
+#if 0
 	prefs->auto_proxy = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "rdoAutoConfig"));
 	prefs->auto_proxy_url = GTK_ENTRY (glade_xml_get_widget (gui, "txtAutoConfigUrl"));
+
 	gtk_toggle_button_set_active (prefs->auto_proxy, val == NETWORK_PROXY_AUTOCONFIG);
 
 	g_signal_connect (prefs->auto_proxy, "toggled", G_CALLBACK (notify_proxy_type_changed), prefs);
 	g_signal_connect(prefs->auto_proxy_url, "changed", G_CALLBACK(widget_entry_changed_cb), GCONF_E_AUTOCONFIG_URL_KEY);
-
 	if (locked)
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->auto_proxy, FALSE);
+#endif
 
 	d(g_print ("Auto config settings ----!!! \n"));
 

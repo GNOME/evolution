@@ -9781,7 +9781,7 @@ for display purposes only. </property>
 		    </packing>
 		  </child>
 
-		  <child>
+		  <!-- <child>
 		    <widget class="GtkRadioButton" id="rdoAutoConfig">
 		      <property name="visible">True</property>
 		      <property name="can_focus">True</property>
@@ -9832,7 +9832,7 @@ for display purposes only. </property>
 		      <property name="expand">False</property>
 		      <property name="fill">True</property>
 		    </packing>
-		  </child>
+		  </child> -->
 		</widget>
 		<packing>
 		  <property name="padding">0</property>
