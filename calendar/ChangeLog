@@ -1,3 +1,8 @@
+2009-02-09  Milan Crha  <mcrha@redhat.com>
+
+	* gui/dialogs/cal-prefs-dialog.glade:
+	Do not use non-zero page size in an adjustment, it's deprecated now.
+
 2009-02-03  Gabor Kelemen  <kelemeng@gnome.hu>
 
 	* gui/alarm-notify/alarm-notify.glade:
