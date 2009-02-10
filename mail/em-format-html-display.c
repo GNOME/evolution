@@ -1226,14 +1226,17 @@ efhd_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Came
 		pobj = (struct _smime_pobject *)em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(*pobj), classid, part, efhd_xpkcs7mime_button);
 		pobj->valid = camel_cipher_validity_clone(valid);
 		pobj->object.free = efhd_xpkcs7mime_free;
-		camel_stream_printf(stream, "<td valign=top><object classid=\"%s\"></object></td><td width=100%% valign=top>", classid);
+		camel_stream_printf(stream, "<td valign=center><object classid=\"%s\"></object></td><td width=100%% valign=center>", classid);
 		g_free(classid);
 		if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
-			camel_stream_printf(stream, "%s<br>", _(smime_sign_table[valid->sign.status].shortdesc));
+			camel_stream_printf (stream, "%s", _(smime_sign_table[valid->sign.status].shortdesc));
 		}
 
 		if (valid->encrypt.status != CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE) {
-			camel_stream_printf(stream, "%s<br>", _(smime_encrypt_table[valid->encrypt.status].shortdesc));
+			if (valid->sign.status != CAMEL_CIPHER_VALIDITY_SIGN_NONE) {
+				camel_stream_printf (stream, "<br>");
+			}
+			camel_stream_printf (stream, "%s", _(smime_encrypt_table[valid->encrypt.status].shortdesc));
 		}
 
 		camel_stream_printf(stream, "</td></tr></table>");
