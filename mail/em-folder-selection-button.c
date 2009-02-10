@@ -254,9 +254,6 @@ folder_selection_button_clicked (GtkButton *button)
 
 	priv = EM_FOLDER_SELECTION_BUTTON_GET_PRIVATE (button);
 
-	/* Chain up to parent's clicked() method. */
-	GTK_BUTTON_CLASS (parent_class)->clicked (button);
-
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (priv->model);
 
 	em_folder_tree_set_multiselect (emft, priv->multiple_select);

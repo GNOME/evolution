@@ -97,8 +97,6 @@
 
 #define d(x)
 
-static void view_changed_timeout_remove (EComponentView *component_view);
-
 struct _MailComponentPrivate {
 	GMutex *lock;
 
@@ -129,41 +127,6 @@ struct _MailComponentPrivate {
 	guint mail_sync_in_progress; /* is greater than 0 if still waiting to finish sync on some store */
 };
 
-static void
-view_control_activate_cb (BonoboControl *control, gboolean activate, EMFolderView *view)
-{
-	BonoboUIComponent *uic;
-	static int recover = 0;
-
-	uic = bonobo_control_get_ui_component (control);
-	g_return_if_fail (uic != NULL);
-
-	if (activate) {
-		Bonobo_UIContainer container;
-
-		container = bonobo_control_get_remote_ui_container (control, NULL);
-		bonobo_ui_component_set_container (uic, container, NULL);
-		bonobo_object_release_unref (container, NULL);
-
-		g_return_if_fail (container == bonobo_ui_component_get_container(uic));
-		g_return_if_fail (container != CORBA_OBJECT_NIL);
-
-		em_folder_view_activate (view, uic, activate);
-		e_user_creatable_items_handler_activate(g_object_get_data((GObject *)view, "e-creatable-items-handler"), uic);
-	} else {
-		em_folder_view_activate (view, uic, activate);
-		bonobo_ui_component_unset_container (uic, NULL);
-	}
-
-	/* This is a weird place to put it, but createControls does it too early.
-	   I also think we should wait to do it until we actually visit the mailer.
-	   The delay is arbitrary - without it it shows up before the main window */
-	if (!recover) {
-		recover = 1;
-		g_timeout_add(1000, check_autosave, NULL);
-	}
-}
-
 /* GObject methods.  */
 
 static void
@@ -175,8 +138,6 @@ impl_dispose (GObject *object)
 		g_source_remove (priv->mail_sync_id);
 		priv->mail_sync_id = 0;
 	}
-
-	view_changed_timeout_remove ((EComponentView *)object);
 
 	if (priv->activity_handler != NULL) {
 		g_object_unref (priv->activity_handler);
@@ -227,76 +188,6 @@ view_on_url (GObject *emitter, const char *url, const char *nice_url, MailCompon
 	MailComponentPrivate *priv = mail_component->priv;
 
 	e_activity_handler_set_message (priv->activity_handler, nice_url);
-}
-
-static void
-view_changed_timeout_remove (EComponentView *component_view)
-{
-	gpointer v;
-	EInfoLabel *el;
-	EMFolderView *emfv;
-
-	v = g_object_get_data((GObject *)component_view, "view-changed-timeout");
-	if (v) {
-		g_source_remove(GPOINTER_TO_INT(v));
-		g_object_set_data((GObject *)component_view, "view-changed-timeout", NULL);
-
-		el = g_object_get_data((GObject *)component_view, "info-label");
-		emfv = g_object_get_data((GObject *)el, "folderview");
-		g_object_unref(el);
-		g_object_unref(emfv);
-	}
-}
-
-static int
-view_changed_timeout(void *d)
-{
-	EComponentView *component_view = d;
-	EInfoLabel *el = g_object_get_data((GObject *)component_view, "info-label");
-	EMFolderView *emfv = g_object_get_data((GObject *)el, "folderview");
-
-	view_changed(emfv, component_view);
-
-	g_object_set_data((GObject *)component_view, "view-changed-timeout", NULL);
-
-	g_object_unref(el);
-	g_object_unref(emfv);
-
-	return 0;
-}
-
-static void
-view_changed_cb(EMFolderView *emfv, EComponentView *component_view)
-{
-	MailComponent *mc = mail_component_peek ();
-	void *v;
-	EInfoLabel *el = g_object_get_data((GObject *)component_view, "info-label");
-
-	v = g_object_get_data((GObject *)component_view, "view-changed-timeout");
-
-	if (mc->priv->quit_state != -1) {
-		if (v) {
-			g_source_remove(GPOINTER_TO_INT(v));
-			g_object_set_data((GObject *)component_view, "view-changed-timeout", NULL);
-			g_object_unref (emfv);
-			g_object_unref (el);
-		}
-
-		return;
-
-	}
-	/* This can get called 3 times every cursor move, so
-	   we don't need to/want to run it immediately */
-
-	/* NB: we should have a 'view' struct/object to manage this crap, but this'll do for now */
-	if (v) {
-		g_source_remove(GPOINTER_TO_INT(v));
-	} else {
-		g_object_ref(emfv);
-		g_object_ref(el);
-	}
-
-	g_object_set_data((GObject *)component_view, "view-changed-timeout", GINT_TO_POINTER(g_timeout_add(250, view_changed_timeout, component_view)));
 }
 
 static void
@@ -629,13 +520,6 @@ mail_component_init (MailComponent *component)
 //		priv->mail_sync_id = g_timeout_add_seconds (mail_config_get_sync_timeout (), call_mail_sync, component);
 //	else 
 //		priv->mail_sync_id = 0;
-}
-
-struct _CamelSession *mail_component_peek_session(MailComponent *component)
-{
-	MAIL_COMPONENT_DEFAULT(component);
-
-	return session;
 }
 
 void
