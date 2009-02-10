@@ -154,12 +154,13 @@ mail_label_manager_add_label (EMailLabelManager *manager)
 	GtkTreeView *tree_view;
 	GtkTreeModel *model;
 	GtkWidget *dialog;
-	GtkWidget *parent;
+	gpointer parent;
 	GdkColor label_color;
 	const gchar *label_name;
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (manager));
-	dialog = e_mail_label_dialog_new (GTK_WINDOW (parent));
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	dialog = e_mail_label_dialog_new (parent);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Add Label"));
 

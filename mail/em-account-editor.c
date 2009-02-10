@@ -63,7 +63,7 @@
 #include "em-account-editor.h"
 #include "mail-session.h"
 #include "mail-send-recv.h"
-#include "mail-signature-editor.h"
+#include "e-signature-editor.h"
 #include "em-utils.h"
 #include "em-composer-prefs.h"
 #include "mail-config.h"

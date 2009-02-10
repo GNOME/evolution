@@ -953,66 +953,6 @@ mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
 	return filename;
 }
 
-static char *
-get_new_signature_filename (void)
-{
-	const char *base_directory;
-	char *filename, *id;
-	struct stat st;
-	int i;
-
-	base_directory = e_get_user_data_dir ();
-	filename = g_build_filename (base_directory, "signatures", NULL);
-	if (g_lstat (filename, &st)) {
-		if (errno == ENOENT) {
-			if (g_mkdir (filename, 0700))
-				g_warning ("Fatal problem creating %s directory.", filename);
-		} else
-			g_warning ("Fatal problem with %s directory.", filename);
-	}
-	g_free (filename);
-
-	filename = g_malloc (strlen (base_directory) + sizeof ("/signatures/signature-") + 12);
-	id = g_stpcpy (filename, base_directory);
-	id = g_stpcpy (id, "/signatures/signature-");
-
-	for (i = 0; i < (INT_MAX - 1); i++) {
-		sprintf (id, "%d", i);
-		if (g_lstat (filename, &st) == -1 && errno == ENOENT) {
-			int fd;
-
-			fd = g_creat (filename, 0600);
-			if (fd >= 0) {
-				close (fd);
-				return filename;
-			}
-		}
-	}
-
-	g_free (filename);
-
-	return NULL;
-}
-
-
-ESignature *
-mail_config_signature_new (const char *filename, gboolean script, gboolean html)
-{
-	ESignature *sig;
-
-	sig = e_signature_new ();
-	sig->name = g_strdup (_("Unnamed"));
-	sig->script = script;
-	sig->html = html;
-
-	if (filename == NULL)
-		sig->filename = get_new_signature_filename ();
-	else
-		sig->filename = g_strdup (filename);
-
-	return sig;
-}
-
 void
 mail_config_reload_junk_headers (void)
 {

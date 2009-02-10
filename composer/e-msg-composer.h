@@ -132,9 +132,6 @@ void		e_msg_composer_set_enable_autosave
 						(EMsgComposer *composer,
 						 gboolean enabled);
 
-gchar *		e_msg_composer_get_sig_file_content
-						(const gchar *sigfile,
-						 gboolean in_html);
 void		e_msg_composer_add_message_attachments
 						(EMsgComposer *composer,
 						 CamelMimeMessage *message,

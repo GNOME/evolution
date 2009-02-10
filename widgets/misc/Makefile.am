@@ -78,6 +78,10 @@ widgetsinclude_HEADERS =			\
 	e-selection-model-simple.h		\
 	e-selection-model.h			\
 	e-signature-combo-box.h			\
+	e-signature-editor.h			\
+	e-signature-manager.h			\
+	e-signature-script-dialog.h		\
+	e-signature-tree-view.h			\
 	e-unicode.h				\
 	e-colors.h
 
@@ -125,6 +129,10 @@ libemiscwidgets_la_SOURCES =			\
 	e-selection-model-simple.c		\
 	e-selection-model.c			\
 	e-signature-combo-box.c			\
+	e-signature-editor.c			\
+	e-signature-manager.c			\
+	e-signature-script-dialog.c		\
+	e-signature-tree-view.c			\
 	e-unicode.c				\
 	e-colors.c
 

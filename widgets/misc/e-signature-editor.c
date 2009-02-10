@@ -1,4 +1,6 @@
 /*
+ * e-signature-editor.c
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -13,24 +15,17 @@
  * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
  *
- * Authors:
- *		Radek Doulik <rodo@ximian.com>
- *      Jeffrey Stedfast <fejj@ximian.com>
- *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
-#include "mail-signature-editor.h"
+#include "e-signature-editor.h"
 
 #include <string.h>
 #include <glib/gi18n.h>
 
 #include <e-util/e-error.h>
 #include <e-util/e-signature-utils.h>
-#include <composer/e-msg-composer.h>
-
-#include "mail-config.h"
 
 #define E_SIGNATURE_EDITOR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -128,9 +123,15 @@ action_save_and_close_cb (GtkAction *action,
 	entry = editor->priv->entry;
 	html = gtkhtml_editor_get_html_mode (GTKHTML_EDITOR (editor));
 
-	if (editor->priv->signature == NULL)
-		signature = mail_config_signature_new (NULL, FALSE, html);
-	else {
+	if (editor->priv->signature == NULL) {
+		signature = e_signature_new ();
+		signature->name = g_strdup (_("Unnamed"));
+		signature->script = FALSE;
+		signature->html = html;
+
+		/* FIXME Pass a GError and deal with it. */
+		signature->filename = e_create_signature_file (NULL);
+	} else {
 		signature = g_object_ref (editor->priv->signature);
 		signature->html = html;
 	}
@@ -181,10 +182,9 @@ action_save_and_close_cb (GtkAction *action,
 
 	if (editor->priv->signature != NULL)
 		e_signature_list_change (signature_list, signature);
-	else {
+	else
 		e_signature_list_add (signature_list, signature);
-		e_signature_list_save (signature_list);
-	}
+	e_signature_list_save (signature_list);
 
 	gtk_widget_destroy (GTK_WIDGET (editor));
 }
@@ -456,8 +456,11 @@ e_signature_editor_set_signature (ESignatureEditor *editor,
 	else {
 		gchar *data;
 
-		data = e_msg_composer_get_sig_file_content (filename, FALSE);
-		contents = g_strdup_printf ("<PRE>\n%s", data);
+		data = e_read_signature_file (signature, FALSE, &error);
+		if (data != NULL)
+			contents = g_strdup_printf ("<PRE>\n%s", data);
+		else
+			contents = NULL;
 		length = -1;
 		g_free (data);
 	}

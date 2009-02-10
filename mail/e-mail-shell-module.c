@@ -26,6 +26,7 @@
 #include <camel/camel-url.h>
 
 #include "e-util/e-account-utils.h"
+#include "e-util/e-binding.h"
 #include "e-util/e-import.h"
 #include "e-util/e-util.h"
 #include "shell/e-shell.h"
@@ -762,8 +763,33 @@ mail_shell_module_window_created_cb (EShell *shell,
                                      GtkWindow *window,
                                      EShellModule *shell_module)
 {
+	EShellSettings *shell_settings;
 	static gboolean first_time = TRUE;
 	const gchar *module_name;
+
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	/* This applies to both the composer and signature editor. */
+	if (GTKHTML_IS_EDITOR (window)) {
+		GList *spell_languages;
+
+		e_binding_new (
+			G_OBJECT (shell_settings), "composer-inline-spelling",
+			G_OBJECT (window), "inline-spelling");
+
+		e_binding_new (
+			G_OBJECT (shell_settings), "composer-magic-links",
+			G_OBJECT (window), "magic-links");
+
+		e_binding_new (
+			G_OBJECT (shell_settings), "composer-magic-smileys",
+			G_OBJECT (window), "magic-smileys");
+
+		spell_languages = e_load_spell_languages ();
+		gtkhtml_editor_set_spell_languages (
+			GTKHTML_EDITOR (window), spell_languages);
+		g_list_free (spell_languages);
+	}
 
 	if (E_IS_MSG_COMPOSER (window)) {
 		/* Integrate the new composer into the mail module. */

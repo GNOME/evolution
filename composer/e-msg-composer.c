@@ -1069,103 +1069,6 @@ emcab_popup (EAttachmentBar *bar, GdkEventButton *event, int id)
 /* Signatures */
 
 static gchar *
-get_file_content (EMsgComposer *composer,
-                  const gchar *filename,
-                  gboolean want_html,
-                  guint flags,
-                  gboolean warn)
-{
-	CamelStreamFilter *filtered_stream;
-	CamelStreamMem *memstream;
-	CamelMimeFilter *html, *charenc;
-	CamelStream *stream;
-	GByteArray *buffer;
-	gchar *charset;
-	gchar *content;
-	gint fd;
-
-	fd = g_open (filename, O_RDONLY, 0);
-	if (fd == -1) {
-		if (warn)
-			e_error_run ((GtkWindow *)composer, "mail-composer:no-sig-file",
-				    filename, g_strerror (errno), NULL);
-		return g_strdup ("");
-	}
-
-	stream = camel_stream_fs_new_with_fd (fd);
-
-	if (want_html) {
-		filtered_stream = camel_stream_filter_new_with_stream (stream);
-		camel_object_unref (stream);
-
-		html = camel_mime_filter_tohtml_new (flags, 0);
-		camel_stream_filter_add (filtered_stream, html);
-		camel_object_unref (html);
-
-		stream = (CamelStream *) filtered_stream;
-	}
-
-	memstream = (CamelStreamMem *) camel_stream_mem_new ();
-	buffer = g_byte_array_new ();
-	camel_stream_mem_set_byte_array (memstream, buffer);
-
-	camel_stream_write_to_stream (stream, (CamelStream *) memstream);
-	camel_object_unref (stream);
-
-	/* The newer signature UI saves signatures in UTF-8, but we still need to check that
-	   the signature is valid UTF-8 because it is possible that the user imported a
-	   signature file that is in his/her locale charset. If it's not in UTF-8 and not in
-	   the charset the composer is in (or their default mail charset) then fuck it,
-	   there's nothing we can do. */
-	if (buffer->len && !g_utf8_validate ((const gchar *)buffer->data, buffer->len, NULL)) {
-		stream = (CamelStream *) memstream;
-		memstream = (CamelStreamMem *) camel_stream_mem_new ();
-		camel_stream_mem_set_byte_array (memstream, g_byte_array_new ());
-
-		filtered_stream = camel_stream_filter_new_with_stream (stream);
-		camel_object_unref (stream);
-
-		charset = composer && composer->priv->charset ? composer->priv->charset : NULL;
-		charset = charset ? g_strdup (charset) : e_composer_get_default_charset ();
-		if ((charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (charset, "UTF-8"))) {
-			camel_stream_filter_add (filtered_stream, charenc);
-			camel_object_unref (charenc);
-		}
-
-		g_free (charset);
-
-		camel_stream_write_to_stream ((CamelStream *) filtered_stream, (CamelStream *) memstream);
-		camel_object_unref (filtered_stream);
-		g_byte_array_free (buffer, TRUE);
-
-		buffer = memstream->buffer;
-	}
-
-	camel_object_unref (memstream);
-
-	g_byte_array_append (buffer, (const guint8 *)"", 1);
-	content = (char*)buffer->data;
-	g_byte_array_free (buffer, FALSE);
-
-	return content;
-}
-
-gchar *
-e_msg_composer_get_sig_file_content (const gchar *sigfile, gboolean in_html)
-{
-	if (!sigfile || !*sigfile) {
-		return NULL;
-	}
-
-	return get_file_content (NULL, sigfile, !in_html,
-				 CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT |
-				 CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
-				 CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES |
-				 CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES,
-				 FALSE);
-}
-
-static gchar *
 encode_signature_name (const gchar *name)
 {
 	const gchar *s;
@@ -1277,11 +1180,12 @@ get_signature_html (EMsgComposer *composer)
 
 		format_html = signature->html;
 
-		if (signature->script) {
-			text = mail_config_signature_run_script (signature->filename);
-		} else {
-			text = e_msg_composer_get_sig_file_content (signature->filename, format_html);
-		}
+		if (signature->script)
+			text = mail_config_signature_run_script (
+				signature->filename);
+		else
+			text = e_read_signature_file (
+				signature, TRUE, NULL);
 	} else {
 		EAccountIdentity *id;
 		gchar *organization;
@@ -2029,7 +1933,6 @@ msg_composer_constructor (GType type,
 	GObject *object;
 	EMsgComposer *composer;
 	GtkToggleAction *action;
-	GList *spell_languages;
 	GArray *array;
 	gboolean active;
 	guint binding_id;
@@ -2098,23 +2001,6 @@ msg_composer_constructor (GType type,
 	active = e_shell_settings_get_boolean (
 		shell_settings, "composer-request-receipt");
 	gtk_toggle_action_set_active (action, active);
-
-	spell_languages = e_load_spell_languages ();
-	gtkhtml_editor_set_spell_languages (
-		GTKHTML_EDITOR (composer), spell_languages);
-	g_list_free (spell_languages);
-
-	e_binding_new (
-		G_OBJECT (shell_settings), "composer-inline-spelling",
-		G_OBJECT (composer), "inline-spelling");
-
-	e_binding_new (
-		G_OBJECT (shell_settings), "composer-magic-links",
-		G_OBJECT (composer), "magic-links");
-
-	e_binding_new (
-		G_OBJECT (shell_settings), "composer-magic-smileys",
-		G_OBJECT (composer), "magic-smileys");
 
 	e_shell_watch_window (shell, GTK_WINDOW (object));
 

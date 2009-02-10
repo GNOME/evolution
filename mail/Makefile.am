@@ -163,8 +163,6 @@ libevolution_module_mail_la_SOURCES =			\
 	mail-send-recv.h				\
 	mail-session.c					\
 	mail-session.h					\
-	mail-signature-editor.c				\
-	mail-signature-editor.h				\
 	mail-tools.c					\
 	mail-tools.h					\
 	mail-vfolder.c					\

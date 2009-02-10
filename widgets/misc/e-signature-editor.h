@@ -1,4 +1,5 @@
 /*
+ * e-signature-editor.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14,15 +15,12 @@
  * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
  *
- * Authors:
- *		Radek Doulik <rodo@ximian.com>
- *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
-#ifndef MAIL_SIGNATURE_EDITOR_H
-#define MAIL_SIGNATURE_EDITOR_H
+#ifndef E_SIGNATURE_EDITOR_H
+#define E_SIGNATURE_EDITOR_H
 
 #include <gtkhtml-editor.h>
 #include <e-util/e-signature.h>
@@ -69,4 +67,4 @@ void		e_signature_editor_set_signature (ESignatureEditor *editor,
 
 G_END_DECLS
 
-#endif /* MAIL_SIGNATURE_EDITOR_H */
+#endif /* E_SIGNATURE_EDITOR_H */

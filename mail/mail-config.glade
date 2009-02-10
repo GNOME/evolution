@@ -300,31 +300,20 @@ For example: "Work" or "Personal"</property>
                             <property name="column_spacing">12</property>
                             <property name="row_spacing">6</property>
                             <child>
-                              <widget class="GtkEntry" id="identity_full_name">
+                              <widget class="GtkEntry" id="identity_address">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">*</property>
                                 <accessibility>
                                   <atkrelation target="label464" type="labelled-by"/>
-                                  <atkrelation target="identity_full_name_label" type="labelled-by"/>
+                                  <atkrelation target="identity_address_label" type="labelled-by"/>
                                 </accessibility>
                               </widget>
                               <packing>
                                 <property name="left_attach">1</property>
                                 <property name="right_attach">2</property>
-                                <property name="y_options"></property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkLabel" id="identity_full_name_label">
-                                <property name="visible">True</property>
-                                <property name="xalign">0</property>
-                                <property name="label" translatable="yes">Full Nam_e:</property>
-                                <property name="use_underline">True</property>
-                                <property name="mnemonic_widget">identity_full_name</property>
-                              </widget>
-                              <packing>
-                                <property name="x_options">GTK_FILL</property>
+                                <property name="top_attach">1</property>
+                                <property name="bottom_attach">2</property>
                                 <property name="y_options"></property>
                               </packing>
                             </child>
@@ -344,20 +333,31 @@ For example: "Work" or "Personal"</property>
                               </packing>
                             </child>
                             <child>
-                              <widget class="GtkEntry" id="identity_address">
+                              <widget class="GtkLabel" id="identity_full_name_label">
+                                <property name="visible">True</property>
+                                <property name="xalign">0</property>
+                                <property name="label" translatable="yes">Full Nam_e:</property>
+                                <property name="use_underline">True</property>
+                                <property name="mnemonic_widget">identity_full_name</property>
+                              </widget>
+                              <packing>
+                                <property name="x_options">GTK_FILL</property>
+                                <property name="y_options"></property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkEntry" id="identity_full_name">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="invisible_char">*</property>
                                 <accessibility>
-                                  <atkrelation target="identity_address_label" type="labelled-by"/>
+                                  <atkrelation target="identity_full_name_label" type="labelled-by"/>
                                   <atkrelation target="label464" type="labelled-by"/>
                                 </accessibility>
                               </widget>
                               <packing>
                                 <property name="left_attach">1</property>
                                 <property name="right_attach">2</property>
-                                <property name="top_attach">1</property>
-                                <property name="bottom_attach">2</property>
                                 <property name="y_options"></property>
                               </packing>
                             </child>
@@ -417,84 +417,17 @@ For example: "Work" or "Personal"</property>
                         <property name="column_spacing">12</property>
                         <property name="row_spacing">6</property>
                         <child>
-                          <widget class="GtkCheckButton" id="management_default">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">_Make this my default account</property>
-                            <property name="use_underline">True</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                          <packing>
-                            <property name="right_attach">2</property>
-                            <property name="x_options">GTK_FILL</property>
-                            <property name="y_options">GTK_FILL</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="reply_to_label">
+                          <widget class="GtkLabel" id="sigLabel">
                             <property name="visible">True</property>
                             <property name="xalign">0</property>
-                            <property name="label" translatable="yes">Re_ply-To:</property>
+                            <property name="label" translatable="yes">Signat_ure:</property>
                             <property name="use_underline">True</property>
-                            <property name="justify">GTK_JUSTIFY_CENTER</property>
-                            <property name="mnemonic_widget">identity_reply_to</property>
+                            <property name="mnemonic_widget">signature_dropdown</property>
                           </widget>
                           <packing>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
+                            <property name="top_attach">3</property>
+                            <property name="bottom_attach">4</property>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"></property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkEntry" id="identity_reply_to">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">*</property>
-                            <accessibility>
-                              <atkrelation target="label466" type="labelled-by"/>
-                              <atkrelation target="reply_to_label" type="labelled-by"/>
-                            </accessibility>
-                          </widget>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
-                            <property name="y_options"></property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="identity_organization_label">
-                            <property name="visible">True</property>
-                            <property name="xalign">0</property>
-                            <property name="label" translatable="yes">Or_ganization:</property>
-                            <property name="use_underline">True</property>
-                            <property name="mnemonic_widget">identity_organization</property>
-                          </widget>
-                          <packing>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
-                            <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"></property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkEntry" id="identity_organization">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">*</property>
-                            <accessibility>
-                              <atkrelation target="identity_organization_label" type="labelled-by"/>
-                              <atkrelation target="label466" type="labelled-by"/>
-                            </accessibility>
-                          </widget>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
                             <property name="y_options"></property>
                           </packing>
                         </child>
@@ -539,18 +472,85 @@ For example: "Work" or "Personal"</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="sigLabel">
+                          <widget class="GtkEntry" id="identity_organization">
                             <property name="visible">True</property>
-                            <property name="xalign">0</property>
-                            <property name="label" translatable="yes">Signat_ure:</property>
-                            <property name="use_underline">True</property>
-                            <property name="mnemonic_widget">signature_dropdown</property>
+                            <property name="can_focus">True</property>
+                            <property name="invisible_char">*</property>
+                            <accessibility>
+                              <atkrelation target="label466" type="labelled-by"/>
+                              <atkrelation target="identity_organization_label" type="labelled-by"/>
+                            </accessibility>
                           </widget>
                           <packing>
-                            <property name="top_attach">3</property>
-                            <property name="bottom_attach">4</property>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="identity_organization_label">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">Or_ganization:</property>
+                            <property name="use_underline">True</property>
+                            <property name="mnemonic_widget">identity_organization</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkEntry" id="identity_reply_to">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="invisible_char">*</property>
+                            <accessibility>
+                              <atkrelation target="reply_to_label" type="labelled-by"/>
+                              <atkrelation target="label466" type="labelled-by"/>
+                            </accessibility>
+                          </widget>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="reply_to_label">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">Re_ply-To:</property>
+                            <property name="use_underline">True</property>
+                            <property name="justify">GTK_JUSTIFY_CENTER</property>
+                            <property name="mnemonic_widget">identity_reply_to</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="management_default">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="label" translatable="yes">_Make this my default account</property>
+                            <property name="use_underline">True</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="right_attach">2</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options">GTK_FILL</property>
                           </packing>
                         </child>
                       </widget>
@@ -601,13 +601,30 @@ For example: "Work" or "Personal"</property>
                     <property name="column_spacing">12</property>
                     <property name="row_spacing">6</property>
                     <child>
-                      <widget class="Custom" id="source_type_dropdown">
+                      <widget class="GtkLabel" id="source_type_label">
                         <property name="visible">True</property>
-                        <property name="creation_function">em_account_editor_dropdown_new</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">Server _Type: </property>
+                        <property name="use_underline">True</property>
+                        <property name="justify">GTK_JUSTIFY_RIGHT</property>
+                        <property name="mnemonic_widget">source_type_dropdown</property>
                       </widget>
                       <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">3</property>
+                        <property name="x_options">GTK_FILL</property>
+                        <property name="y_options"></property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="label442">
+                        <property name="visible">True</property>
+                        <property name="xalign">0</property>
+                        <property name="yalign">0</property>
+                        <property name="label" translatable="yes">Description:</property>
+                        <property name="justify">GTK_JUSTIFY_CENTER</property>
+                      </widget>
+                      <packing>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"></property>
                       </packing>
@@ -630,30 +647,13 @@ For example: "Work" or "Personal"</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label442">
+                      <widget class="Custom" id="source_type_dropdown">
                         <property name="visible">True</property>
-                        <property name="xalign">0</property>
-                        <property name="yalign">0</property>
-                        <property name="label" translatable="yes">Description:</property>
-                        <property name="justify">GTK_JUSTIFY_CENTER</property>
+                        <property name="creation_function">em_account_editor_dropdown_new</property>
                       </widget>
                       <packing>
-                        <property name="top_attach">1</property>
-                        <property name="bottom_attach">2</property>
-                        <property name="x_options">GTK_FILL</property>
-                        <property name="y_options"></property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="source_type_label">
-                        <property name="visible">True</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Server _Type: </property>
-                        <property name="use_underline">True</property>
-                        <property name="justify">GTK_JUSTIFY_RIGHT</property>
-                        <property name="mnemonic_widget">source_type_dropdown</property>
-                      </widget>
-                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">3</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"></property>
                       </packing>
@@ -716,55 +716,15 @@ For example: "Work" or "Personal"</property>
                                 <property name="column_spacing">12</property>
                                 <property name="row_spacing">6</property>
                                 <child>
-                                  <widget class="GtkFileChooserButton" id="source_path_entry">
-                                    <property name="visible">True</property>
-                                    <property name="title" translatable="yes">Mailbox location</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                    <property name="top_attach">2</property>
-                                    <property name="bottom_attach">3</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkLabel" id="source_path_label">
+                                  <widget class="GtkLabel" id="source_host_label">
                                     <property name="visible">True</property>
                                     <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">_Path:</property>
+                                    <property name="label" translatable="yes">_Server:</property>
                                     <property name="use_underline">True</property>
+                                    <property name="mnemonic_widget">source_host</property>
                                   </widget>
                                   <packing>
-                                    <property name="top_attach">2</property>
-                                    <property name="bottom_attach">3</property>
                                     <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkEntry" id="source_user">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="invisible_char">*</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                    <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkEntry" id="source_host">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="invisible_char">*</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
                                     <property name="y_options"></property>
                                   </packing>
                                 </child>
@@ -784,15 +744,55 @@ For example: "Work" or "Personal"</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkLabel" id="source_host_label">
+                                  <widget class="GtkEntry" id="source_host">
                                     <property name="visible">True</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">_Server:</property>
-                                    <property name="use_underline">True</property>
-                                    <property name="mnemonic_widget">source_host</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">*</property>
                                   </widget>
                                   <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkEntry" id="source_user">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">*</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="source_path_label">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">_Path:</property>
+                                    <property name="use_underline">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="top_attach">2</property>
+                                    <property name="bottom_attach">3</property>
                                     <property name="x_options">GTK_FILL</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkFileChooserButton" id="source_path_entry">
+                                    <property name="visible">True</property>
+                                    <property name="title" translatable="yes">Mailbox location</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">2</property>
+                                    <property name="bottom_attach">3</property>
                                     <property name="y_options"></property>
                                   </packing>
                                 </child>
@@ -1068,30 +1068,16 @@ For example: "Work" or "Personal"</property>
                     <property name="column_spacing">12</property>
                     <property name="row_spacing">6</property>
                     <child>
-                      <widget class="GtkLabel" id="transport_description">
+                      <widget class="GtkLabel" id="transport_type_label">
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
                         <property name="yalign">0</property>
-                        <property name="label" translatable="yes">description</property>
-                        <property name="wrap">True</property>
+                        <property name="label" translatable="yes">Server _Type: </property>
+                        <property name="use_underline">True</property>
+                        <property name="justify">GTK_JUSTIFY_RIGHT</property>
+                        <property name="mnemonic_widget">transport_type_dropdown</property>
                       </widget>
                       <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">3</property>
-                        <property name="top_attach">1</property>
-                        <property name="bottom_attach">2</property>
-                        <property name="x_options">GTK_FILL</property>
-                        <property name="y_options"></property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="Custom" id="transport_type_dropdown">
-                        <property name="visible">True</property>
-                        <property name="creation_function">em_account_editor_dropdown_new</property>
-                      </widget>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">3</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"></property>
                       </packing>
@@ -1111,16 +1097,30 @@ For example: "Work" or "Personal"</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="transport_type_label">
+                      <widget class="Custom" id="transport_type_dropdown">
+                        <property name="visible">True</property>
+                        <property name="creation_function">em_account_editor_dropdown_new</property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">3</property>
+                        <property name="x_options">GTK_FILL</property>
+                        <property name="y_options"></property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="transport_description">
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
                         <property name="yalign">0</property>
-                        <property name="label" translatable="yes">Server _Type: </property>
-                        <property name="use_underline">True</property>
-                        <property name="justify">GTK_JUSTIFY_RIGHT</property>
-                        <property name="mnemonic_widget">transport_type_dropdown</property>
+                        <property name="label" translatable="yes">description</property>
+                        <property name="wrap">True</property>
                       </widget>
                       <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">3</property>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"></property>
                       </packing>
@@ -1185,18 +1185,6 @@ For example: "Work" or "Personal"</property>
                                         <property name="column_spacing">12</property>
                                         <property name="row_spacing">6</property>
                                         <child>
-                                          <widget class="GtkEntry" id="transport_host">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="invisible_char">*</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
-                                            <property name="y_options"></property>
-                                          </packing>
-                                        </child>
-                                        <child>
                                           <widget class="GtkLabel" id="transport_host_label">
                                             <property name="visible">True</property>
                                             <property name="xalign">1</property>
@@ -1207,6 +1195,18 @@ For example: "Work" or "Personal"</property>
                                           </widget>
                                           <packing>
                                             <property name="x_options">GTK_FILL</property>
+                                            <property name="y_options"></property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkEntry" id="transport_host">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="invisible_char">*</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="right_attach">2</property>
                                             <property name="y_options"></property>
                                           </packing>
                                         </child>
@@ -1401,6 +1401,50 @@ For example: "Work" or "Personal"</property>
                                         <property name="column_spacing">12</property>
                                         <property name="row_spacing">6</property>
                                         <child>
+                                          <widget class="GtkLabel" id="transport_auth_label">
+                                            <property name="visible">True</property>
+                                            <property name="xalign">0</property>
+                                            <property name="label" translatable="yes">T_ype: </property>
+                                            <property name="use_underline">True</property>
+                                            <property name="justify">GTK_JUSTIFY_CENTER</property>
+                                            <property name="mnemonic_widget">transport_auth_dropdown</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="y_options"></property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkLabel" id="transport_user_label">
+                                            <property name="visible">True</property>
+                                            <property name="xalign">0</property>
+                                            <property name="label" translatable="yes">User_name:</property>
+                                            <property name="use_underline">True</property>
+                                            <property name="justify">GTK_JUSTIFY_RIGHT</property>
+                                            <property name="mnemonic_widget">transport_user</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="top_attach">1</property>
+                                            <property name="bottom_attach">2</property>
+                                            <property name="x_options">GTK_FILL</property>
+                                            <property name="y_options"></property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkEntry" id="transport_user">
+                                            <property name="visible">True</property>
+                                            <property name="can_focus">True</property>
+                                            <property name="invisible_char">*</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="left_attach">1</property>
+                                            <property name="right_attach">2</property>
+                                            <property name="top_attach">1</property>
+                                            <property name="bottom_attach">2</property>
+                                            <property name="y_options"></property>
+                                          </packing>
+                                        </child>
+                                        <child>
                                           <widget class="GtkHBox" id="hbox195">
                                             <property name="visible">True</property>
                                             <property name="spacing">6</property>
@@ -1441,50 +1485,6 @@ For example: "Work" or "Personal"</property>
                                             <property name="left_attach">1</property>
                                             <property name="right_attach">2</property>
                                             <property name="y_options">GTK_FILL</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkEntry" id="transport_user">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="invisible_char">*</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="left_attach">1</property>
-                                            <property name="right_attach">2</property>
-                                            <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="y_options"></property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkLabel" id="transport_user_label">
-                                            <property name="visible">True</property>
-                                            <property name="xalign">0</property>
-                                            <property name="label" translatable="yes">User_name:</property>
-                                            <property name="use_underline">True</property>
-                                            <property name="justify">GTK_JUSTIFY_RIGHT</property>
-                                            <property name="mnemonic_widget">transport_user</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="top_attach">1</property>
-                                            <property name="bottom_attach">2</property>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"></property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkLabel" id="transport_auth_label">
-                                            <property name="visible">True</property>
-                                            <property name="xalign">0</property>
-                                            <property name="label" translatable="yes">T_ype: </property>
-                                            <property name="use_underline">True</property>
-                                            <property name="justify">GTK_JUSTIFY_CENTER</property>
-                                            <property name="mnemonic_widget">transport_auth_dropdown</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="x_options">GTK_FILL</property>
-                                            <property name="y_options"></property>
                                           </packing>
                                         </child>
                                       </widget>
@@ -1607,6 +1607,84 @@ For example: "Work" or "Personal"</property>
                                   <placeholder/>
                                 </child>
                                 <child>
+                                  <widget class="GtkLabel" id="drafts_label">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Drafts _Folder:</property>
+                                    <property name="use_underline">True</property>
+                                    <property name="mnemonic_widget">drafts_button</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="x_options">GTK_FILL</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="sent_label">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Sent _Messages Folder:</property>
+                                    <property name="use_underline">True</property>
+                                    <property name="mnemonic_widget">sent_button</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                    <property name="x_options">GTK_FILL</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="Custom" id="sent_button">
+                                    <property name="visible">True</property>
+                                    <property name="creation_function">em_account_editor_folder_selector_button_new</property>
+                                    <property name="string1">Select Sent Folder</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                    <property name="x_options">GTK_FILL</property>
+                                    <property name="y_options">GTK_FILL</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="Custom" id="drafts_button">
+                                    <property name="visible">True</property>
+                                    <property name="creation_function">em_account_editor_folder_selector_button_new</property>
+                                    <property name="string1">Select Drafts Folder</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="y_options">GTK_FILL</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkFixed" id="fixed9">
+                                    <property name="visible">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="y_options">GTK_FILL</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkFixed" id="fixed8">
+                                    <property name="visible">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                    <property name="x_options">GTK_FILL</property>
+                                    <property name="y_options">GTK_FILL</property>
+                                  </packing>
+                                </child>
+                                <child>
                                   <widget class="GtkHBox" id="hbox216">
                                     <property name="visible">True</property>
                                     <child>
@@ -1636,84 +1714,6 @@ For example: "Work" or "Personal"</property>
                                     <property name="right_attach">3</property>
                                     <property name="top_attach">2</property>
                                     <property name="bottom_attach">3</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkFixed" id="fixed8">
-                                    <property name="visible">True</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">2</property>
-                                    <property name="right_attach">3</property>
-                                    <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options">GTK_FILL</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkFixed" id="fixed9">
-                                    <property name="visible">True</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">2</property>
-                                    <property name="right_attach">3</property>
-                                    <property name="y_options">GTK_FILL</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="Custom" id="drafts_button">
-                                    <property name="visible">True</property>
-                                    <property name="creation_function">em_account_editor_folder_selector_button_new</property>
-                                    <property name="string1">Select Drafts Folder</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                    <property name="y_options">GTK_FILL</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="Custom" id="sent_button">
-                                    <property name="visible">True</property>
-                                    <property name="creation_function">em_account_editor_folder_selector_button_new</property>
-                                    <property name="string1">Select Sent Folder</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                    <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options">GTK_FILL</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkLabel" id="sent_label">
-                                    <property name="visible">True</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">Sent _Messages Folder:</property>
-                                    <property name="use_underline">True</property>
-                                    <property name="mnemonic_widget">sent_button</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkLabel" id="drafts_label">
-                                    <property name="visible">True</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">Drafts _Folder:</property>
-                                    <property name="use_underline">True</property>
-                                    <property name="mnemonic_widget">drafts_button</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"></property>
                                   </packing>
                                 </child>
                               </widget>
@@ -1776,6 +1776,67 @@ For example: "Work" or "Personal"</property>
                             <property name="n_rows">2</property>
                             <property name="column_spacing">12</property>
                             <property name="row_spacing">6</property>
+                            <child>
+                              <widget class="GtkVBox" id="vbox186">
+                                <property name="visible">True</property>
+                                <property name="spacing">6</property>
+                                <child>
+                                  <widget class="GtkCheckButton" id="always_cc">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="label" translatable="yes">Alway_s carbon-copy (cc) to:</property>
+                                    <property name="use_underline">True</property>
+                                    <property name="response_id">0</property>
+                                    <property name="draw_indicator">True</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="expand">False</property>
+                                    <property name="fill">False</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkHBox" id="hbox210">
+                                    <property name="visible">True</property>
+                                    <child>
+                                      <widget class="GtkLabel" id="label522">
+                                        <property name="visible">True</property>
+                                        <property name="xpad">12</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="expand">False</property>
+                                        <property name="fill">False</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkTable" id="table32">
+                                        <property name="visible">True</property>
+                                        <property name="column_spacing">6</property>
+                                        <property name="row_spacing">2</property>
+                                        <child>
+                                          <widget class="GtkVBox" id="vbox187">
+                                            <property name="visible">True</property>
+                                            <property name="spacing">6</property>
+                                            <child>
+                                              <widget class="GtkEntry" id="cc_addrs">
+                                                <property name="visible">True</property>
+                                                <property name="can_focus">True</property>
+                                                <property name="invisible_char">*</property>
+                                              </widget>
+                                            </child>
+                                          </widget>
+                                        </child>
+                                      </widget>
+                                      <packing>
+                                        <property name="position">1</property>
+                                      </packing>
+                                    </child>
+                                  </widget>
+                                  <packing>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </widget>
+                            </child>
                             <child>
                               <widget class="GtkVBox" id="vbox188">
                                 <property name="visible">True</property>
@@ -1840,67 +1901,6 @@ For example: "Work" or "Personal"</property>
                                 <property name="top_attach">1</property>
                                 <property name="bottom_attach">2</property>
                               </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkVBox" id="vbox186">
-                                <property name="visible">True</property>
-                                <property name="spacing">6</property>
-                                <child>
-                                  <widget class="GtkCheckButton" id="always_cc">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="label" translatable="yes">Alway_s carbon-copy (cc) to:</property>
-                                    <property name="use_underline">True</property>
-                                    <property name="response_id">0</property>
-                                    <property name="draw_indicator">True</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="fill">False</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkHBox" id="hbox210">
-                                    <property name="visible">True</property>
-                                    <child>
-                                      <widget class="GtkLabel" id="label522">
-                                        <property name="visible">True</property>
-                                        <property name="xpad">12</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="expand">False</property>
-                                        <property name="fill">False</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkTable" id="table32">
-                                        <property name="visible">True</property>
-                                        <property name="column_spacing">6</property>
-                                        <property name="row_spacing">2</property>
-                                        <child>
-                                          <widget class="GtkVBox" id="vbox187">
-                                            <property name="visible">True</property>
-                                            <property name="spacing">6</property>
-                                            <child>
-                                              <widget class="GtkEntry" id="cc_addrs">
-                                                <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="invisible_char">*</property>
-                                              </widget>
-                                            </child>
-                                          </widget>
-                                        </child>
-                                      </widget>
-                                      <packing>
-                                        <property name="position">1</property>
-                                      </packing>
-                                    </child>
-                                  </widget>
-                                  <packing>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </widget>
                             </child>
                           </widget>
                         </child>
@@ -2202,110 +2202,123 @@ For example: "Work" or "Personal"</property>
                         <property name="column_spacing">12</property>
                         <property name="row_spacing">6</property>
                         <child>
-                          <widget class="GtkHBox" id="hbox209">
+                          <widget class="GtkEntry" id="smime_sign_key">
                             <property name="visible">True</property>
-                            <property name="spacing">6</property>
-                            <child>
-                              <widget class="GtkButton" id="smime_sign_key_select">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
-                                <child>
-                                  <widget class="GtkAlignment" id="alignment29">
-                                    <property name="visible">True</property>
-                                    <property name="xscale">0</property>
-                                    <property name="yscale">0</property>
-                                    <child>
-                                      <widget class="GtkHBox" id="hbox1">
-                                        <property name="visible">True</property>
-                                        <property name="spacing">2</property>
-                                        <child>
-                                          <widget class="GtkImage" id="image4">
-                                            <property name="visible">True</property>
-                                            <property name="stock">gtk-open</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkLabel" id="label1">
-                                            <property name="visible">True</property>
-                                            <property name="label" translatable="yes">_Select...</property>
-                                            <property name="use_underline">True</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                </child>
-                              </widget>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkButton" id="smime_sign_key_clear">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
-                                <child>
-                                  <widget class="GtkAlignment" id="alignment34">
-                                    <property name="visible">True</property>
-                                    <property name="xscale">0</property>
-                                    <property name="yscale">0</property>
-                                    <child>
-                                      <widget class="GtkHBox" id="hbox229">
-                                        <property name="visible">True</property>
-                                        <property name="spacing">2</property>
-                                        <child>
-                                          <widget class="GtkImage" id="image9">
-                                            <property name="visible">True</property>
-                                            <property name="stock">gtk-clear</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkLabel" id="label576">
-                                            <property name="visible">True</property>
-                                            <property name="label" translatable="yes">Cle_ar</property>
-                                            <property name="use_underline">True</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                </child>
-                              </widget>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
+                            <property name="can_focus">True</property>
+                            <property name="invisible_char">*</property>
                           </widget>
                           <packing>
-                            <property name="left_attach">2</property>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">1</property>
+                            <property name="bottom_attach">2</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkEntry" id="smime_encrypt_key">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="invisible_char">*</property>
+                          </widget>
+                          <packing>
+                            <property name="left_attach">1</property>
+                            <property name="right_attach">2</property>
+                            <property name="top_attach">5</property>
+                            <property name="bottom_attach">6</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="smime_encrypt_to_self">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="label" translatable="yes">Also encrypt to sel_f when sending encrypted messages</property>
+                            <property name="use_underline">True</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
                             <property name="right_attach">3</property>
+                            <property name="top_attach">4</property>
+                            <property name="bottom_attach">5</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="smime_encrypt_default">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="label" translatable="yes">Encrypt out_going messages (by default)</property>
+                            <property name="use_underline">True</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="right_attach">3</property>
+                            <property name="top_attach">3</property>
+                            <property name="bottom_attach">4</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkCheckButton" id="smime_sign_default">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="label" translatable="yes">Digitally sign o_utgoing messages (by default)</property>
+                            <property name="use_underline">True</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="right_attach">3</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkHSeparator" id="hseparator1">
+                            <property name="visible">True</property>
+                          </widget>
+                          <packing>
+                            <property name="right_attach">3</property>
+                            <property name="top_attach">2</property>
+                            <property name="bottom_attach">3</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options">GTK_FILL</property>
+                            <property name="y_padding">6</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="label2">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">Encry_ption certificate:</property>
+                            <property name="use_underline">True</property>
+                            <property name="mnemonic_widget">smime_encrypt_key</property>
+                          </widget>
+                          <packing>
+                            <property name="top_attach">5</property>
+                            <property name="bottom_attach">6</property>
+                            <property name="x_options">GTK_FILL</property>
+                            <property name="y_options"></property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="label469">
+                            <property name="visible">True</property>
+                            <property name="xalign">0</property>
+                            <property name="label" translatable="yes">Sig_ning certificate:</property>
+                            <property name="use_underline">True</property>
+                            <property name="mnemonic_widget">smime_sign_key</property>
+                          </widget>
+                          <packing>
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
                             <property name="x_options">GTK_FILL</property>
-                            <property name="y_options">GTK_FILL</property>
+                            <property name="y_options"></property>
                           </packing>
                         </child>
                         <child>
@@ -2416,123 +2429,110 @@ For example: "Work" or "Personal"</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="label469">
+                          <widget class="GtkHBox" id="hbox209">
                             <property name="visible">True</property>
-                            <property name="xalign">0</property>
-                            <property name="label" translatable="yes">Sig_ning certificate:</property>
-                            <property name="use_underline">True</property>
-                            <property name="mnemonic_widget">smime_sign_key</property>
+                            <property name="spacing">6</property>
+                            <child>
+                              <widget class="GtkButton" id="smime_sign_key_select">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="response_id">0</property>
+                                <child>
+                                  <widget class="GtkAlignment" id="alignment29">
+                                    <property name="visible">True</property>
+                                    <property name="xscale">0</property>
+                                    <property name="yscale">0</property>
+                                    <child>
+                                      <widget class="GtkHBox" id="hbox1">
+                                        <property name="visible">True</property>
+                                        <property name="spacing">2</property>
+                                        <child>
+                                          <widget class="GtkImage" id="image4">
+                                            <property name="visible">True</property>
+                                            <property name="stock">gtk-open</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkLabel" id="label1">
+                                            <property name="visible">True</property>
+                                            <property name="label" translatable="yes">_Select...</property>
+                                            <property name="use_underline">True</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <widget class="GtkButton" id="smime_sign_key_clear">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="response_id">0</property>
+                                <child>
+                                  <widget class="GtkAlignment" id="alignment34">
+                                    <property name="visible">True</property>
+                                    <property name="xscale">0</property>
+                                    <property name="yscale">0</property>
+                                    <child>
+                                      <widget class="GtkHBox" id="hbox229">
+                                        <property name="visible">True</property>
+                                        <property name="spacing">2</property>
+                                        <child>
+                                          <widget class="GtkImage" id="image9">
+                                            <property name="visible">True</property>
+                                            <property name="stock">gtk-clear</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                          </packing>
+                                        </child>
+                                        <child>
+                                          <widget class="GtkLabel" id="label576">
+                                            <property name="visible">True</property>
+                                            <property name="label" translatable="yes">Cle_ar</property>
+                                            <property name="use_underline">True</property>
+                                          </widget>
+                                          <packing>
+                                            <property name="expand">False</property>
+                                            <property name="fill">False</property>
+                                            <property name="position">1</property>
+                                          </packing>
+                                        </child>
+                                      </widget>
+                                    </child>
+                                  </widget>
+                                </child>
+                              </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">1</property>
+                              </packing>
+                            </child>
                           </widget>
                           <packing>
+                            <property name="left_attach">2</property>
+                            <property name="right_attach">3</property>
                             <property name="top_attach">1</property>
                             <property name="bottom_attach">2</property>
-                            <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"></property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="label2">
-                            <property name="visible">True</property>
-                            <property name="xalign">0</property>
-                            <property name="label" translatable="yes">Encry_ption certificate:</property>
-                            <property name="use_underline">True</property>
-                            <property name="mnemonic_widget">smime_encrypt_key</property>
-                          </widget>
-                          <packing>
-                            <property name="top_attach">5</property>
-                            <property name="bottom_attach">6</property>
-                            <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"></property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkHSeparator" id="hseparator1">
-                            <property name="visible">True</property>
-                          </widget>
-                          <packing>
-                            <property name="right_attach">3</property>
-                            <property name="top_attach">2</property>
-                            <property name="bottom_attach">3</property>
                             <property name="x_options">GTK_FILL</property>
                             <property name="y_options">GTK_FILL</property>
-                            <property name="y_padding">6</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkCheckButton" id="smime_sign_default">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">Digitally sign o_utgoing messages (by default)</property>
-                            <property name="use_underline">True</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                          <packing>
-                            <property name="right_attach">3</property>
-                            <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"></property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkCheckButton" id="smime_encrypt_default">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">Encrypt out_going messages (by default)</property>
-                            <property name="use_underline">True</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                          <packing>
-                            <property name="right_attach">3</property>
-                            <property name="top_attach">3</property>
-                            <property name="bottom_attach">4</property>
-                            <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"></property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkCheckButton" id="smime_encrypt_to_self">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">Also encrypt to sel_f when sending encrypted messages</property>
-                            <property name="use_underline">True</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                          <packing>
-                            <property name="right_attach">3</property>
-                            <property name="top_attach">4</property>
-                            <property name="bottom_attach">5</property>
-                            <property name="x_options">GTK_FILL</property>
-                            <property name="y_options"></property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkEntry" id="smime_encrypt_key">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">*</property>
-                          </widget>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
-                            <property name="top_attach">5</property>
-                            <property name="bottom_attach">6</property>
-                            <property name="y_options"></property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkEntry" id="smime_sign_key">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">*</property>
-                          </widget>
-                          <packing>
-                            <property name="left_attach">1</property>
-                            <property name="right_attach">2</property>
-                            <property name="top_attach">1</property>
-                            <property name="bottom_attach">2</property>
-                            <property name="y_options"></property>
                           </packing>
                         </child>
                       </widget>
@@ -2764,32 +2764,15 @@ For example: "Work" or "Personal"</property>
                                 <property name="column_spacing">6</property>
                                 <property name="row_spacing">6</property>
                                 <child>
-                                  <widget class="GtkLabel" id="label444">
+                                  <widget class="GtkLabel" id="lblScreenVariable">
                                     <property name="visible">True</property>
                                     <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">Fix_ed width Font:</property>
+                                    <property name="label" translatable="yes">S_tandard Font:</property>
                                     <property name="use_underline">True</property>
                                     <property name="justify">GTK_JUSTIFY_RIGHT</property>
-                                    <property name="mnemonic_widget">FontFixed</property>
+                                    <property name="mnemonic_widget">FontVariable</property>
                                   </widget>
                                   <packing>
-                                    <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkFontButton" id="FontVariable">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="response_id">0</property>
-                                    <property name="title" translatable="yes">Select HTML variable width font</property>
-                                    <signal name="font_set" handler="changed"/>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
                                     <property name="x_options">GTK_FILL</property>
                                     <property name="y_options"></property>
                                   </packing>
@@ -2812,15 +2795,32 @@ For example: "Work" or "Personal"</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkLabel" id="lblScreenVariable">
+                                  <widget class="GtkFontButton" id="FontVariable">
                                     <property name="visible">True</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">S_tandard Font:</property>
-                                    <property name="use_underline">True</property>
-                                    <property name="justify">GTK_JUSTIFY_RIGHT</property>
-                                    <property name="mnemonic_widget">FontVariable</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="response_id">0</property>
+                                    <property name="title" translatable="yes">Select HTML variable width font</property>
+                                    <signal name="font_set" handler="changed"/>
                                   </widget>
                                   <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="x_options">GTK_FILL</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="label444">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Fix_ed width Font:</property>
+                                    <property name="use_underline">True</property>
+                                    <property name="justify">GTK_JUSTIFY_RIGHT</property>
+                                    <property name="mnemonic_widget">FontFixed</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
                                     <property name="x_options">GTK_FILL</property>
                                     <property name="y_options"></property>
                                   </packing>
@@ -3797,22 +3797,26 @@ For example: "Work" or "Personal"</property>
                     <property name="n_rows">9</property>
                     <property name="row_spacing">3</property>
                     <child>
-                      <widget class="GtkHBox" id="hbox244">
+                      <widget class="GtkHBox" id="hbox235">
                         <property name="visible">True</property>
                         <property name="spacing">6</property>
                         <child>
-                          <widget class="GtkImage" id="image11">
+                          <widget class="GtkLabel" id="label586">
                             <property name="visible">True</property>
-                            <property name="stock">gtk-info</property>
+                            <property name="label" translatable="yes">_Default junk plugin:</property>
+                            <property name="use_underline">True</property>
+                            <property name="mnemonic_widget">default_junk_plugin</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="padding">6</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="GtkLabel" id="label590">
+                          <widget class="Custom" id="default_junk_plugin">
                             <property name="visible">True</property>
-                            <property name="label" translatable="yes">Option is ignored if a match for custom junk headers is found.</property>
+                            <property name="creation_function">create_combo_text_widget</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -3822,40 +3826,110 @@ For example: "Work" or "Personal"</property>
                         </child>
                       </widget>
                       <packing>
-                        <property name="top_attach">6</property>
-                        <property name="bottom_attach">7</property>
+                        <property name="top_attach">7</property>
+                        <property name="bottom_attach">8</property>
                         <property name="x_options">GTK_FILL</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkCheckButton" id="junk_lookup_local_only">
+                      <widget class="GtkCheckButton" id="chkCheckIncomingMail">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">_Lookup in local address book only</property>
+                        <property name="tooltip" translatable="yes">Checks incoming mail messages to be Junk</property>
+                        <property name="label" translatable="yes">Check incoming _messages for junk</property>
                         <property name="use_underline">True</property>
                         <property name="response_id">0</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
-                        <property name="top_attach">5</property>
-                        <property name="bottom_attach">6</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"></property>
-                        <property name="x_padding">25</property>
+                        <property name="x_padding">4</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkCheckButton" id="lookup_book">
+                      <widget class="GtkHBox" id="hbox236">
+                        <property name="visible">True</property>
+                        <property name="spacing">3</property>
+                        <child>
+                          <widget class="GtkImage" id="plugin_image">
+                            <property name="visible">True</property>
+                            <property name="icon_name">gtk-info</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkLabel" id="plugin_status">
+                            <property name="visible">True</property>
+                            <property name="use_markup">True</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="top_attach">8</property>
+                        <property name="bottom_attach">9</property>
+                        <property name="x_options">GTK_FILL</property>
+                        <property name="x_padding">15</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkHBox" id="hbox237">
+                        <property name="visible">True</property>
+                        <property name="spacing">4</property>
+                        <child>
+                          <widget class="GtkCheckButton" id="junk_empty_check">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="label" translatable="yes">Delete junk messages on e_xit</property>
+                            <property name="use_underline">True</property>
+                            <property name="response_id">0</property>
+                            <property name="draw_indicator">True</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <widget class="GtkOptionMenu" id="junk_empty_combo">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="response_id">0</property>
+                          </widget>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">False</property>
+                            <property name="position">1</property>
+                          </packing>
+                        </child>
+                      </widget>
+                      <packing>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
+                        <property name="x_options">GTK_FILL</property>
+                        <property name="x_padding">4</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkCheckButton" id="junk_header_check">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">Do not mar_k messages as junk if sender is in my address book</property>
+                        <property name="label" translatable="yes">Check cu_stom headers for junk</property>
                         <property name="use_underline">True</property>
                         <property name="response_id">0</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
-                        <property name="top_attach">4</property>
-                        <property name="bottom_attach">5</property>
+                        <property name="top_attach">2</property>
+                        <property name="bottom_attach">3</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"></property>
                         <property name="x_padding">4</property>
@@ -3921,130 +3995,56 @@ For example: "Work" or "Personal"</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkCheckButton" id="junk_header_check">
+                      <widget class="GtkCheckButton" id="lookup_book">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">Check cu_stom headers for junk</property>
+                        <property name="label" translatable="yes">Do not mar_k messages as junk if sender is in my address book</property>
                         <property name="use_underline">True</property>
                         <property name="response_id">0</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
-                        <property name="top_attach">2</property>
-                        <property name="bottom_attach">3</property>
+                        <property name="top_attach">4</property>
+                        <property name="bottom_attach">5</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"></property>
                         <property name="x_padding">4</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkHBox" id="hbox237">
-                        <property name="visible">True</property>
-                        <property name="spacing">4</property>
-                        <child>
-                          <widget class="GtkCheckButton" id="junk_empty_check">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">Delete junk messages on e_xit</property>
-                            <property name="use_underline">True</property>
-                            <property name="response_id">0</property>
-                            <property name="draw_indicator">True</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkOptionMenu" id="junk_empty_combo">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="response_id">0</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="top_attach">1</property>
-                        <property name="bottom_attach">2</property>
-                        <property name="x_options">GTK_FILL</property>
-                        <property name="x_padding">4</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkHBox" id="hbox236">
-                        <property name="visible">True</property>
-                        <property name="spacing">3</property>
-                        <child>
-                          <widget class="GtkImage" id="plugin_image">
-                            <property name="visible">True</property>
-                            <property name="icon_name">gtk-info</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <widget class="GtkLabel" id="plugin_status">
-                            <property name="visible">True</property>
-                            <property name="use_markup">True</property>
-                          </widget>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="top_attach">8</property>
-                        <property name="bottom_attach">9</property>
-                        <property name="x_options">GTK_FILL</property>
-                        <property name="x_padding">15</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkCheckButton" id="chkCheckIncomingMail">
+                      <widget class="GtkCheckButton" id="junk_lookup_local_only">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="tooltip" translatable="yes">Checks incoming mail messages to be Junk</property>
-                        <property name="label" translatable="yes">Check incoming _messages for junk</property>
+                        <property name="label" translatable="yes">_Lookup in local address book only</property>
                         <property name="use_underline">True</property>
                         <property name="response_id">0</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
+                        <property name="top_attach">5</property>
+                        <property name="bottom_attach">6</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"></property>
-                        <property name="x_padding">4</property>
+                        <property name="x_padding">25</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkHBox" id="hbox235">
+                      <widget class="GtkHBox" id="hbox244">
                         <property name="visible">True</property>
                         <property name="spacing">6</property>
                         <child>
-                          <widget class="GtkLabel" id="label586">
+                          <widget class="GtkImage" id="image11">
                             <property name="visible">True</property>
-                            <property name="label" translatable="yes">_Default junk plugin:</property>
-                            <property name="use_underline">True</property>
-                            <property name="mnemonic_widget">default_junk_plugin</property>
+                            <property name="stock">gtk-info</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
-                            <property name="fill">False</property>
-                            <property name="padding">6</property>
                           </packing>
                         </child>
                         <child>
-                          <widget class="Custom" id="default_junk_plugin">
+                          <widget class="GtkLabel" id="label590">
                             <property name="visible">True</property>
-                            <property name="creation_function">create_combo_text_widget</property>
+                            <property name="label" translatable="yes">Option is ignored if a match for custom junk headers is found.</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -4054,8 +4054,8 @@ For example: "Work" or "Personal"</property>
                         </child>
                       </widget>
                       <packing>
-                        <property name="top_attach">7</property>
-                        <property name="bottom_attach">8</property>
+                        <property name="top_attach">6</property>
+                        <property name="bottom_attach">7</property>
                         <property name="x_options">GTK_FILL</property>
                       </packing>
                     </child>
@@ -4231,55 +4231,16 @@ For example: "Work" or "Personal"</property>
                                 <property name="column_spacing">12</property>
                                 <property name="row_spacing">6</property>
                                 <child>
-                                  <widget class="GtkComboBox" id="comboboxReplyStyle">
-                                    <property name="visible">True</property>
-                                    <property name="items" translatable="yes">Attachment
-Inline (Outlook style)
-Quoted
-Do Not Quote</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                    <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkComboBox" id="comboboxForwardStyle">
-                                    <property name="visible">True</property>
-                                    <property name="items" translatable="yes">Attachment
-Inline
-Quoted</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkLabel" id="lblCharset">
-                                    <property name="visible">True</property>
-                                    <property name="label" translatable="yes">C_haracter set:</property>
-                                    <property name="use_underline">True</property>
-                                    <property name="mnemonic_widget">omenuCharset1</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="top_attach">2</property>
-                                    <property name="bottom_attach">3</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkLabel" id="lblForwardStyle">
+                                  <widget class="GtkLabel" id="lblReplyStyle">
                                     <property name="visible">True</property>
                                     <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">_Forward style:</property>
+                                    <property name="label" translatable="yes">_Reply style:</property>
                                     <property name="use_underline">True</property>
                                     <property name="justify">GTK_JUSTIFY_CENTER</property>
                                   </widget>
                                   <packing>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
                                     <property name="x_options">GTK_FILL</property>
                                     <property name="y_options"></property>
                                   </packing>
@@ -4300,18 +4261,57 @@ Quoted</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkLabel" id="lblReplyStyle">
+                                  <widget class="GtkLabel" id="lblForwardStyle">
                                     <property name="visible">True</property>
                                     <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">_Reply style:</property>
+                                    <property name="label" translatable="yes">_Forward style:</property>
                                     <property name="use_underline">True</property>
                                     <property name="justify">GTK_JUSTIFY_CENTER</property>
                                   </widget>
                                   <packing>
-                                    <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
                                     <property name="x_options">GTK_FILL</property>
                                     <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="lblCharset">
+                                    <property name="visible">True</property>
+                                    <property name="label" translatable="yes">C_haracter set:</property>
+                                    <property name="use_underline">True</property>
+                                    <property name="mnemonic_widget">omenuCharset1</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="top_attach">2</property>
+                                    <property name="bottom_attach">3</property>
+                                    <property name="x_options">GTK_FILL</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkComboBox" id="comboboxForwardStyle">
+                                    <property name="visible">True</property>
+                                    <property name="items" translatable="yes">Attachment
+Inline
+Quoted</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkComboBox" id="comboboxReplyStyle">
+                                    <property name="visible">True</property>
+                                    <property name="items" translatable="yes">Attachment
+Inline (Outlook style)
+Quoted
+Do Not Quote</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
                                   </packing>
                                 </child>
                               </widget>
@@ -4499,183 +4499,11 @@ Quoted</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkHBox" id="hboxSignatures">
+                  <widget class="GtkAlignment" id="alignSignatures">
                     <property name="visible">True</property>
-                    <property name="spacing">6</property>
+                    <property name="left_padding">12</property>
                     <child>
-                      <widget class="GtkLabel" id="label550">
-                        <property name="visible">True</property>
-                      </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="label549">
-                        <property name="visible">True</property>
-                      </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkScrolledWindow" id="scrolledwindow46">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                        <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                        <property name="shadow_type">GTK_SHADOW_IN</property>
-                        <child>
-                          <widget class="GtkTreeView" id="listSignatures">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="headers_visible">False</property>
-                            <accessibility>
-                              <atkproperty name="AtkObject::accessible_name" translatable="yes">Signatures Table</atkproperty>
-                            </accessibility>
-                          </widget>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="position">2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkVBox" id="vboxSignatureButtons">
-                        <property name="visible">True</property>
-                        <property name="spacing">3</property>
-                        <child>
-                          <widget class="GtkVButtonBox" id="vbuttonbox25">
-                            <property name="visible">True</property>
-                            <property name="spacing">6</property>
-                            <property name="layout_style">GTK_BUTTONBOX_START</property>
-                            <child>
-                              <widget class="GtkButton" id="cmdSignatureAdd">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="can_default">True</property>
-                                <property name="label">gtk-add</property>
-                                <property name="use_stock">True</property>
-                                <property name="response_id">0</property>
-                              </widget>
-                            </child>
-                            <child>
-                              <widget class="GtkButton" id="cmdSignatureAddScript">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="can_default">True</property>
-                                <property name="response_id">0</property>
-                                <signal name="clicked" handler="cmdSignatureAddScriptClicked"/>
-                                <child>
-                                  <widget class="GtkAlignment" id="alignment32">
-                                    <property name="visible">True</property>
-                                    <property name="xscale">0</property>
-                                    <property name="yscale">0</property>
-                                    <child>
-                                      <widget class="GtkHBox" id="hbox223">
-                                        <property name="visible">True</property>
-                                        <property name="spacing">2</property>
-                                        <child>
-                                          <widget class="GtkImage" id="image7">
-                                            <property name="visible">True</property>
-                                            <property name="stock">gtk-execute</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkLabel" id="label554">
-                                            <property name="visible">True</property>
-                                            <property name="label" translatable="yes">Add _Script</property>
-                                            <property name="use_underline">True</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                </child>
-                              </widget>
-                              <packing>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkButton" id="cmdSignatureEdit">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="can_default">True</property>
-                                <property name="response_id">0</property>
-                                <child>
-                                  <widget class="GtkAlignment" id="alignment31">
-                                    <property name="visible">True</property>
-                                    <property name="xscale">0</property>
-                                    <property name="yscale">0</property>
-                                    <child>
-                                      <widget class="GtkHBox" id="hbox222">
-                                        <property name="visible">True</property>
-                                        <property name="spacing">2</property>
-                                        <child>
-                                          <widget class="GtkImage" id="image6">
-                                            <property name="visible">True</property>
-                                            <property name="stock">gtk-properties</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <widget class="GtkLabel" id="label553">
-                                            <property name="visible">True</property>
-                                            <property name="label" translatable="yes">_Edit</property>
-                                            <property name="use_underline">True</property>
-                                          </widget>
-                                          <packing>
-                                            <property name="expand">False</property>
-                                            <property name="fill">False</property>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                      </widget>
-                                    </child>
-                                  </widget>
-                                </child>
-                              </widget>
-                              <packing>
-                                <property name="position">2</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkButton" id="cmdSignatureDelete">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="can_default">True</property>
-                                <property name="label">gtk-remove</property>
-                                <property name="use_stock">True</property>
-                                <property name="response_id">0</property>
-                              </widget>
-                              <packing>
-                                <property name="position">3</property>
-                              </packing>
-                            </child>
-                          </widget>
-                        </child>
-                      </widget>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">3</property>
-                      </packing>
+                      <placeholder/>
                     </child>
                   </widget>
                   <packing>
@@ -5045,16 +4873,31 @@ Quoted</property>
                     <property name="column_spacing">12</property>
                     <property name="row_spacing">6</property>
                     <child>
-                      <widget class="GtkFontButton" id="print_variable">
+                      <widget class="GtkLabel" id="lblPrintVariable">
                         <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="response_id">0</property>
-                        <property name="title" translatable="yes">Select HTML variable width font for printing</property>
-                        <signal name="font_set" handler="changed"/>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">V_ariable-width:</property>
+                        <property name="use_underline">True</property>
+                        <property name="justify">GTK_JUSTIFY_CENTER</property>
+                        <property name="mnemonic_widget">print_variable</property>
                       </widget>
                       <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
+                        <property name="x_options">GTK_FILL</property>
+                        <property name="y_options"></property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkLabel" id="lblPrintFixed">
+                        <property name="visible">True</property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">Fi_xed-width:</property>
+                        <property name="use_underline">True</property>
+                        <property name="justify">GTK_JUSTIFY_CENTER</property>
+                        <property name="mnemonic_widget">print_fixed</property>
+                      </widget>
+                      <packing>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"></property>
                       </packing>
@@ -5077,31 +4920,16 @@ Quoted</property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="lblPrintFixed">
+                      <widget class="GtkFontButton" id="print_variable">
                         <property name="visible">True</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Fi_xed-width:</property>
-                        <property name="use_underline">True</property>
-                        <property name="justify">GTK_JUSTIFY_CENTER</property>
-                        <property name="mnemonic_widget">print_fixed</property>
+                        <property name="can_focus">True</property>
+                        <property name="response_id">0</property>
+                        <property name="title" translatable="yes">Select HTML variable width font for printing</property>
+                        <signal name="font_set" handler="changed"/>
                       </widget>
                       <packing>
-                        <property name="top_attach">1</property>
-                        <property name="bottom_attach">2</property>
-                        <property name="x_options">GTK_FILL</property>
-                        <property name="y_options"></property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkLabel" id="lblPrintVariable">
-                        <property name="visible">True</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">V_ariable-width:</property>
-                        <property name="use_underline">True</property>
-                        <property name="justify">GTK_JUSTIFY_CENTER</property>
-                        <property name="mnemonic_widget">print_variable</property>
-                      </widget>
-                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"></property>
                       </packing>
@@ -5182,28 +5010,16 @@ for display purposes only. </property>
                     <property name="column_spacing">6</property>
                     <property name="row_spacing">6</property>
                     <child>
-                      <widget class="GtkFileChooserButton" id="filechooserbutton_add_script">
+                      <widget class="GtkLabel" id="label459">
                         <property name="visible">True</property>
-                        <property name="title" translatable="yes"></property>
+                        <property name="xalign">0</property>
+                        <property name="label" translatable="yes">_Name:</property>
+                        <property name="use_underline">True</property>
+                        <property name="justify">GTK_JUSTIFY_CENTER</property>
+                        <property name="mnemonic_widget">entry_add_script_name</property>
                       </widget>
                       <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
-                        <property name="top_attach">1</property>
-                        <property name="bottom_attach">2</property>
                         <property name="x_options">GTK_FILL</property>
-                        <property name="y_options"></property>
-                      </packing>
-                    </child>
-                    <child>
-                      <widget class="GtkEntry" id="entry_add_script_name">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="invisible_char">*</property>
-                      </widget>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
                         <property name="y_options"></property>
                       </packing>
                     </child>
@@ -5224,15 +5040,27 @@ for display purposes only. </property>
                       </packing>
                     </child>
                     <child>
-                      <widget class="GtkLabel" id="label459">
+                      <widget class="GtkEntry" id="entry_add_script_name">
                         <property name="visible">True</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">_Name:</property>
-                        <property name="use_underline">True</property>
-                        <property name="justify">GTK_JUSTIFY_CENTER</property>
-                        <property name="mnemonic_widget">entry_add_script_name</property>
+                        <property name="can_focus">True</property>
+                        <property name="invisible_char">*</property>
                       </widget>
                       <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
+                        <property name="y_options"></property>
+                      </packing>
+                    </child>
+                    <child>
+                      <widget class="GtkFileChooserButton" id="filechooserbutton_add_script">
+                        <property name="visible">True</property>
+                        <property name="title" translatable="yes"></property>
+                      </widget>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="right_attach">2</property>
+                        <property name="top_attach">1</property>
+                        <property name="bottom_attach">2</property>
                         <property name="x_options">GTK_FILL</property>
                         <property name="y_options"></property>
                       </packing>
@@ -5405,171 +5233,14 @@ for display purposes only. </property>
                                 <property name="column_spacing">6</property>
                                 <property name="row_spacing">6</property>
                                 <child>
-                                  <widget class="GtkEntry" id="txtIgnoreHosts">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="invisible_char">*</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">4</property>
-                                    <property name="top_attach">3</property>
-                                    <property name="bottom_attach">4</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkSpinButton" id="spnSocksPort">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="adjustment">0 0 65535 1 10 0</property>
-                                    <property name="climb_rate">1</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">3</property>
-                                    <property name="right_attach">4</property>
-                                    <property name="top_attach">2</property>
-                                    <property name="bottom_attach">3</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkSpinButton" id="spnHttpsPort">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="adjustment">0 0 65535 1 10 0</property>
-                                    <property name="climb_rate">1</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">3</property>
-                                    <property name="right_attach">4</property>
-                                    <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkSpinButton" id="spnHttpPort">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="adjustment">0 0 65535 1 10 0</property>
-                                    <property name="climb_rate">1</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">3</property>
-                                    <property name="right_attach">4</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkLabel" id="lblSocksPort">
+                                  <widget class="GtkLabel" id="lblHttpHost">
                                     <property name="visible">True</property>
                                     <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">Port:</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">2</property>
-                                    <property name="right_attach">3</property>
-                                    <property name="top_attach">2</property>
-                                    <property name="bottom_attach">3</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkLabel" id="lblHttpsPort">
-                                    <property name="visible">True</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">Port:</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">2</property>
-                                    <property name="right_attach">3</property>
-                                    <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkLabel" id="lblHttpPort">
-                                    <property name="visible">True</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">Port:</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">2</property>
-                                    <property name="right_attach">3</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkEntry" id="txtSocksHost">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="invisible_char">*</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                    <property name="top_attach">2</property>
-                                    <property name="bottom_attach">3</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkEntry" id="txtHttpsHost">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="invisible_char">*</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                    <property name="top_attach">1</property>
-                                    <property name="bottom_attach">2</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkEntry" id="txtHttpHost">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="invisible_char">*</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="left_attach">1</property>
-                                    <property name="right_attach">2</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkLabel" id="lblIgnoreHosts">
-                                    <property name="visible">True</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">No _Proxy for:</property>
+                                    <property name="label" translatable="yes">H_TTP Proxy:</property>
                                     <property name="use_underline">True</property>
-                                    <property name="mnemonic_widget">txtIgnoreHosts</property>
+                                    <property name="mnemonic_widget">txtHttpHost</property>
                                   </widget>
                                   <packing>
-                                    <property name="top_attach">3</property>
-                                    <property name="bottom_attach">4</property>
-                                    <property name="x_options">GTK_FILL</property>
-                                    <property name="y_options"></property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <widget class="GtkLabel" id="lblSocksHost">
-                                    <property name="visible">True</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">S_OCKS Host:</property>
-                                    <property name="use_underline">True</property>
-                                    <property name="mnemonic_widget">txtSocksHost</property>
-                                  </widget>
-                                  <packing>
-                                    <property name="top_attach">2</property>
-                                    <property name="bottom_attach">3</property>
                                     <property name="x_options">GTK_FILL</property>
                                     <property name="y_options"></property>
                                   </packing>
@@ -5590,15 +5261,172 @@ for display purposes only. </property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <widget class="GtkLabel" id="lblHttpHost">
+                                  <widget class="GtkLabel" id="lblSocksHost">
                                     <property name="visible">True</property>
                                     <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">H_TTP Proxy:</property>
+                                    <property name="label" translatable="yes">S_OCKS Host:</property>
                                     <property name="use_underline">True</property>
-                                    <property name="mnemonic_widget">txtHttpHost</property>
+                                    <property name="mnemonic_widget">txtSocksHost</property>
                                   </widget>
                                   <packing>
+                                    <property name="top_attach">2</property>
+                                    <property name="bottom_attach">3</property>
                                     <property name="x_options">GTK_FILL</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="lblIgnoreHosts">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">No _Proxy for:</property>
+                                    <property name="use_underline">True</property>
+                                    <property name="mnemonic_widget">txtIgnoreHosts</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="top_attach">3</property>
+                                    <property name="bottom_attach">4</property>
+                                    <property name="x_options">GTK_FILL</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkEntry" id="txtHttpHost">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">*</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkEntry" id="txtHttpsHost">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">*</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkEntry" id="txtSocksHost">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">*</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">2</property>
+                                    <property name="bottom_attach">3</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="lblHttpPort">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Port:</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="x_options">GTK_FILL</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="lblHttpsPort">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Port:</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                    <property name="x_options">GTK_FILL</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkLabel" id="lblSocksPort">
+                                    <property name="visible">True</property>
+                                    <property name="xalign">0</property>
+                                    <property name="label" translatable="yes">Port:</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">2</property>
+                                    <property name="right_attach">3</property>
+                                    <property name="top_attach">2</property>
+                                    <property name="bottom_attach">3</property>
+                                    <property name="x_options">GTK_FILL</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkSpinButton" id="spnHttpPort">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="adjustment">0 0 65535 1 10 0</property>
+                                    <property name="climb_rate">1</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">3</property>
+                                    <property name="right_attach">4</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkSpinButton" id="spnHttpsPort">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="adjustment">0 0 65535 1 10 0</property>
+                                    <property name="climb_rate">1</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">3</property>
+                                    <property name="right_attach">4</property>
+                                    <property name="top_attach">1</property>
+                                    <property name="bottom_attach">2</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkSpinButton" id="spnSocksPort">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="adjustment">0 0 65535 1 10 0</property>
+                                    <property name="climb_rate">1</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">3</property>
+                                    <property name="right_attach">4</property>
+                                    <property name="top_attach">2</property>
+                                    <property name="bottom_attach">3</property>
+                                    <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <widget class="GtkEntry" id="txtIgnoreHosts">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">*</property>
+                                  </widget>
+                                  <packing>
+                                    <property name="left_attach">1</property>
+                                    <property name="right_attach">4</property>
+                                    <property name="top_attach">3</property>
+                                    <property name="bottom_attach">4</property>
                                     <property name="y_options"></property>
                                   </packing>
                                 </child>
@@ -5633,28 +5461,16 @@ for display purposes only. </property>
                                     <property name="column_spacing">6</property>
                                     <property name="row_spacing">3</property>
                                     <child>
-                                      <widget class="GtkEntry" id="txtAuthPwd">
+                                      <widget class="GtkLabel" id="lblAuthUser">
                                         <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="visibility">False</property>
-                                        <property name="invisible_char">*</property>
+                                        <property name="xalign">0</property>
+                                        <property name="label" translatable="yes">Us_ername:</property>
+                                        <property name="use_underline">True</property>
+                                        <property name="mnemonic_widget">txtAuthUser</property>
                                       </widget>
                                       <packing>
-                                        <property name="left_attach">1</property>
-                                        <property name="right_attach">2</property>
-                                        <property name="top_attach">1</property>
-                                        <property name="bottom_attach">2</property>
-                                      </packing>
-                                    </child>
-                                    <child>
-                                      <widget class="GtkEntry" id="txtAuthUser">
-                                        <property name="visible">True</property>
-                                        <property name="can_focus">True</property>
-                                        <property name="invisible_char">*</property>
-                                      </widget>
-                                      <packing>
-                                        <property name="left_attach">1</property>
-                                        <property name="right_attach">2</property>
+                                        <property name="x_options">GTK_FILL</property>
+                                        <property name="y_options"></property>
                                       </packing>
                                     </child>
                                     <child>
@@ -5673,16 +5489,28 @@ for display purposes only. </property>
                                       </packing>
                                     </child>
                                     <child>
-                                      <widget class="GtkLabel" id="lblAuthUser">
+                                      <widget class="GtkEntry" id="txtAuthUser">
                                         <property name="visible">True</property>
-                                        <property name="xalign">0</property>
-                                        <property name="label" translatable="yes">Us_ername:</property>
-                                        <property name="use_underline">True</property>
-                                        <property name="mnemonic_widget">txtAuthUser</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="invisible_char">*</property>
                                       </widget>
                                       <packing>
-                                        <property name="x_options">GTK_FILL</property>
-                                        <property name="y_options"></property>
+                                        <property name="left_attach">1</property>
+                                        <property name="right_attach">2</property>
+                                      </packing>
+                                    </child>
+                                    <child>
+                                      <widget class="GtkEntry" id="txtAuthPwd">
+                                        <property name="visible">True</property>
+                                        <property name="can_focus">True</property>
+                                        <property name="visibility">False</property>
+                                        <property name="invisible_char">*</property>
+                                      </widget>
+                                      <packing>
+                                        <property name="left_attach">1</property>
+                                        <property name="right_attach">2</property>
+                                        <property name="top_attach">1</property>
+                                        <property name="bottom_attach">2</property>
                                       </packing>
                                     </child>
                                   </widget>

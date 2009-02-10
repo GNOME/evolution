@@ -43,17 +43,17 @@
 
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
-#include <gdk/gdkkeysyms.h>
 
 #include <gtkhtml/gtkhtml.h>
 #include <editor/gtkhtml-spell-language.h>
 
 #include "misc/e-charset-picker.h"
+#include "misc/e-signature-manager.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 
 #include "mail-config.h"
-#include "mail-signature-editor.h"
+#include "e-signature-editor.h"
 #include "em-config.h"
 
 static gpointer parent_class;
@@ -161,43 +161,11 @@ transform_new_to_old_reply_style (const GValue *src_value,
 }
 
 static void
-composer_prefs_dispose (GObject *object)
-{
-	EMComposerPrefs *prefs = (EMComposerPrefs *) object;
-	ESignatureList *signature_list;
-
-	signature_list = e_get_signature_list ();
-
-	if (prefs->sig_added_id != 0) {
-		g_signal_handler_disconnect (
-			signature_list, prefs->sig_added_id);
-		prefs->sig_added_id = 0;
-	}
-
-	if (prefs->sig_removed_id != 0) {
-		g_signal_handler_disconnect (
-			signature_list, prefs->sig_removed_id);
-		prefs->sig_removed_id = 0;
-	}
-
-	if (prefs->sig_changed_id != 0) {
-		g_signal_handler_disconnect (
-			signature_list, prefs->sig_changed_id);
-		prefs->sig_changed_id = 0;
-	}
-
-	/* Chain up to parent's dispose() method. */
-	G_OBJECT_CLASS (parent_class)->dispose (object);
-}
-
-static void
 composer_prefs_finalize (GObject *object)
 {
 	EMComposerPrefs *prefs = (EMComposerPrefs *) object;
 
 	g_object_unref (prefs->gui);
-
-	g_hash_table_destroy (prefs->sig_hash);
 
 	/* Chain up to parent's finalize() method. */
         G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -211,17 +179,12 @@ composer_prefs_class_init (EMComposerPrefsClass *class)
 	parent_class = g_type_class_peek_parent (class);
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->dispose = composer_prefs_dispose;
 	object_class->finalize = composer_prefs_finalize;
 }
 
 static void
 composer_prefs_init (EMComposerPrefs *prefs)
 {
-	prefs->sig_hash = g_hash_table_new_full (
-		g_direct_hash, g_direct_equal,
-		(GDestroyNotify) NULL,
-		(GDestroyNotify) gtk_tree_row_reference_free);
 }
 
 GType
@@ -267,8 +230,8 @@ sig_load_preview (EMComposerPrefs *prefs,
 	if (signature->script)
 		str = mail_config_signature_run_script (signature->filename);
 	else
-		str = e_msg_composer_get_sig_file_content (
-			signature->filename, signature->html);
+		/* FIXME Show an error in the preview area. */
+		str = e_read_signature_file (signature, FALSE, NULL);
 	if (!str || !*str) {
 		/* make html stream happy and write at least one character */
 		g_free (str);
@@ -293,143 +256,6 @@ sig_load_preview (EMComposerPrefs *prefs,
 	g_free (str);
 }
 
-static void
-signature_added (ESignatureList *signature_list,
-                 ESignature *signature,
-                 EMComposerPrefs *prefs)
-{
-	GtkTreeRowReference *row;
-	GtkTreeModel *model;
-	GtkTreePath *path;
-	GtkTreeIter iter;
-
-	/* autogen signature is special */
-	if (signature->autogen)
-		return;
-
-	model = gtk_tree_view_get_model (prefs->sig_list);
-	gtk_list_store_append (GTK_LIST_STORE (model), &iter);
-	gtk_list_store_set (
-		GTK_LIST_STORE (model), &iter,
-		0, signature->name, 1, signature, -1);
-
-	path = gtk_tree_model_get_path (model, &iter);
-	row = gtk_tree_row_reference_new (model, path);
-	gtk_tree_path_free (path);
-
-	g_hash_table_insert (prefs->sig_hash, signature, row);
-}
-
-static void
-signature_removed (ESignatureList *signature_list,
-                   ESignature *signature,
-                   EMComposerPrefs *prefs)
-{
-	GtkTreeRowReference *row;
-	GtkTreeModel *model;
-	GtkTreePath *path;
-	GtkTreeIter iter;
-
-	if (!(row = g_hash_table_lookup (prefs->sig_hash, signature)))
-		return;
-
-	model = gtk_tree_view_get_model (prefs->sig_list);
-	path = gtk_tree_row_reference_get_path (row);
-	g_hash_table_remove (prefs->sig_hash, signature);
-
-	if (!gtk_tree_model_get_iter (model, &iter, path)) {
-		gtk_tree_path_free (path);
-		return;
-	}
-
-	gtk_list_store_remove ((GtkListStore *) model, &iter);
-}
-
-static void
-signature_changed (ESignatureList *signature_list,
-                   ESignature *signature,
-                   EMComposerPrefs *prefs)
-{
-	GtkTreeSelection *selection;
-	GtkTreeRowReference *row;
-	GtkTreeModel *model;
-	GtkTreePath *path;
-	GtkTreeIter iter;
-	ESignature *cur;
-
-	if (!(row = g_hash_table_lookup (prefs->sig_hash, signature)))
-		return;
-
-	model = gtk_tree_view_get_model (prefs->sig_list);
-	path = gtk_tree_row_reference_get_path (row);
-
-	if (!gtk_tree_model_get_iter (model, &iter, path)) {
-		gtk_tree_path_free (path);
-		return;
-	}
-
-	gtk_tree_path_free (path);
-
-	gtk_list_store_set ((GtkListStore *) model, &iter, 0, signature->name, -1);
-
-	selection = gtk_tree_view_get_selection (prefs->sig_list);
-	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-		gtk_tree_model_get (model, &iter, 1, &cur, -1);
-		if (cur == signature)
-			sig_load_preview (prefs, signature);
-	}
-}
-
-static void
-sig_edit_cb (GtkWidget *widget, EMComposerPrefs *prefs)
-{
-	GtkTreeSelection *selection;
-	GtkTreeModel *model;
-	GtkWidget *parent;
-	GtkTreeIter iter;
-	ESignature *signature;
-
-	selection = gtk_tree_view_get_selection (prefs->sig_list);
-	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
-		return;
-
-	gtk_tree_model_get (model, &iter, 1, &signature, -1);
-
-	if (!signature->script) {
-		GtkWidget *editor;
-
-		/* normal signature */
-		if (!signature->filename || *signature->filename == '\0') {
-			g_free (signature->filename);
-			signature->filename = g_strdup (_("Unnamed"));
-		}
-
-		editor = e_signature_editor_new ();
-		e_signature_editor_set_signature (
-			E_SIGNATURE_EDITOR (editor), signature);
-
-		parent = gtk_widget_get_toplevel ((GtkWidget *) prefs);
-		if (GTK_WIDGET_TOPLEVEL (parent))
-			gtk_window_set_transient_for (
-				GTK_WINDOW (editor), GTK_WINDOW (parent));
-
-		gtk_widget_show (editor);
-	} else {
-		/* signature script */
-		GtkWidget *entry;
-
-		entry = glade_xml_get_widget (prefs->sig_script_gui, "filechooserbutton_add_script");
-		gtk_file_chooser_set_filename (GTK_FILE_CHOOSER (entry), signature->filename);
-
-		entry = glade_xml_get_widget (prefs->sig_script_gui, "entry_add_script_name");
-		gtk_entry_set_text (GTK_ENTRY (entry), signature->name);
-
-		g_object_set_data ((GObject *) entry, "sig", signature);
-
-		gtk_window_present ((GtkWindow *) prefs->sig_script_dialog);
-	}
-}
-
 void
 em_composer_prefs_new_signature (GtkWindow *parent,
                                  gboolean html_mode)
@@ -443,175 +269,21 @@ em_composer_prefs_new_signature (GtkWindow *parent,
 }
 
 static void
-sig_delete_cb (GtkWidget *widget, EMComposerPrefs *prefs)
-{
-	GtkTreeSelection *selection;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	ESignature *signature;
-	ESignatureList *signature_list;
-
-	signature_list = e_get_signature_list ();
-	selection = gtk_tree_view_get_selection (prefs->sig_list);
-
-	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-		gtk_tree_model_get (model, &iter, 1, &signature, -1);
-
-		if (signature->filename && !signature->script)
-			g_unlink (signature->filename);
-
-		e_signature_list_remove (signature_list, signature);
-		e_signature_list_save (signature_list);
-	}
-	gtk_widget_grab_focus ((GtkWidget *)prefs->sig_list);
-}
-
-static void
-sig_add_cb (GtkWidget *widget, EMComposerPrefs *prefs)
-{
-	gboolean send_html;
-	GtkWidget *parent;
-
-	send_html = gconf_client_get_bool (
-		mail_config_get_gconf_client (),
-		"/apps/evolution/mail/composer/send_html", NULL);
-
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (prefs));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
-
-	em_composer_prefs_new_signature (GTK_WINDOW (parent), send_html);
-	gtk_widget_grab_focus (GTK_WIDGET (prefs->sig_list));
-}
-
-static void
-sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
-{
-	gchar *script, **argv = NULL;
-	GtkWidget *entry;
-	const gchar *name;
-	int argc;
-
-	if (button == GTK_RESPONSE_ACCEPT) {
-		entry = glade_xml_get_widget (prefs->sig_script_gui, "filechooserbutton_add_script");
-		script = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (entry));
-
-		entry = glade_xml_get_widget (prefs->sig_script_gui, "entry_add_script_name");
-		name = gtk_entry_get_text (GTK_ENTRY (entry));
-		if (script && *script && g_shell_parse_argv (script, &argc, &argv, NULL)) {
-			struct stat st;
-
-			if (g_stat (argv[0], &st) == 0 && S_ISREG (st.st_mode) && g_access (argv[0], X_OK) == 0) {
-				ESignatureList *signature_list;
-				ESignature *signature;
-
-				signature_list = e_get_signature_list ();
-
-				if ((signature = g_object_get_data ((GObject *) entry, "sig"))) {
-					/* we're just editing an existing signature script */
-					g_free (signature->name);
-					signature->name = g_strdup (name);
-					g_free(signature->filename);
-					signature->filename = g_strdup(script);
-					e_signature_list_change (signature_list, signature);
-				} else {
-					signature = mail_config_signature_new (script, TRUE, TRUE);
-					signature->name = g_strdup (name);
-
-					e_signature_list_add (signature_list, signature);
-					g_object_unref (signature);
-				}
-
-				e_signature_list_save (signature_list);
-
-				gtk_widget_hide (prefs->sig_script_dialog);
-				g_strfreev (argv);
-				g_free (script);
-
-				return;
-			}
-		}
-
-		e_error_run((GtkWindow *)prefs->sig_script_dialog, "mail:signature-notscript", argv ? argv[0] : script, NULL);
-		g_strfreev (argv);
-		g_free (script);
-		return;
-	}
-
-	gtk_widget_hide (widget);
-}
-
-static void
-sig_add_script_cb (GtkWidget *widget, EMComposerPrefs *prefs)
-{
-	GtkWidget *entry;
-
-	entry = glade_xml_get_widget (prefs->sig_script_gui, "entry_add_script_name");
-	gtk_entry_set_text (GTK_ENTRY (entry), _("Unnamed"));
-
-	g_object_set_data ((GObject *) entry, "sig", NULL);
-
-	gtk_window_present ((GtkWindow *) prefs->sig_script_dialog);
-}
-
-static void
 sig_selection_changed (GtkTreeSelection *selection,
                        EMComposerPrefs *prefs)
 {
 	ESignature *signature;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
-	gboolean valid;
+	GtkTreeView *tree_view;
 
-	valid = gtk_tree_selection_get_selected (selection, &model, &iter);
+	tree_view = gtk_tree_selection_get_tree_view (selection);
 
-	if (valid) {
-		gtk_tree_model_get (model, &iter, 1, &signature, -1);
-		sig_load_preview (prefs, signature);
-	} else
-		sig_load_preview (prefs, NULL);
+	signature = e_signature_tree_view_get_selected (
+		E_SIGNATURE_TREE_VIEW (tree_view));
 
-	gtk_widget_set_sensitive (GTK_WIDGET (prefs->sig_delete), valid);
-	gtk_widget_set_sensitive (GTK_WIDGET (prefs->sig_edit), valid);
-}
+	sig_load_preview (prefs, signature);
 
-static void
-sig_fill_list (EMComposerPrefs *prefs)
-{
-	ESignatureList *signature_list;
-	GtkTreeModel *model;
-	EIterator *iterator;
-
-	model = gtk_tree_view_get_model (prefs->sig_list);
-	gtk_list_store_clear (GTK_LIST_STORE (model));
-
-	signature_list = e_get_signature_list ();
-	iterator = e_list_get_iterator ((EList *) signature_list);
-
-	while (e_iterator_is_valid (iterator)) {
-		ESignature *signature;
-
-		signature = (ESignature *) e_iterator_get (iterator);
-		signature_added (signature_list, signature, prefs);
-
-		e_iterator_next (iterator);
-	}
-
-	g_object_unref (iterator);
-
-	gtk_widget_set_sensitive (GTK_WIDGET (prefs->sig_edit), FALSE);
-	gtk_widget_set_sensitive (GTK_WIDGET (prefs->sig_delete), FALSE);
-
-	prefs->sig_added_id = g_signal_connect (
-		signature_list, "signature-added",
-		G_CALLBACK (signature_added), prefs);
-
-	prefs->sig_removed_id = g_signal_connect (
-		signature_list, "signature-removed",
-		G_CALLBACK (signature_removed), prefs);
-
-	prefs->sig_changed_id = g_signal_connect (
-		signature_list, "signature-changed",
-		G_CALLBACK (signature_changed), prefs);
+	if (signature != NULL)
+		g_object_unref (signature);
 }
 
 static void
@@ -824,40 +496,15 @@ emcp_free (EConfig *ec, GSList *items, gpointer data)
 	g_slist_free (items);
 }
 
-static gboolean
-signature_key_press_cb (GtkTreeView *tree_view,
-                        GdkEventKey *event,
-                        EMComposerPrefs *prefs)
-{
-	/* No need to care about anything other than DEL key */
-	if (event->keyval == GDK_Delete) {
-		sig_delete_cb (GTK_WIDGET (tree_view), prefs);
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-static gboolean
-sig_tree_event_cb (GtkTreeView *tree_view,
-                   GdkEvent *event,
-                   EMComposerPrefs *prefs)
-{
-	if (event->type == GDK_2BUTTON_PRESS) {
-		sig_edit_cb (GTK_WIDGET (tree_view), prefs);
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
 static void
 em_composer_prefs_construct (EMComposerPrefs *prefs,
                              EShell *shell)
 {
 	GtkWidget *toplevel, *widget, *menu, *info_pixmap;
+	GtkWidget *container;
 	EShellSettings *shell_settings;
-	GtkDialog *dialog;
+	ESignatureList *signature_list;
+	ESignatureTreeView *signature_tree_view;
 	GladeXML *gui;
 	GtkTreeView *view;
 	GtkListStore *store;
@@ -865,14 +512,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	GtkCellRenderer *renderer;
 	GConfBridge *bridge;
 	GConfClient *client;
-	const gchar *key;
 	gchar *buf;
 	EMConfig *ec;
 	EMConfigTargetPrefs *target;
 	GSList *l;
 	int i;
 	gchar *gladefile;
-	gboolean sensitive;
 
 	bridge = gconf_bridge_get ();
 	client = mail_config_get_gconf_client ();
@@ -883,7 +528,6 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 				      NULL);
 	gui = glade_xml_new (gladefile, "composer_toplevel", NULL);
 	prefs->gui = gui;
-	prefs->sig_script_gui = glade_xml_new (gladefile, "vbox_add_script_signature", NULL);
 	g_free (gladefile);
 
 	/** @HookPoint-EMConfig: Mail Composer Preferences
@@ -1015,72 +659,33 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 		NULL, NULL);
 
 	/* Signatures */
-	dialog = (GtkDialog *) gtk_dialog_new ();
+	signature_list = e_get_signature_list ();
+	container = glade_xml_get_widget (gui, "alignSignatures");
+	widget = e_signature_manager_new (signature_list);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
 
-	gtk_widget_realize ((GtkWidget *) dialog);
-	gtk_container_set_border_width ((GtkContainer *)dialog->action_area, 12);
-	gtk_container_set_border_width ((GtkContainer *)dialog->vbox, 0);
+	/* The mail shell module responds to the "window-created" signal
+	 * that this triggers and configures it with composer preferences. */
+	g_signal_connect_swapped (
+		widget, "editor-created",
+		G_CALLBACK (e_shell_watch_window), shell);
 
-	prefs->sig_script_dialog = (GtkWidget *) dialog;
-	gtk_dialog_add_buttons (dialog, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-				GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, NULL);
-	gtk_dialog_set_has_separator (dialog, FALSE);
-	gtk_window_set_title ((GtkWindow *) dialog, _("Add signature script"));
-	g_signal_connect (dialog, "response", G_CALLBACK (sig_add_script_response), prefs);
-	widget = glade_xml_get_widget (prefs->sig_script_gui, "vbox_add_script_signature");
-	gtk_box_pack_start ((GtkBox *) dialog->vbox, widget, TRUE, TRUE, 0);
+	e_binding_new (
+		G_OBJECT (shell_settings), "composer-format-html",
+		G_OBJECT (widget), "prefer-html");
 
-	key = "/apps/evolution/mail/signatures";
-	sensitive = gconf_client_key_is_writable (client, key, NULL);
-
-	widget = glade_xml_get_widget (gui, "cmdSignatureAdd");
-	gtk_widget_set_sensitive (widget, sensitive);
-	g_signal_connect (
-		widget, "clicked",
-		G_CALLBACK (sig_add_cb), prefs);
-	prefs->sig_add = GTK_BUTTON (widget);
-
-	widget = glade_xml_get_widget (gui, "cmdSignatureAddScript");
 	e_binding_new_with_negation (
 		G_OBJECT (shell_settings), "disable-command-line",
-		G_OBJECT (widget), "sensitive");
-	g_signal_connect (
-		widget, "clicked",
-		G_CALLBACK (sig_add_script_cb), prefs);
-	prefs->sig_add_script = GTK_BUTTON (widget);
+		G_OBJECT (widget), "allow-scripts");
 
-	widget = glade_xml_get_widget (gui, "cmdSignatureEdit");
-	gtk_widget_set_sensitive (widget, sensitive);
-	g_signal_connect (
-		widget, "clicked",
-		G_CALLBACK (sig_edit_cb), prefs);
-	prefs->sig_edit = GTK_BUTTON (widget);
-
-	widget = glade_xml_get_widget (gui, "cmdSignatureDelete");
-	gtk_widget_set_sensitive (widget, sensitive);
-	g_signal_connect (
-		widget, "clicked",
-		G_CALLBACK (sig_delete_cb), prefs);
-	prefs->sig_delete = GTK_BUTTON (widget);
-
-	widget = glade_xml_get_widget (gui, "listSignatures");
-	gtk_widget_set_sensitive (widget, sensitive);
-	prefs->sig_list = GTK_TREE_VIEW (widget);
-	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_POINTER);
-	gtk_tree_view_set_model (prefs->sig_list, GTK_TREE_MODEL (store));
-	gtk_tree_view_insert_column_with_attributes (
-		prefs->sig_list, -1, _("Signature(s)"),
-		gtk_cell_renderer_text_new (), "text", 0, NULL);
-	selection = gtk_tree_view_get_selection (prefs->sig_list);
-	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
+	signature_tree_view = e_signature_manager_get_tree_view (
+		E_SIGNATURE_MANAGER (widget));
+	selection = gtk_tree_view_get_selection (
+		GTK_TREE_VIEW (signature_tree_view));
 	g_signal_connect (
 		selection, "changed",
 		G_CALLBACK (sig_selection_changed), prefs);
-	g_signal_connect (
-		prefs->sig_list, "event",
-		G_CALLBACK (sig_tree_event_cb), prefs);
-
-	sig_fill_list (prefs);
 
 	/* preview GtkHTML widget */
 	widget = glade_xml_get_widget (gui, "scrolled-sig");
@@ -1098,10 +703,6 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	e_config_set_target ((EConfig *)ec, (EConfigTarget *)target);
 	toplevel = e_config_create_widget ((EConfig *)ec);
 	gtk_container_add (GTK_CONTAINER (prefs), toplevel);
-
-	g_signal_connect (
-		prefs->sig_list, "key-press-event",
-		G_CALLBACK (signature_key_press_cb), prefs);
 }
 
 GtkWidget *

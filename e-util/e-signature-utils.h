@@ -1,4 +1,6 @@
 /*
+ * e-signature-utils.h
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -18,7 +20,7 @@
 #ifndef E_SIGNATURE_UTILS_H
 #define E_SIGNATURE_UTILS_H
 
-#include <glib.h>
+#include <gtk/gtk.h>
 #include <e-util/e-signature.h>
 #include <e-util/e-signature-list.h>
 
@@ -27,6 +29,10 @@ G_BEGIN_DECLS
 ESignatureList *e_get_signature_list		(void);
 ESignature *	e_get_signature_by_name		(const gchar *name);
 ESignature *	e_get_signature_by_uid		(const gchar *uid);
+gchar *		e_create_signature_file		(GError **error);
+gchar *		e_read_signature_file		(ESignature *signature,
+						 gboolean convert_to_html,
+						 GError **error);
 
 G_END_DECLS
 

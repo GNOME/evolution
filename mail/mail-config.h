@@ -111,8 +111,6 @@ gboolean mail_config_get_enable_magic_spacebar (void);
 struct _EAccountService  *mail_config_get_default_transport (void);
 
 /* signatures */
-struct _ESignature *mail_config_signature_new (const char *filename, gboolean script, gboolean html);
-
 char *mail_config_signature_run_script (const char *script);
 
 

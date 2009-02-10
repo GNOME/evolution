@@ -1,4 +1,6 @@
 /*
+ * e-signature-utils.c
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -17,7 +19,17 @@
 
 #include "e-signature-utils.h"
 
+#include <errno.h>
+#include <glib/gstdio.h>
 #include <gconf/gconf-client.h>
+#include <camel/camel-stream.h>
+#include <camel/camel-stream-fs.h>
+#include <camel/camel-stream-mem.h>
+#include <camel/camel-stream-filter.h>
+#include <camel/camel-mime-filter-charset.h>
+#include <camel/camel-mime-filter-tohtml.h>
+
+#include "e-util/e-util.h"
 
 static ESignatureList *global_signature_list;
 
@@ -69,4 +81,137 @@ e_get_signature_by_uid (const gchar *uid)
 
 	/* XXX ESignatureList misuses const. */
 	return (ESignature *) signature;
+}
+
+gchar *
+e_create_signature_file (GError **error)
+{
+	const gchar *data_dir;
+	gchar basename[32];
+	gchar *filename;
+	gchar *pathname;
+	gint32 ii;
+
+	data_dir = e_get_user_data_dir ();
+	pathname = g_build_filename (data_dir, "signatures", NULL);
+	filename = NULL;
+
+	if (g_mkdir_with_parents (pathname, 0700) < 0) {
+		g_set_error (
+			error, G_FILE_ERROR,
+			g_file_error_from_errno (errno),
+			"%s: %s", pathname, g_strerror (errno));
+		g_free (pathname);
+		return NULL;
+	}
+
+	for (ii = 0; ii < G_MAXINT32; ii++) {
+
+		g_snprintf (
+			basename, sizeof (basename),
+			"signature-%" G_GINT32_FORMAT, ii);
+
+		g_free (filename);
+		filename = g_build_filename (pathname, basename, NULL);
+
+		if (!g_file_test (filename, G_FILE_TEST_EXISTS)) {
+			gint fd;
+
+			fd = g_creat (filename, 0600);
+			if (fd >= 0) {
+				close (fd);
+				break;
+			}
+
+			/* If we failed once we're probably going
+			 * to continue failing, so just give up. */
+			g_set_error (
+				error, G_FILE_ERROR,
+				g_file_error_from_errno (errno),
+				"%s: %s", filename, g_strerror (errno));
+			g_free (filename);
+			filename = NULL;
+			break;
+		}
+	}
+
+	/* If there are actually G_MAXINT32 signature files, the
+	 * most recent signature file we be overwritten.  Sorry. */
+
+	return filename;
+}
+
+gchar *
+e_read_signature_file (ESignature *signature,
+                       gboolean convert_to_html,
+                       GError **error)
+{
+	CamelStream *input_stream;
+	CamelStream *output_stream;
+	GByteArray *buffer;
+	gchar *content;
+	gsize length;
+	gint fd;
+
+	g_return_val_if_fail (E_IS_SIGNATURE (signature), NULL);
+
+	fd = g_open (signature->filename, O_RDONLY, 0);
+	if (fd < 0) {
+		g_set_error (
+			error, G_FILE_ERROR,
+			g_file_error_from_errno (errno),
+			"%s: %s", signature->filename,
+			g_strerror (errno));
+		return NULL;
+	}
+
+	input_stream = camel_stream_fs_new_with_fd (fd);
+
+	if (!signature->html && convert_to_html) {
+		CamelStreamFilter *filtered_stream;
+		CamelMimeFilter *filter;
+		gint32 flags;
+
+		filtered_stream =
+			camel_stream_filter_new_with_stream (input_stream);
+		camel_object_unref (input_stream);
+
+		flags =
+			CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT |
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES |
+			CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
+		filter = camel_mime_filter_tohtml_new (flags, 0);
+		camel_stream_filter_add (filtered_stream, filter);
+		camel_object_unref (filter);
+
+		input_stream = (CamelStream *) filtered_stream;
+	}
+
+	buffer = g_byte_array_new ();
+	output_stream = camel_stream_mem_new ();
+	camel_stream_mem_set_byte_array (
+		CAMEL_STREAM_MEM (output_stream), buffer);
+	camel_stream_write_to_stream (input_stream, output_stream);
+	camel_object_unref (output_stream);
+	camel_object_unref (input_stream);
+
+	/* Make sure the buffer is nul-terminated. */
+	length = (gsize) buffer->len;
+	g_byte_array_append (buffer, (guint8 *) "", 1);
+	content = (gchar *) g_byte_array_free (buffer, FALSE);
+
+	/* Signatures are saved as UTF-8, but we still need to check that
+	 * the signature is valid UTF-8 because the user may be opening
+	 * a signature file that is in his/her locale character set.  If
+	 * it's not in UTF-8 then try converting from the current locale. */
+	if (!g_utf8_validate (content, length, NULL)) {
+		gchar *utf8;
+
+		utf8 = g_locale_to_utf8 (content, length, NULL, NULL, error);
+		g_free (content);
+		content = utf8;
+	}
+
+	return content;
 }

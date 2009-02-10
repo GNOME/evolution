@@ -69,20 +69,7 @@ struct _EMComposerPrefs {
 	GtkOptionMenu *shortcuts_type;
 
 	/* Signatures */
-	GtkTreeView *sig_list;
-	GHashTable *sig_hash;
-	GtkButton *sig_add;
-	GtkButton *sig_add_script;
-	GtkButton *sig_edit;
-	GtkButton *sig_delete;
 	struct _GtkHTML *sig_preview;
-
-	GladeXML *sig_script_gui;
-	GtkWidget *sig_script_dialog;
-
-	guint sig_added_id;
-	guint sig_removed_id;
-	guint sig_changed_id;
 };
 
 struct _EMComposerPrefsClass {
