@@ -551,7 +551,7 @@ emfb_init(GObject *o)
 
 	gtk_widget_show(emfb->vpane);
 
-	gtk_box_pack_start_defaults((GtkBox *)emfb, emfb->vpane);
+	gtk_box_pack_start((GtkBox *)emfb, emfb->vpane, TRUE, TRUE, 0);
 
 	gtk_paned_pack1 (GTK_PANED (emfb->vpane), GTK_WIDGET (emfb->view.list), FALSE, FALSE);
 	gtk_widget_show((GtkWidget *)emfb->view.list);
@@ -784,7 +784,7 @@ void em_folder_browser_show_wide(EMFolderBrowser *emfb, gboolean state)
 	g_signal_connect(w, "realize", G_CALLBACK(emfb_pane_realised), emfb);
 	emfb->priv->vpane_resize_id = g_signal_connect(w, "button_release_event", G_CALLBACK(emfb_pane_button_release_event), emfb);
 
-	gtk_box_pack_start_defaults((GtkBox *)emfb, w);
+	gtk_box_pack_start((GtkBox *)emfb, w, TRUE, TRUE, 0);
 	gtk_widget_reparent((GtkWidget *)emfb->view.list, w);
 	gtk_widget_reparent((GtkWidget *)emfb->priv->preview, w);
 	gtk_widget_destroy(emfb->vpane);

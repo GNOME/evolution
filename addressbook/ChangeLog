@@ -1,3 +1,8 @@
+2009-02-11  Andre Klapper  <a9016009@gmx.de>
+
+	* /gui/component/addressbook-migrate.c:
+	Substitute some deprecated gtk+ functions.
+
 2009-01-26  Matthew Barnes  <mbarnes@redhat.com>
 
 	* printing/test-print.c:

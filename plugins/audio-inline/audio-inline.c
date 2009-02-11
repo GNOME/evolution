@@ -263,7 +263,7 @@ org_gnome_audio_inline_add_button (GtkWidget *box, const char *stock_icon, GCall
 	g_signal_connect (button, "clicked", cb, data);
 
 	gtk_widget_show (button);
-	gtk_box_pack_end_defaults (GTK_BOX (box), button);
+	gtk_box_pack_end (GTK_BOX (box), button, TRUE, TRUE, 0);
 
 	return button;
 }

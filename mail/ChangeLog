@@ -1,3 +1,9 @@
+2009-02-11  Andre Klapper  <a9016009@gmx.de>
+
+	* em-folder-browser.c:
+	* em-migrate.c:
+	Substitute some deprecated gtk+ functions.
+
 2009-02-11  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #569700

@@ -1216,38 +1216,38 @@ em_migrate_setup_progress_dialog (const char *title, const char *desc)
 	/* Install the info image */
 	w = gtk_image_new_from_stock (GTK_STOCK_DIALOG_INFO, GTK_ICON_SIZE_DIALOG);
 	gtk_misc_set_alignment (GTK_MISC (w), 0.5, 0.0);
-	gtk_box_pack_start_defaults (GTK_BOX (hbox), w);
+	gtk_box_pack_start (GTK_BOX (hbox), w, TRUE, TRUE, 0);
 
 	/* Prepare the message */
 	vbox = gtk_vbox_new (FALSE, 12);
 	gtk_widget_show (vbox);
-	gtk_box_pack_start_defaults (GTK_BOX (hbox), vbox);
+	gtk_box_pack_start (GTK_BOX (hbox), vbox, TRUE, TRUE, 0);
 
 	w = gtk_label_new (NULL);
 	gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.0);
 	markup = g_strconcat ("<big><b>", title ? title : _("Migration"), "</b></big>", NULL);
 	gtk_label_set_markup (GTK_LABEL (w), markup);
-	gtk_box_pack_start_defaults (GTK_BOX (vbox), w);
+	gtk_box_pack_start (GTK_BOX (vbox), w, TRUE, TRUE, 0);
 	g_free (markup);
 	
 	w = gtk_label_new (desc);
 	gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.0);
 	gtk_label_set_line_wrap (GTK_LABEL (w), TRUE);
-	gtk_box_pack_start_defaults (GTK_BOX (vbox), w);
+	gtk_box_pack_start (GTK_BOX (vbox), w, TRUE, TRUE, 0);
 
 	/* Progress bar */
 	w = gtk_vbox_new (FALSE, 6);
-	gtk_box_pack_start_defaults (GTK_BOX (vbox), w);
+	gtk_box_pack_start (GTK_BOX (vbox), w, TRUE, TRUE, 0);
 	
 	label = GTK_LABEL (gtk_label_new (""));
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
 	gtk_label_set_line_wrap (label, TRUE);
 	gtk_widget_show (GTK_WIDGET (label));
-	gtk_box_pack_start_defaults (GTK_BOX (w), GTK_WIDGET (label));
+	gtk_box_pack_start (GTK_BOX (w), GTK_WIDGET (label), TRUE, TRUE, 0);
 
 	progress = GTK_PROGRESS_BAR (gtk_progress_bar_new ());
 	gtk_widget_show (GTK_WIDGET (progress));
-	gtk_box_pack_start_defaults (GTK_BOX (w), GTK_WIDGET (progress));
+	gtk_box_pack_start (GTK_BOX (w), GTK_WIDGET (progress), TRUE, TRUE, 0);
 
 	gtk_container_add (GTK_CONTAINER (window), hbox);
 	gtk_widget_show_all (hbox);
