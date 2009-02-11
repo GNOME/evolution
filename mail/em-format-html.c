@@ -523,6 +523,10 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, int cancelled)
 		costream = camel_data_cache_add(emfh_http_cache, EMFH_HTTP_CACHE_PATH, job->u.uri, NULL);
 
 	do {
+		if (camel_operation_cancel_check (NULL)) {
+			n = -1;
+			break;
+		}
 		/* FIXME: progress reporting in percentage, can we get the length always?  do we care? */
 		n = camel_stream_read(instream, buffer, sizeof (buffer));
 		if (n > 0) {
