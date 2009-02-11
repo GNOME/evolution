@@ -533,17 +533,12 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, int cancelled)
 				camel_operation_progress(NULL, pc_complete);
 			}
 			d(printf("  read %d bytes\n", n));
-			if (costream && camel_stream_write(costream, buffer, n) == -1) {
-				camel_data_cache_remove(emfh_http_cache, EMFH_HTTP_CACHE_PATH, job->u.uri, NULL);
-				camel_object_unref(costream);
-				costream = NULL;
+			if (costream && camel_stream_write (costream, buffer, n) == -1) {
+				n = -1;
+				break;
 			}
 
 			camel_stream_write(job->stream, buffer, n);
-		} else if (n < 0 && costream) {
-			camel_data_cache_remove(emfh_http_cache, EMFH_HTTP_CACHE_PATH, job->u.uri, NULL);
-			camel_object_unref(costream);
-			costream = NULL;
 		}
 	} while (n>0);
 
@@ -551,8 +546,12 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, int cancelled)
 	if (n == 0)
 		camel_stream_close(job->stream);
 
-	if (costream)
+	if (costream) {
+		/* do not store broken files in a cache */
+		if (n != 0)
+			camel_data_cache_remove(emfh_http_cache, EMFH_HTTP_CACHE_PATH, job->u.uri, NULL);
 		camel_object_unref(costream);
+	}
 
 	camel_object_unref(instream);
 done:
