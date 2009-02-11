@@ -1,3 +1,10 @@
+2009-02-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #333716
+
+	* em-format-html.c: (emfh_gethttp):
+	Do not store incomplete or broken files in a cache.
+
 2009-02-03  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #569986
