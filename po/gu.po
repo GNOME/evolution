@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
-"POT-Creation-Date: 2009-02-04 22:33+0000\n"
-"PO-Revision-Date: 2009-02-05 14:24+0530\n"
+"POT-Creation-Date: 2009-02-05 08:57+0000\n"
+"PO-Revision-Date: 2009-02-12 17:36+0530\n"
 "Last-Translator: Sweta Kothari <swkothar@redhat.com>\n"
 "Language-Team: Gujarati\n"
 "MIME-Version: 1.0\n"
@@ -92,7 +92,6 @@ msgstr ""
 #: ../a11y/addressbook/ea-addressbook-view.c:94
 #: ../a11y/addressbook/ea-addressbook-view.c:103
 #: ../a11y/addressbook/ea-minicard-view.c:179
-#| msgid "evolution addressbook"
 msgid "evolution address book"
 msgstr "ઈવોલ્યુશન સરનામા પુસ્તિકા"
 
@@ -412,8 +411,8 @@ msgid ""
 "'{0}' is a read-only address book and cannot be modified. Please select a "
 "different address book from the side bar in the Contacts view."
 msgstr ""
-"'{0}' એ માત્ર-વાંચી શકાય તેવી સરનામા પુસ્તિકા છે અને તેને બદલી શકાતી નથી. મહેરબાની કરીને સંપર્કો દેખાવમાં "
-"બાજુ પટ્ટી માંથી વિવિદ સરનામાં ચોપડી ને પસંદ કરો."
+"'{0}' એ માત્ર-વાંચી શકાય તેવી સરનામા પુસ્તિકા છે અને તેને બદલી શકાતી નથી. મહેરબાની "
+"કરીને સંપર્કો દેખાવમાં બાજુ પટ્ટી માંથી વિવિદ સરનામાં ચોપડી ને પસંદ કરો."
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid ""
@@ -454,7 +453,6 @@ msgid "Could not get schema information for LDAP server."
 msgstr "LDAP સર્વર માટે પદ્ધતિની જાણકારી મેળવી શકાઈ નહી."
 
 #: ../addressbook/addressbook.error.xml.h:10
-#| msgid "Could not remove addressbook."
 msgid "Could not remove address book."
 msgstr "સરનામાપોથી દૂર કરી શકાઈ નહિ."
 
@@ -474,7 +472,6 @@ msgid "Delete address book '{0}'?"
 msgstr "સરનામા પુસ્તિકા '{૦}' કાઢી નાંખવી છે?"
 
 #: ../addressbook/addressbook.error.xml.h:13
-#| msgid "Error loading addressbook."
 msgid "Error loading address book."
 msgstr "સરનામાપોથી લોડ કરવામાં ભૂલ."
 
@@ -510,7 +507,6 @@ msgid "Some features may not work properly with your current server"
 msgstr "અમુક લક્ષણો તમારા વર્તમાન સર્વર સાથે યોગ્ય રીતે કામ કરશે નહિં"
 
 #: ../addressbook/addressbook.error.xml.h:21
-#| msgid "The Evolution addressbook has quit unexpectedly."
 msgid "The Evolution address book has quit unexpectedly."
 msgstr "ઈવોલ્યુશન સરનામાપોથી અનિચ્છનીય રીતે બંધ થઈ ગઈ."
 
@@ -528,19 +524,14 @@ msgstr ""
 "કદાચ રુપરેખાંકિત થયેલ નથી. તમારા સંચાલકને શોધ માટેના આધારો માટે પૂછો."
 
 #: ../addressbook/addressbook.error.xml.h:24
-#| msgid "This addressbook could not be opened."
 msgid "This address book could not be opened."
 msgstr "આ સરનામાપોથી ખોલી શકાઈ નહિ."
 
 #: ../addressbook/addressbook.error.xml.h:25
-#| msgid "This addressbook server does not have any suggested search bases."
 msgid "This address book server does not have any suggested search bases."
 msgstr "આ સરનામાપોથી સર્વર પાસે કોઈ શોધાયેલ આધારો નથી."
 
 #: ../addressbook/addressbook.error.xml.h:26
-#| msgid ""
-#| "This addressbook server might be unreachable or the server name may be "
-#| "misspelled or your network connection could be down."
 msgid ""
 "This address book server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
@@ -557,7 +548,6 @@ msgid "This server does not support LDAPv3 schema information."
 msgstr "આ સર્વર LDAPv3 પદ્ધતિની જાણકારીને આધાર આપતું નથી."
 
 #: ../addressbook/addressbook.error.xml.h:29
-#| msgid "Unable to open addressbook"
 msgid "Unable to open address book"
 msgstr "સરનામાપોથી ખોલવા માટે અસમર્થ"
 
@@ -574,9 +564,6 @@ msgid "Would you like to save your changes?"
 msgstr "શું તમે તમારા ફેરફારો સંગ્રહવા માંગો છો?"
 
 #: ../addressbook/addressbook.error.xml.h:33
-#| msgid ""
-#| "You are attempting to move a contact from one addressbook to another but "
-#| "it cannot be removed from the source. Do you want to save a copy instead?"
 msgid ""
 "You are attempting to move a contact from one address book to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
@@ -647,7 +634,6 @@ msgstr "મૂળભુત સીંક સરનામુ:"
 
 #: ../addressbook/conduit/address-conduit.c:1521
 #: ../addressbook/conduit/address-conduit.c:1522
-#| msgid "Could not load addressbook"
 msgid "Could not load address book"
 msgstr "સરનામાપોથી ને લોડ કરી શકાયુ નહિં"
 
@@ -705,7 +691,6 @@ msgid "Evolution Address Book component"
 msgstr "ઈવોલ્યુશન સરનામા પુસ્તિકા ભાગ"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:11
-#| msgid "Evolution S/Mime Certificate Management Control"
 msgid "Evolution S/MIME Certificate Management Control"
 msgstr "ઈવોલ્યુશન S/MIME પ્રમાણપત્ર વ્યવસ્થા નિયંત્રણ"
 
@@ -1264,9 +1249,6 @@ msgstr ""
 "શોધના આધારની નીચેના એક સ્તરના પ્રવેશ સુધી જ શોધે છે."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:41
-#| msgid ""
-#| "This is the full name of your ldap server. For example, \"ldap.mycompany."
-#| "com\"."
 msgid ""
 "This is the full name of your LDAP server. For example, \"ldap.mycompany.com"
 "\"."
@@ -1472,7 +1454,6 @@ msgstr "લાડકુ નામ (_k):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:19
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:54
-#| msgid "Novell Groupwise"
 msgid "Novell GroupWise"
 msgstr "Novell જૂથ પ્રમાણે"
 
@@ -2636,7 +2617,6 @@ msgstr "ICQ"
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:60
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:183
 #: ../addressbook/gui/widgets/eab-contact-display.c:612
-#| msgid "Type"
 msgid "Skype"
 msgstr "Skype"
 
@@ -3703,7 +3683,6 @@ msgstr "અયોગ્ય સર્વર આવૃત્તિ"
 
 #. E_BOOK_ERROR_UNSUPPORTED_AUTHENTICATION_METHOD
 #: ../addressbook/gui/widgets/eab-gui-util.c:80
-#| msgid "Unsupported operation"
 msgid "Unsupported authentication method"
 msgstr "બિનઆધારભૂત સત્તાધિકરણ પદ્દત્તિ"
 
@@ -3760,8 +3739,6 @@ msgstr ""
 "સર્વર પહોંચી શકાય એમ નથી."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:148
-#| msgid "Total messages:"
-#| msgid_plural "Total messages:"
 msgid "Detailed error message:"
 msgstr "વિગત થયેલ ભૂલ સંદેશ:"
 
@@ -3960,7 +3937,6 @@ msgid "Show Compact vCard"
 msgstr "સંકુચિત vCard બતાવો"
 
 #: ../addressbook/gui/widgets/eab-vcard-control.c:282
-#| msgid "Save in addressbook"
 msgid "Save in address book"
 msgstr "સરનામાપોથીમાં સંગ્રહો"
 
@@ -4202,7 +4178,6 @@ msgid "Can not open file"
 msgstr "ફાઈલ ખોલી શકાસે નહિં"
 
 #: ../addressbook/tools/evolution-addressbook-export-list-folders.c:44
-#| msgid "Couldn't get list of addressbooks"
 msgid "Couldn't get list of address books"
 msgstr "સરનામાપોથીઓની યાદી મેળવી શકાઈ નહિં"
 
@@ -4219,7 +4194,6 @@ msgid "OUTPUTFILE"
 msgstr "OUTPUTFILE"
 
 #: ../addressbook/tools/evolution-addressbook-export.c:52
-#| msgid "List local addressbook folders"
 msgid "List local address book folders"
 msgstr "સ્થાનિક સરનામાપોથી ફોલ્ડરોની યાદી આપો"
 
@@ -4271,8 +4245,8 @@ msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar from the side bar in the Calendar view."
 msgstr ""
-"'{0}' એ કૅલેન્ડર ને ફક્ત વાંચે છે અને તેને બદલી શકાતુ નથી. મહેરબાની કરીને કૅલેન્ડર દેખાવમાં "
-"બાજુ પટ્ટી માંથી વિવિધ કૅલેન્ડર ને પસંદ કરો."
+"'{0}' એ કૅલેન્ડર ને ફક્ત વાંચે છે અને તેને બદલી શકાતુ નથી. મહેરબાની કરીને કૅલેન્ડર દેખાવમાં બાજુ "
+"પટ્ટી માંથી વિવિધ કૅલેન્ડર ને પસંદ કરો."
 
 #. For Translators: {0} is the name of the calendar source
 #: ../calendar/calendar.error.xml.h:4
@@ -4392,7 +4366,6 @@ msgid "Are you sure you want to send the task without a summary?"
 msgstr "શું તમે ખરેખર બાબર સાર વિના મોકલવા માંગો છો?"
 
 #: ../calendar/calendar.error.xml.h:28
-#| msgid "Repository offline"
 msgid "Calendar repository is offline."
 msgstr "કૅલેન્ડર રીપોઝીટરી ઓફલાઈન છે."
 
@@ -4456,7 +4429,6 @@ msgstr "બાબત યાદી લાવવામાં ભૂલ"
 
 #. For Translators: {0} is specify the backend server
 #: ../calendar/calendar.error.xml.h:44
-#| msgid "Error while {0}."
 msgid "Error on '{0}'"
 msgstr "'{0}' પર ભૂલ"
 
@@ -4483,18 +4455,14 @@ msgid "No response from the server."
 msgstr "સર્વર માંથી જવાબ નથી."
 
 #: ../calendar/calendar.error.xml.h:49
-#| msgid "New Appointment"
 msgid "Save Appointment"
 msgstr "મુલાકાત ને સંગ્રહો"
 
 #: ../calendar/calendar.error.xml.h:50
-#| msgctxt "New"
-#| msgid "_Shared memo"
 msgid "Save Memo"
 msgstr "મેમો સંગ્રહો"
 
 #: ../calendar/calendar.error.xml.h:51
-#| msgid "Save as..."
 msgid "Save Task"
 msgstr "કાર્ય સંગ્રહો"
 
@@ -4531,7 +4499,6 @@ msgid "The Evolution calendar has quit unexpectedly."
 msgstr "ઈવોલ્યુશન કેલેન્ડરમાંથી અનિચ્છનિય રીતે બહાર નીકળી ગયા."
 
 #: ../calendar/calendar.error.xml.h:59
-#| msgid "The Evolution calendar has quit unexpectedly."
 msgid "The Evolution calendars have quit unexpectedly."
 msgstr "ઈવોલ્યુશન કેલેન્ડરમાંથી અનિચ્છનિય રીતે બહાર નીકળી ગયા."
 
@@ -4568,7 +4535,6 @@ msgid "This task list will be removed permanently."
 msgstr "આ બાબત યાદી કાયમ માટે દૂર થઈ જશે."
 
 #: ../calendar/calendar.error.xml.h:68
-#| msgid "Failed to load the calendar '%s'"
 msgid "Unable to load the calendar"
 msgstr "કેલેન્ડર લોડ કરવામાં અસમર્થ"
 
@@ -5243,7 +5209,6 @@ msgid "Show type field in the event/task/meeting editor"
 msgstr "ઘટના/ક્રિયા/મંત્રણા સંપાદકમાં લખો ક્ષેત્ર બતાવો"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:63
-#| msgid "Show week numbers in date navigator"
 msgid "Show week number in Day and Work Week View"
 msgstr "દિવસમાં અને કામ કરવાનાં અઠવાડિયા દર્શક માં અઠવાડિયા નંબર ને બતાવો"
 
@@ -5584,7 +5549,6 @@ msgid "New appointment"
 msgstr "નવી મુલાકાત"
 
 #: ../calendar/gui/calendar-component.c:1488
-#| msgid "_Appointment"
 msgctxt "New"
 msgid "_Appointment"
 msgstr "મુલાકાત (_A)"
@@ -5598,7 +5562,6 @@ msgid "New meeting"
 msgstr "નવી મંત્રણા"
 
 #: ../calendar/gui/calendar-component.c:1496
-#| msgid "M_eeting"
 msgctxt "New"
 msgid "M_eeting"
 msgstr "મંત્રણા (_e)"
@@ -5612,7 +5575,6 @@ msgid "New all day appointment"
 msgstr "નવી બધા દિવસની મુલાકાત"
 
 #: ../calendar/gui/calendar-component.c:1504
-#| msgid "All Day A_ppointment"
 msgctxt "New"
 msgid "All Day A_ppointment"
 msgstr "બધા દિવસની મુલાકાત (_p)"
@@ -5626,7 +5588,6 @@ msgid "New calendar"
 msgstr "નવું કેલેન્ડર"
 
 #: ../calendar/gui/calendar-component.c:1512
-#| msgid "Cale_ndar"
 msgctxt "New"
 msgid "Cale_ndar"
 msgstr "કેલેન્ડર (_n)"
@@ -5941,7 +5902,6 @@ msgid "Selected Calendars for Alarms"
 msgstr "એલાર્મ માટે પસંદ કરેલ કેલેન્ડરો"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
-#| msgid "Show _field in View"
 msgid "(Shown in a Day View)"
 msgstr "(દિવસ દેખાવમાં બતાવેલ છે)"
 
@@ -6059,7 +6019,6 @@ msgid "Saturday"
 msgstr "શનિવાર"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
-#| msgid "Send To:"
 msgid "Se_cond zone:"
 msgstr "બીજો ઝોન (_c):"
 
@@ -6072,7 +6031,6 @@ msgid "Sh_ow a reminder"
 msgstr "રીમાઈન્ડર બતાવો (_o)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
-#| msgid "Sh_ow a reminder"
 msgid "Show a _reminder"
 msgstr "રીમાઈન્ડર બતાવો (_r)"
 
@@ -7302,7 +7260,6 @@ msgid "Categor_ies..."
 msgstr "વર્ગો (_i)..."
 
 #: ../calendar/gui/dialogs/task-page.glade.h:3
-#| msgid "_Due date:"
 msgid "D_ue date:"
 msgstr "છેલ્લી તારીખ (_u):"
 
@@ -7840,7 +7797,6 @@ msgid "Delegated"
 msgstr "ડિલિગેટ થયેલ"
 
 #: ../calendar/gui/e-calendar-view.c:2258
-#| msgid "Needs Action"
 msgid "Needs action"
 msgstr "ક્રિયા જરુરી છે"
 
@@ -7885,7 +7841,6 @@ msgid "%02i minute divisions"
 msgstr "%02i મિનિટ ભાગલાઓ"
 
 #: ../calendar/gui/e-day-view-time-item.c:771
-#| msgid "Show the \"Preview\" pane"
 msgid "Show the second time zone"
 msgstr "બીજા ટાઇમ ઝોનને બતાવો"
 
@@ -7915,7 +7870,6 @@ msgstr "સાંજ"
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
 #: ../calendar/gui/e-day-view.c:2322
 #, c-format
-#| msgid "Week"
 msgid "Week %d"
 msgstr "અઠવાડિયુ %d"
 
@@ -7975,8 +7929,6 @@ msgstr[1] "દર %d વર્ષે"
 
 #: ../calendar/gui/e-itip-control.c:869
 #, c-format
-#| msgid "a total of %d time"
-#| msgid_plural " a total of %d times"
 msgid "a total of %d time"
 msgid_plural "a total of %d times"
 msgstr[0] "%d સમયનું કુલ"
@@ -8704,7 +8656,6 @@ msgstr "કેલેન્ડર જાણકારી"
 #. * The full subject line would be:
 #. * "Accepted: Meeting Name".
 #: ../calendar/gui/itip-utils.c:674
-#| msgid "Accepted"
 msgctxt "Meeting"
 msgid "Accepted"
 msgstr "સ્વીકારાયેલ"
@@ -8714,7 +8665,6 @@ msgstr "સ્વીકારાયેલ"
 #. * The full subject line would be:
 #. * "Tentatively Accepted: Meeting Name".
 #: ../calendar/gui/itip-utils.c:681
-#| msgid "Tentatively Accepted"
 msgctxt "Meeting"
 msgid "Tentatively Accepted"
 msgstr "ભાર મૂકીને સ્વીકારાયેલ છે"
@@ -8727,7 +8677,6 @@ msgstr "ભાર મૂકીને સ્વીકારાયેલ છે"
 #. * meeting request or update email.  The full subject
 #. * line would be: "Declined: Meeting Name".
 #: ../calendar/gui/itip-utils.c:688 ../calendar/gui/itip-utils.c:736
-#| msgid "Declined"
 msgctxt "Meeting"
 msgid "Declined"
 msgstr "નકારાયેલ છે"
@@ -8737,7 +8686,6 @@ msgstr "નકારાયેલ છે"
 #. * The full subject line would be:
 #. * "Delegated: Meeting Name".
 #: ../calendar/gui/itip-utils.c:695
-#| msgid "Delegated"
 msgctxt "Meeting"
 msgid "Delegated"
 msgstr "ડિલિગેટ થયેલ"
@@ -8746,7 +8694,6 @@ msgstr "ડિલિગેટ થયેલ"
 #. * meeting request or update email.  The full subject
 #. * line would be: "Updated: Meeting Name".
 #: ../calendar/gui/itip-utils.c:708
-#| msgid "Updated"
 msgctxt "Meeting"
 msgid "Updated"
 msgstr "સુધારાયેલ"
@@ -8755,7 +8702,6 @@ msgstr "સુધારાયેલ"
 #. * meeting request or update email.  The full subject
 #. * line would be: "Cancel: Meeting Name".
 #: ../calendar/gui/itip-utils.c:715
-#| msgid "Cancel"
 msgctxt "Meeting"
 msgid "Cancel"
 msgstr "રદ કરો"
@@ -8764,7 +8710,6 @@ msgstr "રદ કરો"
 #. * meeting request or update email.  The full subject
 #. * line would be: "Refresh: Meeting Name".
 #: ../calendar/gui/itip-utils.c:722
-#| msgid "Refresh"
 msgctxt "Meeting"
 msgid "Refresh"
 msgstr "ફરી તાજુ કરો"
@@ -10870,7 +10815,6 @@ msgid "Save the current file with a different name"
 msgstr "વર્તમાન ફાઈલ અલગ નામથી સંગ્રહો"
 
 #: ../composer/e-composer-actions.c:511
-#| msgid "Save as draft"
 msgid "Save as _Draft"
 msgstr "ડ્રાફ્ટ તરીકે સંગ્રહો (_D)"
 
@@ -11011,7 +10955,6 @@ msgid "Toggles whether the To field is displayed"
 msgstr "શું પ્રતિ ક્ષેત્ર પ્રદર્શિત છે કે નહિં તે ફેરબદલી કરો"
 
 #: ../composer/e-composer-actions.c:699
-#| msgid "Save _Draft"
 msgid "Save Draft"
 msgstr "ડ્રાફ્ટ સંગ્રહો"
 
@@ -11429,7 +11372,6 @@ msgid "Could not open the link."
 msgstr "કડી ને ખોલી શક્યા નહિં."
 
 #: ../e-util/e-util.c:174
-#| msgid "Could not update folder permissions."
 msgid "Could not display help for Evolution."
 msgstr "ઇવોલ્યુશન માટે મદદ ને દર્શાવી શક્યા નહિં."
 
@@ -11618,22 +11560,18 @@ msgid "R_ule name:"
 msgstr "નિયમ નામ (_u):"
 
 #: ../filter/filter-rule.c:881
-#| msgid "Find items that meet the following criteria"
 msgid "Find items that meet the following conditions"
 msgstr "વસ્તુઓ શોધો કે જે નીચેની શરતો મળી આવે"
 
 #: ../filter/filter-rule.c:915
-#| msgid "Add Ac_tion"
 msgid "A_dd Condition"
 msgstr "શરતને ઉમેરો (_d)"
 
 #: ../filter/filter-rule.c:921
-#| msgid "If all criteria are met"
 msgid "If all conditions are met"
 msgstr "જો બધી શરતો મળી જાય"
 
 #: ../filter/filter-rule.c:921
-#| msgid "If any criteria are met"
 msgid "If any conditions are met"
 msgstr "જો કોઈ પણ શરતો મળી જાય"
 
@@ -12233,7 +12171,6 @@ msgid "Sender"
 msgstr "મોકલનાર"
 
 #: ../mail/em-filter-i18n.h:62
-#| msgid "Send Receipt"
 msgid "Sender or Recipients"
 msgstr "મોકલનાર અથવા રસીદો"
 
@@ -12355,7 +12292,6 @@ msgstr[1] "કુલ સંદેશાઓ:"
 
 #: ../mail/em-folder-properties.c:196
 #, c-format
-#| msgid "Quota usage"
 msgid "Quota usage (%s):"
 msgstr "ક્વોટા વપરાશ (%s):"
 
@@ -12510,7 +12446,6 @@ msgid "_Empty Trash"
 msgstr "કચરાપેટી ખાલી કરો (_E)"
 
 #: ../mail/em-folder-tree.c:2243
-#| msgid "Create _Search Folder"
 msgid "_Unread Search Folder"
 msgstr "શોધ ફોલ્ડર વંચાયેલ નથી (_U)"
 
@@ -13151,7 +13086,6 @@ msgid "Later"
 msgstr "પછી"
 
 #: ../mail/em-migrate.c:1228
-#| msgid "Migrating..."
 msgid "Migration"
 msgstr "રુપાંતરિત"
 
@@ -13202,7 +13136,6 @@ msgid "Failed to create local mail storage `%s': %s"
 msgstr "સ્થાનિક મેઈલ સંગ્રહસ્થાન `%s' બનાવવામાં નિષ્ફળ: %s"
 
 #: ../mail/em-migrate.c:2974
-#| msgid "Creating folder `%s'"
 msgid "Migrating Folders"
 msgstr "સ્થળાંતર ફોલ્ડરો"
 
@@ -13315,7 +13248,6 @@ msgid "\"Send and Receive Mail\" window width"
 msgstr "\"મેઈલ મોકલો અને મેળવો\" વિન્ડો પહોળાઇ"
 
 #: ../mail/evolution-mail.schemas.in.h:4
-#| msgid "Allows evolution to display text part of limited size"
 msgid "Allows Evolution to display text part of limited size"
 msgstr "ઈવોલ્યુશનને મર્યાદિત માપનો લખાણ ભાગ દર્શાવવા માટે પરવાનગી આપે છે"
 
@@ -13672,7 +13604,6 @@ msgid "List of Labels and their associated colors"
 msgstr "લેબલો અને તેની સાથે સંકળાયેલ રંગોની યાદી"
 
 #: ../mail/evolution-mail.schemas.in.h:74
-#| msgid "List of mime types to check for bonobo component viewers"
 msgid "List of MIME types to check for Bonobo component viewers"
 msgstr "બોનોબો કમ્પોનન્ટ દર્શકોની માટે ચકાસણી કરવા mime પ્રકારોની યાદી"
 
@@ -13713,7 +13644,6 @@ msgid "List of protocol names whose license has been accepted."
 msgstr "પ્રોટોકોલ નામોની યાદી કે જેઓનું લાઈસન્સ સ્વીકારાયેલ છે."
 
 #: ../mail/evolution-mail.schemas.in.h:82
-#| msgid "Load images for HTML messages over http"
 msgid "Load images for HTML messages over HTTP"
 msgstr "HTTP ઉપર HTML સંદેશો માટે ઇમેજો ને લોડ કરો"
 
@@ -13770,7 +13700,7 @@ msgstr "સંદેશા વિન્ડોની મૂળભુત પહો
 
 #: ../mail/evolution-mail.schemas.in.h:94
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-msgstr "સંદેશા-પ્રદર્શન શૈલી (\"સામાન્ય\", \"આખી હેડરો\", \"સ્રોત\")"
+msgstr "સંદેશા-પ્રદર્શન શૈલી (\"normal (સામાન્ય)\", \"full headers (આખી હેડરો)\", \"source (સ્રોત)\")"
 
 #: ../mail/evolution-mail.schemas.in.h:95
 msgid "Minimum days between emptying the junk on exit"
@@ -13863,7 +13793,6 @@ msgid "Save directory"
 msgstr "ડિરેક્ટરી સંગ્રહો"
 
 #: ../mail/evolution-mail.schemas.in.h:116
-#| msgid "Search for the sender photo in local addressbooks"
 msgid "Search for the sender photo in local address books"
 msgstr "સ્થાનિક સરનામાપુસ્તિકાઓમાં મોકલનાર ફોટો માટે શોધો"
 
@@ -14623,7 +14552,6 @@ msgid "Empty trash folders on e_xit"
 msgstr "બહાર નીકળવા પર કચરાપેટી ફોલ્ડરો ખાલી કરો (_x)"
 
 #: ../mail/mail-config.glade.h:79
-#| msgid "Enable Magic S_pacebar "
 msgid "Enable Magic S_pacebar"
 msgstr "જાદુઈ જગ્યાપટ્ટી સક્રિય કરો (_p)"
 
@@ -14800,7 +14728,6 @@ msgid "S_OCKS Host:"
 msgstr "SOCKS યજમાન (_O)"
 
 #: ../mail/mail-config.glade.h:128
-#| msgid "S_earch for sender photograph only in local addressbooks"
 msgid "S_earch for sender photograph only in local address books"
 msgstr "સ્થાનિક સરનામાપુસ્તિકાઓમાં માત્ર મોકલનાર ફોટોગ્રાફ માટે જ શોધો (_e)"
 
@@ -14817,7 +14744,6 @@ msgid "S_tandard Font:"
 msgstr "પ્રમાણભૂત ફોન્ટ (_t):"
 
 #: ../mail/mail-config.glade.h:133
-#| msgid "Select Folder"
 msgid "Select Drafts Folder"
 msgstr "ડ્રાફ્ટ ફોલ્ડર ને પસંદ કરો"
 
@@ -14838,7 +14764,6 @@ msgid "Select HTML variable width font for printing"
 msgstr "છાપન માટે HTML ચલિત પહોળાઈ ફોન્ટ પસંદ કરો"
 
 #: ../mail/mail-config.glade.h:138
-#| msgid "Select Folder"
 msgid "Select Sent Folder"
 msgstr "મોકલો ફોલ્ડર ને પસંદ કરો"
 
@@ -16220,7 +16145,6 @@ msgid "Subject contains"
 msgstr "વિષય આ સમાવે છે"
 
 #: ../mail/searchtypes.xml.h:6
-#| msgid "Subject or Sender contains"
 msgid "Subject or Recipients contains"
 msgstr "વિષય અથવા રસીદોને સમાવે છે"
 
@@ -16677,17 +16601,14 @@ msgid "Weather: Cloudy"
 msgstr "હવામાન: વાદળિયું"
 
 #: ../plugins/calendar-weather/calendar-weather.c:63
-#| msgid "Weather: Cloudy"
 msgid "Weather: Cloudy Night"
 msgstr "હવામાન: વાદળિયું"
 
 #: ../plugins/calendar-weather/calendar-weather.c:64
-#| msgid "Weather: Rain"
 msgid "Weather: Overcast"
 msgstr "હવામાન: ઘેરાયેલું"
 
 #: ../plugins/calendar-weather/calendar-weather.c:65
-#| msgid "Weather: Snow"
 msgid "Weather: Showers"
 msgstr "હવામાન: બરફો"
 
@@ -16801,7 +16722,6 @@ msgid ""
 msgstr "કેલેન્ડર અથવા સરનામાપુસ્તિકાને મૂળભૂત બનાવવા માટે ચિહ્નિત કરવા માટેનું વિધેય પૂરું પાડે છે."
 
 #: ../plugins/email-custom-header/email-custom-header.c:334
-#| msgid "Security"
 msgid "Security:"
 msgstr "સુરક્ષા:"
 
@@ -16812,12 +16732,10 @@ msgid "Unclassified"
 msgstr "સહી કરેલ નથી"
 
 #: ../plugins/email-custom-header/email-custom-header.c:340
-#| msgid "Created"
 msgid "Protected"
 msgstr "સુરક્ષિત થયેલ"
 
 #: ../plugins/email-custom-header/email-custom-header.c:342
-#| msgid "Score"
 msgid "Secret"
 msgstr "ખાનગી"
 
@@ -16976,7 +16894,6 @@ msgid "A_uthenticate"
 msgstr "સત્તાધિકરણ કરો (_u)"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:777
-#| msgid "Specify _filename:"
 msgid "S_pecify the mailbox name"
 msgstr "મેઇલબોક્સ નામ ને સ્પષ્ટ કરો (_p)"
 
@@ -17845,8 +17762,8 @@ msgid ""
 "The external editor set in your plugin preferences cannot be launched. Try "
 "setting a different editor."
 msgstr ""
-"તમારા પલ્ગઇન પસંદગીઓમાં બહારનું સંપાદક સુયોજન એ પ્રકાશિત થયેલ નથી. વિવિધ સંપાદક સુયોજન કરવાનો "
-"પ્રયત્ન કરો."
+"તમારા પલ્ગઇન પસંદગીઓમાં બહારનું સંપાદક સુયોજન એ પ્રકાશિત થયેલ નથી. વિવિધ સંપાદક સુયોજન "
+"કરવાનો પ્રયત્ન કરો."
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:1
 msgid "Compose in _External Editor"
@@ -17925,12 +17842,10 @@ msgstr ""
 "%s"
 
 #: ../plugins/google-account-setup/google-source.c:683
-#| msgid "_Calendar:"
 msgid "Cal_endar:"
 msgstr "કેલેન્ડર (_e):"
 
 #: ../plugins/google-account-setup/google-source.c:718
-#| msgid "Retrieving `%s'"
 msgid "Retrieve _list"
 msgstr "યાદી ને મેળવી રહ્યા છે (_l)"
 
@@ -17945,7 +17860,6 @@ msgid "<b>Server</b>"
 msgstr "<b>સર્વર</b>"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
-#| msgid "A plugin to setup google calendar and contacts."
 msgid "A plugin to setup Google Calendar and Contacts."
 msgstr "google કેલેન્ડર અને સંપર્કો સુયોજીત કરવા માટેનું પ્લગઈન."
 
@@ -17958,12 +17872,10 @@ msgid "Checklist"
 msgstr "ચકાસણી યાદી"
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
-#| msgid "A plugin to setup groupwise calendar and contacts sources."
 msgid "A plugin to setup GroupWise calendar and contacts sources."
 msgstr "જૂથપ્રમાણે કેલેન્ડર અને સંપર્કો સ્રોતો સુયોજિત કરવા માટેનું પ્લગઈન."
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:2
-#| msgid "Groupwise Account Setup"
 msgid "GroupWise Account Setup"
 msgstr "જૂથપ્રમાણે ખાતા સુયોજન"
 
@@ -18053,17 +17965,14 @@ msgid "Retract Mail"
 msgstr "મેઈલ રીટ્રેક્ટ કરો"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
-#| msgid "Add Send Options to groupwise messages"
 msgid "Add Send Options to GroupWise messages"
 msgstr "જૂથપ્રમાણે સંદેશાઓને મોકલવા માટેના વિકલ્પો ઉમેરો"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
-#| msgid "A plugin for the features in Groupwise accounts."
 msgid "A plugin for the features in GroupWise accounts."
 msgstr "જૂથપ્રમાણે ખાતાઓમાં લક્ષણો માટેનું પ્લગઈન."
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
-#| msgid "Groupwise Features"
 msgid "GroupWise Features"
 msgstr "જૂથપ્રમાણે લક્ષણો"
 
@@ -18114,8 +18023,8 @@ msgid ""
 "Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email "
 "address and try again."
 msgstr ""
-"&quot;{0}&quot; તરીકે પ્રોક્સી પ્રવેશ એ સફળતાપૂર્વક ન હતો. મહેરહાની કરીને તમારા "
-"ઇમેઇલ સરનામાં ને ચકાસો અને ફરીથી પ્રયત્ન કરો."
+"&quot;{0}&quot; તરીકે પ્રોક્સી પ્રવેશ એ સફળતાપૂર્વક ન હતો. મહેરહાની કરીને તમારા ઇમેઇલ "
+"સરનામાં ને ચકાસો અને ફરીથી પ્રયત્ન કરો."
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:3
 msgid "This is a recurring meeting"
@@ -18132,7 +18041,6 @@ msgid "Would you like to decline it?"
 msgstr "શું તમે તેનું પતન થાય તેવું ગમે છે?"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:8
-#| msgid "You cannot share folder with specified user &quot;{0}&quot;"
 msgid "You cannot share this folder with the specified user &quot;{0}&quot;"
 msgstr "સ્પષ્ટ થયેલ વપરાશકર્તા &quot;{0}&quot; સાથે તમે આ ફોલ્ડરને વહેંચી શકતા નથી"
 
@@ -18266,7 +18174,6 @@ msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "પ્રોક્સી ટેબ માત્ર ત્યારે ઉપલબ્ધ હશે જ્યારે ખાતું સક્રિય કરેલ હોય."
 
 #: ../plugins/groupwise-features/send-options.c:214
-#| msgid "Insert advanced send options"
 msgid "Advanced send options"
 msgstr "અદ્યતન વિકલ્પો ને મોકલો"
 
@@ -19558,7 +19465,6 @@ msgid "_Unsubscribe from List"
 msgstr "યાદીમાંથી ઉમેદવારી દૂર કરો (_U)"
 
 #: ../plugins/mark-all-read/mark-all-read.c:39
-#| msgid "Moving messages into folder %s"
 msgid "Also mark messages in subfolders?"
 msgstr "ઉપફોલ્ડરો માં સંદેશાઓને પણ ચિહ્નિત કરો?"
 
@@ -19685,12 +19591,10 @@ msgid "Writes a log of profiling data events."
 msgstr "રૂપરેખાંકન માહિતી ઘટનાઓનો લોગ લખે છે."
 
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:1
-#| msgid "Import mail from Pine."
 msgid "Import Outlook messages from PST file"
 msgstr "PST ફાઇલ માંથી આઉટલુક સંદેશાઓ ને આયાત કરો"
 
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:2
-#| msgid "Outlook CSV and Tab Importer"
 msgid "Outlook PST import"
 msgstr "આઉટલુક PST આયાત"
 
@@ -19700,24 +19604,20 @@ msgstr "આઉટલુક વ્યક્તિગત ફોલ્ડરો (.p
 
 #. Address book
 #: ../plugins/pst-import/pst-importer.c:318
-#| msgid "Address Book"
 msgid "_Address Book"
 msgstr "સરનામા પોથી (_A)"
 
 #. Appointments
 #: ../plugins/pst-import/pst-importer.c:325
-#| msgid "Appointments"
 msgid "A_ppointments"
 msgstr "મુલાકાતો (_p)"
 
 #. Journal
 #: ../plugins/pst-import/pst-importer.c:337
-#| msgid "Journal"
 msgid "_Journal entries"
 msgstr "જર્નલ નોંધણીઓ (_J)"
 
 #: ../plugins/pst-import/pst-importer.c:352
-#| msgid "Importing Elm data"
 msgid "Importing Outlook data"
 msgstr "આઉટલુક માહિતી ને આયાત કરી રહ્યા છે"
 
@@ -19738,7 +19638,6 @@ msgid "_Publish Calendar Information"
 msgstr "કેલેન્ડર જાણકારી પ્રકાશિત કરો (_P)"
 
 #: ../plugins/publish-calendar/publish-calendar.c:596
-#| msgid "Are you sure you want to remove this URL?"
 msgid "Are you sure you want to remove this location?"
 msgstr "શું તમે ખરેખર આ સ્થાનને ને દૂર કરવા માંગો છો?"
 
@@ -19777,14 +19676,6 @@ msgid "Publishing _Frequency:"
 msgstr "પ્રકાશન આવૃત્તિ (_F):"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:13
-#| msgid ""
-#| "SSH\n"
-#| "Public FTP\n"
-#| "FTP (with login)\n"
-#| "Windows share\n"
-#| "WebDAV (HTTP)\n"
-#| "Secure WebDAV (HTTPS)\n"
-#| "Custom Location"
 msgid ""
 "Secure FTP (SSH)\n"
 "Public FTP\n"
@@ -19835,12 +19726,10 @@ msgstr ""
 "મુક્ત/વ્યસ્ત"
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:461
-#| msgid "Location"
 msgid "New Location"
 msgstr "નવુ સ્થાન"
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:463
-#| msgid "Location"
 msgid "Edit Location"
 msgstr "સ્થાનમાં ફેરફાર કરો"
 
@@ -19925,7 +19814,6 @@ msgstr ""
 "હોય એમ જરૂરી છે."
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
-#| msgid "Spamassassin Options"
 msgid "SpamAssassin Options"
 msgstr "Spamassassin વિકલ્પો"
 
@@ -20187,7 +20075,6 @@ msgid "Drafts based template plugin"
 msgstr "ડ્રાફ્ટો આધારિત ટેમ્પ્લેટ પ્લગઇન"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
-#| msgid "A simple plugin which uses ytnef to decode tnef attachments."
 msgid "A simple plugin which uses yTNEF to decode TNEF attachments."
 msgstr "સાદું પ્લગઈન કે જે TNEF જોડાણોને ડિકોડ કરવા માટે yTNEF વાપરે છે."
 
@@ -20262,7 +20149,9 @@ msgstr "મૂળભુત વિન્ડો પહોળાઈ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:8
 msgid "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
-msgstr "જ્યારે ઇન્ટરનેટ પર HTTP/Secure HTTP ને દાખલ કરી રહ્યા હોય ત્યારે પ્રોક્સી સુયોજનો ને સક્રિય કરો."
+msgstr ""
+"જ્યારે ઇન્ટરનેટ પર HTTP/Secure HTTP ને દાખલ કરી રહ્યા હોય ત્યારે પ્રોક્સી સુયોજનો ને "
+"સક્રિય કરો."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:9
 msgid "HTTP proxy host name"
@@ -20689,7 +20578,6 @@ msgid "Importer Type"
 msgstr "આયાત કરનારનો પ્રકાર"
 
 #: ../shell/import.glade.h:6
-#| msgid "Select folder to import into"
 msgid "Select Information to Import"
 msgstr "આયાત કરવા માટેની જાણકારીને પસંદ કરો"
 
@@ -20801,7 +20689,6 @@ msgid "Are you sure you want to forget all remembered passwords?"
 msgstr "શું તમે ખરેખર યાદ રાખેલા બધા પાસવર્ડો ભૂલી જવા માંગો છો?"
 
 #: ../shell/shell.error.xml.h:2
-#| msgid "Restart Evolution"
 msgid "Cannot start Evolution"
 msgstr "ઈવોલ્યુશન ને શરૂ કરી શકાતુ નથી"
 
@@ -21456,7 +21343,6 @@ msgid "Copy"
 msgstr "નકલ કરો"
 
 #: ../ui/evolution-addressbook.xml.h:7
-#| msgid "Copy Selected Contacts to Another Folder..."
 msgid "Copy selected contacts to another folder"
 msgstr "બીજા ફોલ્ડરમાં પસંદ થયેલ સંપર્કો ની નકલ કરો"
 
@@ -21473,7 +21359,6 @@ msgid "Copy to Folder..."
 msgstr "આ ફોલ્ડરમાં નકલ કરો..."
 
 #: ../ui/evolution-addressbook.xml.h:11
-#| msgid "Create a new addressbook folder"
 msgid "Create a new address book folder"
 msgstr "નવું સરનામા પુસ્તિકા ફોલ્ડર બનાવો"
 
@@ -21507,7 +21392,6 @@ msgid "Mo_ve All Contacts To..."
 msgstr "બધા સંપર્કોને અંહિ ખસેડો (_v)..."
 
 #: ../ui/evolution-addressbook.xml.h:20
-#| msgid "Move Selected Contacts to Another Folder..."
 msgid "Move selected contacts to another folder"
 msgstr "પસંદિત સંપર્કોને બીજા ફોલ્ડરમાં ખસેડો"
 
@@ -21549,7 +21433,6 @@ msgid "Save as VCard..."
 msgstr "VCard તરીકે સંગ્રહો..."
 
 #: ../ui/evolution-addressbook.xml.h:32
-#| msgid "Save selected contacts as a VCard."
 msgid "Save selected contacts as a VCard"
 msgstr "પસંદ કરેલ સંપર્કોને VCard તરીકે સંગ્રહો"
 
@@ -21570,7 +21453,6 @@ msgid "Select all contacts"
 msgstr "બધા સંપર્કો પસંદ કરો"
 
 #: ../ui/evolution-addressbook.xml.h:37
-#| msgid "Send a message to the selected contacts."
 msgid "Send a message to the selected contacts"
 msgstr "પસંદ કરેલ સંપર્કોને સંદેશ મોકલો"
 
@@ -21579,7 +21461,6 @@ msgid "Send message to contact"
 msgstr "સંપર્કને સંદેશો મોકલો"
 
 #: ../ui/evolution-addressbook.xml.h:39
-#| msgid "Send selected contacts to another person."
 msgid "Send selected contacts to another person"
 msgstr "બીજી વ્યક્તિમાં પસંદ થયેલ સંપર્કોને મોકલો."
 
@@ -21875,7 +21756,6 @@ msgstr "પૂર્વદર્શન (_P)"
 #. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
 #.
 #: ../ui/evolution-mail-global.xml.h:32
-#| msgid "_Subscriptions"
 msgid "_Subscriptions..."
 msgstr "ઉમેદવારીઓ (_S)..."
 
