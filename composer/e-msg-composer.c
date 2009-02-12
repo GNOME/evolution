@@ -1295,12 +1295,17 @@ get_signature_html (EMsgComposer *composer)
 			text = e_msg_composer_get_sig_file_content (signature->filename, format_html);
 		}
 	} else {
+		EAccount *account;
 		EAccountIdentity *id;
 		gchar *organization;
 		gchar *address;
 		gchar *name;
 
-		id = e_composer_header_table_get_account (table)->id;
+		account = e_composer_header_table_get_account (table);
+		if (!account)
+			return NULL;
+
+		id = account->id;
 		address = id->address ? camel_text_to_html (id->address, CONVERT_SPACES, 0) : NULL;
 		name = id->name ? camel_text_to_html (id->name, CONVERT_SPACES, 0) : NULL;
 		organization = id->organization ? camel_text_to_html (id->organization, CONVERT_SPACES, 0) : NULL;
