@@ -26,6 +26,7 @@
 
 #include "e-util/e-signature-list.h"
 #include "mail/e-mail-label-list-store.h"
+#include "mail/mail-session.h"
 
 void
 e_mail_shell_module_init_settings (EShell *shell)
@@ -52,6 +53,17 @@ e_mail_shell_module_init_settings (EShell *shell)
 	e_shell_settings_set_object (
 		shell_settings, "mail-label-list-store", object);
 	g_object_unref (object);
+
+	e_shell_settings_install_property (
+		g_param_spec_pointer (
+			"mail-session",
+			NULL,
+			NULL,
+			G_PARAM_READWRITE));
+
+	camel_object_ref (session);
+	e_shell_settings_set_pointer (
+		shell_settings, "mail-session", session);
 
 	/*** Mail Preferences ***/
 

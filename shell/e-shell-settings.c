@@ -500,3 +500,60 @@ e_shell_settings_set_object (EShellSettings *shell_settings,
 	g_object_set_property (object, property_name, &value);
 	g_value_unset (&value);
 }
+
+/**
+ * e_shell_settings_get_pointer:
+ * @shell_settings: an #EShellSettings
+ * @property_name: an installed property name
+ *
+ * Returns the contents of an #EShellSettings property of type
+ * #G_TYPE_POINTER.
+ *
+ * Returns: pointer contents of @property_name
+ **/
+gpointer
+e_shell_settings_get_pointer (EShellSettings *shell_settings,
+                              const gchar *property_name)
+{
+	GObject *object;
+	GValue value = { 0, };
+	gpointer v_pointer;
+
+	g_return_val_if_fail (E_IS_SHELL_SETTINGS (shell_settings), NULL);
+	g_return_val_if_fail (property_name != NULL, NULL);
+
+	object = G_OBJECT (shell_settings);
+	g_value_init (&value, G_TYPE_POINTER);
+	g_object_get_property (object, property_name, &value);
+	v_pointer = g_value_get_pointer (&value);
+	g_value_unset (&value);
+
+	return v_pointer;
+}
+
+/**
+ * e_shell_settings_set_pointer:
+ * @shell_settings: an #EShellSettings
+ * @property_name: an installed property name
+ * @v_pointer: pointer to be set
+ *
+ * Sets the contents of an #EShellSettings property of type #G_TYPE_POINTER
+ * to @v_pointer.
+ **/
+void
+e_shell_settings_set_pointer (EShellSettings *shell_settings,
+                              const gchar *property_name,
+                              gpointer v_pointer)
+{
+	GObject *object;
+	GValue value = { 0, };
+
+	g_return_if_fail (E_IS_SHELL_SETTINGS (shell_settings));
+	g_return_if_fail (property_name != NULL);
+
+	object = G_OBJECT (shell_settings);
+	g_value_init (&value, G_TYPE_POINTER);
+	g_value_set_pointer (&value, v_pointer);
+	g_object_set_property (object, property_name, &value);
+	g_value_unset (&value);
+}

@@ -3631,15 +3631,18 @@ e_msg_composer_new_redirect (CamelMimeMessage *message,
 CamelSession *
 e_msg_composer_get_session (EMsgComposer *composer)
 {
-	EShellModule *shell_module;
-	CamelSession *session;
 	EShell *shell;
+	EShellSettings *shell_settings;
+	CamelSession *session;
+
+	/* FIXME EMsgComposer should own a reference to EShell. */
 
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 
 	shell = e_shell_get_default ();
-	shell_module = e_shell_get_module_by_name (shell, "mail");
-	session = g_object_get_data (G_OBJECT (shell_module), "session");
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	session = e_shell_settings_get_pointer (shell_settings, "mail-session");
 	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
 
 	return session;

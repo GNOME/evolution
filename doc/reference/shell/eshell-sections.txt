@@ -133,6 +133,8 @@ e_shell_settings_get_string
 e_shell_settings_set_string
 e_shell_settings_get_object
 e_shell_settings_set_object
+e_shell_settings_get_pointer
+e_shell_settings_set_pointer
 <SUBSECTION Standard>
 E_SHELL_SETTINGS
 E_IS_SHELL_SETTINGS
