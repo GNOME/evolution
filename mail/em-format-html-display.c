@@ -2158,19 +2158,23 @@ attachments_save_all_clicked (GtkWidget *widget, EMFormatHTMLDisplay *efhd)
 {
 	GSList *attachment_parts;
 	guint n_attachment_parts;
+	gpointer parent;
 
 	attachment_parts = e_attachment_bar_get_parts (
 		E_ATTACHMENT_BAR (efhd->priv->attachment_bar));
 	n_attachment_parts = g_slist_length (attachment_parts);
 	g_return_if_fail (n_attachment_parts > 0);
 
+	parent = gtk_widget_get_toplevel (widget);
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+
 	if (n_attachment_parts == 1)
 		em_utils_save_part (
-			widget, _("Save attachment as"),
+			parent, _("Save attachment as"),
 			attachment_parts->data);
 	else
 		em_utils_save_parts (
-			widget, _("Select folder to save all attachments"),
+			parent, _("Select folder to save all attachments"),
 			attachment_parts);
 
         g_slist_free (attachment_parts);

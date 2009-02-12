@@ -398,7 +398,7 @@ em_utils_save_part (GtkWindow *parent, const char *prompt, CamelMimePart *part)
 	const gchar *utf8_filename;
 	gchar *uri = NULL, *filename;
 
-	g_return_if_fail (GTK_IS_WINDOW (parent));
+	g_return_if_fail (parent == NULL || GTK_IS_WINDOW (parent));
 
 	utf8_filename = emu_save_get_filename_for_part (part);
 	filename = g_filename_from_utf8 (utf8_filename, -1, NULL, NULL, NULL);
@@ -514,6 +514,8 @@ em_utils_save_parts (GtkWindow *parent, const gchar *prompt, GSList *parts)
 	GtkWidget *file_chooser;
 	gchar *path_uri;
 	GSList *iter, *file_names, *iter_file;
+
+	g_return_if_fail (parent == NULL || GTK_IS_WINDOW (parent));
 
 	file_chooser = e_file_get_save_filesel (
 		parent, prompt, NULL, GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
