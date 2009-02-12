@@ -1,3 +1,11 @@
+2009-02-12  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #404232
+
+	* e-filter-bar.c: (rule_advanced_response): Emit signal after
+	search bar text is set, thus the text will not be empty, which
+	is considered as "no search" these days.
+
 2009-01-30  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #342446

@@ -117,7 +117,6 @@ rule_advanced_response (GtkWidget *dialog, int response, void *data)
 
 			efb->current_query = rule;
 			g_object_ref (rule);
-			g_signal_emit_by_name (efb, "search_activated");
 
 			gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
 			gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
@@ -125,6 +124,8 @@ rule_advanced_response (GtkWidget *dialog, int response, void *data)
 			gtk_widget_modify_base (esb->viewoption, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
 			e_search_bar_set_text (esb,_("Advanced Search"));
 			gtk_widget_set_sensitive (esb->clear_button, TRUE);
+
+			g_signal_emit_by_name (efb, "search_activated");
 
 			if (response == GTK_RESPONSE_APPLY) {
 				if (!rule_context_find_rule (efb->context, rule->name, rule->source))
