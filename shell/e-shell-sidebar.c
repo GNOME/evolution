@@ -225,9 +225,8 @@ shell_sidebar_constructed (GObject *object)
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new (NULL);
-	gtk_label_set_ellipsize (GTK_LABEL (widget), PANGO_ELLIPSIZE_MIDDLE);
 	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	shell_sidebar->priv->secondary_label = g_object_ref (widget);
 	gtk_widget_show (widget);
 
