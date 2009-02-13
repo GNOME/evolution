@@ -1,3 +1,11 @@
+2009-02-13  Chow Loong Jin <hyperair@gmail.com>
+
+	** Fixes bug #571625
+
+	* calendar/gui/e-day-view.c
+	* calendar/gui/e-week-view.c:
+	Use black/white for foreground instead of active/inactive text color
+
 2009-02-11  Andre Klapper  <a9016009@gmx.de>
 
 	* /gui/migration.c:
