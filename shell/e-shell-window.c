@@ -116,6 +116,9 @@ shell_window_online_mode_notify_cb (EShell *shell,
 
 	online_mode = e_shell_get_online_mode (shell);
 
+	action = ACTION (SEND_RECEIVE);
+	gtk_action_set_sensitive (action, online_mode);
+
 	action = ACTION (WORK_OFFLINE);
 	gtk_action_set_sensitive (action, TRUE);
 	gtk_action_set_visible (action, online_mode);
