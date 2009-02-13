@@ -404,6 +404,8 @@ emp_part_popup_saveas(EPopup *ep, EPopupItem *item, void *data)
 {
 	EPopupTarget *t = ep->target;
 	CamelMimePart *part = NULL;
+	GtkWidget *widget;
+	gpointer parent;
 
 	/* If it is of type EM_POPUP_TARGET_ATTACHMENTS, we can assume the length is one. */
 	if (t->type == EM_POPUP_TARGET_ATTACHMENTS)
@@ -411,7 +413,11 @@ emp_part_popup_saveas(EPopup *ep, EPopupItem *item, void *data)
 	else
 		part = ((EMPopupTargetPart *) t)->part;
 
-	em_utils_save_part(ep->target->widget, _("Save As..."), part);
+	widget = ep->target->widget;
+	parent = gtk_widget_get_toplevel (widget);
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+
+	em_utils_save_part (parent, _("Save As..."), part);
 }
 
 static void

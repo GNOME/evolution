@@ -2209,14 +2209,20 @@ efhd_bar_save_selected(EPopup *ep, EPopupItem *item, void *data)
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)data;
 	GSList *attachment_parts, *tmp;
 	GSList *parts = NULL;
+	GtkWidget *widget;
+	gpointer parent;
 
-	attachment_parts = e_attachment_bar_get_selected(E_ATTACHMENT_BAR(efhd->priv->attachment_bar));
+	widget = efhd->priv->attachment_bar;
+	parent = gtk_widget_get_toplevel (widget);
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+
+	attachment_parts = e_attachment_bar_get_selected(E_ATTACHMENT_BAR(widget));
 
 	for (tmp = attachment_parts; tmp; tmp=tmp->next)
 		parts = g_slist_prepend(parts, ((EAttachment *)tmp->data)->body);
 
 	parts = g_slist_reverse(parts);
-	em_utils_save_parts(efhd->priv->attachment_bar, _("Select folder to save selected attachments..."), parts);
+	em_utils_save_parts(parent, _("Select folder to save selected attachments..."), parts);
         g_slist_free (parts);
 
 	g_slist_foreach(attachment_parts, (GFunc)g_object_unref, NULL);
