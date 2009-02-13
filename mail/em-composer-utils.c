@@ -45,6 +45,9 @@
 #include "em-composer-utils.h"
 #include "composer/e-msg-composer.h"
 #include "composer/e-composer-autosave.h"
+#include "composer/e-composer-post-header.h"
+#include "em-folder-selector.h"
+#include "em-folder-tree.h"
 #include "em-format-html.h"
 #include "em-format-html-print.h"
 #include "em-format-quote.h"
@@ -2525,6 +2528,56 @@ em_utils_post_reply_to_message_by_uid (CamelFolder *folder, const char *uid)
 	mail_get_message (folder, uid, post_reply_to_message, NULL, mail_msg_unordered_push);
 }
 
+static void
+post_header_clicked_cb (EComposerPostHeader *header,
+                        EShellModule *shell_module)
+{
+	EMFolderTreeModel *model;
+	GtkWidget *folder_tree;
+	GtkWidget *dialog;
+	GList *list;
+
+	model = e_mail_shell_module_get_folder_tree_model (shell_module);
+	folder_tree = em_folder_tree_new_with_model (model);
+
+	em_folder_tree_set_multiselect (
+		EM_FOLDER_TREE (folder_tree), TRUE);
+	em_folder_tree_set_excluded (
+		EM_FOLDER_TREE (folder_tree),
+		EMFT_EXCLUDE_NOSELECT |
+		EMFT_EXCLUDE_VIRTUAL |
+		EMFT_EXCLUDE_VTRASH);
+
+	dialog = em_folder_selector_new (
+		EM_FOLDER_TREE (folder_tree),
+		EM_FOLDER_SELECTOR_CAN_CREATE,
+		_("Posting destination"),
+		_("Choose folders to post the message to."),
+		NULL);
+
+	list = e_composer_post_header_get_folders (header);
+	em_folder_selector_set_selected_list (
+		EM_FOLDER_SELECTOR (dialog), list);
+	g_list_foreach (list, (GFunc) g_free, NULL);
+	g_list_free (list);
+
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) != GTK_RESPONSE_OK) {
+		/* Prevent the header's "custom" flag from being reset,
+		 * which is what the default method will do next. */
+		g_signal_stop_emission_by_name (header, "clicked");
+		goto exit;
+	}
+
+	list = em_folder_selector_get_selected_uris (
+		EM_FOLDER_SELECTOR (dialog));
+	e_composer_post_header_set_folders (header, list);
+	g_list_foreach (list, (GFunc) g_free, NULL);
+	g_list_free (list);
+
+exit:
+	gtk_widget_destroy (dialog);
+}
+
 /**
  * em_configure_new_composer:
  * @composer: a newly created #EMsgComposer
@@ -2538,10 +2591,15 @@ void
 em_configure_new_composer (EMsgComposer *composer)
 {
 	EComposerHeaderTable *table;
-	EMFolderTreeModel *model;
+	EComposerHeaderType header_type;
+	EComposerHeader *header;
 	struct emcs_t *emcs;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	header_type = E_COMPOSER_HEADER_POST_TO;
+	table = e_msg_composer_get_header_table (composer);
+	header = e_composer_header_table_get_header (table, header_type);
 
 	emcs = emcs_new ();
 
@@ -2561,8 +2619,14 @@ em_configure_new_composer (EMsgComposer *composer)
 		composer, "print",
 		G_CALLBACK (em_utils_composer_print_cb), NULL);
 
-	/* Supply the composer with a folder tree model. */
-	table = e_msg_composer_get_header_table (composer);
-	model = e_mail_shell_module_get_folder_tree_model (mail_shell_module);
-	e_composer_header_table_set_folder_tree_model (table, model);
+	/* Handle "Post To:" button clicks, which displays a folder tree
+	 * widget.  The composer doesn't know about folder tree widgets,
+	 * so it can't handle this itself.
+	 *
+	 * Note: This is a G_SIGNAL_RUN_LAST signal, which allows us to
+	 *       stop the signal emission if the user cancels or closes
+	 *       the folder selector dialog.  See the handler function. */
+	g_signal_connect (
+		header, "clicked",
+		G_CALLBACK (post_header_clicked_cb), mail_shell_module);
 }

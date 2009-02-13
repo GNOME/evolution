@@ -240,7 +240,8 @@ composer_header_class_init (EComposerHeaderClass *class)
 		"changed",
 		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_LAST,
-		0, NULL, NULL,
+		G_STRUCT_OFFSET (EComposerHeaderClass, changed),
+		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 
@@ -248,7 +249,8 @@ composer_header_class_init (EComposerHeaderClass *class)
 		"clicked",
 		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_LAST,
-		0, NULL, NULL,
+		G_STRUCT_OFFSET (EComposerHeaderClass, clicked),
+		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 }

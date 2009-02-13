@@ -22,9 +22,7 @@
 
 #include <string.h>
 #include <glib/gi18n.h>
-
-#include "mail/em-folder-selector.h"
-#include "mail/em-folder-tree.h"
+#include <camel/camel-url.h>
 
 #define E_COMPOSER_POST_HEADER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -32,12 +30,10 @@
 
 enum {
 	PROP_0,
-	PROP_ACCOUNT,
-	PROP_FOLDER_TREE_MODEL
+	PROP_ACCOUNT
 };
 
 struct _EComposerPostHeaderPrivate {
-	EMFolderTreeModel *model;
 	EAccount *account;
 	gchar *base_url;  /* derived from account */
 	gboolean custom;
@@ -104,58 +100,6 @@ composer_post_header_split_csv (const gchar *csv)
 	return g_list_reverse (list);
 }
 
-static void
-composer_post_header_changed_cb (EComposerPostHeader *header)
-{
-	header->priv->custom = TRUE;
-}
-
-static void
-composer_post_header_clicked_cb (EComposerPostHeader *header)
-{
-	EMFolderTreeModel *model;
-	GtkWidget *folder_tree;
-	GtkWidget *dialog;
-	GList *list;
-
-	g_return_if_fail (header->priv->model != NULL);
-
-	model = header->priv->model;
-	folder_tree = em_folder_tree_new_with_model (model);
-
-	em_folder_tree_set_multiselect (
-		EM_FOLDER_TREE (folder_tree), TRUE);
-	em_folder_tree_set_excluded (
-		EM_FOLDER_TREE (folder_tree),
-		EMFT_EXCLUDE_NOSELECT |
-		EMFT_EXCLUDE_VIRTUAL |
-		EMFT_EXCLUDE_VTRASH);
-
-	dialog = em_folder_selector_new (
-		EM_FOLDER_TREE (folder_tree),
-		EM_FOLDER_SELECTOR_CAN_CREATE,
-		_("Posting destination"),
-		_("Choose folders to post the message to."),
-		NULL);
-
-	list = e_composer_post_header_get_folders (header);
-	em_folder_selector_set_selected_list (
-		EM_FOLDER_SELECTOR (dialog), list);
-	g_list_foreach (list, (GFunc) g_free, NULL);
-	g_list_free (list);
-
-	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK) {
-		list = em_folder_selector_get_selected_uris (
-			EM_FOLDER_SELECTOR (dialog));
-		e_composer_post_header_set_folders (header, list);
-		header->priv->custom = FALSE;
-		g_list_foreach (list, (GFunc) g_free, NULL);
-		g_list_free (list);
-	}
-
-	gtk_widget_destroy (dialog);
-}
-
 static GObject *
 composer_post_header_constructor (GType type,
                                   guint n_construct_properties,
@@ -171,14 +115,6 @@ composer_post_header_constructor (GType type,
 		E_COMPOSER_HEADER (object),
 		_("Click here to select folders to post to"));
 
-	g_signal_connect (
-		object, "changed",
-		G_CALLBACK (composer_post_header_changed_cb), NULL);
-
-	g_signal_connect (
-		object, "clicked",
-		G_CALLBACK (composer_post_header_clicked_cb), NULL);
-
 	return object;
 }
 
@@ -191,12 +127,6 @@ composer_post_header_set_property (GObject *object,
 	switch (property_id) {
 		case PROP_ACCOUNT:
 			e_composer_post_header_set_account (
-				E_COMPOSER_POST_HEADER (object),
-				g_value_get_object (value));
-			return;
-
-		case PROP_FOLDER_TREE_MODEL:
-			e_composer_post_header_set_folder_tree_model (
 				E_COMPOSER_POST_HEADER (object),
 				g_value_get_object (value));
 			return;
@@ -217,13 +147,6 @@ composer_post_header_get_property (GObject *object,
 				value, e_composer_post_header_get_account (
 				E_COMPOSER_POST_HEADER (object)));
 			return;
-
-		case PROP_FOLDER_TREE_MODEL:
-			g_value_set_object (
-				value,
-				e_composer_post_header_get_folder_tree_model (
-				E_COMPOSER_POST_HEADER (object)));
-			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -239,11 +162,6 @@ composer_post_header_dispose (GObject *object)
 	if (priv->account != NULL) {
 		g_object_unref (priv->account);
 		priv->account = NULL;
-	}
-
-	if (priv->model != NULL) {
-		g_object_unref (priv->model);
-		priv->model = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -264,9 +182,30 @@ composer_post_header_finalize (GObject *object)
 }
 
 static void
+composer_post_header_changed (EComposerHeader *header)
+{
+	EComposerPostHeaderPrivate *priv;
+
+	priv = E_COMPOSER_POST_HEADER_GET_PRIVATE (header);
+
+	priv->custom = TRUE;
+}
+
+static void
+composer_post_header_clicked (EComposerHeader *header)
+{
+	EComposerPostHeaderPrivate *priv;
+
+	priv = E_COMPOSER_POST_HEADER_GET_PRIVATE (header);
+
+	priv->custom = FALSE;
+}
+
+static void
 composer_post_header_class_init (EComposerPostHeaderClass *class)
 {
 	GObjectClass *object_class;
+	EComposerHeaderClass *header_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EComposerPostHeaderPrivate));
@@ -278,6 +217,10 @@ composer_post_header_class_init (EComposerPostHeaderClass *class)
 	object_class->dispose = composer_post_header_dispose;
 	object_class->finalize = composer_post_header_finalize;
 
+	header_class = E_COMPOSER_HEADER_CLASS (class);
+	header_class->changed = composer_post_header_changed;
+	header_class->clicked = composer_post_header_clicked;
+
 	g_object_class_install_property (
 		object_class,
 		PROP_ACCOUNT,
@@ -286,16 +229,6 @@ composer_post_header_class_init (EComposerPostHeaderClass *class)
 			NULL,
 			NULL,
 			E_TYPE_ACCOUNT,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_FOLDER_TREE_MODEL,
-		g_param_spec_object (
-			"folder-tree-model",
-			NULL,
-			NULL,
-			EM_TYPE_FOLDER_TREE_MODEL,
 			G_PARAM_READWRITE));
 }
 
@@ -378,33 +311,6 @@ e_composer_post_header_set_account (EComposerPostHeader *header,
 	}
 
 	g_object_notify (G_OBJECT (header), "account");
-}
-
-EMFolderTreeModel *
-e_composer_post_header_get_folder_tree_model (EComposerPostHeader *header)
-{
-	g_return_val_if_fail (E_IS_COMPOSER_POST_HEADER (header), NULL);
-
-	return header->priv->model;
-}
-
-void
-e_composer_post_header_set_folder_tree_model (EComposerPostHeader *header,
-                                              EMFolderTreeModel *model)
-{
-	g_return_if_fail (E_IS_COMPOSER_POST_HEADER (header));
-
-	if (model != NULL) {
-		g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
-		g_object_ref (model);
-	}
-
-	if (header->priv->model != NULL)
-		g_object_unref (header->priv->model);
-
-	header->priv->model = model;
-
-	g_object_notify (G_OBJECT (header), "folder-tree-model");
 }
 
 GList *
