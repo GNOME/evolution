@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-02-04 22:33+0000\n"
-"PO-Revision-Date: 2009-02-06 20:27+0100\n"
+"POT-Creation-Date: 2009-02-06 19:37+0000\n"
+"PO-Revision-Date: 2009-02-14 16:40+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -13092,48 +13092,48 @@ msgstr "Grupos de noticias"
 msgid "Face"
 msgstr "Cara"
 
-#: ../mail/em-format.c:1159
+#: ../mail/em-format.c:1160
 #, c-format
 msgid "%s attachment"
 msgstr "%s adjunto"
 
-#: ../mail/em-format.c:1201
+#: ../mail/em-format.c:1199
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "No es posible interpretar el mensaje S/MIME: Error desconocido"
 
-#: ../mail/em-format.c:1338 ../mail/em-format.c:1494
+#: ../mail/em-format.c:1336 ../mail/em-format.c:1492
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "No es posible analizar el mensaje MIME. Mostrando la fuente."
 
-#: ../mail/em-format.c:1346
+#: ../mail/em-format.c:1344
 msgid "Unsupported encryption type for multipart/encrypted"
 msgstr "Tipo de cifrado no soportado para multipart/encrypted"
 
-#: ../mail/em-format.c:1356
+#: ../mail/em-format.c:1354
 msgid "Could not parse PGP/MIME message"
 msgstr "No es posible interpretar el mensaje PGP/MIME"
 
-#: ../mail/em-format.c:1356
+#: ../mail/em-format.c:1354
 msgid "Could not parse PGP/MIME message: Unknown error"
 msgstr "No es posible interpretar el mensaje PGP/MIME: Error desconocido"
 
-#: ../mail/em-format.c:1513
+#: ../mail/em-format.c:1511
 msgid "Unsupported signature format"
 msgstr "Formato de firma no soportado"
 
-#: ../mail/em-format.c:1521 ../mail/em-format.c:1592
+#: ../mail/em-format.c:1519 ../mail/em-format.c:1590
 msgid "Error verifying signature"
 msgstr "Error al verificar la firma"
 
-#: ../mail/em-format.c:1521 ../mail/em-format.c:1583 ../mail/em-format.c:1592
+#: ../mail/em-format.c:1519 ../mail/em-format.c:1581 ../mail/em-format.c:1590
 msgid "Unknown error verifying signature"
 msgstr "Error desconocido al verificar la firma"
 
-#: ../mail/em-format.c:1666
+#: ../mail/em-format.c:1664
 msgid "Could not parse PGP message"
 msgstr "No es posible interpretar el mensaje PGP"
 
-#: ../mail/em-format.c:1666
+#: ../mail/em-format.c:1664
 msgid "Could not parse PGP message: Unknown error"
 msgstr "No es posible interpretar el mensaje PGP: Error desconocido"
 
@@ -13206,7 +13206,6 @@ msgid "Later"
 msgstr "Más tarde"
 
 #: ../mail/em-migrate.c:1228
-#| msgid "Migrating..."
 msgid "Migration"
 msgstr "Migración"
 
@@ -13258,7 +13257,6 @@ msgid "Failed to create local mail storage `%s': %s"
 msgstr "No es posible crear el almacén de correo local «%s»: %s"
 
 #: ../mail/em-migrate.c:2974
-#| msgid "Creating folder `%s'"
 msgid "Migrating Folders"
 msgstr "Migrando carpetas"
 
@@ -20460,10 +20458,10 @@ msgid ""
 "authentication_user\" GConf key, and the password is retrieved from either "
 "gnome-keyring or the ~/.gnome2_private/Evolution password file."
 msgstr ""
-"Si es «true» entonces las conexiones con el proxy requerirán autenticación. "
-"El usuario se obtiene de la clave de GConf \"/apps/evolution/shell/"
-"network_config/authentication_user\" y la contraseña de gnome-keyring o bien "
-"del archivo de contrasñeas ~/.gnome2_private/Evolution."
+"Si está activada entonces las conexiones con el proxy requerirán "
+"autenticación. El usuario se obtiene de la clave de GConf \"/apps/evolution/"
+"shell/network_config/authentication_user\" y la contraseña de gnome-keyring "
+"o bien del archivo de contrasñeas ~/.gnome2_private/Evolution."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:15
 msgid "Last upgraded configuration version"
