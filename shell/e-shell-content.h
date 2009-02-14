@@ -85,9 +85,6 @@ GtkWidget *	e_shell_content_new		(struct _EShellView *shell_view);
 guint32		e_shell_content_check_state	(EShellContent *shell_content);
 struct _EShellView *
 		e_shell_content_get_shell_view	(EShellContent *shell_content);
-RuleContext *	e_shell_content_get_context	(EShellContent *shell_content);
-void		e_shell_content_set_context	(EShellContent *shell_content,
-						 RuleContext *context);
 GtkRadioAction *e_shell_content_get_filter_action
 						(EShellContent *shell_content);
 void		e_shell_content_set_filter_action
@@ -115,9 +112,6 @@ void		e_shell_content_set_search_rule (EShellContent *shell_content,
 const gchar *	e_shell_content_get_search_text	(EShellContent *shell_content);
 void		e_shell_content_set_search_text	(EShellContent *shell_content,
 						 const gchar *search_text);
-gint		e_shell_content_get_search_value(EShellContent *shell_content);
-void		e_shell_content_set_search_value(EShellContent *shell_content,
-						 gint search_value);
 gboolean	e_shell_content_get_search_visible
 						(EShellContent *shell_content);
 void		e_shell_content_set_search_visible

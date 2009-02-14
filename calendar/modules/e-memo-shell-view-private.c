@@ -329,8 +329,7 @@ e_memo_shell_view_execute_search (EMemoShellView *memo_shell_view)
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	action = ACTION (MEMO_SEARCH_ANY_FIELD_CONTAINS);
-	value = gtk_radio_action_get_current_value (
-		GTK_RADIO_ACTION (action));
+	value = gtk_radio_action_get_current_value (GTK_RADIO_ACTION (action));
 
 	if (text == NULL || *text == '\0') {
 		text = "";

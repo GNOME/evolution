@@ -439,6 +439,12 @@ intelligent
 </para>
 
 
+<!-- ##### ARG EShellContent:search-value ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### ENUM EShellLineStatus ##### -->
 <para>
 
@@ -1736,6 +1742,38 @@ intelligent
 @minor: 
 @revision: 
 @Returns: 
+
+<!-- ##### FUNCTION e_shell_content_get_context ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_content_get_search_value ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_content_set_context ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@context: 
+
+<!-- ##### FUNCTION e_shell_content_set_search_value ##### -->
+<para>
+
+</para>
+
+@shell_content: 
+@search_value: 
 
 <!-- ##### FUNCTION e_shell_create_window ##### -->
 <para>

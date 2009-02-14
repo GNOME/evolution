@@ -753,6 +753,15 @@ e_mail_shell_content_set_vertical_view (EMailShellContent *mail_shell_content,
 	g_object_notify (G_OBJECT (mail_shell_content), "vertical-view");
 }
 
+GalViewInstance *
+e_mail_shell_content_get_view_instance (EMailShellContent *mail_shell_content)
+{
+	g_return_val_if_fail (
+		E_IS_MAIL_SHELL_CONTENT (mail_shell_content), NULL);
+
+	return mail_shell_content->priv->view_instance;
+}
+
 void
 e_mail_shell_content_update_view_instance (EMailShellContent *mail_shell_content)
 {

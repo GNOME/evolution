@@ -78,7 +78,6 @@
 #include "mail/em-utils.h"
 #include "mail/mail-config.h"
 #include "mail/mail-crypto.h"
-#include "mail/mail-ops.h"
 #include "mail/mail-tools.h"
 
 #include "e-msg-composer.h"

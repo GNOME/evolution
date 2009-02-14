@@ -22,6 +22,26 @@
 #include "e-mail-shell-view-private.h"
 
 static void
+action_gal_save_custom_view_cb (GtkAction *action,
+                                EMailShellView *mail_shell_view)
+{
+	EMailShellContent *mail_shell_content;
+	EShellView *shell_view;
+	GalViewInstance *view_instance;
+
+	/* All shell views repond to the activation of this action,
+	 * which is defined by EShellWindow.  But only the currently
+	 * active shell view proceeds with saving the custom view. */
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	if (!e_shell_view_is_active (shell_view))
+		return;
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
+	view_instance = e_mail_shell_content_get_view_instance (mail_shell_content);
+	gal_view_instance_save_as (view_instance);
+}
+
+static void
 action_mail_account_disable_cb (GtkAction *action,
                                 EMailShellView *mail_shell_view)
 {
@@ -685,9 +705,33 @@ action_mail_view_cb (GtkRadioAction *action,
 }
 
 static void
+action_search_execute_cb (GtkAction *action,
+                          EMailShellView *mail_shell_view)
+{
+	EShellView *shell_view;
+
+	/* All shell views respond to the activation of this action,
+	 * which is defined by EShellWindow.  But only the currently
+	 * active shell view proceeds with executing the search. */
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	if (!e_shell_view_is_active (shell_view))
+		return;
+
+	e_mail_shell_view_execute_search (mail_shell_view);
+}
+
+static void
 action_search_filter_cb (GtkRadioAction *action,
                          GtkRadioAction *current,
                          EMailShellView *mail_shell_view)
+{
+	e_mail_shell_view_execute_search (mail_shell_view);
+}
+
+static void
+action_search_scope_cb (GtkRadioAction *action,
+                        GtkRadioAction *current,
+                        EMailShellView *mail_shell_view)
 {
 	e_mail_shell_view_execute_search (mail_shell_view);
 }
@@ -1166,7 +1210,9 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	EShellContent *shell_content;
 	GtkActionGroup *action_group;
+	GtkRadioAction *radio_action;
 	GConfBridge *bridge;
 	GObject *object;
 	GObject *src_object;
@@ -1177,6 +1223,7 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
 
 	/* Mail Actions */
 	action_group = ACTION_GROUP (MAIL);
@@ -1202,7 +1249,11 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 		action_group, mail_scope_entries,
 		G_N_ELEMENTS (mail_scope_entries),
 		MAIL_SCOPE_CURRENT_FOLDER,
-		NULL, NULL);
+		G_CALLBACK (action_search_scope_cb), mail_shell_view);
+
+	radio_action = GTK_RADIO_ACTION (ACTION (MAIL_SCOPE_ALL_ACCOUNTS));
+	e_shell_content_set_scope_action (shell_content, radio_action);
+	e_shell_content_set_scope_visible (shell_content, TRUE);
 
 	/* Bind GObject properties for GConf keys. */
 
@@ -1235,6 +1286,14 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 
 	dst_object = G_OBJECT (ACTION (MAIL_THREADS_EXPAND_ALL));
 	e_binding_new (src_object, "active", dst_object, "sensitive");
+
+	g_signal_connect (
+		ACTION (GAL_SAVE_CUSTOM_VIEW), "activate",
+		G_CALLBACK (action_gal_save_custom_view_cb), mail_shell_view);
+
+	g_signal_connect (
+		ACTION (SEARCH_EXECUTE), "activate",
+		G_CALLBACK (action_search_execute_cb), mail_shell_view);
 }
 
 /* Helper for e_mail_shell_view_update_popup_labels() */
@@ -1470,7 +1529,7 @@ e_mail_shell_view_update_search_filter (EMailShellView *mail_shell_view)
 		ii++;
 	}
 
-	/* User any action in the group; doesn't matter which. */
+	/* Use any action in the group; doesn't matter which. */
 	e_shell_content_set_filter_action (shell_content, radio_action);
 
 	ii = MAIL_FILTER_UNREAD_MESSAGES;

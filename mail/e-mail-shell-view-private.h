@@ -27,11 +27,13 @@
 #include <glib/gi18n.h>
 #include <gtkhtml/gtkhtml.h>
 #include <camel/camel-vtrash-folder.h>
+#include <camel/camel-search-private.h>  /* for camel_search_word */
 
 #include "e-util/e-util.h"
 #include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
 #include "e-util/e-account-utils.h"
+#include "filter/filter-part.h"
 #include "widgets/misc/e-popup-action.h"
 #include "widgets/menus/gal-view-instance.h"
 
@@ -101,7 +103,8 @@ enum {
 	MAIL_SEARCH_MESSAGE_CONTAINS,
 	MAIL_SEARCH_SUBJECT_CONTAINS,
 	MAIL_SEARCH_SENDER_CONTAINS,
-	MAIL_SEARCH_BODY_CONTAINS
+	MAIL_SEARCH_BODY_CONTAINS,
+	MAIL_NUM_SEARCH_RULES
 };
 
 /* Scope items are displayed in ascending order. */
@@ -123,6 +126,9 @@ struct _EMailShellViewPrivate {
 	/* For UI merging and unmerging. */
 	guint merge_id;
 	guint label_merge_id;
+
+	/* Filter rules correspond to the search entry menu. */
+	FilterRule *search_rules[MAIL_NUM_SEARCH_RULES];
 };
 
 void		e_mail_shell_view_private_init

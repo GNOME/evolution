@@ -66,7 +66,6 @@ enum {
 	PROP_SEARCH_CONTEXT,
 	PROP_SEARCH_RULE,
 	PROP_SEARCH_TEXT,
-	PROP_SEARCH_VALUE,
 	PROP_SEARCH_VISIBLE,
 	PROP_SCOPE_ACTION,
 	PROP_SCOPE_VALUE,
@@ -78,7 +77,7 @@ static gpointer parent_class;
 
 static void
 shell_content_dialog_rule_changed (GtkWidget *dialog,
-                                            FilterRule *rule)
+                                   FilterRule *rule)
 {
 	gboolean sensitive;
 
@@ -318,12 +317,6 @@ shell_content_set_property (GObject *object,
 				g_value_get_string (value));
 			return;
 
-		case PROP_SEARCH_VALUE:
-			e_shell_content_set_search_value (
-				E_SHELL_CONTENT (object),
-				g_value_get_int (value));
-			return;
-
 		case PROP_SEARCH_VISIBLE:
 			e_shell_content_set_search_visible (
 				E_SHELL_CONTENT (object),
@@ -398,12 +391,6 @@ shell_content_get_property (GObject *object,
 		case PROP_SEARCH_TEXT:
 			g_value_set_string (
 				value, e_shell_content_get_search_text (
-				E_SHELL_CONTENT (object)));
-			return;
-
-		case PROP_SEARCH_VALUE:
-			g_value_set_int (
-				value, e_shell_content_get_search_value (
 				E_SHELL_CONTENT (object)));
 			return;
 
@@ -721,18 +708,6 @@ shell_content_class_init (EShellContentClass *class)
 			NULL,
 			NULL,
 			NULL,
-			G_PARAM_READWRITE));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SEARCH_VALUE,
-		g_param_spec_int (
-			"search-value",
-			NULL,
-			NULL,
-			G_MININT,
-			G_MAXINT,
-			0,
 			G_PARAM_READWRITE));
 
 	g_object_class_install_property (
@@ -1136,26 +1111,6 @@ e_shell_content_set_search_text (EShellContent *shell_content,
 	search_text = (search_text != NULL) ? search_text : "";
 	gtk_entry_set_text (GTK_ENTRY (text_entry), search_text);
 	g_object_notify (G_OBJECT (shell_content), "search-text");
-}
-
-gint
-e_shell_content_get_search_value (EShellContent *shell_content)
-{
-	g_return_val_if_fail (E_IS_SHELL_CONTENT (shell_content), 0);
-
-	/* FIXME */
-	return 0;
-}
-
-void
-e_shell_content_set_search_value (EShellContent *shell_content,
-                                  gint search_value)
-{
-	g_return_if_fail (E_IS_SHELL_CONTENT (shell_content));
-
-	/* FIXME */
-
-	g_object_notify (G_OBJECT (shell_content), "search-value");
 }
 
 gboolean

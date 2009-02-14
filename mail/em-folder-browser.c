@@ -274,34 +274,34 @@ emfb_init(GObject *o)
 
 	emfb->view.enable_map = g_slist_prepend(emfb->view.enable_map, (void *)emfb_enable_map);
 
-	if (search_context) {
-		const char *systemrules = g_object_get_data (G_OBJECT (search_context), "system");
-		const char *userrules = g_object_get_data (G_OBJECT (search_context), "user");
-		EFilterBar *efb;
-		GConfClient *gconf;
-
-		emfb->search = e_filter_bar_new(search_context, systemrules, userrules, emfb_search_config_search, emfb);
-		efb = (EFilterBar *)emfb->search;
-		efb->account_search_vf = NULL;
-		efb->all_account_search_vf = NULL;
- 		efb->account_search_cancel = NULL;
-		e_search_bar_set_menu ((ESearchBar *)emfb->search, emfb_search_items);
-		e_search_bar_set_scopeoption ((ESearchBar *)emfb->search, emfb_search_scope_items);
-		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, FALSE);
-		emfb->priv->scope_restricted = TRUE;
-		g_signal_connect(emfb, "realize", G_CALLBACK(emfb_realize), NULL);
-		gtk_widget_show((GtkWidget *)emfb->search);
-
-		p->search_menu_activated_id = g_signal_connect(emfb->search, "menu_activated", G_CALLBACK(emfb_search_menu_activated), emfb);
-		p->search_activated_id = g_signal_connect(emfb->search, "search_activated", G_CALLBACK(emfb_search_search_activated), emfb);
-		g_signal_connect(emfb->search, "search_cleared", G_CALLBACK(emfb_search_search_cleared), NULL);
-
-		gtk_box_pack_start((GtkBox *)emfb, (GtkWidget *)emfb->search, FALSE, TRUE, 0);
-
+//	if (search_context) {
+//		const char *systemrules = g_object_get_data (G_OBJECT (search_context), "system");
+//		const char *userrules = g_object_get_data (G_OBJECT (search_context), "user");
+//		EFilterBar *efb;
+//		GConfClient *gconf;
+//
+//		emfb->search = e_filter_bar_new(search_context, systemrules, userrules, emfb_search_config_search, emfb);
+//		efb = (EFilterBar *)emfb->search;
+//		efb->account_search_vf = NULL;
+//		efb->all_account_search_vf = NULL;
+// 		efb->account_search_cancel = NULL;
+//		e_search_bar_set_menu ((ESearchBar *)emfb->search, emfb_search_items);
+//		e_search_bar_set_scopeoption ((ESearchBar *)emfb->search, emfb_search_scope_items);
+//		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, FALSE);
+//		emfb->priv->scope_restricted = TRUE;
+//		g_signal_connect(emfb, "realize", G_CALLBACK(emfb_realize), NULL);
+//		gtk_widget_show((GtkWidget *)emfb->search);
+//
+//		p->search_menu_activated_id = g_signal_connect(emfb->search, "menu_activated", G_CALLBACK(emfb_search_menu_activated), emfb);
+//		p->search_activated_id = g_signal_connect(emfb->search, "search_activated", G_CALLBACK(emfb_search_search_activated), emfb);
+//		g_signal_connect(emfb->search, "search_cleared", G_CALLBACK(emfb_search_search_cleared), NULL);
+//
+//		gtk_box_pack_start((GtkBox *)emfb, (GtkWidget *)emfb->search, FALSE, TRUE, 0);
+//
 //		gconf = mail_config_get_gconf_client ();
 //		emfb->priv->labels_change_notify_id = gconf_client_notify_add (gconf, E_UTIL_LABELS_GCONF_KEY, gconf_labels_changed, emfb, NULL, NULL);
-	}
-
+//	}
+//
 //	emfb->priv->show_wide = gconf_client_get_bool(mail_config_get_gconf_client(), "/apps/evolution/mail/display/show_wide", NULL);
 //	emfb->vpane = emfb->priv->show_wide?gtk_hpaned_new():gtk_vpaned_new();
 //
@@ -470,144 +470,144 @@ emfb_search_menu_activated(ESearchBar *esb, int id, EMFolderBrowser *emfb)
 	}
 }
 
-static void
-emfb_search_config_search(EFilterBar *efb, FilterRule *rule, int id, const char *query, void *data)
-{
-	EMFolderBrowser *emfb = data;
-	GList *partl;
-	struct _camel_search_words *words;
-	int i;
-	GSList *strings = NULL;
+//static void
+//emfb_search_config_search(EFilterBar *efb, FilterRule *rule, int id, const char *query, void *data)
+//{
+//	EMFolderBrowser *emfb = data;
+//	GList *partl;
+//	struct _camel_search_words *words;
+//	int i;
+//	GSList *strings = NULL;
+//
+//	/* we scan the parts of a rule, and set all the types we know about to the query string */
+//	partl = rule->parts;
+//	while (partl) {
+//		FilterPart *part = partl->data;
+//
+//		if (!strcmp(part->name, "subject")) {
+//			FilterInput *input = (FilterInput *)filter_part_find_element(part, "subject");
+//			if (input)
+//				filter_input_set_value(input, query);
+//		} else if (!strcmp(part->name, "body")) {
+//			FilterInput *input = (FilterInput *)filter_part_find_element(part, "word");
+//			if (input)
+//				filter_input_set_value(input, query);
+//
+//			words = camel_search_words_split((unsigned char *)query);
+//			for (i=0;i<words->len;i++)
+//				strings = g_slist_prepend(strings, g_strdup(words->words[i]->word));
+//			camel_search_words_free (words);
+//		} else if(!strcmp(part->name, "sender")) {
+//			FilterInput *input = (FilterInput *)filter_part_find_element(part, "sender");
+//			if (input)
+//				filter_input_set_value(input, query);
+//		} else if(!strcmp(part->name, "to")) {
+//			FilterInput *input = (FilterInput *)filter_part_find_element(part, "recipient");
+//			if (input)
+//				filter_input_set_value(input, query);
+//		}
+//
+//		partl = partl->next;
+//	}
+//
+//	em_format_html_display_set_search(emfb->view.preview,
+//					  EM_FORMAT_HTML_DISPLAY_SEARCH_SECONDARY|EM_FORMAT_HTML_DISPLAY_SEARCH_ICASE,
+//					  strings);
+//	while (strings) {
+//		GSList *n = strings->next;
+//		g_free(strings->data);
+//		g_slist_free_1(strings);
+//		strings = n;
+//	}
+//}
 
-	/* we scan the parts of a rule, and set all the types we know about to the query string */
-	partl = rule->parts;
-	while (partl) {
-		FilterPart *part = partl->data;
-
-		if (!strcmp(part->name, "subject")) {
-			FilterInput *input = (FilterInput *)filter_part_find_element(part, "subject");
-			if (input)
-				filter_input_set_value(input, query);
-		} else if (!strcmp(part->name, "body")) {
-			FilterInput *input = (FilterInput *)filter_part_find_element(part, "word");
-			if (input)
-				filter_input_set_value(input, query);
-
-			words = camel_search_words_split((unsigned char *)query);
-			for (i=0;i<words->len;i++)
-				strings = g_slist_prepend(strings, g_strdup(words->words[i]->word));
-			camel_search_words_free (words);
-		} else if(!strcmp(part->name, "sender")) {
-			FilterInput *input = (FilterInput *)filter_part_find_element(part, "sender");
-			if (input)
-				filter_input_set_value(input, query);
-		} else if(!strcmp(part->name, "to")) {
-			FilterInput *input = (FilterInput *)filter_part_find_element(part, "recipient");
-			if (input)
-				filter_input_set_value(input, query);
-		}
-
-		partl = partl->next;
-	}
-
-	em_format_html_display_set_search(emfb->view.preview,
-					  EM_FORMAT_HTML_DISPLAY_SEARCH_SECONDARY|EM_FORMAT_HTML_DISPLAY_SEARCH_ICASE,
-					  strings);
-	while (strings) {
-		GSList *n = strings->next;
-		g_free(strings->data);
-		g_slist_free_1(strings);
-		strings = n;
-	}
-}
-
-static char *
-get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
-{
-	char *view_sexp = NULL;
-	gint id;
-	GtkWidget *menu_item;
-	char *tag;
-	gboolean duplicate = TRUE;
-
-	/* Get the current selected view */
-	id = e_search_bar_get_viewitem_id (esb);
-	menu_item = e_search_bar_get_selected_viewitem (esb);
-
-	switch (id & VIEW_ITEMS_MASK) {
-	case VIEW_ALL_MESSAGES:
-		/* one space indicates no filtering */
-		view_sexp = " ";
-		break;
-
-	case VIEW_UNREAD_MESSAGES:
-		view_sexp = "(match-all (not (system-flag  \"Seen\")))";
-		break;
-	case VIEW_READ_MESSAGES:
-		view_sexp = "(match-all (system-flag  \"Seen\" ))";
-		break;
-        case VIEW_RECENT_MESSAGES:
-		if (!em_utils_folder_is_sent (folder, folder_uri))
-			view_sexp = "(match-all (> (get-received-date) (- (get-current-date) 86400)))";
-		else
-			view_sexp = "(match-all (> (get-sent-date) (- (get-current-date) 86400)))";
-		break;
-	case VIEW_LAST_FIVE_DAYS:
-		if (!em_utils_folder_is_sent (folder, folder_uri))
-			view_sexp = " (match-all (> (get-received-date) (- (get-current-date) 432000)))";
-		else
-			view_sexp = " (match-all (> (get-sent-date) (- (get-current-date) 432000)))";
-		break;
-        case VIEW_WITH_ATTACHMENTS:
-		view_sexp = "(match-all (system-flag \"Attachments\" ))";
-		break;
-	case VIEW_NOT_JUNK:
-		view_sexp = "(match-all (not (system-flag \"junk\")))";
-		break;
-        case VIEW_NO_LABEL: {
-		GSList *l;
-		GString *s = g_string_new ("(and");
-
-		for (l = mail_config_get_labels (); l; l = l->next) {
-			EUtilLabel *label = (EUtilLabel *)l->data;
-
-			if (label && label->tag) {
-				const gchar *tag = label->tag;
-
-				if (strncmp (tag, "$Label", 6) == 0)
-					tag += 6;
-
-				g_string_append_printf (s, " (match-all (not (or (= (user-tag \"label\") \"%s\") (user-flag \"$Label%s\") (user-flag \"%s\"))))", tag, tag, tag);
-			}
-		}
-
-		g_string_append (s, ")");
-
-		duplicate = FALSE;
-	        view_sexp = g_string_free (s, FALSE);
-		} break;
-        case VIEW_LABEL:
-		tag = (char *)g_object_get_data (G_OBJECT (menu_item), "LabelTag");
-		view_sexp = g_strdup_printf ("(match-all (or (= (user-tag \"label\") \"%s\") (user-flag \"$Label%s\") (user-flag \"%s\")))", tag, tag, tag);
-		duplicate = FALSE;
-		break;
-	case VIEW_MESSAGES_MARKED_AS_IMPORTANT:
-		view_sexp = "(match-all (system-flag  \"Flagged\" ))";
-		break;
-	case VIEW_ANY_FIELD_CONTAINS:
-		break;
-
-	case VIEW_CUSTOMIZE:
-		/* one space indicates no filtering, so here use two */
-		view_sexp = "  ";
-		break;
-	}
-
-	if (duplicate)
-		view_sexp = g_strdup (view_sexp);
-
-	return view_sexp;
-}
+//static char *
+//get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
+//{
+//	char *view_sexp = NULL;
+//	gint id;
+//	GtkWidget *menu_item;
+//	char *tag;
+//	gboolean duplicate = TRUE;
+//
+//	/* Get the current selected view */
+//	id = e_search_bar_get_viewitem_id (esb);
+//	menu_item = e_search_bar_get_selected_viewitem (esb);
+//
+//	switch (id & VIEW_ITEMS_MASK) {
+//	case VIEW_ALL_MESSAGES:
+//		/* one space indicates no filtering */
+//		view_sexp = " ";
+//		break;
+//
+//	case VIEW_UNREAD_MESSAGES:
+//		view_sexp = "(match-all (not (system-flag  \"Seen\")))";
+//		break;
+//	case VIEW_READ_MESSAGES:
+//		view_sexp = "(match-all (system-flag  \"Seen\" ))";
+//		break;
+//	case VIEW_RECENT_MESSAGES:
+//		if (!em_utils_folder_is_sent (folder, folder_uri))
+//			view_sexp = "(match-all (> (get-received-date) (- (get-current-date) 86400)))";
+//		else
+//			view_sexp = "(match-all (> (get-sent-date) (- (get-current-date) 86400)))";
+//		break;
+//	case VIEW_LAST_FIVE_DAYS:
+//		if (!em_utils_folder_is_sent (folder, folder_uri))
+//			view_sexp = " (match-all (> (get-received-date) (- (get-current-date) 432000)))";
+//		else
+//			view_sexp = " (match-all (> (get-sent-date) (- (get-current-date) 432000)))";
+//		break;
+//	case VIEW_WITH_ATTACHMENTS:
+//		view_sexp = "(match-all (system-flag \"Attachments\" ))";
+//		break;
+//	case VIEW_NOT_JUNK:
+//		view_sexp = "(match-all (not (system-flag \"junk\")))";
+//		break;
+//	case VIEW_NO_LABEL: {
+//		GSList *l;
+//		GString *s = g_string_new ("(and");
+//
+//		for (l = mail_config_get_labels (); l; l = l->next) {
+//			EUtilLabel *label = (EUtilLabel *)l->data;
+//
+//			if (label && label->tag) {
+//				const gchar *tag = label->tag;
+//
+//				if (strncmp (tag, "$Label", 6) == 0)
+//					tag += 6;
+//
+//				g_string_append_printf (s, " (match-all (not (or (= (user-tag \"label\") \"%s\") (user-flag \"$Label%s\") (user-flag \"%s\"))))", tag, tag, tag);
+//			}
+//		}
+//
+//		g_string_append (s, ")");
+//
+//		duplicate = FALSE;
+//	        view_sexp = g_string_free (s, FALSE);
+//		} break;
+//	case VIEW_LABEL:
+//		tag = (char *)g_object_get_data (G_OBJECT (menu_item), "LabelTag");
+//		view_sexp = g_strdup_printf ("(match-all (or (= (user-tag \"label\") \"%s\") (user-flag \"$Label%s\") (user-flag \"%s\")))", tag, tag, tag);
+//		duplicate = FALSE;
+//		break;
+//	case VIEW_MESSAGES_MARKED_AS_IMPORTANT:
+//		view_sexp = "(match-all (system-flag  \"Flagged\" ))";
+//		break;
+//	case VIEW_ANY_FIELD_CONTAINS:
+//		break;
+//
+//	case VIEW_CUSTOMIZE:
+//		/* one space indicates no filtering, so here use two */
+//		view_sexp = "  ";
+//		break;
+//	}
+//
+//	if (duplicate)
+//		view_sexp = g_strdup (view_sexp);
+//
+//	return view_sexp;
+//}
 
 
 struct _setup_msg {

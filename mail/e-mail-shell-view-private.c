@@ -162,12 +162,16 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	EShellWindow *shell_window;
 	EMFolderTreeModel *folder_tree_model;
 	EMFolderTree *folder_tree;
+	RuleContext *context;
+	FilterRule *rule = NULL;
 	GtkTreeModel *tree_model;
 	GtkUIManager *ui_manager;
 	MessageList *message_list;
 	EMailReader *reader;
+	const gchar *source;
 	guint merge_id;
 	gchar *uri;
+	gint ii = 0;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
@@ -243,6 +247,17 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	e_mail_shell_view_update_search_filter (mail_shell_view);
 	e_mail_reader_init (reader);
 
+	/* Populate built-in rules for search entry popup menu.
+	 * Keep the assertions, please.  If the conditions aren't
+	 * met we're going to crash anyway, just more mysteriously. */
+	context = e_shell_content_get_search_context (shell_content);
+	source = FILTER_SOURCE_DEMAND;
+	while ((rule = rule_context_next_rule (context, rule, source))) {
+		g_assert (ii < MAIL_NUM_SEARCH_RULES);
+		priv->search_rules[ii++] = g_object_ref (rule);
+	}
+	g_assert (ii == MAIL_NUM_SEARCH_RULES);
+
 	/* Restore the previously selected folder. */
 	folder_tree_model = em_folder_tree_get_model (folder_tree);
 	uri = em_folder_tree_model_get_selected (folder_tree_model);
@@ -266,20 +281,263 @@ void
 e_mail_shell_view_private_dispose (EMailShellView *mail_shell_view)
 {
 	EMailShellViewPrivate *priv = mail_shell_view->priv;
+	gint ii;
 
 	DISPOSE (priv->mail_shell_content);
 	DISPOSE (priv->mail_shell_sidebar);
+
+	for (ii = 0; ii < MAIL_NUM_SEARCH_RULES; ii++)
+		DISPOSE (priv->search_rules[ii]);
 }
 
 void
 e_mail_shell_view_private_finalize (EMailShellView *mail_shell_view)
 {
+	/* XXX Nothing to do? */
 }
 
 void
 e_mail_shell_view_execute_search (EMailShellView *mail_shell_view)
 {
-	/* FIXME */
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellContent *shell_content;
+	EShellSettings *shell_settings;
+	EMFormatHTMLDisplay *html_display;
+	MessageList *message_list;
+	FilterRule *rule;
+	EMailReader *reader;
+	CamelFolder *folder;
+	GtkAction *action;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter tree_iter;
+	GString *string;
+	GList *iter;
+	GSList *word_list = NULL;
+	const gchar *folder_uri;
+	const gchar *text;
+	gboolean valid;
+	gchar *query;
+	gchar *temp;
+	gchar *tag;
+	gint value;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_content = e_shell_view_get_shell_content (shell_view);
+
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	reader = E_MAIL_READER (shell_content);
+	html_display = e_mail_reader_get_html_display (reader);
+	message_list = e_mail_reader_get_message_list (reader);
+
+	folder_uri = message_list->folder_uri;
+	folder = message_list->folder;
+
+	/* This returns a new object reference. */
+	model = e_shell_settings_get_object (
+		shell_settings, "mail-label-list-store");
+
+	text = e_shell_content_get_search_text (shell_content);
+	if (text == NULL || *text == '\0') {
+		query = g_strdup ("");
+		goto filter;
+	}
+
+	/* Replace variables in the selected rule with the
+	 * current search text and extract a query string. */
+
+	action = ACTION (MAIL_SEARCH_SUBJECT_OR_SENDER_CONTAINS);
+	value = gtk_radio_action_get_current_value (GTK_RADIO_ACTION (action));
+	g_return_if_fail (value >= 0 && value < MAIL_NUM_SEARCH_RULES);
+	rule = mail_shell_view->priv->search_rules[value];
+
+	for (iter = rule->parts; iter != NULL; iter = iter->next) {
+		FilterPart *part = iter->data;
+		FilterElement *element = NULL;
+
+		if (strcmp (part->name, "subject") == 0)
+			element = filter_part_find_element (part, "subject");
+		else if (strcmp (part->name, "body") == 0)
+			element = filter_part_find_element (part, "word");
+		else if (strcmp (part->name, "sender") == 0)
+			element = filter_part_find_element (part, "sender");
+		else if (strcmp (part->name, "to") == 0)
+			element = filter_part_find_element (part, "recipient");
+
+		if (strcmp (part->name, "body") == 0) {
+			struct _camel_search_words *words;
+			gint ii;
+
+			words = camel_search_words_split ((guchar *) text);
+			for (ii = 0; ii < words->len; ii++)
+				word_list = g_slist_prepend (
+					word_list, g_strdup (
+					words->words[ii]->word));
+			camel_search_words_free (words);
+		}
+
+		if (element != NULL) {
+			FilterInput *input = FILTER_INPUT (element);
+			filter_input_set_value (input, text);
+		}
+	}
+
+	string = g_string_sized_new (1024);
+	filter_rule_build_code (rule, string);
+	query = g_string_free (string, FALSE);
+
+filter:
+
+	/* Apply selected filter. */
+
+	value = e_shell_content_get_filter_value (shell_content);
+	switch (value) {
+		case MAIL_FILTER_ALL_MESSAGES:
+			break;
+
+		case MAIL_FILTER_UNREAD_MESSAGES:
+			temp = g_strdup_printf (
+				"(and %s (match-all (not "
+				"(system-flag \"Seen\"))))", query);
+			g_free (query);
+			query = temp;
+			break;
+
+		case MAIL_FILTER_NO_LABEL:
+			string = g_string_sized_new (1024);
+			g_string_append_printf (
+				string, "(and %s (and ", query);
+			valid = gtk_tree_model_get_iter_first (
+				model, &tree_iter);
+			while (valid) {
+				tag = e_mail_label_list_store_get_tag (
+					E_MAIL_LABEL_LIST_STORE (model),
+					&tree_iter);
+				g_string_append_printf (
+					string, " (match-all (not (or "
+					"(= (user-tag \"label\") \"%s\") "
+					"(user-flag \"$Label%s\") "
+					"(user-flag \"%s\"))))",
+					tag, tag, tag);
+				g_free (tag);
+
+				valid = gtk_tree_model_iter_next (
+					model, &tree_iter);
+			}
+			g_string_append_len (string, "))", 2);
+			g_free (query);
+			query = g_string_free (string, FALSE);
+			break;
+
+		case MAIL_FILTER_READ_MESSAGES:
+			temp = g_strdup_printf (
+				"(and %s (match-all "
+				"(system-flag \"Seen\")))", query);
+			g_free (query);
+			query = temp;
+			break;
+
+		case MAIL_FILTER_RECENT_MESSAGES:
+			if (em_utils_folder_is_sent (folder, folder_uri))
+				temp = g_strdup_printf (
+					"(and %s (match-all "
+					"(> (get-sent-date) "
+					"(- (get-current-date) 86400))))",
+					query);
+			else
+				temp = g_strdup_printf (
+					"(and %s (match-all "
+					"(> (get-received-date) "
+					"(- (get_current_date) 86400))))",
+					query);
+			g_free (query);
+			query = temp;
+			break;
+
+		case MAIL_FILTER_LAST_5_DAYS_MESSAGES:
+			if (em_utils_folder_is_sent (folder, folder_uri))
+				temp = g_strdup_printf (
+					"(and %s (match-all "
+					"(> (get-sent-date) "
+					"(- (get-current-date) 432000))))",
+					query);
+			else
+				temp = g_strdup_printf (
+					"(and %s (match-all "
+					"(> (get-received-date) "
+					"(- (get_current_date) 432000))))",
+					query);
+			g_free (query);
+			query = temp;
+			break;
+
+		case MAIL_FILTER_MESSAGES_WITH_ATTACHMENTS:
+			temp = g_strdup_printf (
+				"(and %s (match-all "
+				"(system-flag \"Attachments\")))", query);
+			g_free (query);
+			query = temp;
+			break;
+
+		case MAIL_FILTER_IMPORTANT_MESSAGES:
+			temp = g_strdup_printf (
+				"(and %s (match-all "
+				"(system-flag \"Flagged\")))", query);
+			g_free (query);
+			query = temp;
+			break;
+
+		case MAIL_FILTER_MESSAGES_NOT_JUNK:
+			temp = g_strdup_printf (
+				"(and %s (match-all (not "
+				"(system-flag \"junk\"))))", query);
+			g_free (query);
+			query = temp;
+			break;
+
+		default:
+			/* The action value also serves as a path for
+			 * the label list store.  That's why we number
+			 * the label actions from zero. */
+			path = gtk_tree_path_new_from_indices (value, -1);
+			gtk_tree_model_get_iter (model, &tree_iter, path);
+			gtk_tree_path_free (path);
+
+			tag = e_mail_label_list_store_get_tag (
+				E_MAIL_LABEL_LIST_STORE (model), &tree_iter);
+			temp = g_strdup_printf (
+				"(and %s (match-all (or "
+				"(= (user-tag \"label\") \"%s\") "
+				"(user-flag \"$Label%s\") "
+				"(user-flag \"%s\"))))",
+				query, tag, tag, tag);
+			g_free (tag);
+
+			g_free (query);
+			query = temp;
+			break;
+	}
+
+	message_list_set_search (message_list, query);
+
+	em_format_html_display_set_search (
+		html_display,
+		EM_FORMAT_HTML_DISPLAY_SEARCH_SECONDARY |
+		EM_FORMAT_HTML_DISPLAY_SEARCH_ICASE,
+		word_list);
+
+	g_slist_foreach (word_list, (GFunc) g_free, NULL);
+	g_slist_free (word_list);
+
+	g_object_unref (model);
+	g_free (query);
 }
 
 /* Helper for e_mail_shell_view_create_filter_from_selected() */
@@ -426,8 +684,6 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	guint32 num_junked_not_deleted;
 	guint32 num_unread;
 	guint32 num_visible;
-
-	/* FIXME The sidebar should handle icon name and primary text. */
 
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
