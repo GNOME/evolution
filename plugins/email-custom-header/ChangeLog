@@ -1,3 +1,10 @@
+2009-02-13  Milan Crha  <mcrha@redhat.com>
+
+	** Fixes part of bug #564229
+
+	* email-custom-header.c: (e_plugin_lib_get_configure_widget):
+	Do not use uninitialized variable.
+
 2008-09-12  Sankar P  <psankar@novell.com>
 
 License Changes
