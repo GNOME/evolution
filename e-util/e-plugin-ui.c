@@ -83,12 +83,6 @@ plugin_ui_registry_insert (EPluginUIHook *hook,
 {
 	GHashTable *hash_table;
 
-	if (registry == NULL)
-		registry = g_hash_table_new_full (
-			g_direct_hash, g_direct_equal,
-			(GDestroyNotify) NULL,
-			(GDestroyNotify) g_hash_table_destroy);
-
 	hash_table = g_hash_table_lookup (registry, hook);
 	if (hash_table == NULL) {
 		hash_table = g_hash_table_new (g_direct_hash, g_direct_equal);
@@ -325,6 +319,11 @@ plugin_ui_hook_class_init (EPluginUIHookClass *class)
 	plugin_hook_class->id = E_PLUGIN_UI_HOOK_CLASS_ID;
 	plugin_hook_class->construct = plugin_ui_hook_construct;
 	plugin_hook_class->enable = plugin_ui_hook_enable;
+
+	registry = g_hash_table_new_full (
+		g_direct_hash, g_direct_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) g_hash_table_destroy);
 }
 
 static void

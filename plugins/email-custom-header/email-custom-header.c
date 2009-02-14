@@ -903,7 +903,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_tree_view_set_model (GTK_TREE_VIEW (cd->treeview), GTK_TREE_MODEL (cd->store));
 
 	renderer = gtk_cell_renderer_text_new ();
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (cd->treeview), -1, _("Key"),
+	col_pos = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (cd->treeview), -1, _("Key"),
 			renderer, "text", HEADER_KEY_COLUMN, NULL);
 	col = gtk_tree_view_get_column (GTK_TREE_VIEW (cd->treeview), col_pos -1);
         gtk_tree_view_column_set_resizable (col, TRUE);

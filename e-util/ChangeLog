@@ -1,3 +1,11 @@
+2009-02-13  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #564229
+
+	* e-plugin-ui.c (plugin_ui_hook_class_init):
+	Initialize the EPluginUI registry during class initialization,
+	so that it's sure to be there when we need it.
+
 2009-01-15  Milan Crha  <mcrha@redhat.com>
 
 	* e-plugin.c: (epl_construct): Compiler warning fix.
