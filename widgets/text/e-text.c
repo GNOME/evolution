@@ -45,9 +45,6 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
-#include <libart_lgpl/art_affine.h>
-#include <libart_lgpl/art_rgb.h>
-#include <libart_lgpl/art_rgb_bitmap_affine.h>
 
 #include "a11y/e-text/gal-a11y-e-text.h"
 #include "misc/e-canvas.h"
