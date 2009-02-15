@@ -1,3 +1,10 @@
+2009-02-12  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #567089
+
+	* e-msg-composer.c: (get_signature_html):
+	Do not crash when no From set yet.
+
 2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-msg-composer.c (msg_composer_link_clicked):

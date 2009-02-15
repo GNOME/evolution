@@ -1,3 +1,104 @@
+2009-02-11  Andre Klapper  <a9016009@gmx.de>
+
+	* em-folder-browser.c:
+	* em-migrate.c:
+	Substitute some deprecated gtk+ functions.
+
+2009-02-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #569700
+
+	* em-format-html.c: (emfh_gethttp):
+	Stop reading from a network when operation was canceled.
+
+2009-02-11  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #333716
+
+	* em-format-html.c: (emfh_gethttp):
+	Do not store incomplete or broken files in a cache.
+
+2009-02-10  Milan Crha  <mcrha@redhat.com>
+
+	* em-format-html-display.c: (efhd_format_secure):
+	Format signature/encryption information nicer.
+
+2009-02-09  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #555888
+
+	* mail-config.glade:
+	* em-network-prefs.h: (struct _EMNetworkPrefs):
+	* em-network-prefs.c: (emnp_parse_ignore_hosts),
+	(emnp_load_sys_settings), (notify_proxy_type_changed),
+	(em_network_prefs_construct):
+	Do not overwrite user settings with system proxy settings.
+	Register signals at the end, when all widgets are read.
+	Hide socks settings, it is not used at the moment.
+
+	* em-utils.h: (em_utils_get_proxy_uri):
+	* em-utils.c: (em_utils_get_proxy_uri), (emu_proxy_setup):
+	* em-format-html.c: (emfh_gethttp):
+	Use proxy configurable within Evolution.
+
+2009-02-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #548623
+
+	* mail-config.glade:
+	* em-network-prefs.h:
+	* em-network-prefs.c: (emnp_set_sensitiveness),
+	(emnp_load_sys_settings), (notify_proxy_type_changed),
+	(em_network_prefs_construct), (emnp_set_markups):
+	No auto-proxy at the moment.
+
+2009-02-05  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #554458
+
+	* em-format.c: (em_format_describe_part):
+	Make content type from a mime type first.
+
+2009-02-04  Gilles Dartiguelongue  <gdartigu@svn.gnome.org>
+
+	** Fix for bug #568176
+	
+	* em-migrate.c: (em_migrate_setup_progress_dialog),
+	(em_migrate_close_progress_dialog), (em_migrate_set_folder_name),
+	(em_migrate_local_folders_1_4), (migrate_to_db):
+	Make the migration dialog look better.
+
+2009-02-03  Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #569986
+
+	* mail/em-format-html-print.c: Handle printers while doing attachment
+	bar rendering.
+	* mail/em-format-html.c:
+	* mail/em-format.c:
+	* mail/em-format.h:
+
+2009-02-02  Matt McCutchen 2  <matt@mattmccutchen.net>
+
+	** Fix for bug #567935
+
+	* em-folder-tree.c (emft_popup_uvfolder): Don't use an uninitialized 
+	variable.
+
+2009-02-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-event.c:
+	* em-event.h:
+	* em-migrate.c:
+	Fix compiler warnings.
+
+2009-02-01  Johnny Jacob  <jjohnny@novell.com>
+
+	* em-event.h (struct _EMEventTargetFolderBrowser): Added.
+	* em-event.c (em_event_target_new_folder_browser): Added.
+	(EEventHookTargetMask emeh_folder_browser_masks): Added.
+	* em-folder-browser.c (emfb_init): New e-plugin Hook point.
+
 2009-01-30  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* message-list.c: (regen_list_exec): Fix compiler warnings

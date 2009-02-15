@@ -1238,7 +1238,7 @@ e_day_view_unrealize (GtkWidget *widget)
 static GdkColor
 e_day_view_get_text_color (EDayView *day_view, EDayViewEvent *event, GtkWidget *widget)
 {
-	GdkColor color, bg_color;
+	GdkColor bg_color;
 	guint16 red, green, blue;
 	gdouble	cc = 65535.0;
 
@@ -1258,11 +1258,9 @@ e_day_view_get_text_color (EDayView *day_view, EDayViewEvent *event, GtkWidget *
        	}
 
 	if ((red/cc > 0.7) || (green/cc > 0.7) || (blue/cc > 0.7 ))
-		color = widget->style->text[GTK_STATE_NORMAL];
+		return widget->style->black;
 	else
-		color = widget->style->text[GTK_STATE_ACTIVE];
-
-	return color;
+		return widget->style->white;
 }
 
 static void

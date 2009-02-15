@@ -7,6 +7,7 @@ endif
 
 INCLUDES =					\
 	-I$(top_srcdir)				\
+	-I$(top_srcdir)/widgets			\
 	$(EVOLUTION_MAIL_CFLAGS)		\
 	$(LIBNOTIFY_CFLAGS)			
 

@@ -76,7 +76,7 @@ guint	  calendar_config_add_notification_primary_calendar (GConfClientNotifyFunc
 /* The current timezone, e.g. "Europe/London". */
 gchar*	  calendar_config_get_timezone		(void);
 icaltimezone *calendar_config_get_icaltimezone (void);
-void	  calendar_config_set_timezone		(gchar	     *timezone);
+void	  calendar_config_set_timezone		(const gchar	     *timezone);
 guint calendar_config_add_notification_timezone (GConfClientNotifyFunc func, gpointer data);
 
 /* The working days of the week, a bit-wise combination of flags. */

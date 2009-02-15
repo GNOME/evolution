@@ -1,3 +1,15 @@
+2009-02-12  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #404232
+
+	* gui/widgets/e-addressbook-view.c: (search_activated):
+	Rebuild view immediately for an advanced search too.
+
+2009-02-11  Andre Klapper  <a9016009@gmx.de>
+
+	* /gui/component/addressbook-migrate.c:
+	Substitute some deprecated gtk+ functions.
+
 2009-01-26  Matthew Barnes  <mbarnes@redhat.com>
 
 	* printing/test-print.c:

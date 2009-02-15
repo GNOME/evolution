@@ -8,20 +8,14 @@ DOC_ENTITIES =
 DOC_INCLUDES =
 DOC_FIGURES =  \
 	figures/account_editor_a.png 		\
-	figures/addrs_book_a.png		\
 	figures/attach_reminder_a.png		\
-	figures/calendar.png 			\
 	figures/categories_a.png 		\
 	figures/collap_head_a.png 		\
 	figures/config-cal.png 			\
 	figures/config-mail.png 		\
-	figures/contact-editor.png 		\
-	figures/contact.png 			\
 	figures/contacts_mainwindow_a.png 	\
 	figures/delgt-add.png 			\
 	figures/evo_account_editor_a.png 	\
-	figures/evo_account_info_a.png 		\
-	figures/evo_add_rule_a.png 		\
 	figures/evo_adv_search_a.png 		\
 	figures/evo_allday_a.png 		\
 	figures/evo_attachreminder_plugin.png	\
@@ -44,7 +38,6 @@ DOC_FIGURES =  \
 	figures/evo_dialog-warning.png		\
 	figures/evo_edit_rule_a.png 		\
 	figures/evo_edit_search.png 		\
-	figures/evo_email_a.png 		\
 	figures/evo_flag_follow_up_a.png 	\
 	figures/evo_gwreceive_a.png 		\
 	figures/evo_gwreceiveedit_a.png 	\
@@ -71,7 +64,6 @@ DOC_FIGURES =  \
 	figures/evo_newmail.png			\
 	figures/evo_popreceive_a.png 		\
 	figures/evo_proxyadd_a.png 		\
-	figures/evo_receive_setup2_a.png 	\
 	figures/evo_receive_setup_a.png 	\
 	figures/evo_rmdrnotes_a.png 		\
 	figures/evo_rule_a.png 			\
@@ -85,10 +77,6 @@ DOC_FIGURES =  \
 	figures/evo_usereceive_a.png 		\
 	figures/evo_junk_a.png			\
 	figures/evo_offline.png			\
-	figures/exchange-delegation.png 	\
-	figures/exchange-identity.png 		\
-	figures/exchange-receive-options.png 	\
-	figures/exchange-receive.png 		\
 	figures/exchg-identity.png 		\
 	figures/exchng-identity.png 		\
 	figures/exchng-rec-mail.png 		\
@@ -98,36 +86,19 @@ DOC_FIGURES =  \
 	figures/exchng-settings.png 		\
 	figures/filter-new-fig.png 		\
 	figures/free_busy.png 			\
-	figures/full-1.png 			\
-	figures/full-2.png 			\
-	figures/full-3.png 			\
-	figures/full-4.png 			\
-	figures/full-5.png 			\
-	figures/full-6.png 			\
-	figures/full-7.png 			\
 	figures/google_cal_view.png		\
-	figures/mail-druid-pic.png 		\
 	figures/mailer_preferences.png 		\
-	figures/mail-inbox.png 			\
-	figures/mail_mainwindow_a.png 		\
 	figures/mail-threaded.png 		\
-	figures/mainwindow-pic.png 		\
 	figures/minus.png 			\
-	figures/newmsg.png 			\
 	figures/plus.png 			\
 	figures/proxy-cal.png 			\
 	figures/proxy-login.png 		\
 	figures/quick_add_a.png 		\
 	figures/quick_reference.png		\
-	figures/replymsg.png 			\
-	figures/schedule.png 			\
-	figures/Screenshot-Evolution-mailer-Preferences.png 	\
-	figures/Screenshot-Free-Busy.png 	\
 	figures/stock_search.png 		\
 	figures/sub-others-folder.png 		\
 	figures/sub-pub-fold.png 		\
-	figures/ver_view_a.png 			\
-	figures/vfolder-createrule-fig.png 	
+	figures/ver_view_a.png
 
 DOC_LINGUAS = cs de el en_GB es fr oc ru sv mk
 

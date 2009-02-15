@@ -147,6 +147,16 @@ em_event_target_new_folder (EMEvent *eme, const char *uri, unsigned int new)
 	return t;
 }
 
+EMEventTargetFolderBrowser *
+em_event_target_new_folder_browser (EMEvent *eme, EMFolderBrowser *emfb)
+{
+	EMEventTargetFolderBrowser *t = e_event_target_new(&eme->popup, EM_EVENT_TARGET_FOLDER_BROWSER, sizeof(*t));
+
+	t->emfb = emfb;
+
+	return t;
+}
+
 EMEventTargetComposer *
 em_event_target_new_composer (EMEvent *eme, const EMsgComposer *composer, guint32 flags)
 {
@@ -210,6 +220,10 @@ static const EEventHookTargetMask emeh_folder_masks[] = {
 	{ NULL }
 };
 
+static const EEventHookTargetMask emeh_folder_browser_masks[] = {
+	{ "folderbrowser", EM_EVENT_FOLDER_BROWSER },
+	{ NULL }
+};
 
 static const EEventHookTargetMask emeh_composer_masks[] = {
 	{ "sendoption", EM_EVENT_COMPOSER_SEND_OPTION },
@@ -230,8 +244,10 @@ static const EEventHookTargetMask emeh_custom_icon_masks[] = {
 	{ "customicon", EM_EVENT_CUSTOM_ICON },
 	{ NULL }
 };
+
 static const EEventHookTargetMap emeh_targets[] = {
 	{ "folder", EM_EVENT_TARGET_FOLDER, emeh_folder_masks },
+	{ "folderbrowser", EM_EVENT_TARGET_FOLDER_BROWSER, emeh_folder_browser_masks },
 	{ "message", EM_EVENT_TARGET_MESSAGE, emeh_message_masks },
 	{ "composer", EM_EVENT_TARGET_COMPOSER, emeh_composer_masks},
 	{ "sendreceive", EM_EVENT_TARGET_SEND_RECEIVE, emeh_send_receive_masks},

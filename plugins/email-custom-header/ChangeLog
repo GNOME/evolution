@@ -1,3 +1,21 @@
+2009-02-13  Milan Crha  <mcrha@redhat.com>
+
+	** Fixes part of bug #564229
+
+	* email-custom-header.c: (e_plugin_lib_get_configure_widget):
+	Do not use uninitialized variable.
+
+2009-02-02  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	Reviewed by Srinivasa Ragavan  <sragavan@novell.com>
+
+	** Fix for bug #567568
+
+	* apps_evolution_email_custom_header.schemas.in:
+	Remove translatable <default> tag.
+	* email-custom-header.c (epech_setup_widgets):
+	Added gettext for the default custom header.
+
 2009-01-09  Takao Fujiwara  <takao.fujiwara@sun.com>
 
 	Reviewed by Matthew Barnes  <mbarnes@redhat.com>

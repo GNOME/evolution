@@ -430,7 +430,7 @@ task_details_page_fill_timezones (CompEditorPage *page, GHashTable *timezones)
 	zone = icaltimezone_get_utc_timezone ();
 	if (zone) {
 		if (!g_hash_table_lookup (timezones, icaltimezone_get_tzid (zone)))
-			g_hash_table_insert (timezones, icaltimezone_get_tzid (zone), zone);
+			g_hash_table_insert (timezones, (gpointer) icaltimezone_get_tzid (zone), zone);
 	}
 
 	return TRUE;

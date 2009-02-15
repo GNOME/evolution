@@ -119,6 +119,10 @@ evolution_LDADD =							\
 	$(TZDIALOG_LIBS)						\
 	$(SHELL_LIBS)
 
+if OS_WIN32
+evolution_LDFLAGS = -mwindows
+endif
+
 # Misc stuff
 
 error_DATA = shell.error

@@ -1,3 +1,11 @@
+2009-02-10  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Removed unused figures (bug #552695)
+
+2009-02-01  Petr Kovar  <pknbe@volny.cz>
+
+	* cs/cs.po: Updated Czech translation by Jiri Eischmann.
+
 2009-01-24  Andre Klapper  <a9016009@gmx.de>
 
 	* de/de.po: Updated German translation.

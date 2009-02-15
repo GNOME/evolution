@@ -29,6 +29,7 @@
 #include <mono/metadata/appdomain.h>
 #include <mono/metadata/assembly.h>
 #include <mono/metadata/threads.h>
+#include <mono/metadata/mono-config.h>
 #include <mono/jit/jit.h>
 
 #define d(x) (x)

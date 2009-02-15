@@ -1,3 +1,11 @@
+2009-02-02  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS: Evolution 2.25.90 release
+
+2009-01-31  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Disable debug macros (#define d(x) x) throughout.  (#569638)
+
 2009-01-29  Tor Lillqvist  <tml@novell.com>
 
 	Cross-compilation from Linux to Windows support by Fridrich Strba.

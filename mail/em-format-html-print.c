@@ -71,6 +71,7 @@ efhp_init (GObject *o)
 	gtk_container_add (GTK_CONTAINER (efhp->window), html);
 	gtk_widget_realize (html);
 	efhp->parent.show_icon = FALSE;
+	((EMFormat *)efhp)->print = TRUE;
 }
 
 GType

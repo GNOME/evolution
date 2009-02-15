@@ -1,3 +1,8 @@
+2009-02-03  Tor Lillqvist  <tml@novell.com>
+
+	* Makefile.am (evolution_LDFLAGS): Use -mwindows on Windows to
+	build a "GUI" executable.
+
 2009-01-11  Matthew Barnes  <mbarnes@redhat.com>
 
 	* e-shell-window-commands.c (command_open_faq):

@@ -1,3 +1,38 @@
+2009-02-13  Chow Loong Jin <hyperair@gmail.com>
+
+	** Fixes bug #571625
+
+	* calendar/gui/e-day-view.c
+	* calendar/gui/e-week-view.c:
+	Use black/white for foreground instead of active/inactive text color
+
+2009-02-11  Andre Klapper  <a9016009@gmx.de>
+
+	* /gui/migration.c:
+	* /gui/dialogs/alarm-dialog.c:
+	Substitute some deprecated gtk+ functions.
+
+2009-02-09  Milan Crha  <mcrha@redhat.com>
+
+	* gui/dialogs/cal-prefs-dialog.glade:
+	Do not use non-zero page size in an adjustment, it's deprecated now.
+
+2009-02-03  Gabor Kelemen  <kelemeng@gnome.hu>
+
+	* gui/alarm-notify/alarm-notify.glade:
+	Mark a string for translation. Fixes bug #570364
+
+2009-02-01  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/calendar-config.c:
+	* gui/calendar-config.h:
+	* gui/e-itip-control.c:
+	* gui/alarm-notify/alarm-queue.c:
+	* gui/dialogs/event-page.c:
+	* gui/dialogs/task-details-page.c:
+	* gui/dialogs/task-page.c:
+	Fix compiler warnings.
+
 2009-01-30  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #450554 (bugzilla.novell.com)

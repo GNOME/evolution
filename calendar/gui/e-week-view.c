@@ -817,7 +817,7 @@ get_digit_width (PangoLayout *layout)
 static GdkColor
 e_week_view_get_text_color (EWeekView *week_view, EWeekViewEvent *event, GtkWidget *widget)
 {
-	GdkColor color, bg_color;
+	GdkColor bg_color;
 	guint16 red, green, blue;
 	gdouble	cc = 65535.0;
 
@@ -837,11 +837,9 @@ e_week_view_get_text_color (EWeekView *week_view, EWeekViewEvent *event, GtkWidg
        	}
 
 	if ((red/cc > 0.7) || (green/cc > 0.7) || (blue/cc > 0.7 ))
-		color = widget->style->text[GTK_STATE_NORMAL];
+		return widget->style->black;
 	else
-		color = widget->style->text[GTK_STATE_ACTIVE];
-
-	return color;
+		return widget->style->white;
 }
 
 static void

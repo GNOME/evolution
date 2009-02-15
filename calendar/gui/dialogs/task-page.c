@@ -1348,7 +1348,7 @@ task_page_fill_timezones (CompEditorPage *page, GHashTable *timezones)
 	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->timezone));
 	if (zone) {
 		if (!g_hash_table_lookup (timezones, icaltimezone_get_tzid (zone)))
-			g_hash_table_insert (timezones, icaltimezone_get_tzid (zone), zone);
+			g_hash_table_insert (timezones, (gpointer) icaltimezone_get_tzid (zone), zone);
 	}
 
 	return TRUE;

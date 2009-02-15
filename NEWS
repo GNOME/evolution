@@ -1,3 +1,52 @@
+Evolution 2.25.90 2009-02-02
+----------------------------
+
+Updated Translations:
+	Andre Klapper (de)
+	Bharath Acharya (PO)
+	Changwoo Ryu (ko)
+	Daniel Nylander (sv)
+	Funda Wang (zh)
+	Gabor Kelemen (hu)
+	Hendrik Richter (de)
+	I. Felix (ta)
+	Ilkka Tuohela (fi)
+	Jonh Wendell (pt)
+	Jorge Gonzalez (es)
+	Jovan Naumovski (mk)
+	Kjartan Maraas (nb)
+	Miloš Popović) (sr)
+	Nguyễn Thái Ngọc Duy (vi)
+	Raivis Dejus (lv)
+	Wadim Dziedzic (pl)
+
+Bug Fixes:
+	#318003 : Support move of the event in day view when dropped over the source list. Use the same function for events/tasks/memos. Encode string data same as memos and tasks do, with a source UID. Removed inappropriate comments. (Milan Crha)
+	#342446 : Use localized digits in the calendar widget. (behnam esfahbod)
+	#362754 : Ensure to show default groups and sources with actual localized name, not the one it was stored last time. (Milan Crha)
+	#442869 : Delete attendee only if we have enough rights for it. (Milan Crha)
+	#450554 (BNC) : Remove all attendees from the list-view and name-selector before populating it on 'event_changed' callback. (Suman Manjunath)
+	#470474 (BNC) : fix unused strings. (Bharath Acharya)
+	#539467 :  Find group by its base uri, not by a localized name. (Milan Crha)
+	#546637 : Partial fix for unread vfolders  (Srinivasa Ragavan)
+	#559604 : Additional Information On Calendar Tooltip (Milan Crha)
+	#561628 : Initialize 'parent_class' with its parent, not with itself. (Milan Crha)
+	#562449 : regression in vfolder functionality with read/deleted messages  (Srinivasa Ragavan)
+	#567654 : Crash in vfolders  (Srinivasa Ragavan)
+	#567824 : Fix all header related bugs in calendar printing. (Bharath Acharya)
+	#347287 : MVC for calendar. (Chenthill Palanisamy)
+	#450535 (BNC): Monthly Calendar Highlighted Days Does Not Pass To Meeting/Appointment  (Chenthill Palanisamy)
+	#463602 (bnc) In Calendar View, Meeting/Recur/Alarm Icons Obscure Time Of Meeting. (Chenthill Palanisamy)
+
+	Other contributions:
+
+	Cross-compilation from Linux to Windows support by Fridrich Strba. on Windows. 
+	Added hooks for Seek plugin which is under development. (Johnny Jacob)
+	Show attachment bar at all times. Seems like the contents are missing at times. (Srinivasa Ragavan)
+	Fix compiler warnings. (Matthew Barnes)
+	function-declaration compiler warning. (Suman Manjunath)
+	Migrate the test programs off libgnomeui/libbonobo. (Matthew Barnes)
+
 Evolution 2.25.5 2009-01-19
 ---------------------------
 

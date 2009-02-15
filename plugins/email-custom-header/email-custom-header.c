@@ -39,7 +39,7 @@
 #include "email-custom-header.h"
 
 
-#define d(x) x
+#define d(x)
 #define GCONF_KEY_CUSTOM_HEADER "/apps/evolution/eplugin/email_custom_header/customHeader"
 
 typedef struct {
@@ -329,6 +329,20 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 	HeaderValueComboBox *sub_combo_box_ptr;
 	gint sub_index,row_combo,column_combo;
 	gint header_section_id,sub_type_index,row,column,label_row;
+	gint i;
+	gchar *str;
+	static gchar *security_field = N_("Security:");
+	static struct _security_values {
+		char *value, *str;
+	} security_values[] = {
+		{ "Personal", N_("Personal") } ,
+		{ "Unclassified", N_("Unclassified") },
+		{ "Protected", N_("Protected") },
+		{ "InConfidence", N_("Confidential") },
+		{ "Secret", N_("Secret") },
+		{ "Topsecret", N_("Top secret") },
+		{ NULL, NULL }
+	};
 
 	priv = mch->priv;
 	priv->combo_box_header_value = g_array_new (TRUE, FALSE, sizeof (HeaderValueComboBox)); 
@@ -339,7 +353,11 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 		// To create an empty label widget. Text will be added dynamically.
 		priv->header_type_name_label = gtk_label_new ("");
 		temp_header_ptr = &g_array_index(priv->email_custom_header_details, EmailCustomHeaderDetails,header_section_id);
-		gtk_label_set_markup (GTK_LABEL (priv->header_type_name_label),(temp_header_ptr->header_type_value)->str);
+                str = (temp_header_ptr->header_type_value)->str;
+                if (strcmp (str, security_field) == 0) {
+                	str = _(security_field);
+                }
+		gtk_label_set_markup (GTK_LABEL (priv->header_type_name_label), str);
 
 		gtk_table_attach (GTK_TABLE (priv->header_table), priv->header_type_name_label, 0, 1, row, column,
 			(GtkAttachOptions) (GTK_EXPAND | GTK_FILL),
@@ -363,8 +381,15 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 
 		for (sub_type_index = 0; sub_type_index < temp->number_of_subtype_header; sub_type_index++) {
 			temp_header_value_ptr = &g_array_index(temp->sub_header_type_value, CustomSubHeader,sub_type_index); 
+			str = (temp_header_value_ptr->sub_header_string_value)->str;
+			for (i = 0; security_values[i].value != NULL; i++) {
+				if (strcmp (str, security_values[i].value) == 0) {
+                			str = _(security_values[i].str);
+                			break;
+				}
+			}
 			gtk_combo_box_append_text (GTK_COMBO_BOX (sub_combo_box_ptr->header_value_combo_box),
-				(temp_header_value_ptr->sub_header_string_value)->str);
+				str);
 		}
 
 		gtk_combo_box_append_text (GTK_COMBO_BOX (sub_combo_box_ptr->header_value_combo_box), _("None"));
@@ -878,7 +903,7 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	gtk_tree_view_set_model (GTK_TREE_VIEW (cd->treeview), GTK_TREE_MODEL (cd->store));
 
 	renderer = gtk_cell_renderer_text_new ();
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (cd->treeview), -1, _("Key"),
+	col_pos = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (cd->treeview), -1, _("Key"),
 			renderer, "text", HEADER_KEY_COLUMN, NULL);
 	col = gtk_tree_view_get_column (GTK_TREE_VIEW (cd->treeview), col_pos -1);
         gtk_tree_view_column_set_resizable (col, TRUE);

@@ -97,7 +97,6 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/e-util/.libs/e-popup.o				\
 	$(top_builddir)/e-util/.libs/e-print.o				\
 	$(top_builddir)/e-util/.libs/e-util.o				\
-	$(top_builddir)/e-util/.libs/e-util-labels.o			\
 	$(top_builddir)/e-util/.libs/e-xml-utils.o			\
 	$(top_builddir)/e-util/.libs/gconf-bridge.o			\
 	$(top_builddir)/filter/.libs/filter-code.o			\

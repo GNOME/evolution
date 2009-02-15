@@ -88,6 +88,7 @@
 #include "em-folder-utils.h"
 #include "em-subscribe-editor.h"
 #include "em-menu.h"
+#include "em-event.h"
 #include "message-list.h"
 
 #include "mail-component.h"
@@ -249,6 +250,9 @@ emfb_init(GObject *o)
 	RuleContext *search_context = mail_component_peek_search_context (mail_component_peek ());
 	struct _EMFolderBrowserPrivate *p;
 
+	EMEvent *eme;
+	EMEventTargetFolderBrowser *target;
+
 	p = emfb->priv = g_malloc0(sizeof(struct _EMFolderBrowserPrivate));
 
 	emfb->view.preview_active = TRUE;
@@ -328,6 +332,17 @@ emfb_init(GObject *o)
 //	gtk_box_pack_start ((GtkBox *)p->preview, em_format_html_get_search_dialog (emfb->view.preview), FALSE, FALSE, 0);
 //	gtk_paned_pack2 (GTK_PANED (emfb->vpane), p->preview, TRUE, FALSE);
 //	gtk_widget_show(p->preview);
+
+	/** @HookPoint-EMFolderBrower: Folder Browser
+	 * @Id: emfb.created
+	 * @Class: org.gnome.evolution.mail.events:1.0
+	 * @Target: EMFolderBrowser
+	 */
+
+	eme = em_event_peek();
+	target = em_event_target_new_folder_browser (eme, emfb);
+
+	e_event_emit((EEvent *)eme, "emfb.created", (EEventTarget *)target);
 
 	g_signal_connect (((EMFolderView *) emfb)->list->tree, "key_press", G_CALLBACK(emfb_list_key_press), emfb);
 	g_signal_connect (((EMFolderView *) emfb)->list, "message_selected", G_CALLBACK (emfb_list_message_selected), emfb);

@@ -121,6 +121,7 @@ emf_init(GObject *o)
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) emf_free_cache);
 	emf->composer = FALSE;
+	emf->print = FALSE;
 	emf->show_photo = TRUE;
 	emf->photo_local = TRUE;
 	e_dlist_init(&emf->header_list);
@@ -1135,11 +1136,12 @@ em_format_describe_part(CamelMimePart *part, const char *mime_type)
 {
 	GString *stext;
 	const char *filename, *description;
-	char *out, *desc;
+	char *content_type, *desc;
 
 	stext = g_string_new("");
-	/* TODO: mime_type isn't content_type on some systems (Win32), thus this will not work there. */
-	desc = g_content_type_get_description (mime_type);
+	content_type = g_content_type_from_mime_type (mime_type);
+	desc = g_content_type_get_description (content_type ? content_type : mime_type);
+	g_free (content_type);
 	g_string_append_printf (stext, _("%s attachment"), desc ? desc : mime_type);
 	g_free (desc);
 	if ((filename = camel_mime_part_get_filename (part)))
@@ -1149,10 +1151,7 @@ em_format_describe_part(CamelMimePart *part, const char *mime_type)
 		!(filename && (strcmp(filename, description) == 0)))
 		g_string_append_printf(stext, ", \"%s\"", description);
 
-	out = stext->str;
-	g_string_free(stext, FALSE);
-
-	return out;
+	return g_string_free (stext, FALSE);
 }
 
 /* ********************************************************************** */

@@ -80,7 +80,7 @@ gboolean em_utils_folder_is_outbox(CamelFolder *folder, const char *uri);
 
 void em_utils_adjustment_page(GtkAdjustment *adj, gboolean down);
 
-char *em_utils_get_proxy_uri(void);
+char *em_utils_get_proxy_uri (const char *uri);
 
 /* FIXME: should this have an override charset? */
 char *em_utils_part_to_html(CamelMimePart *part, ssize_t *len, struct _EMFormat *source);

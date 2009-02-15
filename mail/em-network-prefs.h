@@ -69,14 +69,12 @@ struct _EMNetworkPrefs {
 	GtkToggleButton *sys_proxy;
 	GtkToggleButton *no_proxy;
 	GtkToggleButton *manual_proxy;
-	GtkToggleButton *auto_proxy;
 	GtkToggleButton *use_auth;
 
 	GtkEntry *http_host;
 	GtkEntry *https_host;
 	GtkEntry *socks_host;
 	GtkEntry *ignore_hosts;
-	GtkEntry *auto_proxy_url;
 	GtkEntry *auth_user;
 	GtkEntry *auth_pwd;
 
@@ -85,14 +83,13 @@ struct _EMNetworkPrefs {
 	GtkLabel *lbl_https_host;
 	GtkLabel *lbl_https_port;
 	GtkLabel *lbl_socks_host;
-	GtkLabel *lbl_socks_port;	
+	GtkLabel *lbl_socks_port;
 	GtkLabel *lbl_ignore_hosts;
 	GtkLabel *lbl_auth_user;
 	GtkLabel *lbl_auth_pwd;
 
 	GtkSpinButton *http_port;
 	GtkSpinButton *https_port;
-	GtkSpinButton *socks_port;	
 };
 
 struct _EMNetworkPrefsClass {

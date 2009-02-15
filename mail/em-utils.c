@@ -64,6 +64,7 @@
 
 #include <libedataserver/e-data-server-util.h>
 #include <libedataserver/e-flag.h>
+#include <libedataserver/e-proxy.h>
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-mktemp.h"
@@ -1580,62 +1581,17 @@ em_utils_adjustment_page(GtkAdjustment *adj, gboolean down)
 }
 
 /* ********************************************************************** */
-static char *emu_proxy_uri;
-static int emu_proxy_init = 0;
-static pthread_mutex_t emu_proxy_lock = PTHREAD_MUTEX_INITIALIZER;
-
-static void
-emu_set_proxy(GConfClient *client, int needlock)
-{
-	char *server, *uri = NULL;
-	int port;
-
-	if (gconf_client_get_bool(client, "/system/http_proxy/use_http_proxy", NULL)) {
-		server = gconf_client_get_string(client, "/system/http_proxy/host", NULL);
-		port = gconf_client_get_int(client, "/system/http_proxy/port", NULL);
-
-		if (server && server[0]) {
-			if (gconf_client_get_bool(client, "/system/http_proxy/use_authentication", NULL)) {
-				char *user = gconf_client_get_string(client, "/system/http_proxy/authentication_user", NULL);
-				char *pass = gconf_client_get_string(client, "/system/http_proxy/authentication_password", NULL);
-
-				uri = g_strdup_printf("http://%s:%s@%s:%d", user, pass, server, port);
-				g_free(user);
-				g_free(pass);
-			} else {
-				uri = g_strdup_printf("http://%s:%d", server, port);
-			}
-		}
-
-		g_free(server);
-	}
-
-	if (needlock)
-		pthread_mutex_lock(&emu_proxy_lock);
-
-	g_free(emu_proxy_uri);
-	emu_proxy_uri = uri;
-
-	if (needlock)
-		pthread_mutex_unlock(&emu_proxy_lock);
-
-}
-
-static void
-emu_proxy_changed(GConfClient *client, guint32 cnxn_id, GConfEntry *entry, gpointer user_data)
-{
-	emu_set_proxy(client, TRUE);
-}
+static EProxy *emu_proxy = NULL;
+static GStaticMutex emu_proxy_lock = G_STATIC_MUTEX_INIT;
 
 static void *
-emu_proxy_setup(void *data)
+emu_proxy_setup (void *data)
 {
-	GConfClient *client = gconf_client_get_default();
-
-	gconf_client_add_dir(client, "/system/http_proxy", GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	gconf_client_notify_add(client, "/system/http_proxy", emu_proxy_changed, NULL, NULL, NULL);
-	emu_set_proxy(client, FALSE);
-	g_object_unref(client);
+	if (!emu_proxy) {
+		emu_proxy = e_proxy_new ();
+		e_proxy_setup_proxy (emu_proxy);
+		/* not necessary to listen for changes here */
+	}
 
 	return NULL;
 }
@@ -1643,25 +1599,25 @@ emu_proxy_setup(void *data)
 /**
  * em_utils_get_proxy_uri:
  *
- * Get the system proxy uri.
+ * Get the system proxy uri for 'pUri'.
  *
  * Return value: Must be freed when finished with.
  **/
 char *
-em_utils_get_proxy_uri(void)
+em_utils_get_proxy_uri (const char *pUri)
 {
-	char *uri;
+	char *uri = NULL;
 
-	pthread_mutex_lock(&emu_proxy_lock);
+	g_static_mutex_lock (&emu_proxy_lock);
 
-	if (!emu_proxy_init) {
-		mail_call_main(MAIL_CALL_p_p, (MailMainFunc)emu_proxy_setup, NULL);
-		emu_proxy_init = TRUE;
+	if (!emu_proxy) {
+		mail_call_main (MAIL_CALL_p_p, (MailMainFunc)emu_proxy_setup, NULL);
 	}
 
-	uri = g_strdup(emu_proxy_uri);
+	if (e_proxy_require_proxy_for_uri (emu_proxy, pUri))
+		uri = soup_uri_to_string (e_proxy_peek_uri_for (emu_proxy, pUri), FALSE);
 
-	pthread_mutex_unlock(&emu_proxy_lock);
+	g_static_mutex_unlock (&emu_proxy_lock);
 
 	return uri;
 }

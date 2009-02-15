@@ -57,7 +57,7 @@
 
 
 
-#define d(x) x
+#define d(x)
 
 /* The dialog with alarm nofications */
 static AlarmNotificationsDialog *alarm_notifications_dialog = NULL;
@@ -477,7 +477,7 @@ add_component_alarms (ClientAlarms *ca, ECalComponentAlarms *alarms)
 		ECalComponentAlarmInstance *instance;
 		gpointer alarm_id;
 		QueuedAlarm *qa;
-		time_t tnow = time(NULL);
+		d(time_t tnow = time(NULL));
 
 		instance = l->data;
 

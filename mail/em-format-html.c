@@ -493,9 +493,11 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, int cancelled)
 
 		instream = camel_http_stream_new(CAMEL_HTTP_METHOD_GET, ((EMFormat *)job->format)->session, url);
 		camel_http_stream_set_user_agent((CamelHttpStream *)instream, "CamelHttpStream/1.0 Evolution/" VERSION);
-		proxy = em_utils_get_proxy_uri();
-		camel_http_stream_set_proxy((CamelHttpStream *)instream, proxy);
-		g_free(proxy);
+		proxy = em_utils_get_proxy_uri (job->u.uri);
+		if (proxy) {
+			camel_http_stream_set_proxy ((CamelHttpStream *)instream, proxy);
+			g_free (proxy);
+		}
 		camel_operation_start(NULL, _("Retrieving `%s'"), job->u.uri);
 		tmp_stream = (CamelHttpStream *)instream;
 		content_type = camel_http_stream_get_content_type(tmp_stream);
@@ -516,6 +518,10 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, int cancelled)
 		costream = camel_data_cache_add(emfh_http_cache, EMFH_HTTP_CACHE_PATH, job->u.uri, NULL);
 
 	do {
+		if (camel_operation_cancel_check (NULL)) {
+			n = -1;
+			break;
+		}
 		/* FIXME: progress reporting in percentage, can we get the length always?  do we care? */
 		n = camel_stream_read(instream, buffer, sizeof (buffer));
 		if (n > 0) {
@@ -526,17 +532,12 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, int cancelled)
 				camel_operation_progress(NULL, pc_complete);
 			}
 			d(printf("  read %d bytes\n", n));
-			if (costream && camel_stream_write(costream, buffer, n) == -1) {
-				camel_data_cache_remove(emfh_http_cache, EMFH_HTTP_CACHE_PATH, job->u.uri, NULL);
-				camel_object_unref(costream);
-				costream = NULL;
+			if (costream && camel_stream_write (costream, buffer, n) == -1) {
+				n = -1;
+				break;
 			}
 
 			camel_stream_write(job->stream, buffer, n);
-		} else if (n < 0 && costream) {
-			camel_data_cache_remove(emfh_http_cache, EMFH_HTTP_CACHE_PATH, job->u.uri, NULL);
-			camel_object_unref(costream);
-			costream = NULL;
 		}
 	} while (n>0);
 
@@ -544,8 +545,12 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, int cancelled)
 	if (n == 0)
 		camel_stream_close(job->stream);
 
-	if (costream)
+	if (costream) {
+		/* do not store broken files in a cache */
+		if (n != 0)
+			camel_data_cache_remove(emfh_http_cache, EMFH_HTTP_CACHE_PATH, job->u.uri, NULL);
 		camel_object_unref(costream);
+	}
 
 	camel_object_unref(instream);
 done:
@@ -1263,7 +1268,7 @@ efh_format_exec (struct _format_msg *m)
 		if (handle)
 			handle->handler((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMimePart *)m->message, handle);
 		handle = em_format_find_handler((EMFormat *)m->format, "x-evolution/message/post-header-closure");
-		if (handle)
+		if (handle && !((EMFormat *)m->format)->print)
 			handle->handler((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMimePart *)m->message, handle);
 
 	}

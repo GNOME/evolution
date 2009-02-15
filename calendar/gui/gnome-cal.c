@@ -84,7 +84,7 @@
 #define G_MAXINT32	((gint32)  0x7fffffff)
 #endif
 
-#define d(x) x
+#define d(x)
 
 /* hash table define for non intrusive error dialog */
 static GHashTable *non_intrusive_error_table = NULL;
