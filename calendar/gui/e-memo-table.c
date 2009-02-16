@@ -57,6 +57,7 @@
 #include <e-util/e-icon-factory.h>
 #include <e-util/e-util-private.h>
 #include "e-cal-popup.h"
+#include "e-calendar-table.h"
 
 enum TargetType{
 	TARGET_TYPE_VCALENDAR
@@ -181,6 +182,18 @@ row_appended_cb (ECalModel *model, EMemoTable *memo_table)
 	g_signal_emit (memo_table, signals[USER_CREATED], 0);
 }
 
+static gboolean
+query_tooltip_cb (GtkWidget *widget, gint x, gint y, gboolean keyboard_mode, GtkTooltip *tooltip, gpointer user_data)
+{
+	EMemoTable *memo_table;
+
+	g_return_val_if_fail (E_IS_MEMO_TABLE (user_data), FALSE);
+
+	memo_table = E_MEMO_TABLE (user_data);
+
+	return ec_query_tooltip (widget, x, y, keyboard_mode, tooltip, GTK_WIDGET (e_memo_table_get_table (memo_table)), memo_table->model);
+}
+
 static void
 e_memo_table_init (EMemoTable *memo_table)
 {
@@ -272,6 +285,8 @@ e_memo_table_init (EMemoTable *memo_table)
 	g_signal_connect (e_table, "right_click", G_CALLBACK (e_memo_table_on_right_click), memo_table);
 	g_signal_connect (e_table, "key_press", G_CALLBACK (e_memo_table_on_key_press), memo_table);
 	g_signal_connect (e_table, "popup_menu", G_CALLBACK (e_memo_table_on_popup_menu), memo_table);
+	g_signal_connect (e_table, "query-tooltip", G_CALLBACK (query_tooltip_cb), memo_table);
+	gtk_widget_set_has_tooltip (GTK_WIDGET (e_table), TRUE);
 
 	a11y = gtk_widget_get_accessible (GTK_WIDGET(e_table));
 	if (a11y)

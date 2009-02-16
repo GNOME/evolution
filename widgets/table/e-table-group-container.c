@@ -688,7 +688,7 @@ etgc_compute_location (ETableGroup *etg, int *x, int *y, int *row, int *col)
 }
 
 static void
-etgc_compute_mouse_over (ETableGroup *etg, int x, int y, int *row, int *col)
+etgc_get_mouse_over (ETableGroup *etg, int *row, int *col)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
 
@@ -697,18 +697,23 @@ etgc_compute_mouse_over (ETableGroup *etg, int x, int y, int *row, int *col)
 	if (col)
 		*col = -1;
 
-	x -= GROUP_INDENT;
-	y -= TITLE_HEIGHT;
-
-	if (x >= 0 && y >= 0 && etgc->children) {
+	if (etgc->children) {
+		int row_plus = 0;
 		GList *list;
+
 		for (list = etgc->children; list; list = list->next) {
 			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
 			ETableGroup *child = child_node->child;
 
-			e_table_group_compute_mouse_over (child, x, y, row, col);
-			if ((*row != -1) && (*col != -1))
+			e_table_group_get_mouse_over (child, row, col);
+
+			if ((!row || *row != -1) && (!col || *col != -1)) {
+				if (row)
+					*row += row_plus;
 				return;
+			}
+
+			row_plus += e_table_group_row_count (child);
 		}
 	}
 }
@@ -914,7 +919,7 @@ etgc_class_init (ETableGroupContainerClass *klass)
 	e_group_class->get_focus_column = etgc_get_focus_column;
 	e_group_class->get_printable = etgc_get_printable;
 	e_group_class->compute_location = etgc_compute_location;
-	e_group_class->compute_mouse_over = etgc_compute_mouse_over;
+	e_group_class->get_mouse_over = etgc_get_mouse_over;
 	e_group_class->get_cell_geometry = etgc_get_cell_geometry;
 
 	g_object_class_install_property (object_class, PROP_TABLE_ALTERNATING_ROW_COLORS,

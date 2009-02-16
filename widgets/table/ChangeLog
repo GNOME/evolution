@@ -1,3 +1,16 @@
+2009-02-16  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #550114
+
+	* e-table-group.h:
+	* e-table-group.c:
+	* e-table-group-container.c:
+	* e-table-group-leaf.c:
+	Replaced 'compute_mouse_over' with 'get_mouse_over', now works
+	with cached values 'motion_row', 'motion_col'.
+	* e-table.c: (e_table_get_mouse_over_cell):
+	Mouse position not required anymore, remove it too then.
+
 2008-12-15  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #557176

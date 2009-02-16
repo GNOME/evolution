@@ -1,3 +1,14 @@
+2009-02-16  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #550114
+
+	* gui/e-calendar-table.h: (ec_query_tooltip):
+	* gui/e-calendar-table.c: (ec_query_tooltip): Offer it to others too.
+	* gui/e-calendar-table.c: (query_tooltip_cb): Use above funtion.
+	Show proper tooltip in table with grouping columns.
+	* gui/e-memo-table.c: (query_tooltip_cb), (e_memo_table_init):
+	Show tooltips in memo view too.
+
 2009-02-13  Chow Loong Jin <hyperair@gmail.com>
 
 	** Fixes bug #571625
