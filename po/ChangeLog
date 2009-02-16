@@ -1,3 +1,8 @@
+2009-02-16  Simos Xenitellis  <simos@gnome.org>
+
+	* el.po: Updated Greek translation (Marios Zindilis),
+	closes bug 571886.
+
 2009-02-16  Sweta Kothari  <swkothar@redhat.com>
 
 	* gu.po: Committed Gujarati Translation.
