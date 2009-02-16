@@ -1,3 +1,9 @@
+2009-02-16  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #571721
+
+	* itip-view.c: (itip_view_init): Added translators comment.
+
 2009-02-02  Srinivasa Ragavan  <sragavan@novell.com>
 
 	** Fix for bug #548787
