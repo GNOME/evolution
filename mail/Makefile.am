@@ -151,8 +151,6 @@ libevolution_module_mail_la_SOURCES =			\
 	mail-autofilter.h				\
 	mail-config.c					\
 	mail-config.h					\
-	mail-crypto.c					\
-	mail-crypto.h					\
 	mail-folder-cache.c				\
 	mail-folder-cache.h				\
 	mail-mt.c					\
@@ -290,8 +288,6 @@ libevolution_module_mail_la_LIBADD =			\
 #	mail-component-factory.c		\
 #	mail-component.c			\
 #	mail-config.c				\
-#	mail-crypto.c				\
-#	mail-crypto.h				\
 #	mail-folder-cache.c			\
 #	mail-folder-cache.h			\
 #	mail-mt.c				\

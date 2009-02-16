@@ -60,23 +60,24 @@
 #include "shell/e-shell.h"
 
 #include <camel/camel-charset-map.h>
-#include <camel/camel-iconv.h>
-#include <camel/camel-stream-filter.h>
-#include <camel/camel-mime-filter-charset.h>
-#include <camel/camel-stream-mem.h>
-#include <camel/camel-stream-fs.h>
-#include <camel/camel-mime-filter-tohtml.h>
-#include <camel/camel-multipart-signed.h>
-#include <camel/camel-multipart-encrypted.h>
-#include <camel/camel-string-utils.h>
 #include <camel/camel-cipher-context.h>
+#include <camel/camel-folder.h>
+#include <camel/camel-gpg-context.h>
+#include <camel/camel-iconv.h>
+#include <camel/camel-mime-filter-charset.h>
+#include <camel/camel-mime-filter-tohtml.h>
+#include <camel/camel-multipart-encrypted.h>
+#include <camel/camel-multipart-signed.h>
+#include <camel/camel-stream-filter.h>
+#include <camel/camel-stream-fs.h>
+#include <camel/camel-stream-mem.h>
+#include <camel/camel-string-utils.h>
 #if defined (HAVE_NSS)
 #include <camel/camel-smime-context.h>
 #endif
 
 #include "mail/em-popup.h"
 #include "mail/em-utils.h"
-#include "mail/mail-crypto.h"
 #include "mail/mail-tools.h"
 
 #include "e-msg-composer.h"
@@ -519,6 +520,7 @@ build_message (EMsgComposer *composer,
 	CamelMultipart *body = NULL;
 	CamelContentType *type;
 	CamelMimeMessage *new;
+	CamelSession *session;
 	CamelStream *stream;
 	CamelMimePart *part;
 	CamelException ex;
@@ -537,6 +539,7 @@ build_message (EMsgComposer *composer,
 	table = e_msg_composer_get_header_table (composer);
 	account = e_composer_header_table_get_account (table);
 	attachment_bar = E_ATTACHMENT_BAR (p->attachment_bar);
+	session = e_msg_composer_get_session (composer);
 
 	/* evil kludgy hack for Redirect */
 	if (p->redirect) {
@@ -787,8 +790,14 @@ build_message (EMsgComposer *composer,
 		if (pgp_sign) {
 			CamelMimePart *npart = camel_mime_part_new ();
 
-			cipher = mail_crypto_get_pgp_cipher_context (account);
-			camel_cipher_sign (cipher, pgp_userid, CAMEL_CIPHER_HASH_SHA1, part, npart, &ex);
+			cipher = camel_gpg_context_new (session);
+			if (account != NULL)
+				camel_gpg_context_set_always_trust (
+					CAMEL_GPG_CONTEXT (cipher),
+					account->pgp_always_trust);
+			camel_cipher_sign (
+				cipher, pgp_userid, CAMEL_CIPHER_HASH_SHA1,
+				part, npart, &ex);
 			camel_object_unref (cipher);
 
 			if (camel_exception_is_set (&ex)) {
@@ -807,8 +816,14 @@ build_message (EMsgComposer *composer,
 			if (account && account->pgp_encrypt_to_self && pgp_userid)
 				g_ptr_array_add (recipients, g_strdup (pgp_userid));
 
-			cipher = mail_crypto_get_pgp_cipher_context (account);
-			camel_cipher_encrypt (cipher, pgp_userid, recipients, part, npart, &ex);
+			cipher = camel_gpg_context_new (session);
+			if (account != NULL)
+				camel_gpg_context_set_always_trust (
+					CAMEL_GPG_CONTEXT (cipher),
+					account->pgp_always_trust);
+			camel_cipher_encrypt (
+				cipher, pgp_userid, recipients,
+				part, npart, &ex);
 			camel_object_unref (cipher);
 
 			if (account && account->pgp_encrypt_to_self && pgp_userid)
@@ -858,9 +873,7 @@ build_message (EMsgComposer *composer,
 
 		if (smime_sign) {
 			CamelMimePart *npart = camel_mime_part_new ();
-			CamelSession *session;
 
-			session = e_msg_composer_get_session (composer);
 			cipher = camel_smime_context_new (session);
 
 			/* if we're also encrypting, envelope-sign rather than clear-sign */
@@ -884,13 +897,11 @@ build_message (EMsgComposer *composer,
 		}
 
 		if (smime_encrypt) {
-			CamelSession *session;
 
 			/* check to see if we should encrypt to self, NB removed after use */
 			if (account->smime_encrypt_to_self)
 				g_ptr_array_add (recipients, g_strdup (account->smime_encrypt_key));
 
-			session = e_msg_composer_get_session (composer);
 			cipher = camel_smime_context_new (session);
 			camel_smime_context_set_encrypt_key ((CamelSMIMEContext *)cipher, TRUE, account->smime_encrypt_key);
 
@@ -3060,6 +3071,7 @@ handle_multipart_encrypted (EMsgComposer *composer,
 	CamelCipherContext *cipher;
 	CamelDataWrapper *content;
 	CamelMimePart *mime_part;
+	CamelSession *session;
 	CamelException ex;
 	CamelCipherValidity *valid;
 	GtkToggleAction *action;
@@ -3069,7 +3081,8 @@ handle_multipart_encrypted (EMsgComposer *composer,
 	gtk_toggle_action_set_active (action, TRUE);
 
 	camel_exception_init (&ex);
-	cipher = mail_crypto_get_pgp_cipher_context (NULL);
+	session = e_msg_composer_get_session (composer);
+	cipher = camel_gpg_context_new (session);
 	mime_part = camel_mime_part_new ();
 	valid = camel_cipher_decrypt (cipher, multipart, mime_part, &ex);
 	camel_object_unref (cipher);
