@@ -76,7 +76,6 @@
 
 #include "mail/em-popup.h"
 #include "mail/em-utils.h"
-#include "mail/mail-config.h"
 #include "mail/mail-crypto.h"
 #include "mail/mail-tools.h"
 
@@ -1180,7 +1179,7 @@ get_signature_html (EMsgComposer *composer)
 		format_html = signature->html;
 
 		if (signature->script)
-			text = mail_config_signature_run_script (
+			text = e_run_signature_script (
 				signature->filename);
 		else
 			text = e_read_signature_file (

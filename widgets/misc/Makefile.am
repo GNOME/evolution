@@ -80,6 +80,7 @@ widgetsinclude_HEADERS =			\
 	e-signature-combo-box.h			\
 	e-signature-editor.h			\
 	e-signature-manager.h			\
+	e-signature-preview.h			\
 	e-signature-script-dialog.h		\
 	e-signature-tree-view.h			\
 	e-unicode.h				\
@@ -131,6 +132,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-signature-combo-box.c			\
 	e-signature-editor.c			\
 	e-signature-manager.c			\
+	e-signature-preview.c			\
 	e-signature-script-dialog.c		\
 	e-signature-tree-view.c			\
 	e-unicode.c				\

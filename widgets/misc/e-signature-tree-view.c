@@ -32,6 +32,7 @@ enum {
 
 enum {
 	PROP_0,
+	PROP_SELECTED,
 	PROP_SIGNATURE_LIST
 };
 
@@ -46,7 +47,7 @@ struct _ESignatureTreeViewPrivate {
 };
 
 static gpointer parent_class;
-static guint signal_ids[LAST_SIGNAL];
+static guint signals[LAST_SIGNAL];
 
 static void
 signature_tree_view_refresh_cb (ESignatureList *signature_list,
@@ -117,7 +118,13 @@ skip:
 	if (signature != NULL)
 		g_object_unref (signature);
 
-	g_signal_emit (tree_view, signal_ids[REFRESHED], 0);
+	g_signal_emit (tree_view, signals[REFRESHED], 0);
+}
+
+static void
+signature_tree_view_selection_changed_cb (ESignatureTreeView *tree_view)
+{
+	g_object_notify (G_OBJECT (tree_view), "selected");
 }
 
 static GObject *
@@ -154,6 +161,12 @@ signature_tree_view_set_property (GObject *object,
                                   GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_SELECTED:
+			e_signature_tree_view_set_selected (
+				E_SIGNATURE_TREE_VIEW (object),
+				g_value_get_object (value));
+			return;
+
 		case PROP_SIGNATURE_LIST:
 			e_signature_tree_view_set_signature_list (
 				E_SIGNATURE_TREE_VIEW (object),
@@ -171,6 +184,13 @@ signature_tree_view_get_property (GObject *object,
                                   GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_SELECTED:
+			g_value_set_object (
+				value,
+				e_signature_tree_view_get_selected (
+				E_SIGNATURE_TREE_VIEW (object)));
+			return;
+
 		case PROP_SIGNATURE_LIST:
 			g_value_set_object (
 				value,
@@ -233,6 +253,16 @@ signature_tree_view_class_init (ESignatureTreeViewClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_SELECTED,
+		g_param_spec_object (
+			"selected",
+			"Selected Signature",
+			NULL,
+			E_TYPE_SIGNATURE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_SIGNATURE_LIST,
 		g_param_spec_object (
 			"signature-list",
@@ -242,7 +272,7 @@ signature_tree_view_class_init (ESignatureTreeViewClass *class)
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
-	signal_ids[REFRESHED] = g_signal_new (
+	signals[REFRESHED] = g_signal_new (
 		"refreshed",
 		G_TYPE_FROM_CLASS (class),
 		G_SIGNAL_RUN_LAST,
@@ -255,6 +285,7 @@ static void
 signature_tree_view_init (ESignatureTreeView *tree_view)
 {
 	GHashTable *index;
+	GtkTreeSelection *selection;
 
 	/* Reverse-lookup index */
 	index = g_hash_table_new_full (
@@ -264,6 +295,13 @@ signature_tree_view_init (ESignatureTreeView *tree_view)
 
 	tree_view->priv = E_SIGNATURE_TREE_VIEW_GET_PRIVATE (tree_view);
 	tree_view->priv->index = index;
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+
+	g_signal_connect_swapped (
+		selection, "changed",
+		G_CALLBACK (signature_tree_view_selection_changed_cb),
+		tree_view);
 }
 
 GType
@@ -400,6 +438,8 @@ e_signature_tree_view_set_selected (ESignatureTreeView *tree_view,
 	path = gtk_tree_row_reference_get_path (reference);
 	gtk_tree_selection_select_path (selection, path);
 	gtk_tree_path_free (path);
+
+	g_object_notify (G_OBJECT (tree_view), "selected");
 
 	return TRUE;
 }

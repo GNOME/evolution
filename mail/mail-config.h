@@ -110,10 +110,6 @@ gboolean mail_config_get_enable_magic_spacebar (void);
 
 struct _EAccountService  *mail_config_get_default_transport (void);
 
-/* signatures */
-char *mail_config_signature_run_script (const char *script);
-
-
 /* uri's got changed by the store, etc */
 void mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new);
 void mail_config_uri_deleted (GCompareFunc uri_cmp, const char *uri);

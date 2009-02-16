@@ -33,6 +33,7 @@ gchar *		e_create_signature_file		(GError **error);
 gchar *		e_read_signature_file		(ESignature *signature,
 						 gboolean convert_to_html,
 						 GError **error);
+gchar *		e_run_signature_script		(const gchar *filename);
 
 G_END_DECLS
 

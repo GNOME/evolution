@@ -49,6 +49,7 @@
 
 #include "misc/e-charset-picker.h"
 #include "misc/e-signature-manager.h"
+#include "misc/e-signature-preview.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 
@@ -213,49 +214,6 @@ em_composer_prefs_get_type (void)
 	return type;
 }
 
-static void
-sig_load_preview (EMComposerPrefs *prefs,
-                  ESignature *signature)
-{
-	GtkHTML *html;
-	gchar *str;
-
-	html = prefs->sig_preview;
-
-	if (signature == NULL) {
-		gtk_html_load_from_string (html, " ", 1);
-		return;
-	}
-
-	if (signature->script)
-		str = mail_config_signature_run_script (signature->filename);
-	else
-		/* FIXME Show an error in the preview area. */
-		str = e_read_signature_file (signature, FALSE, NULL);
-	if (!str || !*str) {
-		/* make html stream happy and write at least one character */
-		g_free (str);
-		str = g_strdup (" ");
-	}
-
-	if (signature->html) {
-		gtk_html_load_from_string (html, str, strlen (str));
-	} else {
-		GtkHTMLStream *stream;
-		int len;
-
-		len = strlen (str);
-		stream = gtk_html_begin_content (html, "text/html; charset=utf-8");
-		gtk_html_write (html, stream, "<PRE>", 5);
-		if (len)
-			gtk_html_write (html, stream, str, len);
-		gtk_html_write (html, stream, "</PRE>", 6);
-		gtk_html_end (html, stream, GTK_HTML_STREAM_OK);
-	}
-
-	g_free (str);
-}
-
 void
 em_composer_prefs_new_signature (GtkWindow *parent,
                                  gboolean html_mode)
@@ -266,59 +224,6 @@ em_composer_prefs_new_signature (GtkWindow *parent,
 	gtkhtml_editor_set_html_mode (GTKHTML_EDITOR (editor), html_mode);
 	gtk_window_set_transient_for (GTK_WINDOW (editor), parent);
 	gtk_widget_show (editor);
-}
-
-static void
-sig_selection_changed (GtkTreeSelection *selection,
-                       EMComposerPrefs *prefs)
-{
-	ESignature *signature;
-	GtkTreeView *tree_view;
-
-	tree_view = gtk_tree_selection_get_tree_view (selection);
-
-	signature = e_signature_tree_view_get_selected (
-		E_SIGNATURE_TREE_VIEW (tree_view));
-
-	sig_load_preview (prefs, signature);
-
-	if (signature != NULL)
-		g_object_unref (signature);
-}
-
-static void
-url_requested (GtkHTML *html,
-               const gchar *url,
-               GtkHTMLStream *handle)
-{
-	GtkHTMLStreamStatus status;
-	gchar buf[128];
-	gssize size;
-	gint fd;
-	gchar *filename;
-
-	if (strncmp (url, "file:", 5) == 0)
-		filename = g_filename_from_uri (url, NULL, NULL);
-	else
-		filename = g_strdup (url);
-	fd = g_open (filename, O_RDONLY | O_BINARY, 0);
-	g_free (filename);
-
-	status = GTK_HTML_STREAM_OK;
-	if (fd != -1) {
-		while ((size = read (fd, buf, sizeof (buf)))) {
-			if (size == -1) {
-				status = GTK_HTML_STREAM_ERROR;
-				break;
-			} else
-				gtk_html_write (html, handle, buf, size);
-		}
-	} else
-		status = GTK_HTML_STREAM_ERROR;
-
-	gtk_html_end (html, handle, status);
-	if (fd > 0)
-		close (fd);
 }
 
 static void
@@ -383,10 +288,8 @@ spell_setup (EMComposerPrefs *prefs)
 {
 	const GList *available_languages;
 	GList *active_languages;
-	GConfClient *client;
 	GtkListStore *store;
 
-	client = mail_config_get_gconf_client ();
 	store = GTK_LIST_STORE (prefs->language_model);
 	available_languages = gtkhtml_spell_language_get_available ();
 
@@ -681,22 +584,19 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 
 	signature_tree_view = e_signature_manager_get_tree_view (
 		E_SIGNATURE_MANAGER (widget));
-	selection = gtk_tree_view_get_selection (
-		GTK_TREE_VIEW (signature_tree_view));
-	g_signal_connect (
-		selection, "changed",
-		G_CALLBACK (sig_selection_changed), prefs);
 
-	/* preview GtkHTML widget */
-	widget = glade_xml_get_widget (gui, "scrolled-sig");
-	prefs->sig_preview = (GtkHTML *) gtk_html_new ();
-	g_signal_connect (
-		prefs->sig_preview, "url_requested",
-		G_CALLBACK (url_requested), NULL);
-	gtk_widget_show (GTK_WIDGET (prefs->sig_preview));
-	gtk_container_add (
-		GTK_CONTAINER (widget),
-		GTK_WIDGET (prefs->sig_preview));
+	container = glade_xml_get_widget (gui, "scrolled-sig");
+	widget = e_signature_preview_new ();
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	e_binding_new_with_negation (
+		G_OBJECT (shell_settings), "disable-command-line",
+		G_OBJECT (widget), "allow-scripts");
+
+	e_binding_new (
+		G_OBJECT (signature_tree_view), "selected",
+		G_OBJECT (widget), "signature");
 
 	/* get our toplevel widget */
 	target = em_config_target_new_prefs (ec, client);
