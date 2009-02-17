@@ -398,7 +398,7 @@ static GtkActionEntry item_entries[] = {
 	{ "event-new",
 	  "appointment-new",
 	  NC_("New", "_Appointment"),
-	  "<Control>a",
+	  "<Shift><Control>a",
 	  N_("Create a new appointment"),
 	  G_CALLBACK (action_event_new_cb) },
 
@@ -412,7 +412,7 @@ static GtkActionEntry item_entries[] = {
 	{ "event-meeting-new",
 	  "stock_new-meeting",
 	  NC_("New", "M_eeting"),
-	  "<Control>e",
+	  "<Shift><Control>e",
 	  N_("Create a new meeting request"),
 	  G_CALLBACK (action_event_new_cb) }
 };

@@ -22,7 +22,6 @@
 #include <fcntl.h>
 #include <e-util/e-error.h>
 #include <mail/em-event.h>
-#include <mail/em-composer-utils.h>
 
 #include "misc/e-charset-picker.h"
 
@@ -328,7 +327,10 @@ static void
 action_new_message_cb (GtkAction *action,
                        EMsgComposer *composer)
 {
-	em_utils_compose_new_message (NULL);
+	GtkWidget *widget;
+
+	widget = e_msg_composer_new ();
+	gtk_widget_show (widget);
 }
 
 static void
