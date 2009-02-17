@@ -1,3 +1,67 @@
+2009-02-17  Inaki Larranaga Murgoitio  <dooteo@euskalgnu.org>
+
+	* eu/figures/: Added image in Basque language. Images are:
+		account_editor_a.png			addrs_book_a.png
+		attach_reminder_a.png.png		calendar.png
+		categories_a.png				collap_head_a.png
+		config-cal.png					config-mail.png
+		contact-editor.png				contact.png
+		contacts_mainwindow_a.png		delgt-add.png
+		evo_account_editor_a.png		evo_account_info_a.png
+		evo_add_rule_a.png				evo_adv_search_a.png
+		evo_allday_a.png				evo_attachreminder_plugin.png
+		evo_backup.png					evo_backup_prgsbar.png
+		evo_backup_warning.png			evo_blink.png
+		evo_cal_advsearch.png			evo_cal_a.png
+		evo_cal_callout_a.png			evo_calender_appointmnt.png
+		evo_cal_prop_a.png				evo_calstatus_a.png
+		evo_contacteditor_a.png			evo_crash_recovery.png
+		evo_custom_header.png			evo_debuglogs_a.png
+		evo_delegate_permission_a.png	evo_dialog-info.png
+		evo_dialog-warning.png			evo_edit_rule_a.png
+		evo_edit_search.png				evo_email_a.png
+		evo_flag_follow_up_a.png		evo_gwreceive_a.png
+		evo_gwreceiveedit_a.png			evo_gwreceiveoptedit_a.png
+		evo_gwstatustrack.png			evo_identity_a.png
+		evo_identityedit_a.png			evo_imapheader_a.png
+		evo_imapreceive_a.png			evo_import_asst_a.png
+		evo_junk_a.png					evo_label_a.png
+		evo_labels_a.png				evo_mail_a.png
+		evo_mail_callout_a.png			evo_maildirreceive_a.png
+		evo_mail_notifier.png			evo_mboxreceive_a.png
+		evo_memo_a.png					evo_mereceive_a.png
+		evo_message_filters_a.png		evo_mhreceive_a.png
+		evo_newmail.png					evo_newmess_a.png
+		evo_offline.png					evo_popreceive_a.png
+		evo_proxyadd_a.png				evo_receive_setup2_a.png
+		evo_receive_setup_a.png			evo_rmdrnotes_a.png
+		evo_rule_a.png					evo_select_add_folder.png
+		evo_select_folder.png			evo_send_option_a.png
+		evo_send_setup_a.png			evo_sendstatus_a.png
+		evo_shd_memo_a.png				evo_timezone_a.png
+		evo_usereceive_a.png			exchange-delegation.png
+		exchange-identity.png			exchange-receive-options.png
+		exchange-receive.png			exchg-identity.png
+		exchng-identity.png				exchng-rec-mail.png
+		exchng-rec-mails.png			exchng-rec-option.png
+		exchng-rec-options.png			exchng-settings.png
+		filter-new-fig.png				free_busy.png
+		full-1.png						full-2.png
+		full-3.png						full-4.png
+		full-5.png						full-6.png
+		full-7.png						google_cal_view.png
+		mail-druid-pic.png				mailer_preferences.png
+		mail-inbox.png					mail_mainwindow_a.png
+		mail-threaded.png				mainwindow-pic.png
+		minus.png						newmsg.png
+		plus.png						proxy-cal.png
+		proxy-login.png					quick_add_a.png
+		quick_reference.png				replymsg.png
+		schedule.png					Screenshot-Free-Busy.png
+		stock_search.png				sub-others-folder.png
+		sub-pub-fold.png				ver_view_a.png
+		vfolder-createrule-fig.png
+
 2009-02-16  Inaki Larranaga Murgoitio  <dooteo@euskalgnu.org>
 
 	* eu/eu.po: Added Basque translation.
