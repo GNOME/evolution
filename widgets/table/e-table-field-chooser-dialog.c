@@ -97,7 +97,7 @@ e_table_field_chooser_dialog_init (ETableFieldChooserDialog *e_table_field_choos
 	gtk_dialog_add_button(GTK_DIALOG(e_table_field_chooser_dialog),
 			      GTK_STOCK_CLOSE, GTK_RESPONSE_OK);
 
-	gtk_window_set_policy(GTK_WINDOW(e_table_field_chooser_dialog), FALSE, TRUE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(e_table_field_chooser_dialog), TRUE);
 
 	widget = e_table_field_chooser_new();
 	e_table_field_chooser_dialog->etfc = E_TABLE_FIELD_CHOOSER(widget);
