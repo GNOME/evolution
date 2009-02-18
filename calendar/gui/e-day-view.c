@@ -6577,19 +6577,8 @@ e_day_view_auto_scroll_handler (gpointer data)
 	if (new_scroll_y != scroll_y) {
 		/* NOTE: This reduces flicker, but only works if we don't use
 		   canvas items which have X windows. */
-
-		/* FIXME: Since GNOME 2.0 we can't do this, since the canvas
-		 * won't update when its's thawed. Is this a bug or should we
-		 * really be doing something else? Investigate. */
-#if 0
-		gtk_layout_freeze (GTK_LAYOUT (day_view->main_canvas));
-#endif
-
 		gnome_canvas_scroll_to (GNOME_CANVAS (day_view->main_canvas),
 					scroll_x, new_scroll_y);
-#if 0
-		gtk_layout_thaw (GTK_LAYOUT (day_view->main_canvas));
-#endif
 	}
 
 	canvas_x = day_view->last_mouse_x + scroll_x;

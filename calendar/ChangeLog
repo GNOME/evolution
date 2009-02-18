@@ -1,3 +1,9 @@
+2009-02-19  Andre Klapper  <a9016009@gmx.de>
+
+	* /gui/e-day-view.c:
+	Remove useless and deprecated gtk_layout_freeze and gtk_layout_thaw
+	calls.
+
 2009-02-16  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #550114
