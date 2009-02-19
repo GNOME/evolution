@@ -24,10 +24,11 @@
 #define _CERTIFICATE_MANAGER_H
 
 #include <glib.h>
+#include <shell/e-shell.h>
 
 G_BEGIN_DECLS
 
-void		certificate_manager_config_init	(void);
+void		certificate_manager_config_init	(EShell *shell);
 
 G_END_DECLS
 

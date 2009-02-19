@@ -24,12 +24,11 @@
 
 #include "autocompletion-config.h"
 
-#include <e-shell.h>
-#include <libedataserverui/e-name-selector-entry.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <libedataserver/e-source-list.h>
 #include <libedataserverui/e-source-selector.h>
+#include <libedataserverui/e-name-selector-entry.h>
 
 #include "widgets/misc/e-preferences-window.h"
 
@@ -93,13 +92,14 @@ initialize_selection (ESourceSelector *source_selector)
 }
 
 void
-autocompletion_config_init (void)
+autocompletion_config_init (EShell *shell)
 {
 	ESourceList *source_list;
 	GtkWidget *scrolled_window;
 	GtkWidget *source_selector;
 	GtkWidget *preferences_window;
-	EShell *shell;
+
+	g_return_if_fail (E_IS_SHELL (shell));
 
 	source_list = e_source_list_new_for_gconf_default (
 		"/apps/evolution/addressbook/sources");
@@ -125,7 +125,6 @@ autocompletion_config_init (void)
 
 	initialize_selection (E_SOURCE_SELECTOR (source_selector));
 
-	shell = e_shell_get_default ();
 	preferences_window = e_shell_get_preferences_window (shell);
 
 	e_preferences_window_add_page (

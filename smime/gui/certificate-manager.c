@@ -977,13 +977,14 @@ populate_ui (CertificateManagerData *cfm)
 }
 
 void
-certificate_manager_config_init (void)
+certificate_manager_config_init (EShell *shell)
 {
 	CertificateManagerData *cfm_data;
 	GtkWidget *preferences_window;
 	GtkWidget *widget;
-	EShell *shell;
 	char *gladefile;
+
+	g_return_if_fail (E_IS_SHELL (shell));
 
 	/* We need to peek the db here to make sure it (and NSS) are fully initialized. */
 	e_cert_db_peek ();
@@ -1031,7 +1032,6 @@ certificate_manager_config_init (void)
 	gtk_widget_set_sensitive(cfm_data->backup_your_button, FALSE);
 	gtk_widget_set_sensitive(cfm_data->backup_all_your_button, FALSE);
 
-	shell = e_shell_get_default ();
 	preferences_window = e_shell_get_preferences_window (shell);
 	e_preferences_window_add_page (
 		E_PREFERENCES_WINDOW (preferences_window),

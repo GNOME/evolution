@@ -458,7 +458,7 @@ e_shell_module_init (GTypeModule *type_module)
 	 *     things that use S/MIME.  Maybe put it in EShell? */
 #ifdef ENABLE_SMIME
 	smime_component_init ();
-	certificate_manager_config_init ();
+	certificate_manager_config_init (shell);
 #endif
 
 	book_module_init_importers ();
@@ -474,5 +474,5 @@ e_shell_module_init (GTypeModule *type_module)
 		shell, "window-created",
 		G_CALLBACK (book_module_window_created_cb), shell_module);
 
-	autocompletion_config_init ();
+	autocompletion_config_init (shell);
 }

@@ -26,10 +26,11 @@
 #define _AUTOCOMPLETION_CONFIG_H
 
 #include <glib.h>
+#include <shell/e-shell.h>
 
 G_BEGIN_DECLS
 
-void		autocompletion_config_init	(void);
+void		autocompletion_config_init	(EShell *shell);
 
 G_END_DECLS
 

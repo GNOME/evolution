@@ -428,12 +428,10 @@ static GtkActionEntry source_entries[] = {
 };
 
 static void
-cal_module_init_preferences (void)
+cal_module_init_preferences (EShell *shell)
 {
 	GtkWidget *preferences_window;
-	EShell *shell;
 
-	shell = e_shell_get_default ();
 	preferences_window = e_shell_get_preferences_window (shell);
 
 	e_preferences_window_add_page (
@@ -508,5 +506,5 @@ e_shell_module_init (GTypeModule *type_module)
 		shell, "window-created",
 		G_CALLBACK (cal_module_window_created_cb), shell_module);
 
-	cal_module_init_preferences ();
+	cal_module_init_preferences (shell);
 }
