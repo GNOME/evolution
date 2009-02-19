@@ -848,6 +848,8 @@ shell_init (EShell *shell)
 	shell->priv->modules_by_scheme = modules_by_scheme;
 	shell->priv->safe_mode = e_file_lock_exists ();
 
+	g_object_ref_sink (shell->priv->preferences_window);
+
 #if NM_SUPPORT
 	e_shell_dbus_initialize (shell);
 #endif
