@@ -54,6 +54,10 @@
 #define GCONF_KEY_ENABLED_STATUS 	GCONF_KEY_ROOT "status-enabled"
 #define GCONF_KEY_ENABLED_SOUND	 	GCONF_KEY_ROOT "sound-enabled"
 
+#if !GTK_CHECK_VERSION(2,16,0)
+#define gtk_status_icon_set_tooltip_text gtk_status_icon_set_tooltip
+#endif
+
 static gboolean enabled = FALSE;
 static GtkWidget *get_cfg_widget (void);
 static GStaticMutex mlock = G_STATIC_MUTEX_INIT;
