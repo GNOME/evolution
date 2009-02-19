@@ -29,6 +29,7 @@
 #define E_SHELL_H
 
 #include <unique/unique.h>
+#include <gconf/gconf-client.h>
 #include <shell/e-shell-common.h>
 #include <shell/e-shell-module.h>
 #include <shell/e-shell-settings.h>
@@ -85,6 +86,7 @@ EShellModule *	e_shell_get_module_by_name	(EShell *shell,
 EShellModule *	e_shell_get_module_by_scheme	(EShell *shell,
 						 const gchar *scheme);
 EShellSettings *e_shell_get_shell_settings	(EShell *shell);
+GConfClient *	e_shell_get_gconf_client	(EShell *shell);
 GtkWidget *	e_shell_create_shell_window	(EShell *shell,
 						 const gchar *view_name);
 guint		e_shell_handle_uris		(EShell *shell,

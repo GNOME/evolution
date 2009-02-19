@@ -261,8 +261,6 @@ emfv_init(GObject *o)
 	gtk_selection_add_target(p->invisible, GDK_SELECTION_CLIPBOARD, GDK_SELECTION_TYPE_STRING, 1);
 
 	emfv->async = mail_async_event_new();
-
-	emfv_setting_setup(emfv);
 }
 
 static void
@@ -348,24 +346,6 @@ static void							\
 from(BonoboUIComponent *uid, void *data, const char *path)	\
 {								\
 	to(NULL, NULL, data);					\
-}
-
-static void
-prepare_offline(void *key, void *value, void *data)
-{
-	CamelService *service = key;
-
-	if (CAMEL_IS_DISCO_STORE(service)
-	    || CAMEL_IS_OFFLINE_STORE(service)) {
-		mail_store_prepare_offline((CamelStore *)service);
-	}
-}
-
-static void
-emfv_prepare_offline(BonoboUIComponent *uid, void *data, const char *path)
-{
-	e_mail_shell_module_stores_foreach (
-		mail_shell_module, prepare_offline, NULL);
 }
 
 static void
@@ -483,7 +463,6 @@ emp_uri_popup_vfolder_recipient(EPopup *ep, EPopupItem *pitem, void *data)
 /* ********************************************************************** */
 
 static BonoboUIVerb emfv_message_verbs[] = {
-	BONOBO_UI_UNSAFE_VERB ("PrepareForOffline", emfv_prepare_offline),
 	BONOBO_UI_UNSAFE_VERB ("EditCut", emfv_edit_cut),
 	BONOBO_UI_UNSAFE_VERB ("EditCopy", emfv_edit_copy),
 	BONOBO_UI_UNSAFE_VERB ("EditPaste", emfv_edit_paste),
@@ -499,54 +478,6 @@ static BonoboUIVerb emfv_message_verbs[] = {
 
 	BONOBO_UI_VERB_END
 };
-
-static void
-emfv_enable_menus(EMFolderView *emfv)
-{
-	guint32 disable_mask;
-	GString *name;
-	GSList *l;
-
-	if (emfv->uic == NULL)
-		return;
-
-	{
-		if (emfv->menu) {
-			EMMenuTargetSelect *t;
-
-			t = em_menu_target_new_select(emfv->menu, emfv->folder, emfv->folder_uri, message_list_get_selected(emfv->list));
-			t->target.widget = GTK_WIDGET (emfv);
-			e_menu_update_target((EMenu *)emfv->menu, t);
-		}
-	}
-
-	if (emfv->folder) {
-		EMPopup *emp = em_popup_new("dummy");
-		EMPopupTargetSelect *t;
-
-		t = em_folder_view_get_popup_target(emfv, emp, FALSE);
-		disable_mask = t->target.mask;
-		e_popup_target_free((EPopup *)emp, t);
-		g_object_unref(emp);
-	} else {
-		disable_mask = ~0;
-	}
-
-	name = g_string_new("");
-	for (l = emfv->enable_map; l; l = l->next) {
-		EMFolderViewEnable *map = l->data;
-		int i;
-
-		for (i=0;map[i].name;i++) {
-			int state = (map[i].mask & disable_mask) == 0;
-
-			g_string_printf(name, "/commands/%s", map[i].name);
-			bonobo_ui_component_set_prop(emfv->uic, name->str, "sensitive", state?"1":"0", NULL);
-		}
-	}
-
-	g_string_free(name, TRUE);
-}
 
 static void
 emfv_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
@@ -646,18 +577,6 @@ em_folder_view_get_popup_target(EMFolderView *emfv, EMPopup *emp, int on_display
 		t->target.mask &= ~EM_POPUP_SELECT_DELETE;*/
 
 	return t;
-}
-
-void
-em_folder_view_set_statusbar (EMFolderView *emfv, gboolean statusbar)
-{
-	g_return_if_fail (emfv);
-
-	emfv->statusbar_active = statusbar;
-
-	if (statusbar && emfv->uic)
-		bonobo_ui_component_set_translate (emfv->uic, "/",
-						   "<status><item name=\"main\"/></status>", NULL);
 }
 
 void
@@ -1100,43 +1019,17 @@ emfv_set_seen(EMFolderView *emfv, const char *uid)
 
 /* keep these two tables in sync */
 enum {
-	EMFV_ANIMATE_IMAGES = 1,
-	EMFV_CHARSET,
-	EMFV_CITATION_COLOUR,
-	EMFV_CITATION_MARK,
-	EMFV_CARET_MODE,
-	EMFV_MESSAGE_STYLE,
-	EMFV_MARK_SEEN,
-	EMFV_MARK_SEEN_TIMEOUT,
-	EMFV_LOAD_HTTP,
+	EMFV_CHARSET = 1,
 	EMFV_HEADERS,
-	EMFV_SHOW_PREVIEW,
 	EMFV_SHOW_DELETED,
-	EMFV_THREAD_LIST,
-	EMFV_PANED_SIZE,
-	EMFV_SENDER_PHOTO,
-	EMFV_PHOTO_LOCAL,
 	EMFV_SETTINGS		/* last, for loop count */
 };
 
 /* IF these get too long, update key field */
 static const char * const emfv_display_keys[] = {
-	"animate_images",
 	"charset",
-	"citation_colour",
-	"mark_citations",
-	"caret_mode",
-	"message_style",
-	"mark_seen",
-	"mark_seen_timeout",
-	"load_http_images",
 	"headers",
-	"show_preview",
 	"show_deleted",
-	"thread_list",
-	"paned_size",
-	"sender_photo",
-	"photo_local",
 };
 
 static GHashTable *emfv_setting_key;
@@ -1156,48 +1049,8 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 	g_return_if_fail (tkey != NULL);
 
 	switch(GPOINTER_TO_INT(g_hash_table_lookup(emfv_setting_key, tkey+1))) {
-	case EMFV_ANIMATE_IMAGES:
-		em_format_html_display_set_animate(emfv->preview, gconf_value_get_bool (value));
-		break;
 	case EMFV_CHARSET:
 		em_format_set_default_charset((EMFormat *)emfv->preview, gconf_value_get_string (value));
-		break;
-	case EMFV_CITATION_COLOUR: {
-		const char *s;
-		GdkColor colour;
-		guint32 rgb;
-
-		s = gconf_value_get_string (value);
-		gdk_color_parse(s?s:"#737373", &colour);
-		rgb = ((colour.red & 0xff00) << 8) | (colour.green & 0xff00) | ((colour.blue & 0xff00) >> 8);
-		em_format_html_set_mark_citations((EMFormatHTML *)emfv->preview,
-						  ((EMFormatHTML *)emfv->preview)->mark_citations, rgb);
-		break; }
-	case EMFV_CITATION_MARK:
-		em_format_html_set_mark_citations((EMFormatHTML *)emfv->preview,
-						  gconf_value_get_bool (value),
-						  ((EMFormatHTML *)emfv->preview)->citation_colour);
-		break;
-	case EMFV_CARET_MODE:
-		em_format_html_display_set_caret_mode(emfv->preview, gconf_value_get_bool (value));
-		break;
-	case EMFV_MESSAGE_STYLE:
-		if (EM_FOLDER_VIEW_GET_CLASS (emfv)->update_message_style) {
-			int style = gconf_value_get_int (value);
-
-			if (style < EM_FORMAT_NORMAL || style > EM_FORMAT_SOURCE)
-				style = EM_FORMAT_NORMAL;
-			em_format_set_mode((EMFormat *)emfv->preview, style);
-		}
-		break;
-	case EMFV_MARK_SEEN:
-		emfv->mark_seen = gconf_value_get_bool (value);
-		break;
-	case EMFV_MARK_SEEN_TIMEOUT:
-		emfv->mark_seen_timeout = gconf_value_get_int (value);
-		break;
-	case EMFV_LOAD_HTTP:
-		em_format_html_set_load_http((EMFormatHTML *)emfv->preview, gconf_value_get_int(value));
 		break;
 	case EMFV_HEADERS: {
 		GSList *header_config_list, *p;
@@ -1223,45 +1076,6 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 		if (emf->message)
 			em_format_redraw(emf);
 		break; }
-	case EMFV_SENDER_PHOTO: {
-		EMFormat *emf = (EMFormat *)emfv->preview;
-
-		emf->show_photo = gconf_value_get_bool (value);
-		if (emf->message)
-			em_format_redraw(emf);
-
-		break; }
-	case EMFV_PHOTO_LOCAL: {
-		EMFormat *emf = (EMFormat *)emfv->preview;
-
-		emf->photo_local = gconf_value_get_bool (value);
-
-		break; }
-        case EMFV_SHOW_PREVIEW: {
-		gboolean state_gconf, state_camel;
-		char *ret;
-
-		/* If emfv->folder hasn't been initialized, do nothing */
-		if (!emfv->folder)
-			return;
-
-		state_gconf = gconf_value_get_bool (value);
-		if (state_gconf == FALSE)
-			emfv_enable_menus (emfv);
-
-		if ((ret = camel_object_meta_get (emfv->folder, "evolution:show_preview"))) {
-			state_camel = (ret[0] != '0');
-			g_free (ret);
-			if (state_gconf == state_camel)
-				return;
-		}
-
-		if (camel_object_meta_set (emfv->folder, "evolution:show_preview", state_gconf ? "1" : "0"))
-			camel_object_state_write (emfv->folder);
-		if (emfv->list_active)
-			em_folder_browser_show_preview ((EMFolderBrowser *)emfv, state_gconf);
-		bonobo_ui_component_set_prop (emfv->uic, "/commands/ViewPreview", "state", state_gconf ? "1" : "0", NULL);
-		break; }
 	case EMFV_SHOW_DELETED: {
 		gboolean state;
 
@@ -1272,78 +1086,7 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 		if (emfv->uic)
 			bonobo_ui_component_set_prop (emfv->uic, "/commands/HideDeleted", "state", state ? "0" : "1", NULL);
 		break; }
-	case EMFV_THREAD_LIST: {
-		gboolean state_gconf, state_camel;
-		char *ret;
-
-		/* If emfv->folder or emfv->list hasn't been initialized, do nothing */
-		if (!emfv->folder || !emfv->list)
-			return;
-
-		state_gconf = gconf_value_get_bool (value);
-		if ((ret = camel_object_meta_get (emfv->folder, "evolution:thread_list"))) {
-			state_camel = (ret[0] != '0');
-			g_free (ret);
-			if (state_gconf == state_camel)
-				return;
-		}
-
-		if (camel_object_meta_set (emfv->folder, "evolution:thread_list", state_gconf ? "1" : "0"))
-			camel_object_state_write (emfv->folder);
-		message_list_set_threaded (emfv->list, state_gconf);
-		bonobo_ui_component_set_prop (emfv->uic, "/commands/ViewThreaded", "state", state_gconf ? "1" : "0", NULL);
-		break; }
-	case EMFV_PANED_SIZE: {
-		EMFolderBrowser *emfb = (EMFolderBrowser *)emfv;
-		int paned_size;
-
-		if (!emfv->list_active || !emfb->vpane || !emfv->preview_active)
-			return;
-
-		paned_size = gconf_value_get_int (value);
-		if (paned_size == gtk_paned_get_position (GTK_PANED (emfb->vpane)))
-			return;
-
-		gtk_paned_set_position (GTK_PANED (emfb->vpane), paned_size);
-		break; }
 	}
-}
-
-static void
-emfv_setting_setup(EMFolderView *emfv)
-{
-	GConfClient *gconf = gconf_client_get_default();
-	GConfEntry *entry;
-	GError *err = NULL;
-	int i;
-	char key[64];
-
-	if (emfv_setting_key == NULL) {
-		emfv_setting_key = g_hash_table_new(g_str_hash, g_str_equal);
-		for (i=1;i<EMFV_SETTINGS;i++)
-			g_hash_table_insert(emfv_setting_key, (void *)emfv_display_keys[i-1], GINT_TO_POINTER(i));
-	}
-
-	gconf_client_add_dir(gconf, "/apps/evolution/mail/display", GCONF_CLIENT_PRELOAD_NONE, NULL);
-
-	for (i=1;err == NULL && i<EMFV_SETTINGS;i++) {
-		sprintf(key, "/apps/evolution/mail/display/%s", emfv_display_keys[i-1]);
-		entry = gconf_client_get_entry(gconf, key, NULL, TRUE, &err);
-		if (entry) {
-			emfv_setting_notify(gconf, 0, entry, emfv);
-			gconf_entry_free(entry);
-		}
-	}
-
-	if (err) {
-		g_warning("Could not load display settings: %s", err->message);
-		g_error_free(err);
-	}
-
-	emfv->priv->setting_notify_id = gconf_client_notify_add(gconf, "/apps/evolution/mail/display",
-								(GConfClientNotifyFunc)emfv_setting_notify,
-								emfv, NULL, NULL);
-	g_object_unref(gconf);
 }
 
 static void

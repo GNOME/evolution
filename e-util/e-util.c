@@ -432,6 +432,30 @@ e_write_file_uri (const gchar *filename, const gchar *data)
 	return res;
 }
 
+/**
+ * e_color_to_value:
+ * color: a #GdkColor
+ *
+ * Converts a #GdkColor to a 24-bit RGB color value.
+ *
+ * Returns: a 24-bit color value
+ **/
+guint32
+e_color_to_value (GdkColor *color)
+{
+	guint16 red;
+	guint16 green;
+	guint16 blue;
+
+	g_return_val_if_fail (color != NULL, 0);
+
+	red = color->red >> 8;
+	green = color->green >> 8;
+	blue = color->blue >> 8;
+
+	return (guint32) (((red << 16) | (green << 8) | blue) & 0xffffff);
+}
+
 static gint
 epow10 (gint number)
 {

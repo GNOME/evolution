@@ -480,3 +480,55 @@ e_mutual_binding_unbind (EMutualBinding *binding)
 	g_signal_handler_disconnect (
 		binding->reverse.dst_object, binding->direct.handler);
 }
+
+/**
+ * e_binding_transform_color_to_string:
+ * @src_value: a #GValue of type #GDK_TYPE_COLOR
+ * @dst_value: a #GValue of type #G_TYPE_STRING
+ * @user_data: not used
+ *
+ * Transforms a #GdkColor value to a color string specification.
+ *
+ * Returns: %TRUE always
+ **/
+gboolean
+e_binding_transform_color_to_string (const GValue *src_value,
+                                     GValue *dst_value,
+                                     gpointer user_data)
+{
+	const GdkColor *color;
+	gchar *string;
+
+	color = g_value_get_boxed (src_value);
+	string = gdk_color_to_string (color);
+	g_value_set_string (dst_value, string);
+	g_free (string);
+
+	return TRUE;
+}
+
+/**
+ * e_binding_transform_string_to_color:
+ * @src_value: a #GValue of type #G_TYPE_STRING
+ * @dst_value: a #GValue of type #GDK_TYPE_COLOR
+ * @user_data: not used
+ *
+ * Transforms a color string specification to a #GdkColor.
+ *
+ * Returns: %TRUE if color string specification was valid
+ **/
+gboolean
+e_binding_transform_string_to_color (const GValue *src_value,
+                                     GValue *dst_value,
+                                     gpointer user_data)
+{
+	GdkColor color;
+	const gchar *string;
+	gboolean success;
+
+	string = g_value_get_string (src_value);
+	if (gdk_color_parse (string, &color))
+		g_value_set_boxed (dst_value, &color);
+
+	return success;
+}

@@ -85,7 +85,8 @@ shell_migrate_attempt (EShell *shell,
 }
 
 static void
-shell_migrate_get_version (gint *major,
+shell_migrate_get_version (EShell *shell,
+                           gint *major,
                            gint *minor,
                            gint *micro)
 {
@@ -97,9 +98,8 @@ shell_migrate_get_version (gint *major,
 	old_data_dir = shell_migrate_get_old_data_dir ();
 
 	key = GCONF_VERSION_KEY;
-	client = gconf_client_get_default ();
+	client = e_shell_get_gconf_client (shell);
 	string = gconf_client_get_string (client, key, NULL);
-	g_object_unref (client);
 
 	if (string != NULL) {
 		/* Since 1.4.0 we've kept the version key in GConf. */
@@ -206,6 +206,7 @@ e_shell_migrate_attempt (EShell *shell)
 
 	g_return_val_if_fail (E_IS_SHELL (shell), FALSE);
 
+	client = e_shell_get_gconf_client (shell);
 	old_data_dir = shell_migrate_get_old_data_dir ();
 
 	if (sscanf (BASE_VERSION, "%d.%d", &curr_major, &curr_minor) != 2) {
@@ -215,7 +216,7 @@ e_shell_migrate_attempt (EShell *shell)
 
 	curr_micro = atoi (UPGRADE_REVISION);
 
-	shell_migrate_get_version (&major, &minor, &micro);
+	shell_migrate_get_version (shell, &major, &minor, &micro);
 
 	if (!(curr_major > major ||
 		(curr_major == major && curr_minor > minor) ||
@@ -253,10 +254,8 @@ e_shell_migrate_attempt (EShell *shell)
 		_exit (EXIT_SUCCESS);
 
 	/* Record a successful migration. */
-	client = gconf_client_get_default ();
 	string = g_strdup_printf ("%d.%d.%d", major, minor, micro);
 	gconf_client_set_string (client, GCONF_VERSION_KEY, string, NULL);
-	g_object_unref (client);
 	g_free (string);
 
 	migrated = TRUE;
@@ -264,7 +263,6 @@ e_shell_migrate_attempt (EShell *shell)
 check_old:
 
 	key = GCONF_LAST_VERSION_KEY;
-	client = gconf_client_get_default ();
 
 	/* Try to retrieve the last migrated version from GConf. */
 	string = gconf_client_get_string (client, key, NULL);
@@ -320,8 +318,6 @@ check_old:
 		"%d.%d.%d", last_major, last_minor, last_micro);
 	gconf_client_set_string (client, key, string, NULL);
 	g_free (string);
-
-	g_object_unref (client);
 
 	return TRUE;
 }

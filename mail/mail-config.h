@@ -23,9 +23,8 @@
 #ifndef MAIL_CONFIG_H
 #define MAIL_CONFIG_H
 
-#include <glib.h>
 #include <glib-object.h>
-
+#include <camel/camel-folder.h>
 #include <camel/camel-provider.h>
 
 struct _EAccount;
@@ -38,21 +37,7 @@ struct _ESignatureList;
 struct _GConfClient;
 struct _GtkWindow;
 
-struct _CamelFolder;
-
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
-
-typedef struct _MailConfigSignature {
-	int id;
-	char *name;
-	char *filename;
-	char *script;
-	gboolean html;
-} MailConfigSignature;
-
+G_BEGIN_DECLS
 
 typedef enum {
 	MAIL_CONFIG_HTTP_NEVER,
@@ -115,8 +100,8 @@ void mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char 
 void mail_config_uri_deleted (GCompareFunc uri_cmp, const char *uri);
 
 /* static utility functions */
-char *mail_config_folder_to_cachename (struct _CamelFolder *folder, const char *prefix);
-char *mail_config_folder_to_safe_url (struct _CamelFolder *folder);
+char *mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix);
+char *mail_config_folder_to_safe_url (CamelFolder *folder);
 guint mail_config_get_error_timeout  (void);
 guint mail_config_get_error_level  (void);
 
@@ -128,10 +113,6 @@ gboolean mail_config_get_lookup_book_local_only (void);
 
 GType evolution_mail_config_get_type (void);
 
-gboolean evolution_mail_config_factory_init (void);
-
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* MAIL_CONFIG_H */

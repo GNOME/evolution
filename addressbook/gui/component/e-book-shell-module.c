@@ -260,6 +260,7 @@ static void
 action_contact_new_cb (GtkAction *action,
                        EShellWindow *shell_window)
 {
+	EShell *shell;
 	EBook *book = NULL;
 	GConfClient *client;
 	ESourceList *source_list;
@@ -273,10 +274,11 @@ action_contact_new_cb (GtkAction *action,
 		return;
 	}
 
-	client = gconf_client_get_default ();
+	shell = e_shell_window_get_shell (shell_window);
+	client = e_shell_get_gconf_client (shell);
+
 	key = "/apps/evolution/addressbook/display/primary_addressbook";
 	uid = gconf_client_get_string (client, key, NULL);
-	g_object_unref (client);
 
 	if (uid != NULL) {
 		ESource *source;

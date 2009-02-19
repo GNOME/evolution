@@ -181,38 +181,6 @@ mark_seen_timeout_reverse_transform (const GValue *src_value,
 	return TRUE;
 }
 
-static gboolean
-transform_color_to_string (const GValue *src_value,
-                           GValue *dst_value,
-                           gpointer user_data)
-{
-	const GdkColor *color;
-	gchar *string;
-
-	color = g_value_get_boxed (src_value);
-	string = gdk_color_to_string (color);
-	g_value_set_string (dst_value, string);
-	g_free (string);
-
-	return TRUE;
-}
-
-static gboolean
-transform_string_to_color (const GValue *src_value,
-                           GValue *dst_value,
-                           gpointer user_data)
-{
-	GdkColor color;
-	const gchar *string;
-	gboolean success;
-
-	string = g_value_get_string (src_value);
-	if (gdk_color_parse (string, &color))
-		g_value_set_boxed (dst_value, &color);
-
-	return success;
-}
-
 enum {
 	JH_LIST_COLUMN_NAME,
 	JH_LIST_COLUMN_VALUE,
@@ -978,8 +946,8 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs,
 	e_mutual_binding_new_full (
 		G_OBJECT (shell_settings), "mail-citation-color",
 		G_OBJECT (widget), "color",
-		transform_string_to_color,
-		transform_color_to_string,
+		e_binding_transform_string_to_color,
+		e_binding_transform_color_to_string,
 		NULL, NULL);
 
 	widget = glade_xml_get_widget (gui, "chkEnableSearchFolders");

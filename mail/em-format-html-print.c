@@ -210,9 +210,7 @@ emfhp_got_message (CamelFolder *folder, const char *uid,
 		return;
 	}
 
-	if (efhp->source != NULL)
-		((EMFormatHTML *)efhp)->load_http =
-			efhp->source->load_http_now;
+	em_format_html_load_images (EM_FORMAT_HTML (efhp));
 
 	g_signal_connect (
 		efhp, "complete", G_CALLBACK (emfhp_complete), efhp);

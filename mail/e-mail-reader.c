@@ -95,19 +95,6 @@ exit:
 }
 
 static void
-action_mail_caret_mode_cb (GtkToggleAction *action,
-                           EMailReader *reader)
-{
-	EMFormatHTMLDisplay *html_display;
-	gboolean active;
-
-	active = gtk_toggle_action_get_active (action);
-	html_display = e_mail_reader_get_html_display (reader);
-
-	em_format_html_display_set_caret_mode (html_display, active);
-}
-
-static void
 action_mail_charset_cb (GtkRadioAction *action,
                         GtkRadioAction *current,
                         EMailReader *reader)
@@ -122,7 +109,7 @@ action_mail_charset_cb (GtkRadioAction *action,
 	charset = g_object_get_data (G_OBJECT (action), "charset");
 
 	/* Charset for "Default" action will be NULL. */
-	em_format_set_charset ((EMFormat *) html_display, charset);
+	em_format_set_charset (EM_FORMAT (html_display), charset);
 }
 
 static void
@@ -149,7 +136,7 @@ action_mail_clipboard_copy_cb (GtkAction *action,
 	GtkHTML *html;
 
 	html_display = e_mail_reader_get_html_display (reader);
-	html = ((EMFormatHTML *) html_display)->html;
+	html = EM_FORMAT_HTML (html_display)->html;
 
 	gtk_html_copy (html);
 }
@@ -300,7 +287,7 @@ action_mail_flag_clear_cb (GtkAction *action,
 
 	em_utils_flag_for_followup_clear (window, folder, uids);
 
-	em_format_redraw ((EMFormat *) html_display);
+	em_format_redraw (EM_FORMAT (html_display));
 }
 
 static void
@@ -322,7 +309,7 @@ action_mail_flag_completed_cb (GtkAction *action,
 
 	em_utils_flag_for_followup_completed (window, folder, uids);
 
-	em_format_redraw ((EMFormat *) html_display);
+	em_format_redraw (EM_FORMAT (html_display));
 }
 
 static void
@@ -443,7 +430,7 @@ action_mail_load_images_cb (GtkAction *action,
 
 	html_display = e_mail_reader_get_html_display (reader);
 
-	em_format_html_load_http ((EMFormatHTML *) html_display);
+	em_format_html_load_images (EM_FORMAT_HTML (html_display));
 }
 
 static void
@@ -880,7 +867,7 @@ action_mail_select_all_cb (GtkAction *action,
 	gboolean selection_active;
 
 	html_display = e_mail_reader_get_html_display (reader);
-	html = ((EMFormatHTML *) html_display)->html;
+	html = EM_FORMAT_HTML (html_display)->html;
 
 	gtk_html_select_all (html);
 
@@ -904,7 +891,7 @@ action_mail_show_all_headers_cb (GtkToggleAction *action,
 	else
 		mode = EM_FORMAT_NORMAL;
 
-	em_format_set_mode ((EMFormat *) html_display, mode);
+	em_format_set_mode (EM_FORMAT (html_display), mode);
 }
 
 static void
@@ -930,7 +917,7 @@ action_mail_show_source_cb (GtkAction *action,
 	browser = e_mail_browser_new (shell_module);
 	reader = E_MAIL_READER (browser);
 	html_display = e_mail_reader_get_html_display (reader);
-	em_format_set_mode ((EMFormat *) html_display, EM_FORMAT_SOURCE);
+	em_format_set_mode (EM_FORMAT (html_display), EM_FORMAT_SOURCE);
 	e_mail_reader_set_folder (reader, folder, folder_uri);
 	e_mail_reader_set_message (reader, uids->pdata[0], FALSE);
 	gtk_widget_show (browser);
@@ -1621,7 +1608,7 @@ static GtkToggleActionEntry mail_reader_toggle_entries[] = {
 	  N_("_Caret Mode"),
 	  "F7",
 	  N_("Show a blinking cursor in the body of displayed messages"),
-	  G_CALLBACK (action_mail_caret_mode_cb),
+	  NULL,  /* No callback required */
 	  FALSE },
 
 	{ "mail-show-all-headers",
@@ -1643,7 +1630,7 @@ mail_reader_link_clicked_cb (EMailReader *reader,
 	MessageList *message_list;
 	const gchar *folder_uri;
 
-	html = ((EMFormatHTML *) html_display)->html;
+	html = EM_FORMAT_HTML (html_display)->html;
 	message_list = e_mail_reader_get_message_list (reader);
 	window = e_mail_reader_get_window (reader);
 	folder_uri = message_list->folder_uri;
@@ -1834,7 +1821,7 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 		(EEventTarget *) target);
 
 	em_format_format (
-		(EMFormat *) html_display, folder, message_uid, message);
+		EM_FORMAT (html_display), folder, message_uid, message);
 
 	/* Reset the shell view icon. */
 	e_shell_event (shell, "mail-icon", "evolution-mail");
@@ -1862,7 +1849,7 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 
 		/* Display the error inline and clear the exception. */
 		stream = gtk_html_begin (
-			((EMFormatHTML *) html_display)->html);
+			EM_FORMAT_HTML (html_display)->html);
 		gtk_html_stream_printf (
 			stream, "<h2>%s</h2><p>%s</p>",
 			_("Unable to retrieve message"),
@@ -1890,7 +1877,7 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 	message_list = e_mail_reader_get_message_list (reader);
 
 	cursor_uid = message_list->cursor_uid;
-	format_uid = ((EMFormat *) html_display)->uid;
+	format_uid = EM_FORMAT (html_display)->uid;
 
 	if (cursor_uid != NULL) {
 		if (g_strcmp0 (cursor_uid, format_uid) != 0)
@@ -1900,7 +1887,7 @@ mail_reader_message_selected_timeout_cb (EMailReader *reader)
 				g_object_ref (reader),
 				mail_msg_fast_ordered_push);
 	} else
-		em_format_format ((EMFormat *) html_display, NULL, NULL, NULL);
+		em_format_format (EM_FORMAT (html_display), NULL, NULL, NULL);
 
 	key = "message-selected-timeout";
 	g_object_set_data (G_OBJECT (reader), key, NULL);
@@ -1962,7 +1949,7 @@ mail_reader_set_folder (EMailReader *reader,
 	if (message_list->folder != NULL)
 		mail_sync_folder (message_list->folder, NULL, NULL);
 
-	em_format_format ((EMFormat *) html_display, NULL, NULL, NULL);
+	em_format_format (EM_FORMAT (html_display), NULL, NULL, NULL);
 	message_list_set_folder (message_list, folder, folder_uri, outgoing);
 
 	mail_reader_emit_folder_loaded (reader);
@@ -2062,6 +2049,9 @@ e_mail_reader_get_type (void)
 void
 e_mail_reader_init (EMailReader *reader)
 {
+	EShell *shell;
+	EShellModule *shell_module;
+	EShellSettings *shell_settings;
 	EMFormatHTMLDisplay *html_display;
 	GtkActionGroup *action_group;
 	MessageList *message_list;
@@ -2075,6 +2065,10 @@ e_mail_reader_init (EMailReader *reader)
 	action_group = e_mail_reader_get_action_group (reader);
 	html_display = e_mail_reader_get_html_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
+	shell_module = e_mail_reader_get_shell_module (reader);
+
+	shell = e_shell_module_get_shell (shell_module);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	gtk_action_group_add_actions (
 		action_group, mail_reader_entries,
@@ -2124,6 +2118,37 @@ e_mail_reader_init (EMailReader *reader)
 	action = e_mail_reader_get_action (reader, action_name);
 	g_object_set (action, "short-label", _("Reply"), NULL);
 
+	/* Bind properties. */
+
+	e_binding_new_full (
+		G_OBJECT (shell_settings), "mail-citation-color",
+		G_OBJECT (html_display), "citation-color",
+		e_binding_transform_string_to_color,
+		NULL, NULL);
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "mail-image-loading-policy",
+		G_OBJECT (html_display), "image-loading-policy");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "mail-only-local-photos",
+		G_OBJECT (html_display), "only-local-photos");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "mail-show-animated-images",
+		G_OBJECT (html_display), "animate");
+
+	e_binding_new (
+		G_OBJECT (shell_settings), "mail-show-sender-photo",
+		G_OBJECT (html_display), "show-sender-photo");
+
+	action_name = "mail-caret-mode";
+	action = e_mail_reader_get_action (reader, action_name);
+
+	e_mutual_binding_new (
+		G_OBJECT (action), "active",
+		G_OBJECT (html_display), "caret-mode");
+
 	/* Connect signals. */
 
 	g_signal_connect_swapped (
@@ -2131,7 +2156,7 @@ e_mail_reader_init (EMailReader *reader)
 		G_CALLBACK (mail_reader_link_clicked_cb), reader);
 
 	g_signal_connect_swapped (
-		((EMFormatHTML *) html_display)->html, "button-release-event",
+		EM_FORMAT_HTML (html_display)->html, "button-release-event",
 		G_CALLBACK (mail_reader_html_button_release_event_cb), reader);
 
 	g_signal_connect_swapped (

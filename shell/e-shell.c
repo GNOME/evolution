@@ -40,6 +40,7 @@
 struct _EShellPrivate {
 	GList *watched_windows;
 	EShellSettings *settings;
+	GConfClient *gconf_client;
 
 	/* Shell Modules */
 	GList *loaded_modules;
@@ -459,6 +460,11 @@ shell_dispose (GObject *object)
 		priv->settings = NULL;
 	}
 
+	if (priv->gconf_client != NULL) {
+		g_object_unref (priv->gconf_client);
+		priv->gconf_client = NULL;
+	}
+
 	g_list_foreach (
 		priv->loaded_modules,
 		(GFunc) g_type_module_unuse, NULL);
@@ -830,6 +836,7 @@ shell_init (EShell *shell)
 	modules_by_scheme = g_hash_table_new (g_str_hash, g_str_equal);
 
 	shell->priv->settings = g_object_new (E_TYPE_SHELL_SETTINGS, NULL);
+	shell->priv->gconf_client = gconf_client_get_default ();
 	shell->priv->modules_by_name = modules_by_name;
 	shell->priv->modules_by_scheme = modules_by_scheme;
 	shell->priv->safe_mode = e_file_lock_exists ();
@@ -1021,6 +1028,23 @@ e_shell_get_shell_settings (EShell *shell)
 }
 
 /**
+ * e_shell_get_gconf_client:
+ * @shell: an #EShell
+ *
+ * Returns the default #GConfClient.  This function is purely for
+ * convenience.  The @shell owns the reference so you don't have to.
+ *
+ * Returns: the default #GConfClient
+ **/
+GConfClient *
+e_shell_get_gconf_client (EShell *shell)
+{
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
+
+	return shell->priv->gconf_client;
+}
+
+/**
  * e_shell_create_shell_window:
  * @shell: an #EShell
  * @view_name: name of the initial shell view, or %NULL
@@ -1055,10 +1079,9 @@ e_shell_create_shell_window (EShell *shell,
 		const gchar *key;
 		GError *error = NULL;
 
-		client = gconf_client_get_default ();
+		client = e_shell_get_gconf_client (shell);
 		key = "/apps/evolution/shell/view_defaults/component_id";
 		gconf_client_set_string (client, key, view_name, &error);
-		g_object_unref (client);
 
 		if (error != NULL) {
 			g_warning ("%s", error->message);

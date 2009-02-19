@@ -48,7 +48,6 @@
 #include "e-util/e-util.h"
 
 #include <gtkhtml/gtkhtml.h>
-#include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/gtkhtml-stream.h>
 
 #include <glib/gi18n.h>
@@ -83,6 +82,10 @@
 
 #define d(x)
 
+#define EM_FORMAT_HTML_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_FORMAT_HTML, EMFormatHTMLPrivate))
+
 #define EFM_MESSAGE_START_ANAME "evolution#message#start"
 #define EFH_MESSAGE_START "<A name=\"" EFM_MESSAGE_START_ANAME "\"></A>"
 
@@ -103,6 +106,27 @@ struct _EMFormatHTMLPrivate {
 
 	EDList pending_jobs;
 	GMutex *lock;
+
+	GdkColor colors[EM_FORMAT_HTML_NUM_COLOR_TYPES];
+	MailConfigHTTPMode image_loading_policy;
+
+	guint load_images_now	: 1;
+	guint only_local_photos	: 1;
+	guint show_sender_photo	: 1;
+};
+
+enum {
+	PROP_0,
+	PROP_BODY_COLOR,
+	PROP_CITATION_COLOR,
+	PROP_CONTENT_COLOR,
+	PROP_FRAME_COLOR,
+	PROP_HEADER_COLOR,
+	PROP_IMAGE_LOADING_POLICY,
+	PROP_MARK_CITATIONS,
+	PROP_ONLY_LOCAL_PHOTOS,
+	PROP_SHOW_SENDER_PHOTO,
+	PROP_TEXT_COLOR
 };
 
 static void efh_url_requested(GtkHTML *html, const char *url, GtkHTMLStream *handle, EMFormatHTML *efh);
@@ -122,7 +146,7 @@ static void efh_builtin_init(EMFormatHTMLClass *efhc);
 
 static void efh_write_image(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri);
 
-static EMFormatClass *efh_parent;
+static gpointer parent_class;
 static CamelDataCache *emfh_http_cache;
 
 #define EMFH_HTTP_CACHE_PATH "http"
@@ -133,44 +157,6 @@ efh_free_cache(struct _EMFormatHTMLCache *efhc)
 	if (efhc->textmp)
 		camel_object_unref(efhc->textmp);
 	g_free(efhc);
-}
-
-static void
-efh_init(GObject *o)
-{
-	EMFormatHTML *efh = (EMFormatHTML *)o;
-
-	efh->priv = g_malloc0(sizeof(*efh->priv));
-
-	e_dlist_init(&efh->pending_object_list);
-	e_dlist_init(&efh->priv->pending_jobs);
-	efh->priv->lock = g_mutex_new();
-	efh->priv->format_id = -1;
-	efh->priv->text_inline_parts = g_hash_table_new_full (
-		g_str_hash, g_str_equal,
-		(GDestroyNotify) NULL,
-		(GDestroyNotify) efh_free_cache);
-
-	efh->html = (GtkHTML *)gtk_html_new();
-	gtk_html_set_blocking(efh->html, FALSE);
-	gtk_html_set_caret_first_focus_anchor (efh->html, EFM_MESSAGE_START_ANAME);
-	g_object_ref_sink(efh->html);
-
-	gtk_html_set_default_content_type(efh->html, "text/html; charset=utf-8");
-	gtk_html_set_editable(efh->html, FALSE);
-
-	g_signal_connect(efh->html, "url_requested", G_CALLBACK(efh_url_requested), efh);
-	g_signal_connect(efh->html, "object_requested", G_CALLBACK(efh_object_requested), efh);
-
-	efh->body_colour = 0xeeeeee;
-	efh->header_colour = 0xeeeeee;
-	efh->text_colour = 0;
-	efh->frame_colour = 0x3f3f3f;
-	efh->content_colour = 0xffffff;
-	efh->text_html_flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES
-		| CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
-	efh->show_icon = TRUE;
-	efh->state = EM_FORMAT_HTML_STATE_NONE;
 }
 
 static void
@@ -187,8 +173,8 @@ efh_gtkhtml_destroy(GtkHTML *html, EMFormatHTML *efh)
 	if (efh->priv->format_id != -1)
 		mail_msg_cancel(efh->priv->format_id);
 
-	if (efh->html) {
-		g_object_unref(efh->html);
+	if (efh->html != NULL) {
+		g_object_unref (efh->html);
 		efh->html = NULL;
 	}
 }
@@ -205,121 +191,583 @@ efh_insert_cache(EMFormatHTML *efh, const char *partid)
 	return efhc;
 }
 
+static void
+efh_set_property (GObject *object,
+                  guint property_id,
+                  const GValue *value,
+                  GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_BODY_COLOR:
+			em_format_html_set_color (
+				EM_FORMAT_HTML (object),
+				EM_FORMAT_HTML_COLOR_BODY,
+				g_value_get_boxed (value));
+			return;
+
+		case PROP_CITATION_COLOR:
+			em_format_html_set_color (
+				EM_FORMAT_HTML (object),
+				EM_FORMAT_HTML_COLOR_CITATION,
+				g_value_get_boxed (value));
+			return;
+
+		case PROP_CONTENT_COLOR:
+			em_format_html_set_color (
+				EM_FORMAT_HTML (object),
+				EM_FORMAT_HTML_COLOR_CONTENT,
+				g_value_get_boxed (value));
+			return;
+
+		case PROP_FRAME_COLOR:
+			em_format_html_set_color (
+				EM_FORMAT_HTML (object),
+				EM_FORMAT_HTML_COLOR_FRAME,
+				g_value_get_boxed (value));
+			return;
+
+		case PROP_HEADER_COLOR:
+			em_format_html_set_color (
+				EM_FORMAT_HTML (object),
+				EM_FORMAT_HTML_COLOR_HEADER,
+				g_value_get_boxed (value));
+			return;
+
+		case PROP_IMAGE_LOADING_POLICY:
+			em_format_html_set_image_loading_policy (
+				EM_FORMAT_HTML (object),
+				g_value_get_int (value));
+			return;
+
+		case PROP_MARK_CITATIONS:
+			em_format_html_set_mark_citations (
+				EM_FORMAT_HTML (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_ONLY_LOCAL_PHOTOS:
+			em_format_html_set_only_local_photos (
+				EM_FORMAT_HTML (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_SHOW_SENDER_PHOTO:
+			em_format_html_set_show_sender_photo (
+				EM_FORMAT_HTML (object),
+				g_value_get_boolean (value));
+			return;
+
+		case PROP_TEXT_COLOR:
+			em_format_html_set_color (
+				EM_FORMAT_HTML (object),
+				EM_FORMAT_HTML_COLOR_TEXT,
+				g_value_get_boxed (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
 
 static void
-efh_finalise(GObject *o)
+efh_get_property (GObject *object,
+                  guint property_id,
+                  GValue *value,
+                  GParamSpec *pspec)
 {
-	EMFormatHTML *efh = (EMFormatHTML *)o;
+	GdkColor color;
+
+	switch (property_id) {
+		case PROP_BODY_COLOR:
+			em_format_html_get_color (
+				EM_FORMAT_HTML (object),
+				EM_FORMAT_HTML_COLOR_BODY,
+				&color);
+			g_value_set_boxed (value, &color);
+			return;
+
+		case PROP_CITATION_COLOR:
+			em_format_html_get_color (
+				EM_FORMAT_HTML (object),
+				EM_FORMAT_HTML_COLOR_CITATION,
+				&color);
+			g_value_set_boxed (value, &color);
+			return;
+
+		case PROP_CONTENT_COLOR:
+			em_format_html_get_color (
+				EM_FORMAT_HTML (object),
+				EM_FORMAT_HTML_COLOR_CONTENT,
+				&color);
+			g_value_set_boxed (value, &color);
+			return;
+
+		case PROP_FRAME_COLOR:
+			em_format_html_get_color (
+				EM_FORMAT_HTML (object),
+				EM_FORMAT_HTML_COLOR_FRAME,
+				&color);
+			g_value_set_boxed (value, &color);
+			return;
+
+		case PROP_HEADER_COLOR:
+			em_format_html_get_color (
+				EM_FORMAT_HTML (object),
+				EM_FORMAT_HTML_COLOR_HEADER,
+				&color);
+			g_value_set_boxed (value, &color);
+			return;
+
+		case PROP_IMAGE_LOADING_POLICY:
+			g_value_set_int (
+				value,
+				em_format_html_get_image_loading_policy (
+				EM_FORMAT_HTML (object)));
+			return;
+
+		case PROP_MARK_CITATIONS:
+			g_value_set_boolean (
+				value, em_format_html_get_mark_citations (
+				EM_FORMAT_HTML (object)));
+			return;
+
+		case PROP_ONLY_LOCAL_PHOTOS:
+			g_value_set_boolean (
+				value, em_format_html_get_only_local_photos (
+				EM_FORMAT_HTML (object)));
+			return;
+
+		case PROP_SHOW_SENDER_PHOTO:
+			g_value_set_boolean (
+				value, em_format_html_get_show_sender_photo (
+				EM_FORMAT_HTML (object)));
+			return;
+
+		case PROP_TEXT_COLOR:
+			em_format_html_get_color (
+				EM_FORMAT_HTML (object),
+				EM_FORMAT_HTML_COLOR_TEXT,
+				&color);
+			g_value_set_boxed (value, &color);
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+efh_finalize (GObject *object)
+{
+	EMFormatHTML *efh = EM_FORMAT_HTML (object);
 
 	/* FIXME: check for leaked stuff */
 
-	em_format_html_clear_pobject(efh);
+	em_format_html_clear_pobject (efh);
+	efh_gtkhtml_destroy (efh->html, efh);
 
-	efh_gtkhtml_destroy(efh->html, efh);
+	g_hash_table_destroy (efh->priv->text_inline_parts);
 
-	g_hash_table_destroy(efh->priv->text_inline_parts);
-
-	g_free(efh->priv);
-
-	((GObjectClass *)efh_parent)->finalize(o);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
-efh_base_init(EMFormatHTMLClass *efhklass)
+efh_base_init (EMFormatHTMLClass *class)
 {
-	efh_builtin_init(efhklass);
+	efh_builtin_init (class);
 }
 
 static void
-efh_class_init(GObjectClass *klass)
+efh_class_init (EMFormatHTMLClass *class)
 {
-	((EMFormatClass *)klass)->format_clone = efh_format_clone;
-	((EMFormatClass *)klass)->format_error = efh_format_error;
-	((EMFormatClass *)klass)->format_source = efh_format_source;
-	((EMFormatClass *)klass)->format_attachment = efh_format_attachment;
-	((EMFormatClass *)klass)->format_secure = efh_format_secure;
-	((EMFormatClass *)klass)->busy = efh_busy;
+	GObjectClass *object_class;
+	EMFormatClass *format_class;
+	gchar *pathname;
 
-	klass->finalize = efh_finalise;
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EMFormatHTMLPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = efh_set_property;
+	object_class->get_property = efh_get_property;
+	object_class->finalize = efh_finalize;
+
+	format_class = EM_FORMAT_CLASS (class);
+	format_class->format_clone = efh_format_clone;
+	format_class->format_error = efh_format_error;
+	format_class->format_source = efh_format_source;
+	format_class->format_attachment = efh_format_attachment;
+	format_class->format_secure = efh_format_secure;
+	format_class->busy = efh_busy;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_BODY_COLOR,
+		g_param_spec_boxed (
+			"body-color",
+			"Body Color",
+			NULL,
+			GDK_TYPE_COLOR,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CITATION_COLOR,
+		g_param_spec_boxed (
+			"citation-color",
+			"Citation Color",
+			NULL,
+			GDK_TYPE_COLOR,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CONTENT_COLOR,
+		g_param_spec_boxed (
+			"content-color",
+			"Content Color",
+			NULL,
+			GDK_TYPE_COLOR,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_FRAME_COLOR,
+		g_param_spec_boxed (
+			"frame-color",
+			"Frame Color",
+			NULL,
+			GDK_TYPE_COLOR,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_HEADER_COLOR,
+		g_param_spec_boxed (
+			"header-color",
+			"Header Color",
+			NULL,
+			GDK_TYPE_COLOR,
+			G_PARAM_READWRITE));
+
+	/* FIXME Make this a proper enum property. */
+	g_object_class_install_property (
+		object_class,
+		PROP_IMAGE_LOADING_POLICY,
+		g_param_spec_int (
+			"image-loading-policy",
+			"Image Loading Policy",
+			NULL,
+			0,
+			G_MAXINT,
+			MAIL_CONFIG_HTTP_ALWAYS,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MARK_CITATIONS,
+		g_param_spec_boolean (
+			"mark-citations",
+			"Mark Citations",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ONLY_LOCAL_PHOTOS,
+		g_param_spec_boolean (
+			"only-local-photos",
+			"Only Local Photos",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_SENDER_PHOTO,
+		g_param_spec_boolean (
+			"show-sender-photo",
+			"Show Sender Photo",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_TEXT_COLOR,
+		g_param_spec_boxed (
+			"text-color",
+			"Text Color",
+			NULL,
+			GDK_TYPE_COLOR,
+			G_PARAM_READWRITE));
+
+	/* cache expiry - 2 hour access, 1 day max */
+	pathname = g_build_filename (
+		e_get_user_data_dir (), "cache", NULL);
+	emfh_http_cache = camel_data_cache_new (pathname, 0, NULL);
+	if (emfh_http_cache) {
+		camel_data_cache_set_expire_age(emfh_http_cache, 24*60*60);
+		camel_data_cache_set_expire_access(emfh_http_cache, 2*60*60);
+	}
+	g_free (pathname);
+}
+
+static void
+efh_init (EMFormatHTML *efh)
+{
+	GdkColor *color;
+
+	efh->priv = EM_FORMAT_HTML_GET_PRIVATE (efh);
+
+	e_dlist_init(&efh->pending_object_list);
+	e_dlist_init(&efh->priv->pending_jobs);
+	efh->priv->lock = g_mutex_new();
+	efh->priv->format_id = -1;
+	efh->priv->text_inline_parts = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) efh_free_cache);
+
+	efh->html = (GtkHTML *) gtk_html_new ();
+	g_object_ref_sink(efh->html);
+
+	gtk_html_set_blocking (efh->html, FALSE);
+	gtk_html_set_caret_first_focus_anchor (efh->html, EFM_MESSAGE_START_ANAME);
+
+	gtk_html_set_default_content_type(efh->html, "text/html; charset=utf-8");
+	gtk_html_set_editable(efh->html, FALSE);
+
+	g_signal_connect(efh->html, "url_requested", G_CALLBACK(efh_url_requested), efh);
+	g_signal_connect(efh->html, "object_requested", G_CALLBACK(efh_object_requested), efh);
+
+	color = &efh->priv->colors[EM_FORMAT_HTML_COLOR_BODY];
+	gdk_color_parse ("0xeeeeee", color);
+
+	color = &efh->priv->colors[EM_FORMAT_HTML_COLOR_CONTENT];
+	gdk_color_parse ("0xffffff", color);
+
+	color = &efh->priv->colors[EM_FORMAT_HTML_COLOR_FRAME];
+	gdk_color_parse ("0x3f3f3f", color);
+
+	color = &efh->priv->colors[EM_FORMAT_HTML_COLOR_HEADER];
+	gdk_color_parse ("0xeeeeee", color);
+
+	color = &efh->priv->colors[EM_FORMAT_HTML_COLOR_TEXT];
+	gdk_color_parse ("0x000000", color);
+
+	efh->text_html_flags =
+		CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+		CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+		CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
+	efh->show_icon = TRUE;
+	efh->state = EM_FORMAT_HTML_STATE_NONE;
+
+	g_signal_connect_swapped (
+		efh, "notify::mark-citations",
+		G_CALLBACK (em_format_redraw), NULL);
 }
 
 GType
-em_format_html_get_type(void)
+em_format_html_get_type (void)
 {
 	static GType type = 0;
 
-	if (type == 0) {
-		static const GTypeInfo info = {
-			sizeof(EMFormatHTMLClass),
-			(GBaseInitFunc)efh_base_init, NULL,
-			(GClassInitFunc)efh_class_init,
-			NULL, NULL,
-			sizeof(EMFormatHTML), 0,
-			(GInstanceInitFunc)efh_init
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EMFormatHTMLClass),
+			(GBaseInitFunc) efh_base_init,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) efh_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EMFormatHTML),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) efh_init,
+			NULL   /* value_table */
 		};
-		const char *base_directory = e_get_user_data_dir ();
-		char *path;
 
-		efh_parent = g_type_class_ref(em_format_get_type());
-		type = g_type_register_static(em_format_get_type(), "EMFormatHTML", &info, 0);
-
-		/* cache expiry - 2 hour access, 1 day max */
-		path = alloca(strlen(base_directory)+16);
-		sprintf(path, "%s/cache", base_directory);
-		emfh_http_cache = camel_data_cache_new(path, 0, NULL);
-		if (emfh_http_cache) {
-			camel_data_cache_set_expire_age(emfh_http_cache, 24*60*60);
-			camel_data_cache_set_expire_access(emfh_http_cache, 2*60*60);
-		}
+		type = g_type_register_static (
+			em_format_get_type(), "EMFormatHTML", &type_info, 0);
 	}
 
 	return type;
 }
 
-EMFormatHTML *em_format_html_new(void)
+EMFormatHTML *
+em_format_html_new(void)
 {
-	EMFormatHTML *efh;
-
-	efh = g_object_new(em_format_html_get_type(), NULL);
-
-	return efh;
+	return g_object_new (EM_TYPE_FORMAT_HTML, NULL);
 }
 
-/* force loading of http images */
-void em_format_html_load_http(EMFormatHTML *emfh)
+void
+em_format_html_load_images (EMFormatHTML *efh)
 {
-	if (emfh->load_http == MAIL_CONFIG_HTTP_ALWAYS)
+	g_return_if_fail (EM_IS_FORMAT_HTML (efh));
+
+	if (efh->priv->image_loading_policy == MAIL_CONFIG_HTTP_ALWAYS)
 		return;
 
-	/* This will remain set while we're still rendering the same message, then it wont be */
-	emfh->load_http_now = TRUE;
-	d(printf("redrawing with images forced on\n"));
-	em_format_redraw((EMFormat *)emfh);
+	/* This will remain set while we're still
+	 * rendering the same message, then it wont be. */
+	efh->priv->load_images_now = TRUE;
+	em_format_redraw (EM_FORMAT (efh));
 }
 
 void
-em_format_html_set_load_http(EMFormatHTML *emfh, int style)
+em_format_html_get_color (EMFormatHTML *efh,
+                          EMFormatHTMLColorType type,
+                          GdkColor *color)
 {
-	if (emfh->load_http != style) {
-		emfh->load_http = style;
-		em_format_redraw((EMFormat *)emfh);
-	}
+	GdkColor *format_color;
+
+	g_return_if_fail (EM_IS_FORMAT_HTML (efh));
+	g_return_if_fail (type >= 0);
+	g_return_if_fail (type < EM_FORMAT_HTML_NUM_COLOR_TYPES);
+	g_return_if_fail (color != NULL);
+
+	format_color = &efh->priv->colors[type];
+
+	color->red   = format_color->red;
+	color->green = format_color->green;
+	color->blue  = format_color->blue;
 }
 
 void
-em_format_html_set_mark_citations(EMFormatHTML *emfh, int state, guint32 citation_colour)
+em_format_html_set_color (EMFormatHTML *efh,
+                          EMFormatHTMLColorType type,
+                          const GdkColor *color)
 {
-	if (emfh->mark_citations ^ state || emfh->citation_colour != citation_colour) {
-		emfh->mark_citations = state;
-		emfh->citation_colour = citation_colour;
+	GdkColor *format_color;
+	const gchar *property_name;
 
-		if (state)
-			emfh->text_html_flags |= CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
-		else
-			emfh->text_html_flags &= ~CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
+	g_return_if_fail (EM_IS_FORMAT_HTML (efh));
+	g_return_if_fail (type >= 0);
+	g_return_if_fail (type < EM_FORMAT_HTML_NUM_COLOR_TYPES);
+	g_return_if_fail (color != NULL);
 
-		em_format_redraw((EMFormat *)emfh);
+	format_color = &efh->priv->colors[type];
+
+	if (gdk_color_equal (color, format_color))
+		return;
+
+	format_color->red   = color->red;
+	format_color->green = color->green;
+	format_color->blue  = color->blue;
+
+	switch (type) {
+		case EM_FORMAT_HTML_COLOR_BODY:
+			property_name = "body-color";
+			break;
+		case EM_FORMAT_HTML_COLOR_CITATION:
+			property_name = "citation-color";
+			break;
+		case EM_FORMAT_HTML_COLOR_CONTENT:
+			property_name = "content-color";
+			break;
+		case EM_FORMAT_HTML_COLOR_FRAME:
+			property_name = "frame-color";
+			break;
+		case EM_FORMAT_HTML_COLOR_HEADER:
+			property_name = "header-color";
+			break;
+		case EM_FORMAT_HTML_COLOR_TEXT:
+			property_name = "text-color";
+			break;
+		default:
+			g_return_if_reached ();
 	}
+
+	g_object_notify (G_OBJECT (efh), property_name);
+}
+
+MailConfigHTTPMode
+em_format_html_get_image_loading_policy (EMFormatHTML *efh)
+{
+	g_return_val_if_fail (EM_IS_FORMAT_HTML (efh), 0);
+
+	return efh->priv->image_loading_policy;;
+}
+
+void
+em_format_html_set_image_loading_policy (EMFormatHTML *efh,
+                                         MailConfigHTTPMode policy)
+{
+	g_return_if_fail (EM_IS_FORMAT_HTML (efh));
+
+	if (policy == efh->priv->image_loading_policy)
+		return;
+
+	efh->priv->image_loading_policy = policy;
+
+	g_object_notify (G_OBJECT (efh), "image-loading-policy");
+}
+
+gboolean
+em_format_html_get_mark_citations (EMFormatHTML *efh)
+{
+	guint32 flags;
+
+	g_return_val_if_fail (EM_IS_FORMAT_HTML (efh), FALSE);
+
+	flags = efh->text_html_flags;
+
+	return ((flags & CAMEL_MIME_FILTER_TOHTML_MARK_CITATION) != 0);
+}
+
+void
+em_format_html_set_mark_citations (EMFormatHTML *efh,
+                                   gboolean mark_citations)
+{
+	g_return_if_fail (EM_IS_FORMAT_HTML (efh));
+
+	if (mark_citations)
+		efh->text_html_flags |=
+			CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
+		efh->text_html_flags &=
+			~CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
+
+	g_object_notify (G_OBJECT (efh), "mark-citations");
+}
+
+gboolean
+em_format_html_get_only_local_photos (EMFormatHTML *efh)
+{
+	g_return_val_if_fail (EM_IS_FORMAT_HTML (efh), FALSE);
+
+	return efh->priv->only_local_photos;
+}
+
+void
+em_format_html_set_only_local_photos (EMFormatHTML *efh,
+                                      gboolean only_local_photos)
+{
+	g_return_if_fail (EM_IS_FORMAT_HTML (efh));
+
+	efh->priv->only_local_photos = only_local_photos;
+
+	g_object_notify (G_OBJECT (efh), "only-local-photos");
+}
+
+gboolean
+em_format_html_get_show_sender_photo (EMFormatHTML *efh)
+{
+	g_return_val_if_fail (EM_IS_FORMAT_HTML (efh), FALSE);
+
+	return efh->priv->show_sender_photo;
+}
+
+void
+em_format_html_set_show_sender_photo (EMFormatHTML *efh,
+                                      gboolean show_sender_photo)
+{
+	g_return_if_fail (EM_IS_FORMAT_HTML (efh));
+
+	efh->priv->show_sender_photo = show_sender_photo;
+
+	g_object_notify (G_OBJECT (efh), "show-sender-photo");
 }
 
 CamelMimePart *
@@ -477,13 +925,15 @@ static void emfh_gethttp(struct _EMFormatHTMLJob *job, int cancelled)
 		instream = cistream = camel_data_cache_get(emfh_http_cache, EMFH_HTTP_CACHE_PATH, job->u.uri, NULL);
 
 	if (instream == NULL) {
+		MailConfigHTTPMode policy;
 		char *proxy;
 
+		policy = em_format_html_get_image_loading_policy (job->format);
 
-		if (!(job->format->load_http_now
-		      || job->format->load_http == MAIL_CONFIG_HTTP_ALWAYS
-		      || (job->format->load_http == MAIL_CONFIG_HTTP_SOMETIMES
-			  && em_utils_in_addressbook((CamelInternetAddress *)camel_mime_message_get_from(job->format->format.message), FALSE)))) {
+		if (!(job->format->priv->load_images_now
+		      || policy == MAIL_CONFIG_HTTP_ALWAYS
+		      || (policy == MAIL_CONFIG_HTTP_SOMETIMES
+			  && em_utils_in_addressbook((CamelInternetAddress *)camel_mime_message_get_from(job->format->parent.message), FALSE)))) {
 			/* TODO: Ideally we would put the http requests into another queue and only send them out
 			   if the user selects 'load images', when they do.  The problem is how to maintain this
 			   state with multiple renderings, and how to adjust the thread dispatch/setup routine to handle it */
@@ -672,7 +1122,11 @@ static const char *smime_sign_colour[4] = {
 static void
 efh_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, CamelCipherValidity *valid)
 {
-	efh_parent->format_secure(emf, stream, part, valid);
+	EMFormatClass *format_class;
+
+	format_class = EM_FORMAT_GET_CLASS (emf);
+	g_return_if_fail (format_class->format_secure != NULL);
+	format_class->format_secure (emf, stream, part, valid);
 
 	/* To explain, if the validity is the same, then we are the
 	   base validity and now have a combined sign/encrypt validity
@@ -726,6 +1180,7 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 	CamelContentType *type;
 	const char *format;
 	guint32 flags;
+	guint32 rgb;
 	int i, count, len;
 	struct _EMFormatHTMLCache *efhc;
 
@@ -782,8 +1237,10 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 		camel_content_type_unref(ct);
 	}
 
+	rgb = e_color_to_value (
+		&efh->priv->colors[EM_FORMAT_HTML_COLOR_CITATION]);
 	filtered_stream = camel_stream_filter_new_with_stream(stream);
-	html_filter = camel_mime_filter_tohtml_new(flags, efh->citation_colour);
+	html_filter = camel_mime_filter_tohtml_new(flags, rgb);
 	camel_stream_filter_add(filtered_stream, html_filter);
 	camel_object_unref(html_filter);
 
@@ -799,9 +1256,17 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 
 		type = camel_mime_part_get_content_type(newpart);
 		if (camel_content_type_is (type, "text", "*") && !camel_content_type_is(type, "text", "calendar")) {
-			camel_stream_printf (stream,
-   					"<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px; color: #%06x;\">\n",
-					     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff, efh->text_colour & 0xffffff);
+			camel_stream_printf (
+				stream, "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px; color: #%06x;\">\n",
+				e_color_to_value (
+					&efh->priv->colors[
+					EM_FORMAT_HTML_COLOR_FRAME]),
+				e_color_to_value (
+					&efh->priv->colors[
+					EM_FORMAT_HTML_COLOR_CONTENT]),
+				e_color_to_value (
+					&efh->priv->colors[
+					EM_FORMAT_HTML_COLOR_TEXT]));
 			camel_stream_write_string(stream, "<tt>\n" EFH_MESSAGE_START);
 			em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, (CamelDataWrapper *)newpart);
 			camel_stream_flush((CamelStream *)filtered_stream);
@@ -839,9 +1304,17 @@ efh_text_enriched(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, E
 	camel_stream_filter_add(filtered_stream, enriched);
 	camel_object_unref(enriched);
 
-	camel_stream_printf (stream,
-			     "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px; color: #%06x;\">\n" EFH_MESSAGE_START,
-			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff, efh->text_colour & 0xffffff);
+	camel_stream_printf (
+		stream, "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px; color: #%06x;\">\n" EFH_MESSAGE_START,
+		e_color_to_value (
+			&efh->priv->colors[
+			EM_FORMAT_HTML_COLOR_FRAME]),
+		e_color_to_value (
+			&efh->priv->colors[
+			EM_FORMAT_HTML_COLOR_CONTENT]),
+		e_color_to_value (
+			&efh->priv->colors[
+			EM_FORMAT_HTML_COLOR_TEXT]));
 
 	em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, (CamelDataWrapper *)part);
 
@@ -876,10 +1349,18 @@ efh_text_html(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFor
 	EMFormatPURI *puri;
 	char *cid = NULL;
 
-	camel_stream_printf (stream,
-			     "<div style=\"border: solid #%06x 1px; background-color: #%06x; color: #%06x;\">\n"
-			     "<!-- text/html -->\n" EFH_MESSAGE_START,
-			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff, efh->text_colour & 0xffffff);
+	camel_stream_printf (
+		stream, "<div style=\"border: solid #%06x 1px; background-color: #%06x; color: #%06x;\">\n"
+		"<!-- text/html -->\n" EFH_MESSAGE_START,
+		e_color_to_value (
+			&efh->priv->colors[
+			EM_FORMAT_HTML_COLOR_FRAME]),
+		e_color_to_value (
+			&efh->priv->colors[
+			EM_FORMAT_HTML_COLOR_CONTENT]),
+		e_color_to_value (
+			&efh->priv->colors[
+			EM_FORMAT_HTML_COLOR_TEXT]));
 
 	/* TODO: perhaps we don't need to calculate this anymore now base is handled better */
 	/* calculate our own location string so add_puri doesn't do it
@@ -1016,9 +1497,17 @@ efh_message_deliverystatus(EMFormatHTML *efh, CamelStream *stream, CamelMimePart
 	guint32 rgb = 0x737373;
 
 	/* Yuck, this is copied from efh_text_plain */
-	camel_stream_printf (stream,
-			     "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px; color: #%06x;\">\n",
-			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff, efh->text_colour & 0xffffff);
+	camel_stream_printf (
+		stream, "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px; color: #%06x;\">\n",
+		e_color_to_value (
+			&efh->priv->colors[
+			EM_FORMAT_HTML_COLOR_FRAME]),
+		e_color_to_value (
+			&efh->priv->colors[
+			EM_FORMAT_HTML_COLOR_CONTENT]),
+		e_color_to_value (
+			&efh->priv->colors[
+			EM_FORMAT_HTML_COLOR_TEXT]));
 
 	filtered_stream = camel_stream_filter_new_with_stream(stream);
 	html_filter = camel_mime_filter_tohtml_new(efh->text_html_flags, rgb);
@@ -1210,10 +1699,14 @@ static EMFormatHandler type_builtin_table[] = {
 static void
 efh_builtin_init(EMFormatHTMLClass *efhc)
 {
-	int i;
+	EMFormatClass *efc;
+	gint ii;
 
-	for (i=0;i<sizeof(type_builtin_table)/sizeof(type_builtin_table[0]);i++)
-		em_format_class_add_handler((EMFormatClass *)efhc, &type_builtin_table[i]);
+	efc = (EMFormatClass *) efhc;
+
+	for (ii = 0; ii < G_N_ELEMENTS (type_builtin_table); ii++)
+		em_format_class_add_handler (
+			efc, &type_builtin_table[ii]);
 }
 
 /* ********************************************************************** */
@@ -1247,12 +1740,17 @@ efh_format_exec (struct _format_msg *m)
 	if (m->format->html == NULL)
 		return;
 
-	camel_stream_printf((CamelStream *)m->estream,
-			    "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n"
-			    "<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\">\n</head>\n"
-			    "<body bgcolor =\"#%06x\" text=\"#%06x\" marginwidth=6 marginheight=6>\n",
-			    m->format->body_colour & 0xffffff,
-			    m->format->header_colour & 0xffffff);
+	camel_stream_printf (
+		(CamelStream *)m->estream,
+		"<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n"
+		"<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\">\n</head>\n"
+		"<body bgcolor =\"#%06x\" text=\"#%06x\" marginwidth=6 marginheight=6>\n",
+		e_color_to_value (
+			&m->format->priv->colors[
+			EM_FORMAT_HTML_COLOR_BODY]),
+		e_color_to_value (
+			&m->format->priv->colors[
+			EM_FORMAT_HTML_COLOR_HEADER]));
 
 	/* <insert top-header stuff here> */
 
@@ -1332,8 +1830,8 @@ efh_format_done (struct _format_msg *m)
 {
 	d(printf("formatting finished\n"));
 
-	m->format->load_http_now = FALSE;
 	m->format->priv->format_id = -1;
+	m->format->priv->load_images_now = FALSE;
 	m->format->state = EM_FORMAT_HTML_STATE_NONE;
 	g_signal_emit_by_name(m->format, "complete");
 }
@@ -1387,7 +1885,9 @@ efh_format_timeout(struct _format_msg *m)
 	d(printf(" ready to go, firing off format thread\n"));
 
 	/* call super-class to kick it off */
-	efh_parent->format_clone((EMFormat *)efh, m->folder, m->uid, m->message, m->format_source);
+	EM_FORMAT_CLASS (parent_class)->format_clone (
+		EM_FORMAT (efh), m->folder, m->uid,
+		m->message, m->format_source);
 	em_format_html_clear_pobject(m->format);
 
 	/* FIXME: method off EMFormat? */
@@ -1854,10 +2354,12 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	charset = camel_iconv_charset_name(charset);
 
 	if (!efh->simple_headers)
-		camel_stream_printf(stream,
-				    "<font color=\"#%06x\">\n"
-				    "<table cellpadding=\"0\" width=\"100%%\">",
-				    efh->header_colour & 0xffffff);
+		camel_stream_printf (
+			stream, "<font color=\"#%06x\">\n"
+			"<table cellpadding=\"0\" width=\"100%%\">",
+			e_color_to_value (
+				&efh->priv->colors[
+				EM_FORMAT_HTML_COLOR_HEADER]));
 	
 	hdr_charset = emf->charset ? emf->charset : emf->default_charset;
 	
@@ -1939,7 +2441,8 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 			face = !g_ascii_strcasecmp (h->name, "Face");
 
 			while (header) {
-				if (emf->show_photo && !photo_name && !g_ascii_strcasecmp (header->name, "From"))
+				if (em_format_html_get_show_sender_photo (efh) &&
+					!photo_name && !g_ascii_strcasecmp (header->name, "From"))
 					photo_name = header->value;
 
 				if (!mailer_shown && mailer && (!g_ascii_strcasecmp (header->name, "X-Mailer") ||
@@ -1997,10 +2500,12 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 		if (photo_name) {
 			char *classid;
 			CamelMimePart *photopart;
+			gboolean only_local_photo;
 
 			cia = camel_internet_address_new();
 			camel_address_decode((CamelAddress *) cia, (const char *) photo_name);
-			photopart = em_utils_contact_photo (cia, emf->photo_local);
+			only_local_photo = em_format_html_get_only_local_photos (efh);
+			photopart = em_utils_contact_photo (cia, only_local_photo);
 
 			if (photopart) {
 				contact_has_photo = TRUE;

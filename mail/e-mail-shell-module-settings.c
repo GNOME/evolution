@@ -95,15 +95,15 @@ e_mail_shell_module_init_settings (EShell *shell)
 
 	e_shell_settings_install_property (
 		g_param_spec_string (
-			"mail-citation-color",
+			"mail-charset-default",
 			NULL,
 			NULL,
-			"#737373",
+			NULL,
 			G_PARAM_READWRITE));
 
 	e_shell_settings_bind_to_gconf (
-		shell_settings, "mail-citation-color",
-		"/apps/evolution/mail/display/citation_colour");
+		shell_settings, "mail-charset-default",
+		"/apps/evolution/mail/display/charset");
 
 	e_shell_settings_install_property (
 		g_param_spec_boolean (
@@ -116,6 +116,18 @@ e_mail_shell_module_init_settings (EShell *shell)
 	e_shell_settings_bind_to_gconf (
 		shell_settings, "mail-check-for-junk",
 		"/apps/evolution/mail/junk/check_incoming");
+
+	e_shell_settings_install_property (
+		g_param_spec_string (
+			"mail-citation-color",
+			NULL,
+			NULL,
+			"#737373",
+			G_PARAM_READWRITE));
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-citation-color",
+		"/apps/evolution/mail/display/citation_colour");
 
 	e_shell_settings_install_property (
 		g_param_spec_boolean (
@@ -201,6 +213,7 @@ e_mail_shell_module_init_settings (EShell *shell)
 		shell_settings, "mail-force-message-limit",
 		"/apps/evolution/mail/display/force_message_limit");
 
+	/* This value corresponds to MailConfigForwardStyle enum. */
 	e_shell_settings_install_property (
 		g_param_spec_int (
 			"mail-forward-style",
@@ -214,6 +227,21 @@ e_mail_shell_module_init_settings (EShell *shell)
 	e_shell_settings_bind_to_gconf (
 		shell_settings, "mail-forward-style",
 		"/apps/evolution/mail/format/forward_style");
+
+	/* This value corresponds to MailConfigHTTPMode enum. */
+	e_shell_settings_install_property (
+		g_param_spec_int (
+			"mail-image-loading-policy",
+			NULL,
+			NULL,
+			0,
+			G_MAXINT,
+			0,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_bind_to_gconf (
+		shell_settings, "mail-image-loading-policy",
+		"/apps/evolution/mail/display/load_http_images");
 
 	e_shell_settings_install_property (
 		g_param_spec_boolean (
@@ -303,9 +331,9 @@ e_mail_shell_module_init_settings (EShell *shell)
 		shell_settings, "mail-prompt-delete-in-vfolder",
 		"/apps/evolution/mail/prompts/delete_in_vfolder");
 
-	/* Note: This value corresponds to MailConfigReplyStyle enum,
-	 *       but the ordering of the combo box items in preferences
-	 *       has changed.  We use transformation functions there. */
+	/* This value corresponds to MailConfigReplyStyle enum,
+	 * but the ordering of the combo box items in preferences
+	 * has changed.  We use transformation functions there. */
 	e_shell_settings_install_property (
 		g_param_spec_int (
 			"mail-reply-style",

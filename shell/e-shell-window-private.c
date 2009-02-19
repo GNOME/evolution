@@ -26,13 +26,16 @@ shell_window_save_switcher_style_cb (GtkRadioAction *action,
                                      GtkRadioAction *current,
                                      EShellWindow *shell_window)
 {
+	EShell *shell;
 	GConfClient *client;
 	GtkToolbarStyle style;
 	const gchar *key;
 	const gchar *string;
 	GError *error = NULL;
 
-	client = gconf_client_get_default ();
+	shell = e_shell_window_get_shell (shell_window);
+	client = e_shell_get_gconf_client (shell);
+
 	style = gtk_radio_action_get_current_value (action);
 	key = "/apps/evolution/shell/view_defaults/buttons_style";
 
@@ -59,13 +62,12 @@ shell_window_save_switcher_style_cb (GtkRadioAction *action,
 		g_warning ("%s", error->message);
 		g_error_free (error);
 	}
-
-	g_object_unref (client);
 }
 
 static void
 shell_window_init_switcher_style (EShellWindow *shell_window)
 {
+	EShell *shell;
 	GtkAction *action;
 	GConfClient *client;
 	GtkToolbarStyle style;
@@ -76,7 +78,9 @@ shell_window_init_switcher_style (EShellWindow *shell_window)
 	/* XXX GConfBridge doesn't let you convert between numeric properties
 	 *     and string keys, so we have to create the binding manually. */
 
-	client = gconf_client_get_default ();
+	shell = e_shell_window_get_shell (shell_window);
+	client = e_shell_get_gconf_client (shell);
+
 	action = ACTION (SWITCHER_STYLE_ICONS);
 	key = "/apps/evolution/shell/view_defaults/buttons_style";
 	string = gconf_client_get_string (client, key, &error);
@@ -99,8 +103,6 @@ shell_window_init_switcher_style (EShellWindow *shell_window)
 		action, "changed",
 		G_CALLBACK (shell_window_save_switcher_style_cb),
 		shell_window);
-
-	g_object_unref (client);
 }
 
 static void

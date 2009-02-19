@@ -25,28 +25,48 @@
   Abstract class for formatting mime messages
 */
 
-#ifndef _EM_FORMAT_H
-#define _EM_FORMAT_H
+#ifndef EM_FORMAT_H
+#define EM_FORMAT_H
 
 #include <glib-object.h>
-#include "libedataserver/e-msgport.h"
+#include <camel/camel-url.h>
+#include <camel/camel-folder.h>
+#include <camel/camel-stream.h>
+#include <camel/camel-session.h>
+#include <camel/camel-mime-part.h>
+#include <camel/camel-mime-message.h>
+#include <camel/camel-cipher-context.h>
+#include <libedataserver/e-msgport.h>
 
-struct _CamelStream;
-struct _CamelMimePart;
-struct _CamelMedium;
-struct _CamelSession;
-struct _CamelURL;
-struct _CamelDataWrapper;
-struct _CamelMimeMessage;
-struct _CamelCipherValidity;
+/* Standard GObject macros */
+#define EM_TYPE_FORMAT \
+	(em_format_get_type ())
+#define EM_FORMAT(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_FORMAT, EMFormat))
+#define EM_FORMAT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_FORMAT, EMFormatClass))
+#define EM_IS_FORMAT(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_FORMAT))
+#define EM_IS_FORMAT_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_FORMAT))
+#define EM_FORMAT_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_FORMAT, EMFormatClass))
+
+G_BEGIN_DECLS
 
 typedef struct _EMFormat EMFormat;
 typedef struct _EMFormatClass EMFormatClass;
+typedef struct _EMFormatPrivate EMFormatPrivate;
 
 typedef struct _EMFormatHandler EMFormatHandler;
 typedef struct _EMFormatHeader EMFormatHeader;
 
-typedef void (*EMFormatFunc) (EMFormat *md, struct _CamelStream *stream, struct _CamelMimePart *part, const EMFormatHandler *info);
+typedef void (*EMFormatFunc) (EMFormat *md, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info);
 
 typedef enum _em_format_mode_t {
 	EM_FORMAT_NORMAL,
@@ -88,7 +108,7 @@ enum _em_format_handler_t {
 
 
 typedef struct _EMFormatPURI EMFormatPURI;
-typedef void (*EMFormatPURIFunc)(EMFormat *md, struct _CamelStream *stream, EMFormatPURI *puri);
+typedef void (*EMFormatPURIFunc)(EMFormat *md, CamelStream *stream, EMFormatPURI *puri);
 
 /**
  * struct _EMFormatPURI - Pending URI object.
@@ -125,7 +145,7 @@ struct _EMFormatPURI {
 	char *part_id;		/* will always be set, emf->part_id->str for this part */
 
 	EMFormatPURIFunc func;
-	struct _CamelMimePart *part;
+	CamelMimePart *part;
 
 	unsigned int use_count;	/* used by multipart/related to see if it was accessed */
 };
@@ -193,25 +213,25 @@ struct _EMFormatHeader {
 struct _EMFormat {
 	GObject parent;
 
-	struct _EMFormatPrivate *priv;
+	EMFormatPrivate *priv;
 
-	struct _CamelMimeMessage *message; /* the current message */
+	CamelMimeMessage *message; /* the current message */
 
-	struct _CamelFolder *folder;
+	CamelFolder *folder;
 	char *uid;
 
 	GString *part_id;	/* current part id prefix, for identifying parts directly */
 
 	EDList header_list;	/* if empty, then all */
 
-	struct _CamelSession *session; /* session, used for authentication when required */
-	struct _CamelURL *base;	/* content-base header or absolute content-location, for any part */
+	CamelSession *session; /* session, used for authentication when required */
+	CamelURL *base;	/* content-base header or absolute content-location, for any part */
 
 	const char *snoop_mime_type; /* if we snooped an application/octet-stream type, what we snooped */
 
 	/* for validity enveloping */
-	struct _CamelCipherValidity *valid;
-	struct _CamelCipherValidity *valid_parent;
+	CamelCipherValidity *valid;
+	CamelCipherValidity *valid_parent;
 
 	/* for forcing inlining */
 	GHashTable *inline_table;
@@ -229,8 +249,6 @@ struct _EMFormat {
 	char *default_charset;	/* charset fallback */
 	gboolean composer; /* Formatting from composer ?*/
 	gboolean print;
-	gboolean show_photo; /* Want to show the photo of the sender ?*/
-	gboolean photo_local; /* Photos only from local addressbooks */
 };
 
 struct _EMFormatClass {
@@ -242,91 +260,142 @@ struct _EMFormatClass {
 	const EMFormatHandler *(*find_handler)(EMFormat *, const char *mime_type);
 
 	/* start formatting a message */
-	void (*format_clone)(EMFormat *, struct _CamelFolder *, const char *uid, struct _CamelMimeMessage *, EMFormat *);
-
-	void *dummy0;
+	void (*format_clone)(EMFormat *, CamelFolder *, const char *uid, CamelMimeMessage *, EMFormat *);
 
 	/* some internel error/inconsistency */
-	void (*format_error)(EMFormat *, struct _CamelStream *, const char *msg);
+	void (*format_error)(EMFormat *, CamelStream *, const char *msg);
 
 	/* use for external structured parts */
-	void (*format_attachment)(EMFormat *, struct _CamelStream *, struct _CamelMimePart *, const char *mime_type, const struct _EMFormatHandler *info);
-
-	void *dummy1;
+	void (*format_attachment)(EMFormat *, CamelStream *, CamelMimePart *, const char *mime_type, const struct _EMFormatHandler *info);
 
 	/* use for unparsable content */
-	void (*format_source)(EMFormat *, struct _CamelStream *, struct _CamelMimePart *);
+	void (*format_source)(EMFormat *, CamelStream *, CamelMimePart *);
 	/* for outputing secure(d) content */
-	void (*format_secure)(EMFormat *, struct _CamelStream *, struct _CamelMimePart *, struct _CamelCipherValidity *);
+	void (*format_secure)(EMFormat *, CamelStream *, CamelMimePart *, CamelCipherValidity *);
 
 	/* returns true if the formatter is still busy with pending stuff */
 	gboolean (*busy)(EMFormat *);
 
 	/* Shows optional way to open messages  */
-	void (*format_optional)(EMFormat *, struct _CamelStream *, struct _CamelMimePart *, struct _CamelStream* );
+	void (*format_optional)(EMFormat *, CamelStream *, CamelMimePart *, CamelStream* );
 
 	/* signals */
 	/* complete, alternative to polling busy, for asynchronous work */
 	void (*complete)(EMFormat *);
 };
 
-void em_format_set_mode(EMFormat *emf, em_format_mode_t type);
-void em_format_set_charset(EMFormat *emf, const char *charset);
-void em_format_set_default_charset(EMFormat *emf, const char *charset);
+void		em_format_set_mode		(EMFormat *emf,
+						 em_format_mode_t type);
+void		em_format_set_charset		(EMFormat *emf,
+						 const char *charset);
+void		em_format_set_default_charset	(EMFormat *emf,
+						 const char *charset);
 
-void em_format_clear_headers(EMFormat *emf); /* also indicates to show all headers */
-void em_format_default_headers(EMFormat *emf);
-void em_format_add_header(EMFormat *emf, const char *name, guint32 flags);
+/* also indicates to show all headers */
+void		em_format_clear_headers		(EMFormat *emf);
+
+void		em_format_default_headers	(EMFormat *emf);
+void		em_format_add_header		(EMFormat *emf,
+						 const gchar *name,
+						 guint32 flags);
 
 /* FIXME: Need a 'clone' api to copy details about the current view (inlines etc)
    Or maybe it should live with sub-classes? */
 
-int em_format_is_attachment(EMFormat *emf, struct _CamelMimePart *part);
+int		em_format_is_attachment		(EMFormat *emf,
+						 CamelMimePart *part);
 
-int em_format_is_inline(EMFormat *emf, const char *partid, struct _CamelMimePart *part, const EMFormatHandler *handle);
-void em_format_set_inline(EMFormat *emf, const char *partid, int state);
+int		em_format_is_inline		(EMFormat *emf,
+						 const char *partid,
+						 CamelMimePart *part,
+						 const EMFormatHandler *handle);
+void		em_format_set_inline		(EMFormat *emf,
+						 const char *partid,
+						 int state);
 
-char *em_format_describe_part(struct _CamelMimePart *part, const char *mimetype);
+char *		em_format_describe_part		(CamelMimePart *part,
+						 const char *mime_type);
 
 /* for implementers */
-GType em_format_get_type(void);
+GType		em_format_get_type		(void);
 
-void em_format_class_add_handler(EMFormatClass *emfc, EMFormatHandler *info);
-void em_format_class_remove_handler(EMFormatClass *emfc, EMFormatHandler *info);
-#define em_format_find_handler(emf, type) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->find_handler((emf), (type))
-const EMFormatHandler *em_format_fallback_handler(EMFormat *emf, const char *mime_type);
+void		em_format_class_add_handler	(EMFormatClass *emfc,
+						 EMFormatHandler *info);
+void		em_format_class_remove_handler	(EMFormatClass *emfc,
+						 EMFormatHandler *info);
+const EMFormatHandler *
+		em_format_find_handler		(EMFormat *emf,
+						 const gchar *mime_type);
+const EMFormatHandler *
+		em_format_fallback_handler	(EMFormat *emf,
+						 const gchar *mime_type);
 
 /* puri is short for pending uri ... really */
-EMFormatPURI *em_format_add_puri(EMFormat *emf, size_t size, const char *uri, struct _CamelMimePart *part, EMFormatPURIFunc func);
-EMFormatPURI *em_format_find_visible_puri(EMFormat *emf, const char *uri);
-EMFormatPURI *em_format_find_puri(EMFormat *emf, const char *uri);
-void em_format_clear_puri_tree(EMFormat *emf);
-void em_format_push_level(EMFormat *emf);
-void em_format_pull_level(EMFormat *emf);
+EMFormatPURI *	em_format_add_puri		(EMFormat *emf,
+						 size_t size,
+						 const char *uri,
+						 CamelMimePart *part,
+						 EMFormatPURIFunc func);
+EMFormatPURI *	em_format_find_visible_puri	(EMFormat *emf,
+						 const char *uri);
+EMFormatPURI *	em_format_find_puri		(EMFormat *emf,
+						 const char *uri);
+void		em_format_clear_puri_tree	(EMFormat *emf);
+void		em_format_push_level		(EMFormat *emf);
+void		em_format_pull_level		(EMFormat *emf);
 
 /* clones inline state/view and format, or use to redraw */
-#define em_format_format_clone(emf, folder, uid, msg, src) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_clone((emf), (folder), (uid), (msg), (src))
-/* formats a new message */
-#define em_format_format(emf, folder, uid, msg) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_clone((emf), (folder), (uid), (msg), NULL)
-#define em_format_redraw(emf) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_clone((EMFormat *)(emf),				\
-										       ((EMFormat *)(emf))->folder,	\
-										       ((EMFormat *)(emf))->uid,	\
-										       ((EMFormat *)(emf))->message,	\
-										       (EMFormat *)(emf))
-void em_format_format_error(EMFormat *emf, struct _CamelStream *stream, const char *fmt, ...);
-#define em_format_format_attachment(emf, stream, msg, type, info) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_attachment((emf), (stream), (msg), (type), (info))
-#define em_format_format_source(emf, stream, msg) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_source((emf), (stream), (msg))
-void em_format_format_secure(EMFormat *emf, struct _CamelStream *stream, struct _CamelMimePart *part, struct _CamelCipherValidity *valid);
+void		em_format_format_clone		(EMFormat *emf,
+						 CamelFolder *folder,
+						 const gchar *uid,
+						 CamelMimeMessage *message,
+						 EMFormat *source);
 
-#define em_format_busy(emf) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->busy((emf))
+/* formats a new message */
+void		em_format_format		(EMFormat *emf,
+						 CamelFolder *folder,
+						 const gchar *uid,
+						 CamelMimeMessage *message);
+void		em_format_redraw		(EMFormat *emf);
+void		em_format_format_attachment	(EMFormat *emf,
+						 CamelStream *stream,
+						 CamelMimePart *mime_part,
+						 const gchar *mime_type,
+						 const struct _EMFormatHandler *info);
+void		em_format_format_error		(EMFormat *emf,
+						 CamelStream *stream,
+						 const gchar *format,
+						 ...) G_GNUC_PRINTF (3, 4);
+void		em_format_format_secure		(EMFormat *emf,
+						 CamelStream *stream,
+						 CamelMimePart *mime_part,
+						 CamelCipherValidity *valid);
+void		em_format_format_source		(EMFormat *emf,
+						 CamelStream *stream,
+						 CamelMimePart *mime_part);
+
+gboolean	em_format_busy			(EMFormat *emf);
 
 /* raw content only */
-void em_format_format_content(EMFormat *emf, struct _CamelStream *stream, struct _CamelMimePart *part);
-/* raw content text parts - should this just be checked/done by above? */
-void em_format_format_text(EMFormat *emf, struct _CamelStream *stream, struct _CamelDataWrapper *part);
+void		em_format_format_content	(EMFormat *emf,
+						 CamelStream *stream,
+						 CamelMimePart *part);
 
-void em_format_part_as(EMFormat *emf, struct _CamelStream *stream, struct _CamelMimePart *part, const char *mime_type);
-void em_format_part(EMFormat *emf, struct _CamelStream *stream, struct _CamelMimePart *part);
-void em_format_merge_handler(EMFormat *new, EMFormat *old);
+/* raw content text parts - should this just be checked/done by above? */
+void		em_format_format_text		(EMFormat *emf,
+						 CamelStream *stream,
+						 CamelDataWrapper *part);
+
+void		em_format_part_as		(EMFormat *emf,
+						 CamelStream *stream,
+						 CamelMimePart *part,
+						 const gchar *mime_type);
+void		em_format_part			(EMFormat *emf,
+						 CamelStream *stream,
+						 CamelMimePart *part);
+void		em_format_merge_handler		(EMFormat *new,
+						 EMFormat *old);
+
+G_END_DECLS
 
 #endif /* ! _EM_FORMAT_H */

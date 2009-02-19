@@ -26,7 +26,7 @@
 #ifndef E_BINDING_H
 #define E_BINDING_H
 
-#include <glib-object.h>
+#include <gdk/gdk.h>
 
 G_BEGIN_DECLS
 
@@ -101,6 +101,17 @@ EMutualBinding *e_mutual_binding_new_with_negation
 						 GObject *object2,
 						 const gchar *property2);
 void		e_mutual_binding_unbind		(EMutualBinding *binding);
+
+
+/* Useful transformation functions */
+gboolean	e_binding_transform_color_to_string
+						(const GValue *src_value,
+						 GValue *dst_value,
+						 gpointer user_data);
+gboolean	e_binding_transform_string_to_color
+						(const GValue *src_value,
+						 GValue *dst_value,
+						 gpointer user_data);
 
 G_END_DECLS
 

@@ -101,6 +101,10 @@
 
 #define d(x)
 
+#define EM_FORMAT_HTML_DISPLAY_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), EM_TYPE_FORMAT_HTML_DISPLAY, EMFormatHTMLDisplayPrivate))
+
 struct _EMFormatHTMLDisplayPrivate {
 	/* For the interactive search dialogue */
 	/* TODO: Should this be more subtle, like the mozilla one? */
@@ -125,6 +129,12 @@ struct _EMFormatHTMLDisplayPrivate {
 	gboolean  show_bar;
 	GHashTable *files;
 	gboolean updated;
+};
+
+enum {
+	PROP_0,
+	PROP_ANIMATE,
+	PROP_CARET_MODE
 };
 
 static int efhd_html_button_press_event (GtkWidget *widget, GdkEventButton *event, EMFormatHTMLDisplay *efh);
@@ -207,57 +217,50 @@ static EMFormatHTMLClass *efhd_parent;
 static EMFormatClass *efhd_format_class;
 
 static void
-efhd_gtkhtml_realise(GtkHTML *html, EMFormatHTMLDisplay *efhd)
+efhd_gtkhtml_realize(GtkHTML *html, EMFormatHTMLDisplay *efhd)
 {
+	EMFormatHTMLColorType type;
+	EMFormatHTML *efh;
+	GdkColor *color;
 	GtkStyle *style;
+	gint state;
 
-	/* FIXME: does this have to be re-done every time we draw? */
+	efh = EM_FORMAT_HTML (efhd);
+	state = GTK_WIDGET_STATE (html);
 
-	/* My favorite thing to do... muck around with colors so we respect people's stupid themes.
-	   However, we only do this if we are rendering to the screen -- we ignore the theme
-	   when we are printing. */
-	style = gtk_widget_get_style((GtkWidget *)html);
-	if (style) {
-		int state = GTK_WIDGET_STATE(html);
-		gushort r, g, b;
+	style = gtk_widget_get_style (GTK_WIDGET (html));
+	if (style == NULL)
+		return;
 
-		r = style->fg[state].red >> 8;
-		g = style->fg[state].green >> 8;
-		b = style->fg[state].blue >> 8;		
+	g_object_freeze_notify (G_OBJECT (efh));
 
-		efhd->formathtml.header_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
+	color = &style->bg[state];
+	type = EM_FORMAT_HTML_COLOR_BODY;
+	em_format_html_set_color (efh, type, color);
 
-		r = style->bg[state].red >> 8;
-		g = style->bg[state].green >> 8;
-		b = style->bg[state].blue >> 8;		
+	color = &style->base[GTK_STATE_NORMAL];
+	type = EM_FORMAT_HTML_COLOR_CONTENT;
+	em_format_html_set_color (efh, type, color);
 
-		efhd->formathtml.body_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
+	color = &style->dark[state];
+	type = EM_FORMAT_HTML_COLOR_FRAME;
+	em_format_html_set_color (efh, type, color);
 
-		r = style->dark[state].red >> 8;
-		g = style->dark[state].green >> 8;
-		b = style->dark[state].blue >> 8;
+	color = &style->fg[state];
+	type = EM_FORMAT_HTML_COLOR_HEADER;
+	em_format_html_set_color (efh, type, color);
 
-		efhd->formathtml.frame_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
+	color = &style->text[state];
+	type = EM_FORMAT_HTML_COLOR_TEXT;
+	em_format_html_set_color (efh, type, color);
 
-		r = style->base[GTK_STATE_NORMAL].red >> 8;
-		g = style->base[GTK_STATE_NORMAL].green >> 8;
-		b = style->base[GTK_STATE_NORMAL].blue >> 8;
-
-		efhd->formathtml.content_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
-
-		r = style->text[state].red >> 8;
-		g = style->text[state].green >> 8;
-		b = style->text[state].blue >> 8;
-
-		efhd->formathtml.text_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
-#undef DARKER
-	}
+	g_object_thaw_notify (G_OBJECT (efh));
 }
 
 static void
 efhd_gtkhtml_style_set(GtkHTML *html, GtkStyle *old, EMFormatHTMLDisplay *efhd)
 {
-	efhd_gtkhtml_realise(html, efhd);
+	efhd_gtkhtml_realize(html, efhd);
 	em_format_redraw((EMFormat *)efhd);
 }
 
@@ -267,12 +270,12 @@ efhd_init(GObject *o)
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)o;
 #define efh ((EMFormatHTML *)efhd)
 
-	efhd->priv = g_malloc0(sizeof(*efhd->priv));
+	efhd->priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE(efhd);
 
 	efhd->search_tok = (ESearchingTokenizer *)e_searching_tokenizer_new();
 	gtk_html_set_tokenizer (efh->html, (HTMLTokenizer *)efhd->search_tok);
 
-	g_signal_connect(efh->html, "realize", G_CALLBACK(efhd_gtkhtml_realise), o);
+	g_signal_connect(efh->html, "realize", G_CALLBACK(efhd_gtkhtml_realize), o);
 	g_signal_connect(efh->html, "style-set", G_CALLBACK(efhd_gtkhtml_style_set), o);
 	/* we want to convert url's etc */
 	efh->text_html_flags |= CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS | CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
@@ -285,19 +288,65 @@ efhd_init(GObject *o)
 }
 
 static void
-efhd_finalise(GObject *o)
+efhd_set_property (GObject *object,
+                   guint property_id,
+                   const GValue *value,
+                   GParamSpec *pspec)
 {
-	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)o;
+	switch (property_id) {
+		case PROP_ANIMATE:
+			em_format_html_display_set_animate (
+				EM_FORMAT_HTML_DISPLAY (object),
+				g_value_get_boolean (value));
+			return;
 
-	/* check pending stuff */
+		case PROP_CARET_MODE:
+			em_format_html_display_set_caret_mode (
+				EM_FORMAT_HTML_DISPLAY (object),
+				g_value_get_boolean (value));
+			return;
+	}
 
-	if (efhd->priv->files)
-		g_hash_table_destroy(efhd->priv->files);
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
 
-	g_free(efhd->priv->search_text);
-	g_free(efhd->priv);
+static void
+efhd_get_property (GObject *object,
+                   guint property_id,
+                   GValue *value,
+                   GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_ANIMATE:
+			g_value_set_boolean (
+				value, em_format_html_display_get_animate (
+				EM_FORMAT_HTML_DISPLAY (object)));
+			return;
 
-	((GObjectClass *)efhd_parent)->finalize(o);
+		case PROP_CARET_MODE:
+			g_value_set_boolean (
+				value, em_format_html_display_get_caret_mode (
+				EM_FORMAT_HTML_DISPLAY (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+efhd_finalize (GObject *object)
+{
+	EMFormatHTMLDisplayPrivate *priv;
+
+	priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE (object);
+
+	if (priv->files != NULL)
+		g_hash_table_destroy (priv->files);
+
+	g_free (priv->search_text);
+
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (efhd_parent)->finalize (object);
 }
 
 static gboolean
@@ -311,22 +360,51 @@ efhd_bool_accumulator(GSignalInvocationHint *ihint, GValue *out, const GValue *i
 }
 
 static void
-efhd_class_init(GObjectClass *klass)
+efhd_class_init (GObjectClass *class)
 {
-	((EMFormatClass *)klass)->find_handler = efhd_find_handler;
-	((EMFormatClass *)klass)->format_clone = efhd_format_clone;
-	((EMFormatClass *)klass)->format_error = efhd_format_error;
-	((EMFormatClass *)klass)->format_source = efhd_format_source;
-	((EMFormatClass *)klass)->format_attachment = efhd_format_attachment;
-	((EMFormatClass *)klass)->format_optional = efhd_format_optional;
-	((EMFormatClass *)klass)->format_secure = efhd_format_secure;
-	((EMFormatClass *)klass)->complete = efhd_complete;
+	GObjectClass *object_class;
+	EMFormatClass *format_class;
 
-	klass->finalize = efhd_finalise;
+	g_type_class_add_private (class, sizeof (EMFormatHTMLDisplayPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = efhd_set_property;
+	object_class->get_property = efhd_get_property;
+	object_class->finalize = efhd_finalize;
+
+	format_class = EM_FORMAT_CLASS (class);
+	format_class->find_handler = efhd_find_handler;
+	format_class->format_clone = efhd_format_clone;
+	format_class->format_error = efhd_format_error;
+	format_class->format_source = efhd_format_source;
+	format_class->format_attachment = efhd_format_attachment;
+	format_class->format_optional = efhd_format_optional;
+	format_class->format_secure = efhd_format_secure;
+	format_class->complete = efhd_complete;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_ANIMATE,
+		g_param_spec_boolean (
+			"animate",
+			"Animate Images",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_CARET_MODE,
+		g_param_spec_boolean (
+			"caret-mode",
+			"Caret Mode",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
 
 	efhd_signals[EFHD_LINK_CLICKED] =
 		g_signal_new("link_clicked",
-			     G_TYPE_FROM_CLASS(klass),
+			     G_TYPE_FROM_CLASS(class),
 			     G_SIGNAL_RUN_LAST,
 			     G_STRUCT_OFFSET(EMFormatHTMLDisplayClass, link_clicked),
 			     NULL, NULL,
@@ -335,7 +413,7 @@ efhd_class_init(GObjectClass *klass)
 
 	efhd_signals[EFHD_POPUP_EVENT] =
 		g_signal_new("popup_event",
-			     G_TYPE_FROM_CLASS(klass),
+			     G_TYPE_FROM_CLASS(class),
 			     G_SIGNAL_RUN_LAST,
 			     G_STRUCT_OFFSET(EMFormatHTMLDisplayClass, popup_event),
 			     efhd_bool_accumulator, NULL,
@@ -346,7 +424,7 @@ efhd_class_init(GObjectClass *klass)
 
 	efhd_signals[EFHD_ON_URL] =
 		g_signal_new("on_url",
-			     G_TYPE_FROM_CLASS(klass),
+			     G_TYPE_FROM_CLASS(class),
 			     G_SIGNAL_RUN_LAST,
 			     G_STRUCT_OFFSET(EMFormatHTMLDisplayClass, on_url),
 			     NULL, NULL,
@@ -354,7 +432,7 @@ efhd_class_init(GObjectClass *klass)
 			     G_TYPE_NONE, 1,
 			     G_TYPE_STRING);
 
-	efhd_builtin_init((EMFormatHTMLDisplayClass *)klass);
+	efhd_builtin_init((EMFormatHTMLDisplayClass *)class);
 }
 
 GType
@@ -388,11 +466,11 @@ efhd_scroll_event(GtkWidget *w, GdkEventScroll *event, EMFormatHTMLDisplay *efhd
 	{
 		if(event->direction == GDK_SCROLL_UP)
 		{
-			gtk_html_zoom_in (efhd->formathtml.html);
+			gtk_html_zoom_in (efhd->parent.html);
 		}
 		else if(event->direction == GDK_SCROLL_DOWN)
 		{
-			gtk_html_zoom_out (efhd->formathtml.html);
+			gtk_html_zoom_out (efhd->parent.html);
 		}
 		return TRUE;
 	}
@@ -405,30 +483,71 @@ EMFormatHTMLDisplay *em_format_html_display_new(void)
 
 	efhd = g_object_new(em_format_html_display_get_type(), 0);
 
-	g_signal_connect(efhd->formathtml.html, "iframe_created", G_CALLBACK(efhd_iframe_created), efhd);
-	g_signal_connect(efhd->formathtml.html, "link_clicked", G_CALLBACK(efhd_html_link_clicked), efhd);
-	g_signal_connect(efhd->formathtml.html, "on_url", G_CALLBACK(efhd_html_on_url), efhd);
-	g_signal_connect(efhd->formathtml.html, "button_press_event", G_CALLBACK(efhd_html_button_press_event), efhd);
-	g_signal_connect(efhd->formathtml.html,"scroll_event", G_CALLBACK(efhd_scroll_event), efhd);
+	g_signal_connect(efhd->parent.html, "iframe_created", G_CALLBACK(efhd_iframe_created), efhd);
+	g_signal_connect(efhd->parent.html, "link_clicked", G_CALLBACK(efhd_html_link_clicked), efhd);
+	g_signal_connect(efhd->parent.html, "on_url", G_CALLBACK(efhd_html_on_url), efhd);
+	g_signal_connect(efhd->parent.html, "button_press_event", G_CALLBACK(efhd_html_button_press_event), efhd);
+	g_signal_connect(efhd->parent.html,"scroll_event", G_CALLBACK(efhd_scroll_event), efhd);
 
 	return efhd;
 }
 
-void em_format_html_display_goto_anchor(EMFormatHTMLDisplay *efhd, const char *name)
+gboolean
+em_format_html_display_get_animate (EMFormatHTMLDisplay *efhd)
 {
-	printf("FIXME: go to anchor '%s'\n", name);
+	GtkHTML *html;
+
+	g_return_val_if_fail (EM_IS_FORMAT_HTML_DISPLAY (efhd), FALSE);
+
+	html = ((EMFormatHTML *) efhd)->html;
+
+	return gtk_html_get_animate (html);
 }
 
-void em_format_html_display_set_animate(EMFormatHTMLDisplay *efhd, gboolean state)
+void
+em_format_html_display_set_animate (EMFormatHTMLDisplay *efhd,
+                                    gboolean animate)
 {
-	efhd->animate = state;
-	gtk_html_set_animate(((EMFormatHTML *)efhd)->html, state);
+	GtkHTML *html;
+
+	/* XXX Note this is imperfect.  If animate is set by
+	 *     some other means we won't emit a notification. */
+
+	g_return_if_fail (EM_IS_FORMAT_HTML_DISPLAY (efhd));
+
+	html = ((EMFormatHTML *) efhd)->html;
+	gtk_html_set_animate (html, animate);
+
+	g_object_notify (G_OBJECT (efhd), "animate");
 }
 
-void em_format_html_display_set_caret_mode(EMFormatHTMLDisplay *efhd, gboolean state)
+gboolean
+em_format_html_display_get_caret_mode (EMFormatHTMLDisplay *efhd)
 {
-	efhd->caret_mode = state;
-	gtk_html_set_caret_mode(((EMFormatHTML *)efhd)->html, state);
+	GtkHTML *html;
+
+	g_return_val_if_fail (EM_IS_FORMAT_HTML_DISPLAY (efhd), FALSE);
+
+	html = ((EMFormatHTML *) efhd)->html;
+
+	return gtk_html_get_caret_mode (html);
+}
+
+void
+em_format_html_display_set_caret_mode (EMFormatHTMLDisplay *efhd,
+                                       gboolean caret_mode)
+{
+	GtkHTML *html;
+
+	/* XXX Note this is imperfect.  If caret mode is set by
+	 *     some other means we won't emit a notification. */
+
+	g_return_if_fail (EM_IS_FORMAT_HTML_DISPLAY (efhd));
+
+	html = ((EMFormatHTML *) efhd)->html;
+	gtk_html_set_caret_mode (html, caret_mode);
+
+	g_object_notify (G_OBJECT (efhd), "caret-mode");
 }
 
 EAttachmentBar *
@@ -883,7 +1002,7 @@ em_format_html_display_popup_menu (EMFormatHTMLDisplay *efhd)
 	EMFormatPURI *puri = NULL;
 	gboolean res = FALSE;
 
-	html = efhd->formathtml.html;
+	html = efhd->parent.html;
 
 	efhd_get_uri_puri (GTK_WIDGET (html), NULL, efhd, &uri, &puri);
 
@@ -2347,7 +2466,7 @@ efhd_bar_scroll_event(GtkWidget *w, GdkEventScroll *event, EMFormatHTMLDisplay *
 	/* Emulate the scroll over the attachment bar, as if it is scrolled in the window.
 	*  It doesnt go automatically since the GnomeIconList is a layout by itself
 	*/
-	g_signal_emit_by_name (gtk_widget_get_parent((GtkWidget *)efhd->formathtml.html), "scroll_event", event, &ret);
+	g_signal_emit_by_name (gtk_widget_get_parent((GtkWidget *)efhd->parent.html), "scroll_event", event, &ret);
 
 	return TRUE;
 }

@@ -89,11 +89,25 @@ action_mail_create_search_folder_cb (GtkAction *action,
 }
 
 static void
+action_mail_download_foreach_cb (CamelService *service)
+{
+	if (CAMEL_IS_DISCO_STORE (service) ||
+		CAMEL_IS_OFFLINE_STORE (service))
+		mail_store_prepare_offline (CAMEL_STORE (service));
+}
+
+static void
 action_mail_download_cb (GtkAction *action,
                          EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	EShellView *shell_view;
+	EShellModule *shell_module;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_module = e_shell_view_get_shell_module (shell_view);
+
+	e_mail_shell_module_stores_foreach (
+		shell_module, (GHFunc) action_mail_download_foreach_cb, NULL);
 }
 
 static void

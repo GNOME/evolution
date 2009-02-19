@@ -32,7 +32,6 @@
 #include <gio/gio.h>
 
 #include <libedataserver/e-msgport.h>
-#include <camel/camel-url.h>
 #include <camel/camel-stream.h>
 #include <camel/camel-stream-mem.h>
 #include <camel/camel-multipart.h>
@@ -63,8 +62,8 @@
    This is still kind of yucky, we should maintian a full tree of all this data,
    along with/as part of the puri tree */
 struct _EMFormatCache {
-	struct _CamelCipherValidity *valid; /* validity copy */
-	struct _CamelMimePart *secured;	/* encrypted subpart */
+	CamelCipherValidity *valid; /* validity copy */
+	CamelMimePart *secured;	/* encrypted subpart */
 
 	unsigned int state:2;		/* inline state */
 
@@ -86,8 +85,8 @@ enum {
 	EMF_LAST_SIGNAL,
 };
 
-static guint emf_signals[EMF_LAST_SIGNAL];
-static GObjectClass *emf_parent;
+static gpointer parent_class;
+static guint signals[EMF_LAST_SIGNAL];
 
 static void
 emf_free_cache(struct _EMFormatCache *efc)
@@ -112,18 +111,14 @@ emf_insert_cache(EMFormat *emf, const char *partid)
 }
 
 static void
-emf_init(GObject *o)
+emf_init (EMFormat *emf)
 {
-	EMFormat *emf = (EMFormat *)o;
-
 	emf->inline_table = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) emf_free_cache);
 	emf->composer = FALSE;
 	emf->print = FALSE;
-	emf->show_photo = TRUE;
-	emf->photo_local = TRUE;
 	e_dlist_init(&emf->header_list);
 	em_format_default_headers(emf);
 	emf->part_id = g_string_new("");
@@ -133,14 +128,14 @@ emf_init(GObject *o)
 }
 
 static void
-emf_finalise(GObject *o)
+emf_finalize (GObject *object)
 {
-	EMFormat *emf = (EMFormat *)o;
+	EMFormat *emf = EM_FORMAT (object);
 
 	if (emf->session)
-		camel_object_unref(emf->session);
+		camel_object_unref (emf->session);
 
-	g_hash_table_destroy(emf->inline_table);
+	g_hash_table_destroy (emf->inline_table);
 
 	em_format_clear_headers(emf);
 	camel_cipher_validity_free(emf->valid);
@@ -150,54 +145,66 @@ emf_finalise(GObject *o)
 
 	/* FIXME: check pending jobs */
 
-	((GObjectClass *)emf_parent)->finalize(o);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
-emf_base_init(EMFormatClass *emfklass)
+emf_base_init (EMFormatClass *class)
 {
-	emfklass->type_handlers = g_hash_table_new(g_str_hash, g_str_equal);
-	emf_builtin_init(emfklass);
+	class->type_handlers = g_hash_table_new (g_str_hash, g_str_equal);
+	emf_builtin_init (class);
 }
 
 static void
-emf_class_init(GObjectClass *klass)
+emf_class_init (EMFormatClass *class)
 {
-	((EMFormatClass *)klass)->type_handlers = g_hash_table_new(g_str_hash, g_str_equal);
-	emf_builtin_init((EMFormatClass *)klass);
+	GObjectClass *object_class;
 
-	klass->finalize = emf_finalise;
-	((EMFormatClass *)klass)->find_handler = emf_find_handler;
-	((EMFormatClass *)klass)->format_clone = emf_format_clone;
-	((EMFormatClass *)klass)->format_secure = emf_format_secure;
-	((EMFormatClass *)klass)->busy = emf_busy;
+	parent_class = g_type_class_peek_parent (class);
 
-	emf_signals[EMF_COMPLETE] =
-		g_signal_new("complete",
-			     G_OBJECT_CLASS_TYPE (klass),
-			     G_SIGNAL_RUN_LAST,
-			     G_STRUCT_OFFSET (EMFormatClass, complete),
-			     NULL, NULL,
-			     g_cclosure_marshal_VOID__VOID,
-			     G_TYPE_NONE, 0);
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = emf_finalize;
+
+	class->find_handler = emf_find_handler;
+	class->format_clone = emf_format_clone;
+	class->format_secure = emf_format_secure;
+	class->busy = emf_busy;
+
+	signals[EMF_COMPLETE] = g_signal_new (
+		"complete",
+		G_OBJECT_CLASS_TYPE (class),
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (EMFormatClass, complete),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
+
+	class->type_handlers = g_hash_table_new (g_str_hash, g_str_equal);
+	emf_builtin_init (class);
 }
 
 GType
-em_format_get_type(void)
+em_format_get_type (void)
 {
 	static GType type = 0;
 
-	if (type == 0) {
-		static const GTypeInfo info = {
-			sizeof(EMFormatClass),
-			(GBaseInitFunc)emf_base_init, NULL,
-			(GClassInitFunc)emf_class_init,
-			NULL, NULL,
-			sizeof(EMFormat), 0,
-			(GInstanceInitFunc)emf_init
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EMFormatClass),
+			(GBaseInitFunc) emf_base_init,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) emf_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EMFormat),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) emf_init,
+			NULL   /* value_table */
 		};
-		emf_parent = g_type_class_ref(G_TYPE_OBJECT);
-		type = g_type_register_static(G_TYPE_OBJECT, "EMFormat", &info, 0);
+
+		type = g_type_register_static (
+			G_TYPE_OBJECT, "EMFormat", &type_info, 0);
 	}
 
 	return type;
@@ -259,6 +266,7 @@ em_format_merge_handler(EMFormat *new, EMFormat *old)
 	g_hash_table_foreach (oldc->type_handlers, merge_missing, &fclasses);
 
 }
+
 /**
  * em_format_class_remove_handler:
  * @emfc:
@@ -287,6 +295,20 @@ em_format_class_remove_handler(EMFormatClass *emfc, EMFormatHandler *info)
 		g_return_if_fail(current != NULL);
 		current->old = info->old;
 	}
+}
+
+const EMFormatHandler *
+em_format_find_handler (EMFormat *emf,
+                        const gchar *mime_type)
+{
+	EMFormatClass *class;
+
+	g_return_val_if_fail (EM_IS_FORMAT (emf), NULL);
+	g_return_val_if_fail (mime_type != NULL, NULL);
+
+	class = EM_FORMAT_GET_CLASS (emf);
+	g_return_val_if_fail (class->find_handler != NULL, NULL);
+	return class->find_handler (emf, mime_type);
 }
 
 /**
@@ -762,10 +784,10 @@ emf_busy(EMFormat *emf)
 
 /**
  * em_format_format_clone:
- * @emf: Mail formatter.
- * @folder: Camel Folder.
- * @uid: Uid of message.
- * @msg: Camel Message.
+ * @emf: an #EMFormat
+ * @folder: a #CamelFolder or %NULL
+ * @uid: Message UID or %NULL
+ * @msg: a #CamelMimeMessage or %NULL
  * @emfsource: Used as a basis for user-altered layout, e.g. inline viewed
  * attachments.
  *
@@ -776,7 +798,43 @@ emf_busy(EMFormat *emf)
  * a display refresh, or it can be used to generate an identical layout,
  * e.g. to print what the user has shown inline.
  **/
-/* e_format_format_clone is a macro */
+void
+em_format_format_clone (EMFormat *emf,
+                        CamelFolder *folder,
+                        const gchar *uid,
+                        CamelMimeMessage *message,
+                        EMFormat *source)
+{
+	EMFormatClass *class;
+
+	g_return_if_fail (EM_IS_FORMAT (emf));
+	g_return_if_fail (folder == NULL || CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (message == NULL || CAMEL_IS_MIME_MESSAGE (message));
+	g_return_if_fail (source == NULL || EM_IS_FORMAT (source));
+
+	class = EM_FORMAT_GET_CLASS (emf);
+	g_return_if_fail (class->format_clone != NULL);
+	class->format_clone (emf, folder, uid, message, source);
+}
+
+void
+em_format_format (EMFormat *emf,
+                  CamelFolder *folder,
+                  const gchar *uid,
+                  CamelMimeMessage *message)
+{
+	/* em_format_format_clone() will check the arguments. */
+	em_format_format_clone (emf, folder, uid, message, NULL);
+}
+
+void
+em_format_redraw (EMFormat *emf)
+{
+	g_return_if_fail (EM_IS_FORMAT (emf));
+
+	em_format_format_clone (
+		emf, emf->folder, emf->uid, emf->message, emf);
+}
 
 /**
  * em_format_set_mode:
@@ -1015,26 +1073,99 @@ void em_format_set_inline(EMFormat *emf, const char *partid, int state)
 		em_format_redraw(emf);
 }
 
-void em_format_format_error(EMFormat *emf, CamelStream *stream, const char *fmt, ...)
+void
+em_format_format_attachment (EMFormat *emf,
+                             CamelStream *stream,
+                             CamelMimePart *mime_part,
+                             const gchar *mime_type,
+                             const struct _EMFormatHandler *info)
 {
-	va_list ap;
-	char *txt;
+	EMFormatClass *class;
 
-	va_start(ap, fmt);
-	txt = g_strdup_vprintf(fmt, ap);
-	((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_error((emf), (stream), (txt));
-	g_free(txt);
+	g_return_if_fail (EM_IS_FORMAT (emf));
+	g_return_if_fail (CAMEL_IS_STREAM (stream));
+	g_return_if_fail (CAMEL_IS_MIME_PART (mime_part));
+	g_return_if_fail (mime_type != NULL);
+	g_return_if_fail (info != NULL);
+
+	class = EM_FORMAT_GET_CLASS (emf);
+	g_return_if_fail (class->format_attachment != NULL);
+	class->format_attachment (emf, stream, mime_part, mime_type, info);
 }
 
 void
-em_format_format_secure(EMFormat *emf, struct _CamelStream *stream, struct _CamelMimePart *part, struct _CamelCipherValidity *valid)
+em_format_format_error (EMFormat *emf,
+                        CamelStream *stream,
+                        const gchar *format,
+                        ...)
 {
-	((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_secure(emf, stream, part, valid);
+	EMFormatClass *class;
+	gchar *errmsg;
+	va_list ap;
+
+	g_return_if_fail (EM_IS_FORMAT (emf));
+	g_return_if_fail (CAMEL_IS_STREAM (stream));
+	g_return_if_fail (format != NULL);
+
+	class = EM_FORMAT_GET_CLASS (emf);
+	g_return_if_fail (class->format_error != NULL);
+
+	va_start (ap, format);
+	errmsg = g_strdup_vprintf (format, ap);
+	class->format_error (emf, stream, errmsg);
+	g_free (errmsg);
+	va_end (ap);
+}
+
+void
+em_format_format_secure (EMFormat *emf,
+                         CamelStream *stream,
+                         CamelMimePart *mime_part,
+                         CamelCipherValidity *valid)
+{
+	EMFormatClass *class;
+
+	g_return_if_fail (EM_IS_FORMAT (emf));
+	g_return_if_fail (CAMEL_IS_STREAM (stream));
+	g_return_if_fail (CAMEL_IS_MIME_PART (mime_part));
+	g_return_if_fail (valid != NULL);
+
+	class = EM_FORMAT_GET_CLASS (emf);
+	g_return_if_fail (class->format_secure != NULL);
+	class->format_secure (emf, stream, mime_part, valid);
 
 	if (emf->valid_parent == NULL && emf->valid != NULL) {
-		camel_cipher_validity_free(emf->valid);
+		camel_cipher_validity_free (emf->valid);
 		emf->valid = NULL;
 	}
+}
+
+void
+em_format_format_source (EMFormat *emf,
+                         CamelStream *stream,
+                         CamelMimePart *mime_part)
+{
+	EMFormatClass *class;
+
+	g_return_if_fail (EM_IS_FORMAT (emf));
+	g_return_if_fail (CAMEL_IS_STREAM (stream));
+	g_return_if_fail (CAMEL_IS_MIME_PART (mime_part));
+
+	class = EM_FORMAT_GET_CLASS (emf);
+	g_return_if_fail (class->format_source != NULL);
+	class->format_source (emf, stream, mime_part);
+}
+
+gboolean
+em_format_busy (EMFormat *emf)
+{
+	EMFormatClass *class;
+
+	g_return_val_if_fail (EM_IS_FORMAT (emf), FALSE);
+
+	class = EM_FORMAT_GET_CLASS (emf);
+	g_return_val_if_fail (class->busy != NULL, FALSE);
+	return class->busy (emf);
 }
 
 /* should this be virtual? */
@@ -1350,7 +1481,7 @@ emf_multipart_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *part,
 		em_format_format_secure(emf, stream, opart, valid);
 	}
 
-	/* TODO: Make sure when we finalise this part, it is zero'd out */
+	/* TODO: Make sure when we finalize this part, it is zero'd out */
 	camel_object_unref(opart);
 	camel_object_unref(context);
 	camel_exception_free(ex);
@@ -1706,10 +1837,10 @@ static EMFormatHandler type_builtin_table[] = {
 };
 
 static void
-emf_builtin_init(EMFormatClass *klass)
+emf_builtin_init(EMFormatClass *class)
 {
 	int i;
 
 	for (i=0;i<sizeof(type_builtin_table)/sizeof(type_builtin_table[0]);i++)
-		g_hash_table_insert(klass->type_handlers, type_builtin_table[i].mime_type, &type_builtin_table[i]);
+		g_hash_table_insert(class->type_handlers, type_builtin_table[i].mime_type, &type_builtin_table[i]);
 }
