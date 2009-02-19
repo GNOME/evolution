@@ -485,7 +485,7 @@ new_notify_status (EMEventTargetFolder *t)
 						 "You have received %d new messages.", status_count), status_count);
 	}
 
-	gtk_status_icon_set_tooltip (status_icon, msg);
+	gtk_status_icon_set_tooltip_text (status_icon, msg);
 
 	if (new_icon && is_part_enabled (GCONF_KEY_STATUS_BLINK)) {
 		gtk_status_icon_set_blinking (status_icon, TRUE);

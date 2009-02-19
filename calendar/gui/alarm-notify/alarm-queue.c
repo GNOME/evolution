@@ -1528,10 +1528,10 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 		char *tip;
 
 		tip =  g_strdup_printf (_("You have %d alarms"), g_list_length (tray_icons_list));
-		gtk_status_icon_set_tooltip (tray_icon, tip);
+		gtk_status_icon_set_tooltip_text (tray_icon, tip);
 	}
 	else {
-		gtk_status_icon_set_tooltip (tray_icon, str);
+		gtk_status_icon_set_tooltip_text (tray_icon, str);
 	}
 
 	g_free (start_str);

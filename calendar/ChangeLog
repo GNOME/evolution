@@ -1,3 +1,14 @@
+2009-02-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #572348
+
+	* gui/alarm-notify/alarm-queue.c (display_notification):
+	Call gtk_status_icon_set_tooltip_text() instead of
+	gtk_status_icon_set_tooltip() (deprecated).
+
+	* gui/weekday-picker.c (configure_items):
+	Remove dead code.
+
 2009-02-19  Andre Klapper  <a9016009@gmx.de>
 
 	* /gui/e-day-view.c:

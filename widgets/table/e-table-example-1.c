@@ -293,7 +293,6 @@ main (int argc, char *argv [])
 	gnome_init ("TableExample", "TableExample", argc, argv);
 	e_cursors_init ();
 
-	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_colormap ());
 
 	create_table ();

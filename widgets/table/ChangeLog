@@ -1,3 +1,10 @@
+2009-02-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #572348
+
+	* e-table-example-1.c (main):
+	gtk_widget_push_visual() is a no-op.  Remove it.
+
 2009-02-19  Andre Klapper  <a9016009@gmx.de>
 
 	* e-table-field-chooser-dialog.c:
