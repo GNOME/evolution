@@ -431,8 +431,10 @@ static void
 cal_module_init_preferences (void)
 {
 	GtkWidget *preferences_window;
+	EShell *shell;
 
-	preferences_window = e_shell_get_preferences_window ();
+	shell = e_shell_get_default ();
+	preferences_window = e_shell_get_preferences_window (shell);
 
 	e_preferences_window_add_page (
 		E_PREFERENCES_WINDOW (preferences_window),

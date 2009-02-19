@@ -483,7 +483,7 @@ mail_shell_module_init_preferences (EShell *shell)
 {
 	GtkWidget *preferences_window;
 
-	preferences_window = e_shell_get_preferences_window ();
+	preferences_window = e_shell_get_preferences_window (shell);
 
 	e_preferences_window_add_page (
 		E_PREFERENCES_WINDOW (preferences_window),

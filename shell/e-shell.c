@@ -41,6 +41,7 @@ struct _EShellPrivate {
 	GList *watched_windows;
 	EShellSettings *settings;
 	GConfClient *gconf_client;
+	GtkWidget *preferences_window;
 
 	/* Shell Modules */
 	GList *loaded_modules;
@@ -465,6 +466,11 @@ shell_dispose (GObject *object)
 		priv->gconf_client = NULL;
 	}
 
+	if (priv->preferences_window != NULL) {
+		g_object_unref (priv->preferences_window);
+		priv->preferences_window = NULL;
+	}
+
 	g_list_foreach (
 		priv->loaded_modules,
 		(GFunc) g_type_module_unuse, NULL);
@@ -771,7 +777,7 @@ shell_class_init (EShellClass *class)
 	 * EShell::window-destroyed
 	 * @shell: the #EShell which emitted the signal
 	 *
-	 * Emitted when an #EShellWindow is destroyed.
+	 * Emitted when a watched is destroyed.
 	 **/
 	signals[WINDOW_DESTROYED] = g_signal_new (
 		"window-destroyed",
@@ -837,6 +843,7 @@ shell_init (EShell *shell)
 
 	shell->priv->settings = g_object_new (E_TYPE_SHELL_SETTINGS, NULL);
 	shell->priv->gconf_client = gconf_client_get_default ();
+	shell->priv->preferences_window = e_preferences_window_new ();
 	shell->priv->modules_by_name = modules_by_name;
 	shell->priv->modules_by_scheme = modules_by_scheme;
 	shell->priv->safe_mode = e_file_lock_exists ();
@@ -1333,15 +1340,20 @@ e_shell_set_online (EShell *shell,
 		shell_prepare_for_offline (shell);
 }
 
+/**
+ * e_shell_get_preferences_window:
+ * @shell: an #EShell
+ *
+ * Returns the Evolution Preferences window.
+ *
+ * Returns: the preferences window
+ **/
 GtkWidget *
-e_shell_get_preferences_window (void)
+e_shell_get_preferences_window (EShell *shell)
 {
-	static GtkWidget *preferences_window = NULL;
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-	if (G_UNLIKELY (preferences_window == NULL))
-		preferences_window = e_preferences_window_new ();
-
-	return preferences_window;
+	return shell->priv->preferences_window;
 }
 
 /**

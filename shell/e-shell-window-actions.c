@@ -888,9 +888,12 @@ static void
 action_preferences_cb (GtkAction *action,
                        EShellWindow *shell_window)
 {
+	EShell *shell;
 	GtkWidget *preferences_window;
 
-	preferences_window = e_shell_get_preferences_window ();
+	shell = e_shell_window_get_shell (shell_window);
+	preferences_window = e_shell_get_preferences_window (shell);
+
 	gtk_window_set_transient_for (
 		GTK_WINDOW (preferences_window),
 		GTK_WINDOW (shell_window));

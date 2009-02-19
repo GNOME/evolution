@@ -102,7 +102,7 @@ void		e_shell_set_network_available	(EShell *shell,
 gboolean	e_shell_get_online		(EShell *shell);
 void		e_shell_set_online		(EShell *shell,
 						 gboolean online);
-GtkWidget *	e_shell_get_preferences_window	(void);
+GtkWidget *	e_shell_get_preferences_window	(EShell *shell);
 void		e_shell_event			(EShell *shell,
 						 const gchar *event_name,
 						 gpointer event_data);

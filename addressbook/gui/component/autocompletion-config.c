@@ -99,6 +99,7 @@ autocompletion_config_init (void)
 	GtkWidget *scrolled_window;
 	GtkWidget *source_selector;
 	GtkWidget *preferences_window;
+	EShell *shell;
 
 	source_list = e_source_list_new_for_gconf_default (
 		"/apps/evolution/addressbook/sources");
@@ -124,7 +125,8 @@ autocompletion_config_init (void)
 
 	initialize_selection (E_SOURCE_SELECTOR (source_selector));
 
-	preferences_window = e_shell_get_preferences_window ();
+	shell = e_shell_get_default ();
+	preferences_window = e_shell_get_preferences_window (shell);
 
 	e_preferences_window_add_page (
 		E_PREFERENCES_WINDOW (preferences_window),
