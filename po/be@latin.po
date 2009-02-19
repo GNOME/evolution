@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-18 02:37+0200\n"
-"PO-Revision-Date: 2009-02-18 03:09+0200\n"
+"POT-Creation-Date: 2009-02-19 13:42+0200\n"
+"PO-Revision-Date: 2009-02-19 16:27+0200\n"
 "Last-Translator: Ihar Hračyška <booxter@lacinka.org>\n"
 "Language-Team: Belarusian Latin <i18n@mova.org>\n"
 "MIME-Version: 1.0\n"
@@ -3645,8 +3645,8 @@ msgid ""
 "This address book cannot be opened.  Please check that the path %s exists "
 "and that permissions are set to access it."
 msgstr ""
-"Nie ŭdałosia adčynić adrasnuju knihu. Pravier, ci ściežka %s isnuje i ci maje "
-"jana adpaviednyja pravy dostupu."
+"Nie ŭdałosia adčynić adrasnuju knihu. Pravier, ci ściežka %s isnuje i ci "
+"maje jana adpaviednyja pravy dostupu."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:131
 msgid ""
@@ -3661,8 +3661,8 @@ msgid ""
 "This address book cannot be opened.  This either means that an incorrect URI "
 "was entered, or the server is unreachable."
 msgstr ""
-"Nie ŭdałosia adčynić hetuju adrasnuju knihu. Heta moža być vyklikana ŭžyćciom "
-"niapravilnaha adrasu URI albo niedasiahalnaściu servera."
+"Nie ŭdałosia adčynić hetuju adrasnuju knihu. Heta moža być vyklikana "
+"ŭžyćciom niapravilnaha adrasu URI albo niedasiahalnaściu servera."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:148
 msgid "Detailed error message:"
@@ -3696,8 +3696,8 @@ msgstr ""
 #: ../addressbook/gui/widgets/eab-gui-util.c:183
 msgid "The backend for this address book was unable to parse this query."
 msgstr ""
-"Prahrama dziela absłuhi hetaj adrasnaj knihi nia moža praanalizavać "
-"hetaha zapytu."
+"Prahrama dziela absłuhi hetaj adrasnaj knihi nia moža praanalizavać hetaha "
+"zapytu."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:186
 msgid "The backend for this address book refused to perform this query."
@@ -4176,7 +4176,8 @@ msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
 msgstr ""
-"\"{0}\" źjaŭlajecca krynicaj kalendara tolki dla čytańnia. Vybiery kalandar, jaki pryjmaje planavanyja zadańni."
+"\"{0}\" źjaŭlajecca krynicaj kalendara tolki dla čytańnia. Vybiery kalandar, "
+"jaki pryjmaje planavanyja zadańni."
 
 #: ../calendar/calendar.error.xml.h:5
 msgid ""
@@ -5351,7 +5352,9 @@ msgstr "Akreślivaje, ci pakazvać pole typu ŭ redaktary padziej/zadač/sustre�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:98
 msgid "Whether to show week number in the Day and Work Week View."
-msgstr "Akreślivaje, ci pakazvać numary tydniaŭ u navihatary dataŭ i rabočych tydniaŭ."
+msgstr ""
+"Akreślivaje, ci pakazvać numary tydniaŭ u navihatary dataŭ i rabočych "
+"tydniaŭ."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:99
 msgid "Whether to show week numbers in the date navigator."
@@ -11449,7 +11452,8 @@ msgstr "Nazva etykietki nia moža być pustoj."
 msgid ""
 "A label having the same tag already exists on the server. Please rename your "
 "label."
-msgstr "Etykietka dla takoha cetlika ŭžo jość na servery. Źmiani nazvu etykietki."
+msgstr ""
+"Etykietka dla takoha cetlika ŭžo jość na servery. Źmiani nazvu etykietki."
 
 #: ../e-util/gconf-bridge.c:1221
 #, c-format
@@ -12914,8 +12918,8 @@ msgid ""
 "Evolution cannot render this email as it is too large to process. You can "
 "view it unformatted or with an external text editor."
 msgstr ""
-"Evolution nia zmoh pakazać hety list, bo jon zavialiki. Možna pakazać jaho biez "
-"farmatavańnia albo pry dapamozie vonkavaha redaktara tekstu."
+"Evolution nia zmoh pakazać hety list, bo jon zavialiki. Možna pakazać jaho "
+"biez farmatavańnia albo pry dapamozie vonkavaha redaktara tekstu."
 
 #: ../mail/em-format-html-print.c:157
 #, c-format
@@ -13207,8 +13211,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Farmat karotkich apisańniaŭ dla paštovych katalohaŭ Evolution ad "
-"versii 2.24 zasnavaŭsia na SQLite.\n"
+"Farmat karotkich apisańniaŭ dla paštovych katalohaŭ Evolution ad versii 2.24 "
+"zasnavaŭsia na SQLite.\n"
 "\n"
 "Pačakaj, pakul Evolution budzie pieranosić tvaje katalohi..."
 
@@ -13898,14 +13902,12 @@ msgid "Spell check inline"
 msgstr "Praviaraj pravapis"
 
 #: ../mail/evolution-mail.schemas.in.h:131
-#, fuzzy
 msgid "Spell checking color"
-msgstr "Pravierka pravapisu"
+msgstr "Koler dla paznačeńnia abmylnych słovaŭ"
 
 #: ../mail/evolution-mail.schemas.in.h:132
-#, fuzzy
 msgid "Spell checking languages"
-msgstr "Praviaraj pravapis"
+msgstr "Movy dla praviarańnia pravapisu"
 
 #: ../mail/evolution-mail.schemas.in.h:133
 msgid "Subscribe dialog default height"
@@ -14306,7 +14308,6 @@ msgid "New Mail Message"
 msgstr "Novy list"
 
 #: ../mail/mail-component.c:928
-#, fuzzy
 msgctxt "New"
 msgid "_Mail Message"
 msgstr "_List"
@@ -14320,7 +14321,6 @@ msgid "New Mail Folder"
 msgstr "Novy kataloh listoŭ"
 
 #: ../mail/mail-component.c:936
-#, fuzzy
 msgctxt "New"
 msgid "Mail _Folder"
 msgstr "_Kataloh listoŭ"
@@ -14346,7 +14346,6 @@ msgid "<b>SSL is not supported in this build of Evolution</b>"
 msgstr "<b>Hetaja kopija Evolution nie padtrymvaje SSL</b>"
 
 #: ../mail/mail-config.glade.h:5
-#, fuzzy
 msgid "<b>Sender Photograph</b>"
 msgstr "<b>Zdymak aŭtara lista</b>"
 
@@ -14428,9 +14427,8 @@ msgid "<span weight=\"bold\">Printed Fonts</span>"
 msgstr "<span weight=\"bold\">Drukavanyja šryfty</span>"
 
 #: ../mail/mail-config.glade.h:27
-#, fuzzy
 msgid "<span weight=\"bold\">Proxy Settings</span>"
-msgstr "<span weight=\"bold\">Status</span>"
+msgstr "<span weight=\"bold\">Nałady proxy</span>"
 
 #: ../mail/mail-config.glade.h:28
 msgid "<span weight=\"bold\">Required Information</span>"
@@ -14517,7 +14515,6 @@ msgid "Ch_eck for Supported Types "
 msgstr "_Pravier typy, jakija padtrymvajucca "
 
 #: ../mail/mail-config.glade.h:51
-#, fuzzy
 msgid "Check cu_stom headers for junk"
 msgstr "_Praviaraj ułasnyja spamavyja šapki"
 
@@ -14583,20 +14580,17 @@ msgid "Digitally sign o_utgoing messages (by default)"
 msgstr "Ličbava padpi_svaj vysyłanyja listy (zmoŭčanaje)"
 
 #: ../mail/mail-config.glade.h:71
-#, fuzzy
 msgid "Do not format messages when text si_ze exceeds"
-msgstr "Biez _farmatavańnia tekstu listoŭ, kali jaho pamiery bolšyja za"
+msgstr "Nie _farmatuj tekstu listoŭ, kali jaho pamiery bolšyja za"
 
 #: ../mail/mail-config.glade.h:72
-#, fuzzy
 msgid "Do not mar_k messages as junk if sender is in my address book"
 msgstr ""
 "_Nie paznačaj listy jak spam, kali ich aŭtar zapisany ŭ majoj adrasnaj knizie"
 
 #: ../mail/mail-config.glade.h:73
-#, fuzzy
 msgid "Do not quote"
-msgstr "Nie vydalaj"
+msgstr "Nie cytuj"
 
 #: ../mail/mail-config.glade.h:74
 msgid "Done"
@@ -14619,7 +14613,6 @@ msgid "Empty trash folders on e_xit"
 msgstr "_Aparažniaj katalohi śmietnicy pry vyjści"
 
 #: ../mail/mail-config.glade.h:79
-#, fuzzy
 msgid "Enable Magic S_pacebar"
 msgstr "Uklučy mahičny _prabieł"
 
@@ -14660,9 +14653,8 @@ msgid "HTML Messages"
 msgstr "Listy HTML"
 
 #: ../mail/mail-config.glade.h:92
-#, fuzzy
 msgid "H_TTP Proxy:"
-msgstr "_Paštovaja skrynka:"
+msgstr "_Proxy HTTP:"
 
 #: ../mail/mail-config.glade.h:93
 msgid "Headers"
@@ -14677,9 +14669,8 @@ msgid "Inline"
 msgstr "U źmieście"
 
 #: ../mail/mail-config.glade.h:97
-#, fuzzy
 msgid "Inline (Outlook style)"
-msgstr "Aryhinalny list u źmieście (styl Outlook)"
+msgstr "U źmieście (styl Outlook)"
 
 #: ../mail/mail-config.glade.h:99
 msgid "KB"
@@ -14739,7 +14730,6 @@ msgid "PGP/GPG _Key ID:"
 msgstr "ID _kluča PGP/GPG:"
 
 #: ../mail/mail-config.glade.h:113
-#, fuzzy
 msgid "Pass_word:"
 msgstr "_Parol:"
 
@@ -14774,9 +14764,8 @@ msgid "Please select among the following options"
 msgstr "Abiary adnu z nastupnych opcyjaŭ"
 
 #: ../mail/mail-config.glade.h:120
-#, fuzzy
 msgid "Port:"
-msgstr "_Port:"
+msgstr "Port:"
 
 #: ../mail/mail-config.glade.h:121
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
@@ -14803,9 +14792,8 @@ msgid "S_OCKS Host:"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:128
-#, fuzzy
 msgid "S_earch for sender photograph only in local address books"
-msgstr "Šukaj zdymkaŭ aŭtaraŭ listoŭ tolki ŭ lakalnych adrasnych knihach"
+msgstr "_Šukaj zdymkaŭ aŭtaraŭ listoŭ tolki ŭ lakalnych adrasnych knihach"
 
 #: ../mail/mail-config.glade.h:129
 msgid "S_elect..."
@@ -14914,14 +14902,12 @@ msgstr ""
 "Naprykład: \"Słužbovaje\" albo \"Pryvatnaje\""
 
 #: ../mail/mail-config.glade.h:157
-#, fuzzy
 msgid "Us_ername:"
 msgstr "Nazva _karystalnika:"
 
 #: ../mail/mail-config.glade.h:158
-#, fuzzy
 msgid "Use Authe_ntication"
-msgstr "Aŭtaryzacyja"
+msgstr "Užyj aŭtaryzacyju"
 
 #: ../mail/mail-config.glade.h:159 ../plugins/caldav/caldav-source.c:387
 #: ../plugins/google-account-setup/google-source.c:615
@@ -14953,9 +14939,8 @@ msgid "_Always load images from the Internet"
 msgstr "Zaŭždy zahružaj vyj_avy ź sieciva"
 
 #: ../mail/mail-config.glade.h:166
-#, fuzzy
 msgid "_Automatic proxy configuration URL:"
-msgstr "Aŭtamatyčnaje raspaznavańnie ŭśmiešak"
+msgstr "Adras z _aŭtamatyčnymi naładami proxy:"
 
 #: ../mail/mail-config.glade.h:167
 msgid "_Default junk plugin:"
@@ -14982,18 +14967,16 @@ msgid "_Load images in messages from contacts"
 msgstr "_Pakazvaj vyjavy ŭ listach ad asobaŭ z kantaktaŭ"
 
 #: ../mail/mail-config.glade.h:174
-#, fuzzy
 msgid "_Lookup in local address book only"
-msgstr "Pakažy śpis lakalnych katalohaŭ adrasnych knih"
+msgstr "_Šukaj tolki ŭ lakalnaj adrasnaj knizie"
 
 #: ../mail/mail-config.glade.h:175
 msgid "_Make this my default account"
 msgstr "_Paznač kont jak zmoŭčany"
 
 #: ../mail/mail-config.glade.h:176
-#, fuzzy
 msgid "_Manual proxy configuration:"
-msgstr "Kanfihuracyja pošty"
+msgstr "_Ručnaja kanfihuracyja proxy:"
 
 #: ../mail/mail-config.glade.h:177
 msgid "_Mark messages as read after"
@@ -15052,9 +15035,8 @@ msgid "_Use Secure Connection:"
 msgstr "_Užyvaj biaśpiečnaje spałučeńnie:"
 
 #: ../mail/mail-config.glade.h:193
-#, fuzzy
 msgid "_Use system defaults"
-msgstr "_Zmoŭčana"
+msgstr "_Užyj systemnyja zmoŭčanyja nałady"
 
 #: ../mail/mail-config.glade.h:194
 msgid "_Use the same fonts as other applications"
@@ -15247,9 +15229,9 @@ msgid "Opening folder %s"
 msgstr "Adčyniajecca kataloh %s"
 
 #: ../mail/mail-ops.c:1273
-#, fuzzy, c-format
+#, c-format
 msgid "Retrieving quota information for folder %s"
-msgstr "Kantaktnaja infarmacyja dla %s"
+msgstr "Atrymańnie źviestak pra zajmanaje kataloham %s miesca"
 
 #: ../mail/mail-ops.c:1342
 #, c-format
@@ -15307,7 +15289,7 @@ msgstr[1] "Zahruzka %d listoŭ"
 msgstr[2] "Zahruzka %d listoŭ"
 
 #: ../mail/mail-ops.c:2010
-#, fuzzy, c-format
+#, c-format
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
 msgstr[0] "Zapis %d lista"
@@ -15409,19 +15391,16 @@ msgid "User canceled operation."
 msgstr "Aperacyja anulavanaja karystalnikam."
 
 #: ../mail/mail-signature-editor.c:201
-#, fuzzy
 msgid "_Save and Close"
-msgstr "Zapišy j začyni"
+msgstr "_Zapišy j začyni"
 
 #: ../mail/mail-signature-editor.c:355
-#, fuzzy
 msgid "Edit Signature"
-msgstr "Madyfikuj podpis"
+msgstr "Źmiani podpis"
 
 #: ../mail/mail-signature-editor.c:370
-#, fuzzy
 msgid "_Signature Name:"
-msgstr "Tablica podpisaŭ"
+msgstr "Nazva _podpisu:"
 
 #: ../mail/mail-tools.c:120
 #, c-format
@@ -15471,14 +15450,12 @@ msgid "New Search Folder"
 msgstr "Novy kataloh pošuku"
 
 #: ../mail/mail.error.xml.h:1
-#, fuzzy
 msgid "A folder named \"{0}\" already exists. Please use a different name."
-msgstr "Kataloh z nazvaj &quot;{0}&quot; užo isnuje. Akreśli inšuju nazvu."
+msgstr "Kataloh z nazvaj \"{0}\" užo isnuje. Akreśli inšuju nazvu."
 
 #: ../mail/mail.error.xml.h:2
-#, fuzzy
 msgid "A folder named \"{1}\" already exists. Please use a different name."
-msgstr "Kataloh z nazvaj &quot;{1}&quot; užo isnuje. Akreśli inšuju nazvu."
+msgstr "Kataloh z nazvaj \"{1}\" užo isnuje. Akreśli inšuju nazvu."
 
 #: ../mail/mail.error.xml.h:3
 #, fuzzy
@@ -15563,123 +15540,103 @@ msgid "Are you sure you want to send a message without a subject?"
 msgstr "Ty sapraŭdy chočaš vysłać list biaz temy?"
 
 #: ../mail/mail.error.xml.h:18
-#, fuzzy
 msgid "Because \"{0}\"."
-msgstr "Bo &quot;{0}&quot;."
+msgstr "Bo \"{0}\"."
 
 #: ../mail/mail.error.xml.h:20
-#, fuzzy
 msgid "Because \"{2}\"."
-msgstr "Bo &quot;{2}&quot;."
+msgstr "Bo \"{2}\"."
 
 #: ../mail/mail.error.xml.h:21
 msgid "Blank Signature"
 msgstr "Pusty podpis"
 
 #: ../mail/mail.error.xml.h:22
-#, fuzzy
 msgid "Cannot add Search Folder \"{0}\"."
-msgstr "Niemahčyma dadać kataloh pošuku &quot;{0}&quot;."
+msgstr "Nie ŭdałosia dadać kataloh pošuku \"{0}\"."
 
 #: ../mail/mail.error.xml.h:23
-#, fuzzy
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
-msgstr "Niemahčyma skapijavać kataloh &quot;{0}&quot; u &quot;{1}&quot;."
+msgstr "Nie ŭdałosia skapijavać kataloh \"{0}\" u \"{1}\"."
 
 #: ../mail/mail.error.xml.h:24
-#, fuzzy
 msgid "Cannot create folder \"{0}\"."
-msgstr "Niemahčyma stvaryć kataloh &quot;{0}&quot;."
+msgstr "Nie ŭdałosia stvaryć kataloh \"{0}\"."
 
 #: ../mail/mail.error.xml.h:25
 msgid "Cannot create temporary save directory."
 msgstr "Niemahčyma stvaryć časovy kataloh dla zapisu."
 
 #: ../mail/mail.error.xml.h:26
-#, fuzzy
 msgid "Cannot create the save directory, because \"{1}\""
-msgstr "Niemahčyma stvaryć kataloh zapisu, bo &quot;{1}&quot;"
+msgstr "Nie ŭdałosia stvaryć kataloh zapisu, bo \"{1}\""
 
 #: ../mail/mail.error.xml.h:27
-#, fuzzy
 msgid "Cannot delete folder \"{0}\"."
-msgstr "Niemahčyma vydalić kataloh &quot;{0}&quot;."
+msgstr "Nie ŭdałosia vydalić kataloh \"{0}\"."
 
 #: ../mail/mail.error.xml.h:28
-#, fuzzy
 msgid "Cannot delete system folder \"{0}\"."
-msgstr "Niemahčyma vydalić systemny kataloh &quot;{0}&quot;."
+msgstr "Nie ŭdałosia vydalić systemny kataloh \"{0}\"."
 
 #: ../mail/mail.error.xml.h:29
-#, fuzzy
 msgid "Cannot edit Search Folder \"{0}\" as it does not exist."
 msgstr ""
-"Niemahčyma zmadyfikavać kataloh pošuku &quot;{0}&quot;, bo jon nie isnuje."
+"Nie ŭdałosia zmadyfikavać kataloh pošuku \"{0}\", bo jon nie isnuje."
 
 #: ../mail/mail.error.xml.h:30
-#, fuzzy
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
-msgstr "Niemahčyma pieranieści kataloh &quot;{0}&quot; u &quot;{1}&quot;."
+msgstr "Nie ŭdałosia pieranieści kataloh \"{0}\" u \"{1}\"."
 
 #: ../mail/mail.error.xml.h:31
-#, fuzzy
 msgid "Cannot open source \"{1}\""
-msgstr "Niemahčyma adčynić krynicu &quot;{1}&quot;"
+msgstr "Nie ŭdałosia adčynić krynicu \"{1}\""
 
 #: ../mail/mail.error.xml.h:32
-#, fuzzy
 msgid "Cannot open source \"{2}\"."
-msgstr "Niemahčyma adčynić krynicu &quot;{2}&quot;."
+msgstr "Nie ŭdałosia adčynić krynicu \"{2}\"."
 
 #: ../mail/mail.error.xml.h:33
-#, fuzzy
 msgid "Cannot open target \"{2}\"."
-msgstr "Niemahčyma adčynić metavy &quot;{2}&quot;."
+msgstr "Nie ŭdałosia adčynić metavy \"{2}\"."
 
 #: ../mail/mail.error.xml.h:34
-#, fuzzy
 msgid ""
 "Cannot read the license file \"{0}\", due to an installation problem. You "
 "will not be able to use this provider until you can accept its license."
 msgstr ""
-"Niemahčyma adčytać fajł licenzii &quot;{0}&quot; z pryčyny prablem "
+"Nie ŭdałosia adčytać fajł licenzii \"{0}\" z pryčyny prablem "
 "instalacyi. Nia budzie mahčymaści karystacca hetym pastaŭščykom da momantu "
 "pryniaćcia licenzii."
 
 #: ../mail/mail.error.xml.h:35
-#, fuzzy
 msgid "Cannot rename \"{0}\" to \"{1}\"."
-msgstr "Niemahčyma źmianić nazvu &quot;{0}&quot; na &quot;{1}&quot;."
+msgstr "Nie ŭdałosia źmianić nazvu \"{0}\" na \"{1}\"."
 
 #: ../mail/mail.error.xml.h:36
-#, fuzzy
 msgid "Cannot rename or move system folder \"{0}\"."
 msgstr ""
-"Niemahčyma źmianić nazvu albo pieranieści systemny kataloh &quot;{0}&quot;."
+"Nie ŭdałosia źmianić nazvu albo pieranieści systemny kataloh \"{0}\"."
 
 #: ../mail/mail.error.xml.h:37
 msgid "Cannot save changes to account."
 msgstr "Niemahčyma zapisać źmieny kontu."
 
 #: ../mail/mail.error.xml.h:38
-#, fuzzy
 msgid "Cannot save to directory \"{0}\"."
-msgstr "Niemahčyma zapisać u kataloh &quot;{0}&quot;."
+msgstr "Nie ŭdałosia zapisać u kataloh \"{0}\"."
 
 #: ../mail/mail.error.xml.h:39
-#, fuzzy
 msgid "Cannot save to file \"{0}\"."
-msgstr "Niemahčyma zapisać u fajł &quot;{0}&quot;."
+msgstr "Nie ŭdałosia zapisać u fajł \"{0}\"."
 
 #: ../mail/mail.error.xml.h:40
-#, fuzzy
 msgid "Cannot set signature script \"{0}\"."
-msgstr "Niemahčyma abrać skrypt podpisu &quot;{0}&quot;."
+msgstr "Nie ŭdałosia abrać skrypt podpisu \"{0}\"."
 
 #: ../mail/mail.error.xml.h:41
-#, fuzzy
 msgid "Check Junk Failed"
-msgstr "Šuka_j spam"
+msgstr "Nie ŭdałosia spraŭdzić na spam"
 
 #: ../mail/mail.error.xml.h:42
 msgid ""
@@ -15694,18 +15651,16 @@ msgid "Could not save signature file."
 msgstr "Niemahčyma zapisać fajł z podpisam."
 
 #: ../mail/mail.error.xml.h:44
-#, fuzzy
 msgid "Delete \"{0}\"?"
-msgstr "Vydalena: "
+msgstr "Vydalić \"{0}\"?"
 
 #: ../mail/mail.error.xml.h:45
 msgid "Delete account?"
 msgstr "Vydalić kont?"
 
 #: ../mail/mail.error.xml.h:46
-#, fuzzy
 msgid "Delete messages in Search Folder \"{0}\"?"
-msgstr "Vydalić listy z katalohu pošuku?"
+msgstr "Vydalić listy z katalohu pošuku \"{0}\"?"
 
 #: ../mail/mail.error.xml.h:47
 msgid "Delete messages in Search Folder?"
@@ -15879,9 +15834,8 @@ msgid "Please wait."
 msgstr "Pačakaj."
 
 #: ../mail/mail.error.xml.h:85
-#, fuzzy
 msgid "Problem migrating old mail folder \"{0}\"."
-msgstr "Prablema padčas mihracyi staroha katalohu listoŭ &quot;{0}&quot;."
+msgstr "Prablema mihracyi staroha katalohu listoŭ \"{0}\"."
 
 #: ../mail/mail.error.xml.h:86
 msgid "Querying server"
@@ -15896,18 +15850,16 @@ msgid "Read receipt requested."
 msgstr "Prosiać paćvierdzić pračytańnie."
 
 #: ../mail/mail.error.xml.h:89
-#, fuzzy
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
-msgstr "Sapraŭdy vydalić kataloh &quot;{0}&quot; i ŭsie jahonyja padkatalohi?"
+msgstr "Sapraŭdy vydalić kataloh \"{0}\" i ŭsie jahonyja padkatalohi?"
 
 #: ../mail/mail.error.xml.h:90
-#, fuzzy
 msgid "Report Junk Failed"
-msgstr "Impartuj fajł"
+msgstr "Nie ŭdałosia paviedamić pra spam"
 
 #: ../mail/mail.error.xml.h:91
 msgid "Report Not Junk Failed"
-msgstr ""
+msgstr "Nie ŭdałosia paviedamić pra chibnaść aznačeńnia lista jak spam"
 
 #: ../mail/mail.error.xml.h:92
 msgid "Search Folders automatically updated."
@@ -15955,7 +15907,6 @@ msgstr ""
 "prynamsi adnaho adrasata ŭ pole Da: albo Kopija: (CC)."
 
 #: ../mail/mail.error.xml.h:101
-#, fuzzy
 msgid ""
 "The following Search Folder(s):\n"
 "{0}\n"
@@ -15966,11 +15917,10 @@ msgstr ""
 "Nastupnyja katalohi pošuku:\n"
 "{0}\n"
 "Užyvali vydaleny kataloh:\n"
-"    &quot;{1}&quot;\n"
+"    \"{1}\"\n"
 "I byli aktualizavanyja."
 
 #: ../mail/mail.error.xml.h:106
-#, fuzzy
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -15981,7 +15931,7 @@ msgstr ""
 "Nastupnyja praviły filtraŭ:\n"
 "{0}\n"
 "Užyvali vydaleny kataloh:\n"
-"    &quot;{1}&quot;\n"
+"    \"{1}\"\n"
 "I byli aktualizavanyja."
 
 #: ../mail/mail.error.xml.h:111
@@ -16089,10 +16039,9 @@ msgstr ""
 "usie addalenyja, albo adno j druhoje."
 
 #: ../mail/mail.error.xml.h:134
-#, fuzzy
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
 msgstr ""
-"Tvaja aŭtaryzacyja na servery &quot;{0}&quot jak &quot;{0}&quot nie ŭdałasia."
+"Tvaja aŭtaryzacyja na servery \"{0}\" jak \"{0}\" nie ŭdałasia."
 
 #: ../mail/mail.error.xml.h:135
 msgid "_Append"
@@ -16127,9 +16076,8 @@ msgid "Answered"
 msgstr "Z adkazam"
 
 #: ../mail/message-list.c:1055
-#, fuzzy
 msgid "Forwarded"
-msgstr "Pierašli"
+msgstr "Pierasłany"
 
 #: ../mail/message-list.c:1056
 msgid "Multiple Unseen Messages"
@@ -16194,12 +16142,8 @@ msgid ""
 msgstr ""
 
 #: ../mail/message-list.c:4291
-#, fuzzy
 msgid "There are no messages in this folder."
-msgstr ""
-"\n"
-"\n"
-"Niama elementaŭ, kab pakazać u hetym vyhladzie."
+msgstr "U hetym katalohu niama listoŭ."
 
 #: ../mail/message-list.etspec.h:3
 msgid "Due By"
@@ -16292,9 +16236,8 @@ msgid "Subject contains"
 msgstr "Tema ŭtrymlivaje"
 
 #: ../mail/searchtypes.xml.h:6
-#, fuzzy
 msgid "Subject or Recipients contains"
-msgstr "Tema albo aŭtar lista ŭtrymlivajuć"
+msgstr "Tema albo adrasaty lista ŭtrymlivajuć"
 
 #: ../mail/searchtypes.xml.h:7
 msgid "Subject or Sender contains"
@@ -16353,17 +16296,15 @@ msgid "Message has no attachments"
 msgstr "Da lista ničoha nie dałučyli"
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:5
-#, fuzzy
 msgid "_Edit Message"
 msgstr "_Redahuj list"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "A formatter plugin which displays audio attachments inline and allows you to "
 "play them directly from Evolution."
 msgstr ""
-"Plugin pakazvaje dałučanyja aŭdyjofajły ŭ źmieście lista i dazvalaje "
+"Plugin farmatavańnia, jaki pakazvaje dałučanyja aŭdyjofajły ŭ źmieście lista i dazvalaje "
 "prasłuchać ich z dapamohaj Evolution."
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
@@ -16494,26 +16435,24 @@ msgid "Evolution Restore"
 msgstr "Uznaŭleńnie Evolution"
 
 #: ../plugins/backup-restore/backup.c:513
-#, fuzzy
 msgid "Backing up Evolution Data"
-msgstr "Stvary zapasnuju kopiju ciapierašniaha Evolution"
+msgstr "Stvareńnie zapasnoj kopii źviestak Evolution"
 
 #: ../plugins/backup-restore/backup.c:514
 msgid "Please wait while Evolution is backing up your data."
-msgstr ""
+msgstr "Pačakaj, pakul Evolution stvoryć zapasnuju kopiju tvaich źviestak."
 
 #: ../plugins/backup-restore/backup.c:516
-#, fuzzy
 msgid "Restoring Evolution Data"
-msgstr "Restartavańnie Evolution"
+msgstr "Adnaŭleńnie źviestak Evolution"
 
 #: ../plugins/backup-restore/backup.c:517
 msgid "Please wait while Evolution is restoring your data."
-msgstr ""
+msgstr "Pačakaj, pakul Evolution adnović źviestki z zapasnoj kopii."
 
 #: ../plugins/backup-restore/backup.c:535
 msgid "This may take a while depending on the amount of data in your account."
-msgstr ""
+msgstr "Praciahłaść hetaj aperacyi zaležyć ad pamieraŭ źviestak tvajho kontu."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
 msgid "A plugin for backing up and restore Evolution data and settings."
@@ -16547,9 +16486,8 @@ msgstr ""
 "Evolution paśla stvareńnia zapasnoj kopii, naciśni knopku pieraklučalnika."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
-#, fuzzy
 msgid "Insufficient Permissions"
-msgstr "Dazvoły dla delehata"
+msgstr "Nie staje dazvołu"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:5
 msgid "Invalid Evolution backup file"
@@ -16560,9 +16498,8 @@ msgid "Please select a valid backup file to restore."
 msgstr "Abiary pravilny fajł zapasnoj kopii dziela ŭznaŭleńnia."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:7
-#, fuzzy
 msgid "The selected folder is not writable."
-msgstr "Kapijuj paznačany kataloh u inšy"
+msgstr "Nielha pisać u zaznačany kataloh."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:8
 msgid ""
@@ -16596,7 +16533,6 @@ msgstr "Aŭtamatyčnyja kantakty"
 
 #. Enable BBDB checkbox
 #: ../plugins/bbdb/bbdb.c:639
-#, fuzzy
 msgid "_Auto-create address book entries when replying to messages"
 msgstr ""
 "_Aŭtamatyčna stvaraj zapisy ŭ adrasnaj knizie dla kantaktaŭ, jakim adkazvaješ"
@@ -16611,10 +16547,9 @@ msgstr "Kantakty internetnaha kamunikatara"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:675
-#, fuzzy
 msgid "Synchronize contact info and images from Pidgin buddy list"
 msgstr ""
-"Peryjadyčna synchranizuj infarmacyju j vyjavy z kantaktaŭ kamunikatara Pidgin"
+"Synchranizuj infarmacyju j vyjavy z kantaktaŭ kamunikatara Pidgin"
 
 #: ../plugins/bbdb/bbdb.c:681
 msgid "Select Address book for Pidgin buddy list"
@@ -16626,13 +16561,12 @@ msgid "Synchronize with _buddy list now"
 msgstr "Synchranizuj sa śpisam kantaktaŭ"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
-#, fuzzy
 msgid ""
 "Automatically fills your address book with names and email addresses as you "
 "reply to messages. Also fills in IM contact information from your buddy "
 "lists."
 msgstr ""
-"Aŭtamatyčna ŭstaŭlaje nazvy i adrasy email u adrasnuju knihu pry adkazach na "
+"Aŭtamatyčna ŭstaŭlaje ŭ šapku lista nazvy i adrasy email pry adkazach na "
 "listy. Dadatkova ŭstaŭlaje źviestki sa śpisu kantaktaŭ kamunikatara."
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
@@ -16681,9 +16615,8 @@ msgid "Bogofilter Options"
 msgstr "Opcyi Bogofilter"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
-#, fuzzy
 msgid "Bogofilter junk plugin"
-msgstr "Opcyi Bogofilter"
+msgstr "Plugin baraćby z spamam Bogofilter"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
 msgid "Filters junk messages using Bogofilter."
@@ -16711,9 +16644,8 @@ msgstr "Užyvaj _SSL"
 #: ../plugins/calendar-weather/calendar-weather.c:509
 #: ../plugins/google-account-setup/google-source.c:632
 #: ../plugins/google-account-setup/google-contacts-source.c:358
-#, fuzzy
 msgid "Re_fresh:"
-msgstr "A_bnavi"
+msgstr "A_bnavi:"
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:1
 msgid "CalDAV Calendar sources"
@@ -16756,9 +16688,8 @@ msgid "Weather: Cloudy"
 msgstr "Nadvorje: Pachmurna"
 
 #: ../plugins/calendar-weather/calendar-weather.c:63
-#, fuzzy
 msgid "Weather: Cloudy Night"
-msgstr "Nadvorje: Pachmurna"
+msgstr "Nadvorje: Pachmurny viečar"
 
 #: ../plugins/calendar-weather/calendar-weather.c:64
 #, fuzzy
@@ -16766,9 +16697,8 @@ msgid "Weather: Overcast"
 msgstr "Nazvorje: Doždž"
 
 #: ../plugins/calendar-weather/calendar-weather.c:65
-#, fuzzy
 msgid "Weather: Showers"
-msgstr "Nadvorje: Śnieh"
+msgstr "Nadvorje: Zaleva"
 
 #: ../plugins/calendar-weather/calendar-weather.c:66
 msgid "Weather: Snow"
@@ -16779,9 +16709,8 @@ msgid "Weather: Sunny"
 msgstr "Nadvorje: Soniečna"
 
 #: ../plugins/calendar-weather/calendar-weather.c:68
-#, fuzzy
 msgid "Weather: Clear Night"
-msgstr "Kalendary nadvorja"
+msgstr "Nadvorje: Viečar z čystym niebam"
 
 #: ../plugins/calendar-weather/calendar-weather.c:69
 msgid "Weather: Thunderstorms"
@@ -16854,74 +16783,63 @@ msgid "Evolution"
 msgstr "Evolution"
 
 #: ../plugins/default-source/default-source.c:82
-#, fuzzy
 msgid "Mark as _default address book"
-msgstr "Paznač hety kataloh _jak zmoŭčany"
+msgstr "Paznač hetuju adrasnuju knihu _jak zmoŭčanuju"
 
 #: ../plugins/default-source/default-source.c:103
-#, fuzzy
 msgid "Mark as _default calendar"
-msgstr "Paznač hety kataloh _jak zmoŭčany"
+msgstr "Paznač hety kalandar _jak zmoŭčany"
 
 #: ../plugins/default-source/default-source.c:104
-#, fuzzy
 msgid "Mark as _default task list"
-msgstr "Paznač hety kataloh _jak zmoŭčany"
+msgstr "Paznač hety śpis zadač _jak zmoŭčany"
 
 #: ../plugins/default-source/default-source.c:105
-#, fuzzy
 msgid "Mark as _default memo list"
-msgstr "Paznač hety kataloh _jak zmoŭčany"
+msgstr "Paznač hety śpis natatak _jak zmoŭčany"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:1
 msgid "Default Sources"
 msgstr "Zmoŭčanyja krynicy"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
-#, fuzzy
 msgid ""
 "Provides functionality for marking a calendar or an address book as the "
 "default one."
 msgstr "Dazvalaje paznačyć kalandar albo adrasnuju knihu ŭ jakaści zmoŭčanych."
 
 #: ../plugins/email-custom-header/email-custom-header.c:334
-#, fuzzy
 msgid "Security:"
-msgstr "Biaśpieka"
+msgstr "Biaśpieka:"
 
 #: ../plugins/email-custom-header/email-custom-header.c:339
-#, fuzzy
 msgid "Unclassified"
-msgstr "Biaz podpisu"
+msgstr "Biaz paznakaŭ"
 
 #: ../plugins/email-custom-header/email-custom-header.c:340
-#, fuzzy
 msgid "Protected"
-msgstr "Stvorana"
+msgstr "Abaronieny"
 
 #: ../plugins/email-custom-header/email-custom-header.c:342
-#, fuzzy
 msgid "Secret"
-msgstr "Punkty"
+msgstr "Sakretny"
 
 #: ../plugins/email-custom-header/email-custom-header.c:343
 msgid "Top secret"
-msgstr ""
+msgstr "Zusim sakretny"
 
 #: ../plugins/email-custom-header/email-custom-header.c:585
-#, fuzzy
 msgid "_Custom Header"
-msgstr "Ułasnyja šapki"
+msgstr "_Ułasnaja šapka"
 
 #: ../plugins/email-custom-header/email-custom-header.c:906
-#, fuzzy
 msgid "Key"
-msgstr "Kienija"
+msgstr "Kluč"
 
 #: ../plugins/email-custom-header/email-custom-header.c:917
 #: ../plugins/templates/templates.c:396
 msgid "Values"
-msgstr ""
+msgstr "Vartaści"
 
 #. To translators: This string is used while adding a new message header to configuration, to specifying the format of the key values
 #: ../plugins/email-custom-header/email-custom-header.glade.h:2
@@ -16931,9 +16849,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.glade.h:1
-#, fuzzy
 msgid "Email Custom Header"
-msgstr "Ułasnyja šapki"
+msgstr "Ułasnaja šapka lista"
 
 #. For Translators: 'custom header' string is used while adding a new message header to outgoing message, to specify what value for the message header would be added
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:2
@@ -16941,14 +16858,12 @@ msgid "Adds custom header to outgoing messages."
 msgstr ""
 
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:3
-#, fuzzy
 msgid "Custom Header"
-msgstr "Ułasnyja šapki"
+msgstr "Ułasnaja šapka"
 
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:1
-#, fuzzy
 msgid "List of Custom Headers"
-msgstr "Ułasnyja šapki"
+msgstr "Śpis ułasnych šapak"
 
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:2
 msgid ""
@@ -17068,14 +16983,12 @@ msgid "A_uthenticate"
 msgstr "_Aŭtaryzuj"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:777
-#, fuzzy
 msgid "S_pecify the mailbox name"
-msgstr "Akreśli nazvu _fajłu:"
+msgstr "Akreśli nazvu _paštovaj skryni"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:790
-#, fuzzy
 msgid "_Mailbox:"
-msgstr "_Pošta"
+msgstr "_Paštovaja skrynia:"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:1005
 msgid "_Authentication Type"
@@ -17307,9 +17220,8 @@ msgstr "Pamier katalohu"
 
 #. FIXME Limit to one user
 #: ../plugins/exchange-operations/exchange-folder-subscription.c:78
-#, fuzzy
 msgid "User"
-msgstr "_Karystalnik"
+msgstr "Karystalnik"
 
 #: ../plugins/exchange-operations/exchange-folder-subscription.c:321
 #: ../plugins/exchange-operations/org-gnome-folder-subscription.xml.h:1
@@ -17894,9 +17806,8 @@ msgid "Check folder permissions"
 msgstr "Pravier dazvoły katalohu"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:1
-#, fuzzy
 msgid "Default External Editor"
-msgstr "Vonkavy redaktar"
+msgstr "Zmoŭčany vonkavy redaktar"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:2
 msgid "The default command that must be used as the editor."
@@ -17914,13 +17825,12 @@ msgid "External Editor"
 msgstr "Vonkavy redaktar"
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:1
-#, fuzzy
 msgid "Cannot create Temporary File"
-msgstr "Niemahčyma stvaryć časovy kataloh dla zapisu."
+msgstr "Nie ŭdałosia stvaryć časovy fajł"
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:2
 msgid "Editor not launchable"
-msgstr ""
+msgstr "Nielha ŭklučyć redaktar"
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:3
 msgid ""
@@ -17935,9 +17845,8 @@ msgid ""
 msgstr ""
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:1
-#, fuzzy
 msgid "Compose in _External Editor"
-msgstr "Napišy list u vonkavym redaktary"
+msgstr "Napišy list u _vonkavym redaktary"
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:2
 msgid "Compose messages using an external editor"
@@ -17982,9 +17891,8 @@ msgid "Unsubscribing from folder \"%s\""
 msgstr "Adpisańnie ad katalohu \"%s\""
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:1
-#, fuzzy
 msgid "Allows unsubscribing of mail folders in the side bar context menu."
-msgstr "Dazvalaje adpisacca ad katalohaŭ u kantekstnym menu dreva."
+msgstr "Dazvalaje adpisacca ad paštovych katalohaŭ u kantekstnym menu bakavoj paneli."
 
 #: ../plugins/folder-unsubscribe/org-gnome-mail-folder-unsubscribe.eplug.xml.h:2
 msgid "Unsubscribe Folders"
@@ -17995,9 +17903,9 @@ msgid "_Unsubscribe"
 msgstr "A_dpišysia"
 
 #: ../plugins/google-account-setup/google-source.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "Enter password for user %s to access list of subscribed calendars."
-msgstr "Dadaj kataloh u śpis katalohaŭ padpiski"
+msgstr "Upišy parol karystalnika %s, kab dastupicca da śpisu padpisanych kalendaroŭ."
 
 #: ../plugins/google-account-setup/google-source.c:521
 #, c-format
@@ -18005,16 +17913,16 @@ msgid ""
 "Cannot read data from Google server.\n"
 "%s"
 msgstr ""
+"Nie ŭdałosia adčytać źviestki z servera Google.\n"
+"%s"
 
 #: ../plugins/google-account-setup/google-source.c:683
-#, fuzzy
 msgid "Cal_endar:"
 msgstr "_Kalandar:"
 
 #: ../plugins/google-account-setup/google-source.c:718
-#, fuzzy
 msgid "Retrieve _list"
-msgstr "Zahruzka \"%s\""
+msgstr "Zahruzi _list"
 
 #: ../plugins/google-account-setup/google-contacts-source.c:69
 #: ../plugins/google-account-setup/google-contacts-source.c:71
@@ -18023,14 +17931,12 @@ msgstr "Google"
 
 #: ../plugins/google-account-setup/google-contacts-source.c:306
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:325
-#, fuzzy
 msgid "<b>Server</b>"
-msgstr "<b>Čalcy</b>"
+msgstr "<b>Server</b>"
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin to setup Google Calendar and Contacts."
-msgstr "Plugin dla kalendaroŭ Google."
+msgstr "Plugin naładaŭ kalendaroŭ i kantaktaŭ Google."
 
 #: ../plugins/google-account-setup/org-gnome-evolution-google.eplug.xml.h:2
 msgid "Google sources"
@@ -18041,14 +17947,12 @@ msgid "Checklist"
 msgstr "Śpis pravierki"
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin to setup GroupWise calendar and contacts sources."
 msgstr "Plugin naładaŭ kalendaroŭ i kantaktaŭ Groupwise."
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:2
-#, fuzzy
 msgid "GroupWise Account Setup"
-msgstr "Nałady kontu Groupwise"
+msgstr "Nałady kontu GroupWise"
 
 #: ../plugins/groupwise-features/install-shared.c:220
 #, c-format
@@ -18137,19 +18041,16 @@ msgid "Retract Mail"
 msgstr "Viarni poštu"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
-#, fuzzy
 msgid "Add Send Options to GroupWise messages"
-msgstr "Dadaj opcyju vysyłańnia da listoŭ Groupwise"
+msgstr "Dadaj opcyi vysyłańnia da listoŭ GroupWise"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin for the features in GroupWise accounts."
-msgstr "Plugin absłuhoŭvaje funkcyi kontaŭ Groupwise."
+msgstr "Plugin, jaki absłuhoŭvaje funkcyi kontaŭ GroupWise."
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
-#, fuzzy
 msgid "GroupWise Features"
-msgstr "Funkcyi Groupwise"
+msgstr "Funkcyi GroupWise"
 
 #: ../plugins/groupwise-features/org-gnome-mail-retract-errors.xml.h:1
 #, fuzzy
@@ -18164,27 +18065,23 @@ msgstr "Pieratvaraje paznačany list u novuju zadaču"
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:1
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:3
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:1
-#, fuzzy
 msgid "Invalid user"
-msgstr "Niapravilny podpis"
+msgstr "Niapravilny karystalnik"
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:3
-#, fuzzy
 msgid "Proxy access cannot be given to user &quot;{0}&quot;"
-msgstr "Niemahčyma zapisać u fajł &quot;{0}&quot;."
+msgstr "Niemahčyma dać dostup praz proxy karystalniku &quot;{0}&quot;"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:4
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:2
-#, fuzzy
 msgid "Specify User"
 msgstr "Abiary karystalnika"
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:6
-#, fuzzy
 msgid "You have already given proxy permissions to this user."
-msgstr "Tabie dadzienyja nastupnyja pravy na maje katalohi:"
+msgstr "Ty ŭžo daŭ hetamu karystalniku takija dazvoły na proxy."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:8
@@ -18192,14 +18089,12 @@ msgid "You have to specify a valid user name to give proxy rights."
 msgstr ""
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:1
-#, fuzzy
 msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
-msgstr "Kataloh z nazvaj &quot;{0}&quot; užo isnuje. Akreśli inšuju nazvu."
+msgstr "Kont &quot;{0}&quot; užo isnuje. Pravier dreva katalohaŭ."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:2
-#, fuzzy
 msgid "Account Already Exists"
-msgstr "Podpis užo isnuje"
+msgstr "Kont užo isnuje"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:4
 msgid ""
@@ -18214,24 +18109,21 @@ msgstr "Paznač padzieju jak cykličnuju"
 
 #. Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting")
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:5
-#, fuzzy
 msgid "Would you like to accept it?"
-msgstr "Ci zapisać źmieny?"
+msgstr "Chočaš jaje pryniać?"
 
 #. Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting")
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:7
-#, fuzzy
 msgid "Would you like to decline it?"
-msgstr "Ci zapisać źmieny?"
+msgstr "Chočaš ad jaje admovicca?"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:8
-#, fuzzy
 msgid "You cannot share this folder with the specified user &quot;{0}&quot;"
-msgstr "Niemahčyma zapisać u fajł aŭtazapisu &quot;{0}&quot;"
+msgstr "Ty nia možaš zrabić hety kataloh supolna dastupnym z vybranym karystalnikam &quot;{0}&quot;"
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:9
 msgid "You have to specify a user name which you want to add to the list"
-msgstr ""
+msgstr "Treba padać nazvu karystalnika, jakuju treba dadać u hety śpis"
 
 #: ../plugins/groupwise-features/process-meeting.c:52
 msgid "Accept Tentatively"
@@ -18359,9 +18251,8 @@ msgid "The Proxy tab will be available only when the account is enabled."
 msgstr "Kartka Proxy dastupnaja, kali kont uklučany."
 
 #: ../plugins/groupwise-features/send-options.c:214
-#, fuzzy
 msgid "Advanced send options"
-msgstr "Ustaŭ asablivyja opcyi vysyłańnia"
+msgstr "Asablivyja opcyi vysyłańnia"
 
 #: ../plugins/groupwise-features/share-folder-common.c:321
 #: ../plugins/groupwise-features/share-folder.c:751
@@ -19356,14 +19247,12 @@ msgid "Generate a _D-Bus message"
 msgstr "Hieneruje paviedamleńnie _D-Bus"
 
 #: ../plugins/mail-notification/mail-notification.c:379
-#, fuzzy
 msgid "Evolution's Mail Notification"
 msgstr "Paviedamleńnie pra novuju poštu"
 
 #: ../plugins/mail-notification/mail-notification.c:400
-#, fuzzy
 msgid "Mail Notification Properties"
-msgstr "Paviedamleńnie pra novuju poštu"
+msgstr "Nałady paviedamleńnia pra novuju poštu"
 
 #. To translators: '%d' is the number of mails recieved and '%s' is the name of the folder
 #: ../plugins/mail-notification/mail-notification.c:479
@@ -19573,15 +19462,14 @@ msgid "Send e-mail message to mailing list?"
 msgstr "Dasłać email u rassyłku?"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:10
-#, fuzzy
 msgid ""
 "The action could not be performed. The header for this action did not "
 "contain any action that could be processed.\n"
 "\n"
 "Header: {0}"
 msgstr ""
-"Niamahčyma pačać dziejańnia. Heta aznačaje, što šapka nia ŭtrymlivaje "
-"nijakaha dziejańnia, dla jakoha była b padtrymka\n"
+"Niamahčyma vykanać dziejańnie. Heta aznačaje, što šapka nia ŭtrymlivaje "
+"nijakaha dziejańnia, jakoje b možna było vykanać.\n"
 "\n"
 "Šapka: {0}"
 
@@ -19659,28 +19547,23 @@ msgid "_Unsubscribe from List"
 msgstr "_Adpišysia ad rassyłki"
 
 #: ../plugins/mark-all-read/mark-all-read.c:39
-#, fuzzy
 msgid "Also mark messages in subfolders?"
-msgstr "Pieranos listoŭ u kataloh %s"
+msgstr "Paznačyć listy ŭ padkatalohach?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:41
-#, fuzzy
 msgid ""
 "Do you want to mark messages as read in the current folder only, or in the "
 "current folder as well as all subfolders?"
 msgstr ""
-"Usie listy ŭ abranym katalohu i jahonych padkatalohach buduć paznačanyja jak "
-"pračytanyja."
+"Paznačyć listy jak pračytanyja tolki ŭ hetym katalohu albo ŭ im ź jaho padkatalohami?"
 
 #: ../plugins/mark-all-read/mark-all-read.c:164
-#, fuzzy
 msgid "Current Folder and _Subfolders"
-msgstr "u dziejnym katal_ohu i padkatalohach"
+msgstr "U hetym katalohu z _padkatalohami"
 
 #: ../plugins/mark-all-read/mark-all-read.c:176
-#, fuzzy
 msgid "Current _Folder Only"
-msgstr "Dziejny kataloh"
+msgstr "_Tolki ŭ hetym katalohu"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:1
 msgid "Mark All Read"
@@ -19788,41 +19671,35 @@ msgid "Writes a log of profiling data events."
 msgstr "Zapisvaje prafilacyjny časopis padziejaŭ."
 
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:1
-#, fuzzy
 msgid "Import Outlook messages from PST file"
-msgstr "Impartuj poštu z Pine."
+msgstr "Impartuj listy Outlook z fajłu PST"
 
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:2
-#, fuzzy
 msgid "Outlook PST import"
-msgstr "Imparter CSV i Tab z Outlooka"
+msgstr "Imparter PST z Outlooka"
 
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:3
 msgid "Outlook personal folders (.pst)"
-msgstr ""
+msgstr "Asabistyja katalohi Outlooka (.pst)"
 
 #. Address book
 #: ../plugins/pst-import/pst-importer.c:318
-#, fuzzy
 msgid "_Address Book"
-msgstr "Adrasnaja kniha"
+msgstr "_Adrasnaja kniha"
 
 #. Appointments
 #: ../plugins/pst-import/pst-importer.c:325
-#, fuzzy
 msgid "A_ppointments"
-msgstr "Planavanyja zadańni"
+msgstr "_Planavanyja zadańni"
 
 #. Journal
 #: ../plugins/pst-import/pst-importer.c:337
-#, fuzzy
 msgid "_Journal entries"
-msgstr "Dziońnik"
+msgstr "_Zapisy ŭ dziońniku"
 
 #: ../plugins/pst-import/pst-importer.c:352
-#, fuzzy
 msgid "Importing Outlook data"
-msgstr "Impartavańnie źviestak Elm"
+msgstr "Impartavańnie źviestak Outlooka"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:1
 msgid "Allows calendars to be published to the web"
@@ -19841,9 +19718,8 @@ msgid "_Publish Calendar Information"
 msgstr "_Publikuje infarmacyju z kalendara"
 
 #: ../plugins/publish-calendar/publish-calendar.c:596
-#, fuzzy
 msgid "Are you sure you want to remove this location?"
-msgstr "Sapraŭdy vydalić hety adras URL?"
+msgstr "Sapraŭdy vydalić hetaje pałažeńnie?"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:2
 msgid "<span weight=\"bold\">Location</span>"
@@ -19880,7 +19756,6 @@ msgid "Publishing _Frequency:"
 msgstr "_Častata publikacyjaŭ:"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:13
-#, fuzzy
 msgid ""
 "Secure FTP (SSH)\n"
 "Public FTP\n"
@@ -19890,7 +19765,7 @@ msgid ""
 "Secure WebDAV (HTTPS)\n"
 "Custom Location"
 msgstr ""
-"SSH\n"
+"Biaśpiečny FTP (SSH)\n"
 "Publičny FTP\n"
 "FTP (z aŭtaryzacyjaj)\n"
 "Supolny resurs Windows\n"
@@ -19931,87 +19806,80 @@ msgstr ""
 "Volny/Zaniaty"
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:461
-#, fuzzy
 msgid "New Location"
-msgstr "Pałažeńnie"
+msgstr "Novaje pałažeńnie"
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:463
-#, fuzzy
 msgid "Edit Location"
-msgstr "Pałažeńnie"
+msgstr "Redahuj pałažeńnie"
 
 #: ../plugins/python/example/org-gnome-hello-python-ui.xml.h:1
-#, fuzzy
 msgid "Hello Python"
-msgstr "Chatni telefon"
+msgstr "Zdaroŭ, Python"
 
 #: ../plugins/python/example/org-gnome-hello-python-ui.xml.h:2
 msgid "Python Plugin Loader tests"
-msgstr ""
+msgstr "Testy zahruzki pluginaŭ u movie Python"
 
 #: ../plugins/python/example/org-gnome-hello-python.eplug.xml.h:1
 msgid "Python Test Plugin"
-msgstr ""
+msgstr "Plugin testaŭ Pythonu"
 
 #: ../plugins/python/example/org-gnome-hello-python.eplug.xml.h:2
 msgid "Test Plugin for Python EPlugin loader."
-msgstr ""
+msgstr "Testavy plugin dla zahruzki pluginaŭ u movie Python (EPlugin)."
 
 #: ../plugins/python/org-gnome-evolution-python.eplug.xml.h:1
 msgid "A plugin which loads other plugins written using Python."
-msgstr ""
+msgstr "Plugin, jaki zahružaje inšyja pluginy, napisanyja ŭ movie Python."
 
 #: ../plugins/python/org-gnome-evolution-python.eplug.xml.h:2
-#, fuzzy
 msgid "Python Loader"
-msgstr "Mono plugin"
+msgstr "Zahruzka Pythonu"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:107
 msgid "SpamAssassin (built-in)"
 msgstr "SpamAssassin (ubudavany)"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:133
-#, fuzzy, c-format
+#, c-format
 msgid "SpamAssassin not found, code: %d"
-msgstr "Plugin SpamAssassin"
+msgstr "SpamAssassin nia znojdzieny. Kod: %d"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:141
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:149
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create pipe: %s"
-msgstr "Niemahčyma stvaryć lakalnaje schovišča listoŭ \"%s\": %s"
+msgstr "Nie ŭdałosia stvaryć kanvejer: %s"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:188
-#, fuzzy, c-format
+#, c-format
 msgid "Error after fork: %s"
-msgstr ""
-"Pamyłka pry %s:\n"
-" %s"
+msgstr "Pamyłka pa forku: %s"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:243
 #, c-format
 msgid "SpamAssassin child process does not respond, killing..."
-msgstr ""
+msgstr "Praces-naščadak SpamAssassin nie adkazvaje, zabivajem..."
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:245
 #, c-format
 msgid "Wait for SpamAssassin child process interrupted, terminating..."
-msgstr ""
+msgstr "Čakańnie pracesu-naščadka SpamAssassin pierapynienaje, zabivajem..."
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:254
 #, c-format
 msgid "Pipe to SpamAssassin failed, error code: %d"
-msgstr ""
+msgstr "Nie ŭdałosia stvaryć kanvejer dla SpamAssassin. Kod pamyłki: %d"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "SpamAssassin is not available."
-msgstr "Opcyi vysyłańnia niedastupnyja."
+msgstr "SpamAssassin niedastupny."
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:864
-#, fuzzy
 msgid "This will make SpamAssassin more reliable, but slower"
-msgstr "Filter Spamassasin dziakujučy hetamu pracuje stabilniej, ale pavolniej"
+msgstr "Heta zrobić SpamAssassin stabilniejšym, ale pavolniejšym"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:870
 msgid "I_nclude remote tests"
@@ -20026,7 +19894,6 @@ msgstr ""
 "SpamAssassin."
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
-#, fuzzy
 msgid "SpamAssassin Options"
 msgstr "Opcyi SpamAssassin"
 
@@ -20200,9 +20067,8 @@ msgid "Guides you through your initial account setup."
 msgstr ""
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:2
-#, fuzzy
 msgid "Setup Assistant"
-msgstr "Asystent"
+msgstr "Asystent naładaŭ"
 
 #: ../plugins/startup-wizard/startup-wizard.c:85
 msgid "Evolution Setup Assistant"
@@ -20278,56 +20144,49 @@ msgstr ""
 "źmieście listoŭ."
 
 #: ../plugins/templates/templates.c:603
-#, fuzzy
 msgid "No title"
-msgstr "Słužbovy tytuł"
+msgstr "Biaz nazvy"
 
 #: ../plugins/templates/templates.c:711
-#, fuzzy
 msgid "Save as _Template"
-msgstr "Dašli jak delehat"
+msgstr "Zapišy jak _šablon"
 
 #: ../plugins/templates/templates.c:713
-#, fuzzy
 msgid "Save as Template"
-msgstr "Zapišy jak čarnavik"
+msgstr "Zapišy jak šablon"
 
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Drafts based template plugin"
 msgstr ""
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
-#, fuzzy
 msgid "A simple plugin which uses yTNEF to decode TNEF attachments."
-msgstr "Prosty plugin dekadavańnia dałučanych TNEF pry dapamozie \"ytnef\"."
+msgstr "Prosty plugin dekadavańnia dałučanych TNEF pry dapamozie \"yTNEF\"."
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:2
 msgid "TNEF Attachment decoder"
 msgstr "Dekoder dałučanaha TNEF"
 
 #: ../plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin to setup WebDAV contacts."
-msgstr "Plugin dla kalendaroŭ Google."
+msgstr "Plugin dla naładaŭ kantaktaŭ WebDAV."
 
 #: ../plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml.h:2
-#, fuzzy
 msgid "WebDAV contacts"
-msgstr "Niama kantaktaŭ"
+msgstr "Kantakty WebDAV"
 
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:96
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:107
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:336
-#, fuzzy
 msgid "URL:"
-msgstr "_URL:"
+msgstr "URL:"
 
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:363
 msgid "_Avoid IfMatch (needed on Apache < 2.2.8)"
-msgstr ""
+msgstr "_Paźbiahaj IfMatch (patrebny dla Apache < 2.2.8)"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
@@ -20350,9 +20209,8 @@ msgid "Authenticate proxy server connections"
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:2
-#, fuzzy
 msgid "Automatic proxy configuration URL"
-msgstr "Aŭtamatyčnaje raspaznavańnie ŭśmiešak"
+msgstr "Adras aŭtamatyčnych naładaŭ proxy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:3
 msgid "Configuration version"
@@ -20384,17 +20242,16 @@ msgid "HTTP proxy host name"
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:10
-#, fuzzy
 msgid "HTTP proxy password"
-msgstr "Uviadzi parol"
+msgstr "Parol dla proxy HTTP"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:11
 msgid "HTTP proxy port"
-msgstr ""
+msgstr "Port dla proxy HTTP"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:12
 msgid "HTTP proxy username"
-msgstr ""
+msgstr "Nazva karystalnika dla proxy HTTP"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:13
 msgid "ID or alias of the component to be shown by default at start-up."
@@ -20428,9 +20285,8 @@ msgid "Password to pass as authentication when doing HTTP proxying."
 msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:19
-#, fuzzy
 msgid "Proxy configuration mode"
-msgstr "Kanfihuracyja"
+msgstr "Režym naładaŭ proxy"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:20
 msgid "SOCKS proxy host name"
@@ -20551,13 +20407,12 @@ msgid "Toolbar is visible"
 msgstr "Panel pryładździa bačnaja"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:43
-#, fuzzy
 msgid "URL that provides proxy configuration values."
-msgstr "Apošniaja aktualizavanaja versija kanfihuracyi"
+msgstr "Adras naładaŭ dla proxy."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:44
 msgid "Use HTTP proxy"
-msgstr ""
+msgstr "Užyj proxy HTTP"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:45
 msgid "User name to pass as authentication when doing HTTP proxying."
@@ -20719,26 +20574,24 @@ msgid "Work Offline"
 msgstr "Pracuj biez padłučeńnia"
 
 #: ../shell/e-shell-window.c:377
-#, fuzzy
 msgid ""
 "Evolution is currently online.\n"
 "Click on this button to work offline."
 msgstr ""
-"Prahrama Evolution ciapier u režymie online. Kliknuŭšy na hetuju knopku, ty "
-"pieraklučyśsia ŭ režym offline."
+"Prahrama Evolution ciapier u režymie online.\n"
+"Kliknuŭšy na hetuju knopku, ty pieraklučyśsia ŭ režym offline."
 
 #: ../shell/e-shell-window.c:384
 msgid "Evolution is in the process of going offline."
 msgstr "Prahrama Evolution ciapier adłučanaja ad sieciva."
 
 #: ../shell/e-shell-window.c:391
-#, fuzzy
 msgid ""
 "Evolution is currently offline.\n"
 "Click on this button to work online."
 msgstr ""
-"Prahrama Evolution ciapier u režymie offline. Kliknuŭšy na hetuju knopku, ty "
-"pieraklučyśsia ŭ režym online."
+"Prahrama Evolution ciapier u režymie offline.\n"
+"Kliknuŭšy na hetuju knopku, ty pieraklučyśsia ŭ režym online."
 
 #: ../shell/e-shell-window.c:787
 #, c-format
@@ -20781,7 +20634,6 @@ msgid "New Test"
 msgstr "Novy test"
 
 #: ../shell/test/evolution-test-component.c:106
-#, fuzzy
 msgctxt "New"
 msgid "_Test"
 msgstr "_Test"
@@ -20811,9 +20663,8 @@ msgid "Importer Type"
 msgstr "Typ impartera"
 
 #: ../shell/import.glade.h:6
-#, fuzzy
 msgid "Select Information to Import"
-msgstr "Abiary kataloh budučaha impartu"
+msgstr "Abiary infarmacyju budučaha impartu"
 
 #: ../shell/import.glade.h:7
 msgid "Select a File"
@@ -20924,9 +20775,8 @@ msgid "Are you sure you want to forget all remembered passwords?"
 msgstr "Ci sapraŭdy vydalić z pamiaci ŭsie paroli?"
 
 #: ../shell/shell.error.xml.h:2
-#, fuzzy
 msgid "Cannot start Evolution"
-msgstr "Restartuj Evolution"
+msgstr "Nie ŭdałosia ŭruchomić Evolution"
 
 #: ../shell/shell.error.xml.h:3
 msgid "Continue"
@@ -21577,9 +21427,8 @@ msgid "Copy"
 msgstr "Skapijuj"
 
 #: ../ui/evolution-addressbook.xml.h:7
-#, fuzzy
 msgid "Copy selected contacts to another folder"
-msgstr "Skapijuj paznačanyja kantakty ŭ inšy kataloh..."
+msgstr "Skapijuj paznačanyja kantakty ŭ inšy kataloh"
 
 #: ../ui/evolution-addressbook.xml.h:8
 msgid "Copy the contacts of the selected folder into another folder"
@@ -21594,7 +21443,6 @@ msgid "Copy to Folder..."
 msgstr "Skapijuj u kataloh..."
 
 #: ../ui/evolution-addressbook.xml.h:11
-#, fuzzy
 msgid "Create a new address book folder"
 msgstr "Stvary novy kataloh adrasnaj knihi"
 
@@ -21628,9 +21476,8 @@ msgid "Mo_ve All Contacts To..."
 msgstr "Pier_aniasi ŭsie kantakty ŭ..."
 
 #: ../ui/evolution-addressbook.xml.h:20
-#, fuzzy
 msgid "Move selected contacts to another folder"
-msgstr "Pieraniasi paznačanyja kantakty ŭ inšy kataloh..."
+msgstr "Pieraniasi paznačanyja kantakty ŭ inšy kataloh"
 
 #: ../ui/evolution-addressbook.xml.h:21
 msgid "Move the contacts of the selected folder into another folder"
@@ -21670,9 +21517,8 @@ msgid "Save as VCard..."
 msgstr "Zapišy jak VCard..."
 
 #: ../ui/evolution-addressbook.xml.h:32
-#, fuzzy
 msgid "Save selected contacts as a VCard"
-msgstr "Zapišy paznačanyja kantakty ŭ farmacie VCard."
+msgstr "Zapišy paznačanyja kantakty ŭ farmacie VCard"
 
 #: ../ui/evolution-addressbook.xml.h:33
 msgid "Save the contacts of the selected folder as VCard"
@@ -21691,18 +21537,16 @@ msgid "Select all contacts"
 msgstr "Paznač usie kantakty"
 
 #: ../ui/evolution-addressbook.xml.h:37
-#, fuzzy
 msgid "Send a message to the selected contacts"
-msgstr "Dašli list paznačanym adrasatam."
+msgstr "Dašli list paznačanym adrasatam"
 
 #: ../ui/evolution-addressbook.xml.h:38
 msgid "Send message to contact"
 msgstr "Dašli list adrasatu"
 
 #: ../ui/evolution-addressbook.xml.h:39
-#, fuzzy
 msgid "Send selected contacts to another person"
-msgstr "Dašli paznačanyja kantakty inšaj asobie."
+msgstr "Dašli paznačanyja kantakty inšaj asobie"
 
 #: ../ui/evolution-addressbook.xml.h:40
 msgid "Show contact preview window"
@@ -21996,9 +21840,8 @@ msgstr "_Pieradahlad"
 #. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
 #.
 #: ../ui/evolution-mail-global.xml.h:32
-#, fuzzy
 msgid "_Subscriptions..."
-msgstr "_Padpiski"
+msgstr "_Padpiski..."
 
 #: ../ui/evolution-mail-global.xml.h:33
 msgid "_Vertical View"
@@ -22819,9 +22662,8 @@ msgid "View/Hide the Status Bar"
 msgstr "Pakažy/Schavaj panel statusu"
 
 #: ../ui/evolution.xml.h:39
-#, fuzzy
 msgid "Work _Offline"
-msgstr "Pracuj biez padłučeńnia"
+msgstr "Pracuj _biez padłučeńnia"
 
 #: ../ui/evolution.xml.h:40
 msgid "_About"
@@ -23601,7 +23443,7 @@ msgstr ""
 "Abaronieny\n"
 "Kanfidencyjny\n"
 "Sakretny\n"
-"Zusim sakretna\n"
+"Zusim sakretny\n"
 "Va ŭłasnyja ruki"
 
 #: ../widgets/misc/e-send-options.glade.h:18
