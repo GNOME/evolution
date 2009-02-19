@@ -106,32 +106,6 @@ shell_window_new_view (EShellWindow *shell_window,
 }
 
 static void
-shell_window_online_mode_notify_cb (EShell *shell,
-                                    GParamSpec *pspec,
-                                    EShellWindow *shell_window)
-{
-	GtkAction *action;
-	EOnlineButton *online_button;
-	gboolean online_mode;
-
-	online_mode = e_shell_get_online_mode (shell);
-
-	action = ACTION (SEND_RECEIVE);
-	gtk_action_set_sensitive (action, online_mode);
-
-	action = ACTION (WORK_OFFLINE);
-	gtk_action_set_sensitive (action, TRUE);
-	gtk_action_set_visible (action, online_mode);
-
-	action = ACTION (WORK_ONLINE);
-	gtk_action_set_sensitive (action, TRUE);
-	gtk_action_set_visible (action, !online_mode);
-
-	online_button = E_ONLINE_BUTTON (shell_window->priv->online_button);
-	e_online_button_set_online (online_button, online_mode);
-}
-
-static void
 shell_window_update_close_action_cb (EShellWindow *shell_window)
 {
 	EShell *shell;
@@ -172,13 +146,6 @@ shell_window_set_shell (EShellWindow *shell_window,
 
 	array = shell_window->priv->signal_handler_ids;
 
-	handler_id = g_signal_connect (
-		shell, "notify::online-mode",
-		G_CALLBACK (shell_window_online_mode_notify_cb),
-		shell_window);
-
-	g_array_append_val (array, handler_id);
-
 	handler_id = g_signal_connect_swapped (
 		shell, "window-created",
 		G_CALLBACK (shell_window_update_close_action_cb),
@@ -193,7 +160,7 @@ shell_window_set_shell (EShellWindow *shell_window,
 
 	g_array_append_val (array, handler_id);
 
-	g_object_notify (G_OBJECT (shell), "online-mode");
+	g_object_notify (G_OBJECT (shell), "online");
 }
 
 static void

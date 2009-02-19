@@ -336,6 +336,7 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	EShell *shell;
 	GConfBridge *bridge;
 	GtkActionGroup *action_group;
+	GtkAction *action;
 	GObject *object;
 	const gchar *key;
 
@@ -368,6 +369,30 @@ e_shell_window_private_constructed (EShellWindow *shell_window)
 	e_binding_new_with_negation (
 		G_OBJECT (shell_settings), "disable-save-to-disk",
 		G_OBJECT (action_group), "sensitive");
+
+	/* Bind GObject properties to GObject properties. */
+
+	action = ACTION (SEND_RECEIVE);
+
+	e_binding_new (
+		G_OBJECT (shell), "online",
+		G_OBJECT (action), "sensitive");
+
+	action = ACTION (WORK_OFFLINE);
+
+	e_binding_new (
+		G_OBJECT (shell), "online",
+		G_OBJECT (action), "visible");
+
+	action = ACTION (WORK_ONLINE);
+
+	e_binding_new_with_negation (
+		G_OBJECT (shell), "online",
+		G_OBJECT (action), "visible");
+
+	e_binding_new (
+		G_OBJECT (shell), "online",
+		G_OBJECT (shell_window->priv->online_button), "online");
 
 	/* Bind GObject properties to GConf keys. */
 

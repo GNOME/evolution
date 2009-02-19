@@ -433,6 +433,12 @@ intelligent
 @minor: 
 @revision: 
 
+<!-- ##### ARG EShell:online-mode ##### -->
+<para>
+
+</para>
+
+
 <!-- ##### ARG EShell:settings ##### -->
 <para>
 
@@ -1799,6 +1805,14 @@ intelligent
 @shell: 
 @Returns: 
 
+<!-- ##### FUNCTION e_shell_get_online_mode ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
 <!-- ##### FUNCTION e_shell_get_settings ##### -->
 <para>
 
@@ -1900,6 +1914,14 @@ intelligent
 
 @shell: 
 @status: 
+
+<!-- ##### FUNCTION e_shell_set_online_mode ##### -->
+<para>
+
+</para>
+
+@shell: 
+@online_mode: 
 
 <!-- ##### FUNCTION e_shell_upgrade_attempt ##### -->
 <para>

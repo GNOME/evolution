@@ -578,7 +578,7 @@ create_default_shell (void)
 	EShell *shell;
 	GConfClient *conf_client;
 	GnomeClient *master_client;
-	gboolean online_mode = TRUE;
+	gboolean online = TRUE;
 	gchar *startup_id;
 	GError *error = NULL;
 
@@ -586,9 +586,9 @@ create_default_shell (void)
 	master_client = gnome_master_client ();
 
 	if (start_online)
-		online_mode = TRUE;
+		online = TRUE;
 	else if (start_offline)
-		online_mode = FALSE;
+		online = FALSE;
 	else {
 		const gchar *key;
 		gboolean value;
@@ -596,7 +596,7 @@ create_default_shell (void)
 		key = "/apps/evolution/shell/start_offline";
 		value = gconf_client_get_bool (conf_client, key, &error);
 		if (error == NULL)
-			online_mode = !value;
+			online = !value;
 		else {
 			g_warning ("%s", error->message);
 			g_error_free (error);
@@ -608,7 +608,7 @@ create_default_shell (void)
 	shell = g_object_new (
 		E_TYPE_SHELL,
 		"name", "org.gnome.evolution",
-		"online-mode", online_mode,
+		"online", online,
 		"startup-id", startup_id,
 		NULL);
 

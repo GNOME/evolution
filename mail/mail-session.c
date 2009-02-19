@@ -711,13 +711,13 @@ mail_session_init (EShellModule *shell_module)
 {
 	EShell *shell;
 	GConfClient *gconf;
-	gboolean online_mode;
+	gboolean online;
 	const gchar *data_dir;
 
 	mail_shell_module = shell_module;
 
 	shell = e_shell_module_get_shell (shell_module);
-	online_mode = e_shell_get_online_mode (shell);
+	online = e_shell_get_online (shell);
 
 	data_dir = e_get_user_data_dir ();
 	if (camel_init (data_dir, TRUE) != 0)
@@ -740,7 +740,7 @@ mail_session_init (EShellModule *shell_module)
 								session, NULL, NULL);
 	session->junk_plugin = NULL;
 
-	camel_session_set_online ((CamelSession *) session, online_mode);
+	camel_session_set_online ((CamelSession *) session, online);
 	mail_config_reload_junk_headers ();
 }
 

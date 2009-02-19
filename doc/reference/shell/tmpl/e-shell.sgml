@@ -84,7 +84,7 @@ EShell
 
 </para>
 
-<!-- ##### ARG EShell:online-mode ##### -->
+<!-- ##### ARG EShell:online ##### -->
 <para>
 
 </para>
@@ -142,6 +142,15 @@ EShell
 
 
 <!-- ##### FUNCTION e_shell_get_shell_settings ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+
+<!-- ##### FUNCTION e_shell_get_gconf_client ##### -->
 <para>
 
 </para>
@@ -215,7 +224,7 @@ EShell
 @network_available: 
 
 
-<!-- ##### FUNCTION e_shell_get_online_mode ##### -->
+<!-- ##### FUNCTION e_shell_get_online ##### -->
 <para>
 
 </para>
@@ -224,13 +233,13 @@ EShell
 @Returns: 
 
 
-<!-- ##### FUNCTION e_shell_set_online_mode ##### -->
+<!-- ##### FUNCTION e_shell_set_online ##### -->
 <para>
 
 </para>
 
 @shell: 
-@online_mode: 
+@online: 
 
 
 <!-- ##### FUNCTION e_shell_get_preferences_window ##### -->

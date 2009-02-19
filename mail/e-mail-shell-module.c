@@ -557,13 +557,13 @@ exit:
 }
 
 static void
-mail_shell_module_notify_online_mode_cb (EShell *shell,
-                                         GParamSpec *pspec,
-                                         EShellModule *shell_module)
+mail_shell_module_notify_online_cb (EShell *shell,
+                                    GParamSpec *pspec,
+                                    EShellModule *shell_module)
 {
 	gboolean online;
 
-	online = e_shell_get_online_mode (shell);
+	online = e_shell_get_online (shell);
 	camel_session_set_online (session, online);
 }
 
@@ -873,8 +873,8 @@ e_shell_module_init (GTypeModule *type_module)
 	folder_tree_model = em_folder_tree_model_new (shell_module);
 
 	g_signal_connect (
-		shell, "notify::online-mode",
-		G_CALLBACK (mail_shell_module_notify_online_mode_cb),
+		shell, "notify::online",
+		G_CALLBACK (mail_shell_module_notify_online_cb),
 		shell_module);
 
 	g_signal_connect (

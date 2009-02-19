@@ -99,9 +99,9 @@ void		e_shell_send_receive		(EShell *shell,
 gboolean	e_shell_get_network_available	(EShell *shell);
 void		e_shell_set_network_available	(EShell *shell,
 						 gboolean network_available);
-gboolean	e_shell_get_online_mode		(EShell *shell);
-void		e_shell_set_online_mode		(EShell *shell,
-						 gboolean online_mode);
+gboolean	e_shell_get_online		(EShell *shell);
+void		e_shell_set_online		(EShell *shell,
+						 gboolean online);
 GtkWidget *	e_shell_get_preferences_window	(void);
 void		e_shell_event			(EShell *shell,
 						 const gchar *event_name,
