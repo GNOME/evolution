@@ -1898,15 +1898,16 @@ set_text_as_bold (EWeekViewEvent *event, EWeekViewEventSpan *span)
 			break;
 		}
 	}
-	e_cal_component_free_attendee_list (attendees);
-	g_free (address);
-	g_object_unref (comp);
 
 	/* The attendee has not yet accepted the meeting, display the summary as bolded.
 	   If the attendee is not present, it might have come through a mailing list. 
 	   In that case, we never show the meeting as bold even if it is unaccepted. */
 	if (at && (at->status == ICAL_PARTSTAT_NEEDSACTION))
 		gnome_canvas_item_set (span->text_item, "bold", TRUE, NULL);
+
+	e_cal_component_free_attendee_list (attendees);
+	g_free (address);
+	g_object_unref (comp);
 }
 
 /* This calls a given function for each event instance that matches the given

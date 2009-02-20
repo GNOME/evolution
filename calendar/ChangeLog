@@ -1,3 +1,11 @@
+2009-02-20  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #567949
+
+	* gui/e-day-view.c: (set_text_as_bold):
+	* gui/e-week-view.c: (set_text_as_bold):
+	Do not free memory before done with it.
+
 2009-02-19  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #572348

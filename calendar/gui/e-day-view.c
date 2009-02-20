@@ -1819,15 +1819,16 @@ set_text_as_bold (EDayViewEvent *event)
 			break;
 		}
 	}
-	e_cal_component_free_attendee_list (attendees);
-	g_free (address);
-	g_object_unref (comp);
 
 	/* The attendee has not yet accepted the meeting, display the summary as bolded.
 	   If the attendee is not present, it might have come through a mailing list. 
 	   In that case, we never show the meeting as bold even if it is unaccepted. */
 	if (at && (at->status == ICAL_PARTSTAT_NEEDSACTION))
 		gnome_canvas_item_set (event->canvas_item, "bold", TRUE, NULL);
+
+	e_cal_component_free_attendee_list (attendees);
+	g_free (address);
+	g_object_unref (comp);
 }
 
 /* This updates the text shown for an event. If the event start or end do not
