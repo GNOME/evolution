@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-02-18 11:32+0700\n"
-"PO-Revision-Date: 2009-02-18 15:16+0700\n"
+"POT-Creation-Date: 2009-02-20 20:00+0700\n"
+"PO-Revision-Date: 2009-02-20 20:13+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -4685,8 +4685,8 @@ msgstr "ละทิ้งทั้งห_มด"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:3
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1608
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1614
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1610
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1616
 #: ../calendar/gui/e-itip-control.c:1167
 #: ../plugins/itip-formatter/itip-view.c:1021
 msgid "Location:"
@@ -4721,32 +4721,32 @@ msgstr "_ผัดผ่อน"
 msgid "location of appointment"
 msgstr "สถานที่นัดหมาย"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1466
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1591
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1468
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1593
 msgid "No summary available."
 msgstr "ไม่มีสรุป"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1475
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1477
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1479
 msgid "No description available."
 msgstr "ไม่มีคำอธิบายรายละเอียดอยู่"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1485
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1487
 msgid "No location information available."
 msgstr "ไม่มีข้อมูลสถานที่"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1530
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1532
 #, c-format
 msgid "You have %d alarms"
 msgstr "คุณมีการเตือน %d รายการ"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1692
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1720
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1694
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1722
 #: ../e-util/e-non-intrusive-error-dialog.h:41
 msgid "Warning"
 msgstr "คำเตือน"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1696
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1698
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4757,7 +4757,7 @@ msgstr ""
 "แต่การเตือนความจำนี้ได้กำหนดค่าให้ส่งอีเมล\n"
 "Evolution จะแสดงกล่องโต้ตอบเตือนความจำตามปกติแทน"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1726
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1728
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4774,7 +4774,7 @@ msgstr ""
 "\n"
 "คุณแน่ใจหรือไม่ ที่จะเรียกโปรแกรมนี้?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1740
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1742
 msgid "Do not ask me about this program again."
 msgstr "ไม่ต้องถามเกี่ยวกับโปรแกรมนี้อีกครั้ง"
 
@@ -7759,7 +7759,7 @@ msgid "pm"
 msgstr "pm"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../calendar/gui/e-day-view.c:2320
+#: ../calendar/gui/e-day-view.c:2321
 #, c-format
 msgid "Week %d"
 msgstr "สัปดาห์ที่ %d"
@@ -18986,20 +18986,20 @@ msgstr "กำหนดว่าจะกะพริบไอคอนด้ว
 msgid "Whether to notify new messages in Inbox folder only."
 msgstr "กำหนดว่าจะแจ้งข้อความใหม่เฉพาะสำหรับกล่องจดหมายเข้าหรือไม่"
 
-#: ../plugins/mail-notification/mail-notification.c:256
+#: ../plugins/mail-notification/mail-notification.c:260
 msgid "Generate a _D-Bus message"
 msgstr "ส่งข้อความ _D-Bus"
 
-#: ../plugins/mail-notification/mail-notification.c:379
+#: ../plugins/mail-notification/mail-notification.c:383
 msgid "Evolution's Mail Notification"
 msgstr "การแจ้งเมลของ Evolution"
 
-#: ../plugins/mail-notification/mail-notification.c:400
+#: ../plugins/mail-notification/mail-notification.c:404
 msgid "Mail Notification Properties"
 msgstr "คุณสมบัติการแจ้งเมล"
 
 #. To translators: '%d' is the number of mails recieved and '%s' is the name of the folder
-#: ../plugins/mail-notification/mail-notification.c:479
+#: ../plugins/mail-notification/mail-notification.c:483
 #, c-format
 msgid ""
 "You have received %d new message\n"
@@ -19014,55 +19014,55 @@ msgstr[1] ""
 "คุณได้รับข้อความใหม่ %d ข้อความ\n"
 "ใน %s"
 
-#: ../plugins/mail-notification/mail-notification.c:484
+#: ../plugins/mail-notification/mail-notification.c:488
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
 msgstr[0] "คุณได้รับข้อความใหม่ %d ข้อความ"
 msgstr[1] "คุณได้รับข้อความใหม่ %d ข้อความ"
 
-#: ../plugins/mail-notification/mail-notification.c:501
-#: ../plugins/mail-notification/mail-notification.c:506
+#: ../plugins/mail-notification/mail-notification.c:505
+#: ../plugins/mail-notification/mail-notification.c:510
 msgid "New email"
 msgstr "อีเมลใหม่"
 
-#: ../plugins/mail-notification/mail-notification.c:566
+#: ../plugins/mail-notification/mail-notification.c:570
 msgid "Show icon in _notification area"
 msgstr "แสดงไอคอนในพื้นที่แ_จ้งเหตุ"
 
-#: ../plugins/mail-notification/mail-notification.c:569
+#: ../plugins/mail-notification/mail-notification.c:573
 msgid "B_link icon in notification area"
 msgstr "_กะพริบไอคอนในพื้นที่แจ้งเหตุ"
 
-#: ../plugins/mail-notification/mail-notification.c:571
+#: ../plugins/mail-notification/mail-notification.c:575
 msgid "Popup _message together with the icon"
 msgstr "ผุด_ข้อความขึ้นพร้อมกับไอคอนด้วย"
 
-#: ../plugins/mail-notification/mail-notification.c:752
+#: ../plugins/mail-notification/mail-notification.c:756
 msgid "_Play sound when new messages arrive"
 msgstr "ส่งเ_สียงเมื่อมีข้อความเข้ามาใหม่"
 
-#: ../plugins/mail-notification/mail-notification.c:758
+#: ../plugins/mail-notification/mail-notification.c:762
 msgid "_Beep"
 msgstr "เสียง_บี๊ป"
 
-#: ../plugins/mail-notification/mail-notification.c:759
+#: ../plugins/mail-notification/mail-notification.c:763
 msgid "Play _sound file"
 msgstr "เล่นแ_ฟ้มเสียง"
 
-#: ../plugins/mail-notification/mail-notification.c:770
+#: ../plugins/mail-notification/mail-notification.c:774
 msgid "Specify _filename:"
 msgstr "_ระบุชื่อแฟ้ม:"
 
-#: ../plugins/mail-notification/mail-notification.c:771
+#: ../plugins/mail-notification/mail-notification.c:775
 msgid "Select sound file"
 msgstr "เลือกแฟ้มเสียง"
 
-#: ../plugins/mail-notification/mail-notification.c:772
+#: ../plugins/mail-notification/mail-notification.c:776
 msgid "Pl_ay"
 msgstr "เ_ล่น"
 
-#: ../plugins/mail-notification/mail-notification.c:829
+#: ../plugins/mail-notification/mail-notification.c:833
 msgid "Notify new messages for _Inbox only"
 msgstr "แจ้งข้อความใหม่เฉพาะสำหรับกล่องจดหมายเ_ข้าเท่านั้น"
 
@@ -19209,8 +19209,8 @@ msgid ""
 "\n"
 "Header: {0}"
 msgstr ""
-"ไม่สามารถกระทำปฏิบัติการได้ เนื่องจากข้อมูลส่วนหัวสำหรับปฏิบัติการนี้ไม่มีปฏิบัติการที่ "
-"Evolution สามารถจัดการได้\n"
+"ไม่สามารถกระทำปฏิบัติการได้ เนื่องจากข้อมูลส่วนหัวสำหรับปฏิบัติการนี้ไม่มีปฏิบัติการที่ Evolution "
+"สามารถจัดการได้\n"
 "\n"
 "ส่วนหัว: {0}"
 
@@ -21016,15 +21016,15 @@ msgstr "พารามิเตอร์ของอัลกอริทึม
 
 #: ../smime/lib/e-cert.c:752
 msgid "Subject Public Key Info"
-msgstr ""
+msgstr "ข้อมูลกุญแจสาธารณะของผู้รับการรับรอง"
 
 #: ../smime/lib/e-cert.c:757
 msgid "Subject Public Key Algorithm"
-msgstr ""
+msgstr "อัลกอริทึมของกุญแจสาธารณะของผู้รับการรับรอง"
 
 #: ../smime/lib/e-cert.c:772
 msgid "Subject's Public Key"
-msgstr ""
+msgstr "กุญแจสาธารณะของผู้รับการรับรอง"
 
 #: ../smime/lib/e-cert.c:793 ../smime/lib/e-cert.c:842
 msgid "Error: Unable to process extension"
@@ -21097,15 +21097,15 @@ msgstr "ออกให้โดย"
 
 #: ../smime/lib/e-cert.c:1138
 msgid "Issuer Unique ID"
-msgstr ""
+msgstr "ID เอกลักษณ์ของผู้ออกให้"
 
 #: ../smime/lib/e-cert.c:1157
 msgid "Subject Unique ID"
-msgstr ""
+msgstr "ID เอกลักษณ์ของผู้รับการรับรอง"
 
 #: ../smime/lib/e-cert.c:1200
 msgid "Certificate Signature Value"
-msgstr ""
+msgstr "ค่าของลายเซ็นของใบรับรอง"
 
 #: ../smime/lib/e-pkcs12.c:249
 msgid "PKCS12 File Password"
@@ -22548,7 +22548,7 @@ msgstr ""
 #: ../widgets/menus/gal-define-views-dialog.c:76
 #: ../widgets/menus/gal-define-views-model.c:185
 msgid "Collection"
-msgstr ""
+msgstr "ชุดข้อมูล"
 
 #: ../widgets/menus/gal-define-views-dialog.c:358
 #: ../widgets/menus/gal-define-views.glade.h:4
@@ -22575,7 +22575,7 @@ msgstr "ตาราง"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:225
 msgid "Instance"
-msgstr ""
+msgstr "วัตถุ"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.c:283
 msgid "Save Current View"
