@@ -30,7 +30,6 @@
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 
-#include "e-dropdown-button.h"
 #include "e-filter-bar.h"
 #include "filter/rule-editor.h"
 
