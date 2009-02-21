@@ -27,6 +27,7 @@
 #include <libedataserver/e-source-list.h>
 #include <libedataserver/e-source-group.h>
 
+#include "e-util/e-import.h"
 #include "shell/e-shell.h"
 #include "shell/e-shell-module.h"
 #include "shell/e-shell-window.h"
@@ -35,9 +36,12 @@
 #include "calendar/common/authentication.h"
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/comp-util.h"
+#include "calendar/gui/e-cal-config.h"
+#include "calendar/gui/e-cal-event.h"
 #include "calendar/gui/dialogs/cal-prefs-dialog.h"
 #include "calendar/gui/dialogs/calendar-setup.h"
 #include "calendar/gui/dialogs/event-editor.h"
+#include "calendar/importers/evolution-calendar-importer.h"
 
 #include "e-cal-shell-view.h"
 #include "e-cal-shell-module-migrate.h"
@@ -56,7 +60,7 @@
 void e_shell_module_init (GTypeModule *type_module);
 
 static void
-cal_module_ensure_sources (EShellModule *shell_module)
+cal_shell_module_ensure_sources (EShellModule *shell_module)
 {
 	/* XXX This is basically the same algorithm across all modules.
 	 *     Maybe we could somehow integrate this into EShellModule? */
@@ -312,9 +316,9 @@ cal_module_ensure_sources (EShellModule *shell_module)
 }
 
 static void
-cal_module_cal_opened_cb (ECal *cal,
-                          ECalendarStatus status,
-                          GtkAction *action)
+cal_shell_module_cal_opened_cb (ECal *cal,
+                                ECalendarStatus status,
+                                GtkAction *action)
 {
 	ECalComponent *comp;
 	CompEditor *editor;
@@ -381,7 +385,7 @@ action_event_new_cb (GtkAction *action,
 
 	g_signal_connect (
 		cal, "cal-opened",
-		G_CALLBACK (cal_module_cal_opened_cb), action);
+		G_CALLBACK (cal_shell_module_cal_opened_cb), action);
 
 	e_cal_open_async (cal, FALSE);
 }
@@ -428,7 +432,32 @@ static GtkActionEntry source_entries[] = {
 };
 
 static void
-cal_module_init_preferences (EShell *shell)
+cal_shell_module_init_hooks (void)
+{
+	e_plugin_hook_register_type (e_cal_config_hook_get_type ());
+	e_plugin_hook_register_type (e_cal_event_hook_get_type ());
+}
+
+static void
+cal_shell_module_init_importers (void)
+{
+	EImportClass *import_class;
+	EImportImporter *importer;
+
+	import_class = g_type_class_ref (e_import_get_type ());
+
+	importer = gnome_calendar_importer_peek ();
+	e_import_class_add_importer (import_class, importer, NULL, NULL);
+
+	importer = ical_importer_peek ();
+	e_import_class_add_importer (import_class, importer, NULL, NULL);
+
+	importer = vcal_importer_peek ();
+	e_import_class_add_importer (import_class, importer, NULL, NULL);
+}
+
+static void
+cal_shell_module_init_preferences (EShell *shell)
 {
 	GtkWidget *preferences_window;
 
@@ -444,16 +473,16 @@ cal_module_init_preferences (EShell *shell)
 }
 
 static gboolean
-cal_module_handle_uri_cb (EShellModule *shell_module,
-                          const gchar *uri)
+cal_shell_module_handle_uri_cb (EShellModule *shell_module,
+                                const gchar *uri)
 {
 	/* FIXME */
 	return FALSE;
 }
 
 static void
-cal_module_window_created_cb (EShellModule *shell_module,
-                              GtkWindow *window)
+cal_shell_module_window_created_cb (EShellModule *shell_module,
+                                    GtkWindow *window)
 {
 	const gchar *module_name;
 
@@ -496,15 +525,19 @@ e_shell_module_init (GTypeModule *type_module)
 		shell_module, &module_info,
 		e_cal_shell_view_get_type (type_module));
 
-	cal_module_ensure_sources (shell_module);
+	cal_shell_module_ensure_sources (shell_module);
 
 	g_signal_connect_swapped (
 		shell, "handle-uri",
-		G_CALLBACK (cal_module_handle_uri_cb), shell_module);
+		G_CALLBACK (cal_shell_module_handle_uri_cb),
+		shell_module);
 
 	g_signal_connect_swapped (
 		shell, "window-created",
-		G_CALLBACK (cal_module_window_created_cb), shell_module);
+		G_CALLBACK (cal_shell_module_window_created_cb),
+		shell_module);
 
-	cal_module_init_preferences (shell);
+	cal_shell_module_init_hooks ();
+	cal_shell_module_init_importers ();
+	cal_shell_module_init_preferences (shell);
 }
