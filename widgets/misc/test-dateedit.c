@@ -29,13 +29,11 @@
 #endif
 
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-ui-init.h>
-#include <libgnomeui/gnome-app.h>
 #include "e-dateedit.h"
 
 static void delete_event_cb		(GtkWidget	*widget,
 					 GdkEventAny	*event,
-					 GtkWidget	*app);
+					 GtkWidget	*window);
 static void on_get_date_clicked		(GtkWidget	*button,
 					 EDateEdit	*dedit);
 static void on_toggle_24_hour_clicked	(GtkWidget	*button,
@@ -52,27 +50,29 @@ static void on_time_changed		(EDateEdit	*dedit,
 int
 main (int argc, char **argv)
 {
-	GtkWidget *app;
+	GtkWidget *window;
 	EDateEdit *dedit;
 	GtkWidget *table, *button;
 
-	gnome_program_init ("test-dateedit", "0.0", LIBGNOMEUI_MODULE, argc, argv, NULL);
+	gtk_init (&argc, &argv);
 
 	puts ("here");
 
-	app = gnome_app_new ("Test", "Test");
-	gtk_window_set_default_size (GTK_WINDOW (app), 300, 200);
-	gtk_window_set_resizable (GTK_WINDOW (app), TRUE);
-	gtk_container_set_border_width (GTK_CONTAINER (app), 8);
+	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title (GTK_WINDOW (window), "EDateEdit Test");
+	gtk_window_set_default_size (GTK_WINDOW (window), 300, 200);
+	gtk_window_set_resizable (GTK_WINDOW (window), TRUE);
+	gtk_container_set_border_width (GTK_CONTAINER (window), 8);
 
-	g_signal_connect (app, "delete_event",
-			  G_CALLBACK (delete_event_cb), app);
+	g_signal_connect (window, "delete_event",
+			  G_CALLBACK (delete_event_cb), window);
 
 	table = gtk_table_new (3, 3, FALSE);
 	gtk_table_set_row_spacings (GTK_TABLE (table), 4);
 	gtk_table_set_col_spacings (GTK_TABLE (table), 4);
 	gtk_widget_show (table);
-	gnome_app_set_contents (GNOME_APP (app), table);
+
+	gtk_container_add (GTK_CONTAINER (window), table);
 
 	/* EDateEdit 1. */
 	dedit = E_DATE_EDIT (e_date_edit_new ());
@@ -160,7 +160,7 @@ main (int argc, char **argv)
 	g_signal_connect (button, "clicked",
 			  G_CALLBACK (on_toggle_24_hour_clicked), dedit);
 
-	gtk_widget_show (app);
+	gtk_widget_show (window);
 
 	gtk_main ();
 
@@ -171,9 +171,9 @@ main (int argc, char **argv)
 static void
 delete_event_cb		(GtkWidget	*widget,
 			 GdkEventAny	*event,
-			 GtkWidget	*app)
+			 GtkWidget	*window)
 {
-	gtk_widget_destroy (app);
+	gtk_widget_destroy (window);
 
 	gtk_main_quit ();
 }

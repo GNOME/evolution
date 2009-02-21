@@ -390,7 +390,7 @@ setup_segv_redirect (void)
 #define setup_segv_redirect() (void)0
 #endif
 
-static const GOptionEntry options[] = {
+static GOptionEntry entries[] = {
 	{ "component", 'c', 0, G_OPTION_ARG_STRING, &requested_view,
 	  N_("Start Evolution activating the specified component"), NULL },
 	{ "offline", '\0', 0, G_OPTION_ARG_NONE, &start_offline,
@@ -642,10 +642,8 @@ main (int argc, char **argv)
 #ifdef DEVELOPMENT
 	gboolean skip_warning_dialog;
 #endif
-	GnomeProgram *program;
-	GOptionContext *context;
-	const gchar *parameter_string;
 	gchar *filename;
+	GError *error = NULL;
 
 	/* Make ElectricFence work.  */
 	free (malloc (10));
@@ -654,21 +652,19 @@ main (int argc, char **argv)
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-	parameter_string = _("- The Evolution PIM and Email Client");
-	context = g_option_context_new (parameter_string);
-	g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
-	g_option_context_set_translation_domain (context, GETTEXT_PACKAGE);
-
 #ifdef G_OS_WIN32
 	set_paths ();
 #endif
 
-	program = gnome_program_init (
-		PACKAGE, VERSION, LIBGNOMEUI_MODULE, argc, argv,
-		GNOME_PROGRAM_STANDARD_PROPERTIES,
-		GNOME_PARAM_GOPTION_CONTEXT, context,
-		GNOME_PARAM_HUMAN_READABLE_NAME, _("Evolution"),
-		NULL);
+	gtk_init_with_args (
+		&argc, &argv,
+		_("- The Evolution PIM and Email Client"),
+		entries, GETTEXT_PACKAGE, &error);
+	if (error != NULL) {
+		g_printerr ("%s\n", error->message);
+		g_error_free (error);
+		exit (1);
+	}
 
 #ifdef G_OS_WIN32
 	if (strcmp (gettext (""), "") == 0) {
@@ -778,7 +774,6 @@ main (int argc, char **argv)
 	gtk_accel_map_save (e_get_accels_filename ());
 
 	e_icon_factory_shutdown ();
-	g_object_unref (program);
 	gnome_sound_shutdown ();
 	e_cursors_shutdown ();
 #ifdef G_OS_WIN32

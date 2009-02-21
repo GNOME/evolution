@@ -22,8 +22,6 @@
 #include "e-preferences-window.c"
 
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-ui-init.h>
 
 #define NUM_PAGES 10
 
@@ -65,21 +63,20 @@ delete_event_callback (GtkWidget *widget,
 int
 main (int argc, char **argv)
 {
-	GtkWidget *dialog;
+	GtkWidget *window;
 
-	gnome_program_init (
-		"test-preferences-window", "0.0", LIBGNOMEUI_MODULE,
-		argc, argv, GNOME_PARAM_NONE);
+	gtk_init (&argc, &argv);
 
-	dialog = e_preferences_window_new ();
+	window = e_preferences_window_new ();
+	gtk_window_set_default_size (GTK_WINDOW (window), 400, 300);
 
-	gtk_window_set_default_size (GTK_WINDOW (dialog), 400, 300);
-	g_signal_connect((dialog), "delete_event",
-			    G_CALLBACK (delete_event_callback), NULL);
+	g_signal_connect(
+		window, "delete-event",
+		G_CALLBACK (delete_event_callback), NULL);
 
-	add_pages (E_PREFERENCES_WINDOW (dialog));
+	add_pages (E_PREFERENCES_WINDOW (window));
 
-	gtk_widget_show (dialog);
+	gtk_widget_show (window);
 
 	gtk_main ();
 

@@ -51,7 +51,6 @@ widgetsinclude_HEADERS =			\
 	e-charset-picker.h			\
 	e-combo-cell-editable.h			\
 	e-dateedit.h				\
-	e-dropdown-button.h			\
 	e-expander.h				\
 	e-icon-entry.h				\
 	e-image-chooser.h			\
@@ -103,7 +102,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-charset-picker.c			\
 	e-combo-cell-editable.c			\
 	e-dateedit.c				\
-	e-dropdown-button.c			\
 	e-expander.c				\
 	e-icon-entry.c				\
 	e-image-chooser.c			\
@@ -167,7 +165,6 @@ libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
 noinst_PROGRAMS = 			\
 	test-calendar			\
 	test-dateedit			\
-	test-dropdown-button		\
 	test-preferences-window	
 
 # test-calendar
@@ -189,17 +186,6 @@ test_dateedit_SOURCES = 	\
 test_dateedit_LDADD = 				\
 	libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la	\
-	$(top_builddir)/filter/libfilter.la	\
-	$(E_WIDGETS_LIBS)
-
-# test-dropdown-button
-
-test_dropdown_button_SOURCES = 	\
-	test-dropdown-button.c
-
-test_dropdown_button_LDADD =			\
-	libemiscwidgets.la			\
-	$(top_builddir)/e-util/libeutil.la  	\
 	$(top_builddir)/filter/libfilter.la	\
 	$(E_WIDGETS_LIBS)
 

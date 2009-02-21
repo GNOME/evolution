@@ -30,9 +30,6 @@
 
 #include <gtk/gtk.h>
 
-#include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-ui-init.h>
-
 #include "e-calendar.h"
 
 /* Drag and Drop stuff. */
@@ -61,21 +58,20 @@ delete_event_cb (GtkWidget *widget,
 int
 main (int argc, char **argv)
 {
-	GtkWidget *app;
+	GtkWidget *window;
 	GtkWidget *cal;
 	GtkWidget *vbox;
 	ECalendarItem *calitem;
 
-	gnome_program_init (
-		"test-calendar", "0.0", LIBGNOMEUI_MODULE,
-		argc, argv, GNOME_PARAM_NONE);
+	gtk_init (&argc, &argv);
 
-	app = gnome_app_new ("Test", "Test");
-	gtk_window_set_default_size (GTK_WINDOW (app), 400, 400);
-	gtk_window_set_resizable (GTK_WINDOW (app), TRUE);
-	gtk_container_set_border_width (GTK_CONTAINER (app), 8);
+	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title (GTK_WINDOW (window), "ECalendar Test");
+	gtk_window_set_default_size (GTK_WINDOW (window), 400, 400);
+	gtk_window_set_resizable (GTK_WINDOW (window), TRUE);
+	gtk_container_set_border_width (GTK_CONTAINER (window), 8);
 
-	g_signal_connect (app, "delete_event",
+	g_signal_connect (window, "delete_event",
 			  G_CALLBACK (delete_event_cb), NULL);
 
 	cal = e_calendar_new ();
@@ -99,8 +95,8 @@ main (int argc, char **argv)
 	gtk_box_pack_start (GTK_BOX (vbox), cal, TRUE, TRUE, 0);
 	gtk_widget_show (vbox);
 
-	gnome_app_set_contents (GNOME_APP (app), vbox);
-	gtk_widget_show (app);
+	gtk_container_add (GTK_CONTAINER (window), vbox);
+	gtk_widget_show (window);
 
 	gtk_main ();
 
@@ -122,7 +118,7 @@ on_date_range_changed (ECalendarItem *calitem)
 		 start_day, start_month + 1, start_year,
 		 end_day, end_month + 1, end_year);
 
-	/* These days should appear bold. Remember month is 0 to 11. */
+	/* These days should windowear bold. Remember month is 0 to 11. */
 	e_calendar_item_mark_day (calitem, 2000, 7, 26, /* 26th Aug 2000. */
 				  E_CALENDAR_ITEM_MARK_BOLD);
 	e_calendar_item_mark_day (calitem, 2000, 8, 13, /* 13th Sep 2000. */
