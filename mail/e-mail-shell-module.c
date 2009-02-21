@@ -264,12 +264,13 @@ mail_shell_module_init_hooks (void)
 {
 	e_plugin_hook_register_type (em_config_hook_get_type ());
 	e_plugin_hook_register_type (em_event_hook_get_type ());
-	e_plugin_hook_register_type (em_format_hook_get_type ());
 	e_plugin_hook_register_type (em_junk_hook_get_type ());
 
+	/* EMFormat classes must be registered before EMFormatHook. */
 	em_format_hook_register_type (em_format_get_type ());
 	em_format_hook_register_type (em_format_html_get_type ());
 	em_format_hook_register_type (em_format_html_display_get_type ());
+	e_plugin_hook_register_type (em_format_hook_get_type ());
 
 	em_junk_hook_register_type (emj_get_type ());
 }

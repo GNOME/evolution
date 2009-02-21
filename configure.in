@@ -1780,7 +1780,7 @@ plugins_base_always="calendar-file calendar-http $CALENDAR_WEATHER itip-formatte
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN " 
 all_plugins_base="$plugins_base_always sa-junk-plugin bogo-junk-plugin exchange-operations mono"
 
-plugins_standard_always="bbdb subject-thread save-calendar copy-tool mail-to-task audio-inline mailing-list-actions default-mailer import-ics-attachments prefer-plain mail-notification attachment-reminder face backup-restore email-custom-header templates pst-import"
+plugins_standard_always="bbdb subject-thread save-calendar copy-tool mail-to-task audio-inline mailing-list-actions default-mailer import-ics-attachments prefer-plain mail-notification attachment-reminder face backup-restore email-custom-header templates pst-import vcard-inline"
 
 plugins_standard="$plugins_standard_always"
 all_plugins_standard="$plugins_standard"
@@ -1790,7 +1790,7 @@ plugins_experimental="$plugins_experimental_always $IPOD_SYNC $TNEF_ATTACHMENTS 
 all_plugins_experimental="$plugins_experimental_always ipod-sync tnef-attachments"
 
 dnl Temporary KILL-BONOBO hack
-enable_plugins="addressbook-file audio-inline bbdb bogo-junk-plugin caldav calendar-file calendar-http copy-tool default-source external-editor google-account-setup hula-account-setup imap-features mail-notification mail-to-meeting mark-all-read plugin-manager profiler sa-junk-plugin save-attachments save-calendar subject-thread tnef-attachments webdav-account-setup"
+enable_plugins="addressbook-file audio-inline bbdb bogo-junk-plugin caldav calendar-file calendar-http copy-tool default-source external-editor google-account-setup hula-account-setup imap-features mail-notification mail-to-meeting mark-all-read plugin-manager profiler sa-junk-plugin save-attachments save-calendar subject-thread tnef-attachments vcard-inline webdav-account-setup"
 
 dnl PLUGINS NOT BUILDING YET
 dnl ------------------------
@@ -2100,51 +2100,52 @@ mail/default/sv/Makefile
 mail/default/hu/Makefile
 mail/importers/Makefile
 plugins/Makefile
-plugins/mark-all-read/Makefile
+plugins/addressbook-file/Makefile
+plugins/attachment-reminder/Makefile
+plugins/audio-inline/Makefile
+plugins/backup-restore/Makefile
+plugins/bbdb/Makefile
+plugins/bogo-junk-plugin/Makefile
 plugins/caldav/Makefile
-plugins/google-account-setup/Makefile
 plugins/calendar-file/Makefile
 plugins/calendar-http/Makefile
 plugins/calendar-weather/Makefile
-plugins/plugin-manager/Makefile
-plugins/bbdb/Makefile
-plugins/audio-inline/Makefile
-plugins/attachment-reminder/Makefile
+plugins/copy-tool/Makefile
+plugins/default-mailer/Makefile
+plugins/default-source/Makefile
+plugins/email-custom-header/Makefile
+plugins/exchange-operations/Makefile
+plugins/external-editor/Makefile
+plugins/face/Makefile
+plugins/folder-unsubscribe/Makefile
+plugins/google-account-setup/Makefile
+plugins/groupwise-account-setup/Makefile
+plugins/groupwise-features/Makefile
+plugins/hula-account-setup/Makefile
+plugins/imap-features/Makefile
+plugins/import-ics-attachments/Makefile
+plugins/ipod-sync/Makefile
+plugins/itip-formatter/Makefile
 plugins/mail-notification/Makefile
 plugins/mail-to-meeting/Makefile
 plugins/mail-to-task/Makefile
+plugins/mailing-list-actions/Makefile
+plugins/mark-all-read/Makefile
 plugins/mono/Makefile
-plugins/subject-thread/Makefile
-plugins/save-attachments/Makefile
-plugins/save-calendar/Makefile
+plugins/plugin-manager/Makefile
 plugins/prefer-plain/Makefile
 plugins/profiler/Makefile
-plugins/python/Makefile
-plugins/copy-tool/Makefile
-plugins/folder-unsubscribe/Makefile
-plugins/mailing-list-actions/Makefile
-plugins/itip-formatter/Makefile
-plugins/backup-restore/Makefile
-plugins/email-custom-header/Makefile
-plugins/exchange-operations/Makefile
-plugins/default-source/Makefile
-plugins/default-mailer/Makefile
-plugins/addressbook-file/Makefile
-plugins/startup-wizard/Makefile
-plugins/groupwise-account-setup/Makefile
-plugins/hula-account-setup/Makefile
-plugins/groupwise-features/Makefile
-plugins/sa-junk-plugin/Makefile
-plugins/bogo-junk-plugin/Makefile
-plugins/ipod-sync/Makefile
-plugins/publish-calendar/Makefile
-plugins/import-ics-attachments/Makefile
-plugins/imap-features/Makefile
-plugins/tnef-attachments/Makefile
-plugins/templates/Makefile
 plugins/pst-import/Makefile
-plugins/face/Makefile
-plugins/external-editor/Makefile
+plugins/publish-calendar/Makefile
+plugins/python/Makefile
+plugins/sa-junk-plugin/Makefile
+plugins/save-attachments/Makefile
+plugins/save-calendar/Makefile
+plugins/startup-wizard/Makefile
+plugins/subject-thread/Makefile
+plugins/templates/Makefile
+plugins/tnef-attachments/Makefile
+plugins/vcard-inline/Makefile
 plugins/webdav-account-setup/Makefile
 smime/Makefile
 smime/lib/Makefile

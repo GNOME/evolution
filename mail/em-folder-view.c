@@ -200,17 +200,6 @@ enum {
 
 static guint signals[LAST_SIGNAL];
 
-static void emfv_selection_get(GtkWidget *widget, GtkSelectionData *data, guint info, guint time_stamp, EMFolderView *emfv);
-static void emfv_selection_clear_event(GtkWidget *widget, GdkEventSelection *event, EMFolderView *emfv);
-
-//#ifdef ENABLE_PROFILING
-//static void
-//emfv_format_complete(EMFormat *emf, EMFolderView *emfv)
-//{
-//	e_profile_event_emit("goto.done", emf->uid?emf->uid:"", 0);
-//}
-//#endif
-
 static void
 emfv_init(GObject *o)
 {
