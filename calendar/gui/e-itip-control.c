@@ -2435,7 +2435,7 @@ refresh_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 	menu = gtk_menu_new ();
 
 	add_option (itip, menu, _("Send Latest Information"), 'S');
-	priv->action = 'R';
+	priv->action = 'S';
 
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
 

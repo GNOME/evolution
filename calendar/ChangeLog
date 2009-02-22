@@ -1,3 +1,10 @@
+2009-02-22  Tobias Mueller  <tobiasmue@svn.gnome.org>
+
+	* gui/e-itip-control.c (refresh_options_object):
+	Make it use the proper action. Patch by Paweł Zembrzuski
+	
+	** Fixes bug 566556
+
 2009-02-20  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #567949
