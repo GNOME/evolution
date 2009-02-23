@@ -837,7 +837,8 @@ mail_shell_module_start (EShellModule *shell_module)
 	shell = e_shell_module_get_shell (shell_module);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	g_debug ("Jumpstarting Mail");
+	/* XXX Do we really still need this flag? */
+	mail_session_set_interactive (TRUE);
 
 	enable_search_folders = e_shell_settings_get_boolean (
 		shell_settings, "mail-enable-search-folders");

@@ -74,11 +74,11 @@ typedef struct _EShellModulePrivate EShellModulePrivate;
  * 		the main menu and in the switcher.  See
  * 		e_shell_module_compare().
  * @start:	Callback for notifying the module to begin loading data
- * 		and running background tasks.  This is called the first
- * 		time the corresponding shell view class is instantiated.
- * 		It allows the module to delay initialization steps that
- *		consume significant resources until they are actually
- *		needed.
+ * 		and running background tasks.  This is called just before
+ * 		the first instantiation of the corresponding #EShellView
+ * 		subclass.  It allows the module to delay initialization
+ * 		steps that consume significant resources until they are
+ * 		actually needed.
  * @is_busy:	Callback for querying whether the module has
  * 		operations in progress that cannot be cancelled
  * 		or finished immediately.  Returning %TRUE prevents

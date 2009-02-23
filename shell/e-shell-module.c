@@ -452,8 +452,8 @@ e_shell_module_add_activity (EShellModule *shell_module,
  *
  * Tells the @shell_module to begin loading data or running background
  * tasks which may consume significant resources.  This gets called in
- * reponse to the user switching to the corresponding shell view for
- * the first time.  The function is idempotent for each shell module.
+ * reponse to the user switching to the corresponding #EShellView for
+ * the first time.  The function is idempotent for each @shell_module.
  **/
 void
 e_shell_module_start (EShellModule *shell_module)
