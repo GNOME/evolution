@@ -53,6 +53,8 @@ struct _EShellModulePrivate {
 
 	/* Initializes the loaded type module. */
 	void (*init) (GTypeModule *type_module);
+
+	guint started	: 1;
 };
 
 enum {
@@ -445,6 +447,30 @@ e_shell_module_add_activity (EShellModule *shell_module,
 }
 
 /**
+ * e_shell_module_start:
+ * @shell_module: an #EShellModule
+ *
+ * Tells the @shell_module to begin loading data or running background
+ * tasks which may consume significant resources.  This gets called in
+ * reponse to the user switching to the corresponding shell view for
+ * the first time.  The function is idempotent for each shell module.
+ **/
+void
+e_shell_module_start (EShellModule *shell_module)
+{
+	EShellModuleInfo *module_info;
+
+	g_return_if_fail (E_IS_SHELL_MODULE (shell_module));
+
+	module_info = &shell_module->priv->info;
+
+	if (module_info->start != NULL && !shell_module->priv->started)
+		module_info->start (shell_module);
+
+	shell_module->priv->started = TRUE;
+}
+
+/**
  * e_shell_module_is_busy:
  * @shell_module: an #EShellModule
  *
@@ -576,6 +602,7 @@ e_shell_module_set_info (EShellModule *shell_module,
 	module_info->schemes = g_intern_string (info->schemes);
 	module_info->sort_order = info->sort_order;
 
+	module_info->start = info->start;
 	module_info->is_busy = info->is_busy;
 	module_info->shutdown = info->shutdown;
 	module_info->migrate = info->migrate;

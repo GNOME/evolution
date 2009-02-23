@@ -20,6 +20,7 @@ e_shell_get_online
 e_shell_set_online
 e_shell_get_preferences_window
 e_shell_event
+e_shell_start
 e_shell_is_busy
 e_shell_do_quit
 e_shell_quit

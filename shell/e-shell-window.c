@@ -45,11 +45,18 @@ shell_window_new_view (EShellWindow *shell_window,
                        const gchar *title)
 {
 	GHashTable *loaded_views;
+	EShell *shell;
+	EShellModule *shell_module;
 	EShellView *shell_view;
 	GtkNotebook *notebook;
 	GtkAction *action;
 	GtkWidget *widget;
 	gint page_num;
+
+	/* First off, start the shell module. */
+	shell = e_shell_window_get_shell (shell_window);
+	shell_module = e_shell_get_module_by_name (shell, view_name);
+	e_shell_module_start (shell_module);
 
 	/* Determine the page number for the new shell view. */
 	notebook = GTK_NOTEBOOK (shell_window->priv->content_notebook);

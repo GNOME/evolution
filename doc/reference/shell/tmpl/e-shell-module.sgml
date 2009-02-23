@@ -50,6 +50,7 @@ EShellModule
 @aliases: 
 @schemes: 
 @sort_order: 
+@start: 
 @is_busy: 
 @shutdown: 
 @migrate: 

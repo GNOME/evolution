@@ -569,7 +569,7 @@
    </option>
   </input>
   <input type="optionlist" name="versus">
-     <dynamic func="e_util_labels_get_filter_options"/>
+     <dynamic func="e_mail_labels_get_filter_options"/>
   </input>
  </part>
 

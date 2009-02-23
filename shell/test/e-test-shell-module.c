@@ -69,6 +69,12 @@ static GtkActionEntry source_entries[] = {
 	  G_CALLBACK (action_test_source_new_cb) }
 };
 
+static void
+test_module_start (EShellModule *shell_module)
+{
+	g_debug ("%s", G_STRFUNC);
+}
+
 static gboolean
 test_module_is_busy (EShellModule *shell_module)
 {
@@ -149,6 +155,7 @@ static EShellModuleInfo module_info = {
 	MODULE_SORT_ORDER,
 
 	/* Methods */
+	test_module_start,
 	test_module_is_busy,
 	test_module_shutdown,
 	test_module_migrate

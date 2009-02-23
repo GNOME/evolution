@@ -73,6 +73,12 @@ typedef struct _EShellModulePrivate EShellModulePrivate;
  * @sort_order:	Used to determine the order of modules listed in
  * 		the main menu and in the switcher.  See
  * 		e_shell_module_compare().
+ * @start:	Callback for notifying the module to begin loading data
+ * 		and running background tasks.  This is called the first
+ * 		time the corresponding shell view class is instantiated.
+ * 		It allows the module to delay initialization steps that
+ *		consume significant resources until they are actually
+ *		needed.
  * @is_busy:	Callback for querying whether the module has
  * 		operations in progress that cannot be cancelled
  * 		or finished immediately.  Returning %TRUE prevents
@@ -96,6 +102,7 @@ struct _EShellModuleInfo {
 	const gchar *schemes;
 	gint sort_order;
 
+	void		(*start)		(EShellModule *shell_module);
 	gboolean	(*is_busy)		(EShellModule *shell_module);
 	gboolean	(*shutdown)		(EShellModule *shell_module);
 	gboolean	(*migrate)		(EShellModule *shell_module,
@@ -133,6 +140,7 @@ GType		e_shell_module_get_shell_view_type
 						(EShellModule *shell_module);
 void		e_shell_module_add_activity	(EShellModule *shell_module,
 						 EActivity *activity);
+void		e_shell_module_start		(EShellModule *shell_module);
 gboolean	e_shell_module_is_busy		(EShellModule *shell_module);
 gboolean	e_shell_module_shutdown		(EShellModule *shell_module);
 gboolean	e_shell_module_migrate		(EShellModule *shell_module,

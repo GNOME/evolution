@@ -76,6 +76,9 @@ void		e_mail_shell_module_stores_foreach
 						 GHFunc func,
 						 gpointer user_data);
 
+/* XXX Find a better place for this function. */
+GSList *	e_mail_labels_get_filter_options(void);
+
 G_END_DECLS
 
 #endif /* E_MAIL_SHELL_MODULE_H */

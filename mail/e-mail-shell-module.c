@@ -827,6 +827,32 @@ mail_shell_module_window_created_cb (EShell *shell,
 	}
 }
 
+static void
+mail_shell_module_start (EShellModule *shell_module)
+{
+	EShell *shell;
+	EShellSettings *shell_settings;
+	gboolean enable_search_folders;
+
+	shell = e_shell_module_get_shell (shell_module);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	g_debug ("Jumpstarting Mail");
+
+	enable_search_folders = e_shell_settings_get_boolean (
+		shell_settings, "mail-enable-search-folders");
+	if (enable_search_folders)
+		vfolder_load_storage ();
+
+	mail_autoreceive_init (session);
+
+	if (g_getenv ("CAMEL_FLUSH_CHANGES") != NULL)
+		mail_sync_timeout_source_id = g_timeout_add_seconds (
+			mail_config_get_sync_timeout (),
+			(GSourceFunc) mail_shell_module_mail_sync,
+			shell_module);
+}
+
 static EShellModuleInfo module_info = {
 
 	MODULE_NAME,
@@ -834,6 +860,7 @@ static EShellModuleInfo module_info = {
 	MODULE_SCHEMES,
 	MODULE_SORT_ORDER,
 
+	mail_shell_module_start,
 	/* is_busy */ NULL,
 	/* shutdown */ NULL,
 	e_mail_shell_module_migrate
@@ -844,12 +871,9 @@ e_shell_module_init (GTypeModule *type_module)
 {
 	EShell *shell;
 	EShellModule *shell_module;
-	EShellSettings *shell_settings;
-	gboolean enable_search_folders;
 
 	shell_module = E_SHELL_MODULE (type_module);
 	shell = e_shell_module_get_shell (shell_module);
-	shell_settings = e_shell_get_shell_settings (shell);
 
 	e_shell_module_set_info (
 		shell_module, &module_info,
@@ -913,19 +937,6 @@ e_shell_module_init (GTypeModule *type_module)
 	 * since the preferences bind to the shell settings. */
 	e_mail_shell_module_init_settings (shell);
 	mail_shell_module_init_preferences (shell);
-
-	enable_search_folders = e_shell_settings_get_boolean (
-		shell_settings, "mail-enable-search-folders");
-	if (enable_search_folders)
-		vfolder_load_storage ();
-
-	mail_autoreceive_init (session);
-
-	if (g_getenv ("CAMEL_FLUSH_CHANGES") != NULL)
-		mail_sync_timeout_source_id = g_timeout_add_seconds (
-			mail_config_get_sync_timeout (),
-			(GSourceFunc) mail_shell_module_mail_sync,
-			shell_module);
 }
 
 /******************************** Public API *********************************/
@@ -1100,4 +1111,50 @@ e_mail_shell_module_stores_foreach (EShellModule *shell_module,
 
 	while (g_hash_table_iter_next (&iter, &key, &value))
 		func (key, ((StoreInfo *) value)->name, user_data);
+}
+
+/******************* Code below here belongs elsewhere. *******************/
+
+#include "filter/filter-option.h"
+#include "shell/e-shell-settings.h"
+#include "mail/e-mail-label-list-store.h"
+
+GSList *
+e_mail_labels_get_filter_options (void)
+{
+	EShell *shell;
+	EShellSettings *shell_settings;
+	EMailLabelListStore *list_store;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	GSList *list = NULL;
+	gboolean valid;
+
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
+	list_store = e_shell_settings_get_object (
+		shell_settings, "mail-label-list-store");
+
+	model = GTK_TREE_MODEL (list_store);
+	valid = gtk_tree_model_get_iter_first (model, &iter);
+
+	while (valid) {
+		struct _filter_option *option;
+		gchar *name, *tag;
+
+		name = e_mail_label_list_store_get_name (list_store, &iter);
+		tag = e_mail_label_list_store_get_tag (list_store, &iter);
+
+		option = g_new0 (struct _filter_option, 1);
+		option->title = e_str_without_underscores (name);
+		option->value = tag;  /* takes ownership */
+
+		g_free (name);
+
+		valid = gtk_tree_model_iter_next (model, &iter);
+	}
+
+	g_object_unref (list_store);
+
+	return list;
 }

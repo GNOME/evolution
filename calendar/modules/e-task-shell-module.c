@@ -486,6 +486,7 @@ static EShellModuleInfo module_info = {
 	MODULE_SCHEMES,
 	MODULE_SORT_ORDER,
 
+	/* start */ NULL,
 	/* is_busy */ NULL,
 	/* shutdown */ NULL,
 	e_task_shell_module_migrate

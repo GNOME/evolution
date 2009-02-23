@@ -436,6 +436,7 @@ static EShellModuleInfo module_info = {
 	MODULE_SORT_ORDER,
 
 	/* Methods */
+	/* start */ NULL,
 	book_module_is_busy,
 	book_module_shutdown,
 	e_book_shell_module_migrate
