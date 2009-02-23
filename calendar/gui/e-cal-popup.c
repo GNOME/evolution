@@ -402,12 +402,12 @@ ecalp_standard_menu_factory (EPopup *ecalp, void *data)
 		    these two soon. */
 		apps = g_app_info_get_all_for_type (mime_type);
 
-		if (apps == NULL && strcmp(mime_type, "application/octet-stream") == 0) {
+		if (apps == NULL || strcmp(mime_type, "application/octet-stream") == 0) {
 			if (filename) {
 				gchar *name_type;
 
 				name_type = e_util_guess_mime_type (filename, FALSE);
-				apps = g_app_info_get_all_for_type (name_type);
+				apps = g_list_concat (g_app_info_get_all_for_type (name_type), apps);
 				g_free (name_type);
 			}
 		}
