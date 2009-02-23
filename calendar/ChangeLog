@@ -1,3 +1,10 @@
+2009-02-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #572543
+
+	* gui/e-cal-popup.c: (ecalp_standard_menu_factory):
+	Always look for alternative apps for application/octet-stream.
+
 2009-02-22  Tobias Mueller  <tobiasmue@svn.gnome.org>
 
 	* gui/e-itip-control.c (refresh_options_object):

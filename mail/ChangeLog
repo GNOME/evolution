@@ -1,3 +1,10 @@
+2009-02-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #572543
+
+	* em-popup.c: (emp_standard_menu_factory):
+	Always look for alternative apps for application/octet-stream.
+
 2009-02-11  Andre Klapper  <a9016009@gmx.de>
 
 	* em-folder-browser.c:
