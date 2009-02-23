@@ -129,6 +129,14 @@ EShellModule
 @activity: 
 
 
+<!-- ##### FUNCTION e_shell_module_start ##### -->
+<para>
+
+</para>
+
+@shell_module: 
+
+
 <!-- ##### FUNCTION e_shell_module_is_busy ##### -->
 <para>
 

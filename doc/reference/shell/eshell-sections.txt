@@ -20,7 +20,6 @@ e_shell_get_online
 e_shell_set_online
 e_shell_get_preferences_window
 e_shell_event
-e_shell_start
 e_shell_is_busy
 e_shell_do_quit
 e_shell_quit
@@ -99,6 +98,7 @@ e_shell_module_get_filename
 e_shell_module_get_shell
 e_shell_module_get_shell_view_type
 e_shell_module_add_activity
+e_shell_module_start
 e_shell_module_is_busy
 e_shell_module_shutdown
 e_shell_module_migrate
