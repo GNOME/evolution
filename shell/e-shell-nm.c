@@ -91,7 +91,7 @@ e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
 
 	line_status = e_shell_get_line_status (shell);
 
-	if (line_status == E_SHELL_LINE_STATUS_ONLINE && state == NM_STATE_DISCONNECTED) {
+	if (line_status == E_SHELL_LINE_STATUS_ONLINE && (state == NM_STATE_ASLEEP || state == NM_STATE_DISCONNECTED)) {
 		shell_state = GNOME_Evolution_FORCED_OFFLINE;
 		e_shell_set_line_status (shell, shell_state);
 	} else if (line_status == E_SHELL_LINE_STATUS_FORCED_OFFLINE && state == NM_STATE_CONNECTED) {

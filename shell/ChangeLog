@@ -1,3 +1,14 @@
+2009-02-24  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes bug #572962
+
+	* e-shell-window.c (setup_nm_support):
+	Pass e_shell_dbus_initialise() the right type of object,
+	and fix the incorrect function declaration.
+
+	* e-shell-nm.c (e_shell_network_monitor):
+	Go offline when we see NM_STATE_ASLEEP from NetworkManager.
+
 2009-02-03  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am (evolution_LDFLAGS): Use -mwindows on Windows to

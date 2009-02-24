@@ -54,7 +54,7 @@
 #include <string.h>
 
 #if NM_SUPPORT
-gboolean e_shell_dbus_initialise (EShellWindow *window);
+gboolean e_shell_dbus_initialise (EShell *shell);
 #endif
 
 /* A view for each component.  These are all created when EShellWindow is
@@ -574,11 +574,9 @@ setup_statusbar_notebook (EShellWindow *window)
 static void
 setup_nm_support (EShellWindow *window)
 {
-	#ifdef NM_SUPPORT_GLIB
-	       e_shell_nm_glib_initialise (window);
-	#elif NM_SUPPORT
-	       e_shell_dbus_initialise (window);
-	#endif
+#if NM_SUPPORT
+       e_shell_dbus_initialise (window->priv->shell.eshell);
+#endif
 }
 
 static void
