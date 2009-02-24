@@ -1,3 +1,11 @@
+2009-02-24  Philip Withnall  <philip@tecnocode.co.uk>
+
+	** Fix for bug #572903
+
+	* gui/contact-editor/contact-editor.glade: Change "Novell Groupwise"
+	to "Novell GroupWise". Doesn't break string freeze, as the latter
+	string already exists.
+
 2009-02-12  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #404232
