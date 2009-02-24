@@ -1,3 +1,8 @@
+2009-02-24  Matthew Barnes  <mbarnes@redhat.com>
+
+	* MAINTAINERS:
+	Add myself as a Shell maintainer, with Srini's permission.
+
 2009-02-02  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* NEWS: Evolution 2.25.90 release
