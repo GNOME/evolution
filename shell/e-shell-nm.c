@@ -85,6 +85,7 @@ e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
 		case NM_STATE_CONNECTED:
 			e_shell_set_network_available (shell, TRUE);
 			break;
+		case NM_STATE_ASLEEP:
 		case NM_STATE_DISCONNECTED:
 			e_shell_set_network_available (shell, FALSE);
 			break;
