@@ -552,6 +552,7 @@ build_table (EMeetingListView *lview)
 	col = gtk_tree_view_get_column (view, pos -1);
 	gtk_tree_view_column_set_resizable (col, TRUE);
 	gtk_tree_view_column_set_reorderable(col, TRUE);
+	gtk_tree_view_column_set_expand (col, TRUE);
 	g_object_set (col, "min-width", 50, NULL);
 	g_object_set_data (G_OBJECT (col), "mtg-store-col", GINT_TO_POINTER (E_MEETING_STORE_ATTENDEE_COL));
 	g_signal_connect (renderer, "cell_edited", G_CALLBACK (attendee_edited_cb), view);

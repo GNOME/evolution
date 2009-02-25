@@ -1,3 +1,10 @@
+2009-02-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #561465
+
+	* gui/e-meeting-list-view.c: (build_table):
+	Expand 'Attendee' column instead of the last.
+
 2009-02-23  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #572543
