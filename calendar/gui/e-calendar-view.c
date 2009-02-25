@@ -272,7 +272,7 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 	gint start_offset, end_offset;
 	gboolean all_day_event = FALSE;
 	GnomeCalendarViewType view_type;
-	ECalComponentDateTime dt;
+	GError *error = NULL;
 
 	start_offset = 0;
 	end_offset = 0;
@@ -329,15 +329,16 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 			new_time.minute = old_dtstart.minute;
 			new_time.second = old_dtstart.second;
 
-			new_dtstart = icaltime_as_timet_with_zone (new_time, default_zone);
+			new_dtstart = icaltime_as_timet_with_zone (new_time, old_dtstart.zone ? old_dtstart.zone : default_zone);
 		}
 		break;
 	default:
 		g_return_if_reached ();
 	}
 
-
-	itime = icaltime_from_timet_with_zone (new_dtstart, FALSE, default_zone);
+	itime = icaltime_from_timet_with_zone (new_dtstart, FALSE, old_dtstart.zone ? old_dtstart.zone : default_zone);
+	/* set the timezone properly */
+	itime.zone = old_dtstart.zone ? old_dtstart.zone : default_zone;
 	if (all_day_event)
 		itime.is_date = TRUE;
 	icalcomponent_set_dtstart (icalcomp, itime);
@@ -356,26 +357,10 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 	e_cal_component_set_uid (comp, uid);
 	g_free (uid);
 
-	/* set the timezone properly */
-	e_cal_component_get_dtstart (comp, &dt);
-	g_free ((char *) dt.tzid);
-	dt.tzid = icaltimezone_get_tzid (default_zone);
-	e_cal_component_set_dtstart (comp, &dt);
-	dt.tzid = NULL;
-	e_cal_component_free_datetime (&dt);
-
-	e_cal_component_get_dtend (comp, &dt);
-	g_free ((char *) dt.tzid);
-	dt.tzid = icaltimezone_get_tzid (default_zone);
-	e_cal_component_set_dtend (comp, &dt);
-	dt.tzid = NULL;
-	e_cal_component_free_datetime (&dt);
-
 	e_cal_component_commit_sequence (comp);
 
-	/* FIXME Error handling */
 	uid = NULL;
-	if (e_cal_create_object (client, e_cal_component_get_icalcomponent (comp), &uid, NULL)) {
+	if (e_cal_create_object (client, e_cal_component_get_icalcomponent (comp), &uid, &error)) {
 		gboolean strip_alarms = TRUE;
 
 		if (uid) {
@@ -390,7 +375,9 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 				client, NULL, NULL, NULL, strip_alarms);
 		}
 	} else {
-		g_message (G_STRLOC ": Could not create the object!");
+		g_message (G_STRLOC ": Could not create the object! %s", error ? error->message : "");
+		if (error)
+			g_error_free (error);
 	}
 
 	g_object_unref (comp);
@@ -747,6 +734,52 @@ clipboard_get_calendar_cb (GtkClipboard *clipboard,
 	}
 }
 
+static void
+add_related_timezones (icalcomponent *des_icalcomp, icalcomponent *src_icalcomp, ECal *client)
+{
+	icalproperty_kind look_in[] = {
+		ICAL_DTSTART_PROPERTY,
+		ICAL_DTEND_PROPERTY,
+		ICAL_NO_PROPERTY
+	};
+	int i;
+
+	g_return_if_fail (des_icalcomp != NULL);
+	g_return_if_fail (src_icalcomp != NULL);
+	g_return_if_fail (client != NULL);
+
+	for (i = 0; look_in[i] != ICAL_NO_PROPERTY; i++) {
+		icalproperty *prop = icalcomponent_get_first_property (src_icalcomp, look_in[i]);
+
+		if (prop) {
+			icalparameter *par = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
+
+			if (par) {
+				const char *tzid = icalparameter_get_tzid (par);
+
+				if (tzid) {
+					GError *error = NULL;
+					icaltimezone *zone = NULL;
+
+					if (!e_cal_get_timezone (client, tzid, &zone, &error)) {
+						g_warning ("%s: Cannot get timezone for '%s'. %s", G_STRFUNC, tzid, error ? error->message : "");
+						if (error)
+							g_error_free (error);
+					} else if (zone &&
+						icalcomponent_get_timezone (des_icalcomp, icaltimezone_get_tzid (zone)) == NULL) {
+						/* do not duplicate timezones in the component */
+						icalcomponent *vtz_comp;
+
+						vtz_comp = icaltimezone_get_component (zone);
+						if (vtz_comp)
+							icalcomponent_add_component (des_icalcomp, icalcomponent_new_clone (vtz_comp));
+					}
+				}
+			}
+		}
+	}
+}
+
 void
 e_calendar_view_copy_clipboard (ECalendarView *cal_view)
 {
@@ -768,8 +801,11 @@ e_calendar_view_copy_clipboard (ECalendarView *cal_view)
 	for (l = selected; l != NULL; l = l->next) {
 		event = (ECalendarViewEvent *) l->data;
 
-		if (event)
+		if (event) {
 			e_cal_util_add_timezones_from_component (vcal_comp, event->comp_data->icalcomp);
+
+			add_related_timezones (vcal_comp, event->comp_data->icalcomp, event->comp_data->client);
+		}
 	}
 
 	for (l = selected; l != NULL; l = l->next) {
@@ -842,40 +878,42 @@ clipboard_get_calendar_data (ECalendarView *cal_view, const gchar *text)
 	else
 		in_top_canvas = FALSE;
 
-	/* FIXME Timezone handling */
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
-		icalcomponent_kind child_kind;
 		icalcomponent *subcomp;
 
-		subcomp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
-		while (subcomp) {
-			child_kind = icalcomponent_isa (subcomp);
-			if (child_kind == ICAL_VEVENT_COMPONENT) {
+		/* add timezones first, to have them ready */
+		for (subcomp = icalcomponent_get_first_component (icalcomp, ICAL_VTIMEZONE_COMPONENT);
+		     subcomp;
+		     subcomp = icalcomponent_get_next_component (icalcomp, ICAL_VTIMEZONE_COMPONENT)) {
+			icaltimezone *zone;
+			GError *error = NULL;
 
-				if (e_cal_util_component_has_recurrences (subcomp)) {
-					icalproperty *icalprop = icalcomponent_get_first_property (subcomp, ICAL_RRULE_PROPERTY);
-					if (icalprop)
-						icalproperty_remove_parameter_by_name (icalprop, "X-EVOLUTION-ENDDATE");
-				}
+			zone = icaltimezone_new ();
+			icaltimezone_set_component (zone, subcomp);
+			if (!e_cal_add_timezone (client, zone, &error)) {
+				icalproperty *tzidprop = icalcomponent_get_first_property (subcomp, ICAL_TZID_PROPERTY);
 
-				e_calendar_view_add_event (cal_view, client, selected_time_start,
-							   default_zone, subcomp, in_top_canvas);
-			} else if (child_kind == ICAL_VTIMEZONE_COMPONENT) {
-				icaltimezone *zone;
-
-				zone = icaltimezone_new ();
-				icaltimezone_set_component (zone, subcomp);
-				e_cal_add_timezone (client, zone, NULL);
-
-				icaltimezone_free (zone, 1);
+				g_warning ("%s: Add zone '%s' failed. %s", G_STRFUNC, tzidprop ? icalproperty_get_tzid (tzidprop) : "???", error ? error->message : "");
+				if (error)
+					g_error_free (error);
 			}
 
-			subcomp = icalcomponent_get_next_component (
-				icalcomp, ICAL_ANY_COMPONENT);
+			icaltimezone_free (zone, 1);
+		}
+
+		for (subcomp = icalcomponent_get_first_component (icalcomp, ICAL_VEVENT_COMPONENT);
+		     subcomp;
+		     subcomp = icalcomponent_get_next_component (icalcomp, ICAL_VEVENT_COMPONENT)) {
+			if (e_cal_util_component_has_recurrences (subcomp)) {
+				icalproperty *icalprop = icalcomponent_get_first_property (subcomp, ICAL_RRULE_PROPERTY);
+				if (icalprop)
+					icalproperty_remove_parameter_by_name (icalprop, "X-EVOLUTION-ENDDATE");
+			}
+
+			e_calendar_view_add_event (cal_view, client, selected_time_start, default_zone, subcomp, in_top_canvas);
 		}
 
 		icalcomponent_free (icalcomp);
-
 	} else {
 		e_calendar_view_add_event (cal_view, client, selected_time_start, default_zone, icalcomp, in_top_canvas);
 	}
