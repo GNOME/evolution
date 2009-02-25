@@ -6,7 +6,7 @@
 <widget class="GtkDialog" id="certificate-viewer-dialog">
   <property name="title" translatable="no">dialog1</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
-  <property name="window_position">GTK_WIN_POS_NONE</property>
+  <property name="window_position">GTK_WIN_POS_CENTER</property>
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
@@ -1850,7 +1850,7 @@
 <widget class="GtkDialog" id="ca-trust-dialog">
   <property name="title" translatable="yes">Certificate Authority Trust</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
-  <property name="window_position">GTK_WIN_POS_NONE</property>
+  <property name="window_position">GTK_WIN_POS_CENTER</property>
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>
@@ -2173,7 +2173,7 @@
 <widget class="GtkDialog" id="cert-trust-dialog">
   <property name="title" translatable="yes">Email Certificate Trust Settings</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
-  <property name="window_position">GTK_WIN_POS_NONE</property>
+  <property name="window_position">GTK_WIN_POS_CENTER</property>
   <property name="modal">False</property>
   <property name="resizable">True</property>
   <property name="destroy_with_parent">False</property>

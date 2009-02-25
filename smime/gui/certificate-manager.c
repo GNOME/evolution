@@ -130,7 +130,6 @@ static void
 import_your (GtkWidget *widget, CertificateManagerData *cfm)
 {
 	GtkWidget *filesel;
-	const char *filename;
 
 	GtkFileFilter* filter;
 
@@ -153,7 +152,10 @@ import_your (GtkWidget *widget, CertificateManagerData *cfm)
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
 
 	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
-		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
+		char *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
+
+		/* destroy dialog to get rid of it in the GUI */
+		gtk_widget_destroy (filesel);
 
 		if (e_cert_db_import_pkcs12_file (e_cert_db_peek (),
 						  filename, NULL /* XXX */)) {
@@ -163,9 +165,10 @@ import_your (GtkWidget *widget, CertificateManagerData *cfm)
 			load_certs (cfm, E_CERT_USER, add_user_cert);
 			gtk_tree_view_expand_all (GTK_TREE_VIEW (cfm->yourcerts_treeview));
 		}
-	}
 
-	gtk_widget_destroy (filesel);
+		g_free (filename);
+	} else
+		gtk_widget_destroy (filesel);
 }
 
 static void
@@ -373,7 +376,6 @@ static void
 import_contact (GtkWidget *widget, CertificateManagerData *cfm)
 {
 	GtkWidget *filesel;
-	const char *filename;
 
 	GtkFileFilter *filter;
 
@@ -396,7 +398,10 @@ import_contact (GtkWidget *widget, CertificateManagerData *cfm)
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
 
 	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
-		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
+		char *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
+
+		/* destroy dialog to get rid of it in the GUI */
+		gtk_widget_destroy (filesel);
 
 		if (e_cert_db_import_certs_from_file (e_cert_db_peek (),
 						      filename,
@@ -409,9 +414,10 @@ import_contact (GtkWidget *widget, CertificateManagerData *cfm)
 			load_certs (cfm, E_CERT_CONTACT, add_contact_cert);
 			gtk_tree_view_expand_all (GTK_TREE_VIEW (cfm->contactcerts_treeview));
 		}
-	}
 
-	gtk_widget_destroy (filesel);
+		g_free (filename);
+	} else
+		gtk_widget_destroy (filesel);
 }
 
 static void
@@ -597,7 +603,6 @@ static void
 import_ca (GtkWidget *widget, CertificateManagerData *cfm)
 {
 	GtkWidget *filesel;
-	const char *filename;
 
 	GtkFileFilter *filter;
 
@@ -620,7 +625,10 @@ import_ca (GtkWidget *widget, CertificateManagerData *cfm)
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
 
 	if (GTK_RESPONSE_OK == gtk_dialog_run (GTK_DIALOG (filesel))) {
-		filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
+		char *filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (filesel));
+
+		/* destroy dialog to get rid of it in the GUI */
+		gtk_widget_destroy (filesel);
 
 		if (e_cert_db_import_certs_from_file (e_cert_db_peek (),
 						      filename,
@@ -632,9 +640,10 @@ import_ca (GtkWidget *widget, CertificateManagerData *cfm)
 			unload_certs (cfm, E_CERT_CA);
 			load_certs (cfm, E_CERT_CA, add_ca_cert);
 		}
-	}
 
-	gtk_widget_destroy (filesel);
+		g_free (filename);
+	} else
+		gtk_widget_destroy (filesel);
 }
 
 static void
