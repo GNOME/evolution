@@ -1,3 +1,12 @@
+2009-02-25  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #563212
+
+	* em-utils.c: (try_open_e_book_cb), (try_open_e_book),
+	(is_local), (em_utils_in_addressbook), (em_utils_contact_photo):
+	Ensure empty GError before filling it. Check if group is local based
+	on its base_uri. Adapt to new e_book_cancel behaviour.
+
 2009-02-23  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #572543
