@@ -1266,6 +1266,19 @@ decode_signature_name (const gchar *name)
 	return dname;
 }
 
+static gboolean
+add_signature_delim (void)
+{
+	gboolean res;
+	GConfClient *client = gconf_client_get_default ();
+
+	res = !gconf_client_get_bool (client, COMPOSER_GCONF_NO_SIGNATURE_DELIM_KEY, NULL);
+
+	g_object_unref (client);
+
+	return res;
+}
+
 #define CONVERT_SPACES CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES
 
 static gchar *
@@ -1274,13 +1287,15 @@ get_signature_html (EMsgComposer *composer)
 	EComposerHeaderTable *table;
 	gchar *text = NULL, *html = NULL;
 	ESignature *signature;
-	gboolean format_html;
+	gboolean format_html, add_delim;
 
 	table = e_msg_composer_get_header_table (composer);
 	signature = e_composer_header_table_get_signature (table);
 
 	if (!signature)
 		return NULL;
+
+	add_delim = add_signature_delim ();
 
 	if (!signature->autogen) {
 		if (!signature->filename)
@@ -1309,7 +1324,8 @@ get_signature_html (EMsgComposer *composer)
 		name = id->name ? camel_text_to_html (id->name, CONVERT_SPACES, 0) : NULL;
 		organization = id->organization ? camel_text_to_html (id->organization, CONVERT_SPACES, 0) : NULL;
 
-		text = g_strdup_printf ("-- <BR>%s%s%s%s%s%s%s%s",
+		text = g_strdup_printf ("%s%s%s%s%s%s%s%s%s",
+					add_delim ? "-- <BR>" : "",
 					name ? name : "",
 					(address && *address) ? " &lt;<A HREF=\"mailto:" : "",
 					address ? address : "",
@@ -1342,7 +1358,7 @@ get_signature_html (EMsgComposer *composer)
 					"</TD></TR></TABLE>",
 				        encoded_uid ? encoded_uid : "",
 					format_html ? "" : "<PRE>\n",
-					format_html || (!strncmp ("-- \n", text, 4) || strstr (text, "\n-- \n")) ? "" : "-- \n",
+					format_html || !add_delim || (!strncmp ("-- \n", text, 4) || strstr (text, "\n-- \n")) ? "" : "-- \n",
 					text,
 					format_html ? "" : "</PRE>\n");
 		g_free (text);
@@ -1390,7 +1406,7 @@ set_editor_text (EMsgComposer *composer,
 		tmp = get_signature_html (composer);
 		if (tmp) {
 			/* Minimizing the damage. Make it just a part of the body instead of a signature */
-			html = strstr (tmp, "-- \n");
+			html = add_signature_delim () ? strstr (tmp, "-- \n") : NULL;
 			if (html) {
 				/* That two consecutive - symbols followed by a space */
 				*(html+1) = ' ';

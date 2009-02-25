@@ -1,3 +1,11 @@
+2009-02-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #551470
+
+	* e-composer-private.h:
+	* e-msg-composer.c: (add_signature_delim), (get_signature_html),
+	(set_editor_text): Do not force adding "-- \n" above the signature.
+
 2009-02-12  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #567089
