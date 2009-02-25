@@ -1,3 +1,10 @@
+2009-02-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #572399
+
+	* email-custom-header.c: (header_foreach_check_isempty):
+	Do not read from invalid iterator after call of row changed.
+
 2009-02-13  Milan Crha  <mcrha@redhat.com>
 
 	** Fixes part of bug #564229
