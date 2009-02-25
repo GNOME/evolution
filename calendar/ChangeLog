@@ -1,3 +1,8 @@
+2009-02-24  Matthew Barnes  <mbarnes@redhat.com>
+
+	* gui/alarm-notify/alarm-queue.c (add_component_alarm):
+	Hide a debug-only variable.  Compiler thinks it's unused.
+
 2009-02-23  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #572543

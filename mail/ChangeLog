@@ -1,3 +1,7 @@
+2009-02-24  Matthew Barnes  <mbarnes@redhat.com>
+
+	* em-migrate.c: Don't mix declarations and code.
+
 2009-02-23  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #572543

@@ -2856,10 +2856,11 @@ migrate_folders(CamelStore *store, gboolean is_local, CamelFolderInfo *fi, const
 
 	while (fi) {
 		double progress;
+		char *tmp;
 
 		*nth_folder = *nth_folder + 1;
 
-		char *tmp = g_strdup_printf ("%s/%s", acc, fi->full_name);
+		tmp = g_strdup_printf ("%s/%s", acc, fi->full_name);
 		em_migrate_set_folder_name (tmp);
 		g_free (tmp);
 		
@@ -2958,6 +2959,7 @@ migrate_to_db()
 
 		if (info) {
 				struct migrate_folders_to_db_structure migrate_dbs;
+				GThread *thread;
 
 				if (g_str_has_suffix (((CamelService *)store)->url->path, ".evolution/mail/local"))
 						migrate_dbs.is_local_store = TRUE;
@@ -2969,7 +2971,6 @@ migrate_to_db()
 				migrate_dbs.store = store;
 				migrate_dbs.done = FALSE;
 
-				GThread *thread;
 				thread = g_thread_create ((GThreadFunc) migrate_folders_to_db_thread, &migrate_dbs, TRUE, NULL);
 				while (!migrate_dbs.done)
 						g_main_context_iteration (NULL, TRUE);
@@ -2996,6 +2997,7 @@ migrate_to_db()
 						info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, &ex);
 						if (info) {
 								struct migrate_folders_to_db_structure migrate_dbs;
+								GThread *thread;
 
 								migrate_dbs.ex = ex;
 								migrate_dbs.account_name = account->name;
@@ -3003,7 +3005,6 @@ migrate_to_db()
 								migrate_dbs.store = store;
 								migrate_dbs.done = FALSE;
 
-								GThread *thread;
 								thread = g_thread_create ((GThreadFunc) migrate_folders_to_db_thread, &migrate_dbs, TRUE, NULL);
 								while (!migrate_dbs.done)
 										g_main_context_iteration (NULL, TRUE);
