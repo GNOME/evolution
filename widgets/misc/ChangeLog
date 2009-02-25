@@ -1,3 +1,10 @@
+2009-02-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #559027
+
+	* e-dateedit.c: (on_date_entry_focus_out):
+	Do not set date for 'None' value.
+
 2009-02-12  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #404232
