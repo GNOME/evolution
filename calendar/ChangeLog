@@ -1,5 +1,12 @@
 2009-02-25  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #529037
+
+	* gui/gnome-cal.c: (gnome_calendar_destroy):
+	Disconnect signals on ESource-s too, not only on ECal-s.
+
+2009-02-25  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #561465
 
 	* gui/e-meeting-list-view.c: (build_table):
