@@ -389,6 +389,8 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 		d (printf("%s:%d (alarm_notify_add_calendar) %s - Calendar Open Async... %p\n", __FILE__, __LINE__, str_uri, client));
 		g_hash_table_insert (priv->uri_client_hash[source_type], g_strdup (str_uri), client);
 		g_signal_connect (G_OBJECT (client), "cal_opened", G_CALLBACK (cal_opened_cb), an);
+		/* to resolve floating DATE-TIME properly */
+		e_cal_set_default_timezone (client, config_data_get_timezone (), NULL);
 		e_cal_open_async (client, FALSE);
 	}
 	g_free (str_uri);

@@ -1,5 +1,12 @@
 2009-02-25  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #558366
+
+	* gui/alarm-notify/alarm-notify.c: (alarm_notify_add_calendar):
+	Set default timezone to resolve floating DATE-TIME properly.
+
+2009-02-25  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #238346
 
 	* gui/e-calendar-view.c: (e_calendar_view_add_event): Keep old
