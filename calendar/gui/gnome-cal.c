@@ -1923,8 +1923,13 @@ gnome_calendar_destroy (GtkObject *object)
 		/* Clean up the clients */
 		for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++) {
 			for (l = priv->clients_list[i]; l != NULL; l = l->next) {
+				ESource *source = e_cal_get_source (l->data);
+
 				g_signal_handlers_disconnect_matched (l->data, G_SIGNAL_MATCH_DATA,
 								      0, 0, NULL, NULL, gcal);
+
+				if (source)
+					g_signal_handlers_disconnect_matched (source, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, gcal);
 			}
 
 			g_hash_table_destroy (priv->clients[i]);
@@ -1934,9 +1939,15 @@ gnome_calendar_destroy (GtkObject *object)
 			priv->clients_list[i] = NULL;
 
 			if (priv->default_client[i]) {
+				ESource *source = e_cal_get_source (priv->default_client[i]);
+
 				g_signal_handlers_disconnect_matched (priv->default_client[i],
 								      G_SIGNAL_MATCH_DATA,
 								      0, 0, NULL, NULL, gcal);
+
+				if (source)
+					g_signal_handlers_disconnect_matched (source, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, gcal);
+
 				g_object_unref (priv->default_client[i]);
 			}
 			priv->default_client[i] = NULL;
