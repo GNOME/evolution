@@ -1639,9 +1639,11 @@ on_date_entry_focus_out			(GtkEntry	*entry,
 		e_date_edit_set_date (dedit,tmp_tm.tm_year,tmp_tm.tm_mon,tmp_tm.tm_mday);
 		gtk_widget_grab_focus (GTK_WIDGET (entry));
 		return FALSE;
-	} else {
-		e_date_edit_get_date (dedit,&tmp_tm.tm_year,&tmp_tm.tm_mon,&tmp_tm.tm_mday);
+	} else if (e_date_edit_get_date (dedit,&tmp_tm.tm_year,&tmp_tm.tm_mon,&tmp_tm.tm_mday)) {
 		e_date_edit_set_date (dedit,tmp_tm.tm_year,tmp_tm.tm_mon,tmp_tm.tm_mday);
+	} else {
+		dedit->priv->date_set_to_none = TRUE;
+		e_date_edit_update_date_entry (dedit);
 	}
 	return FALSE;
 }
