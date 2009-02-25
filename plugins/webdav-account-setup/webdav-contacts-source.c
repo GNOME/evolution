@@ -272,12 +272,14 @@ on_toggle_changed(GtkToggleButton *tb, gpointer user_data)
 }
 
 static void
-destroy_ui_data(gpointer data)
+destroy_ui_data (gpointer data)
 {
-	ui_data *ui_data = data;
+	ui_data *ui = data;
 
-	gtk_widget_destroy(ui_data->box);
-	g_free(ui_data);
+	if (ui && ui->box)
+		gtk_widget_destroy (ui->box);
+
+	g_free (ui);
 }
 
 GtkWidget *
@@ -304,8 +306,7 @@ plugin_webdav_contacts(EPlugin *epl, EConfigHookItemFactoryData *data)
 
 	base_uri = e_source_group_peek_base_uri (group);
 
-	g_object_set_data_full (G_OBJECT (epl), "widget", NULL,
-			(GDestroyNotify)gtk_widget_destroy);
+	g_object_set_data (G_OBJECT (epl), "wwidget", NULL);
 
 	if (strcmp(base_uri, BASE_URI) != 0) {
 		return NULL;
@@ -369,8 +370,8 @@ plugin_webdav_contacts(EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_widget_show_all(vbox2);
 
 	uidata->box = vbox2;
-	g_object_set_data_full(G_OBJECT(epl), "widget", uidata,
-			destroy_ui_data);
+	g_object_set_data_full(G_OBJECT(epl), "wwidget", uidata, destroy_ui_data);
+	g_signal_connect (uidata->box, "destroy", G_CALLBACK (gtk_widget_destroyed), &uidata->box);
 
 	g_signal_connect(G_OBJECT(uidata->username_entry), "changed",
 			G_CALLBACK(on_entry_changed), uidata);
