@@ -1,5 +1,12 @@
 2009-02-25  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #572268
+
+	* em-subscribe-editor.c: (sub_fill_level):
+	Do not duplicate "Loading..." node when adding to existing node.
+
+2009-02-25  Milan Crha  <mcrha@redhat.com>
+
 	** Part of fix for bug #563212
 
 	* em-utils.c: (try_open_e_book_cb), (try_open_e_book),

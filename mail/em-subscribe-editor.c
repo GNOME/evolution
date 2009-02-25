@@ -288,6 +288,8 @@ sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, in
 	/* first, fill a level up */
 	fi = info;
 	while (fi) {
+		gboolean known = FALSE;
+
 		if ((node = g_hash_table_lookup(sub->folders, fi->full_name)) == NULL) {
 			gboolean state;
 
@@ -301,6 +303,7 @@ sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, in
 			g_hash_table_insert(sub->folders, fi->full_name, node);
 		} else if (node->path) {
 			gtk_tree_model_get_iter(gtk_tree_view_get_model(sub->tree), &iter, node->path);
+			known = TRUE;
 		}
 
 		d(printf("flags & CAMEL_FOLDER_NOCHILDREN=%d, f & CAMEL_FOLDER_NOINFERIORS=%d\t fi->full_name=[%s], node->path=%p\n",
@@ -315,9 +318,11 @@ sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, in
 				sub_fill_level(sub, fi->child, &iter, FALSE);
 			} else if (!(fi->flags & CAMEL_FOLDER_NOCHILDREN)) {
 				GtkTreeIter new_iter;
-				d(printf("flags: CAMEL_FOLDER_NOCHILDREN is not set '%s'\n", fi->full_name));
-				gtk_tree_store_append(treestore, &new_iter, &iter);
-				gtk_tree_store_set(treestore, &new_iter, 0, 0, 1, "Loading...", 2, NULL, -1);
+				d(printf("flags: CAMEL_FOLDER_NOCHILDREN is not set '%s', known:%d\n", fi->full_name, known?1:0));
+				if (!known) {
+					gtk_tree_store_append(treestore, &new_iter, &iter);
+					gtk_tree_store_set(treestore, &new_iter, 0, 0, 1, "Loading...", 2, NULL, -1);
+				}
 			}
 			else {
 				if (pending)
