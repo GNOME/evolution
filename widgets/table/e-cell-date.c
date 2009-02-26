@@ -54,7 +54,8 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 	if (date == 0) {
 		return g_strdup (_("?"));
 	}
-
+	
+	tzset ();
 	localtime_r (&date, &then);
 	localtime_r (&nowdate, &now);
 
