@@ -1,3 +1,9 @@
+2009-02-26  Andre Klapper  <mcrha@redhat.com>
+
+	* message-tag-followup-c:
+	Remove deprecated gtk_combo_set_case_sensitive() call as FALSE
+	IS already the default value for the case-sensitive property.
+
 2009-02-25  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #572268

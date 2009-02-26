@@ -312,7 +312,6 @@ construct (MessageTagEditor *editor)
 						     renderer, "text", 1, NULL);
 
 	followup->combo = GTK_COMBO (glade_xml_get_widget (gui, "combo"));
-	gtk_combo_set_case_sensitive (followup->combo, FALSE);
 	strings = NULL;
 	for (i = 0; i < num_available_flags; i++)
 		strings = g_list_append (strings, (char *) _(available_flags[i]));
