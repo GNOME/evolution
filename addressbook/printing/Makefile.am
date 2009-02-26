@@ -8,7 +8,6 @@ glade_DATA = 				\
 	e-contact-print.glade
 
 INCLUDES =					\
-	$(GNOME_INCLUDEDIR)			\
 	-DG_LOG_DOMAIN=\"addressbook-printing\"	\
 	-I$(top_srcdir)/addressbook		\
 	-I$(top_srcdir)/addressbook/backend	\

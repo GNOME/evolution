@@ -1,7 +1,7 @@
 INCLUDES = \
-	$(EVOLUTION_ADDRESSBOOK_CFLAGS)      \
-	-I .				     \
-	-I$(top_srcdir)
+	-I .				\
+	-I$(top_srcdir)			\
+	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 @EVO_PLUGIN_RULE@
 

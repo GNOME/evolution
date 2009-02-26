@@ -1,8 +1,8 @@
 INCLUDES = 						\
-	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	-I .						\
 	-I$(top_srcdir)	                                \
-	-DCALDAV_GLADEDIR=\""$(gladedir)"\"		
+	-DCALDAV_GLADEDIR=\""$(gladedir)"\"		\
+	$(EVOLUTION_CALENDAR_CFLAGS)
 
 @EVO_PLUGIN_RULE@
 
