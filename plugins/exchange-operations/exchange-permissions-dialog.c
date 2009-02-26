@@ -505,9 +505,6 @@ setup_user_list (ExchangePermissionsDialog *dialog)
 	E2kSid *default_entry;
 	GList *sids;
 
-	/* FIXME */
-	/* gtk_clist_freeze (dialog->priv->clist); */
-
 	/* Always put "Default" first. */
 	default_entry = e2k_security_descriptor_get_default (sd);
 	add_user_to_list (dialog, default_entry, TRUE);
@@ -519,8 +516,6 @@ setup_user_list (ExchangePermissionsDialog *dialog)
 		sids = sids->next;
 	}
 	g_list_free (sids);
-
-	/* gtk_clist_thaw (dialog->priv->clist); */
 }
 
 
