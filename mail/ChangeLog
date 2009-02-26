@@ -1,4 +1,4 @@
-2009-02-26  Andre Klapper  <mcrha@redhat.com>
+2009-02-26  Andre Klapper  <a9016009@gmx.de>
 
 	* message-tag-followup-c:
 	Remove deprecated gtk_combo_set_case_sensitive() call as FALSE
