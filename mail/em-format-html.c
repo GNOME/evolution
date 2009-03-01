@@ -135,12 +135,7 @@ static void efh_gtkhtml_destroy(GtkHTML *html, EMFormatHTML *efh);
 
 static void efh_format_message(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info);
 
-static void efh_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeMessage *msg, EMFormat *emfsource);
-static void efh_format_error(EMFormat *emf, CamelStream *stream, const char *txt);
-static void efh_format_source(EMFormat *, CamelStream *, CamelMimePart *);
-static void efh_format_attachment(EMFormat *, CamelStream *, CamelMimePart *, const char *, const EMFormatHandler *);
 static void efh_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, CamelCipherValidity *valid);
-static gboolean efh_busy(EMFormat *);
 
 static void efh_builtin_init(EMFormatHTMLClass *efhc);
 
@@ -150,6 +145,230 @@ static gpointer parent_class;
 static CamelDataCache *emfh_http_cache;
 
 #define EMFH_HTTP_CACHE_PATH "http"
+
+/* Sigh, this is so we have a cancellable, async rendering thread */
+struct _format_msg {
+	MailMsg base;
+
+	EMFormatHTML *format;
+	EMFormat *format_source;
+	EMHTMLStream *estream;
+	CamelFolder *folder;
+	char *uid;
+	CamelMimeMessage *message;
+};
+
+static gchar *
+efh_format_desc (struct _format_msg *m)
+{
+	return g_strdup(_("Formatting message"));
+}
+
+static void
+efh_format_exec (struct _format_msg *m)
+{
+	struct _EMFormatHTMLJob *job;
+	struct _EMFormatPURITree *puri_level;
+	int cancelled = FALSE;
+	CamelURL *base;
+
+	if (m->format->html == NULL)
+		return;
+
+	camel_stream_printf (
+		(CamelStream *)m->estream,
+		"<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n"
+		"<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\">\n</head>\n"
+		"<body bgcolor =\"#%06x\" text=\"#%06x\" marginwidth=6 marginheight=6>\n",
+		e_color_to_value (
+			&m->format->priv->colors[
+			EM_FORMAT_HTML_COLOR_BODY]),
+		e_color_to_value (
+			&m->format->priv->colors[
+			EM_FORMAT_HTML_COLOR_HEADER]));
+
+	/* <insert top-header stuff here> */
+
+	if (((EMFormat *)m->format)->mode == EM_FORMAT_SOURCE) {
+		em_format_format_source((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMimePart *)m->message);
+	} else {
+		const EMFormatHandler *handle;
+
+		handle = em_format_find_handler((EMFormat *)m->format, "x-evolution/message/prefix");
+		if (handle)
+			handle->handler((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMimePart *)m->message, handle);
+		handle = em_format_find_handler((EMFormat *)m->format, "x-evolution/message/rfc822");
+		if (handle)
+			handle->handler((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMimePart *)m->message, handle);
+		handle = em_format_find_handler((EMFormat *)m->format, "x-evolution/message/post-header-closure");
+		if (handle && !((EMFormat *)m->format)->print)
+			handle->handler((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMimePart *)m->message, handle);
+
+	}
+
+	camel_stream_flush((CamelStream *)m->estream);
+
+	puri_level = ((EMFormat *)m->format)->pending_uri_level;
+	base = ((EMFormat *)m->format)->base;
+
+	do {
+		/* now dispatch any added tasks ... */
+		g_mutex_lock(m->format->priv->lock);
+		while ((job = (struct _EMFormatHTMLJob *)e_dlist_remhead(&m->format->priv->pending_jobs))) {
+			g_mutex_unlock(m->format->priv->lock);
+
+			/* This is an implicit check to see if the gtkhtml has been destroyed */
+			if (!cancelled)
+				cancelled = m->format->html == NULL;
+
+			/* Now do an explicit check for user cancellation */
+			if (!cancelled)
+				cancelled = camel_operation_cancel_check(NULL);
+
+			/* call jobs even if cancelled, so they can clean up resources */
+			((EMFormat *)m->format)->pending_uri_level = job->puri_level;
+			if (job->base)
+				((EMFormat *)m->format)->base = job->base;
+			job->callback(job, cancelled);
+			((EMFormat *)m->format)->base = base;
+
+			/* clean up the job */
+			camel_object_unref(job->stream);
+			if (job->base)
+				camel_url_free(job->base);
+			g_free(job);
+
+			g_mutex_lock(m->format->priv->lock);
+		}
+		g_mutex_unlock(m->format->priv->lock);
+
+		if (m->estream) {
+			/* Closing this base stream can queue more jobs, so we need
+			   to check the list again after we've finished */
+			d(printf("out of jobs, closing root stream\n"));
+			camel_stream_write_string((CamelStream *)m->estream, "</body>\n</html>\n");
+			camel_stream_close((CamelStream *)m->estream);
+			camel_object_unref(m->estream);
+			m->estream = NULL;
+		}
+
+		/* e_dlist_empty is atomic and doesn't need locking */
+	} while (!e_dlist_empty(&m->format->priv->pending_jobs));
+
+	d(printf("out of jobs, done\n"));
+
+	((EMFormat *)m->format)->pending_uri_level = puri_level;
+}
+
+static void
+efh_format_done (struct _format_msg *m)
+{
+	d(printf("formatting finished\n"));
+
+	m->format->priv->format_id = -1;
+	m->format->priv->load_images_now = FALSE;
+	m->format->state = EM_FORMAT_HTML_STATE_NONE;
+	g_signal_emit_by_name(m->format, "complete");
+}
+
+static void
+efh_format_free (struct _format_msg *m)
+{
+	d(printf("formatter freed\n"));
+	g_object_unref(m->format);
+	if (m->estream) {
+		camel_stream_close((CamelStream *)m->estream);
+		camel_object_unref(m->estream);
+	}
+	if (m->folder)
+		camel_object_unref(m->folder);
+	g_free(m->uid);
+	if (m->message)
+		camel_object_unref(m->message);
+	if (m->format_source)
+		g_object_unref(m->format_source);
+}
+
+static MailMsgInfo efh_format_info = {
+	sizeof (struct _format_msg),
+	(MailMsgDescFunc) efh_format_desc,
+	(MailMsgExecFunc) efh_format_exec,
+	(MailMsgDoneFunc) efh_format_done,
+	(MailMsgFreeFunc) efh_format_free
+};
+
+static gboolean
+efh_format_timeout(struct _format_msg *m)
+{
+	GtkHTMLStream *hstream;
+	EMFormatHTML *efh = m->format;
+	struct _EMFormatHTMLPrivate *p = efh->priv;
+
+	if (m->format->html == NULL) {
+		mail_msg_unref(m);
+		return FALSE;
+	}
+
+	d(printf("timeout called ...\n"));
+	if (p->format_id != -1) {
+		d(printf(" still waiting for cancellation to take effect, waiting ...\n"));
+		return TRUE;
+	}
+
+	g_return_val_if_fail (e_dlist_empty(&p->pending_jobs), FALSE);
+
+	d(printf(" ready to go, firing off format thread\n"));
+
+	/* call super-class to kick it off */
+	EM_FORMAT_CLASS (parent_class)->format_clone (
+		EM_FORMAT (efh), m->folder, m->uid,
+		m->message, m->format_source);
+	em_format_html_clear_pobject(m->format);
+
+	/* FIXME: method off EMFormat? */
+	if (((EMFormat *)efh)->valid) {
+		camel_cipher_validity_free(((EMFormat *)efh)->valid);
+		((EMFormat *)efh)->valid = NULL;
+		((EMFormat *)efh)->valid_parent = NULL;
+	}
+
+	if (m->message == NULL) {
+		hstream = gtk_html_begin(efh->html);
+		gtk_html_stream_close(hstream, GTK_HTML_STREAM_OK);
+		mail_msg_unref(m);
+		p->last_part = NULL;
+	} else {
+		efh->state = EM_FORMAT_HTML_STATE_RENDERING;
+
+		if (p->last_part != m->message) {
+			hstream = gtk_html_begin (efh->html);
+			gtk_html_stream_printf (hstream, "<h5>%s</h5>", _("Formatting Message..."));
+			gtk_html_stream_close (hstream, GTK_HTML_STREAM_OK);
+		}
+
+		hstream = NULL;
+		m->estream = (EMHTMLStream *)em_html_stream_new(efh->html, hstream);
+
+		if (p->last_part == m->message) {
+			em_html_stream_set_flags (m->estream,
+						  GTK_HTML_BEGIN_KEEP_SCROLL | GTK_HTML_BEGIN_KEEP_IMAGES
+						  | GTK_HTML_BEGIN_BLOCK_UPDATES | GTK_HTML_BEGIN_BLOCK_IMAGES);
+		} else {
+			/* clear cache of inline-scanned text parts */
+			g_hash_table_remove_all(p->text_inline_parts);
+
+			p->last_part = m->message;
+		}
+
+		efh->priv->format_id = m->base.seq;
+		mail_msg_unordered_push (m);
+	}
+
+	efh->priv->format_timeout_id = 0;
+	efh->priv->format_timeout_msg = NULL;
+
+	return FALSE;
+}
 
 static void
 efh_free_cache(struct _EMFormatHTMLCache *efhc)
@@ -371,6 +590,143 @@ efh_finalize (GObject *object)
 }
 
 static void
+efh_format_clone (EMFormat *emf,
+                  CamelFolder *folder,
+                  const gchar *uid,
+                  CamelMimeMessage *msg,
+                  EMFormat *emfsource)
+{
+	EMFormatHTML *efh = EM_FORMAT_HTML (emf);
+	struct _format_msg *m;
+
+	/* How to sub-class ?  Might need to adjust api ... */
+
+	if (efh->html == NULL)
+		return;
+
+	d(printf("efh_format called\n"));
+	if (efh->priv->format_timeout_id != 0) {
+		d(printf(" timeout for last still active, removing ...\n"));
+		g_source_remove(efh->priv->format_timeout_id);
+		efh->priv->format_timeout_id = 0;
+		mail_msg_unref(efh->priv->format_timeout_msg);
+		efh->priv->format_timeout_msg = NULL;
+	}
+
+	if (emfsource != NULL)
+		g_object_ref (emfsource);
+
+	if (folder != NULL)
+		camel_object_ref (folder);
+
+	if (msg != NULL)
+		camel_object_ref (msg);
+
+	m = mail_msg_new (&efh_format_info);
+	m->format = g_object_ref (emf);
+	m->format_source = emfsource;
+	m->folder = folder;
+	m->uid = g_strdup (uid);
+	m->message = msg;
+
+	if (efh->priv->format_id == -1) {
+		d(printf(" idle, forcing format\n"));
+		efh_format_timeout (m);
+	} else {
+		d(printf(" still busy, cancelling and queuing wait\n"));
+		/* cancel and poll for completion */
+		mail_msg_cancel (efh->priv->format_id);
+		efh->priv->format_timeout_msg = m;
+		efh->priv->format_timeout_id = g_timeout_add (
+			100, (GSourceFunc) efh_format_timeout, m);
+	}
+}
+
+static void
+efh_format_error (EMFormat *emf,
+                  CamelStream *stream,
+                  const gchar *txt)
+{
+	gchar *html;
+
+	html = camel_text_to_html (
+		txt, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
+	camel_stream_printf (
+		stream, "<em><font color=\"red\">%s</font></em><br>", html);
+	g_free (html);
+}
+
+static void
+efh_format_source (EMFormat *emf,
+                   CamelStream *stream,
+                   CamelMimePart *part)
+{
+	CamelStreamFilter *filtered_stream;
+	CamelMimeFilter *filter;
+	CamelDataWrapper *dw = (CamelDataWrapper *) part;
+
+	filtered_stream = camel_stream_filter_new_with_stream (stream);
+
+	filter = camel_mime_filter_tohtml_new (
+		CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
+		CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES |
+		CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT, 0);
+	camel_stream_filter_add (filtered_stream, filter);
+	camel_object_unref (filter);
+
+	camel_stream_write_string (stream, "<table><tr><td><tt>");
+	em_format_format_text (emf, (CamelStream *) filtered_stream, dw);
+	camel_object_unref (filtered_stream);
+
+	camel_stream_write_string(stream, "</tt></td></tr></table>");
+}
+
+static void
+efh_format_attachment (EMFormat *emf,
+                       CamelStream *stream,
+                       CamelMimePart *part,
+                       const gchar *mime_type,
+                       const EMFormatHandler *handle)
+{
+	char *text, *html;
+
+	/* we display all inlined attachments only */
+
+	/* this could probably be cleaned up ... */
+	camel_stream_write_string (
+		stream,
+		"<table border=1 cellspacing=0 cellpadding=0><tr><td>"
+		"<table width=10 cellspacing=0 cellpadding=0>"
+		"<tr><td></td></tr></table></td>"
+		"<td><table width=3 cellspacing=0 cellpadding=0>"
+		"<tr><td></td></tr></table></td><td><font size=-1>\n");
+
+	/* output some info about it */
+	text = em_format_describe_part(part, mime_type);
+	html = camel_text_to_html (
+		text, ((EMFormatHTML *)emf)->text_html_flags &
+		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
+	camel_stream_write_string (stream, html);
+	g_free (html);
+	g_free (text);
+
+	camel_stream_write_string (stream, "</font></td></tr><tr></table>");
+
+	if (handle && em_format_is_inline (emf, emf->part_id->str, part, handle))
+		handle->handler (emf, stream, part, handle);
+}
+
+static gboolean
+efh_busy (EMFormat *emf)
+{
+	EMFormatHTMLPrivate *priv;
+
+	priv = EM_FORMAT_HTML_GET_PRIVATE (emf);
+
+	return (priv->format_id != -1);
+}
+static void
 efh_base_init (EMFormatHTMLClass *class)
 {
 	efh_builtin_init (class);
@@ -398,6 +754,8 @@ efh_class_init (EMFormatHTMLClass *class)
 	format_class->format_attachment = efh_format_attachment;
 	format_class->format_secure = efh_format_secure;
 	format_class->busy = efh_busy;
+
+	class->html_widget_type = GTK_TYPE_HTML;
 
 	g_object_class_install_property (
 		object_class,
@@ -516,8 +874,10 @@ efh_class_init (EMFormatHTMLClass *class)
 }
 
 static void
-efh_init (EMFormatHTML *efh)
+efh_init (EMFormatHTML *efh,
+          EMFormatHTMLClass *class)
 {
+	GtkHTML *html;
 	GdkColor *color;
 
 	efh->priv = EM_FORMAT_HTML_GET_PRIVATE (efh);
@@ -531,32 +891,35 @@ efh_init (EMFormatHTML *efh)
 		(GDestroyNotify) NULL,
 		(GDestroyNotify) efh_free_cache);
 
-	efh->html = (GtkHTML *) gtk_html_new ();
-	g_object_ref_sink(efh->html);
+	html = g_object_new (class->html_widget_type, NULL);
+	efh->html = g_object_ref_sink (html);
 
-	gtk_html_set_blocking (efh->html, FALSE);
-	gtk_html_set_caret_first_focus_anchor (efh->html, EFM_MESSAGE_START_ANAME);
+	gtk_html_set_blocking (html, FALSE);
+	gtk_html_set_caret_first_focus_anchor (html, EFM_MESSAGE_START_ANAME);
+	gtk_html_set_default_content_type (html, "text/html; charset=utf-8");
+	gtk_html_set_editable (html, FALSE);
 
-	gtk_html_set_default_content_type(efh->html, "text/html; charset=utf-8");
-	gtk_html_set_editable(efh->html, FALSE);
-
-	g_signal_connect(efh->html, "url_requested", G_CALLBACK(efh_url_requested), efh);
-	g_signal_connect(efh->html, "object_requested", G_CALLBACK(efh_object_requested), efh);
+	g_signal_connect (
+		html, "url-requested",
+		G_CALLBACK (efh_url_requested), efh);
+	g_signal_connect (
+		html, "object-requested",
+		G_CALLBACK (efh_object_requested), efh);
 
 	color = &efh->priv->colors[EM_FORMAT_HTML_COLOR_BODY];
-	gdk_color_parse ("0xeeeeee", color);
+	gdk_color_parse ("#eeeeee", color);
 
 	color = &efh->priv->colors[EM_FORMAT_HTML_COLOR_CONTENT];
-	gdk_color_parse ("0xffffff", color);
+	gdk_color_parse ("#ffffff", color);
 
 	color = &efh->priv->colors[EM_FORMAT_HTML_COLOR_FRAME];
-	gdk_color_parse ("0x3f3f3f", color);
+	gdk_color_parse ("#3f3f3f", color);
 
 	color = &efh->priv->colors[EM_FORMAT_HTML_COLOR_HEADER];
-	gdk_color_parse ("0xeeeeee", color);
+	gdk_color_parse ("#eeeeee", color);
 
 	color = &efh->priv->colors[EM_FORMAT_HTML_COLOR_TEXT];
-	gdk_color_parse ("0x000000", color);
+	gdk_color_parse ("#000000", color);
 
 	efh->text_html_flags =
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_NL |
@@ -590,16 +953,11 @@ em_format_html_get_type (void)
 		};
 
 		type = g_type_register_static (
-			em_format_get_type(), "EMFormatHTML", &type_info, 0);
+			em_format_get_type(), "EMFormatHTML",
+			&type_info, G_TYPE_FLAG_ABSTRACT);
 	}
 
 	return type;
-}
-
-EMFormatHTML *
-em_format_html_new(void)
-{
-	return g_object_new (EM_TYPE_FORMAT_HTML, NULL);
 }
 
 void
@@ -688,7 +1046,7 @@ em_format_html_get_image_loading_policy (EMFormatHTML *efh)
 {
 	g_return_val_if_fail (EM_IS_FORMAT_HTML (efh), 0);
 
-	return efh->priv->image_loading_policy;;
+	return efh->priv->image_loading_policy;
 }
 
 void
@@ -1711,284 +2069,6 @@ efh_builtin_init(EMFormatHTMLClass *efhc)
 
 /* ********************************************************************** */
 
-/* Sigh, this is so we have a cancellable, async rendering thread */
-struct _format_msg {
-	MailMsg base;
-
-	EMFormatHTML *format;
-	EMFormat *format_source;
-	EMHTMLStream *estream;
-	CamelFolder *folder;
-	char *uid;
-	CamelMimeMessage *message;
-};
-
-static gchar *
-efh_format_desc (struct _format_msg *m)
-{
-	return g_strdup(_("Formatting message"));
-}
-
-static void
-efh_format_exec (struct _format_msg *m)
-{
-	struct _EMFormatHTMLJob *job;
-	struct _EMFormatPURITree *puri_level;
-	int cancelled = FALSE;
-	CamelURL *base;
-
-	if (m->format->html == NULL)
-		return;
-
-	camel_stream_printf (
-		(CamelStream *)m->estream,
-		"<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n"
-		"<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\">\n</head>\n"
-		"<body bgcolor =\"#%06x\" text=\"#%06x\" marginwidth=6 marginheight=6>\n",
-		e_color_to_value (
-			&m->format->priv->colors[
-			EM_FORMAT_HTML_COLOR_BODY]),
-		e_color_to_value (
-			&m->format->priv->colors[
-			EM_FORMAT_HTML_COLOR_HEADER]));
-
-	/* <insert top-header stuff here> */
-
-	if (((EMFormat *)m->format)->mode == EM_FORMAT_SOURCE) {
-		em_format_format_source((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMimePart *)m->message);
-	} else {
-		const EMFormatHandler *handle;
-
-		handle = em_format_find_handler((EMFormat *)m->format, "x-evolution/message/prefix");
-		if (handle)
-			handle->handler((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMimePart *)m->message, handle);
-		handle = em_format_find_handler((EMFormat *)m->format, "x-evolution/message/rfc822");
-		if (handle)
-			handle->handler((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMimePart *)m->message, handle);
-		handle = em_format_find_handler((EMFormat *)m->format, "x-evolution/message/post-header-closure");
-		if (handle && !((EMFormat *)m->format)->print)
-			handle->handler((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMimePart *)m->message, handle);
-
-	}
-
-	camel_stream_flush((CamelStream *)m->estream);
-
-	puri_level = ((EMFormat *)m->format)->pending_uri_level;
-	base = ((EMFormat *)m->format)->base;
-
-	do {
-		/* now dispatch any added tasks ... */
-		g_mutex_lock(m->format->priv->lock);
-		while ((job = (struct _EMFormatHTMLJob *)e_dlist_remhead(&m->format->priv->pending_jobs))) {
-			g_mutex_unlock(m->format->priv->lock);
-
-			/* This is an implicit check to see if the gtkhtml has been destroyed */
-			if (!cancelled)
-				cancelled = m->format->html == NULL;
-
-			/* Now do an explicit check for user cancellation */
-			if (!cancelled)
-				cancelled = camel_operation_cancel_check(NULL);
-
-			/* call jobs even if cancelled, so they can clean up resources */
-			((EMFormat *)m->format)->pending_uri_level = job->puri_level;
-			if (job->base)
-				((EMFormat *)m->format)->base = job->base;
-			job->callback(job, cancelled);
-			((EMFormat *)m->format)->base = base;
-
-			/* clean up the job */
-			camel_object_unref(job->stream);
-			if (job->base)
-				camel_url_free(job->base);
-			g_free(job);
-
-			g_mutex_lock(m->format->priv->lock);
-		}
-		g_mutex_unlock(m->format->priv->lock);
-
-		if (m->estream) {
-			/* Closing this base stream can queue more jobs, so we need
-			   to check the list again after we've finished */
-			d(printf("out of jobs, closing root stream\n"));
-			camel_stream_write_string((CamelStream *)m->estream, "</body>\n</html>\n");
-			camel_stream_close((CamelStream *)m->estream);
-			camel_object_unref(m->estream);
-			m->estream = NULL;
-		}
-
-		/* e_dlist_empty is atomic and doesn't need locking */
-	} while (!e_dlist_empty(&m->format->priv->pending_jobs));
-
-	d(printf("out of jobs, done\n"));
-
-	((EMFormat *)m->format)->pending_uri_level = puri_level;
-}
-
-static void
-efh_format_done (struct _format_msg *m)
-{
-	d(printf("formatting finished\n"));
-
-	m->format->priv->format_id = -1;
-	m->format->priv->load_images_now = FALSE;
-	m->format->state = EM_FORMAT_HTML_STATE_NONE;
-	g_signal_emit_by_name(m->format, "complete");
-}
-
-static void
-efh_format_free (struct _format_msg *m)
-{
-	d(printf("formatter freed\n"));
-	g_object_unref(m->format);
-	if (m->estream) {
-		camel_stream_close((CamelStream *)m->estream);
-		camel_object_unref(m->estream);
-	}
-	if (m->folder)
-		camel_object_unref(m->folder);
-	g_free(m->uid);
-	if (m->message)
-		camel_object_unref(m->message);
-	if (m->format_source)
-		g_object_unref(m->format_source);
-}
-
-static MailMsgInfo efh_format_info = {
-	sizeof (struct _format_msg),
-	(MailMsgDescFunc) efh_format_desc,
-	(MailMsgExecFunc) efh_format_exec,
-	(MailMsgDoneFunc) efh_format_done,
-	(MailMsgFreeFunc) efh_format_free
-};
-
-static gboolean
-efh_format_timeout(struct _format_msg *m)
-{
-	GtkHTMLStream *hstream;
-	EMFormatHTML *efh = m->format;
-	struct _EMFormatHTMLPrivate *p = efh->priv;
-
-	if (m->format->html == NULL) {
-		mail_msg_unref(m);
-		return FALSE;
-	}
-
-	d(printf("timeout called ...\n"));
-	if (p->format_id != -1) {
-		d(printf(" still waiting for cancellation to take effect, waiting ...\n"));
-		return TRUE;
-	}
-
-	g_return_val_if_fail (e_dlist_empty(&p->pending_jobs), FALSE);
-
-	d(printf(" ready to go, firing off format thread\n"));
-
-	/* call super-class to kick it off */
-	EM_FORMAT_CLASS (parent_class)->format_clone (
-		EM_FORMAT (efh), m->folder, m->uid,
-		m->message, m->format_source);
-	em_format_html_clear_pobject(m->format);
-
-	/* FIXME: method off EMFormat? */
-	if (((EMFormat *)efh)->valid) {
-		camel_cipher_validity_free(((EMFormat *)efh)->valid);
-		((EMFormat *)efh)->valid = NULL;
-		((EMFormat *)efh)->valid_parent = NULL;
-	}
-
-	if (m->message == NULL) {
-		hstream = gtk_html_begin(efh->html);
-		gtk_html_stream_close(hstream, GTK_HTML_STREAM_OK);
-		mail_msg_unref(m);
-		p->last_part = NULL;
-	} else {
-		efh->state = EM_FORMAT_HTML_STATE_RENDERING;
-
-		if (p->last_part != m->message) {
-			hstream = gtk_html_begin (efh->html);
-			gtk_html_stream_printf (hstream, "<h5>%s</h5>", _("Formatting Message..."));
-			gtk_html_stream_close (hstream, GTK_HTML_STREAM_OK);
-		}
-
-		hstream = NULL;
-		m->estream = (EMHTMLStream *)em_html_stream_new(efh->html, hstream);
-
-		if (p->last_part == m->message) {
-			em_html_stream_set_flags (m->estream,
-						  GTK_HTML_BEGIN_KEEP_SCROLL | GTK_HTML_BEGIN_KEEP_IMAGES
-						  | GTK_HTML_BEGIN_BLOCK_UPDATES | GTK_HTML_BEGIN_BLOCK_IMAGES);
-		} else {
-			/* clear cache of inline-scanned text parts */
-			g_hash_table_remove_all(p->text_inline_parts);
-
-			p->last_part = m->message;
-		}
-
-		efh->priv->format_id = m->base.seq;
-		mail_msg_unordered_push (m);
-	}
-
-	efh->priv->format_timeout_id = 0;
-	efh->priv->format_timeout_msg = NULL;
-
-	return FALSE;
-}
-
-static void efh_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeMessage *msg, EMFormat *emfsource)
-{
-	EMFormatHTML *efh = (EMFormatHTML *)emf;
-	struct _format_msg *m;
-
-	/* How to sub-class ?  Might need to adjust api ... */
-
-	if (efh->html == NULL)
-		return;
-
-	d(printf("efh_format called\n"));
-	if (efh->priv->format_timeout_id != 0) {
-		d(printf(" timeout for last still active, removing ...\n"));
-		g_source_remove(efh->priv->format_timeout_id);
-		efh->priv->format_timeout_id = 0;
-		mail_msg_unref(efh->priv->format_timeout_msg);
-		efh->priv->format_timeout_msg = NULL;
-	}
-
-	m = mail_msg_new(&efh_format_info);
-	m->format = (EMFormatHTML *)emf;
-	g_object_ref(emf);
-	m->format_source = emfsource;
-	if (emfsource)
-		g_object_ref(emfsource);
-	m->folder = folder;
-	if (folder)
-		camel_object_ref(folder);
-	m->uid = g_strdup(uid);
-	m->message = msg;
-	if (msg)
-		camel_object_ref(msg);
-
-	if (efh->priv->format_id == -1) {
-		d(printf(" idle, forcing format\n"));
-		efh_format_timeout(m);
-	} else {
-		d(printf(" still busy, cancelling and queuing wait\n"));
-		/* cancel and poll for completion */
-		mail_msg_cancel(efh->priv->format_id);
-		efh->priv->format_timeout_msg = m;
-		efh->priv->format_timeout_id = g_timeout_add(100, (GSourceFunc)efh_format_timeout, m);
-	}
-}
-
-static void efh_format_error(EMFormat *emf, CamelStream *stream, const char *txt)
-{
-	char *html;
-
-	html = camel_text_to_html (txt, CAMEL_MIME_FILTER_TOHTML_CONVERT_NL|CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
-	camel_stream_printf(stream, "<em><font color=\"red\">%s</font></em><br>", html);
-	g_free(html);
-}
-
 static void
 efh_format_text_header (EMFormatHTML *emfh, CamelStream *stream, const char *label, const char *value, guint32 flags)
 {
@@ -2563,7 +2643,8 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	}
 }
 
-static void efh_format_message(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+static void
+efh_format_message(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
 {
 	const EMFormatHandler *handle;
 
@@ -2594,58 +2675,4 @@ static void efh_format_message(EMFormat *emf, CamelStream *stream, CamelMimePart
 
 	emf->valid = save;
 	emf->valid_parent = save_parent;
-}
-
-static void efh_format_source(EMFormat *emf, CamelStream *stream, CamelMimePart *part)
-{
-	CamelStreamFilter *filtered_stream;
-	CamelMimeFilter *html_filter;
-	CamelDataWrapper *dw = (CamelDataWrapper *)part;
-
-	filtered_stream = camel_stream_filter_new_with_stream ((CamelStream *) stream);
-	html_filter = camel_mime_filter_tohtml_new (CAMEL_MIME_FILTER_TOHTML_CONVERT_NL
-						    | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES
-						    | CAMEL_MIME_FILTER_TOHTML_PRESERVE_8BIT, 0);
-	camel_stream_filter_add(filtered_stream, html_filter);
-	camel_object_unref(html_filter);
-
-	camel_stream_write_string((CamelStream *)stream, "<table><tr><td><tt>");
-	em_format_format_text(emf, (CamelStream *)filtered_stream, dw);
-	camel_object_unref(filtered_stream);
-
-	camel_stream_write_string(stream, "</tt></td></tr></table>");
-}
-
-static void
-efh_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const char *mime_type, const EMFormatHandler *handle)
-{
-	char *text, *html;
-
-	/* we display all inlined attachments only */
-
-	/* this could probably be cleaned up ... */
-	camel_stream_write_string(stream,
-				  "<table border=1 cellspacing=0 cellpadding=0><tr><td>"
-				  "<table width=10 cellspacing=0 cellpadding=0>"
-				  "<tr><td></td></tr></table></td>"
-				  "<td><table width=3 cellspacing=0 cellpadding=0>"
-				  "<tr><td></td></tr></table></td><td><font size=-1>\n");
-
-	/* output some info about it */
-	text = em_format_describe_part(part, mime_type);
-	html = camel_text_to_html(text, ((EMFormatHTML *)emf)->text_html_flags & CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS, 0);
-	camel_stream_write_string(stream, html);
-	g_free(html);
-	g_free(text);
-
-	camel_stream_write_string(stream, "</font></td></tr><tr></table>");
-
-	if (handle && em_format_is_inline(emf, emf->part_id->str, part, handle))
-		handle->handler(emf, stream, part, handle);
-}
-
-static gboolean
-efh_busy(EMFormat *emf)
-{
-	return (((EMFormatHTML *)emf)->priv->format_id != -1);
 }

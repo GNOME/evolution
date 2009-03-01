@@ -89,6 +89,19 @@ mail_shell_view_reader_changed_cb (EMailShellView *mail_shell_view)
 }
 
 static void
+mail_shell_view_reader_status_message_cb (EMailShellView *mail_shell_view,
+                                          const gchar *status_message)
+{
+	EShellView *shell_view;
+	EShellTaskbar *shell_taskbar;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_taskbar = e_shell_view_get_shell_taskbar (shell_view);
+
+	e_shell_taskbar_set_message (shell_taskbar, status_message);
+}
+
+static void
 mail_shell_view_load_view_collection (EShellViewClass *shell_view_class)
 {
 	GalViewCollection *collection;
@@ -160,6 +173,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	EShellSettings *shell_settings;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
+	EMFormatHTMLDisplay *html_display;
 	EMFolderTreeModel *folder_tree_model;
 	EMFolderTree *folder_tree;
 	RuleContext *context;
@@ -168,6 +182,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	GtkUIManager *ui_manager;
 	MessageList *message_list;
 	EMailReader *reader;
+	GtkHTML *html;
 	const gchar *source;
 	guint merge_id;
 	gchar *uri;
@@ -197,10 +212,13 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	priv->mail_shell_sidebar = g_object_ref (shell_sidebar);
 
 	reader = E_MAIL_READER (shell_content);
+	html_display = e_mail_reader_get_html_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+
+	html = EM_FORMAT_HTML (html_display)->html;
 
 	g_signal_connect_swapped (
 		folder_tree, "folder-selected",
@@ -241,6 +259,11 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	g_signal_connect_swapped (
 		tree_model, "row-inserted",
 		G_CALLBACK (e_mail_shell_view_update_search_filter),
+		mail_shell_view);
+
+	g_signal_connect_swapped (
+		html, "status-message",
+		G_CALLBACK (mail_shell_view_reader_status_message_cb),
 		mail_shell_view);
 
 	e_mail_shell_view_actions_init (mail_shell_view);

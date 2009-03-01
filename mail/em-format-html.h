@@ -22,7 +22,7 @@
  */
 
 /*
-  Concrete class for formatting mails to html
+  Abstract class for formatting mails to html
 */
 
 #ifndef EM_FORMAT_HTML_H
@@ -226,10 +226,11 @@ struct _EMFormatHTML {
 
 struct _EMFormatHTMLClass {
 	EMFormatClass parent_class;
+
+	GType html_widget_type;
 };
 
 GType		em_format_html_get_type		(void);
-EMFormatHTML *	em_format_html_new		(void);
 void		em_format_html_load_images	(EMFormatHTML *efh);
 void		em_format_html_get_color	(EMFormatHTML *efh,
 						 EMFormatHTMLColorType type,

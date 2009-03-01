@@ -218,6 +218,23 @@ mail_browser_message_selected_cb (EMailBrowser *browser,
 }
 
 static void
+mail_browser_status_message_cb (EMailBrowser *browser,
+                                const gchar *status_message)
+{
+	GtkStatusbar *statusbar;
+	guint context_id;
+
+	statusbar = GTK_STATUSBAR (browser->priv->statusbar);
+	context_id = gtk_statusbar_get_context_id (statusbar, G_STRFUNC);
+
+	/* Always pop first.  This prevents messages from piling up. */
+	gtk_statusbar_pop (statusbar, context_id);
+
+	if (status_message != NULL && *status_message != '\0')
+		gtk_statusbar_push (statusbar, context_id, status_message);
+}
+
+static void
 mail_browser_set_shell_module (EMailBrowser *browser,
                                EShellModule *shell_module)
 {
@@ -320,6 +337,7 @@ mail_browser_dispose (GObject *object)
 static void
 mail_browser_constructed (GObject *object)
 {
+	EMFormatHTMLDisplay *html_display;
 	EMailBrowserPrivate *priv;
 	EMailReader *reader;
 	EShellModule *shell_module;
@@ -329,6 +347,7 @@ mail_browser_constructed (GObject *object)
 	GtkUIManager *ui_manager;
 	GtkWidget *container;
 	GtkWidget *widget;
+	GtkHTML *html;
 	const gchar *domain;
 	guint merge_id;
 
@@ -338,9 +357,13 @@ mail_browser_constructed (GObject *object)
 	ui_manager = priv->ui_manager;
 	domain = GETTEXT_PACKAGE;
 
+	html_display = e_mail_reader_get_html_display (reader);
 	shell_module = e_mail_reader_get_shell_module (reader);
+
 	shell = e_shell_module_get_shell (shell_module);
 	e_shell_watch_window (shell, GTK_WINDOW (object));
+
+	html = EM_FORMAT_HTML (html_display)->html;
 
 	/* The message list is a widget, but it is not shown in the browser.
 	 * Unfortunately, the widget is inseparable from its model, and the
@@ -351,6 +374,10 @@ mail_browser_constructed (GObject *object)
 	g_signal_connect_swapped (
 		priv->message_list, "message-selected",
 		G_CALLBACK (mail_browser_message_selected_cb), object);
+
+	g_signal_connect_swapped (
+		html, "status-message",
+		G_CALLBACK (mail_browser_status_message_cb), object);
 
 	e_mail_reader_init (reader);
 
@@ -409,7 +436,7 @@ mail_browser_constructed (GObject *object)
 
 	container = widget;
 
-	widget = GTK_WIDGET (((EMFormatHTML *) priv->html_display)->html);
+	widget = GTK_WIDGET (EM_FORMAT_HTML (html_display)->html);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 }

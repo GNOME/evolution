@@ -25,8 +25,9 @@
 #ifndef EM_FORMAT_HTML_DISPLAY_H
 #define EM_FORMAT_HTML_DISPLAY_H
 
-#include "mail/em-format-html.h"
-#include "widgets/misc/e-attachment-bar.h"
+#include <camel/camel-mime-part.h>
+#include <mail/em-format-html.h>
+#include <widgets/misc/e-attachment-bar.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_FORMAT_HTML_DISPLAY \
@@ -58,41 +59,32 @@ typedef struct _EMFormatHTMLDisplay EMFormatHTMLDisplay;
 typedef struct _EMFormatHTMLDisplayClass EMFormatHTMLDisplayClass;
 typedef struct _EMFormatHTMLDisplayPrivate EMFormatHTMLDisplayPrivate;
 
-struct _CamelMimePart;
-
 struct _EMFormatHTMLDisplay {
 	EMFormatHTML parent;
 	EMFormatHTMLDisplayPrivate *priv;
 
 	struct _ESearchingTokenizer *search_tok;
-
-	unsigned int nobar:1;
 };
 
 struct _EMFormatHTMLDisplayClass {
 	EMFormatHTMLClass parent_class;
 
 	/* a link clicked normally */
-	void (*link_clicked)(EMFormatHTMLDisplay *efhd, const char *uri);
+	void		(*link_clicked)		(EMFormatHTMLDisplay *efhd,
+						 const gchar *uri);
 	/* a part or a link button pressed event */
-	int (*popup_event)(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const char *uri, struct _CamelMimePart *part);
+	gint		(*popup_event)		(EMFormatHTMLDisplay *efhd,
+						 GdkEventButton *event,
+						 const gchar *uri,
+						 CamelMimePart *part);
 	/* the mouse is over a link */
-	void (*on_url)(EMFormatHTMLDisplay *efhd, const char *uri);
+	void		(*on_url)		(EMFormatHTMLDisplay *efhd,
+						 const gchar *uri);
 };
 
 GType		em_format_html_display_get_type	(void);
 EMFormatHTMLDisplay *
 		em_format_html_display_new	(void);
-gboolean	em_format_html_display_get_animate
-						(EMFormatHTMLDisplay *efhd);
-void		em_format_html_display_set_animate
-						(EMFormatHTMLDisplay *efhd,
-						 gboolean animate);
-gboolean	em_format_html_display_get_caret_mode
-						(EMFormatHTMLDisplay *efhd);
-void		em_format_html_display_set_caret_mode
-						(EMFormatHTMLDisplay *efhd,
-						 gboolean caret_mode);
 void		em_format_html_display_set_search
 						(EMFormatHTMLDisplay *efhd,
 						 int type,

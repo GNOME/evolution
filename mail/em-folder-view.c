@@ -238,7 +238,7 @@ emfv_init(GObject *o)
 //	em_format_set_session ((EMFormat *) emfv->preview, session);
 //	g_signal_connect(emfv->preview, "link_clicked", G_CALLBACK(emfv_format_link_clicked), emfv);
 	g_signal_connect(emfv->preview, "popup_event", G_CALLBACK(emfv_format_popup_event), emfv);
-	g_signal_connect (emfv->preview, "on_url", G_CALLBACK (emfv_on_url_cb), emfv);
+//	g_signal_connect (emfv->preview, "on_url", G_CALLBACK (emfv_on_url_cb), emfv);
 //	g_signal_connect (((EMFormatHTML *)emfv->preview)->html, "button-release-event", G_CALLBACK (emfv_on_html_button_released_cb), emfv);
 //#ifdef ENABLE_PROFILING
 //	g_signal_connect(emfv->preview, "complete", G_CALLBACK (emfv_format_complete), emfv);
@@ -268,7 +268,7 @@ emfv_class_init(GObjectClass *klass)
 	((EMFolderViewClass *)klass)->set_message = emfv_set_message;
 	((EMFolderViewClass *)klass)->activate = emfv_activate;
 
-	((EMFolderViewClass *)klass)->on_url = emfv_on_url;
+//	((EMFolderViewClass *)klass)->on_url = emfv_on_url;
 
 	signals[EMFV_ON_URL] = g_signal_new ("on-url",
 					     G_OBJECT_CLASS_TYPE (klass),
@@ -1076,59 +1076,4 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 			bonobo_ui_component_set_prop (emfv->uic, "/commands/HideDeleted", "state", state ? "0" : "1", NULL);
 		break; }
 	}
-}
-
-static void
-emfv_on_url (EMFolderView *emfv, const char *uri, const char *nice_uri)
-{
-	if (emfv->statusbar_active) {
-		if (emfv->uic) {
-			bonobo_ui_component_set_status (emfv->uic, nice_uri, NULL);
-			/* Make sure the node keeps existing if nice_url == NULL */
-			if (!nice_uri)
-				bonobo_ui_component_set_translate (
-					emfv->uic, "/", "<status><item name=\"main\"/></status>", NULL);
-		}
-	}
-}
-
-static void
-emfv_on_url_cb (GObject *emitter, const char *url, EMFolderView *emfv)
-{
-	char *nice_url = NULL;
-
-	if (url) {
-		if (strncmp (url, "mailto:", 7) == 0) {
-			CamelInternetAddress *cia = camel_internet_address_new();
-			CamelURL *curl;
-			char *addr;
-
-			curl = camel_url_new(url, NULL);
-			camel_address_decode((CamelAddress *)cia, curl->path);
-			addr = camel_address_format((CamelAddress *)cia);
-			nice_url = g_strdup_printf (_("Click to mail %s"), addr&&addr[0]?addr:(url + 7));
-			g_free(addr);
-			camel_url_free(curl);
-			camel_object_unref(cia);
-		} else if (strncmp (url, "callto:", 7) == 0 || strncmp (url, "h323:", 5) == 0 || strncmp (url, "sip:", 4) == 0) {
-			CamelInternetAddress *cia = camel_internet_address_new();
-			CamelURL *curl;
-			char *addr;
-
-			curl = camel_url_new(url, NULL);
-			camel_address_decode((CamelAddress *)cia, curl->path);
-			addr = camel_address_format((CamelAddress *)cia);
-			nice_url = g_strdup_printf (_("Click to call %s"), addr&&addr[0]?addr:(url + 7));
-			g_free(addr);
-			camel_url_free(curl);
-			camel_object_unref(cia);
-		} else if (!strncmp (url, "##", 2)) {
-			nice_url = g_strdup (_("Click to hide/unhide addresses"));
-		} else
-			nice_url = g_strdup_printf (_("Click to open %s"), url);
-	}
-
-	g_signal_emit (emfv, signals[EMFV_ON_URL], 0, url, nice_url);
-
-	g_free (nice_url);
 }

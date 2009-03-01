@@ -37,6 +37,8 @@ module_LTLIBRARIES =					\
 libevolution_module_mail_la_SOURCES =			\
 	e-mail-browser.c				\
 	e-mail-browser.h				\
+	e-mail-display.c				\
+	e-mail-display.h				\
 	e-mail-label-dialog.c				\
 	e-mail-label-dialog.h				\
 	e-mail-label-list-store.c			\

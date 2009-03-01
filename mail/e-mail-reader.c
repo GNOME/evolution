@@ -1620,40 +1620,6 @@ static GtkToggleActionEntry mail_reader_toggle_entries[] = {
 	  FALSE }
 };
 
-static void
-mail_reader_link_clicked_cb (EMailReader *reader,
-                             const gchar *uri,
-                             EMFormatHTMLDisplay *html_display)
-{
-	GtkHTML *html;
-	GtkWindow *window;
-	MessageList *message_list;
-	const gchar *folder_uri;
-
-	html = EM_FORMAT_HTML (html_display)->html;
-	message_list = e_mail_reader_get_message_list (reader);
-	window = e_mail_reader_get_window (reader);
-	folder_uri = message_list->folder_uri;
-
-	if (g_str_has_prefix (uri, "##"))
-		return;
-
-	if (g_ascii_strncasecmp (uri, "mailto:", 7) == 0)
-		em_utils_compose_new_message_with_mailto (uri, folder_uri);
-
-	else if (*uri == '#')
-		gtk_html_jump_to_anchor (html, uri + 1);
-
-	else if (g_ascii_strncasecmp (uri, "thismessage:", 12) == 0)
-		/* ignore */ ;
-
-	else if (g_ascii_strncasecmp (uri, "cid:", 4) == 0)
-		/* ignore */ ;
-
-	else
-		e_show_uri (window, uri);
-}
-
 static gboolean
 mail_reader_html_button_release_event_cb (EMailReader *reader,
                                           GdkEventButton *button,
@@ -2057,6 +2023,7 @@ e_mail_reader_init (EMailReader *reader)
 	MessageList *message_list;
 	GConfBridge *bridge;
 	GtkAction *action;
+	GtkHTML *html;
 	const gchar *action_name;
 	const gchar *key;
 
@@ -2069,6 +2036,8 @@ e_mail_reader_init (EMailReader *reader)
 
 	shell = e_shell_module_get_shell (shell_module);
 	shell_settings = e_shell_get_shell_settings (shell);
+
+	html = EM_FORMAT_HTML (html_display)->html;
 
 	gtk_action_group_add_actions (
 		action_group, mail_reader_entries,
@@ -2136,7 +2105,7 @@ e_mail_reader_init (EMailReader *reader)
 
 	e_binding_new (
 		G_OBJECT (shell_settings), "mail-show-animated-images",
-		G_OBJECT (html_display), "animate");
+		G_OBJECT (html), "animate");
 
 	e_binding_new (
 		G_OBJECT (shell_settings), "mail-show-sender-photo",
@@ -2147,13 +2116,9 @@ e_mail_reader_init (EMailReader *reader)
 
 	e_mutual_binding_new (
 		G_OBJECT (action), "active",
-		G_OBJECT (html_display), "caret-mode");
+		G_OBJECT (html), "caret-mode");
 
 	/* Connect signals. */
-
-	g_signal_connect_swapped (
-		html_display, "link-clicked",
-		G_CALLBACK (mail_reader_link_clicked_cb), reader);
 
 	g_signal_connect_swapped (
 		EM_FORMAT_HTML (html_display)->html, "button-release-event",

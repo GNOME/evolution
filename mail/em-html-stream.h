@@ -24,44 +24,47 @@
 #ifndef EM_HTML_STREAM_H
 #define EM_HTML_STREAM_H
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+#include <gtkhtml/gtkhtml.h>
+#include <gtkhtml/gtkhtml-stream.h>
+#include <mail/em-sync-stream.h>
 
-#define EM_HTML_STREAM_TYPE     (em_html_stream_get_type ())
-#define EM_HTML_STREAM(obj)     (CAMEL_CHECK_CAST((obj), EM_HTML_STREAM_TYPE, EMHTMLStream))
-#define EM_HTML_STREAM_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), EM_HTML_STREAM_TYPE, EMHTMLStreamClass))
-#define EM_IS_HTML_STREAM(o)    (CAMEL_CHECK_TYPE((o), EM_HTML_STREAM_TYPE))
+#define EM_HTML_STREAM_TYPE \
+	(em_html_stream_get_type ())
+#define EM_HTML_STREAM(obj) \
+	(CAMEL_CHECK_CAST \
+	((obj), EM_HTML_STREAM_TYPE, EMHTMLStream))
+#define EM_HTML_STREAM_CLASS(cls) \
+	(CAMEL_CHECK_CLASS_CAST \
+	((cls), EM_HTML_STREAM_TYPE, EMHTMLStreamClass))
+#define EM_IS_HTML_STREAM(obj) \
+	(CAMEL_CHECK_TYPE \
+	((obj), EM_HTML_STREAM_TYPE))
 
-struct _GtkHTML;
-struct _GtkHTMLStream;
+G_BEGIN_DECLS
 
-#include "mail/em-sync-stream.h"
+typedef struct _EMHTMLStream EMHTMLStream;
+typedef struct _EMHTMLStreamClass EMHTMLStreamClass;
 
-typedef struct _EMHTMLStream {
+struct _EMHTMLStream {
 	EMSyncStream sync;
 
 	guint destroy_id;
-	struct _GtkHTML *html;
-	struct _GtkHTMLStream *html_stream;
+	GtkHTML *html;
+	GtkHTMLStream *html_stream;
 	GtkHTMLBeginFlags flags;
-} EMHTMLStream;
+};
 
-typedef struct {
+struct _EMHTMLStreamClass {
 	EMSyncStreamClass parent_class;
 
-} EMHTMLStreamClass;
+};
 
+CamelType	em_html_stream_get_type		(void);
+CamelStream *	em_html_stream_new		(GtkHTML *html,
+						 GtkHTMLStream *html_stream);
+void		em_html_stream_set_flags	(EMHTMLStream *emhs,
+						 GtkHTMLBeginFlags flags);
 
-CamelType    em_html_stream_get_type (void);
-
-/* the html_stream is closed when we are finalised (with an error), or closed (ok) */
-CamelStream *em_html_stream_new(struct _GtkHTML *html, struct _GtkHTMLStream *html_stream);
-void em_html_stream_set_flags (EMHTMLStream *emhs, GtkHTMLBeginFlags flags);
-
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* EM_HTML_STREAM_H */
