@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-02-04 22:33+0000\n"
-"PO-Revision-Date: 2009-02-14 02:20+0100\n"
+"PO-Revision-Date: 2009-03-01 01:30+0100\n"
 "Last-Translator: Gabor Kelemen <kelemeng@gnome.hu>\n"
 "Language-Team: Hungarian <gnome@fsf.hu>\n"
 "MIME-Version: 1.0\n"
@@ -11888,7 +11888,7 @@ msgstr "Új levelek keresése"
 
 #: ../mail/em-account-editor.c:2931 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
-msgstr "Postafiók-szerkeszt"
+msgstr "Postafiók-szerkesztő"
 
 #: ../mail/em-account-editor.c:2931 ../mail/mail-config.glade.h:84
 msgid "Evolution Account Assistant"
