@@ -2,12 +2,12 @@
 # Estonian translation of Evolution.
 #
 # Copyright (C) 2001-2006 Free Software Foundation, Inc.
-# Copyright (C) 2007, 2008 The GNOME Project.
+# Copyright (C) 2007-2009 The GNOME Project.
 # This file is distributed under the same license as the evolution package.
 #
 # Ilmar Kerm <ikerm@hot.ee>, 2001.
 # Marek Sepp <marek.sepp@ttu.ee>, 2001, 2002.
-# Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005-2008.
+# Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005-2009.
 # Kaarel Jõgi <kaarel@gg.ee>, 2002.
 # Priit Laes <amd@store20.com>, 2003-2007.
 #
@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-10-24 09:34+0000\n"
-"PO-Revision-Date: 2008-10-25 10:37+0300\n"
+"PO-Revision-Date: 2009-02-26 21:42+0200\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -4836,7 +4836,7 @@ msgstr "Ae_g:"
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])
 msgid "for"
-msgstr "kestusega"
+msgstr "kokku"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][until][2006/01/01]' (dropdown menu options are in [square brackets])
@@ -15142,7 +15142,7 @@ msgid "translator-credits"
 msgstr ""
 "Ilmar Kerm <ikerm@hot.ee>, 2001.\n"
 "Marek Sepp <marek.sepp@ttu.ee>, 2001, 2002.\n"
-"Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005-2008.\n"
+"Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005-2009.\n"
 "Kaarel Jõgi <kaarel@gg.ee>, 2002.\n"
 "Priit Laes <amd@store20.com>, 2003-2007."
 
