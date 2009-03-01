@@ -1,3 +1,7 @@
+2009-03-01  Wouter Bolsterlee  <wbolster@svn.gnome.org>
+
+	* nl.po: Updated Dutch translation by Wouter Bolsterlee.
+
 2009-03-01  Daniel Nylander <po@danielnylander.se>
 
 	* sv.po: Updated Swedish translation.
@@ -13,7 +17,7 @@
 2009-03-01  Gabor Kelemen  <kelemeng@gnome.hu>
 
 	* hu.po: Translation updated.
-	
+
 2009-02-23  Philip Withnall  <philip@tecnocode.co.uk>
 
 	* en_GB.po: Updated British English translation.
@@ -110,9 +114,9 @@
 
 	* es.po: Updated Spanish translation.
 
-2009-02-06    Clytie Siddall <clytie@riverland.net.au>
+2009-02-06  Clytie Siddall <clytie@riverland.net.au>
 
-	* vi.po    Updated Vietnamese translation
+	* vi.po: Updated Vietnamese translation
 
 2009-02-05  Sweta Kothari  <swkothar@redhat.com>
 
@@ -167,7 +171,7 @@
 2009-01-29  Raivis Dejus  <orvils@gmail.com>
 
 	* lv.po: Updated latvian translation Bug 569534
-	
+
 2009-01-29  I. Felix <ifelix@redhat.com>
 
 	* ta.po:  Bug fix for #569517.
@@ -254,7 +258,7 @@
 
 2009-01-10  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
-	* es.po: Updated Spanish translation.  
+	* es.po: Updated Spanish translation.
 
 2009-01-07  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
@@ -328,14 +332,14 @@
 
 2008-11-14  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
-	* es.po: Updated Spanish translation. 
+	* es.po: Updated Spanish translation.
 
 2008-11-09  Petr Kovar  <pknbe@volny.cz>
 
 	* cs.po: Fixed Czech translation by Jiri Eischmann,
 	thanks to Kamil Paral.
 
-2008-11-08  Jorge Gonzalez  <jorgegonz@svn.gnome.org>   
+2008-11-08  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es.po: Updated Spanish translation
 
@@ -351,7 +355,7 @@
 
 	* pt_BR.po: Merged Brazilian Portuguese translation from branch
 	gnome-2-24. Fixes capitalization, verb tense in descriptions, some
-	terminology errors, double spaces and random errors. Improves 
+	terminology errors, double spaces and random errors. Improves
 	access keys.
 
 2008-11-02  Gabor Kelemen  <kelemeng@gnome.hu>
@@ -393,7 +397,7 @@
 
 	* sk.po: Updated Slovak translation.
 
-2008-10-17  Jorge Gonzalez  <jorgegonz@svn.gnome.org>   
+2008-10-17  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
 	* es.po: Updated Spanish translation
 
@@ -441,7 +445,7 @@
 
 2008-10-01  Robert-André Mauchin  <zebob.m@pengzone.org>
 
-	* fr.po: French translation update. Fixed #554548 
+	* fr.po: French translation update. Fixed #554548
 	thanks to Hanka Zalska from Sun.
 
 2008-10-01  Priit Laes  <plaes at svn dot gnome dot org>
@@ -494,21 +498,21 @@
 
 	* pl.po: Updated Polish translation
 
-2008-09-21  Djihed Afifi <djihed@gmail.com> 
+2008-09-21  Djihed Afifi <djihed@gmail.com>
 
 	* ar.po: Updated Arabic Translation by OsamaKhalid.
 
 2008-09-21  Rajesh Ranjan <rajeshkajha@yahoo.com>
 
-        * hi.po: Updated Hindi Translation.
-        
+	* hi.po: Updated Hindi Translation.
+
 2008-09-21  Rajesh Ranjan <rajeshkajha@yahoo.com>
 
-        * hi.po: Updated Hindi Translation.
-        
+	* hi.po: Updated Hindi Translation.
+
 2008-09-21  Rajesh Ranjan <rajeshkajha@yahoo.com>
 
-        * hi.po: Updated Hindi Translation.
+	* hi.po: Updated Hindi Translation.
 
 2008-09-21  Gabor Kelemen  <kelemeng@gnome.hu>
 
@@ -569,18 +573,18 @@
 
 2008-09-18  Shankar Prasad  <svenkate@redhat.com>
 
-        * kn.po: Updated Kannada translation
+	* kn.po: Updated Kannada translation
 
 2008-09-18  Chao-Hsiung Liao  <j_h_liau@yahoo.com.tw>
 
 	* zh_HK.po: Updated Traditional Chinese translation(Hong Kong).
 	* zh_TW.po: Updated Traditional Chinese translation(Taiwan).
 
-2008-09-18  Djihed Afifi <djihed@gmail.com> 
+2008-09-18  Djihed Afifi <djihed@gmail.com>
 
 	* ar.po: Updated Arabic Translation by Usama Akkad.
 
-2008-09-17  Djihed Afifi <djihed@gmail.com> 
+2008-09-17  Djihed Afifi <djihed@gmail.com>
 
 	* ar.po: Updated Arabic Translation by Usama Akkad.
 
@@ -594,7 +598,7 @@
 
 2008-09-17  Shankar Prasad  <svenkate@redhat.com>
 
-        * kn.po: Updated Kannada translation
+	* kn.po: Updated Kannada translation
 
 2008-09-16  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
 
