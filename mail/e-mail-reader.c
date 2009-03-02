@@ -52,6 +52,7 @@
 enum {
 	CHANGED,
 	FOLDER_LOADED,
+	SHOW_SEARCH_BAR,
 	LAST_SIGNAL
 };
 
@@ -265,7 +266,7 @@ static void
 action_mail_find_cb (GtkAction *action,
                      EMailReader *reader)
 {
-	/* FIXME */
+	e_mail_reader_show_search_bar (reader);
 }
 
 static void
@@ -1982,6 +1983,15 @@ mail_reader_class_init (EMailReaderIface *iface)
 		0, NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
+
+	signals[SHOW_SEARCH_BAR] = g_signal_new (
+		"show-search-bar",
+		G_OBJECT_CLASS_TYPE (iface),
+		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EMailReaderIface, show_search_bar),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 }
 
 GType
@@ -2732,4 +2742,12 @@ e_mail_reader_create_charset_menu (EMailReader *reader,
 	}
 
 	gtk_ui_manager_ensure_update (ui_manager);
+}
+
+void
+e_mail_reader_show_search_bar (EMailReader *reader)
+{
+	g_return_if_fail (E_IS_MAIL_READER (reader));
+
+	g_signal_emit (reader, signals[SHOW_SEARCH_BAR], 0);
 }

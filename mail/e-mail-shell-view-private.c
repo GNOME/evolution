@@ -328,6 +328,7 @@ e_mail_shell_view_execute_search (EMailShellView *mail_shell_view)
 	EShellContent *shell_content;
 	EShellSettings *shell_settings;
 	EMFormatHTMLDisplay *html_display;
+	EMailShellContent *mail_shell_content;
 	MessageList *message_list;
 	FilterRule *rule;
 	EMailReader *reader;
@@ -338,7 +339,7 @@ e_mail_shell_view_execute_search (EMailShellView *mail_shell_view)
 	GtkTreeIter tree_iter;
 	GString *string;
 	GList *iter;
-	GSList *word_list = NULL;
+	GSList *search_strings = NULL;
 	const gchar *folder_uri;
 	const gchar *text;
 	gboolean valid;
@@ -355,6 +356,8 @@ e_mail_shell_view_execute_search (EMailShellView *mail_shell_view)
 
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
+
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 
 	reader = E_MAIL_READER (shell_content);
 	html_display = e_mail_reader_get_html_display (reader);
@@ -400,8 +403,8 @@ e_mail_shell_view_execute_search (EMailShellView *mail_shell_view)
 
 			words = camel_search_words_split ((guchar *) text);
 			for (ii = 0; ii < words->len; ii++)
-				word_list = g_slist_prepend (
-					word_list, g_strdup (
+				search_strings = g_slist_prepend (
+					search_strings, g_strdup (
 					words->words[ii]->word));
 			camel_search_words_free (words);
 		}
@@ -550,14 +553,11 @@ filter:
 
 	message_list_set_search (message_list, query);
 
-	em_format_html_display_set_search (
-		html_display,
-		EM_FORMAT_HTML_DISPLAY_SEARCH_SECONDARY |
-		EM_FORMAT_HTML_DISPLAY_SEARCH_ICASE,
-		word_list);
+	e_mail_shell_content_set_search_strings (
+		mail_shell_content, search_strings);
 
-	g_slist_foreach (word_list, (GFunc) g_free, NULL);
-	g_slist_free (word_list);
+	g_slist_foreach (search_strings, (GFunc) g_free, NULL);
+	g_slist_free (search_strings);
 
 	g_object_unref (model);
 	g_free (query);

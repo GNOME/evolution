@@ -36,6 +36,7 @@
 #include "mail-ops.h"
 
 #include "e-mail-reader.h"
+#include "e-mail-search-bar.h"
 #include "e-mail-shell-module.h"
 #include "e-mail-shell-view-actions.h"
 
@@ -46,6 +47,7 @@
 struct _EMailShellContentPrivate {
 	GtkWidget *paned;
 	GtkWidget *message_list;
+	GtkWidget *search_bar;
 
 	EMFormatHTMLDisplay *html_display;
 	GalViewInstance *view_instance;
@@ -307,6 +309,11 @@ mail_shell_content_dispose (GObject *object)
 		priv->message_list = NULL;
 	}
 
+	if (priv->search_bar != NULL) {
+		g_object_unref (priv->search_bar);
+		priv->search_bar = NULL;
+	}
+
 	if (priv->html_display != NULL) {
 		g_object_unref (priv->html_display);
 		priv->html_display = NULL;
@@ -347,10 +354,12 @@ mail_shell_content_constructed (GObject *object)
 	GConfBridge *bridge;
 	GtkWidget *container;
 	GtkWidget *widget;
+	GtkHTML *html;
 	GalViewCollection *view_collection;
 	const gchar *key;
 
 	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (object);
+	priv->html_display = em_format_html_display_new ();
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
@@ -360,6 +369,8 @@ mail_shell_content_constructed (GObject *object)
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	shell_module = e_shell_view_get_shell_module (shell_view);
 	view_collection = shell_view_class->view_collection;
+
+	html = EM_FORMAT_HTML (priv->html_display)->html;
 
 	/* Build content widgets. */
 
@@ -377,21 +388,31 @@ mail_shell_content_constructed (GObject *object)
 	priv->message_list = g_object_ref (widget);
 	gtk_widget_show (widget);
 
+	widget = gtk_vbox_new (FALSE, 0);
+	gtk_paned_add2 (GTK_PANED (container), widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (widget),
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_paned_add2 (GTK_PANED (container), widget);
+	gtk_container_add (GTK_CONTAINER (widget), GTK_WIDGET (html));
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_show (GTK_WIDGET (html));
 	gtk_widget_show (widget);
 
-	container = widget;
+	widget = e_mail_search_bar_new (html);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	priv->search_bar = g_object_ref (widget);
+	gtk_widget_hide (widget);
 
-	priv->html_display = em_format_html_display_new ();
-	widget = GTK_WIDGET (((EMFormatHTML *) priv->html_display)->html);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	gtk_widget_show (widget);
+	g_signal_connect_swapped (
+		widget, "changed",
+		G_CALLBACK (em_format_redraw), priv->html_display);
 
 	/* Load the view instance. */
 
@@ -547,6 +568,16 @@ exit:
 }
 
 static void
+mail_shell_content_show_search_bar (EMailReader *reader)
+{
+	EMailShellContentPrivate *priv;
+
+	priv = E_MAIL_SHELL_CONTENT_GET_PRIVATE (reader);
+
+	gtk_widget_show (priv->search_bar);
+}
+
+static void
 mail_shell_content_class_init (EMailShellContentClass *class)
 {
 	GObjectClass *object_class;
@@ -597,6 +628,7 @@ mail_shell_content_iface_init (EMailReaderIface *iface)
 	iface->get_shell_module = mail_shell_content_get_shell_module;
 	iface->get_window = mail_shell_content_get_window;
 	iface->set_folder = mail_shell_content_set_folder;
+	iface->show_search_bar = mail_shell_content_show_search_bar;
 }
 
 static void
@@ -760,6 +792,30 @@ e_mail_shell_content_get_view_instance (EMailShellContent *mail_shell_content)
 		E_IS_MAIL_SHELL_CONTENT (mail_shell_content), NULL);
 
 	return mail_shell_content->priv->view_instance;
+}
+
+void
+e_mail_shell_content_set_search_strings (EMailShellContent *mail_shell_content,
+                                         GSList *search_strings)
+{
+	EMailSearchBar *search_bar;
+	ESearchingTokenizer *tokenizer;
+
+	g_return_if_fail (E_IS_MAIL_SHELL_CONTENT (mail_shell_content));
+
+	search_bar = E_MAIL_SEARCH_BAR (mail_shell_content->priv->search_bar);
+	tokenizer = e_mail_search_bar_get_tokenizer (search_bar);
+
+	e_searching_tokenizer_set_secondary_case_sensitivity (tokenizer, FALSE);
+	e_searching_tokenizer_set_secondary_search_string (tokenizer, NULL);
+
+	while (search_strings != NULL) {
+		e_searching_tokenizer_add_secondary_search_string (
+			tokenizer, search_strings->data);
+		search_strings = g_slist_next (search_strings);
+	}
+
+	e_mail_search_bar_changed (search_bar);
 }
 
 void

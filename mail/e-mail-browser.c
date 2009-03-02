@@ -31,6 +31,7 @@
 
 #include "mail/e-mail-reader.h"
 #include "mail/e-mail-reader-utils.h"
+#include "mail/e-mail-search-bar.h"
 #include "mail/e-mail-shell-module.h"
 #include "mail/em-folder-tree-model.h"
 #include "mail/em-format-html-display.h"
@@ -51,6 +52,7 @@ struct _EMailBrowserPrivate {
 	GtkWidget *main_menu;
 	GtkWidget *main_toolbar;
 	GtkWidget *message_list;
+	GtkWidget *search_bar;
 	GtkWidget *statusbar;
 };
 
@@ -325,6 +327,11 @@ mail_browser_dispose (GObject *object)
 		priv->message_list = NULL;
 	}
 
+	if (priv->search_bar != NULL) {
+		g_object_unref (priv->search_bar);
+		priv->search_bar = NULL;
+	}
+
 	if (priv->statusbar != NULL) {
 		g_object_unref (priv->statusbar);
 		priv->statusbar = NULL;
@@ -414,6 +421,15 @@ mail_browser_constructed (GObject *object)
 	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	priv->statusbar = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	widget = e_mail_search_bar_new (EM_FORMAT_HTML (html_display)->html);
+	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	priv->search_bar = g_object_ref (widget);
+	gtk_widget_hide (widget);
+
+	g_signal_connect_swapped (
+		widget, "changed",
+		G_CALLBACK (em_format_redraw), html_display);
 
 	widget = gtk_ui_manager_get_widget (ui_manager, "/main-menu");
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
@@ -544,6 +560,16 @@ mail_browser_set_message (EMailReader *reader,
 }
 
 static void
+mail_browser_show_search_bar (EMailReader *reader)
+{
+	EMailBrowserPrivate *priv;
+
+	priv = E_MAIL_BROWSER_GET_PRIVATE (reader);
+
+	gtk_widget_show (priv->search_bar);
+}
+
+static void
 mail_browser_class_init (EMailBrowserClass *class)
 {
 	GObjectClass *object_class;
@@ -583,6 +609,7 @@ mail_browser_iface_init (EMailReaderIface *iface)
 	iface->get_shell_module = mail_browser_get_shell_module;
 	iface->get_window = mail_browser_get_window;
 	iface->set_message = mail_browser_set_message;
+	iface->show_search_bar = mail_browser_show_search_bar;
 }
 
 static void

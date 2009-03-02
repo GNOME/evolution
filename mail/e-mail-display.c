@@ -581,7 +581,7 @@ gboolean
 e_mail_display_get_caret_mode (EMailDisplay *display)
 {
 	/* XXX This is just here to maintain symmetry
-	 *     with e_mail_display_get_caret_mode(). */
+	 *     with e_mail_display_set_caret_mode(). */
 
 	g_return_val_if_fail (E_IS_MAIL_DISPLAY (display), FALSE);
 

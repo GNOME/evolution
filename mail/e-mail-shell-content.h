@@ -76,6 +76,9 @@ void		e_mail_shell_content_set_vertical_view
 GalViewInstance *
 		e_mail_shell_content_get_view_instance
 						(EMailShellContent *mail_shell_content);
+void		e_mail_shell_content_set_search_strings
+						(EMailShellContent *mail_shell_content,
+						 GSList *search_strings);
 void		e_mail_shell_content_update_view_instance
 						(EMailShellContent *mail_shell_content);
 

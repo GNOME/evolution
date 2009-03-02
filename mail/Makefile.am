@@ -51,6 +51,8 @@ libevolution_module_mail_la_SOURCES =			\
 	e-mail-reader.h					\
 	e-mail-reader-utils.c				\
 	e-mail-reader-utils.h				\
+	e-mail-search-bar.c				\
+	e-mail-search-bar.h				\
 	e-mail-shell-module.c				\
 	e-mail-shell-module.h				\
 	e-mail-shell-module-migrate.c			\
@@ -186,128 +188,6 @@ libevolution_module_mail_la_LIBADD =			\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
 	$(SMIME_LIBS)
 
-# plugin mail api
-#mailinclude_HEADERS =				\
-#	em-composer-utils.h			\
-#	em-config.h				\
-#	em-event.h				\
-#	em-folder-browser.h			\
-#	em-folder-tree-model.h			\
-#	em-folder-tree.h			\
-#	em-folder-utils.h			\
-#	em-folder-view.h			\
-#	em-format-hook.h			\
-#	em-format-html-display.h		\
-#	em-format-html-print.h			\
-#	em-format-html.h			\
-#	em-format-quote.h			\
-#	em-format.h				\
-#	em-html-stream.h			\
-#	em-icon-stream.h			\
-#	em-inline-filter.h			\
-#	em-junk-hook.h				\
-#	em-menu.h				\
-#	em-popup.h				\
-#	em-stripsig-filter.h			\
-#	em-sync-stream.h			\
-#	em-utils.h				\
-#	mail-autofilter.h			\
-#	mail-component.h			\
-#	mail-config.h				\
-#	mail-mt.h				\
-#	mail-ops.h				\
-#	mail-session.h				\
-#	mail-tools.h				\
-#	message-list.h				\
-#	mail-vfolder.h
-
-# libevolution-mail
-
-#libevolution_mail_la_SOURCES =			\
-#	$(mailinclude_HEADERS)			\
-#	e-searching-tokenizer.c			\
-#	e-searching-tokenizer.h			\
-#	em-account-editor.c			\
-#	em-account-editor.h			\
-#	em-account-prefs.c			\
-#	em-account-prefs.h			\
-#	em-composer-prefs.c			\
-#	em-composer-prefs.h			\
-#	em-composer-utils.c			\
-#	em-config.c				\
-#	em-event.c				\
-#	em-filter-context.c			\
-#	em-filter-context.h			\
-#	em-filter-editor.c			\
-#	em-filter-editor.h			\
-#	em-filter-folder-element.c		\
-#	em-filter-folder-element.h		\
-#	em-filter-rule.c			\
-#	em-filter-rule.h			\
-#	em-filter-source-element.c		\
-#	em-filter-source-element.h		\
-#	em-folder-browser.c			\
-#	em-folder-properties.c			\
-#	em-folder-properties.h			\
-#	em-folder-selection-button.c		\
-#	em-folder-selection-button.h		\
-#	em-folder-selection.c			\
-#	em-folder-selection.h			\
-#	em-folder-selector.c			\
-#	em-folder-selector.h			\
-#	em-folder-tree-model.c			\
-#	em-folder-tree.c			\
-#	em-folder-utils.c			\
-#	em-folder-view.c			\
-#	em-format-hook.c			\
-#	em-format-html-display.c		\
-#	em-format-html-print.c			\
-#	em-format-html.c			\
-#	em-format-quote.c			\
-#	em-format.c				\
-#	em-html-stream.c			\
-#	em-icon-stream.c			\
-#	em-inline-filter.c			\
-#	em-junk-hook.c				\
-#	em-menu.c				\
-#	em-migrate.c				\
-#	em-migrate.h				\
-#	em-popup.c				\
-#	em-search-context.c			\
-#	em-search-context.h			\
-#	em-stripsig-filter.c			\
-#	em-subscribe-editor.c			\
-#	em-subscribe-editor.h			\
-#	em-sync-stream.c			\
-#	em-utils.c				\
-#	em-vfolder-context.c			\
-#	em-vfolder-context.h			\
-#	em-vfolder-editor.c			\
-#	em-vfolder-editor.h			\
-#	em-vfolder-rule.c			\
-#	em-vfolder-rule.h			\
-#	mail-autofilter.c			\
-#	mail-component-factory.c		\
-#	mail-component.c			\
-#	mail-config.c				\
-#	mail-folder-cache.c			\
-#	mail-folder-cache.h			\
-#	mail-mt.c				\
-#	mail-ops.c				\
-#	mail-send-recv.c			\
-#	mail-send-recv.h			\
-#	mail-session.c				\
-#	mail-signature-editor.c			\
-#	mail-signature-editor.h			\
-#	mail-tools.c				\
-#	mail-types.h				\
-#	mail-vfolder.c				\
-#	message-list.c				\
-#	message-tag-editor.c			\
-#	message-tag-editor.h			\
-#	message-tag-followup.c			\
-#	message-tag-followup.h
-
 if ENABLE_SMIME
 SMIME_LIBS = 				\
 	$(top_builddir)/smime/lib/libessmime.la		\
@@ -319,10 +199,6 @@ endif
 #	$(top_builddir)/filter/libfilter.la			\
 #	$(top_builddir)/widgets/menus/libmenus.la		\
 #	$(top_builddir)/addressbook/util/libeabutil.la		\
-#	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
-#	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
-#	$(top_builddir)/mail/importers/libevolution-mail-importers.la	\
-#	$(SMIME_LIBS)						\
 #	$(EVOLUTION_MAIL_LIBS)					\
 #	$(GTKHTML_LIBS)						\
 #	$(REGEX_LIBS)						\
@@ -332,14 +208,6 @@ endif
 #	-avoid-version -module $(NO_UNDEFINED)
 
 #libevolution_mail_la_DEPENDENCIES = em-filter-i18n.h
-
-# .server files
-
-server_in_files = GNOME_Evolution_Mail.server.in.in
-server_DATA = $(server_in_files:.server.in.in=.server)
-
-@EVO_SERVER_RULE@
-@INTLTOOL_SERVER_RULE@
 
 # Misc data to install
 filterdir = $(privdatadir)
@@ -418,7 +286,7 @@ endif
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-BUILT_SOURCES = $(server_DATA) $(error_DATA)
+BUILT_SOURCES = $(error_DATA)
 
 CLEANFILES = $(BUILT_SOURCES)
 

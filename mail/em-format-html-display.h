@@ -48,11 +48,6 @@
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), EM_TYPE_FORMAT_HTML_DISPLAY, EMFormatHTMLDisplayClass))
 
-/* Search options */
-#define EM_FORMAT_HTML_DISPLAY_SEARCH_PRIMARY		(0)
-#define EM_FORMAT_HTML_DISPLAY_SEARCH_SECONDARY		(1)
-#define EM_FORMAT_HTML_DISPLAY_SEARCH_ICASE		(1 << 8)
-
 G_BEGIN_DECLS
 
 typedef struct _EMFormatHTMLDisplay EMFormatHTMLDisplay;
@@ -68,34 +63,11 @@ struct _EMFormatHTMLDisplay {
 
 struct _EMFormatHTMLDisplayClass {
 	EMFormatHTMLClass parent_class;
-
-	/* a link clicked normally */
-	void		(*link_clicked)		(EMFormatHTMLDisplay *efhd,
-						 const gchar *uri);
-	/* a part or a link button pressed event */
-	gint		(*popup_event)		(EMFormatHTMLDisplay *efhd,
-						 GdkEventButton *event,
-						 const gchar *uri,
-						 CamelMimePart *part);
-	/* the mouse is over a link */
-	void		(*on_url)		(EMFormatHTMLDisplay *efhd,
-						 const gchar *uri);
 };
 
 GType		em_format_html_display_get_type	(void);
 EMFormatHTMLDisplay *
 		em_format_html_display_new	(void);
-void		em_format_html_display_set_search
-						(EMFormatHTMLDisplay *efhd,
-						 int type,
-						 GSList *strings);
-void		em_format_html_display_search	(EMFormatHTMLDisplay *efhd);
-void		em_format_html_display_search_with
-						(EMFormatHTMLDisplay *efhd,
-						 char *word);
-void		em_format_html_display_search_close
-						(EMFormatHTMLDisplay *efhd);
-GtkWidget *	em_format_html_get_search_dialog(EMFormatHTMLDisplay *efhd);
 void		em_format_html_display_cut	(EMFormatHTMLDisplay *efhd);
 void		em_format_html_display_copy	(EMFormatHTMLDisplay *efhd);
 void		em_format_html_display_paste	(EMFormatHTMLDisplay *efhd);
