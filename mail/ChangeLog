@@ -1,3 +1,13 @@
+2009-03-02  Matt McCutchen  <matt@mattmccutchen.net>
+
+	* evolution/mail/em-folder-view.c:
+	* evolution/mail/em-utils.c:
+	* evolution/mail/em-utils.h:
+	* evolution/mail/em-popup.c:
+	Revert evolution revision 37063 (workaround for bug 563867). 
+	
+	** Part of the fix for bug #549838
+   
 2009-02-26  Andre Klapper  <a9016009@gmx.de>
 
 	* message-tag-followup-c:

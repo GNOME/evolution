@@ -2427,34 +2427,3 @@ em_utils_show_info_silent (GtkWidget *widget)
 		g_signal_connect(widget, "response", G_CALLBACK(error_response), NULL);
 	e_activity_handler_make_error (handler, "mail", E_LOG_WARNINGS, widget);
 }
-
-gchar *
-em_utils_url_unescape_amp (const gchar *url)
-{
-	gchar *buff;
-	int i, j, amps;
-
-	if (!url)
-		return NULL;
-
-	amps = 0;
-	for (i = 0; url [i]; i++) {
-		if (url [i] == '&' && strncmp (url + i, "&amp;", 5) == 0)
-			amps++;
-	}
-
-	buff = g_strdup (url);
-
-	if (!amps)
-		return buff;
-
-	for (i = 0, j = 0; url [i]; i++, j++) {
-		buff [j] = url [i];
-
-		if (url [i] == '&' && strncmp (url + i, "&amp;", 5) == 0)
-			i += 4;
-	}
-	buff [j] = 0;
-
-	return buff;
-}

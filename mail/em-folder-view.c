@@ -2746,7 +2746,7 @@ emp_uri_popup_link_copy(EPopup *ep, EPopupItem *pitem, void *data)
 	struct _EMFolderViewPrivate *p = emfv->priv;
 
 	g_free(p->selection_uri);
-	p->selection_uri = em_utils_url_unescape_amp(pitem->user_data);
+	p->selection_uri = g_strdup(pitem->user_data);
 
 	gtk_selection_owner_set(p->invisible, GDK_SELECTION_PRIMARY, gtk_get_current_event_time());
 	gtk_selection_owner_set(p->invisible, GDK_SELECTION_CLIPBOARD, gtk_get_current_event_time());
