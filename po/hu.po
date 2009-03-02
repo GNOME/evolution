@@ -16112,7 +16112,7 @@ msgid ""
 ">Clear menu item or change it."
 msgstr ""
 "A keresési feltételnek nem felel meg egy üzenet sem. Törölje a keresést a "
-"Keresés->Törlés menüponttal, vagy módosítsa."
+"Keresés→Törlés menüponttal, vagy módosítsa."
 
 #: ../mail/message-list.c:4291
 msgid "There are no messages in this folder."
