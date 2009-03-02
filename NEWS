@@ -1,3 +1,25 @@
+Evolution 2.24.5 2009-02-25
+---------------------------
+
+Updated Translations:
+»·······Wouter Bolsterlee (nl)
+
+Bug Fixes:
+»·······#333716 : Do not store incomplete or broken files in a cache. (Milan Crha)
+»·······#529037 : Disconnect signals on ESource-s too, not only on ECal-s. (Milan Crha)
+»·······#559027 : Do not set date for 'None' value. (Milan Crha)
+»·······#559719 : Use it's own/unique name for the property on the 'epl' and free the widget only if it wasn't freed yet. (Milan Crha)
+»·······#559719 : Use it's own/unique name for the property on the 'epl' and free the widget only if it wasn't freed yet. (Milan Crha)
+»·······#561465 : Expand 'Attendee' column instead of the last. (Milan Crha)
+»·······#564229 : Do not use uninitialized variable. (Milan Crha)
+»·······#564229 : Initialize the EPluginUI registry during class initialization, so that it's sure to be there when we need it. (Matthew Barnes)
+»·······#567089 : Do not crash when no From set yet. (Milan Crha)
+»·······#569700 : Stop reading from a network when operation was canceled. (Milan Crha)
+»·······#569986 : bar rendering. (Srinivasa Ragavan)
+»·······#572399 : Do not read from invalid iterator after call of row changed. (Milan Crha)
+»·······#572543 : Always look for alternative apps for application/octet-stream. (Milan Crha)
+»·······#572975 : Destroy file chooser dialog early enough to not have hidden any other windows below it. (Milan Crha)
+
 Evolution 2.24.4 2009-01-30
 ---------------------------
 
