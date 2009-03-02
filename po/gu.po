@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD.gu\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
-"POT-Creation-Date: 2009-02-12 12:13+0000\n"
-"PO-Revision-Date: 2009-02-16 11:51+0530\n"
+"POT-Creation-Date: 2009-02-24 18:16+0000\n"
+"PO-Revision-Date: 2009-02-27 14:30+0530\n"
 "Last-Translator: Sweta Kothari <swkothar@redhat.com>\n"
 "Language-Team: Gujarati\n"
 "MIME-Version: 1.0\n"
@@ -234,7 +234,7 @@ msgstr "%A %d %b %Y"
 #. specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:189
 #: ../calendar/gui/calendar-component.c:824
-#: ../calendar/gui/e-day-view-top-item.c:855 ../calendar/gui/e-day-view.c:1601
+#: ../calendar/gui/e-day-view-top-item.c:855 ../calendar/gui/e-day-view.c:1599
 #: ../calendar/gui/e-week-view-main-item.c:335
 msgid "%a %d %b"
 msgstr "%a %d %b"
@@ -266,7 +266,7 @@ msgstr "%d %b %Y"
 #. change the specifiers or add anything.
 #: ../a11y/calendar/ea-gnome-calendar.c:219
 #: ../calendar/gui/calendar-component.c:850
-#: ../calendar/gui/e-day-view-top-item.c:859 ../calendar/gui/e-day-view.c:1617
+#: ../calendar/gui/e-day-view-top-item.c:859 ../calendar/gui/e-day-view.c:1615
 #: ../calendar/gui/e-week-view-main-item.c:349
 msgid "%d %b"
 msgstr "%d %b"
@@ -275,7 +275,7 @@ msgstr "%d %b"
 #: ../a11y/calendar/ea-gnome-calendar.c:253
 #: ../calendar/importers/icalendar-importer.c:780
 msgid "Gnome Calendar"
-msgstr "જીનોમ કેલેન્ડર"
+msgstr "Gnome કેલેન્ડર"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:288
 msgid "search bar"
@@ -740,7 +740,7 @@ msgstr "આ કમ્પ્યુટરમાં"
 #: ../addressbook/gui/component/addressbook-component.c:154
 #: ../addressbook/gui/component/addressbook-component.c:157
 #: ../addressbook/gui/component/addressbook-migrate.c:508
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:21
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
 #: ../addressbook/gui/widgets/eab-contact-display.c:652
 #: ../calendar/gui/calendar-component.c:255
 #: ../calendar/gui/calendar-component.c:261
@@ -950,8 +950,8 @@ msgstr "નામ બદલો (_R)..."
 #: ../addressbook/gui/component/addressbook-view.c:954
 #: ../addressbook/gui/widgets/e-addressbook-view.c:955
 #: ../calendar/gui/calendar-component.c:681
-#: ../calendar/gui/e-calendar-table.c:1609
-#: ../calendar/gui/e-calendar-view.c:1797 ../calendar/gui/e-memo-table.c:939
+#: ../calendar/gui/e-calendar-table.c:1620
+#: ../calendar/gui/e-calendar-view.c:1797 ../calendar/gui/e-memo-table.c:954
 #: ../calendar/gui/memos-component.c:512 ../calendar/gui/tasks-component.c:504
 #: ../mail/em-folder-tree.c:2129 ../mail/em-folder-view.c:1342
 #: ../ui/evolution-addressbook.xml.h:49 ../ui/evolution-calendar.xml.h:42
@@ -1457,20 +1457,16 @@ msgstr "લાડકુ નામ (_k):"
 msgid "Novell GroupWise"
 msgstr "Novell જૂથ પ્રમાણે"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:20
-msgid "Novell Groupwise"
-msgstr "નોવેલ જૂથ પ્રમાણે"
-
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:22
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:21
 msgid "Personal Information"
 msgstr "અંગત જાણકારી"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:23
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:22
 msgid "Telephone"
 msgstr "ટેલિફોન"
 
 #. red
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:24
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:23
 #: ../addressbook/gui/contact-editor/e-contact-editor-im.c:268
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:195
 #: ../addressbook/gui/widgets/eab-contact-display.c:57
@@ -1479,111 +1475,111 @@ msgstr "ટેલિફોન"
 msgid "Work"
 msgstr "કાર્ય"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:25
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:24
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:5
 msgid "_Address:"
 msgstr "સરનામુ (_A):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:26
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:25
 msgid "_Anniversary:"
 msgstr "સાલગીરી (_A):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:27
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:26
 msgid "_Assistant:"
 msgstr "મદદનીશ (_A):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:28
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:27
 msgid "_Birthday:"
 msgstr "જન્મ દિવસ (_B):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:29
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:28
 #: ../calendar/gui/dialogs/event-page.c:792
 #: ../calendar/gui/dialogs/event-page.glade.h:14
-#: ../plugins/itip-formatter/itip-view.c:1909
+#: ../plugins/itip-formatter/itip-view.c:1910
 msgid "_Calendar:"
 msgstr "કેલેન્ડર (_C):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:30
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:29
 msgid "_City:"
 msgstr "શહેર (_C):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:31
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:30
 msgid "_Company:"
 msgstr "કંપની (_C):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:32
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:31
 msgid "_Country:"
 msgstr "દેશ (_C):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:33
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:32
 msgid "_Department:"
 msgstr "વિભાગ (_D):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:34
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:33
 msgid "_File under:"
 msgstr "ની નીચે ફાઈલ (_F):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:35
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:34
 msgid "_Free/Busy:"
 msgstr "મુક્ત/વ્યસ્ત (_F):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:36
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:35
 msgid "_Home Page:"
 msgstr "ઘર પાનુ (_H):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:37
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_Manager:"
 msgstr "વ્યવસ્થાપક (_M):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:38
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "_Notes:"
 msgstr "નોંધો (_N):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:39
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:38
 msgid "_Office:"
 msgstr "ઓફિસ (_O):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:40
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:39
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:6
 msgid "_PO Box:"
 msgstr "_PO બોક્સ:"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:41
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:40
 msgid "_Profession:"
 msgstr "ધંધો (_P):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:42
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:41
 msgid "_Spouse:"
 msgstr "પત્ની (_S):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:43
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:42
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:7
 msgid "_State/Province:"
 msgstr "રાજ્ય/પ્રોવિન્સ (_S):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:44
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:43
 #: ../addressbook/gui/contact-editor/fullname.glade.h:17
 msgid "_Title:"
 msgstr "શીર્ષક (_T):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:45
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:44
 msgid "_Video Chat:"
 msgstr "વિડીયો સંવાદ (_V):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:46
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:45
 msgid "_Wants to receive HTML mail"
 msgstr "HTML મેઈલ મેળવવાની જરુર છે (_W)"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:47
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:46
 msgid "_Web Log:"
 msgstr "વેબ લોગ (_W):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:48
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:47
 #: ../addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 msgid "_Where:"
 msgstr "ક્યાં (_W):"
 
-#: ../addressbook/gui/contact-editor/contact-editor.glade.h:49
+#: ../addressbook/gui/contact-editor/contact-editor.glade.h:48
 msgid "_Zip/Postal Code:"
 msgstr "ઝીપ/પોસ્ટલ કોડ (_Z):"
 
@@ -1605,8 +1601,8 @@ msgstr "સરનામું"
 #: ../addressbook/gui/widgets/e-minicard-view.c:545
 #: ../addressbook/gui/widgets/e-minicard.c:192
 #: ../widgets/menus/gal-define-views-model.c:178
-#: ../widgets/table/e-cell-text.c:1822 ../widgets/text/e-text.c:3688
-#: ../widgets/text/e-text.c:3689
+#: ../widgets/table/e-cell-text.c:1822 ../widgets/text/e-text.c:3685
+#: ../widgets/text/e-text.c:3686
 msgid "Editable"
 msgstr "ફેરફાર કરી શકાય તેવું"
 
@@ -1648,7 +1644,7 @@ msgstr "એન્ટર્કટિકા"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:140
 msgid "Antigua And Barbuda"
-msgstr "એન્ટીગ્યુઆ અને બર્બ્યુડાુડા"
+msgstr "એન્ટીગ્યુઆ અને બર્બ્યુડા"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:141
 msgid "Argentina"
@@ -2184,7 +2180,7 @@ msgstr "માઈક્રોનેશિયા"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:274
 msgid "Moldova, Republic Of"
-msgstr "માેલડોવા, નું સ્વતંત્ર"
+msgstr "માલડોવા, નું સ્વતંત્ર"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:275
 msgid "Monaco"
@@ -2352,7 +2348,7 @@ msgstr "સંત વિન્સન્ટ અને ગ્રેના ડા�
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:316
 msgid "Samoa"
-msgstr "સમાેઆ"
+msgstr "સમાઆ"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor-address.c:317
 msgid "San Marino"
@@ -3006,7 +3002,7 @@ msgstr "ઈ-મેઈલ"
 #: ../calendar/gui/cal-search-bar.c:80 ../calendar/gui/caltypes.xml.h:2
 #: ../calendar/gui/memotypes.xml.h:2 ../calendar/gui/tasktypes.xml.h:4
 msgid "Any field contains"
-msgstr "કોઈ ક્ષેત્ર સમાવે છેે"
+msgstr "કોઈ ક્ષેત્ર સમાવે છે"
 
 #: ../addressbook/gui/widgets/addresstypes.xml.h:2
 #: ../addressbook/gui/widgets/e-addressbook-view.c:159
@@ -3043,9 +3039,9 @@ msgstr "પુસ્તક દેખાવ મેળવવામાં ભૂલ
 #: ../addressbook/gui/widgets/e-addressbook-reflow-adapter.c:426
 #: ../widgets/table/e-table-click-to-add.c:509
 #: ../widgets/table/e-table-selection-model.c:302
-#: ../widgets/table/e-table.c:3354
-#: ../widgets/table/e-tree-selection-model.c:820 ../widgets/text/e-text.c:3552
-#: ../widgets/text/e-text.c:3553
+#: ../widgets/table/e-table.c:3352
+#: ../widgets/table/e-tree-selection-model.c:820 ../widgets/text/e-text.c:3549
+#: ../widgets/text/e-text.c:3550
 msgid "Model"
 msgstr "મોડેલ"
 
@@ -3076,8 +3072,8 @@ msgstr "vCard તરીકે સંગ્રહો..."
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:933
 #: ../calendar/gui/dialogs/comp-editor.c:2090
-#: ../calendar/gui/e-calendar-table.c:1587
-#: ../calendar/gui/e-calendar-view.c:1775 ../calendar/gui/e-memo-table.c:922
+#: ../calendar/gui/e-calendar-table.c:1598
+#: ../calendar/gui/e-calendar-view.c:1775 ../calendar/gui/e-memo-table.c:937
 #: ../ui/evolution-addressbook.xml.h:56
 msgid "_Open"
 msgstr "ખોલો (_O)"
@@ -3132,8 +3128,8 @@ msgstr "કાપો (_t)"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:953
 #: ../calendar/gui/dialogs/comp-editor.c:487
-#: ../calendar/gui/e-calendar-table.c:1595
-#: ../calendar/gui/e-calendar-view.c:1782 ../calendar/gui/e-memo-table.c:930
+#: ../calendar/gui/e-calendar-table.c:1606
+#: ../calendar/gui/e-calendar-view.c:1782 ../calendar/gui/e-memo-table.c:945
 #: ../composer/e-msg-composer.c:2056 ../mail/em-folder-tree.c:1005
 #: ../mail/em-folder-view.c:1327 ../mail/message-list.c:2105
 #: ../ui/evolution-addressbook.xml.h:46 ../ui/evolution-calendar.xml.h:40
@@ -3335,12 +3331,12 @@ msgstr "વેબ સાઈટ"
 #: ../widgets/table/e-table-click-to-add.c:523
 #: ../widgets/table/e-table-col.c:98
 #: ../widgets/table/e-table-field-chooser-item.c:654
-#: ../widgets/table/e-table-group-container.c:992
-#: ../widgets/table/e-table-group-container.c:993
-#: ../widgets/table/e-table-group-leaf.c:637
-#: ../widgets/table/e-table-group-leaf.c:638
+#: ../widgets/table/e-table-group-container.c:997
+#: ../widgets/table/e-table-group-container.c:998
+#: ../widgets/table/e-table-group-leaf.c:642
+#: ../widgets/table/e-table-group-leaf.c:643
 #: ../widgets/table/e-table-item.c:3077 ../widgets/table/e-table-item.c:3078
-#: ../widgets/text/e-text.c:3730 ../widgets/text/e-text.c:3731
+#: ../widgets/text/e-text.c:3727 ../widgets/text/e-text.c:3728
 msgid "Width"
 msgstr "પહોળાઈ"
 
@@ -3350,12 +3346,12 @@ msgstr "પહોળાઈ"
 #: ../widgets/misc/e-reflow.c:1432 ../widgets/misc/e-reflow.c:1433
 #: ../widgets/table/e-table-click-to-add.c:530
 #: ../widgets/table/e-table-field-chooser-item.c:661
-#: ../widgets/table/e-table-group-container.c:985
-#: ../widgets/table/e-table-group-container.c:986
-#: ../widgets/table/e-table-group-leaf.c:630
-#: ../widgets/table/e-table-group-leaf.c:631
+#: ../widgets/table/e-table-group-container.c:990
+#: ../widgets/table/e-table-group-container.c:991
+#: ../widgets/table/e-table-group-leaf.c:635
+#: ../widgets/table/e-table-group-leaf.c:636
 #: ../widgets/table/e-table-item.c:3083 ../widgets/table/e-table-item.c:3084
-#: ../widgets/text/e-text.c:3738 ../widgets/text/e-text.c:3739
+#: ../widgets/text/e-text.c:3735 ../widgets/text/e-text.c:3736
 msgid "Height"
 msgstr "ઊંચાઈ"
 
@@ -3634,7 +3630,7 @@ msgstr "પ્રોટોકોલને આધાર નથી"
 #: ../calendar/gui/e-cal-model-tasks.c:364
 #: ../calendar/gui/e-cal-model-tasks.c:681
 #: ../calendar/gui/e-calendar-table.c:239
-#: ../calendar/gui/e-calendar-table.c:653 ../calendar/gui/print.c:2564
+#: ../calendar/gui/e-calendar-table.c:664 ../calendar/gui/print.c:2564
 msgid "Canceled"
 msgstr "નકારાઈ ગયું"
 
@@ -4724,7 +4720,7 @@ msgid "Memo_s"
 msgstr "મેમો (_s)"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
-#: ../calendar/gui/e-memo-table.c:278 ../calendar/gui/e-memos.c:1133
+#: ../calendar/gui/e-memo-table.c:293 ../calendar/gui/e-memos.c:1133
 #: ../calendar/gui/gnome-cal.c:1821 ../calendar/gui/memos-component.c:594
 #: ../calendar/gui/memos-component.c:912 ../calendar/gui/memos-control.c:350
 #: ../calendar/gui/memos-control.c:366
@@ -4732,7 +4728,7 @@ msgid "Memos"
 msgstr "મેમો"
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
-#: ../calendar/gui/e-calendar-table.c:714 ../calendar/gui/e-tasks.c:1437
+#: ../calendar/gui/e-calendar-table.c:725 ../calendar/gui/e-tasks.c:1437
 #: ../calendar/gui/gnome-cal.c:1689 ../calendar/gui/print.c:1988
 #: ../calendar/gui/tasks-component.c:586 ../calendar/gui/tasks-component.c:908
 #: ../calendar/gui/tasks-control.c:482 ../calendar/gui/tasks-control.c:498
@@ -4795,8 +4791,8 @@ msgstr "બધાને કાઢી નાંખો (_A)"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:3
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1608
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1614
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1610
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1616
 #: ../calendar/gui/e-itip-control.c:1167
 #: ../plugins/itip-formatter/itip-view.c:1021
 msgid "Location:"
@@ -4831,32 +4827,32 @@ msgstr "પુનરાવર્તન (_S)"
 msgid "location of appointment"
 msgstr "મુલાકાતનું સ્થાન"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1466
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1591
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1468
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1593
 msgid "No summary available."
 msgstr "કોઈ સાર ઉપલબ્ધ નથી."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1475
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1477
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1479
 msgid "No description available."
 msgstr "કોઈ વર્ણન ઉપલબ્ધ નથી."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1485
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1487
 msgid "No location information available."
 msgstr "કોઈ જગ્યા જાણકારી ઉપલબ્ધ નથી."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1530
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1532
 #, c-format
 msgid "You have %d alarms"
 msgstr "તમારી પાસે %d એલાર્મો છે"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1692
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1720
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1694
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1722
 #: ../e-util/e-non-intrusive-error-dialog.h:41
 msgid "Warning"
 msgstr "ચેતવણી"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1696
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1698
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -4868,7 +4864,7 @@ msgstr ""
 "ઈ-મેઈલ મોકલવા સાથે રુપરેખાંકિત થયો નથી. ઈવોલ્યુશન\n"
 "સામાન્ય રીમાઈન્ડર સાથે સંવાદ બોક્સ પ્રદર્શિત થશે."
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1726
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1728
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -4885,7 +4881,7 @@ msgstr ""
 "\n"
 "શું તમે ખરેખર આ કાર્યક્રમ ચલાવવા માંગો છો?"
 
-#: ../calendar/gui/alarm-notify/alarm-queue.c:1740
+#: ../calendar/gui/alarm-notify/alarm-queue.c:1742
 msgid "Do not ask me about this program again."
 msgstr "મને આ કાર્યક્રમ વિશે ફરીથી પૂછશો નહિં."
 
@@ -5639,7 +5635,7 @@ msgid "Classification"
 msgstr "વર્ગીકરણ"
 
 #: ../calendar/gui/caltypes.xml.h:7 ../calendar/gui/e-cal-list-view.c:249
-#: ../calendar/gui/e-cal-model.c:352 ../calendar/gui/e-calendar-table.c:557
+#: ../calendar/gui/e-cal-model.c:352 ../calendar/gui/e-calendar-table.c:568
 #: ../calendar/gui/memotypes.xml.h:6
 #: ../plugins/email-custom-header/email-custom-header.c:341
 msgid "Confidential"
@@ -5674,14 +5670,14 @@ msgid "Organizer"
 msgstr "આયોજક"
 
 #: ../calendar/gui/caltypes.xml.h:14 ../calendar/gui/e-cal-list-view.c:248
-#: ../calendar/gui/e-cal-model.c:350 ../calendar/gui/e-calendar-table.c:556
+#: ../calendar/gui/e-cal-model.c:350 ../calendar/gui/e-calendar-table.c:567
 #: ../calendar/gui/memotypes.xml.h:12
 msgid "Private"
 msgstr "ખાનગી"
 
 #: ../calendar/gui/caltypes.xml.h:15 ../calendar/gui/e-cal-list-view.c:247
 #: ../calendar/gui/e-cal-model.c:341 ../calendar/gui/e-cal-model.c:348
-#: ../calendar/gui/e-calendar-table.c:555 ../calendar/gui/memotypes.xml.h:13
+#: ../calendar/gui/e-calendar-table.c:566 ../calendar/gui/memotypes.xml.h:13
 msgid "Public"
 msgstr "જાહેર"
 
@@ -7142,7 +7138,7 @@ msgstr "<span weight=\"bold\">સ્થિતિ</span>"
 #: ../calendar/gui/e-cal-model-tasks.c:362
 #: ../calendar/gui/e-cal-model-tasks.c:679
 #: ../calendar/gui/e-calendar-table.c:237
-#: ../calendar/gui/e-calendar-table.c:652 ../calendar/gui/e-itip-control.c:941
+#: ../calendar/gui/e-calendar-table.c:663 ../calendar/gui/e-itip-control.c:941
 #: ../calendar/gui/e-meeting-store.c:180 ../calendar/gui/e-meeting-store.c:203
 #: ../calendar/gui/print.c:2561 ../calendar/gui/tasktypes.xml.h:9
 #: ../plugins/save-calendar/csv-format.c:366
@@ -7151,7 +7147,7 @@ msgstr "સમાપ્ત"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:5
 #: ../calendar/gui/e-cal-component-preview.c:266
-#: ../calendar/gui/e-calendar-table.c:577 ../calendar/gui/tasktypes.xml.h:14
+#: ../calendar/gui/e-calendar-table.c:588 ../calendar/gui/tasktypes.xml.h:14
 #: ../mail/message-list.c:1065
 msgid "High"
 msgstr "ઊંચુ"
@@ -7162,20 +7158,20 @@ msgstr "ઊંચુ"
 #: ../calendar/gui/e-cal-model-tasks.c:677
 #: ../calendar/gui/e-cal-model-tasks.c:754
 #: ../calendar/gui/e-calendar-table.c:235
-#: ../calendar/gui/e-calendar-table.c:651 ../calendar/gui/print.c:2558
+#: ../calendar/gui/e-calendar-table.c:662 ../calendar/gui/print.c:2558
 msgid "In Progress"
 msgstr "પ્રગતિમાં છે"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
 #: ../calendar/gui/e-cal-component-preview.c:270
-#: ../calendar/gui/e-calendar-table.c:579 ../calendar/gui/tasktypes.xml.h:16
+#: ../calendar/gui/e-calendar-table.c:590 ../calendar/gui/tasktypes.xml.h:16
 #: ../mail/message-list.c:1063
 msgid "Low"
 msgstr "નીચું"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
 #: ../calendar/gui/e-cal-component-preview.c:268
-#: ../calendar/gui/e-cal-model.c:1006 ../calendar/gui/e-calendar-table.c:578
+#: ../calendar/gui/e-cal-model.c:1006 ../calendar/gui/e-calendar-table.c:589
 #: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1064
 msgid "Normal"
 msgstr "સામાન્ય"
@@ -7185,7 +7181,7 @@ msgstr "સામાન્ય"
 #: ../calendar/gui/e-cal-model-tasks.c:358
 #: ../calendar/gui/e-cal-model-tasks.c:675
 #: ../calendar/gui/e-calendar-table.c:233
-#: ../calendar/gui/e-calendar-table.c:650 ../calendar/gui/print.c:2555
+#: ../calendar/gui/e-calendar-table.c:661 ../calendar/gui/print.c:2555
 #: ../calendar/gui/tasktypes.xml.h:18
 msgid "Not Started"
 msgstr "શરુ થયું નથી"
@@ -7199,7 +7195,7 @@ msgid "Stat_us:"
 msgstr "પરિસ્થિતિ (_u):"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:12
-#: ../calendar/gui/e-calendar-table.c:580 ../calendar/gui/tasktypes.xml.h:24
+#: ../calendar/gui/e-calendar-table.c:591 ../calendar/gui/tasktypes.xml.h:24
 msgid "Undefined"
 msgstr "વ્યાખ્યાયિત નથી"
 
@@ -7406,12 +7402,12 @@ msgid "Start Date"
 msgstr "શરુઆતની તારીખ"
 
 #: ../calendar/gui/e-cal-model-calendar.c:187
-#: ../calendar/gui/e-calendar-table.c:629
+#: ../calendar/gui/e-calendar-table.c:640
 msgid "Free"
 msgstr "મુક્ત"
 
 #: ../calendar/gui/e-cal-model-calendar.c:190
-#: ../calendar/gui/e-calendar-table.c:630
+#: ../calendar/gui/e-calendar-table.c:641
 #: ../calendar/gui/e-meeting-time-sel.c:399
 msgid "Busy"
 msgstr "વ્યસ્ત"
@@ -7479,8 +7475,8 @@ msgstr "પસંદિત જોડાણો સંગ્રહવા માટ
 msgid "untitled_image.%s"
 msgstr "untitled_image.%s"
 
-#: ../calendar/gui/e-cal-popup.c:286 ../calendar/gui/e-calendar-table.c:1589
-#: ../calendar/gui/e-calendar-view.c:1776 ../calendar/gui/e-memo-table.c:924
+#: ../calendar/gui/e-cal-popup.c:286 ../calendar/gui/e-calendar-table.c:1600
+#: ../calendar/gui/e-calendar-view.c:1776 ../calendar/gui/e-memo-table.c:939
 #: ../mail/em-folder-view.c:1338 ../mail/em-popup.c:559 ../mail/em-popup.c:570
 msgid "_Save As..."
 msgstr "આ રીતે સંગ્રહો (_S)..."
@@ -7494,17 +7490,17 @@ msgstr "પાશ્વ ભાગ તરીકે સુયોજિત કર�
 msgid "_Save Selected"
 msgstr "પસંદ કરેલ સંગ્રહો (_S)"
 
-#: ../calendar/gui/e-cal-popup.c:430 ../mail/em-popup.c:828
+#: ../calendar/gui/e-cal-popup.c:431 ../mail/em-popup.c:829
 #, c-format
 msgid "Open in %s..."
 msgstr "%s માં ખોલો..."
 
-#: ../calendar/gui/e-calendar-table.c:337
+#: ../calendar/gui/e-calendar-table.c:336
 msgid "* No Summary *"
 msgstr "* કોઈ સાર નથી *"
 
 #. To Translators: It will display "Organiser: NameOfTheUser <email@ofuser.com>"
-#: ../calendar/gui/e-calendar-table.c:373
+#: ../calendar/gui/e-calendar-table.c:372
 #: ../calendar/gui/e-calendar-view.c:2399
 #, c-format
 msgid "Organizer: %s <%s>"
@@ -7512,139 +7508,139 @@ msgstr "આયોજક: %s <%s>"
 
 #. With SunOne accounts, there may be no ':' in organiser.value
 #. With SunOne accouts, there may be no ':' in organiser.value
-#: ../calendar/gui/e-calendar-table.c:376
+#: ../calendar/gui/e-calendar-table.c:375
 #: ../calendar/gui/e-calendar-view.c:2403
 #, c-format
 msgid "Organizer: %s"
 msgstr "આયોજક: %s"
 
-#: ../calendar/gui/e-calendar-table.c:407
+#: ../calendar/gui/e-calendar-table.c:406
 msgid "Start: "
 msgstr "શરુ કરો: "
 
-#: ../calendar/gui/e-calendar-table.c:419
+#: ../calendar/gui/e-calendar-table.c:418
 msgid "Due: "
 msgstr "કારણે: "
 
-#: ../calendar/gui/e-calendar-table.c:599
+#: ../calendar/gui/e-calendar-table.c:610
 msgid "0%"
 msgstr "૦%"
 
-#: ../calendar/gui/e-calendar-table.c:600
+#: ../calendar/gui/e-calendar-table.c:611
 msgid "10%"
 msgstr "૧૦%"
 
-#: ../calendar/gui/e-calendar-table.c:601
+#: ../calendar/gui/e-calendar-table.c:612
 msgid "20%"
 msgstr "૨૦%"
 
-#: ../calendar/gui/e-calendar-table.c:602
+#: ../calendar/gui/e-calendar-table.c:613
 msgid "30%"
 msgstr "૩૦%"
 
-#: ../calendar/gui/e-calendar-table.c:603
+#: ../calendar/gui/e-calendar-table.c:614
 msgid "40%"
 msgstr "૪૦%"
 
-#: ../calendar/gui/e-calendar-table.c:604
+#: ../calendar/gui/e-calendar-table.c:615
 msgid "50%"
 msgstr "૫૦%"
 
-#: ../calendar/gui/e-calendar-table.c:605
+#: ../calendar/gui/e-calendar-table.c:616
 msgid "60%"
 msgstr "૬૦%"
 
-#: ../calendar/gui/e-calendar-table.c:606
+#: ../calendar/gui/e-calendar-table.c:617
 msgid "70%"
 msgstr "૭૦%"
 
-#: ../calendar/gui/e-calendar-table.c:607
+#: ../calendar/gui/e-calendar-table.c:618
 msgid "80%"
 msgstr "૮૦%"
 
-#: ../calendar/gui/e-calendar-table.c:608
+#: ../calendar/gui/e-calendar-table.c:619
 msgid "90%"
 msgstr "૯૦%"
 
-#: ../calendar/gui/e-calendar-table.c:609
+#: ../calendar/gui/e-calendar-table.c:620
 msgid "100%"
 msgstr "૧૦૦%"
 
-#: ../calendar/gui/e-calendar-table.c:889
-#: ../calendar/gui/e-calendar-view.c:672 ../calendar/gui/e-memo-table.c:437
+#: ../calendar/gui/e-calendar-table.c:900
+#: ../calendar/gui/e-calendar-view.c:672 ../calendar/gui/e-memo-table.c:452
 msgid "Deleting selected objects"
 msgstr "પસંદ કરેલા ઓબ્જેક્ટો કાઢી રહ્યા છીએ"
 
-#: ../calendar/gui/e-calendar-table.c:1172
-#: ../calendar/gui/e-calendar-view.c:837 ../calendar/gui/e-memo-table.c:642
+#: ../calendar/gui/e-calendar-table.c:1183
+#: ../calendar/gui/e-calendar-view.c:837 ../calendar/gui/e-memo-table.c:657
 msgid "Updating objects"
 msgstr "ઓબ્જેક્ટો સુધારી રહ્યા છીએ"
 
-#: ../calendar/gui/e-calendar-table.c:1360
-#: ../calendar/gui/e-calendar-view.c:1298 ../calendar/gui/e-memo-table.c:818
+#: ../calendar/gui/e-calendar-table.c:1371
+#: ../calendar/gui/e-calendar-view.c:1298 ../calendar/gui/e-memo-table.c:833
 #: ../composer/e-composer-actions.c:275
 msgid "Save as..."
 msgstr "આ રીતે સંગ્રહો..."
 
-#: ../calendar/gui/e-calendar-table.c:1584
+#: ../calendar/gui/e-calendar-table.c:1595
 #: ../calendar/gui/e-calendar-view.c:1758
 msgid "New _Task"
 msgstr "નવી બાબત (_T)"
 
-#: ../calendar/gui/e-calendar-table.c:1588 ../calendar/gui/e-memo-table.c:923
+#: ../calendar/gui/e-calendar-table.c:1599 ../calendar/gui/e-memo-table.c:938
 msgid "Open _Web Page"
 msgstr "વેબ પાનું ખોલો (_W)"
 
-#: ../calendar/gui/e-calendar-table.c:1590
-#: ../calendar/gui/e-calendar-view.c:1761 ../calendar/gui/e-memo-table.c:925
+#: ../calendar/gui/e-calendar-table.c:1601
+#: ../calendar/gui/e-calendar-view.c:1761 ../calendar/gui/e-memo-table.c:940
 msgid "P_rint..."
 msgstr "છાપો (_r)..."
 
-#: ../calendar/gui/e-calendar-table.c:1594
-#: ../calendar/gui/e-calendar-view.c:1781 ../calendar/gui/e-memo-table.c:929
+#: ../calendar/gui/e-calendar-table.c:1605
+#: ../calendar/gui/e-calendar-view.c:1781 ../calendar/gui/e-memo-table.c:944
 #: ../ui/evolution-addressbook.xml.h:2 ../ui/evolution-calendar.xml.h:1
 #: ../ui/evolution-memos.xml.h:1 ../ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "કાપો (_u)"
 
-#: ../calendar/gui/e-calendar-table.c:1596
+#: ../calendar/gui/e-calendar-table.c:1607
 #: ../calendar/gui/e-calendar-view.c:1764
-#: ../calendar/gui/e-calendar-view.c:1783 ../calendar/gui/e-memo-table.c:931
+#: ../calendar/gui/e-calendar-view.c:1783 ../calendar/gui/e-memo-table.c:946
 #: ../ui/evolution-addressbook.xml.h:57 ../ui/evolution-calendar.xml.h:46
 #: ../ui/evolution-memos.xml.h:19 ../ui/evolution-tasks.xml.h:28
 msgid "_Paste"
 msgstr "ચોંટાડો (_P)"
 
-#: ../calendar/gui/e-calendar-table.c:1600 ../ui/evolution-tasks.xml.h:22
+#: ../calendar/gui/e-calendar-table.c:1611 ../ui/evolution-tasks.xml.h:22
 msgid "_Assign Task"
 msgstr "બાબત સોંપો (_A)"
 
-#: ../calendar/gui/e-calendar-table.c:1601 ../calendar/gui/e-memo-table.c:935
+#: ../calendar/gui/e-calendar-table.c:1612 ../calendar/gui/e-memo-table.c:950
 #: ../ui/evolution-tasks.xml.h:26
 msgid "_Forward as iCalendar"
 msgstr "iCalendar તરીકે આગળ ધપાવો (_F)"
 
-#: ../calendar/gui/e-calendar-table.c:1602
+#: ../calendar/gui/e-calendar-table.c:1613
 msgid "_Mark as Complete"
 msgstr "પૂર્ણ થયેલ હોય એમ ચિહ્નિત કરો (_M)"
 
-#: ../calendar/gui/e-calendar-table.c:1603
+#: ../calendar/gui/e-calendar-table.c:1614
 msgid "_Mark Selected Tasks as Complete"
 msgstr "પસંદ કરેલ બાબતોને પૂર્ણ થયેલ હોય એમ ચિહ્નિત કરો (_M)"
 
-#: ../calendar/gui/e-calendar-table.c:1604
+#: ../calendar/gui/e-calendar-table.c:1615
 msgid "_Mark as Incomplete"
 msgstr "અપૂર્ણ તરીકે ચિહ્નિત કરો (_M)"
 
-#: ../calendar/gui/e-calendar-table.c:1605
+#: ../calendar/gui/e-calendar-table.c:1616
 msgid "_Mark Selected Tasks as Incomplete"
 msgstr "પસંદ કરેલ ક્રિયાઓને અપૂર્ણ તરીકે ચિહ્નિત કરો (_M)"
 
-#: ../calendar/gui/e-calendar-table.c:1610
+#: ../calendar/gui/e-calendar-table.c:1621
 msgid "_Delete Selected Tasks"
 msgstr "પસંદ કરેલ બાબતોને કાઢી નાંખો (_D)"
 
-#: ../calendar/gui/e-calendar-table.c:1847
+#: ../calendar/gui/e-calendar-table.c:1858
 #: ../calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
 msgstr "બાબત ઉમેરવા માટે ક્લિક કરો"
@@ -7850,7 +7846,7 @@ msgstr "બીજા ટાઇમ ઝોનને બતાવો"
 #. month, %B = full month name. You can change the
 #. order but don't change the specifiers or add
 #. anything.
-#: ../calendar/gui/e-day-view-top-item.c:851 ../calendar/gui/e-day-view.c:1584
+#: ../calendar/gui/e-day-view-top-item.c:851 ../calendar/gui/e-day-view.c:1582
 #: ../calendar/gui/e-week-view-main-item.c:326 ../calendar/gui/print.c:1678
 msgid "%A %d %B"
 msgstr "%A %d %B"
@@ -7868,7 +7864,7 @@ msgid "pm"
 msgstr "સાંજ"
 
 #. To Translators: the %d stands for a week number, it's value between 1 and 52/53
-#: ../calendar/gui/e-day-view.c:2322
+#: ../calendar/gui/e-day-view.c:2321
 #, c-format
 msgid "Week %d"
 msgstr "અઠવાડિયુ %d"
@@ -8285,7 +8281,7 @@ msgstr "સભામંત્રી"
 
 #: ../calendar/gui/e-meeting-list-view.c:68
 msgid "Required Participants"
-msgstr "ી ભાગ લેનાર જરુરી છેાઓ"
+msgstr  "ભાગ લેનાર જરુરી છે"
 
 #: ../calendar/gui/e-meeting-list-view.c:69
 msgid "Optional Participants"
@@ -8472,11 +8468,11 @@ msgstr "ભાષા"
 msgid "Member"
 msgstr "સભ્ય"
 
-#: ../calendar/gui/e-memo-table.c:940
+#: ../calendar/gui/e-memo-table.c:955
 msgid "_Delete Selected Memos"
 msgstr "પસંદ કરેલ મેમો કાઢી નાંખો (_D)"
 
-#: ../calendar/gui/e-memo-table.c:1091 ../calendar/gui/e-memo-table.etspec.h:2
+#: ../calendar/gui/e-memo-table.c:1106 ../calendar/gui/e-memo-table.etspec.h:2
 msgid "Click to add a memo"
 msgstr "મેમો ઉમેરવા માટે ક્લિક કરો"
 
@@ -9922,7 +9918,7 @@ msgstr "એન્ટાર્કટીકા/કેસે"
 
 #: ../calendar/zones.h:198
 msgid "Antarctica/Davis"
-msgstr "એન્ટાર્કટીકાિકા/ડેવિસ"
+msgstr "એન્ટાર્કટીકા/ડેવિસ"
 
 #: ../calendar/zones.h:199
 msgid "Antarctica/DumontDUrville"
@@ -11373,7 +11369,7 @@ msgstr "કડી ને ખોલી શક્યા નહિં."
 
 #: ../e-util/e-util.c:174
 msgid "Could not display help for Evolution."
-msgstr "ઇવોલ્યુશન માટે મદદ ને દર્શાવી શક્યા નહિં."
+msgstr "Evolution માટે મદદ ને દર્શાવી શક્યા નહિં."
 
 #: ../e-util/e-util-labels.c:39
 msgid "I_mportant"
@@ -13174,7 +13170,7 @@ msgid "Reply to _List"
 msgstr "યાદીને જવાબ આપો (_L)"
 
 #. make it first item
-#: ../mail/em-popup.c:625 ../mail/em-popup.c:849
+#: ../mail/em-popup.c:625 ../mail/em-popup.c:850
 msgid "_Add to Address Book"
 msgstr "સરનામા પુસ્તિકામાં ઉમેરો (_A)"
 
@@ -13636,7 +13632,7 @@ msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
 msgstr ""
-"ઈવોલ્યુશનના મેઈલ ભાગને જાણતા લેબલોની યાદી. યાદી શબ્દમાળાઓ ધરાવે છે જે નામ:રંગ ધરાવે છે કે "
+"Evolution ના મેઈલ ભાગને જાણતા લેબલોની યાદી. યાદી શબ્દમાળાઓ ધરાવે છે જે નામ:રંગ ધરાવે છે કે "
 "જ્યાં રંગો HTML હેક્ઝ સંગ્રહપદ્ધતિ વાપરે છે."
 
 #: ../mail/evolution-mail.schemas.in.h:81
@@ -13898,7 +13894,6 @@ msgid ""
 msgstr "આની ત્રણ શક્ય કિંમતો હોઈ શકે. ભૂલો માટે ૦. ચેતવણીઓ માટે ૧. ડિબગ સંદેશાઓ માટે ૨."
 
 #: ../mail/evolution-mail.schemas.in.h:143
-#, fuzzy
 #| msgid ""
 #| "This decides the max size of the text part that can be formatted under "
 #| "evolution. The default is 4MB / 4096 KB and is specified interms of KB."
@@ -13906,7 +13901,7 @@ msgid ""
 "This decides the max size of the text part that can be formatted under "
 "Evolution. The default is 4MB / 4096 KB and is specified in terms of KB."
 msgstr ""
-"આ લખાણ ભાગનું મહત્તમ માપ નક્કી કરે છે કે જે ઈવોલ્યુશન હેઠળ ફોર્મેટ કરી શકાય છે. 4MB / 4096 "
+"આ લખાણ ભાગનું મહત્તમ માપ નક્કી કરે છે કે જે Evolution હેઠળ ફોર્મેટ કરી શકાય છે. 4MB / 4096 "
 "KB મૂળભૂત છે અને KB અનુસાર સ્પષ્ટ થાય છે."
 
 #: ../mail/evolution-mail.schemas.in.h:144
@@ -13963,7 +13958,7 @@ msgid ""
 "collapsed state by default. Evolution requires a restart."
 msgstr ""
 "આ સુયોજન સ્પષ્ટ કરે છે કે શું થ્રેડો મૂળભૂત રીતે વિસ્તૃત કે સંકુચિત સ્થિતિમાં હોવા જોઈએ. "
-"ઈવોલ્યુશનને પુનઃશરૂ કરવાની જરૂર છે."
+"Evolution ને પુનઃશરૂ કરવાની જરૂર છે."
 
 #: ../mail/evolution-mail.schemas.in.h:151
 msgid ""
@@ -13972,7 +13967,7 @@ msgid ""
 "restart."
 msgstr ""
 "આ સુયોજન સ્પષ્ટ કરે છે શું થ્રેડો દરેક થ્રેડમાં તાજેતરના સંદેશા પર આધાર રાખીને ક્રમમાં ગોઠવવા "
-"જોઈએ, સંદેશાઓની તારીખની જગ્યાએ. ઈવોલ્યુશનને પુનઃશરૂ કરવાની જરૂર છે."
+"જોઈએ, સંદેશાઓની તારીખની જગ્યાએ. Evolution ને પુનઃશરૂ કરવાની જરૂર છે."
 
 #: ../mail/evolution-mail.schemas.in.h:152
 msgid "Thread the message list."
@@ -14108,7 +14103,7 @@ msgstr "Elm માહિતી આયાત કરી રહ્યા છીએ"
 
 #: ../mail/importers/elm-importer.c:367
 msgid "Evolution Elm importer"
-msgstr "ઈવોલ્યુશન Elm આયાત કરનાર"
+msgstr "Evolution Elm આયાત કરનાર"
 
 #: ../mail/importers/elm-importer.c:368
 msgid "Import mail from Elm."
@@ -14155,7 +14150,7 @@ msgstr "ખોવાયેલ માહિતી આયાત કરી રહ�
 
 #: ../mail/importers/pine-importer.c:424
 msgid "Evolution Pine importer"
-msgstr "ઈવોલ્યુશન પાઈન આયાત કરનાર"
+msgstr "Evolution પાઈન આયાત કરનાર"
 
 #: ../mail/importers/pine-importer.c:425
 msgid "Import mail from Pine."
@@ -14281,7 +14276,7 @@ msgstr "(નોંધ: કાર્યક્રમને પુનઃશરૂ �
 
 #: ../mail/mail-config.glade.h:4
 msgid "<b>SSL is not supported in this build of Evolution</b>"
-msgstr "<b>SSL એ ઈવોલ્યુશનની આ આવૃત્તિમાં આધારભૂત નથી</b>"
+msgstr "<b>SSL એ Evolution ની આ આવૃત્તિમાં આધારભૂત નથી</b>"
 
 #: ../mail/mail-config.glade.h:5
 msgid "<b>Sender Photograph</b>"
@@ -14495,7 +14490,7 @@ msgid ""
 msgstr ""
 "અભિનંદન, તમારુ મેઈલ રુપરેખાંકન પૂર્ણ થયું.\n"
 "\n"
-"તમે હવે ઈવોલ્યુશન દ્વારા મેઈલ મોકલવા અને \n"
+"તમે હવે Evolution દ્વારા મેઈલ મોકલવા અને \n"
 "મેળવવા માટે તૈયાર છો. \n"
 "\n"
 "તમારા સુયોજનો સંગ્રહવા માટે \"અમલમાં મૂકો\" પર ક્લિક કરો."
@@ -14862,7 +14857,7 @@ msgid ""
 "\n"
 "Click \"Forward\" to begin. "
 msgstr ""
-"ઈવોલ્યુશન મેઈલ રુપરેખાંકન મદદનીશમાં તમારું સ્વાગત છે.\n"
+"Evolution મેઈલ રુપરેખાંકન મદદનીશમાં તમારું સ્વાગત છે.\n"
 "\n"
 "શરુઆત કરવા માટે \"આગળ ધપાવો\" પર ક્લિક કરો. "
 
@@ -15670,7 +15665,7 @@ msgstr "જો તમે પ્રક્રિયા કરો, તો ખાત
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
-msgstr "જો તમે બહાર નીકળો, આ સંદેશાઓ જ્યાં સુધી ઈવોલ્યુશન શરુ થાય નહિં ત્યાં સુધી મોકલાશે નહિં."
+msgstr "જો તમે બહાર નીકળો, આ સંદેશાઓ જ્યાં સુધી Evolution શરુ થાય નહિં ત્યાં સુધી મોકલાશે નહિં."
 
 #: ../mail/mail.error.xml.h:68
 msgid "Ignore"
@@ -15797,7 +15792,7 @@ msgid ""
 "System folders are required for Evolution to function correctly and cannot "
 "be renamed, moved, or deleted."
 msgstr ""
-"ઈવોલ્યુશનને યોગ્ય રીતે કામ કરવા માટે સિસ્ટમ ફોલ્ડરો જરૂરી છે અને તેમનું નામ બદલી શકાતું નથી, "
+"Evolution ને યોગ્ય રીતે કામ કરવા માટે સિસ્ટમ ફોલ્ડરો જરૂરી છે અને તેમનું નામ બદલી શકાતું નથી, "
 "તેમને ખસાડી શકાતા નથી, અથવા કાઢી શકાતા નથી."
 
 #: ../mail/mail.error.xml.h:98
@@ -16193,7 +16188,7 @@ msgid ""
 "Evolution has found some keywords that suggest that this message should "
 "contain an attachment, but cannot find one."
 msgstr ""
-"ઈવોલ્યુશને અમુક મુખ્ય શબ્દો શોધ્યા કે જે સૂચવે છે કે આ સંદેશો જોડાણ સમાવતો હોવો જોઈએ, પરંતુ "
+"Evolution ને અમુક મુખ્ય શબ્દો શોધ્યા કે જે સૂચવે છે કે આ સંદેશો જોડાણ સમાવતો હોવો જોઈએ, પરંતુ "
 "કોઈપણ શોધી શકતો નથી."
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
@@ -16205,7 +16200,6 @@ msgid "_Edit Message"
 msgstr "સંદેશામાં ફેરફાર કરો (_E)"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
-#, fuzzy
 #| msgid ""
 #| "A formatter plugin which displays audio attachments inline and allows you "
 #| "to play them directly from evolution."
@@ -16213,7 +16207,7 @@ msgid ""
 "A formatter plugin which displays audio attachments inline and allows you to "
 "play them directly from Evolution."
 msgstr ""
-"ફોર્મેટર પ્લગઈન કે જે ઓડિયો જોડાણો ઈનલાઈન દર્શાવે છે અને તમને તેમને ઈવોલ્યુશનમાંથી સીધું જ "
+"ફોર્મેટર પ્લગઈન કે જે ઓડિયો જોડાણો ઈનલાઈન દર્શાવે છે અને તમને તેમને Evolution માંથી સીધું જ "
 "વગાડવા માટે પરવાનગી આપે છે."
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
@@ -16222,19 +16216,19 @@ msgstr "ઓડિયો ઈનલાઈન પ્લગઈન"
 
 #: ../plugins/backup-restore/backup-restore.c:138
 msgid "Select name of the Evolution backup file"
-msgstr "ઈવોલ્યુશન બેકઅપ ફાઈલનું નામ પસંદ કરો"
+msgstr "Evolution બેકઅપ ફાઈલનું નામ પસંદ કરો"
 
 #: ../plugins/backup-restore/backup-restore.c:167
 msgid "_Restart Evolution after backup"
-msgstr "બેકઅપ પછી ઈવોલ્યુશન ફરી શરૂ કરો (_R)"
+msgstr "બેકઅપ પછી Evolution ફરી શરૂ કરો (_R)"
 
 #: ../plugins/backup-restore/backup-restore.c:190
 msgid "Select name of the Evolution backup file to restore"
-msgstr "પુનઃસંગ્રહ કરવા માટે ઈવોલ્યુશન બેકઅપ ફાઈલનું નામ પસંદ કરો"
+msgstr "પુનઃસંગ્રહ કરવા માટે Evolution બેકઅપ ફાઈલનું નામ પસંદ કરો"
 
 #: ../plugins/backup-restore/backup-restore.c:214
 msgid "_Restart Evolution after restore"
-msgstr "પુનઃ પ્રાપ્તિ પછી ઈવોલ્યુશન ફરીથી શરૂ કરો (_R)"
+msgstr "પુનઃ પ્રાપ્તિ પછી Evolution ફરીથી શરૂ કરો (_R)"
 
 #: ../plugins/backup-restore/backup-restore.c:287
 msgid "Restore from backup"
@@ -16246,17 +16240,17 @@ msgid ""
 "Calendars, Tasks, Memos, Contacts. \n"
 "It also restores all your personal settings, mail filters etc."
 msgstr ""
-"તમે બેકઅપમાંથી ઈવોલ્યુશન પુનઃસંગ્રહી શકો છો. તે બધા મેઈલો, કેલેન્ડરો, ક્રિયાઓ, મેમો, સંપર્કો "
+"તમે બેકઅપમાંથી Evolution પુનઃસંગ્રહી શકો છો. તે બધા મેઈલો, કેલેન્ડરો, ક્રિયાઓ, મેમો, સંપર્કો "
 "પુનઃસંગ્રહી શકે છે. \n"
 "તે તમારા બધા વ્યક્તિગત સુયોજનો, મેઈલ ગાળકો વગેરે પણ પુનઃસંગ્રહી શકશે."
 
 #: ../plugins/backup-restore/backup-restore.c:295
 msgid "_Restore Evolution from the backup file"
-msgstr "બેકઅપ ફાઈલમાંથી ઈવોલ્યુશન પુનઃસંગ્રહો (_R)"
+msgstr "બેકઅપ ફાઈલમાંથી Evolution પુનઃસંગ્રહો (_R)"
 
 #: ../plugins/backup-restore/backup-restore.c:302
 msgid "Please select an Evolution Archive to restore:"
-msgstr "પુનઃસંગ્રહ કરવા માટે મહેરબાની કરીને ઈવોલ્યુશન પેટી પસંદ કરો:"
+msgstr "પુનઃસંગ્રહ કરવા માટે મહેરબાની કરીને Evolution પેટી પસંદ કરો:"
 
 #: ../plugins/backup-restore/backup-restore.c:305
 msgid "Choose a file to restore"
@@ -16264,19 +16258,19 @@ msgstr "પુનઃસંગ્રહવા માટે ફાઈલ પસં
 
 #: ../plugins/backup-restore/backup.c:65
 msgid "Backup Evolution directory"
-msgstr "બેકઅપ ઈવોલ્યુશન ડિરેક્ટરી"
+msgstr "બેકઅપ Evolution ડિરેક્ટરી"
 
 #: ../plugins/backup-restore/backup.c:67
 msgid "Restore Evolution directory"
-msgstr "ઈવોલ્યુશન ડિરેક્ટરી પાછી સંગ્રહિત કરો"
+msgstr "Evolution ડિરેક્ટરી પાછી સંગ્રહિત કરો"
 
 #: ../plugins/backup-restore/backup.c:69
 msgid "Check Evolution Backup"
-msgstr "ઈવોલ્યુશન બેકઅપ ચકાસો"
+msgstr "Evolution બેકઅપ ચકાસો"
 
 #: ../plugins/backup-restore/backup.c:71
 msgid "Restart Evolution"
-msgstr "ઈવોલ્યુશન ફરી શરૂ કરો"
+msgstr "Evolution ફરી શરૂ કરો"
 
 #: ../plugins/backup-restore/backup.c:73
 msgid "With Graphical User Interface"
@@ -16285,15 +16279,15 @@ msgstr "ગ્રાફિકવાળા વપરાશકર્તા ઈન�
 #: ../plugins/backup-restore/backup.c:124
 #: ../plugins/backup-restore/backup.c:257
 msgid "Shutting down Evolution"
-msgstr "ઈવોલ્યુશન બંધ કરી રહ્યા છીએ"
+msgstr "Evolution બંધ કરી રહ્યા છીએ"
 
 #: ../plugins/backup-restore/backup.c:131
 msgid "Backing Evolution accounts and settings"
-msgstr "ઈવોલ્યુશન ખાતાઓ અને સુયોજનો બેક કરી રહ્યા છીએ"
+msgstr "Evolution ખાતાઓ અને સુયોજનો બેક કરી રહ્યા છીએ"
 
 #: ../plugins/backup-restore/backup.c:135
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
-msgstr "ઈવોલ્યુશન માહિતી બેક કરી રહ્યા છીએ (મેઈલો, સંપર્કો, કેલેન્ડર, બાબતો, મેમો)"
+msgstr "Evolution માહિતી બેક કરી રહ્યા છીએ (મેઈલો, સંપર્કો, કેલેન્ડર, બાબતો, મેમો)"
 
 #: ../plugins/backup-restore/backup.c:146
 msgid "Backup complete"
@@ -16302,11 +16296,11 @@ msgstr "બેકઅપ સમાપ્ત"
 #: ../plugins/backup-restore/backup.c:151
 #: ../plugins/backup-restore/backup.c:338
 msgid "Restarting Evolution"
-msgstr "ઈવોલ્યુશન પુનઃશરૂ કરી રહ્યા છીએ"
+msgstr "Evolution પુનઃશરૂ કરી રહ્યા છીએ"
 
 #: ../plugins/backup-restore/backup.c:261
 msgid "Backup current Evolution data"
-msgstr "વર્તમાન ઈવોલ્યુશન માહિતી બેકઅપ કરો"
+msgstr "વર્તમાન Evolution માહિતી બેકઅપ કરો"
 
 #: ../plugins/backup-restore/backup.c:266
 msgid "Extracting files from backup"
@@ -16314,7 +16308,7 @@ msgstr "બેકઅપમાંથી ફાઈલોનો અર્ક કા
 
 #: ../plugins/backup-restore/backup.c:273
 msgid "Loading Evolution settings"
-msgstr "ઈવોલ્યુશન સુયોજનો લાવી રહ્યા છીએ"
+msgstr "Evolution સુયોજનો લાવી રહ્યા છીએ"
 
 #: ../plugins/backup-restore/backup.c:277
 msgid "Removing temporary backup files"
@@ -16337,15 +16331,15 @@ msgstr "%s ફોલ્ડરમાંથી પુનઃસંગ્રહી �
 #. Backup / Restore only can have GUI. We should restrict the rest
 #: ../plugins/backup-restore/backup.c:478
 msgid "Evolution Backup"
-msgstr "ઈવોલ્યુશન બેકઅપ"
+msgstr "Evolution બેકઅપ"
 
 #: ../plugins/backup-restore/backup.c:478
 msgid "Evolution Restore"
-msgstr "ઈવોલ્યુશન પુનઃસંગ્રહ"
+msgstr "Evolution પુનઃસંગ્રહ"
 
 #: ../plugins/backup-restore/backup.c:513
 msgid "Backing up Evolution Data"
-msgstr "ઈવોલ્યુશન માહિતી બેકઅપ કરો"
+msgstr "Evolution માહિતી બેકઅપ કરો"
 
 #: ../plugins/backup-restore/backup.c:514
 msgid "Please wait while Evolution is backing up your data."
@@ -16353,7 +16347,7 @@ msgstr ""
 
 #: ../plugins/backup-restore/backup.c:516
 msgid "Restoring Evolution Data"
-msgstr "ઈવોલ્યુશન માહિતી પુનઃસંગ્રહ કરી રહ્યા છીએ"
+msgstr "Evolution માહિતી પુનઃસંગ્રહ કરી રહ્યા છીએ"
 
 #: ../plugins/backup-restore/backup.c:517
 msgid "Please wait while Evolution is restoring your data."
@@ -16365,7 +16359,7 @@ msgstr ""
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
 msgid "A plugin for backing up and restore Evolution data and settings."
-msgstr "ઈવોલ્યુશન માહિતી અને સુયોજનોની બેકઅપ લેવા માટે અને પાછા સંગ્રહવા પ્લગઈન."
+msgstr "Evolution માહિતી અને સુયોજનોની બેકઅપ લેવા માટે અને પાછા સંગ્રહવા પ્લગઈન."
 
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
@@ -16374,11 +16368,11 @@ msgstr "બેકઅપ અને પુનઃસંગ્રહ પ્લગઈ
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:1
 msgid "Are you sure you want to close Evolution?"
-msgstr "શું તમે ખરેખર ઈવોલ્યુશન બંધ કરવા માંગો છો?"
+msgstr "શું તમે ખરેખર Evolution બંધ કરવા માંગો છો?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:2
 msgid "Are you sure you want to restore Evolution from the selected backup file?"
-msgstr "શું તમે ખરેખર ઈવોલ્યુશનને પસંદિત બેકઅપ ફાઈલમાંથી પુનઃસંગ્રહવા માંગો છો?"
+msgstr "શું તમે ખરેખર Evolution ને પસંદિત બેકઅપ ફાઈલમાંથી પુનઃસંગ્રહવા માંગો છો?"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:3
 msgid ""
@@ -16387,9 +16381,9 @@ msgid ""
 "you want Evolution to restart automatically after backup, please enable the "
 "toggle button."
 msgstr ""
-"ઈવોલ્યુશન બેકઅપ માત્ર ત્યારે જ શરૂ થઈ શકે જ્યારે ઈવોલ્યુશન ચાલી રહ્યું નહિં હોય. મહેરબાની "
+"Evolution બેકઅપ માત્ર ત્યારે જ શરૂ થઈ શકે જ્યારે Evolution ચાલી રહ્યું નહિં હોય. મહેરબાની "
 "કરીને ખાતરી કરો કે તમે નહિં બંધ કરેલ બધી વિન્ડો પ્રક્રિયા કરવા પહેલાં સંગ્રહો અને બંધ કરો.  "
-"જો તમે ઈવોલ્યુશનને બેકઅપ પછી આપોઆપ પુનઃશરૂ કરવા માંગો, તો મહેરબાની કરીને ટોગલ બટન "
+"જો તમે Evolution ને બેકઅપ પછી આપોઆપ પુનઃશરૂ કરવા માંગો, તો મહેરબાની કરીને ટોગલ બટન "
 "સક્રિય કરો."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:4
@@ -16398,7 +16392,7 @@ msgstr "અપૂરતી પરવાનગીઓ"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:5
 msgid "Invalid Evolution backup file"
-msgstr "અયોગ્ય ઈવોલ્યુશન બેકઅપ ફાઈલ"
+msgstr "અયોગ્ય Evolution બેકઅપ ફાઈલ"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.error.xml.h:6
 msgid "Please select a valid backup file to restore."
@@ -16416,15 +16410,15 @@ msgid ""
 "you proceed. If you want Evolution to restart automatically restart after "
 "restore, please enable the toggle button."
 msgstr ""
-"આ તમારો બધો ઈવોલ્યુશન માહિતી અને સુયોજનો કાઢી નાંખશે અને તેમને તમારા બેકઅપમાંથી "
-"પુનઃસંગ્રહશે. ઈવોલ્યુશન પુનઃસંગ્રહ માત્ર ત્યારે જ શરૂ થઈ શકે જ્યારે ઈવોલ્યુશન ચાલી રહ્યું નહિં "
+"આ તમારો બધો Evolution માહિતી અને સુયોજનો કાઢી નાંખશે અને તેમને તમારા બેકઅપમાંથી "
+"પુનઃસંગ્રહશે. Evolution પુનઃસંગ્રહ માત્ર ત્યારે જ શરૂ થઈ શકે જ્યારે Evolution ચાલી રહ્યું નહિં "
 "હોય. મહેરબાની કરીને ખાતરી કરો કે તમે તમારી બધી નહિં સંગ્રહાયેલ વિન્ડો પ્રક્રિયા કરવા "
-"પહેલાં બંધ કરો. જો તમે ઈવોલ્યુશનને આપોઆપ પુનઃસંગ્રહ પછી પુનઃશરૂ કરવા માંગો, તો મહેરબાની "
+"પહેલાં બંધ કરો. જો તમે Evolution ને આપોઆપ પુનઃસંગ્રહ પછી પુનઃશરૂ કરવા માંગો, તો મહેરબાની "
 "કરીને ટોગલ બટન સક્રિય કરો."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:1
 msgid "Backup and restore Evolution data and settings"
-msgstr "ઈવોલ્યુશન માહિતી અને સુયોજનોની બેકઅપ લો અને પાછા સંગ્રહો"
+msgstr "Evolution માહિતી અને સુયોજનોની બેકઅપ લો અને પાછા સંગ્રહો"
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.xml.h:2
 msgid "R_estore Settings..."
@@ -16668,15 +16662,15 @@ msgstr "સાધનની નકલ કરો"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:1
 msgid "Check whether Evolution is the default mailer"
-msgstr "શું ઈવોલ્યુશન મૂળભુત મેઈલ કરનાર છે તે ચકાસો"
+msgstr "શું Evolution મૂળભુત મેઈલ કરનાર છે તે ચકાસો"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:2
 msgid "Every time Evolution starts, check whether or not it is the default mailer."
-msgstr "દર વખતે ઈવોલ્યુશન શરૂ થાય, ત્યારે ચકાસો કે શું તે મૂળભુત મેઈલ કરનાર છે કે નહિં."
+msgstr "દર વખતે Evolution શરૂ થાય, ત્યારે ચકાસો કે શું તે મૂળભુત મેઈલ કરનાર છે કે નહિં."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
 msgid "Checks whether Evolution is the default mail client on startup."
-msgstr "ચકાસે છે કે શું ઈવોલ્યુશન એ શરૂઆત થવા પર મૂળભુત મેઈલ ક્લાઈન્ટ છે."
+msgstr "ચકાસે છે કે શું Evolution એ શરૂઆત થવા પર મૂળભુત મેઈલ ક્લાઈન્ટ છે."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:2
 msgid "Default Mail Client "
@@ -16684,12 +16678,12 @@ msgstr "મૂળભુત મેઈલ ક્લાઈન્ટ"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
 msgid "Do you want to make Evolution your default e-mail client?"
-msgstr "શું તમે ઈવોલ્યુશનને તમારું મૂળભુત ઈ-મેઈલ ક્લાઈન્ટ બનાવવા માંગો છો?"
+msgstr "શું તમે Evolution ને તમારું મૂળભુત ઈ-મેઈલ ક્લાઈન્ટ બનાવવા માંગો છો?"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
 #: ../shell/main.c:599
 msgid "Evolution"
-msgstr "ઈવોલ્યુશન"
+msgstr "Evolution"
 
 #: ../plugins/default-source/default-source.c:82
 msgid "Mark as _default address book"
@@ -16927,7 +16921,7 @@ msgid ""
 "Evolution is in offline mode. You cannot create or modify folders now.\n"
 "Please switch to online mode for such operations."
 msgstr ""
-"ઈવોલ્યુશન ઓફલાઈન સ્થિતિમાં છે. તમે ફોલ્ડરો હમણાં બનાવી અથવા સુધારી શકતા નથી.\n"
+"Evolution ઓફલાઈન સ્થિતિમાં છે. તમે ફોલ્ડરો હમણાં બનાવી અથવા સુધારી શકતા નથી.\n"
 " આવી પ્રક્રિયાઓ માટે મહેરબાની કરીને ઓનલાઈન સ્થિતિમાં બદલો."
 
 #. User entered a wrong existing
@@ -17007,7 +17001,7 @@ msgid ""
 "This message was sent automatically by Evolution to inform you that you have "
 "been designated as a delegate. You can now send messages on my behalf."
 msgstr ""
-"આ સંદેશો ઈવોલ્યુશન દ્વારા આપોઆપ મોકલવામાં આવ્યો હતો તમને એ જણાવવા માટે કે તમને "
+"આ સંદેશો Evolution દ્વારા આપોઆપ મોકલવામાં આવ્યો હતો તમને એ જણાવવા માટે કે તમને "
 "પ્રતિનીધીનો હોદ્દો આપવામાં આવ્યો છે. તમે હવે મારા વતી સંદેશાઓ મોકલી શકો છો."
 
 #. To translators: Another chunk of the same message.
@@ -17399,7 +17393,7 @@ msgid ""
 "Changes to options for Exchange account \"{0}\" will only take effect after "
 "restarting Evolution."
 msgstr ""
-"ફેરબદલી ખાતા \"{0}\" માટેના વિકલ્પોમાં ફેરફારો માત્ર ઈવોલ્યુશન પુનઃશરૂ કર્યા પછી જ અસર "
+"ફેરબદલી ખાતા \"{0}\" માટેના વિકલ્પોમાં ફેરફારો માત્ર Evolution પુનઃશરૂ કર્યા પછી જ અસર "
 "આપશે."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:6
@@ -17466,7 +17460,7 @@ msgstr "ઓફિસ-ની-બહાર સ્થિતિ સુધારી �
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:22
 msgid "Evolution requires a restart to load the subscribed user's mailbox"
-msgstr "ઇવોલ્યુશન ને ઉમેદવારી થયેલ વપરાશકર્તાનાં મેઇલબોક્સ ને લોડ કરવા માટે ફરી શરૂ કરવાની જરૂર છે"
+msgstr "Evolution ને ઉમેદવારી થયેલ વપરાશકર્તાનાં મેઇલબોક્સ ને લોડ કરવા માટે ફરી શરૂ કરવાની જરૂર છે"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:23
 msgid "Exchange Account is offline."
@@ -17491,7 +17485,7 @@ msgstr ""
 "વિધેયોનો વપરાશ હોય એ જરૂરી છે કે જે નિષ્ક્રિય કરેલ અથવા\n"
 "અટકાવાયેલ હોય એમ દેખાય છે.  (આ સામાન્ય રીતે \n"
 "હેતુ વિનાનું છે.)  તમારા એક્સચેન્જ સંચાલકને આ વિધેયને \n"
-"તમારા માટે ઈવોલ્યુશન એક્સચેન્જ કનેક્ટર વાપરવા માટે \n"
+"તમારા માટે Evolution એક્સચેન્જ કનેક્ટર વાપરવા માટે \n"
 "સક્રિય કરવાની જરૂર છે.\n"
 "\n"
 "તમારા એક્સચેન્જ સંચાલકને પૂરી પાડવા માટેની જાણકારી માટે, \n"
@@ -17577,7 +17571,7 @@ msgstr "મહેરબાની કરીને ખાતરી કરો ક�
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:54
 msgid "Please restart Evolution for changes to take effect"
-msgstr "ફેરફારોની અસર જોવા માટે મહેરબાની કરીને ઈવોલ્યુશન પુનઃશરૂ કરો"
+msgstr "ફેરફારોની અસર જોવા માટે મહેરબાની કરીને Evolution પુનઃશરૂ કરો"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:55
 msgid "Please select a user."
@@ -17589,11 +17583,11 @@ msgstr "સર્વરે પાસવર્ડ નકાર્યો કાર
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:57
 msgid "The Exchange account will be disabled when you quit Evolution"
-msgstr "એક્સચેન્જ ખાતું નિષ્ક્રિય કરવામાં આવશે જ્યારે તમે ઈવોલ્યુશનમાંથી બહાર નીકળો"
+msgstr "એક્સચેન્જ ખાતું નિષ્ક્રિય કરવામાં આવશે જ્યારે તમે Evolution માંથી બહાર નીકળો"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:58
 msgid "The Exchange account will be removed when you quit Evolution"
-msgstr "એક્સચેન્જ ખાતું દૂર કરવામાં આવશે જ્યારે તમે ઈવોલ્યુશનમાંથી બહાર નીકળો"
+msgstr "એક્સચેન્જ ખાતું દૂર કરવામાં આવશે જ્યારે તમે Evolution માંથી બહાર નીકળો"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:59
 msgid "The Exchange server is not compatible with Exchange Connector."
@@ -17754,7 +17748,7 @@ msgid ""
 "Evolution is unable to create a temporary file to save your mail. Retry "
 "later."
 msgstr ""
-"ઇવોલ્યુશન એ તમારા મેઇલ ને સંગ્રહ કરવા માટે કામચલાઉ ફાઇલ ને બનાવવા માટે અસમર્થ છે. પછીથી "
+"Evolution એ તમારા મેઇલ ને સંગ્રહ કરવા માટે કામચલાઉ ફાઇલ ને બનાવવા માટે અસમર્થ છે. પછીથી "
 "ફરી પ્રયત્ન કરો."
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:4
@@ -18379,7 +18373,7 @@ msgid ""
 "Evolution could not find an iPod to synchronize with. Either the iPod is not "
 "connected to the system or it is not powered on."
 msgstr ""
-"ઈવોલ્યુશન તેની સાથે સુમેળ કરવા માટે iPod શોધી શક્યું નહિં. ક્યાં તો iPod સિસ્ટમ સાથે જોડાયેલ "
+"Evolution તેની સાથે સુમેળ કરવા માટે iPod શોધી શક્યું નહિં. ક્યાં તો iPod સિસ્ટમ સાથે જોડાયેલ "
 "નહિં હોય અથવા તેનો પાવર ચાલુ થયેલ નહિં હશે."
 
 #: ../plugins/ipod-sync/ical-format.c:119
@@ -19038,17 +19032,18 @@ msgstr "સમયને મુક્ત બતાવો (_f)"
 msgid "_Preserve my reminder"
 msgstr "મારા યાદ રાખનાર ને સુરક્ષિત રાખો (_P)"
 
-#: ../plugins/itip-formatter/itip-view.c:1157
+#. To Translators: This is a check box to inherit a reminder.
+#: ../plugins/itip-formatter/itip-view.c:1158
 #, fuzzy
 #| msgid "Attachment Reminder"
 msgid "_Inherit reminder"
 msgstr "જોડાણ યાદ અપાવનાર"
 
-#: ../plugins/itip-formatter/itip-view.c:1911
+#: ../plugins/itip-formatter/itip-view.c:1912
 msgid "_Tasks :"
 msgstr "બાબતો (_T) :"
 
-#: ../plugins/itip-formatter/itip-view.c:1913
+#: ../plugins/itip-formatter/itip-view.c:1914
 msgid "Memos :"
 msgstr "મેમો :"
 
@@ -19113,7 +19108,7 @@ msgid ""
 "If \"true\", then beep, otherwise will play sound file when new messages "
 "arrive."
 msgstr ""
-"જો \"સાચું\" હોય, તો પછી બીપ વગાડો, નહિંતર જ્યારે નવા સંદેશાઓ આવે ત્યારે ધ્વનિ ફાઈલ "
+"જો \"true\" હોય, તો પછી બીપ વગાડો, નહિંતર જ્યારે નવા સંદેશાઓ આવે ત્યારે ધ્વનિ ફાઈલ "
 "વગાડો."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
@@ -19156,20 +19151,20 @@ msgstr "શું ચિહ્ન ઝબૂકવું જોઈએ કે ન�
 msgid "Whether to notify new messages in Inbox folder only."
 msgstr "શું માત્ર ઈનબોક્સ ફોલ્ડરમાં જ નવા સંદેશાઓ માટે સૂચન કરવું."
 
-#: ../plugins/mail-notification/mail-notification.c:256
+#: ../plugins/mail-notification/mail-notification.c:260
 msgid "Generate a _D-Bus message"
 msgstr "_D-Bus સંદેશો બનાવો"
 
-#: ../plugins/mail-notification/mail-notification.c:379
+#: ../plugins/mail-notification/mail-notification.c:383
 msgid "Evolution's Mail Notification"
-msgstr "ઇવોલ્યુશનની મેઈલ સૂચના"
+msgstr "Evolution ની મેઈલ સૂચના"
 
-#: ../plugins/mail-notification/mail-notification.c:400
+#: ../plugins/mail-notification/mail-notification.c:404
 msgid "Mail Notification Properties"
 msgstr "મેઈલ સૂચન ગુણધર્મો"
 
 #. To translators: '%d' is the number of mails recieved and '%s' is the name of the folder
-#: ../plugins/mail-notification/mail-notification.c:479
+#: ../plugins/mail-notification/mail-notification.c:483
 #, c-format
 msgid ""
 "You have received %d new message\n"
@@ -19184,55 +19179,55 @@ msgstr[1] ""
 "તમે %d નવા સંદેશાઓ\n"
 "%s માં મેળવ્યો છે."
 
-#: ../plugins/mail-notification/mail-notification.c:484
+#: ../plugins/mail-notification/mail-notification.c:488
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
 msgstr[0] "તમે %d નવો સંદેશો મેળવ્યો છે."
 msgstr[1] "તમે %d નવા સંદેશાઓ મેળવ્યો છે."
 
-#: ../plugins/mail-notification/mail-notification.c:501
-#: ../plugins/mail-notification/mail-notification.c:506
+#: ../plugins/mail-notification/mail-notification.c:505
+#: ../plugins/mail-notification/mail-notification.c:510
 msgid "New email"
 msgstr "નવો મેઈલ"
 
-#: ../plugins/mail-notification/mail-notification.c:566
+#: ../plugins/mail-notification/mail-notification.c:570
 msgid "Show icon in _notification area"
 msgstr "સૂચન વિસ્તારમાં ચિહ્ન બતાવો (_n)"
 
-#: ../plugins/mail-notification/mail-notification.c:569
+#: ../plugins/mail-notification/mail-notification.c:573
 msgid "B_link icon in notification area"
 msgstr "સૂચન વિસ્તારમાં ચિહ્ન ઝબૂકાવો (_i)"
 
-#: ../plugins/mail-notification/mail-notification.c:571
+#: ../plugins/mail-notification/mail-notification.c:575
 msgid "Popup _message together with the icon"
 msgstr "ચિહ્ન સાથે પોપઅપ સંદેશો આપો (_m)"
 
-#: ../plugins/mail-notification/mail-notification.c:752
+#: ../plugins/mail-notification/mail-notification.c:756
 msgid "_Play sound when new messages arrive"
 msgstr "જ્યારે નવા સંદેશાઓ આવે ત્યારે ધ્વનિ વગાડો (_P)"
 
-#: ../plugins/mail-notification/mail-notification.c:758
+#: ../plugins/mail-notification/mail-notification.c:762
 msgid "_Beep"
 msgstr "બીપ (_B)"
 
-#: ../plugins/mail-notification/mail-notification.c:759
+#: ../plugins/mail-notification/mail-notification.c:763
 msgid "Play _sound file"
 msgstr "ધ્વનિ ફાઈલ વગાડો (_s)"
 
-#: ../plugins/mail-notification/mail-notification.c:770
+#: ../plugins/mail-notification/mail-notification.c:774
 msgid "Specify _filename:"
 msgstr "ફાઈલ નામ સ્પષ્ટ કરો (_f):"
 
-#: ../plugins/mail-notification/mail-notification.c:771
+#: ../plugins/mail-notification/mail-notification.c:775
 msgid "Select sound file"
 msgstr "ધ્વનિ ફાઈલ પસંદ કરો"
 
-#: ../plugins/mail-notification/mail-notification.c:772
+#: ../plugins/mail-notification/mail-notification.c:776
 msgid "Pl_ay"
 msgstr "વગાડો (_a)"
 
-#: ../plugins/mail-notification/mail-notification.c:829
+#: ../plugins/mail-notification/mail-notification.c:833
 msgid "Notify new messages for _Inbox only"
 msgstr "માત્ર ઈનબોક્સ માટે જ નવા સંદેશાઓનું સૂચન કરો (_I)"
 
@@ -19584,7 +19579,7 @@ msgstr "HTML સ્થિતિ (_M)"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:1
 msgid "Evolution Profiler"
-msgstr "ઈવોલ્યુશન રૂપરેખાકાર"
+msgstr "Evolution રૂપરેખાકાર"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
 msgid "Writes a log of profiling data events."
@@ -19990,7 +19985,7 @@ msgstr "મદદનીશ સુયોજિત કરો"
 
 #: ../plugins/startup-wizard/startup-wizard.c:85
 msgid "Evolution Setup Assistant"
-msgstr "ઈવોલ્યુશન સેટઅપ મદદનીશ"
+msgstr "Evolution સેટઅપ મદદનીશ"
 
 #: ../plugins/startup-wizard/startup-wizard.c:88
 msgid "Welcome"
@@ -20003,7 +19998,7 @@ msgid ""
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
-"ઈવોલ્યુશનમાં તમારું સ્વાગત છે. આગળની થોડી સ્ક્રીનો ઈવોલ્યુશનને તમારા ઈમેઈલ ખાતાઓ સાથે "
+"ઈવોલ્યુશનમાં તમારું સ્વાગત છે. આગળની થોડી સ્ક્રીનો Evolution ને તમારા ઈમેઈલ ખાતાઓ સાથે "
 "જોડાવા માટે, અને અન્ય કાર્યક્રમમાંથી ફાઈલો આયાત કરવા માટે પરવાનગી આપશે. \n"
 "\n"
 "મહેરબાની કરીને ચાલુ રાખવા માટે \"આગળ ધપાવો\" બટન ક્લિક કરો. "
@@ -20105,19 +20100,19 @@ msgstr "IfMatch ને અવગણો (_A) (Apache પર જરૂરિયા
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
-msgstr "ઈવોલ્યુશન શેલ"
+msgstr "Evolution શેલ"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:2
 msgid "Evolution Shell Config factory"
-msgstr "ઈવોલ્યુશન શેલ રૂપરેખા ફેક્ટરી"
+msgstr "Evolution શેલ રૂપરેખા ફેક્ટરી"
 
 #: ../shell/test/GNOME_Evolution_Test.server.in.in.h:1
 msgid "Evolution Test"
-msgstr "ઈવોલ્યુશન ચકાસણી"
+msgstr "Evolution ચકાસણી"
 
 #: ../shell/test/GNOME_Evolution_Test.server.in.in.h:2
 msgid "Evolution Test component"
-msgstr "ઈવોલ્યુશન ચકાસણી ભાગ"
+msgstr "Evolution ચકાસણી ભાગ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:1
 msgid "Authenticate proxy server connections"
@@ -20245,7 +20240,7 @@ msgstr "પરિસ્થિતિદર્શક પટ્ટી દૃશ્�
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
-msgstr "ઈવોલ્યુશનની રૂપરેખાંકિત આવૃત્તિ, મુખ્ય/ગૌણ/રૂપરેખાંકન સ્તર સાથે (ઉદાહરણ તરીકે \"2.6.0\")."
+msgstr "Evolution ની રૂપરેખાંકિત આવૃત્તિ, મુખ્ય/ગૌણ/રૂપરેખાંકન સ્તર સાથે (ઉદાહરણ તરીકે \"2.6.0\")."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:30
 msgid "The default height for the main window, in pixels."
@@ -20264,7 +20259,7 @@ msgid ""
 "The last upgraded configuration version of Evolution, with major/minor/"
 "configuration level (for example \"2.6.0\")."
 msgstr ""
-"ઈવોલ્યુશનની છેલ્લી સુધારાયેલ રૂપરેખાંકિત આવૃત્તિ, મુખ્ય/ગૌણ/ રૂપરેખાંકન સ્તરો સાથે (ઉદાહરણ "
+"Evolution ની છેલ્લી સુધારાયેલ રૂપરેખાંકિત આવૃત્તિ, મુખ્ય/ગૌણ/ રૂપરેખાંકન સ્તરો સાથે (ઉદાહરણ "
 "તરીકે \"2.6.0\")."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:34
@@ -20304,7 +20299,7 @@ msgid ""
 "by the GNOME toolbar setting."
 msgstr ""
 "વિન્ડો બટનોની શૈલી. \"લખાણ\", \"ચિહ્નો\", \"બંને\", \"સાધનપટ્ટી\" હોઈ શકે. જો "
-"\"સાધનપટ્ટી\" સુયોજિત હોય, તો જીનોમ સાધનપટ્ટી સુયોજનો દ્વારા બટનોની શૈલી નક્કી થાય "
+"\"સાધનપટ્ટી\" સુયોજિત હોય, તો GNOME સાધનપટ્ટી સુયોજનો દ્વારા બટનોની શૈલી નક્કી થાય "
 "છે."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:41
@@ -20333,7 +20328,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:46
 msgid "Whether Evolution will start up in offline mode instead of online mode."
-msgstr "શું ઈવોલ્યશન ઓનલાઈન સ્થિતિની જગ્યાઓ ઓફલાઈન સ્થિતિમાં શરૂ થશે."
+msgstr "શું Evolution ઓનલાઈન સ્થિતિની જગ્યાઓ ઓફલાઈન સ્થિતિમાં શરૂ થશે."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:47
 msgid "Whether or not the window should be maximized."
@@ -20353,7 +20348,7 @@ msgstr "શું સાધનપટ્ટી દૃશ્યમાન થશે
 
 #: ../shell/apps_evolution_shell.schemas.in.h:51
 msgid "Whether the warning dialog in development versions of Evolution is skipped."
-msgstr "શું ઈવોલ્યુશનની વિકાસ આવૃત્તિઓમાંનો ચેતવણી સંવાદ અવગણાયેલ છે."
+msgstr "શું Evolution ની વિકાસ આવૃત્તિઓમાંનો ચેતવણી સંવાદ અવગણાયેલ છે."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:52
 msgid "Whether the window buttons should be visible."
@@ -20384,7 +20379,6 @@ msgid "Choose the type of importer to run:"
 msgstr "ચલાવવા માટે આયાત કરનારનો પ્રકાર પસંદ કરો:"
 
 #: ../shell/e-shell-importer.c:134
-#, fuzzy
 #| msgid ""
 #| "Choose the file that you want to import into Evolution, and select what "
 #| "type of file it is from the list.\n"
@@ -20395,10 +20389,10 @@ msgid ""
 "Choose the file that you want to import into Evolution, and select what type "
 "of file it is from the list."
 msgstr ""
-"ફાઈલ કે જે તમે ઈવોલ્યુશનમાં આયાત કરવા માંગો તે પસંદ કરો, અને તે યાદીમાંથી કયા પ્રકારની "
+"ફાઈલ કે જે તમે Evolution માં આયાત કરવા માંગો તે પસંદ કરો, અને તે યાદીમાંથી કયા પ્રકારની "
 "ફાઈલ છે તે પસંદ કરો.\n"
 "\n"
-"જો તમે જાણતા ના હોય તો તમે \"આપોઆપ\" પસંદ કરી શકો છો, અને ઈવોલ્યુશન તેને કામ કરવા "
+"જો તમે જાણતા ના હોય તો તમે \"આપોઆપ\" પસંદ કરી શકો છો, અને Evolution તેને કામ કરવા "
 "માટે લઈ લેશે."
 
 #: ../shell/e-shell-importer.c:138
@@ -20412,7 +20406,7 @@ msgid ""
 "settings found. If you would like to\n"
 "try again, please click the \"Back\" button.\n"
 msgstr ""
-"નીચેના કાર્યક્રમોમાંથી આયાત કરવા માટે ઈવોલ્યુશને સુયોજનો\n"
+"નીચેના કાર્યક્રમોમાંથી આયાત કરવા માટે Evolution ને સુયોજનો\n"
 "ચકાસ્યા: Pine, Netscape, Elm, iCalendar. આયાત કરી શકાય તેવા કોઈ\n"
 "સુયોજનો મળ્યા નથી. જો તમે ફરીથી પ્રયત્ન કરવા\n"
 "માંગતા હોય, તો મહેરબાની કરીને \"પાછળ\" બટન ક્લિક કરો.\n"
@@ -20439,18 +20433,18 @@ msgstr "એક ફાઈલ જ આયાત કરો (_s)"
 
 #: ../shell/e-shell-settings-dialog.c:313
 msgid "Evolution Preferences"
-msgstr "ઈવોલ્યુશન પસંદગીઓ"
+msgstr "Evolution પસંદગીઓ"
 
 #. To translators: This is the window title and %s is the
 #. component name. Most translators will want to keep it as is.
 #: ../shell/e-shell-view.c:47 ../shell/e-shell-window.c:328
 #, c-format
 msgid "%s - Evolution"
-msgstr "%s - ઈવોલ્યુશન"
+msgstr "%s - Evolution"
 
 #: ../shell/e-shell-window-commands.c:75
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr "જીનોમ પાયલોટ સાધનો આ સિસ્ટમ પર સ્થાપિત થયા હોય એમ લાગતું નથી."
+msgstr "GNOME પાયલોટ સાધનો આ સિસ્ટમ પર સ્થાપિત થયા હોય એમ લાગતું નથી."
 
 #: ../shell/e-shell-window-commands.c:83
 #, c-format
@@ -20474,7 +20468,7 @@ msgstr "અંકિત પટેલ <ankit644@yahoo.com>"
 
 #: ../shell/e-shell-window-commands.c:953
 msgid "Evolution Website"
-msgstr "ઈવોલ્યુશન વેબસાઈટ"
+msgstr "Evolution વેબસાઈટ"
 
 #: ../shell/e-shell-window-commands.c:1170
 msgid "_Work Online"
@@ -20493,19 +20487,19 @@ msgid ""
 "Evolution is currently online.\n"
 "Click on this button to work offline."
 msgstr ""
-"ઈવોલ્યુશન વર્તમાનમાં ઓનલાઈન છે.\n"
+"Evolution વર્તમાનમાં ઓનલાઈન છે.\n"
 "ઓફલાઈન કામ કરવા માટે આ બટન પર ક્લિક કરો."
 
 #: ../shell/e-shell-window.c:384
 msgid "Evolution is in the process of going offline."
-msgstr "ઈવોલ્યુશન પ્રક્રિયાને ઓફલાઈન કામ કરવાની પ્રક્રિયામાં છે."
+msgstr "Evolution પ્રક્રિયાને ઓફલાઈન કામ કરવાની પ્રક્રિયામાં છે."
 
 #: ../shell/e-shell-window.c:391
 msgid ""
 "Evolution is currently offline.\n"
 "Click on this button to work online."
 msgstr ""
-"ઈવોલ્યુશન વર્તમાનમાં ઓફલાઈન છે.\n"
+"Evolution વર્તમાનમાં ઓફલાઈન છે.\n"
 "ઓનલાઈન કામ કરવા માટે આ બટન પર ક્લિક કરો."
 
 #: ../shell/e-shell-window.c:787
@@ -20559,11 +20553,11 @@ msgstr "નવી ચકાસણી વસ્તુ બનાવો"
 
 #: ../shell/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr "ઈવોલ્યુશનમાં ફાઈલ આયાત કરવા માટે \"આયાત કરો\" બટન પર ક્લિક કરો. "
+msgstr "Evolution માં ફાઈલ આયાત કરવા માટે \"આયાત કરો\" બટન પર ક્લિક કરો. "
 
 #: ../shell/import.glade.h:2
 msgid "Evolution Import Assistant"
-msgstr "ઈવોલ્યુશન આયાત મદદનીશ"
+msgstr "Evolution આયાત મદદનીશ"
 
 #: ../shell/import.glade.h:3
 msgid "Import File"
@@ -20591,8 +20585,8 @@ msgid ""
 "With this assistant you will be guided through the process of\n"
 "importing external files into Evolution."
 msgstr ""
-"ઈવોલ્યુશન આયાત મદદનીશમાં તમારુ સ્વાગત છે.\n"
-"આ મદદનીશની મદદથી તમને બાહ્ય ફાઈલોને ઈવોલ્યુશનમાં \n"
+"Evolution આયાત મદદનીશમાં તમારુ સ્વાગત છે.\n"
+"આ મદદનીશની મદદથી તમને બાહ્ય ફાઈલોને Evolution માં \n"
 "કેવી રીતે આયાત કરવી તે પ્રક્રિયાનું માર્ગદર્શન આપવામાં આવેલ છે."
 
 #. Preview/Alpha/Beta version warning message
@@ -20615,13 +20609,13 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
-"કેમ છો.  ઈવોલ્યુશન ગ્રુપવેર સ્યુટની આ પૂર્વદર્શન પ્રકાશન ડાઉનલોડ કરવા માટે\n"
+"કેમ છો.  Evolution ગ્રુપવેર સ્યુટની આ પૂર્વદર્શન પ્રકાશન ડાઉનલોડ કરવા માટે\n"
 "સમય લેવા માટે તમારો ખૂબ આભાર\n"
 "\n"
-"ઈવોલ્યુશનની આ આવૃત્તિ હજુ સુધી પૂર્ણ નથી. તે બંધ થવા જઈ રહી છે,\n"
+"Evolution ની આ આવૃત્તિ હજુ સુધી પૂર્ણ નથી. તે બંધ થવા જઈ રહી છે,\n"
 "પરંતુ અમુક વસ્તુઓ હજુ પૂર્ણ થયેલ નથી અથવા યોગ્ય રીતે કામ કરતા નથી.\n"
 "\n"
-"જો તમને ઈવોલ્યુશનની સ્થાઈ આવૃત્તિની જરુર હોય, અમે તમને આ આવૃત્તિ\n"
+"જો તમને Evolution ની સ્થાઈ આવૃત્તિની જરુર હોય, અમે તમને આ આવૃત્તિ\n"
 "નું સ્થાપન દૂર કરવા દઈએ, અને આવૃત્તિ %s તેની જગ્યાએ સ્થાપિત કરવા દઈએ.\n"
 "\n"
 "જો તમને ભૂલો મળે, તો મહેરબાની કરીને bugzilla.gnome.com પર અહેવાલ આપો.\n"
@@ -20636,8 +20630,8 @@ msgid ""
 "Thanks\n"
 "The Evolution Team\n"
 msgstr ""
-"આભાર\n"
-"ઈવોલ્યુશન ટુકડી\n"
+"Evolution આભાર\n"
+" ટુકડી\n"
 
 #: ../shell/main.c:252
 msgid "Do not tell me again"
@@ -20645,7 +20639,7 @@ msgstr "મને ફરી વાર કહો નહિં"
 
 #: ../shell/main.c:481
 msgid "Start Evolution activating the specified component"
-msgstr "સ્પષ્ટ કરેલ કમ્પોનન્ટ ક્રિયાશીલ કરવા માટે ઈવોલ્યુશન શરુ કરો"
+msgstr "સ્પષ્ટ કરેલ કમ્પોનન્ટ ક્રિયાશીલ કરવા માટે Evolution શરુ કરો"
 
 #: ../shell/main.c:485
 msgid "Start in online mode"
@@ -20653,11 +20647,11 @@ msgstr "ઓનલાઈન સ્થિતિમાં શરુ કરો"
 
 #: ../shell/main.c:488
 msgid "Forcibly shut down all Evolution components"
-msgstr "ઈવોલ્યુશનના બધા કમ્પોનન્ટો દબાણપૂર્વક બંધ કરી દો"
+msgstr "Evolution ના બધા કમ્પોનન્ટો દબાણપૂર્વક બંધ કરી દો"
 
 #: ../shell/main.c:492
 msgid "Forcibly re-migrate from Evolution 1.4"
-msgstr "ઈવોલ્યુશન ૧.૪ માંથી દબાણપૂર્વક ફેરવો"
+msgstr "Evolution 1.4 માંથી દબાણપૂર્વક ફેરવો"
 
 #: ../shell/main.c:495
 msgid "Send the debugging output of all components to a file."
@@ -20673,7 +20667,7 @@ msgstr "મેઈલ, સંપર્કો અને ક્રિયાઓન�
 
 #: ../shell/main.c:586
 msgid "- The Evolution PIM and Email Client"
-msgstr "- ઈવોલ્યુશન PIM અને ઈમેઈલ ક્લાઈન્ટ"
+msgstr "- Evolution PIM અને ઈમેઈલ ક્લાઈન્ટ"
 
 #: ../shell/main.c:614
 #, c-format
@@ -20690,7 +20684,7 @@ msgstr "શું તમે ખરેખર યાદ રાખેલા બધ�
 
 #: ../shell/shell.error.xml.h:2
 msgid "Cannot start Evolution"
-msgstr "ઈવોલ્યુશન ને શરૂ કરી શકાતુ નથી"
+msgstr "Evolution ને શરૂ કરી શકાતુ નથી"
 
 #: ../shell/shell.error.xml.h:3
 msgid "Continue"
@@ -20702,7 +20696,7 @@ msgstr "શું આવૃત્તિ {0} માંથી જૂની મા�
 
 #: ../shell/shell.error.xml.h:5
 msgid "Evolution can not start."
-msgstr "ઈવોલ્યુશન શરુ કરી શકાતું નથી."
+msgstr "Evolution શરુ કરી શકાતું નથી."
 
 #: ../shell/shell.error.xml.h:6
 msgid ""
@@ -20732,17 +20726,16 @@ msgid ""
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
 msgstr ""
-"&quot;ઈવોલ્યુશન&quot; ડિરેક્ટરીના વર્તમાન સમાવિષ્ટો કાયમ માટે દૂર થવા જઈ રહ્યા છીએ.\n"
+"&quot;evolution&quot; ડિરેક્ટરીના વર્તમાન સમાવિષ્ટો કાયમ માટે દૂર થવા જઈ રહ્યા છીએ.\n"
 "\n"
 "એ સૂચન કરવામાં આવે છે કે તમે જાતે તમારા મેઈલ, સંપર્ક, અને હાજર હોય એવી કેલેન્ડરની માહિતીની "
-"ચકાસણી કરો અને પછી ઈવોલ્યુશનની આ આવૃત્તિ આ જૂની માહિતી કાઢ્યા પહેલાં યોગ્ય રીતે કામ "
+"ચકાસણી કરો અને પછી Evolution ની આ આવૃત્તિ આ જૂની માહિતી કાઢ્યા પહેલાં યોગ્ય રીતે કામ "
 "કરશે.\n"
 "\n"
-"એક વખત કાઢી નાંખ્યા પછી, જાતે રુપરેખાંકન કર્યા વગર તમે ઈવોલ્યુશનની પહેલાની આવૃત્તિ પર "
+"એક વખત કાઢી નાંખ્યા પછી, જાતે રુપરેખાંકન કર્યા વગર તમે Evolution ની પહેલાની આવૃત્તિ પર "
 "પાછા જઈ શકતા નથી.\n"
 
 #: ../shell/shell.error.xml.h:16
-#, fuzzy
 #| msgid ""
 #| "The previous version of evolution stored its data in a different "
 #| "location.\n"
@@ -20759,11 +20752,11 @@ msgid ""
 "this data, then you may manually remove the contents of &quot;"
 "evolution&quot; at your convenience.\n"
 msgstr ""
-"ઈવોલ્યુશનની પહેલાની આવૃત્તિ તેની માહિતી અલગ જગ્યાએ સંગ્રહે છે.\n"
+"Evolution ની પહેલાની આવૃત્તિ તેની માહિતી અલગ જગ્યાએ સંગ્રહે છે.\n"
 "\n"
-"જો તમે આ માહિતી દૂર કરવાનું પસંદ કરો, તો &quot;ઈવોલ્યુશન&quot; ડિરેક્ટરીના વર્તમાન "
+"જો તમે આ માહિતી દૂર કરવાનું પસંદ કરો, તો &quot;evolution&quot; ડિરેક્ટરીના વર્તમાન "
 "સમાવિષ્ટો કાયમી રીતે દૂર થઈ જશે.  જો તમે આ માહિતી સાચવી રાખવાનું પસંદ કરો, તો તમે જાતે "
-"તમારી ખાતરી માટે &quot;ઈવોલ્યુશન&quot; ના સમાવિષ્ટો દૂર કરી શકો છો.\n"
+"તમારી ખાતરી માટે &quot;evolution&quot; ના સમાવિષ્ટો દૂર કરી શકો છો.\n"
 
 #: ../shell/shell.error.xml.h:20
 msgid "Upgrade from previous version failed: {0}"
@@ -20788,7 +20781,7 @@ msgid ""
 "\n"
 "Click help for details"
 msgstr ""
-"તમારી સિસ્ટમનું રુપરેખાંકન તમારા ઈવોલ્યુશનના રુપરેખાંકન સાથે બંધબેસતું નથી.\n"
+"તમારી સિસ્ટમનું રુપરેખાંકન તમારા Evolution ના રુપરેખાંકન સાથે બંધબેસતું નથી.\n"
 "\n"
 "વિગતો માટે મદદ પર ક્લિક કરો"
 
@@ -20800,7 +20793,7 @@ msgid ""
 "\n"
 "Click help for details."
 msgstr ""
-"તમારી સિસ્ટમનું રુપરેખાંકન તમારા ઈવોલ્યુશનના રુપરેખાંકન સાથે બંધબેસતું નથી.\n"
+"તમારી સિસ્ટમનું રુપરેખાંકન તમારા Evolution ના રુપરેખાંકન સાથે બંધબેસતું નથી.\n"
 "{0}\n"
 "\n"
 "વિગતો માટે મદદ પર ક્લિક કરો."
@@ -21440,7 +21433,7 @@ msgstr "પસંદ કરેલ સંપર્કોને VCard તરીક
 msgid "Save the contacts of the selected folder as VCard"
 msgstr "પસંદ કરેલ ફોલ્ડરના સંપર્કોને VCard તરીકે સંગ્રહો"
 
-#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2724
+#: ../ui/evolution-addressbook.xml.h:34 ../widgets/text/e-text.c:2721
 msgid "Select All"
 msgstr "બધું પસંદ કરો"
 
@@ -22437,11 +22430,11 @@ msgstr "બાબત ખોલો (_O)"
 
 #: ../ui/evolution.xml.h:1
 msgid "About Evolution..."
-msgstr "ઈવોલ્યુશન વિશે..."
+msgstr "Evolution વિશે..."
 
 #: ../ui/evolution.xml.h:2
 msgid "Change Evolution's settings"
-msgstr "ઈવોલ્યુશનના સુયોજનો બદલો"
+msgstr "Evolution ના સુયોજનો બદલો"
 
 #: ../ui/evolution.xml.h:3
 msgid "Change the visibility of the toolbar"
@@ -22469,7 +22462,7 @@ msgstr "વિન્ડો બટનો માત્ર લખાણ સાથ�
 
 #: ../ui/evolution.xml.h:10
 msgid "Evolution _FAQ"
-msgstr "ઈવોલ્યુશન _FAQ"
+msgstr "Evolution FAQ (_F)"
 
 #: ../ui/evolution.xml.h:11
 msgid "Exit the program"
@@ -22545,7 +22538,7 @@ msgstr "સાધનપટ્ટી બતાવો (_T)"
 
 #: ../ui/evolution.xml.h:31
 msgid "Show information about Evolution"
-msgstr "ઈવોલ્યુશન વિશે જાણકારી બતાવો"
+msgstr "Evolution વિશે જાણકારી બતાવો"
 
 #: ../ui/evolution.xml.h:32
 msgid "Submit Bug Report"
@@ -22879,23 +22872,23 @@ msgid "Month Calendar"
 msgstr "મહિના કેલેન્ડર"
 
 #: ../widgets/misc/e-canvas-background.c:454
-#: ../widgets/misc/e-canvas-background.c:455 ../widgets/text/e-text.c:3644
-#: ../widgets/text/e-text.c:3645
+#: ../widgets/misc/e-canvas-background.c:455 ../widgets/text/e-text.c:3641
+#: ../widgets/text/e-text.c:3642
 msgid "Fill color"
 msgstr "રંગ ભરો"
 
 #: ../widgets/misc/e-canvas-background.c:461
 #: ../widgets/misc/e-canvas-background.c:462
 #: ../widgets/misc/e-canvas-background.c:468
-#: ../widgets/misc/e-canvas-background.c:469 ../widgets/text/e-text.c:3651
-#: ../widgets/text/e-text.c:3652 ../widgets/text/e-text.c:3659
-#: ../widgets/text/e-text.c:3660
+#: ../widgets/misc/e-canvas-background.c:469 ../widgets/text/e-text.c:3648
+#: ../widgets/text/e-text.c:3649 ../widgets/text/e-text.c:3656
+#: ../widgets/text/e-text.c:3657
 msgid "GDK fill color"
 msgstr "GDK ભરવાનો રંગ"
 
 #: ../widgets/misc/e-canvas-background.c:475
-#: ../widgets/misc/e-canvas-background.c:476 ../widgets/text/e-text.c:3666
-#: ../widgets/text/e-text.c:3667
+#: ../widgets/misc/e-canvas-background.c:476 ../widgets/text/e-text.c:3663
+#: ../widgets/text/e-text.c:3664
 msgid "Fill stipple"
 msgstr "સ્ટીપલ ભરો"
 
@@ -22920,15 +22913,15 @@ msgid "Y2"
 msgstr "Y2"
 
 #: ../widgets/misc/e-canvas-vbox.c:91 ../widgets/misc/e-reflow.c:1417
-#: ../widgets/table/e-table-group-container.c:999
-#: ../widgets/table/e-table-group-leaf.c:644
+#: ../widgets/table/e-table-group-container.c:1004
+#: ../widgets/table/e-table-group-leaf.c:649
 #: ../widgets/table/e-table-item.c:3070
 msgid "Minimum width"
 msgstr "ન્યુનતમ પહોળાઈ"
 
 #: ../widgets/misc/e-canvas-vbox.c:92 ../widgets/misc/e-reflow.c:1418
-#: ../widgets/table/e-table-group-container.c:1000
-#: ../widgets/table/e-table-group-leaf.c:645
+#: ../widgets/table/e-table-group-container.c:1005
+#: ../widgets/table/e-table-group-leaf.c:650
 #: ../widgets/table/e-table-item.c:3071
 msgid "Minimum Width"
 msgstr "ન્યુનતમ પહોળાઈ"
@@ -23253,8 +23246,8 @@ msgstr "સાફ કરો (_C)"
 msgid "Item ID"
 msgstr "વસ્તુ ID"
 
-#: ../widgets/misc/e-search-bar.c:872 ../widgets/text/e-text.c:3566
-#: ../widgets/text/e-text.c:3567
+#: ../widgets/misc/e-search-bar.c:872 ../widgets/text/e-text.c:3563
+#: ../widgets/text/e-text.c:3564
 msgid "Text"
 msgstr "લખાણ"
 
@@ -23651,81 +23644,81 @@ msgid_plural "%s (%d items)"
 msgstr[0] "%s (%d વસ્તુ)"
 msgstr[1] "%s (%d વસ્તુઓ)"
 
-#: ../widgets/table/e-table-group-container.c:922
-#: ../widgets/table/e-table-group-container.c:923
-#: ../widgets/table/e-table-group-leaf.c:581
-#: ../widgets/table/e-table-group-leaf.c:582
+#: ../widgets/table/e-table-group-container.c:927
+#: ../widgets/table/e-table-group-container.c:928
+#: ../widgets/table/e-table-group-leaf.c:586
+#: ../widgets/table/e-table-group-leaf.c:587
 #: ../widgets/table/e-table-item.c:3028 ../widgets/table/e-table-item.c:3029
 msgid "Alternating Row Colors"
 msgstr "હરોળના રંગોની અદલાબદલી કરી રહ્યા છીએ"
 
-#: ../widgets/table/e-table-group-container.c:929
-#: ../widgets/table/e-table-group-container.c:930
-#: ../widgets/table/e-table-group-leaf.c:588
-#: ../widgets/table/e-table-group-leaf.c:589
+#: ../widgets/table/e-table-group-container.c:934
+#: ../widgets/table/e-table-group-container.c:935
+#: ../widgets/table/e-table-group-leaf.c:593
+#: ../widgets/table/e-table-group-leaf.c:594
 #: ../widgets/table/e-table-item.c:3035 ../widgets/table/e-table-item.c:3036
 #: ../widgets/table/e-tree.c:3343 ../widgets/table/e-tree.c:3344
 msgid "Horizontal Draw Grid"
 msgstr "આડી દોરવાની જાળી"
 
-#: ../widgets/table/e-table-group-container.c:936
-#: ../widgets/table/e-table-group-container.c:937
-#: ../widgets/table/e-table-group-leaf.c:595
-#: ../widgets/table/e-table-group-leaf.c:596
+#: ../widgets/table/e-table-group-container.c:941
+#: ../widgets/table/e-table-group-container.c:942
+#: ../widgets/table/e-table-group-leaf.c:600
+#: ../widgets/table/e-table-group-leaf.c:601
 #: ../widgets/table/e-table-item.c:3042 ../widgets/table/e-table-item.c:3043
 #: ../widgets/table/e-tree.c:3349 ../widgets/table/e-tree.c:3350
 msgid "Vertical Draw Grid"
 msgstr "ઊભી દોરવાની જાળી"
 
-#: ../widgets/table/e-table-group-container.c:943
-#: ../widgets/table/e-table-group-container.c:944
-#: ../widgets/table/e-table-group-leaf.c:602
-#: ../widgets/table/e-table-group-leaf.c:603
+#: ../widgets/table/e-table-group-container.c:948
+#: ../widgets/table/e-table-group-container.c:949
+#: ../widgets/table/e-table-group-leaf.c:607
+#: ../widgets/table/e-table-group-leaf.c:608
 #: ../widgets/table/e-table-item.c:3049 ../widgets/table/e-table-item.c:3050
 #: ../widgets/table/e-tree.c:3355 ../widgets/table/e-tree.c:3356
 msgid "Draw focus"
 msgstr "દોરવાનું ફોકસ"
 
-#: ../widgets/table/e-table-group-container.c:950
-#: ../widgets/table/e-table-group-container.c:951
-#: ../widgets/table/e-table-group-leaf.c:609
-#: ../widgets/table/e-table-group-leaf.c:610
+#: ../widgets/table/e-table-group-container.c:955
+#: ../widgets/table/e-table-group-container.c:956
+#: ../widgets/table/e-table-group-leaf.c:614
+#: ../widgets/table/e-table-group-leaf.c:615
 #: ../widgets/table/e-table-item.c:3056 ../widgets/table/e-table-item.c:3057
 msgid "Cursor mode"
 msgstr "કર્સરની સ્થિતિ"
 
-#: ../widgets/table/e-table-group-container.c:957
-#: ../widgets/table/e-table-group-container.c:958
-#: ../widgets/table/e-table-group-leaf.c:623
-#: ../widgets/table/e-table-group-leaf.c:624
+#: ../widgets/table/e-table-group-container.c:962
+#: ../widgets/table/e-table-group-container.c:963
+#: ../widgets/table/e-table-group-leaf.c:628
+#: ../widgets/table/e-table-group-leaf.c:629
 #: ../widgets/table/e-table-item.c:3021 ../widgets/table/e-table-item.c:3022
 msgid "Selection model"
 msgstr "પસંદગી મોડેલ"
 
-#: ../widgets/table/e-table-group-container.c:964
-#: ../widgets/table/e-table-group-container.c:965
-#: ../widgets/table/e-table-group-leaf.c:616
-#: ../widgets/table/e-table-group-leaf.c:617
+#: ../widgets/table/e-table-group-container.c:969
+#: ../widgets/table/e-table-group-container.c:970
+#: ../widgets/table/e-table-group-leaf.c:621
+#: ../widgets/table/e-table-group-leaf.c:622
 #: ../widgets/table/e-table-item.c:3063 ../widgets/table/e-table-item.c:3064
-#: ../widgets/table/e-table.c:3326 ../widgets/table/e-tree.c:3337
+#: ../widgets/table/e-table.c:3324 ../widgets/table/e-tree.c:3337
 #: ../widgets/table/e-tree.c:3338
 msgid "Length Threshold"
 msgstr "લંબાઈ થ્રેશોલ્ડ"
 
-#: ../widgets/table/e-table-group-container.c:971
-#: ../widgets/table/e-table-group-container.c:972
-#: ../widgets/table/e-table-group-leaf.c:658
-#: ../widgets/table/e-table-group-leaf.c:659
+#: ../widgets/table/e-table-group-container.c:976
+#: ../widgets/table/e-table-group-container.c:977
+#: ../widgets/table/e-table-group-leaf.c:663
+#: ../widgets/table/e-table-group-leaf.c:664
 #: ../widgets/table/e-table-item.c:3097 ../widgets/table/e-table-item.c:3098
-#: ../widgets/table/e-table.c:3333 ../widgets/table/e-tree.c:3369
+#: ../widgets/table/e-table.c:3331 ../widgets/table/e-tree.c:3369
 #: ../widgets/table/e-tree.c:3370
 msgid "Uniform row height"
 msgstr "હરોળની અનન્ય ઊંચાઈ"
 
-#: ../widgets/table/e-table-group-container.c:978
-#: ../widgets/table/e-table-group-container.c:979
-#: ../widgets/table/e-table-group-leaf.c:651
-#: ../widgets/table/e-table-group-leaf.c:652
+#: ../widgets/table/e-table-group-container.c:983
+#: ../widgets/table/e-table-group-container.c:984
+#: ../widgets/table/e-table-group-leaf.c:656
+#: ../widgets/table/e-table-group-leaf.c:657
 msgid "Frozen"
 msgstr "ઠંડુ થયેલ"
 
@@ -23813,12 +23806,12 @@ msgstr "કોષ્ટક મોડેલ"
 msgid "Cursor row"
 msgstr "કર્સર હરોળ"
 
-#: ../widgets/table/e-table.c:3340 ../widgets/table/e-tree.c:3376
+#: ../widgets/table/e-table.c:3338 ../widgets/table/e-tree.c:3376
 #: ../widgets/table/e-tree.c:3377
 msgid "Always search"
 msgstr "હંમેશ શોધ"
 
-#: ../widgets/table/e-table.c:3347
+#: ../widgets/table/e-table.c:3345
 msgid "Use click to add"
 msgstr "ઉમેરવા માટે ક્લિક વાપરો"
 
@@ -23834,108 +23827,108 @@ msgstr "રેટ્રો દેખાવ"
 msgid "Draw lines and +/- expanders."
 msgstr "લીટીઓ દોરો અને +/- વિસ્તૃત કરો."
 
-#: ../widgets/text/e-text.c:2736
+#: ../widgets/text/e-text.c:2733
 msgid "Input Methods"
 msgstr "ઈનપુટ પદ્ધતિઓ"
 
-#: ../widgets/text/e-text.c:3559 ../widgets/text/e-text.c:3560
+#: ../widgets/text/e-text.c:3556 ../widgets/text/e-text.c:3557
 msgid "Event Processor"
 msgstr "ઘટના પ્રોસેસર"
 
-#: ../widgets/text/e-text.c:3573 ../widgets/text/e-text.c:3574
+#: ../widgets/text/e-text.c:3570 ../widgets/text/e-text.c:3571
 msgid "Bold"
 msgstr "ઘાટુ"
 
-#: ../widgets/text/e-text.c:3580 ../widgets/text/e-text.c:3581
+#: ../widgets/text/e-text.c:3577 ../widgets/text/e-text.c:3578
 msgid "Strikeout"
 msgstr "ચેકી નાખવાનું"
 
-#: ../widgets/text/e-text.c:3587 ../widgets/text/e-text.c:3588
+#: ../widgets/text/e-text.c:3584 ../widgets/text/e-text.c:3585
 msgid "Anchor"
 msgstr "એન્કર"
 
-#: ../widgets/text/e-text.c:3595 ../widgets/text/e-text.c:3596
+#: ../widgets/text/e-text.c:3592 ../widgets/text/e-text.c:3593
 msgid "Justification"
 msgstr "ન્યાય"
 
-#: ../widgets/text/e-text.c:3602 ../widgets/text/e-text.c:3603
+#: ../widgets/text/e-text.c:3599 ../widgets/text/e-text.c:3600
 msgid "Clip Width"
 msgstr "ક્લિપ પહોળાઈ"
 
-#: ../widgets/text/e-text.c:3609 ../widgets/text/e-text.c:3610
+#: ../widgets/text/e-text.c:3606 ../widgets/text/e-text.c:3607
 msgid "Clip Height"
 msgstr "ક્લિપ ઊંચાઈ"
 
-#: ../widgets/text/e-text.c:3616 ../widgets/text/e-text.c:3617
+#: ../widgets/text/e-text.c:3613 ../widgets/text/e-text.c:3614
 msgid "Clip"
 msgstr "ક્લિપ"
 
-#: ../widgets/text/e-text.c:3623 ../widgets/text/e-text.c:3624
+#: ../widgets/text/e-text.c:3620 ../widgets/text/e-text.c:3621
 msgid "Fill clip rectangle"
 msgstr "ક્લિપ લંબચોરસ ભરો"
 
-#: ../widgets/text/e-text.c:3630 ../widgets/text/e-text.c:3631
+#: ../widgets/text/e-text.c:3627 ../widgets/text/e-text.c:3628
 msgid "X Offset"
 msgstr "X ઓફસેટ"
 
-#: ../widgets/text/e-text.c:3637 ../widgets/text/e-text.c:3638
+#: ../widgets/text/e-text.c:3634 ../widgets/text/e-text.c:3635
 msgid "Y Offset"
 msgstr "Y ઓફસેટ"
 
-#: ../widgets/text/e-text.c:3673 ../widgets/text/e-text.c:3674
+#: ../widgets/text/e-text.c:3670 ../widgets/text/e-text.c:3671
 msgid "Text width"
 msgstr "લખાણની પહોળાઈ"
 
-#: ../widgets/text/e-text.c:3680 ../widgets/text/e-text.c:3681
+#: ../widgets/text/e-text.c:3677 ../widgets/text/e-text.c:3678
 msgid "Text height"
 msgstr "લખાણની ઊંચાઈ"
 
-#: ../widgets/text/e-text.c:3695 ../widgets/text/e-text.c:3696
+#: ../widgets/text/e-text.c:3692 ../widgets/text/e-text.c:3693
 msgid "Use ellipsis"
 msgstr "લંબગોળો વાપરો"
 
-#: ../widgets/text/e-text.c:3702 ../widgets/text/e-text.c:3703
+#: ../widgets/text/e-text.c:3699 ../widgets/text/e-text.c:3700
 msgid "Ellipsis"
 msgstr "લંબગોળો"
 
-#: ../widgets/text/e-text.c:3709 ../widgets/text/e-text.c:3710
+#: ../widgets/text/e-text.c:3706 ../widgets/text/e-text.c:3707
 msgid "Line wrap"
 msgstr "લીટી લપેટો"
 
-#: ../widgets/text/e-text.c:3716 ../widgets/text/e-text.c:3717
+#: ../widgets/text/e-text.c:3713 ../widgets/text/e-text.c:3714
 msgid "Break characters"
 msgstr "અક્ષરો તોડો"
 
-#: ../widgets/text/e-text.c:3723 ../widgets/text/e-text.c:3724
+#: ../widgets/text/e-text.c:3720 ../widgets/text/e-text.c:3721
 msgid "Max lines"
 msgstr "મહત્તમ લીટીઓ"
 
-#: ../widgets/text/e-text.c:3745 ../widgets/text/e-text.c:3746
+#: ../widgets/text/e-text.c:3742 ../widgets/text/e-text.c:3743
 msgid "Draw borders"
 msgstr "કિનારીઓ દોરો"
 
-#: ../widgets/text/e-text.c:3752 ../widgets/text/e-text.c:3753
+#: ../widgets/text/e-text.c:3749 ../widgets/text/e-text.c:3750
 msgid "Allow newlines"
 msgstr "નવી લીટીઓને પરવાનગી આપો"
 
-#: ../widgets/text/e-text.c:3759 ../widgets/text/e-text.c:3760
+#: ../widgets/text/e-text.c:3756 ../widgets/text/e-text.c:3757
 msgid "Draw background"
 msgstr "પાશ્વ ભાગ દોરો"
 
-#: ../widgets/text/e-text.c:3766 ../widgets/text/e-text.c:3767
+#: ../widgets/text/e-text.c:3763 ../widgets/text/e-text.c:3764
 msgid "Draw button"
 msgstr "બટન દોરો"
 
-#: ../widgets/text/e-text.c:3773 ../widgets/text/e-text.c:3774
+#: ../widgets/text/e-text.c:3770 ../widgets/text/e-text.c:3771
 msgid "Cursor position"
 msgstr "કર્સરની સ્થિતિ"
 
 #. Translators: Input Method Context
-#: ../widgets/text/e-text.c:3781 ../widgets/text/e-text.c:3783
+#: ../widgets/text/e-text.c:3778 ../widgets/text/e-text.c:3780
 msgid "IM Context"
 msgstr "IM સંદર્ભ"
 
-#: ../widgets/text/e-text.c:3789 ../widgets/text/e-text.c:3790
+#: ../widgets/text/e-text.c:3786 ../widgets/text/e-text.c:3787
 msgid "Handle Popup"
 msgstr "દૃશ્યપોપ-અપ નિયંત્રિત કરો"
 
