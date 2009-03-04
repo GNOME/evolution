@@ -1756,10 +1756,10 @@ empty_trash_exec (struct _empty_trash_msg *m)
 		g_free (uri);
 	}
 
-	if (trash)
+	if (trash) {
 		camel_folder_expunge (trash, &m->base.ex);
-
-	camel_object_unref (trash);
+		camel_object_unref (trash);
+	}
 }
 
 static void

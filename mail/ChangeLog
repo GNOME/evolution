@@ -1,3 +1,7 @@
+2009-03-04  Milan Crha  <mcrha@redhat.com>
+
+	* mail-ops.c: (empty_trash_exec): Do not unref NULL object.
+
 2009-03-02  Matt McCutchen  <matt@mattmccutchen.net>
 
 	* evolution/mail/em-folder-view.c:
