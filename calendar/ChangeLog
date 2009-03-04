@@ -1,5 +1,11 @@
 2009-03-04  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #573193
+
+	* gui/e-calendar-view.c: (error_response): Always destroy dialog.
+
+2009-03-04  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #573122
 
 	* gui/dialogs/cal-prefs-dialog.c: (timezone_changed), (show_config):
