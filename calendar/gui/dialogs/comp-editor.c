@@ -3015,10 +3015,11 @@ set_attendees_for_delegation (ECalComponent *comp, const char *address, ECalComp
 			prop;
 			prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
 		const char *attendee = icalproperty_get_attendee (prop);
-		const char *delfrom;
+		const char *delfrom = NULL;
 
 		param = icalproperty_get_first_parameter(prop, ICAL_DELEGATEDFROM_PARAMETER);
-		delfrom = icalparameter_get_delegatedfrom (param);
+		if (param)
+			delfrom = icalparameter_get_delegatedfrom (param);
 		if (!(g_str_equal (itip_strip_mailto (attendee), address) ||
 				((delfrom && *delfrom) &&
 				 g_str_equal (itip_strip_mailto (delfrom), address)))) {

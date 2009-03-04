@@ -1,5 +1,13 @@
 2009-03-04  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #573119
+
+	* gui/dialogs/comp-editor.c: (set_attendees_for_delegation):
+	* gui/e-cal-popup.c: (is_delegated), (needs_to_accept):
+	Do not ask value of not included (NULL) parameters.
+
+2009-03-04  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #573193
 
 	* gui/e-calendar-view.c: (error_response): Always destroy dialog.
