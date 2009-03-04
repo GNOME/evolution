@@ -1,3 +1,12 @@
+2009-03-04  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #573122
+
+	* gui/dialogs/cal-prefs-dialog.c: (timezone_changed), (show_config):
+	* gui/calendar-config.c: (calendar_config_get_icaltimezone):
+	* gui/e-cal-model.c: (ecm_value_at):
+	Do not pass NULL to icalcomponent_get_first_component.
+
 2009-02-25  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #558366

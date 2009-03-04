@@ -124,7 +124,7 @@ timezone_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (prefs->timezone));
 	icalcomp = icaltimezone_get_component (zone);
 
-	if (!(dl_comp = icalcomponent_get_first_component (icalcomp, ICAL_XDAYLIGHT_COMPONENT)))
+	if (!icalcomp || !(dl_comp = icalcomponent_get_first_component (icalcomp, ICAL_XDAYLIGHT_COMPONENT)))
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->daylight_saving, FALSE);
 	else
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->daylight_saving, TRUE);
@@ -644,7 +644,7 @@ show_config (CalendarPrefsDialog *prefs)
 	g_free (location);
 
 	icalcomp = icaltimezone_get_component (zone);
-	if (!(dl_comp = icalcomponent_get_first_component (icalcomp, ICAL_XDAYLIGHT_COMPONENT)))
+	if (!icalcomp || !(dl_comp = icalcomponent_get_first_component (icalcomp, ICAL_XDAYLIGHT_COMPONENT)))
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->daylight_saving, FALSE);
 	else
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->daylight_saving, TRUE);

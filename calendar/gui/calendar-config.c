@@ -233,8 +233,7 @@ calendar_config_get_icaltimezone (void)
 		zone = icaltimezone_get_builtin_timezone (location);
 		icalcomp = icaltimezone_get_component (zone);
 
-
-		if (!(dl_comp = icalcomponent_get_first_component (icalcomp, ICAL_XDAYLIGHT_COMPONENT))) {
+		if (!icalcomp || !(dl_comp = icalcomponent_get_first_component (icalcomp, ICAL_XDAYLIGHT_COMPONENT))) {
 			g_free (location);
 			return zone;
 		}

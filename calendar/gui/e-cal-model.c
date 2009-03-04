@@ -469,6 +469,7 @@ ecm_value_at (ETableModel *etm, int col, int row)
 
 	comp_data = g_ptr_array_index (priv->objects, row);
 	g_return_val_if_fail (comp_data != NULL, NULL);
+	g_return_val_if_fail (comp_data->icalcomp != NULL, NULL);
 
 	switch (col) {
 	case E_CAL_MODEL_FIELD_CATEGORIES :
