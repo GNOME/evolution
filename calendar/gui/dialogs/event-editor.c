@@ -616,7 +616,7 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	}
 	e_cal_component_free_attendee_list (attendees);
 
-	comp_editor_set_needs_send (editor, priv->meeting_shown && (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp)));
+	comp_editor_set_needs_send (editor, priv->meeting_shown && (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client)));
 
 	priv->updating = FALSE;
 }

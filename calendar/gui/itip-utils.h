@@ -52,7 +52,7 @@ EAccount *itip_addresses_get_default (void);
 
 gboolean itip_organizer_is_user (ECalComponent *comp, ECal *client);
 gboolean itip_organizer_is_user_ex (ECalComponent *comp, ECal *client, gboolean skip_cap_test);
-gboolean itip_sentby_is_user (ECalComponent *comp);
+gboolean itip_sentby_is_user (ECalComponent *comp, ECal *client);
 
 const gchar *itip_strip_mailto (const gchar *address);
 

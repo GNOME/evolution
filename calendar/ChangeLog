@@ -1,3 +1,18 @@
+2009-03-05  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #435455 (bnc)
+	* calendar/gui/dialogs/comp-editor.c:
+	* calendar/gui/dialogs/event-editor.c:
+	* calendar/gui/dialogs/event-page.c:
+	* calendar/gui/dialogs/memo-page.c:
+	* calendar/gui/dialogs/task-page.c:
+	* calendar/gui/e-calendar-view.c:
+	* calendar/gui/e-calendar-view.h:
+	* calendar/gui/e-day-view.c:
+	* calendar/gui/itip-utils.c:
+	* calendar/gui/itip-utils.h: Do not allow read-only
+	events to be resized.
+
 2009-03-04  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #573119

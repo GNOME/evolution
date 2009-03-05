@@ -262,7 +262,7 @@ memo_page_fill_widgets (CompEditorPage *page,
 			else
 				string = g_strdup (strip);
 
-			if (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp)) {
+			if (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client)) {
 				gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->org_combo)->entry), string);
 			} else {
 				list = g_list_append (list, string);

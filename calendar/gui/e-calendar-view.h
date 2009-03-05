@@ -67,6 +67,7 @@ typedef enum {
         guint16 start_minute; \
         guint16 end_minute; \
         guint different_timezone : 1; \
+	gboolean is_editable;	\
 	GtkWidget *tooltip; \
 	gint	timeout; \
 	GdkColor *color; \

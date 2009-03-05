@@ -616,7 +616,7 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 				gchar *string;
 				GList *list = NULL;
 
-				if (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp)) {
+				if (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client)) {
 					if (e_cal_get_static_capability (
 								client,
 								CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))

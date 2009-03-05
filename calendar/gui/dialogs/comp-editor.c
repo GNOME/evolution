@@ -774,7 +774,7 @@ save_comp (CompEditor *editor)
 	}
 
 	/* If we are not the organizer, we don't update the sequence number */
-	if (!e_cal_component_has_organizer (clone) || itip_organizer_is_user (clone, priv->client) || itip_sentby_is_user (clone))
+	if (!e_cal_component_has_organizer (clone) || itip_organizer_is_user (clone, priv->client) || itip_sentby_is_user (clone, priv->client))
 		e_cal_component_commit_sequence (clone);
 	else
 		e_cal_component_abort_sequence (clone);
@@ -809,7 +809,7 @@ save_comp (CompEditor *editor)
 
 		if (result && priv->mod == CALOBJ_MOD_THIS) {
 			/* FIXME do we really need to do this ? */
-			if ((flags & COMP_EDITOR_DELEGATE) || !e_cal_component_has_organizer (clone) || itip_organizer_is_user (clone, priv->client) || itip_sentby_is_user (clone))
+			if ((flags & COMP_EDITOR_DELEGATE) || !e_cal_component_has_organizer (clone) || itip_organizer_is_user (clone, priv->client) || itip_sentby_is_user (clone, priv->client))
 				e_cal_component_commit_sequence (clone);
 			else
 				e_cal_component_abort_sequence (clone);
@@ -909,7 +909,7 @@ save_comp_with_send (CompEditor *editor)
 		return FALSE;
 
 	if ((delegate && !e_cal_get_save_schedules (priv->client)) || (send && send_component_dialog ((GtkWindow *) editor, priv->client, priv->comp, !priv->existing_org, &strip_alarms))) {
- 		if ((itip_organizer_is_user (priv->comp, priv->client) || itip_sentby_is_user (priv->comp))) {
+ 		if ((itip_organizer_is_user (priv->comp, priv->client) || itip_sentby_is_user (priv->comp, priv->client))) {
  			if (e_cal_component_get_vtype (priv->comp) == E_CAL_COMPONENT_JOURNAL)
 				return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_PUBLISH, strip_alarms);
 			else
@@ -2989,7 +2989,7 @@ real_edit_comp (CompEditor *editor, ECalComponent *comp)
 		priv->comp = e_cal_component_clone (comp);
 
  	priv->existing_org = e_cal_component_has_organizer (comp);
- 	priv->user_org = (itip_organizer_is_user (comp, priv->client) || itip_sentby_is_user (comp));
+ 	priv->user_org = (itip_organizer_is_user (comp, priv->client) || itip_sentby_is_user (comp, priv->client));
  	priv->warned = FALSE;
 
 	update_window_border (editor, NULL);

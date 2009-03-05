@@ -3250,6 +3250,13 @@ e_day_view_on_event_click (EDayView *day_view,
 	     !e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
 	    && (pos == E_CALENDAR_VIEW_POS_TOP_EDGE
 		|| pos == E_CALENDAR_VIEW_POS_BOTTOM_EDGE)) {
+		gboolean read_only = FALSE;
+	
+		if (event && (!event->is_editable || (e_cal_is_read_only (event->comp_data->client, &read_only, NULL) && read_only))) {
+			return;
+		}
+
+
 		/* Grab the keyboard focus, so the event being edited is saved
 		   and we can use the Escape key to abort the resize. */
 		if (!GTK_WIDGET_HAS_FOCUS (day_view))
@@ -3722,9 +3729,12 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 			gtk_target_list_unref (target_list);
 		}
 	} else {
+		gboolean read_only = FALSE;
 		cursor = day_view->normal_cursor;
 
-		if (event) {
+		/* Check if the event is editable and client is not readonly while changing the cursor */
+		if (event && event->is_editable && e_cal_is_read_only (event->comp_data->client, &read_only, NULL) && !read_only) {
+
 			switch (pos) {
 			case E_CALENDAR_VIEW_POS_LEFT_EDGE:
 				cursor = day_view->move_cursor;
@@ -3903,6 +3913,7 @@ e_day_view_update_resize (EDayView *day_view,
 	EDayViewEvent *event;
 	gint day, event_num;
 	gboolean need_reshape = FALSE;
+	gboolean read_only = FALSE;
 
 #if 0
 	g_print ("Updating resize Row:%i\n", row);
@@ -3915,6 +3926,10 @@ e_day_view_update_resize (EDayView *day_view,
 	event_num = day_view->resize_event_num;
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
+
+	if (event && (!event->is_editable || (e_cal_is_read_only (event->comp_data->client, &read_only, NULL) && read_only))) {
+		return;
+	}
 
 	if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_TOP_EDGE) {
 		row = MIN (row, day_view->resize_end_row);
@@ -4288,6 +4303,11 @@ e_day_view_add_event (ECalComponent *comp,
 						    event.comp_data->client,
 						    e_calendar_view_get_timezone (E_CALENDAR_VIEW (add_event_data->day_view))))
 		event.different_timezone = TRUE;
+
+	if (!e_cal_component_has_attendees (comp) || itip_organizer_is_user (comp, event.comp_data->client) || itip_sentby_is_user (comp, event.comp_data->client))
+		event.is_editable = TRUE;
+	else
+		event.is_editable = FALSE;
 
 	/* Find out which array to add the event to. */
 	for (day = 0; day < add_event_data->day_view->days_shown; day++) {
