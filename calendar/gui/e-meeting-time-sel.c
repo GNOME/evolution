@@ -826,7 +826,10 @@ e_meeting_time_selector_destroy (GtkObject *object)
 	mts->display_top = NULL;
 	mts->display_main = NULL;
 
-	calendar_config_remove_notification (mts->fb_uri_not);
+	if (mts->fb_uri_not) {
+		calendar_config_remove_notification (mts->fb_uri_not);
+		mts->fb_uri_not = 0;
+	}
 
 	if (mts->fb_refresh_not != 0) {
 		g_source_remove (mts->fb_refresh_not);
