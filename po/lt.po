@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-03 01:30+0200\n"
-"PO-Revision-Date: 2009-03-03 02:56+0200\n"
+"POT-Creation-Date: 2009-03-08 01:28+0200\n"
+"PO-Revision-Date: 2009-03-08 01:29+0200\n"
 "Last-Translator: Žygimantas Beručka <zygis@gnome.org>\n"
 "Language-Team: Lithuanian <gnome-lt@lists.akl.lt>\n"
 "MIME-Version: 1.0\n"
@@ -1206,8 +1206,7 @@ msgstr ""
 msgid ""
 "This is the full name of your LDAP server. For example, \"ldap.mycompany.com"
 "\"."
-msgstr ""
-"Tai visas jūsų LDAP serverio vardas. Pavyzdžiui, „ldap.manoįmonė.com“."
+msgstr "Tai visas jūsų LDAP serverio vardas. Pavyzdžiui, „ldap.manoįmonė.com“."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:42
 msgid ""
@@ -1224,8 +1223,8 @@ msgid ""
 "server."
 msgstr ""
 "Tai Evolution naudojamas tapatybės patvirtinimo būdas. Atminkite, kad norint "
-"pasinaudoti „El. pašto adreso“ metodu būtina anoniminė prieiga prie jūsų"
-"LDAP serverio."
+"pasinaudoti „El. pašto adreso“ metodu būtina anoniminė prieiga prie jūsųLDAP "
+"serverio."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:44
 msgid ""
@@ -3660,16 +3659,17 @@ msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  To "
 "use LDAP in Evolution an LDAP-enabled Evolution package must be installed."
 msgstr ""
-"Šioje Evolution versijoje neįkompiliuotas LDAP palaikymas. Jei norite naudoti "
-"LDAP su Evolution, jums teks įdiegti Evolution paketą su LDAP palaikymu."
+"Šioje Evolution versijoje neįkompiliuotas LDAP palaikymas. Jei norite "
+"naudoti LDAP su Evolution, jums teks įdiegti Evolution paketą su LDAP "
+"palaikymu."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:140
 msgid ""
 "This address book cannot be opened.  This either means that an incorrect URI "
 "was entered, or the server is unreachable."
 msgstr ""
-"Nepavyko atverti šios adresų knygos. Tai reiškia, kad įvedėte neteisingą "
-"URI arba nurodytasis serveris yra nepasiekiamas."
+"Nepavyko atverti šios adresų knygos. Tai reiškia, kad įvedėte neteisingą URI "
+"arba nurodytasis serveris yra nepasiekiamas."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:148
 msgid "Detailed error message:"
@@ -5041,8 +5041,8 @@ msgid ""
 "Maximum number of recently used timezones to remember in a "
 "'day_second_zones' list."
 msgstr ""
-"Maksimalus sąraše „day_second_zones“ atsimenamų neseniai naudotų laiko juostų "
-"skaičius."
+"Maksimalus sąraše „day_second_zones“ atsimenamų neseniai naudotų laiko "
+"juostų skaičius."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:36
 msgid "Maximum number of recently used timezones to remember."
@@ -6295,7 +6295,7 @@ msgid "Cancel _Drag"
 msgstr "Atšaukti _tempimą"
 
 #: ../calendar/gui/dialogs/comp-editor.c:623
-#: ../calendar/gui/dialogs/comp-editor.c:3315 ../mail/em-utils.c:373
+#: ../calendar/gui/dialogs/comp-editor.c:3316 ../mail/em-utils.c:373
 #: ../plugins/prefer-plain/prefer-plain.c:91
 #: ../widgets/misc/e-attachment-bar.c:453
 msgid "attachment"
@@ -6535,12 +6535,12 @@ msgstr "Norėdami perjungti priedų skydelio matomumą paspauskite tarpą"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2448
 #: ../calendar/gui/dialogs/comp-editor.c:2496
-#: ../calendar/gui/dialogs/comp-editor.c:3348
+#: ../calendar/gui/dialogs/comp-editor.c:3349
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr ""
 "Pakeitimai padaryti šiame punkte bus prarasti, jei atsiras atnaujinimai"
 
-#: ../calendar/gui/dialogs/comp-editor.c:3377
+#: ../calendar/gui/dialogs/comp-editor.c:3378
 msgid "Unable to use current version!"
 msgstr "Nepavyko paleisti turimos versijos!"
 
@@ -7162,7 +7162,7 @@ msgstr "Žemas"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:8
 #: ../calendar/gui/e-cal-component-preview.c:268
-#: ../calendar/gui/e-cal-model.c:1006 ../calendar/gui/e-calendar-table.c:589
+#: ../calendar/gui/e-cal-model.c:1007 ../calendar/gui/e-calendar-table.c:589
 #: ../calendar/gui/tasktypes.xml.h:17 ../mail/message-list.c:1064
 msgid "Normal"
 msgstr "Normalus"
@@ -7416,7 +7416,7 @@ msgstr ""
 "\n"
 "45.436845,125.862501"
 
-#: ../calendar/gui/e-cal-model-tasks.c:1029 ../calendar/gui/e-cal-model.c:1012
+#: ../calendar/gui/e-cal-model-tasks.c:1029 ../calendar/gui/e-cal-model.c:1013
 #: ../calendar/gui/e-meeting-list-view.c:190
 #: ../calendar/gui/e-meeting-store.c:152 ../calendar/gui/e-meeting-store.c:162
 #: ../calendar/gui/e-meeting-store.c:745
@@ -7424,7 +7424,7 @@ msgstr ""
 msgid "Yes"
 msgstr "Taip"
 
-#: ../calendar/gui/e-cal-model-tasks.c:1029 ../calendar/gui/e-cal-model.c:1012
+#: ../calendar/gui/e-cal-model-tasks.c:1029 ../calendar/gui/e-cal-model.c:1013
 #: ../calendar/gui/e-meeting-list-view.c:191
 #: ../calendar/gui/e-meeting-store.c:164
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:2
@@ -7448,11 +7448,11 @@ msgstr "Ne"
 msgid "Unknown"
 msgstr "Nežinomas"
 
-#: ../calendar/gui/e-cal-model.c:1008
+#: ../calendar/gui/e-cal-model.c:1009
 msgid "Recurring"
 msgstr "Pasikartojantis"
 
-#: ../calendar/gui/e-cal-model.c:1010
+#: ../calendar/gui/e-cal-model.c:1011
 msgid "Assigned"
 msgstr "Priskirtas"
 
@@ -8370,7 +8370,7 @@ msgstr "Vykdomas"
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
 #: ../calendar/gui/e-meeting-time-sel-item.c:467
-#: ../calendar/gui/e-meeting-time-sel.c:2124
+#: ../calendar/gui/e-meeting-time-sel.c:2127
 msgid "%A, %B %d, %Y"
 msgstr "%A, %Y m. %B %e"
 
@@ -8379,7 +8379,7 @@ msgstr "%A, %Y m. %B %e"
 #. This is a strftime() format string %a = abbreviated weekday name,
 #. %m = month number, %d = month day, %Y = full year.
 #: ../calendar/gui/e-meeting-time-sel-item.c:471
-#: ../calendar/gui/e-meeting-time-sel.c:2155
+#: ../calendar/gui/e-meeting-time-sel.c:2158
 msgid "%a %m/%d/%Y"
 msgstr "%a %Y-%m-%d"
 
@@ -11972,8 +11972,7 @@ msgstr "-------- Persiųstas laiškas --------"
 #: ../mail/em-composer-utils.c:1602
 msgid ""
 "No destination address provided, forward of the message has been cancelled."
-msgstr ""
-"Nenurodytas paskirties adresas, laiško persiuntimas buvo atšauktas."
+msgstr "Nenurodytas paskirties adresas, laiško persiuntimas buvo atšauktas."
 
 #: ../mail/em-composer-utils.c:1608
 msgid "No account found to use, forward of the message has been cancelled."
@@ -12491,7 +12490,6 @@ msgid "_Empty Trash"
 msgstr "Iš_valyti šiukšlinę"
 
 #: ../mail/em-folder-tree.c:2243
-#, fuzzy
 msgid "_Unread Search Folder"
 msgstr "_Neskaitytų paieškos aplankas"
 
@@ -13973,8 +13971,8 @@ msgid ""
 "This decides the max size of the text part that can be formatted under "
 "Evolution. The default is 4MB / 4096 KB and is specified in terms of KB."
 msgstr ""
-"Čia nurodomas maksimalus Evolution formuojamos tekstinės laiško dalies dydis. "
-"Numatytoji reikšmė yra 4MB / 4096 KB ir yra nurodyta kilobaitais."
+"Čia nurodomas maksimalus Evolution formuojamos tekstinės laiško dalies "
+"dydis. Numatytoji reikšmė yra 4MB / 4096 KB ir yra nurodyta kilobaitais."
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid ""
@@ -17503,7 +17501,8 @@ msgstr "Exchange operacijos"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot access the \"Exchange settings\" tab in offline mode."
-msgstr "Negalima prieiti kortelės „Exchange parametrai“ atsijungimo veiksenoje."
+msgstr ""
+"Negalima prieiti kortelės „Exchange parametrai“ atsijungimo veiksenoje."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:2
 msgid "Cannot change password due to configuration problems."
@@ -17998,7 +17997,8 @@ msgstr "Sąrašas"
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:1
 msgid "A plugin to setup GroupWise calendar and contacts sources."
 msgstr ""
-"Įskiepis, leidžiantis nustatyti GroupWise kalendoriaus ir kontaktų šaltiniams."
+"Įskiepis, leidžiantis nustatyti GroupWise kalendoriaus ir kontaktų "
+"šaltiniams."
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:2
 msgid "GroupWise Account Setup"
