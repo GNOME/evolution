@@ -1,3 +1,8 @@
+2009-03-08  David Planella  <david.planella@gmail.com>
+
+	* configure.in: Added Makefiles for the Catalan translations of the
+	welcome e-mail and quick reference.
+
 2009-03-02  Matthew Barnes  <mbarnes@redhat.com>
 
 	* configure.in: Post-release version bump.

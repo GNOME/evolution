@@ -1,3 +1,12 @@
+2009-03-08  David Planella  <david.planella@gmail.com>
+
+	Added Catalan translation of the Evolution welcome e-mail
+
+	* default/Makefile.am: Added Catalan (ca) to the list of
+	subdirectories
+	* default/ca/Inbox: Added Catalan translation by David Planella
+	* default/ca/Makefile.am: Created Makefile template
+
 2009-03-04  Milan Crha  <mcrha@redhat.com>
 
 	* mail-ops.c: (empty_trash_exec): Do not unref NULL object.
