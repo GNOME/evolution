@@ -1,3 +1,14 @@
+2009-03-08  David Planella  <david.planella@gmail.com>
+
+	Added Catalan translation of the Evolution quick reference
+
+	* quickref/Makefile.am: Added Catalan (ca) to the list of
+	subdirectories
+	* quickref/ca/Makefile.am: Created Makefile template
+	* quickref/ca/quickref.pdf: Created PDF output from the translation
+	* quickref/ca/quickref.tex: Created Catalan translation by David
+	Planella
+
 2009-03-02  Philip Withnall  <philip@tecnocode.co.uk>
 
 	* en_GB/en_GB.po: Updated British English translation.
