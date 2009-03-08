@@ -1,3 +1,11 @@
+2009-03-08  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #342446
+	* widgets/misc/e-calendar-item.c: Check whether its
+	appropriate to use %Id format for digits. Incorporated
+	the fix from Wang Xin <jedy.wang@sun.com> to build in
+	solaris.
+
 2009-02-25  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #559027
