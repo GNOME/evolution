@@ -29,6 +29,7 @@ DOC_FIGURES =  \
 	figures/evo_calender_appointmnt.png 	\
 	figures/evo_cal_prop_a.png		\
 	figures/evo_calstatus_a.png		\
+	figures/evo_caltasks_a.png              \
 	figures/evo_contacteditor_a.png 	\
 	figures/evo_crash_recovery.png		\
 	figures/evo_custom_header.png		\
@@ -38,6 +39,7 @@ DOC_FIGURES =  \
 	figures/evo_dialog-warning.png		\
 	figures/evo_edit_rule_a.png 		\
 	figures/evo_edit_search.png 		\
+	figures/evo_exchng_mapi.png             \
 	figures/evo_flag_follow_up_a.png 	\
 	figures/evo_gwreceive_a.png 		\
 	figures/evo_gwreceiveedit_a.png 	\
@@ -47,6 +49,7 @@ DOC_FIGURES =  \
 	figures/evo_identityedit_a.png 		\
 	figures/evo_imapheader_a.png 		\
 	figures/evo_imapreceive_a.png 		\
+	figures/evo_import.png                  \
 	figures/evo_import_asst_a.png 		\
 	figures/evo_label_a.png			\
 	figures/evo_labels_a.png		\
@@ -77,6 +80,7 @@ DOC_FIGURES =  \
 	figures/evo_usereceive_a.png 		\
 	figures/evo_junk_a.png			\
 	figures/evo_offline.png			\
+	figures/evo_Wcal_prop_a.png             \
 	figures/exchg-identity.png 		\
 	figures/exchng-identity.png 		\
 	figures/exchng-rec-mail.png 		\
