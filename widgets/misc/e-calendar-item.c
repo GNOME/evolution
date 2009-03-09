@@ -1385,7 +1385,7 @@ get_digit_fomat ()
 	g_strfreev (split);
 
 	if (major > 2 || minor > 2 || (minor == 2 && revision > 2)) {
-		return _("%Id");
+		return "%Id";
 	} 
 #endif
 	

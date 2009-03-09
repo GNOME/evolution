@@ -1,3 +1,9 @@
+2009-03-09  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* widgets/misc/e-calendar-item.c: Removed the string
+	marked for translation as it not required and also breaks
+	the string freeze.
+
 2009-03-08  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #342446
