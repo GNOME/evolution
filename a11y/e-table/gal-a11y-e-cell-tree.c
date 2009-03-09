@@ -37,6 +37,8 @@
 static AtkObjectClass *a11y_parent_class;
 #define A11Y_PARENT_TYPE (gal_a11y_e_cell_get_type ())
 
+#define d(x)
+
 static void
 ectr_model_row_changed_cb (ETableModel *etm,
 			   gint row,
@@ -76,7 +78,7 @@ kill_view_cb(ECellView *subcell_view,
             subcell = GAL_A11Y_E_CELL(node->data);
             if (subcell && subcell->cell_view == subcell_view)
             {
-                fprintf(stderr, "subcell_view %p deleted before the a11y object %p\n", subcell_view, subcell);
+                d(fprintf(stderr, "subcell_view %p deleted before the a11y object %p\n", subcell_view, subcell));
                 subcell->cell_view = NULL;
             }
         }
