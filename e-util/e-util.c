@@ -186,6 +186,33 @@ exit:
 }
 
 /**
+ * e_file_open_tmp:
+ * @name_used: location to store the actual named used, or %NULL
+ * @error: return location for a #GError, or %NULL
+ *
+ * Convenience function wraps g_file_open_tmp() but chooses a suitable
+ * filename template using both the package name and the user name.
+ *
+ * Returns: A file handle (as from open()) to the file opened for reading
+ *          and writing.  The file is opened in binary mode on platforms
+ *          where there is a difference.  The file handle should be closed
+ *          with close().  In case of errors, -1 is returned and @error
+ *          will be set.
+ **/
+gint
+e_file_open_tmp (gchar **name_used,
+                 GError **error)
+{
+	static gchar *template = NULL;
+
+	if (G_UNLIKELY (template == NULL))
+		template = g_strdup_printf (
+			PACKAGE "-%s-XXXXXX", g_get_user_name ());
+
+	return g_file_open_tmp (template, name_used, error);
+}
+
+/**
  * e_load_ui_definition:
  * @ui_manager: a #GtkUIManager
  * @basename: basename of the UI definition file

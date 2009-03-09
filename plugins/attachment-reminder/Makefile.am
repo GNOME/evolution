@@ -1,6 +1,7 @@
 INCLUDES =						\
 	-I$(top_builddir)/composer			\
 	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	-DEVOLUTION_PLUGINDIR="\"$(plugindir)\""
 
@@ -23,7 +24,7 @@ liborg_gnome_evolution_attachment_reminder_la_LDFLAGS = -module -avoid-version $
 liborg_gnome_evolution_attachment_reminder_la_LIBADD =	\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
-	$(top_builddir)/mail/libevolution-mail.la	\
+	$(top_builddir)/mail/libevolution-module-mail.la	\
 	$(EVOLUTION_MAIL_LIBS)
 
 schemadir       = $(GCONF_SCHEMA_FILE_DIR)

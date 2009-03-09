@@ -974,107 +974,6 @@ skip_content:
 	return NULL;
 }
 
-/* Attachment Bar */
-
-static void
-emcab_add (EPopup *ep, EPopupItem *item, gpointer data)
-{
-	GtkWidget *widget = data;
-	GtkWidget *composer;
-
-	composer = gtk_widget_get_toplevel (widget);
-	gtk_action_activate (ACTION (ATTACH));
-}
-
-static void
-emcab_properties (EPopup *ep, EPopupItem *item, gpointer data)
-{
-	EAttachmentBar *attachment_bar = data;
-
-	e_attachment_bar_edit_selected (attachment_bar);
-}
-
-static void
-emcab_remove (EPopup *ep, EPopupItem *item, gpointer data)
-{
-	EAttachmentBar *attachment_bar = data;
-
-	e_attachment_bar_remove_selected (attachment_bar);
-}
-
-static void
-emcab_popup_position (GtkMenu *menu, int *x, int *y, gboolean *push_in, gpointer user_data)
-{
-	GtkWidget *widget = user_data;
-	GnomeIconList *icon_list = user_data;
-	GList *selection;
-	GnomeCanvasPixbuf *image;
-
-	gdk_window_get_origin (widget->window, x, y);
-
-	selection = gnome_icon_list_get_selection (icon_list);
-	if (selection == NULL)
-		return;
-
-	image = gnome_icon_list_get_icon_pixbuf_item (
-		icon_list, GPOINTER_TO_INT(selection->data));
-	if (image == NULL)
-		return;
-
-	/* Put menu to the center of icon. */
-	*x += (int)(image->item.x1 + image->item.x2) / 2;
-	*y += (int)(image->item.y1 + image->item.y2) / 2;
-}
-
-static void
-emcab_popups_free (EPopup *ep, GSList *list, gpointer data)
-{
-	g_slist_free (list);
-}
-
-/* Popup menu handling.  */
-static EPopupItem emcab_popups[] = {
-	{ E_POPUP_ITEM, "10.attach", N_("_Remove"), emcab_remove, NULL, GTK_STOCK_REMOVE, EM_POPUP_ATTACHMENTS_MANY },
-	{ E_POPUP_ITEM, "20.attach", N_("_Properties"), emcab_properties, NULL, GTK_STOCK_PROPERTIES, EM_POPUP_ATTACHMENTS_ONE },
-	{ E_POPUP_BAR, "30.attach.00", NULL, NULL, NULL, NULL, EM_POPUP_ATTACHMENTS_MANY|EM_POPUP_ATTACHMENTS_ONE },
-	{ E_POPUP_ITEM, "30.attach.01", N_("_Add attachment..."), emcab_add, NULL, GTK_STOCK_ADD, 0 },
-};
-
-/* if id != -1, then use it as an index for target of the popup */
-
-static void
-emcab_popup (EAttachmentBar *bar, GdkEventButton *event, int id)
-{
-	GSList *attachments = NULL, *menus = NULL;
-	int i;
-	EMPopup *emp;
-	EMPopupTargetAttachments *t;
-	GtkMenu *menu;
-
-	attachments = e_attachment_bar_get_attachment (bar, id);
-
-	for (i=0;i<sizeof (emcab_popups)/sizeof (emcab_popups[0]);i++)
-		menus = g_slist_prepend (menus, &emcab_popups[i]);
-
-	/** @HookPoint-EMPopup: Composer Attachment Bar Context Menu
-	 * @Id: org.gnome.evolution.mail.composer.attachmentbar.popup
-	 * @Class: org.gnome.evolution.mail.popup:1.0
-	 * @Target: EMPopupTargetAttachments
-	 *
-	 * This is the context menu on the composer attachment bar.
-	 */
-	emp = em_popup_new ("org.gnome.evolution.mail.composer.attachmentbar.popup");
-	e_popup_add_items ((EPopup *)emp, menus, NULL, emcab_popups_free, bar);
-	t = em_popup_target_new_attachments (emp, attachments);
-	t->target.widget = (GtkWidget *)bar;
-	menu = e_popup_create_menu_once ((EPopup *)emp, (EPopupTarget *)t, 0);
-
-	if (event == NULL)
-		gtk_menu_popup (menu, NULL, NULL, emcab_popup_position, bar, 0, gtk_get_current_event_time ());
-	else
-		gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event->button, event->time);
-}
-
 /* Signatures */
 
 static gchar *
@@ -1352,29 +1251,6 @@ autosave_load_draft (const gchar *filename)
 
 /* Miscellaneous callbacks.  */
 
-static gint
-attachment_bar_button_press_event_cb (EAttachmentBar *attachment_bar,
-                                      GdkEventButton *event)
-{
-	GnomeIconList *icon_list;
-	gint icon_number;
-
-	if (event->button != 3)
-		return FALSE;
-
-	icon_list = GNOME_ICON_LIST (attachment_bar);
-	icon_number = gnome_icon_list_get_icon_at (
-		icon_list, event->x, event->y);
-	if (icon_number >= 0) {
-		gnome_icon_list_unselect_all (icon_list);
-		gnome_icon_list_select_icon (icon_list, icon_number);
-	}
-
-	emcab_popup (attachment_bar, event, icon_number);
-
-	return TRUE;
-}
-
 static void
 attachment_bar_changed_cb (EAttachmentBar *attachment_bar,
                            EMsgComposer *composer)
@@ -1413,26 +1289,6 @@ attachment_bar_changed_cb (EAttachmentBar *attachment_bar,
 	/* Mark the editor as changed so it prompts about unsaved
 	   changes on close. */
 	gtkhtml_editor_set_changed (editor, TRUE);
-}
-
-static gint
-attachment_bar_key_press_event_cb (EAttachmentBar *attachment_bar,
-                                   GdkEventKey *event)
-{
-	if (event->keyval == GDK_Delete) {
-		e_attachment_bar_remove_selected (attachment_bar);
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-static gboolean
-attachment_bar_popup_menu_cb (EAttachmentBar *attachment_bar)
-{
-	emcab_popup (attachment_bar, NULL, -1);
-
-	return TRUE;
 }
 
 static void
@@ -2714,15 +2570,6 @@ msg_composer_init (EMsgComposer *composer)
 
 	/* Attachment Bar */
 
-	g_signal_connect (
-		composer->priv->attachment_bar, "button_press_event",
-		G_CALLBACK (attachment_bar_button_press_event_cb), NULL);
-	g_signal_connect (
-		composer->priv->attachment_bar, "key_press_event",
-		G_CALLBACK (attachment_bar_key_press_event_cb), NULL);
-	g_signal_connect (
-		composer->priv->attachment_bar, "popup-menu",
-		G_CALLBACK (attachment_bar_popup_menu_cb), NULL);
 	g_signal_connect (
 		composer->priv->attachment_bar, "changed",
 		G_CALLBACK (attachment_bar_changed_cb), composer);

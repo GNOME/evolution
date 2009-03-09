@@ -167,11 +167,13 @@ static void
 ecalp_part_popup_saveas(EPopup *ep, EPopupItem *item, void *data)
 {
 	EPopupTarget *t = ep->target;
+	EAttachment *attachment;
 	CamelMimePart *part = NULL;
 	char *file, *mfilename = NULL;
 	const char *filename;
 
-	part = ((EAttachment *) ((ECalPopupTargetAttachments *) t)->attachments->data)->body;
+	attachment = E_ATTACHMENT (((ECalPopupTargetAttachments *) t)->attachments->data);
+	part = e_attachment_get_mime_part (attachment);
 	filename = camel_mime_part_get_filename (part);
 	if (filename == NULL) {
 		/* This is the default filename used for temporary file creation */
@@ -201,7 +203,11 @@ ecalp_part_popup_save_selected(EPopup *ep, EPopupItem *item, void *data)
 	parts = ((ECalPopupTargetAttachments *) t)->attachments;
 
 	for (;parts; parts=parts->next) {
-		path = temp_save_part (((EAttachment *)parts->data)->body, dir, FALSE);
+		EAttachment *attachment = parts->data;
+		CamelMimePart *mime_part;
+
+		mime_part = e_attachment_get_mime_part (attachment);
+		path = temp_save_part (mime_part, dir, FALSE);
 		/* Probably we 'll do some reporting in next release, like listing the saved files and locations */
 		g_free (path);
 	}
@@ -210,13 +216,15 @@ ecalp_part_popup_save_selected(EPopup *ep, EPopupItem *item, void *data)
 static void
 ecalp_part_popup_set_background(EPopup *ep, EPopupItem *item, void *data)
 {
+	EAttachment *attachment;
 	EPopupTarget *t = ep->target;
 	GConfClient *gconf;
 	char *str, *filename, *path, *extension;
 	unsigned int i=1;
-	CamelMimePart *part = NULL;
+	CamelMimePart *part;
 
-	part = ((EAttachment *) ((ECalPopupTargetAttachments *) t)->attachments->data)->body;
+	attachment = E_ATTACHMENT (((ECalPopupTargetAttachments *) t)->attachments->data);
+	part = e_attachment_get_mime_part (attachment);
 
 	if (!part)
 		return;
@@ -293,10 +301,12 @@ static void
 ecalp_apps_open_in(EPopup *ep, EPopupItem *item, void *data)
 {
 	char *path;
+	EAttachment *attachment;
 	EPopupTarget *target = ep->target;
 	CamelMimePart *part;
 
-	part = ((EAttachment *) ((ECalPopupTargetAttachments *) target)->attachments->data)->body;
+	attachment = E_ATTACHMENT (((ECalPopupTargetAttachments *) target)->attachments->data);
+	part = e_attachment_get_mime_part (attachment);
 
 	path = temp_save_part(part, NULL, FALSE);
 	if (path) {
@@ -370,6 +380,7 @@ ecalp_standard_menu_factory (EPopup *ecalp, void *data)
 		ECalPopupTargetAttachments *t = (ECalPopupTargetAttachments *)ecalp->target;
 		GSList *list = t->attachments;
 		EAttachment *attachment;
+		CamelMimePart *mime_part;
 
 		items = ecalp_attachment_object_popups;
 		len = G_N_ELEMENTS(ecalp_attachment_object_popups);
@@ -380,8 +391,9 @@ ecalp_standard_menu_factory (EPopup *ecalp, void *data)
 
 		/* Only one attachment selected */
 		attachment = list->data;
-		mime_type = camel_data_wrapper_get_mime_type((CamelDataWrapper *)attachment->body);
-		filename = camel_mime_part_get_filename(attachment->body);
+		mime_part = e_attachment_get_mime_part (attachment);
+		mime_type = camel_data_wrapper_get_mime_type (CAMEL_DATA_WRAPPER (mime_part));
+		filename = camel_mime_part_get_filename (mime_part);
 
 
 		break; }
@@ -788,7 +800,15 @@ e_cal_popup_target_new_attachments(ECalPopup *ecp, CompEditor *editor, GSList *a
 		mask &= ~ E_CAL_POPUP_ATTACHMENTS_MANY;
 
 	if (len == 1 && ((EAttachment *)attachments->data)->is_available_local) {
-		if (camel_content_type_is(((CamelDataWrapper *) ((EAttachment *) attachments->data)->body)->mime_type, "image", "*"))
+		EAttachment *attachment;
+		CamelMimePart *mime_part;
+		CamelContentType *mime_type;
+
+		attachment = attachments->data;
+		mime_part = e_attachment_get_mime_part (attachment);
+		mime_type = CAMEL_DATA_WRAPPER (mime_part)->mime_type;
+
+		if (camel_content_type_is (mime_type, "image", "*"))
 			mask &= ~ E_CAL_POPUP_ATTACHMENTS_IMAGE;
 		mask &= ~ E_CAL_POPUP_ATTACHMENTS_ONE;
 	}

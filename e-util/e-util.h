@@ -46,6 +46,8 @@ void		e_show_uri			(GtkWindow *parent,
 						 const gchar *uri);
 void		e_display_help			(GtkWindow *parent,
 						 const gchar *link_id);
+gint		e_file_open_tmp			(gchar **name_used,
+						 GError **error);
 guint		e_load_ui_definition		(GtkUIManager *ui_manager,
 						 const gchar *basename);
 gint		e_action_compare_by_label	(GtkAction *action1,

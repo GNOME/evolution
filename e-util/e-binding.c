@@ -524,11 +524,13 @@ e_binding_transform_string_to_color (const GValue *src_value,
 {
 	GdkColor color;
 	const gchar *string;
-	gboolean success;
+	gboolean success = FALSE;
 
 	string = g_value_get_string (src_value);
-	if (gdk_color_parse (string, &color))
+	if (gdk_color_parse (string, &color)) {
 		g_value_set_boxed (dst_value, &color);
+		success = TRUE;
+	}
 
 	return success;
 }

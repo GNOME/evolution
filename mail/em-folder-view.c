@@ -367,32 +367,6 @@ emfv_edit_paste(BonoboUIComponent *uid, void *data, const char *path)
 	message_list_paste(emfv->list);
 }
 
-//static void
-//emfv_select_all_text(BonoboUIComponent *uid, void *data, const char *path)
-//{
-//	EMFolderView *emfv = data;
-//	gboolean selected;
-//
-//	gtk_html_select_all (((EMFormatHTML *)emfv->preview)->html);
-//	selected = gtk_html_command (((EMFormatHTML *)emfv->preview)->html, "is-selection-active");
-//	bonobo_ui_component_set_prop(emfv->uic, "/commands/EditCopy", "sensitive", selected?"1":"0", NULL);
-//
-//}
-
-static void
-emfv_message_search(BonoboUIComponent *uic, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-
-	if (!emfv->list_active) /* We are in new mail window */
-		em_format_html_display_search(emfv->preview);
-	else  {
-                /* We are in top level. Just grab focus to Search Bar */
-		gtk_widget_grab_focus (((ESearchBar *)((EMFolderBrowser *) emfv)->search)->entry);
-		gtk_option_menu_set_history (GTK_OPTION_MENU (((ESearchBar *)((EMFolderBrowser *) emfv)->search)->scopeoption), 3);
-	}
-}
-
 static void
 emp_uri_popup_vfolder_sender(EPopup *ep, EPopupItem *pitem, void *data)
 {
@@ -461,7 +435,7 @@ static BonoboUIVerb emfv_message_verbs[] = {
 //	BONOBO_UI_UNSAFE_VERB ("MessageDelete", emfv_message_delete),
 //	BONOBO_UI_UNSAFE_VERB ("MessageDeleteKey", emfv_message_delete),
 //	BONOBO_UI_UNSAFE_VERB ("MessageOpen", emfv_message_open),
-	BONOBO_UI_UNSAFE_VERB ("MessageSearch", emfv_message_search),
+//	BONOBO_UI_UNSAFE_VERB ("MessageSearch", emfv_message_search),
 
 //	BONOBO_UI_UNSAFE_VERB ("ViewSource", emfv_message_source),
 

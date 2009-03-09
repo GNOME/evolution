@@ -382,10 +382,20 @@ em_popup_target_new_attachments(EMPopup *emp, GSList *attachments)
 	if (len > 0)
 		mask &= ~ EM_POPUP_ATTACHMENTS_MANY;
 	if (len == 1 && ((EAttachment *)attachments->data)->is_available_local) {
+		EAttachment *attachment;
+		CamelMimePart *mime_part;
+		CamelContentType *mime_type;
+		CamelDataWrapper *data_wrapper;
 
-		if (camel_content_type_is(((CamelDataWrapper *) ((EAttachment *) attachments->data)->body)->mime_type, "image", "*"))
+		attachment = attachments->data;
+		mime_part = e_attachment_get_mime_part (attachment);
+		mime_type = CAMEL_DATA_WRAPPER (mime_part)->mime_type;
+		data_wrapper = camel_medium_get_content_object (
+			CAMEL_MEDIUM (mime_part));
+
+		if (camel_content_type_is (mime_type, "image", "*"))
 			mask &= ~ EM_POPUP_ATTACHMENTS_IMAGE;
-		if (CAMEL_IS_MIME_MESSAGE(camel_medium_get_content_object((CamelMedium *) ((EAttachment *) attachments->data)->body)))
+		if (CAMEL_IS_MIME_MESSAGE (data_wrapper))
 			mask &= ~EM_POPUP_ATTACHMENTS_MESSAGE;
 
 		mask &= ~ EM_POPUP_ATTACHMENTS_ONE;
@@ -408,9 +418,12 @@ emp_part_popup_saveas(EPopup *ep, EPopupItem *item, void *data)
 	gpointer parent;
 
 	/* If it is of type EM_POPUP_TARGET_ATTACHMENTS, we can assume the length is one. */
-	if (t->type == EM_POPUP_TARGET_ATTACHMENTS)
-		part = ((EAttachment *) ((EMPopupTargetAttachments *) t)->attachments->data)->body;
-	else
+	if (t->type == EM_POPUP_TARGET_ATTACHMENTS) {
+		EAttachment *attachment;
+
+		attachment = E_ATTACHMENT (((EMPopupTargetAttachments *) t)->attachments->data);
+		part = e_attachment_get_mime_part (attachment);
+	} else
 		part = ((EMPopupTargetPart *) t)->part;
 
 	widget = ep->target->widget;
@@ -429,9 +442,12 @@ emp_part_popup_set_background(EPopup *ep, EPopupItem *item, void *data)
 	unsigned int i=1;
 	CamelMimePart *part = NULL;
 
-	if (t->type == EM_POPUP_TARGET_ATTACHMENTS)
-		part = ((EAttachment *) ((EMPopupTargetAttachments *) t)->attachments->data)->body;
-	else
+	if (t->type == EM_POPUP_TARGET_ATTACHMENTS) {
+		EAttachment *attachment;
+
+		attachment = E_ATTACHMENT (((EMPopupTargetAttachments *) t)->attachments->data);
+		part = e_attachment_get_mime_part (attachment);
+	} else
 		part = ((EMPopupTargetPart *) t)->part;
 
 	if (!part)
@@ -503,9 +519,12 @@ emp_part_popup_reply_sender(EPopup *ep, EPopupItem *item, void *data)
 	CamelMimeMessage *message;
 	CamelMimePart *part;
 
-	if (t->type == EM_POPUP_TARGET_ATTACHMENTS)
-		part = ((EAttachment *) ((EMPopupTargetAttachments *) t)->attachments->data)->body;
-	else
+	if (t->type == EM_POPUP_TARGET_ATTACHMENTS) {
+		EAttachment *attachment;
+
+		attachment = E_ATTACHMENT (((EMPopupTargetAttachments *) t)->attachments->data);
+		part = e_attachment_get_mime_part (attachment);
+	} else
 		part = ((EMPopupTargetPart *) t)->part;
 
 	message = (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *)part);
@@ -519,9 +538,12 @@ emp_part_popup_reply_list (EPopup *ep, EPopupItem *item, void *data)
 	CamelMimeMessage *message;
 	CamelMimePart *part;
 
-	if (t->type == EM_POPUP_TARGET_ATTACHMENTS)
-		part = ((EAttachment *) ((EMPopupTargetAttachments *) t)->attachments->data)->body;
-	else
+	if (t->type == EM_POPUP_TARGET_ATTACHMENTS) {
+		EAttachment *attachment;
+
+		attachment = E_ATTACHMENT (((EMPopupTargetAttachments *) t)->attachments->data);
+		part = e_attachment_get_mime_part (attachment);
+	} else
 		part = ((EMPopupTargetPart *) t)->part;
 
 	message = (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *)part);
@@ -535,9 +557,12 @@ emp_part_popup_reply_all (EPopup *ep, EPopupItem *item, void *data)
 	CamelMimeMessage *message;
 	CamelMimePart *part;
 
-	if (t->type == EM_POPUP_TARGET_ATTACHMENTS)
-		part = ((EAttachment *) ((EMPopupTargetAttachments *) t)->attachments->data)->body;
-	else
+	if (t->type == EM_POPUP_TARGET_ATTACHMENTS) {
+		EAttachment *attachment;
+
+		attachment = E_ATTACHMENT (((EMPopupTargetAttachments *) t)->attachments->data);
+		part = e_attachment_get_mime_part (attachment);
+	} else
 		part = ((EMPopupTargetPart *) t)->part;
 
 	message = (CamelMimeMessage *)camel_medium_get_content_object((CamelMedium *)part);
@@ -551,9 +576,12 @@ emp_part_popup_forward (EPopup *ep, EPopupItem *item, void *data)
 	CamelMimeMessage *message;
 	CamelMimePart *part;
 
-	if (t->type == EM_POPUP_TARGET_ATTACHMENTS)
-		part = ((EAttachment *) ((EMPopupTargetAttachments *) t)->attachments->data)->body;
-	else
+	if (t->type == EM_POPUP_TARGET_ATTACHMENTS) {
+		EAttachment *attachment;
+
+		attachment = E_ATTACHMENT (((EMPopupTargetAttachments *) t)->attachments->data);
+		part = e_attachment_get_mime_part (attachment);
+	} else
 		part = ((EMPopupTargetPart *) t)->part;
 
 	/* TODO: have a emfv specific override so we can get the parent folder uri */
@@ -642,9 +670,12 @@ emp_apps_open_in(EPopup *ep, EPopupItem *item, void *data)
 	EPopupTarget *target = ep->target;
 	CamelMimePart *part;
 
-	if (target->type == EM_POPUP_TARGET_ATTACHMENTS)
-		part = ((EAttachment *) ((EMPopupTargetAttachments *) target)->attachments->data)->body;
-	else
+	if (target->type == EM_POPUP_TARGET_ATTACHMENTS) {
+		EAttachment *attachment;
+
+		attachment = E_ATTACHMENT (((EMPopupTargetAttachments *) target)->attachments->data);
+		part = e_attachment_get_mime_part (attachment);
+	} else
 		part = ((EMPopupTargetPart *) target)->part;
 
 	path = em_utils_temp_save_part(target->widget, part, TRUE);
@@ -711,11 +742,13 @@ emp_add_vcard (EPopup *ep, EPopupItem *item, void *data)
 	CamelMimePart *part;
 	CamelDataWrapper *content;
 	CamelStreamMem *mem;
-	
 
-	if (target->type == EM_POPUP_TARGET_ATTACHMENTS)
-		part = ((EAttachment *) ((EMPopupTargetAttachments *) target)->attachments->data)->body;
-	else
+	if (target->type == EM_POPUP_TARGET_ATTACHMENTS) {
+		EAttachment *attachment;
+
+		attachment = E_ATTACHMENT (((EMPopupTargetAttachments *) target)->attachments->data);
+		part = e_attachment_get_mime_part (attachment);
+	} else
 		part = ((EMPopupTargetPart *) target)->part;
 
 	if (!part)
@@ -774,6 +807,7 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 		EMPopupTargetAttachments *t = (EMPopupTargetAttachments *)emp->target;
 		GSList *list = t->attachments;
 		EAttachment *attachment;
+		CamelMimePart *mime_part;
 
 		if (g_slist_length(list) != 1 || !((EAttachment *)list->data)->is_available_local) {
 			items = NULL;
@@ -783,8 +817,9 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 
 		/* Only one attachment selected */
 		attachment = list->data;
-		mime_type = camel_data_wrapper_get_mime_type((CamelDataWrapper *)attachment->body);
-		filename = camel_mime_part_get_filename(attachment->body);
+		mime_part = e_attachment_get_mime_part (attachment);
+		mime_type = camel_data_wrapper_get_mime_type (CAMEL_DATA_WRAPPER (mime_part));
+		filename = camel_mime_part_get_filename (mime_part);
 
 		items = emp_attachment_object_popups;
 		len = LEN(emp_attachment_object_popups);

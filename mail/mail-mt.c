@@ -37,7 +37,7 @@
 #include "misc/e-gui-utils.h"
 #include "e-util/e-error.h"
 #include "e-util/e-icon-factory.h"
-#include "widgets/misc/e-activity.h"
+#include "widgets/misc/e-alert-activity.h"
 
 #include "mail-config.h"
 #include "mail-session.h"
@@ -145,12 +145,13 @@ end_event_callback (CamelObject *o, EActivity *activity, void *error)
 	if (error == NULL) {
 		e_activity_complete (activity);
 		g_object_unref (activity);
-	} else if (activity == NULL) {
-		activity = e_activity_new (NULL);
-		e_activity_error (activity, error);
+	} else {
+		if (activity != NULL)
+			g_object_unref (activity);
+		activity = e_alert_activity_new_warning (error);
 		e_shell_module_add_activity (mail_shell_module, activity);
-	} else
-		e_activity_error (activity, error);
+		g_object_unref (activity);
+	}
 }
 
 

@@ -60,6 +60,7 @@ shell_window_new_view (EShellWindow *shell_window,
 
 	/* Determine the page number for the new shell view. */
 	notebook = GTK_NOTEBOOK (shell_window->priv->content_notebook);
+	page_num = gtk_notebook_get_n_pages (notebook);
 
 	/* Get the switcher action for this view. */
 	action = e_shell_window_get_shell_view_action (

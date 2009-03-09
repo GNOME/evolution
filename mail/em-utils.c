@@ -71,7 +71,7 @@
 #include "e-util/e-account-utils.h"
 #include "e-util/e-dialog-utils.h"
 #include "e-util/e-error.h"
-
+#include "widgets/misc/e-alert-activity.h"
 
 #include "em-utils.h"
 #include "em-composer-utils.h"
@@ -814,7 +814,7 @@ tag_editor_response (GtkWidget *dialog, int button, struct ted_t *ted)
 		camel_tag_list_free (&tags);
 
 		if (ted->emfv->preview)
-			em_format_redraw(ted->emfv->preview);
+			em_format_redraw (EM_FORMAT (ted->emfv->preview));
 	}
 
 	gtk_widget_destroy (dialog);
@@ -2407,8 +2407,7 @@ em_utils_show_error_silent (GtkWidget *widget)
 {
 	EActivity *activity;
 
-	activity = e_activity_new (NULL);
-	e_activity_error (activity, widget);
+	activity = e_alert_activity_new_warning (widget);
 	e_shell_module_add_activity (mail_shell_module, activity);
 	g_object_unref (activity);
 
@@ -2423,8 +2422,7 @@ em_utils_show_info_silent (GtkWidget *widget)
 {
 	EActivity *activity;
 
-	activity = e_activity_new (NULL);
-	e_activity_info (activity, widget);
+	activity = e_alert_activity_new_info (widget);
 	e_shell_module_add_activity (mail_shell_module, activity);
 	g_object_unref (activity);
 

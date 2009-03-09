@@ -56,6 +56,14 @@ struct _EActivity {
 
 struct _EActivityClass {
 	GObjectClass parent_class;
+
+	/* Methods */
+	gchar *		(*describe)		(EActivity *activity);
+
+	/* Signals */
+	void		(*cancelled)		(EActivity *activity);
+	void		(*completed)		(EActivity *activity);
+	void		(*clicked)		(EActivity *activity);
 };
 
 GType		e_activity_get_type		(void);
@@ -66,9 +74,6 @@ void		e_activity_clicked		(EActivity *activity);
 gchar *		e_activity_describe		(EActivity *activity);
 gboolean	e_activity_is_cancelled		(EActivity *activity);
 gboolean	e_activity_is_completed		(EActivity *activity);
-void		e_activity_add_timeout		(EActivity *activity,
-						 guint seconds);
-void		e_activity_cancel_timeout	(EActivity *activity);
 gboolean	e_activity_get_blocking		(EActivity *activity);
 void		e_activity_set_blocking		(EActivity *activity,
 						 gboolean blocking);
@@ -90,12 +95,6 @@ void		e_activity_set_primary_text	(EActivity *activity,
 const gchar *	e_activity_get_secondary_text	(EActivity *activity);
 void		e_activity_set_secondary_text	(EActivity *activity,
 						 const gchar *secondary_text);
-
-/* XXX Hacky integration with error dialogs. */
-void		e_activity_error		(EActivity *activity,
-						 GtkWidget *error_dialog);
-void		e_activity_info			(EActivity *activity,
-						 GtkWidget *info_dialog);
 
 G_END_DECLS
 

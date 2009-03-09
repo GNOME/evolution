@@ -17,7 +17,6 @@ INCLUDES =								\
 
 privsolib_LTLIBRARIES =		\
 	libemiscwidgets.la
-#	libefilterbar.la
 
 widgetsincludedir = $(privincludedir)/misc
 
@@ -39,51 +38,55 @@ widgetsinclude_HEADERS =			\
 	e-action-combo-box.h			\
 	e-activity.h				\
 	e-activity-proxy.h			\
-	e-attachment-bar.h			\
+	e-alert-activity.h			\
 	e-attachment.h				\
-	e-spinner.c				\
-	e-spinner.h				\
+	e-attachment-bar.h			\
+	e-attachment-dialog.h			\
 	e-calendar.h				\
 	e-calendar-item.h			\
+	e-canvas.h				\
+	e-canvas-background.h			\
+	e-canvas-utils.h			\
+	e-canvas-vbox.h				\
 	e-cell-date-edit.h			\
 	e-cell-percent.h			\
 	e-cell-renderer-combo.h			\
 	e-charset-picker.h			\
+	e-colors.h				\
 	e-combo-cell-editable.h			\
+	e-cursors.h				\
 	e-dateedit.h				\
 	e-expander.h				\
+	e-gui-utils.h				\
+	e-hsv-utils.h				\
 	e-icon-entry.h				\
 	e-image-chooser.h			\
 	e-map.h					\
 	e-menu-tool-button.h			\
-	e-popup-action.h			\
-	e-preferences-window.h			\
+	e-mime-part-utils.h			\
 	e-online-button.h			\
-	e-search-bar.h				\
-	e-send-options.h			\
-	e-url-entry.h				\
-	e-canvas-background.h			\
-	e-canvas-utils.h			\
-	e-canvas-vbox.h				\
-	e-canvas.h				\
-	e-cursors.h				\
-	e-gui-utils.h				\
-	e-hsv-utils.h				\
+	e-popup-action.h			\
 	e-popup-menu.h				\
+	e-preferences-window.h			\
 	e-printable.h				\
-	e-reflow-model.h			\
 	e-reflow.h				\
+	e-reflow-model.h			\
+	e-search-bar.h				\
+	e-selection-model.h			\
 	e-selection-model-array.h		\
 	e-selection-model-simple.h		\
-	e-selection-model.h			\
+	e-send-options.h			\
 	e-signature-combo-box.h			\
 	e-signature-editor.h			\
 	e-signature-manager.h			\
 	e-signature-preview.h			\
 	e-signature-script-dialog.h		\
 	e-signature-tree-view.h			\
+	e-spinner.c				\
+	e-spinner.h				\
+	e-timeout-activity.h			\
 	e-unicode.h				\
-	e-colors.h
+	e-url-entry.h
 
 libemiscwidgets_la_SOURCES =			\
 	$(widgetsinclude_HEADERS)		\
@@ -92,54 +95,57 @@ libemiscwidgets_la_SOURCES =			\
 	e-action-combo-box.c			\
 	e-activity.c				\
 	e-activity-proxy.c			\
-	e-calendar.c				\
+	e-alert-activity.c			\
 	e-attachment.c				\
 	e-attachment-bar.c			\
+	e-attachment-dialog.c			\
+	e-calendar.c				\
 	e-calendar-item.c			\
+	e-canvas.c				\
+	e-canvas-background.c			\
+	e-canvas-utils.c			\
+	e-canvas-vbox.c				\
 	e-cell-date-edit.c			\
 	e-cell-percent.c			\
 	e-cell-renderer-combo.c			\
 	e-charset-picker.c			\
+	e-colors.c				\
 	e-combo-cell-editable.c			\
+	e-cursors.c				\
 	e-dateedit.c				\
 	e-expander.c				\
+	e-gui-utils.c				\
+	e-hsv-utils.c				\
 	e-icon-entry.c				\
 	e-image-chooser.c			\
 	e-map.c					\
 	e-menu-tool-button.c			\
-	e-popup-action.c			\
-	e-preferences-window.c			\
+	e-mime-part-utils.c			\
 	e-online-button.c			\
-	e-search-bar.c				\
-	e-send-options.c			\
-	e-url-entry.c				\
-	e-canvas-background.c			\
-	e-canvas-utils.c			\
-	e-canvas-vbox.c				\
-	e-canvas.c				\
-	e-cursors.c				\
-	e-gui-utils.c				\
-	e-hsv-utils.c				\
+	e-popup-action.c			\
 	e-popup-menu.c				\
+	e-preferences-window.c			\
 	e-printable.c				\
 	e-reflow-model.c			\
 	e-reflow.c				\
+	e-search-bar.c				\
+	e-selection-model.c			\
 	e-selection-model-array.c		\
 	e-selection-model-simple.c		\
-	e-selection-model.c			\
+	e-send-options.c			\
 	e-signature-combo-box.c			\
 	e-signature-editor.c			\
 	e-signature-manager.c			\
 	e-signature-preview.c			\
 	e-signature-script-dialog.c		\
 	e-signature-tree-view.c			\
+	e-timeout-activity.c			\
 	e-unicode.c				\
-	e-colors.c
-
+	e-url-entry.c
 
 libemiscwidgets_la_LDFLAGS = $(NO_UNDEFINED)
 
-libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
+libemiscwidgets_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/filter/libfilter.la				\
 	$(top_builddir)/widgets/table/libetable.la			\
@@ -148,19 +154,7 @@ libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/a11y/libevolution-a11y.la			\
 	$(EVOLUTION_MAIL_LIBS)						\
 	$(GNOME_PLATFORM_LIBS)						\
-	$(EVOLUTON_MAIL_LIBS)						\
 	$(ICONV_LIBS)
-
-#libefilterbar_la_SOURCES =	\
-#	e-filter-bar.c		\
-#	e-filter-bar.h
-#
-#libefilterbar_la_LDFLAGS = $(NO_UNDEFINED)
-#
-#libefilterbar_la_LIBADD =			\
-#	$(WIN32_BOOTSTRAP_LIBS)			\
-#	libemiscwidgets.la			\
-#	$(E_WIDGETS_LIBS)
 
 noinst_PROGRAMS = 			\
 	test-calendar			\

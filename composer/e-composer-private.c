@@ -167,7 +167,7 @@ e_composer_private_init (EMsgComposer *composer)
 	gtk_widget_show (widget);
 	container = widget;
 
-	widget = e_attachment_bar_new (NULL);
+	widget = e_attachment_bar_new ();
 	GTK_WIDGET_SET_FLAGS (widget, GTK_CAN_FOCUS);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	priv->attachment_bar = g_object_ref (widget);

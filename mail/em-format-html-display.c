@@ -1331,7 +1331,7 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 
 		if (!file) {
 			file = "attachment.dat";
-			new->file_name = g_strdup(file);
+			e_attachment_set_filename (new, file);
 		}
 
 		tmp = g_hash_table_lookup (efhd->priv->files, file);
@@ -1349,8 +1349,8 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 
 			g_free (tmp_file);
 			g_hash_table_insert (efhd->priv->files, g_strdup(file), GUINT_TO_POINTER(count));
-			g_free (new->file_name);
-			new->file_name = new_file;
+			e_attachment_set_filename (new, new_file);
+			g_free (new_file);
 		} else {
 			g_hash_table_insert (efhd->priv->files, g_strdup(file), GUINT_TO_POINTER(1));
 		}
@@ -1562,8 +1562,13 @@ efhd_bar_save_selected(EPopup *ep, EPopupItem *item, void *data)
 
 	attachment_parts = e_attachment_bar_get_selected(E_ATTACHMENT_BAR(widget));
 
-	for (tmp = attachment_parts; tmp; tmp=tmp->next)
-		parts = g_slist_prepend(parts, ((EAttachment *)tmp->data)->body);
+	for (tmp = attachment_parts; tmp; tmp=tmp->next) {
+		EAttachment *attachment = tmp->data;
+		CamelMimePart *mime_part;
+
+		mime_part = e_attachment_get_mime_part (attachment);
+		parts = g_slist_prepend (parts, mime_part);
+	}
 
 	parts = g_slist_reverse(parts);
 	em_utils_save_parts(parent, _("Select folder to save selected attachments..."), parts);
@@ -1721,7 +1726,7 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 	GtkWidget *hbox1, *hbox2, *hbox3, *vbox, *txt, *image, *save, *scroll;
 	int width, height, bar_width;
 
-	priv->attachment_bar = e_attachment_bar_new(NULL);
+	priv->attachment_bar = e_attachment_bar_new ();
 	scroll = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 	((EAttachmentBar *)priv->attachment_bar)->expand = TRUE;

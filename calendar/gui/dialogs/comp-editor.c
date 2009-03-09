@@ -180,7 +180,6 @@ static void page_dates_changed_cb (CompEditor *editor, CompEditorPageDates *date
 
 static void obj_modified_cb (ECal *client, GList *objs, CompEditor *editor);
 static void obj_removed_cb (ECal *client, GList *uids, CompEditor *editor);
-static gboolean open_attachment (EAttachmentBar *bar, CompEditor *editor);
 
 G_DEFINE_TYPE (CompEditor, comp_editor, GTK_TYPE_WINDOW)
 
@@ -1801,7 +1800,7 @@ comp_editor_init (CompEditor *editor)
  	priv->warned = FALSE;
 	priv->is_group_item = FALSE;
 
-	priv->attachment_bar = e_attachment_bar_new (NULL);
+	priv->attachment_bar = e_attachment_bar_new ();
 	priv->manager = gtk_ui_manager_new ();
 
         gtk_window_add_accel_group (
@@ -1988,232 +1987,8 @@ attachment_expander_activate_cb (EExpander *expander,
 						  _("Show Attachment _Bar"));
 }
 
-static gboolean
-open_attachment (EAttachmentBar *bar, CompEditor *editor)
-{
-	GnomeIconList *icon_list;
-	GList *p;
-	int num;
-	char *attach_file_url;
-
-	if (E_IS_ATTACHMENT_BAR (bar)) {
-		icon_list = GNOME_ICON_LIST (bar);
-		p = gnome_icon_list_get_selection (icon_list);
-		if (p) {
-			EAttachment *attachment;
-			GSList *list;
-			const char *comp_uid = NULL;
-			char *filename = NULL;
-			const char *local_store = e_cal_get_local_attachment_store (editor->priv->client);
-
-			e_cal_component_get_uid (editor->priv->comp, &comp_uid);
-			num = GPOINTER_TO_INT (p->data);
-			list = e_attachment_bar_get_attachment (bar, num);
-			attachment = list->data;
-			g_slist_free (list);
-
-			filename = g_strdup_printf ("%s-%s",
-						    comp_uid,
-						    camel_mime_part_get_filename(attachment->body));
-
-			attach_file_url = g_build_path ("/", local_store, filename, NULL);
-
-			/* launch the url now */
-			e_show_uri (GTK_WINDOW (editor), attach_file_url);
-
-			g_free (filename);
-			g_free (attach_file_url); }
-		return TRUE;
-	} else
-		return FALSE;
-}
-
-static	gboolean
-attachment_bar_icon_clicked_cb (EAttachmentBar *bar, GdkEvent *event, CompEditor *editor)
-{
-	if (E_IS_ATTACHMENT_BAR (bar) && event->type == GDK_2BUTTON_PRESS)
-		if (open_attachment (bar, editor))
-				return TRUE;
-	return FALSE;
-}
-
-/* Callbacks.  */
-
-static void
-cab_open(EPopup *ep, EPopupItem *item, void *data)
-{
-	EAttachmentBar *bar = data;
-	CompEditor *editor = COMP_EDITOR (gtk_widget_get_toplevel (GTK_WIDGET (bar)));
-
-	if (!open_attachment (bar, editor))
-		g_message ("\n Open failed");
-}
-
-static void
-cab_add(EPopup *ep, EPopupItem *item, void *data)
-{
-	EAttachmentBar *bar = data;
-        CompEditor *editor = COMP_EDITOR (gtk_widget_get_toplevel (GTK_WIDGET (bar)));
-	GPtrArray *file_list;
-	gboolean is_inline = FALSE;
-	int i;
-
-	file_list = comp_editor_select_file_attachments (editor, &is_inline);
-	/*TODO add a good implementation here */
-	if (!file_list)
-		return;
-	for (i = 0; i < file_list->len; i++) {
-		CamelURL *url;
-
-		url = camel_url_new (file_list->pdata[i], NULL);
-		if (url == NULL)
-			continue;
-
-		if (!g_ascii_strcasecmp (url->protocol, "file"))
-			 e_attachment_bar_attach (bar, url->path, is_inline ? "inline" : "attachment");
-		else
-			 e_attachment_bar_attach_remote_file (bar, file_list->pdata[i], is_inline ? "inline" : "attachment");
-		g_free (file_list->pdata[i]);
-		camel_url_free (url);
-	}
-
-	g_ptr_array_free (file_list, TRUE);
-}
-
-static void
-cab_properties(EPopup *ep, EPopupItem *item, void *data)
-{
-	EAttachmentBar *bar = data;
-
-	e_attachment_bar_edit_selected(bar);
-}
-
-static void
-cab_remove(EPopup *ep, EPopupItem *item, void *data)
-{
-	EAttachmentBar *bar = data;
-
-	e_attachment_bar_remove_selected(bar);
-}
-
-/* Popup menu handling.  */
-static EPopupItem cab_popups[] = {
-	{ E_POPUP_ITEM, "10.attach", N_("_Open"), cab_open, NULL, GTK_STOCK_OPEN, E_CAL_POPUP_ATTACHMENTS_ONE},
-	{ E_POPUP_ITEM, "20.attach", N_("_Remove"), cab_remove, NULL, GTK_STOCK_REMOVE, E_CAL_POPUP_ATTACHMENTS_MANY | E_CAL_POPUP_ATTACHMENTS_MODIFY },
-	{ E_POPUP_ITEM, "30.attach", N_("_Properties"), cab_properties, NULL, GTK_STOCK_PROPERTIES, E_CAL_POPUP_ATTACHMENTS_ONE },
-	{ E_POPUP_BAR, "40.attach.00", NULL, NULL, NULL, NULL, E_CAL_POPUP_ATTACHMENTS_MANY|E_CAL_POPUP_ATTACHMENTS_ONE },
-	{ E_POPUP_ITEM, "40.attach.01", N_("_Add attachment..."), cab_add, NULL, GTK_STOCK_ADD, E_CAL_POPUP_ATTACHMENTS_MODIFY},
-};
-
-static void
-cab_popup_position(GtkMenu *menu, int *x, int *y, gboolean *push_in, gpointer user_data)
-{
-	EAttachmentBar *bar = user_data;
-	GnomeIconList *icon_list = user_data;
-	GList *selection;
-	GnomeCanvasPixbuf *image;
-
-	gdk_window_get_origin (((GtkWidget*) bar)->window, x, y);
-
-	selection = gnome_icon_list_get_selection (icon_list);
-	if (selection == NULL)
-		return;
-
-	image = gnome_icon_list_get_icon_pixbuf_item (icon_list, GPOINTER_TO_INT(selection->data));
-	if (image == NULL)
-		return;
-
-	/* Put menu to the center of icon. */
-	*x += (int)(image->item.x1 + image->item.x2) / 2;
-	*y += (int)(image->item.y1 + image->item.y2) / 2;
-}
-
-static void
-cab_popups_free(EPopup *ep, GSList *l, void *data)
-{
-	g_slist_free(l);
-}
-
-/* if id != -1, then use it as an index for target of the popup */
-static void
-cab_popup(EAttachmentBar *bar, GdkEventButton *event, int id)
-{
-	GSList *attachments = NULL, *menus = NULL;
-	int i;
-	ECalPopup *ecp;
-	ECalPopupTargetAttachments *t;
-	GtkMenu *menu;
-	CompEditor *editor = COMP_EDITOR (gtk_widget_get_toplevel (GTK_WIDGET (bar)));
-
-        attachments = e_attachment_bar_get_attachment(bar, id);
-
-	for (i=0;i<sizeof(cab_popups)/sizeof(cab_popups[0]);i++)
-		menus = g_slist_prepend(menus, &cab_popups[i]);
-
-	/** @HookPoint-ECalPopup: Calendar Attachment Bar Context Menu
-	 * @Id: org.gnome.evolution.calendar.attachmentbar.popup
-	 * @Class: org.gnome.evolution.mail.popup:1.0
-	 * @Target: ECalPopupTargetAttachments
-	 *
-	 * This is the context menu on the calendar attachment bar.
-	 */
-	ecp = e_cal_popup_new("org.gnome.evolution.calendar.attachmentbar.popup");
-	e_popup_add_items((EPopup *)ecp, menus, NULL, cab_popups_free, bar);
-	t = e_cal_popup_target_new_attachments(ecp, editor, attachments);
-	t->target.widget = (GtkWidget *)bar;
-	menu = e_popup_create_menu_once((EPopup *)ecp, (EPopupTarget *)t, 0);
-
-	if (event == NULL)
-		gtk_menu_popup(menu, NULL, NULL, cab_popup_position, bar, 0, gtk_get_current_event_time());
-	else
-		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button, event->time);
-}
 
 /* GtkWidget methods.  */
-
-static gboolean
-popup_menu_event (EAttachmentBar *bar)
-{
-	cab_popup (bar, NULL, -1);
-
-	return TRUE;
-}
-
-
-static int
-button_press_event (EAttachmentBar *bar,
-                    GdkEventButton *event)
-{
-	GnomeIconList *icon_list = GNOME_ICON_LIST (bar);
-	int icon_number = -1;
-
-	if (event->button != 3)
-		return FALSE;
-
-	if (!gnome_icon_list_get_selection (icon_list)) {
-		icon_number = gnome_icon_list_get_icon_at (icon_list, event->x, event->y);
-		if (icon_number >= 0) {
-			gnome_icon_list_unselect_all(icon_list);
-			gnome_icon_list_select_icon (icon_list, icon_number);
-		}
-	}
-
-	cab_popup(bar, event, icon_number);
-
-	return TRUE;
-}
-
-static gint
-key_press_event (EAttachmentBar *bar,
-                 GdkEventKey *event)
-{
-	if (event->keyval == GDK_Delete) {
-                e_attachment_bar_remove_selected (bar);
-                return TRUE;
-        }
-
-        return FALSE;
-}
 
 static gint
 editor_key_press_event (CompEditor *editor,
@@ -2275,18 +2050,12 @@ setup_widgets (CompEditor *editor)
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (priv->attachment_scrolled_window),
 					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-	g_signal_connect (priv->attachment_bar, "button_press_event", G_CALLBACK (button_press_event), NULL);
-        g_signal_connect (priv->attachment_bar, "key_press_event", G_CALLBACK (key_press_event), NULL);
-        g_signal_connect (priv->attachment_bar, "popup-menu", G_CALLBACK (popup_menu_event), NULL);
-
 	GTK_WIDGET_SET_FLAGS (priv->attachment_bar, GTK_CAN_FOCUS);
 	gtk_container_add (GTK_CONTAINER (priv->attachment_scrolled_window),
 			   priv->attachment_bar);
 	gtk_widget_show (priv->attachment_bar);
 	g_signal_connect (priv->attachment_bar, "changed",
 			  G_CALLBACK (attachment_bar_changed_cb), editor);
-	g_signal_connect (GNOME_ICON_LIST (priv->attachment_bar), "event",
-			  G_CALLBACK (attachment_bar_icon_clicked_cb), editor);
 	priv->attachment_expander_label =
 		gtk_label_new_with_mnemonic (_("Show Attachment _Bar"));
 	priv->attachment_expander_num = gtk_label_new ("");
