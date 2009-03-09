@@ -10,7 +10,6 @@
  <!ENTITY z-CLM "(CLM)" >
 ] >
 
-<?yelp:chunk-depth 3?>
 <book lang="en" id="index">
  <bookinfo id="Front">
 <!-- Novell staff change this as you wish -->
@@ -23,11 +22,19 @@
    </corpauthor>
    </authorgroup>
    <date>
-     2002-2008
+     2002-2009
    </date>
    <revhistory>
      <revision>
        <revnumber>&appversion;</revnumber>
+       <date>March 2009</date>
+       <revdescription>
+	 <para role="author">Radhika PC</para>
+	 <para role="publisher">Novell, Inc</para>
+       </revdescription>
+     </revision>
+     <revision>
+       <revnumber>2.24</revnumber>
        <date>March 2008</date>
        <revdescription>
 	 <para role="author">Radhika PC</para>
@@ -262,57 +269,61 @@
        <formalpara id="bsj74dr">
         <title>Novell GroupWise:</title>
         <para>Select this option if you connect to a Novell <trademark class="registered">GroupWise</trademark> server.</para>
-        <para>Email, calendar, and contact information are stored on the server.</para>
-        <para>For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
        </formalpara>
+        <para>For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
        <formalpara id="bsj74ds">
         <title>Microsoft Exchange:</title>
-        <para>Available only if you have installed the Connector for Microsoft&z-3rdParty; Exchange. Select this option if you connect to a Microsoft Exchange 2000 or 2003 server.</para>
+        <para>Available only if the evolution-exchange package is installed. Select this option if you connect to a Microsoft Exchange 2000 or 2003 server.</para>
+       </formalpara>
         <para>Email, calendar, and contact information are stored on the server.</para>
         <para>For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
+       <formalpara id="mapi">
+        <title>MAPI Exchange:</title>
+        <para>Available only if you have installed the evolution-mapi package and if the Exchange MAPI plugin from the Edit &gt; Plugins menu is enabled. It allows you to connect to a Microsoft Exchange 2007 server.</para>
        </formalpara>
+       <para>Email, calendar, and contact information are stored on the server.</para>
        <formalpara id="bsj74dt">
         <title>IMAP:</title>
         <para>Keeps the email on your server so you can access your email from multiple systems.</para>
-        <para>For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
        </formalpara>
+       <para>For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
        <formalpara id="bsj74du">
         <title>POP:</title>
         <para>Downloads your email to your hard disk for permanent storage, freeing up space on the email server.</para>
-        <para>For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
        </formalpara>
+       <para>For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
        <formalpara id="bstgdhu">
         <title>USENET News:</title>
         <para>Connects to a news server and downloads a list of available news digests.</para>
-        <para>For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
        </formalpara>
+       <para>For configuration instructions, see <link linkend="bstfw13">Remote Configuration Options</link>.</para>
        <formalpara id="bsj74dv">
         <title>Local Delivery:</title>
         <para>Choose this option if you want to move email from the spool (the location where mail waits for delivery) and store it in your home directory. You need to provide the path to the mail spool you want to use. If you want to leave email in your system's spool files, choose the Standard Unix Mbox Spool option instead.</para>
-        <para>For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
        </formalpara>
+       <para>For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
        <formalpara id="bsj74dw">
         <title>MH Format Mail Directories:</title>
         <para>If you download your email using MH or another MH-style program, you should use this option.</para>
-        <para>You need to provide the path to the mail directory you want to use.</para>
-        <para>For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
        </formalpara>
+       <para>You need to provide the path to the mail directory you want to use.</para>
+       <para>For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
        <formalpara id="bsj74dx">
         <title>Maildir Format Mail Directories:</title>
         <para>If you download your email using Qmail or another Maildir-style program, you should use this option.</para>
-        <para>You need to provide the path to the mail directory you want to use.</para>
-        <para>For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
        </formalpara>
+       <para>You need to provide the path to the mail directory you want to use.</para>
+       <para>For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
        <formalpara id="bsj74dy">
         <title>Standard Unix mbox Spool File:</title>
         <para>If you want to read and store email in the mail spool file on your local system, choose this option. You need to provide the path to the mail spool file you want to use.</para>
-        <para>For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
        </formalpara>
+       <para>For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
        <formalpara id="b185ajx5">
         <title>Standard Unix mbox Spool Directory:</title>
         <para>If you want to read and store email in the mail spool directory on your local system, choose this option. You need to provide the path to the mail spool directory you want to use.</para>
-       <para>For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
        </formalpara>
+       <para>For configuration instructions, see <link linkend="bstgbqn">Local Configuration Options</link>.</para>
        <formalpara id="bsj74dz">
         <title>None:</title>
         <para>Select this if you do not plan to check email with this account. If you select this, there are no configuration options.</para>
@@ -471,6 +482,97 @@
        </listitem>
       </orderedlist>
       <para>When you have finished, continue with <link linkend="third-step">Sending Mail</link>.</para>
+     </section>
+
+     <section id="exchange_mapi">
+      <title>Exchange MAPI Receiving Options</title>
+      <para>If you select Microsoft Exchange MAPI as your receiving server type, you need to specify the following options:</para>
+      <orderedlist>
+       <listitem id="step_1">
+        <para>Select the desired options as given in the following table, then click Forward.</para>
+        <informaltable>
+         <tgroup cols="2">
+          <colspec colwidth="2.844*" colname="1" colnum="1"/>
+          <colspec colwidth="2.844*" colname="2" colnum="2"/>
+          <thead valign="top">
+           <row id="raw1">
+            <entry colname="1">
+             <para>Options</para>
+            </entry>
+            <entry colname="2">
+             <para>Description</para>
+            </entry>
+           </row>
+          </thead>
+          <tbody valign="top">
+           <row id="raw2">
+            <entry colname="1">
+             <para>Check for new messages every x minutes</para>
+            </entry>
+            <entry colname="2">
+             <para>Select this option if you want Evolution to automatically check for new mail. If you select this option, you need to specify how often Evolution should check for new messages.</para>
+            </entry>
+           </row>
+           <row id="raw3">
+            <entry colname="1">
+             <para>Check for new messages in all folders</para>
+            </entry>
+            <entry colname="2">
+             <para>Select if you want to check for new messages in all folders.</para>
+            </entry>
+           </row>
+           <row id="raw4">
+            <entry colname="1">
+             <para>Global Catalog server name</para>
+            </entry>
+            <entry colname="2">
+             <para>Specify the Global Catalog server name in the Global Catalog Server Name field.</para>
+             <para>The Global Catalog Server contains the user information for users. If you are unsure what your Global Catalog server name is, contact your system administrator.</para>
+            </entry>
+           </row>
+           <row id="raw5">
+            <entry colname="1">
+             <para>Limit number of GAL responses</para>
+            </entry>
+            <entry colname="2">
+             <para>Select if you want to limit the number of Global Address List (GAL) responses.</para>
+             <para>The GAL contains a list of all email addresses. If you select this option, you need to specify the maximum number of responses.</para>
+            </entry>
+           </row>
+           <row id="raw6">
+            <entry colname="1">
+             <para>Automatically synchronize account locally</para>
+            </entry>
+            <entry colname="2">
+             <para>Select Automatically synchronize remote mail locally to download the messages to your local system.</para>
+            </entry>
+           </row>
+           <row id="raw7">
+            <entry colname="1">
+             <para>Apply filters to new messages in Inbox on this server</para>
+            </entry>
+            <entry colname="2">
+             <para>Select Apply filters to new messages in inbox on this server if you want to apply filters.</para>
+            </entry>
+           </row>
+           <row id="raw8">
+            <entry colname="1">
+             <para>Check new messages for Junk contents</para>
+            </entry>
+            <entry colname="2">
+             <para>Select if you want to check new messages for junk content.</para>
+             <para>For additional information on junk content, see <link linkend="usage-mail-organize-spam">Stopping Junk Mail (Spam)</link> and <link linkend="mail-prefs-junk">Junk</link>.</para>
+            </entry>
+           </row>
+          </tbody>
+         </tgroup>
+        </informaltable>
+        <mediaobject id="evo_mapi"><imageobject><imagedata format="PNG" fileref="figures/evo_exchng_mapi.png"/></imageobject></mediaobject>
+       </listitem>
+       <listitem id="step_2">
+        <para>When you have finished, continue with <link linkend="third-step">Sending Mail</link>.</para>
+       </listitem>
+      </orderedlist>
      </section>
 
      <section id="bstggh0">
@@ -1367,36 +1469,6 @@
       </listitem>
       <listitem id="bsenb3x">
        <para>Click Close.</para>
-      </listitem>
-     </orderedlist>
-     <para>To set your proxy in KDE:</para>
-     <orderedlist>
-      <listitem id="bsenco2">
-       <para>Click the menu icon &gt; System &gt; Configuration &gt; Yast.</para>
-      </listitem>
-      <listitem id="bsendck">
-       <para>Click Network Services, then click Proxy.</para>
-      </listitem>
-      <listitem id="bsendfs">
-       <para>Specify your proxy settings (if you don't know your proxy settings, contact your ISP or system administrator).</para>
-      </listitem>
-      <listitem id="bsfkfjy">
-       <para>Click Finish, then click Close.</para>
-      </listitem>
-     </orderedlist>
-     <para>To set your proxy in GNOME:</para>
-     <orderedlist>
-      <listitem id="bsfkg0z">
-       <para>Click System &gt; Administrative Settings (enter your root password if needed).</para>
-      </listitem>
-      <listitem id="bsfkyen">
-       <para>Click Network Services, then click Proxy.</para>
-      </listitem>
-      <listitem id="bsfkhdi">
-       <para>Specify your proxy settings (if you don't know your proxy settings, contact your ISP or system administrator).</para>
-      </listitem>
-      <listitem id="bsfkhio">
-       <para>Click Finish, then click Close.</para>
       </listitem>
      </orderedlist>
     </section>
@@ -2478,6 +2550,10 @@
      <title>Microsoft Outlook Express 4 (.mbx):</title>
      <para>The email file format used by Microsoft Outlook Express 4. For other versions of Microsoft Outlook and Outlook Express, see the workaround described in <link linkend="bsawgkk">Step 1</link>.</para>
     </formalpara>
+    <formalpara id="pst">
+     <title>Personal Storage Table (.pst):</title>
+     <para>A file format used to store local copies of messages, calendar events, and other items within Microsoft software such as Microsoft Exchange Client, Windows Messaging, and Microsoft Outlook.</para>
+    </formalpara>
     <formalpara id="bsawdfx">
      <title>LDAP Data Interchange Format (.LDIF):</title>
      <para>A standard data format for contact cards.</para>
@@ -2496,6 +2572,10 @@
      </listitem>
      <listitem id="bsawely">
       <para>Select Import a Single File, then click Forward.</para>
+      <mediaobject id="import"><imageobject><imagedata format="PNG" fileref="figures/evo_import.png"/></imageobject></mediaobject>
+     </listitem>
+     <listitem id="biyd1xa">
+      <para>Browse and find the location to save the imported email, then click Forward.</para>
      </listitem>
      <listitem id="bsawey0">
       <para>Select the file to import, then click Forward.</para>
@@ -3890,13 +3970,6 @@
      </listitem>
      <listitem id="b13xyc3r">
       <para>Select Properties to open Calendar Properties dialog box.</para>
-      <para></para>
-      <para></para>
-      <para></para>
-      <para></para>
-      <para></para>
-      <para></para>
-      <para></para>
       <mediaobject id="b13xydyw"><imageobject><imagedata format="PNG" fileref="figures/evo_cal_prop_a.png"/></imageobject></mediaobject>
       
      </listitem>
@@ -3917,6 +3990,12 @@
      <para>To export or share or to store a calendar locally in iCal format, right click on the calendar in the calendar view at the left and select Save to Disk.</para>
     </tip>
     <para>Click Mark as default folder if you want to mark this folder as your default calendar folder.</para>
+    <section id="b1g4s6ns">
+     <title>Weather Calendar</title>
+     <para>In the Properties of a Weather calendar you can specify a location for the weather calender. Click Location to select any world-wide location for the calendar.</para>
+     <mediaobject id="b1g4qrov"><imageobject><imagedata format="PNG" fileref="figures/evo_wcal_prop_a.png"/></imageobject></mediaobject>
+     <para>The temperature for the selected location appears in units as specified at the top of the Calendar view.</para>
+
    </section>
   
    <section id="b1a47igh">
@@ -3968,6 +4047,7 @@
     </orderedlist>
    </section>
   </section>
+  </section>
   <section id="usage-calendar-apts">
    <title>Scheduling With the Evolution Calendar</title>
    <para>There are two types of events you can schedule with Evolution: appointments and meetings. An appointment is an event you schedule for yourself only, and a meeting is an event that you schedule multiple people for. You can also use the busy/free search for meetings to determine the availability of invitees.</para>
@@ -3983,6 +4063,9 @@
     </listitem>
     <listitem>
      <para><link linkend="receiving-rsvp-response">Reading Responses to Meeting Requests</link></para>
+    </listitem>
+    <listitem>
+     <para><link linkend="tool_tip">Tool Tip View</link></para>
     </listitem>
     <listitem>
      <para><link linkend="usage-calendar-freebusy">Using the Free/Busy View</link></para>
@@ -4277,6 +4360,11 @@
    <section id="receiving-rsvp-response">
     <title>Reading Responses to Meeting Requests</title>
     <para>When you get a reply to a meeting invitation you sent, you can view it inline by clicking the attachment and selecting View Inline.</para>
+   </section>
+
+   <section id="tool_tip">
+    <title>Tool Tip View</title>
+    <para>If you are in a hurry and you want to see the details of a meeting, mouse over the meeting in the calendar view. A tool tip appears with the details of the meeting. It will provide the agenda of the meeting, venue and time. If you are the organizer of the meeting, you can also view the status of the attendees, e.g. how many of them have accepted or declined the meeting request.</para>
    </section>
 
    <section id="usage-calendar-freebusy">
@@ -5045,7 +5133,8 @@
 
   <section id="bshlzlu">
    <title>Configuring Time Zones</title>
-   <para>Evolution supports the use of time zones. If you share calendar files with friends or co-workers, you might need to configure your time zone.</para>
+   <para>Evolution supports the use of multiple time zones.</para>
+   <para>If you share calendar files with friends or co-workers, you might need to configure your time zone.</para>
    <orderedlist>
     <listitem id="bsb07m1">
      <para>Click Edit &gt; Preferences, then click Calendar and Tasks.</para>
@@ -6073,7 +6162,15 @@
      </listitem>
      <listitem id="Ak05zcd">
       <para>Click Reply Requested, then specify when you want to receive the reply.</para>
-      <para>If you select When Convenient, then Reply Requested: When Convenient appears at the top of the message. If you select Within x Days, then Reply Requested: By <varname>day month numeric day time year</varname> appears at the top of the message.</para>
+      <formalpara id="bio3ukp">
+       <title>When convenient:</title>
+       <para>Select this option to allow the recipients to reply at their convenience. If you select this option, <emphasis>Reply Requested: When Convenient</emphasis> appears at the top of the message.</para>
+      </formalpara>
+      <formalpara id="bio3ut9">
+       <title>Within days:</title>
+       <para>Specify the number of days by when you need a reply.</para>
+      </formalpara>
+
      </listitem>
      <listitem id="b17qtynu">
       <para>Click Set Expiration Date, then specify the number of days for this message to remain in the recipient's Inbox.</para>
@@ -6520,6 +6617,7 @@
   <section id="bshoq5l">
    <title>Autocompletion</title>
    <para>The Autocompletion tool lets you choose address books to auto-complete names for you in the mail composer. This functionality requires accessibility to each of the address books you want to use. To enable autocompletion, select each of the address books that you want to use auto completion in the Autocompletion page.</para>
+   <para>Select the Always show address of the autocompleted contact check box to show the email address along with the username.</para>
   </section>
 
   <section id="b15fx7uz">
@@ -6819,6 +6917,7 @@
     </listitem>
    </itemizedlist>
 
+   <mediaobject id="b1g4qv16"><imageobject><imagedata format="PNG" fileref="figures/evo_caltasks_a.png"/></imageobject></mediaobject>
    <section id="bshpskx">
     <title>General</title>
     <para>The following options are available:</para>
@@ -6830,6 +6929,11 @@
      <title>Time Format:</title>
      <para>Choose between twelve-hour (AM/PM) and twenty-four-hour time formats.</para>
     </formalpara>
+    <formalpara id="b1g4qvkl">
+     <title>Second Zone:</title>
+     <para>Specify a location for the second time zone.</para>
+    </formalpara>
+    <para>You can view both the time zones in the calendar view.</para>
     <formalpara id="bsbhuut">
      <title>Week Starts:</title>
      <para>Select the day to display as the first in each week.</para>
@@ -6887,6 +6991,7 @@
      <title>Select the Calendars for Alarm Notification:</title>
      <para>Select the calendars for which you want an alarm notification. If you don't select the calendar, you will not have an alarm notification for any event in this calendar.</para>
     </formalpara>
+    <para>Click Dismiss to close the alarm. Click Dismiss All to close all the alarm notifications.</para>
    </section>
 
    <section id="b13yjhw2">
@@ -7021,10 +7126,6 @@
      </tbody>
     </tgroup>
    </informaltable>
-   <formalpara id="b15m65j9">
-    <title>Automatic proxy configuration URL:</title>
-    <para>Specify the automatic proxy configuration URL for Evolution to use in the autoconfig script to configure the proxy.</para>
-   </formalpara>
   </section>
   
   <section id="bshoty0">

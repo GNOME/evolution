@@ -1,3 +1,10 @@
+2009-03-09  Andre Klapper  <a9016009@gmx.de>
+	
+	** Committed on behalf of PC Radhika <pradhika@novell.com>
+
+	* C/evolution.xml: Updated user documentation by Radhika after some 
+	review by hggdh and me.
+
 2009-03-08  David Planella  <david.planella@gmail.com>
 
 	Added Catalan translation of the Evolution quick reference
