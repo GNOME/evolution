@@ -130,6 +130,11 @@ gboolean	e_attachment_bar_get_editable	(EAttachmentBar *attachment_bar);
 void		e_attachment_bar_set_editable	(EAttachmentBar *attachment_bar,
 						 gboolean editable);
 GtkUIManager *	e_attachment_bar_get_ui_manager	(EAttachmentBar *attachment_bar);
+GtkAction *	e_attachment_bar_get_action	(EAttachmentBar *attachment_bar,
+						 const gchar *action_name);
+GtkActionGroup *e_attachment_bar_get_action_group
+						(EAttachmentBar *attachment_bar,
+						 const gchar *group_name);
 
 G_END_DECLS
 

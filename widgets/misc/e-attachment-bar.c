@@ -1261,11 +1261,9 @@ attachment_bar_key_press_event (GtkWidget *widget,
 	editable = e_attachment_bar_get_editable (attachment_bar);
 
 	if (editable && event->keyval == GDK_Delete) {
-		GtkActionGroup *action_group;
 		GtkAction *action;
 
-		action_group = attachment_bar->priv->editable_actions;
-		action = gtk_action_group_get_action (action_group, "remove");
+		action = e_attachment_bar_get_action (attachment_bar, "remove");
 		gtk_action_activate (action);
 	}
 
@@ -1375,27 +1373,22 @@ attachment_bar_update_actions (EAttachmentBar *attachment_bar)
 		is_image = e_attachment_is_image (attachment);
 	}
 
-	ui_manager = e_attachment_bar_get_ui_manager (attachment_bar);
-
-	action_group = attachment_bar->priv->standard_actions;
-
-	action = gtk_action_group_get_action (action_group, "save-as");
-	gtk_action_set_visible (action, n_selected > 0);
-
-	action = gtk_action_group_get_action (action_group, "set-background");
-	gtk_action_set_visible (action, is_image);
-
-	action_group = attachment_bar->priv->editable_actions;
-
-	action = gtk_action_group_get_action (action_group, "properties");
+	action = e_attachment_bar_get_action (attachment_bar, "properties");
 	gtk_action_set_visible (action, n_selected == 1);
 
-	action = gtk_action_group_get_action (action_group, "remove");
+	action = e_attachment_bar_get_action (attachment_bar, "remove");
 	gtk_action_set_visible (action, n_selected > 0);
 
-	action_group = attachment_bar->priv->open_actions;
+	action = e_attachment_bar_get_action (attachment_bar, "save-as");
+	gtk_action_set_visible (action, n_selected > 0);
 
+	action = e_attachment_bar_get_action (attachment_bar, "set-background");
+	gtk_action_set_visible (action, is_image);
+
+	/* Clear out the "open" action group. */
 	merge_id = attachment_bar->priv->merge_id;
+	action_group = attachment_bar->priv->open_actions;
+	ui_manager = e_attachment_bar_get_ui_manager (attachment_bar);
 	gtk_ui_manager_remove_ui (ui_manager, merge_id);
 	e_action_group_remove_all_actions (action_group);
 
@@ -2217,4 +2210,32 @@ e_attachment_bar_get_ui_manager (EAttachmentBar *attachment_bar)
 	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (attachment_bar), NULL);
 
 	return attachment_bar->priv->ui_manager;
+}
+
+GtkAction *
+e_attachment_bar_get_action (EAttachmentBar *attachment_bar,
+                             const gchar *action_name)
+{
+	GtkUIManager *ui_manager;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (attachment_bar), NULL);
+	g_return_val_if_fail (action_name != NULL, NULL);
+
+	ui_manager = e_attachment_bar_get_ui_manager (attachment_bar);
+
+	return e_lookup_action (ui_manager, action_name);
+}
+
+GtkActionGroup *
+e_attachment_bar_get_action_group (EAttachmentBar *attachment_bar,
+                                   const gchar *group_name)
+{
+	GtkUIManager *ui_manager;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (attachment_bar), NULL);
+	g_return_val_if_fail (group_name != NULL, NULL);
+
+	ui_manager = e_attachment_bar_get_ui_manager (attachment_bar);
+
+	return e_lookup_action_group (ui_manager, group_name);
 }

@@ -988,7 +988,7 @@ op_status_exec (struct _op_status_msg *m)
 			}
 
 			data->activity = e_activity_new (what);
-			e_activity_set_cancellable (data->activity, TRUE);
+			e_activity_set_allow_cancel (data->activity, TRUE);
 			e_activity_set_percent (data->activity, 0.0);
 			e_shell_module_add_activity (mail_shell_module, data->activity);
 

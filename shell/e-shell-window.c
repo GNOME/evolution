@@ -555,29 +555,13 @@ e_shell_window_get_action (EShellWindow *shell_window,
                            const gchar *action_name)
 {
 	GtkUIManager *ui_manager;
-	GtkAction *action = NULL;
-	GList *iter;
 
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
 	g_return_val_if_fail (action_name != NULL, NULL);
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	iter = gtk_ui_manager_get_action_groups (ui_manager);
 
-	while (iter != NULL) {
-		GtkActionGroup *action_group = iter->data;
-
-		action = gtk_action_group_get_action (
-			action_group, action_name);
-		if (action != NULL)
-			return action;
-
-		iter = g_list_next (iter);
-	}
-
-	g_critical ("%s: action `%s' not found", G_STRFUNC, action_name);
-
-	return NULL;
+	return e_lookup_action (ui_manager, action_name);
 }
 
 /**
@@ -596,28 +580,13 @@ e_shell_window_get_action_group (EShellWindow *shell_window,
                                  const gchar *group_name)
 {
 	GtkUIManager *ui_manager;
-	GList *iter;
 
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
 	g_return_val_if_fail (group_name != NULL, NULL);
 
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
-	iter = gtk_ui_manager_get_action_groups (ui_manager);
 
-	while (iter != NULL) {
-		GtkActionGroup *action_group = iter->data;
-		const gchar *name;
-
-		name = gtk_action_group_get_name (action_group);
-		if (strcmp (name, group_name) == 0)
-			return action_group;
-
-		iter = g_list_next (iter);
-	}
-
-	g_critical ("%s: action group `%s' not found", G_STRFUNC, group_name);
-
-	return NULL;
+	return e_lookup_action_group (ui_manager, group_name);
 }
 
 /**

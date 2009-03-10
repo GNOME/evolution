@@ -74,12 +74,12 @@ void		e_activity_clicked		(EActivity *activity);
 gchar *		e_activity_describe		(EActivity *activity);
 gboolean	e_activity_is_cancelled		(EActivity *activity);
 gboolean	e_activity_is_completed		(EActivity *activity);
+gboolean	e_activity_get_allow_cancel	(EActivity *activity);
+void		e_activity_set_allow_cancel	(EActivity *activity,
+						 gboolean allow_cancel);
 gboolean	e_activity_get_blocking		(EActivity *activity);
 void		e_activity_set_blocking		(EActivity *activity,
 						 gboolean blocking);
-gboolean	e_activity_get_cancellable	(EActivity *activity);
-void		e_activity_set_cancellable	(EActivity *activity,
-						 gboolean cancellable);
 gboolean	e_activity_get_clickable	(EActivity *activity);
 void		e_activity_set_clickable	(EActivity *activity,
 						 gboolean clickable);

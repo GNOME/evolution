@@ -95,7 +95,7 @@ test_shell_view_constructed (GObject *object)
 	gtk_widget_show (widget);
 
 	activity = e_activity_new ("Test Activity");
-	e_activity_set_cancellable (activity, TRUE);
+	e_activity_set_allow_cancel (activity, TRUE);
 	e_shell_module_add_activity (shell_module, activity);
 	priv->activity = activity;
 }

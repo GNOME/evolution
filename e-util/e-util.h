@@ -48,6 +48,10 @@ void		e_display_help			(GtkWindow *parent,
 						 const gchar *link_id);
 gint		e_file_open_tmp			(gchar **name_used,
 						 GError **error);
+GtkAction *	e_lookup_action			(GtkUIManager *ui_manager,
+						 const gchar *action_name);
+GtkActionGroup *e_lookup_action_group		(GtkUIManager *ui_manager,
+						 const gchar *group_name);
 guint		e_load_ui_definition		(GtkUIManager *ui_manager,
 						 const gchar *basename);
 gint		e_action_compare_by_label	(GtkAction *action1,

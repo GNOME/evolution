@@ -33,8 +33,8 @@ struct _EActivityPrivate {
 	gchar *secondary_text;
 	gdouble percent;
 
+	guint allow_cancel	: 1;
 	guint blocking		: 1;
-	guint cancellable	: 1;
 	guint cancelled		: 1;
 	guint clickable		: 1;
 	guint completed		: 1;
@@ -42,8 +42,8 @@ struct _EActivityPrivate {
 
 enum {
 	PROP_0,
+	PROP_ALLOW_CANCEL,
 	PROP_BLOCKING,
-	PROP_CANCELLABLE,
 	PROP_CLICKABLE,
 	PROP_ICON_NAME,
 	PROP_PERCENT,
@@ -68,14 +68,14 @@ activity_set_property (GObject *object,
                        GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_BLOCKING:
-			e_activity_set_blocking (
+		case PROP_ALLOW_CANCEL:
+			e_activity_set_allow_cancel (
 				E_ACTIVITY (object),
 				g_value_get_boolean (value));
 			return;
 
-		case PROP_CANCELLABLE:
-			e_activity_set_cancellable (
+		case PROP_BLOCKING:
+			e_activity_set_blocking (
 				E_ACTIVITY (object),
 				g_value_get_boolean (value));
 			return;
@@ -121,15 +121,15 @@ activity_get_property (GObject *object,
                        GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_BLOCKING:
+		case PROP_ALLOW_CANCEL:
 			g_value_set_boolean (
-				value, e_activity_get_blocking (
+				value, e_activity_get_allow_cancel (
 				E_ACTIVITY (object)));
 			return;
 
-		case PROP_CANCELLABLE:
+		case PROP_BLOCKING:
 			g_value_set_boolean (
-				value, e_activity_get_cancellable (
+				value, e_activity_get_blocking (
 				E_ACTIVITY (object)));
 			return;
 
@@ -256,23 +256,23 @@ activity_class_init (EActivityClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_ALLOW_CANCEL,
+		g_param_spec_boolean (
+			"allow-cancel",
+			NULL,
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_BLOCKING,
 		g_param_spec_boolean (
 			"blocking",
 			NULL,
 			NULL,
 			TRUE,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_CANCELLABLE,
-		g_param_spec_boolean (
-			"cancellable",
-			NULL,
-			NULL,
-			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
@@ -405,7 +405,7 @@ void
 e_activity_cancel (EActivity *activity)
 {
 	g_return_if_fail (E_IS_ACTIVITY (activity));
-	g_return_if_fail (activity->priv->cancellable);
+	g_return_if_fail (activity->priv->allow_cancel);
 
 	if (activity->priv->cancelled)
 		return;
@@ -468,6 +468,25 @@ e_activity_is_completed (EActivity *activity)
 }
 
 gboolean
+e_activity_get_allow_cancel (EActivity *activity)
+{
+	g_return_val_if_fail (E_IS_ACTIVITY (activity), FALSE);
+
+	return activity->priv->allow_cancel;
+}
+
+void
+e_activity_set_allow_cancel (EActivity *activity,
+                            gboolean allow_cancel)
+{
+	g_return_if_fail (E_IS_ACTIVITY (activity));
+
+	activity->priv->allow_cancel = allow_cancel;
+
+	g_object_notify (G_OBJECT (activity), "allow-cancel");
+}
+
+gboolean
 e_activity_get_blocking (EActivity *activity)
 {
 	g_return_val_if_fail (E_IS_ACTIVITY (activity), FALSE);
@@ -484,25 +503,6 @@ e_activity_set_blocking (EActivity *activity,
 	activity->priv->blocking = blocking;
 
 	g_object_notify (G_OBJECT (activity), "blocking");
-}
-
-gboolean
-e_activity_get_cancellable (EActivity *activity)
-{
-	g_return_val_if_fail (E_IS_ACTIVITY (activity), FALSE);
-
-	return activity->priv->cancellable;
-}
-
-void
-e_activity_set_cancellable (EActivity *activity,
-                            gboolean cancellable)
-{
-	g_return_if_fail (E_IS_ACTIVITY (activity));
-
-	activity->priv->cancellable = cancellable;
-
-	g_object_notify (G_OBJECT (activity), "cancellable");
 }
 
 gboolean

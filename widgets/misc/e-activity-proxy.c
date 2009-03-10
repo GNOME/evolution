@@ -49,14 +49,14 @@ activity_proxy_update (EActivityProxy *proxy)
 {
 	EActivity *activity = proxy->priv->activity;
 	const gchar *icon_name;
-	gboolean cancellable;
+	gboolean allow_cancel;
 	gboolean cancelled;
 	gboolean clickable;
 	gboolean completed;
 	gboolean sensitive;
 	gchar *description;
 
-	cancellable = e_activity_get_cancellable (activity);
+	allow_cancel = e_activity_get_allow_cancel (activity);
 	cancelled = e_activity_is_cancelled (activity);
 	clickable = e_activity_get_clickable (activity);
 	completed = e_activity_is_completed (activity);
@@ -91,7 +91,7 @@ activity_proxy_update (EActivityProxy *proxy)
 		gtk_widget_hide (proxy->priv->image);
 	}
 
-	if (cancellable)
+	if (allow_cancel)
 		gtk_widget_show (proxy->priv->cancel);
 	else
 		gtk_widget_hide (proxy->priv->cancel);

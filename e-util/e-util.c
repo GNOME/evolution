@@ -213,6 +213,86 @@ e_file_open_tmp (gchar **name_used,
 }
 
 /**
+ * e_lookup_action:
+ * @ui_manager: a #GtkUIManager
+ * @action_name: the name of an action
+ *
+ * Returns the first #GtkAction named @action_name by traversing the
+ * list of action groups in @ui_manager.  If no such action exists, the
+ * function emits a critical warning before returning %NULL, since this
+ * probably indicates a programming error and most code is not prepared
+ * to deal with lookup failures.
+ *
+ * Returns: the first #GtkAction named @action_name
+ **/
+GtkAction *
+e_lookup_action (GtkUIManager *ui_manager,
+                 const gchar *action_name)
+{
+	GtkAction *action = NULL;
+	GList *iter;
+
+	g_return_val_if_fail (GTK_IS_UI_MANAGER (ui_manager), NULL);
+	g_return_val_if_fail (action_name != NULL, NULL);
+
+	iter = gtk_ui_manager_get_action_groups (ui_manager);
+
+	while (iter != NULL) {
+		GtkActionGroup *action_group = iter->data;
+
+		action = gtk_action_group_get_action (
+			action_group, action_name);
+		if (action != NULL)
+			return action;
+
+		iter = g_list_next (iter);
+	}
+
+	g_critical ("%s: action `%s' not found", G_STRFUNC, action_name);
+
+	return NULL;
+}
+
+/**
+ * e_lookup_action_group:
+ * @ui_manager: a #GtkUIManager
+ * @group_name: the name of an action group
+ *
+ * Returns the #GtkActionGroup in @ui_manager named @group_name.  If no
+ * such action group exists, the function emits a critical warnings before
+ * returning %NULL, since this probably indicates a programming error and
+ * most code is not prepared to deal with lookup failures.
+ *
+ * Returns: the #GtkActionGroup named @group_name
+ **/
+GtkActionGroup *
+e_lookup_action_group (GtkUIManager *ui_manager,
+                       const gchar *group_name)
+{
+	GList *iter;
+
+	g_return_val_if_fail (GTK_IS_UI_MANAGER (ui_manager), NULL);
+	g_return_val_if_fail (group_name != NULL, NULL);
+
+	iter = gtk_ui_manager_get_action_groups (ui_manager);
+
+	while (iter != NULL) {
+		GtkActionGroup *action_group = iter->data;
+		const gchar *name;
+
+		name = gtk_action_group_get_name (action_group);
+		if (strcmp (name, group_name) == 0)
+			return action_group;
+
+		iter = g_list_next (iter);
+	}
+
+	g_critical ("%s: action group `%s' not found", G_STRFUNC, group_name);
+
+	return NULL;
+}
+
+/**
  * e_load_ui_definition:
  * @ui_manager: a #GtkUIManager
  * @basename: basename of the UI definition file
