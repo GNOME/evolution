@@ -3993,7 +3993,7 @@
     <section id="b1g4s6ns">
      <title>Weather Calendar</title>
      <para>In the Properties of a Weather calendar you can specify a location for the weather calender. Click Location to select any world-wide location for the calendar.</para>
-     <mediaobject id="b1g4qrov"><imageobject><imagedata format="PNG" fileref="figures/evo_wcal_prop_a.png"/></imageobject></mediaobject>
+     <mediaobject id="b1g4qrov"><imageobject><imagedata format="PNG" fileref="figures/evo_Wcal_prop_a.png"/></imageobject></mediaobject>
      <para>The temperature for the selected location appears in units as specified at the top of the Calendar view.</para>
 
    </section>

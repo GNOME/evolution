@@ -1,3 +1,8 @@
+2009-03-10  Bharath Acharya  <abharath@novell.com>
+
+	* C/evolution.xml: Fixed the warning. Maybe we'll never miss
+	anything once we have the check provided by #574786
+
 2009-03-10  Philip Withnall  <philip@tecnocode.co.uk>
 
 	* en_GB/en_GB.po: Updated British English translation.
