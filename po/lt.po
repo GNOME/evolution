@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-03-08 01:28+0200\n"
-"PO-Revision-Date: 2009-03-08 01:29+0200\n"
+"PO-Revision-Date: 2009-03-11 01:21+0200\n"
 "Last-Translator: Žygimantas Beručka <zygis@gnome.org>\n"
 "Language-Team: Lithuanian <gnome-lt@lists.akl.lt>\n"
 "MIME-Version: 1.0\n"
@@ -6292,7 +6292,7 @@ msgstr "_Perkelti"
 #: ../calendar/gui/dialogs/comp-editor.c:490 ../composer/e-msg-composer.c:2075
 #: ../mail/em-folder-tree.c:1008 ../mail/message-list.c:2108
 msgid "Cancel _Drag"
-msgstr "Atšaukti _tempimą"
+msgstr "Atsisakyti _tempimo"
 
 #: ../calendar/gui/dialogs/comp-editor.c:623
 #: ../calendar/gui/dialogs/comp-editor.c:3316 ../mail/em-utils.c:373
