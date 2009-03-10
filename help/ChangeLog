@@ -1,3 +1,8 @@
+2009-03-10  Jorge Gonzalez  <jorgegonz@svn.gnome.org>
+
+	* es/es.po: Updated Spanish translation.
+	* es/figures/*.png: Added screenshots.
+
 2009-03-10  Bharath Acharya  <abharath@novell.com>
 
 	* C/evolution.xml: Fixed the warning. Maybe we'll never miss

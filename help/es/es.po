@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
-"POT-Creation-Date: 2009-03-09 03:31+0000\n"
-"PO-Revision-Date: 2009-03-10 00:25+0100\n"
+"POT-Creation-Date: 2009-03-10 17:02+0000\n"
+"PO-Revision-Date: 2009-03-10 18:28+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -56,8 +56,6 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:570(None)
-#| msgid ""
-#| "@@image: 'figures/evo_labels_a.png'; md5=847d1bebd5d64b9f63e14d6d88f741de"
 msgid ""
 "@@image: 'figures/evo_exchng_mapi.png'; md5=9db32b54e61860f405bf574c6d884bbe"
 msgstr ""
@@ -313,8 +311,6 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:2575(None)
-#| msgid ""
-#| "@@image: 'figures/evo_newmail.png'; md5=426590d03b7b0bc88b16cc61b2ec1000"
 msgid "@@image: 'figures/evo_import.png'; md5=e646910f62cd51db9b88edeb336bac6b"
 msgstr ""
 "@@image: 'figures/evo_import.png'; md5=e646910f62cd51db9b88edeb336bac6b"
@@ -472,8 +468,10 @@ msgstr ""
 #| msgid ""
 #| "@@image: 'figures/evo_cal_prop_a.png'; "
 #| "md5=f28511f098847b4fc9278ba6c54c9c3d"
-msgid "@@image: 'figures/evo_wcal_prop_a.png'; md5=THIS FILE DOESN'T EXIST"
-msgstr "@@image: 'figures/evo_wcal_prop_a.png'; md5=THIS FILE DOESN'T EXIST"
+msgid ""
+"@@image: 'figures/evo_Wcal_prop_a.png'; md5=dcd10f32a1ac7cbcb44d67e1a4b71a78"
+msgstr ""
+"@@image: 'figures/evo_Wcal_prop_a.png'; md5=dcd10f32a1ac7cbcb44d67e1a4b71a78"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -770,8 +768,6 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:6920(None)
-#| msgid ""
-#| "@@image: 'figures/evo_cal_a.png'; md5=08a60dd21a8c52bace4a9d1d606b3ff5"
 msgid ""
 "@@image: 'figures/evo_caltasks_a.png'; md5=6f417a9d9081d2a5ebaeb52a32156bcf"
 msgstr ""
@@ -808,7 +804,6 @@ msgid "Novell, Inc"
 msgstr "Novell, Inc"
 
 #: C/evolution.xml:24(date)
-#| msgid "2002-2008"
 msgid "2002-2009"
 msgstr "2002-2009"
 
@@ -818,7 +813,6 @@ msgid "2.24"
 msgstr "2.24"
 
 #: C/evolution.xml:30(date)
-#| msgid "March 2008"
 msgid "March 2009"
 msgstr "Marzo de 2009"
 
@@ -1242,10 +1236,6 @@ msgid "Microsoft Exchange:"
 msgstr "Microsoft Exchange:"
 
 #: C/evolution.xml:276(para)
-#| msgid ""
-#| "Available only if you have installed the Connector for Microsoft* "
-#| "Exchange. Select this option if you connect to a Microsoft Exchange 2000 "
-#| "or 2003 server."
 msgid ""
 "Available only if the evolution-exchange package is installed. Select this "
 "option if you connect to a Microsoft Exchange 2000 or 2003 server."
@@ -1260,15 +1250,10 @@ msgstr ""
 "servidor."
 
 #: C/evolution.xml:281(title)
-#| msgid "Microsoft Exchange:"
 msgid "MAPI Exchange:"
 msgstr "Exchange MAPI:"
 
 #: C/evolution.xml:282(para)
-#| msgid ""
-#| "Available only if you have installed the Connector for Microsoft* "
-#| "Exchange. Select this option if you connect to a Microsoft Exchange 2000 "
-#| "or 2003 server."
 msgid ""
 "Available only if you have installed the evolution-mapi package and if the "
 "Exchange MAPI plugin from the Edit &gt; Plugins menu is enabled. It allows "
@@ -1775,14 +1760,10 @@ msgstr ""
 "Evolution envía un mensaje de contraseña caducada."
 
 #: C/evolution.xml:488(title)
-#| msgid "IMAP Receiving Options"
 msgid "Exchange MAPI Receiving Options"
 msgstr "Opciones de recepción Exchange MAPI"
 
 #: C/evolution.xml:489(para)
-#| msgid ""
-#| "If you select Microsoft Exchange as your receiving server type, you need "
-#| "to specify the following options:"
 msgid ""
 "If you select Microsoft Exchange MAPI as your receiving server type, you "
 "need to specify the following options:"
@@ -1791,7 +1772,6 @@ msgstr ""
 "para recepción, necesitará especificar la siguiente información:"
 
 #: C/evolution.xml:492(para)
-#| msgid "Select the file to import, then click Forward."
 msgid ""
 "Select the desired options as given in the following table, then click "
 "Forward."
@@ -1800,7 +1780,6 @@ msgstr ""
 "tabla, después pulse Adelante."
 
 #: C/evolution.xml:500(para)
-#| msgid "Send Options"
 msgid "Options"
 msgstr "Opciones"
 
@@ -1814,9 +1793,6 @@ msgid "Check for new messages every x minutes"
 msgstr "Comprobar los mensajes nuevos cada x minutos"
 
 #: C/evolution.xml:513(para)
-#| msgid ""
-#| "If you select this option, you need to specify how often Evolution should "
-#| "check for new messages."
 msgid ""
 "Select this option if you want Evolution to automatically check for new "
 "mail. If you select this option, you need to specify how often Evolution "
@@ -1827,7 +1803,6 @@ msgstr ""
 "frecuencia debe Evolution comprobar si hay mensajes nuevos."
 
 #: C/evolution.xml:518(para)
-#| msgid "Select if you want to check for new messages in all folders."
 msgid "Check for new messages in all folders"
 msgstr "Comprobar si hay mensajes nuevos en todas las carpetas"
 
@@ -1844,15 +1819,11 @@ msgid "Automatically synchronize account locally"
 msgstr "Sincronizar automáticamente la cuenta localmente"
 
 #: C/evolution.xml:552(para)
-#| msgid ""
-#| "Select Apply filters to new messages in inbox on this server if you want "
-#| "to apply filters."
 msgid "Apply filters to new messages in Inbox on this server"
 msgstr ""
 "Aplicar filtros en mensajes nuevos en la Bandeja de entrada en este servidor"
 
 #: C/evolution.xml:560(para)
-#| msgid "Select if you want to check new messages for junk content."
 msgid "Check new messages for Junk contents"
 msgstr "Comprobar si el contenido de los mensajes nuevos es SPAM"
 
@@ -6305,7 +6276,6 @@ msgid "Select Import a Single File, then click Forward."
 msgstr "Seleccione Importar un único archivo, después pulse Siguiente."
 
 #: C/evolution.xml:2578(para)
-#| msgid "Select the file to import, then click Forward."
 msgid ""
 "Browse and find the location to save the imported email, then click Forward."
 msgstr ""
@@ -9287,7 +9257,6 @@ msgstr ""
 "su carpeta predeterminada para los calendarios."
 
 #: C/evolution.xml:3994(title)
-#| msgid "The Calendar"
 msgid "Weather Calendar"
 msgstr "Calendario meteorológico"
 
@@ -10773,9 +10742,6 @@ msgid "Evolution supports the use of multiple time zones."
 msgstr "Evolution soporta el uso de varias zonas horarias."
 
 #: C/evolution.xml:5137(para)
-#| msgid ""
-#| "Evolution supports the use of time zones. If you share calendar files "
-#| "with friends or co-workers, you might need to configure your time zone."
 msgid ""
 "If you share calendar files with friends or co-workers, you might need to "
 "configure your time zone."
@@ -12474,7 +12440,6 @@ msgstr ""
 "Cuando convenga</emphasis> aparecerá en la parte superior del mensaje."
 
 #: C/evolution.xml:6170(title)
-#| msgid "Birthday"
 msgid "Within days:"
 msgstr "Dentro de (días):"
 
@@ -14140,17 +14105,14 @@ msgid "Choose between twelve-hour (AM/PM) and twenty-four-hour time formats."
 msgstr "Elija entre el formato de doce horas (AM/PM) o de veinticuatro horas."
 
 #: C/evolution.xml:6933(title)
-#| msgid "Send Options:"
 msgid "Second Zone:"
 msgstr "Segunda zona:"
 
 #: C/evolution.xml:6934(para)
-#| msgid "Specify the publishing location for the upload server."
 msgid "Specify a location for the second time zone."
 msgstr "Especifique una ubicación para la segunda zona horaria."
 
 #: C/evolution.xml:6936(para)
-#| msgid "You can view the desired items listed in the Calendar view."
 msgid "You can view both the time zones in the calendar view."
 msgstr "Puede ver ambas zonas horarias en la vista del calendario."
 
@@ -16207,6 +16169,12 @@ msgid "translator-credits"
 msgstr ""
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2009\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
+
+#~| msgid ""
+#~| "@@image: 'figures/evo_cal_prop_a.png'; "
+#~| "md5=f28511f098847b4fc9278ba6c54c9c3d"
+#~ msgid "@@image: 'figures/evo_wcal_prop_a.png'; md5=THIS FILE DOESN'T EXIST"
+#~ msgstr "@@image: 'figures/evo_wcal_prop_a.png'; md5=THIS FILE DOESN'T EXIST"
 
 #~ msgid "To set your proxy in KDE:"
 #~ msgstr "Para establecer su proxy en KDE:"
