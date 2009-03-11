@@ -1102,7 +1102,7 @@ msgstr "Novell GroupWise:"
 msgid ""
 "Select this option if you connect to a Novell <trademark class=\"registered"
 "\">GroupWise</trademark> server."
-msgstr ""
+msgstr "Wählen Sie diese Option, wenn Sie eine Verbindung zu einem Novell <trademark class=\"registered\">GroupWise</trademark>-Server herstellen möchten."
 
 #: C/evolution.xml:273(para) C/evolution.xml:279(para)
 #: C/evolution.xml:289(para) C/evolution.xml:294(para)
@@ -1122,7 +1122,7 @@ msgstr "Microsoft Exchange:"
 msgid ""
 "Available only if the evolution-exchange package is installed. Select this "
 "option if you connect to a Microsoft Exchange 2000 or 2003 server."
-msgstr ""
+msgstr "Dies ist nur verfügbar, wenn das Paket evolution-exchange installiert ist. Wählen Sie diese Option, wenn Sie eine Verbindung zu einem Microsoft Exchange 2000 or 2003-Server herstellen möchten."
 
 #: C/evolution.xml:278(para) C/evolution.xml:284(para)
 msgid "Email, calendar, and contact information are stored on the server."
@@ -1138,7 +1138,7 @@ msgid ""
 "Available only if you have installed the evolution-mapi package and if the "
 "Exchange MAPI plugin from the Edit &gt; Plugins menu is enabled. It allows "
 "you to connect to a Microsoft Exchange 2007 server."
-msgstr ""
+msgstr "Dies ist nur verfügbar, wenn das Paket evolution-mapi installiert ist und das Exchange MAPI-Plugin unter Bearbeiten &gt; Plugins aktiviert ist. Wählen Sie diese Option, wenn Sie eine Verbindung zu einem Microsoft Exchange 2007-Server herstellen möchten."
 
 #: C/evolution.xml:286(title)
 msgid "IMAP:"
@@ -1211,11 +1211,12 @@ msgstr "E-Mail-Verzeichnisse im MH-Format"
 msgid ""
 "If you download your email using MH or another MH-style program, you should "
 "use this option."
-msgstr ""
+msgstr "Wählen Sie diese Option falls Sie E-Mails per MH oder durch eine MH-gleiche Anwendung "
+"herunterladen möchten."
 
 #: C/evolution.xml:309(para) C/evolution.xml:315(para)
 msgid "You need to provide the path to the mail directory you want to use."
-msgstr ""
+msgstr "Hierfür müssen Sie den Pfad zum Mail-Verzeichnis angeben, das benutzt werden soll."
 
 #: C/evolution.xml:312(title)
 msgid "Maildir Format Mail Directories:"
@@ -1225,7 +1226,8 @@ msgstr "E-Mail-Verzeichnisse im Maildir-Format"
 msgid ""
 "If you download your email using Qmail or another Maildir-style program, you "
 "should use this option."
-msgstr ""
+msgstr "Wählen Sie diese Option falls Sie E-Mails per Qmail oder durch eine Maildir-gleiche Anwendung "
+"herunterladen möchten."
 
 #: C/evolution.xml:318(title)
 msgid "Standard Unix mbox Spool File:"
@@ -1239,7 +1241,7 @@ msgid ""
 msgstr ""
 "Wählen Sie diese Option falls Sie E-Mails in der E-Mail-Spool-Datei ihres "
 "lokalen Systems lesen und speichern möchten. Hierfür müssen Sie den Pfad zur "
-"Spool-Datei angeben, der benutzt werden soll."
+"Spool-Datei angeben, die benutzt werden soll."
 
 #: C/evolution.xml:323(title)
 msgid "Standard Unix mbox Spool Directory:"
@@ -1253,7 +1255,7 @@ msgid ""
 msgstr ""
 "Wählen Sie diese Option falls Sie E-Mails im E-Mail-Spool-Verzeichnis ihres "
 "lokalen Systems lesen und speichern möchten. Hierfür müssen Sie den Pfad zum "
-"Spool-Verzeichnis angeben, der benutzt werden soll."
+"Spool-Verzeichnis angeben, das benutzt werden soll."
 
 #: C/evolution.xml:328(title) C/evolution.xml:5549(title)
 msgid "None:"
@@ -1453,7 +1455,7 @@ msgstr "Empfangsoptionen für Standard-Unix-mbox-Spool-Datei"
 #: C/evolution.xml:685(para) C/evolution.xml:705(para)
 #: C/evolution.xml:748(para)
 msgid "You need to specify the following options for this server type:"
-msgstr ""
+msgstr "Sie müssen die folgende Optionen für diesen Server-Typen angeben:"
 
 #: C/evolution.xml:411(para) C/evolution.xml:452(para)
 #: C/evolution.xml:584(para) C/evolution.xml:628(para)
@@ -1671,20 +1673,15 @@ msgstr "Beschreibung"
 
 #: C/evolution.xml:510(para)
 msgid "Check for new messages every x minutes"
-msgstr ""
+msgstr "Automatisch nach neuen E-Mails sehen alle x Minuten"
 
 #: C/evolution.xml:513(para)
-#, fuzzy
-#| msgid ""
-#| "If you select this option, you need to specify how often Evolution should "
-#| "check for new messages."
 msgid ""
 "Select this option if you want Evolution to automatically check for new "
 "mail. If you select this option, you need to specify how often Evolution "
 "should check for new messages."
 msgstr ""
-"Falls Sie diese Option wählen müssen Sie angeben, wie oft Evolution nach "
-"neuen Nachrichten schauen soll."
+"Wählen Sie diese Option falls Evolution automatisch nach neuen Nachrichten schauen soll. Falls Sie diese Option wählen müssen Sie angeben, wie oft Evolution nach neuen Nachrichten schauen soll."
 
 #: C/evolution.xml:518(para)
 msgid "Check for new messages in all folders"
@@ -1697,11 +1694,11 @@ msgstr ""
 
 #: C/evolution.xml:535(para)
 msgid "Limit number of GAL responses"
-msgstr ""
+msgstr "Anzahl der GAL-Antworten begrenzen"
 
 #: C/evolution.xml:544(para)
 msgid "Automatically synchronize account locally"
-msgstr ""
+msgstr "Konto automatisch lokal abgleichen"
 
 #: C/evolution.xml:552(para)
 msgid "Apply filters to new messages in Inbox on this server"
@@ -15636,229 +15633,3 @@ msgstr ""
 #: C/evolution.xml:0(None)
 msgid "translator-credits"
 msgstr "Andre Klapper <ak-47@gmx.net>, 2007, 2008, 2009"
-
-#~ msgid ""
-#~ "Select this option if you connect to Novell <trademark class=\"registered"
-#~ "\">GroupWise</trademark>. Novell GroupWise keeps email, calendar, and "
-#~ "contact information on the server. For configuration instructions, see "
-#~ "<link linkend=\"bstfw13\">Remote Configuration Options</link>."
-#~ msgstr ""
-#~ "Wählen Sie diese Option, falls Sie sich mit Novell <trademark class="
-#~ "\"registered\">GroupWise</trademark> verbinden wollen. Novell GroupWise "
-#~ "behält E-Mails, Kalender- und Kontaktinformationen auf dem Server. Für "
-#~ "Anleitungen zur Konfiguration siehe <link linkend=\"bstfw13\">Fernzugriff-"
-#~ "Einstellungsoptionen</link>."
-
-#~ msgid ""
-#~ "Available only if you have installed the Connector for Microsoft* "
-#~ "Exchange. It allows you to connect to a Microsoft Exchange 2000 or 2003 "
-#~ "server, which stores email, calendar, and contact information on the "
-#~ "server. For configuration instructions, see <link linkend=\"bstfw13"
-#~ "\">Remote Configuration Options</link>."
-#~ msgstr ""
-#~ "Nur verfügbar, falls der Evolution-Connector für Microsoft* Exchange "
-#~ "installiert ist. Wählen Sie diese Option, falls Sie sich mit einem "
-#~ "Microsoft Exchange 2000- oder 2003-Server verbinden wollen, welcher E-"
-#~ "Mails, Kalender- und Kontaktinformationen auf dem Server behält. Für "
-#~ "Anleitungen zur Konfiguration siehe <link linkend=\"bstfw13\">Fernzugriff-"
-#~ "Einstellungsoptionen</link>."
-
-#~ msgid ""
-#~ "If you download your email using MH or another MH-style program, you "
-#~ "should use this option. You need to provide the path to the mail "
-#~ "directory you want to use. For configuration instructions, see <link "
-#~ "linkend=\"bstgbqn\">Local Configuration Options</link>."
-#~ msgstr ""
-#~ "Wählen Sie diese Option falls Sie E-Mails per MH oder durch ein anderes "
-#~ "MH-benutzendes Programm herunterladen wollen. Hierfür müssen Sie den Pfad "
-#~ "zum E-Mail-Verzeichnis angeben, welches benutzt werden soll. Für eine "
-#~ "Anleitung zu den Einstellungen siehe <link linkend=\"bstgbqn\">Lokale "
-#~ "Konfigurationseinstellungen</link>."
-
-#~ msgid ""
-#~ "If you download your email using Qmail or another Maildir-style program, "
-#~ "you should use this option. You need to provide the path to the mail "
-#~ "directory you want to use. For configuration instructions, see <link "
-#~ "linkend=\"bstgbqn\">Local Configuration Options</link>."
-#~ msgstr ""
-#~ "Wählen Sie diese Option falls Sie E-Mails per Qmail oder durch ein "
-#~ "anderes Maildir-benutzendes Programm herunterladen wollen. Hierfür müssen "
-#~ "Sie den Pfad zum E-Mail-Verzeichnis angeben, welches benutzt werden soll. "
-#~ "Für eine Anleitung zu den Einstellungen siehe <link linkend=\"bstgbqn"
-#~ "\">Lokale Konfigurationseinstellungen</link>."
-
-#~ msgid ""
-#~ "If you select Novell GroupWise as your receiving server type, you need to "
-#~ "specify the following options:"
-#~ msgstr ""
-#~ "Falls Sie Novell GroupWise als Servertypen gewählt haben, sind folgende "
-#~ "Einstellungen zu treffen:"
-
-#~ msgid ""
-#~ "If you select IMAP as your receiving server type, you need to specify the "
-#~ "following options:"
-#~ msgstr ""
-#~ "Falls Sie IMAP als Servertypen gewählt haben, sind folgende Einstellungen "
-#~ "zu treffen:"
-
-#~ msgid ""
-#~ "If you select POP as your receiving server type, you need to specify the "
-#~ "following options:"
-#~ msgstr ""
-#~ "Falls Sie POP als Servertypen gewählt haben, sind folgende Einstellungen "
-#~ "zu treffen:"
-
-#~ msgid ""
-#~ "If you select USENET News as your receiving server type, you need to "
-#~ "specify the following options:"
-#~ msgstr ""
-#~ "Falls Sie USENET-News als Servertypen gewählt haben, sind folgende "
-#~ "Einstellungen zu treffen:"
-
-#~ msgid ""
-#~ "If you select Local Delivery as your receiving server type, you need to "
-#~ "specify the following options:"
-#~ msgstr ""
-#~ "Falls Sie Lokale Auslieferung als Servertypen gewählt haben, sind "
-#~ "folgende Einstellungen zu treffen:"
-
-#~ msgid ""
-#~ "If you select MH-Format Mail Directories as your receiving server type, "
-#~ "you need to specify the following options:"
-#~ msgstr ""
-#~ "Falls Sie MH-Format-E-Mail-Verzeichnisse als Servertypen gewählt haben, "
-#~ "sind folgende Einstellungen zu treffen:"
-
-#~ msgid ""
-#~ "If you select Maildir-Format Mail Directories as your receiving server "
-#~ "type, you need to specify the following options:"
-#~ msgstr ""
-#~ "Falls Sie Maildir-Format-E-Mail-Verzeichnisse als Servertypen gewählt "
-#~ "haben, sind folgende Einstellungen zu treffen:"
-
-#~ msgid ""
-#~ "If you select Standard Unix mbox Spool Directory as your receiving server "
-#~ "type, you need to specify the following options:"
-#~ msgstr ""
-#~ "Falls Sie Standard-Unix-mbox-Verzeichnis als Eingangsserver-Typ gewählt "
-#~ "haben, sind folgende Einstellungen zu treffen:"
-
-#~ msgid ""
-#~ "Click Check for Supported Types to have Evolution check for supported "
-#~ "types. Some servers do not announce the authentication mechanisms they "
-#~ "support, so clicking this button is not a guarantee that available "
-#~ "mechanisms actually work."
-#~ msgstr ""
-#~ "Klicken Sie auf »Prüfen, welche Typen unterstützt werden«, damit Evolution "
-#~ "die verfügbaren Legitimationsarten abruft. Einige Server veröffentlichen "
-#~ "nicht die verfügbaren Legitimationsarten, daher kann Evolution nicht "
-#~ "garantieren, dass das Anklicken des Knopfes funktioniert."
-
-#~ msgid "To set your proxy in KDE:"
-#~ msgstr "Um die Proxy-Einstellungen in KDE vorzunehmen:"
-
-#~ msgid "Click the menu icon &gt; System &gt; Configuration &gt; Yast."
-#~ msgstr ""
-#~ "Klicken Sie auf das Menü-Symbol &gt; System %gt; Konfiguration %gt; Yast."
-
-#~ msgid "Click Network Services, then click Proxy."
-#~ msgstr "Klicken Sie auf Netzwerk-Dienste und dann auf Proxy."
-
-#~ msgid ""
-#~ "Specify your proxy settings (if you don't know your proxy settings, "
-#~ "contact your ISP or system administrator)."
-#~ msgstr ""
-#~ "Geben Sie Ihre Proxy-Einstellungen ein (falls Sie diese nicht wissen, so "
-#~ "fragen Sie Ihren Internet-Dienst (ISP) oder Ihren System-Administrator."
-
-#~ msgid "Click Finish, then click Close."
-#~ msgstr "Klicken Sie auf Beenden, und dann auf Schließen."
-
-#~ msgid "To set your proxy in GNOME:"
-#~ msgstr "Um die Proxy-Einstellungen in GNOME vorzunehmen:"
-
-#~ msgid ""
-#~ "Click System &gt; Administrative Settings (enter your root password if "
-#~ "needed)."
-#~ msgstr ""
-#~ "Klicken Sie auf System &gt; Administrationeinstellungen (geben Sie das "
-#~ "Root-Passwort ein, falls benötigt)."
-
-#~ msgid ""
-#~ "(Optional) Select a classification (Public, Private, or Confidential) by "
-#~ "clicking &gt; Options &gt; Classifications."
-#~ msgstr ""
-#~ "(Optional) Klicken Sie auf Optionen &gt; Einstufung und wählen Sie eine "
-#~ "Einstufung (Öffentlich, Privat, Vertraulich) aus."
-
-#~ msgid ""
-#~ "Select the account you want to convert, then click Edit to appear the "
-#~ "Account Editor."
-#~ msgstr ""
-#~ "Wählen Sie das Konto welches Sie umwandeln möchten, dann klicken Sie auf "
-#~ "Bearbeiten."
-
-#~ msgid ""
-#~ "To add a new account, click Add to open the Evolution configuration "
-#~ "assistant. To alter an existing account, select it in the Preferences "
-#~ "window, then click Edit to open the account editor dialog box."
-#~ msgstr ""
-#~ "Wenn Sie ein weiteres E-Mail-Konto einrichten möchten, klicken Sie auf "
-#~ "Bearbeiten &gt; Einstellungen, dann auf E-Mail-Konten, und dann auf "
-#~ "Hinzufügen klicken. Wenn Sie ein bestehendes Konto ändern möchten, so "
-#~ "klicken Sie auf Bearbeiten."
-
-#~ msgid ""
-#~ "This includes all the available IMAP Mail headers. By choosing this "
-#~ "option, Evolution will download all the headers for all the messages."
-#~ msgstr ""
-#~ "Dies umfasst alle verfügbaren IMAP-Kopfzeilen. Wenn diese Option "
-#~ "ausgewählt ist werden alle verfügbaren Kopfzeilen für alle Nachrichten "
-#~ "heruntergeladen."
-
-#~ msgid "Select the IMAP account and click Edit to open the Account Editor."
-#~ msgstr "Wählen Sie das IMAP-Konto aus und klicken Sie auf Bearbeiten."
-
-#~ msgid "The General page has the following options:"
-#~ msgstr "Unter »Allgemein« können folgende Einstellungen getroffen werden:"
-
-#~ msgid "The HTML Mail page has the following options:"
-#~ msgstr "Der HTML-E-Mail-Reiter besitzt folgende Optionen:"
-
-#~ msgid "The General page lets you set the following options:"
-#~ msgstr "Unter »Allgemein« können folgende Einstellungen getroffen werden:"
-
-#~ msgid "Use the following four options to configure the proxy settings:"
-#~ msgstr "Die folgenden vier Optionen sind verfügbar:"
-
-#~ msgid "Automatic proxy configuration URL:"
-#~ msgstr "URL für automatische Proxy-Konfiguration:"
-
-#~ msgid "Specify the display duration for the error messages."
-#~ msgstr ""
-#~ "Legen Sie fest, wie lange Fehlermeldungen in der Statusleiste angezeigt "
-#~ "werden."
-
-#~ msgid "The messages remain in the statusbar for this specified time."
-#~ msgstr ""
-#~ "Die Nachrichten verbleiben für die angegebene Zeitdauer in der "
-#~ "Statuszeile."
-
-#~ msgid ""
-#~ "Partial list of Documentation Translators (application translated to "
-#~ "numerous additional languages):"
-#~ msgstr "Unvollständige Liste der Übersetzer dieser Dokumentation:"
-
-#~ msgid "Daniel Persson for Swedish (.se)"
-#~ msgstr "Daniel Persson für Swedisch (.se)"
-
-#~ msgid ""
-#~ "Hector Garcia Alvarez and Francisco Javier F. Serrador for Spanish (.es)"
-#~ msgstr ""
-#~ "Hector Garcia Alvarez und Francisco Javier F. Serrador für Spanisch (.es)"
-
-#~ msgid "Kjartan Maraas for Norwegian (.no)"
-#~ msgstr "Kjartan Maraas für Norwegisch (.no)"
-
-#~ msgid "Sergey V. Mironov for Russian (.ru)"
-#~ msgstr "Sergey V. Mironov für Russisch (.ru)"
