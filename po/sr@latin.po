@@ -21482,7 +21482,7 @@ msgstr "Sertifikat već postoji"
 
 #: ../smime/lib/e-cert.c:222 ../smime/lib/e-cert.c:232
 msgid "%d/%m/%Y"
-msgstr "%d./%m/%Y."
+msgstr "%d. %m. %Y."
 
 #. x509 certificate usage types
 #: ../smime/lib/e-cert.c:408
