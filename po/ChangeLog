@@ -1,7 +1,11 @@
+2009-03-12  Wadim Dziedzic  <wdziedzic@aviary.pl>
+
+	* pl.po: Updated Polish translation and fixed bug #569514
+
 2009-03-14  Rajesh Ranjan <rranjan@redhat.com>
 
 	* hi.po: Updated Hindi Translation.
-	
+
 2009-03-13  Runa Bhattacharjee  <runab@redhat.com>
 
 	* bn_IN.po: Updated partial Bengali India translation
