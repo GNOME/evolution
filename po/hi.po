@@ -9,13 +9,14 @@ msgstr ""
 "Project-Id-Version: hi\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-03-09 04:41+0000\n"
-"PO-Revision-Date: 2009-03-13 02:02+0530\n"
+"PO-Revision-Date: 2009-03-13 13:06+0530\n"
 "Last-Translator: Rajesh Ranjan <rranjan@redhat.com>\n"
 "Language-Team: Hindi <hindi.sf.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -509,8 +510,8 @@ msgid ""
 "You are attempting to move a contact from one address book to another but it "
 "cannot be removed from the source. Do you want to save a copy instead?"
 msgstr ""
-"आप एक पता पुस्तिका से दूसरे में एक संपर्क को डालने की कोशिश कर रहे हैं लेकिन इसे श्रोत से नहीं "
-"हटाया जा सकता. क्या आप बदले में एक कॉपी सुरक्षित रखना चाहते हैं?"
+"आप एक पता पुस्तिका से दूसरे में एक संपर्क को डालने की कोशिश कर रहे हैं लेकिन इसे स्रोत से नहीं "
+"हटाया जा सकता. क्या आप बदले में एक नक़ल सुरक्षित रखना चाहते हैं?"
 
 #: ../addressbook/addressbook.error.xml.h:34
 msgid ""
@@ -692,7 +693,7 @@ msgstr "इस कम्प्यूटर पर"
 #: ../calendar/gui/tasks-component.c:210 ../mail/em-migrate.c:1058
 #: ../plugins/email-custom-header/email-custom-header.c:338
 msgid "Personal"
-msgstr "व्यक्तिगत"
+msgstr "निजी"
 
 #. ensure the group name is in current locale, not read from configuration
 #. Create the LDAP source group
@@ -912,7 +913,7 @@ msgstr "गुण (_P)"
 
 #: ../addressbook/gui/component/addressbook-view.c:1223
 msgid "Contact Source Selector"
-msgstr "श्रोत चयनकर्ता से संपर्क करें"
+msgstr "स्रोत चयनकर्ता से संपर्क करें"
 
 #: ../addressbook/gui/component/addressbook.c:102
 msgid "Accessing LDAP Server anonymously"
@@ -988,7 +989,7 @@ msgstr "लंबवत पट्टी स्थिति"
 msgid ""
 "Whether force showing the mail address with the name of the autocompleted "
 "contact in the entry."
-msgstr "क्या इस प्रविष्टि में स्वतः पूर्ण संपर्क नाम के साथ मेल पता जबरदस्ती दिखाता है."
+msgstr "क्या इस प्रविष्टि में स्वतः पूर्ण संपर्क नाम के साथ डाक पता जबरदस्ती दिखाता है."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.h:12
 msgid "Whether to show the preview pane."
@@ -1260,7 +1261,7 @@ msgstr "सीमा डाउनलोड करें (_D)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:51
 msgid "_Find Possible Search Bases"
-msgstr "संभावित खोज आधारों को ढूंढें (_F)"
+msgstr "संभावित खोज आधारों को ढूँढ़ें (_F)"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Login method:"
@@ -1404,7 +1405,7 @@ msgstr "नॉवेल ग्रुपवाइज़"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:21
 msgid "Personal Information"
-msgstr "व्यक्तिगत सूचना"
+msgstr "निजी सूचना"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:22
 msgid "Telephone"
@@ -1513,7 +1514,7 @@ msgstr "वीडियो चैट (_V):"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:45
 msgid "_Wants to receive HTML mail"
-msgstr "HTML मेल प्राप्त करना चाहता हूँ (_W)"
+msgstr "HTML डाक प्राप्त करना चाहता हूँ (_W)"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:46
 msgid "_Web Log:"
@@ -2614,7 +2615,7 @@ msgstr "समूहीकृत"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:252
 msgid "Source Book"
-msgstr "श्रोत पुस्तिका"
+msgstr "स्रोत पुस्तिका"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:259
 msgid "Target Book"
@@ -3001,7 +3002,7 @@ msgstr "नाम शुरु होता है"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:218
 msgid "Source"
-msgstr "श्रोत"
+msgstr "स्रोत"
 
 #: ../addressbook/gui/widgets/e-addressbook-view.c:232
 #: ../calendar/gui/e-calendar-table.etspec.h:12
@@ -3606,7 +3607,7 @@ msgstr "TLS मौजूद नहीं"
 #. E_BOOK_ERROR_NO_SUCH_SOURCE
 #: ../addressbook/gui/widgets/eab-gui-util.c:76
 msgid "No such source"
-msgstr "वैसा श्रोत नहीं है"
+msgstr "वैसा स्रोत नहीं है"
 
 #. E_BOOK_ERROR_OFFLINE_UNAVAILABLE
 #: ../addressbook/gui/widgets/eab-gui-util.c:77
@@ -4032,7 +4033,7 @@ msgstr "कागज"
 
 #: ../addressbook/printing/e-contact-print.glade.h:28
 msgid "Paper source:"
-msgstr "कागज श्रोत:"
+msgstr "कागज स्रोत:"
 
 #: ../addressbook/printing/e-contact-print.glade.h:29
 msgid "Portrait"
@@ -4176,7 +4177,7 @@ msgid ""
 "'{0}' is a read-only calendar and cannot be modified. Please select a "
 "different calendar that can accept appointments."
 msgstr ""
-"आपने सिर्फ पठन के लिए पंचांग श्रोत चयन किया है. पंचांग दृश्य में बदलें और एक पंचांग उभारें जो "
+"'{0}' केवल पठनीय पंचांग है और रूपांतरित नहीं किया जा सकता है. एक भिन्न पंचांग चुनें जो"
 "कि मुलाकात स्वीकार करता है."
 
 #: ../calendar/calendar.error.xml.h:5
@@ -4956,15 +4957,15 @@ msgstr "पंचांग दृश्य में घटना की ढा�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:21
 msgid "Hide completed tasks"
-msgstr "समाप्त हुए कार्यों को छुपाएं"
+msgstr "समाप्त हुए कार्यों को छुपाएँ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:22
 msgid "Hide task units"
-msgstr "कार्य ईकाई छुपायें"
+msgstr "कार्य ईकाई छुपाएँ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:23
 msgid "Hide task value"
-msgstr "कार्य मान छुपायें"
+msgstr "कार्य मान छुपाएँ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:24
 msgid "Horizontal pane position"
@@ -5005,7 +5006,7 @@ msgstr "Marcus Bains पंक्ति"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:33
 msgid "Marcus Bains Line Color - Day View"
-msgstr "Marcus Bains पंक्ति रंग - दिवस दृश्य"
+msgstr "Marcus Bains पंक्ति रंग - दैनिक दृश्य"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:34
 msgid "Marcus Bains Line Color - Time bar"
@@ -5117,7 +5118,7 @@ msgstr "घटना/कार्य/बैठक संपादक में �
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:55
 msgid "Show appointment end times in week and month views"
-msgstr "सप्ताह और महीना दृश्य में मुलाकात समाप्ति समय को दिखाएँ"
+msgstr "सप्ताह और मासिक दृश्य में मुलाकात समाप्ति समय को दिखाएँ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:56
 msgid "Show categories field in the event/meeting/task editor"
@@ -5152,7 +5153,7 @@ msgstr "घटना/कार्य/बैठक संपादक में �
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:63
 #| msgid "Show week numbers in date navigator"
 msgid "Show week number in Day and Work Week View"
-msgstr "दैनिक व कार्य सप्ताह दृश्य में सप्ताह संख्या दिखाएँ"
+msgstr "दैनिक व कार्य साप्ताहिक दृश्य में सप्ताह संख्या दिखाएँ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:64
 msgid "Show week numbers in date navigator"
@@ -5178,7 +5179,7 @@ msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain."
 msgstr ""
-"URL टेपलेट एक मुक्त/व्यस्त आंकड़ा फॉलबैक के रूप में प्रयोग के लिए, %u को मेल पता के उपयोक्ता "
+"URL टेपलेट एक मुक्त/व्यस्त आंकड़ा फॉलबैक के रूप में प्रयोग के लिए, %u को डाक पता के उपयोक्ता "
 "भाग से प्रतिस्थापित किया जाता है और %d को डोमेन से हटाया जाता है."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:70
@@ -5260,7 +5261,7 @@ msgstr "क्या मासिक दृश्य में सप्ता�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:87
 msgid "Whether to display the end time of events in the week and month views."
-msgstr "क्या सप्ताह और महीना दृश्य में घटना समाप्ति समय को दिखाएँ"
+msgstr "क्या सप्ताह और मासिक दृश्य में घटना समाप्ति समय को दिखाएँ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:88
 msgid "Whether to draw the Marcus Bains Line (line at current time) in the calendar."
@@ -5305,7 +5306,7 @@ msgstr "घटना/कार्य/बैठक संपादक में �
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:98
 #| msgid "Whether to show week numbers in the date navigator."
 msgid "Whether to show week number in the Day and Work Week View."
-msgstr "क्या दैनिक व कार्य सप्ताह दृश्य में सप्ताह की संख्या दिखानी है."
+msgstr "क्या दैनिक व कार्य साप्ताहिक दृश्य में सप्ताह की संख्या दिखानी है."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:99
 msgid "Whether to show week numbers in the date navigator."
@@ -5482,7 +5483,7 @@ msgstr "घटनाओं और बैटकों के निर्मा�
 
 #: ../calendar/gui/calendar-component.c:1271
 msgid "Calendar Source Selector"
-msgstr "पंचांग श्रोत चयनकर्ता"
+msgstr "पंचांग स्रोत चयनकर्ता"
 
 #: ../calendar/gui/calendar-component.c:1487
 msgid "New appointment"
@@ -5538,7 +5539,7 @@ msgstr "नया पंचांग बनाएँ"
 
 #: ../calendar/gui/calendar-view-factory.c:113
 msgid "Day View"
-msgstr "दिवस दृश्य"
+msgstr "दैनिक दृश्य"
 
 #: ../calendar/gui/calendar-view-factory.c:116
 msgid "Work Week View"
@@ -5550,7 +5551,7 @@ msgstr "साप्ताहिक दृश्य"
 
 #: ../calendar/gui/calendar-view-factory.c:122
 msgid "Month View"
-msgstr "महीना दृश्य"
+msgstr "मासिक दृश्य"
 
 #: ../calendar/gui/caltypes.xml.h:1 ../calendar/gui/memotypes.xml.h:1
 #: ../calendar/gui/tasktypes.xml.h:3
@@ -5985,7 +5986,7 @@ msgstr "तिथि नेविगेटर में सप्ताह क�
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 #| msgid "Show week numbers in date navigator"
 msgid "Show week n_umber in Day and Work Week View"
-msgstr "दैनिक व कार्य सप्ताह दृश्य में की सप्ताह की संख्या दिखाएँ (_u)"
+msgstr "दैनिक व कार्य साप्ताहिक दृश्य में की सप्ताह की संख्या दिखाएँ (_u)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 #: ../calendar/gui/dialogs/recurrence-page.c:1122
@@ -6069,7 +6070,7 @@ msgstr "शुक्र (_F)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:64
 msgid "_Hide completed tasks after"
-msgstr "इसके पश्चात समाप्त हुए कार्यों को छुपाएं (_H)"
+msgstr "इसके पश्चात समाप्त हुए कार्यों को छुपाएँ (_H)"
 
 #. Monday
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:66
@@ -6087,7 +6088,7 @@ msgstr "शनि (_S)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:70
 msgid "_Show appointment end times in week and month view"
-msgstr "सप्ताह और महीना दृश्य में मुलाकात समाप्ति समय दिखाएँ (_S)"
+msgstr "सप्ताह और मासिक दृश्य में मुलाकात समाप्ति समय दिखाएँ (_S)"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:71
 msgid "_Time divisions:"
@@ -6247,7 +6248,7 @@ msgstr[1] "%d संलग्न संदेश"
 #: ../mail/em-folder-tree.c:1006 ../mail/em-folder-utils.c:364
 #: ../mail/em-folder-view.c:1188 ../mail/message-list.c:2106
 msgid "_Move"
-msgstr "विस्थापित करें (_M)"
+msgstr "खिसकाएँ (_M)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:490 ../composer/e-msg-composer.c:2075
 #: ../mail/em-folder-tree.c:1008 ../mail/message-list.c:2108
@@ -6308,7 +6309,7 @@ msgstr "मौजूदा विंडो बंद करने के लि�
 
 #: ../calendar/gui/dialogs/comp-editor.c:1319
 msgid "Copy selected text to the clipboard"
-msgstr "क्लिपबोर्ड से चयनित पाठ की कॉपी लें"
+msgstr "क्लिपबोर्ड से चयनित पाठ की नक़ल लें"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1326
 msgid "Cut selected text to the clipboard"
@@ -6328,7 +6329,7 @@ msgstr "मौजूदा विंडो सहेजने के लिए �
 
 #: ../calendar/gui/dialogs/comp-editor.c:1368
 msgid "Select all text"
-msgstr "सभी पाठ चुनें"
+msgstr "सारा पाठ चुनें"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1375
 msgid "_Classification"
@@ -6461,7 +6462,7 @@ msgstr[1] "<b>%d</b> संलग्नक"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1974
 msgid "Hide Attachment _Bar"
-msgstr "संलग्नक बार छुपायें (_B)"
+msgstr "संलग्नक बार छुपाएँ (_B)"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1977
 #: ../calendar/gui/dialogs/comp-editor.c:2280
@@ -6504,7 +6505,7 @@ msgstr "मौजूदा संस्करण के प्रयोग म�
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:64
 msgid "Could not open source"
-msgstr "श्रोत को नहीं खोल सका"
+msgstr "स्रोत को नहीं खोल सका"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:72
 msgid "Could not open destination"
@@ -6593,7 +6594,7 @@ msgstr "आवृत्ति (_R)"
 
 #: ../calendar/gui/dialogs/event-editor.c:211
 msgid "Make this a recurring event"
-msgstr "इसे बारंबार होने वाली घटना बनायें"
+msgstr "इसे बारंबार होने वाली घटना बनाएँ"
 
 #: ../calendar/gui/dialogs/event-editor.c:216
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
@@ -6738,7 +6739,7 @@ msgstr[1] "मुलाकात के %d मिनट पहले"
 
 #: ../calendar/gui/dialogs/event-page.c:2950
 msgid "Customize"
-msgstr "मनपसंद बनायें"
+msgstr "मनपसंद बनाएँ"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:1
 msgid "1 day before appointment"
@@ -7635,7 +7636,7 @@ msgstr "मदों को स्थानांतरित कर रहा �
 
 #: ../calendar/gui/e-calendar-view.c:1484
 msgid "Copying items"
-msgstr "मदों को कापी कर रहा है"
+msgstr "मदों को नक़ल कर रहा है"
 
 #: ../calendar/gui/e-calendar-view.c:1793
 msgid "New _Appointment..."
@@ -7694,11 +7695,11 @@ msgstr "जवाब (_R)"
 #: ../mail/em-popup.c:564 ../mail/em-popup.c:575
 #: ../ui/evolution-mail-message.xml.h:82
 msgid "Reply to _All"
-msgstr "सबको जबाव दें (_A)"
+msgstr "सबको जवाब दें (_A)"
 
 #: ../calendar/gui/e-calendar-view.c:1836
 msgid "Make this Occurrence _Movable"
-msgstr "इस आवृत्ति को भ्रमण योग्य बनायें (_M)"
+msgstr "इस आवृत्ति को भ्रमण योग्य बनाएँ (_M)"
 
 #: ../calendar/gui/e-calendar-view.c:1837 ../ui/evolution-calendar.xml.h:9
 msgid "Delete this _Occurrence"
@@ -7988,11 +7989,11 @@ msgstr "बैठक अद्यतनीकरण आग्रह"
 #: ../calendar/gui/e-itip-control.c:1387
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
-msgstr "<b>%s</b> ने बैठक के आग्रह के लिए जबाव दिया है."
+msgstr "<b>%s</b> ने बैठक के आग्रह के लिए जवाब दिया है."
 
 #: ../calendar/gui/e-itip-control.c:1388
 msgid "Meeting Reply"
-msgstr "बैठक जबाव"
+msgstr "बैठक जवाब"
 
 #: ../calendar/gui/e-itip-control.c:1395
 #, c-format
@@ -8058,11 +8059,11 @@ msgstr "कार्य अद्यतन आग्रह"
 #: ../calendar/gui/e-itip-control.c:1464
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
-msgstr "<b>%s</b> ने कार्य भार को जबाव दिया है."
+msgstr "<b>%s</b> ने कार्य भार को जवाब दिया है."
 
 #: ../calendar/gui/e-itip-control.c:1465
 msgid "Task Reply"
-msgstr "कार्य जबाव"
+msgstr "कार्य जवाब"
 
 #: ../calendar/gui/e-itip-control.c:1472
 #, c-format
@@ -8098,11 +8099,11 @@ msgstr "रिक्त/व्यस्त प्रस्ताव"
 #: ../calendar/gui/e-itip-control.c:1518
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
-msgstr "<b>%s</b>ने रिक्त/व्यस्त आग्रह को जबाव दिया है."
+msgstr "<b>%s</b>ने रिक्त/व्यस्त आग्रह को जवाब दिया है."
 
 #: ../calendar/gui/e-itip-control.c:1519
 msgid "Free/Busy Reply"
-msgstr "रिक्त/व्यस्त जबाव"
+msgstr "रिक्त/व्यस्त जवाब"
 
 #: ../calendar/gui/e-itip-control.c:1524
 msgid "Bad Free/Busy Message"
@@ -8723,7 +8724,7 @@ msgstr "ज्ञापन बनाने के लिए कोई पंच�
 
 #: ../calendar/gui/memos-component.c:892
 msgid "Memo Source Selector"
-msgstr "ज्ञापन श्रोत चयनक"
+msgstr "ज्ञापन स्रोत चयनक"
 
 #: ../calendar/gui/memos-component.c:1071
 msgid "New memo"
@@ -8736,7 +8737,7 @@ msgstr "ज्ञापन (_o)"
 
 #: ../calendar/gui/memos-component.c:1073
 msgid "Create a new memo"
-msgstr "नया ज्ञापन बनायें"
+msgstr "नया ज्ञापन बनाएँ"
 
 #: ../calendar/gui/memos-component.c:1079
 msgid "New shared memo"
@@ -8749,7 +8750,7 @@ msgstr "साझा ज्ञापन (_S)"
 
 #: ../calendar/gui/memos-component.c:1081
 msgid "Create a shared new memo"
-msgstr "साझा नया ज्ञापन बनायें"
+msgstr "साझा नया ज्ञापन बनाएँ"
 
 #: ../calendar/gui/memos-component.c:1087
 msgid "New memo list"
@@ -8762,7 +8763,7 @@ msgstr "ज्ञापन सूची (_s)"
 
 #: ../calendar/gui/memos-component.c:1089
 msgid "Create a new memo list"
-msgstr "नई ज्ञापन सूची बनायें"
+msgstr "नई ज्ञापन सूची बनाएँ"
 
 #: ../calendar/gui/memos-control.c:350 ../calendar/gui/memos-control.c:366
 msgid "Print Memos"
@@ -9040,7 +9041,7 @@ msgstr "कार्यों के निर्माण के लिए क�
 
 #: ../calendar/gui/tasks-component.c:888
 msgid "Task Source Selector"
-msgstr "कार्य श्रोत चयनक"
+msgstr "कार्य स्रोत चयनक"
 
 #: ../calendar/gui/tasks-component.c:1142
 msgid "New task"
@@ -10774,7 +10775,7 @@ msgstr "बतौर मसौदा सहेजें (_D)"
 
 #: ../composer/e-composer-actions.c:513
 msgid "Save as draft"
-msgstr "ड्राफ्ट के रूप में सहेजें"
+msgstr "बतौर मसौदा सहेजें"
 
 #: ../composer/e-composer-actions.c:518
 msgid "S_end"
@@ -10798,7 +10799,7 @@ msgstr "नया संदेश विंडो खोलें"
 
 #: ../composer/e-composer-actions.c:541
 msgid "Character _Encoding"
-msgstr "संप्रतीक एनकोडिंग (_E)"
+msgstr "वर्ण एनकोडिंग (_E)"
 
 #: ../composer/e-composer-actions.c:548
 msgid "_Security"
@@ -10886,11 +10887,11 @@ msgstr "यदि प्रेषित करें क्षेत्र प�
 
 #: ../composer/e-composer-actions.c:638
 msgid "_Reply-To Field"
-msgstr "जबाव दें क्षेत्र (_R)"
+msgstr "जवाब दें क्षेत्र (_R)"
 
 #: ../composer/e-composer-actions.c:640
 msgid "Toggles whether the Reply-To field is displayed"
-msgstr "यदि जबाव दें क्षेत्र प्रदर्शित है तो टॉगल करें"
+msgstr "यदि जवाब दें क्षेत्र प्रदर्शित है तो टॉगल करें"
 
 #: ../composer/e-composer-actions.c:646
 msgid "_Subject Field"
@@ -10919,14 +10920,14 @@ msgstr "संदेश के प्राप्तकर्ताओं को
 
 #: ../composer/e-composer-header-table.c:66
 msgid "Enter the addresses that will receive a carbon copy of the message"
-msgstr "उन पता को डालें जो कि संदेश का कार्बन कापी प्राप्त करेगा"
+msgstr "उन पता को डालें जो कि संदेश का कार्बन नक़ल प्राप्त करेगा"
 
 #: ../composer/e-composer-header-table.c:69
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message"
 msgstr ""
-"उन पता को डालें जो संदेश के प्राप्तकर्ता सूची में दिखे बिना संदेश का कार्बन कापी प्राप्त करेगा "
+"उन पता को डालें जो संदेश के प्राप्तकर्ता सूची में दिखे बिना संदेश का कार्बन नक़ल प्राप्त करेगा "
 "बिना संदेश में प्राप्तकर्ता सूची के"
 
 #: ../composer/e-composer-header-table.c:643
@@ -10935,7 +10936,7 @@ msgstr "प्रारूप (_o):"
 
 #: ../composer/e-composer-header-table.c:652
 msgid "_Reply-To:"
-msgstr "इसे जबाव दें ( _R):"
+msgstr "इसे जवाब दें ( _R):"
 
 #: ../composer/e-composer-header-table.c:656
 msgid "_To:"
@@ -11005,7 +11006,7 @@ msgstr[1] "संलग्नक"
 
 #: ../composer/e-msg-composer.c:1571
 msgid "Hide _Attachment Bar"
-msgstr "संलग्नक बार छुपायें (_A)"
+msgstr "संलग्नक बार छुपाएँ (_A)"
 
 #: ../composer/e-msg-composer.c:1588 ../composer/e-msg-composer.c:2813
 msgid "Compose Message"
@@ -11022,7 +11023,7 @@ msgid ""
 " There are few attachments getting downloaded. Sending the mail will cause "
 "the mail to be sent without those pending attachments "
 msgstr ""
-" कुछ संलग्नक हैं जो डाउनलोड हो रहे हैं. डाक भेजना मेल भेजने का कारण बनेगा बिना उन स्थगित "
+" कुछ संलग्नक हैं जो डाउनलोड हो रहे हैं. डाक भेजना डाक भेजने का कारण बनेगा बिना उन स्थगित "
 "संलग्नक के "
 
 #: ../composer/mail-composer.error.xml.h:2
@@ -11049,7 +11050,7 @@ msgid ""
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
 msgstr ""
-"इस कंप्यूटर के विंडो को बंद करना संदेश को स्थायी रूप से रोकेगा, जबतक कि आप अपने ड्राफ्ट "
+"इस कंप्यूटर के विंडो को बंद करना संदेश को स्थायी रूप से रोकेगा, जबतक कि आप अपने मसौदा "
 "फ़ोल्डर में संदेश को सहेजे जाने के लिए नहीं चुनते हैं."
 
 #: ../composer/mail-composer.error.xml.h:7
@@ -11082,7 +11083,7 @@ msgstr "क्या आप नहीं समाप्त संदेश प�
 
 #: ../composer/mail-composer.error.xml.h:14
 msgid "Download in progress. Do you want to send the mail?"
-msgstr "डाउनलोड हो रहा है. क्या आप मेल भेजना चाहते हैं?"
+msgstr "डाउनलोड हो रहा है. क्या आप डाक भेजना चाहते हैं?"
 
 #: ../composer/mail-composer.error.xml.h:15
 msgid "Error saving to autosave because &quot;{1}&quot;."
@@ -11114,7 +11115,7 @@ msgid ""
 "directory individually, or create an archive of the directory and attach it."
 msgstr ""
 "इस निर्देशिका की सामग्री को संलग्न करने के लिए, या तो फ़ाइल को इस निर्देशिका में निजी "
-"तौर पर संलग्न कीजिये, या निर्देशिका का एक अभिलेख बनायें और इसमें संलग्न करें."
+"तौर पर संलग्न कीजिये, या निर्देशिका का एक अभिलेख बनाएँ और इसमें संलग्न करें."
 
 #: ../composer/mail-composer.error.xml.h:21
 msgid ""
@@ -11161,7 +11162,7 @@ msgstr "फिर प्राप्त करें (_R)"
 
 #: ../composer/mail-composer.error.xml.h:33
 msgid "_Save Draft"
-msgstr "ड्राफ्ट सहेजें (_S)"
+msgstr "मसौदा सहेजें (_S)"
 
 #: ../data/evolution.desktop.in.in.h:1
 msgid "Evolution Mail and Calendar"
@@ -11517,7 +11518,7 @@ msgstr "नियम का नाम (_u):"
 #: ../filter/filter-rule.c:881
 #| msgid "Find items that meet the following criteria"
 msgid "Find items that meet the following conditions"
-msgstr "मद ढूढ़े जो निम्नलिखित स्थिति से मेल खाता है"
+msgstr "मद ढूढ़े जो निम्नलिखित स्थिति से डाक खाता है"
 
 #: ../filter/filter-rule.c:915
 #| msgid "Add Ac_tion"
@@ -11544,11 +11545,11 @@ msgstr "सभी संबंधित"
 
 #: ../filter/filter-rule.c:945
 msgid "Replies"
-msgstr "जबाव"
+msgstr "जवाब"
 
 #: ../filter/filter-rule.c:945
 msgid "Replies and parents"
-msgstr "जबाव व जनक"
+msgstr "जवाब व जनक"
 
 #: ../filter/filter-rule.c:945
 msgid "No reply or parent"
@@ -11637,7 +11638,7 @@ msgid ""
 "a time relative to when filtering occurs."
 msgstr ""
 "संदेश की तिथि की तुलना \n"
-"निस्पंदन होने वाले समय के सापेक्ष समय से की जायेगी."
+"फ़िल्टर होने वाले समय के सापेक्ष समय से की जायेगी."
 
 #: ../filter/filter.glade.h:9
 msgid ""
@@ -11645,7 +11646,7 @@ msgid ""
 "the current time when filtering occurs."
 msgstr ""
 "संदेश की तिथि की तुलना \n"
-"निस्पंदन होने वाले समय के मौजूदा समय से की जायेगी."
+"फ़िल्टर होने वाले समय के मौजूदा समय से की जायेगी."
 
 #: ../filter/filter.glade.h:12
 msgid "a time relative to the current time"
@@ -11949,7 +11950,7 @@ msgstr "इसपर समाप्त "
 
 #: ../mail/em-filter-i18n.h:11
 msgid "Copy to Folder"
-msgstr "फ़ोल्डर से कॉपी बनाएँ"
+msgstr "फ़ोल्डर से नक़ल बनाएँ"
 
 #: ../mail/em-filter-i18n.h:12
 msgid "Date received"
@@ -11993,7 +11994,7 @@ msgstr "इससे आरंभ नहीं होता है"
 
 #: ../mail/em-filter-i18n.h:23
 msgid "Draft"
-msgstr "ड्राफ्ट"
+msgstr "मसौदा"
 
 #: ../mail/em-filter-i18n.h:24
 msgid "ends with"
@@ -12042,11 +12043,11 @@ msgstr "सेट है"
 #: ../mail/em-filter-i18n.h:40 ../mail/mail-config.glade.h:98
 #: ../ui/evolution-mail-message.xml.h:48
 msgid "Junk"
-msgstr "जंक"
+msgstr "कचरा डाक"
 
 #: ../mail/em-filter-i18n.h:41
 msgid "Junk Test"
-msgstr "जंक जांच"
+msgstr "कचरा डाक जांच"
 
 #: ../mail/em-filter-i18n.h:42 ../widgets/misc/e-expander.c:190
 msgid "Label"
@@ -12070,15 +12071,15 @@ msgstr "संदेश शीर्ष"
 
 #: ../mail/em-filter-i18n.h:47
 msgid "Message is Junk"
-msgstr "संदेश जंक है"
+msgstr "संदेश कचरा डाक है"
 
 #: ../mail/em-filter-i18n.h:48
 msgid "Message is not Junk"
-msgstr "संदेश जंक नहीं है"
+msgstr "संदेश कचरा डाक नहीं है"
 
 #: ../mail/em-filter-i18n.h:49
 msgid "Move to Folder"
-msgstr "फ़ोल्डर में ले जाएं"
+msgstr "फ़ोल्डर में ले जाएँ"
 
 #: ../mail/em-filter-i18n.h:50
 msgid "Pipe to Program"
@@ -12103,7 +12104,7 @@ msgstr "Regex मेल"
 
 #: ../mail/em-filter-i18n.h:55
 msgid "Replied to"
-msgstr "इसे जबाव दिया गया"
+msgstr "इसे जवाब दिया गया"
 
 #: ../mail/em-filter-i18n.h:56
 msgid "returns"
@@ -12152,7 +12153,7 @@ msgstr "उस तरह का दिखता है"
 
 #: ../mail/em-filter-i18n.h:67
 msgid "Source Account"
-msgstr "श्रोत खाता"
+msgstr "स्रोत खाता"
 
 #: ../mail/em-filter-i18n.h:68
 msgid "Specific header"
@@ -12225,7 +12226,7 @@ msgstr "महत्वपूर्ण संदेश"
 
 #: ../mail/em-folder-browser.c:233
 msgid "Messages Not Junk"
-msgstr "संदेश जंक नहीं है"
+msgstr "संदेश कचरा डाक नहीं है"
 
 #: ../mail/em-folder-browser.c:1188
 msgid "Account Search"
@@ -12267,7 +12268,7 @@ msgstr "कोटा प्रयोग"
 #: ../plugins/exchange-operations/exchange-delegates-user.c:78
 #: ../plugins/exchange-operations/exchange-folder.c:594
 msgid "Inbox"
-msgstr "इनबॉक्स"
+msgstr "आई डाक"
 
 #: ../mail/em-folder-properties.c:390
 #: ../plugins/groupwise-features/properties.glade.h:4
@@ -12299,7 +12300,7 @@ msgstr "बेमेल"
 
 #: ../mail/em-folder-tree-model.c:504 ../mail/mail-component.c:165
 msgid "Drafts"
-msgstr "ड्राफ्ट"
+msgstr "मसौदा"
 
 #: ../mail/em-folder-tree-model.c:506 ../mail/mail-component.c:168
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
@@ -12308,15 +12309,15 @@ msgstr "प्रारूप"
 
 #: ../mail/em-folder-tree-model.c:512 ../mail/mail-component.c:166
 msgid "Outbox"
-msgstr "आउटबॉक्स"
+msgstr "जाती डाक"
 
 #: ../mail/em-folder-tree-model.c:514 ../mail/mail-component.c:167
 msgid "Sent"
-msgstr "भेजी-डाक"
+msgstr "गई डाक"
 
 #: ../mail/em-folder-tree-model.c:536 ../mail/em-folder-tree-model.c:843
 msgid "Loading..."
-msgstr "डाउनलोड कर रहा है..."
+msgstr "लोड कर रहा है..."
 
 #. Translators: This is the string used for displaying the
 #. * folder names in folder trees. "%s" will be replaced by
@@ -12346,12 +12347,12 @@ msgstr "डाक फ़ोल्डर तरू"
 #: ../mail/em-folder-tree.c:900
 #, c-format
 msgid "Moving folder %s"
-msgstr "%s फ़ोल्डर को विस्थापित कर रहा है"
+msgstr "%s फ़ोल्डर को खिसका रहा है"
 
 #: ../mail/em-folder-tree.c:902
 #, c-format
 msgid "Copying folder %s"
-msgstr "%s फ़ोल्डर कापी कर रहा है"
+msgstr "%s फ़ोल्डर नक़ल कर रहा है"
 
 #: ../mail/em-folder-tree.c:909 ../mail/message-list.c:2014
 #, c-format
@@ -12361,7 +12362,7 @@ msgstr "%s फ़ोल्डर में संदेश विस्थाप
 #: ../mail/em-folder-tree.c:911 ../mail/message-list.c:2016
 #, c-format
 msgid "Copying messages into folder %s"
-msgstr "%s फ़ोल्डर में संदेश कापी कर रहा है"
+msgstr "%s फ़ोल्डर में संदेश नक़ल कर रहा है"
 
 #: ../mail/em-folder-tree.c:926
 msgid "Cannot drop message(s) into toplevel store"
@@ -12369,11 +12370,11 @@ msgstr "शीर्षस्तर भंडार में संदेश �
 
 #: ../mail/em-folder-tree.c:1003 ../ui/evolution-mail-message.xml.h:104
 msgid "_Copy to Folder"
-msgstr "फ़ोल्डर में कॉपी लें (_C)"
+msgstr "फ़ोल्डर में नक़ल लें (_C)"
 
 #: ../mail/em-folder-tree.c:1004 ../ui/evolution-mail-message.xml.h:117
 msgid "_Move to Folder"
-msgstr "फ़ोल्डर में विस्थापित करें(_M)"
+msgstr "फ़ोल्डर में खिसकाएँ (_M)"
 
 #: ../mail/em-folder-tree.c:1718 ../mail/mail-ops.c:1059
 #, c-format
@@ -12391,15 +12392,15 @@ msgstr "नया फ़ोल्डर (_N)..."
 
 #: ../mail/em-folder-tree.c:2125
 msgid "_Move..."
-msgstr "विस्थापित करें (_M)..."
+msgstr "खिसकाएँ (_M)..."
 
 #: ../mail/em-folder-tree.c:2133 ../ui/evolution-mail-list.xml.h:21
 msgid "Re_fresh"
-msgstr "ताजा करें (_f)"
+msgstr "ताज़ा करें (_f)"
 
 #: ../mail/em-folder-tree.c:2134
 msgid "Fl_ush Outbox"
-msgstr "फ्लश आउटबाक्स (_u)"
+msgstr "जाती डाक फ्लश करें (_u)"
 
 #: ../mail/em-folder-tree.c:2140 ../mail/mail.error.xml.h:138
 msgid "_Empty Trash"
@@ -12413,7 +12414,7 @@ msgstr "खोज फ़ोल्डर अपठित बनाएँ (_U)"
 #: ../mail/em-folder-utils.c:101
 #, c-format
 msgid "Copying `%s' to `%s'"
-msgstr "`%s' को `%s' में कॉपी कर रहा है"
+msgstr "`%s' को `%s' में नक़ल कर रहा है"
 
 #: ../mail/em-folder-utils.c:364 ../mail/em-folder-view.c:1188
 #: ../mail/em-folder-view.c:1203
@@ -12446,15 +12447,15 @@ msgstr "निर्दिष्ट करें कि कहाँ फ़ो�
 
 #: ../mail/em-folder-view.c:1091 ../mail/mail.error.xml.h:70
 msgid "Mail Deletion Failed"
-msgstr "मेल का मिटाना विफल"
+msgstr "डाक का मिटाना विफल"
 
 #: ../mail/em-folder-view.c:1092 ../mail/mail.error.xml.h:126
 msgid "You do not have sufficient permissions to delete this mail."
-msgstr "आपके पास इस मेल को मिटाने के लिए पर्याप्त अनुमति नहीं है."
+msgstr "आपके पास इस डाक को मिटाने के लिए पर्याप्त अनुमति नहीं है."
 
 #: ../mail/em-folder-view.c:1331 ../ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
-msgstr "प्रेषक को जबाव दें (_R)"
+msgstr "प्रेषक को जवाब दें (_R)"
 
 #: ../mail/em-folder-view.c:1333 ../mail/em-popup.c:566 ../mail/em-popup.c:577
 #: ../ui/evolution-mail-message.xml.h:109
@@ -12472,7 +12473,7 @@ msgstr "प्रतिविलोपित करें (_n)"
 
 #: ../mail/em-folder-view.c:1344
 msgid "_Move to Folder..."
-msgstr "फ़ोल्डर में विस्थापित करें (_M)..."
+msgstr "फ़ोल्डर में खिसकाएँ (_M)..."
 
 #: ../mail/em-folder-view.c:1345
 msgid "_Copy to Folder..."
@@ -12496,11 +12497,11 @@ msgstr "गैर महत्वपूर्ण के रूप में च�
 
 #: ../mail/em-folder-view.c:1352
 msgid "Mark as _Junk"
-msgstr "जंक के रूप में चिह्नित करें (_J)"
+msgstr "कचरा डाक के रूप में चिह्नित करें (_J)"
 
 #: ../mail/em-folder-view.c:1353
 msgid "Mark as _Not Junk"
-msgstr "जंक नहीं है के रूप में चिह्नित करें (_N)"
+msgstr "कचरा डाक नहीं है के रूप में चिह्नित करें (_N)"
 
 #: ../mail/em-folder-view.c:1354
 msgid "Mark for Follo_w Up..."
@@ -12526,7 +12527,7 @@ msgstr "फ्लैग समाप्त (_g)"
 
 #: ../mail/em-folder-view.c:1365
 msgid "Cl_ear Flag"
-msgstr "फ्लैग हटाएं (_e)"
+msgstr "फ्लैग हटाएँ (_e)"
 
 #: ../mail/em-folder-view.c:1368
 msgid "Crea_te Rule From Message"
@@ -12552,15 +12553,15 @@ msgstr "डाक सूची से फ़ोल्डर खोजें (_L)
 #. Translators: The following strings are used while creating a new message filter, to specify what parameter the filter would be based on.
 #: ../mail/em-folder-view.c:1378
 msgid "Filter based on Sub_ject"
-msgstr "विषय पर फ़िल्टर (_j)"
+msgstr "विषय पर आधारित फ़िल्टर (_j)"
 
 #: ../mail/em-folder-view.c:1379
 msgid "Filter based on Sen_der"
-msgstr "प्रेषक पर फ़िल्टर (_d)"
+msgstr "प्रेषक पर आधारित फ़िल्टर (_d)"
 
 #: ../mail/em-folder-view.c:1380
 msgid "Filter based on Re_cipients"
-msgstr "प्राप्तकर्ता पर फ़िल्टर (_c)"
+msgstr "प्राप्तकर्ता पर आधारित फ़िल्टर (_c)"
 
 #: ../mail/em-folder-view.c:1381
 msgid "Filter based on _Mailing List"
@@ -12917,7 +12918,7 @@ msgstr "यहाँ से"
 #: ../mail/em-format-quote.c:210 ../mail/em-format.c:886
 #: ../mail/em-mailer-prefs.c:76
 msgid "Reply-To"
-msgstr "इसे जबाव दें"
+msgstr "इसे जवाब दें"
 
 #: ../mail/em-format.c:891 ../mail/em-mailer-prefs.c:81
 #: ../mail/message-list.etspec.h:2 ../widgets/misc/e-dateedit.c:325
@@ -12945,7 +12946,7 @@ msgstr "S/MIME संदेश का विश्लेषण नहीं क�
 
 #: ../mail/em-format.c:1336 ../mail/em-format.c:1492
 msgid "Could not parse MIME message. Displaying as source."
-msgstr "MIME संदेश का विश्लेषण नहीं कर सकता है: श्रोत के रूप में प्रदर्शित कर रहा है."
+msgstr "MIME संदेश का विश्लेषण नहीं कर सकता है: स्रोत के रूप में प्रदर्शित कर रहा है."
 
 #: ../mail/em-format.c:1344
 msgid "Unsupported encryption type for multipart/encrypted"
@@ -12997,15 +12998,15 @@ msgstr "महीने में एक बार"
 
 #: ../mail/em-mailer-prefs.c:327
 msgid "Add Custom Junk Header"
-msgstr "पसंदीदा जंक फ़ोल्डर जोड़ें"
+msgstr "मनपसंद कचरा डाक फ़ोल्डर जोड़ें"
 
 #: ../mail/em-mailer-prefs.c:331
 msgid "Header Name:"
-msgstr "हेडर नाम:"
+msgstr "शीर्षिका नाम:"
 
 #: ../mail/em-mailer-prefs.c:332
 msgid "Header Value Contains:"
-msgstr "हेडर में यह समाहित है"
+msgstr "शीर्षिका में यह समाहित है"
 
 #: ../mail/em-mailer-prefs.c:437
 msgid "Contains Value"
@@ -13033,7 +13034,7 @@ msgstr "%s प्लगइन उपलब्ध नहीं है. कृप�
 
 #: ../mail/em-mailer-prefs.c:1108
 msgid "No Junk plugin available"
-msgstr "कोई जंक प्लगिन उपलब्ध नहीं है."
+msgstr "कोई कचरा डाक प्लगिन उपलब्ध नहीं है."
 
 #. green
 #: ../mail/em-migrate.c:1059
@@ -13058,7 +13059,7 @@ msgstr "नए फ़ोल्डर `%s' बनाने में असमर
 #: ../mail/em-migrate.c:1699
 #, c-format
 msgid "Unable to copy folder `%s' to `%s': %s"
-msgstr "`%s' फ़ोल्डर को `%s' में कापी करने में असमर्थ: %s"
+msgstr "`%s' फ़ोल्डर को `%s' में नक़ल करने में असमर्थ: %s"
 
 #: ../mail/em-migrate.c:1884
 #, c-format
@@ -13089,7 +13090,7 @@ msgstr "पुराने POP सर्वर पर रखने वाले 
 #: ../mail/em-migrate.c:2133
 #, c-format
 msgid "Unable to copy POP3 keep-on-server data `%s': %s"
-msgstr "पुराने POP3 सर्वर पर रखने वाले आंकड़ा `%s' को कॉपी करने में असमर्थ: %s"
+msgstr "पुराने POP3 सर्वर पर रखने वाले आंकड़ा `%s' को नक़ल करने में असमर्थ: %s"
 
 #: ../mail/em-migrate.c:2604 ../mail/em-migrate.c:2616
 #, c-format
@@ -13122,17 +13123,17 @@ msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
 msgstr ""
-"पहले एवोल्यूशन अधिभारण से जमावटों को पढ़ने में विफल, `evolution/config.xmldb' मौजूद "
+"पहले एवोल्यूशन संस्थापन से जमावटों को पढ़ने में विफल, `evolution/config.xmldb' मौजूद "
 "नहीं है या खराब हो चुका है."
 
 #: ../mail/em-popup.c:562 ../mail/em-popup.c:573
 msgid "_Reply to sender"
-msgstr "प्रेषक को जबाव दें (_R)"
+msgstr "प्रेषक को जवाब दें (_R)"
 
 #: ../mail/em-popup.c:563 ../mail/em-popup.c:574
 #: ../ui/evolution-mail-message.xml.h:83
 msgid "Reply to _List"
-msgstr "सूची को जबाव दें (_L)"
+msgstr "सूची को जवाब दें (_L)"
 
 #. make it first item
 #: ../mail/em-popup.c:623 ../mail/em-popup.c:848
@@ -13194,7 +13195,7 @@ msgstr "फ़ोल्डर खोजें (_F)"
 
 #: ../mail/em-vfolder-rule.c:593
 msgid "Search Folder source"
-msgstr "फ़ोल्डर श्रोत खोजें"
+msgstr "फ़ोल्डर स्रोत खोजें"
 
 #: ../mail/evolution-mail.schemas.in.h:1
 msgid "\"Send and Receive Mail\" window height"
@@ -13214,11 +13215,11 @@ msgstr "एवोल्यूशन को सीमित आकार के �
 
 #: ../mail/evolution-mail.schemas.in.h:5
 msgid "Always request read receipt"
-msgstr "हमेशा पठित रसीद भेजें"
+msgstr "हमेशा पठित रसीद का आग्रह भेजें"
 
 #: ../mail/evolution-mail.schemas.in.h:7
 msgid "Automatic emoticon recognition"
-msgstr "स्वचालित प्रतीक पहचान"
+msgstr "स्वचालित भाव-चिह्न पहचान"
 
 #: ../mail/evolution-mail.schemas.in.h:8
 msgid "Automatic link recognition"
@@ -13226,7 +13227,7 @@ msgstr "स्वचालित लिंक पहचान"
 
 #: ../mail/evolution-mail.schemas.in.h:9
 msgid "Check incoming mail being junk"
-msgstr "जंक के रूप में आगत मेल जांचें"
+msgstr "कचरा डाक के रूप में आगत डाक जांचें"
 
 #: ../mail/evolution-mail.schemas.in.h:10
 msgid "Citation highlight color"
@@ -13234,7 +13235,7 @@ msgstr "प्रशस्ति-पत्र को रंग से उभा�
 
 #: ../mail/evolution-mail.schemas.in.h:11
 msgid "Citation highlight color."
-msgstr "प्रशस्ति-पत्र को रंग से उभारें."
+msgstr "प्रशस्ति-पत्र को रंग से आलोकित करें."
 
 #: ../mail/evolution-mail.schemas.in.h:12
 msgid "Composer Window default height"
@@ -13250,29 +13251,29 @@ msgstr "कंपोजर निर्देशिका लोड/संलग
 
 #: ../mail/evolution-mail.schemas.in.h:15
 msgid "Compress display of addresses in TO/CC/BCC"
-msgstr "प्रति/कॉपी/गुप्त कॉपी में पता का प्रदर्शन संकुचित करें"
+msgstr "प्रति/नक़ल/गुप्त नक़ल में पता का प्रदर्शन संकुचित करें"
 
 #: ../mail/evolution-mail.schemas.in.h:16
 msgid ""
 "Compress display of addresses in TO/CC/BCC to the number specified in "
 "address_count."
-msgstr "प्रति/कॉपी/गुप्त कॉपी में पता के प्रदर्शन को सिकोड़े address_count में निर्दिष्ट संख्या मे."
+msgstr "प्रति/नक़ल/गुप्त नक़ल में पता के प्रदर्शन को सिकोड़े address_count में निर्दिष्ट संख्या मे."
 
 #: ../mail/evolution-mail.schemas.in.h:17
 msgid ""
 "Controls how frequently local changes are synchronized with the remote mail "
 "server. The interval must be at least 30 seconds."
-msgstr "नियंत्रण करता है कि कैसे स्थानीय परिवर्तन दूरस्थ मेल सर्वर से तुल्यकालित होता है. यह अंतराल कम से कम 30 सेकेंड का होना चाहिए."
+msgstr "नियंत्रण करता है कि कैसे स्थानीय परिवर्तन दूरस्थ डाक सर्वर से तुल्यकालित होता है. यह अंतराल कम से कम 30 सेकेंड का होना चाहिए."
 
 #: ../mail/evolution-mail.schemas.in.h:18
 msgid "Custom headers to use while checking for junk."
-msgstr "जंक की जाँच के दौरान प्रयोग के लिए मनपसंद शीर्षिका."
+msgstr "कचरा डाक की जाँच के दौरान प्रयोग के लिए मनपसंद शीर्षिका."
 
 #: ../mail/evolution-mail.schemas.in.h:19
 msgid ""
 "Custom headers to use while checking for junk. The list elements are string "
 "in the format \"headername=value\"."
-msgstr "जंक की जाँच के दौरान प्रयोग के लिए मनपसंद शीर्षिका. यह सूची तत्व \"headername=value\" प्रारूप में स्ट्रिंग हैं."
+msgstr "कचरा डाक की जाँच के दौरान प्रयोग के लिए मनपसंद शीर्षिका. यह सूची तत्व \"headername=value\" प्रारूप में स्ट्रिंग हैं."
 
 #: ../mail/evolution-mail.schemas.in.h:20
 msgid "Default charset in which to compose messages"
@@ -13308,7 +13309,7 @@ msgstr "सदस्यता संवाद की तयशुदा ऊं�
 
 #: ../mail/evolution-mail.schemas.in.h:28
 msgid "Default reply style"
-msgstr "तयशुदा जबाव शैली"
+msgstr "तयशुदा जवाब शैली"
 
 #: ../mail/evolution-mail.schemas.in.h:29
 msgid "Default value for thread expand state"
@@ -13330,7 +13331,7 @@ msgstr "सदस्यता संवाद की तयशुदा चौ�
 msgid ""
 "Determines whether to look up addresses for junk filtering in local address "
 "book only"
-msgstr "निर्धारित करता है कि क्या जंक के लिए पता देखना है जो कि केवल स्थानीय पता पुस्तिका में केवल फिल्टर होते हैं"
+msgstr "निर्धारित करता है कि क्या कचरा डाक के लिए पता देखना है जो कि केवल स्थानीय पता पुस्तिका में केवल फिल्टर होते हैं"
 
 #: ../mail/evolution-mail.schemas.in.h:34
 msgid "Determines whether to lookup in address book for sender email"
@@ -13346,14 +13347,14 @@ msgstr "निर्धारित करता है कि क्या प�
 
 #: ../mail/evolution-mail.schemas.in.h:36
 msgid "Determines whether to use custom headers to check for junk"
-msgstr "निर्धारित करता है कि क्या जंक जाँचने में मनपसंद शीर्षिका का प्रयोग करना है"
+msgstr "निर्धारित करता है कि क्या कचरा डाक जाँचने में मनपसंद शीर्षिका का प्रयोग करना है"
 
 #: ../mail/evolution-mail.schemas.in.h:37
 msgid ""
 "Determines whether to use custom headers to check for junk. If this option "
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
-msgstr "निर्धारित करता है कि क्या जंक जाँचने में मनपसंद शीर्षिका का प्रयोग करना है. यदि यह विकल्प सक्रिय किया जाता है और शीर्षिका का वर्णन किया जाता है, यह जंक जाँच गति बढ़ाएगा."
+msgstr "निर्धारित करता है कि क्या कचरा डाक जाँचने में मनपसंद शीर्षिका का प्रयोग करना है. यदि यह विकल्प सक्रिय किया जाता है और शीर्षिका का वर्णन किया जाता है, यह कचरा डाक जाँच गति बढ़ाएगा."
 
 #: ../mail/evolution-mail.schemas.in.h:38
 msgid ""
@@ -13365,7 +13366,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:39
 msgid "Directory for loading/attaching files to composer."
-msgstr "कंपोजर में फाइल लोड/संलग्न करने के लिए निर्देशिका."
+msgstr "कंपोजर में फ़ाइल लोड/संलग्न करने के लिए निर्देशिका."
 
 #: ../mail/evolution-mail.schemas.in.h:40
 msgid "Directory for saving mail component files."
@@ -13381,7 +13382,7 @@ msgstr "टाइप करने के दौरान वर्तनी त�
 
 #: ../mail/evolution-mail.schemas.in.h:43
 msgid "Empty Junk folders on exit"
-msgstr "निकास पर जंक फ़ोल्डर खाली करें"
+msgstr "निकास पर कचरा डाक फ़ोल्डर खाली करें"
 
 #: ../mail/evolution-mail.schemas.in.h:44
 msgid "Empty Trash folders on exit"
@@ -13389,7 +13390,7 @@ msgstr "निकास पर रद्दी फ़ोल्डर खाल�
 
 #: ../mail/evolution-mail.schemas.in.h:45
 msgid "Empty all Junk folders when exiting Evolution."
-msgstr "एवोल्यूशन से निकास पर सभी जंक फ़ोल्डर को खाली करें"
+msgstr "एवोल्यूशन से निकास पर सभी कचरा डाक फ़ोल्डर को खाली करें"
 
 #: ../mail/evolution-mail.schemas.in.h:46
 msgid "Empty all Trash folders when exiting Evolution."
@@ -13528,11 +13529,11 @@ msgid ""
 "It disables/enables the repeated prompts to warn that deleting messages from "
 "a search folder permanently deletes the message, not simply removing it from "
 "the search results."
-msgstr "यह दुहराए गए प्रांप्ट को निष्क्रिय/सक्रिय करता है यह चेतावनी देने के लिए कि खोज फोल्डर से किसी संदेश को मिटाना इस संदेश को स्थाई रूप से मिटा देता है, न कि केवल इसे महज खोज परिणाम से हटाता है."
+msgstr "यह दुहराए गए प्रांप्ट को निष्क्रिय/सक्रिय करता है यह चेतावनी देने के लिए कि खोज फ़ोल्डर से किसी संदेश को मिटाना इस संदेश को स्थाई रूप से मिटा देता है, न कि केवल इसे महज खोज परिणाम से हटाता है."
 
 #: ../mail/evolution-mail.schemas.in.h:70
 msgid "Last time empty junk was run"
-msgstr "अंतिम बार जब जंक चलाया गया था"
+msgstr "अंतिम बार जब कचरा डाक चलाया गया था"
 
 #: ../mail/evolution-mail.schemas.in.h:71
 msgid "Last time empty trash was run"
@@ -13565,7 +13566,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:78
 msgid "List of custom headers and whether they are enabled."
-msgstr "पसंदीदा हेडर की सूची और क्या वे सक्रिय हैं."
+msgstr "मनपसंद शीर्षिका की सूची और क्या वे सक्रिय हैं."
 
 #: ../mail/evolution-mail.schemas.in.h:79
 msgid "List of dictionary language codes used for spell checking."
@@ -13597,19 +13598,19 @@ msgstr "HTML संदेश के लिए HTTP पर छवि लोड �
 
 #: ../mail/evolution-mail.schemas.in.h:84
 msgid "Log filter actions"
-msgstr "लॉग निस्पंदन क्रिया"
+msgstr "लॉग फ़िल्टर क्रिया"
 
 #: ../mail/evolution-mail.schemas.in.h:85
 msgid "Log filter actions to the specified log file."
-msgstr "निर्दिष्ट लॉग फ़ाइल के लिए लॉग निस्पंदन क्रिया करें."
+msgstr "निर्दिष्ट लॉग फ़ाइल के लिए लॉग फ़िल्टर क्रिया करें."
 
 #: ../mail/evolution-mail.schemas.in.h:86
 msgid "Logfile to log filter actions"
-msgstr "लॉग निस्पंदन क्रिया  के लिए लॉग फ़ाइल"
+msgstr "लॉग फ़िल्टर क्रिया के लिए लॉग फ़ाइल"
 
 #: ../mail/evolution-mail.schemas.in.h:87
 msgid "Logfile to log filter actions."
-msgstr "लॉग निस्पंदन क्रिया  के लिए लॉग फ़ाइल."
+msgstr "लॉग फ़िल्टर क्रिया के लिए लॉग फ़ाइल."
 
 #: ../mail/evolution-mail.schemas.in.h:88
 msgid "Mark as Seen after specified timeout"
@@ -13637,11 +13638,11 @@ msgstr "संदेश विंडो तयशुदा चौड़ाई"
 
 #: ../mail/evolution-mail.schemas.in.h:94
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-msgstr "संदेश-प्रदर्शन शैली (\"सामान्य\", \"पूर्ण शीर्ष\", \"श्रोत\")"
+msgstr "संदेश-प्रदर्शन शैली (\"सामान्य\", \"पूर्ण शीर्ष\", \"स्रोत\")"
 
 #: ../mail/evolution-mail.schemas.in.h:95
 msgid "Minimum days between emptying the junk on exit"
-msgstr "बाहर होने पर जंक खाली करने पर न्यूनतम दिन"
+msgstr "बाहर होने पर कचरा डाक खाली करने पर न्यूनतम दिन"
 
 #: ../mail/evolution-mail.schemas.in.h:96
 msgid "Minimum days between emptying the trash on exit"
@@ -13649,7 +13650,7 @@ msgstr "बाहर होने पर रद्दी खाली करन�
 
 #: ../mail/evolution-mail.schemas.in.h:97
 msgid "Minimum time between emptying the junk on exit, in days."
-msgstr "बाहर होने पर जंक खाली करने पर न्यूनतम दिन, दिनों में."
+msgstr "बाहर होने पर कचरा डाक खाली करने पर न्यूनतम दिन, दिनों में."
 
 #: ../mail/evolution-mail.schemas.in.h:98
 msgid "Minimum time between emptying the trash on exit, in days."
@@ -13721,7 +13722,7 @@ msgstr "पाठ में लिंक पहचाने और उसे ब
 
 #: ../mail/evolution-mail.schemas.in.h:114
 msgid "Run junk test on incoming mail."
-msgstr "आने वाली डाक पर जंक जाँच चलाएँ."
+msgstr "आने वाली डाक पर कचरा डाक जाँच चलाएँ."
 
 #: ../mail/evolution-mail.schemas.in.h:115
 msgid "Save directory"
@@ -13757,11 +13758,11 @@ msgstr "सजीवित बिंबों को सजीवन के र�
 
 #: ../mail/evolution-mail.schemas.in.h:123
 msgid "Show deleted messages (with a strike-through) in the message-list."
-msgstr "संदेश सूची (         ) में विलोपित संदेशों को दिखाएँ."
+msgstr "संदेश सूची (आर-पार काटे हुए के साथ ) में मिटाए संदेश दिखाएँ."
 
 #: ../mail/evolution-mail.schemas.in.h:124
 msgid "Show deleted messages in the message-list"
-msgstr "संदेश सूची में विलोपित संदेशों को दिखाएँ"
+msgstr "संदेश सूची में मिटाए संदेश दिखाएँ"
 
 #: ../mail/evolution-mail.schemas.in.h:125
 msgid "Show photo of the sender"
@@ -13807,11 +13808,11 @@ msgstr "पाठ संदेश हिस्सा सीमा"
 
 #: ../mail/evolution-mail.schemas.in.h:137
 msgid "The default plugin for Junk hook"
-msgstr "जंक हुक के लिए तयशुदा प्लगिन"
+msgstr "कचरा डाक हुक के लिए तयशुदा प्लगिन"
 
 #: ../mail/evolution-mail.schemas.in.h:138
 msgid "The last time empty junk was run, in days since the epoch."
-msgstr "अंतिम समय जब जंक खाली करें चलाया गया, खास समय से दिनों में"
+msgstr "अंतिम समय जब कचरा डाक खाली करें चलाया गया, खास समय से दिनों में"
 
 #: ../mail/evolution-mail.schemas.in.h:139
 msgid "The last time empty trash was run, in days since the epoch."
@@ -13844,7 +13845,7 @@ msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won't fall back "
 "to the other available plugins."
-msgstr "यह तयशुदा जंक प्लगइन है, हालांकि बहुविध प्लगइन सक्रिय किए गए हैं. यदि सूचीबद्ध तयशुदा प्लगइन निष्क्रिय किया जाता है, तो यह दूसरे उपलब्ध प्लगइन में वापस नहीं जाता है."
+msgstr "यह तयशुदा कचरा डाक प्लगइन है, हालांकि बहुविध प्लगइन सक्रिय किए गए हैं. यदि सूचीबद्ध तयशुदा प्लगइन निष्क्रिय किया जाता है, तो यह दूसरे उपलब्ध प्लगइन में वापस नहीं जाता है."
 
 #: ../mail/evolution-mail.schemas.in.h:145
 msgid ""
@@ -13859,7 +13860,7 @@ msgid ""
 "header enabled&gt; - set enabled if the header is to be displayed in the "
 "mail view."
 msgstr ""
-"कुंजी को पसंदीदा हेडर निर्दिष्ट करने वाली XML संरचना को समाहित करनी चाहिए, और क्या उसे "
+"कुंजी को मनपसंद शीर्षिका निर्दिष्ट करने वाली XML संरचना को समाहित करनी चाहिए, और क्या उसे "
 "निष्क्रिय किया जाना है. XML संरचना का प्रारूप &lt;header enabled&gt; है - सक्रिय के "
 "रूप में सेट करें अगर हेजर को डाक दृश्य में दिखाया जाना है."
 
@@ -13868,7 +13869,7 @@ msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local address book only to exclude "
 "mail sent by known contacts from junk filtering."
-msgstr "यह विकल्प कुंजी lookup_addressbook से संबंधित है और यह निर्धारित करने के लिए प्रयुक्त है कि क्या जंक फिल्टरिंग से ज्ञात संपर्क के द्वारा डाक अलग करने के लिए केवल स्थानीय पता पुस्तिका में पता देखने हैं."
+msgstr "यह विकल्प कुंजी lookup_addressbook से संबंधित है और यह निर्धारित करने के लिए प्रयुक्त है कि क्या कचरा डाक फिल्टरिंग से ज्ञात संपर्क के द्वारा डाक अलग करने के लिए केवल स्थानीय पता पुस्तिका में पता देखने हैं."
 
 #: ../mail/evolution-mail.schemas.in.h:148
 msgid "This option would help in improving the speed of fetching."
@@ -13897,15 +13898,15 @@ msgstr "यह सेटिंग निर्दिष्ट करता ह�
 
 #: ../mail/evolution-mail.schemas.in.h:152
 msgid "Thread the message list."
-msgstr "संदेश सूची को सूत्रित करें."
+msgstr "संदेश सूची को लड़ीबद्ध करें."
 
 #: ../mail/evolution-mail.schemas.in.h:153
 msgid "Thread the message-list"
-msgstr "संदेश-सूची को सूत्रित करें"
+msgstr "संदेश-सूची को लड़ीबद्ध करें"
 
 #: ../mail/evolution-mail.schemas.in.h:154
 msgid "Thread the message-list based on Subject"
-msgstr "विषय आधारित संदेश-सूची को सूत्रित करें"
+msgstr "विषय आधारित संदेश-सूची को लड़ीबद्ध करें"
 
 #: ../mail/evolution-mail.schemas.in.h:155
 msgid "Timeout for marking message as seen"
@@ -13949,7 +13950,7 @@ msgstr "स्थानीय स्पैम परीक्षण का स�
 
 #: ../mail/evolution-mail.schemas.in.h:165
 msgid "Use side-by-side or wide layout"
-msgstr "अगल बगल या विस्तृत लेआउट का प्रयोग करें"
+msgstr "अगल बगल या विस्तृत ख़ाका का प्रयोग करें"
 
 #: ../mail/evolution-mail.schemas.in.h:166
 msgid "Variable width font"
@@ -13989,11 +13990,11 @@ msgstr "दृश्य/प्रेषित मेनू मद जांच �
 
 #: ../mail/evolution-mail.schemas.in.h:175
 msgid "View/ReplyTo menu item is checked"
-msgstr "दृश्य/जबाव मेनू मद जांच किया गया है"
+msgstr "दृश्य/जवाब मेनू मद जांच किया गया है"
 
 #: ../mail/evolution-mail.schemas.in.h:176
 msgid "View/ReplyTo menu item is checked."
-msgstr "दृश्य/जबाव मेनू मद जांच किया गया है."
+msgstr "दृश्य/जवाब मेनू मद जांच किया गया है."
 
 #: ../mail/evolution-mail.schemas.in.h:177
 msgid "Whether a read receipt request gets added to every message by default."
@@ -14008,7 +14009,7 @@ msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
 msgstr ""
-"क्या विषय पर फाल बैक होना है या नहीं जब संदेश में In-Reply-To या संदर्भ हेडर समाहित नहीं "
+"क्या विषय पर फाल बैक होना है या नहीं जब संदेश में In-Reply-To या संदर्भ शीर्षिका समाहित नहीं "
 "है."
 
 #: ../mail/evolution-mail.schemas.in.h:180
@@ -14124,15 +14125,15 @@ msgstr[1] "%d विलोपित"
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
-msgstr[0] "%d जंक"
-msgstr[1] "%d जंक"
+msgstr[0] "%d कचरा डाक"
+msgstr[1] "%d कचरा डाक"
 
 #: ../mail/mail-component.c:564
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
-msgstr[0] "%d ड्राफ्ट"
-msgstr[1] "%d ड्राफ्ट"
+msgstr[0] "%d मसौदा"
+msgstr[1] "%d मसौदा"
 
 #: ../mail/mail-component.c:566
 #, c-format
@@ -14303,7 +14304,7 @@ msgstr "<span weight=\"bold\">सुरक्षा</span>"
 
 #: ../mail/mail-config.glade.h:31
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
-msgstr "<span weight=\"bold\">प्रेषित एवं ड्राफ्ट संदेश</span>"
+msgstr "<span weight=\"bold\">प्रेषित एवं मसौदा संदेश</span>"
 
 #: ../mail/mail-config.glade.h:32
 msgid "<span weight=\"bold\">Server Configuration</span>"
@@ -14375,11 +14376,11 @@ msgstr "समर्थित प्रकार के लिए जांच�
 
 #: ../mail/mail-config.glade.h:51
 msgid "Check cu_stom headers for junk"
-msgstr "जंक के लिए पसंदीदा हेडर जांचें (_s)"
+msgstr "कचरा डाक के लिए मनपसंद शीर्षिका जांचें (_s)"
 
 #: ../mail/mail-config.glade.h:52
 msgid "Check incoming _messages for junk"
-msgstr "जंक के लिए आने वाली डाक जांचें (_m)"
+msgstr "कचरा डाक के लिए आने वाली डाक जांचें (_m)"
 
 #: ../mail/mail-config.glade.h:53
 msgid "Check spelling while I _type"
@@ -14387,7 +14388,7 @@ msgstr "जब मैं लिखूं तो वर्तनी जांच 
 
 #: ../mail/mail-config.glade.h:54
 msgid "Checks incoming mail messages to be Junk"
-msgstr "आगत डाक संदेश में से जंक को जांचें"
+msgstr "आगत डाक संदेश में से कचरा डाक को जांचें"
 
 #: ../mail/mail-config.glade.h:55
 msgid "Cle_ar"
@@ -14427,11 +14428,11 @@ msgstr "तयशुदा (_f)"
 
 #: ../mail/mail-config.glade.h:66
 msgid "Default character e_ncoding:"
-msgstr "तयशुदा संप्रतीक एनकोडिंग (_n):"
+msgstr "तयशुदा वर्ण एनकोडिंग (_n):"
 
 #: ../mail/mail-config.glade.h:68
 msgid "Delete junk messages on e_xit"
-msgstr "बाहर निकलने पर जंक संदेश मिटाएँ (_x)"
+msgstr "बाहर निकलने पर कचरा डाक संदेश मिटाएँ (_x)"
 
 #: ../mail/mail-config.glade.h:70
 msgid "Digitally sign o_utgoing messages (by default)"
@@ -14443,7 +14444,7 @@ msgstr "संदेश प्रारूपित मत करें जब �
 
 #: ../mail/mail-config.glade.h:72
 msgid "Do not mar_k messages as junk if sender is in my address book"
-msgstr "संदेश बतौर जंक चिह्नित मत करें यदि प्रेषक मेरी पता पुस्तिका में है (_k)"
+msgstr "संदेश बतौर कचरा डाक चिह्नित मत करें यदि प्रेषक मेरी पता पुस्तिका में है (_k)"
 
 #: ../mail/mail-config.glade.h:73
 msgid "Do not quote"
@@ -14455,7 +14456,7 @@ msgstr "सम्पन्न"
 
 #: ../mail/mail-config.glade.h:75
 msgid "Drafts _Folder:"
-msgstr "ड्राफ्ट फ़ोल्डर (_F):"
+msgstr "मसौदा फ़ोल्डर (_F):"
 
 #: ../mail/mail-config.glade.h:76
 msgid "Email Accounts"
@@ -14520,7 +14521,7 @@ msgstr "शीर्ष"
 
 #: ../mail/mail-config.glade.h:94
 msgid "Highlight _quotations with"
-msgstr "इससे उद्धरण को उभारें (_q)"
+msgstr "इससे उद्धरण को आलोकित करें (_q)"
 
 #: ../mail/mail-config.glade.h:96
 msgid "Inline"
@@ -14574,7 +14575,7 @@ msgstr "नोट: जबतक आप पहली बार न जुड़�
 
 #: ../mail/mail-config.glade.h:110
 msgid "Option is ignored if a match for custom junk headers is found."
-msgstr "विकल्प अनदेखा किया जाता है यदि मनपसंद जंक शीर्षिका के लिए कोई मिलान पाया जाता है."
+msgstr "विकल्प अनदेखा किया जाता है यदि मनपसंद कचरा डाक शीर्षिका के लिए कोई मिलान पाया जाता है."
 
 #: ../mail/mail-config.glade.h:111
 msgid "Or_ganization:"
@@ -14601,7 +14602,7 @@ msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"कृपया सूचना दें कि किस रूप में आप मेल भेजेंगे. अगर आफ निश्चित नहीं हैं, अपने तंत्र प्रशासक या "
+"कृपया सूचना दें कि किस रूप में आप डाक भेजेंगे. अगर आफ निश्चित नहीं हैं, अपने तंत्र प्रशासक या "
 "इंटर सर्विस प्रोवाइडर को पूछें."
 
 #: ../mail/mail-config.glade.h:118
@@ -14635,7 +14636,7 @@ msgstr "कूटशब्द याद करें (_m)"
 
 #: ../mail/mail-config.glade.h:124
 msgid "Re_ply-To:"
-msgstr "जबाव दें (_p)"
+msgstr "जवाब दें (_p)"
 
 #: ../mail/mail-config.glade.h:126
 msgid "Remember _password"
@@ -14798,7 +14799,7 @@ msgstr "स्वचालित प्राक्सी विन्यास 
 
 #: ../mail/mail-config.glade.h:167
 msgid "_Default junk plugin:"
-msgstr "तयशुदा जंक प्लगिन (_D):"
+msgstr "तयशुदा कचरा डाक प्लगिन (_D):"
 
 #: ../mail/mail-config.glade.h:168
 msgid "_Direct connection to the Internet"
@@ -14854,7 +14855,7 @@ msgstr "तब प्रांप्ट करें जब रिक्त व�
 
 #: ../mail/mail-config.glade.h:183
 msgid "_Reply style:"
-msgstr "जबाव शैली (_R):"
+msgstr "जवाब शैली (_R):"
 
 #: ../mail/mail-config.glade.h:184
 msgid "_Script:"
@@ -14879,7 +14880,7 @@ msgstr "संदेश पूर्वावलोकन में प्रे
 
 #: ../mail/mail-config.glade.h:191
 msgid "_Shrink To / Cc / Bcc headers to "
-msgstr "प्रति / कॉपी / गुप्त कॉपी इसमें सिकोड़ें (_S)"
+msgstr "प्रति / नक़ल / गुप्त नक़ल इसमें सिकोड़ें (_S)"
 
 #: ../mail/mail-config.glade.h:192
 msgid "_Use Secure Connection:"
@@ -14911,7 +14912,7 @@ msgstr "    "
 
 #: ../mail/mail-dialogs.glade.h:2
 msgid "<b>Search Folder Sources</b>"
-msgstr "<b>फ़ोल्डर श्रोत खोजें</b>"
+msgstr "<b>फ़ोल्डर स्रोत खोजें</b>"
 
 #: ../mail/mail-dialogs.glade.h:3
 msgid "<span weight=\"bold\">Digital Signature</span>"
@@ -14947,7 +14948,7 @@ msgstr "ढूंढे (_i):"
 
 #: ../mail/mail-dialogs.glade.h:11
 msgid "Find in Message"
-msgstr "संदेश सें ढूंढें"
+msgstr "संदेश सें ढूँढ़ें"
 
 #: ../mail/mail-dialogs.glade.h:12 ../mail/message-tag-followup.c:276
 msgid "Flag to Follow Up"
@@ -15008,7 +15009,7 @@ msgstr "%s को पिंग कर रहा है"
 
 #: ../mail/mail-ops.c:106
 msgid "Filtering Selected Messages"
-msgstr "चयनित संदेशों को फ़िल्टर कर रहा है"
+msgstr "चयनित संदेश फ़िल्टर कर रहा है"
 
 #: ../mail/mail-ops.c:265
 msgid "Fetching Mail"
@@ -15018,7 +15019,7 @@ msgstr "डाक ला रहा है"
 #: ../mail/mail-ops.c:561
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
-msgstr "आउटगोइंग फ़िल्टर चलाने में असफल: %s"
+msgstr "बाहर जाने वाला फ़िल्टर चलाने में असफल: %s"
 
 #: ../mail/mail-ops.c:573 ../mail/mail-ops.c:602
 #, c-format
@@ -15068,7 +15069,7 @@ msgstr "%s में संदेश खिसका रहा है"
 #: ../mail/mail-ops.c:950
 #, c-format
 msgid "Copying messages to %s"
-msgstr "%s में संदेश कापी कर रहा है"
+msgstr "%s में संदेश नक़ल कर रहा है"
 
 #: ../mail/mail-ops.c:1167
 msgid "Forwarded messages"
@@ -15111,7 +15112,7 @@ msgstr "'%s' खाते का भंडारण कर रहा है"
 
 #: ../mail/mail-ops.c:1649
 msgid "Refreshing folder"
-msgstr "फ़ोल्डर ताजा कर रहा है"
+msgstr "फ़ोल्डर ताज़ा कर रहा है"
 
 #: ../mail/mail-ops.c:1689 ../mail/mail-ops.c:1739
 msgid "Expunging folder"
@@ -15259,7 +15260,7 @@ msgstr "`%s' स्पूल डायरेक्टरी बना नही�
 #: ../mail/mail-tools.c:150
 #, c-format
 msgid "Trying to movemail a non-mbox source `%s'"
-msgstr "एक गैर-mbox श्रोत `%s' में मेल भेजने की कोशिश"
+msgstr "एक गैर-mbox स्रोत `%s' में डाक भेजने की कोशिश"
 
 #: ../mail/mail-tools.c:256
 #, c-format
@@ -15334,7 +15335,7 @@ msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
 msgstr ""
-"अपने संदेश में अर्थवान विषय देना प्राप्तकर्ता को आपके मेल के संबंध में बतायेगा कि मेल किस संबंध में "
+"अपने संदेश में अर्थवान विषय देना प्राप्तकर्ता को आपके डाक के संबंध में बतायेगा कि डाक किस संबंध में "
 "है"
 
 #: ../mail/mail.error.xml.h:9
@@ -15358,7 +15359,7 @@ msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
 msgstr ""
-"क्या आप निश्चित हैं कि आप सारे फ़ोल्डर से सारे विलोपित संदेशों को स्थायी रूप से मिटाना चाहते "
+"क्या आप निश्चित हैं कि आप सारे फ़ोल्डर से सारे मिटाए संदेश स्थायी रूप से मिटाना चाहते "
 "हैं?"
 
 #: ../mail/mail.error.xml.h:14
@@ -15366,7 +15367,7 @@ msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder \"{0}\"?"
 msgstr ""
-"क्या आप निश्चित हैं कि आप \"{0}\" में फ़ोल्डर से सारे विलोपित संदेशों को स्थायी रूप से "
+"क्या आप निश्चित हैं कि आप \"{0}\" में फ़ोल्डर से सारे मिटाए संदेश स्थायी रूप से "
 "मिटाना चाहते हैं?"
 
 #: ../mail/mail.error.xml.h:15
@@ -15399,7 +15400,7 @@ msgstr "खोज फ़ोल्डर \"{0}\" जोड़ नहीं सक
 
 #: ../mail/mail.error.xml.h:23
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
-msgstr "फ़ोल्डर \"{0}\" \"{1}\" में कापी नहीं कर सकता है."
+msgstr "फ़ोल्डर \"{0}\" \"{1}\" में नक़ल नहीं कर सकता है."
 
 #: ../mail/mail.error.xml.h:24
 msgid "Cannot create folder \"{0}\"."
@@ -15431,11 +15432,11 @@ msgstr "फ़ोल्डर \"{0}\" को \"{1}\" में विस्थ�
 
 #: ../mail/mail.error.xml.h:31
 msgid "Cannot open source \"{1}\""
-msgstr "\"{1}\"  को मुक्त श्रोत नहीं कर सकता है"
+msgstr "\"{1}\"  को मुक्त स्रोत नहीं कर सकता है"
 
 #: ../mail/mail.error.xml.h:32
 msgid "Cannot open source \"{2}\"."
-msgstr "श्रोत \"{2}\" को मुक्त नहीं कर सकता है"
+msgstr "स्रोत \"{2}\" को मुक्त नहीं कर सकता है"
 
 #: ../mail/mail.error.xml.h:33
 msgid "Cannot open target \"{2}\"."
@@ -15475,7 +15476,7 @@ msgstr "हस्ताक्षर स्क्रिप्ट \"{0}\" नह�
 
 #: ../mail/mail.error.xml.h:41
 msgid "Check Junk Failed"
-msgstr "विफल जंक के लिए जाँचें"
+msgstr "विफल कचरा डाक के लिए जाँचें"
 
 #: ../mail/mail.error.xml.h:42
 msgid ""
@@ -15541,7 +15542,7 @@ msgstr "कूटशब्द दाखिल करें."
 
 #: ../mail/mail.error.xml.h:56
 msgid "Error loading filter definitions."
-msgstr "फ़िल्टर परिभाषा के अधिभारण में त्रुटि"
+msgstr "फ़िल्टर परिभाषा के लोड करने में त्रुटि"
 
 #: ../mail/mail.error.xml.h:57
 msgid "Error while performing operation."
@@ -15612,8 +15613,8 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
-"कई ईमेल तंत्र एक Apparently-To हेडर को संदेश में जोड़ता है जो कि सिर्फ BCC प्राप्तकर्ता "
-"रखता है. यह हेडर, अगर जोड़ा गया, आपके संदेश के सारे प्राप्त कर्ता को सूची बद्ध करेगा. इससे "
+"कई ईमेल तंत्र एक Apparently-To शीर्षिका को संदेश में जोड़ता है जो कि सिर्फ BCC प्राप्तकर्ता "
+"रखता है. यह शीर्षिका, अगर जोड़ा गया, आपके संदेश के सारे प्राप्त कर्ता को सूची बद्ध करेगा. इससे "
 "बचने के लिए, आपको कम से कम एक प्रति: या सीसी: प्राप्तकर्ता को जोड़ना चाहिए."
 
 #: ../mail/mail.error.xml.h:73
@@ -15626,7 +15627,7 @@ msgstr "गुम फ़ोल्डर."
 
 #: ../mail/mail.error.xml.h:76
 msgid "No sources selected."
-msgstr "कोई श्रोत चयनित नहीं."
+msgstr "कोई स्रोत चयनित नहीं."
 
 #: ../mail/mail.error.xml.h:77
 msgid "Opening too many messages at once may take a long time."
@@ -15687,11 +15688,11 @@ msgstr "फ़ोल्डर \"{0}\" और इसके सभी उपफो
 
 #: ../mail/mail.error.xml.h:90
 msgid "Report Junk Failed"
-msgstr "विफल जंक रिपोर्ट करें"
+msgstr "विफल कचरा डाक रिपोर्ट करें"
 
 #: ../mail/mail.error.xml.h:91
 msgid "Report Not Junk Failed"
-msgstr "जंक नहीं विफल के रूप में रिपोर्ट करें"
+msgstr "कचरा डाक नहीं विफल के रूप में रिपोर्ट करें"
 
 #: ../mail/mail.error.xml.h:92
 msgid "Search Folders automatically updated."
@@ -15732,8 +15733,8 @@ msgid ""
 msgstr ""
 "संपर्क सूची जिसे आप भेज रहे हैं प्राप्तकर्ता सूची को छुपाने के लिए हैं\n"
 "\n"
-"कई ईमेल तंत्र एक Apparently-To हेडर को संदेश में जोड़ता है जो कि सिर्फ BCC प्राप्तकर्ता "
-"रखता है. यह हेडर, अगर जोड़ा गया, आपके संदेश के सारे प्राप्त कर्ता को सूची बद्ध करेगा. इससे "
+"कई ईमेल तंत्र एक Apparently-To शीर्षिका को संदेश में जोड़ता है जो कि सिर्फ BCC प्राप्तकर्ता "
+"रखता है. यह शीर्षिका, अगर जोड़ा गया, आपके संदेश के सारे प्राप्त कर्ता को सूची बद्ध करेगा. इससे "
 "बचने के लिए, आपको कम से कम एक प्रति: या सीसी: प्राप्तकर्ता को जोड़ना चाहिए."
 
 #: ../mail/mail.error.xml.h:101
@@ -15802,7 +15803,7 @@ msgstr "हस्ताक्षर बदला जा रहा है ले�
 msgid ""
 "This will mark all messages as read in the selected folder and its "
 "subfolders."
-msgstr "यह चयनित फ़ोल्डर व उपफोल्डर के सभी संदेशों को पठित बनायेगा."
+msgstr "यह चयनित फ़ोल्डर व उपफोल्डर के सभी संदेश पठित बनायेगा."
 
 #: ../mail/mail.error.xml.h:119
 msgid "Unable to connect to the GroupWise server."
@@ -15812,7 +15813,7 @@ msgstr "GroupWise सर्वर से जुड़ने में असम�
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
-msgstr "इस खाता के लिए ड्राफ्ट फ़ोल्डर बनाने में असमर्थ. बदले में तंत्र ड्राफ्ट फ़ोल्डर का प्रयोग करें?"
+msgstr "इस खाता के लिए मसौदा फ़ोल्डर बनाने में असमर्थ. बदले में तंत्र मसौदा फ़ोल्डर का प्रयोग करें?"
 
 #: ../mail/mail.error.xml.h:121
 msgid "Unable to read license file."
@@ -15824,7 +15825,7 @@ msgstr "तयशुदा का उपयोग करें (_D)"
 
 #: ../mail/mail.error.xml.h:123
 msgid "Use default drafts folder?"
-msgstr "तयशुदा ड्राफ्ट फ़ोल्डर का प्रयोग करें?"
+msgstr "तयशुदा मसौदा फ़ोल्डर का प्रयोग करें?"
 
 #: ../mail/mail.error.xml.h:124
 msgid ""
@@ -15832,7 +15833,7 @@ msgid ""
 "message from one of your local or remote folders.\n"
 "Do you really want to do this?"
 msgstr ""
-"चेतावनी: किसी खोज फोल्डर से संदेश मिटाना आपके स्थानीय या दूरस्थ फोल्डर से वास्तविक संदेश मिटा देगा.\n"
+"चेतावनी: किसी खोज फ़ोल्डर से संदेश मिटाना आपके स्थानीय या दूरस्थ फ़ोल्डर से वास्तविक संदेश मिटा देगा.\n"
 "क्या आप वास्तव में ऐसा करना चाहते हैं?"
 
 #: ../mail/mail.error.xml.h:127
@@ -15861,7 +15862,7 @@ msgid ""
 "Either by selecting the folders individually, and/or by selecting all local "
 "folders, all remote folders, or both."
 msgstr ""
-"आप कम से कम एक फ़ोल्डर को एक श्रोत के रूप में जरूर निर्दिष्ट करें.\n"
+"आप कम से कम एक फ़ोल्डर को एक स्रोत के रूप में जरूर निर्दिष्ट करें.\n"
 "या तो फ़ोल्डर को निजी रूप से चुनते हुये, और/या सारे स्थानीय फोल्ड को चुनते हुये, सारे दूरस्थ "
 "फ़ोल्डर , या दोनों."
 
@@ -15883,7 +15884,7 @@ msgstr "तुल्यकालित मत करें (_D)"
 
 #: ../mail/mail.error.xml.h:139
 msgid "_Expunge"
-msgstr "पूर्ण विलोपित करें (_E)"
+msgstr "बिल्कुल हटा दें (_E)"
 
 #: ../mail/mail.error.xml.h:140
 msgid "_Open Messages"
@@ -16380,7 +16381,7 @@ msgid ""
 "lists."
 msgstr ""
 "स्वचालित रूप से नाम व ईमेल पता के साथ आपकी पता पुस्तिका को भरता है जैसे ही आप डाक का "
-"जबाब देते हैं. साथ ही IM संपर्क सूचना में आपके दोस्त सूची से भरता है."
+"जवाब देते हैं. साथ ही IM संपर्क सूचना में आपके दोस्त सूची से भरता है."
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid "BBDB"
@@ -16427,11 +16428,11 @@ msgstr "बोगोफिल्टर विकल्प"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
 msgid "Bogofilter junk plugin"
-msgstr "बोगोफिल्टर जंक प्लगिन"
+msgstr "बोगोफिल्टर कचरा डाक प्लगिन"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
 msgid "Filters junk messages using Bogofilter."
-msgstr "बोगोफिल्टर के प्रयोग से जंक संदेश फ़िल्टर करता है."
+msgstr "बोगोफिल्टर के प्रयोग से कचरा डाक संदेश फ़िल्टर करता है."
 
 #. we found the group, change the name based on the actual language
 #: ../plugins/caldav/caldav-source.c:80 ../plugins/caldav/caldav-source.c:92
@@ -16456,7 +16457,7 @@ msgstr "SSL का प्रयोग करें (_S)"
 #: ../plugins/google-account-setup/google-source.c:632
 #: ../plugins/google-account-setup/google-contacts-source.c:367
 msgid "Re_fresh:"
-msgstr "ताजा करें (_f):"
+msgstr "ताज़ा करें (_f):"
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:1
 msgid "CalDAV Calendar sources"
@@ -16464,7 +16465,7 @@ msgstr "CalDAV पंचांग स्रोत"
 
 #: ../plugins/caldav/org-gnome-evolution-caldav.eplug.xml.h:2
 msgid "CalDAV sources"
-msgstr "CalDAV श्रोत"
+msgstr "CalDAV स्रोत"
 
 #: ../plugins/calendar-file/org-gnome-calendar-file.eplug.xml.h:1
 msgid "Local Calendars"
@@ -16559,12 +16560,12 @@ msgid ""
 "A test plugin which demonstrates a popup menu plugin which lets you copy "
 "things to the clipboard."
 msgstr ""
-"एक जांच प्लगिन जो एक पॉपअप मेनू को दिखाता है जो क्लिपबोर्ड में चीजों को कापी करने की "
+"एक जांच प्लगिन जो एक पॉपअप मेनू को दिखाता है जो क्लिपबोर्ड में चीजों को नक़ल करने की "
 "अनुमति देता है."
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:3
 msgid "Copy tool"
-msgstr "कॉपी उपकरण"
+msgstr "नक़ल औज़ार"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:1
 msgid "Check whether Evolution is the default mailer"
@@ -16576,7 +16577,7 @@ msgstr "हर बार जब एवोल्यूशन शुरू हो�
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
 msgid "Checks whether Evolution is the default mail client on startup."
-msgstr "आरंभ में जांचे कि क्या एवोल्यूशन तयशुदा मेल क्लाइंट है"
+msgstr "आरंभ में जांचे कि क्या एवोल्यूशन तयशुदा डाक क्लाइंट है"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:2
 msgid "Default Mail Client "
@@ -16584,7 +16585,7 @@ msgstr "तयशुदा डाक क्लाइंट"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
 msgid "Do you want to make Evolution your default e-mail client?"
-msgstr "क्या आप एवोल्यूशन को अपना तयशुदा मेल क्लाइंट बनाना चाहेंगे?"
+msgstr "क्या आप एवोल्यूशन को अपना तयशुदा डाक क्लाइंट बनाना चाहेंगे?"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
 #: ../shell/main.c:599
@@ -16609,7 +16610,7 @@ msgstr "तयशुदा ज्ञापन लिस्ट के रूप �
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:1
 msgid "Default Sources"
-msgstr "तयशुदा श्रोत"
+msgstr "तयशुदा स्रोत"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
 msgid ""
@@ -16643,7 +16644,7 @@ msgstr "अति गुप्त"
 
 #: ../plugins/email-custom-header/email-custom-header.c:585
 msgid "_Custom Header"
-msgstr "मनपसंद हेडर (_C)"
+msgstr "मनपसंद शीर्षिका (_C)"
 
 #: ../plugins/email-custom-header/email-custom-header.c:907
 msgid "Key"
@@ -16665,7 +16666,7 @@ msgstr ""
 
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.glade.h:1
 msgid "Email Custom Header"
-msgstr "इमेल पसंदीदा हेडर"
+msgstr "इमेल मनपसंद शीर्षिका"
 
 #. For Translators: 'custom header' string is used while adding a new message header to outgoing message, to specify what value for the message header would be added
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:2
@@ -16674,11 +16675,11 @@ msgstr "बाहर जाने वाली संदेश में मन�
 
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:3
 msgid "Custom Header"
-msgstr "कस्टम हेडर"
+msgstr "कस्टम शीर्षिका"
 
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:1
 msgid "List of Custom Headers"
-msgstr "कस्टम हेडर की सूची"
+msgstr "कस्टम शीर्षिका की सूची"
 
 #: ../plugins/email-custom-header/apps_evolution_email_custom_header.schemas.in.h:2
 msgid ""
@@ -16873,12 +16874,12 @@ msgstr "मनपसंद"
 #: ../plugins/exchange-operations/exchange-delegates-user.c:184
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:8
 msgid "Editor (read, create, edit)"
-msgstr "संपादक (पढे, बनायें, संपादक)"
+msgstr "संपादक (पढे, बनाएँ, संपादक)"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:188
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:1
 msgid "Author (read, create)"
-msgstr "लेखक (पढे, बनायें)"
+msgstr "लेखक (पढे, बनाएँ)"
 
 #: ../plugins/exchange-operations/exchange-delegates-user.c:192
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:11
@@ -16993,7 +16994,7 @@ msgid ""
 "These users will be able to send mail on your behalf\n"
 "and access your folders with the permissions you give them."
 msgstr ""
-"ये उपयोक्ता आपके बदले मेल भेजने में समर्थ होंगे\n"
+"ये उपयोक्ता आपके बदले डाक भेजने में समर्थ होंगे\n"
 "और आपके द्वारा दिये गये अनुमति से आपके फ़ोल्डर में पहुंच सकेंगे."
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:14
@@ -17003,7 +17004,7 @@ msgstr "डेलिगेट निजी मद देख सकता है 
 #. Translators: This is used for permissions for <user> for the folder Inbox.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:17
 msgid "_Inbox:"
-msgstr "इनबॉक्स (_I):"
+msgstr "आई डाक (_I):"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:18
 msgid "_Summarize permissions"
@@ -17147,7 +17148,7 @@ msgstr "संपादन नहीं कर सकते"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:4
 msgid "Create items"
-msgstr "मद बनायें"
+msgstr "मद बनाएँ"
 
 #: ../plugins/exchange-operations/exchange-permissions-dialog.glade.h:5
 msgid "Create subfolders"
@@ -17543,7 +17544,7 @@ msgstr "असमर्थित संक्रिया"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:74
 msgid "You are nearing your quota available for storing mail on this server."
-msgstr "आप इस सर्वर पर मेल भंडारण के लिए उपलब्ध कोटा सीमा के निकट हैं."
+msgstr "आप इस सर्वर पर डाक भंडारण के लिए उपलब्ध कोटा सीमा के निकट हैं."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:75
 msgid ""
@@ -17557,7 +17558,7 @@ msgstr "आप स्वयं को नहीं दे सकते हैं
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:77
 msgid "You have exceeded your quota for storing mail on this server."
-msgstr "आप अपने लिए इस सर्वर पर मेल भंडारण की उपलब्ध कोटा सीमा से ज्यादा का उपयोग कर रहे हैं."
+msgstr "आप अपने लिए इस सर्वर पर डाक भंडारण की उपलब्ध कोटा सीमा से ज्यादा का उपयोग कर रहे हैं."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:78
 msgid "You may only configure a single Exchange account."
@@ -17567,20 +17568,20 @@ msgstr "आपको एकल विनिमय खाता विन्य�
 msgid ""
 "Your current usage is: {0} KB. Try to clear up some space by deleting some "
 "mail."
-msgstr "आपका मौजूदा प्रयोग है : {0}KB. कुछ मेल मिटाकर स्थान खाली करने की कोशिश करें."
+msgstr "आपका मौजूदा प्रयोग है : {0}KB. कुछ डाक मिटाकर स्थान खाली करने की कोशिश करें."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:80
 msgid ""
 "Your current usage is: {0} KB. You will not be able to either send or "
 "receive mail now."
-msgstr "आपका मौजूदा प्रयोग है : {0}KB. आप अब मेल भेजने व पाने में समर्थ न हो पाएंगे."
+msgstr "आपका मौजूदा प्रयोग है : {0}KB. आप अब डाक भेजने व पाने में समर्थ न हो पाएंगे."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:81
 msgid ""
 "Your current usage is: {0} KB. You will not be able to send mail until you "
 "clear up some space by deleting some mail."
 msgstr ""
-"आपका मौजूदा प्रयोग है : {0}KB. आप तबतक मेल न भेज पाएंगे जबतक कि कुछ मेल मिटाकर स्थान "
+"आपका मौजूदा प्रयोग है : {0}KB. आप तबतक डाक न भेज पाएंगे जबतक कि कुछ डाक मिटाकर स्थान "
 "खाली करने की कोशिश करें."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:82
@@ -17775,7 +17776,7 @@ msgid ""
 "Click 'Forward' to install the shared folder\n"
 "\n"
 msgstr ""
-"इस उपयोक्ता '%s' ने एक फोल्डर आपसे एक साझा किया है\n"
+"इस उपयोक्ता '%s' ने एक फ़ोल्डर आपसे एक साझा किया है\n"
 "\n"
 "'%s' से संदेश\n"
 "\n"
@@ -17783,7 +17784,7 @@ msgstr ""
 "%s\n"
 "\n"
 "\n"
-"इस साझा फोल्डर संस्थापित करने के लिए 'अग्रसारित करें' बटन दबाएँ\n"
+"इस साझा फ़ोल्डर संस्थापित करने के लिए 'अग्रेषित करें' बटन दबाएँ\n"
 "\n"
 
 #: ../plugins/groupwise-features/install-shared.c:225
@@ -17796,20 +17797,20 @@ msgstr "साझा फ़ोल्डर संस्थापन"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:80
 msgid "Junk Settings"
-msgstr "जंक सेटिंग"
+msgstr "कचरा डाक सेटिंग"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:93
 #: ../plugins/groupwise-features/junk-settings.glade.h:3
 msgid "Junk Mail Settings"
-msgstr "जंक मेल सेटिंग"
+msgstr "कचरा डाक डाक सेटिंग"
 
 #: ../plugins/groupwise-features/junk-mail-settings.c:117
 msgid "Junk Mail Settings..."
-msgstr "जंक मेल सेटिंग..."
+msgstr "कचरा डाक डाक सेटिंग..."
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:1
 msgid "<b>Junk List:</b>"
-msgstr "<b>जंक सूची:</b>"
+msgstr "<b>कचरा डाक सूची:</b>"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:2
 msgid "Email:"
@@ -17826,7 +17827,7 @@ msgstr "समर्थ करें (_E)"
 
 #: ../plugins/groupwise-features/junk-settings.glade.h:7
 msgid "_Junk List"
-msgstr "जंक सूची (_J)"
+msgstr "कचरा डाक सूची (_J)"
 
 #: ../plugins/groupwise-features/mail-retract.c:53
 msgid "Message Retract"
@@ -17911,7 +17912,7 @@ msgstr "बतौर &quot;{0}&quot; प्रॉक्सी लॉगिन �
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:3
 msgid "This is a recurring meeting"
-msgstr "इसे बारंबार होने वाली घटना बनायें"
+msgstr "इसे बारंबार होने वाली घटना बनाएँ"
 
 #. Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting")
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:5
@@ -17941,7 +17942,7 @@ msgstr "<b>उपयोक्ता:</b>"
 
 #: ../plugins/groupwise-features/properties.glade.h:2
 msgid "C_ustomize notification message"
-msgstr "अधिसूचना संदेश मनपसंद बनायें (_u)"
+msgstr "अधिसूचना संदेश मनपसंद बनाएँ (_u)"
 
 #: ../plugins/groupwise-features/properties.glade.h:3
 msgid "Con_tacts..."
@@ -18080,7 +18081,7 @@ msgstr "साझा कर रहा है"
 
 #: ../plugins/groupwise-features/share-folder.c:534
 msgid "Custom Notification"
-msgstr "पसंदीदा सूचना"
+msgstr "मनपसंद सूचना"
 
 #: ../plugins/groupwise-features/share-folder.c:756
 msgid "Add   "
@@ -18145,7 +18146,7 @@ msgstr "संदेश स्थिति ट्रैक करें..."
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:1
 msgid "A plugin to setup hula calendar sources."
-msgstr "हुला पंचांग श्रोत सेट करने के लिए प्लगिन."
+msgstr "हुला पंचांग स्रोत सेट करने के लिए प्लगिन."
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
 msgid "Hula Account Setup"
@@ -18153,19 +18154,19 @@ msgstr "हुला खाता सेटअप"
 
 #: ../plugins/imap-features/imap-headers.c:320
 msgid "Custom Headers"
-msgstr "कस्टम हेडर"
+msgstr "कस्टम शीर्षिका"
 
 #: ../plugins/imap-features/imap-headers.c:333
 msgid "IMAP Headers"
-msgstr "IMAP हेडर"
+msgstr "IMAP शीर्षिका"
 
 #: ../plugins/imap-features/imap-headers.glade.h:1
 msgid "<b>Custom Headers</b>"
-msgstr "<b>पसंदीदा हेडर</b>"
+msgstr "<b>मनपसंद शीर्षिका</b>"
 
 #: ../plugins/imap-features/imap-headers.glade.h:2
 msgid "<b>IMAP Headers</b>"
-msgstr "<b>IMAP हेडर</b>"
+msgstr "<b>IMAP शीर्षिका</b>"
 
 #: ../plugins/imap-features/imap-headers.glade.h:3
 msgid "Basic and _Mailing List Headers (Default)"
@@ -18197,7 +18198,7 @@ msgid ""
 "_Basic Headers - (Fastest) \n"
 "Use this if you do not have filters based on mailing lists"
 msgstr ""
-"बेसिक हेडर (_B) - (Fastest) \n"
+"बेसिक शीर्षिका (_B) - (Fastest) \n"
 "Use this if you do not have filters based on mailing lists"
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:1
@@ -18702,7 +18703,7 @@ msgstr "<b>%s</b> %s ने निम्न परिवर्तन बैठ�
 #: ../plugins/itip-formatter/itip-view.c:408
 #, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
-msgstr "<b>%s</b> ने बैठक के आग्रह के लिए जबाव दिया है."
+msgstr "<b>%s</b> ने बैठक के आग्रह के लिए जवाब दिया है."
 
 #: ../plugins/itip-formatter/itip-view.c:446
 #, c-format
@@ -18895,7 +18896,7 @@ msgstr "टिप्पणीः"
 
 #: ../plugins/itip-formatter/itip-view.c:1101
 msgid "Send _reply to sender"
-msgstr "प्रेषक को जबाव दें (_r)"
+msgstr "प्रेषक को जवाब दें (_r)"
 
 #: ../plugins/itip-formatter/itip-view.c:1131
 msgid "Send _updates to attendees"
@@ -19027,7 +19028,7 @@ msgstr "क्या प्रतीक दिखाई देना चाह�
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
 msgid "Whether to notify new messages in Inbox folder only."
-msgstr "क्या नए संदेश को केवल आई डाक फोल्डर में अधिसूचित करता है."
+msgstr "क्या नए संदेश को केवल आई डाक फ़ोल्डर में अधिसूचित करता है."
 
 #: ../plugins/mail-notification/mail-notification.c:260
 msgid "Generate a _D-Bus message"
@@ -19039,7 +19040,7 @@ msgstr "एवोल्यूशन डाक की सूचना"
 
 #: ../plugins/mail-notification/mail-notification.c:404
 msgid "Mail Notification Properties"
-msgstr "मेल सूचना गुण"
+msgstr "डाक सूचना गुण"
 
 #. To translators: '%d' is the number of mails recieved and '%s' is the name of the folder
 #: ../plugins/mail-notification/mail-notification.c:483
@@ -19148,7 +19149,7 @@ msgstr "चुना गया स्रोत केवल पठनीय ह�
 msgid ""
 "A plugin which allows the creation of tasks from the contents of a mail "
 "message."
-msgstr "एक प्लगिन जो कार्य के निर्माण की अनुमति देता है मेल संदेश की सामग्री के साथ."
+msgstr "एक प्लगिन जो कार्य के निर्माण की अनुमति देता है डाक संदेश की सामग्री के साथ."
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:1
@@ -19259,15 +19260,15 @@ msgid ""
 "\n"
 "Header: {1}"
 msgstr ""
-"इस संदेश का हेडर {0} विरूपित है व प्रक्रिया न किया जा सकता है.\n"
+"इस संदेश का शीर्षिका {0} विरूपित है व प्रक्रिया न किया जा सकता है.\n"
 "\n"
-"हेडर: {1}"
+"शीर्षिका: {1}"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:16
 msgid ""
 "This message does not contain the header information required for this "
 "action."
-msgstr "संदेश हेडर सूचना नहीं रखता है इस क्रिया के लिए जरूरी."
+msgstr "संदेश शीर्षिका सूचना नहीं रखता है इस क्रिया के लिए जरूरी."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:17
 msgid "_Edit message"
@@ -19409,7 +19410,7 @@ msgid ""
 "\n"
 "This plugin is unsupported demonstration code only.\n"
 msgstr ""
-"एक जांच प्लगिन जो एक फॉरमेटर प्लगिन को दिखाता है जो आपको HTML मेल निष्क्रिय करने के "
+"एक जांच प्लगिन जो एक फॉरमेटर प्लगिन को दिखाता है जो आपको HTML डाक निष्क्रिय करने के "
 "लिए चुनने की अनुमति देता है.\n"
 "\n"
 "यह प्लगिन सिर्फ असमर्थित प्रदर्शन कोड है.\n"
@@ -19450,7 +19451,7 @@ msgstr "आंकड़ा भरने संबंधी घटना का �
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:1
 #| msgid "Import mail from Pine."
 msgid "Import Outlook messages from PST file"
-msgstr "PST फाइल से आउटलुक संदेश आयात करें"
+msgstr "PST फ़ाइल से आउटलुक संदेश आयात करें"
 
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:2
 #| msgid "Outlook CSV and Tab Importer"
@@ -19459,7 +19460,7 @@ msgstr "आउटलुक पीएसटी आयात"
 
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:3
 msgid "Outlook personal folders (.pst)"
-msgstr "आउटलुक निजी फोल्डर (.pst)"
+msgstr "आउटलुक निजी फ़ोल्डर (.pst)"
 
 #. Address book
 #: ../plugins/pst-import/pst-importer.c:318
@@ -19511,7 +19512,7 @@ msgstr "<span weight=\"bold\">अवस्थिति</span>"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:4
 msgid "<span weight=\"bold\">Sources</span>"
-msgstr "<span weight=\"bold\">श्रोत</span>"
+msgstr "<span weight=\"bold\">स्रोत</span>"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:6
 msgid ""
@@ -19684,7 +19685,7 @@ msgid ""
 "Filters junk messages using SpamAssassin. This plugin requires SpamAssassin "
 "to be installed."
 msgstr ""
-"स्पैमएसेसिन के प्रयोग से जंक संदेश फ़िल्टर करें. इस प्लगिन के लिए स्पैमएसेसिन के संस्थापित होने "
+"स्पैमएसेसिन के प्रयोग से कचरा डाक संदेश फ़िल्टर करें. इस प्लगिन के लिए स्पैमएसेसिन के संस्थापित होने "
 "की जरूरत है."
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
@@ -19694,7 +19695,7 @@ msgstr "स्पैमएसेसिन विकल्प"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:3
 msgid "SpamAssassin junk plugin"
-msgstr "स्पैमएसेसिन जंक प्लगिन"
+msgstr "स्पैमएसेसिन कचरा डाक प्लगिन"
 
 #: ../plugins/save-attachments/org-gnome-save-attachments.eplug.xml.h:1
 msgid "A plugin for saving all attachments or parts of a message at once."
@@ -19788,7 +19789,7 @@ msgstr "CSV प्रारूप के लिए उन्नत विकल�
 
 #: ../plugins/save-calendar/csv-format.c:539
 msgid "Prepend a header"
-msgstr "हेडर पहले लाएँ"
+msgstr "शीर्षिका पहले लाएँ"
 
 #: ../plugins/save-calendar/csv-format.c:548
 msgid "Value delimiter:"
@@ -19837,11 +19838,11 @@ msgstr "गंतव्य फ़ाइल चुनें"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:1
 msgid "Select one source"
-msgstr "एक श्रोत चुनें"
+msgstr "एक स्रोत चुनें"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:2
 msgid "Selects a single calendar or task source for viewing."
-msgstr "देखने के लिए एखल पंचांग या कार्य श्रोत चुनें."
+msgstr "देखने के लिए एखल पंचांग या कार्य स्रोत चुनें."
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:3
 msgid "Show _only this Calendar"
@@ -19919,7 +19920,7 @@ msgstr "विषय थ्रेडिंग"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:3
 msgid "Thread messages by subject"
-msgstr "विषय आधारित संदेश थ्रेड करें"
+msgstr "विषय अनुसार संदेश लड़ीबद्ध करें"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:56
@@ -19946,7 +19947,7 @@ msgstr "नमूना के रूप में सहेजें"
 
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Drafts based template plugin"
-msgstr "ड्राफ्ट आधारित टेंपलेट प्लगिन"
+msgstr "मसौदा आधारित टेंपलेट प्लगिन"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
 msgid "A simple plugin which uses yTNEF to decode TNEF attachments."
@@ -20202,7 +20203,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:42
 msgid "Toolbar is visible"
-msgstr "उपकरण पट्टी दृश्यमान है"
+msgstr "औज़ार पट्टी दृश्यमान है"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:43
 msgid "URL that provides proxy configuration values."
@@ -20234,7 +20235,7 @@ msgstr "क्या प्रस्थिति पट्टी दिखाई
 
 #: ../shell/apps_evolution_shell.schemas.in.h:50
 msgid "Whether the toolbar should be visible."
-msgstr "क्या उपकरण पट्टी दृश्य होनी चाहिए"
+msgstr "क्या औज़ार पट्टी दृश्य होनी चाहिए"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:51
 msgid "Whether the warning dialog in development versions of Evolution is skipped."
@@ -20262,7 +20263,7 @@ msgstr "सक्रिय कनेक्शन"
 
 #: ../shell/e-active-connection-dialog.glade.h:3
 msgid "Click OK to close these connections and go offline"
-msgstr "इन संबंधनों को बंद करने के लिए OK पर क्लिक करें और ऑफ़लाइन जाएं"
+msgstr "इन संबंधनों को बंद करने के लिए OK पर क्लिक करें और ऑफ़लाइन जाएँ"
 
 #: ../shell/e-shell-importer.c:131
 msgid "Choose the type of importer to run:"
@@ -20345,9 +20346,7 @@ msgstr "बग बड्डी चलाया नहीं जा सका."
 #. * about dialog.
 #: ../shell/e-shell-window-commands.c:942
 msgid "translator-credits"
-msgstr ""
-"राजेश रंजन (rranjan@redhat.com, rajeshkajha@yahoo.com) \n"
-"Rajesh Ranjan (rranjan@redhat.com, rajeshkajha@yahoo.com)"
+msgstr "राजेश रंजन (rranjan@redhat.com, rajeshkajha@yahoo.com)"
 
 #: ../shell/e-shell-window-commands.c:953
 msgid "Evolution Website"
@@ -20359,11 +20358,11 @@ msgstr "ऑनलाइन कार्य करें (_W)"
 
 #: ../shell/e-shell-window-commands.c:1183 ../ui/evolution.xml.h:57
 msgid "_Work Offline"
-msgstr "ऑफ़लाइन कार्य करें (_W)"
+msgstr "ऑफ़लाइन काम करें (_W)"
 
 #: ../shell/e-shell-window-commands.c:1196
 msgid "Work Offline"
-msgstr "ऑफ़लाइन कार्य करें"
+msgstr "ऑफ़लाइन काम करें"
 
 #: ../shell/e-shell-window.c:377
 msgid ""
@@ -20371,7 +20370,7 @@ msgid ""
 "Click on this button to work offline."
 msgstr ""
 "एवोल्यूशन अभी ऑनलाइन है. \n"
-"ऑफ़लाइन कार्य करने के लिए इस बटन पर क्लिक करें."
+"ऑफ़लाइन काम करने के लिए इस बटन पर क्लिक करें."
 
 #: ../shell/e-shell-window.c:384
 msgid "Evolution is in the process of going offline."
@@ -20383,12 +20382,12 @@ msgid ""
 "Click on this button to work online."
 msgstr ""
 "एवोल्यूशन अभी ऑफ़लाइन है. \n"
-"ऑनलाइन कार्य करने के लिए इस बटन पर क्लिक करें."
+"ऑनलाइन काम करने के लिए इस बटन पर क्लिक करें."
 
 #: ../shell/e-shell-window.c:785
 #, c-format
 msgid "Switch to %s"
-msgstr "%s पर जाएं"
+msgstr "%s पर जाएँ"
 
 #: ../shell/e-shell.c:640
 msgid "Unknown system error."
@@ -20614,7 +20613,7 @@ msgstr ""
 "&quot;evolution&quot; निर्देशिका की सारी सामग्री स्थायी रूप में हटा दिया जाने वाला "
 "है.\n"
 "\n"
-"यह सलाह दी जाती है कि आप दस्ती रूप से जांचें कि आपके सारे मेल, संपर्क, औऱ पंचांग आंकड़ा मौजूद "
+"यह सलाह दी जाती है कि आप दस्ती रूप से जांचें कि आपके सारे डाक, संपर्क, औऱ पंचांग आंकड़ा मौजूद "
 "है, और एवोल्यूशन का यह संस्कऱण इस पुराने आंकड़े को मिटाने के पहले ठीक से चलता है.\n"
 "\n"
 "मिटाने पर, आप एवोल्यूशन के पिछले संस्करण पर बिना दस्ती हस्तक्षेप के पदावनत नहीं हो सकते.\n"
@@ -21201,7 +21200,7 @@ msgstr "%s (%s) को बंद कर रहा है\n"
 
 #: ../ui/evolution-addressbook.xml.h:1
 msgid "Address _Book Properties"
-msgstr "पता पुस्तिका विशेषता (_B)"
+msgstr "पता पुस्तिका गुण (_B)"
 
 #: ../ui/evolution-addressbook.xml.h:3
 msgid "Change the properties of the selected folder"
@@ -21209,7 +21208,7 @@ msgstr "चयनित फ़ोल्डर की गुणों में �
 
 #: ../ui/evolution-addressbook.xml.h:4
 msgid "Co_py All Contacts To..."
-msgstr "सारे संपर्कों को यहाँ नक़ल करें (_p)..."
+msgstr "सभी संपर्कों की नक़ल यहाँ लें (_p)..."
 
 #: ../ui/evolution-addressbook.xml.h:5
 msgid "Contact _Preview"
@@ -21218,7 +21217,7 @@ msgstr "संपर्क पूर्वावलोकन (_P)"
 #: ../ui/evolution-addressbook.xml.h:6 ../ui/evolution-memos.xml.h:2
 #: ../ui/evolution-tasks.xml.h:2
 msgid "Copy"
-msgstr "कॉपी"
+msgstr "नक़ल करें"
 
 #: ../ui/evolution-addressbook.xml.h:7
 #| msgid "Copy Selected Contacts to Another Folder..."
@@ -21231,11 +21230,11 @@ msgstr "चयनित फ़ोल्डर के संपर्क को �
 
 #: ../ui/evolution-addressbook.xml.h:9 ../ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
-msgstr "चयन की कॉपी लें"
+msgstr "चयन की नक़ल लें"
 
 #: ../ui/evolution-addressbook.xml.h:10
 msgid "Copy to Folder..."
-msgstr "इस फ़ोल्डर में कॉपी लें..."
+msgstr "इस फ़ोल्डर में नक़ल लें..."
 
 #: ../ui/evolution-addressbook.xml.h:11
 msgid "Create a new address book folder"
@@ -21281,7 +21280,7 @@ msgstr "चयनित फ़ोल्डर के संपर्क को �
 
 #: ../ui/evolution-addressbook.xml.h:22
 msgid "Move to Folder..."
-msgstr "फ़ोल्डर में विस्थापित करें..."
+msgstr "फ़ोल्डर में खिसकाएँ..."
 
 #: ../ui/evolution-addressbook.xml.h:23 ../ui/evolution-memos.xml.h:8
 #: ../ui/evolution-tasks.xml.h:11
@@ -21374,11 +21373,11 @@ msgstr "कार्य (_A)"
 
 #: ../ui/evolution-addressbook.xml.h:47
 msgid "_Copy Contact to..."
-msgstr "संपर्क यहाँ नक़ल करें (_C)..."
+msgstr "संपर्क की नक़ल यहाँ लें (_C)..."
 
 #: ../ui/evolution-addressbook.xml.h:48
 msgid "_Copy Folder Contacts To"
-msgstr "फ़ोल्डर संपर्क इसमें नक़ल करें (_C)"
+msgstr "फ़ोल्डर संपर्क की नक़ल यहाँ लें (_C)"
 
 #: ../ui/evolution-addressbook.xml.h:50
 msgid "_Delete Contact"
@@ -21438,7 +21437,7 @@ msgstr "इस आवृत्ति को मिटाएँ"
 
 #: ../ui/evolution-calendar.xml.h:11
 msgid "Go To"
-msgstr "यहाँ जाएं"
+msgstr "यहाँ जाएँ"
 
 #: ../ui/evolution-calendar.xml.h:12
 msgid "Go back"
@@ -21548,7 +21547,7 @@ msgstr "मौजूदा डाक संक्रिया को रद्�
 
 #: ../ui/evolution-mail-global.xml.h:3
 msgid "Copy the selected folder into another folder"
-msgstr "चयनित संदेशों की कॉपी दूसरे फ़ोल्डर में डालें"
+msgstr "चुने संदेश की नक़ल दूसरे फ़ोल्डर में डालें"
 
 #: ../ui/evolution-mail-global.xml.h:4
 msgid "Create a new folder for storing mail"
@@ -21560,11 +21559,11 @@ msgstr "खोज फ़ोल्डर परिभाषाओं को स�
 
 #: ../ui/evolution-mail-global.xml.h:6
 msgid "Create or edit rules for filtering new mail"
-msgstr "नये डाक के निस्पंदन के लिए नियमों को सृजित या संपादित करें"
+msgstr "नये डाक के फ़िल्टर के लिए नियमों को सृजित या संपादित करें"
 
 #: ../ui/evolution-mail-global.xml.h:7
 msgid "Download messages of accounts/folders marked for offline"
-msgstr "ऑफ़लाइन के लिए चिह्नित खाता/फोल्डर के संदेश डाउनलोड करें"
+msgstr "ऑफ़लाइन के लिए चिह्नित खाता/फ़ोल्डर के संदेश डाउनलोड करें"
 
 #: ../ui/evolution-mail-global.xml.h:8
 msgid "Empty _Trash"
@@ -21581,7 +21580,7 @@ msgstr "चयनित फ़ोल्डर को दूसरे फ़ो�
 #. Alphabetical by name, yo
 #: ../ui/evolution-mail-global.xml.h:12
 msgid "Permanently remove all deleted messages from all folders"
-msgstr "सभी फ़ोल्डरों से सभी विलोपित संदेशों को स्थायी रूप से हटाएं"
+msgstr "सभी फ़ोल्डरों से सभी मिटाए संदेश स्थायी रूप से हटाएँ"
 
 #: ../ui/evolution-mail-global.xml.h:13
 msgid "Search F_olders"
@@ -21613,7 +21612,7 @@ msgstr "चिरसम्मत दृश्य (_C)"
 
 #: ../ui/evolution-mail-global.xml.h:21
 msgid "_Copy Folder To..."
-msgstr "फ़ोल्डर इसमें नक़ल करें (_C)..."
+msgstr "फ़ोल्डर की नक़ल यहाँ लें (_C)..."
 
 #: ../ui/evolution-mail-global.xml.h:23
 msgid "_Download Messages for Offline Usage"
@@ -21625,7 +21624,7 @@ msgstr "संदेश फ़िल्टर (_M)"
 
 #: ../ui/evolution-mail-global.xml.h:26
 msgid "_Move Folder To..."
-msgstr "फ़ोल्डर इसमें विस्थापित करें (_M)..."
+msgstr "फ़ोल्डर यहाँ खिसकाएँ (_M)..."
 
 #: ../ui/evolution-mail-global.xml.h:27
 msgid "_New..."
@@ -21657,48 +21656,48 @@ msgstr "इस फ़ोल्डर की गुणों में परि�
 
 #: ../ui/evolution-mail-list.xml.h:3
 msgid "Collapse All _Threads"
-msgstr "सारे थ्रेड का निपात (_T)"
+msgstr "सभी लड़ियाँ समेटें (_T)"
 
 #: ../ui/evolution-mail-list.xml.h:4
 msgid "Collapse all message threads"
-msgstr "सभी संदेश का निपात करें"
+msgstr "सभी संदेश लड़ियाँ समेटें"
 
 #: ../ui/evolution-mail-list.xml.h:5
 msgid "Copy selected message(s) to the clipboard"
-msgstr "क्लिपबोर्ड से चयनित संदेश(शों) की कॉपी बनाएँ"
+msgstr "क्लिपबोर्ड से चयनित संदेश की नक़ल बनाएँ"
 
 #. Alphabetical by name, yo
 #: ../ui/evolution-mail-list.xml.h:7
 msgid "Cut selected message(s) to the clipboard"
-msgstr "क्लिपबोर्ड से चयनित संदेश(शों) को काटें"
+msgstr "क्लिपबोर्ड से चयनित संदेश को काटें"
 
 #: ../ui/evolution-mail-list.xml.h:8
 msgid "E_xpand All Threads"
-msgstr "सारे थ्रेड फैलायें (_x)"
+msgstr "सभी लड़ियाँ फैलाएँ (_x)"
 
 #: ../ui/evolution-mail-list.xml.h:9
 msgid "E_xpunge"
-msgstr "पूर्ण विलोपित करें (_x)"
+msgstr "बिल्कुल हटा दें (_x)"
 
 #: ../ui/evolution-mail-list.xml.h:10
 msgid "Expand all message threads"
-msgstr "सभी संदेश थ्रेड विस्तारित करें"
+msgstr "सभी संदेश लड़ी फैलाएँ"
 
 #: ../ui/evolution-mail-list.xml.h:12
 msgid "Hide S_elected Messages"
-msgstr "चयनित संदेशों को छुपाएं (_e)"
+msgstr "चयनित संदेश छुपाएँ (_e)"
 
 #: ../ui/evolution-mail-list.xml.h:13
 msgid "Hide _Deleted Messages"
-msgstr "विलोपित संदेशों को छुपाएं (_D)"
+msgstr "मिटाए संदेश छुपाएँ (_D)"
 
 #: ../ui/evolution-mail-list.xml.h:14
 msgid "Hide _Read Messages"
-msgstr "पठित संदेशों को छुपाएं (_R)"
+msgstr "पठित संदेश छुपाएँ (_R)"
 
 #: ../ui/evolution-mail-list.xml.h:15
 msgid "Hide deleted messages rather than displaying them with a line through them"
-msgstr "आरपार एक रेखा प्रदर्शित करने के बजाय विलोपित संदेश छुपाएं "
+msgstr "आरपार एक रेखा प्रदर्शित करने के बजाय मिटाए संदेश छुपाएँ "
 
 #: ../ui/evolution-mail-list.xml.h:16
 msgid "Mar_k All Messages as Read"
@@ -21706,23 +21705,23 @@ msgstr "सभी संदेश पठित रूप में चिह्�
 
 #: ../ui/evolution-mail-list.xml.h:17
 msgid "Mark all messages in the folder as read"
-msgstr "सभी संदेश को फ़ोल्डर में पढ़े जा चुके के रूप में चिह्नित करे"
+msgstr "सभी संदेश को फ़ोल्डर में पठित रूप में चिह्नित करें"
 
 #: ../ui/evolution-mail-list.xml.h:18
 msgid "Paste message(s) from the clipboard"
-msgstr "क्लिपबोर्ड सें संदेश(शों) को चिपकाएँ"
+msgstr "क्लिपबोर्ड से संदेश को चिपकाएँ"
 
 #: ../ui/evolution-mail-list.xml.h:19
 msgid "Permanently remove all deleted messages from this folder"
-msgstr "इस फ़ोल्डर से सभी विलोपित संदेशों को स्थायी रूप से हटाएं"
+msgstr "इस फ़ोल्डर से सभी मिटाए संदेश स्थायी रूप से हटाएँ"
 
 #: ../ui/evolution-mail-list.xml.h:20
 msgid "Permanently remove this folder"
-msgstr "इस फ़ोल्डर को स्थायी रूप से हटाएं"
+msgstr "इस फ़ोल्डर को स्थायी रूप से हटाएँ"
 
 #: ../ui/evolution-mail-list.xml.h:22
 msgid "Refresh the folder"
-msgstr "फ़ोल्डर ताजा कर रहा है"
+msgstr "फ़ोल्डर ताज़ा करें"
 
 #: ../ui/evolution-mail-list.xml.h:23
 msgid "Select Message S_ubthread"
@@ -21730,11 +21729,11 @@ msgstr "संदेश उपथ्रेड चुनें (_u)"
 
 #: ../ui/evolution-mail-list.xml.h:24
 msgid "Select Message _Thread"
-msgstr "संदेश थ्रेड चुनें (_T)"
+msgstr "संदेश लड़ी चुनें (_T)"
 
 #: ../ui/evolution-mail-list.xml.h:25
 msgid "Select _All Messages"
-msgstr "सभी संदेशों को चुनें (_A)"
+msgstr "सभी संदेश चुनें (_A)"
 
 #: ../ui/evolution-mail-list.xml.h:26
 msgid "Select all and only the messages that are not currently selected"
@@ -21742,7 +21741,7 @@ msgstr "सभी और सिर्फ उन संदेशों को च
 
 #: ../ui/evolution-mail-list.xml.h:27
 msgid "Select all messages in the same thread as the selected message"
-msgstr "चयनित संदेश की तरह सभी संदेशों को एक जगह अंतःसूत्रित करें"
+msgstr "चयनित संदेश की तरह सभी संदेश एक जगह अंतःसूत्रित करें"
 
 #: ../ui/evolution-mail-list.xml.h:28
 msgid "Select all replies to the currently selected message"
@@ -21762,19 +21761,19 @@ msgstr "संदेशों को दिखाएँ जो अस्था�
 
 #: ../ui/evolution-mail-list.xml.h:32
 msgid "Temporarily hide all messages that have already been read"
-msgstr "सभी संदेशों को अस्थायी तौर पर छुपाएं जो कि पहले पढ़े जा चुके हैं"
+msgstr "सभी संदेश अस्थायी तौर पर छुपाएँ जो कि पहले पढ़े जा चुके हैं"
 
 #: ../ui/evolution-mail-list.xml.h:33
 msgid "Temporarily hide the selected messages"
-msgstr "चयनित संदेशों को अस्थायी तौर पर छुपाएं"
+msgstr "चुने संदेश अस्थायी तौर पर छुपाएँ"
 
 #: ../ui/evolution-mail-list.xml.h:34
 msgid "Threaded Message list"
-msgstr "सूत्रित संदेश सूची"
+msgstr "लड़ीबद्ध संदेश सूची"
 
 #: ../ui/evolution-mail-list.xml.h:36
 msgid "_Group By Threads"
-msgstr "थ्रेड से समूहीकृत (_G)"
+msgstr "लड़ीवार समूही बनाएँ (_G)"
 
 #: ../ui/evolution-mail-list.xml.h:37 ../ui/evolution-mail-message.xml.h:115
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
@@ -21783,11 +21782,11 @@ msgstr "संदेश (_M)"
 
 #: ../ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Address Book"
-msgstr "पता पुस्तिका में प्रेषक को जोड़ें (_d)"
+msgstr "पता पुस्तिका में प्रेषक जोड़ें (_d)"
 
 #: ../ui/evolution-mail-message.xml.h:2
 msgid "A_pply Filters"
-msgstr "निस्पंदन का प्रयोग करें (_p)"
+msgstr "फ़िल्टर लागू करें (_p)"
 
 #. Alphabetical by name, yo
 #: ../ui/evolution-mail-message.xml.h:4
@@ -21800,11 +21799,11 @@ msgstr "सभी संदेश शीर्ष (_H)"
 
 #: ../ui/evolution-mail-message.xml.h:6
 msgid "Apply filter rules to the selected messages"
-msgstr "चयनित संदेशों को लिए निस्पंदन नियम का प्रयोग करें"
+msgstr "चुने संदेश को लिए फ़िल्टर नियम का प्रयोग करें"
 
 #: ../ui/evolution-mail-message.xml.h:7
 msgid "Check for _Junk"
-msgstr "जंक के लिए जांचें (_J)"
+msgstr "कचरा डाक के लिए जांचें (_J)"
 
 #: ../ui/evolution-mail-message.xml.h:8
 msgid "Compose _New Message"
@@ -21812,19 +21811,19 @@ msgstr "नया संदेश लिखें (_N)"
 
 #: ../ui/evolution-mail-message.xml.h:9
 msgid "Compose a reply to all of the recipients of the selected message"
-msgstr "चयनित संदेश के सभी प्राप्तकर्ताओं के लिए एक जबाव लिखें"
+msgstr "चयनित संदेश के सभी प्राप्तकर्ताओं के लिए एक जवाब लिखें"
 
 #: ../ui/evolution-mail-message.xml.h:10
 msgid "Compose a reply to the mailing list of the selected message"
-msgstr "चयनित संदेश के डाक सूची के लिए एक जबाव लिखें"
+msgstr "चयनित संदेश के डाक सूची के लिए एक जवाब लिखें"
 
 #: ../ui/evolution-mail-message.xml.h:11
 msgid "Compose a reply to the sender of the selected message"
-msgstr "चयनित संदेश के प्रेषक के लिए एक जबाव लिखें"
+msgstr "चयनित संदेश के प्रेषक के लिए एक जवाब लिखें"
 
 #: ../ui/evolution-mail-message.xml.h:12
 msgid "Copy selected messages to another folder"
-msgstr "चयनित संदेशों की कॉपी दूसरे फ़ोल्डर में डालें"
+msgstr "चुने संदेश की नक़ल दूसरे फ़ोल्डर में डालें"
 
 #: ../ui/evolution-mail-message.xml.h:13
 msgid "Copy selected messages to the clipboard"
@@ -21832,7 +21831,7 @@ msgstr "क्लिपबोर्ड से चयनित संदेश �
 
 #: ../ui/evolution-mail-message.xml.h:14
 msgid "Create R_ule"
-msgstr "नियम बनायें (_u)"
+msgstr "नियम बनाएँ (_u)"
 
 #: ../ui/evolution-mail-message.xml.h:15
 msgid "Create a Search Folder for these recipients"
@@ -21852,19 +21851,19 @@ msgstr "इस विषय के लिए खोज फ़ोल्डर ब
 
 #: ../ui/evolution-mail-message.xml.h:19
 msgid "Create a rule to filter messages from this sender"
-msgstr "संदेशों को इस प्रेषक से निस्पंदित करने के लिए एक नियम बनाएँ"
+msgstr "संदेशों को इस प्रेषक से फ़िल्टर करने के लिए एक नियम बनाएँ"
 
 #: ../ui/evolution-mail-message.xml.h:20
 msgid "Create a rule to filter messages to these recipients"
-msgstr "संदेशों को इन प्राप्तकर्ताओं के साथ निस्पंदित करने के लिए एक नियम बनाएँ"
+msgstr "संदेशों को इन प्राप्तकर्ताओं के साथ फ़िल्टर करने के लिए एक नियम बनाएँ"
 
 #: ../ui/evolution-mail-message.xml.h:21
 msgid "Create a rule to filter messages to this mailing list"
-msgstr "संदेशों को इस डाक सूची के साथ निस्पंदित करने के लिए एक नियम बनाएँ"
+msgstr "संदेशों को इस डाक सूची के साथ फ़िल्टर करने के लिए एक नियम बनाएँ"
 
 #: ../ui/evolution-mail-message.xml.h:22
 msgid "Create a rule to filter messages with this subject"
-msgstr "संदेशों को इस विषय के साथ निस्पंदित करने के लिए एक नियम बनाएँ"
+msgstr "संदेशों को इस विषय के साथ फ़िल्टर करने के लिए एक नियम बनाएँ"
 
 #: ../ui/evolution-mail-message.xml.h:23
 msgid "Cut selected messages to the clipboard"
@@ -21884,7 +21883,7 @@ msgstr "अगले संदेश को प्रदर्शित कर�
 
 #: ../ui/evolution-mail-message.xml.h:28
 msgid "Display the next thread"
-msgstr "अगला थ्रेड दिखायें"
+msgstr "अगला लड़ी दिखायें"
 
 #: ../ui/evolution-mail-message.xml.h:29
 msgid "Display the next unread message"
@@ -21908,23 +21907,23 @@ msgstr "ऐसे अग्रेषित करें (_o)..."
 
 #: ../ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
-msgstr "डाक सूची पर निस्पंदित करें (_L)..."
+msgstr "डाक सूची पर फ़िल्टर करें (_L)..."
 
 #: ../ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
-msgstr "प्रेषक पर निस्पंदित करें (_n)..."
+msgstr "प्रेषक पर फ़िल्टर करें (_n)..."
 
 #: ../ui/evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
-msgstr "प्राप्तकर्ता पर निस्पंदित करें (_R)..."
+msgstr "प्राप्तकर्ता पर फ़िल्टर करें (_R)..."
 
 #: ../ui/evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
-msgstr "विषय पर निस्पंदित करें (_S)..."
+msgstr "विषय पर फ़िल्टर करें (_S)..."
 
 #: ../ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
-msgstr "जंक स्थिति के लिए चयनित संदेशों को निस्पंदित करें"
+msgstr "कचरा डाक स्थिति के लिए चुने संदेश को फ़िल्टर करें"
 
 #: ../ui/evolution-mail-message.xml.h:39
 msgid "Flag selected messages for follow-up"
@@ -21944,7 +21943,7 @@ msgstr "चयनित संदेश को नए संदेश के अ
 
 #: ../ui/evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
-msgstr "चयनित संदेश को जबाव के रूप में अग्रेषित करें"
+msgstr "चयनित संदेश को जवाब के रूप में अग्रेषित करें"
 
 #: ../ui/evolution-mail-message.xml.h:45
 msgid "Forward the selected message to someone"
@@ -21960,7 +21959,7 @@ msgstr "पाठ का आकार बढ़ाएँ"
 
 #: ../ui/evolution-mail-message.xml.h:49
 msgid "Mar_k as"
-msgstr "इस रूप में चिह्नित करें (_k)"
+msgstr "ऐसे चिह्नित करें (_k)"
 
 #: ../ui/evolution-mail-message.xml.h:50
 msgid "Mark the selected messages as having been read"
@@ -21972,11 +21971,11 @@ msgstr "चयनित संदेश महत्वपूर्ण के �
 
 #: ../ui/evolution-mail-message.xml.h:52
 msgid "Mark the selected messages as junk"
-msgstr "चयनित संदेश जंक के रूप में चिह्नित करें"
+msgstr "चयनित संदेश कचरा डाक के रूप में चिह्नित करें"
 
 #: ../ui/evolution-mail-message.xml.h:53
 msgid "Mark the selected messages as not being junk"
-msgstr "चयनित संदेश जंक नहीं है के रूप में चिह्नित करें"
+msgstr "चयनित संदेश कचरा डाक नहीं है के रूप में चिह्नित करें"
 
 #: ../ui/evolution-mail-message.xml.h:54
 msgid "Mark the selected messages as not having been read"
@@ -21984,11 +21983,11 @@ msgstr "चयनित संदेश नहीं पढ़े गए के 
 
 #: ../ui/evolution-mail-message.xml.h:55
 msgid "Mark the selected messages as unimportant"
-msgstr "चयनित संदेशों को गैर महत्वपूर्ण के रूप में चिह्नित करें"
+msgstr "चुने संदेश को गैर महत्वपूर्ण के रूप में चिह्नित करें"
 
 #: ../ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected messages for deletion"
-msgstr "चयनित संदेशों को मिटाने के लिए चिह्नित करें"
+msgstr "चुने संदेश को मिटाने के लिए चिह्नित करें"
 
 #: ../ui/evolution-mail-message.xml.h:57
 msgid "Move selected messages to another folder"
@@ -22008,7 +22007,7 @@ msgstr "अगला अपठित संदेश (_U)"
 
 #: ../ui/evolution-mail-message.xml.h:62
 msgid "Not Junk"
-msgstr "जंक नहीं"
+msgstr "कचरा डाक नहीं"
 
 #: ../ui/evolution-mail-message.xml.h:63
 msgid "Open a window for composing a mail message"
@@ -22036,7 +22035,7 @@ msgstr "फ़ोल्डर में नया संदेश प्रे�
 
 #: ../ui/evolution-mail-message.xml.h:69
 msgid "Post a Repl_y"
-msgstr "जबाव प्रेषित करें (_y)"
+msgstr "जवाब दें (_y)"
 
 #: ../ui/evolution-mail-message.xml.h:70
 msgid "Post a message to a Public folder"
@@ -22044,7 +22043,7 @@ msgstr "सार्वजनिक फ़ोल्डर में संदे
 
 #: ../ui/evolution-mail-message.xml.h:71
 msgid "Post a reply to a message in a Public folder"
-msgstr "सार्वजनिक फ़ोल्डर में एक संदेश का जबाव प्रेषित करें"
+msgstr "सार्वजनिक फ़ोल्डर में एक संदेश का जवाब दें"
 
 #: ../ui/evolution-mail-message.xml.h:72
 msgid "Pr_evious Important Message"
@@ -22096,7 +22095,7 @@ msgstr "प्रर्दशित संदेशों में पाठ्
 
 #: ../ui/evolution-mail-message.xml.h:91
 msgid "Select _All Text"
-msgstr "सभी पाठ चुनें (_A)"
+msgstr "सारा पाठ चुनें (_A)"
 
 #: ../ui/evolution-mail-message.xml.h:92
 msgid "Select all the text in a message"
@@ -22116,11 +22115,11 @@ msgstr "सभी ईमेल शीर्षों के साथ संद�
 
 #: ../ui/evolution-mail-message.xml.h:96
 msgid "Show the raw email source of the message"
-msgstr "संदेश के कच्चे ईमेल श्रोत दिखाएँ"
+msgstr "संदेश के कच्चे ईमेल स्रोत दिखाएँ"
 
 #: ../ui/evolution-mail-message.xml.h:97
 msgid "Undelete the selected messages"
-msgstr "चयनित संदेशों का प्रतिविलोपन करें"
+msgstr "चुने संदेश का प्रतिविलोपन करें"
 
 #: ../ui/evolution-mail-message.xml.h:98
 msgid "Uni_mportant"
@@ -22140,15 +22139,15 @@ msgstr "हंसपद विधि (_C)"
 
 #: ../ui/evolution-mail-message.xml.h:102
 msgid "_Clear Flag"
-msgstr "फ्लैग हटाएं (_C)"
+msgstr "फ्लैग हटाएँ (_C)"
 
 #: ../ui/evolution-mail-message.xml.h:105
 msgid "_Delete Message"
-msgstr "विलोपित करें संदेश (_D)"
+msgstr "संदेश मिटाएँ (_D)"
 
 #: ../ui/evolution-mail-message.xml.h:107
 msgid "_Find in Message..."
-msgstr "संदेश सें ढूंढें (_F)..."
+msgstr "संदेश में ढूँढ़ें (_F)..."
 
 #: ../ui/evolution-mail-message.xml.h:108
 msgid "_Flag Completed"
@@ -22156,7 +22155,7 @@ msgstr "फ्लैग समाप्त (_F)"
 
 #: ../ui/evolution-mail-message.xml.h:110
 msgid "_Go To"
-msgstr "इसपर जाएं (_G)"
+msgstr "यहाँ जाएँ (_G)"
 
 #: ../ui/evolution-mail-message.xml.h:111
 msgid "_Important"
@@ -22168,7 +22167,7 @@ msgstr "इनलाइन (_I)"
 
 #: ../ui/evolution-mail-message.xml.h:113
 msgid "_Junk"
-msgstr "जंक (_J)"
+msgstr "कचरा डाक (_J)"
 
 #: ../ui/evolution-mail-message.xml.h:114
 msgid "_Load Images"
@@ -22176,7 +22175,7 @@ msgstr "छवि डाउनलोड करें (_L)"
 
 #: ../ui/evolution-mail-message.xml.h:116
 msgid "_Message Source"
-msgstr "संदेश श्रोत (_M)"
+msgstr "संदेश स्रोत (_M)"
 
 #: ../ui/evolution-mail-message.xml.h:118
 msgid "_Next Message"
@@ -22188,7 +22187,7 @@ msgstr "सामान्य आकार (_N)"
 
 #: ../ui/evolution-mail-message.xml.h:120
 msgid "_Not Junk"
-msgstr "जंक नहीं (_N)"
+msgstr "कचरा डाक नहीं (_N)"
 
 #: ../ui/evolution-mail-message.xml.h:121
 msgid "_Open in New Window"
@@ -22213,19 +22212,19 @@ msgstr "संदेश सहेजें (_S)..."
 
 #: ../ui/evolution-mail-message.xml.h:129
 msgid "_Undelete Message"
-msgstr "संदेश मिटाये को वापस लें (_U)"
+msgstr "मिटा संदेश वापस लाएँ (_U)"
 
 #: ../ui/evolution-mail-message.xml.h:130
 msgid "_Unread"
-msgstr "नहीं पढ़े गए के रूप में चिह्नित करें (_U)"
+msgstr "अपठित (_U)"
 
 #: ../ui/evolution-mail-message.xml.h:131
 msgid "_Zoom"
-msgstr "बड़ा करें (_Z)"
+msgstr "छोटा-बड़ा करें (_Z)"
 
 #: ../ui/evolution-mail-message.xml.h:132
 msgid "_Zoom In"
-msgstr "बड़ा आकार (_Z)"
+msgstr "बड़ा करें (_Z)"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:1
 msgid "Close"
@@ -22233,7 +22232,7 @@ msgstr "बंद करें"
 
 #: ../ui/evolution-mail-messagedisplay.xml.h:3 ../ui/evolution.xml.h:18
 msgid "Main toolbar"
-msgstr "मुख्य उपकरण-पट्टी"
+msgstr "मुख्य औज़ारपट्टी"
 
 #: ../ui/evolution-memos.xml.h:3
 msgid "Copy selected memo"
@@ -22277,7 +22276,7 @@ msgstr "चयनित कार्य को काटें"
 
 #: ../ui/evolution-tasks.xml.h:7
 msgid "Delete completed tasks"
-msgstr "समाप्त हो चुके कार्य को मिटाएं"
+msgstr "समाप्त हो चुके कार्य को मिटाएँ"
 
 #: ../ui/evolution-tasks.xml.h:8
 msgid "Delete selected tasks"
@@ -22329,7 +22328,7 @@ msgstr "एवोल्यूशन सेटिंग में परिवर
 
 #: ../ui/evolution.xml.h:3
 msgid "Change the visibility of the toolbar"
-msgstr "उपकरण की दृश्यता को परिवर्तित करें"
+msgstr "औज़ार की दृश्यता को परिवर्तित करें"
 
 #: ../ui/evolution.xml.h:5
 msgid "Create a new window displaying this folder"
@@ -22341,11 +22340,11 @@ msgstr "विंडो बटन को डेस्कटॉप टूलब�
 
 #: ../ui/evolution.xml.h:7
 msgid "Display window buttons with icons and text"
-msgstr "विंडो बटन को आइकन व पाठ के साथ दिखायें"
+msgstr "विंडो बटन को प्रतीक व पाठ के साथ दिखायें"
 
 #: ../ui/evolution.xml.h:8
 msgid "Display window buttons with icons only"
-msgstr "विंडो बटन को आइकन के साथ सिर्फ दिखायें"
+msgstr "विंडो बटन को प्रतीक के साथ सिर्फ दिखायें"
 
 #: ../ui/evolution.xml.h:9
 msgid "Display window buttons with text only"
@@ -22357,7 +22356,7 @@ msgstr "एवोल्यूशन _FAQ"
 
 #: ../ui/evolution.xml.h:11
 msgid "Exit the program"
-msgstr "प्रोग्राम से बाहर जाएं"
+msgstr "प्रोग्राम से बाहर जाएँ"
 
 #: ../ui/evolution.xml.h:12
 msgid "Forget remembered passwords so you will be prompted for them again"
@@ -22365,7 +22364,7 @@ msgstr "याद किए गए कूटशब्द को भूल गए
 
 #: ../ui/evolution.xml.h:13
 msgid "Hide window buttons"
-msgstr "विंडो बटन छुपायें"
+msgstr "विंडो बटन छुपाएँ"
 
 #: ../ui/evolution.xml.h:14
 msgid "I_mport..."
@@ -22373,7 +22372,7 @@ msgstr "आयात करें (_m)..."
 
 #: ../ui/evolution.xml.h:15
 msgid "Icons _and Text"
-msgstr "आइकन व पाठ (_a)"
+msgstr "प्रतीक व पाठ (_a)"
 
 #: ../ui/evolution.xml.h:16
 msgid "Import data from other programs"
@@ -22381,7 +22380,7 @@ msgstr "दूसरे प्रोग्राम से आंकड़ा �
 
 #: ../ui/evolution.xml.h:17
 msgid "Lay_out"
-msgstr "लेआउट (_o)"
+msgstr "ख़ाका (_o)"
 
 #: ../ui/evolution.xml.h:19
 msgid "New _Window"
@@ -22389,7 +22388,7 @@ msgstr "नया विंडो (_W)"
 
 #: ../ui/evolution.xml.h:20
 msgid "Open the Frequently Asked Questions webpage"
-msgstr "एफएक्यू वेबपेज खोलें"
+msgstr "बार बार पूछे जाने वाले प्रश्न वेबपेज खोलें"
 
 #: ../ui/evolution.xml.h:21
 msgid "Page Set_up..."
@@ -22433,19 +22432,19 @@ msgstr "एवोल्यूशन से संबंधित सूचना
 
 #: ../ui/evolution.xml.h:32
 msgid "Submit Bug Report"
-msgstr "दोष रिपोर्ट प्रस्तुत करें"
+msgstr "दोष रपट दर्ज करें"
 
 #: ../ui/evolution.xml.h:33
 msgid "Submit _Bug Report"
-msgstr "दोष रिपोर्ट प्रस्तुत करें (_B)"
+msgstr "दोष रपट दर्ज करें (_B)"
 
 #: ../ui/evolution.xml.h:34
 msgid "Submit a bug report using Bug Buddy"
-msgstr "बग बडी के प्रयोग से दोष रिपोर्ट प्रस्तुत करें"
+msgstr "बग बडी के प्रयोग से दोष रपट दर्ज करें"
 
 #: ../ui/evolution.xml.h:35
 msgid "Toggle whether we are working offline."
-msgstr "यदि हमलोग ऑफ़लाइन कार्य कर रहे हैं तो टॉगल करें."
+msgstr "यदि हमलोग ऑफ़लाइन काम कर रहे हैं तो टॉगल करें."
 
 #: ../ui/evolution.xml.h:36
 msgid "Tool_bar Style"
@@ -22453,19 +22452,19 @@ msgstr "औजार पट्टी शैली (_b)"
 
 #: ../ui/evolution.xml.h:37
 msgid "View/Hide the Side Bar"
-msgstr "किनारा पट्टी देखें/छुपायें"
+msgstr "बाजू पट्टी देखें/छुपाएँ"
 
 #: ../ui/evolution.xml.h:38
 msgid "View/Hide the Status Bar"
-msgstr "प्रस्थिति पट्टी देखें/छुपायें"
+msgstr "प्रस्थिति पट्टी देखें/छुपाएँ"
 
 #: ../ui/evolution.xml.h:39
 msgid "Work _Offline"
-msgstr "ऑफ़लाइन कार्य करें (_O)"
+msgstr "ऑफ़लाइन काम करें (_O)"
 
 #: ../ui/evolution.xml.h:40
 msgid "_About"
-msgstr "के बारे में (_A)"
+msgstr "परिचय (_A)"
 
 #: ../ui/evolution.xml.h:41
 msgid "_Close Window"
@@ -22481,11 +22480,11 @@ msgstr "बार बार पूछे जाने वाले प्रश�
 
 #: ../ui/evolution.xml.h:47
 msgid "_Hide Buttons"
-msgstr "बटन छुपायें (_H)"
+msgstr "बटन छुपाएँ (_H)"
 
 #: ../ui/evolution.xml.h:48
 msgid "_Icons Only"
-msgstr "सिर्फ आइकन (_I)"
+msgstr "सिर्फ प्रतीक (_I)"
 
 #: ../ui/evolution.xml.h:50
 msgid "_Quick Reference"
@@ -22497,7 +22496,7 @@ msgstr "बाहर (_Q)"
 
 #: ../ui/evolution.xml.h:52
 msgid "_Switcher Appearance"
-msgstr "स्विचर प्रकटन (_S)"
+msgstr "स्विचर रूपाकार (_S)"
 
 #: ../ui/evolution.xml.h:53
 msgid "_Synchronization Options..."
@@ -22517,7 +22516,7 @@ msgstr "कंपनी के अनुसार (_C)"
 
 #: ../views/addressbook/galview.xml.h:2
 msgid "_Address Cards"
-msgstr "पता कार्ड्स (_A)"
+msgstr "पता कार्ड (_A)"
 
 #: ../views/addressbook/galview.xml.h:3 ../views/calendar/galview.xml.h:3
 msgid "_List View"
@@ -22529,7 +22528,7 @@ msgstr "साप्ताहिक दृश्य (_e)"
 
 #: ../views/calendar/galview.xml.h:2
 msgid "_Day View"
-msgstr "दिवस दृश्य (_D)"
+msgstr "दैनिक दृश्य (_D)"
 
 #: ../views/calendar/galview.xml.h:4
 msgid "_Month View"
@@ -22549,7 +22548,7 @@ msgstr "प्रेषित फ़ोल्डर के रूप में (
 
 #: ../views/mail/galview.xml.h:3
 msgid "By S_tatus"
-msgstr "प्रस्थिति के अनुसार (_t)"
+msgstr "स्थिति के अनुसार (_t)"
 
 #: ../views/mail/galview.xml.h:4
 msgid "By Se_nder"
@@ -22577,11 +22576,11 @@ msgstr "ज्ञापन (_M)"
 
 #: ../views/tasks/galview.xml.h:1
 msgid "With _Due Date"
-msgstr "समाप्त करने की तिथि के साथ (_D)"
+msgstr "नियत तिथि सहित (_D)"
 
 #: ../views/tasks/galview.xml.h:2
 msgid "With _Status"
-msgstr "अवस्थिति के साथ (_S)"
+msgstr "स्थिति के साथ (_S)"
 
 #. Put the "UTC" entry at the top of the combo's list.
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.c:234
@@ -22602,7 +22601,7 @@ msgstr "<b>चयन (_S)</b>"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
 msgid "Select a Time Zone"
-msgstr "एक समय क्षेत्र चुनें"
+msgstr "समय क्षेत्र चुनें"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:5
 msgid "Timezone drop-down combination box"
@@ -22616,7 +22615,7 @@ msgid ""
 msgstr ""
 "मानचित्र के एक क्षेत्र का आकार बढ़ाने और समय क्षेत्र के चयन के लिए बायें माउस बटन का उपयोग "
 "करें.\n"
-"आकार घटाने के लिए दांयें माउस बटन का उपयोग करें."
+"आकार घटाने के लिए दाहिने माउस बटन का उपयोग करें."
 
 #: ../widgets/menus/gal-define-views-dialog.c:76
 #: ../widgets/menus/gal-define-views-model.c:185
@@ -22632,12 +22631,12 @@ msgstr "%s के लिए दृश्य परिभाषित करे�
 #: ../widgets/menus/gal-define-views-dialog.c:366
 #: ../widgets/menus/gal-define-views-dialog.c:368
 msgid "Define Views"
-msgstr "दृश्यों को परिभाषित करें..."
+msgstr "दृश्य परिभाषित करें..."
 
 #: ../widgets/menus/gal-define-views.glade.h:2
 #, no-c-format
 msgid "Define Views for \"%s\""
-msgstr "\"%s\" के लिए दृश्यों को परिभाषित करें"
+msgstr "\"%s\" के लिए दृश्य परिभाषित करें"
 
 #: ../widgets/menus/gal-view-factory-etable.c:37
 #: ../widgets/table/e-table-header-item.c:1921
@@ -22656,17 +22655,17 @@ msgstr "वर्तमान दृश्य सहेजें"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:1
 msgid "_Create new view"
-msgstr "नया दृश्य बनायें (_C)"
+msgstr "नया दृश्य बनाएँ (_C)"
 
 #: ../widgets/menus/gal-view-instance-save-as-dialog.glade.h:3
 msgid "_Replace existing view"
-msgstr "मौजूदा दृश्य को विस्थापित करें (_R)"
+msgstr "मौजूदा दृश्य को खिसकाएँ (_R)"
 
 #. bonobo displays this string so it must be in locale
 #: ../widgets/menus/gal-view-instance.c:581
 #: ../widgets/menus/gal-view-menus.c:367
 msgid "Custom View"
-msgstr "पसंदीदा दृश्य"
+msgstr "मनपसंद दृश्य"
 
 #: ../widgets/menus/gal-view-instance.c:582
 msgid "Save Custom View"
@@ -22688,15 +22687,15 @@ msgstr "दृश्य चुनें: %s"
 
 #: ../widgets/menus/gal-view-menus.c:372
 msgid "Current view is a customized view"
-msgstr "पसंदीदा दृश्य में मौजूदा दृश्य"
+msgstr "मनपसंद दृश्य में मौजूदा दृश्य"
 
 #: ../widgets/menus/gal-view-menus.c:377
 msgid "Save Custom View..."
-msgstr "पसंदीदा दृश्यों को सहेजें..."
+msgstr "मनपसंद दृश्य सहेजें..."
 
 #: ../widgets/menus/gal-view-menus.c:382
 msgid "Save current custom view"
-msgstr "वर्तमान पसंदीदा दृश्य सहेजें"
+msgstr "वर्तमान मनपसंद दृश्य सहेजें"
 
 #: ../widgets/menus/gal-view-menus.c:396
 msgid "Create or edit views"
@@ -22912,15 +22911,15 @@ msgstr "चाक्षुष"
 #: ../widgets/misc/e-charset-picker.c:170
 #, c-format
 msgid "Unknown character set: %s"
-msgstr "अज्ञात संप्रतीक समुच्चय: %s"
+msgstr "अज्ञात वर्ण समुच्चय: %s"
 
 #: ../widgets/misc/e-charset-picker.c:215
 msgid "Character Encoding"
-msgstr "संप्रतीक एनकोडिंग"
+msgstr "वर्ण एनकोडिंग"
 
 #: ../widgets/misc/e-charset-picker.c:230
 msgid "Enter the character set to use"
-msgstr "प्रयोग के लिए संप्रतीक समुच्चय दाखिल करें"
+msgstr "प्रयोग के लिए वर्ण समुच्चय दाखिल करें"
 
 #: ../widgets/misc/e-charset-picker.c:337
 msgid "Other..."
@@ -22928,7 +22927,7 @@ msgstr "अन्य..."
 
 #: ../widgets/misc/e-charset-picker.c:599
 msgid "Ch_aracter Encoding"
-msgstr "संप्रतीक कूटलेखन (_a)"
+msgstr "वर्ण कूटलेखन (_a)"
 
 #: ../widgets/misc/e-dateedit.c:303
 msgid "Date and Time"
@@ -23110,7 +23109,7 @@ msgstr "स्तंभ चौड़ाई"
 #: ../widgets/misc/e-search-bar.c:337 ../widgets/misc/e-search-bar.c:470
 #: ../widgets/misc/e-search-bar.c:472
 msgid "Search"
-msgstr "ढूंढें"
+msgstr "खोजें"
 
 #: ../widgets/misc/e-search-bar.c:337 ../widgets/misc/e-search-bar.c:470
 #: ../widgets/misc/e-search-bar.c:472
@@ -23119,11 +23118,11 @@ msgstr "खोज प्रकार बदलने के लिए यहा�
 
 #: ../widgets/misc/e-search-bar.c:603
 msgid "_Search"
-msgstr "ढूंढें (_S)"
+msgstr "खोजें (_S)"
 
 #: ../widgets/misc/e-search-bar.c:609
 msgid "_Find Now"
-msgstr "अब ढूंढ़ें (_F)"
+msgstr "अब ढूँढ़ें (_F)"
 
 #: ../widgets/misc/e-search-bar.c:610
 msgid "_Clear"
@@ -23148,7 +23147,7 @@ msgstr "दिखायें (_w): "
 #. the term to search for
 #: ../widgets/misc/e-search-bar.c:1020
 msgid "Sear_ch: "
-msgstr "ढूंढें (_c): "
+msgstr "खोजें (_c): "
 
 #. To Translators: The " in " label is part of the Quick Search Bar, example:
 #. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
@@ -23164,7 +23163,7 @@ msgstr "कर्सर पंक्ति"
 #: ../widgets/misc/e-selection-model-array.c:601
 #: ../widgets/table/e-tree-selection-model.c:813
 msgid "Cursor Column"
-msgstr "कर्सर कॉलम"
+msgstr "कर्सर स्तंभ"
 
 #: ../widgets/misc/e-selection-model.c:209
 msgid "Sorter"
@@ -23180,7 +23179,7 @@ msgstr "कर्सर विधि"
 
 #: ../widgets/misc/e-send-options.c:522
 msgid "When de_leted:"
-msgstr "जब विलोपित होगा (_l):"
+msgstr "जब मिटाया जाता है (_l):"
 
 #: ../widgets/misc/e-send-options.glade.h:1
 msgid "<b>Delivery Options</b>"
@@ -23188,7 +23187,7 @@ msgstr "<b>प्रदाय विकल्प</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:2
 msgid "<b>Replies</b>"
-msgstr "<b>जबाब</b>"
+msgstr "<b>जवाब</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:3
 msgid "<b>Return Notification</b>"
@@ -23196,7 +23195,7 @@ msgstr "<b>वापसी अधिसूचना</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:4
 msgid "<b>Status Tracking</b>"
-msgstr "<b>प्रस्थिति खोज</b>"
+msgstr "<b>स्थिति खोज</b>"
 
 #: ../widgets/misc/e-send-options.glade.h:5
 msgid "A_uto-delete sent item"
@@ -23204,7 +23203,7 @@ msgstr "प्रेषित मद स्वतः मिटाएँ (_u)"
 
 #: ../widgets/misc/e-send-options.glade.h:7
 msgid "Creat_e a sent item to track information"
-msgstr "नई सूचना को प्राप्त करने के लिए एक प्रेषण मद बनायें"
+msgstr "नई सूचना को प्राप्त करने के लिए एक प्रेषण मद बनाएँ"
 
 #: ../widgets/misc/e-send-options.glade.h:8
 msgid "Deli_vered and opened"
@@ -23240,7 +23239,7 @@ msgstr ""
 
 #: ../widgets/misc/e-send-options.glade.h:18
 msgid "R_eply requested"
-msgstr "जबाव निवेदित (_e)"
+msgstr "जवाब निवेदित (_e)"
 
 #: ../widgets/misc/e-send-options.glade.h:20
 msgid "Sta_tus Tracking"
@@ -23350,35 +23349,35 @@ msgstr "%l:%M %p"
 
 #: ../widgets/table/e-cell-pixbuf.c:360
 msgid "Selected Column"
-msgstr "चयनित कॉलम"
+msgstr "चयनित स्तंभ"
 
 #: ../widgets/table/e-cell-pixbuf.c:367
 msgid "Focused Column"
-msgstr "केंद्रित कॉलम"
+msgstr "केंद्रित स्तंभ"
 
 #: ../widgets/table/e-cell-pixbuf.c:374
 msgid "Unselected Column"
-msgstr "अचयनित कॉलम"
+msgstr "अचयनित स्तंभ"
 
 #: ../widgets/table/e-cell-text.c:1794
 msgid "Strikeout Column"
-msgstr "हटाया गया कॉलम"
+msgstr "हटाया गया स्तंभ"
 
 #: ../widgets/table/e-cell-text.c:1801
 msgid "Underline Column"
-msgstr "रेखांकित कॉलम"
+msgstr "रेखांकित स्तंभ"
 
 #: ../widgets/table/e-cell-text.c:1808
 msgid "Bold Column"
-msgstr "गहरा कॉलम"
+msgstr "गहरा स्तंभ"
 
 #: ../widgets/table/e-cell-text.c:1815
 msgid "Color Column"
-msgstr "रंग कॉलम"
+msgstr "रंग स्तंभ"
 
 #: ../widgets/table/e-cell-text.c:1829
 msgid "BG Color Column"
-msgstr "BG रंग कॉलम"
+msgstr "BG रंग स्तंभ"
 
 #: ../widgets/table/e-table-config.c:152
 msgid "State"
@@ -23503,7 +23502,7 @@ msgstr "पूरा शीर्षक"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:116
 msgid "Add a column..."
-msgstr "एक कॉलम जोड़ें"
+msgstr "एक स्तंभ जोड़ें"
 
 #: ../widgets/table/e-table-field-chooser.glade.h:1
 msgid "Field Chooser"
@@ -23514,7 +23513,7 @@ msgid ""
 "To add a column to your table, drag it into\n"
 "the location in which you want it to appear."
 msgstr ""
-"अपनी सारणी में एक कॉलम जोड़ने के लिए, इसे \n"
+"अपनी सारणी में एक स्तंभ जोड़ने के लिए, इसे \n"
 "उस स्थान में ले जाएँ जहां इसे आप देखना चाहते हैं."
 
 #: ../widgets/table/e-table-group-container.c:344
@@ -23627,7 +23626,7 @@ msgstr "छांटे को वापस लें (_U)"
 
 #: ../widgets/table/e-table-header-item.c:1476
 msgid "Group By This _Field"
-msgstr "समूह बनायें इस क्षेत्र से (_F)"
+msgstr "समूह बनाएँ इस क्षेत्र से (_F)"
 
 #: ../widgets/table/e-table-header-item.c:1477
 msgid "Group By _Box"
@@ -23651,11 +23650,11 @@ msgstr "सर्वोत्तम अनुरूप (_e)"
 
 #: ../widgets/table/e-table-header-item.c:1484
 msgid "Format Column_s..."
-msgstr "कॉलम संरूपित करें (_s)..."
+msgstr "स्तंभ संरूपित करें (_s)..."
 
 #: ../widgets/table/e-table-header-item.c:1486
 msgid "Custo_mize Current View..."
-msgstr "मौज़ूदा दृश्य पसंदीदा करें (_m)..."
+msgstr "मौज़ूदा दृश्य मनपसंद करें (_m)..."
 
 #: ../widgets/table/e-table-header-item.c:1542
 msgid "_Sort By"
@@ -23664,7 +23663,7 @@ msgstr "इससे छांटें (_S)"
 #. Custom
 #: ../widgets/table/e-table-header-item.c:1560
 msgid "_Custom"
-msgstr "पसंदीदा (_C)"
+msgstr "मनपसंद (_C)"
 
 #: ../widgets/table/e-table-header-item.c:1893
 msgid "Font Description"
@@ -23784,7 +23783,7 @@ msgstr "पंक्ति लपेटना"
 
 #: ../widgets/text/e-text.c:3713 ../widgets/text/e-text.c:3714
 msgid "Break characters"
-msgstr "टूटा संप्रतीक"
+msgstr "टूटा वर्ण"
 
 #: ../widgets/text/e-text.c:3720 ../widgets/text/e-text.c:3721
 msgid "Max lines"
