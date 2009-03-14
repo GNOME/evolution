@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-03-08 01:28+0200\n"
-"PO-Revision-Date: 2009-03-11 01:21+0200\n"
+"PO-Revision-Date: 2009-03-14 20:23+0200\n"
 "Last-Translator: Žygimantas Beručka <zygis@gnome.org>\n"
 "Language-Team: Lithuanian <gnome-lt@lists.akl.lt>\n"
 "MIME-Version: 1.0\n"
@@ -106,16 +106,16 @@ msgstr "Naujas susitikimas"
 
 #: ../a11y/calendar/ea-cal-view.c:302
 msgid "Go to Today"
-msgstr "Eiti į šiandieną"
+msgstr "Pereiti prie šiandienos"
 
 #: ../a11y/calendar/ea-cal-view.c:303
 msgid "Go to Date"
-msgstr "Eiti į datą"
+msgstr "Pereiti prie datos"
 
 #: ../a11y/calendar/ea-day-view-main-item.c:301
 #: ../a11y/calendar/ea-week-view-main-item.c:298
 msgid "a table to view and select the current time range"
-msgstr "lentelė skirta žiūrėti ir pasirinkti dabartiniam laiko rėžiui"
+msgstr "lentelė dabartinio laiko rėžio peržiūrai ir pasirinkimui"
 
 #. To translators: Here, "It" is either like "Work Week View: July
 #. 10th - July 14th, 2006." or "Day View: Thursday July 13th, 2006."
@@ -537,7 +537,7 @@ msgstr "Pakeitėte šio kontakto duomenis. Ar norite išsaugoti šiuos pakeitimu
 msgid ""
 "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
-"Jūsų {0} kontaktai bus neprieinami, kol Evolution nebus perleista iš naujo."
+"Jūsų {0} kontaktai bus neprieinami, kol Evolution nebus paleista iš naujo."
 
 #: ../addressbook/addressbook.error.xml.h:38 ../mail/em-vfolder-rule.c:513
 #: ../plugins/groupwise-features/junk-settings.glade.h:4
@@ -598,7 +598,7 @@ msgstr "K_ontaktai"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:3
 msgid "Certificates"
-msgstr "Sertifikatai"
+msgstr "Liudijimai"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:4
 msgid "Configure autocomplete here"
@@ -637,7 +637,7 @@ msgstr "Evolution adresų knygos komponentas"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:11
 msgid "Evolution S/MIME Certificate Management Control"
-msgstr "Evolution S/MIME sertifikatų valdymo nustatymai"
+msgstr "Evolution S/MIME liudijimų valdymo nustatymai"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:12
 msgid "Evolution folder settings configuration control"
@@ -645,7 +645,7 @@ msgstr "Evolution aplankų parametrų konfigūracijos valdymas"
 
 #: ../addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:13
 msgid "Manage your S/MIME certificates here"
-msgstr "Tvarkyti S/Mime sertifikatus"
+msgstr "Tvarkyti S/Mime liudijimus"
 
 #. ensure the group name is in current locale, not read from configuration
 #. create the local source group
@@ -784,7 +784,7 @@ msgstr "Tapatybės nustatymas"
 #: ../addressbook/gui/component/ldap-config.glade.h:17
 #: ../smime/gui/smime-ui.glade.h:20
 msgid "Details"
-msgstr "Detalės"
+msgstr "Informacija"
 
 #: ../addressbook/gui/component/addressbook-config.c:1009
 #: ../mail/em-folder-browser.c:1000
@@ -829,7 +829,7 @@ msgstr ""
 "Evolution kontaktų aplankų vieta ir hierarchija šiuo metu yra kitokia nei 1."
 "x versijos.\n"
 "\n"
-"Palaukite, kol Evolution perkels Jūsų ankstesnius aplankus..."
+"Luktelėkite, kol Evolution perkels jūsų ankstesnius aplankus..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1151
 msgid ""
@@ -839,7 +839,7 @@ msgid ""
 msgstr ""
 "Pasikeitė pašto konferencijų kontaktų formatas.\n"
 "\n"
-"Palaukite, kol Evolution perkels Jūsų aplankus..."
+"Luktelėkite, kol Evolution perkels jūsų aplankus..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1160
 msgid ""
@@ -849,7 +849,7 @@ msgid ""
 msgstr ""
 "Pasikeitė Evolution kai kurių telefonų numerių saugojimo būdas.\n"
 "\n"
-"Palaukite, kol Evolution perkels Jūsų aplankus..."
+"Luktelėkite, kol Evolution perkels jūsų aplankus..."
 
 #: ../addressbook/gui/component/addressbook-migrate.c:1170
 msgid ""
@@ -859,7 +859,7 @@ msgid ""
 msgstr ""
 "Pasikeitė Evolution Palm Sync pakeitimų žurnalas ir žemėlapių failai.\n"
 "\n"
-"Palaukite kol Evolution perkels aplankus..."
+"Luktelėkite kol Evolution perkels aplankus..."
 
 #: ../addressbook/gui/component/addressbook-view.c:422
 #: ../mail/em-folder-utils.c:448
@@ -1036,7 +1036,7 @@ msgstr "<b>Tapatybės nustatymas</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:7
 msgid "<b>Downloading</b>"
-msgstr "<b>Parsiuntimas</b>"
+msgstr "<b>Atsiuntimas</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:8
 msgid "<b>Searching</b>"
@@ -1270,7 +1270,7 @@ msgstr "_Rasti įmanomas paieškos bazes"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Login method:"
-msgstr "Prisijungimo _metodas:"
+msgstr "Prisijungimo _būdas:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:53
 #: ../calendar/gui/dialogs/calendar-setup.c:227
@@ -1300,7 +1300,7 @@ msgstr "Per_traukėlė:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:58
 msgid "_Use secure connection:"
-msgstr "Na_udoti saugią jungtį:"
+msgstr "Na_udoti saugų ryšį:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:59
 msgid "cards"
@@ -1328,7 +1328,7 @@ msgstr "<b>Namai</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:3
 msgid "<b>Instant Messaging</b>"
-msgstr "<b>Skubios žinutės</b>"
+msgstr "<b>Žinutės</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:4
 msgid "<b>Job</b>"
@@ -1348,7 +1348,7 @@ msgstr "<b>Telefonas</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:8
 msgid "<b>Web Addresses</b>"
-msgstr "<b>Tinklalapis</b>"
+msgstr "<b>Tinklalapiai</b>"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:9
 msgid "<b>Work</b>"
@@ -1382,7 +1382,7 @@ msgstr "Kontaktų redaktorius"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "Full _Name..."
-msgstr "Pil_nas vardas..."
+msgstr "Vis_as vardas..."
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:15
 #: ../composer/e-msg-composer.c:2494
@@ -1471,11 +1471,11 @@ msgstr "Į_rašyti į:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:34
 msgid "_Free/Busy:"
-msgstr "_Laisvas/užsiėmęs:"
+msgstr "_Užimtumas:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:35
 msgid "_Home Page:"
-msgstr "_Namų tinklapis:"
+msgstr "_Namų tinklalapis:"
 
 #: ../addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "_Manager:"
@@ -2644,7 +2644,7 @@ msgstr "Pakeista"
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2418
 #, c-format
 msgid "Contact Editor - %s"
-msgstr "Kontaktų redaktorius - %s"
+msgstr "Kontaktų rengyklė – %s"
 
 #: ../addressbook/gui/contact-editor/e-contact-editor.c:2814
 msgid "Please select an image for this contact"
@@ -2750,7 +2750,7 @@ msgstr "Valst_ybė:"
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:4
 msgid "Full Address"
-msgstr "Pilnas adresas"
+msgstr "Visas adresas"
 
 #: ../addressbook/gui/contact-editor/fulladdr.glade.h:8
 msgid "_ZIP Code:"
@@ -2767,7 +2767,7 @@ msgstr "Esq."
 #: ../addressbook/gui/contact-editor/fullname.glade.h:3
 #: ../addressbook/gui/widgets/e-addressbook-view.etspec.h:16
 msgid "Full Name"
-msgstr "Pilnas vardas"
+msgstr "Visas vardas"
 
 #: ../addressbook/gui/contact-editor/fullname.glade.h:4
 msgid "I"
@@ -2823,15 +2823,15 @@ msgstr "_Galūnė:"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:1
 msgid "Add IM Account"
-msgstr "Pridėti SŽ abonentą"
+msgstr "Pridėti žinučių paskyrą"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:2
 msgid "_Account name:"
-msgstr "_Abonento vardas:"
+msgstr "_Paskyros pavadinimas:"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:3
 msgid "_IM Service:"
-msgstr "_SŽ paslauga:"
+msgstr "_Žinučių tarnyba:"
 
 #: ../addressbook/gui/contact-editor/im.glade.h:4
 #: ../calendar/gui/dialogs/event-page.glade.h:16
@@ -3485,7 +3485,7 @@ msgstr "Kalendorius"
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 #: ../calendar/gui/dialogs/event-editor.c:116
 msgid "Free/Busy"
-msgstr "Laisvas/užsiėmęs"
+msgstr "Užimtumas"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:630
 #: ../addressbook/gui/widgets/eab-contact-display.c:645
@@ -4642,7 +4642,7 @@ msgstr "Kalendoriai"
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:3
 msgid "Configure your timezone, Calendar and Task List here "
 msgstr ""
-"Čia galima nustatyti savo laiko juostą, kalendorių bei užduočių sąrašą "
+"Čia galima nustatyti savo laiko juostą, kalendorių ir užduočių sąrašą "
 
 #: ../calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:4
 msgid "Evolution Calendar and Tasks"
@@ -4967,11 +4967,11 @@ msgstr "Įvykio permatomumas"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:18
 msgid "Free/busy server URLs"
-msgstr "„Laisvas/užsiėmęs“ serverio URL"
+msgstr "Užimtumo serverio URL"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:19
 msgid "Free/busy template URL"
-msgstr "„Laisvas/užsiėmęs“ šablono URL"
+msgstr "Užimtumo šablono URL"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:20
 msgid "Gradient of the events in calendar views."
@@ -5022,7 +5022,7 @@ msgstr "Neseniai dienos rodinyje naudotų antrųjų laiko juostų sąrašas."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:31
 msgid "List of server URLs for free/busy publishing."
-msgstr "Sąrašas serverių URL skirtų „laisvas/užsiėmęs“ informacijos skelbimui."
+msgstr "Sąrašas serverių URL skirtų užimtumo informacijos skelbimui."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:32
 msgid "Marcus Bains Line"
@@ -5208,7 +5208,7 @@ msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain."
 msgstr ""
-"URL šablonas naudojamas kaip atsarginis „laisvas/užsiėmęs“ informacijos "
+"URL šablonas naudojamas kaip atsarginis užimtumo informacijos "
 "skelbimo variantas, %u yra pakeičiama naudotojo el. pašto adreso dalimi ir %"
 "d yra pakeičiama domenu."
 
@@ -5510,11 +5510,11 @@ msgstr "Nepavyko atnaujinti kalendorių."
 #: ../calendar/gui/calendar-component.c:1142
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
-msgstr "Nepavyko atverti kalendoriaus „%s“ įvykių bei susitikimų įrašymui"
+msgstr "Nepavyko atverti kalendoriaus „%s“ įvykių ir susitikimų kūrimui"
 
 #: ../calendar/gui/calendar-component.c:1158
 msgid "There is no calendar available for creating events and meetings"
-msgstr "Nėra sukurta kalendoriaus naudojamo įvykių bei susitikimų saugojimui"
+msgstr "Nėra sukurta kalendoriaus naudojamo įvykių ir susitikimų kūrimui"
 
 #: ../calendar/gui/calendar-component.c:1271
 msgid "Calendar Source Selector"
@@ -6270,7 +6270,7 @@ msgstr "Iki"
 #: ../calendar/gui/dialogs/comp-editor.c:239
 #, c-format
 msgid "Attached message - %s"
-msgstr "Prisegtas laiškas - %s"
+msgstr "Prisegtas laiškas – %s"
 
 #. translators, this count will always be >1
 #: ../calendar/gui/dialogs/comp-editor.c:244
@@ -6531,18 +6531,17 @@ msgstr "Rodyti priedus"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2303
 msgid "Press space key to toggle attachment bar"
-msgstr "Norėdami perjungti priedų skydelio matomumą paspauskite tarpą"
+msgstr "Norėdami perjungti priedų juostos matomumą spustelėkite tarpo klavišą"
 
 #: ../calendar/gui/dialogs/comp-editor.c:2448
 #: ../calendar/gui/dialogs/comp-editor.c:2496
 #: ../calendar/gui/dialogs/comp-editor.c:3349
 msgid "Changes made to this item may be discarded if an update arrives"
-msgstr ""
-"Pakeitimai padaryti šiame punkte bus prarasti, jei atsiras atnaujinimai"
+msgstr "Šio elemento pakeitimai bus prarasti, jei bus atnaujinimų"
 
 #: ../calendar/gui/dialogs/comp-editor.c:3378
 msgid "Unable to use current version!"
-msgstr "Nepavyko paleisti turimos versijos!"
+msgstr "Nepavyko naudoti dabartinės versijos!"
 
 #: ../calendar/gui/dialogs/copy-source-dialog.c:64
 msgid "Could not open source"
@@ -6663,15 +6662,15 @@ msgstr "Rodyti laiką kaip _užimtą"
 
 #: ../calendar/gui/dialogs/event-editor.c:236
 msgid "Toggles whether to show time as busy"
-msgstr "Nurodo, ar laikas užimtas / laisvas"
+msgstr "Perjungia laiko užimtumo būseną"
 
 #: ../calendar/gui/dialogs/event-editor.c:245
 msgid "_Free/Busy"
-msgstr "_Laisvas / užsiėmęs"
+msgstr "_Užimtumas"
 
 #: ../calendar/gui/dialogs/event-editor.c:247
 msgid "Query free / busy information for the attendees"
-msgstr "Užklausti dalyvių laisvumo / užimtumo informacijos"
+msgstr "Užklausti dalyvių užimtumo informacijos"
 
 #: ../calendar/gui/dialogs/event-editor.c:301
 msgid "Appoint_ment"
@@ -7988,7 +7987,7 @@ msgstr "Preliminariai priimtas"
 msgid ""
 "The meeting has been canceled, however it could not be found in your "
 "calendars"
-msgstr "Šis susitikimas buvo atšauktas, tačiau jo Jūsų kalendoriuose nėra"
+msgstr "Šis susitikimas buvo atšauktas, tačiau jo jūsų kalendoriuose nėra"
 
 #: ../calendar/gui/e-itip-control.c:1280
 msgid ""
@@ -8127,38 +8126,38 @@ msgstr "Užduoties atšaukimas"
 
 #: ../calendar/gui/e-itip-control.c:1484
 msgid "Bad Task Message"
-msgstr "Blogas užduoties pranešimas"
+msgstr "Netinkamas užduoties pranešimas"
 
 #: ../calendar/gui/e-itip-control.c:1508
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
-msgstr "<b>%s</b> paskelbė laisvas/užimtas informaciją."
+msgstr "<b>%s</b> paskelbė užimtumo informaciją."
 
 #: ../calendar/gui/e-itip-control.c:1509
 msgid "Free/Busy Information"
-msgstr "Laisvas/užimtas informacija"
+msgstr "Užimtumo informacija"
 
 #: ../calendar/gui/e-itip-control.c:1513
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
-msgstr "<b>%s</b> paprašė Jūsų pateikti laisvas/užimtas informaciją."
+msgstr "<b>%s</b> paprašė jūsų užimtumo informacijos."
 
 #: ../calendar/gui/e-itip-control.c:1514
 msgid "Free/Busy Request"
-msgstr "Laisvas/užimtas užklausa"
+msgstr "Užimtumo užklausa"
 
 #: ../calendar/gui/e-itip-control.c:1518
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
-msgstr "<b>%s</b> atsakė į laisvas/užimtas užklausą."
+msgstr "<b>%s</b> atsakė į užimtumo užklausą."
 
 #: ../calendar/gui/e-itip-control.c:1519
 msgid "Free/Busy Reply"
-msgstr "Laisvas/užimtas atsakas"
+msgstr "Užimtumo atsakas"
 
 #: ../calendar/gui/e-itip-control.c:1524
 msgid "Bad Free/Busy Message"
-msgstr "Blogas laisvas/užimtas pranešimas"
+msgstr "Netinkamas užimtumo pranešimas"
 
 #: ../calendar/gui/e-itip-control.c:1600
 msgid "The message does not appear to be properly formed"
@@ -8193,8 +8192,7 @@ msgstr ""
 #: ../calendar/gui/e-itip-control.c:2044
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
-"Dalyvio statusas negali būti atnaujintas, nes nurodytas neteisingas "
-"statusas!\n"
+"Dalyvio būsena negali būti atnaujinta, kadangi nurodyta neteisingas būsena!\n"
 
 #: ../calendar/gui/e-itip-control.c:2068
 msgid "Attendee status updated\n"
@@ -8203,9 +8201,7 @@ msgstr "Dalyvio būsena atnaujinta\n"
 #: ../calendar/gui/e-itip-control.c:2075
 #: ../plugins/itip-formatter/itip-formatter.c:1379
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr ""
-"Dalyvio statusas negali būti atnaujintas, nes pasirinktas elementas "
-"nebeegzistuoja"
+msgstr "Dalyvio būsena negali būti atnaujinta, nes pasirinko elemento nebėra"
 
 #: ../calendar/gui/e-itip-control.c:2106 ../calendar/gui/e-itip-control.c:2163
 msgid "Item sent!\n"
@@ -8213,7 +8209,7 @@ msgstr "Elementas išsiųstas!\n"
 
 #: ../calendar/gui/e-itip-control.c:2112 ../calendar/gui/e-itip-control.c:2171
 msgid "The item could not be sent!\n"
-msgstr "Elementas negalėjo būti išsiųstas!\n"
+msgstr "Elemento išsiųsti nepavyko!\n"
 
 #: ../calendar/gui/e-itip-control.c:2251
 msgid "Choose an action:"
@@ -8246,7 +8242,7 @@ msgstr "Atsisakyti"
 
 #: ../calendar/gui/e-itip-control.c:2381
 msgid "Send Free/Busy Information"
-msgstr "Siųsti Laisvas/Užimtas Informaciją"
+msgstr "Siųsti užimtumo Informaciją"
 
 #: ../calendar/gui/e-itip-control.c:2409
 msgid "Update respondent status"
@@ -8415,7 +8411,7 @@ msgstr "Rodyti _atitrauktą"
 
 #: ../calendar/gui/e-meeting-time-sel.c:479
 msgid "_Update free/busy"
-msgstr "_Atnaujinti laisvas/užimtas"
+msgstr "_Atnaujinti užimtumą"
 
 #: ../calendar/gui/e-meeting-time-sel.c:494
 msgid "_<<"
@@ -8650,7 +8646,7 @@ msgstr "Raštelio informacija"
 
 #: ../calendar/gui/itip-utils.c:638 ../calendar/gui/itip-utils.c:802
 msgid "Free/Busy information"
-msgstr "Laisvas/užsiėmęs informacija"
+msgstr "Užimtumo informacija"
 
 #: ../calendar/gui/itip-utils.c:640
 msgid "Calendar information"
@@ -8830,7 +8826,7 @@ msgstr ""
 "Pasikeitė Evolution užduočių aplankų hierarchija ir vieta, lyginant su "
 "buvusia Evolution 1.x versijose.\n"
 "\n"
-"Palaukite kol Evolution perkels aplankus..."
+"Luktelėkite kol Evolution perkels aplankus..."
 
 #: ../calendar/gui/migration.c:161
 msgid ""
@@ -8842,7 +8838,7 @@ msgstr ""
 "Pasikeitė Evolution užduočių aplankų hierarchija ir vieta, lyginant su "
 "buvusia Evolution 1.x versijose.\n"
 "\n"
-"Palaukite kol Evolution perkels aplankus..."
+"Luktelėkite kol Evolution perkels aplankus..."
 
 #. FIXME: set proper domain/code
 #: ../calendar/gui/migration.c:775 ../calendar/gui/migration.c:943
@@ -10896,7 +10892,7 @@ msgstr "Užšifru_oti S/MIME"
 
 #: ../composer/e-composer-actions.c:592
 msgid "Encrypt this message with your S/MIME Encryption Certificate"
-msgstr "Užšifruoti šį laišką S/MIME šifravimo sertifikatu"
+msgstr "Užšifruoti šį laišką S/MIME šifravimo liudijimu"
 
 #: ../composer/e-composer-actions.c:598
 msgid "S/MIME Sig_n"
@@ -10904,7 +10900,7 @@ msgstr "_Pasirašyti S/MIME"
 
 #: ../composer/e-composer-actions.c:600
 msgid "Sign this message with your S/MIME Signature Certificate"
-msgstr "Pasirašyti šį laišką jūsų S/MIME parašo sertifikatu"
+msgstr "Pasirašyti šį laišką jūsų S/MIME parašo liudijimu"
 
 #: ../composer/e-composer-actions.c:606
 msgid "_Bcc Field"
@@ -11016,7 +11012,7 @@ msgstr "Pa_rašas:"
 
 #: ../composer/e-composer-name-header.c:115
 msgid "Click here for the address book"
-msgstr "Paspausk čia, jei reikia adresų knygelės"
+msgstr "Spustelėkite norėdami adresų knygos"
 
 #: ../composer/e-composer-post-header.c:137
 msgid "Posting destination"
@@ -11024,7 +11020,7 @@ msgstr "Paskirties vieta"
 
 #: ../composer/e-composer-post-header.c:138
 msgid "Choose folders to post the message to."
-msgstr "Pasirinkite aplanką, kuriame bus patalpintas laiškas."
+msgstr "Pasirinkite aplanką, kuriame bus paskelbtas laiškas."
 
 #: ../composer/e-composer-post-header.c:172
 msgid "Click here to select folders to post to"
@@ -11038,16 +11034,16 @@ msgstr "Rodyti prie_dų juostą"
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
-"Nepavyko pasirašyti išsiunčiamo laiško: nenustatytas šio abonento parašo "
-"sertifikatas"
+"Nepavyko pasirašyti išsiunčiamo laiško: nėra šios paskyros pasirašymo "
+"liudijimo"
 
 #: ../composer/e-msg-composer.c:873
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr ""
-"Nepavyko užšifruoti išsiunčiamo laiško: Nenustatytas šio abonento šifravimo "
-"sertifikatas"
+"Nepavyko užšifruoti išsiunčiamo laiško: nėra šios paskyros šifravimo "
+"liudijimo"
 
 #: ../composer/e-msg-composer.c:1515 ../mail/em-format-html-display.c:1952
 #: ../mail/em-format-html-display.c:2600 ../mail/mail-config.glade.h:45
@@ -11080,21 +11076,21 @@ msgid ""
 "the mail to be sent without those pending attachments "
 msgstr ""
 " Šiuo metu yra siunčiama keletas priedų. Jeigu išsiųsite laišką, jis bus "
-"išsiųstas be šių, šiuo metu dar tik parsiunčiamų, priedų "
+"išsiųstas be šių, šiuo metu dar tik atsiunčiamų, priedų "
 
 #: ../composer/mail-composer.error.xml.h:2
 msgid "All accounts have been removed."
-msgstr "Visi abonentai buvo pašalinti."
+msgstr "Visos paskyros buvo pašalintos."
 
 #: ../composer/mail-composer.error.xml.h:3
 msgid ""
 "Are you sure you want to discard the message, titled '{0}', you are "
 "composing?"
-msgstr "Ar tikrai norite atsisakyti rašomos žinutės, pavadintos „{0}?"
+msgstr "Ar tikrai norite atsisakyti rašomo laiško, pavadinto „{0}?"
 
 #: ../composer/mail-composer.error.xml.h:4
 msgid "Because &quot;{0}&quot;, you may need to select different mail options."
-msgstr "Dėl „{0}“, Jums gali reikti pasirinkti kitas pašto parinktis."
+msgstr "Dėl „{0}“ jums gali reikėti pasirinkti kitas pašto parinktis."
 
 #: ../composer/mail-composer.error.xml.h:5
 msgid "Because &quot;{1}&quot;."
@@ -11106,13 +11102,13 @@ msgid ""
 "you choose to save the message in your Drafts folder. This will allow you to "
 "continue the message at a later date."
 msgstr ""
-"Jeigu uždarysite šio redaktoriaus langą, žinutė bus panaikinta, nebent "
-"pasirinksite išsaugoti ją juodraščių aplanke. Šiuo atveju vėliau galėsite "
-"toliau tęsti šios žinutės redagavimą."
+"Jeigu užversite šios rengyklės langą, laiškas bus sunaikintas, nebent "
+"pasirinksite išsaugoti jį juodraščių aplanke. Tokiu atveju vėliau galėsite "
+"tęsti šio laiško redagavimą."
 
 #: ../composer/mail-composer.error.xml.h:7
 msgid "Could not create composer window."
-msgstr "Nepavyko sukurti redaktoriaus lango."
+msgstr "Nepavyko sukurti rengyklės lango."
 
 #: ../composer/mail-composer.error.xml.h:8
 msgid "Could not create message."
@@ -11160,7 +11156,7 @@ msgid ""
 "accounts."
 msgstr ""
 "Siuntimo parinktys prieinamos tik Novell GroupWise ir Microsoft Exchange "
-"abonentams."
+"paskyroms."
 
 #: ../composer/mail-composer.error.xml.h:18
 msgid "Send options not available."
@@ -11189,7 +11185,7 @@ msgid ""
 msgstr ""
 "Nepavyko aktyvuoti HTML redaktoriaus valdymo.\n"
 "\n"
-"Įsitikinkite, kad pas Jus įdiegtos tinkamos gtkhtml bei libgtkhtml versijos."
+"Įsitikinkite, kad pas jus įdiegtos tinkamos gtkhtml ir libgtkhtml versijos."
 
 #: ../composer/mail-composer.error.xml.h:24
 msgid "Unable to activate the address selector control."
@@ -11210,12 +11206,12 @@ msgstr "Negalima prie šio laiško prisegti failo „{0}“."
 #: ../composer/mail-composer.error.xml.h:28
 msgid "You need to configure an account before you can compose mail."
 msgstr ""
-"Prieš pradėdami rašyti laiškus turite nustatyti savo pašto abonento "
+"Prieš pradėdami rašyti laiškus turite nustatyti savo pašto paskyros "
 "parametrus."
 
 #: ../composer/mail-composer.error.xml.h:29
 msgid "_Continue Editing"
-msgstr "_Tęsti redagavimą"
+msgstr "_Toliau redaguoti"
 
 #: ../composer/mail-composer.error.xml.h:31
 msgid "_Do not Recover"
@@ -11784,7 +11780,7 @@ msgstr "Rašymo nustatymai"
 msgid ""
 "Configure mail preferences, including security and message display, here"
 msgstr ""
-"Čia gali valdyti įvairius pašto nustatymus, įskaitant saugumą bei laiškų "
+"Čia gali valdyti įvairius pašto nustatymus, įskaitant saugumą ir laiškų "
 "rodymą"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:3
@@ -11795,7 +11791,7 @@ msgstr ""
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure your email accounts here"
-msgstr "Čia galite konfigūruoti pašto abonementus"
+msgstr "Čia galite konfigūruoti el. pašto paskyras"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:5
 msgid "Configure your network connection settings here"
@@ -11807,7 +11803,7 @@ msgstr "Evolution paštas"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:7
 msgid "Evolution Mail accounts configuration control"
-msgstr "Evolution pašto abonementų konfigūravimo valdymas"
+msgstr "Evolution pašto paskyrų konfigūravimo valdymas"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:8
 msgid "Evolution Mail component"
@@ -11840,7 +11836,7 @@ msgstr "Paštas"
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:14
 #: ../mail/em-account-prefs.c:495
 msgid "Mail Accounts"
-msgstr "Pašto abonementai"
+msgstr "Pašto paskyros"
 
 #: ../mail/GNOME_Evolution_Mail.server.in.in.h:15
 #: ../mail/mail-config.glade.h:104
@@ -11929,11 +11925,11 @@ msgstr "Tikrinama, ar yra naujų laiškų"
 
 #: ../mail/em-account-editor.c:2931 ../mail/mail-config.glade.h:34
 msgid "Account Editor"
-msgstr "Abonementų rengyklė"
+msgstr "Paskyrų rengyklė"
 
 #: ../mail/em-account-editor.c:2931 ../mail/mail-config.glade.h:84
 msgid "Evolution Account Assistant"
-msgstr "Evolution abonementų vediklis"
+msgstr "Evolution paskyrų vediklis"
 
 #. translators: default account indicator
 #: ../mail/em-account-prefs.c:429
@@ -11942,7 +11938,7 @@ msgstr "[Numatytasis]"
 
 #: ../mail/em-account-prefs.c:488
 msgid "Account name"
-msgstr "Abonemento pavadinimas"
+msgstr "Paskyros pavadinimas"
 
 #: ../mail/em-account-prefs.c:490
 msgid "Protocol"
@@ -11976,7 +11972,7 @@ msgstr "Nenurodytas paskirties adresas, laiško persiuntimas buvo atšauktas."
 
 #: ../mail/em-composer-utils.c:1608
 msgid "No account found to use, forward of the message has been cancelled."
-msgstr "Nerastas naudotinas abonementas, laiško persiuntimas buvo atšauktas."
+msgstr "Nerasta naudotina paskyra, laiško persiuntimas buvo atšauktas."
 
 #: ../mail/em-composer-utils.c:2058
 msgid "an unknown sender"
@@ -12234,7 +12230,7 @@ msgstr "skamba panašiai į"
 
 #: ../mail/em-filter-i18n.h:67
 msgid "Source Account"
-msgstr "Šaltinio abonentas"
+msgstr "Šaltinio paskyra"
 
 #: ../mail/em-filter-i18n.h:68
 msgid "Specific header"
@@ -12311,11 +12307,11 @@ msgstr "Laiškai ne šlamštas"
 
 #: ../mail/em-folder-browser.c:1188
 msgid "Account Search"
-msgstr "Abonementų paieška"
+msgstr "Paskyrų paieška"
 
 #: ../mail/em-folder-browser.c:1241
 msgid "All Account Search"
-msgstr "Visų abonementų paieška"
+msgstr "Visų paskyrų paieška"
 
 #. to be on the safe side, ngettext is used here, see e.g. comment #3 at bug 272567
 #: ../mail/em-folder-properties.c:174
@@ -12330,9 +12326,9 @@ msgstr[2] "Neskaitytų žinučių:"
 #: ../mail/em-folder-properties.c:178
 msgid "Total messages:"
 msgid_plural "Total messages:"
-msgstr[0] "Viso žinutė:"
-msgstr[1] "Viso žinutės:"
-msgstr[2] "Viso žinučių:"
+msgstr[0] "Iš viso laiškų:"
+msgstr[1] "Iš viso laiškų:"
+msgstr[2] "Iš viso laiškų:"
 
 #: ../mail/em-folder-properties.c:196
 #, c-format
@@ -12832,11 +12828,11 @@ msgstr ""
 
 #: ../mail/em-format-html-display.c:1066 ../smime/gui/smime-ui.glade.h:48
 msgid "_View Certificate"
-msgstr "_Peržiūrėti sertifikatą"
+msgstr "_Peržiūrėti liudijimą"
 
 #: ../mail/em-format-html-display.c:1081
 msgid "This certificate is not viewable"
-msgstr "Negalima peržiūrėti šio sertifikato"
+msgstr "Negalima peržiūrėti šio liudijimo"
 
 #: ../mail/em-format-html-display.c:1410
 msgid "Completed on %B %d, %Y, %l:%M %p"
@@ -13173,7 +13169,7 @@ msgstr ""
 "Evolution pašto aplankų vieta ir hierarchija šiuo metu yra kitokia nei 1.x "
 "versijos.\n"
 "\n"
-"Palaukite kol Evolution perkels ankstesnius aplankus..."
+"Luktelėkite kol Evolution perkels ankstesnius aplankus..."
 
 #: ../mail/em-migrate.c:2090
 #, c-format
@@ -13439,7 +13435,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:34
 msgid "Determines whether to lookup in address book for sender email"
-msgstr "Nurodo, ar ieškoti adresų knygutėje siuntėjo el. pašto adreso"
+msgstr "Nurodo, ar ieškoti adresų knygoje siuntėjo el. pašto adreso"
 
 #: ../mail/evolution-mail.schemas.in.h:35
 msgid ""
@@ -13448,14 +13444,14 @@ msgid ""
 "can be slow, if remote address books (like LDAP) are marked for "
 "autocompletion."
 msgstr ""
-"Nurodo, ar ieškoti siuntėjo el. pašto adreso adresų knygutėje. Jei toks "
-"randamas, laiškas neturėtų būti šiukšlė. Ieškoma adresų knygutėse, "
+"Nurodo, ar ieškoti siuntėjo el. pašto adreso adresų knygoje. Jei toks "
+"randamas, laiškas neturėtų būti šiukšlė. Ieškoma adresų knygose, "
 "pažymėtose automatiniam užbaigimui. Jei naudojamos nutolusios užrašų "
-"knygutės,pvz., LDAP, paieška gali užtrukti."
+"knygutės, pvz., LDAP, paieška gali užtrukti."
 
 #: ../mail/evolution-mail.schemas.in.h:36
 msgid "Determines whether to use custom headers to check for junk"
-msgstr "Nurodo, ar naudoti specialias antraštes laiškams tikrinti nuo šiukšlių"
+msgstr "Nurodo, ar naudoti pasirinktines antraštes šlamšto atfiltravimui"
 
 #: ../mail/evolution-mail.schemas.in.h:37
 msgid ""
@@ -13463,21 +13459,20 @@ msgid ""
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
 msgstr ""
-"Nustato, ar naudoti specialias antraštes laiškams tikrinti nuo šiukšlių. Jei "
-"šis nustatymas įjungtas ir išvardintos antraštės, šiukšlių tikrinimas "
-"pagreitės."
+"Nustato, ar naudoti pasirinktines antraštes šlamšto filtravimui. Jei "
+"ši parinktis įjungta ir nurodytos antraštės, šlamšto filtravimas pagreitės."
 
 #: ../mail/evolution-mail.schemas.in.h:38
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
 msgstr ""
-"Nurodo, ar naudoti tą patį šriftą ir „Nuo“ ir „Tema“ laukams „Žinučių“ "
+"Nurodo, ar naudoti tą patį šriftą ir „Nuo“ ir „Tema“ laukams „Laiškų“ "
 "stulpelyje vertikaliame rodinyje."
 
 #: ../mail/evolution-mail.schemas.in.h:39
 msgid "Directory for loading/attaching files to composer."
-msgstr "Failų įkėlimo / prikabinimo laiško rašymo lange aplankas."
+msgstr "Failų įkėlimo / prisegimo laiško rašymo lange aplankas."
 
 #: ../mail/evolution-mail.schemas.in.h:40
 msgid "Directory for saving mail component files."
@@ -13679,19 +13674,19 @@ msgstr "Priimtų licencijų sąrašas"
 
 #: ../mail/evolution-mail.schemas.in.h:76
 msgid "List of accounts"
-msgstr "Abonementų sąrašas"
+msgstr "Paskyrų sąrašas"
 
 #: ../mail/evolution-mail.schemas.in.h:77
 msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
 msgstr ""
-"Evolution pašto komponentui žinomų abonementų sąrašas. Šiame sąraše "
-"išvardintos sekos, nurodančios poaplankius esančius /apps/evolution/accounts."
+"Evolution pašto komponentui žinomų paskyrų sąrašas. Šiame sąraše yra "
+"eilučių, nurodančių /apps/evolution/mail/accounts poaplankius."
 
 #: ../mail/evolution-mail.schemas.in.h:78
 msgid "List of custom headers and whether they are enabled."
-msgstr "Specialių antraščių sąrašas bei jų įjungimo parametrai."
+msgstr "Pasirinktinių antraščių sąrašas ir jų įjungimas / išjungimas."
 
 #: ../mail/evolution-mail.schemas.in.h:79
 msgid "List of dictionary language codes used for spell checking."
@@ -14066,7 +14061,7 @@ msgstr "Laiko tarpas, skirtas pažymėti laiškus kaip perskaitytus."
 
 #: ../mail/evolution-mail.schemas.in.h:157
 msgid "UID string of the default account."
-msgstr "Numatytojo abonemento UID simbolių seka."
+msgstr "Numatytosios paskyros UID simbolių seka."
 
 #: ../mail/evolution-mail.schemas.in.h:158
 msgid "Underline color for misspelled words when using inline spelling."
@@ -14383,7 +14378,7 @@ msgstr "<b>Ka_lbos</b>"
 
 #: ../mail/mail-config.glade.h:9
 msgid "<span weight=\"bold\">Account Information</span>"
-msgstr "<span weight=\"bold\">Abonemento informacija</span>"
+msgstr "<span weight=\"bold\">Paskyros informacija</span>"
 
 #: ../mail/mail-config.glade.h:11
 msgid "<span weight=\"bold\">Authentication</span>"
@@ -14476,7 +14471,7 @@ msgstr "<span weight=\"bold\">_Tapatybės patvirtinimo tipas</span>"
 
 #: ../mail/mail-config.glade.h:35
 msgid "Account Management"
-msgstr "Abonemento tvarkymas"
+msgstr "Paskyros tvarkymas"
 
 #: ../mail/mail-config.glade.h:36
 msgid "Add Ne_w Signature..."
@@ -14488,7 +14483,7 @@ msgstr "Pridėti _scenarijų"
 
 #: ../mail/mail-config.glade.h:38
 msgid "Al_ways sign outgoing messages when using this account"
-msgstr "Naudojant šį abonementą vi_sada pasirašyti išsiunčiamus laiškus"
+msgstr "Naudojant šią paskyrą vi_sada pasirašyti išsiunčiamus laiškus"
 
 #: ../mail/mail-config.glade.h:39
 msgid "Also encrypt to sel_f when sending encrypted messages"
@@ -14621,7 +14616,7 @@ msgstr "Juodraščių _aplankas:"
 
 #: ../mail/mail-config.glade.h:76
 msgid "Email Accounts"
-msgstr "Pašto abonementai"
+msgstr "El. pašto paskyros"
 
 #: ../mail/mail-config.glade.h:77
 msgid "Email _Address:"
@@ -14641,7 +14636,7 @@ msgstr "Įjungti paieš_kos aplankus"
 
 #: ../mail/mail-config.glade.h:82
 msgid "Encry_ption certificate:"
-msgstr "Ši_fravimo sertifikatas:"
+msgstr "Ši_fravimo liudijimas:"
 
 #: ../mail/mail-config.glade.h:83
 msgid "Encrypt out_going messages (by default)"
@@ -14760,8 +14755,8 @@ msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
-"Žemiau įveskite šį abonementą apibūdinantį pavadinimą.\n"
-"Jis bus naudojamas tik vaizdavimo tikslais."
+"Žemiau įveskite šią paskyrą nusakantį pavadinimą.\n"
+"Jis bus naudojamas tik vaizdavimo tikslams."
 
 #: ../mail/mail-config.glade.h:117
 msgid ""
@@ -14872,7 +14867,7 @@ msgstr "Serverio _tipas:"
 
 #: ../mail/mail-config.glade.h:144
 msgid "Sig_ning certificate:"
-msgstr "Pasirašo_mas sertifikatas:"
+msgstr "Pasirašo_mas liudijimas:"
 
 #: ../mail/mail-config.glade.h:145
 msgid "Signat_ure:"
@@ -14920,7 +14915,7 @@ msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 msgstr ""
-"Pasirinkite pavadinimą, kuriuo norėtumėte vadinti šį abonementą.\n"
+"Pasirinkite pavadinimą, kuriuo norėtumėte vadinti šią paskyrą.\n"
 "Pavyzdžiui, „Darbas“ ar „Asmeniška“."
 
 #: ../mail/mail-config.glade.h:157
@@ -14994,7 +14989,7 @@ msgstr "_Ieškoti tik vietinėse adresų knygose"
 
 #: ../mail/mail-config.glade.h:175
 msgid "_Make this my default account"
-msgstr "_Padaryti šį abonementą numatytuoju"
+msgstr "_Padaryti šią paskyrą numatytąja"
 
 #: ../mail/mail-config.glade.h:176
 msgid "_Manual proxy configuration:"
@@ -15273,12 +15268,12 @@ msgstr "Įrašomas aplankas „%s“"
 #: ../mail/mail-ops.c:1594
 #, c-format
 msgid "Expunging and storing account '%s'"
-msgstr "Išvalomas ir saugomas abonementas „%s“"
+msgstr "Išvaloma ir saugoma paskyra „%s“"
 
 #: ../mail/mail-ops.c:1595
 #, c-format
 msgid "Storing account '%s'"
-msgstr "Saugomas abonementas „%s“"
+msgstr "Saugoma paskyra „%s“"
 
 #: ../mail/mail-ops.c:1649
 msgid "Refreshing folder"
@@ -15437,7 +15432,7 @@ msgstr "Bandoma perkelti paštą į ne mbox šaltinį „%s“"
 #: ../mail/mail-tools.c:256
 #, c-format
 msgid "Forwarded message - %s"
-msgstr "Persiųstas laiškas - %s"
+msgstr "Persiųstas laiškas – %s"
 
 #: ../mail/mail-tools.c:258
 msgid "Forwarded message"
@@ -15514,17 +15509,17 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:9
 msgid "Are you sure you want to delete this account and all its proxies?"
-msgstr "Ar tikrai norite ištrinti šį abonementą ir visus jo tarpininkus?"
+msgstr "Ar tikrai norite ištrinti šią paskyrą ir visus jos tarpininkus?"
 
 #: ../mail/mail.error.xml.h:10
 msgid "Are you sure you want to delete this account?"
-msgstr "Ar tikrai norite ištrinti šį abonementą?"
+msgstr "Ar tikrai norite ištrinti šią paskyrą?"
 
 #: ../mail/mail.error.xml.h:11
 msgid ""
 "Are you sure you want to disable this account and delete all its proxies?"
 msgstr ""
-"Ar tikrai norite išjungti šį abonementą ir ištrinti visus jo tarpininkus?"
+"Ar tikrai norite išjungti šią paskyrą ir ištrinti visus jos tarpininkus?"
 
 #: ../mail/mail.error.xml.h:12
 msgid "Are you sure you want to open {0} messages at once?"
@@ -15636,7 +15631,7 @@ msgstr "Nepavyko pervadinti ar perkelti sistemos aplanko „{0}“."
 
 #: ../mail/mail.error.xml.h:37
 msgid "Cannot save changes to account."
-msgstr "Nepavyko išsaugoti abonemento pakeitimų."
+msgstr "Nepavyko išsaugoti paskyros pakeitimų."
 
 #: ../mail/mail.error.xml.h:38
 msgid "Cannot save to directory \"{0}\"."
@@ -15673,7 +15668,7 @@ msgstr "Ištrinti „{0}“?"
 
 #: ../mail/mail.error.xml.h:45
 msgid "Delete account?"
-msgstr "Ištrinti abonementą?"
+msgstr "Ištrinti paskyrą?"
 
 #: ../mail/mail.error.xml.h:46
 msgid "Delete messages in Search Folder \"{0}\"?"
@@ -15753,19 +15748,19 @@ msgstr ""
 #: ../mail/mail.error.xml.h:63
 msgid "If you proceed, all proxy accounts will be deleted permanently."
 msgstr ""
-"Jeigu tęsite, visa tarpinių abonementų informacija bus visam laikui ištrinta."
+"Jeigu tęsite, visa tarpinių paskyrų informacija bus visam laikui ištrinta."
 
 #: ../mail/mail.error.xml.h:64
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
 msgstr ""
-"Jeigu tęsite, abonemento informacija ir visa\n"
+"Jeigu tęsite, paskyros informacija ir visa\n"
 "tarpinė informacija bus visam laikui ištrinta."
 
 #: ../mail/mail.error.xml.h:66
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr "Jeigu tęsite, abonemento informacija bus visam laikui ištrinta."
+msgstr "Jeigu tęsite, paskyros informacija bus visam laikui ištrinta."
 
 #: ../mail/mail.error.xml.h:67
 msgid ""
@@ -15777,11 +15772,11 @@ msgstr ""
 
 #: ../mail/mail.error.xml.h:68
 msgid "Ignore"
-msgstr "Ignoruoti"
+msgstr "Nepaisyti"
 
 #: ../mail/mail.error.xml.h:69
 msgid "Invalid authentication"
-msgstr "Netinkama autentikacija"
+msgstr "Netinkamas tapatybės nustatymas"
 
 #: ../mail/mail.error.xml.h:71
 msgid "Mail filters automatically updated."
@@ -15813,15 +15808,15 @@ msgstr "Nepasirinkta jokių šaltinių."
 
 #: ../mail/mail.error.xml.h:77
 msgid "Opening too many messages at once may take a long time."
-msgstr "Didelio laiškų kiekio atvėrimas tuo pačiu metu gali ilgai užtrukti."
+msgstr "Atvėrus per daug laiškų vienu metu gali tekti ilgai palaukti."
 
 #: ../mail/mail.error.xml.h:78
 msgid "Please check your account settings and try again."
-msgstr "Patikrinkite abonemento parametrus ir bandykite dar kartą."
+msgstr "Patikrinkite paskyros parametrus ir bandykite dar kartą."
 
 #: ../mail/mail.error.xml.h:79
 msgid "Please enable the account or send using another account."
-msgstr "Įjunkite šį abonementą arba siųskite naudodamiesi kitų abonementu."
+msgstr "Įjunkite šią paskyrą arba siųskite naudodami kitą paskyrą."
 
 #: ../mail/mail.error.xml.h:80
 msgid ""
@@ -15847,7 +15842,7 @@ msgstr "Įveskite unikalų šio parašo pavadinimą."
 
 #: ../mail/mail.error.xml.h:84
 msgid "Please wait."
-msgstr "Palaukite."
+msgstr "Luktelėkite."
 
 #: ../mail/mail.error.xml.h:85
 msgid "Problem migrating old mail folder \"{0}\"."
@@ -15860,7 +15855,7 @@ msgstr "Užklausiamas serveris"
 #: ../mail/mail.error.xml.h:87
 msgid "Querying server for a list of supported authentication mechanisms."
 msgstr ""
-"Serveriui siunčiama užklausa dėl palaikomų autentikacijos mechanizmų sąrašo."
+"Serveriui siunčiama užklausa dėl palaikomų tapatybės nustatymo būdų sąrašo."
 
 #: ../mail/mail.error.xml.h:88
 msgid "Read receipt requested."
@@ -15967,21 +15962,21 @@ msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
 msgstr ""
-"Šio laiško išsiųsti negalima, nes abonementas, kurį naudodami siunčiate, yra "
-"neįjungtas"
+"Šio laiško išsiųsti negalima, nes paskyra, kurią naudodami siunčiate, yra "
+"neįjungta"
 
 #: ../mail/mail.error.xml.h:115
 msgid ""
 "This message cannot be sent because you have not specified any recipients"
-msgstr "Šio laiško negalima išsiųsti - nenurodėte nei vieno gavėjo"
+msgstr "Šio laiško negalima išsiųsti – nenurodėte nei vieno gavėjo"
 
 #: ../mail/mail.error.xml.h:116
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
 msgstr ""
-"Šis serveris nepalaiko tokio tipo autentikacijos, taip pat gali būti, kad "
-"nepalaiko jos išvis."
+"Šis serveris nepalaiko tokio tapatybės nustatytmo būdo, taip pat gali būti, "
+"kad tai nepalaikoma visai."
 
 #: ../mail/mail.error.xml.h:117
 msgid "This signature has been changed, but has not been saved."
@@ -15992,7 +15987,7 @@ msgid ""
 "This will mark all messages as read in the selected folder and its "
 "subfolders."
 msgstr ""
-"Visi laiškai, pasirinktame aplanke bei jo poaplankiuose, bus pažymėti "
+"Visi laiškai, esantys pasirinktame aplanke ir jo poaplankiuose, bus pažymėti "
 "skaitytais."
 
 #: ../mail/mail.error.xml.h:119
@@ -16004,7 +15999,7 @@ msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
 msgstr ""
-"Nepavyko atverti šio abonemento juodraščių aplanko. Ar vietoje to naudoti "
+"Nepavyko atverti šios paskyros juodraščių aplanko. Ar vietoje to naudoti "
 "sistemos juodraščių aplanką?"
 
 #: ../mail/mail.error.xml.h:121
@@ -16035,11 +16030,11 @@ msgstr "Neįvedėte visos būtinos informacijos."
 
 #: ../mail/mail.error.xml.h:128
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr "Turite neišsiųstų laiškų. Ar vis tiek norite išeiti?"
+msgstr "Yra neišsiųstų laiškų. Ar vis tiek norite išeiti?"
 
 #: ../mail/mail.error.xml.h:129
 msgid "You may not create two accounts with the same name."
-msgstr "Negalima sukurti dviejų abonementų tuo pačiu vardu."
+msgstr "Negalima sukurti dviejų paskyrų, turinčių tą patį pavadinimą."
 
 #: ../mail/mail.error.xml.h:130
 msgid "You must name this Search Folder."
@@ -16362,7 +16357,7 @@ msgid ""
 msgstr ""
 "Galite atstatyti Evolution iš atsarginės kopijos. Taip galite atstatyti "
 "visus laiškus, kalendorius, užduotis, raštelius ir kontaktus. Taip pat "
-"atstatomi visi asmeniniai parametrai, laiškų filtrai ir t.t."
+"atstatomi visi asmeniniai parametrai, laiškų filtrai ir t. t."
 
 #: ../plugins/backup-restore/backup-restore.c:295
 msgid "_Restore Evolution from the backup file"
@@ -16370,7 +16365,7 @@ msgstr "_Atstatyti Evolution iš atsarginio failo"
 
 #: ../plugins/backup-restore/backup-restore.c:302
 msgid "Please select an Evolution Archive to restore:"
-msgstr "Pasirinkite Evolution archyvą, iš kurio atstatyti"
+msgstr "Pasirinkite Evolution archyvą, iš kurio atstatyti:"
 
 #: ../plugins/backup-restore/backup-restore.c:305
 msgid "Choose a file to restore"
@@ -16403,17 +16398,17 @@ msgstr "Išjungiama Evolution"
 
 #: ../plugins/backup-restore/backup.c:131
 msgid "Backing Evolution accounts and settings"
-msgstr "Išsaugomi Evolution abonementai ir parametrai"
+msgstr "Kuriama Evolution paskyrų ir parametrų kopija"
 
 #: ../plugins/backup-restore/backup.c:135
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
 msgstr ""
-"Išsaugomi Evolution duomenys (laiškai, kontaktai, kalendoriai, užduotys, "
-"rašteliai)"
+"Kuriama Evolution duomenų (laiškų, kontaktų, kalendorių, užduočių, "
+"raštelių) kopija"
 
 #: ../plugins/backup-restore/backup.c:146
 msgid "Backup complete"
-msgstr "Išsaugojimas baigtas"
+msgstr "Atsarginė kopija sukurta"
 
 #: ../plugins/backup-restore/backup.c:151
 #: ../plugins/backup-restore/backup.c:338
@@ -16478,13 +16473,13 @@ msgstr "Luktelėkite, kol Evolution atstatys jūsų duomenis."
 #: ../plugins/backup-restore/backup.c:535
 msgid "This may take a while depending on the amount of data in your account."
 msgstr ""
-"Tai gali šiek tiek užtrukti, priklausomai nuo jūsų abonemento duomenų kiekio."
+"Tai gali šiek tiek užtrukti, priklausomai nuo jūsų paskyros duomenų kiekio."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
 msgid "A plugin for backing up and restore Evolution data and settings."
 msgstr ""
-"Įskiepis skirtas kurti ir atstatyti atsargines Evolution duomenų ir "
-"parametrų kopijas."
+"Įskiepis, skirtas atsarginių Evolution duomenų ir parametrų kopijų kūrimui "
+"ir atstatymui."
 
 #. the path to the shared library
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:3
@@ -16570,7 +16565,7 @@ msgstr "Pasirinkite adresų knygą automatiniams kontaktams"
 
 #: ../plugins/bbdb/bbdb.c:660
 msgid "Instant Messaging Contacts"
-msgstr "Skubių žinučių kontaktai"
+msgstr "Žinučių kontaktai"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:675
@@ -16645,11 +16640,11 @@ msgstr "Bogofiltro parinktys"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:2
 msgid "Bogofilter junk plugin"
-msgstr "Bogofiltro šiukšlių filtro įskiepis"
+msgstr "Bogofiltro šlamšto filtro įskiepis"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
 msgid "Filters junk messages using Bogofilter."
-msgstr "Tikrinti laiškus nuo šlamšto naudojant Bogofilter."
+msgstr "Filtruoti šlamšto laiškus naudojant Bogofilter."
 
 #. we found the group, change the name based on the actual language
 #: ../plugins/caldav/caldav-source.c:80 ../plugins/caldav/caldav-source.c:92
@@ -16782,18 +16777,18 @@ msgstr "Kopijavimo įrankis"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:1
 msgid "Check whether Evolution is the default mailer"
-msgstr "Patikrinti ar Evolution yra numatytoji pašto programa"
+msgstr "Patikrinti, ar Evolution yra numatytoji pašto programa"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:2
 msgid ""
 "Every time Evolution starts, check whether or not it is the default mailer."
 msgstr ""
-"Kiekvieną kartą paleidus Evolution, patikrinti ar Evolution yra numatytoji "
+"Kaskart paleidus Evolution patikrinti, ar Evolution yra numatytoji "
 "pašto programa."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
 msgid "Checks whether Evolution is the default mail client on startup."
-msgstr "Paleidimo metu patikrina ar Evolution yra numatytoji pašto programa."
+msgstr "Paleidimo metu patikrina, ar Evolution yra numatytoji pašto programa."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:2
 msgid "Default Mail Client "
@@ -16801,7 +16796,7 @@ msgstr "Numatytasis pašto klientas "
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
 msgid "Do you want to make Evolution your default e-mail client?"
-msgstr "Ar norite nustatyti Evolution numatytąja pašto programa?"
+msgstr "Ar norite padaryti Evolution numatytąja pašto programa?"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
 #: ../shell/main.c:599
@@ -16810,19 +16805,19 @@ msgstr "Evolution"
 
 #: ../plugins/default-source/default-source.c:82
 msgid "Mark as _default address book"
-msgstr "Pažymėti kaip _numatytąją adresų knygą"
+msgstr "Pažymėti _numatytaja adresų knyga"
 
 #: ../plugins/default-source/default-source.c:103
 msgid "Mark as _default calendar"
-msgstr "Pažymėti kaip _numatytąjį kalendorių"
+msgstr "Pažymėti _numatytuoju kalendoriumi"
 
 #: ../plugins/default-source/default-source.c:104
 msgid "Mark as _default task list"
-msgstr "Pažymėti kaip _numatytuojį užduočių sąrašą"
+msgstr "Pažymėti _numatytuoju užduočių sąrašu"
 
 #: ../plugins/default-source/default-source.c:105
 msgid "Mark as _default memo list"
-msgstr "Pažymėti kaip _numatytąjį raštelių sąrašą"
+msgstr "Pažymėti _numatytuoju raštelių sąrašu"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:1
 msgid "Default Sources"
@@ -16910,7 +16905,7 @@ msgstr "Atverti kitų naudotojų aplankus"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:2
 msgid "_Account:"
-msgstr "_Abonementas:"
+msgstr "_Paskyra:"
 
 #: ../plugins/exchange-operations/e-foreign-folder-dialog.glade.h:3
 msgid "_Folder Name:"
@@ -16931,20 +16926,20 @@ msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
 msgstr ""
-"Šios parinkties naudojimas leis Jums prisijungti prie Exchange serverio "
-"naudojant saugaus slaptažodžio (NTLM) autentikaciją."
+"Naudojant šią parinktį galėsite prisijungti prie Exchange serverio naudodami "
+"tapatybės nustatymui saugų slaptažodį (NTLM)."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:74
 msgid "Plaintext Password"
-msgstr "Paprasto teksto slaptažodis"
+msgstr "Grynojo teksto slaptažodis"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:76
 msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 msgstr ""
-"Šios parinkties naudojimas leis Jums prisijungti prie Exchange serverio "
-"naudojant paprasto teksto pavidalo slaptažodžio autentikaciją."
+"Naudojant šią parinktį galėsite prisijungti prie Exchange serverio naudodami "
+"tapatybės nustatymui grynojo teksto slaptažodį."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:272
 msgid "Out Of Office"
@@ -16955,8 +16950,8 @@ msgid ""
 "The message specified below will be automatically sent to \n"
 "each person who sends mail to you while you are out of the office."
 msgstr ""
-"Žemiau nurodytas pranešimas bus perduotas kiekvienam asmeniui,\n"
-"kurie atsiųs Jums laišką tuo metu, kai Jūsų nebus darbe."
+"Žemiau nurodytas pranešimas bus perduotas visiems asmenims,\n"
+"atsiuntusiems jums laišką tuo metu, kai jūsų nebus darbe."
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:291
 #: ../plugins/exchange-operations/exchange-account-setup.c:296
@@ -16966,12 +16961,12 @@ msgstr "Manęs šiuo metu darbe nėra"
 #: ../plugins/exchange-operations/exchange-account-setup.c:292
 #: ../plugins/exchange-operations/exchange-account-setup.c:295
 msgid "I am in the office"
-msgstr "Šiuo metu aš esu darbe"
+msgstr "Šiuo metu esu darbe"
 
 #. Change Password
 #: ../plugins/exchange-operations/exchange-account-setup.c:343
 msgid "Change the password for Exchange account"
-msgstr "Pakeisti Exchange abonemento slaptažodį"
+msgstr "Pakeisti Exchange paskyros slaptažodį"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:345
 #: ../plugins/exchange-operations/exchange-change-password.glade.h:1
@@ -16981,7 +16976,7 @@ msgstr "Pakeisti slaptažodį"
 #. Delegation Assistant
 #: ../plugins/exchange-operations/exchange-account-setup.c:350
 msgid "Manage the delegate settings for Exchange account"
-msgstr "Tvarkyti Exchange abonemento delegavimo parametrus"
+msgstr "Tvarkyti Exchange paskyros delegavimo parametrus"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:352
 msgid "Delegation Assistant"
@@ -17060,7 +17055,7 @@ msgid ""
 "The current password does not match the existing password for your account. "
 "Please enter the correct password"
 msgstr ""
-"Šis slaptažodis nesutampa su dabartiniu abonemento slaptažodžiu. Įveskite "
+"Šis slaptažodis nesutampa su dabartiniu paskyros slaptažodžiu. Įveskite "
 "teisingą slaptažodį"
 
 #: ../plugins/exchange-operations/exchange-change-password.c:121
@@ -17300,7 +17295,7 @@ msgstr "<b>Nebuvimo darbe žinutė:</b>"
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:5
 msgid "<b>Status:</b>"
-msgstr "<b>Būklė:</b>"
+msgstr "<b>Būsena:</b>"
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:6
 msgid ""
@@ -17309,7 +17304,7 @@ msgid ""
 "mail to you while you are out of the office.</small>"
 msgstr ""
 "<small>Žemiau nurodytas pranešimas bus išsiųstas kiekvienam asmeniui, kuris "
-"atsiųs Jums laišką tuo metu, kai Jūsų nebus darbe.</small>"
+"atsiųs jums laišką tuo metu, kai jūsų nebus darbe.</small>"
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:8
 msgid "I am currently in the office"
@@ -17424,7 +17419,7 @@ msgstr "<b>Sekimo parinktys</b>"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:3
 msgid "Exchange - Send Options"
-msgstr "Exchange – siuntimo parinkties"
+msgstr "Exchange – siuntimo parinktys"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:4
 msgid "I_mportance: "
@@ -17493,7 +17488,7 @@ msgid ""
 "A plugin that manages a collection of Exchange account specific operations "
 "and features."
 msgstr ""
-"Įskiepis, valdantis specifines Exchange abonementų funkcijas ir operacijas."
+"Įskiepis, valdantis specifines Exchange paskyrų funkcijas ir operacijas."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.eplug.xml.h:2
 msgid "Exchange Operations"
@@ -17521,12 +17516,12 @@ msgid ""
 "Changes to options for Exchange account \"{0}\" will only take effect after "
 "restarting Evolution."
 msgstr ""
-"Exchange abonemento „{0}“ parinkčių pakeitimai įsigalios tik po to, kai "
+"Exchange paskyros „{0}“ parinkčių pakeitimai įsigalios tik po to, kai "
 "užversite ir iš naujo paleisite Evolution."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:6
 msgid "Could not authenticate to server."
-msgstr "Nepavyko autentikuotis prie serverio."
+msgstr "Nepavyko serveryje nustatyti tapatybės."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:7
 msgid "Could not change password."
@@ -17538,9 +17533,9 @@ msgid ""
 "an unknown error occurred. Check the URL, \n"
 "username, and password, and try again."
 msgstr ""
-"Nepavyko sukonfigūruoti Exchange abonemento, nes\n"
+"Nepavyko sukonfigūruoti Exchange paskyros, nes\n"
 "įvyko nežinoma klaida. Patikrinkite URL, naudotojo\n"
-"vardą bei slaptažodį ir bandykite dar kartą."
+"vardą ir slaptažodį ir bandykite dar kartą."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:11
 msgid "Could not connect to Exchange server."
@@ -17589,12 +17584,12 @@ msgstr "Nepavyko atnaujinti manęs-darbe-nėra būsenos"
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:22
 msgid "Evolution requires a restart to load the subscribed user's mailbox"
 msgstr ""
-"Kad būtų įkelta užsakyto naudotojo pašto dėžutė, Evolution turi būti "
-"paleista iš naujo"
+"Norint įkelti užsakyto naudotojo pašto dėžutę reikia paleisti Evolution "
+"iš naujo"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:23
 msgid "Exchange Account is offline."
-msgstr "Exchange abonentas atsijungęs."
+msgstr "Exchange paskyra atsijungimo veiksenoje."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:24
 msgid ""
@@ -17655,7 +17650,7 @@ msgid ""
 "If OWA is running on a different path, you must specify that in the account "
 "configuration dialog."
 msgstr ""
-"Jeigu OWA veikia kitame kelyje, turite tai nurodyti abonemento konfigūravimo "
+"Jeigu OWA paleista kitame kelyje, turite tai nurodyti paskyros konfigūravimo "
 "lange."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
@@ -17679,7 +17674,7 @@ msgstr ""
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:47
 msgid "No Global Catalog server configured for this account."
-msgstr "Šiam abonementui nėra sukonfigūruoto Global Catalog serverio."
+msgstr "Šiai paskyrai nėra sukonfigūruoto Global Catalog serverio."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:48
 msgid "No mailbox for user {0} on {1}."
@@ -17715,11 +17710,11 @@ msgstr "Serveris atmetė slaptažodį, nes jis per silpnas."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:57
 msgid "The Exchange account will be disabled when you quit Evolution"
-msgstr "Exchange abonementas bus išjungtas, kai uždarysite Evolution"
+msgstr "Exchange paskyra bus išjungta, kai užversite Evolution"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:58
 msgid "The Exchange account will be removed when you quit Evolution"
-msgstr "Exchange abonementas bus pašalintas, kai uždarysite Evolution"
+msgstr "Exchange paskyra bus pašalinta, kai užversite Evolution"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:59
 msgid "The Exchange server is not compatible with Exchange Connector."
@@ -17797,7 +17792,7 @@ msgstr "Viršijote savo kvotą, skirtą saugoti paštui šiame serveryje."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:78
 msgid "You may only configure a single Exchange account."
-msgstr "Galite konfigūruoti tik vieną Exchange abonementą."
+msgstr "Galite konfigūruoti tik vieną Exchange paskyrą."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:79
 msgid ""
@@ -18002,7 +17997,7 @@ msgstr ""
 
 #: ../plugins/groupwise-account-setup/org-gnome-gw-account-setup.eplug.xml.h:2
 msgid "GroupWise Account Setup"
-msgstr "GroupWise abonemento nustatymai"
+msgstr "GroupWise paskyros sąranka"
 
 #: ../plugins/groupwise-features/install-shared.c:220
 #, c-format
@@ -18018,15 +18013,15 @@ msgid ""
 "Click 'Forward' to install the shared folder\n"
 "\n"
 msgstr ""
-"Naudotojas '%s' turi bendrą su Jumis aplanką\n"
+"Naudotojas “%s“ jumis naudoja bendrą aplanką\n"
 "\n"
-"Pranešimas iš '%s'\n"
+"Pranešimas iš „%s“\n"
 "\n"
 "\n"
 "%s\n"
 "\n"
 "\n"
-"Spauskite „Toliau“, jei norite įdiegti bendrą aplanką\n"
+"Spustelėkite „Toliau“ norėdami įdiegti bendrą aplanką\n"
 "\n"
 
 #: ../plugins/groupwise-features/install-shared.c:225
@@ -18097,7 +18092,7 @@ msgstr "Pridėti siuntimo parinktis GroupWise žinutėse"
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
 msgid "A plugin for the features in GroupWise accounts."
-msgstr "Įskiepis, suteikiantis funkcijas GroupWise abonementams."
+msgstr "Įskiepis, suteikiantis funkcijas GroupWise paskyroms."
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:2
 msgid "GroupWise Features"
@@ -18120,7 +18115,7 @@ msgstr "Netinkamas naudotojas"
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:3
 msgid "Proxy access cannot be given to user &quot;{0}&quot;"
-msgstr "Tarpinio serverio prieiga naudotojui „{0}“ negali būti suteikta;"
+msgstr "Įgaliotinio prieiga naudotojui „{0}“ negali būti suteikta;"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:4
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:2
@@ -18130,22 +18125,21 @@ msgstr "Nurodykite naudotoją"
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:6
 msgid "You have already given proxy permissions to this user."
-msgstr "Jau suteikėte šiam naudotojui tarpinio serverio teises."
+msgstr "Jau suteikėte šiam naudotojui įgaliotinio teises."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:8
 msgid "You have to specify a valid user name to give proxy rights."
 msgstr ""
-"Norėdami suteikti tarpinio serverio teises, turite nurodyti tinkamą "
-"naudotojo vardą."
+"Norėdami suteikti įgaliotinio teises turite nurodyti tinkamą naudotojo vardą."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:1
 msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
-msgstr "Abonementas „{1}“ jau yra. Patikrinkite savo aplankų medį."
+msgstr "Paskyra „{1}“ jau yra. Patikrinkite savo aplankų medį."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:2
 msgid "Account Already Exists"
-msgstr "Abonementas jau yra"
+msgstr "Paskyra jau yra"
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:4
 msgid ""
@@ -18266,16 +18260,16 @@ msgstr "_Skaityti"
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy-listing.glade.h:2
 msgid "Proxy"
-msgstr "Tarpinis serveris"
+msgstr "Įgaliotinis"
 
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:1
 msgid "<b>Account Name</b>"
-msgstr "<b>Abonemento pavadinimas</b>"
+msgstr "<b>Paskyros pavadinimas</b>"
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:3
 msgid "Proxy Login"
-msgstr "Tarpinio serverio prisijungimo vardas"
+msgstr "Įgaliotinio prisijungimo vardas"
 
 #: ../plugins/groupwise-features/proxy-login.c:206
 #: ../plugins/groupwise-features/proxy-login.c:248
@@ -18290,20 +18284,20 @@ msgstr "%sĮveskite %s slaptažodį (naudotojas %s)"
 #. * without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy-login.c:510
 msgid "_Proxy Login..."
-msgstr "_Tarpinio serverio prisijungimo vardas..."
+msgstr "Į_galiotinio prisijungimo vardas..."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy.c:692
 msgid "The Proxy tab will be available only when the account is online."
 msgstr ""
-"Tarpinio serverio kortelė bus prieinama tik tada, kai abonementas "
-"prisijungęs."
+"Įgaliotinio kortelė bus prieinama tik tada, kai paskyra bus "
+"prisijungimo veiksenoje."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy.c:698
 msgid "The Proxy tab will be available only when the account is enabled."
 msgstr ""
-"Tarpinio serverio kortelė bus prieinama tik tada, kai abonementas įjungtas."
+"Įgaliotinio kortelė bus prieinama tik tada, kai paskyra įjungta."
 
 #: ../plugins/groupwise-features/send-options.c:214
 msgid "Advanced send options"
@@ -18397,7 +18391,7 @@ msgstr "Įskiepis Hula kalendoriaus šaltiniams."
 
 #: ../plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml.h:2
 msgid "Hula Account Setup"
-msgstr "Hula abonemento nustatymai"
+msgstr "Hula paskyros sąranka"
 
 #: ../plugins/imap-features/imap-headers.c:320
 msgid "Custom Headers"
@@ -18438,19 +18432,19 @@ msgid ""
 "The more headers you have the more time it will take to download."
 msgstr ""
 "Nurodykite IMAP antraščių nustatymus. \n"
-"Kuo daugiau antraščių, tuo ilgiau užtruks parsiuntimas."
+"Kuo daugiau antraščių, tuo ilgiau truks atsiuntimas."
 
 #: ../plugins/imap-features/imap-headers.glade.h:9
 msgid ""
 "_Basic Headers - (Fastest) \n"
 "Use this if you do not have filters based on mailing lists"
 msgstr ""
-"_Pagrindinės antraštės - (greičiausia)\n"
-"Rinkitės šį variantą, jei neturite konferencijų filtrų"
+"_Pagrindinės antraštės – (greičiausia)\n"
+"Rinkitės šį variantą, jei nenaudojate konferencijoms filtrų"
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:1
 msgid "A plugin for the features in the IMAP accounts."
-msgstr "Įskiepis, suteikiantis funkcijas IMAP abonentams."
+msgstr "Įskiepis, suteikiantis funkcijas IMAP paskyrose."
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:2
 msgid "IMAP Features"
@@ -18499,8 +18493,8 @@ msgid ""
 "The \"hald\" service is required but not currently running. Please enable "
 "the service and rerun this program, or contact your system administrator."
 msgstr ""
-"Tarnyba „hald“ yra būtina, tačiau ji šiuo metu neveikia. Prašom įjungti "
-"tarnybą ir paleisti šią programą iš naujo, arba susisiekti su sistemos "
+"Tarnyba „hald“ yra būtina, tačiau ji šiuo metu neveikia. Įjunkite "
+"tarnybą ir paleiskite šią programą iš naujo arba susisiekite su sistemos "
 "administratoriumi."
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:83
@@ -18513,7 +18507,7 @@ msgid ""
 "connected to the system or it is not powered on."
 msgstr ""
 "Evolution nerado iPod, su kuriuo galėtų sinchronizuotis. Tikriausiai jis "
-"neprijungtas prie kompiuterio, arba išjungtas."
+"neprijungtas prie kompiuterio arba išjungtas."
 
 #: ../plugins/ipod-sync/ical-format.c:119
 #: ../plugins/save-calendar/ical-format.c:164
@@ -18679,7 +18673,7 @@ msgid ""
 "tasks or free/busy information"
 msgstr ""
 "Šiame laiške yra kalendorius, bet kalendoriuje nėra jokių įvykių, užduočių "
-"ar laisvas/užsiėmęs informacijos"
+"ar užimtumo informacijos"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1583
 msgid "The calendar attached contains multiple items"
@@ -19222,11 +19216,11 @@ msgstr "Tarpinio serverio _atsijungimas"
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
 msgid "Allows disabling of accounts."
-msgstr "Leidžia išjungti abonementus."
+msgstr "Leidžia išjungti paskyras."
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
 msgid "Disable Account"
-msgstr "Išjungti abonementą"
+msgstr "Išjungti paskyrą"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:1
 msgid "Beep or play sound file."
@@ -19780,7 +19774,7 @@ msgstr "Vietos"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.xml.h:1
 msgid "_Publish Calendar Information"
-msgstr "_Publikuoti Kalendoriaus informaciją"
+msgstr "_Publikuoti kalendoriaus informaciją"
 
 #: ../plugins/publish-calendar/publish-calendar.c:596
 msgid "Are you sure you want to remove this location?"
@@ -19868,7 +19862,7 @@ msgid ""
 "Free/Busy"
 msgstr ""
 "iCal\n"
-"Laisvas/užsiėmęs"
+"Užimtumas"
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:461
 msgid "New Location"
@@ -20127,15 +20121,15 @@ msgstr "R_odyti tik šį užduočių sąrašą"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
 msgid "Guides you through your initial account setup."
-msgstr "Padeda jums sukonfigūruoti savo abonementą."
+msgstr "Padeda jums sukonfigūruoti savo paskyrą."
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:2
 msgid "Setup Assistant"
-msgstr "Nustatyti pagalbininką"
+msgstr "Sąrankos pagelbiklis"
 
 #: ../plugins/startup-wizard/startup-wizard.c:85
 msgid "Evolution Setup Assistant"
-msgstr "Evolution nustatymų pagalbininkas"
+msgstr "Evolution sąrankos pagelbiklis"
 
 #: ../plugins/startup-wizard/startup-wizard.c:88
 msgid "Welcome"
@@ -20149,10 +20143,10 @@ msgid ""
 "Please click the \"Forward\" button to continue. "
 msgstr ""
 "Sveikiname paleidus Evolution. Keliuose kituose Evolution languose galėsite "
-"prisijungti prie savo el. pašto abonementų ir importuoti failus iš kitų "
+"prisijungti prie savo el. pašto paskyrų ir importuoti failus iš kitų "
 "programų.\n"
 "\n"
-"Norėdami tęsti, spustelėkite mygtuką „Pirmyn“. "
+"Norėdami tęsti spustelėkite mygtuką „Pirmyn“. "
 
 #: ../plugins/startup-wizard/startup-wizard.c:135
 msgid "Importing files"
@@ -20161,7 +20155,7 @@ msgstr "Failų importavimas"
 #: ../plugins/startup-wizard/startup-wizard.c:137
 #: ../shell/e-shell-importer.c:141
 msgid "Please select the information that you would like to import:"
-msgstr "Pasirinkite pageidaujamą importuoti informaciją:"
+msgstr "Pasirinkite norima importuoti informaciją:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:152
 #: ../shell/e-shell-importer.c:394
@@ -20387,7 +20381,7 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:25
 msgid "Sidebar is visible"
-msgstr "Šoninis skydelis yra matomas"
+msgstr "Šoninė juosta matoma"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:26
 msgid "Skip development warning dialog"
@@ -20395,7 +20389,7 @@ msgstr "Praleisti bandomosios versijos perspėjimo langą"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:27 ../shell/main.c:483
 msgid "Start in offline mode"
-msgstr "Paleisti neprisijungiant"
+msgstr "Paleisti atsijungimo veiksenoje"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:28
 msgid "Statusbar is visible"
@@ -20515,7 +20509,7 @@ msgstr "Ar langas turėtų būti išdidintas."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:48
 msgid "Whether the sidebar should be visible."
-msgstr "Ar šoninis skydelis turi būti matomas."
+msgstr "Ar šoninė juosta turi būti matoma."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:49
 msgid "Whether the status bar should be visible."
@@ -20552,11 +20546,12 @@ msgstr "Aktyvūs prisijungimai"
 
 #: ../shell/e-active-connection-dialog.glade.h:3
 msgid "Click OK to close these connections and go offline"
-msgstr "Norėdami uždaryti šiuos prisijungimus ir atsijungti, spauskite „Gerai“"
+msgstr ""
+"Norėdami užverti šiuos prisijungimus ir atsijungti spustelėkite „Gerai“"
 
 #: ../shell/e-shell-importer.c:131
 msgid "Choose the type of importer to run:"
-msgstr "Pasirinkite paleidžiamą importavimo programą:"
+msgstr "Pasirinkite paleistiną importavimo programą:"
 
 #: ../shell/e-shell-importer.c:134
 msgid ""
@@ -20611,7 +20606,7 @@ msgstr "Evolution nustatymai"
 #: ../shell/e-shell-view.c:47 ../shell/e-shell-window.c:328
 #, c-format
 msgid "%s - Evolution"
-msgstr "%s - Evolution"
+msgstr "%s – Evolution"
 
 #: ../shell/e-shell-window-commands.c:75
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
@@ -20624,11 +20619,11 @@ msgstr "Klaida vykdant %s."
 
 #: ../shell/e-shell-window-commands.c:139
 msgid "Bug buddy is not installed."
-msgstr "Bug buddy neįdiegtas."
+msgstr "Neįdiegta programa Bug Buddy."
 
 #: ../shell/e-shell-window-commands.c:142
 msgid "Bug buddy could not be run."
-msgstr "Nepavyko paleisti Bug buddy."
+msgstr "Nepavyko paleisti Bug Buddy."
 
 #. The translator-credits string is for translators to list
 #. * per-language credits for translation, displayed in the
@@ -20733,7 +20728,7 @@ msgstr "Sukurti naują bandomąjį elementą"
 #: ../shell/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
 msgstr ""
-"Norėdami pradėti failo importavimą į Evolution, spustelėkite „Importuoti“."
+"Norėdami pradėti failo importavimą į Evolution spustelėkite „Importuoti“."
 
 #: ../shell/import.glade.h:2
 msgid "Evolution Import Assistant"
@@ -20765,8 +20760,8 @@ msgid ""
 "With this assistant you will be guided through the process of\n"
 "importing external files into Evolution."
 msgstr ""
-"Sveiki atvykę į Evolution importavimo priemonę.\n"
-"Šis meistras padės Jums įkelti išorinius failus į Evolution."
+"Tai Evolution importavimo pagelbiklis.\n"
+"Šis pagelbiklis padės jums įkelti išorinius failus į Evolution."
 
 #. Preview/Alpha/Beta version warning message
 #: ../shell/main.c:221
@@ -20788,22 +20783,22 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
-"Sveiki. Ačiū už laiką, skirtą parsisiųsti šį Evolution\n"
-"grupinio darbo rinkinio bandomąjį leidimą.\n"
+"Sveiki. Ačiū už laiką, skirtą šio Evolution grupinio darbo\n"
+"rinkinio bandomojo leidimimo atsisiuntimui.\n"
 "\n"
 "Ši Evolution versija dar nėra baigta. Prie to artėjama, tačiau\n"
-"dar trūksta kai kurių funkcijų ar jos veiki tik iš dalies.\n"
+"dar trūksta kai kurių funkcijų ar jos veikia tik iš dalies.\n"
 "\n"
-"Jeigu Jums reikia stabilios Evolution versijos, siūlome pašalinti\n"
+"Jeigu jums reikia stabilios Evolution versijos, siūlome pašalinti\n"
 "šią versiją ir įdiegti Evolution versiją %s.\n"
 "\n"
 "Jeigu šiame produkte rasite klaidų, praneškite apie jas mums\n"
 "adresu bugzilla.gnome.org. Mes neteikiame jokių šio produkto\n"
-"naudojimo garantijų ir jis nėra skirtas žmonėms kenčiantiems nuo\n"
+"naudojimo garantijų ir jis netinkamas žmonėms, kenčiantiems nuo\n"
 "netikėtų pykčio protrūkių.\n"
 "\n"
-"Tikimės, kad Jums patiks mūsų sunkaus darbo vaisiai, ir mes\n"
-"nekantriai laukiame Jūsų pagalbos tobulinant šį produktą!\n"
+"Tikimės, kad jums patiks mūsų sunkaus darbo vaisiai, ir mes\n"
+"nekantriai laukiame jūsų pagalbos tobulinant šį produktą!\n"
 
 #: ../shell/main.c:245
 msgid ""
@@ -20843,11 +20838,11 @@ msgstr "Atjungti bet kokių įskiepių įkėlimą."
 
 #: ../shell/main.c:499
 msgid "Disable preview pane of Mail, Contacts and Tasks."
-msgstr "Išjungti laiškų, kontaktų bei užduočių peržiūrą."
+msgstr "Išjungti laiškų, kontaktų ir užduočių peržiūros polangį."
 
 #: ../shell/main.c:586
 msgid "- The Evolution PIM and Email Client"
-msgstr "- Evolution PIM ir el. pašto klientas"
+msgstr "– Evolution PIM ir el. pašto klientas"
 
 #: ../shell/main.c:614
 #, c-format
@@ -20884,7 +20879,7 @@ msgid ""
 "reprompted next time they are needed."
 msgstr ""
 "Programa išvalys visus jos anksčiau įsimintus slaptažodžius. Kitą kartą, kai "
-"jų prireiks, Jūsų bus paprašyta juos įvesti vėl."
+"jų prireiks, jūsų bus paprašyta juos įvesti vėl."
 
 #: ../shell/shell.error.xml.h:8
 msgid "Insufficient disk space for upgrade."
@@ -20906,11 +20901,11 @@ msgid ""
 "Once deleted, you cannot downgrade to the previous version of Evolution "
 "without manual intervention.\n"
 msgstr ""
-"Ruošiamasi negrįžtamai ištrinti visą „evolution“ aplanko turinį.\n"
+"Ketinama negrįžtamai ištrinti visą „evolution“ aplanko turinį.\n"
 "\n"
-"Prieš ištrinant senus duomenis, Jums siūloma patiems patikrinti ar turite "
+"Prieš ištrinant senus duomenis, jums siūloma patiems patikrinti, ar turite "
 "visus pašto, kontaktų ir kalendoriaus duomenis ir ar naujoji Evolution "
-"versija dirba korektiškai.\n"
+"versija veikia tinkamai.\n"
 "\n"
 "Ištrynę jau nebegalėsite sugrįžti prie senosios Evolution versijos be "
 "rankinio įsikišimo.\n"
@@ -20956,7 +20951,7 @@ msgid ""
 msgstr ""
 "Sistemos konfigūracija neatitinka Evolution konfigūracijos.\n"
 "\n"
-"Norėdami sužinoti daugiau, spauskite „Pagalba“"
+"Norėdami sužinoti daugiau spustelėkite „Žinynas“"
 
 #: ../shell/shell.error.xml.h:27
 msgid ""
@@ -20970,7 +20965,7 @@ msgstr ""
 "\n"
 "{0}\n"
 "\n"
-"Norėdami sužinoti daugiau, spauskite „Pagalba“"
+"Norėdami sužinoti daugiau spustelėkite „Žinynas“"
 
 #: ../shell/shell.error.xml.h:32
 msgid "_Forget"
@@ -21003,9 +20998,9 @@ msgid ""
 "\n"
 "Edit trust settings:"
 msgstr ""
-"Sertifikatas „%s“ yra CA sertifikatas.\n"
+"Liudijimas „%s“ yra liudijimo įstaigos liudijimas.\n"
 "\n"
-"Pakeiskite pasitikėjimo parametrus:"
+"Taisykite pasitikėjimo parametrus:"
 
 #: ../smime/gui/cert-trust-dialog.c:151
 msgid ""
@@ -21013,8 +21008,8 @@ msgid ""
 "then you trust the authenticity of this certificate unless otherwise "
 "indicated here"
 msgstr ""
-"Kadangi pasitikite šį sertifikatą išdavusiu sertifikatų tvirtintoju, "
-"pasitikite ir šio sertifikato autentiškumu, nebent čia nurodysite kitaip"
+"Kadangi pasitikite šį liudijimą išdavusia įstaiga, pasitikite ir šio "
+"liudijimo autentiškumu, nebent čia nurodysite kitaip"
 
 #: ../smime/gui/cert-trust-dialog.c:155
 msgid ""
@@ -21022,14 +21017,14 @@ msgid ""
 "certificate, then you do not trust the authenticity of this certificate "
 "unless otherwise indicated here"
 msgstr ""
-"Dėl to, kad nepasitikite šį sertifikatą išdavusiu sertifikatų tvirtintoju, "
-"nepasitikite ir šio sertifikato autentiškumu, nebent čia nurodysite kitaip"
+"Dėl to, kad nepasitikite šį liudijimą išdavusia įstaiga, nepasitikite ir šio "
+"liudijimo autentiškumu, nebent čia nurodysite kitaip"
 
 #: ../smime/gui/certificate-manager.c:136
 #: ../smime/gui/certificate-manager.c:382
 #: ../smime/gui/certificate-manager.c:609
 msgid "Select a certificate to import..."
-msgstr "Pasirinkite importuotiną sertifikatą..."
+msgstr "Pasirinkite importuotiną liudijimą..."
 
 #: ../smime/gui/certificate-manager.c:145
 msgid "All PKCS12 files"
@@ -21045,7 +21040,7 @@ msgstr "Visi failai"
 #: ../smime/gui/certificate-manager.c:486
 #: ../smime/gui/certificate-manager.c:711
 msgid "Certificate Name"
-msgstr "Sertifikato pavadinimas"
+msgstr "Liudijimo pavadinimas"
 
 #: ../smime/gui/certificate-manager.c:283
 #: ../smime/gui/certificate-manager.c:504
@@ -21063,7 +21058,7 @@ msgstr "Galiojimo pabaiga"
 
 #: ../smime/gui/certificate-manager.c:391
 msgid "All email certificate files"
-msgstr "Visi pašto sertifikatų failai"
+msgstr "Visi pašto liudijimų failai"
 
 #: ../smime/gui/certificate-manager.c:495
 msgid "E-Mail Address"
@@ -21071,12 +21066,12 @@ msgstr "El. pašto adresas"
 
 #: ../smime/gui/certificate-manager.c:618
 msgid "All CA certificate files"
-msgstr "Visi CA sertifikatų failai"
+msgstr "Visi liudijimų įstaigos liudijimų failai"
 
 #: ../smime/gui/certificate-viewer.c:338
 #, c-format
 msgid "Certificate Viewer: %s"
-msgstr "Sertifikatų žiūryklė: %s"
+msgstr "Liudijimų žiūryklė: %s"
 
 #: ../smime/gui/component.c:46
 #, c-format
@@ -21086,7 +21081,7 @@ msgstr "Įveskite „%s“ slaptažodį"
 #. we're setting the password initially
 #: ../smime/gui/component.c:69
 msgid "Enter new password for certificate database"
-msgstr "Įveskite naują slaptažodį sertifikatų duomenų bazei"
+msgstr "Įveskite naują slaptažodį liudijimų duomenų bazei"
 
 #: ../smime/gui/component.c:71
 msgid "Enter new password"
@@ -21113,19 +21108,19 @@ msgstr ""
 
 #: ../smime/gui/e-cert-selector.c:170
 msgid "Select certificate"
-msgstr "Pasirinkite sertifikatą"
+msgstr "Pasirinkite liudijimą"
 
 #: ../smime/gui/smime-ui.glade.h:1
 msgid "<Not Part of Certificate>"
-msgstr "<Nėra sertifikato dalis>"
+msgstr "<Nėra liudijimo dalis>"
 
 #: ../smime/gui/smime-ui.glade.h:2
 msgid "<b>Certificate Fields</b>"
-msgstr "<b>Sertifikato laukai</b>"
+msgstr "<b>Liudijimo laukai</b>"
 
 #: ../smime/gui/smime-ui.glade.h:3
 msgid "<b>Certificate Hierarchy</b>"
-msgstr "<b>Sertifikato hierarchija</b>"
+msgstr "<b>Liudijimo hierarchija</b>"
 
 #: ../smime/gui/smime-ui.glade.h:4
 msgid "<b>Field Value</b>"
@@ -21145,7 +21140,7 @@ msgstr "<b>Skirtas</b>"
 
 #: ../smime/gui/smime-ui.glade.h:8
 msgid "<b>This certificate has been verified for the following uses:</b>"
-msgstr "<b>Šis sertifikatas patikrintas dėl šių panaudojimo sričių:</b>"
+msgstr "<b>Šis liudijimas patikrintas dėl šių panaudojimo sričių:</b>"
 
 #: ../smime/gui/smime-ui.glade.h:9
 msgid "<b>Validity</b>"
@@ -21168,24 +21163,24 @@ msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
 msgstr ""
-"Prieš sukurdami pasitikėjimą šiuo CA, jei tai įmanoma, turėtumėte patikrinti "
-"sertifikatą, jo taisykles ir procedūras."
+"Prieš pasitikint liudijimų įstaiga turėtumėte patikrinti peržiūrėti jos "
+"liudijimą, jo politiką ir procedūras (jei prieinama)."
 
 #: ../smime/gui/smime-ui.glade.h:14 ../smime/lib/e-cert.c:1060
 msgid "Certificate"
-msgstr "Sertifikatas"
+msgstr "Liudijimas"
 
 #: ../smime/gui/smime-ui.glade.h:15
 msgid "Certificate Authority Trust"
-msgstr "Pasitikėjimas sertifikatų tvirtintoju"
+msgstr "Pasitikėjimas liudijimų įstaiga"
 
 #: ../smime/gui/smime-ui.glade.h:16
 msgid "Certificate details"
-msgstr "Sertifikato detalės"
+msgstr "Liudijimo informacija"
 
 #: ../smime/gui/smime-ui.glade.h:17
 msgid "Certificates Table"
-msgstr "Sertifikatų lentelė"
+msgstr "Liudijimų lentelė"
 
 #: ../smime/gui/smime-ui.glade.h:18
 msgid "Common Name (CN)"
@@ -21193,15 +21188,15 @@ msgstr "Bendrinis vardas (CN)"
 
 #: ../smime/gui/smime-ui.glade.h:19
 msgid "Contact Certificates"
-msgstr "Kontaktiniai sertifikatai"
+msgstr "Kontakto liudijimai"
 
 #: ../smime/gui/smime-ui.glade.h:21
 msgid "Do not trust the authenticity of this certificate"
-msgstr "Nepasitikėti šio sertifikato autentiškumu"
+msgstr "Nepasitikėti šio liudijimo autentiškumu"
 
 #: ../smime/gui/smime-ui.glade.h:22
 msgid "Dummy window only"
-msgstr "Tik pseudo langas"
+msgstr "Tik netikras langas"
 
 #: ../smime/gui/smime-ui.glade.h:23
 msgid "Edit"
@@ -21209,15 +21204,15 @@ msgstr "Keisti"
 
 #: ../smime/gui/smime-ui.glade.h:24
 msgid "Email Certificate Trust Settings"
-msgstr "Pašto sertifikato pasitikėjimo parametrai"
+msgstr "Pašto liudijimo pasitikėjimo parametrai"
 
 #: ../smime/gui/smime-ui.glade.h:25
 msgid "Email Recipient Certificate"
-msgstr "Pašto gavėjo sertifikatas"
+msgstr "Pašto gavėjo liudijimas"
 
 #: ../smime/gui/smime-ui.glade.h:26
 msgid "Email Signer Certificate"
-msgstr "Pašto pasirašytojo sertifikatas"
+msgstr "Pašto pasirašytojo liudijimas"
 
 #: ../smime/gui/smime-ui.glade.h:27
 msgid "Expires On"
@@ -21249,27 +21244,27 @@ msgstr "SHA1 kontrolinis kodas"
 
 #: ../smime/gui/smime-ui.glade.h:35 ../smime/lib/e-cert.c:802
 msgid "SSL Client Certificate"
-msgstr "SSL kliento sertifikatas"
+msgstr "SSL kliento liudijimas"
 
 #: ../smime/gui/smime-ui.glade.h:36 ../smime/lib/e-cert.c:806
 msgid "SSL Server Certificate"
-msgstr "SSL serverio sertifikatas"
+msgstr "SSL serverio liudijimas"
 
 #: ../smime/gui/smime-ui.glade.h:38
 msgid "Trust the authenticity of this certificate"
-msgstr "Pasitikėti šio sertifikato autentiškumu"
+msgstr "Pasitikėti šio liudijimo autentiškumu"
 
 #: ../smime/gui/smime-ui.glade.h:39
 msgid "Trust this CA to identify email users."
-msgstr "Pasitikėti šiuo CA identifikuojant el. pašto naudotojus."
+msgstr "Pasitikėti šia liudijimų įstaiga atpažįstant el. pašto naudotojus."
 
 #: ../smime/gui/smime-ui.glade.h:40
 msgid "Trust this CA to identify software developers."
-msgstr "Pasitikėti šiuo CA identifikuojant programų kūrėjus."
+msgstr "Pasitikėti šia liudijimų įstaiga atpažįstant programų kūrėjus."
 
 #: ../smime/gui/smime-ui.glade.h:41
 msgid "Trust this CA to identify web sites."
-msgstr "Pasitikėti šiuo CA identifikuojant tinklalapius."
+msgstr "Pasitikėti šia liudijimų įstaiga atpažįstant tinklalapius."
 
 #: ../smime/gui/smime-ui.glade.h:42
 msgid "View"
@@ -21278,29 +21273,29 @@ msgstr "Peržiūra"
 #: ../smime/gui/smime-ui.glade.h:43
 msgid "You have certificates from these organizations that identify you:"
 msgstr ""
-"Organizacijų, pateikiančių jus identifikuojančius sertifikatus, sąrašas:"
+"Organizacijų, pateikiančių jusų tapatybę nurodančius liudijimus, sąrašas:"
 
 #: ../smime/gui/smime-ui.glade.h:44
 msgid ""
 "You have certificates on file that identify these certificate authorities:"
-msgstr "Sertifikatų faile nurodyti šie sertifikatų tvirtintojai:"
+msgstr "Liudijimų faile nurodytos šios liudijimų įstaigos:"
 
 #: ../smime/gui/smime-ui.glade.h:45
 msgid "You have certificates on file that identify these people:"
-msgstr "Sertifikatų faile saugomi šių asmenų sertifikatai:"
+msgstr "Liudijimų faile saugomi šių asmenų liudijimai:"
 
 #: ../smime/gui/smime-ui.glade.h:46
 msgid "Your Certificates"
-msgstr "Jūsų sertifikatai"
+msgstr "Jūsų liudijimai"
 
 #: ../smime/gui/smime-ui.glade.h:47
 msgid "_Edit CA Trust"
-msgstr "_Keisti pasitikėjimą CA"
+msgstr "_Taisyti pasitikėjimą liudijimų įstaiga"
 
 #. XXX we shouldn't be popping up dialogs in this code.
 #: ../smime/lib/e-cert-db.c:656
 msgid "Certificate already exists"
-msgstr "Toks sertifikatas jau yra"
+msgstr "Toks liudijimas jau yra"
 
 #: ../smime/lib/e-cert.c:222 ../smime/lib/e-cert.c:232
 msgid "%d/%m/%Y"
@@ -21349,15 +21344,15 @@ msgstr "PKCS #1 RSA šifravimas"
 
 #: ../smime/lib/e-cert.c:653
 msgid "Certificate Key Usage"
-msgstr "Sertifikato rakto naudojimas"
+msgstr "Liudijimo rakto naudojimas"
 
 #: ../smime/lib/e-cert.c:656
 msgid "Netscape Certificate Type"
-msgstr "Netscape sertifikato tipas"
+msgstr "Netscape liudijimo tipas"
 
 #: ../smime/lib/e-cert.c:659
 msgid "Certificate Authority Key Identifier"
-msgstr "Sertifikato tvirtintojo rakto identifikatorius"
+msgstr "Liudijimų įstaigos rakto identifikatorius"
 
 #: ../smime/lib/e-cert.c:671
 #, c-format
@@ -21394,11 +21389,11 @@ msgstr "Objekto pasirašytojas"
 
 #: ../smime/lib/e-cert.c:818
 msgid "SSL Certificate Authority"
-msgstr "SSL sertifikato tvirtintojas"
+msgstr "SSL liudijimų įstaiga"
 
 #: ../smime/lib/e-cert.c:822
 msgid "Email Certificate Authority"
-msgstr "Pašto sertifikato tvirtintojas"
+msgstr "El. pašto liudijimų įstaiga"
 
 #: ../smime/lib/e-cert.c:850
 msgid "Signing"
@@ -21422,7 +21417,7 @@ msgstr "Rakto sutartis"
 
 #: ../smime/lib/e-cert.c:870
 msgid "Certificate Signer"
-msgstr "Sertifikato pasirašytojas"
+msgstr "Liudijimo pasirašytojas"
 
 #: ../smime/lib/e-cert.c:874
 msgid "CRL Signer"
@@ -21447,7 +21442,7 @@ msgstr "%s = %s"
 
 #: ../smime/lib/e-cert.c:1075 ../smime/lib/e-cert.c:1195
 msgid "Certificate Signature Algorithm"
-msgstr "Sertifikato parašo algoritmas"
+msgstr "Liudijimo parašo algoritmas"
 
 #: ../smime/lib/e-cert.c:1084
 msgid "Issuer"
@@ -21463,7 +21458,7 @@ msgstr "Unikalus temos ID"
 
 #: ../smime/lib/e-cert.c:1200
 msgid "Certificate Signature Value"
-msgstr "Sertifikato parašo reikšmė"
+msgstr "Liudijimo parašo reikšmė"
 
 #: ../smime/lib/e-pkcs12.c:249
 msgid "PKCS12 File Password"
@@ -21475,7 +21470,7 @@ msgstr "Įveskite PKCS12 failo slaptažodį:"
 
 #: ../smime/lib/e-pkcs12.c:348
 msgid "Imported Certificate"
-msgstr "Importuotas sertifikatas"
+msgstr "Importuotas liudijimas"
 
 #. This most likely means that KILL_PROCESS_CMD wasn't
 #. * found, so just bail completely.
@@ -21488,7 +21483,7 @@ msgstr "Nepavyko paleisti „%s“: %s\n"
 #: ../tools/killev.c:76
 #, c-format
 msgid "Shutting down %s (%s)\n"
-msgstr "Išsijungiama %s (%s)\n"
+msgstr "Išjungiama %s (%s)\n"
 
 #: ../ui/evolution-addressbook.xml.h:1
 msgid "Address _Book Properties"
@@ -21850,11 +21845,11 @@ msgstr "Sukurti ar keisti pašto filtravimo taisykles"
 
 #: ../ui/evolution-mail-global.xml.h:7
 msgid "Download messages of accounts/folders marked for offline"
-msgstr "Parsiųsti laiškus iš abonementų/aplankų, pažymėtų atjungimui"
+msgstr "Atrsiųsti laiškus iš paskyrų / aplankų, pažymėtų atjungimui"
 
 #: ../ui/evolution-mail-global.xml.h:8
 msgid "Empty _Trash"
-msgstr "Ištuštinti ši_ukšlinę"
+msgstr "Išval_yti šiukšlinę"
 
 #: ../ui/evolution-mail-global.xml.h:9 ../ui/evolution-mail-list.xml.h:11
 msgid "F_older"
@@ -23332,11 +23327,11 @@ msgstr "_Sudėtingesnė paieška..."
 
 #: ../widgets/misc/e-filter-bar.h:107
 msgid "All Accounts"
-msgstr "Visi abonementai"
+msgstr "Visos paskyros"
 
 #: ../widgets/misc/e-filter-bar.h:108
 msgid "Current Account"
-msgstr "Dabartinis abonementas"
+msgstr "Dabartinė paskyra"
 
 #: ../widgets/misc/e-filter-bar.h:109
 msgid "Current Folder"
