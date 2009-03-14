@@ -22,13 +22,12 @@
 # Bruno Brouard <annoa.b@gmail.com>, 2008-2009.
 # Yannick Tailliez <ytdispatch-libre@yahoo.com>, 2008.
 #
-#: ../shell/main.c:603
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-02-20 21:33+0100\n"
-"PO-Revision-Date: 2009-02-20 21:33+0100\n"
+"PO-Revision-Date: 2009-03-14 10:50+0100\n"
 "Last-Translator: Bruno Brouard <annoa.b@gmail.com>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -18528,7 +18527,7 @@ msgstr "<b>Nom du compte</b>"
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy-login-dialog.glade.h:3
 msgid "Proxy Login"
-msgstr "Identification sur le proxy"
+msgstr "Connexion proxy"
 
 #: ../plugins/groupwise-features/proxy-login.c:206
 #: ../plugins/groupwise-features/proxy-login.c:248
@@ -18543,7 +18542,7 @@ msgstr "%sSaisissez le mot de passe pour %s (utilisateur %s)"
 #. * without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy-login.c:510
 msgid "_Proxy Login..."
-msgstr "_Identification sur le proxy..."
+msgstr "Connexion _proxy..."
 
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/proxy.c:692
