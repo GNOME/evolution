@@ -1,3 +1,4 @@
+# translation of ml.po to
 # translation of evolution.HEAD.ml.po to
 # This file is distributed under the same license as the PACKAGE package.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER.
@@ -9,10 +10,10 @@
 #: ../shell/main.c:603
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution.HEAD.ml\n"
+"Project-Id-Version: ml\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-03-09 04:41+0000\n"
-"PO-Revision-Date: 2009-03-13 14:56+0530\n"
+"PO-Revision-Date: 2009-03-15 19:11+0530\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -343,6 +344,8 @@ msgid ""
 "'{0}' is a read-only address book and cannot be modified. Please select a "
 "different address book from the side bar in the Contacts view."
 msgstr ""
+"'{0}' വിലാസപുസ്തകത്തില്‍ മാറ്റങ്ങള്‍ വരുത്തുവാന്‍ സാധ്യമല്ല. വിലാസങ്ങളില്‍ ഉള്ള "
+"സൈഡ് ബാറില്‍ നിന്നും മറ്റൊരു വിലാസപുസ്തകം ദയവായി തെരഞ്ഞെടുക്കുക."
 
 #: ../addressbook/addressbook.error.xml.h:3
 msgid ""
@@ -4348,7 +4351,7 @@ msgstr "നിങ്ങള്‍ റദ്ദാക്കല്‍ നോട്�
 
 #: ../calendar/calendar.error.xml.h:48
 msgid "No response from the server."
-msgstr ""
+msgstr "സര്‍വറില്‍ നിന്നും മറുപടി ലഭ്യമല്ല."
 
 #: ../calendar/calendar.error.xml.h:49
 #| msgid "New Appointment"
@@ -4697,7 +4700,7 @@ msgstr "മുന്‍കൂട്ടി നിര്‍ണ്ണയിച്�
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:2
 msgid "Dismiss _All"
-msgstr ""
+msgstr "_എല്ലാം വേണ്ടെന്നു് വയ്ക്കുക"
 
 #. Location
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:3
@@ -4714,7 +4717,7 @@ msgstr "ഇനി എത്ര സമയത്തിന് ശേഷം: (_t)"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:5
 msgid "_Dismiss"
-msgstr ""
+msgstr "_വേണ്ടെന്നു് വയ്ക്കുക"
 
 #: ../calendar/gui/alarm-notify/alarm-notify.glade.h:6
 #: ../calendar/gui/dialogs/comp-editor.c:1382
@@ -4893,7 +4896,7 @@ msgstr "ഡീഫോള്‍ട്ട് റിമയിന്‍ഡര്‍ �
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:15
 msgid "Directory for saving alarm audio files"
-msgstr ""
+msgstr "അലാറം ഓഡിയോ ഫയലുകള്‍ സൂക്ഷിക്കുവാനുള്ള ‍ഡയറക്ടറി."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:16
 msgid "Event Gradient"
@@ -5056,7 +5059,7 @@ msgstr ""
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:52
 msgid "Save directory for alarm audio"
-msgstr ""
+msgstr "അലാറം ഓഡിയോയ്ക്കുള്ള ഡയറക്ടറി സൂക്ഷിക്കുക"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:53
 msgid "Show RSVP field in the event/task/meeting editor"
@@ -5145,6 +5148,8 @@ msgid ""
 "This can have three possible values. 0 for errors. 1 for warnings. 2 for "
 "debug messages."
 msgstr ""
+"ഇതു് ശരിയായ മൂന്നു് മൂല്ല്യങ്ങള്‍ സാധ്യമാണു്. പിശകുകള്‍ക്കു് 0. മുന്നറിയിപ്പുകള്‍ക്കു് "
+"1. 2 ഡീബഗ് സന്ദേശങ്ങള്‍ക്കു്."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:73
 msgid "Time divisions"
@@ -5308,7 +5313,7 @@ msgstr "സ്ഥാനത്തില്‍ ഉല്‍പ്പെടുന�
 
 #: ../calendar/gui/cal-search-bar.c:640
 msgid "Next 7 Days' Tasks"
-msgstr ""
+msgstr "അടുത്ത 7 ദിവസത്തെ ജോലികള്‍"
 
 #: ../calendar/gui/cal-search-bar.c:644
 msgid "Active Tasks"
@@ -6246,7 +6251,7 @@ msgstr "ചുരുക്കത്തില്‍ ഇല്ല "
 
 #: ../calendar/gui/dialogs/comp-editor.c:1117
 msgid "Keep original item?"
-msgstr ""
+msgstr "യഥാര്‍ത്ഥ വസ്തു സൂക്ഷിക്കണമോ?"
 
 #: ../calendar/gui/dialogs/comp-editor.c:1312
 msgid "Click here to close the current window"
@@ -6551,7 +6556,7 @@ msgstr "അയയ്ക്കുവാനുളള ഉപാധികള്‍"
 #: ../calendar/gui/dialogs/event-editor.c:218
 #: ../calendar/gui/dialogs/task-editor.c:125
 msgid "Insert advanced send options"
-msgstr ""
+msgstr "അധികമായ അയയ്ക്കുവാനുള്ള ഉപാധി ചേര്‍ക്കുക"
 
 #: ../calendar/gui/dialogs/event-editor.c:226
 msgid "All _Day Event"
@@ -7004,7 +7009,7 @@ msgstr "വര്‍ഷം"
 
 #: ../calendar/gui/dialogs/send-comp.c:116
 msgid "Send my alarms with this event"
-msgstr ""
+msgstr "ഈ ഇവന്റിനൊപ്പം അലാറമുകള്‍ അയയ്ക്കുക"
 
 #: ../calendar/gui/dialogs/task-details-page.c:377
 #: ../calendar/gui/dialogs/task-details-page.c:397
@@ -8636,7 +8641,7 @@ msgstr "iCalendar സംബന്ധിച്ച വിവരം"
 
 #: ../calendar/gui/itip-utils.c:978
 msgid "You must be an attendee of the event."
-msgstr ""
+msgstr "നിങ്ങള്‍ ഈ ഇവന്റില്‍ പങ്കെടുക്കേണ്ടതുണ്ടു്."
 
 #: ../calendar/gui/memos-component.c:507
 msgid "_New Memo List"
@@ -10934,12 +10939,16 @@ msgstr "അറ്റാച്മെന്‍റ് ബാര്‍ കാണി�
 #: ../composer/e-msg-composer.c:866
 msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
+"പുറത്തേക്കുള്ള സന്ദേശത്തില്‍ ഒപ്പിടുവാന്‍ സാധ്യമല്ല. ഈ അക്കൌണ്ടിനു് ഒപ്പിടുവാനുള്ള "
+"സര്‍ട്ടിഫീക്കേറ്റ് ലഭ്യമല്ല."
 
 #: ../composer/e-msg-composer.c:873
 msgid ""
 "Cannot encrypt outgoing message: No encryption certificate set for this "
 "account"
 msgstr ""
+"പുറത്തേക്കുള്ള എന്‍ക്രിപ്റ്റ് ചെയ്യുവാന്‍ സാധ്യമല്ല. ഈ അക്കൌണ്ടിനു് എന്‍ക്രിപ്ഷന്‍ "
+"സര്‍ട്ടിഫീക്കേറ്റ് ലഭ്യമല്ല."
 
 #: ../composer/e-msg-composer.c:1515 ../mail/em-format-html-display.c:1952
 #: ../mail/em-format-html-display.c:2600 ../mail/mail-config.glade.h:45
@@ -11158,7 +11167,7 @@ msgstr "ഘടകം"
 
 #: ../e-util/e-logger.c:162
 msgid "Name of the component being logged"
-msgstr ""
+msgstr "ലോഗ് ചെയ്ത ഘടകത്തിന്റെ പേരു്"
 
 #: ../e-util/e-non-intrusive-error-dialog.c:190
 msgid "Debug Logs"
@@ -11180,7 +11189,7 @@ msgstr "ലോഗ് സന്ദേശങ്ങള്‍:"
 
 #: ../e-util/e-non-intrusive-error-dialog.c:273
 msgid "Log Level"
-msgstr ""
+msgstr "ലോഗ് ലവല്‍"
 
 #: ../e-util/e-non-intrusive-error-dialog.c:281
 #: ../widgets/misc/e-dateedit.c:389
@@ -11199,23 +11208,23 @@ msgstr "ഈ ജാലകം അടയ്‍ക്കുക"
 
 #: ../e-util/e-non-intrusive-error-dialog.h:40
 msgid "Error"
-msgstr ""
+msgstr "പിശകു്"
 
 #: ../e-util/e-non-intrusive-error-dialog.h:40
 msgid "Errors"
-msgstr ""
+msgstr "പിശകുകളും"
 
 #: ../e-util/e-non-intrusive-error-dialog.h:41
 msgid "Warnings and Errors"
-msgstr ""
+msgstr "മുന്നറിയിപ്പുകളും പിശകുകളും"
 
 #: ../e-util/e-non-intrusive-error-dialog.h:42
 msgid "Debug"
-msgstr ""
+msgstr "ഡീബഗ്"
 
 #: ../e-util/e-non-intrusive-error-dialog.h:42
 msgid "Error, Warnings and Debug messages"
-msgstr ""
+msgstr "പിശക്, മുന്നറിയിപ്പു്, ഡീബഗ് സന്ദേശങ്ങള്‍"
 
 #: ../e-util/e-plugin.c:308 ../filter/rule-editor.c:799
 #: ../mail/em-account-prefs.c:482 ../mail/em-composer-prefs.c:966
@@ -11315,13 +11324,15 @@ msgstr "ലേബല്‍ ചേര്‍ക്കുക"
 
 #: ../e-util/e-util-labels.c:357
 msgid "Label name cannot be empty."
-msgstr ""
+msgstr "ലേബലിന്റെ പേരു് ശൂന്യമാകുവാന്‍ പാടില്ല."
 
 #: ../e-util/e-util-labels.c:362
 msgid ""
 "A label having the same tag already exists on the server. Please rename your "
 "label."
 msgstr ""
+"ഇതേ റ്റാഗുള്ള മറ്റൊരു ലേബല്‍ സര്‍വറില്‍ നിലവിലുണ്ടു്. ദയവായി മറ്റൊരു പേരു് "
+"നല്‍കുക."
 
 #: ../e-util/gconf-bridge.c:1221
 #, c-format
@@ -11330,7 +11341,7 @@ msgstr "ജികോണ്‍ഫ് പിശക്: %s"
 
 #: ../e-util/gconf-bridge.c:1231
 msgid "All further errors shown only on terminal."
-msgstr ""
+msgstr "ഇനിയുള്ള പിശകുകള്‍ എല്ലാം ടെര്‍മിനലില്‍ മാത്രം കാണിക്കുന്നു."
 
 #: ../filter/filter-datespec.c:81
 #, c-format
@@ -11880,7 +11891,7 @@ msgstr "ഫലം തീരുമാനിക്കുക"
 
 #: ../mail/em-filter-i18n.h:6
 msgid "BCC"
-msgstr ""
+msgstr "ബിസിസി"
 
 #: ../mail/em-filter-i18n.h:7
 msgid "Beep"
@@ -11888,7 +11899,7 @@ msgstr "ബീപ്"
 
 #: ../mail/em-filter-i18n.h:8
 msgid "CC"
-msgstr ""
+msgstr "സിസി"
 
 #: ../mail/em-filter-i18n.h:9
 msgid "Completed On"
@@ -12964,13 +12975,13 @@ msgstr "ടാഗ്"
 #: ../mail/em-mailer-prefs.c:1079 ../mail/em-mailer-prefs.c:1133
 #, c-format
 msgid "%s plugin is available and the binary is installed."
-msgstr ""
+msgstr "%s പ്ലഗിന്‍ ലഭ്യമാണു്. കൂടാതെ ബൈനറി ഇന്‍സ്റ്റോള്‍ ചെയ്തിരിക്കുന്നു."
 
 #. May be a better text
 #: ../mail/em-mailer-prefs.c:1087 ../mail/em-mailer-prefs.c:1142
 #, c-format
 msgid "%s plugin is not available. Please check whether the package is installed."
-msgstr ""
+msgstr "%s പ്ലഗിന്‍ ലഭ്യമല്ല. ദയവായി പാക്കേജ് ഇന്‍സ്റ്റോള്‍ ചെയ്തോ എന്നു് പരിശോധിക്കുക."
 
 #: ../mail/em-mailer-prefs.c:1108
 msgid "No Junk plugin available"
@@ -13317,7 +13328,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:40
 msgid "Directory for saving mail component files."
-msgstr ""
+msgstr "മെയില്‍ ഘടക ഫയലുകള്‍ സൂക്ഷിക്കുന്നതിനുള്ള ഡയറക്ടറി."
 
 #: ../mail/evolution-mail.schemas.in.h:41
 msgid "Disable or enable ellipsizing of folder names in side bar"
@@ -13361,7 +13372,7 @@ msgstr "ഫോള്‍ഡറുകളില്‍ തിരയല്‍ പ്�
 
 #: ../mail/evolution-mail.schemas.in.h:51
 msgid "Enable search folders on startup."
-msgstr ""
+msgstr "ആരംഭിക്കുമ്പോള്‍ ഫോള്‍ഡറുകള്‍ തെരയുന്നതു് സജ്ജമാക്കുക"
 
 #: ../mail/evolution-mail.schemas.in.h:52
 msgid ""
@@ -13453,6 +13464,8 @@ msgstr ""
 #: ../mail/evolution-mail.schemas.in.h:67
 msgid "It disables/enables the prompt while marking multiple messages."
 msgstr ""
+"അനവധി സന്ദേശങ്ങള്‍ അടയാളപ്പെടുത്തുമ്പോള്‍ ഉള്ള ചോദ്യം സജ്ജമാക്കുകയും "
+"പ്രവര്‍ത്തന രഹിതമാക്കുകയും ചെയ്യുക"
 
 #: ../mail/evolution-mail.schemas.in.h:68
 msgid ""
@@ -13505,7 +13518,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:79
 msgid "List of dictionary language codes used for spell checking."
-msgstr ""
+msgstr "അക്ഷരത്തെറ്റുകള്‍ പരിശോധിക്കുന്നതിനായുള്ള നിഘണ്ടു ഭാഷാ കോഡുകളുടെ പട്ടിക."
 
 #: ../mail/evolution-mail.schemas.in.h:80
 msgid ""
@@ -13614,7 +13627,7 @@ msgstr "വിഷയമില്ലാതെ മെയില്‍ അയയ്�
 
 #: ../mail/evolution-mail.schemas.in.h:103
 msgid "Prompt to check if the user wants to go offline immediately"
-msgstr ""
+msgstr "ഉപയോക്താവിനു് ഉടന്‍ ഓഫ്‌ലൈന്‍ ആകണമോ എന്നു് പരിശോധിക്കുക"
 
 #: ../mail/evolution-mail.schemas.in.h:104
 msgid "Prompt when deleting messages in search folder"
@@ -13672,7 +13685,7 @@ msgstr "ഡയറക്ടറി സൂക്ഷിക്കുക"
 
 #: ../mail/evolution-mail.schemas.in.h:116
 msgid "Search for the sender photo in local address books"
-msgstr ""
+msgstr "ലോക്കല്‍ വിലാസപുസ്തകങ്ങളില്‍ അയച്ച ആളുടെ ഫോട്ടോ തെരയുക"
 
 #: ../mail/evolution-mail.schemas.in.h:117
 msgid "Send HTML mail by default"
@@ -13710,7 +13723,7 @@ msgstr "message-list-ലുളള നീക്കം ചെയ്ത സന്�
 
 #: ../mail/evolution-mail.schemas.in.h:125
 msgid "Show photo of the sender"
-msgstr ""
+msgstr "അയച്ച ആളുടെ ഫോട്ടോ കാണിക്കുക"
 
 #: ../mail/evolution-mail.schemas.in.h:128
 msgid ""
@@ -13777,6 +13790,8 @@ msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
 msgstr ""
+"ഇതിനു് സാധ്യമുള്ള മൂന്നു് മൂല്ല്യങ്ങളുണ്ടു്. പിശകുകള്‍ക്കു് \"0\". മുന്നറിയിപ്പുകള്‍ക്കു് "
+"\"1\". ഡീബഗ് സന്ദേശങ്ങള്‍ക്കു് \"2\"."
 
 #: ../mail/evolution-mail.schemas.in.h:143
 msgid ""
@@ -14138,7 +14153,7 @@ msgstr "പിന്തുണ ലഭ്യമായവ പരിശോധിക�
 
 #: ../mail/mail-config.glade.h:2
 msgid "(Note: Requires restart of the application)"
-msgstr ""
+msgstr "(കുറിപ്പു്: പ്രയോഗം വീണ്ടും ആരംഭിക്കേണ്ടതുണ്ടു്)"
 
 #: ../mail/mail-config.glade.h:4
 msgid "<b>SSL is not supported in this build of Evolution</b>"
@@ -14370,7 +14385,7 @@ msgstr "ഡീഫോള്‍ട്ടായ രഹസ്യഭാഷ: (_n)"
 
 #: ../mail/mail-config.glade.h:68
 msgid "Delete junk messages on e_xit"
-msgstr ""
+msgstr "_പുറത്തു് കടക്കുമ്പോള്‍ അനാവശ്യസന്ദേശങ്ങള്‍ വെട്ടിനീക്കുക"
 
 #: ../mail/mail-config.glade.h:70
 msgid "Digitally sign o_utgoing messages (by default)"
@@ -14467,7 +14482,7 @@ msgstr "വരി വരിയായി"
 
 #: ../mail/mail-config.glade.h:97
 msgid "Inline (Outlook style)"
-msgstr ""
+msgstr "ഇന്‍ലൈന്‍ (Outlook style)"
 
 #: ../mail/mail-config.glade.h:99
 msgid "KB"
@@ -14499,7 +14514,7 @@ msgstr "സന്ദേശം ചിട്ടപ്പെടുത്തുന�
 
 #: ../mail/mail-config.glade.h:107
 msgid "No _Proxy for:"
-msgstr ""
+msgstr "_പ്രോക്സി ലഭ്യമല്ല:"
 
 #: ../mail/mail-config.glade.h:108
 msgid "Note: Underscore in the label name is used as mnemonic identifier in menu."
@@ -14583,11 +14598,11 @@ msgstr "പാസ്‍വേര്‍ഡ് ഓര്‍ക്കുക (_p)"
 
 #: ../mail/mail-config.glade.h:127
 msgid "S_OCKS Host:"
-msgstr ""
+msgstr "S_OCKS ഹോസ്റ്റ്:"
 
 #: ../mail/mail-config.glade.h:128
 msgid "S_earch for sender photograph only in local address books"
-msgstr ""
+msgstr "ലോക്കല്‍ വിലാസപുസ്തകങ്ങളില്‍ മാത്രം അയച്ച ആളുടെ ഫോട്ടോ _തെരയുക"
 
 #: ../mail/mail-config.glade.h:129
 msgid "S_elect..."
@@ -14663,7 +14678,7 @@ msgstr "അക്ഷരത്തെറ്റ് പരിശോധന"
 
 #: ../mail/mail-config.glade.h:149
 msgid "Start _typing at the bottom on replying"
-msgstr ""
+msgstr "മറുപടി അയയ്ക്കുമ്പോള്‍ താഴെ _ടൈപ്പ് ചെയ്തു് തുടങ്ങുക"
 
 #: ../mail/mail-config.glade.h:150
 msgid "T_ype: "
@@ -14738,11 +14753,11 @@ msgstr "_ഓട്ടോമാറ്റിക് പ്രോക്സി ക്
 
 #: ../mail/mail-config.glade.h:167
 msgid "_Default junk plugin:"
-msgstr ""
+msgstr "_സ്വതവേയുള്ള ജങ്ക് പ്ലഗിന്‍:"
 
 #: ../mail/mail-config.glade.h:168
 msgid "_Direct connection to the Internet"
-msgstr ""
+msgstr "ഇന്റര്‍നെറ്റിലേക്കു് _നേരിട്ടുള്ള കണക്ഷന്‍"
 
 #: ../mail/mail-config.glade.h:169
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
@@ -14802,7 +14817,7 @@ msgstr "സ്ക്രിപ്റ്റ് : (_S)"
 
 #: ../mail/mail-config.glade.h:185
 msgid "_Secure HTTP Proxy:"
-msgstr ""
+msgstr "_സെക്യുര്‍ HTTP പ്രോക്സി:"
 
 #: ../mail/mail-config.glade.h:186
 msgid "_Select..."
@@ -14815,7 +14830,7 @@ msgstr "ഇമേജ് ആനിമേഷനുകള്‍ കാണിക്�
 
 #: ../mail/mail-config.glade.h:190
 msgid "_Show the photograph of sender in the message preview"
-msgstr ""
+msgstr "സന്ദശത്തിന്റെ പ്രിവ്യൂവില്‍ അയച്ച ആളുടെ ഫോട്ടോ _കാണിക്കുക"
 
 #: ../mail/mail-config.glade.h:191
 msgid "_Shrink To / Cc / Bcc headers to "
@@ -15468,6 +15483,8 @@ msgid ""
 "Do you want to locally synchronize the folders that are marked for offline "
 "usage?"
 msgstr ""
+"ഓഫ്‌ലൈന്‍ ഉപയോഗത്തിനായി അടയാളപ്പെടുത്തിയ ഫോള്‍ഡറുകള്‍ ലോക്കലായി "
+"നിങ്ങള്‍ക്കു് സിന്‍ക്രൊണൈസ് ചെയ്യുണമോ?"
 
 #: ../mail/mail.error.xml.h:53
 msgid "Do you want to mark all messages as read?"
@@ -15979,15 +15996,15 @@ msgstr "സന്ദശത്തിന്‍റെ ഉളളടക്കം"
 
 #: ../mail/searchtypes.xml.h:2
 msgid "Message contains"
-msgstr "സന്ദശത്തിന്‍റെ ഉളളടക്കം"
+msgstr "സന്ദശത്തിലുള്ളതു്"
 
 #: ../mail/searchtypes.xml.h:3
 msgid "Recipients contain"
-msgstr ""
+msgstr "മെയില്‍ ലഭ്യമായിവരിലുള്ളതു്"
 
 #: ../mail/searchtypes.xml.h:4
 msgid "Sender contains"
-msgstr ""
+msgstr "അയയ്ക്കുന്നവരിലുള്ളതു്"
 
 #: ../mail/searchtypes.xml.h:5
 msgid "Subject contains"
@@ -15999,7 +16016,7 @@ msgstr "വിഷയത്തില്‍ അല്ലെങ്കില്‍ �
 
 #: ../mail/searchtypes.xml.h:7
 msgid "Subject or Sender contains"
-msgstr ""
+msgstr "വിഷയം അല്ലെങ്കില്‍ അയയ്ക്കുന്നവരിലുള്ളതു്"
 
 #: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:1
 msgid "Local Address Books"
@@ -16056,6 +16073,8 @@ msgid ""
 "A formatter plugin which displays audio attachments inline and allows you to "
 "play them directly from Evolution."
 msgstr ""
+"ഓഡിയോ അറ്റാച്മെന്റുകള്‍ പ്രദര്‍ശിപ്പിക്കുകയും അവ നേരിട്ട് Evolution-ല്‍ നിന്നും "
+"നേരിട്ട് പ്രവര്‍ത്തിപ്പിക്കുന്നതിനുമുള്ള ഒരു ഫോര്‍മാറ്റര്‍ പ്ലഗിന്‍."
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
 msgid "Audio inline plugin"
@@ -16087,6 +16106,10 @@ msgid ""
 "Calendars, Tasks, Memos, Contacts. \n"
 "It also restores all your personal settings, mail filters etc."
 msgstr ""
+"നിങ്ങളുടെ ബാക്കപ്പില്‍ നിന്നും Evolution വീണ്ടെടുക്കുന്നു. എല്ലാ മെയിലുകളും, കലണ്ടറുകളും, "
+"ജോലികളും, മെമ്മോകളും, വിലാസങ്ങളും അതു് വീണ്ടെടുക്കുന്നു.\n"
+"ഇവ കൂടാതെ, നിങ്ങളുടെ സ്വകാര്യ ക്രമീകരണങ്ങള്‍, മെയില്‍ ഫില്‍‌റ്ററുകള്‍ എന്നിവയും "
+"വീണ്ടെടുക്കുന്നു."
 
 #: ../plugins/backup-restore/backup-restore.c:295
 msgid "_Restore Evolution from the backup file"
@@ -16118,7 +16141,7 @@ msgstr "Evolution വീണ്ടും ആരംഭിക്കുക"
 
 #: ../plugins/backup-restore/backup.c:73
 msgid "With Graphical User Interface"
-msgstr ""
+msgstr "ഗ്രാഫിക്കല്‍ യൂസര്‍ ഇന്റര്‍ഫെയിസിനൊപ്പം"
 
 #: ../plugins/backup-restore/backup.c:124
 #: ../plugins/backup-restore/backup.c:257
@@ -16131,7 +16154,7 @@ msgstr "Evolution അക്കൌണ്ടുകള്‍ ക്രമീകര�
 
 #: ../plugins/backup-restore/backup.c:135
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
-msgstr ""
+msgstr "Evolution ഡേറ്റായുടെ ബാക്കപ്പ് എടുക്കുന്നു (മെയിലുകള്‍, വിലാസങ്ങള്‍, കലണ്ടര്‍, ജോലികള്‍, മെമ്മോകള്‍)"
 
 #: ../plugins/backup-restore/backup.c:146
 msgid "Backup complete"
@@ -16160,7 +16183,7 @@ msgstr "താല്‍ക്കാലികമായ ബാക്കപ്പ�
 
 #: ../plugins/backup-restore/backup.c:284
 msgid "Ensuring local sources"
-msgstr ""
+msgstr "ലോക്കല്‍ ഉറവിടങ്ങള്‍ ഉറപ്പാക്കുന്നു"
 
 #: ../plugins/backup-restore/backup.c:454
 #, c-format
@@ -16187,7 +16210,7 @@ msgstr "Evolution ഡേറ്റയുടെ ബാക്കപ്പ് എട
 
 #: ../plugins/backup-restore/backup.c:514
 msgid "Please wait while Evolution is backing up your data."
-msgstr ""
+msgstr "Evolution ഡേറ്റ ബാക്കപ്പ് ചെയ്യുമ്പോള്‍ ദയവായി കാത്തിരിക്കുക."
 
 #: ../plugins/backup-restore/backup.c:516
 msgid "Restoring Evolution Data"
@@ -16195,11 +16218,11 @@ msgstr "Evolution ഡേറ്റാ വീണ്ടെടുക്കുന്�
 
 #: ../plugins/backup-restore/backup.c:517
 msgid "Please wait while Evolution is restoring your data."
-msgstr ""
+msgstr "Evolution ഡേറ്റ വീണ്ടെടുക്കുമ്പോള്‍ ദയവായി കാത്തിരിക്കുക."
 
 #: ../plugins/backup-restore/backup.c:535
 msgid "This may take a while depending on the amount of data in your account."
-msgstr ""
+msgstr "നിങ്ങളുടെ അക്കൌണ്ടിലുള്ള വിവരങ്ങളനുസരിച്ചു് ഇതിനു് സമയമെടുക്കുന്നു."
 
 #: ../plugins/backup-restore/org-gnome-backup-restore.eplug.xml.h:1
 msgid "A plugin for backing up and restore Evolution data and settings."
@@ -16285,12 +16308,12 @@ msgstr "ഓട്ടോമാറ്റിക്കായി വിലാസങ�
 
 #: ../plugins/bbdb/bbdb.c:660
 msgid "Instant Messaging Contacts"
-msgstr ""
+msgstr "ഇന്‍സ്റ്റന്റ് മെസ്സേജിങ് വിലാസങ്ങള്‍"
 
 #. Enable Gaim Checkbox
 #: ../plugins/bbdb/bbdb.c:675
 msgid "Synchronize contact info and images from Pidgin buddy list"
-msgstr ""
+msgstr "Pidgin ബഡ്ഡി ലിസ്റ്റില്‍ നിന്നും വിലാസ വിവരങ്ങളും ചിത്രങ്ങളും സിന്‍ക്രൊണൈസ് ചെയ്യുന്നു"
 
 #: ../plugins/bbdb/bbdb.c:681
 msgid "Select Address book for Pidgin buddy list"
@@ -16299,7 +16322,7 @@ msgstr "Pidgin ബഡ്ഡി ലിസ്റ്റിനുള്ള വില
 #. Synchronize now button.
 #: ../plugins/bbdb/bbdb.c:692
 msgid "Synchronize with _buddy list now"
-msgstr ""
+msgstr "നിലവില്‍ _ബഡ്ഡി ലിസ്റ്റ് ഉപയോഗിച്ചു് സിന്‍ക്രൊണൈസ് ചെയ്യുന്നു"
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:2
 msgid ""
@@ -16307,6 +16330,9 @@ msgid ""
 "reply to messages. Also fills in IM contact information from your buddy "
 "lists."
 msgstr ""
+"നിങ്ങള്‍ മറുപടി അയയ്ക്കുന്നതനുസരിച്ചു് വിലാസപുസ്തകത്തില്‍ പേരുകളും ഈമെയില്‍ "
+"വിലാസങ്ങളും സ്വയമേ പൂരിപ്പിക്കുന്നു. കൂടാതെ, നിങ്ങളുടെ ബഡ്ഡി ലിസ്റ്റില്‍ നിന്നും IM-ലുള്ള"
+"വിലാസ വിവരങ്ങളും പൂര്‍ത്തിയാക്കുന്നു."
 
 #: ../plugins/bbdb/org-gnome-evolution-bbdb.eplug.xml.h:3
 msgid "BBDB"
@@ -16321,21 +16347,21 @@ msgstr "%s ഉണ്ടാക്കുമ്പോള്‍ പിശക് ഉ�
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:186
 #, c-format
 msgid "Bogofilter child process does not respond, killing..."
-msgstr ""
+msgstr "Bogofilter ചൈള്‍ഡ് പ്രക്രിയ പ്രവര്‍ത്തിക്കുന്നില്ല, അവസാനിപ്പിക്കുന്നു..."
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:188
 #, c-format
 msgid "Wait for Bogofilter child process interrupted, terminating..."
-msgstr ""
+msgstr "Bogofilter ചൈള്‍ഡ് പ്രക്രിയയ്ക്കുള്ള കാത്തിരിപ്പു് തടസ്സപ്പെട്ടിരിക്കുന്നു, നിര്‍ത്തുന്നു..."
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:211
 #, c-format
 msgid "Pipe to Bogofilter failed, error code: %d."
-msgstr ""
+msgstr "Bogofilter-ലേക്കുള്ള പൈപ്പ് പരാജയപ്പെട്ടു, പിശക് കോഡ്: %d."
 
 #: ../plugins/bogo-junk-plugin/bf-junk-filter.c:374
 msgid "Convert message text to _Unicode"
-msgstr ""
+msgstr "വാചകങ്ങള്‍ _യൂണിക്കോഡായി വേര്‍തിരിക്കുന്നു"
 
 #: ../plugins/bogo-junk-plugin/bogo-junk-plugin.schemas.in.h:1
 msgid "Convert mail messages to Unicode"
@@ -16357,7 +16383,7 @@ msgstr "Bogofilter ജങ്ക് പ്ലഗിന്‍"
 
 #: ../plugins/bogo-junk-plugin/org-gnome-bogo-junk-plugin.eplug.xml.h:3
 msgid "Filters junk messages using Bogofilter."
-msgstr ""
+msgstr "Bogofilter ഉപയോഗിച്ചു് ആവശ്യമില്ലാത്ത സന്ദേശങ്ങള്‍ ഫില്‍‌റ്റര്‍ ചെയ്യുക."
 
 #. we found the group, change the name based on the actual language
 #: ../plugins/caldav/caldav-source.c:80 ../plugins/caldav/caldav-source.c:92
@@ -16485,6 +16511,8 @@ msgid ""
 "A test plugin which demonstrates a popup menu plugin which lets you copy "
 "things to the clipboard."
 msgstr ""
+"ക്ലിപ്പ്ബോര്‍ഡിലേക്കു് വസ്തുക്കള്‍ പകര്‍ത്തുന്നതിനായി പോപ്പപ് മെനു പ്ലഗിന്‍ "
+"പ്രവര്‍ത്തിച്ചുകാണിക്കുന്ന ഒരു പരീക്ഷണ പ്ലഗിന്‍."
 
 #: ../plugins/copy-tool/org-gnome-copy-tool.eplug.xml.h:3
 msgid "Copy tool"
@@ -16576,7 +16604,7 @@ msgstr "കീ"
 #: ../plugins/email-custom-header/email-custom-header.c:918
 #: ../plugins/templates/templates.c:396
 msgid "Values"
-msgstr ""
+msgstr "മൂല്ല്യങ്ങള്‍"
 
 #. To translators: This string is used while adding a new message header to configuration, to specifying the format of the key values
 #: ../plugins/email-custom-header/email-custom-header.glade.h:2
@@ -16587,12 +16615,12 @@ msgstr ""
 
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.glade.h:1
 msgid "Email Custom Header"
-msgstr ""
+msgstr "തയ്യാറാക്കിയ ഹെഡര്‍ ഈമെയില്‍ ചെയ്യുക"
 
 #. For Translators: 'custom header' string is used while adding a new message header to outgoing message, to specify what value for the message header would be added
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:2
 msgid "Adds custom header to outgoing messages."
-msgstr ""
+msgstr "പുറത്തേക്കു് പോകുന്ന സന്ദേശങ്ങള്‍ക്കു് നിങ്ങള്‍ തയ്യാറാക്കിയ ഹെഡര്‍ ചേര്‍ക്കുക."
 
 #: ../plugins/email-custom-header/org-gnome-email-custom-header.eplug.xml.h:3
 msgid "Custom Header"
@@ -16837,7 +16865,7 @@ msgstr ""
 #.
 #: ../plugins/exchange-operations/exchange-delegates-user.c:348
 msgid "You have been given the following permissions on my folders:"
-msgstr ""
+msgstr "നിങ്ങള്‍ക്കു് എന്റെ ഫോള്‍ഡറിലേക്കു് താഴെ പറ്ഞ്ഞിരിക്കുന്ന ആനുമതികള്‍ :"
 
 #. To translators: This message is included if the delegatee has been given access
 #. to the private items.
@@ -17166,7 +17194,7 @@ msgstr "പ്രതിനിധിയായി അയയ്ക്കുക"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:15
 msgid "_Sensitivity: "
-msgstr ""
+msgstr "_സെന്‍സിറ്റിവിറ്റി: "
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:16
 msgid "_User"
@@ -17202,7 +17230,7 @@ msgstr "എക്സ്ചെയിഞ്ച് പ്രക്രിയകള�
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:1
 msgid "Cannot access the \"Exchange settings\" tab in offline mode."
-msgstr ""
+msgstr "\"Exchange ക്രമീകരണങ്ങള്‍\" റ്റാബ് ഓഫ്‌ലൈന്‍ മോഡില്‍ ലഭ്യമാക്കുവാന്‍ സാധ്യമല്ല."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:2
 msgid "Cannot change password due to configuration problems."
@@ -17340,6 +17368,8 @@ msgid ""
 "If OWA is running on a different path, you must specify that in the account "
 "configuration dialog."
 msgstr ""
+"OWA മറ്റൊരു പാഥില്‍ പ്രവര്‍ത്തിക്കുന്നു, ഇതു് നിങ്ങള്‍ അക്കൌണ്ട് ക്രമീകരണ "
+"ഡയലോഗിന്‍ വ്യക്തമാക്കേണ്ടതാണു്."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:43
 msgid "Mailbox for {0} is not on this server."
@@ -17403,7 +17433,7 @@ msgstr "നിങ്ങള്‍ Evolution-ല്‍ നിന്നും പ�
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:59
 msgid "The Exchange server is not compatible with Exchange Connector."
-msgstr ""
+msgstr "Exchange സര്‍വര്‍ Exchange കണക്ടറുമായി പൊരുത്തപ്പെടുന്നില്ല."
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:60
 msgid ""
@@ -17433,7 +17463,7 @@ msgstr "മറ്റൊരു പാസ്‍വേര്‍ഡ് ഉപയോ�
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:68
 msgid "Unable to add user to access control list:"
-msgstr ""
+msgstr "ആക്സസ് കണ്ട്രോള്‍ ലിസ്റ്റിലേക്കു് ഉപയോക്താവിനെ ചേര്‍ക്കുവാന്‍ സാധ്യമല്ല:"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:69
 msgid "Unable to edit delegates."
@@ -17506,7 +17536,7 @@ msgstr "നിങ്ങളുടെ പാസ്‍വേര്‍ഡിന്�
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:84
 msgid "{0} cannot be added to an access control list"
-msgstr ""
+msgstr "ആക്സസ് കണ്ട്രോള്‍ ലിസ്റ്റിലേക്കു് {0} ചേര്‍ക്കുവാന്‍ സാധ്യമല്ല"
 
 #: ../plugins/exchange-operations/org-gnome-exchange-operations.error.xml.h:85
 msgid "{0} is already a delegate"
@@ -17530,13 +17560,15 @@ msgstr "സ്വതവേയുള്ള എക്സ്റ്റേണല്�
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:2
 msgid "The default command that must be used as the editor."
-msgstr ""
+msgstr "എഡിറ്റര്‍ ആയി ഉപയോഗിക്കുവാനുള്ള സ്വതവേയുള്ള കമാന്‍ഡ്. "
 
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:1
 msgid ""
 "A plugin for using an external editor as the composer. You can send only "
 "plain-text messages."
 msgstr ""
+"പുറത്തുനിന്നുള്ള എഡിറ്റര്‍ ഉപയോഗിച്ച് മെയില്‍ തയ്യാറാക്കുന്നതിനുള്ള ഒരു പ്ലഗിന്‍. "
+"നിങ്ങള്‍ക്കു് പ്ലെയിന്‍-ടെക്സ്റ്റ് സന്ദേശങ്ങള്‍ മാത്രമേ അയയ്ക്കുവാന്‍ സാധിക്കൂ."
 
 #. the path to the shared library
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:3
@@ -17549,13 +17581,15 @@ msgstr "താല്‍ക്കാലികമായ ഫയല്‍ ഉണ്�
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:2
 msgid "Editor not launchable"
-msgstr ""
+msgstr "എഡിറ്റര്‍ ലഭ്യമാക്കുവാന്‍ സാധ്യമല്ല"
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:3
 msgid ""
 "Evolution is unable to create a temporary file to save your mail. Retry "
 "later."
 msgstr ""
+"നിങ്ങളുടെ മെയില്‍ സൂക്ഷിക്കന്നതിനായി Evolution-നു് ഒരു താല്‍ക്കാലിക ഫയല്‍ "
+"ഉണ്ടാക്കുവാന്‍ സാധ്യമല്ല. പിന്നീട് വീണ്ടും ശ്രമിക്കുക."
 
 #: ../plugins/external-editor/org-gnome-external-editor-errors.xml.h:4
 msgid ""
@@ -17569,11 +17603,11 @@ msgstr "_എക്സ്റ്റേണല്‍ എഡിറ്ററില്�
 
 #: ../plugins/external-editor/org-gnome-external-editor.xml.h:2
 msgid "Compose messages using an external editor"
-msgstr ""
+msgstr "പുറത്തുനിന്നുള്ള ഒരു എഡിറ്റര്‍ ഉപയോഗിച്ചു് സന്ദേശങ്ങള്‍ തയ്യാറാക്കുക"
 
 #: ../plugins/external-editor/external-editor.c:114
 msgid "Command to be executed to launch the editor: "
-msgstr ""
+msgstr "എഡിറ്റര്‍ ലഭ്യമാക്കുന്നതിനായുള്ള കമാന്‍ഡ്:"
 
 #: ../plugins/external-editor/external-editor.c:115
 msgid ""
@@ -17585,7 +17619,7 @@ msgstr ""
 
 #: ../plugins/face/face.c:59
 msgid "Select a (48*48) png of size < 700bytes"
-msgstr ""
+msgstr "700bytes കുറഞ്ഞ വ്യാപ്തിയുള്ള ഒരു (48*48) png തെരഞ്ഞെടുക്കുക"
 
 #: ../plugins/face/face.c:69
 msgid "PNG files"
@@ -17630,6 +17664,8 @@ msgid ""
 "Cannot read data from Google server.\n"
 "%s"
 msgstr ""
+"Google സര്‍വറില്‍ നിന്നും ഡേറ്റ ലഭ്യമാക്കുവാന്‍ സാധ്യമല്ല.\n"
+"%s"
 
 #: ../plugins/google-account-setup/google-source.c:683
 msgid "Cal_endar:"
@@ -17684,6 +17720,16 @@ msgid ""
 "Click 'Forward' to install the shared folder\n"
 "\n"
 msgstr ""
+"ഉപയോക്താവു് '%s' നിങ്ങളുമായി ഒരു ഫോള്‍ഡര്‍ പങ്കിടുന്നു\n"
+"\n"
+"'%s'-ല്‍ നിന്നുമുള്ള സന്ദേശം\n"
+"\n"
+"\n"
+"%s\n"
+"\n"
+"\n"
+"പങ്കിടുന്ന ഫോള്‍ഡര്‍ ഇന്‍സ്റ്റോള്‍ ചെയ്യുന്നതിനായി 'ഫോര്‍വേഡ് ചെയ്യുക' എന്നതു് ക്ലിക്ക് ചെയ്യുക\n"
+"\n"
 
 #: ../plugins/groupwise-features/install-shared.c:225
 msgid "Install the shared folder"
@@ -17747,7 +17793,7 @@ msgstr "മെയില്‍ റദ്ദാക്കുക"
 
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:1
 msgid "Add Send Options to GroupWise messages"
-msgstr ""
+msgstr "GroupWise സന്ദേശങ്ങള്‍ക്കു് അയയ്ക്കുന്നതിനുള്ള ഉപാധികള്‍ "
 
 #: ../plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml.h:1
 #| msgid "A plugin for the features in Groupwise accounts."
@@ -17791,7 +17837,7 @@ msgstr "ഈ ഉപയോക്താവിനു് നിങ്ങള്‍ ന
 #. To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a GroupWise feature by which one person can send/read mails/appointments using another person's identity without knowing his password, for example if that other person is on vacation
 #: ../plugins/groupwise-features/org-gnome-proxy-errors.xml.h:8
 msgid "You have to specify a valid user name to give proxy rights."
-msgstr ""
+msgstr "പ്രോക്സി അവകാശങ്ങള്‍ ലഭ്യമാക്കുന്നതിനായി ശരിയായ ഒരു ഉപയോക്തൃനാമം നല്‍കുക."
 
 #: ../plugins/groupwise-features/org-gnome-proxy-login-errors.xml.h:1
 msgid "Account &quot;{0}&quot; already exists. Please check your folder tree."
@@ -17806,6 +17852,8 @@ msgid ""
 "Proxy login as &quot;{0}&quot; was unsuccessful. Please check your email "
 "address and try again."
 msgstr ""
+"&quot;{0}&quot; ആയുള്ള പ്രോക്സി ലോഗിന്‍ പരാജയപ്പെട്ടു. ദയവായി നിങ്ങളുടെ "
+"ഈമെയില്‍ വിലാസം പരിശോധിച്ചു് വീണ്ടും ശ്രമിക്കുക."
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:3
 msgid "This is a recurring meeting"
@@ -17829,7 +17877,7 @@ msgstr ""
 
 #: ../plugins/groupwise-features/org-gnome-shared-folder.errors.xml.h:9
 msgid "You have to specify a user name which you want to add to the list"
-msgstr ""
+msgstr "ലിസ്റ്റിലേക്കു് നിങ്ങള്‍ക്കു് ചേര്‍ക്കേണ്ടപ്പോള്‍ ഒരു ഉപയോക്തൃനാമം നല്‍കേണ്ടതുണ്ടു്."
 
 #: ../plugins/groupwise-features/process-meeting.c:52
 msgid "Accept Tentatively"
@@ -17854,7 +17902,7 @@ msgstr "സന്ദേശം"
 
 #: ../plugins/groupwise-features/properties.glade.h:6
 msgid "Shared Folder Notification"
-msgstr ""
+msgstr "പങ്കെടുത്ത ഫോള്‍ഡറിനുള്ള അറിയിപ്പു്"
 
 #: ../plugins/groupwise-features/properties.glade.h:8
 msgid "The participants will receive the following notification.\n"
@@ -18069,7 +18117,7 @@ msgstr "<b>IMAP ഹെഡറുകള്‍</b> "
 
 #: ../plugins/imap-features/imap-headers.glade.h:3
 msgid "Basic and _Mailing List Headers (Default)"
-msgstr ""
+msgstr "അടിസ്ഥാനപരവും _മെയിലിങ് ലിസ്റ്റ് ഹെഡറുകളും (സ്വതവേയുള്ളതു്)"
 
 #: ../plugins/imap-features/imap-headers.glade.h:4
 msgid "Fetch A_ll Headers"
@@ -18087,12 +18135,17 @@ msgid ""
 "Select your IMAP Header Preferences. \n"
 "The more headers you have the more time it will take to download."
 msgstr ""
+"നിങ്ങളുടെ IMAP ഹെഡര്‍ മുന്‍ഗണനകള്‍ തെരഞ്ഞെടുക്കുക. \n"
+"ഹെഡറുകളുടെ എണ്ണം അനുസരിച്ചു് ഡൌണ്‍ലോട് ചെയ്യുവാനെടുക്കുന്ന "
+"സമയവും കൂടുന്നു."
 
 #: ../plugins/imap-features/imap-headers.glade.h:9
 msgid ""
 "_Basic Headers - (Fastest) \n"
 "Use this if you do not have filters based on mailing lists"
 msgstr ""
+"_അടിസ്ഥാന ഹെഡറുകള്‍ - (വേഗതയേറിയ) \n"
+"മെയിലിങ് ലിസ്റ്റിന്റെ അടിസ്ഥാനത്തില്‍ നിങ്ങള്‍ക്കു് ഫില്‍‌റ്ററുകള്‍ ഇല്ലായെങ്കില്‍ ഇതുപയോഗിക്കുക"
 
 #: ../plugins/imap-features/org-gnome-imap-features.eplug.xml.h:1
 msgid "A plugin for the features in the IMAP accounts."
@@ -18138,7 +18191,7 @@ msgstr "കലണ്ടറിലേക്ക് ICS അറ്റാച്മെ�
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:49
 msgid "Hardware Abstraction Layer not loaded"
-msgstr ""
+msgstr "ഹാര്‍ഡ്‌വെയര്‍ അബ്സ്ട്രാക്ഷന്‍ ലെയര്‍ ലഭ്യമല്ല"
 
 #: ../plugins/ipod-sync/evolution-ipod-sync.c:50
 msgid ""
@@ -18155,6 +18208,8 @@ msgid ""
 "Evolution could not find an iPod to synchronize with. Either the iPod is not "
 "connected to the system or it is not powered on."
 msgstr ""
+"സിന്‍ക്രൊണൈസ് ചെയ്യുവാനുള്ള ഒരു iPod Evolution-നു് ലഭ്യമായില്ല. ഒന്നുങ്കില്‍, "
+"iPod സിസ്റ്റമിലേക്കു് കണക്ട് ചെയ്തിട്ടില്ല അല്ലെങ്കില്‍ അതു് ഓണ്‍ ചെയ്തിട്ടില്ല."
 
 #: ../plugins/ipod-sync/ical-format.c:119
 #: ../plugins/save-calendar/ical-format.c:164
@@ -18163,11 +18218,11 @@ msgstr "iCalendar രീതി (.ics)"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:1
 msgid "Synchronize the selected task/memo/calendar/address book with Apple iPod"
-msgstr ""
+msgstr "Apple iPod-ലേക്കു് തെരഞ്ഞെടുത്ത ജോലി/മെമ്മോ/കലണ്ടര്‍/വിലാസപുസ്തകം സിന്‍ക്രൊണൈസ് ചെയ്യുക"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:2
 msgid "Synchronize to iPod"
-msgstr ""
+msgstr "iPod-ലേക്കു് സിന്‍ക്രൊണൈസ് ചെയ്യുക"
 
 #: ../plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml.h:3
 msgid "iPod Synchronization"
@@ -18253,16 +18308,16 @@ msgstr "പ്രതിനിധിയ്ക്ക് ഒരു റദ്ദാ�
 
 #: ../plugins/itip-formatter/itip-formatter.c:1342
 msgid "Attendee status could not be updated because the status is invalid"
-msgstr ""
+msgstr "പങ്കെടുത്തയാളുടെ അവസ്ഥ പരിഷ്കരിക്കുവാന്‍ സാധ്യമായില്ല കാരണം അവസ്ഥ തെറ്റാണു്"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1371
 #, c-format
 msgid "Unable to update attendee. %s"
-msgstr ""
+msgstr "പങ്കെടുത്തയാളുടെ അവസ്ഥ പരിഷ്കരിക്കുവാന്‍ സാധ്യമായില്ല. %s"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1375
 msgid "Attendee status updated"
-msgstr ""
+msgstr "പങ്കെടുത്തയാളുടെ അവസ്ഥ പരിഷ്കരിച്ചിരിക്കുന്നു"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1401
 msgid "Meeting information sent"
@@ -18278,7 +18333,7 @@ msgstr "മെമ്മോ വിവരം അയച്ചിരിക്കു�
 
 #: ../plugins/itip-formatter/itip-formatter.c:1416
 msgid "Unable to send meeting information, the meeting does not exist"
-msgstr ""
+msgstr "കൂടിചേരല്‍ സംബന്ധിച്ചുള്ള വിവരങ്ങള്‍ അയയ്ക്കുവാന്‍ സാധ്യമായില്ല, കൂടിചേരല്‍ നിലവിലില്ല"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1419
 msgid "Unable to send task information, the task does not exist"
@@ -18286,7 +18341,7 @@ msgstr "ജോലി സംബന്ധിച്ചുള്ള വിവരങ�
 
 #: ../plugins/itip-formatter/itip-formatter.c:1422
 msgid "Unable to send memo information, the memo does not exist"
-msgstr ""
+msgstr "മെമോ വിവരം അയയ്ക്കുവാന്‍ സാധ്യമായില്ല, മെമ്മോ ലഭ്യമല്ല"
 
 #: ../plugins/itip-formatter/itip-formatter.c:1491
 #: ../plugins/itip-formatter/itip-formatter.c:1502
@@ -18313,6 +18368,8 @@ msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
 msgstr ""
+"സന്ദേശത്തില്‍ കലണ്ടര്‍ ഉണ്ടു്. പക്ഷേ കലണ്ടറില്‍ എവന്റുകള്‍, ജോലികള്‍ "
+"അല്ലെങ്കില്‍ അവസ്ഥയുടെ വിവരങ്ങള്‍ ലഭ്യമല്ല."
 
 #: ../plugins/itip-formatter/itip-formatter.c:1583
 msgid "The calendar attached contains multiple items"
@@ -18323,6 +18380,8 @@ msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
 msgstr ""
+"ഈ വസ്തുക്കള്‍ എല്ലാം പ്രവര്‍ത്തിപ്പിക്കുന്നതിനായി, ഫയല്‍ സൂക്ഷിക്കണം, കലണ്ടര്‍ "
+"ഇംപോര്‍ട്ട് ചെയ്യണം."
 
 #: ../plugins/itip-formatter/itip-formatter.c:2306
 msgid "This meeting recurs"
@@ -18527,22 +18586,22 @@ msgstr "<b>%s</b> താഴെ പറയുന്ന മീറ്റിങ് �
 #: ../plugins/itip-formatter/itip-view.c:368
 #, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
-msgstr ""
+msgstr "<b>%s</b> %s-ലൂടെ നിങ്ങളുടെ സാന്നിദ്ധ്യം കൂടിചേരലില്‍ ആവശ്യപ്പെടുന്നു:"
 
 #: ../plugins/itip-formatter/itip-view.c:370
 #, c-format
 msgid "<b>%s</b> requests your presence at the following meeting:"
-msgstr ""
+msgstr "<b>%s</b> നിങ്ങളുടെ സാന്നിദ്ധ്യം കൂടിചേരലില്‍ ആവശ്യപ്പെടുന്നു:"
 
 #: ../plugins/itip-formatter/itip-view.c:376
 #, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
-msgstr ""
+msgstr "<b>%s</b> %s-ലൂടെ നിലവില്‍ ഒരു കൂടിചേരല്‍ കൂടി ആവശ്യപ്പെടുന്നു:"
 
 #: ../plugins/itip-formatter/itip-view.c:378
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting:"
-msgstr ""
+msgstr "<b>%s</b> നിലവില്‍ ഒരു കൂടിചേരല്‍ കൂടി ആവശ്യപ്പെടുന്നു:"
 
 #: ../plugins/itip-formatter/itip-view.c:382
 #, c-format
@@ -18554,7 +18613,7 @@ msgstr "<b>%s</b> %s-ലൂടെ താഴെ പറയുന്ന മീറ�
 #: ../plugins/itip-formatter/itip-view.c:384
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest information for the following meeting:"
-msgstr ""
+msgstr "<b>%s</b> താഴെ പറയുന്ന കൂടിചേരലിന്റെ ഏറ്റവും പുതിയ വിവരങ്ങള്‍ ലഭ്യമാകുവാന്‍ ആവശ്യപ്പെടുന്നു:"
 
 #: ../plugins/itip-formatter/itip-view.c:388
 #, c-format
@@ -18584,27 +18643,27 @@ msgstr "<b>%s</b> %s-ലൂടെ താഴെ പറയുന്ന മീറ�
 #: ../plugins/itip-formatter/itip-view.c:402
 #, c-format
 msgid "<b>%s</b> has proposed the following meeting changes."
-msgstr ""
+msgstr "<b>%s</b> കൂടിചേരലിനു് താഴെയുള്ള മാറ്റങ്ങള്‍ ആവശ്യപ്പെട്ടിരിക്കുന്നു."
 
 #: ../plugins/itip-formatter/itip-view.c:406
 #, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
-msgstr ""
+msgstr "<b>%s</b> %s-ലൂടെ താഴെയുള്ള കൂടിചേരലിനുള്ള മാറ്റങ്ങള്‍ മാറ്റിയിരിക്കുന്നു."
 
 #: ../plugins/itip-formatter/itip-view.c:408
 #, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
-msgstr ""
+msgstr "<b>%s</b> താഴെയുള്ള കൂടിചേരലിനുള്ള മാറ്റങ്ങള്‍ മാറ്റിയിരിക്കുന്നു."
 
 #: ../plugins/itip-formatter/itip-view.c:446
 #, c-format
 msgid "<b>%s</b> through %s has published the following task:"
-msgstr ""
+msgstr "<b>%s</b> %s-ലൂടെ താഴെ പറയുന്ന ജോലി പബ്ലിഷ് ചെയ്തിരിക്കുന്നു:"
 
 #: ../plugins/itip-formatter/itip-view.c:448
 #, c-format
 msgid "<b>%s</b> has published the following task:"
-msgstr ""
+msgstr "<b>%s</b> താഴെ പറയുന്ന ജോലി പബ്ലിഷ് ചെയ്തിരിക്കുന്നു:"
 
 #: ../plugins/itip-formatter/itip-view.c:453
 #, c-format
@@ -18614,22 +18673,22 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-view.c:456
 #, c-format
 msgid "<b>%s</b> through %s has assigned you a task:"
-msgstr ""
+msgstr "<b>%s</b> %s-ലൂടെ നിങ്ങള്‍ക്കു് ഒരു ജോലി നല്‍കിയിരിക്കുന്നു:"
 
 #: ../plugins/itip-formatter/itip-view.c:458
 #, c-format
 msgid "<b>%s</b> has assigned you a task:"
-msgstr ""
+msgstr "<b>%s</b> നിങ്ങള്‍ക്കു് ഒരു ജോലി നല്‍കിയിരിക്കുന്നു:"
 
 #: ../plugins/itip-formatter/itip-view.c:464
 #, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing task:"
-msgstr ""
+msgstr "<b>%s</b>-നു് %s-ലൂടെ നിലവിലുള്ള ഒരു ജോലി ചേര്‍ക്കണമെന്നു് ആവശ്യപ്പെടുന്നു:"
 
 #: ../plugins/itip-formatter/itip-view.c:466
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task:"
-msgstr ""
+msgstr "<b>%s</b>-നു് നിലവിലുള്ള ഒരു ജോലി ചേര്‍ക്കണമെന്നു് ആവശ്യപ്പെടുന്നു:"
 
 #: ../plugins/itip-formatter/itip-view.c:470
 #, c-format
@@ -18646,6 +18705,8 @@ msgid ""
 "<b>%s</b> wishes to receive the latest information for the following "
 "assigned task:"
 msgstr ""
+"<b>%s</b>-നു് താഴെ പറയുന്ന ജോലി സംബന്ധിച്ചുള്ള ഏറ്റവും പുതിയ "
+"വിവരം ആവശ്യപ്പെടുന്നു:"
 
 #: ../plugins/itip-formatter/itip-view.c:476
 #, c-format
@@ -18660,12 +18721,12 @@ msgstr ""
 #: ../plugins/itip-formatter/itip-view.c:482
 #, c-format
 msgid "<b>%s</b> through %s has canceled the following assigned task:"
-msgstr ""
+msgstr "<b>%s</b> %s-ലൂടെ താഴെ പറയുന്ന ജോലി റദ്ദാക്കിയിരിക്കുന്നു:"
 
 #: ../plugins/itip-formatter/itip-view.c:484
 #, c-format
 msgid "<b>%s</b> has canceled the following assigned task:"
-msgstr ""
+msgstr "<b>%s</b> താഴെ കാണിക്കുന്ന ജോലി റദ്ദാക്കിയിരിക്കുന്നു:"
 
 #: ../plugins/itip-formatter/itip-view.c:488
 #, c-format
@@ -18675,17 +18736,17 @@ msgstr "<b>%s</b> %s-ലൂടെ താഴെ പറയുന്ന ജോല�
 #: ../plugins/itip-formatter/itip-view.c:490
 #, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
-msgstr ""
+msgstr "<b>%s</b> താഴെ പറയുന്ന മാറ്റങ്ങള്‍ ലഭ്യമാക്കിയിരിക്കുന്ന ജോലിയില്‍ ആഗ്രഹിക്കുന്നു:"
 
 #: ../plugins/itip-formatter/itip-view.c:494
 #, c-format
 msgid "<b>%s</b> through %s has declined the following assigned task:"
-msgstr ""
+msgstr "<b>%s</b> %s വഴി നല്‍കിയിരിക്കുന്ന ജോലി അവസാനപ്പിച്ചിരിക്കുന്നു:"
 
 #: ../plugins/itip-formatter/itip-view.c:496
 #, c-format
 msgid "<b>%s</b> has declined the following assigned task:"
-msgstr ""
+msgstr "<b>%s</b> നല്‍കിയിരിക്കുന്ന ജോലി അവസാനപ്പിച്ചിരിക്കുന്നു:"
 
 #: ../plugins/itip-formatter/itip-view.c:534
 #, c-format
@@ -18765,7 +18826,7 @@ msgstr "വിവരം അയയ്ക്കുക (_S)"
 #. FIXME Is this really the right button?
 #: ../plugins/itip-formatter/itip-view.c:848
 msgid "_Update Attendee Status"
-msgstr ""
+msgstr "പങ്കെടുത്തവരുടെ സ്ഥിതി _പരിഷ്കരിക്കുക"
 
 #: ../plugins/itip-formatter/itip-view.c:851
 msgid "_Update"
@@ -18805,7 +18866,7 @@ msgstr "_ഒഴിവാണു് എന്ന് കാണിക്കുക"
 
 #: ../plugins/itip-formatter/itip-view.c:1152
 msgid "_Preserve my reminder"
-msgstr ""
+msgstr "എന്റെ റിമെയിന്‍ടര്‍ _സൂക്ഷിക്കുക"
 
 #. To Translators: This is a check box to inherit a reminder.
 #: ../plugins/itip-formatter/itip-view.c:1158
@@ -18842,7 +18903,7 @@ msgstr "ഈ മീറ്റിങ് പ്രതിനിധീകരിച്�
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
 msgid "This response is not from a current attendee. Add the sender as an attendee?"
-msgstr ""
+msgstr "നിലവില്‍ പങ്കെടുത്ത ആളുടെ മറുപടി അല്ലയിതു്. അയച്ച ആളെ പങ്കെടത്തവരുടെ പട്ടികയില്‍ ചേര്‍ക്കണമോ?"
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:46
 msgid "Proxy _Logout"
@@ -18862,15 +18923,15 @@ msgstr "ബീപ്പ് ചെയ്യുക അല്ലെങഅകില�
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:2
 msgid "Blink icon in notification area."
-msgstr ""
+msgstr "അറിയിപ്പിനുള്ള സ്ഥലത്തു് ചിഹ്നം മിന്നുക."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
 msgid "Enable D-Bus messages."
-msgstr ""
+msgstr "D-Bus സന്ദേശങ്ങള്‍ സജ്ജമാക്കുക."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:4
 msgid "Enable icon in notification area."
-msgstr ""
+msgstr "അറിയിപ്പിനുള്ള സ്ഥലത്തു് ചിഹ്നം സജ്ജമാക്കു."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:5
 msgid "Generates a D-Bus message when new mail messages arrive."
@@ -18881,10 +18942,12 @@ msgid ""
 "If \"true\", then beep, otherwise will play sound file when new messages "
 "arrive."
 msgstr ""
+"\"true\" എങ്കില്‍, ബീപ്പ് ചെയ്യുന്നു, അല്ലെങ്കില്‍ പുതിയ സന്ദേശങ്ങള്‍ വരുമ്പോള്‍ "
+"ശബ്ദ ഫയല്‍ പ്രവര്‍ത്തിക്കുന്നു."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
 msgid "Notify new messages for Inbox only."
-msgstr ""
+msgstr "ഇന്‍ബോക്സില്‍ മാത്രം പുതിയ സന്ദശങ്ങള്‍ വരുമ്പോള്‍ അറിയിക്കുക."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
 msgid "Play sound when new messages arrive."
@@ -18892,7 +18955,7 @@ msgstr "പുതിയ സന്ദേശങ്ങള്‍ വരുമ്പ�
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
 msgid "Popup message together with the icon."
-msgstr ""
+msgstr "ചിഹ്നത്തിനൊപ്പം സന്ദേശം പോപ്പപ് ചെയ്യുക."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
 msgid "Show new mail icon in notification area when new messages arrive."
@@ -18900,7 +18963,7 @@ msgstr "നോട്ടിഫിക്കേഷന്‍ സ്ഥലത്ത�
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
 msgid "Sound file name to be played."
-msgstr ""
+msgstr "പ്രവര്‍ത്തിപ്പിക്കുവാനുള്ള ശബ്ദ ഫയല്‍."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
 msgid "Sound file to be played when new messages arrive, if not in beep mode."
@@ -18912,7 +18975,7 @@ msgstr "പുതിയ മെയില്‍ വരുമ്പോള്‍ ശ
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
 msgid "Whether show message over the icon when new messages arrive."
-msgstr ""
+msgstr "പുതിയ സന്ദേശങ്ങള്‍ വരുമ്പോള്‍ ചിഹ്നത്തിനു് പുറത്തു് സന്ദേശം കാണിക്കണമോ എന്നു്."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
 msgid "Whether the icon should blink or not."
@@ -18920,7 +18983,7 @@ msgstr "ചിഹ്നം മിന്നണോ എന്നു്."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
 msgid "Whether to notify new messages in Inbox folder only."
-msgstr ""
+msgstr "ഇന്‍ബോക്സിലുള്ള പുതിയ സന്ദേശങ്ങള്‍ക്കു് മാത്രം അറിയിപ്പു് നല്‍കണമോ."
 
 #: ../plugins/mail-notification/mail-notification.c:260
 msgid "Generate a _D-Bus message"
@@ -18954,8 +19017,8 @@ msgstr[1] ""
 #, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "നിങ്ങള്‍ക്കു് %d പുതിയ സന്ദേശം ലഭിച്ചിരിക്കുന്നു."
+msgstr[1] "നിങ്ങള്‍ക്കു് %d പുതിയ സന്ദേശങ്ങള്‍ ലഭിച്ചിരിക്കുന്നു."
 
 #: ../plugins/mail-notification/mail-notification.c:505
 #: ../plugins/mail-notification/mail-notification.c:510
@@ -18968,11 +19031,11 @@ msgstr "_നോട്ടിഫിക്കേഷന്‍ ട്രേയില�
 
 #: ../plugins/mail-notification/mail-notification.c:573
 msgid "B_link icon in notification area"
-msgstr ""
+msgstr "അറിയിപ്പിനുള്ള സ്ഥലത്തു് ചിഹ്നം _മിന്നുക"
 
 #: ../plugins/mail-notification/mail-notification.c:575
 msgid "Popup _message together with the icon"
-msgstr ""
+msgstr "ചിഹ്നത്തിനൊപ്പമുള്ള പോപ്പപ് _സന്ദേശം"
 
 #: ../plugins/mail-notification/mail-notification.c:756
 msgid "_Play sound when new messages arrive"
@@ -19000,7 +19063,7 @@ msgstr "_പ്ലെ ചെയ്യുക"
 
 #: ../plugins/mail-notification/mail-notification.c:833
 msgid "Notify new messages for _Inbox only"
-msgstr ""
+msgstr "_ഇന്‍ബോക്സില്‍ പുതിയ സന്ദേശങ്ങള്‍ എത്തുമ്പോള്‍ അറിയിക്കുക"
 
 #: ../plugins/mail-notification/org-gnome-mail-notification.eplug.xml.h:1
 msgid ""
@@ -19352,7 +19415,7 @@ msgstr "Outlook PST ഇംപോര്‍ട്ട്"
 
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:3
 msgid "Outlook personal folders (.pst)"
-msgstr ""
+msgstr "Outlook സ്വകാര്യ ഫോള്‍ഡറുകള്‍ (.pst)"
 
 #. Address book
 #: ../plugins/pst-import/pst-importer.c:318
@@ -19506,19 +19569,19 @@ msgstr "ഹലോ പൈഥണ്‍"
 
 #: ../plugins/python/example/org-gnome-hello-python-ui.xml.h:2
 msgid "Python Plugin Loader tests"
-msgstr ""
+msgstr "പൈഥണ്‍ പ്ലഗിന്‍ ലോഡര്‍ പരീക്ഷണങ്ങള്‍"
 
 #: ../plugins/python/example/org-gnome-hello-python.eplug.xml.h:1
 msgid "Python Test Plugin"
-msgstr ""
+msgstr "പൈഥണ്‍ ടെസ്റ്റ് പ്ലഗിന്‍"
 
 #: ../plugins/python/example/org-gnome-hello-python.eplug.xml.h:2
 msgid "Test Plugin for Python EPlugin loader."
-msgstr ""
+msgstr "Python EPlugin ലോഡറിനുള്ള ടെസ്റ്റ് പ്ലഗിന്‍."
 
 #: ../plugins/python/org-gnome-evolution-python.eplug.xml.h:1
 msgid "A plugin which loads other plugins written using Python."
-msgstr ""
+msgstr "പൈഥണ്‍ ഉപയോഗിച്ചു് എഴുതിയിട്ടുള്ള പ്ലഗ്ഗിനുകളെ ലഭ്യമാക്കുന്നതിനുള്ള ഒരു പ്ലഗിന്‍."
 
 #: ../plugins/python/org-gnome-evolution-python.eplug.xml.h:2
 msgid "Python Loader"
@@ -19548,16 +19611,20 @@ msgstr "ഫോര്‍ക്കിനു് ശേഷം പിശക്:%s"
 #, c-format
 msgid "SpamAssassin child process does not respond, killing..."
 msgstr ""
+"SpamAssassin ചൈള്‍ഡ് പ്രക്രിയ മറുപടി നല്‍കുന്നില്ല, "
+"അതിനാല്‍ അവസാനിപ്പിക്കുന്നു..."
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:245
 #, c-format
 msgid "Wait for SpamAssassin child process interrupted, terminating..."
 msgstr ""
+"SpamAssassin ചൈള്‍ഡ് പ്രക്രിയയ്ക്കുള്ള കാത്തിരിപ്പു് തടസ്സപ്പെട്ടിരിക്കുന്നു, "
+"അതിനാല്‍ നിര്‍ത്തുന്നു..."
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:254
 #, c-format
 msgid "Pipe to SpamAssassin failed, error code: %d"
-msgstr ""
+msgstr "SpamAssassin-ലേക്കുള്ള പൈപ്പ് പരാജയപ്പെട്ടു, പിശക് കോഡ്: %d"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:497
 #, c-format
@@ -19685,11 +19752,11 @@ msgstr ""
 
 #: ../plugins/save-calendar/csv-format.c:548
 msgid "Value delimiter:"
-msgstr ""
+msgstr "മൂല്ല്യം ഡീലിമിറ്റര്‍:"
 
 #: ../plugins/save-calendar/csv-format.c:554
 msgid "Record delimiter:"
-msgstr ""
+msgstr "റിക്കോര്‍ഡ് ഡീലിമിറ്റര്‍:"
 
 #: ../plugins/save-calendar/csv-format.c:560
 msgid "Encapsulate values with:"
@@ -19750,7 +19817,7 @@ msgstr "ജോലിയുടെ ഈ ലിസ്റ്റ് മാത്രം
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
 msgid "Guides you through your initial account setup."
-msgstr ""
+msgstr "തുടക്കത്തിലുള്ള അക്കൊണ്ട് ക്രമീകരണത്തില്‍ നിങ്ങളെ സഹായിക്കുന്നു."
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:2
 msgid "Setup Assistant"
@@ -19813,7 +19880,7 @@ msgstr ""
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:3
 msgid "Thread messages by subject"
-msgstr ""
+msgstr "വിഷയമനുസരിച്ചുള്ള ത്രെഡ് സന്ദേശങ്ങള്‍"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:56
@@ -19844,7 +19911,7 @@ msgstr ""
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
 msgid "A simple plugin which uses yTNEF to decode TNEF attachments."
-msgstr ""
+msgstr "TNEF അറ്റാച്മെന്റുകള്‍ ഡീകോഡ് ചെയ്യുന്നതിനായി yTNEF ഉപയോഗിക്കുന്ന ലളിതമായ പ്ലഗിന്‍."
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:2
 msgid "TNEF Attachment decoder"
@@ -19889,7 +19956,7 @@ msgstr "Evolution പരിശോധനാ ഘടകം"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:1
 msgid "Authenticate proxy server connections"
-msgstr ""
+msgstr "പ്രോക്സി സര്‍വര്‍ കണക്ഷനുകള്‍ ഉറപ്പാക്കുക"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:2
 msgid "Automatic proxy configuration URL"
@@ -19954,6 +20021,8 @@ msgstr "കോണ്‍ഫിഗറേഷന്‍റെ ഏറ്റവും �
 #: ../shell/apps_evolution_shell.schemas.in.h:16
 msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
+"ഓഫ്‌ലൈന്‍ ഉപയോഗത്തിനായി ഡിസ്കിലേക്കു് ഫോള്‍ഡറുകള്‍ സിന്‍ക്രണൈസ് "
+"ചെയ്യുന്നതിനുള്ള പാഥുകളുടെ പട്ടിക"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "Non-proxy hosts"
@@ -19961,7 +20030,7 @@ msgstr "നോണ്‍-പ്രോക്സി ഹോസ്റ്റുകള�
 
 #: ../shell/apps_evolution_shell.schemas.in.h:18
 msgid "Password to pass as authentication when doing HTTP proxying."
-msgstr ""
+msgstr "HTTP പ്രോക്സിയിങ് ചെയ്യുമ്പോള്‍ ആധികാരികതയ്ക്കുള്ള പാസ്‌വേര്‍ഡ്."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Proxy configuration mode"
@@ -19997,7 +20066,7 @@ msgstr "സൈഡ് ബാര്‍ ദൃശ്യമാണ്"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:26
 msgid "Skip development warning dialog"
-msgstr ""
+msgstr "ഡവലപ്മെന്റ് മുന്നറിയിപ്പിനുള്ള ഡയലോഗ് ഉപേക്ഷിക്കുക"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:27 ../shell/main.c:483
 msgid "Start in offline mode"
@@ -20037,15 +20106,15 @@ msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:34
 msgid "The machine name to proxy HTTP through."
-msgstr ""
+msgstr "HTTP പ്രോക്സി ചെയ്യുന്നതിനുള്ള സിസ്റ്റം നാമം."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:35
 msgid "The machine name to proxy secure HTTP through."
-msgstr ""
+msgstr "സെക്യുര്‍ HTTP പ്രോക്സി ചെയ്യുന്നതിനുള്ള സിസ്റ്റം നാമം."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:36
 msgid "The machine name to proxy socks through."
-msgstr ""
+msgstr "സോക്ക്സ് പ്രോക്സി ചെയ്യുന്നതിനുള്ള സിസ്റ്റം നാമം."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:37
 msgid ""
@@ -20094,7 +20163,7 @@ msgstr "HTTP പ്രോക്സി ഉപയോഗിക്കുക"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:45
 msgid "User name to pass as authentication when doing HTTP proxying."
-msgstr ""
+msgstr "HTTP പ്രോക്സിയിങ് ചെയ്യുമ്പോള്‍ ആധികാരികതയ്ക്കുള്ള ഉപയോക്തൃനാമം."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:46
 msgid "Whether Evolution will start up in offline mode instead of online mode."
@@ -20118,7 +20187,7 @@ msgstr "ടൂള്‍ ബാര്‍ ദൃശ്യമായിരിക്�
 
 #: ../shell/apps_evolution_shell.schemas.in.h:51
 msgid "Whether the warning dialog in development versions of Evolution is skipped."
-msgstr ""
+msgstr "Evolution-ന്റെ ഡവലപ്മെന്റ് പതിപ്പുകളിലുള്ള മുന്നറിയിപ്പു് ഡയലോഗ് ഉപേക്ഷിച്ചോ എന്നു്."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:52
 msgid "Whether the window buttons should be visible."
@@ -20330,7 +20399,7 @@ msgstr "സ്ഥാനം ഇംപോര്‍ട്ട് ചെയ്യു�
 
 #: ../shell/import.glade.h:5
 msgid "Importer Type"
-msgstr ""
+msgstr "ഏതു് തരം ഇംപോര്‍ട്ടര്‍"
 
 #: ../shell/import.glade.h:6
 #| msgid "Select folder to import into"
@@ -20347,6 +20416,9 @@ msgid ""
 "With this assistant you will be guided through the process of\n"
 "importing external files into Evolution."
 msgstr ""
+"Evolution ഇംപോര്‍ട്ട് അസ്സിസ്റ്റന്റിലേക്കു് സ്വാഗതം.\n"
+"ഈ അസ്സിസ്റ്റന്റ് നിങ്ങളുെ Evolution-ലേക്കു് പുറത്തു് നിന്നുള്ള "
+"ഫയലുകള്‍ ഇംപോര്‍ട്ട് ചെയ്യുന്നതിനായി സഹായിക്കുന്നു."
 
 #. Preview/Alpha/Beta version warning message
 #: ../shell/main.c:221
@@ -20494,6 +20566,10 @@ msgid ""
 "You will need to make more space available in your home directory before you "
 "can continue."
 msgstr ""
+"നിങ്ങളുടെ ഡേറ്റയും സജ്ജീകരണങ്ങളും പരിഷ്കരിക്കുന്നതിനായി {0} ഡിസ്ക് സ്ഥലം "
+"ആവശ്യമുണ്ടു്, പക്ഷേ നിങ്ങളുടെ പക്കല്‍ {1} മാത്രമേ ലഭ്യമുള്ളൂ.\n"
+"\n"
+"തുടരുന്നതിനു് മുമ്പായി ഹോം ഡയറക്ടറിയില്‍ കൂടുതല്‍ സ്ഥലം ലഭ്യമാക്കുക."
 
 #: ../shell/shell.error.xml.h:24
 msgid ""
@@ -20618,7 +20694,7 @@ msgstr "എല്ലാ CA സറ്‍ട്ടിഫിക്കേറ്റ�
 #: ../smime/gui/certificate-viewer.c:338
 #, c-format
 msgid "Certificate Viewer: %s"
-msgstr ""
+msgstr "സര്‍ട്ടിഫിക്കേറ്റ് വ്യൂവര്‍: %s"
 
 #: ../smime/gui/component.c:46
 #, c-format
@@ -20679,11 +20755,11 @@ msgstr "<b>വിരല്‍ അടയാളങ്ങള്‍</b>"
 
 #: ../smime/gui/smime-ui.glade.h:6
 msgid "<b>Issued By</b>"
-msgstr ""
+msgstr "<b>ലഭ്യമാക്കിയതു് ആര്‍</b>"
 
 #: ../smime/gui/smime-ui.glade.h:7
 msgid "<b>Issued To</b>"
-msgstr ""
+msgstr "<b>നല്‍കിയതു് ആര്‍ക്കു്</b>"
 
 #: ../smime/gui/smime-ui.glade.h:8
 msgid "<b>This certificate has been verified for the following uses:</b>"
@@ -20710,6 +20786,8 @@ msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
 msgstr ""
+"ഈ CA വിശ്വസിക്കുന്നതിനു് മുമ്പായി, ഇതിനുള്ള സര്‍ട്ടിഫീക്കേറ്റും പോളിസികളും "
+"പ്രക്രിയകളും പരിശോധിക്കുക (ലഭ്യമാണെങ്കില്‍)"
 
 #: ../smime/gui/smime-ui.glade.h:14 ../smime/lib/e-cert.c:1060
 msgid "Certificate"
@@ -20733,7 +20811,7 @@ msgstr "സാധാരണ നാമം (CN)"
 
 #: ../smime/gui/smime-ui.glade.h:19
 msgid "Contact Certificates"
-msgstr ""
+msgstr "വിലാങ്ങള്‍ക്കുള്ള സര്‍ട്ടിഫിക്കേറ്റുകള്‍"
 
 #: ../smime/gui/smime-ui.glade.h:21
 msgid "Do not trust the authenticity of this certificate"
@@ -20741,7 +20819,7 @@ msgstr "ഈ സര്‍ട്ടീഫിക്കേറ്റിന്‍റ�
 
 #: ../smime/gui/smime-ui.glade.h:22
 msgid "Dummy window only"
-msgstr ""
+msgstr "ഡമ്മി ജാലകം മാത്രം"
 
 #: ../smime/gui/smime-ui.glade.h:23
 msgid "Edit"
@@ -20753,7 +20831,7 @@ msgstr "ഈ മെയില്‍ സര്‍ട്ടീഫിക്കേറ�
 
 #: ../smime/gui/smime-ui.glade.h:25
 msgid "Email Recipient Certificate"
-msgstr ""
+msgstr "Email Recipient Certificate"
 
 #: ../smime/gui/smime-ui.glade.h:26
 msgid "Email Signer Certificate"
@@ -20769,7 +20847,7 @@ msgstr "ഇംപോര്‍ട്ട് ചെയ്യുക"
 
 #: ../smime/gui/smime-ui.glade.h:30
 msgid "Issued On"
-msgstr ""
+msgstr "ലഭ്യമാക്കിയ തീയതി"
 
 #: ../smime/gui/smime-ui.glade.h:31
 msgid "MD5 Fingerprint"
@@ -20928,7 +21006,7 @@ msgstr "പിശക്: എക്സ്റ്റന്‍ഷന്‍ പ്ര
 
 #: ../smime/lib/e-cert.c:814 ../smime/lib/e-cert.c:826
 msgid "Object Signer"
-msgstr ""
+msgstr "ഒബ്ജക്ട് സൈനര്‍"
 
 #: ../smime/lib/e-cert.c:818
 msgid "SSL Certificate Authority"
@@ -20944,15 +21022,15 @@ msgstr "ഒപ്പ് വയ്ക്കല്‍"
 
 #: ../smime/lib/e-cert.c:854
 msgid "Non-repudiation"
-msgstr ""
+msgstr "Non-repudiation"
 
 #: ../smime/lib/e-cert.c:858
 msgid "Key Encipherment"
-msgstr ""
+msgstr "കീ എന്‍സിഫര്‍മെന്റ്"
 
 #: ../smime/lib/e-cert.c:862
 msgid "Data Encipherment"
-msgstr ""
+msgstr "ഡേറ്റാ എന്‍സിഫര്‍മെന്റ്"
 
 #: ../smime/lib/e-cert.c:866
 msgid "Key Agreement"
@@ -20989,15 +21067,15 @@ msgstr "സര്‍ട്ടിഫീക്കേറ്റ് സിഗ്ന�
 
 #: ../smime/lib/e-cert.c:1084
 msgid "Issuer"
-msgstr ""
+msgstr "ലഭ്യമാക്കിയവര്‍"
 
 #: ../smime/lib/e-cert.c:1138
 msgid "Issuer Unique ID"
-msgstr ""
+msgstr "ലഭ്യമാക്കിയവരുടെ ID"
 
 #: ../smime/lib/e-cert.c:1157
 msgid "Subject Unique ID"
-msgstr ""
+msgstr "വിഷയത്തിനുള്ള ID"
 
 #: ../smime/lib/e-cert.c:1200
 msgid "Certificate Signature Value"
@@ -21042,7 +21120,7 @@ msgstr "എല്ലാ വിലാസങ്ങളും പകര്‍ത്�
 
 #: ../ui/evolution-addressbook.xml.h:5
 msgid "Contact _Preview"
-msgstr ""
+msgstr "വിലാസത്തിന്റെ _പ്രിവ്യൂ"
 
 #: ../ui/evolution-addressbook.xml.h:6 ../ui/evolution-memos.xml.h:2
 #: ../ui/evolution-tasks.xml.h:2
@@ -21093,7 +21171,7 @@ msgstr "തിരഞ്ഞെടുത്ത ഫോള്‍ഡര്‍ വെ�
 
 #: ../ui/evolution-addressbook.xml.h:18
 msgid "Forward Contact"
-msgstr ""
+msgstr "വിലാസം ഫോര്‍വേഡ് ചെയ്യുക"
 
 #: ../ui/evolution-addressbook.xml.h:19
 msgid "Mo_ve All Contacts To..."
@@ -21123,7 +21201,7 @@ msgstr "ക്ളിപ്പ് ബോര്‍ഡില്‍ ഒട്ടി�
 
 #: ../ui/evolution-addressbook.xml.h:25
 msgid "Previews the contacts to be printed"
-msgstr ""
+msgstr "പ്രിന്റ് ചെയ്യുവാനുള്ള വിലാസങ്ങള്‍ കാണിക്കുക"
 
 #: ../ui/evolution-addressbook.xml.h:28
 msgid "Print selected contacts"
@@ -21178,7 +21256,7 @@ msgstr "തോരഞ്ഞെടുത്ത വിലാസങ്ങള്‍ �
 
 #: ../ui/evolution-addressbook.xml.h:40
 msgid "Show contact preview window"
-msgstr ""
+msgstr "വിലാസങ്ങള്‍ക്കുള്ള പ്രിവ്യൂ ജാലകം കാണിക്കുക"
 
 #: ../ui/evolution-addressbook.xml.h:41
 msgid "St_op"
@@ -21215,7 +21293,7 @@ msgstr "വിലാസം നീക്കം ചെയ്യുക (_D)"
 
 #: ../ui/evolution-addressbook.xml.h:52
 msgid "_Forward Contact..."
-msgstr ""
+msgstr "വിലാസം _ഫോര്‍വേഡ് ചെയ്യുക..."
 
 #: ../ui/evolution-addressbook.xml.h:53
 msgid "_Move Contact to..."
@@ -21353,7 +21431,7 @@ msgstr "നിലവിലുളള അപ്പോയിന്‍റ്മെ�
 
 #: ../ui/evolution-calendar.xml.h:36 ../ui/evolution-mail-global.xml.h:19
 msgid "View the debug console for log messages"
-msgstr ""
+msgstr "ലോഗ് സന്ദേശങ്ങള്‍ക്കുള്ള ഡീബഗ് കണ്‍സോള്‍ കാണുക"
 
 #: ../ui/evolution-calendar.xml.h:37
 msgid "Week"
@@ -21385,7 +21463,7 @@ msgstr "മെയിലുകള്‍ സംരക്ഷിക്കുന്�
 
 #: ../ui/evolution-mail-global.xml.h:5
 msgid "Create or edit Search Folder definitions"
-msgstr ""
+msgstr "തെരച്ചിലിനുള്ള ഫോള്‍ഡറിന്റെ വിവരണം ഉണ്ടാക്കുക അല്ലെങ്കില്‍ ചിട്ടപ്പെടുത്തുക"
 
 #: ../ui/evolution-mail-global.xml.h:6
 msgid "Create or edit rules for filtering new mail"
@@ -21394,6 +21472,8 @@ msgstr "പുതിയ മെയില്‍ ഫില്‍റ്റര്‍ 
 #: ../ui/evolution-mail-global.xml.h:7
 msgid "Download messages of accounts/folders marked for offline"
 msgstr ""
+"ഓഫ്‌ലൈന്‍ ആയി അടയാളപ്പെടുത്തിയിരിക്കുന്ന അക്കൌണ്ടുകള്‍/ഫോള്‍ഡറുകളിലുള്ള "
+"സന്ദേശങ്ങള്‍ ഡൌണ്‍ലോട് ചെയ്യുക"
 
 #: ../ui/evolution-mail-global.xml.h:8
 msgid "Empty _Trash"
@@ -21418,27 +21498,27 @@ msgstr "ഫോള്‍ഡറുകള്‍ തിരയുക (_o)"
 
 #: ../ui/evolution-mail-global.xml.h:14
 msgid "Show Message _Preview"
-msgstr ""
+msgstr "സന്ദേശത്തിനുള്ള _പ്രിവ്യൂ കാണിക്കുക"
 
 #: ../ui/evolution-mail-global.xml.h:15
 msgid "Show message preview below the message list"
-msgstr ""
+msgstr "സന്ദേശത്തിനുള്ള പട്ടികയ്ക്കു് താഴെ സന്ദേശവും കാണിക്കുക"
 
 #: ../ui/evolution-mail-global.xml.h:16
 msgid "Show message preview side-by-side with the message list"
-msgstr ""
+msgstr "സന്ദേശത്തിനുള്ള പ്രിവ്യൂ ജാലകവും സന്ദേശത്തിനുള്ള പട്ടികയും ഒന്നിച്ചു് കാണിക്കുക"
 
 #: ../ui/evolution-mail-global.xml.h:17
 msgid "Show message preview window"
-msgstr ""
+msgstr "സന്ദേശത്തിനുള്ള പ്രിവ്യൂ ജാലകം കാണിക്കുക"
 
 #: ../ui/evolution-mail-global.xml.h:18
 msgid "Subscribe or unsubscribe to folders on remote servers"
-msgstr ""
+msgstr "റിമോട്ട് സര്‍വറുകളില്‍ ഫോള്‍ഡറുകളില്‍ അംഗത്വം നേടുകയും ഉപേക്ഷിക്കുകയും ചെയ്യുക"
 
 #: ../ui/evolution-mail-global.xml.h:20
 msgid "_Classic View"
-msgstr ""
+msgstr "_ക്ലാസ്സിക് കാഴ്ച"
 
 #: ../ui/evolution-mail-global.xml.h:21
 msgid "_Copy Folder To..."
@@ -21559,7 +21639,7 @@ msgstr "സന്ദശത്തിനുള്ള _സബ്ത്രെഡ് 
 
 #: ../ui/evolution-mail-list.xml.h:24
 msgid "Select Message _Thread"
-msgstr ""
+msgstr "സന്ദേശത്തിനുള്ള _ത്രെഡ് തെരഞ്ഞെടുക്കുക"
 
 #: ../ui/evolution-mail-list.xml.h:25
 msgid "Select _All Messages"
@@ -21599,7 +21679,7 @@ msgstr "തിരഞ്ഞെടുത്ത സന്ദേശങ്ങള്�
 
 #: ../ui/evolution-mail-list.xml.h:34
 msgid "Threaded Message list"
-msgstr ""
+msgstr "ത്രെഡഡ് സന്ദശങ്ങളുടെ പട്ടിക"
 
 #: ../ui/evolution-mail-list.xml.h:36
 msgid "_Group By Threads"
@@ -21641,7 +21721,7 @@ msgstr "പുതിയ സന്ദേശം ചിട്ടപ്പെടു�
 
 #: ../ui/evolution-mail-message.xml.h:9
 msgid "Compose a reply to all of the recipients of the selected message"
-msgstr ""
+msgstr "തെരഞ്ഞെടുത്ത സന്ദേശത്തിലുള്ള എല്ലാ മെയില്‍ വിലാസങ്ങളിലേക്കും മറുപടി അയയ്ക്കുക"
 
 #: ../ui/evolution-mail-message.xml.h:10
 msgid "Compose a reply to the mailing list of the selected message"
@@ -21733,7 +21813,7 @@ msgstr "മുന്പുളള വായിക്കാത്ത സന്ദ�
 
 #: ../ui/evolution-mail-message.xml.h:33
 msgid "F_orward As..."
-msgstr ""
+msgstr "_ഫോര്‍വേഡ് ചെയ്യേണ്ടതു്..."
 
 #: ../ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
@@ -21741,11 +21821,11 @@ msgstr "മെയിലിങ് ലിസ്റ്റ് അനുസരിച�
 
 #: ../ui/evolution-mail-message.xml.h:35
 msgid "Filter on Se_nder..."
-msgstr ""
+msgstr "_മെയിലുകള്‍ അയച്ചവരെ ഫില്‍‌റ്റര്‍ ചെയ്യുക..."
 
 #: ../ui/evolution-mail-message.xml.h:36
 msgid "Filter on _Recipients..."
-msgstr ""
+msgstr "_മെയിലുകള്‍ ലഭ്യമാകേണ്ട വിലാസങ്ങള്‍ ഫില്‍‌റ്റര്‍ ചെയ്യുക..."
 
 #: ../ui/evolution-mail-message.xml.h:37
 msgid "Filter on _Subject..."
@@ -21753,15 +21833,15 @@ msgstr "വിഷയം അനുസരിച്ച് ഫില്‍റ്റ�
 
 #: ../ui/evolution-mail-message.xml.h:38
 msgid "Filter the selected messages for junk status"
-msgstr ""
+msgstr "ആവശ്യമില്ലാത്തവയായി തെരഞ്ഞെടുത്ത സന്ദേശങ്ങള്‍ ഫില്‍‌റ്റര്‍ ചെയ്യുക"
 
 #: ../ui/evolution-mail-message.xml.h:39
 msgid "Flag selected messages for follow-up"
-msgstr ""
+msgstr "കൂടുതല്‍ നടപടികള്‍ക്കായി പിന്തുടരുന്നതിനായി തെരഞ്ഞെടുത്ത സന്ദേശങ്ങള്‍ അടയാളപ്പെടുത്തുക"
 
 #: ../ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
-msgstr ""
+msgstr "_കൂടുതല്‍ നടപടികള്‍ക്കായി പിന്തുടരുക..."
 
 #: ../ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
@@ -21773,7 +21853,7 @@ msgstr "തിരഞ്ഞെടുത്ത സന്ദേശം മറ്റ�
 
 #: ../ui/evolution-mail-message.xml.h:44
 msgid "Forward the selected message quoted like a reply"
-msgstr ""
+msgstr "തെരഞ്ഞെടുത്ത സന്ദേശം ഒരു മറുപടിയായി ഫോര്‍വേഡ് ചെയ്യുക"
 
 #: ../ui/evolution-mail-message.xml.h:45
 msgid "Forward the selected message to someone"
@@ -21869,11 +21949,11 @@ msgstr "ഒരു മറുപടി അയയ്ക്കുക (_y)"
 
 #: ../ui/evolution-mail-message.xml.h:70
 msgid "Post a message to a Public folder"
-msgstr ""
+msgstr "ഒരു പബ്ലിക് ഫോള്‍ഡറിലേക്കു് സന്ദേശം അയയ്ക്കുക"
 
 #: ../ui/evolution-mail-message.xml.h:71
 msgid "Post a reply to a message in a Public folder"
-msgstr ""
+msgstr "ഒരു പബ്ലിക് ഫോള്‍ഡറില്‍ ഒരു സന്ദേശത്തിനുള്ള മറുപടി അയയ്ക്കുക"
 
 #: ../ui/evolution-mail-message.xml.h:72
 msgid "Pr_evious Important Message"
@@ -21917,11 +21997,11 @@ msgstr "വിഷയത്തില്‍ നിന്നും ഫോള്‍�
 
 #: ../ui/evolution-mail-message.xml.h:89
 msgid "Search Folder from Sen_der..."
-msgstr ""
+msgstr "_മെയില്‍ അയച്ചവരുടെ ഫോള്‍ഡറില്‍ തെരയുക..."
 
 #: ../ui/evolution-mail-message.xml.h:90
 msgid "Search for text in the body of the displayed message"
-msgstr ""
+msgstr "കാണിച്ചിട്ടുള്ള സന്ദേശത്തില്‍ വാചകം തെരയുക"
 
 #: ../ui/evolution-mail-message.xml.h:91
 msgid "Select _All Text"
@@ -21945,7 +22025,7 @@ msgstr "എല്ലാ ഈ മെയില്‍ തലക്കെട്ടു
 
 #: ../ui/evolution-mail-message.xml.h:96
 msgid "Show the raw email source of the message"
-msgstr ""
+msgstr "സന്ദേശത്തിനുള്ള റോ ഈമെയില്‍ സോഴ്സ് കാണിക്കുക"
 
 #: ../ui/evolution-mail-message.xml.h:97
 msgid "Undelete the selected messages"
@@ -22029,7 +22109,7 @@ msgstr "മുന്പുളള സന്ദേശം (_P)"
 
 #: ../ui/evolution-mail-message.xml.h:124
 msgid "_Quoted"
-msgstr ""
+msgstr "_കോട്ട് ചെയ്തവ"
 
 #. Translators: "Read" as in "has been read" (evolution-mail-message.xml)
 #: ../ui/evolution-mail-message.xml.h:126
@@ -22126,7 +22206,7 @@ msgstr "ക്ളിപ്പ് ബോര്‍ഡില്‍ നിന്ന�
 
 #: ../ui/evolution-tasks.xml.h:13
 msgid "Previews the list of tasks to be printed"
-msgstr ""
+msgstr "പ്രിന്റ് ചെയ്യുവാനുള്ള ജോലികളെ കാണിക്കുന്നു"
 
 #: ../ui/evolution-tasks.xml.h:16
 msgid "Print the list of tasks"
@@ -22134,11 +22214,11 @@ msgstr "ജോലികളുടെ ലിസ്റ്റ് പ്രിന്�
 
 #: ../ui/evolution-tasks.xml.h:18
 msgid "Show task preview window"
-msgstr ""
+msgstr "ജോലി കണ്ടുനോക്കുന്നതിനുള്ള ജാലകം കാണിക്കുക"
 
 #: ../ui/evolution-tasks.xml.h:19
 msgid "Task _Preview"
-msgstr ""
+msgstr "ജോലി _കണ്ടുനോക്കുക"
 
 #: ../ui/evolution-tasks.xml.h:20
 msgid "View the selected task"
@@ -22218,7 +22298,7 @@ msgstr "പുതിയ ജാലകം (_W)"
 
 #: ../ui/evolution.xml.h:20
 msgid "Open the Frequently Asked Questions webpage"
-msgstr ""
+msgstr "നിങ്ങളുടെ ചോദ്യങ്ങള്‍ക്കും അവയ്ക്കുള്ള ഉത്തരങ്ങളുമുള്ള വെബ്താള്‍ തുറക്കുക"
 
 #: ../ui/evolution.xml.h:21
 msgid "Page Set_up..."
@@ -22274,7 +22354,7 @@ msgstr "Bug Buddy വഴി ബഗ് റിപോര്‍ട്ട് ചെ�
 
 #: ../ui/evolution.xml.h:35
 msgid "Toggle whether we are working offline."
-msgstr ""
+msgstr "ഓഫ്‌ലൈന്‍ ആയി പ്രവര്‍ത്തിക്കുന്നു എന്നു് ടൊഗിള്‍ ചെയ്യുക"
 
 #: ../ui/evolution.xml.h:36
 msgid "Tool_bar Style"
@@ -22326,11 +22406,11 @@ msgstr "പുറത്ത് കടക്കുക (_Q)"
 
 #: ../ui/evolution.xml.h:52
 msgid "_Switcher Appearance"
-msgstr ""
+msgstr "_സ്വിച്ചര്‍ കാഴ്ച"
 
 #: ../ui/evolution.xml.h:53
 msgid "_Synchronization Options..."
-msgstr ""
+msgstr "_സിന്‍ക്രൊണൈസേഷന്‍ ഉപാധികള്‍..."
 
 #: ../ui/evolution.xml.h:54
 msgid "_Text Only"
@@ -22370,7 +22450,7 @@ msgstr "ജോലിയുളള മാസം അനുസരിച്ച് ക
 
 #: ../views/mail/galview.xml.h:1
 msgid "As Sent Folder for Wi_de View"
-msgstr ""
+msgstr "_വീതിയുള്ള പ്രദര്‍ശനത്തിനായി, മെയിലുകള്‍ അയച്ച ഫോള്‍ഡര്‍"
 
 #: ../views/mail/galview.xml.h:2
 msgid "As _Sent Folder"
@@ -22435,7 +22515,7 @@ msgstr "ഒരു സമയ മേഖല തിരഞ്ഞെടുക്കു
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:5
 msgid "Timezone drop-down combination box"
-msgstr ""
+msgstr "സമയമേഘലയ്ക്കുള്ള ഡ്രോപ്പ്-ഡൌണ്‍ ബോക്സ്"
 
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
 msgid ""
@@ -22610,7 +22690,7 @@ msgstr "GDK നിറം നിറയ്ക്കല്‍"
 #: ../widgets/misc/e-canvas-background.c:476 ../widgets/text/e-text.c:3663
 #: ../widgets/text/e-text.c:3664
 msgid "Fill stipple"
-msgstr ""
+msgstr "ഫില്‍ സ്റ്റിപ്പിള്‍"
 
 #: ../widgets/misc/e-canvas-background.c:482
 #: ../widgets/misc/e-canvas-background.c:483
@@ -22812,6 +22892,8 @@ msgid ""
 "If set, an underline in the text indicates the next character should be used "
 "for the mnemonic accelerator key"
 msgstr ""
+"സജ്ജമെങ്കില്‍, അടുത്ത അക്ഷരം ന്യൂമോണിക് ആക്സിലറേറ്റര്‍ കീ ആയി ഉപയോഗിക്കണമെന്നു്"
+"വാചകത്തിലുള്ള അടിവര സൂചിപ്പിക്കുന്നു"
 
 #: ../widgets/misc/e-expander.c:207
 msgid "Space to put between the label and the child"
@@ -22901,6 +22983,9 @@ msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should instead select the timezone from the drop-down combination box below."
 msgstr ""
+"സമയമേഘല തെരഞ്ഞെടുക്കുന്നതിനുള്ള മൌസ് അടിസ്ഥാനത്തിലുള്ള മാപ്പ് വിഡ്ജറ്റ്. "
+"കീബോര്‍ഡ് ഉപയോഗിച്ചു് സമയമേഘല തെരഞ്ഞെടുക്കുന്നതിനായി താഴെയുള്ള "
+"ഡ്രോപ്പ്-ഡൌണ്‍ ബോക്സ് ഉപയോഗിക്കുക."
 
 #: ../widgets/misc/e-online-button.c:106
 msgid "Online"
