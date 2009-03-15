@@ -1,3 +1,9 @@
+2009-03-15  Andre Klapper  <a9016009@gmx.de>
+
+	* af.po: Added Afrikaans translation by Friedel Wolff.
+	Fixes bug #575466.
+	* LINGUAS: Added af.
+
 2009-03-15  Daniel Nylander <po@danielnylander.se>
 
 	* sv.po: Updated Swedish translation.
