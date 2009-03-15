@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: or\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-03-09 17:15+0000\n"
-"PO-Revision-Date: 2009-03-14 22:54+0530\n"
+"PO-Revision-Date: 2009-03-16 03:25+0530\n"
 "Last-Translator: Manoj Kumar Giri <mgiri@redhat.com>\n"
 "Language-Team: Oriya <oriya-it@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -13372,193 +13372,157 @@ msgid "List of protocol names whose license has been accepted."
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:82
-#, fuzzy
 msgid "Load images for HTML messages over HTTP"
-msgstr "ଲୋଡ କର ପାଇଁ HTML HTTP"
+msgstr "HTML ସନ୍ଦେଶ ପାଇଁ HTTP ଉପରେ ପ୍ରତିଛବି ଧାରଣ କରନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:83
-#, fuzzy
 msgid ""
 "Load images for HTML messages over HTTP(S). Possible values are: \"0\" - "
 "Never load images off the net. \"1\" - Load images in messages from "
 "contacts. \"2\" - Always load images off the net."
-msgstr "ଲୋଡ କର ପାଇଁ HTML HTTP S କେବେ ନୁହେଁ ବନ୍ଦ ଲୋଡ କର ଇଞ୍ଚ ଠାରୁ ସର୍ବଦା ବନ୍ଦ."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:84
-#, fuzzy
 msgid "Log filter actions"
-msgstr "Log"
+msgstr "ଛାଣକ କାର୍ଯ୍ୟ ଲଗ କରନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:85
-#, fuzzy
 msgid "Log filter actions to the specified log file."
-msgstr "Log କୁ ଫାଇଲ."
+msgstr "ନିର୍ଦ୍ଦିଷ୍ଟିତ ଲଗ ଫାଇଲ ପାଇଁ ଛାଣକ କାର୍ଯ୍ୟ ଲଗ କରନ୍ତୁ।"
 
 #: ../mail/evolution-mail.schemas.in.h:86
-#, fuzzy
 msgid "Logfile to log filter actions"
-msgstr "କୁ"
+msgstr "ଛାଣକ କାର୍ଯ୍ୟ ଲଗ କରିବା ପାଇଁ ଲଗ ଫାଇଲ"
 
 #: ../mail/evolution-mail.schemas.in.h:87
-#, fuzzy
 msgid "Logfile to log filter actions."
-msgstr "କୁ."
+msgstr "ଛାଣକ କାର୍ଯ୍ୟ ଲଗ କରିବା ପାଇଁ ଲଗ ଫାଇଲ।"
 
 #: ../mail/evolution-mail.schemas.in.h:88
-#, fuzzy
 msgid "Mark as Seen after specified timeout"
-msgstr "ପରେ"
+msgstr "ନିର୍ଦ୍ଦିଷ୍ଟିତ ସମୟ ସମାପ୍ତ ପରେ ଦେଖାଯାଇଥିବା ପରି ଚିହ୍ନଟକରନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:89
-#, fuzzy
 msgid "Mark as Seen after specified timeout."
-msgstr "ପରେ."
+msgstr "ନିର୍ଦ୍ଦିଷ୍ଟିତ ସମୟ ସମାପ୍ତ ପରେ ଦେଖାଯାଇଥିବା ପରି ଚିହ୍ନଟକରନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:90
-#, fuzzy
 msgid "Mark citations in the message \"Preview\""
-msgstr "ଇଞ୍ଚ ପୂର୍ବଦୃଶ୍ଯ"
+msgstr "ସନ୍ଦେଶ \"Preview\"ରେ ଦୃଷ୍ଟାନ୍ତ ଚିହ୍ନଟ କରନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:91
-#, fuzzy
 msgid "Mark citations in the message \"Preview\"."
-msgstr "ଇଞ୍ଚ ପୂର୍ବଦୃଶ୍ଯ."
+msgstr "ସନ୍ଦେଶ \"Preview\"ରେ ଦୃଷ୍ଟାନ୍ତ ଚିହ୍ନଟ କରନ୍ତୁ।"
 
 #: ../mail/evolution-mail.schemas.in.h:92
-#, fuzzy
 msgid "Message Window default height"
 msgstr "ସନ୍ଦେଶ ୱିଣ୍ଡୋ ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଉଚ୍ଚତା"
 
 #: ../mail/evolution-mail.schemas.in.h:93
-#, fuzzy
 msgid "Message Window default width"
 msgstr "ସନ୍ଦେଶ ୱିଣ୍ଡୋ ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଓସାର"
 
 #: ../mail/evolution-mail.schemas.in.h:94
-#, fuzzy
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
-msgstr "ସନ୍ଦେଶ ସାଧାରଣ ଉତ୍ସ"
+msgstr "ସନ୍ଦେଶ-ପ୍ରଦର୍ଶନ ଶୈଳୀ (\"normal\", \"full headers\", \"source\")"
 
 #: ../mail/evolution-mail.schemas.in.h:95
-#, fuzzy
 msgid "Minimum days between emptying the junk on exit"
-msgstr "ସର୍ବନିମ୍ନ    ଦିନ ମଧ୍ଯରେ ରେ"
+msgstr "ପ୍ରସ୍ଥାନରେ junkକୁ ଖାଲିକରିବା ମଧ୍ଯରେ ଲାଗୁଥିବା ସର୍ବନିମ୍ନ ଦିନ"
 
 #: ../mail/evolution-mail.schemas.in.h:96
-#, fuzzy
 msgid "Minimum days between emptying the trash on exit"
-msgstr "ସର୍ବନିମ୍ନ    ଦିନ ମଧ୍ଯରେ ବର୍ଜିତ ରେ"
+msgstr "ପ୍ରସ୍ଥାନରେ junkକୁ ଖାଲିକରିବା ମଧ୍ଯରେ ଲାଗୁଥିବା ସର୍ବନିମ୍ନ ଦିନ"
 
 #: ../mail/evolution-mail.schemas.in.h:97
-#, fuzzy
 msgid "Minimum time between emptying the junk on exit, in days."
-msgstr "ସର୍ବନିମ୍ନ    ମଧ୍ଯରେ ରେ ଇଞ୍ଚ ଦିନ."
+msgstr "ପ୍ରସ୍ଥାନରେ junkକୁ ଖାଲିକରିବା ମଧ୍ଯରେ ଲାଗୁଥିବା ସର୍ବନିମ୍ନ ସମୟ, ଦିନ ଆକାରରେ।"
 
 #: ../mail/evolution-mail.schemas.in.h:98
-#, fuzzy
 msgid "Minimum time between emptying the trash on exit, in days."
-msgstr "ସର୍ବନିମ୍ନ    ମଧ୍ଯରେ ବର୍ଜିତ ରେ ଇଞ୍ଚ ଦିନ."
+msgstr "ପ୍ରସ୍ଥାନରେ junkକୁ ଖାଲିକରିବା ମଧ୍ଯରେ ଲାଗୁଥିବା ସର୍ବନିମ୍ନ ସମୟ, ଦିନ ଆକାରରେ।"
 
 #: ../mail/evolution-mail.schemas.in.h:99
-#, fuzzy
 msgid "Number of addresses to display in TO/CC/BCC"
-msgstr "ସଂଖ୍ଯା ର କୁ ଇଞ୍ଚ CC BCC"
+msgstr "TO/CC/BCCରେ ଦର୍ଶାଇବା ପାଇଁ ଠିକଣା ସଂଖ୍ୟା"
 
 #: ../mail/evolution-mail.schemas.in.h:100
-#, fuzzy
 msgid "Prompt on empty subject"
-msgstr "ରେ ଖାଲି"
+msgstr "ବିଷୟରେ ଖାଲିକରିବା ସମୟରେ ପଚାରନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:101
-#, fuzzy
 msgid "Prompt the user when he or she tries to expunge a folder."
-msgstr "ବ୍ଯବହାରକାରୀ କିମ୍ବା କୁ a."
+msgstr "ଫୋଲଡରକୁ କାଟିବା ପାଇଁ ଚେଷ୍ଟା କରିବା ପୂର୍ବରୁ ଚାଳକକୁ ପଚାରନ୍ତୁ।"
 
 #: ../mail/evolution-mail.schemas.in.h:102
-#, fuzzy
 msgid "Prompt the user when he or she tries to send a message without a Subject."
-msgstr "ବ୍ଯବହାରକାରୀ କିମ୍ବା କୁ a a ବିଷଯ."
+msgstr "ବିନା ବିଷୟରେ ସନ୍ଦେଶ ପଠାଇବା ପାଇଁ ଚେଷ୍ଟାକରିବା ପୂର୍ବରୁ ଚାଳକଙ୍କୁ ପଚାରନ୍ତୁ।"
 
 #: ../mail/evolution-mail.schemas.in.h:103
-#, fuzzy
 msgid "Prompt to check if the user wants to go offline immediately"
-msgstr "କୁ ବ୍ଯବହାରକାରୀ କୁ ଅଫ ଲାଇନ ତୁରନ୍ତ"
+msgstr "ଚାଳକ ତୁରନ୍ତ ଅଫ ଲାଇନ ଯିବାକୁ ଚାହିଁବା ପୂର୍ବରୁ ପଚାରନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:104
-#, fuzzy
 msgid "Prompt when deleting messages in search folder"
-msgstr "ଇଞ୍ଚ"
+msgstr "ସନ୍ଧାନ ଫୋଲଡରରେ ସନ୍ଦେଶକୁ ଅପସାରଣ କରିବା ପୂର୍ବରୁ ପଚାରନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:105
-#, fuzzy
 msgid "Prompt when user expunges"
-msgstr "ବ୍ଯବହାରକାରୀ"
+msgstr "ଚାଳକ କାଟିବା ପୂର୍ବରୁ ପଚାରନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:106
-#, fuzzy
 msgid "Prompt when user only fills Bcc"
-msgstr "ବ୍ଯବହାରକାରୀ"
+msgstr "ଚାଳକ କେବଳ Bcc ପୂରଣ କରିବା ସମୟରେ ପଚାରନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:107
-#, fuzzy
 msgid "Prompt when user tries to open 10 or more messages at once"
-msgstr "ବ୍ଯବହାରକାରୀ କୁ ଖୋଲ କିମ୍ବା ଏଠାରେ"
+msgstr "ଚାଳକ ଥରକରେ 10 ରୁ ଅଧିକ ସନ୍ଦେଶ ଖୋଲିବାକୁ ଚେଷ୍ଟା କରିବା ସମୟରେ ପଚାରନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:108
-#, fuzzy
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
-msgstr "ବ୍ଯବହାରକାରୀ କୁ HTML ଡାକ କୁ ନୁହେଁ କୁ HTML ଡାକ."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:109
-#, fuzzy
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
-msgstr "ବ୍ଯବହାରକାରୀ କୁ a ସହିତ  ନାଁ କୁ କିମ୍ବା."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:110
-#, fuzzy
 msgid "Prompt when user tries to send unwanted HTML"
-msgstr "ବ୍ଯବହାରକାରୀ କୁ HTML"
+msgstr "ଅନାବଶ୍ୟକ HTML ପଠାଇବା ପାଇଁ ଚେଷ୍ଟାକରିବା ସମୟରେ ପଚାରନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:111
 msgid "Prompt while marking multiple messages"
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:112
-#, fuzzy
 msgid "Recognize emoticons in text and replace them with images."
-msgstr "ଇଞ୍ଚ ପାଠ୍ଯ ଏବଂ ସହିତ ."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:113
-#, fuzzy
 msgid "Recognize links in text and replace them."
-msgstr "ଇଞ୍ଚ ପାଠ୍ଯ ଏବଂ."
+msgstr "ପାଠ୍ୟଗୁଡ଼ିକରେ ସଂଯୋଗକୁ ଚିହ୍ନନ୍ତୁ ଏବଂ ସେମାନଙ୍କୁ ବଦଳାନ୍ତୁ।"
 
 #: ../mail/evolution-mail.schemas.in.h:114
-#, fuzzy
 msgid "Run junk test on incoming mail."
-msgstr "ଚଳାଅ ରେ ଡାକ."
+msgstr "ଆସୁଥିବା ମେଲରେ junk ପରୀକ୍ଷଣ ଚଲାନ୍ତୁ।"
 
 #: ../mail/evolution-mail.schemas.in.h:115
-#, fuzzy
 msgid "Save directory"
-msgstr "ସଂରକ୍ଷଣ କରନ୍ତୁ ଡିରେକ୍ଟୋରୀ"
+msgstr "ଡିରେକ୍ଟୋରୀ ସଂରକ୍ଷଣ କରନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:116
-#, fuzzy
 msgid "Search for the sender photo in local address books"
-msgstr "ଖୋଜନ୍ତୁ ପାଇଁ ଛାଯାଛବି ଇଞ୍ଚ ସ୍ଥାନୀୟ"
+msgstr "ସ୍ଥାନୀୟ ଠିକଣା ବହିରେ ପ୍ରେରକର ଫୋଟୋ ଖୋଜନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:117
-#, fuzzy
 msgid "Send HTML mail by default"
-msgstr "ପଠାଅ HTML ଡାକ ଦ୍ବାରା ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ"
+msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଭାବରେ HTML ମେଲ ପଠାନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:118
-#, fuzzy
 msgid "Send HTML mail by default."
-msgstr "ପଠାଅ HTML ଡାକ ଦ୍ବାରା ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ."
+msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଭାବରେ HTML ମେଲ ପଠାନ୍ତୁ।"
 
 #: ../mail/evolution-mail.schemas.in.h:119
 #| msgid "Remove an email address from the List"
@@ -13571,41 +13535,34 @@ msgid "Server synchronization interval"
 msgstr "ସର୍ଭର ସମକାଳନ ଅନ୍ତରାଳ"
 
 #: ../mail/evolution-mail.schemas.in.h:121
-#, fuzzy
 msgid "Show Animations"
-msgstr "ଦେଖାଅ ଜୀବନ୍ତଚିତ୍ରଗୁଡିକ "
+msgstr "ଜୀବନ୍ତଚିତ୍ରଗୁଡିକୁ ଦର୍ଶାନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:122
-#, fuzzy
 msgid "Show animated images as animations."
-msgstr "ଦେଖାଅ."
+msgstr "ଜୀବନ୍ତଚିତ୍ରଗୁଡିକୁ ଜୀବନାୟନ ପ୍ରତିଛବି ଆକାରରେ ଦର୍ଶାନ୍ତୁ।"
 
 #: ../mail/evolution-mail.schemas.in.h:123
-#, fuzzy
 msgid "Show deleted messages (with a strike-through) in the message-list."
-msgstr "ଦେଖାଅ ବିଲୋପ ହୋଇଛି ସହିତ  a ଇଞ୍ଚ ତାଲିକା."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:124
-#, fuzzy
 msgid "Show deleted messages in the message-list"
-msgstr "ଦେଖାଅ ବିଲୋପ ହୋଇଛି ଇଞ୍ଚ ତାଲିକା"
+msgstr "ଅପସାରିତ ସନ୍ଦେଶଗୁଡ଼ିକୁ ସନ୍ଦେଶ ତାଲିକାରେ ଦର୍ଶାନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:125
-#, fuzzy
 msgid "Show photo of the sender"
-msgstr "ଦେଖାଅ ଛାଯାଛବି ର"
+msgstr "ପ୍ରେରକର ଫୋଟୋ ଦର୍ଶାନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:128
-#, fuzzy
 msgid ""
 "Show the email-address of the sender in a separate column in the message "
 "list."
-msgstr "ଦେଖାଅ ର ଇଞ୍ଚ a ସ୍ତମ୍ଭ ଇଞ୍ଚ ତାଲିକା."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:129
-#, fuzzy
 msgid "Show the photo of the sender in the message reading pane."
-msgstr "ଦେଖାଅ ଛାଯାଛବି ର ଇଞ୍ଚ."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:130
 msgid "Spell check inline"
@@ -13620,294 +13577,241 @@ msgid "Spell checking languages"
 msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:133
-#, fuzzy
 msgid "Subscribe dialog default height"
-msgstr "କିଣନ୍ତୁ ସଂଳାପ ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଉଚ୍ଚତା"
+msgstr "ସଂଳାପର ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଉଚ୍ଚତା କିଣନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:134
-#, fuzzy
 msgid "Subscribe dialog default width"
-msgstr "କିଣନ୍ତୁ ସଂଳାପ ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଓସାର"
+msgstr "ସଂଳାପର ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଉଚ୍ଚତା କିଣନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:135
-#, fuzzy
 msgid "Terminal font"
-msgstr "ଟର୍ମିନାଲ"
+msgstr "ଟର୍ମିନାଲ ଅକ୍ଷରରୂପ"
 
 #: ../mail/evolution-mail.schemas.in.h:136
-#, fuzzy
 msgid "Text message part limit"
-msgstr "ଟେକ୍ସଟ"
+msgstr "ପାଠ୍ୟ ସନ୍ଦେଶର ଅଂଶ ସୀମା"
 
 #: ../mail/evolution-mail.schemas.in.h:137
-#, fuzzy
 msgid "The default plugin for Junk hook"
-msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ପାଇଁ Junk"
+msgstr "Junk ହୁକ ପାଇଁ ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ପ୍ଲଗଇନ"
 
 #: ../mail/evolution-mail.schemas.in.h:138
-#, fuzzy
 msgid "The last time empty junk was run, in days since the epoch."
-msgstr "ଅନ୍ତିମ ଖାଲି ଇଞ୍ଚ ଦିନ ଠାରୁ."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:139
-#, fuzzy
 msgid "The last time empty trash was run, in days since the epoch."
-msgstr "ଅନ୍ତିମ ଖାଲି ବର୍ଜିତ ଇଞ୍ଚ ଦିନ ଠାରୁ."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:140
-#, fuzzy
 msgid "The terminal font for mail display."
-msgstr "ଟର୍ମିନାଲ ପାଇଁ ଡାକ."
+msgstr "ମେଲ ପ୍ରଦର୍ଶନ ପାଇଁ ଟର୍ମିନାଲ ଅକ୍ଷରରୂପ।"
 
 #: ../mail/evolution-mail.schemas.in.h:141
-#, fuzzy
 msgid "The variable width font for mail display."
-msgstr "ଓସାର ପାଇଁ ଡାକ."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:142
-#, fuzzy
 msgid ""
 "This can have three possible values. \"0\" for errors. \"1\" for warnings. "
 "\"2\" for debug messages."
-msgstr "ତିନି ପାଇଁ ପାଇଁ ପାଇଁ."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:143
-#, fuzzy
 msgid ""
 "This decides the max size of the text part that can be formatted under "
 "Evolution. The default is 4MB / 4096 KB and is specified in terms of KB."
-msgstr "ଆକାର ର ପାଠ୍ଯ କ୍ରମବିକାଶ  ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଅଟେ KB ଏବଂ ଅଟେ ଇଞ୍ଚ ର KB."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:144
-#, fuzzy
 msgid ""
 "This is the default junk plugin, even though there are multiple plugins "
 "enabled. If the default listed plugin is disabled, then it won't fall back "
 "to the other available plugins."
-msgstr "ଅଟେ ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଅଟେ ପଛକୁ କୁ ଅନ୍ଯ ଉପଲବ୍ଧ."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:145
-#, fuzzy
 msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
-msgstr "କି ଅଟେ ପଢନ୍ତୁ ଏବଂ କୁ false ପରେ ପଢନ୍ତୁ ଡାକ ଇଞ୍ଚ ତାଲିକା ଏବଂ ପାଇଁ."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:146
-#, fuzzy
 msgid ""
 "This key should contain a list of XML structures specifying custom headers, "
 "and whether they are to be displayed. The format of the XML structure is &lt;"
 "header enabled&gt; - set enabled if the header is to be displayed in the "
 "mail view."
-msgstr "କି a ତାଲିକା ର XML ଇଚ୍ଛାରୂପଣ କରନ୍ତୁ ଏବଂ କୁ ର XML ଅଟେ&lt; ଶୀର୍ଷକ&gt; ସେଟ ଶୀର୍ଷକ ଅଟେ କୁ ଇଞ୍ଚ ଡାକ."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:147
-#, fuzzy
 msgid ""
 "This option is related to the key lookup_addressbook and is used to "
 "determine whether to look up addresses in local address book only to exclude "
 "mail sent by known contacts from junk filtering."
-msgstr "ଅଟେ କୁ କି ଏବଂ ଅଟେ ବ୍ଯବହୃତ କୁ କୁ ଉପର ଇଞ୍ଚ ସ୍ଥାନୀୟ କୁ ଡାକ ଦ୍ବାରା ଠାରୁ."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:148
-#, fuzzy
 msgid "This option would help in improving the speed of fetching."
-msgstr "ସାହାୟ୍ଯ ଇଞ୍ଚ ର."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:149
-#, fuzzy
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a '...' is shown."
-msgstr "ସଂଖ୍ଯା ର କୁ ଇଞ୍ଚ ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ତାଲିକା a ଅଟେ."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:150
-#, fuzzy
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
-msgstr "ଇଞ୍ଚ ପ୍ରସାରିତ କିମ୍ବା ନଷ୍ଟ ହୋଇଗଲା ଦ୍ବାରା ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ କ୍ରମବିକାଶ  a ପୁନର୍ଚାଳନ."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:151
-#, fuzzy
 msgid ""
 "This setting specifies whether the threads should be sorted based on latest "
 "message in each thread, rather than by message's date. Evolution requires a "
 "restart."
-msgstr "ସଜାହୋଇଥିବା ରେ ଇଞ୍ଚ ଦ୍ବାରା କ୍ରମବିକାଶ  a ପୁନର୍ଚାଳନ."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:152
-#, fuzzy
 msgid "Thread the message list."
-msgstr "ସୁତା ତାଲିକା."
+msgstr "ସନ୍ଦେଶ ତାଲିକାକୁ ବାନ୍ଧନ୍ତୁ।"
 
 #: ../mail/evolution-mail.schemas.in.h:153
-#, fuzzy
 msgid "Thread the message-list"
-msgstr "ସୁତା ତାଲିକା"
+msgstr "ସନ୍ଦେଶ ତାଲିକାକୁ ବାନ୍ଧନ୍ତୁ।"
 
 #: ../mail/evolution-mail.schemas.in.h:154
-#, fuzzy
 msgid "Thread the message-list based on Subject"
-msgstr "ସୁତା ତାଲିକା ରେ ବିଷଯ"
+msgstr "ସନ୍ଦେଶ ତାଲିକାକୁ ବିଷୟ ଅନୁସାରେ ବାନ୍ଧନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:155
-#, fuzzy
 msgid "Timeout for marking message as seen"
-msgstr "ସମଯ ବିତିୟାଇଛି ପାଇଁ"
+msgstr "ସନ୍ଦେଶ ଦେଖାସରିଛି ପରି ଚିହ୍ନଟ କରିବା ପାଇଁ ସମୟ ସମାପ୍ତ"
 
 #: ../mail/evolution-mail.schemas.in.h:156
-#, fuzzy
 msgid "Timeout for marking message as seen."
-msgstr "ସମଯ ବିତିୟାଇଛି ପାଇଁ."
+msgstr "ସନ୍ଦେଶ ଦେଖାସରିଛି ପରି ଚିହ୍ନଟ କରିବା ପାଇଁ ସମୟ ସମାପ୍ତ"
 
 #: ../mail/evolution-mail.schemas.in.h:157
-#, fuzzy
 msgid "UID string of the default account."
-msgstr "ବାକ୍ଯଖଣ୍ଡ ର ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ."
+msgstr "ପୂର୍ବନିର୍ଦ୍ଧାରିତ ଖାତାର UID ବାକ୍ୟଖଣ୍ଡ।"
 
 #: ../mail/evolution-mail.schemas.in.h:158
-#, fuzzy
 msgid "Underline color for misspelled words when using inline spelling."
-msgstr "ରେଖାଙ୍କିତ ପାଇଁ."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:159
-#, fuzzy
 msgid "Use SpamAssassin daemon and client"
-msgstr "ବ୍ଯବହାର କର ଏବଂ"
+msgstr "SpamAssassin ଡେମନ ଏବଂ କ୍ଲାଏଣ୍ଟ ବ୍ୟବହାର କରନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:160
-#, fuzzy
 msgid "Use SpamAssassin daemon and client (spamc/spamd)."
-msgstr "ବ୍ଯବହାର କର ଏବଂ."
+msgstr "SpamAssassin ଡେମନ ଏବଂ କ୍ଲାଏଣ୍ଟ ବ୍ୟବହାର କରନ୍ତୁ (spamc/spamd)।"
 
 #: ../mail/evolution-mail.schemas.in.h:161
-#, fuzzy
 msgid "Use custom fonts"
-msgstr "ବ୍ଯବହାର କର ଇଚ୍ଛାରୂପଣ କରନ୍ତୁ"
+msgstr "ଇଚ୍ଛାରୂପଣ ଅକ୍ଷରରୂପ ବ୍ୟବହାର କରନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:162
-#, fuzzy
 msgid "Use custom fonts for displaying mail."
-msgstr "ବ୍ଯବହାର କର ଇଚ୍ଛାରୂପଣ କରନ୍ତୁ ପାଇଁ ଡାକ."
+msgstr "ମେଲ ଦର୍ଶାଇବା ପାଇଁ ଇଚ୍ଛାରୂପଣ ଅକ୍ଷରରୂପ ବ୍ୟବହାର କରନ୍ତୁ।"
 
 #: ../mail/evolution-mail.schemas.in.h:163
-#, fuzzy
 msgid "Use only local spam tests."
-msgstr "ବ୍ଯବହାର କର ସ୍ଥାନୀୟ."
+msgstr "କେବଳ ସ୍ଥାନୀୟ ସ୍ପାମ ପରୀକ୍ଷଣ ବ୍ୟବହାର କରନ୍ତୁ।"
 
 #: ../mail/evolution-mail.schemas.in.h:164
-#, fuzzy
 msgid "Use only the local spam tests (no DNS)."
-msgstr "ବ୍ଯବହାର କର ସ୍ଥାନୀୟ ନାଁ DNS."
+msgstr "କେବଳ ସ୍ଥାନୀୟ ସ୍ପାମ ପରୀକ୍ଷଣ ବ୍ୟବହାର କରନ୍ତୁ (DNS ନାହିଁ)।"
 
 #: ../mail/evolution-mail.schemas.in.h:165
-#, fuzzy
 msgid "Use side-by-side or wide layout"
-msgstr "ବ୍ଯବହାର କର ଦ୍ବାରା କିମ୍ବା"
+msgstr "ପାଖକୁ ପାଖ କିମ୍ବା ପ୍ରସସ୍ତ ବିନ୍ୟାସ ବ୍ୟବହାର କରନ୍ତୁ"
 
 #: ../mail/evolution-mail.schemas.in.h:166
-#, fuzzy
 msgid "Variable width font"
-msgstr "ପରିବର୍ତ୍ତନଶୀଳ ଓସାର"
+msgstr "ପରିବର୍ତ୍ତନଶୀଳ ଓସାର ଅକ୍ଷରରୂପ"
 
 #: ../mail/evolution-mail.schemas.in.h:167
-#, fuzzy
 msgid "View/Bcc menu item is checked"
-msgstr "ଦୃଶ୍ଯ ମେନୁ ବସ୍ତୁ ଅଟେ ଯାଞ୍ଜ କରାଗଲା"
+msgstr "ଦୃଶ୍ୟ/Bcc ତାଲିକା ବସ୍ତୁଟି ଯାଞ୍ଚ କରାସରିଛି"
 
 #: ../mail/evolution-mail.schemas.in.h:168
-#, fuzzy
 msgid "View/Bcc menu item is checked."
-msgstr "ଦୃଶ୍ଯ ମେନୁ ବସ୍ତୁ ଅଟେ ଯାଞ୍ଜ କରାଗଲା."
+msgstr "ଦୃଶ୍ୟ/Bcc ତାଲିକା ବସ୍ତୁଟି ଯାଞ୍ଚ କରାସରିଛି।"
 
 #: ../mail/evolution-mail.schemas.in.h:169
-#, fuzzy
 msgid "View/Cc menu item is checked"
-msgstr "ଦୃଶ୍ଯ ମେନୁ ବସ୍ତୁ ଅଟେ ଯାଞ୍ଜ କରାଗଲା"
+msgstr "ଦୃଶ୍ୟ/Cc ତାଲିକା ବସ୍ତୁଟି ଯାଞ୍ଚ କରାସରିଛି"
 
 #: ../mail/evolution-mail.schemas.in.h:170
-#, fuzzy
 msgid "View/Cc menu item is checked."
-msgstr "ଦୃଶ୍ଯ ମେନୁ ବସ୍ତୁ ଅଟେ ଯାଞ୍ଜ କରାଗଲା."
+msgstr "ଦୃଶ୍ୟ/Cc ତାଲିକା ବସ୍ତୁଟି ଯାଞ୍ଚ କରାସରିଛି।"
 
 #: ../mail/evolution-mail.schemas.in.h:171
-#, fuzzy
 msgid "View/From menu item is checked"
-msgstr "ଦୃଶ୍ଯ ଠାରୁ ମେନୁ ବସ୍ତୁ ଅଟେ ଯାଞ୍ଜ କରାଗଲା"
+msgstr "ଦୃଶ୍ୟ/ଠାରୁ ତାଲିକା ବସ୍ତୁଟି ଯାଞ୍ଚ କରାସରିଛି"
 
 #: ../mail/evolution-mail.schemas.in.h:172
-#, fuzzy
 msgid "View/From menu item is checked."
-msgstr "ଦୃଶ୍ଯ ଠାରୁ ମେନୁ ବସ୍ତୁ ଅଟେ ଯାଞ୍ଜ କରାଗଲା."
+msgstr "ଦୃଶ୍ୟ/ଠାରୁ ତାଲିକା ବସ୍ତୁଟି ଯାଞ୍ଚ କରାସରିଛି।"
 
 #: ../mail/evolution-mail.schemas.in.h:173
-#, fuzzy
 msgid "View/PostTo menu item is checked"
-msgstr "ଦୃଶ୍ଯ ମେନୁ ବସ୍ତୁ ଅଟେ ଯାଞ୍ଜ କରାଗଲା"
+msgstr "ଦୃଶ୍ୟ/ରେ ପକାନ୍ତୁ ତାଲିକା ବସ୍ତୁଟି ଯାଞ୍ଚ କରାସରିଛି"
 
 #: ../mail/evolution-mail.schemas.in.h:174
-#, fuzzy
 msgid "View/PostTo menu item is checked."
-msgstr "ଦୃଶ୍ଯ ମେନୁ ବସ୍ତୁ ଅଟେ ଯାଞ୍ଜ କରାଗଲା."
+msgstr "ଦୃଶ୍ୟ/ରେ ପକାନ୍ତୁ ତାଲିକା ବସ୍ତୁଟି ଯାଞ୍ଚ କରାସରିଛି।"
 
 #: ../mail/evolution-mail.schemas.in.h:175
-#, fuzzy
 msgid "View/ReplyTo menu item is checked"
-msgstr "ଦୃଶ୍ଯ ମେନୁ ବସ୍ତୁ ଅଟେ ଯାଞ୍ଜ କରାଗଲା"
+msgstr "ଦୃଶ୍ୟ/କୁ ଉତ୍ତର ଦିଅନ୍ତୁ ତାଲିକା ବସ୍ତୁଟି ଯାଞ୍ଚ କରାସରିଛି"
 
 #: ../mail/evolution-mail.schemas.in.h:176
-#, fuzzy
 msgid "View/ReplyTo menu item is checked."
-msgstr "ଦୃଶ୍ଯ ମେନୁ ବସ୍ତୁ ଅଟେ ଯାଞ୍ଜ କରାଗଲା."
+msgstr "ଦୃଶ୍ୟ/କୁ ଉତ୍ତର ଦିଅନ୍ତୁ ତାଲିକା ବସ୍ତୁଟି ଯାଞ୍ଚ କରାସରିଛି।"
 
 #: ../mail/evolution-mail.schemas.in.h:177
-#, fuzzy
 msgid "Whether a read receipt request gets added to every message by default."
-msgstr "a ପଢନ୍ତୁ କୁ ପ୍ରତ୍ଯେକ ଦ୍ବାରା ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:178
-#, fuzzy
 msgid "Whether disable ellipsizing feature of folder names in side bar."
-msgstr "ନିଷ୍କ୍ରିୟ ର ନାମଗୁଡ଼ିକ ଇଞ୍ଚ."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:179
-#, fuzzy
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
-msgstr "କିମ୍ବା ନୁହେଁ କୁ ପଛକୁ ରେ ଦ୍ବାରା ନୁହେଁ ଭିତରେ ଉତ୍ତର ଦିଅନ୍ତୁ କୁ କିମ୍ବା ପ୍ରସଙ୍ଗଗୁଡିକ."
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:180
-#, fuzzy
 msgid "Whether sort threads based on latest message in that thread"
-msgstr "ସଜାଡନ୍ତୁ ରେ ଇଞ୍ଚ"
+msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:181
-#, fuzzy
 msgid "Width of the message-list pane"
-msgstr "ଓସାର ର ତାଲିକା"
+msgstr "ସନ୍ଦେଶ-ତାଲିକା ପଟ୍ଟିକାର ଓସାର"
 
 #: ../mail/evolution-mail.schemas.in.h:182
-#, fuzzy
 msgid "Width of the message-list pane."
-msgstr "ଓସାର ର ତାଲିକା."
+msgstr "ସନ୍ଦେଶ-ତାଲିକା ପଟ୍ଟିକାର ଓସାର"
 
 #: ../mail/importers/elm-importer.c:182
-#, fuzzy
 msgid "Importing Elm data"
-msgstr "ଆମଦାନୀକରିବା ତଥ୍ଯ"
+msgstr "Elm ତଥ୍ୟ ଆମଦାନି କରନ୍ତୁ"
 
 #: ../mail/importers/elm-importer.c:367
-#, fuzzy
 msgid "Evolution Elm importer"
-msgstr "କ୍ରମବିକାଶ "
+msgstr "Evolution Elm ଆମଦାନୀକର୍ତ୍ତା"
 
 #: ../mail/importers/elm-importer.c:368
-#, fuzzy
 msgid "Import mail from Elm."
-msgstr "ଆମଦାନୀ କର ଡାକ ଠାରୁ."
+msgstr "Elm ରୁ ଆମଦାନୀ କରନ୍ତୁ।"
 
 #: ../mail/importers/evolution-mbox-importer.c:79
 #: ../plugins/pst-import/pst-importer.c:312
@@ -13916,83 +13820,69 @@ msgstr "ଲକ୍ଷ ଫୋଲଡର:"
 
 #: ../mail/importers/evolution-mbox-importer.c:82
 #: ../plugins/pst-import/pst-importer.c:305
-#, fuzzy
 msgid "Select folder to import into"
-msgstr "ମନୋନୀତ କର କୁ"
+msgstr "ଆମଦାନି କରିବା ପାଇଁ ଫୋଲଡର ଆମଦାନି କରନ୍ତୁ"
 
 #: ../mail/importers/evolution-mbox-importer.c:219
-#, fuzzy
 msgid "Berkeley Mailbox (mbox)"
-msgstr "ବିକଲେ"
+msgstr "ବାର୍କଲେ ମେଲବାକ୍ସ (mbox)"
 
 #: ../mail/importers/evolution-mbox-importer.c:220
-#, fuzzy
 msgid "Importer Berkeley Mailbox format folders"
-msgstr "ବିକଲେ"
+msgstr "ବାର୍କଲେ ମେଲବାକ୍ସ ଶୈଳୀ ଫୋଲଡର ଆମଦାନିକର୍ତ୍ତା"
 
 #: ../mail/importers/mail-importer.c:147
-#, fuzzy
 msgid "Importing mailbox"
-msgstr "ଆମଦାନୀକରିବା"
+msgstr "ମେଲବାକ୍ସ ଆମଦାନୀକରୁଅଛି"
 
 #. Destination folder, was set in our widget
 #: ../mail/importers/mail-importer.c:231
 #: ../plugins/pst-import/pst-importer.c:457
 #: ../plugins/pst-import/pst-importer.c:563 ../shell/e-shell-importer.c:512
 #, c-format
-#, fuzzy
 msgid "Importing `%s'"
-msgstr "ଆମଦାନୀକରିବା"
+msgstr "`%s' ଆମଦାନୀକରୁଅଛି"
 
 #: ../mail/importers/mail-importer.c:371
 #, c-format
-#, fuzzy
 msgid "Scanning %s"
-msgstr "କ୍ରମବୀକ୍ଷଣ କରୁଅଛି"
+msgstr "%s କ୍ରମବୀକ୍ଷଣ କରୁଅଛି"
 
 #: ../mail/importers/pine-importer.c:225
-#, fuzzy
 msgid "Importing Pine data"
-msgstr "ଆମଦାନୀକରିବା Pine ତଥ୍ଯ"
+msgstr "Pine ତଥ୍ଯ ଆମଦାନୀ କରୁଅଛି"
 
 #: ../mail/importers/pine-importer.c:424
-#, fuzzy
 msgid "Evolution Pine importer"
-msgstr "କ୍ରମବିକାଶ  Pine"
+msgstr "Evolution Pine ଆମଦାନିକର୍ତ୍ତା"
 
 #: ../mail/importers/pine-importer.c:425
-#, fuzzy
 msgid "Import mail from Pine."
-msgstr "ଆମଦାନୀ କର ଡାକ ଠାରୁ Pine."
+msgstr "Pine ଠାରୁ ଆମଦାନୀ କରନ୍ତୁ।"
 
 #: ../mail/mail-autofilter.c:72
 #, c-format
-#, fuzzy
 msgid "Mail to %s"
-msgstr "ମେଲ କୁ"
+msgstr "%s କୁ ମେଲ"
 
 #: ../mail/mail-autofilter.c:236 ../mail/mail-autofilter.c:275
 #, c-format
-#, fuzzy
 msgid "Mail from %s"
-msgstr "ମେଲ ଠାରୁ"
+msgstr "%s ଠାରୁ ମେଲ"
 
 #: ../mail/mail-autofilter.c:259
 #, c-format
-#, fuzzy
 msgid "Subject is %s"
-msgstr "ବିଷଯ ଅଟେ"
+msgstr "ବିଷୟଟି ହେଉଛି %s"
 
 #: ../mail/mail-autofilter.c:294
 #, c-format
-#, fuzzy
 msgid "%s mailing list"
-msgstr "ତାଲିକା"
+msgstr "%s ମେଲିଙ୍ଗ ତାଲିକା"
 
 #: ../mail/mail-autofilter.c:365
-#, fuzzy
 msgid "Add Filter Rule"
-msgstr "ମିଶାଅ ଫିଲଟର ନିୟମ"
+msgstr "ଫିଲଟର ନିୟମ ଯୋଗକରନ୍ତୁ"
 
 #: ../mail/mail-component.c:550
 #, c-format
@@ -14003,62 +13893,54 @@ msgstr[1] "%d ଚୟିତ,"
 
 #: ../mail/mail-component.c:554
 #, c-format
-#, fuzzy
 msgid "%d deleted"
 msgid_plural "%d deleted"
-msgstr[0] "d ବିଲୋପ ହୋଇଛି"
-msgstr[1] "d ବିଲୋପ ହୋଇଛି"
+msgstr[0] "%d ବିଲୋପ ହୋଇଛି"
+msgstr[1] "%d ବିଲୋପ ହୋଇଛି"
 
 #: ../mail/mail-component.c:561
 #, c-format
-#, fuzzy
 msgid "%d junk"
 msgid_plural "%d junk"
-msgstr[0] "d"
-msgstr[1] "d"
+msgstr[0] "%d junk"
+msgstr[1] "%d junk"
 
 #: ../mail/mail-component.c:564
 #, c-format
-#, fuzzy
 msgid "%d draft"
 msgid_plural "%d drafts"
-msgstr[0] "d ଡ୍ରାଫ୍ଟ"
-msgstr[1] "d ଡ୍ରାଫ୍ଟ"
+msgstr[0] "%d ଡ୍ରାଫ୍ଟ"
+msgstr[1] "%d ଡ୍ରାଫ୍ଟଗୁଡ଼ିକ"
 
 #: ../mail/mail-component.c:566
 #, c-format
-#, fuzzy
 msgid "%d sent"
 msgid_plural "%d sent"
-msgstr[0] "d"
-msgstr[1] "d"
+msgstr[0] "%d ପଠାହୋଇଛି"
+msgstr[1] "%d ପଠାହୋଇଛି"
 
 #: ../mail/mail-component.c:568
 #, c-format
-#, fuzzy
 msgid "%d unsent"
 msgid_plural "%d unsent"
-msgstr[0] "d"
-msgstr[1] "d"
+msgstr[0] "%d ପଠାହୋଇନାହିଁ"
+msgstr[1] "%d ପଠାହୋଇନାହିଁ"
 
 #: ../mail/mail-component.c:574
 #, c-format
-#, fuzzy
 msgid "%d unread, "
 msgid_plural "%d unread, "
-msgstr[0] "d ଅପଠିତ "
-msgstr[1] "d ଅପଠିତ "
+msgstr[0] "%d ଅପଠିତ, "
+msgstr[1] "%d ଅପଠିତ, "
 
 #: ../mail/mail-component.c:575
 #, c-format
-#, fuzzy
 msgid "%d total"
 msgid_plural "%d total"
-msgstr[0] "d ମୋଟ"
-msgstr[1] "d ମୋଟ"
+msgstr[0] "%d ସର୍ବମୋଟ"
+msgstr[1] "%d ସର୍ବମୋଟ"
 
 #: ../mail/mail-component.c:927
-#, fuzzy
 msgid "New Mail Message"
 msgstr "ନୂତନ ମେଲ ସନ୍ଦେଶ"
 
@@ -14069,12 +13951,10 @@ msgid "_Mail Message"
 msgstr "ମେଲ ସନ୍ଦେଶ (_M)"
 
 #: ../mail/mail-component.c:929
-#, fuzzy
 msgid "Compose a new mail message"
-msgstr "ଲେଖନ୍ତୁ a ନୂତନ ଡାକ"
+msgstr "ନୂତନ ମେଲ ସନ୍ଦେଶ ଲେଖନ୍ତୁ"
 
 #: ../mail/mail-component.c:935
-#, fuzzy
 msgid "New Mail Folder"
 msgstr "ନୂତନ ମେଲ ଫୋଲଡର"
 
@@ -14085,29 +13965,24 @@ msgid "Mail _Folder"
 msgstr "ମେଲ ଫୋଲଡର (_F)"
 
 #: ../mail/mail-component.c:937
-#, fuzzy
 msgid "Create a new mail folder"
-msgstr "ସୃଷ୍ଟି କର a ନୂତନ ଡାକ"
+msgstr "ନୂତନ ଡାକ ସୃଷ୍ଟି କରନ୍ତୁ"
 
 #: ../mail/mail-component.c:1084
-#, fuzzy
 msgid "Failed upgrading Mail settings or folders."
-msgstr "ବିଫଳ ହୋଇଛି ମେଲ କିମ୍ବା."
+msgstr "ମେଲ ବିନ୍ୟାସ କିମ୍ବା ଫୋଲଡରଗୁଡ଼ିକୁ ଉନ୍ନତତର କରିବା ବିଫଳ ହୋଇଛି।"
 
 #: ../mail/mail-config.glade.h:1
-#, fuzzy
 msgid " Ch_eck for Supported Types "
-msgstr "ପାଇଁ ପ୍ରକାରଗୁଡିକ "
+msgstr "ସମର୍ଥିତ ପ୍ରକାରଗୁଡ଼ିକୁ ଯାଞ୍ଚକରୁଅଛି (_e)"
 
 #: ../mail/mail-config.glade.h:2
-#, fuzzy
 msgid "(Note: Requires restart of the application)"
-msgstr "ଟିପ୍ପଣୀ ପୁନର୍ଚାଳନ ର ପ୍ରୟୋଗ"
+msgstr "(ଟିପ୍ପଣୀ: ପ୍ରୟୋଗର ପୁନର୍ଚାଳନ ଆବଶ୍ୟକ)"
 
 #: ../mail/mail-config.glade.h:4
-#, fuzzy
 msgid "<b>SSL is not supported in this build of Evolution</b>"
-msgstr "<b> SSL ଅଟେ ନୁହେଁ ଇଞ୍ଚ ଏହା ର କ୍ରମବିକାଶ </b>"
+msgstr "<b>SSL Evolutionର ଏହି ନିର୍ମାଣରେ ସମର୍ଥିତ ନୁହଁ</b>"
 
 #: ../mail/mail-config.glade.h:5
 #| msgid "<b>Calendar options</b>"
@@ -14119,22 +13994,18 @@ msgid "<b>Sig_natures</b>"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:7
-#, fuzzy
 msgid "<b>Top Posting Option</b> (Not Recommended)"
-msgstr "<b> ଉପର ବିକଳ୍ପ</b>"
+msgstr "<b>ଉପର ପୋଷ୍ଟିଙ୍ଗ ବିକଳ୍ପ</b> (ପରାମର୍ଶିତ ନୁହଁ)"
 
 #: ../mail/mail-config.glade.h:8
-#, fuzzy
 msgid "<b>_Languages</b>"
-msgstr "<b> ଭାଷା</b>"
+msgstr "<b> ଭାଷା (_L)</b>"
 
 #: ../mail/mail-config.glade.h:9
-#, fuzzy
 msgid "<span weight=\"bold\">Account Information</span>"
 msgstr "<span weight=\"bold\"> ହିସାବ ଖାତା ସୂଚନା</span>"
 
 #: ../mail/mail-config.glade.h:11
-#, fuzzy
 msgid "<span weight=\"bold\">Authentication</span>"
 msgstr "<span weight=\"bold\"> ବୈଧିକରଣ</span>"
 
@@ -14143,19 +14014,16 @@ msgid "<span weight=\"bold\">Composing Messages</span>"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:13
-#, fuzzy
 msgid "<span weight=\"bold\">Configuration</span>"
-msgstr "<span weight=\"bold\"> କନଫିଗରେସନ</span>"
+msgstr "<span weight=\"bold\">ସଂରଚନା</span>"
 
 #: ../mail/mail-config.glade.h:14
-#, fuzzy
 msgid "<span weight=\"bold\">Default Behavior</span>"
 msgstr "<span weight=\"bold\"> ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଆଚରଣ</span>"
 
 #: ../mail/mail-config.glade.h:15
-#, fuzzy
 msgid "<span weight=\"bold\">Delete Mail</span>"
-msgstr "<span weight=\"bold\"> ବିଲୋପ କର ମେଲ</span>"
+msgstr "<span weight=\"bold\">ମେଲକୁ ବିଲୋପ କରନ୍ତୁ</span>"
 
 #: ../mail/mail-config.glade.h:16
 #| msgid "<span weight=\"bold\">Alerts</span>"
@@ -14168,45 +14036,37 @@ msgid "<span weight=\"bold\">Labels</span>"
 msgstr "<span weight=\"bold\">ନାମପଟି</span>"
 
 #: ../mail/mail-config.glade.h:19
-#, fuzzy
 msgid "<span weight=\"bold\">Loading Images</span>"
-msgstr "<span weight=\"bold\"> ଧାରଣ କରୁଅଛି ପ୍ରତିଛବି</span>"
+msgstr "<span weight=\"bold\">ପ୍ରତିଛବି ଧାରଣ କରୁଅଛି</span>"
 
 #: ../mail/mail-config.glade.h:20
-#, fuzzy
 msgid "<span weight=\"bold\">Message Display</span>"
 msgstr "<span weight=\"bold\"> ସନ୍ଦେଶ ପ୍ରଦର୍ଶନ</span>"
 
 #: ../mail/mail-config.glade.h:21
-#, fuzzy
 msgid "<span weight=\"bold\">Message Fonts</span>"
 msgstr "<span weight=\"bold\"> ସନ୍ଦେଶ ଅକ୍ଷରରୂପ</span>"
 
 #: ../mail/mail-config.glade.h:22
-#, fuzzy
 msgid "<span weight=\"bold\">Message Receipts</span>"
-msgstr "<span weight=\"bold\"> ସନ୍ଦେଶ</span>"
+msgstr "<span weight=\"bold\">ସନ୍ଦେଶ ରସିଦ</span>"
 
 #: ../mail/mail-config.glade.h:23
 #: ../plugins/publish-calendar/publish-calendar.glade.h:3
-#, fuzzy
 msgid "<span weight=\"bold\">Optional Information</span>"
-msgstr "<span weight=\"bold\"> ଇଚ୍ଛାଧୀନ ସୂଚନା</span>"
+msgstr "<span weight=\"bold\">ଇଚ୍ଛାଧୀନ ସୂଚନା</span>"
 
 #: ../mail/mail-config.glade.h:24
-#, fuzzy
 msgid "<span weight=\"bold\">Options</span>"
-msgstr "<span weight=\"bold\"> ବିକଳ୍ପଗୁଡିକ</span>"
+msgstr "<span weight=\"bold\">ବିକଳ୍ପଗୁଡିକ</span>"
 
 #: ../mail/mail-config.glade.h:25
-#, fuzzy
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
-msgstr "<span weight=\"bold\"> ଉତ୍ତମ ଗୋପନୀଯତା</span>"
+msgstr "<span weight=\"bold\">ଅତି ଉତ୍ତମ ଗୋପନୀୟତା (PGP/GPG)</span>"
 
 #: ../mail/mail-config.glade.h:26
-#, fuzzy
 msgid "<span weight=\"bold\">Printed Fonts</span>"
-msgstr "<span weight=\"bold\"> ମୁଦ୍ରିତ ଅକ୍ଷରରୂପ</span>"
+msgstr "<span weight=\"bold\">ମୁଦ୍ରିତ ଅକ୍ଷରରୂପ</span>"
 
 #: ../mail/mail-config.glade.h:27
 #| msgid "<span weight=\"bold\">Status</span>"
@@ -14214,29 +14074,24 @@ msgid "<span weight=\"bold\">Proxy Settings</span>"
 msgstr "<span weight=\"bold\">ପ୍ରକ୍ସି ବିନ୍ୟାସ</span>"
 
 #: ../mail/mail-config.glade.h:28
-#, fuzzy
 msgid "<span weight=\"bold\">Required Information</span>"
-msgstr "<span weight=\"bold\"> ଆବଶ୍ଯକ ସୂଚନା</span>"
+msgstr "<span weight=\"bold\">ଆବଶ୍ଯକୀୟ ସୂଚନା</span>"
 
 #: ../mail/mail-config.glade.h:29
-#, fuzzy
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
-msgstr "<span weight=\"bold\"> S</span>"
+msgstr "<span weight=\"bold\">ସୁରକ୍ଷିତ MIME (S/MIME)</span>"
 
 #: ../mail/mail-config.glade.h:30
-#, fuzzy
 msgid "<span weight=\"bold\">Security</span>"
-msgstr "<span weight=\"bold\"> ସୁରକ୍ଷା</span>"
+msgstr "<span weight=\"bold\">ସୁରକ୍ଷା</span>"
 
 #: ../mail/mail-config.glade.h:31
-#, fuzzy
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
-msgstr "<span weight=\"bold\"> ପଠାଯାଇଛି ଏବଂ ଡ୍ରାଫଟ୍</span>"
+msgstr "<span weight=\"bold\"> ପଠାଯାଇଥିବା ଏବଂ ଡ୍ରାଫ୍ଟ ସନ୍ଦେଶଗୁଡ଼ିକ</span>"
 
 #: ../mail/mail-config.glade.h:32
-#, fuzzy
 msgid "<span weight=\"bold\">Server Configuration</span>"
-msgstr "<span weight=\"bold\"> ସେବକ କନଫିଗରେସନ</span>"
+msgstr "<span weight=\"bold\">ସର୍ଭର ସଂରଚନା</span>"
 
 #: ../mail/mail-config.glade.h:33
 #| msgid "<span weight=\"bold\">Alerts</span>"
@@ -14244,98 +14099,80 @@ msgid "<span weight=\"bold\">_Authentication Type</span>"
 msgstr "<span weight=\"bold\">ପ୍ରାଧିକରଣ ପ୍ରକାର (_A)</span>"
 
 #: ../mail/mail-config.glade.h:35
-#, fuzzy
 msgid "Account Management"
-msgstr "ହିସାବ ଖାତା"
+msgstr "ହିସାବ ଖାତା ପରିଚାଳନା"
 
 #: ../mail/mail-config.glade.h:36
-#, fuzzy
 msgid "Add Ne_w Signature..."
-msgstr "ମିଶାଅ w ହସ୍ତାକ୍ଷର."
+msgstr "ନୂତନ ହସ୍ତାକ୍ଷର ଯୋଗକରନ୍ତୁ (_w)..."
 
 #: ../mail/mail-config.glade.h:37
-#, fuzzy
 msgid "Add _Script"
-msgstr "ମିଶାଅ ସ୍କ୍ରିପଟ"
+msgstr "ସ୍କ୍ରିପଟ ଯୋଗକରନ୍ତୁ (_S)"
 
 #: ../mail/mail-config.glade.h:38
-#, fuzzy
 msgid "Al_ways sign outgoing messages when using this account"
-msgstr "ଏହା"
+msgstr "ଏହି ଖାତାକୁ ବ୍ୟବହାର କରିବା ସମୟରେ ସର୍ବଦା ପଠାଯାଉଥିବା ସନ୍ଦେଶଗୁଡ଼ିକରେ ହସ୍ତାକ୍ଷର କରନ୍ତୁ"
 
 #: ../mail/mail-config.glade.h:39
-#, fuzzy
 msgid "Also encrypt to sel_f when sending encrypted messages"
-msgstr "କୁ f"
+msgstr "ସଂଗୁପ୍ତ ସନ୍ଦେଶଗୁଡ଼ିକୁ ପଠାଇବା ସମୟରେ ନିଜ ପ୍ରତି ମଧ୍ଯ ସଂଗୁପ୍ତ କରନ୍ତୁ"
 
 #: ../mail/mail-config.glade.h:40
-#, fuzzy
 msgid "Alway_s carbon-copy (cc) to:"
-msgstr "ନକଲ୍ କୁ:"
+msgstr "ସର୍ବଦା (cc) କରନ୍ତୁ (_s):"
 
 #: ../mail/mail-config.glade.h:41
-#, fuzzy
 msgid "Always _blind carbon-copy (bcc) to:"
-msgstr "ସର୍ବଦା ନକଲ୍ କୁ:"
+msgstr "ସର୍ବଦା (bcc) କରନ୍ତୁ (_b):"
 
 #: ../mail/mail-config.glade.h:42
-#, fuzzy
 msgid "Always _trust keys in my keyring when encrypting"
-msgstr "ସର୍ବଦା ଇଞ୍ଚ"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:43
-#, fuzzy
 msgid "Always encrypt to _myself when sending encrypted messages"
-msgstr "ସର୍ବଦା କୁ"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:44
-#, fuzzy
 msgid "Always request rea_d receipt"
-msgstr "ସର୍ବଦା d"
+msgstr "ସର୍ବଦା ପଢ଼ାଯାଇଥିବା ରସିଦ ପାଇଁ ଅନୁରୋଧ କରନ୍ତୁ (_d)"
 
 #: ../mail/mail-config.glade.h:46
-#, fuzzy
 msgid "Automatically insert _emoticon images"
-msgstr "ସ୍ବଯଂଚାଳିତଭାବରେ"
+msgstr "ସ୍ବଯଂଚାଳିତଭାବରେ emoticon ପ୍ରତିଛବିକୁ ଭର୍ତ୍ତିକରନ୍ତୁ (_e)"
 
 #: ../mail/mail-config.glade.h:47
-#, fuzzy
 msgid "Baltic (ISO-8859-13)"
-msgstr "ବାଲଟିକ"
+msgstr "ବାଲଟିକ (ISO-8859-13)"
 
 #: ../mail/mail-config.glade.h:48
 msgid "Baltic (ISO-8859-4)"
 msgstr "ବାଲଟିକ (ISO-8859-4)"
 
 #: ../mail/mail-config.glade.h:49
-#, fuzzy
 msgid "C_haracter set:"
-msgstr "C ସେଟ:"
+msgstr "ବର୍ଣ୍ଣମାଳା (_h):"
 
 #: ../mail/mail-config.glade.h:50
-#, fuzzy
 msgid "Ch_eck for Supported Types "
-msgstr "ପାଇଁ ପ୍ରକାରଗୁଡିକ "
+msgstr "ସମର୍ଥିତ ପ୍ରକାରଗୁଡିକ ପାଇଁ ଯାଞ୍ଚ କରନ୍ତୁ (_e)"
 
 #: ../mail/mail-config.glade.h:51
-#, fuzzy
 msgid "Check cu_stom headers for junk"
-msgstr "ୟାଞ୍ଚ କର ପାଇଁ"
+msgstr "junk ପାଇଁ ଇଚ୍ଛାମୁତାବକ ଶୀର୍ଷକ ଯାଞ୍ଚ କରନ୍ତୁ (_s)"
 
 #: ../mail/mail-config.glade.h:52
-#, fuzzy
 msgid "Check incoming _messages for junk"
-msgstr "ୟାଞ୍ଚ କର ପାଇଁ"
+msgstr "junk ପାଇଁ ଆସୁଥିବା ସନ୍ଦେଶଗୁଡ଼ିକୁ ଯାଞ୍ଚ କରନ୍ତୁ (_m)"
 
 #: ../mail/mail-config.glade.h:53
-#, fuzzy
 msgid "Check spelling while I _type"
-msgstr "ୟାଞ୍ଚ କର ପ୍ରଥମ ପ୍ରକାର"
+msgstr "ମୁଁ ଟାଇପ କରିବା ସମୟରେ ବନାନ ଯାଞ୍ଚକରନ୍ତୁ (_t)"
 
 #: ../mail/mail-config.glade.h:54
-#, fuzzy
 msgid "Checks incoming mail messages to be Junk"
-msgstr "ଡାକ କୁ Junk"
+msgstr "ଆସୁଥିବା ମେଲ ସନ୍ଦେଶଗୁଡ଼ିକୁ Junk ପରି ଚିହ୍ନଟ କରନ୍ତୁ"
 
 #: ../mail/mail-config.glade.h:55
 msgid "Cle_ar"
@@ -14346,17 +14183,14 @@ msgid "Clea_r"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:57
-#, fuzzy
 msgid "Color for _misspelled words:"
-msgstr "ରଙ୍ଗ ପାଇଁ:"
+msgstr "ଭୁଲ ଉଚ୍ଚାରିତ ଶବ୍ଦଗୁଡ଼ିକ ପାଇଁ ରଙ୍ଗ (_m):"
 
 #: ../mail/mail-config.glade.h:58
-#, fuzzy
 msgid "Confirm _when expunging a folder"
-msgstr "ନିଶ୍ଚିତ କରନ୍ତୁ a"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:59
-#, fuzzy
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -14364,70 +14198,59 @@ msgid ""
 "using Evolution. \n"
 "\n"
 "Click \"Apply\" to save your settings."
-msgstr "ଅଭିନନ୍ଦନ ଡାକ ବିନ୍ଯାସ ଅଟେ ନାଁ ବର୍ତ୍ତମାନ କୁ ଏବଂ କ୍ରମବିକାଶ  ନାଁ ପ୍ରଯୋଗ କର କୁ ସଂରକ୍ଷଣ."
+msgstr ""
 
 #: ../mail/mail-config.glade.h:65
 msgid "De_fault"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:66
-#, fuzzy
 msgid "Default character e_ncoding:"
-msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ e:"
+msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଅକ୍ଷର ସାଙ୍କେତିକରଣ (_n):"
 
 #: ../mail/mail-config.glade.h:68
-#, fuzzy
 msgid "Delete junk messages on e_xit"
-msgstr "ବିଲୋପ କର ରେ e"
+msgstr "ପ୍ରସ୍ଥାନ କରିବା ସମୟରେ junk ସନ୍ଦେଶଗୁଡ଼ିକୁ ଅପସାରଣ କରନ୍ତୁ (_x)"
 
 #: ../mail/mail-config.glade.h:70
-#, fuzzy
 msgid "Digitally sign o_utgoing messages (by default)"
-msgstr "ଦ୍ବାରା ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:71
-#, fuzzy
 msgid "Do not format messages when text si_ze exceeds"
-msgstr "ନୁହେଁ ପାଠ୍ଯ"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:72
-#, fuzzy
 msgid "Do not mar_k messages as junk if sender is in my address book"
-msgstr "ନୁହେଁ ଅଟେ ଇଞ୍ଚ"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:73
-#, fuzzy
 msgid "Do not quote"
-msgstr "ନୁହେଁ ଉଦ୍ଧୃତାଂଶ"
+msgstr "ଉଦ୍ଧୃତ କରନ୍ତୁ ନାହିଁ"
 
 #: ../mail/mail-config.glade.h:74
 msgid "Done"
 msgstr "ସମ୍ପନ୍ନ"
 
 #: ../mail/mail-config.glade.h:75
-#, fuzzy
 msgid "Drafts _Folder:"
-msgstr "ଫୋଲଡର:"
+msgstr "ଡ୍ରାଫ୍ଟ ଫୋଲଡର (_F):"
 
 #: ../mail/mail-config.glade.h:76
-#, fuzzy
 msgid "Email Accounts"
-msgstr "ଇ-ଡାକ ଆକାଉଣ୍ଟଗୁଡିକ"
+msgstr "ଇମେଲ ଆକାଉଣ୍ଟଗୁଡିକ"
 
 #: ../mail/mail-config.glade.h:77
-#, fuzzy
 msgid "Email _Address:"
-msgstr "ଇ-ଡାକ ଠିକଣା:"
+msgstr "ଇମେଲ ଠିକଣା (_A):"
 
 #: ../mail/mail-config.glade.h:78
-#, fuzzy
 msgid "Empty trash folders on e_xit"
-msgstr "ଖାଲି ବର୍ଜିତ ରେ e"
+msgstr "ପ୍ରସ୍ଥାନ କରିବା ସମୟରେ ଆବର୍ଜନା ପାତ୍ର ଫୋଲଡରକୁ ଖାଲିକରନ୍ତୁ (_x)"
 
 #: ../mail/mail-config.glade.h:79
-#, fuzzy
 msgid "Enable Magic S_pacebar"
-msgstr "ସକ୍ରିୟ କରନ୍ତୁ S"
+msgstr "ମେଜିକ ସ୍ପେସବାରକୁ ସକ୍ରିୟ କରନ୍ତୁ (_p)"
 
 #: ../mail/mail-config.glade.h:80
 #| msgid "Search Filter"
@@ -14439,29 +14262,24 @@ msgid "Encry_ption certificate:"
 msgstr "ସଂଗୁପ୍ତ ପ୍ରମାଣପତ୍ର (_p):"
 
 #: ../mail/mail-config.glade.h:83
-#, fuzzy
 msgid "Encrypt out_going messages (by default)"
-msgstr "ବାହାର ଦ୍ବାରା ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ"
+msgstr "ପଠାଯାଉଥିବା ସନ୍ଦେଶଗୁଡ଼ିକୁ ସଂଗୁପ୍ତ କରନ୍ତୁ (ପୂର୍ବନିର୍ଦ୍ଧାରିତ) (_g)"
 
 #: ../mail/mail-config.glade.h:85
-#, fuzzy
 msgid "Fi_xed-width:"
-msgstr "ଓସାର:"
+msgstr "ସ୍ଥିର ଓସାର (_x):"
 
 #: ../mail/mail-config.glade.h:86
-#, fuzzy
 msgid "Fix_ed width Font:"
-msgstr "ସଠିକ କରନ୍ତୁ ଓସାର ଅକ୍ଷରରୂପ:"
+msgstr "ସ୍ଥିର ଓସାର ଅକ୍ଷରରୂପ (_e):"
 
 #: ../mail/mail-config.glade.h:87
-#, fuzzy
 msgid "Font Properties"
 msgstr "ଅକ୍ଷରରୂପ ବିଶେଷତାଗୁଡିକ"
 
 #: ../mail/mail-config.glade.h:88
-#, fuzzy
 msgid "Format messages in _HTML"
-msgstr "ଫର୍ମାଟ ଇଞ୍ଚ HTML"
+msgstr "HTMLରେ ସନ୍ଦେଶଗୁଡ଼ିକୁ ସଜ୍ଜିକରଣ କରନ୍ତୁ (_H)"
 
 #: ../mail/mail-config.glade.h:89
 msgid "Full Nam_e:"
@@ -14482,9 +14300,8 @@ msgid "Headers"
 msgstr "ଶୀର୍ଷକଗୁଡିକ"
 
 #: ../mail/mail-config.glade.h:94
-#, fuzzy
 msgid "Highlight _quotations with"
-msgstr "ଗାଢରଙ୍ଗରେ ଦେଖାଅ ସହିତ "
+msgstr "ସହିତ ଉଦ୍ଧୃତକୁ ଆଲୋକିତ କରନ୍ତୁ (_q)"
 
 #: ../mail/mail-config.glade.h:96
 msgid "Inline"
@@ -14504,60 +14321,50 @@ msgid "Labels"
 msgstr "ନାମପଟିଗୁଡ଼ିକ"
 
 #: ../mail/mail-config.glade.h:101
-#, fuzzy
 msgid "Languages Table"
-msgstr "ଭାଷା ଟେବୁଲ"
+msgstr "ଭାଷା ସାରଣୀ"
 
 #: ../mail/mail-config.glade.h:102
-#, fuzzy
 msgid "Mail Configuration"
-msgstr "ମେଲ କନଫିଗରେସନ"
+msgstr "ମେଲ ସଂରଚନା"
 
 #: ../mail/mail-config.glade.h:103
-#, fuzzy
 msgid "Mail Headers Table"
-msgstr "ମେଲ ଶୀର୍ଷକଗୁଡିକ ଟେବୁଲ"
+msgstr "ମେଲ ଶୀର୍ଷକଗୁଡିକର ସାରଣୀ"
 
 #: ../mail/mail-config.glade.h:105
 msgid "Mailbox location"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:106
-#, fuzzy
 msgid "Message Composer"
-msgstr "ସନ୍ଦେଶ"
+msgstr "ସନ୍ଦେଶ ଲେଖକ"
 
 #: ../mail/mail-config.glade.h:107
-#, fuzzy
 msgid "No _Proxy for:"
-msgstr "ନାଁ ପ୍ରକ୍ସି ପାଇଁ:"
+msgstr "ପାଇଁ ପ୍ରକ୍ସି ନାହିଁ (_P):"
 
 #: ../mail/mail-config.glade.h:108
-#, fuzzy
 msgid "Note: Underscore in the label name is used as mnemonic identifier in menu."
-msgstr "ଟିପ୍ପଣୀ ଅବରେଖା ଇଞ୍ଚ ସୂଚକ ନାମ ଅଟେ ବ୍ଯବହୃତ ଇଞ୍ଚ ମେନୁ."
+msgstr ""
 
 #: ../mail/mail-config.glade.h:109
-#, fuzzy
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
-msgstr "ଟିପ୍ପଣୀ ନୁହେଁ ପାଇଁ a ଗୁପ୍ତଶବ୍ଦ ଯେପର୍ଯ୍ଯନ୍ତ ପାଇଁ ପ୍ରଥମ"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:110
-#, fuzzy
 msgid "Option is ignored if a match for custom junk headers is found."
-msgstr "ବିକଳ୍ପ ଅଟେ a ପାଇଁ ଇଚ୍ଛାରୂପଣ କରନ୍ତୁ ଅଟେ ମିଳିଛି ."
+msgstr ""
 
 #: ../mail/mail-config.glade.h:111
-#, fuzzy
 msgid "Or_ganization:"
-msgstr "କିମ୍ବା:"
+msgstr "ଅନୁଷ୍ଠାନ (_g):"
 
 #: ../mail/mail-config.glade.h:112
-#, fuzzy
 msgid "PGP/GPG _Key ID:"
-msgstr "ଚାବି ID:"
+msgstr "PGP/GPG କି ID (_K):"
 
 #: ../mail/mail-config.glade.h:113
 #| msgid "_Password:"
@@ -14565,31 +14372,27 @@ msgid "Pass_word:"
 msgstr "ପ୍ରବେଶ ସଙ୍କେତ (_w):"
 
 #: ../mail/mail-config.glade.h:115
-#, fuzzy
 msgid ""
 "Please enter a descriptive name for this account in the space below.\n"
 "This name will be used for display purposes only."
-msgstr "ଦୟାକରି ପ୍ରବେଶ କରନ୍ତୁ a ନାମ ପାଇଁ ଏହା ଇଞ୍ଚ ଖାଲି ସ୍ଥାନ (space) ତଳ ନାମ ବ୍ଯବହୃତ ପାଇଁ."
+msgstr ""
 
 #: ../mail/mail-config.glade.h:117
-#, fuzzy
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
-msgstr "ଦୟାକରି ପ୍ରବେଶ କରନ୍ତୁ ବିଷଯରେ ଡାକ ନୁହେଁ ତନ୍ତ୍ର କିମ୍ବା ଇଣ୍ଟରନେଟ ସେବା."
+msgstr ""
 
 #: ../mail/mail-config.glade.h:118
-#, fuzzy
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
-msgstr "ଦୟାକରି ପ୍ରବେଶ କରନ୍ତୁ ନାମ ଏବଂ ତଳ ତଳ ନୁହେଁ କୁ ଇଞ୍ଚ କୁ ଏହା ଇଞ୍ଚ."
+msgstr ""
 
 #: ../mail/mail-config.glade.h:119
-#, fuzzy
 msgid "Please select among the following options"
-msgstr "ଦୟାକରି ମନୋନୀତ କର ନିମ୍ନଲିଖିତ ବିକଳ୍ପ ମାନ"
+msgstr "ଦୟାକରି ନିମ୍ନଲିଖିତ ବିକଳ୍ପ ମାନଙ୍କ ମଧ୍ଯରୁ ମନୋନୀତ କରନ୍ତୁ"
 
 #: ../mail/mail-config.glade.h:120
 #| msgid "_Port:"
@@ -14597,53 +14400,44 @@ msgid "Port:"
 msgstr "ସଂଯୋଗିକୀ:"
 
 #: ../mail/mail-config.glade.h:121
-#, fuzzy
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
-msgstr "ସହିତ "
+msgstr ""
 
 #: ../mail/mail-config.glade.h:122
 msgid "Quoted"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:123
-#, fuzzy
 msgid "Re_member password"
-msgstr "ଗୁପ୍ତଶବ୍ଦ"
+msgstr "ପ୍ରବେଶ ସଂକେତକୁ ମନେରଖନ୍ତୁ (_m)"
 
 #: ../mail/mail-config.glade.h:124
-#, fuzzy
 msgid "Re_ply-To:"
-msgstr "କୁ:"
+msgstr "କୁ ଉତ୍ତର ଦିଅନ୍ତୁ (_p):"
 
 #: ../mail/mail-config.glade.h:126
-#, fuzzy
 msgid "Remember _password"
-msgstr "ଗୁପ୍ତଶବ୍ଦ"
+msgstr "ପ୍ରବେଶ ସଂକେତ ମନେରଖନ୍ତୁ (_p)"
 
 #: ../mail/mail-config.glade.h:127
-#, fuzzy
 msgid "S_OCKS Host:"
-msgstr "S ଆଧାର:"
+msgstr "SOCKS ଆଧାର (_O):"
 
 #: ../mail/mail-config.glade.h:128
-#, fuzzy
 msgid "S_earch for sender photograph only in local address books"
-msgstr "S ପାଇଁ ଇଞ୍ଚ ସ୍ଥାନୀୟ"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:129
-#, fuzzy
 msgid "S_elect..."
-msgstr "S."
+msgstr "ବାଛନ୍ତୁ (_e)..."
 
 #: ../mail/mail-config.glade.h:130
-#, fuzzy
 msgid "S_end message receipts:"
-msgstr "S ଶେଷ:"
+msgstr "ସନ୍ଦେଶ ରସିଦ ପଠାନ୍ତୁ (_e):"
 
 #: ../mail/mail-config.glade.h:131
-#, fuzzy
 msgid "S_tandard Font:"
-msgstr "S ଅକ୍ଷରରୂପ:"
+msgstr "ମାନକ ଅକ୍ଷରରୂପ (_t):"
 
 #: ../mail/mail-config.glade.h:133
 #| msgid "Select Date"
@@ -14651,24 +14445,20 @@ msgid "Select Drafts Folder"
 msgstr "ଡ୍ରାଫ୍ଟ ଫୋଲଡର ଚୟନ କରନ୍ତୁ"
 
 #: ../mail/mail-config.glade.h:134
-#, fuzzy
 msgid "Select HTML fixed width font"
-msgstr "ମନୋନୀତ କର HTML ଓସାର"
+msgstr "HTML ସ୍ଥିର ଓସାର ମନୋନୀତ କରନ୍ତୁ"
 
 #: ../mail/mail-config.glade.h:135
-#, fuzzy
 msgid "Select HTML fixed width font for printing"
-msgstr "ମନୋନୀତ କର HTML ଓସାର ପାଇଁ"
+msgstr "ମୁଦ୍ରଣ ପାଇଁ HTML ସ୍ଥିର ଓସାର ମନୋନୀତ କରନ୍ତୁ"
 
 #: ../mail/mail-config.glade.h:136
-#, fuzzy
 msgid "Select HTML variable width font"
-msgstr "ମନୋନୀତ କର HTML ଓସାର"
+msgstr "HTML ଚଳ ଓସାର ଅକ୍ଷରରୂପ ମନୋନୀତ କରନ୍ତୁ"
 
 #: ../mail/mail-config.glade.h:137
-#, fuzzy
 msgid "Select HTML variable width font for printing"
-msgstr "ମନୋନୀତ କର HTML ଓସାର ପାଇଁ"
+msgstr "ମୁଦ୍ରଣ ପାଇଁ HTML ଚଳ ଓସାର ଅକ୍ଷରରୂପ ମନୋନୀତ କରନ୍ତୁ"
 
 #: ../mail/mail-config.glade.h:138
 #| msgid "As _Sent Folder"
@@ -14680,19 +14470,16 @@ msgid "Sending Mail"
 msgstr "ମେଲ ପଠାଉଛି"
 
 #: ../mail/mail-config.glade.h:141
-#, fuzzy
 msgid "Sent _Messages Folder:"
-msgstr "ପଠାଯାଇଛି ଫୋଲଡର:"
+msgstr "ସନ୍ଦେଶ ଫୋଲଡର ପଠାଯାଇଛି (_M):"
 
 #: ../mail/mail-config.glade.h:142
-#, fuzzy
 msgid "Ser_ver requires authentication"
-msgstr "ବୈଧିକରଣ"
+msgstr "ସର୍ଭର ବୈଧିକରଣ ଆବଶ୍ୟକ କରେ (_v)"
 
 #: ../mail/mail-config.glade.h:143
-#, fuzzy
 msgid "Server _Type: "
-msgstr "ସେବକ ପ୍ରକାର "
+msgstr "ସର୍ଭର ପ୍ରକାର (_T):"
 
 #: ../mail/mail-config.glade.h:144
 msgid "Sig_ning certificate:"
@@ -14707,45 +14494,39 @@ msgid "Signatures"
 msgstr ""
 
 #: ../mail/mail-config.glade.h:147
-#, fuzzy
 msgid "Signatures Table"
-msgstr "ଟେବୁଲ"
+msgstr "ହସ୍ତାକ୍ଷର ସାରଣୀ"
 
 #: ../mail/mail-config.glade.h:148
 msgid "Spell Checking"
 msgstr "ବନାନ ଯାଞ୍ଚ କରାଯାଉଛି"
 
 #: ../mail/mail-config.glade.h:149
-#, fuzzy
 msgid "Start _typing at the bottom on replying"
-msgstr "ଆରମ୍ଭ ଏଠାରେ ତଳ ରେ"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:150
-#, fuzzy
 msgid "T_ype: "
-msgstr "T "
+msgstr "ପ୍ରକାର (_y): "
 
 #: ../mail/mail-config.glade.h:151
-#, fuzzy
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
-msgstr "ତାଲିକା ର ପାଇଁ a."
+msgstr ""
 
 #: ../mail/mail-config.glade.h:152
-#, fuzzy
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
 "for display purposes only. "
-msgstr "ର ଏହା ସ୍କ୍ରିପଟ ବ୍ଯବହୃତ ନାମ ବ୍ଯବହୃତ "
+msgstr ""
 
 #: ../mail/mail-config.glade.h:155
-#, fuzzy
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
-msgstr "ପ୍ରକାର ନାମ ଦ୍ବାରା ସଦୃଶ କୁ କୁ ଏହା କାର୍ଯ୍ଯ କିମ୍ବା ବ୍ଯକ୍ତିଗତ"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:157
 #| msgid "_Username:"
@@ -14765,57 +14546,47 @@ msgid "User_name:"
 msgstr "ଚାଳକ ନାମ (_n):"
 
 #: ../mail/mail-config.glade.h:160
-#, fuzzy
 msgid "V_ariable-width:"
-msgstr "V ଓସାର:"
+msgstr "ଚଳ-ଓସାର (_a):"
 
 #: ../mail/mail-config.glade.h:161
-#, fuzzy
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
 "Click \"Forward\" to begin. "
-msgstr "ସ୍ବାଗତମ କୁ କ୍ରମବିକାଶ  ମେଲ କନଫିଗରେସନ ସହକାରୀ ନାଁ ଆଗକୁ କୁ "
+msgstr ""
 
 #: ../mail/mail-config.glade.h:164
-#, fuzzy
 msgid "_Add Signature"
-msgstr "ମିଶାଅ ହସ୍ତାକ୍ଷର"
+msgstr "ହସ୍ତାକ୍ଷର ଯୋଗକରନ୍ତୁ (_A)"
 
 #: ../mail/mail-config.glade.h:165
-#, fuzzy
 msgid "_Always load images from the Internet"
-msgstr "ସର୍ବଦା ଠାରୁ ଇଣ୍ଟରନେଟ"
+msgstr "ସର୍ବଦା ଇଣ୍ଟରନେଟରୁ ପ୍ରତିଛବିଗୁଡ଼ିକୁ ଧାରଣ କରନ୍ତୁ (_A)"
 
 #: ../mail/mail-config.glade.h:166
-#, fuzzy
 msgid "_Automatic proxy configuration URL:"
-msgstr "ସ୍ବଯଂଚାଳିତ ବିନ୍ଯାସ URL:"
+msgstr "ସ୍ବଯଂଚାଳିତ ପ୍ରକ୍ସି ବିନ୍ଯାସ URL (_A):"
 
 #: ../mail/mail-config.glade.h:167
-#, fuzzy
 msgid "_Default junk plugin:"
-msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ:"
+msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ junk ପ୍ଲଗଇନ (_D):"
 
 #: ../mail/mail-config.glade.h:168
-#, fuzzy
 msgid "_Direct connection to the Internet"
-msgstr "କୁ ଇଣ୍ଟରନେଟ"
+msgstr "ଇଣ୍ଟରନେଟ ସହିତ ସିଧାସଳଖ ସଂଯୋଗ (_D)"
 
 #: ../mail/mail-config.glade.h:169
-#, fuzzy
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
-msgstr "ନୁହେଁ ଅନୁରୋଧ ପାଇଁ"
+msgstr "ସାକ୍ଷାତକାର ଅନୁରୋଧଗୁଡ଼ିକରେ ହସ୍ତାକ୍ଷର କରନ୍ତୁ ନାହିଁ (Outlook ସୁସଂଗତି ପାଇଁ) (_D)"
 
 #: ../mail/mail-config.glade.h:171
-#, fuzzy
 msgid "_Forward style:"
-msgstr "ଆଗକୁ:"
+msgstr "ଅଗ୍ରସର ଶୈଳୀ (_F):"
 
 #: ../mail/mail-config.glade.h:172
-#, fuzzy
 msgid "_Keep Signature above the original message on replying"
-msgstr "ରଖନ୍ତୁ ହସ୍ତାକ୍ଷର ବିଷଯରେ ରେ"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:173
 #| msgid "Send _Message to Contacts"
@@ -14828,9 +14599,8 @@ msgid "_Lookup in local address book only"
 msgstr "ସ୍ଥାନୀୟ ଠିକଣା ପୁସ୍ତିକା ଫୋଲଡର ମାନଙ୍କୁ ସୂଚୀବଦ୍ଧ କରନ୍ତୁ (_L)"
 
 #: ../mail/mail-config.glade.h:175
-#, fuzzy
 msgid "_Make this my default account"
-msgstr "ତିଆରି କର ଏହା ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ"
+msgstr "ଏହାକୁ ମୋର ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଖାତା କରନ୍ତୁ (_M)"
 
 #: ../mail/mail-config.glade.h:176
 #| msgid "Set up Pilot configuration"
@@ -14838,43 +14608,36 @@ msgid "_Manual proxy configuration:"
 msgstr "ହସ୍ତକୃତ ପ୍ରକ୍ସି ବିନ୍ୟାସ (_M):"
 
 #: ../mail/mail-config.glade.h:177
-#, fuzzy
 msgid "_Mark messages as read after"
-msgstr "ପଢନ୍ତୁ ପରେ"
+msgstr "ସନ୍ଦେଶଗୁଡ଼ିକୁ ପରେ ପଢ଼ିନ୍ତୁ ପରି କରନ୍ତୁ (_M)"
 
 #: ../mail/mail-config.glade.h:179
-#, fuzzy
 msgid "_Never load images from the Internet"
-msgstr "କେବେ ନୁହେଁ ଠାରୁ ଇଣ୍ଟରନେଟ"
+msgstr "ଇଣ୍ଟରନେଟରୁ କଦାପି ପ୍ରତିଛବି ଧାରଣ କରନ୍ତୁ ନାହିଁ (_N)"
 
 #: ../mail/mail-config.glade.h:180
 msgid "_Path:"
 msgstr "ପଥ (_P):"
 
 #: ../mail/mail-config.glade.h:181
-#, fuzzy
 msgid "_Prompt on sending HTML mail to contacts that do not want them"
-msgstr "ରେ HTML ଡାକ କୁ ନୁହେଁ"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:182
-#, fuzzy
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr "ସହିତ  ଖାଲି"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:183
-#, fuzzy
 msgid "_Reply style:"
-msgstr "ଉତ୍ତର ଦିଅନ୍ତୁ:"
+msgstr "ଉତ୍ତର ଦେବା ଶୈଳୀ (_R):"
 
 #: ../mail/mail-config.glade.h:184
-#, fuzzy
 msgid "_Script:"
-msgstr "ସ୍କ୍ରିପଟ:"
+msgstr "ସ୍କ୍ରିପଟ (_S):"
 
 #: ../mail/mail-config.glade.h:185
-#, fuzzy
 msgid "_Secure HTTP Proxy:"
-msgstr "HTTP ପ୍ରକ୍ସି:"
+msgstr "ସୁରକ୍ଷିତ HTTP ପ୍ରକ୍ସି (_S):"
 
 #: ../mail/mail-config.glade.h:186
 #| msgid "_Select"
@@ -14883,34 +14646,28 @@ msgstr "ଚୟନ କରନ୍ତୁ (_S)..."
 
 #. If enabled, show animation; if disabled, only display a static image without any animation
 #: ../mail/mail-config.glade.h:189
-#, fuzzy
 msgid "_Show image animations"
-msgstr "ଦେଖାଅ ଚିତ୍ର"
+msgstr "ପ୍ରତିଛବି ଜାବନାୟନ ଦର୍ଶାନ୍ତୁ (_S)"
 
 #: ../mail/mail-config.glade.h:190
-#, fuzzy
 msgid "_Show the photograph of sender in the message preview"
-msgstr "ଦେଖାଅ ର ଇଞ୍ଚ"
+msgstr ""
 
 #: ../mail/mail-config.glade.h:191
-#, fuzzy
 msgid "_Shrink To / Cc / Bcc headers to "
-msgstr "ସଙ୍କୁଚିତକର କୁ କୁ "
+msgstr "To / Cc / Bcc ଶୀର୍ଷକଗୁଡ଼ିକୁ ସଙ୍କୁଚିତକରନ୍ତୁ (_S)"
 
 #: ../mail/mail-config.glade.h:192
-#, fuzzy
 msgid "_Use Secure Connection:"
-msgstr "ବ୍ଯବହାର କର ସଂୟୋଗ :"
+msgstr "ସୁରକ୍ଷିତ ବ୍ଯବହାର କରନ୍ତୁ (_U):"
 
 #: ../mail/mail-config.glade.h:193
-#, fuzzy
 msgid "_Use system defaults"
-msgstr "ବ୍ଯବହାର କର ତନ୍ତ୍ର"
+msgstr "ତନ୍ତ୍ର ପୂର୍ବନିର୍ଦ୍ଧାରିତ ବ୍ଯବହାର କରନ୍ତୁ (_U)"
 
 #: ../mail/mail-config.glade.h:194
-#, fuzzy
 msgid "_Use the same fonts as other applications"
-msgstr "ବ୍ଯବହାର କର ଅନ୍ଯ"
+msgstr "ଅନ୍ୟ ପ୍ରୟୋଗଗୁଡ଼ିକ ପରି ସମାନ ଅକ୍ଷରରୂପ ବ୍ୟବହାର କରନ୍ତୁ (_U)"
 
 #: ../mail/mail-config.glade.h:195
 msgid "addresses"
@@ -14929,33 +14686,28 @@ msgid "    "
 msgstr "    "
 
 #: ../mail/mail-dialogs.glade.h:2
-#, fuzzy
 msgid "<b>Search Folder Sources</b>"
-msgstr "<b> ଖୋଜନ୍ତୁ ଫୋଲଡର ଉତ୍ସ</b>"
+msgstr "<b>ସନ୍ଧାନ ଫୋଲଡର ଉତ୍ସଗୁଡ଼ିକ</b>"
 
 #: ../mail/mail-dialogs.glade.h:3
-#, fuzzy
 msgid "<span weight=\"bold\">Digital Signature</span>"
-msgstr "<span weight=\"bold\"> ହସ୍ତାକ୍ଷର</span>"
+msgstr "<span weight=\"bold\">ଡିଜିଟାଲ ହସ୍ତାକ୍ଷର</span>"
 
 #: ../mail/mail-dialogs.glade.h:4
 msgid "<span weight=\"bold\">Encryption</span>"
 msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:5
-#, fuzzy
 msgid "All active remote folders"
-msgstr "ସମସ୍ତ ସକ୍ରିୟ"
+msgstr "ସମସ୍ତ ସକ୍ରିୟ ସୂଦୂର ଫୋଲଡରଗୁଡ଼ିକ"
 
 #: ../mail/mail-dialogs.glade.h:6
-#, fuzzy
 msgid "All local and active remote folders"
-msgstr "ସମସ୍ତ ସ୍ଥାନୀୟ ଏବଂ ସକ୍ରିୟ"
+msgstr "ସମସ୍ତ ସ୍ଥାନୀୟ ଏବଂ ସକ୍ରିୟ ସୂଦୂର ଫୋଲଡରଗୁଡ଼ିକ"
 
 #: ../mail/mail-dialogs.glade.h:7
-#, fuzzy
 msgid "All local folders"
-msgstr "ସମସ୍ତ ସ୍ଥାନୀୟ"
+msgstr "ସମସ୍ତ ସ୍ଥାନୀୟ ଫୋଲଡରଗୁଡ଼ିକ"
 
 #: ../mail/mail-dialogs.glade.h:8
 msgid "Case _sensitive"
@@ -14970,17 +14722,14 @@ msgid "F_ind:"
 msgstr "ଖୋଜନ୍ତୁ (_i)"
 
 #: ../mail/mail-dialogs.glade.h:11
-#, fuzzy
 msgid "Find in Message"
-msgstr "ଖୋଜନ୍ତୁ ଇଞ୍ଚ ସନ୍ଦେଶ"
+msgstr "ସନ୍ଦେଶରେ ଖୋଜନ୍ତୁ"
 
 #: ../mail/mail-dialogs.glade.h:12 ../mail/message-tag-followup.c:276
-#, fuzzy
 msgid "Flag to Follow Up"
-msgstr "କୁ ଅନୁସରଣ କରନ୍ତୁ ଉପର"
+msgstr "ଅନୁସରଣ କରିବା ପାଇଁ ବିଶେଷ ସୂଚକ"
 
 #: ../mail/mail-dialogs.glade.h:13
-#, fuzzy
 msgid "Folder Subscriptions"
 msgstr "ଫୋଲଡର ସ୍ବୀକାରକରଣଗୁଡିକ"
 
@@ -14989,17 +14738,14 @@ msgid "License Agreement"
 msgstr "ଲାଇସେନ୍ସ ରାଜିନାମା"
 
 #: ../mail/mail-dialogs.glade.h:15
-#, fuzzy
 msgid "None Selected"
-msgstr "କିଛି ନୁହେଁ ଚୟିତ"
+msgstr "କାହାକୁ ବଛା ହୋଇନାହିଁ"
 
 #: ../mail/mail-dialogs.glade.h:16
-#, fuzzy
 msgid "S_erver:"
-msgstr "S:"
+msgstr "ସର୍ଭର (_e):"
 
 #: ../mail/mail-dialogs.glade.h:17
-#, fuzzy
 msgid "Security Information"
 msgstr "ସୁରକ୍ଷା ସୂଚନା"
 
@@ -15008,30 +14754,26 @@ msgid "Specific folders"
 msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:19
-#, fuzzy
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
-msgstr "ଚୟିତ ପାଇଁ ଅନୁସରଣକର ଉପର ତଳ ମନୋନୀତ କର a ଅନୁସରଣକର ଉପର ଠାରୁ ମେନୁ."
+msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:21
-#, fuzzy
 msgid "_Accept License"
-msgstr "ଗ୍ରହଣକର ଅନୁମତି ପତ୍ର"
+msgstr "ଅନୁମତି ପତ୍ର ଗ୍ରହଣକରନ୍ତୁ (_A)"
 
 #: ../mail/mail-dialogs.glade.h:22
-#, fuzzy
 msgid "_Due By:"
-msgstr "ଅନ୍ତିମ ଦିବସ ଦ୍ବାରା:"
+msgstr "ଅନ୍ତିମ ଦିବସ (_D):"
 
 #: ../mail/mail-dialogs.glade.h:23
 msgid "_Flag:"
 msgstr ""
 
 #: ../mail/mail-dialogs.glade.h:24
-#, fuzzy
 msgid "_Tick this to accept the license agreement"
-msgstr "ଏହା କୁ"
+msgstr ""
 
 #: ../mail/mail-folder-cache.c:834
 #, c-format
@@ -15044,30 +14786,28 @@ msgid "Filtering Selected Messages"
 msgstr "ଚୟିତ ବସ୍ତୁ ମାନଙ୍କୁ ଛାଣୁଅଛି"
 
 #: ../mail/mail-ops.c:265
-#, fuzzy
 msgid "Fetching Mail"
-msgstr "ମେଲ"
+msgstr "ମେଲ ଆନୟନ"
 
 #. sending mail, filtering failed
 #: ../mail/mail-ops.c:561
 #, c-format
-#, fuzzy
 msgid "Failed to apply outgoing filters: %s"
-msgstr "ବିଫଳ ହୋଇଛି କୁ ପ୍ରୟୋଗ କରନ୍ତୁ"
+msgstr "ଯାଉଥିବା ଛାଣକକୁ ପ୍ରୟୋଗ କରିବାରେ ବିଫଳ ହୋଇଛି: %s"
 
 #: ../mail/mail-ops.c:573 ../mail/mail-ops.c:602
 #, c-format
-#, fuzzy
 msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local `Sent' folder instead."
-msgstr "ବିଫଳ ହୋଇଛି କୁ କୁ କୁ ସ୍ଥାନୀୟ ପଠାଯାଇଛି."
+msgstr ""
+"%sରେ ଯୋଡ଼ିବା ବିଫଲ ହୋଇଛି: %s\n"
+"ଏହା ପରିବର୍ତ୍ତେ ସ୍ଥାନୀୟ `ଫଠାଯାଇଥିବା' ଫୋଲଡରକୁ ଯୋଡ଼ୁଅଛି।"
 
 #: ../mail/mail-ops.c:619
 #, c-format
-#, fuzzy
 msgid "Failed to append to local `Sent' folder: %s"
-msgstr "ବିଫଳ ହୋଇଛି କୁ କୁ ସ୍ଥାନୀୟ ପଠାଯାଇଛି"
+msgstr "ସ୍ଥାନୀୟ 'ପଠାଯାଇଥିବା' ଫୋଲଡର ସହିତ ଯୋଡିବାରେ ବିଫଳ ହୋଇଛି: %s "
 
 #: ../mail/mail-ops.c:725
 #| msgid "Attached message"
@@ -15077,41 +14817,35 @@ msgstr "ସନ୍ଦେଶ ପଠାଉଅଛି"
 
 #: ../mail/mail-ops.c:735
 #, c-format
-#, fuzzy
 msgid "Sending message %d of %d"
-msgstr "ପଠାଉଛି d ର d"
+msgstr "%dର ସନ୍ଦେଶ %d କୁ ପଠାଯାଉଛି"
 
 #: ../mail/mail-ops.c:762
 #, c-format
-#, fuzzy
 msgid "Failed to send %d of %d messages"
-msgstr "ବିଫଳ ହୋଇଛି କୁ d ର d"
+msgstr "%dର ସନ୍ଦେଶ %d କୁ ପଠାଇବାରେ ବିଫଳ"
 
 #: ../mail/mail-ops.c:764 ../mail/mail-send-recv.c:700
 msgid "Canceled."
 msgstr "ବାତିଲ ହୋଇଛି।"
 
 #: ../mail/mail-ops.c:766 ../mail/mail-send-recv.c:702
-#, fuzzy
 msgid "Complete."
-msgstr "ସମ୍ପୂର୍ଣ୍ଣ."
+msgstr "ସମ୍ପୂର୍ଣ୍ଣ।"
 
 #: ../mail/mail-ops.c:872
-#, fuzzy
 msgid "Saving message to folder"
-msgstr "ସଂରକ୍ଷଣ କରୁଅଛି କୁ"
+msgstr "ସନ୍ଦେଶକୁ ଫୋଲଡରରେ ସଂରକ୍ଷଣ କରୁଅଛି"
 
 #: ../mail/mail-ops.c:950
 #, c-format
-#, fuzzy
 msgid "Moving messages to %s"
-msgstr "କୁ"
+msgstr "ସନ୍ଦେଶକୁ %sରେ ଗତିକରାଉଛି"
 
 #: ../mail/mail-ops.c:950
 #, c-format
-#, fuzzy
 msgid "Copying messages to %s"
-msgstr "କୁ"
+msgstr "ସନ୍ଦେଶକୁ %sରେ ନକଲ କରୁଅଛି"
 
 #: ../mail/mail-ops.c:1167
 msgid "Forwarded messages"
@@ -15145,9 +14879,8 @@ msgstr ""
 
 #: ../mail/mail-ops.c:1594
 #, c-format
-#, fuzzy
 msgid "Expunging and storing account '%s'"
-msgstr "ଏବଂ"
+msgstr ""
 
 #: ../mail/mail-ops.c:1595
 #, c-format
@@ -15164,100 +14897,89 @@ msgstr ""
 
 #: ../mail/mail-ops.c:1736
 #, c-format
-#, fuzzy
 msgid "Emptying trash in '%s'"
-msgstr "ବର୍ଜିତ ଇଞ୍ଚ"
+msgstr "'%s' ରେ ଆବର୍ଜନା ପାତ୍ରକୁ ଖାଲିକରୁଅଛି"
 
 #: ../mail/mail-ops.c:1737
-#, fuzzy
 msgid "Local Folders"
-msgstr "ସ୍ଥାନୀଯ ଫୋଲ୍ଡରଗୁଡ଼ିକ"
+msgstr "ସ୍ଥାନୀୟ ଫୋଲ୍ଡରଗୁଡ଼ିକ"
 
 #: ../mail/mail-ops.c:1818
 #, c-format
-#, fuzzy
 msgid "Retrieving message %s"
-msgstr "ପୁନରୁଦ୍ଧାର କରନ୍ତୁ"
+msgstr "ସନ୍ଦେଶ %sକୁ ପୁନରୁଦ୍ଧାର କରୁଅଛି"
 
 #: ../mail/mail-ops.c:1925
 #, c-format
-#, fuzzy
 msgid "Retrieving %d message"
 msgid_plural "Retrieving %d messages"
-msgstr[0] "ପୁନରୁଦ୍ଧାର କରନ୍ତୁ d"
-msgstr[1] "ପୁନରୁଦ୍ଧାର କରନ୍ତୁ d"
+msgstr[0] "ସନ୍ଦେଶ %dକୁ ପୁନରୁଦ୍ଧାର କରୁଅଛି"
+msgstr[1] "ସନ୍ଦେଶ %dଗୁଡ଼ିକୁ ପୁନରୁଦ୍ଧାର କରୁଅଛି"
 
 #: ../mail/mail-ops.c:2010
 #, c-format
-#, fuzzy
 msgid "Saving %d message"
 msgid_plural "Saving %d messages"
-msgstr[0] "ସଂରକ୍ଷଣ କରୁଅଛି d"
-msgstr[1] "ସଂରକ୍ଷଣ କରୁଅଛି d"
+msgstr[0] "%d ସନ୍ଦେଶକୁ ସଂରକ୍ଷଣ କରୁଅଛି"
+msgstr[1] "%d ସନ୍ଦେଶଗୁଡ଼ିକୁ ସଂରକ୍ଷଣ କରୁଅଛି"
 
 #: ../mail/mail-ops.c:2088
 #, c-format
-#, fuzzy
 msgid ""
 "Error saving messages to: %s:\n"
 " %s"
-msgstr "ତ୍ରୁଟି କୁ\n"
+msgstr ""
+"ରେ ସନ୍ଦେଶଗୁଡ଼ିକୁ ସଂରକ୍ଷଣ କରିବାରେ ତ୍ରୁଟି: %s:\n"
+" %s"
 
 #: ../mail/mail-ops.c:2160
-#, fuzzy
 msgid "Saving attachment"
-msgstr "ସଂରକ୍ଷଣ କରୁଅଛି ସଂଲଗ୍ନକ"
+msgstr "ସଂଲଗ୍ନକୁ ସଂରକ୍ଷଣ କରୁଅଛି"
 
 #: ../mail/mail-ops.c:2178 ../mail/mail-ops.c:2186
 #, c-format
-#, fuzzy
 msgid ""
 "Cannot create output file: %s:\n"
 " %s"
-msgstr "ଫାଇଲ\n"
+msgstr ""
+"ଫଳାଫଳ ଫାଇଲ ନିର୍ମାଣ କରିପାରିବେ ନାହିଁ: %s:\n"
+" %s"
 
 #: ../mail/mail-ops.c:2201
 #, c-format
-#, fuzzy
 msgid "Could not write data: %s"
-msgstr "ନୁହେଁ ଲେଖନ୍ତୁ ତଥ୍ଯ"
+msgstr "ତଥ୍ଯ ଲେଖିପାରିବେ ନାହିଁ: %s"
 
 #: ../mail/mail-ops.c:2347
 #, c-format
-#, fuzzy
 msgid "Disconnecting from %s"
-msgstr "ଠାରୁ"
+msgstr "%s ଠାରୁ ସଂଯୋଗ ବିଚ୍ଛିନ୍ନ କରୁଅଛି"
 
 #: ../mail/mail-ops.c:2347
 #, c-format
-#, fuzzy
 msgid "Reconnecting to %s"
-msgstr "ସଂୟୋଗ କରୁଛି କୁ"
+msgstr "%s ସହିତ ପୁନଃସଂଯୋଗ କରୁଅଛି"
 
 #: ../mail/mail-ops.c:2443
 #, c-format
-#, fuzzy
 msgid "Preparing account '%s' for offline"
-msgstr "ପ୍ରସ୍ତୁତ କରୁଅଛି ପାଇଁ ଅଫ ଲାଇନ"
+msgstr "ଅଫ ଲାଇନ ପାଇଁ ଖାତା '%s' ପ୍ରସ୍ତୁତ କରୁଅଛି"
 
 #: ../mail/mail-ops.c:2529
-#, fuzzy
 msgid "Checking Service"
-msgstr " ଯାଞ୍ଚ କରୁଅଛ. ସେବା"
+msgstr "ସର୍ଭିସ ଯାଞ୍ଚ କରୁଅଛି"
 
 #: ../mail/mail-send-recv.c:181
 msgid "Canceling..."
 msgstr ""
 
 #: ../mail/mail-send-recv.c:383
-#, fuzzy
 msgid "Send & Receive Mail"
-msgstr "ପଠାଅ ମେଲ"
+msgstr "ମେଲ ପଠାନ୍ତୁ ଏବଂ ଗ୍ରହଣକରନ୍ତୁ"
 
 #: ../mail/mail-send-recv.c:394
-#, fuzzy
 msgid "Cancel _All"
-msgstr "ବାତିଲ କରନ୍ତୁ ସମସ୍ତ"
+msgstr "ସମସ୍ତ ବାତିଲ କରନ୍ତୁ (_A)"
 
 #: ../mail/mail-send-recv.c:503
 msgid "Updating..."
@@ -15274,30 +14996,26 @@ msgstr "ନୂତନ ମେଲ ଯାଞ୍ଚ କରୁଅଛି"
 
 #: ../mail/mail-session.c:212
 #, c-format
-#, fuzzy
 msgid "Enter Passphrase for %s"
-msgstr "ପ୍ରବେଶ କରନ୍ତୁ (Enter) ପ୍ରବେଶ ସଙ୍କେତ ପାଇଁ"
+msgstr "%s ପାଇଁ ପ୍ରବେଶ କରନ୍ତୁ ଭରଣ କରନ୍ତୁ"
 
 #: ../mail/mail-session.c:214
-#, fuzzy
 msgid "Enter Passphrase"
-msgstr "ପ୍ରବେଶ କରନ୍ତୁ (Enter) ପ୍ରବେଶ ସଙ୍କେତ"
+msgstr "ପ୍ରବେଶ ସଙ୍କେତ ଭରଣ କରନ୍ତୁ"
 
 #: ../mail/mail-session.c:217
 #: ../plugins/exchange-operations/exchange-config-listener.c:708
 #, c-format
-#, fuzzy
 msgid "Enter Password for %s"
-msgstr "ପ୍ରବେଶ କରନ୍ତୁ (Enter) ପ୍ରବେଶ ସଙ୍କେତ ପାଇଁ"
+msgstr "%s ପାଇଁ ପ୍ରବେଶ ସଙ୍କେତ ଭରଣ କରନ୍ତୁ"
 
 #: ../mail/mail-session.c:219
 msgid "Enter Password"
 msgstr "ପ୍ରବେଶ ସଙ୍କେତକୁ ଭରଣ କରନ୍ତୁ"
 
 #: ../mail/mail-session.c:261
-#, fuzzy
 msgid "User canceled operation."
-msgstr "ଚାଳକ."
+msgstr "ଚାଳକ ଦ୍ୱାରା ବାତିଲ ହୋଇଥିବା ପ୍ରୟୋଗ।"
 
 #: ../mail/mail-signature-editor.c:201
 #| msgid "_Save Changes"
@@ -15310,21 +15028,18 @@ msgid "Edit Signature"
 msgstr "ହସ୍ତାକ୍ଷରକୁ ସମ୍ପାଦନ କରନ୍ତୁ"
 
 #: ../mail/mail-signature-editor.c:370
-#, fuzzy
 msgid "_Signature Name:"
-msgstr "ହସ୍ତାକ୍ଷର ନାମ:"
+msgstr "ହସ୍ତାକ୍ଷର ନାମ (_S):"
 
 #: ../mail/mail-tools.c:120
 #, c-format
-#, fuzzy
 msgid "Could not create spool directory `%s': %s"
-msgstr "ନୁହେଁ ଡିରେକ୍ଟୋରୀ"
+msgstr "ସ୍ପୁଲ ଡିରେକ୍ଟୋରୀ `%s' କୁ ନିର୍ମାଣ କରିପାରିଲା ନାହିଁ: %s"
 
 #: ../mail/mail-tools.c:150
 #, c-format
-#, fuzzy
 msgid "Trying to movemail a non-mbox source `%s'"
-msgstr "କୁ a ଉତ୍ସ"
+msgstr ""
 
 #: ../mail/mail-tools.c:256
 #, c-format
@@ -15337,126 +15052,105 @@ msgstr ""
 
 #: ../mail/mail-tools.c:298
 #, c-format
-#, fuzzy
 msgid "Invalid folder: `%s'"
-msgstr "ଅବୈଧ"
+msgstr "ଅବୈଧ ଫୋଲଡର: `%s'"
 
 #: ../mail/mail-vfolder.c:89
 #, c-format
-#, fuzzy
 msgid "Setting up Search Folder: %s"
-msgstr "ସେଟିଙ୍ଗ ଉପର ଖୋଜନ୍ତୁ ଫୋଲଡର"
+msgstr "ସନ୍ଧାନ ଫୋଲଡରକୁ ସଜାଡ଼ୁଛି: %s"
 
 #: ../mail/mail-vfolder.c:240
 #, c-format
-#, fuzzy
 msgid "Updating Search Folders for '%s:%s'"
-msgstr "ଅପ୍ଡେଟ୍କରିବା ଖୋଜନ୍ତୁ ଫୋଲ୍ଡରଗୁଡ଼ିକ ପାଇଁ"
+msgstr "'%s ପାଇଁ ସନ୍ଧାନ ଫୋଲଡରକୁ ଅଦ୍ୟତନ କରୁଅଛି:%s'"
 
 #: ../mail/mail-vfolder.c:247
 #, c-format
-#, fuzzy
 msgid "Updating Search Folders for '%s'"
-msgstr "ଅପ୍ଡେଟ୍କରିବା ଖୋଜନ୍ତୁ ଫୋଲ୍ଡରଗୁଡ଼ିକ ପାଇଁ"
+msgstr "'%s ପାଇଁ ସନ୍ଧାନ ଫୋଲଡରକୁ ଅଦ୍ୟତନ କରୁଅଛି"
 
 #: ../mail/mail-vfolder.c:1086
-#, fuzzy
 msgid "Edit Search Folder"
-msgstr "ସମ୍ପାଦନ କରନ୍ତୁ ଖୋଜନ୍ତୁ ଫୋଲଡର"
+msgstr "ସନ୍ଧାନ ଫୋଲଡରକୁ ସମ୍ପାଦନ କରନ୍ତୁ"
 
 #: ../mail/mail-vfolder.c:1175
-#, fuzzy
 msgid "New Search Folder"
-msgstr "ନୂତନ ଖୋଜନ୍ତୁ ଫୋଲଡର"
+msgstr "ନୂତନ ସନ୍ଧାନ ଫୋଲଡର"
 
 #: ../mail/mail.error.xml.h:1
-#, fuzzy
 msgid "A folder named \"{0}\" already exists. Please use a different name."
-msgstr "A ଅବସ୍ଥିତ ଦୟାକରି a ନାମ."
+msgstr "\"{0}\" ନାମକ ଫୋଲଡର ନାମ ପୂର୍ବରୁ ଅବସ୍ଥିତ ଅଛି। ଦୟାକରି ଭିନ୍ନ ଏକ ନାମ ବ୍ୟବହାର କରନ୍ତୁ।"
 
 #: ../mail/mail.error.xml.h:2
-#, fuzzy
 msgid "A folder named \"{1}\" already exists. Please use a different name."
-msgstr "A ଅବସ୍ଥିତ ଦୟାକରି a ନାମ."
+msgstr "\"{1}\" ନାମକ ଫୋଲଡର ନାମ ପୂର୍ବରୁ ଅବସ୍ଥିତ ଅଛି। ଦୟାକରି ଭିନ୍ନ ଏକ ନାମ ବ୍ୟବହାର କରନ୍ତୁ।"
 
 #: ../mail/mail.error.xml.h:3
-#, fuzzy
 msgid ""
 "A non-empty folder at \"{1}\" already exists.\n"
 "\n"
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit."
-msgstr "A ଖାଲି ଏଠାରେ ଅବସ୍ଥିତ ନାଁ କୁ ଏହା କିମ୍ବା କିମ୍ବା ମୁକ୍ତ କର."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:6
-#, fuzzy
 msgid ""
 "A read receipt notification has been requested for \"{1}\". Send the receipt "
 "notification to {0}?"
-msgstr "A ପଢନ୍ତୁ ପାଇଁ ପଠାଅ କୁ?"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:7
-#, fuzzy
 msgid ""
 "A signature already exists with the name \"{0}\". Please specify a different "
 "name."
-msgstr "A ଅବସ୍ଥିତ ସହିତ  ନାମ ଦୟାକରି a ନାମ."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:8
-#, fuzzy
 msgid ""
 "Adding a meaningful Subject line to your messages will give your recipients "
 "an idea of what your mail is about."
-msgstr "ଯୋଗ କରୁଅଛି a ବିଷଯ କୁ ର ଡାକ ଅଟେ ବିଷଯରେ."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:9
-#, fuzzy
 msgid "Are you sure you want to delete this account and all its proxies?"
-msgstr "କୁ ବିଲୋପ କର ଏହା ଏବଂ ସମସ୍ତ?"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:10
-#, fuzzy
 msgid "Are you sure you want to delete this account?"
-msgstr "କୁ ବିଲୋପ କର ଏହା?"
+msgstr "ଏହି ଖାତାକୁ ଅପସାରଣ କରିବେ ବୋଲି ଆପଣ ନିଶ୍ଚିତ କି?"
 
 #: ../mail/mail.error.xml.h:11
-#, fuzzy
 msgid "Are you sure you want to disable this account and delete all its proxies?"
-msgstr "କୁ ନିଷ୍କ୍ରିୟ ଏହା ଏବଂ ବିଲୋପ କର ସମସ୍ତ?"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:12
-#, fuzzy
 msgid "Are you sure you want to open {0} messages at once?"
-msgstr "କୁ ଖୋଲ ଏଠାରେ?"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:13
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in all "
 "folders?"
-msgstr "କୁ କାଢ଼ନ୍ତୁ ସମସ୍ତ ବିଲୋପ ହୋଇଛି ଇଞ୍ଚ ସମସ୍ତ?"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:14
-#, fuzzy
 msgid ""
 "Are you sure you want to permanently remove all the deleted messages in "
 "folder \"{0}\"?"
-msgstr "କୁ କାଢ଼ନ୍ତୁ ସମସ୍ତ ବିଲୋପ ହୋଇଛି ଇଞ୍ଚ?"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:15
-#, fuzzy
 msgid "Are you sure you want to send a message in HTML format?"
-msgstr "କୁ a ଇଞ୍ଚ HTML?"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:16
-#, fuzzy
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "କୁ a ସହିତ  BCC?"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:17
-#, fuzzy
 msgid "Are you sure you want to send a message without a subject?"
-msgstr "କୁ a a?"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:18
 msgid "Because \"{0}\"."
@@ -15467,19 +15161,16 @@ msgid "Because \"{2}\"."
 msgstr ""
 
 #: ../mail/mail.error.xml.h:21
-#, fuzzy
 msgid "Blank Signature"
 msgstr "ଶୂନ୍ଯ ହସ୍ତାକ୍ଷର"
 
 #: ../mail/mail.error.xml.h:22
-#, fuzzy
 msgid "Cannot add Search Folder \"{0}\"."
-msgstr "ଯୋଗ କରନ୍ତୁ ଖୋଜନ୍ତୁ ଫୋଲଡର."
+msgstr "ସନ୍ଧାନ ଫୋଲଡର \"{0}\"କୁ ଯୋଡିପାରିବେ ନାହିଁ।"
 
 #: ../mail/mail.error.xml.h:23
-#, fuzzy
 msgid "Cannot copy folder \"{0}\" to \"{1}\"."
-msgstr "ନକଲ୍ କୁ."
+msgstr "ଫୋଲଡର \"{0}\" କୁ \"{1}\"ରେ ନକଲ କରିପାରିବେ ନାହିଁ।"
 
 #: ../mail/mail.error.xml.h:24
 #| msgid "Cannot display folders."
@@ -15487,14 +15178,12 @@ msgid "Cannot create folder \"{0}\"."
 msgstr "ଫୋଲଡର \"{0}\"କୁ ସୃଷ୍ଟି କରିପାରିବେ ନାହିଁ।"
 
 #: ../mail/mail.error.xml.h:25
-#, fuzzy
 msgid "Cannot create temporary save directory."
-msgstr "ସଂରକ୍ଷଣ ଡିରେକ୍ଟୋରୀ."
+msgstr "ଅସ୍ଥାୟୀ ସଂରକ୍ଷଣ ଡିରେକ୍ଟୋରୀ ନିର୍ମାଣ କରିପାରିବେ ନାହିଁ।"
 
 #: ../mail/mail.error.xml.h:26
-#, fuzzy
 msgid "Cannot create the save directory, because \"{1}\""
-msgstr "ସଂରକ୍ଷଣ ଡିରେକ୍ଟୋରୀ"
+msgstr "ସଂରକ୍ଷଣ ଡିରେକ୍ଟୋରୀ ନିର୍ମାଣ କରିପାରିବେ ନାହିଁ, କାରଣ \"{1}\""
 
 #: ../mail/mail.error.xml.h:27
 #| msgid "Cannot display folders."
@@ -15511,9 +15200,8 @@ msgid "Cannot edit Search Folder \"{0}\" as it does not exist."
 msgstr "ସନ୍ଧାନ ଫୋଲଡର \"{0}\"କୁ ସମ୍ପାଦନ କରିପାରିବେ ନାହିଁ ଯେହେତୁ ଏହା ଅବସ୍ଥିତ ନାହିଁ।"
 
 #: ../mail/mail.error.xml.h:30
-#, fuzzy
 msgid "Cannot move folder \"{0}\" to \"{1}\"."
-msgstr "ଘୁଞ୍ଚାନ୍ତୁ କୁ."
+msgstr "ଫୋଲଡର \"{0}\" କୁ \"{1}\"ରେ ଘୁଞ୍ଚାଇପାରିବେ ନାହିଁ।"
 
 #: ../mail/mail.error.xml.h:31
 #| msgid "Can not open file"
@@ -15531,31 +15219,26 @@ msgid "Cannot open target \"{2}\"."
 msgstr "ଲକ୍ଷ୍ଯ \"{2}\"କୁ ଖୋଲିପାରିବେ ନାହିଁ।"
 
 #: ../mail/mail.error.xml.h:34
-#, fuzzy
 msgid ""
 "Cannot read the license file \"{0}\", due to an installation problem. You "
 "will not be able to use this provider until you can accept its license."
-msgstr "ପଢନ୍ତୁ ଫାଇଲ କୁ ଆପଣ ନୁହେଁ କୁ ଏହା ଯେପର୍ଯ୍ଯନ୍ତ."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:35
-#, fuzzy
 msgid "Cannot rename \"{0}\" to \"{1}\"."
-msgstr "ପୁନଃନାମୀତ କର କୁ."
+msgstr "\"{0}\" କୁ \"{1}\"ରେ ପୁନଃନାମକରଣ କରିପାରିବେ ନାହିଁ।"
 
 #: ../mail/mail.error.xml.h:36
-#, fuzzy
 msgid "Cannot rename or move system folder \"{0}\"."
-msgstr "ପୁନଃନାମୀତ କର କିମ୍ବା ଘୁଞ୍ଚାନ୍ତୁ ତନ୍ତ୍ର."
+msgstr "ତନ୍ତ୍ର ଫୋଲଡର \"{0}\"କୁ ପୁନଃନାମକରଣ କରିପାରିବେ ନାହିଁ କିମ୍ବା ଘୁଞ୍ଚାଇପାରିବେ ନାହିଁ।"
 
 #: ../mail/mail.error.xml.h:37
-#, fuzzy
 msgid "Cannot save changes to account."
-msgstr "ସଂରକ୍ଷଣ କୁ."
+msgstr "ପରିବର୍ତ୍ତନଗୁଡ଼ିକୁ ଖାତାରେ ସଂରକ୍ଷଣ କରିପାରିବେ ନାହିଁ।"
 
 #: ../mail/mail.error.xml.h:38
-#, fuzzy
 msgid "Cannot save to directory \"{0}\"."
-msgstr "ସଂରକ୍ଷଣ କୁ ଡିରେକ୍ଟୋରୀ."
+msgstr "ଡିରେକ୍ଟୋରୀ \"{0}\" କୁ ସଂରକ୍ଷଣ କରିପାରିବେ ନାହିଁ।"
 
 #: ../mail/mail.error.xml.h:39
 #| msgid "Can not open file"
@@ -15563,26 +15246,22 @@ msgid "Cannot save to file \"{0}\"."
 msgstr "ଫାଇଲ \"{0}\"କୁ ସଂରକ୍ଷଣ କରିପାରିବେ ନାହିଁ।"
 
 #: ../mail/mail.error.xml.h:40
-#, fuzzy
 msgid "Cannot set signature script \"{0}\"."
-msgstr "ସେଟ ସ୍କ୍ରିପଟ."
+msgstr "ହସ୍ତାକ୍ଷର ସ୍କ୍ରିପ୍ଟ \"{0}\" କୁ ସେଟକରିପାରିବେ ନାହିଁ।"
 
 #: ../mail/mail.error.xml.h:41
-#, fuzzy
 msgid "Check Junk Failed"
-msgstr "ୟାଞ୍ଚ କର Junk ବିଫଳ ହୋଇଛି"
+msgstr "Junk ଯାଞ୍ଚ ବିଫଳ ହୋଇଛି"
 
 #: ../mail/mail.error.xml.h:42
-#, fuzzy
 msgid ""
 "Check to make sure your password is spelled correctly. Remember that many "
 "passwords are case sensitive; your caps lock might be on."
-msgstr "ୟାଞ୍ଚ କର କୁ ଗୁପ୍ତଶବ୍ଦ ଅଟେ ରେ."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:43
-#, fuzzy
 msgid "Could not save signature file."
-msgstr "ନୁହେଁ ସଂରକ୍ଷଣ ଫାଇଲ."
+msgstr "ହସ୍ତାକ୍ଷର ଫାଇଲକୁ ସଂରକ୍ଷଣ କରିପାରିବେ ନାହିଁ।"
 
 #: ../mail/mail.error.xml.h:44
 #| msgid "Delete"
@@ -15590,19 +15269,16 @@ msgid "Delete \"{0}\"?"
 msgstr "\"{0}\"କୁ ଅପସାରଣ କରିବେ କି?"
 
 #: ../mail/mail.error.xml.h:45
-#, fuzzy
 msgid "Delete account?"
-msgstr "ବିଲୋପ କର?"
+msgstr "ଖାତା ବିଲୋପ କରନ୍ତୁ?"
 
 #: ../mail/mail.error.xml.h:46
-#, fuzzy
 msgid "Delete messages in Search Folder \"{0}\"?"
-msgstr "ବିଲୋପ କର ଇଞ୍ଚ ଖୋଜନ୍ତୁ ଫୋଲଡର?"
+msgstr "ସନ୍ଧାନ ଫୋଲଡର \"{0}\"ରେ ଥିବା ସନ୍ଦେଶଗୁଡ଼ିକୁ ଅପସାରଣ କରିବେ କି?"
 
 #: ../mail/mail.error.xml.h:47
-#, fuzzy
 msgid "Delete messages in Search Folder?"
-msgstr "ବିଲୋପ କର ଇଞ୍ଚ ଖୋଜନ୍ତୁ ଫୋଲଡର?"
+msgstr "ସନ୍ଧାନ ଫୋଲଡରରେ ଥିବା ସନ୍ଦେଶଗୁଡ଼ିକୁ ଅପସାରଣ କରିବେ କି?"
 
 #: ../mail/mail.error.xml.h:48
 msgid "Discard changes?"
@@ -15618,239 +15294,199 @@ msgid "Do not delete"
 msgstr "ଅପସାରଣ କରନ୍ତୁ ନାହିଁ"
 
 #: ../mail/mail.error.xml.h:51
-#, fuzzy
 msgid "Do not disable"
-msgstr "ନୁହେଁ ନିଷ୍କ୍ରିୟ"
+msgstr "ନିଷ୍କ୍ରିୟ କରନ୍ତୁ ନାହିଁ"
 
 #: ../mail/mail.error.xml.h:52
-#, fuzzy
 msgid ""
 "Do you want to locally synchronize the folders that are marked for offline "
 "usage?"
-msgstr "କୁ ପାଇଁ ଅଫ ଲାଇନ?"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:53
-#, fuzzy
 msgid "Do you want to mark all messages as read?"
-msgstr "କୁ ସମସ୍ତ ପଢନ୍ତୁ?"
+msgstr "ଆପଣ ସମସ୍ତ ସନ୍ଦେଶଗୁଡ଼ିକୁ ପଢ଼ାଯାଇଥିବା ପରି ଚିହ୍ନଟ କରିବାକୁ ଚାହୁଁଛନ୍ତି କି?"
 
 #: ../mail/mail.error.xml.h:54
-#, fuzzy
 msgid "Do you wish to save your changes?"
-msgstr "କୁ ସଂରକ୍ଷଣ?"
+msgstr "ଆପଣ ଆପଣଙ୍କର ପରିବର୍ତ୍ତନଗୁଡ଼ିକୁ ସଂରକ୍ଷଣ କରିବାକୁ ଚାହୁଁଛନ୍ତି କି?"
 
 #: ../mail/mail.error.xml.h:55
-#, fuzzy
 msgid "Enter password."
-msgstr "ପ୍ରବେଶ କରନ୍ତୁ (Enter) ଗୁପ୍ତଶବ୍ଦ."
+msgstr "ପ୍ରବେଶ ସଙ୍କେତ ଭରଣ କରନ୍ତୁ।"
 
 #: ../mail/mail.error.xml.h:56
-#, fuzzy
 msgid "Error loading filter definitions."
-msgstr "ତ୍ରୁଟି."
+msgstr "ଛାଣକ ସଂଜ୍ଞାଗୁଡ଼ିକୁ ଧାରଣ କରିବାରେ ତ୍ରୁଟି।"
 
 #: ../mail/mail.error.xml.h:57
-#, fuzzy
 msgid "Error while performing operation."
-msgstr "ତ୍ରୁଟି."
+msgstr "ପ୍ରୟୋଗକୁ କାର୍ଯ୍ୟକାରୀ କରିବା ସମୟରେ ତ୍ରୁଟି।"
 
 #: ../mail/mail.error.xml.h:58
-#, fuzzy
 msgid "Error while {0}."
-msgstr "ତ୍ରୁଟି."
+msgstr "{0} ସମୟରେ ତ୍ରୁଟି।"
 
 #: ../mail/mail.error.xml.h:59
-#, fuzzy
 msgid "File exists but cannot overwrite it."
-msgstr "ଫାଇଲ ଅବସ୍ଥିତ."
+msgstr "ଫାଇଲ ଅବସ୍ଥିତ କିନ୍ତୁ ନବଲିଖନ କରିପାରିବେ ନାହିଁ।"
 
 #: ../mail/mail.error.xml.h:60
-#, fuzzy
 msgid "File exists but is not a regular file."
-msgstr "ଫାଇଲ ଅବସ୍ଥିତ ଅଟେ ନୁହେଁ a ଫାଇଲ."
+msgstr "ଫାଇଲ ଅବସ୍ଥିତ କିନ୍ତୁ ନିୟମିତ ଫାଇଲ ନୁହଁ।"
 
 #: ../mail/mail.error.xml.h:61
-#, fuzzy
 msgid "If you continue, you will not be able to recover these messages."
-msgstr "ନୁହେଁ କୁ."
+msgstr "ଯଦି ଆପଣ ଅଗ୍ରସର ହୁଅନ୍ତି, ତେବେ ଆପଣ ଏହି ସନ୍ଦେଶଗୁଡ଼ିକୁ କାଢ଼ିବାରେ ସମର୍ଥ ହେବେ ନାହିଁ।"
 
 #: ../mail/mail.error.xml.h:62
-#, fuzzy
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
-msgstr "ବିଲୋପ କର ସମସ୍ତ ର ଏବଂ ବିଲୋପ ହୋଇଛି."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:63
-#, fuzzy
 msgid "If you proceed, all proxy accounts will be deleted permanently."
-msgstr "ସମସ୍ତ ଆକାଉଣ୍ଟ ଗୁଡିକ ବିଲୋପ ହୋଇଛି."
+msgstr "ଯଦି ଆପଣ ଅଗ୍ରସର ହୁଅନ୍ତି, ତେବେ ସମସ୍ତ ପ୍ରକ୍ସି ଖାତାଗୁଡ଼ିକ ସବୁଦିନ ପାଇଁ ଅପସାରଣ ହୋଇଯିବ।"
 
 #: ../mail/mail.error.xml.h:64
-#, fuzzy
 msgid ""
 "If you proceed, the account information and\n"
 "all proxy information will be deleted permanently."
-msgstr "ଏବଂ ବିଲୋପ ହୋଇଛି."
+msgstr ""
+"ଯଦି ଆପଣ ଅଗ୍ରସର ହୁଅନ୍ତି, ତେବେ ଖାତା ସୂଚନା ଏବଂ\n"
+"ପ୍ରକ୍ସି ସୂଚନା ସବୁଦିନ ପାଇଁ ଅପସାରଣ ହୋଇଯିବ।"
 
 #: ../mail/mail.error.xml.h:66
-#, fuzzy
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr "ବିଲୋପ ହୋଇଛି."
+msgstr "ଯଦି ଆପଣ ଅଗ୍ରସର ହୁଅନ୍ତି, ତେବେ ଖାତା ସୂଚନା ସବୁଦିନ ପାଇଁ ଅପସାରଣ ହୋଇଯିବ।"
 
 #: ../mail/mail.error.xml.h:67
-#, fuzzy
 msgid ""
 "If you quit, these messages will not be sent until Evolution is started "
 "again."
-msgstr "ମୁକ୍ତ କର ନୁହେଁ ଯେପର୍ଯ୍ଯନ୍ତ କ୍ରମବିକାଶ  ଅଟେ."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:68
 msgid "Ignore"
 msgstr "ଆଗ୍ରହ୍ଯ କରିଦିଅନ୍ତୁ"
 
 #: ../mail/mail.error.xml.h:69
-#, fuzzy
 msgid "Invalid authentication"
 msgstr "ଅବୈଧ ବୈଧିକରଣ"
 
 #: ../mail/mail.error.xml.h:71
-#, fuzzy
 msgid "Mail filters automatically updated."
-msgstr "ମେଲ."
+msgstr "ମେଲ ଛାଣକ ସ୍ୱୟଂଚାଳିତ ଭାବରେ ଅଦ୍ୟତିତ ହୋଇଛି।"
 
 #: ../mail/mail.error.xml.h:72
-#, fuzzy
 msgid ""
 "Many email systems add an Apparently-To header to messages that only have "
 "BCC recipients. This header, if added, will list all of your recipients to "
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
-msgstr "ଯୋଗ କରନ୍ତୁ କୁ ଶୀର୍ଷକ କୁ BCC ଶୀର୍ଷକ ତାଲିକା ସମସ୍ତ ର କୁ କୁ ଏହା ଯୋଗ କରନ୍ତୁ ଏଠାରେ କୁ କିମ୍ବା CC."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:73
-#, fuzzy
 msgid "Mark all messages as read"
-msgstr "ସମସ୍ତ ପଢନ୍ତୁ"
+msgstr "ସମସ୍ତ ସନ୍ଦେଶଗୁଡ଼ିକୁ ପଢାଯାଇଛି ବୋଲି ଚିହ୍ନଟ କରନ୍ତୁ"
 
 #: ../mail/mail.error.xml.h:74
-#, fuzzy
 msgid "Missing folder."
-msgstr "ଅନୁପସ୍ଥିତ."
+msgstr "ଅନୁପସ୍ଥିତ ଫୋଲଡର।"
 
 #: ../mail/mail.error.xml.h:76
-#, fuzzy
 msgid "No sources selected."
-msgstr "ନାଁ ଚୟିତ."
+msgstr "କୌଣସି ଉତ୍ସ ବଛାହୋଇନାହିଁ।"
 
 #: ../mail/mail.error.xml.h:77
-#, fuzzy
 msgid "Opening too many messages at once may take a long time."
-msgstr "ଏଠାରେ a."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:78
-#, fuzzy
 msgid "Please check your account settings and try again."
-msgstr "ଦୟାକରି ଏବଂ."
+msgstr "ଦୟାକରି ଆପଣଙ୍କର ଖାତା ସଂରଚନାକୁ ଯାଞ୍ଚକରନ୍ତୁ ଏବଂ ପୁଣି ଚେଷ୍ଟାକରନ୍ତୁ।"
 
 #: ../mail/mail.error.xml.h:79
-#, fuzzy
 msgid "Please enable the account or send using another account."
-msgstr "ଦୟାକରି ସକ୍ରିୟ କିମ୍ବା."
+msgstr "ଦୟାକରି ଖାତାକୁ ସକ୍ରିୟ କରନ୍ତୁ କିମ୍ବା ଅନ୍ୟ ଏକ ଖାତା ବ୍ୟବହାର କରି ପଠାନ୍ତୁ।"
 
 #: ../mail/mail.error.xml.h:80
-#, fuzzy
 msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
-msgstr "ଦୟାକରି ପ୍ରବେଶ କରନ୍ତୁ a ଇଞ୍ଚ କୁ କ୍ଷେତ୍ର ଆପଣ ପାଇଁ ଦ୍ବାରା ରେ କୁ ବଟନ କୁ ଭରଣ."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:81
-#, fuzzy
 msgid ""
 "Please make sure the following recipients are willing and able to receive "
 "HTML email:\n"
 "{0}"
-msgstr "ଦୟାକରି ନିମ୍ନଲିଖିତ ଏବଂ କୁ HTML ନାଁ"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:83
-#, fuzzy
 msgid "Please provide an unique name to identify this signature."
-msgstr "ଦୟାକରି ନାମ କୁ ଏହା."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:84
-#, fuzzy
 msgid "Please wait."
-msgstr "ଦୟାକରି."
+msgstr "ଦୟାକରି ଅପେକ୍ଷା କରନ୍ତୁ।"
 
 #: ../mail/mail.error.xml.h:85
-#, fuzzy
 msgid "Problem migrating old mail folder \"{0}\"."
-msgstr "ସମସ୍ଯା ଡାକ."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:86
-#, fuzzy
 msgid "Querying server"
-msgstr "ସରବର୍"
+msgstr "ଅନୁସନ୍ଧାନ ସର୍ଭର"
 
 #: ../mail/mail.error.xml.h:87
-#, fuzzy
 msgid "Querying server for a list of supported authentication mechanisms."
-msgstr "ସରବର୍ ପାଇଁ a ତାଲିକା ର ବୈଧିକରଣ."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:88
-#, fuzzy
 msgid "Read receipt requested."
-msgstr "ପଢନ୍ତୁ."
+msgstr "ଅନୁରୋଧ କରାଯାଇଥିବା ରସିଦ ପଢନ୍ତୁ।"
 
 #: ../mail/mail.error.xml.h:89
-#, fuzzy
 msgid "Really delete folder \"{0}\" and all of its subfolders?"
-msgstr "ବିଲୋପ କର ଏବଂ ସମସ୍ତ ର?"
+msgstr "ଫୋଲଡର \"{0}\" ଏବଂ ଏହାର ସମସ୍ତ ଉପପୋଲଡରଗୁଡ଼ିକୁ ପ୍ରକୃତରେ ଅପସାରଣ କରିବେ କି?"
 
 #: ../mail/mail.error.xml.h:90
-#, fuzzy
 msgid "Report Junk Failed"
 msgstr "ରିପୋର୍ଟ Junk ବିଫଳ ହୋଇଛି"
 
 #: ../mail/mail.error.xml.h:91
-#, fuzzy
 msgid "Report Not Junk Failed"
-msgstr "ରିପୋର୍ଟ Junk ବିଫଳ ହୋଇଛି"
+msgstr "ରିପୋର୍ଟ Junk ବିଫଳ ହୋଇନାହିଁ"
 
 #: ../mail/mail.error.xml.h:92
-#, fuzzy
 msgid "Search Folders automatically updated."
-msgstr "ଖୋଜନ୍ତୁ ଫୋଲ୍ଡରଗୁଡ଼ିକ."
+msgstr "ସନ୍ଧାନ ଫୋଲଡରଗୁଡ଼ିକ ସ୍ୱୟଂଚାଳିତ ଭାବରେ ଅଦ୍ୟତିତ ହୋଇଛି।"
 
 #: ../mail/mail.error.xml.h:93
-#, fuzzy
 msgid "Send Receipt"
-msgstr "ପଠାଅ"
+msgstr "ପଠାଯାଇଥିବା ରସିଦ"
 
 #: ../mail/mail.error.xml.h:94
-#, fuzzy
 msgid "Signature Already Exists"
-msgstr "ହସ୍ତାକ୍ଷର"
+msgstr "ହସ୍ତାକ୍ଷର ପୂର୍ବରୁ ଅବସ୍ଥିତ ଅଛି"
 
 #: ../mail/mail.error.xml.h:95
 msgid "Synchronize"
 msgstr "ସମକାଳୀନ"
 
 #: ../mail/mail.error.xml.h:96
-#, fuzzy
 msgid "Synchronize folders locally for offline usage?"
-msgstr "ସମକାଳୀନ ପାଇଁ ଅଫ ଲାଇନ?"
+msgstr "ଅଫ ଲାଇନ ବ୍ୟବହାର ପାଇଁ ଫୋଲଡରଗୁଡ଼ିକୁ ସ୍ଥାନୀୟ ଭାବରେ ସମକାଳୀନ କରିବେ କି?"
 
 #: ../mail/mail.error.xml.h:97
-#, fuzzy
 msgid ""
 "System folders are required for Evolution to function correctly and cannot "
 "be renamed, moved, or deleted."
-msgstr "ତନ୍ତ୍ର ପାଇଁ କ୍ରମବିକାଶ  କୁ ଫଳନ ଏବଂ କିମ୍ବା ବିଲୋପ ହୋଇଛି."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:98
-#, fuzzy
 msgid ""
 "The contact list you are sending to is configured to hide list recipients.\n"
 "\n"
@@ -15858,10 +15494,9 @@ msgid ""
 "BCC recipients. This header, if added, will list all of your recipients in "
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
-msgstr "ସମ୍ପର୍କ ତାଲିକା କୁ ଅଟେ ବିନ୍ଯାସିତ ହୋଇଗଲା କୁ ତାଲିକା ନାଁ ଯୋଗ କରନ୍ତୁ କୁ ଶୀର୍ଷକ କୁ BCC ଶୀର୍ଷକ ତାଲିକା ସମସ୍ତ ର ଇଞ୍ଚ କୁ ଏହା ଯୋଗ କରନ୍ତୁ ଏଠାରେ କୁ କିମ୍ବା CC "
+msgstr ""
 
 #: ../mail/mail.error.xml.h:101
-#, fuzzy
 msgid ""
 "The following Search Folder(s):\n"
 "{0}\n"
@@ -15869,11 +15504,8 @@ msgid ""
 "    \"{1}\"\n"
 "And have been updated."
 msgstr ""
-"ନିମ୍ନଲିଖିତ ଖୋଜନ୍ତୁ ଫୋଲଡର ନାଁ ବର୍ତ୍ତମାନ\n"
-"."
 
 #: ../mail/mail.error.xml.h:106
-#, fuzzy
 msgid ""
 "The following filter rule(s):\n"
 "{0}\n"
@@ -15881,158 +15513,134 @@ msgid ""
 "    \"{1}\"\n"
 "And have been updated."
 msgstr ""
-"ନିମ୍ନଲିଖିତ ନିୟମ ନାଁ ବର୍ତ୍ତମାନ\n"
-"."
 
 #: ../mail/mail.error.xml.h:111
-#, fuzzy
 msgid "The script file must exist and be executable."
-msgstr "ସ୍କ୍ରିପଟ ଫାଇଲ ଏବଂ."
+msgstr "ସ୍କ୍ରିପଟ ଫାଇଲ ରହିବା ଉଚିତ ଏବଂ ନିଷ୍ପାଦନ ଯୋଗ୍ୟ ହେବା ଉଚିତ।"
 
 #: ../mail/mail.error.xml.h:112
-#, fuzzy
 msgid ""
 "This folder may have been added implicitly,\n"
 "go to the Search Folder editor to add it explicitly, if required."
-msgstr "କୁ ଖୋଜନ୍ତୁ ଫୋଲଡର କୁ ଯୋଗ କରନ୍ତୁ."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:114
-#, fuzzy
 msgid ""
 "This message cannot be sent because the account you chose to send with is "
 "not enabled"
-msgstr "କୁ ସହିତ  ଅଟେ ନୁହେଁ"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:115
-#, fuzzy
 msgid "This message cannot be sent because you have not specified any recipients"
-msgstr "ନୁହେଁ କୌଣସି"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:116
-#, fuzzy
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
-msgstr "ସରବର୍ ନୁହେଁ ସମର୍ଥନ ଏହା ପ୍ରକାର ର ବୈଧିକରଣ ଏବଂ ନୁହେଁ ସମର୍ଥନ ବୈଧିକରଣ ଏଠାରେ ସମସ୍ତ."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:117
-#, fuzzy
 msgid "This signature has been changed, but has not been saved."
-msgstr "ନୁହେଁ."
+msgstr "ଏହି ହସ୍ତାକ୍ଷରଟି ବଦଳି ଯାଇଛି, କିନ୍ତୁ ସଂରକ୍ଷିତ ନୁହଁ।"
 
 #: ../mail/mail.error.xml.h:118
-#, fuzzy
 msgid ""
 "This will mark all messages as read in the selected folder and its "
 "subfolders."
-msgstr "ସମସ୍ତ ପଢନ୍ତୁ ଇଞ୍ଚ ଚୟିତ ଏବଂ."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:119
-#, fuzzy
 msgid "Unable to connect to the GroupWise server."
-msgstr "କୁ କୁ ସମୂହ ଅନୁସାରେ ସରବର୍."
+msgstr "ସାମହିକ ସର୍ଭର ସହିତ ସଂଯୋଗ କରିବାରେ ଅସମର୍ଥ।"
 
 #: ../mail/mail.error.xml.h:120
-#, fuzzy
 msgid ""
 "Unable to open the drafts folder for this account. Use the system drafts "
 "folder instead?"
-msgstr "କୁ ଖୋଲ ପାଇଁ ଏହା ବ୍ଯବହାର କର ତନ୍ତ୍ର?"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:121
-#, fuzzy
 msgid "Unable to read license file."
-msgstr "କୁ ପଢନ୍ତୁ ଫାଇଲ."
+msgstr "ଅନୁମତି ପତ୍ର ଫାଇଲକୁ ପଢ଼ିବାରେ ଅସମର୍ଥ।"
 
 #: ../mail/mail.error.xml.h:122
-#, fuzzy
 msgid "Use _Default"
-msgstr "ବ୍ଯବହାର କର ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ"
+msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତକୁ ବ୍ଯବହାର କରନ୍ତୁ (_D)"
 
 #: ../mail/mail.error.xml.h:123
-#, fuzzy
 msgid "Use default drafts folder?"
-msgstr "ବ୍ଯବହାର କର ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ?"
+msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଡ୍ରାଫ୍ଟ ଫୋଲଡରକୁ ବ୍ୟବହାର କରିବେ କି?"
 
 #: ../mail/mail.error.xml.h:124
-#, fuzzy
 msgid ""
 "Warning: Deleting messages from a Search Folder will delete the actual "
 "message from one of your local or remote folders.\n"
 "Do you really want to do this?"
-msgstr "ଚେତାବନୀ ଠାରୁ a ଖୋଜନ୍ତୁ ଫୋଲଡର ବିଲୋପ କର ଠାରୁ ର ସ୍ଥାନୀୟ କିମ୍ବା କୁ ଏହା?"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:127
-#, fuzzy
 msgid "You have not filled in all of the required information."
-msgstr "ଆପଣ ନୁହେଁ ଇଞ୍ଚ ସମସ୍ତ ର."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:128
-#, fuzzy
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr "ଆପଣ କୁ ମୁକ୍ତ କର?"
+msgstr ""
 
 #: ../mail/mail.error.xml.h:129
-#, fuzzy
 msgid "You may not create two accounts with the same name."
-msgstr "ଆପଣ ନୁହେଁ ଦୁଇ ଆକାଉଣ୍ଟ ଗୁଡିକ ସହିତ  ନାମ."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:130
-#, fuzzy
 msgid "You must name this Search Folder."
-msgstr "ଆପଣ ନାମ ଏହା ଖୋଜନ୍ତୁ ଫୋଲଡର."
+msgstr "ଆପଣ ଏହି ସନ୍ଧାନ ଫୋଲଡରକୁ ନାମକରଣ କରିବା ଉଚିତ।"
 
 #: ../mail/mail.error.xml.h:131
-#, fuzzy
 msgid "You must specify a folder."
-msgstr "ଆପଣ a."
+msgstr "ଆପଣ ଏହି ଫୋଲଡରକୁ ଉଲ୍ଲେଖ କରିବା ଉଚିତ।"
 
 #: ../mail/mail.error.xml.h:132
-#, fuzzy
 msgid ""
 "You must specify at least one folder as a source.\n"
 "Either by selecting the folders individually, and/or by selecting all local "
 "folders, all remote folders, or both."
-msgstr "ଆପଣ ଏଠାରେ a ଉତ୍ସ ଦ୍ବାରା ଏବଂ କିମ୍ବା ଦ୍ବାରା ସମସ୍ତ ସ୍ଥାନୀୟ ସମସ୍ତ କିମ୍ବା."
+msgstr ""
 
 #: ../mail/mail.error.xml.h:134
-#, fuzzy
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
-msgstr "କୁ ସରବର୍."
+msgstr "ସର୍ଭର \"{0}\" ରେ \"{0}\" ଭାବରେ ଲଗଇନ କରିବାରେ ଆପଣ ବିଫଳ ହୋଇଛନ୍ତି।"
 
 #: ../mail/mail.error.xml.h:135
 msgid "_Append"
-msgstr ""
+msgstr "ଯୋଡନ୍ତୁ (_A)"
 
 #: ../mail/mail.error.xml.h:136
 msgid "_Discard changes"
-msgstr ""
+msgstr "ପରିବର୍ତ୍ତନଗୁଡ଼ିକୁ ପ୍ରତ୍ୟାଖାନ କରନ୍ତୁ (_D)"
 
 #: ../mail/mail.error.xml.h:137
-#, fuzzy
 msgid "_Do not Synchronize"
-msgstr "ନୁହେଁ ସମକାଳୀନ"
+msgstr "ସମକାଳୀନ କରନ୍ତୁ ନାହିଁ (_D)"
 
 #: ../mail/mail.error.xml.h:139
 msgid "_Expunge"
-msgstr ""
+msgstr "କାଟନ୍ତୁ (_E)"
 
 #: ../mail/mail.error.xml.h:140
-#, fuzzy
 msgid "_Open Messages"
-msgstr "ଖୋଲନ୍ତୁ"
+msgstr "ସନ୍ଦେଶଗୁଡ଼ିକୁ ଖୋଲନ୍ତୁ (_O)"
 
 #: ../mail/message-list.c:1052
 msgid "Unseen"
-msgstr ""
+msgstr "ଦେଖିନଥିବା"
 
 #: ../mail/message-list.c:1053
 msgid "Seen"
-msgstr ""
+msgstr "ଦେଖିଥିବା"
 
 #: ../mail/message-list.c:1054
 msgid "Answered"
-msgstr ""
+msgstr "ଉତ୍ତର ଦେଇଥିବା"
 
 #: ../mail/message-list.c:1055
 #| msgid "Forward"
@@ -16040,18 +15648,16 @@ msgid "Forwarded"
 msgstr "ଅଗ୍ରସର ହୋଇଛି"
 
 #: ../mail/message-list.c:1056
-#, fuzzy
 msgid "Multiple Unseen Messages"
-msgstr "ଗୁଣିତକ"
+msgstr "ଏକାଧିକ ଦେଖିନଥିବା ସନ୍ଦେଶଗୁଡ଼ିକ"
 
 #: ../mail/message-list.c:1057
-#, fuzzy
 msgid "Multiple Messages"
-msgstr "ଗୁଣିତକ"
+msgstr "ଏକାଧିକ ସନ୍ଦେଶଗୁଡ଼ିକ"
 
 #: ../mail/message-list.c:1061
 msgid "Lowest"
-msgstr ""
+msgstr "ନିମ୍ନତମ"
 
 #: ../mail/message-list.c:1062
 msgid "Lower"
@@ -16059,11 +15665,11 @@ msgstr "ନିମ୍ନତର"
 
 #: ../mail/message-list.c:1066
 msgid "Higher"
-msgstr ""
+msgstr "ଉଚ୍ଚତର"
 
 #: ../mail/message-list.c:1067
 msgid "Highest"
-msgstr ""
+msgstr "ଉଚ୍ଚତମ"
 
 #: ../mail/message-list.c:1656 ../widgets/table/e-cell-date.c:55
 msgid "?"
@@ -16094,16 +15700,14 @@ msgstr "%b %d %Y"
 
 #. there is some info why the message list is empty, let it be something useful
 #: ../mail/message-list.c:3985 ../mail/message-list.c:4450
-#, fuzzy
 msgid "Generating message list"
-msgstr "ତାଲିକା"
+msgstr "ସନ୍ଦେଶ ତାଲିକା ପ୍ରସ୍ତୁତ କରୁଅଛି"
 
 #: ../mail/message-list.c:4289
-#, fuzzy
 msgid ""
 "No message satisfies your search criteria. Either clear search with Search-"
 ">Clear menu item or change it."
-msgstr "ନାଁ ଲକ୍ଷଣ ପରିଷ୍କାର କର ସହିତ  ଖୋଜନ୍ତୁ ସଫା କରନ୍ତୁ ମେନୁ ବସ୍ତୁ କିମ୍ବା."
+msgstr ""
 
 #: ../mail/message-list.c:4291
 #| msgid ""
@@ -16114,23 +15718,20 @@ msgid "There are no messages in this folder."
 msgstr "ଏହି ଫୋଲଡରରେ କୌଣସି ସନ୍ଦେଶ ନାହିଁ।"
 
 #: ../mail/message-list.etspec.h:3
-#, fuzzy
 msgid "Due By"
-msgstr "ଅନ୍ତିମ ଦିବସ ଦ୍ବାରା"
+msgstr "ଅନ୍ତିମ ଦିବସ"
 
 #: ../mail/message-list.etspec.h:4
-#, fuzzy
 msgid "Flag Status"
-msgstr "ଅବସ୍ଥିତି"
+msgstr "ବିଶେଷ ସୂଚକ ସ୍ଥିତି"
 
 #: ../mail/message-list.etspec.h:5
 msgid "Flagged"
-msgstr ""
+msgstr "ବିଶେଷ ଭାବରେ ସୂଚିତ"
 
 #: ../mail/message-list.etspec.h:6
-#, fuzzy
 msgid "Follow Up Flag"
-msgstr "ଅନୁସରଣ କରନ୍ତୁ ଉପର"
+msgstr "ବିଶେଷ ସୂଚକକୁ ଅନୁସରଣ କରନ୍ତୁ"
 
 #: ../mail/message-list.etspec.h:11
 msgid "Received"
@@ -16146,75 +15747,64 @@ msgid "Size"
 msgstr "ଆକାର"
 
 #: ../mail/message-list.etspec.h:19
-#, fuzzy
 msgid "Subject - Trimmed"
-msgstr "ବିଷଯ"
+msgstr "ବିଷୟ - ସଜଡ଼ାଯାଇଛି"
 
 #: ../mail/message-tag-followup.c:55
 msgid "Call"
 msgstr "ଡାକରା"
 
 #: ../mail/message-tag-followup.c:56
-#, fuzzy
 msgid "Do Not Forward"
-msgstr "ଆଗକୁ"
+msgstr "ଆଗକୁ ବଢ଼ନ୍ତୁ ନାହିଁ"
 
 #: ../mail/message-tag-followup.c:57
-#, fuzzy
 msgid "Follow-Up"
-msgstr "ଅନୁସରଣ କରନ୍ତୁ ଉପର"
+msgstr "ଅନୁସରଣ କରନ୍ତୁ"
 
 #: ../mail/message-tag-followup.c:58
-#, fuzzy
 msgid "For Your Information"
-msgstr "ପାଇଁ ସୂଚନା"
+msgstr "ଆପଣଙ୍କ ସୂଚନା ପାଇଁ"
 
 #: ../mail/message-tag-followup.c:59 ../ui/evolution-mail-message.xml.h:42
 msgid "Forward"
 msgstr "ଆଗକୁ"
 
 #: ../mail/message-tag-followup.c:60
-#, fuzzy
 msgid "No Response Necessary"
-msgstr "ନାଁ"
+msgstr "କୌଣସି ଉତ୍ତର ଆବଶ୍ୟ ନାହିଁ"
 
 #: ../mail/message-tag-followup.c:63 ../ui/evolution-mail-message.xml.h:80
 msgid "Reply"
 msgstr "ଉତ୍ତର ଦିଅନ୍ତୁ"
 
 #: ../mail/message-tag-followup.c:64 ../ui/evolution-mail-message.xml.h:81
-#, fuzzy
 msgid "Reply to All"
-msgstr "ଉତ୍ତର ଦିଅନ୍ତୁ କୁ ସମସ୍ତ"
+msgstr "ସମସ୍ତଙ୍କୁ ଉତ୍ତର ଦିଅନ୍ତୁ"
 
 #: ../mail/message-tag-followup.c:65
 msgid "Review"
 msgstr "ସମାଲୋଚନା"
 
 #: ../mail/searchtypes.xml.h:1
-#, fuzzy
 msgid "Body contains"
-msgstr "ମୂଳ ଅଙ୍ଗ ଧାରଣ କରିଥାଏ"
+msgstr ""
 
 #: ../mail/searchtypes.xml.h:2
-#, fuzzy
 msgid "Message contains"
 msgstr "ସନ୍ଦେଶ ଧାରଣ କରିଥାଏ"
 
 #: ../mail/searchtypes.xml.h:3
-#, fuzzy
 msgid "Recipients contain"
-msgstr "ଗ୍ରହଣ କର୍ତ୍ତା"
+msgstr "ଗ୍ରହଣ କର୍ତ୍ତା ଧାରଣ କରିଥାଏ"
 
 #: ../mail/searchtypes.xml.h:4
-#, fuzzy
 msgid "Sender contains"
 msgstr "ପ୍ରେରକ ଧାରଣ କରିଥାଏ"
 
 #: ../mail/searchtypes.xml.h:5
-#, fuzzy
 msgid "Subject contains"
-msgstr "ବିଷଯ ଧାରଣ କରିଥାଏ"
+msgstr "ବିଷୟ ଧାରଣ କରିଥାଏ"
 
 #: ../mail/searchtypes.xml.h:6
 #| msgid "Description contains"
@@ -16222,33 +15812,28 @@ msgid "Subject or Recipients contains"
 msgstr "ବିଷୟ କିମ୍ବା ଗ୍ରାହକ ଧାରଣ କରିଥାଏ"
 
 #: ../mail/searchtypes.xml.h:7
-#, fuzzy
 msgid "Subject or Sender contains"
 msgstr "ବିଷଯ କିମ୍ବା ପ୍ରେରକ ଧାରଣ କରିଥାଏ"
 
 #: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:1
-#, fuzzy
 msgid "Local Address Books"
-msgstr "ସ୍ଥାନୀଯ ଠିକଣା"
+msgstr "ସ୍ଥାନୀୟ ଠିକଣା ବହି"
 
 #: ../plugins/addressbook-file/org-gnome-addressbook-file.eplug.xml.h:2
-#, fuzzy
 msgid "Provides core functionality for local address books."
-msgstr "ପାଇଁ ସ୍ଥାନୀୟ."
+msgstr ""
 
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:1
-#, fuzzy
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body"
-msgstr "ତାଲିକା ର ପାଇଁ ସଂଲଗ୍ନକ କୁ ପାଇଁ ଇଞ୍ଚ a"
+msgstr ""
 
 #: ../plugins/attachment-reminder/apps-evolution-attachment-reminder.schemas.in.h:2
-#, fuzzy
 msgid ""
 "List of clues for the attachment reminder plugin to look for in a message "
 "body."
-msgstr "ତାଲିକା ର ପାଇଁ ସଂଲଗ୍ନକ କୁ ପାଇଁ ଇଞ୍ଚ a."
+msgstr ""
 
 #: ../plugins/attachment-reminder/attachment-reminder.c:475
 #: ../plugins/templates/templates.c:390
@@ -16262,18 +15847,16 @@ msgid "Attachment Reminder"
 msgstr "ସଂଲଗ୍ନକ ସ୍ମରଣକର୍ତ୍ତା"
 
 #: ../plugins/attachment-reminder/org-gnome-evolution-attachment-reminder.eplug.xml.h:2
-#, fuzzy
 msgid ""
 "Looks for clues in a message for mention of attachments and warns if the "
 "attachment is missing"
-msgstr "ପାଇଁ ଇଞ୍ଚ a ପାଇଁ ର ଏବଂ ସଂଲଗ୍ନକ ଅଟେ ଲୁପ୍ତ ଅଛି "
+msgstr ""
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:2
-#, fuzzy
 msgid ""
 "Evolution has found some keywords that suggest that this message should "
 "contain an attachment, but cannot find one."
-msgstr "କ୍ରମବିକାଶ  ମିଳିଛି  ଏହା ସଂଲଗ୍ନକ ଖୋଜନ୍ତୁ."
+msgstr ""
 
 #: ../plugins/attachment-reminder/org-gnome-attachment-reminder.error.xml.h:3
 #| msgid "Show Attachments"
@@ -16286,89 +15869,73 @@ msgid "_Edit Message"
 msgstr "ସନ୍ଦେଶ ସମ୍ପାଦନକରନ୍ତୁ (_E)"
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:1
-#, fuzzy
 msgid ""
 "A formatter plugin which displays audio attachments inline and allows you to "
 "play them directly from Evolution."
-msgstr "A ଅଡିଓ ଏବଂ କୁ ଠାରୁ କ୍ରମବିକାଶ ."
+msgstr ""
 
 #: ../plugins/audio-inline/org-gnome-audio-inline.eplug.xml.h:2
-#, fuzzy
 msgid "Audio inline plugin"
-msgstr "ଧ୍ବନି"
+msgstr "ଧ୍ବନି ଇନଲାଇନ ପ୍ଲଗଇନ"
 
 #: ../plugins/backup-restore/backup-restore.c:138
-#, fuzzy
 msgid "Select name of the Evolution backup file"
-msgstr "ମନୋନୀତ କର ନାମ ର କ୍ରମବିକାଶ  ଫାଇଲ"
+msgstr ""
 
 #: ../plugins/backup-restore/backup-restore.c:167
-#, fuzzy
 msgid "_Restart Evolution after backup"
-msgstr "ପୁନଃପ୍ରାରମ୍ଭ କରନ୍ତୁ କ୍ରମବିକାଶ  ପରେ"
+msgstr ""
 
 #: ../plugins/backup-restore/backup-restore.c:190
-#, fuzzy
 msgid "Select name of the Evolution backup file to restore"
-msgstr "ମନୋନୀତ କର ନାମ ର କ୍ରମବିକାଶ  ଫାଇଲ କୁ"
+msgstr ""
 
 #: ../plugins/backup-restore/backup-restore.c:214
-#, fuzzy
 msgid "_Restart Evolution after restore"
-msgstr "ପୁନଃପ୍ରାରମ୍ଭ କରନ୍ତୁ କ୍ରମବିକାଶ  ପରେ"
+msgstr "Evolution ପରେ ପୁନଃପ୍ରାରମ୍ଭ କରନ୍ତୁ (_R)"
 
 #: ../plugins/backup-restore/backup-restore.c:287
-#, fuzzy
 msgid "Restore from backup"
-msgstr "ପୂର୍ବଅବସ୍ଥାରେ ପହଞ୍ଚାଅ ଠାରୁ"
+msgstr "ନକଲ ସଂରକ୍ଷଣରୁ ପୁନଃସ୍ଥାପନ କରନ୍ତୁ"
 
 #: ../plugins/backup-restore/backup-restore.c:289
-#, fuzzy
 msgid ""
 "You can restore Evolution from your backup. It can restore all the Mails, "
 "Calendars, Tasks, Memos, Contacts. \n"
 "It also restores all your personal settings, mail filters etc."
-msgstr "ଆପଣ କ୍ରମବିକାଶ  ଠାରୁ ସମସ୍ତ କ୍ୟାଲେଣ୍ଡର କାର୍ଯ୍ଯ Memos ଯୋଗାଯୋଗ ସମସ୍ତ ଡାକ."
+msgstr ""
 
 #: ../plugins/backup-restore/backup-restore.c:295
-#, fuzzy
 msgid "_Restore Evolution from the backup file"
-msgstr "ପୂର୍ବଅବସ୍ଥାରେ ପହଞ୍ଚାଅ କ୍ରମବିକାଶ  ଠାରୁ ଫାଇଲ"
+msgstr ""
 
 #: ../plugins/backup-restore/backup-restore.c:302
-#, fuzzy
 msgid "Please select an Evolution Archive to restore:"
-msgstr "ଦୟାକରି ମନୋନୀତ କର କ୍ରମବିକାଶ  କୁ:"
+msgstr ""
 
 #: ../plugins/backup-restore/backup-restore.c:305
-#, fuzzy
 msgid "Choose a file to restore"
-msgstr "ବାଛ a ଫାଇଲ କୁ"
+msgstr "ପୁନଃସ୍ଥାପନ କରିବା ପାଇଁ ଗୋଟିଏ ଫାଇଲ ବାଛନ୍ତୁ"
 
 #: ../plugins/backup-restore/backup.c:65
-#, fuzzy
 msgid "Backup Evolution directory"
-msgstr "କ୍ରମବିକାଶ  ଡିରେକ୍ଟୋରୀ"
+msgstr "ନକଲ ସଂରକ୍ଷଣ Evolution ଡିରେକ୍ଟୋରୀ"
 
 #: ../plugins/backup-restore/backup.c:67
-#, fuzzy
 msgid "Restore Evolution directory"
-msgstr "ପୂର୍ବଅବସ୍ଥାରେ ପହଞ୍ଚାଅ କ୍ରମବିକାଶ  ଡିରେକ୍ଟୋରୀ"
+msgstr "Evolution ଡିରେକ୍ଟୋରୀକୁ ପୁନଃସ୍ଥାପନ କରନ୍ତୁ"
 
 #: ../plugins/backup-restore/backup.c:69
-#, fuzzy
 msgid "Check Evolution Backup"
-msgstr "ୟାଞ୍ଚ କର କ୍ରମବିକାଶ "
+msgstr "Evolution ନକଲ ସଂରକ୍ଷଣକୁ ଯାଞ୍ଚକରନ୍ତୁ"
 
 #: ../plugins/backup-restore/backup.c:71
-#, fuzzy
 msgid "Restart Evolution"
-msgstr "ପୁନଃପ୍ରାରମ୍ଭ କରନ୍ତୁ କ୍ରମବିକାଶ "
+msgstr "Evolutionକୁ ପୁନଃପ୍ରାରମ୍ଭ କରନ୍ତୁ"
 
 #: ../plugins/backup-restore/backup.c:73
-#, fuzzy
 msgid "With Graphical User Interface"
-msgstr "ଚାଳକ ଅନ୍ତରାପୃଷ୍ଠ"
+msgstr "ଆଲେଖି ଚାଳକ ଅନ୍ତରାପୃଷ୍ଠ ସହିତ"
 
 #: ../plugins/backup-restore/backup.c:124
 #: ../plugins/backup-restore/backup.c:257
@@ -16380,9 +15947,8 @@ msgid "Backing Evolution accounts and settings"
 msgstr "Evolutionର ବିନ୍ଯାସକୁ ପରିବର୍ତ୍ତନ କରନ୍ତୁ"
 
 #: ../plugins/backup-restore/backup.c:135
-#, fuzzy
 msgid "Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)"
-msgstr "କ୍ରମବିକାଶ  ତଥ୍ଯ ଯୋଗାଯୋଗ କ୍ଯାଲେଣ୍ଡର କାର୍ଯ୍ଯ Memos"
+msgstr ""
 
 #: ../plugins/backup-restore/backup.c:146
 #| msgid "_Mark as Incomplete"
@@ -16391,14 +15957,12 @@ msgstr "ନକଲସଂରକ୍ଷଣ ସମ୍ପୂର୍ଣ୍ଣ"
 
 #: ../plugins/backup-restore/backup.c:151
 #: ../plugins/backup-restore/backup.c:338
-#, fuzzy
 msgid "Restarting Evolution"
-msgstr "କ୍ରମବିକାଶ "
+msgstr "Evolution କୁ ପୁନଃପ୍ରାରମ୍ଭ କରୁଅଛି"
 
 #: ../plugins/backup-restore/backup.c:261
-#, fuzzy
 msgid "Backup current Evolution data"
-msgstr "କ୍ରମବିକାଶ  ତଥ୍ଯ"
+msgstr "ସାମ୍ପ୍ରତିକ Evolution ତଥ୍ୟର ନକଲ ସଂରକ୍ଷଣ କରନ୍ତୁ"
 
 #: ../plugins/backup-restore/backup.c:266
 #, fuzzy
