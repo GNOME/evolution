@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-03-01 20:55+0100\n"
-"PO-Revision-Date: 2009-03-01 22:00+0100\n"
+"PO-Revision-Date: 2009-03-15 21:25+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -14550,7 +14550,7 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:117
 msgid "Please enter information about the way you will send mail. If you are not sure, ask your system administrator or Internet Service Provider."
-msgstr "Ange information om hur du vill skicka e-post. Om du inte är säker bör du fråga din systemadministratör eller Internetleverantör."
+msgstr "Ange information om hur du vill skicka e-post. Om du inte är säker bör du fråga din systemadministratör eller internetleverantör."
 
 #: ../mail/mail-config.glade.h:118
 msgid "Please enter your name and email address below. The \"optional\" fields below do not need to be filled in, unless you wish to include this information in email you send."
