@@ -1,11 +1,11 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
+# Afrikaans translations of evolution.
+# Copyright (C) 2009 Friedel Wolff
+# This file is distributed under the same license as the evolution package.
 # F Wolff <friedel@translate.org.za>, 2009
 #: ../shell/main.c:603
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-03-15 23:22+0100\n"
 "PO-Revision-Date: 2009-03-15 17:10+0200\n"
@@ -11202,7 +11202,7 @@ msgstr[1] "%d minute gelede"
 msgid "1 minute in the future"
 msgid_plural "%d minutes in the future"
 msgstr[0] "1 minuut in die toekoms"
-msgstr[1] "%s minute in die toekoms"
+msgstr[1] "%d minute in die toekoms"
 
 #: ../filter/filter-datespec.c:83
 #, c-format

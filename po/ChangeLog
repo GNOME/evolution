@@ -1,3 +1,7 @@
+2009-03-16  Dwayne Bailey  <dwayne@translate.org.za>
+
+	* af.po: Fix msgfmt errors
+
 2009-03-15  Andre Klapper  <a9016009@gmx.de>
 
 	* af.po: Added Afrikaans translation by Friedel Wolff.
