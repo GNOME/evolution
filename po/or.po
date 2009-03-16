@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: or\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-03-09 17:15+0000\n"
-"PO-Revision-Date: 2009-03-16 11:45+0530\n"
+"PO-Revision-Date: 2009-03-16 11:52+0530\n"
 "Last-Translator: Manoj Kumar Giri <mgiri@redhat.com>\n"
 "Language-Team: Oriya <oriya-it@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -20809,7 +20809,6 @@ msgid ""
 msgstr "ଅଟେ a ନାଁ:"
 
 #: ../smime/gui/cert-trust-dialog.c:151
-#, fuzzy
 msgid ""
 "Because you trust the certificate authority that issued this certificate, "
 "then you trust the authenticity of this certificate unless otherwise "
@@ -20817,7 +20816,6 @@ msgid ""
 msgstr "ଏହା ର ଏହା"
 
 #: ../smime/gui/cert-trust-dialog.c:155
-#, fuzzy
 msgid ""
 "Because you do not trust the certificate authority that issued this "
 "certificate, then you do not trust the authenticity of this certificate "
@@ -20827,14 +20825,12 @@ msgstr "ନୁହେଁ ଏହା ନୁହେଁ ର ଏହା"
 #: ../smime/gui/certificate-manager.c:136
 #: ../smime/gui/certificate-manager.c:382
 #: ../smime/gui/certificate-manager.c:609
-#, fuzzy
 msgid "Select a certificate to import..."
 msgstr "ମନୋନୀତ କର a କୁ."
 
 #: ../smime/gui/certificate-manager.c:145
-#, fuzzy
 msgid "All PKCS12 files"
-msgstr "ସମସ୍ତ ଫାଇଲ ମାନ"
+msgstr "ସମସ୍ତ PKCS12 ଫାଇଲ ମାନ"
 
 #: ../smime/gui/certificate-manager.c:150
 #: ../smime/gui/certificate-manager.c:396
@@ -20846,7 +20842,6 @@ msgstr "ସମସ୍ତ ଫାଇଲଗୁଡ଼ିକ"
 #: ../smime/gui/certificate-manager.c:274
 #: ../smime/gui/certificate-manager.c:486
 #: ../smime/gui/certificate-manager.c:711
-#, fuzzy
 msgid "Certificate Name"
 msgstr "ନାମ"
 
@@ -20865,7 +20860,6 @@ msgid "Expires"
 msgstr ""
 
 #: ../smime/gui/certificate-manager.c:391
-#, fuzzy
 msgid "All email certificate files"
 msgstr "ସମସ୍ତ ଫାଇଲ ମାନ"
 
@@ -20880,50 +20874,39 @@ msgstr "ସମସ୍ତ CA ପ୍ରମାଣପତ୍ର ଫାଇଲ"
 
 #: ../smime/gui/certificate-viewer.c:338
 #, c-format
-#, fuzzy
 msgid "Certificate Viewer: %s"
-msgstr "ଦର୍ଶକ"
+msgstr "ଦର୍ଶକ: %s"
 
 #: ../smime/gui/component.c:46
 #, c-format
-#, fuzzy
 msgid "Enter the password for `%s'"
-msgstr "ପ୍ରବେଶ କରନ୍ତୁ (Enter) ଗୁପ୍ତଶବ୍ଦ ପାଇଁ"
+msgstr "ପ୍ରବେଶ କରନ୍ତୁ (Enter) ଗୁପ୍ତଶବ୍ଦ '%s' ପାଇଁ"
 
 #. we're setting the password initially
 #: ../smime/gui/component.c:69
-#, fuzzy
 msgid "Enter new password for certificate database"
 msgstr "ପ୍ରବେଶ କରନ୍ତୁ (Enter) ନୂତନ ଗୁପ୍ତଶବ୍ଦ ପାଇଁ"
 
 #: ../smime/gui/component.c:71
-#, fuzzy
 msgid "Enter new password"
 msgstr "ପ୍ରବେଶ କରନ୍ତୁ (Enter) ନୂତନ ଗୁପ୍ତଶବ୍ଦ"
 
 #. FIXME: add serial no, validity date, uses
 #: ../smime/gui/e-cert-selector.c:117
 #, c-format
-#, fuzzy
 msgid ""
 "Issued to:\n"
 "  Subject: %s\n"
 msgstr ""
-"କୁ\n"
-" ବିଷଯ ନାଁ"
 
 #: ../smime/gui/e-cert-selector.c:118
 #, c-format
-#, fuzzy
 msgid ""
 "Issued by:\n"
 "  Subject: %s\n"
 msgstr ""
-"ଦ୍ବାରା\n"
-" ବିଷଯ ନାଁ"
 
 #: ../smime/gui/e-cert-selector.c:170
-#, fuzzy
 msgid "Select certificate"
 msgstr "ମନୋନୀତ କର"
 
@@ -20932,7 +20915,6 @@ msgid "<Not Part of Certificate>"
 msgstr "<ପ୍ରମାଣପତ୍ରର କୌଣସି ଅଂଶ ନାହିଁ>"
 
 #: ../smime/gui/smime-ui.glade.h:2
-#, fuzzy
 msgid "<b>Certificate Fields</b>"
 msgstr "<b> କ୍ଷେତ୍ରଗୁଡିକ</b>"
 
@@ -20941,7 +20923,6 @@ msgid "<b>Certificate Hierarchy</b>"
 msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:4
-#, fuzzy
 msgid "<b>Field Value</b>"
 msgstr "<b> କ୍ଷେତ୍ର ମୂଲ୍ଯ</b>"
 
@@ -20958,7 +20939,6 @@ msgid "<b>Issued To</b>"
 msgstr "<b>କୁ ପ୍ରଦତ୍ତ</b>"
 
 #: ../smime/gui/smime-ui.glade.h:8
-#, fuzzy
 msgid "<b>This certificate has been verified for the following uses:</b>"
 msgstr "<b> ପାଇଁ ନିମ୍ନଲିଖିତ</b>"
 
@@ -20975,12 +20955,10 @@ msgid "Backup"
 msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:12
-#, fuzzy
 msgid "Backup All"
 msgstr "ସମସ୍ତ"
 
 #: ../smime/gui/smime-ui.glade.h:13
-#, fuzzy
 msgid ""
 "Before trusting this CA for any purpose, you should examine its certificate "
 "and its policy and procedures (if available)."
@@ -20999,7 +20977,6 @@ msgid "Certificate details"
 msgstr ""
 
 #: ../smime/gui/smime-ui.glade.h:17
-#, fuzzy
 msgid "Certificates Table"
 msgstr "ପ୍ରମାଣପତ୍ର ଟେବୁଲ"
 
@@ -21008,17 +20985,14 @@ msgid "Common Name (CN)"
 msgstr "ସାଧାରଣ ନାମ (CN)"
 
 #: ../smime/gui/smime-ui.glade.h:19
-#, fuzzy
 msgid "Contact Certificates"
 msgstr "ସମ୍ପର୍କ ପ୍ରମାଣପତ୍ର"
 
 #: ../smime/gui/smime-ui.glade.h:21
-#, fuzzy
 msgid "Do not trust the authenticity of this certificate"
 msgstr "ନୁହେଁ ର ଏହା"
 
 #: ../smime/gui/smime-ui.glade.h:22
-#, fuzzy
 msgid "Dummy window only"
 msgstr "ୱିଣ୍ଡୋ"
 
@@ -21027,22 +21001,18 @@ msgid "Edit"
 msgstr "ସମ୍ପାଦନ କରନ୍ତୁ"
 
 #: ../smime/gui/smime-ui.glade.h:24
-#, fuzzy
 msgid "Email Certificate Trust Settings"
 msgstr "ଇ-ଡାକ ସେଟିଙ୍ଗଗୁଡିକ"
 
 #: ../smime/gui/smime-ui.glade.h:25
-#, fuzzy
 msgid "Email Recipient Certificate"
 msgstr "ଇ-ଡାକ"
 
 #: ../smime/gui/smime-ui.glade.h:26
-#, fuzzy
 msgid "Email Signer Certificate"
 msgstr "ଇ-ଡାକ"
 
 #: ../smime/gui/smime-ui.glade.h:27
-#, fuzzy
 msgid "Expires On"
 msgstr "ରେ"
 
@@ -21051,7 +21021,6 @@ msgid "Import"
 msgstr "ଆୟତ କରନ୍ତୁ"
 
 #: ../smime/gui/smime-ui.glade.h:30
-#, fuzzy
 msgid "Issued On"
 msgstr "ରେ"
 
@@ -21060,47 +21029,38 @@ msgid "MD5 Fingerprint"
 msgstr "MD5 ଅଙ୍ଗୁଳି ଚିହ୍ନ"
 
 #: ../smime/gui/smime-ui.glade.h:32
-#, fuzzy
 msgid "Organization (O)"
 msgstr "ସଙ୍ଗଠନ O"
 
 #: ../smime/gui/smime-ui.glade.h:33
-#, fuzzy
 msgid "Organizational Unit (OU)"
 msgstr "ଏକକ"
 
 #: ../smime/gui/smime-ui.glade.h:34
-#, fuzzy
 msgid "SHA1 Fingerprint"
 msgstr "SHA1 ଅଙ୍ଗୁଳିଛବି "
 
 #: ../smime/gui/smime-ui.glade.h:35 ../smime/lib/e-cert.c:802
-#, fuzzy
 msgid "SSL Client Certificate"
 msgstr "SSL ଗ୍ରାହକ"
 
 #: ../smime/gui/smime-ui.glade.h:36 ../smime/lib/e-cert.c:806
-#, fuzzy
 msgid "SSL Server Certificate"
 msgstr "SSL ସେବକ"
 
 #: ../smime/gui/smime-ui.glade.h:38
-#, fuzzy
 msgid "Trust the authenticity of this certificate"
 msgstr "ର ଏହା"
 
 #: ../smime/gui/smime-ui.glade.h:39
-#, fuzzy
 msgid "Trust this CA to identify email users."
 msgstr "ଏହା କୁ."
 
 #: ../smime/gui/smime-ui.glade.h:40
-#, fuzzy
 msgid "Trust this CA to identify software developers."
 msgstr "ଏହା କୁ."
 
 #: ../smime/gui/smime-ui.glade.h:41
-#, fuzzy
 msgid "Trust this CA to identify web sites."
 msgstr "ଏହା କୁ."
 
@@ -21109,33 +21069,27 @@ msgid "View"
 msgstr "ଦ୍ରୁଶ୍ଯ"
 
 #: ../smime/gui/smime-ui.glade.h:43
-#, fuzzy
 msgid "You have certificates from these organizations that identify you:"
 msgstr "ଆପଣ ଠାରୁ:"
 
 #: ../smime/gui/smime-ui.glade.h:44
-#, fuzzy
 msgid "You have certificates on file that identify these certificate authorities:"
 msgstr "ଆପଣ ରେ ଫାଇଲ:"
 
 #: ../smime/gui/smime-ui.glade.h:45
-#, fuzzy
 msgid "You have certificates on file that identify these people:"
 msgstr "ଆପଣ ରେ ଫାଇଲ:"
 
 #: ../smime/gui/smime-ui.glade.h:46
-#, fuzzy
 msgid "Your Certificates"
 msgstr "ପ୍ରମାଣପତ୍ର"
 
 #: ../smime/gui/smime-ui.glade.h:47
-#, fuzzy
 msgid "_Edit CA Trust"
-msgstr "ସମ୍ପାଦନ କରନ୍ତୁ"
+msgstr "CA Trust ସମ୍ପାଦନ କରନ୍ତୁ"
 
 #. XXX we shouldn't be popping up dialogs in this code.
 #: ../smime/lib/e-cert-db.c:656
-#, fuzzy
 msgid "Certificate already exists"
 msgstr "ଅବସ୍ଥିତ"
 
@@ -21157,103 +21111,83 @@ msgid "Version"
 msgstr "ସଂସ୍କରଣ"
 
 #: ../smime/lib/e-cert.c:529
-#, fuzzy
 msgid "Version 1"
 msgstr "ସଂସ୍କରଣ ୧"
 
 #: ../smime/lib/e-cert.c:532
-#, fuzzy
 msgid "Version 2"
 msgstr "ସଂସ୍କରଣ ୨"
 
 #: ../smime/lib/e-cert.c:535
-#, fuzzy
 msgid "Version 3"
 msgstr "ସଂସ୍କରଣ 3"
 
 #: ../smime/lib/e-cert.c:617
-#, fuzzy
 msgid "PKCS #1 MD2 With RSA Encryption"
-msgstr "RSA"
+msgstr "PKCS #1 MD2 With RSA Encryption"
 
 #: ../smime/lib/e-cert.c:620
-#, fuzzy
 msgid "PKCS #1 MD5 With RSA Encryption"
-msgstr "MD5 RSA"
+msgstr "PKCS #1 MD5 With RSA Encryption"
 
 #: ../smime/lib/e-cert.c:623
-#, fuzzy
 msgid "PKCS #1 SHA-1 With RSA Encryption"
-msgstr "RSA"
+msgstr "PKCS #1 SHA-1 With RSA Encryption"
 
 #: ../smime/lib/e-cert.c:650
-#, fuzzy
 msgid "PKCS #1 RSA Encryption"
 msgstr "RSA"
 
 #: ../smime/lib/e-cert.c:653
-#, fuzzy
 msgid "Certificate Key Usage"
 msgstr "ଚାବି ବ୍ୟବହାର ବିଧି"
 
 #: ../smime/lib/e-cert.c:656
-#, fuzzy
 msgid "Netscape Certificate Type"
 msgstr "Netscape ପ୍ରକାର"
 
 #: ../smime/lib/e-cert.c:659
-#, fuzzy
 msgid "Certificate Authority Key Identifier"
 msgstr "ଚାବି ପରିଚାୟକ"
 
 #: ../smime/lib/e-cert.c:671
 #, c-format
-#, fuzzy
 msgid "Object Identifier (%s)"
-msgstr "ବସ୍ତୁ ପରିଚାୟକ"
+msgstr "ବସ୍ତୁ ପରିଚାୟକ (%s)"
 
 #: ../smime/lib/e-cert.c:722
-#, fuzzy
 msgid "Algorithm Identifier"
 msgstr "ଆଲଗୋରିଦିମ୍ ପରିଚାୟକ"
 
 #: ../smime/lib/e-cert.c:730
-#, fuzzy
 msgid "Algorithm Parameters"
 msgstr "ଆଲଗୋରିଦିମ୍ ପାରାମିଟରଗୁଡିକ"
 
 #: ../smime/lib/e-cert.c:752
-#, fuzzy
 msgid "Subject Public Key Info"
 msgstr "ବିଷଯ ସାର୍ବଜନୀନ ଚାବି ସୂଚନା"
 
 #: ../smime/lib/e-cert.c:757
-#, fuzzy
 msgid "Subject Public Key Algorithm"
 msgstr "ବିଷଯ ସାର୍ବଜନୀନ ଚାବି ଆଲଗୋରିଦିମ୍"
 
 #: ../smime/lib/e-cert.c:772
-#, fuzzy
 msgid "Subject's Public Key"
 msgstr "ବିଷଯ ସାର୍ବଜନୀନ ଚାବି"
 
 #: ../smime/lib/e-cert.c:793 ../smime/lib/e-cert.c:842
-#, fuzzy
 msgid "Error: Unable to process extension"
 msgstr "ତ୍ରୁଟି କୁ"
 
 #: ../smime/lib/e-cert.c:814 ../smime/lib/e-cert.c:826
-#, fuzzy
 msgid "Object Signer"
 msgstr "ବସ୍ତୁ"
 
 #: ../smime/lib/e-cert.c:818
-#, fuzzy
 msgid "SSL Certificate Authority"
 msgstr "SSL"
 
 #: ../smime/lib/e-cert.c:822
-#, fuzzy
 msgid "Email Certificate Authority"
 msgstr "ଇ-ଡାକ"
 
@@ -21266,12 +21200,10 @@ msgid "Non-repudiation"
 msgstr ""
 
 #: ../smime/lib/e-cert.c:858
-#, fuzzy
 msgid "Key Encipherment"
 msgstr "ଚାବି"
 
 #: ../smime/lib/e-cert.c:862
-#, fuzzy
 msgid "Data Encipherment"
 msgstr "ତଥ୍ଯ"
 
@@ -21292,7 +21224,6 @@ msgid "Critical"
 msgstr "ଗୁରୁତର"
 
 #: ../smime/lib/e-cert.c:924 ../smime/lib/e-cert.c:927
-#, fuzzy
 msgid "Not Critical"
 msgstr "ଗୁରୁତର"
 
@@ -21306,7 +21237,6 @@ msgid "%s = %s"
 msgstr "%s = %s"
 
 #: ../smime/lib/e-cert.c:1075 ../smime/lib/e-cert.c:1195
-#, fuzzy
 msgid "Certificate Signature Algorithm"
 msgstr "ହସ୍ତାକ୍ଷର ଆଲଗୋରିଦିମ୍"
 
@@ -21323,14 +21253,12 @@ msgid "Subject Unique ID"
 msgstr "ବିଷଯ ଅନନ୍ଯ ID "
 
 #: ../smime/lib/e-cert.c:1200
-#, fuzzy
 msgid "Certificate Signature Value"
 msgstr "ହସ୍ତାକ୍ଷର ମୂଲ୍ଯ"
 
 #: ../smime/lib/e-pkcs12.c:249
-#, fuzzy
 msgid "PKCS12 File Password"
-msgstr "ଫାଇଲ ପ୍ରବେଶ ସଙ୍କେତ"
+msgstr "PKCS12 ଫାଇଲ ପ୍ରବେଶ ସଙ୍କେତ"
 
 #: ../smime/lib/e-pkcs12.c:249
 #, fuzzy
@@ -21346,33 +21274,27 @@ msgstr ""
 #.
 #: ../tools/killev.c:61
 #, c-format
-#, fuzzy
 msgid "Could not execute '%s': %s\n"
-msgstr "ନୁହେଁ ନିର୍ବାହନ କରନ୍ତୁ ନାଁ"
+msgstr "Could not execute '%s': %s\n"
 
 #: ../tools/killev.c:76
 #, c-format
-#, fuzzy
 msgid "Shutting down %s (%s)\n"
-msgstr "ତଳ ନାଁ"
+msgstr "Shutting down %s (%s)\n"
 
 #: ../ui/evolution-addressbook.xml.h:1
-#, fuzzy
 msgid "Address _Book Properties"
 msgstr "ଠିକଣା ପୁସ୍ତକ ବିଶେଷତାଗୁଡିକ"
 
 #: ../ui/evolution-addressbook.xml.h:3
-#, fuzzy
 msgid "Change the properties of the selected folder"
 msgstr "ପରିବର୍ତ୍ତନକର ଗୁଣଧର୍ମ ର ଚୟିତ"
 
 #: ../ui/evolution-addressbook.xml.h:4
-#, fuzzy
 msgid "Co_py All Contacts To..."
 msgstr "ସମସ୍ତ ଯୋଗାଯୋଗ କୁ."
 
 #: ../ui/evolution-addressbook.xml.h:5
-#, fuzzy
 msgid "Contact _Preview"
 msgstr "ସମ୍ପର୍କ ପୂର୍ବଦୃଶ୍ଯ"
 
@@ -21382,12 +21304,10 @@ msgid "Copy"
 msgstr "ନକଲ କରନ୍ତୁ"
 
 #: ../ui/evolution-addressbook.xml.h:7
-#, fuzzy
 msgid "Copy selected contacts to another folder"
 msgstr "ନକଲ କରନ୍ତୁ ଚୟିତ କୁ"
 
 #: ../ui/evolution-addressbook.xml.h:8
-#, fuzzy
 msgid "Copy the contacts of the selected folder into another folder"
 msgstr "ନକଲ କରନ୍ତୁ ର ଚୟିତ"
 
@@ -21396,7 +21316,6 @@ msgid "Copy the selection"
 msgstr "ବଛାକୁ ନକଲ କରନ୍ତୁ"
 
 #: ../ui/evolution-addressbook.xml.h:10
-#, fuzzy
 msgid "Copy to Folder..."
 msgstr "ନକଲ କରନ୍ତୁ କୁ ଫୋଲଡର."
 
@@ -21415,42 +21334,34 @@ msgid "Cut the selection"
 msgstr "ବଛାକୁ କାଟନ୍ତୁ"
 
 #: ../ui/evolution-addressbook.xml.h:14
-#, fuzzy
 msgid "Del_ete Address Book"
 msgstr "କାଢନ୍ତୁ (Del) ଠିକଣା ପୁସ୍ତକ"
 
 #: ../ui/evolution-addressbook.xml.h:16
-#, fuzzy
 msgid "Delete selected contacts"
 msgstr "ବିଲୋପ କର ଚୟିତ"
 
 #: ../ui/evolution-addressbook.xml.h:17
-#, fuzzy
 msgid "Delete the selected folder"
 msgstr "ବିଲୋପ କର ଚୟିତ"
 
 #: ../ui/evolution-addressbook.xml.h:18
-#, fuzzy
 msgid "Forward Contact"
 msgstr "ଆଗକୁ ସମ୍ପର୍କ"
 
 #: ../ui/evolution-addressbook.xml.h:19
-#, fuzzy
 msgid "Mo_ve All Contacts To..."
 msgstr "ସମସ୍ତ ଯୋଗାଯୋଗ କୁ."
 
 #: ../ui/evolution-addressbook.xml.h:20
-#, fuzzy
 msgid "Move selected contacts to another folder"
 msgstr "ଘୁଞ୍ଚାଅ ଚୟିତ କୁ"
 
 #: ../ui/evolution-addressbook.xml.h:21
-#, fuzzy
 msgid "Move the contacts of the selected folder into another folder"
 msgstr "ଘୁଞ୍ଚାଅ ର ଚୟିତ"
 
 #: ../ui/evolution-addressbook.xml.h:22
-#, fuzzy
 msgid "Move to Folder..."
 msgstr "ଘୁଞ୍ଚାଅ କୁ ଫୋଲଡର."
 
@@ -21464,22 +21375,18 @@ msgid "Paste the clipboard"
 msgstr "କ୍ଲିପବୋର୍ଡକୁ ଲଗାନ୍ତୁ"
 
 #: ../ui/evolution-addressbook.xml.h:25
-#, fuzzy
 msgid "Previews the contacts to be printed"
 msgstr "ପ୍ରାକ୍ଦର୍ଶନରାଜି  କୁ"
 
 #: ../ui/evolution-addressbook.xml.h:28
-#, fuzzy
 msgid "Print selected contacts"
 msgstr "ମୁଦ୍ରଣ ଚୟିତ"
 
 #: ../ui/evolution-addressbook.xml.h:29
-#, fuzzy
 msgid "Rename the selected folder"
 msgstr "ପୁନଃନାମ ଦିଅ ଚୟିତ"
 
 #: ../ui/evolution-addressbook.xml.h:30
-#, fuzzy
 msgid "S_ave Address Book As VCard"
 msgstr "S ଠିକଣା ପୁସ୍ତକ"
 
@@ -21488,12 +21395,10 @@ msgid "Save as VCard..."
 msgstr "VCard ଭାବରେ ସଂରକ୍ଷଣ କରନ୍ତୁ ..."
 
 #: ../ui/evolution-addressbook.xml.h:32
-#, fuzzy
 msgid "Save selected contacts as a VCard"
 msgstr "ସଂରକ୍ଷଣ କରନ୍ତୁ ଚୟିତ a"
 
 #: ../ui/evolution-addressbook.xml.h:33
-#, fuzzy
 msgid "Save the contacts of the selected folder as VCard"
 msgstr "ସଂରକ୍ଷଣ କରନ୍ତୁ ର ଚୟିତ"
 
@@ -21515,17 +21420,14 @@ msgid "Send a message to the selected contacts"
 msgstr "ବଚ୍ଛିତ ସମ୍ପର୍କ ମାନଙ୍କୁ ସନ୍ଦେଶ ପଠାନ୍ତୁ"
 
 #: ../ui/evolution-addressbook.xml.h:38
-#, fuzzy
 msgid "Send message to contact"
 msgstr "ପଠାଅ କୁ ସମ୍ପର୍କ"
 
 #: ../ui/evolution-addressbook.xml.h:39
-#, fuzzy
 msgid "Send selected contacts to another person"
 msgstr "ପଠାଅ ଚୟିତ କୁ"
 
 #: ../ui/evolution-addressbook.xml.h:40
-#, fuzzy
 msgid "Show contact preview window"
 msgstr "ଦେଖାଅ ସମ୍ପର୍କ ୱିଣ୍ଡୋ"
 
@@ -21542,7 +21444,6 @@ msgid "Stop Loading"
 msgstr " ଲୋର୍ଡକୁ ବନ୍ଦକର"
 
 #: ../ui/evolution-addressbook.xml.h:44
-#, fuzzy
 msgid "View the current contact"
 msgstr "ଦୃଶ୍ଯ ସମ୍ପର୍କ"
 
@@ -21552,32 +21453,26 @@ msgid "_Actions"
 msgstr "କ୍ରିୟା (_A)"
 
 #: ../ui/evolution-addressbook.xml.h:47
-#, fuzzy
 msgid "_Copy Contact to..."
 msgstr "ନକଲ କରନ୍ତୁ ସମ୍ପର୍କ କୁ."
 
 #: ../ui/evolution-addressbook.xml.h:48
-#, fuzzy
 msgid "_Copy Folder Contacts To"
 msgstr "ନକଲ କରନ୍ତୁ ଫୋଲଡର ଯୋଗାଯୋଗ କୁ"
 
 #: ../ui/evolution-addressbook.xml.h:50
-#, fuzzy
 msgid "_Delete Contact"
 msgstr "ବିଲୋପ କର ସମ୍ପର୍କ"
 
 #: ../ui/evolution-addressbook.xml.h:52
-#, fuzzy
 msgid "_Forward Contact..."
 msgstr "ଆଗକୁ ସମ୍ପର୍କ."
 
 #: ../ui/evolution-addressbook.xml.h:53
-#, fuzzy
 msgid "_Move Contact to..."
 msgstr "ଘୁଞ୍ଚାଅ ସମ୍ପର୍କ କୁ."
 
 #: ../ui/evolution-addressbook.xml.h:54
-#, fuzzy
 msgid "_Move Folder Contacts To"
 msgstr "ଘୁଞ୍ଚାଅ ଫୋଲଡର ଯୋଗାଯୋଗ କୁ"
 
@@ -21590,17 +21485,14 @@ msgid "_Rename"
 msgstr "ନାମ ବଦଳାନ୍ତୁ (_R)"
 
 #: ../ui/evolution-addressbook.xml.h:61
-#, fuzzy
 msgid "_Save Contact as VCard..."
 msgstr "ସଂରକ୍ଷଣ କରନ୍ତୁ ସମ୍ପର୍କ."
 
 #: ../ui/evolution-addressbook.xml.h:62
-#, fuzzy
 msgid "_Save Folder Contacts As VCard"
 msgstr "ସଂରକ୍ଷଣ କରନ୍ତୁ ଫୋଲଡର ଯୋଗାଯୋଗ"
 
 #: ../ui/evolution-addressbook.xml.h:63
-#, fuzzy
 msgid "_Send Message to Contact..."
 msgstr "ପଠାଅ ସନ୍ଦେଶ କୁ ସମ୍ପର୍କ."
 
@@ -21609,7 +21501,6 @@ msgid "Day"
 msgstr "ଦିନ"
 
 #: ../ui/evolution-calendar.xml.h:6
-#, fuzzy
 msgid "Delete _all Occurrences"
 msgstr "ବିଲୋପ କର ସମସ୍ତ"
 
