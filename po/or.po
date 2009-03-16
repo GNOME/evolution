@@ -9,13 +9,14 @@ msgstr ""
 "Project-Id-Version: or\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-03-09 17:15+0000\n"
-"PO-Revision-Date: 2009-03-16 03:25+0530\n"
+"PO-Revision-Date: 2009-03-16 11:45+0530\n"
 "Last-Translator: Manoj Kumar Giri <mgiri@redhat.com>\n"
 "Language-Team: Oriya <oriya-it@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -21613,34 +21614,28 @@ msgid "Delete _all Occurrences"
 msgstr "ବିଲୋପ କର ସମସ୍ତ"
 
 #: ../ui/evolution-calendar.xml.h:7
-#, fuzzy
 msgid "Delete all occurrences"
-msgstr "ବିଲୋପ କର ସମସ୍ତ ଘଟଣା"
+msgstr "ସମସ୍ତ ଘଟଣାକୁ ବିଲୋପ କରନ୍ତୁ"
 
 #: ../ui/evolution-calendar.xml.h:8
-#, fuzzy
 msgid "Delete the appointment"
-msgstr "ବିଲୋପ କର"
+msgstr "ଏହି ସାକ୍ଷାତକାରକୁ ବିଲୋପ କରନ୍ତୁ"
 
 #: ../ui/evolution-calendar.xml.h:10
-#, fuzzy
 msgid "Delete this occurrence"
-msgstr "ବିଲୋପ କର ଏହା ଘଟଣା"
+msgstr "ଏହି ଘଟଣାକୁ ବିଲୋପ କରନ୍ତୁ"
 
 #: ../ui/evolution-calendar.xml.h:11
-#, fuzzy
 msgid "Go To"
-msgstr "ଯାଆନ୍ତୁ କୁ"
+msgstr " କୁ ଯାଆନ୍ତୁ"
 
 #: ../ui/evolution-calendar.xml.h:12
-#, fuzzy
 msgid "Go back"
-msgstr "ଯାଆନ୍ତୁ ପଛକୁ"
+msgstr "ପଛକୁ ଯାଆନ୍ତୁ"
 
 #: ../ui/evolution-calendar.xml.h:13
-#, fuzzy
 msgid "Go forward"
-msgstr "ଯାଆନ୍ତୁ"
+msgstr "ଆଗକୁ ଯାଆନ୍ତୁ"
 
 #: ../ui/evolution-calendar.xml.h:14
 msgid "List"
@@ -21666,9 +21661,8 @@ msgid "Previous"
 msgstr "ପୂର୍ବବର୍ତ୍ତୀ"
 
 #: ../ui/evolution-calendar.xml.h:22
-#, fuzzy
 msgid "Print this calendar"
-msgstr "ମୁଦ୍ରଣ ଏହା କାଲେଣ୍ଡର"
+msgstr "ଏହି କାଲେଣ୍ଡରକୁ ମୁଦ୍ରଣ କରନ୍ତୁ"
 
 #: ../ui/evolution-calendar.xml.h:23 ../ui/evolution-tasks.xml.h:17
 #, fuzzy
@@ -21681,14 +21675,12 @@ msgid "Purge old appointments and meetings"
 msgstr "ଏବଂ"
 
 #: ../ui/evolution-calendar.xml.h:25
-#, fuzzy
 msgid "Select _Date"
-msgstr "ମନୋନୀତ କର ତାରିଖ"
+msgstr "ତାରିଖ ମନୋନୀତ କରନ୍ତୁ (_D)"
 
 #: ../ui/evolution-calendar.xml.h:26
-#, fuzzy
 msgid "Select _Today"
-msgstr "ମନୋନୀତ କର ଆଜି"
+msgstr "ଆଜିକୁ ମନୋନୀତ କରନ୍ତୁ (_T)"
 
 #: ../ui/evolution-calendar.xml.h:27
 #, fuzzy
@@ -21696,34 +21688,28 @@ msgid "Select a specific date"
 msgstr "ମନୋନୀତ କର a"
 
 #: ../ui/evolution-calendar.xml.h:28
-#, fuzzy
 msgid "Select today"
-msgstr "ମନୋନୀତ କର ଆଜି"
+msgstr "ଆଜି ମନୋନୀତ କରନ୍ତୁ"
 
 #: ../ui/evolution-calendar.xml.h:29
-#, fuzzy
 msgid "Show as list"
-msgstr "ଦେଖାଅ ତାଲିକା"
+msgstr "ତାଲିକା ପରି ଦର୍ଶାନ୍ତୁ"
 
 #: ../ui/evolution-calendar.xml.h:30
-#, fuzzy
 msgid "Show one day"
-msgstr "ଦେଖାଅ ଦିନ"
+msgstr "ଗୋଟିଏ ଦିନ ଦର୍ଶାନ୍ତୁ"
 
 #: ../ui/evolution-calendar.xml.h:31
-#, fuzzy
 msgid "Show one month"
-msgstr "ଦେଖାଅ ମାସ"
+msgstr "ଗୋଟିଏ ମାସ ଦର୍ଶାନ୍ତୁ"
 
 #: ../ui/evolution-calendar.xml.h:32
-#, fuzzy
 msgid "Show one week"
-msgstr "ଦେଖାଅ ସପ୍ତାହ"
+msgstr "ଗୋଟିଏ ସପ୍ତାହ ଦର୍ଶାନ୍ତୁ"
 
 #: ../ui/evolution-calendar.xml.h:33
-#, fuzzy
 msgid "Show the working week"
-msgstr "ଦେଖାଅ ସପ୍ତାହ"
+msgstr "କାର୍ଯ୍ୟ ଦିବସ ସପ୍ତାହ ଦର୍ଶାନ୍ତୁ"
 
 #: ../ui/evolution-calendar.xml.h:35
 #, fuzzy
@@ -21740,7 +21726,6 @@ msgid "Week"
 msgstr "ସପ୍ତାହ"
 
 #: ../ui/evolution-calendar.xml.h:38
-#, fuzzy
 msgid "Work Week"
 msgstr "କାର୍ଯ୍ଯ ସପ୍ତାହ"
 
@@ -21750,9 +21735,8 @@ msgid "_Debug Logs"
 msgstr "ଲଗଗୁଡ଼ିକୁ ତ୍ରୁଟିମୁକ୍ତ କରନ୍ତୁ (_D)"
 
 #: ../ui/evolution-calendar.xml.h:45
-#, fuzzy
 msgid "_Open Appointment"
-msgstr "ଖୋଲନ୍ତୁ"
+msgstr "ସାକ୍ଷାତକାର ଖୋଲନ୍ତୁ (_O)"
 
 #: ../ui/evolution-mail-global.xml.h:2
 #, fuzzy
@@ -21770,12 +21754,10 @@ msgid "Create a new folder for storing mail"
 msgstr "ସୃଷ୍ଟି କର a ନୂତନ ପାଇଁ ଡାକ"
 
 #: ../ui/evolution-mail-global.xml.h:5
-#, fuzzy
 msgid "Create or edit Search Folder definitions"
 msgstr "ସୃଷ୍ଟି କର କିମ୍ବା ସମ୍ପାଦନ କରନ୍ତୁ ଖୋଜନ୍ତୁ ଫୋଲଡର"
 
 #: ../ui/evolution-mail-global.xml.h:6
-#, fuzzy
 msgid "Create or edit rules for filtering new mail"
 msgstr "ସୃଷ୍ଟି କର କିମ୍ବା ସମ୍ପାଦନ କରନ୍ତୁ ପାଇଁ ନୂତନ ଡାକ"
 
@@ -21789,9 +21771,8 @@ msgid "Empty _Trash"
 msgstr "ଆବର୍ଜନା ପାତ୍ରକୁ ଖୋଲନ୍ତୁ (_T)"
 
 #: ../ui/evolution-mail-global.xml.h:9 ../ui/evolution-mail-list.xml.h:11
-#, fuzzy
 msgid "F_older"
-msgstr "F"
+msgstr "ଫୋଲଡର (_o)"
 
 #: ../ui/evolution-mail-global.xml.h:10
 #, fuzzy
@@ -21805,14 +21786,12 @@ msgid "Permanently remove all deleted messages from all folders"
 msgstr "କାଢ଼ନ୍ତୁ ସମସ୍ତ ବିଲୋପ ହୋଇଛି ଠାରୁ ସମସ୍ତ"
 
 #: ../ui/evolution-mail-global.xml.h:13
-#, fuzzy
 msgid "Search F_olders"
-msgstr "ଖୋଜନ୍ତୁ F"
+msgstr "ଫୋଲଡର ଖୋଜନ୍ତୁ (_o)"
 
 #: ../ui/evolution-mail-global.xml.h:14
-#, fuzzy
 msgid "Show Message _Preview"
-msgstr "ଦେଖାଅ ସନ୍ଦେଶ ପୂର୍ବଦୃଶ୍ଯ"
+msgstr "ସନ୍ଦେଶ ପୂର୍ବଦୃଶ୍ଯ ଦେଖାନ୍ତୁ (_P)"
 
 #: ../ui/evolution-mail-global.xml.h:15
 #, fuzzy
@@ -21835,29 +21814,24 @@ msgid "Subscribe or unsubscribe to folders on remote servers"
 msgstr "କିଣନ୍ତୁ କିମ୍ବା କୁ ରେ"
 
 #: ../ui/evolution-mail-global.xml.h:20
-#, fuzzy
 msgid "_Classic View"
-msgstr "ଚିରପ୍ରତିଷ୍ଠିତ ଦୃଶ୍ଯ"
+msgstr "ଚିରପ୍ରତିଷ୍ଠିତ ଦୃଶ୍ଯ (_C)"
 
 #: ../ui/evolution-mail-global.xml.h:21
-#, fuzzy
 msgid "_Copy Folder To..."
-msgstr "ନକଲ କରନ୍ତୁ ଫୋଲଡର କୁ."
+msgstr "ଫୋଲଡର କୁ ନକଲ କରନ୍ତୁ (_C)..."
 
 #: ../ui/evolution-mail-global.xml.h:23
-#, fuzzy
 msgid "_Download Messages for Offline Usage"
-msgstr "ଆହରଣ ପାଇଁ ଅଫଲାଇନ ବ୍ୟବହାର ବିଧି"
+msgstr "ଅଫଲାଇନ ବ୍ୟବହାର ବିଧି ପାଇଁ ଆହରଣ କରନ୍ତୁ (_D)"
 
 #: ../ui/evolution-mail-global.xml.h:25
-#, fuzzy
 msgid "_Message Filters"
-msgstr "ସନ୍ଦେଶ ଫିଲ୍ଟରଗୁଡିକ"
+msgstr "ସନ୍ଦେଶ ଫିଲ୍ଟରଗୁଡିକ (_M)"
 
 #: ../ui/evolution-mail-global.xml.h:26
-#, fuzzy
 msgid "_Move Folder To..."
-msgstr "ଘୁଞ୍ଚାଅ ଫୋଲଡର କୁ."
+msgstr "ଫୋଲଡରକୁ ଘୁଞ୍ଚାନ୍ତୁ (_M)..."
 
 #: ../ui/evolution-mail-global.xml.h:27
 msgid "_New..."
@@ -21876,9 +21850,8 @@ msgid "_Subscriptions..."
 msgstr "କ୍ରୟ (_S)..."
 
 #: ../ui/evolution-mail-global.xml.h:33
-#, fuzzy
 msgid "_Vertical View"
-msgstr "ଲମ୍ବରୂପ ଦୃଶ୍ଯ"
+msgstr "ଲମ୍ବରୂପ ଦୃଶ୍ଯ (_V)"
 
 #: ../ui/evolution-mail-list.xml.h:1
 #, fuzzy
@@ -21901,9 +21874,8 @@ msgid "Collapse all message threads"
 msgstr "ଭାଙ୍ଗିୟିବା ସମସ୍ତ"
 
 #: ../ui/evolution-mail-list.xml.h:5
-#, fuzzy
 msgid "Copy selected message(s) to the clipboard"
-msgstr "ନକଲ କରନ୍ତୁ ଚୟିତ କୁ କ୍ଲିପବୋର୍ଡ "
+msgstr "କ୍ଲିପବୋର୍ଡରେ ଚୟିତ ସନ୍ଦେଶଗୁଡ଼ିକୁ ନକଲ କରନ୍ତୁ "
 
 #. Alphabetical by name, yo
 #: ../ui/evolution-mail-list.xml.h:7
@@ -21912,29 +21884,24 @@ msgid "Cut selected message(s) to the clipboard"
 msgstr "କାଟ ଚୟିତ କୁ କ୍ଲିପବୋର୍ଡ "
 
 #: ../ui/evolution-mail-list.xml.h:8
-#, fuzzy
 msgid "E_xpand All Threads"
-msgstr "E ସମସ୍ତ"
+msgstr "ସମସ୍ତ ସୂତ୍ରକୁ କାଟନ୍ତୁ (_x)"
 
 #: ../ui/evolution-mail-list.xml.h:9
-#, fuzzy
 msgid "E_xpunge"
-msgstr "E"
+msgstr "କାଟନ୍ତୁ (_x)"
 
 #: ../ui/evolution-mail-list.xml.h:10
-#, fuzzy
 msgid "Expand all message threads"
-msgstr "ବିସ୍ତାରକର ସମସ୍ତ"
+msgstr "ସମସ୍ତ ସନ୍ଦେଶ ସୂତ୍ରକୁ ବିସ୍ତାରକରନ୍ତୁ"
 
 #: ../ui/evolution-mail-list.xml.h:12
-#, fuzzy
 msgid "Hide S_elected Messages"
-msgstr "ଲୁଚାଅ S"
+msgstr "ବଚ୍ଛିତ ସନ୍ଦେଶଗୁଡ଼ିକୁ ଲୁଚାନ୍ତୁ (_e)"
 
 #: ../ui/evolution-mail-list.xml.h:13
-#, fuzzy
 msgid "Hide _Deleted Messages"
-msgstr "ଲୁଚାଅ ବିଲୋପ ହୋଇଛି"
+msgstr "ବିଲୋପ ହୋଇଥିବା ସନ୍ଦେଶଗୁଡ଼ିକୁ ଲୁଚାନ୍ତୁ (_D)"
 
 #: ../ui/evolution-mail-list.xml.h:14
 #, fuzzy
@@ -21982,14 +21949,12 @@ msgid "Select Message S_ubthread"
 msgstr "ମନୋନୀତ କର ସନ୍ଦେଶ S"
 
 #: ../ui/evolution-mail-list.xml.h:24
-#, fuzzy
 msgid "Select Message _Thread"
-msgstr "ମନୋନୀତ କର ସନ୍ଦେଶ ସୁତା"
+msgstr "ସନ୍ଦେଶ ସୁତାକୁ ମନୋନୀତ କରନ୍ତୁ (_T)"
 
 #: ../ui/evolution-mail-list.xml.h:25
-#, fuzzy
 msgid "Select _All Messages"
-msgstr "ମନୋନୀତ କର ସମସ୍ତ"
+msgstr "ସମସ୍ତ ସନ୍ଦେଶଗୁଡ଼ିକୁ ମନୋନୀତ କରନ୍ତୁ (_A)"
 
 #: ../ui/evolution-mail-list.xml.h:26
 #, fuzzy
@@ -22007,9 +21972,8 @@ msgid "Select all replies to the currently selected message"
 msgstr "ମନୋନୀତ କର ସମସ୍ତ କୁ ଚୟିତ"
 
 #: ../ui/evolution-mail-list.xml.h:29
-#, fuzzy
 msgid "Select all visible messages"
-msgstr "ମନୋନୀତ କର ସମସ୍ତ ଦୃଶ୍ୟମାନ"
+msgstr "ସମସ୍ତ ଦୃଶ୍ୟମାନ ମନୋନୀତ କରନ୍ତୁ"
 
 #: ../ui/evolution-mail-list.xml.h:30
 #, fuzzy
@@ -22032,20 +21996,17 @@ msgid "Temporarily hide the selected messages"
 msgstr "ଚୟିତ"
 
 #: ../ui/evolution-mail-list.xml.h:34
-#, fuzzy
 msgid "Threaded Message list"
-msgstr "ସନ୍ଦେଶ ତାଲିକା"
+msgstr "ସୂତ୍ର ସନ୍ଦେଶ ତାଲିକା"
 
 #: ../ui/evolution-mail-list.xml.h:36
-#, fuzzy
 msgid "_Group By Threads"
-msgstr "ସମୂହ ଦ୍ବାରା"
+msgstr "ସୂତ୍ର ଦ୍ବାରା ସମୂହ (_G)"
 
 #: ../ui/evolution-mail-list.xml.h:37 ../ui/evolution-mail-message.xml.h:115
 #: ../ui/evolution-mail-messagedisplay.xml.h:7
-#, fuzzy
 msgid "_Message"
-msgstr "ସନ୍ଦେଶ"
+msgstr "ସନ୍ଦେଶ (_M)"
 
 #: ../ui/evolution-mail-message.xml.h:1
 #, fuzzy
@@ -22059,14 +22020,12 @@ msgstr "A ଫିଲ୍ଟରଗୁଡିକ"
 
 #. Alphabetical by name, yo
 #: ../ui/evolution-mail-message.xml.h:4
-#, fuzzy
 msgid "Add Sender to Address Book"
-msgstr "ମିଶାଅ ପ୍ରେରକ କୁ ଠିକଣା ପୁସ୍ତକ"
+msgstr "ଠିକଣା ପୁସ୍ତକରେ ପ୍ରେରକକୁ ମିଶାନ୍ତୁ"
 
 #: ../ui/evolution-mail-message.xml.h:5
-#, fuzzy
 msgid "All Message _Headers"
-msgstr "ସମସ୍ତ ସନ୍ଦେଶ ଶୀର୍ଷକଗୁଡିକ"
+msgstr "ସମସ୍ତ ସନ୍ଦେଶ ଶୀର୍ଷକଗୁଡିକ (_H)"
 
 #: ../ui/evolution-mail-message.xml.h:6
 #, fuzzy
@@ -22074,9 +22033,8 @@ msgid "Apply filter rules to the selected messages"
 msgstr "ପ୍ରଯୋଗ କର କୁ ଚୟିତ"
 
 #: ../ui/evolution-mail-message.xml.h:7
-#, fuzzy
 msgid "Check for _Junk"
-msgstr "ୟାଞ୍ଚ କର ପାଇଁ Junk"
+msgstr "Junk ପାଇଁ ଯାଞ୍ଚ କରନ୍ତୁ (_J)"
 
 #: ../ui/evolution-mail-message.xml.h:8
 #, fuzzy
@@ -22109,9 +22067,8 @@ msgid "Copy selected messages to the clipboard"
 msgstr "ନକଲ କରନ୍ତୁ ଚୟିତ କୁ କ୍ଲିପବୋର୍ଡ "
 
 #: ../ui/evolution-mail-message.xml.h:14
-#, fuzzy
 msgid "Create R_ule"
-msgstr "ସୃଷ୍ଟି କର R"
+msgstr "ନିୟମ ସୃଷ୍ଟି କରନ୍ତୁ (_u)"
 
 #: ../ui/evolution-mail-message.xml.h:15
 #, fuzzy
@@ -22198,14 +22155,12 @@ msgid "Display the previous unread message"
 msgstr "ପ୍ରଦର୍ଶନ ଅପଠିତ"
 
 #: ../ui/evolution-mail-message.xml.h:33
-#, fuzzy
 msgid "F_orward As..."
-msgstr "F."
+msgstr "ପରି ଅଗ୍ରସର ହୋଇଛି (_o)..."
 
 #: ../ui/evolution-mail-message.xml.h:34
-#, fuzzy
 msgid "Filter on Mailing _List..."
-msgstr "ଫିଲଟର ରେ ତାଲିକା."
+msgstr "ମେଲିଙ୍ଗ ତାଲିକାରେ ଛାଣନ୍ତୁ (_L)..."
 
 #: ../ui/evolution-mail-message.xml.h:35
 #, fuzzy
@@ -22213,9 +22168,8 @@ msgid "Filter on Se_nder..."
 msgstr "ଫିଲଟର ରେ."
 
 #: ../ui/evolution-mail-message.xml.h:36
-#, fuzzy
 msgid "Filter on _Recipients..."
-msgstr "ଫିଲଟର ରେ ଗ୍ରହଣ କର୍ତ୍ତା."
+msgstr "ଗ୍ରହଣ କର୍ତ୍ତା ପାଖରେ ଛାଣନ୍ତୁ (_R)..."
 
 #: ../ui/evolution-mail-message.xml.h:37
 #, fuzzy
@@ -22233,9 +22187,8 @@ msgid "Flag selected messages for follow-up"
 msgstr "ଚୟିତ ପାଇଁ ଅନୁସରଣକର ଉପର"
 
 #: ../ui/evolution-mail-message.xml.h:40
-#, fuzzy
 msgid "Follow _Up..."
-msgstr "ଅନୁସରଣ କରନ୍ତୁ ଉପର."
+msgstr "ଅନୁସରଣ କରନ୍ତୁ (_U)..."
 
 #: ../ui/evolution-mail-message.xml.h:41
 #, fuzzy
@@ -22267,9 +22220,8 @@ msgid "Increase the text size"
 msgstr "ପାଠ୍ୟର ଆକାର ବୃଦ୍ଧି କରନ୍ତୁ"
 
 #: ../ui/evolution-mail-message.xml.h:49
-#, fuzzy
 msgid "Mar_k as"
-msgstr "ମାର୍ଚ୍ଚ"
+msgstr "ପରି ଚିହ୍ନଟ କରନ୍ତୁ (_k)"
 
 #: ../ui/evolution-mail-message.xml.h:50
 #, fuzzy
@@ -22312,24 +22264,20 @@ msgid "Move selected messages to another folder"
 msgstr "ଘୁଞ୍ଚାଅ ଚୟିତ କୁ"
 
 #: ../ui/evolution-mail-message.xml.h:59
-#, fuzzy
 msgid "Next _Important Message"
-msgstr "ପରବର୍ତ୍ତୀ ଗୁରୁତ୍ବପୂର୍ଣ୍ଣ ସନ୍ଦେଶ"
+msgstr "ପରବର୍ତ୍ତୀ ଗୁରୁତ୍ବପୂର୍ଣ୍ଣ ସନ୍ଦେଶ (_I)"
 
 #: ../ui/evolution-mail-message.xml.h:60
-#, fuzzy
 msgid "Next _Thread"
-msgstr "ପରବର୍ତ୍ତୀ ସୁତା"
+msgstr "ପରବର୍ତ୍ତୀ ସୁତା (_T)"
 
 #: ../ui/evolution-mail-message.xml.h:61
-#, fuzzy
 msgid "Next _Unread Message"
-msgstr "ପରବର୍ତ୍ତୀ ସନ୍ଦେଶ"
+msgstr "ପରବର୍ତ୍ତୀ ପଢ଼ାହୋଇନଥିବା ସନ୍ଦେଶ (_U)"
 
 #: ../ui/evolution-mail-message.xml.h:62
-#, fuzzy
 msgid "Not Junk"
-msgstr "Junk"
+msgstr "Junk ନୁହଁ"
 
 #: ../ui/evolution-mail-message.xml.h:63
 #, fuzzy
@@ -22347,24 +22295,20 @@ msgid "Open the selected messages in the composer for editing"
 msgstr "ଖୋଲନ୍ତୁ ଚୟିତ ଇଞ୍ଚ ପାଇଁ"
 
 #: ../ui/evolution-mail-message.xml.h:66
-#, fuzzy
 msgid "P_revious Unread Message"
-msgstr "P ସନ୍ଦେଶ"
+msgstr "ପୂର୍ବର ପଢ଼ାହୋଇନଥିବା ସନ୍ଦେଶ (_r)"
 
 #: ../ui/evolution-mail-message.xml.h:67
-#, fuzzy
 msgid "Paste messages from the clipboard"
-msgstr "ଲଗାନ୍ତୁ ଠାରୁ କ୍ଲିପବୋର୍ଡ "
+msgstr "କ୍ଲିପବୋର୍ଡରୁ ସନ୍ଦେଶ ଲଗାନ୍ତୁ"
 
 #: ../ui/evolution-mail-message.xml.h:68
-#, fuzzy
 msgid "Pos_t New Message to Folder"
-msgstr "ନୂତନ ସନ୍ଦେଶ କୁ ଫୋଲଡର"
+msgstr "ଫୋଲଡରରେ ନୂତନ ସନ୍ଦେଶ କୁ ଦାଖଲ କରନ୍ତୁ (_t)"
 
 #: ../ui/evolution-mail-message.xml.h:69
-#, fuzzy
 msgid "Post a Repl_y"
-msgstr "ପୋଷ୍ଟ a ହଁ"
+msgstr "ଉତ୍ତର ଦାଖଲ କରନ୍ତୁ (_y)"
 
 #: ../ui/evolution-mail-message.xml.h:70
 #, fuzzy
@@ -22387,9 +22331,8 @@ msgid "Preview the message to be printed"
 msgstr "ପୂର୍ବଦୃଶ୍ଯ କୁ"
 
 #: ../ui/evolution-mail-message.xml.h:77
-#, fuzzy
 msgid "Print this message"
-msgstr "ମୁଦ୍ରଣ ଏହା"
+msgstr "ଏହି ସନ୍ଦେଶକୁ ମୁଦ୍ରଣ କରନ୍ତୁ"
 
 #: ../ui/evolution-mail-message.xml.h:78
 msgid "Re_direct"
@@ -22436,29 +22379,24 @@ msgid "Search for text in the body of the displayed message"
 msgstr "ଖୋଜନ୍ତୁ ପାଇଁ ପାଠ୍ଯ ଇଞ୍ଚ ର"
 
 #: ../ui/evolution-mail-message.xml.h:91
-#, fuzzy
 msgid "Select _All Text"
-msgstr "ମନୋନୀତ କର ସମସ୍ତ ଟେକ୍ସଟ"
+msgstr "ସମସ୍ତ ପାଠ୍ୟକୁ ମନୋନୀତ କରନ୍ତୁ (_A)"
 
 #: ../ui/evolution-mail-message.xml.h:92
-#, fuzzy
 msgid "Select all the text in a message"
-msgstr "ମନୋନୀତ କର ସମସ୍ତ ପାଠ୍ଯ ଇଞ୍ଚ a"
+msgstr "ସନ୍ଦେଶରେ ସମସ୍ତ ପାଠ୍ଯକୁ ମନୋନୀତ କରନ୍ତୁ"
 
 #: ../ui/evolution-mail-message.xml.h:93 ../ui/evolution.xml.h:27
-#, fuzzy
 msgid "Set up the page settings for your current printer"
-msgstr "ସେଟକର ଉପର ପୃଷ୍ଠା ପାଇଁ"
+msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:94
-#, fuzzy
 msgid "Show a blinking cursor in the body of displayed messages"
-msgstr "ଦେଖାଅ a ଇଞ୍ଚ ର"
+msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:95
-#, fuzzy
 msgid "Show messages with all email headers"
-msgstr "ଦେଖାଅ ସହିତ  ସମସ୍ତ"
+msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:96
 #, fuzzy
@@ -22466,9 +22404,8 @@ msgid "Show the raw email source of the message"
 msgstr "ଦେଖାଅ ଉତ୍ସ ର"
 
 #: ../ui/evolution-mail-message.xml.h:97
-#, fuzzy
 msgid "Undelete the selected messages"
-msgstr "ଚୟିତ"
+msgstr "ଚୟିତ ସନ୍ଦେଶଗୁଡ଼ିକୁ ଅପସାରଣ କରନ୍ତୁ ନାହିଁ"
 
 #: ../ui/evolution-mail-message.xml.h:98
 msgid "Uni_mportant"
@@ -22483,81 +22420,68 @@ msgid "_Attached"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:101
-#, fuzzy
 msgid "_Caret Mode"
-msgstr "କ୍ଯାରେଟ ମୋଡ"
+msgstr "କ୍ଯାରେଟ ଧାରା (_C)"
 
 #: ../ui/evolution-mail-message.xml.h:102
-#, fuzzy
 msgid "_Clear Flag"
-msgstr "ସଫା କରନ୍ତୁ"
+msgstr "ବିଶେଷ ସୂଚକକୁ ସଫା କରନ୍ତୁ (_C)"
 
 #: ../ui/evolution-mail-message.xml.h:105
-#, fuzzy
 msgid "_Delete Message"
-msgstr "ବିଲୋପ କର ସନ୍ଦେଶ"
+msgstr "ସନ୍ଦେଶ ବିଲୋପ କରନ୍ତୁ (_D)"
 
 #: ../ui/evolution-mail-message.xml.h:107
-#, fuzzy
 msgid "_Find in Message..."
-msgstr "ଖୋଜନ୍ତୁ ଇଞ୍ଚ ସନ୍ଦେଶ."
+msgstr "ସନ୍ଦେଶ ମଧ୍ଯରେ ଖୋଜନ୍ତୁ (_F)..."
 
 #: ../ui/evolution-mail-message.xml.h:108
-#, fuzzy
 msgid "_Flag Completed"
-msgstr "ସମାପ୍ତ"
+msgstr "ବିଶେଷ ସୂଚକ ସମ୍ପୂର୍ଣ୍ଣ ହୋଇଛି (_F)"
 
 #: ../ui/evolution-mail-message.xml.h:110
 msgid "_Go To"
 msgstr "ଏଠାକୁ ଯାଆନ୍ତୁ (_G)"
 
 #: ../ui/evolution-mail-message.xml.h:111
-#, fuzzy
 msgid "_Important"
-msgstr "ଗୁରୁତ୍ବପୂର୍ଣ୍ଣ"
+msgstr "ଗୁରୁତ୍ବପୂର୍ଣ୍ଣ (_I)"
 
 #: ../ui/evolution-mail-message.xml.h:112
 msgid "_Inline"
 msgstr ""
 
 #: ../ui/evolution-mail-message.xml.h:113
-#, fuzzy
 msgid "_Junk"
-msgstr "Junk"
+msgstr "Junk (_J)"
 
 #: ../ui/evolution-mail-message.xml.h:114
-#, fuzzy
 msgid "_Load Images"
-msgstr "ଲୋଡ କର ପ୍ରତିଛବି"
+msgstr "ପ୍ରତିଛବି ଧାରଣ କରନ୍ତୁ (_L)"
 
 #: ../ui/evolution-mail-message.xml.h:116
-#, fuzzy
 msgid "_Message Source"
-msgstr "ସନ୍ଦେଶ ଉତ୍ସ"
+msgstr "ସନ୍ଦେଶ ଉତ୍ସ (_M)"
 
 #: ../ui/evolution-mail-message.xml.h:118
-#, fuzzy
 msgid "_Next Message"
-msgstr "ପରବର୍ତ୍ତୀ ସନ୍ଦେଶ"
+msgstr "ପରବର୍ତ୍ତୀ ସନ୍ଦେଶ (_N)"
 
 #: ../ui/evolution-mail-message.xml.h:119
 msgid "_Normal Size"
 msgstr "ସାଧାରଣ ଆକାର (_N)"
 
 #: ../ui/evolution-mail-message.xml.h:120
-#, fuzzy
 msgid "_Not Junk"
-msgstr "Junk"
+msgstr "Junk ନୁହଁ (_N)"
 
 #: ../ui/evolution-mail-message.xml.h:121
-#, fuzzy
 msgid "_Open in New Window"
-msgstr "ଖୋଲନ୍ତୁ ଇଞ୍ଚ ନୂତନ ୱିଣ୍ଡୋ"
+msgstr "ନୂତନ ୱିଣ୍ଡୋରେ ଖୋଲନ୍ତୁ (_O)"
 
 #: ../ui/evolution-mail-message.xml.h:122
-#, fuzzy
 msgid "_Previous Message"
-msgstr "ପୂର୍ବବର୍ତ୍ତୀ ସନ୍ଦେଶ"
+msgstr "ପୂର୍ବବର୍ତ୍ତୀ ସନ୍ଦେଶ (_P)"
 
 #: ../ui/evolution-mail-message.xml.h:124
 msgid "_Quoted"
@@ -22569,14 +22493,12 @@ msgid "_Read"
 msgstr "ପଢନ୍ତୁ (_R)"
 
 #: ../ui/evolution-mail-message.xml.h:128
-#, fuzzy
 msgid "_Save Message..."
-msgstr "ସଂରକ୍ଷଣ କରନ୍ତୁ ସନ୍ଦେଶ."
+msgstr "ସନ୍ଦେଶ ସଂରକ୍ଷଣ କରନ୍ତୁ (_S)..."
 
 #: ../ui/evolution-mail-message.xml.h:129
-#, fuzzy
 msgid "_Undelete Message"
-msgstr "ସନ୍ଦେଶ"
+msgstr "ଅପସାରଣ କରାଯାଇନଥିବା ସନ୍ଦେଶ (_U)"
 
 #: ../ui/evolution-mail-message.xml.h:130
 msgid "_Unread"
@@ -22599,24 +22521,20 @@ msgid "Main toolbar"
 msgstr ""
 
 #: ../ui/evolution-memos.xml.h:3
-#, fuzzy
 msgid "Copy selected memo"
-msgstr "ନକଲ କରନ୍ତୁ ଚୟିତ"
+msgstr "ଚୟିତ ସ୍ମାରକପତ୍ରଗୁଡ଼ିକୁ ନକଲ କରନ୍ତୁ"
 
 #: ../ui/evolution-memos.xml.h:5
-#, fuzzy
 msgid "Cut selected memo"
-msgstr "କାଟ ଚୟିତ"
+msgstr "ଚୟିତ ସ୍ମାରକପତ୍ରଗୁଡ଼ିକୁ କାଟନ୍ତୁ"
 
 #: ../ui/evolution-memos.xml.h:7
-#, fuzzy
 msgid "Delete selected memos"
-msgstr "ବିଲୋପ କର ଚୟିତ"
+msgstr "ଚୟିତ ସ୍ମାରକପତ୍ରଗୁଡ଼ିକୁ ବିଲୋପ କରନ୍ତୁ"
 
 #: ../ui/evolution-memos.xml.h:9
-#, fuzzy
 msgid "Paste memo from the clipboard"
-msgstr "ଲଗାନ୍ତୁ ଠାରୁ କ୍ଲିପବୋର୍ଡ "
+msgstr "କ୍ଲିପବୋର୍ଡରୁ ସ୍ମାରକପତ୍ରକୁ ଲଗାନ୍ତୁ"
 
 #: ../ui/evolution-memos.xml.h:10
 #, fuzzy
@@ -22624,54 +22542,44 @@ msgid "Previews the list of memos to be printed"
 msgstr "ପ୍ରାକ୍ଦର୍ଶନରାଜି  ତାଲିକା ର କୁ"
 
 #: ../ui/evolution-memos.xml.h:13
-#, fuzzy
 msgid "Print the list of memos"
-msgstr "ମୁଦ୍ରଣ ତାଲିକା ର"
+msgstr "ସ୍ମାରକପତ୍ର ତାଲିକାକୁ ମୁଦ୍ରଣ କରନ୍ତୁ"
 
 #: ../ui/evolution-memos.xml.h:14
-#, fuzzy
 msgid "View the selected memo"
-msgstr "ଦୃଶ୍ଯ ଚୟିତ"
+msgstr "ଚୟିତ ସ୍ମାରକପତ୍ରକୁ ଦେଖନ୍ତୁ"
 
 #: ../ui/evolution-memos.xml.h:18
-#, fuzzy
 msgid "_Open Memo"
-msgstr "ଖୋଲନ୍ତୁ ସ୍ମାରକପତ୍ର"
+msgstr "ସ୍ମାରକପତ୍ର ଖୋଲନ୍ତୁ (_O)"
 
 #: ../ui/evolution-tasks.xml.h:3
-#, fuzzy
 msgid "Copy selected tasks"
-msgstr "ନକଲ କରନ୍ତୁ ଚୟିତ"
+msgstr "ଚୟିତ କାର୍ଯ୍ୟଗୁଡ଼ିକୁ ନକଲ କରନ୍ତୁ"
 
 #: ../ui/evolution-tasks.xml.h:5
-#, fuzzy
 msgid "Cut selected tasks"
-msgstr "କାଟ ଚୟିତ"
+msgstr "ବଚ୍ଛିତ କାର୍ଯ୍ୟଗୁଡ଼ିକୁ କାଟନ୍ତୁ"
 
 #: ../ui/evolution-tasks.xml.h:7
-#, fuzzy
 msgid "Delete completed tasks"
-msgstr "ବିଲୋପ କର"
+msgstr "ସମ୍ପୂର୍ଣ୍ଣ କାର୍ଯ୍ୟଗୁଡ଼ିକୁ ବିଲୋପ କରନ୍ତୁ"
 
 #: ../ui/evolution-tasks.xml.h:8
-#, fuzzy
 msgid "Delete selected tasks"
-msgstr "ବିଲୋପ କର ଚୟିତ"
+msgstr "ଚୟିତ କାର୍ଯ୍ୟଗୁଡ଼ିକୁ ବିଲୋପ କରନ୍ତୁ"
 
 #: ../ui/evolution-tasks.xml.h:9
-#, fuzzy
 msgid "Mar_k as Complete"
-msgstr "ମାର୍ଚ୍ଚ ସମ୍ପୂର୍ଣ୍ଣ"
+msgstr "ସମ୍ପୂର୍ଣ୍ଣ ହୋଇଛି ବୋଲି ଚିହ୍ନଟ କରନ୍ତୁ (_k)"
 
 #: ../ui/evolution-tasks.xml.h:10
-#, fuzzy
 msgid "Mark selected tasks as complete"
-msgstr "ଚୟିତ"
+msgstr "ଚୟିତ କାର୍ଯ୍ୟଗୁଡ଼ିକୁ ସମ୍ପୂର୍ଣ୍ଣ ବୋଲି ଚିହ୍ନଟ କରନ୍ତୁ"
 
 #: ../ui/evolution-tasks.xml.h:12
-#, fuzzy
 msgid "Paste tasks from the clipboard"
-msgstr "ଲଗାନ୍ତୁ ଠାରୁ କ୍ଲିପବୋର୍ଡ "
+msgstr "କ୍ଲିପବୋର୍ଡରୁ କାର୍ଯ୍ୟ ଲଗାନ୍ତୁ"
 
 #: ../ui/evolution-tasks.xml.h:13
 msgid "Previews the list of tasks to be printed"
@@ -22768,9 +22676,8 @@ msgid "New _Window"
 msgstr "ନୂତନ ୱିଣ୍ଡୋ (_W)"
 
 #: ../ui/evolution.xml.h:20
-#, fuzzy
 msgid "Open the Frequently Asked Questions webpage"
-msgstr "ଖୋଲନ୍ତୁ ପ୍ରଶ୍ନ"
+msgstr "ବାରମ୍ବାର ପଚରାଯାଉଥିବା ପ୍ରଶ୍ନ ୱେବ ପୃଷ୍ଠାକୁ ଖୋଲନ୍ତୁ"
 
 #: ../ui/evolution.xml.h:21
 #| msgid "Page Setup:"
@@ -22859,12 +22766,11 @@ msgstr "ୱିଣ୍ଡୋ ବନ୍ଦ କରନ୍ତୁ (_C)"
 
 #: ../ui/evolution.xml.h:44
 msgid "_Forget Passwords"
-msgstr ""
+msgstr "ପ୍ରବେଶ ସଂକେତ ଭୁଲିଯାଇଛନ୍ତି (_F)"
 
 #: ../ui/evolution.xml.h:45
-#, fuzzy
 msgid "_Frequently Asked Questions"
-msgstr "ପ୍ରଶ୍ନ"
+msgstr "ବାରମ୍ବାର ପଚରାଯାଉଥିବା ପ୍ରଶ୍ନ (_F)"
 
 #: ../ui/evolution.xml.h:47
 #| msgid "Hide window buttons"
@@ -22952,9 +22858,8 @@ msgid "By Su_bject"
 msgstr "ବିଷୟବସ୍ତୁ ଅନୁଯାୟୀ (_b)"
 
 #: ../views/mail/galview.xml.h:6
-#, fuzzy
 msgid "By _Follow Up Flag"
-msgstr "ଦ୍ବାରା ଅନୁସରଣ କରନ୍ତୁ ଉପର"
+msgstr "ଦ୍ବାରା ଅନୁସରଣ କରନ୍ତୁ (_F)"
 
 #: ../views/mail/galview.xml.h:7
 msgid "For _Wide View"
@@ -22969,9 +22874,8 @@ msgid "_Memos"
 msgstr "ସ୍ମାରକପତ୍ର (_M)"
 
 #: ../views/tasks/galview.xml.h:1
-#, fuzzy
 msgid "With _Due Date"
-msgstr "ଅନ୍ତିମ ଦିବସ ତାରିଖ"
+msgstr "ଅନ୍ତିମ ଦିବସ ତାରିଖ (_D)"
 
 #: ../views/tasks/galview.xml.h:2
 msgid "With _Status"
@@ -23120,16 +23024,14 @@ msgid "Type of view:"
 msgstr "ପ୍ରଦର୍ଶନ କରିବାର ପ୍ରକାର:"
 
 #: ../widgets/misc/e-attachment-bar.c:1132
-#, fuzzy
 msgid "Attachment Bar"
 msgstr "ସଂଲଗ୍ନ ପଟି"
 
 #: ../widgets/misc/e-attachment.c:290 ../widgets/misc/e-attachment.c:305
 #: ../widgets/misc/e-attachment.c:590 ../widgets/misc/e-attachment.c:607
 #, c-format
-#, fuzzy
 msgid "Cannot attach file %s: %s"
-msgstr "ସଲଂଗ୍ନ ଫାଇଲ"
+msgstr "ଫାଇଲ %sକୁ ସଲଂଗ୍ନ କରିହେବ ନାହିଁ: %s"
 
 #: ../widgets/misc/e-attachment.c:298 ../widgets/misc/e-attachment.c:599
 #, c-format
@@ -23138,7 +23040,6 @@ msgid "Cannot attach file %s: not a regular file"
 msgstr "ସଲଂଗ୍ନ ଫାଇଲ ନୁହେଁ a ଫାଇଲ"
 
 #: ../widgets/misc/e-attachment.glade.h:1
-#, fuzzy
 msgid "Attachment Properties"
 msgstr "ସଂଲଗ୍ନ ବିଶେଷତାଗୁଡିକ"
 
@@ -23147,9 +23048,8 @@ msgid "File name:"
 msgstr "ଫାଇଲ ନାମ"
 
 #: ../widgets/misc/e-attachment.glade.h:4
-#, fuzzy
 msgid "MIME type:"
-msgstr "ପ୍ରକାର:"
+msgstr "MIME ପ୍ରକାର:"
 
 #: ../widgets/misc/e-attachment.glade.h:5
 msgid "Suggest automatic display of attachment"
@@ -23487,9 +23387,8 @@ msgid "Online"
 msgstr "ଅନ ଲାଇନ"
 
 #: ../widgets/misc/e-online-button.c:107
-#, fuzzy
 msgid "The button state is online"
-msgstr "ବଟନ ଅଟେ"
+msgstr "ବଟନ ସ୍ଥିତିଟି ଅନଲାଇନ ଅଛି"
 
 #: ../widgets/misc/e-pilot-settings.c:102
 msgid "Sync with:"
@@ -23625,11 +23524,12 @@ msgid "Gene_ral Options"
 msgstr "ସାଧାରଣ ବିକଲ୍ପ (_r)"
 
 #: ../widgets/misc/e-send-options.glade.h:10
-#, fuzzy
 msgid ""
 "None\n"
 "Mail Receipt"
-msgstr "କିଛି ନୁହେଁ"
+msgstr ""
+"କିଛି ନୁହେଁ\n"
+"ମେଲ ରସିଦ"
 
 #: ../widgets/misc/e-send-options.glade.h:12
 #, fuzzy
