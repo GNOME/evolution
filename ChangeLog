@@ -1,3 +1,7 @@
+2009-03-16  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS: Evolution 2.26.0 release and version bump
+
 2009-03-08  David Planella  <david.planella@gmail.com>
 
 	* configure.in: Added Makefiles for the Catalan translations of the

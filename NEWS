@@ -1,3 +1,13 @@
+Evolution 2.26.0 2009-03-16
+----------------------------
+
+What is new in 2.26.0?
+
+	Exchange MAPI integration for Exchange 2007 connectivity.
+	PST Import support through plugins.
+	Calendar view performance improvements
+	Loads of stability & bug fixes
+
 Evolution 2.25.92 2009-03-02
 ----------------------------
 
