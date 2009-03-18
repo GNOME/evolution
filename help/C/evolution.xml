@@ -3,7 +3,7 @@
 "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
 
  <!ENTITY appname "Evolution" >
- <!ENTITY appversion "2.24" >
+ <!ENTITY appversion "2.26" >
  <!ENTITY z-3rdParty "*" >
  <!ENTITY z-SM "(SM)" >
  <!ENTITY z-CM "(CM)" >
@@ -34,7 +34,7 @@
        </revdescription>
      </revision>
      <revision>
-       <revnumber>2.24</revnumber>
+       <revnumber>2.26</revnumber>
        <date>March 2008</date>
        <revdescription>
 	 <para role="author">Radhika PC</para>
