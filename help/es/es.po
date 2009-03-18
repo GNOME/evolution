@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.HEAD\n"
-"POT-Creation-Date: 2009-03-10 17:02+0000\n"
-"PO-Revision-Date: 2009-03-10 18:28+0100\n"
+"POT-Creation-Date: 2009-03-18 11:12+0000\n"
+"PO-Revision-Date: 2009-03-18 19:07+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -465,9 +465,6 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:3996(None)
-#| msgid ""
-#| "@@image: 'figures/evo_cal_prop_a.png'; "
-#| "md5=f28511f098847b4fc9278ba6c54c9c3d"
 msgid ""
 "@@image: 'figures/evo_Wcal_prop_a.png'; md5=dcd10f32a1ac7cbcb44d67e1a4b71a78"
 msgstr ""
@@ -809,8 +806,9 @@ msgstr "2002-2009"
 
 #: C/evolution.xml:29(revnumber) C/evolution.xml:37(revnumber)
 #: C/evolution.xml:80(productnumber)
-msgid "2.24"
-msgstr "2.24"
+#| msgid "2.24"
+msgid "2.26"
+msgstr "2.26"
 
 #: C/evolution.xml:30(date)
 msgid "March 2009"
@@ -854,8 +852,9 @@ msgid "October 5, 2006"
 msgstr "5 de octubre de 2006"
 
 #: C/evolution.xml:70(releaseinfo)
-msgid "This manual describes version 2.24 of Evolution"
-msgstr "Este manual describe la versión 2.24 de Evolution"
+#| msgid "This manual describes version 2.24 of Evolution"
+msgid "This manual describes version 2.26 of Evolution"
+msgstr "Este manual describe la versión 2.26 de Evolution"
 
 #: C/evolution.xml:74(para)
 msgid ""
@@ -875,21 +874,26 @@ msgid "February 2008"
 msgstr "Febrero de 2008"
 
 #: C/evolution.xml:82(title) C/evolution.xml:7813(para)
-msgid "Evolution 2.24 User Guide"
-msgstr "Guía de usuario de Evolution 2.24"
+#| msgid "Evolution 2.24 User Guide"
+msgid "Evolution 2.26 User Guide"
+msgstr "Guía de usuario de Evolution 2.26"
 
 #: C/evolution.xml:87(title)
 msgid "About This Guide"
 msgstr "Acerca de esta guía"
 
 #: C/evolution.xml:88(para)
+#| msgid ""
+#| "This guide describes how to use and manage <trademark>Evolution</"
+#| "trademark> 2.24 client software. This guide is intended for users and is "
+#| "divided into the following sections:"
 msgid ""
 "This guide describes how to use and manage <trademark>Evolution</trademark> "
-"2.24 client software. This guide is intended for users and is divided into "
+"2.26 client software. This guide is intended for users and is divided into "
 "the following sections:"
 msgstr ""
 "Esta guía describe cómo usar y gestionar el cliente de <trademark>Evolution</"
-"trademark> 2.24. Esta guía está dirigida a los usuarios y se divide en las "
+"trademark> 2.26. Esta guía está dirigida a los usuarios y se divide en las "
 "siguientes secciones:"
 
 #: C/evolution.xml:91(link) C/evolution.xml:152(title)
