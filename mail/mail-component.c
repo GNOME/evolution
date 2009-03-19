@@ -951,7 +951,7 @@ create_item(const char *type, EMFolderTreeModel *model, const char *uri, gpointe
 
 		em_utils_compose_new_message(uri);
 	} else if (strcmp(type, "folder") == 0) {
-		em_folder_utils_create_folder(NULL, tree);
+		em_folder_utils_create_folder (NULL, tree, NULL);
 	} else
 		return -1;
 

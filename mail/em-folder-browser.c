@@ -1612,11 +1612,11 @@ emfb_folder_create(BonoboUIComponent *uid, void *data, const char *path)
 	   FIXME: This interface should NOT use a folderinfo */
 	if (emfb->view.folder) {
 		if ((fi = em_folder_tree_get_selected_folder_info (tree)) != NULL) {
-			em_folder_utils_create_folder(fi, tree);
+			em_folder_utils_create_folder (fi, tree, NULL);
 			camel_folder_info_free(fi);
 		}
 	} else {
-		em_folder_utils_create_folder(NULL, tree);
+		em_folder_utils_create_folder (NULL, tree, NULL);
 	}
 
 	return;

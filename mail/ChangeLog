@@ -1,3 +1,16 @@
+2009-03-19  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #504767
+
+	* em-folder-utils.h: (em_folder_utils_create_folder):
+	* em-folder-utils.c: (em_folder_utils_create_folder):
+	* em-folder-selector.c: (emfs_response):
+	Inherit modality from a parent's window, if any.
+	* em-folder-browser.c: (emfb_folder_create):
+	* em-folder-tree.c: (emft_popup_new_folder):
+	* mail-component.c: (create_item):
+	Propagate changes in function prototype.
+
 2009-03-08  David Planella  <david.planella@gmail.com>
 
 	Added Catalan translation of the Evolution welcome e-mail

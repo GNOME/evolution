@@ -24,6 +24,8 @@
 #ifndef _EM_FOLDER_UTILS_H
 #define _EM_FOLDER_UTILS_H
 
+struct _GtkWindow;
+
 int em_folder_utils_copy_folders(CamelStore *fromstore, const char *frombase, CamelStore *tostore, const char *tobase, int delete);
 
 /* FIXME: These api's are really busted, there is no consistency and most rely on the wrong data */
@@ -33,6 +35,6 @@ void em_folder_utils_copy_folder (struct _CamelFolderInfo *folderinfo, int delet
 void em_folder_utils_delete_folder (struct _CamelFolder *folder);
 void em_folder_utils_rename_folder (struct _CamelFolder *folder);
 
-void em_folder_utils_create_folder (struct _CamelFolderInfo *folderinfo, EMFolderTree * emft);
+void em_folder_utils_create_folder (struct _CamelFolderInfo *folderinfo, EMFolderTree * emft, struct _GtkWindow *parent);
 
 #endif

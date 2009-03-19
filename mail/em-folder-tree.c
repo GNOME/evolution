@@ -2000,7 +2000,7 @@ emft_popup_new_folder (EPopup *ep, EPopupItem *pitem, void *data)
 	CamelFolderInfo *fi;
 
 	if ((fi = em_folder_tree_get_selected_folder_info (emft)) != NULL) {
-		em_folder_utils_create_folder(fi, emft);
+		em_folder_utils_create_folder (fi, emft, NULL);
 		camel_folder_info_free(fi);
 	}
 }
