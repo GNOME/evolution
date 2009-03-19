@@ -3032,24 +3032,6 @@ e_msg_composer_new (void)
 	return e_msg_composer_new_with_type (E_MSG_COMPOSER_MAIL);
 }
 
-static gboolean
-is_special_header (const gchar *hdr_name)
-{
-	/* Note: a header is a "special header" if it has any meaning:
-	   1. it's not a X-* header or
-	   2. it's an X-Evolution* header
-	*/
-	if (g_ascii_strncasecmp (hdr_name, "X-", 2))
-		return TRUE;
-
-	if (!g_ascii_strncasecmp (hdr_name, "X-Evolution", 11))
-		return TRUE;
-
-	/* we can keep all other X-* headers */
-
-	return FALSE;
-}
-
 static void
 e_msg_composer_set_pending_body (EMsgComposer *composer,
                                  gchar *text,
@@ -3693,9 +3675,8 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	/* set extra headers */
 	headers = CAMEL_MIME_PART (message)->headers;
 	while (headers) {
-		if (!is_special_header (headers->name) ||
-		    !g_ascii_strcasecmp (headers->name, "References") ||
-		    !g_ascii_strcasecmp (headers->name, "In-Reply-To")) {
+		if (g_ascii_strcasecmp (headers->name, "References") == 0 ||
+		    g_ascii_strcasecmp (headers->name, "In-Reply-To") == 0) {
 			g_ptr_array_add (p->extra_hdr_names, g_strdup (headers->name));
 			g_ptr_array_add (p->extra_hdr_values, g_strdup (headers->value));
 		}
