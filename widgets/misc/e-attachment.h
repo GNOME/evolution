@@ -1,4 +1,6 @@
 /*
+ * e-attachment.h
+ *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -13,10 +15,6 @@
  * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
  *
- * Authors:
- *		Ettore Perazzoli <ettore@ximian.com>
- *		Srinivasa Ragavan <sragavan@novell.com>
- *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
@@ -25,11 +23,10 @@
 #define E_ATTACHMENT_H
 
 #include <gio/gio.h>
-#include <gtk/gtk.h>
-#include <glade/glade-xml.h>
 #include <camel/camel-mime-part.h>
-#include <camel/camel-exception.h>
-#include <camel/camel-cipher-context.h>
+#include <camel/camel-mime-message.h>
+#include <camel/camel-multipart.h>
+#include <widgets/misc/e-file-activity.h>
 
 /* Standard GObject macros */
 #define E_TYPE_ATTACHMENT \
@@ -45,7 +42,7 @@
 	((obj), E_TYPE_ATTACHMENT))
 #define E_IS_ATTACHMENT_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_TYPE \
-	((obj), E_TYPE_ATTACHMENT))
+	((cls), E_TYPE_ATTACHMENT))
 #define E_ATTACHMENT_GET_CLASS(obj) \
 	(G_TYPE_INSTANCE_GET_CLASS \
 	((obj), E_TYPE_ATTACHMENT, EAttachmentClass))
@@ -58,63 +55,58 @@ typedef struct _EAttachmentPrivate EAttachmentPrivate;
 
 struct _EAttachment {
 	GObject parent;
-
-	gboolean guessed_type;
-	gulong size;
-
-	GCancellable *cancellable;
-
-	gboolean is_available_local;
-	int percentage;
-	int index;
-	char *store_uri;
-
-	/* Status of signed/encrypted attachments */
-	camel_cipher_validity_sign_t sign;
-	camel_cipher_validity_encrypt_t encrypt;
-
 	EAttachmentPrivate *priv;
 };
 
 struct _EAttachmentClass {
 	GObjectClass parent_class;
-
-	void		(*changed)		(EAttachment *attachment);
-	void		(*update)		(EAttachment *attachment,
-						 gchar *message);
 };
 
 GType		e_attachment_get_type		(void);
-EAttachment *	e_attachment_new		(const gchar *filename,
-						 const gchar *disposition,
-						 CamelException *ex);
-EAttachment *	e_attachment_new_remote_file	(GtkWindow *error_dlg_parent,
-						 const gchar *url,
-						 const gchar *disposition,
-						 const gchar *path,
-						 CamelException *ex);
-void		e_attachment_build_remote_file	(const gchar *filename,
-						 EAttachment *attachment,
-						 CamelException *ex);
-EAttachment *	e_attachment_new_from_mime_part	(CamelMimePart *part);
-void		e_attachment_edit		(EAttachment *attachment,
-						 GtkWindow *parent);
-const gchar *	e_attachment_get_description	(EAttachment *attachment);
-void		e_attachment_set_description	(EAttachment *attachment,
-						 const gchar *description);
+EAttachment *	e_attachment_new		(void);
+EAttachment *	e_attachment_new_for_path	(const gchar *path);
+EAttachment *	e_attachment_new_for_uri	(const gchar *uri);
+EAttachment *	e_attachment_new_for_message	(CamelMimeMessage *message);
+void		e_attachment_add_to_multipart	(EAttachment *attachment,
+						 CamelMultipart *multipart,
+						 const gchar *default_charset);
 const gchar *	e_attachment_get_disposition	(EAttachment *attachment);
 void		e_attachment_set_disposition	(EAttachment *attachment,
 						 const gchar *disposition);
-const gchar *	e_attachment_get_filename	(EAttachment *attachment);
-void		e_attachment_set_filename	(EAttachment *attachment,
-						 const gchar *filename);
+GFile *		e_attachment_get_file		(EAttachment *attachment);
+void		e_attachment_set_file		(EAttachment *attachment,
+						 GFile *file);
+GFileInfo *	e_attachment_get_file_info	(EAttachment *attachment);
 CamelMimePart *	e_attachment_get_mime_part	(EAttachment *attachment);
-const gchar *	e_attachment_get_mime_type	(EAttachment *attachment);
-GdkPixbuf *	e_attachment_get_thumbnail	(EAttachment *attachment);
-void		e_attachment_set_thumbnail	(EAttachment *attachment,
-						 GdkPixbuf *pixbuf);
+void		e_attachment_set_mime_part	(EAttachment *attachment,
+						 CamelMimePart *mime_part);
+const gchar *	e_attachment_get_content_type	(EAttachment *attachment);
+const gchar *	e_attachment_get_display_name	(EAttachment *attachment);
+const gchar *	e_attachment_get_description	(EAttachment *attachment);
+GIcon *		e_attachment_get_icon		(EAttachment *attachment);
+const gchar *	e_attachment_get_thumbnail_path	(EAttachment *attachment);
+guint64		e_attachment_get_size		(EAttachment *attachment);
 gboolean	e_attachment_is_image		(EAttachment *attachment);
-gboolean	e_attachment_is_inline		(EAttachment *attachment);
+gboolean	e_attachment_is_rfc822		(EAttachment *attachment);
+void		e_attachment_save_async		(EAttachment *attachment,
+						 EFileActivity *file_activity,
+						 GFile *destination);
+
+#if 0
+void		e_attachment_build_mime_part_async
+						(EAttachment *attachment,
+						 GCancellable *cancellable,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+CamelMimePart *	e_attachment_build_mime_part_finish
+						(EAttachment *attachment,
+						 GAsyncResult *result,
+						 GError **error);
+#endif
+
+/* For use by EAttachmentStore only. */
+void		_e_attachment_set_reference	(EAttachment *attachment,
+						 GtkTreeRowReference *reference);
 
 G_END_DECLS
 

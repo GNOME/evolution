@@ -63,9 +63,8 @@
 #include "../e-cal-popup.h"
 #include "../calendar-config-keys.h"
 #include "cal-attachment-select-file.h"
+#include "widgets/misc/e-attachment-paned.h"
 
-#include "e-attachment-bar.h"
-#include "misc/e-expander.h"
 #include "e-util/e-error.h"
 
 #define COMP_EDITOR_GET_PRIVATE(obj) \
@@ -95,12 +94,7 @@ struct _CompEditorPrivate {
 	GtkNotebook *notebook;
 
 	/* Attachment handling */
-	GtkWidget *attachment_bar;
-	GtkWidget *attachment_scrolled_window;
-	GtkWidget *attachment_expander;
-	GtkWidget *attachment_expander_label;
-	GtkWidget *attachment_expander_icon;
-	GtkWidget *attachment_expander_num;
+	GtkWidget *attachment_paned;
 
 	/* Manages menus and toolbars */
 	GtkUIManager *manager;
@@ -169,7 +163,6 @@ static const gchar *ui =
 "</ui>";
 
 static void comp_editor_show_help (CompEditor *editor);
-static void setup_widgets (CompEditor *editor);
 
 static void real_edit_comp (CompEditor *editor, ECalComponent *comp);
 static gboolean real_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean strip_alarms);
@@ -232,391 +225,82 @@ comp_editor_weak_notify_cb (gpointer unused,
 }
 
 static void
-attach_message(CompEditor *editor, CamelMimeMessage *msg)
+drag_data_received (CompEditor *editor,
+                    GdkDragContext *context,
+                    gint x,
+                    gint y,
+                    GtkSelectionData *selection,
+                    guint info,
+                    guint time)
 {
-	CamelMimePart *mime_part;
-	const char *subject;
-	guint i;
-	char *filename = NULL;
+	EAttachmentPaned *paned;
+	EAttachmentView *view;
 
-	mime_part = camel_mime_part_new();
-	camel_mime_part_set_disposition(mime_part, "inline");
-	subject = camel_mime_message_get_subject(msg);
-	if (subject) {
-		char *desc = g_strdup_printf(_("Attached message - %s"), subject);
+	paned = E_ATTACHMENT_PANED (editor->priv->attachment_paned);
+	view = e_attachment_paned_get_view (paned);
 
-		camel_mime_part_set_description(mime_part, desc);
-		g_free(desc);
-	} else
-		camel_mime_part_set_description(mime_part, _("Attached message"));
-
-	i = e_attachment_bar_get_num_attachments (E_ATTACHMENT_BAR (editor->priv->attachment_bar));
-	i++;
-	filename = g_strdup_printf ("email%d",i);
-	camel_mime_part_set_filename (mime_part, filename);
-
-	camel_medium_set_content_object((CamelMedium *)mime_part, (CamelDataWrapper *)msg);
-	camel_mime_part_set_content_type(mime_part, "message/rfc822");
-	e_attachment_bar_attach_mime_part(E_ATTACHMENT_BAR(editor->priv->attachment_bar), mime_part);
-	camel_object_unref(mime_part);
-	g_free (filename);
-}
-
-struct _drop_data {
-	CompEditor *editor;
-
-	GdkDragContext *context;
-	/* Only selection->data and selection->length are valid */
-	GtkSelectionData *selection;
-
-	guint32 action;
-	guint info;
-	guint time;
-
-	unsigned int move:1;
-	unsigned int moved:1;
-	unsigned int aborted:1;
-};
-
-static void
-drop_action(CompEditor *editor, GdkDragContext *context, guint32 action, GtkSelectionData *selection, guint info, guint time)
-{
-#if 0  /* KILL-BONOBO */
-	char *tmp, *str, **urls;
-	CamelMimePart *mime_part;
-	CamelStream *stream;
-	CamelURL *url;
-	CamelMimeMessage *msg;
-	char *content_type;
-	int i, success=FALSE, delete=FALSE;
-
-	switch (info) {
-	case DND_TYPE_MESSAGE_RFC822:
-		d(printf ("dropping a message/rfc822\n"));
-		/* write the message(s) out to a CamelStream so we can use it */
-		stream = camel_stream_mem_new ();
-		camel_stream_write (stream, (char *)selection->data, selection->length);
-		camel_stream_reset (stream);
-
-		msg = camel_mime_message_new ();
-		if (camel_data_wrapper_construct_from_stream((CamelDataWrapper *)msg, stream) != -1) {
-			attach_message(editor, msg);
-			success = TRUE;
-			delete = action == GDK_ACTION_MOVE;
-		}
-
-		camel_object_unref(msg);
-		camel_object_unref(stream);
-		break;
-	case DND_TYPE_TEXT_URI_LIST:
-	case DND_TYPE_NETSCAPE_URL:
-		d(printf ("dropping a text/uri-list\n"));
-		tmp = g_strndup ((char *)selection->data, selection->length);
-		urls = g_strsplit (tmp, "\n", 0);
-		g_free (tmp);
-
-		for (i = 0; urls[i] != NULL; i++) {
-			str = g_strstrip (urls[i]);
-			if (urls[i][0] == '#')
-				continue;
-
-			if (!g_ascii_strncasecmp (str, "mailto:", 7)) {
-				/* TODO does not handle mailto now */
-			} else {
-				url = camel_url_new (str, NULL);
-
-				if (url == NULL)
-					continue;
-
-				if (!g_ascii_strcasecmp (url->protocol, "file"))
-					e_attachment_bar_attach
-						(E_ATTACHMENT_BAR (editor->priv->attachment_bar),
-					 	url->path,
-						"attachment");
-				else
-					e_attachment_bar_attach_remote_file
-						(E_ATTACHMENT_BAR (editor->priv->attachment_bar),
-						 str, "attachment");
-
-				camel_url_free (url);
-			}
-		}
-
-		g_strfreev (urls);
-		success = TRUE;
-		break;
-	case DND_TYPE_TEXT_VCARD:
-	case DND_TYPE_TEXT_CALENDAR:
-		content_type = gdk_atom_name (selection->type);
-		d(printf ("dropping a %s\n", content_type));
-
-		mime_part = camel_mime_part_new ();
-		camel_mime_part_set_content (mime_part, (char *)selection->data, selection->length, content_type);
-		camel_mime_part_set_disposition (mime_part, "inline");
-
-		e_attachment_bar_attach_mime_part
-			(E_ATTACHMENT_BAR (editor->priv->attachment_bar),
-			 mime_part);
-
-		camel_object_unref (mime_part);
-		g_free (content_type);
-
-		success = TRUE;
-		break;
-	case DND_TYPE_X_UID_LIST: {
-		GPtrArray *uids;
-		char *inptr, *inend;
-		CamelFolder *folder;
-		CamelException ex = CAMEL_EXCEPTION_INITIALISER;
-
-		/* NB: This all runs synchronously, could be very slow/hang/block the ui */
-
-		uids = g_ptr_array_new();
-
-		inptr = (char *)selection->data;
-		inend = (char *)(selection->data + selection->length);
-		while (inptr < inend) {
-			char *start = inptr;
-
-			while (inptr < inend && *inptr)
-				inptr++;
-
-			if (start > (char *)selection->data)
-				g_ptr_array_add(uids, g_strndup(start, inptr-start));
-
-			inptr++;
-		}
-
-		if (uids->len > 0) {
-			folder = mail_tool_uri_to_folder((char *)selection->data, 0, &ex);
-			if (folder) {
-				if (uids->len == 1) {
-					msg = camel_folder_get_message(folder, uids->pdata[0], &ex);
-					if (msg == NULL)
-						goto fail;
-					attach_message(editor, msg);
-				} else {
-					CamelMultipart *mp = camel_multipart_new();
-					char *desc;
-					char *filename = NULL;
-					guint num;
-
-					camel_data_wrapper_set_mime_type((CamelDataWrapper *)mp, "multipart/digest");
-					camel_multipart_set_boundary(mp, NULL);
-					for (i=0;i<uids->len;i++) {
-
-						msg = camel_folder_get_message(folder, uids->pdata[i], &ex);
-						if (msg) {
-							mime_part = camel_mime_part_new();
-							camel_mime_part_set_disposition(mime_part, "inline");
-							camel_medium_set_content_object((CamelMedium *)mime_part, (CamelDataWrapper *)msg);
-							camel_mime_part_set_content_type(mime_part, "message/rfc822");
-							camel_multipart_add_part(mp, mime_part);
-							camel_object_unref(mime_part);
-							camel_object_unref(msg);
-						} else {
-							camel_object_unref(mp);
-							goto fail;
-						}
-					}
-					mime_part = camel_mime_part_new();
-					camel_medium_set_content_object((CamelMedium *)mime_part, (CamelDataWrapper *)mp);
-					/* translators, this count will always be >1 */
-					desc = g_strdup_printf(ngettext("Attached message", "%d attached messages", uids->len), uids->len);
-					camel_mime_part_set_description(mime_part, desc);
-					g_free(desc);
-
-					num = e_attachment_bar_get_num_attachments (E_ATTACHMENT_BAR (editor->priv->attachment_bar));
-					num++;
-					filename = g_strdup_printf ("email%d", num);
-					camel_mime_part_set_filename (mime_part, filename);
-
-					e_attachment_bar_attach_mime_part
-						(E_ATTACHMENT_BAR(editor->priv->attachment_bar), mime_part);
-					camel_object_unref(mime_part);
-					camel_object_unref(mp);
-					g_free (filename);
-				}
-				success = TRUE;
-				delete = action == GDK_ACTION_MOVE;
-			fail:
-				if (camel_exception_is_set(&ex)) {
-					char *name;
-
-					camel_object_get(folder, NULL, CAMEL_FOLDER_NAME, &name, NULL);
-					e_error_run((GtkWindow *)editor, "mail-editor:attach-nomessages",
-						    name?name:(char *)selection->data, camel_exception_get_description(&ex), NULL);
-					camel_object_free(folder, CAMEL_FOLDER_NAME, name);
-				}
-				camel_object_unref(folder);
-			} else {
-				e_error_run((GtkWindow *)editor, "mail-editor:attach-nomessages",
-					    (char *)selection->data, camel_exception_get_description(&ex), NULL);
-			}
-
-			camel_exception_clear(&ex);
-		}
-
-		g_ptr_array_free(uids, TRUE);
-
-		break; }
-	default:
-		d(printf ("dropping an unknown\n"));
-		break;
-	}
-
-	printf("Drag finished, success %d delete %d\n", success, delete);
-
-	gtk_drag_finish(context, success, delete, time);
-#endif
-}
-
-static void
-drop_popup_copy (EPopup *ep, EPopupItem *item, void *data)
-{
-	struct _drop_data *m = data;
-	drop_action(m->editor, m->context, GDK_ACTION_COPY, m->selection, m->info, m->time);
-}
-
-static void
-drop_popup_move (EPopup *ep, EPopupItem *item, void *data)
-{
-	struct _drop_data *m = data;
-	drop_action(m->editor, m->context, GDK_ACTION_MOVE, m->selection, m->info, m->time);
-}
-
-static void
-drop_popup_cancel(EPopup *ep, EPopupItem *item, void *data)
-{
-	struct _drop_data *m = data;
-	gtk_drag_finish(m->context, FALSE, FALSE, m->time);
-}
-
-static EPopupItem drop_popup_menu[] = {
-	{ E_POPUP_ITEM, "00.emc.02", N_("_Copy"), drop_popup_copy, NULL, "mail-copy", 0 },
-	{ E_POPUP_ITEM, "00.emc.03", N_("_Move"), drop_popup_move, NULL, "mail-move", 0 },
-	{ E_POPUP_BAR, "10.emc" },
-	{ E_POPUP_ITEM, "99.emc.00", N_("Cancel _Drag"), drop_popup_cancel, NULL, NULL, 0 },
-};
-
-static void
-drop_popup_free(EPopup *ep, GSList *items, void *data)
-{
-	struct _drop_data *m = data;
-
-	g_slist_free(items);
-
-	g_object_unref(m->context);
-	g_object_unref(m->editor);
-	g_free(m->selection->data);
-	g_free(m->selection);
-	g_free(m);
-}
-
-static void
-drag_data_received (CompEditor *editor, GdkDragContext *context,
-		    int x, int y, GtkSelectionData *selection,
-		    guint info, guint time)
-{
-	if (selection->data == NULL || selection->length == -1)
-		return;
-
-	if (context->action == GDK_ACTION_ASK) {
-		ECalPopup *ecp;
-		GSList *menus = NULL;
-		GtkMenu *menu;
-		int i;
-		struct _drop_data *m;
-
-		m = g_malloc0(sizeof(*m));
-		m->context = context;
-		g_object_ref(context);
-		m->editor = editor;
-		g_object_ref(editor);
-		m->action = context->action;
-		m->info = info;
-		m->time = time;
-		m->selection = g_malloc0(sizeof(*m->selection));
-		m->selection->data = g_malloc(selection->length);
-		memcpy(m->selection->data, selection->data, selection->length);
-		m->selection->length = selection->length;
-
-		ecp = e_cal_popup_new("org.gnome.evolution.calendar.editor.popup.drop");
-		for (i=0;i<sizeof(drop_popup_menu)/sizeof(drop_popup_menu[0]);i++)
-			menus = g_slist_append(menus, &drop_popup_menu[i]);
-
-		e_popup_add_items((EPopup *)ecp, menus, NULL, drop_popup_free, m);
-		menu = e_popup_create_menu_once((EPopup *)ecp, NULL, 0);
-		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, time);
-	} else {
-		drop_action(editor, context, context->action, selection, info, time);
-	}
+	e_attachment_view_drag_data_received (
+		view, context, x, y, selection, info, time);
 }
 
 static gboolean
-drag_motion(GObject *o, GdkDragContext *context, gint x, gint y, guint time, CompEditor *editor)
+drag_motion (CompEditor *editor,
+             GdkDragContext *context,
+             gint x,
+             gint y,
+             guint time)
 {
-	GList *targets;
-	GdkDragAction action, actions = 0;
+	EAttachmentPaned *paned;
+	EAttachmentView *view;
 
-	for (targets = context->targets; targets; targets = targets->next) {
-		int i;
+	paned = E_ATTACHMENT_PANED (editor->priv->attachment_paned);
+	view = e_attachment_paned_get_view (paned);
 
-		for (i=0;i<sizeof(drag_info)/sizeof(drag_info[0]);i++)
-			if (targets->data == (void *)drag_info[i].atom)
-				actions |= drag_info[i].actions;
-	}
-
-	actions &= context->actions;
-	action = context->suggested_action;
-	/* we default to copy */
-	if (action == GDK_ACTION_ASK && (actions & (GDK_ACTION_MOVE|GDK_ACTION_COPY)) != (GDK_ACTION_MOVE|GDK_ACTION_COPY))
-		action = GDK_ACTION_COPY;
-
-	gdk_drag_status(context, action, time);
-
-	return action != 0;
-}
-
-static void
-add_to_bar (CompEditor *editor, GPtrArray *file_list, int is_inline)
-{
-	CompEditorPrivate *priv = editor->priv;
-	int i;
-
-	for (i = 0; i < file_list->len; i++) {
-		CamelURL *url;
-
-		if (!(url = camel_url_new (file_list->pdata[i], NULL)))
-			continue;
-
-		if (!g_ascii_strcasecmp (url->protocol, "file")) {
-			e_attachment_bar_attach((EAttachmentBar *)priv->attachment_bar, url->path, is_inline ? "inline" : "attachment");
-		} else {
-			e_attachment_bar_attach_remote_file ((EAttachmentBar *)priv->attachment_bar, file_list->pdata[i], is_inline ? "inline" : "attachment");
-		}
-
-		camel_url_free (url);
-	}
+	return e_attachment_view_drag_motion (view, context, x, y, time);
 }
 
 static GSList *
 get_attachment_list (CompEditor *editor)
 {
+	EAttachmentPaned *paned;
+	EAttachmentStore *store;
+	EAttachmentView *view;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
 	GSList *parts = NULL, *list = NULL, *p = NULL;
 	const char *comp_uid = NULL;
 	const char *local_store = e_cal_get_local_attachment_store (editor->priv->client);
+	gboolean valid;
 	int ticker=0;
+
 	e_cal_component_get_uid (editor->priv->comp, &comp_uid);
 
-	parts = e_attachment_bar_get_parts((EAttachmentBar *)editor->priv->attachment_bar);
+	paned = E_ATTACHMENT_PANED (editor->priv->attachment_paned);
+	view = e_attachment_paned_get_view (paned);
+	store = e_attachment_view_get_store (view);
 
-	for (p = parts; p!=NULL ; p = p->next) {
+	model = GTK_TREE_MODEL (store);
+	valid = gtk_tree_model_get_iter_first (model, &iter);
+
+	while (valid) {
+		EAttachment *attachment;
 		CamelDataWrapper *wrapper;
+		CamelMimePart *mime_part;
 		CamelStream *stream;
 		char *attach_file_url;
 		char *safe_fname, *utf8_safe_fname;
 		char *filename;
+		gint column_id;
+
+		column_id = E_ATTACHMENT_STORE_COLUMN_ATTACHMENT;
+		gtk_tree_model_get (model, &iter, column_id, &attachment, -1);
+		mime_part = e_attachment_get_mime_part (attachment);
+		g_object_unref (attachment);
+
+		valid = gtk_tree_model_iter_next (model, &iter);
+
+		if (mime_part == NULL)
+			continue;
 
 		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (p->data));
 
@@ -997,20 +681,15 @@ static void
 action_attach_cb (GtkAction *action,
                   CompEditor *editor)
 {
-	GPtrArray *file_list;
-	gboolean is_inline = FALSE;
-	int i;
+	EAttachmentPaned *paned;
+	EAttachmentStore *store;
+	EAttachmentView *view;
 
-	file_list = comp_editor_select_file_attachments (editor, &is_inline);
+	paned = E_ATTACHMENT_PANED (editor->priv->attachment_paned);
+	view = e_attachment_paned_get_view (paned);
+	store = e_attachment_view_get_store (view);
 
-	if (file_list) {
-		add_to_bar (editor, file_list, is_inline);
-
-		for (i = 0; i < file_list->len; i++)
-			g_free (file_list->pdata[i]);
-
-		g_ptr_array_free (file_list, TRUE);
-	}
+	e_attachment_store_run_load_dialog (store, GTK_WINDOW (editor));
 }
 
 static void
@@ -1136,12 +815,19 @@ action_save_cb (GtkAction *action,
                 CompEditor *editor)
 {
 	CompEditorPrivate *priv = editor->priv;
+	EAttachmentPaned *paned;
+	EAttachmentStore *store;
+	EAttachmentView *view;
 	ECalComponentText text;
 	gboolean delegated = FALSE;
 	gboolean read_only, correct = FALSE;
 	ECalComponent *comp;
 
-	if (e_attachment_bar_get_download_count (E_ATTACHMENT_BAR (editor->priv->attachment_bar)) ){
+	paned = E_ATTACHMENT_PANED (priv->attachment_paned);
+	view = e_attachment_paned_get_view (paned);
+	store = e_attachment_view_get_store (view);
+
+	if (e_attachment_store_get_num_downloading (store) > 0) {
 		gboolean response = 1;
 	/*FIXME: Cannot use mail functions from calendar!!!! */
 #if 0
@@ -1693,6 +1379,44 @@ comp_editor_map (GtkWidget *widget)
 	GTK_WIDGET_CLASS (comp_editor_parent_class)->map (widget);
 }
 
+static gboolean
+comp_editor_delete_event (GtkWidget *widget,
+                          GdkEventAny *event)
+{
+	CompEditor *editor;
+
+	editor = COMP_EDITOR (widget);
+
+	commit_all_fields (editor);
+
+	if (prompt_and_save_changes (editor, TRUE))
+		close_dialog (editor);
+
+	return TRUE;
+}
+
+static gboolean
+comp_editor_key_press_event (GtkWidget *widget,
+                             GdkEventKey *event)
+{
+	CompEditor *editor;
+
+	editor = COMP_EDITOR (editor);
+
+	if (event->keyval == GDK_Escape) {
+		commit_all_fields (editor);
+
+		if (prompt_and_save_changes (editor, TRUE))
+			close_dialog (editor);
+
+		return TRUE;
+	}
+
+	/* Chain up to parent's key_press_event() method. */
+	return GTK_WIDGET_CLASS (comp_editor_parent_class)->
+		key_press_event (widget, event);
+}
+
 static void
 comp_editor_class_init (CompEditorClass *class)
 {
@@ -1713,6 +1437,8 @@ comp_editor_class_init (CompEditorClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->map = comp_editor_map;
+	widget_class->delete_event = comp_editor_delete_event;
+	widget_class->key_press_event = comp_editor_key_press_event;
 
 	class->help_section = "usage-calendar";
 	class->edit_comp = real_edit_comp;
@@ -1778,8 +1504,12 @@ static void
 comp_editor_init (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
+	EAttachmentPaned *paned;
+	EAttachmentView *view;
 	GtkActionGroup *action_group;
 	GtkAction *action;
+	GtkWidget *container;
+	GtkWidget *widget;
 	EShell *shell;
 	GError *error = NULL;
 
@@ -1795,17 +1525,18 @@ comp_editor_init (CompEditor *editor)
 	priv->changed = FALSE;
 	priv->needs_send = FALSE;
 	priv->mod = CALOBJ_MOD_ALL;
- 	priv->existing_org = FALSE;
- 	priv->user_org = FALSE;
- 	priv->warned = FALSE;
+	priv->existing_org = FALSE;
+	priv->user_org = FALSE;
+	priv->warned = FALSE;
 	priv->is_group_item = FALSE;
 
-	priv->attachment_bar = e_attachment_bar_new ();
 	priv->manager = gtk_ui_manager_new ();
 
-        gtk_window_add_accel_group (
-                GTK_WINDOW (editor),
-                gtk_ui_manager_get_accel_group (priv->manager));
+	gtk_window_add_accel_group (
+		GTK_WINDOW (editor),
+		gtk_ui_manager_get_accel_group (priv->manager));
+
+	/* Setup Action Groups */
 
 	action_group = gtk_action_group_new ("core");
 	gtk_action_group_set_translation_domain (
@@ -1831,10 +1562,6 @@ comp_editor_init (CompEditor *editor)
 		G_N_ELEMENTS (classification_radio_entries),
 		E_CAL_COMPONENT_CLASS_PUBLIC,
 		NULL, NULL);  /* no callback */
-	action = e_attachment_bar_recent_action_new (
-		E_ATTACHMENT_BAR (priv->attachment_bar),
-		"attach-recent", _("Recent _Documents"));
-	gtk_action_group_add_action (action_group, action);
 	gtk_ui_manager_insert_action_group (
 		priv->manager, action_group, 0);
 	g_object_unref (action_group);
@@ -1864,12 +1591,52 @@ comp_editor_init (CompEditor *editor)
 		g_error_free (error);
 	}
 
-	setup_widgets (editor);
+	/* Setup Widgets */
+
+	container = GTK_WIDGET (editor);
+
+	widget = gtk_vbox_new (FALSE, 0);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = comp_editor_get_managed_widget (editor, "/main-menu");
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	widget = comp_editor_get_managed_widget (editor, "/main-toolbar");
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	widget = e_attachment_paned_new ();
+	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	priv->attachment_paned = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	container = e_attachment_paned_get_content_area (
+		E_ATTACHMENT_PANED (priv->attachment_paned));
+
+	widget = gtk_notebook_new ();
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	priv->notebook = GTK_NOTEBOOK (widget);
+	gtk_widget_show (widget);
+
+	/* Add a GtkRecentAction to the "individual" action group. */
+	action_group = comp_editor_get_action_group (editor, "individual");
+	paned = E_ATTACHMENT_PANED (priv->attachment_paned);
+	view = e_attachment_paned_get_view (paned);
+	action = e_attachment_view_recent_action_new (
+		view, "attach-recent", _("Recent _Documents"));
+	gtk_action_group_add_action (action_group, action);
+	g_object_unref (action);
 
 	/* DND support */
 	gtk_drag_dest_set (GTK_WIDGET (editor), GTK_DEST_DEFAULT_ALL,  drop_types, num_drop_types, GDK_ACTION_COPY|GDK_ACTION_ASK|GDK_ACTION_MOVE);
 	g_signal_connect(editor, "drag_data_received", G_CALLBACK (drag_data_received), NULL);
-	g_signal_connect(editor, "drag-motion", G_CALLBACK(drag_motion), editor);
+	g_signal_connect(editor, "drag-motion", G_CALLBACK(drag_motion), NULL);
 
 	gtk_window_set_type_hint (GTK_WINDOW (editor), GDK_WINDOW_TYPE_HINT_NORMAL);
 
@@ -1928,168 +1695,15 @@ prompt_and_save_changes (CompEditor *editor, gboolean send)
 	}
 }
 
-static int
-delete_event_cb (GtkWidget *widget,
-                 GdkEvent *event,
-                 CompEditor *editor)
-{
-	commit_all_fields (editor);
-
-	if (prompt_and_save_changes (editor, TRUE))
-		close_dialog (editor);
-
-	return TRUE;
-}
-
 static void
-attachment_bar_changed_cb (EAttachmentBar *bar,
-                           CompEditor *editor)
+attachment_store_changed_cb (CompEditor *editor)
 {
-	guint attachment_num = e_attachment_bar_get_num_attachments (
-		E_ATTACHMENT_BAR (editor->priv->attachment_bar));
-	if (attachment_num) {
-		gchar *num_text = g_strdup_printf (
-			ngettext ("<b>%d</b> Attachment", "<b>%d</b> Attachments", attachment_num),
-			attachment_num);
-		gtk_label_set_markup (GTK_LABEL (editor->priv->attachment_expander_num),
-				      num_text);
-		g_free (num_text);
-
-		gtk_widget_show (editor->priv->attachment_expander_icon);
-		e_expander_set_expanded(E_EXPANDER(editor->priv->attachment_expander),TRUE);
-
-	} else {
-		gtk_label_set_text (GTK_LABEL (editor->priv->attachment_expander_num), "");
-		gtk_widget_hide (editor->priv->attachment_expander_icon);
-		e_expander_set_expanded(E_EXPANDER(editor->priv->attachment_expander),FALSE);
-	}
-
-
 	/* Mark the editor as changed so it prompts about unsaved
            changes on close */
 	comp_editor_set_changed (editor, TRUE);
-
-}
-
-static void
-attachment_expander_activate_cb (EExpander *expander,
-				 void *data)
-{
-	CompEditor *editor = COMP_EDITOR (data);
-	gboolean show = e_expander_get_expanded (expander);
-
-	/* Update the expander label */
-	if (show)
-		gtk_label_set_text_with_mnemonic (GTK_LABEL (editor->priv->attachment_expander_label),
-					          _("Hide Attachment _Bar"));
-	else
-		gtk_label_set_text_with_mnemonic (GTK_LABEL (editor->priv->attachment_expander_label),
-						  _("Show Attachment _Bar"));
-}
-
-
-/* GtkWidget methods.  */
-
-static gint
-editor_key_press_event (CompEditor *editor,
-                        GdkEventKey *event)
-{
-        if (event->keyval == GDK_Escape) {
-		commit_all_fields (editor);
-
-		if (prompt_and_save_changes (editor, TRUE))
-			close_dialog (editor);
-
-                return TRUE;
-        }
-
-        return FALSE;
 }
 
 /* Menu callbacks */
-
-static void
-setup_widgets (CompEditor *editor)
-{
-	CompEditorPrivate *priv;
-	GtkWidget *expander_hbox;
-	GtkWidget *widget;
-	GtkWidget *vbox;
-
-	priv = editor->priv;
-
-	/* Useful vbox */
-	vbox = gtk_vbox_new (FALSE, 0);
-	gtk_container_add (GTK_CONTAINER (editor), vbox);
-	gtk_widget_show (vbox);
-
-	/* Main Menu */
-	widget = comp_editor_get_managed_widget (editor, "/main-menu");
-	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	/* Main Toolbar */
-	widget = comp_editor_get_managed_widget (editor, "/main-toolbar");
-	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	/* Notebook */
-	widget = gtk_notebook_new ();
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
-	gtk_box_pack_start (GTK_BOX (vbox), widget, TRUE, TRUE, 0);
-	gtk_widget_show (widget);
-	priv->notebook = GTK_NOTEBOOK (widget);
-
-	g_signal_connect (editor, "delete_event", G_CALLBACK (delete_event_cb), editor);
-	g_signal_connect (editor, "key_press_event", G_CALLBACK (editor_key_press_event), editor);
-
-	/*Attachments */
-	priv->attachment_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (priv->attachment_scrolled_window),
-					     GTK_SHADOW_IN);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (priv->attachment_scrolled_window),
-					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-
-	GTK_WIDGET_SET_FLAGS (priv->attachment_bar, GTK_CAN_FOCUS);
-	gtk_container_add (GTK_CONTAINER (priv->attachment_scrolled_window),
-			   priv->attachment_bar);
-	gtk_widget_show (priv->attachment_bar);
-	g_signal_connect (priv->attachment_bar, "changed",
-			  G_CALLBACK (attachment_bar_changed_cb), editor);
-	priv->attachment_expander_label =
-		gtk_label_new_with_mnemonic (_("Show Attachment _Bar"));
-	priv->attachment_expander_num = gtk_label_new ("");
-	gtk_label_set_use_markup (GTK_LABEL (priv->attachment_expander_num), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (priv->attachment_expander_label), 0.0, 0.5);
-	gtk_misc_set_alignment (GTK_MISC (priv->attachment_expander_num), 1.0, 0.5);
-	expander_hbox = gtk_hbox_new (FALSE, 0);
-
-	priv->attachment_expander_icon = gtk_image_new_from_icon_name ("mail-attachment", GTK_ICON_SIZE_MENU);
-	gtk_misc_set_alignment (GTK_MISC (priv->attachment_expander_icon), 1, 0.5);
-	gtk_widget_set_size_request (priv->attachment_expander_icon, 100, -1);
-
-	gtk_box_pack_start (GTK_BOX (expander_hbox), priv->attachment_expander_label,
-			    TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (expander_hbox), priv->attachment_expander_icon,
-			    TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (expander_hbox), priv->attachment_expander_num,
-			    TRUE, TRUE, 0);
-	gtk_widget_show_all (expander_hbox);
-	gtk_widget_hide (priv->attachment_expander_icon);
-
-	priv->attachment_expander = e_expander_new ("");
-	e_expander_set_label_widget (E_EXPANDER (priv->attachment_expander), expander_hbox);
-	atk_object_set_name (gtk_widget_get_accessible (priv->attachment_expander), _("Show Attachments"));
-	atk_object_set_description (gtk_widget_get_accessible (priv->attachment_expander), _("Press space key to toggle attachment bar"));
-	gtk_container_add (GTK_CONTAINER (priv->attachment_expander), priv->attachment_scrolled_window);
-
-	gtk_box_pack_start (GTK_BOX (vbox), priv->attachment_expander, FALSE, FALSE, 4);
-	gtk_widget_show (priv->attachment_expander);
-	e_expander_set_expanded (E_EXPANDER (priv->attachment_expander), FALSE);
-	g_signal_connect_after (priv->attachment_expander, "activate",
-				G_CALLBACK (attachment_expander_activate_cb), editor);
-}
-
 
 static void
 comp_editor_show_help (CompEditor *editor)
@@ -2637,12 +2251,16 @@ comp_editor_get_client (CompEditor *editor)
 static void
 set_attachment_list (CompEditor *editor, GSList *attach_list)
 {
-	GSList *p = NULL;
-	const char *comp_uid= NULL;
+	EAttachmentPaned *paned;
+	EAttachmentStore *store;
+	EAttachmentView *view;
+	GSList *iter = NULL;
 
-	e_cal_component_get_uid (editor->priv->comp, &comp_uid);
+	paned = E_ATTACHMENT_PANED (editor->priv->attachment_paned);
+	view = e_attachment_paned_get_view (paned);
+	store = e_attachment_view_get_store (view);
 
-	if (e_attachment_bar_get_num_attachments (E_ATTACHMENT_BAR (editor->priv->attachment_bar))) {
+	if (e_attachment_store_get_num_attachments (store) > 0) {
 		/* To prevent repopulating the
 		 * bar due to redraw functions in fill_widget.
 		 * Assumes it can be set only once.
@@ -2650,90 +2268,28 @@ set_attachment_list (CompEditor *editor, GSList *attach_list)
 		return;
 	}
 
-	for (p = attach_list; p != NULL; p = p->next) {
-		char *attach_filename;
-		CamelMimePart *part;
-		CamelDataWrapper *wrapper;
-		CamelStream *stream;
-		struct stat statbuf;
-		char *mime_type, *file_name;
-		char *ptr;
+	for (iter = attach_list; iter != NULL; iter = iter->next) {
+		EAttachment *attachment;
+		const gchar *uri = iter->data;
 
-		attach_filename = (char *) p->data;
-		/* should we assert if g_str_has_prefix (attach_filename, "file://"))
-		 * here
-		*/
-		/* get url sans protocol and add it to the bar.
-		 * how to set the filename properly */
-		file_name = g_filename_from_uri (attach_filename, NULL, NULL);
-		if (!file_name)
-			continue;
-
-		if (g_stat (file_name, &statbuf) < 0) {
-			g_warning ("Cannot attach file %s: %s", file_name, g_strerror (errno));
-			g_free (file_name);
-			continue;
-		}
-
-		/* return if it's not a regular file */
-		if (!S_ISREG (statbuf.st_mode)) {
-			g_warning ("Cannot attach file %s: not a regular file", file_name);
-			g_free (file_name);
-			return;
-		}
-
-		stream = camel_stream_fs_new_with_name (file_name, O_RDONLY, 0);
-		if (!stream) {
-			g_warning ("Cannot attach file %s: %s", file_name, g_strerror (errno));
-			g_free (file_name);
-			return;
-		}
-
-		mime_type = e_util_guess_mime_type (file_name, TRUE);
-		if (mime_type) {
-			if (!g_ascii_strcasecmp (mime_type, "message/rfc822")) {
-				wrapper = (CamelDataWrapper *) camel_mime_message_new ();
-			} else {
-				wrapper = camel_data_wrapper_new ();
-			}
-
-			camel_data_wrapper_construct_from_stream (wrapper, stream);
-			camel_data_wrapper_set_mime_type (wrapper, mime_type);
-			g_free (mime_type);
-		} else {
-			wrapper = camel_data_wrapper_new ();
-			camel_data_wrapper_construct_from_stream (wrapper, stream);
-			camel_data_wrapper_set_mime_type (wrapper, "application/octet-stream");
-		}
-
-		camel_object_unref (stream);
-
-		part = camel_mime_part_new ();
-		camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);
-		camel_object_unref (wrapper);
-
-		camel_mime_part_set_disposition (part, "attachment");
-
-		ptr = strstr (file_name, comp_uid);
-		if (ptr) {
-			ptr += strlen(comp_uid);
-			if (*ptr++ == '-')
-				camel_mime_part_set_filename (part, ptr);
-		}
-		g_free (file_name);
-
-		e_attachment_bar_attach_mime_part ((EAttachmentBar *) editor->priv->attachment_bar, part);
-		e_expander_set_expanded (E_EXPANDER (editor->priv->attachment_expander), TRUE);
-
-		camel_object_unref (part);
+		attachment = e_attachment_new_for_uri (uri);
+		e_attachment_store_add_attachment (store, attachment);
+		g_object_unref (attachment);
 	}
 }
 
 static void
 fill_widgets (CompEditor *editor)
 {
+	EAttachmentPaned *paned;
+	EAttachmentStore *store;
+	EAttachmentView *view;
 	CompEditorPrivate *priv;
 	GList *l;
+
+	paned = E_ATTACHMENT_PANED (editor->priv->attachment_paned);
+	view = e_attachment_paned_get_view (paned);
+	store = e_attachment_view_get_store (view);
 
 	priv = editor->priv;
 
@@ -2741,9 +2297,13 @@ fill_widgets (CompEditor *editor)
 	if (e_cal_component_has_attachments (priv->comp)) {
 		GSList *attachment_list = NULL;
 		e_cal_component_get_attachment_list (priv->comp, &attachment_list);
-		g_signal_handlers_block_by_func(priv->attachment_bar, G_CALLBACK (attachment_bar_changed_cb), editor);
+		g_signal_handlers_block_by_func (
+			store, G_CALLBACK (attachment_store_changed_cb),
+			editor);
 		set_attachment_list (editor, attachment_list);
-		g_signal_handlers_unblock_by_func(priv->attachment_bar, G_CALLBACK (attachment_bar_changed_cb), editor);
+		g_signal_handlers_unblock_by_func(
+			store, G_CALLBACK (attachment_store_changed_cb),
+			editor);
 		g_slist_foreach (attachment_list, (GFunc)g_free, NULL);
 		g_slist_free (attachment_list);
 	}
@@ -3068,20 +2628,43 @@ comp_editor_close (CompEditor *editor)
 GSList *
 comp_editor_get_mime_attach_list (CompEditor *editor)
 {
+	EAttachmentPaned *paned;
+	EAttachmentStore *store;
+	EAttachmentView *view;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
 	struct CalMimeAttach *cal_mime_attach;
-	GSList *attach_list = NULL, *l, *parts;
+	GSList *attach_list = NULL;
+	gboolean valid;
 
-	/* TODO assert sanity of bar */
-	parts = e_attachment_bar_get_parts (E_ATTACHMENT_BAR (editor->priv->attachment_bar));
-	for (l = parts; l ; l = l->next) {
+	paned = E_ATTACHMENT_PANED (editor->priv->attachment_paned);
+	view = e_attachment_paned_get_view (paned);
+	store = e_attachment_view_get_store (view);
 
+	model = GTK_TREE_MODEL (store);
+	valid = gtk_tree_model_get_iter_first (model, &iter);
+
+	while (valid) {
+		EAttachment *attachment;
 		CamelDataWrapper *wrapper;
+		CamelMimePart *mime_part;
 		CamelStreamMem *mstream;
 		unsigned char *buffer = NULL;
 		const char *desc, *disp;
+		gint column_id;
+
+		column_id = E_ATTACHMENT_STORE_COLUMN_ATTACHMENT;
+		gtk_tree_model_get (model, &iter, column_id, &attachment, -1);
+		mime_part = e_attachment_get_mime_part (attachment);
+		g_object_unref (attachment);
+
+		valid = gtk_tree_model_iter_next (model, &iter);
+
+		if (mime_part == NULL)
+			continue;
 
 		cal_mime_attach = g_malloc0 (sizeof (struct CalMimeAttach));
-		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (l->data));
+		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 		mstream = (CamelStreamMem *) camel_stream_mem_new ();
 
 		camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) mstream);
@@ -3089,15 +2672,14 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 
 		cal_mime_attach->encoded_data = (char *)buffer;
 		cal_mime_attach->length = mstream->buffer->len;
-		cal_mime_attach->filename = g_strdup (camel_mime_part_get_filename
-			((CamelMimePart *) l->data));
-		desc = camel_mime_part_get_description ((CamelMimePart *) l->data);
+		cal_mime_attach->filename = g_strdup (camel_mime_part_get_filename (mime_part));
+		desc = camel_mime_part_get_description (mime_part);
 		if (!desc || *desc == '\0')
 			desc = _("attachment");
 		cal_mime_attach->description = g_strdup (desc);
 		cal_mime_attach->content_type = g_strdup (camel_data_wrapper_get_mime_type (wrapper));
 
-		disp = camel_mime_part_get_disposition ((CamelMimePart *)l->data);
+		disp = camel_mime_part_get_disposition (mime_part);
 		if (disp && !g_ascii_strcasecmp(disp, "inline"))
 			cal_mime_attach->disposition = TRUE;
 
@@ -3106,8 +2688,6 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 		camel_object_unref (mstream);
 
 	}
-
-	g_slist_free (parts);
 
 	return attach_list;
 }

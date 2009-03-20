@@ -51,22 +51,25 @@ composer_setup_charset_menu (EMsgComposer *composer)
 static void
 composer_setup_recent_menu (EMsgComposer *composer)
 {
+	EAttachmentView *view;
 	GtkUIManager *manager;
 	GtkAction *action = NULL;
-	const gchar *path, *action_name;
+	const gchar *action_name;
+	const gchar *path;
 	guint merge_id;
 
+	view = e_msg_composer_get_attachment_view (composer);
 	manager = gtkhtml_editor_get_ui_manager (GTKHTML_EDITOR (composer));
-	action_name = "recent-menu";
 	path = "/main-menu/insert-menu/insert-menu-top/recent-placeholder";
 	merge_id = gtk_ui_manager_new_merge_id (manager);
+	action_name = "recent-menu";
 
-	action = e_attachment_bar_recent_action_new (
-			e_msg_composer_get_attachment_bar (composer), 
-			action_name, _("Recent _Documents"));
+	action = e_attachment_view_recent_action_new (
+		view, action_name, _("Recent _Documents"));
 
 	if (action != NULL) {
-		gtk_action_group_add_action (composer->priv->composer_actions, action);
+		gtk_action_group_add_action (
+			composer->priv->composer_actions, action);
 
 		gtk_ui_manager_add_ui ( 
 			manager, merge_id, path,
@@ -85,9 +88,8 @@ e_composer_private_init (EMsgComposer *composer)
 
 	GtkhtmlEditor *editor;
 	GtkUIManager *manager;
-	GtkWidget *widget;
-	GtkWidget *expander;
 	GtkWidget *container;
+	GtkWidget *widget;
 	GtkWidget *send_widget;
 	const gchar *path;
 	gchar *filename;
@@ -138,66 +140,33 @@ e_composer_private_init (EMsgComposer *composer)
 
 	/* Construct the header table. */
 
+	container = editor->vbox;
+
 	widget = e_composer_header_table_new ();
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
-	gtk_box_pack_start (GTK_BOX (editor->vbox), widget, FALSE, FALSE, 0);
-	gtk_box_reorder_child (GTK_BOX (editor->vbox), widget, 2);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_box_reorder_child (GTK_BOX (container), widget, 2);
 	priv->header_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	/* Construct attachment widgets.
-	 * XXX Move this stuff into a new custom widget. */
+	/* Construct the attachment paned. */
 
-	widget = gtk_expander_new (NULL);
-	gtk_expander_set_expanded (GTK_EXPANDER (widget), FALSE);
+	widget = e_attachment_paned_new ();
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
-	gtk_box_pack_start (GTK_BOX (editor->vbox), widget, FALSE, FALSE, 0);
-	priv->attachment_expander = g_object_ref (widget);
-	gtk_widget_show (widget);
-	expander = widget;
-
-	widget = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (
-		GTK_SCROLLED_WINDOW (widget),
-		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type (
-		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_container_add (GTK_CONTAINER (expander), widget);
-	priv->attachment_scrolled_window = g_object_ref (widget);
-	gtk_widget_show (widget);
-	container = widget;
-
-	widget = e_attachment_bar_new ();
-	GTK_WIDGET_SET_FLAGS (widget, GTK_CAN_FOCUS);
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	priv->attachment_bar = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	widget = gtk_hbox_new (FALSE, 0);
-	gtk_expander_set_label_widget (GTK_EXPANDER (expander), widget);
-	gtk_widget_show (widget);
-	container = widget;
-
-	widget = gtk_label_new_with_mnemonic (_("Show _Attachment Bar"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 6);
-	priv->attachment_expander_label = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	widget = gtk_image_new_from_icon_name (
-		"mail-attachment", GTK_ICON_SIZE_MENU);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
-	gtk_widget_set_size_request (widget, 100, -1);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	priv->attachment_expander_icon = g_object_ref (widget);
-	gtk_widget_hide (widget);
-
-	widget = gtk_label_new (NULL);
-	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 6);
-	priv->attachment_expander_num = g_object_ref (widget);
+	priv->attachment_paned = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	/* Reparent the scrolled window containing the GtkHTML widget
+	 * into the content area of the top attachment pane. */
+
+	widget = GTK_WIDGET (gtkhtml_editor_get_html (editor));
+	widget = gtk_widget_get_parent (widget);
+	container = e_attachment_paned_get_content_area (
+		E_ATTACHMENT_PANED (priv->attachment_paned));
+	gtk_widget_reparent (widget, container);
+	gtk_box_set_child_packing (
+		GTK_BOX (container), widget, TRUE, TRUE, 0, GTK_PACK_START);
 
 	composer_setup_recent_menu (composer);
 }
@@ -221,6 +190,11 @@ e_composer_private_dispose (EMsgComposer *composer)
 	if (composer->priv->header_table != NULL) {
 		g_object_unref (composer->priv->header_table);
 		composer->priv->header_table = NULL;
+	}
+
+	if (composer->priv->attachment_paned != NULL) {
+		g_object_unref (composer->priv->attachment_paned);
+		composer->priv->attachment_paned = NULL;
 	}
 
 	if (composer->priv->charset_actions != NULL) {

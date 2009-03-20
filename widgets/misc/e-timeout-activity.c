@@ -21,6 +21,8 @@
 
 #include "e-timeout-activity.h"
 
+#include <stdarg.h>
+
 #define E_TIMEOUT_ACTIVITY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_TIMEOUT_ACTIVITY, ETimeoutActivityPrivate))
@@ -164,6 +166,22 @@ e_timeout_activity_new (const gchar *primary_text)
 	return g_object_new (
 		E_TYPE_TIMEOUT_ACTIVITY,
 		"primary-text", primary_text, NULL);
+}
+
+EActivity *
+e_timeout_activity_newv (const gchar *format, ...)
+{
+	EActivity *activity;
+	gchar *primary_text;
+	va_list args;
+
+	va_start (args, format);
+	primary_text = g_strdup_vprintf (format, args);
+	activity = e_timeout_activity_new (primary_text);
+	g_free (primary_text);
+	va_end (args);
+
+	return activity;
 }
 
 void

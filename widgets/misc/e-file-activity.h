@@ -23,7 +23,7 @@
 #define E_FILE_ACTIVITY_H
 
 #include <gio/gio.h>
-#include <e-activity.h>
+#include <widgets/misc/e-activity.h>
 
 /* Standard GObject macros */
 #define E_TYPE_FILE_ACTIVITY \
@@ -61,9 +61,17 @@ struct _EFileActivityClass {
 
 GType		e_file_activity_get_type	(void);
 EActivity *	e_file_activity_new		(const gchar *primary_text);
+EActivity *	e_file_activity_newv		(const gchar *format,
+						 ...) G_GNUC_PRINTF (1, 2);
 GCancellable *	e_file_activity_get_cancellable	(EFileActivity *file_activity);
 void		e_file_activity_set_cancellable (EFileActivity *file_activity,
 						 GCancellable *cancellable);
+GFile *		e_file_activity_get_file	(EFileActivity *file_activity);
+void		e_file_activity_set_file	(EFileActivity *file_activity,
+						 GFile *file);
+GAsyncResult *	e_file_activity_get_result	(EFileActivity *file_activity);
+void		e_file_activity_set_result	(EFileActivity *file_activity,
+						 GAsyncResult *result);
 
 /* This can be used as a GFileProgressCallback. */
 void		e_file_activity_progress	(goffset current_num_bytes,

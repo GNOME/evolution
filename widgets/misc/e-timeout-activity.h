@@ -63,6 +63,8 @@ struct _ETimeoutActivityClass {
 
 GType		e_timeout_activity_get_type	(void);
 EActivity *	e_timeout_activity_new		(const gchar *primary_text);
+EActivity *	e_timeout_activity_newv		(const gchar *format,
+						 ...) G_GNUC_PRINTF (1, 2);
 void		e_timeout_activity_set_timeout	(ETimeoutActivity *timeout_activity,
 						 guint seconds);
 

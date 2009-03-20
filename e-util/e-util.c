@@ -1529,23 +1529,32 @@ e_util_read_file (const char *filename, gboolean filename_is_uri, char **buffer,
 	return res;
 }
 
-GSList *
-e_util_get_category_filter_options (void)
+static gpointer
+e_camel_object_copy (gpointer camel_object)
 {
-	GSList *res = NULL;
-	GList *clist, *l;
+	if (CAMEL_IS_OBJECT (camel_object))
+		camel_object_ref (camel_object);
 
-	clist = e_categories_get_list ();
-	for (l = clist; l; l = l->next) {
-		const char *cname = l->data;
-		struct _filter_option *fo = g_new0 (struct _filter_option, 1);
+	return camel_object;
+}
 
-		fo->title = g_strdup (cname);
-		fo->value = g_strdup (cname);
-		res = g_slist_prepend (res, fo);
-	}
+static void
+e_camel_object_free (gpointer camel_object)
+{
+	if (CAMEL_IS_OBJECT (camel_object))
+		camel_object_unref (camel_object);
+}
 
-	g_list_free (clist);
+GType
+e_camel_object_get_type (void)
+{
+	static GType type = 0;
 
-	return g_slist_reverse (res);
+	if (G_UNLIKELY (type == 0))
+		type = g_boxed_type_register_static (
+			"ECamelObject",
+			(GBoxedCopyFunc) e_camel_object_copy,
+			(GBoxedFreeFunc) e_camel_object_free);
+
+	return type;
 }

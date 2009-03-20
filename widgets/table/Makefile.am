@@ -9,8 +9,9 @@ glade_DATA = 					\
 	e-table-field-chooser.glade
 
 INCLUDES =					\
-	-I$(top_srcdir)                         \
-	-I$(top_srcdir)/widgets                 \
+	-I$(top_srcdir)				\
+	-I$(top_srcdir)/widgets			\
+	$(E_UTIL_CFLAGS)			\
 	$(E_WIDGETS_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)		\
 	-DEVOLUTION_GLADEDIR=\"$(gladedir)\"	\
@@ -147,6 +148,7 @@ libetable_la_LIBADD =					\
 	$(WIN32_BOOTSTRAP_LIBS)				\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/a11y/libevolution-a11y.la	\
+	$(E_UTIL_LIBS)					\
 	$(E_WIDGETS_LIBS)				\
 	$(GNOME_PLATFORM_LIBS)
 

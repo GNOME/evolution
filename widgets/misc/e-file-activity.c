@@ -21,18 +21,25 @@
 
 #include "e-file-activity.h"
 
+#include <stdarg.h>
+
 #define E_FILE_ACTIVITY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_FILE_ACTIVITY, EFileActivityPrivate))
 
 struct _EFileActivityPrivate {
 	GCancellable *cancellable;
+	GAsyncResult *result;
+	GFile *file;
+
 	gulong handler_id;
 };
 
 enum {
 	PROP_0,
-	PROP_CANCELLABLE
+	PROP_CANCELLABLE,
+	PROP_FILE,
+	PROP_RESULT
 };
 
 static gpointer parent_class;
@@ -46,6 +53,18 @@ file_activity_set_property (GObject *object,
 	switch (property_id) {
 		case PROP_CANCELLABLE:
 			e_file_activity_set_cancellable (
+				E_FILE_ACTIVITY (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_FILE:
+			e_file_activity_set_file (
+				E_FILE_ACTIVITY (object),
+				g_value_get_object (value));
+			return;
+
+		case PROP_RESULT:
+			e_file_activity_set_result (
 				E_FILE_ACTIVITY (object),
 				g_value_get_object (value));
 			return;
@@ -66,6 +85,18 @@ file_activity_get_property (GObject *object,
 				value, e_file_activity_get_cancellable (
 				E_FILE_ACTIVITY (object)));
 			return;
+
+		case PROP_FILE:
+			g_value_set_object (
+				value, e_file_activity_get_file (
+				E_FILE_ACTIVITY (object)));
+			return;
+
+		case PROP_RESULT:
+			g_value_set_object (
+				value, e_file_activity_get_result (
+				E_FILE_ACTIVITY (object)));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -83,6 +114,16 @@ file_activity_dispose (GObject *object)
 			priv->cancellable, priv->handler_id);
 		g_object_unref (priv->cancellable);
 		priv->cancellable = NULL;
+	}
+
+	if (priv->result != NULL) {
+		g_object_unref (priv->result);
+		priv->result = NULL;
+	}
+
+	if (priv->file != NULL) {
+		g_object_unref (priv->file);
+		priv->file = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -128,6 +169,26 @@ file_activity_class_init (EFileActivityClass *class)
 			"Cancellable",
 			NULL,
 			G_TYPE_CANCELLABLE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_FILE,
+		g_param_spec_object (
+			"file",
+			"File",
+			NULL,
+			G_TYPE_FILE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_RESULT,
+		g_param_spec_object (
+			"result",
+			"Result",
+			NULL,
+			G_TYPE_ASYNC_RESULT,
 			G_PARAM_READWRITE));
 }
 
@@ -179,6 +240,22 @@ e_file_activity_new (const gchar *primary_text)
 		"primary-text", primary_text, NULL);
 }
 
+EActivity *
+e_file_activity_newv (const gchar *format, ...)
+{
+	EActivity *activity;
+	gchar *primary_text;
+	va_list args;
+
+	va_start (args, format);
+	primary_text = g_strdup_vprintf (format, args);
+	activity = e_file_activity_new (primary_text);
+	g_free (primary_text);
+	va_end (args);
+
+	return activity;
+}
+
 GCancellable *
 e_file_activity_get_cancellable (EFileActivity *file_activity)
 {
@@ -216,6 +293,60 @@ e_file_activity_set_cancellable (EFileActivity *file_activity,
 				file_activity);
 
 	g_object_notify (G_OBJECT (file_activity), "cancellable");
+}
+
+GFile *
+e_file_activity_get_file (EFileActivity *file_activity)
+{
+	g_return_val_if_fail (E_IS_FILE_ACTIVITY (file_activity), NULL);
+
+	return file_activity->priv->file;
+}
+
+void
+e_file_activity_set_file (EFileActivity *file_activity,
+                          GFile *file)
+{
+	g_return_if_fail (E_IS_FILE_ACTIVITY (file_activity));
+
+	if (file != NULL) {
+		g_return_if_fail (G_IS_FILE (file));
+		g_object_ref (file);
+	}
+
+	if (file_activity->priv->file != NULL)
+		g_object_unref (file_activity->priv->file);
+
+	file_activity->priv->file = file;
+
+	g_object_notify (G_OBJECT (file_activity), "file");
+}
+
+GAsyncResult *
+e_file_activity_get_result (EFileActivity *file_activity)
+{
+	g_return_val_if_fail (E_IS_FILE_ACTIVITY (file_activity), NULL);
+
+	return file_activity->priv->result;
+}
+
+void
+e_file_activity_set_result (EFileActivity *file_activity,
+                            GAsyncResult *result)
+{
+	g_return_if_fail (E_IS_FILE_ACTIVITY (file_activity));
+
+	if (result != NULL) {
+		g_return_if_fail (G_IS_ASYNC_RESULT (result));
+		g_object_ref (result);
+	}
+
+	if (file_activity->priv->result != NULL)
+		g_object_unref (file_activity->priv->result);
+
+	file_activity->priv->result = result;
+
+	g_object_notify (G_OBJECT (file_activity), "result");
 }
 
 void

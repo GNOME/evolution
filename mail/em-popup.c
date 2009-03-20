@@ -117,7 +117,9 @@ emp_class_init(GObjectClass *klass)
 	klass->finalize = emp_finalise;
 	((EPopupClass *)klass)->target_free = emp_target_free;
 
+#if 0  /* KILL-BONOBO */
 	e_popup_class_add_factory((EPopupClass *)klass, NULL, emp_standard_menu_factory, NULL);
+#endif
 }
 
 GType
@@ -361,6 +363,7 @@ done:
 	return t;
 }
 
+#if 0  /* KILL-BONOBO */
 /**
  * em_popup_target_new_attachments:
  * @emp:
@@ -406,9 +409,11 @@ em_popup_target_new_attachments(EMPopup *emp, GSList *attachments)
 
 	return t;
 }
+#endif
 
 /* ********************************************************************** */
 
+#if 0  /* KILL-BONOBO */
 static void
 emp_part_popup_saveas(EPopup *ep, EPopupItem *item, void *data)
 {
@@ -432,7 +437,9 @@ emp_part_popup_saveas(EPopup *ep, EPopupItem *item, void *data)
 
 	em_utils_save_part (parent, _("Save As..."), part);
 }
+#endif
 
+#if 0  /* KILL-BONOBO */
 static void
 emp_part_popup_set_background(EPopup *ep, EPopupItem *item, void *data)
 {
@@ -511,6 +518,7 @@ emp_part_popup_set_background(EPopup *ep, EPopupItem *item, void *data)
 
 	g_free(path);
 }
+#endif
 
 static void
 emp_part_popup_reply_sender(EPopup *ep, EPopupItem *item, void *data)
@@ -589,6 +597,7 @@ emp_part_popup_forward (EPopup *ep, EPopupItem *item, void *data)
 	em_utils_forward_message(message, NULL);
 }
 
+#if 0  /* KILL-BONOBO */
 static EMPopupItem emp_standard_object_popups[] = {
 	{ E_POPUP_ITEM, "00.part.00", N_("_Save As..."), emp_part_popup_saveas, NULL, "document-save-as", 0 },
 	{ E_POPUP_ITEM, "00.part.10", N_("Set as _Background"), emp_part_popup_set_background, NULL, NULL, EM_POPUP_PART_IMAGE },
@@ -612,6 +621,7 @@ static EMPopupItem emp_attachment_object_popups[] = {
 };
 
 static const EPopupItem emp_standard_part_apps_bar = { E_POPUP_BAR, "99.object" };
+#endif
 
 /* ********************************************************************** */
 
@@ -771,6 +781,7 @@ emp_add_vcard (EPopup *ep, EPopupItem *item, void *data)
 	camel_object_unref (mem);
 }
 
+#if 0  /* KILL-BONOBO */
 static void
 emp_standard_menu_factory(EPopup *emp, void *data)
 {
@@ -912,6 +923,7 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 	if (menus)
 		e_popup_add_items(emp, menus, NULL, emp_standard_items_free, NULL);
 }
+#endif
 
 /* ********************************************************************** */
 

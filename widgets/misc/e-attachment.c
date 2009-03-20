@@ -1,4 +1,5 @@
 /*
+ * e-attachment.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14,81 +15,275 @@
  * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
  *
- * Authors:
- *			Ettore Perazzoli <ettore@ximian.com>
- *          Jeffrey Stedfast <fejj@ximian.com>
- *	     	Srinivasa Ragavan <sragavan@novell.com>
- *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include "e-attachment.h"
-#include "e-attachment-dialog.h"
 
-#ifdef G_OS_WIN32
-/* Include <windows.h> early (as the gio stuff below will
- * include it anyway, sigh) to workaround the DATADIR problem.
- * <windows.h> (and the headers it includes) stomps all over the
- * namespace like a baboon on crack, and especially the DATADIR enum
- * in objidl.h causes problems.
- */
-#undef DATADIR
-#define DATADIR crap_DATADIR
-#include <windows.h>
-#undef DATADIR
-#endif
-
-#include <sys/stat.h>
-#include <string.h>
 #include <errno.h>
-
-#include <camel/camel.h>
-
 #include <glib/gi18n.h>
-#include <glib/gstdio.h>
-
-#include <libebook/e-vcard.h>
+#include <camel/camel-iconv.h>
+#include <camel/camel-data-wrapper.h>
+#include <camel/camel-mime-message.h>
+#include <camel/camel-stream-filter.h>
+#include <camel/camel-stream-null.h>
+#include <camel/camel-stream-vfs.h>
 
 #include "e-util/e-util.h"
-#include "e-util/e-error.h"
-#include "e-util/e-mktemp.h"
-#include "e-util/e-util-private.h"
 
 #define E_ATTACHMENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ATTACHMENT, EAttachmentPrivate))
 
-struct _EAttachmentPrivate {
-	gchar *filename;
-	gchar *description;
-	gchar *disposition;
-	gchar *mime_type;
+/* Attributes needed by EAttachmentStore, et al. */
+#define ATTACHMENT_QUERY "standard::*,preview::*,thumbnail::*"
 
-	GdkPixbuf *thumbnail;
+struct _EAttachmentPrivate {
+	GFile *file;
+	GFileInfo *file_info;
+	GCancellable *cancellable;
 	CamelMimePart *mime_part;
+	gchar *disposition;
+
+	/* This is a reference to our row in an EAttachmentStore,
+	 * serving as a means of broadcasting "row-changed" signals.
+	 * If we are removed from the store, we lazily free the
+	 * reference when it is found to be to be invalid. */
+	GtkTreeRowReference *reference;
 };
 
 enum {
 	PROP_0,
-	PROP_DESCRIPTION,
 	PROP_DISPOSITION,
-	PROP_FILENAME,
-	PROP_THUMBNAIL
-};
-
-enum {
-	CHANGED,
-	UPDATE,
-	LAST_SIGNAL
+	PROP_FILE,
+	PROP_FILE_INFO,
+	PROP_MIME_PART
 };
 
 static gpointer parent_class;
-static guint signals[LAST_SIGNAL];
+
+static void
+attachment_notify_model (EAttachment *attachment)
+{
+	GtkTreeRowReference *reference;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+
+	reference = attachment->priv->reference;
+
+	if (reference == NULL)
+		return;
+
+	/* Free the reference if it's no longer valid.
+	 * It means we've been removed from the store. */
+	if (!gtk_tree_row_reference_valid (reference)) {
+		gtk_tree_row_reference_free (reference);
+		attachment->priv->reference = NULL;
+		return;
+	}
+
+	model = gtk_tree_row_reference_get_model (reference);
+	path = gtk_tree_row_reference_get_path (reference);
+
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_model_row_changed (model, path, &iter);
+	g_object_notify (G_OBJECT (model), "total-size");
+
+	gtk_tree_path_free (path);
+}
+
+static gchar *
+attachment_get_default_charset (void)
+{
+	GConfClient *client;
+	const gchar *key;
+	gchar *charset;
+
+	/* XXX This function doesn't really belong here. */
+
+	client = gconf_client_get_default ();
+	key = "/apps/evolution/mail/composer/charset";
+	charset = gconf_client_get_string (client, key, NULL);
+	if (charset == NULL || *charset == '\0') {
+		g_free (charset);
+		key = "/apps/evolution/mail/format/charset";
+		charset = gconf_client_get_string (client, key, NULL);
+		if (charset == NULL || *charset == '\0') {
+			g_free (charset);
+			charset = NULL;
+		}
+	}
+	g_object_unref (client);
+
+	if (charset == NULL)
+		charset = g_strdup (camel_iconv_locale_charset ());
+
+	if (charset == NULL)
+		charset = g_strdup ("us-ascii");
+
+	return charset;
+}
+
+static void
+attachment_set_file_info (EAttachment *attachment,
+                          GFileInfo *file_info)
+{
+	GCancellable *cancellable;
+
+	cancellable = attachment->priv->cancellable;
+
+	/* Cancel any query operations in progress. */
+	if (!g_cancellable_is_cancelled (cancellable)) {
+		g_cancellable_cancel (cancellable);
+		g_cancellable_reset (cancellable);
+	}
+
+	if (file_info != NULL)
+		g_object_ref (file_info);
+
+	if (attachment->priv->file_info != NULL)
+		g_object_unref (attachment->priv->file_info);
+
+	attachment->priv->file_info = file_info;
+
+	g_object_notify (G_OBJECT (attachment), "file-info");
+
+	attachment_notify_model (attachment);
+}
+
+static void
+attachment_reset (EAttachment *attachment)
+{
+	GCancellable *cancellable;
+
+	cancellable = attachment->priv->cancellable;
+
+	g_object_freeze_notify (G_OBJECT (attachment));
+
+	/* Cancel any query operations in progress. */
+	if (!g_cancellable_is_cancelled (cancellable)) {
+		g_cancellable_cancel (cancellable);
+		g_cancellable_reset (cancellable);
+	}
+
+	if (attachment->priv->file != NULL) {
+		g_object_notify (G_OBJECT (attachment), "file");
+		g_object_unref (attachment->priv->file);
+		attachment->priv->file = NULL;
+	}
+
+	if (attachment->priv->mime_part != NULL) {
+		g_object_notify (G_OBJECT (attachment), "mime-part");
+		g_object_unref (attachment->priv->mime_part);
+		attachment->priv->mime_part = NULL;
+	}
+
+	attachment_set_file_info (attachment, NULL);
+
+	g_object_thaw_notify (G_OBJECT (attachment));
+}
+
+static void
+attachment_file_info_ready_cb (GFile *file,
+                               GAsyncResult *result,
+                               EAttachment *attachment)
+{
+	GFileInfo *file_info;
+	GError *error = NULL;
+
+	/* Even if we failed to obtain a GFileInfo, we still emit a
+	 * "notify::file-info" to signal the async operation finished. */
+	file_info = g_file_query_info_finish (file, result, &error);
+	attachment_set_file_info (attachment, file_info);
+
+	if (file_info != NULL)
+		g_object_unref (file_info);
+	else {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
+}
+
+static void
+attachment_file_info_to_mime_part (EAttachment *attachment,
+                                   CamelMimePart *mime_part)
+{
+	GFileInfo *file_info;
+	const gchar *attribute;
+	const gchar *string;
+	gchar *allocated;
+
+	file_info = e_attachment_get_file_info (attachment);
+
+	if (file_info == NULL || mime_part == NULL)
+		return;
+
+	/* XXX Note that we skip "standard::size" here. */
+
+	attribute = G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE;
+	string = g_file_info_get_attribute_string (file_info, attribute);
+	allocated = g_content_type_get_mime_type (string);
+	camel_mime_part_set_content_type (mime_part, allocated);
+	g_free (allocated);
+
+	attribute = G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME;
+	string = g_file_info_get_attribute_string (file_info, attribute);
+	camel_mime_part_set_filename (mime_part, string);
+
+	attribute = G_FILE_ATTRIBUTE_STANDARD_DESCRIPTION;
+	string = g_file_info_get_attribute_string (file_info, attribute);
+	camel_mime_part_set_description (mime_part, string);
+
+	string = e_attachment_get_disposition (attachment);
+	camel_mime_part_set_disposition (mime_part, string);
+}
+
+static void
+attachment_mime_part_to_file_info (EAttachment *attachment)
+{
+	CamelContentType *content_type;
+	CamelMimePart *mime_part;
+	GFileInfo *file_info;
+	const gchar *attribute;
+	const gchar *string;
+	gchar *allocated;
+	guint64 v_uint64;
+
+	file_info = e_attachment_get_file_info (attachment);
+	mime_part = e_attachment_get_mime_part (attachment);
+
+	if (file_info == NULL || mime_part == NULL)
+		return;
+
+	attribute = G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE;
+	content_type = camel_mime_part_get_content_type (mime_part);
+	allocated = camel_content_type_simple (content_type);
+	if (allocated != NULL)
+		g_file_info_set_attribute_string (
+			file_info, attribute, allocated);
+	g_free (allocated);
+
+	attribute = G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME;
+	string = camel_mime_part_get_filename (mime_part);
+	if (string != NULL)
+		g_file_info_set_attribute_string (
+			file_info, attribute, string);
+
+	attribute = G_FILE_ATTRIBUTE_STANDARD_DESCRIPTION;
+	string = camel_mime_part_get_description (mime_part);
+	if (string != NULL)
+		g_file_info_set_attribute_string (
+			file_info, attribute, string);
+
+	attribute = G_FILE_ATTRIBUTE_STANDARD_SIZE;
+	v_uint64 = camel_mime_part_get_content_size (mime_part);
+	g_file_info_set_attribute_uint64 (file_info, attribute, v_uint64);
+
+	string = camel_mime_part_get_disposition (mime_part);
+	e_attachment_set_disposition (attachment, string);
+}
 
 static void
 attachment_set_property (GObject *object,
@@ -97,28 +292,22 @@ attachment_set_property (GObject *object,
                          GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_DESCRIPTION:
-			e_attachment_set_description (
-				E_ATTACHMENT (object),
-				g_value_get_string (value));
-			return;
-
 		case PROP_DISPOSITION:
 			e_attachment_set_disposition (
 				E_ATTACHMENT (object),
 				g_value_get_string (value));
 			return;
 
-		case PROP_FILENAME:
-			e_attachment_set_filename (
-				E_ATTACHMENT (object),
-				g_value_get_string (value));
-			return;
-
-		case PROP_THUMBNAIL:
-			e_attachment_set_thumbnail (
+		case PROP_FILE:
+			e_attachment_set_file (
 				E_ATTACHMENT (object),
 				g_value_get_object (value));
+			return;
+
+		case PROP_MIME_PART:
+			e_attachment_set_mime_part (
+				E_ATTACHMENT (object),
+				g_value_get_boxed (value));
 			return;
 	}
 
@@ -132,27 +321,27 @@ attachment_get_property (GObject *object,
                          GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_DESCRIPTION:
-			g_value_set_string (
-				value, e_attachment_get_description (
-				E_ATTACHMENT (object)));
-			return;
-
 		case PROP_DISPOSITION:
 			g_value_set_string (
 				value, e_attachment_get_disposition (
 				E_ATTACHMENT (object)));
 			return;
 
-		case PROP_FILENAME:
-			g_value_set_string (
-				value, e_attachment_get_filename (
+		case PROP_FILE:
+			g_value_set_object (
+				value, e_attachment_get_file (
 				E_ATTACHMENT (object)));
 			return;
 
-		case PROP_THUMBNAIL:
+		case PROP_FILE_INFO:
 			g_value_set_object (
-				value, e_attachment_get_thumbnail (
+				value, e_attachment_get_file_info (
+				E_ATTACHMENT (object)));
+			return;
+
+		case PROP_MIME_PART:
+			g_value_set_boxed (
+				value, e_attachment_get_mime_part (
 				E_ATTACHMENT (object)));
 			return;
 	}
@@ -167,15 +356,30 @@ attachment_dispose (GObject *object)
 
 	priv = E_ATTACHMENT_GET_PRIVATE (object);
 
-	if (priv->thumbnail != NULL) {
-		g_object_unref (priv->thumbnail);
-		priv->thumbnail = NULL;
+	if (priv->cancellable != NULL) {
+		g_cancellable_cancel (priv->cancellable);
+		g_object_unref (priv->cancellable);
+		priv->cancellable = NULL;
+	}
+
+	if (priv->file != NULL) {
+		g_object_unref (priv->file);
+		priv->file = NULL;
+	}
+
+	if (priv->file_info != NULL) {
+		g_object_unref (priv->file_info);
+		priv->file_info = NULL;
 	}
 
 	if (priv->mime_part != NULL) {
 		camel_object_unref (priv->mime_part);
 		priv->mime_part = NULL;
 	}
+
+	/* This accepts NULL arguments. */
+	gtk_tree_row_reference_free (priv->reference);
+	priv->reference = NULL;
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
@@ -184,20 +388,11 @@ attachment_dispose (GObject *object)
 static void
 attachment_finalize (GObject *object)
 {
-	EAttachment *attachment = (EAttachment *) object;
+	EAttachmentPrivate *priv;
 
-	if (attachment->cancellable) {
-		/* the operation is still running, so cancel it */
-		g_cancellable_cancel (attachment->cancellable);
-		attachment->cancellable = NULL;
-	}
+	priv = E_ATTACHMENT_GET_PRIVATE (object);
 
-	g_free (attachment->store_uri);
-
-	g_free (attachment->priv->filename);
-	g_free (attachment->priv->description);
-	g_free (attachment->priv->disposition);
-	g_free (attachment->priv->mime_type);
+	g_free (priv->disposition);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -219,75 +414,52 @@ attachment_class_init (EAttachmentClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_DESCRIPTION,
-		g_param_spec_string (
-			"description",
-			"Description",
-			NULL,
-			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_DESCRIPTION,
+		PROP_DISPOSITION,
 		g_param_spec_string (
 			"disposition",
 			"Disposition",
 			NULL,
-			NULL,
+			"attachment",
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
 
 	g_object_class_install_property (
 		object_class,
-		PROP_DESCRIPTION,
-		g_param_spec_string (
-			"filename",
-			"Filename",
-			NULL,
-			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_THUMBNAIL,
+		PROP_FILE,
 		g_param_spec_object (
-			"thumbnail",
-			"Thumbnail Image",
+			"file",
+			"File",
 			NULL,
-			GDK_TYPE_PIXBUF,
+			G_TYPE_FILE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_FILE_INFO,
+		g_param_spec_object (
+			"file-info",
+			"File Info",
+			NULL,
+			G_TYPE_FILE_INFO,
+			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_MIME_PART,
+		g_param_spec_boxed (
+			"mime-part",
+			"MIME Part",
+			NULL,
+			E_TYPE_CAMEL_OBJECT,
 			G_PARAM_READWRITE));
-
-	signals[CHANGED] = g_signal_new (
-		"changed",
-		G_OBJECT_CLASS_TYPE (class),
-		G_SIGNAL_RUN_FIRST,
-		G_STRUCT_OFFSET (EAttachmentClass, changed),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
-
-	signals[UPDATE] = g_signal_new (
-		"update",
-		G_OBJECT_CLASS_TYPE (class),
-		G_SIGNAL_RUN_FIRST,
-		G_STRUCT_OFFSET (EAttachmentClass, update),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
 }
 
 static void
 attachment_init (EAttachment *attachment)
 {
 	attachment->priv = E_ATTACHMENT_GET_PRIVATE (attachment);
-
-	attachment->index = -1;
-	attachment->percentage = -1;
-	attachment->sign = CAMEL_CIPHER_VALIDITY_SIGN_NONE;
-	attachment->encrypt = CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE;
+	attachment->priv->cancellable = g_cancellable_new ();
 }
 
 GType
@@ -316,618 +488,228 @@ e_attachment_get_type (void)
 	return type;
 }
 
-/**
- * file_ext_is:
- * @param filename: path for file
- * @param ext: desired extension, with a dot
- * @return if filename has extension ext or not
- **/
-
-static gboolean
-file_ext_is (const char *filename, const char *ext)
-{
-	int i, dot = -1;
-
-	if (!filename || !ext)
-		return FALSE;
-
-	for (i = 0; filename[i]; i++) {
-		if (filename [i] == '.')
-			dot = i;
-	}
-
-	if (dot > 0) {
-		return 0 == g_ascii_strcasecmp (filename + dot, ext);
-	}
-
-	return FALSE;
-}
-
-static char *
-attachment_guess_mime_type (const char *filename)
-{
-	char *type;
-	gchar *content = NULL;
-
-	type = e_util_guess_mime_type (filename, TRUE);
-
-	if (type && strcmp (type, "text/directory") == 0 &&
-	    file_ext_is (filename, ".vcf") &&
-	    g_file_get_contents (filename, &content, NULL, NULL) &&
-	    content) {
-		EVCard *vc = e_vcard_new_from_string (content);
-
-		if (vc) {
-			g_free (type);
-			g_object_unref (G_OBJECT (vc));
-
-			type = g_strdup ("text/x-vcard");
-		}
-
-	}
-
-	g_free (content);
-
-	if (type) {
-		/* Check if returned mime_type is valid */
-		CamelContentType *ctype = camel_content_type_decode (type);
-
-		if (!ctype) {
-			g_free (type);
-			type = NULL;
-		} else
-			camel_content_type_unref (ctype);
-	}
-
-	return type;
-}
-
-
-/**
- * e_attachment_new:
- * @filename: filename to attach
- * @disposition: Content-Disposition of the attachment
- * @ex: exception
- *
- * Return value: the new attachment, or %NULL on error
- **/
 EAttachment *
-e_attachment_new (const char *filename, const char *disposition, CamelException *ex)
+e_attachment_new (void)
 {
-	EAttachment *new;
-	CamelMimePart *part;
-	CamelDataWrapper *wrapper;
-	CamelStream *stream;
-	struct stat statbuf;
-	gchar *mime_type;
-	gchar *basename;
-	CamelURL *url;
-
-	g_return_val_if_fail (filename != NULL, NULL);
-
-	if (g_stat (filename, &statbuf) < 0) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Cannot attach file %s: %s"),
-				      filename, g_strerror (errno));
-		return NULL;
-	}
-
-	/* return if it's not a regular file */
-	if (!S_ISREG (statbuf.st_mode)) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Cannot attach file %s: not a regular file"),
-				      filename);
-		return NULL;
-	}
-
-	if (!(stream = camel_stream_fs_new_with_name (filename, O_RDONLY, 0))) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Cannot attach file %s: %s"),
-				      filename, g_strerror (errno));
-		return NULL;
-	}
-
-	if ((mime_type = attachment_guess_mime_type (filename))) {
-		if (!g_ascii_strcasecmp (mime_type, "message/rfc822")) {
-			wrapper = (CamelDataWrapper *) camel_mime_message_new ();
-		} else {
-			wrapper = camel_data_wrapper_new ();
-		}
-
-		camel_data_wrapper_construct_from_stream (wrapper, stream);
-		camel_data_wrapper_set_mime_type (wrapper, mime_type);
-		g_free (mime_type);
-	} else {
-		wrapper = camel_data_wrapper_new ();
-		camel_data_wrapper_construct_from_stream (wrapper, stream);
-		camel_data_wrapper_set_mime_type (wrapper, "application/octet-stream");
-	}
-
-	camel_object_unref (stream);
-
-	part = camel_mime_part_new ();
-	camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);
-	camel_object_unref (wrapper);
-
-	camel_mime_part_set_disposition (part, disposition);
-	basename = g_path_get_basename (filename);
-	camel_mime_part_set_filename (part, basename);
-
-#if 0
-	/* Note: Outlook 2002 is broken with respect to Content-Ids on
-           non-multipart/related parts, so as an interoperability
-           workaround, don't set a Content-Id on these parts. Fixes
-           bug #10032 */
-	/* set the Content-Id */
-	content_id = camel_header_msgid_generate ();
-	camel_mime_part_set_content_id (part, content_id);
-	g_free (content_id);
-#endif
-
-	new = g_object_new (E_TYPE_ATTACHMENT, "filename", basename, NULL);
-	new->priv->mime_part = part;
-	new->size = statbuf.st_size;
-	new->guessed_type = TRUE;
-	new->cancellable = NULL;
-	new->is_available_local = TRUE;
-
-	url = camel_url_new ("file://", NULL);
-	camel_url_set_path (url, filename);
-	new->store_uri = camel_url_to_string (url, 0);
-	camel_url_free (url);
-
-	return new;
+	return g_object_new (E_TYPE_ATTACHMENT, NULL);
 }
 
-
-typedef struct {
+EAttachment *
+e_attachment_new_for_path (const gchar *path)
+{
 	EAttachment *attachment;
-	char *filename;
-	char *uri;
-	GtkWindow *parent; /* for error dialog */
+	GFile *file;
 
-	guint64 file_size; /* zero indicates unknown size */
-	GInputStream *istream; /* read from here ... */
-	GOutputStream *ostream; /* ...and write into this. */
-	gboolean was_error;
-	GCancellable *cancellable;
+	g_return_val_if_fail (path != NULL, NULL);
 
-	void *buffer; /* read into this, not more than buffer_size bytes */
-	gsize buffer_size;
-} DownloadInfo;
+	file = g_file_new_for_path (path);
+	attachment = g_object_new (E_TYPE_ATTACHMENT, "file", file, NULL);
+	g_object_unref (file);
 
-static void
-download_info_free (DownloadInfo *download_info)
-{
-	/* if there was an error, then free attachment too */
-	if (download_info->was_error)
-		g_object_unref (download_info->attachment);
-
-	if (download_info->ostream)
-		g_object_unref (download_info->ostream);
-
-	if (download_info->istream)
-		g_object_unref (download_info->istream);
-
-	if (download_info->cancellable)
-		g_object_unref (download_info->cancellable);
-
-	g_free (download_info->filename);
-	g_free (download_info->uri);
-	g_free (download_info->buffer);
-	g_free (download_info);
-}
-
-static void
-data_ready_cb (GObject *source_object, GAsyncResult *res, gpointer user_data)
-{
-	DownloadInfo *download_info = (DownloadInfo *)user_data;
-	GError *error = NULL;
-	gssize read;
-
-	g_return_if_fail (download_info != NULL);
-
-	if (g_cancellable_is_cancelled (download_info->cancellable)) {
-		/* finish the operation and close both streams */
-		g_input_stream_read_finish (G_INPUT_STREAM (source_object), res, NULL);
-
-		g_output_stream_close (download_info->ostream, NULL, NULL);
-		g_input_stream_close  (download_info->istream, NULL, NULL);
-
-		/* The only way how to get this canceled is in EAttachment's finalize method,
-		   and because the download_info_free free's the attachment on error,
-		   then do not consider cancellation as an error. */
-		download_info_free (download_info);
-		return;
-	}
-
-	read = g_input_stream_read_finish (G_INPUT_STREAM (source_object), res, &error);
-
-	if (!error)
-		g_output_stream_write_all (download_info->ostream, download_info->buffer, read, NULL, download_info->cancellable, &error);
-
-	if (error) {
-		download_info->was_error = error->domain != G_IO_ERROR || error->code != G_IO_ERROR_CANCELLED;
-		if (download_info->was_error)
-			e_error_run (download_info->parent, "mail-composer:no-attach", download_info->uri, error->message, NULL);
-
-		g_error_free (error);
-
-		download_info->attachment->cancellable = NULL;
-		download_info_free (download_info);
-		return;
-	}
-
-	if (read == 0) {
-		CamelException ex;
-
-		/* done with reading */
-		g_output_stream_close (download_info->ostream, NULL, NULL);
-		g_input_stream_close  (download_info->istream, NULL, NULL);
-
-		download_info->attachment->cancellable = NULL;
-
-		camel_exception_init (&ex);
-		e_attachment_build_remote_file (download_info->filename, download_info->attachment, &ex);
-
-		if (camel_exception_is_set (&ex)) {
-			download_info->was_error = TRUE;
-			e_error_run (download_info->parent, "mail-composer:no-attach", download_info->uri, camel_exception_get_description (&ex), NULL);
-			camel_exception_clear (&ex);
-		}
-
-		download_info->attachment->percentage = -1;
-		download_info->attachment->is_available_local = TRUE;
-		g_signal_emit (download_info->attachment, signals[UPDATE], 0);
-
-		download_info_free (download_info);
-		return;
-	} else 	if (download_info->file_size) {
-		download_info->attachment->percentage = read * 100 / download_info->file_size;
-		download_info->file_size -= MIN (download_info->file_size, read);
-		g_signal_emit (download_info->attachment, signals[UPDATE], 0);
-	} else {
-		download_info->attachment->percentage = 0;
-		g_signal_emit (download_info->attachment, signals[UPDATE], 0);
-	}
-
-	/* read next chunk */
-	g_input_stream_read_async (download_info->istream, download_info->buffer, download_info->buffer_size, G_PRIORITY_DEFAULT, download_info->cancellable, data_ready_cb, download_info);
-}
-
-static gboolean
-download_to_local_path (DownloadInfo *download_info, CamelException *ex)
-{
-	GError *error = NULL;
-	GFile *src = g_file_new_for_uri (download_info->uri);
-	GFile *des = g_file_new_for_path (download_info->filename);
-	gboolean res = FALSE;
-
-	g_return_val_if_fail (src != NULL && des != NULL, FALSE);
-
-	download_info->ostream = G_OUTPUT_STREAM (g_file_replace (des, NULL, FALSE, G_FILE_CREATE_NONE, NULL, &error));
-
-	if (download_info->ostream && !error) {
-		GFileInfo *fi;
-
-		fi = g_file_query_info (src, G_FILE_ATTRIBUTE_STANDARD_SIZE, G_FILE_QUERY_INFO_NONE, NULL, NULL);
-
-		if (fi) {
-			download_info->file_size = g_file_info_get_attribute_uint64 (fi, G_FILE_ATTRIBUTE_STANDARD_SIZE);
-			g_object_unref (fi);
-		} else {
-			download_info->file_size = 0;
-		}
-
-		download_info->istream = G_INPUT_STREAM (g_file_read (src, NULL, &error));
-
-		if (download_info->istream && !error) {
-			download_info->cancellable = g_cancellable_new ();
-			download_info->attachment->cancellable = download_info->cancellable;
-			download_info->buffer_size = 10240; /* max 10KB chunk */
-			download_info->buffer = g_malloc (sizeof (char) * download_info->buffer_size);
-
-			g_input_stream_read_async (download_info->istream, download_info->buffer, download_info->buffer_size, G_PRIORITY_DEFAULT, download_info->cancellable, data_ready_cb, download_info);
-
-			res = TRUE;
-		}
-	}
-
-	if (error) {
-		/* propagate error */
-		if (ex)
-			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, error->message);
-
-		g_error_free (error);
-		download_info->was_error = TRUE;
-		download_info_free (download_info);
-	}
-
-	g_object_unref (src);
-	g_object_unref (des);
-
-	return res;
+	return attachment;
 }
 
 EAttachment *
-e_attachment_new_remote_file (GtkWindow *error_dlg_parent, const char *uri, const char *disposition, const char *path, CamelException *ex)
+e_attachment_new_for_uri (const gchar *uri)
 {
-	EAttachment *new;
-	DownloadInfo *download_info;
-	CamelURL *url;
-	char *base;
-	gchar *filename;
+	EAttachment *attachment;
+	GFile *file;
 
 	g_return_val_if_fail (uri != NULL, NULL);
 
-	url = camel_url_new (uri, NULL);
-	base = g_path_get_basename (url->path);
-	camel_url_free (url);
+	file = g_file_new_for_uri (uri);
+	attachment = g_object_new (E_TYPE_ATTACHMENT, "file", file, NULL);
+	g_object_unref (file);
 
-	filename = g_build_filename (path, base, NULL);
-
-	new = g_object_new (E_TYPE_ATTACHMENT, "filename", filename, NULL);
-	new->size = 0;
-	new->guessed_type = FALSE;
-	new->cancellable = NULL;
-	new->is_available_local = FALSE;
-	new->percentage = 0;
-
-	g_free (base);
-
-	download_info = g_new0 (DownloadInfo, 1);
-	download_info->attachment = new;
-	download_info->filename = g_strdup (filename);
-	download_info->uri = g_strdup (uri);
-	download_info->parent = error_dlg_parent;
-	download_info->was_error = FALSE;
-
-	g_free (filename);
-
-	/* it frees all on the error, so do not free it twice */
-	if (!download_to_local_path (download_info, ex))
-		return NULL;
-
-	return new;
+	return attachment;
 }
 
+EAttachment *
+e_attachment_new_for_message (CamelMimeMessage *message)
+{
+	CamelDataWrapper *wrapper;
+	CamelMimePart *mime_part;
+	EAttachment *attachment;
+	GString *description;
+	const gchar *subject;
+
+	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
+
+	mime_part = camel_mime_part_new ();
+	camel_mime_part_set_disposition (mime_part, "inline");
+	subject = camel_mime_message_get_subject (message);
+
+	description = g_string_new (_("Attached message"));
+	if (subject != NULL)
+		g_string_append_printf (description, " - %s", subject);
+	camel_mime_part_set_description (mime_part, description->str);
+	g_string_free (description, TRUE);
+
+	wrapper = CAMEL_DATA_WRAPPER (message);
+	camel_medium_set_content_object (CAMEL_MEDIUM (mime_part), wrapper);
+	camel_mime_part_set_content_type (mime_part, "message/rfc822");
+
+	attachment = e_attachment_new ();
+	e_attachment_set_mime_part (attachment, mime_part);
+	camel_object_unref (mime_part);
+
+	return attachment;
+}
 
 void
-e_attachment_build_remote_file (const gchar *filename,
-                                EAttachment *attachment,
-                                CamelException *ex)
+e_attachment_add_to_multipart (EAttachment *attachment,
+                               CamelMultipart *multipart,
+                               const gchar *default_charset)
 {
-	CamelMimePart *part;
+	CamelContentType *content_type;
 	CamelDataWrapper *wrapper;
-	CamelStream *stream;
-	struct stat statbuf;
-	const gchar *description;
-	const gchar *disposition;
-	gchar *mime_type;
-	gchar *basename;
-	CamelURL *url;
+	CamelMimePart *mime_part;
 
-	g_return_if_fail (filename != NULL);
+	/* XXX EMsgComposer might be a better place for this function. */
 
-	if (g_stat (filename, &statbuf) == -1) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Cannot attach file %s: %s"),
-				      filename, g_strerror (errno));
-		g_message ("Cannot attach file %s: %s\n", filename, g_strerror (errno));
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+	g_return_if_fail (CAMEL_IS_MULTIPART (multipart));
+
+	/* Still loading?  Too bad. */
+	mime_part = e_attachment_get_mime_part (attachment);
+	if (mime_part == NULL)
 		return;
-	}
 
-	/* return if it's not a regular file */
-	if (!S_ISREG (statbuf.st_mode)) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Cannot attach file %s: not a regular file"),
-				      filename);
-		g_message ("Cannot attach file %s: not a regular file", filename);
-		return;
-	}
+	content_type = camel_mime_part_get_content_type (mime_part);
+	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 
-	if (!(stream = camel_stream_fs_new_with_name (filename, O_RDONLY, 0))) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Cannot attach file %s: %s"),
-				      filename, g_strerror (errno));
-		return;
-	}
+	if (CAMEL_IS_MULTIPART (wrapper))
+		goto exit;
 
-	if ((mime_type = attachment_guess_mime_type (filename))) {
-		if (!g_ascii_strcasecmp (mime_type, "message/rfc822")) {
-			wrapper = (CamelDataWrapper *) camel_mime_message_new ();
-		} else {
-			wrapper = camel_data_wrapper_new ();
+	/* For text content, determine the best encoding and character set. */
+	if (camel_content_type_is (content_type, "text", "*")) {
+		CamelTransferEncoding encoding;
+		CamelStreamFilter *filtered_stream;
+		CamelMimeFilterBestenc *filter;
+		CamelStream *stream;
+		const gchar *charset;
+
+		charset = camel_content_type_param (content_type, "charset");
+
+		/* Determine the best encoding by writing the MIME
+		 * part to a NULL stream with a "bestenc" filter. */
+		stream = camel_stream_null_new ();
+		filtered_stream = camel_stream_filter_new_with_stream (stream);
+		filter = camel_mime_filter_bestenc_new (
+			CAMEL_BESTENC_GET_ENCODING);
+		camel_stream_filter_add (
+			filtered_stream, CAMEL_MIME_FILTER (filter));
+		camel_data_wrapper_decode_to_stream (
+			wrapper, CAMEL_STREAM (filtered_stream));
+		camel_object_unref (filtered_stream);
+		camel_object_unref (stream);
+
+		/* Retrieve the best encoding from the filter. */
+		encoding = camel_mime_filter_bestenc_get_best_encoding (
+			filter, CAMEL_BESTENC_8BIT);
+		camel_mime_part_set_encoding (mime_part, encoding);
+		camel_object_unref (filter);
+
+		if (encoding == CAMEL_TRANSFER_ENCODING_7BIT) {
+			/* The text fits within us-ascii, so this is safe.
+			 * FIXME Check that this isn't iso-2022-jp? */
+			default_charset = "us-ascii";
+
+		} else if (charset == NULL && default_charset == NULL) {
+			default_charset = attachment_get_default_charset ();
+			/* FIXME Check that this fits within the
+			 *       default_charset and if not, find one
+			 *       that does and/or allow the user to
+			 *       specify. */
 		}
 
-		camel_data_wrapper_construct_from_stream (wrapper, stream);
-		camel_data_wrapper_set_mime_type (wrapper, mime_type);
-		g_free (mime_type);
-	} else {
-		wrapper = camel_data_wrapper_new ();
-		camel_data_wrapper_construct_from_stream (wrapper, stream);
-		camel_data_wrapper_set_mime_type (wrapper, "application/octet-stream");
-	}
+		if (charset == NULL) {
+			gchar *type;
 
-	camel_object_unref (stream);
+			camel_content_type_set_param (
+				content_type, "charset", default_charset);
+			type = camel_content_type_format (content_type);
+			camel_mime_part_set_content_type (mime_part, type);
+			g_free (type);
+		}
 
-	part = camel_mime_part_new ();
-	camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);
-	camel_object_unref (wrapper);
+	/* Otherwise, unless it's a message/rfc822, Base64 encode it. */
+	} else if (!CAMEL_IS_MIME_MESSAGE (wrapper))
+		camel_mime_part_set_encoding (
+			mime_part, CAMEL_TRANSFER_ENCODING_BASE64);
 
-	disposition = e_attachment_get_disposition (attachment);
-	camel_mime_part_set_disposition (part, disposition);
-
-	if (e_attachment_get_filename (attachment) == NULL)
-		basename = g_path_get_basename (filename);
-	else
-		basename = g_path_get_basename (e_attachment_get_filename (attachment));
-
-	camel_mime_part_set_filename (part, filename);
-
-	description = e_attachment_get_description (attachment);
-	if (description != NULL) {
-		camel_mime_part_set_description (part, description);
-		e_attachment_set_description (attachment, NULL);
-	}
-
-	attachment->priv->mime_part = part;
-	attachment->size = statbuf.st_size;
-	attachment->guessed_type = TRUE;
-
-	e_attachment_set_filename (attachment, basename);
-
-	url = camel_url_new ("file://", NULL);
-	camel_url_set_path (url, filename);
-	attachment->store_uri = camel_url_to_string (url, 0);
-	camel_url_free (url);
-
-	g_free (basename);
-}
-
-
-/**
- * e_attachment_new_from_mime_part:
- * @part: a CamelMimePart
- *
- * Return value: a new EAttachment based on the mime part
- **/
-EAttachment *
-e_attachment_new_from_mime_part (CamelMimePart *part)
-{
-	EAttachment *new;
-	const gchar *filename;
-
-	g_return_val_if_fail (CAMEL_IS_MIME_PART (part), NULL);
-
-	filename = camel_mime_part_get_filename (part);
-
-	new = g_object_new (E_TYPE_ATTACHMENT, "filename", filename, NULL);
-	camel_object_ref (part);
-	new->priv->mime_part = part;
-	new->guessed_type = FALSE;
-	new->is_available_local = TRUE;
-	new->size = camel_mime_part_get_content_size (part);
-
-	return new;
-}
-
-void
-e_attachment_edit (EAttachment *attachment,
-                   GtkWindow *parent)
-{
-	GtkWidget *dialog;
-
-	g_return_if_fail (E_IS_ATTACHMENT (attachment));
-
-	dialog = e_attachment_dialog_new (parent, attachment);
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
-}
-
-const gchar *
-e_attachment_get_description (EAttachment *attachment)
-{
-	CamelMimePart *mime_part;
-	const gchar *description;
-
-	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
-
-	mime_part = e_attachment_get_mime_part (attachment);
-	if (mime_part != NULL)
-		description = camel_mime_part_get_description (mime_part);
-	else 
-		description = attachment->priv->description;
-
-	return description;
-}
-
-void
-e_attachment_set_description (EAttachment *attachment,
-                              const gchar *description)
-{
-	CamelMimePart *mime_part;
-
-	g_return_if_fail (E_IS_ATTACHMENT (attachment));
-
-	g_free (attachment->priv->description);
-	attachment->priv->description = g_strdup (description);
-
-	mime_part = e_attachment_get_mime_part (attachment);
-	if (mime_part != NULL)
-		camel_mime_part_set_description (mime_part, description);
-
-	g_object_notify (G_OBJECT (attachment), "description");
+exit:
+	camel_multipart_add_part (multipart, mime_part);
 }
 
 const gchar *
 e_attachment_get_disposition (EAttachment *attachment)
 {
-	CamelMimePart *mime_part;
-	const gchar *disposition;
-
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
 
-	mime_part = e_attachment_get_mime_part (attachment);
-	if (mime_part != NULL)
-		disposition = camel_mime_part_get_disposition (mime_part);
-	else
-		disposition = attachment->priv->disposition;
-
-	return disposition;
+	return attachment->priv->disposition;
 }
 
 void
 e_attachment_set_disposition (EAttachment *attachment,
                               const gchar *disposition)
 {
-	CamelMimePart *mime_part;
-
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 
 	g_free (attachment->priv->disposition);
 	attachment->priv->disposition = g_strdup (disposition);
 
-	mime_part = e_attachment_get_mime_part (attachment);
-	if (mime_part != NULL)
-		camel_mime_part_set_disposition (mime_part, disposition);
-
 	g_object_notify (G_OBJECT (attachment), "disposition");
 }
 
-const gchar *
-e_attachment_get_filename (EAttachment *attachment)
+GFile *
+e_attachment_get_file (EAttachment *attachment)
 {
-	CamelMimePart *mime_part;
-	const gchar *filename;
-
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
 
-	mime_part = e_attachment_get_mime_part (attachment);
-	if (mime_part != NULL)
-		filename = camel_mime_part_get_filename (mime_part);
-	else
-		filename = attachment->priv->filename;
-
-	return filename;
+	return attachment->priv->file;
 }
 
 void
-e_attachment_set_filename (EAttachment *attachment,
-                           const gchar *filename)
+e_attachment_set_file (EAttachment *attachment,
+                       GFile *file)
 {
-	CamelMimePart *mime_part;
+	GCancellable *cancellable;
 
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 
-	g_free (attachment->priv->filename);
-	attachment->priv->filename = g_strdup (filename);
+	g_object_freeze_notify (G_OBJECT (attachment));
 
-	mime_part = e_attachment_get_mime_part (attachment);
-	if (mime_part != NULL)
-		camel_mime_part_set_filename (mime_part, filename);
+	if (file != NULL) {
+		g_return_if_fail (G_IS_FILE (file));
+		g_object_ref (file);
+	}
 
-	g_object_notify (G_OBJECT (attachment), "filename");
+	attachment_reset (attachment);
+	attachment->priv->file = file;
+
+	cancellable = attachment->priv->cancellable;
+
+	if (file != NULL)
+		g_file_query_info_async (
+			file, ATTACHMENT_QUERY,
+			G_FILE_QUERY_INFO_NONE,
+			G_PRIORITY_DEFAULT, cancellable,
+			(GAsyncReadyCallback)
+			attachment_file_info_ready_cb,
+			attachment);
+
+	g_object_notify (G_OBJECT (attachment), "file");
+
+	g_object_thaw_notify (G_OBJECT (attachment));
+}
+
+GFileInfo *
+e_attachment_get_file_info (EAttachment *attachment)
+{
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
+
+	return attachment->priv->file_info;
 }
 
 CamelMimePart *
@@ -938,89 +720,613 @@ e_attachment_get_mime_part (EAttachment *attachment)
 	return attachment->priv->mime_part;
 }
 
-const gchar *
-e_attachment_get_mime_type (EAttachment *attachment)
-{
-	CamelContentType *content_type;
-	CamelMimePart *mime_part;
-	const gchar *filename;
-	gchar *mime_type;
-
-	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
-
-	if (attachment->priv->mime_type != NULL)
-		goto exit;
-
-	mime_part = e_attachment_get_mime_part (attachment);
-	filename = e_attachment_get_filename (attachment);
-	content_type = camel_mime_part_get_content_type (mime_part);
-
-	if (mime_part == NULL)
-		mime_type = attachment_guess_mime_type (filename);
-	else {
-		content_type = camel_mime_part_get_content_type (mime_part);
-		mime_type = camel_content_type_simple (content_type);
-	}
-
-	attachment->priv->mime_type = mime_type;
-
-exit:
-	return attachment->priv->mime_type;
-}
-
-GdkPixbuf *
-e_attachment_get_thumbnail (EAttachment *attachment)
-{
-	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
-
-	return attachment->priv->thumbnail;
-}
-
 void
-e_attachment_set_thumbnail (EAttachment *attachment,
-                            GdkPixbuf *thumbnail)
+e_attachment_set_mime_part (EAttachment *attachment,
+                            CamelMimePart *mime_part)
 {
+	GFileInfo *file_info;
+
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 
-	if (thumbnail != NULL) {
-		g_return_if_fail (GDK_IS_PIXBUF (thumbnail));
-		g_object_ref (thumbnail);
+	g_object_freeze_notify (G_OBJECT (attachment));
+
+	if (mime_part != NULL) {
+		g_return_if_fail (CAMEL_IS_MIME_PART (mime_part));
+		camel_object_ref (mime_part);
 	}
 
-	if (attachment->priv->thumbnail != NULL)
-		g_object_unref (attachment->priv->thumbnail);
+	attachment_reset (attachment);
+	attachment->priv->mime_part = mime_part;
 
-	attachment->priv->thumbnail = thumbnail;
+	file_info = g_file_info_new ();
+	attachment_set_file_info (attachment, file_info);
+	attachment_mime_part_to_file_info (attachment);
+	g_object_unref (file_info);
 
-	g_object_notify (G_OBJECT (attachment), "thumbnail");
+	g_object_notify (G_OBJECT (attachment), "mime-part");
+
+	g_object_thaw_notify (G_OBJECT (attachment));
+}
+
+const gchar *
+e_attachment_get_content_type (EAttachment *attachment)
+{
+	GFileInfo *file_info;
+	const gchar *attribute;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
+
+	attribute = G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE;
+	file_info = e_attachment_get_file_info (attachment);
+
+	if (file_info == NULL)
+		return NULL;
+
+	return g_file_info_get_attribute_string (file_info, attribute);
+}
+
+const gchar *
+e_attachment_get_display_name (EAttachment *attachment)
+{
+	GFileInfo *file_info;
+	const gchar *attribute;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
+
+	attribute = G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME;
+	file_info = e_attachment_get_file_info (attachment);
+
+	if (file_info == NULL)
+		return NULL;
+
+	return g_file_info_get_attribute_string (file_info, attribute);
+}
+
+const gchar *
+e_attachment_get_description (EAttachment *attachment)
+{
+	GFileInfo *file_info;
+	const gchar *attribute;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
+
+	attribute = G_FILE_ATTRIBUTE_STANDARD_DESCRIPTION;
+	file_info = e_attachment_get_file_info (attachment);
+
+	if (file_info == NULL)
+		return NULL;
+
+	return g_file_info_get_attribute_string (file_info, attribute);
+}
+
+GIcon *
+e_attachment_get_icon (EAttachment *attachment)
+{
+	GFileInfo *file_info;
+	const gchar *attribute;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
+
+	attribute = G_FILE_ATTRIBUTE_STANDARD_ICON;
+	file_info = e_attachment_get_file_info (attachment);
+
+	if (file_info == NULL)
+		return NULL;
+
+	return (GIcon *)
+		g_file_info_get_attribute_object (file_info, attribute);
+}
+
+const gchar *
+e_attachment_get_thumbnail_path (EAttachment *attachment)
+{
+	GFileInfo *file_info;
+	const gchar *attribute;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
+
+	attribute = G_FILE_ATTRIBUTE_THUMBNAIL_PATH;
+	file_info = e_attachment_get_file_info (attachment);
+
+	if (file_info == NULL)
+		return NULL;
+
+	return g_file_info_get_attribute_byte_string (file_info, attribute);
+}
+
+guint64
+e_attachment_get_size (EAttachment *attachment)
+{
+	GFileInfo *file_info;
+	const gchar *attribute;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), 0);
+
+	attribute = G_FILE_ATTRIBUTE_STANDARD_SIZE;
+	file_info = e_attachment_get_file_info (attachment);
+
+	if (file_info == NULL)
+		return 0;
+
+	return g_file_info_get_attribute_uint64 (file_info, attribute);
 }
 
 gboolean
 e_attachment_is_image (EAttachment *attachment)
 {
-	CamelContentType *content_type;
-	CamelMimePart *mime_part;
+	const gchar *content_type;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
 
-	mime_part = e_attachment_get_mime_part (attachment);
-	if (mime_part == NULL)
+	content_type = e_attachment_get_content_type (attachment);
+
+	if (content_type == NULL)
 		return FALSE;
 
-	content_type = camel_mime_part_get_content_type (mime_part);
-
-	return camel_content_type_is (content_type, "image", "*");
+	return g_content_type_is_a (content_type, "image");
 }
 
 gboolean
-e_attachment_is_inline (EAttachment *attachment)
+e_attachment_is_rfc822 (EAttachment *attachment)
 {
-	const gchar *disposition;
+	const gchar *content_type;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
 
-	disposition = e_attachment_get_disposition (attachment);
-	g_return_val_if_fail (disposition != NULL, FALSE);
+	content_type = e_attachment_get_content_type (attachment);
 
-	return (g_ascii_strcasecmp (disposition, "inline") == 0);
+	if (content_type == NULL)
+		return FALSE;
+
+	return g_content_type_equals (content_type, "message/rfc822");
+}
+
+static void
+attachment_save_file_cb (GFile *source,
+                         GAsyncResult *result,
+                         EActivity *activity)
+{
+	GError *error = NULL;
+
+	if (!g_file_copy_finish (source, result, &error)) {
+		e_activity_set_error (activity, error);
+		g_error_free (error);
+	}
+
+	e_activity_complete (activity);
+	g_object_unref (activity);
+}
+
+static gpointer
+attachment_save_part_thread (EActivity *activity)
+{
+	GObject *object;
+	EAttachment *attachment;
+	GCancellable *cancellable;
+	GOutputStream *output_stream;
+	EFileActivity *file_activity;
+	CamelDataWrapper *wrapper;
+	CamelMimePart *mime_part;
+	CamelStream *stream;
+	GError *error = NULL;
+
+	object = G_OBJECT (activity);
+	attachment = g_object_get_data (object, "attachment");
+	output_stream = g_object_get_data (object, "output-stream");
+
+	/* Last chance to cancel. */
+	file_activity = E_FILE_ACTIVITY (activity);
+	cancellable = e_file_activity_get_cancellable (file_activity);
+	if (g_cancellable_set_error_if_cancelled (cancellable, &error))
+		goto exit;
+
+	object = g_object_ref (output_stream);
+	stream = camel_stream_vfs_new_with_stream (object);
+	mime_part = e_attachment_get_mime_part (attachment);
+	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+
+	if (camel_data_wrapper_decode_to_stream (wrapper, stream) < 0)
+		g_set_error (
+			&error, G_IO_ERROR,
+			g_io_error_from_errno (errno),
+			g_strerror (errno));
+
+	else if (camel_stream_flush (stream) < 0)
+		g_set_error (
+			&error, G_IO_ERROR,
+			g_io_error_from_errno (errno),
+			g_strerror (errno));
+
+	camel_object_unref (stream);
+
+exit:
+	if (error != NULL) {
+		e_activity_set_error (activity, error);
+		g_error_free (error);
+	}
+
+	e_activity_complete_in_idle (activity);
+	g_object_unref (activity);
+
+	return NULL;
+}
+
+static void
+attachment_save_part_cb (GFile *destination,
+                         GAsyncResult *result,
+                         EActivity *activity)
+{
+	GFileOutputStream *output_stream;
+	GError *error = NULL;
+
+	output_stream = g_file_replace_finish (destination, result, &error);
+
+	if (output_stream != NULL) {
+		g_object_set_data_full (
+			G_OBJECT (activity),
+			"output-stream", output_stream,
+			(GDestroyNotify) g_object_unref);
+		g_thread_create (
+			(GThreadFunc) attachment_save_part_thread,
+			activity, FALSE, &error);
+	}
+
+	if (error != NULL) {
+		e_activity_set_error (activity, error);
+		e_activity_complete (activity);
+		g_object_unref (activity);
+		g_error_free (error);
+	}
+
+}
+
+void
+e_attachment_save_async (EAttachment *attachment,
+                         EFileActivity *file_activity,
+                         GFile *destination)
+{
+	GFileProgressCallback progress_callback;
+	GCancellable *cancellable;
+	CamelMimePart *mime_part;
+	GFile *source;
+
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+	g_return_if_fail (G_IS_FILE (destination));
+	g_return_if_fail (E_IS_FILE_ACTIVITY (file_activity));
+
+	/* The attachment content is either a GFile (on disk) or a
+	 * CamelMimePart (in memory).  Each is saved differently. */
+
+	source = e_attachment_get_file (attachment);
+	mime_part = e_attachment_get_mime_part (attachment);
+	g_return_if_fail (source != NULL || mime_part != NULL);
+
+	cancellable = e_file_activity_get_cancellable (file_activity);
+	progress_callback = e_file_activity_progress;
+
+	/* GFile is the easier, but probably less common case.  The
+	 * attachment already references an on-disk file, so we can
+	 * just use GIO to copy it asynchronously.
+	 *
+	 * We use G_FILE_COPY_OVERWRITE because the user should have
+	 * already confirmed the overwrite through the save dialog. */
+	if (G_IS_FILE (source))
+		g_file_copy_async (
+			source, destination,
+			G_FILE_COPY_OVERWRITE,
+			G_PRIORITY_DEFAULT, cancellable,
+			progress_callback, file_activity,
+			(GAsyncReadyCallback) attachment_save_file_cb,
+			g_object_ref (file_activity));
+
+	/* CamelMimePart can only be decoded to a file synchronously, so
+	 * we do this in two stages.  Stage one asynchronously opens the
+	 * destination file for writing.  Stage two spawns a thread that
+	 * decodes the MIME part to the destination file.  This stage is
+	 * not cancellable, unfortunately. */
+	else if (CAMEL_IS_MIME_PART (mime_part)) {
+		g_object_set_data_full (
+			G_OBJECT (file_activity),
+			"attachment", g_object_ref (attachment),
+			(GDestroyNotify) g_object_unref);
+		g_file_replace_async (
+			destination, NULL, FALSE,
+			G_FILE_CREATE_REPLACE_DESTINATION,
+			G_PRIORITY_DEFAULT, cancellable,
+			(GAsyncReadyCallback) attachment_save_part_cb,
+			g_object_ref (file_activity));
+	}
+}
+
+#if 0
+typedef struct {
+	gint io_priority;
+	GCancellable *cancellable;
+	GSimpleAsyncResult *simple;
+	GFileInfo *file_info;
+} BuildMimePartData;
+
+static BuildMimePartData *
+attachment_build_mime_part_data_new (EAttachment *attachment,
+                                     gint io_priority,
+                                     GCancellable *cancellable,
+                                     GAsyncReadyCallback callback,
+                                     gpointer user_data,
+                                     gpointer source_tag)
+{
+	BuildMimePartData *data;
+	GSimpleAsyncResult *simple;
+
+	simple = g_simple_async_result_new (
+		G_OBJECT (attachment), callback, user_data, source_tag);
+
+	if (G_IS_CANCELLABLE (cancellable))
+		g_object_ref (cancellable);
+
+	data = g_slice_new0 (BuildMimePartData);
+	data->io_priority = io_priority;
+	data->cancellable = cancellable;
+	data->simple = simple;
+	return data;
+}
+
+static void
+attachment_build_mime_part_data_free (BuildMimePartData *data)
+{
+	if (data->attachment != NULL)
+		g_object_unref (data->attachment);
+
+	if (data->cancellable != NULL)
+		g_object_unref (data->cancellable);
+
+	if (data->simple != NULL)
+		g_object_unref (data->simple);
+
+	if (data->file_info != NULL)
+		g_object_unref (data->file_info);
+
+	g_slice_free (BuildMimePartData, data);
+}
+
+static void
+attachment_build_mime_part_splice_cb (GObject *source,
+                                      GAsyncResult *result,
+                                      gpointer user_data)
+{
+	GSimpleAsyncResult *final_result;
+	GCancellable *cancellable;
+	EAttachment *attachment;
+	CamelDataWrapper *wrapper;
+	CamelMimePart *mime_part;
+	CamelStream *stream;
+	const gchar *content_type;
+	gchar *mime_type;
+	gssize length;
+	gpointer data;
+	GError *error = NULL;
+
+	final_result = G_SIMPLE_ASYNC_RESULT (user_data);
+
+	cancellable = g_cancellable_get_current ();
+	g_cancellable_pop_current (cancellable);
+	g_object_unref (cancellable);
+
+	length = g_output_stream_splice_finish (
+		G_OUTPUT_STREAM (source), result, &error);
+	if (error != NULL)
+		goto fail;
+
+	data = g_memory_output_stream_get_data (
+		G_MEMORY_OUTPUT_STREAM (source));
+
+	attachment = E_ATTACHMENT (
+		g_async_result_get_source_object (
+		G_ASYNC_RESULT (final_result)));
+
+	if (e_attachment_is_rfc822 (attachment))
+		wrapper = (CamelDataWrapper *) camel_mime_message_new ();
+	else
+		wrapper = camel_data_wrapper_new ();
+
+	content_type = e_attachment_get_content_type (attachment);
+	mime_type = g_content_type_get_mime_type (content_type);
+
+	stream = camel_stream_mem_new_with_buffer (data, length);
+	camel_data_wrapper_construct_from_stream (wrapper, stream);
+	camel_data_wrapper_set_mime_type (wrapper, mime_type);
+	camel_object_unref (stream);
+
+	mime_part = camel_mime_part_new ();
+	camel_medium_set_content_object (CAMEL_MEDIUM (mime_part), wrapper);
+
+	g_simple_async_result_set_op_res_gpointer (
+		final_result, mime_part, camel_object_unref);
+
+	g_simple_async_result_complete (final_result);
+
+	camel_object_unref (wrapper);
+	g_free (mime_type);
+
+	return;
+
+fail:
+	g_simple_async_result_set_from_error (final_result, error);
+	g_simple_async_result_complete (final_result);
+	g_error_free (error);
+}
+
+static void
+attachment_build_mime_part_read_cb (GObject *source,
+                                    GAsyncResult *result,
+                                    BuildMimePartData *data)
+{
+	GFileInputStream *input_stream;
+	GOutputStream *output_stream;
+	GCancellable *cancellable;
+	GError *error = NULL;
+
+	input_stream = g_file_read_finish (G_FILE (source), result, &error);
+	if (error != NULL)
+		goto fail;
+
+	output_stream = g_memory_output_stream_new (
+		NULL, 0, g_realloc, g_free);
+
+	g_output_stream_splice_async (
+		output_stream, G_INPUT_STREAM (input_stream),
+		G_OUTPUT_STREAM_SPLICE_CLOSE_SOURCE |
+		G_OUTPUT_STREAM_SPLICE_CLOSE_TARGET,
+		G_PRIORITY_DEFAULT, cancellable,
+		attachment_build_mime_part_splice_cb, result);
+
+	g_cancellable_push_current (cancellable);
+
+	g_object_unref (input_stream);
+	g_object_unref (output_stream);
+
+	return;
+
+fail:
+	g_simple_async_result_set_from_error (final_result, error);
+	g_simple_async_result_complete (final_result);
+	g_error_free (error);
+}
+
+static gboolean
+attachment_build_mime_part_idle_cb (BuildMimePartData *data)
+{
+	GObject *source;
+	GAsyncResult *result;
+	GFileInfo *file_info;
+	GFile *file;
+	GError *error = NULL;
+
+	if (g_cancellable_set_error_if_cancelled (data->cancellable, &error))
+		goto cancelled;
+
+	result = G_ASYNC_RESULT (data->simple);
+	source = g_async_result_get_source_object (result);
+	file_info = e_attachment_get_file_info (E_ATTACHMENT (source));
+
+	/* Poll again on the next idle. */
+	if (!G_IS_FILE_INFO (file_info))
+		return TRUE;
+
+	/* We have a GFileInfo, so on to step 2. */
+
+	data->file_info = g_file_info_dup (file_info);
+	file = e_attachment_get_file (E_ATTACHMENT (source));
+
+	/* Because Camel's stream API is synchronous and not
+	 * cancellable, we have to asynchronously read the file
+	 * into memory and then encode it to a MIME part.  That
+	 * means double buffering the file contents in memory,
+	 * unfortunately. */
+	g_file_read_async (
+		file, data->io_priority, data->cancellable,
+		attachment_build_mime_part_read_cb, data);
+
+	return FALSE;
+
+cancelled:
+	g_simple_async_result_set_op_res_gboolean (data->simple, FALSE);
+	g_simple_async_result_set_from_error (data->simple, error);
+	g_simple_async_result_complete (data->simple);
+
+	build_mime_part_data_free (data);
+	g_error_free (error);
+
+	return FALSE;
+}
+
+void
+e_attachment_build_mime_part_async (EAttachment *attachment,
+                                    GCancellable *cancellable,
+                                    GAsyncReadyCallback callback,
+                                    gpointer user_data)
+{
+	CamelMimePart *mime_part;
+	GSimpleAsyncResult *result;
+	GFile *file;
+
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+	g_return_if_fail (callback != NULL);
+
+	file = e_attachment_get_file (attachment);
+	mime_part = e_attachment_get_mime_part (attachment);
+	g_return_if_fail (file != NULL || mime_part != NULL);
+
+	result = g_simple_async_result_new (
+		G_OBJECT (attachment), callback, user_data,
+		e_attachment_build_mime_part_async);
+
+	/* First try the easy way out. */
+	if (CAMEL_IS_MIME_PART (mime_part)) {
+		camel_object_ref (mime_part);
+		g_simple_async_result_set_op_res_gpointer (
+			result, mime_part, camel_object_unref);
+		g_simple_async_result_complete_in_idle (result);
+		return;
+	}
+
+	/* XXX g_cancellable_push_current() documentation lies.
+	 *     The function rejects NULL pointers, so create a
+	 *     dummy GCancellable if necessary. */
+	if (cancellable == NULL)
+		cancellable = g_cancellable_new ();
+	else
+		g_object_ref (cancellable);
+
+	/* Because Camel's stream API is synchronous and not
+	 * cancellable, we have to asynchronously read the file
+	 * into memory and then encode it to a MIME part.  That
+	 * means it's double buffered, unfortunately. */
+	g_file_read_async (
+		file, G_PRIORITY_DEFAULT, cancellable,
+		attachment_build_mime_part_read_cb, result);
+
+	g_cancellable_push_current (cancellable);
+}
+
+CamelMimePart *
+e_attachment_build_mime_part_finish (EAttachment *attachment,
+                                     GAsyncResult *result,
+                                     GError **error)
+{
+	CamelMimePart *mime_part;
+	GSimpleAsyncResult *simple_result;
+	gboolean async_result_is_valid;
+	gpointer source_tag;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
+	g_return_val_if_fail (G_IS_ASYNC_RESULT (result), NULL);
+
+	source_tag = e_attachment_build_mime_part_async;
+	async_result_is_valid = g_simple_async_result_is_valid (
+		result, G_OBJECT (attachment), source_tag);
+	g_return_val_if_fail (async_result_is_valid, NULL);
+
+	simple_result = G_SIMPLE_ASYNC_RESULT (result);
+	g_simple_async_result_propagate_error (simple_result, error);
+	mime_part = g_simple_async_result_get_op_res_gpointer (simple_result);
+	attachment_file_info_to_mime_part (attachment, mime_part);
+
+	if (CAMEL_IS_MIME_PART (mime_part))
+		camel_object_ref (mime_part);
+
+	g_object_unref (result);
+
+	return mime_part;
+}
+#endif
+
+void
+_e_attachment_set_reference (EAttachment *attachment,
+                             GtkTreeRowReference *reference)
+{
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+	g_return_if_fail (reference != NULL);
+
+	gtk_tree_row_reference_free (attachment->priv->reference);
+	attachment->priv->reference = gtk_tree_row_reference_copy (reference);
 }

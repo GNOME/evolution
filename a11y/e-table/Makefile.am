@@ -1,6 +1,7 @@
 INCLUDES =					\
-	-I$(top_srcdir)                         \
-	-I$(top_srcdir)/widgets                 \
+	-I$(top_srcdir)				\
+	-I$(top_srcdir)/widgets			\
+	$(E_UTIL_CFLAGS)			\
 	$(GNOME_PLATFORM_CFLAGS)		\
         -DG_LOG_DOMAIN=\"e-table\"
 

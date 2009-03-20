@@ -618,13 +618,15 @@ create_default_shell (void)
 		shell, "window-destroyed",
 		G_CALLBACK (shell_window_destroyed_cb), NULL);
 
-	g_signal_connect (
-		master_client, "save_yourself",
-		G_CALLBACK (master_client_save_yourself_cb), shell);
+	if (master_client != NULL) {
+		g_signal_connect (
+			master_client, "save_yourself",
+			G_CALLBACK (master_client_save_yourself_cb), shell);
 
-	g_signal_connect (
-		master_client, "die",
-		G_CALLBACK (master_client_die_cb), shell);
+		g_signal_connect (
+			master_client, "die",
+			G_CALLBACK (master_client_die_cb), shell);
+	}
 
 	g_object_unref (conf_client);
 

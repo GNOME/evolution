@@ -29,9 +29,9 @@
 
 struct _EAttachmentDialogPrivate {
 	EAttachment *attachment;
-	GtkWidget *filename_entry;
+	GtkWidget *display_name_entry;
 	GtkWidget *description_entry;
-	GtkWidget *mime_type_label;
+	GtkWidget *content_type_label;
 	GtkWidget *disposition_checkbox;
 };
 
@@ -46,56 +46,54 @@ static void
 attachment_dialog_update (EAttachmentDialog *dialog)
 {
 	EAttachment *attachment;
-	CamelMimePart *mime_part;
+	GFileInfo *file_info;
 	GtkWidget *widget;
+	const gchar *content_type;
+	const gchar *display_name;
+	const gchar *description;
+	const gchar *disposition;
 	gboolean sensitive;
-	const gchar *text;
 	gboolean active;
 
-	/* XXX This is too complex.  I shouldn't have to use the
-	 *     MIME part at all. */
-
 	attachment = e_attachment_dialog_get_attachment (dialog);
-	if (attachment != NULL)
-		mime_part = e_attachment_get_mime_part (attachment);
-	else
-		mime_part = NULL;
 
-	sensitive = (attachment != NULL);
+	if (E_IS_ATTACHMENT (attachment)) {
+		file_info = e_attachment_get_file_info (attachment);
+		content_type = e_attachment_get_content_type (attachment);
+		display_name = e_attachment_get_display_name (attachment);
+		description = e_attachment_get_description (attachment);
+		disposition = e_attachment_get_disposition (attachment);
+	} else {
+		file_info = NULL;
+		content_type = NULL;
+		display_name = NULL;
+		description = NULL;
+		disposition = NULL;
+	}
+
+	sensitive = G_IS_FILE_INFO (file_info);
+
 	gtk_dialog_set_response_sensitive (
 		GTK_DIALOG (dialog), GTK_RESPONSE_OK, sensitive);
 
-	text = NULL;
-	if (attachment != NULL)
-		text = e_attachment_get_filename (attachment);
-	text = (text != NULL) ? text : "";
-	widget = dialog->priv->filename_entry;
+	if (display_name == NULL)
+		display_name = "";
+	widget = dialog->priv->display_name_entry;
 	gtk_widget_set_sensitive (widget, sensitive);
-	gtk_entry_set_text (GTK_ENTRY (widget), text);
+	gtk_entry_set_text (GTK_ENTRY (widget), display_name);
 
-	text = NULL;
-	if (attachment != NULL)
-		text = e_attachment_get_description (attachment);
-	text = (text != NULL) ? text : "";
+	if (description == NULL)
+		description = "";
 	widget = dialog->priv->description_entry;
 	gtk_widget_set_sensitive (widget, sensitive);
-	gtk_entry_set_text (GTK_ENTRY (widget), text);
+	gtk_entry_set_text (GTK_ENTRY (widget), description);
 
-	text = NULL;
-	if (attachment != NULL)
-		text = e_attachment_get_mime_type (attachment);
-	text = (text != NULL) ? text : "";
-	widget = dialog->priv->mime_type_label;
-	gtk_label_set_text (GTK_LABEL (widget), text);
+	if (content_type == NULL)
+		content_type = "";
+	widget = dialog->priv->content_type_label;
+	gtk_label_set_text (GTK_LABEL (widget), content_type);
 
-	active = FALSE;
-	if (mime_part != NULL) {
-		const gchar *disposition;
-
-		disposition = camel_mime_part_get_disposition (mime_part);
-		active = (g_ascii_strcasecmp (disposition, "inline") == 0);
-	} else if (attachment != NULL)
-		active = e_attachment_is_inline (attachment);
+	active = (g_strcmp0 (disposition, "inline") == 0);
 	widget = dialog->priv->disposition_checkbox;
 	gtk_widget_set_sensitive (widget, sensitive);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), active);
@@ -147,9 +145,9 @@ attachment_dialog_dispose (GObject *object)
 		priv->attachment = NULL;
 	}
 
-	if (priv->filename_entry != NULL) {
-		g_object_unref (priv->filename_entry);
-		priv->filename_entry = NULL;
+	if (priv->display_name_entry != NULL) {
+		g_object_unref (priv->display_name_entry);
+		priv->display_name_entry = NULL;
 	}
 
 	if (priv->description_entry != NULL) {
@@ -157,9 +155,9 @@ attachment_dialog_dispose (GObject *object)
 		priv->description_entry = NULL;
 	}
 
-	if (priv->mime_type_label != NULL) {
-		g_object_unref (priv->mime_type_label);
-		priv->mime_type_label = NULL;
+	if (priv->content_type_label != NULL) {
+		g_object_unref (priv->content_type_label);
+		priv->content_type_label = NULL;
 	}
 
 	if (priv->disposition_checkbox != NULL) {
@@ -196,7 +194,8 @@ attachment_dialog_response (GtkDialog *dialog,
 	EAttachmentDialogPrivate *priv;
 	EAttachment *attachment;
 	GtkToggleButton *button;
-	GtkEntry *entry;
+	GFileInfo *file_info;
+	const gchar *attribute;
 	const gchar *text;
 	gboolean active;
 
@@ -204,16 +203,19 @@ attachment_dialog_response (GtkDialog *dialog,
 		return;
 
 	priv = E_ATTACHMENT_DIALOG_GET_PRIVATE (dialog);
-	g_return_if_fail (priv->attachment != NULL);
+	g_return_if_fail (E_IS_ATTACHMENT (priv->attachment));
 	attachment = priv->attachment;
 
-	entry = GTK_ENTRY (priv->filename_entry);
-	text = gtk_entry_get_text (entry);
-	e_attachment_set_filename (attachment, text);
+	file_info = e_attachment_get_file_info (attachment);
+	g_return_if_fail (G_IS_FILE_INFO (file_info));
 
-	entry = GTK_ENTRY (priv->description_entry);
-	text = gtk_entry_get_text (entry);
-	e_attachment_set_description (attachment, text);
+	attribute = G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME;
+	text = gtk_entry_get_text (GTK_ENTRY (priv->display_name_entry));
+	g_file_info_set_attribute_string (file_info, attribute, text);
+
+	attribute = G_FILE_ATTRIBUTE_STANDARD_DESCRIPTION;
+	text = gtk_entry_get_text (GTK_ENTRY (priv->description_entry));
+	g_file_info_set_attribute_string (file_info, attribute, text);
 
 	button = GTK_TOGGLE_BUTTON (priv->disposition_checkbox);
 	active = gtk_toggle_button_get_active (button);
@@ -289,13 +291,13 @@ attachment_dialog_init (EAttachmentDialog *dialog)
 	gtk_table_attach (
 		GTK_TABLE (container), widget,
 		1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	dialog->priv->filename_entry = g_object_ref (widget);
+	dialog->priv->display_name_entry = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new_with_mnemonic (_("_Filename:"));
 	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
 	gtk_label_set_mnemonic_widget (
-		GTK_LABEL (widget), dialog->priv->filename_entry);
+		GTK_LABEL (widget), dialog->priv->display_name_entry);
 	gtk_table_attach (
 		GTK_TABLE (container), widget,
 		0, 1, 0, 1, GTK_FILL, 0, 0, 0);
@@ -324,7 +326,7 @@ attachment_dialog_init (EAttachmentDialog *dialog)
 	gtk_table_attach (
 		GTK_TABLE (container), widget,
 		1, 2, 2, 3, GTK_FILL | GTK_EXPAND, 0, 0, 0);
-	dialog->priv->mime_type_label = g_object_ref (widget);
+	dialog->priv->content_type_label = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new (_("MIME Type:"));

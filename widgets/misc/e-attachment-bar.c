@@ -80,7 +80,6 @@
 struct _EAttachmentBarPrivate {
 	gboolean batch_unref;
 	GPtrArray *attachments;
-	gchar *current_folder;
 	char *path;
 
 	GtkUIManager *ui_manager;
@@ -89,17 +88,11 @@ struct _EAttachmentBarPrivate {
 	GtkActionGroup *open_actions;
 	guint merge_id;
 
-	gchar *background_filename;
-	gchar *background_options;
-
 	guint editable : 1;
 };
 
 enum {
 	PROP_0,
-	PROP_BACKGROUND_FILENAME,
-	PROP_BACKGROUND_OPTIONS,
-	PROP_CURRENT_FOLDER,
 	PROP_EDITABLE,
 	PROP_UI_MANAGER
 };
@@ -127,78 +120,6 @@ static const gchar *ui =
 "    <placeholder name='open-actions'/>"
 "  </popup>"
 "</ui>";
-
-static void
-action_add_cb (GtkAction *action,
-               EAttachmentBar *attachment_bar)
-{
-	GtkWidget *dialog;
-	GtkWidget *option;
-	GSList *uris, *iter;
-	const gchar *disposition;
-	gboolean active;
-	gpointer parent;
-	gint response;
-
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (attachment_bar));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
-
-	dialog = gtk_file_chooser_dialog_new (
-		_("Insert Attachment"), parent,
-		GTK_FILE_CHOOSER_ACTION_OPEN,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		_("A_ttach"), GTK_RESPONSE_OK,
-		NULL);
-
-	gtk_dialog_set_default_response (
-		GTK_DIALOG (dialog), GTK_RESPONSE_OK);
-	gtk_file_chooser_set_local_only (
-		GTK_FILE_CHOOSER (dialog), FALSE);
-	gtk_file_chooser_set_select_multiple (
-		GTK_FILE_CHOOSER (dialog), TRUE);
-	gtk_window_set_icon_name (
-		GTK_WINDOW (dialog), "mail-attachment");
-
-	option = gtk_check_button_new_with_mnemonic (
-		_("_Suggest automatic display of attachment"));
-	gtk_file_chooser_set_extra_widget (
-		GTK_FILE_CHOOSER (dialog), option);
-	gtk_widget_show (option);
-
-	response = e_attachment_bar_file_chooser_dialog_run (
-		attachment_bar, dialog);
-
-	if (response != GTK_RESPONSE_OK)
-		goto exit;
-
-	uris = gtk_file_chooser_get_uris (GTK_FILE_CHOOSER (dialog));
-	active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (option));
-	disposition = active ? "inline" : "attachment";
-
-	for (iter = uris; iter != NULL; iter = iter->next) {
-		CamelURL *url;
-
-		url = camel_url_new (iter->data, NULL);
-		if (url == NULL)
-			continue;
-
-		/* XXX Do we really need two different attach functions? */
-		if (g_ascii_strcasecmp (url->protocol, "file") == 0)
-			e_attachment_bar_attach (
-				attachment_bar, url->path, disposition);
-		else
-			e_attachment_bar_attach_remote_file (
-				attachment_bar, iter->data, disposition);
-
-		camel_url_free (url);
-	}
-
-	g_slist_foreach (uris, (GFunc) g_free, NULL);
-	g_slist_free (uris);
-
-exit:
-	gtk_widget_destroy (dialog);
-}
 
 static void
 action_properties_cb (GtkAction *action,
@@ -230,33 +151,6 @@ action_properties_cb (GtkAction *action,
 		attachment = array->pdata[index];
 		e_attachment_edit (attachment, parent);
 	}
-}
-
-static void
-action_recent_cb (GtkAction *action,
-                  EAttachmentBar *attachment_bar)
-{
-	GtkRecentChooser *chooser;
-	GFile *file;
-	gchar *uri;
-
-	chooser = GTK_RECENT_CHOOSER (action);
-
-	/* Wish: gtk_recent_chooser_get_current_file() */
-	uri = gtk_recent_chooser_get_current_uri (chooser);
-	file = g_file_new_for_uri (uri);
-	g_free (uri);
-
-	if (g_file_is_native (file))
-		e_attachment_bar_attach (
-			E_ATTACHMENT_BAR (attachment_bar),
-			g_file_get_path (file), "attachment");
-	else
-		e_attachment_bar_attach_remote_file (
-			E_ATTACHMENT_BAR (attachment_bar),
-			g_file_get_uri (file), "attachment");
-
-	g_object_unref (file);
 }
 
 static void
@@ -408,47 +302,6 @@ action_set_background_cb (GtkAction *action,
 		g_error_free (error);
 	}
 }
-
-static GtkActionEntry standard_entries[] = {
-
-	{ "save-as",
-	  GTK_STOCK_SAVE_AS,
-	  NULL,
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_save_as_cb) },
-
-	{ "set-background",
-	  NULL,
-	  N_("Set as _Background"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_set_background_cb) }
-};
-
-static GtkActionEntry editable_entries[] = {
-
-	{ "add",
-	  GTK_STOCK_ADD,
-	  N_("A_dd Attachment..."),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_add_cb) },
-
-	{ "properties",
-	  GTK_STOCK_PROPERTIES,
-	  NULL,
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_properties_cb) },
-
-	{ "remove",
-	  GTK_STOCK_REMOVE,
-	  NULL,
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_remove_cb) }
-};
 
 static void
 attachment_bar_show_popup_menu (EAttachmentBar *attachment_bar,
@@ -950,24 +803,6 @@ attachment_bar_set_property (GObject *object,
                              GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_BACKGROUND_FILENAME:
-			e_attachment_bar_set_background_filename (
-				E_ATTACHMENT_BAR (object),
-				g_value_get_string (value));
-			return;
-
-		case PROP_BACKGROUND_OPTIONS:
-			e_attachment_bar_set_background_options (
-				E_ATTACHMENT_BAR (object),
-				g_value_get_string (value));
-			return;
-
-		case PROP_CURRENT_FOLDER:
-			e_attachment_bar_set_current_folder (
-				E_ATTACHMENT_BAR (object),
-				g_value_get_string (value));
-			return;
-
 		case PROP_EDITABLE:
 			e_attachment_bar_set_editable (
 				E_ATTACHMENT_BAR (object),
@@ -985,27 +820,6 @@ attachment_bar_get_property (GObject *object,
                              GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_BACKGROUND_FILENAME:
-			g_value_set_string (
-				value,
-				e_attachment_bar_get_background_filename (
-				E_ATTACHMENT_BAR (object)));
-			return;
-
-		case PROP_BACKGROUND_OPTIONS:
-			g_value_set_string (
-				value,
-				e_attachment_bar_get_background_options (
-				E_ATTACHMENT_BAR (object)));
-			return;
-
-		case PROP_CURRENT_FOLDER:
-			g_value_set_string (
-				value,
-				e_attachment_bar_get_current_folder (
-				E_ATTACHMENT_BAR (object)));
-			return;
-
 		case PROP_EDITABLE:
 			g_value_set_boolean (
 				value,
@@ -1077,11 +891,7 @@ attachment_bar_finalize (GObject *object)
 	priv = E_ATTACHMENT_BAR_GET_PRIVATE (object);
 
 	g_ptr_array_free (priv->attachments, TRUE);
-	g_free (priv->current_folder);
 	g_free (priv->path);
-
-	g_free (priv->background_filename);
-	g_free (priv->background_options);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
@@ -1092,25 +902,13 @@ attachment_bar_constructed (GObject *object)
 {
 	EAttachmentBarPrivate *priv;
 	GtkActionGroup *action_group;
-	GConfBridge *bridge;
-	const gchar *prop;
-	const gchar *key;
 
 	priv = E_ATTACHMENT_BAR_GET_PRIVATE (object);
 	action_group = priv->editable_actions;
-	bridge = gconf_bridge_get ();
 
 	e_mutual_binding_new (
 		G_OBJECT (object), "editable",
 		G_OBJECT (action_group), "visible");
-
-	prop = "background-filename";
-	key = "/desktop/gnome/background/picture_filename";
-	gconf_bridge_bind_property (bridge, key, object, prop);
-
-	prop = "background-options";
-	key = "/desktop/gnome/background/picture_options";
-	gconf_bridge_bind_property (bridge, key, object, prop);
 }
 
 static gboolean
@@ -1428,39 +1226,6 @@ attachment_bar_class_init (EAttachmentBarClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_BACKGROUND_FILENAME,
-		g_param_spec_string (
-			"background-filename",
-			"Background Filename",
-			NULL,
-			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_BACKGROUND_OPTIONS,
-		g_param_spec_string (
-			"background-options",
-			"Background Options",
-			NULL,
-			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_CURRENT_FOLDER,
-		g_param_spec_string (
-			"current-folder",
-			"Current Folder",
-			NULL,
-			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
-
-	g_object_class_install_property (
-		object_class,
 		PROP_EDITABLE,
 		g_param_spec_boolean (
 			"editable",
@@ -1503,10 +1268,7 @@ static void
 attachment_bar_init (EAttachmentBar *bar)
 {
 	GnomeIconList *icon_list;
-	GtkUIManager *ui_manager;
-	GtkActionGroup *action_group;
 	gint icon_width, window_height;
-	const gchar *domain = GETTEXT_PACKAGE;
 	GError *error = NULL;
 
 	bar->priv = E_ATTACHMENT_BAR_GET_PRIVATE (bar);
@@ -1532,38 +1294,6 @@ attachment_bar_init (EAttachmentBar *bar)
 	gnome_icon_list_set_icon_border (icon_list, ICON_BORDER);
 	gnome_icon_list_set_text_spacing (icon_list, ICON_TEXT_SPACING);
 	gnome_icon_list_set_selection_mode (icon_list, GTK_SELECTION_MULTIPLE);
-
-	ui_manager = gtk_ui_manager_new ();
-	bar->priv->ui_manager = ui_manager;
-	bar->priv->merge_id = gtk_ui_manager_new_merge_id (ui_manager);
-
-	action_group = gtk_action_group_new ("standard");
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_action_group_add_actions (
-		action_group, standard_entries,
-		G_N_ELEMENTS (standard_entries), bar);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	bar->priv->standard_actions = action_group;
-
-	action_group = gtk_action_group_new ("editable");
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_action_group_add_actions (
-		action_group, editable_entries,
-		G_N_ELEMENTS (editable_entries), bar);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	bar->priv->editable_actions = action_group;
-
-	action_group = gtk_action_group_new ("open");
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	bar->priv->open_actions = action_group;
-
-	/* Because we are loading from a hard-coded string, there is
-	 * no chance of I/O errors.  Failure here imples a malformed
-	 * UI definition.  Full stop. */
-	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
-	if (error != NULL)
-		g_error ("%s", error->message);
 }
 
 GType
@@ -2038,151 +1768,12 @@ e_attachment_bar_attach_mime_part (EAttachmentBar *bar,
 	e_attachment_bar_add_attachment (bar, attachment);
 }
 
-GtkAction *
-e_attachment_bar_recent_action_new (EAttachmentBar *bar,
-                                    const gchar *action_name,
-                                    const gchar *action_label)
-{
-	GtkAction *action;
-	GtkRecentChooser *chooser;
-
-	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (bar), NULL);
-
-	action = gtk_recent_action_new (
-		action_name, action_label, NULL, NULL);
-	gtk_recent_action_set_show_numbers (GTK_RECENT_ACTION (action), TRUE);
-
-	chooser = GTK_RECENT_CHOOSER (action);
-	gtk_recent_chooser_set_show_icons (chooser, TRUE);
-	gtk_recent_chooser_set_show_not_found (chooser, FALSE);
-	gtk_recent_chooser_set_show_private (chooser, FALSE);
-	gtk_recent_chooser_set_show_tips (chooser, TRUE);
-	gtk_recent_chooser_set_sort_type (chooser, GTK_RECENT_SORT_MRU);
-
-	g_signal_connect (
-		action, "item-activated",
-		G_CALLBACK (action_recent_cb), bar);
-
-	return action;
-}
-
-gint
-e_attachment_bar_file_chooser_dialog_run (EAttachmentBar *attachment_bar,
-                                          GtkWidget *dialog)
-{
-	GtkFileChooser *file_chooser;
-	gint response = GTK_RESPONSE_NONE;
-	const gchar *current_folder;
-	gboolean save_folder;
-
-	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (attachment_bar), response);
-	g_return_val_if_fail (GTK_IS_FILE_CHOOSER_DIALOG (dialog), response);
-
-	file_chooser = GTK_FILE_CHOOSER (dialog);
-	current_folder = e_attachment_bar_get_current_folder (attachment_bar);
-	gtk_file_chooser_set_current_folder (file_chooser, current_folder);
-
-	response = gtk_dialog_run (GTK_DIALOG (dialog));
-
-	save_folder =
-		(response == GTK_RESPONSE_ACCEPT) ||
-		(response == GTK_RESPONSE_OK) ||
-		(response == GTK_RESPONSE_YES) ||
-		(response == GTK_RESPONSE_APPLY);
-
-	if (save_folder) {
-		gchar *folder;
-
-		folder = gtk_file_chooser_get_current_folder (file_chooser);
-		e_attachment_bar_set_current_folder (attachment_bar, folder);
-		g_free (folder);
-	}
-
-	return response;
-}
-
 void
 e_attachment_bar_update_actions (EAttachmentBar *attachment_bar)
 {
 	g_return_if_fail (E_IS_ATTACHMENT_BAR (attachment_bar));
 
 	g_signal_emit (attachment_bar, signals[UPDATE_ACTIONS], 0);
-}
-
-const gchar *
-e_attachment_bar_get_background_filename (EAttachmentBar *attachment_bar)
-{
-	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (attachment_bar), NULL);
-
-	return attachment_bar->priv->background_filename;
-}
-
-void
-e_attachment_bar_set_background_filename (EAttachmentBar *attachment_bar,
-                                          const gchar *background_filename)
-{
-	EAttachmentBarPrivate *priv;
-
-	g_return_if_fail (E_IS_ATTACHMENT_BAR (attachment_bar));
-
-	if (background_filename == NULL)
-		background_filename = "";
-
-	priv = attachment_bar->priv;
-	g_free (priv->background_filename);
-	priv->background_filename = g_strdup (background_filename);
-
-	g_object_notify (G_OBJECT (attachment_bar), "background-filename");
-}
-
-const gchar *
-e_attachment_bar_get_background_options (EAttachmentBar *attachment_bar)
-{
-	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (attachment_bar), NULL);
-
-	return attachment_bar->priv->background_options;
-}
-
-void
-e_attachment_bar_set_background_options (EAttachmentBar *attachment_bar,
-                                         const gchar *background_options)
-{
-	EAttachmentBarPrivate *priv;
-
-	g_return_if_fail (E_IS_ATTACHMENT_BAR (attachment_bar));
-
-	if (background_options == NULL)
-		background_options = "none";
-
-	priv = attachment_bar->priv;
-	g_free (priv->background_options);
-	priv->background_options = g_strdup (background_options);
-
-	g_object_notify (G_OBJECT (attachment_bar), "background-options");
-}
-
-const gchar *
-e_attachment_bar_get_current_folder (EAttachmentBar *attachment_bar)
-{
-	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (attachment_bar), NULL);
-
-	return attachment_bar->priv->current_folder;
-}
-
-void
-e_attachment_bar_set_current_folder (EAttachmentBar *attachment_bar,
-                                     const gchar *current_folder)
-{
-
-	g_return_if_fail (E_IS_ATTACHMENT_BAR (attachment_bar));
-
-	if (current_folder == NULL)
-		current_folder = g_get_home_dir ();
-
-	g_free (attachment_bar->priv->current_folder);
-	attachment_bar->priv->current_folder = g_strdup (current_folder);
-
-	g_object_notify (G_OBJECT (attachment_bar), "current-folder");
 }
 
 gboolean
@@ -2202,40 +1793,4 @@ e_attachment_bar_set_editable (EAttachmentBar *attachment_bar,
 	attachment_bar->priv->editable = editable;
 
 	g_object_notify (G_OBJECT (attachment_bar), "editable");
-}
-
-GtkUIManager *
-e_attachment_bar_get_ui_manager (EAttachmentBar *attachment_bar)
-{
-	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (attachment_bar), NULL);
-
-	return attachment_bar->priv->ui_manager;
-}
-
-GtkAction *
-e_attachment_bar_get_action (EAttachmentBar *attachment_bar,
-                             const gchar *action_name)
-{
-	GtkUIManager *ui_manager;
-
-	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (attachment_bar), NULL);
-	g_return_val_if_fail (action_name != NULL, NULL);
-
-	ui_manager = e_attachment_bar_get_ui_manager (attachment_bar);
-
-	return e_lookup_action (ui_manager, action_name);
-}
-
-GtkActionGroup *
-e_attachment_bar_get_action_group (EAttachmentBar *attachment_bar,
-                                   const gchar *group_name)
-{
-	GtkUIManager *ui_manager;
-
-	g_return_val_if_fail (E_IS_ATTACHMENT_BAR (attachment_bar), NULL);
-	g_return_val_if_fail (group_name != NULL, NULL);
-
-	ui_manager = e_attachment_bar_get_ui_manager (attachment_bar);
-
-	return e_lookup_action_group (ui_manager, group_name);
 }

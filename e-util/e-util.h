@@ -27,6 +27,7 @@
 #include <gtk/gtk.h>
 #include <limits.h>
 #include <gconf/gconf-client.h>
+#include <camel/camel-object.h>
 #include <cairo.h>
 
 #include <e-util/e-marshal.h>
@@ -131,7 +132,8 @@ gboolean	e_file_lock_create		(void);
 void		e_file_lock_destroy		(void);
 gboolean 	e_file_lock_exists		(void);
 
-gchar *		e_util_guess_mime_type		(const gchar *filename, gboolean localfile);
+gchar *		e_util_guess_mime_type		(const gchar *filename,
+                                                 gboolean localfile);
 gchar *		e_util_filename_to_uri		(const gchar *filename);
 gchar *		e_util_uri_to_filename		(const gchar *uri);
 
@@ -141,7 +143,10 @@ gboolean	e_util_read_file		(const gchar *filename,
 						 gsize *read,
 						 GError **error);
 
-GSList *e_util_get_category_filter_options      (void);
+/* Camel uses its own object system, so we have to box
+ * CamelObjects to safely use them as GObject properties. */
+#define E_TYPE_CAMEL_OBJECT (e_camel_object_get_type ())
+GType		e_camel_object_get_type		(void);
 
 G_END_DECLS
 

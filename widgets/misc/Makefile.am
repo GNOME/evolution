@@ -40,8 +40,12 @@ widgetsinclude_HEADERS =			\
 	e-activity-proxy.h			\
 	e-alert-activity.h			\
 	e-attachment.h				\
-	e-attachment-bar.h			\
 	e-attachment-dialog.h			\
+	e-attachment-icon-view.h		\
+	e-attachment-paned.h			\
+	e-attachment-store.h			\
+	e-attachment-tree-view.h		\
+	e-attachment-view.h			\
 	e-calendar.h				\
 	e-calendar-item.h			\
 	e-canvas.h				\
@@ -98,8 +102,12 @@ libemiscwidgets_la_SOURCES =			\
 	e-activity-proxy.c			\
 	e-alert-activity.c			\
 	e-attachment.c				\
-	e-attachment-bar.c			\
 	e-attachment-dialog.c			\
+	e-attachment-icon-view.c		\
+	e-attachment-paned.c			\
+	e-attachment-store.c			\
+	e-attachment-tree-view.c		\
+	e-attachment-view.c			\
 	e-calendar.c				\
 	e-calendar-item.c			\
 	e-canvas.c				\

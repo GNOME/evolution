@@ -2009,7 +2009,7 @@ e_mail_reader_get_type (void)
 			NULL,  /* class_data */
 			0,     /* instance_size */
 			0,     /* n_preallocs */
-			NULL,  /* instance_init */
+			(GInstanceInitFunc) NULL,
 			NULL   /* value_table */
 		};
 

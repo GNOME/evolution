@@ -1,0 +1,110 @@
+/*
+ * e-attachment-store.h
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) version 3.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ *
+ *
+ * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
+ *
+ */
+
+#ifndef E_ATTACHMENT_STORE_H
+#define E_ATTACHMENT_STORE_H
+
+#include <gtk/gtk.h>
+#include <widgets/misc/e-attachment.h>
+
+/* Standard GObject macros */
+#define E_TYPE_ATTACHMENT_STORE \
+	(e_attachment_store_get_type ())
+#define E_ATTACHMENT_STORE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), E_TYPE_ATTACHMENT_STORE, EAttachmentStore))
+#define E_ATTACHMENT_STORE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), E_TYPE_ATTACHMENT_STORE, EAttachmentStoreClass))
+#define E_IS_ATTACHMENT_STORE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), E_TYPE_ATTACHMENT_STORE))
+#define E_IS_ATTACHMENT_STORE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), E_TYPE_ATTACHMENT_STORE))
+#define E_ATTACHMENT_STORE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), E_TYPE_ATTACHMENT_STORE, EAttachmentStoreClass))
+
+G_BEGIN_DECLS
+
+typedef struct _EAttachmentStore EAttachmentStore;
+typedef struct _EAttachmentStoreClass EAttachmentStoreClass;
+typedef struct _EAttachmentStorePrivate EAttachmentStorePrivate;
+
+struct _EAttachmentStore {
+	GtkListStore parent;
+	EAttachmentStorePrivate *priv;
+};
+
+struct _EAttachmentStoreClass {
+	GtkListStoreClass parent_class;
+};
+
+enum {
+	E_ATTACHMENT_STORE_COLUMN_ACTIVITY,	/* E_TYPE_ACTIVITY */
+	E_ATTACHMENT_STORE_COLUMN_ATTACHMENT,	/* E_TYPE_ATTACHMENT */
+	E_ATTACHMENT_STORE_COLUMN_CONTENT_TYPE, /* G_TYPE_STRING */
+	E_ATTACHMENT_STORE_COLUMN_DISPLAY_NAME,	/* G_TYPE_STRING */
+	E_ATTACHMENT_STORE_COLUMN_ICON_CAPTION,	/* G_TYPE_STRING */
+	E_ATTACHMENT_STORE_COLUMN_LARGE_PIXBUF,	/* GDK_TYPE_PIXBUF */
+	E_ATTACHMENT_STORE_COLUMN_SMALL_PIXBUF,	/* GDK_TYPE_PIXBUF */
+	E_ATTACHMENT_STORE_COLUMN_SIZE,		/* G_TYPE_UINT64 */
+	E_ATTACHMENT_STORE_NUM_COLUMNS
+};
+
+GType		e_attachment_store_get_type	(void);
+GtkTreeModel *	e_attachment_store_new		(void);
+void		e_attachment_store_add_attachment
+						(EAttachmentStore *store,
+						 EAttachment *attachment);
+gboolean	e_attachment_store_remove_attachment
+						(EAttachmentStore *store,
+						 EAttachment *attachment);
+void		e_attachment_store_add_to_multipart
+						(EAttachmentStore *store,
+						 CamelMultipart *multipart,
+						 const gchar *default_charset);
+const gchar *	e_attachment_store_get_current_folder
+						(EAttachmentStore *store);
+void		e_attachment_store_set_current_folder
+						(EAttachmentStore *store,
+						 const gchar *current_folder);
+guint		e_attachment_store_get_num_attachments
+						(EAttachmentStore *store);
+guint		e_attachment_store_get_num_downloading
+						(EAttachmentStore *store);
+guint64		e_attachment_store_get_total_size
+						(EAttachmentStore *store);
+gint		e_attachment_store_run_file_chooser_dialog
+						(EAttachmentStore *store,
+						 GtkWidget *dialog);
+void		e_attachment_store_run_load_dialog
+						(EAttachmentStore *store,
+						 GtkWindow *parent);
+void		e_attachment_store_run_save_dialog
+						(EAttachmentStore *store,
+						 EAttachment *attachment,
+						 GtkWindow *parent);
+
+G_END_DECLS
+
+#endif /* E_ATTACHMENT_STORE_H */

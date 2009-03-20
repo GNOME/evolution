@@ -21,6 +21,7 @@
 
 #include "e-activity.h"
 
+#include <stdarg.h>
 #include <glib/gi18n.h>
 
 #define E_ACTIVITY_GET_PRIVATE(obj) \
@@ -32,6 +33,8 @@ struct _EActivityPrivate {
 	gchar *primary_text;
 	gchar *secondary_text;
 	gdouble percent;
+	guint idle_id;
+	GError *error;
 
 	guint allow_cancel	: 1;
 	guint blocking		: 1;
@@ -60,6 +63,24 @@ enum {
 
 static gpointer parent_class;
 static gulong signals[LAST_SIGNAL];
+
+static gboolean
+activity_idle_cancel_cb (EActivity *activity)
+{
+	activity->priv->idle_id = 0;
+	e_activity_cancel (activity);
+
+	return FALSE;
+}
+
+static gboolean
+activity_idle_complete_cb (EActivity *activity)
+{
+	activity->priv->idle_id = 0;
+	e_activity_complete (activity);
+
+	return FALSE;
+}
 
 static void
 activity_set_property (GObject *object,
@@ -178,6 +199,12 @@ activity_finalize (GObject *object)
 	g_free (priv->primary_text);
 	g_free (priv->secondary_text);
 
+	if (priv->idle_id > 0)
+		g_source_remove (priv->idle_id);
+
+	if (priv->error != NULL)
+		g_error_free (priv->error);
+
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
@@ -222,12 +249,22 @@ static void
 activity_cancelled (EActivity *activity)
 {
 	activity->priv->cancelled = TRUE;
+
+	if (activity->priv->idle_id > 0) {
+		g_source_remove (activity->priv->idle_id);
+		activity->priv->idle_id = 0;
+	}
 }
 
 static void
 activity_completed (EActivity *activity)
 {
 	activity->priv->completed = TRUE;
+
+	if (activity->priv->idle_id > 0) {
+		g_source_remove (activity->priv->idle_id);
+		activity->priv->idle_id = 0;
+	}
 }
 
 static void
@@ -401,11 +438,29 @@ e_activity_new (const gchar *primary_text)
 		"primary-text", primary_text, NULL);
 }
 
+EActivity *
+e_activity_newv (const gchar *format, ...)
+{
+	EActivity *activity;
+	gchar *primary_text;
+	va_list args;
+
+	va_start (args, format);
+	primary_text = g_strdup_vprintf (format, args);
+	activity = e_activity_new (primary_text);
+	g_free (primary_text);
+	va_end (args);
+
+	return activity;
+}
+
 void
 e_activity_cancel (EActivity *activity)
 {
 	g_return_if_fail (E_IS_ACTIVITY (activity));
-	g_return_if_fail (activity->priv->allow_cancel);
+
+	if (!activity->priv->allow_cancel);
+		return;
 
 	if (activity->priv->cancelled)
 		return;
@@ -414,6 +469,18 @@ e_activity_cancel (EActivity *activity)
 		return;
 
 	g_signal_emit (activity, signals[CANCELLED], 0);
+}
+
+void
+e_activity_cancel_in_idle (EActivity *activity)
+{
+	g_return_if_fail (E_IS_ACTIVITY (activity));
+
+	if (activity->priv->idle_id > 0)
+		g_source_remove (activity->priv->idle_id);
+
+	activity->priv->idle_id = g_idle_add (
+		(GSourceFunc) activity_idle_cancel_cb, activity);
 }
 
 void
@@ -428,6 +495,18 @@ e_activity_complete (EActivity *activity)
 		return;
 
 	g_signal_emit (activity, signals[COMPLETED], 0);
+}
+
+void
+e_activity_complete_in_idle (EActivity *activity)
+{
+	g_return_if_fail (E_IS_ACTIVITY (activity));
+
+	if (activity->priv->idle_id > 0)
+		g_source_remove (activity->priv->idle_id);
+
+	activity->priv->idle_id = g_idle_add (
+		(GSourceFunc) activity_idle_complete_cb, activity);
 }
 
 void
@@ -601,4 +680,35 @@ e_activity_set_secondary_text (EActivity *activity,
 	activity->priv->secondary_text = g_strdup (secondary_text);
 
 	g_object_notify (G_OBJECT (activity), "secondary-text");
+}
+
+void
+e_activity_set_error (EActivity *activity,
+                      const GError *error)
+{
+	g_return_if_fail (E_IS_ACTIVITY (activity));
+
+	if (activity->priv->error != NULL) {
+		g_error_free (activity->priv->error);
+		activity->priv->error = NULL;
+	}
+
+	if (error != NULL)
+		activity->priv->error = g_error_copy (error);
+}
+
+gboolean
+e_activity_propagate_error (EActivity *activity,
+                            GError **destination)
+{
+	gboolean propagated;
+
+	g_return_val_if_fail (E_IS_ACTIVITY (activity), FALSE);
+
+	if ((propagated = (activity->priv->error != NULL))) {
+		g_propagate_error (destination, activity->priv->error);
+		activity->priv->error = NULL;
+	}
+
+	return propagated;
 }

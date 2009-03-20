@@ -34,7 +34,7 @@ INCLUDES =								\
 	-DSEARCH_RULE_DIR=\"$(ruledir)\"				\
 	-DG_LOG_DOMAIN=\"e-utils\"					\
 	$(GNOME_PILOT_CFLAGS)						\
-	$(ICONV_CFLAGS)                        				\
+	$(ICONV_CFLAGS)							\
 	$(E_UTIL_CFLAGS)
 
 privsolib_LTLIBRARIES = libeutil.la libeconduit.la

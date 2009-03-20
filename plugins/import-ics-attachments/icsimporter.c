@@ -36,7 +36,6 @@
 #include <mail/em-folder-view.h>
 #include <mail/em-format-html-display.h>
 #include <mail/em-utils.h>
-#include "e-attachment-bar.h"
 #include <camel/camel-vee-folder.h>
 #include "e-util/e-error.h"
 #include <libedataserverui/e-source-selector.h>

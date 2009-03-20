@@ -79,8 +79,8 @@
 #include "em-icon-stream.h"
 #include "em-utils.h"
 #include "em-popup.h"
-#include "e-attachment.h"
-#include "e-attachment-bar.h"
+#include "widgets/misc/e-attachment-view.h"
+#include "widgets/misc/e-attachment-icon-view.h"
 
 #ifdef G_OS_WIN32
 /* Undefine the similar macro from <pthread.h>,it doesn't check if
@@ -100,7 +100,7 @@
 
 struct _EMFormatHTMLDisplayPrivate {
 	/* for Attachment bar */
-	GtkWidget *attachment_bar;
+	GtkWidget *attachment_view;
 	GtkWidget *attachment_box;
 	GtkWidget *label;
 	GtkWidget *save_txt;
@@ -494,8 +494,8 @@ efhd_format_attachment (EMFormat *emf,
 	info->shown = em_format_is_inline (
 		emf, info->puri.part_id, info->puri.part, handle);
 	info->snoop_mime_type = emf->snoop_mime_type;
-	info->attachment = e_attachment_new_from_mime_part (info->puri.part);
-	e_attachment_bar_create_attachment_cache (info->attachment);
+	info->attachment = e_attachment_new ();
+	e_attachment_set_mime_part (info->attachment, info->puri.part);
 
 	if (emf->valid) {
 		info->sign = emf->valid->sign.status;
@@ -559,7 +559,8 @@ efhd_format_optional (EMFormat *emf,
 	info->handle = em_format_find_handler (emf, "text/plain");
 	info->shown = FALSE;
 	info->snoop_mime_type = "text/plain";
-	info->attachment = e_attachment_new_from_mime_part (info->puri.part);
+	info->attachment = e_attachment_new ();
+	e_attachment_set_mime_part (info->attachment, info->puri.part);
 	info->mstream = (CamelStreamMem *) mstream;
 	if (emf->valid) {
 		info->sign = emf->valid->sign.status;
@@ -734,12 +735,6 @@ EMFormatHTMLDisplay *
 em_format_html_display_new (void)
 {
 	return g_object_new (EM_TYPE_FORMAT_HTML_DISPLAY, NULL);
-}
-
-EAttachmentBar *
-em_format_html_display_get_bar (EMFormatHTMLDisplay *efhd)
-{
-	return E_ATTACHMENT_BAR (efhd->priv->attachment_bar);
 }
 
 void
@@ -1302,6 +1297,7 @@ efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObjec
 static gboolean
 efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {
+#if 0  /* KILL-BONOBO  !! FIXME !! */
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
 	EAttachment *new;
 	struct _attach_puri *info;
@@ -1324,7 +1320,10 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 		return TRUE;
 	}
 
-	if (efhd->priv->attachment_bar) {
+	if (efhd->priv->attachment_view) {
+		EAttachmentView *view;
+		EAttachmentStore *store;
+
 		file = camel_mime_part_get_filename(info->puri.part);
 
 		new = info->attachment;
@@ -1457,6 +1456,7 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 		gtk_widget_hide(info->down);
 
 	gtk_container_add((GtkContainer *)eb, mainbox);
+#endif
 
 	return TRUE;
 }
@@ -1500,6 +1500,7 @@ attachment_bar_arrow_clicked(GtkWidget *w, EMFormatHTMLDisplay *efhd)
 static void
 attachments_save_all_clicked (GtkWidget *widget, EMFormatHTMLDisplay *efhd)
 {
+#if 0  /* KILL-BONOBO */
 	GSList *attachment_parts;
 	guint n_attachment_parts;
 	gpointer parent;
@@ -1522,31 +1523,10 @@ attachments_save_all_clicked (GtkWidget *widget, EMFormatHTMLDisplay *efhd)
 			attachment_parts);
 
         g_slist_free (attachment_parts);
+#endif
 }
 
-static void
-efhd_bar_popup_position(GtkMenu *menu, int *x, int *y, gboolean *push_in, gpointer user_data)
-{
-	EAttachmentBar *bar = user_data;
-	GnomeIconList *icon_list = user_data;
-	GList *selection;
-	GnomeCanvasPixbuf *image;
-
-	gdk_window_get_origin (((GtkWidget*) bar)->window, x, y);
-
-	selection = gnome_icon_list_get_selection (icon_list);
-	if (selection == NULL)
-		return;
-
-	image = gnome_icon_list_get_icon_pixbuf_item (icon_list, GPOINTER_TO_INT(selection->data));
-	if (image == NULL)
-		return;
-
-	/* Put menu to the center of icon. */
-	*x += (int)(image->item.x1 + image->item.x2) / 2;
-	*y += (int)(image->item.y1 + image->item.y2) / 2;
-}
-
+#if 0  /* KILL-BONOBO -- Move this to EAttachmentView */
 static void
 efhd_bar_save_selected(EPopup *ep, EPopupItem *item, void *data)
 {
@@ -1582,68 +1562,24 @@ static EPopupItem efhd_bar_menu_items[] = {
 	{ E_POPUP_BAR, "05.display", },
 	{ E_POPUP_ITEM, "05.display.01", N_("_Save Selected..."), efhd_bar_save_selected, NULL, NULL, EM_POPUP_ATTACHMENTS_MULTIPLE},
 };
-
-static gboolean
-efhd_bar_button_press_event(EAttachmentBar *bar, GdkEventButton *event, EMFormat *emf)
-{
-	GtkMenu *menu;
-	GSList *list=NULL;
-	EPopupTarget *target;
-	EMPopup *emp;
-	GSList *menus = NULL;
-	int i;
-
-	if (event && event->button != 3)
-		return FALSE;
-
-	/** @HookPoint-EMPopup: Attachment Bar Context Menu
-	 * @Id: org.gnome.evolution.mail.attachments.popup
-	 * @Class: org.gnome.evolution.mail.popup:1.0
-	 * @Target: EMPopupTargetPart
-	 *
-	 * This is the drop-down menu shown when a user clicks on the attachment bar
-	 * when attachments are selected.
-	 */
-	emp = em_popup_new("org.gnome.evolution.mail.attachments.popup");
-
-	/* Add something like save-selected, foward selected attachments in a mail etc....*/
-	list = e_attachment_bar_get_selected(bar);
-
-	/* Lets not propagate any more the r-click which is intended to us*/
-	if ( g_slist_length (list) == 0)
-		return TRUE;
-
-	target = (EPopupTarget *)em_popup_target_new_attachments(emp, list);
-	for (i=0; i<2; i++)
-		menus = g_slist_prepend(menus, &efhd_bar_menu_items[i]);
-	e_popup_add_items((EPopup *)emp, menus, NULL, efhd_menu_items_free, emf);
-
-	((EMPopupTargetPart *)target)->target.widget = (GtkWidget *)bar;
-	menu = e_popup_create_menu_once((EPopup *)emp, (EPopupTarget *)target, 0);
-	if (event)
-		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button, event->time);
-	else
-		gtk_menu_popup(menu, NULL, NULL, (GtkMenuPositionFunc)efhd_bar_popup_position, bar, 0, gtk_get_current_event_time());
-
-	return TRUE;
-}
-
-static gboolean
-efhd_bar_popup_menu_event (EAttachmentBar *bar, EMFormat *emf)
-{
-	return efhd_bar_button_press_event(bar, NULL, emf);
-}
+#endif
 
 static void
 efhd_attachment_bar_refresh (EMFormatHTMLDisplay *efhd)
 {
-	int nattachments;
+	EAttachmentStore *store;
+	EAttachmentView *view;
+	guint nattachments;
 
-	if (!efhd->priv->attachment_bar)
+	if (!efhd->priv->attachment_view)
 		return;
 
-	nattachments = e_attachment_bar_get_num_attachments (E_ATTACHMENT_BAR(efhd->priv->attachment_bar));
-	if (nattachments) {
+	view = E_ATTACHMENT_VIEW (efhd->priv->attachment_view);
+	store = e_attachment_view_get_store (view);
+
+	nattachments = e_attachment_store_get_num_attachments (store);
+
+	if (nattachments > 0) {
 		char *txt;
 
 		/* Cant i put in the number of attachments here ?*/
@@ -1673,6 +1609,7 @@ efhd_attachment_bar_refresh (EMFormatHTMLDisplay *efhd)
 static void
 efhd_bar_resize(GtkWidget *w, GtkAllocation *event, EMFormatHTML *efh)
 {
+#if 0 /* KILL-BONOBO -- Does EAttachmentIconView need a resize method? */
 	int width;
 	GtkRequisition req;
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *) efh;
@@ -1683,17 +1620,20 @@ efhd_bar_resize(GtkWidget *w, GtkAllocation *event, EMFormatHTML *efh)
 	/* Update the width of the bar when the width is greater than 1*/
 	if (width > 0)
 		e_attachment_bar_set_width(E_ATTACHMENT_BAR(efhd->priv->attachment_bar), width);
+#endif
 }
 
 static gboolean
 efhd_bar_scroll_event(GtkWidget *w, GdkEventScroll *event, EMFormatHTMLDisplay *efhd)
 {
+#if 0  /* KILL-BONOBO -- Do we still need this for a GtkIconView? */
 	gboolean ret;
 
 	/* Emulate the scroll over the attachment bar, as if it is scrolled in the window.
 	*  It doesnt go automatically since the GnomeIconList is a layout by itself
 	*/
 	g_signal_emit_by_name (gtk_widget_get_parent((GtkWidget *)efhd->parent.html), "scroll_event", event, &ret);
+#endif
 
 	return TRUE;
 }
@@ -1709,11 +1649,13 @@ efhd_mnemonic_show_bar (GtkWidget *widget, gboolean focus, GtkWidget *efhd)
 static gboolean
 efhd_update_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {
+#if 0  /* KILL-BONOBO -- Does EAttachmentIconView need a refresh method? */
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
 	struct _EMFormatHTMLDisplayPrivate *priv = efhd->priv;
 
 	if (priv->attachment_bar)
 		e_attachment_bar_refresh (E_ATTACHMENT_BAR (priv->attachment_bar));
+#endif
 
 	return TRUE;
 }
@@ -1726,10 +1668,9 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 	GtkWidget *hbox1, *hbox2, *hbox3, *vbox, *txt, *image, *save, *scroll;
 	int width, height, bar_width;
 
-	priv->attachment_bar = e_attachment_bar_new ();
+	priv->attachment_view = e_attachment_icon_view_new ();
 	scroll = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-	((EAttachmentBar *)priv->attachment_bar)->expand = TRUE;
 
 	priv->forward = gtk_arrow_new(GTK_ARROW_RIGHT, GTK_SHADOW_NONE);
 	priv->down = gtk_arrow_new(GTK_ARROW_DOWN, GTK_SHADOW_NONE);
@@ -1759,14 +1700,14 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 
 	priv->attachment_box = scroll;
 	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scroll), GTK_SHADOW_IN);
-	gtk_container_add ((GtkContainer *)priv->attachment_box, priv->attachment_bar);
+	gtk_container_add ((GtkContainer *)priv->attachment_box, priv->attachment_view);
 
-	gtk_widget_get_size_request(priv->attachment_bar, &width, &height);
+	gtk_widget_get_size_request(priv->attachment_view, &width, &height);
 
 	/* FIXME: What if the text is more?. Should we reduce the text with appending ...?
 	 * or resize the bar? How to figure out that, it needs more space? */
 	bar_width = ((GtkWidget *)efh->html)->parent->allocation.width - /* FIXME */16;
-	gtk_widget_set_size_request (priv->attachment_bar,
+	gtk_widget_set_size_request (priv->attachment_view,
 				     bar_width > 0 ? bar_width : 0,
 				     84 /* FIXME: Default show only one row, Dont hardcode size*/);
 
@@ -1782,11 +1723,8 @@ efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobjec
 	gtk_widget_hide_all (priv->attachment_area);
 
 	g_signal_connect (priv->arrow, "clicked", G_CALLBACK(attachment_bar_arrow_clicked), efh);
-	g_signal_connect (priv->attachment_bar, "button_press_event", G_CALLBACK(efhd_bar_button_press_event), efhd);
-	g_signal_connect (priv->attachment_bar, "popup-menu", G_CALLBACK(efhd_bar_popup_menu_event), efhd);
 	g_signal_connect (save, "clicked", G_CALLBACK(attachments_save_all_clicked), efh);
 	g_signal_connect (eb, "size_allocate", G_CALLBACK (efhd_bar_resize), efh);
-	g_signal_connect (priv->attachment_bar, "scroll_event", G_CALLBACK(efhd_bar_scroll_event), efhd);
 
 	return TRUE;
 }

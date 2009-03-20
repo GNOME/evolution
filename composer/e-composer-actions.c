@@ -29,69 +29,13 @@ static void
 action_attach_cb (GtkAction *action,
                   EMsgComposer *composer)
 {
-	EAttachmentBar *bar;
-	GtkWidget *dialog;
-	GtkWidget *option;
-	GSList *uris, *iter;
-	const gchar *disposition;
-	gboolean active;
-	gint response;
+	EAttachmentView *view;
+	EAttachmentStore *store;
 
-	bar = E_ATTACHMENT_BAR (composer->priv->attachment_bar);
+	view = e_msg_composer_get_attachment_view (composer);
+	store = e_attachment_view_get_store (view);
 
-	dialog = gtk_file_chooser_dialog_new (
-		_("Insert Attachment"),
-		GTK_WINDOW (composer),
-		GTK_FILE_CHOOSER_ACTION_OPEN,
-		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-		_("A_ttach"), GTK_RESPONSE_OK,
-		NULL);
-
-	gtk_dialog_set_default_response (
-		GTK_DIALOG (dialog), GTK_RESPONSE_OK);
-	gtk_file_chooser_set_local_only (
-		GTK_FILE_CHOOSER (dialog), FALSE);
-	gtk_file_chooser_set_select_multiple (
-		GTK_FILE_CHOOSER (dialog), TRUE);
-	gtk_window_set_icon_name (
-		GTK_WINDOW (dialog), "mail-message-new");
-
-	option = gtk_check_button_new_with_mnemonic (
-		_("_Suggest automatic display of attachment"));
-	gtk_widget_show (option);
-	gtk_file_chooser_set_extra_widget (
-		GTK_FILE_CHOOSER (dialog), option);
-
-	response = gtkhtml_editor_file_chooser_dialog_run (
-		GTKHTML_EDITOR (composer), dialog);
-
-	if (response != GTK_RESPONSE_OK)
-		goto exit;
-
-	uris = gtk_file_chooser_get_uris (GTK_FILE_CHOOSER (dialog));
-	active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (option));
-	disposition = active ? "inline" : "attachment";
-
-	for (iter = uris; iter != NULL; iter = iter->next) {
-		CamelURL *url;
-
-		url = camel_url_new (iter->data, NULL);
-		if (url == NULL)
-			continue;
-
-		if (!g_ascii_strcasecmp (url->protocol, "file"))
-			e_attachment_bar_attach (bar, url->path, disposition);
-		else
-			e_attachment_bar_attach_remote_file (bar, iter->data, disposition);
-
-		camel_url_free (url);
-	}
-
-	g_slist_foreach (uris, (GFunc) g_free, NULL);
-	g_slist_free (uris);
-
-exit:
-	gtk_widget_destroy (dialog);
+	e_attachment_store_run_load_dialog (store, GTK_WINDOW (composer));
 }
 
 static void
@@ -327,10 +271,10 @@ static void
 action_new_message_cb (GtkAction *action,
                        EMsgComposer *composer)
 {
-	GtkWidget *widget;
+	EMsgComposer *new_composer;
 
-	widget = e_msg_composer_new ();
-	gtk_widget_show (widget);
+	new_composer = e_msg_composer_new ();
+	gtk_widget_show (GTK_WIDGET (new_composer));
 }
 
 static void

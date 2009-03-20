@@ -653,7 +653,7 @@ e_mail_browser_get_type (void)
 		static const GInterfaceInfo iface_info = {
 			(GInterfaceInitFunc) mail_browser_iface_init,
 			(GInterfaceFinalizeFunc) NULL,
-			NULL  /* interface_data */
+			NULL   /* interface_data */
 		};
 
 		type = g_type_register_static (

@@ -170,11 +170,18 @@ shell_ready_for_offline (EShell *shell,
 	if (!is_last_ref)
 		return;
 
+	/* Increment the reference count so we can safely emit
+	 * a signal without triggering the toggle reference. */
+	g_object_ref (activity);
+
 	e_activity_complete (activity);
 
 	g_object_remove_toggle_ref (
 		G_OBJECT (activity), (GToggleNotify)
 		shell_ready_for_offline, shell);
+
+	/* Finalize the activity. */
+	g_object_unref (activity);
 
 	shell->priv->online = FALSE;
 	g_object_notify (G_OBJECT (shell), "online");
@@ -217,11 +224,18 @@ shell_ready_for_online (EShell *shell,
 	if (!is_last_ref)
 		return;
 
+	/* Increment the reference count so we can safely emit
+	 * a signal without triggering the toggle reference. */
+	g_object_ref (activity);
+
 	e_activity_complete (activity);
 
 	g_object_remove_toggle_ref (
 		G_OBJECT (activity), (GToggleNotify)
 		shell_ready_for_online, shell);
+
+	/* Finalize the activity. */
+	g_object_unref (activity);
 
 	shell->priv->online = TRUE;
 	g_object_notify (G_OBJECT (shell), "online");

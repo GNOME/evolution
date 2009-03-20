@@ -29,6 +29,7 @@
 #include <libedataserver/e-account.h>
 #include <libebook/e-destination.h>
 #include <gtkhtml-editor.h>
+#include <widgets/misc/e-attachment-view.h>
 
 #include "e-composer-header-table.h"
 
@@ -66,8 +67,6 @@ struct _EMsgComposerClass {
 	GtkhtmlEditorClass parent_class;
 };
 
-struct _EAttachmentBar;
-
 #define E_MSG_COMPOSER_MAIL 1
 #define E_MSG_COMPOSER_POST 2
 #define E_MSG_COMPOSER_MAIL_POST E_MSG_COMPOSER_MAIL|E_MSG_COMPOSER_POST
@@ -104,7 +103,7 @@ void		e_msg_composer_modify_header	(EMsgComposer *composer,
 void		e_msg_composer_remove_header	(EMsgComposer *composer,
 						 const gchar *name);
 void		e_msg_composer_attach		(EMsgComposer *composer,
-						 CamelMimePart *attachment);
+						 CamelMimePart *mime_part);
 CamelMimePart *	e_msg_composer_add_inline_image_from_file
 						(EMsgComposer *composer,
 						 const gchar *filename);
@@ -140,20 +139,17 @@ void		e_msg_composer_add_message_attachments
 gboolean	e_msg_composer_request_close_all(void);
 EMsgComposer *	e_msg_composer_load_from_file	(const gchar *filename);
 void		e_msg_composer_check_autosave	(GtkWindow *parent);
-gint		e_msg_composer_get_remote_download_count
-						(EMsgComposer *composer);
 
 void		e_msg_composer_reply_indent	(EMsgComposer *composer);
 
 EComposerHeaderTable *
 		e_msg_composer_get_header_table	(EMsgComposer *composer);
+EAttachmentView *
+		e_msg_composer_get_attachment_view
+						(EMsgComposer *composer);
 void		e_msg_composer_set_send_options	(EMsgComposer *composer,
 						 gboolean send_enable);
 GByteArray *	e_msg_composer_get_raw_message_text
-						(EMsgComposer *composer);
-
-struct _EAttachmentBar *
-		e_msg_composer_get_attachment_bar
 						(EMsgComposer *composer);
 
 gboolean	e_msg_composer_is_exiting	(EMsgComposer *composer);
