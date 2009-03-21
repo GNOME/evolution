@@ -14362,7 +14362,7 @@ msgstr ""
 #: ../mail/evolution-mail.schemas.in.h:180
 msgid "Whether sort threads based on latest message in that thread"
 msgstr ""
-"Indique si les fils de discussion doivent êtres triés suivant le dernier "
+"Indique si les fils de discussion doivent être triés suivant le dernier "
 "message de leur fil"
 
 #: ../mail/evolution-mail.schemas.in.h:181
