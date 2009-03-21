@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution trunk\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-08 10:36+0900\n"
-"PO-Revision-Date: 2009-03-08 10:34+0900\n"
+"POT-Creation-Date: 2009-03-21 12:04+0900\n"
+"PO-Revision-Date: 2009-03-21 12:04+0900\n"
 "Last-Translator: Takeshi AIHANA <takeshi.aihana@gmail.com>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -268,19 +268,19 @@ msgstr "切り替え"
 msgid "toggle the cell"
 msgstr "セルを切り替えます"
 
-#: ../a11y/e-table/gal-a11y-e-cell-tree.c:208
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:210
 msgid "expand"
 msgstr "展開"
 
-#: ../a11y/e-table/gal-a11y-e-cell-tree.c:209
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:211
 msgid "expands the row in the ETree containing this cell"
 msgstr "このセルを格納する ETree オブジェクトの行を展開します"
 
-#: ../a11y/e-table/gal-a11y-e-cell-tree.c:214
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:216
 msgid "collapse"
 msgstr "畳む"
 
-#: ../a11y/e-table/gal-a11y-e-cell-tree.c:215
+#: ../a11y/e-table/gal-a11y-e-cell-tree.c:217
 msgid "collapses the row in the ETree containing this cell"
 msgstr "このセルを格納する ETree オブジェクトの行を畳みます"
 
@@ -3502,7 +3502,7 @@ msgstr "記念日"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:856
 msgid "Job Title"
-msgstr "職業"
+msgstr "勤務先"
 
 #: ../addressbook/gui/widgets/eab-contact-display.c:892
 msgid "Home page"
@@ -11008,7 +11008,7 @@ msgstr "添付ファイル・バーを隠す(_A)"
 msgid "Compose Message"
 msgstr "メッセージの作成"
 
-#: ../composer/e-msg-composer.c:4114
+#: ../composer/e-msg-composer.c:4095
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)</"
 "b>"
@@ -12439,13 +12439,13 @@ msgstr "コピー(_O)"
 msgid "Creating folder `%s'"
 msgstr "フォルダ '%s' の作成中"
 
-#: ../mail/em-folder-utils.c:690
+#: ../mail/em-folder-utils.c:691
 #: ../plugins/groupwise-features/install-shared.c:169
 #: ../plugins/groupwise-features/share-folder-common.c:387
 msgid "Create folder"
 msgstr "フォルダの作成"
 
-#: ../mail/em-folder-utils.c:690
+#: ../mail/em-folder-utils.c:691
 #: ../plugins/groupwise-features/install-shared.c:169
 #: ../plugins/groupwise-features/share-folder-common.c:387
 msgid "Specify where to create the folder:"
