@@ -212,7 +212,7 @@ msgstr "%e de %b"
 #: ../a11y/calendar/ea-gnome-calendar.c:253
 #: ../calendar/importers/icalendar-importer.c:780
 msgid "Gnome Calendar"
-msgstr "Gnome Calendar"
+msgstr "Calendario de GNOME"
 
 #: ../a11y/calendar/ea-gnome-calendar.c:288
 msgid "search bar"
@@ -393,7 +393,7 @@ msgstr "No es posible obtener el esquema de información del servidor LDAP."
 
 #: ../addressbook/addressbook.error.xml.h:10
 msgid "Could not remove address book."
-msgstr "No es posible eliminar la libreta de direcciones."
+msgstr "No se pudo eliminar la libreta de direcciones."
 
 #: ../addressbook/addressbook.error.xml.h:11
 msgid ""
@@ -470,7 +470,7 @@ msgstr ""
 
 #: ../addressbook/addressbook.error.xml.h:24
 msgid "This address book could not be opened."
-msgstr "Esta libreta de direcciones no se pudo abrir."
+msgstr "No se pudo abrir la libreta de direcciones."
 
 #: ../addressbook/addressbook.error.xml.h:25
 msgid "This address book server does not have any suggested search bases."
@@ -497,7 +497,7 @@ msgstr "Este servidor no soporta el esquema de información LDAPv3."
 
 #: ../addressbook/addressbook.error.xml.h:29
 msgid "Unable to open address book"
-msgstr "Es imposible abrir la libreta de direcciones"
+msgstr "No se pudo abrir la libreta de direcciones"
 
 #: ../addressbook/addressbook.error.xml.h:30
 msgid "Unable to perform search."
@@ -588,7 +588,7 @@ msgstr "Dirección de sincr. predeterminada:"
 #: ../addressbook/conduit/address-conduit.c:1521
 #: ../addressbook/conduit/address-conduit.c:1522
 msgid "Could not load address book"
-msgstr "No es posible cargar la libreta de direcciones"
+msgstr "No se pudo cargar la libreta de direcciones"
 
 #: ../addressbook/conduit/address-conduit.c:1599
 #: ../addressbook/conduit/address-conduit.c:1602
@@ -5278,7 +5278,7 @@ msgstr "La hora en que la última alerta sonó, en time_t."
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:75
 #: ../plugins/startup-wizard/startup-wizard.c:109
 msgid "Timezone"
-msgstr "Zona horaria "
+msgstr "Zona horaria"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:76
 msgid ""
@@ -6326,7 +6326,7 @@ msgstr " a "
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:190 ../calendar/gui/print.c:2369
 msgid " (Completed "
-msgstr "(Completado "
+msgstr " (Completado "
 
 #: ../calendar/gui/dialogs/comp-editor-util.c:192 ../calendar/gui/print.c:2371
 msgid "Completed "
@@ -6815,7 +6815,7 @@ msgstr "Es necesario por lo menos un participante."
 #: ../calendar/gui/dialogs/event-page.c:1878
 #: ../calendar/gui/dialogs/task-page.c:1202
 msgid "_Add "
-msgstr "_Añadir"
+msgstr "_Añadir "
 
 #: ../calendar/gui/dialogs/event-page.c:2601
 #, c-format
@@ -7954,8 +7954,8 @@ msgstr[1] "Cada %d semanas"
 #, c-format
 msgid "Every week on "
 msgid_plural "Every %d weeks on "
-msgstr[0] "Cada semana en"
-msgstr[1] "Cada %d semanas el"
+msgstr[0] "Cada semana en "
+msgstr[1] "Cada %d semanas el "
 
 #. For Translators : 'and' is part of the sentence 'event recurring every week on (dayname) and (dayname)'
 #: ../calendar/gui/e-itip-control.c:808
@@ -7970,7 +7970,7 @@ msgstr "El %s día de "
 #: ../calendar/gui/e-itip-control.c:833
 #, c-format
 msgid "The %s %s of "
-msgstr "El %s %s de"
+msgstr "El %s %s de "
 
 #: ../calendar/gui/e-itip-control.c:844
 #, c-format
@@ -7991,7 +7991,7 @@ msgstr[1] "Cada %d años"
 msgid "a total of %d time"
 msgid_plural "a total of %d times"
 msgstr[0] "un total de %d vez"
-msgstr[1] " un total de %d veces"
+msgstr[1] "un total de %d veces"
 
 #. For Translators : ', ending on' is part of the sentence of the form 'event recurring every day, ending on (date).'
 #: ../calendar/gui/e-itip-control.c:880
@@ -8011,7 +8011,7 @@ msgstr "Termina"
 #: ../calendar/gui/e-itip-control.c:956
 #: ../plugins/save-calendar/csv-format.c:371
 msgid "Due"
-msgstr "Vence "
+msgstr "Vence"
 
 #: ../calendar/gui/e-itip-control.c:998 ../calendar/gui/e-itip-control.c:1055
 msgid "iCalendar Information"
@@ -12504,7 +12504,7 @@ msgstr "Copiando los mensajes a la carpeta %s"
 
 #: ../mail/em-folder-tree.c:926
 msgid "Cannot drop message(s) into toplevel store"
-msgstr "No es posible dejar el(los) mensaje(s) en el almacén de nivel superior"
+msgstr "No se puede dejar el(los) mensaje(s) en el almacén de nivel superior"
 
 #: ../mail/em-folder-tree.c:1003 ../ui/evolution-mail-message.xml.h:104
 msgid "_Copy to Folder"
@@ -13111,7 +13111,7 @@ msgstr "No es posible interpretar el mensaje PGP/MIME"
 
 #: ../mail/em-format.c:1354
 msgid "Could not parse PGP/MIME message: Unknown error"
-msgstr "No es posible interpretar el mensaje PGP/MIME: Error desconocido"
+msgstr "No se pudo interpretar el mensaje PGP/MIME: Error desconocido"
 
 #: ../mail/em-format.c:1511
 msgid "Unsupported signature format"
@@ -14997,8 +14997,8 @@ msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 msgstr ""
-" Teclee el nombre por el que quiere identificar a esta cuenta.\n"
-" Por ejemplo: «Trabajo» o «Personal»"
+"Teclee el nombre por el que quiere identificar a esta cuenta.\n"
+"Por ejemplo: «Trabajo» o «Personal»"
 
 #: ../mail/mail-config.glade.h:157
 msgid "Us_ername:"
@@ -15146,7 +15146,7 @@ msgstr "direcciones"
 # Esta traducción debe mantenerse así
 #: ../mail/mail-config.glade.h:196
 msgid "color"
-msgstr " "
+msgstr "color"
 
 #: ../mail/mail-config.glade.h:197
 msgid "description"
@@ -17118,7 +17118,7 @@ msgstr "Tipo de _autenticación"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:1019
 msgid "Ch_eck for Supported Types"
-msgstr "_Comprobar tipos soportados "
+msgstr "_Comprobar tipos soportados"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:1134
 #: ../plugins/exchange-operations/exchange-contacts.c:217
@@ -17518,7 +17518,7 @@ msgstr "Exchange - Opciones de envío"
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:4
 msgid "I_mportance: "
-msgstr "_Importacia:"
+msgstr "_Importacia: "
 
 #: ../plugins/exchange-operations/exchange-send-options.glade.h:5
 msgid ""
@@ -22893,7 +22893,7 @@ msgstr "Trabajar _desconectado"
 
 #: ../ui/evolution.xml.h:40
 msgid "_About"
-msgstr "_Acerca de"
+msgstr "Acerca _de"
 
 #: ../ui/evolution.xml.h:41
 msgid "_Close Window"
