@@ -800,6 +800,19 @@ mail_config_get_account_by_uid (const char *uid)
 	return (EAccount *) e_account_list_find (config->accounts, E_ACCOUNT_FIND_UID, uid);
 }
 
+static const char *
+only_username (const char *str)
+{
+	if (str) {
+		const char *p = strpbrk (str, "\\/");
+
+		if (p)
+			str = p + 1;
+	}
+
+	return str;
+}
+
 static gboolean
 mail_config_account_url_equal (const CamelURL *u1,
                                const CamelURL *u2)
@@ -810,7 +823,7 @@ mail_config_account_url_equal (const CamelURL *u1,
 	if (g_strcmp0 (u1->protocol, u2->protocol) != 0)
 		return FALSE;
 
-	if (g_strcmp0 (u1->user, u2->user) != 0)
+	if (g_strcmp0 (only_username (u1->user), only_username (u2->user)) != 0)
 		return FALSE;
 
 	if (g_strcmp0 (u1->host, u2->host) != 0)

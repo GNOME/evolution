@@ -1,3 +1,10 @@
+2009-03-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #552583
+
+	* mail-config.c: (only_username), (mail_config_account_url_equal):
+	Compare only user names, without a domain part, if such exists.
+
 2009-03-19  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #504767
