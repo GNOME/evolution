@@ -35,7 +35,46 @@ struct _EAttachmentIconViewPrivate {
 	EAttachmentViewPrivate view_priv;
 };
 
+enum {
+	PROP_0,
+	PROP_EDITABLE
+};
+
 static gpointer parent_class;
+
+static void
+attachment_icon_view_set_property (GObject *object,
+                                   guint property_id,
+                                   const GValue *value,
+                                   GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_EDITABLE:
+			e_attachment_view_set_editable (
+				E_ATTACHMENT_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+attachment_icon_view_get_property (GObject *object,
+                                   guint property_id,
+                                   GValue *value,
+                                   GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_EDITABLE:
+			g_value_set_boolean (
+				value, e_attachment_view_get_editable (
+				E_ATTACHMENT_VIEW (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
 
 static void
 attachment_icon_view_dispose (GObject *object)
@@ -231,6 +270,8 @@ attachment_icon_view_class_init (EAttachmentIconViewClass *class)
 	g_type_class_add_private (class, sizeof (EAttachmentViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = attachment_icon_view_set_property;
+	object_class->get_property = attachment_icon_view_get_property;
 	object_class->dispose = attachment_icon_view_dispose;
 	object_class->finalize = attachment_icon_view_finalize;
 
@@ -240,6 +281,9 @@ attachment_icon_view_class_init (EAttachmentIconViewClass *class)
 	widget_class->drag_motion = attachment_icon_view_drag_motion;
 	widget_class->drag_data_received = attachment_icon_view_drag_data_received;
 	widget_class->popup_menu = attachment_icon_view_popup_menu;
+
+	g_object_class_override_property (
+		object_class, PROP_EDITABLE, "editable");
 }
 
 static void
@@ -260,6 +304,10 @@ attachment_icon_view_iface_init (EAttachmentViewIface *iface)
 static void
 attachment_icon_view_init (EAttachmentIconView *icon_view)
 {
+	GtkCellLayout *cell_layout;
+	GtkCellRenderer *renderer;
+
+	cell_layout = GTK_CELL_LAYOUT (icon_view);
 	icon_view->priv = E_ATTACHMENT_ICON_VIEW_GET_PRIVATE (icon_view);
 
 	e_attachment_view_init (E_ATTACHMENT_VIEW (icon_view));
@@ -267,13 +315,23 @@ attachment_icon_view_init (EAttachmentIconView *icon_view)
 	gtk_icon_view_set_selection_mode (
 		GTK_ICON_VIEW (icon_view), GTK_SELECTION_MULTIPLE);
 
-	gtk_icon_view_set_pixbuf_column (
-		GTK_ICON_VIEW (icon_view),
-		E_ATTACHMENT_STORE_COLUMN_LARGE_PIXBUF);
+	renderer = gtk_cell_renderer_pixbuf_new ();
+	g_object_set (renderer, "stock-size", GTK_ICON_SIZE_DIALOG, NULL);
+	gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
 
-	gtk_icon_view_set_text_column (
-		GTK_ICON_VIEW (icon_view),
-		E_ATTACHMENT_STORE_COLUMN_ICON_CAPTION);
+	gtk_cell_layout_add_attribute (
+		cell_layout, renderer, "gicon",
+		E_ATTACHMENT_STORE_COLUMN_ICON);
+
+	renderer = gtk_cell_renderer_text_new ();
+	g_object_set (
+		renderer, "alignment", PANGO_ALIGN_CENTER,
+		"xalign", 0.5, NULL);
+	gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
+
+	gtk_cell_layout_add_attribute (
+		cell_layout, renderer, "text",
+		E_ATTACHMENT_STORE_COLUMN_CAPTION);
 }
 
 GType

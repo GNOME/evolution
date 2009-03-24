@@ -34,12 +34,6 @@
 
 #define DEFAULT_ICON_NAME	"mail-attachment"
 
-/* XXX Unfortunate that we have to define this here.  Would
- *     prefer the attachment view classes pick their own size,
- *     but GtkIconView requires a dedicated pixbuf column. */
-#define LARGE_ICON_SIZE		GTK_ICON_SIZE_DIALOG
-#define SMALL_ICON_SIZE		GTK_ICON_SIZE_MENU
-
 struct _EAttachmentStorePrivate {
 	GHashTable *activity_index;
 	GHashTable *attachment_index;
@@ -56,7 +50,7 @@ enum {
 	PROP_BACKGROUND_OPTIONS,
 	PROP_CURRENT_FOLDER,
 	PROP_NUM_ATTACHMENTS,
-	PROP_NUM_DOWNLOADING,
+	PROP_NUM_LOADING,
 	PROP_TOTAL_SIZE
 };
 
@@ -133,7 +127,7 @@ attachment_store_remove_activity (EAttachmentStore *store,
 
 	g_hash_table_remove (hash_table, activity);
 
-	g_object_notify (G_OBJECT (store), "num-downloading");
+	g_object_notify (G_OBJECT (store), "num-loading");
 }
 
 static void
@@ -177,10 +171,6 @@ attachment_store_copy_ready (GFile *source,
 	e_attachment_set_file (attachment, destination);
 
 	e_activity_complete (activity);
-
-	path = gtk_tree_model_get_path (model, &iter);
-	gtk_tree_model_row_changed (model, path, &iter);
-	gtk_tree_path_free (path);
 
 	g_object_unref (attachment);
 	g_object_unref (activity);
@@ -247,6 +237,7 @@ attachment_store_copy_async (EAttachmentStore *store,
 
 	reference = gtk_tree_row_reference_copy (reference);
 
+	hash_table = store->priv->activity_index;
 	g_hash_table_insert (hash_table, g_object_ref (activity), reference);
 
 	g_signal_connect_swapped (
@@ -271,7 +262,7 @@ attachment_store_copy_async (EAttachmentStore *store,
 	e_file_activity_set_file (E_FILE_ACTIVITY (activity), destination);
 	g_signal_emit (store, signals[NEW_ACTIVITY], 0, activity);
 
-	g_object_notify (G_OBJECT (store), "num-downloading");
+	g_object_notify (G_OBJECT (store), "num-loading");
 
 	g_object_unref (activity);
 	g_object_unref (destination);
@@ -350,10 +341,10 @@ attachment_store_get_property (GObject *object,
 				E_ATTACHMENT_STORE (object)));
 			return;
 
-		case PROP_NUM_DOWNLOADING:
+		case PROP_NUM_LOADING:
 			g_value_set_uint (
 				value,
-				e_attachment_store_get_num_downloading (
+				e_attachment_store_get_num_loading (
 				E_ATTACHMENT_STORE (object)));
 			return;
 
@@ -427,30 +418,24 @@ attachment_store_row_changed (GtkTreeModel *model,
 {
 	EAttachmentStorePrivate *priv;
 	EAttachment *attachment;
-	GtkIconTheme *icon_theme;
-	GdkPixbuf *large_pixbuf;
-	GdkPixbuf *small_pixbuf;
+	GFile *file;
 	GIcon *icon;
+	GList *list;
 	const gchar *content_type;
 	const gchar *display_name;
 	const gchar *thumbnail_path;
 	gchar *content_description;
 	gchar *display_size;
-	gchar *icon_caption;
-	gint large_icon_size;
-	gint small_icon_size;
+	gchar *caption;
+	gboolean loading;
+	gboolean saving;
 	guint64 size;
 	gint column_id;
-	GError *error = NULL;
 
 	priv = E_ATTACHMENT_STORE_GET_PRIVATE (model);
 
 	if (priv->ignore_row_changed)
 		return;
-
-	icon_theme = gtk_icon_theme_get_default ();
-	gtk_icon_size_lookup (LARGE_ICON_SIZE, &large_icon_size, NULL);
-	gtk_icon_size_lookup (SMALL_ICON_SIZE, &small_icon_size, NULL);
 
 	column_id = E_ATTACHMENT_STORE_COLUMN_ATTACHMENT;
 	gtk_tree_model_get (model, iter, column_id, &attachment, -1);
@@ -459,6 +444,8 @@ attachment_store_row_changed (GtkTreeModel *model,
 	content_type = e_attachment_get_content_type (attachment);
 	display_name = e_attachment_get_display_name (attachment);
 	thumbnail_path = e_attachment_get_thumbnail_path (attachment);
+	loading = e_attachment_get_loading (attachment);
+	saving = e_attachment_get_saving (attachment);
 	icon = e_attachment_get_icon (attachment);
 	size = e_attachment_get_size (attachment);
 
@@ -467,82 +454,46 @@ attachment_store_row_changed (GtkTreeModel *model,
 	display_size = g_format_size_for_display ((goffset) size);
 
 	if (size > 0)
-		icon_caption = g_strdup_printf (
+		caption = g_strdup_printf (
 			"%s\n(%s)", display_name, display_size);
 	else
-		icon_caption = g_strdup (display_name);
+		caption = g_strdup (display_name);
 
 	/* Prefer the thumbnail if we have one. */
-	if (thumbnail_path != NULL) {
-		gint width = -1;
-		gint height = -1;
+	if (thumbnail_path != NULL && *thumbnail_path != '\0') {
+		file = g_file_new_for_path (thumbnail_path);
+		icon = g_file_icon_new (file);
+		g_object_unref (file);
 
-		gdk_pixbuf_get_file_info (thumbnail_path, &width, &height);
+	/* Else use the standard icon for the content type. */
+	} else if (icon != NULL)
+		g_object_ref (icon);
 
-		large_pixbuf = gdk_pixbuf_new_from_file_at_scale (
-			thumbnail_path,
-			(width > height) ? large_icon_size : -1,
-			(width > height) ? -1 : large_icon_size,
-			TRUE, &error);
+	/* Last ditch fallback.  (GFileInfo not yet loaded?) */
+	else
+		icon = g_themed_icon_new (DEFAULT_ICON_NAME);
 
-		if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_clear_error (&error);
+	/* Apply emblems. */
+	list = e_attachment_list_emblems (attachment);
+	if (list != NULL) {
+		GIcon *emblemed_icon;
+		GEmblem *emblem;
+
+		emblem = G_EMBLEM (list->data);
+		emblemed_icon = g_emblemed_icon_new (icon, emblem);
+		list = g_list_delete_link (list, list);
+		g_object_unref (emblem);
+
+		while (list != NULL) {
+			emblem = G_EMBLEM (list->data);
+			g_emblemed_icon_add_emblem (
+				G_EMBLEMED_ICON (emblemed_icon), emblem);
+			list = g_list_delete_link (list, list);
+			g_object_unref (emblem);
 		}
 
-		small_pixbuf = gdk_pixbuf_new_from_file_at_scale (
-			thumbnail_path,
-			(width > height) ? small_icon_size : -1,
-			(width > height) ? -1 : small_icon_size,
-			TRUE, &error);
-
-		if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_clear_error (&error);
-		}
-
-	/* Otherwise fall back to the icon theme. */
-	} else {
-		GtkIconInfo *icon_info = NULL;
-		const gchar *filename;
-
-		if (G_IS_ICON (icon))
-			icon_info = gtk_icon_theme_lookup_by_gicon (
-				icon_theme, icon, large_icon_size, 0);
-		if (icon_info == NULL)
-			icon_info = gtk_icon_theme_lookup_icon (
-				icon_theme, DEFAULT_ICON_NAME,
-				large_icon_size, 0);
-		g_return_if_fail (icon_info != NULL);
-
-		filename = gtk_icon_info_get_filename (icon_info);
-		large_pixbuf = gdk_pixbuf_new_from_file (filename, &error);
-		gtk_icon_info_free (icon_info);
-
-		if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_clear_error (&error);
-		}
-
-		icon_info = NULL;
-
-		if (G_IS_ICON (icon))
-			icon_info = gtk_icon_theme_lookup_by_gicon (
-				icon_theme, icon, small_icon_size, 0);
-		if (icon_info == NULL)
-			icon_info = gtk_icon_theme_lookup_icon (
-				icon_theme, DEFAULT_ICON_NAME,
-				small_icon_size, 0);
-		g_return_if_fail (icon_info != NULL);
-
-		filename = gtk_icon_info_get_filename (icon_info);
-		small_pixbuf = gdk_pixbuf_new_from_file (filename, &error);
-		gtk_icon_info_free (icon_info);
-
-		if (error != NULL) {
-			g_warning ("%s", error->message);
-			g_clear_error (&error);
-		}
+		g_object_unref (icon);
+		icon = emblemed_icon;
 	}
 
 	/* We're about to trigger another "row-changed"
@@ -553,20 +504,16 @@ attachment_store_row_changed (GtkTreeModel *model,
 		GTK_LIST_STORE (model), iter,
 		E_ATTACHMENT_STORE_COLUMN_CONTENT_TYPE, content_description,
 		E_ATTACHMENT_STORE_COLUMN_DISPLAY_NAME, display_name,
-		E_ATTACHMENT_STORE_COLUMN_ICON_CAPTION, icon_caption,
-		E_ATTACHMENT_STORE_COLUMN_LARGE_PIXBUF, large_pixbuf,
-		E_ATTACHMENT_STORE_COLUMN_SMALL_PIXBUF, small_pixbuf,
+		E_ATTACHMENT_STORE_COLUMN_CAPTION, caption,
+		E_ATTACHMENT_STORE_COLUMN_ICON, icon,
+		E_ATTACHMENT_STORE_COLUMN_LOADING, loading,
+		E_ATTACHMENT_STORE_COLUMN_SAVING, saving,
 		E_ATTACHMENT_STORE_COLUMN_SIZE, size,
 		-1);
 
 	priv->ignore_row_changed = FALSE;
 
-	if (large_pixbuf != NULL)
-		g_object_unref (large_pixbuf);
-
-	if (small_pixbuf != NULL)
-		g_object_unref (small_pixbuf);
-
+	g_object_unref (icon);
 	g_free (content_description);
 	g_free (display_size);
 }
@@ -633,10 +580,10 @@ attachment_store_class_init (EAttachmentStoreClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_NUM_DOWNLOADING,
+		PROP_NUM_LOADING,
 		g_param_spec_uint (
-			"num-downloading",
-			"Num Downloading",
+			"num-loading",
+			"Num Loading",
 			NULL,
 			0,
 			G_MAXUINT,
@@ -686,11 +633,12 @@ attachment_store_init (EAttachmentStore *store)
 
 	types[column++] = E_TYPE_ACTIVITY;	/* COLUMN_ACTIVITY */
 	types[column++] = E_TYPE_ATTACHMENT;	/* COLUMN_ATTACHMENT */
+	types[column++] = G_TYPE_STRING;	/* COLUMN_CAPTION */
 	types[column++] = G_TYPE_STRING;	/* COLUMN_CONTENT_TYPE */
 	types[column++] = G_TYPE_STRING;	/* COLUMN_DISPLAY_NAME */
-	types[column++] = G_TYPE_STRING;	/* COLUMN_ICON_CAPTION */
-	types[column++] = GDK_TYPE_PIXBUF;	/* COLUMN_LARGE_PIXBUF */
-	types[column++] = GDK_TYPE_PIXBUF;	/* COLUMN_SMALL_PIXBUF */
+	types[column++] = G_TYPE_ICON;		/* COLUMN_ICON */
+	types[column++] = G_TYPE_BOOLEAN;	/* COLUMN_LOADING */
+	types[column++] = G_TYPE_BOOLEAN;	/* COLUMN_SAVING */
 	types[column++] = G_TYPE_UINT64;	/* COLUMN_SIZE */
 
 	g_assert (column == E_ATTACHMENT_STORE_NUM_COLUMNS);
@@ -774,7 +722,7 @@ e_attachment_store_add_attachment (EAttachmentStore *store,
 	/* This lets the attachment tell us when to update. */
 	_e_attachment_set_reference (attachment, reference);
 
-	if (!g_file_is_native (file))
+	if (file != NULL && !g_file_is_native (file))
 		attachment_store_copy_async (store, attachment);
 
 	g_object_freeze_notify (G_OBJECT (store));
@@ -897,7 +845,7 @@ e_attachment_store_get_num_attachments (EAttachmentStore *store)
 }
 
 guint
-e_attachment_store_get_num_downloading (EAttachmentStore *store)
+e_attachment_store_get_num_loading (EAttachmentStore *store)
 {
 	g_return_val_if_fail (E_IS_ATTACHMENT_STORE (store), 0);
 

@@ -62,11 +62,12 @@ struct _EAttachmentStoreClass {
 enum {
 	E_ATTACHMENT_STORE_COLUMN_ACTIVITY,	/* E_TYPE_ACTIVITY */
 	E_ATTACHMENT_STORE_COLUMN_ATTACHMENT,	/* E_TYPE_ATTACHMENT */
+	E_ATTACHMENT_STORE_COLUMN_CAPTION,	/* G_TYPE_STRING */
 	E_ATTACHMENT_STORE_COLUMN_CONTENT_TYPE, /* G_TYPE_STRING */
 	E_ATTACHMENT_STORE_COLUMN_DISPLAY_NAME,	/* G_TYPE_STRING */
-	E_ATTACHMENT_STORE_COLUMN_ICON_CAPTION,	/* G_TYPE_STRING */
-	E_ATTACHMENT_STORE_COLUMN_LARGE_PIXBUF,	/* GDK_TYPE_PIXBUF */
-	E_ATTACHMENT_STORE_COLUMN_SMALL_PIXBUF,	/* GDK_TYPE_PIXBUF */
+	E_ATTACHMENT_STORE_COLUMN_ICON,		/* G_TYPE_ICON */
+	E_ATTACHMENT_STORE_COLUMN_LOADING,	/* G_TYPE_BOOLEAN */
+	E_ATTACHMENT_STORE_COLUMN_SAVING,	/* G_TYPE_BOOLEAN */
 	E_ATTACHMENT_STORE_COLUMN_SIZE,		/* G_TYPE_UINT64 */
 	E_ATTACHMENT_STORE_NUM_COLUMNS
 };
@@ -90,7 +91,7 @@ void		e_attachment_store_set_current_folder
 						 const gchar *current_folder);
 guint		e_attachment_store_get_num_attachments
 						(EAttachmentStore *store);
-guint		e_attachment_store_get_num_downloading
+guint		e_attachment_store_get_num_loading
 						(EAttachmentStore *store);
 guint64		e_attachment_store_get_total_size
 						(EAttachmentStore *store);

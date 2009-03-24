@@ -23,6 +23,7 @@
 
 #include <glib/gi18n.h>
 #include "e-util/e-binding.h"
+#include "e-attachment-view.h"
 #include "e-attachment-store.h"
 #include "e-attachment-icon-view.h"
 #include "e-attachment-tree-view.h"
@@ -52,6 +53,7 @@ struct _EAttachmentPanedPrivate {
 enum {
 	PROP_0,
 	PROP_ACTIVE_VIEW,
+	PROP_EDITABLE,
 	PROP_EXPANDED
 };
 
@@ -118,7 +120,7 @@ attachment_paned_update_status (EAttachmentPaned *paned)
 	gchar *display_size;
 	gchar *markup;
 
-	view = e_attachment_paned_get_view (paned);
+	view = E_ATTACHMENT_VIEW (paned);
 	store = e_attachment_view_get_store (view);
 	expander = GTK_EXPANDER (paned->priv->expander);
 	label = GTK_LABEL (paned->priv->status_label);
@@ -149,15 +151,21 @@ attachment_paned_update_status (EAttachmentPaned *paned)
 
 static void
 attachment_paned_set_property (GObject *object,
-                                  guint property_id,
-                                  const GValue *value,
-                                  GParamSpec *pspec)
+                               guint property_id,
+                               const GValue *value,
+                               GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_ACTIVE_VIEW:
 			e_attachment_paned_set_active_view (
 				E_ATTACHMENT_PANED (object),
 				g_value_get_int (value));
+			return;
+
+		case PROP_EDITABLE:
+			e_attachment_view_set_editable (
+				E_ATTACHMENT_VIEW (object),
+				g_value_get_boolean (value));
 			return;
 
 		case PROP_EXPANDED:
@@ -172,15 +180,21 @@ attachment_paned_set_property (GObject *object,
 
 static void
 attachment_paned_get_property (GObject *object,
-                                  guint property_id,
-                                  GValue *value,
-                                  GParamSpec *pspec)
+                               guint property_id,
+                               GValue *value,
+                               GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_ACTIVE_VIEW:
 			g_value_set_int (
 				value, e_attachment_paned_get_active_view (
 				E_ATTACHMENT_PANED (object)));
+			return;
+
+		case PROP_EDITABLE:
+			g_value_set_boolean (
+				value, e_attachment_view_get_editable (
+				E_ATTACHMENT_VIEW (object)));
 			return;
 
 		case PROP_EXPANDED:
@@ -270,6 +284,14 @@ attachment_paned_constructed (GObject *object)
 		G_OBJECT (priv->notebook), "page");
 
 	e_mutual_binding_new (
+		G_OBJECT (object), "editable",
+		G_OBJECT (priv->icon_view), "editable");
+
+	e_mutual_binding_new (
+		G_OBJECT (object), "editable",
+		G_OBJECT (priv->tree_view), "editable");
+
+	e_mutual_binding_new (
 		G_OBJECT (object), "expanded",
 		G_OBJECT (priv->expander), "expanded");
 
@@ -280,6 +302,110 @@ attachment_paned_constructed (GObject *object)
 	e_mutual_binding_new (
 		G_OBJECT (object), "expanded",
 		G_OBJECT (priv->notebook), "visible");
+}
+
+static EAttachmentViewPrivate *
+attachment_paned_get_private (EAttachmentView *view)
+{
+	EAttachmentPanedPrivate *priv;
+
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (view);
+	view = E_ATTACHMENT_VIEW (priv->icon_view);
+
+	return e_attachment_view_get_private (view);
+}
+
+static EAttachmentStore *
+attachment_paned_get_store (EAttachmentView *view)
+{
+	EAttachmentPanedPrivate *priv;
+
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (view);
+	view = E_ATTACHMENT_VIEW (priv->icon_view);
+
+	return e_attachment_view_get_store (view);
+}
+
+static GtkTreePath *
+attachment_paned_get_path_at_pos (EAttachmentView *view,
+                                  gint x,
+                                  gint y)
+{
+	EAttachmentPanedPrivate *priv;
+
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (view);
+	view = E_ATTACHMENT_VIEW (priv->icon_view);
+
+	return e_attachment_view_get_path_at_pos (view, x, y);
+}
+
+static GList *
+attachment_paned_get_selected_paths (EAttachmentView *view)
+{
+	EAttachmentPanedPrivate *priv;
+
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (view);
+	view = E_ATTACHMENT_VIEW (priv->icon_view);
+
+	return e_attachment_view_get_selected_paths (view);
+}
+
+static gboolean
+attachment_paned_path_is_selected (EAttachmentView *view,
+                                   GtkTreePath *path)
+{
+	EAttachmentPanedPrivate *priv;
+
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (view);
+	view = E_ATTACHMENT_VIEW (priv->icon_view);
+
+	return e_attachment_view_path_is_selected (view, path);
+}
+
+static void
+attachment_paned_select_path (EAttachmentView *view,
+                              GtkTreePath *path)
+{
+	EAttachmentPanedPrivate *priv;
+
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (view);
+	view = E_ATTACHMENT_VIEW (priv->icon_view);
+
+	e_attachment_view_select_path (view, path);
+}
+
+static void
+attachment_paned_unselect_path (EAttachmentView *view,
+                                GtkTreePath *path)
+{
+	EAttachmentPanedPrivate *priv;
+
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (view);
+	view = E_ATTACHMENT_VIEW (priv->icon_view);
+
+	e_attachment_view_unselect_path (view, path);
+}
+
+static void
+attachment_paned_select_all (EAttachmentView *view)
+{
+	EAttachmentPanedPrivate *priv;
+
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (view);
+	view = E_ATTACHMENT_VIEW (priv->icon_view);
+
+	e_attachment_view_select_all (view);
+}
+
+static void
+attachment_paned_unselect_all (EAttachmentView *view)
+{
+	EAttachmentPanedPrivate *priv;
+
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (view);
+	view = E_ATTACHMENT_VIEW (priv->icon_view);
+
+	e_attachment_view_unselect_all (view);
 }
 
 static void
@@ -319,6 +445,23 @@ attachment_paned_class_init (EAttachmentPanedClass *class)
 			FALSE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
+
+	g_object_class_override_property (
+		object_class, PROP_EDITABLE, "editable");
+}
+
+static void
+attachment_paned_iface_init (EAttachmentViewIface *iface)
+{
+	iface->get_private = attachment_paned_get_private;
+	iface->get_store = attachment_paned_get_store;
+	iface->get_path_at_pos = attachment_paned_get_path_at_pos;
+	iface->get_selected_paths = attachment_paned_get_selected_paths;
+	iface->path_is_selected = attachment_paned_path_is_selected;
+	iface->select_path = attachment_paned_select_path;
+	iface->unselect_path = attachment_paned_unselect_path;
+	iface->select_all = attachment_paned_select_all;
+	iface->unselect_all = attachment_paned_unselect_all;
 }
 
 static void
@@ -394,7 +537,7 @@ attachment_paned_init (EAttachmentPaned *paned)
 	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 6);
 	paned->priv->status_label = g_object_ref (widget);
-	gtk_widget_show (widget);
+	gtk_widget_hide (widget);
 
 	/* Construct the Attachment Views */
 
@@ -493,9 +636,18 @@ e_attachment_paned_get_type (void)
 			NULL   /* value_table */
 		};
 
+		static const GInterfaceInfo iface_info = {
+			(GInterfaceInitFunc) attachment_paned_iface_init,
+			(GInterfaceFinalizeFunc) NULL,
+			NULL   /* interface_data */
+		};
+
 		type = g_type_register_static (
 			GTK_TYPE_VPANED, "EAttachmentPaned",
 			&type_info, 0);
+
+		g_type_add_interface_static (
+			type, E_TYPE_ATTACHMENT_VIEW, &iface_info);
 	}
 
 	return type;
@@ -505,14 +657,6 @@ GtkWidget *
 e_attachment_paned_new (void)
 {
 	return g_object_new (E_TYPE_ATTACHMENT_PANED, NULL);
-}
-
-EAttachmentView *
-e_attachment_paned_get_view (EAttachmentPaned *paned)
-{
-	g_return_val_if_fail (E_IS_ATTACHMENT_PANED (paned), NULL);
-
-	return E_ATTACHMENT_VIEW (paned->priv->icon_view);
 }
 
 GtkWidget *

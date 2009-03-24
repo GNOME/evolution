@@ -25,6 +25,7 @@
 #include <glib/gi18n.h>
 #include <camel/camel-stream-mem.h>
 
+#include "e-util/e-binding.h"
 #include "e-util/e-plugin-ui.h"
 #include "e-util/e-util.h"
 #include "e-attachment-dialog.h"
@@ -120,6 +121,30 @@ action_drag_move_cb (GtkAction *action,
                      EAttachmentView *view)
 {
 	e_attachment_view_drag_action (view, GDK_ACTION_MOVE);
+}
+
+static void
+action_open_in_cb (GtkAction *action,
+                   EAttachmentView *view)
+{
+	GAppInfo *app_info;
+	EActivity *activity;
+	EAttachment *attachment;
+
+	app_info = g_object_get_data (G_OBJECT (action), "app-info");
+	g_return_if_fail (G_IS_APP_INFO (app_info));
+
+	attachment = g_object_get_data (G_OBJECT (action), "attachment");
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+
+	activity = e_file_activity_newv (
+		_("Opening attachment in %s"),
+		g_app_info_get_name (app_info));
+
+	e_attachment_launch_async (
+		attachment, E_FILE_ACTIVITY (activity), app_info);
+
+	g_object_unref (activity);
 }
 
 static void
@@ -407,6 +432,16 @@ attachment_view_class_init (EAttachmentViewIface *iface)
 {
 	gint ii;
 
+	g_object_interface_install_property (
+		iface,
+		g_param_spec_boolean (
+			"editable",
+			"Editable",
+			NULL,
+			TRUE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
 	for (ii = 0; ii < G_N_ELEMENTS (drag_info); ii++) {
 		const gchar *target = drag_info[ii].target;
 		drag_info[ii].atom = gdk_atom_intern (target, FALSE);
@@ -489,6 +524,10 @@ e_attachment_view_init (EAttachmentView *view)
 	if (error != NULL)
 		g_error ("%s", error->message);
 
+	e_mutual_binding_new (
+		G_OBJECT (view), "editable",
+		G_OBJECT (priv->editable_actions), "visible");
+
 	e_plugin_ui_register_manager (ui_manager, "attachment-view", view);
 }
 
@@ -560,6 +599,32 @@ e_attachment_view_get_store (EAttachmentView *view)
 	g_return_val_if_fail (iface->get_store != NULL, NULL);
 
 	return iface->get_store (view);
+}
+
+gboolean
+e_attachment_view_get_editable (EAttachmentView *view)
+{
+	EAttachmentViewPrivate *priv;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), FALSE);
+
+	priv = e_attachment_view_get_private (view);
+
+	return priv->editable;
+}
+
+void
+e_attachment_view_set_editable (EAttachmentView *view,
+                                gboolean editable)
+{
+	EAttachmentViewPrivate *priv;
+
+	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
+
+	priv = e_attachment_view_get_private (view);
+	priv->editable = editable;
+
+	g_object_notify (G_OBJECT (view), "editable");
 }
 
 GList *
@@ -1006,26 +1071,28 @@ void
 e_attachment_view_update_actions (EAttachmentView *view)
 {
 	EAttachmentViewPrivate *priv;
-	GFileInfo *file_info;
+	EAttachment *attachment;
 	GtkAction *action;
-	GList *selected;
+	GList *list, *iter;
 	guint n_selected;
 	gboolean is_image;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 
 	priv = e_attachment_view_get_private (view);
-	selected = e_attachment_view_get_selected_attachments (view);
-	n_selected = g_list_length (selected);
-
-	is_image = FALSE;
-	file_info = NULL;
+	list = e_attachment_view_get_selected_attachments (view);
+	n_selected = g_list_length (list);
 
 	if (n_selected == 1) {
-		EAttachment *attachment = selected->data;
-		file_info = e_attachment_get_file_info (attachment);
+		attachment = g_object_ref (list->data);
 		is_image = e_attachment_is_image (attachment);
+	} else {
+		attachment = NULL;
+		is_image = FALSE;
 	}
+
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 
 	action = e_attachment_view_get_action (view, "properties");
 	gtk_action_set_visible (action, n_selected == 1);
@@ -1038,4 +1105,67 @@ e_attachment_view_update_actions (EAttachmentView *view)
 
 	action = e_attachment_view_get_action (view, "set-background");
 	gtk_action_set_visible (action, is_image);
+
+	/* Clear out the "openwith" action group. */
+	gtk_ui_manager_remove_ui (priv->ui_manager, priv->merge_id);
+	e_action_group_remove_all_actions (priv->openwith_actions);
+
+	if (attachment == NULL)
+		return;
+
+	list = e_attachment_list_apps (attachment);
+
+	for (iter = list; iter != NULL; iter = iter->next) {
+		GAppInfo *app_info = iter->data;
+		GtkAction *action;
+		const gchar *app_executable;
+		const gchar *app_name;
+		gchar *action_tooltip;
+		gchar *action_label;
+		gchar *action_name;
+
+		if (!g_app_info_should_show (app_info))
+			continue;
+
+		app_executable = g_app_info_get_executable (app_info);
+		app_name = g_app_info_get_name (app_info);
+
+		action_name = g_strdup_printf ("open-in-%s", app_executable);
+		action_label = g_strdup_printf (_("Open in %s..."), app_name);
+
+		action_tooltip = g_strdup_printf (
+			_("Open this attachment in %s"), app_name);
+
+		action = gtk_action_new (
+			action_name, action_label, action_tooltip, NULL);
+
+		g_object_set_data_full (
+			G_OBJECT (action),
+			"app-info", g_object_ref (app_info),
+			(GDestroyNotify) g_object_unref);
+
+		g_object_set_data_full (
+			G_OBJECT (action),
+			"attachment", g_object_ref (attachment),
+			(GDestroyNotify) g_object_unref);
+
+		g_signal_connect (
+			action, "activate",
+			G_CALLBACK (action_open_in_cb), view);
+
+		gtk_action_group_add_action (priv->openwith_actions, action);
+
+		gtk_ui_manager_add_ui (
+			priv->ui_manager, priv->merge_id,
+			"/context/open-actions", action_name,
+			action_name, GTK_UI_MANAGER_AUTO, FALSE);
+
+		g_free (action_name);
+		g_free (action_label);
+		g_free (action_tooltip);
+	}
+
+	g_object_unref (attachment);
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 }

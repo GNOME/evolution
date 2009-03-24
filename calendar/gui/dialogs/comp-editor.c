@@ -63,6 +63,7 @@
 #include "../e-cal-popup.h"
 #include "../calendar-config-keys.h"
 #include "cal-attachment-select-file.h"
+#include "widgets/misc/e-attachment-view.h"
 #include "widgets/misc/e-attachment-paned.h"
 
 #include "e-util/e-error.h"
@@ -233,11 +234,9 @@ drag_data_received (CompEditor *editor,
                     guint info,
                     guint time)
 {
-	EAttachmentPaned *paned;
 	EAttachmentView *view;
 
-	paned = E_ATTACHMENT_PANED (editor->priv->attachment_paned);
-	view = e_attachment_paned_get_view (paned);
+	view = E_ATTACHMENT_VIEW (editor->priv->attachment_paned);
 
 	e_attachment_view_drag_data_received (
 		view, context, x, y, selection, info, time);
@@ -250,11 +249,9 @@ drag_motion (CompEditor *editor,
              gint y,
              guint time)
 {
-	EAttachmentPaned *paned;
 	EAttachmentView *view;
 
-	paned = E_ATTACHMENT_PANED (editor->priv->attachment_paned);
-	view = e_attachment_paned_get_view (paned);
+	view = E_ATTACHMENT_VIEW (editor->priv->attachment_paned);
 
 	return e_attachment_view_drag_motion (view, context, x, y, time);
 }
@@ -262,7 +259,6 @@ drag_motion (CompEditor *editor,
 static GSList *
 get_attachment_list (CompEditor *editor)
 {
-	EAttachmentPaned *paned;
 	EAttachmentStore *store;
 	EAttachmentView *view;
 	GtkTreeModel *model;
@@ -275,8 +271,7 @@ get_attachment_list (CompEditor *editor)
 
 	e_cal_component_get_uid (editor->priv->comp, &comp_uid);
 
-	paned = E_ATTACHMENT_PANED (editor->priv->attachment_paned);
-	view = e_attachment_paned_get_view (paned);
+	view = E_ATTACHMENT_VIEW (editor->priv->attachment_paned);
 	store = e_attachment_view_get_store (view);
 
 	model = GTK_TREE_MODEL (store);
@@ -681,12 +676,10 @@ static void
 action_attach_cb (GtkAction *action,
                   CompEditor *editor)
 {
-	EAttachmentPaned *paned;
 	EAttachmentStore *store;
 	EAttachmentView *view;
 
-	paned = E_ATTACHMENT_PANED (editor->priv->attachment_paned);
-	view = e_attachment_paned_get_view (paned);
+	view = E_ATTACHMENT_VIEW (editor->priv->attachment_paned);
 	store = e_attachment_view_get_store (view);
 
 	e_attachment_store_run_load_dialog (store, GTK_WINDOW (editor));
@@ -815,7 +808,6 @@ action_save_cb (GtkAction *action,
                 CompEditor *editor)
 {
 	CompEditorPrivate *priv = editor->priv;
-	EAttachmentPaned *paned;
 	EAttachmentStore *store;
 	EAttachmentView *view;
 	ECalComponentText text;
@@ -823,11 +815,10 @@ action_save_cb (GtkAction *action,
 	gboolean read_only, correct = FALSE;
 	ECalComponent *comp;
 
-	paned = E_ATTACHMENT_PANED (priv->attachment_paned);
-	view = e_attachment_paned_get_view (paned);
+	view = E_ATTACHMENT_VIEW (priv->attachment_paned);
 	store = e_attachment_view_get_store (view);
 
-	if (e_attachment_store_get_num_downloading (store) > 0) {
+	if (e_attachment_store_get_num_loading (store) > 0) {
 		gboolean response = 1;
 	/*FIXME: Cannot use mail functions from calendar!!!! */
 #if 0
@@ -1504,7 +1495,6 @@ static void
 comp_editor_init (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
-	EAttachmentPaned *paned;
 	EAttachmentView *view;
 	GtkActionGroup *action_group;
 	GtkAction *action;
@@ -1626,8 +1616,7 @@ comp_editor_init (CompEditor *editor)
 
 	/* Add a GtkRecentAction to the "individual" action group. */
 	action_group = comp_editor_get_action_group (editor, "individual");
-	paned = E_ATTACHMENT_PANED (priv->attachment_paned);
-	view = e_attachment_paned_get_view (paned);
+	view = E_ATTACHMENT_VIEW (priv->attachment_paned);
 	action = e_attachment_view_recent_action_new (
 		view, "attach-recent", _("Recent _Documents"));
 	gtk_action_group_add_action (action_group, action);
@@ -2251,13 +2240,11 @@ comp_editor_get_client (CompEditor *editor)
 static void
 set_attachment_list (CompEditor *editor, GSList *attach_list)
 {
-	EAttachmentPaned *paned;
 	EAttachmentStore *store;
 	EAttachmentView *view;
 	GSList *iter = NULL;
 
-	paned = E_ATTACHMENT_PANED (editor->priv->attachment_paned);
-	view = e_attachment_paned_get_view (paned);
+	view = E_ATTACHMENT_VIEW (editor->priv->attachment_paned);
 	store = e_attachment_view_get_store (view);
 
 	if (e_attachment_store_get_num_attachments (store) > 0) {
@@ -2281,14 +2268,12 @@ set_attachment_list (CompEditor *editor, GSList *attach_list)
 static void
 fill_widgets (CompEditor *editor)
 {
-	EAttachmentPaned *paned;
 	EAttachmentStore *store;
 	EAttachmentView *view;
 	CompEditorPrivate *priv;
 	GList *l;
 
-	paned = E_ATTACHMENT_PANED (editor->priv->attachment_paned);
-	view = e_attachment_paned_get_view (paned);
+	view = E_ATTACHMENT_VIEW (editor->priv->attachment_paned);
 	store = e_attachment_view_get_store (view);
 
 	priv = editor->priv;
@@ -2628,7 +2613,6 @@ comp_editor_close (CompEditor *editor)
 GSList *
 comp_editor_get_mime_attach_list (CompEditor *editor)
 {
-	EAttachmentPaned *paned;
 	EAttachmentStore *store;
 	EAttachmentView *view;
 	GtkTreeModel *model;
@@ -2637,8 +2621,7 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 	GSList *attach_list = NULL;
 	gboolean valid;
 
-	paned = E_ATTACHMENT_PANED (editor->priv->attachment_paned);
-	view = e_attachment_paned_get_view (paned);
+	view = E_ATTACHMENT_VIEW (editor->priv->attachment_paned);
 	store = e_attachment_view_get_store (view);
 
 	model = GTK_TREE_MODEL (store);

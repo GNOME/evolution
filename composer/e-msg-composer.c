@@ -3803,7 +3803,7 @@ e_msg_composer_get_message (EMsgComposer *composer,
 	view = e_msg_composer_get_attachment_view (composer);
 	store = e_attachment_view_get_store (view);
 
-	if (e_attachment_store_get_num_downloading (store) > 0) {
+	if (e_attachment_store_get_num_loading (store) > 0) {
 		if (!em_utils_prompt_user (GTK_WINDOW (composer), NULL,
 			"mail-composer:ask-send-message-pending-download", NULL)) {
 			return NULL;
@@ -4255,13 +4255,9 @@ e_msg_composer_get_header_table (EMsgComposer *composer)
 EAttachmentView *
 e_msg_composer_get_attachment_view (EMsgComposer *composer)
 {
-	EAttachmentPaned *paned;
-
 	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), NULL);
 
-	paned = E_ATTACHMENT_PANED (composer->priv->attachment_paned);
-
-	return e_attachment_paned_get_view (paned);
+	return E_ATTACHMENT_VIEW (composer->priv->attachment_paned);
 }
 
 void

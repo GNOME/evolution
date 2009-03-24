@@ -36,7 +36,46 @@ struct _EAttachmentTreeViewPrivate {
 	EAttachmentViewPrivate view_priv;
 };
 
+enum {
+	PROP_0,
+	PROP_EDITABLE
+};
+
 static gpointer parent_class;
+
+static void
+attachment_tree_view_set_property (GObject *object,
+                                   guint property_id,
+                                   const GValue *value,
+                                   GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_EDITABLE:
+			e_attachment_view_set_editable (
+				E_ATTACHMENT_VIEW (object),
+				g_value_get_boolean (value));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
+attachment_tree_view_get_property (GObject *object,
+                                   guint property_id,
+                                   GValue *value,
+                                   GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_EDITABLE:
+			g_value_set_boolean (
+				value, e_attachment_view_get_editable (
+				E_ATTACHMENT_VIEW (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
 
 static void
 attachment_tree_view_dispose (GObject *object)
@@ -267,6 +306,8 @@ attachment_tree_view_class_init (EAttachmentTreeViewClass *class)
 	g_type_class_add_private (class, sizeof (EAttachmentViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->set_property = attachment_tree_view_set_property;
+	object_class->get_property = attachment_tree_view_get_property;
 	object_class->dispose = attachment_tree_view_dispose;
 	object_class->finalize = attachment_tree_view_finalize;
 
@@ -276,6 +317,9 @@ attachment_tree_view_class_init (EAttachmentTreeViewClass *class)
 	widget_class->drag_motion = attachment_tree_view_drag_motion;
 	widget_class->drag_data_received = attachment_tree_view_drag_data_received;
 	widget_class->popup_menu = attachment_tree_view_popup_menu;
+
+	g_object_class_override_property (
+		object_class, PROP_EDITABLE, "editable");
 }
 
 static void
@@ -318,9 +362,11 @@ attachment_tree_view_init (EAttachmentTreeView *tree_view)
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
 
+	g_object_set (renderer, "stock-size", GTK_ICON_SIZE_MENU, NULL);
+
 	gtk_tree_view_column_add_attribute (
-		column, renderer, "pixbuf",
-		E_ATTACHMENT_STORE_COLUMN_SMALL_PIXBUF);
+		column, renderer, "gicon",
+		E_ATTACHMENT_STORE_COLUMN_ICON);
 
 	renderer = gtk_cell_renderer_text_new ();
 	g_object_set (renderer, "ellipsize", PANGO_ELLIPSIZE_END, NULL);

@@ -52,6 +52,7 @@ attachment_dialog_update (EAttachmentDialog *dialog)
 	const gchar *display_name;
 	const gchar *description;
 	const gchar *disposition;
+	gchar *type_description = NULL;
 	gboolean sensitive;
 	gboolean active;
 
@@ -71,32 +72,42 @@ attachment_dialog_update (EAttachmentDialog *dialog)
 		disposition = NULL;
 	}
 
+	if (content_type != NULL) {
+		gchar *comment;
+		gchar *mime_type;
+
+		comment = g_content_type_get_description (content_type);
+		mime_type = g_content_type_get_mime_type (content_type);
+
+		type_description =
+			g_strdup_printf ("%s (%s)", comment, mime_type);
+
+		g_free (comment);
+		g_free (mime_type);
+	}
+
 	sensitive = G_IS_FILE_INFO (file_info);
 
 	gtk_dialog_set_response_sensitive (
 		GTK_DIALOG (dialog), GTK_RESPONSE_OK, sensitive);
 
-	if (display_name == NULL)
-		display_name = "";
 	widget = dialog->priv->display_name_entry;
 	gtk_widget_set_sensitive (widget, sensitive);
 	gtk_entry_set_text (GTK_ENTRY (widget), display_name);
 
-	if (description == NULL)
-		description = "";
 	widget = dialog->priv->description_entry;
 	gtk_widget_set_sensitive (widget, sensitive);
 	gtk_entry_set_text (GTK_ENTRY (widget), description);
 
-	if (content_type == NULL)
-		content_type = "";
 	widget = dialog->priv->content_type_label;
-	gtk_label_set_text (GTK_LABEL (widget), content_type);
+	gtk_label_set_text (GTK_LABEL (widget), type_description);
 
 	active = (g_strcmp0 (disposition, "inline") == 0);
 	widget = dialog->priv->disposition_checkbox;
 	gtk_widget_set_sensitive (widget, sensitive);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (widget), active);
+
+	g_free (type_description);
 }
 
 static void

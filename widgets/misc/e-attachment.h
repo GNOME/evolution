@@ -23,6 +23,7 @@
 #define E_ATTACHMENT_H
 
 #include <gio/gio.h>
+#include <camel/camel-cipher-context.h>
 #include <camel/camel-mime-part.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-multipart.h>
@@ -80,14 +81,31 @@ GFileInfo *	e_attachment_get_file_info	(EAttachment *attachment);
 CamelMimePart *	e_attachment_get_mime_part	(EAttachment *attachment);
 void		e_attachment_set_mime_part	(EAttachment *attachment,
 						 CamelMimePart *mime_part);
+camel_cipher_validity_encrypt_t
+		e_attachment_get_encrypted	(EAttachment *attachment);
+void		e_attachment_set_encrypted	(EAttachment *attachment,
+						 camel_cipher_validity_encrypt_t encrypted);
+camel_cipher_validity_sign_t
+		e_attachment_get_signed		(EAttachment *attachment);
+void		e_attachment_set_signed		(EAttachment *attachment,
+						 camel_cipher_validity_sign_t signed_);
 const gchar *	e_attachment_get_content_type	(EAttachment *attachment);
 const gchar *	e_attachment_get_display_name	(EAttachment *attachment);
 const gchar *	e_attachment_get_description	(EAttachment *attachment);
 GIcon *		e_attachment_get_icon		(EAttachment *attachment);
+gboolean	e_attachment_get_loading	(EAttachment *attachment);
 const gchar *	e_attachment_get_thumbnail_path	(EAttachment *attachment);
+gboolean	e_attachment_get_saving		(EAttachment *attachment);
 guint64		e_attachment_get_size		(EAttachment *attachment);
 gboolean	e_attachment_is_image		(EAttachment *attachment);
 gboolean	e_attachment_is_rfc822		(EAttachment *attachment);
+GList *		e_attachment_list_apps		(EAttachment *attachment);
+GList *		e_attachment_list_emblems	(EAttachment *attachment);
+
+/* Asynchronous Operations */
+void		e_attachment_launch_async	(EAttachment *attachment,
+						 EFileActivity *file_activity,
+						 GAppInfo *app_info);
 void		e_attachment_save_async		(EAttachment *attachment,
 						 EFileActivity *file_activity,
 						 GFile *destination);

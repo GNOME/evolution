@@ -23,7 +23,6 @@
 #define E_ATTACHMENT_PANED_H
 
 #include <gtk/gtk.h>
-#include <e-attachment-view.h>
 
 /* Standard GObject macros */
 #define E_TYPE_ATTACHMENT_PANED \
@@ -61,8 +60,6 @@ struct _EAttachmentPanedClass {
 
 GType		e_attachment_paned_get_type	(void);
 GtkWidget *	e_attachment_paned_new		(void);
-EAttachmentView *
-		e_attachment_paned_get_view	(EAttachmentPaned *paned);
 GtkWidget *	e_attachment_paned_get_content_area
 						(EAttachmentPaned *paned);
 gint		e_attachment_paned_get_active_view

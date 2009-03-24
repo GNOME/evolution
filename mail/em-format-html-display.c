@@ -75,12 +75,12 @@
 #include "mail-config.h"
 
 #include "e-mail-display.h"
+#include "e-mail-attachment-bar.h"
 #include "em-format-html-display.h"
 #include "em-icon-stream.h"
 #include "em-utils.h"
 #include "em-popup.h"
 #include "widgets/misc/e-attachment-view.h"
-#include "widgets/misc/e-attachment-icon-view.h"
 
 #ifdef G_OS_WIN32
 /* Undefine the similar macro from <pthread.h>,it doesn't check if
@@ -100,8 +100,7 @@
 
 struct _EMFormatHTMLDisplayPrivate {
 	/* for Attachment bar */
-	GtkWidget *attachment_view;
-	GtkWidget *attachment_box;
+	GtkWidget *attachment_bar;
 	GtkWidget *label;
 	GtkWidget *save_txt;
 	GtkWidget *arrow;
@@ -150,11 +149,9 @@ static const char *smime_sign_colour[5] = {
 static void efhd_attachment_frame(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri);
 static gboolean efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject);
 static void efhd_message_add_bar(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info);
-static void efhd_message_update_bar(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info);
 static void efhd_attachment_button_show (GtkWidget *w, void *data);
 static gboolean efhd_attachment_button (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject);
 static gboolean efhd_attachment_optional (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *object);
-static void efhd_attachment_bar_refresh (EMFormatHTMLDisplay *efhd);
 
 struct _attach_puri {
 	EMFormatPURI puri;
@@ -194,7 +191,6 @@ struct _attach_puri {
 static void efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info);
 
 static void efhd_complete(EMFormat *);
-gboolean efhd_mnemonic_show_bar (GtkWidget *widget, gboolean focus, GtkWidget *efhd);
 
 static void efhd_builtin_init(EMFormatHTMLDisplayClass *efhc);
 
@@ -481,6 +477,9 @@ efhd_format_attachment (EMFormat *emf,
                         const gchar *mime_type,
                         const EMFormatHandler *handle)
 {
+	EMFormatHTMLDisplay *efhd;
+	EAttachmentView *view;
+	EAttachmentStore *store;
 	char *classid, *text, *html;
 	struct _attach_puri *info;
 
@@ -840,8 +839,6 @@ static EMFormatHandler type_builtin_table[] = {
 
 	{ "x-evolution/message/prefix", (EMFormatFunc)efhd_message_prefix },
 	{ "x-evolution/message/post-header", (EMFormatFunc)efhd_message_add_bar },
-	{ "x-evolution/message/post-header-closure", (EMFormatFunc)efhd_message_update_bar },
-
 };
 
 static void
@@ -1297,7 +1294,6 @@ efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObjec
 static gboolean
 efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {
-#if 0  /* KILL-BONOBO  !! FIXME !! */
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
 	EAttachment *new;
 	struct _attach_puri *info;
@@ -1320,10 +1316,15 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 		return TRUE;
 	}
 
-	if (efhd->priv->attachment_view) {
+	if (efhd->priv->attachment_bar) {
 		EAttachmentView *view;
 		EAttachmentStore *store;
 
+		view = E_ATTACHMENT_VIEW (efhd->priv->attachment_bar);
+		store = e_attachment_view_get_store (view);
+		e_attachment_store_add_attachment (store, info->attachment);
+
+#if 0  /* KILL-BONOBO */
 		file = camel_mime_part_get_filename(info->puri.part);
 
 		new = info->attachment;
@@ -1353,16 +1354,10 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 		} else {
 			g_hash_table_insert (efhd->priv->files, g_strdup(file), GUINT_TO_POINTER(1));
 		}
+#endif
 
-		/* Store the status of encryption / signature on the attachment for emblem display
-		 * FIXME: May not work well always
-		 */
-		new->sign = info->sign;
-		new->encrypt = info->encrypt;
-
-		/* Add the attachment to the bar.*/
-		e_attachment_bar_add_attachment_silent (E_ATTACHMENT_BAR(efhd->priv->attachment_bar), new);
-		efhd_attachment_bar_refresh(efhd);
+		e_attachment_set_encrypted (info->attachment, info->encrypt);
+		e_attachment_set_signed (info->attachment, info->sign);
 	}
 
 	mainbox = gtk_hbox_new(FALSE, 0);
@@ -1456,7 +1451,6 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 		gtk_widget_hide(info->down);
 
 	gtk_container_add((GtkContainer *)eb, mainbox);
-#endif
 
 	return TRUE;
 }
@@ -1477,23 +1471,6 @@ efhd_attachment_frame(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 		   NB: need a virtual puri_free method? */
 		info->output = stream;
 		camel_object_ref(stream);
-	}
-}
-
-static void
-attachment_bar_arrow_clicked(GtkWidget *w, EMFormatHTMLDisplay *efhd)
-{
-
-	efhd->priv->show_bar = !efhd->priv->show_bar;
-
-	if (efhd->priv->show_bar) {
-		gtk_widget_show(efhd->priv->attachment_box);
-		gtk_widget_show(efhd->priv->down);
-		gtk_widget_hide(efhd->priv->forward);
-	} else {
-		gtk_widget_hide(efhd->priv->attachment_box);
-		gtk_widget_show(efhd->priv->forward);
-		gtk_widget_hide(efhd->priv->down);
 	}
 }
 
@@ -1565,183 +1542,43 @@ static EPopupItem efhd_bar_menu_items[] = {
 #endif
 
 static void
-efhd_attachment_bar_refresh (EMFormatHTMLDisplay *efhd)
+efhd_bar_resize (EMFormatHTML *efh,
+                 GtkAllocation *event)
 {
-	EAttachmentStore *store;
-	EAttachmentView *view;
-	guint nattachments;
+	EMFormatHTMLDisplay *efhd;
+	GtkWidget *widget;
+	gint width;
 
-	if (!efhd->priv->attachment_view)
-		return;
+	efhd = EM_FORMAT_HTML_DISPLAY (efh);
 
-	view = E_ATTACHMENT_VIEW (efhd->priv->attachment_view);
-	store = e_attachment_view_get_store (view);
+	widget = GTK_WIDGET (efh->html);
+	width = widget->allocation.width - 12;
 
-	nattachments = e_attachment_store_get_num_attachments (store);
-
-	if (nattachments > 0) {
-		char *txt;
-
-		/* Cant i put in the number of attachments here ?*/
-		txt = g_strdup_printf(ngettext("%d at_tachment", "%d at_tachments", nattachments), nattachments);
-		gtk_label_set_text_with_mnemonic ((GtkLabel *)efhd->priv->label, txt);
-		g_free (txt);
-
-		/* Show the bar even when the first attachment is added */
-		if (nattachments == 1) {
-			gtk_widget_show_all (efhd->priv->attachment_area);
-			gtk_label_set_text_with_mnemonic ((GtkLabel *)efhd->priv->save_txt, _("S_ave"));
-
-			if (efhd->priv->show_bar) {
-				gtk_widget_show(efhd->priv->down);
-				gtk_widget_hide(efhd->priv->forward);
-			} else {
-				gtk_widget_show(efhd->priv->forward);
-				gtk_widget_hide(efhd->priv->down);
-				gtk_widget_hide(efhd->priv->attachment_box);
-			}
-		} else if (nattachments > 1) {
-			gtk_label_set_text_with_mnemonic ((GtkLabel *)efhd->priv->save_txt, _("S_ave All"));
-		}
+	if (width > 0) {
+		widget = efhd->priv->attachment_bar;
+		gtk_widget_set_size_request (widget, width, -1);
 	}
 }
 
-static void
-efhd_bar_resize(GtkWidget *w, GtkAllocation *event, EMFormatHTML *efh)
-{
-#if 0 /* KILL-BONOBO -- Does EAttachmentIconView need a resize method? */
-	int width;
-	GtkRequisition req;
-	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *) efh;
-
-	gtk_widget_size_request (efhd->priv->attachment_bar, &req);
-	width = ((GtkWidget *) efh->html)->allocation.width - 16;
-
-	/* Update the width of the bar when the width is greater than 1*/
-	if (width > 0)
-		e_attachment_bar_set_width(E_ATTACHMENT_BAR(efhd->priv->attachment_bar), width);
-#endif
-}
-
 static gboolean
-efhd_bar_scroll_event(GtkWidget *w, GdkEventScroll *event, EMFormatHTMLDisplay *efhd)
-{
-#if 0  /* KILL-BONOBO -- Do we still need this for a GtkIconView? */
-	gboolean ret;
-
-	/* Emulate the scroll over the attachment bar, as if it is scrolled in the window.
-	*  It doesnt go automatically since the GnomeIconList is a layout by itself
-	*/
-	g_signal_emit_by_name (gtk_widget_get_parent((GtkWidget *)efhd->parent.html), "scroll_event", event, &ret);
-#endif
-
-	return TRUE;
-}
-
-gboolean
-efhd_mnemonic_show_bar (GtkWidget *widget, gboolean focus, GtkWidget *efhd)
-{
-	attachment_bar_arrow_clicked (NULL, (EMFormatHTMLDisplay *)efhd);
-
-	return TRUE;
-}
-
-static gboolean
-efhd_update_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
-{
-#if 0  /* KILL-BONOBO -- Does EAttachmentIconView need a refresh method? */
-	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
-	struct _EMFormatHTMLDisplayPrivate *priv = efhd->priv;
-
-	if (priv->attachment_bar)
-		e_attachment_bar_refresh (E_ATTACHMENT_BAR (priv->attachment_bar));
-#endif
-
-	return TRUE;
-}
-
-static gboolean
-efhd_add_bar(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
+efhd_add_bar (EMFormatHTML *efh,
+              GtkHTMLEmbedded *eb,
+              EMFormatHTMLPObject *pobject)
 {
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
 	struct _EMFormatHTMLDisplayPrivate *priv = efhd->priv;
-	GtkWidget *hbox1, *hbox2, *hbox3, *vbox, *txt, *image, *save, *scroll;
-	int width, height, bar_width;
+	GtkWidget *widget;
 
-	priv->attachment_view = e_attachment_icon_view_new ();
-	scroll = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scroll), GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
+	widget = e_mail_attachment_bar_new ();
+	gtk_container_add (GTK_CONTAINER (eb), widget);
+	priv->attachment_bar = g_object_ref (widget);
+	gtk_widget_show (widget);
 
-	priv->forward = gtk_arrow_new(GTK_ARROW_RIGHT, GTK_SHADOW_NONE);
-	priv->down = gtk_arrow_new(GTK_ARROW_DOWN, GTK_SHADOW_NONE);
-	hbox3 = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)hbox3, priv->forward, FALSE, FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)hbox3, priv->down, FALSE, FALSE, 0);
-	priv->arrow = (GtkWidget *)gtk_tool_button_new(hbox3, NULL);
-	g_signal_connect (priv->arrow, "mnemonic_activate", G_CALLBACK (efhd_mnemonic_show_bar), efh);
-	atk_object_set_name (gtk_widget_get_accessible (priv->arrow), _("Show Attachments"));
-
-	priv->label = gtk_label_new(_("No Attachment"));
-	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->label), priv->arrow);
-	save = gtk_button_new();
-	image = gtk_image_new_from_stock ("gtk-save", GTK_ICON_SIZE_BUTTON);
-	txt = gtk_label_new_with_mnemonic(_("S_ave"));
-	priv->save_txt = txt;
-	hbox1 = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_start((GtkBox *)hbox1, image, FALSE, FALSE, 2);
-	gtk_box_pack_start((GtkBox *)hbox1, txt, FALSE, FALSE, 0);
-
-	gtk_container_add((GtkContainer *)save, hbox1);
-
-	hbox2 = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)hbox2, priv->arrow, FALSE, FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)hbox2, priv->label, FALSE, FALSE, 2);
-	gtk_box_pack_start ((GtkBox *)hbox2, save, FALSE, FALSE, 2);
-
-	priv->attachment_box = scroll;
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scroll), GTK_SHADOW_IN);
-	gtk_container_add ((GtkContainer *)priv->attachment_box, priv->attachment_view);
-
-	gtk_widget_get_size_request(priv->attachment_view, &width, &height);
-
-	/* FIXME: What if the text is more?. Should we reduce the text with appending ...?
-	 * or resize the bar? How to figure out that, it needs more space? */
-	bar_width = ((GtkWidget *)efh->html)->parent->allocation.width - /* FIXME */16;
-	gtk_widget_set_size_request (priv->attachment_view,
-				     bar_width > 0 ? bar_width : 0,
-				     84 /* FIXME: Default show only one row, Dont hardcode size*/);
-
-	vbox = gtk_vbox_new (FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)vbox, hbox2, FALSE, FALSE, 2);
-	gtk_box_pack_start ((GtkBox *)vbox, priv->attachment_box, TRUE, TRUE, 2);
-
-	gtk_container_add ((GtkContainer *)eb, vbox);
-	gtk_widget_show ((GtkWidget *)eb);
-
-	/* Lets hide it by default and show only when there are attachments */
-	priv->attachment_area = vbox;
-	gtk_widget_hide_all (priv->attachment_area);
-
-	g_signal_connect (priv->arrow, "clicked", G_CALLBACK(attachment_bar_arrow_clicked), efh);
-	g_signal_connect (save, "clicked", G_CALLBACK(attachments_save_all_clicked), efh);
-	g_signal_connect (eb, "size_allocate", G_CALLBACK (efhd_bar_resize), efh);
+	g_signal_connect_swapped (
+		widget, "size-allocate",
+		G_CALLBACK (efhd_bar_resize), efh);
 
 	return TRUE;
-}
-static void
-efhd_message_update_bar(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
-{
-	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *) emf;
-	const char *classid = "attachment-bar-refresh";
-
-	if (efhd->priv->updated)
-		return;
-
-	efhd->priv->files = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-	efhd->priv->updated = TRUE;
-	em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_update_bar);
-	camel_stream_printf(stream, "<td><object classid=\"%s\"></object></td>", classid);
-
 }
 
 static void

@@ -69,6 +69,7 @@ activity_idle_cancel_cb (EActivity *activity)
 {
 	activity->priv->idle_id = 0;
 	e_activity_cancel (activity);
+	g_object_unref (activity);
 
 	return FALSE;
 }
@@ -78,6 +79,7 @@ activity_idle_complete_cb (EActivity *activity)
 {
 	activity->priv->idle_id = 0;
 	e_activity_complete (activity);
+	g_object_unref (activity);
 
 	return FALSE;
 }
@@ -474,13 +476,24 @@ e_activity_cancel (EActivity *activity)
 void
 e_activity_cancel_in_idle (EActivity *activity)
 {
+	guint old_idle_id;
+
 	g_return_if_fail (E_IS_ACTIVITY (activity));
 
-	if (activity->priv->idle_id > 0)
-		g_source_remove (activity->priv->idle_id);
+	/* Be careful not to finalize the activity.  Decrement the
+	 * reference count only after incrementing it, in case this
+	 * is the last reference. */
+
+	old_idle_id = activity->priv->idle_id;
 
 	activity->priv->idle_id = g_idle_add (
-		(GSourceFunc) activity_idle_cancel_cb, activity);
+		(GSourceFunc) activity_idle_cancel_cb,
+		g_object_ref (activity));
+
+	if (old_idle_id > 0) {
+		g_source_remove (old_idle_id);
+		g_object_unref (activity);
+	}
 }
 
 void
@@ -500,13 +513,24 @@ e_activity_complete (EActivity *activity)
 void
 e_activity_complete_in_idle (EActivity *activity)
 {
+	guint old_idle_id;
+
 	g_return_if_fail (E_IS_ACTIVITY (activity));
 
-	if (activity->priv->idle_id > 0)
-		g_source_remove (activity->priv->idle_id);
+	/* Be careful not to finalize the activity.  Decrement the
+	 * reference count only after incrementing it, in case this
+	 * is the last reference. */
+
+	old_idle_id = activity->priv->idle_id;
 
 	activity->priv->idle_id = g_idle_add (
-		(GSourceFunc) activity_idle_complete_cb, activity);
+		(GSourceFunc) activity_idle_complete_cb,
+		g_object_ref (activity));
+
+	if (old_idle_id > 0) {
+		g_source_remove (old_idle_id);
+		g_object_unref (activity);
+	}
 }
 
 void

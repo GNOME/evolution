@@ -88,6 +88,8 @@ struct _EAttachmentViewPrivate {
 	GtkSelectionData *selection_data;
 	guint info;
 	guint time;
+
+	guint editable : 1;
 };
 
 GType		e_attachment_view_get_type	(void);
@@ -100,6 +102,9 @@ EAttachmentViewPrivate *
 		e_attachment_view_get_private	(EAttachmentView *view);
 EAttachmentStore *
 		e_attachment_view_get_store	(EAttachmentView *view);
+gboolean	e_attachment_view_get_editable	(EAttachmentView *view);
+void		e_attachment_view_set_editable	(EAttachmentView *view,
+						 gboolean editable);
 GList *		e_attachment_view_get_selected_attachments
 						(EAttachmentView *view);
 void		e_attachment_view_remove_selected
