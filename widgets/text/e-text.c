@@ -426,8 +426,12 @@ reset_layout (EText *text)
 		pango_layout_context_changed (text->layout);
 
 		text->font_desc = pango_font_description_new ();
-		pango_font_description_set_size (text->font_desc,
-			pango_font_description_get_size ((GTK_WIDGET (item->canvas))->style->font_desc));
+		if (!pango_font_description_get_size_is_absolute ((GTK_WIDGET (item->canvas))->style->font_desc))
+			pango_font_description_set_size (text->font_desc,
+				pango_font_description_get_size ((GTK_WIDGET (item->canvas))->style->font_desc));
+		else
+			pango_font_description_set_absolute_size (text->font_desc,
+				pango_font_description_get_size ((GTK_WIDGET (item->canvas))->style->font_desc));
 		pango_font_description_set_family (text->font_desc,
 			pango_font_description_get_family ((GTK_WIDGET (item->canvas))->style->font_desc));
 		pango_layout_set_font_description (text->layout, text->font_desc);

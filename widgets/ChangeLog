@@ -1,3 +1,10 @@
+2009-03-25  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #576694
+
+	* text/e-text.c (reset_layout):
+	Handle absolute font sizes correctly.
+
 2009-02-14  Matthew Barnes  <mbarnes@redhat.com>
 
 	* text/e-text.c:
