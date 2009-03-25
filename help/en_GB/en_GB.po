@@ -1,12 +1,15 @@
 # Philip Withnall <philip@tecnocode.co.uk>, 2009.
+# Jen Ockwell <jenfraggleubuntu@gmail.com>, 2009Philip Withnall <philip@tecnocode.co.uk>, 2009.
+#
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-docs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-03-10 17:02+0000\n"
-"PO-Revision-Date: 2009-03-10 00:15+0000\n"
-"Last-Translator: Philip Withnall <philip@tecnocode.co.uk>\n"
-"Language-Team: British English <en@li.org>\n"
+"POT-Creation-Date: 2009-03-19 12:26+0000\n"
+"PO-Revision-Date: 2009-03-19 20:37+0000\n"
+"Last-Translator: Jen Ockwell <jenfraggleubuntu@gmail.com>\n"
+"Language-Team: English/GB <en@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -846,8 +849,8 @@ msgstr "2002-2009"
 
 #: C/evolution.xml:29(revnumber) C/evolution.xml:37(revnumber)
 #: C/evolution.xml:80(productnumber)
-msgid "2.24"
-msgstr "http://bugzilla.gnome.org/show_bug.cgi?id=555855"
+msgid "2.26"
+msgstr "2.26"
 
 #: C/evolution.xml:30(date)
 msgid "March 2009"
@@ -891,10 +894,8 @@ msgid "October 5, 2006"
 msgstr "5 October 5 2006"
 
 #: C/evolution.xml:70(releaseinfo)
-msgid "This manual describes version 2.24 of Evolution"
-msgstr ""
-"This manual describes version 2.10 of Evolutionhttp://bugzilla.gnome.org/"
-"show_bug.cgi?id=555855"
+msgid "This manual describes version 2.26 of Evolution"
+msgstr "This manual describes version 2.26 of Evolution"
 
 #: C/evolution.xml:74(para)
 msgid ""
@@ -914,8 +915,8 @@ msgid "February 2008"
 msgstr "February 2008"
 
 #: C/evolution.xml:82(title) C/evolution.xml:7813(para)
-msgid "Evolution 2.24 User Guide"
-msgstr "Evolution 2.24 User Guide"
+msgid "Evolution 2.26 User Guide"
+msgstr "Evolution 2.26 User Guide"
 
 #: C/evolution.xml:87(title)
 msgid "About This Guide"
@@ -924,11 +925,11 @@ msgstr "About This Guide"
 #: C/evolution.xml:88(para)
 msgid ""
 "This guide describes how to use and manage <trademark>Evolution</trademark> "
-"2.24 client software. This guide is intended for users and is divided into "
+"2.26 client software. This guide is intended for users and is divided into "
 "the following sections:"
 msgstr ""
 "This guide describes how to use and manage <trademark>Evolution</trademark> "
-"2.24 client software. This guide is intended for users and is divided into "
+"2.26 client software. This guide is intended for users and is divided into "
 "the following sections:"
 
 #: C/evolution.xml:91(link) C/evolution.xml:152(title)
@@ -15649,7 +15650,8 @@ msgstr ""
 msgid "translator-credits"
 msgstr ""
 "David Lodge <dave@cirt.net>, 2007\n"
-"Philip Withnall <philip@tecnocode.co.uk>, 2009"
+"Philip Withnall <philip@tecnocode.co.uk>, 2009\n"
+"Jen Ockwell <jenfraggleubuntu@gmail.com>, 2009"
 
 #~ msgid "@@image: 'figures/evo_wcal_prop_a.png'; md5=THIS FILE DOESN'T EXIST"
 #~ msgstr "@@image: 'figures/evo_wcal_prop_a.png'; md5=THIS FILE DOESN'T EXIST"
