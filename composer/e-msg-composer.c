@@ -1959,6 +1959,9 @@ msg_composer_paste_clipboard (GtkhtmlEditor *editor)
 
 		attachment = e_attachment_new_for_uri (uri);
 		e_attachment_store_add_attachment (store, attachment);
+		e_attachment_load_async (
+			attachment, (GAsyncReadyCallback)
+			e_attachment_load_handle_error, composer);
 		g_object_unref (attachment);
 	}
 
@@ -3443,6 +3446,9 @@ handle_mailto (EMsgComposer *composer, const gchar *mailto)
 
 				attachment = e_attachment_new_for_uri (content);
 				e_attachment_store_add_attachment (store, attachment);
+				e_attachment_load_async (
+					attachment, (GAsyncReadyCallback)
+					e_attachment_load_handle_error, composer);
 				g_object_unref (attachment);
 			} else if (!g_ascii_strcasecmp (header, "from")) {
 				/* Ignore */
@@ -3679,6 +3685,9 @@ e_msg_composer_attach (EMsgComposer *composer,
 	attachment = e_attachment_new ();
 	e_attachment_set_mime_part (attachment, mime_part);
 	e_attachment_store_add_attachment (store, attachment);
+	e_attachment_load_async (
+		attachment, (GAsyncReadyCallback)
+		e_attachment_load_handle_error, composer);
 	g_object_unref (attachment);
 }
 

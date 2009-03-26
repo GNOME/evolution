@@ -67,6 +67,7 @@ static struct {
 static const gchar *ui =
 "<ui>"
 "  <popup name='context'>"
+"    <menuitem action='cancel'/>"
 "    <menuitem action='save-as'/>"
 "    <menuitem action='set-background'/>"
 "    <menuitem action='remove'/>"
@@ -100,6 +101,23 @@ action_add_cb (GtkAction *action,
 }
 
 static void
+action_cancel_cb (GtkAction *action,
+                  EAttachmentView *view)
+{
+	EAttachment *attachment;
+	GList *selected;
+
+	selected = e_attachment_view_get_selected_attachments (view);
+	g_return_if_fail (g_list_length (selected) == 1);
+	attachment = selected->data;
+
+	e_attachment_cancel (attachment);
+
+	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
+	g_list_free (selected);
+}
+
+static void
 action_drag_cancel_cb (GtkAction *action,
                        EAttachmentView *view)
 {
@@ -128,23 +146,20 @@ action_open_in_cb (GtkAction *action,
                    EAttachmentView *view)
 {
 	GAppInfo *app_info;
-	EActivity *activity;
-	EAttachment *attachment;
+	GtkTreePath *path;
+	GList *selected;
+
+	selected = e_attachment_view_get_selected_paths (view);
+	g_return_if_fail (g_list_length (selected) == 1);
+	path = selected->data;
 
 	app_info = g_object_get_data (G_OBJECT (action), "app-info");
 	g_return_if_fail (G_IS_APP_INFO (app_info));
 
-	attachment = g_object_get_data (G_OBJECT (action), "attachment");
-	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+	e_attachment_view_open_path (view, path, app_info);
 
-	activity = e_file_activity_newv (
-		_("Opening attachment in %s"),
-		g_app_info_get_name (app_info));
-
-	e_attachment_launch_async (
-		attachment, E_FILE_ACTIVITY (activity), app_info);
-
-	g_object_unref (activity);
+	g_list_foreach (selected, (GFunc) gtk_tree_path_free, NULL);
+	g_list_free (selected);
 }
 
 static void
@@ -178,14 +193,21 @@ action_recent_cb (GtkAction *action,
 	GtkRecentChooser *chooser;
 	EAttachmentStore *store;
 	EAttachment *attachment;
+	gpointer parent;
 	gchar *uri;
 
 	chooser = GTK_RECENT_CHOOSER (action);
 	store = e_attachment_view_get_store (view);
 
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+
 	uri = gtk_recent_chooser_get_current_uri (chooser);
 	attachment = e_attachment_new_for_uri (uri);
 	e_attachment_store_add_attachment (store, attachment);
+	e_attachment_load_async (
+		attachment, (GAsyncReadyCallback)
+		e_attachment_load_handle_error, parent);
 	g_free (uri);
 }
 
@@ -200,15 +222,41 @@ static void
 action_save_as_cb (GtkAction *action,
                    EAttachmentView *view)
 {
+	EAttachmentStore *store;
+	EAttachment *attachment;
+	GList *selected;
+	gpointer parent;
+
+	store = e_attachment_view_get_store (view);
+
+	selected = e_attachment_view_get_selected_attachments (view);
+	g_return_if_fail (g_list_length (selected) == 1);
+	attachment = selected->data;
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+
+	e_attachment_store_run_save_dialog (store, attachment, parent);
+
+	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
+	g_list_free (selected);
 }
 
 static void
 action_set_background_cb (GtkAction *action,
                           EAttachmentView *view)
 {
+	/* FIXME */
 }
 
 static GtkActionEntry standard_entries[] = {
+
+	{ "cancel",
+	  GTK_STOCK_CANCEL,
+	  NULL,
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_cancel_cb) },
 
 	{ "drag-cancel",
 	  NULL,
@@ -284,6 +332,7 @@ drop_message_rfc822 (EAttachmentView *view,
 	const gchar *data;
 	gboolean success = FALSE;
 	gboolean delete = FALSE;
+	gpointer parent;
 	gint length;
 
 	priv = e_attachment_view_get_private (view);
@@ -301,8 +350,14 @@ drop_message_rfc822 (EAttachmentView *view,
 	if (camel_data_wrapper_construct_from_stream (wrapper, stream) == -1)
 		goto exit;
 
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+
 	attachment = e_attachment_new_for_message (message);
 	e_attachment_store_add_attachment (store, attachment);
+	e_attachment_load_async (
+		attachment, (GAsyncReadyCallback)
+		e_attachment_load_handle_error, parent);
 	g_object_unref (attachment);
 
 	success = TRUE;
@@ -324,6 +379,7 @@ drop_netscape_url (EAttachmentView *view,
 	EAttachmentViewPrivate *priv;
 	EAttachment *attachment;
 	const gchar *data;
+	gpointer parent;
 	gchar *copied_data;
 	gchar **strv;
 	gint length;
@@ -339,8 +395,14 @@ drop_netscape_url (EAttachmentView *view,
 	strv = g_strsplit (copied_data, "\n", 2);
 	g_free (copied_data);
 
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+
 	attachment = e_attachment_new_for_uri (strv[0]);
 	e_attachment_store_add_attachment (store, attachment);
+	e_attachment_load_async (
+		attachment, (GAsyncReadyCallback)
+		e_attachment_load_handle_error, parent);
 	g_object_unref (attachment);
 
 	g_strfreev (strv);
@@ -355,6 +417,7 @@ drop_text_uri_list (EAttachmentView *view,
                     GdkDragAction action)
 {
 	EAttachmentViewPrivate *priv;
+	gpointer parent;
 	gchar **uris;
 	gint ii;
 
@@ -362,11 +425,17 @@ drop_text_uri_list (EAttachmentView *view,
 
 	uris = gtk_selection_data_get_uris (selection_data);
 
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+
 	for (ii = 0; uris[ii] != NULL; ii++) {
 		EAttachment *attachment;
 
 		attachment = e_attachment_new_for_uri (uris[ii]);
 		e_attachment_store_add_attachment (store, attachment);
+		e_attachment_load_async (
+			attachment, (GAsyncReadyCallback)
+			e_attachment_load_handle_error, parent);
 		g_object_unref (attachment);
 	}
 
@@ -386,6 +455,7 @@ drop_text_generic (EAttachmentView *view,
 	CamelMimePart *mime_part;
 	GdkAtom atom;
 	const gchar *data;
+	gpointer parent;
 	gchar *content_type;
 	gint length;
 
@@ -402,9 +472,15 @@ drop_text_generic (EAttachmentView *view,
 	camel_mime_part_set_disposition (mime_part, "inline");
 	g_free (content_type);
 
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+
 	attachment = e_attachment_new ();
 	e_attachment_set_mime_part (attachment, mime_part);
 	e_attachment_store_add_attachment (store, attachment);
+	e_attachment_load_async (
+		attachment, (GAsyncReadyCallback)
+		e_attachment_load_handle_error, parent);
 	g_object_unref (attachment);
 
 	camel_object_unref (mime_part);
@@ -635,6 +711,8 @@ e_attachment_view_get_selected_attachments (EAttachmentView *view)
 	GList *selected, *item;
 	gint column_id;
 
+	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), NULL);
+
 	column_id = E_ATTACHMENT_STORE_COLUMN_ATTACHMENT;
 	selected = e_attachment_view_get_selected_paths (view);
 	store = e_attachment_view_get_store (view);
@@ -657,6 +735,39 @@ e_attachment_view_get_selected_attachments (EAttachmentView *view)
 
 	return selected;
 }
+
+void
+e_attachment_view_open_path (EAttachmentView *view,
+                             GtkTreePath *path,
+                             GAppInfo *app_info)
+{
+	EAttachmentStore *store;
+	EAttachment *attachment;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gpointer parent;
+	gint column_id;
+
+	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
+	g_return_if_fail (path != NULL);
+
+	column_id = E_ATTACHMENT_STORE_COLUMN_ATTACHMENT;
+	store = e_attachment_view_get_store (view);
+	model = GTK_TREE_MODEL (store);
+
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_model_get (model, &iter, column_id, &attachment, -1);
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+
+	e_attachment_open_async (
+		attachment, app_info, (GAsyncReadyCallback)
+		e_attachment_open_handle_error, parent);
+
+	g_object_unref (attachment);
+}
+
 void
 e_attachment_view_remove_selected (EAttachmentView *view,
                                    gboolean select_next)
@@ -1076,6 +1187,7 @@ e_attachment_view_update_actions (EAttachmentView *view)
 	GList *list, *iter;
 	guint n_selected;
 	gboolean is_image;
+	gboolean busy = FALSE;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 
@@ -1086,6 +1198,8 @@ e_attachment_view_update_actions (EAttachmentView *view)
 	if (n_selected == 1) {
 		attachment = g_object_ref (list->data);
 		is_image = e_attachment_is_image (attachment);
+		busy |= e_attachment_get_loading (attachment);
+		busy |= e_attachment_get_saving (attachment);
 	} else {
 		attachment = NULL;
 		is_image = FALSE;
@@ -1094,23 +1208,26 @@ e_attachment_view_update_actions (EAttachmentView *view)
 	g_list_foreach (list, (GFunc) g_object_unref, NULL);
 	g_list_free (list);
 
+	action = e_attachment_view_get_action (view, "cancel");
+	gtk_action_set_visible (action, busy);
+
 	action = e_attachment_view_get_action (view, "properties");
-	gtk_action_set_visible (action, n_selected == 1);
+	gtk_action_set_visible (action, !busy && n_selected == 1);
 
 	action = e_attachment_view_get_action (view, "remove");
-	gtk_action_set_visible (action, n_selected > 0);
+	gtk_action_set_visible (action, !busy && n_selected > 0);
 
 	action = e_attachment_view_get_action (view, "save-as");
-	gtk_action_set_visible (action, n_selected > 0);
+	gtk_action_set_visible (action, !busy && n_selected == 1);
 
 	action = e_attachment_view_get_action (view, "set-background");
-	gtk_action_set_visible (action, is_image);
+	gtk_action_set_visible (action, !busy && is_image);
 
 	/* Clear out the "openwith" action group. */
 	gtk_ui_manager_remove_ui (priv->ui_manager, priv->merge_id);
 	e_action_group_remove_all_actions (priv->openwith_actions);
 
-	if (attachment == NULL)
+	if (attachment == NULL || busy)
 		return;
 
 	list = e_attachment_list_apps (attachment);

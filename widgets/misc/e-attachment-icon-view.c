@@ -21,6 +21,7 @@
 
 #include "e-attachment-icon-view.h"
 
+#include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 
 #include "e-attachment.h"
@@ -163,6 +164,15 @@ attachment_icon_view_popup_menu (GtkWidget *widget)
 	return TRUE;
 }
 
+static void
+attachment_icon_view_item_activated (GtkIconView *icon_view,
+                                     GtkTreePath *path)
+{
+	EAttachmentView *view = E_ATTACHMENT_VIEW (icon_view);
+
+	e_attachment_view_open_path (view, path, NULL);
+}
+
 static EAttachmentViewPrivate *
 attachment_icon_view_get_private (EAttachmentView *view)
 {
@@ -265,6 +275,7 @@ attachment_icon_view_class_init (EAttachmentIconViewClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
+	GtkIconViewClass *icon_view_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EAttachmentViewPrivate));
@@ -281,6 +292,9 @@ attachment_icon_view_class_init (EAttachmentIconViewClass *class)
 	widget_class->drag_motion = attachment_icon_view_drag_motion;
 	widget_class->drag_data_received = attachment_icon_view_drag_data_received;
 	widget_class->popup_menu = attachment_icon_view_popup_menu;
+
+	icon_view_class = GTK_ICON_VIEW_CLASS (class);
+	icon_view_class->item_activated = attachment_icon_view_item_activated;
 
 	g_object_class_override_property (
 		object_class, PROP_EDITABLE, "editable");
@@ -317,7 +331,7 @@ attachment_icon_view_init (EAttachmentIconView *icon_view)
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	g_object_set (renderer, "stock-size", GTK_ICON_SIZE_DIALOG, NULL);
-	gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
+	gtk_cell_layout_pack_start (cell_layout, renderer, TRUE);
 
 	gtk_cell_layout_add_attribute (
 		cell_layout, renderer, "gicon",
@@ -327,11 +341,35 @@ attachment_icon_view_init (EAttachmentIconView *icon_view)
 	g_object_set (
 		renderer, "alignment", PANGO_ALIGN_CENTER,
 		"xalign", 0.5, NULL);
-	gtk_cell_layout_pack_start (cell_layout, renderer, FALSE);
+	gtk_cell_layout_pack_start (cell_layout, renderer, TRUE);
 
 	gtk_cell_layout_add_attribute (
 		cell_layout, renderer, "text",
 		E_ATTACHMENT_STORE_COLUMN_CAPTION);
+
+	renderer = gtk_cell_renderer_progress_new ();
+	g_object_set (renderer, "text", _("Loading"), NULL);
+	gtk_cell_layout_pack_start (cell_layout, renderer, TRUE);
+
+	gtk_cell_layout_add_attribute (
+		cell_layout, renderer, "value",
+		E_ATTACHMENT_STORE_COLUMN_PERCENT);
+
+	gtk_cell_layout_add_attribute (
+		cell_layout, renderer, "visible",
+		E_ATTACHMENT_STORE_COLUMN_LOADING);
+
+	renderer = gtk_cell_renderer_progress_new ();
+	g_object_set (renderer, "text", _("Saving"), NULL);
+	gtk_cell_layout_pack_start (cell_layout, renderer, TRUE);
+
+	gtk_cell_layout_add_attribute (
+		cell_layout, renderer, "value",
+		E_ATTACHMENT_STORE_COLUMN_PERCENT);
+
+	gtk_cell_layout_add_attribute (
+		cell_layout, renderer, "visible",
+		E_ATTACHMENT_STORE_COLUMN_SAVING);
 }
 
 GType

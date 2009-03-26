@@ -58,18 +58,22 @@ attachment_dialog_update (EAttachmentDialog *dialog)
 
 	attachment = e_attachment_dialog_get_attachment (dialog);
 
-	if (E_IS_ATTACHMENT (attachment)) {
+	if (attachment != NULL) {
 		file_info = e_attachment_get_file_info (attachment);
-		content_type = e_attachment_get_content_type (attachment);
-		display_name = e_attachment_get_display_name (attachment);
 		description = e_attachment_get_description (attachment);
 		disposition = e_attachment_get_disposition (attachment);
 	} else {
 		file_info = NULL;
-		content_type = NULL;
-		display_name = NULL;
 		description = NULL;
 		disposition = NULL;
+	}
+
+	if (file_info != NULL) {
+		content_type = g_file_info_get_content_type (file_info);
+		display_name = g_file_info_get_display_name (file_info);
+	} else {
+		content_type = NULL;
+		display_name = NULL;
 	}
 
 	if (content_type != NULL) {

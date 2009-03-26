@@ -2261,6 +2261,9 @@ set_attachment_list (CompEditor *editor, GSList *attach_list)
 
 		attachment = e_attachment_new_for_uri (uri);
 		e_attachment_store_add_attachment (store, attachment);
+		e_attachment_load_async (
+			attachment, (GAsyncReadyCallback)
+			e_attachment_load_handle_error, editor);
 		g_object_unref (attachment);
 	}
 }

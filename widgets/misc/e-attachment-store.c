@@ -26,8 +26,6 @@
 #include "e-util/e-util.h"
 #include "e-util/gconf-bridge.h"
 
-#include "e-file-activity.h"
-
 #define E_ATTACHMENT_STORE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ATTACHMENT_STORE, EAttachmentStorePrivate))
@@ -35,7 +33,6 @@
 #define DEFAULT_ICON_NAME	"mail-attachment"
 
 struct _EAttachmentStorePrivate {
-	GHashTable *activity_index;
 	GHashTable *attachment_index;
 	gchar *background_filename;
 	gchar *background_options;
@@ -54,13 +51,7 @@ enum {
 	PROP_TOTAL_SIZE
 };
 
-enum {
-	NEW_ACTIVITY,
-	LAST_SIGNAL
-};
-
 static gpointer parent_class;
-static guint signals[LAST_SIGNAL];
 
 static const gchar *
 attachment_store_get_background_filename (EAttachmentStore *store)
@@ -98,183 +89,6 @@ attachment_store_set_background_options (EAttachmentStore *store,
 	store->priv->background_options = g_strdup (background_options);
 
 	g_object_notify (G_OBJECT (store), "background-options");
-}
-
-static void
-attachment_store_remove_activity (EAttachmentStore *store,
-                                  EActivity *activity)
-{
-	GtkTreeRowReference *reference;
-	GHashTable *hash_table;
-
-	hash_table = store->priv->activity_index;
-	reference = g_hash_table_lookup (hash_table, activity);
-
-	if (gtk_tree_row_reference_valid (reference)) {
-		GtkTreeModel *model;
-		GtkTreePath *path;
-		GtkTreeIter iter;
-
-		model = gtk_tree_row_reference_get_model (reference);
-		path = gtk_tree_row_reference_get_path (reference);
-		gtk_tree_model_get_iter (model, &iter, path);
-		gtk_tree_path_free (path);
-
-		gtk_list_store_set (
-			GTK_LIST_STORE (store), &iter,
-			E_ATTACHMENT_STORE_COLUMN_ACTIVITY, NULL, -1);
-	}
-
-	g_hash_table_remove (hash_table, activity);
-
-	g_object_notify (G_OBJECT (store), "num-loading");
-}
-
-static void
-attachment_store_copy_ready (GFile *source,
-                             GAsyncResult *result,
-                             GtkTreeRowReference *reference)
-{
-	EAttachmentStore *store;
-	EAttachment *attachment;
-	EActivity *activity;
-	GFile *destination;
-	GtkTreeModel *model;
-	GtkTreePath *path;
-	GtkTreeIter iter;
-	gboolean valid;
-	GError *error = NULL;
-
-	model = gtk_tree_row_reference_get_model (reference);
-	path = gtk_tree_row_reference_get_path (reference);
-	valid = gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_path_free (path);
-	g_return_if_fail (valid);
-
-	gtk_tree_model_get (
-		model, &iter,
-		E_ATTACHMENT_STORE_COLUMN_ACTIVITY, &activity,
-		E_ATTACHMENT_STORE_COLUMN_ATTACHMENT, &attachment, -1);
-
-	gtk_tree_row_reference_free (reference);
-
-	store = E_ATTACHMENT_STORE (model);
-
-	if (!g_file_copy_finish (source, result, &error))
-		goto fail;
-
-	gtk_list_store_set (
-		GTK_LIST_STORE (store), &iter,
-		E_ATTACHMENT_STORE_COLUMN_ACTIVITY, NULL, -1);
-
-	destination = e_file_activity_get_file (E_FILE_ACTIVITY (activity));
-	e_attachment_set_file (attachment, destination);
-
-	e_activity_complete (activity);
-
-	g_object_unref (attachment);
-	g_object_unref (activity);
-
-	return;
-
-fail:
-	e_attachment_store_remove_attachment (store, attachment);
-
-	g_object_unref (attachment);
-	g_object_unref (activity);
-
-	/* XXX Do something more useful with the error. */
-	g_warning ("%s", error->message);
-	g_error_free (error);
-}
-
-static void
-attachment_store_copy_async (EAttachmentStore *store,
-                             EAttachment *attachment)
-{
-	EActivity *activity;
-	GCancellable *cancellable;
-	GtkTreeRowReference *reference;
-	GtkTreeModel *model;
-	GtkTreePath *path;
-	GtkTreeIter iter;
-	GHashTable *hash_table;
-	GFile *destination;
-	GFile *source;
-	gboolean valid;
-	gchar *filename;
-	gchar *uri;
-	gint fd;
-	GError *error = NULL;
-
-	hash_table = store->priv->attachment_index;
-	reference = g_hash_table_lookup (hash_table, attachment);
-	g_return_if_fail (reference != NULL);
-
-	fd = e_file_open_tmp (&filename, &error);
-	if (error != NULL)
-		goto fail;
-
-	source = e_attachment_get_file (attachment);
-	destination = g_file_new_for_path (filename);
-
-	g_free (filename);
-	close (fd);
-
-	model = gtk_tree_row_reference_get_model (reference);
-	path = gtk_tree_row_reference_get_path (reference);
-	valid = gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_path_free (path);
-	g_return_if_fail (valid);
-
-	uri = g_file_get_uri (source);
-	activity = e_file_activity_newv (_("Downloading '%s'"), uri);
-	g_free (uri);
-
-	gtk_list_store_set (
-		GTK_LIST_STORE (store), &iter,
-		E_ATTACHMENT_STORE_COLUMN_ACTIVITY, activity, -1);
-
-	reference = gtk_tree_row_reference_copy (reference);
-
-	hash_table = store->priv->activity_index;
-	g_hash_table_insert (hash_table, g_object_ref (activity), reference);
-
-	g_signal_connect_swapped (
-		activity, "cancelled",
-		G_CALLBACK (attachment_store_remove_activity), store);
-
-	g_signal_connect_swapped (
-		activity, "completed",
-		G_CALLBACK (attachment_store_remove_activity), store);
-
-	reference = gtk_tree_row_reference_copy (reference);
-
-	cancellable = e_file_activity_get_cancellable (
-		E_FILE_ACTIVITY (activity));
-
-	g_file_copy_async (
-		source, destination, G_FILE_COPY_OVERWRITE,
-		G_PRIORITY_DEFAULT, cancellable, (GFileProgressCallback)
-		e_file_activity_progress, activity, (GAsyncReadyCallback)
-		attachment_store_copy_ready, reference);
-
-	e_file_activity_set_file (E_FILE_ACTIVITY (activity), destination);
-	g_signal_emit (store, signals[NEW_ACTIVITY], 0, activity);
-
-	g_object_notify (G_OBJECT (store), "num-loading");
-
-	g_object_unref (activity);
-	g_object_unref (destination);
-
-	return;
-
-fail:
-	e_attachment_store_remove_attachment (store, attachment);
-
-	/* XXX Do something more useful with the error. */
-	g_warning ("%s", error->message);
-	g_error_free (error);
 }
 
 static void
@@ -366,7 +180,6 @@ attachment_store_dispose (GObject *object)
 
 	priv = E_ATTACHMENT_STORE_GET_PRIVATE (object);
 
-	g_hash_table_remove_all (priv->activity_index);
 	g_hash_table_remove_all (priv->attachment_index);
 
 	/* Chain up to parent's dispose() method. */
@@ -380,7 +193,6 @@ attachment_store_finalize (GObject *object)
 
 	priv = E_ATTACHMENT_STORE_GET_PRIVATE (object);
 
-	g_hash_table_destroy (priv->activity_index);
 	g_hash_table_destroy (priv->attachment_index);
 
 	g_free (priv->background_filename);
@@ -418,6 +230,7 @@ attachment_store_row_changed (GtkTreeModel *model,
 {
 	EAttachmentStorePrivate *priv;
 	EAttachment *attachment;
+	GFileInfo *file_info;
 	GFile *file;
 	GIcon *icon;
 	GList *list;
@@ -429,8 +242,9 @@ attachment_store_row_changed (GtkTreeModel *model,
 	gchar *caption;
 	gboolean loading;
 	gboolean saving;
-	guint64 size;
+	goffset size;
 	gint column_id;
+	gint percent;
 
 	priv = E_ATTACHMENT_STORE_GET_PRIVATE (model);
 
@@ -441,17 +255,24 @@ attachment_store_row_changed (GtkTreeModel *model,
 	gtk_tree_model_get (model, iter, column_id, &attachment, -1);
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 
-	content_type = e_attachment_get_content_type (attachment);
-	display_name = e_attachment_get_display_name (attachment);
+	file_info = e_attachment_get_file_info (attachment);
+	if (file_info == NULL) {
+		g_object_unref (attachment);
+		return;
+	}
+
+	content_type = g_file_info_get_content_type (file_info);
+	display_name = g_file_info_get_display_name (file_info);
 	thumbnail_path = e_attachment_get_thumbnail_path (attachment);
 	loading = e_attachment_get_loading (attachment);
+	percent = e_attachment_get_percent (attachment);
 	saving = e_attachment_get_saving (attachment);
-	icon = e_attachment_get_icon (attachment);
-	size = e_attachment_get_size (attachment);
+	icon = g_file_info_get_icon (file_info);
+	size = g_file_info_get_size (file_info);
 
 	content_type = (content_type != NULL) ? content_type : "";
 	content_description = g_content_type_get_description (content_type);
-	display_size = g_format_size_for_display ((goffset) size);
+	display_size = g_format_size_for_display (size);
 
 	if (size > 0)
 		caption = g_strdup_printf (
@@ -507,6 +328,7 @@ attachment_store_row_changed (GtkTreeModel *model,
 		E_ATTACHMENT_STORE_COLUMN_CAPTION, caption,
 		E_ATTACHMENT_STORE_COLUMN_ICON, icon,
 		E_ATTACHMENT_STORE_COLUMN_LOADING, loading,
+		E_ATTACHMENT_STORE_COLUMN_PERCENT, percent,
 		E_ATTACHMENT_STORE_COLUMN_SAVING, saving,
 		E_ATTACHMENT_STORE_COLUMN_SIZE, size,
 		-1);
@@ -613,14 +435,8 @@ static void
 attachment_store_init (EAttachmentStore *store)
 {
 	GType types[E_ATTACHMENT_STORE_NUM_COLUMNS];
-	GHashTable *activity_index;
 	GHashTable *attachment_index;
 	gint column = 0;
-
-	activity_index = g_hash_table_new_full (
-		g_direct_hash, g_direct_equal,
-		(GDestroyNotify) g_object_unref,
-		(GDestroyNotify) gtk_tree_row_reference_free);
 
 	attachment_index = g_hash_table_new_full (
 		g_direct_hash, g_direct_equal,
@@ -628,16 +444,15 @@ attachment_store_init (EAttachmentStore *store)
 		(GDestroyNotify) gtk_tree_row_reference_free);
 
 	store->priv = E_ATTACHMENT_STORE_GET_PRIVATE (store);
-	store->priv->activity_index = activity_index;
 	store->priv->attachment_index = attachment_index;
 
-	types[column++] = E_TYPE_ACTIVITY;	/* COLUMN_ACTIVITY */
 	types[column++] = E_TYPE_ATTACHMENT;	/* COLUMN_ATTACHMENT */
 	types[column++] = G_TYPE_STRING;	/* COLUMN_CAPTION */
 	types[column++] = G_TYPE_STRING;	/* COLUMN_CONTENT_TYPE */
 	types[column++] = G_TYPE_STRING;	/* COLUMN_DISPLAY_NAME */
 	types[column++] = G_TYPE_ICON;		/* COLUMN_ICON */
 	types[column++] = G_TYPE_BOOLEAN;	/* COLUMN_LOADING */
+	types[column++] = G_TYPE_INT;		/* COLUMN_PERCENT */
 	types[column++] = G_TYPE_BOOLEAN;	/* COLUMN_SAVING */
 	types[column++] = G_TYPE_UINT64;	/* COLUMN_SIZE */
 
@@ -720,10 +535,7 @@ e_attachment_store_add_attachment (EAttachmentStore *store,
 	file = e_attachment_get_file (attachment);
 
 	/* This lets the attachment tell us when to update. */
-	_e_attachment_set_reference (attachment, reference);
-
-	if (file != NULL && !g_file_is_native (file))
-		attachment_store_copy_async (store, attachment);
+	e_attachment_set_reference (attachment, reference);
 
 	g_object_freeze_notify (G_OBJECT (store));
 	g_object_notify (G_OBJECT (store), "num-attachments");
@@ -737,7 +549,6 @@ e_attachment_store_remove_attachment (EAttachmentStore *store,
 {
 	GtkTreeRowReference *reference;
 	GHashTable *hash_table;
-	EActivity *activity;
 	GtkTreeModel *model;
 	GtkTreePath *path;
 	GtkTreeIter iter;
@@ -756,20 +567,13 @@ e_attachment_store_remove_attachment (EAttachmentStore *store,
 		return FALSE;
 	}
 
+	e_attachment_cancel (attachment);
+	e_attachment_set_reference (attachment, NULL);
+
 	model = gtk_tree_row_reference_get_model (reference);
 	path = gtk_tree_row_reference_get_path (reference);
 	gtk_tree_model_get_iter (model, &iter, path);
 	gtk_tree_path_free (path);
-
-	gtk_tree_model_get (
-		model, &iter,
-		E_ATTACHMENT_STORE_COLUMN_ACTIVITY, &activity, -1);
-
-	if (activity != NULL) {
-		/* Cancel the file transfer. */
-		e_activity_cancel (activity);
-		g_object_unref (activity);
-	}
 
 	gtk_list_store_remove (GTK_LIST_STORE (store), &iter);
 	g_hash_table_remove (hash_table, attachment);
@@ -804,8 +608,10 @@ e_attachment_store_add_to_multipart (EAttachmentStore *store,
 		column_id = E_ATTACHMENT_STORE_COLUMN_ATTACHMENT;
 		gtk_tree_model_get (model, &iter, column_id, &attachment, -1);
 
-		e_attachment_add_to_multipart (
-			attachment, multipart, default_charset);
+		/* Skip the attachment if it's still loading. */
+		if (!e_attachment_get_loading (attachment))
+			e_attachment_add_to_multipart (
+				attachment, multipart, default_charset);
 
 		g_object_unref (attachment);
 
@@ -847,17 +653,9 @@ e_attachment_store_get_num_attachments (EAttachmentStore *store)
 guint
 e_attachment_store_get_num_loading (EAttachmentStore *store)
 {
-	g_return_val_if_fail (E_IS_ATTACHMENT_STORE (store), 0);
-
-	return g_hash_table_size (store->priv->activity_index);
-}
-
-guint64
-e_attachment_store_get_total_size (EAttachmentStore *store)
-{
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	guint64 total_size = 0;
+	guint num_loading = 0;
 	gboolean valid;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_STORE (store), 0);
@@ -871,7 +669,39 @@ e_attachment_store_get_total_size (EAttachmentStore *store)
 
 		column_id = E_ATTACHMENT_STORE_COLUMN_ATTACHMENT;
 		gtk_tree_model_get (model, &iter, column_id, &attachment, -1);
-		total_size += e_attachment_get_size (attachment);
+		if (e_attachment_get_loading (attachment))
+			num_loading++;
+		g_object_unref (attachment);
+
+		valid = gtk_tree_model_iter_next (model, &iter);
+	}
+
+	return num_loading;
+}
+
+goffset
+e_attachment_store_get_total_size (EAttachmentStore *store)
+{
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	goffset total_size = 0;
+	gboolean valid;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT_STORE (store), 0);
+
+	model = GTK_TREE_MODEL (store);
+	valid = gtk_tree_model_get_iter_first (model, &iter);
+
+	while (valid) {
+		EAttachment *attachment;
+		GFileInfo *file_info;
+		gint column_id;
+
+		column_id = E_ATTACHMENT_STORE_COLUMN_ATTACHMENT;
+		gtk_tree_model_get (model, &iter, column_id, &attachment, -1);
+		file_info = e_attachment_get_file_info (attachment);
+		if (file_info != NULL)
+			total_size += g_file_info_get_size (file_info);
 		g_object_unref (attachment);
 
 		valid = gtk_tree_model_iter_next (model, &iter);
@@ -928,6 +758,7 @@ e_attachment_store_run_load_dialog (EAttachmentStore *store,
 	gint response;
 
 	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
+	g_return_if_fail (GTK_IS_WINDOW (parent));
 
 	dialog = gtk_file_chooser_dialog_new (
 		_("Add Attachment"), parent,
@@ -962,6 +793,9 @@ e_attachment_store_run_load_dialog (EAttachmentStore *store,
 		attachment = e_attachment_new ();
 		e_attachment_set_file (attachment, file);
 		e_attachment_store_add_attachment (store, attachment);
+		e_attachment_load_async (
+			attachment, (GAsyncReadyCallback)
+			e_attachment_load_handle_error, parent);
 		g_object_unref (attachment);
 	}
 
@@ -979,13 +813,14 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 {
 	GtkFileChooser *file_chooser;
 	GtkWidget *dialog;
-	GFile *file;
-	EActivity *activity;
+	GFile *destination;
+	GFileInfo *file_info;
 	const gchar *display_name;
 	gint response;
 
 	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+	g_return_if_fail (GTK_IS_WINDOW (parent));
 
 	dialog = gtk_file_chooser_dialog_new (
 		_("Save Attachment"), parent,
@@ -999,7 +834,11 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 	gtk_window_set_icon_name (GTK_WINDOW (dialog), "mail-attachment");
 
-	display_name = e_attachment_get_display_name (attachment);
+	file_info = e_attachment_get_file_info (attachment);
+	if (file_info != NULL)
+		display_name = g_file_info_get_display_name (file_info);
+	else
+		display_name = NULL;
 	if (display_name != NULL)
 		gtk_file_chooser_set_current_name (file_chooser, display_name);
 
@@ -1008,13 +847,13 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 	if (response != GTK_RESPONSE_OK)
 		goto exit;
 
-	file = gtk_file_chooser_get_file (file_chooser);
-	activity = e_file_activity_new (_("Saving attachment"));
+	destination = gtk_file_chooser_get_file (file_chooser);
+
 	e_attachment_save_async (
-		attachment, E_FILE_ACTIVITY (activity), file);
-	g_signal_emit (store, signals[NEW_ACTIVITY], 0, activity);
-	g_object_unref (activity);
-	g_object_unref (file);
+		attachment, destination, (GAsyncReadyCallback)
+		e_attachment_save_handle_error, parent);
+
+	g_object_unref (destination);
 
 exit:
 	gtk_widget_destroy (dialog);

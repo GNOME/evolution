@@ -1319,10 +1319,17 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	if (efhd->priv->attachment_bar) {
 		EAttachmentView *view;
 		EAttachmentStore *store;
+		gpointer parent;
+
+		parent = gtk_widget_get_toplevel (efhd->priv->attachment_bar);
+		parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 
 		view = E_ATTACHMENT_VIEW (efhd->priv->attachment_bar);
 		store = e_attachment_view_get_store (view);
 		e_attachment_store_add_attachment (store, info->attachment);
+		e_attachment_load_async (
+			info->attachment, (GAsyncReadyCallback)
+			e_attachment_load_handle_error, parent);
 
 #if 0  /* KILL-BONOBO */
 		file = camel_mime_part_get_filename(info->puri.part);

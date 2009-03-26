@@ -22,12 +22,11 @@
 #ifndef E_ATTACHMENT_H
 #define E_ATTACHMENT_H
 
-#include <gio/gio.h>
+#include <gtk/gtk.h>
 #include <camel/camel-cipher-context.h>
 #include <camel/camel-mime-part.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-multipart.h>
-#include <widgets/misc/e-file-activity.h>
 
 /* Standard GObject macros */
 #define E_TYPE_ATTACHMENT \
@@ -71,6 +70,7 @@ EAttachment *	e_attachment_new_for_message	(CamelMimeMessage *message);
 void		e_attachment_add_to_multipart	(EAttachment *attachment,
 						 CamelMultipart *multipart,
 						 const gchar *default_charset);
+void		e_attachment_cancel		(EAttachment *attachment);
 const gchar *	e_attachment_get_disposition	(EAttachment *attachment);
 void		e_attachment_set_disposition	(EAttachment *attachment,
 						 const gchar *disposition);
@@ -78,9 +78,16 @@ GFile *		e_attachment_get_file		(EAttachment *attachment);
 void		e_attachment_set_file		(EAttachment *attachment,
 						 GFile *file);
 GFileInfo *	e_attachment_get_file_info	(EAttachment *attachment);
+gboolean	e_attachment_get_loading	(EAttachment *attachment);
 CamelMimePart *	e_attachment_get_mime_part	(EAttachment *attachment);
 void		e_attachment_set_mime_part	(EAttachment *attachment,
 						 CamelMimePart *mime_part);
+gint		e_attachment_get_percent	(EAttachment *attachment);
+GtkTreeRowReference *
+		e_attachment_get_reference	(EAttachment *attachment);
+void		e_attachment_set_reference	(EAttachment *attachment,
+						 GtkTreeRowReference *reference);
+gboolean	e_attachment_get_saving		(EAttachment *attachment);
 camel_cipher_validity_encrypt_t
 		e_attachment_get_encrypted	(EAttachment *attachment);
 void		e_attachment_set_encrypted	(EAttachment *attachment,
@@ -89,42 +96,45 @@ camel_cipher_validity_sign_t
 		e_attachment_get_signed		(EAttachment *attachment);
 void		e_attachment_set_signed		(EAttachment *attachment,
 						 camel_cipher_validity_sign_t signed_);
-const gchar *	e_attachment_get_content_type	(EAttachment *attachment);
-const gchar *	e_attachment_get_display_name	(EAttachment *attachment);
 const gchar *	e_attachment_get_description	(EAttachment *attachment);
-GIcon *		e_attachment_get_icon		(EAttachment *attachment);
-gboolean	e_attachment_get_loading	(EAttachment *attachment);
 const gchar *	e_attachment_get_thumbnail_path	(EAttachment *attachment);
-gboolean	e_attachment_get_saving		(EAttachment *attachment);
-guint64		e_attachment_get_size		(EAttachment *attachment);
 gboolean	e_attachment_is_image		(EAttachment *attachment);
 gboolean	e_attachment_is_rfc822		(EAttachment *attachment);
 GList *		e_attachment_list_apps		(EAttachment *attachment);
 GList *		e_attachment_list_emblems	(EAttachment *attachment);
 
 /* Asynchronous Operations */
-void		e_attachment_launch_async	(EAttachment *attachment,
-						 EFileActivity *file_activity,
-						 GAppInfo *app_info);
-void		e_attachment_save_async		(EAttachment *attachment,
-						 EFileActivity *file_activity,
-						 GFile *destination);
-
-#if 0
-void		e_attachment_build_mime_part_async
-						(EAttachment *attachment,
-						 GCancellable *cancellable,
+void		e_attachment_load_async		(EAttachment *attachment,
 						 GAsyncReadyCallback callback,
 						 gpointer user_data);
-CamelMimePart *	e_attachment_build_mime_part_finish
-						(EAttachment *attachment,
+gboolean	e_attachment_load_finish	(EAttachment *attachment,
 						 GAsyncResult *result,
 						 GError **error);
-#endif
+void		e_attachment_open_async		(EAttachment *attachment,
+						 GAppInfo *app_info,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gboolean	e_attachment_open_finish	(EAttachment *attachment,
+						 GAsyncResult *result,
+						 GError **error);
+void		e_attachment_save_async		(EAttachment *attachment,
+						 GFile *destination,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gboolean	e_attachment_save_finish	(EAttachment *attachment,
+						 GAsyncResult *result,
+						 GError **error);
 
-/* For use by EAttachmentStore only. */
-void		_e_attachment_set_reference	(EAttachment *attachment,
-						 GtkTreeRowReference *reference);
+/* Handy GAsyncReadyCallback Functions */
+void		e_attachment_load_handle_error	(EAttachment *attachment,
+						 GAsyncResult *result,
+						 GtkWindow *parent);
+void		e_attachment_open_handle_error	(EAttachment *attachment,
+						 GAsyncResult *result,
+						 GtkWindow *parent);
+void		e_attachment_save_handle_error	(EAttachment *attachment,
+						 GAsyncResult *result,
+						 GtkWindow *parent);
 
 G_END_DECLS
 

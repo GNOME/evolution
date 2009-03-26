@@ -107,6 +107,9 @@ void		e_attachment_view_set_editable	(EAttachmentView *view,
 						 gboolean editable);
 GList *		e_attachment_view_get_selected_attachments
 						(EAttachmentView *view);
+void		e_attachment_view_open_path	(EAttachmentView *view,
+						 GtkTreePath *path,
+						 GAppInfo *app_info);
 void		e_attachment_view_remove_selected
 						(EAttachmentView *view,
 						 gboolean select_next);
