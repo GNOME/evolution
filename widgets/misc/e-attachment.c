@@ -32,10 +32,14 @@
 #include <camel/camel-stream-vfs.h>
 
 #include "e-util/e-util.h"
+#include "e-attachment-store.h"
 
 #define E_ATTACHMENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ATTACHMENT, EAttachmentPrivate))
+
+/* Fallback Icon */
+#define DEFAULT_ICON_NAME	"mail-attachment"
 
 /* Emblems */
 #define EMBLEM_CANCELLED	"gtk-cancel"
@@ -122,25 +126,258 @@ attachment_get_default_charset (void)
 }
 
 static void
-attachment_notify_model (EAttachment *attachment)
+attachment_update_file_info_columns (EAttachment *attachment)
 {
 	GtkTreeRowReference *reference;
 	GtkTreeModel *model;
 	GtkTreePath *path;
 	GtkTreeIter iter;
+	GFileInfo *file_info;
+	const gchar *content_type;
+	const gchar *display_name;
+	gchar *display_size;
+	gchar *caption;
+	goffset size;
 
 	reference = e_attachment_get_reference (attachment);
+	if (!gtk_tree_row_reference_valid (reference))
+		return;
 
-	if (reference == NULL)
+	file_info = e_attachment_get_file_info (attachment);
+	if (file_info == NULL)
 		return;
 
 	model = gtk_tree_row_reference_get_model (reference);
 	path = gtk_tree_row_reference_get_path (reference);
-
 	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_model_row_changed (model, path, &iter);
-
 	gtk_tree_path_free (path);
+
+	content_type = g_file_info_get_content_type (file_info);
+	display_name = g_file_info_get_display_name (file_info);
+	size = g_file_info_get_size (file_info);
+
+	display_size = g_format_size_for_display (size);
+
+	if (size > 0)
+		caption = g_strdup_printf (
+			"%s\n(%s)", display_name, display_size);
+	else
+		caption = g_strdup (display_name);
+
+	gtk_list_store_set (
+		GTK_LIST_STORE (model), &iter,
+		E_ATTACHMENT_STORE_COLUMN_CAPTION, caption,
+		E_ATTACHMENT_STORE_COLUMN_CONTENT_TYPE, content_type,
+		E_ATTACHMENT_STORE_COLUMN_DISPLAY_NAME, display_name,
+		E_ATTACHMENT_STORE_COLUMN_SIZE, size,
+		-1);
+
+	g_free (display_size);
+	g_free (caption);
+}
+
+static void
+attachment_update_icon_column (EAttachment *attachment)
+{
+	GtkTreeRowReference *reference;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	GFileInfo *file_info;
+	GCancellable *cancellable;
+	GIcon *icon = NULL;
+	const gchar *emblem_name = NULL;
+	const gchar *thumbnail_path = NULL;
+
+	reference = e_attachment_get_reference (attachment);
+	if (!gtk_tree_row_reference_valid (reference))
+		return;
+
+	model = gtk_tree_row_reference_get_model (reference);
+	path = gtk_tree_row_reference_get_path (reference);
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_path_free (path);
+
+	cancellable = attachment->priv->cancellable;
+	file_info = e_attachment_get_file_info (attachment);
+
+	if (file_info != NULL) {
+		icon = g_file_info_get_icon (file_info);
+		thumbnail_path = g_file_info_get_attribute_byte_string (
+			file_info, G_FILE_ATTRIBUTE_THUMBNAIL_PATH);
+	}
+
+	/* Prefer the thumbnail if we have one. */
+	if (thumbnail_path != NULL && *thumbnail_path != '\0') {
+		GFile *file;
+
+		file = g_file_new_for_path (thumbnail_path);
+		icon = g_file_icon_new (file);
+		g_object_unref (file);
+
+	/* Else use the standard icon for the content type. */
+	} else if (icon != NULL)
+		g_object_ref (icon);
+
+	/* Last ditch fallback.  (GFileInfo not yet loaded?) */
+	else
+		icon = g_themed_icon_new (DEFAULT_ICON_NAME);
+
+	/* Pick an emblem, limit one.  Choices listed by priority. */
+
+	if (g_cancellable_is_cancelled (cancellable))
+		emblem_name = EMBLEM_CANCELLED;
+
+	else if (e_attachment_get_loading (attachment))
+		emblem_name = EMBLEM_LOADING;
+
+	else if (e_attachment_get_saving (attachment))
+		emblem_name = EMBLEM_SAVING;
+
+	else if (e_attachment_get_encrypted (attachment))
+		switch (e_attachment_get_encrypted (attachment)) {
+			case CAMEL_CIPHER_VALIDITY_ENCRYPT_WEAK:
+				emblem_name = EMBLEM_ENCRYPT_WEAK;
+				break;
+
+			case CAMEL_CIPHER_VALIDITY_ENCRYPT_ENCRYPTED:
+				emblem_name = EMBLEM_ENCRYPT_UNKNOWN;
+				break;
+
+			case CAMEL_CIPHER_VALIDITY_ENCRYPT_STRONG:
+				emblem_name = EMBLEM_ENCRYPT_STRONG;
+				break;
+
+			default:
+				g_warn_if_reached ();
+				break;
+		}
+
+	else if (e_attachment_get_signed (attachment))
+		switch (e_attachment_get_signed (attachment)) {
+			case CAMEL_CIPHER_VALIDITY_SIGN_GOOD:
+				emblem_name = EMBLEM_SIGN_GOOD;
+				break;
+
+			case CAMEL_CIPHER_VALIDITY_SIGN_BAD:
+				emblem_name = EMBLEM_SIGN_BAD;
+				break;
+
+			case CAMEL_CIPHER_VALIDITY_SIGN_UNKNOWN:
+			case CAMEL_CIPHER_VALIDITY_SIGN_NEED_PUBLIC_KEY:
+				emblem_name = EMBLEM_SIGN_UNKNOWN;
+				break;
+
+			default:
+				g_warn_if_reached ();
+				break;
+		}
+
+	if (emblem_name != NULL) {
+		GIcon *emblemed_icon;
+		GEmblem *emblem;
+
+		emblemed_icon = g_themed_icon_new (emblem_name);
+		emblem = g_emblem_new (emblemed_icon);
+		g_object_unref (emblemed_icon);
+
+		emblemed_icon = g_emblemed_icon_new (icon, emblem);
+		g_object_unref (emblem);
+		g_object_unref (icon);
+
+		icon = emblemed_icon;
+	}
+
+	gtk_list_store_set (
+		GTK_LIST_STORE (model), &iter,
+		E_ATTACHMENT_STORE_COLUMN_ICON, icon,
+		-1);
+
+	g_object_unref (icon);
+}
+
+static void
+attachment_update_loading_column (EAttachment *attachment)
+{
+	GtkTreeRowReference *reference;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	GFileInfo *file_info;
+	gboolean loading;
+
+	reference = e_attachment_get_reference (attachment);
+	if (!gtk_tree_row_reference_valid (reference))
+		return;
+
+	/* Don't show progress until we have a GFileInfo. */
+	file_info = e_attachment_get_file_info (attachment);
+	if (file_info == NULL)
+		return;
+
+	model = gtk_tree_row_reference_get_model (reference);
+	path = gtk_tree_row_reference_get_path (reference);
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_path_free (path);
+
+	loading = e_attachment_get_loading (attachment);
+
+	gtk_list_store_set (
+		GTK_LIST_STORE (model), &iter,
+		E_ATTACHMENT_STORE_COLUMN_LOADING, loading,
+		-1);
+}
+
+static void
+attachment_update_percent_column (EAttachment *attachment)
+{
+	GtkTreeRowReference *reference;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	gint percent;
+
+	reference = e_attachment_get_reference (attachment);
+	if (!gtk_tree_row_reference_valid (reference))
+		return;
+
+	model = gtk_tree_row_reference_get_model (reference);
+	path = gtk_tree_row_reference_get_path (reference);
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_path_free (path);
+
+	percent = e_attachment_get_percent (attachment);
+
+	gtk_list_store_set (
+		GTK_LIST_STORE (model), &iter,
+		E_ATTACHMENT_STORE_COLUMN_PERCENT, percent,
+		-1);
+}
+
+static void
+attachment_update_saving_column (EAttachment *attachment)
+{
+	GtkTreeRowReference *reference;
+	GtkTreeModel *model;
+	GtkTreePath *path;
+	GtkTreeIter iter;
+	gboolean saving;
+
+	reference = e_attachment_get_reference (attachment);
+	if (!gtk_tree_row_reference_valid (reference))
+		return;
+
+	model = gtk_tree_row_reference_get_model (reference);
+	path = gtk_tree_row_reference_get_path (reference);
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_path_free (path);
+
+	saving = e_attachment_get_saving (attachment);
+
+	gtk_list_store_set (
+		GTK_LIST_STORE (model), &iter,
+		E_ATTACHMENT_STORE_COLUMN_SAVING, saving,
+		-1);
 }
 
 static void
@@ -167,8 +404,6 @@ attachment_set_file_info (EAttachment *attachment,
 		model = gtk_tree_row_reference_get_model (reference);
 		g_object_notify (G_OBJECT (model), "total-size");
 	}
-
-	attachment_notify_model (attachment);
 }
 
 static void
@@ -192,8 +427,6 @@ attachment_set_loading (EAttachment *attachment,
 		model = gtk_tree_row_reference_get_model (reference);
 		g_object_notify (G_OBJECT (model), "num-loading");
 	}
-
-	attachment_notify_model (attachment);
 }
 
 static void
@@ -207,8 +440,6 @@ attachment_set_saving (EAttachment *attachment,
 	g_object_notify (G_OBJECT (attachment), "percent");
 	g_object_notify (G_OBJECT (attachment), "saving");
 	g_object_thaw_notify (G_OBJECT (attachment));
-
-	attachment_notify_model (attachment);
 }
 
 static void
@@ -220,8 +451,6 @@ attachment_progress_cb (goffset current_num_bytes,
 		(current_num_bytes * 100) / total_num_bytes;
 
 	g_object_notify (G_OBJECT (attachment), "percent");
-
-	attachment_notify_model (attachment);
 }
 
 static gboolean
@@ -230,7 +459,7 @@ attachment_cancelled_timeout_cb (EAttachment *attachment)
 	attachment->priv->emblem_timeout_id = 0;
 	g_cancellable_reset (attachment->priv->cancellable);
 
-	attachment_notify_model (attachment);
+	attachment_update_icon_column (attachment);
 
 	return FALSE;
 }
@@ -247,6 +476,8 @@ attachment_cancelled_cb (EAttachment *attachment)
 
 	attachment->priv->emblem_timeout_id = g_timeout_add_seconds (
 		1, (GSourceFunc) attachment_cancelled_timeout_cb, attachment);
+
+	attachment_update_icon_column (attachment);
 }
 
 static void
@@ -555,6 +786,66 @@ attachment_init (EAttachment *attachment)
 	attachment->priv->encrypted = CAMEL_CIPHER_VALIDITY_ENCRYPT_NONE;
 	attachment->priv->signed_ = CAMEL_CIPHER_VALIDITY_SIGN_NONE;
 
+	g_signal_connect (
+		attachment, "notify::encrypted",
+		G_CALLBACK (attachment_update_icon_column), NULL);
+
+	g_signal_connect (
+		attachment, "notify::file-info",
+		G_CALLBACK (attachment_update_file_info_columns), NULL);
+
+	g_signal_connect (
+		attachment, "notify::file-info",
+		G_CALLBACK (attachment_update_icon_column), NULL);
+
+	g_signal_connect (
+		attachment, "notify::file-info",
+		G_CALLBACK (attachment_update_loading_column), NULL);
+
+	g_signal_connect (
+		attachment, "notify::loading",
+		G_CALLBACK (attachment_update_icon_column), NULL);
+
+	g_signal_connect (
+		attachment, "notify::loading",
+		G_CALLBACK (attachment_update_loading_column), NULL);
+
+	g_signal_connect (
+		attachment, "notify::percent",
+		G_CALLBACK (attachment_update_percent_column), NULL);
+
+	g_signal_connect (
+		attachment, "notify::reference",
+		G_CALLBACK (attachment_update_file_info_columns), NULL);
+
+	g_signal_connect (
+		attachment, "notify::reference",
+		G_CALLBACK (attachment_update_icon_column), NULL);
+
+	g_signal_connect (
+		attachment, "notify::reference",
+		G_CALLBACK (attachment_update_loading_column), NULL);
+
+	g_signal_connect (
+		attachment, "notify::reference",
+		G_CALLBACK (attachment_update_saving_column), NULL);
+
+	g_signal_connect (
+		attachment, "notify::reference",
+		G_CALLBACK (attachment_update_percent_column), NULL);
+
+	g_signal_connect (
+		attachment, "notify::saving",
+		G_CALLBACK (attachment_update_icon_column), NULL);
+
+	g_signal_connect (
+		attachment, "notify::saving",
+		G_CALLBACK (attachment_update_saving_column), NULL);
+
+	g_signal_connect (
+		attachment, "notify::signed",
+		G_CALLBACK (attachment_update_icon_column), NULL);
+
 	g_signal_connect_swapped (
 		attachment->priv->cancellable, "cancelled",
 		G_CALLBACK (attachment_cancelled_cb), attachment);
@@ -851,10 +1142,6 @@ e_attachment_get_reference (EAttachment *attachment)
 {
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
 
-	/* Don't return an invalid tree row reference. */
-	if (!gtk_tree_row_reference_valid (attachment->priv->reference))
-		e_attachment_set_reference (attachment, NULL);
-
 	return attachment->priv->reference;
 }
 
@@ -900,7 +1187,6 @@ e_attachment_set_encrypted (EAttachment *attachment,
 	attachment->priv->encrypted = encrypted;
 
 	g_object_notify (G_OBJECT (attachment), "encrypted");
-	attachment_notify_model (attachment);
 }
 
 camel_cipher_validity_sign_t
@@ -922,7 +1208,6 @@ e_attachment_set_signed (EAttachment *attachment,
 	attachment->priv->signed_ = signed_;
 
 	g_object_notify (G_OBJECT (attachment), "signed");
-	attachment_notify_model (attachment);
 }
 
 const gchar *
@@ -1695,9 +1980,24 @@ attachment_open_file (AttachmentOpenContext *open_context)
 	simple = open_context->simple;
 	open_context->simple = NULL;
 
-	if (open_context->app_info == NULL)
-		open_context->app_info = g_file_query_default_handler (
-			open_context->file, NULL, &error);
+	/* Find a default app based on content type. */
+	if (open_context->app_info == NULL) {
+		EAttachment *attachment;
+		GFileInfo *file_info;
+		const gchar *content_type;
+
+		attachment = open_context->attachment;
+		file_info = e_attachment_get_file_info (attachment);
+		if (file_info == NULL)
+			goto exit;
+
+		content_type = g_file_info_get_content_type (file_info);
+		if (content_type == NULL)
+			goto exit;
+
+		open_context->app_info = g_app_info_get_default_for_type (
+			content_type, FALSE);
+	}
 
 	if (open_context->app_info == NULL)
 		goto exit;
@@ -2132,7 +2432,8 @@ attachment_save_replace_cb (GFile *destination,
 	 * this because CamelStream is synchronous-only, and using threads
 	 * is dangerous because CamelDataWrapper is not reentrant. */
 	buffer = g_byte_array_new ();
-	stream = camel_stream_mem_new_with_byte_array (buffer);
+	stream = camel_stream_mem_new ();
+	camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream), buffer);
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 	camel_data_wrapper_decode_to_stream (wrapper, stream);
 	camel_object_unref (stream);

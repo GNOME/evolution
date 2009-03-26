@@ -30,8 +30,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ATTACHMENT_STORE, EAttachmentStorePrivate))
 
-#define DEFAULT_ICON_NAME	"mail-attachment"
-
 struct _EAttachmentStorePrivate {
 	GHashTable *attachment_index;
 	gchar *background_filename;
@@ -224,123 +222,6 @@ attachment_store_constructed (GObject *object)
 }
 
 static void
-attachment_store_row_changed (GtkTreeModel *model,
-                              GtkTreePath *path,
-                              GtkTreeIter *iter)
-{
-	EAttachmentStorePrivate *priv;
-	EAttachment *attachment;
-	GFileInfo *file_info;
-	GFile *file;
-	GIcon *icon;
-	GList *list;
-	const gchar *content_type;
-	const gchar *display_name;
-	const gchar *thumbnail_path;
-	gchar *content_description;
-	gchar *display_size;
-	gchar *caption;
-	gboolean loading;
-	gboolean saving;
-	goffset size;
-	gint column_id;
-	gint percent;
-
-	priv = E_ATTACHMENT_STORE_GET_PRIVATE (model);
-
-	if (priv->ignore_row_changed)
-		return;
-
-	column_id = E_ATTACHMENT_STORE_COLUMN_ATTACHMENT;
-	gtk_tree_model_get (model, iter, column_id, &attachment, -1);
-	g_return_if_fail (E_IS_ATTACHMENT (attachment));
-
-	file_info = e_attachment_get_file_info (attachment);
-	if (file_info == NULL) {
-		g_object_unref (attachment);
-		return;
-	}
-
-	content_type = g_file_info_get_content_type (file_info);
-	display_name = g_file_info_get_display_name (file_info);
-	thumbnail_path = e_attachment_get_thumbnail_path (attachment);
-	loading = e_attachment_get_loading (attachment);
-	percent = e_attachment_get_percent (attachment);
-	saving = e_attachment_get_saving (attachment);
-	icon = g_file_info_get_icon (file_info);
-	size = g_file_info_get_size (file_info);
-
-	content_type = (content_type != NULL) ? content_type : "";
-	content_description = g_content_type_get_description (content_type);
-	display_size = g_format_size_for_display (size);
-
-	if (size > 0)
-		caption = g_strdup_printf (
-			"%s\n(%s)", display_name, display_size);
-	else
-		caption = g_strdup (display_name);
-
-	/* Prefer the thumbnail if we have one. */
-	if (thumbnail_path != NULL && *thumbnail_path != '\0') {
-		file = g_file_new_for_path (thumbnail_path);
-		icon = g_file_icon_new (file);
-		g_object_unref (file);
-
-	/* Else use the standard icon for the content type. */
-	} else if (icon != NULL)
-		g_object_ref (icon);
-
-	/* Last ditch fallback.  (GFileInfo not yet loaded?) */
-	else
-		icon = g_themed_icon_new (DEFAULT_ICON_NAME);
-
-	/* Apply emblems. */
-	list = e_attachment_list_emblems (attachment);
-	if (list != NULL) {
-		GIcon *emblemed_icon;
-		GEmblem *emblem;
-
-		emblem = G_EMBLEM (list->data);
-		emblemed_icon = g_emblemed_icon_new (icon, emblem);
-		list = g_list_delete_link (list, list);
-		g_object_unref (emblem);
-
-		while (list != NULL) {
-			emblem = G_EMBLEM (list->data);
-			g_emblemed_icon_add_emblem (
-				G_EMBLEMED_ICON (emblemed_icon), emblem);
-			list = g_list_delete_link (list, list);
-			g_object_unref (emblem);
-		}
-
-		g_object_unref (icon);
-		icon = emblemed_icon;
-	}
-
-	/* We're about to trigger another "row-changed"
-	 * signal, so this prevents infinite recursion. */
-	priv->ignore_row_changed = TRUE;
-
-	gtk_list_store_set (
-		GTK_LIST_STORE (model), iter,
-		E_ATTACHMENT_STORE_COLUMN_CONTENT_TYPE, content_description,
-		E_ATTACHMENT_STORE_COLUMN_DISPLAY_NAME, display_name,
-		E_ATTACHMENT_STORE_COLUMN_CAPTION, caption,
-		E_ATTACHMENT_STORE_COLUMN_ICON, icon,
-		E_ATTACHMENT_STORE_COLUMN_LOADING, loading,
-		E_ATTACHMENT_STORE_COLUMN_PERCENT, percent,
-		E_ATTACHMENT_STORE_COLUMN_SAVING, saving,
-		E_ATTACHMENT_STORE_COLUMN_SIZE, size,
-		-1);
-
-	priv->ignore_row_changed = FALSE;
-
-	g_object_unref (icon);
-	g_free (content_description);
-	g_free (display_size);
-}
-
-static void
 attachment_store_class_init (EAttachmentStoreClass *class)
 {
 	GObjectClass *object_class;
@@ -426,12 +307,6 @@ attachment_store_class_init (EAttachmentStoreClass *class)
 }
 
 static void
-attachment_store_iface_init (GtkTreeModelIface *iface)
-{
-	iface->row_changed = attachment_store_row_changed;
-}
-
-static void
 attachment_store_init (EAttachmentStore *store)
 {
 	GType types[E_ATTACHMENT_STORE_NUM_COLUMNS];
@@ -481,18 +356,9 @@ e_attachment_store_get_type (void)
 			NULL   /* value_table */
 		};
 
-		static const GInterfaceInfo iface_info = {
-			(GInterfaceInitFunc) attachment_store_iface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL   /* interface_data */
-		};
-
 		type = g_type_register_static (
 			GTK_TYPE_LIST_STORE, "EAttachmentStore",
 			&type_info, 0);
-
-		g_type_add_interface_static (
-			type, GTK_TYPE_TREE_MODEL, &iface_info);
 	}
 
 	return type;

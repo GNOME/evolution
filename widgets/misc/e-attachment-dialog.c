@@ -97,11 +97,13 @@ attachment_dialog_update (EAttachmentDialog *dialog)
 
 	widget = dialog->priv->display_name_entry;
 	gtk_widget_set_sensitive (widget, sensitive);
-	gtk_entry_set_text (GTK_ENTRY (widget), display_name);
+	if (display_name != NULL)
+		gtk_entry_set_text (GTK_ENTRY (widget), display_name);
 
 	widget = dialog->priv->description_entry;
 	gtk_widget_set_sensitive (widget, sensitive);
-	gtk_entry_set_text (GTK_ENTRY (widget), description);
+	if (description != NULL)
+		gtk_entry_set_text (GTK_ENTRY (widget), description);
 
 	widget = dialog->priv->content_type_label;
 	gtk_label_set_text (GTK_LABEL (widget), type_description);

@@ -453,7 +453,7 @@ mail_attachment_bar_init (EMailAttachmentBar *bar)
 
 	container = GTK_WIDGET (bar);
 
-	widget = gtk_hbox_new (FALSE, 6);
+	widget = gtk_hbox_new (FALSE, 12);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -481,7 +481,7 @@ mail_attachment_bar_init (EMailAttachmentBar *bar)
 
 	container = bar->priv->expander;
 
-	widget = gtk_hbox_new (FALSE, 0);
+	widget = gtk_hbox_new (FALSE, 6);
 	gtk_size_group_add_widget (size_group, widget);
 	gtk_expander_set_label_widget (GTK_EXPANDER (container), widget);
 	gtk_widget_show (widget);

@@ -477,9 +477,6 @@ efhd_format_attachment (EMFormat *emf,
                         const gchar *mime_type,
                         const EMFormatHandler *handle)
 {
-	EMFormatHTMLDisplay *efhd;
-	EAttachmentView *view;
-	EAttachmentStore *store;
 	char *classid, *text, *html;
 	struct _attach_puri *info;
 
@@ -1295,11 +1292,9 @@ static gboolean
 efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
-	EAttachment *new;
 	struct _attach_puri *info;
 	GtkWidget *hbox, *w, *button, *mainbox;
-	char *simple_type, *tmp, *new_file = NULL;
-	const char *file;
+	char *simple_type;
 	GtkTargetEntry drag_types[] = {
 		{ NULL, 0, 0 },
 		{ "text/uri-list", 0, 1 },
@@ -1321,7 +1316,7 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 		EAttachmentStore *store;
 		gpointer parent;
 
-		parent = gtk_widget_get_toplevel (efhd->priv->attachment_bar);
+		parent = gtk_widget_get_toplevel (GTK_WIDGET (efh->html));
 		parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 
 		view = E_ATTACHMENT_VIEW (efhd->priv->attachment_bar);
