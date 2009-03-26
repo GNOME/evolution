@@ -108,7 +108,15 @@ set_attendees (ECalComponent *comp, CamelMimeMessage *message)
 				to_free = g_slist_prepend (to_free, temp);
 
 				ca->cn = name;
-				/* FIXME: missing many fields */
+				ca->cutype = ICAL_CUTYPE_INDIVIDUAL;
+				ca->status = ICAL_PARTSTAT_NEEDSACTION;
+				if (j == 2) {
+					/* BCC  */
+					ca->role = ICAL_ROLE_OPTPARTICIPANT;
+				} else {
+					/* all other */
+					ca->role = ICAL_ROLE_REQPARTICIPANT;
+				}
 
 				attendees = g_slist_append (attendees, ca);
 			}
