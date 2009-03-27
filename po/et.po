@@ -18,8 +18,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2009-03-09 04:41+0000\n"
-"PO-Revision-Date: 2009-03-14 16:16+0300\n"
-"Last-Translator: Priit Laes <plaes plaes org>\n"
+"PO-Revision-Date: 2009-03-24 23:33+0300\n"
+"Last-Translator: Mattias Põldaru <mahfiaz gmail com>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -2584,8 +2584,8 @@ msgid ""
 "This version of Evolution does not have LDAP support compiled in to it.  To "
 "use LDAP in Evolution an LDAP-enabled Evolution package must be installed."
 msgstr ""
-"Käesolev Evolutioni versioon ei ole kompileeritud LDAP-i toega. Kui "
-"soovid kasutada Evolutioni koos LDAP-i toega, pead paigaldama omale vastava "
+"Käesolev Evolutioni versioon ei ole kompileeritud LDAP-i toega. Kui soovid "
+"kasutada Evolutioni koos LDAP-i toega, pead paigaldama omale vastava "
 "Evolutioni paki."
 
 msgid ""
@@ -3832,7 +3832,6 @@ msgstr "Kas ajavööndi välja näidatakse sündmuste/koosolekute redaktoris."
 msgid "Whether to show type field in the event/task/meeting editor"
 msgstr "Liigivälja näitamine sündmuste/ülesannete/koosolekute redaktoris"
 
-#, fuzzy
 msgid "Whether to show week number in the Day and Work Week View."
 msgstr "Kas kuupäevasirvijas näidatakse nädalate numbreid."
 
@@ -4290,9 +4289,8 @@ msgstr "_Meeldetuletusi näidatakse"
 msgid "Show week _numbers in date navigator"
 msgstr "_Kuupäeva valimisel kuvatakse nädalate numbreid"
 
-#, fuzzy
 msgid "Show week n_umber in Day and Work Week View"
-msgstr "Nädalanumbrite näitamine kuupäevavalikus"
+msgstr "Nädalanumbrite näitamine kuupäevavaates"
 
 msgid "Sunday"
 msgstr "Pühapäev"
@@ -9257,7 +9255,7 @@ msgstr ""
 "võimalik verifitseerida."
 
 msgid "Signature exists, but need public key"
-msgstr "Allkiri on olemas, kui vaja on ka avalikku võtit"
+msgstr "Allkiri on olemas, kuid vaja on ka avalikku võtit"
 
 msgid ""
 "This message is signed with a signature, but there is no corresponding "
@@ -9864,13 +9862,17 @@ msgid "Enable/disable caret mode"
 msgstr "Kursorirežiimi lubamine/keelamine"
 
 msgid "Encode file names in an Outlook/GMail way"
-msgstr ""
+msgstr "Failinimed kodeeritakse nagu kodeerib Outlook / GMail"
 
 msgid ""
 "Encode file names in the mail headers same as Outlook or GMail does, to let "
 "them understand localized file names sent by Evolution, because they do not "
 "follow the RFC 2231, but uses incorrect RFC 2047 standard."
 msgstr ""
+"Failinimed kirja päises kodeeritakse nagu seda teeb Outlook või GMail, et "
+"need näitaksid Evolutionist saadetud kirjas failide nimesid õigesti. Need "
+"programmid ei järgi RFC 2231 standardit, vaid selleks otstarbeks väära "
+"standardit RFC 2047."
 
 msgid "Height of the message-list pane"
 msgstr "Sõnumiloendi paani kõrgus"
@@ -10506,7 +10508,7 @@ msgid "<b>Sig_natures</b>"
 msgstr "<b>All_kirjad</b>"
 
 msgid "<b>Top Posting Option</b> (Not Recommended)"
-msgstr "<b>Ülapostitamise valik</b> (pole soovitatav)"
+msgstr "<b>Vastus kirja päises</b> (pole soovitatav)"
 
 msgid "<b>_Languages</b>"
 msgstr "<b>_Keeled</b>"
@@ -10767,7 +10769,7 @@ msgid "Message Composer"
 msgstr "Sõnumiredaktor"
 
 msgid "No _Proxy for:"
-msgstr ""
+msgstr "Proksit _ei kasuta:"
 
 msgid ""
 "Note: Underscore in the label name is used as mnemonic identifier in menu."
@@ -10898,7 +10900,7 @@ msgid "Spell Checking"
 msgstr "Õigekirja kontrollimine"
 
 msgid "Start _typing at the bottom on replying"
-msgstr ""
+msgstr "_Kursor viiakse vastuse lõppu"
 
 msgid "T_ype: "
 msgstr "Lii_k:"
@@ -10929,7 +10931,7 @@ msgid "Us_ername:"
 msgstr "_Kasutajanimi:"
 
 msgid "Use Authe_ntication"
-msgstr ""
+msgstr "_Autentimise kasutamine"
 
 msgid "User_name:"
 msgstr "_Kasutajanimi:"
@@ -10959,7 +10961,7 @@ msgid "_Default junk plugin:"
 msgstr "Vaikimisi _rämpsuplugin:"
 
 msgid "_Direct connection to the Internet"
-msgstr ""
+msgstr "_Otseühendus Internetiga"
 
 msgid "_Do not sign meeting requests (for Outlook compatibility)"
 msgstr "Koosolekupäringuid ei _signeerita (Outlookiga ühilduvuse tarbeks)"
@@ -10980,7 +10982,7 @@ msgid "_Make this my default account"
 msgstr "See konto on _määratud minu vaikimisi kontoks"
 
 msgid "_Manual proxy configuration:"
-msgstr ""
+msgstr "_Käsitsi seadistatav proksi:"
 
 msgid "_Mark messages as read after"
 msgstr "Sõnum _märgitakse loetuks pärast"
@@ -11024,7 +11026,7 @@ msgid "_Use Secure Connection:"
 msgstr "Tu_rvalise ühenduse kasutamine:"
 
 msgid "_Use system defaults"
-msgstr "Kasuta süsteemi _vaikeväärtuseid"
+msgstr "Süsteemi _vaikeväärtuste kasutamine"
 
 msgid "_Use the same fonts as other applications"
 msgstr "_Kirjatüüp on sama, mis teistes rakendustes"
