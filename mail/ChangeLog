@@ -1,3 +1,10 @@
+2009-03-28  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #576845
+
+	* em-mailr-prefs.c: (init_junk_tree):
+	Call jh_tree_refill instead of label_tree_refill.
+
 2009-03-24  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #552583
@@ -40,7 +47,7 @@
 	Revert evolution revision 37063 (workaround for bug 563867). 
 	
 	** Part of the fix for bug #549838
-   
+
 2009-02-26  Andre Klapper  <a9016009@gmx.de>
 
 	* message-tag-followup-c:

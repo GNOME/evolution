@@ -417,27 +417,27 @@ jh_remove_cb (GtkWidget *widget, gpointer user_data)
 
 
 static GtkListStore *
-init_junk_tree (GtkWidget *label_tree, EMMailerPrefs *prefs)
+init_junk_tree (GtkWidget *jh_tree, EMMailerPrefs *prefs)
 {
 	GtkListStore *store;
 	GtkCellRenderer *renderer;
 	gint col;
 
-	g_return_val_if_fail (label_tree != NULL, NULL);
+	g_return_val_if_fail (jh_tree != NULL, NULL);
 	g_return_val_if_fail (prefs != NULL, NULL);
 
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
-	gtk_tree_view_set_model (GTK_TREE_VIEW (label_tree), GTK_TREE_MODEL (store));
+	gtk_tree_view_set_model (GTK_TREE_VIEW (jh_tree), GTK_TREE_MODEL (store));
 
 	renderer = gtk_cell_renderer_text_new ();
-	col = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (label_tree), -1, _("Header"), renderer, "text", JH_LIST_COLUMN_NAME, NULL);
+	col = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (jh_tree), -1, _("Header"), renderer, "text", JH_LIST_COLUMN_NAME, NULL);
 	g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
 
 	renderer = gtk_cell_renderer_text_new ();
-	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (label_tree), -1, _("Contains Value"), renderer, "text", JH_LIST_COLUMN_VALUE, NULL);
+	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (jh_tree), -1, _("Contains Value"), renderer, "text", JH_LIST_COLUMN_VALUE, NULL);
 	g_object_set (G_OBJECT (renderer), "editable", TRUE, NULL);
 
-	label_tree_refill (NULL, 0, NULL, prefs);
+	jh_tree_refill (prefs);
 
 	return store;
 }
