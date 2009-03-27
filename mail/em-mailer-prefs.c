@@ -51,7 +51,7 @@
 
 static void em_mailer_prefs_class_init (EMMailerPrefsClass *class);
 static void em_mailer_prefs_init       (EMMailerPrefs *dialog);
-static void em_mailer_prefs_finalise   (GObject *obj);
+static void em_mailer_prefs_dispose    (GObject *obj);
 
 static GtkVBoxClass *parent_class = NULL;
 
@@ -127,7 +127,7 @@ em_mailer_prefs_class_init (EMMailerPrefsClass *klass)
 	object_class = (GObjectClass *) klass;
 	parent_class = g_type_class_ref (gtk_vbox_get_type ());
 
-	object_class->finalize = em_mailer_prefs_finalise;
+	object_class->dispose = em_mailer_prefs_dispose;
 }
 
 static void
@@ -137,9 +137,14 @@ em_mailer_prefs_init (EMMailerPrefs *preferences)
 }
 
 static void
-em_mailer_prefs_finalise (GObject *obj)
+em_mailer_prefs_dispose (GObject *obj)
 {
 	EMMailerPrefs *prefs = (EMMailerPrefs *) obj;
+
+	if (prefs->header_list_store) {
+		g_object_unref (prefs->header_list_store);
+		prefs->header_list_store = NULL;
+	}
 
 	g_object_unref (prefs->gui);
 
@@ -149,7 +154,7 @@ em_mailer_prefs_finalise (GObject *obj)
 		prefs->labels_change_notify_id = 0;
 	}
 
-        ((GObjectClass *)(parent_class))->finalize (obj);
+        ((GObjectClass *)(parent_class))->dispose (obj);
 }
 
 
@@ -296,9 +301,10 @@ label_tree_refill (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpoint
 static void
 jh_tree_refill (EMMailerPrefs *prefs)
 {
-	GtkListStore *store = prefs->junk_header_list_store;
+	GtkListStore *store;
 	GSList *l, *cjh = gconf_client_get_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
 
+	store = GTK_LIST_STORE (gtk_tree_view_get_model (GTK_TREE_VIEW (prefs->junk_header_tree)));
 	gtk_list_store_clear (store);
 
 	for (l = cjh; l; l = l->next) {
@@ -416,18 +422,19 @@ jh_remove_cb (GtkWidget *widget, gpointer user_data)
 }
 
 
-static GtkListStore *
-init_junk_tree (GtkWidget *jh_tree, EMMailerPrefs *prefs)
+static gboolean
+init_junk_tree (GtkTreeView *jh_tree, EMMailerPrefs *prefs)
 {
 	GtkListStore *store;
 	GtkCellRenderer *renderer;
 	gint col;
 
-	g_return_val_if_fail (jh_tree != NULL, NULL);
-	g_return_val_if_fail (prefs != NULL, NULL);
+	g_return_val_if_fail (jh_tree != NULL, FALSE);
+	g_return_val_if_fail (prefs != NULL, FALSE);
 
 	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (jh_tree), GTK_TREE_MODEL (store));
+ 	g_object_unref (store);
 
 	renderer = gtk_cell_renderer_text_new ();
 	col = gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (jh_tree), -1, _("Header"), renderer, "text", JH_LIST_COLUMN_NAME, NULL);
@@ -439,21 +446,22 @@ init_junk_tree (GtkWidget *jh_tree, EMMailerPrefs *prefs)
 
 	jh_tree_refill (prefs);
 
-	return store;
+ 	return TRUE;
 }
 
-static GtkListStore *
+static gboolean
 init_label_tree (GtkWidget *label_tree, EMMailerPrefs *prefs, gboolean locked)
 {
 	GtkListStore *store;
 	GtkCellRenderer *renderer;
 	gint col;
 
-	g_return_val_if_fail (label_tree != NULL, NULL);
-	g_return_val_if_fail (prefs != NULL, NULL);
+	g_return_val_if_fail (label_tree != NULL, FALSE);
+	g_return_val_if_fail (prefs != NULL, FALSE);
 
 	store = gtk_list_store_new (3, GDK_TYPE_COLOR, G_TYPE_STRING, G_TYPE_STRING);
 	gtk_tree_view_set_model (GTK_TREE_VIEW (label_tree), GTK_TREE_MODEL (store));
+ 	g_object_unref (store);
 
 	renderer = e_cell_renderer_color_new ();
 	gtk_tree_view_insert_column_with_attributes (GTK_TREE_VIEW (label_tree), -1, _("Color"), renderer, "color", LABEL_LIST_COLUMN_COLOR, NULL);
@@ -474,7 +482,7 @@ init_label_tree (GtkWidget *label_tree, EMMailerPrefs *prefs, gboolean locked)
 
 	prefs->labels_change_notify_id = gconf_client_notify_add (prefs->gconf, E_UTIL_LABELS_GCONF_KEY, label_tree_refill, prefs, NULL, NULL);
 
-	return store;
+	return TRUE;
 }
 
 static void
@@ -1340,7 +1348,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	gtk_widget_set_sensitive (prefs->label_edit, !locked);
 	gtk_widget_set_sensitive (prefs->label_tree, !locked);
 
-	prefs->label_list_store = init_label_tree (prefs->label_tree, prefs, locked);
+	init_label_tree (prefs->label_tree, prefs, locked);
 
 	if (!locked) {
 		g_signal_connect (G_OBJECT (prefs->label_add), "clicked", G_CALLBACK (label_add_cb), prefs);
@@ -1497,7 +1505,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 
 	junk_book_lookup_button_toggled (prefs->junk_book_lookup, prefs);
 
-	prefs->junk_header_list_store = init_junk_tree ((GtkWidget *)prefs->junk_header_tree, prefs);
+	init_junk_tree ((GtkTreeView *)prefs->junk_header_tree, prefs);
 	toggle_button_init (prefs, prefs->junk_header_check, FALSE,
 			    "/apps/evolution/mail/junk/check_custom_header",
 			    G_CALLBACK (custom_junk_button_toggled));

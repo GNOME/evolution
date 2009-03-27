@@ -1,5 +1,16 @@
 2009-03-28  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
+	** Fix for bug #576921
+
+	* mail/em-mailer-prefs.h: Remove needless GtkListStore objects.
+	* mail/em-mailer-prefs.c: Use dispose instead of finalize.
+	(em_mailer_prefs_dispose): Unref header_list_store.
+	(init_junk_tree), (init_label_tree): Returns gboolean value instead
+	of GtkListStore object. Unref GtkListStore right after
+	gtk_tree_view_set_model.
+
+2009-03-28  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
 	** Fix for bug #576845
 
 	* em-mailr-prefs.c: (init_junk_tree):
