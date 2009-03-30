@@ -801,7 +801,17 @@ shell_class_init (EShellClass *class)
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 
-	/* Install some desktop-wide settings. */
+	/* Install some application-wide settings. */
+
+	e_shell_settings_install_property (
+		g_param_spec_int (
+			"attachment-view",
+			NULL,
+			NULL,
+			0,
+			1,
+			0,
+			G_PARAM_READWRITE));
 
 	e_shell_settings_install_property (
 		g_param_spec_boolean (
@@ -841,6 +851,14 @@ shell_class_init (EShellClass *class)
 			NULL,
 			NULL,
 			FALSE,
+			G_PARAM_READWRITE));
+
+	e_shell_settings_install_property (
+		g_param_spec_string (
+			"file-chooser-folder",
+			NULL,
+			NULL,
+			NULL,
 			G_PARAM_READWRITE));
 }
 

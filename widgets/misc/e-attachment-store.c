@@ -674,23 +674,34 @@ exit:
 
 void
 e_attachment_store_run_save_dialog (EAttachmentStore *store,
-                                    EAttachment *attachment,
+                                    GList *attachment_list,
                                     GtkWindow *parent)
 {
 	GtkFileChooser *file_chooser;
+	GtkFileChooserAction action;
 	GtkWidget *dialog;
 	GFile *destination;
-	GFileInfo *file_info;
-	const gchar *display_name;
+	const gchar *title;
 	gint response;
+	guint length;
 
 	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
-	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 	g_return_if_fail (GTK_IS_WINDOW (parent));
 
+	length = g_list_length (attachment_list);
+
+	if (length == 0)
+		return;
+
+	title = ngettext ("Save Attachment", "Save Attachments", length);
+
+	if (length == 1)
+		action = GTK_FILE_CHOOSER_ACTION_SAVE;
+	else
+		action = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
+
 	dialog = gtk_file_chooser_dialog_new (
-		_("Save Attachment"), parent,
-		GTK_FILE_CHOOSER_ACTION_SAVE,
+		title, parent, action,
 		GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 		GTK_STOCK_SAVE, GTK_RESPONSE_OK, NULL);
 
@@ -700,13 +711,20 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
 	gtk_window_set_icon_name (GTK_WINDOW (dialog), "mail-attachment");
 
-	file_info = e_attachment_get_file_info (attachment);
-	if (file_info != NULL)
-		display_name = g_file_info_get_display_name (file_info);
-	else
-		display_name = NULL;
-	if (display_name != NULL)
-		gtk_file_chooser_set_current_name (file_chooser, display_name);
+	if (action == GTK_FILE_CHOOSER_ACTION_SAVE) {
+		EAttachment *attachment;
+		GFileInfo *file_info;
+		const gchar *name = NULL;
+
+		attachment = attachment_list->data;
+		file_info = e_attachment_get_file_info (attachment);
+		if (file_info != NULL)
+			name = g_file_info_get_display_name (file_info);
+		if (name == NULL)
+			/* Translators: Default attachment filename. */
+			name = _("attachment.dat");
+		gtk_file_chooser_set_current_name (file_chooser, name);
+	}
 
 	response = e_attachment_store_run_file_chooser_dialog (store, dialog);
 
@@ -715,9 +733,13 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 
 	destination = gtk_file_chooser_get_file (file_chooser);
 
-	e_attachment_save_async (
-		attachment, destination, (GAsyncReadyCallback)
-		e_attachment_save_handle_error, parent);
+	while (attachment_list != NULL) {
+		e_attachment_save_async (
+			attachment_list->data,
+			destination, (GAsyncReadyCallback)
+			e_attachment_save_handle_error, parent);
+		attachment_list = g_list_next (attachment_list);
+	}
 
 	g_object_unref (destination);
 

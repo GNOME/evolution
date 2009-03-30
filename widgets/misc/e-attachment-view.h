@@ -72,6 +72,19 @@ struct _EAttachmentViewIface {
 						 GtkTreePath *path);
 	void		(*select_all)		(EAttachmentView *view);
 	void		(*unselect_all)		(EAttachmentView *view);
+
+	/* Drag and Drop Methods */
+	void		(*drag_source_set)	(EAttachmentView *view,
+						 GdkModifierType start_button_mask,
+						 const GtkTargetEntry *targets,
+						 gint n_targets,
+						 GdkDragAction actions);
+	void		(*drag_dest_set)	(EAttachmentView *view,
+						 const GtkTargetEntry *targets,
+						 gint n_targets,
+						 GdkDragAction actions);
+	void		(*drag_source_unset)	(EAttachmentView *view);
+	void		(*drag_dest_unset)	(EAttachmentView *view);
 };
 
 struct _EAttachmentViewPrivate {
@@ -114,6 +127,13 @@ void		e_attachment_view_remove_selected
 						(EAttachmentView *view,
 						 gboolean select_next);
 
+gboolean	e_attachment_view_button_press_event
+						(EAttachmentView *view,
+						 GdkEventButton *event);
+gboolean	e_attachment_view_button_release_event
+						(EAttachmentView *view,
+						 GdkEventButton *event);
+
 /* Selection Management */
 GtkTreePath *	e_attachment_view_get_path_at_pos
 						(EAttachmentView *view,
@@ -133,10 +153,33 @@ void		e_attachment_view_unselect_all	(EAttachmentView *view);
 void		e_attachment_view_sync_selection(EAttachmentView *view,
 						 EAttachmentView *target);
 
-/* Drag and Drop Support */
+/* Drag Source Support */
+void		e_attachment_view_drag_source_set
+						(EAttachmentView *view);
+void		e_attachment_view_drag_source_unset
+						(EAttachmentView *view);
+void		e_attachment_view_drag_begin	(EAttachmentView *view,
+						 GdkDragContext *context);
+void		e_attachment_view_drag_end	(EAttachmentView *view,
+						 GdkDragContext *context);
+void		e_attachment_view_drag_data_get	(EAttachmentView *view,
+						 GdkDragContext *context,
+						 GtkSelectionData *selection,
+						 guint info,
+						 guint time);
+
+/* Drag Destination Support */
+void		e_attachment_view_drag_dest_set	(EAttachmentView *view);
+void		e_attachment_view_drag_dest_unset
+						(EAttachmentView *view);
 void		e_attachment_view_drag_action	(EAttachmentView *view,
 						 GdkDragAction action);
 gboolean	e_attachment_view_drag_motion	(EAttachmentView *view,
+						 GdkDragContext *context,
+						 gint x,
+						 gint y,
+						 guint time);
+gboolean	e_attachment_view_drag_drop	(EAttachmentView *view,
 						 GdkDragContext *context,
 						 gint x,
 						 gint y,

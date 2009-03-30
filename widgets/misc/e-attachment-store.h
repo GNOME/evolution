@@ -103,7 +103,7 @@ void		e_attachment_store_run_load_dialog
 						 GtkWindow *parent);
 void		e_attachment_store_run_save_dialog
 						(EAttachmentStore *store,
-						 EAttachment *attachment,
+						 GList *attachment_list,
 						 GtkWindow *parent);
 
 G_END_DECLS

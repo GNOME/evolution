@@ -2285,6 +2285,7 @@ msg_composer_init (EMsgComposer *composer)
 
 	/* Drag-and-Drop Support */
 
+#if 0  /* KILL-BONOBO */
 	gtk_drag_dest_set (
 		GTK_WIDGET (composer), GTK_DEST_DEFAULT_ALL,
 		drop_types, G_N_ELEMENTS (drop_types),
@@ -2293,6 +2294,7 @@ msg_composer_init (EMsgComposer *composer)
 	g_signal_connect (
 		html, "drag-data-received",
 		G_CALLBACK (msg_composer_drag_data_received), NULL);
+#endif
 
 	/* Configure Headers */
 

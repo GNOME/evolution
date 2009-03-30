@@ -101,7 +101,6 @@ const gchar *	e_attachment_get_thumbnail_path	(EAttachment *attachment);
 gboolean	e_attachment_is_image		(EAttachment *attachment);
 gboolean	e_attachment_is_rfc822		(EAttachment *attachment);
 GList *		e_attachment_list_apps		(EAttachment *attachment);
-GList *		e_attachment_list_emblems	(EAttachment *attachment);
 
 /* Asynchronous Operations */
 void		e_attachment_load_async		(EAttachment *attachment,

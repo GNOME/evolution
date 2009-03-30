@@ -119,14 +119,26 @@ attachment_tree_view_button_press_event (GtkWidget *widget,
 {
 	EAttachmentView *view = E_ATTACHMENT_VIEW (widget);
 
-	if (event->button == 3 && event->type == GDK_BUTTON_PRESS) {
-		e_attachment_view_show_popup_menu (view, event);
+	if (e_attachment_view_button_press_event (view, event))
 		return TRUE;
-	}
 
 	/* Chain up to parent's button_press_event() method. */
 	return GTK_WIDGET_CLASS (parent_class)->
 		button_press_event (widget, event);
+}
+
+static gboolean
+attachment_tree_view_button_release_event (GtkWidget *widget,
+                                           GdkEventButton *event)
+{
+	EAttachmentView *view = E_ATTACHMENT_VIEW (widget);
+
+	if (e_attachment_view_button_release_event (view, event))
+		return TRUE;
+
+	/* Chain up to parent's button_release_event() method. */
+	return GTK_WIDGET_CLASS (parent_class)->
+		button_release_event (widget, event);
 }
 
 static gboolean
@@ -145,6 +157,43 @@ attachment_tree_view_key_press_event (GtkWidget *widget,
 		key_press_event (widget, event);
 }
 
+static void
+attachment_tree_view_drag_begin (GtkWidget *widget,
+                                 GdkDragContext *context)
+{
+	EAttachmentView *view = E_ATTACHMENT_VIEW (widget);
+
+	/* Chain up to parent's drag_begin() method. */
+	GTK_WIDGET_CLASS (parent_class)->drag_begin (widget, context);
+
+	e_attachment_view_drag_begin (view, context);
+}
+
+static void
+attachment_tree_view_drag_end (GtkWidget *widget,
+                               GdkDragContext *context)
+{
+	EAttachmentView *view = E_ATTACHMENT_VIEW (widget);
+
+	/* Chain up to parent's drag_end() method. */
+	GTK_WIDGET_CLASS (parent_class)->drag_end (widget, context);
+
+	e_attachment_view_drag_end (view, context);
+}
+
+static void
+attachment_tree_view_drag_data_get (GtkWidget *widget,
+                                    GdkDragContext *context,
+                                    GtkSelectionData *selection,
+                                    guint info,
+                                    guint time)
+{
+	EAttachmentView *view = E_ATTACHMENT_VIEW (widget);
+
+	e_attachment_view_drag_data_get (
+		view, context, selection, info, time);
+}
+
 static gboolean
 attachment_tree_view_drag_motion (GtkWidget *widget,
                                   GdkDragContext *context,
@@ -155,6 +204,23 @@ attachment_tree_view_drag_motion (GtkWidget *widget,
 	EAttachmentView *view = E_ATTACHMENT_VIEW (widget);
 
 	return e_attachment_view_drag_motion (view, context, x, y, time);
+}
+
+static gboolean
+attachment_tree_view_drag_drop (GtkWidget *widget,
+                                GdkDragContext *context,
+                                gint x,
+                                gint y,
+                                guint time)
+{
+	EAttachmentView *view = E_ATTACHMENT_VIEW (widget);
+
+	if (!e_attachment_view_drag_drop (view, context, x, y, time))
+		return FALSE;
+
+	/* Chain up to parent's drag_drop() method. */
+	return GTK_WIDGET_CLASS (parent_class)->drag_drop (
+		widget, context, x, y, time);
 }
 
 static void
@@ -307,6 +373,55 @@ attachment_tree_view_unselect_all (EAttachmentView *view)
 }
 
 static void
+attachment_tree_view_drag_source_set (EAttachmentView *view,
+                                      GdkModifierType start_button_mask,
+                                      const GtkTargetEntry *targets,
+                                      gint n_targets,
+                                      GdkDragAction actions)
+{
+	GtkTreeView *tree_view;
+
+	tree_view = GTK_TREE_VIEW (view);
+
+	gtk_tree_view_enable_model_drag_source (
+		tree_view, start_button_mask, targets, n_targets, actions);
+}
+
+static void
+attachment_tree_view_drag_dest_set (EAttachmentView *view,
+                                    const GtkTargetEntry *targets,
+                                    gint n_targets,
+                                    GdkDragAction actions)
+{
+	GtkTreeView *tree_view;
+
+	tree_view = GTK_TREE_VIEW (view);
+
+	gtk_tree_view_enable_model_drag_dest (
+		tree_view, targets, n_targets, actions);
+}
+
+static void
+attachment_tree_view_drag_source_unset (EAttachmentView *view)
+{
+	GtkTreeView *tree_view;
+
+	tree_view = GTK_TREE_VIEW (view);
+
+	gtk_tree_view_unset_rows_drag_source (tree_view);
+}
+
+static void
+attachment_tree_view_drag_dest_unset (EAttachmentView *view)
+{
+	GtkTreeView *tree_view;
+
+	tree_view = GTK_TREE_VIEW (view);
+
+	gtk_tree_view_unset_rows_drag_dest (tree_view);
+}
+
+static void
 attachment_tree_view_class_init (EAttachmentTreeViewClass *class)
 {
 	GObjectClass *object_class;
@@ -324,8 +439,13 @@ attachment_tree_view_class_init (EAttachmentTreeViewClass *class)
 
 	widget_class = GTK_WIDGET_CLASS (class);
 	widget_class->button_press_event = attachment_tree_view_button_press_event;
+	widget_class->button_release_event = attachment_tree_view_button_release_event;
 	widget_class->key_press_event = attachment_tree_view_key_press_event;
+	widget_class->drag_begin = attachment_tree_view_drag_begin;
+	widget_class->drag_end = attachment_tree_view_drag_end;
+	widget_class->drag_data_get = attachment_tree_view_drag_data_get;
 	widget_class->drag_motion = attachment_tree_view_drag_motion;
+	widget_class->drag_drop = attachment_tree_view_drag_drop;
 	widget_class->drag_data_received = attachment_tree_view_drag_data_received;
 	widget_class->popup_menu = attachment_tree_view_popup_menu;
 
@@ -349,6 +469,11 @@ attachment_tree_view_iface_init (EAttachmentViewIface *iface)
 	iface->unselect_path = attachment_tree_view_unselect_path;
 	iface->select_all = attachment_tree_view_select_all;
 	iface->unselect_all = attachment_tree_view_unselect_all;
+
+	iface->drag_source_set = attachment_tree_view_drag_source_set;
+	iface->drag_dest_set = attachment_tree_view_drag_dest_set;
+	iface->drag_source_unset = attachment_tree_view_drag_source_unset;
+	iface->drag_dest_unset = attachment_tree_view_drag_dest_unset;
 }
 
 static void
@@ -368,7 +493,6 @@ attachment_tree_view_init (EAttachmentTreeView *tree_view)
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
 
 	/* Name Column */
-
 	column = gtk_tree_view_column_new ();
 	gtk_tree_view_column_set_expand (column, TRUE);
 	gtk_tree_view_column_set_spacing (column, 3);
@@ -417,7 +541,6 @@ attachment_tree_view_init (EAttachmentTreeView *tree_view)
 		E_ATTACHMENT_STORE_COLUMN_SAVING);
 
 	/* Size Column */
-
 	column = gtk_tree_view_column_new ();
 	gtk_tree_view_column_set_title (column, _("Size"));
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
@@ -430,7 +553,6 @@ attachment_tree_view_init (EAttachmentTreeView *tree_view)
 		attachment_tree_view_render_size, NULL, NULL);
 
 	/* Type Column */
-
 	column = gtk_tree_view_column_new ();
 	gtk_tree_view_column_set_title (column, _("Type"));
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);

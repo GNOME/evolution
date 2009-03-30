@@ -467,77 +467,18 @@ attachment_paned_iface_init (EAttachmentViewIface *iface)
 static void
 attachment_paned_init (EAttachmentPaned *paned)
 {
+	EAttachmentView *view;
 	GtkTreeSelection *selection;
 	GtkSizeGroup *size_group;
 	GtkWidget *container;
 	GtkWidget *widget;
+	GtkAction *action;
 
 	paned->priv = E_ATTACHMENT_PANED_GET_PRIVATE (paned);
 	paned->priv->model = e_attachment_store_new ();
 
 	/* Keep the expander label and combo box the same height. */
 	size_group = gtk_size_group_new (GTK_SIZE_GROUP_VERTICAL);
-
-	/* Construct the Controls */
-
-	container = GTK_WIDGET (paned);
-
-	widget = gtk_vbox_new (FALSE, 6);
-	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
-	paned->priv->content_area = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = gtk_hbox_new (FALSE, 6);
-	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = gtk_expander_new (NULL);
-	gtk_expander_set_spacing (GTK_EXPANDER (widget), 0);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	paned->priv->expander = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	widget = gtk_combo_box_new_text ();
-	gtk_size_group_add_widget (size_group, widget);
-	gtk_combo_box_append_text (GTK_COMBO_BOX (widget), _("Icon View"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (widget), _("List View"));
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	paned->priv->combo_box = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	container = paned->priv->expander;
-
-	widget = gtk_hbox_new (FALSE, 0);
-	gtk_size_group_add_widget (size_group, widget);
-	gtk_expander_set_label_widget (GTK_EXPANDER (container), widget);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = gtk_label_new_with_mnemonic (_("Show _Attachment Bar"));
-	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 6);
-	paned->priv->show_hide_label = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	widget = gtk_image_new_from_icon_name (
-		"mail-attachment", GTK_ICON_SIZE_MENU);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
-	gtk_widget_set_size_request (widget, 100, -1);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	paned->priv->status_icon = g_object_ref (widget);
-	gtk_widget_hide (widget);
-
-	widget = gtk_label_new (NULL);
-	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_misc_set_alignment (GTK_MISC (widget), 1.0, 0.5);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 6);
-	paned->priv->status_label = g_object_ref (widget);
-	gtk_widget_hide (widget);
 
 	/* Construct the Attachment Views */
 
@@ -590,6 +531,89 @@ attachment_paned_init (EAttachmentPaned *paned)
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	paned->priv->tree_view = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	/* Construct the Controls */
+
+	container = GTK_WIDGET (paned);
+
+	widget = gtk_vbox_new (FALSE, 6);
+	gtk_paned_pack1 (GTK_PANED (container), widget, TRUE, FALSE);
+	paned->priv->content_area = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_hbox_new (FALSE, 6);
+	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_expander_new (NULL);
+	gtk_expander_set_spacing (GTK_EXPANDER (widget), 0);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	paned->priv->expander = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	/* The "Add Attachment" button proxies the "add" action from
+	 * one of the two attachment views.  Doesn't matter which. */
+	widget = gtk_button_new ();
+	view = E_ATTACHMENT_VIEW (paned->priv->icon_view);
+	action = e_attachment_view_get_action (view, "add");
+	gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new ());
+	gtk_activatable_set_related_action (GTK_ACTIVATABLE (widget), action);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	widget = gtk_combo_box_new_text ();
+	gtk_size_group_add_widget (size_group, widget);
+	gtk_combo_box_append_text (GTK_COMBO_BOX (widget), _("Icon View"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (widget), _("List View"));
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	paned->priv->combo_box = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	container = paned->priv->expander;
+
+	/* Request the width to be as large as possible, and let the
+	 * GtkExpander allocate what space there is.  This effectively
+	 * packs the widget to expand. */
+	widget = gtk_hbox_new (FALSE, 6);
+	gtk_size_group_add_widget (size_group, widget);
+	gtk_widget_set_size_request (widget, G_MAXINT, -1);
+	gtk_expander_set_label_widget (GTK_EXPANDER (container), widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_label_new_with_mnemonic (_("Show _Attachment Bar"));
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	paned->priv->show_hide_label = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	widget = gtk_alignment_new (0.5, 0.5, 0.0, 1.0);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_hbox_new (FALSE, 6);
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_image_new_from_icon_name (
+		"mail-attachment", GTK_ICON_SIZE_MENU);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	paned->priv->status_icon = g_object_ref (widget);
+	gtk_widget_hide (widget);
+
+	widget = gtk_label_new (NULL);
+	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	paned->priv->status_label = g_object_ref (widget);
+	gtk_widget_hide (widget);
 
 	selection = gtk_tree_view_get_selection (
 		GTK_TREE_VIEW (paned->priv->tree_view));

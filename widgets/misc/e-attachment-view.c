@@ -223,21 +223,16 @@ action_save_as_cb (GtkAction *action,
                    EAttachmentView *view)
 {
 	EAttachmentStore *store;
-	EAttachment *attachment;
 	GList *selected;
 	gpointer parent;
 
 	store = e_attachment_view_get_store (view);
 
-	selected = e_attachment_view_get_selected_attachments (view);
-	g_return_if_fail (g_list_length (selected) == 1);
-	attachment = selected->data;
-
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
 	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 
-	e_attachment_store_run_save_dialog (store, attachment, parent);
-
+	selected = e_attachment_view_get_selected_attachments (view);
+	e_attachment_store_run_save_dialog (store, selected, parent);
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
 	g_list_free (selected);
 }
@@ -300,7 +295,7 @@ static GtkActionEntry editable_entries[] = {
 	  GTK_STOCK_ADD,
 	  N_("A_dd Attachment..."),
 	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
+	  N_("Attach a file"),
 	  G_CALLBACK (action_add_cb) },
 
 	{ "properties",
@@ -563,10 +558,8 @@ e_attachment_view_init (EAttachmentView *view)
 
 	priv = e_attachment_view_get_private (view);
 
-	gtk_drag_dest_set (
-		GTK_WIDGET (view), GTK_DEST_DEFAULT_ALL,
-		drop_types, G_N_ELEMENTS (drop_types),
-		GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
+	e_attachment_view_drag_source_set (view);
+	e_attachment_view_drag_dest_set (view);
 
 	ui_manager = gtk_ui_manager_new ();
 	priv->merge_id = gtk_ui_manager_new_merge_id (ui_manager);
@@ -809,6 +802,70 @@ e_attachment_view_remove_selected (EAttachmentView *view,
 	g_list_free (selected);
 }
 
+gboolean
+e_attachment_view_button_press_event (EAttachmentView *view,
+                                      GdkEventButton *event)
+{
+	GtkTreePath *path;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), FALSE);
+	g_return_val_if_fail (event != NULL, FALSE);
+
+	/* If the user clicked on a selected item, retain the current
+	 * selection.  If the user clicked on an unselected item, select
+	 * the clicked item only.  If the user did not click on an item,
+	 * clear the current selection. */
+	path = e_attachment_view_get_path_at_pos (view, event->x, event->y);
+	if (path != NULL) {
+		if (!e_attachment_view_path_is_selected (view, path)) {
+			e_attachment_view_unselect_all (view);
+			e_attachment_view_select_path (view, path);
+		}
+		gtk_tree_path_free (path);
+	} else
+		e_attachment_view_unselect_all (view);
+
+	/* Cancel drag and drop if there are no selected items,
+	 * or if any of the selected items are loading or saving. */
+	if (event->button == 1 && event->type == GDK_BUTTON_PRESS) {
+		GList *selected, *iter;
+		gboolean busy = FALSE;
+
+		selected = e_attachment_view_get_selected_attachments (view);
+		for (iter = selected; iter != NULL; iter = iter->next) {
+			EAttachment *attachment = iter->data;
+			busy |= e_attachment_get_loading (attachment);
+			busy |= e_attachment_get_saving (attachment);
+		}
+		if (selected == NULL || busy)
+			e_attachment_view_drag_source_unset (view);
+		g_list_foreach (selected, (GFunc) g_object_unref, NULL);
+		g_list_free (selected);
+	}
+
+	if (event->button == 3 && event->type == GDK_BUTTON_PRESS) {
+		e_attachment_view_show_popup_menu (view, event);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+gboolean
+e_attachment_view_button_release_event (EAttachmentView *view,
+                                        GdkEventButton *event)
+{
+	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), FALSE);
+	g_return_val_if_fail (event != NULL, FALSE);
+
+	/* Restore the attachment view as a drag source, in case
+	 * we had to cancel during a button press event. */
+	if (event->button == 1)
+		e_attachment_view_drag_source_set (view);
+
+	return FALSE;
+}
+
 GtkTreePath *
 e_attachment_view_get_path_at_pos (EAttachmentView *view,
                                    gint x,
@@ -928,6 +985,118 @@ e_attachment_view_sync_selection (EAttachmentView *view,
 }
 
 void
+e_attachment_view_drag_source_set (EAttachmentView *view)
+{
+	GtkTargetEntry *targets;
+	GtkTargetList *list;
+	gint n_targets;
+
+	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
+
+	list = gtk_target_list_new (NULL, 0);
+	gtk_target_list_add_uri_targets (list, 0);
+	targets = gtk_target_table_new_from_list (list, &n_targets);
+
+	gtk_drag_source_set (
+		GTK_WIDGET (view), GDK_BUTTON1_MASK,
+		targets, n_targets, GDK_ACTION_COPY);
+
+	gtk_target_table_free (targets, n_targets);
+	gtk_target_list_unref (list);
+}
+
+void
+e_attachment_view_drag_source_unset (EAttachmentView *view)
+{
+	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
+
+	gtk_drag_source_unset (GTK_WIDGET (view));
+}
+
+void
+e_attachment_view_drag_begin (EAttachmentView *view,
+                              GdkDragContext *context)
+{
+	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
+	g_return_if_fail (GDK_IS_DRAG_CONTEXT (context));
+}
+
+void
+e_attachment_view_drag_end (EAttachmentView *view,
+                            GdkDragContext *context)
+{
+	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
+	g_return_if_fail (GDK_IS_DRAG_CONTEXT (context));
+}
+
+void
+e_attachment_view_drag_data_get (EAttachmentView *view,
+                                 GdkDragContext *context,
+                                 GtkSelectionData *selection,
+                                 guint info,
+                                 guint time)
+{
+	GList *selected, *iter;
+	gchar **uris;
+	gint ii = 0;
+
+	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
+	g_return_if_fail (GDK_IS_DRAG_CONTEXT (context));
+	g_return_if_fail (selection != NULL);
+
+	selected = e_attachment_view_get_selected_attachments (view);
+	if (selected == NULL)
+		return;
+
+	uris = g_malloc0 (sizeof (gchar *) * (g_list_length (selected) + 1));
+
+	for (iter = selected; iter != NULL; iter = iter->next) {
+		EAttachment *attachment = iter->data;
+		GFile *file;
+
+		/* FIXME Need to handle attachments with no GFile. */
+		file = e_attachment_get_file (attachment);
+		if (file == NULL)
+			continue;
+
+		uris[ii++] = g_file_get_uri (file);
+	}
+
+	gtk_selection_data_set_uris (selection, uris);
+
+	g_strfreev (uris);
+}
+
+void
+e_attachment_view_drag_dest_set (EAttachmentView *view)
+{
+	GtkTargetEntry *targets;
+	GtkTargetList *list;
+	gint n_targets;
+
+	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
+
+	list = gtk_target_list_new (NULL, 0);
+	/* FIXME Add targets here... */
+	targets = gtk_target_table_new_from_list (list, &n_targets);
+
+	gtk_drag_dest_set (
+		GTK_WIDGET (view), GTK_DEST_DEFAULT_ALL,
+		targets, n_targets, GDK_ACTION_COPY);
+
+	gtk_target_table_free (targets, n_targets);
+	gtk_target_list_unref (list);
+}
+
+void
+e_attachment_view_drag_dest_unset (EAttachmentView *view)
+{
+	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
+
+	gtk_drag_dest_unset (GTK_WIDGET (view));
+}
+
+void
 e_attachment_view_drag_action (EAttachmentView *view,
                                GdkDragAction action)
 {
@@ -994,6 +1163,11 @@ e_attachment_view_drag_motion (EAttachmentView *view,
 	GdkDragAction chosen_action;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), FALSE);
+	g_return_val_if_fail (GDK_IS_DRAG_CONTEXT (context), FALSE);
+
+	/* Disallow drops if we're not editable. */
+	if (!e_attachment_view_get_editable (view))
+		return FALSE;
 
 	for (iter = context->targets; iter != NULL; iter = iter->next) {
 		GdkAtom atom = iter->data;
@@ -1020,12 +1194,29 @@ e_attachment_view_drag_motion (EAttachmentView *view,
 	return (chosen_action != 0);
 }
 
+gboolean
+e_attachment_view_drag_drop (EAttachmentView *view,
+                             GdkDragContext *context,
+                             gint x,
+                             gint y,
+                             guint time)
+{
+	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), FALSE);
+	g_return_val_if_fail (GDK_IS_DRAG_CONTEXT (context), FALSE);
+
+	/* Disallow drops if we're not editable. */
+	if (!e_attachment_view_get_editable (view))
+		return FALSE;
+
+	return TRUE;
+}
+
 void
 e_attachment_view_drag_data_received (EAttachmentView *view,
-                                      GdkDragContext *drag_context,
+                                      GdkDragContext *context,
                                       gint x,
                                       gint y,
-                                      GtkSelectionData *selection_data,
+                                      GtkSelectionData *selection,
                                       guint info,
                                       guint time)
 {
@@ -1034,16 +1225,18 @@ e_attachment_view_drag_data_received (EAttachmentView *view,
 	GdkDragAction action;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
+	g_return_if_fail (GDK_IS_DRAG_CONTEXT (context));
+	g_return_if_fail (selection != NULL);
 
 	priv = e_attachment_view_get_private (view);
 	ui_manager = e_attachment_view_get_ui_manager (view);
 
-	action = drag_context->action;
+	action = context->action;
 
-	if (gtk_selection_data_get_data (selection_data) == NULL)
+	if (gtk_selection_data_get_data (selection) == NULL)
 		return;
 
-	if (gtk_selection_data_get_length (selection_data) == -1)
+	if (gtk_selection_data_get_length (selection) == -1)
 		return;
 
 	if (priv->drag_context != NULL)
@@ -1052,8 +1245,8 @@ e_attachment_view_drag_data_received (EAttachmentView *view,
 	if (priv->selection_data != NULL)
 		gtk_selection_data_free (priv->selection_data);
 
-	priv->drag_context = g_object_ref (drag_context);
-	priv->selection_data = gtk_selection_data_copy (selection_data);
+	priv->drag_context = g_object_ref (context);
+	priv->selection_data = gtk_selection_data_copy (selection);
 	priv->info = info;
 	priv->time = time;
 
@@ -1147,21 +1340,6 @@ e_attachment_view_show_popup_menu (EAttachmentView *view,
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 
-	if (event != NULL) {
-		GtkTreePath *path;
-
-		path = e_attachment_view_get_path_at_pos (
-			view, event->x, event->y);
-		if (path != NULL) {
-			if (!e_attachment_view_path_is_selected (view, path)) {
-				e_attachment_view_unselect_all (view);
-				e_attachment_view_select_path (view, path);
-			}
-			gtk_tree_path_free (path);
-		} else
-			e_attachment_view_unselect_all (view);
-	}
-
 	e_attachment_view_update_actions (view);
 
 	ui_manager = e_attachment_view_get_ui_manager (view);
@@ -1218,7 +1396,7 @@ e_attachment_view_update_actions (EAttachmentView *view)
 	gtk_action_set_visible (action, !busy && n_selected > 0);
 
 	action = e_attachment_view_get_action (view, "save-as");
-	gtk_action_set_visible (action, !busy && n_selected == 1);
+	gtk_action_set_visible (action, !busy && n_selected > 0);
 
 	action = e_attachment_view_get_action (view, "set-background");
 	gtk_action_set_visible (action, !busy && is_image);

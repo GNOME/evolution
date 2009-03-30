@@ -158,8 +158,6 @@ static const gchar *ui =
 "    <toolitem action='print'/>"
 "    <toolitem action='close'/>"
 "    <separator/>"
-"    <toolitem action='attach'/>"
-"    <separator/>"
 "  </toolbar>"
 "</ui>";
 

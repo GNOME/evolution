@@ -135,6 +135,7 @@ attachment_update_file_info_columns (EAttachment *attachment)
 	GFileInfo *file_info;
 	const gchar *content_type;
 	const gchar *display_name;
+	gchar *content_desc;
 	gchar *display_size;
 	gchar *caption;
 	goffset size;
@@ -156,6 +157,7 @@ attachment_update_file_info_columns (EAttachment *attachment)
 	display_name = g_file_info_get_display_name (file_info);
 	size = g_file_info_get_size (file_info);
 
+	content_desc = g_content_type_get_description (content_type);
 	display_size = g_format_size_for_display (size);
 
 	if (size > 0)
@@ -167,11 +169,12 @@ attachment_update_file_info_columns (EAttachment *attachment)
 	gtk_list_store_set (
 		GTK_LIST_STORE (model), &iter,
 		E_ATTACHMENT_STORE_COLUMN_CAPTION, caption,
-		E_ATTACHMENT_STORE_COLUMN_CONTENT_TYPE, content_type,
+		E_ATTACHMENT_STORE_COLUMN_CONTENT_TYPE, content_desc,
 		E_ATTACHMENT_STORE_COLUMN_DISPLAY_NAME, display_name,
 		E_ATTACHMENT_STORE_COLUMN_SIZE, size,
 		-1);
 
+	g_free (content_desc);
 	g_free (display_size);
 	g_free (caption);
 }
@@ -297,44 +300,14 @@ attachment_update_icon_column (EAttachment *attachment)
 }
 
 static void
-attachment_update_loading_column (EAttachment *attachment)
+attachment_update_progress_columns (EAttachment *attachment)
 {
 	GtkTreeRowReference *reference;
 	GtkTreeModel *model;
 	GtkTreePath *path;
 	GtkTreeIter iter;
-	GFileInfo *file_info;
 	gboolean loading;
-
-	reference = e_attachment_get_reference (attachment);
-	if (!gtk_tree_row_reference_valid (reference))
-		return;
-
-	/* Don't show progress until we have a GFileInfo. */
-	file_info = e_attachment_get_file_info (attachment);
-	if (file_info == NULL)
-		return;
-
-	model = gtk_tree_row_reference_get_model (reference);
-	path = gtk_tree_row_reference_get_path (reference);
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_path_free (path);
-
-	loading = e_attachment_get_loading (attachment);
-
-	gtk_list_store_set (
-		GTK_LIST_STORE (model), &iter,
-		E_ATTACHMENT_STORE_COLUMN_LOADING, loading,
-		-1);
-}
-
-static void
-attachment_update_percent_column (EAttachment *attachment)
-{
-	GtkTreeRowReference *reference;
-	GtkTreeModel *model;
-	GtkTreePath *path;
-	GtkTreeIter iter;
+	gboolean saving;
 	gint percent;
 
 	reference = e_attachment_get_reference (attachment);
@@ -346,36 +319,15 @@ attachment_update_percent_column (EAttachment *attachment)
 	gtk_tree_model_get_iter (model, &iter, path);
 	gtk_tree_path_free (path);
 
+	/* Don't show progress bars until we have progress to report. */
 	percent = e_attachment_get_percent (attachment);
+	loading = e_attachment_get_loading (attachment) && (percent > 0);
+	saving = e_attachment_get_saving (attachment) && (percent > 0);
 
 	gtk_list_store_set (
 		GTK_LIST_STORE (model), &iter,
+		E_ATTACHMENT_STORE_COLUMN_LOADING, loading,
 		E_ATTACHMENT_STORE_COLUMN_PERCENT, percent,
-		-1);
-}
-
-static void
-attachment_update_saving_column (EAttachment *attachment)
-{
-	GtkTreeRowReference *reference;
-	GtkTreeModel *model;
-	GtkTreePath *path;
-	GtkTreeIter iter;
-	gboolean saving;
-
-	reference = e_attachment_get_reference (attachment);
-	if (!gtk_tree_row_reference_valid (reference))
-		return;
-
-	model = gtk_tree_row_reference_get_model (reference);
-	path = gtk_tree_row_reference_get_path (reference);
-	gtk_tree_model_get_iter (model, &iter, path);
-	gtk_tree_path_free (path);
-
-	saving = e_attachment_get_saving (attachment);
-
-	gtk_list_store_set (
-		GTK_LIST_STORE (model), &iter,
 		E_ATTACHMENT_STORE_COLUMN_SAVING, saving,
 		-1);
 }
@@ -399,7 +351,7 @@ attachment_set_file_info (EAttachment *attachment,
 	g_object_notify (G_OBJECT (attachment), "file-info");
 
 	/* Tell the EAttachmentStore its total size changed. */
-	if (reference != NULL) {
+	if (gtk_tree_row_reference_valid (reference)) {
 		GtkTreeModel *model;
 		model = gtk_tree_row_reference_get_model (reference);
 		g_object_notify (G_OBJECT (model), "total-size");
@@ -422,7 +374,7 @@ attachment_set_loading (EAttachment *attachment,
 	g_object_notify (G_OBJECT (attachment), "loading");
 	g_object_thaw_notify (G_OBJECT (attachment));
 
-	if (reference != NULL) {
+	if (gtk_tree_row_reference_valid (reference)) {
 		GtkTreeModel *model;
 		model = gtk_tree_row_reference_get_model (reference);
 		g_object_notify (G_OBJECT (model), "num-loading");
@@ -799,20 +751,16 @@ attachment_init (EAttachment *attachment)
 		G_CALLBACK (attachment_update_icon_column), NULL);
 
 	g_signal_connect (
-		attachment, "notify::file-info",
-		G_CALLBACK (attachment_update_loading_column), NULL);
-
-	g_signal_connect (
 		attachment, "notify::loading",
 		G_CALLBACK (attachment_update_icon_column), NULL);
 
 	g_signal_connect (
 		attachment, "notify::loading",
-		G_CALLBACK (attachment_update_loading_column), NULL);
+		G_CALLBACK (attachment_update_progress_columns), NULL);
 
 	g_signal_connect (
 		attachment, "notify::percent",
-		G_CALLBACK (attachment_update_percent_column), NULL);
+		G_CALLBACK (attachment_update_progress_columns), NULL);
 
 	g_signal_connect (
 		attachment, "notify::reference",
@@ -824,15 +772,7 @@ attachment_init (EAttachment *attachment)
 
 	g_signal_connect (
 		attachment, "notify::reference",
-		G_CALLBACK (attachment_update_loading_column), NULL);
-
-	g_signal_connect (
-		attachment, "notify::reference",
-		G_CALLBACK (attachment_update_saving_column), NULL);
-
-	g_signal_connect (
-		attachment, "notify::reference",
-		G_CALLBACK (attachment_update_percent_column), NULL);
+		G_CALLBACK (attachment_update_progress_columns), NULL);
 
 	g_signal_connect (
 		attachment, "notify::saving",
@@ -840,7 +780,7 @@ attachment_init (EAttachment *attachment)
 
 	g_signal_connect (
 		attachment, "notify::saving",
-		G_CALLBACK (attachment_update_saving_column), NULL);
+		G_CALLBACK (attachment_update_progress_columns), NULL);
 
 	g_signal_connect (
 		attachment, "notify::signed",
@@ -1294,7 +1234,8 @@ e_attachment_list_apps (EAttachment *attachment)
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
 
 	file_info = e_attachment_get_file_info (attachment);
-	g_return_val_if_fail (file_info != NULL, NULL);
+	if (file_info == NULL)
+		return NULL;
 
 	content_type = g_file_info_get_content_type (file_info);
 	display_name = g_file_info_get_display_name (file_info);
@@ -1316,92 +1257,14 @@ exit:
 	return app_info_list;
 }
 
-GList *
-e_attachment_list_emblems (EAttachment *attachment)
-{
-	GCancellable *cancellable;
-	GList *list = NULL;
-	GIcon *icon;
-
-	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), NULL);
-
-	cancellable = attachment->priv->cancellable;
-
-	if (g_cancellable_is_cancelled (cancellable)) {
-		icon = g_themed_icon_new (EMBLEM_CANCELLED);
-		list = g_list_append (list, g_emblem_new (icon));
-		g_object_unref (icon);
-	}
-
-	if (e_attachment_get_loading (attachment)) {
-		icon = g_themed_icon_new (EMBLEM_LOADING);
-		list = g_list_append (list, g_emblem_new (icon));
-		g_object_unref (icon);
-	}
-
-	if (e_attachment_get_saving (attachment)) {
-		icon = g_themed_icon_new (EMBLEM_SAVING);
-		list = g_list_append (list, g_emblem_new (icon));
-		g_object_unref (icon);
-	}
-
-	switch (e_attachment_get_encrypted (attachment)) {
-		case CAMEL_CIPHER_VALIDITY_ENCRYPT_WEAK:
-			icon = g_themed_icon_new (EMBLEM_ENCRYPT_WEAK);
-			list = g_list_append (list, g_emblem_new (icon));
-			g_object_unref (icon);
-			break;
-
-		case CAMEL_CIPHER_VALIDITY_ENCRYPT_ENCRYPTED:
-			icon = g_themed_icon_new (EMBLEM_ENCRYPT_UNKNOWN);
-			list = g_list_append (list, g_emblem_new (icon));
-			g_object_unref (icon);
-			break;
-
-		case CAMEL_CIPHER_VALIDITY_ENCRYPT_STRONG:
-			icon = g_themed_icon_new (EMBLEM_ENCRYPT_STRONG);
-			list = g_list_append (list, g_emblem_new (icon));
-			g_object_unref (icon);
-			break;
-
-		default:
-			break;
-	}
-
-	switch (e_attachment_get_signed (attachment)) {
-		case CAMEL_CIPHER_VALIDITY_SIGN_GOOD:
-			icon = g_themed_icon_new (EMBLEM_SIGN_GOOD);
-			list = g_list_append (list, g_emblem_new (icon));
-			g_object_unref (icon);
-			break;
-
-		case CAMEL_CIPHER_VALIDITY_SIGN_BAD:
-			icon = g_themed_icon_new (EMBLEM_SIGN_BAD);
-			list = g_list_append (list, g_emblem_new (icon));
-			g_object_unref (icon);
-			break;
-
-		case CAMEL_CIPHER_VALIDITY_SIGN_UNKNOWN:
-		case CAMEL_CIPHER_VALIDITY_SIGN_NEED_PUBLIC_KEY:
-			icon = g_themed_icon_new (EMBLEM_SIGN_UNKNOWN);
-			list = g_list_append (list, g_emblem_new (icon));
-			g_object_unref (icon);
-			break;
-
-		default:
-			break;
-	}
-
-	return list;
-}
-
 /************************* e_attachment_load_async() *************************/
 
-typedef struct _AttachmentLoadContext AttachmentLoadContext;
+typedef struct _LoadContext LoadContext;
 
-struct _AttachmentLoadContext {
+struct _LoadContext {
 	EAttachment *attachment;
 	GSimpleAsyncResult *simple;
+
 	GInputStream *input_stream;
 	GOutputStream *output_stream;
 	GFileInfo *file_info;
@@ -1414,21 +1277,21 @@ struct _AttachmentLoadContext {
 static void
 attachment_load_stream_read_cb (GInputStream *input_stream,
                                 GAsyncResult *result,
-                                AttachmentLoadContext *load_context);
+                                LoadContext *load_context);
 
-static AttachmentLoadContext *
+static LoadContext *
 attachment_load_context_new (EAttachment *attachment,
                              GAsyncReadyCallback callback,
                              gpointer user_data)
 {
-	AttachmentLoadContext *load_context;
+	LoadContext *load_context;
 	GSimpleAsyncResult *simple;
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (attachment), callback,
 		user_data, e_attachment_load_async);
 
-	load_context = g_slice_new0 (AttachmentLoadContext);
+	load_context = g_slice_new0 (LoadContext);
 	load_context->attachment = g_object_ref (attachment);
 	load_context->simple = simple;
 
@@ -1438,7 +1301,7 @@ attachment_load_context_new (EAttachment *attachment,
 }
 
 static void
-attachment_load_context_free (AttachmentLoadContext *load_context)
+attachment_load_context_free (LoadContext *load_context)
 {
 	/* Do not free the GSimpleAsyncResult. */
 	g_object_unref (load_context->attachment);
@@ -1452,11 +1315,33 @@ attachment_load_context_free (AttachmentLoadContext *load_context)
 	if (load_context->file_info != NULL)
 		g_object_unref (load_context->file_info);
 
-	g_slice_free (AttachmentLoadContext, load_context);
+	g_slice_free (LoadContext, load_context);
+}
+
+static gboolean
+attachment_load_check_for_error (LoadContext *load_context,
+                                 GError *error)
+{
+	GSimpleAsyncResult *simple;
+
+	if (error == NULL)
+		return FALSE;
+
+	/* Steal the reference. */
+	simple = load_context->simple;
+	load_context->simple = NULL;
+
+	g_simple_async_result_set_from_error (simple, error);
+	g_simple_async_result_complete (simple);
+	g_error_free (error);
+
+	attachment_load_context_free (load_context);
+
+	return TRUE;
 }
 
 static void
-attachment_load_finish (AttachmentLoadContext *load_context)
+attachment_load_finish (LoadContext *load_context)
 {
 	GFileInfo *file_info;
 	EAttachment *attachment;
@@ -1529,7 +1414,7 @@ attachment_load_finish (AttachmentLoadContext *load_context)
 static void
 attachment_load_write_cb (GOutputStream *output_stream,
                           GAsyncResult *result,
-                          AttachmentLoadContext *load_context)
+                          LoadContext *load_context)
 {
 	EAttachment *attachment;
 	GCancellable *cancellable;
@@ -1540,21 +1425,8 @@ attachment_load_write_cb (GOutputStream *output_stream,
 	bytes_written = g_output_stream_write_finish (
 		output_stream, result, &error);
 
-	if (error != NULL) {
-		GSimpleAsyncResult *simple;
-
-		/* Steal the reference. */
-		simple = load_context->simple;
-		load_context->simple = NULL;
-
-		g_simple_async_result_set_from_error (simple, error);
-		g_simple_async_result_complete (simple);
-		g_error_free (error);
-
-		attachment_load_context_free (load_context);
-
+	if (attachment_load_check_for_error (load_context, error))
 		return;
-	}
 
 	attachment = load_context->attachment;
 	cancellable = attachment->priv->cancellable;
@@ -1591,7 +1463,7 @@ attachment_load_write_cb (GOutputStream *output_stream,
 static void
 attachment_load_stream_read_cb (GInputStream *input_stream,
                                 GAsyncResult *result,
-                                AttachmentLoadContext *load_context)
+                                LoadContext *load_context)
 {
 	EAttachment *attachment;
 	GCancellable *cancellable;
@@ -1602,21 +1474,8 @@ attachment_load_stream_read_cb (GInputStream *input_stream,
 	bytes_read = g_input_stream_read_finish (
 		input_stream, result, &error);
 
-	if (error != NULL) {
-		GSimpleAsyncResult *simple;
-
-		/* Steal the reference. */
-		simple = load_context->simple;
-		load_context->simple = NULL;
-
-		g_simple_async_result_set_from_error (simple, error);
-		g_simple_async_result_complete (simple);
-		g_error_free (error);
-
-		attachment_load_context_free (load_context);
-
+	if (attachment_load_check_for_error (load_context, error))
 		return;
-	}
 
 	if (bytes_read == 0) {
 		attachment_load_finish (load_context);
@@ -1640,7 +1499,7 @@ attachment_load_stream_read_cb (GInputStream *input_stream,
 static void
 attachment_load_file_read_cb (GFile *file,
                               GAsyncResult *result,
-                              AttachmentLoadContext *load_context)
+                              LoadContext *load_context)
 {
 	EAttachment *attachment;
 	GCancellable *cancellable;
@@ -1648,24 +1507,12 @@ attachment_load_file_read_cb (GFile *file,
 	GOutputStream *output_stream;
 	GError *error = NULL;
 
+	/* Input stream might be NULL, so don't use cast macro. */
 	input_stream = g_file_read_finish (file, result, &error);
-	load_context->input_stream = G_INPUT_STREAM (input_stream);
+	load_context->input_stream = (GInputStream *) input_stream;
 
-	if (error != NULL) {
-		GSimpleAsyncResult *simple;
-
-		/* Steal the reference. */
-		simple = load_context->simple;
-		load_context->simple = NULL;
-
-		g_simple_async_result_set_from_error (simple, error);
-		g_simple_async_result_complete (simple);
-		g_error_free (error);
-
-		attachment_load_context_free (load_context);
-
+	if (attachment_load_check_for_error (load_context, error))
 		return;
-	}
 
 	/* Load the contents into a GMemoryOutputStream. */
 	output_stream = g_memory_output_stream_new (
@@ -1687,7 +1534,7 @@ attachment_load_file_read_cb (GFile *file,
 static void
 attachment_load_query_info_cb (GFile *file,
                                GAsyncResult *result,
-                               AttachmentLoadContext *load_context)
+                               LoadContext *load_context)
 {
 	EAttachment *attachment;
 	GCancellable *cancellable;
@@ -1701,21 +1548,8 @@ attachment_load_query_info_cb (GFile *file,
 	attachment_set_file_info (attachment, file_info);
 	load_context->file_info = file_info;
 
-	if (error != NULL) {
-		GSimpleAsyncResult *simple;
-
-		/* Steal the reference. */
-		simple = load_context->simple;
-		load_context->simple = NULL;
-
-		g_simple_async_result_set_from_error (simple, error);
-		g_simple_async_result_complete (simple);
-		g_error_free (error);
-
-		attachment_load_context_free (load_context);
-
+	if (attachment_load_check_for_error (load_context, error))
 		return;
-	}
 
 	load_context->total_num_bytes = g_file_info_get_size (file_info);
 
@@ -1726,7 +1560,7 @@ attachment_load_query_info_cb (GFile *file,
 }
 
 static void
-attachment_load_from_mime_part (AttachmentLoadContext *load_context)
+attachment_load_from_mime_part (LoadContext *load_context)
 {
 	GFileInfo *file_info;
 	EAttachment *attachment;
@@ -1780,8 +1614,10 @@ attachment_load_from_mime_part (AttachmentLoadContext *load_context)
 	g_free (allocated);
 
 	string = camel_mime_part_get_filename (mime_part);
-	if (string != NULL)
-		g_file_info_set_display_name (file_info, string);
+	if (string == NULL)
+		/* Translators: Default attachment filename. */
+		string = _("attachment.dat");
+	g_file_info_set_display_name (file_info, string);
 
 	attribute = G_FILE_ATTRIBUTE_STANDARD_DESCRIPTION;
 	string = camel_mime_part_get_description (mime_part);
@@ -1815,7 +1651,7 @@ e_attachment_load_async (EAttachment *attachment,
                          GAsyncReadyCallback callback,
                          gpointer user_data)
 {
-	AttachmentLoadContext *load_context;
+	LoadContext *load_context;
 	GCancellable *cancellable;
 	CamelMimePart *mime_part;
 	GFile *file;
@@ -1823,8 +1659,21 @@ e_attachment_load_async (EAttachment *attachment,
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 	g_return_if_fail (callback != NULL);
 
-	g_return_if_fail (!e_attachment_get_loading (attachment));
-	g_return_if_fail (!e_attachment_get_saving (attachment));
+	if (e_attachment_get_loading (attachment)) {
+		g_simple_async_report_error_in_idle (
+			G_OBJECT (attachment), callback, user_data,
+			G_IO_ERROR, G_IO_ERROR_BUSY,
+			_("A load operation is already in progress"));
+		return;
+	}
+
+	if (e_attachment_get_saving (attachment)) {
+		g_simple_async_report_error_in_idle (
+			G_OBJECT (attachment), callback, user_data,
+			G_IO_ERROR, G_IO_ERROR_BUSY,
+			_("A save operation is already in progress"));
+		return;
+	}
 
 	file = e_attachment_get_file (attachment);
 	mime_part = e_attachment_get_mime_part (attachment);
@@ -1836,16 +1685,16 @@ e_attachment_load_async (EAttachment *attachment,
 	cancellable = attachment->priv->cancellable;
 	g_cancellable_reset (cancellable);
 
-	/* Handle the trivial case first. */
-	if (mime_part != NULL)
-		attachment_load_from_mime_part (load_context);
-
-	else if (file != NULL)
+	if (file != NULL)
 		g_file_query_info_async (
 			file, ATTACHMENT_QUERY,
 			G_FILE_QUERY_INFO_NONE,G_PRIORITY_DEFAULT,
 			cancellable, (GAsyncReadyCallback)
 			attachment_load_query_info_cb, load_context);
+
+	else if (mime_part != NULL)
+		attachment_load_from_mime_part (load_context);
+
 }
 
 gboolean
@@ -1879,6 +1728,7 @@ e_attachment_load_handle_error (EAttachment *attachment,
 {
 	GtkWidget *dialog;
 	GFileInfo *file_info;
+	GtkTreeRowReference *reference;
 	const gchar *display_name;
 	const gchar *primary_text;
 	GError *error = NULL;
@@ -1889,6 +1739,18 @@ e_attachment_load_handle_error (EAttachment *attachment,
 
 	if (e_attachment_load_finish (attachment, result, &error))
 		return;
+
+	/* XXX Calling EAttachmentStore functions from here violates
+	 *     the abstraction, but for now it's not hurting anything. */
+	reference = e_attachment_get_reference (attachment);
+	if (gtk_tree_row_reference_valid (reference)) {
+		GtkTreeModel *model;
+
+		model = gtk_tree_row_reference_get_model (reference);
+
+		e_attachment_store_remove_attachment (
+			E_ATTACHMENT_STORE (model), attachment);
+	}
 
 	/* Ignore cancellations. */
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
@@ -1924,28 +1786,29 @@ e_attachment_load_handle_error (EAttachment *attachment,
 
 /************************* e_attachment_open_async() *************************/
 
-typedef struct _AttachmentOpenContext AttachmentOpenContext;
+typedef struct _OpenContext OpenContext;
 
-struct _AttachmentOpenContext {
+struct _OpenContext {
 	EAttachment *attachment;
 	GSimpleAsyncResult *simple;
+
 	GAppInfo *app_info;
 	GFile *file;
 };
 
-static AttachmentOpenContext *
+static OpenContext *
 attachment_open_context_new (EAttachment *attachment,
                              GAsyncReadyCallback callback,
                              gpointer user_data)
 {
-	AttachmentOpenContext *open_context;
+	OpenContext *open_context;
 	GSimpleAsyncResult *simple;
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (attachment), callback,
 		user_data, e_attachment_open_async);
 
-	open_context = g_slice_new0 (AttachmentOpenContext);
+	open_context = g_slice_new0 (OpenContext);
 	open_context->attachment = g_object_ref (attachment);
 	open_context->simple = simple;
 
@@ -1953,7 +1816,7 @@ attachment_open_context_new (EAttachment *attachment,
 }
 
 static void
-attachment_open_context_free (AttachmentOpenContext *open_context)
+attachment_open_context_free (OpenContext *open_context)
 {
 	/* Do not free the GSimpleAsyncResult. */
 	g_object_unref (open_context->attachment);
@@ -1964,11 +1827,33 @@ attachment_open_context_free (AttachmentOpenContext *open_context)
 	if (open_context->file != NULL)
 		g_object_unref (open_context->file);
 
-	g_slice_free (AttachmentOpenContext, open_context);
+	g_slice_free (OpenContext, open_context);
+}
+
+static gboolean
+attachment_open_check_for_error (OpenContext *open_context,
+                                 GError *error)
+{
+	GSimpleAsyncResult *simple;
+
+	if (error == NULL)
+		return FALSE;
+
+	/* Steal the reference. */
+	simple = open_context->simple;
+	open_context->simple = NULL;
+
+	g_simple_async_result_set_from_error (simple, error);
+	g_simple_async_result_complete (simple);
+	g_error_free (error);
+
+	attachment_open_context_free (open_context);
+
+	return TRUE;
 }
 
 static void
-attachment_open_file (AttachmentOpenContext *open_context)
+attachment_open_file (OpenContext *open_context)
 {
 	GdkAppLaunchContext *context;
 	GSimpleAsyncResult *simple;
@@ -2027,49 +1912,29 @@ exit:
 static void
 attachment_open_save_finished_cb (EAttachment *attachment,
                                   GAsyncResult *result,
-                                  AttachmentOpenContext *open_context)
+                                  OpenContext *open_context)
 {
 	GError *error = NULL;
 
-	if (e_attachment_save_finish (attachment, result, &error))
-		attachment_open_file (open_context);
-	else {
-		GSimpleAsyncResult *simple;
+	e_attachment_save_finish (attachment, result, &error);
 
-		/* Steal the reference. */
-		simple = open_context->simple;
-		open_context->simple = NULL;
+	if (attachment_open_check_for_error (open_context, error))
+		return;
 
-		g_simple_async_result_set_from_error (simple, error);
-		g_simple_async_result_complete (simple);
-		g_error_free (error);
-
-		attachment_open_context_free (open_context);
-	}
+	attachment_open_file (open_context);
 }
 
 static void
-attachment_open_save_temporary (AttachmentOpenContext *open_context)
+attachment_open_save_temporary (OpenContext *open_context)
 {
 	gchar *path;
 	gint fd;
 	GError *error = NULL;
 
 	fd = e_file_open_tmp (&path, &error);
-	if (error != NULL) {
-		GSimpleAsyncResult *simple;
 
-		/* Steal the reference. */
-		simple = open_context->simple;
-		open_context->simple = NULL;
-
-		g_simple_async_result_set_from_error (simple, error);
-		g_simple_async_result_complete (simple);
-		g_error_free (error);
-
-		attachment_open_context_free (open_context);
+	if (attachment_open_check_for_error (open_context, error))
 		return;
-	}
 
 	close (fd);
 
@@ -2087,15 +1952,12 @@ e_attachment_open_async (EAttachment *attachment,
                          GAsyncReadyCallback callback,
                          gpointer user_data)
 {
-	AttachmentOpenContext *open_context;
+	OpenContext *open_context;
 	CamelMimePart *mime_part;
 	GFile *file;
 
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 	g_return_if_fail (callback != NULL);
-
-	g_return_if_fail (!e_attachment_get_loading (attachment));
-	g_return_if_fail (!e_attachment_get_saving (attachment));
 
 	file = e_attachment_get_file (attachment);
 	mime_part = e_attachment_get_mime_part (attachment);
@@ -2190,37 +2052,40 @@ e_attachment_open_handle_error (EAttachment *attachment,
 
 /************************* e_attachment_save_async() *************************/
 
-typedef struct _AttachmentSaveContext AttachmentSaveContext;
+typedef struct _SaveContext SaveContext;
 
-struct _AttachmentSaveContext {
+struct _SaveContext {
 	EAttachment *attachment;
 	GSimpleAsyncResult *simple;
+
+	GFile *directory;
 	GInputStream *input_stream;
 	GOutputStream *output_stream;
 	goffset total_num_bytes;
 	gssize bytes_read;
 	gchar buffer[4096];
+	gint count;
 };
 
 /* Forward Declaration */
 static void
 attachment_save_read_cb (GInputStream *input_stream,
                          GAsyncResult *result,
-                         AttachmentSaveContext *save_context);
+                         SaveContext *save_context);
 
-static AttachmentSaveContext *
+static SaveContext *
 attachment_save_context_new (EAttachment *attachment,
                              GAsyncReadyCallback callback,
                              gpointer user_data)
 {
-	AttachmentSaveContext *save_context;
+	SaveContext *save_context;
 	GSimpleAsyncResult *simple;
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (attachment), callback,
 		user_data, e_attachment_save_async);
 
-	save_context = g_slice_new0 (AttachmentSaveContext);
+	save_context = g_slice_new0 (SaveContext);
 	save_context->attachment = g_object_ref (attachment);
 	save_context->simple = simple;
 
@@ -2230,10 +2095,13 @@ attachment_save_context_new (EAttachment *attachment,
 }
 
 static void
-attachment_save_context_free (AttachmentSaveContext *save_context)
+attachment_save_context_free (SaveContext *save_context)
 {
 	/* Do not free the GSimpleAsyncResult. */
 	g_object_unref (save_context->attachment);
+
+	if (save_context->directory != NULL)
+		g_object_unref (save_context->directory);
 
 	if (save_context->input_stream != NULL)
 		g_object_unref (save_context->input_stream);
@@ -2241,38 +2109,84 @@ attachment_save_context_free (AttachmentSaveContext *save_context)
 	if (save_context->output_stream != NULL)
 		g_object_unref (save_context->output_stream);
 
-	g_slice_free (AttachmentSaveContext, save_context);
+	g_slice_free (SaveContext, save_context);
 }
 
-static void
-attachment_save_file_cb (GFile *source,
-                         GAsyncResult *result,
-                         AttachmentSaveContext *save_context)
+static gboolean
+attachment_save_check_for_error (SaveContext *save_context,
+                                 GError *error)
 {
 	GSimpleAsyncResult *simple;
-	gboolean success;
-	GError *error = NULL;
+
+	if (error == NULL)
+		return FALSE;
 
 	/* Steal the reference. */
 	simple = save_context->simple;
 	save_context->simple = NULL;
 
-	success = g_file_copy_finish (source, result, &error);
-	g_simple_async_result_set_op_res_gboolean (simple, success);
+	g_simple_async_result_set_from_error (simple, error);
+	g_simple_async_result_complete (simple);
+	g_error_free (error);
 
-	if (error != NULL) {
-		g_simple_async_result_set_from_error (simple, error);
-		g_error_free (error);
+	attachment_save_context_free (save_context);
+
+	return TRUE;
+}
+
+static GFile *
+attachment_save_new_candidate (SaveContext *save_context)
+{
+	GFile *candidate;
+	GFileInfo *file_info;
+	EAttachment *attachment;
+	const gchar *display_name;
+	gchar *basename;
+
+	attachment = save_context->attachment;
+	file_info = e_attachment_get_file_info (attachment);
+
+	if (file_info != NULL)
+		display_name = g_file_info_get_display_name (file_info);
+	if (display_name == NULL)
+		/* Translators: Default attachment filename. */
+		display_name = _("attachment.dat");
+
+	if (save_context->count == 0)
+		basename = g_strdup (display_name);
+	else {
+		GString *string;
+		const gchar *ext;
+		gsize length;
+
+		string = g_string_sized_new (strlen (display_name));
+		ext = g_utf8_strchr (display_name, -1, '.');
+
+		if (ext != NULL)
+			length = ext - display_name;
+		else
+			length = strlen (display_name);
+
+		g_string_append_len (string, display_name, length);
+		g_string_append_printf (string, " (%d)", save_context->count);
+		g_string_append (string, (ext != NULL) ? ext : "");
+
+		basename = g_string_free (string, FALSE);
 	}
 
-	g_simple_async_result_complete (simple);
-	attachment_save_context_free (save_context);
+	save_context->count++;
+
+	candidate = g_file_get_child (save_context->directory, basename);
+
+	g_free (basename);
+
+	return candidate;
 }
 
 static void
 attachment_save_write_cb (GOutputStream *output_stream,
                           GAsyncResult *result,
-                          AttachmentSaveContext *save_context)
+                          SaveContext *save_context)
 {
 	EAttachment *attachment;
 	GCancellable *cancellable;
@@ -2283,21 +2197,8 @@ attachment_save_write_cb (GOutputStream *output_stream,
 	bytes_written = g_output_stream_write_finish (
 		output_stream, result, &error);
 
-	if (error != NULL) {
-		GSimpleAsyncResult *simple;
-
-		/* Steal the reference. */
-		simple = save_context->simple;
-		save_context->simple = NULL;
-
-		g_simple_async_result_set_from_error (simple, error);
-		g_simple_async_result_complete (simple);
-		g_error_free (error);
-
-		attachment_save_context_free (save_context);
-
+	if (attachment_save_check_for_error (save_context, error))
 		return;
-	}
 
 	attachment = save_context->attachment;
 	cancellable = attachment->priv->cancellable;
@@ -2330,7 +2231,7 @@ attachment_save_write_cb (GOutputStream *output_stream,
 static void
 attachment_save_read_cb (GInputStream *input_stream,
                          GAsyncResult *result,
-                         AttachmentSaveContext *save_context)
+                         SaveContext *save_context)
 {
 	EAttachment *attachment;
 	GCancellable *cancellable;
@@ -2341,21 +2242,8 @@ attachment_save_read_cb (GInputStream *input_stream,
 	bytes_read = g_input_stream_read_finish (
 		input_stream, result, &error);
 
-	if (error != NULL) {
-		GSimpleAsyncResult *simple;
-
-		/* Steal the reference. */
-		simple = save_context->simple;
-		save_context->simple = NULL;
-
-		g_simple_async_result_set_from_error (simple, error);
-		g_simple_async_result_complete (simple);
-		g_error_free (error);
-
-		attachment_save_context_free (save_context);
-
+	if (attachment_save_check_for_error (save_context, error))
 		return;
-	}
 
 	if (bytes_read == 0) {
 		GSimpleAsyncResult *simple;
@@ -2391,38 +2279,15 @@ attachment_save_read_cb (GInputStream *input_stream,
 }
 
 static void
-attachment_save_replace_cb (GFile *destination,
-                            GAsyncResult *result,
-                            AttachmentSaveContext *save_context)
+attachment_save_got_output_stream (SaveContext *save_context)
 {
 	GCancellable *cancellable;
 	GInputStream *input_stream;
-	GFileOutputStream *output_stream;
 	CamelDataWrapper *wrapper;
 	CamelMimePart *mime_part;
 	CamelStream *stream;
 	EAttachment *attachment;
 	GByteArray *buffer;
-	GError *error = NULL;
-
-	output_stream = g_file_replace_finish (destination, result, &error);
-	save_context->output_stream = G_OUTPUT_STREAM (output_stream);
-
-	if (error != NULL) {
-		GSimpleAsyncResult *simple;
-
-		/* Steal the reference. */
-		simple = save_context->simple;
-		save_context->simple = NULL;
-
-		g_simple_async_result_set_from_error (simple, error);
-		g_simple_async_result_complete (simple);
-		g_error_free (error);
-
-		attachment_save_context_free (save_context);
-
-		return;
-	}
 
 	attachment = save_context->attachment;
 	cancellable = attachment->priv->cancellable;
@@ -2455,30 +2320,149 @@ attachment_save_replace_cb (GFile *destination,
 		save_context);
 }
 
+static void
+attachment_save_create_cb (GFile *destination,
+                           GAsyncResult *result,
+                           SaveContext *save_context)
+{
+	EAttachment *attachment;
+	GCancellable *cancellable;
+	GFileOutputStream *output_stream;
+	GError *error = NULL;
+
+	/* Output stream might be NULL, so don't use cast macro. */
+	output_stream = g_file_create_finish (destination, result, &error);
+	save_context->output_stream = (GOutputStream *) output_stream;
+
+	attachment = save_context->attachment;
+	cancellable = attachment->priv->cancellable;
+
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_EXISTS)) {
+		destination = attachment_save_new_candidate (save_context);
+
+		g_file_create_async (
+			destination, G_FILE_CREATE_NONE,
+			G_PRIORITY_DEFAULT, cancellable,
+			(GAsyncReadyCallback) attachment_save_create_cb,
+			save_context);
+
+		g_object_unref (destination);
+		g_error_free (error);
+		return;
+	}
+
+	if (attachment_save_check_for_error (save_context, error))
+		return;
+
+	attachment_save_got_output_stream (save_context);
+}
+
+static void
+attachment_save_replace_cb (GFile *destination,
+                            GAsyncResult *result,
+                            SaveContext *save_context)
+{
+	GFileOutputStream *output_stream;
+	GError *error = NULL;
+
+	/* Output stream might be NULL, so don't use cast macro. */
+	output_stream = g_file_replace_finish (destination, result, &error);
+	save_context->output_stream = (GOutputStream *) output_stream;
+
+	if (attachment_save_check_for_error (save_context, error))
+		return;
+
+	attachment_save_got_output_stream (save_context);
+}
+
+static void
+attachment_save_query_info_cb (GFile *destination,
+                               GAsyncResult *result,
+                               SaveContext *save_context)
+{
+	EAttachment *attachment;
+	GCancellable *cancellable;
+	GFileInfo *file_info;
+	GFileType file_type;
+	GError *error = NULL;
+
+	attachment = save_context->attachment;
+	cancellable = attachment->priv->cancellable;
+
+	file_info = g_file_query_info_finish (destination, result, &error);
+
+	/* G_IO_ERROR_NOT_FOUND just means we're creating a new file. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND)) {
+		g_error_free (error);
+		goto replace;
+	}
+
+	if (attachment_save_check_for_error (save_context, error))
+		return;
+
+	file_type = g_file_info_get_file_type (file_info);
+	g_object_unref (file_info);
+
+	if (file_type == G_FILE_TYPE_DIRECTORY) {
+		save_context->directory = g_object_ref (destination);
+		destination = attachment_save_new_candidate (save_context);
+
+		g_file_create_async (
+			destination, G_FILE_CREATE_NONE,
+			G_PRIORITY_DEFAULT, cancellable,
+			(GAsyncReadyCallback) attachment_save_create_cb,
+			save_context);
+
+		g_object_unref (destination);
+
+		return;
+	}
+
+replace:
+	g_file_replace_async (
+		destination, NULL, FALSE,
+		G_FILE_CREATE_REPLACE_DESTINATION,
+		G_PRIORITY_DEFAULT, cancellable,
+		(GAsyncReadyCallback) attachment_save_replace_cb,
+		save_context);
+}
+
 void
 e_attachment_save_async (EAttachment *attachment,
                          GFile *destination,
                          GAsyncReadyCallback callback,
                          gpointer user_data)
 {
-	AttachmentSaveContext *save_context;
+	SaveContext *save_context;
 	GCancellable *cancellable;
-	CamelMimePart *mime_part;
-	GFile *source;
 
 	g_return_if_fail (E_IS_ATTACHMENT (attachment));
 	g_return_if_fail (G_IS_FILE (destination));
 	g_return_if_fail (callback != NULL);
 
-	g_return_if_fail (!e_attachment_get_loading (attachment));
-	g_return_if_fail (!e_attachment_get_saving (attachment));
+	if (e_attachment_get_loading (attachment)) {
+		g_simple_async_report_error_in_idle (
+			G_OBJECT (attachment), callback, user_data,
+			G_IO_ERROR, G_IO_ERROR_BUSY,
+			_("A load operation is already in progress"));
+		return;
+	}
 
-	/* The attachment content is either a GFile (on disk) or a
-	 * CamelMimePart (in memory).  Each is saved differently. */
+	if (e_attachment_get_saving (attachment)) {
+		g_simple_async_report_error_in_idle (
+			G_OBJECT (attachment), callback, user_data,
+			G_IO_ERROR, G_IO_ERROR_BUSY,
+			_("A save operation is already in progress"));
+		return;
+	}
 
-	source = e_attachment_get_file (attachment);
-	mime_part = e_attachment_get_mime_part (attachment);
-	g_return_if_fail (source != NULL || mime_part != NULL);
+	if (e_attachment_get_mime_part (attachment) == NULL) {
+		g_simple_async_report_error_in_idle (
+			G_OBJECT (attachment), callback, user_data,
+			G_IO_ERROR, G_IO_ERROR_INVALID_ARGUMENT,
+			_("Attachment contents not loaded"));
+		return;
+	}
 
 	save_context = attachment_save_context_new (
 		attachment, callback, user_data);
@@ -2486,34 +2470,12 @@ e_attachment_save_async (EAttachment *attachment,
 	cancellable = attachment->priv->cancellable;
 	g_cancellable_reset (cancellable);
 
-	/* GFile is the easier, but probably less common case.  The
-	 * attachment already references an on-disk file, so we can
-	 * just use GIO to copy it asynchronously.
-	 *
-	 * We use G_FILE_COPY_OVERWRITE because the user should have
-	 * already confirmed the overwrite through the save dialog. */
-	if (G_IS_FILE (source))
-		g_file_copy_async (
-			source, destination,
-			G_FILE_COPY_OVERWRITE,
-			G_PRIORITY_DEFAULT, cancellable,
-			(GFileProgressCallback) attachment_progress_cb,
-			attachment,
-			(GAsyncReadyCallback) attachment_save_file_cb,
-			save_context);
-
-	/* CamelMimePart can only be decoded to a file synchronously, so
-	 * we do this in two stages.  Stage one asynchronously opens the
-	 * destination file for writing.  Stage two spawns a thread that
-	 * decodes the MIME part to the destination file.  This stage is
-	 * not cancellable, unfortunately. */
-	else if (CAMEL_IS_MIME_PART (mime_part))
-		g_file_replace_async (
-			destination, NULL, FALSE,
-			G_FILE_CREATE_REPLACE_DESTINATION,
-			G_PRIORITY_DEFAULT, cancellable,
-			(GAsyncReadyCallback) attachment_save_replace_cb,
-			save_context);
+	/* First we need to know if destination is a directory. */
+	g_file_query_info_async (
+		destination, G_FILE_ATTRIBUTE_STANDARD_TYPE,
+		G_FILE_QUERY_INFO_NONE, G_PRIORITY_DEFAULT,
+		cancellable, (GAsyncReadyCallback)
+		attachment_save_query_info_cb, save_context);
 }
 
 gboolean
