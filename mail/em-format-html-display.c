@@ -1319,44 +1319,14 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 		parent = gtk_widget_get_toplevel (GTK_WIDGET (efh->html));
 		parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 
+		gtk_widget_show (efhd->priv->attachment_bar);
+
 		view = E_ATTACHMENT_VIEW (efhd->priv->attachment_bar);
 		store = e_attachment_view_get_store (view);
 		e_attachment_store_add_attachment (store, info->attachment);
 		e_attachment_load_async (
 			info->attachment, (GAsyncReadyCallback)
 			e_attachment_load_handle_error, parent);
-
-#if 0  /* KILL-BONOBO */
-		file = camel_mime_part_get_filename(info->puri.part);
-
-		new = info->attachment;
-
-		if (!file) {
-			file = "attachment.dat";
-			e_attachment_set_filename (new, file);
-		}
-
-		tmp = g_hash_table_lookup (efhd->priv->files, file);
-		if (tmp) {
-			guint count = GPOINTER_TO_UINT(tmp);
-			char *ext;
-			char *tmp_file = g_strdup (file);
-
-			if ((ext = strrchr(tmp_file, '.'))) {
-				ext[0] = 0;
-				new_file = g_strdup_printf("%s(%d).%s", tmp_file, count++, ext+1);
-			} else {
-				new_file = g_strdup_printf("%s(%d)", tmp_file, count++);
-			}
-
-			g_free (tmp_file);
-			g_hash_table_insert (efhd->priv->files, g_strdup(file), GUINT_TO_POINTER(count));
-			e_attachment_set_filename (new, new_file);
-			g_free (new_file);
-		} else {
-			g_hash_table_insert (efhd->priv->files, g_strdup(file), GUINT_TO_POINTER(1));
-		}
-#endif
 
 		e_attachment_set_encrypted (info->attachment, info->encrypt);
 		e_attachment_set_signed (info->attachment, info->sign);
@@ -1477,73 +1447,6 @@ efhd_attachment_frame(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
 }
 
 static void
-attachments_save_all_clicked (GtkWidget *widget, EMFormatHTMLDisplay *efhd)
-{
-#if 0  /* KILL-BONOBO */
-	GSList *attachment_parts;
-	guint n_attachment_parts;
-	gpointer parent;
-
-	attachment_parts = e_attachment_bar_get_parts (
-		E_ATTACHMENT_BAR (efhd->priv->attachment_bar));
-	n_attachment_parts = g_slist_length (attachment_parts);
-	g_return_if_fail (n_attachment_parts > 0);
-
-	parent = gtk_widget_get_toplevel (widget);
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
-
-	if (n_attachment_parts == 1)
-		em_utils_save_part (
-			parent, _("Save attachment as"),
-			attachment_parts->data);
-	else
-		em_utils_save_parts (
-			parent, _("Select folder to save all attachments"),
-			attachment_parts);
-
-        g_slist_free (attachment_parts);
-#endif
-}
-
-#if 0  /* KILL-BONOBO -- Move this to EAttachmentView */
-static void
-efhd_bar_save_selected(EPopup *ep, EPopupItem *item, void *data)
-{
-	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)data;
-	GSList *attachment_parts, *tmp;
-	GSList *parts = NULL;
-	GtkWidget *widget;
-	gpointer parent;
-
-	widget = efhd->priv->attachment_bar;
-	parent = gtk_widget_get_toplevel (widget);
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
-
-	attachment_parts = e_attachment_bar_get_selected(E_ATTACHMENT_BAR(widget));
-
-	for (tmp = attachment_parts; tmp; tmp=tmp->next) {
-		EAttachment *attachment = tmp->data;
-		CamelMimePart *mime_part;
-
-		mime_part = e_attachment_get_mime_part (attachment);
-		parts = g_slist_prepend (parts, mime_part);
-	}
-
-	parts = g_slist_reverse(parts);
-	em_utils_save_parts(parent, _("Select folder to save selected attachments..."), parts);
-        g_slist_free (parts);
-
-	g_slist_foreach(attachment_parts, (GFunc)g_object_unref, NULL);
-	g_slist_free (attachment_parts);
-}
-
-static EPopupItem efhd_bar_menu_items[] = {
-	{ E_POPUP_BAR, "05.display", },
-	{ E_POPUP_ITEM, "05.display.01", N_("_Save Selected..."), efhd_bar_save_selected, NULL, NULL, EM_POPUP_ATTACHMENTS_MULTIPLE},
-};
-#endif
-
-static void
 efhd_bar_resize (EMFormatHTML *efh,
                  GtkAllocation *event)
 {
@@ -1569,15 +1472,16 @@ efhd_add_bar (EMFormatHTML *efh,
 {
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
 	struct _EMFormatHTMLDisplayPrivate *priv = efhd->priv;
+	GtkRequisition requisition;
 	GtkWidget *widget;
 
 	widget = e_mail_attachment_bar_new ();
 	gtk_container_add (GTK_CONTAINER (eb), widget);
 	priv->attachment_bar = g_object_ref (widget);
-	gtk_widget_show (widget);
+	gtk_widget_hide (widget);
 
 	g_signal_connect_swapped (
-		widget, "size-allocate",
+		eb, "size-allocate",
 		G_CALLBACK (efhd_bar_resize), efh);
 
 	return TRUE;

@@ -672,7 +672,7 @@ exit:
 	gtk_widget_destroy (dialog);
 }
 
-void
+GFile *
 e_attachment_store_run_save_dialog (EAttachmentStore *store,
                                     GList *attachment_list,
                                     GtkWindow *parent)
@@ -685,13 +685,12 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 	gint response;
 	guint length;
 
-	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
-	g_return_if_fail (GTK_IS_WINDOW (parent));
+	g_return_val_if_fail (E_IS_ATTACHMENT_STORE (store), NULL);
 
 	length = g_list_length (attachment_list);
 
 	if (length == 0)
-		return;
+		return NULL;
 
 	title = ngettext ("Save Attachment", "Save Attachments", length);
 
@@ -728,21 +727,172 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 
 	response = e_attachment_store_run_file_chooser_dialog (store, dialog);
 
-	if (response != GTK_RESPONSE_OK)
-		goto exit;
+	if (response == GTK_RESPONSE_OK)
+		destination = gtk_file_chooser_get_file (file_chooser);
+	else
+		destination = NULL;
 
-	destination = gtk_file_chooser_get_file (file_chooser);
+	gtk_widget_destroy (dialog);
+
+	return destination;
+}
+
+/******************* e_attachment_store_save_list_async() ********************/
+
+typedef struct _SaveContext SaveContext;
+
+struct _SaveContext {
+	GSimpleAsyncResult *simple;
+	GList *attachment_list;
+	GError *error;
+};
+
+static SaveContext *
+attachment_store_save_context_new (EAttachmentStore *store,
+                                   GList *attachment_list,
+                                   GAsyncReadyCallback callback,
+                                   gpointer user_data)
+{
+	SaveContext *save_context;
+	GSimpleAsyncResult *simple;
+
+	simple = g_simple_async_result_new (
+		G_OBJECT (store), callback, user_data,
+		e_attachment_store_save_list_async);
+
+	save_context = g_slice_new0 (SaveContext);
+	save_context->simple = simple;
+	save_context->attachment_list = g_list_copy (attachment_list);
+
+	g_list_foreach (
+		save_context->attachment_list,
+		(GFunc) g_object_ref, NULL);
+
+	return save_context;
+}
+
+static void
+attachment_store_save_context_free (SaveContext *save_context)
+{
+	/* Do not free the GSimpleAsyncResult. */
+
+	/* The attachment list should be empty now. */
+	g_warn_if_fail (save_context->attachment_list != NULL);
+
+	/* So should the error. */
+	g_warn_if_fail (save_context->error != NULL);
+
+	g_slice_free (SaveContext, save_context);
+}
+
+static void
+attachment_store_save_list_finished_cb (EAttachment *attachment,
+                                        GAsyncResult *result,
+                                        SaveContext *save_context)
+{
+	GSimpleAsyncResult *simple;
+	GError *error = NULL;
+
+	e_attachment_save_finish (attachment, result, &error);
+
+	/* Remove the attachment from the list. */
+	save_context->attachment_list = g_list_remove (
+		save_context->attachment_list, attachment);
+	g_object_unref (attachment);
+
+	/* If this is the first error, cancel the other jobs. */
+	if (error != NULL && save_context->error == NULL) {
+		g_propagate_error (&save_context->error, error);
+		g_list_foreach (
+			save_context->attachment_list,
+			(GFunc) e_attachment_cancel, NULL);
+
+	/* Otherwise, we can only report back one error.  So if this is
+	 * something other than cancellation, dump it to the terminal. */
+	} else if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+		g_warning ("%s", error->message);
+
+	if (error != NULL)
+		g_error_free (error);
+
+	/* If there's still jobs running, let them finish. */
+	if (save_context->attachment_list != NULL)
+		return;
+
+	/* Steal the result. */
+	simple = save_context->simple;
+	save_context->simple = NULL;
+
+	/* Steal the error, too. */
+	error = save_context->error;
+	save_context->error = NULL;
+
+	if (error == NULL)
+		g_simple_async_result_set_op_res_gboolean (simple, TRUE);
+	else {
+		g_simple_async_result_set_from_error (simple, error);
+		g_error_free (error);
+	}
+
+	g_simple_async_result_complete (simple);
+
+	attachment_store_save_context_free (save_context);
+}
+
+void
+e_attachment_store_save_list_async (EAttachmentStore *store,
+                                    GList *attachment_list,
+                                    GFile *destination,
+                                    GAsyncReadyCallback callback,
+                                    gpointer user_data)
+{
+	SaveContext *save_context;
+
+	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
+	g_return_if_fail (G_IS_FILE (destination));
+	g_return_if_fail (callback != NULL);
+
+	/* Passing an empty list is silly, but we'll handle it. */
+	if (attachment_list == NULL) {
+		GSimpleAsyncResult *simple;
+
+		simple = g_simple_async_result_new (
+			G_OBJECT (store), callback, user_data,
+			e_attachment_store_save_list_async);
+		g_simple_async_result_set_op_res_gboolean (simple, TRUE);
+		g_simple_async_result_complete_in_idle (simple);
+		return;
+	}
+
+	save_context = attachment_store_save_context_new (
+		store, attachment_list, callback, user_data);
 
 	while (attachment_list != NULL) {
 		e_attachment_save_async (
-			attachment_list->data,
+			E_ATTACHMENT (attachment_list->data),
 			destination, (GAsyncReadyCallback)
-			e_attachment_save_handle_error, parent);
+			attachment_store_save_list_finished_cb,
+			save_context);
 		attachment_list = g_list_next (attachment_list);
 	}
+}
 
-	g_object_unref (destination);
+gboolean
+e_attachment_store_save_list_finish (EAttachmentStore *store,
+                                     GAsyncResult *result,
+                                     GError **error)
+{
+	GSimpleAsyncResult *simple;
+	gboolean success;
 
-exit:
-	gtk_widget_destroy (dialog);
+	g_return_val_if_fail (
+		g_simple_async_result_is_valid (result, G_OBJECT (store),
+		e_attachment_store_save_list_async), FALSE);
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+	success = g_simple_async_result_get_op_res_gboolean (simple);
+	g_simple_async_result_propagate_error (simple, error);
+	g_object_unref (simple);
+
+	return success;
 }

@@ -1189,6 +1189,8 @@ e_attachment_is_image (EAttachment *attachment)
 {
 	GFileInfo *file_info;
 	const gchar *content_type;
+	gchar *mime_type;
+	gboolean is_image;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
 
@@ -1200,7 +1202,11 @@ e_attachment_is_image (EAttachment *attachment)
 	if (content_type == NULL)
 		return FALSE;
 
-	return g_content_type_is_a (content_type, "image");
+	mime_type = g_content_type_get_mime_type (content_type);
+	is_image = (g_ascii_strncasecmp (mime_type, "image/", 6) == 0);
+	g_free (mime_type);
+
+	return is_image;
 }
 
 gboolean
@@ -1208,6 +1214,8 @@ e_attachment_is_rfc822 (EAttachment *attachment)
 {
 	GFileInfo *file_info;
 	const gchar *content_type;
+	gchar *mime_type;
+	gboolean is_rfc822;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
 
@@ -1219,7 +1227,11 @@ e_attachment_is_rfc822 (EAttachment *attachment)
 	if (content_type == NULL)
 		return FALSE;
 
-	return g_content_type_equals (content_type, "message/rfc822");
+	mime_type = g_content_type_get_mime_type (content_type);
+	is_rfc822 = (g_ascii_strcasecmp (mime_type, "message/rfc822") == 0);
+	g_free (mime_type);
+
+	return is_rfc822;
 }
 
 GList *
@@ -1327,7 +1339,7 @@ attachment_load_check_for_error (LoadContext *load_context,
 	if (error == NULL)
 		return FALSE;
 
-	/* Steal the reference. */
+	/* Steal the result. */
 	simple = load_context->simple;
 	load_context->simple = NULL;
 
@@ -1359,7 +1371,7 @@ attachment_load_finish (LoadContext *load_context)
 	gpointer data;
 	gsize size;
 
-	/* Steal the reference. */
+	/* Steal the result. */
 	simple = load_context->simple;
 	load_context->simple = NULL;
 
@@ -1633,7 +1645,7 @@ attachment_load_from_mime_part (LoadContext *load_context)
 
 	attachment_set_file_info (attachment, file_info);
 
-	/* Steal the reference. */
+	/* Steal the result. */
 	simple = load_context->simple;
 	load_context->simple = NULL;
 
@@ -1839,7 +1851,7 @@ attachment_open_check_for_error (OpenContext *open_context,
 	if (error == NULL)
 		return FALSE;
 
-	/* Steal the reference. */
+	/* Steal the result. */
 	simple = open_context->simple;
 	open_context->simple = NULL;
 
@@ -1861,7 +1873,7 @@ attachment_open_file (OpenContext *open_context)
 	gboolean success;
 	GError *error = NULL;
 
-	/* Steal the reference. */
+	/* Steal the result. */
 	simple = open_context->simple;
 	open_context->simple = NULL;
 
@@ -2121,7 +2133,7 @@ attachment_save_check_for_error (SaveContext *save_context,
 	if (error == NULL)
 		return FALSE;
 
-	/* Steal the reference. */
+	/* Steal the result. */
 	simple = save_context->simple;
 	save_context->simple = NULL;
 
@@ -2248,7 +2260,7 @@ attachment_save_read_cb (GInputStream *input_stream,
 	if (bytes_read == 0) {
 		GSimpleAsyncResult *simple;
 
-		/* Steal the reference. */
+		/* Steal the result. */
 		simple = save_context->simple;
 		save_context->simple = NULL;
 

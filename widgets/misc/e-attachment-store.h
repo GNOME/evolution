@@ -101,10 +101,22 @@ gint		e_attachment_store_run_file_chooser_dialog
 void		e_attachment_store_run_load_dialog
 						(EAttachmentStore *store,
 						 GtkWindow *parent);
-void		e_attachment_store_run_save_dialog
+GFile *		e_attachment_store_run_save_dialog
 						(EAttachmentStore *store,
 						 GList *attachment_list,
 						 GtkWindow *parent);
+
+/* Asynchronous Operations */
+void		e_attachment_store_save_list_async
+						(EAttachmentStore *store,
+						 GList *attachment_list,
+						 GFile *destination,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gboolean	e_attachment_store_save_list_finish
+						(EAttachmentStore *store,
+						 GAsyncResult *result,
+						 GError **error);
 
 G_END_DECLS
 

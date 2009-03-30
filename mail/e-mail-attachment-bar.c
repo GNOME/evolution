@@ -44,6 +44,8 @@ struct _EMailAttachmentBarPrivate {
 	GtkWidget *tree_frame;
 	GtkWidget *status_icon;
 	GtkWidget *status_label;
+	GtkWidget *save_all_button;
+	GtkWidget *save_one_button;
 
 	gint active_view;
 	guint expanded : 1;
@@ -93,7 +95,9 @@ mail_attachment_bar_update_status (EMailAttachmentBar *bar)
 {
 	EAttachmentView *view;
 	EAttachmentStore *store;
+	GtkActivatable *activatable;
 	GtkExpander *expander;
+	GtkAction *action;
 	GtkLabel *label;
 	gint num_attachments;
 	guint64 total_size;
@@ -115,6 +119,14 @@ mail_attachment_bar_update_status (EMailAttachmentBar *bar)
 		display_size);
 	gtk_label_set_markup (label, markup);
 	g_free (markup);
+
+	activatable = GTK_ACTIVATABLE (bar->priv->save_all_button);
+	action = gtk_activatable_get_related_action (activatable);
+	gtk_action_set_visible (action, (num_attachments > 1));
+
+	activatable = GTK_ACTIVATABLE (bar->priv->save_one_button);
+	action = gtk_activatable_get_related_action (activatable);
+	gtk_action_set_visible (action, (num_attachments == 1));
 
 	g_free (display_size);
 }
@@ -237,6 +249,16 @@ mail_attachment_bar_dispose (GObject *object)
 		priv->status_label = NULL;
 	}
 
+	if (priv->save_all_button != NULL) {
+		g_object_unref (priv->save_all_button);
+		priv->save_all_button = NULL;
+	}
+
+	if (priv->save_one_button != NULL) {
+		g_object_unref (priv->save_one_button);
+		priv->save_one_button = NULL;
+	}
+
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
 }
@@ -271,6 +293,22 @@ mail_attachment_bar_constructed (GObject *object)
 	e_mutual_binding_new (
 		G_OBJECT (object), "expanded",
 		G_OBJECT (priv->vbox), "visible");
+}
+
+static void
+mail_attachment_bar_size_request (GtkWidget *widget,
+                                  GtkRequisition *requisition)
+{
+	/* XXX This works around GtkHTMLEmbedded brokenness.
+	 *     Once we finally move to WebKit, remove this. */
+	if (!GTK_WIDGET_VISIBLE (widget)) {
+		requisition->width = 0;
+		requisition->height = 0;
+		return;
+	}
+
+	/* Chain up to parent's size_request() method. */
+	GTK_WIDGET_CLASS (parent_class)->size_request (widget, requisition);
 }
 
 static EAttachmentViewPrivate *
@@ -381,6 +419,7 @@ static void
 mail_attachment_bar_class_init (EMailAttachmentBarClass *class)
 {
 	GObjectClass *object_class;
+	GtkWidgetClass *widget_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMailAttachmentBarPrivate));
@@ -390,6 +429,9 @@ mail_attachment_bar_class_init (EMailAttachmentBarClass *class)
 	object_class->get_property = mail_attachment_bar_get_property;
 	object_class->dispose = mail_attachment_bar_dispose;
 	object_class->constructed = mail_attachment_bar_constructed;
+
+	widget_class = GTK_WIDGET_CLASS (class);
+	widget_class->size_request = mail_attachment_bar_size_request;
 
 	g_object_class_install_property (
 		object_class,
@@ -436,10 +478,12 @@ mail_attachment_bar_iface_init (EAttachmentViewIface *iface)
 static void
 mail_attachment_bar_init (EMailAttachmentBar *bar)
 {
+	EAttachmentView *view;
 	GtkTreeSelection *selection;
 	GtkSizeGroup *size_group;
 	GtkWidget *container;
 	GtkWidget *widget;
+	GtkAction *action;
 
 	bar->priv = E_MAIL_ATTACHMENT_BAR_GET_PRIVATE (bar);
 	bar->priv->model = e_attachment_store_new ();
@@ -449,63 +493,12 @@ mail_attachment_bar_init (EMailAttachmentBar *bar)
 	/* Keep the expander label and save button the same height. */
 	size_group = gtk_size_group_new (GTK_SIZE_GROUP_VERTICAL);
 
-	/* Construct the Controls */
-
-	container = GTK_WIDGET (bar);
-
-	widget = gtk_hbox_new (FALSE, 12);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = gtk_expander_new (NULL);
-	gtk_expander_set_spacing (GTK_EXPANDER (widget), 0);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	bar->priv->expander = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	widget = gtk_alignment_new (1.0, 0.5, 0.0, 0.0);
-	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = gtk_combo_box_new_text ();
-	gtk_size_group_add_widget (size_group, widget);
-	gtk_combo_box_append_text (GTK_COMBO_BOX (widget), _("Icon View"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (widget), _("List View"));
-	gtk_container_add (GTK_CONTAINER (container), widget);
-	bar->priv->combo_box = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	container = bar->priv->expander;
-
-	widget = gtk_hbox_new (FALSE, 6);
-	gtk_size_group_add_widget (size_group, widget);
-	gtk_expander_set_label_widget (GTK_EXPANDER (container), widget);
-	gtk_widget_show (widget);
-
-	container = widget;
-
-	widget = gtk_image_new_from_icon_name (
-		"mail-attachment", GTK_ICON_SIZE_MENU);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	bar->priv->status_icon = g_object_ref (widget);
-	gtk_widget_show (widget);
-
-	widget = gtk_label_new (NULL);
-	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	bar->priv->status_label = g_object_ref (widget);
-	gtk_widget_show (widget);
-
 	/* Construct the Attachment Views */
 
 	container = GTK_WIDGET (bar);
 
 	widget = gtk_vbox_new (FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	bar->priv->vbox = g_object_ref (widget);
 	gtk_widget_show (widget);
 
@@ -541,6 +534,78 @@ mail_attachment_bar_init (EMailAttachmentBar *bar)
 	gtk_tree_view_set_model (GTK_TREE_VIEW (widget), bar->priv->model);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	bar->priv->tree_view = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	/* Construct the Controls */
+
+	container = GTK_WIDGET (bar);
+
+	widget = gtk_hbox_new (FALSE, 12);
+	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_expander_new (NULL);
+	gtk_expander_set_spacing (GTK_EXPANDER (widget), 0);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	bar->priv->expander = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	/* The "Save All" button proxies the "save-all" action from
+	 * one of the two attachment views.  Doesn't matter which. */
+	widget = gtk_button_new ();
+	view = E_ATTACHMENT_VIEW (bar->priv->icon_view);
+	action = e_attachment_view_get_action (view, "save-all");
+	gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new ());
+	gtk_activatable_set_related_action (GTK_ACTIVATABLE (widget), action);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	bar->priv->save_all_button = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	/* Same deal with the "Save" button. */
+	widget = gtk_button_new ();
+	view = E_ATTACHMENT_VIEW (bar->priv->icon_view);
+	action = e_attachment_view_get_action (view, "save-one");
+	gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new ());
+	gtk_activatable_set_related_action (GTK_ACTIVATABLE (widget), action);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	bar->priv->save_one_button = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	widget = gtk_alignment_new (1.0, 0.5, 0.0, 0.0);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_combo_box_new_text ();
+	gtk_size_group_add_widget (size_group, widget);
+	gtk_combo_box_append_text (GTK_COMBO_BOX (widget), _("Icon View"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (widget), _("List View"));
+	gtk_container_add (GTK_CONTAINER (container), widget);
+	bar->priv->combo_box = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	container = bar->priv->expander;
+
+	widget = gtk_hbox_new (FALSE, 6);
+	gtk_size_group_add_widget (size_group, widget);
+	gtk_expander_set_label_widget (GTK_EXPANDER (container), widget);
+	gtk_widget_show (widget);
+
+	container = widget;
+
+	widget = gtk_image_new_from_icon_name (
+		"mail-attachment", GTK_ICON_SIZE_MENU);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	bar->priv->status_icon = g_object_ref (widget);
+	gtk_widget_show (widget);
+
+	widget = gtk_label_new (NULL);
+	gtk_label_set_use_markup (GTK_LABEL (widget), TRUE);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	bar->priv->status_label = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	selection = gtk_tree_view_get_selection (

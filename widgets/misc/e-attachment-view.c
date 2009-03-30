@@ -219,11 +219,52 @@ action_remove_cb (GtkAction *action,
 }
 
 static void
+action_save_all_cb (GtkAction *action,
+                    EAttachmentView *view)
+{
+	EAttachmentStore *store;
+	GList *selected, *iter;
+	GFile *destination;
+	gpointer parent;
+
+	store = e_attachment_view_get_store (view);
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+
+	/* XXX We lose the previous selection. */
+	e_attachment_view_select_all (view);
+	selected = e_attachment_view_get_selected_attachments (view);
+	e_attachment_view_unselect_all (view);
+
+	destination = e_attachment_store_run_save_dialog (
+		store, selected, parent);
+
+	if (destination == NULL)
+		goto exit;
+
+	for (iter = selected; iter != NULL; iter = iter->next) {
+		EAttachment *attachment = iter->data;
+
+		e_attachment_save_async (
+			attachment, destination, (GAsyncReadyCallback)
+			e_attachment_save_handle_error, parent);
+	}
+
+	g_object_unref (destination);
+
+exit:
+	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
+	g_list_free (selected);
+}
+
+static void
 action_save_as_cb (GtkAction *action,
                    EAttachmentView *view)
 {
 	EAttachmentStore *store;
-	GList *selected;
+	GList *selected, *iter;
+	GFile *destination;
 	gpointer parent;
 
 	store = e_attachment_view_get_store (view);
@@ -232,7 +273,24 @@ action_save_as_cb (GtkAction *action,
 	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 
 	selected = e_attachment_view_get_selected_attachments (view);
-	e_attachment_store_run_save_dialog (store, selected, parent);
+
+	destination = e_attachment_store_run_save_dialog (
+		store, selected, parent);
+
+	if (destination == NULL)
+		goto exit;
+
+	for (iter = selected; iter != NULL; iter = iter->next) {
+		EAttachment *attachment = iter->data;
+
+		e_attachment_save_async (
+			attachment, destination, (GAsyncReadyCallback)
+			e_attachment_save_handle_error, parent);
+	}
+
+	g_object_unref (destination);
+
+exit:
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
 	g_list_free (selected);
 }
@@ -274,12 +332,28 @@ static GtkActionEntry standard_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_drag_move_cb) },
 
+	{ "save-all",
+	  GTK_STOCK_SAVE_AS,
+	  N_("S_ave All"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_save_all_cb) },
+
 	{ "save-as",
 	  GTK_STOCK_SAVE_AS,
 	  NULL,
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_save_as_cb) },
+
+	/* Alternate "save-all" label, for when
+	 * the attachment store has one row. */
+	{ "save-one",
+	  GTK_STOCK_SAVE_AS,
+	  NULL,
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_save_all_cb) },
 
 	{ "set-background",
 	  NULL,
@@ -807,9 +881,13 @@ e_attachment_view_button_press_event (EAttachmentView *view,
                                       GdkEventButton *event)
 {
 	GtkTreePath *path;
+	gboolean editable;
+	gboolean item_clicked;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
+
+	editable = e_attachment_view_get_editable (view);
 
 	/* If the user clicked on a selected item, retain the current
 	 * selection.  If the user clicked on an unselected item, select
@@ -822,8 +900,11 @@ e_attachment_view_button_press_event (EAttachmentView *view,
 			e_attachment_view_select_path (view, path);
 		}
 		gtk_tree_path_free (path);
-	} else
+		item_clicked = TRUE;
+	} else {
 		e_attachment_view_unselect_all (view);
+		item_clicked = FALSE;
+	}
 
 	/* Cancel drag and drop if there are no selected items,
 	 * or if any of the selected items are loading or saving. */
@@ -844,8 +925,13 @@ e_attachment_view_button_press_event (EAttachmentView *view,
 	}
 
 	if (event->button == 3 && event->type == GDK_BUTTON_PRESS) {
-		e_attachment_view_show_popup_menu (view, event);
-		return TRUE;
+		/* Non-editable attachment views should only show a
+		 * popup menu when right-clicking on an attachment,
+		 * but editable views can show the menu any time. */
+		if (item_clicked || editable) {
+			e_attachment_view_show_popup_menu (view, event);
+			return TRUE;
+		}
 	}
 
 	return FALSE;
