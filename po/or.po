@@ -9,13 +9,14 @@ msgstr ""
 "Project-Id-Version: or\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-03-16 06:24+0000\n"
-"PO-Revision-Date: 2009-03-19 17:13+0530\n"
+"PO-Revision-Date: 2009-03-26 20:27+0530\n"
 "Last-Translator: Manoj Kumar Giri <mgiri@redhat.com>\n"
 "Language-Team: Oriya <oriya-it@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -5097,7 +5098,7 @@ msgstr "ଚବିଶ ଘଣ୍ଟା ସମୟ ସଜ୍ଜିକରଣ ଶୈ�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:78
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
-msgstr ""
+msgstr "ପୂର୍ବନିର୍ଦ୍ଧାରିତ ସ୍ଣରଣକର୍ତ୍ତା, \"ମିନଟ\", \"ଘଣ୍ଟା\" କିମ୍ବା \"ଦିନ\"।"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:79
 msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
@@ -10978,7 +10979,7 @@ msgstr "କାଢ଼ନ୍ତୁ ନାହିଁ (_D)"
 
 #: ../composer/mail-composer.error.xml.h:32
 msgid "_Recover"
-msgstr ""
+msgstr "ପୁନଃପ୍ରାପ୍ତ କରନ୍ତୁ (_R)"
 
 #: ../composer/mail-composer.error.xml.h:33
 msgid "_Save Draft"
@@ -12104,7 +12105,7 @@ msgstr ""
 
 #: ../mail/em-folder-tree-model.c:504 ../mail/mail-component.c:165
 msgid "Drafts"
-msgstr ""
+msgstr "ଡ୍ରାଫ୍ଟଗୁଡ଼ିକ"
 
 #: ../mail/em-folder-tree-model.c:506 ../mail/mail-component.c:168
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:2
@@ -13552,7 +13553,7 @@ msgstr ""
 
 #: ../mail/evolution-mail.schemas.in.h:132
 msgid "Spell checking languages"
-msgstr ""
+msgstr "ବନାନ ଯାଞ୍ଚକାରୀ ଭାଷାଗୁଡ଼ିକ"
 
 #: ../mail/evolution-mail.schemas.in.h:133
 msgid "Subscribe dialog default height"
@@ -16394,6 +16395,8 @@ msgid ""
 "This option will connect to the Exchange server using secure password (NTLM) "
 "authentication."
 msgstr ""
+"ଏହି ବିକଳ୍ପଟି Exchange ସର୍ଭର ସହିତ ସୁରକ୍ଷିତ ପ୍ରବେଶ ସଂକେତ (NTLM) ବୈଧିକରଣ ବ୍ୟବହାର କରି ସଂଯୋଗ "
+"କରିଥାଏ।"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:74
 msgid "Plaintext Password"
@@ -16404,6 +16407,8 @@ msgid ""
 "This option will connect to the Exchange server using standard plaintext "
 "password authentication."
 msgstr ""
+"ଏହି ବିକଳ୍ପଟି Exchange ସର୍ଭର ସହିତ ମାନକ ସରଳ ପାଠ୍ୟ ପ୍ରବେଶ ସଂକେତ ବୈଧିକରଣ ବ୍ୟବହାର କରି ସଂଯୋଗ "
+"କରିଥାଏ।"
 
 #: ../plugins/exchange-operations/exchange-account-setup.c:272
 msgid "Out Of Office"
@@ -16514,6 +16519,8 @@ msgid ""
 "The current password does not match the existing password for your account. "
 "Please enter the correct password"
 msgstr ""
+"ଆପଣଙ୍କ ଖାତା ପାଇଁ ପ୍ରଚଳିତ ପ୍ରବେଶ ସଂକେତଟି ସ୍ଥିତବାନ ପ୍ରବେଶ ସଂକେତ ସହିତ ମେଳଖାଉନାହିଁ। ଦୟାକରି "
+"ସଠିକ ପ୍ରବେଶ ସଂକେତକୁ ଭରଣ କରନ୍ତୁ"
 
 #: ../plugins/exchange-operations/exchange-change-password.c:121
 msgid "The two passwords do not match. Please re-enter the passwords."
@@ -16740,6 +16747,9 @@ msgid ""
 "\n"
 "Would you like to change your status to \"In the Office\"? "
 msgstr ""
+"<b>ବର୍ତ୍ତମାନ, ଆପଣଙ୍କର ସ୍ଥିତି ହେଉଛି \"Out of the Office\"। </b>\n"
+"\n"
+"ଆପଣ ଆପଣଙ୍କର ସ୍ଥିତିକୁ \"In the Office\"କୁ ପରିବର୍ତ୍ତନ କରିବାକୁ ଚାହୁଁଛନ୍ତି କି? "
 
 #: ../plugins/exchange-operations/exchange-oof.glade.h:4
 msgid "<b>Out of Office Message:</b>"
@@ -20253,7 +20263,7 @@ msgstr "କାର୍ଯ୍ଯ ଅନ ଲାଇନ"
 #: ../shell/e-shell-window-commands.c:1183 ../ui/evolution.xml.h:57
 #, fuzzy
 msgid "_Work Offline"
-msgstr "କାର୍ଯ୍ଯ ଅଫଲାଇନ"
+msgstr "ଅଫଲାଇନରେ କାର୍ଯ୍ୟ କରନ୍ତୁ (_W)"
 
 #: ../shell/e-shell-window-commands.c:1196
 #, fuzzy
@@ -20883,7 +20893,7 @@ msgstr "%d/%m/%Y"
 #. x509 certificate usage types
 #: ../smime/lib/e-cert.c:408
 msgid "Sign"
-msgstr ""
+msgstr "ହସ୍ତାକ୍ଷର କରନ୍ତୁ"
 
 #: ../smime/lib/e-cert.c:409
 msgid "Encrypt"
