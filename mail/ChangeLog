@@ -1,3 +1,9 @@
+2009-03-31  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #576921
+
+	* mail/em-mailer-prefs.h: Remove needless GtkListStore objects.
+
 2009-03-28  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fix for bug #576921

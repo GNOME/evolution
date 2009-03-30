@@ -107,7 +107,6 @@ struct _EMMailerPrefs {
 	struct _GtkWidget *label_edit;
 	struct _GtkWidget *label_remove;
 	struct _GtkWidget *label_tree;
-	struct _GtkListStore *label_list_store;
 	guint labels_change_notify_id; /* mail_config's notify id */
 
 	/* Headers tab */
@@ -132,7 +131,6 @@ struct _EMMailerPrefs {
 
 	struct _GtkToggleButton *junk_header_check;
 	struct _GtkTreeView *junk_header_tree;
-	struct _GtkListStore *junk_header_list_store;	
 	struct _GtkButton *junk_header_add;
 	struct _GtkButton *junk_header_remove;
 	struct _GtkToggleButton *junk_book_lookup;
