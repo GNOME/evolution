@@ -35,6 +35,8 @@ module_LTLIBRARIES =					\
 	libevolution-module-mail.la
 
 libevolution_module_mail_la_SOURCES =			\
+	e-attachment-handler-mail.c			\
+	e-attachment-handler-mail.h			\
 	e-mail-attachment-bar.c				\
 	e-mail-attachment-bar.h				\
 	e-mail-browser.c				\

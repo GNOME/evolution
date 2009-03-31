@@ -85,9 +85,15 @@ struct _EAttachmentViewIface {
 						 GdkDragAction actions);
 	void		(*drag_source_unset)	(EAttachmentView *view);
 	void		(*drag_dest_unset)	(EAttachmentView *view);
+
+	/* Signals */
+	void		(*update_actions)	(EAttachmentView *view);
 };
 
 struct _EAttachmentViewPrivate {
+
+	/* Attachment Handlers */
+	GList *handlers;
 
 	/* Popup Menu Management */
 	GtkUIManager *ui_manager;
@@ -127,12 +133,16 @@ void		e_attachment_view_remove_selected
 						(EAttachmentView *view,
 						 gboolean select_next);
 
+/* Event Support */
 gboolean	e_attachment_view_button_press_event
 						(EAttachmentView *view,
 						 GdkEventButton *event);
 gboolean	e_attachment_view_button_release_event
 						(EAttachmentView *view,
 						 GdkEventButton *event);
+gboolean	e_attachment_view_key_press_event
+						(EAttachmentView *view,
+						 GdkEventKey *event);
 
 /* Selection Management */
 GtkTreePath *	e_attachment_view_get_path_at_pos

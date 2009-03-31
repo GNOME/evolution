@@ -23,12 +23,18 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
+#include <gdk/gdkkeysyms.h>
 #include <camel/camel-stream-mem.h>
 
 #include "e-util/e-binding.h"
-#include "e-util/e-plugin-ui.h"
 #include "e-util/e-util.h"
 #include "e-attachment-dialog.h"
+#include "e-attachment-handler-image.h"
+
+enum {
+	UPDATE_ACTIONS,
+	LAST_SIGNAL
+};
 
 enum {
 	DND_TYPE_MESSAGE_RFC822,
@@ -69,9 +75,9 @@ static const gchar *ui =
 "  <popup name='context'>"
 "    <menuitem action='cancel'/>"
 "    <menuitem action='save-as'/>"
-"    <menuitem action='set-background'/>"
 "    <menuitem action='remove'/>"
 "    <menuitem action='properties'/>"
+"    <separator/>"
 "    <placeholder name='custom-actions'/>"
 "    <separator/>"
 "    <menuitem action='add'/>"
@@ -85,6 +91,8 @@ static const gchar *ui =
 "    <menuitem action='drag-cancel'/>"
 "  </popup>"
 "</ui>";
+
+static gulong signals[LAST_SIGNAL];
 
 static void
 action_add_cb (GtkAction *action,
@@ -295,13 +303,6 @@ exit:
 	g_list_free (selected);
 }
 
-static void
-action_set_background_cb (GtkAction *action,
-                          EAttachmentView *view)
-{
-	/* FIXME */
-}
-
 static GtkActionEntry standard_entries[] = {
 
 	{ "cancel",
@@ -354,13 +355,6 @@ static GtkActionEntry standard_entries[] = {
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_save_all_cb) },
-
-	{ "set-background",
-	  NULL,
-	  N_("Set as _Background"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_set_background_cb) }
 };
 
 static GtkActionEntry editable_entries[] = {
@@ -573,9 +567,113 @@ drop_x_uid_list (EAttachmentView *view,
 }
 
 static void
+attachment_view_update_actions (EAttachmentView *view)
+{
+	EAttachmentViewPrivate *priv;
+	EAttachment *attachment;
+	GtkAction *action;
+	GList *list, *iter;
+	guint n_selected;
+	gboolean busy = FALSE;
+
+	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
+
+	priv = e_attachment_view_get_private (view);
+	list = e_attachment_view_get_selected_attachments (view);
+	n_selected = g_list_length (list);
+
+	if (n_selected == 1) {
+		attachment = g_object_ref (list->data);
+		busy |= e_attachment_get_loading (attachment);
+		busy |= e_attachment_get_saving (attachment);
+	} else
+		attachment = NULL;
+
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
+
+	action = e_attachment_view_get_action (view, "cancel");
+	gtk_action_set_visible (action, busy);
+
+	action = e_attachment_view_get_action (view, "properties");
+	gtk_action_set_visible (action, !busy && n_selected == 1);
+
+	action = e_attachment_view_get_action (view, "remove");
+	gtk_action_set_visible (action, !busy && n_selected > 0);
+
+	action = e_attachment_view_get_action (view, "save-as");
+	gtk_action_set_visible (action, !busy && n_selected > 0);
+
+	/* Clear out the "openwith" action group. */
+	gtk_ui_manager_remove_ui (priv->ui_manager, priv->merge_id);
+	e_action_group_remove_all_actions (priv->openwith_actions);
+
+	if (attachment == NULL || busy)
+		return;
+
+	list = e_attachment_list_apps (attachment);
+
+	for (iter = list; iter != NULL; iter = iter->next) {
+		GAppInfo *app_info = iter->data;
+		GtkAction *action;
+		const gchar *app_executable;
+		const gchar *app_name;
+		gchar *action_tooltip;
+		gchar *action_label;
+		gchar *action_name;
+
+		if (!g_app_info_should_show (app_info))
+			continue;
+
+		app_executable = g_app_info_get_executable (app_info);
+		app_name = g_app_info_get_name (app_info);
+
+		action_name = g_strdup_printf ("open-in-%s", app_executable);
+		action_label = g_strdup_printf (_("Open in %s..."), app_name);
+
+		action_tooltip = g_strdup_printf (
+			_("Open this attachment in %s"), app_name);
+
+		action = gtk_action_new (
+			action_name, action_label, action_tooltip, NULL);
+
+		g_object_set_data_full (
+			G_OBJECT (action),
+			"app-info", g_object_ref (app_info),
+			(GDestroyNotify) g_object_unref);
+
+		g_object_set_data_full (
+			G_OBJECT (action),
+			"attachment", g_object_ref (attachment),
+			(GDestroyNotify) g_object_unref);
+
+		g_signal_connect (
+			action, "activate",
+			G_CALLBACK (action_open_in_cb), view);
+
+		gtk_action_group_add_action (priv->openwith_actions, action);
+
+		gtk_ui_manager_add_ui (
+			priv->ui_manager, priv->merge_id,
+			"/context/open-actions", action_name,
+			action_name, GTK_UI_MANAGER_AUTO, FALSE);
+
+		g_free (action_name);
+		g_free (action_label);
+		g_free (action_tooltip);
+	}
+
+	g_object_unref (attachment);
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
+}
+
+static void
 attachment_view_class_init (EAttachmentViewIface *iface)
 {
 	gint ii;
+
+	iface->update_actions = attachment_view_update_actions;
 
 	g_object_interface_install_property (
 		iface,
@@ -586,6 +684,15 @@ attachment_view_class_init (EAttachmentViewIface *iface)
 			TRUE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
+
+	signals[UPDATE_ACTIONS] = g_signal_new (
+		"update-actions",
+		G_TYPE_FROM_INTERFACE (iface),
+		G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EAttachmentViewIface, update_actions),
+		NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE, 0);
 
 	for (ii = 0; ii < G_N_ELEMENTS (drag_info); ii++) {
 		const gchar *target = drag_info[ii].target;
@@ -616,6 +723,9 @@ e_attachment_view_get_type (void)
 			G_TYPE_INTERFACE, "EAttachmentView", &type_info, 0);
 
 		g_type_interface_add_prerequisite (type, GTK_TYPE_WIDGET);
+
+		/* Register known handler types. */
+		e_attachment_handler_image_get_type ();
 	}
 
 	return type;
@@ -628,6 +738,8 @@ e_attachment_view_init (EAttachmentView *view)
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
 	const gchar *domain = GETTEXT_PACKAGE;
+	GType *children;
+	guint ii;
 	GError *error = NULL;
 
 	priv = e_attachment_view_get_private (view);
@@ -671,7 +783,14 @@ e_attachment_view_init (EAttachmentView *view)
 		G_OBJECT (view), "editable",
 		G_OBJECT (priv->editable_actions), "visible");
 
-	e_plugin_ui_register_manager (ui_manager, "attachment-view", view);
+	/* Instantiate attachment handlers. */
+	children = g_type_children (E_TYPE_ATTACHMENT_HANDLER, NULL);
+	for (ii = 0; children[ii] != G_TYPE_INVALID; ii++) {
+		EAttachmentHandler *handler;
+		handler = g_object_new (children[ii], "view", view, NULL);
+		priv->handlers = g_list_prepend (priv->handlers, handler);
+	}
+	g_free (children);
 }
 
 void
@@ -680,6 +799,10 @@ e_attachment_view_dispose (EAttachmentView *view)
 	EAttachmentViewPrivate *priv;
 
 	priv = e_attachment_view_get_private (view);
+
+	g_list_foreach (priv->handlers, (GFunc) g_object_unref, NULL);
+	g_list_free (priv->handlers);
+	priv->handlers = NULL;
 
 	if (priv->ui_manager != NULL) {
 		g_object_unref (priv->ui_manager);
@@ -948,6 +1071,25 @@ e_attachment_view_button_release_event (EAttachmentView *view,
 	 * we had to cancel during a button press event. */
 	if (event->button == 1)
 		e_attachment_view_drag_source_set (view);
+
+	return FALSE;
+}
+
+gboolean
+e_attachment_view_key_press_event (EAttachmentView *view,
+                                   GdkEventKey *event)
+{
+	gboolean editable;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), FALSE);
+	g_return_val_if_fail (event != NULL, FALSE);
+
+	editable = e_attachment_view_get_editable (view);
+
+	if (event->keyval == GDK_Delete && editable) {
+		e_attachment_view_remove_selected (view, TRUE);
+		return TRUE;
+	}
 
 	return FALSE;
 }
@@ -1445,108 +1587,7 @@ e_attachment_view_show_popup_menu (EAttachmentView *view,
 void
 e_attachment_view_update_actions (EAttachmentView *view)
 {
-	EAttachmentViewPrivate *priv;
-	EAttachment *attachment;
-	GtkAction *action;
-	GList *list, *iter;
-	guint n_selected;
-	gboolean is_image;
-	gboolean busy = FALSE;
-
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 
-	priv = e_attachment_view_get_private (view);
-	list = e_attachment_view_get_selected_attachments (view);
-	n_selected = g_list_length (list);
-
-	if (n_selected == 1) {
-		attachment = g_object_ref (list->data);
-		is_image = e_attachment_is_image (attachment);
-		busy |= e_attachment_get_loading (attachment);
-		busy |= e_attachment_get_saving (attachment);
-	} else {
-		attachment = NULL;
-		is_image = FALSE;
-	}
-
-	g_list_foreach (list, (GFunc) g_object_unref, NULL);
-	g_list_free (list);
-
-	action = e_attachment_view_get_action (view, "cancel");
-	gtk_action_set_visible (action, busy);
-
-	action = e_attachment_view_get_action (view, "properties");
-	gtk_action_set_visible (action, !busy && n_selected == 1);
-
-	action = e_attachment_view_get_action (view, "remove");
-	gtk_action_set_visible (action, !busy && n_selected > 0);
-
-	action = e_attachment_view_get_action (view, "save-as");
-	gtk_action_set_visible (action, !busy && n_selected > 0);
-
-	action = e_attachment_view_get_action (view, "set-background");
-	gtk_action_set_visible (action, !busy && is_image);
-
-	/* Clear out the "openwith" action group. */
-	gtk_ui_manager_remove_ui (priv->ui_manager, priv->merge_id);
-	e_action_group_remove_all_actions (priv->openwith_actions);
-
-	if (attachment == NULL || busy)
-		return;
-
-	list = e_attachment_list_apps (attachment);
-
-	for (iter = list; iter != NULL; iter = iter->next) {
-		GAppInfo *app_info = iter->data;
-		GtkAction *action;
-		const gchar *app_executable;
-		const gchar *app_name;
-		gchar *action_tooltip;
-		gchar *action_label;
-		gchar *action_name;
-
-		if (!g_app_info_should_show (app_info))
-			continue;
-
-		app_executable = g_app_info_get_executable (app_info);
-		app_name = g_app_info_get_name (app_info);
-
-		action_name = g_strdup_printf ("open-in-%s", app_executable);
-		action_label = g_strdup_printf (_("Open in %s..."), app_name);
-
-		action_tooltip = g_strdup_printf (
-			_("Open this attachment in %s"), app_name);
-
-		action = gtk_action_new (
-			action_name, action_label, action_tooltip, NULL);
-
-		g_object_set_data_full (
-			G_OBJECT (action),
-			"app-info", g_object_ref (app_info),
-			(GDestroyNotify) g_object_unref);
-
-		g_object_set_data_full (
-			G_OBJECT (action),
-			"attachment", g_object_ref (attachment),
-			(GDestroyNotify) g_object_unref);
-
-		g_signal_connect (
-			action, "activate",
-			G_CALLBACK (action_open_in_cb), view);
-
-		gtk_action_group_add_action (priv->openwith_actions, action);
-
-		gtk_ui_manager_add_ui (
-			priv->ui_manager, priv->merge_id,
-			"/context/open-actions", action_name,
-			action_name, GTK_UI_MANAGER_AUTO, FALSE);
-
-		g_free (action_name);
-		g_free (action_label);
-		g_free (action_tooltip);
-	}
-
-	g_object_unref (attachment);
-	g_list_foreach (list, (GFunc) g_object_unref, NULL);
-	g_list_free (list);
+	g_signal_emit (view, signals[UPDATE_ACTIONS], 0);
 }

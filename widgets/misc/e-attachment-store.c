@@ -790,10 +790,13 @@ attachment_store_save_list_finished_cb (EAttachment *attachment,
                                         GAsyncResult *result,
                                         SaveContext *save_context)
 {
+	GFile *file;
 	GSimpleAsyncResult *simple;
 	GError *error = NULL;
 
-	e_attachment_save_finish (attachment, result, &error);
+	file = e_attachment_save_finish (attachment, result, &error);
+	if (file != NULL)
+		g_object_unref (file);
 
 	/* Remove the attachment from the list. */
 	save_context->attachment_list = g_list_remove (

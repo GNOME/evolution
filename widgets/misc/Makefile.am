@@ -41,6 +41,8 @@ widgetsinclude_HEADERS =			\
 	e-alert-activity.h			\
 	e-attachment.h				\
 	e-attachment-dialog.h			\
+	e-attachment-handler.h			\
+	e-attachment-handler-image.h		\
 	e-attachment-icon-view.h		\
 	e-attachment-paned.h			\
 	e-attachment-store.h			\
@@ -103,6 +105,8 @@ libemiscwidgets_la_SOURCES =			\
 	e-alert-activity.c			\
 	e-attachment.c				\
 	e-attachment-dialog.c			\
+	e-attachment-handler.c			\
+	e-attachment-handler-image.c		\
 	e-attachment-icon-view.c		\
 	e-attachment-paned.c			\
 	e-attachment-store.c			\

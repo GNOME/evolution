@@ -299,8 +299,12 @@ static void
 mail_attachment_bar_size_request (GtkWidget *widget,
                                   GtkRequisition *requisition)
 {
-	/* XXX This works around GtkHTMLEmbedded brokenness.
-	 *     Once we finally move to WebKit, remove this. */
+	/* XXX This works around GtkHTMLEmbedded not taking visibility
+	 *     into account when calculating its size (at least I think
+	 *     that's where it's broken).  Without the workaround, we
+	 *     get a sizable gap between the headers and body when this
+	 *     widget is invisible.  Once we finally move to WebKit,
+	 *     remove this. */
 	if (!GTK_WIDGET_VISIBLE (widget)) {
 		requisition->width = 0;
 		requisition->height = 0;

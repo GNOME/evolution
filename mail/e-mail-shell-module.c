@@ -39,6 +39,7 @@
 #include "e-mail-shell-module-migrate.h"
 #include "e-mail-shell-module-settings.h"
 
+#include "e-attachment-handler-mail.h"
 #include "e-mail-browser.h"
 #include "e-mail-reader.h"
 #include "em-account-prefs.h"
@@ -885,6 +886,8 @@ e_shell_module_init (GTypeModule *type_module)
 
 	mail_shell_module_init_hooks ();
 	mail_shell_module_init_importers ();
+
+	e_attachment_handler_mail_get_type ();
 
 	/* XXX This never gets unreffed. */
 	mail_shell_module = g_object_ref (shell_module);

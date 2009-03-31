@@ -98,7 +98,6 @@ void		e_attachment_set_signed		(EAttachment *attachment,
 						 camel_cipher_validity_sign_t signed_);
 const gchar *	e_attachment_get_description	(EAttachment *attachment);
 const gchar *	e_attachment_get_thumbnail_path	(EAttachment *attachment);
-gboolean	e_attachment_is_image		(EAttachment *attachment);
 gboolean	e_attachment_is_rfc822		(EAttachment *attachment);
 GList *		e_attachment_list_apps		(EAttachment *attachment);
 
@@ -120,7 +119,7 @@ void		e_attachment_save_async		(EAttachment *attachment,
 						 GFile *destination,
 						 GAsyncReadyCallback callback,
 						 gpointer user_data);
-gboolean	e_attachment_save_finish	(EAttachment *attachment,
+GFile *		e_attachment_save_finish	(EAttachment *attachment,
 						 GAsyncResult *result,
 						 GError **error);
 

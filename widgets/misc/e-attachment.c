@@ -52,7 +52,7 @@
 #define EMBLEM_SIGN_GOOD	"stock_signature-ok"
 #define EMBLEM_SIGN_UNKNOWN	"stock_signature"
 
-/* Attributes needed by EAttachmentStore, et al. */
+/* Attributes needed for EAttachmentStore columns. */
 #define ATTACHMENT_QUERY "standard::*,preview::*,thumbnail::*"
 
 struct _EAttachmentPrivate {
@@ -1185,31 +1185,6 @@ e_attachment_get_thumbnail_path (EAttachment *attachment)
 }
 
 gboolean
-e_attachment_is_image (EAttachment *attachment)
-{
-	GFileInfo *file_info;
-	const gchar *content_type;
-	gchar *mime_type;
-	gboolean is_image;
-
-	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
-
-	file_info = e_attachment_get_file_info (attachment);
-	if (file_info == NULL)
-		return FALSE;
-
-	content_type = g_file_info_get_content_type (file_info);
-	if (content_type == NULL)
-		return FALSE;
-
-	mime_type = g_content_type_get_mime_type (content_type);
-	is_image = (g_ascii_strncasecmp (mime_type, "image/", 6) == 0);
-	g_free (mime_type);
-
-	return is_image;
-}
-
-gboolean
 e_attachment_is_rfc822 (EAttachment *attachment)
 {
 	GFileInfo *file_info;
@@ -1805,7 +1780,6 @@ struct _OpenContext {
 	GSimpleAsyncResult *simple;
 
 	GAppInfo *app_info;
-	GFile *file;
 };
 
 static OpenContext *
@@ -1836,9 +1810,6 @@ attachment_open_context_free (OpenContext *open_context)
 	if (open_context->app_info != NULL)
 		g_object_unref (open_context->app_info);
 
-	if (open_context->file != NULL)
-		g_object_unref (open_context->file);
-
 	g_slice_free (OpenContext, open_context);
 }
 
@@ -1865,7 +1836,8 @@ attachment_open_check_for_error (OpenContext *open_context,
 }
 
 static void
-attachment_open_file (OpenContext *open_context)
+attachment_open_file (GFile *file,
+                      OpenContext *open_context)
 {
 	GdkAppLaunchContext *context;
 	GSimpleAsyncResult *simple;
@@ -1900,7 +1872,7 @@ attachment_open_file (OpenContext *open_context)
 		goto exit;
 
 	context = gdk_app_launch_context_new ();
-	file_list = g_list_prepend (NULL, open_context->file);
+	file_list = g_list_prepend (NULL, file);
 
 	success = g_app_info_launch (
 		open_context->app_info, file_list,
@@ -1926,19 +1898,22 @@ attachment_open_save_finished_cb (EAttachment *attachment,
                                   GAsyncResult *result,
                                   OpenContext *open_context)
 {
+	GFile *file;
 	GError *error = NULL;
 
-	e_attachment_save_finish (attachment, result, &error);
+	file = e_attachment_save_finish (attachment, result, &error);
 
 	if (attachment_open_check_for_error (open_context, error))
 		return;
 
-	attachment_open_file (open_context);
+	attachment_open_file (file, open_context);
+	g_object_unref (file);
 }
 
 static void
 attachment_open_save_temporary (OpenContext *open_context)
 {
+	GFile *file;
 	gchar *path;
 	gint fd;
 	GError *error = NULL;
@@ -1948,14 +1923,16 @@ attachment_open_save_temporary (OpenContext *open_context)
 	if (attachment_open_check_for_error (open_context, error))
 		return;
 
-	close (fd);
+	file = g_file_new_for_path (path);
 
-	open_context->file = g_file_new_for_path (path);
+	close (fd);
+	g_free (path);
 
 	e_attachment_save_async (
-		open_context->attachment, open_context->file,
-		(GAsyncReadyCallback) attachment_open_save_finished_cb,
-		open_context);
+		open_context->attachment, file, (GAsyncReadyCallback)
+		attachment_open_save_finished_cb, open_context);
+
+	g_object_unref (file);
 }
 
 void
@@ -1985,8 +1962,7 @@ e_attachment_open_async (EAttachment *attachment,
 	 * the application directly.  Otherwise we have to save the MIME
 	 * part to a temporary file and launch the application from that. */
 	if (file != NULL) {
-		open_context->file = g_object_ref (file);
-		attachment_open_file (open_context);
+		attachment_open_file (file, open_context);
 
 	} else if (mime_part != NULL)
 		attachment_open_save_temporary (open_context);
@@ -2071,6 +2047,7 @@ struct _SaveContext {
 	GSimpleAsyncResult *simple;
 
 	GFile *directory;
+	GFile *destination;
 	GInputStream *input_stream;
 	GOutputStream *output_stream;
 	goffset total_num_bytes;
@@ -2114,6 +2091,9 @@ attachment_save_context_free (SaveContext *save_context)
 
 	if (save_context->directory != NULL)
 		g_object_unref (save_context->directory);
+
+	if (save_context->destination != NULL)
+		g_object_unref (save_context->destination);
 
 	if (save_context->input_stream != NULL)
 		g_object_unref (save_context->input_stream);
@@ -2259,12 +2239,18 @@ attachment_save_read_cb (GInputStream *input_stream,
 
 	if (bytes_read == 0) {
 		GSimpleAsyncResult *simple;
+		GFile *destination;
 
 		/* Steal the result. */
 		simple = save_context->simple;
 		save_context->simple = NULL;
 
-		g_simple_async_result_set_op_res_gboolean (simple, TRUE);
+		/* Steal the destination. */
+		destination = save_context->destination;
+		save_context->destination = NULL;
+
+		g_simple_async_result_set_op_res_gpointer (
+			simple, destination, (GDestroyNotify) g_object_unref);
 		g_simple_async_result_complete (simple);
 
 		attachment_save_context_free (save_context);
@@ -2366,6 +2352,7 @@ attachment_save_create_cb (GFile *destination,
 	if (attachment_save_check_for_error (save_context, error))
 		return;
 
+	save_context->destination = g_object_ref (destination);
 	attachment_save_got_output_stream (save_context);
 }
 
@@ -2384,6 +2371,7 @@ attachment_save_replace_cb (GFile *destination,
 	if (attachment_save_check_for_error (save_context, error))
 		return;
 
+	save_context->destination = g_object_ref (destination);
 	attachment_save_got_output_stream (save_context);
 }
 
@@ -2490,26 +2478,28 @@ e_attachment_save_async (EAttachment *attachment,
 		attachment_save_query_info_cb, save_context);
 }
 
-gboolean
+GFile *
 e_attachment_save_finish (EAttachment *attachment,
                           GAsyncResult *result,
                           GError **error)
 {
 	GSimpleAsyncResult *simple;
-	gboolean success;
+	GFile *destination;
 
 	g_return_val_if_fail (
 		g_simple_async_result_is_valid (result,
 		G_OBJECT (attachment), e_attachment_save_async), FALSE);
 
 	simple = G_SIMPLE_ASYNC_RESULT (result);
-	success = g_simple_async_result_get_op_res_gboolean (simple);
+	destination = g_simple_async_result_get_op_res_gpointer (simple);
+	if (destination != NULL)
+		g_object_ref (destination);
 	g_simple_async_result_propagate_error (simple, error);
 	g_object_unref (simple);
 
 	attachment_set_saving (attachment, FALSE);
 
-	return success;
+	return destination;
 }
 
 void
@@ -2517,8 +2507,9 @@ e_attachment_save_handle_error (EAttachment *attachment,
                                 GAsyncResult *result,
                                 GtkWindow *parent)
 {
-	GtkWidget *dialog;
+	GFile *file;
 	GFileInfo *file_info;
+	GtkWidget *dialog;
 	const gchar *display_name;
 	const gchar *primary_text;
 	GError *error = NULL;
@@ -2527,8 +2518,9 @@ e_attachment_save_handle_error (EAttachment *attachment,
 	g_return_if_fail (G_IS_ASYNC_RESULT (result));
 	g_return_if_fail (GTK_IS_WINDOW (parent));
 
-	if (e_attachment_save_finish (attachment, result, &error))
-		return;
+	file = e_attachment_save_finish (attachment, result, &error);
+	if (file != NULL)
+		g_object_unref (file);
 
 	/* Ignore cancellations. */
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))

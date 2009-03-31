@@ -22,7 +22,6 @@
 #include "e-attachment-icon-view.h"
 
 #include <glib/gi18n.h>
-#include <gdk/gdkkeysyms.h>
 
 #include "e-attachment.h"
 #include "e-attachment-store.h"
@@ -129,10 +128,8 @@ attachment_icon_view_key_press_event (GtkWidget *widget,
 {
 	EAttachmentView *view = E_ATTACHMENT_VIEW (widget);
 
-	if (event->keyval == GDK_Delete) {
-		e_attachment_view_remove_selected (view, TRUE);
+	if (e_attachment_view_key_press_event (view, event))
 		return TRUE;
-	}
 
 	/* Chain up to parent's key_press_event() method. */
 	return GTK_WIDGET_CLASS (parent_class)->
