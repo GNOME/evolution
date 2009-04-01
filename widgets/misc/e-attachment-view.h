@@ -93,7 +93,11 @@ struct _EAttachmentViewIface {
 struct _EAttachmentViewPrivate {
 
 	/* Attachment Handlers */
-	GList *handlers;
+	GPtrArray *handlers;
+
+	/* Drag Destination */
+	GtkTargetList *target_list;
+	GdkDragAction drag_actions;
 
 	/* Popup Menu Management */
 	GtkUIManager *ui_manager;
@@ -101,12 +105,6 @@ struct _EAttachmentViewPrivate {
 	GtkActionGroup *editable_actions;
 	GtkActionGroup *openwith_actions;
 	guint merge_id;
-
-	/* Drag and Drop State */
-	GdkDragContext *drag_context;
-	GtkSelectionData *selection_data;
-	guint info;
-	guint time;
 
 	guint editable : 1;
 };
@@ -124,6 +122,10 @@ EAttachmentStore *
 gboolean	e_attachment_view_get_editable	(EAttachmentView *view);
 void		e_attachment_view_set_editable	(EAttachmentView *view,
 						 gboolean editable);
+GtkTargetList *	e_attachment_view_get_target_list
+						(EAttachmentView *view);
+GdkDragAction	e_attachment_view_get_drag_actions
+						(EAttachmentView *view);
 GList *		e_attachment_view_get_selected_attachments
 						(EAttachmentView *view);
 void		e_attachment_view_open_path	(EAttachmentView *view,
@@ -182,8 +184,6 @@ void		e_attachment_view_drag_data_get	(EAttachmentView *view,
 void		e_attachment_view_drag_dest_set	(EAttachmentView *view);
 void		e_attachment_view_drag_dest_unset
 						(EAttachmentView *view);
-void		e_attachment_view_drag_action	(EAttachmentView *view,
-						 GdkDragAction action);
 gboolean	e_attachment_view_drag_motion	(EAttachmentView *view,
 						 GdkDragContext *context,
 						 gint x,

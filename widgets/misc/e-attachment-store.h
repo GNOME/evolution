@@ -107,13 +107,12 @@ GFile *		e_attachment_store_run_save_dialog
 						 GtkWindow *parent);
 
 /* Asynchronous Operations */
-void		e_attachment_store_save_list_async
+void		e_attachment_store_get_uris_async
 						(EAttachmentStore *store,
 						 GList *attachment_list,
-						 GFile *destination,
 						 GAsyncReadyCallback callback,
 						 gpointer user_data);
-gboolean	e_attachment_store_save_list_finish
+gchar **	e_attachment_store_get_uris_finish
 						(EAttachmentStore *store,
 						 GAsyncResult *result,
 						 GError **error);

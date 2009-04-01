@@ -729,3 +729,20 @@ e_attachment_paned_set_expanded (EAttachmentPaned *paned,
 
 	g_object_notify (G_OBJECT (paned), "expanded");
 }
+
+void
+e_attachment_paned_drag_data_received (EAttachmentPaned *paned,
+                                       GdkDragContext *context,
+                                       gint x,
+                                       gint y,
+                                       GtkSelectionData *selection,
+                                       guint info,
+                                       guint time)
+{
+	g_return_if_fail (E_IS_ATTACHMENT_PANED (paned));
+
+	/* XXX Dirty hack for forwarding drop events. */
+	g_signal_emit_by_name (
+		paned->priv->icon_view, "drag-data-received",
+		context, x, y, selection, info, time);
+}

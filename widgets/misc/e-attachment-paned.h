@@ -70,6 +70,14 @@ void		e_attachment_paned_set_active_view
 gboolean	e_attachment_paned_get_expanded	(EAttachmentPaned *paned);
 void		e_attachment_paned_set_expanded	(EAttachmentPaned *paned,
 						 gboolean expanded);
+void		e_attachment_paned_drag_data_received
+						(EAttachmentPaned *paned,
+						 GdkDragContext *context,
+						 gint x,
+						 gint y,
+						 GtkSelectionData *selection,
+						 guint info,
+						 guint time);
 
 G_END_DECLS
 

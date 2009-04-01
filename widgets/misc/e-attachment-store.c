@@ -21,10 +21,12 @@
 
 #include "e-attachment-store.h"
 
+#include <errno.h>
+#include <config.h>
 #include <glib/gi18n.h>
 
 #include "e-util/e-util.h"
-#include "e-util/gconf-bridge.h"
+#include "e-util/e-mktemp.h"
 
 #define E_ATTACHMENT_STORE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -32,8 +34,6 @@
 
 struct _EAttachmentStorePrivate {
 	GHashTable *attachment_index;
-	gchar *background_filename;
-	gchar *background_options;
 	gchar *current_folder;
 
 	guint ignore_row_changed : 1;
@@ -41,8 +41,6 @@ struct _EAttachmentStorePrivate {
 
 enum {
 	PROP_0,
-	PROP_BACKGROUND_FILENAME,
-	PROP_BACKGROUND_OPTIONS,
 	PROP_CURRENT_FOLDER,
 	PROP_NUM_ATTACHMENTS,
 	PROP_NUM_LOADING,
@@ -51,44 +49,6 @@ enum {
 
 static gpointer parent_class;
 
-static const gchar *
-attachment_store_get_background_filename (EAttachmentStore *store)
-{
-	return store->priv->background_filename;
-}
-
-static void
-attachment_store_set_background_filename (EAttachmentStore *store,
-                                          const gchar *background_filename)
-{
-	if (background_filename == NULL)
-		background_filename = "";
-
-	g_free (store->priv->background_filename);
-	store->priv->background_filename = g_strdup (background_filename);
-
-	g_object_notify (G_OBJECT (store), "background-filename");
-}
-
-static const gchar *
-attachment_store_get_background_options (EAttachmentStore *store)
-{
-	return store->priv->background_options;
-}
-
-static void
-attachment_store_set_background_options (EAttachmentStore *store,
-                                         const gchar *background_options)
-{
-	if (background_options == NULL)
-		background_options = "";
-
-	g_free (store->priv->background_options);
-	store->priv->background_options = g_strdup (background_options);
-
-	g_object_notify (G_OBJECT (store), "background-options");
-}
-
 static void
 attachment_store_set_property (GObject *object,
                                guint property_id,
@@ -96,18 +56,6 @@ attachment_store_set_property (GObject *object,
                                GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_BACKGROUND_FILENAME:
-			attachment_store_set_background_filename (
-				E_ATTACHMENT_STORE (object),
-				g_value_get_string (value));
-			return;
-
-		case PROP_BACKGROUND_OPTIONS:
-			attachment_store_set_background_options (
-				E_ATTACHMENT_STORE (object),
-				g_value_get_string (value));
-			return;
-
 		case PROP_CURRENT_FOLDER:
 			e_attachment_store_set_current_folder (
 				E_ATTACHMENT_STORE (object),
@@ -125,20 +73,6 @@ attachment_store_get_property (GObject *object,
                                GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_BACKGROUND_FILENAME:
-			g_value_set_string (
-				value,
-				attachment_store_get_background_filename (
-				E_ATTACHMENT_STORE (object)));
-			return;
-
-		case PROP_BACKGROUND_OPTIONS:
-			g_value_set_string (
-				value,
-				attachment_store_get_background_options (
-				E_ATTACHMENT_STORE (object)));
-			return;
-
 		case PROP_CURRENT_FOLDER:
 			g_value_set_string (
 				value,
@@ -193,32 +127,10 @@ attachment_store_finalize (GObject *object)
 
 	g_hash_table_destroy (priv->attachment_index);
 
-	g_free (priv->background_filename);
-	g_free (priv->background_options);
 	g_free (priv->current_folder);
 
 	/* Chain up to parent's finalize() method. */
 	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-
-static void
-attachment_store_constructed (GObject *object)
-{
-	EAttachmentStorePrivate *priv;
-	GConfBridge *bridge;
-	const gchar *prop;
-	const gchar *key;
-
-	priv = E_ATTACHMENT_STORE_GET_PRIVATE (object);
-	bridge = gconf_bridge_get ();
-
-	prop = "background-filename";
-	key = "/desktop/gnome/background/picture_filename";
-	gconf_bridge_bind_property (bridge, key, object, prop);
-
-	prop = "background-options";
-	key = "/desktop/gnome/background/picture_options";
-	gconf_bridge_bind_property (bridge, key, object, prop);
 }
 
 static void
@@ -234,29 +146,6 @@ attachment_store_class_init (EAttachmentStoreClass *class)
 	object_class->get_property = attachment_store_get_property;
 	object_class->dispose = attachment_store_dispose;
 	object_class->finalize = attachment_store_finalize;
-	object_class->constructed = attachment_store_constructed;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_BACKGROUND_FILENAME,
-		g_param_spec_string (
-			"background-filename",
-			"Background Filename",
-			NULL,
-			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
-
-	g_object_class_install_property (
-		object_class,
-		PROP_BACKGROUND_OPTIONS,
-		g_param_spec_string (
-			"background-options",
-			"Background Options",
-			NULL,
-			NULL,
-			G_PARAM_READWRITE |
-			G_PARAM_CONSTRUCT));
 
 	g_object_class_install_property (
 		object_class,
@@ -737,101 +626,124 @@ e_attachment_store_run_save_dialog (EAttachmentStore *store,
 	return destination;
 }
 
-/******************* e_attachment_store_save_list_async() ********************/
+/******************** e_attachment_store_get_uris_async() ********************/
 
-typedef struct _SaveContext SaveContext;
+typedef struct _UriContext UriContext;
 
-struct _SaveContext {
+struct _UriContext {
 	GSimpleAsyncResult *simple;
 	GList *attachment_list;
 	GError *error;
+	gchar **uris;
+	gint index;
 };
 
-static SaveContext *
-attachment_store_save_context_new (EAttachmentStore *store,
-                                   GList *attachment_list,
-                                   GAsyncReadyCallback callback,
-                                   gpointer user_data)
+static UriContext *
+attachment_store_uri_context_new (EAttachmentStore *store,
+                                  GList *attachment_list,
+                                  GAsyncReadyCallback callback,
+                                  gpointer user_data)
 {
-	SaveContext *save_context;
+	UriContext *uri_context;
 	GSimpleAsyncResult *simple;
+	guint length;
+	gchar **uris;
 
 	simple = g_simple_async_result_new (
 		G_OBJECT (store), callback, user_data,
-		e_attachment_store_save_list_async);
+		e_attachment_store_get_uris_async);
 
-	save_context = g_slice_new0 (SaveContext);
-	save_context->simple = simple;
-	save_context->attachment_list = g_list_copy (attachment_list);
+	/* Add one for NULL terminator. */
+	length = g_list_length (attachment_list) + 1;
+	uris = g_malloc0 (sizeof (gchar *) * length);
+
+	uri_context = g_slice_new0 (UriContext);
+	uri_context->simple = simple;
+	uri_context->attachment_list = g_list_copy (attachment_list);
+	uri_context->uris = uris;
 
 	g_list_foreach (
-		save_context->attachment_list,
+		uri_context->attachment_list,
 		(GFunc) g_object_ref, NULL);
 
-	return save_context;
+	return uri_context;
 }
 
 static void
-attachment_store_save_context_free (SaveContext *save_context)
+attachment_store_uri_context_free (UriContext *uri_context)
 {
 	/* Do not free the GSimpleAsyncResult. */
 
 	/* The attachment list should be empty now. */
-	g_warn_if_fail (save_context->attachment_list != NULL);
+	g_warn_if_fail (uri_context->attachment_list == NULL);
 
 	/* So should the error. */
-	g_warn_if_fail (save_context->error != NULL);
+	g_warn_if_fail (uri_context->error == NULL);
 
-	g_slice_free (SaveContext, save_context);
+	g_strfreev (uri_context->uris);
+
+	g_slice_free (UriContext, uri_context);
 }
 
 static void
-attachment_store_save_list_finished_cb (EAttachment *attachment,
-                                        GAsyncResult *result,
-                                        SaveContext *save_context)
+attachment_store_get_uris_save_cb (EAttachment *attachment,
+                                   GAsyncResult *result,
+                                   UriContext *uri_context)
 {
-	GFile *file;
 	GSimpleAsyncResult *simple;
+	GFile *file;
+	gchar **uris;
+	gchar *uri;
 	GError *error = NULL;
 
 	file = e_attachment_save_finish (attachment, result, &error);
-	if (file != NULL)
-		g_object_unref (file);
 
 	/* Remove the attachment from the list. */
-	save_context->attachment_list = g_list_remove (
-		save_context->attachment_list, attachment);
+	uri_context->attachment_list = g_list_remove (
+		uri_context->attachment_list, attachment);
 	g_object_unref (attachment);
 
-	/* If this is the first error, cancel the other jobs. */
-	if (error != NULL && save_context->error == NULL) {
-		g_propagate_error (&save_context->error, error);
-		g_list_foreach (
-			save_context->attachment_list,
-			(GFunc) e_attachment_cancel, NULL);
+	if (file != NULL) {
+		uri = g_file_get_uri (file);
+		uri_context->uris[uri_context->index++] = uri;
+		g_object_unref (file);
 
-	/* Otherwise, we can only report back one error.  So if this is
-	 * something other than cancellation, dump it to the terminal. */
-	} else if (!g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
-		g_warning ("%s", error->message);
+	} else if (error != NULL) {
+		/* If this is the first error, cancel the other jobs. */
+		if (uri_context->error == NULL) {
+			g_propagate_error (&uri_context->error, error);
+			g_list_foreach (
+				uri_context->attachment_list,
+				(GFunc) e_attachment_cancel, NULL);
 
-	if (error != NULL)
+		/* Otherwise, we can only report back one error.  So if
+		 * this is something other than cancellation, dump it to
+		 * the terminal. */
+		} else if (!g_error_matches (
+			error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+			g_warning ("%s", error->message);
+
 		g_error_free (error);
+	}
 
 	/* If there's still jobs running, let them finish. */
-	if (save_context->attachment_list != NULL)
+	if (uri_context->attachment_list != NULL)
 		return;
 
 	/* Steal the result. */
-	simple = save_context->simple;
-	save_context->simple = NULL;
+	simple = uri_context->simple;
+	uri_context->simple = NULL;
 
-	/* Steal the error, too. */
-	error = save_context->error;
-	save_context->error = NULL;
+	/* And the URI list. */
+	uris = uri_context->uris;
+	uri_context->uris = NULL;
+
+	/* And the error. */
+	error = uri_context->error;
+	uri_context->error = NULL;
 
 	if (error == NULL)
-		g_simple_async_result_set_op_res_gboolean (simple, TRUE);
+		g_simple_async_result_set_op_res_gpointer (simple, uris, NULL);
 	else {
 		g_simple_async_result_set_from_error (simple, error);
 		g_error_free (error);
@@ -839,63 +751,109 @@ attachment_store_save_list_finished_cb (EAttachment *attachment,
 
 	g_simple_async_result_complete (simple);
 
-	attachment_store_save_context_free (save_context);
+	attachment_store_uri_context_free (uri_context);
 }
 
 void
-e_attachment_store_save_list_async (EAttachmentStore *store,
-                                    GList *attachment_list,
-                                    GFile *destination,
-                                    GAsyncReadyCallback callback,
-                                    gpointer user_data)
+e_attachment_store_get_uris_async (EAttachmentStore *store,
+                                   GList *attachment_list,
+                                   GAsyncReadyCallback callback,
+                                   gpointer user_data)
 {
-	SaveContext *save_context;
+	GFile *temp_directory;
+	UriContext *uri_context;
+	GList *iter, *trash = NULL;
+	gchar *template;
+	gchar *path;
 
 	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
-	g_return_if_fail (G_IS_FILE (destination));
 	g_return_if_fail (callback != NULL);
 
-	/* Passing an empty list is silly, but we'll handle it. */
-	if (attachment_list == NULL) {
+	uri_context = attachment_store_uri_context_new (
+		store, attachment_list, callback, user_data);
+
+	/* Grab the copied attachment list. */
+	attachment_list = uri_context->attachment_list;
+
+	/* First scan the list for attachments with a GFile. */
+	for (iter = attachment_list; iter != NULL; iter = iter->next) {
+		EAttachment *attachment = iter->data;
+		GFile *file;
+		gchar *uri;
+
+		file = e_attachment_get_file (attachment);
+		if (file == NULL)
+			continue;
+
+		uri = g_file_get_uri (file);
+		uri_context->uris[uri_context->index++] = uri;
+
+		/* Mark the list node for deletion. */
+		trash = g_list_prepend (trash, iter);
+		g_object_unref (attachment);
+	}
+
+	/* Expunge the list. */
+	for (iter = trash; iter != NULL; iter = iter->next) {
+		GList *link = iter->data;
+		attachment_list = g_list_delete_link (attachment_list, link);
+	}
+	g_list_free (trash);
+
+	uri_context->attachment_list = attachment_list;
+
+	/* Any remaining attachments in the list should have MIME parts
+	 * only, so we need to save them all to a temporary directory.
+	 * We use a directory so the files can retain their basenames. */
+	template = g_strdup_printf (PACKAGE "-%s-XXXXXX", g_get_user_name ());
+	path = e_mkdtemp (template);
+	g_free (template);
+
+	if (path == NULL) {
 		GSimpleAsyncResult *simple;
 
-		simple = g_simple_async_result_new (
-			G_OBJECT (store), callback, user_data,
-			e_attachment_store_save_list_async);
-		g_simple_async_result_set_op_res_gboolean (simple, TRUE);
+		/* Steal the result. */
+		simple = uri_context->simple;
+		uri_context->simple = NULL;
+
+		g_simple_async_result_set_error (
+			simple, G_FILE_ERROR,
+			g_file_error_from_errno (errno),
+			"%s", g_strerror (errno));
+
 		g_simple_async_result_complete_in_idle (simple);
+		attachment_store_uri_context_free (uri_context);
 		return;
 	}
 
-	save_context = attachment_store_save_context_new (
-		store, attachment_list, callback, user_data);
+	temp_directory = g_file_new_for_path (path);
 
-	while (attachment_list != NULL) {
+	for (iter = attachment_list; iter != NULL; iter = iter->next)
 		e_attachment_save_async (
-			E_ATTACHMENT (attachment_list->data),
-			destination, (GAsyncReadyCallback)
-			attachment_store_save_list_finished_cb,
-			save_context);
-		attachment_list = g_list_next (attachment_list);
-	}
+			E_ATTACHMENT (iter->data),
+			temp_directory, (GAsyncReadyCallback)
+			attachment_store_get_uris_save_cb,
+			uri_context);
+
+	g_object_unref (temp_directory);
 }
 
-gboolean
-e_attachment_store_save_list_finish (EAttachmentStore *store,
-                                     GAsyncResult *result,
-                                     GError **error)
+gchar **
+e_attachment_store_get_uris_finish (EAttachmentStore *store,
+                                    GAsyncResult *result,
+                                    GError **error)
 {
 	GSimpleAsyncResult *simple;
-	gboolean success;
+	gchar **uris;
 
 	g_return_val_if_fail (
 		g_simple_async_result_is_valid (result, G_OBJECT (store),
-		e_attachment_store_save_list_async), FALSE);
+		e_attachment_store_get_uris_async), FALSE);
 
 	simple = G_SIMPLE_ASYNC_RESULT (result);
-	success = g_simple_async_result_get_op_res_gboolean (simple);
+	uris = g_simple_async_result_get_op_res_gpointer (simple);
 	g_simple_async_result_propagate_error (simple, error);
 	g_object_unref (simple);
 
-	return success;
+	return uris;
 }

@@ -36,38 +36,11 @@ enum {
 	LAST_SIGNAL
 };
 
-enum {
-	DND_TYPE_MESSAGE_RFC822,
-	DND_TYPE_X_UID_LIST,
-	DND_TYPE_TEXT_URI_LIST,
-	DND_TYPE_NETSCAPE_URL,
-	DND_TYPE_TEXT_VCARD,
-	DND_TYPE_TEXT_CALENDAR
-};
-
-static GtkTargetEntry drop_types[] = {
-	{ "message/rfc822",	0, DND_TYPE_MESSAGE_RFC822 },
-	{ "x-uid-list",		0, DND_TYPE_X_UID_LIST },
-	{ "text/uri-list",	0, DND_TYPE_TEXT_URI_LIST },
-	{ "_NETSCAPE_URL",	0, DND_TYPE_NETSCAPE_URL },
-	{ "text/x-vcard",	0, DND_TYPE_TEXT_VCARD },
-	{ "text/calendar",	0, DND_TYPE_TEXT_CALENDAR }
-};
-
-/* The atoms need initialized at runtime. */
-static struct {
-	const gchar *target;
-	GdkAtom atom;
-	GdkDragAction actions;
-} drag_info[] = {
-	{ "message/rfc822",	NULL,	GDK_ACTION_COPY },
-	{ "x-uid-list",		NULL,	GDK_ACTION_COPY |
-					GDK_ACTION_MOVE |
-					GDK_ACTION_ASK },
-	{ "text/uri-list",	NULL,	GDK_ACTION_COPY },
-	{ "_NETSCAPE_URL",	NULL,	GDK_ACTION_COPY },
-	{ "text/x-vcard",	NULL,	GDK_ACTION_COPY },
-	{ "text/calendar",	NULL,	GDK_ACTION_COPY }
+/* Note: Do not use the info field. */
+static GtkTargetEntry target_table[] = {
+	{ "_NETSCAPE_URL",	0, 0 },
+	{ "text/x-vcard",	0, 0 },
+	{ "text/calendar",	0, 0 }
 };
 
 static const gchar *ui =
@@ -83,12 +56,6 @@ static const gchar *ui =
 "    <menuitem action='add'/>"
 "    <separator/>"
 "    <placeholder name='open-actions'/>"
-"  </popup>"
-"  <popup name='dnd'>"
-"    <menuitem action='drag-copy'/>"
-"    <menuitem action='drag-move'/>"
-"    <separator/>"
-"    <menuitem action='drag-cancel'/>"
 "  </popup>"
 "</ui>";
 
@@ -123,30 +90,6 @@ action_cancel_cb (GtkAction *action,
 
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
 	g_list_free (selected);
-}
-
-static void
-action_drag_cancel_cb (GtkAction *action,
-                       EAttachmentView *view)
-{
-	EAttachmentViewPrivate *priv;
-
-	priv = e_attachment_view_get_private (view);
-	gtk_drag_finish (priv->drag_context, FALSE, FALSE, priv->time);
-}
-
-static void
-action_drag_copy_cb (GtkAction *action,
-                     EAttachmentView *view)
-{
-	e_attachment_view_drag_action (view, GDK_ACTION_COPY);
-}
-
-static void
-action_drag_move_cb (GtkAction *action,
-                     EAttachmentView *view)
-{
-	e_attachment_view_drag_action (view, GDK_ACTION_MOVE);
 }
 
 static void
@@ -312,27 +255,6 @@ static GtkActionEntry standard_entries[] = {
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_cancel_cb) },
 
-	{ "drag-cancel",
-	  NULL,
-	  N_("Cancel _Drag"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_drag_cancel_cb) },
-
-	{ "drag-copy",
-	  NULL,
-	  N_("_Copy"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_drag_copy_cb) },
-
-	{ "drag-move",
-	  NULL,
-	  N_("_Move"),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_drag_move_cb) },
-
 	{ "save-all",
 	  GTK_STOCK_SAVE_AS,
 	  N_("S_ave All"),
@@ -382,64 +304,16 @@ static GtkActionEntry editable_entries[] = {
 };
 
 static void
-drop_message_rfc822 (EAttachmentView *view,
-                     GtkSelectionData *selection_data,
-                     EAttachmentStore *store,
-                     GdkDragAction action)
+attachment_view_netscape_url (EAttachmentView *view,
+                              GdkDragContext *drag_context,
+                              gint x,
+                              gint y,
+                              GtkSelectionData *selection_data,
+                              guint info,
+                              guint time)
 {
-	EAttachmentViewPrivate *priv;
-	EAttachment *attachment;
-	CamelMimeMessage *message;
-	CamelDataWrapper *wrapper;
-	CamelStream *stream;
-	const gchar *data;
-	gboolean success = FALSE;
-	gboolean delete = FALSE;
-	gpointer parent;
-	gint length;
-
-	priv = e_attachment_view_get_private (view);
-
-	data = (const gchar *) gtk_selection_data_get_data (selection_data);
-	length = gtk_selection_data_get_length (selection_data);
-
-	stream = camel_stream_mem_new ();
-	camel_stream_write (stream, data, length);
-	camel_stream_reset (stream);
-
-	message = camel_mime_message_new ();
-	wrapper = CAMEL_DATA_WRAPPER (message);
-
-	if (camel_data_wrapper_construct_from_stream (wrapper, stream) == -1)
-		goto exit;
-
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
-
-	attachment = e_attachment_new_for_message (message);
-	e_attachment_store_add_attachment (store, attachment);
-	e_attachment_load_async (
-		attachment, (GAsyncReadyCallback)
-		e_attachment_load_handle_error, parent);
-	g_object_unref (attachment);
-
-	success = TRUE;
-	delete = (action == GDK_ACTION_MOVE);
-
-exit:
-	camel_object_unref (message);
-	camel_object_unref (stream);
-
-	gtk_drag_finish (priv->drag_context, success, delete, priv->time);
-}
-
-static void
-drop_netscape_url (EAttachmentView *view,
-                   GtkSelectionData *selection_data,
-                   EAttachmentStore *store,
-                   GdkDragAction action)
-{
-	EAttachmentViewPrivate *priv;
+	static GdkAtom atom = GDK_NONE;
+	EAttachmentStore *store;
 	EAttachment *attachment;
 	const gchar *data;
 	gpointer parent;
@@ -447,9 +321,15 @@ drop_netscape_url (EAttachmentView *view,
 	gchar **strv;
 	gint length;
 
-	/* _NETSCAPE_URL is represented as "URI\nTITLE" */
+	if (G_UNLIKELY (atom == GDK_NONE))
+		atom = gdk_atom_intern_static_string ("_NETSCAPE_URL");
 
-	priv = e_attachment_view_get_private (view);
+	if (gtk_selection_data_get_target (selection_data) != atom)
+		return;
+
+	g_signal_stop_emission_by_name (view, "drag-data-received");
+
+	/* _NETSCAPE_URL is represented as "URI\nTITLE" */
 
 	data = (const gchar *) gtk_selection_data_get_data (selection_data);
 	length = gtk_selection_data_get_length (selection_data);
@@ -457,6 +337,8 @@ drop_netscape_url (EAttachmentView *view,
 	copied_data = g_strndup (data, length);
 	strv = g_strsplit (copied_data, "\n", 2);
 	g_free (copied_data);
+
+	store = e_attachment_view_get_store (view);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
 	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
@@ -470,23 +352,143 @@ drop_netscape_url (EAttachmentView *view,
 
 	g_strfreev (strv);
 
-	gtk_drag_finish (priv->drag_context, TRUE, FALSE, priv->time);
+	gtk_drag_finish (drag_context, TRUE, FALSE, time);
 }
 
 static void
-drop_text_uri_list (EAttachmentView *view,
-                    GtkSelectionData *selection_data,
-                    EAttachmentStore *store,
-                    GdkDragAction action)
+attachment_view_text_calendar (EAttachmentView *view,
+                               GdkDragContext *drag_context,
+                               gint x,
+                               gint y,
+                               GtkSelectionData *selection_data,
+                               guint info,
+                               guint time)
 {
-	EAttachmentViewPrivate *priv;
+	static GdkAtom atom = GDK_NONE;
+	EAttachmentStore *store;
+	EAttachment *attachment;
+	CamelMimePart *mime_part;
+	GdkAtom data_type;
+	const gchar *data;
+	gpointer parent;
+	gchar *content_type;
+	gint length;
+
+	if (G_UNLIKELY (atom = GDK_NONE))
+		atom = gdk_atom_intern_static_string ("text/calendar");
+
+	if (gtk_selection_data_get_target (selection_data) != atom)
+		return;
+
+	g_signal_stop_emission_by_name (view, "drag-data-received");
+
+	data = (const gchar *) gtk_selection_data_get_data (selection_data);
+	length = gtk_selection_data_get_length (selection_data);
+	data_type = gtk_selection_data_get_data_type (selection_data);
+
+	mime_part = camel_mime_part_new ();
+
+	content_type = gdk_atom_name (data_type);
+	camel_mime_part_set_content (mime_part, data, length, content_type);
+	camel_mime_part_set_disposition (mime_part, "inline");
+	g_free (content_type);
+
+	store = e_attachment_view_get_store (view);
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+
+	attachment = e_attachment_new ();
+	e_attachment_set_mime_part (attachment, mime_part);
+	e_attachment_store_add_attachment (store, attachment);
+	e_attachment_load_async (
+		attachment, (GAsyncReadyCallback)
+		e_attachment_load_handle_error, parent);
+	g_object_unref (attachment);
+
+	camel_object_unref (mime_part);
+
+	gtk_drag_finish (drag_context, TRUE, FALSE, time);
+}
+
+static void
+attachment_view_text_x_vcard (EAttachmentView *view,
+                              GdkDragContext *drag_context,
+                              gint x,
+                              gint y,
+                              GtkSelectionData *selection_data,
+                              guint info,
+                              guint time)
+{
+	static GdkAtom atom = GDK_NONE;
+	EAttachmentStore *store;
+	EAttachment *attachment;
+	CamelMimePart *mime_part;
+	GdkAtom data_type;
+	const gchar *data;
+	gpointer parent;
+	gchar *content_type;
+	gint length;
+
+	if (G_UNLIKELY (atom = GDK_NONE))
+		atom = gdk_atom_intern_static_string ("text/x-vcard");
+
+	if (gtk_selection_data_get_target (selection_data) != atom)
+		return;
+
+	g_signal_stop_emission_by_name (view, "drag-data-received");
+
+	data = (const gchar *) gtk_selection_data_get_data (selection_data);
+	length = gtk_selection_data_get_length (selection_data);
+	data_type = gtk_selection_data_get_data_type (selection_data);
+
+	mime_part = camel_mime_part_new ();
+
+	content_type = gdk_atom_name (data_type);
+	camel_mime_part_set_content (mime_part, data, length, content_type);
+	camel_mime_part_set_disposition (mime_part, "inline");
+	g_free (content_type);
+
+	store = e_attachment_view_get_store (view);
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+
+	attachment = e_attachment_new ();
+	e_attachment_set_mime_part (attachment, mime_part);
+	e_attachment_store_add_attachment (store, attachment);
+	e_attachment_load_async (
+		attachment, (GAsyncReadyCallback)
+		e_attachment_load_handle_error, parent);
+	g_object_unref (attachment);
+
+	camel_object_unref (mime_part);
+
+	gtk_drag_finish (drag_context, TRUE, FALSE, time);
+}
+
+static void
+attachment_view_uris (EAttachmentView *view,
+                      GdkDragContext *drag_context,
+                      gint x,
+                      gint y,
+                      GtkSelectionData *selection_data,
+                      guint info,
+                      guint time)
+{
+	EAttachmentStore *store;
 	gpointer parent;
 	gchar **uris;
 	gint ii;
 
-	priv = e_attachment_view_get_private (view);
-
 	uris = gtk_selection_data_get_uris (selection_data);
+
+	if (uris == NULL)
+		return;
+
+	g_signal_stop_emission_by_name (view, "drag-data-received");
+
+	store = e_attachment_view_get_store (view);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
 	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
@@ -504,66 +506,7 @@ drop_text_uri_list (EAttachmentView *view,
 
 	g_strfreev (uris);
 
-	gtk_drag_finish (priv->drag_context, TRUE, FALSE, priv->time);
-}
-
-static void
-drop_text_generic (EAttachmentView *view,
-                   GtkSelectionData *selection_data,
-                   EAttachmentStore *store,
-                   GdkDragAction action)
-{
-	EAttachmentViewPrivate *priv;
-	EAttachment *attachment;
-	CamelMimePart *mime_part;
-	GdkAtom atom;
-	const gchar *data;
-	gpointer parent;
-	gchar *content_type;
-	gint length;
-
-	priv = e_attachment_view_get_private (view);
-
-	data = (const gchar *) gtk_selection_data_get_data (selection_data);
-	length = gtk_selection_data_get_length (selection_data);
-	atom = gtk_selection_data_get_data_type (selection_data);
-
-	mime_part = camel_mime_part_new ();
-
-	content_type = gdk_atom_name (atom);
-	camel_mime_part_set_content (mime_part, data, length, content_type);
-	camel_mime_part_set_disposition (mime_part, "inline");
-	g_free (content_type);
-
-	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
-	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
-
-	attachment = e_attachment_new ();
-	e_attachment_set_mime_part (attachment, mime_part);
-	e_attachment_store_add_attachment (store, attachment);
-	e_attachment_load_async (
-		attachment, (GAsyncReadyCallback)
-		e_attachment_load_handle_error, parent);
-	g_object_unref (attachment);
-
-	camel_object_unref (mime_part);
-
-	gtk_drag_finish (priv->drag_context, TRUE, FALSE, priv->time);
-}
-
-static void
-drop_x_uid_list (EAttachmentView *view,
-                 GtkSelectionData *selection_data,
-                 EAttachmentStore *store,
-                 GdkDragAction action)
-{
-	EAttachmentViewPrivate *priv;
-
-	/* FIXME  Ugh, this looks painful.  Requires mailer stuff. */
-
-	priv = e_attachment_view_get_private (view);
-
-	gtk_drag_finish (priv->drag_context, FALSE, FALSE, priv->time);
+	gtk_drag_finish (drag_context, TRUE, FALSE, time);
 }
 
 static void
@@ -669,10 +612,48 @@ attachment_view_update_actions (EAttachmentView *view)
 }
 
 static void
+attachment_view_init_handlers (EAttachmentView *view)
+{
+	EAttachmentViewPrivate *priv;
+	GtkTargetList *target_list;
+	GType *children;
+	guint ii;
+
+	priv = e_attachment_view_get_private (view);
+
+	target_list = gtk_target_list_new (
+		target_table, G_N_ELEMENTS (target_table));
+
+	gtk_target_list_add_uri_targets (target_list, 0);
+
+	priv->handlers = g_ptr_array_new ();
+	priv->target_list = target_list;
+	priv->drag_actions = GDK_ACTION_COPY;
+
+	children = g_type_children (E_TYPE_ATTACHMENT_HANDLER, NULL);
+
+	for (ii = 0; children[ii] != G_TYPE_INVALID; ii++) {
+		EAttachmentHandler *handler;
+		const GtkTargetEntry *targets;
+		guint n_targets;
+
+		handler = g_object_new (children[ii], "view", view, NULL);
+
+		targets = e_attachment_handler_get_target_table (
+			handler, &n_targets);
+		gtk_target_list_add_table (target_list, targets, n_targets);
+		priv->drag_actions |=
+			e_attachment_handler_get_drag_actions (handler);
+
+		g_ptr_array_add (priv->handlers, handler);
+	}
+
+	g_free (children);
+}
+
+static void
 attachment_view_class_init (EAttachmentViewIface *iface)
 {
-	gint ii;
-
 	iface->update_actions = attachment_view_update_actions;
 
 	g_object_interface_install_property (
@@ -693,11 +674,6 @@ attachment_view_class_init (EAttachmentViewIface *iface)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
-
-	for (ii = 0; ii < G_N_ELEMENTS (drag_info); ii++) {
-		const gchar *target = drag_info[ii].target;
-		drag_info[ii].atom = gdk_atom_intern (target, FALSE);
-	}
 }
 
 GType
@@ -738,14 +714,9 @@ e_attachment_view_init (EAttachmentView *view)
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
 	const gchar *domain = GETTEXT_PACKAGE;
-	GType *children;
-	guint ii;
 	GError *error = NULL;
 
 	priv = e_attachment_view_get_private (view);
-
-	e_attachment_view_drag_source_set (view);
-	e_attachment_view_drag_dest_set (view);
 
 	ui_manager = gtk_ui_manager_new ();
 	priv->merge_id = gtk_ui_manager_new_merge_id (ui_manager);
@@ -783,14 +754,28 @@ e_attachment_view_init (EAttachmentView *view)
 		G_OBJECT (view), "editable",
 		G_OBJECT (priv->editable_actions), "visible");
 
-	/* Instantiate attachment handlers. */
-	children = g_type_children (E_TYPE_ATTACHMENT_HANDLER, NULL);
-	for (ii = 0; children[ii] != G_TYPE_INVALID; ii++) {
-		EAttachmentHandler *handler;
-		handler = g_object_new (children[ii], "view", view, NULL);
-		priv->handlers = g_list_prepend (priv->handlers, handler);
-	}
-	g_free (children);
+	attachment_view_init_handlers (view);
+
+	e_attachment_view_drag_source_set (view);
+	e_attachment_view_drag_dest_set (view);
+
+	/* Connect built-in drag and drop handlers. */
+
+	g_signal_connect (
+		view, "drag-data-received",
+		G_CALLBACK (attachment_view_netscape_url), NULL);
+
+	g_signal_connect (
+		view, "drag-data-received",
+		G_CALLBACK (attachment_view_text_calendar), NULL);
+
+	g_signal_connect (
+		view, "drag-data-received",
+		G_CALLBACK (attachment_view_text_x_vcard), NULL);
+
+	g_signal_connect (
+		view, "drag-data-received",
+		G_CALLBACK (attachment_view_uris), NULL);
 }
 
 void
@@ -800,9 +785,13 @@ e_attachment_view_dispose (EAttachmentView *view)
 
 	priv = e_attachment_view_get_private (view);
 
-	g_list_foreach (priv->handlers, (GFunc) g_object_unref, NULL);
-	g_list_free (priv->handlers);
-	priv->handlers = NULL;
+	g_ptr_array_foreach (priv->handlers, (GFunc) g_object_unref, NULL);
+	g_ptr_array_set_size (priv->handlers, 0);
+
+	if (priv->target_list != NULL) {
+		gtk_target_list_unref (priv->target_list);
+		priv->target_list = NULL;
+	}
 
 	if (priv->ui_manager != NULL) {
 		g_object_unref (priv->ui_manager);
@@ -823,11 +812,6 @@ e_attachment_view_dispose (EAttachmentView *view)
 		g_object_unref (priv->openwith_actions);
 		priv->openwith_actions = NULL;
 	}
-
-	if (priv->drag_context != NULL) {
-		g_object_unref (priv->drag_context);
-		priv->drag_context = NULL;
-	}
 }
 
 void
@@ -837,8 +821,7 @@ e_attachment_view_finalize (EAttachmentView *view)
 
 	priv = e_attachment_view_get_private (view);
 
-	if (priv->selection_data != NULL)
-		gtk_selection_data_free (priv->selection_data);
+	g_ptr_array_free (priv->handlers, TRUE);
 }
 
 EAttachmentViewPrivate *
@@ -891,6 +874,30 @@ e_attachment_view_set_editable (EAttachmentView *view,
 	priv->editable = editable;
 
 	g_object_notify (G_OBJECT (view), "editable");
+}
+
+GtkTargetList *
+e_attachment_view_get_target_list (EAttachmentView *view)
+{
+	EAttachmentViewPrivate *priv;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), NULL);
+
+	priv = e_attachment_view_get_private (view);
+
+	return priv->target_list;
+}
+
+GdkDragAction
+e_attachment_view_get_drag_actions (EAttachmentView *view)
+{
+	EAttachmentViewPrivate *priv;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), 0);
+
+	priv = e_attachment_view_get_private (view);
+
+	return priv->drag_actions;
 }
 
 GList *
@@ -1257,6 +1264,24 @@ e_attachment_view_drag_end (EAttachmentView *view,
 	g_return_if_fail (GDK_IS_DRAG_CONTEXT (context));
 }
 
+static void
+attachment_view_got_uris_cb (EAttachmentStore *store,
+                             GAsyncResult *result,
+                             gpointer user_data)
+{
+	struct {
+		gchar **uris;
+		gboolean done;
+	} *status = user_data;
+
+	/* XXX Since this is a best-effort function,
+	 *     should we care about errors? */
+	status->uris = e_attachment_store_get_uris_finish (
+		store, result, NULL);
+
+	status->done = TRUE;
+}
+
 void
 e_attachment_view_drag_data_get (EAttachmentView *view,
                                  GdkDragContext *context,
@@ -1264,56 +1289,65 @@ e_attachment_view_drag_data_get (EAttachmentView *view,
                                  guint info,
                                  guint time)
 {
-	GList *selected, *iter;
-	gchar **uris;
-	gint ii = 0;
+	EAttachmentStore *store;
+	GList *selected;
+
+	struct {
+		gchar **uris;
+		gboolean done;
+	} status;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 	g_return_if_fail (GDK_IS_DRAG_CONTEXT (context));
 	g_return_if_fail (selection != NULL);
 
+	status.uris = NULL;
+	status.done = FALSE;
+
+	store = e_attachment_view_get_store (view);
+
 	selected = e_attachment_view_get_selected_attachments (view);
 	if (selected == NULL)
 		return;
 
-	uris = g_malloc0 (sizeof (gchar *) * (g_list_length (selected) + 1));
+	e_attachment_store_get_uris_async (
+		store, selected, (GAsyncReadyCallback)
+		attachment_view_got_uris_cb, &status);
 
-	for (iter = selected; iter != NULL; iter = iter->next) {
-		EAttachment *attachment = iter->data;
-		GFile *file;
+	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
+	g_list_free (selected);
 
-		/* FIXME Need to handle attachments with no GFile. */
-		file = e_attachment_get_file (attachment);
-		if (file == NULL)
-			continue;
+	/* We can't return until we have results, so crank
+	 * the main loop until the callback gets triggered. */
+	while (!status.done)
+		if (gtk_main_iteration ())
+			break;
 
-		uris[ii++] = g_file_get_uri (file);
-	}
+	if (status.uris != NULL)
+		gtk_selection_data_set_uris (selection, status.uris);
 
-	gtk_selection_data_set_uris (selection, uris);
-
-	g_strfreev (uris);
+	g_strfreev (status.uris);
 }
 
 void
 e_attachment_view_drag_dest_set (EAttachmentView *view)
 {
+	EAttachmentViewPrivate *priv;
 	GtkTargetEntry *targets;
-	GtkTargetList *list;
 	gint n_targets;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 
-	list = gtk_target_list_new (NULL, 0);
-	/* FIXME Add targets here... */
-	targets = gtk_target_table_new_from_list (list, &n_targets);
+	priv = e_attachment_view_get_private (view);
+
+	targets = gtk_target_table_new_from_list (
+		priv->target_list, &n_targets);
 
 	gtk_drag_dest_set (
 		GTK_WIDGET (view), GTK_DEST_DEFAULT_ALL,
-		targets, n_targets, GDK_ACTION_COPY);
+		targets, n_targets, priv->drag_actions);
 
 	gtk_target_table_free (targets, n_targets);
-	gtk_target_list_unref (list);
 }
 
 void
@@ -1324,61 +1358,6 @@ e_attachment_view_drag_dest_unset (EAttachmentView *view)
 	gtk_drag_dest_unset (GTK_WIDGET (view));
 }
 
-void
-e_attachment_view_drag_action (EAttachmentView *view,
-                               GdkDragAction action)
-{
-	EAttachmentViewPrivate *priv;
-	GtkSelectionData *selection_data;
-	EAttachmentStore *store;
-	GdkAtom atom;
-	gchar *name;
-
-	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
-
-	priv = e_attachment_view_get_private (view);
-
-	selection_data = priv->selection_data;
-	store = e_attachment_view_get_store (view);
-	atom = gtk_selection_data_get_data_type (selection_data);
-
-	switch (priv->info) {
-		case DND_TYPE_MESSAGE_RFC822:
-			drop_message_rfc822 (
-				view, selection_data, store, action);
-			return;
-
-		case DND_TYPE_NETSCAPE_URL:
-			drop_netscape_url (
-				view, selection_data, store, action);
-			return;
-
-		case DND_TYPE_TEXT_URI_LIST:
-			drop_text_uri_list (
-				view, selection_data, store, action);
-			return;
-
-		case DND_TYPE_TEXT_VCARD:
-		case DND_TYPE_TEXT_CALENDAR:
-			drop_text_generic (
-				view, selection_data, store, action);
-			return;
-
-		case DND_TYPE_X_UID_LIST:
-			drop_x_uid_list (
-				view, selection_data, store, action);
-			return;
-
-		default:
-			name = gdk_atom_name (atom);
-			g_warning ("Unknown drag type: %s", name);
-			g_free (name);
-			break;
-	}
-
-	gtk_drag_finish (priv->drag_context, FALSE, FALSE, priv->time);
-}
-
 gboolean
 e_attachment_view_drag_motion (EAttachmentView *view,
                                GdkDragContext *context,
@@ -1386,27 +1365,20 @@ e_attachment_view_drag_motion (EAttachmentView *view,
                                gint y,
                                guint time)
 {
-	GList *iter;
-	GdkDragAction actions = 0;
+	EAttachmentViewPrivate *priv;
+	GdkDragAction actions;
 	GdkDragAction chosen_action;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), FALSE);
 	g_return_val_if_fail (GDK_IS_DRAG_CONTEXT (context), FALSE);
 
+	priv = e_attachment_view_get_private (view);
+
 	/* Disallow drops if we're not editable. */
 	if (!e_attachment_view_get_editable (view))
 		return FALSE;
 
-	for (iter = context->targets; iter != NULL; iter = iter->next) {
-		GdkAtom atom = iter->data;
-		gint ii;
-
-		for (ii = 0; ii < G_N_ELEMENTS (drag_info); ii++)
-			if (atom == drag_info[ii].atom)
-				actions |= drag_info[ii].actions;
-	}
-
-	actions &= context->actions;
+	actions = priv->drag_actions & context->actions;
 	chosen_action = context->suggested_action;
 
 	if (chosen_action == GDK_ACTION_ASK) {
@@ -1441,53 +1413,31 @@ e_attachment_view_drag_drop (EAttachmentView *view,
 
 void
 e_attachment_view_drag_data_received (EAttachmentView *view,
-                                      GdkDragContext *context,
+                                      GdkDragContext *drag_context,
                                       gint x,
                                       gint y,
-                                      GtkSelectionData *selection,
+                                      GtkSelectionData *selection_data,
                                       guint info,
                                       guint time)
 {
-	EAttachmentViewPrivate *priv;
-	GtkUIManager *ui_manager;
-	GdkDragAction action;
+	GdkAtom atom;
+	gchar *name;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
-	g_return_if_fail (GDK_IS_DRAG_CONTEXT (context));
-	g_return_if_fail (selection != NULL);
+	g_return_if_fail (GDK_IS_DRAG_CONTEXT (drag_context));
 
-	priv = e_attachment_view_get_private (view);
-	ui_manager = e_attachment_view_get_ui_manager (view);
+	/* Drop handlers are supposed to stop further emission of the
+	 * "drag-data-received" signal if they can handle the data.  If
+	 * we get this far it means none of the handlers were successful,
+	 * so report the drop as failed. */
 
-	action = context->action;
+	atom = gtk_selection_data_get_target (selection_data);
 
-	if (gtk_selection_data_get_data (selection) == NULL)
-		return;
+	name = gdk_atom_name (atom);
+	g_warning ("Unknown selection target: %s", name);
+	g_free (name);
 
-	if (gtk_selection_data_get_length (selection) == -1)
-		return;
-
-	if (priv->drag_context != NULL)
-		g_object_unref (priv->drag_context);
-
-	if (priv->selection_data != NULL)
-		gtk_selection_data_free (priv->selection_data);
-
-	priv->drag_context = g_object_ref (context);
-	priv->selection_data = gtk_selection_data_copy (selection);
-	priv->info = info;
-	priv->time = time;
-
-	if (action == GDK_ACTION_ASK) {
-		GtkWidget *menu;
-
-		menu = gtk_ui_manager_get_widget (ui_manager, "/dnd");
-		g_return_if_fail (GTK_IS_MENU (menu));
-
-		gtk_menu_popup (
-			GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, time);
-	} else
-		e_attachment_view_drag_action (view, action);
+	gtk_drag_finish (drag_context, FALSE, FALSE, time);
 }
 
 GtkAction *

@@ -133,39 +133,6 @@ enum {
 	LAST_SIGNAL
 };
 
-enum {
-	DND_TYPE_MESSAGE_RFC822,
-	DND_TYPE_X_UID_LIST,
-	DND_TYPE_TEXT_URI_LIST,
-	DND_TYPE_NETSCAPE_URL,
-	DND_TYPE_TEXT_VCARD,
-	DND_TYPE_TEXT_CALENDAR
-};
-
-static GtkTargetEntry drop_types[] = {
-	{ "message/rfc822", 0, DND_TYPE_MESSAGE_RFC822 },
-	{ "x-uid-list",     0, DND_TYPE_X_UID_LIST },
-	{ "text/uri-list",  0, DND_TYPE_TEXT_URI_LIST },
-	{ "_NETSCAPE_URL",  0, DND_TYPE_NETSCAPE_URL },
-	{ "text/x-vcard",   0, DND_TYPE_TEXT_VCARD },
-	{ "text/calendar",  0, DND_TYPE_TEXT_CALENDAR }
-};
-
-static struct {
-	gchar *target;
-	GdkAtom atom;
-	guint32 actions;
-} drag_info[] = {
-	{ "message/rfc822", NULL, GDK_ACTION_COPY },
-	{ "x-uid-list",     NULL, GDK_ACTION_ASK |
-                                  GDK_ACTION_MOVE |
-                                  GDK_ACTION_COPY },
-	{ "text/uri-list",  NULL, GDK_ACTION_COPY },
-	{ "_NETSCAPE_URL",  NULL, GDK_ACTION_COPY },
-	{ "text/x-vcard",   NULL, GDK_ACTION_COPY },
-	{ "text/calendar",  NULL, GDK_ACTION_COPY }
-};
-
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
@@ -1844,8 +1811,13 @@ msg_composer_drag_data_received (GtkWidget *widget,
 	composer = E_MSG_COMPOSER (gtk_widget_get_toplevel (widget));
 	view = e_msg_composer_get_attachment_view (composer);
 
-	e_attachment_view_drag_data_received (
-		view, context, x, y, selection, info, time);
+	/* Forward the data to the attachment view.  Note that calling
+	 * e_attachment_view_drag_data_received() will not work because
+	 * that function only handles the case where all the other drag
+	 * handlers have failed. */
+	e_attachment_paned_drag_data_received (
+		E_ATTACHMENT_PANED (view),
+		context, x, y, selection, info, time);
 }
 
 static void
@@ -1900,7 +1872,6 @@ msg_composer_paste_clipboard (GtkhtmlEditor *editor)
 	GtkWidget *widget;
 	gchar *filename;
 	gchar *uri;
-	gint fd;
 	GError *error = NULL;
 
 	composer = E_MSG_COMPOSER (editor);
@@ -1924,14 +1895,13 @@ msg_composer_paste_clipboard (GtkhtmlEditor *editor)
 		goto chainup;
 
 	/* Reserve a temporary file. */
-	fd = e_file_open_tmp (&filename, &error);
-	if (error != NULL) {
-		g_warning ("%s", error->message);
+	filename = e_mktemp (NULL);
+	if (filename == NULL) {
+		g_warning ("%s", g_strerror (errno));
 		g_object_unref (pixbuf);
 		g_error_free (error);
 		return;
 	}
-	close (fd);
 
 	/* Save the pixbuf as a temporary file in image/png format. */
 	if (!gdk_pixbuf_save (pixbuf, filename, "png", &error, NULL)) {
@@ -2197,11 +2167,6 @@ msg_composer_class_init (EMsgComposerClass *class)
 	GtkObjectClass *gtk_object_class;
 	GtkWidgetClass *widget_class;
 	GtkhtmlEditorClass *editor_class;
-	gint ii;
-
-	for (ii = 0; ii < G_N_ELEMENTS (drag_info); ii++)
-		drag_info[ii].atom =
-			gdk_atom_intern (drag_info[ii].target, FALSE);
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMsgComposerPrivate));
@@ -2265,10 +2230,14 @@ msg_composer_init (EMsgComposer *composer)
 	EAttachmentView *view;
 	EAttachmentStore *store;
 	EComposerHeaderTable *table;
+	GdkDragAction drag_actions;
+	GtkTargetList *target_list;
+	GtkTargetEntry *targets;
 	GtkUIManager *manager;
 	GtkhtmlEditor *editor;
 	GtkHTML *html;
 	const gchar *id;
+	gint n_targets;
 
 	composer->priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
 
@@ -2277,6 +2246,7 @@ msg_composer_init (EMsgComposer *composer)
 	editor = GTKHTML_EDITOR (composer);
 	html = gtkhtml_editor_get_html (editor);
 	manager = gtkhtml_editor_get_ui_manager (editor);
+	view = e_msg_composer_get_attachment_view (composer);
 	all_composers = g_slist_prepend (all_composers, composer);
 	table = E_COMPOSER_HEADER_TABLE (composer->priv->header_table);
 
@@ -2285,16 +2255,20 @@ msg_composer_init (EMsgComposer *composer)
 
 	/* Drag-and-Drop Support */
 
-#if 0  /* KILL-BONOBO */
+	target_list = e_attachment_view_get_target_list (view);
+	drag_actions = e_attachment_view_get_drag_actions (view);
+
+	targets = gtk_target_table_new_from_list (target_list, &n_targets);
+
 	gtk_drag_dest_set (
 		GTK_WIDGET (composer), GTK_DEST_DEFAULT_ALL,
-		drop_types, G_N_ELEMENTS (drop_types),
-		GDK_ACTION_COPY | GDK_ACTION_ASK | GDK_ACTION_MOVE);
+		targets, n_targets, drag_actions);
 
 	g_signal_connect (
 		html, "drag-data-received",
 		G_CALLBACK (msg_composer_drag_data_received), NULL);
-#endif
+
+	gtk_target_table_free (targets, n_targets);
 
 	/* Configure Headers */
 
@@ -2336,7 +2310,6 @@ msg_composer_init (EMsgComposer *composer)
 
 	/* Attachments */
 
-	view = e_msg_composer_get_attachment_view (composer);
 	store = e_attachment_view_get_store (view);
 
 	g_signal_connect_swapped (

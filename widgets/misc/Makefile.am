@@ -70,7 +70,6 @@ widgetsinclude_HEADERS =			\
 	e-image-chooser.h			\
 	e-map.h					\
 	e-menu-tool-button.h			\
-	e-mime-part-utils.h			\
 	e-online-button.h			\
 	e-popup-action.h			\
 	e-popup-menu.h				\
@@ -134,7 +133,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-image-chooser.c			\
 	e-map.c					\
 	e-menu-tool-button.c			\
-	e-mime-part-utils.c			\
 	e-online-button.c			\
 	e-popup-action.c			\
 	e-popup-menu.c				\

@@ -56,11 +56,22 @@ struct _EAttachmentHandler {
 
 struct _EAttachmentHandlerClass {
 	GObjectClass parent_class;
+
+	GdkDragAction	(*get_drag_actions)	(EAttachmentHandler *handler);
+	const GtkTargetEntry *
+			(*get_target_table)	(EAttachmentHandler *handler,
+						 guint *n_targets);
 };
 
 GType		e_attachment_handler_get_type	(void);
 EAttachmentView *
 		e_attachment_handler_get_view	(EAttachmentHandler *handler);
+GdkDragAction	e_attachment_handler_get_drag_actions
+						(EAttachmentHandler *handler);
+const GtkTargetEntry *
+		e_attachment_handler_get_target_table
+						(EAttachmentHandler *handler,
+						 guint *n_targets);
 
 G_END_DECLS
 

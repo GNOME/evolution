@@ -155,3 +155,37 @@ e_attachment_handler_get_view (EAttachmentHandler *handler)
 
 	return E_ATTACHMENT_VIEW (handler->priv->view);
 }
+
+GdkDragAction
+e_attachment_handler_get_drag_actions (EAttachmentHandler *handler)
+{
+	EAttachmentHandlerClass *class;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT_HANDLER (handler), 0);
+
+	class = E_ATTACHMENT_HANDLER_GET_CLASS (handler);
+
+	if (class->get_drag_actions != NULL)
+		return class->get_drag_actions (handler);
+
+	return 0;
+}
+
+const GtkTargetEntry *
+e_attachment_handler_get_target_table (EAttachmentHandler *handler,
+                                       guint *n_targets)
+{
+	EAttachmentHandlerClass *class;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT_HANDLER (handler), NULL);
+
+	class = E_ATTACHMENT_HANDLER_GET_CLASS (handler);
+
+	if (class->get_target_table != NULL)
+		return class->get_target_table (handler, n_targets);
+
+	if (n_targets != NULL)
+		*n_targets = 0;
+
+	return NULL;
+}

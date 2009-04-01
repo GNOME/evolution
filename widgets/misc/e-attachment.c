@@ -22,6 +22,7 @@
 #include "e-attachment.h"
 
 #include <errno.h>
+#include <config.h>
 #include <glib/gi18n.h>
 #include <camel/camel-iconv.h>
 #include <camel/camel-data-wrapper.h>
@@ -32,6 +33,7 @@
 #include <camel/camel-stream-vfs.h>
 
 #include "e-util/e-util.h"
+#include "e-util/e-mktemp.h"
 #include "e-attachment-store.h"
 
 #define E_ATTACHMENT_GET_PRIVATE(obj) \
@@ -1914,18 +1916,30 @@ static void
 attachment_open_save_temporary (OpenContext *open_context)
 {
 	GFile *file;
+	gchar *template;
 	gchar *path;
-	gint fd;
 	GError *error = NULL;
 
-	fd = e_file_open_tmp (&path, &error);
+	errno = 0;
 
+	/* XXX This could trigger a blocking temp directory cleanup. */
+	template = g_strdup_printf (PACKAGE "-%s-XXXXXX", g_get_user_name ());
+	path = e_mktemp (template);
+	g_free (template);
+
+	/* XXX Let's hope errno got set properly. */
+	if (path == NULL)
+		g_set_error (
+			&error, G_FILE_ERROR,
+			g_file_error_from_errno (errno),
+			"%s", g_strerror (errno));
+
+	/* We already know if there's an error, but this does the cleanup. */
 	if (attachment_open_check_for_error (open_context, error))
 		return;
 
 	file = g_file_new_for_path (path);
 
-	close (fd);
 	g_free (path);
 
 	e_attachment_save_async (
@@ -2519,8 +2533,11 @@ e_attachment_save_handle_error (EAttachment *attachment,
 	g_return_if_fail (GTK_IS_WINDOW (parent));
 
 	file = e_attachment_save_finish (attachment, result, &error);
-	if (file != NULL)
+
+	if (file != NULL) {
 		g_object_unref (file);
+		return;
+	}
 
 	/* Ignore cancellations. */
 	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))

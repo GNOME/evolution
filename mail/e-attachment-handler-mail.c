@@ -23,6 +23,7 @@
 
 #include <config.h>
 #include <glib/gi18n.h>
+#include <camel/camel-stream-mem.h>
 
 #include "mail/em-composer-utils.h"
 
@@ -47,17 +48,21 @@ static const gchar *ui =
 "  </popup>"
 "</ui>";
 
+/* Note: Do not use the info field. */
+static GtkTargetEntry target_table[] = {
+	{ "message/rfc822",	0, 0 },
+	{ "x-uid-list",		0, 0 }
+};
+
 static void
-action_mail_forward_cb (GtkAction *action,
-                        EAttachmentHandler *handler)
+attachment_handler_mail_forward (GtkAction *action,
+                                 EAttachmentView *view)
 {
-	EAttachmentView *view;
 	EAttachment *attachment;
 	CamelMimePart *mime_part;
 	CamelDataWrapper *wrapper;
 	GList *selected;
 
-	view = e_attachment_handler_get_view (handler);
 	selected = e_attachment_view_get_selected_attachments (view);
 	g_return_if_fail (g_list_length (selected) == 1);
 
@@ -72,16 +77,14 @@ action_mail_forward_cb (GtkAction *action,
 }
 
 static void
-action_mail_reply_all_cb (GtkAction *action,
-                          EAttachmentHandler *handler)
+attachment_handler_mail_reply_all (GtkAction *action,
+                                   EAttachmentView *view)
 {
-	EAttachmentView *view;
 	EAttachment *attachment;
 	CamelMimePart *mime_part;
 	CamelDataWrapper *wrapper;
 	GList *selected;
 
-	view = e_attachment_handler_get_view (handler);
 	selected = e_attachment_view_get_selected_attachments (view);
 	g_return_if_fail (g_list_length (selected) == 1);
 
@@ -98,16 +101,14 @@ action_mail_reply_all_cb (GtkAction *action,
 }
 
 static void
-action_mail_reply_sender_cb (GtkAction *action,
-                             EAttachmentHandler *handler)
+attachment_handler_mail_reply_sender (GtkAction *action,
+                                      EAttachmentView *view)
 {
-	EAttachmentView *view;
 	EAttachment *attachment;
 	CamelMimePart *mime_part;
 	CamelDataWrapper *wrapper;
 	GList *selected;
 
-	view = e_attachment_handler_get_view (handler);
 	selected = e_attachment_view_get_selected_attachments (view);
 	g_return_if_fail (g_list_length (selected) == 1);
 
@@ -130,26 +131,109 @@ static GtkActionEntry standard_entries[] = {
 	  N_("_Forward"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_mail_forward_cb) },
+	  G_CALLBACK (attachment_handler_mail_forward) },
 
 	{ "mail-reply-all",
 	  "mail-reply-all",
 	  N_("Reply to _All"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_mail_reply_all_cb) },
+	  G_CALLBACK (attachment_handler_mail_reply_all) },
 
 	{ "mail-reply-sender",
 	  "mail-reply-sender",
 	  N_("_Reply to Sender"),
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_mail_reply_sender_cb) }
+	  G_CALLBACK (attachment_handler_mail_reply_sender) }
 };
 
 static void
-attachment_handler_mail_update_actions_cb (EAttachmentView *view,
-                                           EAttachmentHandler *handler)
+attachment_handler_mail_message_rfc822 (EAttachmentView *view,
+                                        GdkDragContext *drag_context,
+                                        gint x,
+                                        gint y,
+                                        GtkSelectionData *selection_data,
+                                        guint info,
+                                        guint time)
+{
+	static GdkAtom atom = GDK_NONE;
+	EAttachmentStore *store;
+	EAttachment *attachment;
+	CamelMimeMessage *message;
+	CamelDataWrapper *wrapper;
+	CamelStream *stream;
+	const gchar *data;
+	gboolean success = FALSE;
+	gpointer parent;
+	gint length;
+
+	if (G_UNLIKELY (atom == GDK_NONE))
+		atom = gdk_atom_intern_static_string ("message/rfc822");
+
+	if (gtk_selection_data_get_target (selection_data) != atom)
+		return;
+
+	g_signal_stop_emission_by_name (view, "drag-data-received");
+
+	data = (const gchar *) gtk_selection_data_get_data (selection_data);
+	length = gtk_selection_data_get_length (selection_data);
+
+	stream = camel_stream_mem_new ();
+	camel_stream_write (stream, data, length);
+	camel_stream_reset (stream);
+
+	message = camel_mime_message_new ();
+	wrapper = CAMEL_DATA_WRAPPER (message);
+
+	if (camel_data_wrapper_construct_from_stream (wrapper, stream) == -1)
+		goto exit;
+
+	store = e_attachment_view_get_store (view);
+
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (view));
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+
+	attachment = e_attachment_new_for_message (message);
+	e_attachment_store_add_attachment (store, attachment);
+	e_attachment_load_async (
+		attachment, (GAsyncReadyCallback)
+		e_attachment_load_handle_error, parent);
+	g_object_unref (attachment);
+
+	success = TRUE;
+
+exit:
+	camel_object_unref (message);
+	camel_object_unref (stream);
+
+	gtk_drag_finish (drag_context, success, FALSE, time);
+}
+
+static void
+attachment_handler_mail_x_uid_list (EAttachmentView *view,
+                                    GdkDragContext *drag_context,
+                                    gint x,
+                                    gint y,
+                                    GtkSelectionData *selection_data,
+                                    guint info,
+                                    guint time)
+{
+	static GdkAtom atom = GDK_NONE;
+
+	if (G_UNLIKELY (atom == GDK_NONE))
+		atom = gdk_atom_intern_static_string ("x-uid-list");
+
+	if (gtk_selection_data_get_target (selection_data) != atom)
+		return;
+
+	return;  /* REMOVE ME */
+
+	g_signal_stop_emission_by_name (view, "drag-data-received");
+}
+
+static void
+attachment_handler_mail_update_actions (EAttachmentView *view)
 {
 	EAttachment *attachment;
 	CamelMimePart *mime_part;
@@ -184,7 +268,6 @@ exit:
 static void
 attachment_handler_mail_constructed (GObject *object)
 {
-	EAttachmentHandlerMailPrivate *priv;
 	EAttachmentHandler *handler;
 	EAttachmentView *view;
 	GtkActionGroup *action_group;
@@ -193,7 +276,6 @@ attachment_handler_mail_constructed (GObject *object)
 	GError *error = NULL;
 
 	handler = E_ATTACHMENT_HANDLER (object);
-	priv = E_ATTACHMENT_HANDLER_MAIL_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
@@ -205,7 +287,7 @@ attachment_handler_mail_constructed (GObject *object)
 	gtk_action_group_set_translation_domain (action_group, domain);
 	gtk_action_group_add_actions (
 		action_group, standard_entries,
-		G_N_ELEMENTS (standard_entries), object);
+		G_N_ELEMENTS (standard_entries), view);
 	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 	g_object_unref (action_group);
 
@@ -218,20 +300,51 @@ attachment_handler_mail_constructed (GObject *object)
 
 	g_signal_connect (
 		view, "update-actions",
-		G_CALLBACK (attachment_handler_mail_update_actions_cb),
-		object);
+		G_CALLBACK (attachment_handler_mail_update_actions),
+		NULL);
+
+	g_signal_connect (
+		view, "drag-data-received",
+		G_CALLBACK (attachment_handler_mail_message_rfc822),
+		NULL);
+
+	g_signal_connect (
+		view, "drag-data-received",
+		G_CALLBACK (attachment_handler_mail_x_uid_list),
+		NULL);
+}
+
+static GdkDragAction
+attachment_handler_mail_get_drag_actions (EAttachmentHandler *handler)
+{
+	return GDK_ACTION_COPY;
+}
+
+static const GtkTargetEntry *
+attachment_handler_mail_get_target_table (EAttachmentHandler *handler,
+                                          guint *n_targets)
+{
+	if (n_targets != NULL)
+		*n_targets = G_N_ELEMENTS (target_table);
+
+	return target_table;
 }
 
 static void
 attachment_handler_mail_class_init (EAttachmentHandlerMailClass *class)
 {
 	GObjectClass *object_class;
+	EAttachmentHandlerClass *handler_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EAttachmentHandlerMailPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
 	object_class->constructed = attachment_handler_mail_constructed;
+
+	handler_class = E_ATTACHMENT_HANDLER_CLASS (class);
+	handler_class->get_drag_actions = attachment_handler_mail_get_drag_actions;
+	handler_class->get_target_table = attachment_handler_mail_get_target_table;
 }
 
 static void
@@ -261,8 +374,7 @@ e_attachment_handler_mail_get_type (void)
 
 		type = g_type_register_static (
 			E_TYPE_ATTACHMENT_HANDLER,
-			"EAttachmentHandlerMail",
-			&type_info, 0);
+			"EAttachmentHandlerMail", &type_info, 0);
 	}
 
 	return type;
