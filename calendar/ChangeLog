@@ -1,3 +1,11 @@
+2009-04-02  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #577717
+
+	* gui/dialogs/alarm-dialog.c: (alarm_to_dialog),
+	(malarm_widgets_to_alarm): Fill some default values
+	to mandatory properties of ECalComponentAttendee.
+
 2009-03-06  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #401346

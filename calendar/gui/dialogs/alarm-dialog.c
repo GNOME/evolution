@@ -220,6 +220,9 @@ alarm_to_dialog (Dialog *dialog)
 
 		a = g_new0 (ECalComponentAttendee, 1);
 		a->value = email;
+		a->cutype = ICAL_CUTYPE_INDIVIDUAL;
+		a->status = ICAL_PARTSTAT_NEEDSACTION;
+		a->role = ICAL_ROLE_REQPARTICIPANT;
 		attendee_list.data = a;
 		attendee_list.next = NULL;
 		e_cal_component_alarm_set_attendee_list (dialog->alarm, &attendee_list);
@@ -429,6 +432,9 @@ malarm_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 		a = g_new0 (ECalComponentAttendee, 1);
 		a->value = e_destination_get_email (dest);
 		a->cn = e_destination_get_name (dest);
+		a->cutype = ICAL_CUTYPE_INDIVIDUAL;
+		a->status = ICAL_PARTSTAT_NEEDSACTION;
+		a->role = ICAL_ROLE_REQPARTICIPANT;
 
 		attendee_list = g_slist_append (attendee_list, a);
 	}
