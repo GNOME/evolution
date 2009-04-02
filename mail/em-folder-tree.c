@@ -2550,7 +2550,8 @@ em_folder_tree_get_selected_folder (EMFolderTree *emft)
 		gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store,
 				    COL_STRING_FULL_NAME, &full_name, -1);
 
-	folder = camel_store_get_folder (store, full_name, CAMEL_STORE_FOLDER_INFO_FAST, &ex);
+	if (store && full_name)
+		folder = camel_store_get_folder (store, full_name, CAMEL_STORE_FOLDER_INFO_FAST, &ex);
 
 	camel_exception_clear (&ex);
 

@@ -1,3 +1,8 @@
+2009-04-02  Milan Crha  <mcrha@redhat.com>
+
+	* em-folder-tree.c: (em_folder_tree_get_selected_folder):
+	Do not ask for a folder when no folder selected.
+
 2009-03-31  Hiroyuki Ikezoe  <poincare@ikezoe.net>
 
 	** Fix for bug #576921
