@@ -39,6 +39,8 @@ libevolution_module_mail_la_SOURCES =			\
 	e-attachment-handler-mail.h			\
 	e-mail-attachment-bar.c				\
 	e-mail-attachment-bar.h				\
+	e-mail-attachment-button.c			\
+	e-mail-attachment-button.h			\
 	e-mail-browser.c				\
 	e-mail-browser.h				\
 	e-mail-display.c				\

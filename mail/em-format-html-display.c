@@ -63,7 +63,6 @@
 #include <e-util/e-util-private.h>
 
 #include <libedataserver/e-msgport.h>
-#include <e-util/e-gui-utils.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
 
@@ -76,6 +75,7 @@
 
 #include "e-mail-display.h"
 #include "e-mail-attachment-bar.h"
+#include "e-mail-attachment-button.h"
 #include "em-format-html-display.h"
 #include "em-icon-stream.h"
 #include "em-utils.h"
@@ -99,17 +99,7 @@
 	((obj), EM_TYPE_FORMAT_HTML_DISPLAY, EMFormatHTMLDisplayPrivate))
 
 struct _EMFormatHTMLDisplayPrivate {
-	/* for Attachment bar */
-	GtkWidget *attachment_bar;
-	GtkWidget *label;
-	GtkWidget *save_txt;
-	GtkWidget *arrow;
-	GtkWidget *forward;
-	GtkWidget *down;
-	GtkWidget *attachment_area;
-	gboolean  show_bar;
-	GHashTable *files;
-	gboolean updated;
+	GtkWidget *attachment_view;  /* weak reference */
 };
 
 struct _smime_pobject {
@@ -149,7 +139,6 @@ static const char *smime_sign_colour[5] = {
 static void efhd_attachment_frame(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri);
 static gboolean efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject);
 static void efhd_message_add_bar(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info);
-static void efhd_attachment_button_show (GtkWidget *w, void *data);
 static gboolean efhd_attachment_button (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject);
 static gboolean efhd_attachment_optional (EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *object);
 
@@ -164,7 +153,6 @@ struct _attach_puri {
 	GtkWidget *forward, *down;
 	/* currently no way to correlate this data to the frame :( */
 	GtkHTML *frame;
-	CamelStream *output;
 	unsigned int shown:1;
 
 	/* Embedded Frame */
@@ -190,11 +178,9 @@ struct _attach_puri {
 
 static void efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormatHandler *info);
 
-static void efhd_complete(EMFormat *);
-
 static void efhd_builtin_init(EMFormatHTMLDisplayClass *efhc);
 
-static EMFormatHTMLClass *parent_class;
+static gpointer parent_class;
 
 static void
 efhd_xpkcs7mime_free (EMFormatHTMLPObject *o)
@@ -434,36 +420,14 @@ efhd_xpkcs7mime_button (EMFormatHTML *efh,
 }
 
 static void
-efhd_finalize (GObject *object)
-{
-	EMFormatHTMLDisplayPrivate *priv;
-
-	priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE (object);
-
-	if (priv->files != NULL)
-		g_hash_table_destroy (priv->files);
-
-	/* Chain up to parent's finalize() method. */
-	G_OBJECT_CLASS (parent_class)->finalize (object);
-}
-
-static void
 efhd_format_clone (EMFormat *emf,
                    CamelFolder *folder,
                    const gchar *uid,
                    CamelMimeMessage *msg,
                    EMFormat *src)
 {
-	EMFormatHTMLDisplayPrivate *priv;
-
-	priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE (emf);
-
-	if (emf != src) {
-		priv->show_bar = (src != NULL) ?
-			EM_FORMAT_HTML_DISPLAY (src)->priv->show_bar : FALSE;
-
+	if (emf != src)
 		EM_FORMAT_HTML (emf)->header_wrap_flags = 0;
-	}
 
 	/* Chain up to parent's format_clone() method. */
 	EM_FORMAT_CLASS (parent_class)->
@@ -656,22 +620,17 @@ efhd_format_secure (EMFormat *emf,
 static void
 efhd_class_init (EMFormatHTMLDisplayClass *class)
 {
-	GObjectClass *object_class;
 	EMFormatClass *format_class;
 	EMFormatHTMLClass *format_html_class;
 
 	parent_class = g_type_class_peek_parent (class);
 	g_type_class_add_private (class, sizeof (EMFormatHTMLDisplayPrivate));
 
-	object_class = G_OBJECT_CLASS (class);
-	object_class->finalize = efhd_finalize;
-
 	format_class = EM_FORMAT_CLASS (class);
 	format_class->format_clone = efhd_format_clone;
 	format_class->format_attachment = efhd_format_attachment;
 	format_class->format_optional = efhd_format_optional;
 	format_class->format_secure = efhd_format_secure;
-	format_class->complete = efhd_complete;
 
 	format_html_class = EM_FORMAT_HTML_CLASS (class);
 	format_html_class->html_widget_type = E_TYPE_MAIL_DISPLAY;
@@ -695,9 +654,6 @@ efhd_init (EMFormatHTMLDisplay *efhd)
 	EM_FORMAT_HTML (efhd)->text_html_flags |=
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS |
 		CAMEL_MIME_FILTER_TOHTML_CONVERT_ADDRESSES;
-
-	efhd->priv->show_bar = FALSE;
-	efhd->priv->files = NULL;
 }
 
 GType
@@ -731,55 +687,6 @@ EMFormatHTMLDisplay *
 em_format_html_display_new (void)
 {
 	return g_object_new (EM_TYPE_FORMAT_HTML_DISPLAY, NULL);
-}
-
-void
-em_format_html_display_cut (EMFormatHTMLDisplay *efhd)
-{
-	gtk_html_cut (((EMFormatHTML *) efhd)->html);
-}
-
-void
-em_format_html_display_copy (EMFormatHTMLDisplay *efhd)
-{
-	gtk_html_copy (((EMFormatHTML *) efhd)->html);
-}
-
-void
-em_format_html_display_paste (EMFormatHTMLDisplay *efhd)
-{
-	gtk_html_paste (((EMFormatHTML *) efhd)->html, FALSE);
-}
-
-void
-em_format_html_display_zoom_in (EMFormatHTMLDisplay *efhd)
-{
-	gtk_html_zoom_in (((EMFormatHTML *) efhd)->html);
-}
-
-void
-em_format_html_display_zoom_out (EMFormatHTMLDisplay *efhd)
-{
-	gtk_html_zoom_out (((EMFormatHTML *) efhd)->html);
-}
-
-void
-em_format_html_display_zoom_reset (EMFormatHTMLDisplay *efhd)
-{
-	gtk_html_zoom_reset (((EMFormatHTML *) efhd)->html);
-}
-
-/* ********************************************************************** */
-
-static void
-efhd_complete(EMFormat *emf)
-{
-	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)emf;
-
-	if (efhd->priv->files) {
-		g_hash_table_destroy (efhd->priv->files);
-		efhd->priv->files = NULL;
-	}
 }
 
 /* ********************************************************************** */
@@ -948,12 +855,13 @@ efhd_attachment_show(EPopup *ep, EPopupItem *item, void *data)
 }
 
 static void
-efhd_attachment_button_show(GtkWidget *w, void *data)
+efhd_attachment_button_clicked (GtkWidget *widget,
+                                struct _attach_puri *info)
 {
-	if (!efhd_can_process_attachment (w))
+	if (!efhd_can_process_attachment (widget))
 		return;
 
-	efhd_attachment_show(NULL, NULL, data);
+	efhd_attachment_show (NULL, NULL, info);
 }
 
 static void
@@ -1301,6 +1209,12 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	};
 	AtkObject *a11y;
 
+	EAttachmentView *view;
+	EAttachmentStore *store;
+	EAttachment *attachment;
+	GtkWidget *widget;
+	gpointer parent;
+
 	/* FIXME: handle default shown case */
 	d(printf("adding attachment button/content\n"));
 
@@ -1311,60 +1225,40 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 		return TRUE;
 	}
 
-	if (efhd->priv->attachment_bar) {
-		EAttachmentView *view;
-		EAttachmentStore *store;
-		gpointer parent;
+	attachment = info->attachment;
+	e_attachment_set_signed (attachment, info->sign);
+	e_attachment_set_encrypted (attachment, info->encrypt);
 
-		parent = gtk_widget_get_toplevel (GTK_WIDGET (efh->html));
-		parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
+	parent = gtk_widget_get_toplevel (GTK_WIDGET (efh->html));
+	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 
-		gtk_widget_show (efhd->priv->attachment_bar);
+	view = E_ATTACHMENT_VIEW (efhd->priv->attachment_view);
+	gtk_widget_show (efhd->priv->attachment_view);
 
-		view = E_ATTACHMENT_VIEW (efhd->priv->attachment_bar);
-		store = e_attachment_view_get_store (view);
-		e_attachment_store_add_attachment (store, info->attachment);
-		e_attachment_load_async (
-			info->attachment, (GAsyncReadyCallback)
-			e_attachment_load_handle_error, parent);
+	store = e_attachment_view_get_store (view);
+	e_attachment_store_add_attachment (store, info->attachment);
 
-		e_attachment_set_encrypted (info->attachment, info->encrypt);
-		e_attachment_set_signed (info->attachment, info->sign);
-	}
+	e_attachment_load_async (
+		info->attachment, (GAsyncReadyCallback)
+		e_attachment_load_handle_error, parent);
 
-	mainbox = gtk_hbox_new(FALSE, 0);
+	widget = e_mail_attachment_button_new (view);
+	e_mail_attachment_button_set_attachment (
+		E_MAIL_ATTACHMENT_BUTTON (widget), attachment);
+	e_mail_attachment_button_set_expandable (
+		E_MAIL_ATTACHMENT_BUTTON (widget), (info->handle != NULL));
+	e_mail_attachment_button_set_expanded (
+		E_MAIL_ATTACHMENT_BUTTON (widget), info->shown);
+	gtk_container_add (GTK_CONTAINER (eb), widget);
+	gtk_widget_show (widget);
 
-	button = gtk_button_new();
+	g_object_set_data (G_OBJECT (widget), "efh", efh);
 
-	if (info->handle) {
-		g_signal_connect(button, "clicked", G_CALLBACK(efhd_attachment_button_show), info);
-		g_object_set_data (G_OBJECT (button), "efh", efh);
-	} else {
-		gtk_widget_set_sensitive(button, FALSE);
-		GTK_WIDGET_UNSET_FLAGS(button, GTK_CAN_FOCUS);
-	}
+	g_signal_connect (
+		widget, "clicked",
+		G_CALLBACK (efhd_attachment_button_clicked), info);
 
-	hbox = gtk_hbox_new(FALSE, 2);
-	info->forward = gtk_image_new_from_stock(GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_BUTTON);
-	gtk_box_pack_start((GtkBox *)hbox, info->forward, TRUE, TRUE, 0);
-	if (info->handle) {
-		info->down = gtk_image_new_from_stock(GTK_STOCK_GO_DOWN, GTK_ICON_SIZE_BUTTON);
-		gtk_box_pack_start((GtkBox *)hbox, info->down, TRUE, TRUE, 0);
-	}
-
-	w = gtk_image_new();
-	gtk_widget_set_size_request(w, 24, 24);
-	gtk_box_pack_start((GtkBox *)hbox, w, TRUE, TRUE, 0);
-	gtk_container_add((GtkContainer *)button, hbox);
-	gtk_box_pack_start((GtkBox *)mainbox, button, TRUE, TRUE, 0);
-
-	/* Check for snooped type to get the right icon/processing */
-	if (info->snoop_mime_type)
-		simple_type = g_strdup(info->snoop_mime_type);
-	else
-		simple_type = camel_content_type_simple (((CamelDataWrapper *)pobject->part)->mime_type);
-	camel_strdown(simple_type);
-
+#if 0
 	/* FIXME: offline parts, just get icon */
 	if (camel_content_type_is(((CamelDataWrapper *)pobject->part)->mime_type, "image", "*")) {
 		EMFormatHTMLJob *job;
@@ -1383,16 +1277,6 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 			job->stream = (CamelStream *)em_icon_stream_new((GtkImage *)w, key, 24, 24, FALSE);
 			em_format_html_job_queue(efh, job);
 		}
-	} else {
-		GdkPixbuf *pixbuf, *mini;
-
-		if ((pixbuf = e_icon_for_mime_type (simple_type, 24))) {
-			if ((mini = e_icon_factory_pixbuf_scale (pixbuf, 24, 24))) {
-				gtk_image_set_from_pixbuf ((GtkImage *) w, mini);
-				g_object_unref (mini);
-			}
-			g_object_unref (pixbuf);
-		}
 	}
 
 	drag_types[0].target = simple_type;
@@ -1401,28 +1285,11 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	g_signal_connect (button, "drag-data-delete", G_CALLBACK(efhd_drag_data_delete), pobject);
 	g_free(simple_type);
 
-	button = gtk_button_new();
-	/*GTK_WIDGET_UNSET_FLAGS(button, GTK_CAN_FOCUS);*/
-	gtk_container_add((GtkContainer *)button, gtk_arrow_new(GTK_ARROW_DOWN, GTK_SHADOW_NONE));
-
-	a11y = gtk_widget_get_accessible (button);
-	atk_object_set_name (a11y, _("Attachment"));
-
 	g_signal_connect(button, "button_press_event", G_CALLBACK(efhd_attachment_popup), info);
 	g_signal_connect(button, "popup_menu", G_CALLBACK(efhd_attachment_popup_menu), info);
 	g_signal_connect(button, "clicked", G_CALLBACK(efhd_attachment_popup_menu), info);
 	gtk_box_pack_start((GtkBox *)mainbox, button, TRUE, TRUE, 0);
-
-	g_object_set_data (G_OBJECT (button), "efh", efh);
-
-	gtk_widget_show_all(mainbox);
-
-	if (info->shown)
-		gtk_widget_hide(info->forward);
-	else if (info->down)
-		gtk_widget_hide(info->down);
-
-	gtk_container_add((GtkContainer *)eb, mainbox);
+#endif
 
 	return TRUE;
 }
@@ -1430,37 +1297,34 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 /* not used currently */
 /* frame source callback */
 static void
-efhd_attachment_frame(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
+efhd_attachment_frame (EMFormat *emf,
+                       CamelStream *stream,
+                       EMFormatPURI *puri)
 {
 	struct _attach_puri *info = (struct _attach_puri *)puri;
 
-	if (info->shown) {
-		d(printf("writing to frame content, handler is '%s'\n", info->handle->mime_type));
-		info->handle->handler(emf, stream, info->puri.part, info->handle);
-		camel_stream_close(stream);
-	} else {
-		/* FIXME: this is leaked if the object is closed without showing it
-		   NB: need a virtual puri_free method? */
-		info->output = stream;
-		camel_object_ref(stream);
-	}
+	if (info->shown)
+		info->handle->handler (
+			emf, stream, info->puri.part, info->handle);
+
+	camel_stream_close (stream);
 }
 
 static void
 efhd_bar_resize (EMFormatHTML *efh,
                  GtkAllocation *event)
 {
-	EMFormatHTMLDisplay *efhd;
+	EMFormatHTMLDisplayPrivate *priv;
 	GtkWidget *widget;
 	gint width;
 
-	efhd = EM_FORMAT_HTML_DISPLAY (efh);
+	priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE (efh);
 
 	widget = GTK_WIDGET (efh->html);
 	width = widget->allocation.width - 12;
 
 	if (width > 0) {
-		widget = efhd->priv->attachment_bar;
+		widget = priv->attachment_view;
 		gtk_widget_set_size_request (widget, width, -1);
 	}
 }
@@ -1470,14 +1334,14 @@ efhd_add_bar (EMFormatHTML *efh,
               GtkHTMLEmbedded *eb,
               EMFormatHTMLPObject *pobject)
 {
-	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
-	struct _EMFormatHTMLDisplayPrivate *priv = efhd->priv;
-	GtkRequisition requisition;
+	EMFormatHTMLDisplayPrivate *priv;
 	GtkWidget *widget;
+
+	priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE (efh);
 
 	widget = e_mail_attachment_bar_new ();
 	gtk_container_add (GTK_CONTAINER (eb), widget);
-	priv->attachment_bar = g_object_ref (widget);
+	priv->attachment_view = widget;
 	gtk_widget_hide (widget);
 
 	g_signal_connect_swapped (
@@ -1488,19 +1352,23 @@ efhd_add_bar (EMFormatHTML *efh,
 }
 
 static void
-efhd_message_add_bar(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const EMFormatHandler *info)
+efhd_message_add_bar (EMFormat *emf,
+                      CamelStream *stream,
+                      CamelMimePart *part,
+                      const EMFormatHandler *info)
 {
-	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *) emf;
+	EMFormatHTMLDisplayPrivate *priv;
 	const char *classid = "attachment-bar";
 
-	if (efhd->priv->files)
-		return;
+	priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE (emf);
 
-	efhd->priv->files = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-	efhd->priv->updated = FALSE;
+	em_format_html_add_pobject (
+		EM_FORMAT_HTML (emf),
+		sizeof (EMFormatHTMLPObject),
+		classid, part, efhd_add_bar);
 
-	em_format_html_add_pobject((EMFormatHTML *)emf, sizeof(EMFormatHTMLPObject), classid, part, efhd_add_bar);
-	camel_stream_printf(stream, "<td><object classid=\"%s\"></object></td>", classid);
+	camel_stream_printf (
+		stream, "<td><object classid=\"%s\"></object></td>", classid);
 }
 
 static void

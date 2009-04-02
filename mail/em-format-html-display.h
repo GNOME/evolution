@@ -25,7 +25,6 @@
 #ifndef EM_FORMAT_HTML_DISPLAY_H
 #define EM_FORMAT_HTML_DISPLAY_H
 
-#include <camel/camel-mime-part.h>
 #include <mail/em-format-html.h>
 
 /* Standard GObject macros */
@@ -67,17 +66,6 @@ struct _EMFormatHTMLDisplayClass {
 GType		em_format_html_display_get_type	(void);
 EMFormatHTMLDisplay *
 		em_format_html_display_new	(void);
-void		em_format_html_display_cut	(EMFormatHTMLDisplay *efhd);
-void		em_format_html_display_copy	(EMFormatHTMLDisplay *efhd);
-void		em_format_html_display_paste	(EMFormatHTMLDisplay *efhd);
-
-void		em_format_html_display_zoom_in	(EMFormatHTMLDisplay *efhd);
-void		em_format_html_display_zoom_out	(EMFormatHTMLDisplay *efhd);
-void		em_format_html_display_zoom_reset
-						(EMFormatHTMLDisplay *efhd);
-
-gboolean	em_format_html_display_popup_menu
-						(EMFormatHTMLDisplay *efhd);
 
 G_END_DECLS
 

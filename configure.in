@@ -2138,7 +2138,6 @@ plugins/pst-import/Makefile
 plugins/publish-calendar/Makefile
 plugins/python/Makefile
 plugins/sa-junk-plugin/Makefile
-plugins/save-attachments/Makefile
 plugins/save-calendar/Makefile
 plugins/startup-wizard/Makefile
 plugins/subject-thread/Makefile

@@ -1015,10 +1015,12 @@ action_mail_zoom_100_cb (GtkAction *action,
                          EMailReader *reader)
 {
 	EMFormatHTMLDisplay *html_display;
+	GtkHTML *html;
 
 	html_display = e_mail_reader_get_html_display (reader);
+	html = EM_FORMAT_HTML (html_display)->html;
 
-	em_format_html_display_zoom_reset (html_display);
+	gtk_html_zoom_reset (html);
 }
 
 static void
@@ -1026,10 +1028,12 @@ action_mail_zoom_in_cb (GtkAction *action,
                         EMailReader *reader)
 {
 	EMFormatHTMLDisplay *html_display;
+	GtkHTML *html;
 
 	html_display = e_mail_reader_get_html_display (reader);
+	html = EM_FORMAT_HTML (html_display)->html;
 
-	em_format_html_display_zoom_in (html_display);
+	gtk_html_zoom_out (html);
 }
 
 static void
@@ -1037,10 +1041,12 @@ action_mail_zoom_out_cb (GtkAction *action,
                          EMailReader *reader)
 {
 	EMFormatHTMLDisplay *html_display;
+	GtkHTML *html;
 
 	html_display = e_mail_reader_get_html_display (reader);
+	html = EM_FORMAT_HTML (html_display)->html;
 
-	em_format_html_display_zoom_out (html_display);
+	gtk_html_zoom_out (html);
 }
 
 static GtkActionEntry mail_reader_entries[] = {
