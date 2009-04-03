@@ -1,3 +1,11 @@
+2008-04-04  Tobias Mueller  <tobiasmue@gnome.org>
+
+	** Fix for bug #569765
+
+	* message-list.c: Don't keep the selected message in the message 
+	list if it is removed from the folder.
+	Patch by Matt McCutchen <matt@mattmccutchen.net>
+
 2009-04-02  Milan Crha  <mcrha@redhat.com>
 
 	* em-folder-tree.c: (em_folder_tree_get_selected_folder):

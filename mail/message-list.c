@@ -4053,16 +4053,22 @@ regen_list_exec (struct _regen_list_msg *m)
 
 			/* cursor_uid has been filtered out */
 			if (i == uids->len) {
-				gboolean was_deleted = (camel_folder_get_message_flags (m->folder, looking_for) & CAMEL_MESSAGE_DELETED) != 0;
+				CamelMessageInfo *looking_info = camel_folder_get_message_info (m->folder, looking_for);
 
-				/* I would really like to check for CAMEL_MESSAGE_FOLDER_FLAGGED on a message,
-				   so I would know whether it was changed locally, and then just check the changes
-				   struct whether change came from the server, but with periodical save it doesn't
-				   matter. So here just check whether the file was deleted and we show it based
-				   on the flag whether we can view deleted messages or not. */
+				if (looking_info) {
+					gboolean was_deleted = (camel_message_info_flags (looking_info) & CAMEL_MESSAGE_DELETED) != 0;
 
-				if (!was_deleted || (was_deleted && !m->hidedel))
-					g_ptr_array_add (uids, (gpointer) camel_pstring_strdup (looking_for));
+					/* I would really like to check for CAMEL_MESSAGE_FOLDER_FLAGGED on a message,
+					   so I would know whether it was changed locally, and then just check the changes
+					   struct whether change came from the server, but with periodical save it doesn't
+					   matter. So here just check whether the file was deleted and we show it based
+					   on the flag whether we can view deleted messages or not. */
+
+					if (!was_deleted || (was_deleted && !m->hidedel))
+						g_ptr_array_add (uids, (gpointer) camel_pstring_strdup (looking_for));
+
+					camel_folder_free_message_info (m->folder, looking_info);
+				}
 			}
 		}
 	}
