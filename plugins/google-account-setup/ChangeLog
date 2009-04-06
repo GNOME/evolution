@@ -1,3 +1,10 @@
+2009-04-07  Tobias Mueller  <tobiasmue@gnome.org>
+
+	** Fixes bug #578034
+
+	* google-source.c (claim_error):
+	Call gtk_message_dialog_new with a proper format string.
+
 2009-02-26  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #572950
