@@ -33,7 +33,7 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libedataserverui/e-categories-dialog.h>
-#include <misc/e-gui-utils.h>
+#include "misc/e-gui-utils.h"
 
 #include <libebook/e-address-western.h>
 #include <libedataserverui/e-category-completion.h>
@@ -45,7 +45,6 @@
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "e-util/e-util.h"
-#include "e-util/e-gui-utils.h"
 #include "e-util/e-error.h"
 #include "misc/e-dateedit.h"
 #include "misc/e-image-chooser.h"

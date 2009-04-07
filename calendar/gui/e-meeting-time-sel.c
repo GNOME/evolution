@@ -36,13 +36,13 @@
 #include <glib/gi18n.h>
 #include <libgnomecanvas/gnome-canvas-widget.h>
 
-#include <misc/e-canvas.h>
-#include <misc/e-canvas-utils.h>
+#include "misc/e-canvas.h"
+#include "misc/e-canvas-utils.h"
 
-#include <misc/e-dateedit.h>
-#include <e-util/e-gui-utils.h>
-#include <e-util/e-cursor.h>
-#include <e-util/e-util.h>
+#include "misc/e-dateedit.h"
+#include "misc/e-gui-utils.h"
+#include "e-util/e-cursor.h"
+#include "e-util/e-util.h"
 
 #include "calendar-config.h"
 #include "e-meeting-utils.h"

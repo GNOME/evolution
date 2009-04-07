@@ -68,8 +68,8 @@ SUBDIRS = 			\
 	$(SMIME_DIR)		\
 	composer		\
 	addressbook		\
-	calendar		\
 	mail			\
+	calendar		\
 	art			\
 	plugins			\
 	doc			\
