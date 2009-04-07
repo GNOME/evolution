@@ -963,7 +963,10 @@ load_certs (CertificateManagerData *cfm,
 	     !CERT_LIST_END(node, certList);
 	     node = CERT_LIST_NEXT(node)) {
 		ECert *cert = e_cert_new ((CERTCertificate*)node->cert);
-		if (e_cert_get_cert_type(cert) == type) {
+		ECertType ct = e_cert_get_cert_type (cert);
+
+		/* show everything else in a contact tab */
+		if (ct == type || (type == E_CERT_CONTACT && ct != E_CERT_CA && ct != E_CERT_USER)) {
 			add_cert (cfm, cert);
 		}
 	}

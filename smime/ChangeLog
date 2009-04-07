@@ -1,5 +1,12 @@
 2009-04-07  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #539002
+
+	* gui/certificate-manager.c: (load_certs):
+	Show all other certificates in a contact tab.
+
+2009-04-07  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #529745
 
 	* gui/certificate-manager.c: (import_your), (import_contact):
