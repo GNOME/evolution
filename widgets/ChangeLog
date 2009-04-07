@@ -1,3 +1,13 @@
+2009-04-07  Takao Fujiwara  <takao.fujiwara@sun.com>
+
+	Reviewed by Milan Crha  <mcrha@redhat.com>
+	Reviewed by Matthew Barnes  <mbarnes@redhat.com>
+
+	* Fixes bug #537530
+
+	* misc/e-attachment-bar.c (update):
+	Use g_filename_to_utf8 for attachment filenames.
+
 2008-11-03  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes bug #559041

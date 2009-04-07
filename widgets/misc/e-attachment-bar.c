@@ -389,7 +389,7 @@ update (EAttachmentBar *bar)
 		CamelContentType *content_type;
 		char *size_string, *label;
 		GdkPixbuf *pixbuf = NULL;
-		const char *desc;
+		char *desc;
 
 		attachment = priv->attachments->pdata[i];
 
@@ -443,20 +443,26 @@ update (EAttachmentBar *bar)
 
 		desc = camel_mime_part_get_description (attachment->body);
 		if (!desc || *desc == '\0') {
-			if (attachment->file_name)
-				desc = attachment->file_name;
-			else
+			if (attachment->file_name) {
+				desc = g_filename_to_utf8 (attachment->file_name, -1, NULL, NULL, NULL);
+			} else {
 				desc = camel_mime_part_get_filename (attachment->body);
+				if (desc)
+					desc = g_strdup (desc);
+			}
 		}
 
 		if (!desc)
-			desc = _("attachment");
+			desc = g_strdup (_("attachment"));
 
 		if (attachment->size && (size_string = g_format_size_for_display (attachment->size))) {
 			label = g_strdup_printf ("%s (%s)", desc, size_string);
+			g_free (desc);
 			g_free (size_string);
-		} else
+		} else {
 			label = g_strdup (desc);
+			g_free (desc);
+		}
 
 		if (pixbuf == NULL) {
 			char *mime_type;
