@@ -1,3 +1,10 @@
+2009-04-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #529745
+
+	* gui/certificate-manager.c: (import_your), (import_contact):
+	Add more file types in a file filter.
+
 2009-02-25  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #572975

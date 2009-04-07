@@ -143,6 +143,7 @@ import_your (GtkWidget *widget, CertificateManagerData *cfm)
 
 	filter = gtk_file_filter_new();
 	gtk_file_filter_set_name (filter, _("All PKCS12 files"));
+	gtk_file_filter_add_mime_type (filter, "application/x-x509-user-cert");
 	gtk_file_filter_add_mime_type (filter, "application/x-pkcs12");
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
 
@@ -390,6 +391,7 @@ import_contact (GtkWidget *widget, CertificateManagerData *cfm)
 	filter = gtk_file_filter_new();
 	gtk_file_filter_set_name (filter, _("All email certificate files"));
 	gtk_file_filter_add_mime_type (filter, "application/x-x509-email-cert");
+	gtk_file_filter_add_mime_type (filter, "application/x-x509-ca-cert");
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (filesel), filter);
 
 	filter = gtk_file_filter_new ();
