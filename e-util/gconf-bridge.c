@@ -1223,6 +1223,7 @@ error_handler (GConfClient *client,
                 dlg = gtk_message_dialog_new (NULL, 0,
                                               GTK_MESSAGE_ERROR,
                                               GTK_BUTTONS_OK,
+                                              "%s",
                                               message);
                 g_free (message);
 

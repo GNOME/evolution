@@ -1,3 +1,10 @@
+2009-04-07  Tobias Mueller  <tobiasmue@gnome.org>
+
+	** Fixes bug #577989
+
+	* conf-bridge.c (error_handler):
+	Call gtk_message_dialog_new with a proper format string ("%s")
+
 2009-02-13  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #564229
