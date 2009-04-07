@@ -87,5 +87,6 @@ void e_tasks_discard_view_menus (ETasks *tasks);
 
 struct _ECalMenu *e_tasks_get_tasks_menu (ETasks *tasks);
 ECalendarTable *e_tasks_get_calendar_table (ETasks *tasks);
+GtkWidget *e_tasks_get_preview (ETasks *tasks);
 
 #endif /* _E_TASKS_H_ */

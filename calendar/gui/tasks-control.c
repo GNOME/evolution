@@ -43,6 +43,7 @@
 #include "evolution-shell-component-utils.h"
 #include "e-util/e-menu.h"
 #include "e-cal-menu.h"
+#include "e-cal-component-preview.h"
 #include "e-util/e-menu.h"
 #include "itip-utils.h"
 
@@ -96,11 +97,19 @@ static void tasks_control_view_preview	       (BonoboUIComponent *uic,
 						const char *state,
 						void *data);
 
+struct focus_changed_data {
+	BonoboControl *control;
+	ETasks *tasks;
+};
+
+static gboolean tasks_control_focus_changed (GtkWidget *widget, GdkEventFocus *event, struct focus_changed_data *fc_data);
+
 BonoboControl *
 tasks_control_new (void)
 {
 	BonoboControl *control;
-	GtkWidget *tasks;
+	GtkWidget *tasks, *preview;
+	struct focus_changed_data *fc_data;
 
 	tasks = e_tasks_new ();
 	if (!tasks)
@@ -115,6 +124,15 @@ tasks_control_new (void)
 	}
 
 	g_signal_connect (control, "activate", G_CALLBACK (tasks_control_activate_cb), tasks);
+
+	fc_data = g_new0 (struct focus_changed_data, 1);
+	fc_data->control = control;
+	fc_data->tasks = E_TASKS (tasks);
+
+	preview = e_cal_component_preview_get_html (E_CAL_COMPONENT_PREVIEW (e_tasks_get_preview (fc_data->tasks)));
+	g_object_set_data_full (G_OBJECT (preview), "tasks-ctrl-fc-data", fc_data, g_free);
+	g_signal_connect (preview, "focus-in-event", G_CALLBACK (tasks_control_focus_changed), fc_data);
+	g_signal_connect (preview, "focus-out-event", G_CALLBACK (tasks_control_focus_changed), fc_data);
 
 	return control;
 }
@@ -160,11 +178,13 @@ sensitize_items(BonoboUIComponent *uic, struct _tasks_sensitize_item *items, gui
 	}
 }
 
+#define E_CAL_TASKS_PREVIEW_ACTIVE (1<<31)
+
 static struct _tasks_sensitize_item tasks_sensitize_table[] = {
 	{ "TasksOpenTask", E_CAL_MENU_SELECT_ONE },
-	{ "TasksCut", E_CAL_MENU_SELECT_ANY | E_CAL_MENU_SELECT_EDITABLE },
+	{ "TasksCut", E_CAL_MENU_SELECT_ANY | E_CAL_MENU_SELECT_EDITABLE | E_CAL_TASKS_PREVIEW_ACTIVE },
 	{ "TasksCopy", E_CAL_MENU_SELECT_ANY },
-	{ "TasksPaste", E_CAL_MENU_SELECT_EDITABLE },
+	{ "TasksPaste", E_CAL_MENU_SELECT_EDITABLE | E_CAL_TASKS_PREVIEW_ACTIVE },
 	{ "TasksDelete", E_CAL_MENU_SELECT_ANY | E_CAL_MENU_SELECT_EDITABLE },
 	{ "TasksMarkComplete", E_CAL_MENU_SELECT_ANY | E_CAL_MENU_SELECT_EDITABLE | E_CAL_MENU_SELECT_NOTCOMPLETE},
 	{ "TasksPurge",  E_CAL_MENU_SELECT_EDITABLE },
@@ -188,6 +208,7 @@ tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_s
 	GPtrArray *events;
 	GSList *selected = NULL, *l = NULL;
 	ECalendarTable *cal_table;
+	GtkWidget *preview;
 
 	uic = bonobo_control_get_ui_component (control);
 	g_return_if_fail (uic != NULL);
@@ -214,6 +235,12 @@ tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_s
 	if (ecal)
 		e_cal_is_read_only (ecal, &read_only, NULL);
 
+	preview = e_cal_component_preview_get_html (E_CAL_COMPONENT_PREVIEW (e_tasks_get_preview (tasks)));
+	if (preview && GTK_WIDGET_VISIBLE (preview) && GTK_WIDGET_HAS_FOCUS (preview))
+		t->target.mask = t->target.mask | E_CAL_TASKS_PREVIEW_ACTIVE;
+	else
+		t->target.mask = t->target.mask & (~E_CAL_TASKS_PREVIEW_ACTIVE);
+
 	sensitize_items (uic, tasks_sensitize_table, t->target.mask);
 	e_menu_update_target ((EMenu *)menu, (EMenuTarget *)t);
 }
@@ -227,6 +254,16 @@ selection_changed_cb (ETasks *tasks, int n_selected, gpointer data)
 	control = BONOBO_CONTROL (data);
 
 	tasks_control_sensitize_commands (control, tasks, n_selected);
+}
+
+static gboolean
+tasks_control_focus_changed (GtkWidget *widget, GdkEventFocus *event, struct focus_changed_data *fc_data)
+{
+	g_return_val_if_fail (fc_data != NULL, FALSE);
+
+	tasks_control_sensitize_commands (fc_data->control, fc_data->tasks, -1);
+
+	return FALSE;
 }
 
 static BonoboUIVerb verbs [] = {
@@ -379,10 +416,19 @@ tasks_control_copy_cmd                  (BonoboUIComponent      *uic,
 {
 	ETasks *tasks;
 	ECalendarTable *cal_table;
+	GtkWidget *preview;
 
 	tasks = E_TASKS (data);
-	cal_table = e_tasks_get_calendar_table (tasks);
-	e_calendar_table_copy_clipboard (cal_table);
+
+
+	preview = e_cal_component_preview_get_html (E_CAL_COMPONENT_PREVIEW (e_tasks_get_preview (tasks)));
+	if (preview && GTK_WIDGET_VISIBLE (preview) && GTK_WIDGET_HAS_FOCUS (preview)) {
+		/* copy selected text in a preview when that's shown and focused */
+		gtk_html_copy (GTK_HTML (preview));
+	} else {
+		cal_table = e_tasks_get_calendar_table (tasks);
+		e_calendar_table_copy_clipboard (cal_table);
+	}
 }
 
 static void

@@ -82,5 +82,6 @@ void e_memos_setup_view_menus (EMemos *memos, BonoboUIComponent *uic);
 void e_memos_discard_view_menus (EMemos *memos);
 
 EMemoTable *e_memos_get_calendar_table (EMemos *memos);
+GtkWidget  *e_memos_get_preview (EMemos *memos);
 
 #endif /* _E_MEMOS_H_ */

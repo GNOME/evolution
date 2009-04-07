@@ -1563,3 +1563,18 @@ e_tasks_get_calendar_table (ETasks *tasks)
 	priv = tasks->priv;
 	return E_CALENDAR_TABLE (priv->tasks_view);
 }
+
+/**
+ * e_tasks_get_preview:
+ * @tasks: A tasks widget.
+ *
+ * Queries the #ECalComponentPreview contained in a tasks widget.
+ **/
+GtkWidget *
+e_tasks_get_preview (ETasks *tasks)
+{
+	g_return_val_if_fail (tasks != NULL, NULL);
+	g_return_val_if_fail (E_IS_TASKS (tasks), NULL);
+
+	return tasks->priv->preview;
+}

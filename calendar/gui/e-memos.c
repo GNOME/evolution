@@ -1222,3 +1222,18 @@ e_memos_get_calendar_table (EMemos *memos)
 	priv = memos->priv;
 	return E_MEMO_TABLE (priv->memos_view);
 }
+
+/**
+ * e_memos_get_preview:
+ * @memos: A memos widget.
+ *
+ * Queries the #ECalComponentMemoPreview contained in a memos widget.
+ **/
+GtkWidget *
+e_memos_get_preview (EMemos *memos)
+{
+	g_return_val_if_fail (memos != NULL, NULL);
+	g_return_val_if_fail (E_IS_MEMOS (memos), NULL);
+
+	return memos->priv->preview;
+}

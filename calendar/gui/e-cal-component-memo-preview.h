@@ -62,5 +62,6 @@ void e_cal_component_memo_preview_set_default_timezone (ECalComponentMemoPreview
 
 void e_cal_component_memo_preview_display             (ECalComponentMemoPreview *preview, ECal *ecal, ECalComponent *comp);
 void e_cal_component_memo_preview_clear             (ECalComponentMemoPreview *preview);
+GtkWidget *e_cal_component_memo_preview_get_html (ECalComponentMemoPreview *preview);
 
 #endif /* _E_CAL_COMPONENT_MEMO_PREVIEW_H_ */

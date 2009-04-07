@@ -358,3 +358,11 @@ e_cal_component_memo_preview_clear (ECalComponentMemoPreview *preview)
 	gtk_html_load_empty (GTK_HTML (priv->html));
 }
 
+GtkWidget *
+e_cal_component_memo_preview_get_html (ECalComponentMemoPreview *preview)
+{
+	g_return_val_if_fail (preview != NULL, NULL);
+	g_return_val_if_fail (E_IS_CAL_COMPONENT_MEMO_PREVIEW (preview), NULL);
+
+	return preview->priv->html;
+}

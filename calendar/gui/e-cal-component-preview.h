@@ -68,5 +68,6 @@ void e_cal_component_preview_clear             (ECalComponentPreview *preview);
 /* Callback used when GtkHTML widget requests URL */
 void e_cal_comp_preview_url_requested_cb (GtkHTML *html, const char *url, GtkHTMLStream *html_stream, gpointer data);
 
+GtkWidget *e_cal_component_preview_get_html (ECalComponentPreview *preview);
 
 #endif /* _E_CAL_COMPONENT_PREVIEW_H_ */
