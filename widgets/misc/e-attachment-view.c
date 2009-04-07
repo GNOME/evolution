@@ -1059,7 +1059,8 @@ e_attachment_view_button_press_event (EAttachmentView *view,
 		 * popup menu when right-clicking on an attachment,
 		 * but editable views can show the menu any time. */
 		if (item_clicked || editable) {
-			e_attachment_view_show_popup_menu (view, event);
+			e_attachment_view_show_popup_menu (
+				view, event, NULL, NULL);
 			return TRUE;
 		}
 	}
@@ -1468,6 +1469,21 @@ e_attachment_view_get_action_group (EAttachmentView *view,
 	return e_lookup_action_group (ui_manager, group_name);
 }
 
+GtkWidget *
+e_attachment_view_get_popup_menu (EAttachmentView *view)
+{
+	GtkUIManager *ui_manager;
+	GtkWidget *menu;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), NULL);
+
+	ui_manager = e_attachment_view_get_ui_manager (view);
+	menu = gtk_ui_manager_get_widget (ui_manager, "/context");
+	g_return_val_if_fail (GTK_IS_MENU (menu), NULL);
+
+	return menu;
+}
+
 GtkUIManager *
 e_attachment_view_get_ui_manager (EAttachmentView *view)
 {
@@ -1511,27 +1527,26 @@ e_attachment_view_recent_action_new (EAttachmentView *view,
 
 void
 e_attachment_view_show_popup_menu (EAttachmentView *view,
-                                   GdkEventButton *event)
+                                   GdkEventButton *event,
+                                   GtkMenuPositionFunc func,
+                                   gpointer user_data)
 {
-	GtkUIManager *ui_manager;
 	GtkWidget *menu;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 
 	e_attachment_view_update_actions (view);
 
-	ui_manager = e_attachment_view_get_ui_manager (view);
-	menu = gtk_ui_manager_get_widget (ui_manager, "/context");
-	g_return_if_fail (GTK_IS_MENU (menu));
+	menu = e_attachment_view_get_popup_menu (view);
 
 	if (event != NULL)
 		gtk_menu_popup (
-			GTK_MENU (menu), NULL, NULL, NULL, NULL,
-			event->button, event->time);
+			GTK_MENU (menu), NULL, NULL, func,
+			user_data, event->button, event->time);
 	else
 		gtk_menu_popup (
-			GTK_MENU (menu), NULL, NULL, NULL, NULL,
-			0, gtk_get_current_event_time ());
+			GTK_MENU (menu), NULL, NULL, func,
+			user_data, 0, gtk_get_current_event_time ());
 }
 
 void

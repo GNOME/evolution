@@ -75,11 +75,11 @@
 
 #include "e-mail-display.h"
 #include "e-mail-attachment-bar.h"
-#include "e-mail-attachment-button.h"
 #include "em-format-html-display.h"
 #include "em-icon-stream.h"
 #include "em-utils.h"
 #include "em-popup.h"
+#include "widgets/misc/e-attachment-button.h"
 #include "widgets/misc/e-attachment-view.h"
 
 #ifdef G_OS_WIN32
@@ -855,8 +855,9 @@ efhd_attachment_show(EPopup *ep, EPopupItem *item, void *data)
 }
 
 static void
-efhd_attachment_button_clicked (GtkWidget *widget,
-                                struct _attach_puri *info)
+efhd_attachment_button_expanded (GtkWidget *widget,
+                                 GParamSpec *pspec,
+                                 struct _attach_puri *info)
 {
 	if (!efhd_can_process_attachment (widget))
 		return;
@@ -1242,21 +1243,21 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 		info->attachment, (GAsyncReadyCallback)
 		e_attachment_load_handle_error, parent);
 
-	widget = e_mail_attachment_button_new (view);
-	e_mail_attachment_button_set_attachment (
-		E_MAIL_ATTACHMENT_BUTTON (widget), attachment);
-	e_mail_attachment_button_set_expandable (
-		E_MAIL_ATTACHMENT_BUTTON (widget), (info->handle != NULL));
-	e_mail_attachment_button_set_expanded (
-		E_MAIL_ATTACHMENT_BUTTON (widget), info->shown);
+	widget = e_attachment_button_new (view);
+	e_attachment_button_set_attachment (
+		E_ATTACHMENT_BUTTON (widget), attachment);
+	e_attachment_button_set_expandable (
+		E_ATTACHMENT_BUTTON (widget), (info->handle != NULL));
+	e_attachment_button_set_expanded (
+		E_ATTACHMENT_BUTTON (widget), info->shown);
 	gtk_container_add (GTK_CONTAINER (eb), widget);
 	gtk_widget_show (widget);
 
 	g_object_set_data (G_OBJECT (widget), "efh", efh);
 
 	g_signal_connect (
-		widget, "clicked",
-		G_CALLBACK (efhd_attachment_button_clicked), info);
+		widget, "notify::expanded",
+		G_CALLBACK (efhd_attachment_button_expanded), info);
 
 #if 0
 	/* FIXME: offline parts, just get icon */
@@ -1294,8 +1295,6 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	return TRUE;
 }
 
-/* not used currently */
-/* frame source callback */
 static void
 efhd_attachment_frame (EMFormat *emf,
                        CamelStream *stream,

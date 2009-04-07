@@ -715,6 +715,7 @@ attachment_store_get_uris_save_cb (EAttachment *attachment,
 			g_list_foreach (
 				uri_context->attachment_list,
 				(GFunc) e_attachment_cancel, NULL);
+			error = NULL;
 
 		/* Otherwise, we can only report back one error.  So if
 		 * this is something other than cancellation, dump it to
@@ -722,9 +723,10 @@ attachment_store_get_uris_save_cb (EAttachment *attachment,
 		} else if (!g_error_matches (
 			error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
 			g_warning ("%s", error->message);
-
-		g_error_free (error);
 	}
+
+	if (error != NULL)
+		g_error_free (error);
 
 	/* If there's still jobs running, let them finish. */
 	if (uri_context->attachment_list != NULL)
@@ -846,9 +848,8 @@ e_attachment_store_get_uris_finish (EAttachmentStore *store,
 	GSimpleAsyncResult *simple;
 	gchar **uris;
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (result, G_OBJECT (store),
-		e_attachment_store_get_uris_async), FALSE);
+	g_return_val_if_fail (E_IS_ATTACHMENT_STORE (store), NULL);
+	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), NULL);
 
 	simple = G_SIMPLE_ASYNC_RESULT (result);
 	uris = g_simple_async_result_get_op_res_gpointer (simple);

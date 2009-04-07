@@ -33,7 +33,6 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libedataserverui/e-categories-dialog.h>
-#include "misc/e-gui-utils.h"
 
 #include <libebook/e-address-western.h>
 #include <libedataserverui/e-category-completion.h>

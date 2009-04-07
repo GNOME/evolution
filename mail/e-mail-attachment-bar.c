@@ -420,6 +420,17 @@ mail_attachment_bar_unselect_all (EAttachmentView *view)
 }
 
 static void
+mail_attachment_bar_update_actions (EAttachmentView *view)
+{
+	EMailAttachmentBarPrivate *priv;
+
+	priv = E_MAIL_ATTACHMENT_BAR_GET_PRIVATE (view);
+	view = E_ATTACHMENT_VIEW (priv->icon_view);
+
+	e_attachment_view_update_actions (view);
+}
+
+static void
 mail_attachment_bar_class_init (EMailAttachmentBarClass *class)
 {
 	GObjectClass *object_class;
@@ -477,6 +488,7 @@ mail_attachment_bar_iface_init (EAttachmentViewIface *iface)
 	iface->unselect_path = mail_attachment_bar_unselect_path;
 	iface->select_all = mail_attachment_bar_select_all;
 	iface->unselect_all = mail_attachment_bar_unselect_all;
+	iface->update_actions = mail_attachment_bar_update_actions;
 }
 
 static void

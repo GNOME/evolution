@@ -240,7 +240,7 @@ attachment_tree_view_popup_menu (GtkWidget *widget)
 {
 	EAttachmentView *view = E_ATTACHMENT_VIEW (widget);
 
-	e_attachment_view_show_popup_menu (view, NULL);
+	e_attachment_view_show_popup_menu (view, NULL, NULL, NULL);
 
 	return TRUE;
 }

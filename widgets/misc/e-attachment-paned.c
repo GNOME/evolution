@@ -409,6 +409,17 @@ attachment_paned_unselect_all (EAttachmentView *view)
 }
 
 static void
+attachment_paned_update_actions (EAttachmentView *view)
+{
+	EAttachmentPanedPrivate *priv;
+
+	priv = E_ATTACHMENT_PANED_GET_PRIVATE (view);
+	view = E_ATTACHMENT_VIEW (priv->icon_view);
+
+	e_attachment_view_update_actions (view);
+}
+
+static void
 attachment_paned_class_init (EAttachmentPanedClass *class)
 {
 	GObjectClass *object_class;
@@ -462,6 +473,7 @@ attachment_paned_iface_init (EAttachmentViewIface *iface)
 	iface->unselect_path = attachment_paned_unselect_path;
 	iface->select_all = attachment_paned_select_all;
 	iface->unselect_all = attachment_paned_unselect_all;
+	iface->update_actions = attachment_paned_update_actions;
 }
 
 static void

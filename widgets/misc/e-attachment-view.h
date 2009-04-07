@@ -209,6 +209,7 @@ GtkAction *	e_attachment_view_get_action	(EAttachmentView *view,
 GtkActionGroup *e_attachment_view_get_action_group
 						(EAttachmentView *view,
 						 const gchar *group_name);
+GtkWidget *	e_attachment_view_get_popup_menu(EAttachmentView *view);
 GtkUIManager *	e_attachment_view_get_ui_manager(EAttachmentView *view);
 GtkAction *	e_attachment_view_recent_action_new
 						(EAttachmentView *view,
@@ -216,7 +217,9 @@ GtkAction *	e_attachment_view_recent_action_new
 						 const gchar *action_label);
 void		e_attachment_view_show_popup_menu
 						(EAttachmentView *view,
-						 GdkEventButton *event);
+						 GdkEventButton *event,
+						 GtkMenuPositionFunc func,
+						 gpointer user_data);
 void		e_attachment_view_update_actions(EAttachmentView *view);
 
 G_END_DECLS

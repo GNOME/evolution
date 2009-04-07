@@ -1694,9 +1694,8 @@ e_attachment_load_finish (EAttachment *attachment,
 	GSimpleAsyncResult *simple;
 	CamelMimePart *mime_part;
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (result,
-		G_OBJECT (attachment), e_attachment_load_async), FALSE);
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
+	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
 
 	simple = G_SIMPLE_ASYNC_RESULT (result);
 	mime_part = g_simple_async_result_get_op_res_gpointer (simple);
@@ -1990,9 +1989,8 @@ e_attachment_open_finish (EAttachment *attachment,
 	GSimpleAsyncResult *simple;
 	gboolean success;
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (result,
-		G_OBJECT (attachment), e_attachment_open_async), FALSE);
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
+	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
 
 	simple = G_SIMPLE_ASYNC_RESULT (result);
 	success = g_simple_async_result_get_op_res_gboolean (simple);
@@ -2500,9 +2498,8 @@ e_attachment_save_finish (EAttachment *attachment,
 	GSimpleAsyncResult *simple;
 	GFile *destination;
 
-	g_return_val_if_fail (
-		g_simple_async_result_is_valid (result,
-		G_OBJECT (attachment), e_attachment_save_async), FALSE);
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
+	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), FALSE);
 
 	simple = G_SIMPLE_ASYNC_RESULT (result);
 	destination = g_simple_async_result_get_op_res_gpointer (simple);
