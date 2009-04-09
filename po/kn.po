@@ -1,4 +1,4 @@
-# translation of kn.po to Kannada
+# translation of evolution.HEAD.kn.po to Kannada
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
@@ -6,10 +6,10 @@
 # Shankar Prasad <svenkate@redhat.com>, 2008, 2009.
 msgid ""
 msgstr ""
-"Project-Id-Version: kn\n"
+"Project-Id-Version: evolution.HEAD.kn\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-02-24 18:16+0000\n"
-"PO-Revision-Date: 2009-03-25 14:18+0530\n"
+"PO-Revision-Date: 2009-04-09 11:40+0530\n"
 "Last-Translator: Shankar Prasad <svenkate@redhat.com>\n"
 "Language-Team: Kannada <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -321,7 +321,7 @@ msgstr "ಕಾಂಬೊ ಗುಂಡಿ"
 
 #: ../a11y/widgets/ea-combo-button.c:66
 msgid "Activate Default"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತವಾಗಿ ಸಕ್ರಿಯಗೊಳಿಸು"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಆಗಿ ಸಕ್ರಿಯಗೊಳಿಸು"
 
 #: ../a11y/widgets/ea-combo-button.c:68
 msgid "Popup Menu"
@@ -523,7 +523,7 @@ msgid ""
 msgstr ""
 "ನೀವು ಬೆಂಬಲಿವಿಲ್ಲದಿರುವ ಸಮೂಹಕ್ರಮ ಪರಿಚಾರಕಕ್ಕೆ ಸಂಪರ್ಕಹೊಂದಿದ್ದೀರಿ ಹಾಗು Evolution ಬಳಸುವಾಗ "
 "ತೊಂದರೆಗಳನ್ನು ಎದುರಿಸಬಹುದು. ಉತ್ತಮ ಫಲಿತಾಂಶಕ್ಕಾಗಿ ಪರಿಚಾರಕವನ್ನು ಒಂದು ಬೆಂಬಲಿತ ಆವೃತ್ತಿಗೆ "
-"ನವೀಕರಿಸಿ."
+"ನವೀಕರಿಸಿ"
 
 #: ../addressbook/addressbook.error.xml.h:35
 msgid "You do not have permission to delete contacts in this address book."
@@ -577,7 +577,7 @@ msgstr "{1}"
 
 #: ../addressbook/conduit/address-conduit.c:491
 msgid "Default Sync Address:"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಸಿಂಕ್‌ ವಿಳಾಸ:"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಸಿಂಕ್ ವಿಳಾಸ:"
 
 #: ../addressbook/conduit/address-conduit.c:1521
 #: ../addressbook/conduit/address-conduit.c:1522
@@ -742,7 +742,7 @@ msgstr "ಒಂದು ಹೊಸ ಸಂಪರ್ಕವಿಳಾಸವನ್ನು 
 
 #: ../addressbook/gui/component/addressbook-component.c:418
 msgid "Failed upgrading Address Book settings or folders."
-msgstr "ವಿಳಾಸ ಪುಸ್ತಕದ ಸಂಯೋಜನೆಗಳನ್ನು ಅಥವ ಫೋಲ್ಡರುಗಳನ್ನು ನವೀಕರಿಸುವಲ್ಲಿ ವಿಫಲಗೊಂಡಿದೆ. "
+msgstr "ವಿಳಾಸ ಪುಸ್ತಕದ ಸಂಯೋಜನೆಗಳನ್ನು ಅಥವ ಫೋಲ್ಡರುಗಳನ್ನು ನವೀಕರಿಸುವಲ್ಲಿ ವಿಫಲಗೊಂಡಿದೆ."
 
 #: ../addressbook/gui/component/addressbook-config.c:332
 msgid "Base"
@@ -993,7 +993,7 @@ msgstr "ಫಲಕದ ಲಂಬ ಸ್ಥಾನ"
 msgid ""
 "Whether force showing the mail address with the name of the autocompleted "
 "contact in the entry."
-msgstr ""
+msgstr "ನಮೂದಿನಲ್ಲಿ ಸ್ವಯಂಪೂರ್ಣಗೊಂಡಂತಹ ಸಂಪರ್ಕವಿಳಾಸದ ಹೆಸರಿನೊಂದಿಗೆ ಮೈಲ್ ವಿಳಾಸವನ್ನು ಒತ್ತಾಯಪೂರ್ವಕವಾಗಿ ತೋರಿಸಬೇಕೆ."
 
 #: ../addressbook/gui/component/apps_evolution_addressbook.schemas.in.h:12
 msgid "Whether to show the preview pane."
@@ -1133,7 +1133,7 @@ msgid ""
 "objectclass of the type \"person\"."
 msgstr ""
 "ಹುಡುಕು ಫಿಲ್ಟರ್ ಎನ್ನುವುದು ಒಂದು ಹುಡುಕನ್ನು ನಡೆಸುವಾಗ ಹುಡುಕಲು ಬಳಸಲಾಗುವ ವಸ್ತುಗಳ ಬಗೆ. "
-"ಇದನ್ನು ಮಾರ್ಪಡಿಸದೆ ಹೋದಲ್ಲಿ, ಪೂರ್ವನಿಯೋಜಿತವಾಗಿ \"ವ್ಯಕ್ತಿ\" ಎಂಬ ಬಗೆಯ ವಸ್ತುವರ್ಗದ ಮೇಲೆ ಹುಡುಕನ್ನು "
+"ಇದನ್ನು ಮಾರ್ಪಡಿಸದೆ ಹೋದಲ್ಲಿ, ಡೀಫಾಲ್ಟ್‍ ಆಗಿ \"ವ್ಯಕ್ತಿ\" ಎಂಬ ಬಗೆಯ ವಸ್ತುವರ್ಗದ ಮೇಲೆ ಹುಡುಕನ್ನು "
 "ನಿರ್ವಹಿಸಲಾಗುತ್ತದೆ."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:33
@@ -1193,7 +1193,7 @@ msgid ""
 "the directory tree. A search scope of \"sub\" will include all entries below "
 "your search base. A search scope of \"one\" will only include the entries "
 "one level beneath your base."
-msgstr ""
+msgstr "ಕೋಶ ವೃಕ್ಷದಲ್ಲಿ ಎಷ್ಟು ಆಳವಾಗಿ ನೀವು ಹುಡುಕುವಿಕೆಯನ್ನು ವಿಸ್ತರಿಸಲು ಬಯಸುತ್ತೀರಿ ಎನ್ನುವುದನ್ನು ಹುಡುಕು ವ್ಯಾಪ್ತಿಯು ಸೂಚಿಸುತ್ತದೆ. \"sub\" ನ ಒಂದು ಹುಡುಕು ವ್ಯಾಪ್ತಿಯು ನಿಮ್ಮ ಹುಡುಕು ಮೂಲಕ್ಕಿಂತ ಕೆಳಗಿನ ಎಲ್ಲಾ ನಮೂದುಗಳನ್ನು ಒಳಗೊಂಡಿರುತ್ತದೆ. \"one\" ನ ಒಂದು ಹುಡುಕು ವ್ಯಾಪ್ತಿಯು ನಿಮ್ಮ ಹುಡುಕು ಮೂಲಕ್ಕಿಂತ ಒಂದು ಹಂತ ಕೆಳಗಿನದನ್ನು ಮಾತ್ರ ಒಳಗೊಂಡಿರುತ್ತದೆ."
 
 #: ../addressbook/gui/component/ldap-config.glade.h:41
 #| msgid ""
@@ -3697,6 +3697,10 @@ msgid ""
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this address book."
 msgstr ""
+"ಈ ಮನವಿಗೆ ಪ್ರತ್ಯುತ್ತರವಾಗಿ ಪರಿಚಾರಕವು ಮರಳಿಸುವಂತೆ ಸಂರಚಿಸಲಾಗಿರುವುದಕ್ಕಿಂತ ಅಥವ \n"
+"ತೋರಿಸುವಂತೆ Evolution ಅನ್ನು ಸಂರಚಿಸಲಾಗಿರುವುದಕ್ಕಿಂತ ಹೆಚ್ಚಿನ ಕಾರ್ಡುಗಳು ತಾಳೆಯಾಗಿವೆ.\n"
+"ದಯವಿಟ್ಟು ಹುಡುಕಲು ಇನ್ನಷ್ಟು ಖಚಿತವಾದ ಹುಡುಕು ಪದಗಳನ್ನು ಬಳಸಿ ಅಥವ ಈ ವಿಳಾಸ ಪುಸ್ತಕಕ್ಕಾಗಿ\n "
+"ಡಿರೆಕ್ಟರಿ ಪರಿಚಾರಕದ ಆದ್ಯತೆಗಳಲ್ಲಿ ಫಲಿತಾಂಶದ ಮಿತಿಯನ್ನು ಹೆಚ್ಚಿಸಿ."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:177
 msgid ""
@@ -3705,6 +3709,10 @@ msgid ""
 "more specific or raise the time limit in the directory server\n"
 "preferences for this address book."
 msgstr ""
+"ಈ ಮನವಿಯನ್ನು ಕಾರ್ಯಗತಗೊಳಿಸಲು ಅಗತ್ಯವಿರುವ ಸಮಯವು ಪರಿಚಾರಕದ ಮಿತಿಯನ್ನು ಅಥವ ಈ \n"
+"ವಿಳಾಸ ಪುಸ್ತಕಕ್ಕಾಗಿ ಸಂರಚಿಸಲಾದ ಸಮಯವನ್ನು ಮೀರಿದೆ.  ದಯವಿಟ್ಟು ಹುಡುಕಲು ಇನ್ನಷ್ಟು\n"
+"ಖಚಿತವಾದಹುಡುಕು ಪದಗಳನ್ನು ಬಳಸಿ ಅಥವ ಈ ವಿಳಾಸ ಪುಸ್ತಕಕ್ಕಾಗಿ ಡಿರೆಕ್ಟರಿ ಪರಿಚಾರಕದ\n"
+"ಆದ್ಯತೆಗಳಲ್ಲಿ ಸಮಯದ ಮಿತಿಯನ್ನು ಹೆಚ್ಚಿಸಿ."
 
 #: ../addressbook/gui/widgets/eab-gui-util.c:183
 #| msgid "The backend for this addressbook was unable to parse this query."
@@ -4143,7 +4151,7 @@ msgid ""
 "The number of cards in one output file in asynchronous mode, default size "
 "100."
 msgstr ""
-"ಮೇಳೈಕೆ ಇಲ್ಲದ ಕ್ರಮದಲ್ಲಿರುವ ಒಂದು ಔಟ್‌ಪುಟ್‌ ಕಡತದಲ್ಲಿರುವ ಕಾರ್ಡುಗಳ ಸಂಖ್ಯೆ, ಪೂರ್ವನಿಯೋಜಿತ ಗಾತ್ರವು "
+"ಮೇಳೈಕೆ ಇಲ್ಲದ ಕ್ರಮದಲ್ಲಿರುವ ಒಂದು ಔಟ್‌ಪುಟ್‌ ಕಡತದಲ್ಲಿರುವ ಕಾರ್ಡುಗಳ ಸಂಖ್ಯೆ, ಡೀಫಾಲ್ಟ್ ಗಾತ್ರವು "
 "೧೦೦ ಆಗಿರುತ್ತದೆ."
 
 #: ../addressbook/tools/evolution-addressbook-export.c:64
@@ -4476,7 +4484,7 @@ msgstr "ಕ್ಯಾಲೆಂಡರನ್ನು ಜಾಲದ ಹೊರಗೆ ಬ
 
 #: ../calendar/calendar.error.xml.h:63
 msgid "The memo list is not marked for offline usage."
-msgstr "ಮೆಮೊ ಪಟ್ಟಿಯನ್ನು ಆಫ್‌ಲೈನ್‌ ಬಳಕಗೆ ಗುರುತು ಹಾಕಿಲ್ಲ"
+msgstr "ಮೆಮೊ ಪಟ್ಟಿಯನ್ನು ಆಫ್‌ಲೈನ್‌ ಬಳಕಗೆ ಗುರುತು ಹಾಕಿಲ್ಲ."
 
 #: ../calendar/calendar.error.xml.h:64
 msgid "The task list is not marked for offline usage."
@@ -4626,7 +4634,7 @@ msgstr "ಪೈಲಟ್‌ನ ಮೆಮೊ ಅನ್ವಯ ಬ್ಲಾಕ್ �
 
 #: ../calendar/conduits/todo/todo-conduit.c:241
 msgid "Default Priority:"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಆದ್ಯತೆಗಳು:"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಆದ್ಯತೆಗಳು:"
 
 #: ../calendar/conduits/todo/todo-conduit.c:1103
 #: ../calendar/conduits/todo/todo-conduit.c:1106
@@ -4825,6 +4833,10 @@ msgid ""
 "configured to send an email.  Evolution will display\n"
 "a normal reminder dialog box instead."
 msgstr ""
+"ಇಮೈಲ್‌ ಸೂಚನೆಗಳ ಮೂಲಕ ನೀಡಲಾಗುವ ಕ್ಯಾಲೆಂಡರಿನ ಜ್ಞಾಪನೆಯನ್ನು Evolution ನಲ್ಲಿ\n "
+"ಇನ್ನೂ ಸಹ ಬೆಂಬಲಿತವಾಗಿಲ್ಲ, ಆದರೆ ಮೈಲ್ ಅನ್ನು ಕಳುಹಿಸುವಂತೆ ಈ ಜ್ಞಾಪನೆಯನ್ನು \n"
+"ಸಂರಚಿಸಲಾಗಿದೆ.  ಬದಲಿಗೆ Evolution ಒಂದು ಸಾಮಾನ್ಯವಾದ \n"
+"ಜ್ಞಾಪನಾ ಸಂವಾದ ಪೆಟ್ಟಿಗೆಯನ್ನು ತೋರಿಸುತ್ತದೆ."
 
 #: ../calendar/gui/alarm-notify/alarm-queue.c:1728
 #, c-format
@@ -4919,11 +4931,11 @@ msgstr "ಅಲಾರಂಗಳನ್ನು ಚಲಾಯಿಸಬೇಕಿರು�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:7
 msgid "Color to draw the Marcus Bains Line in the Time bar (empty for default)."
-msgstr "ಸಮಯ ಪಟ್ಟಿಯಲ್ಲಿ ಮಾರ್ಕಸ್ ಬೇನ್ಸ್‍ ಗೆರೆಯನ್ನು ಎಳೆಯಲು ಬಣ್ಣ(ಪೂರ್ವನಿಯೋಜಿತಕ್ಕೆ ಖಾಲಿಯನ್ನು ಸೂಚಿಸುತ್ತದೆ)."
+msgstr "ಸಮಯ ಪಟ್ಟಿಯಲ್ಲಿ ಮಾರ್ಕಸ್ ಬೇನ್ಸ್‍ ಗೆರೆಯನ್ನು ಎಳೆಯಲು ಬಣ್ಣ(ಖಾಲಿ ಡೀಫಾಲ್ಟನ್ನು ಸೂಚಿಸುತ್ತದೆ)."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:8
 msgid "Color to draw the Marcus Bains line in the Day View."
-msgstr "ದಿನದ ನೋಟದಲ್ಲಿ ಮಾರ್ಕಸ್ ಬೇನ್ಸ್‍ ಗೆರೆಯನ್ನು ಎಳೆಯಲು ಬಣ್ಣ"
+msgstr "ದಿನದ ನೋಟದಲ್ಲಿ ಮಾರ್ಕಸ್ ಬೇನ್ಸ್‍ ಗೆರೆಯನ್ನು ಎಳೆಯಲು ಬಣ್ಣ."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:9
 msgid "Compress weekends in month view"
@@ -4939,15 +4951,15 @@ msgstr "ವಾರದ ಯಾವ ದಿನಗಳಿಗೆ ಕೆಲಸವನ್ನ
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:12
 msgid "Default appointment reminder"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಅಪಾಯಿಂಟ್‍ಮೆಂಟ್ ಜ್ಞಾಪನೆ"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಅಪಾಯಿಂಟ್‍ಮೆಂಟ್ ಜ್ಞಾಪನೆ"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:13
 msgid "Default reminder units"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಜ್ಞಾಪನೆಯ ಘಟಕಗಳು"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಜ್ಞಾಪನೆಯ ಘಟಕಗಳು"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:14
 msgid "Default reminder value"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಜ್ಞಾಪನೆಯ ಮೌಲ್ಯಗಳು"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಜ್ಞಾಪನೆಯ ಮೌಲ್ಯಗಳು"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:15
 msgid "Directory for saving alarm audio files"
@@ -4999,7 +5011,7 @@ msgstr "ಕೆಲಸದ ದಿನವು ಆರಂಭಗೊಳ್ಳುವ ಗಂ
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:27
 msgid "Intervals shown in Day and Work Week views, in minutes."
-msgstr "ದಿನ ಹಾಗು ಕೆಲಸದ ವಾರ ನೋಟಗಳಲ್ಲಿ ತೋರಿಸಲಾಗುವ ವಿರಾಮದ ಅವಧಿ, ಸೆಕಂಡುಗಳಲ್ಲಿ"
+msgstr "ದಿನ ಹಾಗು ಕೆಲಸದ ವಾರ ನೋಟಗಳಲ್ಲಿ ತೋರಿಸಲಾಗುವ ವಿರಾಮದ ಅವಧಿ, ಸೆಕಂಡುಗಳಲ್ಲಿ."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:28
 msgid "Last alarm time"
@@ -5058,7 +5070,7 @@ msgstr "ತಿಂಗಳ ನೋಟದಲ್ಲಿ ಲಂಬ ಫಲಕದ ಸ್�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:41
 msgid "Number of units for determining a default reminder."
-msgstr "ಒಂದು ಪೂರ್ವನಿಯೋಜಿತ ಜ್ಞಾಪನೆಯನ್ನು ನಿರ್ಧರಿಸುವ ಘಟಕಗಳ ಸಂಖ್ಯೆ."
+msgstr "ಒಂದು ಡೀಫಾಲ್ಟ್‍ ಜ್ಞಾಪನೆಯನ್ನು ನಿರ್ಧರಿಸುವ ಘಟಕಗಳ ಸಂಖ್ಯೆ."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:42
 msgid "Number of units for determining when to hide tasks."
@@ -5194,14 +5206,14 @@ msgstr "ಕಾರ್ಯಗಳ ಲಂಬ ಫಲಕದ ಸ್ಥಳ"
 msgid ""
 "The URL template to use as a free/busy data fallback, %u is replaced by the "
 "user part of the mail address and %d is replaced by the domain."
-msgstr ""
+msgstr "ಬಿಡುವು/ಕಾರ್ಯನಿರತ ಕಾಲ್‌ಬ್ಯಾಕ್ ಆಗಿ ಬಳಸಲು URL ನಮೂನೆ, %u ಅನ್ನು ನಿಮ್ಮ ಮೈಲ್ ವಿಳಾಸದೊಂದಿಗೆ ಬದಲಾಯಿಸಲಾಗುತ್ತದೆ ಹಾಗು %d ಅನ್ನು ಡೊಮೈನಿನಿಂದ ಬದಲಾಯಿಸಲಾಗುತ್ತದೆ."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:70
 msgid ""
 "The default timezone to use for dates and times in the calendar, as an "
 "untranslated Olsen timezone database location like \"America/New York\"."
 msgstr ""
-"ಕ್ಯಾಲೆಂಡರಿನಲ್ಲಿ ದಿನಾಂಕ ಹಾಗು ಸಮಯಗಳನ್ನು ತೋರಿಸಲು ಬಳಸಬೇಕಿರುವ ಪೂರ್ವನಿಯೋಜಿತ ಕಾಲವಲಯ, ಉದಾ, "
+"ಕ್ಯಾಲೆಂಡರಿನಲ್ಲಿ ದಿನಾಂಕ ಹಾಗು ಸಮಯಗಳನ್ನು ತೋರಿಸಲು ಬಳಸಬೇಕಿರುವ ಡೀಫಾಲ್ಟ್‍ ಕಾಲವಲಯ, ಉದಾ, "
 "\"ಅಮೇರಿಕಾ/ನ್ಯೂಯರ್ಕ್\" ನಂತಹ ಅನುವಾದಗೊಳ್ಳದ ಓಲ್ಸನ್ ಕಾಲವಲಯ ಸ್ಥಳದ ದತ್ತಾಂಶ."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:71
@@ -5225,7 +5237,7 @@ msgstr "ಕಾಲ ವರ್ಗಗಳು"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:74
 msgid "Time the last alarm ran, in time_t."
-msgstr "ಕೊನೆಯ ಬಾರಿಗೆ ಅಲಾರಂ ಚಲಾಯಿತಗೊಂಡ ಸಮಯ, time_t ಯಲ್ಲಿ"
+msgstr "ಕೊನೆಯ ಬಾರಿಗೆ ಅಲಾರಂ ಚಲಾಯಿತಗೊಂಡ ಸಮಯ, time_t ಯಲ್ಲಿ."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:75
 #: ../plugins/startup-wizard/startup-wizard.c:109
@@ -5246,7 +5258,7 @@ msgstr "ಇಪ್ಪತ್ನಾಲ್ಕು ಗಂಟೆಗಳ ಸಮಯದ ಮ
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:78
 msgid "Units for a default reminder, \"minutes\", \"hours\" or \"days\"."
-msgstr "ಒಂದು ಪೂರ್ವನಿಯೋಜಿತ ಜ್ಞಾಪನೆಗಾಗಿನ ಘಟಕಗಳು, \"ನಿಮಿಷಗಳು\", \"ಗಂಟೆಗಳು\" ಅಥವ \"ದಿನಗಳು\"."
+msgstr "ಒಂದು ಡೀಫಾಲ್ಟ್‍ ಜ್ಞಾಪನೆಗಾಗಿನ ಘಟಕಗಳು, \"ನಿಮಿಷಗಳು\", \"ಗಂಟೆಗಳು\" ಅಥವ \"ದಿನಗಳು\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:79
 msgid "Units for determining when to hide tasks, \"minutes\", \"hours\" or \"days\"."
@@ -5296,7 +5308,7 @@ msgstr "ಕಾರ್ಯಗಳ ಪಟ್ಟಿಯಲ್ಲಿ ಪೂರ್ಣಗ�
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:90
 msgid "Whether to set a default reminder for appointments."
-msgstr "ಅಪಾಯಿಂಟ್‌ಮೆಂಟುಗಳಿಗೆ ಪೂರ್ವನಿಯೋಜಿತ ಜ್ಞಾಪನೆಯನ್ನು ಇರಿಸಬೇಕೆ."
+msgstr "ಅಪಾಯಿಂಟ್‌ಮೆಂಟುಗಳಿಗೆ ಡೀಫಾಲ್ಟ್ ಜ್ಞಾಪನೆಯನ್ನು ಇರಿಸಬೇಕೆ."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:91
 msgid "Whether to show RSVP field in the event/task/meeting editor"
@@ -5673,7 +5685,7 @@ msgstr "ಸಾರಾಂಶವು ಇದನ್ನು ಹೊಂದಿದೆ"
 #: ../calendar/gui/caltypes.xml.h:19 ../calendar/gui/memotypes.xml.h:16
 #: ../calendar/gui/tasktypes.xml.h:25 ../mail/em-filter-i18n.h:10
 msgid "contains"
-msgstr "ಹೊಂದಿದೆ"
+msgstr "ಹೊಂದಿರುವ"
 
 #: ../calendar/gui/caltypes.xml.h:20 ../calendar/gui/memotypes.xml.h:17
 #: ../calendar/gui/tasktypes.xml.h:26 ../mail/em-filter-i18n.h:16
@@ -5683,12 +5695,12 @@ msgstr "ಹೊಂದಿಲ್ಲ"
 #: ../calendar/gui/caltypes.xml.h:21 ../calendar/gui/memotypes.xml.h:18
 #: ../calendar/gui/tasktypes.xml.h:27 ../mail/em-filter-i18n.h:30
 msgid "is"
-msgstr " "
+msgstr "ವು"
 
 #: ../calendar/gui/caltypes.xml.h:22 ../calendar/gui/memotypes.xml.h:19
 #: ../calendar/gui/tasktypes.xml.h:30 ../mail/em-filter-i18n.h:36
 msgid "is not"
-msgstr "ಇದಲ್ಲ"
+msgstr "ಆಗಿಲ್ಲ"
 
 #: ../calendar/gui/comp-editor-factory.c:409
 msgid "Error while opening the calendar"
@@ -5900,7 +5912,7 @@ msgstr "<span weight=\"bold\">ಎಚ್ಚರಿಕೆಗಳು</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 msgid "<span weight=\"bold\">Default Free/Busy Server</span>"
-msgstr "<span weight=\"bold\">ಪೂರ್ವನಿಯೋಜಿತ ಬಿಡುವು/ಕಾರ್ಯನಿರತ ಪರಿಚಾರಕ</span>"
+msgstr "<span weight=\"bold\">ಡೀಫಾಲ್ಟ್‍ ಬಿಡುವು/ಕಾರ್ಯನಿರತ ಪರಿಚಾರಕ</span>"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 #: ../mail/mail-config.glade.h:17
@@ -6546,7 +6558,7 @@ msgstr "ಉದ್ದೇಶಿತ ಸ್ಥಳವು ಕೇವಲ ಓದಲ ಮ�
 
 #: ../calendar/gui/dialogs/delete-comp.c:205
 msgid "_Delete this item from all other recipient's mailboxes?"
-msgstr "ಈ ಅಂಶವನ್ನು ಇದನ್ನು ಪಡೆಯುವ ಇನ್ನಿತರರ ಅಂಚೆಪೆಟ್ಟಿಗೆಗಳಿಂದ ಅಳಿಸಿಹಾಕಬೇಕೆ? (_D)"
+msgstr "ಈ ಅಂಶವನ್ನು ಇದನ್ನು ಪಡೆಯುವ ಇನ್ನಿತರರ ಅಂಚೆಪೆಟ್ಟಿಗೆಗಳಿಂದ ಅಳಿಸಿಹಾಕಬೇಕೆ(_D)?"
 
 #: ../calendar/gui/dialogs/delete-error.c:55
 msgid "The event could not be deleted due to a corba error"
@@ -6936,7 +6948,7 @@ msgstr "ಕಾರ್ಯಕ್ರಮವು ಪ್ರಾರಂಭಗೊಳ್ಳ�
 #. * (dropdown menu options are in [square brackets]). This means that after the 'on', name of a week day always follows.
 #: ../calendar/gui/dialogs/recurrence-page.c:961
 msgid "on"
-msgstr " "
+msgstr "ನಲ್ಲಿನ"
 
 #. TRANSLATORS: Entire string is for example: This appointment recurs/Every [x] month(s) on the [first] [Monday] [forever]'
 #. * (dropdown menu options are in [square brackets]). This means that after 'first', either the string 'day' or
@@ -7021,7 +7033,7 @@ msgstr "ದಿನ"
 #.
 #: ../calendar/gui/dialogs/recurrence-page.c:1241
 msgid "on the"
-msgstr " "
+msgstr "ನಲ್ಲಿನ"
 
 #: ../calendar/gui/dialogs/recurrence-page.c:1417
 msgid "occurrences"
@@ -7977,11 +7989,11 @@ msgstr "ಪ್ರಾಯಶಃ ಅಂಗೀಕರಿಸಲಾಗಿದೆ"
 msgid ""
 "The meeting has been canceled, however it could not be found in your "
 "calendars"
-msgstr "ಈ ಮೀಟಿಂಗ್ ರದ್ದು ಮಾಡಲ್ಪಟ್ಟಿದೆ, ಆದರೆ ಇದು ನಿಮ್ಮ ಕ್ಯಾಲೆಂಡರುಗಳಲ್ಲಿ ಕಂಡುಬಂದಿಲ್ಲ."
+msgstr "ಈ ಮೀಟಿಂಗ್ ರದ್ದು ಮಾಡಲ್ಪಟ್ಟಿದೆ, ಆದರೆ ಇದು ನಿಮ್ಮ ಕ್ಯಾಲೆಂಡರುಗಳಲ್ಲಿ ಕಂಡುಬಂದಿಲ್ಲ"
 
 #: ../calendar/gui/e-itip-control.c:1280
 msgid "The task has been canceled, however it could not be found in your task lists"
-msgstr "ಈ ಕಾರ್ಯವು ರದ್ದು ಮಾಡಲ್ಪಟ್ಟಿದೆ, ಆದರೆ ಇದು ನಿಮ್ಮ ಕಾರ್ಯಗಳ ಪಟ್ಟಿಯಲ್ಲಿ ಕಂಡುಬಂದಿಲ್ಲ."
+msgstr "ಈ ಕಾರ್ಯವು ರದ್ದು ಮಾಡಲ್ಪಟ್ಟಿದೆ, ಆದರೆ ಇದು ನಿಮ್ಮ ಕಾರ್ಯಗಳ ಪಟ್ಟಿಯಲ್ಲಿ ಕಂಡುಬಂದಿಲ್ಲ"
 
 #: ../calendar/gui/e-itip-control.c:1358
 #, c-format
@@ -8189,7 +8201,7 @@ msgstr "ಪಾಲ್ಗೊಳ್ಳುವವರ ಸ್ಥಿತಿಯು ಅಪ�
 #: ../calendar/gui/e-itip-control.c:2075
 #: ../plugins/itip-formatter/itip-formatter.c:1379
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr "ಒಂದು ಅಂಶವು ಅಸ್ತಿತ್ವದಲ್ಲಿರದ ಕಾರಣದಿಂದಾಗಿ ಪಾಲ್ಗೊಳ್ಳುವವರ ಸ್ಥಿತಿಯನ್ನು ಅಪ್ಡೇಟ್ ಮಾಡಲಾಗಿಲ್ಲ!"
+msgstr "ಒಂದು ಅಂಶವು ಅಸ್ತಿತ್ವದಲ್ಲಿರದ ಕಾರಣದಿಂದಾಗಿ ಪಾಲ್ಗೊಳ್ಳುವವರ ಸ್ಥಿತಿಯನ್ನು ಅಪ್ಡೇಟ್ ಮಾಡಲಾಗಿಲ್ಲ"
 
 #: ../calendar/gui/e-itip-control.c:2106 ../calendar/gui/e-itip-control.c:2163
 msgid "Item sent!\n"
@@ -9228,1528 +9240,1528 @@ msgstr "Evolution ಕ್ಯಾಲೆಂಡರ್ ಇಂಟೆಲಿಜೆಂಟ�
 #.
 #: ../calendar/zones.h:26
 msgid "Africa/Abidjan"
-msgstr "Africa/Abidjan"
+msgstr "ಆಫ್ರಿಕಾ/Abidjan"
 
 #: ../calendar/zones.h:27
 msgid "Africa/Accra"
-msgstr "Africa/Accra"
+msgstr "ಆಫ್ರಿಕಾ/Accra"
 
 #: ../calendar/zones.h:28
 msgid "Africa/Addis_Ababa"
-msgstr "Africa/Addis_Ababa"
+msgstr "ಆಫ್ರಿಕಾ/Addis_Ababa"
 
 #: ../calendar/zones.h:29
 msgid "Africa/Algiers"
-msgstr "Africa/Algiers"
+msgstr "ಆಫ್ರಿಕಾ/Algiers"
 
 #: ../calendar/zones.h:30
 msgid "Africa/Asmera"
-msgstr "Africa/Asmera"
+msgstr "ಆಫ್ರಿಕಾ/Asmera"
 
 #: ../calendar/zones.h:31
 msgid "Africa/Bamako"
-msgstr "Africa/Bamako"
+msgstr "ಆಫ್ರಿಕಾ/Bamako"
 
 #: ../calendar/zones.h:32
 msgid "Africa/Bangui"
-msgstr "Africa/Bangui"
+msgstr "ಆಫ್ರಿಕಾ/Bangui"
 
 #: ../calendar/zones.h:33
 msgid "Africa/Banjul"
-msgstr "Africa/Banjul"
+msgstr "ಆಫ್ರಿಕಾ/Banjul"
 
 #: ../calendar/zones.h:34
 msgid "Africa/Bissau"
-msgstr "Africa/Bissau"
+msgstr "ಆಫ್ರಿಕಾ/Bissau"
 
 #: ../calendar/zones.h:35
 msgid "Africa/Blantyre"
-msgstr "Africa/Blantyre"
+msgstr "ಆಫ್ರಿಕಾ/Blantyre"
 
 #: ../calendar/zones.h:36
 msgid "Africa/Brazzaville"
-msgstr "Africa/Brazzaville"
+msgstr "ಆಫ್ರಿಕಾ/Brazzaville"
 
 #: ../calendar/zones.h:37
 msgid "Africa/Bujumbura"
-msgstr "Africa/Bujumbura"
+msgstr "ಆಫ್ರಿಕಾ/Bujumbura"
 
 #: ../calendar/zones.h:38
 msgid "Africa/Cairo"
-msgstr "Africa/Cairo"
+msgstr "ಆಫ್ರಿಕಾ/Cairo"
 
 #: ../calendar/zones.h:39
 msgid "Africa/Casablanca"
-msgstr "Africa/Casablanca"
+msgstr "ಆಫ್ರಿಕಾ/Casablanca"
 
 #: ../calendar/zones.h:40
 msgid "Africa/Ceuta"
-msgstr "Africa/Ceuta"
+msgstr "ಆಫ್ರಿಕಾ/Ceuta"
 
 #: ../calendar/zones.h:41
 msgid "Africa/Conakry"
-msgstr "Africa/Conakry"
+msgstr "ಆಫ್ರಿಕಾ/Conakry"
 
 #: ../calendar/zones.h:42
 msgid "Africa/Dakar"
-msgstr "Africa/Dakar"
+msgstr "ಆಫ್ರಿಕಾ/Dakar"
 
 #: ../calendar/zones.h:43
 msgid "Africa/Dar_es_Salaam"
-msgstr "Africa/Dar_es_Salaam"
+msgstr "ಆಫ್ರಿಕಾ/Dar_es_Salaam"
 
 #: ../calendar/zones.h:44
 msgid "Africa/Djibouti"
-msgstr "Africa/Djibouti"
+msgstr "ಆಫ್ರಿಕಾ/Djibouti"
 
 #: ../calendar/zones.h:45
 msgid "Africa/Douala"
-msgstr "Africa/Douala"
+msgstr "ಆಫ್ರಿಕಾ/Douala"
 
 #: ../calendar/zones.h:46
 msgid "Africa/El_Aaiun"
-msgstr "Africa/El_Aaiun"
+msgstr "ಆಫ್ರಿಕಾ/El_Aaiun"
 
 #: ../calendar/zones.h:47
 msgid "Africa/Freetown"
-msgstr "Africa/Freetown"
+msgstr "ಆಫ್ರಿಕಾ/Freetown"
 
 #: ../calendar/zones.h:48
 msgid "Africa/Gaborone"
-msgstr "Africa/Gaborone"
+msgstr "ಆಫ್ರಿಕಾ/Gaborone"
 
 #: ../calendar/zones.h:49
 msgid "Africa/Harare"
-msgstr "Africa/Harare"
+msgstr "ಆಫ್ರಿಕಾ/Harare"
 
 #: ../calendar/zones.h:50
 msgid "Africa/Johannesburg"
-msgstr "Africa/Johannesburg"
+msgstr "ಆಫ್ರಿಕಾ/Johannesburg"
 
 #: ../calendar/zones.h:51
 msgid "Africa/Kampala"
-msgstr "Africa/Kampala"
+msgstr "ಆಫ್ರಿಕಾ/Kampala"
 
 #: ../calendar/zones.h:52
 msgid "Africa/Khartoum"
-msgstr "Africa/Khartoum"
+msgstr "ಆಫ್ರಿಕಾ/Khartoum"
 
 #: ../calendar/zones.h:53
 msgid "Africa/Kigali"
-msgstr "Africa/Kigali"
+msgstr "ಆಫ್ರಿಕಾ/Kigali"
 
 #: ../calendar/zones.h:54
 msgid "Africa/Kinshasa"
-msgstr "Africa/Kinshasa"
+msgstr "ಆಫ್ರಿಕಾ/Kinshasa"
 
 #: ../calendar/zones.h:55
 msgid "Africa/Lagos"
-msgstr "Africa/Lagos"
+msgstr "ಆಫ್ರಿಕಾ/Lagos"
 
 #: ../calendar/zones.h:56
 msgid "Africa/Libreville"
-msgstr "Africa/Libreville"
+msgstr "ಆಫ್ರಿಕಾ/Libreville"
 
 #: ../calendar/zones.h:57
 msgid "Africa/Lome"
-msgstr "Africa/Lome"
+msgstr "ಆಫ್ರಿಕಾ/Lome"
 
 #: ../calendar/zones.h:58
 msgid "Africa/Luanda"
-msgstr "Africa/Luanda"
+msgstr "ಆಫ್ರಿಕಾ/Luanda"
 
 #: ../calendar/zones.h:59
 msgid "Africa/Lubumbashi"
-msgstr "Africa/Lubumbashi"
+msgstr "ಆಫ್ರಿಕಾ/Lubumbashi"
 
 #: ../calendar/zones.h:60
 msgid "Africa/Lusaka"
-msgstr "Africa/Lusaka"
+msgstr "ಆಫ್ರಿಕಾ/Lusaka"
 
 #: ../calendar/zones.h:61
 msgid "Africa/Malabo"
-msgstr "Africa/Malabo"
+msgstr "ಆಫ್ರಿಕಾ/Malabo"
 
 #: ../calendar/zones.h:62
 msgid "Africa/Maputo"
-msgstr "Africa/Maputo"
+msgstr "ಆಫ್ರಿಕಾ/Maputo"
 
 #: ../calendar/zones.h:63
 msgid "Africa/Maseru"
-msgstr "Africa/Maseru"
+msgstr "ಆಫ್ರಿಕಾ/Maseru"
 
 #: ../calendar/zones.h:64
 msgid "Africa/Mbabane"
-msgstr "Africa/Mbabane"
+msgstr "ಆಫ್ರಿಕಾ/Mbabane"
 
 #: ../calendar/zones.h:65
 msgid "Africa/Mogadishu"
-msgstr "Africa/Mogadishu"
+msgstr "ಆಫ್ರಿಕಾ/Mogadishu"
 
 #: ../calendar/zones.h:66
 msgid "Africa/Monrovia"
-msgstr "Africa/Monrovia"
+msgstr "ಆಫ್ರಿಕಾ/Monrovia"
 
 #: ../calendar/zones.h:67
 msgid "Africa/Nairobi"
-msgstr "Africa/Nairobi"
+msgstr "ಆಫ್ರಿಕಾ/Nairobi"
 
 #: ../calendar/zones.h:68
 msgid "Africa/Ndjamena"
-msgstr "Africa/Ndjamena"
+msgstr "ಆಫ್ರಿಕಾ/Ndjamena"
 
 #: ../calendar/zones.h:69
 msgid "Africa/Niamey"
-msgstr "Africa/Niamey"
+msgstr "ಆಫ್ರಿಕಾ/Niamey"
 
 #: ../calendar/zones.h:70
 msgid "Africa/Nouakchott"
-msgstr "Africa/Nouakchott"
+msgstr "ಆಫ್ರಿಕಾ/Nouakchott"
 
 #: ../calendar/zones.h:71
 msgid "Africa/Ouagadougou"
-msgstr "Africa/Ouagadougou"
+msgstr "ಆಫ್ರಿಕಾ/Ouagadougou"
 
 #: ../calendar/zones.h:72
 msgid "Africa/Porto-Novo"
-msgstr "Africa/Porto-Novo"
+msgstr "ಆಫ್ರಿಕಾ/Porto-Novo"
 
 #: ../calendar/zones.h:73
 msgid "Africa/Sao_Tome"
-msgstr "Africa/Sao_Tome"
+msgstr "ಆಫ್ರಿಕಾ/Sao_Tome"
 
 #: ../calendar/zones.h:74
 msgid "Africa/Timbuktu"
-msgstr "Africa/Timbuktu"
+msgstr "ಆಫ್ರಿಕಾ/Timbuktu"
 
 #: ../calendar/zones.h:75
 msgid "Africa/Tripoli"
-msgstr "Africa/Tripoli"
+msgstr "ಆಫ್ರಿಕಾ/Tripoli"
 
 #: ../calendar/zones.h:76
 msgid "Africa/Tunis"
-msgstr "Africa/Tunis"
+msgstr "ಆಫ್ರಿಕಾ/Tunis"
 
 #: ../calendar/zones.h:77
 msgid "Africa/Windhoek"
-msgstr "Africa/Windhoek"
+msgstr "ಆಫ್ರಿಕಾ/Windhoek"
 
 #: ../calendar/zones.h:78
 msgid "America/Adak"
-msgstr "America/Adak"
+msgstr "ಆಮೆರಿಕಾ/Adak"
 
 #: ../calendar/zones.h:79
 msgid "America/Anchorage"
-msgstr "America/Anchorage"
+msgstr "ಆಮೆರಿಕಾ/Anchorage"
 
 #: ../calendar/zones.h:80
 msgid "America/Anguilla"
-msgstr "America/Anguilla"
+msgstr "ಆಮೆರಿಕಾ/Anguilla"
 
 #: ../calendar/zones.h:81
 msgid "America/Antigua"
-msgstr "America/Antigua"
+msgstr "ಆಮೆರಿಕಾ/Antigua"
 
 #: ../calendar/zones.h:82
 msgid "America/Araguaina"
-msgstr "America/Araguaina"
+msgstr "ಆಮೆರಿಕಾ/Araguaina"
 
 #: ../calendar/zones.h:83
 msgid "America/Aruba"
-msgstr "America/Aruba"
+msgstr "ಆಮೆರಿಕಾ/Aruba"
 
 #: ../calendar/zones.h:84
 msgid "America/Asuncion"
-msgstr "America/Asuncion"
+msgstr "ಆಮೆರಿಕಾ/Asuncion"
 
 #: ../calendar/zones.h:85
 msgid "America/Barbados"
-msgstr "America/Barbados"
+msgstr "ಆಮೆರಿಕಾ/Barbados"
 
 #: ../calendar/zones.h:86
 msgid "America/Belem"
-msgstr "America/Belem"
+msgstr "ಆಮೆರಿಕಾ/Belem"
 
 #: ../calendar/zones.h:87
 msgid "America/Belize"
-msgstr "America/Belize"
+msgstr "ಆಮೆರಿಕಾ/Belize"
 
 #: ../calendar/zones.h:88
 msgid "America/Boa_Vista"
-msgstr "America/Boa_Vista"
+msgstr "ಆಮೆರಿಕಾ/Boa_Vista"
 
 #: ../calendar/zones.h:89
 msgid "America/Bogota"
-msgstr "America/Bogota"
+msgstr "ಆಮೆರಿಕಾ/Bogota"
 
 #: ../calendar/zones.h:90
 msgid "America/Boise"
-msgstr "America/Boise"
+msgstr "ಆಮೆರಿಕಾ/Boise"
 
 #: ../calendar/zones.h:91
 msgid "America/Buenos_Aires"
-msgstr "America/Buenos_Aires"
+msgstr "ಆಮೆರಿಕಾ/Buenos_Aires"
 
 #: ../calendar/zones.h:92
 msgid "America/Cambridge_Bay"
-msgstr "America/Cambridge_Bay"
+msgstr "ಆಮೆರಿಕಾ/Cambridge_Bay"
 
 #: ../calendar/zones.h:93
 msgid "America/Cancun"
-msgstr "America/Cancun"
+msgstr "ಆಮೆರಿಕಾ/Cancun"
 
 #: ../calendar/zones.h:94
 msgid "America/Caracas"
-msgstr "America/Caracas"
+msgstr "ಆಮೆರಿಕಾ/Caracas"
 
 #: ../calendar/zones.h:95
 msgid "America/Catamarca"
-msgstr "America/Catamarca"
+msgstr "ಆಮೆರಿಕಾ/Catamarca"
 
 #: ../calendar/zones.h:96
 msgid "America/Cayenne"
-msgstr "America/Cayenne"
+msgstr "ಆಮೆರಿಕಾ/Cayenne"
 
 #: ../calendar/zones.h:97
 msgid "America/Cayman"
-msgstr "America/Cayman"
+msgstr "ಆಮೆರಿಕಾ/Cayman"
 
 #: ../calendar/zones.h:98
 msgid "America/Chicago"
-msgstr "America/Chicago"
+msgstr "ಆಮೆರಿಕಾ/Chicago"
 
 #: ../calendar/zones.h:99
 msgid "America/Chihuahua"
-msgstr "America/Chihuahua"
+msgstr "ಆಮೆರಿಕಾ/Chihuahua"
 
 #: ../calendar/zones.h:100
 msgid "America/Cordoba"
-msgstr "America/Cordoba"
+msgstr "ಆಮೆರಿಕಾ/Cordoba"
 
 #: ../calendar/zones.h:101
 msgid "America/Costa_Rica"
-msgstr "America/Costa_Rica"
+msgstr "ಆಮೆರಿಕಾ/Costa_Rica"
 
 #: ../calendar/zones.h:102
 msgid "America/Cuiaba"
-msgstr "America/Cuiaba"
+msgstr "ಆಮೆರಿಕಾ/Cuiaba"
 
 #: ../calendar/zones.h:103
 msgid "America/Curacao"
-msgstr "America/Curacao"
+msgstr "ಆಮೆರಿಕಾ/Curacao"
 
 #: ../calendar/zones.h:104
 msgid "America/Danmarkshavn"
-msgstr "America/Danmarkshavn"
+msgstr "ಆಮೆರಿಕಾ/Danmarkshavn"
 
 #: ../calendar/zones.h:105
 msgid "America/Dawson"
-msgstr "America/Dawson"
+msgstr "ಆಮೆರಿಕಾ/Dawson"
 
 #: ../calendar/zones.h:106
 msgid "America/Dawson_Creek"
-msgstr "America/Dawson_Creek"
+msgstr "ಆಮೆರಿಕಾ/Dawson_Creek"
 
 #: ../calendar/zones.h:107
 msgid "America/Denver"
-msgstr "America/Denver"
+msgstr "ಆಮೆರಿಕಾ/Denver"
 
 #: ../calendar/zones.h:108
 msgid "America/Detroit"
-msgstr "America/Detroit"
+msgstr "ಆಮೆರಿಕಾ/Detroit"
 
 #: ../calendar/zones.h:109
 msgid "America/Dominica"
-msgstr "America/Dominica"
+msgstr "ಆಮೆರಿಕಾ/Dominica"
 
 #: ../calendar/zones.h:110
 msgid "America/Edmonton"
-msgstr "America/Edmonton"
+msgstr "ಆಮೆರಿಕಾ/Edmonton"
 
 #: ../calendar/zones.h:111
 msgid "America/Eirunepe"
-msgstr "America/Eirunepe"
+msgstr "ಆಮೆರಿಕಾ/Eirunepe"
 
 #: ../calendar/zones.h:112
 msgid "America/El_Salvador"
-msgstr "America/El_Salvador"
+msgstr "ಆಮೆರಿಕಾ/El_Salvador"
 
 #: ../calendar/zones.h:113
 msgid "America/Fortaleza"
-msgstr "America/Fortaleza"
+msgstr "ಆಮೆರಿಕಾ/Fortaleza"
 
 #: ../calendar/zones.h:114
 msgid "America/Glace_Bay"
-msgstr "America/Glace_Bay"
+msgstr "ಆಮೆರಿಕಾ/Glace_Bay"
 
 #: ../calendar/zones.h:115
 msgid "America/Godthab"
-msgstr "America/Godthab"
+msgstr "ಆಮೆರಿಕಾ/Godthab"
 
 #: ../calendar/zones.h:116
 msgid "America/Goose_Bay"
-msgstr "America/Goose_Bay"
+msgstr "ಆಮೆರಿಕಾ/Goose_Bay"
 
 #: ../calendar/zones.h:117
 msgid "America/Grand_Turk"
-msgstr "America/Grand_Turk"
+msgstr "ಆಮೆರಿಕಾ/Grand_Turk"
 
 #: ../calendar/zones.h:118
 msgid "America/Grenada"
-msgstr "America/Grenada"
+msgstr "ಆಮೆರಿಕಾ/Grenada"
 
 #: ../calendar/zones.h:119
 msgid "America/Guadeloupe"
-msgstr "America/Guadeloupe"
+msgstr "ಆಮೆರಿಕಾ/Guadeloupe"
 
 #: ../calendar/zones.h:120
 msgid "America/Guatemala"
-msgstr "America/Guatemala"
+msgstr "ಆಮೆರಿಕಾ/Guatemala"
 
 #: ../calendar/zones.h:121
 msgid "America/Guayaquil"
-msgstr "America/Guayaquil"
+msgstr "ಆಮೆರಿಕಾ/Guayaquil"
 
 #: ../calendar/zones.h:122
 msgid "America/Guyana"
-msgstr "America/Guyana"
+msgstr "ಆಮೆರಿಕಾ/Guyana"
 
 #: ../calendar/zones.h:123
 msgid "America/Halifax"
-msgstr "America/Halifax"
+msgstr "ಆಮೆರಿಕಾ/Halifax"
 
 #: ../calendar/zones.h:124
 msgid "America/Havana"
-msgstr "America/Havana"
+msgstr "ಆಮೆರಿಕಾ/Havana"
 
 #: ../calendar/zones.h:125
 msgid "America/Hermosillo"
-msgstr "America/Hermosillo"
+msgstr "ಆಮೆರಿಕಾ/Hermosillo"
 
 #: ../calendar/zones.h:126
 msgid "America/Indiana/Indianapolis"
-msgstr "America/Indiana/Indianapolis"
+msgstr "ಆಮೆರಿಕಾ/ಇಂಡಿಯಾನ/ಇಂಡಿಯಾನಪೊಲಿಸ್"
 
 #: ../calendar/zones.h:127
 msgid "America/Indiana/Knox"
-msgstr "America/Indiana/Knox"
+msgstr "ಆಮೆರಿಕಾ/ಇಂಡಿಯಾನ/Knox"
 
 #: ../calendar/zones.h:128
 msgid "America/Indiana/Marengo"
-msgstr "America/Indiana/Marengo"
+msgstr "ಆಮೆರಿಕಾ/ಇಂಡಿಯಾನ/Marengo"
 
 #: ../calendar/zones.h:129
 msgid "America/Indiana/Vevay"
-msgstr "America/Indiana/Vevay"
+msgstr "ಆಮೆರಿಕಾ/ಇಂಡಿಯಾನ/Vevay"
 
 #: ../calendar/zones.h:130
 msgid "America/Indianapolis"
-msgstr "America/Indianapolis"
+msgstr "ಆಮೆರಿಕಾ/ಇಂಡಿಯಾನpolis"
 
 #: ../calendar/zones.h:131
 msgid "America/Inuvik"
-msgstr "America/Inuvik"
+msgstr "ಆಮೆರಿಕಾ/Inuvik"
 
 #: ../calendar/zones.h:132
 msgid "America/Iqaluit"
-msgstr "America/Iqaluit"
+msgstr "ಆಮೆರಿಕಾ/Iqaluit"
 
 #: ../calendar/zones.h:133
 msgid "America/Jamaica"
-msgstr "America/Jamaica"
+msgstr "ಆಮೆರಿಕಾ/Jamaica"
 
 #: ../calendar/zones.h:134
 msgid "America/Jujuy"
-msgstr "America/Jujuy"
+msgstr "ಆಮೆರಿಕಾ/Jujuy"
 
 #: ../calendar/zones.h:135
 msgid "America/Juneau"
-msgstr "America/Juneau"
+msgstr "ಆಮೆರಿಕಾ/Juneau"
 
 #: ../calendar/zones.h:136
 msgid "America/Kentucky/Louisville"
-msgstr "America/Kentucky/Louisville"
+msgstr "ಆಮೆರಿಕಾ/Kentucky/Louisville"
 
 #: ../calendar/zones.h:137
 msgid "America/Kentucky/Monticello"
-msgstr "America/Kentucky/Monticello"
+msgstr "ಆಮೆರಿಕಾ/Kentucky/Monticello"
 
 #: ../calendar/zones.h:138
 msgid "America/La_Paz"
-msgstr "America/La_Paz"
+msgstr "ಆಮೆರಿಕಾ/La_Paz"
 
 #: ../calendar/zones.h:139
 msgid "America/Lima"
-msgstr "America/Lima"
+msgstr "ಆಮೆರಿಕಾ/Lima"
 
 #: ../calendar/zones.h:140
 msgid "America/Los_Angeles"
-msgstr "America/Los_Angeles"
+msgstr "ಆಮೆರಿಕಾ/Los_Angeles"
 
 #: ../calendar/zones.h:141
 msgid "America/Louisville"
-msgstr "America/Louisville"
+msgstr "ಆಮೆರಿಕಾ/Louisville"
 
 #: ../calendar/zones.h:142
 msgid "America/Maceio"
-msgstr "America/Maceio"
+msgstr "ಆಮೆರಿಕಾ/Maceio"
 
 #: ../calendar/zones.h:143
 msgid "America/Managua"
-msgstr "America/Managua"
+msgstr "ಆಮೆರಿಕಾ/Managua"
 
 #: ../calendar/zones.h:144
 msgid "America/Manaus"
-msgstr "America/Manaus"
+msgstr "ಆಮೆರಿಕಾ/Manaus"
 
 #: ../calendar/zones.h:145
 msgid "America/Martinique"
-msgstr "America/Martinique"
+msgstr "ಆಮೆರಿಕಾ/Martinique"
 
 #: ../calendar/zones.h:146
 msgid "America/Mazatlan"
-msgstr "America/Mazatlan"
+msgstr "ಆಮೆರಿಕಾ/Mazatlan"
 
 #: ../calendar/zones.h:147
 msgid "America/Mendoza"
-msgstr "America/Mendoza"
+msgstr "ಆಮೆರಿಕಾ/Mendoza"
 
 #: ../calendar/zones.h:148
 msgid "America/Menominee"
-msgstr "America/Menominee"
+msgstr "ಆಮೆರಿಕಾ/Menominee"
 
 #: ../calendar/zones.h:149
 msgid "America/Merida"
-msgstr "America/Merida"
+msgstr "ಆಮೆರಿಕಾ/Merida"
 
 #: ../calendar/zones.h:150
 msgid "America/Mexico_City"
-msgstr "America/Mexico_City"
+msgstr "ಆಮೆರಿಕಾ/Mexico_City"
 
 #: ../calendar/zones.h:151
 msgid "America/Miquelon"
-msgstr "America/Miquelon"
+msgstr "ಆಮೆರಿಕಾ/Miquelon"
 
 #: ../calendar/zones.h:152
 msgid "America/Monterrey"
-msgstr "America/Monterrey"
+msgstr "ಆಮೆರಿಕಾ/Monterrey"
 
 #: ../calendar/zones.h:153
 msgid "America/Montevideo"
-msgstr "America/Montevideo"
+msgstr "ಆಮೆರಿಕಾ/Montevideo"
 
 #: ../calendar/zones.h:154
 msgid "America/Montreal"
-msgstr "America/Montreal"
+msgstr "ಆಮೆರಿಕಾ/Montreal"
 
 #: ../calendar/zones.h:155
 msgid "America/Montserrat"
-msgstr "America/Montserrat"
+msgstr "ಆಮೆರಿಕಾ/Montserrat"
 
 #: ../calendar/zones.h:156
 msgid "America/Nassau"
-msgstr "America/Nassau"
+msgstr "ಆಮೆರಿಕಾ/Nassau"
 
 #: ../calendar/zones.h:157
 #: ../widgets/e-timezone-dialog/e-timezone-dialog.glade.h:3
 msgid "America/New_York"
-msgstr "America/New_York"
+msgstr "ಆಮೆರಿಕಾ/New_York"
 
 #: ../calendar/zones.h:158
 msgid "America/Nipigon"
-msgstr "America/Nipigon"
+msgstr "ಆಮೆರಿಕಾ/Nipigon"
 
 #: ../calendar/zones.h:159
 msgid "America/Nome"
-msgstr "America/Nome"
+msgstr "ಆಮೆರಿಕಾ/Nome"
 
 #: ../calendar/zones.h:160
 msgid "America/Noronha"
-msgstr "America/Noronha"
+msgstr "ಆಮೆರಿಕಾ/Noronha"
 
 #: ../calendar/zones.h:161
 msgid "America/North_Dakota/Center"
-msgstr "America/North_Dakota/Center"
+msgstr "ಆಮೆರಿಕಾ/North_Dakota/Center"
 
 #: ../calendar/zones.h:162
 msgid "America/Panama"
-msgstr "America/Panama"
+msgstr "ಆಮೆರಿಕಾ/Panama"
 
 #: ../calendar/zones.h:163
 msgid "America/Pangnirtung"
-msgstr "America/Pangnirtung"
+msgstr "ಆಮೆರಿಕಾ/Pangnirtung"
 
 #: ../calendar/zones.h:164
 msgid "America/Paramaribo"
-msgstr "America/Paramaribo"
+msgstr "ಆಮೆರಿಕಾ/Paramaribo"
 
 #: ../calendar/zones.h:165
 msgid "America/Phoenix"
-msgstr "America/Phoenix"
+msgstr "ಆಮೆರಿಕಾ/Phoenix"
 
 #: ../calendar/zones.h:166
 msgid "America/Port-au-Prince"
-msgstr "America/Port-au-Prince"
+msgstr "ಆಮೆರಿಕಾ/Port-au-Prince"
 
 #: ../calendar/zones.h:167
 msgid "America/Port_of_Spain"
-msgstr "America/Port_of_Spain"
+msgstr "ಆಮೆರಿಕಾ/Port_of_Spain"
 
 #: ../calendar/zones.h:168
 msgid "America/Porto_Velho"
-msgstr "America/Porto_Velho"
+msgstr "ಆಮೆರಿಕಾ/Porto_Velho"
 
 #: ../calendar/zones.h:169
 msgid "America/Puerto_Rico"
-msgstr "America/Puerto_Rico"
+msgstr "ಆಮೆರಿಕಾ/Puerto_Rico"
 
 #: ../calendar/zones.h:170
 msgid "America/Rainy_River"
-msgstr "America/Rainy_River"
+msgstr "ಆಮೆರಿಕಾ/Rainy_River"
 
 #: ../calendar/zones.h:171
 msgid "America/Rankin_Inlet"
-msgstr "America/Rankin_Inlet"
+msgstr "ಆಮೆರಿಕಾ/Rankin_Inlet"
 
 #: ../calendar/zones.h:172
 msgid "America/Recife"
-msgstr "America/Recife"
+msgstr "ಆಮೆರಿಕಾ/Recife"
 
 #: ../calendar/zones.h:173
 msgid "America/Regina"
-msgstr "America/Regina"
+msgstr "ಆಮೆರಿಕಾ/Regina"
 
 #: ../calendar/zones.h:174
 msgid "America/Rio_Branco"
-msgstr "America/Rio_Branco"
+msgstr "ಆಮೆರಿಕಾ/Rio_Branco"
 
 #: ../calendar/zones.h:175
 msgid "America/Rosario"
-msgstr "America/Rosario"
+msgstr "ಆಮೆರಿಕಾ/Rosario"
 
 #: ../calendar/zones.h:176
 msgid "America/Santiago"
-msgstr "America/Santiago"
+msgstr "ಆಮೆರಿಕಾ/Santiago"
 
 #: ../calendar/zones.h:177
 msgid "America/Santo_Domingo"
-msgstr "America/Santo_Domingo"
+msgstr "ಆಮೆರಿಕಾ/Santo_Domingo"
 
 #: ../calendar/zones.h:178
 msgid "America/Sao_Paulo"
-msgstr "America/Sao_Paulo"
+msgstr "ಆಮೆರಿಕಾ/Sao_Paulo"
 
 #: ../calendar/zones.h:179
 msgid "America/Scoresbysund"
-msgstr "America/Scoresbysund"
+msgstr "ಆಮೆರಿಕಾ/Scoresbysund"
 
 #: ../calendar/zones.h:180
 msgid "America/Shiprock"
-msgstr "America/Shiprock"
+msgstr "ಆಮೆರಿಕಾ/Shiprock"
 
 #: ../calendar/zones.h:181
 msgid "America/St_Johns"
-msgstr "America/St_Johns"
+msgstr "ಆಮೆರಿಕಾ/St_Johns"
 
 #: ../calendar/zones.h:182
 msgid "America/St_Kitts"
-msgstr "America/St_Kitts"
+msgstr "ಆಮೆರಿಕಾ/St_Kitts"
 
 #: ../calendar/zones.h:183
 msgid "America/St_Lucia"
-msgstr "America/St_Lucia"
+msgstr "ಆಮೆರಿಕಾ/St_Lucia"
 
 #: ../calendar/zones.h:184
 msgid "America/St_Thomas"
-msgstr "America/St_Thomas"
+msgstr "ಆಮೆರಿಕಾ/St_Thomas"
 
 #: ../calendar/zones.h:185
 msgid "America/St_Vincent"
-msgstr "America/St_Vincent"
+msgstr "ಆಮೆರಿಕಾ/St_Vincent"
 
 #: ../calendar/zones.h:186
 msgid "America/Swift_Current"
-msgstr "America/Swift_Current"
+msgstr "ಆಮೆರಿಕಾ/Swift_Current"
 
 #: ../calendar/zones.h:187
 msgid "America/Tegucigalpa"
-msgstr "America/Tegucigalpa"
+msgstr "ಆಮೆರಿಕಾ/Tegucigalpa"
 
 #: ../calendar/zones.h:188
 msgid "America/Thule"
-msgstr "America/Thule"
+msgstr "ಆಮೆರಿಕಾ/Thule"
 
 #: ../calendar/zones.h:189
 msgid "America/Thunder_Bay"
-msgstr "America/Thunder_Bay"
+msgstr "ಆಮೆರಿಕಾ/Thunder_Bay"
 
 #: ../calendar/zones.h:190
 msgid "America/Tijuana"
-msgstr "America/Tijuana"
+msgstr "ಆಮೆರಿಕಾ/Tijuana"
 
 #: ../calendar/zones.h:191
 msgid "America/Tortola"
-msgstr "America/Tortola"
+msgstr "ಆಮೆರಿಕಾ/Tortola"
 
 #: ../calendar/zones.h:192
 msgid "America/Vancouver"
-msgstr "America/Vancouver"
+msgstr "ಆಮೆರಿಕಾ/Vancouver"
 
 #: ../calendar/zones.h:193
 msgid "America/Whitehorse"
-msgstr "America/Whitehorse"
+msgstr "ಆಮೆರಿಕಾ/Whitehorse"
 
 #: ../calendar/zones.h:194
 msgid "America/Winnipeg"
-msgstr "America/Winnipeg"
+msgstr "ಆಮೆರಿಕಾ/Winnipeg"
 
 #: ../calendar/zones.h:195
 msgid "America/Yakutat"
-msgstr "America/Yakutat"
+msgstr "ಆಮೆರಿಕಾ/Yakutat"
 
 #: ../calendar/zones.h:196
 msgid "America/Yellowknife"
-msgstr "America/Yellowknife"
+msgstr "ಆಮೆರಿಕಾ/Yellowknife"
 
 #: ../calendar/zones.h:197
 msgid "Antarctica/Casey"
-msgstr "Antarctica/Casey"
+msgstr "ಅಂಟಾರ್ಟಿಕಾ/Casey"
 
 #: ../calendar/zones.h:198
 msgid "Antarctica/Davis"
-msgstr "Antarctica/Davis"
+msgstr "ಅಂಟಾರ್ಟಿಕಾ/Davis"
 
 #: ../calendar/zones.h:199
 msgid "Antarctica/DumontDUrville"
-msgstr "Antarctica/DumontDUrville"
+msgstr "ಅಂಟಾರ್ಟಿಕಾ/DumontDUrville"
 
 #: ../calendar/zones.h:200
 msgid "Antarctica/Mawson"
-msgstr "Antarctica/Mawson"
+msgstr "ಅಂಟಾರ್ಟಿಕಾ/Mawson"
 
 #: ../calendar/zones.h:201
 msgid "Antarctica/McMurdo"
-msgstr "Antarctica/McMurdo"
+msgstr "ಅಂಟಾರ್ಟಿಕಾ/McMurdo"
 
 #: ../calendar/zones.h:202
 msgid "Antarctica/Palmer"
-msgstr "Antarctica/Palmer"
+msgstr "ಅಂಟಾರ್ಟಿಕಾ/Palmer"
 
 #: ../calendar/zones.h:203
 msgid "Antarctica/South_Pole"
-msgstr "Antarctica/South_Pole"
+msgstr "ಅಂಟಾರ್ಟಿಕಾ/South_Pole"
 
 #: ../calendar/zones.h:204
 msgid "Antarctica/Syowa"
-msgstr "Antarctica/Syowa"
+msgstr "ಅಂಟಾರ್ಟಿಕಾ/Syowa"
 
 #: ../calendar/zones.h:205
 msgid "Antarctica/Vostok"
-msgstr "Antarctica/Vostok"
+msgstr "ಅಂಟಾರ್ಟಿಕಾ/Vostok"
 
 #: ../calendar/zones.h:206
 msgid "Arctic/Longyearbyen"
-msgstr "Arctic/Longyearbyen"
+msgstr "ಆರ್ಕಟಿಕ್/Longyearbyen"
 
 #: ../calendar/zones.h:207
 msgid "Asia/Aden"
-msgstr "Asia/Aden"
+msgstr "ಏಶಿಯಾ/Aden"
 
 #: ../calendar/zones.h:208
 msgid "Asia/Almaty"
-msgstr "Asia/Almaty"
+msgstr "ಏಶಿಯಾ/Almaty"
 
 #: ../calendar/zones.h:209
 msgid "Asia/Amman"
-msgstr "Asia/Amman"
+msgstr "ಏಶಿಯಾ/Amman"
 
 #: ../calendar/zones.h:210
 msgid "Asia/Anadyr"
-msgstr "Asia/Anadyr"
+msgstr "ಏಶಿಯಾ/Anadyr"
 
 #: ../calendar/zones.h:211
 msgid "Asia/Aqtau"
-msgstr "Asia/Aqtau"
+msgstr "ಏಶಿಯಾ/Aqtau"
 
 #: ../calendar/zones.h:212
 msgid "Asia/Aqtobe"
-msgstr "Asia/Aqtobe"
+msgstr "ಏಶಿಯಾ/Aqtobe"
 
 #: ../calendar/zones.h:213
 msgid "Asia/Ashgabat"
-msgstr "Asia/Ashgabat"
+msgstr "ಏಶಿಯಾ/Ashgabat"
 
 #: ../calendar/zones.h:214
 msgid "Asia/Baghdad"
-msgstr "Asia/Baghdad"
+msgstr "ಏಶಿಯಾ/Baghdad"
 
 #: ../calendar/zones.h:215
 msgid "Asia/Bahrain"
-msgstr "Asia/Bahrain"
+msgstr "ಏಶಿಯಾ/Bahrain"
 
 #: ../calendar/zones.h:216
 msgid "Asia/Baku"
-msgstr "Asia/Baku"
+msgstr "ಏಶಿಯಾ/Baku"
 
 #: ../calendar/zones.h:217
 msgid "Asia/Bangkok"
-msgstr "Asia/Bangkok"
+msgstr "ಏಶಿಯಾ/Bangkok"
 
 #: ../calendar/zones.h:218
 msgid "Asia/Beirut"
-msgstr "Asia/Beirut"
+msgstr "ಏಶಿಯಾ/Beirut"
 
 #: ../calendar/zones.h:219
 msgid "Asia/Bishkek"
-msgstr "Asia/Bishkek"
+msgstr "ಏಶಿಯಾ/Bishkek"
 
 #: ../calendar/zones.h:220
 msgid "Asia/Brunei"
-msgstr "Asia/Brunei"
+msgstr "ಏಶಿಯಾ/Brunei"
 
 #: ../calendar/zones.h:221
 msgid "Asia/Calcutta"
-msgstr "Asia/Calcutta"
+msgstr "ಏಶಿಯಾ/Calcutta"
 
 #: ../calendar/zones.h:222
 msgid "Asia/Choibalsan"
-msgstr "Asia/Choibalsan"
+msgstr "ಏಶಿಯಾ/Choibalsan"
 
 #: ../calendar/zones.h:223
 msgid "Asia/Chongqing"
-msgstr "Asia/Chongqing"
+msgstr "ಏಶಿಯಾ/Chongqing"
 
 #: ../calendar/zones.h:224
 msgid "Asia/Colombo"
-msgstr "Asia/Colombo"
+msgstr "ಏಶಿಯಾ/Colombo"
 
 #: ../calendar/zones.h:225
 msgid "Asia/Damascus"
-msgstr "Asia/Damascus"
+msgstr "ಏಶಿಯಾ/Damascus"
 
 #: ../calendar/zones.h:226
 msgid "Asia/Dhaka"
-msgstr "Asia/Dhaka"
+msgstr "ಏಶಿಯಾ/Dhaka"
 
 #: ../calendar/zones.h:227
 msgid "Asia/Dili"
-msgstr "Asia/Dili"
+msgstr "ಏಶಿಯಾ/Dili"
 
 #: ../calendar/zones.h:228
 msgid "Asia/Dubai"
-msgstr "Asia/Dubai"
+msgstr "ಏಶಿಯಾ/Dubai"
 
 #: ../calendar/zones.h:229
 msgid "Asia/Dushanbe"
-msgstr "Asia/Dushanbe"
+msgstr "ಏಶಿಯಾ/Dushanbe"
 
 #: ../calendar/zones.h:230
 msgid "Asia/Gaza"
-msgstr "Asia/Gaza"
+msgstr "ಏಶಿಯಾ/Gaza"
 
 #: ../calendar/zones.h:231
 msgid "Asia/Harbin"
-msgstr "Asia/Harbin"
+msgstr "ಏಶಿಯಾ/Harbin"
 
 #: ../calendar/zones.h:232
 msgid "Asia/Hong_Kong"
-msgstr "Asia/Hong_Kong"
+msgstr "ಏಶಿಯಾ/Hong_Kong"
 
 #: ../calendar/zones.h:233
 msgid "Asia/Hovd"
-msgstr "Asia/Hovd"
+msgstr "ಏಶಿಯಾ/Hovd"
 
 #: ../calendar/zones.h:234
 msgid "Asia/Irkutsk"
-msgstr "Asia/Irkutsk"
+msgstr "ಏಶಿಯಾ/Irkutsk"
 
 #: ../calendar/zones.h:235
 msgid "Asia/Istanbul"
-msgstr "Asia/Istanbul"
+msgstr "ಏಶಿಯಾ/Istanbul"
 
 #: ../calendar/zones.h:236
 msgid "Asia/Jakarta"
-msgstr "Asia/Jakarta"
+msgstr "ಏಶಿಯಾ/Jakarta"
 
 #: ../calendar/zones.h:237
 msgid "Asia/Jayapura"
-msgstr "Asia/Jayapura"
+msgstr "ಏಶಿಯಾ/Jayapura"
 
 #: ../calendar/zones.h:238
 msgid "Asia/Jerusalem"
-msgstr "Asia/Jerusalem"
+msgstr "ಏಶಿಯಾ/Jerusalem"
 
 #: ../calendar/zones.h:239
 msgid "Asia/Kabul"
-msgstr "Asia/Kabul"
+msgstr "ಏಶಿಯಾ/Kabul"
 
 #: ../calendar/zones.h:240
 msgid "Asia/Kamchatka"
-msgstr "Asia/Kamchatka"
+msgstr "ಏಶಿಯಾ/Kamchatka"
 
 #: ../calendar/zones.h:241
 msgid "Asia/Karachi"
-msgstr "Asia/Karachi"
+msgstr "ಏಶಿಯಾ/Karachi"
 
 #: ../calendar/zones.h:242
 msgid "Asia/Kashgar"
-msgstr "Asia/Kashgar"
+msgstr "ಏಶಿಯಾ/Kashgar"
 
 #: ../calendar/zones.h:243
 msgid "Asia/Katmandu"
-msgstr "Asia/Katmandu"
+msgstr "ಏಶಿಯಾ/Katmandu"
 
 #: ../calendar/zones.h:244
 msgid "Asia/Krasnoyarsk"
-msgstr "Asia/Krasnoyarsk"
+msgstr "ಏಶಿಯಾ/Krasnoyarsk"
 
 #: ../calendar/zones.h:245
 msgid "Asia/Kuala_Lumpur"
-msgstr "Asia/Kuala_Lumpur"
+msgstr "ಏಶಿಯಾ/Kuala_Lumpur"
 
 #: ../calendar/zones.h:246
 msgid "Asia/Kuching"
-msgstr "Asia/Kuching"
+msgstr "ಏಶಿಯಾ/Kuching"
 
 #: ../calendar/zones.h:247
 msgid "Asia/Kuwait"
-msgstr "Asia/Kuwait"
+msgstr "ಏಶಿಯಾ/Kuwait"
 
 #: ../calendar/zones.h:248
 msgid "Asia/Macao"
-msgstr "Asia/Macao"
+msgstr "ಏಶಿಯಾ/Macao"
 
 #: ../calendar/zones.h:249
 msgid "Asia/Macau"
-msgstr "Asia/Macau"
+msgstr "ಏಶಿಯಾ/Macau"
 
 #: ../calendar/zones.h:250
 msgid "Asia/Magadan"
-msgstr "Asia/Magadan"
+msgstr "ಏಶಿಯಾ/Magadan"
 
 #: ../calendar/zones.h:251
 msgid "Asia/Makassar"
-msgstr "Asia/Makassar"
+msgstr "ಏಶಿಯಾ/Makassar"
 
 #: ../calendar/zones.h:252
 msgid "Asia/Manila"
-msgstr "Asia/Manila"
+msgstr "ಏಶಿಯಾ/Manila"
 
 #: ../calendar/zones.h:253
 msgid "Asia/Muscat"
-msgstr "Asia/Muscat"
+msgstr "ಏಶಿಯಾ/Muscat"
 
 #: ../calendar/zones.h:254
 msgid "Asia/Nicosia"
-msgstr "Asia/Nicosia"
+msgstr "ಏಶಿಯಾ/Nicosia"
 
 #: ../calendar/zones.h:255
 msgid "Asia/Novosibirsk"
-msgstr "Asia/Novosibirsk"
+msgstr "ಏಶಿಯಾ/Novosibirsk"
 
 #: ../calendar/zones.h:256
 msgid "Asia/Omsk"
-msgstr "Asia/Omsk"
+msgstr "ಏಶಿಯಾ/Omsk"
 
 #: ../calendar/zones.h:257
 msgid "Asia/Oral"
-msgstr "Asia/Oral"
+msgstr "ಏಶಿಯಾ/Oral"
 
 #: ../calendar/zones.h:258
 msgid "Asia/Phnom_Penh"
-msgstr "Asia/Phnom_Penh"
+msgstr "ಏಶಿಯಾ/Phnom_Penh"
 
 #: ../calendar/zones.h:259
 msgid "Asia/Pontianak"
-msgstr "Asia/Pontianak"
+msgstr "ಏಶಿಯಾ/Pontianak"
 
 #: ../calendar/zones.h:260
 msgid "Asia/Pyongyang"
-msgstr "Asia/Pyongyang"
+msgstr "ಏಶಿಯಾ/Pyongyang"
 
 #: ../calendar/zones.h:261
 msgid "Asia/Qatar"
-msgstr "Asia/Qatar"
+msgstr "ಏಶಿಯಾ/Qatar"
 
 #: ../calendar/zones.h:262
 msgid "Asia/Qyzylorda"
-msgstr "Asia/Qyzylorda"
+msgstr "ಏಶಿಯಾ/Qyzylorda"
 
 #: ../calendar/zones.h:263
 msgid "Asia/Rangoon"
-msgstr "Asia/Rangoon"
+msgstr "ಏಶಿಯಾ/Rangoon"
 
 #: ../calendar/zones.h:264
 msgid "Asia/Riyadh"
-msgstr "Asia/Riyadh"
+msgstr "ಏಶಿಯಾ/Riyadh"
 
 #: ../calendar/zones.h:265
 msgid "Asia/Saigon"
-msgstr "Asia/Saigon"
+msgstr "ಏಶಿಯಾ/Saigon"
 
 #: ../calendar/zones.h:266
 msgid "Asia/Sakhalin"
-msgstr "Asia/Sakhalin"
+msgstr "ಏಶಿಯಾ/Sakhalin"
 
 #: ../calendar/zones.h:267
 msgid "Asia/Samarkand"
-msgstr "Asia/Samarkand"
+msgstr "ಏಶಿಯಾ/Samarkand"
 
 #: ../calendar/zones.h:268
 msgid "Asia/Seoul"
-msgstr "Asia/Seoul"
+msgstr "ಏಶಿಯಾ/Seoul"
 
 #: ../calendar/zones.h:269
 msgid "Asia/Shanghai"
-msgstr "Asia/Shanghai"
+msgstr "ಏಶಿಯಾ/Shanghai"
 
 #: ../calendar/zones.h:270
 msgid "Asia/Singapore"
-msgstr "Asia/Singapore"
+msgstr "ಏಶಿಯಾ/Singapore"
 
 #: ../calendar/zones.h:271
 msgid "Asia/Taipei"
-msgstr "Asia/Taipei"
+msgstr "ಏಶಿಯಾ/Taipei"
 
 #: ../calendar/zones.h:272
 msgid "Asia/Tashkent"
-msgstr "Asia/Tashkent"
+msgstr "ಏಶಿಯಾ/Tashkent"
 
 #: ../calendar/zones.h:273
 msgid "Asia/Tbilisi"
-msgstr "Asia/Tbilisi"
+msgstr "ಏಶಿಯಾ/Tbilisi"
 
 #: ../calendar/zones.h:274
 msgid "Asia/Tehran"
-msgstr "Asia/Tehran"
+msgstr "ಏಶಿಯಾ/Tehran"
 
 #: ../calendar/zones.h:275
 msgid "Asia/Thimphu"
-msgstr "Asia/Thimphu"
+msgstr "ಏಶಿಯಾ/Thimphu"
 
 #: ../calendar/zones.h:276
 msgid "Asia/Tokyo"
-msgstr "Asia/Tokyo"
+msgstr "ಏಶಿಯಾ/Tokyo"
 
 #: ../calendar/zones.h:277
 msgid "Asia/Ujung_Pandang"
-msgstr "Asia/Ujung_Pandang"
+msgstr "ಏಶಿಯಾ/Ujung_Pandang"
 
 #: ../calendar/zones.h:278
 msgid "Asia/Ulaanbaatar"
-msgstr "Asia/Ulaanbaatar"
+msgstr "ಏಶಿಯಾ/Ulaanbaatar"
 
 #: ../calendar/zones.h:279
 msgid "Asia/Urumqi"
-msgstr "Asia/Urumqi"
+msgstr "ಏಶಿಯಾ/Urumqi"
 
 #: ../calendar/zones.h:280
 msgid "Asia/Vientiane"
-msgstr "Asia/Vientiane"
+msgstr "ಏಶಿಯಾ/Vientiane"
 
 #: ../calendar/zones.h:281
 msgid "Asia/Vladivostok"
-msgstr "Asia/Vladivostok"
+msgstr "ಏಶಿಯಾ/Vladivostok"
 
 #: ../calendar/zones.h:282
 msgid "Asia/Yakutsk"
-msgstr "Asia/Yakutsk"
+msgstr "ಏಶಿಯಾ/Yakutsk"
 
 #: ../calendar/zones.h:283
 msgid "Asia/Yekaterinburg"
-msgstr "Asia/Yekaterinburg"
+msgstr "ಏಶಿಯಾ/Yekaterinburg"
 
 #: ../calendar/zones.h:284
 msgid "Asia/Yerevan"
-msgstr "Asia/Yerevan"
+msgstr "ಏಶಿಯಾ/Yerevan"
 
 #: ../calendar/zones.h:285
 msgid "Atlantic/Azores"
-msgstr "Atlantic/Azores"
+msgstr "ಅಟ್ಲಾಂಟಿಕ್‌/Azores"
 
 #: ../calendar/zones.h:286
 msgid "Atlantic/Bermuda"
-msgstr "Atlantic/Bermuda"
+msgstr "ಅಟ್ಲಾಂಟಿಕ್‌/Bermuda"
 
 #: ../calendar/zones.h:287
 msgid "Atlantic/Canary"
-msgstr "Atlantic/Canary"
+msgstr "ಅಟ್ಲಾಂಟಿಕ್‌/Canary"
 
 #: ../calendar/zones.h:288
 msgid "Atlantic/Cape_Verde"
-msgstr "Atlantic/Cape_Verde"
+msgstr "ಅಟ್ಲಾಂಟಿಕ್‌/Cape_Verde"
 
 #: ../calendar/zones.h:289
 msgid "Atlantic/Faeroe"
-msgstr "Atlantic/Faeroe"
+msgstr "ಅಟ್ಲಾಂಟಿಕ್‌/Faeroe"
 
 #: ../calendar/zones.h:290
 msgid "Atlantic/Jan_Mayen"
-msgstr "Atlantic/Jan_Mayen"
+msgstr "ಅಟ್ಲಾಂಟಿಕ್‌/Jan_Mayen"
 
 #: ../calendar/zones.h:291
 msgid "Atlantic/Madeira"
-msgstr "Atlantic/Madeira"
+msgstr "ಅಟ್ಲಾಂಟಿಕ್‌/Madeira"
 
 #: ../calendar/zones.h:292
 msgid "Atlantic/Reykjavik"
-msgstr "Atlantic/Reykjavik"
+msgstr "ಅಟ್ಲಾಂಟಿಕ್‌/Reykjavik"
 
 #: ../calendar/zones.h:293
 msgid "Atlantic/South_Georgia"
-msgstr "Atlantic/South_Georgia"
+msgstr "ಅಟ್ಲಾಂಟಿಕ್‌/South_Georgia"
 
 #: ../calendar/zones.h:294
 msgid "Atlantic/St_Helena"
-msgstr "Atlantic/St_Helena"
+msgstr "ಅಟ್ಲಾಂಟಿಕ್‌/St_Helena"
 
 #: ../calendar/zones.h:295
 msgid "Atlantic/Stanley"
-msgstr "Atlantic/Stanley"
+msgstr "ಅಟ್ಲಾಂಟಿಕ್‌/Stanley"
 
 #: ../calendar/zones.h:296
 msgid "Australia/Adelaide"
-msgstr "Australia/Adelaide"
+msgstr "ಆಸ್ಟ್ರೇಲಿಯಾ/Adelaide"
 
 #: ../calendar/zones.h:297
 msgid "Australia/Brisbane"
-msgstr "Australia/Brisbane"
+msgstr "ಆಸ್ಟ್ರೇಲಿಯಾ/Brisbane"
 
 #: ../calendar/zones.h:298
 msgid "Australia/Broken_Hill"
-msgstr "Australia/Broken_Hill"
+msgstr "ಆಸ್ಟ್ರೇಲಿಯಾ/Broken_Hill"
 
 #: ../calendar/zones.h:299
 msgid "Australia/Darwin"
-msgstr "Australia/Darwin"
+msgstr "ಆಸ್ಟ್ರೇಲಿಯಾ/Darwin"
 
 #: ../calendar/zones.h:300
 msgid "Australia/Hobart"
-msgstr "Australia/Hobart"
+msgstr "ಆಸ್ಟ್ರೇಲಿಯಾ/Hobart"
 
 #: ../calendar/zones.h:301
 msgid "Australia/Lindeman"
-msgstr "Australia/Lindeman"
+msgstr "ಆಸ್ಟ್ರೇಲಿಯಾ/Lindeman"
 
 #: ../calendar/zones.h:302
 msgid "Australia/Lord_Howe"
-msgstr "Australia/Lord_Howe"
+msgstr "ಆಸ್ಟ್ರೇಲಿಯಾ/Lord_Howe"
 
 #: ../calendar/zones.h:303
 msgid "Australia/Melbourne"
-msgstr "Australia/Melbourne"
+msgstr "ಆಸ್ಟ್ರೇಲಿಯಾ/Melbourne"
 
 #: ../calendar/zones.h:304
 msgid "Australia/Perth"
-msgstr "Australia/Perth"
+msgstr "ಆಸ್ಟ್ರೇಲಿಯಾ/Perth"
 
 #: ../calendar/zones.h:305
 msgid "Australia/Sydney"
-msgstr "Australia/Sydney"
+msgstr "ಆಸ್ಟ್ರೇಲಿಯಾ/Sydney"
 
 #: ../calendar/zones.h:306
 msgid "Europe/Amsterdam"
-msgstr "Europe/Amsterdam"
+msgstr "ಯೂರೋಪ್‌/Amsterdam"
 
 #: ../calendar/zones.h:307
 msgid "Europe/Andorra"
-msgstr "Europe/Andorra"
+msgstr "ಯೂರೋಪ್‌/Andorra"
 
 #: ../calendar/zones.h:308
 msgid "Europe/Athens"
-msgstr "Europe/Athens"
+msgstr "ಯೂರೋಪ್‌/Athens"
 
 #: ../calendar/zones.h:309
 msgid "Europe/Belfast"
-msgstr "Europe/Belfast"
+msgstr "ಯೂರೋಪ್‌/Belfast"
 
 #: ../calendar/zones.h:310
 msgid "Europe/Belgrade"
-msgstr "Europe/Belgrade"
+msgstr "ಯೂರೋಪ್‌/Belgrade"
 
 #: ../calendar/zones.h:311
 msgid "Europe/Berlin"
-msgstr "Europe/Berlin"
+msgstr "ಯೂರೋಪ್‌/Berlin"
 
 #: ../calendar/zones.h:312
 msgid "Europe/Bratislava"
-msgstr "Europe/Bratislava"
+msgstr "ಯೂರೋಪ್‌/Bratislava"
 
 #: ../calendar/zones.h:313
 msgid "Europe/Brussels"
-msgstr "Europe/Brussels"
+msgstr "ಯೂರೋಪ್‌/Brussels"
 
 #: ../calendar/zones.h:314
 msgid "Europe/Bucharest"
-msgstr "Europe/Bucharest"
+msgstr "ಯೂರೋಪ್‌/Bucharest"
 
 #: ../calendar/zones.h:315
 msgid "Europe/Budapest"
-msgstr "Europe/Budapest"
+msgstr "ಯೂರೋಪ್‌/Budapest"
 
 #: ../calendar/zones.h:316
 msgid "Europe/Chisinau"
-msgstr "Europe/Chisinau"
+msgstr "ಯೂರೋಪ್‌/Chisinau"
 
 #: ../calendar/zones.h:317
 msgid "Europe/Copenhagen"
-msgstr "Europe/Copenhagen"
+msgstr "ಯೂರೋಪ್‌/Copenhagen"
 
 #: ../calendar/zones.h:318
 msgid "Europe/Dublin"
-msgstr "Europe/Dublin"
+msgstr "ಯೂರೋಪ್‌/Dublin"
 
 #: ../calendar/zones.h:319
 msgid "Europe/Gibraltar"
-msgstr "Europe/Gibraltar"
+msgstr "ಯೂರೋಪ್‌/Gibraltar"
 
 #: ../calendar/zones.h:320
 msgid "Europe/Helsinki"
-msgstr "Europe/Helsinki"
+msgstr "ಯೂರೋಪ್‌/Helsinki"
 
 #: ../calendar/zones.h:321
 msgid "Europe/Istanbul"
-msgstr "Europe/Istanbul"
+msgstr "ಯೂರೋಪ್‌/Istanbul"
 
 #: ../calendar/zones.h:322
 msgid "Europe/Kaliningrad"
-msgstr "Europe/Kaliningrad"
+msgstr "ಯೂರೋಪ್‌/Kaliningrad"
 
 #: ../calendar/zones.h:323
 msgid "Europe/Kiev"
-msgstr "Europe/Kiev"
+msgstr "ಯೂರೋಪ್‌/Kiev"
 
 #: ../calendar/zones.h:324
 msgid "Europe/Lisbon"
-msgstr "Europe/Lisbon"
+msgstr "ಯೂರೋಪ್‌/Lisbon"
 
 #: ../calendar/zones.h:325
 msgid "Europe/Ljubljana"
-msgstr "Europe/Ljubljana"
+msgstr "ಯೂರೋಪ್‌/Ljubljana"
 
 #: ../calendar/zones.h:326
 msgid "Europe/London"
-msgstr "Europe/London"
+msgstr "ಯೂರೋಪ್‌/London"
 
 #: ../calendar/zones.h:327
 msgid "Europe/Luxembourg"
-msgstr "Europe/Luxembourg"
+msgstr "ಯೂರೋಪ್‌/Luxembourg"
 
 #: ../calendar/zones.h:328
 msgid "Europe/Madrid"
-msgstr "Europe/Madrid"
+msgstr "ಯೂರೋಪ್‌/Madrid"
 
 #: ../calendar/zones.h:329
 msgid "Europe/Malta"
-msgstr "Europe/Malta"
+msgstr "ಯೂರೋಪ್‌/Malta"
 
 #: ../calendar/zones.h:330
 msgid "Europe/Minsk"
-msgstr "Europe/Minsk"
+msgstr "ಯೂರೋಪ್‌/Minsk"
 
 #: ../calendar/zones.h:331
 msgid "Europe/Monaco"
-msgstr "Europe/Monaco"
+msgstr "ಯೂರೋಪ್‌/Monaco"
 
 #: ../calendar/zones.h:332
 msgid "Europe/Moscow"
-msgstr "Europe/Moscow"
+msgstr "ಯೂರೋಪ್‌/Moscow"
 
 #: ../calendar/zones.h:333
 msgid "Europe/Nicosia"
-msgstr "Europe/Nicosia"
+msgstr "ಯೂರೋಪ್‌/Nicosia"
 
 #: ../calendar/zones.h:334
 msgid "Europe/Oslo"
-msgstr "Europe/Oslo"
+msgstr "ಯೂರೋಪ್‌/Oslo"
 
 #: ../calendar/zones.h:335
 msgid "Europe/Paris"
-msgstr "Europe/Paris"
+msgstr "ಯೂರೋಪ್‌/Paris"
 
 #: ../calendar/zones.h:336
 msgid "Europe/Prague"
-msgstr "Europe/Prague"
+msgstr "ಯೂರೋಪ್‌/Prague"
 
 #: ../calendar/zones.h:337
 msgid "Europe/Riga"
-msgstr "Europe/Riga"
+msgstr "ಯೂರೋಪ್‌/Riga"
 
 #: ../calendar/zones.h:338
 msgid "Europe/Rome"
-msgstr "Europe/Rome"
+msgstr "ಯೂರೋಪ್‌/Rome"
 
 #: ../calendar/zones.h:339
 msgid "Europe/Samara"
-msgstr "Europe/Samara"
+msgstr "ಯೂರೋಪ್‌/Samara"
 
 #: ../calendar/zones.h:340
 msgid "Europe/San_Marino"
-msgstr "Europe/San_Marino"
+msgstr "ಯೂರೋಪ್‌/San_Marino"
 
 #: ../calendar/zones.h:341
 msgid "Europe/Sarajevo"
-msgstr "Europe/Sarajevo"
+msgstr "ಯೂರೋಪ್‌/Sarajevo"
 
 #: ../calendar/zones.h:342
 msgid "Europe/Simferopol"
-msgstr "Europe/Simferopol"
+msgstr "ಯೂರೋಪ್‌/Simferopol"
 
 #: ../calendar/zones.h:343
 msgid "Europe/Skopje"
-msgstr "Europe/Skopje"
+msgstr "ಯೂರೋಪ್‌/Skopje"
 
 #: ../calendar/zones.h:344
 msgid "Europe/Sofia"
-msgstr "Europe/Sofia"
+msgstr "ಯೂರೋಪ್‌/ಸೋಫಿಯ"
 
 #: ../calendar/zones.h:345
 msgid "Europe/Stockholm"
-msgstr "Europe/Stockholm"
+msgstr "ಯೂರೋಪ್‌/ಸ್ಟಾಕ್‌ಹೋಂ"
 
 #: ../calendar/zones.h:346
 msgid "Europe/Tallinn"
-msgstr "Europe/Tallinn"
+msgstr "ಯೂರೋಪ್‌/ಟ್ಯಾಲಿನ್"
 
 #: ../calendar/zones.h:347
 msgid "Europe/Tirane"
-msgstr "Europe/Tirane"
+msgstr "ಯೂರೋಪ್‌/ಟಿರಾನೆ"
 
 #: ../calendar/zones.h:348
 msgid "Europe/Uzhgorod"
-msgstr "Europe/Uzhgorod"
+msgstr "ಯೂರೋಪ್‌/ಉಝ್‌ಗೊರೊಡ್"
 
 #: ../calendar/zones.h:349
 msgid "Europe/Vaduz"
-msgstr "Europe/Vaduz"
+msgstr "ಯೂರೋಪ್‌/ವಾಡುಝ್"
 
 #: ../calendar/zones.h:350
 msgid "Europe/Vatican"
-msgstr "Europe/Vatican"
+msgstr "ಯೂರೋಪ್‌/ವ್ಯಾಟಿಕನ್"
 
 #: ../calendar/zones.h:351
 msgid "Europe/Vienna"
-msgstr "Europe/Vienna"
+msgstr "ಯೂರೋಪ್‌/ವಿಯೆನ್ನಾ"
 
 #: ../calendar/zones.h:352
 msgid "Europe/Vilnius"
-msgstr "Europe/Vilnius"
+msgstr "ಯೂರೋಪ್‌/ವಿಲ್ನಿಯಸ್"
 
 #: ../calendar/zones.h:353
 msgid "Europe/Warsaw"
-msgstr "Europe/Warsaw"
+msgstr "ಯೂರೋಪ್‌/ವಾರ್ಸಾವ್"
 
 #: ../calendar/zones.h:354
 msgid "Europe/Zagreb"
-msgstr "Europe/Zagreb"
+msgstr "ಯೂರೋಪ್‌/ಝಗ್ರಾಬ್"
 
 #: ../calendar/zones.h:355
 msgid "Europe/Zaporozhye"
-msgstr "Europe/Zaporozhye"
+msgstr "ಯೂರೋಪ್‌/ಝಪೊರೊಝೈ"
 
 #: ../calendar/zones.h:356
 msgid "Europe/Zurich"
-msgstr "Europe/Zurich"
+msgstr "ಯೂರೋಪ್‌/ಜೂರಿಚ್"
 
 #: ../calendar/zones.h:357
 msgid "Indian/Antananarivo"
-msgstr "Indian/Antananarivo"
+msgstr "ಇಂಡಿಯನ್‌/ಅಂಟಾನಾನಾರಿವೊ"
 
 #: ../calendar/zones.h:358
 msgid "Indian/Chagos"
-msgstr "Indian/Chagos"
+msgstr "ಇಂಡಿಯನ್‌/ಚಾಗೋಸ್"
 
 #: ../calendar/zones.h:359
 msgid "Indian/Christmas"
-msgstr "Indian/Christmas"
+msgstr "ಇಂಡಿಯನ್‌/ಕ್ರಿಸ್‌ಮಸ್"
 
 #: ../calendar/zones.h:360
 msgid "Indian/Cocos"
-msgstr "Indian/Cocos"
+msgstr "ಇಂಡಿಯನ್‌/ಕೋಕೋಸ್"
 
 #: ../calendar/zones.h:361
 msgid "Indian/Comoro"
-msgstr "Indian/Comoro"
+msgstr "ಇಂಡಿಯನ್‌/ಕೊಮೊರೊ"
 
 #: ../calendar/zones.h:362
 msgid "Indian/Kerguelen"
-msgstr "Indian/Kerguelen"
+msgstr "ಇಂಡಿಯನ್‌/ಕರ್ಗ್ಯುಲೆನ್"
 
 #: ../calendar/zones.h:363
 msgid "Indian/Mahe"
-msgstr "Indian/Mahe"
+msgstr "ಇಂಡಿಯನ್‌/ಮಾಹೆ"
 
 #: ../calendar/zones.h:364
 msgid "Indian/Maldives"
-msgstr "Indian/Maldives"
+msgstr "ಇಂಡಿಯನ್‌/ಮಾಲ್ಡೀವ್ಸ್‌"
 
 #: ../calendar/zones.h:365
 msgid "Indian/Mauritius"
-msgstr "Indian/Mauritius"
+msgstr "ಇಂಡಿಯನ್‌/ಮಾರಿಶಸ್"
 
 #: ../calendar/zones.h:366
 msgid "Indian/Mayotte"
-msgstr "Indian/Mayotte"
+msgstr "ಇಂಡಿಯನ್‌/ಮೆಯೋಟ್‌"
 
 #: ../calendar/zones.h:367
 msgid "Indian/Reunion"
-msgstr "Indian/Reunion"
+msgstr "ಇಂಡಿಯನ್‌/ರಿಯೂನಿಯನ್"
 
 #: ../calendar/zones.h:368
 msgid "Pacific/Apia"
-msgstr "Pacific/Apia"
+msgstr "ಪೆಸಿಫಿಕ್/ಏಪಿಯ"
 
 #: ../calendar/zones.h:369
 msgid "Pacific/Auckland"
-msgstr "Pacific/Auckland"
+msgstr "ಪೆಸಿಫಿಕ್/ಆಕ್‌ಲ್ಯಾಂಡ್"
 
 #: ../calendar/zones.h:370
 msgid "Pacific/Chatham"
-msgstr "Pacific/Chatham"
+msgstr "ಪೆಸಿಫಿಕ್/ಚತಾಮ್"
 
 #: ../calendar/zones.h:371
 msgid "Pacific/Easter"
-msgstr "Pacific/Easter"
+msgstr "ಪೆಸಿಫಿಕ್/ಈಸ್ಟರ್"
 
 #: ../calendar/zones.h:372
 msgid "Pacific/Efate"
-msgstr "Pacific/Efate"
+msgstr "ಪೆಸಿಫಿಕ್/ಎಫಾಟೆ"
 
 #: ../calendar/zones.h:373
 msgid "Pacific/Enderbury"
-msgstr "Pacific/Enderbury"
+msgstr "ಪೆಸಿಫಿಕ್/ಎಂಡರ್ಬರಿ"
 
 #: ../calendar/zones.h:374
 msgid "Pacific/Fakaofo"
-msgstr "Pacific/Fakaofo"
+msgstr "ಪೆಸಿಫಿಕ್/ಫಕಾಫೊ"
 
 #: ../calendar/zones.h:375
 msgid "Pacific/Fiji"
-msgstr "Pacific/Fiji"
+msgstr "ಪೆಸಿಫಿಕ್/ಫಿಜಿ"
 
 #: ../calendar/zones.h:376
 msgid "Pacific/Funafuti"
-msgstr "Pacific/Funafuti"
+msgstr "ಪೆಸಿಫಿಕ್/ಫುನಾಫುಟಿ"
 
 #: ../calendar/zones.h:377
 msgid "Pacific/Galapagos"
-msgstr "Pacific/Galapagos"
+msgstr "ಪೆಸಿಫಿಕ್/ಗಾಲಾಪಾಗೋಸ್"
 
 #: ../calendar/zones.h:378
 msgid "Pacific/Gambier"
-msgstr "Pacific/Gambier"
+msgstr "ಪೆಸಿಫಿಕ್/ಗ್ಯಾಂಬಿಯರ್"
 
 #: ../calendar/zones.h:379
 msgid "Pacific/Guadalcanal"
-msgstr "Pacific/Guadalcanal"
+msgstr "ಪೆಸಿಫಿಕ್/ಗ್ವಾಡಾಲ್‌ಕೆನಾಲ್‌"
 
 #: ../calendar/zones.h:380
 msgid "Pacific/Guam"
-msgstr "Pacific/Guam"
+msgstr "ಪೆಸಿಫಿಕ್/ಗ್ವಾಮ್‌"
 
 #: ../calendar/zones.h:381
 msgid "Pacific/Honolulu"
-msgstr "Pacific/Honolulu"
+msgstr "ಪೆಸಿಫಿಕ್/ಹೊನಲುಲು"
 
 #: ../calendar/zones.h:382
 msgid "Pacific/Johnston"
-msgstr "Pacific/Johnston"
+msgstr "ಪೆಸಿಫಿಕ್/ಜಾನ್‌ಸ್ಟನ್‌"
 
 #: ../calendar/zones.h:383
 msgid "Pacific/Kiritimati"
-msgstr "Pacific/Kiritimati"
+msgstr "ಪೆಸಿಫಿಕ್/ಕಿರಿಟಿಮಾಟಿ"
 
 #: ../calendar/zones.h:384
 msgid "Pacific/Kosrae"
-msgstr "Pacific/Kosrae"
+msgstr "ಪೆಸಿಫಿಕ್/ಕೋಸ್ರೆ"
 
 #: ../calendar/zones.h:385
 msgid "Pacific/Kwajalein"
-msgstr "Pacific/Kwajalein"
+msgstr "ಪೆಸಿಫಿಕ್/ಕ್ವಾಜೆಲಿನ್"
 
 #: ../calendar/zones.h:386
 msgid "Pacific/Majuro"
-msgstr "Pacific/Majuro"
+msgstr "ಪೆಸಿಫಿಕ್/ಮಜುರೊ"
 
 #: ../calendar/zones.h:387
 msgid "Pacific/Marquesas"
-msgstr "Pacific/Marquesas"
+msgstr "ಪೆಸಿಫಿಕ್/ಮಾರ್ಕ್ವೆಸಾಸ್"
 
 #: ../calendar/zones.h:388
 msgid "Pacific/Midway"
-msgstr "Pacific/Midway"
+msgstr "ಪೆಸಿಫಿಕ್/ಮಿಡ್‌ವೇ"
 
 #: ../calendar/zones.h:389
 msgid "Pacific/Nauru"
-msgstr "Pacific/Nauru"
+msgstr "ಪೆಸಿಫಿಕ್/ನೌರು"
 
 #: ../calendar/zones.h:390
 msgid "Pacific/Niue"
-msgstr "Pacific/Niue"
+msgstr "ಪೆಸಿಫಿಕ್/ನಿಯು"
 
 #: ../calendar/zones.h:391
 msgid "Pacific/Norfolk"
-msgstr "Pacific/Norfolk"
+msgstr "ಪೆಸಿಫಿಕ್/ನಾರ್ಫೋಕ್"
 
 #: ../calendar/zones.h:392
 msgid "Pacific/Noumea"
-msgstr "Pacific/Noumea"
+msgstr "ಪೆಸಿಫಿಕ್/ನೌಮಿಯ"
 
 #: ../calendar/zones.h:393
 msgid "Pacific/Pago_Pago"
-msgstr "Pacific/Pago_Pago"
+msgstr "ಪೆಸಿಫಿಕ್/ಪ್ಯಾಗೊ_ಪ್ಯಾಗೊ"
 
 #: ../calendar/zones.h:394
 msgid "Pacific/Palau"
-msgstr "Pacific/Palau"
+msgstr "ಪೆಸಿಫಿಕ್/ಪಲಾವು"
 
 #: ../calendar/zones.h:395
 msgid "Pacific/Pitcairn"
-msgstr "Pacific/Pitcairn"
+msgstr "ಪೆಸಿಫಿಕ್/ಪಿಟ್‌ಕೈನ್"
 
 #: ../calendar/zones.h:396
 msgid "Pacific/Ponape"
-msgstr "Pacific/Ponape"
+msgstr "ಪೆಸಿಫಿಕ್/ಪೊನೇಪ್"
 
 #: ../calendar/zones.h:397
 msgid "Pacific/Port_Moresby"
-msgstr "Pacific/Port_Moresby"
+msgstr "ಪೆಸಿಫಿಕ್/ಪೋರ್ಟ್_ಮೋರ್ಸೆಬಿ"
 
 #: ../calendar/zones.h:398
 msgid "Pacific/Rarotonga"
-msgstr "Pacific/Rarotonga"
+msgstr "ಪೆಸಿಫಿಕ್/ರಾರೊಟೊಂಗ"
 
 #: ../calendar/zones.h:399
 msgid "Pacific/Saipan"
-msgstr "Pacific/Saipan"
+msgstr "ಪೆಸಿಫಿಕ್/ಸೈಪಾನ್"
 
 #: ../calendar/zones.h:400
 msgid "Pacific/Tahiti"
-msgstr "Pacific/Tahiti"
+msgstr "ಪೆಸಿಫಿಕ್/ತಾಹಿತಿ"
 
 #: ../calendar/zones.h:401
 msgid "Pacific/Tarawa"
-msgstr "Pacific/Tarawa"
+msgstr "ಪೆಸಿಫಿಕ್/ಟರಾವ"
 
 #: ../calendar/zones.h:402
 msgid "Pacific/Tongatapu"
-msgstr "Pacific/Tongatapu"
+msgstr "ಪೆಸಿಫಿಕ್/ಟೋಂಗಟಾಪು"
 
 #: ../calendar/zones.h:403
 msgid "Pacific/Truk"
-msgstr "Pacific/Truk"
+msgstr "ಪೆಸಿಫಿಕ್/ಟ್ರಕ್‌"
 
 #: ../calendar/zones.h:404
 msgid "Pacific/Wake"
-msgstr "Pacific/Wake"
+msgstr "ಪೆಸಿಫಿಕ್/ವೇಕ್‌"
 
 #: ../calendar/zones.h:405
 msgid "Pacific/Wallis"
-msgstr "Pacific/Wallis"
+msgstr "ಪೆಸಿಫಿಕ್/ವಾಲಿಸ್"
 
 #: ../calendar/zones.h:406
 msgid "Pacific/Yap"
-msgstr "Pacific/Yap"
+msgstr "ಪೆಸಿಫಿಕ್/ಯಾಪ್"
 
 #: ../composer/e-composer-autosave.c:273
 msgid "Could not open autosave file"
@@ -11017,7 +11029,7 @@ msgstr "ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಬೇಕಿರುವ �
 
 #: ../composer/e-composer-post-header.c:172
 msgid "Click here to select folders to post to"
-msgstr "ಯಾವ ಫೋಲ್ಡರುಗಳಿಗೆ ಕಳುಹಿಸಬೇಕು ಎಂದು ಆರಿಸಲು ಇಲ್ಲಿ ಕ್ಲಿಕ್ಕಿಸಿ."
+msgstr "ಯಾವ ಫೋಲ್ಡರುಗಳಿಗೆ ಕಳುಹಿಸಬೇಕು ಎಂದು ಆರಿಸಲು ಇಲ್ಲಿ ಕ್ಲಿಕ್ಕಿಸಿ"
 
 #: ../composer/e-composer-private.c:179 ../composer/e-msg-composer.c:1557
 msgid "Show _Attachment Bar"
@@ -11027,7 +11039,7 @@ msgstr "ಲಗತ್ತು ಪಟ್ಟಿಯನ್ನು ತೋರಿಸು(_A)
 msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 "ಹೊರ ಹೋಗುವ ಸಂದೇಶಗಳನ್ನು ಸಹಿ ಮಾಡಲಾಗಿಲ್ಲ. ಈ ಖಾತೆಗಾಗಿ ಯಾವುದೆ ಸಹಿ ಮಾಡುವ ಪ್ರಮಾಣಪತ್ರವನ್ನು "
-"ಹೊಂದಿಸಲಾಗಿಲ್ಲ."
+"ಹೊಂದಿಸಲಾಗಿಲ್ಲ"
 
 #: ../composer/e-msg-composer.c:873
 msgid ""
@@ -11067,7 +11079,7 @@ msgid ""
 "the mail to be sent without those pending attachments "
 msgstr ""
 " ಕೆಲವು ಲಗತ್ತಗಳನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲಾಗುತ್ತಿದೆ. ಈಗ ಮೈಲ್ ಅನ್ನು ಕಳುಹಿಸಿದರೆ, ಈ ಬಾಕಿ ಇರುವ "
-"ಲಗತ್ತುಗಳಿಲ್ಲದೆ ಕಳುಹಿಸಬೇಕಾದೀತು."
+"ಲಗತ್ತುಗಳಿಲ್ಲದೆ ಕಳುಹಿಸಬೇಕಾದೀತು "
 
 #: ../composer/mail-composer.error.xml.h:2
 msgid "All accounts have been removed."
@@ -11111,7 +11123,7 @@ msgstr "&quot;{0}&quot; ಸಹಿ ಕಡತವನ್ನು ಓದಲಾಗಿಲ
 
 #: ../composer/mail-composer.error.xml.h:10
 msgid "Could not retrieve messages to attach from {0}."
-msgstr "{0} ಕ್ಕೆ ಲಗತ್ತಿಸಲಾದ ಸಂದೇಶಗಳನ್ನು ಮರಳಿ ಪಡೆಯಲಾಗಿಲ್ಲ.."
+msgstr "{0} ಕ್ಕೆ ಲಗತ್ತಿಸಲಾದ ಸಂದೇಶಗಳನ್ನು ಮರಳಿ ಪಡೆಯಲಾಗಿಲ್ಲ."
 
 #: ../composer/mail-composer.error.xml.h:11
 msgid "Could not save to autosave file &quot;{0}&quot;."
@@ -11342,7 +11354,7 @@ msgstr "ಮುದ್ರಣಾ ವ್ಯವಸ್ಥೆಯು ದೋಷದ ಬಗ
 
 #: ../e-util/e-print.c:173
 msgid "The printing system did not report any additional details about the error."
-msgstr "ಮುದ್ರಣಾ ವ್ಯವಸ್ಥೆಯು ದೋಷದ ಬಗ್ಗೆ ಯಾವುದೆ ಹೆಚ್ಚುವರಿ ವಿವರಗಳನ್ನು ಒದಗಿಸಿಲ್ಲ:"
+msgstr "ಮುದ್ರಣಾ ವ್ಯವಸ್ಥೆಯು ದೋಷದ ಬಗ್ಗೆ ಯಾವುದೆ ಹೆಚ್ಚುವರಿ ವಿವರಗಳನ್ನು ಒದಗಿಸಿಲ್ಲ."
 
 #: ../e-util/e-system.error.xml.h:1 ../mail/mail.error.xml.h:19
 msgid "Because \"{1}\"."
@@ -11379,7 +11391,7 @@ msgstr "ಕೊಂಡಿಯನ್ನು ತೆರಯಲಾಗಲಿಲ್ಲ."
 
 #: ../e-util/e-util.c:174
 msgid "Could not display help for Evolution."
-msgstr "Evolution-ದತ್ತಾಂಶ-ಪರಿಚಾರಕವನ್ನು ಆರಂಭಿಸಲಾಗಿಲ್ಲ"
+msgstr "Evolution-ದತ್ತಾಂಶ-ಪರಿಚಾರಕವನ್ನು ಆರಂಭಿಸಲಾಗಿಲ್ಲ."
 
 #: ../e-util/e-util-labels.c:39
 msgid "I_mportant"
@@ -11881,7 +11893,7 @@ msgstr "ಇಮೈಲನ್ನು ಕಳುಹಿಸಲಾಗುತ್ತಿದ�
 
 #: ../mail/em-account-editor.c:2385 ../mail/mail-config.glade.h:67
 msgid "Defaults"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತಗಳು"
+msgstr "ಡೀಫಾಲ್ಟುಗಳು"
 
 #. Security settings
 #: ../mail/em-account-editor.c:2451 ../mail/mail-config.glade.h:132
@@ -11909,7 +11921,7 @@ msgstr "Evolution ಖಾತೆ ಸಹಾಯಕ"
 #. translators: default account indicator
 #: ../mail/em-account-prefs.c:429
 msgid "[Default]"
-msgstr "[ಪೂರ್ವನಿಯೋಜಿತ]"
+msgstr "[ಡೀಫಾಲ್ಟ್‍]"
 
 #: ../mail/em-account-prefs.c:488
 msgid "Account name"
@@ -12628,7 +12640,7 @@ msgstr "ಮೈಲಿಂಗ್ ಲಿಸ್ಟಿನ ಮೇಲೆ ಆಧರಿತ
 #: ../plugins/google-account-setup/google-source.c:510
 #: ../plugins/google-account-setup/google-source.c:708
 msgid "Default"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ"
+msgstr "ಡೀಫಾಲ್ಟ್‍"
 
 #: ../mail/em-folder-view.c:2518
 msgid "Unable to retrieve message"
@@ -13309,11 +13321,11 @@ msgstr "ಉಲ್ಲೇಖ ಸುಪ್ರಕಾಶದ ಬಣ್ಣ."
 
 #: ../mail/evolution-mail.schemas.in.h:12
 msgid "Composer Window default height"
-msgstr "ರಚನೆಗಾರ ವಿಂಡೋದ ಪೂರ್ವನಿಯೋಜಿತ ಉದ್ದ"
+msgstr "ರಚನೆಗಾರ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಉದ್ದ"
 
 #: ../mail/evolution-mail.schemas.in.h:13
 msgid "Composer Window default width"
-msgstr "ರಚನೆಗಾರ ವಿಂಡೋದ ಪೂರ್ವನಿಯೋಜಿತ ಅಗಲ"
+msgstr "ರಚನೆಗಾರ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಅಗಲ"
 
 #: ../mail/evolution-mail.schemas.in.h:14
 msgid "Composer load/attach directory"
@@ -13337,7 +13349,7 @@ msgstr "ಸ್ಥಳೀಯ ಬದಲಾವಣೆಗಳನ್ನು ದೂರಸ�
 
 #: ../mail/evolution-mail.schemas.in.h:18
 msgid "Custom headers to use while checking for junk."
-msgstr "ರದ್ದಿ ಅನ್ನು ಪರಿಶೀಲಿಸುವಾಗ ಪರಿಶಿಲಿಸಬೇಕಿರುವ ಬಳಸಬೇಕಿರುವ ಕಸ್ಟಮ್ ಹೆಡರ್"
+msgstr "ರದ್ದಿ ಅನ್ನು ಪರಿಶೀಲಿಸುವಾಗ ಪರಿಶಿಲಿಸಬೇಕಿರುವ ಬಳಸಬೇಕಿರುವ ಕಸ್ಟಮ್ ಹೆಡರ್."
 
 #: ../mail/evolution-mail.schemas.in.h:19
 msgid ""
@@ -13347,55 +13359,55 @@ msgstr "ರದ್ದಿಗಾಗಿ ಪರಿಶೀಲಿಸಲು ಬಳಸಬ�
 
 #: ../mail/evolution-mail.schemas.in.h:20
 msgid "Default charset in which to compose messages"
-msgstr "ಸಂದೇಶಗಳನ್ನು ರಚಿಸಲು ಬಳಸಬೇಕಿರುವ ಪೂರ್ವನಿಯೋಜಿತ ಕ್ಯಾರ್ಸೆಟ್"
+msgstr "ಸಂದೇಶಗಳನ್ನು ರಚಿಸಲು ಬಳಸಬೇಕಿರುವ ಡೀಫಾಲ್ಟ್‍ ಕ್ಯಾರ್ಸೆಟ್"
 
 #: ../mail/evolution-mail.schemas.in.h:21
 msgid "Default charset in which to compose messages."
-msgstr "ಸಂದೇಶಗಳನ್ನು ರಚಿಸಲು ಬಳಸಬೇಕಿರುವ ಪೂರ್ವನಿಯೋಜಿತ ಕ್ಯಾರ್ಸೆಟ್."
+msgstr "ಸಂದೇಶಗಳನ್ನು ರಚಿಸಲು ಬಳಸಬೇಕಿರುವ ಡೀಫಾಲ್ಟ್‍ ಕ್ಯಾರ್ಸೆಟ್."
 
 #: ../mail/evolution-mail.schemas.in.h:22
 msgid "Default charset in which to display messages"
-msgstr "ಸಂದೇಶಗಳನ್ನು ತೋರಿಸಲು ಬಳಸಬೇಕಿರುವ ಪೂರ್ವನಿಯೋಜಿತ ಕ್ಯಾರ್ಸೆಟ್"
+msgstr "ಸಂದೇಶಗಳನ್ನು ತೋರಿಸಲು ಬಳಸಬೇಕಿರುವ ಡೀಫಾಲ್ಟ್‍ ಕ್ಯಾರ್ಸೆಟ್"
 
 #: ../mail/evolution-mail.schemas.in.h:23
 msgid "Default charset in which to display messages."
-msgstr "ಸಂದೇಶಗಳನ್ನು ತೋರಿಸಲು ಬಳಸಬೇಕಿರುವ ಪೂರ್ವನಿಯೋಜಿತ ಕ್ಯಾರ್ಸೆಟ್."
+msgstr "ಸಂದೇಶಗಳನ್ನು ತೋರಿಸಲು ಬಳಸಬೇಕಿರುವ ಡೀಫಾಲ್ಟ್‍ ಕ್ಯಾರ್ಸೆಟ್."
 
 #: ../mail/evolution-mail.schemas.in.h:24
 msgid "Default forward style"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಫಾರ್ವಾರ್ಡ ಶೈಲಿ"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಫಾರ್ವಾರ್ಡ ಶೈಲಿ"
 
 #: ../mail/evolution-mail.schemas.in.h:25
 msgid "Default height of the Composer Window."
-msgstr "ರಚನೆಗಾರ ವಿಂಡೋದ ಪೂರ್ವನಿಯೋಜಿತ ಉದ್ದ."
+msgstr "ರಚನೆಗಾರ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಉದ್ದ."
 
 #: ../mail/evolution-mail.schemas.in.h:26
 msgid "Default height of the message window."
-msgstr "ಮುಖ್ಯ ವಿಂಡೋದ ಪೂರ್ವನಿಯೋಜಿತ ಉದ್ದ."
+msgstr "ಮುಖ್ಯ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಉದ್ದ."
 
 #: ../mail/evolution-mail.schemas.in.h:27
 msgid "Default height of the subscribe dialog."
-msgstr "ಚಂದಾದಾರಿಕೆ ಸಂವಾದದ ಪೂರ್ವನಿಯೋಜಿತ ಉದ್ದ."
+msgstr "ಚಂದಾದಾರಿಕೆ ಸಂವಾದದ ಡೀಫಾಲ್ಟ್‍ ಉದ್ದ."
 
 #: ../mail/evolution-mail.schemas.in.h:28
 msgid "Default reply style"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಪ್ರತ್ಯುತ್ತರ ಶೈಲಿ"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಪ್ರತ್ಯುತ್ತರ ಶೈಲಿ"
 
 #: ../mail/evolution-mail.schemas.in.h:29
 msgid "Default value for thread expand state"
-msgstr "ತ್ರೆಡ್ ವಿಸ್ತರಿಸಲಾದ ಸ್ಥಿತಿಯ ಪೂರ್ವನಿಯೋಜಿತ ಮೌಲ್ಯ"
+msgstr "ತ್ರೆಡ್ ವಿಸ್ತರಿಸಲಾದ ಸ್ಥಿತಿಯ ಡೀಫಾಲ್ಟ್‍ ಮೌಲ್ಯ"
 
 #: ../mail/evolution-mail.schemas.in.h:30
 msgid "Default width of the Composer Window."
-msgstr "ರಚನೆಗಾರ ವಿಂಡೋದ ಪೂರ್ವನಿಯೋಜಿತ ಅಗಲ."
+msgstr "ರಚನೆಗಾರ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಅಗಲ."
 
 #: ../mail/evolution-mail.schemas.in.h:31
 msgid "Default width of the message window."
-msgstr "ಸಂದೇಶ ವಿಂಡೋದ ಪೂರ್ವನಿಯೋಜಿತ ಅಗಲ."
+msgstr "ಸಂದೇಶ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಅಗಲ."
 
 #: ../mail/evolution-mail.schemas.in.h:32
 msgid "Default width of the subscribe dialog."
-msgstr "ಚಂದಾದಾರಿಕೆ ಸಂವಾದದ ಪೂರ್ವನಿಯೋಜಿತ ಅಗಲ"
+msgstr "ಚಂದಾದಾರಿಕೆ ಸಂವಾದದ ಡೀಫಾಲ್ಟ್‍ ಅಗಲ."
 
 #: ../mail/evolution-mail.schemas.in.h:33
 #| msgid ""
@@ -13406,7 +13418,7 @@ msgid ""
 "book only"
 msgstr ""
 "ರದ್ದಿ ಶೋಧನೆಗಾಗಿ ಕೇವಲ ಸ್ಥಳೀಯ ವಿಳಾಸ ಪುಸ್ತಕದಲ್ಲಿ ಮಾತ್ರ ವಿಳಾಸಕ್ಕಾಗಿ ನೋಡಬೇಕೆ ಎಂದೆ "
-"ನಿರ್ಧರಿಸುತ್ತದೆ."
+"ನಿರ್ಧರಿಸುತ್ತದೆ"
 
 #: ../mail/evolution-mail.schemas.in.h:34
 #| msgid "Determines whether to lookup in addressbook for sender email"
@@ -13419,7 +13431,7 @@ msgid ""
 "shouldn't be a spam. It looks up in the books marked for autocompletion. It "
 "can be slow, if remote address books (like LDAP) are marked for "
 "autocompletion."
-msgstr ""
+msgstr "ಕಳುಹಿಸಿದವರ ಇಮೈಲ್ ವಿಳಾಸಕ್ಕಾಗಿ ವಿಳಾಸಪುಸ್ತಕದಲ್ಲಿ ನೋಡಬೇಕೆ ಎಂದು ನಿರ್ಧರಿಸುತ್ತದೆ. ಕಂಡುಬಂದಲ್ಲಿ, ಇದು ಒಂದು ಸ್ಪ್ಯಾಮ್ ಎಂದು ಪರಿಗಣಿಸಲಾಗುವುದಿಲ್ಲ. ಸ್ವಯಂಪೂರ್ಣಗೊಳಿಕೆಗೆ ಗುರುತು ಹಾಕಲಾದ ಪುಸ್ತಕಗಳಲ್ಲಿ ಹುಡುಕುತ್ತದೆ. ಎಲ್ಲಿಯಾದರೂ ದೂರಸ್ಥ ವಿಳಾಸ ಪುಸ್ತಕಗಳನ್ನು (LDAP ನಂತಹ) ಸ್ವಯಂಪೂರ್ಣಗೊಳಿಕೆಗಾಗಿ ಗುರುತು ಹಾಕಲಾಗಿದ್ದರೆ, ಈ ಕಾರ್ಯಕ್ಕೆ ಒಂದಿಷ್ಟು ಸಮಯ ಹಿಡಿಯಬಹುದು."
 
 #: ../mail/evolution-mail.schemas.in.h:36
 msgid "Determines whether to use custom headers to check for junk"
@@ -13430,13 +13442,15 @@ msgid ""
 "Determines whether to use custom headers to check for junk. If this option "
 "is enabled and the headers are mentioned, it will be improve the junk "
 "checking speed."
-msgstr ""
+msgstr "ರದ್ದಿಗಾಗಿ ಇಚ್ಛೆಯ ಹೆಡರುಗಳನ್ನು ಬಳಸಬೇಕೆ ಎಂದು ನಿರ್ಧರಿಸುತ್ತದೆ. ಈ ಆಯ್ಕೆಯನ್ನು ಶಕ್ತಗೊಳಿಸಲಾಗಿದ್ದರೆ ಹಾಗು ಹೆಡರುಗಳನ್ನು ಶಕ್ತಗೊಳಿಸಲಾಗಿದ್ದರೆ, ಇದು ರದ್ದಿ ಪರಿಶೀಲನಾ ವೇಗವನ್ನು ಹೆಚ್ಚಿಸುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:38
 msgid ""
 "Determines whether to use the same fonts for both \"From\" and \"Subject\" "
 "lines in the \"Messages\" column in vertical view."
 msgstr ""
+"\"ಸಂದೇಶಗಳು\" ಲಂಬಸಾಲಿನ ಲಂಬ ನೋಟದಲ್ಲಿನ \"ಇಂದ\" ಹಾಗು \"ವಿಷಯ\" ಸಾಲುಗಳಲ್ಲಿ ಒಂದೇ ಬಗೆಯ "
+"ಅಕ್ಷರಶೈಲಿಯನ್ನು ಬಳಸಬೇಕೆ ಎಂದು ನಿರ್ಧರಿಸುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:39
 msgid "Directory for loading/attaching files to composer."
@@ -13448,7 +13462,7 @@ msgstr "ಮೈಲ್ ಘಟಕಗಳ ಕಡತಗಳನ್ನು ಉಳಿಸಲ
 
 #: ../mail/evolution-mail.schemas.in.h:41
 msgid "Disable or enable ellipsizing of folder names in side bar"
-msgstr ""
+msgstr "ಬದಿಯ ಪಟ್ಟಿಯಲ್ಲಿ ಕಡತಕೋಶದ ಹೆಸರುಗಳನ್ನು ದೀರ್ಘವೃತ್ತವಾಗಿಸುವಿಕೆಯನ್ನು ಅಶಕ್ತಗೊಳಿಸು ಅಥವ ಶಕ್ತಗೊಳಿಸು"
 
 #: ../mail/evolution-mail.schemas.in.h:42
 msgid "Draw spelling error indicators on words as you type."
@@ -13480,7 +13494,7 @@ msgstr "ಮಾಂತ್ರಿಕ ಸ್ಪೇಸ್‌ ಬಾರನ್ನು ಶ
 
 #: ../mail/evolution-mail.schemas.in.h:49
 msgid "Enable or disable type ahead search feature"
-msgstr ""
+msgstr "ನಮೂದಿಸಿದಂತೆಲ್ಲಾ ಹುಡುಕುವ ಸವಲತ್ತನ್ನು ಶಕ್ತಗೊಳಿಸು ಅಥವ ಅಶಕ್ತಗೊಳಿಸು"
 
 #: ../mail/evolution-mail.schemas.in.h:50
 msgid "Enable search folders"
@@ -13497,6 +13511,9 @@ msgid ""
 "bar by just typing the folder name and the selection jumps automatically to "
 "that folder."
 msgstr ""
+"ಪಠ್ಯದಲ್ಲಿ ಟೈಪ್‌ ಮಾಡುವ ಮೂಲಕ ಸಂವಾದಾತ್ಮಕವಾಗಿ ಹುಡುಕುವುದನ್ನು ಆರಂಭಿಸಲು ಬದಿ ಪಟ್ಟಿಕೆ ಹುಡುಕು "
+"ಸವಲತ್ತನ್ನು ಶಕ್ತಗೊಳಿಸಿ. ಇದರ ಉಪಯೋಗವೆಂದರೆ, ಬದಿಯ ಪಟ್ಟಿಕೆಯಲ್ಲಿ ಕೇವಲ ನಮೂದಿಸುವ ಮೂಲಕ ಆ "
+"ಫೋಲ್ಡರನ್ನು ನೀವು ಸುಲಭವಾಗಿ ಪತ್ತೆ ಮಾಡಬಹುದು ಹಾಗು ಆಯ್ಕೆಯು ತಾನಾಗಿಯೆ ಆ ಫೋಲ್ಡರಿಗೆ ಹೋಗುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:53
 msgid ""
@@ -13521,7 +13538,7 @@ msgid ""
 "Encode file names in the mail headers same as Outlook or GMail does, to let "
 "them understand localized file names sent by Evolution, because they do not "
 "follow the RFC 2231, but uses incorrect RFC 2047 standard."
-msgstr ""
+msgstr "Evolution ನಿಂದ ಕಳುಹಿಸಲಾದಂತಹ ಸ್ಥಳೀಯ ಭಾಷೆಗೆ ಅನುವಾದಿಸಲಾದ ಕಡತದ ಹೆಸರುಗಳನ್ನು ಅರ್ಥ ಮಾಡಿಕೊಳ್ಳುವಂತೆ Outlook ಅಥವ GMail ಮಾಡುವ ಹಾಗೆ ಕಡತದ ಹೆಸರುಗಳನ್ನು ಮೈಲ್‌ನಲ್ಲಿ ಎನ್ಕೋಡ್‌ ಮಾಡಿ, ಏಕೆಂದರೆ ಅವು RFC 2231 ಅನ್ನು ಅನುಸರಿಸುವುದಿಲ್ಲ, ಅದರೆ ತಪ್ಪಾದ RFC 2047 ಶಿಷ್ಟತೆಯನ್ನು ಬಳಸುತ್ತವೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:58
 msgid "Height of the message-list pane"
@@ -13554,7 +13571,7 @@ msgid ""
 "If there isn't a builtin viewer for a particular MIME type inside Evolution, "
 "any MIME types appearing in this list which map to a Bonobo component viewer "
 "in GNOME's MIME type database may be used for displaying content."
-msgstr ""
+msgstr "Evolution ನ ಒಳಗೆ ನಿಗದಿತ MIME ಬಗೆಗೆ ಒಂದು ಒಳನಿರ್ಮಿತ ವೀಕ್ಷಕವು ಇಲ್ಲದೆ ಹೋದಲ್ಲಿ, GNOME ನ MIME ಬಗೆಯ ದತ್ತಸಂಚಯದ Bonobo ಘಟಕ ವೀಕ್ಷಕಕ್ಕೆ ಹೊಂದುವ ಈ ಪಟ್ಟಿಯಲ್ಲಿ ಕಾಣಸಿಗುವ ಯಾವುದೆ MIME ಬಗೆಗಳನ್ನು ಬಳಸಬಹುದಾಗಿದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:64
 msgid ""
@@ -13572,12 +13589,18 @@ msgid ""
 "\" window cannot be maximized. This key exists only as an implementation "
 "detail."
 msgstr ""
+"\"ಮೈಲನ್ನು ಕಳುಹಿಸು ಹಾಗು ಸ್ವೀಕರಿಸು\" ವಿಂಡೋದ ಆರಂಭಿಕ ಗರಿಷ್ಟ ಸ್ಥಿತಿ. ಬಳಕೆದಾರರು ವಿಂಡೋವನ್ನು ಚಿಕ್ಕದಾಗಿಸಿದಾಗ "
+"ಅಥವ ದೊಡ್ಡದಾಗಿಸಿದಾಗ ಮೌಲ್ಯವು ಅಪ್‌ಡೇಟ್ ಮಾಡಲ್ಪಡುತ್ತದೆ. ಸೂಚನೆ, ಈ ನಿಗದಿತ ಮೌಲ್ಯವನ್ನು Evolution ಇಂದ "
+"ಬಳಸಲಾಗುವುದಿಲ್ಲ ಏಕೆಂದರೆ \"ಮೈಲನ್ನು ಕಳುಹಿಸು ಹಾಗು ಸ್ವೀಕರಿಸು \" ವಿಂಡೋವನ್ನು ದೊಡ್ಡದಾಗಿಸಲು ಸಾಧ್ಯವಿರುವುದಿಲ್ಲ. "
+"ಈ ಕೀಲಿಯು ಕೇವಲ ಅನ್ವಯಿಕಾ ವಿವರವಾಗಿ ಅಸ್ತಿತ್ವದಲ್ಲಿರುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:66
 msgid ""
 "Initial width of the \"Send and Receive Mail\" window. The value updates as "
 "the user resizes the window horizontally."
 msgstr ""
+"\"ಮೈಲನ್ನು ಕಳುಹಿಸು ಹಾಗು ಸ್ವೀಕರಿಸು\" ವಿಂಡೋದ ಆರಂಭಿಕ ಅಗಲ. ಬಳಕೆದಾರರು ವಿಂಡೋದ ಗಾತ್ರವನ್ನು ಲಂಬವಾಗಿ "
+"ಬದಲಾಯಿಸಿದಾಗ ಮೌಲ್ಯವು ಅಪ್‌ಡೇಟ್ ಮಾಡಲ್ಪಡುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:67
 msgid "It disables/enables the prompt while marking multiple messages."
@@ -13588,6 +13611,8 @@ msgid ""
 "It disables/enables the repeated prompts to ask if offline sync is required "
 "before going into offline mode."
 msgstr ""
+"ಆಫ್‌ಲೈನ್ ಸ್ಥಿತಿಗೆ ಹೋಗುವ ಮೊದಲು ಆಫ್‌ಲೈನ್‌ ಮೇಳೈಕೆಯ(ಸಿಂಕ್) ಅಗತ್ಯವಿದೆಯೆ ಎಂದು ಕೇಳುವ ಪುನರಾವರ್ತಿತ "
+"ಪ್ರಾಂಪ್ಟ್‌ ಅನ್ನು ಇದು ಶಕ್ತ/ಅಶಕ್ತಗೊಳಿಸುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:69
 msgid ""
@@ -13595,6 +13620,8 @@ msgid ""
 "a search folder permanently deletes the message, not simply removing it from "
 "the search results."
 msgstr ""
+"ಒಂದು ಹುಡುಕು ಕಡತಕೋಶದಿಂದ ಸಂದೇಶಗಳನ್ನು ಅಳಿಸಿದಾಗ ಅದು ಕೇವಲ ಹುಡುಕು ಫಲಿತಾಂಶದಿಂದ ಅಳಿಸಿ "
+"ಹಾಕದೆ ಶಾಶ್ವತವಾಗಿ ಅಳಿಸಿ ಹಾಕುತ್ತದೆ ಎಂದು ಎಚ್ಚರಿಸುವ ಪುನರಾವರ್ತಿತ ಪ್ರಾಂಪ್ಟ್‌ ಅನ್ನು ಇದು ಶಕ್ತ/ಅಶಕ್ತಗೊಳಿಸುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:70
 msgid "Last time empty junk was run"
@@ -13642,6 +13669,8 @@ msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
 msgstr ""
+"Evolution ನ ಮೈಲ್ ಘಟಕಕ್ಕೆ ತಿಳಿದಿರುವ ಲೇಬಲ್‌ಗಳ ಪಟ್ಟಿ. ಈ ಪಟ್ಟಿಯು ಹೆಸರು:ಬಣ್ಣವನ್ನು ಹೊಂದಿರುತ್ತದೆ "
+"ಇಲ್ಲಿ  ಬಣ್ಣವು HTML ಹೆಕ್ಸ್‌ ಎನ್ಕೋಡಿಂಗ್ ಅನ್ನು ಬಳಸುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:81
 msgid "List of protocol names whose license has been accepted."
@@ -13700,11 +13729,11 @@ msgstr "ಸಂದೇಶ \"ಮುನ್ನೋಟ\"ದಲ್ಲಿನ ಉಲ್ಲ
 
 #: ../mail/evolution-mail.schemas.in.h:92
 msgid "Message Window default height"
-msgstr "ಸಂದೇಶ ವಿಂಡೋದ ಪೂರ್ವನಿಯೋಜಿತ ಉದ್ದ"
+msgstr "ಸಂದೇಶ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಉದ್ದ"
 
 #: ../mail/evolution-mail.schemas.in.h:93
 msgid "Message Window default width"
-msgstr "ಸಂದೇಶ ವಿಂಡೋದ ಪೂರ್ವನಿಯೋಜಿತ ಅಗಲ"
+msgstr "ಸಂದೇಶ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಅಗಲ"
 
 #: ../mail/evolution-mail.schemas.in.h:94
 msgid "Message-display style (\"normal\", \"full headers\", \"source\")"
@@ -13712,11 +13741,11 @@ msgstr "ಸಂದೇಶ-ತೋರಿಸುವ ಶೈಲಿ (\"ಸಾಮಾನ್
 
 #: ../mail/evolution-mail.schemas.in.h:95
 msgid "Minimum days between emptying the junk on exit"
-msgstr "ನಿರ್ಗಮಿಸಿದ ನಂತರ ರದ್ದಿ ಅನ್ನು ಖಾಲಿ ಮಾಡುವ ನಡುವಿನ ಕನಿಷ್ಟ ದಿನಗಳು."
+msgstr "ನಿರ್ಗಮಿಸಿದ ನಂತರ ರದ್ದಿ ಅನ್ನು ಖಾಲಿ ಮಾಡುವ ನಡುವಿನ ಕನಿಷ್ಟ ದಿನಗಳು"
 
 #: ../mail/evolution-mail.schemas.in.h:96
 msgid "Minimum days between emptying the trash on exit"
-msgstr "ನಿರ್ಗಮಿಸಿದ ನಂತರ ಕಸದಬುಟ್ಟಿಯನ್ನು ಖಾಲಿ ಮಾಡುವ ನಡುವಿನ ಕನಿಷ್ಟ ದಿನಗಳು."
+msgstr "ನಿರ್ಗಮಿಸಿದ ನಂತರ ಕಸದಬುಟ್ಟಿಯನ್ನು ಖಾಲಿ ಮಾಡುವ ನಡುವಿನ ಕನಿಷ್ಟ ದಿನಗಳು"
 
 #: ../mail/evolution-mail.schemas.in.h:97
 msgid "Minimum time between emptying the junk on exit, in days."
@@ -13740,7 +13769,7 @@ msgstr "ಬಳಕೆದಾರರು ಒಂದು ಕಡತಕೋಶವನ್ನ�
 
 #: ../mail/evolution-mail.schemas.in.h:102
 msgid "Prompt the user when he or she tries to send a message without a Subject."
-msgstr "ಬಳಕೆದಾರರು ಒಂದು ವಿಷಯವನ್ನು ನಮೂದಿಸದೆ ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಲು ಪ್ರಯತ್ನಿಸಿದಾಗ ತಿಳಿಸು"
+msgstr "ಬಳಕೆದಾರರು ಒಂದು ವಿಷಯವನ್ನು ನಮೂದಿಸದೆ ಸಂದೇಶವನ್ನು ಕಳುಹಿಸಲು ಪ್ರಯತ್ನಿಸಿದಾಗ ತಿಳಿಸು."
 
 #: ../mail/evolution-mail.schemas.in.h:103
 msgid "Prompt to check if the user wants to go offline immediately"
@@ -13807,11 +13836,11 @@ msgstr "ಸ್ಥಳೀಯ ವಿಳಾಸ ಪುಸ್ತಕಗಳಲ್ಲಿ 
 
 #: ../mail/evolution-mail.schemas.in.h:117
 msgid "Send HTML mail by default"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತವಾಗಿ HTML ಮೈಲನ್ನು ಕಳುಹಿಸು"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಆಗಿ HTML ಮೈಲನ್ನು ಕಳುಹಿಸು"
 
 #: ../mail/evolution-mail.schemas.in.h:118
 msgid "Send HTML mail by default."
-msgstr "ಪೂರ್ವನಿಯೋಜಿತವಾಗಿ HTML ಮೈಲನ್ನು ಕಳುಹಿಸು."
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಆಗಿ HTML ಮೈಲನ್ನು ಕಳುಹಿಸು."
 
 #: ../mail/evolution-mail.schemas.in.h:119
 msgid "Sender email-address column in the message list"
@@ -13865,11 +13894,11 @@ msgstr "ಕಾಗುಣಿತ ಪರೀಕ್ಷೆಯ ಭಾಷೆ"
 
 #: ../mail/evolution-mail.schemas.in.h:133
 msgid "Subscribe dialog default height"
-msgstr "ಚಂದಾದಾರ ಸಂವಾದದ ಪೂರ್ವನಿಯೋಜಿತ ಉದ್ದ"
+msgstr "ಚಂದಾದಾರ ಸಂವಾದದ ಡೀಫಾಲ್ಟ್‍ ಉದ್ದ"
 
 #: ../mail/evolution-mail.schemas.in.h:134
 msgid "Subscribe dialog default width"
-msgstr "ಚಂದಾದಾರ ಸಂವಾದದ ಪೂರ್ವನಿಯೋಜಿತ ಅಗಲ"
+msgstr "ಚಂದಾದಾರ ಸಂವಾದದ ಡೀಫಾಲ್ಟ್‍ ಅಗಲ"
 
 #: ../mail/evolution-mail.schemas.in.h:135
 msgid "Terminal font"
@@ -13881,7 +13910,7 @@ msgstr "ಪಠ್ಯ ಸಂದೇಶದ ಭಾಗದ ಮಿತಿ"
 
 #: ../mail/evolution-mail.schemas.in.h:137
 msgid "The default plugin for Junk hook"
-msgstr "ರದ್ದಿ ಹುಕ್‌ಗಾಗಿನ ಪೂರ್ವನಿಯೋಜಿತ ಪ್ಲಗ್ಇನ್"
+msgstr "ರದ್ದಿ ಹುಕ್‌ಗಾಗಿನ ಡೀಫಾಲ್ಟ್‍ ಪ್ಲಗ್ಇನ್"
 
 #: ../mail/evolution-mail.schemas.in.h:138
 msgid "The last time empty junk was run, in days since the epoch."
@@ -13912,6 +13941,8 @@ msgid ""
 "This decides the max size of the text part that can be formatted under "
 "Evolution. The default is 4MB / 4096 KB and is specified in terms of KB."
 msgstr ""
+"Evolution ಅಡಿಯಲ್ಲಿ ಫಾರ್ಮಾಟ್ ಮಾಡಬಹುದಾದ ಪಠ್ಯದ ಭಾಗದ ಗರಿಷ್ಟ ಗಾತ್ರವನ್ನು ಇದು ನಿರ್ಧರಿಸುತ್ತದೆ. "
+"ಪೂರ್ವನಿಯೋಜಿತವು 4MB / 4096 KB ಆಗಿದೆ ಹಾಗು ಇದನ್ನು KB ಯಲ್ಲಿ ಸೂಚಿಸಲಾಗುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:144
 msgid ""
@@ -13919,12 +13950,17 @@ msgid ""
 "enabled. If the default listed plugin is disabled, then it won't fall back "
 "to the other available plugins."
 msgstr ""
+"ಹಲವಾರು ಪ್ಲಗ್‌ಇನ್‌ಗಳನ್ನು ಶಕ್ತಗೊಳಿಸಲಾಗಿದ್ದರೂ ಇದು ಒಂದು ಪೂರ್ವನಿಯೋಜಿತ ರದ್ದಿ ಪ್ಲಗ್‌ಇನ್ ಆಗಿರುತ್ತದೆ. "
+"ಪೂರ್ವನಿಯೋಜಿತವಾಗಿ ಪಟ್ಟಿ ಮಾಡಲಾದ ಪ್ಲಗ್‌ಇನ್‌ ಅನ್ನು ಅಶಕ್ತಗೊಳಿಸಲಾಗಿದ್ದರೆ, ಅದು ಲಭ್ಯವಿರುವ "
+"ಬೇರೆ ಪ್ಲಗ್‌ಇನ್‌ಗೆ ಮರಳುವುದಿಲ್ಲ."
 
 #: ../mail/evolution-mail.schemas.in.h:145
 msgid ""
 "This key is read only once and reset to \"false\" after read. This unselects "
 "the mail in the list and removes the preview for that folder."
 msgstr ""
+"ಈ ಕೀಲಿಯು ಓದಲು ಮಾತ್ರವಾಗಿರುತ್ತದೆ ಹಾಗು ಓದಿದ ನಂತರ \"false\" ಗೆ ಬದಲಾಯಿಸಲಾಗುತ್ತದೆ. ಇದು ಪಟ್ಟಿಯಲ್ಲಿನ "
+"ಮೈಲ್‌ನ ಆಯ್ಕೆಯನ್ನು ರದ್ದುಗೊಳಿಸುತ್ತದೆ ಹಾಗು ಕಡತಕೋಶಕ್ಕಾಗಿನ ಮುನ್ನೋಟವನ್ನು ತೆಗೆದು ಹಾಕುತ್ತದೆ ."
 
 #: ../mail/evolution-mail.schemas.in.h:146
 msgid ""
@@ -13933,6 +13969,9 @@ msgid ""
 "header enabled&gt; - set enabled if the header is to be displayed in the "
 "mail view."
 msgstr ""
+"ಈ ಕೀಲಿಯು XML ಇಚ್ಛೆಯ ಹೆಡರುಗಳನ್ನು ಸೂಚಿಸುವ ರಚನೆಗಳ ಒಂದು ಪಟ್ಟಿಯನ್ನು ಹೊಂದಿರಬೇಕು, ಹಾಗು"
+"ಅವನ್ನು ತೋರಿಸಬೇಕೆ ಎಂದು ನಿರ್ಧರಿಸುತ್ತದೆ. ಹೆಡರನ್ನು ಮೈಲ್ ನೋಟದಲ್ಲಿ ತೋರಿಸಬೇಕಿದ್ದರೆ XML ರಚನೆಯ "
+"ವಿನ್ಯಾಸವು &lt;header enabled&gt; - ಸೆಟ್ ಶಕ್ತಗೊಂಡಿರುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:147
 msgid ""
@@ -13940,6 +13979,9 @@ msgid ""
 "determine whether to look up addresses in local address book only to exclude "
 "mail sent by known contacts from junk filtering."
 msgstr ""
+"ಈ ಆಯ್ಕೆಯು ಕೀಲಿ lookup_addressbook ಸಂಬಂಧಿತವಾಗಿದೆ ಹಾಗು ರದ್ದಿಯನ್ನು ಸೋಸುವ ಸಲುವಾಗಿ "
+"ತಿಳಿದ ಸಂಪರ್ಕ ವಿಳಾಸದಿಂದ ಕಳುಹಿಸಲಾದ ಮೈಲ್ ಅನ್ನು ಹೊರತು ಪಡಿಸಲು ಕೇವಲ ಸ್ಥಳೀಯ ವಿಳಾಸ ಪುಸ್ತಕದಲ್ಲಿ "
+"ಮಾತ್ರವೆ ನೋಡಬೇಕೆ ಎಂದು ನಿರ್ಧರಿಸುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:148
 msgid "This option would help in improving the speed of fetching."
@@ -13949,13 +13991,15 @@ msgstr "ಈ ಆಯ್ಕೆಯು ಪಡೆದುಕೊಳ್ಳುವ ವೇಗ
 msgid ""
 "This sets the number of addresses to show in default message list view, "
 "beyond which a '...' is shown."
-msgstr ""
+msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಸಂದೇಶ ಪಟ್ಟಿ ನೋಟದಲ್ಲಿ ತೋರಿಸಬೇಕಿರುವ ವಿಳಾಸಗಳ ಸಂಖ್ಯೆಯನ್ನು ಇದು ಹೊಂದಿಸುತ್ತದೆ, ಇದರ ಮುಂದೆ '...' ಸೂಚಿಸಲಾಗುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:150
 msgid ""
 "This setting specifies whether the threads should be in expanded or "
 "collapsed state by default. Evolution requires a restart."
 msgstr ""
+"ಎಳೆಗಳನ್ನು ವಿಸ್ತರಿಸಬೇಕೆ ಅಥವ ಬೀಳಿಸಲಾದ ಸ್ಥಿತಿಯಲ್ಲಿಯೆ ಇರಿಸಬೇಕೆ. Evolution ಅನ್ನು ಮರಳಿ "
+"ಆರಂಭಿಸುವ ಅಗತ್ಯವಿರುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:151
 msgid ""
@@ -13963,6 +14007,8 @@ msgid ""
 "message in each thread, rather than by message's date. Evolution requires a "
 "restart."
 msgstr ""
+"ಪ್ರತಿಯೊಂದು ಎಳೆಗಳಲ್ಲಿನ ಸಂದೇಶಗಳ ದಿನಾಂಕದ ಆಧಾರದ ಮೇಲೆ ವಿಂಗಡಿಸದೆ ಎಳೆಯಲ್ಲಿನ ಇತ್ತೀಚಿನ ಸಂದೇಶಕ್ಕೆ "
+"ಆಧರಿತವಾಗಿ ವಿಂಗಡಿಸಬೇಕೆ ಎಂದು ಇದು ಸೂಚಿಸುತ್ತದೆ. Evolution ಅನ್ನು ಮರಳಿ ಆರಂಭಿಸುವ ಅಗತ್ಯವಿರುತ್ತದೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:152
 msgid "Thread the message list."
@@ -13986,7 +14032,7 @@ msgstr "ಸಂದೇಶವನ್ನು ನೋಡಲಾಗಿದೆ ಎಂದು 
 
 #: ../mail/evolution-mail.schemas.in.h:157
 msgid "UID string of the default account."
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಖಾತೆಯ UID ವಾಕ್ಯ."
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಖಾತೆಯ UID ವಾಕ್ಯ."
 
 #: ../mail/evolution-mail.schemas.in.h:158
 msgid "Underline color for misspelled words when using inline spelling."
@@ -14070,13 +14116,13 @@ msgstr "ಪೂರ್ವನಿಯೋಜಿತವಾಗಿ ಪ್ರತಿ ಸಂ�
 
 #: ../mail/evolution-mail.schemas.in.h:178
 msgid "Whether disable ellipsizing feature of folder names in side bar."
-msgstr ""
+msgstr "ಬದಿಯ ಪಟ್ಟಿಯಲ್ಲಿ ಕಡತಕೋಶದ ಹೆಸರುಗಳನ್ನು ದೀರ್ಘವೃತ್ತವಾಗಿಸುವಿಕೆಯ ಸವಲತ್ತನ್ನು ಅಶಕ್ತಗೊಳಿಸಬೇಕೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:179
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
-msgstr ""
+msgstr "ಸಂದೇಶಗಳಲ್ಲಿ In-Reply-To ಅಥವ References ಹೆಡರುಗಳು ಇಲ್ಲದೆ ಇದ್ದಲ್ಲಿ ವಿಷಯಗಳನ್ನು ಎಳೆಗೆ (ತ್ರೆಡಿಂಗ್) ಮರಳಬೇಕೆ ಅಥವ ಬೇಡವೆ."
 
 #: ../mail/evolution-mail.schemas.in.h:180
 msgid "Whether sort threads based on latest message in that thread"
@@ -14305,7 +14351,7 @@ msgstr "<span weight=\"bold\">ಸಂರಚನೆ</span>"
 
 #: ../mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Default Behavior</span>"
-msgstr "<span weight=\"bold\">ಪೂರ್ವನಿಯೋಜಿತ ವರ್ತನೆ</span>"
+msgstr "<span weight=\"bold\">ಡೀಫಾಲ್ಟ್‍ ವರ್ತನೆ</span>"
 
 #: ../mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Delete Mail</span>"
@@ -14490,11 +14536,11 @@ msgstr ""
 
 #: ../mail/mail-config.glade.h:65
 msgid "De_fault"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ(_f)"
+msgstr "ಡೀಫಾಲ್ಟ್‍(_f)"
 
 #: ../mail/mail-config.glade.h:66
 msgid "Default character e_ncoding:"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಕ್ಯಾರೆಕ್ಟರ್ ಎನ್ಕೋಡಿಂಗ್‍ಗಳು(_n):"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಕ್ಯಾರೆಕ್ಟರ್ ಎನ್ಕೋಡಿಂಗ್‍ಗಳು(_n):"
 
 #: ../mail/mail-config.glade.h:68
 msgid "Delete junk messages on e_xit"
@@ -14502,7 +14548,7 @@ msgstr "ನಿರ್ಗಮಿಸಿದಾಗ ರದ್ದಿ ಸಂದೇಶಗ�
 
 #: ../mail/mail-config.glade.h:70
 msgid "Digitally sign o_utgoing messages (by default)"
-msgstr "ಹೊರಹೋಗುವ ಸಂದೇಶವನ್ನು ಡಿಜಿಟಲಿ ಸಹಿ ಮಾಡು (ಪೂರ್ವನಿಯೋಜಿತವಾಗಿ)(_u)"
+msgstr "ಹೊರಹೋಗುವ ಸಂದೇಶವನ್ನು ಡಿಜಿಟಲಿ ಸಹಿ ಮಾಡು (ಡೀಫಾಲ್ಟ್‍ ಆಗಿ)(_u)"
 
 #: ../mail/mail-config.glade.h:71
 msgid "Do not format messages when text si_ze exceeds"
@@ -14552,7 +14598,7 @@ msgstr "ಗೂಢಲಿಪೀಕರಣ ಪ್ರಮಾಣಪತ್ರ(_p):"
 
 #: ../mail/mail-config.glade.h:83
 msgid "Encrypt out_going messages (by default)"
-msgstr "ಹೊರ ಹೋಗುವ ಸಂದೇಶಗಳನ್ನು ಗೂಢಲಿಪೀಕರಿಸು(ಪೂರ್ವನಿಯೋಜಿತವಾಗಿ)(_g)"
+msgstr "ಹೊರ ಹೋಗುವ ಸಂದೇಶಗಳನ್ನು ಗೂಢಲಿಪೀಕರಿಸು(ಡೀಫಾಲ್ಟ್‍ ಆಗಿ)(_g)"
 
 #: ../mail/mail-config.glade.h:85
 msgid "Fi_xed-width:"
@@ -14632,7 +14678,7 @@ msgstr "ಇದಕ್ಕೆ ಯಾವುದೆ ಪ್ರಾಕ್ಸಿ ಇಲ್
 
 #: ../mail/mail-config.glade.h:108
 msgid "Note: Underscore in the label name is used as mnemonic identifier in menu."
-msgstr ""
+msgstr "ಸೂಚನೆ: ಲೇಬಲ್‌ನ ಹೆಸರಿನಲ್ಲಿ ಅಂಡರ್ಸ್ಕೋರ್ ಇದ್ದಲ್ಲಿ ಮೆನುವಿನಲ್ಲಿ ನಿಮೋನಿಕ್ ಪತ್ತೆಗಾರವಾಗಿ ಬಳಸಲಾಗುತ್ತದೆ."
 
 #: ../mail/mail-config.glade.h:109
 msgid ""
@@ -14640,7 +14686,7 @@ msgid ""
 "first time"
 msgstr ""
 "ಸೂಚನೆ: ನೀವು ಮೊದಲ ಬಾರಿಗೆ ಸಂಪರ್ಕ ಜೋಡಿಸಿದಾಗ ಮಾತ್ರ ಗುಪ್ತಪದವನ್ನು ನಮೂದಿಸುವಂತೆ ನಿಮ್ಮನ್ನು "
-"ಕೇಳುಲಾಗುತ್ತದೆ."
+"ಕೇಳುಲಾಗುತ್ತದೆ"
 
 #: ../mail/mail-config.glade.h:110
 msgid "Option is ignored if a match for custom junk headers is found."
@@ -14819,7 +14865,7 @@ msgid ""
 msgstr ""
 "ಈ ಸ್ಕ್ರಿಪ್ಟಿನ ಔಟ್‌ಪುಟ್ ಅನ್ನು ನಿಮ್ಮ ಸಹಿಯಾಗಿ ಬಳಸಲಾಗುವುದು.\n"
 "ನೀವು ಸೂಚಿಸುವ ಹೆಸರನ್ನು ಕೇವಲ ತೋರಿಸುವ ಉದ್ದೇಶಕ್ಕೆ ಮಾತ್ರವೆ\n"
-"ಬಳಸಲಾಗುವುದು."
+"ಬಳಸಲಾಗುವುದು. "
 
 #: ../mail/mail-config.glade.h:155
 msgid ""
@@ -14872,7 +14918,7 @@ msgstr "ಸ್ವಯಂಚಾಲಿತ ಪ್ರಾಕ್ಸಿ ಸಂರಚನ�
 
 #: ../mail/mail-config.glade.h:167
 msgid "_Default junk plugin:"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ರದ್ದಿ ಪ್ಲಗ್‌ಇನ್(_D):"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ರದ್ದಿ ಪ್ಲಗ್‌ಇನ್(_D):"
 
 #: ../mail/mail-config.glade.h:168
 msgid "_Direct connection to the Internet"
@@ -14901,7 +14947,7 @@ msgstr "ಸ್ಥಳೀಯ ವಿಳಾಸ ಪುಸ್ತಕದಲ್ಲಿ ನ
 
 #: ../mail/mail-config.glade.h:175
 msgid "_Make this my default account"
-msgstr "ಇದನ್ನು ನನ್ನ ಪೂರ್ವನಿಯೋಜಿತ ಖಾತೆಯಾಗಿ ಮಾಡು(_M)"
+msgstr "ಇದನ್ನು ನನ್ನ ಡೀಫಾಲ್ಟ್‍ ಖಾತೆಯಾಗಿ ಮಾಡು(_M)"
 
 #: ../mail/mail-config.glade.h:176
 msgid "_Manual proxy configuration:"
@@ -14962,7 +15008,7 @@ msgstr "ಸುರಕ್ಷಿತ ಸಂಪರ್ಕವನ್ನು ಬಳಸು(
 
 #: ../mail/mail-config.glade.h:193
 msgid "_Use system defaults"
-msgstr "ಗಣಕದ ಪೂರ್ವನಿಯೋಜಿತ ಅನ್ನು ಬಳಸು(_U)"
+msgstr "ಗಣಕದ ಡೀಫಾಲ್ಟ್‍ ಅನ್ನು ಬಳಸು(_U)"
 
 #: ../mail/mail-config.glade.h:194
 msgid "_Use the same fonts as other applications"
@@ -15876,7 +15922,7 @@ msgid ""
 "authentication at all."
 msgstr ""
 "ಈ ಪರಿಚಾರಕವು ಈ ಬಗೆಯ ದೃಢೀಕರಣವನ್ನು ಬೆಂಬಲಿಸುವುದಿಲ್ಲ ಹಾಗು ದೃಢೀಕರಣವನ್ನೇ "
-"ಬೆಂಬಲಿಸದಿರಬಹುದು. "
+"ಬೆಂಬಲಿಸದಿರಬಹುದು."
 
 #: ../mail/mail.error.xml.h:117
 msgid "This signature has been changed, but has not been saved."
@@ -15908,11 +15954,11 @@ msgstr "ಲೈಸನ್ಸ್‌ ಕಡತವನ್ನು ಓದಲು ಸಾಧ
 
 #: ../mail/mail.error.xml.h:122
 msgid "Use _Default"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಅನ್ನು ಬಳಸು(_D)"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಅನ್ನು ಬಳಸು(_D)"
 
 #: ../mail/mail.error.xml.h:123
 msgid "Use default drafts folder?"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಡ್ರಾಫ್ಟ್‍ ಫೋಲ್ಡರ್ ಅನ್ನು ಬಳಸಬೇಕೆ?"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಡ್ರಾಫ್ಟ್‍ ಫೋಲ್ಡರ್ ಅನ್ನು ಬಳಸಬೇಕೆ?"
 
 #: ../mail/mail.error.xml.h:124
 msgid ""
@@ -16682,23 +16728,23 @@ msgstr "ಕಾಪಿ ಮಾಡುವ ಉಪಕರಣ"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:1
 msgid "Check whether Evolution is the default mailer"
-msgstr "Evolution ಪೂರ್ವನಿಯೋಜಿತ ಮೈಲರ್ ಆಗಿದೆಯೆ ಎಂದು ಪರಿಶೀಲಿಸು"
+msgstr "Evolution ಡೀಫಾಲ್ಟ್‍ ಮೈಲರ್ ಆಗಿದೆಯೆ ಎಂದು ಪರಿಶೀಲಿಸು"
 
 #: ../plugins/default-mailer/apps-evolution-mail-prompts-checkdefault.schemas.in.h:2
 msgid "Every time Evolution starts, check whether or not it is the default mailer."
-msgstr "ಪ್ರತಿ ಬಾರಿಯೂ Evolution ಆರಂಭಗೊಂಡಾಗ, ಅದು ಪೂರ್ವನಿಯೋಜಿತ ಮೈಲರ್ ಆಗಿದೆಯೆ ಎಂದು ಪರಿಶೀಲಿಸುತ್ತದೆ."
+msgstr "ಪ್ರತಿ ಬಾರಿಯೂ Evolution ಆರಂಭಗೊಂಡಾಗ, ಅದು ಡೀಫಾಲ್ಟ್‍ ಮೈಲರ್ ಆಗಿದೆಯೆ ಎಂದು ಪರಿಶೀಲಿಸುತ್ತದೆ."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:1
 msgid "Checks whether Evolution is the default mail client on startup."
-msgstr "ಆರಂಭಿಸುವಾಗ Evolution ಪೂರ್ವನಿಯೋಜಿತ ಮೈಲ್ ಕ್ಲೈಂಟ್ ಆಗಿದೆಯೆ ಎಂದು ಪರೀಕ್ಷಿಸುತ್ತದೆ."
+msgstr "ಆರಂಭಿಸುವಾಗ Evolution ಡೀಫಾಲ್ಟ್‍ ಮೈಲ್ ಕ್ಲೈಂಟ್ ಆಗಿದೆಯೆ ಎಂದು ಪರೀಕ್ಷಿಸುತ್ತದೆ."
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.eplug.xml.h:2
 msgid "Default Mail Client "
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಮೈಲ್ ಕ್ಲೈಂಟ್"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಮೈಲ್ ಕ್ಲೈಂಟ್"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:1
 msgid "Do you want to make Evolution your default e-mail client?"
-msgstr "Evolution ಅನ್ನು ಪೂರ್ವನಿಯೋಜಿತ ಇ-ಮೈಲ್ ಕ್ಲೈಂಟ್ ಆಗಿ ಮಾಡಲು ನೀವು ಬಯಸುತ್ತೀರೆ?"
+msgstr "Evolution ಅನ್ನು ಡೀಫಾಲ್ಟ್‍ ಇ-ಮೈಲ್ ಕ್ಲೈಂಟ್ ಆಗಿ ಮಾಡಲು ನೀವು ಬಯಸುತ್ತೀರೆ?"
 
 #: ../plugins/default-mailer/org-gnome-default-mailer.error.xml.h:2
 #: ../shell/main.c:599
@@ -16707,23 +16753,23 @@ msgstr "Evolution"
 
 #: ../plugins/default-source/default-source.c:82
 msgid "Mark as _default address book"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ವಿಳಾಸ ಪುಸ್ತಕ ಎಂದು ಗುರುತು ಹಾಕು(_d)"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ವಿಳಾಸ ಪುಸ್ತಕ ಎಂದು ಗುರುತು ಹಾಕು(_d)"
 
 #: ../plugins/default-source/default-source.c:103
 msgid "Mark as _default calendar"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಕ್ಯಾಲೆಂಡರ್ ಎಂದು ಗುರುತು ಹಾಕು(_d)"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಕ್ಯಾಲೆಂಡರ್ ಎಂದು ಗುರುತು ಹಾಕು(_d)"
 
 #: ../plugins/default-source/default-source.c:104
 msgid "Mark as _default task list"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಕಾರ್ಯಪಟ್ಟಿ ಎಂದು ಗುರುತು ಹಾಕು(_d)"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಕಾರ್ಯಪಟ್ಟಿ ಎಂದು ಗುರುತು ಹಾಕು(_d)"
 
 #: ../plugins/default-source/default-source.c:105
 msgid "Mark as _default memo list"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಮೆಮೊ ಪಟ್ಟಿ ಎಂದು ಗುರುತು ಹಾಕು(_d)"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಮೆಮೊ ಪಟ್ಟಿ ಎಂದು ಗುರುತು ಹಾಕು(_d)"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:1
 msgid "Default Sources"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಮೂಲಗಳು"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಮೂಲಗಳು"
 
 #: ../plugins/default-source/org-gnome-default-source.eplug.xml.h:2
 #| msgid ""
@@ -16733,7 +16779,7 @@ msgid ""
 "Provides functionality for marking a calendar or an address book as the "
 "default one."
 msgstr ""
-"ಒಂದು ಕ್ಯಾಲೆಂಡರ್ ಅಥವ ವಿಳಾಸ ಪುಸ್ತಕವನ್ನು ಪೂರ್ವನಿಯೋಜಿತ ಎಂದು ಗುರುತು ಹಾಕುವ ಕಾರ್ಯಶೀಲತೆಯನ್ನು "
+"ಒಂದು ಕ್ಯಾಲೆಂಡರ್ ಅಥವ ವಿಳಾಸ ಪುಸ್ತಕವನ್ನು ಡೀಫಾಲ್ಟ್‍ ಎಂದು ಗುರುತು ಹಾಕುವ ಕಾರ್ಯಶೀಲತೆಯನ್ನು "
 "ಒದಗಿಸುತ್ತದೆ."
 
 #: ../plugins/email-custom-header/email-custom-header.c:334
@@ -17755,11 +17801,11 @@ msgstr "ಫೋಲ್ಡರ್ ಅನುಮತಿಗಳನ್ನು ಪರೀಕ�
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:1
 msgid "Default External Editor"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತ ಹೊರಗಿನ ಸಂಪಾದಕ"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಹೊರಗಿನ ಸಂಪಾದಕ"
 
 #: ../plugins/external-editor/apps-evolution-external-editor.schemas.in.h:2
 msgid "The default command that must be used as the editor."
-msgstr "ಸಂಪಾದಕವಾಗಿ ಬಳಸಬೇಕಿರುವ ಪೂರ್ವನಿಯೋಜಿತ ಆಜ್ಞೆ."
+msgstr "ಸಂಪಾದಕವಾಗಿ ಬಳಸಬೇಕಿರುವ ಡೀಫಾಲ್ಟ್ ಆಜ್ಞೆ."
 
 #: ../plugins/external-editor/org-gnome-external-editor.eplug.xml.h:1
 msgid ""
@@ -18335,7 +18381,7 @@ msgstr "<b>IMAP ಹೆಡರ್‌ಗಳು</b>"
 
 #: ../plugins/imap-features/imap-headers.glade.h:3
 msgid "Basic and _Mailing List Headers (Default)"
-msgstr "ಮೂಲ ಹಾಗು ಮೈಲಿಂಗ ಲಿಸ್ಟ್ ಹೆಡರ್‌ಗಳು(_M)(ಪೂರ್ವನಿಯೋಜಿತ)"
+msgstr "ಮೂಲ ಹಾಗು ಮೈಲಿಂಗ ಲಿಸ್ಟ್ ಹೆಡರ್‌ಗಳು(_M)(ಡೀಫಾಲ್ಟ್)"
 
 #: ../plugins/imap-features/imap-headers.glade.h:4
 msgid "Fetch A_ll Headers"
@@ -18348,7 +18394,7 @@ msgid ""
 "You can ignore this if you choose \"All Headers\"."
 msgstr ""
 "ಮೇಲಿನ ಹೆಡರ್‌ಗಳ ಜೊತೆಗೆ ಪಡೆದುಕೊಳ್ಳಬೇಕಿರುವ ಹೆಚ್ಚುವರಿ ಹೆಡರ್‌ಗಳನ್ನು ಒದಗಿಸಿ. \n"
-"\"ಎಲ್ಲಾ ಹೆಡರ್‌ಗಳು\" ಅನ್ನು ಆಯ್ಕೆ ಮಾಡಿದ್ದಲ್ಲಿ ಇದನ್ನು ಆಲಕ್ಷಿಸಬಹುದು. "
+"\"ಎಲ್ಲಾ ಹೆಡರ್‌ಗಳು\" ಅನ್ನು ಆಯ್ಕೆ ಮಾಡಿದ್ದಲ್ಲಿ ಇದನ್ನು ಆಲಕ್ಷಿಸಬಹುದು."
 
 #: ../plugins/imap-features/imap-headers.glade.h:7
 msgid ""
@@ -18854,7 +18900,7 @@ msgstr "<b>%s</b> ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗ್ ಮಾರುತ�
 #: ../plugins/itip-formatter/itip-view.c:394
 #, c-format
 msgid "<b>%s</b> through %s has canceled the following meeting:"
-msgstr "<b>%s</b> %s ಮೂಲಕ ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗನ್ನು ರದ್ದು ಮಾಡಿದ್ದಾರೆ."
+msgstr "<b>%s</b> %s ಮೂಲಕ ಈ ಕೆಳಗಿನ ಮೀಟಿಂಗನ್ನು ರದ್ದು ಮಾಡಿದ್ದಾರೆ:"
 
 #: ../plugins/itip-formatter/itip-view.c:396
 #, c-format
@@ -19132,7 +19178,7 @@ msgstr "ಈ ಮೀಟಿಂಗ್ ಅನ್ನು ಡೆಲಿಗೇಟ್ ಮ�
 msgid "This response is not from a current attendee. Add the sender as an attendee?"
 msgstr ""
 "ಈ ಪ್ರತಿಕ್ರಿಯೆಯು ಈಗಿರುವ ಪಾಲ್ಗೊಳ್ಳುವವರಲ್ಲಿ ಒಬ್ಬರಿಂದ ಬಂದಿಲ್ಲ. ಕಳುಹಿಸದವರನ್ನು "
-"ಪಾಲ್ಗೊಳ್ಳುವವರಲ್ಲಿ ಒಬ್ಬರು ಎಂದು ಸೇರಿಸಬೇಕೆ? "
+"ಪಾಲ್ಗೊಳ್ಳುವವರಲ್ಲಿ ಒಬ್ಬರು ಎಂದು ಸೇರಿಸಬೇಕೆ?"
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:46
 msgid "Proxy _Logout"
@@ -19652,7 +19698,7 @@ msgstr "ಪ್ರೊಫೈಲ್ ಮಾಡುವ ದತ್ತಾಂಶ ಸಂದ
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:1
 #| msgid "Import mail from Pine."
 msgid "Import Outlook messages from PST file"
-msgstr "PST ಕಡತವನ್ನು Outlook ಸಂದೇಶಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊ."
+msgstr "PST ಕಡತವನ್ನು Outlook ಸಂದೇಶಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊ"
 
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:2
 #| msgid "Outlook CSV and Tab Importer"
@@ -19889,7 +19935,7 @@ msgid ""
 "to be installed."
 msgstr ""
 "ಸ್ಪ್ಯಾಮ್‌ಅಸಾಸಿನ್ ಬಳಸಿಕೊಂಡು ರದ್ದಿ‌ ಸಂದೇಶಗಳನ್ನು ಫಿಲ್ಟರ್ ಮಾಡುತ್ತದೆ. ಈ ಪ್ಲಗ್ಇನ್‌ಗಾಗಿ "
-"ಸ್ಪ್ಯಾಮ್‌ಅಸಾಸಿನ್ ಅನ್ನು ಅನುಸ್ಥಾಪಿಸಬೇಕಾಗುತ್ತದೆ. "
+"ಸ್ಪ್ಯಾಮ್‌ಅಸಾಸಿನ್ ಅನ್ನು ಅನುಸ್ಥಾಪಿಸಬೇಕಾಗುತ್ತದೆ."
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
 #| msgid "Spamassassin Options"
@@ -20216,19 +20262,19 @@ msgstr "ಸಂರಚನಾ ಆವೃತ್ತಿ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:4
 msgid "Default sidebar width"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತವಾದ ಬದಿಯ ಪಟ್ಟಿಯ ಅಗಲ"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಆದ ಬದಿಯ ಪಟ್ಟಿಯ ಅಗಲ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:5
 msgid "Default window height"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತವಾದ ವಿಂಡೋ ಉದ್ದ"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಆದ ವಿಂಡೋ ಉದ್ದ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:6
 msgid "Default window state"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತವಾದ ವಿಂಡೋ ಸ್ಥಿತಿ"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಆದ ವಿಂಡೋ ಸ್ಥಿತಿ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:7
 msgid "Default window width"
-msgstr "ಪೂರ್ವನಿಯೋಜಿತವಾದ ವಿಂಡೋ ಅಗಲ"
+msgstr "ಡೀಫಾಲ್ಟ್‍ ಆದ ವಿಂಡೋ ಅಗಲ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:8
 msgid "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
@@ -20336,19 +20382,19 @@ msgstr "ಸ್ಥಿತಿ ಪಟ್ಟಿಯು ಕಾಣುತ್ತಿದೆ"
 msgid ""
 "The configuration version of Evolution, with major/minor/configuration level "
 "(for example \"2.6.0\")."
-msgstr "Evolutionನ ಸಂರಚನೆಯ ಆವೃತ್ತಿ, ಹಿರಿಯ/ಕಿರಿಯ ಸಂರಚನಾ ಮಟ್ಟದೊಂದಿಗೆ (ಉದಾಹರಣೆಗೆ \"೨.೬.೦\")"
+msgstr "Evolutionನ ಸಂರಚನೆಯ ಆವೃತ್ತಿ, ಹಿರಿಯ/ಕಿರಿಯ ಸಂರಚನಾ ಮಟ್ಟದೊಂದಿಗೆ (ಉದಾಹರಣೆಗೆ \"೨.೬.೦\")."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:30
 msgid "The default height for the main window, in pixels."
-msgstr "ಮುಖ್ಯ ವಿಂಡೋದ ಪೂರ್ವನಿಯೋಜಿತ ಉದ್ದ (ಪಿಕ್ಸೆಲ್‍ಗಳಲ್ಲಿ)."
+msgstr "ಮುಖ್ಯ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಉದ್ದ (ಪಿಕ್ಸೆಲ್‍ಗಳಲ್ಲಿ)."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:31
 msgid "The default width for the main window, in pixels."
-msgstr "ಮುಖ್ಯ ವಿಂಡೋದ ಪೂರ್ವನಿಯೋಜಿತ ಅಗಲ (ಪಿಕ್ಸೆಲ್‍ಗಳಲ್ಲಿ)."
+msgstr "ಮುಖ್ಯ ವಿಂಡೋದ ಡೀಫಾಲ್ಟ್‍ ಅಗಲ (ಪಿಕ್ಸೆಲ್‍ಗಳಲ್ಲಿ)."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:32
 msgid "The default width for the sidebar, in pixels."
-msgstr "ಬದಿಪಟ್ಟಿಯ ಪೂರ್ವನಿಯೋಜಿತ ಅಗಲ (ಪಿಕ್ಸೆಲ್‍ಗಳಲ್ಲಿ)."
+msgstr "ಬದಿಪಟ್ಟಿಯ ಡೀಫಾಲ್ಟ್‍ ಅಗಲ (ಪಿಕ್ಸೆಲ್‍ಗಳಲ್ಲಿ)."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:33
 msgid ""
@@ -20356,7 +20402,7 @@ msgid ""
 "configuration level (for example \"2.6.0\")."
 msgstr ""
 "ಕೊನೆಯ ಬಾರಿಗೆ ನವೀಕರಿಸಲಾದ ಸಂರಚನೆಯನ್ನು ಹೊಂದಿದ Evolutionನ ಆವೃತ್ತಿ, ಹಿರಿಯ/ಕಿರಿಯ "
-"ಸಂರಚನಾ ಮಟ್ಟದೊಂದಿಗೆ (ಉದಾಹರಣೆಗೆ \"೨.೬.೦\")"
+"ಸಂರಚನಾ ಮಟ್ಟದೊಂದಿಗೆ (ಉದಾಹರಣೆಗೆ \"೨.೬.೦\")."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:34
 msgid "The machine name to proxy HTTP through."
@@ -20568,7 +20614,7 @@ msgstr "ಬಗ್ ಬಡ್ಡಿಯನ್ನು ಚಲಾಯಿಸಲಾಗಿ�
 #. * about dialog.
 #: ../shell/e-shell-window-commands.c:942
 msgid "translator-credits"
-msgstr "ಶಂಕರ್ ಪ್ರಸಾದ್ ಎಂ. ವಿ."
+msgstr "ಶಂಕರ್ ಪ್ರಸಾದ್ <svenkate@redhat.com>"
 
 #: ../shell/e-shell-window-commands.c:953
 msgid "Evolution Website"
@@ -20803,7 +20849,7 @@ msgstr "ಮುಂದುವರೆ"
 
 #: ../shell/shell.error.xml.h:4
 msgid "Delete old data from version {0}?"
-msgstr "ಆವೃತ್ತಿ {0} ಇಂದ ಹಳೆಯ ದತ್ತಾಂಶವನ್ನು ಅಳಿಸಬೇಕೆK"
+msgstr "ಆವೃತ್ತಿ {0} ಇಂದ ಹಳೆಯ ದತ್ತಾಂಶವನ್ನು ಅಳಿಸಬೇಕೆ?"
 
 #: ../shell/shell.error.xml.h:5
 msgid "Evolution can not start."
@@ -23215,7 +23261,7 @@ msgid ""
 "for the mnemonic accelerator key"
 msgstr ""
 "ಇದನ್ನು ಸೆಟ್ ಮಾಡಿದಲ್ಲಿ, ಅಡಿಗೆರೆಯನ್ನು ಎಳೆದ ಪಠ್ಯದ ಮುಂದಿನ ಅಕ್ಷರವು ನಿಮೋನಿಕ್ ಎಕ್ಸಲರೇಟರ್ "
-"ಕೀಲಿಗಾಗಿ ಬಳಸಬೇಕು."
+"ಕೀಲಿಗಾಗಿ ಬಳಸಬೇಕು"
 
 #: ../widgets/misc/e-expander.c:207
 msgid "Space to put between the label and the child"
@@ -24005,11 +24051,11 @@ msgstr "ಪಠ್ಯದ ಉದ್ದ"
 
 #: ../widgets/text/e-text.c:3692 ../widgets/text/e-text.c:3693
 msgid "Use ellipsis"
-msgstr "ಎಲಿಪ್ಸಿಸನ್ನು ಬಳಸು"
+msgstr "ದೀರ್ಘವೃತ್ತವಾಗಿಸುವಿಕೆಯನ್ನು ಬಳಸಿ"
 
 #: ../widgets/text/e-text.c:3699 ../widgets/text/e-text.c:3700
 msgid "Ellipsis"
-msgstr "ಎಲಿಪ್ಸಿಸ್"
+msgstr "ದೀರ್ಘವೃತ್ತವಾಗಿಸುವಿಕೆ"
 
 #: ../widgets/text/e-text.c:3706 ../widgets/text/e-text.c:3707
 msgid "Line wrap"
