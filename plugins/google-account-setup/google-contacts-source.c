@@ -300,7 +300,7 @@ plugin_google_contacts (EPlugin                    *epl,
 
     g_object_set_data (G_OBJECT (epl), "gwidget", NULL);
 
-    if (strcmp (base_uri, "google://")) {
+    if (g_ascii_strncasecmp ("google://", base_uri, 9) != 0) {
         return NULL;
     }
 

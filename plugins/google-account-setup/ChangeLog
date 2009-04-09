@@ -1,3 +1,11 @@
+2009-04-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #574248
+
+	* google-contacts-source.c: (plugin_google_contacts):
+	* google-source.c: (plugin_google):
+	Compare base URI case insensitively.
+
 2009-04-07  Tobias Mueller  <tobiasmue@gnome.org>
 
 	** Fixes bug #578034

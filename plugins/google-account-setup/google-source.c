@@ -575,8 +575,7 @@ plugin_google  (EPlugin                    *epl,
 	group = e_source_peek_group (source);
 
 	widget = NULL;
-	if (!g_str_has_prefix (e_source_group_peek_base_uri (group),
-			       "Google")) {
+	if (g_ascii_strncasecmp ("google://", e_source_group_peek_base_uri (group), 9) != 0) {
 		return NULL;
 	}
 
