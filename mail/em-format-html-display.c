@@ -462,7 +462,7 @@ efhd_format_attachment (EMFormat *emf,
 		info->encrypt = emf->valid->encrypt.status;
 	}
 
-	camel_stream_write_string(
+	camel_stream_write_string (
 		stream, EM_FORMAT_HTML_VPAD
 		"<table cellspacing=0 cellpadding=0><tr><td>"
 		"<table width=10 cellspacing=0 cellpadding=0>"
@@ -1202,14 +1202,6 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 {
 	EMFormatHTMLDisplay *efhd = (EMFormatHTMLDisplay *)efh;
 	struct _attach_puri *info;
-	GtkWidget *hbox, *w, *button, *mainbox;
-	char *simple_type;
-	GtkTargetEntry drag_types[] = {
-		{ NULL, 0, 0 },
-		{ "text/uri-list", 0, 1 },
-	};
-	AtkObject *a11y;
-
 	EAttachmentView *view;
 	EAttachmentStore *store;
 	EAttachment *attachment;
@@ -1258,39 +1250,6 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	g_signal_connect (
 		widget, "notify::expanded",
 		G_CALLBACK (efhd_attachment_button_expanded), info);
-
-#if 0
-	/* FIXME: offline parts, just get icon */
-	if (camel_content_type_is(((CamelDataWrapper *)pobject->part)->mime_type, "image", "*")) {
-		EMFormatHTMLJob *job;
-		GdkPixbuf *mini;
-		char *key;
-
-		key = pobject->classid;
-		mini = em_icon_stream_get_image(key, 24, 24);
-		if (mini) {
-			d(printf("got image from cache '%s'\n", key));
-			gtk_image_set_from_pixbuf((GtkImage *)w, mini);
-			g_object_unref(mini);
-		} else {
-			d(printf("need to create icon image '%s'\n", key));
-			job = em_format_html_job_new(efh, efhd_write_icon_job, pobject);
-			job->stream = (CamelStream *)em_icon_stream_new((GtkImage *)w, key, 24, 24, FALSE);
-			em_format_html_job_queue(efh, job);
-		}
-	}
-
-	drag_types[0].target = simple_type;
-	gtk_drag_source_set(button, GDK_BUTTON1_MASK, drag_types, sizeof(drag_types)/sizeof(drag_types[0]), GDK_ACTION_COPY);
-	g_signal_connect(button, "drag-data-get", G_CALLBACK(efhd_drag_data_get), pobject);
-	g_signal_connect (button, "drag-data-delete", G_CALLBACK(efhd_drag_data_delete), pobject);
-	g_free(simple_type);
-
-	g_signal_connect(button, "button_press_event", G_CALLBACK(efhd_attachment_popup), info);
-	g_signal_connect(button, "popup_menu", G_CALLBACK(efhd_attachment_popup_menu), info);
-	g_signal_connect(button, "clicked", G_CALLBACK(efhd_attachment_popup_menu), info);
-	gtk_box_pack_start((GtkBox *)mainbox, button, TRUE, TRUE, 0);
-#endif
 
 	return TRUE;
 }
@@ -1356,10 +1315,7 @@ efhd_message_add_bar (EMFormat *emf,
                       CamelMimePart *part,
                       const EMFormatHandler *info)
 {
-	EMFormatHTMLDisplayPrivate *priv;
 	const char *classid = "attachment-bar";
-
-	priv = EM_FORMAT_HTML_DISPLAY_GET_PRIVATE (emf);
 
 	em_format_html_add_pobject (
 		EM_FORMAT_HTML (emf),

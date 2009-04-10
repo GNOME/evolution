@@ -117,7 +117,7 @@ eab_send_as_attachment (GList *destinations)
 	GList *contacts, *iter;
 	gchar *data;
 
-	if (contacts == NULL)
+	if (destinations == NULL)
 		return;
 
 	composer = e_msg_composer_new ();

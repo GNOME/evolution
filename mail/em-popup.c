@@ -98,12 +98,6 @@ emp_target_free(EPopup *ep, EPopupTarget *t)
 
 		g_free(s->uri);
 		break; }
-	case EM_POPUP_TARGET_ATTACHMENTS: {
-		EMPopupTargetAttachments *s = (EMPopupTargetAttachments *)t;
-
-		g_slist_foreach(s->attachments, (GFunc)g_object_unref, NULL);
-		g_slist_free(s->attachments);
-		break; }
 	}
 
 	((EPopupClass *)emp_parent)->target_free(ep, t);
@@ -434,21 +428,11 @@ static const EPopupHookTargetMask emph_folder_masks[] = {
 	{ NULL }
 };
 
-static const EPopupHookTargetMask emph_attachments_masks[] = {
-	{ "one", EM_POPUP_ATTACHMENTS_ONE },
-	{ "many", EM_POPUP_ATTACHMENTS_MANY },
-	{ "multiple", EM_POPUP_ATTACHMENTS_MULTIPLE },
-	{ "image", EM_POPUP_ATTACHMENTS_IMAGE },
-	{ "message", EM_POPUP_ATTACHMENTS_MESSAGE },
-	{ NULL }
-};
-
 static const EPopupHookTargetMap emph_targets[] = {
 	{ "select", EM_POPUP_TARGET_SELECT, emph_select_masks },
 	{ "uri", EM_POPUP_TARGET_URI, emph_uri_masks },
 	{ "part", EM_POPUP_TARGET_PART, emph_part_masks },
 	{ "folder", EM_POPUP_TARGET_FOLDER, emph_folder_masks },
-	{ "attachments", EM_POPUP_TARGET_ATTACHMENTS, emph_attachments_masks },
 	{ NULL }
 };
 

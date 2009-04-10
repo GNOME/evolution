@@ -43,7 +43,6 @@ typedef struct _EMPopupClass EMPopupClass;
  * @EM_POPUP_TARGET_URI: A URI.
  * @EM_POPUP_TARGET_PART: A CamelMimePart message part.
  * @EM_POPUP_TARGET_FOLDER: A folder URI.
- * @EM_POPUP_TARGET_ATTACHMENTS: A list of attachments.
  *
  * Defines the value of the targetid for all EMPopup target types.
  **/
@@ -52,7 +51,6 @@ enum _em_popup_target_t {
 	EM_POPUP_TARGET_URI,
 	EM_POPUP_TARGET_PART,
 	EM_POPUP_TARGET_FOLDER,
-	EM_POPUP_TARGET_ATTACHMENTS,
 };
 
 /**
@@ -158,26 +156,10 @@ enum _em_popup_target_folder_t {
 	EM_POPUP_FOLDER_NONSTATIC = 1<<6, /* Except static folders like Outbox.*/
 };
 
-/**
- * enum _em_popup_target_attachments_t - EMPopupTargetAttachments qualifiers.
- *
- * @EM_POPUP_ATTACHMENTS_ONE: There is one and only one attachment selected.
- * @EM_POPUP_ATTACHMENTS_MANY: There is one or more attachments selected.
- *
- **/
-enum _em_popup_target_attachments_t {
-	EM_POPUP_ATTACHMENTS_ONE = 1<<0, /* only 1 selected */
-	EM_POPUP_ATTACHMENTS_MANY = 1<<1, /* one or more selected */
-	EM_POPUP_ATTACHMENTS_MULTIPLE = 1<<2, /* More than 1 selected */
-	EM_POPUP_ATTACHMENTS_IMAGE = 1<<3, /* Image selected */
-	EM_POPUP_ATTACHMENTS_MESSAGE = 1<<4 /* Message selected */
-};
-
 typedef struct _EMPopupTargetSelect EMPopupTargetSelect;
 typedef struct _EMPopupTargetURI EMPopupTargetURI;
 typedef struct _EMPopupTargetPart EMPopupTargetPart;
 typedef struct _EMPopupTargetFolder EMPopupTargetFolder;
-typedef struct _EMPopupTargetAttachments EMPopupTargetAttachments;
 
 /**
  * struct _EMPopupTargetURI - An inline URI.
@@ -241,20 +223,6 @@ struct _EMPopupTargetFolder {
 	char *uri;
 };
 
-/**
- * struct _EMPopupTargetAttachments - A list of composer attachments.
- *
- * @target: Superclass.
- * @attachments: A GSList list of EMsgComposer attachments.
- *
- * This target is used to represent a selected list of attachments in
- * the message composer attachment area.
- **/
-struct _EMPopupTargetAttachments {
-	EPopupTarget target;
-	GSList *attachments;
-};
-
 typedef struct _EPopupItem EMPopupItem;
 
 /* The object */
@@ -276,7 +244,6 @@ EMPopupTargetURI *em_popup_target_new_uri(EMPopup *emp, const char *uri);
 EMPopupTargetSelect *em_popup_target_new_select(EMPopup *emp, struct _CamelFolder *folder, const char *folder_uri, GPtrArray *uids);
 EMPopupTargetPart *em_popup_target_new_part(EMPopup *emp, struct _CamelMimePart *part, const char *mime_type);
 EMPopupTargetFolder *em_popup_target_new_folder(EMPopup *emp, const char *uri, guint32 info_flags, guint32 popup_flags);
-EMPopupTargetAttachments *em_popup_target_new_attachments(EMPopup *emp, GSList *attachments);
 
 /* ********************************************************************** */
 

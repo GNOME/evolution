@@ -1780,7 +1780,7 @@ plugins_base_always="calendar-file calendar-http $CALENDAR_WEATHER itip-formatte
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN " 
 all_plugins_base="$plugins_base_always sa-junk-plugin bogo-junk-plugin exchange-operations mono"
 
-plugins_standard_always="bbdb subject-thread save-calendar copy-tool mail-to-task audio-inline mailing-list-actions default-mailer import-ics-attachments prefer-plain mail-notification attachment-reminder face backup-restore email-custom-header templates pst-import vcard-inline"
+plugins_standard_always="bbdb subject-thread save-calendar copy-tool mail-to-task audio-inline mailing-list-actions default-mailer prefer-plain mail-notification attachment-reminder face backup-restore email-custom-header templates pst-import vcard-inline"
 
 plugins_standard="$plugins_standard_always"
 all_plugins_standard="$plugins_standard"
@@ -1802,7 +1802,6 @@ dnl exchange-operations
 dnl face
 dnl folder-unsubscribe
 dnl groupwise-features
-dnl import-ics-attachments
 dnl ipod-sync
 dnl itip-formatter
 dnl mailing-list-actions
@@ -2122,7 +2121,6 @@ plugins/groupwise-account-setup/Makefile
 plugins/groupwise-features/Makefile
 plugins/hula-account-setup/Makefile
 plugins/imap-features/Makefile
-plugins/import-ics-attachments/Makefile
 plugins/ipod-sync/Makefile
 plugins/itip-formatter/Makefile
 plugins/mail-notification/Makefile

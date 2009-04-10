@@ -36,6 +36,7 @@
 #include "calendar/common/authentication.h"
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/comp-util.h"
+#include "calendar/gui/e-attachment-handler-calendar.h"
 #include "calendar/gui/e-cal-config.h"
 #include "calendar/gui/e-cal-event.h"
 #include "calendar/gui/dialogs/cal-prefs-dialog.h"
@@ -541,4 +542,6 @@ e_shell_module_init (GTypeModule *type_module)
 	cal_shell_module_init_hooks ();
 	cal_shell_module_init_importers ();
 	cal_shell_module_init_preferences (shell);
+
+	e_attachment_handler_calendar_get_type ();
 }

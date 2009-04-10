@@ -50,6 +50,8 @@ privsolib_LTLIBRARIES = libcal-gui.la
 # 	gnome-cal.h
 
 libcal_gui_la_SOURCES =		\
+	e-attachment-handler-calendar.c		\
+	e-attachment-handler-calendar.h		\
  	e-calendar-view.c			\
  	e-calendar-view.h			\
  	e-calendar-table.c			\

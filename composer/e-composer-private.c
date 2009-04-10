@@ -152,7 +152,6 @@ e_composer_private_init (EMsgComposer *composer)
 	/* Construct the attachment paned. */
 
 	widget = e_attachment_paned_new ();
-	/*gtk_container_set_border_width (GTK_CONTAINER (widget), 6);*/
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	priv->attachment_paned = g_object_ref (widget);
 	gtk_widget_show (widget);
