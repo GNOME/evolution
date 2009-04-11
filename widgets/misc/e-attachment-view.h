@@ -206,6 +206,9 @@ void		e_attachment_view_drag_data_received
 /* Popup Menu Management */
 GtkAction *	e_attachment_view_get_action	(EAttachmentView *view,
 						 const gchar *action_name);
+GtkActionGroup *e_attachment_view_add_action_group
+						(EAttachmentView *view,
+						 const gchar *group_name);
 GtkActionGroup *e_attachment_view_get_action_group
 						(EAttachmentView *view,
 						 const gchar *group_name);

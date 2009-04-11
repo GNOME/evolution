@@ -95,7 +95,7 @@ struct _CompEditorPrivate {
 	GtkNotebook *notebook;
 
 	/* Attachment handling */
-	GtkWidget *attachment_paned;
+	GtkWidget *attachment_view;
 
 	/* Manages menus and toolbars */
 	GtkUIManager *manager;
@@ -234,7 +234,7 @@ drag_data_received (CompEditor *editor,
 {
 	EAttachmentView *view;
 
-	view = E_ATTACHMENT_VIEW (editor->priv->attachment_paned);
+	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
 
 	e_attachment_view_drag_data_received (
 		view, context, x, y, selection, info, time);
@@ -249,7 +249,7 @@ drag_motion (CompEditor *editor,
 {
 	EAttachmentView *view;
 
-	view = E_ATTACHMENT_VIEW (editor->priv->attachment_paned);
+	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
 
 	return e_attachment_view_drag_motion (view, context, x, y, time);
 }
@@ -269,7 +269,7 @@ get_attachment_list (CompEditor *editor)
 
 	e_cal_component_get_uid (editor->priv->comp, &comp_uid);
 
-	view = E_ATTACHMENT_VIEW (editor->priv->attachment_paned);
+	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
 	store = e_attachment_view_get_store (view);
 
 	model = GTK_TREE_MODEL (store);
@@ -677,7 +677,7 @@ action_attach_cb (GtkAction *action,
 	EAttachmentStore *store;
 	EAttachmentView *view;
 
-	view = E_ATTACHMENT_VIEW (editor->priv->attachment_paned);
+	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
 	store = e_attachment_view_get_store (view);
 
 	e_attachment_store_run_load_dialog (store, GTK_WINDOW (editor));
@@ -813,7 +813,7 @@ action_save_cb (GtkAction *action,
 	gboolean read_only, correct = FALSE;
 	ECalComponent *comp;
 
-	view = E_ATTACHMENT_VIEW (priv->attachment_paned);
+	view = E_ATTACHMENT_VIEW (priv->attachment_view);
 	store = e_attachment_view_get_store (view);
 
 	if (e_attachment_store_get_num_loading (store) > 0) {
@@ -1600,11 +1600,11 @@ comp_editor_init (CompEditor *editor)
 	widget = e_attachment_paned_new ();
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
-	priv->attachment_paned = g_object_ref (widget);
+	priv->attachment_view = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	container = e_attachment_paned_get_content_area (
-		E_ATTACHMENT_PANED (priv->attachment_paned));
+		E_ATTACHMENT_PANED (priv->attachment_view));
 
 	widget = gtk_notebook_new ();
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
@@ -1614,7 +1614,7 @@ comp_editor_init (CompEditor *editor)
 
 	/* Add a GtkRecentAction to the "individual" action group. */
 	action_group = comp_editor_get_action_group (editor, "individual");
-	view = E_ATTACHMENT_VIEW (priv->attachment_paned);
+	view = E_ATTACHMENT_VIEW (priv->attachment_view);
 	action = e_attachment_view_recent_action_new (
 		view, "attach-recent", _("Recent _Documents"));
 	gtk_action_group_add_action (action_group, action);
@@ -2242,7 +2242,7 @@ set_attachment_list (CompEditor *editor, GSList *attach_list)
 	EAttachmentView *view;
 	GSList *iter = NULL;
 
-	view = E_ATTACHMENT_VIEW (editor->priv->attachment_paned);
+	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
 	store = e_attachment_view_get_store (view);
 
 	if (e_attachment_store_get_num_attachments (store) > 0) {
@@ -2274,7 +2274,7 @@ fill_widgets (CompEditor *editor)
 	CompEditorPrivate *priv;
 	GList *l;
 
-	view = E_ATTACHMENT_VIEW (editor->priv->attachment_paned);
+	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
 	store = e_attachment_view_get_store (view);
 
 	priv = editor->priv;
@@ -2622,7 +2622,7 @@ comp_editor_get_mime_attach_list (CompEditor *editor)
 	GSList *attach_list = NULL;
 	gboolean valid;
 
-	view = E_ATTACHMENT_VIEW (editor->priv->attachment_paned);
+	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
 	store = e_attachment_view_get_store (view);
 
 	model = GTK_TREE_MODEL (store);

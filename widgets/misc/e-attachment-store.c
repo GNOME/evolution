@@ -213,7 +213,7 @@ attachment_store_init (EAttachmentStore *store)
 	types[column++] = E_TYPE_ATTACHMENT;	/* COLUMN_ATTACHMENT */
 	types[column++] = G_TYPE_STRING;	/* COLUMN_CAPTION */
 	types[column++] = G_TYPE_STRING;	/* COLUMN_CONTENT_TYPE */
-	types[column++] = G_TYPE_STRING;	/* COLUMN_DISPLAY_NAME */
+	types[column++] = G_TYPE_STRING;	/* COLUMN_DESCRIPTION */
 	types[column++] = G_TYPE_ICON;		/* COLUMN_ICON */
 	types[column++] = G_TYPE_BOOLEAN;	/* COLUMN_LOADING */
 	types[column++] = G_TYPE_INT;		/* COLUMN_PERCENT */

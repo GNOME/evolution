@@ -136,6 +136,7 @@ attachment_update_file_info_columns (EAttachment *attachment)
 	GtkTreeIter iter;
 	GFileInfo *file_info;
 	const gchar *content_type;
+	const gchar *description;
 	const gchar *display_name;
 	gchar *content_desc;
 	gchar *display_size;
@@ -162,17 +163,20 @@ attachment_update_file_info_columns (EAttachment *attachment)
 	content_desc = g_content_type_get_description (content_type);
 	display_size = g_format_size_for_display (size);
 
+	description = e_attachment_get_description (attachment);
+	description = (description != NULL) ? description : display_name;
+
 	if (size > 0)
 		caption = g_strdup_printf (
-			"%s\n(%s)", display_name, display_size);
+			"%s\n(%s)", description, display_size);
 	else
-		caption = g_strdup (display_name);
+		caption = g_strdup (description);
 
 	gtk_list_store_set (
 		GTK_LIST_STORE (model), &iter,
 		E_ATTACHMENT_STORE_COLUMN_CAPTION, caption,
 		E_ATTACHMENT_STORE_COLUMN_CONTENT_TYPE, content_desc,
-		E_ATTACHMENT_STORE_COLUMN_DISPLAY_NAME, display_name,
+		E_ATTACHMENT_STORE_COLUMN_DESCRIPTION, description,
 		E_ATTACHMENT_STORE_COLUMN_SIZE, size,
 		-1);
 

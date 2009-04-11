@@ -493,7 +493,7 @@ attachment_tree_view_init (EAttachmentTreeView *tree_view)
 	column = gtk_tree_view_column_new ();
 	gtk_tree_view_column_set_expand (column, TRUE);
 	gtk_tree_view_column_set_spacing (column, 3);
-	gtk_tree_view_column_set_title (column, _("Name"));
+	gtk_tree_view_column_set_title (column, _("Description"));
 	gtk_tree_view_append_column (GTK_TREE_VIEW (tree_view), column);
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
@@ -511,7 +511,7 @@ attachment_tree_view_init (EAttachmentTreeView *tree_view)
 
 	gtk_tree_view_column_add_attribute (
 		column, renderer, "text",
-		E_ATTACHMENT_STORE_COLUMN_DISPLAY_NAME);
+		E_ATTACHMENT_STORE_COLUMN_DESCRIPTION);
 
 	renderer = gtk_cell_renderer_progress_new ();
 	g_object_set (renderer, "text", _("Loading"), NULL);

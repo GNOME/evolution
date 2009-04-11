@@ -21,7 +21,6 @@
 
 #include "e-attachment-handler-calendar.h"
 
-#include <config.h>
 #include <glib/gi18n.h>
 #include <libical/ical.h>
 #include <libecal/e-cal.h>
@@ -438,7 +437,6 @@ attachment_handler_calendar_constructed (GObject *object)
 	EAttachmentView *view;
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
-	const gchar *domain = GETTEXT_PACKAGE;
 	GError *error = NULL;
 
 	handler = E_ATTACHMENT_HANDLER (object);
@@ -447,16 +445,13 @@ attachment_handler_calendar_constructed (GObject *object)
 	G_OBJECT_CLASS (parent_class)->constructed (object);
 
 	view = e_attachment_handler_get_view (handler);
-	ui_manager = e_attachment_view_get_ui_manager (view);
 
-	action_group = gtk_action_group_new ("calendar");
-	gtk_action_group_set_translation_domain (action_group, domain);
+	action_group = e_attachment_view_add_action_group (view, "calendar");
 	gtk_action_group_add_actions (
 		action_group, standard_entries,
 		G_N_ELEMENTS (standard_entries), handler);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	g_object_unref (action_group);
 
+	ui_manager = e_attachment_view_get_ui_manager (view);
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
 
 	if (error != NULL) {

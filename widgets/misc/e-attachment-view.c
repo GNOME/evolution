@@ -1456,6 +1456,28 @@ e_attachment_view_get_action (EAttachmentView *view,
 }
 
 GtkActionGroup *
+e_attachment_view_add_action_group (EAttachmentView *view,
+                                    const gchar *group_name)
+{
+	GtkActionGroup *action_group;
+	GtkUIManager *ui_manager;
+	const gchar *domain;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT_VIEW (view), NULL);
+	g_return_val_if_fail (group_name != NULL, NULL);
+
+	ui_manager = e_attachment_view_get_ui_manager (view);
+	domain = GETTEXT_PACKAGE;
+
+	action_group = gtk_action_group_new (group_name);
+	gtk_action_group_set_translation_domain (action_group, domain);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	g_object_unref (action_group);
+
+	return action_group;
+}
+
+GtkActionGroup *
 e_attachment_view_get_action_group (EAttachmentView *view,
                                     const gchar *group_name)
 {
