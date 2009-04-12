@@ -1126,7 +1126,7 @@ get_file_content (EMsgComposer *composer,
 	/* The newer signature UI saves signatures in UTF-8, but we still need to check that
 	   the signature is valid UTF-8 because it is possible that the user imported a
 	   signature file that is in his/her locale charset. If it's not in UTF-8 and not in
-	   the charset the composer is in (or their default mail charset) then fuck it,
+	   the charset the composer is in (or their default mail charset) then
 	   there's nothing we can do. */
 	if (buffer->len && !g_utf8_validate ((const gchar *)buffer->data, buffer->len, NULL)) {
 		stream = (CamelStream *) memstream;

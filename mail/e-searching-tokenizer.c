@@ -1175,7 +1175,6 @@ e_searching_tokenizer_clone (HTMLTokenizer *tok)
 	new_st->priv->primary = search_info_clone(orig_st->priv->primary);
 	new_st->priv->secondary = search_info_clone(orig_st->priv->secondary);
 
-	/* what the fucking what???? */
 #if 0
 	shared_state_ref (orig_st->priv->shared);
 	shared_state_unref (new_st->priv->shared);

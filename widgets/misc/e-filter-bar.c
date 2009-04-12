@@ -383,8 +383,6 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 	GSList *gtksux = NULL;
 	int num;
 
-	/* So gtk calls a signal again if you connect to it WHILE inside a changed event.
-	   So this snot is to work around that shit fucked up situation */
 	for (i=0;i<rules->len;i++)
 		gtksux = g_slist_prepend(gtksux, rules->pdata[i]);
 
