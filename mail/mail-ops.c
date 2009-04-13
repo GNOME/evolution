@@ -800,6 +800,12 @@ send_queue_done (struct _send_queue_msg *m)
 		m->done(m->destination, m->data);
 }
 
+static gchar *
+send_queue_desc (struct _append_msg *m)
+{
+	return g_strdup (_("Sending message"));
+}
+
 static void
 send_queue_free (struct _send_queue_msg *m)
 {
@@ -813,7 +819,7 @@ send_queue_free (struct _send_queue_msg *m)
 
 static MailMsgInfo send_queue_info = {
 	sizeof (struct _send_queue_msg),
-	(MailMsgDescFunc) NULL,
+	(MailMsgDescFunc) send_queue_desc,
 	(MailMsgExecFunc) send_queue_exec,
 	(MailMsgDoneFunc) send_queue_done,
 	(MailMsgFreeFunc) send_queue_free

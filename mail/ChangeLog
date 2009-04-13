@@ -1,5 +1,12 @@
 2009-04-13  Chenthill Palanisamy  <pchenthill@novell.com>
 
+	Fixes #467659 (bnc)
+	* mail/mail-mt.c:
+	* mail/mail-ops.c: Set the description for send mail
+	operation.
+
+2009-04-13  Chenthill Palanisamy  <pchenthill@novell.com>
+
 	Fixes #471083 (bnc)
 	* mail/em-folder-utils.c:
 	* mail/mail-folder-cache.c:
