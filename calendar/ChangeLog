@@ -1,3 +1,16 @@
+2009-04-13  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #561312
+	* calendar/gui/comp-util.c:
+	* calendar/gui/comp-util.h: Added a new function to
+	sanitize master recurrence event before modifying 
+	all instances.
+	* calendar/gui/dialogs/comp-editor.c:
+	* calendar/gui/e-day-view.c:
+	* calendar/gui/e-week-view.c: Used the new util api.
+	Do not invoke recurrence dialog while modifying detached
+	instances.
+
 2009-04-07  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #523802

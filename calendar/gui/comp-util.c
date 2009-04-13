@@ -796,3 +796,62 @@ cal_comp_process_source_list_drop (ECal *destination, icalcomponent *comp, GdkDr
 
 	return success;
 }
+
+void
+comp_util_sanitize_recurrence_master (ECalComponent *comp, ECal *client)
+{
+	ECalComponent *master = NULL;
+	icalcomponent *icalcomp = NULL;
+	ECalComponentRange rid;
+       	ECalComponentDateTime sdt;	
+	const char *uid;
+
+	/* Get the master component */
+	e_cal_component_get_uid (comp, &uid);
+	if (!e_cal_get_object (client, uid, NULL, &icalcomp, NULL)) {
+		g_warning ("Unable to get the master component \n");
+		return;
+	}
+
+	master = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (master, icalcomp);
+
+	/* Compare recur id and start date */
+	e_cal_component_get_recurid (comp, &rid);
+	e_cal_component_get_dtstart (comp, &sdt);
+
+	if (icaltime_compare_date_only (*rid.datetime.value, *sdt.value) == 0)
+	{
+		ECalComponentDateTime msdt, medt, edt;
+		int *sequence;
+
+		e_cal_component_get_dtstart (master, &msdt);
+		e_cal_component_get_dtend (master, &medt);
+
+		e_cal_component_get_dtend (comp, &edt);
+
+		sdt.value->year = msdt.value->year;
+		sdt.value->month = msdt.value->month;
+		sdt.value->day = msdt.value->day;
+
+		edt.value->year = medt.value->year;
+		edt.value->month = medt.value->month;
+		edt.value->day = medt.value->day;
+
+		e_cal_component_set_dtstart (comp, &sdt);
+		e_cal_component_set_dtend (comp, &edt);
+		
+		e_cal_component_get_sequence (master, &sequence);
+		e_cal_component_set_sequence (comp, sequence);
+
+		e_cal_component_free_datetime (&msdt);
+		e_cal_component_free_datetime (&medt);
+		e_cal_component_free_datetime (&edt);
+	}
+
+	e_cal_component_free_datetime (&sdt);
+	e_cal_component_free_range (&rid);
+	e_cal_component_set_recurid (comp, NULL);
+
+	g_object_unref (master);
+}

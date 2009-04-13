@@ -3445,11 +3445,14 @@ e_week_view_change_event_time (EWeekView *week_view, time_t start_dt, time_t end
 	week_view->last_edited_comp_string = e_cal_component_get_as_string (comp);
 
 
- 	if (e_cal_component_is_instance (comp)) {
+ 	if (e_cal_component_has_recurrences (comp)) {
  		if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
  			gtk_widget_queue_draw (week_view->main_canvas);
 			goto out;
  		}
+
+		if (mod == CALOBJ_MOD_ALL)
+			comp_util_sanitize_recurrence_master (comp, client);
 
 		if (mod == CALOBJ_MOD_THIS) {
 			e_cal_component_set_rdate_list (comp, NULL);
@@ -3457,7 +3460,8 @@ e_week_view_change_event_time (EWeekView *week_view, time_t start_dt, time_t end
 			e_cal_component_set_exdate_list (comp, NULL);
 			e_cal_component_set_exrule_list (comp, NULL);
 		}
-	}
+	} else if (e_cal_component_is_instance (comp))
+		mod = CALOBJ_MOD_THIS;
 
 	toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (week_view)));
 
@@ -3578,10 +3582,13 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 			CalObjModType mod = CALOBJ_MOD_ALL;
 			GtkWindow *toplevel;
 
-			if (e_cal_component_is_instance (comp)) {
+			if (e_cal_component_has_recurrences (comp)) {
 				if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
 					goto out;
 				}
+		
+				if (mod == CALOBJ_MOD_ALL)
+					comp_util_sanitize_recurrence_master (comp, client);
 
 				if (mod == CALOBJ_MOD_THIS) {
 					ECalComponentDateTime dt;
@@ -3633,7 +3640,8 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 
 					e_cal_component_commit_sequence (comp);
 				}
-			}
+			} else if (e_cal_component_is_instance (comp))
+				mod = CALOBJ_MOD_THIS;
 
 			/* FIXME When sending here, what exactly should we send? */
 			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (week_view)));

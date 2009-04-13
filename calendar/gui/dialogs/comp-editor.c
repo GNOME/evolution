@@ -799,6 +799,11 @@ save_comp (CompEditor *editor)
 		if (result)
 			g_signal_emit_by_name (editor, "object_created");
 	} else {
+
+		if (e_cal_component_has_recurrences (priv->comp) && priv->mod == CALOBJ_MOD_ALL)
+			comp_util_sanitize_recurrence_master (priv->comp, priv->client);
+
+
 		if (priv->mod == CALOBJ_MOD_THIS) {
 			e_cal_component_set_rdate_list (priv->comp, NULL);
 			e_cal_component_set_rrule_list (priv->comp, NULL);
@@ -1159,11 +1164,15 @@ action_save_cb (GtkAction *action,
 	}
 
 	commit_all_fields (editor);
-	if (e_cal_component_is_instance (priv->comp))
+	if (e_cal_component_has_recurrences (priv->comp)) {
 		if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor), delegated))
 			return;
 
+	} else if (e_cal_component_is_instance (priv->comp))
+		priv->mod = CALOBJ_MOD_THIS;
+
 	comp = comp_editor_get_current_comp (editor, &correct);
+		
 	e_cal_component_get_summary (comp, &text);
 	g_object_unref (comp);
 
