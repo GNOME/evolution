@@ -1,3 +1,11 @@
+2009-04-13  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #471083 (bnc)
+	* mail/em-folder-utils.c:
+	* mail/mail-folder-cache.c:
+	* mail/mail-folder-cache.h: Do not allow deleting
+	system folders.
+
 2008-04-04  Tobias Mueller  <tobiasmue@gnome.org>
 
 	** Fix for bug #569765

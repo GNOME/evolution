@@ -61,6 +61,7 @@
 #include "mail-config.h"
 #include "mail-component.h"
 #include "mail-vfolder.h"
+#include "mail-folder-cache.h"
 
 #include "em-utils.h"
 #include "em-popup.h"
@@ -401,6 +402,8 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 {
 	CamelStore *local;
 	GtkWidget *dialog;
+	char *uri;
+	int flags = 0;
 
 	local = mail_component_peek_local_store (NULL);
 
@@ -409,7 +412,14 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 		em_utils_show_error_silent (dialog);
 		return;
 	}
+	
+	if (mail_folder_cache_get_folder_info_flags (folder, &flags) && (flags & CAMEL_FOLDER_SYSTEM)) 
+	{
+		e_error_run(NULL,"mail:no-delete-special-folder", folder->name, NULL);
+		return;
+	}
 
+	g_free (uri);
 	camel_object_ref (folder);
 
 	dialog = e_error_new(NULL,
