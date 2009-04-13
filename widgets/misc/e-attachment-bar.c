@@ -442,6 +442,7 @@ update (EAttachmentBar *bar)
 		}
 
 		desc = camel_mime_part_get_description (attachment->body);
+    
 		if (!desc || *desc == '\0') {
 			if (attachment->file_name) {
 				desc = g_filename_to_utf8 (attachment->file_name, -1, NULL, NULL, NULL);
@@ -450,6 +451,8 @@ update (EAttachmentBar *bar)
 				if (desc)
 					desc = g_strdup (desc);
 			}
+		} else {
+			desc = g_strdup (desc);
 		}
 
 		if (!desc)

@@ -1,3 +1,11 @@
+2009-04-13  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fixes #578685 – evolution crashed with SIGSEGV.
+
+	** Patch by Takao Fujiwara <Takao.Fujiwara@Sun.COM>
+
+	* e-attachment-bar.c (update): Copy string. Avoids SIGSEGV.
+
 2009-03-09  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* widgets/misc/e-calendar-item.c: Removed the string
