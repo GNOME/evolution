@@ -1,3 +1,7 @@
+2009-04-14  Khaled Hosny <khaledhosny@eglug.org>
+
+	* ar.po: Don't translate gconf key values, fixes #569507.
+
 2009-04-13  Theppitak Karoonboonyanan  <thep@linux.thai.net>
 
 	* th.po: Updated Thai translation.
