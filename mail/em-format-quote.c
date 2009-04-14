@@ -28,7 +28,6 @@
 #include <string.h>
 
 #include <camel/camel-iconv.h>
-#include <camel/camel-stream.h>
 #include <camel/camel-stream-filter.h>
 #include <camel/camel-mime-filter-tohtml.h>
 #include <camel/camel-mime-filter-enriched.h>
@@ -55,14 +54,12 @@ static void emfq_format_attachment(EMFormat *, CamelStream *, CamelMimePart *, c
 
 static void emfq_builtin_init(EMFormatQuoteClass *efhc);
 
-static EMFormatClass *emfq_parent;
+static gpointer parent_class;
 
 static void
 emfq_init(GObject *o)
 {
 	EMFormatQuote *emfq =(EMFormatQuote *) o;
-
-	emfq->priv = g_malloc0(sizeof(*emfq->priv));
 
 	/* we want to convert url's etc */
 	emfq->text_html_flags = CAMEL_MIME_FILTER_TOHTML_PRE | CAMEL_MIME_FILTER_TOHTML_CONVERT_URLS
@@ -70,67 +67,81 @@ emfq_init(GObject *o)
 }
 
 static void
-emfq_finalise(GObject *o)
+emfq_finalize (GObject *object)
 {
-	EMFormatQuote *emfq =(EMFormatQuote *) o;
+	EMFormatQuote *emfq =(EMFormatQuote *) object;
 
 	if (emfq->stream)
 		camel_object_unref(emfq->stream);
 	g_free(emfq->credits);
-	g_free(emfq->priv);
 
-	((GObjectClass *) emfq_parent)->finalize(o);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
-emfq_base_init(EMFormatQuoteClass *emfqklass)
+emfq_base_init(EMFormatQuoteClass *emfqclass)
 {
-	emfq_builtin_init(emfqklass);
+	emfq_builtin_init(emfqclass);
 }
 
 static void
-emfq_class_init(GObjectClass *klass)
+emfq_class_init (EMFormatQuoteClass *class)
 {
-	((EMFormatClass *) klass)->format_clone = emfq_format_clone;
-	((EMFormatClass *) klass)->format_error = emfq_format_error;
-	((EMFormatClass *) klass)->format_source = emfq_format_source;
-	((EMFormatClass *) klass)->format_attachment = emfq_format_attachment;
+	GObjectClass *object_class;
+	EMFormatClass *format_class;
 
-	klass->finalize = emfq_finalise;
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EMFormatQuotePrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = emfq_finalize;
+
+	format_class = EM_FORMAT_CLASS (class);
+	format_class->format_clone = emfq_format_clone;
+	format_class->format_error = emfq_format_error;
+	format_class->format_source = emfq_format_source;
+	format_class->format_attachment = emfq_format_attachment;
 }
 
 GType
-em_format_quote_get_type(void)
+em_format_quote_get_type (void)
 {
 	static GType type = 0;
 
-	if (type == 0) {
-		static const GTypeInfo info = {
-			sizeof(EMFormatQuoteClass),
-			(GBaseInitFunc)emfq_base_init, NULL,
-			(GClassInitFunc)emfq_class_init,
-			NULL, NULL,
-			sizeof(EMFormatQuote), 0,
-			(GInstanceInitFunc) emfq_init
+	if (G_UNLIKELY (type == 0)) {
+		static const GTypeInfo type_info = {
+			sizeof (EMFormatQuoteClass),
+			(GBaseInitFunc) emfq_base_init,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) emfq_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EMFormatQuote),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) emfq_init,
+			NULL   /* value_table */
 		};
 
-		emfq_parent = g_type_class_ref(em_format_get_type());
-		type = g_type_register_static(em_format_get_type(), "EMFormatQuote", &info, 0);
+		type = g_type_register_static (
+			EM_TYPE_FORMAT, "EMFormatQuote", &type_info, 0);
 	}
 
 	return type;
 }
 
 EMFormatQuote *
-em_format_quote_new(const char *credits, CamelStream *stream, guint32 flags)
+em_format_quote_new (const gchar *credits,
+                     CamelStream *stream,
+                     guint32 flags)
 {
 	EMFormatQuote *emfq;
 
-	emfq = (EMFormatQuote *)g_object_new(em_format_quote_get_type(), NULL);
+	emfq = g_object_new (EM_TYPE_FORMAT_QUOTE, NULL);
 
-	emfq->credits = g_strdup(credits);
+	emfq->credits = g_strdup (credits);
 	emfq->stream = stream;
-	camel_object_ref(stream);
+	camel_object_ref (stream);
 	emfq->flags = flags;
 
 	return emfq;
@@ -148,7 +159,8 @@ emfq_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMime
 	EMFormatQuote *emfq = (EMFormatQuote *) emf;
 	const EMFormatHandler *handle;
 
-	((EMFormatClass *)emfq_parent)->format_clone(emf, folder, uid, msg, src);
+	/* Chain up to parent's format_clone() method. */
+	EM_FORMAT_CLASS (parent_class)->format_clone (emf, folder, uid, msg, src);
 
 	camel_stream_reset(emfq->stream);
 	if (gconf_client_get_bool(mail_config_get_gconf_client(), "/apps/evolution/mail/composer/top_signature", NULL))

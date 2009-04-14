@@ -38,22 +38,27 @@
 static gpointer parent_class = NULL;
 
 static void
-efhp_finalize (GObject *o)
+efhp_finalize (GObject *object)
 {
-	EMFormatHTMLPrint *efhp = (EMFormatHTMLPrint *)o;
+	EMFormatHTMLPrint *efhp = (EMFormatHTMLPrint *)object;
 
 	gtk_widget_destroy (efhp->window);
 	if (efhp->source != NULL)
 		g_object_unref (efhp->source);
 
-	((GObjectClass *) parent_class)->finalize (o);
+	/* Chain up to parent's finalize() method. */
+	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
 static void
-efhp_class_init (GObjectClass *class)
+efhp_class_init (EMFormatHTMLPrintClass *class)
 {
+	GObjectClass *object_class;
+
 	parent_class = g_type_class_peek_parent (class);
-	class->finalize = efhp_finalize;
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->finalize = efhp_finalize;
 }
 
 static void
@@ -93,7 +98,7 @@ em_format_html_print_get_type (void)
 		};
 
 		type = g_type_register_static (
-			em_format_html_get_type (), "EMFormatHTMLPrint",
+			EM_TYPE_FORMAT_HTML, "EMFormatHTMLPrint",
 			&type_info, 0);
 	}
 
@@ -101,7 +106,8 @@ em_format_html_print_get_type (void)
 }
 
 EMFormatHTMLPrint *
-em_format_html_print_new (EMFormatHTML *source, GtkPrintOperationAction action)
+em_format_html_print_new (EMFormatHTML *source,
+                          GtkPrintOperationAction action)
 {
 	EMFormatHTMLPrint *efhp;
 

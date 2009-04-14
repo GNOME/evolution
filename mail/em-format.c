@@ -111,23 +111,6 @@ emf_insert_cache(EMFormat *emf, const char *partid)
 }
 
 static void
-emf_init (EMFormat *emf)
-{
-	emf->inline_table = g_hash_table_new_full (
-		g_str_hash, g_str_equal,
-		(GDestroyNotify) NULL,
-		(GDestroyNotify) emf_free_cache);
-	emf->composer = FALSE;
-	emf->print = FALSE;
-	e_dlist_init(&emf->header_list);
-	em_format_default_headers(emf);
-	emf->part_id = g_string_new("");
-
-	emf->session = session;
-	camel_object_ref (emf->session);
-}
-
-static void
 emf_finalize (GObject *object)
 {
 	EMFormat *emf = EM_FORMAT (object);
@@ -182,6 +165,23 @@ emf_class_init (EMFormatClass *class)
 
 	class->type_handlers = g_hash_table_new (g_str_hash, g_str_equal);
 	emf_builtin_init (class);
+}
+
+static void
+emf_init (EMFormat *emf)
+{
+	emf->inline_table = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		(GDestroyNotify) NULL,
+		(GDestroyNotify) emf_free_cache);
+	emf->composer = FALSE;
+	emf->print = FALSE;
+	e_dlist_init(&emf->header_list);
+	em_format_default_headers(emf);
+	emf->part_id = g_string_new("");
+
+	emf->session = session;
+	camel_object_ref (emf->session);
 }
 
 GType
