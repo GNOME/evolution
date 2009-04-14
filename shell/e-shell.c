@@ -804,16 +804,6 @@ shell_class_init (EShellClass *class)
 	/* Install some application-wide settings. */
 
 	e_shell_settings_install_property (
-		g_param_spec_int (
-			"attachment-view",
-			NULL,
-			NULL,
-			0,
-			1,
-			0,
-			G_PARAM_READWRITE));
-
-	e_shell_settings_install_property (
 		g_param_spec_boolean (
 			"disable-application-handlers",
 			NULL,

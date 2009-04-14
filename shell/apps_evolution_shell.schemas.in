@@ -41,7 +41,35 @@
       </locale>
     </schema>
 
- <!-- Offline Mode -->
+    <!-- Initial attachment view (icon or list) -->
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/attachment_view</key>
+      <applyto>/apps/evolution/shell/attachment_view</applyto>
+      <owner>evolution</owner>
+      <type>int</type>
+      <default>0</default>
+      <locale name="C">
+        <short>Initial attachment view</short>
+        <long>Initial view for attachment bar widgets.
+        "0" is Icon View, "1" is List View.</long>
+      </locale>
+    </schema>
+
+    <!-- Initial GtkFileChooser Folder -->
+
+    <schema>
+      <key>/schemas/apps/evolution/shell/current_folder</key>
+      <applyto>/apps/evolution/shell/current-folder</applyto>
+      <owner>evolution</owner>
+      <type>string</type>
+      <locale name="C">
+        <short>Initial file chooser folder</short>
+        <long>Initial folder for GtkFileChooser dialogs.</long>
+      </locale>
+    </schema>
+
+    <!-- Offline Mode -->
 
     <schema>
       <key>/schemas/apps/evolution/shell/start_offline</key>

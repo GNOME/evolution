@@ -22,7 +22,10 @@
 #include "e-attachment-paned.h"
 
 #include <glib/gi18n.h>
+
 #include "e-util/e-binding.h"
+#include "e-util/gconf-bridge.h"
+
 #include "e-attachment-view.h"
 #include "e-attachment-store.h"
 #include "e-attachment-icon-view.h"
@@ -272,8 +275,14 @@ static void
 attachment_paned_constructed (GObject *object)
 {
 	EAttachmentPanedPrivate *priv;
+	GConfBridge *bridge;
+	const gchar *key;
 
 	priv = E_ATTACHMENT_PANED_GET_PRIVATE (object);
+
+	bridge = gconf_bridge_get ();
+
+	/* Set up property-to-property bindings. */
 
 	e_mutual_binding_new (
 		G_OBJECT (object), "active-view",
@@ -302,6 +311,11 @@ attachment_paned_constructed (GObject *object)
 	e_mutual_binding_new (
 		G_OBJECT (object), "expanded",
 		G_OBJECT (priv->notebook), "visible");
+
+	/* Set up property-to-GConf bindings. */
+
+	key = "/apps/evolution/shell/attachment_view";
+	gconf_bridge_bind_property (bridge, key, object, "active-view");
 }
 
 static EAttachmentViewPrivate *

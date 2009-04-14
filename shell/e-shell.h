@@ -59,8 +59,6 @@ typedef struct _EShell EShell;
 typedef struct _EShellClass EShellClass;
 typedef struct _EShellPrivate EShellPrivate;
 
-typedef enum _EShellLineStatus EShellLineStatus;
-
 /**
  * EShell:
  *

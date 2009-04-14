@@ -27,6 +27,7 @@
 
 #include "e-util/e-util.h"
 #include "e-util/e-mktemp.h"
+#include "e-util/gconf-bridge.h"
 
 #define E_ATTACHMENT_STORE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -134,6 +135,18 @@ attachment_store_finalize (GObject *object)
 }
 
 static void
+attachment_store_constructed (GObject *object)
+{
+	GConfBridge *bridge;
+	const gchar *key;
+
+	bridge = gconf_bridge_get ();
+
+	key = "/apps/evolution/shell/current_folder";
+	gconf_bridge_bind_property (bridge, key, object, "current-folder");
+}
+
+static void
 attachment_store_class_init (EAttachmentStoreClass *class)
 {
 	GObjectClass *object_class;
@@ -146,6 +159,7 @@ attachment_store_class_init (EAttachmentStoreClass *class)
 	object_class->get_property = attachment_store_get_property;
 	object_class->dispose = attachment_store_dispose;
 	object_class->finalize = attachment_store_finalize;
+	object_class->constructed = attachment_store_constructed;
 
 	g_object_class_install_property (
 		object_class,

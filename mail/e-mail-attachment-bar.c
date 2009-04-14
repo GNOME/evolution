@@ -22,7 +22,10 @@
 #include "e-mail-attachment-bar.h"
 
 #include <glib/gi18n.h>
+
 #include "e-util/e-binding.h"
+#include "e-util/gconf-bridge.h"
+
 #include "e-attachment-store.h"
 #include "e-attachment-icon-view.h"
 #include "e-attachment-tree-view.h"
@@ -267,8 +270,14 @@ static void
 mail_attachment_bar_constructed (GObject *object)
 {
 	EMailAttachmentBarPrivate *priv;
+	GConfBridge *bridge;
+	const gchar *key;
 
 	priv = E_MAIL_ATTACHMENT_BAR_GET_PRIVATE (object);
+
+	bridge = gconf_bridge_get ();
+
+	/* Set up property-to-property bindings. */
 
 	e_mutual_binding_new (
 		G_OBJECT (object), "active-view",
@@ -293,6 +302,11 @@ mail_attachment_bar_constructed (GObject *object)
 	e_mutual_binding_new (
 		G_OBJECT (object), "expanded",
 		G_OBJECT (priv->vbox), "visible");
+
+	/* Set up property-to-GConf bindings. */
+
+	key = "/apps/evolution/shell/attachment_view";
+	gconf_bridge_bind_property (bridge, key, object, "active-view");
 }
 
 static void
