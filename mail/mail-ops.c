@@ -801,7 +801,7 @@ send_queue_done (struct _send_queue_msg *m)
 }
 
 static gchar *
-send_queue_desc (struct _append_msg *m)
+send_queue_desc (struct _send_queue_msg *m)
 {
 	return g_strdup (_("Sending message"));
 }

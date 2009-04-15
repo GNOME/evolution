@@ -1,3 +1,7 @@
+2009-04-15  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* mail/mail-ops.c: Corrected a typo error.
+
 2009-04-13  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #467659 (bnc)
