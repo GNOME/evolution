@@ -101,9 +101,6 @@ struct _EAttachmentViewPrivate {
 
 	/* Popup Menu Management */
 	GtkUIManager *ui_manager;
-	GtkActionGroup *standard_actions;
-	GtkActionGroup *editable_actions;
-	GtkActionGroup *openwith_actions;
 	guint merge_id;
 
 	guint editable : 1;

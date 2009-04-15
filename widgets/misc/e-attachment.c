@@ -66,8 +66,10 @@ struct _EAttachmentPrivate {
 	gchar *disposition;
 	gint percent;
 
-	guint loading : 1;
-	guint saving  : 1;
+	guint can_show : 1;
+	guint loading  : 1;
+	guint saving   : 1;
+	guint shown    : 1;
 
 	camel_cipher_validity_encrypt_t encrypted;
 	camel_cipher_validity_sign_t signed_;
@@ -81,6 +83,7 @@ struct _EAttachmentPrivate {
 
 enum {
 	PROP_0,
+	PROP_CAN_SHOW,
 	PROP_DISPOSITION,
 	PROP_ENCRYPTED,
 	PROP_FILE,
@@ -90,6 +93,7 @@ enum {
 	PROP_PERCENT,
 	PROP_REFERENCE,
 	PROP_SAVING,
+	PROP_SHOWN,
 	PROP_SIGNED
 };
 
@@ -445,6 +449,12 @@ attachment_set_property (GObject *object,
                          GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_CAN_SHOW:
+			e_attachment_set_can_show (
+				E_ATTACHMENT (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_DISPOSITION:
 			e_attachment_set_disposition (
 				E_ATTACHMENT (object),
@@ -461,6 +471,12 @@ attachment_set_property (GObject *object,
 			e_attachment_set_file (
 				E_ATTACHMENT (object),
 				g_value_get_object (value));
+			return;
+
+		case PROP_SHOWN:
+			e_attachment_set_shown (
+				E_ATTACHMENT (object),
+				g_value_get_boolean (value));
 			return;
 
 		case PROP_MIME_PART:
@@ -492,6 +508,12 @@ attachment_get_property (GObject *object,
                          GParamSpec *pspec)
 {
 	switch (property_id) {
+		case PROP_CAN_SHOW:
+			g_value_set_boolean (
+				value, e_attachment_get_can_show (
+				E_ATTACHMENT (object)));
+			return;
+
 		case PROP_DISPOSITION:
 			g_value_set_string (
 				value, e_attachment_get_disposition (
@@ -513,6 +535,12 @@ attachment_get_property (GObject *object,
 		case PROP_FILE_INFO:
 			g_value_set_object (
 				value, e_attachment_get_file_info (
+				E_ATTACHMENT (object)));
+			return;
+
+		case PROP_SHOWN:
+			g_value_set_boolean (
+				value, e_attachment_get_shown (
 				E_ATTACHMENT (object)));
 			return;
 
@@ -625,6 +653,17 @@ attachment_class_init (EAttachmentClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_CAN_SHOW,
+		g_param_spec_boolean (
+			"can-show",
+			"Can Show",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_DISPOSITION,
 		g_param_spec_string (
 			"disposition",
@@ -720,6 +759,17 @@ attachment_class_init (EAttachmentClass *class)
 			NULL,
 			FALSE,
 			G_PARAM_READABLE));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOWN,
+		g_param_spec_boolean (
+			"shown",
+			"Shown",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT));
 
 	/* FIXME Define a GEnumClass for this. */
 	g_object_class_install_property (
@@ -985,6 +1035,25 @@ e_attachment_cancel (EAttachment *attachment)
 	g_cancellable_cancel (attachment->priv->cancellable);
 }
 
+gboolean
+e_attachment_get_can_show (EAttachment *attachment)
+{
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
+
+	return attachment->priv->can_show;
+}
+
+void
+e_attachment_set_can_show (EAttachment *attachment,
+                           gboolean can_show)
+{
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+
+	attachment->priv->can_show = can_show;
+
+	g_object_notify (G_OBJECT (attachment), "can-show");
+}
+
 const gchar *
 e_attachment_get_disposition (EAttachment *attachment)
 {
@@ -1112,6 +1181,25 @@ e_attachment_get_saving (EAttachment *attachment)
 	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
 
 	return attachment->priv->saving;
+}
+
+gboolean
+e_attachment_get_shown (EAttachment *attachment)
+{
+	g_return_val_if_fail (E_IS_ATTACHMENT (attachment), FALSE);
+
+	return attachment->priv->shown;
+}
+
+void
+e_attachment_set_shown (EAttachment *attachment,
+                        gboolean shown)
+{
+	g_return_if_fail (E_IS_ATTACHMENT (attachment));
+
+	attachment->priv->shown = shown;
+
+	g_object_notify (G_OBJECT (attachment), "shown");
 }
 
 camel_cipher_validity_encrypt_t

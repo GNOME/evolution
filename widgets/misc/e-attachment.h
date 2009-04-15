@@ -71,6 +71,9 @@ void		e_attachment_add_to_multipart	(EAttachment *attachment,
 						 CamelMultipart *multipart,
 						 const gchar *default_charset);
 void		e_attachment_cancel		(EAttachment *attachment);
+gboolean	e_attachment_get_can_show	(EAttachment *attachment);
+void		e_attachment_set_can_show	(EAttachment *attachment,
+						 gboolean can_show);
 const gchar *	e_attachment_get_disposition	(EAttachment *attachment);
 void		e_attachment_set_disposition	(EAttachment *attachment,
 						 const gchar *disposition);
@@ -88,6 +91,9 @@ GtkTreeRowReference *
 void		e_attachment_set_reference	(EAttachment *attachment,
 						 GtkTreeRowReference *reference);
 gboolean	e_attachment_get_saving		(EAttachment *attachment);
+gboolean	e_attachment_get_shown		(EAttachment *attachment);
+void		e_attachment_set_shown		(EAttachment *attachment,
+						 gboolean shown);
 camel_cipher_validity_encrypt_t
 		e_attachment_get_encrypted	(EAttachment *attachment);
 void		e_attachment_set_encrypted	(EAttachment *attachment,

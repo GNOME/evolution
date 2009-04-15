@@ -1219,8 +1219,10 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	}
 
 	attachment = info->attachment;
+	e_attachment_set_shown (attachment, info->shown);
 	e_attachment_set_signed (attachment, info->sign);
 	e_attachment_set_encrypted (attachment, info->encrypt);
+	e_attachment_set_can_show (attachment, info->handle != NULL);
 
 	parent = gtk_widget_get_toplevel (GTK_WIDGET (efh->html));
 	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
@@ -1238,10 +1240,6 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	widget = e_attachment_button_new (view);
 	e_attachment_button_set_attachment (
 		E_ATTACHMENT_BUTTON (widget), attachment);
-	e_attachment_button_set_expandable (
-		E_ATTACHMENT_BUTTON (widget), (info->handle != NULL));
-	e_attachment_button_set_expanded (
-		E_ATTACHMENT_BUTTON (widget), info->shown);
 	gtk_container_add (GTK_CONTAINER (eb), widget);
 	gtk_widget_show (widget);
 

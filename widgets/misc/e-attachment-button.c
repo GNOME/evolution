@@ -35,6 +35,9 @@ struct _EAttachmentButtonPrivate {
 	EAttachment *attachment;
 	gulong reference_handler_id;
 
+	EMutualBinding *can_show_binding;
+	EMutualBinding *shown_binding;
+
 	GtkWidget *expand_button;
 	GtkWidget *toggle_button;
 	GtkWidget *cell_view;
@@ -56,11 +59,17 @@ static gpointer parent_class;
 static void
 attachment_button_menu_deactivate_cb (EAttachmentButton *button)
 {
+	EAttachmentView *view;
+	GtkActionGroup *action_group;
 	GtkToggleButton *toggle_button;
 
+	view = e_attachment_button_get_view (button);
+	action_group = e_attachment_view_get_action_group (view, "inline");
 	toggle_button = GTK_TOGGLE_BUTTON (button->priv->toggle_button);
 
 	gtk_toggle_button_set_active (toggle_button, FALSE);
+
+	gtk_action_group_set_visible (action_group, FALSE);
 }
 
 static void
@@ -96,9 +105,9 @@ attachment_button_menu_position (GtkMenu *menu,
 
 	direction = gtk_widget_get_direction (widget);
 	if (direction == GTK_TEXT_DIR_LTR)
-		x += MAX (widget->allocation.width - menu_requisition.width, 0);
+		*x += MAX (widget->allocation.width - menu_requisition.width, 0);
 	else if (menu_requisition.width > widget->allocation.width)
-		x -= menu_requisition.width - widget->allocation.width;
+		*x -= menu_requisition.width - widget->allocation.width;
 
 	if ((*y + toggle_button->allocation.height + menu_requisition.height) <= monitor.y + monitor.height)
 		*y += toggle_button->allocation.height;
@@ -139,10 +148,12 @@ static void
 attachment_button_show_popup_menu (EAttachmentButton *button,
                                    GdkEventButton *event)
 {
-	GtkToggleButton *toggle_button;
 	EAttachmentView *view;
+	GtkActionGroup *action_group;
+	GtkToggleButton *toggle_button;
 
 	view = e_attachment_button_get_view (button);
+	action_group = e_attachment_view_get_action_group (view, "inline");
 	toggle_button = GTK_TOGGLE_BUTTON (button->priv->toggle_button);
 
 	attachment_button_select_path (button);
@@ -152,6 +163,7 @@ attachment_button_show_popup_menu (EAttachmentButton *button,
 		view, event, (GtkMenuPositionFunc)
 		attachment_button_menu_position, button);
 
+	gtk_action_group_set_visible (action_group, TRUE);
 }
 
 static void
@@ -630,6 +642,12 @@ e_attachment_button_set_attachment (EAttachmentButton *button,
 	}
 
 	if (button->priv->attachment != NULL) {
+		e_mutual_binding_unbind (
+			button->priv->can_show_binding);
+		button->priv->can_show_binding = NULL;
+		e_mutual_binding_unbind (
+			button->priv->shown_binding);
+		button->priv->shown_binding = NULL;
 		g_signal_handler_disconnect (
 			button->priv->attachment,
 			button->priv->reference_handler_id);
@@ -639,15 +657,27 @@ e_attachment_button_set_attachment (EAttachmentButton *button,
 	button->priv->attachment = attachment;
 
 	if (attachment != NULL) {
+		EMutualBinding *binding;
 		gulong handler_id;
+
+		binding = e_mutual_binding_new (
+			G_OBJECT (attachment), "can-show",
+			G_OBJECT (button), "expandable");
+		button->priv->can_show_binding = binding;
+
+		binding = e_mutual_binding_new (
+			G_OBJECT (attachment), "shown",
+			G_OBJECT (button), "expanded");
+		button->priv->shown_binding = binding;
 
 		handler_id = g_signal_connect_swapped (
 			attachment, "notify::reference",
 			G_CALLBACK (attachment_button_update_cell_view),
 			button);
+		button->priv->reference_handler_id = handler_id;
+
 		attachment_button_update_cell_view (button);
 		attachment_button_update_pixbufs (button);
-		button->priv->reference_handler_id = handler_id;
 	}
 
 	g_object_notify (G_OBJECT (button), "attachment");

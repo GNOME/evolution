@@ -51,6 +51,11 @@ static const gchar *ui =
 "    <menuitem action='remove'/>"
 "    <menuitem action='properties'/>"
 "    <separator/>"
+"    <placeholder name='inline-actions'>"
+"      <menuitem action='show'/>"
+"      <menuitem action='hide'/>"
+"    </placeholder>"
+"    <separator/>"
 "    <placeholder name='custom-actions'/>"
 "    <separator/>"
 "    <menuitem action='add'/>"
@@ -87,6 +92,23 @@ action_cancel_cb (GtkAction *action,
 	attachment = selected->data;
 
 	e_attachment_cancel (attachment);
+
+	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
+	g_list_free (selected);
+}
+
+static void
+action_hide_cb (GtkAction *action,
+                EAttachmentView *view)
+{
+	EAttachment *attachment;
+	GList *selected;
+
+	selected = e_attachment_view_get_selected_attachments (view);
+	g_return_if_fail (g_list_length (selected) == 1);
+	attachment = selected->data;
+
+	e_attachment_set_shown (attachment, FALSE);
 
 	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
 	g_list_free (selected);
@@ -246,6 +268,23 @@ exit:
 	g_list_free (selected);
 }
 
+static void
+action_show_cb (GtkAction *action,
+                EAttachmentView *view)
+{
+	EAttachment *attachment;
+	GList *selected;
+
+	selected = e_attachment_view_get_selected_attachments (view);
+	g_return_if_fail (g_list_length (selected) == 1);
+	attachment = selected->data;
+
+	e_attachment_set_shown (attachment, TRUE);
+
+	g_list_foreach (selected, (GFunc) g_object_unref, NULL);
+	g_list_free (selected);
+}
+
 static GtkActionEntry standard_entries[] = {
 
 	{ "cancel",
@@ -301,6 +340,23 @@ static GtkActionEntry editable_entries[] = {
 	  NULL,
 	  NULL,  /* XXX Add a tooltip! */
 	  G_CALLBACK (action_remove_cb) }
+};
+
+static GtkActionEntry inline_entries[] = {
+
+	{ "hide",
+	  NULL,
+	  N_("_Hide"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_hide_cb) },
+
+	{ "show",
+	  NULL,
+	  N_("_View Inline"),
+	  NULL,
+	  NULL,  /* XXX Add a tooltip! */
+	  G_CALLBACK (action_show_cb) }
 };
 
 static void
@@ -514,10 +570,13 @@ attachment_view_update_actions (EAttachmentView *view)
 {
 	EAttachmentViewPrivate *priv;
 	EAttachment *attachment;
+	GtkActionGroup *action_group;
 	GtkAction *action;
 	GList *list, *iter;
 	guint n_selected;
 	gboolean busy = FALSE;
+	gboolean can_show = FALSE;
+	gboolean shown = FALSE;
 
 	g_return_if_fail (E_IS_ATTACHMENT_VIEW (view));
 
@@ -529,6 +588,8 @@ attachment_view_update_actions (EAttachmentView *view)
 		attachment = g_object_ref (list->data);
 		busy |= e_attachment_get_loading (attachment);
 		busy |= e_attachment_get_saving (attachment);
+		can_show = e_attachment_get_can_show (attachment);
+		shown = e_attachment_get_shown (attachment);
 	} else
 		attachment = NULL;
 
@@ -537,6 +598,9 @@ attachment_view_update_actions (EAttachmentView *view)
 
 	action = e_attachment_view_get_action (view, "cancel");
 	gtk_action_set_visible (action, busy);
+
+	action = e_attachment_view_get_action (view, "hide");
+	gtk_action_set_visible (action, can_show && shown);
 
 	action = e_attachment_view_get_action (view, "properties");
 	gtk_action_set_visible (action, !busy && n_selected == 1);
@@ -547,9 +611,13 @@ attachment_view_update_actions (EAttachmentView *view)
 	action = e_attachment_view_get_action (view, "save-as");
 	gtk_action_set_visible (action, !busy && n_selected > 0);
 
+	action = e_attachment_view_get_action (view, "show");
+	gtk_action_set_visible (action, can_show && !shown);
+
 	/* Clear out the "openwith" action group. */
 	gtk_ui_manager_remove_ui (priv->ui_manager, priv->merge_id);
-	e_action_group_remove_all_actions (priv->openwith_actions);
+	action_group = e_attachment_view_get_action_group (view, "openwith");
+	e_action_group_remove_all_actions (action_group);
 
 	if (attachment == NULL || busy)
 		return;
@@ -559,6 +627,7 @@ attachment_view_update_actions (EAttachmentView *view)
 	for (iter = list; iter != NULL; iter = iter->next) {
 		GAppInfo *app_info = iter->data;
 		GtkAction *action;
+		GIcon *app_icon;
 		const gchar *app_executable;
 		const gchar *app_name;
 		gchar *action_tooltip;
@@ -569,6 +638,7 @@ attachment_view_update_actions (EAttachmentView *view)
 			continue;
 
 		app_executable = g_app_info_get_executable (app_info);
+		app_icon = g_app_info_get_icon (app_info);
 		app_name = g_app_info_get_name (app_info);
 
 		action_name = g_strdup_printf ("open-in-%s", app_executable);
@@ -579,6 +649,8 @@ attachment_view_update_actions (EAttachmentView *view)
 
 		action = gtk_action_new (
 			action_name, action_label, action_tooltip, NULL);
+
+		gtk_action_set_gicon (action, app_icon);
 
 		g_object_set_data_full (
 			G_OBJECT (action),
@@ -594,7 +666,7 @@ attachment_view_update_actions (EAttachmentView *view)
 			action, "activate",
 			G_CALLBACK (action_open_in_cb), view);
 
-		gtk_action_group_add_action (priv->openwith_actions, action);
+		gtk_action_group_add_action (action_group, action);
 
 		gtk_ui_manager_add_ui (
 			priv->ui_manager, priv->merge_id,
@@ -713,7 +785,6 @@ e_attachment_view_init (EAttachmentView *view)
 	EAttachmentViewPrivate *priv;
 	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
-	const gchar *domain = GETTEXT_PACKAGE;
 	GError *error = NULL;
 
 	priv = e_attachment_view_get_private (view);
@@ -722,26 +793,29 @@ e_attachment_view_init (EAttachmentView *view)
 	priv->merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 	priv->ui_manager = ui_manager;
 
-	action_group = gtk_action_group_new ("standard");
-	gtk_action_group_set_translation_domain (action_group, domain);
+	action_group = e_attachment_view_add_action_group (view, "standard");
+
 	gtk_action_group_add_actions (
 		action_group, standard_entries,
 		G_N_ELEMENTS (standard_entries), view);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	priv->standard_actions = action_group;
 
-	action_group = gtk_action_group_new ("editable");
-	gtk_action_group_set_translation_domain (action_group, domain);
+	action_group = e_attachment_view_add_action_group (view, "editable");
+
+	e_mutual_binding_new (
+		G_OBJECT (view), "editable",
+		G_OBJECT (action_group), "visible");
 	gtk_action_group_add_actions (
 		action_group, editable_entries,
 		G_N_ELEMENTS (editable_entries), view);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	priv->editable_actions = action_group;
 
-	action_group = gtk_action_group_new ("openwith");
-	gtk_action_group_set_translation_domain (action_group, domain);
-	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
-	priv->openwith_actions = action_group;
+	action_group = e_attachment_view_add_action_group (view, "inline");
+
+	gtk_action_group_add_actions (
+		action_group, inline_entries,
+		G_N_ELEMENTS (inline_entries), view);
+	gtk_action_group_set_visible (action_group, FALSE);
+
+	e_attachment_view_add_action_group (view, "openwith");
 
 	/* Because we are loading from a hard-coded string, there is
 	 * no chance of I/O errors.  Failure here implies a malformed
@@ -749,10 +823,6 @@ e_attachment_view_init (EAttachmentView *view)
 	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
 	if (error != NULL)
 		g_error ("%s", error->message);
-
-	e_mutual_binding_new (
-		G_OBJECT (view), "editable",
-		G_OBJECT (priv->editable_actions), "visible");
 
 	attachment_view_init_handlers (view);
 
@@ -796,21 +866,6 @@ e_attachment_view_dispose (EAttachmentView *view)
 	if (priv->ui_manager != NULL) {
 		g_object_unref (priv->ui_manager);
 		priv->ui_manager = NULL;
-	}
-
-	if (priv->standard_actions != NULL) {
-		g_object_unref (priv->standard_actions);
-		priv->standard_actions = NULL;
-	}
-
-	if (priv->editable_actions != NULL) {
-		g_object_unref (priv->editable_actions);
-		priv->editable_actions = NULL;
-	}
-
-	if (priv->openwith_actions != NULL) {
-		g_object_unref (priv->openwith_actions);
-		priv->openwith_actions = NULL;
 	}
 }
 
