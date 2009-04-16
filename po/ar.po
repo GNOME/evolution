@@ -15184,7 +15184,7 @@ msgstr "ترشيح الرسائل المنتقاه"
 
 #: ../mail/mail-ops.c:265
 msgid "Fetching Mail"
-msgstr "يجري سحب البريد"
+msgstr "سحب البريد"
 
 #. sending mail, filtering failed
 #: ../mail/mail-ops.c:561
