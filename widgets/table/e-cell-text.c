@@ -61,6 +61,7 @@
 #define d(x)
 #define DO_SELECTION 1
 #define VIEW_TO_CELL(view) E_CELL_TEXT (((ECellView *)view)->ecell)
+#define VERTICAL_PADDING 4  /* Padding for top and bottom */
 
 #if d(!)0
 #define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)), g_print ("%s: e_table_item_leave_edit\n", __FUNCTION__))
@@ -755,9 +756,9 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	gdk_gc_set_foreground (text_view->gc, foreground);
 
 	x1 += 4;
-	y1 += 1;
+	y1 += VERTICAL_PADDING;
 	x2 -= 4;
-	y2 -= 1;
+	y2 -= VERTICAL_PADDING;
 
 	x_origin = x1 + ect->x + text_view->xofs - (edit ? edit->xofs_edit : 0);
 	y_origin = y1 + ect->y + text_view->yofs - (edit ? edit->yofs_edit : 0);
@@ -1154,7 +1155,7 @@ ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
 	layout = generate_layout (text_view, model_col, view_col, row, 0);
 	pango_layout_get_pixel_size (layout, NULL, &height);
 	g_object_unref (layout);
-	return height + 2;
+	return height + (VERTICAL_PADDING * 2);
 }
 
 /*
