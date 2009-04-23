@@ -1402,7 +1402,7 @@ em_utils_folder_is_templates (CamelFolder *folder, const char *uri)
 	if (folder == local_templates_folder)
 		return TRUE;
 	
-	if (uri == NULL)
+	if (folder == NULL || uri == NULL)
 		return FALSE;
 		
 	accounts = e_get_account_list ();
@@ -1453,7 +1453,7 @@ em_utils_folder_is_drafts(CamelFolder *folder, const char *uri)
 	if (folder == local_drafts_folder)
 		return TRUE;
 
-	if (uri == NULL)
+	if (folder == NULL || uri == NULL)
 		return FALSE;
 
 	accounts = e_get_account_list ();
@@ -1504,7 +1504,7 @@ em_utils_folder_is_sent(CamelFolder *folder, const char *uri)
 	if (folder == local_sent_folder)
 		return TRUE;
 
-	if (uri == NULL)
+	if (folder == NULL || uri == NULL)
 		return FALSE;
 
 	accounts = e_get_account_list ();

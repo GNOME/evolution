@@ -140,7 +140,6 @@ static void emfb_search_menu_activated(ESearchBar *esb, int id, EMFolderBrowser 
 static void emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb);
 static void emfb_search_search_cleared(ESearchBar *esb);
 
-static int emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, EMFolderBrowser *emfb);
 static void emfb_list_message_selected (MessageList *ml, const char *uid, EMFolderBrowser *emfb);
 
 static void emfb_expand_all_threads(BonoboUIComponent *uid, void *data, const char *path);
@@ -337,7 +336,6 @@ emfb_init(GObject *o)
 
 	e_event_emit((EEvent *)eme, "emfb.created", (EEventTarget *)target);
 
-	g_signal_connect (((EMFolderView *) emfb)->list->tree, "key_press", G_CALLBACK(emfb_list_key_press), emfb);
 	g_signal_connect (((EMFolderView *) emfb)->list, "message_selected", G_CALLBACK (emfb_list_message_selected), emfb);
 
 }
@@ -817,60 +815,6 @@ emfb_search_search_cleared(ESearchBar *esb)
 }
 
 /* ********************************************************************** */
-
-static int
-emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev, EMFolderBrowser *emfb)
-{
-	gboolean state, folder_choose = TRUE;
-	if ((ev->key.state & GDK_CONTROL_MASK) != 0)
-		return FALSE;
-
-	switch (ev->key.keyval) {
-	case GDK_space:
-		if (!emfb->view.preview->caret_mode && mail_config_get_enable_magic_spacebar ()) {
-			state = gtk_html_command(((EMFormatHTML *)((EMFolderView *) emfb)->preview)->html, "scroll-forward");
-			if (!state) {
-				folder_choose = message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_NEXT, 0, CAMEL_MESSAGE_SEEN);
-				if (!folder_choose)
-					folder_choose = message_list_select(((EMFolderView *) emfb)->list,
-								    MESSAGE_LIST_SELECT_NEXT | MESSAGE_LIST_SELECT_WRAP, 0, CAMEL_MESSAGE_SEEN);
-			}
-
-		} else
-			em_utils_adjustment_page(gtk_scrolled_window_get_vadjustment((GtkScrolledWindow *)emfb->priv->scroll), TRUE);
-		break;
-	case GDK_BackSpace:
-		if (!emfb->view.preview->caret_mode && mail_config_get_enable_magic_spacebar ()) {
-			state = gtk_html_command(((EMFormatHTML *)((EMFolderView *) emfb)->preview)->html, "scroll-backward");
-			if (!state) {
-				folder_choose = message_list_select(((EMFolderView *) emfb)->list, MESSAGE_LIST_SELECT_PREVIOUS, 0, CAMEL_MESSAGE_SEEN);
-				if (!folder_choose)
-					folder_choose = message_list_select(((EMFolderView *) emfb)->list,
-								    MESSAGE_LIST_SELECT_PREVIOUS | MESSAGE_LIST_SELECT_WRAP, 0, CAMEL_MESSAGE_SEEN);
-			}
-
-		} else
-			em_utils_adjustment_page(gtk_scrolled_window_get_vadjustment((GtkScrolledWindow *)emfb->priv->scroll), FALSE);
-		break;
-	default:
-		return FALSE;
-	}
-
-	if (!folder_choose && !emfb->view.preview->caret_mode && mail_config_get_enable_magic_spacebar ()) {
-		//check for unread messages. if yes .. rewindback to the folder
-		EMFolderTree *emft = g_object_get_data((GObject*)emfb, "foldertree");
-		switch (ev->key.keyval) {
-		    case GDK_space:
-			    em_folder_tree_select_next_path (emft, TRUE);
-			    break;
-		    case GDK_BackSpace:
-			    em_folder_tree_select_prev_path (emft, TRUE);
-			    break;
-		}
-		gtk_widget_grab_focus ((GtkWidget *)((EMFolderView *) emfb)->list);
-	}
-	return TRUE;
-}
 
 static void
 emfb_list_message_selected (MessageList *ml, const char *uid, EMFolderBrowser *emfb)

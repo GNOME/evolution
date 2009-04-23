@@ -27,10 +27,7 @@
 #include <camel/camel-session.h>
 #include <shell/e-shell-module.h>
 
-#ifdef __cplusplus
-extern "C" {
-#pragma }
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 void mail_session_init (EShellModule *shell_module);
 void mail_session_shutdown (void);
@@ -55,8 +52,6 @@ void mail_session_set_junk_headers (const char **name, const char **value, int l
 
 extern CamelSession *session;
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
-#endif /* ! MAIL_SESSION_H */
+#endif /* MAIL_SESSION_H */

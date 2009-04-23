@@ -1658,20 +1658,17 @@ mail_reader_double_click_cb (EMailReader *reader,
 	e_mail_reader_activate (reader, "mail-message-open");
 }
 
-static gint
-mail_reader_key_press_cb (EMailReader *reader,
-                          gint row,
-                          ETreePath path,
-                          gint col,
-                          GdkEvent *event)
+static gboolean
+mail_reader_key_press_event_cb (EMailReader *reader,
+                                GdkEventKey *event)
 {
 	const gchar *action_name;
 
-	if ((event->key.state & GDK_CONTROL_MASK) != 0)
+	if ((event->state & GDK_CONTROL_MASK) != 0)
 		goto ctrl;
 
 	/* <keyval> alone */
-	switch (event->key.keyval) {
+	switch (event->keyval) {
 		case GDK_Delete:
 		case GDK_KP_Delete:
 			action_name = "mail-delete";
@@ -1714,7 +1711,7 @@ mail_reader_key_press_cb (EMailReader *reader,
 ctrl:
 
 	/* Ctrl + <keyval> */
-	switch (event->key.keyval) {
+	switch (event->keyval) {
 		case GDK_period:
 			action_name = "mail-next-unread";
 			break;
@@ -1731,6 +1728,16 @@ exit:
 	e_mail_reader_activate (reader, action_name);
 
 	return TRUE;
+}
+
+static gint
+mail_reader_key_press_cb (EMailReader *reader,
+                          gint row,
+                          ETreePath path,
+                          gint col,
+                          GdkEvent *event)
+{
+	return mail_reader_key_press_event_cb (reader, &event->key);
 }
 
 static gboolean
@@ -2137,8 +2144,12 @@ e_mail_reader_init (EMailReader *reader)
 	/* Connect signals. */
 
 	g_signal_connect_swapped (
-		EM_FORMAT_HTML (html_display)->html, "button-release-event",
+		html, "button-release-event",
 		G_CALLBACK (mail_reader_html_button_release_event_cb), reader);
+
+	g_signal_connect_swapped (
+		html, "key-press-event",
+		G_CALLBACK (mail_reader_key_press_event_cb), reader);
 
 	g_signal_connect_swapped (
 		message_list, "message-selected",

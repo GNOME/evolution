@@ -46,6 +46,7 @@
 #include "mail-folder-cache.h"
 #include "em-event.h"
 
+#include "shell/e-shell.h"
 #include "e-util/e-account-utils.h"
 #include "e-util/gconf-bridge.h"
 
@@ -1069,13 +1070,13 @@ auto_account_changed(EAccountList *eal, EAccount *ea, void *dummy)
 }
 
 static void
-auto_online(CamelObject *o, void *ed, void *d)
+auto_online (EShell *shell)
 {
 	EIterator *iter;
 	EAccountList *accounts;
 	struct _auto_data *info;
 
-	if (!GPOINTER_TO_INT(ed))
+	if (!e_shell_get_online (shell))
 		return;
 
 	accounts = e_get_account_list ();
@@ -1089,10 +1090,15 @@ auto_online(CamelObject *o, void *ed, void *d)
 /* call to setup initial, and after changes are made to the config */
 /* FIXME: Need a cleanup funciton for when object is deactivated */
 void
-mail_autoreceive_init (CamelSession *session)
+mail_autoreceive_init (EShellModule *shell_module,
+                       CamelSession *session)
 {
 	EAccountList *accounts;
 	EIterator *iter;
+	EShell *shell;
+
+	g_return_if_fail (E_IS_SHELL_MODULE (shell_module));
+	g_return_if_fail (CAMEL_IS_SESSION (session));
 
 	if (auto_active)
 		return;
@@ -1107,7 +1113,13 @@ mail_autoreceive_init (CamelSession *session)
 	for (iter = e_list_get_iterator((EList *)accounts);e_iterator_is_valid(iter);e_iterator_next(iter))
 		auto_account_added(accounts, (EAccount *)e_iterator_get(iter), NULL);
 
-	camel_object_hook_event (session, "online", auto_online, NULL);
+	shell = e_shell_module_get_shell (shell_module);
+
+	auto_online (shell);
+
+	g_signal_connect (
+		shell, "notify::online",
+		G_CALLBACK (auto_online), NULL);
 }
 
 /* we setup the download info's in a hashtable, if we later need to build the gui, we insert

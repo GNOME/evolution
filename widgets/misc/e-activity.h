@@ -57,13 +57,11 @@ struct _EActivity {
 struct _EActivityClass {
 	GObjectClass parent_class;
 
-	/* Methods */
-	gchar *		(*describe)		(EActivity *activity);
-
 	/* Signals */
 	void		(*cancelled)		(EActivity *activity);
 	void		(*completed)		(EActivity *activity);
 	void		(*clicked)		(EActivity *activity);
+	gchar *		(*describe)		(EActivity *activity);
 };
 
 GType		e_activity_get_type		(void);

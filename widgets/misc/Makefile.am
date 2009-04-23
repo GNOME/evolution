@@ -51,6 +51,7 @@ widgetsinclude_HEADERS =			\
 	e-attachment-view.h			\
 	e-calendar.h				\
 	e-calendar-item.h			\
+	e-camel-activity.h			\
 	e-canvas.h				\
 	e-canvas-background.h			\
 	e-canvas-utils.h			\
@@ -115,6 +116,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-attachment-view.c			\
 	e-calendar.c				\
 	e-calendar-item.c			\
+	e-camel-activity.c			\
 	e-canvas.c				\
 	e-canvas-background.c			\
 	e-canvas-utils.c			\

@@ -615,6 +615,132 @@ action_mail_show_hidden_cb (GtkAction *action,
 }
 
 static void
+action_mail_smart_backward_cb (GtkAction *action,
+                               EMailShellView *mail_shell_view)
+{
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellSettings *shell_settings;
+	EMailShellSidebar *mail_shell_sidebar;
+	EMFolderTree *folder_tree;
+	EMFormatHTMLDisplay *html_display;
+	EMailReader *reader;
+	MessageList *message_list;
+	GtkToggleAction *toggle_action;
+	GtkHTML *html;
+	gboolean caret_mode;
+	gboolean magic_spacebar;
+
+	/* This implements the so-called "Magic Backspace". */
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	html_display = e_mail_reader_get_html_display (reader);
+	message_list = e_mail_reader_get_message_list (reader);
+
+	magic_spacebar = e_shell_settings_get_boolean (
+		shell_settings, "mail-magic-spacebar");
+
+	toggle_action = GTK_TOGGLE_ACTION (ACTION (MAIL_CARET_MODE));
+	caret_mode = gtk_toggle_action_get_active (toggle_action);
+
+	html = EM_FORMAT_HTML (html_display)->html;
+
+	if (gtk_html_command (html, "scroll-backward"))
+		return;
+
+	if (caret_mode || !magic_spacebar)
+		return;
+
+	/* XXX Are two separate calls really necessary? */
+
+	if (message_list_select (
+		message_list, MESSAGE_LIST_SELECT_PREVIOUS,
+		0, CAMEL_MESSAGE_SEEN))
+		return;
+
+	if (message_list_select (
+		message_list, MESSAGE_LIST_SELECT_PREVIOUS |
+		MESSAGE_LIST_SELECT_WRAP, 0, CAMEL_MESSAGE_SEEN))
+		return;
+
+	em_folder_tree_select_prev_path (folder_tree, TRUE);
+
+	gtk_widget_grab_focus (GTK_WIDGET (message_list));
+}
+
+static void
+action_mail_smart_forward_cb (GtkAction *action,
+                              EMailShellView *mail_shell_view)
+{
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellSettings *shell_settings;
+	EMailShellSidebar *mail_shell_sidebar;
+	EMFolderTree *folder_tree;
+	EMFormatHTMLDisplay *html_display;
+	EMailReader *reader;
+	MessageList *message_list;
+	GtkToggleAction *toggle_action;
+	GtkHTML *html;
+	gboolean caret_mode;
+	gboolean magic_spacebar;
+
+	/* This implements the so-called "Magic Spacebar". */
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
+	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
+
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	html_display = e_mail_reader_get_html_display (reader);
+	message_list = e_mail_reader_get_message_list (reader);
+
+	magic_spacebar = e_shell_settings_get_boolean (
+		shell_settings, "mail-magic-spacebar");
+
+	toggle_action = GTK_TOGGLE_ACTION (ACTION (MAIL_CARET_MODE));
+	caret_mode = gtk_toggle_action_get_active (toggle_action);
+
+	html = EM_FORMAT_HTML (html_display)->html;
+
+	if (gtk_html_command (html, "scroll-forward"))
+		return;
+
+	if (caret_mode || !magic_spacebar)
+		return;
+
+	/* XXX Are two separate calls really necessary? */
+
+	if (message_list_select (
+		message_list, MESSAGE_LIST_SELECT_NEXT,
+		0, CAMEL_MESSAGE_SEEN))
+		return;
+
+	if (message_list_select (
+		message_list, MESSAGE_LIST_SELECT_NEXT |
+		MESSAGE_LIST_SELECT_WRAP, 0, CAMEL_MESSAGE_SEEN))
+		return;
+
+	em_folder_tree_select_next_path (folder_tree, TRUE);
+
+	gtk_widget_grab_focus (GTK_WIDGET (message_list));
+}
+
+static void
 action_mail_stop_cb (GtkAction *action,
                      EMailShellView *mail_shell_view)
 {
@@ -905,6 +1031,20 @@ static GtkActionEntry mail_entries[] = {
 	  NULL,
 	  N_("Show messages that have been temporarily hidden"),
 	  G_CALLBACK (action_mail_show_hidden_cb) },
+
+	{ "mail-smart-backward",
+	  NULL,
+	  NULL,  /* No menu item; key press only */
+	  NULL,
+	  NULL,
+	  G_CALLBACK (action_mail_smart_backward_cb) },
+
+	{ "mail-smart-forward",
+	  NULL,
+	  NULL,  /* No menu item; key press only */
+	  NULL,
+	  NULL,
+	  G_CALLBACK (action_mail_smart_forward_cb) },
 
 	{ "mail-stop",
 	  GTK_STOCK_STOP,

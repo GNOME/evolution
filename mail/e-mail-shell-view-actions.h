@@ -177,6 +177,10 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-show-hidden")
 #define E_SHELL_WINDOW_ACTION_MAIL_SHOW_SOURCE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-show-source")
+#define E_SHELL_WINDOW_ACTION_MAIL_SMART_BACKWARD(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-smart-backward")
+#define E_SHELL_WINDOW_ACTION_MAIL_SMART_FORWARD(window) \
+	E_SHELL_WINDOW_ACTION ((window), "mail-smart-forward")
 #define E_SHELL_WINDOW_ACTION_MAIL_STOP(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-stop")
 #define E_SHELL_WINDOW_ACTION_MAIL_THREADS_COLLAPSE_ALL(window) \

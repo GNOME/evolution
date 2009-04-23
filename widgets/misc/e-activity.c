@@ -24,6 +24,8 @@
 #include <stdarg.h>
 #include <glib/gi18n.h>
 
+#include "e-util/e-util.h"
+
 #define E_ACTIVITY_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_ACTIVITY, EActivityPrivate))
@@ -58,6 +60,7 @@ enum {
 	CANCELLED,
 	CLICKED,
 	COMPLETED,
+	DESCRIBE,
 	LAST_SIGNAL
 };
 
@@ -82,6 +85,20 @@ activity_idle_complete_cb (EActivity *activity)
 	g_object_unref (activity);
 
 	return FALSE;
+}
+
+static gboolean
+activity_describe_accumulator (GSignalInvocationHint *ihint,
+                               GValue *return_accu,
+                               const GValue *handler_return,
+                               gpointer accu_data)
+{
+	const gchar *string;
+
+	string = g_value_get_string (handler_return);
+	g_value_set_string (return_accu, string);
+
+	return (string == NULL);
 }
 
 static void
@@ -211,6 +228,34 @@ activity_finalize (GObject *object)
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 
+static void
+activity_cancelled (EActivity *activity)
+{
+	activity->priv->cancelled = TRUE;
+
+	if (activity->priv->idle_id > 0) {
+		g_source_remove (activity->priv->idle_id);
+		activity->priv->idle_id = 0;
+	}
+}
+
+static void
+activity_completed (EActivity *activity)
+{
+	activity->priv->completed = TRUE;
+
+	if (activity->priv->idle_id > 0) {
+		g_source_remove (activity->priv->idle_id);
+		activity->priv->idle_id = 0;
+	}
+}
+
+static void
+activity_clicked (EActivity *activity)
+{
+	/* Allow subclasses to safely chain up. */
+}
+
 static gchar *
 activity_describe (EActivity *activity)
 {
@@ -248,34 +293,6 @@ activity_describe (EActivity *activity)
 }
 
 static void
-activity_cancelled (EActivity *activity)
-{
-	activity->priv->cancelled = TRUE;
-
-	if (activity->priv->idle_id > 0) {
-		g_source_remove (activity->priv->idle_id);
-		activity->priv->idle_id = 0;
-	}
-}
-
-static void
-activity_completed (EActivity *activity)
-{
-	activity->priv->completed = TRUE;
-
-	if (activity->priv->idle_id > 0) {
-		g_source_remove (activity->priv->idle_id);
-		activity->priv->idle_id = 0;
-	}
-}
-
-static void
-activity_clicked (EActivity *activity)
-{
-	/* Allow subclasses to safely chain up. */
-}
-
-static void
 activity_class_init (EActivityClass *class)
 {
 	GObjectClass *object_class;
@@ -288,10 +305,10 @@ activity_class_init (EActivityClass *class)
 	object_class->get_property = activity_get_property;
 	object_class->finalize = activity_finalize;
 
-	class->describe = activity_describe;
 	class->cancelled = activity_cancelled;
 	class->completed = activity_completed;
 	class->clicked = activity_clicked;
+	class->describe = activity_describe;
 
 	g_object_class_install_property (
 		object_class,
@@ -398,6 +415,15 @@ activity_class_init (EActivityClass *class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
+
+	signals[DESCRIBE] = g_signal_new (
+		"describe",
+		G_OBJECT_CLASS_TYPE (object_class),
+		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
+		G_STRUCT_OFFSET (EActivityClass, describe),
+		activity_describe_accumulator, NULL,
+		e_marshal_STRING__VOID,
+		G_TYPE_STRING, 0);
 }
 
 static void

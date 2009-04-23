@@ -110,7 +110,8 @@ static struct {
 };
 
 /* XXX So many things need the shell module that it's
- *     just easier to make it globally available. */ 
+ *     just easier for now to make it globally available.
+ *     We should fix this, though. */
 EShellModule *mail_shell_module = NULL;
 
 static GHashTable *store_hash;
@@ -846,7 +847,7 @@ mail_shell_module_start (EShellModule *shell_module)
 	if (enable_search_folders)
 		vfolder_load_storage ();
 
-	mail_autoreceive_init (session);
+	mail_autoreceive_init (shell_module, session);
 
 	if (g_getenv ("CAMEL_FLUSH_CHANGES") != NULL)
 		mail_sync_timeout_source_id = g_timeout_add_seconds (

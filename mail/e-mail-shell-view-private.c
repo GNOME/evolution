@@ -64,6 +64,49 @@ mail_shell_view_folder_tree_popup_event_cb (EShellView *shell_view,
 }
 
 static gboolean
+mail_shell_view_key_press_event_cb (EMailShellView *mail_shell_view,
+                                    GdkEventKey *event)
+{
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	GtkAction *action;
+
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	if ((event->state & GDK_CONTROL_MASK) != 0)
+		return FALSE;
+
+	switch (event->keyval) {
+		case GDK_space:
+			action = ACTION (MAIL_SMART_FORWARD);
+			break;
+
+		case GDK_BackSpace:
+			action = ACTION (MAIL_SMART_BACKWARD);
+			break;
+
+		default:
+			return FALSE;
+	}
+
+	gtk_action_activate (action);
+
+	return TRUE;
+}
+
+static gint
+mail_shell_view_message_list_key_press_cb (EMailShellView *mail_shell_view,
+                                           gint row,
+                                           ETreePath path,
+                                           gint col,
+                                           GdkEvent *event)
+{
+	return mail_shell_view_key_press_event_cb (
+		mail_shell_view, &event->key);
+}
+
+static gboolean
 mail_shell_view_message_list_right_click_cb (EShellView *shell_view,
                                              gint row,
                                              ETreePath path,
@@ -231,6 +274,11 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 		mail_shell_view);
 
 	g_signal_connect_swapped (
+		message_list->tree, "key-press",
+		G_CALLBACK (mail_shell_view_message_list_key_press_cb),
+		mail_shell_view);
+
+	g_signal_connect_swapped (
 		message_list->tree, "right-click",
 		G_CALLBACK (mail_shell_view_message_list_right_click_cb),
 		mail_shell_view);
@@ -259,6 +307,11 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	g_signal_connect_swapped (
 		tree_model, "row-inserted",
 		G_CALLBACK (e_mail_shell_view_update_search_filter),
+		mail_shell_view);
+
+	g_signal_connect_swapped (
+		html, "key-press-event",
+		G_CALLBACK (mail_shell_view_key_press_event_cb),
 		mail_shell_view);
 
 	g_signal_connect_swapped (

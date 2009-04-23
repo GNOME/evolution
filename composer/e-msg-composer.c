@@ -3419,6 +3419,7 @@ handle_mailto (EMsgComposer *composer, const gchar *mailto)
 				   !g_ascii_strcasecmp (header, "attachment")) {
 				EAttachment *attachment;
 
+				camel_url_decode (content);
 				if (g_ascii_strncasecmp (content, "file:", 5) == 0)
 					attachment = e_attachment_new_for_uri (content);
 				else
