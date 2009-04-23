@@ -41,6 +41,7 @@ privsolib_LTLIBRARIES = libeutil.la libeconduit.la
 
 eutilinclude_HEADERS = 				\
 	e-bconf-map.h				\
+	e-binding.h				\
 	e-categories-config.h			\
 	e-config.h				\
 	e-config-listener.h			\
@@ -82,6 +83,7 @@ eutilinclude_HEADERS = 				\
 libeutil_la_SOURCES =				\
 	$(eutilinclude_HEADERS)			\
 	e-bconf-map.c				\
+	e-binding.c				\
 	e-categories-config.c			\
 	e-config.c				\
 	e-config-listener.c			\
