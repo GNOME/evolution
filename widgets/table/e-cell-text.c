@@ -61,7 +61,7 @@
 #define d(x)
 #define DO_SELECTION 1
 #define VIEW_TO_CELL(view) E_CELL_TEXT (((ECellView *)view)->ecell)
-#define VERTICAL_PADDING 4  /* Padding for top and bottom */
+#define VERTICAL_PADDING 3  /* Padding for top and bottom */
 
 #if d(!)0
 #define e_table_item_leave_edit_(x) (e_table_item_leave_edit((x)), g_print ("%s: e_table_item_leave_edit\n", __FUNCTION__))
