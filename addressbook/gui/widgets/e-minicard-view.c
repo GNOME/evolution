@@ -25,8 +25,8 @@
 #include "e-minicard-view.h"
 
 #include "eab-gui-util.h"
-#include "eab-marshal.h"
 #include "util/eab-book-util.h"
+#include "e-util/e-util.h"
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -553,7 +553,7 @@ e_minicard_view_class_init (EMinicardViewClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EMinicardViewClass, right_click),
 			      NULL, NULL,
-			      eab_marshal_INT__POINTER,
+			      e_marshal_INT__POINTER,
 			      G_TYPE_INT, 1, G_TYPE_POINTER);
 
 	item_class->event             = e_minicard_view_event;

@@ -106,7 +106,7 @@ e_tree_model_class_init (ETreeModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, node_col_changed),
 			      (GSignalAccumulator) NULL, NULL,
-			      e_util_marshal_VOID__POINTER_INT,
+			      e_marshal_VOID__POINTER_INT,
 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_INT);
 
 	e_tree_model_signals [NODE_INSERTED] =
@@ -115,7 +115,7 @@ e_tree_model_class_init (ETreeModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, node_inserted),
 			      (GSignalAccumulator) NULL, NULL,
-			      e_util_marshal_VOID__POINTER_POINTER,
+			      e_marshal_VOID__POINTER_POINTER,
 			      G_TYPE_NONE, 2, G_TYPE_POINTER, G_TYPE_POINTER);
 
 	e_tree_model_signals [NODE_REMOVED] =
@@ -124,7 +124,7 @@ e_tree_model_class_init (ETreeModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, node_removed),
 			      (GSignalAccumulator) NULL, NULL,
-			      e_util_marshal_VOID__POINTER_POINTER_INT,
+			      e_marshal_VOID__POINTER_POINTER_INT,
 			      G_TYPE_NONE, 3, G_TYPE_POINTER, G_TYPE_POINTER, G_TYPE_INT);
 
 	e_tree_model_signals [NODE_DELETED] =

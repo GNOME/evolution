@@ -28,7 +28,6 @@
 #include <glib/gi18n.h>
 
 #include "e-image-chooser.h"
-#include "e-util/e-util-marshal.h"
 #include "e-util/e-icon-factory.h"
 #include "e-util/e-util.h"
 

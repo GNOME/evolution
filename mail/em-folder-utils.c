@@ -65,7 +65,6 @@
 
 #include "em-utils.h"
 #include "em-popup.h"
-#include "em-marshal.h"
 #include "em-folder-tree.h"
 #include "em-folder-tree-model.h"
 #include "em-folder-utils.h"

@@ -22,10 +22,6 @@ $(CALENDAR_IDL_GENERATED_C): $(CALENDAR_IDL_GENERATED_H)
 
 IDL_GENERATED = $(CALENDAR_IDL_GENERATED)
 
-# The marshallers
-MARSHAL_GENERATED = e-calendar-marshal.c e-calendar-marshal.h
-@EVO_MARSHAL_RULE@
-
 SUBDIRS = alarm-notify dialogs
 
 component_LTLIBRARIES = libevolution-calendar.la
@@ -73,7 +69,6 @@ etspec_DATA =				\
 
 libevolution_calendar_la_SOURCES =		\
 	$(IDL_GENERATED)			\
-	$(MARSHAL_GENERATED)			\
 	cal-search-bar.c			\
 	cal-search-bar.h			\
 	calendar-config.c			\
@@ -252,7 +247,6 @@ schema_DATA = $(schema_in_files:.schemas.in=.schemas)
 @INTLTOOL_SCHEMAS_RULE@
 
 EXTRA_DIST =	 			\
-	e-calendar-marshal.list		\
 	$(glade_DATA)			\
 	$(schema_in_files)              \
 	$(etspec_DATA)			\

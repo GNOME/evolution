@@ -32,7 +32,6 @@
 #include "a11y/e-table/gal-a11y-e-table-click-to-add.h"
 #include "text/e-text.h"
 #include <glib/gi18n.h>
-#include "e-util/e-util-marshal.h"
 #include "e-util/e-util.h"
 #include "misc/e-canvas-utils.h"
 #include "misc/e-canvas.h"
@@ -538,7 +537,7 @@ etcta_class_init (ETableClickToAddClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETableClickToAddClass, cursor_change),
 			      NULL, NULL,
-			      e_util_marshal_VOID__INT_INT,
+			      e_marshal_VOID__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
 	etcta_signals [STYLE_SET] =

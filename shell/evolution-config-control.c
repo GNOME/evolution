@@ -26,8 +26,6 @@
 
 #include "evolution-config-control.h"
 
-#include "e-shell-marshal.h"
-
 #include <e-util/e-util.h>
 
 #include <bonobo/bonobo-control.h>

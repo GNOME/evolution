@@ -13,7 +13,6 @@ INCLUDES =						\
 privsolib_LTLIBRARIES = libeabutil.la
 
 libeabutil_la_SOURCES =					\
-	eab-marshal.c					\
 	eab-book-util.c					\
 	eab-book-util.h
 
@@ -23,15 +22,6 @@ libeabutil_la_LIBADD =					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la \
 	$(top_builddir)/e-util/libeutil.la
-
-MARSHAL_GENERATED = eab-marshal.c eab-marshal.h
-@EVO_MARSHAL_RULE@
-
-BUILT_SOURCES = $(MARSHAL_GENERATED)
-CLEANFILES    = $(BUILT_SOURCES)
-
-EXTRA_DIST = 		\
-	eab-marshal.list
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

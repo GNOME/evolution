@@ -29,7 +29,6 @@
 #endif
 
 #include "e-dateedit.h"
-#include "e-util/e-util-marshal.h"
 
 #include <ctype.h>
 #include <stdio.h>

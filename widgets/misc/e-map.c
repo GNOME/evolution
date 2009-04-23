@@ -183,7 +183,7 @@ e_map_class_init (EMapClass *class)
 								    G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
 								    G_STRUCT_OFFSET (EMapClass, set_scroll_adjustments),
 								    NULL, NULL,
-								    e_util_marshal_NONE__OBJECT_OBJECT,
+								    e_marshal_NONE__OBJECT_OBJECT,
 								    G_TYPE_NONE, 2,
 								    GTK_TYPE_ADJUSTMENT,
 								    GTK_TYPE_ADJUSTMENT);

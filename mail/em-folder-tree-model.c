@@ -37,6 +37,7 @@
 #include <libedataserver/e-xml-utils.h>
 #include <libedataserver/e-data-server-util.h>
 
+#include <e-util/e-util.h>
 #include <e-util/e-mktemp.h>
 
 #include <glib/gi18n.h>
@@ -57,7 +58,6 @@
 #include <camel/camel-folder.h>
 #include <camel/camel-vee-store.h>
 
-#include "em-marshal.h"
 #include "em-folder-tree-model.h"
 
 #define u(x)			/* unread count debug */
@@ -152,7 +152,7 @@ em_folder_tree_model_class_init (EMFolderTreeModelClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EMFolderTreeModelClass, loading_row),
 			      NULL, NULL,
-			      em_marshal_VOID__POINTER_POINTER,
+			      e_marshal_VOID__POINTER_POINTER,
 			      G_TYPE_NONE, 2,
 			      G_TYPE_POINTER,
 			      G_TYPE_POINTER);
@@ -163,7 +163,7 @@ em_folder_tree_model_class_init (EMFolderTreeModelClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EMFolderTreeModelClass, loaded_row),
 			      NULL, NULL,
-			      em_marshal_VOID__POINTER_POINTER,
+			      e_marshal_VOID__POINTER_POINTER,
 			      G_TYPE_NONE, 2,
 			      G_TYPE_POINTER,
 			      G_TYPE_POINTER);
@@ -174,7 +174,7 @@ em_folder_tree_model_class_init (EMFolderTreeModelClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EMFolderTreeModelClass, folder_added),
 			      NULL, NULL,
-			      em_marshal_VOID__STRING_STRING,
+			      e_marshal_VOID__STRING_STRING,
 			      G_TYPE_NONE, 2,
 			      G_TYPE_STRING,
 			      G_TYPE_STRING);

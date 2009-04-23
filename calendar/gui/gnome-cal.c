@@ -47,6 +47,7 @@
 #include <widgets/menus/gal-view-etable.h>
 #include <widgets/menus/gal-define-views-dialog.h>
 #include "widgets/menus/gal-view-menus.h"
+#include "e-util/e-util.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 #include "e-comp-editor-registry.h"
@@ -54,7 +55,6 @@
 #include "dialogs/event-editor.h"
 #include "dialogs/task-editor.h"
 #include "comp-util.h"
-#include "e-calendar-marshal.h"
 #include "e-cal-model-calendar.h"
 #include "e-day-view.h"
 #include "e-day-view-config.h"
@@ -372,7 +372,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (GnomeCalendarClass, source_added),
 			      NULL, NULL,
-			      e_calendar_marshal_VOID__INT_OBJECT,
+			      e_marshal_VOID__INT_OBJECT,
 			      G_TYPE_NONE,
 			      2,
 			      G_TYPE_INT, G_TYPE_OBJECT);
@@ -383,7 +383,7 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (GnomeCalendarClass, source_removed),
 			      NULL, NULL,
-			      e_calendar_marshal_VOID__INT_OBJECT,
+			      e_marshal_VOID__INT_OBJECT,
 			      G_TYPE_NONE,
 			      2,
 			      G_TYPE_INT, G_TYPE_OBJECT);

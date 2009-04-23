@@ -61,7 +61,6 @@
 
 #include "Evolution.h"
 #include "e-shell-constants.h"
-#include "e-shell-marshal.h"
 #include "e-shell-settings-dialog.h"
 #include "e-shell.h"
 #include "e-shell-view.h"

@@ -53,7 +53,6 @@
 #define CERT_NewTempCertificate __CERT_NewTempCertificate
 #define CERT_AddTempCertToPerm __CERT_AddTempCertToPerm
 
-#include "smime-marshal.h"
 #include "e-cert-db.h"
 #include "e-cert-trust.h"
 #include "e-pkcs12.h"
@@ -316,7 +315,7 @@ e_cert_db_class_init (ECertDBClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECertDBClass, pk11_passwd),
 			      NULL, NULL,
-			      smime_marshal_BOOLEAN__POINTER_BOOLEAN_POINTER,
+			      e_marshal_BOOLEAN__POINTER_BOOLEAN_POINTER,
 			      G_TYPE_BOOLEAN, 3,
 			      G_TYPE_POINTER, G_TYPE_BOOLEAN, G_TYPE_POINTER);
 
@@ -326,7 +325,7 @@ e_cert_db_class_init (ECertDBClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECertDBClass, pk11_change_passwd),
 			      NULL, NULL,
-			      smime_marshal_BOOLEAN__POINTER_POINTER,
+			      e_marshal_BOOLEAN__POINTER_POINTER,
 			      G_TYPE_BOOLEAN, 2,
 			      G_TYPE_POINTER, G_TYPE_POINTER);
 
@@ -336,7 +335,7 @@ e_cert_db_class_init (ECertDBClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECertDBClass, confirm_ca_cert_import),
 			      NULL, NULL,
-			      smime_marshal_BOOLEAN__POINTER_POINTER_POINTER_POINTER,
+			      e_marshal_BOOLEAN__POINTER_POINTER_POINTER_POINTER,
 			      G_TYPE_BOOLEAN, 4,
 			      G_TYPE_POINTER, G_TYPE_POINTER, G_TYPE_POINTER, G_TYPE_POINTER);
 }

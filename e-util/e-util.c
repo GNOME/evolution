@@ -335,10 +335,6 @@ e_write_file_uri (const gchar *filename, const gchar *data)
 	return res;
 }
 
-/* Include build marshalers */
-
-#include "e-util-marshal.h"
-
 static gint
 epow10 (gint number)
 {

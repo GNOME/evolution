@@ -43,7 +43,6 @@
 #include "widgets/menus/gal-view-menus.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/task-editor.h"
-#include "e-calendar-marshal.h"
 #include "cal-search-bar.h"
 #include "calendar-config.h"
 #include "calendar-component.h"

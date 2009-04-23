@@ -22,8 +22,6 @@
  */
 #include <config.h>
 
-#include "e-util/e-util-marshal.h"
-
 #include "e-util/e-util.h"
 
 #include "e-reflow-model.h"
@@ -178,7 +176,7 @@ e_reflow_model_class_init (EReflowModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EReflowModelClass, model_items_inserted),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT_INT,
+			      e_marshal_NONE__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
 	e_reflow_model_signals [MODEL_ITEM_CHANGED] =

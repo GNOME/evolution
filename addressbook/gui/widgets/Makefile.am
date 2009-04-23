@@ -27,7 +27,6 @@ eabinclude_HEADERS = 			\
 	eab-popup.h
 
 libeabwidgets_la_SOURCES =			\
-	$(MARSHAL_GENERATED)			\
 	eab-config.c				\
 	eab-contact-display.c			\
 	eab-contact-display.h			\
@@ -61,12 +60,6 @@ libeabwidgets_la_SOURCES =			\
 	gal-view-factory-minicard.c		\
 	gal-view-factory-minicard.h
 
-MARSHAL_GENERATED = eab-marshal.c eab-marshal.h
-@EVO_MARSHAL_RULE@
-
-BUILT_SOURCES = $(MARSHAL_GENERATED)
-CLEANFILES = $(BUILT_SOURCES)
-
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
@@ -74,5 +67,4 @@ etspec_DATA= e-addressbook-view.etspec
 
 EXTRA_DIST = 			\
 	$(etspec_DATA)		\
-	eab-marshal.list	\
 	addresstypes.xml

@@ -33,7 +33,6 @@
 #include "a11y/e-table/gal-a11y-e-tree.h"
 #include <glib/gi18n.h>
 #include "e-util/e-util.h"
-#include "e-util/e-util-marshal.h"
 #include "misc/e-canvas.h"
 #include "misc/e-canvas-utils.h"
 #include "misc/e-canvas-background.h"
@@ -3118,7 +3117,7 @@ e_tree_class_init (ETreeClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, cursor_change),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT_POINTER,
+			      e_marshal_NONE__INT_POINTER,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_POINTER);
 
 	et_signals [CURSOR_ACTIVATED] =
@@ -3127,7 +3126,7 @@ e_tree_class_init (ETreeClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, cursor_activated),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT_POINTER,
+			      e_marshal_NONE__INT_POINTER,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_POINTER);
 
 	et_signals [SELECTION_CHANGE] =
@@ -3145,7 +3144,7 @@ e_tree_class_init (ETreeClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, double_click),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT_POINTER_INT_BOXED,
+			      e_marshal_NONE__INT_POINTER_INT_BOXED,
 			      G_TYPE_NONE, 4, G_TYPE_INT,
 			      G_TYPE_POINTER, G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -3155,7 +3154,7 @@ e_tree_class_init (ETreeClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, right_click),
 			      NULL, NULL,
-			      e_util_marshal_INT__INT_POINTER_INT_BOXED,
+			      e_marshal_INT__INT_POINTER_INT_BOXED,
 			      G_TYPE_INT, 4, G_TYPE_INT, G_TYPE_POINTER,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -3165,7 +3164,7 @@ e_tree_class_init (ETreeClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, click),
 			      NULL, NULL,
-			      e_util_marshal_INT__INT_POINTER_INT_BOXED,
+			      e_marshal_INT__INT_POINTER_INT_BOXED,
 			      G_TYPE_INT, 4, G_TYPE_INT, G_TYPE_POINTER,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -3175,7 +3174,7 @@ e_tree_class_init (ETreeClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, key_press),
 			      NULL, NULL,
-			      e_util_marshal_INT__INT_POINTER_INT_BOXED,
+			      e_marshal_INT__INT_POINTER_INT_BOXED,
 			      G_TYPE_INT, 4, G_TYPE_INT, G_TYPE_POINTER,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -3185,7 +3184,7 @@ e_tree_class_init (ETreeClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, start_drag),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT_POINTER_INT_BOXED,
+			      e_marshal_NONE__INT_POINTER_INT_BOXED,
 			      G_TYPE_NONE, 4, G_TYPE_INT, G_TYPE_POINTER,
 			      G_TYPE_INT, GDK_TYPE_EVENT);
 
@@ -3204,7 +3203,7 @@ e_tree_class_init (ETreeClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, white_space_event),
 			      NULL, NULL,
-			      e_util_marshal_INT__POINTER,
+			      e_marshal_INT__POINTER,
 			      G_TYPE_INT, 1, GDK_TYPE_EVENT);
 
 	et_signals[TREE_DRAG_BEGIN] =
@@ -3213,7 +3212,7 @@ e_tree_class_init (ETreeClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, tree_drag_begin),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT_POINTER_INT_BOXED,
+			      e_marshal_NONE__INT_POINTER_INT_BOXED,
 			      G_TYPE_NONE, 4,
 			      G_TYPE_INT,
 			      G_TYPE_POINTER,
@@ -3225,7 +3224,7 @@ e_tree_class_init (ETreeClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, tree_drag_end),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT_POINTER_INT_BOXED,
+			      e_marshal_NONE__INT_POINTER_INT_BOXED,
 			      G_TYPE_NONE, 4,
 			      G_TYPE_INT,
 			      G_TYPE_POINTER,
@@ -3237,7 +3236,7 @@ e_tree_class_init (ETreeClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, tree_drag_data_get),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT_POINTER_INT_OBJECT_BOXED_UINT_UINT,
+			      e_marshal_NONE__INT_POINTER_INT_OBJECT_BOXED_UINT_UINT,
 			      G_TYPE_NONE, 7,
 			      G_TYPE_INT,
 			      G_TYPE_POINTER,
@@ -3252,7 +3251,7 @@ e_tree_class_init (ETreeClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, tree_drag_data_delete),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT_POINTER_INT_OBJECT,
+			      e_marshal_NONE__INT_POINTER_INT_OBJECT,
 			      G_TYPE_NONE, 4,
 			      G_TYPE_INT,
 			      G_TYPE_POINTER,
@@ -3265,7 +3264,7 @@ e_tree_class_init (ETreeClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, tree_drag_leave),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT_POINTER_INT_OBJECT_UINT,
+			      e_marshal_NONE__INT_POINTER_INT_OBJECT_UINT,
 			      G_TYPE_NONE, 5,
 			      G_TYPE_INT,
 			      G_TYPE_POINTER,
@@ -3278,7 +3277,7 @@ e_tree_class_init (ETreeClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, tree_drag_motion),
 			      NULL, NULL,
-			      e_util_marshal_BOOLEAN__INT_POINTER_INT_OBJECT_INT_INT_UINT,
+			      e_marshal_BOOLEAN__INT_POINTER_INT_OBJECT_INT_INT_UINT,
 			      G_TYPE_BOOLEAN, 7,
 			      G_TYPE_INT,
 			      G_TYPE_POINTER,
@@ -3293,7 +3292,7 @@ e_tree_class_init (ETreeClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, tree_drag_drop),
 			      NULL, NULL,
-			      e_util_marshal_BOOLEAN__INT_POINTER_INT_OBJECT_INT_INT_UINT,
+			      e_marshal_BOOLEAN__INT_POINTER_INT_OBJECT_INT_INT_UINT,
 			      G_TYPE_BOOLEAN, 7,
 			      G_TYPE_INT,
 			      G_TYPE_POINTER,
@@ -3308,7 +3307,7 @@ e_tree_class_init (ETreeClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, tree_drag_data_received),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT_POINTER_INT_OBJECT_INT_INT_BOXED_UINT_UINT,
+			      e_marshal_NONE__INT_POINTER_INT_OBJECT_INT_INT_BOXED_UINT_UINT,
 			      G_TYPE_NONE, 9,
 			      G_TYPE_INT,
 			      G_TYPE_POINTER,
@@ -3328,7 +3327,7 @@ e_tree_class_init (ETreeClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeClass, set_scroll_adjustments),
 			      NULL, NULL,
-			      e_util_marshal_NONE__OBJECT_OBJECT,
+			      e_marshal_NONE__OBJECT_OBJECT,
 			      G_TYPE_NONE, 2, GTK_TYPE_ADJUSTMENT,
 			      GTK_TYPE_ADJUSTMENT);
 

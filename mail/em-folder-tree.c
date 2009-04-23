@@ -66,7 +66,6 @@
 
 #include "em-utils.h"
 #include "em-popup.h"
-#include "em-marshal.h"
 #include "em-folder-tree.h"
 #include "em-folder-utils.h"
 #include "em-folder-selector.h"
@@ -222,7 +221,7 @@ em_folder_tree_class_init (EMFolderTreeClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EMFolderTreeClass, folder_selected),
 			      NULL, NULL,
-			      em_marshal_VOID__STRING_STRING_UINT,
+			      e_marshal_VOID__STRING_STRING_UINT,
 			      G_TYPE_NONE, 3,
 			      G_TYPE_STRING,
 			      G_TYPE_STRING,
@@ -234,7 +233,7 @@ em_folder_tree_class_init (EMFolderTreeClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EMFolderTreeClass, folder_activated),
 			      NULL, NULL,
-			      em_marshal_VOID__STRING_STRING,
+			      e_marshal_VOID__STRING_STRING,
 			      G_TYPE_NONE, 2,
 			      G_TYPE_STRING,
 			      G_TYPE_STRING);

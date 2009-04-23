@@ -81,7 +81,6 @@
 #include "mail-config.h"
 
 #include "em-format-html-display.h"
-#include "em-marshal.h"
 #include "e-searching-tokenizer.h"
 #include "em-icon-stream.h"
 #include "em-utils.h"
@@ -340,7 +339,7 @@ efhd_class_init(GObjectClass *klass)
 			     G_SIGNAL_RUN_LAST,
 			     G_STRUCT_OFFSET(EMFormatHTMLDisplayClass, popup_event),
 			     efhd_bool_accumulator, NULL,
-			     em_marshal_BOOLEAN__BOXED_POINTER_POINTER,
+			     e_marshal_BOOLEAN__BOXED_POINTER_POINTER,
 			     G_TYPE_BOOLEAN, 3,
 			     GDK_TYPE_EVENT | G_SIGNAL_TYPE_STATIC_SCOPE,
 			     G_TYPE_POINTER, G_TYPE_POINTER);

@@ -24,7 +24,7 @@
 #include <string.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include "eab-marshal.h"
+#include "e-util/e-util.h"
 #include "e-addressbook-model.h"
 #include <libxml/tree.h>
 #include <libxml/parser.h>
@@ -380,7 +380,7 @@ eab_model_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EABModelClass, contact_added),
 			      NULL, NULL,
-			      eab_marshal_NONE__INT_INT,
+			      e_marshal_NONE__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
 	eab_model_signals [CONTACTS_REMOVED] =

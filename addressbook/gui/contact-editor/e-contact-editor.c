@@ -59,7 +59,6 @@
 #include "e-contact-editor-address.h"
 #include "e-contact-editor-im.h"
 #include "e-contact-editor-fullname.h"
-#include "e-contact-editor-marshal.h"
 
 #define EMAIL_SLOTS   4
 #define PHONE_SLOTS   8

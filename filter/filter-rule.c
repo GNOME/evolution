@@ -33,7 +33,6 @@
 #include "e-util/e-error.h"
 #include "filter-rule.h"
 #include "rule-context.h"
-#include "filter-marshal.h"
 
 #define d(x)
 

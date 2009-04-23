@@ -29,7 +29,7 @@
 #include <gconf/gconf-client.h>
 #include <cairo.h>
 
-#include <e-util/e-util-marshal.h>
+#include <e-util/e-marshal.h>
 
 G_BEGIN_DECLS
 

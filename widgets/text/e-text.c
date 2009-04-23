@@ -3536,7 +3536,7 @@ e_text_class_init (ETextClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextClass, keypress),
 			      NULL, NULL,
-			      e_util_marshal_NONE__INT_INT,
+			      e_marshal_NONE__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_UINT, G_TYPE_UINT);
 
 	e_text_signals[E_TEXT_POPULATE_POPUP] =
@@ -3545,7 +3545,7 @@ e_text_class_init (ETextClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETextClass, populate_popup),
 			      NULL, NULL,
-			      e_util_marshal_NONE__POINTER_INT_OBJECT,
+			      e_marshal_NONE__POINTER_INT_OBJECT,
 			      G_TYPE_NONE, 3, G_TYPE_POINTER, G_TYPE_INT, GTK_TYPE_MENU);
 
 	g_object_class_install_property (gobject_class, PROP_MODEL,

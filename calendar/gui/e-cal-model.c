@@ -35,7 +35,7 @@
 #include "e-cal-model.h"
 #include "itip-utils.h"
 #include "misc.h"
-#include "e-calendar-marshal.h"
+#include "e-util/e-util.h"
 #include "calendar-config.h"
 
 typedef struct {
@@ -153,7 +153,7 @@ e_cal_model_class_init (ECalModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECalModelClass, time_range_changed),
 			      NULL, NULL,
-			      e_calendar_marshal_VOID__LONG_LONG,
+			      e_marshal_VOID__LONG_LONG,
 			      G_TYPE_NONE, 2, G_TYPE_LONG, G_TYPE_LONG);
 
 	signals[ROW_APPENDED] =
@@ -180,7 +180,7 @@ e_cal_model_class_init (ECalModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECalModelClass, cal_view_progress),
 			      NULL, NULL,
-	                      e_calendar_marshal_VOID__STRING_INT_INT,
+	                      e_marshal_VOID__STRING_INT_INT,
 			      G_TYPE_NONE, 3, G_TYPE_STRING, G_TYPE_INT, G_TYPE_INT);
 	signals[CAL_VIEW_DONE] =
 		g_signal_new ("cal_view_done",
@@ -188,7 +188,7 @@ e_cal_model_class_init (ECalModelClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ECalModelClass, cal_view_done),
 			      NULL, NULL,
-			      e_calendar_marshal_VOID__INT_INT,
+			      e_marshal_VOID__INT_INT,
 			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
 }

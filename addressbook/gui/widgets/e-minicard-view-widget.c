@@ -27,7 +27,7 @@
 #include <misc/e-canvas.h>
 #include <glib/gi18n.h>
 
-#include "eab-marshal.h"
+#include "e-util/e-util.h"
 #include "e-minicard-view-widget.h"
 
 static void e_minicard_view_widget_init		 (EMinicardViewWidget		 *widget);
@@ -164,7 +164,7 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EMinicardViewWidgetClass, right_click),
 			      NULL, NULL,
-			      eab_marshal_INT__POINTER,
+			      e_marshal_INT__POINTER,
 			      G_TYPE_INT, 1, G_TYPE_POINTER);
 }
 

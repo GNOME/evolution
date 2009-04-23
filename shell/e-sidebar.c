@@ -26,7 +26,7 @@
 
 #include "e-sidebar.h"
 
-#include "e-shell-marshal.h"
+#include "e-util/e-util.h"
 
 #include <gconf/gconf-client.h>
 #include <libgnome/gnome-gconf.h>
@@ -501,7 +501,7 @@ e_sidebar_class_init (ESidebarClass *klass)
 				G_SIGNAL_RUN_LAST,
 				G_STRUCT_OFFSET (ESidebarClass, button_pressed),
 				boolean_handled_accumulator, NULL,
-				e_shell_marshal_NONE__POINTER_INT,
+				e_marshal_NONE__POINTER_INT,
 				G_TYPE_BOOLEAN, 2,
 				G_TYPE_POINTER, G_TYPE_INT);
 }

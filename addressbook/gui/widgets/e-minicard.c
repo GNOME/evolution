@@ -31,7 +31,6 @@
 #include <misc/e-canvas-utils.h>
 #include <misc/e-canvas.h>
 #include <libebook/e-book.h>
-#include "eab-marshal.h"
 #include "eab-gui-util.h"
 #include "e-minicard.h"
 #include "e-minicard-label.h"
@@ -207,7 +206,7 @@ e_minicard_class_init (EMinicardClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EMinicardClass, selected),
 			      NULL, NULL,
-			      eab_marshal_INT__POINTER,
+			      e_marshal_INT__POINTER,
 			      G_TYPE_INT, 1, G_TYPE_POINTER);
 
 	e_minicard_signals [DRAG_BEGIN] =
@@ -216,7 +215,7 @@ e_minicard_class_init (EMinicardClass *class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EMinicardClass, drag_begin),
 			      NULL, NULL,
-			      eab_marshal_INT__POINTER,
+			      e_marshal_INT__POINTER,
 			      G_TYPE_INT, 1, G_TYPE_POINTER);
 
 	e_minicard_signals [STYLE_SET] =

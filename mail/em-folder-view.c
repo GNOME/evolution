@@ -98,7 +98,6 @@
 #include "message-list.h"
 #include "em-utils.h"
 #include "em-composer-utils.h"
-#include "em-marshal.h"
 #include "em-menu.h"
 #include "em-event.h"
 
@@ -412,7 +411,7 @@ emfv_class_init(GObjectClass *klass)
 					     G_SIGNAL_RUN_LAST,
 					     G_STRUCT_OFFSET (EMFolderViewClass, on_url),
 					     NULL, NULL,
-					     em_marshal_VOID__STRING_STRING,
+					     e_marshal_VOID__STRING_STRING,
 					     G_TYPE_NONE,
 					     2, G_TYPE_STRING, G_TYPE_STRING);
 

@@ -20,7 +20,7 @@
 #include <string.h>
 
 #include <glib/gi18n.h>
-#include "eab-marshal.h"
+#include "e-util/e-util.h"
 #include "e-addressbook-reflow-adapter.h"
 #include "e-addressbook-model.h"
 #include "e-addressbook-view.h"
@@ -434,7 +434,7 @@ e_addressbook_reflow_adapter_class_init (GObjectClass *object_class)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EAddressbookReflowAdapterClass, drag_begin),
 			      NULL, NULL,
-			      eab_marshal_INT__POINTER,
+			      e_marshal_INT__POINTER,
 			      G_TYPE_INT, 1, G_TYPE_POINTER);
 
 	model_class->set_width = addressbook_set_width;

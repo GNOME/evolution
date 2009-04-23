@@ -44,7 +44,6 @@
 #include <libedataserver/e-categories.h>
 #include "widgets/menus/gal-view-menus.h"
 #include "dialogs/delete-error.h"
-#include "e-calendar-marshal.h"
 #include "calendar-config.h"
 #include "cal-search-bar.h"
 #include "calendar-component.h"

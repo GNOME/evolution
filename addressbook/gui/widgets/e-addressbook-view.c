@@ -45,7 +45,6 @@
 #include "gal-view-minicard.h"
 #include "gal-view-factory-minicard.h"
 
-#include "eab-marshal.h"
 #include "e-addressbook-view.h"
 #include "e-addressbook-model.h"
 #include "eab-gui-util.h"
