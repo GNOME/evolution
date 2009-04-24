@@ -54,33 +54,10 @@ plugin_webdav_contacts(EPlugin *epl, EConfigHookItemFactoryData *data);
 int
 e_plugin_lib_enable(EPluginLib *ep, int enable);
 
-static ESourceGroup *
-find_webdav_group (ESourceList *slist)
-{
-	GSList *groups, *g;
-	ESourceGroup *group = NULL;
-
-	g_return_val_if_fail (slist != NULL, NULL);
-
-	groups = e_source_list_peek_groups (slist);
-	for (g = groups; g; g = g->next) {
-		group = E_SOURCE_GROUP (g->data);
-
-		if (group && e_source_group_peek_base_uri (group) &&
-		    g_ascii_strncasecmp (BASE_URI, e_source_group_peek_base_uri (group), strlen (BASE_URI)) == 0)
-			break;
-
-		group = NULL;
-	}
-
-	return group;
-}
-
 static void
 ensure_webdav_contacts_source_group(void)
 {
 	ESourceList  *source_list;
-	ESourceGroup *group;
 
 	source_list = e_source_list_new_for_gconf_default("/apps/evolution/addressbook/sources");
 
@@ -88,26 +65,8 @@ ensure_webdav_contacts_source_group(void)
 		return;
 	}
 
-	group = find_webdav_group (source_list);
-
-	if (group == NULL) {
-		gboolean res;
-
-		group = e_source_group_new(_("WebDAV"), BASE_URI);
-		res = e_source_list_add_group(source_list, group, -1);
-
-		if (res == FALSE) {
-			g_warning("Could not add WebDAV source group!");
-		} else {
-			e_source_list_sync(source_list, NULL);
-		}
-
-		g_object_unref(group);
-	} else {
-		e_source_group_set_name (group, _("WebDAV"));
-	}
-
-	g_object_unref(source_list);
+	e_source_list_ensure_group (source_list, _("WebDAV"), BASE_URI, FALSE);
+	g_object_unref (source_list);
 }
 
 static void
@@ -122,7 +81,7 @@ remove_webdav_contacts_source_group(void)
 		return;
 	}
 
-	group = find_webdav_group (source_list);
+	group = e_source_list_peek_group_by_base_uri (source_list, BASE_URI);
 
 	if (group) {
 		GSList *sources;

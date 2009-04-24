@@ -1,5 +1,14 @@
 2009-04-24  Milan Crha  <mcrha@redhat.com>
 
+	** Part of fix for bug #569652
+
+	* gui/calendar-component.c: (ensure_sources):
+	* gui/memos-component.c: (ensure_sources):
+	* gui/tasks-component.c: (ensure_sources):
+	Use new ESourceList API (simplifies code).
+
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
 	** Part of fix for bug #381132
 
 	* gui/apps_evolution_calendar.schemas.in:

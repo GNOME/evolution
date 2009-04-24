@@ -1,5 +1,12 @@
 2009-04-24  Milan Crha  <mcrha@redhat.com>
 
+	** Part of fix for bug #569652
+
+	* caldav-source.c: (ensure_caldav_source_group):
+	Use new ESourceList API (simplifies code).
+
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #572348
 
 	* caldav-source.c: Remove deprecated Gtk+ symbols.

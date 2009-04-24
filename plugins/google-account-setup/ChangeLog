@@ -1,5 +1,18 @@
 2009-04-24  Milan Crha  <mcrha@redhat.com>
 
+	** Part of fix for bug #569652
+
+	* google-contacts-source.h: (manage_google_group):
+	* google-contacts-source.c: (manage_google_group):
+	Removed.
+
+	* google-contacts-source.c: (ensure_google_contacts_source_group),
+	(remove_google_contacts_source_group):
+	* google-source.c: (ensure_google_source_group):
+	Use new ESourceList API (simplifies code).
+
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #572348
 
 	* google-source.c: Remove deprecated Gtk+ symbols.

@@ -37,51 +37,6 @@
 
 #include "google-contacts-source.h"
 
-/**
- * manage_google_group:
- * Searches for a 'Google' source group and ensures it has the correct
- * name. If only_return is set to true, then only returns found group.
- * Otherwise returns NULL.
- **/
-ESourceGroup *
-manage_google_group (ESourceList *slist, gboolean only_return)
-{
-	GSList *groups, *g;
-	ESourceGroup *group = NULL;
-
-	g_return_val_if_fail (slist != NULL, NULL);
-
-	groups = e_source_list_peek_groups (slist);
-	for (g = groups; g; g = g->next) {
-		group = E_SOURCE_GROUP (g->data);
-
-		if (group && e_source_group_peek_base_uri (group) &&
-		    g_ascii_strncasecmp ("google://", e_source_group_peek_base_uri (group), 9) == 0)
-			break;
-
-		group = NULL;
-	}
-
-	if (only_return)
-		return group;
-
-	if (group) {
-		e_source_group_set_name (group, _("Google"));
-	} else {
-		group = e_source_group_new (_("Google"), "google://");
-
-		if (!e_source_list_add_group (slist, group, -1)) {
-			g_warning ("Could not add Google source group!");
-		} else {
-			e_source_list_sync (slist, NULL);
-		}
-
-		g_object_unref (group);
-	}
-
-	return NULL;
-}
-
 void
 ensure_google_contacts_source_group (void)
 {
@@ -93,7 +48,7 @@ ensure_google_contacts_source_group (void)
 		return;
 	}
 
-	manage_google_group (source_list, FALSE);
+	e_source_list_ensure_group (source_list, _("Google"), "google://", FALSE);
 	g_object_unref (source_list);
 }
 
@@ -109,7 +64,7 @@ remove_google_contacts_source_group (void)
         return;
     }
 
-    group = manage_google_group (source_list, TRUE);
+    group = e_source_list_peek_group_by_base_uri (source_list, "google://");
 
     if (group) {
         GSList *sources;

@@ -1,3 +1,12 @@
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #569652
+
+	* webdav-contacts-source.c: (find_webdav_group): Removed.
+	* webdav-contacts-source.c: (ensure_webdav_contacts_source_group),
+	(remove_webdav_contacts_source_group):
+	Use new ESourceList API (simplifies code).
+
 2009-02-26  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #572950

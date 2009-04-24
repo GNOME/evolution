@@ -68,17 +68,12 @@ struct _AddressbookComponentPrivate {
 static void
 ensure_sources (AddressbookComponent *component)
 {
-	GSList *groups;
 	ESourceList *source_list;
-	ESourceGroup *group;
 	ESourceGroup *on_this_computer;
-	ESourceGroup *on_ldap_servers;
 	ESource *personal_source;
-	char *base_uri, *base_uri_proto;
+	char *base_uri, *base_uri_proto, base_uri_proto_seventh;
 	const gchar *base_dir;
 
-	on_this_computer = NULL;
-	on_ldap_servers = NULL;
 	personal_source = NULL;
 
 	if (!e_book_get_addressbooks (&source_list, NULL)) {
@@ -90,24 +85,20 @@ ensure_sources (AddressbookComponent *component)
 	base_uri = g_build_filename (base_dir, "local", NULL);
 
 	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
+	if (strlen (base_uri_proto) >= 7) {
+		/* compare only file:// part. If user home dir name changes we do not want to create
+		   one more group  */
+		base_uri_proto_seventh = base_uri_proto[7];
+		base_uri_proto[7] = 0;
+	} else {
+		base_uri_proto_seventh = -1;
+	}
 
-	groups = e_source_list_peek_groups (source_list);
-	if (groups) {
-		/* groups are already there, we need to search for things... */
-		GSList *g;
+	on_this_computer = e_source_list_ensure_group (source_list, _("On This Computer"), base_uri_proto, TRUE);
+	e_source_list_ensure_group (source_list, _("On LDAP Servers"), LDAP_BASE_URI, FALSE);
 
-		for (g = groups; g; g = g->next) {
-
-			group = E_SOURCE_GROUP (g->data);
-
-			/* compare only file:// part. If user home dir name changes we do not want to create
-			   one more group  */
-
-			if (!on_this_computer && !strncmp (base_uri_proto, e_source_group_peek_base_uri (group), 7))
-				on_this_computer = group;
-			else if (!on_ldap_servers && !strcmp (LDAP_BASE_URI, e_source_group_peek_base_uri (group)))
-				on_ldap_servers = group;
-		}
+	if (base_uri_proto_seventh != -1) {
+		base_uri_proto[7] = base_uri_proto_seventh;
 	}
 
 	if (on_this_computer) {
@@ -137,16 +128,6 @@ ensure_sources (AddressbookComponent *component)
 		       and too late to prevent user seeing "Can not Open ... because of invalid uri" error.*/
 		    e_source_list_sync (source_list,NULL);
 		}
-
-		/* ensure the group name is in current locale, not read from configuration */
-		e_source_group_set_name (on_this_computer, _("On This Computer"));
-	}
-	else {
-		/* create the local source group */
-		group = e_source_group_new (_("On This Computer"), base_uri_proto);
-		e_source_list_add_group (source_list, group, -1);
-
-		on_this_computer = group;
 	}
 
 	if (personal_source) {
@@ -163,17 +144,7 @@ ensure_sources (AddressbookComponent *component)
 		personal_source = source;
 	}
 
-	if (on_ldap_servers) {
-		/* ensure the group name is in current locale, not read from configuration */
-		e_source_group_set_name (on_ldap_servers, _("On LDAP Servers"));
-	} else {
-		/* Create the LDAP source group */
-		group = e_source_group_new (_("On LDAP Servers"), LDAP_BASE_URI);
-		e_source_list_add_group (source_list, group, -1);
-
-		on_ldap_servers = group;
-	}
-
+	g_object_unref (on_this_computer);
 	g_free (base_uri_proto);
 	g_free (base_uri);
 }

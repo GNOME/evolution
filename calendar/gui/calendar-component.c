@@ -158,23 +158,15 @@ calcomp_vpane_resized (GtkWidget *vpane, GdkEventButton *e, CalendarComponentVie
 static void
 ensure_sources (CalendarComponent *component)
 {
-	GSList *groups;
 	ESourceList *source_list;
-	ESourceGroup *group;
 	ESourceGroup *on_this_computer;
-	ESourceGroup *on_the_web;
 	ESourceGroup *contacts;
-	ESourceGroup *weather;
 	ESource *personal_source;
 	ESource *birthdays_source;
-	char *base_uri, *base_uri_proto;
+	char *base_uri, *base_uri_proto, base_uri_proto_seventh;
 	const gchar *base_dir;
 	gchar *create_source;
 
-	on_this_computer = NULL;
-	on_the_web = NULL;
-	contacts = NULL;
-	weather = NULL;
 	personal_source = NULL;
 	birthdays_source = NULL;
 
@@ -187,28 +179,22 @@ ensure_sources (CalendarComponent *component)
 	base_uri = g_build_filename (base_dir, "local", NULL);
 
 	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
+	if (strlen (base_uri_proto) > 7) {
+		/* compare only file:// part. If user home dir name changes we do not want to create
+		   one more group  */
+		base_uri_proto_seventh = base_uri_proto[7];
+		base_uri_proto[7] = 0;
+	} else {
+		base_uri_proto_seventh = -1;
+	}
 
-	groups = e_source_list_peek_groups (source_list);
-	if (groups) {
-		/* groups are already there, we need to search for things... */
-		GSList *g;
+	on_this_computer = e_source_list_ensure_group (source_list, _("On This Computer"), base_uri_proto, TRUE);
+	contacts = e_source_list_ensure_group (source_list, _("Contacts"), CONTACTS_BASE_URI, TRUE);
+	e_source_list_ensure_group (source_list, _("On The Web"), WEB_BASE_URI, FALSE);
+	e_source_list_ensure_group (source_list, _("Weather"), WEATHER_BASE_URI, FALSE);
 
-		for (g = groups; g; g = g->next) {
-
-			group = E_SOURCE_GROUP (g->data);
-
-			/* compare only file:// part. If user home dir name changes we do not want to create
-			   one more group  */
-
-			if (!on_this_computer && !strncmp (base_uri_proto, e_source_group_peek_base_uri (group), 7))
-				on_this_computer = group;
-			else if (!on_the_web && !strcmp (WEB_BASE_URI, e_source_group_peek_base_uri (group)))
-				on_the_web = group;
-			else if (!contacts && !strcmp (CONTACTS_BASE_URI, e_source_group_peek_base_uri (group)))
-				contacts = group;
-			else if (!weather && !strcmp (WEATHER_BASE_URI, e_source_group_peek_base_uri (group)))
-				weather = group;
-		}
+	if (base_uri_proto_seventh != -1) {
+		base_uri_proto[7] = base_uri_proto_seventh;
 	}
 
 	if (on_this_computer) {
@@ -238,16 +224,6 @@ ensure_sources (CalendarComponent *component)
 		       and too late to prevent user seeing "Can not Open ... because of invalid uri" error.*/
 		    e_source_list_sync (source_list,NULL);
 		}
-
-		/* ensure the group name is in current locale, not read from configuration */
-		e_source_group_set_name (on_this_computer, _("On This Computer"));
-	}
-	else {
-		/* create the local source group */
-		group = e_source_group_new (_("On This Computer"), base_uri_proto);
-		e_source_list_add_group (source_list, group, -1);
-
-		on_this_computer = group;
 	}
 
 	if (personal_source) {
@@ -282,17 +258,6 @@ ensure_sources (CalendarComponent *component)
 		e_source_set_color_spec (personal_source, "#BECEDD");
 	}
 
-	if (on_the_web) {
-		/* ensure the group name is in current locale, not read from configuration */
-		e_source_group_set_name (on_the_web, _("On The Web"));
-	} else {
-		/* Create the On the web source group */
-		group = e_source_group_new (_("On The Web"), WEB_BASE_URI);
-		e_source_list_add_group (source_list, group, -1);
-
-		on_the_web = group;
-	}
-
 	if (contacts) {
 		GSList *sources = e_source_group_peek_sources (contacts);
 		if (sources) {
@@ -311,14 +276,6 @@ ensure_sources (CalendarComponent *component)
 				g_slist_free (l);
 			}
 		}
-
-		/* ensure the group name is in current locale, not read from configuration */
-		e_source_group_set_name (contacts, _("Contacts"));
-	} else {
-		/* Create the contacts group */
-		group = e_source_group_new (_("Contacts"), CONTACTS_BASE_URI);
-		e_source_list_add_group (source_list, group, -1);
-		contacts = group;
 	}
 
 	create_source = e_source_group_get_property (contacts, "create_source");
@@ -341,18 +298,10 @@ ensure_sources (CalendarComponent *component)
 	if (e_source_peek_color_spec (birthdays_source) == NULL)
 		e_source_set_color_spec (birthdays_source, "#DDBECE");
 
-	if (weather) {
-		/* ensure the group name is in current locale, not read from configuration */
-		e_source_group_set_name (weather, _("Weather"));
-	} else {
-		/* Create the weather group */
-		group = e_source_group_new (_("Weather"), WEATHER_BASE_URI);
-		e_source_list_add_group (source_list, group, -1);
-		weather = group;
-	}
-
 	component->priv->source_list = source_list;
 
+	g_object_unref (on_this_computer);
+	g_object_unref (contacts);
 	g_free (base_uri_proto);
 	g_free (base_uri);
 }
