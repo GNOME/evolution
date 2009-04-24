@@ -1,5 +1,12 @@
 2009-04-24  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #205804
+
+	* gui/e-calendar-view.c: (e_calendar_view_get_tooltips):
+	Include timezone information in a tooltip when differs from user's.
+
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #577615
 
 	* gui/dialogs/cal-prefs-dialog.h: (struct _CalendarPrefsDialog):

@@ -2484,13 +2484,25 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	tmp1 = get_label(dtstart.value, zone, default_zone);
 	tmp = calculate_time (t_start, t_end);
 
+	/* To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"*/
+	tmp2 = g_strdup_printf(_("Time: %s %s"), tmp1, tmp);
+	if (zone && !cal_comp_util_compare_event_timezones (newcomp, client, default_zone)) {
+		g_free (tmp);
+		g_free (tmp1);
+
+		tmp1 = get_label (dtstart.value, zone, zone);
+		tmp = g_strconcat (tmp2, "\n\t[ ", tmp1, " ", icaltimezone_get_display_name (zone), " ]", NULL);
+	} else {
+		g_free (tmp);
+		tmp = tmp2;
+		tmp2 = NULL;
+	}
+
 	e_cal_component_free_datetime (&dtstart);
 	e_cal_component_free_datetime (&dtend);
 
-	/* To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"*/
-	tmp2 = g_strdup_printf(_("Time: %s %s"), tmp1, tmp);
 	hbox = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)hbox, gtk_label_new_with_mnemonic (tmp2), FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)hbox, gtk_label_new_with_mnemonic (tmp), FALSE, FALSE, 0);
 	ebox = gtk_event_box_new ();
 	gtk_container_add ((GtkContainer *)ebox, hbox);
 	gtk_box_pack_start ((GtkBox *)box, ebox, FALSE, FALSE, 0);
