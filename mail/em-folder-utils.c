@@ -401,7 +401,6 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 {
 	CamelStore *local;
 	GtkWidget *dialog;
-	char *uri;
 	int flags = 0;
 
 	local = mail_component_peek_local_store (NULL);
@@ -418,7 +417,6 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 		return;
 	}
 
-	g_free (uri);
 	camel_object_ref (folder);
 
 	dialog = e_error_new(NULL,
