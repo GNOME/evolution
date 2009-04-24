@@ -1336,10 +1336,13 @@ search_by_id_and_client (ECalModelPrivate *priv, ECal *client, const ECalCompone
 		if (comp_data) {
 			const char *uid;
 			char *rid = NULL;
+			struct icaltimetype icalrid;
 			gboolean has_rid = (id->rid && *id->rid);
 
 			uid = icalcomponent_get_uid (comp_data->icalcomp);
-			rid = icaltime_as_ical_string_r (icalcomponent_get_recurrenceid (comp_data->icalcomp));
+			icalrid = icalcomponent_get_recurrenceid (comp_data->icalcomp);
+			if (!icaltime_is_null_time (icalrid))
+				rid = icaltime_as_ical_string_r (icalrid);
 
 			if (uid && *uid) {
 				if ((!client || comp_data->client == client) && !strcmp (id->uid, uid)) {
@@ -1352,8 +1355,9 @@ search_by_id_and_client (ECalModelPrivate *priv, ECal *client, const ECalCompone
 					g_free (rid);
 					return comp_data;
 				}
-			g_free (rid);
 			}
+
+			g_free (rid);
 		}
 	}
 
