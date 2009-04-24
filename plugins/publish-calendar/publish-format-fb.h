@@ -27,6 +27,6 @@
 #ifndef PUBLISH_FORMAT_FB_H
 #define PUBLISH_FORMAT_FB_H
 
-void publish_calendar_as_fb (GOutputStream *stream, EPublishUri *uri);
+void publish_calendar_as_fb (GOutputStream *stream, EPublishUri *uri, GError **error);
 
 #endif

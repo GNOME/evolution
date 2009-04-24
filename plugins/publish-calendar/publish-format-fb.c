@@ -22,6 +22,7 @@
 
 #include <string.h>
 #include <time.h>
+#include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-source-list.h>
@@ -32,11 +33,10 @@
 #include "publish-format-fb.h"
 
 static gboolean
-write_calendar (gchar *uid, ESourceList *source_list, GOutputStream *stream)
+write_calendar (gchar *uid, ESourceList *source_list, GOutputStream *stream, GError **error)
 {
 	ESource *source;
 	ECal *client = NULL;
-	GError *error = NULL;
 	GList *objects;
 	icaltimezone *utc;
 	time_t start = time(NULL), end;
@@ -53,28 +53,24 @@ write_calendar (gchar *uid, ESourceList *source_list, GOutputStream *stream)
 	if (source)
 		client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_EVENT);
 	if (!client) {
-		g_warning (G_STRLOC ": Could not publish calendar: Calendar backend no longer exists");
+		if (error)
+			*error = g_error_new (e_calendar_error_quark (), E_CALENDAR_STATUS_NO_SUCH_CALENDAR, _("Could not publish calendar: Calendar backend no longer exists"));
 		return FALSE;
 	}
 
-	if (!e_cal_open (client, TRUE, &error)) {
-		if (error) {
-			g_warning ("%s", error->message);
-			g_error_free (error);
-		}
+	if (!e_cal_open (client, TRUE, error)) {
 		g_object_unref (client);
 		return FALSE;
 	}
 
-	if (e_cal_get_cal_address (client, &email, &error)) {
+	if (e_cal_get_cal_address (client, &email, NULL)) {
 		if (email && *email)
 			users = g_list_append (users, email);
 	}
 
 	top_level = e_cal_util_new_top_level ();
-	error = NULL;
 
-	if (e_cal_get_free_busy (client, users, start, end, &objects, &error)) {
+	if (e_cal_get_free_busy (client, users, start, end, &objects, error)) {
 		char *ical_string;
 
 		while (objects) {
@@ -85,7 +81,7 @@ write_calendar (gchar *uid, ESourceList *source_list, GOutputStream *stream)
 		}
 
 		ical_string = icalcomponent_as_ical_string_r (top_level);
-		res = g_output_stream_write_all (stream, ical_string, strlen (ical_string), NULL, NULL, &error);
+		res = g_output_stream_write_all (stream, ical_string, strlen (ical_string), NULL, NULL, error);
 
 		g_free (ical_string);
 	}
@@ -96,16 +92,11 @@ write_calendar (gchar *uid, ESourceList *source_list, GOutputStream *stream)
 	g_free (email);
 	g_object_unref (client);
 
-	if (error) {
-		g_warning ("%s", error->message);
-		g_error_free (error);
-	}
-
 	return res;
 }
 
 void
-publish_calendar_as_fb (GOutputStream *stream, EPublishUri *uri)
+publish_calendar_as_fb (GOutputStream *stream, EPublishUri *uri, GError **error)
 {
 	GSList *l;
 	ESourceList *source_list;
@@ -118,7 +109,7 @@ publish_calendar_as_fb (GOutputStream *stream, EPublishUri *uri)
 	l = uri->events;
 	while (l) {
 		gchar *uid = l->data;
-		if (!write_calendar (uid, source_list, stream))
+		if (!write_calendar (uid, source_list, stream, error))
 			break;
 		l = g_slist_next (l);
 	}

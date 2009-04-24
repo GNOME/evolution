@@ -33,6 +33,7 @@
 #include <calendar/gui/e-cal-menu.h>
 #include <shell/es-event.h>
 #include <e-util/e-util-private.h>
+#include <e-util/e-dialog-utils.h>
 #include "url-editor-dialog.h"
 #include "publish-format-fb.h"
 #include "publish-format-ical.h"
@@ -43,13 +44,24 @@ static GSList *publish_uris = NULL;
 static GSList *queued_publishes = NULL;
 static gint online = 0;
 
+static GSList *error_queue = NULL;
+static GStaticMutex error_queue_lock = G_STATIC_MUTEX_INIT;
+static guint error_queue_show_idle_id = 0;
+static void  error_queue_add (char *descriptions, GError *error);
+
 int          e_plugin_lib_enable (EPlugin *ep, int enable);
 void         action_publish (EPlugin *ep, ECalMenuTargetSelect *t);
 void         online_state_changed (EPlugin *ep, ESEventTargetState *target);
 void         publish_calendar_context_activate (EPlugin *ep, ECalPopupTargetSource *target);
 GtkWidget   *publish_calendar_locations (EPlugin *epl, EConfigHookItemFactoryData *data);
 static void  update_timestamp (EPublishUri *uri);
-static void publish (EPublishUri *uri);
+static void publish (EPublishUri *uri, gboolean can_report_success);
+
+static void
+publish_no_succ_info (EPublishUri *uri)
+{
+	publish (uri, FALSE);
+}
 
 static void
 publish_uri_async (EPublishUri *uri)
@@ -57,7 +69,7 @@ publish_uri_async (EPublishUri *uri)
 	GThread *thread = NULL;
 	GError *error = NULL;
 
-	thread = g_thread_create ((GThreadFunc) publish, uri, FALSE, &error);
+	thread = g_thread_create ((GThreadFunc) publish_no_succ_info, uri, FALSE, &error);
 	if (!thread) {
 		g_warning (G_STRLOC ": %s", error->message);
 		g_error_free (error);
@@ -65,7 +77,7 @@ publish_uri_async (EPublishUri *uri)
 }
 
 static void
-publish_online (EPublishUri *uri, GFile *file, GError **perror)
+publish_online (EPublishUri *uri, GFile *file, GError **perror, gboolean can_report_success)
 {
 	GOutputStream *stream;
 	GError *error = NULL;
@@ -79,20 +91,20 @@ publish_online (EPublishUri *uri, GFile *file, GError **perror)
 		if (perror) {
 			*perror = error;
 		} else if (error) {
-			g_warning ("Couldn't open %s: %s", uri->location, error->message);
-			g_error_free (error);
+
+			error_queue_add (g_strdup_printf (_("Could not open %s:"), uri->location), error);
 		} else {
-			g_warning ("Couldn't open %s: Unknown error", uri->location);
+			error_queue_add (g_strdup_printf (_("Could not open %s: Unknown error"), uri->location), NULL);
 		}
 		return;
 	}
 
 	switch (uri->publish_format) {
 	case URI_PUBLISH_AS_ICAL:
-		publish_calendar_as_ical (stream, uri);
+		publish_calendar_as_ical (stream, uri, &error);
 		break;
 	case URI_PUBLISH_AS_FB:
-		publish_calendar_as_fb (stream, uri);
+		publish_calendar_as_fb (stream, uri, &error);
 		break;
 	/*
 	case URI_PUBLISH_AS_HTML:
@@ -100,6 +112,11 @@ publish_online (EPublishUri *uri, GFile *file, GError **perror)
 		break;
 	*/
 	}
+
+	if (error)
+		error_queue_add (g_strdup_printf (_("There was an error while publishing to %s:"), uri->location), error);
+	else if (can_report_success)
+		error_queue_add (g_strdup_printf (_("Publishing to %s finished successfully"), uri->location), NULL);
 
 	update_timestamp (uri);
 
@@ -126,6 +143,7 @@ struct mnt_struct {
 	EPublishUri *uri;
 	GFile *file;
 	GMountOperation *mount_op;
+	gboolean can_report_success;
 };
 
 static void
@@ -138,10 +156,9 @@ mount_ready_cb (GObject *source_object, GAsyncResult *res, gpointer user_data)
 	g_file_mount_enclosing_volume_finish (G_FILE (source_object), res, &error);
 
 	if (error) {
-		if (error->code != G_IO_ERROR_CANCELLED)
-			g_warning ("Mount of %s failed: %s", ms->uri->location, error->message);
+		
+		error_queue_add (g_strdup_printf (_("Mount of %s failed:"), ms->uri->location), error);
 
-		g_error_free (error);
 		if (ms)
 			g_object_unref (ms->mount_op);
 		g_free (ms);
@@ -153,7 +170,7 @@ mount_ready_cb (GObject *source_object, GAsyncResult *res, gpointer user_data)
 
 	g_return_if_fail (ms != NULL);
 
-	publish_online (ms->uri, ms->file, NULL);
+	publish_online (ms->uri, ms->file, NULL, ms->can_report_success);
 
 	g_object_unref (ms->mount_op);
 	g_free (ms);
@@ -267,13 +284,14 @@ ask_question (GMountOperation *op, const char *message, const char *choices[])
 }
 
 static void
-mount_first (EPublishUri *uri, GFile *file)
+mount_first (EPublishUri *uri, GFile *file, gboolean can_report_success)
 {
 	struct mnt_struct *ms = g_malloc (sizeof (struct mnt_struct));
 
 	ms->uri = uri;
 	ms->file = g_object_ref (file);
 	ms->mount_op = g_mount_operation_new ();
+	ms->can_report_success = can_report_success;
 
 	g_signal_connect (ms->mount_op, "ask-password", G_CALLBACK (ask_password), ms);
 	g_signal_connect (ms->mount_op, "ask-question", G_CALLBACK (ask_question), ms);	
@@ -282,7 +300,7 @@ mount_first (EPublishUri *uri, GFile *file)
 }
 
 static void
-publish (EPublishUri *uri)
+publish (EPublishUri *uri, gboolean can_report_success)
 {
 	if (online) {
 		GError *error = NULL;
@@ -298,19 +316,17 @@ publish (EPublishUri *uri)
 
 		g_return_if_fail (file != NULL);
 
-		publish_online (uri, file, &error);
+		publish_online (uri, file, &error, can_report_success);
 
 		if (error && error->domain == G_IO_ERROR && error->code == G_IO_ERROR_NOT_MOUNTED) {
 			g_error_free (error);
 			error = NULL;
 
-			mount_first (uri, file);
+			mount_first (uri, file, can_report_success);
 		}
 
-		if (error) {
-			g_warning ("Couldn't open %s: %s", uri->location, error->message);
-			g_error_free (error);
-		}
+		if (error)
+			error_queue_add (g_strdup_printf (_("Could not open %s:"), uri->location), error);
 
 		g_object_unref (file);
 	} else {
@@ -336,11 +352,11 @@ add_timeout (EPublishUri *uri)
 	/* Set the timeout for now+frequency */
 	switch (uri->publish_frequency) {
 	case URI_PUBLISH_DAILY:
-		id = g_timeout_add (24 * 60 * 60 * 1000, (GSourceFunc) publish, uri);
+		id = g_timeout_add (24 * 60 * 60 * 1000, (GSourceFunc) publish_no_succ_info, uri);
 		g_hash_table_insert (uri_timeouts, uri, GUINT_TO_POINTER (id));
 		break;
 	case URI_PUBLISH_WEEKLY:
-		id = g_timeout_add (7 * 24 * 60 * 60 * 1000, (GSourceFunc) publish, uri);
+		id = g_timeout_add (7 * 24 * 60 * 60 * 1000, (GSourceFunc) publish_no_succ_info, uri);
 		g_hash_table_insert (uri_timeouts, uri, GUINT_TO_POINTER (id));
 		break;
 	}
@@ -400,20 +416,20 @@ add_offset_timeout (EPublishUri *uri)
 	switch (uri->publish_frequency) {
 	case URI_PUBLISH_DAILY:
 		if (elapsed > 24 * 60 * 60) {
-			publish (uri);
+			publish (uri, FALSE);
 			add_timeout (uri);
 		} else {
-			id = g_timeout_add (((24 * 60 * 60) - elapsed) * 1000, (GSourceFunc) publish, uri);
+			id = g_timeout_add (((24 * 60 * 60) - elapsed) * 1000, (GSourceFunc) publish_no_succ_info, uri);
 			g_hash_table_insert (uri_timeouts, uri, GUINT_TO_POINTER (id));
 			break;
 		}
 		break;
 	case URI_PUBLISH_WEEKLY:
 		if (elapsed > 7 * 24 * 60 * 60) {
-			publish (uri);
+			publish (uri, FALSE);
 			add_timeout (uri);
 		} else {
-			id = g_timeout_add (((7 * 24 * 60 * 60) - elapsed) * 1000, (GSourceFunc) publish, uri);
+			id = g_timeout_add (((7 * 24 * 60 * 60) - elapsed) * 1000, (GSourceFunc) publish_no_succ_info, uri);
 			g_hash_table_insert (uri_timeouts, uri, GUINT_TO_POINTER (id));
 			break;
 		}
@@ -655,7 +671,7 @@ online_state_changed (EPlugin *ep, ESEventTargetState *target)
 	online = target->state;
 	if (online)
 		while (queued_publishes)
-			publish (queued_publishes->data);
+			publish (queued_publishes->data, FALSE);
 }
 
 GtkWidget *
@@ -743,7 +759,7 @@ publish_urls (gpointer data)
 
 	for (l = publish_uris; l; l = g_slist_next (l)) {
 		EPublishUri *uri = l->data;
-		publish (uri);
+		publish (uri, TRUE);
 	}
 
 	return GINT_TO_POINTER (0);
@@ -756,11 +772,8 @@ action_publish (EPlugin *ep, ECalMenuTargetSelect *t)
 	GError *error = NULL;
 
 	thread = g_thread_create ((GThreadFunc) publish_urls, NULL, FALSE, &error);
-	if (!thread) {
-		g_warning (G_STRLOC ": %s", error->message);
-		g_error_free (error);
-	}
-
+	if (!thread)
+		error_queue_add (g_strdup (_("Could not create publish thread.")), error);
 }
 
 static void
@@ -815,4 +828,91 @@ e_plugin_lib_enable (EPlugin *ep, int enable)
 	}
 
 	return 0;
+}
+
+struct eq_data {
+	char *description;
+	GError *error;
+};
+
+static gboolean
+error_queue_show_idle (gpointer user_data)
+{
+	GString *info = NULL;
+	GSList *l;
+	gboolean has_error = FALSE, has_info = FALSE;
+
+	g_static_mutex_lock (&error_queue_lock);
+	
+	for (l = error_queue; l; l = l->next) {
+		struct eq_data *data = l->data;
+
+		if (data) {
+			if (data->description) {
+				if (!info) {
+					info = g_string_new (data->description);
+				} else {
+					g_string_append (info, "\n\n");
+					g_string_append (info, data->description);
+				}
+
+				g_free (data->description);
+			}
+
+			if (data->error) {
+				has_error = TRUE;
+				if (!info) {
+					info = g_string_new (data->error->message);
+				} else if (data->description) {
+					g_string_append (info, " ");
+					g_string_append (info, data->error->message);
+				} else {
+					g_string_append (info, "\n\n");
+					g_string_append (info, data->error->message);
+				}
+
+				g_error_free (data->error);
+			} else if (data->description) {
+				has_info = TRUE;
+			}
+
+			g_free (data);
+		}
+	}
+
+	g_slist_free (error_queue);
+
+	error_queue = NULL;
+	error_queue_show_idle_id = 0;
+
+	g_static_mutex_unlock (&error_queue_lock);
+
+	if (info) {
+		e_notice (NULL,
+			  has_error && has_info ? GTK_MESSAGE_WARNING : has_error ? GTK_MESSAGE_ERROR : GTK_MESSAGE_INFO,
+			  "%s", info->str, NULL);
+
+		g_string_free (info, TRUE);
+	}
+
+	return FALSE;
+}
+
+void
+error_queue_add (char *description, GError *error)
+{
+	struct eq_data *data;
+
+	if (!error && !description)
+		return;
+
+	data = g_new0 (struct eq_data, 1);
+	data->description = description;
+	data->error = error;
+
+	g_static_mutex_lock (&error_queue_lock);
+	error_queue = g_slist_append (error_queue, data);
+	if (error_queue_show_idle_id == 0)
+		error_queue_show_idle_id = g_idle_add (error_queue_show_idle, NULL);
+	g_static_mutex_unlock (&error_queue_lock);
 }

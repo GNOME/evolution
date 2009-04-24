@@ -1,3 +1,10 @@
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #340783
+
+	* POTFILES.in: Added plugins/publish-calendar/publish-format-fb.c
+	and plugins/publish-calendar/publish-format-ical.c there.
+
 2009-04-15  Gil Forcada  <gforcada@gnome.org>
 
 	* ca.po: Fixed bug #574842.
