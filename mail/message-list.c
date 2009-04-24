@@ -4169,6 +4169,8 @@ regen_list_exec (struct _regen_list_msg *m)
 
 	//camel_folder_summary_reload_from_db (m->folder->summary, NULL);
 	if (!camel_operation_cancel_check(m->base.cancel)) {
+		camel_folder_sort_uids (m->folder, showuids);
+
 		/* update/build a new tree */
 		if (m->dotree) {
 			if (m->tree)
