@@ -168,7 +168,8 @@ attachment_update_file_info_columns (EAttachment *attachment)
 	display_size = g_format_size_for_display (size);
 
 	description = e_attachment_get_description (attachment);
-	description = (description != NULL) ? description : display_name;
+	if (description == NULL || *description == '\0')
+		description = display_name;
 
 	if (size > 0)
 		caption = g_strdup_printf (

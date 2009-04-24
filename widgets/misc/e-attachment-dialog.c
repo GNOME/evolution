@@ -212,6 +212,7 @@ attachment_dialog_response (GtkDialog *dialog,
 	EAttachment *attachment;
 	GtkToggleButton *button;
 	GFileInfo *file_info;
+	CamelMimePart *mime_part;
 	const gchar *attribute;
 	const gchar *text;
 	gboolean active;
@@ -226,18 +227,31 @@ attachment_dialog_response (GtkDialog *dialog,
 	file_info = e_attachment_get_file_info (attachment);
 	g_return_if_fail (G_IS_FILE_INFO (file_info));
 
+	mime_part = e_attachment_get_mime_part (attachment);
+
 	attribute = G_FILE_ATTRIBUTE_STANDARD_DISPLAY_NAME;
 	text = gtk_entry_get_text (GTK_ENTRY (priv->display_name_entry));
 	g_file_info_set_attribute_string (file_info, attribute, text);
+
+	if (mime_part != NULL)
+		camel_mime_part_set_filename (mime_part, text);
 
 	attribute = G_FILE_ATTRIBUTE_STANDARD_DESCRIPTION;
 	text = gtk_entry_get_text (GTK_ENTRY (priv->description_entry));
 	g_file_info_set_attribute_string (file_info, attribute, text);
 
+	if (mime_part != NULL)
+		camel_mime_part_set_description (mime_part, text);
+
 	button = GTK_TOGGLE_BUTTON (priv->disposition_checkbox);
 	active = gtk_toggle_button_get_active (button);
 	text = active ? "inline" : "attachment";
 	e_attachment_set_disposition (attachment, text);
+
+	if (mime_part != NULL)
+		camel_mime_part_set_disposition (mime_part, text);
+
+	g_object_notify (G_OBJECT (attachment), "file-info");
 }
 
 static void
