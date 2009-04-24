@@ -1,5 +1,12 @@
 2009-04-24  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #573704
+
+	* gui/dialogs/comp-editor.c: (action_save_cb), (real_send_comp):
+	Do not close editor after error.
+
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
 	** Part of fix for bug #571272
 
 	* gui/e-cal-model.c: (search_by_id_and_client):	Possible leak fix.

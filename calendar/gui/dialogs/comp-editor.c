@@ -890,9 +890,11 @@ action_save_cb (GtkAction *action,
 
 			g_clear_error (&error);
 		}
-	}
+	} else
+		correct = FALSE;
 
-	close_dialog (editor);
+	if (correct)
+		close_dialog (editor);
 }
 
 static void
@@ -2505,14 +2507,13 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean str
 			set_attendees_for_delegation (send_comp, address, method);
 	}
 
-		if (!e_cal_component_has_attachments (priv->comp) 
-		 || e_cal_get_static_capability (priv->client, CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
+	if (!e_cal_component_has_attachments (priv->comp) 
+	  || e_cal_get_static_capability (priv->client, CAL_STATIC_CAPABILITY_CREATE_MESSAGES)) {
 		if (itip_send_comp (method, send_comp, priv->client,
 					NULL, NULL, users, strip_alarms)) {
 			g_object_unref (send_comp);
 			return TRUE;
 		}
-
 	} else {
 		/* Clone the component with attachments set to CID:...  */
 		int num_attachments, i;
@@ -2530,9 +2531,14 @@ real_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean str
 		mime_attach_list = comp_editor_get_mime_attach_list (editor);
 		if (itip_send_comp (method, send_comp, priv->client,
 					NULL, mime_attach_list, users, strip_alarms)) {
-			save_comp (editor);
+			gboolean saved = save_comp (editor);
+
 			g_object_unref (send_comp);
-			return TRUE;
+
+			if (!saved)
+				comp_editor_set_changed (editor, TRUE);
+
+			return saved;
 		}
 	}
 
