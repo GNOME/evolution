@@ -347,6 +347,7 @@ attachment_set_file_info (EAttachment *attachment,
                           GFileInfo *file_info)
 {
 	GtkTreeRowReference *reference;
+	GIcon *icon;
 
 	reference = e_attachment_get_reference (attachment);
 
@@ -357,6 +358,13 @@ attachment_set_file_info (EAttachment *attachment,
 		g_object_unref (attachment->priv->file_info);
 
 	attachment->priv->file_info = file_info;
+
+	/* If the GFileInfo contains a GThemedIcon, append a
+	 * fallback icon name to ensure we display something. */
+	icon = g_file_info_get_icon (file_info);
+	if (G_IS_THEMED_ICON (icon))
+		g_themed_icon_append_name (
+			G_THEMED_ICON (icon), DEFAULT_ICON_NAME);
 
 	g_object_notify (G_OBJECT (attachment), "file-info");
 

@@ -37,6 +37,9 @@
 
 #define NUM_VIEWS 2
 
+/* Initial height of the lower pane. */
+#define INITIAL_HEIGHT 150
+
 struct _EAttachmentPanedPrivate {
 	GtkTreeModel *model;
 	GtkWidget *expander;
@@ -511,10 +514,10 @@ attachment_paned_init (EAttachmentPaned *paned)
 	container = GTK_WIDGET (paned);
 
 	widget = gtk_notebook_new ();
-	gtk_widget_set_size_request (widget, -1, 40);
+	gtk_widget_set_size_request (widget, -1, INITIAL_HEIGHT);
 	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (widget), FALSE);
 	gtk_notebook_set_show_border (GTK_NOTEBOOK (widget), FALSE);
-	gtk_paned_pack2 (GTK_PANED (container), widget, TRUE, FALSE);
+	gtk_paned_pack2 (GTK_PANED (container), widget, FALSE, FALSE);
 	paned->priv->notebook = g_object_ref (widget);
 	gtk_widget_hide (widget);
 
