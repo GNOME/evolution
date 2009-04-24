@@ -45,7 +45,7 @@ typedef struct {
 
 	GtkWidget *popup_window;
 	GtkWidget *popup_scrolled_window;
-	GtkWidget *popup_list;
+	GtkWidget *popup_tree_view;
 } ECellCombo;
 
 typedef struct {

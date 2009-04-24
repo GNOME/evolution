@@ -49,10 +49,9 @@
 #include <string.h>
 
 
-#define EXCHANGE_DELEGATES_USER_SEPARATOR -2
 #define EXCHANGE_DELEGATES_USER_CUSTOM    -3
 /* Can't use E2K_PERMISSIONS_ROLE_CUSTOM, because it's -1, which
- * means "end of list" to e_dialog_option_menu_get/set
+ * means "end of list" to e_dialog_combo_box_get/set
  */
 
 static const int exchange_perm_map[] = {
@@ -61,7 +60,6 @@ static const int exchange_perm_map[] = {
 	E2K_PERMISSIONS_ROLE_AUTHOR,
 	E2K_PERMISSIONS_ROLE_EDITOR,
 
-	EXCHANGE_DELEGATES_USER_SEPARATOR,
 	EXCHANGE_DELEGATES_USER_CUSTOM,
 
 	-1
@@ -79,7 +77,7 @@ static const char *folder_names_for_display[] = {
 };
 
 static const char *widget_names[] = {
-	"calendar_perms", "task_perms", "inbox_perms", "contact_perms",
+	"calendar_perms_combobox", "task_perms_combobox", "inbox_perms_combobox", "contact_perms_combobox",
 };
 
 
@@ -140,26 +138,14 @@ is_delegate_role (E2kPermissionsRole role)
 }
 
 static void
-set_perms (GtkWidget *omenu, E2kPermissionsRole role)
+set_perms (GtkWidget *combobox, E2kPermissionsRole role)
 {
 	if (!is_delegate_role (role)) {
-		GtkWidget *menu, *item;
-
-		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (omenu));
-
-		item = gtk_menu_item_new ();
-		gtk_widget_set_sensitive (item, FALSE);
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-
-		item = gtk_menu_item_new_with_label (_("Custom"));
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-
-		gtk_widget_show_all (menu);
-
+		gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("Custom"));
 		role = EXCHANGE_DELEGATES_USER_CUSTOM;
 	}
 
-	e_dialog_option_menu_set (omenu, role, exchange_perm_map);
+	e_dialog_combo_box_set (combobox, role, exchange_perm_map);
 }
 
 static void
@@ -224,7 +210,7 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			     GtkWidget *parent_window)
 {
 	GladeXML *xml;
-	GtkWidget *dialog, *table, *label, *menu, *check, *check_delegate;
+	GtkWidget *dialog, *table, *label, *combobox, *check, *check_delegate;
 	char *title;
 	int button, i;
 	E2kPermissionsRole role;
@@ -257,8 +243,8 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 
 	/* Set up the permissions */
 	for (i = 0; i < EXCHANGE_DELEGATES_LAST; i++) {
-		menu = glade_xml_get_widget (xml, widget_names[i]);
-		set_perms (menu, user->role[i]);
+		combobox = glade_xml_get_widget (xml, widget_names[i]);
+		set_perms (combobox, user->role[i]);
 	}
 	check = glade_xml_get_widget (xml, "see_private_checkbox");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check),
@@ -285,8 +271,8 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 	/* And update */
 	modified = FALSE;
 	for (i = 0; i < EXCHANGE_DELEGATES_LAST; i++) {
-		menu = glade_xml_get_widget (xml, widget_names[i]);
-		role = e_dialog_option_menu_get (menu, exchange_perm_map);
+		combobox = glade_xml_get_widget (xml, widget_names[i]);
+		role = e_dialog_combo_box_get (combobox, exchange_perm_map);
 
 		if (is_delegate_role (user->role[i]) &&
 		    user->role[i] != role) {
@@ -350,8 +336,8 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			camel_stream_printf (stream,
 				"<html><body><p>%s<br><br>%s</p><table border = 0 width=\"40%%\">", msg_part1, msg_part2);
 			for (i = 0; i < EXCHANGE_DELEGATES_LAST; i++) {
-				menu = glade_xml_get_widget (xml, widget_names[i]);
-				role = e_dialog_option_menu_get (menu, exchange_perm_map);
+				combobox = glade_xml_get_widget (xml, widget_names[i]);
+				role = e_dialog_combo_box_get (combobox, exchange_perm_map);
 				role_name = g_strdup (map_to_full_role_name(role));
 				role_name_final = g_strconcat (role_name_final, "<tr><td>" , folder_names_for_display[i],
 					":</td><td>", role_name, "</td> </tr>", NULL);

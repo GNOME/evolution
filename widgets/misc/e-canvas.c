@@ -994,7 +994,7 @@ void e_canvas_popup_tooltip (ECanvas *canvas, GtkWidget *widget, int x, int y)
 						  G_CALLBACK (e_canvas_visibility), canvas);
 		}
 	}
-	gtk_widget_set_uposition (widget, x, y);
+	gtk_window_move (GTK_WINDOW (widget), x, y);
 	gtk_widget_show (widget);
 }
 

@@ -34,6 +34,7 @@ extern "C" {
 struct _ESignature;
 struct _GtkToggleButton;
 struct _GtkOptionMenu;
+struct _GtkComboBox;
 struct _GdkPixbuf;
 struct _GtkWidget;
 struct _GladeXML;
@@ -85,7 +86,7 @@ struct _EMMailerPrefs {
 
 	/* Deleting Mail */
 	struct _GtkToggleButton *empty_trash;
-	struct _GtkOptionMenu *empty_trash_days;
+	struct _GtkComboBox *empty_trash_days;
 	struct _GtkToggleButton *confirm_expunge;
 
 	/* HTML Mail tab */
@@ -121,7 +122,7 @@ struct _EMMailerPrefs {
 	/* Junk prefs */
 	struct _GtkToggleButton *check_incoming;
 	struct _GtkToggleButton *empty_junk;
-	struct _GtkOptionMenu *empty_junk_days;
+	struct _GtkComboBox *empty_junk_days;
 	
 	struct _GtkToggleButton *sa_local_tests_only;
 	struct _GtkToggleButton *sa_use_daemon;

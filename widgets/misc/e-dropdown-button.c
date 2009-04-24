@@ -173,7 +173,7 @@ e_dropdown_button_construct (EDropdownButton *dropdown_button,
 	GtkWidget *hbox;
 	GtkWidget *arrow;
 	GtkWidget *label;
-	unsigned int accel_key;
+	guint accel_key;
 
 	g_return_if_fail (dropdown_button != NULL);
 	g_return_if_fail (E_IS_DROPDOWN_BUTTON (dropdown_button));
@@ -188,7 +188,11 @@ e_dropdown_button_construct (EDropdownButton *dropdown_button,
 	gtk_widget_show (hbox);
 
 	label = gtk_label_new ("");
-	accel_key = gtk_label_parse_uline (GTK_LABEL (label), label_text);
+	gtk_label_set_label (GTK_LABEL (label), label_text);
+	gtk_label_set_use_markup (GTK_LABEL (label), FALSE);
+	gtk_label_set_use_underline (GTK_LABEL (label), TRUE);
+
+	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (label));
 	gtk_box_pack_start (GTK_BOX (hbox), label, TRUE, TRUE, 0);
 	gtk_widget_show (label);
 	gtk_widget_add_accelerator (GTK_WIDGET (dropdown_button), "clicked",

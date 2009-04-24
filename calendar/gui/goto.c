@@ -38,7 +38,7 @@ typedef struct
 	GladeXML *xml;
 	GtkWidget *dialog;
 
-	GtkWidget *month;
+	GtkWidget *month_combobox;
 	GtkWidget *year;
 	ECalendar *ecal;
 	GtkWidget *vbox;
@@ -67,11 +67,8 @@ static void
 month_changed (GtkToggleButton *toggle, gpointer data)
 {
 	GoToDialog *dlg = data;
-	GtkWidget *menu, *active;
 
-	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (dlg->month));
-	active = gtk_menu_get_active (GTK_MENU (menu));
-	dlg->month_val = g_list_index (GTK_MENU_SHELL (menu)->children, active);
+	dlg->month_val = gtk_combo_box_get_active (GTK_COMBO_BOX (dlg->month_combobox));
 
 	e_calendar_item_set_first_month (dlg->ecal->calitem, dlg->year_val, dlg->month_val);
 }
@@ -174,14 +171,14 @@ get_widgets (GoToDialog *dlg)
 
 	dlg->dialog = GW ("goto-dialog");
 
-	dlg->month = GW ("month");
+	dlg->month_combobox = GW ("month-combobox");
 	dlg->year = GW ("year");
 	dlg->vbox = GW ("vbox");
 
 #undef GW
 
 	return (dlg->dialog
-		&& dlg->month
+		&& dlg->month_combobox
 		&& dlg->year
 		&& dlg->vbox);
 }
@@ -189,13 +186,9 @@ get_widgets (GoToDialog *dlg)
 static void
 goto_dialog_init_widgets (GoToDialog *dlg)
 {
-	GtkWidget *menu;
 	GtkAdjustment *adj;
-	GList *l;
 
-	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (dlg->month));
-	for (l = GTK_MENU_SHELL (menu)->children; l != NULL; l = l->next)
-		g_signal_connect (menu, "selection_done", G_CALLBACK (month_changed), dlg);
+	g_signal_connect (dlg->month_combobox, "changed", G_CALLBACK (month_changed), dlg);
 
 	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (dlg->year));
 	g_signal_connect (adj, "value_changed", G_CALLBACK (year_changed), dlg);
@@ -244,7 +237,7 @@ goto_dialog (GnomeCalendar *gcal)
 	dlg->month_val = tt.month - 1;
 	dlg->day_val = tt.day;
 
-	gtk_option_menu_set_history (GTK_OPTION_MENU (dlg->month), dlg->month_val);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (dlg->month_combobox), dlg->month_val);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (dlg->year), dlg->year_val);
 
 	create_ecal (dlg);

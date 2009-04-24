@@ -59,9 +59,8 @@ struct _EMSubscribeEditor {
 
 	GtkDialog *dialog;
 	GtkWidget *vbox;	/* where new stores are added */
-	GtkWidget *optionmenu;
+	GtkWidget *combobox;
 	GtkWidget *none_selected; /* 'please select a xxx' message */
-	GtkWidget *none_selected_item;
 	GtkWidget *progress;
 };
 
@@ -357,7 +356,7 @@ sub_folderinfo_exec (struct _emse_folderinfo_msg *m)
 
 	if (m->seq == m->sub->seq) {
 		camel_operation_register(m->base.cancel);
-		m->info = camel_store_get_folder_info(m->sub->store, m->node?m->node->info->full_name:pub_full_name, CAMEL_STORE_FOLDER_INFO_FAST | CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL, &m->base.ex);
+		m->info = camel_store_get_folder_info(m->sub->store, m->node?m->node->info->full_name:pub_full_name, CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL, &m->base.ex);
 		camel_operation_unregister(m->base.cancel);
 	}
 }
@@ -729,20 +728,31 @@ sub_editor_got_store(char *uri, CamelStore *store, void *data)
 }
 
 static void
-sub_editor_menu_changed(GtkWidget *w, EMSubscribeEditor *se)
+sub_editor_combobox_changed (GtkWidget *w, EMSubscribeEditor *se)
 {
 	int i, n;
 	struct _EMSubscribe *sub;
 
-	d(printf("menu changed\n"));
+	d(printf("combobox changed\n"));
 
 	i = 1;
-	n = gtk_option_menu_get_history((GtkOptionMenu *)se->optionmenu);
-	if (n == 0)
-		gtk_widget_show(se->none_selected);
-	else {
-		gtk_widget_hide(se->none_selected);
-		gtk_widget_hide(se->none_selected_item);
+	n = gtk_combo_box_get_active (GTK_COMBO_BOX (se->combobox));
+	if (n == 0) {
+		gtk_widget_show (se->none_selected);
+	} else {
+		GtkTreeIter iter;
+		GtkTreeModel *model;
+
+		gtk_widget_hide (se->none_selected);
+
+		model = gtk_combo_box_get_model (GTK_COMBO_BOX (se->combobox));
+		if (gtk_tree_model_get_iter_first (model, &iter)) {
+			/* hide the first item */
+			gtk_list_store_set (
+				GTK_LIST_STORE (model), &iter,
+				1, FALSE,
+				-1);
+		}
 	}
 
 	se->current = NULL;
@@ -815,7 +825,10 @@ GtkDialog *em_subscribe_editor_new(void)
 	EAccountList *accounts;
 	EIterator *iter;
 	GladeXML *xml;
-	GtkWidget *menu, *w;
+	GtkWidget *w;
+	GtkCellRenderer *cell;
+	GtkListStore *store;
+	GtkTreeIter gtiter;
 	char *gladefile;
 
 	se = g_malloc0(sizeof(*se));
@@ -859,12 +872,27 @@ GtkDialog *em_subscribe_editor_new(void)
 	w = glade_xml_get_widget(xml, "refresh_button");
 	g_signal_connect(w, "clicked", G_CALLBACK(sub_editor_refresh), se);
 
-	/* setup stores menu */
-	se->optionmenu = glade_xml_get_widget(xml, "store_menu");
-	menu = gtk_menu_new();
-	se->none_selected_item = w = gtk_menu_item_new_with_label(_("No server has been selected"));
-	gtk_widget_show(w);
-	gtk_menu_shell_append ((GtkMenuShell *)menu, w);
+	/* setup stores combobox */
+	se->combobox = glade_xml_get_widget (xml, "store_combobox");
+	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_BOOLEAN);
+	gtk_combo_box_set_model (GTK_COMBO_BOX (se->combobox), GTK_TREE_MODEL (store));
+	g_object_unref (store);
+
+	gtk_cell_layout_clear (GTK_CELL_LAYOUT (se->combobox));
+
+	cell = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (se->combobox), cell, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (se->combobox), cell,
+                                  "text", 0,
+                                  "visible", 1,
+                                  NULL);
+
+	gtk_list_store_append (store, &gtiter);
+	gtk_list_store_set (
+		store, &gtiter,
+		0, _("No server has been selected"),
+		1, TRUE,
+		-1);
 
 	accounts = mail_config_get_accounts ();
 	for (iter = e_list_get_iterator ((EList *) accounts);
@@ -875,9 +903,12 @@ GtkDialog *em_subscribe_editor_new(void)
 		/* setup url table, and store table? */
 		if (account->enabled && account->source->url) {
 			d(printf("adding account '%s'\n", account->name));
-			w = gtk_menu_item_new_with_label(account->name);
-			gtk_menu_shell_append ((GtkMenuShell *)menu, w);
-			gtk_widget_show(w);
+			gtk_list_store_append (store, &gtiter);
+			gtk_list_store_set (
+				store, &gtiter,
+				0, account->name,
+				1, TRUE,
+				-1);
 			e_dlist_addtail(&se->stores, (EDListNode *)subscribe_new(se, account->source->url));
 		} else {
 			d(printf("not adding account '%s'\n", account->name));
@@ -885,8 +916,8 @@ GtkDialog *em_subscribe_editor_new(void)
 	}
 	g_object_unref(iter);
 
-	gtk_option_menu_set_menu((GtkOptionMenu *)se->optionmenu, menu);
-	g_signal_connect(se->optionmenu, "changed", G_CALLBACK(sub_editor_menu_changed), se);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (se->combobox), 0);
+	g_signal_connect(se->combobox, "changed", G_CALLBACK(sub_editor_combobox_changed), se);
 
 	if (window_size.width == 0) {
 		/* initialize @window_size with the previous session's size */

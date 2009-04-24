@@ -1,3 +1,21 @@
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #572348
+
+	* mail-config.glade:
+	* mail-dialogs.glade:
+	* em-composer-prefs.h:
+	* em-composer-prefs.c:
+	* em-subscribe-editor.c:
+	* em-filter-editor.c:
+	* em-filter-rule.c:
+	* em-filter-source-element.c:
+	* em-mailer-prefs.h:
+	* em-mailer-prefs.c:
+	* message-tag-followup.h:
+	* message-tag-followup.c:
+	Remove deprecated Gtk+ symbols.
+
 2009-04-15  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	* mail/mail-ops.c: Corrected a typo error.

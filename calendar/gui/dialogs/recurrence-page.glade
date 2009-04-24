@@ -4,7 +4,7 @@
 <glade-interface>
 
 <widget class="GtkWindow" id="recurrence-toplevel">
-  <property name="title" translatable="no">window1</property>
+  <property name="title">window1</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -15,6 +15,8 @@
   <property name="skip_pager_hint">False</property>
   <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
   <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
+  <property name="focus_on_map">True</property>
+  <property name="urgency_hint">False</property>
 
   <child>
     <widget class="GtkVBox" id="recurrence-page">
@@ -36,6 +38,10 @@
 	  <property name="yalign">0.5</property>
 	  <property name="xpad">0</property>
 	  <property name="ypad">0</property>
+	  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	  <property name="width_chars">-1</property>
+	  <property name="single_line_mode">False</property>
+	  <property name="angle">0</property>
 	</widget>
 	<packing>
 	  <property name="padding">0</property>
@@ -63,6 +69,10 @@
 	      <property name="yalign">0.5</property>
 	      <property name="xpad">12</property>
 	      <property name="ypad">0</property>
+	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	      <property name="width_chars">-1</property>
+	      <property name="single_line_mode">False</property>
+	      <property name="angle">0</property>
 	    </widget>
 	    <packing>
 	      <property name="padding">0</property>
@@ -81,8 +91,7 @@
 		<widget class="GtkCheckButton" id="recurs">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
-		  <property name="label" translatable="yes" comments="TRANSLATORS: Entire string is for example:
-		  'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])">This appointment rec_urs</property>
+		  <property name="label" translatable="yes" comments="TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])">This appointment rec_urs</property>
 		  <property name="use_underline">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
 		  <property name="focus_on_click">True</property>
@@ -112,8 +121,7 @@
 		      <child>
 			<widget class="GtkLabel" id="label68">
 			  <property name="visible">True</property>
-			  <property name="label" translatable="yes" comments="TRANSLATORS: Entire string is for example:
-		  'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])">Every</property>
+			  <property name="label" translatable="yes" comments="TRANSLATORS: Entire string is for example:     'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])">Every</property>
 			  <property name="use_underline">False</property>
 			  <property name="use_markup">False</property>
 			  <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -123,6 +131,10 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
+			  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+			  <property name="width_chars">-1</property>
+			  <property name="single_line_mode">False</property>
+			  <property name="angle">0</property>
 			</widget>
 			<packing>
 			  <property name="padding">0</property>
@@ -151,52 +163,15 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkOptionMenu" id="interval-unit">
+			<widget class="GtkComboBox" id="interval-unit-combobox">
 			  <property name="visible">True</property>
-			  <property name="can_focus">True</property>
-			  <property name="history">0</property>
-
-			  <child internal-child="menu">
-			    <widget class="GtkMenu" id="convertwidget1">
-			      <property name="visible">True</property>
-
-			      <child>
-				<widget class="GtkMenuItem" id="convertwidget2">
-				  <property name="visible">True</property>
-				  <property name="label" translatable="yes" comments="TRANSLATORS: Entire string is for example:
-		  'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])">day(s)</property>
-				  <property name="use_underline">True</property>
-				</widget>
-			      </child>
-
-			      <child>
-				<widget class="GtkMenuItem" id="convertwidget3">
-				  <property name="visible">True</property>
-				  <property name="label" translatable="yes" comments="TRANSLATORS: Entire string is for example:
-		  'This appointment recurs/Every[x][week(s)][for][1]occurrences' (dropdown menu options are in [square brackets])">week(s)</property>
-				  <property name="use_underline">True</property>
-				</widget>
-			      </child>
-
-			      <child>
-				<widget class="GtkMenuItem" id="convertwidget4">
-				  <property name="visible">True</property>
-				  <property name="label" translatable="yes" comments="TRANSLATORS: Entire string is for example:
-		  'This appointment recurs/Every[x][month(s)][for][1]occurrences' (dropdown menu options are in [square brackets])">month(s)</property>
-				  <property name="use_underline">True</property>
-				</widget>
-			      </child>
-
-			      <child>
-				<widget class="GtkMenuItem" id="convertwidget5">
-				  <property name="visible" comments="TRANSLATORS: Entire string is for example:
-		  'This appointment recurs/Every[x][year(s)][for][1]occurrences' (dropdown menu options are in [square brackets])">True</property>
-				  <property name="label" translatable="yes">year(s)</property>
-				  <property name="use_underline">True</property>
-				</widget>
-			      </child>
-			    </widget>
-			  </child>
+			  <property name="items" translatable="yes" comments="TRANSLATORS: Entire string is for example:
+		  'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])">day(s)
+week(s)
+month(s)
+year(s)</property>
+			  <property name="add_tearoffs">False</property>
+			  <property name="focus_on_click">True</property>
 			</widget>
 			<packing>
 			  <property name="padding">0</property>
@@ -229,43 +204,14 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkOptionMenu" id="ending-menu">
+			<widget class="GtkComboBox" id="ending-combobox">
 			  <property name="visible">True</property>
-			  <property name="can_focus">True</property>
-			  <property name="history">0</property>
-
-			  <child internal-child="menu">
-			    <widget class="GtkMenu" id="convertwidget6">
-			      <property name="visible">True</property>
-
-			      <child>
-				<widget class="GtkMenuItem" id="convertwidget7">
-				  <property name="visible">True</property>
-				  <property name="label" translatable="yes" comments="TRANSLATORS: Entire string is for example:
-		  'This appointment recurs/Every[x][day(s)][for][1]occurrences' (dropdown menu options are in [square brackets])">for</property>
-				  <property name="use_underline">True</property>
-				</widget>
-			      </child>
-
-			      <child>
-				<widget class="GtkMenuItem" id="convertwidget8">
-				  <property name="visible">True</property>
-				  <property name="label" translatable="yes" comments="TRANSLATORS: Entire string is for example:
-		  'This appointment recurs/Every[x][day(s)][until][2006/01/01]' (dropdown menu options are in [square brackets])">until</property>
-				  <property name="use_underline">True</property>
-				</widget>
-			      </child>
-
-			      <child>
-				<widget class="GtkMenuItem" id="convertwidget9">
-				  <property name="visible">True</property>
-				  <property name="label" translatable="yes" comments="TRANSLATORS: Entire string is for example:
-		  'This appointment recurs/Every[x][day(s)][forever]' (dropdown menu options are in [square brackets])">forever</property>
-				  <property name="use_underline">True</property>
-				</widget>
-			      </child>
-			    </widget>
-			  </child>
+			  <property name="items" translatable="yes" comments="TRANSLATORS: Entire string is for example:
+		  'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])">for
+until
+forever</property>
+			  <property name="add_tearoffs">False</property>
+			  <property name="focus_on_click">True</property>
 			</widget>
 			<packing>
 			  <property name="padding">0</property>
@@ -361,6 +307,10 @@
 	  <property name="yalign">0.5</property>
 	  <property name="xpad">0</property>
 	  <property name="ypad">0</property>
+	  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	  <property name="width_chars">-1</property>
+	  <property name="single_line_mode">False</property>
+	  <property name="angle">0</property>
 	</widget>
 	<packing>
 	  <property name="padding">0</property>
@@ -388,6 +338,10 @@
 	      <property name="yalign">0.5</property>
 	      <property name="xpad">12</property>
 	      <property name="ypad">0</property>
+	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	      <property name="width_chars">-1</property>
+	      <property name="single_line_mode">False</property>
+	      <property name="angle">0</property>
 	    </widget>
 	    <packing>
 	      <property name="padding">0</property>
@@ -418,6 +372,9 @@
 		      <property name="rules_hint">False</property>
 		      <property name="reorderable">False</property>
 		      <property name="enable_search">True</property>
+		      <property name="fixed_height_mode">False</property>
+		      <property name="hover_selection">False</property>
+		      <property name="hover_expand">False</property>
 		    </widget>
 		  </child>
 		</widget>
@@ -502,6 +459,10 @@
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
 				  <property name="ypad">0</property>
+				  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+				  <property name="width_chars">-1</property>
+				  <property name="single_line_mode">False</property>
+				  <property name="angle">0</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -562,6 +523,10 @@
 	  <property name="yalign">0.5</property>
 	  <property name="xpad">0</property>
 	  <property name="ypad">0</property>
+	  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	  <property name="width_chars">-1</property>
+	  <property name="single_line_mode">False</property>
+	  <property name="angle">0</property>
 	</widget>
 	<packing>
 	  <property name="padding">0</property>
@@ -589,6 +554,10 @@
 	      <property name="yalign">0.5</property>
 	      <property name="xpad">12</property>
 	      <property name="ypad">0</property>
+	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	      <property name="width_chars">-1</property>
+	      <property name="single_line_mode">False</property>
+	      <property name="angle">0</property>
 	    </widget>
 	    <packing>
 	      <property name="padding">0</property>

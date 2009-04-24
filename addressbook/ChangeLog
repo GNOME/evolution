@@ -1,3 +1,30 @@
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #572348
+
+	* gui/component/ldap-config.glade:
+	* gui/contact-editor/fullname.glade:
+	* gui/contact-editor/contact-editor.glade:
+	* gui/contact-editor/e-contact-editor.c:
+	* gui/contact-editor/e-contact-editor-fullname.c:
+	* gui/component/addressbook-config.c:
+	* conduit/address-conduit.c:
+	Remove deprecated Gtk+ symbols.
+
+	* gui/contact-editor/Makefile.am:
+	* gui/contact-editor/im.glade:
+	* gui/contact-editor/e-contact-editor-im.h:
+	* gui/contact-editor/e-contact-editor-im.c:
+	* gui/contact-editor/fulladdr.glade:
+	* gui/contact-editor/e-contact-editor-address.h:
+	* gui/contact-editor/e-contact-editor-address.c:
+	* printing/Makefile.am:
+	* printing/e-contact-print.glade:
+	* printing/e-contact-print-style-editor.h:
+	* printing/e-contact-print-style-editor.c:
+	* printing/test-contact-print-style-editor.c:
+	Remove death files.
+
 2009-02-26  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Fixes part of bug #572950

@@ -605,13 +605,13 @@ build_code (FilterRule *fr, GString *out)
 static void
 fr_grouping_changed(GtkWidget *w, FilterRule *fr)
 {
-	fr->grouping = gtk_option_menu_get_history((GtkOptionMenu *)w);
+	fr->grouping = gtk_combo_box_get_active (GTK_COMBO_BOX (w));
 }
 
 static void
 fr_threading_changed(GtkWidget *w, FilterRule *fr)
 {
-	fr->threading = gtk_option_menu_get_history((GtkOptionMenu *)w);
+	fr->threading = gtk_combo_box_get_active (GTK_COMBO_BOX (w));
 }
 
 struct _part_data {
@@ -622,11 +622,20 @@ struct _part_data {
 };
 
 static void
-option_activate (GtkMenuItem *item, struct _part_data *data)
+part_combobox_changed (GtkComboBox *combobox, struct _part_data *data)
 {
-	FilterPart *part = g_object_get_data ((GObject *) item, "part");
+	FilterPart *part = NULL;
 	FilterPart *newpart;
+	int index, i;
 
+	index = gtk_combo_box_get_active (combobox);
+	for (i = 0, part = rule_context_next_part (data->f, part); part && i < index; i++, part = rule_context_next_part (data->f, part)) {
+		/* traverse until reached index */
+	}
+
+	g_return_if_fail (part != NULL);
+	g_return_if_fail (i == index);
+	
 	/* dont update if we haven't changed */
 	if (!strcmp (part->title, data->part->title))
 		return;
@@ -644,17 +653,13 @@ option_activate (GtkMenuItem *item, struct _part_data *data)
 	data->partwidget = filter_part_get_widget (newpart);
 	if (data->partwidget)
 		gtk_box_pack_start (GTK_BOX (data->container), data->partwidget, TRUE, TRUE, 0);
-
-	g_object_set_data ((GObject *) data->container, "part", newpart);
 }
 
 static GtkWidget *
 get_rule_part_widget (RuleContext *f, FilterPart *newpart, FilterRule *fr)
 {
 	FilterPart *part = NULL;
-	GtkWidget *menu;
-	GtkWidget *item;
-	GtkWidget *omenu;
+	GtkWidget *combobox;
 	GtkWidget *hbox;
 	GtkWidget *p;
 	int index = 0, current = 0;
@@ -674,26 +679,23 @@ get_rule_part_widget (RuleContext *f, FilterPart *newpart, FilterRule *fr)
 	data->partwidget = p;
 	data->container = hbox;
 
-	menu = gtk_menu_new ();
+	combobox = gtk_combo_box_new_text ();
+
 	/* sigh, this is a little ugly */
 	while ((part = rule_context_next_part (f, part))) {
-		item = gtk_menu_item_new_with_label (_(part->title));
-		g_object_set_data ((GObject *) item, "part", part);
-		g_signal_connect (item, "activate", G_CALLBACK (option_activate), data);
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-		gtk_widget_show (item);
+		gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _(part->title));
+
 		if (!strcmp (newpart->title, part->title))
 			current = index;
 
 		index++;
 	}
 
-	omenu = gtk_option_menu_new ();
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
-	gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), current);
-	gtk_widget_show (omenu);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), current);
+	g_signal_connect (combobox, "changed", G_CALLBACK (part_combobox_changed), data);
+	gtk_widget_show (combobox);
 
-	gtk_box_pack_start (GTK_BOX (hbox), omenu, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), combobox, FALSE, FALSE, 0);
 	if (p)
 		gtk_box_pack_start (GTK_BOX (hbox), p, TRUE, TRUE, 0);
 
@@ -836,7 +838,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 {
 	GtkWidget *hbox, *vbox, *parts, *inframe;
 	GtkWidget *add, *label, *name, *w;
-	GtkWidget *omenu, *menu, *item;
+	GtkWidget *combobox;
 	GtkWidget *scrolledwindow;
 	GtkObject *hadj, *vadj;
 	GList *l;
@@ -920,48 +922,40 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 		const char *thread_types[] = { N_("If all conditions are met"), N_("If any conditions are met") };
 
 		label = gtk_label_new_with_mnemonic (_("_Find items:"));
-		menu = gtk_menu_new ();
+		combobox = gtk_combo_box_new_text ();
 
 		for (i=0;i<2;i++) {
-			item = gtk_menu_item_new_with_label(_(thread_types[i]));
-			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-			gtk_widget_show (item);
+			gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _(thread_types[i]));
 		}
 
-		omenu = gtk_option_menu_new ();
-		gtk_label_set_mnemonic_widget ((GtkLabel *)label, omenu);
-		gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
-		gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), fr->grouping);
-		gtk_widget_show (omenu);
+		gtk_label_set_mnemonic_widget ((GtkLabel *)label, combobox);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), fr->grouping);
+		gtk_widget_show (combobox);
 
-		gtk_box_pack_end (GTK_BOX (hbox), omenu, FALSE, FALSE, 0);
+		gtk_box_pack_end (GTK_BOX (hbox), combobox, FALSE, FALSE, 0);
 		gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
-		g_signal_connect(omenu, "changed", G_CALLBACK(fr_grouping_changed), fr);
+		g_signal_connect (combobox, "changed", G_CALLBACK (fr_grouping_changed), fr);
 	}
 
 	if (f->flags & RULE_CONTEXT_THREADING) {
 		const char *thread_types[] = { N_("None"), N_("All related"), N_("Replies"), N_("Replies and parents"), N_("No reply or parent") };
 
 		label = gtk_label_new_with_mnemonic (_("I_nclude threads"));
-		menu = gtk_menu_new ();
+		combobox = gtk_combo_box_new_text ();
 
 		for (i=0;i<5;i++) {
-			item = gtk_menu_item_new_with_label(_(thread_types[i]));
-			gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-			gtk_widget_show (item);
+			gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _(thread_types[i]));
 		}
 
-		omenu = gtk_option_menu_new ();
-		gtk_label_set_mnemonic_widget ((GtkLabel *)label, omenu);
-		gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
-		gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), fr->threading);
-		gtk_widget_show (omenu);
+		gtk_label_set_mnemonic_widget ((GtkLabel *)label, combobox);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), fr->threading);
+		gtk_widget_show (combobox);
 
-		gtk_box_pack_end (GTK_BOX (hbox), omenu, FALSE, FALSE, 0);
+		gtk_box_pack_end (GTK_BOX (hbox), combobox, FALSE, FALSE, 0);
 		gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
-		g_signal_connect(omenu, "changed", G_CALLBACK(fr_threading_changed), fr);
+		g_signal_connect (combobox, "changed", G_CALLBACK (fr_threading_changed), fr);
 	}
 
 	gtk_box_pack_start (GTK_BOX (inframe), hbox, FALSE, FALSE, 3);

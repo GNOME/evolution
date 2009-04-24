@@ -74,10 +74,6 @@
 /* The height to make the popup list if there aren't any items in it. */
 #define	E_CELL_COMBO_LIST_EMPTY_HEIGHT	15
 
-/* The object data key used to store the UTF-8 text of the popup list items. */
-#define E_CELL_COMBO_UTF8_KEY		"UTF-8-TEXT"
-
-
 static void e_cell_combo_class_init	(ECellComboClass *klass);
 static void e_cell_combo_init		(ECellCombo	*ecc);
 static void e_cell_combo_dispose	(GObject	*object);
@@ -98,9 +94,7 @@ static void e_cell_combo_get_popup_pos	(ECellCombo	*ecc,
 					 gint		*height,
 					 gint		*width);
 
-static void e_cell_combo_selection_changed (GtkWidget *popup_list, ECellCombo *ecc);
-
-static gint e_cell_combo_list_button_press (GtkWidget *popup_list, GdkEvent *event, ECellCombo *ecc);
+static void e_cell_combo_selection_changed (GtkTreeSelection *selection, ECellCombo *ecc);
 
 static gint e_cell_combo_button_press	(GtkWidget	*popup_window,
 					 GdkEvent	*event,
@@ -134,6 +128,8 @@ e_cell_combo_init			(ECellCombo	*ecc)
 {
 	GtkWidget *frame;
 	AtkObject *a11y;
+	GtkListStore *store;
+	GtkTreeSelection *selection;
 
 	/* We create one popup window for the ECell, since there will only
 	   ever be one popup in use at a time. */
@@ -156,26 +152,31 @@ e_cell_combo_init			(ECellCombo	*ecc)
 	gtk_container_add (GTK_CONTAINER (frame), ecc->popup_scrolled_window);
 	gtk_widget_show (ecc->popup_scrolled_window);
 
-	ecc->popup_list = gtk_list_new ();
-	gtk_list_set_selection_mode (GTK_LIST (ecc->popup_list),
-				     GTK_SELECTION_BROWSE);
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window), ecc->popup_list);
-	gtk_container_set_focus_vadjustment (GTK_CONTAINER (ecc->popup_list),
-					     gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window)));
-	gtk_container_set_focus_hadjustment (GTK_CONTAINER (ecc->popup_list),
-					     gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window)));
-	gtk_widget_show (ecc->popup_list);
+	store = gtk_list_store_new (1, G_TYPE_STRING);
+	ecc->popup_tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
+	g_object_unref (store);
 
-	a11y = gtk_widget_get_accessible (ecc->popup_list);
+	gtk_tree_view_append_column (
+		GTK_TREE_VIEW (ecc->popup_tree_view),
+		gtk_tree_view_column_new_with_attributes ("Text", gtk_cell_renderer_text_new (), "text", 0, NULL));
+
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (ecc->popup_tree_view), FALSE);
+
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ecc->popup_tree_view));
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
+	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window), ecc->popup_tree_view);
+	gtk_container_set_focus_vadjustment (GTK_CONTAINER (ecc->popup_tree_view),
+					     gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window)));
+	gtk_container_set_focus_hadjustment (GTK_CONTAINER (ecc->popup_tree_view),
+					     gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window)));
+	gtk_widget_show (ecc->popup_tree_view);
+
+	a11y = gtk_widget_get_accessible (ecc->popup_tree_view);
 	atk_object_set_name (a11y, _("popup list"));
 
-	g_signal_connect (ecc->popup_list,
-			  "selection_changed",
+	g_signal_connect (selection,
+			  "changed",
 			  G_CALLBACK (e_cell_combo_selection_changed),
-			  ecc);
-	g_signal_connect (ecc->popup_list,
-			  "button_press_event",
-			  G_CALLBACK (e_cell_combo_list_button_press),
 			  ecc);
 	g_signal_connect (ecc->popup_window,
 			  "button_press_event",
@@ -231,26 +232,20 @@ e_cell_combo_set_popdown_strings	(ECellCombo	*ecc,
 					 GList		*strings)
 {
 	GList *elem;
-	GtkWidget *listitem;
+	GtkListStore *store;
 
 	g_return_if_fail (E_IS_CELL_COMBO (ecc));
 	g_return_if_fail (strings != NULL);
 
-	gtk_list_clear_items (GTK_LIST (ecc->popup_list), 0, -1);
-	elem = strings;
-	while (elem) {
+	store = GTK_LIST_STORE (gtk_tree_view_get_model (GTK_TREE_VIEW (ecc->popup_tree_view)));
+	gtk_list_store_clear (store);
+
+	for (elem = strings; elem; elem = elem->next) {
+		GtkTreeIter iter;
 		char *utf8_text = elem->data;
 
-		listitem = gtk_list_item_new_with_label (utf8_text);
-
-		gtk_widget_show (listitem);
-		gtk_container_add (GTK_CONTAINER (ecc->popup_list), listitem);
-
-		g_object_set_data_full (G_OBJECT (listitem),
-					E_CELL_COMBO_UTF8_KEY,
-					g_strdup (utf8_text), g_free);
-
-		elem = elem->next;
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter, 0, utf8_text, -1);
 	}
 }
 
@@ -264,20 +259,22 @@ e_cell_combo_do_popup			(ECellPopup	*ecp,
 	ECellCombo *ecc = E_CELL_COMBO (ecp);
 	guint32 time;
 	gint error_code;
+	GtkTreeSelection *selection;
 
-	g_signal_handlers_block_by_func(ecc->popup_list, e_cell_combo_selection_changed, ecc);
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ecc->popup_tree_view));
+
+	g_signal_handlers_block_by_func (selection, e_cell_combo_selection_changed, ecc);
 	e_cell_combo_show_popup (ecc, row, view_col);
 	e_cell_combo_select_matching_item (ecc);
-	g_signal_handlers_unblock_by_func(ecc->popup_list, e_cell_combo_selection_changed, ecc);
+	g_signal_handlers_unblock_by_func (selection, e_cell_combo_selection_changed, ecc);
 
 	if (event->type == GDK_BUTTON_PRESS) {
-		GTK_LIST (ecc->popup_list)->drag_selection = TRUE;
 		time = event->button.time;
 	} else {
 		time = event->key.time;
 	}
 
-	error_code = gdk_pointer_grab (ecc->popup_list->window, TRUE,
+	error_code = gdk_pointer_grab (gtk_widget_get_window (ecc->popup_tree_view), TRUE,
 				       GDK_ENTER_NOTIFY_MASK |
 				       GDK_BUTTON_PRESS_MASK |
 				       GDK_BUTTON_RELEASE_MASK |
@@ -287,7 +284,7 @@ e_cell_combo_do_popup			(ECellPopup	*ecp,
 	if (error_code != 0)
 		g_warning ("Failed to get pointer grab (%i)", error_code);
 	gtk_grab_add (ecc->popup_window);
-	gdk_keyboard_grab (ecc->popup_list->window, TRUE, time);
+	gdk_keyboard_grab (gtk_widget_get_window (ecc->popup_tree_view), TRUE, time);
 
 	return TRUE;
 }
@@ -301,44 +298,44 @@ e_cell_combo_select_matching_item	(ECellCombo	*ecc)
 	ECellText *ecell_text = E_CELL_TEXT (ecp->child);
 	ETableItem *eti = E_TABLE_ITEM (ecp->popup_cell_view->cell_view.e_table_item_view);
 	ETableCol *ecol;
-	GtkList *list;
-	GtkWidget *listitem;
-	GList *elem;
 	gboolean found = FALSE;
-	char *cell_text, *list_item_text;
+	char *cell_text;
+	gboolean valid;
+	GtkTreeSelection *selection;
+	GtkTreeIter iter;
+	GtkTreeModel *model;
 
 	ecol = e_table_header_get_column (eti->header, ecp->popup_view_col);
 	cell_text = e_cell_text_get_text (ecell_text, ecv->e_table_model,
 					  ecol->col_idx, ecp->popup_row);
 
-	list = GTK_LIST (ecc->popup_list);
-	elem = list->children;
-	while (elem) {
-		listitem = GTK_WIDGET (elem->data);
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ecc->popup_tree_view));
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ecc->popup_tree_view));
 
-		/* We need to compare against the UTF-8 text. */
-		list_item_text = g_object_get_data (G_OBJECT (listitem),
-						    E_CELL_COMBO_UTF8_KEY);
+	for (valid = gtk_tree_model_get_iter_first (model, &iter);
+	     valid && !found;
+	     valid = gtk_tree_model_iter_next (model, &iter)) {
+		char *str = NULL;
 
-		if (list_item_text && !strcmp (list_item_text, cell_text)) {
+		gtk_tree_model_get (model, &iter, 0, &str, -1);
+
+		if (str && g_str_equal (str, cell_text)) {
+			GtkTreePath *path = gtk_tree_model_get_path (model, &iter);
+
+			gtk_tree_view_set_cursor (GTK_TREE_VIEW (ecc->popup_tree_view), path, NULL, FALSE);
+			gtk_tree_path_free (path);
+
 			found = TRUE;
-			gtk_list_select_child (list, listitem);
-			gtk_widget_grab_focus (listitem);
-			break;
 		}
 
-		elem = elem->next;
+		g_free (str);
 	}
 
-	if (!found) {
-		gtk_list_unselect_all (list);
-		if (list->children)
-			gtk_widget_grab_focus (GTK_WIDGET (list->children->data));
-	}
+	if (!found)
+		gtk_tree_selection_unselect_all (selection);
 
 	e_cell_text_free_text (ecell_text, cell_text);
 }
-
 
 static void
 e_cell_combo_show_popup			(ECellCombo	*ecc, int row, int view_col)
@@ -357,7 +354,7 @@ e_cell_combo_show_popup			(ECellCombo	*ecc, int row, int view_col)
 		gtk_widget_hide (GTK_SCROLLED_WINDOW (ecc->popup_scrolled_window)->vscrollbar);
 	}
 
-	gtk_widget_set_uposition (ecc->popup_window, x, y);
+	gtk_window_move (GTK_WINDOW (ecc->popup_window), x, y);
 	gtk_widget_set_size_request (ecc->popup_window, width, height);
 	gtk_widget_realize (ecc->popup_window);
 	gdk_window_resize (ecc->popup_window->window, width, height);
@@ -429,10 +426,10 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 	screen_width = gdk_screen_width ();
 	avail_width = screen_width - scrollbar_width;
 
-	gtk_widget_size_request (ecc->popup_list, &list_requisition);
+	gtk_widget_size_request (ecc->popup_tree_view, &list_requisition);
 	min_height = MIN (list_requisition.height,
 			  popup->vscrollbar->requisition.height);
-	if (!GTK_LIST (ecc->popup_list)->children)
+	if (!gtk_tree_model_iter_n_children (gtk_tree_view_get_model (GTK_TREE_VIEW (ecc->popup_tree_view)), NULL))
 		list_requisition.height += E_CELL_COMBO_LIST_EMPTY_HEIGHT;
 
 	/* Calculate the desired width. */
@@ -503,32 +500,16 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 }
 
 static void
-e_cell_combo_selection_changed(GtkWidget *popup_list, ECellCombo *ecc)
+e_cell_combo_selection_changed (GtkTreeSelection *selection, ECellCombo *ecc)
 {
-	if (!GTK_LIST(popup_list)->selection || !GTK_WIDGET_REALIZED(ecc->popup_window))
+	GtkTreeIter iter;
+	GtkTreeModel *model;
+
+	if (!GTK_WIDGET_REALIZED (ecc->popup_window) || !gtk_tree_selection_get_selected (selection, &model, &iter))
 		return;
 
-	e_cell_combo_restart_edit (ecc);
-}
-
-static gint
-e_cell_combo_list_button_press(GtkWidget *popup_list, GdkEvent *event, ECellCombo *ecc)
-{
-	g_return_val_if_fail (GTK_IS_LIST(popup_list), FALSE);
-
 	e_cell_combo_update_cell (ecc);
-	gtk_grab_remove (ecc->popup_window);
-	gdk_pointer_ungrab (event->button.time);
-	gdk_keyboard_ungrab (event->button.time);
-	gtk_widget_hide (ecc->popup_window);
-
-	e_cell_popup_set_shown (E_CELL_POPUP (ecc), FALSE);
-	d(g_print("%s: popup_shown = FALSE\n", __FUNCTION__));
-
 	e_cell_combo_restart_edit (ecc);
-
-	return TRUE;
-
 }
 
 /* This handles button press events in the popup window.
@@ -553,7 +534,7 @@ e_cell_combo_button_press		(GtkWidget	*popup_window,
 	   which is why we hide the popup in this case. */
 	while (event_widget) {
 		event_widget = event_widget->parent;
-		if (event_widget == ecc->popup_list)
+		if (event_widget == ecc->popup_tree_view)
 			return FALSE;
 	}
 
@@ -590,11 +571,11 @@ e_cell_combo_button_release		(GtkWidget	*popup_window,
 	event_widget = gtk_get_event_widget ((GdkEvent*) event);
 
 	/* See if the button was released in the list (or its children). */
-	while (event_widget && event_widget != ecc->popup_list)
+	while (event_widget && event_widget != ecc->popup_tree_view)
 		event_widget = event_widget->parent;
 
 	/* If it wasn't, then we just ignore the event. */
-	if (event_widget != ecc->popup_list)
+	if (event_widget != ecc->popup_tree_view)
 		return FALSE;
 
 	/* The button was released inside the list, so we hide the popup and
@@ -657,18 +638,17 @@ e_cell_combo_update_cell		(ECellCombo	*ecc)
 	ECellText *ecell_text = E_CELL_TEXT (ecp->child);
 	ETableItem *eti = E_TABLE_ITEM (ecv->e_table_item_view);
 	ETableCol *ecol;
-	GtkList *list = GTK_LIST (ecc->popup_list);
-	GtkListItem *listitem;
-	gchar *text, *old_text;
+	GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ecc->popup_tree_view));
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gchar *text = NULL, *old_text;
 
 	/* Return if no item is selected. */
-	if (list->selection == NULL)
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return;
 
 	/* Get the text of the selected item. */
-	listitem = list->selection->data;
-	text = g_object_get_data (G_OBJECT (listitem),
-				  E_CELL_COMBO_UTF8_KEY);
+	gtk_tree_model_get (model, &iter, 0, &text, -1);
 	g_return_if_fail (text != NULL);
 
 	/* Compare it with the existing cell contents. */
@@ -684,6 +664,7 @@ e_cell_combo_update_cell		(ECellCombo	*ecc)
 	}
 
 	e_cell_text_free_text (ecell_text, old_text);
+	g_free (text);
 }
 
 

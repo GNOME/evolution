@@ -933,82 +933,74 @@ charset_menu_init (EMMailerPrefs *prefs)
 }
 
 static void
-trash_days_activate (GtkWidget *item, EMMailerPrefs *prefs)
+trash_days_changed (GtkComboBox *combobox, EMMailerPrefs *prefs)
 {
-	int days;
+	int idx;
 
-	days = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "days"));
-	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/trash/empty_on_exit_days", days, NULL);
+	idx = gtk_combo_box_get_active (combobox);
+	g_return_if_fail (idx >= 0 && idx < G_N_ELEMENTS (empty_trash_frequency));
+
+	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/trash/empty_on_exit_days", empty_trash_frequency [idx].days, NULL);
 }
 
 static void
 emmp_empty_trash_init (EMMailerPrefs *prefs)
 {
 	int locked, days, hist = 0, i;
-	GtkWidget *menu, *item;
 
 	toggle_button_init (prefs, prefs->empty_trash, FALSE,
 			    "/apps/evolution/mail/trash/empty_on_exit",
 			    G_CALLBACK (toggle_button_toggled));
 
 	days = gconf_client_get_int(prefs->gconf, "/apps/evolution/mail/trash/empty_on_exit_days", NULL);
-	menu = gtk_menu_new();
+
+	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (prefs->empty_trash_days)));
 	for (i = 0; i < G_N_ELEMENTS (empty_trash_frequency); i++) {
 		if (days >= empty_trash_frequency[i].days)
 			hist = i;
 
-		item = gtk_menu_item_new_with_label (_(empty_trash_frequency[i].label));
-		g_object_set_data ((GObject *) item, "days", GINT_TO_POINTER (empty_trash_frequency[i].days));
-		g_signal_connect (item, "activate", G_CALLBACK (trash_days_activate), prefs);
-
-		gtk_widget_show (item);
-		gtk_menu_shell_append((GtkMenuShell *)menu, item);
+		gtk_combo_box_append_text  (prefs->empty_trash_days, _(empty_trash_frequency[i].label));
 	}
 
-	gtk_widget_show(menu);
-	gtk_option_menu_set_menu((GtkOptionMenu *)prefs->empty_trash_days, menu);
-	gtk_option_menu_set_history((GtkOptionMenu *)prefs->empty_trash_days, hist);
+	g_signal_connect (prefs->empty_trash_days, "changed", G_CALLBACK (trash_days_changed), prefs);
+	gtk_combo_box_set_active (prefs->empty_trash_days, hist);
 
 	locked = !gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/trash/empty_on_exit_days", NULL);
 	gtk_widget_set_sensitive ((GtkWidget *) prefs->empty_trash_days, !locked);
 }
 
 static void
-junk_days_activate (GtkWidget *item, EMMailerPrefs *prefs)
+junk_days_changed (GtkComboBox *combobox, EMMailerPrefs *prefs)
 {
-	int days;
+	int idx;
 
-	days = GPOINTER_TO_INT (g_object_get_data ((GObject *) item, "days"));
-	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/junk/empty_on_exit_days", days, NULL);
+	idx = gtk_combo_box_get_active (combobox);
+	g_return_if_fail (idx >= 0 && idx < G_N_ELEMENTS (empty_trash_frequency));
+
+	gconf_client_set_int (prefs->gconf, "/apps/evolution/mail/junk/empty_on_exit_days", empty_trash_frequency[idx].days, NULL);
 }
 
 static void
 emmp_empty_junk_init (EMMailerPrefs *prefs)
 {
 	int locked, days, hist = 0, i;
-	GtkWidget *menu, *item;
 
 	toggle_button_init (prefs, prefs->empty_junk, FALSE,
 			    "/apps/evolution/mail/junk/empty_on_exit",
 			    G_CALLBACK (toggle_button_toggled));
 
 	days = gconf_client_get_int(prefs->gconf, "/apps/evolution/mail/junk/empty_on_exit_days", NULL);
-	menu = gtk_menu_new();
+
+	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (prefs->empty_junk_days)));
 	for (i = 0; i < G_N_ELEMENTS (empty_trash_frequency); i++) {
 		if (days >= empty_trash_frequency[i].days)
 			hist = i;
 
-		item = gtk_menu_item_new_with_label (_(empty_trash_frequency[i].label));
-		g_object_set_data ((GObject *) item, "days", GINT_TO_POINTER (empty_trash_frequency[i].days));
-		g_signal_connect (item, "activate", G_CALLBACK (junk_days_activate), prefs);
-
-		gtk_widget_show (item);
-		gtk_menu_shell_append((GtkMenuShell *)menu, item);
+		gtk_combo_box_append_text  (prefs->empty_junk_days, _(empty_trash_frequency[i].label));
 	}
 
-	gtk_widget_show(menu);
-	gtk_option_menu_set_menu((GtkOptionMenu *)prefs->empty_junk_days, menu);
-	gtk_option_menu_set_history((GtkOptionMenu *)prefs->empty_junk_days, hist);
+	g_signal_connect (prefs->empty_junk_days, "changed", G_CALLBACK (junk_days_changed), prefs);
+	gtk_combo_box_set_active (prefs->empty_junk_days, hist);
 
 	locked = !gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/junk/empty_on_exit_days", NULL);
 	gtk_widget_set_sensitive ((GtkWidget *) prefs->empty_junk_days, !locked);
@@ -1268,7 +1260,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 
 	/* Deleting Mail */
 	prefs->empty_trash = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkEmptyTrashOnExit"));
-	prefs->empty_trash_days = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuEmptyTrashDays"));
+	prefs->empty_trash_days = GTK_COMBO_BOX (glade_xml_get_widget (gui, "comboboxEmptyTrashDays"));
 	emmp_empty_trash_init (prefs);
 
 	prefs->confirm_expunge = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkConfirmExpunge"));
@@ -1481,7 +1473,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 			    G_CALLBACK (toggle_button_toggled));
 
 	prefs->empty_junk = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "junk_empty_check"));
-	prefs->empty_junk_days = GTK_OPTION_MENU (glade_xml_get_widget (gui, "junk_empty_combo"));
+	prefs->empty_junk_days = GTK_COMBO_BOX (glade_xml_get_widget (gui, "junk_empty_combobox"));
 	emmp_empty_junk_init (prefs);
 
 	prefs->default_junk_plugin = GTK_COMBO_BOX (glade_xml_get_widget (gui, "default_junk_plugin"));

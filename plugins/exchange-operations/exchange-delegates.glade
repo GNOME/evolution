@@ -305,7 +305,6 @@ and access your folders with the permissions you give them.</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
-		  <property name="mnemonic_widget">calendar_perms</property>
 		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
 		  <property name="width_chars">-1</property>
 		  <property name="single_line_mode">False</property>
@@ -334,7 +333,6 @@ and access your folders with the permissions you give them.</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
-		  <property name="mnemonic_widget">task_perms</property>
 		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
 		  <property name="width_chars">-1</property>
 		  <property name="single_line_mode">False</property>
@@ -363,7 +361,6 @@ and access your folders with the permissions you give them.</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
-		  <property name="mnemonic_widget">inbox_perms</property>
 		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
 		  <property name="width_chars">-1</property>
 		  <property name="single_line_mode">False</property>
@@ -392,7 +389,6 @@ and access your folders with the permissions you give them.</property>
 		  <property name="yalign">0.5</property>
 		  <property name="xpad">0</property>
 		  <property name="ypad">0</property>
-		  <property name="mnemonic_widget">contact_perms</property>
 		  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
 		  <property name="width_chars">-1</property>
 		  <property name="single_line_mode">False</property>
@@ -409,214 +405,82 @@ and access your folders with the permissions you give them.</property>
 	      </child>
 
 	      <child>
-		<widget class="GtkOptionMenu" id="calendar_perms">
+		<widget class="GtkComboBox" id="calendar_perms_combobox">
 		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="history">0</property>
-
-		  <child internal-child="menu">
-		    <widget class="GtkMenu" id="convertwidget1">
-		      <property name="visible">True</property>
-
-		      <child>
-			<widget class="GtkMenuItem" id="convertwidget2">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">None</property>
-			  <property name="use_underline">True</property>
-			</widget>
-		      </child>
-
-		      <child>
-			<widget class="GtkMenuItem" id="convertwidget3">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Reviewer (read-only)</property>
-			  <property name="use_underline">True</property>
-			</widget>
-		      </child>
-
-		      <child>
-			<widget class="GtkMenuItem" id="convertwidget4">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Author (read, create)</property>
-			  <property name="use_underline">True</property>
-			</widget>
-		      </child>
-
-		      <child>
-			<widget class="GtkMenuItem" id="convertwidget5">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Editor (read, create, edit)</property>
-			  <property name="use_underline">True</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
+		  <property name="items" translatable="yes">None
+Reviewer (read-only)
+Author (read, create)
+Editor (read, create, edit)</property>
+		  <property name="add_tearoffs">False</property>
+		  <property name="focus_on_click">True</property>
 		</widget>
 		<packing>
 		  <property name="left_attach">1</property>
 		  <property name="right_attach">2</property>
 		  <property name="top_attach">0</property>
 		  <property name="bottom_attach">1</property>
-		  <property name="y_options"></property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options">fill</property>
 		</packing>
 	      </child>
 
 	      <child>
-		<widget class="GtkOptionMenu" id="task_perms">
+		<widget class="GtkComboBox" id="task_perms_combobox">
 		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="history">0</property>
-
-		  <child internal-child="menu">
-		    <widget class="GtkMenu" id="convertwidget6">
-		      <property name="visible">True</property>
-
-		      <child>
-			<widget class="GtkMenuItem" id="convertwidget7">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">None</property>
-			  <property name="use_underline">True</property>
-			</widget>
-		      </child>
-
-		      <child>
-			<widget class="GtkMenuItem" id="convertwidget8">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Reviewer (read-only)</property>
-			  <property name="use_underline">True</property>
-			</widget>
-		      </child>
-
-		      <child>
-			<widget class="GtkMenuItem" id="convertwidget9">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Author (read, create)</property>
-			  <property name="use_underline">True</property>
-			</widget>
-		      </child>
-
-		      <child>
-			<widget class="GtkMenuItem" id="convertwidget10">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Editor (read, create, edit)</property>
-			  <property name="use_underline">True</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
+		  <property name="items" translatable="yes">None
+Reviewer (read-only)
+Author (read, create)
+Editor (read, create, edit)</property>
+		  <property name="add_tearoffs">False</property>
+		  <property name="focus_on_click">True</property>
 		</widget>
 		<packing>
 		  <property name="left_attach">1</property>
 		  <property name="right_attach">2</property>
 		  <property name="top_attach">1</property>
 		  <property name="bottom_attach">2</property>
-		  <property name="y_options"></property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options">fill</property>
 		</packing>
 	      </child>
 
 	      <child>
-		<widget class="GtkOptionMenu" id="inbox_perms">
+		<widget class="GtkComboBox" id="inbox_perms_combobox">
 		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="history">0</property>
-
-		  <child internal-child="menu">
-		    <widget class="GtkMenu" id="convertwidget11">
-		      <property name="visible">True</property>
-
-		      <child>
-			<widget class="GtkMenuItem" id="convertwidget12">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">None</property>
-			  <property name="use_underline">True</property>
-			</widget>
-		      </child>
-
-		      <child>
-			<widget class="GtkMenuItem" id="convertwidget13">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Reviewer (read-only)</property>
-			  <property name="use_underline">True</property>
-			</widget>
-		      </child>
-
-		      <child>
-			<widget class="GtkMenuItem" id="convertwidget14">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Author (read, create)</property>
-			  <property name="use_underline">True</property>
-			</widget>
-		      </child>
-
-		      <child>
-			<widget class="GtkMenuItem" id="convertwidget15">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Editor (read, create, edit)</property>
-			  <property name="use_underline">True</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
+		  <property name="items" translatable="yes">None
+Reviewer (read-only)
+Author (read, create)
+Editor (read, create, edit)</property>
+		  <property name="add_tearoffs">False</property>
+		  <property name="focus_on_click">True</property>
 		</widget>
 		<packing>
 		  <property name="left_attach">1</property>
 		  <property name="right_attach">2</property>
 		  <property name="top_attach">2</property>
 		  <property name="bottom_attach">3</property>
-		  <property name="y_options"></property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options">fill</property>
 		</packing>
 	      </child>
 
 	      <child>
-		<widget class="GtkOptionMenu" id="contact_perms">
+		<widget class="GtkComboBox" id="contact_perms_combobox">
 		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="history">0</property>
-
-		  <child internal-child="menu">
-		    <widget class="GtkMenu" id="convertwidget16">
-		      <property name="visible">True</property>
-
-		      <child>
-			<widget class="GtkMenuItem" id="convertwidget17">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">None</property>
-			  <property name="use_underline">True</property>
-			</widget>
-		      </child>
-
-		      <child>
-			<widget class="GtkMenuItem" id="convertwidget18">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Reviewer (read-only)</property>
-			  <property name="use_underline">True</property>
-			</widget>
-		      </child>
-
-		      <child>
-			<widget class="GtkMenuItem" id="convertwidget19">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Author (read, create)</property>
-			  <property name="use_underline">True</property>
-			</widget>
-		      </child>
-
-		      <child>
-			<widget class="GtkMenuItem" id="convertwidget20">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Editor (read, create, edit)</property>
-			  <property name="use_underline">True</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
+		  <property name="items" translatable="yes">None
+Reviewer (read-only)
+Author (read, create)
+Editor (read, create, edit)</property>
+		  <property name="add_tearoffs">False</property>
+		  <property name="focus_on_click">True</property>
 		</widget>
 		<packing>
 		  <property name="left_attach">1</property>
 		  <property name="right_attach">2</property>
 		  <property name="top_attach">3</property>
 		  <property name="bottom_attach">4</property>
-		  <property name="y_options"></property>
+		  <property name="x_options">fill</property>
+		  <property name="y_options">fill</property>
 		</packing>
 	      </child>
 	    </widget>

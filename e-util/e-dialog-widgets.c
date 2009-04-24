@@ -139,34 +139,6 @@ get_radio_value (GtkRadioButton *radio, gpointer value_var, gpointer info)
 	*value = e_dialog_radio_get (GTK_WIDGET (radio), value_map);
 }
 
-/* Hooks an option menu */
-static void
-hook_option_menu (GtkWidget *dialog, GtkOptionMenu *omenu, gpointer value_var, gpointer info)
-{
-	const int *value_map;
-	int *value;
-
-	/* Set the value */
-
-	value = (int *) value_var;
-	value_map = (const int *) info;
-
-	e_dialog_option_menu_set (GTK_WIDGET (omenu), *value, value_map);
-}
-
-/* Gets the value of an option menu */
-static void
-get_option_menu_value (GtkOptionMenu *omenu, gpointer value_var, gpointer info)
-{
-	const int *value_map;
-	int *value;
-
-	value = (int *) value_var;
-	value_map = (const int *) info;
-
-	*value = e_dialog_option_menu_get (GTK_WIDGET (omenu), value_map);
-}
-
 /* Hooks a toggle button */
 static void
 hook_toggle (GtkWidget *dialog, GtkToggleButton *toggle, gpointer value_var, gpointer info)
@@ -470,83 +442,6 @@ e_dialog_spin_get_int (GtkWidget *widget)
 }
 
 /**
- * e_dialog_option_menu_set:
- * @widget: A #GtkOptionMenu.
- * @value: Enumerated value.
- * @value_map: Map from enumeration values to array indices.
- *
- * Sets the selected item in a #GtkOptionMenu.  Please read the description of
- * e_dialog_radio_set() to see how @value_map maps enumeration values to item
- * indices.
- **/
-void
-e_dialog_option_menu_set (GtkWidget *widget, int value, const int *value_map)
-{
-	int i;
-
-	g_return_if_fail (widget != NULL);
-	g_return_if_fail (GTK_IS_OPTION_MENU (widget));
-	g_return_if_fail (value_map != NULL);
-
-	i = value_to_index (value_map, value);
-
-	if (i != -1)
-		gtk_option_menu_set_history (GTK_OPTION_MENU (widget), i);
-	else
-		g_message ("e_dialog_option_menu_set(): could not find value %d in value map!",
-			   value);
-}
-
-/**
- * e_dialog_option_menu_get:
- * @widget: A #GtkOptionMenu.
- * @value_map: Map from enumeration values to array indices.
- *
- * Queries the selected item in a #GtkOptionMenu.  Please read the description
- * of e_dialog_radio_set() to see how @value_map maps enumeration values to item
- * indices.
- *
- * Return value: Enumeration value which corresponds to the selected item in the
- * option menu.
- **/
-int
-e_dialog_option_menu_get (GtkWidget *widget, const int *value_map)
-{
-	GtkMenu *menu;
-	GtkWidget *active;
-	GList *children;
-	GList *l;
-	int i;
-	int v;
-
-	g_return_val_if_fail (widget != NULL, -1);
-	g_return_val_if_fail (GTK_IS_OPTION_MENU (widget), -1);
-	g_return_val_if_fail (value_map != NULL, -1);
-
-	menu = GTK_MENU (gtk_option_menu_get_menu (GTK_OPTION_MENU (widget)));
-
-	active = gtk_menu_get_active (menu);
-	g_return_val_if_fail (active != NULL, -1);
-
-	children = GTK_MENU_SHELL (menu)->children;
-
-	for (i = 0, l = children; l; l = l->next, i++) {
-		if (GTK_WIDGET (l->data) == active)
-			break;
-	}
-
-	g_return_val_if_fail (l != NULL, -1);
-
-	v = index_to_value (value_map, i);
-	if (v == -1) {
-		g_message ("e_dialog_option_menu_get(): could not find index %d in value map!", i);
-		return -1;
-	}
-
-	return v;
-}
-
-/**
  * e_dialog_combo_box_set:
  * @widget: A #GtkComboBox.
  * @value: Enumerated value.
@@ -681,8 +576,6 @@ e_dialog_widget_hook_value (GtkWidget *dialog, GtkWidget *widget,
 
 	if (GTK_IS_RADIO_BUTTON (widget))
 		hook_radio (dialog, GTK_RADIO_BUTTON (widget), value_var, info);
-	else if (GTK_IS_OPTION_MENU (widget))
-		hook_option_menu (dialog, GTK_OPTION_MENU (widget), value_var, info);
 	else if (GTK_IS_TOGGLE_BUTTON (widget))
 		hook_toggle (dialog, GTK_TOGGLE_BUTTON (widget), value_var, info);
 	else if (GTK_IS_SPIN_BUTTON (widget))
@@ -729,8 +622,6 @@ e_dialog_get_values (GtkWidget *dialog)
 
 		if (GTK_IS_RADIO_BUTTON (wh->widget))
 			get_radio_value (GTK_RADIO_BUTTON (wh->widget), wh->value_var, wh->info);
-		else if (GTK_IS_OPTION_MENU (wh->widget))
-			get_option_menu_value (GTK_OPTION_MENU (wh->widget), wh->value_var, wh->info);
 		else if (GTK_IS_TOGGLE_BUTTON (wh->widget))
 			get_toggle_value (GTK_TOGGLE_BUTTON (wh->widget), wh->value_var, wh->info);
 		else if (GTK_IS_SPIN_BUTTON (wh->widget))

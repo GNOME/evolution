@@ -96,8 +96,7 @@ setup_name_selector (GladeXML *glade_xml, ENameSelector **name_selector_ret)
 static void
 setup_folder_name_combo (GladeXML *glade_xml, gchar *fname)
 {
-	GtkWidget *combo;
-	GList *string_list;
+	GtkComboBox *combo;
 	char *strings[] = {
 		"Calendar",
 		"Inbox",
@@ -108,16 +107,15 @@ setup_folder_name_combo (GladeXML *glade_xml, gchar *fname)
 	};
 	int i;
 
-	combo = glade_xml_get_widget (glade_xml, "folder-name-combo");
-	g_assert (GTK_IS_COMBO (combo));
+	combo = GTK_COMBO_BOX (glade_xml_get_widget (glade_xml, "folder-name-combo"));
+	g_assert (GTK_IS_COMBO_BOX_ENTRY (combo));
 
-	string_list = NULL;
+	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (combo)));
+
 	for (i = 0; strings[i] != NULL; i ++)
-		string_list = g_list_append (string_list, strings[i]);
-	gtk_combo_set_popdown_strings (GTK_COMBO (combo), string_list);
-	g_list_free (string_list);
+		gtk_combo_box_append_text (combo, strings[i]);
 
-	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (combo)->entry), fname);
+	gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (combo))), fname);
 }
 
 static void
@@ -146,25 +144,17 @@ user_name_entry_changed_callback (GtkEditable *editable, void *data)
 }
 
 static void
-setup_server_option_menu (GladeXML *glade_xml, gchar *mail_account)
+setup_server_combobox (GladeXML *glade_xml, gchar *mail_account)
 {
 	GtkWidget *widget;
-	GtkWidget *menu;
-	GtkWidget *menu_item;
 
-	widget = glade_xml_get_widget (glade_xml, "server-option-menu");
-	g_return_if_fail (GTK_IS_OPTION_MENU (widget));
+	widget = glade_xml_get_widget (glade_xml, "server-combobox");
+	g_return_if_fail (GTK_IS_COMBO_BOX (widget));
 
-	menu = gtk_menu_new ();
-	gtk_widget_show (menu);
+	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (widget))));
 
-	menu_item = gtk_menu_item_new_with_label (mail_account);
-
-	gtk_widget_show (menu_item);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
-
-
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (widget), menu);
+	gtk_combo_box_append_text (GTK_COMBO_BOX (widget), mail_account);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (widget), 0);
 
 	/* FIXME: Default to the current storage in the shell view.  */
 }
@@ -329,9 +319,9 @@ create_folder_subscription_dialog (ExchangeAccount *account, gchar *fname)
 	g_signal_connect (subscription_info->name_selector_widget, "changed",
 			  G_CALLBACK (user_name_entry_changed_callback), dialog);
 
-	setup_server_option_menu (glade_xml, account->account_name);
+	setup_server_combobox (glade_xml, account->account_name);
 	setup_folder_name_combo (glade_xml, fname);
-	subscription_info->folder_name_entry = glade_xml_get_widget (glade_xml, "folder-name-entry");
+	subscription_info->folder_name_entry = gtk_bin_get_child (GTK_BIN (glade_xml_get_widget (glade_xml, "folder-name-combo")));
 	g_signal_connect (dialog, "response", G_CALLBACK (subscribe_to_folder), subscription_info);
 	gtk_widget_show (dialog);
 

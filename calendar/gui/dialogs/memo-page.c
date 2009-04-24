@@ -255,7 +255,6 @@ memo_page_fill_widgets (CompEditorPage *page,
 		if (organizer.value != NULL) {
 			const gchar *strip = itip_strip_mailto (organizer.value);
 			gchar *string;
-			GList *list = NULL;
 
 			if ( organizer.cn != NULL)
 				string = g_strdup_printf ("%s <%s>", organizer.cn, strip);
@@ -263,14 +262,14 @@ memo_page_fill_widgets (CompEditorPage *page,
 				string = g_strdup (strip);
 
 			if (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client)) {
-				gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->org_combo)->entry), string);
+				gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->org_combo))), string);
 			} else {
-				list = g_list_append (list, string);
-				gtk_combo_set_popdown_strings (GTK_COMBO (priv->org_combo), list);
-				gtk_editable_set_editable (GTK_EDITABLE (GTK_COMBO (priv->org_combo)->entry), FALSE);
+				gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (priv->org_combo))));
+				gtk_combo_box_append_text (GTK_COMBO_BOX (priv->org_combo), string);
+				gtk_combo_box_set_active (GTK_COMBO_BOX (priv->org_combo), 0);
+				gtk_editable_set_editable (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (priv->org_combo))), FALSE);
 			}
 			g_free (string);
-			g_list_free (list);
 		}
 	}
 
@@ -344,7 +343,7 @@ sensitize_widgets (MemoPage *mpage)
 	/* The list of organizers is set to be non-editable. Otherwise any
  	* change in the displayed list causes an 'Account not found' error.
  	*/
-	gtk_editable_set_editable (GTK_EDITABLE (GTK_COMBO (priv->org_combo)->entry), FALSE);
+	gtk_editable_set_editable (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (priv->org_combo))), FALSE);
 
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (priv->memo_content), sensitize);
 	gtk_widget_set_sensitive (priv->start_date, sensitize);
@@ -515,7 +514,7 @@ get_current_account (MemoPage *page)
 	EIterator *it;
 	const char *str;
 
-	str = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->org_combo)->entry));
+	str = gtk_entry_get_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->org_combo))));
 	if (!str)
 		return NULL;
 
@@ -778,6 +777,7 @@ get_widgets (MemoPage *mpage)
 
 	priv->org_label = GW ("org-label");
 	priv->org_combo = GW ("org-combo");
+	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (priv->org_combo))));
 
 	priv->to_button = GW ("to-button");
 	priv->to_hbox = GW ("to-hbox");
@@ -1062,9 +1062,8 @@ memo_page_select_organizer (MemoPage *mpage, const char *backend_address)
 
 	if (default_address) {
 		if (flags & COMP_EDITOR_NEW_ITEM) {
-			gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->org_combo)->entry), default_address);
-			/* FIXME: Use accessor functions to access private members of a GtkCombo widget */
-			gtk_widget_set_sensitive (GTK_WIDGET (GTK_COMBO (priv->org_combo)->button), !subscribed_cal);
+			gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->org_combo))), default_address);
+			gtk_widget_set_sensitive (priv->org_combo, !subscribed_cal);
 		}
 	} else
 		g_warning ("No potential organizers!");
@@ -1132,9 +1131,14 @@ memo_page_construct (MemoPage *mpage)
 
 		g_object_unref(it);
 
-		if (priv->address_strings)
-			gtk_combo_set_popdown_strings (GTK_COMBO (priv->org_combo), priv->address_strings);
-		else
+		if (priv->address_strings) {
+			GList *l;
+
+			for (l = priv->address_strings; l; l = l->next)
+				gtk_combo_box_append_text (GTK_COMBO_BOX (priv->org_combo), l->data);
+
+			gtk_combo_box_set_active (GTK_COMBO_BOX (priv->org_combo), 0);
+		} else
 			g_warning ("No potential organizers!");
 
 		gtk_widget_show (priv->org_label);

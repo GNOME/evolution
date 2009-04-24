@@ -206,7 +206,7 @@ user_changed (GtkEntry *editable, ESource *source)
 }
 
 static void
-set_refresh_time (ESource *source, GtkWidget *spin, GtkWidget *option)
+set_refresh_time (ESource *source, GtkWidget *spin, GtkWidget *combobox)
 {
 	int time;
 	int item_num = 0;
@@ -226,15 +226,15 @@ set_refresh_time (ESource *source, GtkWidget *spin, GtkWidget *option)
 		item_num = 1;
 		time /= 60;
 	}
-	gtk_option_menu_set_history (GTK_OPTION_MENU (option), item_num);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), item_num);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin), time);
 }
 
 static char *
-get_refresh_minutes (GtkWidget *spin, GtkWidget *option)
+get_refresh_minutes (GtkWidget *spin, GtkWidget *combobox)
 {
 	int setting = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin));
-	switch (gtk_option_menu_get_history (GTK_OPTION_MENU (option))) {
+	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (combobox))) {
 	case 0:
 		/* minutes */
 		break;
@@ -262,24 +262,24 @@ static void
 spin_changed (GtkSpinButton *spin, ESource *source)
 {
 	char *refresh_str;
-	GtkWidget *option;
+	GtkWidget *combobox;
 
-	option = g_object_get_data (G_OBJECT (spin), "option");
+	combobox = g_object_get_data (G_OBJECT (spin), "combobox");
 
-	refresh_str = get_refresh_minutes ((GtkWidget *) spin, option);
+	refresh_str = get_refresh_minutes ((GtkWidget *) spin, combobox);
 	e_source_set_property (source, "refresh", refresh_str);
 	g_free (refresh_str);
 }
 
 static void
-option_changed (GtkOptionMenu *option, ESource *source)
+combobox_changed (GtkComboBox *combobox, ESource *source)
 {
 	char *refresh_str;
 	GtkWidget *spin;
 
-	spin = g_object_get_data (G_OBJECT (option), "spin");
+	spin = g_object_get_data (G_OBJECT (combobox), "spin");
 
-	refresh_str = get_refresh_minutes (spin, (GtkWidget *) option);
+	refresh_str = get_refresh_minutes (spin, (GtkWidget *) combobox);
 	e_source_set_property (source, "refresh", refresh_str);
 	g_free (refresh_str);
 }
@@ -299,13 +299,12 @@ oge_caldav  (EPlugin                    *epl,
 	GtkWidget    *widget;
 	GtkWidget    *luser;
 	GtkWidget    *user;
-	GtkWidget    *label, *hbox, *spin, *option, *menu;
-	GtkWidget    *times[4];
+	GtkWidget    *label, *hbox, *spin, *combobox;
 	char         *uri;
 	char         *username;
 	const char   *ssl_prop;
 	gboolean      ssl_enabled;
-	int           row, i;
+	int           row;
 
 	source = t->source;
 	group = e_source_peek_group (source);
@@ -425,25 +424,18 @@ oge_caldav  (EPlugin                    *epl,
 	gtk_widget_show (spin);
 	gtk_box_pack_start (GTK_BOX (hbox), spin, FALSE, TRUE, 0);
 
-	option = gtk_option_menu_new ();
-	gtk_widget_show (option);
-	times[0] = gtk_menu_item_new_with_label (_("minutes"));
-	times[1] = gtk_menu_item_new_with_label (_("hours"));
-	times[2] = gtk_menu_item_new_with_label (_("days"));
-	times[3] = gtk_menu_item_new_with_label (_("weeks"));
-	menu = gtk_menu_new ();
-	gtk_widget_show (menu);
-	for (i = 0; i < 4; i++) {
-		gtk_widget_show (times[i]);
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), times[i]);
-	}
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
-	set_refresh_time (source, spin, option);
-	gtk_box_pack_start (GTK_BOX (hbox), option, FALSE, TRUE, 0);
+	combobox = gtk_combo_box_new_text ();
+	gtk_widget_show (combobox);
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("minutes"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("hours"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("days"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("weeks"));
+	set_refresh_time (source, spin, combobox);
+	gtk_box_pack_start (GTK_BOX (hbox), combobox, FALSE, TRUE, 0);
 
-	g_object_set_data (G_OBJECT (option), "spin", spin);
-	g_signal_connect (G_OBJECT (option), "changed", G_CALLBACK (option_changed), source);
-	g_object_set_data (G_OBJECT (spin), "option", option);
+	g_object_set_data (G_OBJECT (combobox), "spin", spin);
+	g_signal_connect (G_OBJECT (combobox), "changed", G_CALLBACK (combobox_changed), source);
+	g_object_set_data (G_OBJECT (spin), "combobox", combobox);
 	g_signal_connect (G_OBJECT (spin), "value-changed", G_CALLBACK (spin_changed), source);
 
 	gtk_table_attach (GTK_TABLE (parent), hbox, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);

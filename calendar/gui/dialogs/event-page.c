@@ -98,7 +98,7 @@ struct _EventPagePrivate {
 
 	GtkWidget *start_time;
 	GtkWidget *end_time;
-	GtkWidget *end_time_selector;
+	GtkWidget *end_time_combo;
 	GtkWidget *time_hour;
 	GtkWidget *hour_selector;
 	GtkWidget *minute_selector;
@@ -115,7 +115,7 @@ struct _EventPagePrivate {
 	gboolean  show_time_as_busy;
 
 	GtkWidget *alarm_dialog;
-	GtkWidget *alarm_time;
+	GtkWidget *alarm_time_combo;
 	GtkWidget *alarm_warning;
 	GtkWidget *alarm_box;
 
@@ -174,7 +174,7 @@ static void set_attendees (ECalComponent *comp, const GPtrArray *attendees);
 static void hour_sel_changed ( GtkSpinButton *widget, EventPage *epage);
 static void minute_sel_changed ( GtkSpinButton *widget, EventPage *epage);
 static void hour_minute_changed ( EventPage *epage);
-static void update_end_time_selector( EventPage *epage);
+static void update_end_time_combo ( EventPage *epage);
 static void event_page_select_organizer (EventPage *epage, const char *backend_address);
 static void set_subscriber_info_string (EventPage *epage, const char *backend_address);
 
@@ -354,8 +354,8 @@ set_all_day (EventPage *epage, gboolean all_day)
 
 	/* TODO implement for in end time selector */
 	if (all_day)
-		gtk_option_menu_set_history (GTK_OPTION_MENU (priv->end_time_selector), 1);
-	gtk_widget_set_sensitive (priv->end_time_selector, !all_day);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->end_time_combo), 1);
+	gtk_widget_set_sensitive (priv->end_time_combo, !all_day);
 
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->start_time), !all_day);
 	e_date_edit_set_show_time (E_DATE_EDIT (priv->end_time), !all_day);
@@ -450,7 +450,7 @@ update_time (EventPage *epage, ECalComponentDateTime *start_date, ECalComponentD
 
 	priv->sync_timezones = TRUE;
 
-	update_end_time_selector (epage);
+	update_end_time_combo (epage);
 }
 
 /* Fills the widgets with default values */
@@ -488,7 +488,7 @@ clear_widgets (EventPage *epage)
 	set_busy_time_menu (epage, TRUE);
 
 	/* Alarm */
-	e_dialog_option_menu_set (priv->alarm_time, ALARM_NONE, alarm_map);
+	e_dialog_combo_box_set (priv->alarm_time_combo, ALARM_NONE, alarm_map);
 
 	/* Categories */
 	e_dialog_editable_set (priv->categories, NULL);
@@ -728,9 +728,9 @@ sensitize_widgets (EventPage *epage)
 
 	sensitize = !read_only && sens;
 
-	alarm = e_dialog_option_menu_get (priv->alarm_time, alarm_map) != ALARM_NONE;
+	alarm = e_dialog_combo_box_get (priv->alarm_time_combo, alarm_map) != ALARM_NONE;
 	custom = is_custom_alarm_store (priv->alarm_list_store, priv->old_summary, priv->alarm_units, priv->alarm_interval, NULL) ||
-		 e_dialog_option_menu_get (priv->alarm_time, alarm_map)  == ALARM_CUSTOM ? TRUE:FALSE;
+		 e_dialog_combo_box_get (priv->alarm_time_combo, alarm_map)  == ALARM_CUSTOM ? TRUE:FALSE;
 
 	if (alarm && !priv->alarm_icon) {
 		priv->alarm_icon = create_image_event_box ("stock_bell", _("This event has alarms"));
@@ -740,7 +740,7 @@ sensitize_widgets (EventPage *epage)
 	/* The list of organizers is set to be non-editable. Otherwise any
 	 * change in the displayed list causes an 'Account not found' error.
 	 */
-	gtk_editable_set_editable (GTK_EDITABLE (GTK_COMBO (priv->organizer)->entry), FALSE);
+	gtk_editable_set_editable (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (priv->organizer))), FALSE);
 
 	gtk_editable_set_editable (GTK_EDITABLE (priv->summary), !read_only);
 	gtk_editable_set_editable (GTK_EDITABLE (priv->location), sensitize);
@@ -750,16 +750,16 @@ sensitize_widgets (EventPage *epage)
 	gtk_widget_set_sensitive (priv->end_time, sensitize);
 	gtk_widget_set_sensitive (priv->end_timezone, sensitize);
 	gtk_text_view_set_editable (GTK_TEXT_VIEW (priv->description), !read_only);
-	gtk_widget_set_sensitive (priv->alarm_time, !read_only);
+	gtk_widget_set_sensitive (priv->alarm_time_combo, !read_only);
 	gtk_widget_set_sensitive (priv->categories_btn, !read_only);
 	/*TODO implement the for portion of the end time selector */
 	if (flags & COMP_EDITOR_NEW_ITEM) {
 		if (priv->all_day_event)
-			gtk_option_menu_set_history (GTK_OPTION_MENU (priv->end_time_selector), 1);
+			gtk_combo_box_set_active (GTK_COMBO_BOX (priv->end_time_combo), 1);
 		else
-			gtk_option_menu_set_history (GTK_OPTION_MENU (priv->end_time_selector), 0);
+			gtk_combo_box_set_active (GTK_COMBO_BOX (priv->end_time_combo), 0);
         } else
-		gtk_option_menu_set_history (GTK_OPTION_MENU (priv->end_time_selector), 1);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->end_time_combo), 1);
 
 	gtk_widget_set_sensitive (priv->hour_selector, sensitize);
 	gtk_widget_set_sensitive (priv->minute_selector, sensitize);
@@ -856,7 +856,7 @@ get_current_account (EventPage *epage)
 
 	priv = epage->priv;
 
-	str = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry));
+	str = gtk_entry_get_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->organizer))));
 	if (!str)
 		return NULL;
 
@@ -960,7 +960,6 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 			if (organizer.value != NULL) {
 				const gchar *strip = itip_strip_mailto (organizer.value);
 				gchar *string;
-				GList *list = NULL;
 
 				if (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client)) {
 					if (e_cal_get_static_capability (
@@ -986,13 +985,15 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 					string = g_strdup (strip);
 
 				if (!priv->user_org) {
-					list = g_list_append (list, string);
-					gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), list);
-					gtk_editable_set_editable (GTK_EDITABLE (GTK_COMBO (priv->organizer)->entry), FALSE);
+					gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (priv->organizer))));
+					gtk_combo_box_append_text (GTK_COMBO_BOX (priv->organizer), string);
+					gtk_combo_box_set_active (GTK_COMBO_BOX (priv->organizer), 0);
+					gtk_editable_set_editable (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (priv->organizer))), FALSE);
+				} else {
+					gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->organizer))), string);
 				}
 
 				g_free (string);
-				g_list_free (list);
 				priv->existing = TRUE;
 			}
 		} else {
@@ -1039,7 +1040,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_cal_component_free_datetime (&start_date);
 	e_cal_component_free_datetime (&end_date);
 
-	update_end_time_selector (epage);
+	update_end_time_combo (epage);
 	/* Classification */
 	e_cal_component_get_classification (comp, &cl);
 	comp_editor_set_classification (editor, cl);
@@ -1064,7 +1065,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 		enable_busy_time_menu (epage, TRUE);
 
 	/* Alarms */
-	g_signal_handlers_block_matched (priv->alarm_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
+	g_signal_handlers_block_matched (priv->alarm_time_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 	g_signal_handlers_block_matched (priv->alarm_list_store, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 
 	if (e_cal_component_has_alarms (comp)) {
@@ -1073,9 +1074,9 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 		alarms = e_cal_component_get_alarm_uids (comp);
 		if (!is_custom_alarm_uid_list (comp, alarms, priv->old_summary, priv->alarm_units, priv->alarm_interval, &alarm_type))
-			e_dialog_option_menu_set (priv->alarm_time, alarm_type, alarm_map);
+			e_dialog_combo_box_set (priv->alarm_time_combo, alarm_type, alarm_map);
 		else
-			e_dialog_option_menu_set (priv->alarm_time, ALARM_CUSTOM, alarm_map);
+			e_dialog_combo_box_set (priv->alarm_time_combo, ALARM_CUSTOM, alarm_map);
 
 		for (list = alarms; list != NULL; list = list->next) {
 			ECalComponentAlarm *ca;
@@ -1087,9 +1088,9 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 		cal_obj_uid_list_free (alarms);
 	} else {
-		e_dialog_option_menu_set (priv->alarm_time, ALARM_NONE, alarm_map);
+		e_dialog_combo_box_set (priv->alarm_time_combo, ALARM_NONE, alarm_map);
 	}
-	g_signal_handlers_unblock_matched (priv->alarm_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
+	g_signal_handlers_unblock_matched (priv->alarm_time_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 	g_signal_handlers_unblock_matched (priv->alarm_list_store, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 
 	/* Categories */
@@ -1281,8 +1282,8 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 
 	/* Alarm */
 	e_cal_component_remove_all_alarms (comp);
-	if (e_dialog_option_menu_get (priv->alarm_time, alarm_map) != ALARM_NONE) {
-		if (e_dialog_option_menu_get (priv->alarm_time, alarm_map) == ALARM_CUSTOM) {
+	if (e_dialog_combo_box_get (priv->alarm_time_combo, alarm_map) != ALARM_NONE) {
+		if (e_dialog_combo_box_get (priv->alarm_time_combo, alarm_map) == ALARM_CUSTOM) {
 			GtkTreeModel *model;
 			GtkTreeIter iter;
 			gboolean valid_iter;
@@ -1349,7 +1350,7 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 			trigger.type = E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START;
 			trigger.u.rel_duration.is_neg = 1;
 
-			alarm_type = e_dialog_option_menu_get (priv->alarm_time, alarm_map);
+			alarm_type = e_dialog_combo_box_get (priv->alarm_time_combo, alarm_map);
 			switch (alarm_type) {
 			case ALARM_15_MINUTES:
 				trigger.u.rel_duration.minutes = 15;
@@ -1512,10 +1513,10 @@ event_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 
 
 static void
-time_sel_changed (GtkOptionMenu *widget, EventPage *epage)
+time_sel_changed (GtkComboBox *combo, EventPage *epage)
 {
 	EventPagePrivate *priv;
-	int selection = gtk_option_menu_get_history (widget);
+	int selection = gtk_combo_box_get_active (combo);
 
 	priv = epage->priv;
 
@@ -1528,12 +1529,12 @@ time_sel_changed (GtkOptionMenu *widget, EventPage *epage)
 		gtk_widget_show (priv->time_hour);
 		gtk_widget_hide (priv->end_time);
 
-		update_end_time_selector ( epage);
+		update_end_time_combo ( epage);
 	}
 }
 
 static
-void update_end_time_selector (EventPage *epage)
+void update_end_time_combo (EventPage *epage)
 {
 	EventPagePrivate *priv;
 	struct icaltimetype start_tt = icaltime_null_time();
@@ -2024,11 +2025,11 @@ event_page_set_all_day_event (EventPage *epage, gboolean all_day)
 	g_return_if_fail (date_set);
 
 	/* TODO implement the for portion in end time selector */
-	gtk_widget_set_sensitive (priv->end_time_selector, !all_day);
+	gtk_widget_set_sensitive (priv->end_time_combo, !all_day);
 	if (all_day)
-		gtk_option_menu_set_history (GTK_OPTION_MENU (priv->end_time_selector), 1);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->end_time_combo), 1);
 	else
-		gtk_option_menu_set_history (GTK_OPTION_MENU (priv->end_time_selector), 0);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->end_time_combo), 0);
 
 	action = comp_editor_get_action (editor, "view-time-zone");
 	gtk_action_set_sensitive (action, !all_day);
@@ -2181,7 +2182,7 @@ get_widgets (EventPage *epage)
 		page->accel_group = g_object_ref (accel_groups->data);
 	priv->alarm_dialog = GW ("alarm-dialog");
 	priv->alarm_box = GW ("custom_box");
-	priv->alarm_time = GW ("alarm-time");
+	priv->alarm_time_combo = GW ("alarm-time-combobox");
 
 	priv->timezone_label = GW ("timezone-label");
 	priv->start_timezone = GW ("start-timezone");
@@ -2204,7 +2205,10 @@ get_widgets (EventPage *epage)
 
 	priv->categories = GW ("categories");
 	priv->categories_btn = GW ("categories-button");
+
 	priv->organizer = GW ("organizer");
+	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (priv->organizer))));
+
 	priv->summary = GW ("summary");
 	priv->summary_label = GW ("summary-label");
 	priv->location = GW ("location");
@@ -2241,7 +2245,7 @@ get_widgets (EventPage *epage)
 	priv->time_hour = GW ("time-hour");
 	priv->hour_selector = GW ("hour_selector");
 	priv->minute_selector = GW ("minute_selector");
-	priv->end_time_selector = GW ("end-time-selector");
+	priv->end_time_combo = GW ("end-time-combobox");
 
 	priv->end_time = GW ("end-time");
 	gtk_widget_show_all (priv->time_hour);
@@ -2656,7 +2660,7 @@ alarm_changed_cb (GtkWidget *widget, gpointer data)
 	epage = EVENT_PAGE (data);
 	priv = epage->priv;
 
-	if (e_dialog_option_menu_get (priv->alarm_time, alarm_map) != ALARM_NONE) {
+	if (e_dialog_combo_box_get (priv->alarm_time_combo, alarm_map) != ALARM_NONE) {
 		ECalComponentAlarm *ca;
 		ECalComponentAlarmTrigger trigger;
 		icalcomponent *icalcomp;
@@ -2671,7 +2675,7 @@ alarm_changed_cb (GtkWidget *widget, gpointer data)
 		trigger.type = E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START;
 		trigger.u.rel_duration.is_neg = 1;
 
-		alarm_type = e_dialog_option_menu_get (priv->alarm_time, alarm_map);
+		alarm_type = e_dialog_combo_box_get (priv->alarm_time_combo, alarm_map);
 		switch (alarm_type) {
 		case ALARM_15_MINUTES:
 			e_alarm_list_clear (priv->alarm_list_store);
@@ -2795,9 +2799,8 @@ init_widgets (EventPage *epage)
 	CompEditor *editor;
 	GtkTextBuffer *text_buffer;
 	icaltimezone *zone;
-	char *menu_label = NULL;
+	char *combo_label = NULL;
 	GtkTreeSelection *selection;
-	GtkWidget *cus_item, *menu;
 	ECal *client;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
@@ -2903,11 +2906,11 @@ init_widgets (EventPage *epage)
 	}
 
 	/* End time selector */
-	gtk_option_menu_set_history (GTK_OPTION_MENU (priv->end_time_selector), 1);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (priv->end_time_combo), 1);
 	gtk_widget_hide (priv->time_hour);
 	gtk_widget_show (priv->end_time);
-	g_signal_connect (priv->end_time_selector, "changed", G_CALLBACK (time_sel_changed), epage);
-	update_end_time_selector ( epage);
+	g_signal_connect (priv->end_time_combo, "changed", G_CALLBACK (time_sel_changed), epage);
+	update_end_time_combo ( epage);
 
 	/* Hour and Minute selector */
 	gtk_spin_button_set_range( (GtkSpinButton*) priv->hour_selector, 0, G_MAXINT);
@@ -2918,50 +2921,40 @@ init_widgets (EventPage *epage)
 	priv->alarm_units = calendar_config_get_default_reminder_units ();
 	priv->alarm_interval = calendar_config_get_default_reminder_interval ();
 
-	menu_label = "";
+	combo_label = NULL;
 	switch (priv->alarm_units) {
 	case CAL_DAYS:
 		if (priv->alarm_interval != 1) {
-			menu_label = g_strdup_printf (ngettext("%d day before appointment", "%d days before appointment", priv->alarm_interval), priv->alarm_interval);
+			combo_label = g_strdup_printf (ngettext("%d day before appointment", "%d days before appointment", priv->alarm_interval), priv->alarm_interval);
 		}
 		break;
 
 	case CAL_HOURS:
 		if (priv->alarm_interval != 1) {
-			menu_label = g_strdup_printf (ngettext("%d hour before appointment", "%d hours before appointment", priv->alarm_interval), priv->alarm_interval);
+			combo_label = g_strdup_printf (ngettext("%d hour before appointment", "%d hours before appointment", priv->alarm_interval), priv->alarm_interval);
 		}
 		break;
 
 	case CAL_MINUTES:
 		if (priv->alarm_interval != 15) {
-			menu_label = g_strdup_printf (ngettext("%d minute before appointment", "%d minutes before appointment", priv->alarm_interval), priv->alarm_interval);
+			combo_label = g_strdup_printf (ngettext("%d minute before appointment", "%d minutes before appointment", priv->alarm_interval), priv->alarm_interval);
 		}
 		break;
 	}
 
-	cus_item = gtk_menu_item_new_with_label (menu_label);
-	if(menu_label[0] != '\0') {
-		gtk_widget_show (cus_item);
+	if (combo_label) {
+		gtk_combo_box_append_text (GTK_COMBO_BOX (priv->alarm_time_combo), combo_label);
+		g_free (combo_label);
 	}
 
-	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->alarm_time));
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), cus_item);
-
-	cus_item = gtk_menu_item_new_with_label (_("Customize"));
-	gtk_widget_show (cus_item);
-	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->alarm_time));
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), cus_item);
-
-	cus_item = gtk_menu_item_new_with_label (_("None"));
-	gtk_widget_show (cus_item);
-	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->alarm_time));
-	gtk_menu_shell_prepend (GTK_MENU_SHELL (menu), cus_item);
+	gtk_combo_box_append_text (GTK_COMBO_BOX (priv->alarm_time_combo), _("Customize"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (priv->alarm_time_combo), _("None"));
 
 	g_signal_connect_swapped (
-		priv->alarm_time, "changed",
+		priv->alarm_time_combo, "changed",
 		G_CALLBACK (comp_editor_page_changed), epage);
 	g_signal_connect (
-		priv->alarm_time, "changed",
+		priv->alarm_time_combo, "changed",
 		G_CALLBACK (alarm_changed_cb), epage);
 
 	/* Belongs to priv->description */
@@ -3046,9 +3039,8 @@ event_page_select_organizer (EventPage *epage, const char *backend_address)
 
 	if (default_address) {
 		if (!priv->comp || !e_cal_component_has_organizer (priv->comp)) {
-			gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry), default_address);
-			/* FIXME: Use accessor functions to access private members of a GtkCombo widget */
-			gtk_widget_set_sensitive (GTK_WIDGET (GTK_COMBO (priv->organizer)->button), !subscribed_cal);
+			gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->organizer))), default_address);
+			gtk_widget_set_sensitive (priv->organizer, !subscribed_cal);
 		}
 	} else
 		g_warning ("No potential organizers!");
@@ -3114,9 +3106,14 @@ event_page_construct (EventPage *epage, EMeetingStore *model)
 
 	g_object_unref(it);
 
-	if (priv->address_strings)
-		gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), priv->address_strings);
-	else
+	if (priv->address_strings) {
+		GList *l;
+
+		for (l = priv->address_strings; l; l = l->next)
+			gtk_combo_box_append_text (GTK_COMBO_BOX (priv->organizer), l->data);
+
+		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->organizer), 0);
+	} else
 		g_warning ("No potential organizers!");
 
 	if (!init_widgets (epage)) {

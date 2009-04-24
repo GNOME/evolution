@@ -47,7 +47,7 @@ struct _MessageTagFollowUp {
 
 	struct _GtkTreeView *message_list;
 
-	struct _GtkCombo *combo;
+	struct _GtkComboBox *combo_entry;
 
 	struct _EDateEdit *target_date;
 	struct _GtkToggleButton *completed;

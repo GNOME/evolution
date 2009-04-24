@@ -66,11 +66,8 @@ struct _EMComposerPrefs {
 	GtkTreeModel *language_model;
 
 	/* Forwards and Replies */
-	GtkOptionMenu *forward_style;
-	GtkOptionMenu *reply_style;
-
-	/* Keyboard Shortcuts */
-	GtkOptionMenu *shortcuts_type;
+	GtkComboBox *forward_style;
+	GtkComboBox *reply_style;
 
 	/* Signatures */
 	GtkTreeView *sig_list;

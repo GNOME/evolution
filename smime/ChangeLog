@@ -1,3 +1,11 @@
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #572348
+
+	* gui/smime-ui.glade:
+	* gui/e-cert-selector.c:
+	Remove deprecated Gtk+ symbols.
+
 2009-04-07  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #539002

@@ -52,8 +52,8 @@ struct _TaskDetailsPagePrivate {
 	/* Widgets from the Glade file */
 	GtkWidget *main;
 
-	GtkWidget *status;
-	GtkWidget *priority;
+	GtkWidget *status_combo;
+	GtkWidget *priority_combo;
 	GtkWidget *percent_complete;
 
 	GtkWidget *date_completed_label;
@@ -165,7 +165,7 @@ task_details_page_focus_main_widget (CompEditorPage *page)
 	tdpage = TASK_DETAILS_PAGE (page);
 	priv = tdpage->priv;
 
-	gtk_widget_grab_focus (priv->status);
+	gtk_widget_grab_focus (priv->status_combo);
 }
 
 
@@ -241,8 +241,8 @@ sensitize_widgets (TaskDetailsPage *tdpage)
 	if (!e_cal_is_read_only (client, &read_only, NULL))
 		read_only = TRUE;
 
-	gtk_widget_set_sensitive (priv->status, !read_only);
-	gtk_widget_set_sensitive (priv->priority, !read_only);
+	gtk_widget_set_sensitive (priv->status_combo, !read_only);
+	gtk_widget_set_sensitive (priv->priority_combo, !read_only);
 	gtk_widget_set_sensitive (priv->percent_complete, !read_only);
 	gtk_widget_set_sensitive (priv->completed_date, !read_only);
 	gtk_widget_set_sensitive (priv->url_label, !read_only);
@@ -290,7 +290,7 @@ task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 		} else
 			status = ICAL_STATUS_NONE;
 	}
-	e_dialog_option_menu_set (priv->status, status, status_map);
+	e_dialog_combo_box_set (priv->status_combo, status, status_map);
 
 	if (percent)
 		e_cal_component_free_percent (percent);
@@ -325,7 +325,7 @@ task_details_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	} else {
 		priority = PRIORITY_UNDEFINED;
 	}
-	e_dialog_option_menu_set (priv->priority, priority, priority_map);
+	e_dialog_combo_box_set (priv->priority_combo, priority, priority_map);
 
 	/* URL */
 	e_cal_component_get_url (comp, &url);
@@ -358,11 +358,11 @@ task_details_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	e_cal_component_set_percent (comp, &percent);
 
 	/* Status. */
-	status = e_dialog_option_menu_get (priv->status, status_map);
+	status = e_dialog_combo_box_get (priv->status_combo, status_map);
 	e_cal_component_set_status (comp, status);
 
 	/* Priority. */
-	priority = e_dialog_option_menu_get (priv->priority, priority_map);
+	priority = e_dialog_combo_box_get (priv->priority_combo, priority_map);
 	priority_value = priority_index_to_value (priority);
 	e_cal_component_set_priority (comp, &priority_value);
 
@@ -465,8 +465,8 @@ get_widgets (TaskDetailsPage *tdpage)
 	g_object_ref (priv->main);
 	gtk_container_remove (GTK_CONTAINER (priv->main->parent), priv->main);
 
-	priv->status = GW ("status");
-	priv->priority = GW ("priority");
+	priv->status_combo = GW ("status-combobox");
+	priv->priority_combo = GW ("priority-combobox");
 	priv->percent_complete = GW ("percent-complete");
 
 	priv->date_completed_label = GW ("date_completed_label");
@@ -483,8 +483,8 @@ get_widgets (TaskDetailsPage *tdpage)
 
 #undef GW
 
-	return (priv->status
-		&& priv->priority
+	return (priv->status_combo
+		&& priv->priority_combo
 		&& priv->percent_complete
 		&& priv->date_completed_label
 		&& priv->completed_date
@@ -542,19 +542,19 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 				     &completed_tt.hour,
 				     &completed_tt.minute);
 
-	status = e_dialog_option_menu_get (priv->status, status_map);
+	status = e_dialog_combo_box_get (priv->status_combo, status_map);
 
 	if (!date_set) {
 		completed_tt = icaltime_null_time ();
 		if (status == ICAL_STATUS_COMPLETED) {
-			e_dialog_option_menu_set (priv->status,
+			e_dialog_combo_box_set (priv->status_combo,
 						  ICAL_STATUS_NONE,
 						  status_map);
 			e_dialog_spin_set (priv->percent_complete, 0);
 		}
 	} else {
 		if (status != ICAL_STATUS_COMPLETED) {
-			e_dialog_option_menu_set (priv->status,
+			e_dialog_combo_box_set (priv->status_combo,
 						  ICAL_STATUS_COMPLETED,
 						  status_map);
 		}
@@ -569,7 +569,7 @@ date_changed_cb (EDateEdit *dedit, gpointer data)
 }
 
 static void
-status_changed (GtkMenu	*menu, TaskDetailsPage *tdpage)
+status_changed (GtkWidget *combo, TaskDetailsPage *tdpage)
 {
 	TaskDetailsPagePrivate *priv;
 	icalproperty_status status;
@@ -585,7 +585,7 @@ status_changed (GtkMenu	*menu, TaskDetailsPage *tdpage)
 
 	comp_editor_page_set_updating (COMP_EDITOR_PAGE (tdpage), TRUE);
 
-	status = e_dialog_option_menu_get (priv->status, status_map);
+	status = e_dialog_combo_box_get (priv->status_combo, status_map);
 	if (status == ICAL_STATUS_NONE) {
 		e_dialog_spin_set (priv->percent_complete, 0);
 		e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), ctime);
@@ -642,7 +642,7 @@ percent_complete_changed (GtkAdjustment	*adj, TaskDetailsPage *tdpage)
 			status = ICAL_STATUS_INPROCESS;
 	}
 
-	e_dialog_option_menu_set (priv->status, status, status_map);
+	e_dialog_combo_box_set (priv->status_combo, status, status_map);
 	e_date_edit_set_time (E_DATE_EDIT (priv->completed_date), ctime);
 	complete_date_changed (tdpage, ctime, complete);
 
@@ -672,8 +672,8 @@ init_widgets (TaskDetailsPage *tdpage)
 	/* Connect signals. The Status, Percent Complete & Date Completed
 	   properties are closely related so whenever one changes we may need
 	   to update the other 2. */
-	g_signal_connect((GTK_OPTION_MENU (priv->status)->menu),
-			    "deactivate",
+	g_signal_connect (GTK_COMBO_BOX (priv->status_combo),
+			    "changed",
 			    G_CALLBACK (status_changed), tdpage);
 
 	g_signal_connect((GTK_SPIN_BUTTON (priv->percent_complete)->adjustment),
@@ -682,7 +682,7 @@ init_widgets (TaskDetailsPage *tdpage)
 
 	/* Priority */
 	g_signal_connect_swapped (
-		GTK_OPTION_MENU (priv->priority)->menu, "deactivate",
+		GTK_COMBO_BOX (priv->priority_combo), "changed",
 		G_CALLBACK (comp_editor_page_changed), tdpage);
 
 	/* Completed Date */

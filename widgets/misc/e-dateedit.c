@@ -1253,7 +1253,7 @@ position_date_popup		(EDateEdit	*dedit)
 	x = CLAMP (x, 0, MAX (0, screen_width - cal_req.width));
 	y = CLAMP (y, 0, MAX (0, screen_height - cal_req.height));
 
-	gtk_widget_set_uposition (dedit->priv->cal_popup, x, y);
+	gtk_window_move (GTK_WINDOW (dedit->priv->cal_popup), x, y);
 }
 
 

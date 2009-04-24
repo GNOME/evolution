@@ -573,7 +573,9 @@ e_combo_button_set_label (EComboButton *combo_button,
 	if (label == NULL)
 		label = "";
 
-	gtk_label_parse_uline (GTK_LABEL (priv->label), label);
+	gtk_label_set_label (GTK_LABEL (priv->label), label);
+	gtk_label_set_use_markup (GTK_LABEL (priv->label), FALSE);
+	gtk_label_set_use_underline (GTK_LABEL (priv->label), TRUE);
 }
 
 void

@@ -95,7 +95,7 @@ static const timespan timespans[] = {
 
 struct _FilterDatespecPrivate {
 	GtkWidget *label_button;
-	GtkWidget *notebook_type, *option_type, *calendar_specify, *spin_relative, *option_relative, *option_past_future;
+	GtkWidget *notebook_type, *combobox_type, *calendar_specify, *spin_relative, *combobox_relative, *combobox_past_future;
 	FilterDatespec_type type;
 	int span;
 };
@@ -385,49 +385,39 @@ set_values (FilterDatespec *fds)
 	case FDST_X_AGO:
 		p->span = get_best_span(fds->value);
 		gtk_spin_button_set_value((GtkSpinButton*)p->spin_relative, fds->value/timespans[p->span].seconds);
-		gtk_option_menu_set_history((GtkOptionMenu*)p->option_relative, p->span);
-		gtk_option_menu_set_history((GtkOptionMenu*)p->option_past_future, 0);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox_relative), p->span);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox_past_future), 0);
 		break;
 	case FDST_X_FUTURE:
 		p->span = get_best_span(fds->value);
 		gtk_spin_button_set_value((GtkSpinButton*)p->spin_relative, fds->value/timespans[p->span].seconds);
-		gtk_option_menu_set_history((GtkOptionMenu*)p->option_relative, p->span);
-		gtk_option_menu_set_history((GtkOptionMenu*)p->option_past_future, 1);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox_relative), p->span);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox_past_future), 1);
 		break;
 	}
 
 	gtk_notebook_set_current_page ((GtkNotebook*) p->notebook_type, note_type);
-	gtk_option_menu_set_history ((GtkOptionMenu*) p->option_type, note_type);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox_type), note_type);
 }
 
 
 static void
-set_option_type (GtkMenu *menu, FilterDatespec *fds)
+set_combobox_type (GtkComboBox *combobox, FilterDatespec *fds)
 {
-	GtkWidget *w;
-
-	/* ugh, no other way to 'get_history' */
-	w = gtk_menu_get_active (menu);
-	fds->priv->type = g_list_index (GTK_MENU_SHELL (menu)->children, w);
+	fds->priv->type = gtk_combo_box_get_active (combobox);
 	gtk_notebook_set_current_page ((GtkNotebook*) fds->priv->notebook_type, fds->priv->type);
 }
 
 static void
-set_option_relative (GtkMenu *menu, FilterDatespec *fds)
+set_combobox_relative (GtkComboBox *combobox, FilterDatespec *fds)
 {
-	GtkWidget *w;
-
-	w = gtk_menu_get_active (menu);
-	fds->priv->span = g_list_index (GTK_MENU_SHELL (menu)->children, w);
+	fds->priv->span = gtk_combo_box_get_active (combobox);
 }
 
 static void
-set_option_past_future (GtkMenu *menu, FilterDatespec *fds)
+set_combobox_past_future (GtkComboBox *combobox, FilterDatespec *fds)
 {
-	GtkWidget *w;
-
-	w = gtk_menu_get_active (menu);
-	if(g_list_index (GTK_MENU_SHELL (menu)->children, w) == 0)
+	if (gtk_combo_box_get_active (combobox) == 0)
 		fds->type = fds->priv->type = FDST_X_AGO;
 	else
 		fds->type = fds->priv->type = FDST_X_FUTURE;
@@ -457,20 +447,17 @@ button_clicked (GtkButton *button, FilterDatespec *fds)
 	gtk_dialog_set_has_separator (dialog, FALSE);
 
 	p->notebook_type = glade_xml_get_widget (gui, "notebook_type");
-	p->option_type = glade_xml_get_widget (gui, "option_type");
+	p->combobox_type = glade_xml_get_widget (gui, "combobox_type");
 	p->calendar_specify = glade_xml_get_widget (gui, "calendar_specify");
 	p->spin_relative = glade_xml_get_widget (gui, "spin_relative");
-	p->option_relative = glade_xml_get_widget (gui, "option_relative");
-	p->option_past_future = glade_xml_get_widget (gui, "option_past_future");
+	p->combobox_relative = glade_xml_get_widget (gui, "combobox_relative");
+	p->combobox_past_future = glade_xml_get_widget (gui, "combobox_past_future");
 
 	set_values (fds);
 
-	g_signal_connect (GTK_OPTION_MENU (p->option_type)->menu, "deactivate",
-			  G_CALLBACK (set_option_type), fds);
-	g_signal_connect (GTK_OPTION_MENU (p->option_relative)->menu, "deactivate",
-			  G_CALLBACK (set_option_relative), fds);
-	g_signal_connect (GTK_OPTION_MENU (p->option_past_future)->menu, "deactivate",
-			  G_CALLBACK (set_option_past_future), fds);
+	g_signal_connect (p->combobox_type, "changed", G_CALLBACK (set_combobox_type), fds);
+	g_signal_connect (p->combobox_relative, "changed", G_CALLBACK (set_combobox_relative), fds);
+	g_signal_connect (p->combobox_past_future, "changed", G_CALLBACK (set_combobox_past_future), fds);
 
 	gtk_box_pack_start ((GtkBox *) dialog->vbox, toplevel, TRUE, TRUE, 3);
 

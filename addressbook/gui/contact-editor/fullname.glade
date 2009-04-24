@@ -15,6 +15,8 @@
   <property name="skip_pager_hint">False</property>
   <property name="type_hint">GDK_WINDOW_TYPE_HINT_DIALOG</property>
   <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
+  <property name="focus_on_map">True</property>
+  <property name="urgency_hint">False</property>
   <property name="has_separator">False</property>
 
   <child internal-child="vbox">
@@ -71,420 +73,6 @@
 	  <property name="homogeneous">False</property>
 	  <property name="row_spacing">6</property>
 	  <property name="column_spacing">6</property>
-
-	  <child>
-	    <widget class="GtkCombo" id="combo-title">
-	      <property name="visible">True</property>
-	      <property name="value_in_list">False</property>
-	      <property name="allow_empty">True</property>
-	      <property name="case_sensitive">False</property>
-	      <property name="enable_arrow_keys">True</property>
-	      <property name="enable_arrows_always">False</property>
-	      <accessibility>
-		<atkrelation target="label-title" type="labelled-by"/>
-	      </accessibility>
-
-	      <child internal-child="entry">
-		<widget class="GtkEntry" id="entry-title">
-		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="editable">True</property>
-		  <property name="visibility">True</property>
-		  <property name="max_length">0</property>
-		  <property name="text" translatable="yes"></property>
-		  <property name="has_frame">True</property>
-		  <property name="invisible_char">*</property>
-		  <property name="activates_default">False</property>
-		</widget>
-	      </child>
-
-	      <child internal-child="list">
-		<widget class="GtkList" id="convertwidget1">
-		  <property name="visible">True</property>
-		  <property name="selection_mode">GTK_SELECTION_BROWSE</property>
-
-		  <child>
-		    <widget class="GtkListItem" id="convertwidget2">
-		      <property name="visible">True</property>
-
-		      <child>
-			<widget class="GtkLabel" id="convertwidget3">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes"></property>
-			  <property name="use_underline">False</property>
-			  <property name="use_markup">False</property>
-			  <property name="justify">GTK_JUSTIFY_LEFT</property>
-			  <property name="wrap">False</property>
-			  <property name="selectable">False</property>
-			  <property name="xalign">0</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkListItem" id="convertwidget4">
-		      <property name="visible">True</property>
-
-		      <child>
-			<widget class="GtkLabel" id="convertwidget5">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Mr.</property>
-			  <property name="use_underline">False</property>
-			  <property name="use_markup">False</property>
-			  <property name="justify">GTK_JUSTIFY_LEFT</property>
-			  <property name="wrap">False</property>
-			  <property name="selectable">False</property>
-			  <property name="xalign">0</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkListItem" id="convertwidget6">
-		      <property name="visible">True</property>
-
-		      <child>
-			<widget class="GtkLabel" id="convertwidget7">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Mrs.</property>
-			  <property name="use_underline">False</property>
-			  <property name="use_markup">False</property>
-			  <property name="justify">GTK_JUSTIFY_LEFT</property>
-			  <property name="wrap">False</property>
-			  <property name="selectable">False</property>
-			  <property name="xalign">0</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkListItem" id="convertwidget8">
-		      <property name="visible">True</property>
-
-		      <child>
-			<widget class="GtkLabel" id="convertwidget9">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Ms.</property>
-			  <property name="use_underline">False</property>
-			  <property name="use_markup">False</property>
-			  <property name="justify">GTK_JUSTIFY_LEFT</property>
-			  <property name="wrap">False</property>
-			  <property name="selectable">False</property>
-			  <property name="xalign">0</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkListItem" id="convertwidget10">
-		      <property name="visible">True</property>
-
-		      <child>
-			<widget class="GtkLabel" id="convertwidget11">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Miss</property>
-			  <property name="use_underline">False</property>
-			  <property name="use_markup">False</property>
-			  <property name="justify">GTK_JUSTIFY_LEFT</property>
-			  <property name="wrap">False</property>
-			  <property name="selectable">False</property>
-			  <property name="xalign">0</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkListItem" id="convertwidget12">
-		      <property name="visible">True</property>
-
-		      <child>
-			<widget class="GtkLabel" id="convertwidget13">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Dr.</property>
-			  <property name="use_underline">False</property>
-			  <property name="use_markup">False</property>
-			  <property name="justify">GTK_JUSTIFY_LEFT</property>
-			  <property name="wrap">False</property>
-			  <property name="selectable">False</property>
-			  <property name="xalign">0</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkListItem" id="convertwidget14">
-		      <property name="visible">True</property>
-
-		      <child>
-			<widget class="GtkLabel" id="convertwidget15">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes"></property>
-			  <property name="use_underline">False</property>
-			  <property name="use_markup">False</property>
-			  <property name="justify">GTK_JUSTIFY_LEFT</property>
-			  <property name="wrap">False</property>
-			  <property name="selectable">False</property>
-			  <property name="xalign">0</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-		</widget>
-	      </child>
-	    </widget>
-	    <packing>
-	      <property name="left_attach">1</property>
-	      <property name="right_attach">2</property>
-	      <property name="top_attach">0</property>
-	      <property name="bottom_attach">1</property>
-	      <property name="y_options"></property>
-	    </packing>
-	  </child>
-
-	  <child>
-	    <widget class="GtkCombo" id="combo-suffix">
-	      <property name="visible">True</property>
-	      <property name="value_in_list">False</property>
-	      <property name="allow_empty">True</property>
-	      <property name="case_sensitive">False</property>
-	      <property name="enable_arrow_keys">True</property>
-	      <property name="enable_arrows_always">False</property>
-	      <accessibility>
-		<atkrelation target="label-suffix" type="labelled-by"/>
-	      </accessibility>
-
-	      <child internal-child="entry">
-		<widget class="GtkEntry" id="entry-suffix">
-		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="editable">True</property>
-		  <property name="visibility">True</property>
-		  <property name="max_length">0</property>
-		  <property name="text" translatable="yes"></property>
-		  <property name="has_frame">True</property>
-		  <property name="invisible_char">*</property>
-		  <property name="activates_default">False</property>
-		</widget>
-	      </child>
-
-	      <child internal-child="list">
-		<widget class="GtkList" id="convertwidget16">
-		  <property name="visible">True</property>
-		  <property name="selection_mode">GTK_SELECTION_BROWSE</property>
-
-		  <child>
-		    <widget class="GtkListItem" id="convertwidget17">
-		      <property name="visible">True</property>
-
-		      <child>
-			<widget class="GtkLabel" id="convertwidget18">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes"></property>
-			  <property name="use_underline">False</property>
-			  <property name="use_markup">False</property>
-			  <property name="justify">GTK_JUSTIFY_LEFT</property>
-			  <property name="wrap">False</property>
-			  <property name="selectable">False</property>
-			  <property name="xalign">0</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkListItem" id="convertwidget19">
-		      <property name="visible">True</property>
-
-		      <child>
-			<widget class="GtkLabel" id="convertwidget20">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Sr.</property>
-			  <property name="use_underline">False</property>
-			  <property name="use_markup">False</property>
-			  <property name="justify">GTK_JUSTIFY_LEFT</property>
-			  <property name="wrap">False</property>
-			  <property name="selectable">False</property>
-			  <property name="xalign">0</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkListItem" id="convertwidget21">
-		      <property name="visible">True</property>
-
-		      <child>
-			<widget class="GtkLabel" id="convertwidget22">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Jr.</property>
-			  <property name="use_underline">False</property>
-			  <property name="use_markup">False</property>
-			  <property name="justify">GTK_JUSTIFY_LEFT</property>
-			  <property name="wrap">False</property>
-			  <property name="selectable">False</property>
-			  <property name="xalign">0</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkListItem" id="convertwidget23">
-		      <property name="visible">True</property>
-
-		      <child>
-			<widget class="GtkLabel" id="convertwidget24">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">I</property>
-			  <property name="use_underline">False</property>
-			  <property name="use_markup">False</property>
-			  <property name="justify">GTK_JUSTIFY_LEFT</property>
-			  <property name="wrap">False</property>
-			  <property name="selectable">False</property>
-			  <property name="xalign">0</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkListItem" id="convertwidget25">
-		      <property name="visible">True</property>
-
-		      <child>
-			<widget class="GtkLabel" id="convertwidget26">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">II</property>
-			  <property name="use_underline">False</property>
-			  <property name="use_markup">False</property>
-			  <property name="justify">GTK_JUSTIFY_LEFT</property>
-			  <property name="wrap">False</property>
-			  <property name="selectable">False</property>
-			  <property name="xalign">0</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkListItem" id="convertwidget27">
-		      <property name="visible">True</property>
-
-		      <child>
-			<widget class="GtkLabel" id="convertwidget28">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">III</property>
-			  <property name="use_underline">False</property>
-			  <property name="use_markup">False</property>
-			  <property name="justify">GTK_JUSTIFY_LEFT</property>
-			  <property name="wrap">False</property>
-			  <property name="selectable">False</property>
-			  <property name="xalign">0</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkListItem" id="convertwidget29">
-		      <property name="visible">True</property>
-
-		      <child>
-			<widget class="GtkLabel" id="convertwidget30">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Esq.</property>
-			  <property name="use_underline">False</property>
-			  <property name="use_markup">False</property>
-			  <property name="justify">GTK_JUSTIFY_LEFT</property>
-			  <property name="wrap">False</property>
-			  <property name="selectable">False</property>
-			  <property name="xalign">0</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkListItem" id="convertwidget31">
-		      <property name="visible">True</property>
-
-		      <child>
-			<widget class="GtkLabel" id="convertwidget32">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes"></property>
-			  <property name="use_underline">False</property>
-			  <property name="use_markup">False</property>
-			  <property name="justify">GTK_JUSTIFY_LEFT</property>
-			  <property name="wrap">False</property>
-			  <property name="selectable">False</property>
-			  <property name="xalign">0</property>
-			  <property name="yalign">0.5</property>
-			  <property name="xpad">0</property>
-			  <property name="ypad">0</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
-		</widget>
-	      </child>
-	    </widget>
-	    <packing>
-	      <property name="left_attach">1</property>
-	      <property name="right_attach">2</property>
-	      <property name="top_attach">4</property>
-	      <property name="bottom_attach">5</property>
-	      <property name="y_options"></property>
-	    </packing>
-	  </child>
 
 	  <child>
 	    <widget class="GtkEntry" id="entry-first">
@@ -563,6 +151,10 @@
 	      <property name="xpad">0</property>
 	      <property name="ypad">0</property>
 	      <property name="mnemonic_widget">entry-first</property>
+	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	      <property name="width_chars">-1</property>
+	      <property name="single_line_mode">False</property>
+	      <property name="angle">0</property>
 	    </widget>
 	    <packing>
 	      <property name="left_attach">0</property>
@@ -587,7 +179,10 @@
 	      <property name="yalign">0.5</property>
 	      <property name="xpad">0</property>
 	      <property name="ypad">0</property>
-	      <property name="mnemonic_widget">entry-title</property>
+	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	      <property name="width_chars">-1</property>
+	      <property name="single_line_mode">False</property>
+	      <property name="angle">0</property>
 	    </widget>
 	    <packing>
 	      <property name="left_attach">0</property>
@@ -613,6 +208,10 @@
 	      <property name="xpad">0</property>
 	      <property name="ypad">0</property>
 	      <property name="mnemonic_widget">entry-middle</property>
+	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	      <property name="width_chars">-1</property>
+	      <property name="single_line_mode">False</property>
+	      <property name="angle">0</property>
 	    </widget>
 	    <packing>
 	      <property name="left_attach">0</property>
@@ -638,6 +237,10 @@
 	      <property name="xpad">0</property>
 	      <property name="ypad">0</property>
 	      <property name="mnemonic_widget">entry-last</property>
+	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	      <property name="width_chars">-1</property>
+	      <property name="single_line_mode">False</property>
+	      <property name="angle">0</property>
 	    </widget>
 	    <packing>
 	      <property name="left_attach">0</property>
@@ -662,11 +265,61 @@
 	      <property name="yalign">0.5</property>
 	      <property name="xpad">0</property>
 	      <property name="ypad">0</property>
-	      <property name="mnemonic_widget">entry-suffix</property>
+	      <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
+	      <property name="width_chars">-1</property>
+	      <property name="single_line_mode">False</property>
+	      <property name="angle">0</property>
 	    </widget>
 	    <packing>
 	      <property name="left_attach">0</property>
 	      <property name="right_attach">1</property>
+	      <property name="top_attach">4</property>
+	      <property name="bottom_attach">5</property>
+	      <property name="x_options">fill</property>
+	      <property name="y_options">fill</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkComboBoxEntry" id="comboentry-title">
+	      <property name="visible">True</property>
+	      <property name="items" translatable="yes">
+Mr.
+Mrs.
+Ms.
+Miss
+Dr.</property>
+	      <property name="add_tearoffs">False</property>
+	      <property name="has_frame">True</property>
+	      <property name="focus_on_click">True</property>
+	    </widget>
+	    <packing>
+	      <property name="left_attach">1</property>
+	      <property name="right_attach">2</property>
+	      <property name="top_attach">0</property>
+	      <property name="bottom_attach">1</property>
+	      <property name="x_options">fill</property>
+	      <property name="y_options">fill</property>
+	    </packing>
+	  </child>
+
+	  <child>
+	    <widget class="GtkComboBoxEntry" id="comboentry-suffix">
+	      <property name="visible">True</property>
+	      <property name="items" translatable="yes">
+Sr.
+Jr.
+I
+II
+III
+Esq.</property>
+	      <property name="add_tearoffs">False</property>
+	      <property name="has_frame">True</property>
+	      <property name="focus_on_click">True</property>
+	    </widget>
+	    <packing>
+	      <property name="left_attach">1</property>
+	      <property name="right_attach">2</property>
 	      <property name="top_attach">4</property>
 	      <property name="bottom_attach">5</property>
 	      <property name="x_options">fill</property>

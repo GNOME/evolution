@@ -96,8 +96,7 @@ static void e_cell_date_edit_on_today_clicked	(GtkWidget	*button,
 						 ECellDateEdit	*ecde);
 static void e_cell_date_edit_update_cell	(ECellDateEdit	*ecde,
 						 char		*text);
-static void e_cell_date_edit_on_time_selected	(GtkList	*list,
-						 ECellDateEdit	*ecde);
+static void e_cell_date_edit_on_time_selected	(GtkTreeSelection *selection, ECellDateEdit *ecde);
 static void e_cell_date_edit_hide_popup		(ECellDateEdit	*ecde);
 
 
@@ -213,8 +212,9 @@ static void
 e_cell_date_edit_init (ECellDateEdit *ecde)
 {
 	GtkWidget *frame, *vbox, *hbox, *vbox2;
-	GtkWidget *scrolled_window, *list, *bbox;
+	GtkWidget *scrolled_window, *bbox, *tree_view;
 	GtkWidget *now_button, *today_button, *none_button, *ok_button;
+	GtkListStore *store;
 
 	ecde->lower_hour = 0;
 	ecde->upper_hour = 24;
@@ -270,13 +270,24 @@ e_cell_date_edit_init (ECellDateEdit *ecde)
 					GTK_POLICY_ALWAYS);
 	gtk_widget_show (scrolled_window);
 
-	list = gtk_list_new ();
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), list);
-	gtk_container_set_focus_vadjustment (GTK_CONTAINER (list),
+	store = gtk_list_store_new (1, G_TYPE_STRING);
+	tree_view = gtk_tree_view_new_with_model (GTK_TREE_MODEL (store));
+	g_object_unref (store);
+
+	gtk_tree_view_append_column (
+		GTK_TREE_VIEW (tree_view),
+		gtk_tree_view_column_new_with_attributes ("Text", gtk_cell_renderer_text_new (), "text", 0, NULL));
+
+	gtk_tree_view_set_headers_visible (GTK_TREE_VIEW (tree_view), FALSE);
+
+	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), tree_view);
+	gtk_container_set_focus_vadjustment (GTK_CONTAINER (tree_view),
 					     gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW (scrolled_window)));
-	gtk_widget_show (list);
-	ecde->time_list = list;
-	g_signal_connect((list), "selection-changed",
+	gtk_container_set_focus_hadjustment (GTK_CONTAINER (tree_view),
+ 					     gtk_scrolled_window_get_hadjustment (GTK_SCROLLED_WINDOW (scrolled_window)));
+	gtk_widget_show (tree_view);
+	ecde->time_tree_view = tree_view;
+	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view)), "changed",
 			    G_CALLBACK (e_cell_date_edit_on_time_selected),
 			    ecde);
 
@@ -414,10 +425,10 @@ e_cell_date_edit_set_property		(GObject	*object,
 	case PROP_SHOW_TIME:
 		if (g_value_get_boolean (value)) {
 			gtk_widget_show (ecde->time_entry);
-			gtk_widget_show (ecde->time_list);
+			gtk_widget_show (ecde->time_tree_view);
 		} else {
 			gtk_widget_hide (ecde->time_entry);
-			gtk_widget_hide (ecde->time_list);
+			gtk_widget_hide (ecde->time_tree_view);
 		}
 		return;
 	case PROP_SHOW_NOW_BUTTON:
@@ -526,7 +537,7 @@ e_cell_date_edit_set_popup_values	(ECellDateEdit	*ecde)
 	if (status == E_TIME_PARSE_NONE || status == E_TIME_PARSE_INVALID) {
 		gtk_entry_set_text (GTK_ENTRY (ecde->time_entry), "");
 		e_calendar_item_set_selection (calitem, NULL, NULL);
-		gtk_list_unselect_all (GTK_LIST (ecde->time_list));
+		gtk_tree_selection_unselect_all (gtk_tree_view_get_selection (GTK_TREE_VIEW (ecde->time_tree_view)));
 	} else {
 		if (is_date) {
 			buffer[0] = '\0';
@@ -542,7 +553,7 @@ e_cell_date_edit_set_popup_values	(ECellDateEdit	*ecde)
 		e_calendar_item_set_selection (calitem, &date, &date);
 
 		if (is_date) {
-			gtk_list_unselect_all (GTK_LIST (ecde->time_list));
+			gtk_tree_selection_unselect_all (gtk_tree_view_get_selection (GTK_TREE_VIEW (ecde->time_tree_view)));
 		} else {
 			e_cell_date_edit_select_matching_time (ecde, buffer);
 		}
@@ -556,30 +567,39 @@ static void
 e_cell_date_edit_select_matching_time	(ECellDateEdit	*ecde,
 					 char		*time)
 {
-	GtkList *list;
-	GtkWidget *listitem, *label;
-	GList *elem;
 	gboolean found = FALSE;
-	const gchar *list_item_text;
+	gboolean valid;
+	GtkTreeSelection *selection;
+	GtkTreeIter iter;
+	GtkTreeModel *model;
 
-	list = GTK_LIST (ecde->time_list);
-	elem = list->children;
-	while (elem) {
-		listitem = GTK_WIDGET (elem->data);
-		label = GTK_BIN (listitem)->child;
-		list_item_text = gtk_label_get_text (GTK_LABEL (label));
+	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ecde->time_tree_view));
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (ecde->time_tree_view));
 
-		if (!strcmp (list_item_text, time)) {
+	for (valid = gtk_tree_model_get_iter_first (model, &iter);
+	     valid && !found;
+	     valid = gtk_tree_model_iter_next (model, &iter)) {
+		char *str = NULL;
+
+		gtk_tree_model_get (model, &iter, 0, &str, -1);
+
+		if (g_str_equal (str, time)) {
+			GtkTreePath *path = gtk_tree_model_get_path (model, &iter);
+
+			gtk_tree_view_set_cursor (GTK_TREE_VIEW (ecde->time_tree_view), path, NULL, FALSE);
+			gtk_tree_view_scroll_to_cell (GTK_TREE_VIEW (ecde->time_tree_view), path, NULL, FALSE, 0.0, 0.0);
+			gtk_tree_path_free (path);
+
 			found = TRUE;
-			gtk_list_select_child (list, listitem);
-			break;
 		}
 
-		elem = elem->next;
+		g_free (str);
 	}
 
-	if (!found)
-		gtk_list_unselect_all (list);
+	if (!found) {
+		gtk_tree_selection_unselect_all (selection);
+		gtk_tree_view_scroll_to_point (GTK_TREE_VIEW (ecde->time_tree_view), 0, 0);
+	}
 }
 
 
@@ -597,7 +617,7 @@ e_cell_date_edit_show_popup		(ECellDateEdit	*ecde,
 
 	e_cell_date_edit_get_popup_pos (ecde, row, view_col, &x, &y, &height, &width);
 
-	gtk_widget_set_uposition (ecde->popup_window, x, y);
+	gtk_window_move (GTK_WINDOW (ecde->popup_window), x, y);
 	gtk_widget_set_size_request (ecde->popup_window, width, height);
 	gtk_widget_realize (ecde->popup_window);
 	gdk_window_resize (ecde->popup_window->window, width, height);
@@ -732,15 +752,13 @@ e_cell_date_edit_button_press		(GtkWidget	*popup_window,
 static void
 e_cell_date_edit_rebuild_time_list		(ECellDateEdit	*ecde)
 {
-	GtkList *list;
-	GtkWidget *listitem;
+	GtkListStore *store;
 	char buffer[40];
 	struct tm tmp_tm;
 	gint hour, min;
 
-	list = GTK_LIST (ecde->time_list);
-
-	gtk_list_clear_items (list, 0, -1);
+	store = GTK_LIST_STORE (gtk_tree_view_get_model (GTK_TREE_VIEW (ecde->time_tree_view)));
+	gtk_list_store_clear (store);
 
 	/* Fill the struct tm with some sane values. */
 	tmp_tm.tm_year = 2000;
@@ -750,7 +768,6 @@ e_cell_date_edit_rebuild_time_list		(ECellDateEdit	*ecde)
 	tmp_tm.tm_isdst = 0;
 
 	for (hour = ecde->lower_hour; hour <= ecde->upper_hour; hour++) {
-
 		/* We don't want to display midnight at the end, since that is
 		   really in the next day. */
 		if (hour == 24)
@@ -760,13 +777,15 @@ e_cell_date_edit_rebuild_time_list		(ECellDateEdit	*ecde)
 		for (min = 0;
 		     min == 0 || (min < 60 && hour != ecde->upper_hour);
 		     min += 30) {
+			GtkTreeIter iter;
+
 			tmp_tm.tm_hour = hour;
 			tmp_tm.tm_min  = min;
 			e_time_format_time (&tmp_tm, ecde->use_24_hour_format,
 					    FALSE, buffer, sizeof (buffer));
-			listitem = gtk_list_item_new_with_label (buffer);
-			gtk_widget_show (listitem);
-			gtk_container_add (GTK_CONTAINER (list), listitem);
+
+			gtk_list_store_append (store, &iter);
+			gtk_list_store_set (store, &iter, 0, buffer, -1);
 		}
 	}
 
@@ -940,19 +959,22 @@ e_cell_date_edit_update_cell		(ECellDateEdit	*ecde,
 
 
 static void
-e_cell_date_edit_on_time_selected	(GtkList	*list,
-					 ECellDateEdit	*ecde)
+e_cell_date_edit_on_time_selected (GtkTreeSelection *selection, ECellDateEdit *ecde)
 {
-	GtkWidget *listitem, *label;
-	const gchar *list_item_text;
+	gchar *list_item_text = NULL;
+	GtkTreeIter iter;
+	GtkTreeModel *model;
 
-	if (!list->selection)
+	if (!gtk_tree_selection_get_selected (selection, &model, &iter))
 		return;
 
-	listitem = list->selection->data;
-	label = GTK_BIN (listitem)->child;
-	list_item_text = gtk_label_get_text (GTK_LABEL (label));
+	gtk_tree_model_get (model, &iter, 0, &list_item_text, -1);
+
+	g_return_if_fail (list_item_text != NULL);
+
 	gtk_entry_set_text (GTK_ENTRY (ecde->time_entry), list_item_text);
+
+	g_free (list_item_text);
 }
 
 

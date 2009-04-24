@@ -1,3 +1,14 @@
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #572348
+
+	* e-config.c:
+	* e-cursor.c:
+	* e-dialog-utils.c:
+	* e-dialog-widgets.h:
+	* e-dialog-widgets.c:
+	Remove deprecated Gtk+ symbols.
+
 2009-04-07  Tobias Mueller  <tobiasmue@gnome.org>
 
 	** Fixes bug #577989

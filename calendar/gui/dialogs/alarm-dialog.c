@@ -60,18 +60,18 @@ typedef struct {
 	/* Toplevel */
 	GtkWidget *toplevel;
 
-	GtkWidget *action;
+	GtkWidget *action_combo;
 	GtkWidget *interval_value;
-	GtkWidget *value_units;
-	GtkWidget *relative;
-	GtkWidget *time;
+	GtkWidget *value_units_combo;
+	GtkWidget *relative_combo;
+	GtkWidget *time_combo;
 
 	/* Alarm repeat widgets */
 	GtkWidget *repeat_toggle;
 	GtkWidget *repeat_group;
 	GtkWidget *repeat_quantity;
 	GtkWidget *repeat_value;
-	GtkWidget *repeat_unit;
+	GtkWidget *repeat_unit_combo;
 
 	GtkWidget *option_notebook;
 
@@ -118,7 +118,7 @@ enum {
 	DAYS
 };
 
-/* Option menu maps */
+/* Combo box maps */
 static const int action_map[] = {
 	E_CAL_COMPONENT_ALARM_DISPLAY,
 	E_CAL_COMPONENT_ALARM_AUDIO,
@@ -167,18 +167,18 @@ static const int duration_units_map[] = {
 };
 
 static void populate_widgets_from_alarm (Dialog *dialog);
-static void action_selection_done_cb (GtkMenuShell *menu_shell, gpointer data);
+static void action_changed_cb (GtkWidget *action_combo, gpointer data);
 
 /* Fills the widgets with default values */
 static void
 clear_widgets (Dialog *dialog)
 {
 	/* Sane defaults */
-	e_dialog_option_menu_set (dialog->action, E_CAL_COMPONENT_ALARM_DISPLAY, action_map);
+	e_dialog_combo_box_set (dialog->action_combo, E_CAL_COMPONENT_ALARM_DISPLAY, action_map);
 	e_dialog_spin_set (dialog->interval_value, 15);
-	e_dialog_option_menu_set (dialog->value_units, MINUTES, value_map);
-	e_dialog_option_menu_set (dialog->relative, BEFORE, relative_map);
-	e_dialog_option_menu_set (dialog->time, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, time_map);
+	e_dialog_combo_box_set (dialog->value_units_combo, MINUTES, value_map);
+	e_dialog_combo_box_set (dialog->relative_combo, BEFORE, relative_map);
+	e_dialog_combo_box_set (dialog->time_combo, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, time_map);
 
 	gtk_widget_set_sensitive (dialog->repeat_group, FALSE);
 	gtk_widget_set_sensitive (dialog->dalarm_group, FALSE);
@@ -192,8 +192,9 @@ clear_widgets (Dialog *dialog)
 static void
 alarm_to_dialog (Dialog *dialog)
 {
-	GtkWidget *menu;
-	GList *l;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gboolean valid;
 	gboolean repeat;
 	ECalComponentAlarmAction action;
 	char *email;
@@ -203,12 +204,15 @@ alarm_to_dialog (Dialog *dialog)
 	clear_widgets (dialog);
 
 	/* Alarm types */
-	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (dialog->action));
-	for (i = 0, l = GTK_MENU_SHELL (menu)->children; action_map[i] != -1; i++, l = l->next) {
-		if (e_cal_get_static_capability (dialog->ecal, action_map_cap[i]))
-			gtk_widget_set_sensitive (l->data, FALSE);
-		else
-			gtk_widget_set_sensitive (l->data, TRUE);
+	model = gtk_combo_box_get_model (GTK_COMBO_BOX (dialog->action_combo));
+	valid = gtk_tree_model_get_iter_first (model, &iter);
+	for (i = 0; valid && action_map[i] != -1; i++) {
+		gtk_list_store_set (
+			GTK_LIST_STORE (model), &iter,
+			1, !e_cal_get_static_capability (dialog->ecal, action_map_cap[i]),
+			-1);
+
+		valid = gtk_tree_model_iter_next (model, &iter);
 	}
 
 	/* Set a default address if possible */
@@ -255,17 +259,17 @@ alarm_to_repeat_widgets (Dialog *dialog, ECalComponentAlarm *alarm)
 		return;
 
 	if ( repeat.duration.minutes ) {
-		e_dialog_option_menu_set (dialog->repeat_unit, DUR_MINUTES, duration_units_map);
+		e_dialog_combo_box_set (dialog->repeat_unit_combo, DUR_MINUTES, duration_units_map);
 		e_dialog_spin_set (dialog->repeat_value, repeat.duration.minutes);
 	}
 
 	if ( repeat.duration.hours ) {
-		e_dialog_option_menu_set (dialog->repeat_unit, DUR_HOURS, duration_units_map);
+		e_dialog_combo_box_set (dialog->repeat_unit_combo, DUR_HOURS, duration_units_map);
 		e_dialog_spin_set (dialog->repeat_value, repeat.duration.hours);
 	}
 
 	if ( repeat.duration.days ) {
-		e_dialog_option_menu_set (dialog->repeat_unit, DUR_DAYS, duration_units_map);
+		e_dialog_combo_box_set (dialog->repeat_unit_combo, DUR_DAYS, duration_units_map);
 		e_dialog_spin_set (dialog->repeat_value, repeat.duration.days);
 	}
 }
@@ -285,7 +289,7 @@ repeat_widgets_to_alarm (Dialog *dialog, ECalComponentAlarm *alarm)
 	repeat.repetitions = e_dialog_spin_get_int (dialog->repeat_quantity);
 
 	memset (&repeat.duration, 0, sizeof (repeat.duration));
-	switch (e_dialog_option_menu_get (dialog->repeat_unit, duration_units_map)) {
+	switch (e_dialog_combo_box_get (dialog->repeat_unit_combo, duration_units_map)) {
 	case DUR_MINUTES:
 		repeat.duration.minutes = e_dialog_spin_get_int (dialog->repeat_value);
 		break;
@@ -609,11 +613,11 @@ populate_widgets_from_alarm (Dialog *dialog)
 	/* Alarm Types */
 	switch ( trigger->type ) {
  	case E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START:
-		e_dialog_option_menu_set (dialog->time, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, time_map);
+		e_dialog_combo_box_set (dialog->time_combo, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START, time_map);
 		break;
 
 	case E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END:
-		e_dialog_option_menu_set (dialog->time, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END, time_map);
+		e_dialog_combo_box_set (dialog->time_combo, E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_END, time_map);
 		break;
         default:
                 g_warning ("%s: Unexpected alarm type (%d)", G_STRLOC, trigger->type);
@@ -621,25 +625,25 @@ populate_widgets_from_alarm (Dialog *dialog)
 
 	switch ( trigger->u.rel_duration.is_neg ){
 	case 1:
-		e_dialog_option_menu_set (dialog->relative, BEFORE, relative_map);
+		e_dialog_combo_box_set (dialog->relative_combo, BEFORE, relative_map);
 		break;
 
 	case 0:
-		e_dialog_option_menu_set (dialog->relative, AFTER, relative_map);
+		e_dialog_combo_box_set (dialog->relative_combo, AFTER, relative_map);
 		break;
 	}
 
 	if ( trigger->u.rel_duration.days ) {
-		e_dialog_option_menu_set (dialog->value_units, DAYS, value_map);
+		e_dialog_combo_box_set (dialog->value_units_combo, DAYS, value_map);
 		e_dialog_spin_set (dialog->interval_value, trigger->u.rel_duration.days);
 	} else if ( trigger->u.rel_duration.hours ) {
-		e_dialog_option_menu_set (dialog->value_units, HOURS, value_map);
+		e_dialog_combo_box_set (dialog->value_units_combo, HOURS, value_map);
 		e_dialog_spin_set (dialog->interval_value, trigger->u.rel_duration.hours);
 	} else if ( trigger->u.rel_duration.minutes ) {
-		e_dialog_option_menu_set (dialog->value_units, MINUTES, value_map);
+		e_dialog_combo_box_set (dialog->value_units_combo, MINUTES, value_map);
 		e_dialog_spin_set (dialog->interval_value, trigger->u.rel_duration.minutes);
 	} else {
-		e_dialog_option_menu_set (dialog->value_units, MINUTES, value_map);
+		e_dialog_combo_box_set (dialog->value_units_combo, MINUTES, value_map);
 		e_dialog_spin_set (dialog->interval_value, 0);
 	}
 
@@ -647,8 +651,8 @@ populate_widgets_from_alarm (Dialog *dialog)
 	alarm_to_repeat_widgets (dialog, dialog->alarm);
 
 	/* Alarm options */
-	e_dialog_option_menu_set (dialog->action, *action, action_map);
-	action_selection_done_cb (GTK_MENU_SHELL (gtk_option_menu_get_menu (GTK_OPTION_MENU (dialog->action))), dialog);
+	e_dialog_combo_box_set (dialog->action_combo, *action, action_map);
+	action_changed_cb (dialog->action_combo, dialog);
 
 	switch (*action) {
 	case E_CAL_COMPONENT_ALARM_AUDIO:
@@ -680,13 +684,13 @@ dialog_to_alarm (Dialog *dialog)
 
 	/* Fill out the alarm */
 	memset (&trigger, 0, sizeof (ECalComponentAlarmTrigger));
-	trigger.type = e_dialog_option_menu_get (dialog->time, time_map);
-	if (e_dialog_option_menu_get (dialog->relative, relative_map) == BEFORE)
+	trigger.type = e_dialog_combo_box_get (dialog->time_combo, time_map);
+	if (e_dialog_combo_box_get (dialog->relative_combo, relative_map) == BEFORE)
 		trigger.u.rel_duration.is_neg = 1;
 	else
 		trigger.u.rel_duration.is_neg = 0;
 
-	switch (e_dialog_option_menu_get (dialog->value_units, value_map)) {
+	switch (e_dialog_combo_box_get (dialog->value_units_combo, value_map)) {
 	case MINUTES:
 		trigger.u.rel_duration.minutes =
 			e_dialog_spin_get_int (dialog->interval_value);
@@ -707,7 +711,7 @@ dialog_to_alarm (Dialog *dialog)
 	}
 	e_cal_component_alarm_set_trigger (dialog->alarm, trigger);
 
-	action = e_dialog_option_menu_get (dialog->action, action_map);
+	action = e_dialog_combo_box_get (dialog->action_combo, action_map);
 	e_cal_component_alarm_set_action (dialog->alarm, action);
 
 	/* Repeat stuff */
@@ -753,17 +757,17 @@ get_widgets (Dialog *dialog)
 	if (!dialog->toplevel)
 		return FALSE;
 
-	dialog->action = GW ("action");
+	dialog->action_combo = GW ("action-combobox");
 	dialog->interval_value = GW ("interval-value");
-	dialog->value_units = GW ("value-units");
-	dialog->relative = GW ("relative");
-	dialog->time = GW ("time");
+	dialog->value_units_combo = GW ("value-units-combobox");
+	dialog->relative_combo = GW ("relative-combobox");
+	dialog->time_combo = GW ("time-combobox");
 
 	dialog->repeat_toggle = GW ("repeat-toggle");
 	dialog->repeat_group = GW ("repeat-group");
 	dialog->repeat_quantity = GW ("repeat-quantity");
 	dialog->repeat_value = GW ("repeat-value");
-	dialog->repeat_unit = GW ("repeat-unit");
+	dialog->repeat_unit_combo = GW ("repeat-unit-combobox");
 
 	dialog->option_notebook = GW ("option-notebook");
 
@@ -787,16 +791,57 @@ get_widgets (Dialog *dialog)
 
 #undef GW
 
-	return (dialog->action
+	if (dialog->action_combo) {
+		const char *actions[] = {
+			N_("Pop up an alert"),
+			N_("Play a sound"),
+			N_("Run a program"),
+			N_("Send an email")
+		};
+
+		GtkComboBox *combo = (GtkComboBox*)dialog->action_combo;
+		GtkCellRenderer *cell;
+		GtkListStore *store;
+		gint i;
+
+		g_return_val_if_fail (combo != NULL, FALSE);
+		g_return_val_if_fail (GTK_IS_COMBO_BOX (combo), FALSE);
+
+		store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_BOOLEAN);
+		gtk_combo_box_set_model (combo, GTK_TREE_MODEL (store));
+		g_object_unref (store);
+
+		gtk_cell_layout_clear (GTK_CELL_LAYOUT (combo));
+
+		cell = gtk_cell_renderer_text_new ();
+		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, TRUE);
+		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell,
+				"text", 0,
+				"sensitive", 1,
+				NULL);
+
+		for (i = 0; i < G_N_ELEMENTS (actions); i++) {
+			GtkTreeIter iter;
+
+			gtk_list_store_append (store, &iter);
+			gtk_list_store_set (
+				store, &iter,
+				0, _(actions[i]),
+				1, TRUE,
+				-1);
+		}
+	}
+
+	return (dialog->action_combo
 		&& dialog->interval_value
-		&& dialog->value_units
-		&& dialog->relative
-		&& dialog->time
+		&& dialog->value_units_combo
+		&& dialog->relative_combo
+		&& dialog->time_combo
 		&& dialog->repeat_toggle
 		&& dialog->repeat_group
 		&& dialog->repeat_quantity
 		&& dialog->repeat_value
-		&& dialog->repeat_unit
+		&& dialog->repeat_unit_combo
 		&& dialog->option_notebook
 		&& dialog->dalarm_group
 		&& dialog->dalarm_message
@@ -823,7 +868,7 @@ show_options (Dialog *dialog)
 	char *email;
 
 	e_cal_component_alarm_set_action (dialog->alarm,
-					e_dialog_option_menu_get (dialog->action, action_map));
+					e_dialog_combo_box_get (dialog->action_combo, action_map));
 
 	repeat = !e_cal_get_static_capability (dialog->ecal, CAL_STATIC_CAPABILITY_NO_ALARM_REPEAT);
 
@@ -1052,14 +1097,14 @@ malarm_description_changed_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-action_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
+action_changed_cb (GtkWidget *action_combo, gpointer data)
 {
 	Dialog *dialog = data;
 	char *dir;
 	ECalComponentAlarmAction action;
 	int page = 0, i;
 
-	action = e_dialog_option_menu_get (dialog->action, action_map);
+	action = e_dialog_combo_box_get (dialog->action_combo, action_map);
 	for (i = 0; action_map[i] != -1 ; i++) {
 		if (action == action_map[i]) {
 			page = i;
@@ -1102,12 +1147,10 @@ action_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 static void
 init_widgets (Dialog *dialog)
 {
-	GtkWidget *menu;
 	GtkTextBuffer *text_buffer;
 
-	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (dialog->action));
-	g_signal_connect (menu, "selection_done",
-			  G_CALLBACK (action_selection_done_cb),
+	g_signal_connect (dialog->action_combo, "changed",
+			  G_CALLBACK (action_changed_cb),
 			  dialog);
 
 	g_signal_connect (G_OBJECT (dialog->repeat_toggle), "toggled",

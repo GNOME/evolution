@@ -665,7 +665,7 @@ spell_setup (EMComposerPrefs *prefs)
 }
 
 static gint
-attach_style_reply_new_order (gint style_id,
+reply_style_new_order (gint style_id,
                               gboolean from_enum_to_option_id)
 {
 	gint values[] = {
@@ -685,41 +685,18 @@ attach_style_reply_new_order (gint style_id,
 }
 
 static void
-attach_style_info (GtkWidget *item,
-                   gpointer user_data)
-{
-	gint *style = user_data;
-
-	g_object_set_data (
-		G_OBJECT (item), "style", GINT_TO_POINTER (*style));
-
-	(*style)++;
-}
-
-static void
-attach_style_info_reply (GtkWidget *item,
-                         gpointer user_data)
-{
-	gint *style = user_data;
-
-	g_object_set_data (
-		G_OBJECT (item), "style", GINT_TO_POINTER (
-		attach_style_reply_new_order (*style, FALSE)));
-
-	(*style)++;
-}
-
-static void
-style_activate (GtkWidget *item,
-                EMComposerPrefs *prefs)
+style_changed (GtkComboBox *combobox, const gchar *key)
 {
 	GConfClient *client;
-	const gchar *key;
 	gint style;
 
 	client = mail_config_get_gconf_client ();
-	key = g_object_get_data (G_OBJECT (item), "key");
-	style = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (item), "style"));
+	style = gtk_combo_box_get_active (combobox);
+	g_return_if_fail (style >= 0);
+
+	if (g_str_has_suffix (key, "/reply_style"))
+		style = reply_style_new_order (style, FALSE);
+
 	gconf_client_set_int (client, key, style, NULL);
 }
 
@@ -979,31 +956,15 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	spell_setup (prefs);
 
 	/* Forwards and Replies */
-	prefs->forward_style = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuForwardStyle")); 
+	prefs->forward_style = GTK_COMBO_BOX (glade_xml_get_widget (gui, "comboboxForwardStyle")); 
 	style = gconf_client_get_int (client, "/apps/evolution/mail/format/forward_style", NULL);
-	gtk_option_menu_set_history (prefs->forward_style, style);
-	style = 0;
+	gtk_combo_box_set_active (prefs->forward_style, style);
+	g_signal_connect (prefs->forward_style, "changed", G_CALLBACK (style_changed), "/apps/evolution/mail/format/forward_style");
 
-	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (prefs->forward_style)),
-				attach_style_info, &style);
-
-	if (gtk_option_menu_get_menu (prefs->forward_style)) {
-		option_menu_connect (prefs, prefs->forward_style, G_CALLBACK (style_activate),
-				"/apps/evolution/mail/format/forward_style");
-	}
-
-	prefs->reply_style = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuReplyStyle"));
+	prefs->reply_style = GTK_COMBO_BOX (glade_xml_get_widget (gui, "comboboxReplyStyle"));
 	style = gconf_client_get_int (client, "/apps/evolution/mail/format/reply_style", NULL);
-	gtk_option_menu_set_history (prefs->reply_style, attach_style_reply_new_order (style, TRUE));
-	style = 0;
-	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (prefs->reply_style)),
-			       attach_style_info_reply, &style);
-	
-	
-	if (gtk_option_menu_get_menu (prefs->reply_style)) {
-		option_menu_connect (prefs, prefs->reply_style, G_CALLBACK (style_activate),
-				"/apps/evolution/mail/format/reply_style");
-	}
+	gtk_combo_box_set_active (prefs->reply_style, reply_style_new_order (style, TRUE));
+	g_signal_connect (prefs->reply_style, "changed", G_CALLBACK (style_changed), "/apps/evolution/mail/format/reply_style");
 
 	/* Signatures */
 	dialog = (GtkDialog *) gtk_dialog_new ();

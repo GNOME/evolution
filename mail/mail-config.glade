@@ -550,8 +550,8 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="invisible_char">*</property>
 			      <property name="activates_default">False</property>
 			      <accessibility>
-				<atkrelation target="label464" type="labelled-by"/>
 				<atkrelation target="identity_address_label" type="labelled-by"/>
+				<atkrelation target="label464" type="labelled-by"/>
 			      </accessibility>
 			    </widget>
 			    <packing>
@@ -633,8 +633,8 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="invisible_char">*</property>
 			      <property name="activates_default">False</property>
 			      <accessibility>
-				<atkrelation target="identity_full_name_label" type="labelled-by"/>
 				<atkrelation target="label464" type="labelled-by"/>
+				<atkrelation target="identity_full_name_label" type="labelled-by"/>
 			      </accessibility>
 			    </widget>
 			    <packing>
@@ -836,8 +836,8 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="invisible_char">*</property>
 			  <property name="activates_default">False</property>
 			  <accessibility>
-			    <atkrelation target="label466" type="labelled-by"/>
 			    <atkrelation target="identity_organization_label" type="labelled-by"/>
+			    <atkrelation target="label466" type="labelled-by"/>
 			  </accessibility>
 			</widget>
 			<packing>
@@ -890,8 +890,8 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="invisible_char">*</property>
 			  <property name="activates_default">False</property>
 			  <accessibility>
-			    <atkrelation target="reply_to_label" type="labelled-by"/>
 			    <atkrelation target="label466" type="labelled-by"/>
+			    <atkrelation target="reply_to_label" type="labelled-by"/>
 			  </accessibility>
 			</widget>
 			<packing>
@@ -2804,7 +2804,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				<widget class="Custom" id="sent_button">
 				  <property name="visible">True</property>
 				  <property name="creation_function">em_account_editor_folder_selector_button_new</property>
-				  <property name="string1" translatable="yes">Select Sent Folder</property>
+				  <property name="string1">Select Sent Folder</property>
 				  <property name="int1">0</property>
 				  <property name="int2">0</property>
 				  <property name="last_modification_time">Tue, 14 Dec 2004 17:07:09 GMT</property>
@@ -2823,7 +2823,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				<widget class="Custom" id="drafts_button">
 				  <property name="visible">True</property>
 				  <property name="creation_function">em_account_editor_folder_selector_button_new</property>
-				  <property name="string1" translatable="yes">Select Drafts Folder</property>
+				  <property name="string1">Select Drafts Folder</property>
 				  <property name="int1">0</property>
 				  <property name="int2">0</property>
 				  <property name="last_modification_time">Tue, 14 Dec 2004 17:07:02 GMT</property>
@@ -5458,10 +5458,12 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      </child>
 
 			      <child>
-				<widget class="GtkOptionMenu" id="omenuEmptyTrashDays">
+				<widget class="GtkComboBox" id="comboboxEmptyTrashDays">
 				  <property name="visible">True</property>
-				  <property name="can_focus">True</property>
-				  <property name="history">-1</property>
+				  <property name="items" translatable="yes">a
+b</property>
+				  <property name="add_tearoffs">False</property>
+				  <property name="focus_on_click">True</property>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -6648,10 +6650,12 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      </child>
 
 		      <child>
-			<widget class="GtkOptionMenu" id="junk_empty_combo">
+			<widget class="GtkComboBox" id="junk_empty_combobox">
 			  <property name="visible">True</property>
-			  <property name="can_focus">True</property>
-			  <property name="history">-1</property>
+			  <property name="items" translatable="yes">a
+b</property>
+			  <property name="add_tearoffs">False</property>
+			  <property name="focus_on_click">True</property>
 			</widget>
 			<packing>
 			  <property name="padding">0</property>
@@ -6874,7 +6878,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="right_attach">1</property>
 		      <property name="top_attach">6</property>
 		      <property name="bottom_attach">7</property>
-		      <property name="x_padding">0</property>
 		      <property name="x_options">fill</property>
 		    </packing>
 		  </child>
@@ -7164,7 +7167,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
 				  <property name="ypad">0</property>
-				  <property name="mnemonic_widget">omenuReplyStyle</property>
 				  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
 				  <property name="width_chars">-1</property>
 				  <property name="single_line_mode">False</property>
@@ -7199,48 +7201,14 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				      <property name="spacing">0</property>
 
 				      <child>
-					<widget class="GtkOptionMenu" id="omenuReplyStyle">
+					<widget class="GtkComboBox" id="comboboxReplyStyle">
 					  <property name="visible">True</property>
-					  <property name="can_focus">True</property>
-					  <property name="history">0</property>
-
-					  <child internal-child="menu">
-					    <widget class="GtkMenu" id="convertwidget33">
-					      <property name="visible">True</property>
-					      <child>
-						<widget class="GtkMenuItem" id="convertwidget36">
-						  <property name="visible">True</property>
-						  <property name="label" translatable="yes">Attachment</property>
-						  <property name="use_underline">True</property>
-						</widget>
-					      </child>
-
-					      <child>
-						<widget class="GtkMenuItem" id="convertwidget50">
-						  <property name="visible">True</property>
-						  <property name="label" translatable="yes">Inline (Outlook style)</property>
-						  <property name="use_underline">True</property>
-						</widget>
-					      </child>
-
-					      <child>
-						<widget class="GtkMenuItem" id="convertwidget34">
-						  <property name="visible">True</property>
-						  <property name="label" translatable="yes">Quoted</property>
-						  <property name="use_underline">True</property>
-						</widget>
-					      </child>
-
-					      <child>
-						<widget class="GtkMenuItem" id="convertwidget35">
-						  <property name="visible">True</property>
-						  <property name="label" translatable="yes">Do not quote</property>
-						  <property name="use_underline">True</property>
-						</widget>
-					      </child>
-					      
-					    </widget>
-					  </child>
+					  <property name="items" translatable="yes">Attachment
+Inline (Outlook style)
+Quoted
+Do not quote</property>
+					  <property name="add_tearoffs">False</property>
+					  <property name="focus_on_click">True</property>
 					</widget>
 					<packing>
 					  <property name="padding">0</property>
@@ -7268,40 +7236,13 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="spacing">0</property>
 
 				  <child>
-				    <widget class="GtkOptionMenu" id="omenuForwardStyle">
+				    <widget class="GtkComboBox" id="comboboxForwardStyle">
 				      <property name="visible">True</property>
-				      <property name="can_focus">True</property>
-				      <property name="history">0</property>
-
-				      <child internal-child="menu">
-					<widget class="GtkMenu" id="convertwidget37">
-					  <property name="visible">True</property>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="convertwidget38">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Attachment</property>
-					      <property name="use_underline">True</property>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="convertwidget39">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Inline</property>
-					      <property name="use_underline">True</property>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="convertwidget40">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Quoted</property>
-					      <property name="use_underline">True</property>
-					    </widget>
-					  </child>
-					</widget>
-				      </child>
+				      <property name="items" translatable="yes">Attachment
+Inline
+Quoted</property>
+				      <property name="add_tearoffs">False</property>
+				      <property name="focus_on_click">True</property>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -7371,7 +7312,6 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
 				  <property name="ypad">0</property>
-				  <property name="mnemonic_widget">omenuForwardStyle</property>
 				  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
 				  <property name="width_chars">-1</property>
 				  <property name="single_line_mode">False</property>
@@ -9329,35 +9269,6 @@ for display purposes only. </property>
 				</packing>
 			      </child>
 
-			      <!--<child>
-				<widget class="GtkLabel" id="lblSocksHost">
-				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">S_OCKS Host:</property>
-				  <property name="use_underline">True</property>
-				  <property name="use_markup">False</property>
-				  <property name="justify">GTK_JUSTIFY_LEFT</property>
-				  <property name="wrap">False</property>
-				  <property name="selectable">False</property>
-				  <property name="xalign">0</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				  <property name="mnemonic_widget">txtSocksHost</property>
-				  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-				  <property name="width_chars">-1</property>
-				  <property name="single_line_mode">False</property>
-				  <property name="angle">0</property>
-				</widget>
-				<packing>
-				  <property name="left_attach">0</property>
-				  <property name="right_attach">1</property>
-				  <property name="top_attach">2</property>
-				  <property name="bottom_attach">3</property>
-				  <property name="x_options">fill</property>
-				  <property name="y_options"></property>
-				</packing>
-			      </child>-->
-
 			      <child>
 				<widget class="GtkLabel" id="lblIgnoreHosts">
 				  <property name="visible">True</property>
@@ -9429,27 +9340,6 @@ for display purposes only. </property>
 				</packing>
 			      </child>
 
-			      <!--<child>
-				<widget class="GtkEntry" id="txtSocksHost">
-				  <property name="visible">True</property>
-				  <property name="can_focus">True</property>
-				  <property name="editable">True</property>
-				  <property name="visibility">True</property>
-				  <property name="max_length">0</property>
-				  <property name="text" translatable="yes"></property>
-				  <property name="has_frame">True</property>
-				  <property name="invisible_char">*</property>
-				  <property name="activates_default">False</property>
-				</widget>
-				<packing>
-				  <property name="left_attach">1</property>
-				  <property name="right_attach">2</property>
-				  <property name="top_attach">2</property>
-				  <property name="bottom_attach">3</property>
-				  <property name="y_options"></property>
-				</packing>
-			      </child>-->
-
 			      <child>
 				<widget class="GtkLabel" id="lblHttpPort">
 				  <property name="visible">True</property>
@@ -9506,34 +9396,6 @@ for display purposes only. </property>
 				</packing>
 			      </child>
 
-			      <!--<child>
-				<widget class="GtkLabel" id="lblSocksPort">
-				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">Port:</property>
-				  <property name="use_underline">False</property>
-				  <property name="use_markup">False</property>
-				  <property name="justify">GTK_JUSTIFY_LEFT</property>
-				  <property name="wrap">False</property>
-				  <property name="selectable">False</property>
-				  <property name="xalign">0</property>
-				  <property name="yalign">0.5</property>
-				  <property name="xpad">0</property>
-				  <property name="ypad">0</property>
-				  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
-				  <property name="width_chars">-1</property>
-				  <property name="single_line_mode">False</property>
-				  <property name="angle">0</property>
-				</widget>
-				<packing>
-				  <property name="left_attach">2</property>
-				  <property name="right_attach">3</property>
-				  <property name="top_attach">2</property>
-				  <property name="bottom_attach">3</property>
-				  <property name="x_options">fill</property>
-				  <property name="y_options"></property>
-				</packing>
-			      </child>-->
-
 			      <child>
 				<widget class="GtkSpinButton" id="spnHttpPort">
 				  <property name="visible">True</property>
@@ -9575,27 +9437,6 @@ for display purposes only. </property>
 				  <property name="y_options"></property>
 				</packing>
 			      </child>
-
-			      <!--<child>
-				<widget class="GtkSpinButton" id="spnSocksPort">
-				  <property name="visible">True</property>
-				  <property name="can_focus">True</property>
-				  <property name="climb_rate">1</property>
-				  <property name="digits">0</property>
-				  <property name="numeric">False</property>
-				  <property name="update_policy">GTK_UPDATE_ALWAYS</property>
-				  <property name="snap_to_ticks">False</property>
-				  <property name="wrap">False</property>
-				  <property name="adjustment">0 0 65535 1 10 0</property>
-				</widget>
-				<packing>
-				  <property name="left_attach">3</property>
-				  <property name="right_attach">4</property>
-				  <property name="top_attach">2</property>
-				  <property name="bottom_attach">3</property>
-				  <property name="y_options"></property>
-				</packing>
-			      </child>-->
 
 			      <child>
 				<widget class="GtkEntry" id="txtIgnoreHosts">
@@ -9780,59 +9621,6 @@ for display purposes only. </property>
 		      <property name="fill">True</property>
 		    </packing>
 		  </child>
-
-		  <!-- <child>
-		    <widget class="GtkRadioButton" id="rdoAutoConfig">
-		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="label" translatable="yes">_Automatic proxy configuration URL:</property>
-		      <property name="use_underline">True</property>
-		      <property name="relief">GTK_RELIEF_NORMAL</property>
-		      <property name="focus_on_click">True</property>
-		      <property name="active">False</property>
-		      <property name="inconsistent">False</property>
-		      <property name="draw_indicator">True</property>
-		      <property name="group">rdoSysSettings</property>
-		    </widget>
-		    <packing>
-		      <property name="padding">0</property>
-		      <property name="expand">True</property>
-		      <property name="fill">True</property>
-		    </packing>
-		  </child>
-
-		  <child>
-		    <widget class="GtkAlignment" id="alignment36">
-		      <property name="visible">True</property>
-		      <property name="xalign">0.5</property>
-		      <property name="yalign">0.5</property>
-		      <property name="xscale">1</property>
-		      <property name="yscale">1</property>
-		      <property name="top_padding">0</property>
-		      <property name="bottom_padding">0</property>
-		      <property name="left_padding">24</property>
-		      <property name="right_padding">0</property>
-
-		      <child>
-			<widget class="GtkEntry" id="txtAutoConfigUrl">
-			  <property name="visible">True</property>
-			  <property name="can_focus">True</property>
-			  <property name="editable">True</property>
-			  <property name="visibility">True</property>
-			  <property name="max_length">0</property>
-			  <property name="text" translatable="yes"></property>
-			  <property name="has_frame">True</property>
-			  <property name="invisible_char">*</property>
-			  <property name="activates_default">False</property>
-			</widget>
-		      </child>
-		    </widget>
-		    <packing>
-		      <property name="padding">0</property>
-		      <property name="expand">False</property>
-		      <property name="fill">True</property>
-		    </packing>
-		  </child> -->
 		</widget>
 		<packing>
 		  <property name="padding">0</property>

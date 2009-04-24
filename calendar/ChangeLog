@@ -1,3 +1,28 @@
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #572348
+
+	* gui/dialogs/task-page.glade:
+	* gui/dialogs/task-page.c:
+	* gui/dialogs/task-details-page.glade:
+	* gui/dialogs/task-details-page.c:
+	* gui/dialogs/recurrence-page.glade:
+	* gui/dialogs/recurrence-page.c:
+	* gui/dialogs/alarm-dialog.glade:
+	* gui/dialogs/alarm-dialog.c:
+	* gui/dialogs/event-page.glade:
+	* gui/dialogs/event-page.c:
+	* gui/dialogs/memo-page.glade:
+	* gui/dialogs/memo-page.c:
+	* gui/goto-dialog.glade:
+	* gui/goto.c:
+	* gui/e-itip-control.c:
+	Remove deprecated Gtk+ symbols.
+
+	* gui/dialogs/Makefile.am:
+	* gui/dialogs/meeting-page.glade:
+	Remove death files.
+
 2009-04-13  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #561312

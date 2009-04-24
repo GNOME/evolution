@@ -475,7 +475,7 @@ static EAddrConduitGui *
 e_addr_gui_new (EPilotSettings *ps)
 {
 	EAddrConduitGui *gui;
-	GtkWidget *lbl, *menu;
+	GtkWidget *lbl;
 	gint rows, i;
 	static const char *items[] = {"Business", "Home", "Other", NULL};
 
@@ -490,18 +490,10 @@ e_addr_gui_new (EPilotSettings *ps)
 	rows = E_PILOT_SETTINGS_TABLE_ROWS;
 	lbl = gtk_label_new (_("Default Sync Address:"));
 	gtk_misc_set_alignment (GTK_MISC (lbl), 0.0, 0.5);
-	gui->default_address = gtk_option_menu_new ();
-	menu = gtk_menu_new ();
+	gui->default_address = gtk_combo_box_new_text ();
 	for (i = 0; items[i] != NULL; i++) {
-		GtkWidget *item;
-
-		item = gtk_menu_item_new_with_label (items[i]);
-		gtk_widget_show (item);
-
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+		gtk_combo_box_append_text (GTK_COMBO_BOX (gui->default_address), items[i]);
 	}
-	gtk_widget_show (menu);
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (gui->default_address), menu);
 	gtk_table_attach_defaults (GTK_TABLE (ps), lbl, 0, 1, rows, rows + 1);
         gtk_table_attach_defaults (GTK_TABLE (ps), gui->default_address, 1, 2, rows, rows + 1);
 	gtk_widget_show (lbl);
@@ -523,9 +515,9 @@ e_addr_gui_fill_widgets (EAddrConduitGui *gui, EAddrConduitCfg *cfg)
 	g_return_if_fail (gui != NULL);
 	g_return_if_fail (cfg != NULL);
 
-	e_dialog_option_menu_set (gui->default_address,
-				  cfg->default_address,
-				  default_address_map);
+	e_dialog_combo_box_set (gui->default_address,
+				cfg->default_address,
+				default_address_map);
 }
 
 static void
@@ -534,8 +526,8 @@ e_addr_gui_fill_config (EAddrConduitGui *gui, EAddrConduitCfg *cfg)
 	g_return_if_fail (gui != NULL);
 	g_return_if_fail (cfg != NULL);
 
-	cfg->default_address = e_dialog_option_menu_get (gui->default_address,
-							 default_address_map);
+	cfg->default_address = e_dialog_combo_box_get (gui->default_address,
+						       default_address_map);
 }
 
 static void
