@@ -53,7 +53,7 @@ composer_setup_recent_menu (EMsgComposer *composer)
 {
 	EAttachmentView *view;
 	GtkUIManager *manager;
-	GtkAction *action = NULL;
+	GtkAction *action;
 	const gchar *action_name;
 	const gchar *path;
 	guint merge_id;
@@ -71,10 +71,9 @@ composer_setup_recent_menu (EMsgComposer *composer)
 		gtk_action_group_add_action (
 			composer->priv->composer_actions, action);
 
-		gtk_ui_manager_add_ui ( 
+		gtk_ui_manager_add_ui (
 			manager, merge_id, path,
-			action_name, 
-			action_name, 
+			action_name, action_name,
 			GTK_UI_MANAGER_AUTO, FALSE);
 	}
 
