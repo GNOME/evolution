@@ -34,6 +34,7 @@
 
 #include <gconf/gconf-client.h>
 #include <libecal/e-cal.h>
+#include <libedataserver/e-account.h>
 #include <libedataserverui/e-source-selector-dialog.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-medium.h>
@@ -47,16 +48,10 @@
 #include "mail/em-utils.h"
 #include "mail/em-folder-view.h"
 #include "mail/em-format-html.h"
+#include "mail/mail-config.h"
 #include "e-util/e-dialog-utils.h"
 #include <gtkhtml/gtkhtml.h>
 #include <calendar/common/authentication.h>
-
-typedef struct {
-	ECal *client;
-	struct _CamelFolder *folder;
-	GPtrArray *uids;
-	char *selected_text;
-}AsyncData;
 
 static char *
 clean_name(const unsigned char *s)
@@ -79,21 +74,28 @@ clean_name(const unsigned char *s)
 }
 
 static void
-set_attendees (ECalComponent *comp, CamelMimeMessage *message)
+set_attendees (ECalComponent *comp, CamelMimeMessage *message, const char *organizer)
 {
-	GSList *attendees = NULL, *l, *to_free = NULL;
+	GSList *attendees = NULL, *to_free = NULL;
 	ECalComponentAttendee *ca;
-	const CamelInternetAddress *to, *cc, *bcc, *arr[3];
+	const CamelInternetAddress *from = NULL, *to, *cc, *bcc, *arr[4];
 	int len, i, j;
+
+	if (message->reply_to)
+		from = message->reply_to;
+	else if (message->from)
+		from = message->from;
 
 	to = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
 	cc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 	bcc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_BCC);
 
-	arr[0] = to, arr[1] = cc, arr[2] = bcc;
+	arr[0] = from; arr[1] = to; arr[2] = cc; arr[3] = bcc;
 
-	for(j = 0; j < 3; j++)
-	{
+	for (j = 0; j < 4; j++) {
+		if (!arr[j])
+			continue;
+
 		len = CAMEL_ADDRESS (arr[j])->addresses->len;
 		for (i = 0; i < len; i++) {
 			const char *name, *addr;
@@ -101,22 +103,31 @@ set_attendees (ECalComponent *comp, CamelMimeMessage *message)
 			if (camel_internet_address_get (arr[j], i, &name, &addr)) {
 				char *temp;
 
+				temp = g_strconcat ("mailto:", addr, NULL);
+				if (organizer && g_ascii_strcasecmp (temp, organizer) == 0) {
+					/* do not add organizer twice */
+					g_free (temp);
+					continue;
+				}
+
 				ca = g_new0 (ECalComponentAttendee, 1);
 
-				temp = g_strconcat ("mailto:", addr, NULL);
 				ca->value = temp;
-				to_free = g_slist_prepend (to_free, temp);
-
 				ca->cn = name;
 				ca->cutype = ICAL_CUTYPE_INDIVIDUAL;
 				ca->status = ICAL_PARTSTAT_NEEDSACTION;
-				if (j == 2) {
+				if (j == 0) {
+					/* From */
+					ca->role = ICAL_ROLE_CHAIR;
+				} else if (j == 2) {
 					/* BCC  */
 					ca->role = ICAL_ROLE_OPTPARTICIPANT;
 				} else {
 					/* all other */
 					ca->role = ICAL_ROLE_REQPARTICIPANT;
 				}
+
+				to_free = g_slist_prepend (to_free, temp);
 
 				attendees = g_slist_append (attendees, ca);
 			}
@@ -125,9 +136,7 @@ set_attendees (ECalComponent *comp, CamelMimeMessage *message)
 
 	e_cal_component_set_attendee_list (comp, attendees);
 
-	for (l = attendees; l != NULL; l = l->next)
-		g_free (l->data);
-
+	g_slist_foreach (attendees, (GFunc) g_free, NULL);
 	g_slist_foreach (to_free, (GFunc) g_free, NULL);
 
 	g_slist_free (to_free);
@@ -197,30 +206,30 @@ set_description (ECalComponent *comp, CamelMimeMessage *message)
 		g_free (convert_str);
 }
 
-static void
-set_organizer (ECalComponent *comp, CamelMimeMessage *message)
+static char *
+set_organizer (ECalComponent *comp)
 {
-	const CamelInternetAddress *address;
+	EAccount *account;
 	const char *str, *name;
 	ECalComponentOrganizer organizer = {NULL, NULL, NULL, NULL};
-	char *temp;
+	char *res;
 
-	if (message->reply_to)
-		address = message->reply_to;
-	else if (message->from)
-		address = message->from;
-	else
-		return;
+	account = mail_config_get_default_account ();
+	if (!account)
+		return NULL;
 
-	if (!camel_internet_address_get (address, 0, &name, &str))
-		return;
+	str = e_account_get_string (account, E_ACCOUNT_ID_ADDRESS);
+	name = e_account_get_string (account, E_ACCOUNT_ID_NAME);
 
-	temp = g_strconcat ("mailto:", str, NULL);
-	organizer.value = temp;
+	if (!str)
+		return NULL;
+
+	res = g_strconcat ("mailto:", str, NULL);
+	organizer.value = res;
 	organizer.cn = name;
 	e_cal_component_set_organizer (comp, &organizer);
 
-	g_free (temp);
+	return res;
 }
 
 static void
@@ -281,8 +290,47 @@ set_attachments (ECal *client, ECalComponent *comp, CamelMimeMessage *message)
 	e_cal_component_set_attachment_list (comp, list);
 }
 
+struct _report_error
+{
+	char *format;
+	char *param;
+};
+
 static gboolean
-do_mail_to_task (AsyncData *data)
+do_report_error (struct _report_error *err)
+{
+	if (err) {
+		e_notice (NULL, GTK_MESSAGE_ERROR, err->format, err->param);
+		g_free (err->format);
+		g_free (err->param);
+		g_free (err);
+	}
+
+	return FALSE;
+}
+
+static void
+report_error_idle (const char *format, const char *param)
+{
+	struct _report_error *err = g_new (struct _report_error, 1);
+
+	err->format = g_strdup (format);
+	err->param = g_strdup (param);
+
+	g_usleep (250);
+	g_idle_add ((GSourceFunc)do_report_error, err);
+}
+
+typedef struct {
+	ECal *client;
+	struct _CamelFolder *folder;
+	GPtrArray *uids;
+	char *selected_text;
+	gboolean with_attendees;
+}AsyncData;
+
+static gboolean
+do_mail_to_event (AsyncData *data)
 {
 	ECal *client = data->client;
 	struct _CamelFolder *folder = data->folder;
@@ -292,14 +340,41 @@ do_mail_to_task (AsyncData *data)
 
 	/* open the task client */
 	if (!e_cal_open (client, FALSE, &err)) {
-		e_notice (NULL, GTK_MESSAGE_ERROR, _("Cannot open calendar. %s"), err ? err->message : "");
+		report_error_idle (_("Cannot open calendar. %s"), err ? err->message : _("Unknown error."));
 	} else if (!e_cal_is_read_only (client, &readonly, &err) || readonly) {
 		if (err)
-			e_notice (NULL, GTK_MESSAGE_ERROR, "%s", err->message);
-		else
-			e_notice (NULL, GTK_MESSAGE_ERROR, _("Selected source is read only, thus cannot create task there. Select other source, please."));
+			report_error_idle ("Check readonly failed. %s", err->message);
+		else {
+			switch (e_cal_get_source_type (client)) {
+			case E_CAL_SOURCE_TYPE_EVENT:
+				report_error_idle (_("Selected source is read only, thus cannot create event there. Select other source, please."), NULL);
+				break;
+			case E_CAL_SOURCE_TYPE_TODO:
+				report_error_idle (_("Selected source is read only, thus cannot create task there. Select other source, please."), NULL);
+				break;
+			case E_CAL_SOURCE_TYPE_JOURNAL:
+				report_error_idle (_("Selected source is read only, thus cannot create memo there. Select other source, please."), NULL);
+				break;
+			default:
+				g_assert_not_reached ();
+				break;
+			}
+		}
 	} else {
 		int i;
+		ECalSourceType source_type = e_cal_get_source_type (client);
+		ECalComponentDateTime dt, dt2;
+		struct icaltimetype tt, tt2;
+
+		/* set start day of the event as today, without time - easier than looking for a calendar's time zone */
+		tt = icaltime_today ();
+		dt.value = &tt;
+		dt.tzid = NULL;
+
+		tt2 = tt;
+		icaltime_adjust (&tt2, 1, 0, 0, 0);		
+		dt2.value = &tt2;
+		dt2.tzid = NULL;
 
 		for (i = 0; i < (uids ? uids->len : 0); i++) {
 			CamelMimeMessage *message;
@@ -315,10 +390,31 @@ do_mail_to_task (AsyncData *data)
 			}
 
 			comp = e_cal_component_new ();
-			e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_TODO);
-			e_cal_component_set_uid (comp, camel_mime_message_get_message_id (message));
 
-			/* set the task's summary */
+			switch (source_type) {
+			case E_CAL_SOURCE_TYPE_EVENT:
+				e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_EVENT);
+				break;
+			case E_CAL_SOURCE_TYPE_TODO:
+				e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_TODO);
+				break;
+			case E_CAL_SOURCE_TYPE_JOURNAL:
+				e_cal_component_set_new_vtype (comp, E_CAL_COMPONENT_JOURNAL);
+				break;
+			default:
+				g_assert_not_reached ();
+				break;
+			}
+
+			e_cal_component_set_uid (comp, camel_mime_message_get_message_id (message));
+			e_cal_component_set_dtstart (comp, &dt);
+
+			if (source_type == E_CAL_SOURCE_TYPE_EVENT) {
+				/* make it an all-day event */
+				e_cal_component_set_dtend (comp, &dt2);
+			}
+
+			/* set the summary */
 			text.value = camel_mime_message_get_subject (message);
 			text.altrep = NULL;
 			e_cal_component_set_summary (comp, &text);
@@ -335,8 +431,15 @@ do_mail_to_task (AsyncData *data)
 				e_cal_component_set_description_list (comp, &sl);
 			} else
 				set_description (comp, message);
-			set_organizer (comp, message);
-			set_attendees (comp, message);
+
+			if (data->with_attendees) {
+				char *organizer;
+
+				/* set actual user as organizer, to be able to change event's properties */
+				organizer = set_organizer (comp);
+				set_attendees (comp, message, organizer);
+				g_free (organizer);
+			}
 
 			/* set attachment files */
 			set_attachments (client, comp, message);
@@ -349,7 +452,7 @@ do_mail_to_task (AsyncData *data)
 
 			/* save the task to the selected source */
 			if (!e_cal_create_object (client, icalcomp, NULL, &err)) {
-				g_warning ("Could not create object: %s", err ? err->message : "Unknown error");
+				report_error_idle (_("Could not create object. %s"), err ? err->message : _("Unknown error"));
 
 				if (err)
 					g_error_free (err);
@@ -372,9 +475,6 @@ do_mail_to_task (AsyncData *data)
 
 	return TRUE;
 }
-
-void org_gnome_mail_to_task (void *ep, EMPopupTargetSelect *t);
-void org_gnome_mail_to_task_menu (EPlugin *ep, EMMenuTargetSelect *target);
 
 static void
 copy_uids (char *uid, GPtrArray *uid_array)
@@ -430,18 +530,37 @@ get_selected_text (EMFolderView *emfv)
 }
 
 static void
-convert_to_task (GPtrArray *uid_array, struct _CamelFolder *folder, EMFolderView *emfv)
+mail_to_event (ECalSourceType source_type, gboolean with_attendees, GPtrArray *uids, CamelFolder *folder, EMFolderView *emfv)
 {
-	GConfClient *conf_client;
-	GtkWidget *dialog = NULL;
+	GPtrArray *uid_array = NULL;
+	ESourceList *source_list = NULL;
 	gboolean done = FALSE;
-	ESourceList *source_list;
 	GSList *groups, *p;
 	ESource *source = NULL;
+	GError *error = NULL;
 
-	conf_client = gconf_client_get_default ();
-	source_list = e_source_list_new_for_gconf (conf_client, "/apps/evolution/tasks/sources");
+	g_return_if_fail (uids != NULL);
+	g_return_if_fail (folder != NULL);
+	g_return_if_fail (emfv != NULL);
 
+	if (uids->len > 0) {
+		uid_array = g_ptr_array_new ();
+		g_ptr_array_foreach (uids, (GFunc)copy_uids, (gpointer) uid_array);
+	} else {
+		/* nothing selected */
+		return;
+	}
+
+	if (!e_cal_get_sources (&source_list, source_type, &error)) {
+		e_notice (NULL, GTK_MESSAGE_ERROR, _("Cannot get source list. %s"), error ? error->message : _("Unknown error."));
+
+		if (error)
+			g_error_free (error);
+
+		return;
+	}
+
+	/* Check if there is only one writeable source, if so do not ask user to pick it */
 	groups = e_source_list_peek_groups (source_list);
 	for (p = groups; p != NULL && !done; p = p->next) {
 		ESourceGroup *group = E_SOURCE_GROUP (p->data);
@@ -464,31 +583,31 @@ convert_to_task (GPtrArray *uid_array, struct _CamelFolder *folder, EMFolderView
 	}
 	
 	if (!source) {
+		GtkWidget *dialog;
+
 		/* ask the user which tasks list to save to */
 		dialog = e_source_selector_dialog_new (NULL, source_list);
 
 		if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK)
 			source = e_source_selector_dialog_peek_primary_selection (E_SOURCE_SELECTOR_DIALOG (dialog));
+
+		gtk_widget_destroy (dialog);
 	}
 
-	/* if a source has been selected, perform the mail2task operation */
 	if (source) {
+		/* if a source has been selected, perform the mail2event operation */
 		ECal *client = NULL;
 		AsyncData *data = NULL;
 		GThread *thread = NULL;
-		GError *error = NULL;
 
-		client = auth_new_cal_from_source (source, E_CAL_SOURCE_TYPE_TODO);
+		client = auth_new_cal_from_source (source, source_type);
 		if (!client) {
 			char *uri = e_source_get_uri (source);
 
-			g_warning ("Could not create the client: %s\n", uri);
+			e_notice (NULL, GTK_MESSAGE_ERROR, "Could not create the client: %s", uri);
 
 			g_free (uri);
 			g_object_unref (source_list);
-			g_object_unref (conf_client);
-			if (dialog)
-				gtk_widget_destroy (dialog);
 			return;
 		}
 
@@ -497,64 +616,87 @@ convert_to_task (GPtrArray *uid_array, struct _CamelFolder *folder, EMFolderView
 		data->client = client;
 		data->folder = folder;
 		data->uids = uid_array;
+		data->with_attendees = with_attendees;
 
 		if (uid_array->len == 1)
 			data->selected_text = get_selected_text (emfv);
 		else
 			data->selected_text = NULL;
 
-		thread = g_thread_create ((GThreadFunc) do_mail_to_task, data, FALSE, &error);
+		thread = g_thread_create ((GThreadFunc) do_mail_to_event, data, FALSE, &error);
 		if (!thread) {
 			g_warning (G_STRLOC ": %s", error->message);
 			g_error_free (error);
 		}
 	}
 
-	g_object_unref (conf_client);
 	g_object_unref (source_list);
-	if (dialog)
-		gtk_widget_destroy (dialog);
+}
+
+/* ************************************************************************* */
+
+int e_plugin_lib_enable (EPluginLib *ep, int enable);
+void org_gnome_mail_to_event (void *ep, EMPopupTargetSelect *t);
+void org_gnome_mail_to_event_menu (EPlugin *ep, EMMenuTargetSelect *t);
+void org_gnome_mail_to_meeting (void *ep, EMPopupTargetSelect *t);
+void org_gnome_mail_to_meeting_menu (EPlugin *ep, EMMenuTargetSelect *t);
+void org_gnome_mail_to_task (void *ep, EMPopupTargetSelect *t);
+void org_gnome_mail_to_task_menu (EPlugin *ep, EMMenuTargetSelect *t);
+void org_gnome_mail_to_memo (void *ep, EMPopupTargetSelect *t);
+void org_gnome_mail_to_memo_menu (EPlugin *ep, EMMenuTargetSelect *t);
+
+int
+e_plugin_lib_enable (EPluginLib *ep, int enable)
+{
+	return 0;
+}
+
+void
+org_gnome_mail_to_event (void *ep, EMPopupTargetSelect *t)
+{
+	mail_to_event (E_CAL_SOURCE_TYPE_EVENT, FALSE, t->uids, t->folder, (EMFolderView *) t->target.widget);
+}
+
+void
+org_gnome_mail_to_event_menu (EPlugin *ep, EMMenuTargetSelect *t)
+{
+	mail_to_event (E_CAL_SOURCE_TYPE_EVENT, FALSE, t->uids, t->folder, (EMFolderView *) t->target.widget);
+}
+
+void
+org_gnome_mail_to_meeting (void *ep, EMPopupTargetSelect *t)
+{
+	mail_to_event (E_CAL_SOURCE_TYPE_EVENT, TRUE, t->uids, t->folder, (EMFolderView *) t->target.widget);
+}
+
+void
+org_gnome_mail_to_meeting_menu (EPlugin *ep, EMMenuTargetSelect *t)
+{
+	mail_to_event (E_CAL_SOURCE_TYPE_EVENT, TRUE, t->uids, t->folder, (EMFolderView *) t->target.widget);
 }
 
 void
 org_gnome_mail_to_task (void *ep, EMPopupTargetSelect *t)
 {
-	GPtrArray *uid_array = NULL;
-
-	if (t->uids->len > 0) {
-		/* FIXME Some how in the thread function the values inside t->uids gets freed
-		   and are corrupted which needs to be fixed, this is sought of work around fix for
-		   the gui inresponsiveness */
-		uid_array = g_ptr_array_new ();
-		g_ptr_array_foreach (t->uids, (GFunc)copy_uids, (gpointer) uid_array);
-	} else {
-		return;
-	}
-
-	convert_to_task (uid_array, t->folder, (EMFolderView *) t->target.widget);
+	mail_to_event (E_CAL_SOURCE_TYPE_TODO, TRUE, t->uids, t->folder, (EMFolderView *) t->target.widget);
 }
 
-void org_gnome_mail_to_task_menu (EPlugin *ep, EMMenuTargetSelect *t)
+void
+org_gnome_mail_to_task_menu (EPlugin *ep, EMMenuTargetSelect *t)
 {
-	GPtrArray *uid_array = NULL;
-
-	if (t->uids->len > 0) {
-		/* FIXME Some how in the thread function the values inside t->uids gets freed
-		   and are corrupted which needs to be fixed, this is sought of work around fix for
-		   the gui inresponsiveness */
-		uid_array = g_ptr_array_new ();
-		g_ptr_array_foreach (t->uids, (GFunc)copy_uids, (gpointer) uid_array);
-	} else {
-		return;
-	}
-
-	convert_to_task (uid_array, t->folder, (EMFolderView *) t->target.widget);
+	mail_to_event (E_CAL_SOURCE_TYPE_TODO, TRUE, t->uids, t->folder, (EMFolderView *) t->target.widget);
 }
 
-int e_plugin_lib_enable(EPluginLib *ep, int enable);
-
-int
-e_plugin_lib_enable(EPluginLib *ep, int enable)
+void
+org_gnome_mail_to_memo (void *ep, EMPopupTargetSelect *t)
 {
-	return 0;
+	/* do not set organizer and attendees for memos */
+	mail_to_event (E_CAL_SOURCE_TYPE_JOURNAL, FALSE, t->uids, t->folder, (EMFolderView *) t->target.widget);
+}
+
+void
+org_gnome_mail_to_memo_menu (EPlugin *ep, EMMenuTargetSelect *t)
+{
+	/* do not set organizer and attendees for memos */
+	mail_to_event (E_CAL_SOURCE_TYPE_JOURNAL, FALSE, t->uids, t->folder, (EMFolderView *) t->target.widget);
 }
