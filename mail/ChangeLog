@@ -1,5 +1,12 @@
 2009-04-24  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #563954
+
+	* message-list.c: (regen_list_exec): Sort UIDs before
+	using them to obtain proper order when without sorting.
+
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #552583
 
 	* mail-config.c: (mc_get_account_by), (get_source_url_string),
