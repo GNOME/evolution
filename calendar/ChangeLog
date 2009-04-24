@@ -1,3 +1,9 @@
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #571272
+
+	* gui/e-cal-model.c: (search_by_id_and_client):	Possible leak fix.
+
 2009-04-13  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #561312
