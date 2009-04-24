@@ -1,3 +1,10 @@
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #342296
+
+	* configure.in:	Remove 'mail-to-meeting' plugin,
+	the 'mail-to-task' plugin does this itself now.
+
 2009-04-12  Matthew Barnes  <mbarnes@redhat.com>
 
 	** Remove a bunch of juvenile comments.  Source code should

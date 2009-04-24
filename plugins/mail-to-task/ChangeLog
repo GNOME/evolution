@@ -1,3 +1,17 @@
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #342296
+
+	* org-gnome-mail-to-task.eplug.xml:
+	* org-gnome-mail-to-task.xml:
+	* mail-to-task.c: (set_attendees), (set_organizer), (do_report_error),
+	(report_error_idle), (do_mail_to_event), (mail_to_event),
+	(org_gnome_mail_to_event), (org_gnome_mail_to_event_menu),
+	(org_gnome_mail_to_meeting), (org_gnome_mail_to_meeting_menu),
+	(org_gnome_mail_to_task), (org_gnome_mail_to_task_menu),
+	(org_gnome_mail_to_memo), (org_gnome_mail_to_memo_menu):
+	Extended to be able to save mail to event, meeting, task or memo.
+
 2009-03-26  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #576696

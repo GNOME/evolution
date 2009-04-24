@@ -13,12 +13,36 @@
       <menu id="org.gnome.evolution.mail.folderview.popup" target="select">
 	<item
 	  type="item"
-	  path="71.mail_to_task"
+	  path="70.mail_to_event1"
+	  icon="appointment-new"
+	  _label="Convert to an _Event"
+	  enable="many"
+	  visible="many"
+	  activate="org_gnome_mail_to_event"/>
+	<item
+	  type="item"
+	  path="70.mail_to_event2"
+	  icon="stock_new-meeting"
+	  _label="Convert to a _Meeting"
+	  enable="many"
+	  visible="many"
+	  activate="org_gnome_mail_to_meeting"/>
+	<item
+	  type="item"
+	  path="70.mail_to_event3"
 	  icon="stock_todo"
-	  _label="Con_vert to Task"
+	  _label="Convert to a _Task"
 	  enable="many"
 	  visible="many"
 	  activate="org_gnome_mail_to_task"/>
+	<item
+	  type="item"
+	  path="70.mail_to_event4"
+	  icon="stock_insert-note"
+	  _label="Convert to a Mem_o"
+	  enable="many"
+	  visible="many"
+	  activate="org_gnome_mail_to_memo"/>
       </menu>
     </hook>
     <hook class="org.gnome.evolution.mail.bonobomenu:1.0">
@@ -27,10 +51,28 @@
 	<ui file="@PLUGINDIR@/org-gnome-mail-to-task.xml"/>
 	<item
 	  type="item"
+	  verb="ConvertEvent"
+	  path="/commands/ConvertEvent"
+	  enable="many"
+	  activate="org_gnome_mail_to_event_menu"/>
+	<item
+	  type="item"
+	  verb="ConvertMeeting"
+	  path="/commands/ConvertMeeting"
+	  enable="many"
+	  activate="org_gnome_mail_to_meeting_menu"/>
+	<item
+	  type="item"
 	  verb="ConvertTask"
 	  path="/commands/ConvertTask"
 	  enable="many"
 	  activate="org_gnome_mail_to_task_menu"/>
+	<item
+	  type="item"
+	  verb="ConvertMemo"
+	  path="/commands/ConvertMemo"
+	  enable="many"
+	  activate="org_gnome_mail_to_memo_menu"/>
       </menu>
     </hook>
     
