@@ -43,6 +43,8 @@ struct _CalendarPrefsDialog {
 	GConfClient *gconf;
 
 	/* General tab */
+	GtkWidget *use_system_tz_check;
+	GtkWidget *system_tz_label;
 	GtkWidget *timezone;
 	GtkWidget *day_second_zone;
 	GtkWidget *working_days[7];

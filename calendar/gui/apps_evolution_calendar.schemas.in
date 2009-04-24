@@ -16,6 +16,18 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/calendar/display/use_system_timezone</key>
+      <applyto>/apps/evolution/calendar/display/use_system_timezone</applyto>
+      <owner>evolution-calendar</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Use system timezone</short>
+        <long>Check this to use system timezone in Evolution.</long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/calendar/display/day_second_zone</key>
       <applyto>/apps/evolution/calendar/display/day_second_zone</applyto>
       <owner>evolution-calendar</owner>

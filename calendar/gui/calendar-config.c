@@ -39,8 +39,6 @@
 #include "calendar-config-keys.h"
 #include "calendar-config.h"
 
-
-
 static GConfClient *config = NULL;
 
 static void
@@ -182,12 +180,50 @@ calendar_config_add_notification_primary_calendar (GConfClientNotifyFunc func, g
 	return id;
 }
 
+gboolean
+calendar_config_get_use_system_timezone (void)
+{
+	calendar_config_init ();
+
+	return gconf_client_get_bool (config, CALENDAR_CONFIG_USE_SYSTEM_TIMEZONE, NULL);
+}
+
+void
+calendar_config_set_use_system_timezone (gboolean use)
+{
+	calendar_config_init ();
+
+	if (calendar_config_get_use_system_timezone () != use) {
+		gconf_client_set_bool (config, CALENDAR_CONFIG_USE_SYSTEM_TIMEZONE, use, NULL);
+		gconf_client_notify (config, CALENDAR_CONFIG_TIMEZONE);
+
+		/* FIXME: notify CALENDAR_CONFIG_TIMEZONE change on system timezone change
+		   itself too, when using system timezone. How to receive such change? */
+	}
+}
+
+guint
+calendar_config_add_notification_use_system_timezone (GConfClientNotifyFunc func, gpointer data)
+{
+	calendar_config_init ();
+
+	return gconf_client_notify_add (config, CALENDAR_CONFIG_USE_SYSTEM_TIMEZONE, func, data, NULL, NULL);
+}
 
 /* The current timezone, e.g. "Europe/London". It may be NULL, in which case
    you should assume UTC (though Evolution will show the timezone-setting
    dialog the next time a calendar or task folder is selected). */
 gchar *
 calendar_config_get_timezone (void)
+{
+	if (calendar_config_get_use_system_timezone ())
+		return e_cal_util_get_system_timezone_location ();
+
+	return calendar_config_get_timezone_stored ();
+}
+
+gchar *
+calendar_config_get_timezone_stored (void)
 {
 	calendar_config_init ();
 

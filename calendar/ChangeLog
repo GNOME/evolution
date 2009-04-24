@@ -1,5 +1,23 @@
 2009-04-24  Milan Crha  <mcrha@redhat.com>
 
+	** Part of fix for bug #381132
+
+	* gui/apps_evolution_calendar.schemas.in:
+	* gui/dialogs/cal-prefs-dialog.glade:
+	* gui/dialogs/cal-prefs-dialog.h: (struct _CalendarPrefsDialog):
+	* gui/dialogs/cal-prefs-dialog.c: (update_system_tz_widgets),
+	(use_system_tz_changed), (setup_changes), (show_config),
+	(calendar_prefs_dialog_construct):
+	* gui/calendar-config-keys.h:
+	* gui/calendar-config.h:
+	* gui/calendar-config.c: (calendar_config_get_use_system_timezone),
+	(calendar_config_set_use_system_timezone),
+	(calendar_config_add_notification_use_system_timezone),
+	(calendar_config_get_timezone), (calendar_config_get_timezone_stored):
+	Be able to set system timezone as calendar's time zone.
+
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #205804
 
 	* gui/e-calendar-view.c: (e_calendar_view_get_tooltips):

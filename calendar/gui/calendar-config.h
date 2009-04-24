@@ -73,8 +73,14 @@ char     *calendar_config_get_primary_calendar (void);
 void	  calendar_config_set_primary_calendar (const char *primary_uid);
 guint	  calendar_config_add_notification_primary_calendar (GConfClientNotifyFunc func, gpointer data);
 
+/* Use system timezone; if TRUE, then influences also the current timezone functions. */
+gboolean calendar_config_get_use_system_timezone (void);
+void     calendar_config_set_use_system_timezone (gboolean use);
+guint    calendar_config_add_notification_use_system_timezone (GConfClientNotifyFunc func, gpointer data);
+
 /* The current timezone, e.g. "Europe/London". */
 gchar*	  calendar_config_get_timezone		(void);
+gchar*	  calendar_config_get_timezone_stored	(void);
 icaltimezone *calendar_config_get_icaltimezone (void);
 void	  calendar_config_set_timezone		(const gchar	     *timezone);
 guint calendar_config_add_notification_timezone (GConfClientNotifyFunc func, gpointer data);

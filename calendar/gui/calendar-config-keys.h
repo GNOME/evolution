@@ -28,6 +28,7 @@ G_BEGIN_DECLS
 #define CALENDAR_CONFIG_PREFIX "/apps/evolution/calendar"
 
 /* Display settings */
+#define CALENDAR_CONFIG_USE_SYSTEM_TIMEZONE CALENDAR_CONFIG_PREFIX "/display/use_system_timezone"
 #define CALENDAR_CONFIG_TIMEZONE CALENDAR_CONFIG_PREFIX "/display/timezone"
 #define CALENDAR_CONFIG_SELECTED_CALENDARS CALENDAR_CONFIG_PREFIX "/display/selected_calendars"
 #define CALENDAR_CONFIG_PRIMARY_CALENDAR CALENDAR_CONFIG_PREFIX "/display/primary_calendar"
