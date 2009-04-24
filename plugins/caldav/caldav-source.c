@@ -55,43 +55,13 @@ static void
 ensure_caldav_source_group (ECalSourceType source_type)
 {
 	ESourceList  *slist;
-	GSList *groups, *g;
-	ESourceGroup *group = NULL;
 
 	if (!e_cal_get_sources (&slist, source_type, NULL)) {
 		g_warning ("Could not get calendar source list from GConf!");
 		return;
 	}
 
-	groups = e_source_list_peek_groups (slist);
-	for (g = groups; g; g = g->next) {
-		group = E_SOURCE_GROUP (g->data);
-
-		if (group && e_source_group_peek_base_uri (group) && strncmp ("caldav://", e_source_group_peek_base_uri (group), 9) == 0)
-			break;
-
-		group = NULL;
-	}
-
-	if (group == NULL) {
-		/* no such group has been found, create it */
-		gboolean res;
-
-		group = e_source_group_new (_("CalDAV"), "caldav://");
-		res = e_source_list_add_group (slist, group, -1);
-
-		if (res == FALSE) {
-			g_warning ("Could not add CalDAV source group!");
-		} else {
-			e_source_list_sync (slist, NULL);
-		}
-
-		g_object_unref (group);
-	} else {
-		/* we found the group, change the name based on the actual language */
-		e_source_group_set_name (group, _("CalDAV"));
-	}
-
+	e_source_list_ensure_group (slist, _("CalDAV"), "caldav://", FALSE);
 	g_object_unref (slist);
 }
 

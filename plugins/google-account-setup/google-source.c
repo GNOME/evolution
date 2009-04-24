@@ -78,7 +78,7 @@ ensure_google_source_group (void)
 		return;
 	}
 
-	manage_google_group (slist, FALSE);
+	e_source_list_ensure_group (slist, _("Google"), "google://", FALSE);
 	g_object_unref (slist);
 }
 
