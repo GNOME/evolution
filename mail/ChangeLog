@@ -1,5 +1,12 @@
 2009-04-24  Milan Crha  <mcrha@redhat.com>
 
+	** Fix for bug #579306
+
+	* em-folder-utils.c: (em_folder_utils_delete_folder):
+	Do not free uninitialized variable.
+
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
 	** Fix for bug #563954
 
 	* message-list.c: (regen_list_exec): Sort UIDs before
