@@ -425,7 +425,8 @@ action_mail_folder_new_cb (GtkAction *action,
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
 
 exit:
-	em_folder_utils_create_folder (NULL, folder_tree);
+	em_folder_utils_create_folder (
+		NULL, folder_tree, GTK_WINDOW (shell_window));
 }
 
 static void

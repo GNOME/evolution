@@ -2086,7 +2086,6 @@ is_local (ESourceGroup *group)
 	return group &&
 		e_source_group_peek_base_uri (group) &&
 		g_str_has_prefix (e_source_group_peek_base_uri (group), "file://");
->>>>>>> 23df769955ea54f756a579c19964df87ae6fd5c8:mail/em-utils.c
 }
 
 gboolean

@@ -55,6 +55,7 @@
 #include "mail-folder-cache.h"
 #include "mail-ops.h"
 #include "mail-session.h"
+#include "mail-tools.h"
 #include "e-mail-shell-module.h"
 
 /* For notifications of changes */
@@ -1091,26 +1092,26 @@ int mail_note_get_folder_from_uri(const char *uri, CamelFolder **folderp)
 	return fi.fi != NULL;
 }
 
-gboolean 
+gboolean
 mail_folder_cache_get_folder_info_flags (CamelFolder *folder, int *flags)
 {
 	char *uri;
 
 	uri = mail_tools_folder_to_url (folder);
-	
+
 	struct _find_info fi = { uri, NULL, NULL };
 
 	if (stores == NULL)
 		return FALSE;
 
-	fi.url = camel_url_new(uri, NULL);
+	fi.url = camel_url_new (uri, NULL);
 
 	LOCK(info_lock);
 	g_hash_table_foreach(stores, (GHFunc)storeinfo_find_folder_info, &fi);
 	if (flags) {
 		if (fi.fi) {
 			*flags = fi.fi->flags;
-		} 
+		}
 	}
 	UNLOCK(info_lock);
 

@@ -906,35 +906,6 @@ clipboard_paste_received_cb (GtkClipboard *clipboard,
 	g_object_unref (data);
 }
 
-static void
-e_calendar_view_paste_text (ECalendarView *cal_view)
-{
-	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
-
-	if (E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->paste_text)
-		E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->paste_text (cal_view);
-}
-
-static void
-clipboard_paste_received_cb (GtkClipboard *clipboard,
-			     GtkSelectionData *selection_data,
-			     gpointer data)
-{
-	if (gtk_clipboard_wait_is_text_available (clipboard)) {
-		e_calendar_view_paste_text (E_CALENDAR_VIEW (data));
-	} else {
-		GdkAtom type = selection_data->type;
-		if (type == gdk_atom_intern (target_types[TARGET_TYPE_VCALENDAR].target, TRUE)) {
-			gchar *result = NULL;
-			result = g_strndup ((const gchar *) selection_data->data,
-					    selection_data->length);
-			clipboard_get_calendar_data (E_CALENDAR_VIEW (data), result);
-			g_free (result);
-		}
-	}
-	g_object_unref (data);
-}
-
 void
 e_calendar_view_paste_clipboard (ECalendarView *cal_view)
 {

@@ -750,12 +750,6 @@ mail_session_shutdown (void)
 	camel_shutdown ();
 }
 
-void
-mail_session_shutdown (void)
-{
-	camel_shutdown ();
-}
-
 gboolean
 mail_session_get_interactive (void)
 {

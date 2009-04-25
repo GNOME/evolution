@@ -439,7 +439,7 @@ e_cal_shell_view_open_event (ECalShellView *cal_shell_view,
 	if (itip_organizer_is_user (comp, comp_data->client))
 		flags |= COMP_EDITOR_USER_ORG;
 
-	if (itip_sentby_is_user (comp))
+	if (itip_sentby_is_user (comp, comp_data->client))
 		flags |= COMP_EDITOR_USER_ORG;
 
 	if (!e_cal_component_has_attendees (comp))

@@ -1573,8 +1573,8 @@ categories_clicked_cb (GtkWidget *button,
 {
 	GtkEntry *entry;
 
-	entry = priv->categories;
-	e_categories_config_open_dialog_for_entry (GTK_ENTRY (entry));
+	entry = GTK_ENTRY (tpage->priv->categories);
+	e_categories_config_open_dialog_for_entry (entry);
 }
 
 static gboolean

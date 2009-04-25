@@ -403,7 +403,6 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 {
 	CamelStore *local_store;
 	GtkWidget *dialog;
-	char *uri;
 	int flags = 0;
 
 	local_store = e_mail_shell_module_get_local_store (mail_shell_module);

@@ -102,11 +102,6 @@ struct _CompEditorPrivate {
 
 	gchar *summary;
 
-	/* Manages menus and toolbars */
-	GtkUIManager *manager;
-
-	gchar *summary;
-
 	guint32 attachment_bar_visible : 1;
 
 	/* TODO use this flags for setting all the boolean variables
@@ -167,7 +162,6 @@ static const gchar *ui =
 "</ui>";
 
 static void comp_editor_show_help (CompEditor *editor);
-static void setup_widgets (CompEditor *editor);
 
 static void real_edit_comp (CompEditor *editor, ECalComponent *comp);
 static gboolean real_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean strip_alarms);
@@ -506,7 +500,7 @@ save_comp (CompEditor *editor)
 
 		if (result && priv->mod == CALOBJ_MOD_THIS) {
 			/* FIXME do we really need to do this ? */
-			if ((flags & COMP_EDITOR_DELEGATE) || !e_cal_component_has_organizer (clone) || itip_organizer_is_user (clone, priv->client) || itip_sentby_is_user (clone))
+			if ((flags & COMP_EDITOR_DELEGATE) || !e_cal_component_has_organizer (clone) || itip_organizer_is_user (clone, priv->client) || itip_sentby_is_user (clone, priv->client))
 				e_cal_component_commit_sequence (clone);
 			else
 				e_cal_component_abort_sequence (clone);
@@ -1959,11 +1953,10 @@ comp_editor_set_flags (CompEditor *editor,
 	g_object_notify (G_OBJECT (editor), "flags");
 }
 
-GtkActionGroup *
-comp_editor_get_action_group (CompEditor *editor,
-                              const gchar *group_name)
+CompEditorFlags
+comp_editor_get_flags (CompEditor *editor)
 {
-	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), 0);
 
 	return editor->priv->flags;
 }
@@ -2311,7 +2304,6 @@ fill_widgets (CompEditor *editor)
 	EAttachmentView *view;
 	CompEditorPrivate *priv;
 	GList *l;
-	GtkAction *action;
 
 	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
 	store = e_attachment_view_get_store (view);
@@ -2332,9 +2324,6 @@ fill_widgets (CompEditor *editor)
 		g_slist_foreach (attachment_list, (GFunc)g_free, NULL);
 		g_slist_free (attachment_list);
 	}
-
-	action = comp_editor_get_action (editor, "classify-public");
-	g_signal_handlers_block_by_func (action, G_CALLBACK (classification_changed_cb), editor);
 
 	for (l = priv->pages; l != NULL; l = l->next)
 		comp_editor_page_fill_widgets (l->data, priv->comp);

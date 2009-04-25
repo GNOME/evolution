@@ -304,7 +304,7 @@ oge_caldav  (EPlugin                    *epl,
 	char         *username;
 	const char   *ssl_prop;
 	gboolean      ssl_enabled;
-	int           row, i;
+	int           row;
 
 	source = t->source;
 	group = e_source_peek_group (source);

@@ -299,7 +299,7 @@ calendar_table_query_tooltip_cb (ECalendarTable *cal_table,
 		return FALSE;
 
 	etable = e_calendar_table_get_table (cal_table);
-	e_table_get_mouse_over_cell (etable, x, y, &row, &col);
+	e_table_get_mouse_over_cell (etable, &row, &col);
 	if (row == -1 || !etable)
 		return FALSE;
 

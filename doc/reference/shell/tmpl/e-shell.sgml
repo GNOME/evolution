@@ -203,7 +203,6 @@ EShell
 </para>
 
 @shell: 
-@parent: 
 
 
 <!-- ##### FUNCTION e_shell_get_network_available ##### -->

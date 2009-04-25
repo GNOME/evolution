@@ -211,12 +211,6 @@ stop_state_changed (EAddressbookModel *model, EMinicardView *view)
 }
 
 static void
-stop_state_changed (EABModel *model, EMinicardView *view)
-{
-	set_empty_message (view);
-}
-
-static void
 adapter_changed (EMinicardView *view)
 {
 	set_empty_message (view);

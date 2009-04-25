@@ -165,7 +165,6 @@ task_module_ensure_sources (EShellModule *shell_module)
 	if (personal == NULL) {
 		ESource *source;
 		GSList *selected;
-		const gchar *name;
 		gchar *primary;
 
 		source = e_source_new (name, PERSONAL_RELATIVE_URI);

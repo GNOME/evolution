@@ -4242,9 +4242,8 @@ regen_list_exec (struct _regen_list_msg *m)
 
 					if (!was_deleted || (was_deleted && !m->hidedel))
 						g_ptr_array_add (uids, (gpointer) camel_pstring_strdup (looking_for));
+				}
 
-				if (!was_deleted || (was_deleted && !m->hidedel))
-					g_ptr_array_add (uids, (gpointer) camel_pstring_strdup (looking_for));
 			}
 		}
 	}

@@ -186,18 +186,6 @@ memo_table_double_click_cb (EMemoTable *memo_table,
 	memo_table_emit_open_component (memo_table, comp_data);
 }
 
-static gboolean
-query_tooltip_cb (GtkWidget *widget, gint x, gint y, gboolean keyboard_mode, GtkTooltip *tooltip, gpointer user_data)
-{
-	EMemoTable *memo_table;
-
-	g_return_val_if_fail (E_IS_MEMO_TABLE (user_data), FALSE);
-
-	memo_table = E_MEMO_TABLE (user_data);
-
-	return ec_query_tooltip (widget, x, y, keyboard_mode, tooltip, GTK_WIDGET (e_memo_table_get_table (memo_table)), memo_table->model);
-}
-
 static void
 memo_table_model_cal_view_progress_cb (EMemoTable *memo_table,
                                        const gchar *message,
@@ -249,7 +237,7 @@ memo_table_query_tooltip_cb (EMemoTable *memo_table,
 		return FALSE;
 
 	etable = e_memo_table_get_table (memo_table);
-	e_table_get_mouse_over_cell (etable, x, y, &row, &col);
+	e_table_get_mouse_over_cell (etable, &row, &col);
 	if (row == -1 || !etable)
 		return FALSE;
 

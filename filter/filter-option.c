@@ -372,29 +372,6 @@ get_dynamic_options (FilterOption *fo)
 	return res;
 }
 
-static GSList *
-get_dynamic_options (FilterOption *fo)
-{
-	GModule *module;
-	GSList *(*get_func)(void);
-	GSList *res = NULL;
-
-	if (!fo || !fo->dynamic_func)
-		return res;
-
-	module = g_module_open (NULL, G_MODULE_BIND_LAZY);
-
-	if (g_module_symbol (module, fo->dynamic_func, (gpointer) &get_func)) {
-		res = get_func ();
-	} else {
-		g_warning ("optionlist dynamic fill function '%s' not found", fo->dynamic_func);
-	}
-
-	g_module_close (module);
-
-	return res;
-}
-
 static GtkWidget *
 get_widget (FilterElement *fe)
 {

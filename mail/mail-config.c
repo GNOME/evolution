@@ -210,22 +210,6 @@ gconf_outlook_filenames_changed (GConfClient *client, guint cnxn_id,
 }
 
 static void
-gconf_outlook_filenames_changed (GConfClient *client, guint cnxn_id,
-				 GConfEntry *entry, gpointer user_data)
-{
-	extern int camel_header_param_encode_filenames_in_rfc_2047;
-
-	g_return_if_fail (client != NULL);
-
-	/* pass option to the camel */
-	if (gconf_client_get_bool (client, "/apps/evolution/mail/composer/outlook_filenames", NULL)) {
-		camel_header_param_encode_filenames_in_rfc_2047 = 1;
-	} else {
-		camel_header_param_encode_filenames_in_rfc_2047 = 0;
-	}
-}
-
-static void
 gconf_jh_check_changed (GConfClient *client, guint cnxn_id,
 		     GConfEntry *entry, gpointer user_data)
 {
@@ -673,28 +657,10 @@ mail_config_get_allowable_mime_types (void)
 	return (const char **) config->mime_types->pdata;
 }
 
-static gboolean
-mail_config_account_url_equal (const CamelURL *u1,
-                               const CamelURL *u2)
-{
-	/* For the purpose of matching a URL to an EAccount, only compare
-	 * the protocol, user, host and port and disregard the rest. */
-
-	if (g_strcmp0 (u1->protocol, u2->protocol) != 0)
-		return FALSE;
-
-	if (g_strcmp0 (u1->user, u2->user) != 0)
-		return FALSE;
-
-	if (g_strcmp0 (u1->host, u2->host) != 0)
-		return FALSE;
-
-	return (u1->port == u2->port);
-}
-
 static EAccount *
 mc_get_account_by (const char *given_url, const char * (get_url_string)(EAccount *account))
 {
+	EAccountList *account_list;
 	EAccount *account = NULL;
 	EIterator *iter;
 	CamelURL *url;
@@ -709,7 +675,8 @@ mc_get_account_by (const char *given_url, const char * (get_url_string)(EAccount
 	provider = camel_provider_get (given_url, NULL);
 	g_return_val_if_fail (provider != NULL && provider->url_equal != NULL, NULL);
 
-	iter = e_list_get_iterator ((EList *) config->accounts);
+	account_list = e_get_account_list ();
+	iter = e_list_get_iterator ((EList *) account_list);
 	while (account == NULL && e_iterator_is_valid (iter)) {
 		CamelURL *account_url;
 		const char *account_url_string;
@@ -769,65 +736,6 @@ EAccount *
 mail_config_get_account_by_transport_url (const char *transport_url)
 {
 	return mc_get_account_by (transport_url, get_transport_url_string);
-}
-
-int
-mail_config_has_proxies (EAccount *account)
-{
-	return e_account_list_account_has_proxies (config->accounts, account);
-}
-
-void
-mail_config_remove_account_proxies (EAccount *account)
-{
-	e_account_list_remove_account_proxies (config->accounts, account);
-}
-
-void
-mail_config_prune_proxies (void)
-{
-	e_account_list_prune_proxies (config->accounts);
-}
-
-EAccountList *
-mail_config_get_accounts (void)
-{
-	if (config == NULL)
-		mail_config_init ();
-
-	return config->accounts;
-}
-
-void
-mail_config_add_account (EAccount *account)
-{
-	e_account_list_add(config->accounts, account);
-	mail_config_save_accounts ();
-}
-
-void
-mail_config_remove_account (EAccount *account)
-{
-	e_account_list_remove(config->accounts, account);
-	mail_config_save_accounts ();
-}
-
-void
-mail_config_set_default_account (EAccount *account)
-{
-	e_account_list_set_default(config->accounts, account);
-}
-
-EAccountIdentity *
-mail_config_get_default_identity (void)
-{
-	EAccount *account;
-
-	account = mail_config_get_default_account ();
-	if (account)
-		return account->id;
-	else
-		return NULL;
 }
 
 EAccountService *
