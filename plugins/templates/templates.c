@@ -88,7 +88,7 @@ void org_gnome_templates_popup	(EPlugin *ep, EMPopupTargetSelect *t);
 
 GtkWidget *e_plugin_lib_get_configure_widget	(EPlugin *epl);
 
-gboolean e_plugin_ui_init	(GtkUIManager *manager, EMsgComposer *composer);
+gboolean e_plugin_ui_init	(GtkUIManager *ui_manager, EMsgComposer *composer);
 
 
 /* Thanks to attachment reminder plugin for this*/
@@ -715,7 +715,7 @@ static GtkActionEntry entries[] = {
 };
 
 gboolean
-e_plugin_ui_init (GtkUIManager *manager,
+e_plugin_ui_init (GtkUIManager *ui_manager,
                   EMsgComposer *composer)
 {
 	GtkhtmlEditor *editor;

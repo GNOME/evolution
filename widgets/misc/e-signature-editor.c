@@ -329,7 +329,7 @@ static void
 signature_editor_init (ESignatureEditor *editor)
 {
 	GtkActionGroup *action_group;
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	GtkWidget *container;
 	GtkWidget *widget;
 	GtkWidget *vbox;
@@ -338,9 +338,9 @@ signature_editor_init (ESignatureEditor *editor)
 	editor->priv = E_SIGNATURE_EDITOR_GET_PRIVATE (editor);
 	vbox = GTKHTML_EDITOR (editor)->vbox;
 
-	manager = gtkhtml_editor_get_ui_manager (GTKHTML_EDITOR (editor));
+	ui_manager = gtkhtml_editor_get_ui_manager (GTKHTML_EDITOR (editor));
 
-	gtk_ui_manager_add_ui_from_string (manager, ui, -1, &error);
+	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
 	handle_error (&error);
 
 	action_group = gtk_action_group_new ("signature");
@@ -349,10 +349,10 @@ signature_editor_init (ESignatureEditor *editor)
 	gtk_action_group_add_actions (
 		action_group, entries,
 		G_N_ELEMENTS (entries), editor);
-	gtk_ui_manager_insert_action_group (manager, action_group, 0);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 	editor->priv->action_group = g_object_ref (action_group);
 
-	gtk_ui_manager_ensure_update (manager);
+	gtk_ui_manager_ensure_update (ui_manager);
 
 	gtk_window_set_title (GTK_WINDOW (editor), _("Edit Signature"));
 

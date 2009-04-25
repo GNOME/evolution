@@ -133,19 +133,19 @@ static void
 memo_editor_init (MemoEditor *me)
 {
 	CompEditor *editor = COMP_EDITOR (me);
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	const gchar *id;
 	GError *error = NULL;
 
 	me->priv = MEMO_EDITOR_GET_PRIVATE (me);
 	me->priv->updating = FALSE;
 
-	manager = comp_editor_get_ui_manager (editor);
-	gtk_ui_manager_add_ui_from_string (manager, ui, -1, &error);
+	ui_manager = comp_editor_get_ui_manager (editor);
+	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
 
 	id = "org.gnome.evolution.memo-editor";
-	e_plugin_ui_register_manager (manager, id, me);
-	e_plugin_ui_enable_manager (manager, id);
+	e_plugin_ui_register_manager (ui_manager, id, me);
+	e_plugin_ui_enable_manager (ui_manager, id);
 
 	if (error != NULL) {
 		g_critical ("%s: %s", G_STRFUNC, error->message);

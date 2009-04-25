@@ -80,7 +80,7 @@ static GtkWidget *configure_page;
 static gint last_selected_page;
 static gulong switch_page_handler_id;
 
-gboolean	e_plugin_ui_init		(GtkUIManager *manager,
+gboolean	e_plugin_ui_init		(GtkUIManager *ui_manager,
 						 EShellWindow *shell_window);
 
 static void
@@ -433,7 +433,7 @@ static GtkActionEntry entries[] = {
 };
 
 gboolean
-e_plugin_ui_init (GtkUIManager *manager,
+e_plugin_ui_init (GtkUIManager *ui_manager,
                   EShellWindow *shell_window)
 {
 	GtkActionGroup *action_group;

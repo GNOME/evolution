@@ -46,7 +46,7 @@
 	N_("Do you want to mark messages as read in the current folder " \
 	   "only, or in the current folder as well as all subfolders?")
 
-gboolean	e_plugin_ui_init		(GtkUIManager *manager,
+gboolean	e_plugin_ui_init		(GtkUIManager *ui_manager,
 						 EShellView *shell_view);
 
 static void mar_got_folder (char *uri, CamelFolder *folder, void *data);
@@ -300,7 +300,7 @@ static GtkActionEntry entries[] = {
 };
 
 gboolean
-e_plugin_ui_init (GtkUIManager *manager,
+e_plugin_ui_init (GtkUIManager *ui_manager,
                   EShellView *shell_view)
 {
 	EShellWindow *shell_window;

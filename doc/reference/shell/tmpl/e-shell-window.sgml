@@ -49,7 +49,7 @@ EShellWindow
 </para>
 
 @shell: 
-@component_id: 
+@safe_mode: 
 @Returns: 
 
 

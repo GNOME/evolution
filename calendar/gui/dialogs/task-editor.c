@@ -301,7 +301,7 @@ static void
 task_editor_init (TaskEditor *te)
 {
 	CompEditor *editor = COMP_EDITOR (te);
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
 	const gchar *id;
 	GError *error = NULL;
@@ -344,12 +344,12 @@ task_editor_init (TaskEditor *te)
 		action_group, assigned_task_entries,
 		G_N_ELEMENTS (assigned_task_entries), te);
 
-	manager = comp_editor_get_ui_manager (editor);
-	gtk_ui_manager_add_ui_from_string (manager, ui, -1, &error);
+	ui_manager = comp_editor_get_ui_manager (editor);
+	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
 
 	id = "org.gnome.evolution.task-editor";
-	e_plugin_ui_register_manager (manager, id, te);
-	e_plugin_ui_enable_manager (manager, id);
+	e_plugin_ui_register_manager (ui_manager, id, te);
+	e_plugin_ui_enable_manager (ui_manager, id);
 
 	if (error != NULL) {
 		g_critical ("%s: %s", G_STRFUNC, error->message);

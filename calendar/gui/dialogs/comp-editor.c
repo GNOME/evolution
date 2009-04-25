@@ -98,7 +98,7 @@ struct _CompEditorPrivate {
 	GtkWidget *attachment_view;
 
 	/* Manages menus and toolbars */
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 
 	gchar *summary;
 
@@ -1208,7 +1208,7 @@ comp_editor_setup_recent_menu (CompEditor *editor)
 	const gchar *path;
 	guint merge_id;
 
-	ui_manager = editor->priv->manager;
+	ui_manager = editor->priv->ui_manager;
 	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
 	action_group = comp_editor_get_action_group (editor, "individual");
 	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
@@ -1340,9 +1340,9 @@ comp_editor_dispose (GObject *object)
 		priv->comp = NULL;
 	}
 
-	if (priv->manager != NULL) {
-		g_object_unref (priv->manager);
-		priv->manager = NULL;
+	if (priv->ui_manager != NULL) {
+		g_object_unref (priv->ui_manager);
+		priv->ui_manager = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -1556,11 +1556,11 @@ comp_editor_init (CompEditor *editor)
 	priv->warned = FALSE;
 	priv->is_group_item = FALSE;
 
-	priv->manager = gtk_ui_manager_new ();
+	priv->ui_manager = gtk_ui_manager_new ();
 
 	gtk_window_add_accel_group (
 		GTK_WINDOW (editor),
-		gtk_ui_manager_get_accel_group (priv->manager));
+		gtk_ui_manager_get_accel_group (priv->ui_manager));
 
 	/* Setup Action Groups */
 
@@ -1571,7 +1571,7 @@ comp_editor_init (CompEditor *editor)
 		action_group, core_entries,
 		G_N_ELEMENTS (core_entries), editor);
 	gtk_ui_manager_insert_action_group (
-		priv->manager, action_group, 0);
+		priv->ui_manager, action_group, 0);
 	g_object_unref (action_group);
 
 	action_group = gtk_action_group_new ("individual");
@@ -1589,7 +1589,7 @@ comp_editor_init (CompEditor *editor)
 		E_CAL_COMPONENT_CLASS_PUBLIC,
 		NULL, NULL);  /* no callback */
 	gtk_ui_manager_insert_action_group (
-		priv->manager, action_group, 0);
+		priv->ui_manager, action_group, 0);
 	g_object_unref (action_group);
 
 	action_group = gtk_action_group_new ("coordinated");
@@ -1599,7 +1599,7 @@ comp_editor_init (CompEditor *editor)
 		action_group, coordinated_toggle_entries,
 		G_N_ELEMENTS (coordinated_toggle_entries), editor);
 	gtk_ui_manager_insert_action_group (
-		priv->manager, action_group, 0);
+		priv->ui_manager, action_group, 0);
 	g_object_unref (action_group);
 
 	/* Fine Tuning */
@@ -1611,7 +1611,7 @@ comp_editor_init (CompEditor *editor)
 	action = comp_editor_get_action (editor, "save");
 	gtk_action_set_sensitive (action, FALSE);
 
-	gtk_ui_manager_add_ui_from_string (priv->manager, ui, -1, &error);
+	gtk_ui_manager_add_ui_from_string (priv->ui_manager, ui, -1, &error);
 	if (error != NULL) {
 		g_warning ("%s: %s", G_STRFUNC, error->message);
 		g_error_free (error);
@@ -1966,7 +1966,7 @@ comp_editor_get_ui_manager (CompEditor *editor)
 {
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
 
-	return editor->priv->manager;
+	return editor->priv->ui_manager;
 }
 
 GtkAction *
@@ -2001,14 +2001,14 @@ GtkWidget *
 comp_editor_get_managed_widget (CompEditor *editor,
                                 const gchar *widget_path)
 {
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	GtkWidget *widget;
 
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
 	g_return_val_if_fail (widget_path != NULL, NULL);
 
-	manager = comp_editor_get_ui_manager (editor);
-	widget = gtk_ui_manager_get_widget (manager, widget_path);
+	ui_manager = comp_editor_get_ui_manager (editor);
+	widget = gtk_ui_manager_get_widget (ui_manager, widget_path);
 	g_return_val_if_fail (widget != NULL, NULL);
 
 	return widget;

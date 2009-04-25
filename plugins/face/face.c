@@ -34,7 +34,7 @@
 
 #define d(x)
 
-gboolean	e_plugin_ui_init		(GtkUIManager *manager,
+gboolean	e_plugin_ui_init		(GtkUIManager *ui_manager,
 						 EMsgComposer *composer);
 
 static void
@@ -130,7 +130,7 @@ static GtkActionEntry entries[] = {
 };
 
 gboolean
-e_plugin_ui_init (GtkUIManager *manager,
+e_plugin_ui_init (GtkUIManager *ui_manager,
                   EMsgComposer *composer)
 {
 	GtkhtmlEditor *editor;
