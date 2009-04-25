@@ -213,10 +213,14 @@ task_module_cal_opened_cb (ECal *cal,
                            ECalendarStatus status,
                            GtkAction *action)
 {
+	EShell *shell;
 	ECalComponent *comp;
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
 	const gchar *action_name;
+
+	/* FIXME Pass this in. */
+	shell = e_shell_get_default ();
 
 	/* XXX Handle errors better. */
 	if (status != E_CALENDAR_STATUS_OK)
@@ -230,7 +234,7 @@ task_module_cal_opened_cb (ECal *cal,
 		flags |= COMP_EDITOR_USER_ORG;
 	}
 
-	editor = task_editor_new (cal, flags);
+	editor = task_editor_new (cal, shell, flags);
 	comp = cal_comp_task_new_with_defaults (cal);
 	comp_editor_edit_comp (editor, comp);
 
@@ -319,6 +323,7 @@ static gboolean
 task_module_handle_uri_cb (EShellModule *shell_module,
                            const gchar *uri)
 {
+	EShell *shell;
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
 	ECal *client;
@@ -337,6 +342,7 @@ task_module_handle_uri_cb (EShellModule *shell_module,
 	GError *error = NULL;
 
 	source_type = E_CAL_SOURCE_TYPE_TODO;
+	shell = e_shell_module_get_shell (shell_module);
 
 	if (strncmp (uri, "task:", 5) != 0)
 		return FALSE;
@@ -437,7 +443,7 @@ task_module_handle_uri_cb (EShellModule *shell_module,
 	if (!e_cal_component_has_attendees (comp))
 		flags |= COMP_EDITOR_USER_ORG;
 
-	editor = task_editor_new (client, flags);
+	editor = task_editor_new (client, shell, flags);
 	comp_editor_edit_comp (editor, comp);
 
 	g_object_unref (comp);

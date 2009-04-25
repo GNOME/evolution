@@ -76,6 +76,9 @@
 
 /* Private part of the CompEditor structure */
 struct _CompEditorPrivate {
+
+	gpointer shell;  /* weak pointer */
+
 	/* Client to use */
 	ECal *client;
 
@@ -125,6 +128,7 @@ enum {
 	PROP_CHANGED,
 	PROP_CLIENT,
 	PROP_FLAGS,
+	PROP_SHELL,
 	PROP_SUMMARY
 };
 
@@ -1232,6 +1236,17 @@ comp_editor_setup_recent_menu (CompEditor *editor)
 }
 
 static void
+comp_editor_set_shell (CompEditor *editor,
+                       EShell *shell)
+{
+	g_return_if_fail (editor->priv->shell == NULL);
+
+	editor->priv->shell = shell;
+
+	g_object_add_weak_pointer (G_OBJECT (shell), &editor->priv->shell);
+}
+
+static void
 comp_editor_set_property (GObject *object,
                           guint property_id,
                           const GValue *value,
@@ -1254,6 +1269,12 @@ comp_editor_set_property (GObject *object,
 			comp_editor_set_flags (
 				COMP_EDITOR (object),
 				g_value_get_int (value));
+			return;
+
+		case PROP_SHELL:
+			comp_editor_set_shell (
+				COMP_EDITOR (object),
+				g_value_get_object (value));
 			return;
 
 		case PROP_SUMMARY:
@@ -1288,6 +1309,12 @@ comp_editor_get_property (GObject *object,
 		case PROP_FLAGS:
 			g_value_set_int (
 				value, comp_editor_get_flags (
+				COMP_EDITOR (object)));
+			return;
+
+		case PROP_SHELL:
+			g_value_set_object (
+				value, comp_editor_get_shell (
 				COMP_EDITOR (object)));
 			return;
 
@@ -1366,42 +1393,39 @@ static void
 comp_editor_map (GtkWidget *widget)
 {
 	CompEditor *editor = COMP_EDITOR (widget);
-	GConfBridge *bridge = gconf_bridge_get ();
+	GConfBridge *bridge;
 	GtkAction *action;
+	const gchar *key;
+
+	bridge = gconf_bridge_get ();
 
 	/* Give subclasses a chance to construct their pages before
 	 * we fiddle with their widgets.  That's why we don't do this
 	 * until after object construction. */
 
+	key = "/apps/evolution/calendar/display/show_categories";
 	action = comp_editor_get_action (editor, "view-categories");
-	gconf_bridge_bind_property (
-		bridge, CALENDAR_CONFIG_SHOW_CATEGORIES,
-		G_OBJECT (action), "active");
+	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
 
+	key = "/apps/evolution/calendar/display/show_role";
 	action = comp_editor_get_action (editor, "view-role");
-	gconf_bridge_bind_property (
-		bridge, CALENDAR_CONFIG_SHOW_ROLE,
-		G_OBJECT (action), "active");
+	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
 
+	key = "/apps/evolution/calendar/display/show_rsvp";
 	action = comp_editor_get_action (editor, "view-rsvp");
-	gconf_bridge_bind_property (
-		bridge, CALENDAR_CONFIG_SHOW_RSVP,
-		G_OBJECT (action), "active");
+	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
 
+	key = "/apps/evolution/calendar/display/show_status";
 	action = comp_editor_get_action (editor, "view-status");
-	gconf_bridge_bind_property (
-		bridge, CALENDAR_CONFIG_SHOW_STATUS,
-		G_OBJECT (action), "active");
+	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
 
+	key = "/apps/evolution/calendar/display/show_timezone";
 	action = comp_editor_get_action (editor, "view-time-zone");
-	gconf_bridge_bind_property (
-		bridge, CALENDAR_CONFIG_SHOW_TIMEZONE,
-		G_OBJECT (action), "active");
+	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
 
+	key = "/apps/evolution/calendar/display/show_type";
 	action = comp_editor_get_action (editor, "view-type");
-	gconf_bridge_bind_property (
-		bridge, CALENDAR_CONFIG_SHOW_TYPE,
-		G_OBJECT (action), "active");
+	gconf_bridge_bind_property (bridge, key, G_OBJECT (action), "active");
 
 	/* Chain up to parent's map() method. */
 	GTK_WIDGET_CLASS (comp_editor_parent_class)->map (widget);
@@ -1507,6 +1531,17 @@ comp_editor_class_init (CompEditorClass *class)
 			0,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL,
+		g_param_spec_object (
+			"shell",
+			NULL,
+			NULL,
+			E_TYPE_SHELL,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
 
 	g_object_class_install_property (
 		object_class,
@@ -1847,6 +1882,14 @@ comp_editor_get_classification (CompEditor *editor)
 
 	action = comp_editor_get_action (editor, "classify-public");
 	return gtk_radio_action_get_current_value (GTK_RADIO_ACTION (action));
+}
+
+EShell *
+comp_editor_get_shell (CompEditor *editor)
+{
+	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
+
+	return editor->priv->shell;
 }
 
 void

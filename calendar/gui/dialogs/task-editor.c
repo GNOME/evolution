@@ -492,13 +492,16 @@ task_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method, gbool
  * editor could not be created.
  **/
 CompEditor *
-task_editor_new (ECal *client, CompEditorFlags flags)
+task_editor_new (ECal *client,
+                 EShell *shell,
+                 CompEditorFlags flags)
 {
 	g_return_val_if_fail (E_IS_CAL (client), NULL);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	return g_object_new (
 		TYPE_TASK_EDITOR,
-		"flags", flags, "client", client, NULL);
+		"client", client, "flags", flags, "shell", shell, NULL);
 }
 
 void

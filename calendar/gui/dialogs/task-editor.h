@@ -66,6 +66,7 @@ struct _TaskEditorClass {
 
 GType		task_editor_get_type		(void);
 CompEditor *	task_editor_new			(ECal *client,
+						 EShell *shell,
 						 CompEditorFlags flags);
 void		task_editor_show_assignment	(TaskEditor *te);
 

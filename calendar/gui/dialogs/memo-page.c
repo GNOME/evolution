@@ -929,9 +929,14 @@ to_button_clicked_cb (GtkButton *button,
 static gboolean
 init_widgets (MemoPage *mpage)
 {
+	CompEditor *editor;
 	MemoPagePrivate *priv = mpage->priv;
 	GtkTextBuffer *buffer;
 	GtkTextView *view;
+	GtkAction *action;
+	gboolean active;
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (mpage));
 
 	/* Generic informative messages */
 	gtk_widget_hide (priv->info_hbox);
@@ -996,8 +1001,9 @@ init_widgets (MemoPage *mpage)
 			G_CALLBACK (comp_editor_page_changed), mpage);
 	}
 
-	memo_page_set_show_categories (
-		mpage, calendar_config_get_show_categories());
+	action = comp_editor_get_action (editor, "view-categories");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	memo_page_set_show_categories (mpage, active);
 
 	return TRUE;
 }

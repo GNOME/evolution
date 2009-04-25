@@ -595,6 +595,9 @@ void
 e_task_shell_view_open_task (ETaskShellView *task_shell_view,
                              ECalModelComponent *comp_data)
 {
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
 	ECalComponent *comp;
@@ -604,6 +607,10 @@ e_task_shell_view_open_task (ETaskShellView *task_shell_view,
 
 	g_return_if_fail (E_IS_TASK_SHELL_VIEW (task_shell_view));
 	g_return_if_fail (E_IS_CAL_MODEL_COMPONENT (comp_data));
+
+	shell_view = E_SHELL_VIEW (task_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	uid = icalcomponent_get_uid (comp_data->icalcomp);
 	editor = comp_editor_find_instance (uid);
@@ -626,7 +633,7 @@ e_task_shell_view_open_task (ETaskShellView *task_shell_view,
 	if (!e_cal_component_has_attendees (comp))
 		flags |= COMP_EDITOR_USER_ORG;
 
-	editor = task_editor_new (comp_data->client, flags);
+	editor = task_editor_new (comp_data->client, shell, flags);
 	comp_editor_edit_comp (editor, comp);
 
 	g_object_ref (comp);

@@ -37,6 +37,7 @@
 #include <e-util/e-icon-factory.h>
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-component.h>
+#include <shell/e-shell.h>
 
 #include "common/authentication.h"
 #include "calendar-commands.h"
@@ -2013,13 +2014,16 @@ open_event_with_flags (ECalendarView *cal_view, ECal *client, icalcomponent *ica
 	CompEditor *ce;
 	const char *uid;
 	ECalComponent *comp;
+	EShell *shell;
 
+	/* FIXME ECalendarView should own an EShell pointer. */
+	shell = e_shell_get_default ();
 
 	uid = icalcomponent_get_uid (icalcomp);
 
 	ce = comp_editor_find_instance (uid);
 	if (!ce) {
-		ce = event_editor_new (client, flags);
+		ce = event_editor_new (client, shell, flags);
 
 		g_signal_connect (ce, "object_created", G_CALLBACK (object_created_cb), cal_view);
 

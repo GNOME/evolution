@@ -46,6 +46,7 @@
 
 #include "e-cal-shell-view.h"
 #include "e-cal-shell-module-migrate.h"
+#include "e-cal-shell-module-settings.h"
 
 #define MODULE_NAME		"calendar"
 #define MODULE_ALIASES		""
@@ -73,6 +74,8 @@ cal_shell_module_ensure_sources (EShellModule *shell_module)
 	ESourceGroup *weather;
 	ESource *birthdays;
 	ESource *personal;
+	EShell *shell;
+	EShellSettings *shell_settings;
 	GSList *groups, *iter;
 	const gchar *data_dir;
 	const gchar *name;
@@ -86,6 +89,9 @@ cal_shell_module_ensure_sources (EShellModule *shell_module)
 	weather = NULL;
 	birthdays = NULL;
 	personal = NULL;
+
+	shell = e_shell_module_get_shell (shell_module);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	if (!e_cal_get_sources (&source_list, E_CAL_SOURCE_TYPE_EVENT, NULL)) {
 		g_warning ("Could not get calendar sources from GConf!");
@@ -195,7 +201,9 @@ cal_shell_module_ensure_sources (EShellModule *shell_module)
 		e_source_group_add_source (on_this_computer, source, -1);
 		g_object_unref (source);
 
-		primary = calendar_config_get_primary_calendar ();
+		primary = e_shell_settings_get_string (
+			shell_settings, "cal-primary-calendar");
+
 		selected = calendar_config_get_calendars_selected ();
 
 		if (primary == NULL && selected == NULL) {
@@ -204,7 +212,8 @@ cal_shell_module_ensure_sources (EShellModule *shell_module)
 			uid = e_source_peek_uid (source);
 			selected = g_slist_prepend (NULL, g_strdup (uid));
 
-			calendar_config_set_primary_calendar (uid);
+			e_shell_settings_set_string (
+				shell_settings, "cal-primary-calendar", uid);
 			calendar_config_set_calendars_selected (selected);
 		}
 
@@ -321,11 +330,15 @@ cal_shell_module_cal_opened_cb (ECal *cal,
                                 ECalendarStatus status,
                                 GtkAction *action)
 {
+	EShell *shell;
 	ECalComponent *comp;
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
 	const gchar *action_name;
 	gboolean all_day;
+
+	/* FIXME Pass this in. */
+	shell = e_shell_get_default ();
 
 	/* XXX Handle errors better. */
 	if (status != E_CALENDAR_STATUS_OK)
@@ -340,7 +353,7 @@ cal_shell_module_cal_opened_cb (ECal *cal,
 
 	all_day = (strcmp (action_name, "event-all-day-new") == 0);
 
-	editor = event_editor_new (cal, flags);
+	editor = event_editor_new (cal, shell, flags);
 	comp = cal_comp_event_new_with_current_time (cal, all_day);
 	comp_editor_edit_comp (editor, comp);
 
@@ -357,18 +370,24 @@ action_event_new_cb (GtkAction *action,
 	ECal *cal = NULL;
 	ECalSourceType source_type;
 	ESourceList *source_list;
+	EShellSettings *shell_settings;
+	EShell *shell;
 	gchar *uid;
 
 	/* This callback is used for both appointments and meetings. */
 
 	source_type = E_CAL_SOURCE_TYPE_EVENT;
 
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
 	if (!e_cal_get_sources (&source_list, source_type, NULL)) {
 		g_warning ("Could not get calendar sources from GConf!");
 		return;
 	}
 
-	uid = calendar_config_get_primary_calendar ();
+	uid = e_shell_settings_get_string (
+		shell_settings, "cal-primary-calendar");
 
 	if (uid != NULL) {
 		ESource *source;
@@ -469,7 +488,7 @@ cal_shell_module_init_preferences (EShell *shell)
 		"calendar-and-tasks",
 		"preferences-calendar-and-tasks",
 		_("Calendar and Tasks"),
-		calendar_prefs_dialog_new (),
+		calendar_prefs_dialog_new (shell),
 		600);
 }
 
@@ -541,6 +560,10 @@ e_shell_module_init (GTypeModule *type_module)
 
 	cal_shell_module_init_hooks ();
 	cal_shell_module_init_importers ();
+
+	/* Initialize settings before initializing preferences,
+	 * since the preferences bind to the shell settings. */
+	e_cal_shell_module_init_settings (shell);
 	cal_shell_module_init_preferences (shell);
 
 	e_attachment_handler_calendar_get_type ();

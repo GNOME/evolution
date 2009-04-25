@@ -50,6 +50,7 @@
 #include "itip-utils.h"
 #include "e-itip-control.h"
 #include "common/authentication.h"
+#include <shell/e-shell.h>
 
 struct _EItipControlPrivate {
 	GtkWidget *html;
@@ -241,11 +242,17 @@ source_changed_cb (ESourceComboBox *escb, EItipControl *itip)
 static void
 find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 {
+	EShell *shell;
+	EShellSettings *shell_settings;
 	EItipControlFindData *fd = data;
 	EItipControlPrivate *priv;
 	ESource *source;
 	ECalSourceType source_type;
 	icalcomponent *icalcomp;
+
+	/* FIXME Pass this in. */
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	source_type = e_cal_get_source_type (ecal);
 	source = e_cal_get_source (ecal);
@@ -273,19 +280,23 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 	if (fd->count == 0) {
 		if (fd->show_selector && !priv->current_ecal && priv->vbox.widget) {
 			GtkWidget *escb;
+			const gchar *property_name;
 			char *uid;
 
 			switch (priv->type) {
 			case E_CAL_SOURCE_TYPE_EVENT:
-				uid = calendar_config_get_primary_calendar ();
+				property_name = "cal-primary-calendar";
 				break;
 			case E_CAL_SOURCE_TYPE_TODO:
-				uid = calendar_config_get_primary_tasks ();
+				property_name = "cal-primary-tasks";
 				break;
 			default:
 				uid = NULL;
 				g_return_if_reached ();
 			}
+
+			uid = e_shell_settings_get_string (
+				shell_settings, property_name);
 
 			if (uid) {
 				source = e_source_list_peek_source_by_uid (priv->source_lists[priv->type], uid);

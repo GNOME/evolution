@@ -272,8 +272,12 @@ static void
 cal_shell_sidebar_primary_selection_changed_cb (ECalShellSidebar *cal_shell_sidebar,
                                                 ESourceSelector *selector)
 {
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
+	EShellSidebar *shell_sidebar;
+	EShellSettings *shell_settings;
 	ESource *source;
-	const gchar *uid;
 
 	/* XXX ESourceSelector needs a "primary-selection-uid" property
 	 *     so we can just bind the property with GConfBridge. */
@@ -282,8 +286,16 @@ cal_shell_sidebar_primary_selection_changed_cb (ECalShellSidebar *cal_shell_side
 	if (source == NULL)
 		return;
 
-	uid = e_source_peek_uid (source);
-	calendar_config_set_primary_calendar (uid);
+	shell_sidebar = E_SHELL_SIDEBAR (cal_shell_sidebar);
+	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	e_shell_settings_set_string (
+		shell_settings, "cal-primary-calendar",
+		e_source_peek_uid (source));
 }
 
 static void
@@ -359,8 +371,11 @@ static void
 cal_shell_sidebar_constructed (GObject *object)
 {
 	ECalShellSidebarPrivate *priv;
+	EShell *shell;
 	EShellView *shell_view;
+	EShellWindow *shell_window;
 	EShellSidebar *shell_sidebar;
+	EShellSettings *shell_settings;
 	ECalShellView *cal_shell_view;
 	ESourceSelector *selector;
 	ESourceList *source_list;
@@ -382,6 +397,11 @@ cal_shell_sidebar_constructed (GObject *object)
 
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	shell = e_shell_window_get_shell (shell_window);
+	shell_settings = e_shell_get_shell_settings (shell);
+
 	cal_shell_view = E_CAL_SHELL_VIEW (shell_view);
 	source_list = e_cal_shell_view_get_source_list (cal_shell_view);
 
@@ -437,7 +457,8 @@ cal_shell_sidebar_constructed (GObject *object)
 		object);
 
 	source = NULL;
-	uid = calendar_config_get_primary_calendar ();
+	uid = e_shell_settings_get_string (
+		shell_settings, "cal-primary-calendar");
 	if (uid != NULL)
 		source = e_source_list_peek_source_by_uid (source_list, uid);
 	if (source == NULL)

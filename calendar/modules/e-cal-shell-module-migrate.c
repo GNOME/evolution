@@ -42,6 +42,7 @@
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/calendar-config-keys.h"
 #include "calendar/gui/e-cal-event.h"
+#include "shell/e-shell.h"
 
 #define WEBCAL_BASE_URI "webcal://"
 #define CONTACTS_BASE_URI "contacts://"
@@ -498,6 +499,8 @@ create_calendar_sources (EShellModule *shell_module,
 			 ESourceGroup **on_the_web,
 			 ESourceGroup **contacts)
 {
+	EShell *shell;
+	EShellSettings *shell_settings;
 	GSList *groups;
 	ESourceGroup *group;
 	char *base_uri, *base_uri_proto;
@@ -507,6 +510,9 @@ create_calendar_sources (EShellModule *shell_module,
 	*on_the_web = NULL;
 	*contacts = NULL;
 	*personal_source = NULL;
+
+	shell = e_shell_module_get_shell (shell_module);
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	base_dir = e_shell_module_get_config_dir (shell_module);
 	base_uri = g_build_filename (base_dir, "local", NULL);
@@ -563,16 +569,21 @@ create_calendar_sources (EShellModule *shell_module,
 	}
 
 	if (!*personal_source) {
-		char *primary_calendar = calendar_config_get_primary_calendar ();
+		char *primary_calendar;
 
 		/* Create the default Person calendar */
 		ESource *source = e_source_new (_("Personal"), PERSONAL_RELATIVE_URI);
 		e_source_group_add_source (*on_this_computer, source, -1);
 
+		primary_calendar = e_shell_settings_get_string (
+			shell_settings, "cal-primary-calendar");
+
 		if (!primary_calendar && !calendar_config_get_calendars_selected ()) {
 			GSList selected;
 
-			calendar_config_set_primary_calendar (e_source_peek_uid (source));
+			e_shell_settings_set_string (
+				shell_settings, "cal-primary-calendar",
+				e_source_peek_uid (source));
 
 			selected.data = (gpointer)e_source_peek_uid (source);
 			selected.next = NULL;

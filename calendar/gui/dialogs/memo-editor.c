@@ -163,11 +163,14 @@ memo_editor_init (MemoEditor *me)
  * editor could not be created.
  **/
 CompEditor *
-memo_editor_new (ECal *client, CompEditorFlags flags)
+memo_editor_new (ECal *client,
+                 EShell *shell,
+                 CompEditorFlags flags)
 {
 	g_return_val_if_fail (E_IS_CAL (client), NULL);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
 	return g_object_new (
 		TYPE_MEMO_EDITOR,
-		"flags", flags, "client", client, NULL);
+		"client", client, "flags", flags, "shell", shell, NULL);
 }

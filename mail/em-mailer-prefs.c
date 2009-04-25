@@ -1213,10 +1213,12 @@ em_mailer_prefs_new (EShell *shell)
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-	new = (EMMailerPrefs *) g_object_new (em_mailer_prefs_get_type (), NULL);
+	new = g_object_new (EM_TYPE_MAILER_PREFS, NULL);
+
+	/* FIXME Kill this function. */
 	em_mailer_prefs_construct (new, shell);
 
-	return (GtkWidget *) new;
+	return GTK_WIDGET (new);
 }
 
 

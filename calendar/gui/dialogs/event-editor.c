@@ -667,13 +667,16 @@ event_editor_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboo
  * editor could not be created.
  **/
 CompEditor *
-event_editor_new (ECal *client, CompEditorFlags flags)
+event_editor_new (ECal *client,
+                  EShell *shell,
+                  CompEditorFlags flags)
 {
 	g_return_val_if_fail (E_IS_CAL (client), NULL);
+	g_return_val_if_fail (E_IS_SHELL (client), NULL);
 
 	return g_object_new (
 		TYPE_EVENT_EDITOR,
-		"flags", flags, "client", client, NULL);
+		"client", client, "flags", flags, "shell", shell, NULL);
 }
 
 void

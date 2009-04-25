@@ -181,6 +181,9 @@ static void
 action_calendar_taskpad_new_cb (GtkAction *action,
                                 ECalShellView *cal_shell_view)
 {
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	ECalShellContent *cal_shell_content;
 	ECalendarTable *task_table;
 	ECalModelComponent *comp_data;
@@ -188,6 +191,10 @@ action_calendar_taskpad_new_cb (GtkAction *action,
 	ECalComponent *comp;
 	CompEditor *editor;
 	GSList *list;
+
+	shell_view = E_SHELL_VIEW (cal_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	task_table = e_cal_shell_content_get_task_table (cal_shell_content);
@@ -198,7 +205,7 @@ action_calendar_taskpad_new_cb (GtkAction *action,
 	g_slist_free (list);
 
 	client = comp_data->client;
-	editor = task_editor_new (client, COMP_EDITOR_NEW_ITEM);
+	editor = task_editor_new (client, shell, COMP_EDITOR_NEW_ITEM);
 	comp = cal_comp_task_new_with_defaults (client);
 	comp_editor_edit_comp (editor, comp);
 
@@ -560,6 +567,9 @@ void
 e_cal_shell_view_taskpad_open_task (ECalShellView *cal_shell_view,
                                     ECalModelComponent *comp_data)
 {
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
 	ECalComponent *comp;
@@ -569,6 +579,10 @@ e_cal_shell_view_taskpad_open_task (ECalShellView *cal_shell_view,
 
 	g_return_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view));
 	g_return_if_fail (E_IS_CAL_MODEL_COMPONENT (comp_data));
+
+	shell_view = E_SHELL_VIEW (cal_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	uid = icalcomponent_get_uid (comp_data->icalcomp);
 	editor = comp_editor_find_instance (uid);
@@ -591,7 +605,7 @@ e_cal_shell_view_taskpad_open_task (ECalShellView *cal_shell_view,
 	if (!e_cal_component_has_attendees (comp))
 		flags |= COMP_EDITOR_USER_ORG;
 
-	editor = task_editor_new (comp_data->client, flags);
+	editor = task_editor_new (comp_data->client, shell, flags);
 	comp_editor_edit_comp (editor, comp);
 
 	g_object_ref (comp);

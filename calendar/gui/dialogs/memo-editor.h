@@ -68,6 +68,7 @@ struct _MemoEditorClass {
 
 GType		memo_editor_get_type		(void);
 CompEditor *	memo_editor_new			(ECal *client,
+						 EShell *shell,
 						 CompEditorFlags flags);
 
 G_END_DECLS

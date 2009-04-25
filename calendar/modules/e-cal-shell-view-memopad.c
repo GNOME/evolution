@@ -112,6 +112,9 @@ static void
 action_calendar_memopad_new_cb (GtkAction *action,
                                 ECalShellView *cal_shell_view)
 {
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	ECalShellContent *cal_shell_content;
 	EMemoTable *memo_table;
 	ECalModelComponent *comp_data;
@@ -119,6 +122,10 @@ action_calendar_memopad_new_cb (GtkAction *action,
 	ECalComponent *comp;
 	CompEditor *editor;
 	GSList *list;
+
+	shell_view = E_SHELL_VIEW (cal_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	cal_shell_content = cal_shell_view->priv->cal_shell_content;
 	memo_table = e_cal_shell_content_get_memo_table (cal_shell_content);
@@ -129,7 +136,7 @@ action_calendar_memopad_new_cb (GtkAction *action,
 	g_slist_free (list);
 
 	client = comp_data->client;
-	editor = memo_editor_new (client, COMP_EDITOR_NEW_ITEM);
+	editor = memo_editor_new (client, shell, COMP_EDITOR_NEW_ITEM);
 	comp = cal_comp_memo_new_with_defaults (client);
 	comp_editor_edit_comp (editor, comp);
 
@@ -441,6 +448,9 @@ void
 e_cal_shell_view_memopad_open_memo (ECalShellView *cal_shell_view,
                                     ECalModelComponent *comp_data)
 {
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
 	ECalComponent *comp;
@@ -449,6 +459,10 @@ e_cal_shell_view_memopad_open_memo (ECalShellView *cal_shell_view,
 
 	g_return_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view));
 	g_return_if_fail (E_IS_CAL_MODEL_COMPONENT (comp_data));
+
+	shell_view = E_SHELL_VIEW (cal_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	uid = icalcomponent_get_uid (comp_data->icalcomp);
 	editor = comp_editor_find_instance (uid);
@@ -466,7 +480,7 @@ e_cal_shell_view_memopad_open_memo (ECalShellView *cal_shell_view,
 	if (itip_organizer_is_user (comp, comp_data->client))
 		flags |= COMP_EDITOR_USER_ORG;
 
-	editor = memo_editor_new (comp_data->client, flags);
+	editor = memo_editor_new (comp_data->client, shell, flags);
 	comp_editor_edit_comp (editor, comp);
 
 	g_object_unref (comp);

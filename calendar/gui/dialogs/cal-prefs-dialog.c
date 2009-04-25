@@ -31,6 +31,7 @@
 #include "../calendar-config.h"
 #include "cal-prefs-dialog.h"
 #include <widgets/misc/e-dateedit.h>
+#include <e-util/e-binding.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-util-private.h>
 #include <glib/gi18n.h>
@@ -480,7 +481,9 @@ template_url_changed (GtkEntry *entry, CalendarPrefsDialog *prefs)
 }
 
 static void
-update_system_tz_widgets (CalendarPrefsDialog *prefs)
+update_system_tz_widgets (EShellSettings *shell_settings,
+                          GParamSpec *pspec,
+                          CalendarPrefsDialog *prefs)
 {
 	icaltimezone *zone;
 
@@ -492,15 +495,6 @@ update_system_tz_widgets (CalendarPrefsDialog *prefs)
 	} else {
 		gtk_label_set_text (GTK_LABEL (prefs->system_tz_label), "(UTC)");
 	}
-
-	gtk_widget_set_sensitive (prefs->timezone, !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (prefs->use_system_tz_check)));
-}
-
-static void
-use_system_tz_changed (GtkWidget *check, CalendarPrefsDialog *prefs)
-{
-	calendar_config_set_use_system_timezone (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)));
-	update_system_tz_widgets (prefs);
 }
 
 static void
@@ -511,7 +505,6 @@ setup_changes (CalendarPrefsDialog *prefs)
 	for (i = 0; i < 7; i ++)
 		g_signal_connect (G_OBJECT (prefs->working_days[i]), "toggled", G_CALLBACK (working_days_changed), prefs);
 
-	g_signal_connect (G_OBJECT (prefs->use_system_tz_check), "toggled", G_CALLBACK (use_system_tz_changed), prefs);
 	g_signal_connect (G_OBJECT (prefs->timezone), "changed", G_CALLBACK (timezone_changed), prefs);
 	g_signal_connect (G_OBJECT (prefs->day_second_zone), "clicked", G_CALLBACK (day_second_zone_clicked), prefs);
 
@@ -645,11 +638,6 @@ show_config (CalendarPrefsDialog *prefs)
 	CalUnits units;
 	int interval;
 
-	/* Use system timezone */
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->use_system_tz_check), calendar_config_get_use_system_timezone ());
-	gtk_widget_set_sensitive (prefs->system_tz_label, FALSE);
-	update_system_tz_widgets (prefs);
-
 	/* Timezone. */
 	location = calendar_config_get_timezone_stored ();
 	zone = icaltimezone_get_builtin_timezone (location);
@@ -752,13 +740,16 @@ eccp_free (EConfig *ec, GSList *items, void *data)
 }
 
 static void
-calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs)
+calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs,
+                                 EShell *shell)
 {
 	GladeXML *gui;
 	ECalConfig *ec;
 	ECalConfigTargetPrefs *target;
+	EShellSettings *shell_settings;
 	int i;
 	GtkWidget *toplevel;
+	GtkWidget *widget;
 	GSList *l;
 	const char *working_day_names[] = {
 		"sun_button",
@@ -770,6 +761,8 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs)
 		"sat_button",
 	};
 	char *gladefile;
+
+	shell_settings = e_shell_get_shell_settings (shell);
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "cal-prefs-dialog.glade",
@@ -794,8 +787,20 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs)
 		l = g_slist_prepend (l, &eccp_items[i]);
 	e_config_add_items ((EConfig *) ec, l, NULL, NULL, eccp_free, prefs);
 
+	widget = glade_xml_get_widget (gui, "use-system-tz-check");
+	e_mutual_binding_new (
+		G_OBJECT (shell_settings), "cal-use-system-timezone",
+		G_OBJECT (widget), "active");
+	g_signal_connect (
+		G_OBJECT (shell_settings), "notify::cal-use-system-timezone",
+		G_CALLBACK (update_system_tz_widgets), prefs);
+
+	widget = glade_xml_get_widget (gui, "timezone");
+	e_mutual_binding_new_with_negation (
+		G_OBJECT (shell_settings), "cal-use-system-timezone",
+		G_OBJECT (widget), "sensitive");
+
 	/* General tab */
-	prefs->use_system_tz_check = glade_xml_get_widget (gui, "use-system-tz-check");
 	prefs->system_tz_label = glade_xml_get_widget (gui, "system-tz-label");
 	prefs->timezone = glade_xml_get_widget (gui, "timezone");
 	prefs->day_second_zone = glade_xml_get_widget (gui, "day_second_zone");
@@ -865,14 +870,18 @@ calendar_prefs_dialog_get_type (void)
 }
 
 GtkWidget *
-calendar_prefs_dialog_new (void)
+calendar_prefs_dialog_new (EShell *shell)
 {
 	CalendarPrefsDialog *dialog;
 
-	dialog = (CalendarPrefsDialog *) g_object_new (calendar_prefs_dialog_get_type (), NULL);
-	calendar_prefs_dialog_construct (dialog);
+	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-	return (GtkWidget *) dialog;
+	dialog = g_object_new (CALENDAR_TYPE_PREFS_DIALOG, NULL);
+
+	/* FIXME Kill this function. */
+	calendar_prefs_dialog_construct (dialog, shell);
+
+	return GTK_WIDGET (dialog);
 }
 
 /* called by libglade to create our custom EDateEdit widgets. */

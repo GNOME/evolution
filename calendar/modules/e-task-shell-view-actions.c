@@ -428,6 +428,9 @@ static void
 action_task_new_cb (GtkAction *action,
                     ETaskShellView *task_shell_view)
 {
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	ETaskShellContent *task_shell_content;
 	ECalendarTable *task_table;
 	ECalModelComponent *comp_data;
@@ -435,6 +438,10 @@ action_task_new_cb (GtkAction *action,
 	ECalComponent *comp;
 	CompEditor *editor;
 	GSList *list;
+
+	shell_view = E_SHELL_VIEW (task_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	task_shell_content = task_shell_view->priv->task_shell_content;
 	task_table = e_task_shell_content_get_task_table (task_shell_content);
@@ -445,7 +452,7 @@ action_task_new_cb (GtkAction *action,
 	g_slist_free (list);
 
 	client = comp_data->client;
-	editor = task_editor_new (client, COMP_EDITOR_NEW_ITEM);
+	editor = task_editor_new (client, shell, COMP_EDITOR_NEW_ITEM);
 	comp = cal_comp_task_new_with_defaults (client);
 	comp_editor_edit_comp (editor, comp);
 

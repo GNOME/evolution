@@ -451,12 +451,14 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	ECalComponentClassification cl;
 	CompEditor *editor;
 	CompEditorFlags flags;
+	GtkAction *action;
 	ECal *client;
 	GSList *l;
 	icalcomponent *icalcomp;
 	const char *categories, *uid;
 	icaltimezone *zone, *default_zone;
 	gchar *backend_addr = NULL;
+	gboolean active;
 
 	tpage = TASK_PAGE (page);
 	priv = tpage->priv;
@@ -538,7 +540,10 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->timezone),
 				       zone ? zone : default_zone);
-	task_page_set_show_timezone (tpage, calendar_config_get_show_timezone());
+
+	action = comp_editor_get_action (editor, "view-time-zone");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	task_page_set_show_timezone (tpage, active);
 
 	if (!(flags & COMP_EDITOR_NEW_ITEM) && !zone) {
 		GtkAction *action;
@@ -1829,11 +1834,16 @@ task_page_sendoptions_clicked_cb (TaskPage *tpage)
 static gboolean
 init_widgets (TaskPage *tpage)
 {
+	CompEditor *editor;
 	TaskPagePrivate *priv;
+	GtkAction *action;
 	GtkTextBuffer *text_buffer;
 	icaltimezone *zone;
+	gboolean active;
 
 	priv = tpage->priv;
+
+	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (tpage));
 
 	/* Make sure the EDateEdit widgets use our timezones to get the
 	   current time. */
@@ -1930,15 +1940,36 @@ init_widgets (TaskPage *tpage)
 	zone = calendar_config_get_icaltimezone ();
 	e_timezone_entry_set_default_timezone (E_TIMEZONE_ENTRY (priv->timezone), zone);
 
-	task_page_set_show_timezone (tpage, calendar_config_get_show_timezone());
+	action = comp_editor_get_action (editor, "view-time-zone");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	task_page_set_show_timezone (tpage, active);
 
-	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_ATTENDEE_COL, TRUE);
-	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_ROLE_COL, calendar_config_get_show_role ());
-	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_RSVP_COL, calendar_config_get_show_rsvp ());
-	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_STATUS_COL, calendar_config_get_show_status ());
-	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_TYPE_COL, calendar_config_get_show_type ());
+	e_meeting_list_view_column_set_visible (
+		priv->list_view, E_MEETING_STORE_ATTENDEE_COL, TRUE);
 
-	task_page_set_show_categories (tpage, calendar_config_get_show_categories());
+	action = comp_editor_get_action (editor, "view-role");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	e_meeting_list_view_column_set_visible (
+		priv->list_view, E_MEETING_STORE_ROLE_COL, active);
+
+	action = comp_editor_get_action (editor, "view-rsvp");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	e_meeting_list_view_column_set_visible (
+		priv->list_view, E_MEETING_STORE_RSVP_COL, active);
+
+	action = comp_editor_get_action (editor, "view-status");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	e_meeting_list_view_column_set_visible (
+		priv->list_view, E_MEETING_STORE_STATUS_COL, active);
+
+	action = comp_editor_get_action (editor, "view-type");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	e_meeting_list_view_column_set_visible (
+		priv->list_view, E_MEETING_STORE_TYPE_COL, active);
+
+	action = comp_editor_get_action (editor, "view-categories");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	task_page_set_show_categories (tpage, active);
 
 	return TRUE;
 }

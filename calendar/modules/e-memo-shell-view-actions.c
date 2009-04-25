@@ -335,6 +335,9 @@ static void
 action_memo_new_cb (GtkAction *action,
                     EMemoShellView *memo_shell_view)
 {
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	EMemoShellContent *memo_shell_content;
 	EMemoTable *memo_table;
 	ECalModelComponent *comp_data;
@@ -342,6 +345,10 @@ action_memo_new_cb (GtkAction *action,
 	ECalComponent *comp;
 	CompEditor *editor;
 	GSList *list;
+
+	shell_view = E_SHELL_VIEW (memo_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
@@ -352,7 +359,7 @@ action_memo_new_cb (GtkAction *action,
 	g_slist_free (list);
 
 	client = comp_data->client;
-	editor = memo_editor_new (client, COMP_EDITOR_NEW_ITEM);
+	editor = memo_editor_new (client, shell, COMP_EDITOR_NEW_ITEM);
 	comp = cal_comp_memo_new_with_defaults (client);
 	comp_editor_edit_comp (editor, comp);
 

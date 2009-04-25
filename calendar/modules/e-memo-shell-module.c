@@ -213,10 +213,14 @@ memo_module_cal_opened_cb (ECal *cal,
                            ECalendarStatus status,
                            GtkAction *action)
 {
+	EShell *shell;
 	ECalComponent *comp;
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
 	const gchar *action_name;
+
+	/* FIXME Pass this in. */
+	shell = e_shell_get_default ();
 
 	/* XXX Handle errors better. */
 	if (status != E_CALENDAR_STATUS_OK)
@@ -230,7 +234,7 @@ memo_module_cal_opened_cb (ECal *cal,
 		flags |= COMP_EDITOR_USER_ORG;
 	}
 
-	editor = memo_editor_new (cal, flags);
+	editor = memo_editor_new (cal, shell, flags);
 	comp = cal_comp_memo_new_with_defaults (cal);
 	comp_editor_edit_comp (editor, comp);
 
@@ -319,6 +323,7 @@ static gboolean
 memo_module_handle_uri_cb (EShellModule *shell_module,
                            const gchar *uri)
 {
+	EShell *shell;
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
 	ECal *client;
@@ -336,6 +341,7 @@ memo_module_handle_uri_cb (EShellModule *shell_module,
 	GError *error = NULL;
 
 	source_type = E_CAL_SOURCE_TYPE_JOURNAL;
+	shell = e_shell_module_get_shell (shell_module);
 
 	if (strncmp (uri, "memo:", 5) != 0)
 		return FALSE;
@@ -431,7 +437,7 @@ memo_module_handle_uri_cb (EShellModule *shell_module,
 	if (itip_organizer_is_user (comp, client))
 		flags |= COMP_EDITOR_USER_ORG;
 
-	editor = memo_editor_new (client, flags);
+	editor = memo_editor_new (client, shell, flags);
 	comp_editor_edit_comp (editor, comp);
 
 	g_object_unref (comp);

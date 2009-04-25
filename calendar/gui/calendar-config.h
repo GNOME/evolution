@@ -68,16 +68,6 @@ GSList   *calendar_config_get_calendars_selected (void);
 void	  calendar_config_set_calendars_selected (GSList *selected);
 guint	  calendar_config_add_notification_calendars_selected (GConfClientNotifyFunc func, gpointer data);
 
-/* The primary calendar */
-char     *calendar_config_get_primary_calendar (void);
-void	  calendar_config_set_primary_calendar (const char *primary_uid);
-guint	  calendar_config_add_notification_primary_calendar (GConfClientNotifyFunc func, gpointer data);
-
-/* Use system timezone; if TRUE, then influences also the current timezone functions. */
-gboolean calendar_config_get_use_system_timezone (void);
-void     calendar_config_set_use_system_timezone (gboolean use);
-guint    calendar_config_add_notification_use_system_timezone (GConfClientNotifyFunc func, gpointer data);
-
 /* The current timezone, e.g. "Europe/London". */
 gchar*	  calendar_config_get_timezone		(void);
 gchar*	  calendar_config_get_timezone_stored	(void);
@@ -116,25 +106,6 @@ guint calendar_config_add_notification_day_end_minute (GConfClientNotifyFunc fun
 gboolean  calendar_config_get_24_hour_format	(void);
 void	  calendar_config_set_24_hour_format	(gboolean     use_24_hour);
 guint calendar_config_add_notification_24_hour_format (GConfClientNotifyFunc func, gpointer data);
-
-gboolean  calendar_config_get_show_status (void);
-void	  calendar_config_set_show_status (gboolean	status);
-
-gboolean  calendar_config_get_show_type (void);
-void	  calendar_config_set_show_type (gboolean	status);
-
-gboolean  calendar_config_get_show_rsvp (void);
-void	  calendar_config_set_show_rsvp (gboolean	status);
-
-gboolean  calendar_config_get_show_timezone (void);
-void	  calendar_config_set_show_timezone (gboolean	status);
-
-gboolean  calendar_config_get_show_categories (void);
-void	  calendar_config_set_show_categories (gboolean	status);
-
-gboolean calendar_config_get_show_role	(void);
-void calendar_config_set_show_role	(gboolean state);
-
 
 /* The time divisions in the Day/Work-Week view in minutes (5/10/15/30/60). */
 gint	  calendar_config_get_time_divisions	(void);

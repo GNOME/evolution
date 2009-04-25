@@ -368,9 +368,11 @@ update_time (EventPage *epage, ECalComponentDateTime *start_date, ECalComponentD
 	EventPagePrivate *priv = epage->priv;
 	CompEditor *editor;
 	ECal *client;
+	GtkAction *action;
 	struct icaltimetype *start_tt, *end_tt, implied_tt;
 	icaltimezone *start_zone = NULL, *def_zone = NULL;
 	gboolean all_day_event, homezone=TRUE;
+	gboolean show_timezone;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
 	client = comp_editor_get_client (editor);
@@ -442,7 +444,9 @@ update_time (EventPage *epage, ECalComponentDateTime *start_date, ECalComponentD
 	if (!def_zone || !start_zone || strcmp (icaltimezone_get_tzid(def_zone), icaltimezone_get_tzid (start_zone)))
 		 homezone = FALSE;
 
-	event_page_set_show_timezone (epage, (calendar_config_get_show_timezone()|| !homezone) & !all_day_event);
+	action = comp_editor_get_action (editor, "view-time-zone");
+	show_timezone = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	event_page_set_show_timezone (epage, (show_timezone || !homezone) & !all_day_event);
 
 	/*unblock the endtimezone widget*/
 	g_signal_handlers_unblock_matched (priv->end_timezone, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
@@ -1994,6 +1998,7 @@ event_page_set_all_day_event (EventPage *epage, gboolean all_day)
 	CompEditor *editor;
 	GtkAction *action;
 	gboolean date_set;
+	gboolean active;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
 
@@ -2072,7 +2077,10 @@ event_page_set_all_day_event (EventPage *epage, gboolean all_day)
 					TRUE);
 	}
 
-	event_page_set_show_timezone (epage, calendar_config_get_show_timezone() & !all_day);
+	action = comp_editor_get_action (editor, "view-time-zone");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	event_page_set_show_timezone (epage, active & !all_day);
+
 	g_signal_handlers_block_matched (priv->start_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 	g_signal_handlers_block_matched (priv->end_time, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 
@@ -2154,16 +2162,20 @@ event_page_set_info_string (EventPage *epage, const gchar *icon, const gchar *ms
 static gboolean
 get_widgets (EventPage *epage)
 {
+	CompEditor *editor;
 	CompEditorPage *page = COMP_EDITOR_PAGE (epage);
 	GtkEntryCompletion *completion;
 	EventPagePrivate *priv;
 	GSList *accel_groups;
+	GtkAction *action;
 	GtkWidget *toplevel;
 	GtkWidget *sw;
 
 	priv = epage->priv;
 
 #define GW(name) glade_xml_get_widget (priv->xml, name)
+
+	editor = comp_editor_page_get_editor (page);
 
 	priv->main = GW ("event-page");
 	if (!priv->main)
@@ -2186,7 +2198,8 @@ get_widgets (EventPage *epage)
 
 	gtk_widget_show (priv->status_icons);
 
-	if (!calendar_config_get_show_timezone()) {
+	action = comp_editor_get_action (editor, "view-time-zone");
+	if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action))) {
 		gtk_widget_hide (priv->timezone_label);
 		gtk_widget_hide (priv->start_timezone);
 	} else {
@@ -2778,7 +2791,9 @@ init_widgets (EventPage *epage)
 	GtkTextBuffer *text_buffer;
 	icaltimezone *zone;
 	char *combo_label = NULL;
+	GtkAction *action;
 	GtkTreeSelection *selection;
+	gboolean active;
 	ECal *client;
 
 	editor = comp_editor_page_get_editor (COMP_EDITOR_PAGE (epage));
@@ -2835,11 +2850,28 @@ init_widgets (EventPage *epage)
 	g_signal_connect((priv->start_timezone), "changed",
 			    G_CALLBACK (start_timezone_changed_cb), epage);
 
-	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_ATTENDEE_COL, TRUE);
-	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_ROLE_COL, calendar_config_get_show_role ());
-	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_RSVP_COL, calendar_config_get_show_rsvp ());
-	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_STATUS_COL, calendar_config_get_show_status ());
-	e_meeting_list_view_column_set_visible (priv->list_view, E_MEETING_STORE_TYPE_COL, calendar_config_get_show_type ());
+	e_meeting_list_view_column_set_visible (
+		priv->list_view, E_MEETING_STORE_ATTENDEE_COL, TRUE);
+
+	action = comp_editor_get_action (editor, "view-role");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	e_meeting_list_view_column_set_visible (
+		priv->list_view, E_MEETING_STORE_ROLE_COL, active);
+
+	action = comp_editor_get_action (editor, "view-rsvp");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	e_meeting_list_view_column_set_visible (
+		priv->list_view, E_MEETING_STORE_RSVP_COL, active);
+
+	action = comp_editor_get_action (editor, "view-status");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	e_meeting_list_view_column_set_visible (
+		priv->list_view, E_MEETING_STORE_STATUS_COL, active);
+
+	action = comp_editor_get_action (editor, "view-type");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	e_meeting_list_view_column_set_visible (
+		priv->list_view, E_MEETING_STORE_TYPE_COL, active);
 
 	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (priv->list_view));
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_MULTIPLE);
@@ -2875,7 +2907,8 @@ init_widgets (EventPage *epage)
 	gtk_widget_show (GTK_WIDGET (priv->list_view));
 
 	/* categories */
-	if (!calendar_config_get_show_categories()) {
+	action = comp_editor_get_action (editor, "view-categories");
+	if (!gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action))) {
 		gtk_widget_hide (priv->categories_btn);
 		gtk_widget_hide (priv->categories);
 	} else {
@@ -2966,7 +2999,9 @@ init_widgets (EventPage *epage)
 	e_timezone_entry_set_default_timezone (E_TIMEZONE_ENTRY (priv->start_timezone), zone);
 	e_timezone_entry_set_default_timezone (E_TIMEZONE_ENTRY (priv->end_timezone), zone);
 
-	event_page_set_show_timezone (epage, calendar_config_get_show_timezone());
+	action = comp_editor_get_action (editor, "view-time-zone");
+	active = gtk_toggle_action_get_active (GTK_TOGGLE_ACTION (action));
+	event_page_set_show_timezone (epage, active);
 
 	return TRUE;
 }

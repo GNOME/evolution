@@ -35,6 +35,7 @@
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-data-server-util.h>
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
+#include <shell/e-shell.h>
 
 #include "calendar-config-keys.h"
 #include "calendar-config.h"
@@ -150,73 +151,23 @@ calendar_config_add_notification_calendars_selected (GConfClientNotifyFunc func,
 	return id;
 }
 
-/* The primary calendar */
-char *
-calendar_config_get_primary_calendar (void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_string (config, CALENDAR_CONFIG_PRIMARY_CALENDAR, NULL);
-}
-
-void
-calendar_config_set_primary_calendar (const char *primary_uid)
-{
-	calendar_config_init ();
-
-	gconf_client_set_string (config, CALENDAR_CONFIG_PRIMARY_CALENDAR, primary_uid, NULL);
-}
-
-
-guint
-calendar_config_add_notification_primary_calendar (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_PRIMARY_CALENDAR, func, data, NULL, NULL);
-
-	return id;
-}
-
-gboolean
-calendar_config_get_use_system_timezone (void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_USE_SYSTEM_TIMEZONE, NULL);
-}
-
-void
-calendar_config_set_use_system_timezone (gboolean use)
-{
-	calendar_config_init ();
-
-	if (calendar_config_get_use_system_timezone () != use) {
-		gconf_client_set_bool (config, CALENDAR_CONFIG_USE_SYSTEM_TIMEZONE, use, NULL);
-		gconf_client_notify (config, CALENDAR_CONFIG_TIMEZONE);
-
-		/* FIXME: notify CALENDAR_CONFIG_TIMEZONE change on system timezone change
-		   itself too, when using system timezone. How to receive such change? */
-	}
-}
-
-guint
-calendar_config_add_notification_use_system_timezone (GConfClientNotifyFunc func, gpointer data)
-{
-	calendar_config_init ();
-
-	return gconf_client_notify_add (config, CALENDAR_CONFIG_USE_SYSTEM_TIMEZONE, func, data, NULL, NULL);
-}
-
 /* The current timezone, e.g. "Europe/London". It may be NULL, in which case
    you should assume UTC (though Evolution will show the timezone-setting
    dialog the next time a calendar or task folder is selected). */
 gchar *
 calendar_config_get_timezone (void)
 {
-	if (calendar_config_get_use_system_timezone ())
+	EShell *shell;
+	EShellSettings *shell_settings;
+	gboolean use_system_timezone;
+
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	use_system_timezone = e_shell_settings_get_boolean (
+		shell_settings, "cal-use-system-timezone");
+
+	if (use_system_timezone)
 		return e_cal_util_get_system_timezone_location ();
 
 	return calendar_config_get_timezone_stored ();
@@ -308,107 +259,6 @@ calendar_config_add_notification_24_hour_format (GConfClientNotifyFunc func, gpo
 
 	return id;
 }
-
-/* Show RSVP*/
-gboolean
-calendar_config_get_show_rsvp	(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_RSVP, NULL);
-}
-
-void
-calendar_config_set_show_rsvp	(gboolean state)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_RSVP, state, NULL);
-}
-
-/* Show Role*/
-gboolean
-calendar_config_get_show_role	(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_ROLE, NULL);
-}
-
-void
-calendar_config_set_show_role	(gboolean state)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_ROLE, state, NULL);
-}
-
-/* Show Type*/
-gboolean
-calendar_config_get_show_type	(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_TYPE, NULL);
-}
-
-void
-calendar_config_set_show_type	(gboolean state)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_TYPE, state, NULL);
-}
-
-/* Show status */
-gboolean
-calendar_config_get_show_status	(void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_STATUS, NULL);
-}
-
-void
-calendar_config_set_show_status	(gboolean state)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_STATUS, state, NULL);
-}
-
-/* Show timezone */
-gboolean
-calendar_config_get_show_timezone (void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_TIMEZONE, NULL);
-}
-
-void
-calendar_config_set_show_timezone (gboolean	status)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_TIMEZONE, status, NULL);
-}
-
-gboolean
-calendar_config_get_show_categories (void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_SHOW_CATEGORIES, NULL);
-}
-void
-calendar_config_set_show_categories (gboolean	status)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_SHOW_CATEGORIES, status, NULL);
-}
-
 
 /* The start day of the week (0 = Sun to 6 = Mon). */
 gint

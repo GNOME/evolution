@@ -29,6 +29,7 @@
 #include <libecal/e-cal.h>
 #include "../itip-utils.h"
 #include "comp-editor-page.h"
+#include <shell/e-shell.h>
 
 /* Standard GObject macros */
 #define TYPE_COMP_EDITOR \
@@ -108,6 +109,7 @@ void		comp_editor_set_classification	(CompEditor *editor,
 						 ECalComponentClassification classification);
 ECalComponentClassification
 		comp_editor_get_classification	(CompEditor *editor);
+EShell *	comp_editor_get_shell		(CompEditor *editor);
 void		comp_editor_set_summary		(CompEditor *editor,
 						 const gchar *summary);
 const gchar *	comp_editor_get_summary		(CompEditor *editor);

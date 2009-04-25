@@ -18,6 +18,8 @@ libevolution_module_calendars_la_SOURCES =		\
 	e-cal-shell-module.c				\
 	e-cal-shell-module-migrate.c			\
 	e-cal-shell-module-migrate.h			\
+	e-cal-shell-module-settings.c			\
+	e-cal-shell-module-settings.h			\
 	e-cal-shell-content.c				\
 	e-cal-shell-content.h				\
 	e-cal-shell-sidebar.c				\

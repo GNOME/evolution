@@ -66,6 +66,7 @@ struct _EventEditorClass {
 
 GType		event_editor_get_type		(void);
 CompEditor *	event_editor_new		(ECal *client,
+						 EShell *shell,
 						 CompEditorFlags flags);
 void		event_editor_show_meeting	(EventEditor *ee);
 

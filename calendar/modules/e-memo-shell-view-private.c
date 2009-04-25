@@ -413,6 +413,9 @@ void
 e_memo_shell_view_open_memo (EMemoShellView *memo_shell_view,
                              ECalModelComponent *comp_data)
 {
+	EShell *shell;
+	EShellView *shell_view;
+	EShellWindow *shell_window;
 	CompEditor *editor;
 	CompEditorFlags flags = 0;
 	ECalComponent *comp;
@@ -421,6 +424,10 @@ e_memo_shell_view_open_memo (EMemoShellView *memo_shell_view,
 
 	g_return_if_fail (E_IS_MEMO_SHELL_VIEW (memo_shell_view));
 	g_return_if_fail (E_IS_CAL_MODEL_COMPONENT (comp_data));
+
+	shell_view = E_SHELL_VIEW (memo_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
+	shell = e_shell_window_get_shell (shell_window);
 
 	uid = icalcomponent_get_uid (comp_data->icalcomp);
 	editor = comp_editor_find_instance (uid);
@@ -438,7 +445,7 @@ e_memo_shell_view_open_memo (EMemoShellView *memo_shell_view,
 	if (itip_organizer_is_user (comp, comp_data->client))
 		flags |= COMP_EDITOR_USER_ORG;
 
-	editor = memo_editor_new (comp_data->client, flags);
+	editor = memo_editor_new (comp_data->client, shell, flags);
 	comp_editor_edit_comp (editor, comp);
 
 	g_object_unref (comp);
