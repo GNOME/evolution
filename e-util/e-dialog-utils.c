@@ -178,8 +178,8 @@ e_dialog_set_transient_for (GtkWindow *dialog,
 	}
 #ifdef GDK_WINDOWING_X11
 	/* Find the top-level windowmanager-managed X Window */
-	display = GDK_WINDOW_XDISPLAY (parent_widget->window);
-	parent = GDK_WINDOW_XID (parent_widget->window);
+	display = GDK_WINDOW_XDISPLAY (gtk_widget_get_window (parent_widget));
+	parent = GDK_WINDOW_XID (gtk_widget_get_window (parent_widget));
 
 	while (parent && !window_is_wm_toplevel (display, parent)) {
 		status = XQueryTree (display, parent, &root_ret,
@@ -228,7 +228,7 @@ e_dialog_set_transient_for_xid (GtkWindow *dialog,
 	}
 
 #ifdef GDK_MULTIHEAD_SAFE
-	display = gdk_drawable_get_display (GDK_DRAWABLE (GTK_WIDGET (dialog)->window));
+	display = gdk_drawable_get_display (GDK_DRAWABLE (gtk_widget_get_window (GTK_WIDGET (dialog))));
 	parent = gdk_window_lookup_for_display (display, xid);
 	if (!parent)
 		parent = gdk_window_foreign_new_for_display (display, xid);
@@ -239,7 +239,7 @@ e_dialog_set_transient_for_xid (GtkWindow *dialog,
 #endif
 	g_return_if_fail (parent != NULL);
 
-	gdk_window_set_transient_for (GTK_WIDGET (dialog)->window, parent);
+	gdk_window_set_transient_for (gtk_widget_get_window (GTK_WIDGET (dialog)), parent);
 }
 
 

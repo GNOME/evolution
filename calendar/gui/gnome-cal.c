@@ -47,13 +47,13 @@
 #include <widgets/menus/gal-view-etable.h>
 #include <widgets/menus/gal-define-views-dialog.h>
 #include "widgets/menus/gal-view-menus.h"
+#include "e-util/e-util.h"
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 #include "e-comp-editor-registry.h"
 #include "dialogs/delete-error.h"
 #include "dialogs/event-editor.h"
 #include "comp-util.h"
-#include "e-calendar-marshal.h"
 #include "e-cal-model-calendar.h"
 #include "e-day-view.h"
 #include "e-day-view-config.h"
@@ -295,9 +295,10 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (GnomeCalendarClass, source_added),
 			      NULL, NULL,
-			      e_calendar_marshal_VOID__INT_OBJECT,
-			      G_TYPE_NONE, 1,
-			      G_TYPE_OBJECT);
+			      e_marshal_VOID__INT_OBJECT,
+			      G_TYPE_NONE,
+			      2,
+			      G_TYPE_INT, G_TYPE_OBJECT);
 
 	gnome_calendar_signals[SOURCE_REMOVED] =
 		g_signal_new ("source_removed",
@@ -305,9 +306,10 @@ gnome_calendar_class_init (GnomeCalendarClass *class)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (GnomeCalendarClass, source_removed),
 			      NULL, NULL,
-			      e_calendar_marshal_VOID__INT_OBJECT,
-			      G_TYPE_NONE, 1,
-			      G_TYPE_OBJECT);
+			      e_marshal_VOID__INT_OBJECT,
+			      G_TYPE_NONE,
+			      2,
+			      G_TYPE_INT, G_TYPE_OBJECT);
 
 	gnome_calendar_signals[GOTO_DATE] =
 		g_signal_new ("goto_date",
@@ -1033,11 +1035,6 @@ set_timezone (GnomeCalendar *calendar)
 			e_cal_set_default_timezone (client, priv->zone, NULL);
 	}
 
-	if (priv->default_client[i]
-	    && e_cal_get_load_state (priv->default_client[i]) == E_CAL_LOAD_LOADED)
-		/* FIXME Error checking */
-		e_cal_set_default_timezone (priv->default_client[i], priv->zone, NULL);
-
 	if (priv->views [priv->current_view_type])
 		e_calendar_view_set_timezone (priv->views [priv->current_view_type], priv->zone);
 }
@@ -1527,6 +1524,8 @@ setup_widgets (GnomeCalendar *gcal)
 
 	e_cal_model_set_default_time_func (e_memo_table_get_model (E_MEMO_TABLE (priv->memo)), gc_get_default_time, gcal);
 
+	e_cal_model_set_default_time_func (e_memo_table_get_model (E_MEMO_TABLE (priv->memo)), gc_get_default_time, gcal);
+
 	update_memo_view (gcal);
 }
 
@@ -1540,6 +1539,9 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	gcal->priv = priv;
 
 	priv->clients = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
+
+	if (non_intrusive_error_table == NULL)
+		non_intrusive_error_table = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 
 	if (non_intrusive_error_table == NULL)
 		non_intrusive_error_table = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
@@ -1663,6 +1665,8 @@ gnome_calendar_destroy (GtkObject *object)
 				G_CALLBACK (view_progress_cb), gcal);
 		g_signal_handlers_disconnect_by_func (cal_model,
 				G_CALLBACK (view_done_cb), gcal);
+
+		g_mutex_free (priv->todo_update_lock);
 
 		g_mutex_free (priv->todo_update_lock);
 
@@ -2101,6 +2105,41 @@ gnome_calendar_set_pane_positions	(GnomeCalendar	*gcal)
 		gtk_paned_set_position (GTK_PANED (priv->hpane), priv->hpane_pos);
 		gtk_paned_set_position (GTK_PANED (priv->vpane), priv->vpane_pos);
 	}
+}
+
+struct _mclient_msg {
+	Message header;
+	ECalModel *model;
+	ECal *client;
+};
+
+static void
+add_mclient_async (struct _mclient_msg *msg)
+{
+	e_cal_model_add_client (msg->model, msg->client);
+
+	g_object_unref (msg->client);
+	g_object_unref (msg->model);
+	g_slice_free (struct _mclient_msg, msg);
+}
+
+static void
+add_mclient (ECalModel *model, ECal *client)
+{
+	struct _mclient_msg *msg;
+
+	msg = g_slice_new0 (struct _mclient_msg);
+	msg->header.func = (MessageFunc) add_mclient_async;
+	msg->model = g_object_ref (model);
+	msg->client = g_object_ref (client);
+
+	message_push ((Message *) msg);
+}
+
+static void 
+non_intrusive_error_remove(GtkWidget *w, void *data)
+{
+	g_hash_table_remove(non_intrusive_error_table, data);
 }
 
 struct _mclient_msg {

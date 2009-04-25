@@ -27,6 +27,6 @@
 #ifndef PUBLISH_FORMAT_ICAL_H
 #define PUBLISH_FORMAT_ICAL_H
 
-void publish_calendar_as_ical (GOutputStream *stream, EPublishUri *uri);
+void publish_calendar_as_ical (GOutputStream *stream, EPublishUri *uri, GError **error);
 
 #endif

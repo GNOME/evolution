@@ -342,11 +342,34 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 }
 
 static void
-option_changed (GtkWidget *widget, FilterElement *fe)
+combobox_changed (GtkWidget *widget, FilterElement *fe)
 {
 	FilterOption *fo = (FilterOption *)fe;
 
-	fo->current = g_object_get_data ((GObject *) widget, "option");
+	fo->current = (struct _filter_option *) g_list_nth (fo->options, gtk_combo_box_get_active (GTK_COMBO_BOX (widget)));
+}
+
+static GSList *
+get_dynamic_options (FilterOption *fo)
+{
+	GModule *module;
+	GSList *(*get_func)(void);
+	GSList *res = NULL;
+
+	if (!fo || !fo->dynamic_func)
+		return res;
+
+	module = g_module_open (NULL, G_MODULE_BIND_LAZY);
+
+	if (g_module_symbol (module, fo->dynamic_func, (gpointer) &get_func)) {
+		res = get_func ();
+	} else {
+		g_warning ("optionlist dynamic fill function '%s' not found", fo->dynamic_func);
+	}
+
+	g_module_close (module);
+
+	return res;
 }
 
 static GSList *
@@ -376,10 +399,7 @@ static GtkWidget *
 get_widget (FilterElement *fe)
 {
 	FilterOption *fo = (FilterOption *)fe;
-	GtkWidget *menu;
-	GtkWidget *omenu;
-	GtkWidget *item;
-	GtkWidget *first = NULL;
+	GtkWidget *combobox;
 	GList *l;
 	struct _filter_option *op;
 	int index = 0, current = 0;
@@ -436,35 +456,20 @@ get_widget (FilterElement *fe)
 		g_list_free (old_ops);
 	}
 
-	menu = gtk_menu_new ();
+	combobox = gtk_combo_box_new_text ();
 	l = fo->options;
 	while (l) {
 		op = l->data;
-		item = gtk_menu_item_new_with_label (_(op->title));
-		g_object_set_data ((GObject *) item, "option", op);
-		g_signal_connect (item, "activate", G_CALLBACK (option_changed), fe);
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-		gtk_widget_show (item);
-		if (op == fo->current) {
-			current = index;
-			first = item;
-		} else if (!first) {
-			first = item;
-		}
+		gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _(op->title));
 
 		l = g_list_next (l);
 		index++;
 	}
 
-	omenu = gtk_option_menu_new ();
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
+	g_signal_connect (combobox, "changed", G_CALLBACK (combobox_changed), fe);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), current);
 
-	if (first)
-		g_signal_emit_by_name (first, "activate", fe);
-
-	gtk_option_menu_set_history (GTK_OPTION_MENU (omenu), current);
-
-	return omenu;
+	return combobox;
 }
 
 static void

@@ -99,8 +99,6 @@ struct _EItipControlPrivate {
 	gint   view_only;
 };
 
-#define ACTION_DATA "EItipControl:Action"
-
 /* HTML Strings */
 #define HTML_BODY_START "<body bgcolor=\"#ffffff\" text=\"#000000\" link=\"#336699\">"
 #define HTML_SEP        "<hr color=#336699 align=\"left\" width=450>"
@@ -2197,28 +2195,66 @@ url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpoint
 	close (fd);
 }
 
+static GtkWidget *
+create_combo_box (void)
+{
+	GtkComboBox *combo;
+	GtkCellRenderer *cell;
+	GtkListStore *store;
+
+	combo = GTK_COMBO_BOX (gtk_combo_box_new ());
+
+	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_INT);
+	gtk_combo_box_set_model (combo, GTK_TREE_MODEL (store));
+	g_object_unref (store);
+
+	gtk_cell_layout_clear (GTK_CELL_LAYOUT (combo));
+
+	cell = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell,
+                                  "text", 0,
+                                  NULL);
+
+	return GTK_WIDGET (combo);
+}
+
 static void
 option_activated_cb (GtkWidget *widget, gpointer data)
 {
 	EItipControl *itip = E_ITIP_CONTROL (data);
 	EItipControlPrivate *priv;
+	GtkTreeIter iter;
+	gint act;
 
 	priv = itip->priv;
 
-	priv->action = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (widget), ACTION_DATA));
+	g_return_if_fail (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (widget), &iter));
+
+	gtk_tree_model_get (gtk_combo_box_get_model (GTK_COMBO_BOX (widget)), &iter, 1, &act, -1);
+
+	priv->action = act;
 }
 
 static void
-add_option (EItipControl *itip, GtkWidget *menu, const char *text, char action)
+add_option (EItipControl *itip, GtkWidget *combo, const char *text, char action)
 {
-	GtkWidget *item;
+	GtkTreeIter iter;
+	GtkListStore *store;
 
-	item = gtk_menu_item_new_with_label (text);
-	g_signal_connect (item, "activate", G_CALLBACK (option_activated_cb), itip);
-	g_object_set_data (G_OBJECT (item), ACTION_DATA, GINT_TO_POINTER ((int)action));
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-	gtk_widget_show (item);
+	store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (combo)));
 
+	gtk_list_store_append (store, &iter);
+	gtk_list_store_set (
+		store, &iter,
+		0, text,
+		1, (gint) action,
+		-1);
+
+	if (gtk_combo_box_get_active (GTK_COMBO_BOX (combo)) == -1) {
+		gtk_combo_box_set_active (GTK_COMBO_BOX (combo), 0);
+		g_signal_connect (combo, "changed", G_CALLBACK (option_activated_cb), itip);
+	}
 }
 
 static void
@@ -2306,24 +2342,20 @@ static gboolean
 publish_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 {
 	EItipControlPrivate *priv;
-	GtkWidget *option, *menu;
+	GtkWidget *combo;
 
 	priv = itip->priv;
 
 	insert_boxes (eb, itip);
 	insert_label (priv->hbox.widget);
 
-	option = gtk_option_menu_new ();
+	combo = create_combo_box ();
 
-	menu = gtk_menu_new ();
-
-	add_option (itip, menu, _("Update"), 'U');
+	add_option (itip, combo, _("Update"), 'U');
 	priv->action = 'U';
 
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
-
-	gtk_box_pack_start (GTK_BOX (priv->hbox.widget), option, FALSE, TRUE, 0);
-	gtk_widget_show (option);
+	gtk_box_pack_start (GTK_BOX (priv->hbox.widget), combo, FALSE, TRUE, 0);
+	gtk_widget_show (combo);
 
 	insert_ok (priv->hbox.widget, itip);
 
@@ -2334,26 +2366,22 @@ static gboolean
 request_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 {
 	EItipControlPrivate *priv;
-	GtkWidget *option, *menu;
+	GtkWidget *combo;
 
 	priv = itip->priv;
 
 	insert_boxes (eb, itip);
 	insert_label (priv->hbox.widget);
 
-	option = gtk_option_menu_new ();
+	combo = create_combo_box ();
 
-	menu = gtk_menu_new ();
-
-	add_option (itip, menu, _("Accept"), 'A');
-	add_option (itip, menu, _("Tentatively accept"), 'T');
-	add_option (itip, menu, _("Decline"), 'D');
+	add_option (itip, combo, _("Accept"), 'A');
+	add_option (itip, combo, _("Tentatively accept"), 'T');
+	add_option (itip, combo, _("Decline"), 'D');
 	priv->action = 'A';
 
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
-
-	gtk_box_pack_start (GTK_BOX (priv->hbox.widget), option, FALSE, TRUE, 0);
-	gtk_widget_show (option);
+	gtk_box_pack_start (GTK_BOX (priv->hbox.widget), combo, FALSE, TRUE, 0);
+	gtk_widget_show (combo);
 
 	insert_rsvp (priv->hbox.widget, itip);
 	insert_ok (priv->hbox.widget, itip);
@@ -2365,24 +2393,20 @@ static gboolean
 freebusy_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 {
 	EItipControlPrivate *priv;
-	GtkWidget *option, *menu;
+	GtkWidget *combo;
 
 	priv = itip->priv;
 
 	insert_boxes (eb, itip);
 	insert_label (priv->hbox.widget);
 
-	option = gtk_option_menu_new ();
+	combo = create_combo_box ();
 
-	menu = gtk_menu_new ();
-
-	add_option (itip, menu, _("Send Free/Busy Information"), 'F');
+	add_option (itip, combo, _("Send Free/Busy Information"), 'F');
 	priv->action = 'F';
 
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
-
-	gtk_container_add (GTK_CONTAINER (priv->hbox.widget), option);
-	gtk_widget_show (option);
+	gtk_container_add (GTK_CONTAINER (priv->hbox.widget), combo);
+	gtk_widget_show (combo);
 
 	insert_ok (priv->hbox.widget, itip);
 
@@ -2393,24 +2417,20 @@ static gboolean
 reply_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 {
 	EItipControlPrivate *priv;
-	GtkWidget *option, *menu;
+	GtkWidget *combo;
 
 	priv = itip->priv;
 
 	insert_boxes (eb, itip);
 	insert_label (priv->hbox.widget);
 
-	option = gtk_option_menu_new ();
+	combo = create_combo_box ();
 
-	menu = gtk_menu_new ();
-
-	add_option (itip, menu, _("Update respondent status"), 'R');
+	add_option (itip, combo, _("Update respondent status"), 'R');
 	priv->action = 'R';
 
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
-
-	gtk_container_add (GTK_CONTAINER (priv->hbox.widget), option);
-	gtk_widget_show (option);
+	gtk_container_add (GTK_CONTAINER (priv->hbox.widget), combo);
+	gtk_widget_show (combo);
 
 	insert_ok (priv->hbox.widget, itip);
 
@@ -2421,24 +2441,20 @@ static gboolean
 refresh_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 {
 	EItipControlPrivate *priv;
-	GtkWidget *option, *menu;
+	GtkWidget *combo;
 
 	priv = itip->priv;
 
 	insert_boxes (eb, itip);
 	insert_label (priv->hbox.widget);
 
-	option = gtk_option_menu_new ();
+	combo = create_combo_box ();
 
-	menu = gtk_menu_new ();
+	add_option (itip, combo, _("Send Latest Information"), 'S');
+	priv->action = 'S';
 
-	add_option (itip, menu, _("Send Latest Information"), 'S');
-	priv->action = 'R';
-
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
-
-	gtk_container_add (GTK_CONTAINER (priv->hbox.widget), option);
-	gtk_widget_show (option);
+	gtk_container_add (GTK_CONTAINER (priv->hbox.widget), combo);
+	gtk_widget_show (combo);
 
 	insert_ok (priv->hbox.widget, itip);
 
@@ -2449,24 +2465,20 @@ static gboolean
 cancel_options_object (EItipControl *itip, GtkHTML *html, GtkHTMLEmbedded *eb)
 {
 	EItipControlPrivate *priv;
-	GtkWidget *option, *menu;
+	GtkWidget *combo;
 
 	priv = itip->priv;
 
 	insert_boxes (eb, itip);
 	insert_label (priv->hbox.widget);
 
-	option = gtk_option_menu_new ();
+	combo = create_combo_box ();
 
-	menu = gtk_menu_new ();
-
-	add_option (itip, menu, _("Cancel"), 'C');
+	add_option (itip, combo, _("Cancel"), 'C');
 	priv->action = 'C';
 
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
-
-	gtk_container_add (GTK_CONTAINER (priv->hbox.widget), option);
-	gtk_widget_show (option);
+	gtk_container_add (GTK_CONTAINER (priv->hbox.widget), combo);
+	gtk_widget_show (combo);
 
 	insert_ok (priv->hbox.widget, itip);
 

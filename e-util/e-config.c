@@ -905,10 +905,10 @@ e_config_create_window(EConfig *emp, struct _GtkWindow *parent, const char *titl
 		g_signal_connect(w, "response", G_CALLBACK(ec_dialog_response), emp);
 
 		gtk_widget_ensure_style (w);
-		gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (w)->vbox), 0);
-		gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (w)->action_area), 12);
+		gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_content_area (GTK_DIALOG (w))), 0);
+		gtk_container_set_border_width (GTK_CONTAINER (gtk_dialog_get_action_area (GTK_DIALOG (w))), 12);
 
-		gtk_box_pack_start((GtkBox *)((GtkDialog *)w)->vbox, emp->widget, TRUE, TRUE, 0);
+		gtk_box_pack_start((GtkBox *)gtk_dialog_get_content_area (((GtkDialog *)w)), emp->widget, TRUE, TRUE, 0);
 	} else {
 		/* response is handled directly by the druid stuff */
 		w = gtk_window_new(GTK_WINDOW_TOPLEVEL);

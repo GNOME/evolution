@@ -31,10 +31,10 @@
 #include <glib/gstdio.h>
 #include <gdk/gdkkeysyms.h>
 #include <libedataserver/e-time-utils.h>
+#include <e-util/e-util.h>
 #include <e-util/e-error.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
-#include <e-util/e-util.h>
 #include <libecal/e-cal-time-util.h>
 #include <libecal/e-cal-component.h>
 
@@ -268,7 +268,7 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 	gint start_offset, end_offset;
 	gboolean all_day_event = FALSE;
 	GnomeCalendarViewType view_type;
-	ECalComponentDateTime dt;
+	GError *error = NULL;
 
 	start_offset = 0;
 	end_offset = 0;
@@ -325,15 +325,16 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 			new_time.minute = old_dtstart.minute;
 			new_time.second = old_dtstart.second;
 
-			new_dtstart = icaltime_as_timet_with_zone (new_time, default_zone);
+			new_dtstart = icaltime_as_timet_with_zone (new_time, old_dtstart.zone ? old_dtstart.zone : default_zone);
 		}
 		break;
 	default:
 		g_return_if_reached ();
 	}
 
-
-	itime = icaltime_from_timet_with_zone (new_dtstart, FALSE, default_zone);
+	itime = icaltime_from_timet_with_zone (new_dtstart, FALSE, old_dtstart.zone ? old_dtstart.zone : default_zone);
+	/* set the timezone properly */
+	itime.zone = old_dtstart.zone ? old_dtstart.zone : default_zone;
 	if (all_day_event)
 		itime.is_date = TRUE;
 	icalcomponent_set_dtstart (icalcomp, itime);
@@ -352,26 +353,10 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 	e_cal_component_set_uid (comp, uid);
 	g_free (uid);
 
-	/* set the timezone properly */
-	e_cal_component_get_dtstart (comp, &dt);
-	g_free ((char *) dt.tzid);
-	dt.tzid = icaltimezone_get_tzid (default_zone);
-	e_cal_component_set_dtstart (comp, &dt);
-	dt.tzid = NULL;
-	e_cal_component_free_datetime (&dt);
-
-	e_cal_component_get_dtend (comp, &dt);
-	g_free ((char *) dt.tzid);
-	dt.tzid = icaltimezone_get_tzid (default_zone);
-	e_cal_component_set_dtend (comp, &dt);
-	dt.tzid = NULL;
-	e_cal_component_free_datetime (&dt);
-
 	e_cal_component_commit_sequence (comp);
 
-	/* FIXME Error handling */
 	uid = NULL;
-	if (e_cal_create_object (client, e_cal_component_get_icalcomponent (comp), &uid, NULL)) {
+	if (e_cal_create_object (client, e_cal_component_get_icalcomponent (comp), &uid, &error)) {
 		gboolean strip_alarms = TRUE;
 
 		if (uid) {
@@ -379,14 +364,16 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 			g_free (uid);
 		}
 
-		if ((itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp)) &&
+		if ((itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client)) &&
 		    send_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 					   client, comp, TRUE, &strip_alarms)) {
 			itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp,
 				client, NULL, NULL, NULL, strip_alarms);
 		}
 	} else {
-		g_message (G_STRLOC ": Could not create the object!");
+		g_message (G_STRLOC ": Could not create the object! %s", error ? error->message : "");
+		if (error)
+			g_error_free (error);
 	}
 
 	g_object_unref (comp);
@@ -633,7 +620,7 @@ e_calendar_view_cut_clipboard (ECalendarView *cal_view)
 		comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
-		if ((itip_organizer_is_user (comp, event->comp_data->client) || itip_sentby_is_user (comp))
+		if ((itip_organizer_is_user (comp, event->comp_data->client) || itip_sentby_is_user (comp, event->comp_data->client))
 		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 						event->comp_data->client, comp, TRUE))
 			itip_send_comp (E_CAL_COMPONENT_METHOD_CANCEL, comp,
@@ -699,6 +686,52 @@ clipboard_get_calendar_cb (GtkClipboard *clipboard,
 	}
 }
 
+static void
+add_related_timezones (icalcomponent *des_icalcomp, icalcomponent *src_icalcomp, ECal *client)
+{
+	icalproperty_kind look_in[] = {
+		ICAL_DTSTART_PROPERTY,
+		ICAL_DTEND_PROPERTY,
+		ICAL_NO_PROPERTY
+	};
+	int i;
+
+	g_return_if_fail (des_icalcomp != NULL);
+	g_return_if_fail (src_icalcomp != NULL);
+	g_return_if_fail (client != NULL);
+
+	for (i = 0; look_in[i] != ICAL_NO_PROPERTY; i++) {
+		icalproperty *prop = icalcomponent_get_first_property (src_icalcomp, look_in[i]);
+
+		if (prop) {
+			icalparameter *par = icalproperty_get_first_parameter (prop, ICAL_TZID_PARAMETER);
+
+			if (par) {
+				const char *tzid = icalparameter_get_tzid (par);
+
+				if (tzid) {
+					GError *error = NULL;
+					icaltimezone *zone = NULL;
+
+					if (!e_cal_get_timezone (client, tzid, &zone, &error)) {
+						g_warning ("%s: Cannot get timezone for '%s'. %s", G_STRFUNC, tzid, error ? error->message : "");
+						if (error)
+							g_error_free (error);
+					} else if (zone &&
+						icalcomponent_get_timezone (des_icalcomp, icaltimezone_get_tzid (zone)) == NULL) {
+						/* do not duplicate timezones in the component */
+						icalcomponent *vtz_comp;
+
+						vtz_comp = icaltimezone_get_component (zone);
+						if (vtz_comp)
+							icalcomponent_add_component (des_icalcomp, icalcomponent_new_clone (vtz_comp));
+					}
+				}
+			}
+		}
+	}
+}
+
 void
 e_calendar_view_copy_clipboard (ECalendarView *cal_view)
 {
@@ -720,8 +753,11 @@ e_calendar_view_copy_clipboard (ECalendarView *cal_view)
 	for (l = selected; l != NULL; l = l->next) {
 		event = (ECalendarViewEvent *) l->data;
 
-		if (event)
+		if (event) {
 			e_cal_util_add_timezones_from_component (vcal_comp, event->comp_data->icalcomp);
+
+			add_related_timezones (vcal_comp, event->comp_data->icalcomp, event->comp_data->client);
+		}
 	}
 
 	for (l = selected; l != NULL; l = l->next) {
@@ -796,40 +832,42 @@ clipboard_get_calendar_data (ECalendarView *cal_view, const gchar *text)
 	else
 		in_top_canvas = FALSE;
 
-	/* FIXME Timezone handling */
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
-		icalcomponent_kind child_kind;
 		icalcomponent *subcomp;
 
-		subcomp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
-		while (subcomp) {
-			child_kind = icalcomponent_isa (subcomp);
-			if (child_kind == ICAL_VEVENT_COMPONENT) {
+		/* add timezones first, to have them ready */
+		for (subcomp = icalcomponent_get_first_component (icalcomp, ICAL_VTIMEZONE_COMPONENT);
+		     subcomp;
+		     subcomp = icalcomponent_get_next_component (icalcomp, ICAL_VTIMEZONE_COMPONENT)) {
+			icaltimezone *zone;
+			GError *error = NULL;
 
-				if (e_cal_util_component_has_recurrences (subcomp)) {
-					icalproperty *icalprop = icalcomponent_get_first_property (subcomp, ICAL_RRULE_PROPERTY);
-					if (icalprop)
-						icalproperty_remove_parameter_by_name (icalprop, "X-EVOLUTION-ENDDATE");
-				}
+			zone = icaltimezone_new ();
+			icaltimezone_set_component (zone, subcomp);
+			if (!e_cal_add_timezone (client, zone, &error)) {
+				icalproperty *tzidprop = icalcomponent_get_first_property (subcomp, ICAL_TZID_PROPERTY);
 
-				e_calendar_view_add_event (cal_view, client, selected_time_start,
-							   default_zone, subcomp, in_top_canvas);
-			} else if (child_kind == ICAL_VTIMEZONE_COMPONENT) {
-				icaltimezone *zone;
-
-				zone = icaltimezone_new ();
-				icaltimezone_set_component (zone, subcomp);
-				e_cal_add_timezone (client, zone, NULL);
-
-				icaltimezone_free (zone, 1);
+				g_warning ("%s: Add zone '%s' failed. %s", G_STRFUNC, tzidprop ? icalproperty_get_tzid (tzidprop) : "???", error ? error->message : "");
+				if (error)
+					g_error_free (error);
 			}
 
-			subcomp = icalcomponent_get_next_component (
-				icalcomp, ICAL_ANY_COMPONENT);
+			icaltimezone_free (zone, 1);
+		}
+
+		for (subcomp = icalcomponent_get_first_component (icalcomp, ICAL_VEVENT_COMPONENT);
+		     subcomp;
+		     subcomp = icalcomponent_get_next_component (icalcomp, ICAL_VEVENT_COMPONENT)) {
+			if (e_cal_util_component_has_recurrences (subcomp)) {
+				icalproperty *icalprop = icalcomponent_get_first_property (subcomp, ICAL_RRULE_PROPERTY);
+				if (icalprop)
+					icalproperty_remove_parameter_by_name (icalprop, "X-EVOLUTION-ENDDATE");
+			}
+
+			e_calendar_view_add_event (cal_view, client, selected_time_start, default_zone, subcomp, in_top_canvas);
 		}
 
 		icalcomponent_free (icalcomp);
-
 	} else {
 		e_calendar_view_add_event (cal_view, client, selected_time_start, default_zone, icalcomp, in_top_canvas);
 	}
@@ -837,6 +875,35 @@ clipboard_get_calendar_data (ECalendarView *cal_view, const gchar *text)
 #if 0  /* KILL-BONOBO */
 	e_calendar_view_set_status_message (cal_view, NULL, -1);
 #endif
+}
+
+static void
+e_calendar_view_paste_text (ECalendarView *cal_view)
+{
+	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
+
+	if (E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->paste_text)
+		E_CALENDAR_VIEW_CLASS (G_OBJECT_GET_CLASS (cal_view))->paste_text (cal_view);
+}
+
+static void
+clipboard_paste_received_cb (GtkClipboard *clipboard,
+			     GtkSelectionData *selection_data,
+			     gpointer data)
+{
+	if (gtk_clipboard_wait_is_text_available (clipboard)) {
+		e_calendar_view_paste_text (E_CALENDAR_VIEW (data));
+	} else {
+		GdkAtom type = selection_data->type;
+		if (type == gdk_atom_intern (target_types[TARGET_TYPE_VCALENDAR].target, TRUE)) {
+			gchar *result = NULL;
+			result = g_strndup ((const gchar *) selection_data->data,
+					    selection_data->length);
+			clipboard_get_calendar_data (E_CALENDAR_VIEW (data), result);
+			g_free (result);
+		}
+	}
+	g_object_unref (data);
 }
 
 static void
@@ -982,7 +1049,7 @@ delete_event (ECalendarView *cal_view, ECalendarViewEvent *event)
 		const char *uid;
 		char *rid = NULL;
 
-		if ((itip_organizer_is_user (comp, event->comp_data->client) || itip_sentby_is_user (comp))
+		if ((itip_organizer_is_user (comp, event->comp_data->client) || itip_sentby_is_user (comp, event->comp_data->client))
 		    && cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 						event->comp_data->client,
 						comp, TRUE))
@@ -1121,7 +1188,7 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 		e_cal_component_free_datetime (&dt);
 
 
-		if ((itip_organizer_is_user (comp, event->comp_data->client) || itip_sentby_is_user (comp))
+		if ((itip_organizer_is_user (comp, event->comp_data->client) || itip_sentby_is_user (comp, event->comp_data->client))
 				&& cancel_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 					event->comp_data->client,
 					comp, TRUE) && !e_cal_get_save_schedules (event->comp_data->client)) {
@@ -2024,7 +2091,7 @@ e_calendar_view_edit_appointment (ECalendarView *cal_view,
 		ECalComponent *comp = e_cal_component_new ();
 		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
 		flags |= COMP_EDITOR_MEETING;
-		if (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp) || !e_cal_component_has_attendees (comp))
+		if (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client) || !e_cal_component_has_attendees (comp))
 			flags |= COMP_EDITOR_USER_ORG;
 		g_object_unref (comp);
 	}
@@ -2043,7 +2110,7 @@ e_calendar_view_modify_and_send (ECalComponent *comp,
 	if (e_cal_modify_object (client, e_cal_component_get_icalcomponent (comp), mod, NULL)) {
 		gboolean strip_alarms = TRUE;
 
-		if ((itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp)) &&
+		if ((itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client)) &&
 		    send_component_dialog (toplevel, client, comp, new, &strip_alarms)) {
 			ECalComponent *send_comp = NULL;
 
@@ -2349,13 +2416,25 @@ e_calendar_view_get_tooltips (ECalendarViewEventData *data)
 	tmp1 = get_label(dtstart.value, zone, default_zone);
 	tmp = calculate_time (t_start, t_end);
 
+	/* To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"*/
+	tmp2 = g_strdup_printf(_("Time: %s %s"), tmp1, tmp);
+	if (zone && !cal_comp_util_compare_event_timezones (newcomp, client, default_zone)) {
+		g_free (tmp);
+		g_free (tmp1);
+
+		tmp1 = get_label (dtstart.value, zone, zone);
+		tmp = g_strconcat (tmp2, "\n\t[ ", tmp1, " ", icaltimezone_get_display_name (zone), " ]", NULL);
+	} else {
+		g_free (tmp);
+		tmp = tmp2;
+		tmp2 = NULL;
+	}
+
 	e_cal_component_free_datetime (&dtstart);
 	e_cal_component_free_datetime (&dtend);
 
-	/* To Translators: It will display "Time: ActualStartDateAndTime (DurationOfTheMeeting)"*/
-	tmp2 = g_strdup_printf(_("Time: %s %s"), tmp1, tmp);
 	hbox = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start ((GtkBox *)hbox, gtk_label_new_with_mnemonic (tmp2), FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)hbox, gtk_label_new_with_mnemonic (tmp), FALSE, FALSE, 0);
 	ebox = gtk_event_box_new ();
 	gtk_container_add ((GtkContainer *)ebox, hbox);
 	gtk_box_pack_start ((GtkBox *)box, ebox, FALSE, FALSE, 0);

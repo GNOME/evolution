@@ -157,6 +157,11 @@ gboolean	e_msg_composer_is_exiting	(EMsgComposer *composer);
 GList *		e_load_spell_languages		(void);
 void		e_save_spell_languages		(GList *spell_languages);
 
+gboolean	e_msg_composer_is_exiting	(EMsgComposer *composer);
+
+GList *		e_load_spell_languages		(void);
+void		e_save_spell_languages		(GList *spell_languages);
+
 G_END_DECLS
 
 #endif /* E_MSG_COMPOSER_H */

@@ -43,9 +43,6 @@ void e_dialog_spin_set (GtkWidget *widget, double value);
 double e_dialog_spin_get_double (GtkWidget *widget);
 int e_dialog_spin_get_int (GtkWidget *widget);
 
-void e_dialog_option_menu_set (GtkWidget *widget, int value, const int *value_map);
-int e_dialog_option_menu_get (GtkWidget *widget, const int *value_map);
-
 void e_dialog_combo_box_set (GtkWidget *widget, int value, const int *value_map);
 int e_dialog_combo_box_get (GtkWidget *widget, const int *value_map);
 

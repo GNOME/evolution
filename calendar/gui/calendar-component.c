@@ -352,88 +352,6 @@ impl_handleURI (PortableServer_Servant servant, const char *uri, CORBA_Environme
 }
 
 static void
-<<<<<<< .working
-=======
-impl_upgradeFromVersion (PortableServer_Servant servant,
-			 CORBA_short major,
-			 CORBA_short minor,
-			 CORBA_short revision,
-			 CORBA_Environment *ev)
-{
-	GError *err = NULL;
-	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
-
-	if (!migrate_calendars (calendar_component, major, minor, revision, &err)) {
-		GNOME_Evolution_Component_UpgradeFailed *failedex;
-
-		failedex = GNOME_Evolution_Component_UpgradeFailed__alloc();
-		failedex->what = CORBA_string_dup(_("Failed upgrading calendars."));
-		failedex->why = CORBA_string_dup(err->message);
-		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UpgradeFailed, failedex);
-	}
-
-	if (err)
-		g_error_free(err);
-}
-
-static gboolean
-selector_tree_data_dropped (ESourceSelector *selector,
-                            GtkSelectionData *data,
-                            ESource *destination,
-                            GdkDragAction action,
-                            guint info,
-			    CalendarComponent *component)
-{
-	gboolean success = FALSE;
-	ECal *client;
-
-	client = auth_new_cal_from_source (destination, E_CAL_SOURCE_TYPE_EVENT);
-
-	if (!client || !e_cal_open (client, TRUE, NULL)) {
-		if (client)
-			g_object_unref (client);
-
-		return FALSE;
-	}
-
-	if (data->data) {
-		icalcomponent *icalcomp = NULL;
-		char *comp_str; /* do not free this! */
-
-		/* data->data is "source_uid\ncomponent_string" */
-		comp_str = strchr ((char *)data->data, '\n');
-		if (comp_str) {
-			comp_str [0] = 0;
-			comp_str++;
-
-			icalcomp = icalparser_parse_string (comp_str);
-
-			if (icalcomp) {
-				success = cal_comp_process_source_list_drop (client, icalcomp, action, (char *)data->data, component->priv->source_list);
-				icalcomponent_free (icalcomp);
-			}
-		}
-	}
-
-	return success;
-}
-
-static void
-control_activate_cb (BonoboControl *control, gboolean activate, gpointer data)
-{
-	CalendarComponentView *component_view = data;
-
-	if (activate) {
-		BonoboUIComponent *uic;
-		uic = bonobo_control_get_ui_component (component_view->view_control);
-
-		e_user_creatable_items_handler_activate (component_view->creatable_items_handler, uic);
-	}
-}
-
-
-static void
->>>>>>> .merge-right.r37199
 config_create_ecal_changed_cb (GConfClient *client, guint id, GConfEntry *entry, gpointer data)
 {
 	CalendarComponent *calendar_component = data;
@@ -556,9 +474,6 @@ create_component_view (CalendarComponent *calendar_component)
 	component_view->memo_source_list = g_object_ref (priv->memo_source_list);
 	/* Create sidebar selector */
 	component_view->source_selector = e_source_selector_new (calendar_component->priv->source_list);
-
-<<<<<<< .working
-=======
 	g_signal_connect (
 		component_view->source_selector, "data-dropped",
 		G_CALLBACK (selector_tree_data_dropped), calendar_component);
@@ -566,9 +481,69 @@ create_component_view (CalendarComponent *calendar_component)
 	gtk_drag_dest_set(component_view->source_selector, GTK_DEST_DEFAULT_ALL, drag_types,
 			  num_drag_types, GDK_ACTION_COPY | GDK_ACTION_MOVE);
 
->>>>>>> .merge-right.r37199
 	gtk_widget_show (component_view->source_selector);
 
+	selector_scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+	gtk_container_add (GTK_CONTAINER (selector_scrolled_window), component_view->source_selector);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (selector_scrolled_window),
+					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (selector_scrolled_window),
+					     GTK_SHADOW_IN);
+	gtk_widget_show (selector_scrolled_window);
+
+	component_view->info_label = (EInfoLabel *)e_info_label_new("x-office-calendar");
+	e_info_label_set_info (component_view->info_label, _("Calendars"), "");
+	gtk_widget_show (GTK_WIDGET (component_view->info_label));
+
+	vbox = gtk_vbox_new(FALSE, 0);
+	gtk_box_pack_start(GTK_BOX (vbox), GTK_WIDGET (component_view->info_label), FALSE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX (vbox), selector_scrolled_window, TRUE, TRUE, 0);
+	gtk_widget_show (vbox);
+
+	gtk_paned_pack1 (GTK_PANED (vpane), vbox, FALSE, FALSE);
+
+	component_view->sidebar_control = bonobo_control_new (vpane);
+
+	/* Create main view */
+	component_view->view_control = control_factory_new_control ();
+	if (!component_view->view_control) {
+		/* FIXME free memory */
+
+		return NULL;
+	}
+
+	component_view->calendar = (GnomeCalendar *) bonobo_control_get_widget (component_view->view_control);
+
+	gtk_paned_pack2 (GTK_PANED (vpane), gnome_calendar_get_tag (component_view->calendar), FALSE, FALSE);
+
+	/* This signal is thrown if backends die - we update the selector */
+	g_signal_connect (component_view->calendar, "source_added",
+			  G_CALLBACK (source_added_cb), component_view);
+	g_signal_connect (component_view->calendar, "source_removed",
+			  G_CALLBACK (source_removed_cb), component_view);
+
+	/* Create status bar */
+	statusbar_widget = e_task_bar_new ();
+	component_view->activity_handler = e_activity_handler_new ();
+	e_activity_handler_attach_task_bar (component_view->activity_handler, E_TASK_BAR (statusbar_widget));
+	e_activity_handler_attach_task_bar (priv->activity_handler, E_TASK_BAR (statusbar_widget));
+
+	gtk_widget_show (statusbar_widget);
+
+	component_view->statusbar_control = bonobo_control_new (statusbar_widget);
+
+	gnome_calendar_set_activity_handler (component_view->calendar, component_view->activity_handler);
+
+	/* connect after setting the initial selections, or we'll get unwanted calls
+	   to calendar_control_sensitize_calendar_commands */
+	g_signal_connect (component_view->source_selector, "selection_changed",
+			  G_CALLBACK (source_selection_changed_cb), component_view);
+	g_signal_connect (component_view->source_selector, "primary_selection_changed",
+			  G_CALLBACK (primary_source_selection_changed_cb), component_view);
+	g_signal_connect (component_view->source_selector, "popup_event",
+			  G_CALLBACK (popup_event_cb), component_view);
+
+>>>>>>> 23df769955ea54f756a579c19964df87ae6fd5c8:calendar/gui/calendar-component.c
 	/* Set up the "new" item handler */
 	g_signal_connect (component_view->view_control, "activate", G_CALLBACK (control_activate_cb), component_view);
 
@@ -667,6 +642,11 @@ impl_dispose (GObject *object)
 	if (priv->source_list != NULL) {
 		g_object_unref (priv->source_list);
 		priv->source_list = NULL;
+	}
+
+	if (priv->activity_handler != NULL) {
+		g_object_unref (priv->activity_handler);
+		priv->activity_handler = NULL;
 	}
 
 	if (priv->activity_handler != NULL) {

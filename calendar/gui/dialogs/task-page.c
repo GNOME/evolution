@@ -332,7 +332,7 @@ sensitize_widgets (TaskPage *tpage)
 	/* The list of organizers is set to be non-editable. Otherwise any
 	 * change in the displayed list causes an 'Account not found' error.
 	 */
-	gtk_editable_set_editable (GTK_EDITABLE (GTK_COMBO (priv->organizer)->entry), FALSE);
+	gtk_editable_set_editable (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (priv->organizer))), FALSE);
 
 	gtk_editable_set_editable (GTK_EDITABLE (priv->summary), !read_only);
 	gtk_widget_set_sensitive (priv->due_date, !read_only);
@@ -371,7 +371,7 @@ sensitize_widgets (TaskPage *tpage)
 		gtk_widget_show (priv->attendee_box);
 		gtk_widget_show (priv->organizer);
 		gtk_label_set_text_with_mnemonic (GTK_LABEL (priv->org_cal_label), _("Organi_zer:"));
-		gtk_label_set_mnemonic_widget (GTK_LABEL (priv->org_cal_label), GTK_COMBO (priv->organizer)->entry);
+		gtk_label_set_mnemonic_widget (GTK_LABEL (priv->org_cal_label), priv->organizer);
 	}
 }
 void
@@ -418,7 +418,7 @@ get_current_account (TaskPage *page)
 
 	priv = page->priv;
 
-	str = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry));
+	str = gtk_entry_get_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->organizer))));
 	if (!str)
 		return NULL;
 
@@ -614,9 +614,8 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 			if (organizer.value != NULL) {
 				const gchar *strip = itip_strip_mailto (organizer.value);
 				gchar *string;
-				GList *list = NULL;
 
-				if (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp)) {
+				if (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client)) {
 					if (e_cal_get_static_capability (
 								client,
 								CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS))
@@ -640,13 +639,15 @@ task_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 					string = g_strdup (strip);
 
 				if (!priv->user_org) {
-					list = g_list_append (list, string);
-					gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), list);
-					gtk_editable_set_editable (GTK_EDITABLE (GTK_COMBO (priv->organizer)->entry), FALSE);
+					gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (priv->organizer))));
+					gtk_combo_box_append_text (GTK_COMBO_BOX (priv->organizer), string);
+					gtk_combo_box_set_active (GTK_COMBO_BOX (priv->organizer), 0);
+					gtk_editable_set_editable (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (priv->organizer))), FALSE);
+				} else {
+					gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->organizer))), string);
 				}
 
 				g_free (string);
-				g_list_free (list);
 				priv->existing = TRUE;
 			}
 		} else {
@@ -1420,7 +1421,10 @@ get_widgets (TaskPage *tpage)
 	priv->description = GW ("description");
 	priv->categories_btn = GW ("categories-button");
 	priv->categories = GW ("categories");
+
 	priv->organizer = GW ("organizer");
+	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (priv->organizer))));
+
 	priv->invite = GW ("invite");
 	priv->add = GW ("add-attendee");
 	priv->edit = GW ("edit-attendee");
@@ -1569,8 +1573,8 @@ categories_clicked_cb (GtkWidget *button,
 {
 	GtkEntry *entry;
 
-	entry = GTK_ENTRY (tpage->priv->categories);
-	e_categories_config_open_dialog_for_entry (entry);
+	entry = priv->categories;
+	e_categories_config_open_dialog_for_entry (GTK_ENTRY (entry));
 }
 
 static gboolean
@@ -1985,9 +1989,8 @@ task_page_select_organizer (TaskPage *tpage, const char *backend_address)
 
 	if (default_address) {
 		if (!priv->comp || !e_cal_component_has_organizer (priv->comp)) {
-			gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry), default_address);
-			/* FIXME: Use accessor functions to access private members of a GtkCombo widget */
-			gtk_widget_set_sensitive (GTK_WIDGET (GTK_COMBO (priv->organizer)->button), !subscribed_cal);
+			gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (priv->organizer))), default_address);
+			gtk_widget_set_sensitive (priv->organizer, !subscribed_cal);
 		}
 	} else
 		g_warning ("No potential organizers!");
@@ -2054,9 +2057,14 @@ task_page_construct (TaskPage *tpage, EMeetingStore *model, ECal *client)
 
 	g_object_unref(it);
 
-	if (priv->address_strings)
-		gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), priv->address_strings);
-	else
+	if (priv->address_strings) {
+		GList *l;
+
+		for (l = priv->address_strings; l; l = l->next)
+			gtk_combo_box_append_text (GTK_COMBO_BOX (priv->organizer), l->data);
+
+		gtk_combo_box_set_active (GTK_COMBO_BOX (priv->organizer), 0);
+	} else
 		g_warning ("No potential organizers!");
 
 	if (!init_widgets (tpage)) {

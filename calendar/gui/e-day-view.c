@@ -1820,15 +1820,16 @@ set_text_as_bold (EDayViewEvent *event)
 			break;
 		}
 	}
-	e_cal_component_free_attendee_list (attendees);
-	g_free (address);
-	g_object_unref (comp);
 
 	/* The attendee has not yet accepted the meeting, display the summary as bolded.
 	   If the attendee is not present, it might have come through a mailing list. 
 	   In that case, we never show the meeting as bold even if it is unaccepted. */
 	if (at && (at->status == ICAL_PARTSTAT_NEEDSACTION))
 		gnome_canvas_item_set (event->canvas_item, "bold", TRUE, NULL);
+
+	e_cal_component_free_attendee_list (attendees);
+	g_free (address);
+	g_object_unref (comp);
 }
 
 /* This updates the text shown for an event. If the event start or end do not
@@ -3250,6 +3251,13 @@ e_day_view_on_event_click (EDayView *day_view,
 	     !e_cal_util_component_has_recurrences (event->comp_data->icalcomp))
 	    && (pos == E_CALENDAR_VIEW_POS_TOP_EDGE
 		|| pos == E_CALENDAR_VIEW_POS_BOTTOM_EDGE)) {
+		gboolean read_only = FALSE;
+	
+		if (event && (!event->is_editable || (e_cal_is_read_only (event->comp_data->client, &read_only, NULL) && read_only))) {
+			return;
+		}
+
+
 		/* Grab the keyboard focus, so the event being edited is saved
 		   and we can use the Escape key to abort the resize. */
 		if (!GTK_WIDGET_HAS_FOCUS (day_view))
@@ -3724,9 +3732,12 @@ e_day_view_on_main_canvas_motion (GtkWidget *widget,
 			gtk_target_list_unref (target_list);
 		}
 	} else {
+		gboolean read_only = FALSE;
 		cursor = day_view->normal_cursor;
 
-		if (event) {
+		/* Check if the event is editable and client is not readonly while changing the cursor */
+		if (event && event->is_editable && e_cal_is_read_only (event->comp_data->client, &read_only, NULL) && !read_only) {
+
 			switch (pos) {
 			case E_CALENDAR_VIEW_POS_LEFT_EDGE:
 				cursor = day_view->move_cursor;
@@ -3905,6 +3916,7 @@ e_day_view_update_resize (EDayView *day_view,
 	EDayViewEvent *event;
 	gint day, event_num;
 	gboolean need_reshape = FALSE;
+	gboolean read_only = FALSE;
 
 #if 0
 	g_print ("Updating resize Row:%i\n", row);
@@ -3917,6 +3929,10 @@ e_day_view_update_resize (EDayView *day_view,
 	event_num = day_view->resize_event_num;
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
+
+	if (event && (!event->is_editable || (e_cal_is_read_only (event->comp_data->client, &read_only, NULL) && read_only))) {
+		return;
+	}
 
 	if (day_view->resize_drag_pos == E_CALENDAR_VIEW_POS_TOP_EDGE) {
 		row = MIN (row, day_view->resize_end_row);
@@ -4009,11 +4025,14 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	}
 
 	e_cal_component_commit_sequence (comp);
- 	if (e_cal_component_is_instance (comp)) {
+ 	if (e_cal_component_has_recurrences (comp)) {
  		if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
  			gtk_widget_queue_draw (day_view->top_canvas);
 			goto out;
  		}
+
+		if (mod == CALOBJ_MOD_ALL)
+			comp_util_sanitize_recurrence_master (comp, client);
 
 		if (mod == CALOBJ_MOD_THIS) {
 			/* set the correct DTSTART/DTEND on the individual recurrence */
@@ -4036,7 +4055,8 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 
 			e_cal_component_commit_sequence (comp);
 		}
-	}
+	} else if (e_cal_component_is_instance (comp))
+		mod = CALOBJ_MOD_THIS;
 
 	toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
 	e_calendar_view_modify_and_send (comp, client, mod, toplevel, TRUE);
@@ -4116,11 +4136,14 @@ e_day_view_finish_resize (EDayView *day_view)
 
 	day_view->resize_drag_pos = E_CALENDAR_VIEW_POS_NONE;
 
- 	if (e_cal_component_is_instance (comp)) {
+ 	if (e_cal_component_has_recurrences (comp)) {
  		if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
  			gtk_widget_queue_draw (day_view->top_canvas);
 			goto out;
  		}
+				
+		if (mod == CALOBJ_MOD_ALL)
+			comp_util_sanitize_recurrence_master (comp, client);
 
 		if (mod == CALOBJ_MOD_THIS) {
 			/* set the correct DTSTART/DTEND on the individual recurrence */
@@ -4141,7 +4164,8 @@ e_day_view_finish_resize (EDayView *day_view)
 			e_cal_component_set_exdate_list (comp, NULL);
 			e_cal_component_set_exrule_list (comp, NULL);
 		}
-	}
+	} else if (e_cal_component_is_instance (comp))
+		mod = CALOBJ_MOD_THIS;
 
 	toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
 
@@ -4290,6 +4314,11 @@ e_day_view_add_event (ECalComponent *comp,
 						    event.comp_data->client,
 						    e_calendar_view_get_timezone (E_CALENDAR_VIEW (add_event_data->day_view))))
 		event.different_timezone = TRUE;
+
+	if (!e_cal_component_has_attendees (comp) || itip_organizer_is_user (comp, event.comp_data->client) || itip_sentby_is_user (comp, event.comp_data->client))
+		event.is_editable = TRUE;
+	else
+		event.is_editable = FALSE;
 
 	/* Find out which array to add the event to. */
 	for (day = 0; day < add_event_data->day_view->days_shown; day++) {
@@ -6124,11 +6153,14 @@ e_day_view_change_event_time (EDayView *day_view, time_t start_dt, time_t end_dt
 
 	day_view->resize_drag_pos = E_CALENDAR_VIEW_POS_NONE;
 
- 	if (e_cal_component_is_instance (comp)) {
+ 	if (e_cal_component_has_recurrences (comp)) {
  		if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
  			gtk_widget_queue_draw (day_view->top_canvas);
 			goto out;
  		}
+
+		if (mod == CALOBJ_MOD_ALL)
+			comp_util_sanitize_recurrence_master (comp, client);
 
 		if (mod == CALOBJ_MOD_THIS) {
 			e_cal_component_set_rdate_list (comp, NULL);
@@ -6136,7 +6168,8 @@ e_day_view_change_event_time (EDayView *day_view, time_t start_dt, time_t end_dt
 			e_cal_component_set_exdate_list (comp, NULL);
 			e_cal_component_set_exrule_list (comp, NULL);
 		}
-	}
+	} else if (e_cal_component_is_instance (comp))
+		mod = CALOBJ_MOD_THIS;
 
 	toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
 
@@ -6359,10 +6392,13 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 		} else {
 			CalObjModType mod = CALOBJ_MOD_ALL;
 			GtkWindow *toplevel;
-			if (e_cal_component_is_instance (comp)) {
+			if (e_cal_component_has_recurrences (comp)) {
 				if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
 					goto out;
 				}
+
+				if (mod == CALOBJ_MOD_ALL)
+					comp_util_sanitize_recurrence_master (comp, client);
 
 				if (mod == CALOBJ_MOD_THIS) {
 					ECalComponentDateTime olddt, dt;
@@ -6411,7 +6447,8 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 
 					e_cal_component_commit_sequence (comp);
 				}
-			}
+			} else if (e_cal_component_is_instance (comp))
+				mod = CALOBJ_MOD_THIS;
 
 			/* FIXME When sending here, what exactly should we send? */
 			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
@@ -6586,19 +6623,8 @@ e_day_view_auto_scroll_handler (gpointer data)
 	if (new_scroll_y != scroll_y) {
 		/* NOTE: This reduces flicker, but only works if we don't use
 		   canvas items which have X windows. */
-
-		/* FIXME: Since GNOME 2.0 we can't do this, since the canvas
-		 * won't update when its's thawed. Is this a bug or should we
-		 * really be doing something else? Investigate. */
-#if 0
-		gtk_layout_freeze (GTK_LAYOUT (day_view->main_canvas));
-#endif
-
 		gnome_canvas_scroll_to (GNOME_CANVAS (day_view->main_canvas),
 					scroll_x, new_scroll_y);
-#if 0
-		gtk_layout_thaw (GTK_LAYOUT (day_view->main_canvas));
-#endif
 	}
 
 	canvas_x = day_view->last_mouse_x + scroll_x;
@@ -7523,11 +7549,14 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 				gnome_canvas_item_show (event->canvas_item);
 
 			e_cal_component_commit_sequence (comp);
-			if (e_cal_component_is_instance (comp)) {
+			if (e_cal_component_has_recurrences (comp)) {
 				if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
 					g_object_unref (comp);
 					return;
 				}
+				
+				if (mod == CALOBJ_MOD_ALL)
+					comp_util_sanitize_recurrence_master (comp, client);
 
 				if (mod == CALOBJ_MOD_THIS) {
 					e_cal_component_set_rdate_list (comp, NULL);
@@ -7535,7 +7564,8 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 					e_cal_component_set_exdate_list (comp, NULL);
 					e_cal_component_set_exrule_list (comp, NULL);
 				}
-			}
+			} else if (e_cal_component_is_instance (comp))
+				mod = CALOBJ_MOD_THIS;
 
 			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
 			e_calendar_view_modify_and_send (comp, client, mod, toplevel, FALSE);
@@ -7725,11 +7755,14 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 				gnome_canvas_item_show (event->canvas_item);
 
 			e_cal_component_commit_sequence (comp);
-			if (e_cal_component_is_instance (comp)) {
+			if (e_cal_component_has_recurrences (comp)) {
 				if (!recur_component_dialog (client, comp, &mod, NULL, FALSE)) {
 					g_object_unref (comp);
 					return;
 				}
+
+				if (mod == CALOBJ_MOD_ALL)
+					comp_util_sanitize_recurrence_master (comp, client);
 
 				if (mod == CALOBJ_MOD_THIS) {
 					e_cal_component_set_rdate_list (comp, NULL);
@@ -7737,7 +7770,8 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 					e_cal_component_set_exdate_list (comp, NULL);
 					e_cal_component_set_exrule_list (comp, NULL);
 				}
-			}
+			} else if (e_cal_component_is_instance (comp))
+				mod = CALOBJ_MOD_THIS;
 
 			toplevel = GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (day_view)));
 			e_calendar_view_modify_and_send (comp, client, mod, toplevel, FALSE);

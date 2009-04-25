@@ -119,6 +119,8 @@ void		e_calendar_table_process_completed_tasks
 						 GList *clients_list,
 						 gboolean config_changed);
 
+gboolean ec_query_tooltip (GtkWidget *widget, gint x, gint y, gboolean keyboard_mode, GtkTooltip *tooltip, GtkWidget *etable_wgt, ECalModel *model);
+
 G_END_DECLS
 
 #endif /* _E_CALENDAR_TABLE_H_ */

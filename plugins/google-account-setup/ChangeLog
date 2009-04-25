@@ -1,3 +1,39 @@
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #572348
+
+	* google-source.c: Remove deprecated Gtk+ symbols.
+
+2009-04-09  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #574248
+
+	* google-contacts-source.c: (plugin_google_contacts):
+	* google-source.c: (plugin_google):
+	Compare base URI case insensitively.
+
+2009-04-07  Tobias Mueller  <tobiasmue@gnome.org>
+
+	** Fixes bug #578034
+
+	* google-source.c (claim_error):
+	Call gtk_message_dialog_new with a proper format string.
+
+2009-02-26  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #572950
+
+	* Makefile.am:
+	Fix ordering of -I compiler directives.  Patch by Daniel Macks.
+
+2009-02-25  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #559719
+
+	* google-contacts-source.c: (struct ui_data), (destroy_ui_data),
+	(plugin_google_contacts): Use it's own/unique name for the property
+	on the 'epl' and free the widget only if it wasn't freed yet.
+
 2009-01-29  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #539467

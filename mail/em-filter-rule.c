@@ -324,39 +324,44 @@ struct _part_data {
 };
 
 static void
-option_activate(GtkMenuItem *item, struct _part_data *data)
+part_combobox_changed (GtkComboBox *combobox, struct _part_data *data)
 {
-	FilterPart *part = g_object_get_data((GObject *)item, "part");
+	FilterPart *part = NULL;
 	FilterPart *newpart;
+	int index, i;
+
+	index = gtk_combo_box_get_active (combobox);
+	for (i = 0, part = rule_context_next_part (RULE_CONTEXT (data->f), part); part && i < index; i++, part = rule_context_next_part (RULE_CONTEXT (data->f), part)) {
+		/* traverse until reached index */
+	}
+
+	g_return_if_fail (part != NULL);
+	g_return_if_fail (i == index);
 
 	/* dont update if we haven't changed */
-	if (!strcmp(part->title, data->part->title))
+	if (!strcmp (part->title, data->part->title))
 		return;
 
 	/* here we do a widget shuffle, throw away the old widget/rulepart,
 	   and create another */
 	if (data->partwidget)
-		gtk_container_remove(GTK_CONTAINER(data->container), data->partwidget);
+		gtk_container_remove (GTK_CONTAINER (data->container), data->partwidget);
 
-	newpart = filter_part_clone(part);
-	filter_part_copy_values(newpart, data->part);
-	em_filter_rule_replace_action((EMFilterRule *)data->fr, data->part, newpart);
-	g_object_unref(data->part);
+	newpart = filter_part_clone (part);
+	filter_part_copy_values (newpart, data->part);
+	em_filter_rule_replace_action ((EMFilterRule *)data->fr, data->part, newpart);
+	g_object_unref (data->part);
 	data->part = newpart;
-	data->partwidget = filter_part_get_widget(newpart);
+	data->partwidget = filter_part_get_widget (newpart);
 	if (data->partwidget)
-		gtk_box_pack_start(GTK_BOX(data->container), data->partwidget, TRUE, TRUE, 0);
-
-	g_object_set_data((GObject *)data->container, "part", newpart);
+		gtk_box_pack_start (GTK_BOX (data->container), data->partwidget, TRUE, TRUE, 0);
 }
 
 static GtkWidget *
 get_rule_part_widget(EMFilterContext *f, FilterPart *newpart, FilterRule *fr)
 {
 	FilterPart *part = NULL;
-	GtkWidget *menu;
-	GtkWidget *item;
-	GtkWidget *omenu;
+	GtkWidget *combobox;
 	GtkWidget *hbox;
 	GtkWidget *p;
 	int index = 0, current = 0;
@@ -373,14 +378,9 @@ get_rule_part_widget(EMFilterContext *f, FilterPart *newpart, FilterRule *fr)
 	data->partwidget = p;
 	data->container = hbox;
 
-	menu = gtk_menu_new();
+	combobox = gtk_combo_box_new_text ();
 	while ((part = em_filter_context_next_action(f, part))) {
-		item = gtk_menu_item_new_with_label(_(part->title));
-
-		g_object_set_data((GObject *)item, "part", part);
-		g_signal_connect(item, "activate", G_CALLBACK(option_activate), data);
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-		gtk_widget_show(item);
+		gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _(part->title));
 
 		if (!strcmp(newpart->title, part->title))
 			current = index;
@@ -388,12 +388,11 @@ get_rule_part_widget(EMFilterContext *f, FilterPart *newpart, FilterRule *fr)
 		index++;
 	}
 
-	omenu = gtk_option_menu_new();
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(omenu), menu);
-	gtk_option_menu_set_history(GTK_OPTION_MENU(omenu), current);
-	gtk_widget_show(omenu);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), current);
+	g_signal_connect (combobox, "changed", G_CALLBACK (part_combobox_changed), data);
+	gtk_widget_show (combobox);
 
-	gtk_box_pack_start(GTK_BOX(hbox), omenu, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(hbox), combobox, FALSE, FALSE, 0);
 	if (p)
 		gtk_box_pack_start(GTK_BOX(hbox), p, TRUE, TRUE, 0);
 

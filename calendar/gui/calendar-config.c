@@ -39,12 +39,7 @@
 #include "calendar-config-keys.h"
 #include "calendar-config.h"
 
-
-
 static GConfClient *config = NULL;
-
-/* Store the zones here, this is not destroyed as the ical timezones */
-static GHashTable *custom_zones = NULL;
 
 static void
 do_cleanup (void)
@@ -185,6 +180,35 @@ calendar_config_add_notification_primary_calendar (GConfClientNotifyFunc func, g
 	return id;
 }
 
+gboolean
+calendar_config_get_use_system_timezone (void)
+{
+	calendar_config_init ();
+
+	return gconf_client_get_bool (config, CALENDAR_CONFIG_USE_SYSTEM_TIMEZONE, NULL);
+}
+
+void
+calendar_config_set_use_system_timezone (gboolean use)
+{
+	calendar_config_init ();
+
+	if (calendar_config_get_use_system_timezone () != use) {
+		gconf_client_set_bool (config, CALENDAR_CONFIG_USE_SYSTEM_TIMEZONE, use, NULL);
+		gconf_client_notify (config, CALENDAR_CONFIG_TIMEZONE);
+
+		/* FIXME: notify CALENDAR_CONFIG_TIMEZONE change on system timezone change
+		   itself too, when using system timezone. How to receive such change? */
+	}
+}
+
+guint
+calendar_config_add_notification_use_system_timezone (GConfClientNotifyFunc func, gpointer data)
+{
+	calendar_config_init ();
+
+	return gconf_client_notify_add (config, CALENDAR_CONFIG_USE_SYSTEM_TIMEZONE, func, data, NULL, NULL);
+}
 
 /* The current timezone, e.g. "Europe/London". It may be NULL, in which case
    you should assume UTC (though Evolution will show the timezone-setting
@@ -192,30 +216,18 @@ calendar_config_add_notification_primary_calendar (GConfClientNotifyFunc func, g
 gchar *
 calendar_config_get_timezone (void)
 {
+	if (calendar_config_get_use_system_timezone ())
+		return e_cal_util_get_system_timezone_location ();
+
+	return calendar_config_get_timezone_stored ();
+}
+
+gchar *
+calendar_config_get_timezone_stored (void)
+{
 	calendar_config_init ();
 
 	return gconf_client_get_string (config, CALENDAR_CONFIG_TIMEZONE, NULL);
-}
-
-static void
-set_standard_offsets (icalcomponent *zone_comp, int offset)
-{
-	icalcomponent *dl_comp, *s_comp;
-	icalproperty *offset_from, *offset_to;
-
-	/* Set the offset of the standard component to all the daylight components also */
-	for (dl_comp = icalcomponent_get_first_component (zone_comp, ICAL_XDAYLIGHT_COMPONENT); dl_comp != NULL;
-			dl_comp = icalcomponent_get_next_component (zone_comp, ICAL_XDAYLIGHT_COMPONENT)) {
-		offset_to = icalcomponent_get_first_property (dl_comp, ICAL_TZOFFSETTO_PROPERTY);
-		icalproperty_set_tzoffsetto (offset_to, offset);
-	}
-
-	/* Set the tzto offset of the standard component to tzfrom */
-	for (s_comp = icalcomponent_get_first_component (zone_comp, ICAL_XSTANDARD_COMPONENT); s_comp != NULL;
-			s_comp = icalcomponent_get_next_component (zone_comp, ICAL_XSTANDARD_COMPONENT)) {
-		offset_from = icalcomponent_get_first_property (s_comp, ICAL_TZOFFSETFROM_PROPERTY);
-		icalproperty_set_tzoffsetfrom (offset_from, offset);
-	}
 }
 
 icaltimezone *
@@ -228,71 +240,12 @@ calendar_config_get_icaltimezone (void)
 
 	location = calendar_config_get_timezone ();
 	if (location) {
-		icalcomponent *icalcomp, *dl_comp;
-
 		zone = icaltimezone_get_builtin_timezone (location);
-		icalcomp = icaltimezone_get_component (zone);
-
-
-		if (!(dl_comp = icalcomponent_get_first_component (icalcomp, ICAL_XDAYLIGHT_COMPONENT))) {
-			g_free (location);
-			return zone;
-		}
-
-		if (!calendar_config_get_daylight_saving () && zone) {
-			icalcomponent *zone_comp, *s_comp;
-			icalproperty *tz_prop, *offset_to;
-			icaltimezone *st_zone = NULL;
-			int offset;
-			const char *tzid;
-			char *n_tzid;
-
-			tzid = icaltimezone_get_tzid (zone);
-			n_tzid = g_strconcat (tzid, "-(Standard)", NULL);
-
-			if (!custom_zones) {
-				custom_zones = g_hash_table_new (g_str_hash, g_str_equal);
-			} else if ((st_zone = g_hash_table_lookup (custom_zones, n_tzid))) {
-				g_free (n_tzid);
-				g_free (location);
-				return st_zone;
-			}
-
-			zone_comp = icalcomponent_new_clone (icalcomp);
-			s_comp = icalcomponent_get_first_component (zone_comp, ICAL_XSTANDARD_COMPONENT);
-
-			if (!s_comp) {
-				g_free (n_tzid);
-				icalcomponent_free (zone_comp);
-				g_free (location);
-				return zone;
-			}
-
-			offset_to = icalcomponent_get_first_property (s_comp, ICAL_TZOFFSETTO_PROPERTY);
-			offset = icalproperty_get_tzoffsetto (offset_to);
-
-			set_standard_offsets (zone_comp, offset);
-
-			tz_prop = icalcomponent_get_first_property (zone_comp, ICAL_TZID_PROPERTY);
-			if (tz_prop) {
-				icalcomponent_remove_property (zone_comp, tz_prop);
-			}
-
-			tz_prop = icalproperty_new_tzid (n_tzid);
-			icalcomponent_add_property (zone_comp, tz_prop);
-
-			st_zone = icaltimezone_new ();
-			icaltimezone_set_component (st_zone, zone_comp);
-
-			zone = st_zone;
-			g_hash_table_insert (custom_zones, n_tzid, zone);
-		}
 
 		g_free (location);
 	}
 	return zone;
 }
-
 
 /* Sets the timezone. If set to NULL it defaults to UTC.
    FIXME: Should check it is being set to a valid timezone. */
@@ -315,35 +268,6 @@ calendar_config_add_notification_timezone (GConfClientNotifyFunc func, gpointer 
 	calendar_config_init ();
 
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TIMEZONE, func, data, NULL, NULL);
-
-	return id;
-}
-
-gboolean
-calendar_config_get_daylight_saving (void)
-{
-	calendar_config_init ();
-
-	return gconf_client_get_bool (config, CALENDAR_CONFIG_DAYLIGHT_SAVING, NULL);
-
-}
-
-void
-calendar_config_set_daylight_saving (gboolean daylight_saving)
-{
-	calendar_config_init ();
-
-	gconf_client_set_bool (config, CALENDAR_CONFIG_DAYLIGHT_SAVING, daylight_saving, NULL);
-}
-
-guint
-calendar_config_add_notification_daylight_saving (GConfClientNotifyFunc func, gpointer data)
-{
-	guint id;
-
-	calendar_config_init ();
-
-	id = gconf_client_notify_add (config, CALENDAR_CONFIG_DAYLIGHT_SAVING, func, data, NULL, NULL);
 
 	return id;
 }

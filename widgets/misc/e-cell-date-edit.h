@@ -53,7 +53,7 @@ struct _ECellDateEdit {
 	GtkWidget *popup_window;
 	GtkWidget *calendar;
 	GtkWidget *time_entry;
-	GtkWidget *time_list;
+	GtkWidget *time_tree_view;
 
 	GtkWidget *now_button;
 	GtkWidget *today_button;

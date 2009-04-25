@@ -54,6 +54,10 @@
 #define GCONF_KEY_ENABLED_STATUS 	GCONF_KEY_ROOT "status-enabled"
 #define GCONF_KEY_ENABLED_SOUND	 	GCONF_KEY_ROOT "sound-enabled"
 
+#if !GTK_CHECK_VERSION(2,16,0)
+#define gtk_status_icon_set_tooltip_text gtk_status_icon_set_tooltip
+#endif
+
 static gboolean enabled = FALSE;
 static GtkWidget *get_cfg_widget (void);
 static GStaticMutex mlock = G_STATIC_MUTEX_INIT;
@@ -485,7 +489,7 @@ new_notify_status (EMEventTargetFolder *t)
 						 "You have received %d new messages.", status_count), status_count);
 	}
 
-	gtk_status_icon_set_tooltip (status_icon, msg);
+	gtk_status_icon_set_tooltip_text (status_icon, msg);
 
 	if (new_icon && is_part_enabled (GCONF_KEY_STATUS_BLINK)) {
 		gtk_status_icon_set_blinking (status_icon, TRUE);

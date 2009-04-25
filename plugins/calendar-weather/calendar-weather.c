@@ -394,7 +394,7 @@ e_calendar_weather_location (EPlugin *epl, EConfigHookItemFactoryData *data)
 }
 
 static void
-set_refresh_time (ESource *source, GtkWidget *spin, GtkWidget *option)
+set_refresh_time (ESource *source, GtkWidget *spin, GtkWidget *combobox)
 {
 	int time;
 	int item_num = 0;
@@ -414,15 +414,15 @@ set_refresh_time (ESource *source, GtkWidget *spin, GtkWidget *option)
 		item_num = 1;
 		time /= 60;
 	}
-	gtk_option_menu_set_history (GTK_OPTION_MENU (option), item_num);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), item_num);
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin), time);
 }
 
 static char *
-get_refresh_minutes (GtkWidget *spin, GtkWidget *option)
+get_refresh_minutes (GtkWidget *spin, GtkWidget *combobox)
 {
 	int setting = gtk_spin_button_get_value_as_int (GTK_SPIN_BUTTON (spin));
-	switch (gtk_option_menu_get_history (GTK_OPTION_MENU (option))) {
+	switch (gtk_combo_box_get_active (GTK_COMBO_BOX (combobox))) {
 	case 0:
 		/* minutes */
 		break;
@@ -449,24 +449,24 @@ static void
 spin_changed (GtkSpinButton *spin, ECalConfigTargetSource *t)
 {
 	char *refresh_str;
-	GtkWidget *option;
+	GtkWidget *combobox;
 
-	option = g_object_get_data (G_OBJECT (spin), "option");
+	combobox = g_object_get_data (G_OBJECT (spin), "combobox");
 
-	refresh_str = get_refresh_minutes ((GtkWidget *) spin, option);
+	refresh_str = get_refresh_minutes ((GtkWidget *) spin, combobox);
 	e_source_set_property (t->source, "refresh", refresh_str);
 	g_free (refresh_str);
 }
 
 static void
-option_changed (GtkOptionMenu *option, ECalConfigTargetSource *t)
+combobox_changed (GtkComboBox *combobox, ECalConfigTargetSource *t)
 {
 	char *refresh_str;
 	GtkWidget *spin;
 
-	spin = g_object_get_data (G_OBJECT (option), "spin");
+	spin = g_object_get_data (G_OBJECT (combobox), "spin");
 
-	refresh_str = get_refresh_minutes (spin, (GtkWidget *) option);
+	refresh_str = get_refresh_minutes (spin, (GtkWidget *) combobox);
 	e_source_set_property (t->source, "refresh", refresh_str);
 	g_free (refresh_str);
 }
@@ -475,9 +475,8 @@ GtkWidget *
 e_calendar_weather_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	static GtkWidget *label;
-	GtkWidget *option, *spin, *menu, *hbox, *parent;
-	GtkWidget *times[4];
-	int row, i;
+	GtkWidget *spin, *combobox, *hbox, *parent;
+	int row;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESource *source = t->source;
 	EUri *uri;
@@ -516,25 +515,18 @@ e_calendar_weather_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_widget_show (spin);
 	gtk_box_pack_start (GTK_BOX (hbox), spin, FALSE, TRUE, 0);
 
-	option = gtk_option_menu_new ();
-	gtk_widget_show (option);
-	times[0] = gtk_menu_item_new_with_label (_("minutes"));
-	times[1] = gtk_menu_item_new_with_label (_("hours"));
-	times[2] = gtk_menu_item_new_with_label (_("days"));
-	times[3] = gtk_menu_item_new_with_label (_("weeks"));
-	menu = gtk_menu_new ();
-	gtk_widget_show (menu);
-	for (i = 0; i < 4; i++) {
-		gtk_widget_show (times[i]);
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), times[i]);
-	}
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
-	set_refresh_time (source, spin, option);
-	gtk_box_pack_start (GTK_BOX (hbox), option, FALSE, TRUE, 0);
+	combobox = gtk_combo_box_new_text ();
+	gtk_widget_show (combobox);
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("minutes"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("hours"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("days"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("weeks"));
+	set_refresh_time (source, spin, combobox);
+	gtk_box_pack_start (GTK_BOX (hbox), combobox, FALSE, TRUE, 0);
 
-	g_object_set_data (G_OBJECT (option), "spin", spin);
-	g_signal_connect (G_OBJECT (option), "changed", G_CALLBACK (option_changed), t);
-	g_object_set_data (G_OBJECT (spin), "option", option);
+	g_object_set_data (G_OBJECT (combobox), "spin", spin);
+	g_signal_connect (G_OBJECT (combobox), "changed", G_CALLBACK (combobox_changed), t);
+	g_object_set_data (G_OBJECT (spin), "combobox", combobox);
 	g_signal_connect (G_OBJECT (spin), "value-changed", G_CALLBACK (spin_changed), t);
 
 	gtk_table_attach (GTK_TABLE (parent), hbox, 1, 2, row, row+1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
@@ -543,34 +535,34 @@ e_calendar_weather_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
 }
 
 static void
-set_units (ESource *source, GtkWidget *option)
+set_units (ESource *source, GtkWidget *combobox)
 {
 	const char *format = e_source_get_property (source, "units");
 	if (format == NULL) {
 		format = e_source_get_property (source, "temperature");
 		if (format == NULL) {
 			e_source_set_property (source, "units", "metric");
-			gtk_option_menu_set_history (GTK_OPTION_MENU (option), 0);
+			gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), 0);
 		} else if (strcmp ((const char *)format, "fahrenheit") == 0) {
 			/* old format, convert */
 			e_source_set_property (source, "units", "imperial");
-			gtk_option_menu_set_history (GTK_OPTION_MENU (option), 1);
+			gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), 1);
 		} else {
 			e_source_set_property (source, "units", "metric");
-			gtk_option_menu_set_history (GTK_OPTION_MENU (option), 0);
+			gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), 0);
 		}
 	} else {
 		if (strcmp ((const char *)format, "metric") == 0)
-			gtk_option_menu_set_history (GTK_OPTION_MENU (option), 0);
+			gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), 0);
 		else
-			gtk_option_menu_set_history (GTK_OPTION_MENU (option), 1);
+			gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), 1);
 	}
 }
 
 static void
-units_changed (GtkOptionMenu *option, ECalConfigTargetSource *t)
+units_changed (GtkComboBox *combobox, ECalConfigTargetSource *t)
 {
-	int choice = gtk_option_menu_get_history (GTK_OPTION_MENU (option));
+	int choice = gtk_combo_box_get_active (GTK_COMBO_BOX (combobox));
 	if (choice == 0)
 		e_source_set_property (t->source, "units", "metric");
 	else
@@ -581,9 +573,8 @@ GtkWidget *
 e_calendar_weather_units (EPlugin *epl, EConfigHookItemFactoryData *data)
 {
 	static GtkWidget *label;
-	GtkWidget *option, *menu, *parent;
-	GtkWidget *formats[2];
-	int row, i;
+	GtkWidget *combobox, *parent;
+	int row;
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESource *source = t->source;
 	EUri *uri;
@@ -614,23 +605,16 @@ e_calendar_weather_units (EPlugin *epl, EConfigHookItemFactoryData *data)
 	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
 	gtk_table_attach (GTK_TABLE (parent), label, 0, 1, row, row+1, GTK_FILL, 0, 0, 0);
 
-	option = gtk_option_menu_new ();
-	gtk_widget_show (option);
-	formats[0] = gtk_menu_item_new_with_label (_("Metric (Celsius, cm, etc)"));
-	formats[1] = gtk_menu_item_new_with_label (_("Imperial (Fahrenheit, inches, etc)"));
-	menu = gtk_menu_new ();
-	gtk_widget_show (menu);
-	for (i = 0; i < 2; i++) {
-		gtk_widget_show (formats[i]);
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), formats[i]);
-	}
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (option), menu);
-	set_units (source, option);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (label), option);
-	g_signal_connect (G_OBJECT (option), "changed", G_CALLBACK (units_changed), t);
-	gtk_table_attach (GTK_TABLE (parent), option, 1, 2, row, row+1, GTK_FILL, 0, 0, 0);
+	combobox = gtk_combo_box_new_text ();
+	gtk_widget_show (combobox);
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("Metric (Celsius, cm, etc)"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _("Imperial (Fahrenheit, inches, etc)"));
+	set_units (source, combobox);
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), combobox);
+	g_signal_connect (G_OBJECT (combobox), "changed", G_CALLBACK (units_changed), t);
+	gtk_table_attach (GTK_TABLE (parent), combobox, 1, 2, row, row+1, GTK_FILL, 0, 0, 0);
 
-	return option;
+	return combobox;
 }
 
 gboolean

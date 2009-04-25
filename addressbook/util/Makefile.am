@@ -25,7 +25,5 @@ libeabutil_la_LIBADD =					\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la \
 	$(top_builddir)/e-util/libeutil.la
 
-CLEANFILES    = $(BUILT_SOURCES)
-
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

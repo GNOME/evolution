@@ -119,15 +119,8 @@ static void
 timezone_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
 {
 	icaltimezone *zone;
-	icalcomponent *icalcomp, *dl_comp;
 
 	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (prefs->timezone));
-	icalcomp = icaltimezone_get_component (zone);
-
-	if (!(dl_comp = icalcomponent_get_first_component (icalcomp, ICAL_XDAYLIGHT_COMPONENT)))
-		gtk_widget_set_sensitive ((GtkWidget *) prefs->daylight_saving, FALSE);
-	else
-		gtk_widget_set_sensitive ((GtkWidget *) prefs->daylight_saving, TRUE);
 
 	calendar_config_set_timezone (icaltimezone_get_location (zone));
 }
@@ -225,14 +218,6 @@ day_second_zone_clicked (GtkWidget *widget, CalendarPrefsDialog *prefs)
 
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,
 			0, gtk_get_current_event_time ());
-}
-
-static void
-daylight_saving_changed (GtkWidget *widget, CalendarPrefsDialog *prefs)
-{
-	gboolean set = gtk_toggle_button_get_active ((GtkToggleButton *) prefs->daylight_saving);
-	calendar_config_set_daylight_saving (set);
-	timezone_changed (widget, prefs);
 }
 
 static void
@@ -495,6 +480,30 @@ template_url_changed (GtkEntry *entry, CalendarPrefsDialog *prefs)
 }
 
 static void
+update_system_tz_widgets (CalendarPrefsDialog *prefs)
+{
+	icaltimezone *zone;
+
+	zone = e_cal_util_get_system_timezone ();
+	if (zone) {
+		char *tmp = g_strdup_printf ("(%s)", icaltimezone_get_display_name (zone));
+		gtk_label_set_text (GTK_LABEL (prefs->system_tz_label), tmp);
+		g_free (tmp);
+	} else {
+		gtk_label_set_text (GTK_LABEL (prefs->system_tz_label), "(UTC)");
+	}
+
+	gtk_widget_set_sensitive (prefs->timezone, !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (prefs->use_system_tz_check)));
+}
+
+static void
+use_system_tz_changed (GtkWidget *check, CalendarPrefsDialog *prefs)
+{
+	calendar_config_set_use_system_timezone (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)));
+	update_system_tz_widgets (prefs);
+}
+
+static void
 setup_changes (CalendarPrefsDialog *prefs)
 {
 	int i;
@@ -502,9 +511,9 @@ setup_changes (CalendarPrefsDialog *prefs)
 	for (i = 0; i < 7; i ++)
 		g_signal_connect (G_OBJECT (prefs->working_days[i]), "toggled", G_CALLBACK (working_days_changed), prefs);
 
+	g_signal_connect (G_OBJECT (prefs->use_system_tz_check), "toggled", G_CALLBACK (use_system_tz_changed), prefs);
 	g_signal_connect (G_OBJECT (prefs->timezone), "changed", G_CALLBACK (timezone_changed), prefs);
 	g_signal_connect (G_OBJECT (prefs->day_second_zone), "clicked", G_CALLBACK (day_second_zone_clicked), prefs);
-	g_signal_connect (G_OBJECT (prefs->daylight_saving), "toggled", G_CALLBACK (daylight_saving_changed), prefs);
 
 	g_signal_connect (G_OBJECT (prefs->start_of_day), "changed", G_CALLBACK (start_of_day_changed), prefs);
 	g_signal_connect (G_OBJECT (prefs->end_of_day), "changed", G_CALLBACK (end_of_day_changed), prefs);
@@ -632,25 +641,23 @@ show_config (CalendarPrefsDialog *prefs)
 	gint mask, day, week_start_day, time_divisions;
 	icaltimezone *zone;
 	gboolean sensitive, set = FALSE;
-	icalcomponent *icalcomp, *dl_comp;
 	char *location;
 	CalUnits units;
 	int interval;
 
+	/* Use system timezone */
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (prefs->use_system_tz_check), calendar_config_get_use_system_timezone ());
+	gtk_widget_set_sensitive (prefs->system_tz_label, FALSE);
+	update_system_tz_widgets (prefs);
+
 	/* Timezone. */
-	location = calendar_config_get_timezone ();
+	location = calendar_config_get_timezone_stored ();
 	zone = icaltimezone_get_builtin_timezone (location);
 	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (prefs->timezone), zone);
 	g_free (location);
 
-	icalcomp = icaltimezone_get_component (zone);
-	if (!(dl_comp = icalcomponent_get_first_component (icalcomp, ICAL_XDAYLIGHT_COMPONENT)))
-		gtk_widget_set_sensitive ((GtkWidget *) prefs->daylight_saving, FALSE);
-	else
-		gtk_widget_set_sensitive ((GtkWidget *) prefs->daylight_saving, TRUE);
-
-	set = calendar_config_get_daylight_saving ();
-	gtk_toggle_button_set_active ((GtkToggleButton *) prefs->daylight_saving, set);
+	/* Day's second zone */
+	update_day_second_zone_caption (prefs);
 
 	/* Day's second zone */
 	update_day_second_zone_caption (prefs);
@@ -788,9 +795,10 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs)
 	e_config_add_items ((EConfig *) ec, l, NULL, NULL, eccp_free, prefs);
 
 	/* General tab */
+	prefs->use_system_tz_check = glade_xml_get_widget (gui, "use-system-tz-check");
+	prefs->system_tz_label = glade_xml_get_widget (gui, "system-tz-label");
 	prefs->timezone = glade_xml_get_widget (gui, "timezone");
 	prefs->day_second_zone = glade_xml_get_widget (gui, "day_second_zone");
-	prefs->daylight_saving = glade_xml_get_widget (gui, "daylight_cb");
 	for (i = 0; i < 7; i++)
 		prefs->working_days[i] = glade_xml_get_widget (gui, working_day_names[i]);
 	prefs->week_start_day = glade_xml_get_widget (gui, "week_start_day");

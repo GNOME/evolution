@@ -1154,6 +1154,7 @@ itip_view_init (ItipView *view)
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (view->priv->keep_alarm_check), TRUE);
 	gtk_box_pack_start (GTK_BOX (priv->options_box), priv->keep_alarm_check, FALSE, FALSE, 0);
 
+	/* To Translators: This is a check box to inherit a reminder. */
 	priv->inherit_alarm_check = gtk_check_button_new_with_mnemonic (_("_Inherit reminder"));
 	gtk_box_pack_start (GTK_BOX (priv->options_box), priv->inherit_alarm_check, FALSE, FALSE, 0);
 

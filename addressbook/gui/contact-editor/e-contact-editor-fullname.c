@@ -191,8 +191,8 @@ e_contact_editor_fullname_set_property (GObject *object, guint prop_id,
 	case PROP_EDITABLE: {
 		int i;
 		char *widget_names[] = {
-			"combo-title",
-			"combo-suffix",
+			"comboentry-title",
+			"comboentry-suffix",
 			"entry-first",
 			"entry-middle",
 			"entry-last",
@@ -210,10 +210,10 @@ e_contact_editor_fullname_set_property (GObject *object, guint prop_id,
 				gtk_editable_set_editable (GTK_EDITABLE (w),
 							   e_contact_editor_fullname->editable);
 			}
-			else if (GTK_IS_COMBO (w)) {
-				gtk_editable_set_editable (GTK_EDITABLE (GTK_COMBO (w)->entry),
+			else if (GTK_IS_COMBO_BOX_ENTRY (w)) {
+				gtk_editable_set_editable (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (w))),
 							   e_contact_editor_fullname->editable);
-				gtk_widget_set_sensitive (GTK_COMBO (w)->button, e_contact_editor_fullname->editable);
+				gtk_widget_set_sensitive (w, e_contact_editor_fullname->editable);
 			}
 			else if (GTK_IS_LABEL (w)) {
 				gtk_widget_set_sensitive (w, e_contact_editor_fullname->editable);
@@ -252,7 +252,14 @@ e_contact_editor_fullname_get_property (GObject *object, guint prop_id,
 static void
 fill_in_field(EContactEditorFullname *editor, char *field, char *string)
 {
-	GtkEntry *entry = GTK_ENTRY(glade_xml_get_widget(editor->gui, field));
+	GtkWidget *widget = glade_xml_get_widget (editor->gui, field);
+	GtkEntry *entry = NULL;
+
+	if (GTK_IS_ENTRY (widget))
+		entry = GTK_ENTRY (widget);
+	else if (GTK_IS_COMBO_BOX_ENTRY (widget))
+		entry = GTK_ENTRY (gtk_bin_get_child (GTK_BIN (widget)));
+
 	if (entry) {
 		if (string)
 			gtk_entry_set_text(entry, string);
@@ -266,18 +273,25 @@ fill_in_info(EContactEditorFullname *editor)
 {
 	EContactName *name = editor->name;
 	if (name) {
-		fill_in_field(editor, "entry-title",  name->prefixes);
+		fill_in_field(editor, "comboentry-title",  name->prefixes);
 		fill_in_field(editor, "entry-first",  name->given);
 		fill_in_field(editor, "entry-middle", name->additional);
 		fill_in_field(editor, "entry-last",   name->family);
-		fill_in_field(editor, "entry-suffix", name->suffixes);
+		fill_in_field(editor, "comboentry-suffix", name->suffixes);
 	}
 }
 
 static char *
 extract_field(EContactEditorFullname *editor, char *field)
 {
-	GtkEntry *entry = GTK_ENTRY(glade_xml_get_widget(editor->gui, field));
+	GtkWidget *widget = glade_xml_get_widget(editor->gui, field);
+	GtkEntry *entry = NULL;
+
+	if (GTK_IS_ENTRY (widget))
+		entry = GTK_ENTRY (widget);
+	else if (GTK_IS_COMBO_BOX_ENTRY (widget))
+		entry = GTK_ENTRY (gtk_bin_get_child (GTK_BIN (widget)));
+
 	if (entry)
 		return g_strdup (gtk_entry_get_text(entry));
 	else
@@ -293,9 +307,9 @@ extract_info(EContactEditorFullname *editor)
 		editor->name = name;
 	}
 
-	name->prefixes   = extract_field(editor, "entry-title" );
+	name->prefixes   = extract_field(editor, "comboentry-title" );
 	name->given      = extract_field(editor, "entry-first" );
 	name->additional = extract_field(editor, "entry-middle");
 	name->family     = extract_field(editor, "entry-last"  );
-	name->suffixes   = extract_field(editor, "entry-suffix");
+	name->suffixes   = extract_field(editor, "comboentry-suffix");
 }

@@ -382,13 +382,13 @@ e_table_group_compute_location (ETableGroup *etg, int *x, int *y, int *row, int 
 }
 
 void
-e_table_group_compute_mouse_over (ETableGroup *etg, int x, int y, int *row, int *col)
+e_table_group_get_mouse_over (ETableGroup *etg, int *row, int *col)
 {
 	g_return_if_fail (etg != NULL);
 	g_return_if_fail (E_IS_TABLE_GROUP (etg));
 
-	g_return_if_fail (ETG_CLASS (etg)->compute_mouse_over != NULL);
-	ETG_CLASS (etg)->compute_mouse_over (etg, x, y, row, col);
+	g_return_if_fail (ETG_CLASS (etg)->get_mouse_over != NULL);
+	ETG_CLASS (etg)->get_mouse_over (etg, row, col);
 }
 
 /**
@@ -648,7 +648,7 @@ etg_class_init (ETableGroupClass *klass)
 	klass->get_focus = etg_get_focus;
 	klass->get_printable = NULL;
 	klass->compute_location = NULL;
-	klass->compute_mouse_over = NULL;
+	klass->get_mouse_over = NULL;
 	klass->get_cell_geometry = NULL;
 
 	etg_signals [CURSOR_CHANGE] =

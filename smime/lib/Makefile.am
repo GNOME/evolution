@@ -32,5 +32,3 @@ libessmime_la_LIBADD =				\
 	$(CERT_UI_LIBS)
 
 libessmime_la_LDFLAGS = $(NO_UNDEFINED)
-
-CLEANFILES = $(BUILT_SOURCES)

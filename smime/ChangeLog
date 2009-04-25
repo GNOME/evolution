@@ -1,3 +1,34 @@
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #572348
+
+	* gui/smime-ui.glade:
+	* gui/e-cert-selector.c:
+	Remove deprecated Gtk+ symbols.
+
+2009-04-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #539002
+
+	* gui/certificate-manager.c: (load_certs):
+	Show all other certificates in a contact tab.
+
+2009-04-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #529745
+
+	* gui/certificate-manager.c: (import_your), (import_contact):
+	Add more file types in a file filter.
+
+2009-02-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #572975
+
+	* gui/smime-ui.glade: Center dialogs.
+	* gui/certificate-manager.c: (import_your), (import_contact),
+	(import_ca): Destroy file chooser dialog early enough to not have
+	hidden any other windows below it.
+
 2008-10-10  Sankar P  <psankar@novell.com>
 
 License Changes

@@ -1090,3 +1090,32 @@ int mail_note_get_folder_from_uri(const char *uri, CamelFolder **folderp)
 
 	return fi.fi != NULL;
 }
+
+gboolean 
+mail_folder_cache_get_folder_info_flags (CamelFolder *folder, int *flags)
+{
+	char *uri;
+
+	uri = mail_tools_folder_to_url (folder);
+	
+	struct _find_info fi = { uri, NULL, NULL };
+
+	if (stores == NULL)
+		return FALSE;
+
+	fi.url = camel_url_new(uri, NULL);
+
+	LOCK(info_lock);
+	g_hash_table_foreach(stores, (GHFunc)storeinfo_find_folder_info, &fi);
+	if (flags) {
+		if (fi.fi) {
+			*flags = fi.fi->flags;
+		} 
+	}
+	UNLOCK(info_lock);
+
+	camel_url_free(fi.url);
+	g_free (uri);
+
+	return fi.fi != NULL;
+}

@@ -94,7 +94,6 @@ struct _AddressbookSourceDialog {
 	/* Source selection (druid only) */
 	ESourceList *source_list;
 	GSList *menu_source_groups;
-	GtkWidget *group_optionmenu;
 
 	/* ESource we're currently editing */
 	ESource *source;
@@ -106,19 +105,19 @@ struct _AddressbookSourceDialog {
 
 	/* info page fields */
 	GtkWidget *host;
-	GtkWidget *auth_optionmenu;
+	GtkWidget *auth_combobox;
 	AddressbookLDAPAuthType auth;
 	GtkWidget *auth_principal;
 
 	/* connecting page fields */
-	GtkWidget *port_combo;
-	GtkWidget *ssl_optionmenu;
+	GtkWidget *port_comboentry;
+	GtkWidget *ssl_combobox;
 	AddressbookLDAPSSLType ssl;
 
 	/* searching page fields */
 	GtkWidget *rootdn;
 	AddressbookLDAPScopeType scope;
-	GtkWidget *scope_optionmenu;
+	GtkWidget *scope_combobox;
 	GtkWidget *search_filter;
 	GtkWidget *timeout_scale;
 	GtkWidget *limit_spinbutton;
@@ -203,6 +202,21 @@ ldap_parse_ssl (const char *ssl)
 		return ADDRESSBOOK_LDAP_SSL_NEVER;
 	else
 		return ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE;
+}
+
+static const char *
+ldap_get_ssl_tooltip (AddressbookLDAPSSLType ssl_type)
+{
+	switch (ssl_type) {
+	case ADDRESSBOOK_LDAP_SSL_ALWAYS:
+		return _("Selecting this option means that Evolution will only connect to your LDAP server if your LDAP server supports SSL.");
+	case ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE:
+		return _("Selecting this option means that Evolution will only connect to your LDAP server if your LDAP server supports TLS.");
+	case ADDRESSBOOK_LDAP_SSL_NEVER:
+		return _("Selecting this option means that your server does not support either SSL or TLS. This means that your connection will be insecure, and that you will be vulnerable to security exploits.");
+	}
+
+	return NULL;
 }
 
 static gboolean
@@ -664,7 +678,7 @@ url_changed(AddressbookSourceDialog *sdialog)
 	search_filter = form_ldap_search_filter (sdialog->search_filter);
 	str = g_strdup_printf ("%s:%s/%s?" /* trigraph prevention */ "?%s?%s",
 			       gtk_entry_get_text (GTK_ENTRY (sdialog->host)),
-			       gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (sdialog->port_combo)->entry)),
+			       gtk_entry_get_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (sdialog->port_comboentry)))),
 			       gtk_entry_get_text (GTK_ENTRY (sdialog->rootdn)),
 			       ldap_unparse_scope (sdialog->scope),
 			       search_filter);
@@ -686,20 +700,22 @@ port_entry_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 
 	if (!strcmp (port, LDAPS_PORT_STRING)) {
 		sdialog->ssl = ADDRESSBOOK_LDAP_SSL_ALWAYS;
-		gtk_option_menu_set_history (GTK_OPTION_MENU(sdialog->ssl_optionmenu), sdialog->ssl);
-		gtk_widget_set_sensitive (sdialog->ssl_optionmenu, FALSE);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (sdialog->ssl_combobox), sdialog->ssl);
+		gtk_widget_set_sensitive (sdialog->ssl_combobox, FALSE);
 	} else {
-		gtk_widget_set_sensitive (sdialog->ssl_optionmenu, TRUE);
+		gtk_widget_set_sensitive (sdialog->ssl_combobox, TRUE);
 	}
 
 	url_changed(sdialog);
 }
 
 static void
-ssl_optionmenu_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
+ssl_combobox_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 {
-	sdialog->ssl = gtk_option_menu_get_history((GtkOptionMenu *)w);
+	sdialog->ssl = gtk_combo_box_get_active (GTK_COMBO_BOX (w));
 	e_source_set_property (sdialog->source, "ssl", ldap_unparse_ssl (sdialog->ssl));
+
+	gtk_widget_set_tooltip_text (sdialog->ssl_combobox, ldap_get_ssl_tooltip (sdialog->ssl));
 }
 
 
@@ -735,20 +751,24 @@ eabc_general_host(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 	gtk_entry_set_text((GtkEntry *)sdialog->host, lud && lud->lud_host ? lud->lud_host : "");
 	g_signal_connect (sdialog->host, "changed", G_CALLBACK (host_changed_cb), sdialog);
 
-	sdialog->port_combo = glade_xml_get_widget (gui, "port-combo");
+	sdialog->port_comboentry = glade_xml_get_widget (gui, "port-comboentry");
+	gtk_widget_set_has_tooltip (sdialog->port_comboentry, TRUE);
+	gtk_widget_set_tooltip_text (sdialog->port_comboentry, _("This is the port on the LDAP server that Evolution will try to connect to. A list of standard ports has been provided. Ask your system administrator what port you should specify."));
 	sprintf(port, "%u", lud && lud->lud_port? lud->lud_port : LDAP_PORT);
-	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (sdialog->port_combo)->entry), port);
-	g_signal_connect (GTK_COMBO(sdialog->port_combo)->entry, "changed", G_CALLBACK (port_entry_changed_cb), sdialog);
+	gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (sdialog->port_comboentry))), port);
+	g_signal_connect (gtk_bin_get_child (GTK_BIN (sdialog->port_comboentry)), "changed", G_CALLBACK (port_entry_changed_cb), sdialog);
 
 	if (lud)
 		ldap_free_urldesc (lud);
 
-	sdialog->ssl_optionmenu = glade_xml_get_widget (gui, "ssl-optionmenu");
+	sdialog->ssl_combobox = glade_xml_get_widget (gui, "ssl-combobox");
+	gtk_widget_set_has_tooltip (sdialog->ssl_combobox, TRUE);
 	tmp = e_source_get_property (sdialog->source, "ssl");
 	sdialog->ssl = tmp ? ldap_parse_ssl (tmp) : ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE;
-	gtk_option_menu_set_history (GTK_OPTION_MENU(sdialog->ssl_optionmenu), sdialog->ssl);
-	gtk_widget_set_sensitive (sdialog->ssl_optionmenu, strcmp (port, LDAPS_PORT_STRING) != 0);
-	g_signal_connect(sdialog->ssl_optionmenu, "changed", G_CALLBACK(ssl_optionmenu_changed_cb), sdialog);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (sdialog->ssl_combobox), sdialog->ssl);
+	gtk_widget_set_tooltip_text (sdialog->ssl_combobox, ldap_get_ssl_tooltip (sdialog->ssl));
+	gtk_widget_set_sensitive (sdialog->ssl_combobox, strcmp (port, LDAPS_PORT_STRING) != 0);
+	g_signal_connect (sdialog->ssl_combobox, "changed", G_CALLBACK (ssl_combobox_changed_cb), sdialog);
 
 	g_object_unref(gui);
 
@@ -779,9 +799,9 @@ auth_entry_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 }
 
 static void
-auth_optionmenu_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
+auth_combobox_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 {
-	sdialog->auth = gtk_option_menu_get_history((GtkOptionMenu *)w);
+	sdialog->auth = gtk_combo_box_get_active (GTK_COMBO_BOX (w));
 	e_source_set_property (sdialog->source, "auth", ldap_unparse_auth (sdialog->auth));
 
 	/* make sure the right property is set for the auth - ugh, funny api */
@@ -809,11 +829,13 @@ eabc_general_auth(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 	w = glade_xml_get_widget(gui, item->label);
 	gtk_box_pack_start((GtkBox *)parent, w, FALSE, FALSE, 0);
 
-	sdialog->auth_optionmenu = glade_xml_get_widget (gui, "auth-optionmenu");
+	sdialog->auth_combobox = glade_xml_get_widget (gui, "auth-combobox");
+	gtk_widget_set_has_tooltip (sdialog->auth_combobox, TRUE);
+	gtk_widget_set_tooltip_text (sdialog->auth_combobox, _("This is the method Evolution will use to authenticate you.  Note that setting this to \"Email Address\" requires anonymous access to your LDAP server."));
 	tmp = e_source_get_property(sdialog->source, "auth");
 	sdialog->auth = tmp ? ldap_parse_auth(tmp) : ADDRESSBOOK_LDAP_AUTH_NONE;
-	gtk_option_menu_set_history (GTK_OPTION_MENU(sdialog->auth_optionmenu), sdialog->auth);
-	g_signal_connect(sdialog->auth_optionmenu, "changed", G_CALLBACK(auth_optionmenu_changed_cb), sdialog);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (sdialog->auth_combobox), sdialog->auth);
+	g_signal_connect (sdialog->auth_combobox, "changed", G_CALLBACK(auth_combobox_changed_cb), sdialog);
 
 	sdialog->auth_principal = glade_xml_get_widget (gui, "auth-entry");
 	switch (sdialog->auth) {
@@ -849,9 +871,9 @@ search_filter_changed_cb (GtkWidget *w, AddressbookSourceDialog *sdialog)
 }
 
 static void
-scope_optionmenu_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
+scope_combobox_changed_cb(GtkWidget *w, AddressbookSourceDialog *sdialog)
 {
-	sdialog->scope = gtk_option_menu_get_history((GtkOptionMenu *)w);
+	sdialog->scope = gtk_combo_box_get_active (GTK_COMBO_BOX (w));
 	url_changed(sdialog);
 }
 
@@ -886,7 +908,9 @@ eabc_details_search(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, s
 	gtk_entry_set_text((GtkEntry *)sdialog->rootdn, lud && lud->lud_dn ? lud->lud_dn : "");
 	g_signal_connect (sdialog->rootdn, "changed", G_CALLBACK (rootdn_changed_cb), sdialog);
 
-	sdialog->scope_optionmenu = glade_xml_get_widget (gui, "scope-optionmenu");
+	sdialog->scope_combobox = glade_xml_get_widget (gui, "scope-combobox");
+	gtk_widget_set_has_tooltip (sdialog->scope_combobox, TRUE);
+	gtk_widget_set_tooltip_text (sdialog->scope_combobox, _("The search scope defines how deep you would like the search to extend down the directory tree. A search scope of \"sub\" will include all entries below your search base. A search scope of \"one\" will only include the entries one level beneath your base."));
 	if (lud) {
 		switch (lud->lud_scope) {
 		case LDAP_SCOPE_BASE:
@@ -901,8 +925,8 @@ eabc_details_search(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, s
 			break;
 		}
 	}
-	gtk_option_menu_set_history (GTK_OPTION_MENU(sdialog->scope_optionmenu), sdialog->scope);
-	g_signal_connect(sdialog->scope_optionmenu, "changed", G_CALLBACK(scope_optionmenu_changed_cb), sdialog);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (sdialog->scope_combobox), sdialog->scope);
+	g_signal_connect (sdialog->scope_combobox, "changed", G_CALLBACK(scope_combobox_changed_cb), sdialog);
 
 	sdialog->search_filter =  glade_xml_get_widget (gui, "search-filter-entry");
 	gtk_entry_set_text((GtkEntry *)sdialog->search_filter, lud && lud->lud_filter ? lud->lud_filter : "");

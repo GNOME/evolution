@@ -84,19 +84,19 @@ setup_progress_dialog (MigrationContext *context)
 	context->label = gtk_label_new ("");
 	gtk_label_set_line_wrap (GTK_LABEL (context->label), TRUE);
 	gtk_widget_show (context->label);
-	gtk_box_pack_start_defaults (GTK_BOX (vbox), context->label);
+	gtk_box_pack_start (GTK_BOX (vbox), context->label, TRUE, TRUE, 0);
 
 	hbox = gtk_hbox_new (FALSE, 6);
 	gtk_widget_show (hbox);
-	gtk_box_pack_start_defaults (GTK_BOX (vbox), hbox);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
 
 	context->folder_label = gtk_label_new ("");
 	gtk_widget_show (context->folder_label);
-	gtk_box_pack_start_defaults (GTK_BOX (hbox), context->folder_label);
+	gtk_box_pack_start (GTK_BOX (hbox), context->folder_label, TRUE, TRUE, 0);
 
 	context->progress = gtk_progress_bar_new ();
 	gtk_widget_show (context->progress);
-	gtk_box_pack_start_defaults (GTK_BOX (hbox), context->progress);
+	gtk_box_pack_start (GTK_BOX (hbox), context->progress, TRUE, TRUE, 0);
 
 	gtk_widget_show (context->window);
 }

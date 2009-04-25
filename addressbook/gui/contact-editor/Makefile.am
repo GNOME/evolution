@@ -20,10 +20,6 @@ privsolib_LTLIBRARIES =				\
 libecontacteditor_la_SOURCES = 			\
 	eab-editor.c				\
 	eab-editor.h				\
-	e-contact-editor-im.c			\
-	e-contact-editor-im.h			\
-	e-contact-editor-address.c		\
-	e-contact-editor-address.h		\
 	e-contact-editor-fullname.c		\
 	e-contact-editor-fullname.h		\
 	e-contact-editor.c			\
@@ -44,11 +40,7 @@ libecontacteditor_la_LIBADD =						\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
 glade_DATA = 				\
-	im.glade			\
 	contact-editor.glade		\
-	fulladdr.glade			\
 	fullname.glade
-
-CLEANFILES = $(BUILT_SOURCES)
 
 EXTRA_DIST=	$(glade_DATA)

@@ -1,3 +1,8 @@
+2008-03-08  Matthew Barnes <mbarnes@redhat.com>
+
+	* e-table/gal-a11y-e-cell-tree.c (ectr_model_row_changed_cb):
+	Silence a debug message.
+
 2008-11-19  Li Yuan <li.yuan@sun.com>
 
 	** Fix for bug #560329

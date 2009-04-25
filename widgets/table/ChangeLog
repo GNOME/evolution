@@ -1,3 +1,51 @@
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #572348
+
+	* e-table-header-item.c:
+	* e-cell-combo.h:
+	* e-cell-combo.c:
+	Remove deprecated Gtk+ symbols.
+
+2009-03-26  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #576694
+
+	* e-cell-text.c (build_layout):
+	Handle absolute font sizes correctly.
+
+2009-02-26  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	** Part of fix for bug #573198
+
+	* e-cell-date.c (ecd_get_text): Initialize the timezone settings
+	before making any timezone conversion calls.
+
+2009-02-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #572348
+
+	* e-table-example-1.c (main):
+	gtk_widget_push_visual() is a no-op.  Remove it.
+
+2009-02-19  Andre Klapper  <a9016009@gmx.de>
+
+	* e-table-field-chooser-dialog.c:
+	Migrate from deprecated gtk_window_set_policy to gtk_window_set_resizable
+
+2009-02-16  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #550114
+
+	* e-table-group.h:
+	* e-table-group.c:
+	* e-table-group-container.c:
+	* e-table-group-leaf.c:
+	Replaced 'compute_mouse_over' with 'get_mouse_over', now works
+	with cached values 'motion_row', 'motion_col'.
+	* e-table.c: (e_table_get_mouse_over_cell):
+	Mouse position not required anymore, remove it too then.
+
 2008-12-15  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #557176

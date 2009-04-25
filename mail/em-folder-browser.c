@@ -864,6 +864,14 @@ static BonoboUIVerb emfb_verbs[] = {
 	BONOBO_UI_VERB_END
 };
 
+static gboolean
+emfb_select_all_daemon (MessageList *ml)
+{
+		message_list_select_all(ml);
+		gtk_widget_grab_focus ((GtkWidget *)ml);
+		return FALSE;
+}
+
 static void
 emfb_hide_deleted(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
 {

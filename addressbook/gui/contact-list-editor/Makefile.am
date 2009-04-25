@@ -35,6 +35,4 @@ libecontactlisteditor_la_LIBADD =						\
 
 glade_DATA  = contact-list-editor.glade
 
-CLEANFILES = $(BUILT_SOURCES)
-
 EXTRA_DIST = $(glade_DATA)

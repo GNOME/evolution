@@ -41,7 +41,7 @@
 struct _ECertSelectorPrivate {
 	CERTCertList *certlist;
 
-	GtkWidget *menu, *description;
+	GtkWidget *combobox, *description;
 };
 
 enum {
@@ -73,7 +73,7 @@ ecs_find_current(ECertSelector *ecs)
 	if (p->certlist == NULL || CERT_LIST_EMPTY(p->certlist))
 		return NULL;
 
-	n = gtk_option_menu_get_history((GtkOptionMenu *)p->menu);
+	n = gtk_combo_box_get_active (GTK_COMBO_BOX (p->combobox));
 	node = CERT_LIST_HEAD(p->certlist);
 	while (n>0 && !CERT_LIST_END(node, p->certlist)) {
 		n--;
@@ -149,7 +149,7 @@ e_cert_selector_new(int type, const char *currentid)
 	CERTCertList *certlist;
 	CERTCertListNode *node;
 	GladeXML *gui;
-	GtkWidget *w, *menu;
+	GtkWidget *w;
 	int n=0, active=0;
 	char *gladefile;
 
@@ -162,7 +162,7 @@ e_cert_selector_new(int type, const char *currentid)
 	gui = glade_xml_new(gladefile, "cert_selector_vbox", NULL);
 	g_free (gladefile);
 
-	p->menu = glade_xml_get_widget(gui, "cert_menu");
+	p->combobox = glade_xml_get_widget(gui, "cert_combobox");
 	p->description = glade_xml_get_widget(gui, "cert_description");
 
 	w = glade_xml_get_widget(gui, "cert_selector_vbox");
@@ -179,7 +179,7 @@ e_cert_selector_new(int type, const char *currentid)
 		break;
 	}
 
-	menu = gtk_menu_new();
+	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (p->combobox))));
 
 	certlist = CERT_FindUserCertsByUsage(CERT_GetDefaultCertDB(), usage, FALSE, TRUE, NULL);
 	ecs->priv->certlist = certlist;
@@ -187,9 +187,7 @@ e_cert_selector_new(int type, const char *currentid)
 		node = CERT_LIST_HEAD(certlist);
 		while (!CERT_LIST_END(node, certlist)) {
 			if (node->cert->nickname || node->cert->emailAddr) {
-				w = gtk_menu_item_new_with_label(node->cert->nickname?node->cert->nickname:node->cert->emailAddr);
-				gtk_menu_shell_append((GtkMenuShell *)menu, w);
-				gtk_widget_show(w);
+				gtk_combo_box_append_text (GTK_COMBO_BOX (p->combobox), node->cert->nickname?node->cert->nickname:node->cert->emailAddr);
 
 				if (currentid != NULL
 				    && ((node->cert->nickname != NULL && strcmp(node->cert->nickname, currentid) == 0)
@@ -203,14 +201,13 @@ e_cert_selector_new(int type, const char *currentid)
 		}
 	}
 
-	gtk_option_menu_set_menu((GtkOptionMenu *)p->menu, menu);
-	gtk_option_menu_set_history((GtkOptionMenu *)p->menu, active);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (p->combobox), active);
 
-	g_signal_connect(p->menu, "changed", G_CALLBACK(ecs_cert_changed), ecs);
+	g_signal_connect (p->combobox, "changed", G_CALLBACK(ecs_cert_changed), ecs);
 
 	g_object_unref(gui);
 
-	ecs_cert_changed(p->menu, ecs);
+	ecs_cert_changed(p->combobox, ecs);
 
 	return GTK_WIDGET(ecs);
 }

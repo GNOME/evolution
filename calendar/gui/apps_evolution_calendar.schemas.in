@@ -16,6 +16,18 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/calendar/display/use_system_timezone</key>
+      <applyto>/apps/evolution/calendar/display/use_system_timezone</applyto>
+      <owner>evolution-calendar</owner>
+      <type>bool</type>
+      <default>true</default>
+      <locale name="C">
+        <short>Use system timezone</short>
+        <long>Check this to use system timezone in Evolution.</long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/calendar/display/day_second_zone</key>
       <applyto>/apps/evolution/calendar/display/day_second_zone</applyto>
       <owner>evolution-calendar</owner>
@@ -49,18 +61,6 @@
       <locale name="C">
         <short>Maximum number of recently used timezones to remember.</short>
         <long>Maximum number of recently used timezones to remember in a 'day_second_zones' list.</long>
-      </locale>
-    </schema>
-
-    <schema>
-      <key>/schemas/apps/evolution/calendar/display/use_daylight_saving</key>
-      <applyto>/apps/evolution/calendar/display/use_daylight_saving</applyto>
-      <owner>evolution-calendar</owner>
-      <type>bool</type>
-      <default>true</default>
-      <locale name="C">
-        <short>daylight savings time</short>
-        <long>Whether to use daylight savings time while displaying events.</long>
       </locale>
     </schema>
 

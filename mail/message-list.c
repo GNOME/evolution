@@ -40,6 +40,7 @@
 #include <camel/camel-file-utils.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-folder-thread.h>
+#include <camel/camel-folder-summary.h>
 #include <camel/camel-vee-folder.h>
 #include <camel/camel-string-utils.h>
 
@@ -4228,13 +4229,19 @@ regen_list_exec (struct _regen_list_msg *m)
 
 			/* cursor_uid has been filtered out */
 			if (i == uids->len) {
-				gboolean was_deleted = (camel_folder_get_message_flags (m->folder, looking_for) & CAMEL_MESSAGE_DELETED) != 0;
+				CamelMessageInfo *looking_info = camel_folder_get_message_info (m->folder, looking_for);
 
-				/* I would really like to check for CAMEL_MESSAGE_FOLDER_FLAGGED on a message,
-				   so I would know whether it was changed locally, and then just check the changes
-				   struct whether change came from the server, but with periodical save it doesn't
-				   matter. So here just check whether the file was deleted and we show it based
-				   on the flag whether we can view deleted messages or not. */
+				if (looking_info) {
+					gboolean was_deleted = (camel_message_info_flags (looking_info) & CAMEL_MESSAGE_DELETED) != 0;
+
+					/* I would really like to check for CAMEL_MESSAGE_FOLDER_FLAGGED on a message,
+					   so I would know whether it was changed locally, and then just check the changes
+					   struct whether change came from the server, but with periodical save it doesn't
+					   matter. So here just check whether the file was deleted and we show it based
+					   on the flag whether we can view deleted messages or not. */
+
+					if (!was_deleted || (was_deleted && !m->hidedel))
+						g_ptr_array_add (uids, (gpointer) camel_pstring_strdup (looking_for));
 
 				if (!was_deleted || (was_deleted && !m->hidedel))
 					g_ptr_array_add (uids, (gpointer) camel_pstring_strdup (looking_for));
@@ -4336,6 +4343,7 @@ regen_list_exec (struct _regen_list_msg *m)
 
 	e_profile_event_emit("list.threaduids", m->folder->full_name, 0);
 
+	//camel_folder_summary_reload_from_db (m->folder->summary, NULL);
 	if (!camel_operation_cancel_check(m->base.cancel)) {
 		/* update/build a new tree */
 		if (m->dotree) {
@@ -4345,6 +4353,16 @@ regen_list_exec (struct _regen_list_msg *m)
 				m->tree = camel_folder_thread_messages_new (m->folder, showuids, m->thread_subject);
 		} else {
 			m->summary = g_ptr_array_new ();
+			if (showuids->len > camel_folder_summary_cache_size (m->folder->summary) ) {
+				CamelException ex;
+				camel_exception_init (&ex);
+				camel_folder_summary_reload_from_db (m->folder->summary, &ex);
+				if (camel_exception_is_set (&ex)) {
+					g_warning ("Exception while reloading: %s\n", camel_exception_get_description (&ex));
+					camel_exception_clear (&ex);
+				}
+
+			}
 			for (i = 0; i < showuids->len; i++) {
 				info = camel_folder_get_message_info (m->folder, showuids->pdata[i]);
 				if (info)

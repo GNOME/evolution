@@ -6,7 +6,7 @@
 
 <widget class="GtkWindow" id="rule-editor">
   <property name="visible">True</property>
-  <property name="title" translatable="no">window1</property>
+  <property name="title">window1</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -53,23 +53,11 @@
       </child>
 
       <child>
-	<widget class="GtkOptionMenu" id="filter_source">
-	  <property name="can_focus">True</property>
-	  <property name="history">0</property>
-
-	  <child internal-child="menu">
-	    <widget class="GtkMenu" id="convertwidget15">
-	      <property name="visible">True</property>
-
-	      <child>
-		<widget class="GtkMenuItem" id="convertwidget16">
-		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Incoming</property>
-		  <property name="use_underline">True</property>
-		</widget>
-	      </child>
-	    </widget>
-	  </child>
+	<widget class="GtkComboBox" id="filter_source_combobox">
+	  <property name="visible">True</property>
+	  <property name="items" translatable="yes">Incoming</property>
+	  <property name="add_tearoffs">False</property>
+	  <property name="focus_on_click">True</property>
 	</widget>
 	<packing>
 	  <property name="padding">0</property>
@@ -298,7 +286,7 @@
 <widget class="GtkWindow" id="filter_datespec_win">
   <property name="border_width">6</property>
   <property name="visible">True</property>
-  <property name="title" translatable="no">window1</property>
+  <property name="title">window1</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -351,40 +339,13 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkOptionMenu" id="option_type">
+	    <widget class="GtkComboBox" id="combobox_type">
 	      <property name="visible">True</property>
-	      <property name="can_focus">True</property>
-	      <property name="history">0</property>
-
-	      <child internal-child="menu">
-		<widget class="GtkMenu" id="convertwidget19">
-		  <property name="visible">True</property>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="convertwidget20">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">the current time</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="convertwidget21">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">the time you specify</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="convertwidget22">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">a time relative to the current time</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-		</widget>
-	      </child>
+	      <property name="items" translatable="yes">the current time
+the time you specify
+a time relative to the current time</property>
+	      <property name="add_tearoffs">False</property>
+	      <property name="focus_on_click">True</property>
 	    </widget>
 	    <packing>
 	      <property name="padding">0</property>
@@ -625,72 +586,17 @@ a time relative to when filtering occurs.</property>
 		      </child>
 
 		      <child>
-			<widget class="GtkOptionMenu" id="option_relative">
+			<widget class="GtkComboBox" id="combobox_relative">
 			  <property name="visible">True</property>
-			  <property name="can_focus">True</property>
-			  <property name="history">0</property>
-
-			  <child internal-child="menu">
-			    <widget class="GtkMenu" id="convertwidget23">
-			      <property name="visible">True</property>
-
-			      <child>
-				<widget class="GtkMenuItem" id="convertwidget24">
-				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">seconds</property>
-				  <property name="use_underline">True</property>
-				</widget>
-			      </child>
-
-			      <child>
-				<widget class="GtkMenuItem" id="convertwidget25">
-				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">minutes</property>
-				  <property name="use_underline">True</property>
-				</widget>
-			      </child>
-
-			      <child>
-				<widget class="GtkMenuItem" id="convertwidget26">
-				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">hours</property>
-				  <property name="use_underline">True</property>
-				</widget>
-			      </child>
-
-			      <child>
-				<widget class="GtkMenuItem" id="convertwidget27">
-				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">days</property>
-				  <property name="use_underline">True</property>
-				</widget>
-			      </child>
-
-			      <child>
-				<widget class="GtkMenuItem" id="convertwidget28">
-				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">weeks</property>
-				  <property name="use_underline">True</property>
-				</widget>
-			      </child>
-
-			      <child>
-				<widget class="GtkMenuItem" id="convertwidget29">
-				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">months</property>
-				  <property name="use_underline">True</property>
-				</widget>
-			      </child>
-
-			      <child>
-				<widget class="GtkMenuItem" id="convertwidget30">
-				  <property name="visible">True</property>
-				  <property name="label" translatable="yes">years</property>
-				  <property name="use_underline">True</property>
-				</widget>
-			      </child>
-			    </widget>
-			  </child>
+			  <property name="items" translatable="yes">seconds
+minutes
+hours
+days
+weeks
+months
+years</property>
+			  <property name="add_tearoffs">False</property>
+			  <property name="focus_on_click">True</property>
 			</widget>
 			<packing>
 			  <property name="padding">0</property>
@@ -700,33 +606,12 @@ a time relative to when filtering occurs.</property>
 		      </child>
 
 		      <child>
-	 		<widget class="GtkOptionMenu" id="option_past_future">
+			<widget class="GtkComboBox" id="combobox_past_future">
 			  <property name="visible">True</property>
- 		      <property name="can_focus">True</property>
- 		      <property name="history">0</property>
- 
- 		      <child internal-child="menu">
- 			<widget class="GtkMenu" id="convertwidget31">
- 			  <property name="visible">True</property>
- 
- 			  <child>
- 			    <widget class="GtkMenuItem" id="convertwidget32">
- 			      <property name="visible">True</property>
- 			      <property name="label" translatable="yes">ago</property>
- 			      <property name="use_underline">True</property>
- 			    </widget>
- 			  </child>
- 
- 			  <child>
- 			    <widget class="GtkMenuItem" id="convertwidget33">
- 			      <property name="visible">True</property>
- 			      <property name="label" translatable="yes">in the future</property>
- 			      <property name="use_underline">True</property>
- 			    </widget>
- 			  </child>
- 			</widget>
- 		      </child>
-
+			  <property name="items" translatable="yes">ago
+in the future</property>
+			  <property name="add_tearoffs">False</property>
+			  <property name="focus_on_click">True</property>
 			</widget>
 			<packing>
 			  <property name="padding">0</property>

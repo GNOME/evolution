@@ -49,7 +49,9 @@ add_attendee_cb (gpointer key, gpointer value, gpointer user_data)
 	ca = g_new0 (ECalComponentAttendee, 1);
 	ca->value = str;
 	ca->cn = name;
-	/* FIXME: missing many fields */
+	ca->cutype = ICAL_CUTYPE_INDIVIDUAL;
+	ca->status = ICAL_PARTSTAT_NEEDSACTION;
+	ca->role = ICAL_ROLE_REQPARTICIPANT;
 
 	/* FIXME: user prepend and reverse list order (GList) */
 	*attendees = g_slist_append (*attendees, ca);

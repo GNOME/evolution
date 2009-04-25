@@ -58,5 +58,6 @@ void cal_comp_set_dtstart_with_oldzone (ECal *client, ECalComponent *comp, const
 void cal_comp_set_dtend_with_oldzone (ECal *client, ECalComponent *comp, const ECalComponentDateTime *pdate);
 
 gboolean cal_comp_process_source_list_drop (ECal *destination, icalcomponent *comp, GdkDragAction action, const char *source_uid, ESourceList *source_list);
+void comp_util_sanitize_recurrence_master (ECalComponent *comp, ECal *client);
 
 #endif

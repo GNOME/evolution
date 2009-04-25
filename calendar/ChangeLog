@@ -1,3 +1,242 @@
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #381132
+
+	* gui/apps_evolution_calendar.schemas.in:
+	* gui/dialogs/cal-prefs-dialog.glade:
+	* gui/dialogs/cal-prefs-dialog.h: (struct _CalendarPrefsDialog):
+	* gui/dialogs/cal-prefs-dialog.c: (update_system_tz_widgets),
+	(use_system_tz_changed), (setup_changes), (show_config),
+	(calendar_prefs_dialog_construct):
+	* gui/calendar-config-keys.h:
+	* gui/calendar-config.h:
+	* gui/calendar-config.c: (calendar_config_get_use_system_timezone),
+	(calendar_config_set_use_system_timezone),
+	(calendar_config_add_notification_use_system_timezone),
+	(calendar_config_get_timezone), (calendar_config_get_timezone_stored):
+	Be able to set system timezone as calendar's time zone.
+
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #205804
+
+	* gui/e-calendar-view.c: (e_calendar_view_get_tooltips):
+	Include timezone information in a tooltip when differs from user's.
+
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #577615
+
+	* gui/dialogs/cal-prefs-dialog.h: (struct _CalendarPrefsDialog):
+	* gui/dialogs/cal-prefs-dialog.c: (timezone_changed),
+	(daylight_saving_changed), (setup_changes), (show_config),
+	(calendar_prefs_dialog_construct):
+	* gui/dialogs/cal-prefs-dialog.glade:
+	* gui/apps_evolution_calendar.schemas.in:
+	* gui/calendar-config-keys.h:
+	* gui/calendar-config.h:
+	* gui/calendar-config.c: (set_standard_offsets),
+	(calendar_config_get_icaltimezone),
+	(calendar_config_get_daylight_saving),
+	(calendar_config_set_daylight_saving),
+	(calendar_config_add_notification_daylight_saving):
+	Get rid of "Adjust for daylight saving time" option.
+
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #572348
+
+	* gui/dialogs/task-page.glade:
+	* gui/dialogs/task-page.c:
+	* gui/dialogs/task-details-page.glade:
+	* gui/dialogs/task-details-page.c:
+	* gui/dialogs/recurrence-page.glade:
+	* gui/dialogs/recurrence-page.c:
+	* gui/dialogs/alarm-dialog.glade:
+	* gui/dialogs/alarm-dialog.c:
+	* gui/dialogs/event-page.glade:
+	* gui/dialogs/event-page.c:
+	* gui/dialogs/memo-page.glade:
+	* gui/dialogs/memo-page.c:
+	* gui/goto-dialog.glade:
+	* gui/goto.c:
+	* gui/e-itip-control.c:
+	Remove deprecated Gtk+ symbols.
+
+	* gui/dialogs/Makefile.am:
+	* gui/dialogs/meeting-page.glade:
+	Remove death files.
+
+2009-04-13  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #561312
+	* calendar/gui/comp-util.c:
+	* calendar/gui/comp-util.h: Added a new function to
+	sanitize master recurrence event before modifying 
+	all instances.
+	* calendar/gui/dialogs/comp-editor.c:
+	* calendar/gui/e-day-view.c:
+	* calendar/gui/e-week-view.c: Used the new util api.
+	Do not invoke recurrence dialog while modifying detached
+	instances.
+
+2009-04-07  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #523802
+
+	* gui/e-tasks.h: (e_tasks_get_preview):
+	* gui/e-tasks.c: (e_tasks_get_preview):
+	* gui/e-cal-component-preview.h: (e_cal_component_preview_get_html):
+	* gui/e-cal-component-preview.c: (e_cal_component_preview_get_html):
+	* gui/tasks-control.c: (tasks_control_new), (tasks_sensitize_table[]),
+	(tasks_control_sensitize_commands), (tasks_control_focus_changed),
+	(tasks_control_copy_cmd):
+	* gui/e-memos.h: (e_memos_get_preview):
+	* gui/e-memos.c: (e_memos_get_preview):
+	* gui/e-cal-component-memo-preview.h:
+	* gui/e-cal-component-memo-preview.c:
+	(e_cal_component_memo_preview_get_html):
+	* gui/memos-control.c: (memos_control_new),
+	(memos_control_sensitize_commands), (memos_control_focus_changed),
+	(memos_control_copy_cmd):
+	Use copy of the preview panel, when focused, and events' copy otherwise.
+
+2009-04-02  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #577717
+
+	* gui/dialogs/alarm-dialog.c: (alarm_to_dialog),
+	(malarm_widgets_to_alarm): Fill some default values
+	to mandatory properties of ECalComponentAttendee.
+
+2009-03-06  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #401346
+
+	* gui/e-meeting-time-sel.c: (e_meeting_time_selector_destroy):
+	Do not remove notification twice.
+	* gui/dialogs/event-editor.c: (create_schedule_page),
+	(action_free_busy_cb): Do not show Free/Busy dialog modal.
+
+2009-03-05  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #435455 (bnc)
+	* calendar/gui/dialogs/comp-editor.c:
+	* calendar/gui/dialogs/event-editor.c:
+	* calendar/gui/dialogs/event-page.c:
+	* calendar/gui/dialogs/memo-page.c:
+	* calendar/gui/dialogs/task-page.c:
+	* calendar/gui/e-calendar-view.c:
+	* calendar/gui/e-calendar-view.h:
+	* calendar/gui/e-day-view.c:
+	* calendar/gui/itip-utils.c:
+	* calendar/gui/itip-utils.h: Do not allow read-only
+	events to be resized.
+
+2009-03-04  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #573119
+
+	* gui/dialogs/comp-editor.c: (set_attendees_for_delegation):
+	* gui/e-cal-popup.c: (is_delegated), (needs_to_accept):
+	Do not ask value of not included (NULL) parameters.
+
+2009-03-04  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #573193
+
+	* gui/e-calendar-view.c: (error_response): Always destroy dialog.
+
+2009-03-04  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #573122
+
+	* gui/dialogs/cal-prefs-dialog.c: (timezone_changed), (show_config):
+	* gui/calendar-config.c: (calendar_config_get_icaltimezone):
+	* gui/e-cal-model.c: (ecm_value_at):
+	Do not pass NULL to icalcomponent_get_first_component.
+
+2009-02-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #558366
+
+	* gui/alarm-notify/alarm-notify.c: (alarm_notify_add_calendar):
+	Set default timezone to resolve floating DATE-TIME properly.
+
+2009-02-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #238346
+
+	* gui/e-calendar-view.c: (e_calendar_view_add_event): Keep old
+	timezone when adding event if possible, use the default one otherwise.
+	* gui/e-calendar-view.c: (add_related_timezones), (clipboard_get_text_cb):
+	Set timezones from component to the calendar first, then add events. Also
+	fetch timezones from the calendar, when not part of the component already.
+
+2009-02-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #529037
+
+	* gui/gnome-cal.c: (gnome_calendar_destroy):
+	Disconnect signals on ESource-s too, not only on ECal-s.
+
+2009-02-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #561465
+
+	* gui/e-meeting-list-view.c: (build_table):
+	Expand 'Attendee' column instead of the last.
+
+2009-02-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #572543
+
+	* gui/e-cal-popup.c: (ecalp_standard_menu_factory):
+	Always look for alternative apps for application/octet-stream.
+
+2009-02-22  Tobias Mueller  <tobiasmue@svn.gnome.org>
+
+	* gui/e-itip-control.c (refresh_options_object):
+	Make it use the proper action. Patch by Paweł Zembrzuski
+	
+	** Fixes bug 566556
+
+2009-02-20  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #567949
+
+	* gui/e-day-view.c: (set_text_as_bold):
+	* gui/e-week-view.c: (set_text_as_bold):
+	Do not free memory before done with it.
+
+2009-02-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #572348
+
+	* gui/alarm-notify/alarm-queue.c (display_notification):
+	Call gtk_status_icon_set_tooltip_text() instead of
+	gtk_status_icon_set_tooltip() (deprecated).
+
+	* gui/weekday-picker.c (configure_items):
+	Remove dead code.
+
+2009-02-19  Andre Klapper  <a9016009@gmx.de>
+
+	* /gui/e-day-view.c:
+	Remove useless and deprecated gtk_layout_freeze and gtk_layout_thaw
+	calls.
+
+2009-02-16  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #550114
+
+	* gui/e-calendar-table.h: (ec_query_tooltip):
+	* gui/e-calendar-table.c: (ec_query_tooltip): Offer it to others too.
+	* gui/e-calendar-table.c: (query_tooltip_cb): Use above funtion.
+	Show proper tooltip in table with grouping columns.
+	* gui/e-memo-table.c: (query_tooltip_cb), (e_memo_table_init):
+	Show tooltips in memo view too.
+
 2009-02-13  Chow Loong Jin <hyperair@gmail.com>
 
 	** Fixes bug #571625

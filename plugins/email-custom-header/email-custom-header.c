@@ -684,12 +684,13 @@ header_foreach_check_isempty (GtkTreeModel *model, GtkTreePath *path, GtkTreeIte
 		signal (if we delete the row, then the iter gets corrupted) */
 		if ((keyword) && !(g_utf8_strlen (g_strstrip (keyword), -1) > 0))
 			gtk_tree_model_row_changed (model, path, iter);
-		
-                gtk_tree_model_get (model, iter, HEADER_VALUE_COLUMN, &value, -1);
-                /* Check if the keyword is not empty and then emit the row-changed
-                signal (if we delete the row, then the iter gets corrupted) */
-                if ((value) && !(g_utf8_strlen (g_strstrip (value), -1) > 0))
-                        gtk_tree_model_row_changed (model, path, iter);
+		else {
+			gtk_tree_model_get (model, iter, HEADER_VALUE_COLUMN, &value, -1);
+			/* Check if the keyword is not empty and then emit the row-changed
+			signal (if we delete the row, then the iter gets corrupted) */
+			if ((value) && !(g_utf8_strlen (g_strstrip (value), -1) > 0))
+				gtk_tree_model_row_changed (model, path, iter);
+		}
 
 		g_free (keyword);
                 g_free (value);

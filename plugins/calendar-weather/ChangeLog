@@ -1,3 +1,9 @@
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #572348
+
+	* calendar-weather.c: Remove deprecated Gtk+ symbols.
+
 2008-12-10  Suman Manjunath  <msuman@novell.com>
 
 	* Makefile.am: Don't try to specify LIBGWEATHER_(CFLAGS|LIBS), they

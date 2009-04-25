@@ -509,10 +509,10 @@ ethi_add_drop_marker (ETableHeaderItem *ethi, int col, gboolean recreate)
 	rx -= gtk_layout_get_hadjustment (GTK_LAYOUT (GNOME_CANVAS_ITEM (ethi)->canvas))->value;
 	ry -= gtk_layout_get_vadjustment (GTK_LAYOUT (GNOME_CANVAS_ITEM (ethi)->canvas))->value;
 
-	gtk_widget_set_uposition (arrow_down, rx + x - ARROW_PTR, ry - ARROW_DOWN_HEIGHT);
+	gtk_window_move (GTK_WINDOW (arrow_down), rx + x - ARROW_PTR, ry - ARROW_DOWN_HEIGHT);
 	gtk_widget_show_all (arrow_down);
 
-	gtk_widget_set_uposition (arrow_up, rx + x - ARROW_PTR, ry + ethi->height);
+	gtk_window_move (GTK_WINDOW (arrow_up), rx + x - ARROW_PTR, ry + ethi->height);
 	gtk_widget_show_all (arrow_up);
 }
 

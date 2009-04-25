@@ -1,3 +1,13 @@
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #572348
+
+	* filter.glade:
+	* filter-datespec.c:
+	* filter-rule.c:
+	* filter-option.c:
+	Remove deprecated Gtk+ symbols.
+
 2009-01-11  Tor Lillqvist  <tml@novell.com>
 
 	* filter-option.c (get_dynamic_options): Add cast to avoid

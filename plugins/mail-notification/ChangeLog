@@ -1,3 +1,11 @@
+2009-02-19  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #572348
+
+	* mail-notification.c (new_notify_status):
+	Call gtk_status_icon_set_tooltip_text() instead of
+	gtk_status_icon_set_tooltip() (decprecated).
+
 2009-01-28  Tor Lillqvist  <tml@novell.com>
 
 	* Makefile.am: Use -no-undefined and link with more libraries on

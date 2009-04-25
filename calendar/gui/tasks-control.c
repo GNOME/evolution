@@ -43,6 +43,7 @@
 #include "evolution-shell-component-utils.h"
 #include "e-util/e-menu.h"
 #include "e-cal-menu.h"
+#include "e-cal-component-preview.h"
 #include "e-util/e-menu.h"
 #include "itip-utils.h"
 
@@ -94,11 +95,13 @@ sensitize_items(BonoboUIComponent *uic, struct _tasks_sensitize_item *items, gui
 	}
 }
 
+#define E_CAL_TASKS_PREVIEW_ACTIVE (1<<31)
+
 static struct _tasks_sensitize_item tasks_sensitize_table[] = {
 	{ "TasksOpenTask", E_CAL_MENU_SELECT_ONE },
-	{ "TasksCut", E_CAL_MENU_SELECT_ANY | E_CAL_MENU_SELECT_EDITABLE },
+	{ "TasksCut", E_CAL_MENU_SELECT_ANY | E_CAL_MENU_SELECT_EDITABLE | E_CAL_TASKS_PREVIEW_ACTIVE },
 	{ "TasksCopy", E_CAL_MENU_SELECT_ANY },
-	{ "TasksPaste", E_CAL_MENU_SELECT_EDITABLE },
+	{ "TasksPaste", E_CAL_MENU_SELECT_EDITABLE | E_CAL_TASKS_PREVIEW_ACTIVE },
 	{ "TasksDelete", E_CAL_MENU_SELECT_ANY | E_CAL_MENU_SELECT_EDITABLE },
 	{ "TasksMarkComplete", E_CAL_MENU_SELECT_ANY | E_CAL_MENU_SELECT_EDITABLE | E_CAL_MENU_SELECT_NOTCOMPLETE},
 	{ "TasksPurge",  E_CAL_MENU_SELECT_EDITABLE },
@@ -122,6 +125,7 @@ tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_s
 	GPtrArray *events;
 	GSList *selected = NULL, *l = NULL;
 	ECalendarTable *cal_table;
+	GtkWidget *preview;
 
 	uic = bonobo_control_get_ui_component (control);
 	g_return_if_fail (uic != NULL);
@@ -148,6 +152,12 @@ tasks_control_sensitize_commands (BonoboControl *control, ETasks *tasks, int n_s
 	if (ecal)
 		e_cal_is_read_only (ecal, &read_only, NULL);
 
+	preview = e_cal_component_preview_get_html (E_CAL_COMPONENT_PREVIEW (e_tasks_get_preview (tasks)));
+	if (preview && GTK_WIDGET_VISIBLE (preview) && GTK_WIDGET_HAS_FOCUS (preview))
+		t->target.mask = t->target.mask | E_CAL_TASKS_PREVIEW_ACTIVE;
+	else
+		t->target.mask = t->target.mask & (~E_CAL_TASKS_PREVIEW_ACTIVE);
+
 	sensitize_items (uic, tasks_sensitize_table, t->target.mask);
 	e_menu_update_target ((EMenu *)menu, (EMenuTarget *)t);
 }
@@ -161,6 +171,16 @@ selection_changed_cb (ETasks *tasks, int n_selected, gpointer data)
 	control = BONOBO_CONTROL (data);
 
 	tasks_control_sensitize_commands (control, tasks, n_selected);
+}
+
+static gboolean
+tasks_control_focus_changed (GtkWidget *widget, GdkEventFocus *event, struct focus_changed_data *fc_data)
+{
+	g_return_val_if_fail (fc_data != NULL, FALSE);
+
+	tasks_control_sensitize_commands (fc_data->control, fc_data->tasks, -1);
+
+	return FALSE;
 }
 
 static BonoboUIVerb verbs [] = {

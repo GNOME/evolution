@@ -1,3 +1,30 @@
+2009-04-12  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Remove a bunch of juvenile comments.  Source code should
+	   look professional, even if some developers are not.
+
+2009-03-16  Srinivasa Ragavan  <sragavan@novell.com>
+
+	* NEWS: Evolution 2.26.0 release and version bump
+
+2009-03-08  David Planella  <david.planella@gmail.com>
+
+	* configure.in: Added Makefiles for the Catalan translations of the
+	welcome e-mail and quick reference.
+
+2009-03-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	* configure.in: Post-release version bump.
+
+2009-03-02  Matthew Barnes  <mbarnes@redhat.com>
+
+	* NEWS: Evolution 2.25.92 release
+
+2009-02-24  Matthew Barnes  <mbarnes@redhat.com>
+
+	* MAINTAINERS:
+	Add myself as a Shell maintainer, with Srini's permission.
+
 2009-02-02  Srinivasa Ragavan  <sragavan@novell.com>
 
 	* NEWS: Evolution 2.25.90 release

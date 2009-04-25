@@ -1,3 +1,90 @@
+Evolution 2.26.0 2009-03-16
+----------------------------
+
+What is new in 2.26.0?
+
+	Exchange MAPI integration for Exchange 2007 connectivity.
+	PST Import support through plugins.
+	Calendar view performance improvements
+	Loads of stability & bug fixes
+
+Evolution 2.25.92 2009-03-02
+----------------------------
+
+Updated Translations:
+	Andre Gondim (pt)
+	Bruno Brouard and Claude Paroz (fr)
+	Changwoo Ryu (ko)
+	Chao-Hsiung Liao (zh)
+	Clytie Siddall (vi)
+	Daniel Nylander (sv)
+	David Planella (ca)
+	Gabor Kelemen (hu)
+	Ihar (be)
+	Ilkka Tuohela (fi)
+	Inaki Larranaga Murgoitio (eu)
+	Ivar Smolin (et)
+	Jiri Eischmann (cs)
+	Jorge Gonzalez (es)
+	Kenneth Nielsen (da)
+	Kjartan Maraas (nb)
+	Manoj Kumar Giri (or)
+	Mattias Põldaru (et)
+	Philip Withnall (en)
+	Simos Xenitellis (el)
+	Sweta Kothari (gu)
+	Takeshi AIHANA (ja)
+	Theppitak Karoonboonyanan (th)
+	Wouter Bolsterlee (nl)
+
+Bug Fixes:
+	#238346 : Set timezones from component to the calendar first, then add events (Milan Crha)
+	#333716 : Do not store incomplete or broken files in a cache (Milan Crha)
+	#404232 : Rebuild view immediately for an advanced search too (Milan Crha)
+	#404232 : search bar text is set, thus the text will not be empty, which is considered as "no search" these days. (Milan Crha)
+	#529037 : Disconnect signals on ESource-s too, not only on ECal-s (Milan Crha)
+	#548623 : No auto-proxy at the moment (Milan Crha)
+	#550114 : Replaced 'compute_mouse_over' with 'get_mouse_over', now works with cached values 'motion_row', 'motion_col' (Milan Crha)
+	#550114 : Show proper tooltip in table with grouping columns (Milan Crha)
+	#551470 : Do not force adding "-- 
+	#554458 : Make content type from a mime type first (Milan Crha)
+	#555888 : Do not overwrite user settings with system proxy settings (Milan Crha)
+	#558366 : Set default timezone to resolve floating DATE-TIME properly (Milan Crha)
+	#559027 : Do not set date for 'None' value (Milan Crha)
+	#559719 : Use it's own/unique name for the property on the 'epl' and free the widget only if it wasn't freed yet (Milan Crha)
+	#561465 : Expand 'Attendee' column instead of the last (Milan Crha)
+	#563212 : Ensure empty GError before filling it (Milan Crha)
+	#564229 : Do not use uninitialized variable (Milan Crha)
+	#564229 : Initialize the EPluginUI registry during class initialization, so that it's sure to be there when we need it (Matthew Barnes)
+	#567089 : Do not crash when no From set yet (Milan Crha)
+	#567949 : Do not free memory before done with it (Milan Crha)
+	#568176 : Make the migration dialog look better (Gilles Dartiguelongue)
+	#569700 : Stop reading from a network when operation was canceled (Milan Crha)
+	#569986 : (Srinivasa Ragavan)
+	#570364 : (Gabor Kelemen)
+	#571625 : Use black/white for foreground instead of active/inactive text color (Chow Loong Jin)
+	#571721 : (Milan Crha)
+	#572268 : Do not duplicate "Loading..." node when adding to existing node (Milan Crha)
+	#572348 : Call gtk_status_icon_set_tooltip_text() instead of gtk_status_icon_set_tooltip() (decprecated) (Matthew Barnes)
+	#572399 : Do not read from invalid iterator after call of row changed (Milan Crha)
+	#572543 : Always look for alternative apps for application/octet-stream (Milan Crha)
+	#572903 : (Philip Withnall)
+	#572950 : Fix ordering of -I compiler directives (Daniel Macks)
+	#572962 : Pass e_shell_dbus_initialise() the right type of object, and fix the incorrect function declaration. Go offline when we see NM_STATE_ASLEEP from NetworkManager (Matthew Barnes)
+	#572975 : Destroy file chooser dialog early enough to not have hidden any other windows below it (Milan Crha)
+	#573198 : (Chenthill Palanisamy)
+	$566556 : Make it use the proper action. (Paweł Zembrzuski)
+
+Other contributions:
+	Build a "GUI" executable. (Tor Lillqvist)
+	Do not use non-zero page size in an adjustment, it's deprecated now. (Milan Crha)
+	Format signature/encryption information nicer. (Milan Crha)
+	Function-declaration compiler warning. (Suman Manjunath)
+	Migrate from deprecated gtk_window_set_policy to gtk_window_set_resizable (Andre Klapper)
+	Remove deprecated gtk_combo_set_case_sensitive() call. (Andre Klapper)
+	Remove useless and deprecated gtk_layout_freeze and gtk_layout_thaw calls. (Andre Klapper)
+	Substitute some deprecated gtk functions. (Andre Klapper)
+
 Evolution 2.25.90 2009-02-02
 ----------------------------
 

@@ -122,13 +122,13 @@ itip_organizer_is_user (ECalComponent *comp, ECal *client)
 }
 
 gboolean
-itip_sentby_is_user (ECalComponent *comp)
+itip_sentby_is_user (ECalComponent *comp, ECal *client)
 {
 	ECalComponentOrganizer organizer;
 	const char *strip;
 	gboolean user_sentby = FALSE;
 
-	if (!e_cal_component_has_organizer (comp))
+	if (!e_cal_component_has_organizer (comp) ||e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_NO_ORGANIZER))
 		return FALSE;
 
 	e_cal_component_get_organizer (comp, &organizer);
@@ -935,7 +935,7 @@ comp_sentby (ECalComponent *comp, ECal *client)
 		}
 	}
 
-	if (!itip_organizer_is_user (comp, client) && !itip_sentby_is_user (comp)) {
+	if (!itip_organizer_is_user (comp, client) && !itip_sentby_is_user (comp, client)) {
 		EAccount *a = itip_addresses_get_default ();
 
 		organizer.value = g_strdup (organizer.value);

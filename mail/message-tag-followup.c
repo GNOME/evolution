@@ -112,7 +112,7 @@ message_tag_followup_class_init (MessageTagFollowUpClass *klass)
 static void
 message_tag_followup_init (MessageTagFollowUp *editor)
 {
-	editor->combo = NULL;
+	editor->combo_entry = NULL;
 	editor->target_date = NULL;
 	editor->completed = NULL;
 	editor->clear = NULL;
@@ -139,7 +139,7 @@ get_tag_list (MessageTagEditor *editor)
 	time_t date;
 	char *text;
 
-	camel_tag_set (&tags, "follow-up", gtk_entry_get_text (GTK_ENTRY (followup->combo->entry)));
+	camel_tag_set (&tags, "follow-up", gtk_entry_get_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (followup->combo_entry)))));
 
 	date = e_date_edit_get_time (followup->target_date);
 	if (date != (time_t) -1) {
@@ -170,7 +170,7 @@ set_tag_list (MessageTagEditor *editor, CamelTag *tags)
 
 	text = camel_tag_get (&tags, "follow-up");
 	if (text)
-		gtk_entry_set_text (GTK_ENTRY (followup->combo->entry), text);
+		gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (followup->combo_entry))), text);
 
 	text = camel_tag_get (&tags, "due-by");
 	if (text && *text) {
@@ -195,7 +195,7 @@ clear_clicked (GtkButton *button, gpointer user_data)
 {
 	MessageTagFollowUp *followup = user_data;
 
-	gtk_list_select_item (GTK_LIST (followup->combo->list), DEFAULT_FLAG);
+	gtk_combo_box_set_active (followup->combo_entry, DEFAULT_FLAG);
 
 	e_date_edit_set_time (followup->target_date, (time_t) -1);
 	gtk_toggle_button_set_active (followup->completed, FALSE);
@@ -268,7 +268,6 @@ construct (MessageTagEditor *editor)
 	GtkCellRenderer *renderer;
 	GtkListStore *model;
 	GtkWidget *widget;
-	GList *strings;
 	GladeXML *gui;
 	int i;
 	char *gladefile;
@@ -311,14 +310,11 @@ construct (MessageTagEditor *editor)
 	gtk_tree_view_insert_column_with_attributes (followup->message_list, -1, _("Subject"),
 						     renderer, "text", 1, NULL);
 
-	followup->combo = GTK_COMBO (glade_xml_get_widget (gui, "combo"));
-	gtk_combo_set_case_sensitive (followup->combo, FALSE);
-	strings = NULL;
+	followup->combo_entry = GTK_COMBO_BOX (glade_xml_get_widget (gui, "combo"));
+	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (followup->combo_entry)));
 	for (i = 0; i < num_available_flags; i++)
-		strings = g_list_append (strings, (char *) _(available_flags[i]));
-	gtk_combo_set_popdown_strings (followup->combo, strings);
-	g_list_free (strings);
-	gtk_list_select_item (GTK_LIST (followup->combo->list), DEFAULT_FLAG);
+		gtk_combo_box_append_text (followup->combo_entry, (char *) _(available_flags[i]));
+	gtk_combo_box_set_active (followup->combo_entry, DEFAULT_FLAG);
 
 	followup->target_date = E_DATE_EDIT (glade_xml_get_widget (gui, "target_date"));
 	/* glade bug, need to show this ourselves */

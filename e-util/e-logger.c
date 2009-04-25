@@ -139,7 +139,7 @@ logger_finalize (GObject *object)
 
 	if (logger->priv->timer)
 		g_source_remove (logger->priv->timer);
-	logger_flush (logger);
+	flush_logfile (logger);
 	if (logger->priv->fp)
 		fclose (logger->priv->fp);
 

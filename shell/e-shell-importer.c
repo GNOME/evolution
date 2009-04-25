@@ -55,9 +55,6 @@ typedef struct _ImportDialogFilePage {
 	GtkWidget *vbox;
 	GtkWidget *filename;
 	GtkWidget *filetype;
-	GtkWidget *menu;
-
-	GSList *items;
 
 	EImportTargetURI *target;
 	EImportImporter *importer;
@@ -186,7 +183,10 @@ filename_changed (GtkWidget *widget,
 
 	fileok = filename && filename[0] && g_file_test(filename, G_FILE_TEST_IS_REGULAR);
 	if (fileok) {
-		GSList *l, *item;
+		GtkTreeIter iter;
+		GtkTreeModel *model;
+		gboolean valid;
+		GSList *l;
 		EImportImporter *first = NULL;
 		int i=0, firstitem=0;
 
@@ -194,48 +194,60 @@ filename_changed (GtkWidget *widget,
 		page->target->uri_src = g_filename_to_uri(filename, NULL, NULL);
 
 		l = e_import_get_importers(data->import, (EImportTarget *)page->target);
-		item = page->items;
-		while (item) {
-			EImportImporter *eii = g_object_get_data(item->data, "importer");
+		model = gtk_combo_box_get_model (GTK_COMBO_BOX (page->filetype));
+		valid = gtk_tree_model_get_iter_first (model, &iter);
+		while (valid) {
+			gpointer eii = NULL;
 
-			if (g_slist_find(l, eii) != NULL) {
+			gtk_tree_model_get (model, &iter, 2, &eii, -1);
+
+			if (g_slist_find (l, eii) != NULL) {
 				if (first == NULL) {
 					firstitem = i;
 					first = eii;
 				}
-				gtk_widget_set_sensitive(item->data, TRUE);
+				gtk_list_store_set (GTK_LIST_STORE (model), &iter, 1, TRUE, -1);
 				fileok = TRUE;
 			} else {
 				if (page->importer == eii)
 					page->importer = NULL;
-				gtk_widget_set_sensitive(item->data, FALSE);
+				gtk_list_store_set (GTK_LIST_STORE (model), &iter, 1, FALSE, -1);
 			}
 			i++;
-			item = item->next;
+			valid = gtk_tree_model_iter_next (model, &iter);
 		}
 		g_slist_free(l);
 
 		if (page->importer == NULL && first) {
 			page->importer = first;
-			gtk_option_menu_set_history((GtkOptionMenu *)page->filetype, firstitem);
+			gtk_combo_box_set_active (GTK_COMBO_BOX (page->filetype), firstitem);
 		}
 		fileok = first != NULL;
 	} else {
-		GSList *item;
+		GtkTreeIter iter;
+		GtkTreeModel *model;
+		gboolean valid;
 
-		for (item = page->items;item;item=item->next)
-			gtk_widget_set_sensitive(item->data, FALSE);
+		model = gtk_combo_box_get_model (GTK_COMBO_BOX (page->filetype));
+		for (valid = gtk_tree_model_get_iter_first (model, &iter);
+		     valid;
+		     valid = gtk_tree_model_iter_next (model, &iter)) {
+			gtk_list_store_set (GTK_LIST_STORE (model), &iter, 1, FALSE, -1);
+		}
 	}
 
 	gnome_druid_set_buttons_sensitive(GNOME_DRUID (data->druid), TRUE, fileok, TRUE, FALSE);
 }
 
 static void
-item_selected (GtkWidget *item,
-	       ImportData *data)
+filetype_changed_cb (GtkWidget *combobox, ImportData *data)
 {
-	data->filepage->importer = g_object_get_data((GObject *)item, "importer");
-	filename_changed(data->filepage->filename, data);
+	GtkTreeIter iter;
+
+	g_return_if_fail (gtk_combo_box_get_active_iter (GTK_COMBO_BOX (combobox), &iter));
+
+	gtk_tree_model_get (gtk_combo_box_get_model (GTK_COMBO_BOX (combobox)), &iter, 2, &data->filepage->importer, -1);
+	filename_changed (data->filepage->filename, data);
 }
 
 static ImportDialogFilePage *
@@ -243,6 +255,8 @@ importer_file_page_new (ImportData *data)
 {
 	ImportDialogFilePage *page;
 	GtkWidget *table, *label;
+	GtkCellRenderer *cell;
+	GtkListStore *store;
 	int row = 0;
 
 	page = g_new0 (ImportDialogFilePage, 1);
@@ -274,7 +288,19 @@ importer_file_page_new (ImportData *data)
 			  GTK_FILL, 0, 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);
 
-	page->filetype = gtk_option_menu_new ();
+	store = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_POINTER);
+	page->filetype = gtk_combo_box_new_with_model (GTK_TREE_MODEL (store));
+	g_object_unref (store);
+
+	gtk_cell_layout_clear (GTK_CELL_LAYOUT (page->filetype));
+
+	cell = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (page->filetype), cell, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (page->filetype), cell,
+                                  "text", 0,
+                                  "sensitive", 1,
+                                  NULL);
+
 	gtk_table_attach (GTK_TABLE (table), page->filetype, 1, 2,
 			  row, row + 1, GTK_EXPAND | GTK_FILL, 0, 0, 0);
 	gtk_label_set_mnemonic_widget(GTK_LABEL(label), page->filetype);
@@ -417,7 +443,6 @@ import_druid_weak_notify (void *blah,
 
 	if (data->filepage->target)
 		e_import_target_free(data->import, data->filepage->target);
-	g_slist_free(data->filepage->items);
 
 	g_object_unref(data->import);
 
@@ -511,8 +536,8 @@ prepare_file_page (GnomeDruidPage *dpage,
 		   GnomeDruid *druid,
 		   ImportData *data)
 {
-	GtkWidget *item, *menu;
-	GSList *importers;
+	GSList *importers, *imp;
+	GtkListStore *store;
 	ImportDialogFilePage *page = data->filepage;
 
 	if (page->target != NULL) {
@@ -521,27 +546,31 @@ prepare_file_page (GnomeDruidPage *dpage,
 	}
 
 	page->target = e_import_target_new_uri(data->import, NULL, NULL);
-	importers = e_import_get_importers(data->import, (EImportTarget *)page->target);
+	importers = e_import_get_importers (data->import, (EImportTarget *)page->target);
 
-	menu = gtk_menu_new();
-	while (importers) {
-		EImportImporter *eii = importers->data;
+	store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (page->filetype)));
+	gtk_list_store_clear (store);
 
-		item = gtk_menu_item_new_with_label(eii->name);
-		gtk_widget_show(item);
-		g_object_set_data((GObject *)item, "importer", eii);
-		g_signal_connect(item, "activate", G_CALLBACK(item_selected), data);
-		gtk_menu_shell_append((GtkMenuShell *)menu, item);
+	for (imp = importers; imp; imp = imp->next) {
+		GtkTreeIter iter;
+		EImportImporter *eii = imp->data;
 
-		data->filepage->items = g_slist_append(data->filepage->items, item);
-		importers = importers->next;
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (
+			store, &iter,
+			0, eii->name,
+			1, TRUE,
+			2, eii,
+			-1);
 	}
-	g_slist_free(importers);
 
-	data->filepage->menu = menu;
-	gtk_option_menu_set_menu((GtkOptionMenu *)data->filepage->filetype, menu);
+	g_slist_free (importers);
 
-	filename_changed(data->filepage->filename, data);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (page->filetype), 0);
+
+	filename_changed (data->filepage->filename, data);
+
+	g_signal_connect (page->filetype, "changed", G_CALLBACK (filetype_changed_cb), data);
 
 	return FALSE;
 }

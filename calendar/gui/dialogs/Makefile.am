@@ -89,7 +89,6 @@ glade_DATA =				\
 	cal-prefs-dialog.glade		\
 	e-delegate-dialog.glade		\
 	event-page.glade		\
-	meeting-page.glade		\
 	memo-page.glade			\
 	recurrence-page.glade		\
 	schedule-page.glade		\

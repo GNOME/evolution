@@ -73,8 +73,14 @@ char     *calendar_config_get_primary_calendar (void);
 void	  calendar_config_set_primary_calendar (const char *primary_uid);
 guint	  calendar_config_add_notification_primary_calendar (GConfClientNotifyFunc func, gpointer data);
 
+/* Use system timezone; if TRUE, then influences also the current timezone functions. */
+gboolean calendar_config_get_use_system_timezone (void);
+void     calendar_config_set_use_system_timezone (gboolean use);
+guint    calendar_config_add_notification_use_system_timezone (GConfClientNotifyFunc func, gpointer data);
+
 /* The current timezone, e.g. "Europe/London". */
 gchar*	  calendar_config_get_timezone		(void);
+gchar*	  calendar_config_get_timezone_stored	(void);
 icaltimezone *calendar_config_get_icaltimezone (void);
 void	  calendar_config_set_timezone		(const gchar	     *timezone);
 guint calendar_config_add_notification_timezone (GConfClientNotifyFunc func, gpointer data);
@@ -259,9 +265,16 @@ gboolean  calendar_config_locale_supports_12_hour_format(void);
 void	  calendar_config_set_dir_path (const char *);
 char *	  calendar_config_get_dir_path (void);
 
-gboolean calendar_config_get_daylight_saving (void);
-void calendar_config_set_daylight_saving (gboolean daylight_saving);
-guint calendar_config_add_notification_daylight_saving (GConfClientNotifyFunc func, gpointer data);
+GSList *calendar_config_get_day_second_zones (void);
+void    calendar_config_free_day_second_zones (GSList *zones);
+void    calendar_config_set_day_second_zone (const char *location);
+char *  calendar_config_get_day_second_zone (void);
+void    calendar_config_select_day_second_zone (void);
+guint   calendar_config_add_notification_day_second_zone (GConfClientNotifyFunc func, gpointer data);
+
+/* Birthdays & Anniversaries reminder settings */
+gboolean calendar_config_get_ba_reminder (int *interval, CalUnits *units);
+void calendar_config_set_ba_reminder (gboolean *enabled, int *interval, CalUnits *units);
 
 GSList *calendar_config_get_day_second_zones (void);
 void    calendar_config_free_day_second_zones (GSList *zones);

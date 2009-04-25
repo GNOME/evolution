@@ -2,8 +2,8 @@
 AC_PREREQ(2.52)
 
 m4_define([evo_major_version], [2])
-m4_define([evo_minor_version], [25])
-m4_define([evo_micro_version], [91])
+m4_define([evo_minor_version], [27])
+m4_define([evo_micro_version], [1])
 m4_define([evo_version],
           [evo_major_version.evo_minor_version.evo_micro_version])
 m4_define([evo_stable_version],
@@ -77,7 +77,7 @@ dnl This is for api/versioning tracking for things like bonobo .server files
 dnl
 dnl This should always be the major/minor of the stable version or stable version to be
 dnl *************************************************************************************************
-BASE_VERSION=2.26
+BASE_VERSION=2.28
 AC_SUBST(BASE_VERSION)
 AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION", [Base version (Major.Minor)])
 
@@ -2034,6 +2034,7 @@ filter/Makefile
 help/Makefile
 help/quickref/Makefile
 help/quickref/C/Makefile
+help/quickref/ca/Makefile
 help/quickref/cs/Makefile
 help/quickref/de/Makefile
 help/quickref/es/Makefile
@@ -2078,6 +2079,7 @@ composer/Makefile
 mail/Makefile
 mail/default/Makefile
 mail/default/C/Makefile
+mail/default/ca/Makefile
 mail/default/cs/Makefile
 mail/default/de/Makefile
 mail/default/es/Makefile

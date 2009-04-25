@@ -809,6 +809,12 @@ send_queue_done (struct _send_queue_msg *m)
 		m->done(m->destination, m->data);
 }
 
+static gchar *
+send_queue_desc (struct _send_queue_msg *m)
+{
+	return g_strdup (_("Sending message"));
+}
+
 static void
 send_queue_free (struct _send_queue_msg *m)
 {
@@ -822,7 +828,7 @@ send_queue_free (struct _send_queue_msg *m)
 
 static MailMsgInfo send_queue_info = {
 	sizeof (struct _send_queue_msg),
-	(MailMsgDescFunc) NULL,
+	(MailMsgDescFunc) send_queue_desc,
 	(MailMsgExecFunc) send_queue_exec,
 	(MailMsgDoneFunc) send_queue_done,
 	(MailMsgFreeFunc) send_queue_free
@@ -1665,9 +1671,9 @@ refresh_folder_desc (struct _sync_folder_msg *m)
 static void
 refresh_folder_exec (struct _sync_folder_msg *m)
 {
-	camel_folder_sync (m->folder, FALSE, &m->base.ex);
+	//camel_folder_sync (m->folder, FALSE, &m->base.ex);
 
-	if (!camel_exception_is_set (&m->base.ex))
+	//if (!camel_exception_is_set (&m->base.ex))
 		camel_folder_refresh_info(m->folder, &m->base.ex);
 }
 
@@ -1769,10 +1775,10 @@ empty_trash_exec (struct _empty_trash_msg *m)
 		g_free (uri);
 	}
 
-	if (trash)
+	if (trash) {
 		camel_folder_expunge (trash, &m->base.ex);
-
-	camel_object_unref (trash);
+		camel_object_unref (trash);
+	}
 }
 
 static void

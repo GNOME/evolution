@@ -122,11 +122,29 @@ em_filter_editor_new (EMFilterContext *fc, const EMFilterSource *source_names)
 }
 
 static void
-select_source (GtkMenuItem *mi, EMFilterEditor *fe)
+free_sources (gpointer data)
+{
+	GSList *sources = data;
+
+	g_slist_foreach (sources, (GFunc)g_free, NULL);
+	g_slist_free (sources);
+}
+
+static void
+select_source (GtkComboBox *combobox, EMFilterEditor *fe)
 {
 	char *source;
+	int idx;
+	GSList *sources;
 
-	source = g_object_get_data(G_OBJECT(mi), "source");
+	g_return_if_fail (GTK_IS_COMBO_BOX (combobox));
+
+	idx = gtk_combo_box_get_active (combobox);
+	sources = g_object_get_data (G_OBJECT (combobox), "sources");
+	
+	g_return_if_fail (idx >= 0 && idx < g_slist_length (sources));
+
+	source = (char *)g_slist_nth (sources, idx);
 	g_return_if_fail (source);
 
 	rule_editor_set_source ((RuleEditor *)fe, source);
@@ -135,23 +153,23 @@ select_source (GtkMenuItem *mi, EMFilterEditor *fe)
 void
 em_filter_editor_construct (EMFilterEditor *fe, EMFilterContext *fc, GladeXML *gui, const EMFilterSource *source_names)
 {
-	GtkWidget *menu, *item, *omenu;
+	GtkWidget *combobox;
 	int i;
 	GtkTreeViewColumn *column;
+	GSList *sources = NULL;
 
-        omenu = glade_xml_get_widget (gui, "filter_source");
-	gtk_option_menu_remove_menu (GTK_OPTION_MENU (omenu));
-	menu = gtk_menu_new ();
+        combobox = glade_xml_get_widget (gui, "filter_source_combobox");
+	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (combobox))));
 
 	for (i = 0; source_names[i].source; i++) {
-		item = gtk_menu_item_new_with_label(source_names[i].name);
-		g_object_set_data_full((GObject *)item, "source", g_strdup(source_names[i].source), g_free);
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-		gtk_widget_show (item);
-		g_signal_connect (item, "activate", G_CALLBACK (select_source), fe);
+		gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), source_names[i].name);
+		sources = g_slist_append (sources, g_strdup(source_names[i].source));
 	}
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (omenu), menu);
-	gtk_widget_show (omenu);
+
+	gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), 0);
+	g_signal_connect (combobox, "changed", G_CALLBACK (select_source), fe);
+	g_object_set_data_full (G_OBJECT (combobox), "sources", sources, free_sources);
+	gtk_widget_show (combobox);
 
 	rule_editor_construct ((RuleEditor *) fe, (RuleContext *) fc, gui, source_names[0].source, _("_Filter Rules"));
 

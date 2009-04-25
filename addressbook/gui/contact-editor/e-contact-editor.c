@@ -54,8 +54,6 @@
 
 #include "eab-contact-merging.h"
 
-#include "e-contact-editor-address.h"
-#include "e-contact-editor-im.h"
 #include "e-contact-editor-fullname.h"
 
 #define EMAIL_SLOTS   4
@@ -500,7 +498,7 @@ name_to_style (const EContactName *name, const gchar *company, int style)
 static int
 file_as_get_style (EContactEditor *editor)
 {
-	GtkEntry *file_as = GTK_ENTRY(glade_xml_get_widget(editor->gui, "entry-file-as"));
+	GtkEntry *file_as = GTK_ENTRY (gtk_bin_get_child (GTK_BIN (glade_xml_get_widget(editor->gui, "combo-file-as"))));
 	GtkEntry *company_w = GTK_ENTRY (glade_xml_get_widget (editor->gui, "entry-company"));
 	char *filestring;
 	char *trystring;
@@ -533,22 +531,19 @@ file_as_set_style (EContactEditor *editor, int style)
 	char *string;
 	int i;
 	GList *strings = NULL;
-	GtkEntry *file_as = GTK_ENTRY (glade_xml_get_widget (editor->gui, "entry-file-as"));
+	GtkComboBox *combo_file_as = GTK_COMBO_BOX (glade_xml_get_widget (editor->gui, "combo-file-as"));
 	GtkEntry *company_w = GTK_ENTRY (glade_xml_get_widget (editor->gui, "entry-company"));
-	GtkWidget *widget;
 	const gchar *company;
 
-	if (!(file_as && GTK_IS_ENTRY (file_as)))
+	if (!(combo_file_as && GTK_IS_COMBO_BOX_ENTRY (combo_file_as)))
 		return;
 
 	company = gtk_entry_get_text (GTK_ENTRY (company_w));
 
 	if (style == -1) {
-		string = g_strdup (gtk_entry_get_text(file_as));
+		string = gtk_combo_box_get_active_text (combo_file_as);
 		strings = g_list_append (strings, string);
 	}
-
-	widget = glade_xml_get_widget (editor->gui, "combo-file-as");
 
 	for (i = 0; i < 6; i++) {
 		if (style_makes_sense (editor->name, company, i)) {
@@ -561,16 +556,22 @@ file_as_set_style (EContactEditor *editor, int style)
 		}
 	}
 
-	if (widget && GTK_IS_COMBO (widget)) {
-		GtkCombo *combo = GTK_COMBO (widget);
-		gtk_combo_set_popdown_strings (combo, strings);
-		g_list_foreach (strings, (GFunc) g_free, NULL);
-		g_list_free (strings);
+	if (combo_file_as) {
+		GList *l;
+
+		gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (combo_file_as)));
+
+		for (l = strings; l; l = l->next) {
+			gtk_combo_box_append_text (combo_file_as, l->data);
+		}
 	}
+
+	g_list_foreach (strings, (GFunc) g_free, NULL);
+	g_list_free (strings);
 
 	if (style != -1) {
 		string = name_to_style (editor->name, company, style);
-		set_entry_text (editor, file_as, string);
+		set_entry_text (editor, GTK_ENTRY (gtk_bin_get_child (GTK_BIN (combo_file_as))), string);
 		g_free (string);
 	}
 }
@@ -593,9 +594,9 @@ name_entry_changed (GtkWidget *widget, EContactEditor *editor)
 }
 
 static void
-file_as_entry_changed (GtkWidget *widget, EContactEditor *editor)
+file_as_combo_changed (GtkWidget *widget, EContactEditor *editor)
 {
-	char *string = gtk_editable_get_chars (GTK_EDITABLE (widget), 0, -1);
+	char *string = gtk_combo_box_get_active_text (GTK_COMBO_BOX (widget));
 
 	if (string && *string) {
 		gchar *title;
@@ -648,7 +649,7 @@ sensitize_ok (EContactEditor *ce)
 	GtkWidget *widget;
 	gboolean   allow_save;
 	GtkWidget *entry_fullname = glade_xml_get_widget (ce->gui, "entry-fullname" );
-	GtkWidget *entry_file_as = glade_xml_get_widget (ce->gui, "entry-file-as");
+	GtkWidget *entry_file_as = gtk_bin_get_child (GTK_BIN (glade_xml_get_widget (ce->gui, "combo-file-as")));
 	GtkWidget *company_name = glade_xml_get_widget (ce->gui, "entry-company");
 	const char *name_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_fullname));
 	const char *file_as_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_file_as));
@@ -706,26 +707,19 @@ set_entry_text (EContactEditor *editor, GtkEntry *entry, const gchar *string)
 }
 
 static void
-set_option_menu_history (EContactEditor *editor, GtkOptionMenu *option_menu, gint history)
+set_combo_box_active (EContactEditor *editor, GtkComboBox *combo_box, gint active)
 {
-	g_signal_handlers_block_matched (option_menu, G_SIGNAL_MATCH_DATA,
+	g_signal_handlers_block_matched (combo_box, G_SIGNAL_MATCH_DATA,
 					 0, 0, NULL, NULL, editor);
-	gtk_option_menu_set_history (option_menu, history);
-	g_signal_handlers_unblock_matched (option_menu, G_SIGNAL_MATCH_DATA,
+	gtk_combo_box_set_active (combo_box, active);
+	g_signal_handlers_unblock_matched (combo_box, G_SIGNAL_MATCH_DATA,
 					   0, 0, NULL, NULL, editor);
-}
-
-static void
-email_menu_changed(GtkWidget *widget, GtkWidget *next)
-{
-	gtk_widget_grab_focus(next);
 }
 
 static void
 init_email_record_location (EContactEditor *editor, gint record)
 {
-	GtkWidget *location_option_menu;
-	GtkWidget *location_menu;
+	GtkComboBox *location_combo_box;
 	GtkWidget *email_entry;
 	gchar     *widget_name;
 	gint       i;
@@ -734,24 +728,18 @@ init_email_record_location (EContactEditor *editor, gint record)
 	email_entry = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
-	widget_name = g_strdup_printf ("optionmenu-email-%d", record);
-	location_option_menu = glade_xml_get_widget (editor->gui, widget_name);
+	widget_name = g_strdup_printf ("combobox-email-%d", record);
+	location_combo_box = GTK_COMBO_BOX (glade_xml_get_widget (editor->gui, widget_name));
 	g_free (widget_name);
 
-	location_menu = gtk_menu_new ();
+	gtk_list_store_clear (GTK_LIST_STORE (gtk_combo_box_get_model (location_combo_box)));
 
 	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
-		GtkWidget *item;
-
-		item = gtk_menu_item_new_with_label (_(common_location [i].pretty_name));
-		gtk_menu_shell_append (GTK_MENU_SHELL (location_menu), item);
-+		g_signal_connect (item, "activate", G_CALLBACK (email_menu_changed), email_entry);
+		gtk_combo_box_append_text (location_combo_box, _(common_location [i].pretty_name));
 	}
 
-	gtk_widget_show_all (location_menu);
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (location_option_menu), location_menu);
-
-	g_signal_connect (location_option_menu, "changed", G_CALLBACK (object_changed), editor);
+	g_signal_connect_swapped (location_combo_box, "changed", G_CALLBACK (gtk_widget_grab_focus), email_entry);
+	g_signal_connect (location_combo_box, "changed", G_CALLBACK (object_changed), editor);
 	g_signal_connect (email_entry, "changed", G_CALLBACK (object_changed), editor);
 	g_signal_connect_swapped (email_entry, "activate", G_CALLBACK (entry_activated), editor);
 }
@@ -768,19 +756,19 @@ init_email (EContactEditor *editor)
 static void
 fill_in_email_record (EContactEditor *editor, gint record, const gchar *address, gint location)
 {
-	GtkWidget *location_option_menu;
+	GtkWidget *location_combo_box;
 	GtkWidget *email_entry;
 	gchar     *widget_name;
 
-	widget_name = g_strdup_printf ("optionmenu-email-%d", record);
-	location_option_menu = glade_xml_get_widget (editor->gui, widget_name);
+	widget_name = g_strdup_printf ("combobox-email-%d", record);
+	location_combo_box = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
 	widget_name = g_strdup_printf ("entry-email-%d", record);
 	email_entry = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
-	set_option_menu_history (editor, GTK_OPTION_MENU (location_option_menu),
+	set_combo_box_active (editor, GTK_COMBO_BOX (location_combo_box),
 				 location >= 0 ? location : email_default [2]);
 	set_entry_text (editor, GTK_ENTRY (email_entry), address ? address : "");
 }
@@ -788,12 +776,12 @@ fill_in_email_record (EContactEditor *editor, gint record, const gchar *address,
 static void
 extract_email_record (EContactEditor *editor, gint record, gchar **address, gint *location)
 {
-	GtkWidget *location_option_menu;
+	GtkWidget *location_combo_box;
 	GtkWidget *email_entry;
 	gchar     *widget_name;
 
-	widget_name = g_strdup_printf ("optionmenu-email-%d", record);
-	location_option_menu = glade_xml_get_widget (editor->gui, widget_name);
+	widget_name = g_strdup_printf ("combobox-email-%d", record);
+	location_combo_box = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
 	widget_name = g_strdup_printf ("entry-email-%d", record);
@@ -801,7 +789,7 @@ extract_email_record (EContactEditor *editor, gint record, gchar **address, gint
 	g_free (widget_name);
 
 	*address  = g_strdup (gtk_entry_get_text (GTK_ENTRY (email_entry)));
-	*location = gtk_option_menu_get_history (GTK_OPTION_MENU (location_option_menu));
+	*location = gtk_combo_box_get_active (GTK_COMBO_BOX (location_combo_box));
 }
 
 static const gchar *
@@ -1059,19 +1047,19 @@ extract_email (EContactEditor *editor)
 static void
 sensitize_email_record (EContactEditor *editor, gint record, gboolean enabled)
 {
-	GtkWidget *location_option_menu;
+	GtkWidget *location_combo_box;
 	GtkWidget *email_entry;
 	gchar     *widget_name;
 
-	widget_name = g_strdup_printf ("optionmenu-email-%d", record);
-	location_option_menu = glade_xml_get_widget (editor->gui, widget_name);
+	widget_name = g_strdup_printf ("combobox-email-%d", record);
+	location_combo_box = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
 	widget_name = g_strdup_printf ("entry-email-%d", record);
 	email_entry = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
-	gtk_widget_set_sensitive (location_option_menu, enabled);
+	gtk_widget_set_sensitive (location_combo_box, enabled);
 	gtk_editable_set_editable (GTK_EDITABLE (email_entry), enabled);
 }
 
@@ -1092,6 +1080,29 @@ sensitize_email (EContactEditor *editor)
 
 		sensitize_email_record (editor, i, enabled);
 	}
+}
+
+static void
+init_item_sensitiveable_combo_box (GtkComboBox *combo)
+{
+	GtkCellRenderer *cell;
+	GtkListStore *store;
+
+	g_return_if_fail (combo != NULL);
+	g_return_if_fail (GTK_IS_COMBO_BOX (combo));
+
+	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_BOOLEAN);
+	gtk_combo_box_set_model (combo, GTK_TREE_MODEL (store));
+	g_object_unref (store);
+
+	gtk_cell_layout_clear (GTK_CELL_LAYOUT (combo));
+
+	cell = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (combo), cell, TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (combo), cell,
+                                  "text", 0,
+                                  "sensitive", 1,
+                                  NULL);
 }
 
 /* EContact can get attributes by field ID only, and there is none for TEL, so we need this */
@@ -1154,19 +1165,19 @@ expand_phone (EContactEditor *editor, gboolean expanded)
 static void
 fill_in_phone_record (EContactEditor *editor, gint record, const gchar *phone, gint phone_type)
 {
-	GtkWidget *phone_type_option_menu;
+	GtkWidget *phone_type_combo_box;
 	GtkWidget *phone_entry;
 	gchar     *widget_name;
 
-	widget_name = g_strdup_printf ("optionmenu-phone-%d", record);
-	phone_type_option_menu = glade_xml_get_widget (editor->gui, widget_name);
+	widget_name = g_strdup_printf ("combobox-phone-%d", record);
+	phone_type_combo_box = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
 	widget_name = g_strdup_printf ("entry-phone-%d", record);
 	phone_entry = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
-	set_option_menu_history (editor, GTK_OPTION_MENU (phone_type_option_menu),
+	set_combo_box_active (editor, GTK_COMBO_BOX (phone_type_combo_box),
 				 phone_type >= 0 ? phone_type :
 				 phones_default [record - 1]);
 	set_entry_text (editor, GTK_ENTRY (phone_entry), phone ? phone : "");
@@ -1178,12 +1189,12 @@ fill_in_phone_record (EContactEditor *editor, gint record, const gchar *phone, g
 static void
 extract_phone_record (EContactEditor *editor, gint record, gchar **phone, gint *phone_type)
 {
-	GtkWidget *phone_type_option_menu;
+	GtkWidget *phone_type_combo_box;
 	GtkWidget *phone_entry;
 	gchar     *widget_name;
 
-	widget_name = g_strdup_printf ("optionmenu-phone-%d", record);
-	phone_type_option_menu = glade_xml_get_widget (editor->gui, widget_name);
+	widget_name = g_strdup_printf ("combobox-phone-%d", record);
+	phone_type_combo_box = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
 	widget_name = g_strdup_printf ("entry-phone-%d", record);
@@ -1191,7 +1202,7 @@ extract_phone_record (EContactEditor *editor, gint record, gchar **phone, gint *
 	g_free (widget_name);
 
 	*phone      = g_strdup (gtk_entry_get_text (GTK_ENTRY (phone_entry)));
-	*phone_type = gtk_option_menu_get_history (GTK_OPTION_MENU (phone_type_option_menu));
+	*phone_type = gtk_combo_box_get_active (GTK_COMBO_BOX (phone_type_combo_box));
 }
 
 static void
@@ -1290,42 +1301,38 @@ extract_phone (EContactEditor *editor)
 }
 
 static void
-phone_menu_changed(GtkWidget *widget, GtkWidget *next)
-{
-	gtk_widget_grab_focus(next);
-}
-
-static void
 init_phone_record_type (EContactEditor *editor, gint record)
 {
-	GtkWidget *phone_type_option_menu;
-	GtkWidget *phone_type_menu;
+	GtkWidget *phone_type_combo_box;
 	GtkWidget *phone_entry;
 	gchar     *widget_name;
 	gint       i;
+	GtkListStore *store;
 
 	widget_name = g_strdup_printf ("entry-phone-%d", record);
 	phone_entry = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
-	widget_name = g_strdup_printf ("optionmenu-phone-%d", record);
-	phone_type_option_menu = glade_xml_get_widget (editor->gui, widget_name);
+	widget_name = g_strdup_printf ("combobox-phone-%d", record);
+	phone_type_combo_box = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
-	phone_type_menu = gtk_menu_new ();
+	init_item_sensitiveable_combo_box (GTK_COMBO_BOX (phone_type_combo_box));
 
+	store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (phone_type_combo_box)));
 	for (i = 0; i < G_N_ELEMENTS (phones); i++) {
-		GtkWidget *item;
+		GtkTreeIter iter;
 
-		item = gtk_menu_item_new_with_label (e_contact_pretty_name (phones [i].field_id));
-		gtk_menu_shell_append (GTK_MENU_SHELL (phone_type_menu), item);
-		g_signal_connect (item, "activate", G_CALLBACK (phone_menu_changed), phone_entry);
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (
+			store, &iter,
+			0, e_contact_pretty_name (phones [i].field_id),
+			1, TRUE,
+			-1);
 	}
 
-	gtk_widget_show_all (phone_type_menu);
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (phone_type_option_menu), phone_type_menu);
-
-	g_signal_connect (phone_type_option_menu, "changed", G_CALLBACK (object_changed), editor);
+	g_signal_connect_swapped (phone_type_combo_box, "changed", G_CALLBACK (gtk_widget_grab_focus), phone_entry);
+	g_signal_connect (phone_type_combo_box, "changed", G_CALLBACK (object_changed), editor);
 	g_signal_connect (phone_entry, "changed", G_CALLBACK (object_changed), editor);
 	g_signal_connect_swapped (phone_entry, "activate", G_CALLBACK (entry_activated), editor);
 }
@@ -1342,49 +1349,50 @@ init_phone (EContactEditor *editor)
 }
 
 static void
-sensitize_phone_types (EContactEditor *editor, GtkWidget *option_menu)
+sensitize_phone_types (EContactEditor *editor, GtkWidget *combo_box)
 {
-	GtkWidget *menu;
-	GList     *l;
-	gint       i;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gint i;
+	gboolean valid;
 
-	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (option_menu));
-	l = gtk_container_get_children (GTK_CONTAINER (menu));
+	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box));
+	valid = gtk_tree_model_get_iter_first (model, &iter);
 
 	for (i = 0; i < G_N_ELEMENTS (phones); i++) {
-		GtkWidget *widget;
-
-		if (!l) {
-			g_warning (G_STRLOC ": Unexpected end of phone items in option menu");
+		if (!valid) {
+			g_warning (G_STRLOC ": Unexpected end of phone items in combo box");
 			return;
 		}
 
-		widget = l->data;
-		gtk_widget_set_sensitive (widget, is_field_supported (editor, phones [i].field_id));
+		gtk_list_store_set (
+			GTK_LIST_STORE (model), &iter,
+			1, is_field_supported (editor, phones [i].field_id),
+			-1);
 
-		l = g_list_next (l);
+		valid = gtk_tree_model_iter_next (model, &iter);
 	}
 }
 
 static void
 sensitize_phone_record (EContactEditor *editor, gint record, gboolean enabled)
 {
-	GtkWidget *phone_type_option_menu;
+	GtkWidget *phone_type_combo_box;
 	GtkWidget *phone_entry;
 	gchar     *widget_name;
 
-	widget_name = g_strdup_printf ("optionmenu-phone-%d", record);
-	phone_type_option_menu = glade_xml_get_widget (editor->gui, widget_name);
+	widget_name = g_strdup_printf ("combobox-phone-%d", record);
+	phone_type_combo_box = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
 	widget_name = g_strdup_printf ("entry-phone-%d", record);
 	phone_entry = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
-	gtk_widget_set_sensitive (phone_type_option_menu, enabled);
+	gtk_widget_set_sensitive (phone_type_combo_box, enabled);
 	gtk_editable_set_editable (GTK_EDITABLE (phone_entry), enabled);
 
-	sensitize_phone_types (editor, phone_type_option_menu);
+	sensitize_phone_types (editor, phone_type_combo_box);
 }
 
 static void
@@ -1407,42 +1415,38 @@ init_im_record_location (EContactEditor *editor, gint record)
 {
 
 #ifdef ENABLE_IM_LOCATION
-	GtkWidget *location_option_menu;
-	GtkWidget *location_menu;
-	gint       i;
+	GtkWidget *location_combo_box;
+	GtkListStore *store;
+	gint i;
 	gchar *widget_name;
 
-	widget_name = g_strdup_printf ("optionmenu-im-location-%d", record);
-	location_option_menu = glade_xml_get_widget (editor->gui, widget_name);
+	widget_name = g_strdup_printf ("combobox-im-location-%d", record);
+	location_combo_box = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
-	location_menu = gtk_menu_new ();
+	init_item_sensitiveable_combo_box (GTK_COMBO_BOX (location_combo_box));
 
+	store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (location_combo_box)));
 	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
-		GtkWidget *item;
+		GtkTreeIter iter;
 
-		item = gtk_menu_item_new_with_label (_(common_location [i].pretty_name));
-		gtk_menu_shell_append (GTK_MENU_SHELL (location_menu), item);
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (
+			store, &iter,
+			0, _(common_location [i].pretty_name),
+			1, TRUE,
+			-1);
 	}
 
-	gtk_widget_show_all (location_menu);
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (location_option_menu), location_menu);
-
-	g_signal_connect (location_option_menu, "changed", G_CALLBACK (object_changed), editor);
+	g_signal_connect (location_combo_box, "changed", G_CALLBACK (object_changed), editor);
 #endif
-}
-
-static void
-im_menu_changed(GtkWidget *widget, GtkWidget *next)
-{
-	gtk_widget_grab_focus(next);
 }
 
 static void
 init_im_record_service (EContactEditor *editor, gint record)
 {
-	GtkWidget *service_option_menu;
-	GtkWidget *service_menu;
+	GtkWidget *service_combo_box;
+	GtkListStore *store;
 	GtkWidget *name_entry;
 	gchar     *widget_name;
 	gint       i;
@@ -1451,24 +1455,26 @@ init_im_record_service (EContactEditor *editor, gint record)
 	name_entry = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
-	widget_name = g_strdup_printf ("optionmenu-im-service-%d", record);
-	service_option_menu = glade_xml_get_widget (editor->gui, widget_name);
+	widget_name = g_strdup_printf ("combobox-im-service-%d", record);
+	service_combo_box = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
-	service_menu = gtk_menu_new ();
+	init_item_sensitiveable_combo_box (GTK_COMBO_BOX (service_combo_box));
 
+	store = GTK_LIST_STORE (gtk_combo_box_get_model (GTK_COMBO_BOX (service_combo_box)));
 	for (i = 0; i < G_N_ELEMENTS (im_service); i++) {
-		GtkWidget *item;
+		GtkTreeIter iter;
 
-		item = gtk_menu_item_new_with_label (im_service [i].pretty_name);
-		gtk_menu_shell_append (GTK_MENU_SHELL (service_menu), item);
-		g_signal_connect (item, "activate", G_CALLBACK (im_menu_changed), name_entry);
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (
+			store, &iter,
+			0, im_service [i].pretty_name,
+			1, TRUE,
+			-1);
 	}
 
-	gtk_widget_show_all (service_menu);
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (service_option_menu), service_menu);
-
-	g_signal_connect (service_option_menu, "changed", G_CALLBACK (object_changed), editor);
+	g_signal_connect_swapped (service_combo_box, "changed", G_CALLBACK (gtk_widget_grab_focus), name_entry);
+	g_signal_connect (service_combo_box, "changed", G_CALLBACK (object_changed), editor);
 	g_signal_connect (name_entry, "changed", G_CALLBACK (object_changed), editor);
 	g_signal_connect_swapped (name_entry, "activate", G_CALLBACK (entry_activated), editor);
 }
@@ -1487,20 +1493,20 @@ init_im (EContactEditor *editor)
 static void
 fill_in_im_record (EContactEditor *editor, gint record, gint service, const gchar *name, gint location)
 {
-	GtkWidget *service_option_menu;
+	GtkWidget *service_combo_box;
 #ifdef ENABLE_IM_LOCATION
-	GtkWidget *location_option_menu;
+	GtkWidget *location_combo_box;
 #endif
 	GtkWidget *name_entry;
 	gchar     *widget_name;
 
-	widget_name = g_strdup_printf ("optionmenu-im-service-%d", record);
-	service_option_menu = glade_xml_get_widget (editor->gui, widget_name);
+	widget_name = g_strdup_printf ("combobox-im-service-%d", record);
+	service_combo_box = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
 #ifdef ENABLE_IM_LOCATION
-	widget_name = g_strdup_printf ("optionmenu-im-location-%d", record);
-	location_option_menu = glade_xml_get_widget (editor->gui, widget_name);
+	widget_name = g_strdup_printf ("combobox-im-location-%d", record);
+	location_combo_box = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 #endif
 
@@ -1509,10 +1515,10 @@ fill_in_im_record (EContactEditor *editor, gint record, gint service, const gcha
 	g_free (widget_name);
 
 #ifdef ENABLE_IM_LOCATION
-	set_option_menu_history (editor, GTK_OPTION_MENU (location_option_menu),
+	set_combo_box_active (editor, GTK_COMBO_BOX (location_combo_box),
 				 location >= 0 ? location : 0);
 #endif
-	set_option_menu_history (editor, GTK_OPTION_MENU (service_option_menu),
+	set_combo_box_active (editor, GTK_COMBO_BOX (service_combo_box),
 				 service >= 0 ? service : im_service_default [record - 1]);
 	set_entry_text (editor, GTK_ENTRY (name_entry), name ? name : "");
 }
@@ -1557,20 +1563,20 @@ fill_in_im (EContactEditor *editor)
 static void
 extract_im_record (EContactEditor *editor, gint record, gint *service, gchar **name, gint *location)
 {
-	GtkWidget *service_option_menu;
+	GtkWidget *service_combo_box;
 #ifdef ENABLE_IM_LOCATION
-	GtkWidget *location_option_menu;
+	GtkWidget *location_combo_box;
 #endif
 	GtkWidget *name_entry;
 	gchar     *widget_name;
 
-	widget_name = g_strdup_printf ("optionmenu-im-service-%d", record);
-	service_option_menu = glade_xml_get_widget (editor->gui, widget_name);
+	widget_name = g_strdup_printf ("combobox-im-service-%d", record);
+	service_combo_box = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
 #ifdef ENABLE_IM_LOCATION
-	widget_name = g_strdup_printf ("optionmenu-im-location-%d", record);
-	location_option_menu = glade_xml_get_widget (editor->gui, widget_name);
+	widget_name = g_strdup_printf ("combobox-im-location-%d", record);
+	location_combo_box = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 #endif
 
@@ -1579,9 +1585,9 @@ extract_im_record (EContactEditor *editor, gint record, gint *service, gchar **n
 	g_free (widget_name);
 
 	*name  = g_strdup (gtk_entry_get_text (GTK_ENTRY (name_entry)));
-	*service = gtk_option_menu_get_history (GTK_OPTION_MENU (service_option_menu));
+	*service = gtk_combo_box_get_active (GTK_COMBO_BOX (service_combo_box));
 #ifdef ENABLE_IM_LOCATION
-	*location = gtk_option_menu_get_history (GTK_OPTION_MENU (location_option_menu));
+	*location = gtk_combo_box_get_active (GTK_COMBO_BOX (location_combo_box));
 #else
 	*location = 1; /* set everything to HOME */
 #endif
@@ -1652,47 +1658,48 @@ extract_im (EContactEditor *editor)
 	g_free (service_attr_list);
 }
 static void
-sensitize_im_types (EContactEditor *editor, GtkWidget *option_menu)
+sensitize_im_types (EContactEditor *editor, GtkWidget *combo_box)
 {
-	GtkWidget *menu;
-	GList     *l;
-	gint       i;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	gint i;
+	gboolean valid;
 
-	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (option_menu));
-	l = gtk_container_get_children (GTK_CONTAINER (menu));
+	model = gtk_combo_box_get_model (GTK_COMBO_BOX (combo_box));
+	valid = gtk_tree_model_get_iter_first (model, &iter);
 
 	for (i = 0; i < G_N_ELEMENTS (im_service); i++) {
-		GtkWidget *widget;
-
-		if (!l) {
-			g_warning (G_STRLOC ": Unexpected end of im items in option menu");
+		if (!valid) {
+			g_warning (G_STRLOC ": Unexpected end of im items in combo box");
 			return;
 		}
 
-		widget = l->data;
-		gtk_widget_set_sensitive (widget, is_field_supported (editor, im_service [i].field));
+		gtk_list_store_set (
+			GTK_LIST_STORE (model), &iter,
+			1, is_field_supported (editor, im_service [i].field),
+			-1);
 
-		l = g_list_next (l);
+		valid = gtk_tree_model_iter_next (model, &iter);
 	}
 }
 
 static void
 sensitize_im_record (EContactEditor *editor, gint record, gboolean enabled)
 {
-	GtkWidget *service_option_menu;
+	GtkWidget *service_combo_box;
 #ifdef ENABLE_IM_LOCATION
-	GtkWidget *location_option_menu;
+	GtkWidget *location_combo_box;
 #endif
 	GtkWidget *name_entry;
 	gchar     *widget_name;
 
-	widget_name = g_strdup_printf ("optionmenu-im-service-%d", record);
-	service_option_menu = glade_xml_get_widget (editor->gui, widget_name);
+	widget_name = g_strdup_printf ("combobox-im-service-%d", record);
+	service_combo_box = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
 #ifdef ENABLE_IM_LOCATION
-	widget_name = g_strdup_printf ("optionmenu-im-location-%d", record);
-	location_option_menu = glade_xml_get_widget (editor->gui, widget_name);
+	widget_name = g_strdup_printf ("combobox-im-location-%d", record);
+	location_combo_box = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 #endif
 
@@ -1700,12 +1707,12 @@ sensitize_im_record (EContactEditor *editor, gint record, gboolean enabled)
 	name_entry = glade_xml_get_widget (editor->gui, widget_name);
 	g_free (widget_name);
 
-	gtk_widget_set_sensitive (service_option_menu, enabled);
+	gtk_widget_set_sensitive (service_combo_box, enabled);
 #ifdef ENABLE_IM_LOCATION
-	gtk_widget_set_sensitive (location_option_menu, enabled);
+	gtk_widget_set_sensitive (location_combo_box, enabled);
 #endif
 	gtk_editable_set_editable (GTK_EDITABLE (name_entry), enabled);
-	sensitize_im_types (editor, service_option_menu);
+	sensitize_im_types (editor, service_combo_box);
 }
 
 static void
@@ -2153,8 +2160,7 @@ static FieldMapping simple_field_map [] = {
 	{ "image-chooser",        E_CONTACT_PHOTO,        TRUE,  TRUE  },
 	{ "button-image",         E_CONTACT_PHOTO,        FALSE, TRUE  },
 
-	{ "combo-file-as",        E_CONTACT_FILE_AS,      FALSE, TRUE  },
-	{ "entry-file-as",        E_CONTACT_FILE_AS,      TRUE,  TRUE  },
+	{ "combo-file-as",        E_CONTACT_FILE_AS,      TRUE,  TRUE  },
 	{ "accellabel-fileas",    E_CONTACT_FILE_AS,      FALSE, TRUE  },
 };
 
@@ -2166,6 +2172,10 @@ init_simple_field (EContactEditor *editor, GtkWidget *widget)
 	if (GTK_IS_ENTRY (widget)) {
 		changed_object = G_OBJECT (widget);
 		g_signal_connect_swapped (widget, "activate", G_CALLBACK (entry_activated), editor);
+	}
+	else if (GTK_IS_COMBO_BOX_ENTRY (widget)) {
+		changed_object = G_OBJECT (/*gtk_bin_get_child (GTK_BIN*/ (widget)/*)*/);
+		g_signal_connect_swapped (gtk_bin_get_child (GTK_BIN (widget)), "activate", G_CALLBACK (entry_activated), editor);
 	}
 	else if (GTK_IS_TEXT_VIEW (widget)) {
 		changed_object = G_OBJECT (gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget)));
@@ -2203,6 +2213,11 @@ fill_in_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 	if (GTK_IS_ENTRY (widget)) {
 		gchar *text = e_contact_get (contact, field_id);
 		gtk_entry_set_text (GTK_ENTRY (widget), STRING_MAKE_NON_NULL (text));
+		g_free (text);
+	}
+	else if (GTK_IS_COMBO_BOX_ENTRY (widget)) {
+		gchar *text = e_contact_get (contact, field_id);
+		gtk_entry_set_text (GTK_ENTRY (gtk_bin_get_child (GTK_BIN (widget))), STRING_MAKE_NON_NULL (text));
 		g_free (text);
 	}
 	else if (GTK_IS_TEXT_VIEW (widget)) {
@@ -2269,6 +2284,13 @@ extract_simple_field (EContactEditor *editor, GtkWidget *widget, gint field_id)
 	if (GTK_IS_ENTRY (widget)) {
 		const gchar *text = gtk_entry_get_text (GTK_ENTRY (widget));
 		e_contact_set (contact, field_id, (gchar *) text);
+	}
+	else if (GTK_IS_COMBO_BOX_ENTRY (widget)) {
+		char *text = gtk_combo_box_get_active_text (GTK_COMBO_BOX (widget));
+
+		e_contact_set (contact, field_id, text);
+
+		g_free (text);
 	}
 	else if (GTK_IS_TEXT_VIEW (widget)) {
 		GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (widget));
@@ -2418,8 +2440,8 @@ init_simple (EContactEditor *editor)
 
 	widget = glade_xml_get_widget (editor->gui, "entry-fullname");
 	g_signal_connect (widget, "changed", G_CALLBACK (name_entry_changed), editor);
-	widget = glade_xml_get_widget (editor->gui, "entry-file-as");
-	g_signal_connect (widget, "changed", G_CALLBACK (file_as_entry_changed), editor);
+	widget = glade_xml_get_widget (editor->gui, "combo-file-as");
+	g_signal_connect (widget, "changed", G_CALLBACK (file_as_combo_changed), editor);
 	widget = glade_xml_get_widget (editor->gui, "entry-company");
 	g_signal_connect (widget, "changed", G_CALLBACK (company_entry_changed), editor);
 }
@@ -3041,7 +3063,7 @@ save_contact (EContactEditor *ce, gboolean should_close)
 	}
 
 	entry_fullname = glade_xml_get_widget (ce->gui, "entry-fullname" );
-	entry_file_as = glade_xml_get_widget (ce->gui, "entry-file-as");
+	entry_file_as = gtk_bin_get_child (GTK_BIN (glade_xml_get_widget (ce->gui, "combo-file-as")));
 	company_name = glade_xml_get_widget (ce->gui, "entry-company");
 	name_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_fullname));
 	file_as_entry_string = gtk_entry_get_text (GTK_ENTRY (entry_file_as));

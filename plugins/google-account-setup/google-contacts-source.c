@@ -246,10 +246,19 @@ on_interval_combo_changed (GtkComboBox *combo, gpointer user_data)
     g_free (value_string);
 }
 
+struct ui_data {
+	GtkWidget *widget;
+};
+
 static void
 destroy_ui_data(gpointer data)
 {
-	gtk_widget_destroy((GtkWidget *)data);
+	struct ui_data *ui = data;
+
+	if (ui && ui->widget)
+		gtk_widget_destroy (ui->widget);
+
+	g_free (ui);
 }
 
 GtkWidget *
@@ -282,16 +291,16 @@ plugin_google_contacts (EPlugin                    *epl,
     int        time;
 
     GtkWidget    *ssl_cb;
+    struct ui_data *ui;
 
     source = t->source;
     group = e_source_peek_group (source);
 
     base_uri = e_source_group_peek_base_uri (group);
 
-    g_object_set_data_full (G_OBJECT (epl), "widget", NULL,
-			(GDestroyNotify)gtk_widget_destroy);
+    g_object_set_data (G_OBJECT (epl), "gwidget", NULL);
 
-    if (strcmp (base_uri, "google://")) {
+    if (g_ascii_strncasecmp ("google://", base_uri, 9) != 0) {
         return NULL;
     }
 
@@ -375,8 +384,11 @@ plugin_google_contacts (EPlugin                    *epl,
     g_object_set_data (G_OBJECT (interval_sb), "interval-combo", interval_combo);
     g_object_set_data (G_OBJECT (interval_combo), "interval-sb", interval_sb);
 
-    g_object_set_data_full(G_OBJECT(epl), "widget", vbox2,
-			destroy_ui_data);
+    ui = g_malloc0 (sizeof (struct ui_data));
+    ui->widget = vbox2;
+    g_object_set_data_full(G_OBJECT(epl), "gwidget", ui, destroy_ui_data);
+    g_signal_connect (ui->widget, "destroy", G_CALLBACK (gtk_widget_destroyed), &ui->widget);
+
     g_signal_connect (G_OBJECT (username_entry), "changed",
                       G_CALLBACK (on_username_entry_changed),
                       source);

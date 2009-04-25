@@ -1,3 +1,44 @@
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #572348
+
+	* e-dateedit.c:
+	* e-combo-button.c:
+	* e-dropdown-button.c:
+	* e-canvas.c:
+	* e-cell-date-edit.h:
+	* e-cell-date-edit.c:
+	Remove deprecated Gtk+ symbols.
+
+2009-04-13  Johnny Jacob  <jjohnny@novell.com>
+
+	** Fixes #578685 – evolution crashed with SIGSEGV.
+
+	** Patch by Takao Fujiwara <Takao.Fujiwara@Sun.COM>
+
+	* e-attachment-bar.c (update): Copy string. Avoids SIGSEGV.
+
+2009-03-09  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* widgets/misc/e-calendar-item.c: Removed the string
+	marked for translation as it not required and also breaks
+	the string freeze.
+
+2009-03-08  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #342446
+	* widgets/misc/e-calendar-item.c: Check whether its
+	appropriate to use %Id format for digits. Incorporated
+	the fix from Wang Xin <jedy.wang@sun.com> to build in
+	solaris.
+
+2009-02-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #559027
+
+	* e-dateedit.c: (on_date_entry_focus_out):
+	Do not set date for 'None' value.
+
 2009-02-12  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #404232

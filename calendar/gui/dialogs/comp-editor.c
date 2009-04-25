@@ -102,6 +102,11 @@ struct _CompEditorPrivate {
 
 	gchar *summary;
 
+	/* Manages menus and toolbars */
+	GtkUIManager *manager;
+
+	gchar *summary;
+
 	guint32 attachment_bar_visible : 1;
 
 	/* TODO use this flags for setting all the boolean variables
@@ -162,6 +167,7 @@ static const gchar *ui =
 "</ui>";
 
 static void comp_editor_show_help (CompEditor *editor);
+static void setup_widgets (CompEditor *editor);
 
 static void real_edit_comp (CompEditor *editor, ECalComponent *comp);
 static gboolean real_send_comp (CompEditor *editor, ECalComponentItipMethod method, gboolean strip_alarms);
@@ -460,7 +466,7 @@ save_comp (CompEditor *editor)
 	}
 
 	/* If we are not the organizer, we don't update the sequence number */
-	if (!e_cal_component_has_organizer (clone) || itip_organizer_is_user (clone, priv->client) || itip_sentby_is_user (clone))
+	if (!e_cal_component_has_organizer (clone) || itip_organizer_is_user (clone, priv->client) || itip_sentby_is_user (clone, priv->client))
 		e_cal_component_commit_sequence (clone);
 	else
 		e_cal_component_abort_sequence (clone);
@@ -485,6 +491,11 @@ save_comp (CompEditor *editor)
 		if (result)
 			g_signal_emit_by_name (editor, "object_created");
 	} else {
+
+		if (e_cal_component_has_recurrences (priv->comp) && priv->mod == CALOBJ_MOD_ALL)
+			comp_util_sanitize_recurrence_master (priv->comp, priv->client);
+
+
 		if (priv->mod == CALOBJ_MOD_THIS) {
 			e_cal_component_set_rdate_list (priv->comp, NULL);
 			e_cal_component_set_rrule_list (priv->comp, NULL);
@@ -595,7 +606,7 @@ save_comp_with_send (CompEditor *editor)
 		return FALSE;
 
 	if ((delegate && !e_cal_get_save_schedules (priv->client)) || (send && send_component_dialog ((GtkWindow *) editor, priv->client, priv->comp, !priv->existing_org, &strip_alarms))) {
- 		if ((itip_organizer_is_user (priv->comp, priv->client) || itip_sentby_is_user (priv->comp))) {
+ 		if ((itip_organizer_is_user (priv->comp, priv->client) || itip_sentby_is_user (priv->comp, priv->client))) {
  			if (e_cal_component_get_vtype (priv->comp) == E_CAL_COMPONENT_JOURNAL)
 				return comp_editor_send_comp (editor, E_CAL_COMPONENT_METHOD_PUBLISH, strip_alarms);
 			else
@@ -1948,9 +1959,9 @@ comp_editor_set_flags (CompEditor *editor,
 	g_object_notify (G_OBJECT (editor), "flags");
 }
 
-
-CompEditorFlags
-comp_editor_get_flags (CompEditor *editor)
+GtkActionGroup *
+comp_editor_get_action_group (CompEditor *editor,
+                              const gchar *group_name)
 {
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
 
@@ -2300,6 +2311,7 @@ fill_widgets (CompEditor *editor)
 	EAttachmentView *view;
 	CompEditorPrivate *priv;
 	GList *l;
+	GtkAction *action;
 
 	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
 	store = e_attachment_view_get_store (view);
@@ -2320,6 +2332,9 @@ fill_widgets (CompEditor *editor)
 		g_slist_foreach (attachment_list, (GFunc)g_free, NULL);
 		g_slist_free (attachment_list);
 	}
+
+	action = comp_editor_get_action (editor, "classify-public");
+	g_signal_handlers_block_by_func (action, G_CALLBACK (classification_changed_cb), editor);
 
 	for (l = priv->pages; l != NULL; l = l->next)
 		comp_editor_page_fill_widgets (l->data, priv->comp);
@@ -2343,7 +2358,7 @@ real_edit_comp (CompEditor *editor, ECalComponent *comp)
 		priv->comp = e_cal_component_clone (comp);
 
  	priv->existing_org = e_cal_component_has_organizer (comp);
- 	priv->user_org = (itip_organizer_is_user (comp, priv->client) || itip_sentby_is_user (comp));
+ 	priv->user_org = (itip_organizer_is_user (comp, priv->client) || itip_sentby_is_user (comp, priv->client));
  	priv->warned = FALSE;
 
 	update_window_border (editor, NULL);
@@ -2369,10 +2384,11 @@ set_attendees_for_delegation (ECalComponent *comp, const char *address, ECalComp
 			prop;
 			prop = icalcomponent_get_next_property (icalcomp, ICAL_ATTENDEE_PROPERTY)) {
 		const char *attendee = icalproperty_get_attendee (prop);
-		const char *delfrom;
+		const char *delfrom = NULL;
 
 		param = icalproperty_get_first_parameter(prop, ICAL_DELEGATEDFROM_PARAMETER);
-		delfrom = icalparameter_get_delegatedfrom (param);
+		if (param)
+			delfrom = icalparameter_get_delegatedfrom (param);
 		if (!(g_str_equal (itip_strip_mailto (attendee), address) ||
 				((delfrom && *delfrom) &&
 				 g_str_equal (itip_strip_mailto (delfrom), address)))) {

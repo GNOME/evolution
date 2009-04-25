@@ -112,7 +112,7 @@ create_schedule_page (CompEditor *editor)
 	priv = EVENT_EDITOR_GET_PRIVATE (editor);
 
 	priv->sched_window = gtk_dialog_new_with_buttons (
-		_("Free/Busy"), GTK_WINDOW (editor), GTK_DIALOG_MODAL,
+		_("Free/Busy"), GTK_WINDOW (editor), GTK_DIALOG_DESTROY_WITH_PARENT,
 		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE, NULL);
 
 	g_signal_connect (
@@ -167,7 +167,7 @@ action_free_busy_cb (GtkAction *action,
 	if (editor->priv->sched_window == NULL)
 		create_schedule_page (COMP_EDITOR (editor));
 	else
-		gtk_widget_show (editor->priv->sched_window);
+		gtk_window_present (GTK_WINDOW (editor->priv->sched_window));
 }
 
 static void
@@ -619,7 +619,7 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	}
 	e_cal_component_free_attendee_list (attendees);
 
-	comp_editor_set_needs_send (editor, priv->meeting_shown && (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp)));
+	comp_editor_set_needs_send (editor, priv->meeting_shown && (itip_organizer_is_user (comp, client) || itip_sentby_is_user (comp, client)));
 
 	priv->updating = FALSE;
 }

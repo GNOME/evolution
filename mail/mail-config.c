@@ -210,6 +210,22 @@ gconf_outlook_filenames_changed (GConfClient *client, guint cnxn_id,
 }
 
 static void
+gconf_outlook_filenames_changed (GConfClient *client, guint cnxn_id,
+				 GConfEntry *entry, gpointer user_data)
+{
+	extern int camel_header_param_encode_filenames_in_rfc_2047;
+
+	g_return_if_fail (client != NULL);
+
+	/* pass option to the camel */
+	if (gconf_client_get_bool (client, "/apps/evolution/mail/composer/outlook_filenames", NULL)) {
+		camel_header_param_encode_filenames_in_rfc_2047 = 1;
+	} else {
+		camel_header_param_encode_filenames_in_rfc_2047 = 0;
+	}
+}
+
+static void
 gconf_jh_check_changed (GConfClient *client, guint cnxn_id,
 		     GConfEntry *entry, gpointer user_data)
 {
@@ -676,41 +692,46 @@ mail_config_account_url_equal (const CamelURL *u1,
 	return (u1->port == u2->port);
 }
 
-EAccount *
-mail_config_get_account_by_source_url (const char *source_url)
+static EAccount *
+mc_get_account_by (const char *given_url, const char * (get_url_string)(EAccount *account))
 {
-	EAccountList *account_list;
 	EAccount *account = NULL;
 	EIterator *iter;
 	CamelURL *url;
+	CamelProvider *provider;
 
-	g_return_val_if_fail (source_url != NULL, NULL);
+	g_return_val_if_fail (given_url != NULL, NULL);
+	g_return_val_if_fail (get_url_string != NULL, NULL);
 
-	url = camel_url_new (source_url, NULL);
+	url = camel_url_new (given_url, NULL);
 	g_return_val_if_fail (url != NULL, NULL);
 
-	account_list = e_get_account_list ();
-	iter = e_list_get_iterator ((EList *) account_list);
+	provider = camel_provider_get (given_url, NULL);
+	g_return_val_if_fail (provider != NULL && provider->url_equal != NULL, NULL);
+
+	iter = e_list_get_iterator ((EList *) config->accounts);
 	while (account == NULL && e_iterator_is_valid (iter)) {
 		CamelURL *account_url;
+		const char *account_url_string;
 
 		account = (EAccount *) e_iterator_get (iter);
 
 		e_iterator_next (iter);
 
-		if ( !account || (account->source == NULL) || 
-			(account->source->url == NULL) || (*account->source->url == '\0')) {
+		account_url_string = get_url_string (account);
+
+		if ( !account_url_string || !*account_url_string) {
 			account = NULL;
 			continue;
 		}
 
-		account_url = camel_url_new (account->source->url, NULL);
+		account_url = camel_url_new (account_url_string, NULL);
 		if (account_url == NULL) {
 			account = NULL;
 			continue;
 		}
 
-		if (!mail_config_account_url_equal (url, account_url))
+		if (!provider->url_equal (url, account_url))
 			account = NULL;  /* not a match */
 
 		camel_url_free (account_url);
@@ -722,50 +743,91 @@ mail_config_get_account_by_source_url (const char *source_url)
 	return account;
 }
 
+static const char *
+get_source_url_string (EAccount *account)
+{
+	if (account && account->source && account->source->url && *account->source->url)
+		return account->source->url;
+	return NULL;
+}
+
+static const char *
+get_transport_url_string (EAccount *account)
+{
+	if (account && account->transport && account->transport->url && *account->transport->url)
+		return account->transport->url;
+	return NULL;
+}
+
+EAccount *
+mail_config_get_account_by_source_url (const char *source_url)
+{
+	return mc_get_account_by (source_url, get_source_url_string);
+}
+
 EAccount *
 mail_config_get_account_by_transport_url (const char *transport_url)
 {
-	EAccountList *account_list;
-	EAccount *account = NULL;
-	EIterator *iter;
-	CamelURL *url;
+	return mc_get_account_by (transport_url, get_transport_url_string);
+}
 
-	g_return_val_if_fail (transport_url != NULL, NULL);
+int
+mail_config_has_proxies (EAccount *account)
+{
+	return e_account_list_account_has_proxies (config->accounts, account);
+}
 
-	url = camel_url_new (transport_url, NULL);
-	g_return_val_if_fail (url != NULL, NULL);
+void
+mail_config_remove_account_proxies (EAccount *account)
+{
+	e_account_list_remove_account_proxies (config->accounts, account);
+}
 
-	account_list = e_get_account_list ();
-	iter = e_list_get_iterator ((EList *) account_list);
-	while (account == NULL && e_iterator_is_valid (iter)) {
-		CamelURL *account_url;
+void
+mail_config_prune_proxies (void)
+{
+	e_account_list_prune_proxies (config->accounts);
+}
 
-		account = (EAccount *) e_iterator_get (iter);
+EAccountList *
+mail_config_get_accounts (void)
+{
+	if (config == NULL)
+		mail_config_init ();
 
-		e_iterator_next (iter);
+	return config->accounts;
+}
 
-		if ( !account || (account->transport == NULL) || 
-			(account->transport->url == NULL) || (*account->transport->url == '\0')) {
-				account = NULL;
-				continue;
-		}
+void
+mail_config_add_account (EAccount *account)
+{
+	e_account_list_add(config->accounts, account);
+	mail_config_save_accounts ();
+}
 
-		account_url = camel_url_new (account->transport->url, NULL);
-		if (account_url == NULL) {
-			account = NULL;
-			continue;
-		}
+void
+mail_config_remove_account (EAccount *account)
+{
+	e_account_list_remove(config->accounts, account);
+	mail_config_save_accounts ();
+}
 
-		if (!mail_config_account_url_equal (url, account_url))
-			account = NULL;  /* not a match */
+void
+mail_config_set_default_account (EAccount *account)
+{
+	e_account_list_set_default(config->accounts, account);
+}
 
-		camel_url_free (account_url);
-	}
+EAccountIdentity *
+mail_config_get_default_identity (void)
+{
+	EAccount *account;
 
-	g_object_unref (iter);
-	camel_url_free (url);
-
-	return account;
+	account = mail_config_get_default_account ();
+	if (account)
+		return account->id;
+	else
+		return NULL;
 }
 
 EAccountService *

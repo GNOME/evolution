@@ -58,6 +58,7 @@
 #include "mail-tools.h"
 #include "mail-config.h"
 #include "mail-vfolder.h"
+#include "mail-folder-cache.h"
 
 #include "em-utils.h"
 #include "em-popup.h"
@@ -402,12 +403,20 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 {
 	CamelStore *local_store;
 	GtkWidget *dialog;
+	char *uri;
+	int flags = 0;
 
 	local_store = e_mail_shell_module_get_local_store (mail_shell_module);
 
 	if (folder->parent_store == local_store && emfu_is_special_local_folder (folder->full_name)) {
 		dialog = e_error_new (NULL, "mail:no-delete-special-folder", folder->full_name, NULL);
 		em_utils_show_error_silent (dialog);
+		return;
+	}
+	
+	if (mail_folder_cache_get_folder_info_flags (folder, &flags) && (flags & CAMEL_FOLDER_SYSTEM)) 
+	{
+		e_error_run(NULL,"mail:no-delete-special-folder", folder->name, NULL);
 		return;
 	}
 
@@ -680,7 +689,8 @@ emfu_popup_new_folder_response (EMFolderSelector *emfs, int response, gpointer d
 
 /* FIXME: these functions must be documented */
 void
-em_folder_utils_create_folder (CamelFolderInfo *folderinfo, EMFolderTree *emft) {
+em_folder_utils_create_folder (CamelFolderInfo *folderinfo, EMFolderTree *emft, GtkWindow *parent)
+{
 	EMFolderTree *folder_tree;
 	EMFolderTreeModel *model;
 	GtkWidget *dialog;
@@ -691,6 +701,12 @@ em_folder_utils_create_folder (CamelFolderInfo *folderinfo, EMFolderTree *emft) 
 	dialog = em_folder_selector_create_new (folder_tree, 0, _("Create Folder"), _("Specify where to create the folder:"));
 	if (folderinfo != NULL)
 		em_folder_selector_set_selected ((EMFolderSelector *) dialog, folderinfo->uri);
+	if (parent) {
+		gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
+		gtk_window_set_destroy_with_parent (GTK_WINDOW (dialog), TRUE);
+		if (gtk_window_get_modal (parent))
+			gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	}
 	g_signal_connect (dialog, "response", G_CALLBACK (emfu_popup_new_folder_response), emft);
 	gtk_widget_show (dialog);
 }

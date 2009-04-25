@@ -506,7 +506,7 @@ mail_msg_idle_cb (void)
 static void
 mail_msg_proxy (MailMsg *msg)
 {
-	if (msg->info->desc != NULL) {
+	if (msg->info->desc != NULL && msg->cancel) {
 		gchar *text = msg->info->desc (msg);
 		camel_operation_register (msg->cancel);
 		camel_operation_start (msg->cancel, "%s", text);
@@ -519,7 +519,7 @@ mail_msg_proxy (MailMsg *msg)
 		mail_disable_stop ();
 	}
 
-	if (msg->info->desc != NULL) {
+	if (msg->info->desc != NULL && msg->cancel) {
 		camel_operation_end (msg->cancel);
 		camel_operation_unregister (msg->cancel);
 		MAIL_MT_LOCK (mail_msg_lock);

@@ -2024,8 +2024,10 @@ try_open_e_book_cb (EBook *book, EBookStatus status, gpointer closure)
 
 	data->result = status == E_BOOK_ERROR_OK;
 
-	if (!data->result)
+	if (!data->result) {
+		g_clear_error (data->error);
 		g_set_error (data->error, E_BOOK_ERROR, status, "EBookStatus returned %d", status);
+	}
 
 	e_flag_set (data->flag);
 }
@@ -2050,6 +2052,7 @@ try_open_e_book (EBook *book, gboolean only_if_exists, GError **error)
 
 	if (e_book_async_open (book, only_if_exists, try_open_e_book_cb, &data) != FALSE) {
 		e_flag_free (flag);
+		g_clear_error (error);
 		g_set_error (error, E_BOOK_ERROR, E_BOOK_ERROR_OTHER_ERROR, "Failed to call e_book_async_open.");
 		return FALSE;
 	}
@@ -2064,14 +2067,26 @@ try_open_e_book (EBook *book, gboolean only_if_exists, GError **error)
 	}
 
 	if (canceled) {
+		g_clear_error (error);
 		g_set_error (error, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED, "Operation has been canceled.");
 		e_book_cancel_async_op (book, NULL);
+		/* it had been canceled, the above callback may not be called, thus setting flag here */
+		e_flag_set (flag);
 	}
 
 	e_flag_wait (flag);
 	e_flag_free (flag);
 
-	return data.result;
+	return data.result && (!error || !*error);
+}
+
+static gboolean
+is_local (ESourceGroup *group)
+{
+	return group &&
+		e_source_group_peek_base_uri (group) &&
+		g_str_has_prefix (e_source_group_peek_base_uri (group), "file://");
+>>>>>>> 23df769955ea54f756a579c19964df87ae6fd5c8:mail/em-utils.c
 }
 
 gboolean
@@ -2126,7 +2141,7 @@ em_utils_in_addressbook (CamelInternetAddress *iaddr, gboolean local_only)
 	/* FIXME: this aint threadsafe by any measure, but what can you do eh??? */
 
 	for (g = e_source_list_peek_groups(emu_addr_list);g;g=g_slist_next(g)) {
-		if (local_only &&  e_source_group_peek_base_uri ((ESourceGroup *)g->data) && !g_str_has_prefix (e_source_group_peek_base_uri ((ESourceGroup *)g->data), "file://"))
+		if (local_only &&  !is_local (g->data))
 			continue;
 
 		for (s = e_source_group_peek_sources((ESourceGroup *)g->data);s;s=g_slist_next(s)) {
@@ -2152,20 +2167,24 @@ em_utils_in_addressbook (CamelInternetAddress *iaddr, gboolean local_only)
 		book = e_book_new(source, &err);
 
 		if (book == NULL) {
-			g_warning("Unable to create addressbook: %s", err->message);
+			if (err && !g_error_matches (err, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
+				g_warning ("%s: Unable to create addressbook: %s", G_STRFUNC, err->message);
 			g_clear_error(&err);
 			continue;
 		}
+
+		g_clear_error(&err);
 
 		hook = mail_cancel_hook_add(emu_addr_cancel_book, book);
 
 		/* ignore errors, but cancellation errors we don't try to go further either */
 		if (!try_open_e_book (book, TRUE, &err)
 		    || !e_book_get_contacts(book, query, &contacts, &err)) {
-			stop = err && err->domain == E_BOOK_ERROR && err->code == E_BOOK_ERROR_CANCELLED;
+			stop = err && g_error_matches (err, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED);
 			mail_cancel_hook_remove(hook);
 			g_object_unref(book);
-			g_warning("Can't get contacts: %s", err->message);
+			if (err && !stop)
+				g_warning ("%s: Can't get contacts: %s", G_STRFUNC, err->message);
 			g_clear_error(&err);
 			continue;
 		}
@@ -2227,7 +2246,7 @@ em_utils_contact_photo (struct _CamelInternetAddress *cia, gboolean local)
 
     	query = e_book_query_field_test(E_CONTACT_EMAIL, E_BOOK_QUERY_IS, addr);
 	for (g = e_source_list_peek_groups(emu_addr_list); g; g = g_slist_next(g)) {
-		if (local && strcmp (e_source_group_peek_name ((ESourceGroup *)g->data), "On This Computer"))
+		if (local && !is_local (g->data))
 			continue;
 
 		for (s = e_source_group_peek_sources((ESourceGroup *)g->data); s; s=g_slist_next(s)) {
@@ -2245,14 +2264,25 @@ em_utils_contact_photo (struct _CamelInternetAddress *cia, gboolean local)
 		source = s->data;
 
 		book = e_book_new(source, &err);
+		if (!book) {
+			if (err && !g_error_matches (err, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED))
+				g_warning ("%s: Unable to create addressbook: %s", G_STRFUNC, err->message);
+			g_clear_error (&err);
+			continue;
+		}
+
+		g_clear_error (&err);
+
 		if (!try_open_e_book (book, TRUE, &err)
 		    || !e_book_get_contacts(book, query, &contacts, &err)) {
-			stop = err && err->domain == E_BOOK_ERROR && err->code == E_BOOK_ERROR_CANCELLED;
+			stop = err && g_error_matches (err, E_BOOK_ERROR, E_BOOK_ERROR_CANCELLED);
 			g_object_unref(book);
-			g_warning("Can't get contacts: %s", err->message);
+			if (err && !stop)
+				g_warning ("%s: Can't get contacts: %s", G_STRFUNC, err->message);
 			g_clear_error(&err);
 			continue;
 		}
+		g_clear_error (&err);
 
 		if (contacts != NULL) {
 			found = TRUE;

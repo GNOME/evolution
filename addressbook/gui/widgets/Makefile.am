@@ -57,8 +57,6 @@ libeabwidgets_la_LIBADD =					\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
 	$(top_builddir)/a11y/addressbook/libevolution-addressbook-a11y.la
 
-CLEANFILES = $(BUILT_SOURCES)
-
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 

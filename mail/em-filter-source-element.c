@@ -232,21 +232,26 @@ clone(FilterElement *fe)
 }
 
 static void
-source_changed(GtkWidget *item, EMFilterSourceElement *fs)
+source_changed(GtkComboBox *combobox, EMFilterSourceElement *fs)
 {
-	SourceInfo *info = (SourceInfo *)g_object_get_data((GObject *)item, "source");
+	SourceInfo *info;
+	int idx;
 
-	g_free(fs->priv->current_url);
-	fs->priv->current_url = g_strdup(info->url);
+	idx = gtk_combo_box_get_active (combobox);
+	g_return_if_fail (idx >= 0 && idx < g_list_length (fs->priv->sources));
+
+	info = (SourceInfo *) g_list_nth (fs->priv->sources, idx);
+	g_return_if_fail (info != NULL);
+
+	g_free (fs->priv->current_url);
+	fs->priv->current_url = g_strdup (info->url);
 }
 
 static GtkWidget *
 get_widget(FilterElement *fe)
 {
 	EMFilterSourceElement *fs = (EMFilterSourceElement *)fe;
-	GtkWidget *menu;
-	GtkWidget *omenu;
-	GtkWidget *item;
+	GtkWidget *combobox;
 	GList *i;
 	SourceInfo *first = NULL;
 	int index, current_index;
@@ -254,7 +259,7 @@ get_widget(FilterElement *fe)
 	if (fs->priv->sources == NULL)
 		em_filter_source_element_get_sources(fs);
 
-	menu = gtk_menu_new();
+	combobox = gtk_combo_box_new_text ();
 
 	index = 0;
 	current_index = -1;
@@ -273,14 +278,8 @@ get_widget(FilterElement *fe)
 			else
 				label = g_strdup_printf("%s <%s>", info->name, info->address);
 
-			item = gtk_menu_item_new_with_label(label);
+			gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), label);
 			g_free(label);
-
-			g_object_set_data((GObject *)item, "source", info);
-			g_signal_connect(item, "activate", G_CALLBACK(source_changed), fs);
-
-			gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-			gtk_widget_show(item);
 
 			if (fs->priv->current_url && !strcmp(info->url, fs->priv->current_url))
 				current_index = index;
@@ -289,13 +288,10 @@ get_widget(FilterElement *fe)
 		}
 	}
 
-	omenu = gtk_option_menu_new();
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(omenu), menu);
-
 	if (current_index >= 0) {
-		gtk_option_menu_set_history(GTK_OPTION_MENU(omenu), current_index);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), current_index);
 	} else {
-		gtk_option_menu_set_history(GTK_OPTION_MENU(omenu), 0);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (combobox), 0);
 		g_free(fs->priv->current_url);
 
 		if (first)
@@ -304,7 +300,9 @@ get_widget(FilterElement *fe)
 			fs->priv->current_url = NULL;
 	}
 
-	return omenu;
+	g_signal_connect (combobox, "changed", G_CALLBACK (source_changed), fs);
+
+	return combobox;
 }
 
 static void

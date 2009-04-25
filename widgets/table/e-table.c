@@ -2416,20 +2416,18 @@ e_table_get_cell_geometry (ETable *table,
 
 /**
  * e_table_get_mouse_over_cell:
- * Similar to e_table_get_cell_at, only here we recalculate x,y relatively to each item.
+ * Similar to e_table_get_cell_at, only here we check based on the mouse motion information in the group.
  **/
 void
-e_table_get_mouse_over_cell (ETable *table, int x, int y, int *row, int *col)
+e_table_get_mouse_over_cell (ETable *table, int *row, int *col)
 {
 	g_return_if_fail (table != NULL);
 	g_return_if_fail (E_IS_TABLE (table));
 
-	x += GTK_LAYOUT (table->table_canvas)->hadjustment->value;
-	y += GTK_LAYOUT (table->table_canvas)->vadjustment->value;
+	if (!table->group)
+		return;
 
-	y -= E_TABLE_HEADER_ITEM (table->header_item)->height;
-
-	e_table_group_compute_mouse_over (table->group, x, y, row, col);
+	e_table_group_get_mouse_over (table->group, row, col);
 }
 
 /**

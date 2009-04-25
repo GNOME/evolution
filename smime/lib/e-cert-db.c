@@ -48,8 +48,6 @@
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
 
-/* XXX toshok why oh *why* god WHY did they do this?  no fucking
-   sense */
 /* private NSS defines used by PSM */
 /* (must be declated before cert.h) */
 #define CERT_NewTempCertificate __CERT_NewTempCertificate

@@ -205,7 +205,7 @@
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
-			  <property name="mnemonic_widget">entry-file-as</property>
+			  <property name="mnemonic_widget">combo-file-as</property>
 			  <property name="ellipsize">PANGO_ELLIPSIZE_NONE</property>
 			  <property name="width_chars">-1</property>
 			  <property name="single_line_mode">False</property>
@@ -314,48 +314,6 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkCombo" id="combo-file-as">
-			  <property name="visible">True</property>
-			  <property name="value_in_list">False</property>
-			  <property name="allow_empty">True</property>
-			  <property name="case_sensitive">False</property>
-			  <property name="enable_arrow_keys">True</property>
-			  <property name="enable_arrows_always">False</property>
-			  <accessibility>
-			    <atkrelation target="accellabel-fileas" type="labelled-by"/>
-			  </accessibility>
-
-			  <child internal-child="entry">
-			    <widget class="GtkEntry" id="entry-file-as">
-			      <property name="visible">True</property>
-			      <property name="can_focus">True</property>
-			      <property name="editable">True</property>
-			      <property name="visibility">True</property>
-			      <property name="max_length">0</property>
-			      <property name="text" translatable="yes"></property>
-			      <property name="has_frame">True</property>
-			      <property name="invisible_char">*</property>
-			      <property name="activates_default">False</property>
-			    </widget>
-			  </child>
-
-			  <child internal-child="list">
-			    <widget class="GtkList" id="list14">
-			      <property name="visible">True</property>
-			      <property name="selection_mode">GTK_SELECTION_BROWSE</property>
-			    </widget>
-			  </child>
-			</widget>
-			<packing>
-			  <property name="left_attach">1</property>
-			  <property name="right_attach">2</property>
-			  <property name="top_attach">1</property>
-			  <property name="bottom_attach">2</property>
-			  <property name="y_options"></property>
-			</packing>
-		      </child>
-
-		      <child>
 			<widget class="Custom" id="source-combo-box-source">
 			  <property name="visible">True</property>
 			  <property name="creation_function">e_contact_editor_create_source_combo_box</property>
@@ -389,6 +347,26 @@
 			  <property name="bottom_attach">1</property>
 			  <property name="x_options">fill</property>
 			  <property name="y_options"></property>
+			</packing>
+		      </child>
+
+		      <child>
+			<widget class="GtkComboBoxEntry" id="combo-file-as">
+			  <property name="visible">True</property>
+			  <property name="items">a
+b
+c</property>
+			  <property name="add_tearoffs">False</property>
+			  <property name="has_frame">True</property>
+			  <property name="focus_on_click">True</property>
+			</widget>
+			<packing>
+			  <property name="left_attach">1</property>
+			  <property name="right_attach">2</property>
+			  <property name="top_attach">1</property>
+			  <property name="bottom_attach">2</property>
+			  <property name="x_options">fill</property>
+			  <property name="y_options">fill</property>
 			</packing>
 		      </child>
 		    </widget>
@@ -441,84 +419,6 @@
 			  <property name="column_spacing">6</property>
 
 			  <child>
-			    <widget class="GtkOptionMenu" id="optionmenu-email-1">
-			      <property name="visible">True</property>
-			      <property name="can_focus">True</property>
-			      <property name="history">0</property>
-
-			      <child>
-				<widget class="GtkMenu" id="menu169">
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem380">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Work</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_work2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem381">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Personal</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_personal2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-				    </widget>
-				  </child>
-				</widget>
-			      </child>
-			    </widget>
-			    <packing>
-			      <property name="left_attach">0</property>
-			      <property name="right_attach">1</property>
-			      <property name="top_attach">0</property>
-			      <property name="bottom_attach">1</property>
-			      <property name="x_options">fill</property>
-			      <property name="y_options"></property>
-			    </packing>
-			  </child>
-
-			  <child>
-			    <widget class="GtkOptionMenu" id="optionmenu-email-2">
-			      <property name="visible">True</property>
-			      <property name="can_focus">True</property>
-			      <property name="history">0</property>
-
-			      <child>
-				<widget class="GtkMenu" id="menu170">
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem382">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Work</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_work2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem383">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Personal</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_personal2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-				    </widget>
-				  </child>
-				</widget>
-			      </child>
-			    </widget>
-			    <packing>
-			      <property name="left_attach">0</property>
-			      <property name="right_attach">1</property>
-			      <property name="top_attach">1</property>
-			      <property name="bottom_attach">2</property>
-			      <property name="x_options">fill</property>
-			      <property name="y_options"></property>
-			    </packing>
-			  </child>
-
-			  <child>
 			    <widget class="GtkEntry" id="entry-email-2">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
@@ -529,93 +429,12 @@
 			      <property name="has_frame">True</property>
 			      <property name="invisible_char">*</property>
 			      <property name="activates_default">False</property>
-			      <accessibility>
-				<atkrelation target="optionmenu-email-2" type="labelled-by"/>
-			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
 			      <property name="right_attach">2</property>
 			      <property name="top_attach">1</property>
 			      <property name="bottom_attach">2</property>
-			      <property name="y_options"></property>
-			    </packing>
-			  </child>
-
-			  <child>
-			    <widget class="GtkOptionMenu" id="optionmenu-email-3">
-			      <property name="visible">True</property>
-			      <property name="can_focus">True</property>
-			      <property name="history">0</property>
-
-			      <child>
-				<widget class="GtkMenu" id="menu171">
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem384">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Work</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_work2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem385">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Personal</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_personal2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-				    </widget>
-				  </child>
-				</widget>
-			      </child>
-			    </widget>
-			    <packing>
-			      <property name="left_attach">2</property>
-			      <property name="right_attach">3</property>
-			      <property name="top_attach">0</property>
-			      <property name="bottom_attach">1</property>
-			      <property name="x_options">fill</property>
-			      <property name="y_options"></property>
-			    </packing>
-			  </child>
-
-			  <child>
-			    <widget class="GtkOptionMenu" id="optionmenu-email-4">
-			      <property name="visible">True</property>
-			      <property name="can_focus">True</property>
-			      <property name="history">0</property>
-
-			      <child>
-				<widget class="GtkMenu" id="menu172">
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem386">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Work</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_work2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem387">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Personal</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_personal2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-				    </widget>
-				  </child>
-				</widget>
-			      </child>
-			    </widget>
-			    <packing>
-			      <property name="left_attach">2</property>
-			      <property name="right_attach">3</property>
-			      <property name="top_attach">1</property>
-			      <property name="bottom_attach">2</property>
-			      <property name="x_options">fill</property>
 			      <property name="y_options"></property>
 			    </packing>
 			  </child>
@@ -631,9 +450,6 @@
 			      <property name="has_frame">True</property>
 			      <property name="invisible_char">*</property>
 			      <property name="activates_default">False</property>
-			      <accessibility>
-				<atkrelation target="optionmenu-email-1" type="labelled-by"/>
-			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
@@ -655,9 +471,6 @@
 			      <property name="has_frame">True</property>
 			      <property name="invisible_char">*</property>
 			      <property name="activates_default">False</property>
-			      <accessibility>
-				<atkrelation target="optionmenu-email-3" type="labelled-by"/>
-			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">3</property>
@@ -679,9 +492,6 @@
 			      <property name="has_frame">True</property>
 			      <property name="invisible_char">*</property>
 			      <property name="activates_default">False</property>
-			      <accessibility>
-				<atkrelation target="optionmenu-email-4" type="labelled-by"/>
-			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">3</property>
@@ -711,6 +521,78 @@
 			      <property name="bottom_attach">3</property>
 			      <property name="x_options">fill</property>
 			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkComboBox" id="combobox-email-1">
+			      <property name="visible">True</property>
+			      <property name="items">Work
+Personal</property>
+			      <property name="add_tearoffs">False</property>
+			      <property name="focus_on_click">True</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">0</property>
+			      <property name="right_attach">1</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options">fill</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkComboBox" id="combobox-email-2">
+			      <property name="visible">True</property>
+			      <property name="items">Work
+Personal</property>
+			      <property name="add_tearoffs">False</property>
+			      <property name="focus_on_click">True</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">0</property>
+			      <property name="right_attach">1</property>
+			      <property name="top_attach">1</property>
+			      <property name="bottom_attach">2</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options">fill</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkComboBox" id="combobox-email-3">
+			      <property name="visible">True</property>
+			      <property name="items">Work
+Personal</property>
+			      <property name="add_tearoffs">False</property>
+			      <property name="focus_on_click">True</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">2</property>
+			      <property name="right_attach">3</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options">fill</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkComboBox" id="combobox-email-4">
+			      <property name="visible">True</property>
+			      <property name="items">Work
+Personal</property>
+			      <property name="add_tearoffs">False</property>
+			      <property name="focus_on_click">True</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">2</property>
+			      <property name="right_attach">3</property>
+			      <property name="top_attach">1</property>
+			      <property name="bottom_attach">2</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options">fill</property>
 			    </packing>
 			  </child>
 			</widget>
@@ -786,9 +668,6 @@
 				      <property name="has_frame">True</property>
 				      <property name="invisible_char">*</property>
 				      <property name="activates_default">False</property>
-				      <accessibility>
-					<atkrelation target="optionmenu-phone-1" type="labelled-by"/>
-				      </accessibility>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">1</property>
@@ -810,9 +689,6 @@
 				      <property name="has_frame">True</property>
 				      <property name="invisible_char">*</property>
 				      <property name="activates_default">False</property>
-				      <accessibility>
-					<atkrelation target="optionmenu-phone-2" type="labelled-by"/>
-				      </accessibility>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">1</property>
@@ -834,9 +710,6 @@
 				      <property name="has_frame">True</property>
 				      <property name="invisible_char">*</property>
 				      <property name="activates_default">False</property>
-				      <accessibility>
-					<atkrelation target="optionmenu-phone-4" type="labelled-by"/>
-				      </accessibility>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">3</property>
@@ -858,9 +731,6 @@
 				      <property name="has_frame">True</property>
 				      <property name="invisible_char">*</property>
 				      <property name="activates_default">False</property>
-				      <accessibility>
-					<atkrelation target="optionmenu-phone-3" type="labelled-by"/>
-				      </accessibility>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">3</property>
@@ -872,33 +742,11 @@
 				  </child>
 
 				  <child>
-				    <widget class="GtkOptionMenu" id="optionmenu-phone-1">
+				    <widget class="GtkComboBox" id="combobox-phone-1">
 				      <property name="visible">True</property>
-				      <property name="can_focus">True</property>
-				      <property name="history">0</property>
-
-				      <child>
-					<widget class="GtkMenu" id="menu179">
-
-					  <child>
-					    <widget class="GtkMenuItem" id="menuitem412">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Work</property>
-					      <property name="use_underline">True</property>
-					      <signal name="activate" handler="on_work2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="menuitem413">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Personal</property>
-					      <property name="use_underline">True</property>
-					      <signal name="activate" handler="on_personal2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-					    </widget>
-					  </child>
-					</widget>
-				      </child>
+				      <property name="items" translatable="yes"></property>
+				      <property name="add_tearoffs">False</property>
+				      <property name="focus_on_click">True</property>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">0</property>
@@ -906,38 +754,16 @@
 				      <property name="top_attach">0</property>
 				      <property name="bottom_attach">1</property>
 				      <property name="x_options">fill</property>
-				      <property name="y_options"></property>
+				      <property name="y_options">fill</property>
 				    </packing>
 				  </child>
 
 				  <child>
-				    <widget class="GtkOptionMenu" id="optionmenu-phone-2">
+				    <widget class="GtkComboBox" id="combobox-phone-2">
 				      <property name="visible">True</property>
-				      <property name="can_focus">True</property>
-				      <property name="history">0</property>
-
-				      <child>
-					<widget class="GtkMenu" id="menu180">
-
-					  <child>
-					    <widget class="GtkMenuItem" id="menuitem414">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Work</property>
-					      <property name="use_underline">True</property>
-					      <signal name="activate" handler="on_work2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="menuitem415">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Personal</property>
-					      <property name="use_underline">True</property>
-					      <signal name="activate" handler="on_personal2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-					    </widget>
-					  </child>
-					</widget>
-				      </child>
+				      <property name="items" translatable="yes"></property>
+				      <property name="add_tearoffs">False</property>
+				      <property name="focus_on_click">True</property>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">0</property>
@@ -945,38 +771,16 @@
 				      <property name="top_attach">1</property>
 				      <property name="bottom_attach">2</property>
 				      <property name="x_options">fill</property>
-				      <property name="y_options"></property>
+				      <property name="y_options">fill</property>
 				    </packing>
 				  </child>
 
 				  <child>
-				    <widget class="GtkOptionMenu" id="optionmenu-phone-3">
+				    <widget class="GtkComboBox" id="combobox-phone-3">
 				      <property name="visible">True</property>
-				      <property name="can_focus">True</property>
-				      <property name="history">0</property>
-
-				      <child>
-					<widget class="GtkMenu" id="menu181">
-
-					  <child>
-					    <widget class="GtkMenuItem" id="menuitem416">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Work</property>
-					      <property name="use_underline">True</property>
-					      <signal name="activate" handler="on_work2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="menuitem417">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Personal</property>
-					      <property name="use_underline">True</property>
-					      <signal name="activate" handler="on_personal2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-					    </widget>
-					  </child>
-					</widget>
-				      </child>
+				      <property name="items" translatable="yes"></property>
+				      <property name="add_tearoffs">False</property>
+				      <property name="focus_on_click">True</property>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">2</property>
@@ -984,38 +788,16 @@
 				      <property name="top_attach">0</property>
 				      <property name="bottom_attach">1</property>
 				      <property name="x_options">fill</property>
-				      <property name="y_options"></property>
+				      <property name="y_options">fill</property>
 				    </packing>
 				  </child>
 
 				  <child>
-				    <widget class="GtkOptionMenu" id="optionmenu-phone-4">
+				    <widget class="GtkComboBox" id="combobox-phone-4">
 				      <property name="visible">True</property>
-				      <property name="can_focus">True</property>
-				      <property name="history">0</property>
-
-				      <child>
-					<widget class="GtkMenu" id="menu182">
-
-					  <child>
-					    <widget class="GtkMenuItem" id="menuitem418">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Work</property>
-					      <property name="use_underline">True</property>
-					      <signal name="activate" handler="on_work2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="menuitem419">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Personal</property>
-					      <property name="use_underline">True</property>
-					      <signal name="activate" handler="on_personal2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-					    </widget>
-					  </child>
-					</widget>
-				      </child>
+				      <property name="items" translatable="yes"></property>
+				      <property name="add_tearoffs">False</property>
+				      <property name="focus_on_click">True</property>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">2</property>
@@ -1023,7 +805,7 @@
 				      <property name="top_attach">1</property>
 				      <property name="bottom_attach">2</property>
 				      <property name="x_options">fill</property>
-				      <property name="y_options"></property>
+				      <property name="y_options">fill</property>
 				    </packing>
 				  </child>
 				</widget>
@@ -1043,84 +825,6 @@
 				  <property name="column_spacing">6</property>
 
 				  <child>
-				    <widget class="GtkOptionMenu" id="optionmenu-phone-5">
-				      <property name="visible">True</property>
-				      <property name="can_focus">True</property>
-				      <property name="history">0</property>
-
-				      <child>
-					<widget class="GtkMenu" id="menu187">
-
-					  <child>
-					    <widget class="GtkMenuItem" id="menuitem430">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Work</property>
-					      <property name="use_underline">True</property>
-					      <signal name="activate" handler="on_work2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="menuitem431">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Personal</property>
-					      <property name="use_underline">True</property>
-					      <signal name="activate" handler="on_personal2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-					    </widget>
-					  </child>
-					</widget>
-				      </child>
-				    </widget>
-				    <packing>
-				      <property name="left_attach">0</property>
-				      <property name="right_attach">1</property>
-				      <property name="top_attach">0</property>
-				      <property name="bottom_attach">1</property>
-				      <property name="x_options">fill</property>
-				      <property name="y_options"></property>
-				    </packing>
-				  </child>
-
-				  <child>
-				    <widget class="GtkOptionMenu" id="optionmenu-phone-6">
-				      <property name="visible">True</property>
-				      <property name="can_focus">True</property>
-				      <property name="history">0</property>
-
-				      <child>
-					<widget class="GtkMenu" id="menu188">
-
-					  <child>
-					    <widget class="GtkMenuItem" id="menuitem432">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Work</property>
-					      <property name="use_underline">True</property>
-					      <signal name="activate" handler="on_work2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="menuitem433">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Personal</property>
-					      <property name="use_underline">True</property>
-					      <signal name="activate" handler="on_personal2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-					    </widget>
-					  </child>
-					</widget>
-				      </child>
-				    </widget>
-				    <packing>
-				      <property name="left_attach">0</property>
-				      <property name="right_attach">1</property>
-				      <property name="top_attach">1</property>
-				      <property name="bottom_attach">2</property>
-				      <property name="x_options">fill</property>
-				      <property name="y_options"></property>
-				    </packing>
-				  </child>
-
-				  <child>
 				    <widget class="GtkEntry" id="entry-phone-5">
 				      <property name="visible">True</property>
 				      <property name="can_focus">True</property>
@@ -1131,9 +835,6 @@
 				      <property name="has_frame">True</property>
 				      <property name="invisible_char">*</property>
 				      <property name="activates_default">False</property>
-				      <accessibility>
-					<atkrelation target="optionmenu-phone-5" type="labelled-by"/>
-				      </accessibility>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">1</property>
@@ -1155,93 +856,12 @@
 				      <property name="has_frame">True</property>
 				      <property name="invisible_char">*</property>
 				      <property name="activates_default">False</property>
-				      <accessibility>
-					<atkrelation target="optionmenu-phone-6" type="labelled-by"/>
-				      </accessibility>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">1</property>
 				      <property name="right_attach">2</property>
 				      <property name="top_attach">1</property>
 				      <property name="bottom_attach">2</property>
-				      <property name="y_options"></property>
-				    </packing>
-				  </child>
-
-				  <child>
-				    <widget class="GtkOptionMenu" id="optionmenu-phone-7">
-				      <property name="visible">True</property>
-				      <property name="can_focus">True</property>
-				      <property name="history">0</property>
-
-				      <child>
-					<widget class="GtkMenu" id="menu189">
-
-					  <child>
-					    <widget class="GtkMenuItem" id="menuitem434">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Work</property>
-					      <property name="use_underline">True</property>
-					      <signal name="activate" handler="on_work2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="menuitem435">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Personal</property>
-					      <property name="use_underline">True</property>
-					      <signal name="activate" handler="on_personal2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-					    </widget>
-					  </child>
-					</widget>
-				      </child>
-				    </widget>
-				    <packing>
-				      <property name="left_attach">2</property>
-				      <property name="right_attach">3</property>
-				      <property name="top_attach">0</property>
-				      <property name="bottom_attach">1</property>
-				      <property name="x_options">fill</property>
-				      <property name="y_options"></property>
-				    </packing>
-				  </child>
-
-				  <child>
-				    <widget class="GtkOptionMenu" id="optionmenu-phone-8">
-				      <property name="visible">True</property>
-				      <property name="can_focus">True</property>
-				      <property name="history">0</property>
-
-				      <child>
-					<widget class="GtkMenu" id="menu190">
-
-					  <child>
-					    <widget class="GtkMenuItem" id="menuitem436">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Work</property>
-					      <property name="use_underline">True</property>
-					      <signal name="activate" handler="on_work2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-					    </widget>
-					  </child>
-
-					  <child>
-					    <widget class="GtkMenuItem" id="menuitem437">
-					      <property name="visible">True</property>
-					      <property name="label" translatable="yes">Personal</property>
-					      <property name="use_underline">True</property>
-					      <signal name="activate" handler="on_personal2_activate" last_modification_time="Fri, 12 Mar 2004 19:27:14 GMT"/>
-					    </widget>
-					  </child>
-					</widget>
-				      </child>
-				    </widget>
-				    <packing>
-				      <property name="left_attach">2</property>
-				      <property name="right_attach">3</property>
-				      <property name="top_attach">1</property>
-				      <property name="bottom_attach">2</property>
-				      <property name="x_options">fill</property>
 				      <property name="y_options"></property>
 				    </packing>
 				  </child>
@@ -1257,9 +877,6 @@
 				      <property name="has_frame">True</property>
 				      <property name="invisible_char">*</property>
 				      <property name="activates_default">False</property>
-				      <accessibility>
-					<atkrelation target="optionmenu-phone-7" type="labelled-by"/>
-				      </accessibility>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">3</property>
@@ -1281,9 +898,6 @@
 				      <property name="has_frame">True</property>
 				      <property name="invisible_char">*</property>
 				      <property name="activates_default">False</property>
-				      <accessibility>
-					<atkrelation target="optionmenu-phone-8" type="labelled-by"/>
-				      </accessibility>
 				    </widget>
 				    <packing>
 				      <property name="left_attach">3</property>
@@ -1291,6 +905,74 @@
 				      <property name="top_attach">1</property>
 				      <property name="bottom_attach">2</property>
 				      <property name="y_options"></property>
+				    </packing>
+				  </child>
+
+				  <child>
+				    <widget class="GtkComboBox" id="combobox-phone-5">
+				      <property name="visible">True</property>
+				      <property name="items" translatable="yes"></property>
+				      <property name="add_tearoffs">False</property>
+				      <property name="focus_on_click">True</property>
+				    </widget>
+				    <packing>
+				      <property name="left_attach">0</property>
+				      <property name="right_attach">1</property>
+				      <property name="top_attach">0</property>
+				      <property name="bottom_attach">1</property>
+				      <property name="x_options">fill</property>
+				      <property name="y_options">fill</property>
+				    </packing>
+				  </child>
+
+				  <child>
+				    <widget class="GtkComboBox" id="combobox-phone-6">
+				      <property name="visible">True</property>
+				      <property name="items" translatable="yes"></property>
+				      <property name="add_tearoffs">False</property>
+				      <property name="focus_on_click">True</property>
+				    </widget>
+				    <packing>
+				      <property name="left_attach">0</property>
+				      <property name="right_attach">1</property>
+				      <property name="top_attach">1</property>
+				      <property name="bottom_attach">2</property>
+				      <property name="x_options">fill</property>
+				      <property name="y_options">fill</property>
+				    </packing>
+				  </child>
+
+				  <child>
+				    <widget class="GtkComboBox" id="combobox-phone-7">
+				      <property name="visible">True</property>
+				      <property name="items" translatable="yes"></property>
+				      <property name="add_tearoffs">False</property>
+				      <property name="focus_on_click">True</property>
+				    </widget>
+				    <packing>
+				      <property name="left_attach">2</property>
+				      <property name="right_attach">3</property>
+				      <property name="top_attach">0</property>
+				      <property name="bottom_attach">1</property>
+				      <property name="x_options">fill</property>
+				      <property name="y_options">fill</property>
+				    </packing>
+				  </child>
+
+				  <child>
+				    <widget class="GtkComboBox" id="combobox-phone-8">
+				      <property name="visible">True</property>
+				      <property name="items" translatable="yes"></property>
+				      <property name="add_tearoffs">False</property>
+				      <property name="focus_on_click">True</property>
+				    </widget>
+				    <packing>
+				      <property name="left_attach">2</property>
+				      <property name="right_attach">3</property>
+				      <property name="top_attach">1</property>
+				      <property name="bottom_attach">2</property>
+				      <property name="x_options">fill</property>
+				      <property name="y_options">fill</property>
 				    </packing>
 				  </child>
 				</widget>
@@ -1402,54 +1084,6 @@
 			  <property name="column_spacing">6</property>
 
 			  <child>
-			    <widget class="GtkOptionMenu" id="optionmenu-im-service-1">
-			      <property name="visible">True</property>
-			      <property name="can_focus">True</property>
-			      <property name="history">0</property>
-
-			      <child>
-				<widget class="GtkMenu" id="menu173">
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem388">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">AIM</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_aim1_activate" last_modification_time="Fri, 12 Mar 2004 18:38:59 GMT"/>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem389">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Novell GroupWise</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_novell_groupwise1_activate" last_modification_time="Fri, 12 Mar 2004 18:38:59 GMT"/>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem390">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">MSN Messenger</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_msn_messenger1_activate" last_modification_time="Fri, 12 Mar 2004 18:38:59 GMT"/>
-				    </widget>
-				  </child>
-				</widget>
-			      </child>
-			    </widget>
-			    <packing>
-			      <property name="left_attach">0</property>
-			      <property name="right_attach">1</property>
-			      <property name="top_attach">0</property>
-			      <property name="bottom_attach">1</property>
-			      <property name="x_options">fill</property>
-			      <property name="y_options"></property>
-			    </packing>
-			  </child>
-
-			  <child>
 			    <widget class="GtkEntry" id="entry-im-name-1">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
@@ -1460,63 +1094,12 @@
 			      <property name="has_frame">True</property>
 			      <property name="invisible_char">*</property>
 			      <property name="activates_default">False</property>
-			      <accessibility>
-				<atkrelation target="optionmenu-im-service-1" type="labelled-by"/>
-			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
 			      <property name="right_attach">2</property>
 			      <property name="top_attach">0</property>
 			      <property name="bottom_attach">1</property>
-			      <property name="y_options"></property>
-			    </packing>
-			  </child>
-
-			  <child>
-			    <widget class="GtkOptionMenu" id="optionmenu-im-service-2">
-			      <property name="visible">True</property>
-			      <property name="can_focus">True</property>
-			      <property name="history">0</property>
-
-			      <child>
-				<widget class="GtkMenu" id="menu174">
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem391">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">AIM</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_aim1_activate" last_modification_time="Fri, 12 Mar 2004 18:38:59 GMT"/>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem392">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Novell Groupwise</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_novell_groupwise1_activate" last_modification_time="Fri, 12 Mar 2004 18:38:59 GMT"/>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem393">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">MSN Messenger</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_msn_messenger1_activate" last_modification_time="Fri, 12 Mar 2004 18:38:59 GMT"/>
-				    </widget>
-				  </child>
-				</widget>
-			      </child>
-			    </widget>
-			    <packing>
-			      <property name="left_attach">0</property>
-			      <property name="right_attach">1</property>
-			      <property name="top_attach">1</property>
-			      <property name="bottom_attach">2</property>
-			      <property name="x_options">fill</property>
 			      <property name="y_options"></property>
 			    </packing>
 			  </child>
@@ -1532,63 +1115,12 @@
 			      <property name="has_frame">True</property>
 			      <property name="invisible_char">*</property>
 			      <property name="activates_default">False</property>
-			      <accessibility>
-				<atkrelation target="optionmenu-im-service-2" type="labelled-by"/>
-			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
 			      <property name="right_attach">2</property>
 			      <property name="top_attach">1</property>
 			      <property name="bottom_attach">2</property>
-			      <property name="y_options"></property>
-			    </packing>
-			  </child>
-
-			  <child>
-			    <widget class="GtkOptionMenu" id="optionmenu-im-service-3">
-			      <property name="visible">True</property>
-			      <property name="can_focus">True</property>
-			      <property name="history">0</property>
-
-			      <child>
-				<widget class="GtkMenu" id="menu175">
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem394">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">AIM</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_aim1_activate" last_modification_time="Fri, 12 Mar 2004 18:38:59 GMT"/>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem395">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Novell Groupwise</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_novell_groupwise1_activate" last_modification_time="Fri, 12 Mar 2004 18:38:59 GMT"/>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem396">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">MSN Messenger</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_msn_messenger1_activate" last_modification_time="Fri, 12 Mar 2004 18:38:59 GMT"/>
-				    </widget>
-				  </child>
-				</widget>
-			      </child>
-			    </widget>
-			    <packing>
-			      <property name="left_attach">2</property>
-			      <property name="right_attach">3</property>
-			      <property name="top_attach">0</property>
-			      <property name="bottom_attach">1</property>
-			      <property name="x_options">fill</property>
 			      <property name="y_options"></property>
 			    </packing>
 			  </child>
@@ -1604,63 +1136,12 @@
 			      <property name="has_frame">True</property>
 			      <property name="invisible_char">*</property>
 			      <property name="activates_default">False</property>
-			      <accessibility>
-				<atkrelation target="optionmenu-im-service-3" type="labelled-by"/>
-			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">3</property>
 			      <property name="right_attach">4</property>
 			      <property name="top_attach">0</property>
 			      <property name="bottom_attach">1</property>
-			      <property name="y_options"></property>
-			    </packing>
-			  </child>
-
-			  <child>
-			    <widget class="GtkOptionMenu" id="optionmenu-im-service-4">
-			      <property name="visible">True</property>
-			      <property name="can_focus">True</property>
-			      <property name="history">0</property>
-
-			      <child>
-				<widget class="GtkMenu" id="menu183">
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem420">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">AIM</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_aim1_activate" last_modification_time="Fri, 12 Mar 2004 18:38:59 GMT"/>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem421">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Novell Groupwise</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_novell_groupwise1_activate" last_modification_time="Fri, 12 Mar 2004 18:38:59 GMT"/>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem422">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">MSN Messenger</property>
-				      <property name="use_underline">True</property>
-				      <signal name="activate" handler="on_msn_messenger1_activate" last_modification_time="Fri, 12 Mar 2004 18:38:59 GMT"/>
-				    </widget>
-				  </child>
-				</widget>
-			      </child>
-			    </widget>
-			    <packing>
-			      <property name="left_attach">2</property>
-			      <property name="right_attach">3</property>
-			      <property name="top_attach">1</property>
-			      <property name="bottom_attach">2</property>
-			      <property name="x_options">fill</property>
 			      <property name="y_options"></property>
 			    </packing>
 			  </child>
@@ -1676,9 +1157,6 @@
 			      <property name="has_frame">True</property>
 			      <property name="invisible_char">*</property>
 			      <property name="activates_default">False</property>
-			      <accessibility>
-				<atkrelation target="optionmenu-im-service-4" type="labelled-by"/>
-			      </accessibility>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">3</property>
@@ -1686,6 +1164,74 @@
 			      <property name="top_attach">1</property>
 			      <property name="bottom_attach">2</property>
 			      <property name="y_options"></property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkComboBox" id="combobox-im-service-1">
+			      <property name="visible">True</property>
+			      <property name="items" translatable="yes"></property>
+			      <property name="add_tearoffs">False</property>
+			      <property name="focus_on_click">True</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">0</property>
+			      <property name="right_attach">1</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options">fill</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkComboBox" id="combobox-im-service-2">
+			      <property name="visible">True</property>
+			      <property name="items" translatable="yes"></property>
+			      <property name="add_tearoffs">False</property>
+			      <property name="focus_on_click">True</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">0</property>
+			      <property name="right_attach">1</property>
+			      <property name="top_attach">1</property>
+			      <property name="bottom_attach">2</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options">fill</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkComboBox" id="combobox-im-service-3">
+			      <property name="visible">True</property>
+			      <property name="items" translatable="yes"></property>
+			      <property name="add_tearoffs">False</property>
+			      <property name="focus_on_click">True</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">2</property>
+			      <property name="right_attach">3</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options">fill</property>
+			    </packing>
+			  </child>
+
+			  <child>
+			    <widget class="GtkComboBox" id="combobox-im-service-4">
+			      <property name="visible">True</property>
+			      <property name="items" translatable="yes"></property>
+			      <property name="add_tearoffs">False</property>
+			      <property name="focus_on_click">True</property>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">2</property>
+			      <property name="right_attach">3</property>
+			      <property name="top_attach">1</property>
+			      <property name="bottom_attach">2</property>
+			      <property name="x_options">fill</property>
+			      <property name="y_options">fill</property>
 			    </packing>
 			  </child>
 			</widget>
@@ -2785,9 +2331,9 @@
 		      <property name="border_width">6</property>
 		      <property name="visible">True</property>
 		      <property name="xalign">0.5</property>
-		      <property name="yalign">0.15</property>
+		      <property name="yalign">0.15000000596</property>
 		      <property name="xscale">1</property>
-		      <property name="yscale">0.70</property>
+		      <property name="yscale">0.699999988079</property>
 		      <property name="top_padding">0</property>
 		      <property name="bottom_padding">0</property>
 		      <property name="left_padding">19</property>
@@ -3033,7 +2579,7 @@
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
 				  <property name="wrap">False</property>
 				  <property name="selectable">False</property>
-				  <property name="xalign">1.0</property>
+				  <property name="xalign">1</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
 				  <property name="ypad">4</property>
@@ -3084,7 +2630,7 @@
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
 				  <property name="wrap">False</property>
 				  <property name="selectable">False</property>
-				  <property name="xalign">1.0</property>
+				  <property name="xalign">1</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
 				  <property name="ypad">0</property>
@@ -3113,7 +2659,7 @@
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
 				  <property name="wrap">False</property>
 				  <property name="selectable">False</property>
-				  <property name="xalign">1.0</property>
+				  <property name="xalign">1</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
 				  <property name="ypad">0</property>
@@ -3132,15 +2678,12 @@
 				  <property name="y_options"></property>
 				</packing>
 			      </child>
-
-			      <child>
-				<placeholder />
-			      </child>
-
-			      <child>
-				<placeholder />
-			      </child>
 			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">True</property>
+			      <property name="fill">True</property>
+			    </packing>
 			  </child>
 			</widget>
 		      </child>
@@ -3156,7 +2699,7 @@
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
-		      <property name="xalign">0.42</property>
+		      <property name="xalign">0.419999986887</property>
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
@@ -3190,9 +2733,9 @@
 		      <property name="border_width">6</property>
 		      <property name="visible">True</property>
 		      <property name="xalign">0.5</property>
-		      <property name="yalign">0.15</property>
+		      <property name="yalign">0.15000000596</property>
 		      <property name="xscale">1</property>
-		      <property name="yscale">0.70</property>
+		      <property name="yscale">0.699999988079</property>
 		      <property name="top_padding">0</property>
 		      <property name="bottom_padding">0</property>
 		      <property name="left_padding">19</property>
@@ -3224,6 +2767,7 @@
 				  <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
 				  <property name="shadow_type">GTK_SHADOW_IN</property>
 				  <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
+
 				  <child>
 				    <widget class="GtkTextView" id="textview-work-address">
 				      <property name="height_request">25</property>
@@ -3314,7 +2858,7 @@
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
 				  <property name="wrap">False</property>
 				  <property name="selectable">False</property>
-				  <property name="xalign">1.0</property>
+				  <property name="xalign">1</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
 				  <property name="ypad">0</property>
@@ -3466,7 +3010,7 @@
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
 				  <property name="wrap">False</property>
 				  <property name="selectable">False</property>
-				  <property name="xalign">1.0</property>
+				  <property name="xalign">1</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
 				  <property name="ypad">4</property>
@@ -3517,7 +3061,7 @@
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
 				  <property name="wrap">False</property>
 				  <property name="selectable">False</property>
-				  <property name="xalign">1.0</property>
+				  <property name="xalign">1</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
 				  <property name="ypad">0</property>
@@ -3536,17 +3080,16 @@
 				  <property name="y_options"></property>
 				</packing>
 			      </child>
-
 			    </widget>
+			    <packing>
+			      <property name="padding">0</property>
+			      <property name="expand">True</property>
+			      <property name="fill">True</property>
+			    </packing>
 			  </child>
 			</widget>
 		      </child>
 		    </widget>
-		    <packing>
-		      <property name="padding">8</property>
-		      <property name="expand">True</property>
-		      <property name="fill">False</property>
-		    </packing>
 		  </child>
 
 		  <child>
@@ -3558,7 +3101,7 @@
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
-		      <property name="xalign">0.42</property>
+		      <property name="xalign">0.419999986887</property>
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
@@ -3592,9 +3135,9 @@
 		      <property name="border_width">6</property>
 		      <property name="visible">True</property>
 		      <property name="xalign">0.5</property>
-		      <property name="yalign">0.15</property>
+		      <property name="yalign">0.15000000596</property>
 		      <property name="xscale">1</property>
-		      <property name="yscale">0.70</property>
+		      <property name="yscale">0.699999988079</property>
 		      <property name="top_padding">0</property>
 		      <property name="bottom_padding">0</property>
 		      <property name="left_padding">19</property>
@@ -3675,7 +3218,7 @@
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
 				  <property name="wrap">False</property>
 				  <property name="selectable">False</property>
-				  <property name="xalign">1.0</property>
+				  <property name="xalign">1</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
 				  <property name="ypad">0</property>
@@ -3827,7 +3370,7 @@
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
 				  <property name="wrap">False</property>
 				  <property name="selectable">False</property>
-				  <property name="xalign">1.0</property>
+				  <property name="xalign">1</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
 				  <property name="ypad">4</property>
@@ -3878,7 +3421,7 @@
 				  <property name="justify">GTK_JUSTIFY_LEFT</property>
 				  <property name="wrap">False</property>
 				  <property name="selectable">False</property>
-				  <property name="xalign">1.0</property>
+				  <property name="xalign">1</property>
 				  <property name="yalign">0.5</property>
 				  <property name="xpad">0</property>
 				  <property name="ypad">0</property>
@@ -3908,6 +3451,7 @@
 				  <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
 				  <property name="shadow_type">GTK_SHADOW_IN</property>
 				  <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
+
 				  <child>
 				    <widget class="GtkTextView" id="textview-other-address">
 				      <property name="height_request">25</property>
@@ -3948,11 +3492,6 @@
 			</widget>
 		      </child>
 		    </widget>
-		    <packing>
-		      <property name="padding">8</property>
-		      <property name="expand">True</property>
-		      <property name="fill">False</property>
-		    </packing>
 		  </child>
 
 		  <child>
@@ -3964,7 +3503,7 @@
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
 		      <property name="wrap">False</property>
 		      <property name="selectable">False</property>
-		      <property name="xalign">0.42</property>
+		      <property name="xalign">0.419999986887</property>
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>

@@ -1,3 +1,158 @@
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #552583
+
+	* mail-config.c: (mc_get_account_by), (get_source_url_string),
+	(get_transport_url_string), (mail_config_get_account_by_source_url),
+	(mail_config_get_account_by_transport_url):
+	Let the provider compare urls.
+
+2009-04-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #572348
+
+	* mail-config.glade:
+	* mail-dialogs.glade:
+	* em-composer-prefs.h:
+	* em-composer-prefs.c:
+	* em-subscribe-editor.c:
+	* em-filter-editor.c:
+	* em-filter-rule.c:
+	* em-filter-source-element.c:
+	* em-mailer-prefs.h:
+	* em-mailer-prefs.c:
+	* message-tag-followup.h:
+	* message-tag-followup.c:
+	Remove deprecated Gtk+ symbols.
+
+2009-04-15  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	* mail/mail-ops.c: Corrected a typo error.
+
+2009-04-13  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #467659 (bnc)
+	* mail/mail-mt.c:
+	* mail/mail-ops.c: Set the description for send mail
+	operation.
+
+2009-04-13  Chenthill Palanisamy  <pchenthill@novell.com>
+
+	Fixes #471083 (bnc)
+	* mail/em-folder-utils.c:
+	* mail/mail-folder-cache.c:
+	* mail/mail-folder-cache.h: Do not allow deleting
+	system folders.
+
+2008-04-04  Tobias Mueller  <tobiasmue@gnome.org>
+
+	** Fix for bug #569765
+
+	* message-list.c: Don't keep the selected message in the message 
+	list if it is removed from the folder.
+	Patch by Matt McCutchen <matt@mattmccutchen.net>
+
+2009-04-02  Milan Crha  <mcrha@redhat.com>
+
+	* em-folder-tree.c: (em_folder_tree_get_selected_folder):
+	Do not ask for a folder when no folder selected.
+
+2009-03-31  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #576921
+
+	* mail/em-mailer-prefs.h: Remove needless GtkListStore objects.
+
+2009-03-28  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #576921
+
+	* mail/em-mailer-prefs.h: Remove needless GtkListStore objects.
+	* mail/em-mailer-prefs.c: Use dispose instead of finalize.
+	(em_mailer_prefs_dispose): Unref header_list_store.
+	(init_junk_tree), (init_label_tree): Returns gboolean value instead
+	of GtkListStore object. Unref GtkListStore right after
+	gtk_tree_view_set_model.
+
+2009-03-28  Hiroyuki Ikezoe  <poincare@ikezoe.net>
+
+	** Fix for bug #576845
+
+	* em-mailr-prefs.c: (init_junk_tree):
+	Call jh_tree_refill instead of label_tree_refill.
+
+2009-03-24  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #552583
+
+	* mail-config.c: (only_username), (mail_config_account_url_equal):
+	Compare only user names, without a domain part, if such exists.
+
+2009-03-19  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #504767
+
+	* em-folder-utils.h: (em_folder_utils_create_folder):
+	* em-folder-utils.c: (em_folder_utils_create_folder):
+	* em-folder-selector.c: (emfs_response):
+	Inherit modality from a parent's window, if any.
+	* em-folder-browser.c: (emfb_folder_create):
+	* em-folder-tree.c: (emft_popup_new_folder):
+	* mail-component.c: (create_item):
+	Propagate changes in function prototype.
+
+2009-03-08  David Planella  <david.planella@gmail.com>
+
+	Added Catalan translation of the Evolution welcome e-mail
+
+	* default/Makefile.am: Added Catalan (ca) to the list of
+	subdirectories
+	* default/ca/Inbox: Added Catalan translation by David Planella
+	* default/ca/Makefile.am: Created Makefile template
+
+2009-03-04  Milan Crha  <mcrha@redhat.com>
+
+	* mail-ops.c: (empty_trash_exec): Do not unref NULL object.
+
+2009-03-02  Matt McCutchen  <matt@mattmccutchen.net>
+
+	* evolution/mail/em-folder-view.c:
+	* evolution/mail/em-utils.c:
+	* evolution/mail/em-utils.h:
+	* evolution/mail/em-popup.c:
+	Revert evolution revision 37063 (workaround for bug 563867). 
+	
+	** Part of the fix for bug #549838
+
+2009-02-26  Andre Klapper  <a9016009@gmx.de>
+
+	* message-tag-followup-c:
+	Remove deprecated gtk_combo_set_case_sensitive() call as FALSE
+	IS already the default value for the case-sensitive property.
+
+2009-02-25  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #572268
+
+	* em-subscribe-editor.c: (sub_fill_level):
+	Do not duplicate "Loading..." node when adding to existing node.
+
+2009-02-25  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #563212
+
+	* em-utils.c: (try_open_e_book_cb), (try_open_e_book),
+	(is_local), (em_utils_in_addressbook), (em_utils_contact_photo):
+	Ensure empty GError before filling it. Check if group is local based
+	on its base_uri. Adapt to new e_book_cancel behaviour.
+
+2009-02-23  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #572543
+
+	* em-popup.c: (emp_standard_menu_factory):
+	Always look for alternative apps for application/octet-stream.
+
 2009-02-11  Andre Klapper  <a9016009@gmx.de>
 
 	* em-folder-browser.c:

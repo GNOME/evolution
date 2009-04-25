@@ -26,6 +26,7 @@
 
 #include "eab-gui-util.h"
 #include "util/eab-book-util.h"
+#include "e-util/e-util.h"
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -205,6 +206,12 @@ writable_status_change (EAddressbookModel *model, gboolean writable, EMinicardVi
 
 static void
 stop_state_changed (EAddressbookModel *model, EMinicardView *view)
+{
+	set_empty_message (view);
+}
+
+static void
+stop_state_changed (EABModel *model, EMinicardView *view)
 {
 	set_empty_message (view);
 }

@@ -24,7 +24,6 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <libgnomeui/libgnomeui.h>
-#include "widgets/e-timezone-dialog/e-timezone-dialog.h"
 #include "e-util/e-error.h"
 #include "e-util/e-import.h"
 #include "shell/es-event.h"
@@ -32,10 +31,7 @@
 #include "mail/em-account-editor.h"
 #include "calendar/gui/calendar-config.h"
 
-#define IMPORT_TIMEZONE_DIALOG "StartupWizard::TimezoneDialog"
-
 void startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target);
-GtkWidget *startup_wizard_timezone_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 GtkWidget *startup_wizard_importer_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 gboolean startup_wizard_check (EPlugin *ep, EConfigHookPageCheckData *check_data);
 void startup_wizard_commit (EPlugin *ep, EMConfigTargetAccount *target);
@@ -95,25 +91,6 @@ startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target)
 
 	gtk_widget_show (emae->editor);
 	gtk_main ();
-}
-
-GtkWidget *
-startup_wizard_timezone_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
-{
-	ETimezoneDialog *etd;
-	GtkWidget *page;
-
-	etd = e_timezone_dialog_new ();
-	g_object_set_data (G_OBJECT (hook_data->config), IMPORT_TIMEZONE_DIALOG, etd);
-
-	page = gnome_druid_page_standard_new_with_vals (_("Timezone"), NULL, NULL);
-	e_timezone_dialog_reparent (etd, GNOME_DRUID_PAGE_STANDARD (page)->vbox);
-
-	e_timezone_dialog_set_timezone (etd, NULL);
-
-	gnome_druid_append_page (GNOME_DRUID (hook_data->parent), GNOME_DRUID_PAGE (page));
-
-	return GTK_WIDGET (page);
 }
 
 GtkWidget *
@@ -208,22 +185,13 @@ import_done(EImport *ei, void *d)
 void
 startup_wizard_commit (EPlugin *ep, EMConfigTargetAccount *target)
 {
-	EConfig *ec = ((EConfigTarget *)target)->config;
-	ETimezoneDialog *etd;
-	icaltimezone *zone;
+	char *location;
 
-	/* Set Timezone */
-	etd = g_object_get_data (G_OBJECT (ec), IMPORT_TIMEZONE_DIALOG);
-	if (etd) {
-		zone = e_timezone_dialog_get_timezone (E_TIMEZONE_DIALOG (etd));
-		if (zone)
-			calendar_config_set_timezone (icaltimezone_get_display_name (zone));
-
-		/* Need to do this otherwise the timezone widget gets destroyed but the
-		   timezone object isn't, and we can get a crash like #22047.  */
-		g_object_unref (etd);
-		g_object_set_data (G_OBJECT (ec), IMPORT_TIMEZONE_DIALOG, NULL);
-	}
+	/* Use System Timezone by default */
+	calendar_config_set_use_system_timezone (TRUE);
+	location = e_cal_util_get_system_timezone_location ();
+	calendar_config_set_timezone (location);
+	g_free (location);
 
 	if (import_importers) {
 		import_iterator = import_importers;
@@ -246,20 +214,6 @@ startup_wizard_commit (EPlugin *ep, EMConfigTargetAccount *target)
 void
 startup_wizard_abort (EPlugin *ep, EMConfigTargetAccount *target)
 {
-	EConfig *ec = ((EConfigTarget *)target)->config;
-	ETimezoneDialog *etd;
-
-	/* We're doing an _exit(), so i dont see why we're bothering to do
-	   any cleanup whatsoever here ... */
-
-	etd = g_object_get_data (G_OBJECT (ec), IMPORT_TIMEZONE_DIALOG);
-	if (etd) {
-		/* Need to do this otherwise the timezone widget gets destroyed but the
-		   timezone object isn't, and we can get a crash like #22047.  */
-		g_object_unref (etd);
-		g_object_set_data (G_OBJECT (ec), IMPORT_TIMEZONE_DIALOG, NULL);
-	}
-
 	gtk_main_quit ();
 	_exit (0);
 }

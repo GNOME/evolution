@@ -1364,6 +1364,33 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 	cairo_destroy (cr);
 }
 
+static const char *
+get_digit_fomat ()
+{
+
+#ifdef HAVE_GNU_GET_LIBC_VERSION
+#include <gnu/libc-version.h>
+
+	const char *libc_version = gnu_get_libc_version ();
+	char **split = g_strsplit (libc_version, ".", -1);
+	int major = 0;
+	int minor = 0;
+	int revision = 0;
+
+	major = atoi (split [0]);
+	minor = atoi (split [1]);
+
+	if (g_strv_length (split) > 2)
+		revision = atoi (split [2]);
+	g_strfreev (split);
+
+	if (major > 2 || minor > 2 || (minor == 2 && revision > 2)) {
+		return "%Id";
+	} 
+#endif
+	
+	return "%d";
+}
 
 static void
 e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
@@ -1505,12 +1532,12 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 			if (week_num >= 10) {
 				digit = week_num / 10;
 				text_x -= calitem->week_number_digit_widths[digit];
-				num_chars += sprintf (&buffer[num_chars], "%Id", digit);
+				num_chars += sprintf (&buffer[num_chars], get_digit_fomat (), digit);
 			}
 
 			digit = week_num % 10;
 			text_x -= calitem->week_number_digit_widths[digit] + 6;
-			num_chars += sprintf (&buffer[num_chars], "%Id", digit);
+			num_chars += sprintf (&buffer[num_chars], get_digit_fomat (), digit);
 
 			cairo_save (cr);
 			gdk_cairo_set_source_color (cr, &style->text[GTK_STATE_ACTIVE]);
@@ -1618,12 +1645,12 @@ e_calendar_item_draw_day_numbers (ECalendarItem	*calitem,
 				if (day_num >= 10) {
 					digit = day_num / 10;
 					day_x -= calitem->digit_widths[digit];
-					num_chars += sprintf (&buffer[num_chars], "%Id", digit);
+					num_chars += sprintf (&buffer[num_chars], get_digit_fomat (), digit);
 				}
 
 				digit = day_num % 10;
 				day_x -= calitem->digit_widths[digit];
-				num_chars += sprintf (&buffer[num_chars], "%Id", digit);
+				num_chars += sprintf (&buffer[num_chars], get_digit_fomat (), digit);
 
 				cairo_save (cr);
 				if (fg_color) {
@@ -1958,7 +1985,7 @@ e_calendar_item_recalc_sizes		(ECalendarItem *calitem)
 		gchar locale_digit[5];
 		int locale_digit_len;
 		
-		locale_digit_len = sprintf (locale_digit, "%Id", digit);
+		locale_digit_len = sprintf (locale_digit, get_digit_fomat (), digit);
 
 		pango_layout_set_text (layout, locale_digit, locale_digit_len);
 		pango_layout_get_pixel_size (layout, &width, NULL);

@@ -1,3 +1,18 @@
+2009-02-26  Matthew Barnes  <mbarnes@redhat.com>
+
+	** Fixes part of bug #572950
+
+	* Makefile.am:
+	Fix ordering of -I compiler directives.  Patch by Daniel Macks.
+
+2009-02-25  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #559719
+
+	* webdav-contacts-source.c: (destroy_ui_data),
+	(plugin_webdav_contacts): Use it's own/unique name for the property
+	on the 'epl' and free the widget only if it wasn't freed yet.
+
 2009-01-29  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #539467

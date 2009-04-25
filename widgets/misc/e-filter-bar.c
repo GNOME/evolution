@@ -82,6 +82,8 @@ rule_advanced_response (GtkWidget *dialog, int response, void *data)
 
 			g_signal_emit_by_name (efb, "search_activated");
 
+			g_signal_emit_by_name (efb, "search_activated");
+
 			if (response == GTK_RESPONSE_APPLY) {
 				if (!rule_context_find_rule (filter_bar->context, rule->name, rule->source))
 					rule_context_add_rule (filter_bar->context, rule);
@@ -269,8 +271,6 @@ build_items (ESearchBar *search_bar, ESearchBarItem *items, int type, int *start
 	GSList *gtksux = NULL;
 	int num;
 
-	/* So gtk calls a signal again if you connect to it WHILE inside a changed event.
-	   So this snot is to work around that shit fucked up situation */
 	for (i=0;i<rules->len;i++)
 		gtksux = g_slist_prepend(gtksux, rules->pdata[i]);
 
