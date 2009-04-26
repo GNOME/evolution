@@ -15,7 +15,7 @@
   <maintainer>
     <foaf:Person>
       <foaf:name>Srinivasa Ragavan</foaf:name>
-      <foaf:mbox rdf:resource="sragavan@novell.com" />
+      <foaf:mbox rdf:resource="mailto:sragavan@novell.com" />
       <gnome:userid>sragavan</gnome:userid>
     </foaf:Person>
   </maintainer>
@@ -25,21 +25,21 @@
   <maintainer>
     <foaf:Person>
       <foaf:name>Matthew Barnes</foaf:name>
-      <foaf:mbox rdf:resource="mbarnes@redhat.com" />
+      <foaf:mbox rdf:resource="mailto:mbarnes@redhat.com" />
       <gnome:userid>mbarnes</gnome:userid>
     </foaf:Person>
   </maintainer>
   <maintainer>
     <foaf:Person>
       <foaf:name>Christian Kellner</foaf:name>
-      <foaf:mbox rdf:resource="gicmo@gnome.org" />
+      <foaf:mbox rdf:resource="mailto:gicmo@gnome.org" />
       <gnome:userid>gicmo</gnome:userid>
     </foaf:Person>
   </maintainer>
   <maintainer>
     <foaf:Person>
       <foaf:name>Chenthill Palanisamy</foaf:name>
-      <foaf:mbox rdf:resource="pchenthill@novell.com" />
+      <foaf:mbox rdf:resource="mailto:pchenthill@novell.com" />
       <gnome:userid>pchen</gnome:userid>
     </foaf:Person>
   </maintainer>
