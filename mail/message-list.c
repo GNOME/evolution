@@ -4056,7 +4056,8 @@ regen_list_exec (struct _regen_list_msg *m)
 				CamelMessageInfo *looking_info = camel_folder_get_message_info (m->folder, looking_for);
 
 				if (looking_info) {
-					gboolean was_deleted = (camel_message_info_flags (looking_info) & CAMEL_MESSAGE_DELETED) != 0;
+					gboolean is_deleted = (camel_message_info_flags (looking_info) & CAMEL_MESSAGE_DELETED) != 0;
+					gboolean is_junk = (camel_message_info_flags (looking_info) & CAMEL_MESSAGE_JUNK) != 0;
 
 					/* I would really like to check for CAMEL_MESSAGE_FOLDER_FLAGGED on a message,
 					   so I would know whether it was changed locally, and then just check the changes
@@ -4064,7 +4065,7 @@ regen_list_exec (struct _regen_list_msg *m)
 					   matter. So here just check whether the file was deleted and we show it based
 					   on the flag whether we can view deleted messages or not. */
 
-					if (!was_deleted || (was_deleted && !m->hidedel))
+					if ((!is_deleted || (is_deleted && !m->hidedel)) && (!is_junk || (is_junk && !m->hidejunk)))
 						g_ptr_array_add (uids, (gpointer) camel_pstring_strdup (looking_for));
 
 					camel_folder_free_message_info (m->folder, looking_info);
