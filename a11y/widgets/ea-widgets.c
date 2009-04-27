@@ -22,18 +22,11 @@
 
 #include "ea-factory.h"
 #include "widgets/ea-calendar-item.h"
-#include "widgets/ea-expander.h"
 #include "ea-widgets.h"
 
 EA_FACTORY_GOBJECT (EA_TYPE_CALENDAR_ITEM, ea_calendar_item, ea_calendar_item_new)
-EA_FACTORY (EA_TYPE_EXPANDER, ea_expander, ea_expander_new)
 
 void e_calendar_item_a11y_init (void)
 {
     EA_SET_FACTORY (e_calendar_item_get_type (), ea_calendar_item);
-}
-
-void e_expander_a11y_init (void)
-{
-     EA_SET_FACTORY (e_expander_get_type (), ea_expander);
 }

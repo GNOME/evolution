@@ -58,6 +58,7 @@
 #include "e-util/e-error.h"
 #include "e-cal-menu.h"
 #include "e-cal-popup.h"
+#include "e-attachment-handler-calendar.h"
 
 /* IDs for user creatable items */
 #define CREATE_EVENT_ID        "event"

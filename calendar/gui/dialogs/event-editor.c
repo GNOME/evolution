@@ -515,8 +515,6 @@ event_editor_init (EventEditor *ee)
 	g_signal_connect_swapped (
 		ee->priv->model, "row_deleted",
 		G_CALLBACK (event_editor_model_changed_cb), ee);
-
-	gtk_window_set_default_size (GTK_WINDOW (ee), 300, 225);
 }
 
 static void

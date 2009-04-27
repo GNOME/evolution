@@ -46,6 +46,8 @@
 
 #include "composer/e-msg-composer.h"
 #include "composer/e-composer-actions.h"
+#include "widgets/misc/e-attachment-view.h"
+#include "widgets/misc/e-attachment-store.h"
 
 #define GCONF_KEY_ATTACH_REMINDER_CLUES "/apps/evolution/mail/attachment_reminder_clues"
 #define SIGNATURE "-- "

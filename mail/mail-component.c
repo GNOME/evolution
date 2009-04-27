@@ -92,6 +92,8 @@
 
 #include "e-util/e-non-intrusive-error-dialog.h"
 
+#include "e-attachment-handler-mail.h"
+
 #define MAILER_ERROR_LEVEL_KEY "/apps/evolution/mail/display/error_level"
 #define MAILER_ERROR_TIME_OUT_KEY "/apps/evolution/mail/display/error_timeout"
 

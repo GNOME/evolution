@@ -146,6 +146,11 @@ gboolean	e_util_read_file		(const gchar *filename,
 #define E_TYPE_CAMEL_OBJECT (e_camel_object_get_type ())
 GType		e_camel_object_get_type		(void);
 
+/* Camel uses its own object system, so we have to box
+ * CamelObjects to safely use them as GObject properties. */
+#define E_TYPE_CAMEL_OBJECT (e_camel_object_get_type ())
+GType		e_camel_object_get_type		(void);
+
 G_END_DECLS
 
 #endif /* _E_UTIL_H_ */

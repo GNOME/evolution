@@ -49,7 +49,6 @@
 
 #include "e-util/e-dialog-utils.h"
 #include "misc/e-charset-picker.h"
-#include "misc/e-expander.h"
 #include "e-util/e-error.h"
 #include "e-util/e-mktemp.h"
 #include "e-util/e-plugin-ui.h"
@@ -1229,7 +1228,7 @@ attachment_store_changed_cb (EMsgComposer *composer)
 	GtkhtmlEditor *editor;
 
 	/* Mark the editor as changed so it prompts about unsaved
-	   changes on close. */
+	 * changes on close. */
 	editor = GTKHTML_EDITOR (composer);
 	gtkhtml_editor_set_changed (editor, TRUE);
 }

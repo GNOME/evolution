@@ -180,39 +180,6 @@ static void obj_removed_cb (ECal *client, GList *uids, CompEditor *editor);
 G_DEFINE_TYPE (CompEditor, comp_editor, GTK_TYPE_WINDOW)
 
 enum {
-	DND_TYPE_MESSAGE_RFC822,
-	DND_TYPE_X_UID_LIST,
-	DND_TYPE_TEXT_URI_LIST,
-	DND_TYPE_NETSCAPE_URL,
-	DND_TYPE_TEXT_VCARD,
-	DND_TYPE_TEXT_CALENDAR,
-};
-
-static GtkTargetEntry drop_types[] = {
-	{ "message/rfc822", 0, DND_TYPE_MESSAGE_RFC822 },
-	{ "x-uid-list", 0, DND_TYPE_X_UID_LIST },
-	{ "text/uri-list", 0, DND_TYPE_TEXT_URI_LIST },
-	{ "_NETSCAPE_URL", 0, DND_TYPE_NETSCAPE_URL },
-	{ "text/x-vcard", 0, DND_TYPE_TEXT_VCARD },
-	{ "text/calendar", 0, DND_TYPE_TEXT_CALENDAR },
-};
-
-#define num_drop_types (sizeof (drop_types) / sizeof (drop_types[0]))
-
-static struct {
-	char *target;
-	GdkAtom atom;
-	guint32 actions;
-} drag_info[] = {
-	{ "message/rfc822", NULL, GDK_ACTION_COPY },
-	{ "x-uid-list", NULL, GDK_ACTION_ASK|GDK_ACTION_MOVE|GDK_ACTION_COPY },
-	{ "text/uri-list", NULL, GDK_ACTION_COPY },
-	{ "_NETSCAPE_URL", NULL, GDK_ACTION_COPY },
-	{ "text/x-vcard", NULL, GDK_ACTION_COPY },
-	{ "text/calendar", NULL, GDK_ACTION_COPY },
-};
-
-enum {
 	OBJECT_CREATED,
 	LAST_SIGNAL
 };
@@ -299,12 +266,15 @@ get_attachment_list (CompEditor *editor)
 		if (mime_part == NULL)
 			continue;
 
-		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (p->data));
+		if (mime_part == NULL)
+			continue;
+
+		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
 
 		/* Extract the content from the stream and write it down
 		 * as a mime part file into the directory denoting the
 		 * calendar source */
-		utf8_safe_fname = camel_file_util_safe_filename (camel_mime_part_get_filename ((CamelMimePart *) p->data));
+		utf8_safe_fname = camel_file_util_safe_filename (camel_mime_part_get_filename (mime_part));
 
 		/* It is absolutely fine to get a NULL from the filename of 
 		 * mime part. We assume that it is named "Attachment"
@@ -1455,7 +1425,7 @@ comp_editor_key_press_event (GtkWidget *widget,
 {
 	CompEditor *editor;
 
-	editor = COMP_EDITOR (editor);
+	editor = COMP_EDITOR (widget);
 
 	if (event->keyval == GDK_Escape) {
 		commit_all_fields (editor);
@@ -1476,10 +1446,6 @@ comp_editor_class_init (CompEditorClass *class)
 {
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
-	int i;
-
-	for (i = 0; i < G_N_ELEMENTS (drag_info); i++)
-		drag_info[i].atom = gdk_atom_intern(drag_info[i].target, FALSE);
 
 	g_type_class_add_private (class, sizeof (CompEditorPrivate));
 
@@ -1569,6 +1535,10 @@ static void
 comp_editor_init (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
+	EAttachmentView *view;
+	GdkDragAction drag_actions;
+	GtkTargetList *target_list;
+	GtkTargetEntry *targets;
 	GtkActionGroup *action_group;
 	GtkAction *action;
 	GtkWidget *container;
@@ -2349,6 +2319,9 @@ fill_widgets (CompEditor *editor)
 	EAttachmentView *view;
 	CompEditorPrivate *priv;
 	GList *l;
+
+	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
+	store = e_attachment_view_get_store (view);
 
 	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
 	store = e_attachment_view_get_store (view);
