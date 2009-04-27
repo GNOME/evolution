@@ -1,3 +1,10 @@
+2009-04-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #579635
+
+	* message-list.c: (regen_list_exec): Do not keep last junked messages
+	in a message list for folders not showing junks.
+
 2009-04-24  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #579306
