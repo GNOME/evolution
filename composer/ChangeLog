@@ -1,3 +1,13 @@
+2009-04-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #553535
+
+	* e-msg-composer.c: (is_top_signature), (get_signature_html),
+	(set_editor_text), (e_msg_composer_show_sig_file): Do not eat
+	lines of text when changing signature at top of the message.
+	Add one extra empty line between the signature and the body
+	of the mail when placing signature to the bottom.
+
 2009-03-19  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #574680

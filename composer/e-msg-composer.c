@@ -1279,7 +1279,25 @@ add_signature_delim (void)
 	return res;
 }
 
+static gboolean
+is_top_signature (void)
+{
+	GConfClient *gconf;
+	gboolean res = FALSE;
+
+	gconf = gconf_client_get_default ();
+
+	res = gconf_client_get_bool (gconf, COMPOSER_GCONF_TOP_SIGNATURE_KEY, NULL);
+
+	g_object_unref (gconf);
+
+	return res;
+}
+
 #define CONVERT_SPACES CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES
+#define NO_SIGNATURE_TEXT	\
+	"<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature\" value=\"1\">-->" \
+	"<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature_name\" value=\"uid:Noname\">--><BR>"
 
 static gchar *
 get_signature_html (EMsgComposer *composer)
@@ -1353,14 +1371,15 @@ get_signature_html (EMsgComposer *composer)
 		 */
 		html = g_strdup_printf ("<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature\" value=\"1\">-->"
 					"<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature_name\" value=\"uid:%s\">-->"
-					"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\" CELLPADDING=\"0\"><TR><TD>"
+					"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\" CELLPADDING=\"0\"><TR><TD><BR>"
 					"%s%s%s%s"
-					"</TD></TR></TABLE>",
+					"%s</TD></TR></TABLE>",
 				        encoded_uid ? encoded_uid : "",
 					format_html ? "" : "<PRE>\n",
 					format_html || !add_delim || (!strncmp ("-- \n", text, 4) || strstr (text, "\n-- \n")) ? "" : "-- \n",
 					text,
-					format_html ? "" : "</PRE>\n");
+					format_html ? "" : "</PRE>\n",
+					is_top_signature () ? "<BR>" : "");
 		g_free (text);
 		g_free (encoded_uid);
 		text = html;
@@ -1374,14 +1393,10 @@ set_editor_text (EMsgComposer *composer,
                  const gchar *text,
                  gboolean set_signature)
 {
-	gboolean reply_signature_on_top;
-	gchar *body = NULL, *html = NULL;
-	GConfClient *gconf;
+	gchar *body = NULL;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	g_return_if_fail (text != NULL);
-
-	gconf = gconf_client_get_default ();
 
 	/*
 
@@ -1397,38 +1412,17 @@ set_editor_text (EMsgComposer *composer,
 
 	 */
 
-	reply_signature_on_top = gconf_client_get_bool (gconf, COMPOSER_GCONF_TOP_SIGNATURE_KEY, NULL);
-
-	g_object_unref (gconf);
-
-	if (set_signature && reply_signature_on_top) {
-		gchar *tmp = NULL;
-		tmp = get_signature_html (composer);
-		if (tmp) {
-			/* Minimizing the damage. Make it just a part of the body instead of a signature */
-			html = add_signature_delim () ? strstr (tmp, "-- \n") : NULL;
-			if (html) {
-				/* That two consecutive - symbols followed by a space */
-				*(html+1) = ' ';
-				body = g_strdup_printf ("</br>%s</br>%s", tmp, text);
-			} else {
-				/* HTML Signature. Make it as part of body */
-				body = g_strdup_printf ("</br>%s</br>%s", tmp, text);
-			}
-			g_free (tmp);
-		} else {
-			/* No signature set */
-			body = g_strdup_printf ("<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature\" value=\"1\">-->"
-					"<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature_name\" value=\"uid:Noname\">-->"
-					"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\" CELLPADDING=\"0\"><TR><TD> </TD></TR></TABLE>%s", text);
-		}
+	if (is_top_signature ()) {
+		/* put marker to the top */
+		body = g_strdup_printf ("<BR>" NO_SIGNATURE_TEXT "%s", text);
 	} else {
-		body = g_strdup (text);
+		/* no marker => to the bottom */
+		body = g_strdup_printf ("%s<BR>", text);
 	}
 
 	gtkhtml_editor_set_text_html (GTKHTML_EDITOR (composer), body, -1);
 
-	if (set_signature && !reply_signature_on_top)
+	if (set_signature)
 		e_msg_composer_show_sig_file (composer);
 }
 
@@ -4504,6 +4498,7 @@ e_msg_composer_show_sig_file (EMsgComposer *composer)
 	GtkhtmlEditor *editor;
 	GtkHTML *html;
 	gchar *html_text;
+	gboolean top_signature;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
@@ -4530,6 +4525,8 @@ e_msg_composer_show_sig_file (EMsgComposer *composer)
 	}
 	gtkhtml_editor_run_command (editor, "unblock-selection");
 
+	top_signature = is_top_signature ();
+
 	html_text = get_signature_html (composer);
 	if (html_text) {
 		gtkhtml_editor_run_command (editor, "insert-paragraph");
@@ -4537,11 +4534,16 @@ e_msg_composer_show_sig_file (EMsgComposer *composer)
 			gtkhtml_editor_run_command (editor, "insert-paragraph");
 		else
 			gtkhtml_editor_run_command (editor, "cursor-forward");
+
 		gtkhtml_editor_set_paragraph_data (editor, "orig", "0");
 		gtkhtml_editor_run_command (editor, "indent-zero");
 		gtkhtml_editor_run_command (editor, "style-normal");
 		gtkhtml_editor_insert_html (editor, html_text);
 		g_free (html_text);
+	} else if (top_signature) {
+		/* insert paragraph after the signature ClueFlow things */
+		gtkhtml_editor_run_command (editor, "cursor-forward");
+		gtkhtml_editor_run_command (editor, "insert-paragraph");
 	}
 
 	gtkhtml_editor_undo_end (editor);
