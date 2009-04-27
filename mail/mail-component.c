@@ -92,6 +92,8 @@
 
 #include "e-util/e-non-intrusive-error-dialog.h"
 
+#include "e-attachment-handler-mail.h"
+
 #define MAILER_ERROR_LEVEL_KEY "/apps/evolution/mail/display/error_level"
 #define MAILER_ERROR_TIME_OUT_KEY "/apps/evolution/mail/display/error_timeout"
 
@@ -1259,6 +1261,9 @@ mail_component_class_init (MailComponentClass *class)
 	epv->setLineStatus	     = impl_setLineStatus;
 
 	mepv->test = impl_mail_test;
+
+	/* Register attachment handler types. */
+	e_attachment_handler_mail_get_type ();
 }
 
 static void

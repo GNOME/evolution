@@ -27,6 +27,7 @@
 #include <gtk/gtk.h>
 #include <limits.h>
 #include <gconf/gconf-client.h>
+#include <camel/camel-object.h>
 #include <cairo.h>
 
 #include <e-util/e-marshal.h>
@@ -46,6 +47,16 @@ void		e_show_uri			(GtkWindow *parent,
 						 const gchar *uri);
 void		e_display_help			(GtkWindow *parent,
 						 const gchar *link_id);
+GtkAction *	e_lookup_action			(GtkUIManager *ui_manager,
+						 const gchar *action_name);
+GtkActionGroup *e_lookup_action_group		(GtkUIManager *ui_manager,
+						 const gchar *group_name);
+guint		e_load_ui_definition		(GtkUIManager *ui_manager,
+						 const gchar *basename);
+gint		e_action_compare_by_label	(GtkAction *action1,
+						 GtkAction *action2);
+void		e_action_group_remove_all_actions
+						(GtkActionGroup *action_group);
 
 char *		e_str_without_underscores	(const char *s);
 gint		e_str_compare			(gconstpointer x,
@@ -129,6 +140,11 @@ gboolean	e_util_read_file		(const gchar *filename,
 						 GError **error);
 
 GSList *e_util_get_category_filter_options      (void);
+
+/* Camel uses its own object system, so we have to box
+ * CamelObjects to safely use them as GObject properties. */
+#define E_TYPE_CAMEL_OBJECT (e_camel_object_get_type ())
+GType		e_camel_object_get_type		(void);
 
 G_END_DECLS
 

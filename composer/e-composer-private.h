@@ -25,11 +25,12 @@
 
 #include <camel/camel-iconv.h>
 
-#include "e-attachment-bar.h"
 #include "e-composer-actions.h"
 #include "e-composer-autosave.h"
 #include "e-composer-header-table.h"
 #include "e-util/gconf-bridge.h"
+#include "widgets/misc/e-attachment-paned.h"
+#include "widgets/misc/e-attachment-store.h"
 
 #define E_MSG_COMPOSER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -94,6 +95,8 @@ struct _EMsgComposerPrivate {
 
 	GtkWidget *html_editor;
 	GtkWidget *header_table;
+	GtkWidget *attachment_paned;
+
 	GtkActionGroup *charset_actions;
 	GtkActionGroup *composer_actions;
 
@@ -101,13 +104,6 @@ struct _EMsgComposerPrivate {
 	GArray *gconf_bridge_binding_ids;
 
 	GtkWidget *focused_entry;
-
-	GtkWidget *attachment_bar;
-	GtkWidget *attachment_scrolled_window;
-	GtkWidget *attachment_expander;
-	GtkWidget *attachment_expander_label;
-	GtkWidget *attachment_expander_icon;
-	GtkWidget *attachment_expander_num;
 
 	GtkWidget *address_dialog;
 

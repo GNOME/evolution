@@ -69,6 +69,8 @@ etspec_DATA =				\
 
 libevolution_calendar_la_SOURCES =		\
 	$(IDL_GENERATED)			\
+	e-attachment-handler-calendar.c		\
+	e-attachment-handler-calendar.h		\
 	cal-search-bar.c			\
 	cal-search-bar.h			\
 	calendar-config.c			\

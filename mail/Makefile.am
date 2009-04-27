@@ -54,6 +54,7 @@ idl_DATA = $(MAIL_IDL)
 # plugin mail api
 mailinclude_HEADERS =				\
 	$(MAIL_IDL_GENERATED_H)			\
+	e-mail-attachment-bar.h			\
 	em-composer-utils.h			\
 	em-config.h				\
 	em-event.h				\
@@ -93,6 +94,9 @@ mailinclude_HEADERS =				\
 libevolution_mail_la_SOURCES =			\
 	$(MAIL_IDL_GENERATED)			\
 	$(mailinclude_HEADERS)			\
+	e-attachment-handler-mail.c		\
+	e-attachment-handler-mail.h		\
+	e-mail-attachment-bar.c			\
 	e-searching-tokenizer.c			\
 	e-searching-tokenizer.h			\
 	em-account-editor.c			\

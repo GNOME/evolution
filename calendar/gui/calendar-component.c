@@ -58,6 +58,7 @@
 #include "e-util/e-error.h"
 #include "e-cal-menu.h"
 #include "e-cal-popup.h"
+#include "e-attachment-handler-calendar.h"
 
 /* IDs for user creatable items */
 #define CREATE_EVENT_ID        "event"
@@ -1576,6 +1577,9 @@ calendar_component_class_init (CalendarComponentClass *class)
 
 	object_class->dispose  = impl_dispose;
 	object_class->finalize = impl_finalize;
+
+	/* Register attachment handler types. */
+	e_attachment_handler_calendar_get_type ();
 }
 
 static void

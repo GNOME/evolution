@@ -195,8 +195,6 @@ ECalPopup *e_cal_popup_new(const char *menuid);
 
 ECalPopupTargetSelect *e_cal_popup_target_new_select(ECalPopup *eabp, struct _ECalModel *model, GPtrArray *events);
 ECalPopupTargetSource *e_cal_popup_target_new_source(ECalPopup *eabp, struct _ESourceSelector *selector);
-ECalPopupTargetAttachments * e_cal_popup_target_new_attachments (ECalPopup *ecp,
-								CompEditor *editor, GSList *attachments);
 
 /* ********************************************************************** */
 

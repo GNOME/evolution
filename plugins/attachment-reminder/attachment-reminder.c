@@ -24,6 +24,7 @@
 #include <glib/gi18n.h>
 #include <string.h>
 
+#include <glade/glade-xml.h>
 #include <gconf/gconf-client.h>
 
 #include <e-util/e-config.h>
@@ -43,9 +44,10 @@
 
 #include <mail/em-utils.h>
 
-#include "widgets/misc/e-attachment-bar.h"
 #include "composer/e-msg-composer.h"
 #include "composer/e-composer-actions.h"
+#include "widgets/misc/e-attachment-view.h"
+#include "widgets/misc/e-attachment-store.h"
 
 #define GCONF_KEY_ATTACH_REMINDER_CLUES "/apps/evolution/mail/attachment_reminder_clues"
 #define SIGNATURE "-- "
@@ -182,12 +184,13 @@ check_for_attachment_clues (gchar *msg)
 static gboolean
 check_for_attachment (EMsgComposer *composer)
 {
-	EAttachmentBar* bar = (EAttachmentBar*)e_msg_composer_get_attachment_bar (composer);
+	EAttachmentView *view;
+	EAttachmentStore *store;
 
-	if (e_attachment_bar_get_num_attachments (bar))
-		return TRUE;
+	view = e_msg_composer_get_attachment_view (composer);
+	store = e_attachment_view_get_store (view);
 
-	return FALSE;
+	return (e_attachment_store_get_num_attachments (store) > 0);
 }
 
 static gchar*

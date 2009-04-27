@@ -22,8 +22,6 @@ libevolution_widgets_a11y_la_SOURCES =		\
 	ea-calendar-cell.h			\
 	ea-combo-button.c			\
 	ea-combo-button.h			\
-	ea-expander.c				\
-	ea-expander.h				\
 	ea-widgets.c				\
 	ea-widgets.h
 

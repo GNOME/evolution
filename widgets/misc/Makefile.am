@@ -37,7 +37,15 @@ widgetsinclude_HEADERS =			\
 	e-account-combo-box.h			\
 	e-activity-handler.h			\
 	e-attachment.h				\
-	e-attachment-bar.h			\
+	e-attachment-button.h			\
+	e-attachment-dialog.h			\
+	e-attachment-handler.h			\
+	e-attachment-handler-image.h		\
+	e-attachment-icon-view.h		\
+	e-attachment-paned.h			\
+	e-attachment-store.h			\
+	e-attachment-tree-view.h		\
+	e-attachment-view.h			\
 	e-spinner.c				\
 	e-spinner.h				\
 	e-calendar.h				\
@@ -51,7 +59,6 @@ widgetsinclude_HEADERS =			\
 	e-combo-button.h			\
 	e-dateedit.h				\
 	e-dropdown-button.h			\
-	e-expander.h				\
 	e-icon-entry.h				\
 	e-image-chooser.h			\
 	e-info-label.h				\
@@ -88,7 +95,15 @@ libemiscwidgets_la_SOURCES =			\
 	e-activity-handler.c			\
 	e-calendar.c				\
 	e-attachment.c				\
-	e-attachment-bar.c			\
+	e-attachment-button.c			\
+	e-attachment-dialog.c			\
+	e-attachment-handler.c			\
+	e-attachment-handler-image.c		\
+	e-attachment-icon-view.c		\
+	e-attachment-paned.c			\
+	e-attachment-store.c			\
+	e-attachment-tree-view.c		\
+	e-attachment-view.c			\
 	e-calendar-item.c			\
 	e-cell-date-edit.c			\
 	e-cell-percent.c			\
@@ -99,7 +114,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-combo-button.c			\
 	e-dateedit.c				\
 	e-dropdown-button.c			\
-	e-expander.c				\
 	e-icon-entry.c				\
 	e-image-chooser.c			\
 	e-info-label.c				\

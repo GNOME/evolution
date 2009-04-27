@@ -1775,12 +1775,12 @@ plugins_base_always="calendar-file calendar-http $CALENDAR_WEATHER itip-formatte
 plugins_base="$plugins_base_always $SA_JUNK_PLUGIN $BF_JUNK_PLUGIN $EXCHANGE_PLUGIN $MONO_PLUGIN " 
 all_plugins_base="$plugins_base_always sa-junk-plugin bogo-junk-plugin exchange-operations mono"
 
-plugins_standard_always="bbdb subject-thread save-calendar select-one-source copy-tool mail-to-task audio-inline mailing-list-actions default-mailer import-ics-attachments prefer-plain mail-notification attachment-reminder face backup-restore email-custom-header templates pst-import" 
+plugins_standard_always="bbdb subject-thread save-calendar select-one-source copy-tool mail-to-task audio-inline mailing-list-actions default-mailer prefer-plain mail-notification attachment-reminder face backup-restore email-custom-header templates pst-import" 
 
 plugins_standard="$plugins_standard_always"
 all_plugins_standard="$plugins_standard"
 
-plugins_experimental_always="folder-unsubscribe save-attachments external-editor hula-account-setup"
+plugins_experimental_always="folder-unsubscribe external-editor hula-account-setup"
 plugins_experimental="$plugins_experimental_always $IPOD_SYNC $TNEF_ATTACHMENTS $PYTHON_PLUGIN"
 all_plugins_experimental="$plugins_experimental_always ipod-sync tnef-attachments"
 
@@ -2080,7 +2080,6 @@ plugins/mail-notification/Makefile
 plugins/mail-to-task/Makefile
 plugins/mono/Makefile
 plugins/subject-thread/Makefile
-plugins/save-attachments/Makefile
 plugins/save-calendar/Makefile
 plugins/select-one-source/Makefile
 plugins/prefer-plain/Makefile
@@ -2105,7 +2104,6 @@ plugins/sa-junk-plugin/Makefile
 plugins/bogo-junk-plugin/Makefile
 plugins/ipod-sync/Makefile
 plugins/publish-calendar/Makefile
-plugins/import-ics-attachments/Makefile
 plugins/imap-features/Makefile
 plugins/tnef-attachments/Makefile
 plugins/templates/Makefile
