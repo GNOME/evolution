@@ -29,16 +29,16 @@ liborg_gnome_face_la_LIBADD = 			\
 liborg_gnome_face_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
 error_DATA = 					\
-	org-gnome-face.errors.xml
+	org-gnome-face.error
 
 errordir = $(privdatadir)/errors
 
 EXTRA_DIST = 						\
 	org-gnome-face.eplug.xml			\
-	$(error_DATA)
+	org-gnome-face.error.xml
 
 BUILT_SOURCES = 				\
 	org-gnome-face.eplug 			\
-	$(error_i18n)
+	org-gnome-face.error
 
 CLEANFILES = $(BUILT_SOURCES)

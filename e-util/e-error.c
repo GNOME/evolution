@@ -507,8 +507,8 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 
 	out = g_string_new("");
 
-	if (e->title) {
-		ee_build_label(out, dgettext(table->translation_domain, e->title), args, FALSE);
+	if (e->title && *e->title) {
+		ee_build_label(out, e->title, args, FALSE);
 		gtk_window_set_title((GtkWindow *)dialog, out->str);
 		g_string_truncate(out, 0);
 	} else
@@ -517,19 +517,19 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 
 	if (e->primary) {
 		g_string_append(out, "<span weight=\"bold\" size=\"larger\">");
-		ee_build_label(out, dgettext(table->translation_domain, e->primary), args, TRUE);
+		ee_build_label(out, e->primary, args, TRUE);
 		g_string_append(out, "</span>\n\n");
 		oerr = g_string_new("");
-		ee_build_label(oerr, dgettext(table->translation_domain, e->primary), args, FALSE);
+		ee_build_label(oerr, e->primary, args, FALSE);
 		perr = g_strdup (oerr->str);
 		g_string_free (oerr, TRUE);
 	} else
 		perr = g_strdup (gtk_window_get_title (GTK_WINDOW (dialog)));
 	
 	if (e->secondary) {
-		ee_build_label(out, dgettext(table->translation_domain, e->secondary), args, TRUE);
+		ee_build_label(out, e->secondary, args, TRUE);
 		oerr = g_string_new("");
-		ee_build_label(oerr, dgettext(table->translation_domain, e->secondary), args, TRUE);
+		ee_build_label(oerr, e->secondary, args, TRUE);
 		serr = g_strdup (oerr->str);
 		g_string_free (oerr, TRUE);
 	}

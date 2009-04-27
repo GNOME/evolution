@@ -62,22 +62,23 @@ glade_DATA =			\
 	proxy-listing.glade	\
 	proxy-login-dialog.glade
 
-error_DATA = 					\
-	org-gnome-shared-folder.errors.xml	\
-	org-gnome-proxy-errors.xml		\
-	org-gnome-proxy-login-errors.xml        \
-	org-gnome-mail-retract-errors.xml
+error_DATA = 				\
+	org-gnome-shared-folder.error	\
+	org-gnome-proxy.error		\
+	org-gnome-proxy-login.error     \
+	org-gnome-mail-retract.error
 
 errordir = $(privdatadir)/errors
 
 BUILT_SOURCES = org-gnome-groupwise-features.eplug $(error_i18n)
 
 EXTRA_DIST =						\
-	$(error_DATA)					\
 	$(glade_DATA) 					\
 	org-gnome-compose-send-options.xml		\
 	org-gnome-groupwise-features.eplug.xml		\
-	org-gnome-proxy-login-errors.xml        \
-	org-gnome-mail-retract-errors.xml
+	org-gnome-shared-folder.error.xml		\
+	org-gnome-proxy.error.xml			\
+	org-gnome-proxy-login.error.xml     		\
+	org-gnome-mail-retract.error.xml
 
 CLEANFILES = $(BUILT_SOURCES)

@@ -1,3 +1,14 @@
+2009-04-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #561188
+
+	* external-editor.c: (show_error), (read_file),
+	(async_external_editor), (show_composer_dialog):
+	Do more things in main thread.
+	* Makefile.am:
+	* org-gnome-external-editor-errors.xml: Renamed to:
+	* org-gnome-external-editor.error.xml: Create .error file properly.
+
 2009-01-28  Tor Lillqvist  <tml@novell.com>
 
 	Windows port by Fridrich Strba.

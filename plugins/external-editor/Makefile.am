@@ -21,7 +21,7 @@ INCLUDES =						\
 
 @EVO_PLUGIN_RULE@
 
-error_DATA = org-gnome-external-editor-errors.xml
+error_DATA = org-gnome-external-editor.error
 errordir = $(privdatadir)/errors
 
 plugin_DATA = 						\
@@ -53,12 +53,12 @@ install-data-local:
 
 EXTRA_DIST = 					\
 	org-gnome-external-editor.eplug.xml	\
-	org-gnome-external-editor-errors.xml	\
+	org-gnome-external-editor.error.xml	\
 	org-gnome-external-editor.xml		\
 	$(schema_in_files)
 
 BUILT_SOURCES = org-gnome-external-editor.eplug \
-		$(error_i18n)
+		org-gnome-external-editor.error
 
 CLEANFILES = $(BUILT_SOURCES)
 
