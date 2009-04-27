@@ -53,6 +53,8 @@ typedef enum {
 	E_CAL_MODEL_FIELD_ICON,             /* not a real field */
 	E_CAL_MODEL_FIELD_SUMMARY,
 	E_CAL_MODEL_FIELD_UID,
+	E_CAL_MODEL_FIELD_CREATED,
+	E_CAL_MODEL_FIELD_LASTMODIFIED,
 	E_CAL_MODEL_FIELD_LAST
 } ECalModelField;
 
@@ -86,6 +88,8 @@ struct _ECalModelComponent {
 	ECellDateEditValue *dtend;
 	ECellDateEditValue *due;
 	ECellDateEditValue *completed;
+	ECellDateEditValue *created;
+	ECellDateEditValue *lastmodified;
 	gchar *color;
 
 	ECalModelComponentPrivate *priv;

@@ -256,8 +256,10 @@ cal_component_preview_write_html (GtkHTMLStream *stream,
 		gtk_html_stream_printf (stream, "<TD>%s</TD></TR>", str);
 
 		g_free (str);
-		e_cal_component_free_priority (priority_value);
 	}
+
+	if (priority_value)
+		e_cal_component_free_priority (priority_value);
 
 	/* write description and URL */
 	gtk_html_stream_printf (stream, "<TR><TD COLSPAN=\"2\"><HR></TD></TR>");

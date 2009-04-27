@@ -764,11 +764,12 @@ local_record_from_comp (EToDoLocalRecord *local, ECalComponent *comp, EToDoCondu
 			local->todo->priority = 4;
 		else
 			local->todo->priority = 5;
-
-		e_cal_component_free_priority (priority);
 	} else {
 		local->todo->priority = ctxt->cfg->priority;
 	}
+
+	if (priority)
+		e_cal_component_free_priority (priority);
 
 	e_cal_component_get_classification (comp, &classif);
 

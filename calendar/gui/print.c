@@ -2594,7 +2594,6 @@ print_comp_draw_real (GtkPrintOperation *operation,
 			char *priority_string, *pri_text;
 
 			priority_string = e_cal_util_priority_to_string (*priority);
-			e_cal_component_free_priority (priority);
 
 			pri_text = g_strdup_printf (_("Priority: %s"), priority_string);
 			top = bound_text (context, font, pri_text, -1,
@@ -2602,6 +2601,9 @@ print_comp_draw_real (GtkPrintOperation *operation,
 			top += get_font_size (font) - 6;
 			g_free (pri_text);
 		}
+
+		if (priority)
+			e_cal_component_free_priority (priority);
 
 		/* Percent Complete */
 		e_cal_component_get_percent (comp, &percent);
