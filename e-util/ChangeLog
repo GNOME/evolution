@@ -1,3 +1,10 @@
+2009-04-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #561188
+
+	* e-error.c: (e_error_newv): Do not localize already localized text.
+	Use default title for empty titles too, not only for NULL titles.
+
 2009-04-24  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #572348

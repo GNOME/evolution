@@ -1,3 +1,18 @@
+2009-04-27  Milan Crha  <mcrha@redhat.com>
+
+	** Part of fix for bug #561188
+
+	* Makefile.am:
+	* org-gnome-proxy-login-errors.xml: Renamed to:
+	* org-gnome-proxy-login.error.xml:
+	* org-gnome-mail-retract-errors.xml: Renamed to:
+	* org-gnome-mail-retract.error.xml:
+	* org-gnome-shared-folder.errors.xml: Renamed to:
+	* org-gnome-shared-folder.error.xml:
+	* org-gnome-proxy-errors.xml: Renamed to:
+	* org-gnome-proxy.error.xml:
+	Create .error files properly.
+
 2009-01-21  Suman Manjunath  <msuman@novell.com>
 
 	** Fix for bug #541209

@@ -54,8 +54,6 @@
 void org_gnome_external_editor (EPlugin *ep, EMMenuTargetSelect *select);
 void ee_editor_command_changed (GtkWidget *textbox);
 GtkWidget * e_plugin_lib_get_configure_widget (EPlugin *epl);
-void async_external_editor (GArray *array);
-static gboolean show_composer_dialog (EMsgComposer *composer);
 
 /* Utility function to convert an email address to CamelInternetAddress.
 May be this should belong to CamelInternetAddress.h file itself. */
@@ -132,7 +130,76 @@ e_plugin_lib_get_configure_widget (EPlugin *epl)
 	return vbox;
 }
 
-void
+static gboolean
+show_error (const char *id)
+{
+	if (id)
+		e_error_run (NULL, id, NULL);
+	return FALSE;
+}
+
+static gboolean
+read_file (char *filename)
+{
+	gchar *buf;
+	CamelMimeMessage *message;
+	EMsgComposer *composer;
+
+	message = camel_mime_message_new ();
+
+	if (filename && g_file_get_contents (filename, &buf, NULL, NULL)) {
+		gchar **tokens;
+		int i, j;
+
+		tokens = g_strsplit (buf, "###|||", 6);
+
+		for (i = 1; tokens[i]; ++i) {
+
+			for (j = 0; tokens[i][j] && tokens[i][j] != '\n'; ++j) {
+				tokens [i][j] = ' ';
+			}
+
+			if (tokens[i][j] == '\n')
+				tokens[i][j] = ' ';
+
+			d(printf ("\nstripped off token[%d] is : %s \n", i, tokens[i]));
+		}
+
+		camel_mime_message_set_recipients (message, "To", convert_to_camel_internet_address(g_strchug(g_strdup(tokens[1]))));
+		camel_mime_message_set_recipients (message, "Cc", convert_to_camel_internet_address(g_strchug(g_strdup(tokens[2]))));
+		camel_mime_message_set_recipients (message, "Bcc", convert_to_camel_internet_address(g_strchug(g_strdup(tokens[3]))));
+		camel_mime_message_set_subject (message, tokens[4]);
+		camel_mime_part_set_content ((CamelMimePart *)message, tokens [5], strlen (tokens [5]), "text/plain");
+
+		/* FIXME: We need to make mail-remote working properly.
+		   So that we neednot invoke composer widget at all.
+
+		   May be we can do it now itself by invoking local CamelTransport.
+		   But all that is not needed for the first release.
+
+		   People might want to format mails using their editor (80 cols width etc.) 
+		   But might want to use evolution addressbook for auto-completion etc.
+		   So starting the composer window anyway.
+		 */
+
+		composer = e_msg_composer_new_with_message (message);
+		g_signal_connect (GTK_OBJECT (composer), "send", G_CALLBACK (em_utils_composer_send_cb), NULL);
+		g_signal_connect (GTK_OBJECT (composer), "save-draft", G_CALLBACK (em_utils_composer_save_draft_cb), NULL);
+
+		gtk_widget_show (GTK_WIDGET (composer));
+
+		g_strfreev (tokens);
+
+		/* We no longer need that temporary file */
+		g_remove (filename);
+	}
+
+	g_free (filename);
+
+	return FALSE;
+}
+
+static void
 async_external_editor (GArray *array)
 {
 	char *filename = NULL;
@@ -148,9 +215,9 @@ async_external_editor (GArray *array)
 	if (!g_spawn_sync (NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, NULL, &status, NULL))
 	{
 		g_warning ("Unable to launch %s: ", argv[0]);
-		e_error_run (NULL, "org.gnome.evolution.plugins.external-editor:editor-not-launchable", NULL);
+		g_idle_add ((GSourceFunc)show_error, "org.gnome.evolution.plugins.external-editor:editor-not-launchable");
 		g_free (filename);
-		return ;
+		return;
 	}
 	
 #ifdef HAVE_SYS_WAIT_H
@@ -159,69 +226,11 @@ async_external_editor (GArray *array)
 	if (status) {
 #endif
 		d(printf ("\n\nsome problem here with external editor\n\n"));
-		return ;
+		g_free (filename);
+		return;
 	} else {
-		gchar *buf;
-		CamelMimeMessage *message;
-		EMsgComposer *composer;
-
-		message = camel_mime_message_new ();
-
-		if (g_file_get_contents (filename, &buf, NULL, NULL)) {
-			gchar **tokens;
-			int i, j;
-
-			tokens = g_strsplit (buf, "###|||", 6);
-
-			for (i = 1; tokens[i]; ++i) {
-
-				for (j = 0; tokens[i][j] && tokens[i][j] != '\n'; ++j) {
-					tokens [i][j] = ' ';
-				}
-
-				if (tokens[i][j] == '\n')
-					tokens[i][j] = ' ';
-
-				d(printf ("\nstripped off token[%d] is : %s \n", i, tokens[i]));
-			}
-
-			camel_mime_message_set_recipients (message, "To", convert_to_camel_internet_address(g_strchug(g_strdup(tokens[1]))));
-			camel_mime_message_set_recipients (message, "Cc", convert_to_camel_internet_address(g_strchug(g_strdup(tokens[2]))));
-			camel_mime_message_set_recipients (message, "Bcc", convert_to_camel_internet_address(g_strchug(g_strdup(tokens[3]))));
-			camel_mime_message_set_subject (message, tokens[4]);
-			camel_mime_part_set_content ((CamelMimePart *)message, tokens [5], strlen (tokens [5]), "text/plain");
-
-
-			/* FIXME: We need to make mail-remote working properly.
-			   So that we neednot invoke composer widget at all.
-
-			   May be we can do it now itself by invoking local CamelTransport.
-			   But all that is not needed for the first release.
-
-			   People might want to format mails using their editor (80 cols width etc.) 
-			   But might want to use evolution addressbook for auto-completion etc.
-			   So starting the composer window anyway.
-			 */
-
-			composer = e_msg_composer_new_with_message (message);
-
-			/* Composer cannot be shown in any random thread. Should happen in main thread */
-			g_idle_add ((GSourceFunc) show_composer_dialog, composer);
-
-			g_strfreev (tokens);
-
-			/* We no longer need that temporary file */
-			g_remove (filename);
-			g_free (filename);
-		}
+		g_idle_add ((GSourceFunc)read_file, filename);
 	}
-}
-
-static gboolean
-show_composer_dialog (EMsgComposer *composer)
-{
-	gtk_widget_show (GTK_WIDGET(composer));
-	return FALSE;
 }
 
 void org_gnome_external_editor (EPlugin *ep, EMMenuTargetSelect *select)
