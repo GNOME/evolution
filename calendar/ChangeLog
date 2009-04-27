@@ -1,3 +1,23 @@
+2009-04-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #575773
+
+	* gui/e-calendar-table.etspec:
+	* gui/e-cal-list-view.etspec:
+	* gui/e-memo-table.etspec:
+	* gui/e-cal-model.h: (ECalModelField), (struct _ECalModelComponent):
+	* gui/e-cal-model.c: (get_datetime_from_utc), (ecm_value_at),
+	(ecm_duplicate_value), (ecm_free_value), (ecm_initialize_value),
+	(ecm_value_is_empty), (ecm_value_to_string),
+	(e_cal_view_objects_modified_cb), (e_cal_model_component_finalize),
+	(e_cal_model_component_init):
+	Allow showing CREATED and LAST-MODIFIED properties in a table.
+
+	* gui/print.c: (print_comp_draw_real):
+	* gui/e-cal-component-preview.c: (write_html):
+	* conduits/todo/todo-conduit.c: (local_record_from_comp):
+	Possible leak fix.
+
 2009-04-24  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #573704

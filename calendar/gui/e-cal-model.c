@@ -435,6 +435,43 @@ get_dtstart (ECalModel *model, ECalModelComponent *comp_data)
 	return comp_data->dtstart;
 }
 
+static ECellDateEditValue*
+get_datetime_from_utc (ECalModel *model, ECalModelComponent *comp_data, icalproperty_kind propkind, struct icaltimetype (*get_value)(const icalproperty* prop), ECellDateEditValue **buffer)
+{
+	ECalModelPrivate *priv;
+        struct icaltimetype tt_value;
+	icalproperty *prop;
+	ECellDateEditValue *res;
+
+	g_return_val_if_fail (buffer!= NULL, NULL);
+
+	if (*buffer)
+		return *buffer;
+
+	priv = model->priv;
+
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, propkind);
+	if (!prop)
+		return NULL;
+
+	tt_value = get_value (prop);
+
+	/* these are always in UTC, thus convert to default zone, if any and done */
+	if (priv->zone)
+		icaltimezone_convert_time (&tt_value, icaltimezone_get_utc_timezone (), priv->zone);
+
+	if (!icaltime_is_valid_time (tt_value) || icaltime_is_null_time (tt_value))
+		return NULL;
+
+	res = g_new0 (ECellDateEditValue, 1);
+	res->tt = tt_value;
+	res->zone = NULL;
+
+	*buffer = res;
+
+	return res;
+}
+
 static char *
 get_summary (ECalModelComponent *comp_data)
 {
@@ -484,6 +521,10 @@ ecm_value_at (ETableModel *etm, int col, int row)
 		return get_description (comp_data);
 	case E_CAL_MODEL_FIELD_DTSTART :
 		return (void *) get_dtstart (model, comp_data);
+	case E_CAL_MODEL_FIELD_CREATED :
+		return (void *) get_datetime_from_utc (model, comp_data, ICAL_CREATED_PROPERTY, icalproperty_get_created, &comp_data->created);
+	case E_CAL_MODEL_FIELD_LASTMODIFIED :
+		return (void *) get_datetime_from_utc (model, comp_data, ICAL_LASTMODIFIED_PROPERTY, icalproperty_get_lastmodified, &comp_data->lastmodified);
 	case E_CAL_MODEL_FIELD_HAS_ALARMS :
 		return GINT_TO_POINTER ((icalcomponent_get_first_component (comp_data->icalcomp,
 									    ICAL_VALARM_COMPONENT) != NULL));
@@ -878,6 +919,8 @@ ecm_duplicate_value (ETableModel *etm, int col, const void *value)
 	case E_CAL_MODEL_FIELD_COMPONENT :
 		return icalcomponent_new_clone ((icalcomponent *) value);
 	case E_CAL_MODEL_FIELD_DTSTART :
+	case E_CAL_MODEL_FIELD_CREATED :
+	case E_CAL_MODEL_FIELD_LASTMODIFIED :
 		if (value) {
 			ECellDateEditValue *dv, *orig_dv;
 
@@ -911,6 +954,8 @@ ecm_free_value (ETableModel *etm, int col, void *value)
 	case E_CAL_MODEL_FIELD_COLOR :
 		break;
 	case E_CAL_MODEL_FIELD_DTSTART :
+	case E_CAL_MODEL_FIELD_CREATED :
+	case E_CAL_MODEL_FIELD_LASTMODIFIED :
 		if (value)
 			g_free (value);
 		break;
@@ -940,6 +985,8 @@ ecm_initialize_value (ETableModel *etm, int col)
 	case E_CAL_MODEL_FIELD_SUMMARY :
 		return g_strdup ("");
 	case E_CAL_MODEL_FIELD_DTSTART :
+	case E_CAL_MODEL_FIELD_CREATED :
+	case E_CAL_MODEL_FIELD_LASTMODIFIED :
 	case E_CAL_MODEL_FIELD_HAS_ALARMS :
 	case E_CAL_MODEL_FIELD_ICON :
 	case E_CAL_MODEL_FIELD_COLOR :
@@ -978,6 +1025,8 @@ ecm_value_is_empty (ETableModel *etm, int col, const void *value)
 	case E_CAL_MODEL_FIELD_SUMMARY :
 		return string_is_empty (value);
 	case E_CAL_MODEL_FIELD_DTSTART :
+	case E_CAL_MODEL_FIELD_CREATED :
+	case E_CAL_MODEL_FIELD_LASTMODIFIED :
 		return value ? FALSE : TRUE;
 	case E_CAL_MODEL_FIELD_HAS_ALARMS :
 	case E_CAL_MODEL_FIELD_ICON :
@@ -1001,6 +1050,8 @@ ecm_value_to_string (ETableModel *etm, int col, const void *value)
 	case E_CAL_MODEL_FIELD_SUMMARY :
 		return g_strdup (value);
 	case E_CAL_MODEL_FIELD_DTSTART :
+	case E_CAL_MODEL_FIELD_CREATED :
+	case E_CAL_MODEL_FIELD_LASTMODIFIED :
 		return e_cal_model_date_value_to_string (E_CAL_MODEL (etm), value);
 	case E_CAL_MODEL_FIELD_ICON :
 		if (GPOINTER_TO_INT (value) == 0)
@@ -1570,6 +1621,14 @@ e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer user_d
 			if (comp_data->completed) {
 				g_free (comp_data->completed);
 				comp_data->completed = NULL;
+			}
+			if (comp_data->created) {
+				g_free (comp_data->created);
+				comp_data->created = NULL;
+			}
+			if (comp_data->lastmodified) {
+				g_free (comp_data->lastmodified);
+				comp_data->lastmodified = NULL;
 			}
 			if (comp_data->color) {
 				g_free (comp_data->color);
@@ -2311,6 +2370,14 @@ e_cal_model_component_finalize (GObject *object)
 		g_free (comp_data->completed);
 		comp_data->completed = NULL;
 	}
+	if (comp_data->created) {
+		g_free (comp_data->created);
+		comp_data->created = NULL;
+	}
+	if (comp_data->lastmodified) {
+		g_free (comp_data->lastmodified);
+		comp_data->lastmodified = NULL;
+	}
 	if (comp_data->color) {
 		g_free (comp_data->color);
 		comp_data->color = NULL;
@@ -2328,6 +2395,8 @@ e_cal_model_component_init (ECalModelComponent *comp)
 	comp->dtend = NULL;
 	comp->due = NULL;
 	comp->completed = NULL;
+	comp->created = NULL;
+	comp->lastmodified = NULL;
 	comp->color = NULL;
 }
 
