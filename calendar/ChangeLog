@@ -1,3 +1,12 @@
+2009-04-27  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #491755
+
+	* gui/alarm-notify/config-data.c:
+	(config_data_set_last_notification_time),
+	(config_data_get_last_notification_time):
+	Sanitize values from GConf before using them.
+
 2009-04-24  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #573704

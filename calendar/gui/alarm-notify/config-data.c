@@ -259,7 +259,7 @@ void
 config_data_set_last_notification_time (time_t t)
 {
 	GConfClient *client;
-	time_t current_t;
+	time_t current_t, now = time (NULL);
 
 	g_return_if_fail (t != -1);
 
@@ -269,7 +269,7 @@ config_data_set_last_notification_time (time_t t)
 	/* we only store the new notification time if it is bigger
 	   than the already stored one */
 	current_t = gconf_client_get_int (client, KEY_LAST_NOTIFICATION_TIME, NULL);
-	if (t > current_t)
+	if (t > current_t || current_t > now)
 		gconf_client_set_int (client, KEY_LAST_NOTIFICATION_TIME, t, NULL);
 }
 
@@ -290,8 +290,14 @@ config_data_get_last_notification_time (void)
 		return -1;
 
 	value = gconf_client_get_without_default (client, KEY_LAST_NOTIFICATION_TIME, NULL);
-	if (value)
-		return (time_t) gconf_value_get_int (value);
+	if (value) {
+		time_t val = (time_t) gconf_value_get_int (value), now = time (NULL);
+
+		if (val > now)
+			val = now;
+
+		return val;
+	}
 
 	return time (NULL);
 }
