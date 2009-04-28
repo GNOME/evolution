@@ -1947,46 +1947,28 @@ GtkAction *
 comp_editor_get_action (CompEditor *editor,
                         const gchar *action_name)
 {
-	GtkAction *action = NULL;
-	GList *iter;
+	GtkUIManager *ui_manager;
 
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
 	g_return_val_if_fail (action_name != NULL, NULL);
 
-	iter = gtk_ui_manager_get_action_groups (editor->priv->ui_manager);
-	while (iter != NULL && action == NULL) {
-		GtkActionGroup *action_group = iter->data;
+	ui_manager = comp_editor_get_ui_manager (editor);
 
-		action = gtk_action_group_get_action (
-			action_group, action_name);
-		iter = g_list_next (iter);
-	}
-	g_return_val_if_fail (action != NULL, NULL);
-
-	return action;
+	return e_lookup_action (ui_manager, action_name);
 }
 
 GtkActionGroup *
 comp_editor_get_action_group (CompEditor *editor,
                               const gchar *group_name)
 {
-	GList *iter;
+	GtkUIManager *ui_manager;
 
 	g_return_val_if_fail (IS_COMP_EDITOR (editor), NULL);
 	g_return_val_if_fail (group_name != NULL, NULL);
 
-	iter = gtk_ui_manager_get_action_groups (editor->priv->ui_manager);
-	while (iter != NULL) {
-		GtkActionGroup *action_group = iter->data;
-		const gchar *name;
+	ui_manager = comp_editor_get_ui_manager (editor);
 
-		name = gtk_action_group_get_name (action_group);
-		if (strcmp (name, group_name) == 0)
-			return action_group;
-		iter = g_list_next (iter);
-	}
-
-	g_return_val_if_reached (NULL);
+	return e_lookup_action_group (ui_manager, group_name);
 }
 
 GtkWidget *
