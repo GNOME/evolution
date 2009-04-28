@@ -1,3 +1,11 @@
+2009-04-28  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #579550
+
+	* mail-session.c: (main_get_filter_driver):
+	Do not mark messages recognized as junk Seen, to let user notice new
+	messages in a junk folder.
+
 2009-04-27  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #579635
