@@ -10,6 +10,16 @@
         <short>Default External Editor</short>
         <long>The default command that must be used as the editor.</long>
       </locale>
+
+      <key>/schemas/apps/evolution/eplugin/external-editor/launch-on-key-press</key>
+      <applyto>/apps/evolution/eplugin/external-editor/launch-on-key-press</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Automatically launch when a new mail is edited</short>
+        <long>Automatically launch editor when key is pressed in the mail composer</long>
+      </locale>
     </schema>
   </schemalist>
 </gconfschemafile>
