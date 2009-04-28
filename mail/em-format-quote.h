@@ -20,24 +20,47 @@
  *
  */
 
-#ifndef _EM_FORMAT_QUOTE_H
-#define _EM_FORMAT_QUOTE_H
+#ifndef EM_FORMAT_QUOTE_H
+#define EM_FORMAT_QUOTE_H
 
+#include <camel/camel-stream.h>
 #include "mail/em-format.h"
 
-typedef struct _EMFormatQuote EMFormatQuote;
-typedef struct _EMFormatQuoteClass EMFormatQuoteClass;
+/* Standard GObject macros */
+#define EM_TYPE_FORMAT_QUOTE \
+	(em_format_quote_get_type ())
+#define EM_FORMAT_QUOTE(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_FORMAT_QUOTE, EMFormatQuote))
+#define EM_FORMAT_QUOTE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_FORMAT_QUOTE, EMFormatQuoteClass))
+#define EM_IS_FORMAT_QUOTE(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_FORMAT_QUOTE))
+#define EM_IS_FORMAT_QUOTE_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_FORMAT_QUOTE))
+#define EM_FORMAT_QUOTE_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_FORMAT_QUOTE, EMFormatQuoteClass))
 
 #define EM_FORMAT_QUOTE_CITE (1<<0)
 #define EM_FORMAT_QUOTE_HEADERS (1<<1)
 
+G_BEGIN_DECLS
+
+typedef struct _EMFormatQuote EMFormatQuote;
+typedef struct _EMFormatQuoteClass EMFormatQuoteClass;
+typedef struct _EMFormatQuotePrivate EMFormatQuotePrivate;
+
 struct _EMFormatQuote {
 	EMFormat format;
 
-	struct _EMFormatQuotePrivate *priv;
+	EMFormatQuotePrivate *priv;
 
 	char *credits;
-	struct _CamelStream *stream;
+	CamelStream *stream;
 	guint32 flags;
 
 	guint32 text_html_flags;
@@ -48,8 +71,11 @@ struct _EMFormatQuoteClass {
 	EMFormatClass format_class;
 };
 
-GType em_format_quote_get_type (void);
+GType		em_format_quote_get_type	(void);
+EMFormatQuote *	em_format_quote_new		(const gchar *credits,
+						 CamelStream *stream,
+						 guint32 flags);
 
-EMFormatQuote *em_format_quote_new (const char *credits, struct _CamelStream *stream, guint32 flags);
+G_END_DECLS
 
-#endif /* !_EM_FORMAT_QUOTE_H */
+#endif /* EM_FORMAT_QUOTE_H */

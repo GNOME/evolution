@@ -25,24 +25,42 @@
   Concrete class for formatting mails to html
 */
 
-#ifndef _EM_FORMAT_HTML_H
-#define _EM_FORMAT_HTML_H
+#ifndef EM_FORMAT_HTML_H
+#define EM_FORMAT_HTML_H
 
-#include "mail/em-format.h"
+#include <mail/em-format.h>
+#include <mail/mail-config.h>
+#include <camel/camel-medium.h>
+#include <camel/camel-mime-part.h>
+#include <camel/camel-stream.h>
+#include <camel/camel-url.h>
+#include <gtkhtml/gtkhtml.h>
+#include <gtkhtml/gtkhtml-embedded.h>
+
+/* Standard GObject macros */
+#define EM_TYPE_FORMAT_HTML \
+	(em_format_html_get_type ())
+#define EM_FORMAT_HTML(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_FORMAT_HTML, EMFormatHTML))
+#define EM_FORMAT_HTML_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_FORMAT_HTML, EMFormatHTMLClass))
+#define EM_IS_FORMAT_HTML(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_FORMAT_HTML))
+#define EM_IS_FORMAT_HTML_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_FORMAT_HTML))
+#define EM_FORMAT_HTML_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_FORMAT_HTML, EMFormatHTMLClass))
+
+G_BEGIN_DECLS
 
 typedef struct _EMFormatHTML EMFormatHTML;
 typedef struct _EMFormatHTMLClass EMFormatHTMLClass;
-
-#if 0
-struct _EMFormatHTMLHandler {
-	EFrormatHandler base;
-};
-#endif
-
-struct _GtkHTMLEmbedded;
-struct _CamelMimePart;
-struct _CamelMedium;
-struct _CamelStream;
+typedef struct _EMFormatHTMLPrivate EMFormatHTMLPrivate;
 
 enum _em_format_html_header_flags {
 	EM_FORMAT_HTML_HEADER_TO = 1<<0,
@@ -55,9 +73,9 @@ typedef enum {
 	EM_FORMAT_HTML_STATE_RENDERING
 } EMFormatHTMLState;
 
-/* A HTMLJob will be executed in another thread, in sequence,
+/* A HTMLJob will be executed in another thread, in sequence.
    It's job is to write to its stream, close it if successful,
-   then exit */
+   then exit. */
 
 typedef struct _EMFormatHTMLJob EMFormatHTMLJob;
 
@@ -85,21 +103,21 @@ typedef struct _EMFormatHTMLJob EMFormatHTMLJob;
  * may be used to allocate these.
  **/
 struct _EMFormatHTMLJob {
-	struct _EMFormatHTMLJob *next;
-	struct _EMFormatHTMLJob *prev;
+	EMFormatHTMLJob *next;
+	EMFormatHTMLJob *prev;
 
 	EMFormatHTML *format;
-	struct _CamelStream *stream;
+	CamelStream *stream;
 
 	/* We need to track the state of the visibility tree at
 	   the point this uri was generated */
 	struct _EMFormatPURITree *puri_level;
-	struct _CamelURL *base;
+	CamelURL *base;
 
-	void (*callback)(struct _EMFormatHTMLJob *job, int cancelled);
+	void (*callback)(EMFormatHTMLJob *job, int cancelled);
 	union {
 		char *uri;
-		struct _CamelMedium *msg;
+		CamelMedium *msg;
 		EMFormatPURI *puri;
 		struct _EMFormatPURITree *puri_level;
 		void *data;
@@ -109,7 +127,7 @@ struct _EMFormatHTMLJob {
 /* Pending object (classid: url) */
 typedef struct _EMFormatHTMLPObject EMFormatHTMLPObject;
 
-typedef gboolean (*EMFormatHTMLPObjectFunc)(EMFormatHTML *md, struct _GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject);
+typedef gboolean (*EMFormatHTMLPObjectFunc)(EMFormatHTML *md, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject);
 
 /**
  * struct _EMFormatHTMLPObject - Pending object.
@@ -130,16 +148,16 @@ typedef gboolean (*EMFormatHTMLPObjectFunc)(EMFormatHTML *md, struct _GtkHTMLEmb
  * em_format_html_add_pobject() may be used to allocate these.
  **/
 struct _EMFormatHTMLPObject {
-	struct _EMFormatHTMLPObject *next;
-	struct _EMFormatHTMLPObject *prev;
+	EMFormatHTMLPObject *next;
+	EMFormatHTMLPObject *prev;
 
-	void (*free)(struct _EMFormatHTMLPObject *);
-	struct _EMFormatHTML *format;
+	void (*free)(EMFormatHTMLPObject *);
+	EMFormatHTML *format;
 
 	char *classid;
 
 	EMFormatHTMLPObjectFunc func;
-	struct _CamelMimePart *part;
+	CamelMimePart *part;
 };
 
 #define EM_FORMAT_HTML_HEADER_NOCOLUMNS (EM_FORMAT_HEADER_LAST)
@@ -180,9 +198,9 @@ struct _EMFormatHTMLPObject {
 struct _EMFormatHTML {
 	EMFormat format;
 
-	struct _EMFormatHTMLPrivate *priv;
+	EMFormatHTMLPrivate *priv;
 
-	struct _GtkHTML *html;
+	GtkHTML *html;
 
 	EDList pending_object_list;
 
@@ -208,29 +226,49 @@ struct _EMFormatHTML {
 
 struct _EMFormatHTMLClass {
 	EMFormatClass format_class;
-
 };
 
-GType em_format_html_get_type(void);
-EMFormatHTML *em_format_html_new(void);
+GType		em_format_html_get_type		(void);
+EMFormatHTML *	em_format_html_new		(void);
+void		em_format_html_load_http	(EMFormatHTML *efh);
 
-void em_format_html_load_http(EMFormatHTML *emf);
-
-void em_format_html_set_load_http(EMFormatHTML *emf, int style);
-void em_format_html_set_mark_citations(EMFormatHTML *emf, int state, guint32 citation_colour);
+void		em_format_html_set_load_http	(EMFormatHTML *efh,
+						 int style);
+void		em_format_html_set_mark_citations
+						(EMFormatHTML *efh,
+						 int state,
+						 guint32 citation_colour);
 
 /* retrieves a pseudo-part icon wrapper for a file */
-struct _CamelMimePart *em_format_html_file_part(EMFormatHTML *efh, const char *mime_type, const char *filename);
+CamelMimePart *	em_format_html_file_part	(EMFormatHTML *efh,
+						 const gchar *mime_type,
+						 const gchar *filename);
 
 /* for implementers */
-EMFormatHTMLPObject *em_format_html_add_pobject(EMFormatHTML *efh, size_t size, const char *classid, struct _CamelMimePart *part, EMFormatHTMLPObjectFunc func);
-EMFormatHTMLPObject *em_format_html_find_pobject(EMFormatHTML *emf, const char *classid);
-EMFormatHTMLPObject *em_format_html_find_pobject_func(EMFormatHTML *emf, struct _CamelMimePart *part, EMFormatHTMLPObjectFunc func);
-void em_format_html_remove_pobject(EMFormatHTML *emf, EMFormatHTMLPObject *pobject);
-void em_format_html_clear_pobject(EMFormatHTML *emf);
+EMFormatHTMLPObject *
+		em_format_html_add_pobject	(EMFormatHTML *efh,
+						 size_t size,
+						 const char *classid,
+						 CamelMimePart *part,
+						 EMFormatHTMLPObjectFunc func);
+EMFormatHTMLPObject *
+		em_format_html_find_pobject	(EMFormatHTML *efh,
+						 const char *classid);
+EMFormatHTMLPObject *
+		em_format_html_find_pobject_func(EMFormatHTML *efh,
+						 CamelMimePart *part,
+						 EMFormatHTMLPObjectFunc func);
+void		em_format_html_remove_pobject	(EMFormatHTML *efh,
+						 EMFormatHTMLPObject *pobject);
+void		em_format_html_clear_pobject	(EMFormatHTML *efh);
 
-EMFormatHTMLJob *em_format_html_job_new(EMFormatHTML *emfh, void (*callback)(struct _EMFormatHTMLJob *job, int cancelled), void *data)
-;
-void em_format_html_job_queue(EMFormatHTML *emfh, struct _EMFormatHTMLJob *job);
+EMFormatHTMLJob *
+		em_format_html_job_new		(EMFormatHTML *efh,
+						 void (*callback)(EMFormatHTMLJob *job, int cancelled),
+						 void *data);
+void		em_format_html_job_queue	(EMFormatHTML *efh,
+						 EMFormatHTMLJob *job);
 
-#endif /* ! EM_FORMAT_HTML_H */
+G_END_DECLS
+
+#endif /* EM_FORMAT_HTML_H */

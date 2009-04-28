@@ -22,20 +22,40 @@
   Concrete class for formatting mails to displayed html
 */
 
-#ifndef _EM_FORMAT_HTML_DISPLAY_H
-#define _EM_FORMAT_HTML_DISPLAY_H
+#ifndef EM_FORMAT_HTML_DISPLAY_H
+#define EM_FORMAT_HTML_DISPLAY_H
 
-#include "mail/em-format-html.h"
+#include <mail/em-format-html.h>
+
+/* Standard GObject macros */
+#define EM_TYPE_FORMAT_HTML_DISPLAY \
+	(em_format_html_display_get_type ())
+#define EM_FORMAT_HTML_DISPLAY(obj) \
+	(G_TYPE_CHECK_INSTANCE_CAST \
+	((obj), EM_TYPE_FORMAT_HTML_DISPLAY, EMFormatHTMLDisplay))
+#define EM_FORMAT_HTML_DISPLAY_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_CAST \
+	((cls), EM_TYPE_FORMAT_HTML_DISPLAY, EMFormatHTMLDisplayClass))
+#define EM_IS_FORMAT_HTML_DISPLAY(obj) \
+	(G_TYPE_CHECK_INSTANCE_TYPE \
+	((obj), EM_TYPE_FORMAT_HTML_DISPLAY))
+#define EM_IS_FORMAT_HTML_DISPLAY_CLASS(cls) \
+	(G_TYPE_CHECK_CLASS_TYPE \
+	((cls), EM_TYPE_FORMAT_HTML_DISPLAY))
+#define EM_FORMAT_HTML_DISPLAY_GET_CLASS(obj) \
+	(G_TYPE_INSTANCE_GET_CLASS \
+	((obj), EM_TYPE_FORMAT_HTML_DISPLAY, EMFormatHTMLDisplayClass))
+
+G_BEGIN_DECLS
 
 typedef struct _EMFormatHTMLDisplay EMFormatHTMLDisplay;
 typedef struct _EMFormatHTMLDisplayClass EMFormatHTMLDisplayClass;
-
-struct _CamelMimePart;
+typedef struct _EMFormatHTMLDisplayPrivate EMFormatHTMLDisplayPrivate;
 
 struct _EMFormatHTMLDisplay {
 	EMFormatHTML formathtml;
 
-	struct _EMFormatHTMLDisplayPrivate *priv;
+	EMFormatHTMLDisplayPrivate *priv;
 
 	struct _ESearchingTokenizer *search_tok;
 
@@ -59,33 +79,46 @@ struct _EMFormatHTMLDisplayClass {
 	void (*on_url)(EMFormatHTMLDisplay *efhd, const char *uri);
 };
 
-GType em_format_html_display_get_type(void);
-EMFormatHTMLDisplay *em_format_html_display_new(void);
+GType		em_format_html_display_get_type	(void);
+EMFormatHTMLDisplay *
+		em_format_html_display_new	(void);
 
-void em_format_html_display_goto_anchor(EMFormatHTMLDisplay *efhd, const char *name);
+void		em_format_html_display_goto_anchor
+						(EMFormatHTMLDisplay *efhd,
+						 const char *name);
 
-void em_format_html_display_set_animate(EMFormatHTMLDisplay *efhd, gboolean state);
-void em_format_html_display_set_caret_mode(EMFormatHTMLDisplay *efhd, gboolean state);
+void		em_format_html_display_set_animate
+						(EMFormatHTMLDisplay *efhd,
+						 gboolean state);
+void		em_format_html_display_set_caret_mode
+						(EMFormatHTMLDisplay *efhd,
+						 gboolean state);
 
-void em_format_html_display_set_search(EMFormatHTMLDisplay *efhd, int type, GSList *strings);
-void em_format_html_display_search(EMFormatHTMLDisplay *efhd);
-void em_format_html_display_search_with (EMFormatHTMLDisplay *efhd, char *word);
-void em_format_html_display_search_close (EMFormatHTMLDisplay *efhd);
+void		em_format_html_display_set_search
+						(EMFormatHTMLDisplay *efhd,
+						 int type,
+						 GSList *strings);
+void		em_format_html_display_search	(EMFormatHTMLDisplay *efhd);
+void		em_format_html_display_search_with
+						(EMFormatHTMLDisplay *efhd,
+						 char *word);
+void		em_format_html_display_search_close
+						(EMFormatHTMLDisplay *efhd);
 
-GtkWidget *em_format_html_get_search_dialog (EMFormatHTMLDisplay *efhd);
+GtkWidget *	em_format_html_get_search_dialog(EMFormatHTMLDisplay *efhd);
 
-void em_format_html_display_cut (EMFormatHTMLDisplay *efhd);
-void em_format_html_display_copy (EMFormatHTMLDisplay *efhd);
-void em_format_html_display_paste (EMFormatHTMLDisplay *efhd);
+void		em_format_html_display_cut	(EMFormatHTMLDisplay *efhd);
+void		em_format_html_display_copy	(EMFormatHTMLDisplay *efhd);
+void		em_format_html_display_paste	(EMFormatHTMLDisplay *efhd);
 
-void em_format_html_display_zoom_in (EMFormatHTMLDisplay *efhd);
-void em_format_html_display_zoom_out (EMFormatHTMLDisplay *efhd);
-void em_format_html_display_zoom_reset (EMFormatHTMLDisplay *efhd);
+void		em_format_html_display_zoom_in	(EMFormatHTMLDisplay *efhd);
+void		em_format_html_display_zoom_out	(EMFormatHTMLDisplay *efhd);
+void		em_format_html_display_zoom_reset
+						(EMFormatHTMLDisplay *efhd);
 
-gboolean em_format_html_display_popup_menu (EMFormatHTMLDisplay *efhd);
+gboolean	em_format_html_display_popup_menu
+						(EMFormatHTMLDisplay *efhd);
 
-/* experimental */
-struct _EPopupExtension;
-void em_format_html_display_set_popup(EMFormatHTMLDisplay *, struct _EPopupExtension *);
+G_END_DECLS
 
-#endif /* !_EM_FORMAT_HTML_DISPLAY_H */
+#endif /* EM_FORMAT_HTML_DISPLAY_H */
