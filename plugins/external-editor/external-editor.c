@@ -11,11 +11,12 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
- *		Sankar P <psankar@novell.com>
+ *		Holger Macht <hmacht@suse.de>
+ *		based on work by Sankar P <psankar@novell.com>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
@@ -31,11 +32,13 @@
 #include <mail/mail-config.h>
 #include <e-util/e-error.h>
 #include <e-msg-composer.h>
+#include <camel/camel-mime-filter-tohtml.h>
 
 #include <glib/gi18n-lib.h>
 #include <glib-object.h>
 #include <glib.h>
 #include <glib/gstdio.h>
+#include <gdk/gdkkeysyms.h>
 
 #include <sys/stat.h>
 #ifdef HAVE_SYS_WAIT_H
@@ -47,56 +50,48 @@
 
 #include <gconf/gconf-client.h>
 
-#define d(x) 
+#define d(x)
 
-#define EDITOR_GCONF_KEY "/apps/evolution/eplugin/external-editor/editor-command"
+#define EDITOR_GCONF_KEY_COMMAND "/apps/evolution/eplugin/external-editor/editor-command"
+#define EDITOR_GCONF_KEY_IMMEDIATE "/apps/evolution/eplugin/external-editor/launch-on-key-press"
 
-void org_gnome_external_editor (EPlugin *ep, EMMenuTargetSelect *select);
-void ee_editor_command_changed (GtkWidget *textbox);
+gboolean e_plugin_ui_init (GtkUIManager *manager, EMsgComposer *composer);
 GtkWidget * e_plugin_lib_get_configure_widget (EPlugin *epl);
+static void ee_editor_command_changed (GtkWidget *textbox);
+static void ee_editor_immediate_launch_changed (GtkWidget *checkbox);
+static void async_external_editor (EMsgComposer *composer);
+static gboolean editor_running (void);
+static gboolean key_press_cb(GtkWidget * widget, GdkEventKey * event, EMsgComposer *composer);
 
-/* Utility function to convert an email address to CamelInternetAddress.
-May be this should belong to CamelInternetAddress.h file itself. */
-static CamelInternetAddress * convert_to_camel_internet_address (char * emails)
-{
-	CamelInternetAddress *cia = camel_internet_address_new();
-	gchar **address_tokens = NULL;
-	int i;
+/* used to track when the external editor is active */
+static GThread *editor_thread;
 
-	d(printf ("\n\aconvert called with : [%s] \n\a", emails));
-
-	emails = g_strstrip (emails);
-
-	if (emails && strlen (emails) > 1) {
-		address_tokens = g_strsplit (emails, ",", 0);
-
-		if (address_tokens) {
-			for (i = 0; address_tokens[i]; ++i) {
-				camel_internet_address_add (cia, " ", address_tokens [i]);
-				d(printf ("\nAdding camel_internet_address[%s] \n", address_tokens [i]));
-			}
-			g_strfreev (address_tokens);
-
-			g_free (emails);
-			return cia;
-		}
-	}
-	camel_object_unref (cia);
-	g_free (emails);
-	return NULL;
-}
-
-void ee_editor_command_changed (GtkWidget *textbox)
+void
+ee_editor_command_changed (GtkWidget *textbox)
 {
 	const char *editor;
 	GConfClient *gconf;
 
 	editor = gtk_entry_get_text (GTK_ENTRY(textbox));
 	d(printf ("\n\aeditor is : [%s] \n\a", editor));
-	
+
 	/* gconf access for every key-press. Sucky ? */
 	gconf = gconf_client_get_default ();
-	gconf_client_set_string (gconf, EDITOR_GCONF_KEY, editor, NULL);
+	gconf_client_set_string (gconf, EDITOR_GCONF_KEY_COMMAND, editor, NULL);
+	g_object_unref (gconf);
+}
+
+void
+ee_editor_immediate_launch_changed (GtkWidget *checkbox)
+{
+	gboolean immediately;
+	GConfClient *gconf;
+
+	immediately = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox));
+	d(printf ("\n\aimmediate launch is : [%d] \n\a", immediately));
+
+	gconf = gconf_client_get_default ();
+	gconf_client_set_bool (gconf, EDITOR_GCONF_KEY_IMMEDIATE, immediately, NULL);
 	g_object_unref (gconf);
 }
 
@@ -104,179 +99,297 @@ GtkWidget *
 e_plugin_lib_get_configure_widget (EPlugin *epl)
 {
 	GtkWidget *vbox, *textbox, *label, *help;
+	GtkWidget *checkbox;
 	GConfClient *gconf;
 	char *editor;
+	gboolean checked;
 
 	vbox = gtk_vbox_new (FALSE, 10);
 	textbox = gtk_entry_new ();
 	label = gtk_label_new (_("Command to be executed to launch the editor: "));
-	help = gtk_label_new (_("For Emacs use \"xemacs\"\nFor VI use \"gvim\""));
+	help = gtk_label_new (_("For Emacs use \"xemacs\"\nFor VI use \"gvim -f\""));
 	gconf = gconf_client_get_default ();
 
-	editor = gconf_client_get_string (gconf, EDITOR_GCONF_KEY, NULL);
+	editor = gconf_client_get_string (gconf, EDITOR_GCONF_KEY_COMMAND, NULL);
 	if (editor) {
 		gtk_entry_set_text (GTK_ENTRY(textbox), editor);
 		g_free (editor);
 	}
+
+	checkbox = gtk_check_button_new_with_label (
+		_("Automatically launch when a new mail is edited"));
+	checked = gconf_client_get_bool (gconf, EDITOR_GCONF_KEY_IMMEDIATE, NULL);
+	if (checked)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbox), TRUE);
 	g_object_unref (gconf);
 
 	gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), textbox, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), help, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), checkbox, FALSE, FALSE, 0);
 
 	g_signal_connect (textbox, "changed", G_CALLBACK(ee_editor_command_changed), textbox);
-	
+
+	g_signal_connect (checkbox, "toggled",
+			  G_CALLBACK(ee_editor_immediate_launch_changed), checkbox);
+
 	gtk_widget_show_all (vbox);
 	return vbox;
 }
 
-static gboolean
-show_error (const char *id)
+static void
+enable_disable_composer (EMsgComposer *composer, gboolean enable)
 {
-	if (id)
-		e_error_run (NULL, id, NULL);
-	return FALSE;
-}
+	GtkhtmlEditor *editor;
+	GtkAction *action;
+	GtkActionGroup *action_group;
 
-static gboolean
-read_file (char *filename)
-{
-	gchar *buf;
-	CamelMimeMessage *message;
-	EMsgComposer *composer;
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	message = camel_mime_message_new ();
+	editor = GTKHTML_EDITOR (composer);
 
-	if (filename && g_file_get_contents (filename, &buf, NULL, NULL)) {
-		gchar **tokens;
-		int i, j;
+	if (enable)
+		gtkhtml_editor_run_command (editor, "editable-on");
+	else
+		gtkhtml_editor_run_command (editor, "editable-off");
 
-		tokens = g_strsplit (buf, "###|||", 6);
+	action = GTKHTML_EDITOR_ACTION_EDIT_MENU (composer);
+	gtk_action_set_sensitive (action, enable);
 
-		for (i = 1; tokens[i]; ++i) {
+	action = GTKHTML_EDITOR_ACTION_FORMAT_MENU (composer);
+	gtk_action_set_sensitive (action, enable);
 
-			for (j = 0; tokens[i][j] && tokens[i][j] != '\n'; ++j) {
-				tokens [i][j] = ' ';
-			}
+	action = GTKHTML_EDITOR_ACTION_INSERT_MENU (composer);
+	gtk_action_set_sensitive (action, enable);
 
-			if (tokens[i][j] == '\n')
-				tokens[i][j] = ' ';
-
-			d(printf ("\nstripped off token[%d] is : %s \n", i, tokens[i]));
-		}
-
-		camel_mime_message_set_recipients (message, "To", convert_to_camel_internet_address(g_strchug(g_strdup(tokens[1]))));
-		camel_mime_message_set_recipients (message, "Cc", convert_to_camel_internet_address(g_strchug(g_strdup(tokens[2]))));
-		camel_mime_message_set_recipients (message, "Bcc", convert_to_camel_internet_address(g_strchug(g_strdup(tokens[3]))));
-		camel_mime_message_set_subject (message, tokens[4]);
-		camel_mime_part_set_content ((CamelMimePart *)message, tokens [5], strlen (tokens [5]), "text/plain");
-
-		/* FIXME: We need to make mail-remote working properly.
-		   So that we neednot invoke composer widget at all.
-
-		   May be we can do it now itself by invoking local CamelTransport.
-		   But all that is not needed for the first release.
-
-		   People might want to format mails using their editor (80 cols width etc.) 
-		   But might want to use evolution addressbook for auto-completion etc.
-		   So starting the composer window anyway.
-		 */
-
-		composer = e_msg_composer_new_with_message (message);
-
-		gtk_widget_show (GTK_WIDGET (composer));
-
-		g_strfreev (tokens);
-
-		/* We no longer need that temporary file */
-		g_remove (filename);
-	}
-
-	g_free (filename);
-
-	return FALSE;
+	action_group = gtkhtml_editor_get_action_group (editor, "composer");
+	gtk_action_group_set_sensitive (action_group, enable);
 }
 
 static void
-async_external_editor (GArray *array)
+enable_composer (EMsgComposer *composer)
+{
+	enable_disable_composer (composer, TRUE);
+}
+
+static void
+disable_composer (EMsgComposer *composer)
+{
+	enable_disable_composer (composer, FALSE);
+}
+
+/* needed because the new thread needs to call g_idle_add () */
+static gboolean
+update_composer_text (GArray *array)
+{
+	EMsgComposer *composer;
+	gchar *text;
+
+	composer = g_array_index (array, gpointer, 0);
+	text = g_array_index (array, gpointer, 1);
+
+	e_msg_composer_set_body_text (composer, text, -1);
+
+	enable_composer (composer);
+
+	g_free (text);
+
+	return FALSE;
+}
+
+/* needed because the new thread needs to call g_idle_add () */
+static gboolean
+run_error_dialog (gchar *text)
+{
+	e_error_run (NULL, text, NULL);
+	return FALSE;
+}
+
+
+void
+async_external_editor (EMsgComposer *composer)
 {
 	char *filename = NULL;
-	gchar *argv[5];
 	int status = 0;
+	GConfClient *gconf;
+	gchar *editor_cmd_line = NULL;
+	gint fd;
 
-	argv[0] = g_array_index (array, gpointer, 0);
-	argv[1] = g_array_index (array, gpointer, 1);
-	argv[2] = NULL;
-
-	filename = g_strdup (argv[1]);
-
-	if (!g_spawn_sync (NULL, argv, NULL, G_SPAWN_SEARCH_PATH, NULL, NULL, NULL, NULL, &status, NULL))
-	{
-		g_warning ("Unable to launch %s: ", argv[0]);
-		g_idle_add ((GSourceFunc)show_error, "org.gnome.evolution.plugins.external-editor:editor-not-launchable");
-		g_free (filename);
-		return;
+	fd = g_file_open_tmp (NULL, &filename, NULL);
+	if (fd > 0) {
+		close (fd);
+		/* Push the text (if there is one) from the composer to the file */
+		g_file_set_contents (filename, gtkhtml_editor_get_text_plain(
+					     GTKHTML_EDITOR(composer), NULL),
+				     -1, NULL);
+		d(printf ("\n\aTemporary-file Name is : [%s] \n\a", filename));
+	} else {
+		g_warning ("Temporary file fd is null");
+		g_idle_add ((GSourceFunc) run_error_dialog,
+			    "org.gnome.evolution.plugins.external-editor:no-temp-file");
+		g_idle_add ((GSourceFunc) enable_composer, composer);
+		return ;
 	}
-	
+
+	gconf = gconf_client_get_default ();
+	editor_cmd_line = gconf_client_get_string (gconf, EDITOR_GCONF_KEY_COMMAND, NULL);
+	if (!editor_cmd_line) {
+		if (! (editor_cmd_line = g_strdup(g_getenv ("EDITOR"))) )
+			/* Make gedit the default external editor,
+			   if the default schemas are not installed
+			   and no $EDITOR is set. */
+			editor_cmd_line = g_strdup("gedit");
+	}
+	g_object_unref (gconf);
+
+	editor_cmd_line = g_strconcat(editor_cmd_line, " ", filename, NULL);
+
+	if (!g_spawn_command_line_sync(editor_cmd_line, NULL, NULL, &status, NULL))
+	{
+		g_warning ("Unable to launch %s: ", editor_cmd_line);
+		g_idle_add ((GSourceFunc) run_error_dialog,
+			    "org.gnome.evolution.plugins.external-editor:editor-not-launchable");
+		g_idle_add ((GSourceFunc) enable_composer, composer);
+
+		g_free (filename);
+		g_free (editor_cmd_line);
+		return ;
+	}
+	g_free (editor_cmd_line);
+
 #ifdef HAVE_SYS_WAIT_H
 	if (WEXITSTATUS (status) != 0) {
 #else
 	if (status) {
 #endif
 		d(printf ("\n\nsome problem here with external editor\n\n"));
-		g_free (filename);
-		return;
+		g_idle_add ((GSourceFunc) enable_composer, composer);
+		return ;
 	} else {
-		g_idle_add ((GSourceFunc)read_file, filename);
+		gchar *buf;
+
+		if (g_file_get_contents (filename, &buf, NULL, NULL)) {
+			gchar *htmltext;
+			GArray *array;
+
+			htmltext = camel_text_to_html(buf, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
+
+			array = g_array_sized_new (TRUE, TRUE,
+						   sizeof (gpointer), 2 * sizeof(gpointer));
+			array = g_array_append_val (array, composer);
+			array = g_array_append_val (array, htmltext);
+
+			g_idle_add ((GSourceFunc) update_composer_text, array);
+
+			/* We no longer need that temporary file */
+			g_remove (filename);
+			g_free (filename);
+		}
 	}
 }
 
-void org_gnome_external_editor (EPlugin *ep, EMMenuTargetSelect *select)
+static void launch_editor (GtkAction *action, EMsgComposer *composer)
 {
-	/* The template to be used in the external editor */
-
-	/* README: I have not marked this for translation. 
-	   As I might change this string to make it more meaningful and friendlier based on feedback. */
-
-	char template[] = "###|||Insert , seperated TO addresses below this line. Do not edit or delete this line. Optional field\n\n###||| Insert , seperated CC addresses below this line. Do not edit or delete this line. Optional field\n\n###|||Insert , seperated BCC addresses below this line. Do not edit or delete this line. Optional field\n\n###|||Insert SUBJECT below this line. Do not edit or delete this line. Optional field\n\n###|||Insert BODY of mail below this line. Do not edit or delete this line.\n\n";
-
-	gint fd;
-	char *filename = NULL;
-	char *editor = NULL;
-	GConfClient *gconf;
-	GArray *array;
-
 	d(printf ("\n\nexternal_editor plugin is launched \n\n"));
 
-	fd = g_file_open_tmp (NULL, &filename, NULL);
-	if (fd > 0) {
-		close (fd);
-		/* Push the template contents to the intermediate file */
-		g_file_set_contents (filename, template, strlen (template), NULL);
-		d(printf ("\n\aTemporary-file Name is : [%s] \n\a", filename));
-	} else {
-		g_warning ("Temporary file fd is null");
-		e_error_run (NULL, "org.gnome.evolution.plugins.external-editor:no-temp-file", NULL);
+	if (editor_running()) {
+		d(printf("not opening editor, because it's still running\n"));
 		return ;
 	}
 
-	gconf = gconf_client_get_default ();
-	editor = gconf_client_get_string (gconf, EDITOR_GCONF_KEY, NULL);
-	if (!editor) {
+	disable_composer (composer);
 
-		if (! (editor = g_strdup(g_getenv ("EDITOR"))) )
-			/* Make gedit the default external editor,
-			   if the default schemas are not installed
-			   and no $EDITOR is set. */
-			editor = g_strdup("gedit"); 
+	editor_thread = g_thread_create ((GThreadFunc)async_external_editor, composer, FALSE, NULL);
+}
+
+static GtkActionEntry entries[] = {
+	{ "ExternalEditor",
+	  GTK_STOCK_EDIT,
+	  N_("Compose in External Editor"),
+	  "<Shift><Control>e",
+	  N_("Compose in External Editor"),
+	  G_CALLBACK (launch_editor) }
+};
+
+static gboolean
+key_press_cb(GtkWidget * widget, GdkEventKey * event, EMsgComposer *composer)
+{
+	GConfClient *gconf;
+	gboolean immediately;
+
+	/* we don't want to start the editor on any modifier keys */
+	switch (event->keyval) {
+	case GDK_Alt_L:
+	case GDK_Alt_R:
+	case GDK_Super_L:
+	case GDK_Super_R:
+	case GDK_Control_L:
+	case GDK_Control_R:
+		return FALSE;
+	default:
+		break;
 	}
+
+	gconf = gconf_client_get_default ();
+	immediately = gconf_client_get_bool (gconf, EDITOR_GCONF_KEY_IMMEDIATE, NULL);
 	g_object_unref (gconf);
+	if (!immediately)
+		return FALSE;
 
-	array = g_array_sized_new (TRUE, TRUE, sizeof (gpointer), 2 * sizeof(gpointer));
-	array = g_array_append_val (array, editor);
-	array = g_array_append_val (array, filename);
+	launch_editor (NULL, composer);
 
-	g_thread_create ( (GThreadFunc) async_external_editor, array, FALSE, NULL);
+	return TRUE;
+}
 
-	return ; 
+static void
+editor_running_thread_func (GThread *thread, gpointer running)
+{
+	if (thread == editor_thread)
+		*(gboolean*)running = TRUE;
+}
+
+/* Racy? */
+static gboolean
+editor_running (void)
+{
+	gboolean running = FALSE;
+
+	g_thread_foreach ((GFunc)editor_running_thread_func, &running);
+
+	return running;
+}
+
+static gboolean
+delete_cb (GtkWidget *widget, EMsgComposer *composer)
+{
+	if (editor_running()) {
+		e_error_run (NULL, "org.gnome.evolution.plugins.external-editor:editor-still-running", NULL);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+gboolean
+e_plugin_ui_init (GtkUIManager *manager, EMsgComposer *composer)
+{
+	GtkhtmlEditor *editor;
+	GtkHTML *html;
+
+	editor = GTKHTML_EDITOR (composer);
+
+	/* Add actions to the "composer" action group. */
+	gtk_action_group_add_actions (
+		gtkhtml_editor_get_action_group (editor, "composer"),
+		entries, G_N_ELEMENTS (entries), composer);
+
+	html = gtkhtml_editor_get_html (editor);
+
+	g_signal_connect (G_OBJECT(html), "key_press_event",
+			  G_CALLBACK(key_press_cb), composer);
+
+	g_signal_connect (G_OBJECT(composer), "delete-event",
+			  G_CALLBACK(delete_cb), composer);
+
+	return TRUE;
 }

@@ -11,6 +11,9 @@
         <menuitem action='save-draft'/>
         <placeholder name='template-holder'/>
         <separator/>
+	<placeholder name='external-editor-holder'/>
+        <separator/>
+        <separator/>
         <menuitem action='print-preview'/>
         <menuitem action='print'/>
         <separator/>

@@ -25,8 +25,7 @@ error_DATA = org-gnome-external-editor.error
 errordir = $(privdatadir)/errors
 
 plugin_DATA = 						\
-	org-gnome-external-editor.eplug 		\
-	org-gnome-external-editor.xml
+	org-gnome-external-editor.eplug
 
 plugin_LTLIBRARIES = liborg-gnome-external-editor.la
 
@@ -54,7 +53,6 @@ install-data-local:
 EXTRA_DIST = 					\
 	org-gnome-external-editor.eplug.xml	\
 	org-gnome-external-editor.error.xml	\
-	org-gnome-external-editor.xml		\
 	$(schema_in_files)
 
 BUILT_SOURCES = org-gnome-external-editor.eplug \

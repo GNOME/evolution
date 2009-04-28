@@ -1,27 +1,25 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <e-plugin-list>
-  <!-- the path to the shared library -->
-  <e-plugin
-    id="org.gnome.plugin.external.editor"
-    type="shlib"
-    location="@PLUGINDIR@/liborg-gnome-external-editor@SOEXT@"
-    _name="External Editor">
+  <e-plugin type="shlib"
+	    location="@PLUGINDIR@/liborg-gnome-external-editor@SOEXT@"
+	    id="org.gnome.plugin.external.editor" name="External Editor">
+    <author name="Holger Macht" email="hmacht@suse.de"/>
     <author name="Sankar P" email="sankar2u@gmail.com"/>
-    <_description>A plugin for using an external editor as the composer. You can send only plain-text messages.</_description>
+    <description>A plugin for using an external editor as the composer. You can send only plain-text messages.</description>
 
-    <hook class="org.gnome.evolution.shell.bonobomenu:1.0">
-
-      <menu id="org.gnome.evolution.shell" target="shell">
-	<!-- the path to the bonobo menu description -->
-	<ui file="@PLUGINDIR@/org-gnome-external-editor.xml"/>
-	<item
-	  type="item"
-	  verb="EPExtEditor"
-	  path="/commands/EPExtEditor"
-	  activate="org_gnome_external_editor"/>
-      </menu>
-
-    </hook>
+     <hook class="org.gnome.evolution.ui:1.0">
+       <ui-manager id="org.gnome.evolution.composer">
+         <menubar name='main-menu'>
+           <placeholder name='pre-edit-menu'>
+             <menu action='file-menu'>
+               <placeholder name="external-editor-holder">
+                 <menuitem action="ExternalEditor"/>
+               </placeholder>
+             </menu>
+           </placeholder>
+         </menubar>
+       </ui-manager>
+     </hook>
 
   </e-plugin>
 </e-plugin-list>

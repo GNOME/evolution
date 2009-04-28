@@ -1,3 +1,16 @@
+2009-04-28  Holger Macht  <holger@homac.de>
+
+	** Fix for bug #567145
+
+	External Editor rewrite.
+	* composer/evolution-composer.ui:
+	* plugins/external-editor/Makefile.am:
+	* plugins/external-editor/apps-evolution-external-editor.schemas.in
+	:
+	* plugins/external-editor/external-editor.c:
+	* plugins/external-editor/org-gnome-external-editor.eplug.xml:
+	* plugins/external-editor/org-gnome-external-editor.error.xml:
+
 2009-04-27  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #561188
