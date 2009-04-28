@@ -1,0 +1,32 @@
+# for all subdirectories
+Makefile.in
+Makefile
+.libs
+.deps
+*.o
+*.lo
+*.la
+.*.swp
+
+# autofoo stuff here
+aclocal.m4
+autom4te.cache
+compile
+config.*
+configure
+depcomp
+gnome-doc-utils.make
+gtk-doc.make
+install-sh
+intltool-*.in
+libtool
+ltmain.sh
+missing
+mkinstalldirs
+stamp-*
+
+# misc generated stuff
+*.conduit
+*.error
+*.schemas
+*.server
