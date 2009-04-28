@@ -124,11 +124,22 @@ location_changed (GtkEntry *editable, ESource *source)
 {
 	EUri       *euri;
 	char       *ruri;
-	const char *uri;
+	const char *uri, *username;
 
 	uri = gtk_entry_get_text (GTK_ENTRY (editable));
 
 	euri = e_uri_new (uri);
+	g_return_if_fail (euri != NULL);
+
+	username = e_source_get_property (source, "username");
+	if (username && !*username)
+		username = NULL;
+
+	if ((!euri->user && username) || (euri->user && username && !g_str_equal (euri->user, username))) {
+		g_free (euri->user);
+		euri->user = g_strdup (username);
+	}
+
 	ruri = print_uri_noproto (euri);
 	e_source_set_relative_uri (source, ruri);
 	g_free (ruri);
@@ -163,6 +174,7 @@ user_changed (GtkEntry *editable, ESource *source)
 	euri->user = NULL;
 
 	if (user != NULL && *user) {
+		euri->user = g_strdup (user);
 		e_source_set_property (source, "auth", "1");
 	} else {
 		e_source_set_property (source, "auth", NULL);
