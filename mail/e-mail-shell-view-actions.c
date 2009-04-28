@@ -396,8 +396,15 @@ static void
 action_mail_hide_deleted_cb (GtkToggleAction *action,
                              EMailShellView *mail_shell_view)
 {
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
+	MessageList *message_list;
+	EMailReader *reader;
+	gboolean active;
+
+	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	message_list = e_mail_reader_get_message_list (reader);
+
+	active = gtk_toggle_action_get_active (action);
+	message_list_set_hidedeleted (message_list, active);
 }
 
 static void
@@ -1446,6 +1453,12 @@ e_mail_shell_view_actions_init (EMailShellView *mail_shell_view)
 
 	dst_object = G_OBJECT (ACTION (MAIL_THREADS_EXPAND_ALL));
 	e_binding_new (src_object, "active", dst_object, "sensitive");
+
+	/* XXX The boolean sense of the GConf key is the inverse of
+	 *     the menu item, so we have to maintain two properties. */
+	e_mutual_binding_new_with_negation (
+		G_OBJECT (shell_content), "show-deleted",
+		G_OBJECT (ACTION (MAIL_HIDE_DELETED)), "active");
 
 	g_signal_connect (
 		ACTION (GAL_SAVE_CUSTOM_VIEW), "activate",

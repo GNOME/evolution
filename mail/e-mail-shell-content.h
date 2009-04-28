@@ -68,6 +68,11 @@ gboolean	e_mail_shell_content_get_preview_visible
 void		e_mail_shell_content_set_preview_visible
 						(EMailShellContent *mail_shell_content,
 						 gboolean preview_visible);
+gboolean	e_mail_shell_content_get_show_deleted
+						(EMailShellContent *mail_shell_content);
+void		e_mail_shell_content_set_show_deleted
+						(EMailShellContent *mail_shell_content,
+						 gboolean show_deleted);
 gboolean	e_mail_shell_content_get_vertical_view
 						(EMailShellContent *mail_shell_content);
 void		e_mail_shell_content_set_vertical_view

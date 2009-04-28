@@ -54,11 +54,14 @@ struct _EMailBrowserPrivate {
 	GtkWidget *message_list;
 	GtkWidget *search_bar;
 	GtkWidget *statusbar;
+
+	guint show_deleted : 1;
 };
 
 enum {
 	PROP_0,
 	PROP_SHELL_MODULE,
+	PROP_SHOW_DELETED,
 	PROP_UI_MANAGER
 };
 
@@ -257,6 +260,12 @@ mail_browser_set_property (GObject *object,
 				E_MAIL_BROWSER (object),
 				g_value_get_object (value));
 			return;
+
+		case PROP_SHOW_DELETED:
+			e_mail_browser_set_show_deleted (
+				E_MAIL_BROWSER (object),
+				g_value_get_boolean (value));
+			return;
 	}
 
 	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -273,6 +282,12 @@ mail_browser_get_property (GObject *object,
 			g_value_set_object (
 				value, e_mail_reader_get_shell_module (
 				E_MAIL_READER (object)));
+			return;
+
+		case PROP_SHOW_DELETED:
+			g_value_set_boolean (
+				value, e_mail_browser_get_show_deleted (
+				E_MAIL_BROWSER (object)));
 			return;
 
 		case PROP_UI_MANAGER:
@@ -349,6 +364,7 @@ mail_browser_constructed (GObject *object)
 	EMailReader *reader;
 	EShellModule *shell_module;
 	EShell *shell;
+	GConfBridge *bridge;
 	GtkAccelGroup *accel_group;
 	GtkActionGroup *action_group;
 	GtkUIManager *ui_manager;
@@ -356,6 +372,7 @@ mail_browser_constructed (GObject *object)
 	GtkWidget *widget;
 	GtkHTML *html;
 	const gchar *domain;
+	const gchar *key;
 	guint merge_id;
 
 	priv = E_MAIL_BROWSER_GET_PRIVATE (object);
@@ -455,6 +472,14 @@ mail_browser_constructed (GObject *object)
 	widget = GTK_WIDGET (EM_FORMAT_HTML (html_display)->html);
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
+
+	/* Bind GObject properties to GConf keys. */
+
+	bridge = gconf_bridge_get ();
+
+	object = G_OBJECT (reader);
+	key = "/apps/evolution/mail/display/show_deleted";
+	gconf_bridge_bind_property (bridge, key, object, "show-deleted");
 }
 
 static gboolean
@@ -484,8 +509,11 @@ mail_browser_get_action_group (EMailReader *reader)
 static gboolean
 mail_browser_get_hide_deleted (EMailReader *reader)
 {
-	/* FIXME */
-	return FALSE;
+	EMailBrowser *browser;
+
+	browser = E_MAIL_BROWSER (reader);
+
+	return !e_mail_browser_get_show_deleted (browser);
 }
 
 static EMFormatHTMLDisplay *
@@ -597,6 +625,16 @@ mail_browser_class_init (EMailBrowserClass *class)
 			E_TYPE_SHELL_MODULE,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SHOW_DELETED,
+		g_param_spec_boolean (
+			"show-deleted",
+			_("Show Deleted"),
+			_("Show deleted messages"),
+			FALSE,
+			G_PARAM_READWRITE));
 }
 
 static void
@@ -682,6 +720,25 @@ e_mail_browser_close (EMailBrowser *browser)
 	g_return_if_fail (E_IS_MAIL_BROWSER (browser));
 
 	gtk_widget_destroy (GTK_WIDGET (browser));
+}
+
+gboolean
+e_mail_browser_get_show_deleted (EMailBrowser *browser)
+{
+	g_return_val_if_fail (E_IS_MAIL_BROWSER (browser), FALSE);
+
+	return browser->priv->show_deleted;
+}
+
+void
+e_mail_browser_set_show_deleted (EMailBrowser *browser,
+                                 gboolean show_deleted)
+{
+	g_return_if_fail (E_IS_MAIL_BROWSER (browser));
+
+	browser->priv->show_deleted = show_deleted;
+
+	g_object_notify (G_OBJECT (browser), "show-deleted");
 }
 
 GtkUIManager *

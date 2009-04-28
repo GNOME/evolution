@@ -67,11 +67,13 @@ struct _EMailShellContentPrivate {
 	guint preview_visible			: 1;
 	guint suppress_message_selection	: 1;
 	guint vertical_view			: 1;
+	guint show_deleted			: 1;
 };
 
 enum {
 	PROP_0,
 	PROP_PREVIEW_VISIBLE,
+	PROP_SHOW_DELETED,
 	PROP_VERTICAL_VIEW
 };
 
@@ -258,6 +260,12 @@ mail_shell_content_set_property (GObject *object,
 				g_value_get_boolean (value));
 			return;
 
+		case PROP_SHOW_DELETED:
+			e_mail_shell_content_set_show_deleted (
+				E_MAIL_SHELL_CONTENT (object),
+				g_value_get_boolean (value));
+			return;
+
 		case PROP_VERTICAL_VIEW:
 			e_mail_shell_content_set_vertical_view (
 				E_MAIL_SHELL_CONTENT (object),
@@ -279,6 +287,13 @@ mail_shell_content_get_property (GObject *object,
 			g_value_set_boolean (
 				value,
 				e_mail_shell_content_get_preview_visible (
+				E_MAIL_SHELL_CONTENT (object)));
+			return;
+
+		case PROP_SHOW_DELETED:
+			g_value_set_boolean (
+				value,
+				e_mail_shell_content_get_show_deleted (
 				E_MAIL_SHELL_CONTENT (object)));
 			return;
 
@@ -427,6 +442,10 @@ mail_shell_content_constructed (GObject *object)
 	key = "/apps/evolution/mail/display/paned_size";
 	gconf_bridge_bind_property_delayed (bridge, key, object, "position");
 
+	object = G_OBJECT (shell_content);
+	key = "/apps/evolution/mail/display/show_deleted";
+	gconf_bridge_bind_property (bridge, key, object, "show-deleted");
+
 	/* Message list customizations. */
 
 	reader = E_MAIL_READER (shell_content);
@@ -461,8 +480,11 @@ mail_shell_content_get_action_group (EMailReader *reader)
 static gboolean
 mail_shell_content_get_hide_deleted (EMailReader *reader)
 {
-	/* FIXME */
-	return TRUE;
+	EMailShellContent *mail_shell_content;
+
+	mail_shell_content = E_MAIL_SHELL_CONTENT (reader);
+
+	return !e_mail_shell_content_get_show_deleted (mail_shell_content);
 }
 
 static EMFormatHTMLDisplay *
@@ -609,6 +631,16 @@ mail_shell_content_class_init (EMailShellContentClass *class)
 
 	g_object_class_install_property (
 		object_class,
+		PROP_SHOW_DELETED,
+		g_param_spec_boolean (
+			"show-deleted",
+			"Show Deleted",
+			NULL,
+			FALSE,
+			G_PARAM_READWRITE));
+
+	g_object_class_install_property (
+		object_class,
 		PROP_VERTICAL_VIEW,
 		g_param_spec_boolean (
 			"vertical-view",
@@ -720,6 +752,26 @@ e_mail_shell_content_set_preview_visible (EMailShellContent *mail_shell_content,
 	mail_shell_content->priv->preview_visible = preview_visible;
 
 	g_object_notify (G_OBJECT (mail_shell_content), "preview-visible");
+}
+
+gboolean
+e_mail_shell_content_get_show_deleted (EMailShellContent *mail_shell_content)
+{
+	g_return_val_if_fail (
+		E_IS_MAIL_SHELL_CONTENT (mail_shell_content), FALSE);
+
+	return mail_shell_content->priv->show_deleted;
+}
+
+void
+e_mail_shell_content_set_show_deleted (EMailShellContent *mail_shell_content,
+                                       gboolean show_deleted)
+{
+	g_return_if_fail (E_IS_MAIL_SHELL_CONTENT (mail_shell_content));
+
+	mail_shell_content->priv->show_deleted = show_deleted;
+
+	g_object_notify (G_OBJECT (mail_shell_content), "show-deleted");
 }
 
 gboolean

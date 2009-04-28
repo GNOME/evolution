@@ -131,6 +131,8 @@ struct _EMailShellViewPrivate {
 
 	/* Filter rules correspond to the search entry menu. */
 	FilterRule *search_rules[MAIL_NUM_SEARCH_RULES];
+
+	guint show_deleted : 1;
 };
 
 void		e_mail_shell_view_private_init
