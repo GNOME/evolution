@@ -463,7 +463,7 @@ static void
 event_editor_init (EventEditor *ee)
 {
 	CompEditor *editor = COMP_EDITOR (ee);
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	GtkActionGroup *action_group;
 	GtkAction *action;
 	GError *error = NULL;
@@ -486,9 +486,9 @@ event_editor_init (EventEditor *ee)
 		action_group, meeting_entries,
 		G_N_ELEMENTS (meeting_entries), ee);
 
-	manager = comp_editor_get_ui_manager (editor);
-	gtk_ui_manager_add_ui_from_string (manager, ui, -1, &error);
-	e_plugin_ui_register_manager ("event-editor", manager, ee);
+	ui_manager = comp_editor_get_ui_manager (editor);
+	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
+	e_plugin_ui_register_manager ("event-editor", ui_manager, ee);
 
 	if (error != NULL) {
 		g_critical ("%s: %s", G_STRFUNC, error->message);

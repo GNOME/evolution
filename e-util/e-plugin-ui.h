@@ -57,15 +57,15 @@ struct _EPluginUIHookClass {
 
 /* Plugins with "org.gnome.evolution.ui" hooks should define a
  * function named e_plugin_ui_init() having this signature. */
-typedef gboolean	(*EPluginUIInitFunc)	(GtkUIManager *manager,
+typedef gboolean	(*EPluginUIInitFunc)	(GtkUIManager *ui_manager,
 						 gpointer user_data);
 
 GType		e_plugin_ui_hook_get_type	(void);
 
 void		e_plugin_ui_register_manager	(const gchar *id,
-						 GtkUIManager *manager,
+						 GtkUIManager *ui_manager,
 						 gpointer user_data);
-const gchar *	e_plugin_ui_get_manager_id	(GtkUIManager *manager);
+const gchar *	e_plugin_ui_get_manager_id	(GtkUIManager *ui_manager);
 
 G_END_DECLS
 

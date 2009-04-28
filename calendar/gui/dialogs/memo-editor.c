@@ -134,15 +134,15 @@ static void
 memo_editor_init (MemoEditor *me)
 {
 	CompEditor *editor = COMP_EDITOR (me);
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	GError *error = NULL;
 
 	me->priv = MEMO_EDITOR_GET_PRIVATE (me);
 	me->priv->updating = FALSE;
 
-	manager = comp_editor_get_ui_manager (editor);
-	gtk_ui_manager_add_ui_from_string (manager, ui, -1, &error);
-	e_plugin_ui_register_manager ("memo-editor", manager, me);
+	ui_manager = comp_editor_get_ui_manager (editor);
+	gtk_ui_manager_add_ui_from_string (ui_manager, ui, -1, &error);
+	e_plugin_ui_register_manager ("memo-editor", ui_manager, me);
 
 	if (error != NULL) {
 		g_critical ("%s: %s", G_STRFUNC, error->message);

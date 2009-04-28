@@ -83,7 +83,7 @@ static gint epech_check_existing_composer_window(gconstpointer a, gconstpointer 
 static void commit_changes (ConfigData *cd);
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
 GtkWidget *e_plugin_lib_get_configure_widget (EPlugin *epl);
-gboolean e_plugin_ui_init(GtkUIManager *manager, EMsgComposer *composer);
+gboolean e_plugin_ui_init(GtkUIManager *ui_manager, EMsgComposer *composer);
 GtkWidget *org_gnome_email_custom_header_config_option (struct _EPlugin *epl, struct _EConfigHookItemFactoryData *data);
 
 int
@@ -589,7 +589,7 @@ static GtkActionEntry entries[] = {
 };
 
 gboolean
-e_plugin_ui_init (GtkUIManager *manager,
+e_plugin_ui_init (GtkUIManager *ui_manager,
                   EMsgComposer *composer)
 {
 	GtkhtmlEditor *editor;

@@ -2468,7 +2468,7 @@ msg_composer_init (EMsgComposer *composer)
 	GdkDragAction drag_actions;
 	GtkTargetList *target_list;
 	GtkTargetEntry *targets;
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	GtkhtmlEditor *editor;
 	GtkHTML *html;
 	gint n_targets;
@@ -2479,7 +2479,7 @@ msg_composer_init (EMsgComposer *composer)
 
 	editor = GTKHTML_EDITOR (composer);
 	html = gtkhtml_editor_get_html (editor);
-	manager = gtkhtml_editor_get_ui_manager (editor);
+	ui_manager = gtkhtml_editor_get_ui_manager (editor);
 	view = e_msg_composer_get_attachment_view (composer);
 	all_composers = g_slist_prepend (all_composers, composer);
 	table = E_COMPOSER_HEADER_TABLE (composer->priv->header_table);
@@ -2560,7 +2560,7 @@ msg_composer_init (EMsgComposer *composer)
 	gtkhtml_editor_set_changed (editor, FALSE);
 
 	e_plugin_ui_register_manager (
-		"org.gnome.evolution.composer", manager, composer);
+		"org.gnome.evolution.composer", ui_manager, composer);
 }
 
 GType

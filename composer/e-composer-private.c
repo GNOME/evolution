@@ -21,21 +21,21 @@
 static void
 composer_setup_charset_menu (EMsgComposer *composer)
 {
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	const gchar *path;
 	GList *list;
 	guint merge_id;
 
-	manager = gtkhtml_editor_get_ui_manager (GTKHTML_EDITOR (composer));
+	ui_manager = gtkhtml_editor_get_ui_manager (GTKHTML_EDITOR (composer));
 	list = gtk_action_group_list_actions (composer->priv->charset_actions);
 	path = "/main-menu/edit-menu/pre-spell-check/charset-menu";
-	merge_id = gtk_ui_manager_new_merge_id (manager);
+	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 
 	while (list != NULL) {
 		GtkAction *action = list->data;
 
 		gtk_ui_manager_add_ui (
-			manager, merge_id, path,
+			ui_manager, merge_id, path,
 			gtk_action_get_name (action),
 			gtk_action_get_name (action),
 			GTK_UI_MANAGER_AUTO, FALSE);
@@ -43,23 +43,23 @@ composer_setup_charset_menu (EMsgComposer *composer)
 		list = g_list_delete_link (list, list);
 	}
 
-	gtk_ui_manager_ensure_update (manager);
+	gtk_ui_manager_ensure_update (ui_manager);
 }
 
 static void
 composer_setup_recent_menu (EMsgComposer *composer)
 {
 	EAttachmentView *view;
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	GtkAction *action;
 	const gchar *action_name;
 	const gchar *path;
 	guint merge_id;
 
 	view = e_msg_composer_get_attachment_view (composer);
-	manager = gtkhtml_editor_get_ui_manager (GTKHTML_EDITOR (composer));
+	ui_manager = gtkhtml_editor_get_ui_manager (GTKHTML_EDITOR (composer));
 	path = "/main-menu/insert-menu/insert-menu-top/recent-placeholder";
-	merge_id = gtk_ui_manager_new_merge_id (manager);
+	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 	action_name = "recent-menu";
 
 	action = e_attachment_view_recent_action_new (
@@ -70,12 +70,12 @@ composer_setup_recent_menu (EMsgComposer *composer)
 			composer->priv->composer_actions, action);
 
 		gtk_ui_manager_add_ui (
-			manager, merge_id, path,
+			ui_manager, merge_id, path,
 			action_name, action_name,
 			GTK_UI_MANAGER_AUTO, FALSE);
 	}
 
-	gtk_ui_manager_ensure_update (manager);
+	gtk_ui_manager_ensure_update (ui_manager);
 }
 
 void
@@ -84,7 +84,7 @@ e_composer_private_init (EMsgComposer *composer)
 	EMsgComposerPrivate *priv = composer->priv;
 
 	GtkhtmlEditor *editor;
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	GtkWidget *widget;
 	GtkWidget *container;
 	GtkWidget *send_widget;
@@ -93,7 +93,7 @@ e_composer_private_init (EMsgComposer *composer)
 	GError *error = NULL;
 
 	editor = GTKHTML_EDITOR (composer);
-	manager = gtkhtml_editor_get_ui_manager (editor);
+	ui_manager = gtkhtml_editor_get_ui_manager (editor);
 
 	priv->charset_actions = gtk_action_group_new ("charset");
 	priv->composer_actions = gtk_action_group_new ("composer");
@@ -119,12 +119,12 @@ e_composer_private_init (EMsgComposer *composer)
 	e_composer_actions_init (composer);
 
 	filename = e_composer_find_data_file ("evolution-composer.ui");
-	gtk_ui_manager_add_ui_from_file (manager, filename, &error);
+	gtk_ui_manager_add_ui_from_file (ui_manager, filename, &error);
 	g_free (filename);
 
 	/* We set the send button as important to have a label */
 	path = "/main-toolbar/pre-main-toolbar/send";
-	send_widget = gtk_ui_manager_get_widget (manager, path);
+	send_widget = gtk_ui_manager_get_widget (ui_manager, path);
 	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (send_widget), TRUE);
 
 	composer_setup_charset_menu (composer);

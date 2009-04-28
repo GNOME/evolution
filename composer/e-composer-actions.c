@@ -606,12 +606,12 @@ void
 e_composer_actions_init (EMsgComposer *composer)
 {
 	GtkActionGroup *action_group;
-	GtkUIManager *manager;
+	GtkUIManager *ui_manager;
 	gboolean visible;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
-	manager = gtkhtml_editor_get_ui_manager (GTKHTML_EDITOR (composer));
+	ui_manager = gtkhtml_editor_get_ui_manager (GTKHTML_EDITOR (composer));
 
 	/* Composer Actions */
 	action_group = composer->priv->composer_actions;
@@ -623,7 +623,7 @@ e_composer_actions_init (EMsgComposer *composer)
 	gtk_action_group_add_toggle_actions (
 		action_group, toggle_entries,
 		G_N_ELEMENTS (toggle_entries), composer);
-	gtk_ui_manager_insert_action_group (manager, action_group, 0);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	/* Character Set Actions */
 	action_group = composer->priv->charset_actions;
@@ -632,7 +632,7 @@ e_composer_actions_init (EMsgComposer *composer)
 	e_charset_add_radio_actions (
 		action_group, composer->priv->charset,
 		G_CALLBACK (action_charset_cb), composer);
-	gtk_ui_manager_insert_action_group (manager, action_group, 0);
+	gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
 
 	/* Fine Tuning */
 
