@@ -544,7 +544,7 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	if ((!strcmp (type, FILTER_SOURCE_INCOMING) || !strcmp (type, FILTER_SOURCE_JUNKTEST))
 	    && camel_session_check_junk (session)) {
 		/* implicit junk check as 1st rule */
-		camel_filter_driver_add_rule (driver, "Junk check", "(junk-test)", "(begin (set-system-flag \"junk\")(set-system-flag \"seen\"))");
+		camel_filter_driver_add_rule (driver, "Junk check", "(junk-test)", "(begin (set-system-flag \"junk\"))");
 	}
 
 	if (strcmp (type, FILTER_SOURCE_JUNKTEST) != 0) {
