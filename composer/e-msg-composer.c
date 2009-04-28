@@ -1109,13 +1109,12 @@ get_signature_html (EMsgComposer *composer)
 					"<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature_name\" value=\"uid:%s\">-->"
 					"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\" CELLPADDING=\"0\"><TR><TD><BR>"
 					"%s%s%s%s"
-					"%s</TD></TR></TABLE>",
+					"</TD></TR></TABLE>",
 				        encoded_uid ? encoded_uid : "",
 					format_html ? "" : "<PRE>\n",
 					format_html || (!strncmp ("-- \n", text, 4) || strstr (text, "\n-- \n")) ? "" : "-- \n",
 					text,
-					format_html ? "" : "</PRE>\n",
-					is_top_signature () ? "<BR>" : "");
+					format_html ? "" : "</PRE>\n");
 		g_free (text);
 		g_free (encoded_uid);
 		text = html;
@@ -1439,117 +1438,6 @@ struct _drop_data {
 	guint info;
 	guint time;
 };
-
-#if 0  /* KILL-BONOBO */
-static void
-drop_action (EMsgComposer *composer,
-             GdkDragContext *context,
-             guint32 action,
-             GtkSelectionData *selection,
-             guint info,
-             guint time,
-             gboolean html_dnd)
-{
-	CamelMimePart *mime_part;
-	CamelMimeMessage *msg;
-	int i, success = FALSE, delete = FALSE;
-	EMsgComposerPrivate *p = composer->priv;
-
-	switch (info) {
-	case DND_TYPE_X_UID_LIST: {
-		GPtrArray *uids;
-		char *inptr, *inend;
-		CamelFolder *folder;
-		CamelException ex = CAMEL_EXCEPTION_INITIALISER;
-
-		/* NB: This all runs synchronously, could be very slow/hang/block the ui */
-
-		uids = g_ptr_array_new ();
-
-		inptr = (char*)selection->data;
-		inend = (char*)(selection->data + selection->length);
-		while (inptr < inend) {
-			char *start = inptr;
-
-			while (inptr < inend && *inptr)
-				inptr++;
-
-			if (start > (char *)selection->data)
-				g_ptr_array_add (uids, g_strndup (start, inptr-start));
-
-			inptr++;
-		}
-
-		if (uids->len > 0) {
-			folder = mail_tool_uri_to_folder ((const gchar *)selection->data, 0, &ex);
-			if (folder) {
-				if (uids->len == 1) {
-					msg = camel_folder_get_message (folder, uids->pdata[0], &ex);
-					if (msg == NULL)
-						goto fail;
-					msg_composer_attach_message (composer, msg);
-				} else {
-					CamelMultipart *mp = camel_multipart_new ();
-					char *desc;
-
-					camel_data_wrapper_set_mime_type ((CamelDataWrapper *)mp, "multipart/digest");
-					camel_multipart_set_boundary (mp, NULL);
-					for (i=0;i<uids->len;i++) {
-						msg = camel_folder_get_message (folder, uids->pdata[i], &ex);
-						if (msg) {
-							mime_part = camel_mime_part_new ();
-							camel_mime_part_set_disposition (mime_part, "inline");
-							camel_medium_set_content_object ((CamelMedium *)mime_part, (CamelDataWrapper *)msg);
-							camel_mime_part_set_content_type (mime_part, "message/rfc822");
-							camel_multipart_add_part (mp, mime_part);
-							camel_object_unref (mime_part);
-							camel_object_unref (msg);
-						} else {
-							camel_object_unref (mp);
-							goto fail;
-						}
-					}
-					mime_part = camel_mime_part_new ();
-					camel_medium_set_content_object ((CamelMedium *)mime_part, (CamelDataWrapper *)mp);
-					/* translators, this count will always be >1 */
-					desc = g_strdup_printf (ngettext ("Attached message", "%d attached messages", uids->len), uids->len);
-					camel_mime_part_set_description (mime_part, desc);
-					g_free (desc);
-					e_attachment_bar_attach_mime_part (E_ATTACHMENT_BAR(p->attachment_bar), mime_part);
-					camel_object_unref (mime_part);
-					camel_object_unref (mp);
-				}
-				success = TRUE;
-				delete = action == GDK_ACTION_MOVE;
-			fail:
-				if (camel_exception_is_set (&ex)) {
-					char *name;
-
-					camel_object_get (folder, NULL, CAMEL_FOLDER_NAME, &name, NULL);
-					e_error_run ((GtkWindow *)composer, "mail-composer:attach-nomessages",
-						    name?name:(char *)selection->data, camel_exception_get_description (&ex), NULL);
-					camel_object_free (folder, CAMEL_FOLDER_NAME, name);
-				}
-				camel_object_unref (folder);
-			} else {
-				e_error_run ((GtkWindow *)composer, "mail-composer:attach-nomessages",
-					    (const gchar*)selection->data, camel_exception_get_description (&ex), NULL);
-			}
-
-			camel_exception_clear (&ex);
-		}
-
-		g_ptr_array_free (uids, TRUE);
-
-		break; }
-	default:
-		d (printf ("dropping an unknown\n"));
-		break;
-	}
-
-	gtk_drag_finish (context, success, delete, time);
-}
-#endif
 
 static void
 msg_composer_notify_header_cb (EMsgComposer *composer)
@@ -3973,7 +3861,6 @@ e_msg_composer_show_sig_file (EMsgComposer *composer)
 	GtkhtmlEditor *editor;
 	GtkHTML *html;
 	gchar *html_text;
-	gboolean top_signature;
 
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 
@@ -4000,8 +3887,6 @@ e_msg_composer_show_sig_file (EMsgComposer *composer)
 	}
 	gtkhtml_editor_run_command (editor, "unblock-selection");
 
-	top_signature = is_top_signature ();
-
 	html_text = get_signature_html (composer);
 	if (html_text) {
 		gtkhtml_editor_run_command (editor, "insert-paragraph");
@@ -4015,10 +3900,6 @@ e_msg_composer_show_sig_file (EMsgComposer *composer)
 		gtkhtml_editor_run_command (editor, "style-normal");
 		gtkhtml_editor_insert_html (editor, html_text);
 		g_free (html_text);
-	} else if (top_signature) {
-		/* insert paragraph after the signature ClueFlow things */
-		gtkhtml_editor_run_command (editor, "cursor-forward");
-		gtkhtml_editor_run_command (editor, "insert-paragraph");
 	}
 
 	gtkhtml_editor_undo_end (editor);

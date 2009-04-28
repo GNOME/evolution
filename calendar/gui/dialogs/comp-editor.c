@@ -194,37 +194,6 @@ comp_editor_weak_notify_cb (gpointer unused,
 	active_editors = g_list_remove (active_editors, where_the_object_was);
 }
 
-static void
-drag_data_received (CompEditor *editor,
-                    GdkDragContext *context,
-                    gint x,
-                    gint y,
-                    GtkSelectionData *selection,
-                    guint info,
-                    guint time)
-{
-	EAttachmentView *view;
-
-	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
-
-	e_attachment_view_drag_data_received (
-		view, context, x, y, selection, info, time);
-}
-
-static gboolean
-drag_motion (CompEditor *editor,
-             GdkDragContext *context,
-             gint x,
-             gint y,
-             guint time)
-{
-	EAttachmentView *view;
-
-	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
-
-	return e_attachment_view_drag_motion (view, context, x, y, time);
-}
-
 static GSList *
 get_attachment_list (CompEditor *editor)
 {
@@ -232,7 +201,7 @@ get_attachment_list (CompEditor *editor)
 	EAttachmentView *view;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	GSList *parts = NULL, *list = NULL, *p = NULL;
+	GSList *parts = NULL, *list = NULL;
 	const char *comp_uid = NULL;
 	const char *local_store = e_cal_get_local_attachment_store (editor->priv->client);
 	gboolean valid;
@@ -262,9 +231,6 @@ get_attachment_list (CompEditor *editor)
 		g_object_unref (attachment);
 
 		valid = gtk_tree_model_iter_next (model, &iter);
-
-		if (mime_part == NULL)
-			continue;
 
 		if (mime_part == NULL)
 			continue;
@@ -663,6 +629,14 @@ action_attach_cb (GtkAction *action,
 }
 
 static void
+action_classification_cb (GtkRadioAction *action,
+                          GtkRadioAction *current,
+                          CompEditor *editor)
+{
+	comp_editor_set_changed (editor, TRUE);
+}
+
+static void
 action_close_cb (GtkAction *action,
                  CompEditor *editor)
 {
@@ -822,9 +796,11 @@ action_save_cb (GtkAction *action,
 	}
 
 	commit_all_fields (editor);
-	if (e_cal_component_is_instance (priv->comp))
+	if (e_cal_component_has_recurrences (priv->comp)) {
 		if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor), delegated))
 			return;
+	} else if (e_cal_component_is_instance (priv->comp))
+		priv->mod = CALOBJ_MOD_THIS;
 
 	comp = comp_editor_get_current_comp (editor, &correct);
 	e_cal_component_get_summary (comp, &text);
@@ -1441,6 +1417,46 @@ comp_editor_key_press_event (GtkWidget *widget,
 		key_press_event (widget, event);
 }
 
+static gboolean
+comp_editor_drag_motion (GtkWidget *widget,
+                         GdkDragContext *context,
+                         gint x,
+                         gint y,
+                         guint time)
+{
+	CompEditorPrivate *priv;
+	EAttachmentView *view;
+
+	priv = COMP_EDITOR_GET_PRIVATE (widget);
+	view = E_ATTACHMENT_VIEW (priv->attachment_view);
+
+	return e_attachment_view_drag_motion (view, context, x, y, time);
+}
+
+static void
+comp_editor_drag_data_received (GtkWidget *widget,
+                                GdkDragContext *context,
+                                gint x,
+                                gint y,
+                                GtkSelectionData *selection,
+                                guint info,
+                                guint time)
+{
+	CompEditorPrivate *priv;
+	EAttachmentView *view;
+
+	priv = COMP_EDITOR_GET_PRIVATE (widget);
+	view = E_ATTACHMENT_VIEW (priv->attachment_view);
+
+	/* Forward the data to the attachment view.  Note that calling
+	 * e_attachment_view_drag_data_received() will not work because
+	 * that function only handles the case where all the other drag
+	 * handlers have failed. */
+	e_attachment_paned_drag_data_received (
+		E_ATTACHMENT_PANED (view),
+		context, x, y, selection, info, time);
+}
+
 static void
 comp_editor_class_init (CompEditorClass *class)
 {
@@ -1459,6 +1475,8 @@ comp_editor_class_init (CompEditorClass *class)
 	widget_class->map = comp_editor_map;
 	widget_class->delete_event = comp_editor_delete_event;
 	widget_class->key_press_event = comp_editor_key_press_event;
+	widget_class->drag_motion = comp_editor_drag_motion;
+	widget_class->drag_data_received = comp_editor_drag_data_received;
 
 	class->help_section = "usage-calendar";
 	class->edit_comp = real_edit_comp;
@@ -1544,6 +1562,7 @@ comp_editor_init (CompEditor *editor)
 	GtkWidget *container;
 	GtkWidget *widget;
 	EShell *shell;
+	gint n_targets;
 	GError *error = NULL;
 
 	editor->priv = priv = COMP_EDITOR_GET_PRIVATE (editor);
@@ -1594,7 +1613,7 @@ comp_editor_init (CompEditor *editor)
 		action_group, classification_radio_entries,
 		G_N_ELEMENTS (classification_radio_entries),
 		E_CAL_COMPONENT_CLASS_PUBLIC,
-		NULL, NULL);  /* no callback */
+		G_CALLBACK (action_classification_cb), editor);
 	gtk_ui_manager_insert_action_group (
 		priv->ui_manager, action_group, 0);
 	g_object_unref (action_group);
@@ -1659,12 +1678,22 @@ comp_editor_init (CompEditor *editor)
 
 	comp_editor_setup_recent_menu (editor);
 
-	/* DND support */
-	gtk_drag_dest_set (GTK_WIDGET (editor), GTK_DEST_DEFAULT_ALL,  drop_types, num_drop_types, GDK_ACTION_COPY|GDK_ACTION_ASK|GDK_ACTION_MOVE);
-	g_signal_connect(editor, "drag_data_received", G_CALLBACK (drag_data_received), NULL);
-	g_signal_connect(editor, "drag-motion", G_CALLBACK(drag_motion), NULL);
+	/* Drag-and-Drop Support */
 
-	gtk_window_set_type_hint (GTK_WINDOW (editor), GDK_WINDOW_TYPE_HINT_NORMAL);
+	view = E_ATTACHMENT_VIEW (priv->attachment_view);
+	target_list = e_attachment_view_get_target_list (view);
+	drag_actions = e_attachment_view_get_drag_actions (view);
+
+	targets = gtk_target_table_new_from_list (target_list, &n_targets);
+
+	gtk_drag_dest_set (
+		GTK_WIDGET (editor), GTK_DEST_DEFAULT_ALL,
+		targets, n_targets, drag_actions);
+
+	gtk_target_table_free (targets, n_targets);
+
+	gtk_window_set_type_hint (
+		GTK_WINDOW (editor), GDK_WINDOW_TYPE_HINT_NORMAL);
 
 	/* FIXME Shell should be passed in. */
 	shell = e_shell_get_default ();
@@ -2318,7 +2347,8 @@ fill_widgets (CompEditor *editor)
 	EAttachmentStore *store;
 	EAttachmentView *view;
 	CompEditorPrivate *priv;
-	GList *l;
+	GtkAction *action;
+	GList *iter;
 
 	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
 	store = e_attachment_view_get_store (view);
@@ -2336,15 +2366,22 @@ fill_widgets (CompEditor *editor)
 			store, G_CALLBACK (attachment_store_changed_cb),
 			editor);
 		set_attachment_list (editor, attachment_list);
-		g_signal_handlers_unblock_by_func(
+		g_signal_handlers_unblock_by_func (
 			store, G_CALLBACK (attachment_store_changed_cb),
 			editor);
 		g_slist_foreach (attachment_list, (GFunc)g_free, NULL);
 		g_slist_free (attachment_list);
 	}
 
-	for (l = priv->pages; l != NULL; l = l->next)
-		comp_editor_page_fill_widgets (l->data, priv->comp);
+	action = comp_editor_get_action (editor, "classify-public");
+	g_signal_handlers_block_by_func (
+		action, G_CALLBACK (action_classification_cb), editor);
+
+	for (iter = priv->pages; iter != NULL; iter = iter->next)
+		comp_editor_page_fill_widgets (iter->data, priv->comp);
+
+	g_signal_handlers_unblock_by_func (
+		action, G_CALLBACK (action_classification_cb), editor);
 }
 
 static void

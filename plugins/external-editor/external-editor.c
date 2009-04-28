@@ -183,8 +183,6 @@ read_file (char *filename)
 		 */
 
 		composer = e_msg_composer_new_with_message (message);
-		g_signal_connect (GTK_OBJECT (composer), "send", G_CALLBACK (em_utils_composer_send_cb), NULL);
-		g_signal_connect (GTK_OBJECT (composer), "save-draft", G_CALLBACK (em_utils_composer_save_draft_cb), NULL);
 
 		gtk_widget_show (GTK_WIDGET (composer));
 
