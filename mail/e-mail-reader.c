@@ -2200,7 +2200,8 @@ e_mail_reader_check_state (EMailReader *reader)
 	gboolean has_undeleted = FALSE;
 	gboolean has_unimportant = FALSE;
 	gboolean has_unread = FALSE;
-	gboolean draft_or_outbox;
+	gboolean drafts_or_outbox;
+	gboolean store_supports_vjunk = FALSE;
 	guint32 state = 0;
 	guint ii;
 
@@ -2211,16 +2212,14 @@ e_mail_reader_check_state (EMailReader *reader)
 	folder_uri = message_list->folder_uri;
 	folder = message_list->folder;
 
-	if (folder != NULL)
+	if (folder != NULL) {
 		store = CAMEL_STORE (folder->parent_store);
+		store_supports_vjunk = (store->flags & CAMEL_STORE_VJUNK);
+	}
 
-	draft_or_outbox =
+	drafts_or_outbox =
 		em_utils_folder_is_drafts (folder, folder_uri) ||
 		em_utils_folder_is_outbox (folder, folder_uri);
-	if (!draft_or_outbox && store != NULL) {
-		has_junk = !(store->flags & CAMEL_STORE_VJUNK);
-		has_not_junk = TRUE;
-	}
 
 	for (ii = 0; ii < uids->len; ii++) {
 		CamelMessageInfo *info;
@@ -2237,6 +2236,38 @@ e_mail_reader_check_state (EMailReader *reader)
 			has_read = TRUE;
 		else
 			has_unread = TRUE;
+
+		if (drafts_or_outbox) {
+			has_junk = FALSE;
+			has_not_junk = FALSE;
+		} else if (store_supports_vjunk) {
+			guint32 bitmask;
+
+			/* XXX Strictly speaking, this logic is correct.
+			 *     Problem is there's nothing in the message
+			 *     list that indicates whether a message is
+			 *     already marked "Not Junk".  So the user may
+			 *     think the "Not Junk" button is enabling and
+			 *     disabling itself randomly as he reads mail. */
+
+			if (flags & CAMEL_MESSAGE_JUNK)
+				has_junk = TRUE;
+			if (flags & CAMEL_MESSAGE_NOTJUNK)
+				has_not_junk = TRUE;
+
+			bitmask = CAMEL_MESSAGE_JUNK | CAMEL_MESSAGE_NOTJUNK;
+
+			/* If neither junk flag is set, the
+			 * message can be marked either way. */
+			if ((flags & bitmask) == 0) {
+				has_junk = TRUE;
+				has_not_junk = TRUE;
+			}
+
+		} else {
+			has_junk = TRUE;
+			has_not_junk = TRUE;
+		}
 
 		if (flags & CAMEL_MESSAGE_DELETED)
 			has_deleted = TRUE;
@@ -2263,7 +2294,7 @@ e_mail_reader_check_state (EMailReader *reader)
 		state |= E_MAIL_READER_SELECTION_SINGLE;
 	if (uids->len > 1)
 		state |= E_MAIL_READER_SELECTION_MULTIPLE;
-	if (!draft_or_outbox && uids->len == 1)
+	if (!drafts_or_outbox && uids->len == 1)
 		state |= E_MAIL_READER_SELECTION_CAN_ADD_SENDER;
 #if 0  /* FIXME */
 	if (can_edit)
