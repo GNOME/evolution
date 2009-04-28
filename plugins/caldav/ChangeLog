@@ -1,3 +1,11 @@
+2009-04-28  Milan Crha  <mcrha@redhat.com>
+
+	** Fix for bug #578335
+
+	* caldav-source.c: (user_changed), (location_changed):
+	Revert part of bug #562990, as EPassword requires username
+	as part of an URL to store passwords properly to a keyring.
+
 2009-04-24  Milan Crha  <mcrha@redhat.com>
 
 	** Part of fix for bug #569652
