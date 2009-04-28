@@ -331,7 +331,7 @@ part_combobox_changed (GtkComboBox *combobox, struct _part_data *data)
 	int index, i;
 
 	index = gtk_combo_box_get_active (combobox);
-	for (i = 0, part = rule_context_next_part (RULE_CONTEXT (data->f), part); part && i < index; i++, part = rule_context_next_part (RULE_CONTEXT (data->f), part)) {
+	for (i = 0, part = em_filter_context_next_action (data->f, part); part && i < index; i++, part = em_filter_context_next_action (data->f, part)) {
 		/* traverse until reached index */
 	}
 

@@ -346,7 +346,7 @@ combobox_changed (GtkWidget *widget, FilterElement *fe)
 {
 	FilterOption *fo = (FilterOption *)fe;
 
-	fo->current = (struct _filter_option *) g_list_nth (fo->options, gtk_combo_box_get_active (GTK_COMBO_BOX (widget)));
+	fo->current = (struct _filter_option *) g_list_nth_data (fo->options, gtk_combo_box_get_active (GTK_COMBO_BOX (widget)));
 }
 
 static GSList *
@@ -438,6 +438,9 @@ get_widget (FilterElement *fe)
 	while (l) {
 		op = l->data;
 		gtk_combo_box_append_text (GTK_COMBO_BOX (combobox), _(op->title));
+
+		if (op == fo->current)
+			current = index;
 
 		l = g_list_next (l);
 		index++;

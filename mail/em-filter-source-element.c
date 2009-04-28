@@ -240,7 +240,7 @@ source_changed(GtkComboBox *combobox, EMFilterSourceElement *fs)
 	idx = gtk_combo_box_get_active (combobox);
 	g_return_if_fail (idx >= 0 && idx < g_list_length (fs->priv->sources));
 
-	info = (SourceInfo *) g_list_nth (fs->priv->sources, idx);
+	info = (SourceInfo *) g_list_nth_data (fs->priv->sources, idx);
 	g_return_if_fail (info != NULL);
 
 	g_free (fs->priv->current_url);
