@@ -398,4 +398,6 @@ void		em_format_merge_handler		(EMFormat *new,
 
 G_END_DECLS
 
-#endif /* ! _EM_FORMAT_H */
+G_END_DECLS
+
+#endif /* EM_FORMAT_H */

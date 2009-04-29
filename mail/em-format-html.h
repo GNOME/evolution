@@ -209,6 +209,11 @@ struct _EMFormatHTML {
 	EMFormat parent;
 	EMFormatHTMLPrivate *priv;
 
+<<<<<<< HEAD:mail/em-format-html.h
+=======
+	EMFormatHTMLPrivate *priv;
+
+>>>>>>> master:mail/em-format-html.h
 	GtkHTML *html;
 
 	EDList pending_object_list;

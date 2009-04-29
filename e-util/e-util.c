@@ -1531,3 +1531,33 @@ e_camel_object_get_type (void)
 
 	return type;
 }
+
+static gpointer
+e_camel_object_copy (gpointer camel_object)
+{
+	if (CAMEL_IS_OBJECT (camel_object))
+		camel_object_ref (camel_object);
+
+	return camel_object;
+}
+
+static void
+e_camel_object_free (gpointer camel_object)
+{
+	if (CAMEL_IS_OBJECT (camel_object))
+		camel_object_unref (camel_object);
+}
+
+GType
+e_camel_object_get_type (void)
+{
+	static GType type = 0;
+
+	if (G_UNLIKELY (type == 0))
+		type = g_boxed_type_register_static (
+			"ECamelObject",
+			(GBoxedCopyFunc) e_camel_object_copy,
+			(GBoxedFreeFunc) e_camel_object_free);
+
+	return type;
+}

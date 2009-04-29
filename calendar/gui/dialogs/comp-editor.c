@@ -2356,6 +2356,9 @@ fill_widgets (CompEditor *editor)
 	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
 	store = e_attachment_view_get_store (view);
 
+	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
+	store = e_attachment_view_get_store (view);
+
 	priv = editor->priv;
 
 	/*Check if attachments are available here and set them*/
