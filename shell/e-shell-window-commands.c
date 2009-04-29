@@ -1137,6 +1137,7 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/menu/File/FileClose", "window-close", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/File/FileExit", "application-exit", E_ICON_SIZE_MENU),
 	E_PIXMAP ("/menu/Edit/Settings", "preferences-desktop", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/Help/HelpOpenFAQ", "help-faq", E_ICON_SIZE_MENU),
 
 	E_PIXMAP_END
 };
