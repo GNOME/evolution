@@ -79,10 +79,13 @@ private_icons = \
 	hicolor_places_24x24_mail-inbox.png \
 	hicolor_places_24x24_mail-outbox.png \
 	hicolor_places_24x24_mail-sent.png \
+	hicolor_status_16x16_wrapped.png \
 	hicolor_status_32x32_offline.png \
 	hicolor_status_32x32_online.png \
 	$(NULL)
 
+# hicolor_status_16x16_wrapped.png was copied from Firefox.
+# There is no corresponding SVG file. */
 noinst_DATA = \
  	hicolor_actions_16x16_go-today.svg \
 	hicolor_actions_16x16_view-calendar-day.svg \

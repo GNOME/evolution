@@ -26,7 +26,6 @@
 #include <gtkhtml/gtkhtml-search.h>
 
 #include "e-util/e-binding.h"
-#include "widgets/misc/e-icon-entry.h"
 
 #define E_MAIL_SEARCH_BAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -34,14 +33,16 @@
 
 struct _EMailSearchBarPrivate {
 	GtkHTML *html;
-	GtkWidget *icon_entry;
+	GtkWidget *entry;
 	GtkWidget *case_sensitive_button;
 	GtkWidget *matches_label;
+	GtkWidget *wrapped_next_box;
+	GtkWidget *wrapped_prev_box;
 
 	ESearchingTokenizer *tokenizer;
 	gchar *active_search;
 
-	guint search_wrapped : 1;
+	guint rerun_search : 1;
 };
 
 enum {
@@ -108,8 +109,10 @@ mail_search_bar_find (EMailSearchBar *search_bar,
                       gboolean search_forward)
 {
 	GtkHTML *html;
+	GtkWidget *widget;
 	gboolean case_sensitive;
 	gboolean new_search;
+	gboolean wrapped = FALSE;
 	gchar *text;
 
 	html = e_mail_search_bar_get_html (search_bar);
@@ -123,21 +126,57 @@ mail_search_bar_find (EMailSearchBar *search_bar,
 		(search_bar->priv->active_search == NULL) ||
 		(g_strcmp0 (text, search_bar->priv->active_search) != 0);
 
-	if (new_search) {
+	/* XXX On a new search, the HTMLEngine's search state gets
+	 *     destroyed when we redraw the message with highlighted
+	 *     matches (EMHTMLStream's write() method triggers this,
+	 *     but it's really GtkHtml's fault).  That's why the first
+	 *     match isn't selected automatically.  It also causes
+	 *     gtk_html_engine_search_next() to return FALSE, which we
+	 *     handle by wrapping the match cursor.
+	 *
+	 *     So to avoid mistakenly thinking the search wrapped when
+	 *     it hasn't, we have to trap the first button click after a
+	 *     search and re-run the search to recreate the HTMLEngine's
+	 *     search state, so that gtk_html_engine_search_next() will
+	 *     succeed. */
+	if (search_bar->priv->rerun_search) {
+		gtk_html_engine_search (
+			html, search_bar->priv->active_search,
+			case_sensitive, search_forward, FALSE);
+		search_bar->priv->rerun_search = FALSE;
+		g_free (text);
+	} else if (new_search) {
 		g_free (search_bar->priv->active_search);
 		search_bar->priv->active_search = text;
+		search_bar->priv->rerun_search = TRUE;
 		mail_search_bar_update_tokenizer (search_bar);
 	} else {
 		gtk_html_engine_search_set_forward (html, search_forward);
 		if (!gtk_html_engine_search_next (html))
-			new_search = TRUE;
+			wrapped = TRUE;
 		g_free (text);
 	}
 
-	if (new_search)
+	if (new_search || wrapped)
 		gtk_html_engine_search (
 			html, search_bar->priv->active_search,
 			case_sensitive, search_forward, FALSE);
+
+	/* Update wrapped label visibility. */
+
+	widget = search_bar->priv->wrapped_next_box;
+
+	if (wrapped && search_forward)
+		gtk_widget_show (widget);
+	else
+		gtk_widget_hide (widget);
+
+	widget = search_bar->priv->wrapped_prev_box;
+
+	if (wrapped && !search_forward)
+		gtk_widget_show (widget);
+	else
+		gtk_widget_hide (widget);
 }
 
 static void
@@ -156,6 +195,16 @@ static void
 mail_search_bar_find_previous_cb (EMailSearchBar *search_bar)
 {
 	mail_search_bar_find (search_bar, FALSE);
+}
+
+static void
+mail_search_bar_icon_release_cb (EMailSearchBar *search_bar,
+                                 GtkEntryIconPosition icon_pos,
+                                 GdkEvent *event)
+{
+	g_return_if_fail (icon_pos == GTK_ENTRY_ICON_SECONDARY);
+
+	e_mail_search_bar_clear (search_bar);
 }
 
 static void
@@ -251,9 +300,9 @@ mail_search_bar_dispose (GObject *object)
 		priv->html = NULL;
 	}
 
-	if (priv->icon_entry != NULL) {
-		g_object_unref (priv->icon_entry);
-		priv->icon_entry = NULL;
+	if (priv->entry != NULL) {
+		g_object_unref (priv->entry);
+		priv->entry = NULL;
 	}
 
 	if (priv->case_sensitive_button != NULL) {
@@ -264,6 +313,16 @@ mail_search_bar_dispose (GObject *object)
 	if (priv->matches_label != NULL) {
 		g_object_unref (priv->matches_label);
 		priv->matches_label = NULL;
+	}
+
+	if (priv->wrapped_next_box != NULL) {
+		g_object_unref (priv->wrapped_next_box);
+		priv->wrapped_next_box = NULL;
+	}
+
+	if (priv->wrapped_prev_box != NULL) {
+		g_object_unref (priv->wrapped_prev_box);
+		priv->wrapped_prev_box = NULL;
 	}
 
 	if (priv->tokenizer != NULL) {
@@ -304,17 +363,13 @@ static void
 mail_search_bar_show (GtkWidget *widget)
 {
 	EMailSearchBar *search_bar;
-	EIconEntry *icon_entry;
-	GtkWidget *entry;
 
 	search_bar = E_MAIL_SEARCH_BAR (widget);
 
 	/* Chain up to parent's show() method. */
 	GTK_WIDGET_CLASS (parent_class)->show (widget);
 
-	icon_entry = E_ICON_ENTRY (search_bar->priv->icon_entry);
-	entry = e_icon_entry_get_entry (icon_entry);
-	gtk_widget_grab_focus (entry);
+	gtk_widget_grab_focus (search_bar->priv->entry);
 
 	mail_search_bar_update_tokenizer (search_bar);
 }
@@ -444,33 +499,47 @@ mail_search_bar_init (EMailSearchBar *search_bar)
 		search_bar->priv->tokenizer, "match",
 		G_CALLBACK (mail_search_bar_update_matches), search_bar);
 
-	gtk_box_set_spacing (GTK_BOX (search_bar), 6);
+	gtk_box_set_spacing (GTK_BOX (search_bar), 12);
 
 	container = GTK_WIDGET (search_bar);
 
-	widget = gtk_alignment_new (1.0, 0.5, 1.0, 1.0);
-	gtk_alignment_set_padding (GTK_ALIGNMENT (widget), 0, 0, 6, 0);
+	widget = gtk_hbox_new (FALSE, 1);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
 	container = widget;
 
-	widget = gtk_label_new_with_mnemonic (_("Fin_d:"));
-	gtk_container_add (GTK_CONTAINER (container), widget);
+	widget = gtk_button_new ();
+	gtk_button_set_image (
+		GTK_BUTTON (widget), gtk_image_new_from_stock (
+		GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU));
+	gtk_button_set_relief (GTK_BUTTON (widget), GTK_RELIEF_NONE);
+	gtk_widget_set_tooltip_text (widget, _("Close the find bar"));
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	container = GTK_WIDGET (search_bar);
+	g_signal_connect_swapped (
+		widget, "clicked",
+		G_CALLBACK (gtk_widget_hide), search_bar);
+
+	widget = gtk_label_new_with_mnemonic (_("Fin_d:"));
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 3);
+	gtk_widget_show (widget);
+
 	label = widget;
 
-	widget = e_icon_entry_new ();
-	gtk_label_set_mnemonic_widget (
-		GTK_LABEL (label),
-		e_icon_entry_get_entry (E_ICON_ENTRY (widget)));
+	widget = gtk_entry_new ();
+	gtk_entry_set_icon_from_stock (
+		GTK_ENTRY (widget), GTK_ENTRY_ICON_SECONDARY,
+		GTK_STOCK_CLEAR);
+	gtk_entry_set_icon_tooltip_text (
+		GTK_ENTRY (widget), GTK_ENTRY_ICON_SECONDARY,
+		_("Clear the search"));
+	gtk_label_set_mnemonic_widget (GTK_LABEL (label), widget);
+	gtk_widget_set_size_request (widget, 200, -1);
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	search_bar->priv->icon_entry = g_object_ref (widget);
+	search_bar->priv->entry = g_object_ref (widget);
 	gtk_widget_show (widget);
-
-	widget = e_icon_entry_get_entry (E_ICON_ENTRY (widget));
 
 	g_signal_connect_swapped (
 		widget, "activate",
@@ -480,11 +549,17 @@ mail_search_bar_init (EMailSearchBar *search_bar)
 		widget, "changed",
 		G_CALLBACK (mail_search_bar_changed_cb), search_bar);
 
-	widget = gtk_button_new_with_mnemonic (_("Find _Previous"));
+	g_signal_connect_swapped (
+		widget, "icon-release",
+		G_CALLBACK (mail_search_bar_icon_release_cb), search_bar);
+
+	widget = gtk_button_new_with_mnemonic (_("_Previous"));
 	gtk_button_set_image (
 		GTK_BUTTON (widget), gtk_image_new_from_stock (
 		GTK_STOCK_GO_BACK, GTK_ICON_SIZE_MENU));
 	gtk_button_set_relief (GTK_BUTTON (widget), GTK_RELIEF_NONE);
+	gtk_widget_set_tooltip_text (
+		widget, _("Find the previous occurrence of the phrase"));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -492,11 +567,13 @@ mail_search_bar_init (EMailSearchBar *search_bar)
 		widget, "clicked",
 		G_CALLBACK (mail_search_bar_find_previous_cb), search_bar);
 
-	widget = gtk_button_new_with_mnemonic (_("Find _Next"));
+	widget = gtk_button_new_with_mnemonic (_("_Next"));
 	gtk_button_set_image (
 		GTK_BUTTON (widget), gtk_image_new_from_stock (
 		GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_MENU));
 	gtk_button_set_relief (GTK_BUTTON (widget), GTK_RELIEF_NONE);
+	gtk_widget_set_tooltip_text (
+		widget, _("Find the next occurrence of the phrase"));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
@@ -504,7 +581,7 @@ mail_search_bar_init (EMailSearchBar *search_bar)
 		widget, "clicked",
 		G_CALLBACK (mail_search_bar_find_next_cb), search_bar);
 
-	widget = gtk_check_button_new_with_mnemonic (_("C_ase sensitive"));
+	widget = gtk_check_button_new_with_mnemonic (_("Mat_ch case"));
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	search_bar->priv->case_sensitive_button = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -517,20 +594,54 @@ mail_search_bar_init (EMailSearchBar *search_bar)
 		widget, "toggled",
 		G_CALLBACK (mail_search_bar_find_next_cb), search_bar);
 
-	widget = gtk_button_new ();
-	gtk_button_set_image (
-		GTK_BUTTON (widget), gtk_image_new_from_stock (
-		GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU));
-	gtk_button_set_relief (GTK_BUTTON (widget), GTK_RELIEF_NONE);
-	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	container = GTK_WIDGET (search_bar);
+
+	widget = gtk_hbox_new (FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	search_bar->priv->wrapped_next_box = g_object_ref (widget);
+	gtk_widget_hide (widget);
+
+	container = widget;
+
+	widget = gtk_image_new_from_icon_name (
+		"wrapped", GTK_ICON_SIZE_MENU);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 
-	g_signal_connect_swapped (
-		widget, "clicked",
-		G_CALLBACK (gtk_widget_hide), search_bar);
+	widget = gtk_label_new (
+		_("Reached bottom of page, continued from top"));
+	gtk_label_set_ellipsize (
+		GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	container = GTK_WIDGET (search_bar);
+
+	widget = gtk_hbox_new (FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	search_bar->priv->wrapped_prev_box = g_object_ref (widget);
+	gtk_widget_hide (widget);
+
+	container = widget;
+
+	widget = gtk_image_new_from_icon_name (
+		"wrapped", GTK_ICON_SIZE_MENU);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_widget_show (widget);
+
+	widget = gtk_label_new (
+		_("Reached bottom of page, continued from top"));
+	gtk_label_set_ellipsize (
+		GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
+	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
+	gtk_widget_show (widget);
+
+	container = GTK_WIDGET (search_bar);
 
 	widget = gtk_label_new (NULL);
-	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	gtk_box_pack_end (GTK_BOX (container), widget, FALSE, FALSE, 12);
 	search_bar->priv->matches_label = g_object_ref (widget);
 	gtk_widget_show (widget);
 }
@@ -631,15 +742,13 @@ e_mail_search_bar_set_case_sensitive (EMailSearchBar *search_bar,
 gchar *
 e_mail_search_bar_get_text (EMailSearchBar *search_bar)
 {
-	EIconEntry *icon_entry;
-	GtkWidget *entry;
+	GtkEntry *entry;
 	const gchar *text;
 
 	g_return_val_if_fail (E_IS_MAIL_SEARCH_BAR (search_bar), NULL);
 
-	icon_entry = E_ICON_ENTRY (search_bar->priv->icon_entry);
-	entry = e_icon_entry_get_entry (icon_entry);
-	text = gtk_entry_get_text (GTK_ENTRY (entry));
+	entry = GTK_ENTRY (search_bar->priv->entry);
+	text = gtk_entry_get_text (entry);
 
 	return g_strstrip (g_strdup (text));
 }
@@ -648,17 +757,15 @@ void
 e_mail_search_bar_set_text (EMailSearchBar *search_bar,
                             const gchar *text)
 {
-	EIconEntry *icon_entry;
-	GtkWidget *entry;
+	GtkEntry *entry;
 
 	g_return_if_fail (E_IS_MAIL_SEARCH_BAR (search_bar));
 
-	icon_entry = E_ICON_ENTRY (search_bar->priv->icon_entry);
-	entry = e_icon_entry_get_entry (icon_entry);
+	entry = GTK_ENTRY (search_bar->priv->entry);
 
 	if (text == NULL)
 		text = "";
 
 	/* This will trigger a "notify::text" signal. */
-	gtk_entry_set_text (GTK_ENTRY (entry), text);
+	gtk_entry_set_text (entry, text);
 }

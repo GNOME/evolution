@@ -1438,7 +1438,7 @@ static GtkActionEntry shell_entries[] = {
 	  G_CALLBACK (action_contents_cb) },
 
 	{ "faq",
-	  GTK_STOCK_DIALOG_INFO,
+	  "help-faq",
 	  N_("Evolution _FAQ"),
 	  NULL,
 	  N_("Open the Frequently Asked Questions webpage"),

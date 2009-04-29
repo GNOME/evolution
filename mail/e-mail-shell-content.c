@@ -403,7 +403,7 @@ mail_shell_content_constructed (GObject *object)
 	priv->message_list = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	widget = gtk_vbox_new (FALSE, 0);
+	widget = gtk_vbox_new (FALSE, 1);
 	gtk_paned_add2 (GTK_PANED (container), widget);
 	gtk_widget_show (widget);
 
