@@ -84,8 +84,15 @@ private_icons = \
 	hicolor_status_32x32_online.png \
 	$(NULL)
 
-# hicolor_status_16x16_wrapped.png was copied from Firefox.
+# hicolor_status_16x16_wrapped.png was copied from Firefox
+# (toolkit/themes/gnomestripe/global/icons/wrap.png), which
+# contained the following notice:
+#
+#    All files in this directory are assumed to be licensed under the
+#    tri-license (MPL/GPL/LGPL) used throughout this codebase.
+#
 # There is no corresponding SVG file. */
+
 noinst_DATA = \
  	hicolor_actions_16x16_go-today.svg \
 	hicolor_actions_16x16_view-calendar-day.svg \
