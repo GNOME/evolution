@@ -90,12 +90,16 @@ static volatile gboolean em_junk_sa_local_only;
 static volatile gboolean em_junk_sa_use_daemon;
 static char * em_junk_sa_preferred_socket_path;
 
-static char *em_junk_sa_spamc_binaries [3] = {"spamc", "/usr/sbin/spamc", NULL};
-static char *em_junk_sa_spamd_binaries [3] = {"spamd", "/usr/sbin/spamd", NULL};
+static char *em_junk_sa_spamc_binaries [4] = {"spamc", "/usr/bin/spamc", "/usr/sbin/spamc", NULL};
+static char *em_junk_sa_spamd_binaries [4] = {"spamd", "/usr/bin/spamd", "/usr/sbin/spamd", NULL};
 
 #define SPAMD_RESTARTS_SIZE 8
 static time_t em_junk_sa_spamd_restarts [SPAMD_RESTARTS_SIZE] = {0, 0, 0, 0, 0, 0, 0, 0};
 static int em_junk_sa_spamd_restarts_count = 0;
+
+/* Variables to indicate whether spamd is running with --allow-tell */
+static int no_allow_tell;
+static gboolean em_junk_sa_allow_tell_tested = FALSE;
 
 char *em_junk_sa_spamc_gconf_binary = NULL;
 char *em_junk_sa_spamd_gconf_binary = NULL;
@@ -303,6 +307,26 @@ em_junk_sa_test_spamd_running (char *binary, gboolean system)
 	return rv;
 }
 
+
+/*
+  One time test to see if spamd is running with --allow-tell.  The call
+  to spamc should return 0 if it is.  (Thanks to Karsten Bräckelmann
+  for the idea).
+*/ 
+static void
+em_junk_sa_test_allow_tell (void)
+{
+	char *argv [4] = {
+		"spamc",
+		"-L",
+		"forget",
+		NULL
+	};
+
+	no_allow_tell = pipe_to_sa (NULL, "\n" , argv, NULL);
+	em_junk_sa_allow_tell_tested = TRUE;
+}
+
 static void
 em_junk_sa_test_spamassassin (void)
 {
@@ -496,6 +520,10 @@ em_junk_sa_is_available (GError **error)
 	if (!em_junk_sa_available)
 		g_set_error (error, EM_JUNK_ERROR, 1, _("SpamAssassin is not available."));
 
+	/* While we're at it, see if spamd is running with --allow-tell */
+	if (!em_junk_sa_allow_tell_tested)
+ 	        em_junk_sa_test_allow_tell () ;
+
 	pthread_mutex_unlock (&em_junk_sa_init_lock);
 
 	return em_junk_sa_available;
@@ -670,6 +698,13 @@ em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target)
 		NULL,
 		NULL
 	};
+	/* Call setup for spamc */
+	char *argv2[4] = {
+	  "spamc",
+	  "-L",
+	  "spam",
+	  NULL
+	};
 	gchar *sub = NULL;
 	CamelMimeMessage *msg = target->m;
 
@@ -677,13 +712,14 @@ em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target)
 	g_print ("\nreport junk?? %s\n", sub);
 
 	d(fprintf (stderr, "em_junk_sa_report_junk\n"));
-
 	if (em_junk_sa_is_available (&target->error)) {
-		if (em_junk_sa_local_only)
+		if (no_allow_tell && em_junk_sa_local_only)
 			argv[4] = "--local";
 
 		pthread_mutex_lock (&em_junk_sa_report_lock);
-		pipe_to_sa (msg, NULL, argv, &target->error);
+		pipe_to_sa (msg, NULL, 
+			    (no_allow_tell ? argv : argv2), 
+			    &target->error);
 		pthread_mutex_unlock (&em_junk_sa_report_lock);
 	}
 }
@@ -700,16 +736,25 @@ em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target)
 		NULL,
 		NULL
 	};
+	/* Setup for spamc */
+	char *argv2[4] = {
+	  "spamc",
+	  "-L",
+	  "ham",
+	  NULL
+	};
 	CamelMimeMessage *msg = target->m;
 
 	d(fprintf (stderr, "em_junk_sa_report_notjunk\n"));
 
 	if (em_junk_sa_is_available (&target->error)) {
-		if (em_junk_sa_local_only)
-			argv[4] = "--local";
 
+		if (no_allow_tell && em_junk_sa_local_only)
+			argv[4] = "--local";
 		pthread_mutex_lock (&em_junk_sa_report_lock);
-		pipe_to_sa (msg, NULL, argv, &target->error);
+		pipe_to_sa (msg, NULL, 
+			    (no_allow_tell ? argv : argv2), 
+			    &target->error);
 		pthread_mutex_unlock (&em_junk_sa_report_lock);
 	}
 }
@@ -717,6 +762,10 @@ em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target)
 void
 em_junk_sa_commit_reports (EPlugin *ep)
 {
+	/* Only meaningful if we're using sa-learn */
+	if (!no_allow_tell)
+		return;
+
 	char *sync_op = ((get_spamassassin_version () >= 3) ? "--sync": "--rebuild");
 	char *argv[4] = {
 		"sa-learn",
