@@ -35,9 +35,9 @@ struct _EMailSearchBarPrivate {
 	GtkHTML *html;
 	GtkWidget *entry;
 	GtkWidget *case_sensitive_button;
-	GtkWidget *matches_label;
 	GtkWidget *wrapped_next_box;
 	GtkWidget *wrapped_prev_box;
+	GtkWidget *matches_label;
 
 	ESearchingTokenizer *tokenizer;
 	gchar *active_search;
@@ -132,24 +132,24 @@ mail_search_bar_find (EMailSearchBar *search_bar,
 	 *     but it's really GtkHtml's fault).  That's why the first
 	 *     match isn't selected automatically.  It also causes
 	 *     gtk_html_engine_search_next() to return FALSE, which we
-	 *     handle by wrapping the match cursor.
+	 *     assume to mean the search wrapped.
 	 *
 	 *     So to avoid mistakenly thinking the search wrapped when
 	 *     it hasn't, we have to trap the first button click after a
 	 *     search and re-run the search to recreate the HTMLEngine's
 	 *     search state, so that gtk_html_engine_search_next() will
 	 *     succeed. */
-	if (search_bar->priv->rerun_search) {
+	if (new_search) {
+		g_free (search_bar->priv->active_search);
+		search_bar->priv->active_search = text;
+		search_bar->priv->rerun_search = TRUE;
+		mail_search_bar_update_tokenizer (search_bar);
+	} else if (search_bar->priv->rerun_search) {
 		gtk_html_engine_search (
 			html, search_bar->priv->active_search,
 			case_sensitive, search_forward, FALSE);
 		search_bar->priv->rerun_search = FALSE;
 		g_free (text);
-	} else if (new_search) {
-		g_free (search_bar->priv->active_search);
-		search_bar->priv->active_search = text;
-		search_bar->priv->rerun_search = TRUE;
-		mail_search_bar_update_tokenizer (search_bar);
 	} else {
 		gtk_html_engine_search_set_forward (html, search_forward);
 		if (!gtk_html_engine_search_next (html))
@@ -205,6 +205,7 @@ mail_search_bar_icon_release_cb (EMailSearchBar *search_bar,
 	g_return_if_fail (icon_pos == GTK_ENTRY_ICON_SECONDARY);
 
 	e_mail_search_bar_clear (search_bar);
+	gtk_widget_grab_focus (search_bar->priv->entry);
 }
 
 static void
@@ -310,11 +311,6 @@ mail_search_bar_dispose (GObject *object)
 		priv->case_sensitive_button = NULL;
 	}
 
-	if (priv->matches_label != NULL) {
-		g_object_unref (priv->matches_label);
-		priv->matches_label = NULL;
-	}
-
 	if (priv->wrapped_next_box != NULL) {
 		g_object_unref (priv->wrapped_next_box);
 		priv->wrapped_next_box = NULL;
@@ -323,6 +319,11 @@ mail_search_bar_dispose (GObject *object)
 	if (priv->wrapped_prev_box != NULL) {
 		g_object_unref (priv->wrapped_prev_box);
 		priv->wrapped_prev_box = NULL;
+	}
+
+	if (priv->matches_label != NULL) {
+		g_object_unref (priv->matches_label);
+		priv->matches_label = NULL;
 	}
 
 	if (priv->tokenizer != NULL) {
@@ -407,6 +408,8 @@ mail_search_bar_clear (EMailSearchBar *search_bar)
 	g_free (search_bar->priv->active_search);
 	search_bar->priv->active_search = NULL;
 
+	gtk_widget_hide (search_bar->priv->wrapped_next_box);
+	gtk_widget_hide (search_bar->priv->wrapped_prev_box);
 	gtk_widget_hide (search_bar->priv->matches_label);
 
 	mail_search_bar_update_tokenizer (search_bar);
