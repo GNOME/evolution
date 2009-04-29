@@ -20,7 +20,6 @@ a11y/e-table/gal-a11y-e-table-click-to-add.c
 a11y/e-table/gal-a11y-e-table-column-header.c
 a11y/widgets/ea-calendar-item.c
 a11y/widgets/ea-combo-button.c
-a11y/widgets/ea-expander.c
 addressbook/addressbook.error.xml
 addressbook/conduit/address-conduit.c
 addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in
@@ -33,15 +32,11 @@ addressbook/gui/component/apps_evolution_addressbook.schemas.in
 addressbook/gui/component/autocompletion-config.c
 addressbook/gui/component/ldap-config.glade
 addressbook/gui/contact-editor/contact-editor.glade
-addressbook/gui/contact-editor/e-contact-editor-address.c
 addressbook/gui/contact-editor/e-contact-editor-fullname.c
-addressbook/gui/contact-editor/e-contact-editor-im.c
 addressbook/gui/contact-editor/e-contact-editor.c
 addressbook/gui/contact-editor/e-contact-quick-add.c
 addressbook/gui/contact-editor/eab-editor.c
-addressbook/gui/contact-editor/fulladdr.glade
 addressbook/gui/contact-editor/fullname.glade
-addressbook/gui/contact-editor/im.glade
 addressbook/gui/contact-list-editor/contact-list-editor.glade
 addressbook/gui/contact-list-editor/e-contact-list-editor.c
 addressbook/gui/merging/eab-contact-commit-duplicate-detected.glade
@@ -66,8 +61,6 @@ addressbook/importers/evolution-csv-importer.c
 addressbook/importers/evolution-ldif-importer.c
 addressbook/importers/evolution-vcard-importer.c
 addressbook/printing/e-contact-print.c
-addressbook/printing/e-contact-print.glade
-addressbook/printing/test-contact-print-style-editor.c
 addressbook/printing/test-print.c
 addressbook/tools/evolution-addressbook-export-list-cards.c
 addressbook/tools/evolution-addressbook-export-list-folders.c
@@ -112,7 +105,6 @@ calendar/gui/dialogs/e-delegate-dialog.glade
 calendar/gui/dialogs/event-editor.c
 calendar/gui/dialogs/event-page.c
 calendar/gui/dialogs/event-page.glade
-calendar/gui/dialogs/meeting-page.glade
 calendar/gui/dialogs/memo-editor.c
 calendar/gui/dialogs/memo-page.c
 calendar/gui/dialogs/memo-page.glade
@@ -130,6 +122,7 @@ calendar/gui/dialogs/task-editor.c
 calendar/gui/dialogs/task-page.c
 calendar/gui/dialogs/task-page.glade
 calendar/gui/e-alarm-list.c
+calendar/gui/e-attachment-handler-calendar.c
 calendar/gui/e-cal-component-memo-preview.c
 calendar/gui/e-cal-component-preview.c
 calendar/gui/e-cal-list-view.c
@@ -208,6 +201,8 @@ filter/filter.glade
 filter/rule-context.c
 filter/rule-editor.c
 mail/GNOME_Evolution_Mail.server.in.in
+mail/e-attachment-handler-mail.c
+mail/e-mail-attachment-bar.c
 mail/em-account-editor.c
 mail/em-account-prefs.c
 mail/em-composer-prefs.c
@@ -328,7 +323,7 @@ plugins/exchange-operations/org-gnome-folder-permissions.xml
 plugins/exchange-operations/org-gnome-folder-subscription.xml
 plugins/external-editor/apps-evolution-external-editor.schemas.in
 plugins/external-editor/org-gnome-external-editor.eplug.xml
-plugins/external-editor/org-gnome-external-editor-errors.xml
+plugins/external-editor/org-gnome-external-editor.error.xml
 plugins/external-editor/org-gnome-external-editor.xml
 plugins/external-editor/external-editor.c
 plugins/face/face.c
@@ -347,10 +342,10 @@ plugins/groupwise-features/junk-settings.glade
 plugins/groupwise-features/mail-retract.c
 plugins/groupwise-features/org-gnome-compose-send-options.xml
 plugins/groupwise-features/org-gnome-groupwise-features.eplug.xml
-plugins/groupwise-features/org-gnome-mail-retract-errors.xml
-plugins/groupwise-features/org-gnome-proxy-errors.xml
-plugins/groupwise-features/org-gnome-proxy-login-errors.xml
-plugins/groupwise-features/org-gnome-shared-folder.errors.xml
+plugins/groupwise-features/org-gnome-mail-retract.error.xml
+plugins/groupwise-features/org-gnome-proxy.error.xml
+plugins/groupwise-features/org-gnome-proxy-login.error.xml
+plugins/groupwise-features/org-gnome-shared-folder.error.xml
 plugins/groupwise-features/process-meeting.c
 plugins/groupwise-features/properties.glade
 plugins/groupwise-features/proxy-add-dialog.glade
@@ -367,8 +362,6 @@ plugins/hula-account-setup/org-gnome-evolution-hula-account-setup.eplug.xml
 plugins/imap-features/imap-headers.c
 plugins/imap-features/imap-headers.glade
 plugins/imap-features/org-gnome-imap-features.eplug.xml
-plugins/import-ics-attachments/icsimporter.c
-plugins/import-ics-attachments/org-gnome-evolution-mail-attachments-import-ics.eplug.xml
 plugins/ipod-sync/evolution-ipod-sync.c
 plugins/ipod-sync/ical-format.c
 plugins/ipod-sync/org-gnome-ipod-sync-evolution.eplug.xml
@@ -381,7 +374,6 @@ plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml
 plugins/mail-notification/apps-evolution-mail-notification.schemas.in
 plugins/mail-notification/mail-notification.c
 plugins/mail-notification/org-gnome-mail-notification.eplug.xml
-plugins/mail-to-meeting/org-gnome-mail-to-meeting.eplug.xml
 plugins/mail-to-task/mail-to-task.c
 plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml
 plugins/mail-to-task/org-gnome-mail-to-task.xml
@@ -411,9 +403,6 @@ plugins/python/example/org-gnome-hello-python.eplug.xml
 plugins/python/org-gnome-evolution-python.eplug.xml
 plugins/sa-junk-plugin/em-junk-filter.c
 plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml
-plugins/save-attachments/org-gnome-save-attachments.eplug.xml
-plugins/save-attachments/org-gnome-save-attachments.xml
-plugins/save-attachments/save-attachments.c
 plugins/save-calendar/csv-format.c
 plugins/save-calendar/ical-format.c
 plugins/save-calendar/org-gnome-save-calendar.eplug.xml
@@ -486,9 +475,15 @@ widgets/menus/gal-view-instance.c
 widgets/menus/gal-view-menus.c
 widgets/menus/gal-view-new-dialog.c
 widgets/menus/gal-view-new-dialog.glade
-widgets/misc/e-attachment-bar.c
 widgets/misc/e-attachment.c
 widgets/misc/e-attachment.glade
+widgets/misc/e-attachment-dialog.c
+widgets/misc/e-attachment-handler-image.c
+widgets/misc/e-attachment-icon-view.c
+widgets/misc/e-attachment-paned.c
+widgets/misc/e-attachment-store.c
+widgets/misc/e-attachment-tree-view.c
+widgets/misc/e-attachment-view.c
 widgets/misc/e-calendar-item.c
 widgets/misc/e-calendar.c
 widgets/misc/e-canvas-background.c
@@ -497,7 +492,6 @@ widgets/misc/e-cell-date-edit.c
 widgets/misc/e-cell-percent.c
 widgets/misc/e-charset-picker.c
 widgets/misc/e-dateedit.c
-widgets/misc/e-expander.c
 widgets/misc/e-filter-bar.c
 widgets/misc/e-filter-bar.h
 widgets/misc/e-image-chooser.c
