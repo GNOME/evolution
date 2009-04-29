@@ -164,7 +164,8 @@
       <placeholder name="PlaceHolderDebug"/>
 
       <menuitem name="HelpOpenFAQ" verb=""
-	_label="Evolution _FAQ"/> 
+	_label="Evolution _FAQ"
+	pixtype="pixbuf"/> 
 
       <menuitem name="HelpSubmitBug" verb=""
 	_label="Submit _Bug Report"/>
