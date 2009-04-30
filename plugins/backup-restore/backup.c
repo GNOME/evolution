@@ -29,7 +29,6 @@
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include <libgnome/gnome-util.h>
 
 #include <libebook/e-book.h>
 #include <libecal/e-cal.h>
@@ -431,22 +430,22 @@ dlg_response (GtkWidget *dlg, gint response, gpointer data)
 int
 main (int argc, char **argv)
 {
-	GnomeProgram *program;
-	GOptionContext *context;
 	char *file = NULL, *oper = NULL;
 	gint i;
+	GError *error = NULL;
 
-	gtk_init (&argc, &argv);
 	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
 
-	context = g_option_context_new (NULL);
-	g_option_context_add_main_entries (context, options, GETTEXT_PACKAGE);
-	program = gnome_program_init (PACKAGE, VERSION, LIBGNOME_MODULE, argc, argv,
-				      GNOME_PROGRAM_STANDARD_PROPERTIES,
-				      GNOME_PARAM_GOPTION_CONTEXT, context,
-				      GNOME_PARAM_NONE);
+	g_thread_init (NULL);
+
+	gtk_init_with_args (
+		&argc, &argv, NULL, options, GETTEXT_PACKAGE, &error);
+	if (error != NULL) {
+		g_printerr ("%s\n", error->message);
+		exit (1);
+	}
 
 	if (opt_remaining) {
 		for (i = 0; i < g_strv_length (opt_remaining); i++) {
