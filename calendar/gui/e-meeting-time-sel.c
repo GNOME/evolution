@@ -40,7 +40,6 @@
 #include <misc/e-canvas-utils.h>
 
 #include <misc/e-dateedit.h>
-#include <e-util/e-gui-utils.h>
 #include <e-util/e-cursor.h>
 #include <e-util/e-util.h>
 

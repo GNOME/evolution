@@ -45,7 +45,6 @@
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "e-util/e-util.h"
-#include "e-util/e-gui-utils.h"
 #include "e-util/e-error.h"
 #include "misc/e-dateedit.h"
 #include "misc/e-image-chooser.h"

@@ -69,7 +69,6 @@
 #include <e-util/e-util-private.h>
 
 #include <libedataserver/e-msgport.h>
-#include <e-util/e-gui-utils.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
 

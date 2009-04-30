@@ -33,7 +33,6 @@
 #include <addressbook/gui/contact-editor/e-contact-quick-add.h>
 #include <addressbook/gui/widgets/eab-contact-display.h>
 #include <addressbook/gui/widgets/eab-gui-util.h>
-#include "e-util/e-gui-utils.h"
 
 static void eab_popup_control_set_name (EABPopupControl *pop, const gchar *name);
 static void eab_popup_control_set_email (EABPopupControl *pop, const gchar *email);
