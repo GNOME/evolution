@@ -26,9 +26,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <glib/gi18n.h>
-#if 0
-#  include <libgnomeui/gnome-winhints.h>
-#endif
 #include <glade/glade.h>
 #include <libedataserver/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
