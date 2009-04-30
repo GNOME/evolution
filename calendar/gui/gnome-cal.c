@@ -710,7 +710,7 @@ get_times_for_views (GnomeCalendar *gcal, GnomeCalendarViewType view_type, time_
 		/* FIXME We should be using the same day of the week enum every where */
 		display_start = (E_WEEK_VIEW (priv->views[view_type])->display_start_day + 1) % 7;
 
-		if (!priv->range_selected)
+		if (!priv->range_selected && (!E_WEEK_VIEW (priv->views[view_type])->multi_week_view || !E_WEEK_VIEW (priv->views[view_type])->month_scroll_by_week))
 			*start_time = time_month_begin_with_zone (*start_time, priv->zone);
 		*start_time = time_week_begin_with_zone (*start_time, display_start, priv->zone);
 		*end_time = time_add_week_with_zone (*start_time, shown, priv->zone);

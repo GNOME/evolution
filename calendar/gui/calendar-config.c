@@ -587,6 +587,35 @@ calendar_config_add_notification_time_divisions (GConfClientNotifyFunc func, gpo
 	return id;
 }
 
+/* Scroll in a month view by a week, not by a month */
+gboolean
+calendar_config_get_month_scroll_by_week (void)
+{
+	calendar_config_init ();
+
+	return gconf_client_get_bool (config, CALENDAR_CONFIG_MONTH_SCROLL_BY_WEEK, NULL);
+}
+
+void
+calendar_config_set_month_scroll_by_week (gboolean value)
+{
+	calendar_config_init ();
+
+	gconf_client_set_bool (config, CALENDAR_CONFIG_MONTH_SCROLL_BY_WEEK, value, NULL);
+}
+
+guint
+calendar_config_add_notification_month_scroll_by_week (GConfClientNotifyFunc func, gpointer data)
+{
+	guint id;
+
+	calendar_config_init ();
+
+	id = gconf_client_notify_add (config, CALENDAR_CONFIG_MONTH_SCROLL_BY_WEEK, func, data, NULL, NULL);
+
+	return id;
+}
+
 /* Whether we show the Marcus Bains Line (current time), and in what colors. */
 void
 calendar_config_get_marcus_bains (gboolean *show_line, const char **dayview_color, const char **timebar_color)

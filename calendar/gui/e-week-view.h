@@ -203,6 +203,10 @@ struct _EWeekView
 	   one week is shown, with a different layout. */
 	gboolean multi_week_view;
 
+	/* TRUE when requires scrolling by a week in a multi_week_view */
+	gboolean month_scroll_by_week;
+	guint scroll_by_week_notif_id;
+
 	gboolean update_base_date;
 
 	/* How many weeks we are showing. This is only relevant if

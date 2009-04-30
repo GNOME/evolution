@@ -325,6 +325,12 @@ dview_show_week_no_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
 }
 
 static void
+month_scroll_by_week_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
+{
+	calendar_config_set_month_scroll_by_week (gtk_toggle_button_get_active (toggle));
+}
+
+static void
 hide_completed_tasks_toggled (GtkToggleButton *toggle, CalendarPrefsDialog *prefs)
 {
 	gboolean hide;
@@ -528,6 +534,7 @@ setup_changes (CalendarPrefsDialog *prefs)
 	g_signal_connect (G_OBJECT (prefs->compress_weekend), "toggled", G_CALLBACK (compress_weekend_toggled), prefs);
 	g_signal_connect (G_OBJECT (prefs->dnav_show_week_no), "toggled", G_CALLBACK (dnav_show_week_no_toggled), prefs);
 	g_signal_connect (G_OBJECT (prefs->dview_show_week_no), "toggled", G_CALLBACK (dview_show_week_no_toggled), prefs);
+	g_signal_connect (G_OBJECT (prefs->month_scroll_by_week), "toggled", G_CALLBACK (month_scroll_by_week_toggled), prefs);
 
 	g_signal_connect (G_OBJECT (prefs->tasks_hide_completed), "toggled",
 			  G_CALLBACK (hide_completed_tasks_toggled), prefs);
@@ -704,6 +711,9 @@ show_config (CalendarPrefsDialog *prefs)
 	/* Day/Work Week view - Show Week Number. */
 	e_dialog_toggle_set (prefs->dview_show_week_no, calendar_config_get_dview_show_week_no ());
 
+	/* Month View - Scroll by a week */
+	e_dialog_toggle_set (prefs->month_scroll_by_week, calendar_config_get_month_scroll_by_week ());
+
 	/* Task list */
 	show_task_list_config (prefs);
 
@@ -817,6 +827,7 @@ calendar_prefs_dialog_construct (CalendarPrefsDialog *prefs)
 	prefs->compress_weekend = glade_xml_get_widget (gui, "compress_weekend");
 	prefs->dnav_show_week_no = glade_xml_get_widget (gui, "dnav_show_week_no");
 	prefs->dview_show_week_no = glade_xml_get_widget (gui, "dview_show_week_no");
+	prefs->month_scroll_by_week = glade_xml_get_widget (gui, "month_scroll_by_week");
 	prefs->tasks_due_today_color = glade_xml_get_widget (gui, "tasks_due_today_color");
 	prefs->tasks_overdue_color = glade_xml_get_widget (gui, "tasks_overdue_color");
 	prefs->tasks_hide_completed = glade_xml_get_widget (gui, "tasks_hide_completed");

@@ -67,6 +67,7 @@ struct _CalendarPrefsDialog {
 	GtkWidget *compress_weekend;
 	GtkWidget *dnav_show_week_no;
 	GtkWidget *dview_show_week_no;
+	GtkWidget *month_scroll_by_week;
 	GtkWidget *tasks_due_today_color;
 	GtkWidget *tasks_overdue_color;
 	GtkWidget *tasks_hide_completed;
