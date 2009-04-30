@@ -634,7 +634,7 @@ mail_search_bar_init (EMailSearchBar *search_bar)
 	gtk_widget_show (widget);
 
 	widget = gtk_label_new (
-		_("Reached bottom of page, continued from top"));
+		_("Reached top of page, continued from bottom"));
 	gtk_label_set_ellipsize (
 		GTK_LABEL (widget), PANGO_ELLIPSIZE_END);
 	gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
