@@ -2534,11 +2534,7 @@ attachment_save_query_info_cb (GFile *destination,
 replace:
 	g_file_replace_async (
 		destination, NULL, FALSE,
-#if GLIB_CHECK_VERSION(2,20,0)
 		G_FILE_CREATE_REPLACE_DESTINATION,
-#else
-		G_FILE_CREATE_NONE,
-#endif
 		G_PRIORITY_DEFAULT, cancellable,
 		(GAsyncReadyCallback) attachment_save_replace_cb,
 		save_context);

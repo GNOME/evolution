@@ -650,9 +650,7 @@ attachment_view_update_actions (EAttachmentView *view)
 		action = gtk_action_new (
 			action_name, action_label, action_tooltip, NULL);
 
-#if GTK_CHECK_VERSION(2,16,0)
 		gtk_action_set_gicon (action, app_icon);
-#endif
 
 		g_object_set_data_full (
 			G_OBJECT (action),

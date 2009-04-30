@@ -21,8 +21,8 @@ EDS_PACKAGE=1.2
 GTKHTML_PACKAGE=3.14
 
 # Required Packages
-m4_define([glib_minimum_version], [2.18.0])
-m4_define([gtk_minimum_version], [2.14.0])
+m4_define([glib_minimum_version], [2.20.0])
+m4_define([gtk_minimum_version], [2.16.0])
 m4_define([eds_minimum_version], [evo_version])
 m4_define([gnome_icon_theme_minimum_version], [2.19.91])
 m4_define([libbonobo_minimum_version], [2.20.3])

@@ -590,11 +590,7 @@ attachment_paned_init (EAttachmentPaned *paned)
 	view = E_ATTACHMENT_VIEW (paned->priv->icon_view);
 	action = e_attachment_view_get_action (view, "add");
 	gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new ());
-#if GTK_CHECK_VERSION(2,16,0)
 	gtk_activatable_set_related_action (GTK_ACTIVATABLE (widget), action);
-#else
-	gtk_action_connect_proxy (action, widget);  /* XXX Deprecated */
-#endif
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	gtk_widget_show (widget);
 

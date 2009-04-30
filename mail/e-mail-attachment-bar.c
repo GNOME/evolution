@@ -106,9 +106,7 @@ mail_attachment_bar_update_status (EMailAttachmentBar *bar)
 	gchar *display_size;
 	gchar *markup;
 
-#if GTK_CHECK_VERSION(2,16,0)
 	GtkActivatable *activatable;
-#endif
 
 	view = E_ATTACHMENT_VIEW (bar);
 	store = e_attachment_view_get_store (view);
@@ -126,20 +124,12 @@ mail_attachment_bar_update_status (EMailAttachmentBar *bar)
 	gtk_label_set_markup (label, markup);
 	g_free (markup);
 
-#if GTK_CHECK_VERSION(2,16,0)
 	activatable = GTK_ACTIVATABLE (bar->priv->save_all_button);
 	action = gtk_activatable_get_related_action (activatable);
-#else
-	action = e_attachment_view_get_action (view, "save-all");
-#endif
 	gtk_action_set_visible (action, (num_attachments > 1));
 
-#if GTK_CHECK_VERSION(2,16,0)
 	activatable = GTK_ACTIVATABLE (bar->priv->save_one_button);
 	action = gtk_activatable_get_related_action (activatable);
-#else
-	action = e_attachment_view_get_action (view, "save-one");
-#endif
 	gtk_action_set_visible (action, (num_attachments == 1));
 
 	g_free (display_size);
@@ -599,11 +589,7 @@ mail_attachment_bar_init (EMailAttachmentBar *bar)
 	view = E_ATTACHMENT_VIEW (bar->priv->icon_view);
 	action = e_attachment_view_get_action (view, "save-all");
 	gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new ());
-#if GTK_CHECK_VERSION(2,16,0)
 	gtk_activatable_set_related_action (GTK_ACTIVATABLE (widget), action);
-#else
-	gtk_action_connect_proxy (action, widget);  /* XXX Deprecated */
-#endif
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	bar->priv->save_all_button = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -613,11 +599,7 @@ mail_attachment_bar_init (EMailAttachmentBar *bar)
 	view = E_ATTACHMENT_VIEW (bar->priv->icon_view);
 	action = e_attachment_view_get_action (view, "save-one");
 	gtk_button_set_image (GTK_BUTTON (widget), gtk_image_new ());
-#if GTK_CHECK_VERSION(2,16,0)
 	gtk_activatable_set_related_action (GTK_ACTIVATABLE (widget), action);
-#else
-	gtk_action_connect_proxy (action, widget);  /* XXX Deprecated */
-#endif
 	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
 	bar->priv->save_one_button = g_object_ref (widget);
 	gtk_widget_show (widget);
