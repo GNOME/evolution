@@ -29,3 +29,9 @@ int e_pilot_add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *c
 void e_pilot_local_category_to_remote(int * pilotCategory, ECalComponent *comp, struct CategoryAppInfo *category);
 void e_pilot_remote_category_to_local(int   pilotCategory, ECalComponent *comp, struct CategoryAppInfo *category);
 
+gboolean e_pilot_setup_get_bool (const char *path, const char *key, gboolean def);
+void e_pilot_setup_set_bool (const char *path, const char *key, gboolean value);
+int e_pilot_setup_get_int (const char *path, const char *key, int def);
+void e_pilot_setup_set_int (const char *path, const char *key, int value);
+char *e_pilot_setup_get_string (const char *path, const char *key, const char *def);
+void e_pilot_setup_set_string (const char *path, const char *key, const char *value);

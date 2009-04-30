@@ -28,7 +28,6 @@
 #define G_LOG_DOMAIN "ecalconduit"
 
 #include <glib/gi18n.h>
-#include <libgnome/gnome-config.h>
 #include <libecal/e-cal-types.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-time-util.h>
@@ -134,8 +133,7 @@ calconduit_load_configuration (guint32 pilot_id)
 	g_object_unref (management);
 
 	/* Custom settings */
-	g_snprintf (prefix, 255, "/gnome-pilot.d/e-calendar-conduit/Pilot_%u/", pilot_id);
-	gnome_config_push_prefix (prefix);
+	g_snprintf (prefix, 255, "e-calendar-conduit/Pilot_%u", pilot_id);
 
 	if (!e_cal_get_sources (&c->source_list, E_CAL_SOURCE_TYPE_EVENT, NULL))
 		c->source_list = NULL;
@@ -150,9 +148,9 @@ calconduit_load_configuration (guint32 pilot_id)
 			c->source_list = NULL;
 		}
 	}
-	c->secret = gnome_config_get_bool ("secret=FALSE");
-	c->multi_day_split = gnome_config_get_bool ("multi_day_split=TRUE");
-	if ((c->last_uri = gnome_config_get_string ("last_uri")) && !strncmp (c->last_uri, "file://", 7)) {
+	c->secret = e_pilot_setup_get_bool (prefix, "secret", FALSE);
+	c->multi_day_split = e_pilot_setup_get_bool (prefix, "multi_day_split", TRUE);
+	if ((c->last_uri = e_pilot_setup_get_string (prefix, "last_uri", NULL)) && !strncmp (c->last_uri, "file://", 7)) {
 		char *filename = g_filename_from_uri (c->last_uri, NULL, NULL);
 		const char *path = filename;
 		const char *home;
@@ -178,8 +176,6 @@ calconduit_load_configuration (guint32 pilot_id)
 		g_free (filename);
 	}
 
-	gnome_config_pop_prefix ();
-
 	return c;
 }
 
@@ -188,18 +184,13 @@ calconduit_save_configuration (ECalConduitCfg *c)
 {
 	gchar prefix[256];
 
-	g_snprintf (prefix, 255, "/gnome-pilot.d/e-calendar-conduit/Pilot_%u/", c->pilot_id);
-	gnome_config_push_prefix (prefix);
+	g_snprintf (prefix, 255, "e-calendar-conduit/Pilot_%u", c->pilot_id);
 
 	e_pilot_set_sync_source (c->source_list, c->source);
-	gnome_config_set_bool ("secret", c->secret);
-	gnome_config_set_bool ("multi_day_split", c->multi_day_split);
-	gnome_config_set_string ("last_uri", c->last_uri);
-
-	gnome_config_pop_prefix ();
-
-	gnome_config_sync ();
-	gnome_config_drop_all ();
+	
+	e_pilot_setup_set_bool (prefix, "secret", c->secret);
+	e_pilot_setup_set_bool (prefix, "multi_day_split", c->multi_day_split);
+	e_pilot_setup_set_string (prefix, "last_uri", c->last_uri ? c->last_uri : "");
 }
 
 static ECalConduitCfg*

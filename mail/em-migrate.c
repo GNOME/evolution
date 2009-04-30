@@ -42,7 +42,6 @@
 #include <gtk/gtk.h>
 
 #include <gconf/gconf-client.h>
-#include <libgnome/gnome-config.h>
 
 #include <camel/camel.h>
 #include <camel/camel-store.h>
@@ -732,104 +731,6 @@ em_upgrade_xml_1_2 (xmlDocPtr doc)
 	return upgrade_xml_1_2_rec (root);
 }
 
-/* converts passwords from ~/evolution/private/config.xmldb to gnome_private() */
-static int
-upgrade_passwords_1_2(void)
-{
-	xmlNodePtr root, entry;
-	char *filename;
-	xmlDocPtr priv_doc = NULL;
-	struct stat st;
-	int work = 0, res = -1;
-
-	filename =  g_build_filename(g_get_home_dir(), "evolution/private/config.xmldb", NULL);
-	if (lstat(filename, &st) == 0 && S_ISREG(st.st_mode))
-		priv_doc = xmlParseFile(filename);
-	g_free(filename);
-
-	if (priv_doc == NULL)
-		return 0;
-
-	root = priv_doc->children;
-	if (strcmp((char *)root->name, "bonobo-config") != 0) {
-		xmlFreeDoc(priv_doc);
-		return 0;
-	}
-
-	root = root->children;
-	while (root) {
-		if (!strcmp((char *)root->name, "section")) {
-			char *path = (char *)xmlGetProp(root, (const unsigned char *)"path");
-
-			/* All sections of form
-			   <section path="/Passwords/COMPONENT">
-			    <entry name="base64name" value="hexvalue">
-			  Are converted to:
-			  /Evolution/Passwords-COMPONENT/name = value
-			*/
-
-			if (path && !strncmp(path, "/Passwords/", 11)) {
-				entry = root->children;
-				while (entry) {
-					if (!strcmp((char *)entry->name, "entry")) {
-						char *namep = (char *)xmlGetProp(entry, (const unsigned char *)"name"),
-						     *valuep = (char *)xmlGetProp(entry, (const unsigned char *)"value");
-
-						if (namep && valuep) {
-							char *value = e_bconf_hex_decode(valuep);
-							guchar *decoded;
-							char *p, *new;
-							gsize len;
-
-							decoded = g_base64_decode (namep, &len);
-							memcpy (namep, decoded, len);
-							g_free (decoded);
-							namep[len] = 0;
-							p = namep;
-
-							d(printf("Found password entry '%s' = '%s'\n", namep, value));
-
-							while (*p) {
-								if (*p == '/' || *p == '=')
-									*p = '_';
-								p++;
-							}
-
-							p = g_strdup_printf("/Evolution/Passwords-%s/%s", path+11, namep);
-							new = gnome_config_private_get_string_with_default(p, NULL);
-							if (new == NULL) {
-								d(printf("password not there, setting '%s' = '%s'\n", p, value));
-								gnome_config_private_set_string(p, value);
-								work = TRUE;
-							} else {
-								d(printf("password already there, leaving\n"));
-							}
-							g_free(p);
-							g_free(value);
-						}
-						xmlFree(namep);
-						xmlFree(valuep);
-					}
-					entry = entry->next;
-				}
-			}
-			xmlFree(path);
-		}
-		root = root->next;
-	}
-
-	xmlFreeDoc(priv_doc);
-
-	if (work) {
-		if (gnome_config_private_sync_file("/Evolution"))
-			res = 0;
-	} else {
-		res = 0;
-	}
-
-	return res;
-}
-
 /* ********************************************************************** */
 /*  Tables for converting flat bonobo conf -> gconf xml blob		  */
 /* ********************************************************************** */
@@ -1126,7 +1027,6 @@ em_migrate_1_2(const char *evolution_dir, xmlDocPtr config_xmldb, xmlDocPtr filt
 
 	em_upgrade_xml_1_2(filters);
 	em_upgrade_xml_1_2(vfolders);
-	upgrade_passwords_1_2();
 
 	return 0;
 }

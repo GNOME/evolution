@@ -30,7 +30,6 @@
 #define G_LOG_DOMAIN "ememoconduit"
 
 #include <glib/gi18n.h>
-#include <libgnome/gnome-config.h>
 #include <libecal/e-cal-types.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-time-util.h>
@@ -120,8 +119,7 @@ memoconduit_load_configuration (guint32 pilot_id)
 	gchar prefix[256];
 
 
-	g_snprintf (prefix, 255, "/gnome-pilot.d/e-memo-conduit/Pilot_%u/",
-		    pilot_id);
+	g_snprintf (prefix, 255, "e-memo-conduit/Pilot_%u", pilot_id);
 
 	c = g_new0 (EMemoConduitCfg,1);
 	g_assert (c != NULL);
@@ -138,8 +136,6 @@ memoconduit_load_configuration (guint32 pilot_id)
 	g_object_unref (management);
 
 	/* Custom settings */
-	gnome_config_push_prefix (prefix);
-
 	if (!e_cal_get_sources (&c->source_list, E_CAL_SOURCE_TYPE_JOURNAL, NULL))
 		c->source_list = NULL;
 	if (c->source_list) {
@@ -154,11 +150,9 @@ memoconduit_load_configuration (guint32 pilot_id)
 		}
 	}
 
-	c->secret = gnome_config_get_bool ("secret=FALSE");
-	c->priority = gnome_config_get_int ("priority=3");
-	c->last_uri = gnome_config_get_string ("last_uri");
-
-	gnome_config_pop_prefix ();
+	c->secret = e_pilot_setup_get_bool (prefix, "secret", FALSE);
+	c->priority = e_pilot_setup_get_int (prefix, "priority", 3);
+	c->last_uri = e_pilot_setup_get_string (prefix, "last_uri", NULL);
 
 	return c;
 }
@@ -168,18 +162,12 @@ memoconduit_save_configuration (EMemoConduitCfg *c)
 {
 	gchar prefix[256];
 
-	g_snprintf (prefix, 255, "/gnome-pilot.d/e-memo-conduit/Pilot_%u/",
-		    c->pilot_id);
+	g_snprintf (prefix, 255, "e-memo-conduit/Pilot_%u", c->pilot_id);
 
-	gnome_config_push_prefix (prefix);
 	e_pilot_set_sync_source (c->source_list, c->source);
-	gnome_config_set_bool ("secret", c->secret);
-	gnome_config_set_int ("priority", c->priority);
-	gnome_config_set_string ("last_uri", c->last_uri);
-	gnome_config_pop_prefix ();
-
-	gnome_config_sync ();
-	gnome_config_drop_all ();
+	e_pilot_setup_set_bool (prefix, "secret", c->secret);
+	e_pilot_setup_set_int (prefix, "priority", c->priority);
+	e_pilot_setup_set_string (prefix, "last_uri", c->last_uri ? c->last_uri : "");
 }
 
 static EMemoConduitCfg*

@@ -33,7 +33,6 @@
 
 #include <gconf/gconf-client.h>
 
-#include <libgnome/gnome-config.h>
 #include <libgnome/gnome-sound.h>
 
 #include <libedataserverui/e-passwords.h>

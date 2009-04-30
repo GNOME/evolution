@@ -29,6 +29,7 @@
 #include <e-pilot-util.h>
 #include <pi-appinfo.h>
 #include <glib.h>
+#include <gconf/gconf-client.h>
 
 #include "libecalendar-common-conduit.h"
 
@@ -202,5 +203,170 @@ void e_pilot_remote_category_to_local(int pilotCategory, ECalComponent *comp, st
 		c_list = g_slist_prepend(c_list, category_string);
 		e_cal_component_set_categories_list (comp, c_list);
 		e_cal_component_free_categories_list(c_list);
+	}
+}
+
+static char *
+build_setup_path (const char *path, const char *key)
+{
+	return g_strconcat ("/apps/evolution/conduit", "/", path, "/", key, NULL);
+}
+
+gboolean
+e_pilot_setup_get_bool (const char *path, const char *key, gboolean def)
+{
+	gboolean res = def;
+	char *full_path;
+	GConfValue *value;
+	GConfClient *gconf;
+
+	g_return_val_if_fail (path != NULL, res);
+	g_return_val_if_fail (key != NULL, res);
+
+	gconf = gconf_client_get_default ();
+	full_path = build_setup_path (path, key);
+
+	value = gconf_client_get (gconf, full_path, NULL);
+	if (value) {
+		if (value->type == GCONF_VALUE_BOOL)
+			res = gconf_value_get_bool (value);
+
+		gconf_value_free (value);
+	}
+
+	g_free (full_path);
+	g_object_unref (gconf);
+
+	return res;
+}
+
+void
+e_pilot_setup_set_bool (const char *path, const char *key, gboolean value)
+{
+	GError *error = NULL;
+	char *full_path;
+	GConfClient *gconf;
+
+	g_return_if_fail (path != NULL);
+	g_return_if_fail (key != NULL);
+
+	gconf = gconf_client_get_default ();
+	full_path = build_setup_path (path, key);
+
+	gconf_client_set_bool (gconf, full_path, value, &error);
+
+	g_free (full_path);
+	g_object_unref (gconf);
+
+	if (error) {
+		g_message ("%s: Failed to write: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+}
+
+int
+e_pilot_setup_get_int (const char *path, const char *key, int def)
+{
+	int res = def;
+	char *full_path;
+	GConfValue *value;
+	GConfClient *gconf;
+
+	g_return_val_if_fail (path != NULL, res);
+	g_return_val_if_fail (key != NULL, res);
+
+	gconf = gconf_client_get_default ();
+	full_path = build_setup_path (path, key);
+
+	value = gconf_client_get (gconf, full_path, NULL);
+	if (value) {
+		if (value->type == GCONF_VALUE_INT)
+			res = gconf_value_get_int (value);
+
+		gconf_value_free (value);
+	}
+
+	g_free (full_path);
+	g_object_unref (gconf);
+
+	return res;
+}
+
+void
+e_pilot_setup_set_int (const char *path, const char *key, int value)
+{
+	GError *error = NULL;
+	char *full_path;
+	GConfClient *gconf;
+
+	g_return_if_fail (path != NULL);
+	g_return_if_fail (key != NULL);
+
+	gconf = gconf_client_get_default ();
+	full_path = build_setup_path (path, key);
+
+	gconf_client_set_int (gconf, full_path, value, &error);
+
+	g_free (full_path);
+	g_object_unref (gconf);
+
+	if (error) {
+		g_message ("%s: Failed to write: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+}
+
+char *
+e_pilot_setup_get_string (const char *path, const char *key, const char *def)
+{
+	char *res = g_strdup (def);
+	char *full_path;
+	GConfValue *value;
+	GConfClient *gconf;
+
+	g_return_val_if_fail (path != NULL, res);
+	g_return_val_if_fail (key != NULL, res);
+
+	gconf = gconf_client_get_default ();
+	full_path = build_setup_path (path, key);
+
+	value = gconf_client_get (gconf, full_path, NULL);
+	if (value) {
+		if (value->type == GCONF_VALUE_STRING) {
+			g_free (res);
+			res = g_strdup (gconf_value_get_string (value));
+		}
+
+		gconf_value_free (value);
+	}
+
+	g_free (full_path);
+	g_object_unref (gconf);
+
+	return res;
+}
+
+void
+e_pilot_setup_set_string (const char *path, const char *key, const char *value)
+{
+	GError *error = NULL;
+	char *full_path;
+	GConfClient *gconf;
+
+	g_return_if_fail (path != NULL);
+	g_return_if_fail (key != NULL);
+	g_return_if_fail (value != NULL);
+
+	gconf = gconf_client_get_default ();
+	full_path = build_setup_path (path, key);
+
+	gconf_client_set_string (gconf, full_path, value, &error);
+
+	g_free (full_path);
+	g_object_unref (gconf);
+
+	if (error) {
+		g_message ("%s: Failed to write: %s", G_STRFUNC, error->message);
+		g_error_free (error);
 	}
 }
