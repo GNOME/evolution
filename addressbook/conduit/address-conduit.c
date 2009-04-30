@@ -43,7 +43,6 @@
 #include <gpilotd/gnome-pilot-conduit-sync-abs.h>
 #include <libgpilotdCM/gnome-pilot-conduit-management.h>
 #include <libgpilotdCM/gnome-pilot-conduit-config.h>
-#include <libgnome/gnome-config.h>
 #include <e-dialog-widgets.h>
 #include <e-pilot-map.h>
 #include <e-pilot-settings.h>
@@ -345,6 +344,119 @@ void e_pilot_remote_category_to_local(int pilotCategory,
 	}
 }
 
+static char *
+build_setup_path (const char *path, const char *key)
+{
+	return g_strconcat ("/apps/evolution/conduit", "/", path, "/", key, NULL);
+}
+
+static gboolean
+e_pilot_setup_get_bool (const char *path, const char *key, gboolean def)
+{
+	gboolean res = def;
+	char *full_path;
+	GConfValue *value;
+	GConfClient *gconf;
+
+	g_return_val_if_fail (path != NULL, res);
+	g_return_val_if_fail (key != NULL, res);
+
+	gconf = gconf_client_get_default ();
+	full_path = build_setup_path (path, key);
+
+	value = gconf_client_get (gconf, full_path, NULL);
+	if (value) {
+		if (value->type == GCONF_VALUE_BOOL)
+			res = gconf_value_get_bool (value);
+
+		gconf_value_free (value);
+	}
+
+	g_free (full_path);
+	g_object_unref (gconf);
+
+	return res;
+}
+
+static void
+e_pilot_setup_set_bool (const char *path, const char *key, gboolean value)
+{
+	GError *error = NULL;
+	char *full_path;
+	GConfClient *gconf;
+
+	g_return_if_fail (path != NULL);
+	g_return_if_fail (key != NULL);
+
+	gconf = gconf_client_get_default ();
+	full_path = build_setup_path (path, key);
+
+	gconf_client_set_bool (gconf, full_path, value, &error);
+
+	g_free (full_path);
+	g_object_unref (gconf);
+
+	if (error) {
+		g_message ("%s: Failed to write: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+}
+
+static char *
+e_pilot_setup_get_string (const char *path, const char *key, const char *def)
+{
+	char *res = g_strdup (def);
+	char *full_path;
+	GConfValue *value;
+	GConfClient *gconf;
+
+	g_return_val_if_fail (path != NULL, res);
+	g_return_val_if_fail (key != NULL, res);
+
+	gconf = gconf_client_get_default ();
+	full_path = build_setup_path (path, key);
+
+	value = gconf_client_get (gconf, full_path, NULL);
+	if (value) {
+		if (value->type == GCONF_VALUE_STRING) {
+			g_free (res);
+			res = g_strdup (gconf_value_get_string (value));
+		}
+
+		gconf_value_free (value);
+	}
+
+	g_free (full_path);
+	g_object_unref (gconf);
+
+	return res;
+}
+
+static void
+e_pilot_setup_set_string (const char *path, const char *key, const char *value)
+{
+	GError *error = NULL;
+	char *full_path;
+	GConfClient *gconf;
+
+	g_return_if_fail (path != NULL);
+	g_return_if_fail (key != NULL);
+	g_return_if_fail (value != NULL);
+
+	gconf = gconf_client_get_default ();
+	full_path = build_setup_path (path, key);
+
+	gconf_client_set_string (gconf, full_path, value, &error);
+
+	g_free (full_path);
+	g_object_unref (gconf);
+
+	if (error) {
+		g_message ("%s: Failed to write: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+}
+
 static EAddrConduitCfg *
 addrconduit_load_configuration (guint32 pilot_id)
 {
@@ -352,8 +464,7 @@ addrconduit_load_configuration (guint32 pilot_id)
 	GnomePilotConduitManagement *management;
 	GnomePilotConduitConfig *config;
 	gchar *address, prefix[256];
-	g_snprintf (prefix, 255, "/gnome-pilot.d/e-address-conduit/Pilot_%u/",
-		    pilot_id);
+	g_snprintf (prefix, 255, "e-address-conduit/Pilot_%u", pilot_id);
 
 	c = g_new0 (EAddrConduitCfg,1);
 	g_assert (c != NULL);
@@ -369,8 +480,6 @@ addrconduit_load_configuration (guint32 pilot_id)
 	g_object_unref (management);
 
 	/* Custom settings */
-	gnome_config_push_prefix (prefix);
-
 	if (!e_book_get_addressbooks (&c->source_list, NULL))
 		c->source_list = NULL;
 	if (c->source_list) {
@@ -385,18 +494,16 @@ addrconduit_load_configuration (guint32 pilot_id)
 		}
 	}
 
-	c->secret = gnome_config_get_bool ("secret=FALSE");
-	address = gnome_config_get_string ("default_address=business");
-	if (!strcmp (address, "business"))
+	c->secret = e_pilot_setup_get_bool (prefix, "secret", FALSE);
+	address = e_pilot_setup_get_string (prefix, "default_address", "business");
+	if (!address || !strcmp (address, "business"))
 		c->default_address = E_CONTACT_ADDRESS_WORK;
 	else if (!strcmp (address, "home"))
 		c->default_address = E_CONTACT_ADDRESS_HOME;
 	else if (!strcmp (address, "other"))
 		c->default_address = E_CONTACT_ADDRESS_OTHER;
 	g_free (address);
-	c->last_uri = gnome_config_get_string ("last_uri");
-
-	gnome_config_pop_prefix ();
+	c->last_uri = e_pilot_setup_get_string (prefix, "last_uri", NULL);
 
 	return c;
 }
@@ -406,30 +513,24 @@ addrconduit_save_configuration (EAddrConduitCfg *c)
 {
 	gchar prefix[256];
 
-	g_snprintf (prefix, 255, "/gnome-pilot.d/e-address-conduit/Pilot_%u/",
-		    c->pilot_id);
+	g_snprintf (prefix, 255, "e-address-conduit/Pilot_%u", c->pilot_id);
 
-	gnome_config_push_prefix (prefix);
 	e_pilot_set_sync_source (c->source_list, c->source);
-	gnome_config_set_bool ("secret", c->secret);
+	e_pilot_setup_set_bool (prefix, "secret", c->secret);
 	switch (c->default_address) {
 	case E_CONTACT_ADDRESS_WORK:
-		gnome_config_set_string ("default_address", "business");
+		e_pilot_setup_set_string (prefix, "default_address", "business");
 		break;
 	case E_CONTACT_ADDRESS_HOME:
-		gnome_config_set_string ("default_address", "home");
+		e_pilot_setup_set_string (prefix, "default_address", "home");
 		break;
 	case E_CONTACT_ADDRESS_OTHER:
-		gnome_config_set_string ("default_address", "other");
+		e_pilot_setup_set_string (prefix, "default_address", "other");
 		break;
 	default:
 		g_warning ("Unknown default_address value");
 	}
-	gnome_config_set_string ("last_uri", c->last_uri);
-	gnome_config_pop_prefix ();
-
-	gnome_config_sync ();
-	gnome_config_drop_all ();
+	e_pilot_setup_set_string (prefix, "last_uri", c->last_uri ? c->last_uri : "");
 }
 
 static EAddrConduitCfg*
