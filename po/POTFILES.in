@@ -324,7 +324,6 @@ plugins/exchange-operations/org-gnome-folder-subscription.xml
 plugins/external-editor/apps-evolution-external-editor.schemas.in
 plugins/external-editor/org-gnome-external-editor.eplug.xml
 plugins/external-editor/org-gnome-external-editor.error.xml
-plugins/external-editor/org-gnome-external-editor.xml
 plugins/external-editor/external-editor.c
 plugins/face/face.c
 plugins/face/org-gnome-face.eplug.xml

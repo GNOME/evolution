@@ -70,7 +70,7 @@ error_DATA = 				\
 
 errordir = $(privdatadir)/errors
 
-BUILT_SOURCES = org-gnome-groupwise-features.eplug $(error_i18n)
+BUILT_SOURCES = org-gnome-groupwise-features.eplug $(error_DATA)
 
 EXTRA_DIST =						\
 	$(glade_DATA) 					\
