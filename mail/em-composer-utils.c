@@ -466,7 +466,7 @@ struct _save_draft_info {
 };
 
 static void
-composer_set_no_change (EMsgComposer *composer, gboolean drop_undo)
+composer_set_no_change (EMsgComposer *composer, gboolean drop_undo, gboolean editor_changed)
 {
 	GtkhtmlEditor *editor;
 	
@@ -477,7 +477,9 @@ composer_set_no_change (EMsgComposer *composer, gboolean drop_undo)
 	if (drop_undo)
 		gtkhtml_editor_drop_undo (editor);
 
-	gtkhtml_editor_set_changed (editor, FALSE);
+	if (editor_changed)
+		gtkhtml_editor_set_changed (editor, FALSE);
+
 	e_composer_autosave_set_saved (composer, TRUE);
 }
 
@@ -491,7 +493,7 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 	if (!ok)
 		goto done;
 
-	composer_set_no_change (sdi->composer, FALSE);
+	composer_set_no_change (sdi->composer, FALSE, FALSE);
 
 	if ((emcs = sdi->emcs) == NULL) {
 		emcs = emcs_new ();
@@ -689,7 +691,7 @@ em_utils_compose_new_message (const char *fromuri)
 	if (composer == NULL)
 		return;
 
-	composer_set_no_change (E_MSG_COMPOSER (composer), TRUE);
+	composer_set_no_change (E_MSG_COMPOSER (composer), TRUE, TRUE);
 
 	gtk_widget_show (composer);
 }
@@ -721,7 +723,7 @@ em_utils_compose_new_message_with_mailto (const char *url, const char *fromuri)
 	    && (account = mail_config_get_account_by_source_url(fromuri)))
 		e_composer_header_table_set_account_name (table, account->name);
 
-	composer_set_no_change (composer, TRUE);
+	composer_set_no_change (composer, TRUE, url == NULL);
 
 	gtk_widget_show ((GtkWidget *) composer);
 	gdk_window_raise (((GtkWidget *) composer)->window);
@@ -765,7 +767,7 @@ em_utils_post_to_folder (CamelFolder *folder)
 
 	em_composer_utils_setup_default_callbacks (composer);
 
-	composer_set_no_change (composer, TRUE);
+	composer_set_no_change (composer, TRUE, TRUE);
 
 	gtk_widget_show ((GtkWidget *) composer);
 	gdk_window_raise (((GtkWidget *) composer)->window);
@@ -798,7 +800,7 @@ em_utils_post_to_url (const char *url)
 
 	em_composer_utils_setup_default_callbacks (composer);
 
-	composer_set_no_change (composer, TRUE);
+	composer_set_no_change (composer, TRUE, TRUE);
 
 	gtk_widget_show ((GtkWidget *) composer);
 }
@@ -950,7 +952,7 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const char *uid)
 	else
 		em_composer_utils_setup_callbacks (composer, NULL, NULL, 0, 0, drafts, uid);
 
-	composer_set_no_change (composer, TRUE);
+	composer_set_no_change (composer, TRUE, FALSE);
 
 	gtk_widget_show (GTK_WIDGET (composer));
 }
@@ -1081,7 +1083,7 @@ forward_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, Cam
 	if (uids)
 		setup_forward_attached_callbacks (composer, folder, uids);
 
-	composer_set_no_change (composer, TRUE);
+	composer_set_no_change (composer, TRUE, FALSE);
 
 	gtk_widget_show (GTK_WIDGET (composer));
 }
@@ -1161,7 +1163,7 @@ forward_non_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages,
 				if (uids && uids->pdata[i])
 					em_composer_utils_setup_callbacks (composer, folder, uids->pdata[i], CAMEL_MESSAGE_FORWARDED, CAMEL_MESSAGE_FORWARDED, NULL, NULL);
 
-				composer_set_no_change (composer, TRUE);
+				composer_set_no_change (composer, TRUE, FALSE);
 
 				gtk_widget_show (GTK_WIDGET (composer));
 			}
@@ -1338,7 +1340,7 @@ em_utils_redirect_message (CamelMimeMessage *message)
 
 	gtk_widget_show (GTK_WIDGET (composer));
 
-	composer_set_no_change (composer, TRUE);
+	composer_set_no_change (composer, TRUE, FALSE);
 }
 
 static void
@@ -2389,7 +2391,7 @@ em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage
 
 	em_composer_utils_setup_callbacks (composer, folder, uid, flags, flags, NULL, NULL);
 
-	composer_set_no_change (composer, TRUE);
+	composer_set_no_change (composer, TRUE, FALSE);
 
 	gtk_widget_show (GTK_WIDGET (composer));
 }
@@ -2488,7 +2490,7 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 
 	em_composer_utils_setup_callbacks (composer, real_folder, real_uid, flags, flags, NULL, NULL);
 
-	composer_set_no_change (composer, TRUE);
+	composer_set_no_change (composer, TRUE, FALSE);
 
 	gtk_widget_show (GTK_WIDGET (composer));
 
