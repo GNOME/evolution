@@ -444,6 +444,7 @@ main (int argc, char **argv)
 		&argc, &argv, NULL, options, GETTEXT_PACKAGE, &error);
 	if (error != NULL) {
 		g_printerr ("%s\n", error->message);
+		g_error_free (error);
 		exit (1);
 	}
 

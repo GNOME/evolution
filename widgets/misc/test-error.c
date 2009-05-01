@@ -25,14 +25,12 @@
 #include <config.h>
 #endif
 
-#include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-ui-init.h>
 #include "e-error.h"
 
 int
 main (int argc, char **argv)
 {
-	gnome_init ("test-error", "0.0", argc, argv);
+	gtk_init (&argc, &argv);
 
 	argc--;
 	switch (argc) {

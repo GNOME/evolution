@@ -26,8 +26,6 @@
 #endif
 
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-ui-init.h>
 #include "e-info-label.h"
 
 static void
@@ -41,20 +39,20 @@ delete_event_cb (GtkWidget *widget,
 int
 main (int argc, char **argv)
 {
-	GtkWidget *app;
+	GtkWidget *window;
 	GtkWidget *info_label;
 	GtkWidget *label;
 	GtkWidget *vbox;
 
-	gnome_program_init (
-		"test-title-bar", "0.0", LIBGNOMEUI_MODULE,
-		argc, argv, GNOME_PARAM_NONE);
+	gtk_init (&argc, &argv);
 
-	app = gnome_app_new ("Test", "Test");
-	gtk_window_set_default_size (GTK_WINDOW (app), 400, 400);
-	gtk_window_set_resizable (GTK_WINDOW (app), TRUE);
+	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title (GTK_WINDOW (window), "EInfoLabel Test");
+	gtk_window_set_default_size (GTK_WINDOW (window), 400, 400);
+	gtk_window_set_resizable (GTK_WINDOW (window), TRUE);
 
-	g_signal_connect (app, "delete_event", G_CALLBACK (delete_event_cb), NULL);
+	g_signal_connect (window, "delete_event",
+			  G_CALLBACK (delete_event_cb), NULL);
 
 	info_label = e_info_label_new ("stock_default-folder");
 	e_info_label_set_info ((EInfoLabel *) info_label, "Component Name", "An annoyingly long component message");
@@ -68,8 +66,8 @@ main (int argc, char **argv)
 	gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
 	gtk_widget_show (vbox);
 
-	gnome_app_set_contents (GNOME_APP (app), vbox);
-	gtk_widget_show (app);
+	gtk_container_add (GTK_CONTAINER (window), vbox);
+	gtk_widget_show (window);
 
 	gtk_main ();
 

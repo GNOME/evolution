@@ -25,9 +25,6 @@
 #include <string.h>
 #include <glib.h>
 #include <glib/gi18n.h>
-#include <bonobo-activation/bonobo-activation.h>
-#include <bonobo/bonobo-main.h>
-#include <libgnome/gnome-init.h>
 
 #include <libebook/e-book.h>
 
@@ -71,8 +68,8 @@ int
 main (int argc, char **argv)
 {
 	ActionContext actctx;
-	GnomeProgram *program;
 	GOptionContext *context;
+	GError *error = NULL;
 
 	int current_action = ACTION_NOTHING;
 	int IsCSV = FALSE;
@@ -85,10 +82,11 @@ main (int argc, char **argv)
 
 	context = g_option_context_new (NULL);
 	g_option_context_add_main_entries (context, entries, GETTEXT_PACKAGE);
-	program = gnome_program_init (
-		PACKAGE, VERSION, GNOME_BONOBO_MODULE, argc, argv,
-		GNOME_PARAM_GOPTION_CONTEXT, context,
-		GNOME_PARAM_NONE);
+	if (!g_option_context_parse (context, &argc, &argv, &error)) {
+		g_printerr ("%s\n", error->message);
+		g_error_free (error);
+		exit (-1);
+	}
 
 	/* Parsing Parameter */
 	if (opt_remaining && g_strv_length (opt_remaining) > 0)

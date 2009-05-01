@@ -24,8 +24,6 @@
 
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-ui-init.h>
 #include <glade/glade.h>
 #include "e-contact-editor.h"
 #include "ebook/e-card.h"
@@ -97,7 +95,7 @@ int main( int argc, char *argv[] )
 	char *cardstr;
 	EContactEditor *ce;
 
-	gnome_program_init("Contact Editor Test", VERSION, LIBGNOMEUI_MODULE, argc, argv, NULL);
+	gtk_init (&argc, &argv);
 
 	glade_init ();
 
