@@ -29,7 +29,7 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 #include <gconf/gconf-client.h>
-#include <libgnome/libgnome.h>
+#include <libgnome/gnome-sound.h>
 
 #ifdef HAVE_DBUS
 #include <dbus/dbus-glib.h>

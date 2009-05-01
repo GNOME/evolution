@@ -31,7 +31,8 @@
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
-#include <libgnomeui/libgnomeui.h>
+#include <libgnomeui/gnome-druid.h>
+#include <libgnomeui/gnome-druid-page-standard.h>
 #include "shell/es-menu.h"
 #include "mail/em-config.h"
 #include "mail/em-account-editor.h"

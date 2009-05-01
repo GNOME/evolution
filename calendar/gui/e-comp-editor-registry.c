@@ -24,7 +24,6 @@
 #include <config.h>
 #endif
 
-#include <gnome.h>
 #include "e-comp-editor-registry.h"
 
 struct _ECompEditorRegistryPrivate {

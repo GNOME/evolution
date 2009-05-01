@@ -20,10 +20,13 @@
  *
  */
 
+#include <unistd.h>
 #include <gconf/gconf-client.h>
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include <libgnomeui/libgnomeui.h>
+#include <libgnomeui/gnome-druid.h>
+#include <libgnomeui/gnome-druid-page-edge.h>
+#include <libgnomeui/gnome-druid-page-standard.h>
 #include "e-util/e-error.h"
 #include "e-util/e-import.h"
 #include "shell/es-event.h"
