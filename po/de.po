@@ -16,15 +16,16 @@
 # Frank Arnold <frank@scirocco-5v-turbo.de>, 2005.
 # Christian Kintner <mail@christian-kintner.de>, 2006, 2007.
 # Andre Klapper <ak-47@gmx.net>, 2007, 2008, 2009.
+# Christian Kirbach <Christian.Kirbach@googlemail.com>, 2009.
 #: ../shell/main.c:603
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-03-15 18:59+0100\n"
-"PO-Revision-Date: 2009-03-15 19:00+0100\n"
-"Last-Translator: Hendrik Richter <hendrikr@gnome.org>\n"
-"Language-Team: German <gnome-de@gnome.org>\n"
+"PO-Revision-Date: 2009-05-01 18:13+0200\n"
+"Last-Translator: Christian Kirbach <Christian.Kirbach@googlemail.com>\n"
+"Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19621,10 +19622,10 @@ msgid_plural ""
 "in %s."
 msgstr[0] ""
 "Sie haben %d neue Nachricht\n"
-"in %s."
+"im %s."
 msgstr[1] ""
 "Sie haben %d neue Nachrichten\n"
-"in %s."
+"im %s."
 
 #: ../plugins/mail-notification/mail-notification.c:488
 #, c-format
@@ -24151,14 +24152,14 @@ msgstr ""
 msgid "%s : %s (%d item)"
 msgid_plural "%s : %s (%d items)"
 msgstr[0] "%s: %s (%d Objekt)"
-msgstr[1] "%s: %s (%d Objekt)"
+msgstr[1] "%s: %s (%d Objekte)"
 
 #: ../widgets/table/e-table-group-container.c:350
 #, c-format
 msgid "%s (%d item)"
 msgid_plural "%s (%d items)"
 msgstr[0] "%s (%d Objekt)"
-msgstr[1] "%s (%d Objekt)"
+msgstr[1] "%s (%d Objekte)"
 
 #: ../widgets/table/e-table-group-container.c:927
 #: ../widgets/table/e-table-group-container.c:928
