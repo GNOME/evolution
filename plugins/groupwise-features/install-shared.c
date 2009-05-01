@@ -26,9 +26,9 @@
 
 #include <string.h>
 #include <glib.h>
-#include <gnome.h>
 #include <gtk/gtk.h>
-#include <libgnomeui/libgnomeui.h>
+#include <libgnomeui/gnome-druid.h>
+#include <libgnomeui/gnome-druid-page-edge.h>
 #include <glib/gi18n.h>
 #include <gconf/gconf-client.h>
 #include <e-util/e-config.h>

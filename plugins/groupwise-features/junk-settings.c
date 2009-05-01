@@ -26,8 +26,6 @@
 #include <glade/glade.h>
 #include "junk-settings.h"
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-ui-init.h>
-#include <libgnome/gnome-init.h>
 #include <glib/gi18n.h>
 #include <e-util/e-error.h>
 #include <e-util/e-util-private.h>

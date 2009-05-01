@@ -29,7 +29,6 @@
 
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
-#include <libgnome/gnome-util.h>
 
 #include <libebook/e-book.h>
 #include <libecal/e-cal.h>
@@ -438,6 +437,8 @@ main (int argc, char **argv)
 	bindtextdomain (GETTEXT_PACKAGE, EVOLUTION_LOCALEDIR);
 	bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
 	textdomain (GETTEXT_PACKAGE);
+
+	g_thread_init (NULL);
 
 	gtk_init_with_args (
 		&argc, &argv, NULL, options, GETTEXT_PACKAGE, &error);

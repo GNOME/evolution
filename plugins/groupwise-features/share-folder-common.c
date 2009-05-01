@@ -48,7 +48,6 @@
 #include <e-gw-container.h>
 #include <e-gw-connection.h>
 #include <glade/glade.h>
-#include <libgnomeui/libgnomeui.h>
 #include "share-folder.h"
 #define d(x)
 

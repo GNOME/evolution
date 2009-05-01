@@ -247,15 +247,9 @@ guint   calendar_config_add_notification_day_second_zone (GConfClientNotifyFunc 
 gboolean calendar_config_get_ba_reminder (int *interval, CalUnits *units);
 void calendar_config_set_ba_reminder (gboolean *enabled, int *interval, CalUnits *units);
 
-GSList *calendar_config_get_day_second_zones (void);
-void    calendar_config_free_day_second_zones (GSList *zones);
-void    calendar_config_set_day_second_zone (const char *location);
-char *  calendar_config_get_day_second_zone (void);
-void    calendar_config_select_day_second_zone (void);
-guint   calendar_config_add_notification_day_second_zone (GConfClientNotifyFunc func, gpointer data);
-
-/* Birthdays & Anniversaries reminder settings */
-gboolean calendar_config_get_ba_reminder (int *interval, CalUnits *units);
-void calendar_config_set_ba_reminder (gboolean *enabled, int *interval, CalUnits *units);
+/* Scroll in a month view by a week, not by a month */
+gboolean calendar_config_get_month_scroll_by_week (void);
+void calendar_config_set_month_scroll_by_week (gboolean value);
+guint calendar_config_add_notification_month_scroll_by_week (GConfClientNotifyFunc func, gpointer data);
 
 #endif /* _CALENDAR_CONFIG_H_ */

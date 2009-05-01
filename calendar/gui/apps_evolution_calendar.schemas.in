@@ -550,6 +550,18 @@
       </locale>
     </schema>
 
+    <schema>
+      <key>/schemas/apps/evolution/calendar/display/month_scroll_by_week</key>
+      <applyto>/apps/evolution/calendar/display/month_scroll_by_week</applyto>
+      <owner>evolution-calendar</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+        <short>Scroll Month View by a week</short>
+        <long>Whether to scroll a Month View by a week, not by a month.</long>
+      </locale>
+    </schema>
+
     <!-- Date navigator -->
 
     <schema>

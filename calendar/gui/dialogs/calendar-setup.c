@@ -31,7 +31,6 @@
 #include <libedataserver/e-source.h>
 #include <libedataserver/e-source-list.h>
 #include <glib/gi18n.h>
-#include <libgnomeui/libgnomeui.h>
 #include <libecal/e-cal.h>
 #include "calendar-setup.h"
 #include "../e-cal-config.h"

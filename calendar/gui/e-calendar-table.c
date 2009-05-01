@@ -34,7 +34,9 @@
 #include <unistd.h>
 #include <glib/gi18n.h>
 #include <glib/gstdio.h>
-#include <widgets/misc/e-gui-utils.h>
+#include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
+#include <misc/e-gui-utils.h>
 #include <table/e-cell-checkbox.h>
 #include <table/e-cell-toggle.h>
 #include <table/e-cell-text.h>

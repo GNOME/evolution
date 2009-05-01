@@ -505,6 +505,8 @@ e_week_view_init (EWeekView *week_view)
 	week_view->spans = NULL;
 
 	week_view->multi_week_view = FALSE;
+	week_view->month_scroll_by_week = FALSE;
+	week_view->scroll_by_week_notif_id = 0;
 	week_view->update_base_date = TRUE;
 	week_view->weeks_shown = 6;
 	week_view->rows = 6;
@@ -702,6 +704,11 @@ e_week_view_destroy (GtkObject *object)
 	if (week_view->resize_width_cursor) {
 		gdk_cursor_unref (week_view->resize_width_cursor);
 		week_view->resize_width_cursor = NULL;
+	}
+
+	if (week_view->scroll_by_week_notif_id) {
+		calendar_config_remove_notification (week_view->scroll_by_week_notif_id);
+		week_view->scroll_by_week_notif_id = 0;
 	}
 
 	GTK_OBJECT_CLASS (e_week_view_parent_class)->destroy (object);
@@ -1644,6 +1651,19 @@ e_week_view_recalc_day_starts (EWeekView *week_view,
 	}
 }
 
+static void
+month_scrol_by_week_changed_cb (GConfClient *client, guint cnxn_id, GConfEntry *entry, gpointer user_data)
+{
+	EWeekView *week_view = user_data;
+
+	g_return_if_fail (week_view != NULL);
+	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
+
+	if (week_view->multi_week_view && week_view->month_scroll_by_week != calendar_config_get_month_scroll_by_week ()) {
+		week_view->multi_week_view = FALSE;
+		e_week_view_set_multi_week_view	(week_view, TRUE);
+	}
+}
 
 gboolean
 e_week_view_get_multi_week_view	(EWeekView	*week_view)
@@ -1670,11 +1690,26 @@ e_week_view_set_multi_week_view	(EWeekView	*week_view,
 
 	if (multi_week_view) {
 		gtk_widget_show (week_view->titles_canvas);
-		page_increment = 4;
-		page_size = 5;
+		week_view->month_scroll_by_week = calendar_config_get_month_scroll_by_week ();
+
+		if (!week_view->scroll_by_week_notif_id)
+			week_view->scroll_by_week_notif_id = calendar_config_add_notification_month_scroll_by_week (month_scrol_by_week_changed_cb, week_view);
+
+		if (week_view->month_scroll_by_week) {
+			page_increment = 1;
+			page_size = 1;
+		} else {
+			page_increment = 4;
+			page_size = 5;
+		}
 	} else {
 		gtk_widget_hide (week_view->titles_canvas);
 		page_increment = page_size = 1;
+
+		if (week_view->scroll_by_week_notif_id) {
+			calendar_config_remove_notification (week_view->scroll_by_week_notif_id);
+			week_view->scroll_by_week_notif_id = 0;
+		}
 	}
 
 	adjustment = GTK_RANGE (week_view->vscrollbar)->adjustment;
@@ -1732,8 +1767,13 @@ e_week_view_set_weeks_shown	(EWeekView	*week_view,
 	week_view->weeks_shown = weeks_shown;
 
 	if (week_view->multi_week_view) {
-		page_increment = 4;
-		page_size = 5;
+		if (week_view->month_scroll_by_week) {
+			page_increment = 1;
+			page_size = 1;
+		} else {
+			page_increment = 4;
+			page_size = 5;
+		}
 
 		adjustment = GTK_RANGE (week_view->vscrollbar)->adjustment;
 		adjustment->page_increment = page_increment;

@@ -55,10 +55,6 @@
 #include "e-util/e-popup.h"
 #include "e-util/e-error.h"
 
-#if !GTK_CHECK_VERSION(2,16,0)
-#define gtk_status_icon_set_tooltip_text gtk_status_icon_set_tooltip
-#endif
-
 #define d(x)
 
 /* The dialog with alarm nofications */

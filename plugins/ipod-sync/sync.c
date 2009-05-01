@@ -20,8 +20,9 @@
 
 #include "config.h"
 #include "evolution-ipod-sync.h"
-#include <gnome.h>
 
+#include <gtk/gtk.h>
+#include <glib/gi18n-lib.h>
 #include <libebook/e-book.h>
 #include <libebook/e-contact.h>
 #include <libecal/e-cal.h>
