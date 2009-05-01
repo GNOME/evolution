@@ -29,7 +29,6 @@
 #include "e-util/e-util.h"
 
 #include <gconf/gconf-client.h>
-#include <libgnome/gnome-gconf.h>
 
 typedef struct {
 	GtkWidget *button_widget;

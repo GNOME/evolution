@@ -43,7 +43,6 @@
 #include <string.h>
 
 #include <gconf/gconf-client.h>
-#include <libgnome/gnome-gconf.h>
 
 struct _Component {
 	char *id, *alias;
