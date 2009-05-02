@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2009-05-01 17:43+0000\n"
-"PO-Revision-Date: 2009-05-02 12:46+0200\n"
+"PO-Revision-Date: 2009-05-02 16:00+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3587,7 +3587,7 @@ msgstr "Los calendarios ejecutarán alertas durante"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:7
 msgid "Check this to use system timezone in Evolution."
-msgstr ""
+msgstr "Marque esto para usar la hora del sistema en Evolution."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:8
 msgid ""
@@ -3963,10 +3963,9 @@ msgstr ""
 "\"days\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:82
-#, fuzzy
 #| msgid "_Use system defaults"
 msgid "Use system timezone"
-msgstr "_Usar los valores predeterminados del sistema"
+msgstr "Usar la hora del sistema"
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:84
 msgid "Week start"
@@ -4794,10 +4793,9 @@ msgid "Tuesday"
 msgstr "martes"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
-#, fuzzy
 #| msgid "Show the second time zone"
 msgid "Use s_ystem time zone"
-msgstr "Muestra la segunda zona horaria"
+msgstr "Usar la zona horaria del s_istema"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 #: ../calendar/gui/dialogs/recurrence-page.c:1105
@@ -5974,34 +5972,29 @@ msgid "%s for an unknown trigger type"
 msgstr "%s para un tipo de disparador desconocido"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:258
-#, fuzzy
 #| msgid "Import"
 msgid "I_mport"
-msgstr "Importar"
+msgstr "I_mportar"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:340
-#, fuzzy
 #| msgid "Select Calendar"
 msgid "Select a Calendar"
-msgstr "Seleccione el calendario"
+msgstr "Seleccionar un calendario"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:367
-#, fuzzy
 #| msgid "Select Task List"
 msgid "Select a Task List"
-msgstr "Seleccione la lista de tareas"
+msgstr "Seleccionar una lista de tareas"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:377
-#, fuzzy
 #| msgid "Import to Calendar"
 msgid "I_mport to Calendar"
-msgstr "Importar al calendario"
+msgstr "I_mportar al calendario"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:384
-#, fuzzy
 #| msgid "_Import to Tasks"
 msgid "I_mport to Tasks"
-msgstr "_Importar a las tareas"
+msgstr "I_mportar a las tareas"
 
 #: ../calendar/gui/e-cal-component-memo-preview.c:69
 #: ../calendar/gui/e-cal-component-preview.c:67 ../mail/em-folder-view.c:3272
@@ -6409,7 +6402,7 @@ msgstr "_Reunión nueva"
 #. FIXME: hook in this somehow
 #: ../calendar/gui/e-calendar-view.c:1806
 msgid "_Current View"
-msgstr "Vista _actual"
+msgstr "Vista act_ual"
 
 #: ../calendar/gui/e-calendar-view.c:1808
 msgid "Select T_oday"
@@ -10090,7 +10083,7 @@ msgstr "_Privado"
 #. green
 #: ../e-util/e-util-labels.c:42
 msgid "_To Do"
-msgstr "_Tareas pendientes"
+msgstr "Ta_reas pendientes"
 
 #. blue
 #: ../e-util/e-util-labels.c:43
@@ -10527,11 +10520,11 @@ msgstr "Responder al _remitente"
 
 #. Translators: This is only for multiple messages.
 #: ../mail/e-attachment-handler-mail.c:334
-#, fuzzy, c-format
+#, c-format
 #| msgid "Attached message"
 #| msgid_plural "%d attached messages"
 msgid "%d attached messages"
-msgstr "Mensaje adjunto"
+msgstr "%d mensajes adjuntos"
 
 #: ../mail/e-mail-attachment-bar.c:122 ../mail/em-format-html-display.c:2188
 #: ../mail/message-list.etspec.h:1 ../widgets/misc/e-attachment-paned.c:140
@@ -10542,17 +10535,15 @@ msgstr[1] "Adjuntos"
 
 #: ../mail/e-mail-attachment-bar.c:615
 #: ../widgets/misc/e-attachment-paned.c:599
-#, fuzzy
 #| msgid "Month View"
 msgid "Icon View"
-msgstr "Vista mensual"
+msgstr "Vista de icono"
 
 #: ../mail/e-mail-attachment-bar.c:616
 #: ../widgets/misc/e-attachment-paned.c:600
-#, fuzzy
 #| msgid "_List View"
 msgid "List View"
-msgstr "Vista de _lista"
+msgstr "Vista de lista"
 
 #. Translators: This string is a "Use secure connection" option for
 #. the Mailer. It will not use an encrypted connection.
@@ -10824,10 +10815,9 @@ msgid "Follow Up"
 msgstr "Seguimiento"
 
 #: ../mail/em-filter-i18n.h:29
-#, fuzzy
 #| msgid "Forward"
 msgid "Forward to"
-msgstr "Reenviar"
+msgstr "Reenviar a"
 
 #: ../mail/em-filter-i18n.h:30 ../mail/em-migrate.c:957
 msgid "Important"
@@ -10895,10 +10885,9 @@ msgid "Message is not Junk"
 msgstr "El mensaje no es SPAM"
 
 #: ../mail/em-filter-i18n.h:50
-#, fuzzy
 #| msgid "Message contains"
 msgid "Message Location"
-msgstr "El mensaje contiene"
+msgstr "Ubicación del mensaje"
 
 #: ../mail/em-filter-i18n.h:51
 msgid "Move to Folder"
@@ -11012,7 +11001,7 @@ msgstr "Añadir a_cción"
 
 #: ../mail/em-folder-browser.c:193
 msgid "C_reate Search Folder From Search..."
-msgstr "C_rear una carpeta de búsqueda desde la búsqueda…"
+msgstr "_Crear una carpeta de búsqueda desde la búsqueda…"
 
 #: ../mail/em-folder-browser.c:218
 msgid "All Messages"
@@ -11298,19 +11287,19 @@ msgstr "_Mover a la carpeta…"
 
 #: ../mail/em-folder-view.c:1344
 msgid "_Copy to Folder..."
-msgstr "_Copiar a la carpeta…"
+msgstr "Copiar a la c_arpeta…"
 
 #: ../mail/em-folder-view.c:1347
 msgid "Mar_k as Read"
-msgstr "Mar_car como leído"
+msgstr "Marcar como _leído"
 
 #: ../mail/em-folder-view.c:1348
 msgid "Mark as _Unread"
-msgstr "Marcar como _no leído"
+msgstr "Marcar como no _leído"
 
 #: ../mail/em-folder-view.c:1349
 msgid "Mark as _Important"
-msgstr "Marcar como _importante"
+msgstr "Marcar como imp_ortante"
 
 #: ../mail/em-folder-view.c:1350
 msgid "Mark as Un_important"
@@ -11330,7 +11319,7 @@ msgstr "Marcar para se_guimiento…"
 
 #: ../mail/em-folder-view.c:1355
 msgid "_Label"
-msgstr "_Etiqueta"
+msgstr "Etiq_ueta"
 
 #. Note that we don't show this here, since by default a 'None' date
 #. is not permitted.
@@ -11340,7 +11329,7 @@ msgstr "_Ninguna"
 
 #: ../mail/em-folder-view.c:1359
 msgid "_New Label"
-msgstr "Etiqueta _nueva"
+msgstr "Etiqueta n_ueva"
 
 #: ../mail/em-folder-view.c:1363
 msgid "Fla_g Completed"
@@ -11361,7 +11350,7 @@ msgstr "Carpeta de búsqueda según el a_sunto"
 
 #: ../mail/em-folder-view.c:1370
 msgid "Search Folder based on Se_nder"
-msgstr "Carpeta de búsqueda según el re_mitente"
+msgstr "Carpeta de búsqueda según el r_emitente"
 
 #: ../mail/em-folder-view.c:1371
 msgid "Search Folder based on _Recipients"
@@ -11369,7 +11358,7 @@ msgstr "Carpeta de búsqueda según los des_tinatarios"
 
 #: ../mail/em-folder-view.c:1372
 msgid "Search Folder based on Mailing _List"
-msgstr "Carpeta de búsqueda según la _lista de correo"
+msgstr "Carpeta de búsqueda según la l_ista de correo"
 
 #. Translators: The following strings are used while creating a new message filter, to specify what parameter the filter would be based on.
 #: ../mail/em-folder-view.c:1377
@@ -12851,11 +12840,11 @@ msgstr "Usar tipografía personalizada para mostrar el correo."
 
 #: ../mail/evolution-mail.schemas.in.h:163
 msgid "Use only local spam tests."
-msgstr "Usar sólo los tests de SPAM locales."
+msgstr "Usar sólo comprobaciones de SPAM locales."
 
 #: ../mail/evolution-mail.schemas.in.h:164
 msgid "Use only the local spam tests (no DNS)."
-msgstr "Usa sólo los tests de SPAM locales (sin DNS)."
+msgstr "Usa sólo comprobaciones de SPAM locales (sin DNS)."
 
 #: ../mail/evolution-mail.schemas.in.h:165
 msgid "Use side-by-side or wide layout"
@@ -13329,7 +13318,7 @@ msgstr "Comprueba si el correo entrante es SPAM"
 
 #: ../mail/mail-config.glade.h:61
 msgid "Cle_ar"
-msgstr "Vacia_r"
+msgstr "_Vaciar"
 
 #: ../mail/mail-config.glade.h:62
 msgid "Clea_r"
@@ -16673,16 +16662,17 @@ msgstr ""
 "Inténtelo más tarde."
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:4
-#, fuzzy
 #| msgid "External Editor"
 msgid "External editor still running"
-msgstr "Editor externo"
+msgstr "El editor externo aún se está ejecutando"
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:5
 msgid ""
 "The external editor is still running. The mail composer window cannot be "
 "closed as long as the editor is active."
 msgstr ""
+"El editor externo aún se está ejecutando. La ventana del editor de correos "
+"no se puede cerrar mientras el editor esté activo."
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:6
 msgid ""
@@ -16697,7 +16687,6 @@ msgid "Command to be executed to launch the editor: "
 msgstr "Comando que ejecutar para lanzar el editor: "
 
 #: ../plugins/external-editor/external-editor.c:110
-#, fuzzy
 #| msgid ""
 #| "For Emacs use \"xemacs\"\n"
 #| "For VI use \"gvim\""
@@ -16705,8 +16694,8 @@ msgid ""
 "For Emacs use \"xemacs\"\n"
 "For VI use \"gvim -f\""
 msgstr ""
-"Para Emacs use \"xemacs\"\n"
-"Para VI use \"gvim\""
+"Para Emacs use «xemacs»\n"
+"Para VI use «gvim -f»"
 
 #: ../plugins/external-editor/external-editor.c:308
 #: ../plugins/external-editor/external-editor.c:310
@@ -18225,10 +18214,10 @@ msgstr ""
 "tarea en él. Selecione otro origen."
 
 #: ../plugins/mail-to-task/mail-to-task.c:455
-#, fuzzy, c-format
+#, c-format
 #| msgid "Could not update object"
 msgid "Could not create object. %s"
-msgstr "No es posible actualizar el objeto"
+msgstr "No se pudo crear el objeto. %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:555
 #, fuzzy, c-format
@@ -18249,7 +18238,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Con_vert to Task"
 msgid "Convert to a Mem_o"
-msgstr "Convertir en _tarea"
+msgstr "Convertir en ta_rea"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:3
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:6
@@ -18260,10 +18249,9 @@ msgstr "Convertir en _reunión"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:4
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:7
-#, fuzzy
 #| msgid "Con_vert to Task"
 msgid "Convert to a _Task"
-msgstr "Convertir en _tarea"
+msgstr "Convertir en ta_rea"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:5
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:8
@@ -18646,41 +18634,40 @@ msgstr "_Publicar información del calendario"
 
 #: ../plugins/publish-calendar/publish-calendar.c:95
 #: ../plugins/publish-calendar/publish-calendar.c:329
-#, fuzzy, c-format
+#, c-format
 #| msgid "Could not open source"
 msgid "Could not open %s:"
-msgstr "No se puede abrir el origen"
+msgstr "No se pudo abrir «%s»:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:97
-#, fuzzy, c-format
+#, c-format
 #| msgid "Could not parse PGP message: Unknown error"
 msgid "Could not open %s: Unknown error"
-msgstr "No es posible interpretar el mensaje PGP: Error desconocido"
+msgstr "No se ha podido abrir «%s»: Error desconocido"
 
 #: ../plugins/publish-calendar/publish-calendar.c:117
 #, c-format
 msgid "There was an error while publishing to %s:"
-msgstr ""
+msgstr "Hubo un error al publicar en %s:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:119
 #, c-format
 msgid "Publishing to %s finished successfully"
-msgstr ""
+msgstr "La publicación en %s finalizó correctamente"
 
 #: ../plugins/publish-calendar/publish-calendar.c:160
 #, c-format
 msgid "Mount of %s failed:"
-msgstr ""
+msgstr "Falló al montar %s:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:612
 msgid "Are you sure you want to remove this location?"
 msgstr "¿Seguro que quiere eliminar este lugar?"
 
 #: ../plugins/publish-calendar/publish-calendar.c:776
-#, fuzzy
 #| msgid "Could not create message."
 msgid "Could not create publish thread."
-msgstr "No es posible crear un mensaje."
+msgstr "No se pudo publicar el hilo de publicación."
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:2
 msgid "<span weight=\"bold\">Location</span>"
@@ -18771,6 +18758,7 @@ msgstr ""
 #, c-format
 msgid "Could not publish calendar: Calendar backend no longer exists"
 msgstr ""
+"No se pudo publicar el calendario: El «backend» del calendario ya no existe."
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:461
 msgid "New Location"
@@ -19216,6 +19204,7 @@ msgstr "Instalar la carpeta compartida"
 #: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "Initial folder for GtkFileChooser dialogs."
 msgstr ""
+"La carpeta inicial para los diálogos GtkFileChooser (selector de archivos)."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:18
 msgid ""
@@ -20774,7 +20763,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-global.xml.h:13
 msgid "Search F_olders"
-msgstr "_Carpetas de búsqueda"
+msgstr "Carpetas de búsque_da"
 
 #: ../ui/evolution-mail-global.xml.h:14
 msgid "Show Message _Preview"
@@ -20822,7 +20811,7 @@ msgstr "_Nueva…"
 
 #: ../ui/evolution-mail-global.xml.h:28
 msgid "_Preview"
-msgstr "_Vista previa"
+msgstr "Vista _previa"
 
 #.
 #. <menuitem name="CreateVFolder" verb="CreateVFolder" _label="_New Search _Folder (FIXME)"/>
@@ -20845,7 +20834,7 @@ msgstr "Cambia las propiedades de esta carpeta"
 
 #: ../ui/evolution-mail-list.xml.h:3
 msgid "Collapse All _Threads"
-msgstr "Contraer todas las _conversaciones"
+msgstr "_Contraer todas las conversaciones"
 
 #: ../ui/evolution-mail-list.xml.h:4
 msgid "Collapse all message threads"
@@ -20892,7 +20881,7 @@ msgstr ""
 
 #: ../ui/evolution-mail-list.xml.h:16
 msgid "Mar_k All Messages as Read"
-msgstr "Marcar _todos los mensajes como leídos"
+msgstr "Marcar todos los mensajes como _leídos"
 
 #: ../ui/evolution-mail-list.xml.h:17
 msgid "Mark all messages in the folder as read"
@@ -21217,7 +21206,7 @@ msgstr "Abre los mensajes seleccionados en el editor para editarlo"
 
 #: ../ui/evolution-mail-message.xml.h:66
 msgid "P_revious Unread Message"
-msgstr "Mensaje ante_rior no leído"
+msgstr "Mensaje anterior n_o leído"
 
 #: ../ui/evolution-mail-message.xml.h:67
 msgid "Paste messages from the clipboard"
@@ -21241,7 +21230,7 @@ msgstr "Publica una respuesta a un mensaje en una carpeta pública"
 
 #: ../ui/evolution-mail-message.xml.h:72
 msgid "Pr_evious Important Message"
-msgstr "Mensaje an_terior importante"
+msgstr "Mensaje anterior i_mportante"
 
 #: ../ui/evolution-mail-message.xml.h:73
 msgid "Preview the message to be printed"
@@ -21269,11 +21258,11 @@ msgstr "Guarda los mensajes como un archivo de texto"
 
 #: ../ui/evolution-mail-message.xml.h:86
 msgid "Search Folder from Mailing _List..."
-msgstr "Carpeta de búsqueda según la _lista de correo…"
+msgstr "Carpeta de búsqueda según la l_ista de correo…"
 
 #: ../ui/evolution-mail-message.xml.h:87
 msgid "Search Folder from Recipien_ts..."
-msgstr "Carpeta de búsqueda según los destina_tarios…"
+msgstr "Carpeta de búsqueda según los des_tinatarios…"
 
 #: ../ui/evolution-mail-message.xml.h:88
 msgid "Search Folder from S_ubject..."
@@ -21281,7 +21270,7 @@ msgstr "Carpeta de búsqueda según el a_sunto…"
 
 #: ../ui/evolution-mail-message.xml.h:89
 msgid "Search Folder from Sen_der..."
-msgstr "Carpeta de búsqueda según el remite_nte…"
+msgstr "Carpeta de búsqueda según el r_emitente…"
 
 #: ../ui/evolution-mail-message.xml.h:90
 msgid "Search for text in the body of the displayed message"
@@ -21317,7 +21306,7 @@ msgstr "Recupera los mensajes seleccionados"
 
 #: ../ui/evolution-mail-message.xml.h:98
 msgid "Uni_mportant"
-msgstr "_No importante"
+msgstr "N_o importante"
 
 #: ../ui/evolution-mail-message.xml.h:99
 msgid "Zoom _Out"
@@ -21329,7 +21318,7 @@ msgstr "_Adjunto"
 
 #: ../ui/evolution-mail-message.xml.h:101
 msgid "_Caret Mode"
-msgstr "Activar _cursor"
+msgstr "Activar cu_rsor"
 
 #: ../ui/evolution-mail-message.xml.h:102
 msgid "_Clear Flag"
@@ -21369,7 +21358,7 @@ msgstr "Cargar _imágenes"
 
 #: ../ui/evolution-mail-message.xml.h:116
 msgid "_Message Source"
-msgstr "Mensaje en _bruto"
+msgstr "Me_nsaje en bruto"
 
 #: ../ui/evolution-mail-message.xml.h:118
 msgid "_Next Message"
@@ -21381,7 +21370,7 @@ msgstr "Tamaño _normal"
 
 #: ../ui/evolution-mail-message.xml.h:120
 msgid "_Not Junk"
-msgstr "_No es SPAM"
+msgstr "No es SPA_M"
 
 #: ../ui/evolution-mail-message.xml.h:121
 msgid "_Open in New Window"
@@ -21389,7 +21378,7 @@ msgstr "_Abrir en una ventana nueva"
 
 #: ../ui/evolution-mail-message.xml.h:122
 msgid "_Previous Message"
-msgstr "Mensaje a_nterior"
+msgstr "Mensaje _anterior"
 
 #: ../ui/evolution-mail-message.xml.h:124
 msgid "_Quoted"
@@ -21736,7 +21725,7 @@ msgstr "Vista de la semana _laboral"
 
 #: ../views/mail/galview.xml.h:1
 msgid "As Sent Folder for Wi_de View"
-msgstr "Como carpeta de enviados para la vista _ancha"
+msgstr "Como carpeta de enviados para la vista anc_ha"
 
 #: ../views/mail/galview.xml.h:2
 msgid "As _Sent Folder"
@@ -21748,7 +21737,7 @@ msgstr "Por es_tado"
 
 #: ../views/mail/galview.xml.h:4
 msgid "By Se_nder"
-msgstr "Por re_mitente"
+msgstr "Por rem_itente"
 
 #: ../views/mail/galview.xml.h:5
 msgid "By Su_bject"
@@ -21760,7 +21749,7 @@ msgstr "Por marca de _seguimiento"
 
 #: ../views/mail/galview.xml.h:7
 msgid "For _Wide View"
-msgstr "Para la vista _ancha"
+msgstr "Para la vista a_ncha"
 
 #: ../views/mail/galview.xml.h:8
 msgid "_Messages"
@@ -21874,7 +21863,7 @@ msgstr "Definir vistas…"
 
 #: ../widgets/menus/gal-view-menus.c:304
 msgid "C_urrent View"
-msgstr "Vista _actual"
+msgstr "Vista act_ual"
 
 #: ../widgets/menus/gal-view-menus.c:328
 #, c-format
@@ -22394,7 +22383,7 @@ msgstr "B_uscar ahora"
 # Conflicto con _Ver del menú principal
 #: ../widgets/misc/e-search-bar.c:609
 msgid "_Clear"
-msgstr "Vacia_r"
+msgstr "_Vaciar"
 
 #: ../widgets/misc/e-search-bar.c:864
 msgid "Item ID"
@@ -22416,7 +22405,7 @@ msgstr "M_ostrar: "
 #. the term to search for
 #: ../widgets/misc/e-search-bar.c:1019
 msgid "Sear_ch: "
-msgstr "_Buscar: "
+msgstr "B_uscar: "
 
 #. To Translators: The " in " label is part of the Quick Search Bar, example:
 #. Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account
