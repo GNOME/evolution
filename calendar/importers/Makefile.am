@@ -18,3 +18,5 @@ libevolution_calendar_importers_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la 				\
 	$(top_builddir)/calendar/common/libevolution-calendarprivate.la	\
 	$(EVOLUTION_CALENDAR_LIBS)
+
+-include $(top_srcdir)/git.mk

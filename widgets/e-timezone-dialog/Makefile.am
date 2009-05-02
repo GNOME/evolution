@@ -22,3 +22,5 @@ libetimezonedialog_la_LIBADD =				\
 glade_DATA = e-timezone-dialog.glade
 
 EXTRA_DIST = $(glade_DATA)
+
+-include $(top_srcdir)/git.mk

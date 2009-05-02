@@ -19,3 +19,5 @@ EXTRA_DIST = org-gnome-evolution-bbdb.eplug.xml
 
 BUILT_SOURCES = $(plugin_DATA)
 CLEANFILES = $(BUILT_SOURCES)
+
+-include $(top_srcdir)/git.mk

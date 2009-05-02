@@ -40,3 +40,5 @@ libgal_a11y_etable_la_SOURCES =		\
 	gal-a11y-e-table-column-header.h	\
 	gal-a11y-e-table-item-factory.h		\
 	gal-a11y-e-table-factory.h
+
+-include $(top_srcdir)/git.mk

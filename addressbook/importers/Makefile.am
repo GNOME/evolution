@@ -23,3 +23,5 @@ libevolution_addressbook_importers_la_LIBADD = \
 	$(top_builddir)/e-util/libeutil.la 				\
 	$(top_builddir)/addressbook/util/libeabutil.la			\
 	$(IMPORTERS_LIBS)
+
+-include $(top_srcdir)/git.mk

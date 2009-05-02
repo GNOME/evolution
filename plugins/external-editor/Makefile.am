@@ -61,3 +61,5 @@ BUILT_SOURCES = org-gnome-external-editor.eplug \
 CLEANFILES = $(BUILT_SOURCES)
 
 DISTCLEANFILES = $(schema_DATA)
+
+-include $(top_srcdir)/git.mk

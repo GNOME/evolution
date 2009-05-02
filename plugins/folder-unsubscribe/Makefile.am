@@ -14,3 +14,5 @@ liborg_gnome_mail_folder_unsubscribe_la_LIBADD =	\
 	$(EVOLUTION_MAIL_LIBS)
 
 EXTRA_DIST = org-gnome-mail-folder-unsubscribe.eplug.xml
+
+-include $(top_srcdir)/git.mk

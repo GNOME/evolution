@@ -19,3 +19,5 @@ dist-hook:
 
 BUILT_SOURCES = $(error_DATA)
 CLEANFILES = $(BUILT_SOURCES)
+
+-include $(top_srcdir)/git.mk

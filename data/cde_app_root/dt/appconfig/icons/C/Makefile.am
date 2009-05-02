@@ -13,3 +13,5 @@ cdeiconsdir = $(privdatadir)/cde_app_root/dt/appconfig/icons/C
 cdeicons_DATA = $(ICONS)
 endif
 
+
+-include $(top_srcdir)/git.mk

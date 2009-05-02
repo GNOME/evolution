@@ -7,3 +7,5 @@ pixmaps = 			\
 
 EXTRA_DIST =			\
 	$(pixmaps)
+
+-include $(top_srcdir)/git.mk

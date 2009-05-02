@@ -67,3 +67,5 @@ DISTCLEANFILES = $(schema_DATA)
 EXTRA_DIST = 					\
 	org-gnome-mail-notification.eplug.xml	\
 	$(schema_in_files)
+
+-include $(top_srcdir)/git.mk

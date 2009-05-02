@@ -40,3 +40,5 @@ EXTRA_DIST = 					\
 BUILT_SOURCES = org-gnome-backup-restore.eplug \
 		org-gnome-backup-restore.error
 CLEANFILES = $(BUILT_SOURCES)
+
+-include $(top_srcdir)/git.mk

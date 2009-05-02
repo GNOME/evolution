@@ -22,3 +22,5 @@ EXTRA_DIST = org-gnome-mail-to-task.eplug.xml \
 
 BUILT_SOURCES = org-gnome-mail-to-task.eplug
 CLEANFILES = $(BUILT_SOURCES)
+
+-include $(top_srcdir)/git.mk

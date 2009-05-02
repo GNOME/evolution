@@ -68,3 +68,5 @@ etspec_DATA= e-addressbook-view.etspec
 EXTRA_DIST = 			\
 	$(etspec_DATA)		\
 	addresstypes.xml
+
+-include $(top_srcdir)/git.mk

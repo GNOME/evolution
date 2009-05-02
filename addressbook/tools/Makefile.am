@@ -38,3 +38,5 @@ evolution-addressbook-clean: evolution-addressbook-clean.in Makefile
 	    -e 's?\@PERL\@?@PERL@?g' \
            < $(srcdir)/evolution-addressbook-clean.in > evolution-addressbook-clean.tmp \
           && mv evolution-addressbook-clean.tmp evolution-addressbook-clean
+
+-include $(top_srcdir)/git.mk

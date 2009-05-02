@@ -33,3 +33,5 @@ EXTRA_DIST =					\
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILD_SOURCES)
+
+-include $(top_srcdir)/git.mk

@@ -16,3 +16,5 @@ EXTRA_DIST = org-gnome-select-one-source.eplug.xml
 
 BUILT_SOURCES = $(plugin_DATA)
 CLEANFILES = $(BUILT_SOURCES)
+
+-include $(top_srcdir)/git.mk

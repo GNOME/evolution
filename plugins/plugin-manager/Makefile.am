@@ -20,3 +20,5 @@ EXTRA_DIST =						\
 BUILT_SOURCES = org-gnome-plugin-manager.eplug
 
 CLEANFILES = $(BUILT_SOURCES)
+
+-include $(top_srcdir)/git.mk

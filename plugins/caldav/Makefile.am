@@ -22,3 +22,5 @@ EXTRA_DIST =				\
 	org-gnome-evolution-caldav.eplug.xml
 
 CLEANFILES = org-gnome-evolution-caldav.eplug
+
+-include $(top_srcdir)/git.mk

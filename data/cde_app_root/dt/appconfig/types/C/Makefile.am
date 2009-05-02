@@ -4,3 +4,5 @@ if HAVE_DTAPPINTEGRATE
 cdetypesdir = $(privdatadir)/cde_app_root/dt/appconfig/types/C
 cdetypes_DATA = Ximian.dt
 endif
+
+-include $(top_srcdir)/git.mk

@@ -235,3 +235,5 @@ EXTRA_DIST =			\
 dist-hook:
 	-mkdir $(distdir)/pixmaps
 	cp $(srcdir)/pixmaps/*.xpm $(distdir)/pixmaps
+
+-include $(top_srcdir)/git.mk

@@ -28,3 +28,5 @@ EXTRA_DIST = 						\
 	org-gnome-mailing-list-actions.eplug.xml	\
 	org-gnome-mailing-list-actions.error.xml	\
 	org-gnome-mailing-list-actions.xml
+
+-include $(top_srcdir)/git.mk

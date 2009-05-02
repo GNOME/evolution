@@ -20,3 +20,5 @@ glade_DATA = eab-contact-duplicate-detected.glade				\
 
 EXTRA_DIST = 			\
 	 $(glade_DATA)
+
+-include $(top_srcdir)/git.mk

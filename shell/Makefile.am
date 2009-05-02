@@ -255,3 +255,5 @@ dist-hook:
 
 noinst_SCRIPTS = evolution-nognome
 
+
+-include $(top_srcdir)/git.mk

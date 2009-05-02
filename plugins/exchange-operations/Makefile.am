@@ -86,3 +86,5 @@ EXTRA_DIST = 							\
 BUILT_SOURCES = $(error_DATA) org-gnome-exchange-operations.eplug 
 
 CLEANFILES = $(BUILT_SOURCES)
+
+-include $(top_srcdir)/git.mk

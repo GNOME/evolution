@@ -25,3 +25,5 @@ EXTRA_DIST =				\
 	org-gnome-evolution-google.eplug.xml
 
 CLEANFILES = org-gnome-evolution-google.eplug
+
+-include $(top_srcdir)/git.mk

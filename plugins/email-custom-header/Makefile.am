@@ -70,3 +70,5 @@ BUILT_SOURCES = 				\
 
 CLEANFILES = $(BUILT_SOURCES)
 DISTCLEANFILES = $(schema_DATA)
+
+-include $(top_srcdir)/git.mk

@@ -63,3 +63,5 @@ BUILT_SOURCES = org-gnome-evolution-attachment-reminder.eplug \
 CLEANFILES = $(BUILT_SOURCES)
 
 DISTCLEANFILES = $(schema_DATA)
+
+-include $(top_srcdir)/git.mk

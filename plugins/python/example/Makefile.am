@@ -28,3 +28,5 @@ EXTRA_DIST =						\
 	org-gnome-hello-python.eplug.xml		
 
 CLEANFILES = $(BUILT_SOURCES)
+
+-include $(top_srcdir)/git.mk

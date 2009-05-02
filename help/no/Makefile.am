@@ -34,3 +34,5 @@ include $(top_srcdir)/help/sgmldocs.make
 dist-hook: app-dist-hook
 
 EXTRA_DIST = ChangeLog.pre-1-4
+
+-include $(top_srcdir)/git.mk

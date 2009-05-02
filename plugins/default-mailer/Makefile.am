@@ -54,3 +54,5 @@ BUILT_SOURCES = org-gnome-default-mailer.eplug	\
 CLEANFILES = $(BUILT_SOURCES)
 
 DISTCLEANFILES = $(schema_DATA)
+
+-include $(top_srcdir)/git.mk

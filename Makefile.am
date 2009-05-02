@@ -92,3 +92,5 @@ cde-install: install dtappintegrate
 cde-uninstall: dtappunintegrate uninstall
 
 endif
+
+-include $(top_srcdir)/git.mk

@@ -14,3 +14,5 @@ evolutionui_DATA = $(XML_FILES)
 EXTRA_DIST =					\
 	$(XML_FILES)				\
 	ChangeLog.pre-1-4
+
+-include $(top_srcdir)/git.mk
