@@ -34,3 +34,5 @@ libetext_la_LIBADD = 					\
 	$(E_UTIL_LIBS)					\
 	$(GNOME_PLATFORM_LIBS)				\
 	$(REGEX_LIBS)
+
+-include $(top_srcdir)/git.mk

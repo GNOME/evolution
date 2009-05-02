@@ -62,3 +62,5 @@ libfilter.la: dummy.la libfilter.def
 	$(DLLTOOL) --output-lib=.libs/libfilter.dll.a --dllname=libfilter-0.dll --input-def=libfilter.def
 
 CLEANFILES = $(BOOTSTRAP_LIBS)
+
+-include $(top_srcdir)/git.mk

@@ -82,3 +82,5 @@ EXTRA_DIST =						\
 	org-gnome-mail-retract.error.xml
 
 CLEANFILES = $(BUILT_SOURCES)
+
+-include $(top_srcdir)/git.mk

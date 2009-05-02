@@ -33,3 +33,5 @@ BUILT_SOURCES = org-gnome-pst-import.eplug
 
 CLEANFILES = $(BUILT_SOURCES)
 
+
+-include $(top_srcdir)/git.mk

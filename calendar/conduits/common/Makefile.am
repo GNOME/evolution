@@ -22,3 +22,5 @@ libecalendar_common_conduit_la_LIBADD = 				\
 	$(EVOLUTION_CALENDAR_CONDUIT_LIBS)
 
 
+
+-include $(top_srcdir)/git.mk

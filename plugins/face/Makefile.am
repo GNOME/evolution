@@ -42,3 +42,5 @@ BUILT_SOURCES = 				\
 	org-gnome-face.error
 
 CLEANFILES = $(BUILT_SOURCES)
+
+-include $(top_srcdir)/git.mk

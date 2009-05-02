@@ -27,3 +27,5 @@ libevolution_mail_importers_la_LIBADD =				\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/filter/libfilter.la			\
 	$(IMPORTERS_LIBS)
+
+-include $(top_srcdir)/git.mk

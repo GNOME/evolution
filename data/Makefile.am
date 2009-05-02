@@ -81,3 +81,5 @@ EXTRA_DIST =					\
 	$(noinst_MANS)
 
 
+
+-include $(top_srcdir)/git.mk

@@ -29,3 +29,5 @@ killev_LDADD =							\
 	$(E_UTIL_LIBS)
 
 CLEANFILES = evolution-addressbook-clean $(BUILT_SOURCES)
+
+-include $(top_srcdir)/git.mk

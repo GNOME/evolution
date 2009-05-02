@@ -193,3 +193,5 @@ dist-hook: dist-check-gtkdoc dist-hook-local
 .PHONY : dist-hook-local
 
 
+
+-include $(top_srcdir)/git.mk

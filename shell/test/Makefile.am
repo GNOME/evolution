@@ -20,3 +20,5 @@ libevolution_test_la_LIBADD =			\
 
 libevolution_test_la_LDFLAGS =			\
 	-avoid-version -module $(NO_UNDEFINED)
+
+-include $(top_srcdir)/git.mk

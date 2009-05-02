@@ -33,3 +33,5 @@ libevolution_a11y_la_LIBADD =			\
 	e-table/libgal-a11y-etable.la		\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(GNOME_PLATFORM_LIBS)
+
+-include $(top_srcdir)/git.mk

@@ -31,3 +31,5 @@ libevolution_addressbook_a11y_la_LDFLAGS = $(NO_UNDEFINED)
 libevolution_addressbook_a11y_la_LIBADD =	\
 	$(WIN32_BOOTSTRAP_LIBS)			\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
+
+-include $(top_srcdir)/git.mk

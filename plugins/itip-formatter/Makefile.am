@@ -29,3 +29,5 @@ EXTRA_DIST = \
 	org-gnome-itip-formatter.error.xml
 
 
+
+-include $(top_srcdir)/git.mk

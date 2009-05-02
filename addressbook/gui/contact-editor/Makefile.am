@@ -44,3 +44,5 @@ glade_DATA = 				\
 	fullname.glade
 
 EXTRA_DIST=	$(glade_DATA)
+
+-include $(top_srcdir)/git.mk

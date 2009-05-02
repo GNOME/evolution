@@ -14,3 +14,5 @@ TEST_LIBS= \
 	$(GNOME_PLATFORM_LIBS)
 
 import_cert_LDADD=$(TEST_LIBS)
+
+-include $(top_srcdir)/git.mk

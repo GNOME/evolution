@@ -46,3 +46,5 @@ contact_print_style_editor_test_LDADD =	\
 
 EXTRA_DIST = 		\
 	$(ecps_DATA)
+
+-include $(top_srcdir)/git.mk

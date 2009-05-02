@@ -26,3 +26,5 @@ EXTRA_DIST = org-gnome-evolution-python.eplug.xml	\
 
 BUILT_SOURCES = $(plugin_DATA)
 CLEANFILES = $(BUILT_SOURCES)
+
+-include $(top_srcdir)/git.mk

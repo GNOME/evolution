@@ -32,3 +32,5 @@ libessmime_la_LIBADD =				\
 	$(CERT_UI_LIBS)
 
 libessmime_la_LDFLAGS = $(NO_UNDEFINED)
+
+-include $(top_srcdir)/git.mk

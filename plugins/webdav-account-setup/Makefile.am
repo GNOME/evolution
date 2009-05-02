@@ -21,3 +21,5 @@ EXTRA_DIST = \
 	org-gnome-evolution-webdav.eplug.xml
 
 CLEANFILES = org-gnome-evolution-webdav.eplug
+
+-include $(top_srcdir)/git.mk

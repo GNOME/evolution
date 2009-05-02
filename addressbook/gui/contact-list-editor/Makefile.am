@@ -36,3 +36,5 @@ libecontactlisteditor_la_LIBADD =						\
 glade_DATA  = contact-list-editor.glade
 
 EXTRA_DIST = $(glade_DATA)
+
+-include $(top_srcdir)/git.mk

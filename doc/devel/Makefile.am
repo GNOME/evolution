@@ -177,3 +177,5 @@ dist-hook: dist-check-gtkdoc dist-hook-local
 #	-cp $(srcdir)/tmpl/*.sgml $(distdir)/tmpl
 
 .PHONY : dist-hook-local
+
+-include $(top_srcdir)/git.mk

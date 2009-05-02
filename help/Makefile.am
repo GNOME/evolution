@@ -108,3 +108,5 @@ DOC_LINGUAS = cs de el en_GB es eu fr oc ru sv mk
 
 check:
 	xmllint --valid --noout $(top_srcdir)/help/C/evolution.xml
+
+-include $(top_srcdir)/git.mk

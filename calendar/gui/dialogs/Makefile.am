@@ -102,3 +102,5 @@ dist-hook:
 
 EXTRA_DIST =			\
 	$(glade_DATA)
+
+-include $(top_srcdir)/git.mk

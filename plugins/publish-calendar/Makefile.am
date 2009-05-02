@@ -40,3 +40,5 @@ EXTRA_DIST =					\
 	$(glade_DATA)
 
 CLEANFILES = org-gnome-publish-calendar.eplug
+
+-include $(top_srcdir)/git.mk

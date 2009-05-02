@@ -38,3 +38,5 @@ EXTRA_DIST = \
 	org-gnome-bogo-junk-plugin.eplug.xml	\
 	$(schema_in_files)
 
+
+-include $(top_srcdir)/git.mk

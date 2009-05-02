@@ -121,3 +121,5 @@ evolution-addressbook.pure: evolution-addressbook
 	$(PLINK) $(evolution_addressbook_LDFLAGS) $(evolution_addressbook_OBJECTS) $(evolution_addressbook_LDADD) $(LIBS)
 
 endif
+
+-include $(top_srcdir)/git.mk

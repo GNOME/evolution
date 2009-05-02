@@ -63,3 +63,5 @@ CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
+
+-include $(top_srcdir)/git.mk

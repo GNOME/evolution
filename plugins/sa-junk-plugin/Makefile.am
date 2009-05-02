@@ -19,3 +19,5 @@ EXTRA_DIST = \
 	org-gnome-sa-junk-plugin.eplug.xml
 
 
+
+-include $(top_srcdir)/git.mk

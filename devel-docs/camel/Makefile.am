@@ -99,3 +99,5 @@ dist-hook:
 
 
 .PHONY : html sgml templates scan
+
+-include $(top_srcdir)/git.mk

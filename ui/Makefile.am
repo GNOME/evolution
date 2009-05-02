@@ -20,3 +20,5 @@ EXTRA_DIST =					\
 	$(UI_FILES)				\
 	$(XML_FILES)				\
 	ChangeLog.pre-1-4
+
+-include $(top_srcdir)/git.mk

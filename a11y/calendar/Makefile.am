@@ -52,3 +52,5 @@ libevolution_calendar_a11y_la_LIBADD =			\
 	$(WIN32_BOOTSTRAP_LIBS)				\
         $(top_builddir)/a11y/libevolution-a11y.la	\
 	$(EVOLUTION_CALENDAR_LIBS)
+
+-include $(top_srcdir)/git.mk

@@ -50,3 +50,5 @@ icons =
 EXTRA_DIST =			\
 	 $(icons)		\
 	 $(glade_DATA)
+
+-include $(top_srcdir)/git.mk

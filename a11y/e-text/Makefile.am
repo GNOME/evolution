@@ -11,3 +11,5 @@ libgal_a11y_etext_la_SOURCES =			\
 	gal-a11y-e-text.c			\
 	gal-a11y-e-text-factory.h		\
 	gal-a11y-e-text.h
+
+-include $(top_srcdir)/git.mk

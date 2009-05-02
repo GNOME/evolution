@@ -13,3 +13,5 @@ INCLUDES =						\
 libevolution_calendarprivate_la_SOURCES =	\
 	authentication.c			\
 	authentication.h
+
+-include $(top_srcdir)/git.mk

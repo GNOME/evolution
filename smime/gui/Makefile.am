@@ -47,3 +47,5 @@ glade_DATA = smime-ui.glade
 
 EXTRA_DIST =			\
 	$(glade_DATA)
+
+-include $(top_srcdir)/git.mk
