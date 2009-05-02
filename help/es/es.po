@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.help.gnome-2-24\n"
-"POT-Creation-Date: 2009-04-17 07:20+0000\n"
-"PO-Revision-Date: 2009-05-02 16:04+0200\n"
+"POT-Creation-Date: 2009-05-02 14:21+0000\n"
+"PO-Revision-Date: 2009-05-02 18:12+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -314,9 +314,11 @@ msgstr ""
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:2564(None)
 #| msgid ""
-#| "@@image: 'figures/mail-threaded.png'; md5=ab1b9eb0f0735f4fcc4c51ead5ce1ff2"
-msgid "@@image: 'figures/mail-threaded.png'; md5=THIS FILE DOESN'T EXIST"
-msgstr "@@image: 'figures/mail-threaded.png'; md5=THIS FILE DOESN'T EXIST"
+#| "@@image: 'figures/delgt-add.png'; md5=9bf1f22c67551ad910cd3749f216c2b7"
+msgid ""
+"@@image: 'figures/mail-threaded.png'; md5=ab1b9eb0f0735f4fcc4c51ead5ce1ff2"
+msgstr ""
+"@@image: 'figures/mail-threaded.png'; md5=ab1b9eb0f0735f4fcc4c51ead5ce1ff2"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -401,11 +403,14 @@ msgstr ""
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:3393(None)
 #| msgid ""
-#| "@@image: 'figures/evo_contacteditor_a.png'; "
-#| "md5=4f188bd5d34a9fea7d91fdf5fb943f28"
-msgid "@@image: 'figures/evo_contacteditor_a.png'; md5=THIS FILE DOESN'T EXIST"
+#| "@@image: 'figures/evo_account_editor_a.png'; "
+#| "md5=39b83104a4e6ecb9473cbb84121e6be3"
+msgid ""
+"@@image: 'figures/evo_contacteditor_a.png'; "
+"md5=4f188bd5d34a9fea7d91fdf5fb943f28"
 msgstr ""
-"@@image: 'figures/evo_contacteditor_a.png'; md5=THIS FILE DOESN'T EXIST"
+"@@image: 'figures/evo_contacteditor_a.png'; "
+"md5=4f188bd5d34a9fea7d91fdf5fb943f28"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -16158,3 +16163,17 @@ msgid "translator-credits"
 msgstr ""
 "Jorge González <jorgegonz@svn.gnome.org>, 2007-2008\n"
 "Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006"
+
+#~| msgid ""
+#~| "@@image: 'figures/mail-threaded.png'; "
+#~| "md5=ab1b9eb0f0735f4fcc4c51ead5ce1ff2"
+#~ msgid "@@image: 'figures/mail-threaded.png'; md5=THIS FILE DOESN'T EXIST"
+#~ msgstr "@@image: 'figures/mail-threaded.png'; md5=THIS FILE DOESN'T EXIST"
+
+#~| msgid ""
+#~| "@@image: 'figures/evo_contacteditor_a.png'; "
+#~| "md5=4f188bd5d34a9fea7d91fdf5fb943f28"
+#~ msgid ""
+#~ "@@image: 'figures/evo_contacteditor_a.png'; md5=THIS FILE DOESN'T EXIST"
+#~ msgstr ""
+#~ "@@image: 'figures/evo_contacteditor_a.png'; md5=THIS FILE DOESN'T EXIST"
