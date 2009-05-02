@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2009-05-01 15:21+0000\n"
-"PO-Revision-Date: 2009-05-02 15:56+0200\n"
+"PO-Revision-Date: 2009-05-02 21:42+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -10875,7 +10875,7 @@ msgstr "_Imprimir…"
 #: ../ui/evolution-calendar.xml.h:21 ../ui/evolution-mail-message.xml.h:76
 #: ../ui/evolution-memos.xml.h:12 ../ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
-msgstr "Vi_sta previa de impresión"
+msgstr "Vist_a previa de impresión"
 
 #: ../composer/e-composer-actions.c:499
 msgid "Save the current file"
@@ -22833,7 +22833,7 @@ msgstr "Enviar / Recibir"
 
 #: ../ui/evolution.xml.h:24
 msgid "Send / _Receive"
-msgstr "Enviar / _Recibir"
+msgstr "Enviar / Reci_bir"
 
 #: ../ui/evolution.xml.h:25
 msgid "Send queued items and retrieve new items"
