@@ -137,7 +137,10 @@ static const gchar *ui =
 "  <menubar action='main-menu'>"
 "    <menu action='file-menu'>"
 "      <menuitem action='save'/>"
+"      <separator/>"
+"      <menuitem action='print-preview'/>"
 "      <menuitem action='print'/>"
+"      <separator/>"
 "      <menuitem action='close'/>"
 "    </menu>"
 "    <menu action='edit-menu'>"
@@ -703,17 +706,22 @@ action_print_cb (GtkAction *action,
                  CompEditor *editor)
 {
 	CompEditorPrivate *priv = editor->priv;
+	GtkPrintOperationAction print_action;
 	ECalComponent *comp;
 	GList *l;
-	icalcomponent *icalcomp = e_cal_component_get_icalcomponent (priv->comp);
+	icalcomponent *component;
+	icalcomponent *clone;
 
 	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
+	component = e_cal_component_get_icalcomponent (priv->comp);
+	clone = icalcomponent_new_clone (component);
+	e_cal_component_set_icalcomponent (comp, clone);
 
 	for (l = priv->pages; l != NULL; l = l->next)
 		 comp_editor_page_fill_component (l->data, comp);
 
-	print_comp (comp, priv->client, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);
+	print_action = GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG;
+	print_comp (comp, priv->client, print_action);
 
 	g_object_unref (comp);
 }
@@ -723,15 +731,22 @@ action_print_preview_cb (GtkAction *action,
                          CompEditor *editor)
 {
 	CompEditorPrivate *priv = editor->priv;
+	GtkPrintOperationAction print_action;
 	ECalComponent *comp;
 	GList *l;
-	icalcomponent *icalcomp = e_cal_component_get_icalcomponent (priv->comp);
+	icalcomponent *component;
+	icalcomponent *clone;
 
 	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (icalcomp));
+	component = e_cal_component_get_icalcomponent (priv->comp);
+	clone = icalcomponent_new_clone (component);
+	e_cal_component_set_icalcomponent (comp, clone);
+
 	for (l = priv->pages; l != NULL; l = l->next)
 		 comp_editor_page_fill_component (l->data, comp);
-	print_comp (comp, priv->client, TRUE);
+
+	print_action = GTK_PRINT_OPERATION_ACTION_PREVIEW;
+	print_comp (comp, priv->client, print_action);
 
 	g_object_unref (comp);
 }
