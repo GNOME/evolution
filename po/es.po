@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2009-04-24 09:49+0000\n"
-"PO-Revision-Date: 2009-04-24 20:29+0200\n"
+"PO-Revision-Date: 2009-05-01 19:36+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1111,7 +1111,6 @@ msgid "<b>Searching</b>"
 msgstr "<b>Búsqueda</b>"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:10
-#| msgid "Using distinguished name (DN)"
 msgid ""
 "Anonymously\n"
 "Using email address\n"
@@ -1137,7 +1136,6 @@ msgid "Lo_gin:"
 msgstr "_Inicio de sesión:"
 
 #: ../addressbook/gui/component/ldap-config.glade.h:19
-#| msgid "One"
 msgid ""
 "One\n"
 "Sub"
@@ -5772,7 +5770,6 @@ msgid "_Sound:"
 msgstr "_Sonido:"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:14
-#| msgid "before"
 msgid ""
 "before\n"
 "after"
@@ -5785,10 +5782,6 @@ msgid "extra times every"
 msgstr "veces adicionales cada"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:17
-#| msgid ""
-#| "Minutes\n"
-#| "Hours\n"
-#| "Days"
 msgid ""
 "minute(s)\n"
 "hour(s)\n"
@@ -5799,10 +5792,6 @@ msgstr ""
 "día(s)"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:20
-#| msgid ""
-#| "Minutes\n"
-#| "Hours\n"
-#| "Days"
 msgid ""
 "minutes\n"
 "hours\n"
@@ -5813,7 +5802,6 @@ msgstr ""
 "días"
 
 #: ../calendar/gui/dialogs/alarm-dialog.glade.h:23
-#| msgid "start of appointment"
 msgid ""
 "start of appointment\n"
 "end of appointment"
@@ -6784,6 +6772,9 @@ msgid ""
 "1 hour before appointment\n"
 "1 day before appointment"
 msgstr ""
+"15 minutos antes de la cita\n"
+"1 hora antes de la cita\n"
+"1 día antes de la cita"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:5
 msgid "Attendee_s..."
@@ -6831,7 +6822,6 @@ msgstr ""
 "b"
 
 #: ../calendar/gui/dialogs/event-page.glade.h:20
-#| msgid "until"
 msgid ""
 "for\n"
 "until"
@@ -7068,6 +7058,10 @@ msgid ""
 "month(s)\n"
 "year(s)"
 msgstr ""
+"día(s)\n"
+"semana(s)\n"
+"mes(es)\n"
+"año(s)"
 
 #. TRANSLATORS: Entire string is for example:
 #. 'This appointment recurs/Every[x][day(s)][for][1]occurrences' (combobox options are in [square brackets])
@@ -7106,6 +7100,10 @@ msgid ""
 "Low\n"
 "Undefined"
 msgstr ""
+"Alta\n"
+"Normal\n"
+"Baja\n"
+"Sin definir"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:7
 msgid ""
@@ -7114,6 +7112,10 @@ msgid ""
 "Completed\n"
 "Canceled"
 msgstr ""
+"Sin iniciar\n"
+"En progreso\n"
+"Completada\n"
+"Cancelada"
 
 #: ../calendar/gui/dialogs/task-details-page.glade.h:11
 msgid "P_ercent complete:"
@@ -8569,6 +8571,18 @@ msgid ""
 "November\n"
 "December"
 msgstr ""
+"Enero\n"
+"Febrero\n"
+"Marzo\n"
+"Abril\n"
+"Mayo\n"
+"Junio\n"
+"Julio\n"
+"Agosto\n"
+"Septiembre\n"
+"Octubre\n"
+"Noviembre\n"
+"Diciembre"
 
 #: ../calendar/gui/goto-dialog.glade.h:13
 msgid "Select Date"
@@ -11666,12 +11680,13 @@ msgstr ""
 "fecha actual del momento del filtrado."
 
 #: ../filter/filter.glade.h:12
-#, fuzzy
 #| msgid "in the future"
 msgid ""
 "ago\n"
 "in the future"
-msgstr "en el futuro"
+msgstr ""
+"hace\n"
+"en el futuro"
 
 #: ../filter/filter.glade.h:14
 msgid ""
@@ -11683,15 +11698,24 @@ msgid ""
 "months\n"
 "years"
 msgstr ""
+"segundos\n"
+"minutos\n"
+"horas\n"
+"días\n"
+"semanas\n"
+"meses\n"
+"años"
 
 #: ../filter/filter.glade.h:21
-#, fuzzy
 #| msgid "a time relative to the current time"
 msgid ""
 "the current time\n"
 "the time you specify\n"
 "a time relative to the current time"
-msgstr "una fecha relativa al momento actual"
+msgstr ""
+"el momento actual\n"
+"el hora que especifique\n"
+"una fecha relativa al momento actual"
 
 #: ../filter/rule-editor.c:382
 msgid "Add Rule"
@@ -14491,13 +14515,15 @@ msgid "Always request rea_d receipt"
 msgstr "Siempre _solicitar confirmación de lectura"
 
 #: ../mail/mail-config.glade.h:45
-#, fuzzy
 #| msgid "Attachment Reminder"
 msgid ""
 "Attachment\n"
 "Inline\n"
 "Quoted"
-msgstr "Recuerdo de adjuntos"
+msgstr ""
+"Adjunto\n"
+"En línea\n"
+"Citado"
 
 #: ../mail/mail-config.glade.h:48
 msgid ""
@@ -14506,6 +14532,10 @@ msgid ""
 "Quoted\n"
 "Do not quote"
 msgstr ""
+"Adjunto\n"
+"En línea (estilo Outlook)\n"
+"Citado\n"
+"No citar"
 
 #: ../mail/mail-config.glade.h:52
 msgid "Automatically insert _emoticon images"
@@ -17197,6 +17227,10 @@ msgid ""
 "Author (read, create)\n"
 "Editor (read, create, edit)"
 msgstr ""
+"Ninguno\n"
+"Revisor (sólo lectura)\n"
+"Autor (leer, crear)\n"
+"Editor (leer, crear, editar)"
 
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:11
 msgid "Permissions for"
