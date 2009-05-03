@@ -689,7 +689,7 @@ migrate_pilot_data (const char *component, const char *conduit, const char *old_
 				n = fsync (fd1);
 
 			if (n == -1) {
-				g_warning ("Failed to migrate %s: %s", dent, strerror (errno));
+				g_warning ("Failed to migrate %s: %s", dent, g_strerror (errno));
 				g_unlink (filename);
 			}
 

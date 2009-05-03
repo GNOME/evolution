@@ -141,16 +141,16 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 
 	if (pipe (fds) == -1) {
 		errnosav = errno;
-		d(printf ("failed to create a pipe (for use with SpamAssassin: %s\n", strerror (errno)));
-		g_set_error (error, EM_JUNK_ERROR, errnosav, _("Failed to create pipe: %s"), strerror (errnosav));
+		d(printf ("failed to create a pipe (for use with SpamAssassin: %s\n", g_strerror (errno)));
+		g_set_error (error, EM_JUNK_ERROR, errnosav, _("Failed to create pipe: %s"), g_strerror (errnosav));
 		errno = errnosav;
 		return rv_err;
 	}
 
 	if (output_buffer && pipe (out_fds) == -1) {
 		errnosav = errno;
-		d(printf ("failed to create a pipe (for use with SpamAssassin: %s\n", strerror (errno)));
-		g_set_error (error, EM_JUNK_ERROR, errnosav, _("Failed to create pipe: %s"), strerror (errnosav));
+		d(printf ("failed to create a pipe (for use with SpamAssassin: %s\n", g_strerror (errno)));
+		g_set_error (error, EM_JUNK_ERROR, errnosav, _("Failed to create pipe: %s"), g_strerror (errnosav));
 		close (fds [0]);
 		close (fds [1]);
 		errno = errnosav;
@@ -189,7 +189,7 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 			close (out_fds [1]);
 		}
 		if (errnosav != 0 && errnosav != -1)
-			g_set_error (error, EM_JUNK_ERROR, errnosav, _("Error after fork: %s"), strerror (errnosav));
+			g_set_error (error, EM_JUNK_ERROR, errnosav, _("Error after fork: %s"), g_strerror (errnosav));
 		errno = errnosav;
 		return rv_err;
 	}

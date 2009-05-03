@@ -84,7 +84,7 @@ expire_dir_rec(const char *base, time_t now)
 					count++;
 				}
 			} else if (g_unlink(path->str) == -1) {
-				d(printf("expiry failed: %s\n", strerror(errno)));
+				d(printf("expiry failed: %s\n", g_strerror(errno)));
 				count++;
 			} else {
 				d(printf("expired %s\n", path->str));

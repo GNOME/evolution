@@ -1063,7 +1063,7 @@ migrate_pilot_data (const char *old_path, const char *new_path)
 				n = fsync (fd1);
 
 			if (n == -1) {
-				g_warning ("Failed to migrate %s: %s", dent, strerror (errno));
+				g_warning ("Failed to migrate %s: %s", dent, g_strerror (errno));
 				g_unlink (filename);
 			}
 

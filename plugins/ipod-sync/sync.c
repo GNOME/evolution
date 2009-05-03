@@ -184,7 +184,7 @@ write_to_ipod (GString *str, char *path, char *filename)
 
 	if (f == NULL)
 	{
-		critical_error (_("Could not export data!"), strerror (errno));
+		critical_error (_("Could not export data!"), g_strerror (errno));
 	}
 
 	/* Convert the input string into UTF16 */
