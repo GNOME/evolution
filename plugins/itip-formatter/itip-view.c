@@ -1909,9 +1909,9 @@ itip_view_set_source_list (ItipView *view, ESourceList *source_list)
 		if (priv->type == E_CAL_SOURCE_TYPE_EVENT)
 			priv->escb_header = gtk_label_new_with_mnemonic (_("_Calendar:"));
 		else if (priv->type == E_CAL_SOURCE_TYPE_TODO)
-			priv->escb_header = gtk_label_new_with_mnemonic (_("_Tasks :"));
+			priv->escb_header = gtk_label_new_with_mnemonic (_("_Tasks:"));
 		else if (priv->type == E_CAL_SOURCE_TYPE_JOURNAL)
-			priv->escb_header = gtk_label_new_with_mnemonic (_("Memos :"));
+			priv->escb_header = gtk_label_new_with_mnemonic (_("_Memos:"));
 
 		gtk_label_set_selectable (GTK_LABEL (priv->escb_header), TRUE);
 		gtk_label_set_mnemonic_widget (GTK_LABEL (priv->escb_header), priv->escb);
