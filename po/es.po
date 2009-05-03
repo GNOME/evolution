@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
-"POT-Creation-Date: 2009-05-01 17:43+0000\n"
-"PO-Revision-Date: 2009-05-02 21:42+0200\n"
+"POT-Creation-Date: 2009-05-03 04:00+0000\n"
+"PO-Revision-Date: 2009-05-03 11:38+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2124,7 +2124,6 @@ msgstr "Sitio web"
 #: ../widgets/misc/e-reflow.c:1423 ../widgets/misc/e-reflow.c:1424
 #: ../widgets/table/e-table-click-to-add.c:522
 #: ../widgets/table/e-table-col.c:98
-#: ../widgets/table/e-table-field-chooser-item.c:654
 #: ../widgets/table/e-table-group-container.c:996
 #: ../widgets/table/e-table-group-container.c:997
 #: ../widgets/table/e-table-group-leaf.c:642
@@ -2139,7 +2138,6 @@ msgstr "Anchura"
 #: ../widgets/misc/e-canvas-vbox.c:97 ../widgets/misc/e-canvas-vbox.c:98
 #: ../widgets/misc/e-reflow.c:1431 ../widgets/misc/e-reflow.c:1432
 #: ../widgets/table/e-table-click-to-add.c:529
-#: ../widgets/table/e-table-field-chooser-item.c:661
 #: ../widgets/table/e-table-group-container.c:989
 #: ../widgets/table/e-table-group-container.c:990
 #: ../widgets/table/e-table-group-leaf.c:635
@@ -3963,7 +3961,6 @@ msgstr ""
 "\"days\"."
 
 #: ../calendar/gui/apps_evolution_calendar.schemas.in.h:82
-#| msgid "_Use system defaults"
 msgid "Use system timezone"
 msgstr "Usar la hora del sistema"
 
@@ -4322,7 +4319,6 @@ msgid "Category"
 msgstr "Categoría"
 
 #: ../calendar/gui/caltypes.xml.h:6 ../calendar/gui/memotypes.xml.h:5
-#: ../widgets/misc/e-send-options.glade.h:6
 msgid "Classification"
 msgstr "Clasificación"
 
@@ -4793,7 +4789,6 @@ msgid "Tuesday"
 msgstr "martes"
 
 #: ../calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
-#| msgid "Show the second time zone"
 msgid "Use s_ystem time zone"
 msgstr "Usar la zona horaria del s_istema"
 
@@ -5315,7 +5310,7 @@ msgstr "Convertir en acontecimiento repetitivo"
 #: ../calendar/gui/dialogs/event-editor.c:216
 #: ../plugins/groupwise-features/org-gnome-compose-send-options.xml.h:2
 #: ../plugins/groupwise-features/send-options.c:212
-#: ../widgets/misc/e-send-options.glade.h:19
+#: ../widgets/misc/e-send-options.glade.h:18
 msgid "Send Options"
 msgstr "Opciones de envío"
 
@@ -5972,27 +5967,22 @@ msgid "%s for an unknown trigger type"
 msgstr "%s para un tipo de disparador desconocido"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:258
-#| msgid "Import"
 msgid "I_mport"
 msgstr "I_mportar"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:340
-#| msgid "Select Calendar"
 msgid "Select a Calendar"
 msgstr "Seleccionar un calendario"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:367
-#| msgid "Select Task List"
 msgid "Select a Task List"
 msgstr "Seleccionar una lista de tareas"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:377
-#| msgid "Import to Calendar"
 msgid "I_mport to Calendar"
 msgstr "I_mportar al calendario"
 
 #: ../calendar/gui/e-attachment-handler-calendar.c:384
-#| msgid "_Import to Tasks"
 msgid "I_mport to Tasks"
 msgstr "I_mportar a las tareas"
 
@@ -6017,7 +6007,6 @@ msgstr "Fecha de inicio:"
 #: ../calendar/gui/e-cal-component-preview.c:287
 #: ../calendar/gui/e-itip-control.c:1211
 #: ../calendar/gui/e-itip-control.glade.h:4 ../mail/mail-config.glade.h:75
-#: ../widgets/misc/e-attachment.glade.h:2
 msgid "Description:"
 msgstr "Descripción:"
 
@@ -10058,11 +10047,11 @@ msgstr "¿Sobreescribir archivo?"
 msgid "_Overwrite"
 msgstr "_Sobreescribir"
 
-#: ../e-util/e-util.c:127
+#: ../e-util/e-util.c:133
 msgid "Could not open the link."
 msgstr "No se pudo abrir el enlace."
 
-#: ../e-util/e-util.c:174
+#: ../e-util/e-util.c:183
 msgid "Could not display help for Evolution."
 msgstr "No se pudo mostrar la ayuda de Evolution."
 
@@ -10521,8 +10510,6 @@ msgstr "Responder al _remitente"
 #. Translators: This is only for multiple messages.
 #: ../mail/e-attachment-handler-mail.c:334
 #, c-format
-#| msgid "Attached message"
-#| msgid_plural "%d attached messages"
 msgid "%d attached messages"
 msgstr "%d mensajes adjuntos"
 
@@ -10535,13 +10522,11 @@ msgstr[1] "Adjuntos"
 
 #: ../mail/e-mail-attachment-bar.c:615
 #: ../widgets/misc/e-attachment-paned.c:599
-#| msgid "Month View"
 msgid "Icon View"
 msgstr "Vista de icono"
 
 #: ../mail/e-mail-attachment-bar.c:616
 #: ../widgets/misc/e-attachment-paned.c:600
-#| msgid "_List View"
 msgid "List View"
 msgstr "Vista de lista"
 
@@ -10815,7 +10800,6 @@ msgid "Follow Up"
 msgstr "Seguimiento"
 
 #: ../mail/em-filter-i18n.h:29
-#| msgid "Forward"
 msgid "Forward to"
 msgstr "Reenviar a"
 
@@ -10885,7 +10869,6 @@ msgid "Message is not Junk"
 msgstr "El mensaje no es SPAM"
 
 #: ../mail/em-filter-i18n.h:50
-#| msgid "Message contains"
 msgid "Message Location"
 msgstr "Ubicación del mensaje"
 
@@ -11805,10 +11788,6 @@ msgid "Header Value Contains:"
 msgstr "El valor de cabecera contiene:"
 
 #: ../mail/em-mailer-prefs.c:440 ../widgets/table/e-table-click-to-add.c:501
-#: ../widgets/table/e-table-field-chooser-dialog.c:81
-#: ../widgets/table/e-table-field-chooser-item.c:647
-#: ../widgets/table/e-table-field-chooser.c:80
-#: ../widgets/table/e-table-header-item.c:1906
 #: ../widgets/table/e-table-selection-model.c:309
 msgid "Header"
 msgstr "Cabecera"
@@ -16013,6 +15992,7 @@ msgstr "_Resumir permisos"
 
 #. Translators: This is used for permissions for <user> for the folder Tasks.
 #: ../plugins/exchange-operations/exchange-delegates.glade.h:20
+#: ../plugins/itip-formatter/itip-view.c:1912
 msgid "_Tasks:"
 msgstr "_Tareas:"
 
@@ -16662,7 +16642,6 @@ msgstr ""
 "Inténtelo más tarde."
 
 #: ../plugins/external-editor/org-gnome-external-editor.error.xml.h:4
-#| msgid "External Editor"
 msgid "External editor still running"
 msgstr "El editor externo aún se está ejecutando"
 
@@ -16687,9 +16666,6 @@ msgid "Command to be executed to launch the editor: "
 msgstr "Comando que ejecutar para lanzar el editor: "
 
 #: ../plugins/external-editor/external-editor.c:110
-#| msgid ""
-#| "For Emacs use \"xemacs\"\n"
-#| "For VI use \"gvim\""
 msgid ""
 "For Emacs use \"xemacs\"\n"
 "For VI use \"gvim -f\""
@@ -17964,13 +17940,11 @@ msgstr "Conser_var mi recordatorio"
 msgid "_Inherit reminder"
 msgstr "_Heredar recordatorio"
 
-#: ../plugins/itip-formatter/itip-view.c:1912
-msgid "_Tasks :"
-msgstr "_Tareas:"
-
 #: ../plugins/itip-formatter/itip-view.c:1914
-msgid "Memos :"
-msgstr "Notas:"
+#, fuzzy
+#| msgid "_Memos"
+msgid "_Memos:"
+msgstr "_Notas"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
 msgid "Displays text/calendar parts in messages."
@@ -18215,7 +18189,6 @@ msgstr ""
 
 #: ../plugins/mail-to-task/mail-to-task.c:455
 #, c-format
-#| msgid "Could not update object"
 msgid "Could not create object. %s"
 msgstr "No se pudo crear el objeto. %s"
 
@@ -18249,7 +18222,6 @@ msgstr "Convertir en _reunión"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:4
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:7
-#| msgid "Con_vert to Task"
 msgid "Convert to a _Task"
 msgstr "Convertir en ta_rea"
 
@@ -18635,13 +18607,11 @@ msgstr "_Publicar información del calendario"
 #: ../plugins/publish-calendar/publish-calendar.c:95
 #: ../plugins/publish-calendar/publish-calendar.c:329
 #, c-format
-#| msgid "Could not open source"
 msgid "Could not open %s:"
 msgstr "No se pudo abrir «%s»:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:97
 #, c-format
-#| msgid "Could not parse PGP message: Unknown error"
 msgid "Could not open %s: Unknown error"
 msgstr "No se ha podido abrir «%s»: Error desconocido"
 
@@ -18665,7 +18635,6 @@ msgid "Are you sure you want to remove this location?"
 msgstr "¿Seguro que quiere eliminar este lugar?"
 
 #: ../plugins/publish-calendar/publish-calendar.c:776
-#| msgid "Could not create message."
 msgid "Could not create publish thread."
 msgstr "No se pudo publicar el hilo de publicación."
 
@@ -19190,16 +19159,14 @@ msgstr ""
 "o bien del archivo de contrasñeas ~/.gnome2_private/Evolution."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:15
-#, fuzzy
 #| msgid "Insert Attachment"
 msgid "Initial attachment view"
-msgstr "Inserta un adjunto"
+msgstr "Vista inicial de adjunto"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:16
-#, fuzzy
 #| msgid "Install the shared folder"
 msgid "Initial file chooser folder"
-msgstr "Instalar la carpeta compartida"
+msgstr ""
 
 #: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "Initial folder for GtkFileChooser dialogs."
@@ -19211,6 +19178,8 @@ msgid ""
 "Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is List "
 "View."
 msgstr ""
+"Vista inicial para los widgets de la barra de adjuntos. «0» es para Vista de "
+"icono, «1» es para Vista de lista."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Last upgraded configuration version"
@@ -21824,7 +21793,6 @@ msgid "Define Views for \"%s\""
 msgstr "Definir vistas para «%s»"
 
 #: ../widgets/menus/gal-view-factory-etable.c:37
-#: ../widgets/table/e-table-header-item.c:1920
 #: ../widgets/table/e-table-scrolled.c:215
 #: ../widgets/table/e-table-scrolled.c:216
 msgid "Table"
@@ -21909,109 +21877,89 @@ msgstr "Tipo de vista:"
 #. Translators: Default attachment filename.
 #: ../widgets/misc/e-attachment.c:1709 ../widgets/misc/e-attachment.c:2258
 #: ../widgets/misc/e-attachment-store.c:627
-#, fuzzy
 #| msgid "attachment"
 msgid "attachment.dat"
-msgstr "adjunto"
+msgstr "attachment.dat"
 
 #: ../widgets/misc/e-attachment.c:1756 ../widgets/misc/e-attachment.c:2560
 msgid "A load operation is already in progress"
-msgstr ""
+msgstr "Existe una operación de carga en progreso"
 
 #: ../widgets/misc/e-attachment.c:1764 ../widgets/misc/e-attachment.c:2568
 msgid "A save operation is already in progress"
-msgstr ""
+msgstr "Existe una operación de guardado en progreso"
 
 #: ../widgets/misc/e-attachment.c:1857
-#, fuzzy, c-format
+#, c-format
 #| msgid "Could not load address book"
 msgid "Could not load '%s'"
-msgstr "No se pudo cargar la libreta de direcciones"
+msgstr "No se pudo cargar «%s»"
 
 #: ../widgets/misc/e-attachment.c:1860
-#, fuzzy, c-format
+#, c-format
 #| msgid "Could not open the link."
 msgid "Could not load the attachment"
-msgstr "No se pudo abrir el enlace."
+msgstr "No se pudo cargar el adjunto"
 
 #: ../widgets/misc/e-attachment.c:2135
-#, fuzzy, c-format
+#, c-format
 #| msgid "Could not open source"
 msgid "Could not open '%s'"
-msgstr "No se puede abrir el origen"
+msgstr "No se pudo abrir «%s»"
 
 #: ../widgets/misc/e-attachment.c:2138
-#, fuzzy, c-format
+#, c-format
 #| msgid "Could not open the link."
 msgid "Could not open the attachment"
-msgstr "No se pudo abrir el enlace."
+msgstr "No se pudo abrir el adjunto"
 
 #: ../widgets/misc/e-attachment.c:2576
-#, fuzzy
 #| msgid "Attachment Reminder"
 msgid "Attachment contents not loaded"
-msgstr "Recuerdo de adjuntos"
+msgstr "No se cargó el contenido del adjunto"
 
 #: ../widgets/misc/e-attachment.c:2653
-#, fuzzy, c-format
+#, c-format
 #| msgid "Could not execute '%s': %s\n"
 msgid "Could not save '%s'"
-msgstr "No es posible ejecutar: «%s»: %s\n"
+msgstr "No se pudo guardar «%s»"
 
 #: ../widgets/misc/e-attachment.c:2656
-#, fuzzy, c-format
+#, c-format
 #| msgid "Select folder to save all attachments"
 msgid "Could not save the attachment"
-msgstr "Seleccione la carpeta donde guardar todos los adjuntos"
+msgstr "No se pudo guardar el adjunto"
 
-#: ../widgets/misc/e-attachment.glade.h:1
 #: ../widgets/misc/e-attachment-dialog.c:305
 msgid "Attachment Properties"
 msgstr "Propiedades de adjuntos"
 
-#: ../widgets/misc/e-attachment.glade.h:3
-msgid "File name:"
-msgstr "Nombre del archivo:"
-
-#: ../widgets/misc/e-attachment.glade.h:4
-msgid "MIME type:"
-msgstr "Tipo MIME:"
-
-#: ../widgets/misc/e-attachment.glade.h:5
-msgid "Suggest automatic display of attachment"
-msgstr "Sugerir mostrar adjuntos automáticamente"
-
 #: ../widgets/misc/e-attachment-dialog.c:328
-#, fuzzy
 #| msgid "F_ilename:"
 msgid "_Filename:"
 msgstr "Nombre del _archivo:"
 
 #: ../widgets/misc/e-attachment-dialog.c:363
-#, fuzzy
 #| msgid "MIME Type"
 msgid "MIME Type:"
-msgstr "Tipo MIME"
+msgstr "Tipo MIME:"
 
 #: ../widgets/misc/e-attachment-handler-image.c:95
-#, fuzzy
 #| msgid "Set as _Background"
 msgid "Could not set as background"
-msgstr "Establecer como _fondo"
+msgstr "No se pudo establecer como fondo"
 
 #: ../widgets/misc/e-attachment-icon-view.c:473
 #: ../widgets/misc/e-attachment-tree-view.c:517
-#, fuzzy
 #| msgid "Loading..."
 msgid "Loading"
-msgstr "Cargando…"
+msgstr "Cargando"
 
 #: ../widgets/misc/e-attachment-icon-view.c:485
 #: ../widgets/misc/e-attachment-tree-view.c:529
-#, fuzzy
 #| msgid "Shading"
 msgid "Saving"
-msgstr "Escala de grises"
+msgstr "Guardando"
 
 #: ../widgets/misc/e-attachment-paned.c:80
 msgid "Hide _Attachment Bar"
@@ -22023,39 +21971,36 @@ msgid "Show _Attachment Bar"
 msgstr "Mostrar _barra de adjuntos"
 
 #: ../widgets/misc/e-attachment-store.c:533
-#, fuzzy
 #| msgid "Attachment"
 #| msgid_plural "Attachments"
 msgid "Add Attachment"
-msgstr "Adjunto"
+msgstr "Añadir adjunto"
 
 #: ../widgets/misc/e-attachment-store.c:536
 msgid "A_ttach"
 msgstr "_Adjuntar"
 
 #: ../widgets/misc/e-attachment-store.c:598
-#, fuzzy
 #| msgid "Save attachments"
 msgid "Save Attachment"
 msgid_plural "Save Attachments"
-msgstr[0] "Guarda los adjuntos"
-msgstr[1] "Guarda los adjuntos"
+msgstr[0] "Guarda el adjunto"
+msgstr[1] "Guardar los adjuntos"
 
 #: ../widgets/misc/e-attachment-view.c:299
 msgid "S_ave All"
 msgstr "Guardar _todo"
 
 #: ../widgets/misc/e-attachment-view.c:325
-#, fuzzy
 #| msgid "_Add attachment..."
 msgid "A_dd Attachment..."
 msgstr "_Añadir adjunto…"
 
 #: ../widgets/misc/e-attachment-view.c:648
-#, fuzzy, c-format
+#, c-format
 #| msgid "Save attachment as"
 msgid "Open this attachment in %s"
-msgstr "Guarda los adjuntos como"
+msgstr "Abrir este adjunto en %s"
 
 #. This is a strftime() format. %B = Month name, %Y = Year.
 #: ../widgets/misc/e-calendar-item.c:1267
@@ -22459,19 +22404,19 @@ msgstr "<b>Seguimiento de estado</b>"
 msgid "A_uto-delete sent item"
 msgstr "_Autoborrar el elemento enviado"
 
-#: ../widgets/misc/e-send-options.glade.h:7
+#: ../widgets/misc/e-send-options.glade.h:6
 msgid "Creat_e a sent item to track information"
 msgstr "_Crear un elemento enviado para seguimiento de la información"
 
-#: ../widgets/misc/e-send-options.glade.h:8
+#: ../widgets/misc/e-send-options.glade.h:7
 msgid "Deli_vered and opened"
 msgstr "_Entregado y abierto"
 
-#: ../widgets/misc/e-send-options.glade.h:9
+#: ../widgets/misc/e-send-options.glade.h:8
 msgid "Gene_ral Options"
 msgstr "Opciones gene_rales"
 
-#: ../widgets/misc/e-send-options.glade.h:10
+#: ../widgets/misc/e-send-options.glade.h:9
 msgid ""
 "None\n"
 "Mail Receipt"
@@ -22479,7 +22424,7 @@ msgstr ""
 "Ninguno\n"
 "Recibos de correo"
 
-#: ../widgets/misc/e-send-options.glade.h:12
+#: ../widgets/misc/e-send-options.glade.h:11
 msgid ""
 "Normal\n"
 "Proprietary\n"
@@ -22495,15 +22440,15 @@ msgstr ""
 "Alto secreto\n"
 "Sólo para tus ojos"
 
-#: ../widgets/misc/e-send-options.glade.h:18
+#: ../widgets/misc/e-send-options.glade.h:17
 msgid "R_eply requested"
 msgstr "_Respuesta solicitada"
 
-#: ../widgets/misc/e-send-options.glade.h:20
+#: ../widgets/misc/e-send-options.glade.h:19
 msgid "Sta_tus Tracking"
 msgstr "Seguimiento de es_tado"
 
-#: ../widgets/misc/e-send-options.glade.h:21
+#: ../widgets/misc/e-send-options.glade.h:20
 msgid ""
 "Undefined\n"
 "High\n"
@@ -22515,29 +22460,34 @@ msgstr ""
 "Estándar\n"
 "Bajo"
 
-#: ../widgets/misc/e-send-options.glade.h:25
+#: ../widgets/misc/e-send-options.glade.h:24
 msgid "When acce_pted:"
 msgstr "Al ace_ptar:"
 
-#: ../widgets/misc/e-send-options.glade.h:26
+#: ../widgets/misc/e-send-options.glade.h:25
 msgid "When co_mpleted:"
 msgstr "Al _terminar:"
 
-#: ../widgets/misc/e-send-options.glade.h:27
+#: ../widgets/misc/e-send-options.glade.h:26
 msgid "When decli_ned:"
 msgstr "Al _rehusar:"
 
-#: ../widgets/misc/e-send-options.glade.h:28
+#: ../widgets/misc/e-send-options.glade.h:27
 msgid "Wi_thin"
 msgstr "_Dentro"
 
-#: ../widgets/misc/e-send-options.glade.h:29
+#: ../widgets/misc/e-send-options.glade.h:28
 msgid "_After:"
 msgstr "_Después de:"
 
-#: ../widgets/misc/e-send-options.glade.h:30
+#: ../widgets/misc/e-send-options.glade.h:29
 msgid "_All information"
 msgstr "_Toda la información"
+
+#: ../widgets/misc/e-send-options.glade.h:30
+#| msgid "_Classification"
+msgid "_Classification:"
+msgstr "_Clasificación:"
 
 #. To translators: This means Delay the message delivery for some time
 #: ../widgets/misc/e-send-options.glade.h:32
@@ -22580,22 +22530,6 @@ msgstr "%s (%d%% completado)"
 #: ../widgets/misc/e-url-entry.c:105
 msgid "Click here to go to URL"
 msgstr "Pulse aquí para ir a la URL"
-
-#: ../widgets/misc/gal-categories.glade.h:1
-msgid "Edit Master Category List..."
-msgstr "Editar lista de categorías maestra…"
-
-#: ../widgets/misc/gal-categories.glade.h:2
-msgid "Item(s) belong to these _categories:"
-msgstr "Elemento(s) pertenecientes a estas _categorías:"
-
-#: ../widgets/misc/gal-categories.glade.h:3
-msgid "_Available Categories:"
-msgstr "_Categorías disponibles:"
-
-#: ../widgets/misc/gal-categories.glade.h:4
-msgid "categories"
-msgstr "categorías"
 
 #: ../widgets/table/e-cell-combo.c:175
 msgid "popup list"
@@ -22743,20 +22677,6 @@ msgstr "_Mostrar estos campos en orden:"
 #: ../widgets/table/e-table-config.glade.h:24
 msgid "_Sort..."
 msgstr "_Ordenar…"
-
-#: ../widgets/table/e-table-field-chooser-dialog.c:67
-#: ../widgets/table/e-table-field-chooser-item.c:633
-#: ../widgets/table/e-table-field-chooser.c:66
-#: ../widgets/table/e-table-header-item.c:1885
-msgid "DnD code"
-msgstr "Código DnD"
-
-#: ../widgets/table/e-table-field-chooser-dialog.c:74
-#: ../widgets/table/e-table-field-chooser-item.c:640
-#: ../widgets/table/e-table-field-chooser.c:73
-#: ../widgets/table/e-table-header-item.c:1899
-msgid "Full Header"
-msgstr "Cabecera completa"
 
 #: ../widgets/table/e-table-field-chooser-dialog.c:116
 msgid "Add a column..."
@@ -22923,21 +22843,6 @@ msgstr "_Ordenar por"
 msgid "_Custom"
 msgstr "_Personalizado"
 
-#: ../widgets/table/e-table-header-item.c:1892
-msgid "Font Description"
-msgstr "Descripción de la tipografía"
-
-#: ../widgets/table/e-table-header-item.c:1913
-#: ../widgets/table/e-table-sorter.c:172
-msgid "Sort Info"
-msgstr "Ordenar información"
-
-#: ../widgets/table/e-table-header-item.c:1927
-#: ../widgets/table/e-tree-scrolled.c:225
-#: ../widgets/table/e-tree-scrolled.c:226
-msgid "Tree"
-msgstr "Árbol"
-
 #: ../widgets/table/e-table-item.c:3007 ../widgets/table/e-table-item.c:3008
 msgid "Table header"
 msgstr "Cabecera de la tabla"
@@ -22950,6 +22855,10 @@ msgstr "Modelo de la tabla"
 msgid "Cursor row"
 msgstr "Fila del cursor"
 
+#: ../widgets/table/e-table-sorter.c:172
+msgid "Sort Info"
+msgstr "Ordenar información"
+
 #: ../widgets/table/e-table.c:3338 ../widgets/table/e-tree.c:3375
 #: ../widgets/table/e-tree.c:3376
 msgid "Always search"
@@ -22958,6 +22867,11 @@ msgstr "Buscar siempre"
 #: ../widgets/table/e-table.c:3345
 msgid "Use click to add"
 msgstr "Pulsar para añadir"
+
+#: ../widgets/table/e-tree-scrolled.c:225
+#: ../widgets/table/e-tree-scrolled.c:226
+msgid "Tree"
+msgstr "Árbol"
 
 #: ../widgets/table/e-tree.c:3361 ../widgets/table/e-tree.c:3362
 msgid "ETree table adapter"
@@ -23083,6 +22997,42 @@ msgstr "Contexto IM"
 #: ../widgets/text/e-text.c:3790 ../widgets/text/e-text.c:3791
 msgid "Handle Popup"
 msgstr "Tirador emergente"
+
+#~ msgid "_Tasks :"
+#~ msgstr "_Tareas:"
+
+#~ msgid "Memos :"
+#~ msgstr "Notas:"
+
+#~ msgid "File name:"
+#~ msgstr "Nombre del archivo:"
+
+#~ msgid "MIME type:"
+#~ msgstr "Tipo MIME:"
+
+#~ msgid "Suggest automatic display of attachment"
+#~ msgstr "Sugerir mostrar adjuntos automáticamente"
+
+#~ msgid "Edit Master Category List..."
+#~ msgstr "Editar lista de categorías maestra…"
+
+#~ msgid "Item(s) belong to these _categories:"
+#~ msgstr "Elemento(s) pertenecientes a estas _categorías:"
+
+#~ msgid "_Available Categories:"
+#~ msgstr "_Categorías disponibles:"
+
+#~ msgid "categories"
+#~ msgstr "categorías"
+
+#~ msgid "DnD code"
+#~ msgstr "Código DnD"
+
+#~ msgid "Full Header"
+#~ msgstr "Cabecera completa"
+
+#~ msgid "Font Description"
+#~ msgstr "Descripción de la tipografía"
 
 #~ msgid "Toggle Attachment Bar"
 #~ msgstr "Conmutar barra de adjuntos"
