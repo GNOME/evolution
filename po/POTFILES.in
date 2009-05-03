@@ -475,7 +475,6 @@ widgets/menus/gal-view-menus.c
 widgets/menus/gal-view-new-dialog.c
 widgets/menus/gal-view-new-dialog.glade
 widgets/misc/e-attachment.c
-widgets/misc/e-attachment.glade
 widgets/misc/e-attachment-dialog.c
 widgets/misc/e-attachment-handler-image.c
 widgets/misc/e-attachment-icon-view.c
@@ -506,7 +505,6 @@ widgets/misc/e-send-options.glade
 widgets/misc/e-signature-combo-box.c
 widgets/misc/e-task-widget.c
 widgets/misc/e-url-entry.c
-widgets/misc/gal-categories.glade
 widgets/table/e-cell-combo.c
 widgets/table/e-cell-date.c
 widgets/table/e-cell-pixbuf.c
