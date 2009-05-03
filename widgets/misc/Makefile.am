@@ -28,9 +28,7 @@ pilot_sources =
 pilot_headers =
 endif
 
-glade_DATA = e-send-options.glade \
-	     gal-categories.glade \
-	     e-attachment.glade
+glade_DATA = e-send-options.glade
 
 widgetsinclude_HEADERS =			\
 	$(pilot_headers)			\
