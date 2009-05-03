@@ -4,12 +4,12 @@
 # Ismael Olea <ismael@olea.org>, 2003.
 # I.R. Maturana <info@in3activa.com>, 2003.
 # Francisco Javier F. Serrador <serrador@openshine.com>, 2005, 2006.
-# Jorge González <jorgegonz@svn.gnome.org>, 2007.
+# Jorge González <jorgegonz@svn.gnome.org>, 200, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution_manual\n"
-"POT-Creation-Date: 2007-07-06 03:20+0100\n"
-"PO-Revision-Date: 2007-07-05 19:40+0200\n"
+"POT-Creation-Date: 2009-04-17 07:00+0000\n"
+"PO-Revision-Date: 2009-05-03 11:29+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -213,10 +213,10 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:2124(None)
-msgid ""
-"@@image: 'figures/mail-threaded.png'; md5=ab1b9eb0f0735f4fcc4c51ead5ce1ff2"
-msgstr ""
-"@@image: 'figures/mail-threaded.png'; md5=ab1b9eb0f0735f4fcc4c51ead5ce1ff2"
+#| msgid ""
+#| "@@image: 'figures/mail-threaded.png'; md5=ab1b9eb0f0735f4fcc4c51ead5ce1ff2"
+msgid "@@image: 'figures/mail-threaded.png'; md5=THIS FILE DOESN'T EXIST"
+msgstr "@@image: 'figures/mail-threaded.png'; md5=THIS FILE DOESN'T EXIST"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -300,12 +300,12 @@ msgstr ""
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
 #: C/evolution.xml:2949(None)
-msgid ""
-"@@image: 'figures/evo_contacteditor_a.png'; "
-"md5=4f188bd5d34a9fea7d91fdf5fb943f28"
+#| msgid ""
+#| "@@image: 'figures/evo_contacteditor_a.png'; "
+#| "md5=4f188bd5d34a9fea7d91fdf5fb943f28"
+msgid "@@image: 'figures/evo_contacteditor_a.png'; md5=THIS FILE DOESN'T EXIST"
 msgstr ""
-"@@image: 'figures/evo_contacteditor_a.png'; "
-"md5=4f188bd5d34a9fea7d91fdf5fb943f28"
+"@@image: 'figures/evo_contacteditor_a.png'; md5=THIS FILE DOESN'T EXIST"
 
 #. When image changes, this message will be marked fuzzy or untranslated for you.
 #. It doesn't matter what you translate it to: it's not used at all.
@@ -944,8 +944,8 @@ msgid ""
 "When the First-Run Assistant starts, the Welcome page is displayed. Click "
 "Forward to proceed to the Identity window."
 msgstr ""
-"Cuando se inicia el «Asistente de primera ejecución», se muestra la página "
-"de «Bienvenida». Pulse «Adelante» para proceder a la ventana de «Identidad»."
+"Cuando se inicia el «Asistente de primera ejecución», se muestra la página de "
+"«Bienvenida». Pulse «Adelante» para proceder a la ventana de «Identidad»."
 
 #: C/evolution.xml:231(para)
 msgid "Type your full name in the Full Name field."
@@ -1160,10 +1160,10 @@ msgid ""
 "to use. For configuration instructions, see <link linkend=\"bstgbqn\">Local "
 "Configuration Options</link>."
 msgstr ""
-"Si descarga el correo utilizando «mh» u otro programa tipo MH querrá "
-"utilizar esta opción. Debe escribir la ruta de acceso al directorio de "
-"correo que quiere usar. Para las instrucciones de configuración, vea <link "
-"linkend=\"bstgbqn\">Opciones de configuración local</link>."
+"Si descarga el correo utilizando «mh» u otro programa tipo MH querrá utilizar "
+"esta opción. Debe escribir la ruta de acceso al directorio de correo que "
+"quiere usar. Para las instrucciones de configuración, vea <link linkend="
+"\"bstgbqn\">Opciones de configuración local</link>."
 
 #: C/evolution.xml:299(title)
 msgid "Maildir Format Mail Directories:"
@@ -1224,8 +1224,7 @@ msgstr ""
 #: C/evolution.xml:318(para)
 msgid "Type the server name of your e-mail server in the Server field."
 msgstr ""
-"Teclee el nombre del servidor de su correo electrónico en el campo "
-"«Servidor»."
+"Teclee el nombre del servidor de su correo electrónico en el campo «Servidor»."
 
 #: C/evolution.xml:319(para)
 msgid "If you don't know the Server, contact your administrator."
@@ -1496,8 +1495,8 @@ msgid ""
 "Specify the Global Catalog server name in the Global Catalog Server Name "
 "field."
 msgstr ""
-"Especifique el nombre del servidor de Catálogo Global en el campo «Nombre "
-"del servidor de catálogo global»"
+"Especifique el nombre del servidor de Catálogo Global en el campo «Nombre del "
+"servidor de catálogo global»"
 
 #: C/evolution.xml:437(para)
 msgid ""
@@ -1710,8 +1709,8 @@ msgid ""
 "If you select Local Delivery as your receiving server type, you need to "
 "specify the following options:"
 msgstr ""
-"Si selecciona «Entrega local» como su tipo de servidor de recepción, "
-"necesita especificar las siguientes opciones:"
+"Si selecciona «Entrega local» como su tipo de servidor de recepción, necesita "
+"especificar las siguientes opciones:"
 
 #: C/evolution.xml:566(para)
 msgid ""
@@ -2990,9 +2989,9 @@ msgid ""
 "fileref=\"figures/minus.png\"/> icon in the preview pane."
 msgstr ""
 "Puede expandir las cabeceras del mensaje pulsando el icono <inlinegraphic "
-"format=\"PNG\" fileref=\"figures/plus.png\"/> o el «...» en el panel de "
-"vista previa. Para contraer pulse el icono <inlinegraphic format=\"PNG\" "
-"fileref=\"figures/minus.png\"/> en el panel de vista previa."
+"format=\"PNG\" fileref=\"figures/plus.png\"/> o el «...» en el panel de vista "
+"previa. Para contraer pulse el icono <inlinegraphic format=\"PNG\" fileref="
+"\"figures/minus.png\"/> en el panel de vista previa."
 
 #: C/evolution.xml:1075(title)
 msgid "Sharing Mailboxes with Other Mail Programs"
@@ -3947,8 +3946,8 @@ msgid ""
 "should ignore this feature."
 msgstr ""
 "Puede buscar un complejo patrón de caracteres, llamao <link linkend="
-"\"regular-expression\">expresión regular</link> o «regex» en la ventana de "
-"su editor. Si no está seguro de lo que es una expresión regular, debería "
+"\"regular-expression\">expresión regular</link> o «regex» en la ventana de su "
+"editor. Si no está seguro de lo que es una expresión regular, debería "
 "ignorar esta característica."
 
 #: C/evolution.xml:1437(title)
@@ -5821,8 +5820,8 @@ msgid ""
 msgstr ""
 "Cuando lea un mensaje marcado en la parte superior derecha del mismo, "
 "aparecerá una nota con el estado de la bandera, antes de la cabecera del "
-"mensaje. Al ver un mensaje atrasado podrá decirle algo como «Llamar antes "
-"del 7 de abril de 2003 a las 5:00 PM»."
+"mensaje. Al ver un mensaje atrasado podrá decirle algo como «Llamar antes del "
+"7 de abril de 2003 a las 5:00 PM»."
 
 #: C/evolution.xml:2267(para)
 msgid ""
@@ -7343,8 +7342,8 @@ msgstr ""
 "Especifique aquí el nombre de su contacto. Puede escribir un nombre dentro "
 "del campo Nombre completo, pero también puede pulsar el botón Nombre "
 "completo para mostrar una pequeña caja de diálogo con cajas de texto para "
-"nombre y apellido, títulos como «Mr.» o «Su excelencia», y sufijos como "
-"«Jr». El nombre completo también interactúa con la caja Archivar como para "
+"nombre y apellido, títulos como «Mr.» o «Su excelencia», y sufijos como «Jr». "
+"El nombre completo también interactúa con la caja Archivar como para "
 "ayudarle a organizar sus contactos y manejar apellidos multipalabra. Para "
 "ver cómo funciona escriba un nombre en el campo Nombre completo. Como "
 "ejemplo usaremos Miguel de Icaza. Notará que en campo Archivar como también "
@@ -9542,8 +9541,7 @@ msgid ""
 "entries without dates, using the filesystem as a backend."
 msgstr ""
 "En Evolution, el componente de Notas le permite crear, editar y almacenar "
-"entradas sin fecha de su diario, usando el sistema de archivos como "
-"«backend»."
+"entradas sin fecha de su diario, usando el sistema de archivos como «backend»."
 
 #: C/evolution.xml:4112(para)
 msgid "To create a new memo entry:"
@@ -10450,9 +10448,8 @@ msgstr ""
 "localmente, que funcionan desde el mismo momento de iniciar la sesión, de "
 "tal manera que pueda establecer la hora para una reunión. Para activar los "
 "ajustes de los recordatorios en su cuenta de Exchange, seleccione la casilla "
-"de verificación «Recordar la contraseña». Para obtener más información "
-"acerca de los Recordatorios vea <link linkend=\"bshly4v\">Recordatorios</"
-"link>."
+"de verificación «Recordar la contraseña». Para obtener más información acerca "
+"de los Recordatorios vea <link linkend=\"bshly4v\">Recordatorios</link>."
 
 #: C/evolution.xml:4651(para)
 msgid ""
@@ -12430,10 +12427,10 @@ msgid ""
 msgstr ""
 "Al crear un mensaje puede incluir una imagen que sólo se descargue cuando el "
 "destinatario lea el mensaje. Sin embargo los «spammers» pueden usar los "
-"patrones de descarga de imágenes para confirmar «direcciones vivas» e "
-"invadir la privacidad de sus datos. Puede elegir que nunca se carguen las "
-"imágenes automáticamente, hacerlo solamente si el remitente es\ttá en su "
-"libreta de direcciones o cargarlas todas."
+"patrones de descarga de imágenes para confirmar «direcciones vivas» e invadir "
+"la privacidad de sus datos. Puede elegir que nunca se carguen las imágenes "
+"automáticamente, hacerlo solamente si el remitente es\ttá en su libreta de "
+"direcciones o cargarlas todas."
 
 #: C/evolution.xml:5691(para)
 msgid ""
@@ -14249,10 +14246,10 @@ msgid ""
 msgstr ""
 " Una expresión regular (regex) es una manera de describir una cadena de "
 "texto mediante meta-caracteres o símbolos comodín. Por ejemplo la sentencia "
-"fly.*so[au]p encuentra cualquier frase que empiece por «fly» y acabe en "
-"«soup» o en «soap». Si hace una búsqueda con esa expresión podría encontrar "
-"tanto «fly in my soup» como «fly in soap». Para obtener más información "
-"introduzca <command>man grep</command> en la línea de comandos."
+"fly.*so[au]p encuentra cualquier frase que empiece por «fly» y acabe en «soup» "
+"o en «soap». Si hace una búsqueda con esa expresión podría encontrar tanto "
+"«fly in my soup» como «fly in soap». Para obtener más información introduzca "
+"<command>man grep</command> en la línea de comandos."
 
 #: C/evolution.xml:6431(glossterm)
 msgid "script"
