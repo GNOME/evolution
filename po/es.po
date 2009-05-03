@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2009-05-03 04:00+0000\n"
-"PO-Revision-Date: 2009-05-03 11:38+0200\n"
+"PO-Revision-Date: 2009-05-03 19:02+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -11591,7 +11591,7 @@ msgstr "Ocultar _sin formato"
 
 #: ../mail/em-format-html-display.c:2180
 msgid "O_pen With"
-msgstr "Abrir _con"
+msgstr "Abrir c_on"
 
 #: ../mail/em-format-html-display.c:2257
 msgid ""
