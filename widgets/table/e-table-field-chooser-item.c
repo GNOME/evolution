@@ -630,35 +630,35 @@ etfci_class_init (ETableFieldChooserItemClass *klass)
 
 	g_object_class_install_property (object_class, PROP_DND_CODE,
 					 g_param_spec_string ("dnd_code",
-							      _("DnD code"),
+							      "DnD code",
 							      /*_( */"XXX blurb" /*)*/,
 							      NULL,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_FULL_HEADER,
 					 g_param_spec_object ("full_header",
-							      _("Full Header"),
+							      "Full Header",
 							      /*_( */"XXX blurb" /*)*/,
 							      E_TABLE_HEADER_TYPE,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_HEADER,
 					 g_param_spec_object ("header",
-							      _("Header"),
+							      "Header",
 							      /*_( */"XXX blurb" /*)*/,
 							      E_TABLE_HEADER_TYPE,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_WIDTH,
 					 g_param_spec_double ("width",
-							      _("Width"),
+							      "Width",
 							      /*_( */"XXX blurb" /*)*/,
 							      0, G_MAXDOUBLE, 0,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_HEIGHT,
 					 g_param_spec_double ("height",
-							      _("Height"),
+							      "Height",
 							      /*_( */"XXX blurb" /*)*/,
 							      0, G_MAXDOUBLE, 0,
 							      G_PARAM_READABLE));
