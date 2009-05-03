@@ -774,7 +774,8 @@ org_gnome_exchange_owa_url(EPlugin *epl, EConfigHookItemFactoryData *data)
 	owa_editor_entry_changed (owa_entry, data->config);
 
 	row++;
-	want_mailbox_check = gtk_check_button_new_with_mnemonic (_("S_pecify the mailbox name"));
+	want_mailbox_check = gtk_check_button_new_with_mnemonic (
+		_("Mailbox name is _different than user name"));
 	gtk_widget_show (want_mailbox_check);
 	gtk_table_attach (GTK_TABLE (data->parent), want_mailbox_check, 1, 2, row, row+1, GTK_FILL, GTK_FILL, 0, 0);
 	if (!username || !*username || !mailbox_name || !*mailbox_name ||
