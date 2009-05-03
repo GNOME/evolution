@@ -59,7 +59,7 @@ kill_process (const char *proc_name, KillevComponent *comp)
 		 * found, so just bail completely.
 		 */
 		fprintf (stderr, _("Could not execute '%s': %s\n"),
-			 KILL_PROCESS_CMD, strerror (errno));
+			 KILL_PROCESS_CMD, g_strerror (errno));
 		exit (1);
 	}
 

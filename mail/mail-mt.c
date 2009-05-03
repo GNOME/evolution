@@ -111,7 +111,7 @@ mail_msg_new (MailMsgInfo *info)
 					fprintf(log, "%" G_GINT64_MODIFIER "x: lock mail_msg_lock\n", e_util_pthread_id(pthread_self()));
 				}
 			} else {
-				g_warning ("Could not open log file: %s", strerror(errno));
+				g_warning ("Could not open log file: %s", g_strerror(errno));
 				log_ops = log_locks = FALSE;
 			}
 		}
