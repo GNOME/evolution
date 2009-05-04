@@ -950,7 +950,7 @@ Using distinguished name (DN)</property>
 			  <property name="activates_default">False</property>
 			  <accessibility>
 			    <atkproperty name="AtkObject::accessible_name" translatable="yes">Search Filter</atkproperty>
-			    <atkproperty name="AtkObject::accessible_description" translatable="yes">Search filter is the type of the objects searched for, while performing the search. If this is not modified, by  default search will be performed on objectclass of the type &quot;person&quot;.</atkproperty>
+			    <atkproperty name="AtkObject::accessible_description" translatable="yes">Search filter is the type of object to be searched for. If this is not modified, the default search will be performed on the type &quot;person&quot;.</atkproperty>
 			  </accessibility>
 			</widget>
 			<packing>

@@ -234,8 +234,8 @@
       <locale name="C">
          <short>Enable or disable type ahead search feature</short>
          <long>
-           Enable side bar search feature so that you can start interactive searching by typing in the text. Use is that you can easily find a folder in that side bar by just typing the folder name and the selection jumps automatically to that folder.
-         </long>
+          Enable the side bar search feature to allow interactive searching of folder names.
+       </long>
       </locale>
     </schema>
 
@@ -940,7 +940,7 @@
       <locale name="C">
          <short>Prompt while marking multiple messages</short>
          <long>
-	 It disables/enables the prompt while marking multiple messages.
+	Enable or disable the prompt whilst marking multiple messages.
          </long>
       </locale>
     </schema>
