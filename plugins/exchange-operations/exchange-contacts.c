@@ -25,6 +25,7 @@
 #include <e-util/e-config.h>
 #include <calendar/gui/e-cal-config.h>
 #include <libedataserver/e-source.h>
+#include <libedataserver/e-source-list.h>
 #include <libedataserver/e-url.h>
 #include <e-folder.h>
 #include <exchange-account.h>
