@@ -100,7 +100,7 @@ static void
 add_timeout (ETableSearch *ets)
 {
 	drop_timeout (ets);
-	ets->priv->timeout_id = g_timeout_add (1000, ets_accept, ets);
+	ets->priv->timeout_id = g_timeout_add_seconds (1, ets_accept, ets);
 }
 
 static void

@@ -28,7 +28,7 @@
 
 #define AUTOSAVE_PREFIX		".evolution-composer.autosave"
 #define AUTOSAVE_SEED		AUTOSAVE_PREFIX "-XXXXXX"
-#define AUTOSAVE_INTERVAL	60000  /* 60 seconds */
+#define AUTOSAVE_INTERVAL	60  /* 60 seconds */
 
 typedef struct _AutosaveState AutosaveState;
 
@@ -222,7 +222,7 @@ e_composer_autosave_register (EMsgComposer *composer)
 		composer_autosave_notify, NULL);
 
 	if (autosave_source_id == 0)
-		autosave_source_id = g_timeout_add (
+		autosave_source_id = g_timeout_add_seconds (
 			AUTOSAVE_INTERVAL, (GSourceFunc)
 			composer_autosave_timeout, NULL);
 }

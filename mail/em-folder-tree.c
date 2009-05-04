@@ -2641,5 +2641,5 @@ emft_queue_save_state (EMFolderTree *emft)
 	if (priv->save_state_id != 0)
 		return;
 
-	priv->save_state_id = g_timeout_add (1000, (GSourceFunc) emft_save_state, emft);
+	priv->save_state_id = g_timeout_add_seconds (1, (GSourceFunc) emft_save_state, emft);
 }

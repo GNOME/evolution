@@ -2460,7 +2460,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		{
 				if ( text->tooltip_count == 0 && text->clip) {
 					if (!text->tooltip_timeout)
-						text->tooltip_timeout = g_timeout_add (2000, _do_tooltip, text);
+						text->tooltip_timeout = g_timeout_add_seconds (2, _do_tooltip, text);
 				}
 				text->tooltip_count ++;
 		}

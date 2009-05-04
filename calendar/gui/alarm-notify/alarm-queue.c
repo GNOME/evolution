@@ -1864,7 +1864,7 @@ alarm_queue_init (gpointer data)
 	}
 
 	/* install timeout handler (every 30 mins) for not missing the midnight refresh */
-	g_timeout_add (1800000, (GSourceFunc) check_midnight_refresh, NULL);
+	g_timeout_add_seconds (1800, (GSourceFunc) check_midnight_refresh, NULL);
 
 #ifdef HAVE_LIBNOTIFY
 	notify_init("Evolution Alarms");

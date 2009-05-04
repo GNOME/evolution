@@ -645,8 +645,8 @@ window_binding_perform_scheduled_sync (WindowBinding *binding)
         return FALSE;
 }
 
-#define WINDOW_BINDING_SYNC_DELAY 1000 /* Delay before syncing new window
-                                          dimensions to GConf, in ms */
+#define WINDOW_BINDING_SYNC_DELAY 1 /* Delay before syncing new window
+                                          dimensions to GConf, in s */
 
 /* Called when the window han been resized or moved */
 static gboolean
@@ -657,7 +657,7 @@ window_binding_configure_event_cb (GtkWindow         *window,
         /* Schedule a sync */
         if (binding->sync_timeout_id == 0) {
                 binding->sync_timeout_id =
-                        g_timeout_add (WINDOW_BINDING_SYNC_DELAY,
+                        g_timeout_add_seconds (WINDOW_BINDING_SYNC_DELAY,
                                        (GSourceFunc)
                                           window_binding_perform_scheduled_sync,
                                        binding);

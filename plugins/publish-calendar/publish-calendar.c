@@ -352,11 +352,11 @@ add_timeout (EPublishUri *uri)
 	/* Set the timeout for now+frequency */
 	switch (uri->publish_frequency) {
 	case URI_PUBLISH_DAILY:
-		id = g_timeout_add (24 * 60 * 60 * 1000, (GSourceFunc) publish_no_succ_info, uri);
+		id = g_timeout_add_seconds (24 * 60 * 60, (GSourceFunc) publish, uri);
 		g_hash_table_insert (uri_timeouts, uri, GUINT_TO_POINTER (id));
 		break;
 	case URI_PUBLISH_WEEKLY:
-		id = g_timeout_add (7 * 24 * 60 * 60 * 1000, (GSourceFunc) publish_no_succ_info, uri);
+		id = g_timeout_add_seconds (7 * 24 * 60 * 60, (GSourceFunc) publish, uri);
 		g_hash_table_insert (uri_timeouts, uri, GUINT_TO_POINTER (id));
 		break;
 	}
@@ -419,7 +419,7 @@ add_offset_timeout (EPublishUri *uri)
 			publish (uri, FALSE);
 			add_timeout (uri);
 		} else {
-			id = g_timeout_add (((24 * 60 * 60) - elapsed) * 1000, (GSourceFunc) publish_no_succ_info, uri);
+			id = g_timeout_add_seconds (24 * 60 * 60 - elapsed, (GSourceFunc) publish, uri);
 			g_hash_table_insert (uri_timeouts, uri, GUINT_TO_POINTER (id));
 			break;
 		}
@@ -429,7 +429,7 @@ add_offset_timeout (EPublishUri *uri)
 			publish (uri, FALSE);
 			add_timeout (uri);
 		} else {
-			id = g_timeout_add (((7 * 24 * 60 * 60) - elapsed) * 1000, (GSourceFunc) publish_no_succ_info, uri);
+			id = g_timeout_add_seconds (7 * 24 * 60 * 60 - elapsed, (GSourceFunc) publish, uri);
 			g_hash_table_insert (uri_timeouts, uri, GUINT_TO_POINTER (id));
 			break;
 		}

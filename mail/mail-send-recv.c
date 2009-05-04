@@ -1027,7 +1027,7 @@ auto_account_commit(struct _auto_data *info)
 	}
 	info->period = period;
 	if (check && info->timeout_id == 0)
-		info->timeout_id = g_timeout_add(info->period*1000, auto_timeout, info);
+		info->timeout_id = g_timeout_add_seconds(info->period, auto_timeout, info);
 }
 
 static void

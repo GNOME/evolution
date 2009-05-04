@@ -924,7 +924,7 @@ impl_size_alloc (GtkWidget* widget, GtkAllocation* alloc)
 
 	if (GTK_WIDGET_REALIZED(widget) && !(gdk_window_get_state(widget->window) & GDK_WINDOW_STATE_MAXIMIZED)) {
 		/* update the size storage timer */
-		self->priv->store_window_size_timer = g_timeout_add (1000, (GSourceFunc)store_window_size, self);
+		self->priv->store_window_size_timer = g_timeout_add_seconds (1, (GSourceFunc)store_window_size, self);
 	}
 
 	if (GTK_WIDGET_CLASS (e_shell_window_parent_class)->size_allocate) {

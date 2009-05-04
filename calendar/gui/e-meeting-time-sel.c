@@ -2918,7 +2918,7 @@ row_deleted_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data)
 }
 
 
-#define REFRESH_PAUSE 5000
+#define REFRESH_PAUSE 5
 
 static gboolean
 free_busy_timeout_refresh (gpointer data)
@@ -2952,7 +2952,7 @@ free_busy_template_changed_cb (GConfClient *client,
 		g_source_remove (mts->fb_refresh_not);
 	}
 
-	mts->fb_refresh_not = g_timeout_add (REFRESH_PAUSE,
+	mts->fb_refresh_not = g_timeout_add_seconds (REFRESH_PAUSE,
 					     free_busy_timeout_refresh,
 					     data);
 }
