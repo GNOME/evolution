@@ -169,6 +169,16 @@ AM_CONDITIONAL(OS_WIN32, [test $os_win32 = yes])
 AC_SUBST(NO_UNDEFINED)
 AC_SUBST(SOEXT)
 
+if test "$os_win32" = "yes"; then
+  AC_CHECK_TOOL(WINDRES, windres, :)
+else
+  WINDRES=":"
+fi
+
+AM_CONDITIONAL(HAVE_WINDRES, test "x$WINDRES" != "x:")
+
+AC_SUBST(WINDRES)
+
 # Check for base dependencies early.
 PKG_CHECK_MODULES(GNOME_PLATFORM,
         [glib-2.0 >= glib_minimum_version
