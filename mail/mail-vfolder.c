@@ -104,12 +104,6 @@ vfolder_setup_exec (struct _setup_msg *m)
 	l = m->sources_uri;
 	while (l && !shutdown) {
 		d(printf(" Adding uri: %s\n", (char *)l->data));
-		if (strncmp((char *)l->data, "vfolder:/", 9) == 0 ||
-			strncmp((char *)l->data, "email://vfolder@local", 21) == 0) {
-			g_warning ("VFolder of VFolders not supporting. Ignoring loading this vfolder as a subfolder\n");
-			l=l->next;
-			continue;
-		}
 
 		folder = mail_tool_uri_to_folder (l->data, 0, &m->base.ex);
 		if (folder) {
@@ -266,11 +260,6 @@ vfolder_adduri_exec (struct _adduri_msg *m)
 
 	if (!m->remove && !mail_note_get_folder_from_uri(m->uri, &folder)) {
 		g_warning("Folder '%s' disappeared while I was adding/remove it to/from my vfolder", m->uri);
-		return;
-	}
-	if (strncmp(m->uri, "vfolder:/", 9) == 0 ||
-		strncmp(m->uri, "email://vfolder@local", 21) == 0) {
-		printf("Ignoring loading vfolder as a subfolder \n");
 		return;
 	}
 
@@ -724,14 +713,6 @@ rule_add_sources(GList *l, GList **sources_folderp, GList **sources_urip)
 
 	while (l) {
 		char *curi = em_uri_to_camel(l->data);
-
-		if (strncmp((char *)l->data, "vfolder:/", 9) == 0 ||
-			strncmp((char *)l->data, "email://vfolder@local", 21) == 0) {
-			g_warning ("VFolder of VFolders not supporting. Ignoring loading this vfolder as a subfolder\n");
-			l=l->next;
-			g_free(curi);
-			continue;
-		}
 
 		if (mail_note_get_folder_from_uri(curi, &newfolder)) {
 			if (newfolder)

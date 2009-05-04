@@ -110,7 +110,8 @@
 
  <error id="gw-book-list-init" type="warning">
   <_primary>GroupWise Address book creation:</_primary> 
-  <_secondary>Currently you can access only GroupWise System Address Book from Evolution. Please use some other GroupWise mail client once, to get your GroupWise Frequent Contacts and GroupWise Personal Contacts folders.</_secondary>
+  <_secondary>Currently you can only access the GroupWise System Address Book from Evolution. Please use some other GroupWise mail client once to get your GroupWise Frequent Contacts and Groupwise Personal Contacts folders.
+</_secondary>
  </error>
 
  <error id="contact-delete-error-perm" type="warning">

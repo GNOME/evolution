@@ -115,7 +115,7 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
 		if (bbdb_check_gaim_enabled ())
 			bbdb_sync_buddy_list_check ();
 
-		g_timeout_add (BBDB_BLIST_CHECK_INTERVAL,
+		g_timeout_add_seconds (BBDB_BLIST_CHECK_INTERVAL,
 			       (GSourceFunc) bbdb_timeout,
 			       NULL);
 	}

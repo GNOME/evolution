@@ -112,6 +112,7 @@ struct ETreeModelClass {
 	void       (*node_inserted)         (ETreeModel *etm, ETreePath parent, ETreePath inserted_node);
 	void       (*node_removed)          (ETreeModel *etm, ETreePath parent, ETreePath removed_node, int old_position);
 	void       (*node_deleted)          (ETreeModel *etm, ETreePath deleted_node);
+	void       (*rebuilt)          (ETreeModel *etm);
 
 	/* This signal requests that any viewers of the tree that
 	 * collapse and expand nodes collapse this node.
@@ -206,6 +207,7 @@ ETreePath   e_tree_model_node_find               (ETreeModel     *model,
 */
 void        e_tree_model_pre_change              (ETreeModel     *tree_model);
 void        e_tree_model_no_change               (ETreeModel     *tree_model);
+void        e_tree_model_rebuilt                 (ETreeModel     *tree_model);
 void        e_tree_model_node_changed            (ETreeModel     *tree_model,
 						  ETreePath       node);
 void        e_tree_model_node_data_changed       (ETreeModel     *tree_model,

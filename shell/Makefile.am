@@ -94,6 +94,10 @@ libeshell_la_LIBADD =					\
 
 # Evolution executable
 
+if HAVE_WINDRES
+EVOLUTIONICONRC = evolution-icon.o
+endif
+
 evolution_SOURCES =				\
 	$(DATASERVER_IDL_GENERATED)		\
 	$(NM_SUPPORT_FILES)			\
@@ -117,7 +121,8 @@ evolution_LDADD =							\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(TZDIALOG_LIBS)						\
-	$(SHELL_LIBS)
+	$(SHELL_LIBS) \
+	$(EVOLUTIONICONRC)
 
 if OS_WIN32
 evolution_LDFLAGS = -mwindows
@@ -191,7 +196,12 @@ EXTRA_DIST = 					\
 	$(glade_DATA)				\
 	$(schema_in_files)			\
 	ChangeLog.pre-1-4			\
-	evolution-nognome.in
+	evolution-nognome.in			\
+	evolution-icon.rc			\
+	evolution.ico				\
+	evolution-mail.ico			\
+	evolution-memos.ico			\
+	evolution-tasks.ico
 
 # Purify support
 
@@ -217,5 +227,7 @@ dist-hook:
 
 noinst_SCRIPTS = evolution-nognome
 
+evolution-icon.o: evolution.ico evolution-mail.ico evolution-memos.ico evolution-tasks.ico
+	$(WINDRES) evolution-icon.rc evolution-icon.o
 
 -include $(top_srcdir)/git.mk

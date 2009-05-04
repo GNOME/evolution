@@ -982,8 +982,8 @@ mail_note_store(EShellModule *shell_module, CamelStore *store, CamelOperation *o
 		count_sent = getenv("EVOLUTION_COUNT_SENT") != NULL;
 		count_trash = getenv("EVOLUTION_COUNT_TRASH") != NULL;
 		buf = getenv ("EVOLUTION_PING_TIMEOUT");
-		timeout = buf ? strtoul (buf, NULL, 10) * 1000 : 600000;
-		ping_id = g_timeout_add (timeout, ping_cb, NULL);
+		timeout = buf ? strtoul (buf, NULL, 10) : 600;
+		ping_id = g_timeout_add_seconds (timeout, ping_cb, NULL);
 	}
 
 	si = g_hash_table_lookup(stores, store);

@@ -23,6 +23,9 @@
 	<placeholder name='external-editor-holder'/>
         <separator/>
         <separator/>
+	<placeholder name='external-editor-holder'/>
+        <separator/>
+        <separator/>
         <menuitem action='print-preview'/>
         <menuitem action='print'/>
         <separator/>

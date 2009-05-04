@@ -2075,7 +2075,7 @@ save_messages_exec (struct _save_messages_msg *m)
 	if (strstr (m->path, "://"))
 		path = m->path;
 	else
-		path = g_strjoin (NULL, "file://", m->path, NULL);
+		path = g_filename_to_uri (m->path, NULL, NULL);
 
 	stream = camel_stream_vfs_new_with_uri (path, CAMEL_STREAM_VFS_CREATE);
 	from_filter = camel_mime_filter_from_new();
@@ -2189,7 +2189,7 @@ save_part_exec (struct _save_part_msg *m)
 	if (strstr (m->path, "://"))
 		path = m->path;
 	else
-		path = g_strjoin (NULL, "file://", m->path, NULL);
+		path = g_filename_to_uri (m->path, NULL, NULL);
 
 	if(!m->readonly){
 		if (!(stream = camel_stream_vfs_new_with_uri (path, CAMEL_STREAM_VFS_CREATE))) {

@@ -36,7 +36,7 @@
 #include "e-mktemp.h"
 
 /* 5 Minutes */
-#define TIMEOUT_INTERVAL	300000 
+#define TIMEOUT_INTERVAL	300
 
 #define E_LOGGER_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
