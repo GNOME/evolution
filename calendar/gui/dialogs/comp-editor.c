@@ -182,6 +182,14 @@ enum {
 
 static guint comp_editor_signals[LAST_SIGNAL] = { 0 };
 
+static void
+attachment_store_changed_cb (CompEditor *editor)
+{
+	/* Mark the editor as changed so it prompts about unsaved
+           changes on close */
+	comp_editor_set_changed (editor, TRUE);
+}
+
 static GSList *
 get_attachment_list (CompEditor *editor)
 {
@@ -1513,6 +1521,7 @@ comp_editor_init (CompEditor *editor)
 {
 	CompEditorPrivate *priv;
 	EAttachmentView *view;
+	EAttachmentStore *store;
 	GdkDragAction drag_actions;
 	GtkTargetList *target_list;
 	GtkTargetEntry *targets;
@@ -1646,6 +1655,18 @@ comp_editor_init (CompEditor *editor)
 
 	gtk_window_set_type_hint (
 		GTK_WINDOW (editor), GDK_WINDOW_TYPE_HINT_NORMAL);
+
+	/* Listen for attachment store changes. */
+
+	store = e_attachment_view_get_store (view);
+
+	g_signal_connect_swapped (
+		store, "row-deleted",
+		G_CALLBACK (attachment_store_changed_cb), editor);
+
+	g_signal_connect_swapped (
+		store, "row-inserted",
+		G_CALLBACK (attachment_store_changed_cb), editor);
 }
 
 static gboolean
@@ -1696,14 +1717,6 @@ prompt_and_save_changes (CompEditor *editor, gboolean send)
 	default:
 		return FALSE;
 	}
-}
-
-static void
-attachment_store_changed_cb (CompEditor *editor)
-{
-	/* Mark the editor as changed so it prompts about unsaved
-           changes on close */
-	comp_editor_set_changed (editor, TRUE);
 }
 
 /* Menu callbacks */
