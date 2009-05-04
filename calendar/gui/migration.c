@@ -317,7 +317,7 @@ migrate_ical_folder_to_source (char *old_path, ESource *new_source, ECalSourceTy
 	ECal *old_ecal = NULL, *new_ecal = NULL;
 	ESource *old_source;
 	ESourceGroup *group;
-	char *old_uri = g_strdup_printf ("file://%s", old_path);
+	char *old_uri = g_filename_to_uri (old_path, NULL, NULL);
 	GError *error = NULL;
 	gboolean retval = FALSE;
 
