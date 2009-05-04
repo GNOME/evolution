@@ -11,12 +11,11 @@
 
 		<hook class="org.gnome.evolution.mail.events:1.0">
 			<event
-			   id="message.replying"
-			   handle="bbdb_handle_reply"
-			   target="message"
-			/>
-		</hook>
-
+			   id="composer.presendchecks"
+                           handle="bbdb_handle_send"
+                           target="message"
+                       />
+		                                                                                                                                                 </hook>
 		<hook class="org.gnome.evolution.mail.config:1.0">
 			<group id="org.gnome.evolution.mail.prefs" target="prefs">
 				<item type="page" path="80.bbdb" _label="BBDB" factory="bbdb_page_factory"/>

@@ -35,6 +35,7 @@
 #include <mail/em-config.h>
 #include <mail/em-event.h>
 #include <camel/camel-mime-message.h>
+#include <composer/e-msg-composer.h>
 
 #include "bbdb.h"
 
@@ -42,7 +43,7 @@
 
 /* Plugin hooks */
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
-void bbdb_handle_reply (EPlugin *ep, EMEventTargetMessage *target);
+void bbdb_handle_send (EPlugin *ep, EMEventTargetComposer *target);
 GtkWidget *bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 GtkWidget *bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 
@@ -227,47 +228,43 @@ bbdb_do_thread (const char *name, const char *email)
 	G_UNLOCK (todo);
 }
 
-/* Code to populate addressbook when you reply to a mail follows */
 void
-bbdb_handle_reply (EPlugin *ep, EMEventTargetMessage *target)
+bbdb_handle_send (EPlugin *ep, EMEventTargetComposer *target)
 {
-	const CamelInternetAddress *cia;
-	int         i;
+	GConfClient *gconf;
+	CamelMimeMessage *message = NULL;
+	const CamelInternetAddress *to, *cc;
+	gint i, len, enable;
+	gconf = gconf_client_get_default ();
 
-	cia = camel_mime_message_get_from (target->message);
-	if (cia) {
-		for (i = 0; i < camel_address_length (CAMEL_ADDRESS (cia)); i ++) {
-			const char *name=NULL, *email=NULL;
-			if (!(camel_internet_address_get (cia, i, &name, &email)))
-				continue;
-			bbdb_do_thread (name, email);
-		}
-	}
+	enable = gconf_client_get_bool (gconf, GCONF_KEY_ENABLE, NULL);
+	g_object_unref (G_OBJECT (gconf));
 
-	/* If this is a reply-all event, process To: and Cc: also. */
-	if (((EEventTarget *) target)->mask & EM_EVENT_MESSAGE_REPLY_ALL) {
+	if (!enable) 
 		return;
-	}
 
-	cia = camel_mime_message_get_recipients (target->message, CAMEL_RECIPIENT_TYPE_TO);
-	if (cia) {
-		for (i = 0; i < camel_address_length (CAMEL_ADDRESS (cia)); i ++) {
-			const char *name=NULL, *email=NULL;
-			if (!(camel_internet_address_get (cia, i, &name, &email)))
-				continue;
-			bbdb_do_thread (name, email);
-		}
-	}
+	message = e_msg_composer_get_message(target->composer, 1);
 
-	cia = camel_mime_message_get_recipients (target->message, CAMEL_RECIPIENT_TYPE_CC);
-	if (cia) {
-		for (i = 0; i < camel_address_length (CAMEL_ADDRESS (cia)); i ++) {
-			const char *name=NULL, *email=NULL;
-			if (!(camel_internet_address_get (cia, i, &name, &email)))
-				continue;
-			bbdb_do_thread (name, email);
-		}
-	}
+	to = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
+
+	len = CAMEL_ADDRESS (to)->addresses->len;
+        for (i = 0; i < len; i++) {
+                const gchar *name, *addr;
+                if (!(camel_internet_address_get (to, i, &name, &addr)))
+			continue;
+		bbdb_do_thread (name, addr);
+        }
+
+
+	cc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
+
+	len = CAMEL_ADDRESS (cc)->addresses->len;
+        for (i = 0; i < len; i++) {
+                const gchar *name, *addr;
+                if (!(camel_internet_address_get (cc, i, &name, &addr)))
+			continue;
+		bbdb_do_thread (name, addr);
+        }
 }
 
 static void
@@ -458,14 +455,18 @@ enable_toggled_cb (GtkWidget *widget, gpointer data)
 	struct bbdb_stuff *stuff = (struct bbdb_stuff *) data;
 	gboolean active;
 	ESource *selected_source;
+	gchar *addressbook;
 
 	active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
 
 	/* Save the new setting to gconf */
 	gconf_client_set_bool (stuff->target->gconf, GCONF_KEY_ENABLE, active, NULL);
 
-	gtk_widget_set_sensitive (stuff->option_menu, active);
-	if (active && !gconf_client_get_string (stuff->target->gconf, GCONF_KEY_WHICH_ADDRESSBOOK, NULL)) {
+       	gtk_widget_set_sensitive (stuff->option_menu, active);
+
+	addressbook = gconf_client_get_string (stuff->target->gconf, GCONF_KEY_WHICH_ADDRESSBOOK, NULL);
+
+	if (active && !addressbook) {
 		const gchar *uri = NULL;
 		GError *error = NULL;
 
@@ -484,6 +485,7 @@ enable_toggled_cb (GtkWidget *widget, gpointer data)
 			g_error_free (error);
 		}
 	}
+	g_free (addressbook);
 }
 
 static void
@@ -492,18 +494,22 @@ enable_gaim_toggled_cb (GtkWidget *widget, gpointer data)
 	struct bbdb_stuff *stuff = (struct bbdb_stuff *) data;
 	gboolean active;
 	ESource *selected_source;
+	char *addressbook_gaim;
 
 	active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
 
 	/* Save the new setting to gconf */
 	gconf_client_set_bool (stuff->target->gconf, GCONF_KEY_ENABLE_GAIM, active, NULL);
 
+	addressbook_gaim = gconf_client_get_string (stuff->target->gconf, GCONF_KEY_WHICH_ADDRESSBOOK_GAIM, NULL);
 	gtk_widget_set_sensitive (stuff->gaim_option_menu, active);
-	if (active && !gconf_client_get_string (stuff->target->gconf, GCONF_KEY_WHICH_ADDRESSBOOK_GAIM, NULL)) {
+	if (active && !addressbook_gaim) {
 		selected_source = e_source_combo_box_get_active (
 			E_SOURCE_COMBO_BOX (stuff->gaim_option_menu));
 		gconf_client_set_string (stuff->target->gconf, GCONF_KEY_WHICH_ADDRESSBOOK_GAIM, e_source_get_uri (selected_source), NULL);
 	}
+
+	g_free (addressbook_gaim);
 }
 
 static void
@@ -636,7 +642,7 @@ bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	gtk_box_pack_start (GTK_BOX (hbox), inner_vbox, FALSE, FALSE, 0);
 
 	/* Enable BBDB checkbox */
-	check = gtk_check_button_new_with_mnemonic (_("_Auto-create address book entries when replying to messages"));
+	check = gtk_check_button_new_with_mnemonic (_("Create _address book entries when sending mails"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), gconf_client_get_bool (target->gconf, GCONF_KEY_ENABLE, NULL));
 	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (enable_toggled_cb), stuff);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), check, FALSE, FALSE, 0);
