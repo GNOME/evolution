@@ -194,7 +194,7 @@
       <locale name="C">
          <short>Encode file names in an Outlook/GMail way</short>
          <long>
-          Encode file names in the mail headers same as Outlook or GMail does, to let them understand localized file names sent by Evolution, because they do not follow the RFC 2231, but uses incorrect RFC 2047 standard.
+          Encode file names in the mail headers same as Outlook or GMail do, to let them display correctly file names with UTF-8 letters sent by Evolution, because they do not follow the RFC 2231, but use the incorrect RFC 2047 standard.
          </long>
       </locale>
     </schema>
