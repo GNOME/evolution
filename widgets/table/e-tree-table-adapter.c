@@ -72,6 +72,7 @@ struct ETreeTableAdapterPriv {
 
 	int          pre_change_id;
 	int          no_change_id;
+	int	     rebuilt_id;
 	int          node_changed_id;
 	int          node_data_changed_id;
 	int          node_col_changed_id;
@@ -543,6 +544,8 @@ etta_dispose (GObject *object)
 		g_signal_handler_disconnect (G_OBJECT (etta->priv->source),
 				       etta->priv->no_change_id);
 		g_signal_handler_disconnect (G_OBJECT (etta->priv->source),
+				       etta->priv->rebuilt_id);
+		g_signal_handler_disconnect (G_OBJECT (etta->priv->source),
 				       etta->priv->node_changed_id);
 		g_signal_handler_disconnect (G_OBJECT (etta->priv->source),
 				       etta->priv->node_data_changed_id);
@@ -730,6 +733,7 @@ etta_init (ETreeTableAdapter *etta)
 
 	etta->priv->pre_change_id            = 0;
 	etta->priv->no_change_id             = 0;
+	etta->priv->rebuilt_id		     = 0;
 	etta->priv->node_changed_id          = 0;
 	etta->priv->node_data_changed_id     = 0;
 	etta->priv->node_col_changed_id      = 0;
@@ -751,6 +755,27 @@ static void
 etta_proxy_no_change (ETreeModel *etm, ETreeTableAdapter *etta)
 {
 	e_table_model_no_change(E_TABLE_MODEL(etta));
+}
+
+static gboolean
+remove_all (gpointer key, gpointer value, gpointer data)
+{
+	GNode *gn = (GNode *) data;
+	if (data)
+		g_free (gn->data);
+
+	return TRUE;
+}
+
+static void
+etta_proxy_rebuilt (ETreeModel *etm, ETreeTableAdapter *etta)
+{
+	if (!etta->priv->root)
+		return;
+	kill_gnode (etta->priv->root, etta);
+	etta->priv->root = NULL;
+	g_hash_table_destroy (etta->priv->nodes);
+	etta->priv->nodes = g_hash_table_new(NULL, NULL);
 }
 
 static gboolean
@@ -866,6 +891,8 @@ e_tree_table_adapter_construct (ETreeTableAdapter *etta, ETreeModel *source, ETa
 					G_CALLBACK (etta_proxy_pre_change), etta);
 	etta->priv->no_change_id = g_signal_connect (G_OBJECT (source), "no_change",
 					G_CALLBACK (etta_proxy_no_change), etta);
+	etta->priv->rebuilt_id = g_signal_connect (G_OBJECT (source), "rebuilt",
+					G_CALLBACK (etta_proxy_rebuilt), etta);
 	etta->priv->node_changed_id = g_signal_connect (G_OBJECT (source), "node_changed",
 					G_CALLBACK (etta_proxy_node_changed), etta);
 	etta->priv->node_data_changed_id = g_signal_connect (G_OBJECT (source), "node_data_changed",

@@ -2584,7 +2584,7 @@ clear_info(char *key, ETreePath *node, MessageList *ml)
 }
 
 static void
-clear_tree (MessageList *ml)
+clear_tree (MessageList *ml, gboolean tfree)
 {
 	ETreeModel *etm = ml->model;
 
@@ -2608,7 +2608,8 @@ clear_tree (MessageList *ml)
 	}
 
 	ml->tree_root = e_tree_memory_node_insert (E_TREE_MEMORY(etm), NULL, 0, NULL);
-
+	if (tfree)
+		e_tree_model_rebuilt (E_TREE_MODEL(etm));	
 #ifdef TIMEIT
 	gettimeofday(&end, NULL);
 	diff = end.tv_sec * 1000 + end.tv_usec/1000;
@@ -2769,7 +2770,7 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 		selected = message_list_get_selected(ml);
 #endif
 		e_tree_memory_freeze(E_TREE_MEMORY(etm));
-		clear_tree (ml);
+		clear_tree (ml, FALSE);
 
 		build_subtree(ml, ml->tree_root, thread->tree, &row);
 		e_tree_memory_thaw(E_TREE_MEMORY(etm));
@@ -3088,7 +3089,7 @@ build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 		selected = message_list_get_selected(ml);
 #endif
 		e_tree_memory_freeze(E_TREE_MEMORY(etm));
-		clear_tree (ml);
+		clear_tree (ml, FALSE);
 		for (i = 0; i < summary->len; i++) {
 			ETreePath node;
 			CamelMessageInfo *info = summary->pdata[i];
@@ -3354,7 +3355,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *folder, const c
 	}
 
 	e_tree_memory_freeze(E_TREE_MEMORY(etm));
-	clear_tree (message_list);
+	clear_tree (message_list, TRUE);
 	e_tree_memory_thaw(E_TREE_MEMORY(etm));
 
 	if (message_list->folder) {

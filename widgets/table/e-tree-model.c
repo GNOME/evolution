@@ -53,6 +53,7 @@ enum {
 	NODE_REMOVED,
 	NODE_DELETED,
 	NODE_REQUEST_COLLAPSE,
+	REBUILT,
 	LAST_SIGNAL
 };
 
@@ -78,6 +79,15 @@ e_tree_model_class_init (ETreeModelClass *klass)
 			      G_TYPE_FROM_CLASS (object_class),
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (ETreeModelClass, no_change),
+			      (GSignalAccumulator) NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
+
+	e_tree_model_signals [REBUILT] =
+		g_signal_new ("rebuilt",
+			      G_TYPE_FROM_CLASS (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETreeModelClass, rebuilt),
 			      (GSignalAccumulator) NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
@@ -183,6 +193,7 @@ e_tree_model_class_init (ETreeModelClass *klass)
 
 	klass->pre_change            = NULL;
 	klass->no_change             = NULL;
+	klass->rebuilt	             = NULL;
 	klass->node_changed          = NULL;
 	klass->node_data_changed     = NULL;
 	klass->node_col_changed      = NULL;
@@ -240,6 +251,25 @@ e_tree_model_no_change  (ETreeModel *tree_model)
 	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [NO_CHANGE], 0);
 }
 
+/**
+ * e_tree_model_rebuilt:
+ * @tree_model:
+ * @node:
+ *
+ *
+ *
+ * Return value:
+ **/
+void
+e_tree_model_rebuilt  (ETreeModel *tree_model)
+{
+	g_return_if_fail (tree_model != NULL);
+	g_return_if_fail (E_IS_TREE_MODEL (tree_model));
+
+	d(g_print("Emitting rebuilt on model 0x%p, a %s.\n", tree_model, g_type_name (GTK_OBJECT(tree_model)->klass->type)));
+
+	g_signal_emit (G_OBJECT (tree_model), e_tree_model_signals [REBUILT], 0);
+}
 /**
  * e_tree_model_node_changed:
  * @tree_model:
