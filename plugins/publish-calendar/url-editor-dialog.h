@@ -64,8 +64,11 @@ struct _UrlEditorDialog {
 
 	GladeXML *gui;
 
-	GtkWidget *publish_frequency;
 	GtkWidget *type_selector;
+	GtkWidget *fb_duration_label;
+	GtkWidget *fb_duration_spin;
+	GtkWidget *fb_duration_combo;
+	GtkWidget *publish_frequency;
 
 	GtkWidget *events_swin;
 

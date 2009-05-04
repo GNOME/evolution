@@ -90,6 +90,9 @@ create_uri (UrlEditorDialog *dialog)
 		g_free (username);
 		g_free (password);
 	}
+
+	uri->fb_duration_value = gtk_spin_button_get_value (GTK_SPIN_BUTTON (dialog->fb_duration_spin));
+	uri->fb_duration_type  = gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->fb_duration_combo));
 }
 
 static void
@@ -100,6 +103,16 @@ check_input (UrlEditorDialog *dialog)
 	EPublishUri *uri;
 
 	uri = dialog->uri;
+
+	if (gtk_combo_box_get_active (GTK_COMBO_BOX (dialog->type_selector)) == 1) {
+		gtk_widget_show (dialog->fb_duration_label);
+		gtk_widget_show (dialog->fb_duration_spin);
+		gtk_widget_show (dialog->fb_duration_combo);
+	} else {
+		gtk_widget_hide (dialog->fb_duration_label);
+		gtk_widget_hide (dialog->fb_duration_spin);
+		gtk_widget_hide (dialog->fb_duration_combo);
+	}
 
 	if (GTK_WIDGET_IS_SENSITIVE (dialog->events_selector)) {
 		sources = e_source_selector_get_selection (E_SOURCE_SELECTOR (dialog->events_selector));
@@ -329,8 +342,11 @@ url_editor_dialog_construct (UrlEditorDialog *dialog)
 	dialog->gui = gui;
 
 #define GW(name) ((dialog->name) = glade_xml_get_widget (dialog->gui, #name))
-	GW(publish_frequency);
 	GW(type_selector);
+	GW(fb_duration_label);
+	GW(fb_duration_spin);
+	GW(fb_duration_combo);
+	GW(publish_frequency);
 
 	GW(events_swin);
 
@@ -428,6 +444,9 @@ url_editor_dialog_construct (UrlEditorDialog *dialog)
 			}
 		}
 	}
+
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->fb_duration_spin), uri->fb_duration_value);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (dialog->fb_duration_combo), uri->fb_duration_type);
 
 	g_signal_connect (G_OBJECT (dialog->publish_service), "changed",           G_CALLBACK (publish_service_changed),  dialog);
 	g_signal_connect (G_OBJECT (dialog->type_selector),   "changed",           G_CALLBACK (type_selector_changed),    dialog);

@@ -33,7 +33,7 @@
 #include "publish-format-fb.h"
 
 static gboolean
-write_calendar (gchar *uid, ESourceList *source_list, GOutputStream *stream, GError **error)
+write_calendar (gchar *uid, ESourceList *source_list, GOutputStream *stream, int dur_type, int dur_value, GError **error)
 {
 	ESource *source;
 	ECal *client = NULL;
@@ -47,7 +47,19 @@ write_calendar (gchar *uid, ESourceList *source_list, GOutputStream *stream, GEr
 
 	utc = icaltimezone_get_utc_timezone ();
 	start = time_day_begin_with_zone (start, utc);
-	end = time_add_week_with_zone (start, 6, utc);
+
+	switch (dur_type) {
+	case FB_DURATION_DAYS:
+		end = time_add_day_with_zone (start, dur_value, utc);
+		break;
+	default:
+	case FB_DURATION_WEEKS:
+		end = time_add_week_with_zone (start, dur_value, utc);
+		break;
+	case FB_DURATION_MONTHS:
+		end = time_add_month_with_zone (start, dur_value, utc);
+		break;
+	}
 
 	source = e_source_list_peek_source_by_uid (source_list, uid);
 	if (source)
@@ -109,7 +121,7 @@ publish_calendar_as_fb (GOutputStream *stream, EPublishUri *uri, GError **error)
 	l = uri->events;
 	while (l) {
 		gchar *uid = l->data;
-		if (!write_calendar (uid, source_list, stream, error))
+		if (!write_calendar (uid, source_list, stream, uri->fb_duration_type, uri->fb_duration_value, error))
 			break;
 		l = g_slist_next (l);
 	}
