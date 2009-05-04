@@ -2498,7 +2498,7 @@ msg_composer_paste_clipboard (GtkhtmlEditor *editor)
 
 			if (filename && gdk_pixbuf_save (pixbuf, filename, "png", NULL, NULL)) {
 				if (gtkhtml_editor_get_html_mode (editor)) {
-					char *uri = g_strconcat ("file://", filename, NULL);
+					char *uri = g_filename_to_uri (filename, NULL, NULL);
 					/* this loads image async, thus cannot remove file from this */
 					gtkhtml_editor_insert_image (editor, uri);
 					g_free (uri);

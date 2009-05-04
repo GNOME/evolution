@@ -815,7 +815,7 @@ efhd_get_uri_puri (GtkWidget *html, GdkEventButton *event, EMFormatHTMLDisplay *
 
 	if (img_url) {
 		if (!(strstr (img_url, "://") || g_ascii_strncasecmp (img_url, "cid:", 4) == 0)) {
-			char *u = g_strconcat ("file://", img_url, NULL);
+			char *u = g_filename_to_uri (img_url, NULL, NULL);
 			g_free (img_url);
 			img_url = u;
 		}
