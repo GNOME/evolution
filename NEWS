@@ -1,3 +1,100 @@
+Evolution 2.27.1 2009-05-04
+----------------------------
+
+Bug fixes:
+	#504767 - Inherit modality from a parent's window
+	#574680 - Remove all headers except "References" and "In-Reply-To" when composing from an existing message
+	#552583 - Compare only user names, without a domain part, if such exists
+	#576694 - Handle absolute font sizes correctly
+	#576696 - Set mandatory properties
+	#576845 - typo in code.
+	#576921 - Unref GtkListStore right after gtk_tree_view_set_model
+	#576921 - Remove needless GtkListStore objects
+	#577717 - Fill some default values to mandatory properties of ECalComponentAttendee
+	#569765 - Don't keep the selected message in the message list if it is removed from the folder
+	#578034 - Use proper format string
+	#577989 - Use proper format string
+	#537530 - Use g_filename_to_utf8 for attachment filenames
+	#529745 - Add more file types in a file filter for certificates
+	#539002 - Show all other certificates in a contact tab
+	#523802 - Use copy of the preview panel, when focused, and events' copy otherwise
+	#574248 - Compare base URI case insensitively
+	#471083 (bnc) - Do not allow deletion of system folders
+	#561312 - Do not invoke recurrence dialog while modifying detached instances
+	#467659 (bnc) - Set the description for send mail operation
+	#578685 – evolution crashed with SIGSEGV
+	#577929 – Consolidate marshallers
+	#565780 – Message view is tightly packed and hard to read
+	#577898 – Port ExoBinding to Evolution
+	#572348 - Removed deprecated Gtk+ symbols
+	#577615 - Get rid of "Adjust for daylight saving time" option
+	#205804 - Include timezone information in a tooltip when differs from user's
+	#340783 - Show error or success to user with publish-calendar plugin
+	#381132 - Use system timezone in Evolution
+	#552583 - Let the provider compare urls
+	#569652 - Use new ESourceList API (simplifies code)
+	#342296 - Be able to save mail to event, meeting, task or memo
+	#563954 - Sort UIDs before using them
+	#571272 - Possible leak fix
+	#573704 - Calendar - do not close editor after error
+	#579306 - Do not crash on delete folder
+	#561188 - Define .error files correctly and external-editor crash fix
+	#553535 - Do not delete text lines on signature set in composer
+	#575773 - Allow Last Modified and Created columns for event table
+	#491755 - Sanitize values from GConf before using them
+	#579635 - Hide last junked message too from the non-junk folder
+	#516933 – Rewrite attachment UI
+	#579550 - Do not mark newly recognized Junk messages Read
+	#572348 - Fix filter breakage after deprecated Gtk+ symbols removal
+	#578335 - Store username in a source URL in CalDAV
+	#567145 - External Editor rewrite
+	#579774 - Use spamc to learn junk if available
+	#570730 - Get rid of gnome-config in Evolution
+	#273818 - Allow scrolling Month View by a week only
+	#580898 – Kill libgnomeui/gnome-winhints
+	#580894 – Kill libgnome/gnome-util (partial fix)
+	#580896 – Kill libgnome/gnome-program
+	#580892 – Kill libgnomeui/gnome-app and gnome-app-helper
+	#580893 – Kill libgnome/gnome-gconf
+	#575242 – New composer window not autosaved until modification
+	#581032 – Some links can't be opened
+	#542685 – [default-mailer] Leaking GConfValue
+	#572977 – Use g_strerror() instead of strerror()
+	#577482 – Bad strings in plugins/itip-formatter/itip-view.c
+	#325131 – Do not translate ETable property nicknames
+	#574781 – Bad e-send-options.glade strings
+	#575124 – Clarify "S_pecify the mailbox name" string
+	#575122 – "before every anniversary/birthday" is missing translator comment
+	#573170 - Add back support for vfolder of vfolders
+	#569696 – Memory leak in message-list
+	#573830 - g_timeout_add_seconds should be preferred to g_timeout_add
+	#355240 - String errors
+
+Other updates:
+	- Icons for windows binaries.
+
+Updated translations:
+	Djihed Afifi (ar)
+	Jorge Gonzalez Gonzalez (es)
+	Manoj Kumar Giri (or)
+	Takeshi AIHANA (ja)
+	Claude Paroz (fr)
+	Amanpreet Singh Alam (pa)
+	Shankar Prasad (kn)
+	Jen Ockwell (en_GB)
+	Mattias Põldaru (et)
+	Fotis Tsamis (el)
+	Shankar Prasad (kn)
+	Baris Cicek (tr)
+	Miloš Popović (sr)
+	Ivar Smolin (po)
+	Theppitak Karoonboonyanan (th)
+	Khaled Hosny (ar)
+	Ihar Hrachyshka (be)
+	Gil Forcada (ca)
+	Kjartan Maraas (nb)
+	Christian Kirbach (de)
+
 Evolution 2.26.0 2009-03-16
 ----------------------------
 
