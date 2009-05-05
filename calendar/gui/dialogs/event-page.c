@@ -64,6 +64,34 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), TYPE_EVENT_PAGE, EventPagePrivate))
 
+enum {
+	ALARM_NONE,
+	ALARM_15_MINUTES,
+	ALARM_1_HOUR,
+	ALARM_1_DAY,
+	ALARM_USER_TIME,
+	ALARM_CUSTOM
+};
+
+static const int alarm_map_with_user_time[] = {
+	ALARM_NONE,
+	ALARM_15_MINUTES,
+	ALARM_1_HOUR,
+	ALARM_1_DAY,
+	ALARM_USER_TIME,
+	ALARM_CUSTOM,
+	-1
+};
+
+static const int alarm_map_without_user_time[] = {
+	ALARM_NONE,
+	ALARM_15_MINUTES,
+	ALARM_1_HOUR,
+	ALARM_1_DAY,
+	ALARM_CUSTOM,
+	-1
+};
+
 /* Private part of the EventPage structure */
 struct _EventPagePrivate {
 	/* Glade XML data */
@@ -159,6 +187,9 @@ struct _EventPagePrivate {
 	gboolean is_meeting;
 
 	GtkWidget *alarm_list_dlg_widget;
+
+	/* either with-user-time or without it */
+	const int *alarm_map;
 };
 
 static GtkWidget *event_page_get_widget (CompEditorPage *page);
@@ -265,26 +296,8 @@ event_page_init (EventPage *epage)
 	epage->priv = EVENT_PAGE_GET_PRIVATE (epage);
 	epage->priv->deleted_attendees = g_ptr_array_new ();
 	epage->priv->alarm_interval = -1;
+	epage->priv->alarm_map = alarm_map_with_user_time;
 }
-
-enum {
-	ALARM_NONE,
-	ALARM_15_MINUTES,
-	ALARM_1_HOUR,
-	ALARM_1_DAY,
-	ALARM_USER_TIME,
-	ALARM_CUSTOM
-};
-
-static const int alarm_map[] = {
-	ALARM_NONE,
-	ALARM_15_MINUTES,
-	ALARM_1_HOUR,
-	ALARM_1_DAY,
-	ALARM_USER_TIME,
-	ALARM_CUSTOM,
-	-1
-};
 
 static void
 set_busy_time_menu (EventPage *epage, gboolean active)
@@ -488,7 +501,7 @@ clear_widgets (EventPage *epage)
 	set_busy_time_menu (epage, TRUE);
 
 	/* Alarm */
-	e_dialog_combo_box_set (priv->alarm_time_combo, ALARM_NONE, alarm_map);
+	e_dialog_combo_box_set (priv->alarm_time_combo, ALARM_NONE, priv->alarm_map);
 
 	/* Categories */
 	e_dialog_editable_set (priv->categories, NULL);
@@ -728,9 +741,9 @@ sensitize_widgets (EventPage *epage)
 
 	sensitize = !read_only && sens;
 
-	alarm = e_dialog_combo_box_get (priv->alarm_time_combo, alarm_map) != ALARM_NONE;
+	alarm = e_dialog_combo_box_get (priv->alarm_time_combo, priv->alarm_map) != ALARM_NONE;
 	custom = is_custom_alarm_store (priv->alarm_list_store, priv->old_summary, priv->alarm_units, priv->alarm_interval, NULL) ||
-		 e_dialog_combo_box_get (priv->alarm_time_combo, alarm_map)  == ALARM_CUSTOM ? TRUE:FALSE;
+		 e_dialog_combo_box_get (priv->alarm_time_combo, priv->alarm_map)  == ALARM_CUSTOM ? TRUE:FALSE;
 
 	if (alarm && !priv->alarm_icon) {
 		priv->alarm_icon = create_image_event_box ("stock_bell", _("This event has alarms"));
@@ -833,7 +846,8 @@ event_page_set_meeting (EventPage *page, gboolean set)
 	g_return_if_fail (IS_EVENT_PAGE (page));
 
 	page->priv->is_meeting = set;
-        sensitize_widgets (page);
+	if (page->priv->comp)
+		sensitize_widgets (page);
 }
 
 void
@@ -1074,9 +1088,9 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 		alarms = e_cal_component_get_alarm_uids (comp);
 		if (!is_custom_alarm_uid_list (comp, alarms, priv->old_summary, priv->alarm_units, priv->alarm_interval, &alarm_type))
-			e_dialog_combo_box_set (priv->alarm_time_combo, alarm_type, alarm_map);
+			e_dialog_combo_box_set (priv->alarm_time_combo, alarm_type, priv->alarm_map);
 		else
-			e_dialog_combo_box_set (priv->alarm_time_combo, ALARM_CUSTOM, alarm_map);
+			e_dialog_combo_box_set (priv->alarm_time_combo, ALARM_CUSTOM, priv->alarm_map);
 
 		for (list = alarms; list != NULL; list = list->next) {
 			ECalComponentAlarm *ca;
@@ -1088,7 +1102,7 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 
 		cal_obj_uid_list_free (alarms);
 	} else {
-		e_dialog_combo_box_set (priv->alarm_time_combo, ALARM_NONE, alarm_map);
+		e_dialog_combo_box_set (priv->alarm_time_combo, ALARM_NONE, priv->alarm_map);
 	}
 	g_signal_handlers_unblock_matched (priv->alarm_time_combo, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
 	g_signal_handlers_unblock_matched (priv->alarm_list_store, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, epage);
@@ -1282,8 +1296,8 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 
 	/* Alarm */
 	e_cal_component_remove_all_alarms (comp);
-	if (e_dialog_combo_box_get (priv->alarm_time_combo, alarm_map) != ALARM_NONE) {
-		if (e_dialog_combo_box_get (priv->alarm_time_combo, alarm_map) == ALARM_CUSTOM) {
+	if (e_dialog_combo_box_get (priv->alarm_time_combo, priv->alarm_map) != ALARM_NONE) {
+		if (e_dialog_combo_box_get (priv->alarm_time_combo, priv->alarm_map) == ALARM_CUSTOM) {
 			GtkTreeModel *model;
 			GtkTreeIter iter;
 			gboolean valid_iter;
@@ -1350,7 +1364,7 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 			trigger.type = E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START;
 			trigger.u.rel_duration.is_neg = 1;
 
-			alarm_type = e_dialog_combo_box_get (priv->alarm_time_combo, alarm_map);
+			alarm_type = e_dialog_combo_box_get (priv->alarm_time_combo, priv->alarm_map);
 			switch (alarm_type) {
 			case ALARM_15_MINUTES:
 				trigger.u.rel_duration.minutes = 15;
@@ -2660,7 +2674,7 @@ alarm_changed_cb (GtkWidget *widget, gpointer data)
 	epage = EVENT_PAGE (data);
 	priv = epage->priv;
 
-	if (e_dialog_combo_box_get (priv->alarm_time_combo, alarm_map) != ALARM_NONE) {
+	if (e_dialog_combo_box_get (priv->alarm_time_combo, priv->alarm_map) != ALARM_NONE) {
 		ECalComponentAlarm *ca;
 		ECalComponentAlarmTrigger trigger;
 		icalcomponent *icalcomp;
@@ -2675,7 +2689,7 @@ alarm_changed_cb (GtkWidget *widget, gpointer data)
 		trigger.type = E_CAL_COMPONENT_ALARM_TRIGGER_RELATIVE_START;
 		trigger.u.rel_duration.is_neg = 1;
 
-		alarm_type = e_dialog_combo_box_get (priv->alarm_time_combo, alarm_map);
+		alarm_type = e_dialog_combo_box_get (priv->alarm_time_combo, priv->alarm_map);
 		switch (alarm_type) {
 		case ALARM_15_MINUTES:
 			e_alarm_list_clear (priv->alarm_list_store);
@@ -2945,10 +2959,13 @@ init_widgets (EventPage *epage)
 	if (combo_label) {
 		gtk_combo_box_append_text (GTK_COMBO_BOX (priv->alarm_time_combo), combo_label);
 		g_free (combo_label);
+		priv->alarm_map = alarm_map_with_user_time;
+	} else {
+		priv->alarm_map = alarm_map_without_user_time;
 	}
 
 	gtk_combo_box_append_text (GTK_COMBO_BOX (priv->alarm_time_combo), _("Customize"));
-	gtk_combo_box_append_text (GTK_COMBO_BOX (priv->alarm_time_combo), _("None"));
+	gtk_combo_box_prepend_text (GTK_COMBO_BOX (priv->alarm_time_combo), _("None"));
 
 	g_signal_connect_swapped (
 		priv->alarm_time_combo, "changed",
