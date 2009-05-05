@@ -39,6 +39,7 @@ widgetsinclude_HEADERS =			\
 	e-attachment-dialog.h			\
 	e-attachment-handler.h			\
 	e-attachment-handler-image.h		\
+	e-attachment-handler-sendto.h		\
 	e-attachment-icon-view.h		\
 	e-attachment-paned.h			\
 	e-attachment-store.h			\
@@ -97,6 +98,7 @@ libemiscwidgets_la_SOURCES =			\
 	e-attachment-dialog.c			\
 	e-attachment-handler.c			\
 	e-attachment-handler-image.c		\
+	e-attachment-handler-sendto.c		\
 	e-attachment-icon-view.c		\
 	e-attachment-paned.c			\
 	e-attachment-store.c			\

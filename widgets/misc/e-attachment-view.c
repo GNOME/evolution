@@ -30,6 +30,7 @@
 #include "e-util/e-util.h"
 #include "e-attachment-dialog.h"
 #include "e-attachment-handler-image.h"
+#include "e-attachment-handler-sendto.h"
 
 enum {
 	UPDATE_ACTIONS,
@@ -774,6 +775,7 @@ e_attachment_view_get_type (void)
 
 		/* Register known handler types. */
 		e_attachment_handler_image_get_type ();
+		e_attachment_handler_sendto_get_type ();
 	}
 
 	return type;
