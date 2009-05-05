@@ -343,17 +343,19 @@ e_exchange_contacts_check (EPlugin *epl, EConfigHookPageCheckData *data)
 		GConfClient *client;
 		ESourceList *source_list = NULL;
 		ESourceGroup *source_group = NULL;
-		GSList *groups;
 		ESource *source;
+		EAccount *eaccount;
 
 		/* GAL folder */
 		client = gconf_client_get_default ();
 		source_list = e_source_list_new_for_gconf ( client, CONF_KEY_CONTACTS);
 		g_object_unref (client);
-		groups = e_source_list_peek_groups (source_list);
 
-		if ((source_group = e_source_list_peek_group_by_name (source_list,
-                                        account->account_name))) {
+		eaccount = exchange_account_fetch (account);
+		g_return_val_if_fail (eaccount != NULL, FALSE);
+		g_return_val_if_fail (eaccount->uid != NULL, FALSE);
+
+		if ((source_group = e_source_list_peek_group_by_properties (source_list, "account-uid", eaccount->uid, NULL))) {
 			source =  e_source_group_peek_source_by_name (source_group, e_source_peek_name (t->source));
 			if (e_source_group_peek_source_by_name (source_group,
 							e_source_peek_name (t->source))) {
