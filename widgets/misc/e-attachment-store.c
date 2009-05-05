@@ -818,6 +818,25 @@ e_attachment_store_get_uris_async (EAttachmentStore *store,
 
 	uri_context->attachment_list = attachment_list;
 
+	/* If we got them all then we're done. */
+	if (attachment_list == NULL) {
+		GSimpleAsyncResult *simple;
+		gchar **uris;
+
+		/* Steal the result. */
+		simple = uri_context->simple;
+		uri_context->simple = NULL;
+
+		/* And the URI list. */
+		uris = uri_context->uris;
+		uri_context->uris = NULL;
+
+		g_simple_async_result_set_op_res_gpointer (simple, uris, NULL);
+		g_simple_async_result_complete_in_idle (simple);
+		attachment_store_uri_context_free (uri_context);
+		return;
+	}
+
 	/* Any remaining attachments in the list should have MIME parts
 	 * only, so we need to save them all to a temporary directory.
 	 * We use a directory so the files can retain their basenames. */
