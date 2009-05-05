@@ -23,8 +23,8 @@
 #define E_ATTACHMENT_BUTTON_H
 
 #include <gtk/gtk.h>
-#include <widgets/misc/e-attachment.h>
-#include <widgets/misc/e-attachment-view.h>
+#include <misc/e-attachment.h>
+#include <misc/e-attachment-view.h>
 
 /* Standard GObject macros */
 #define E_TYPE_ATTACHMENT_BUTTON \

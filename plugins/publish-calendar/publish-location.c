@@ -120,7 +120,7 @@ e_publish_uri_from_xml (const gchar *xml)
 {
 	xmlDocPtr doc;
 	xmlNodePtr root, p;
-	xmlChar *location, *enabled, *frequency;
+	xmlChar *location, *enabled, *frequency, *fb_duration_value, *fb_duration_type;
 	xmlChar *publish_time, *format, *username = NULL;
 	GSList *events = NULL;
 	EPublishUri *uri;
@@ -146,6 +146,8 @@ e_publish_uri_from_xml (const gchar *xml)
 	frequency = xmlGetProp (root, (const unsigned char *)"frequency");
 	format = xmlGetProp (root, (const unsigned char *)"format");
 	publish_time = xmlGetProp (root, (const unsigned char *)"publish_time");
+	fb_duration_value = xmlGetProp (root, (xmlChar *)"fb_duration_value");
+	fb_duration_type = xmlGetProp (root, (xmlChar *)"fb_duration_type");
 
 	if (location != NULL)
 		uri->location = (char *)location;
@@ -157,6 +159,23 @@ e_publish_uri_from_xml (const gchar *xml)
 		uri->publish_format = atoi ((char *)format);
 	if (publish_time != NULL)
 		uri->last_pub_time = (char *)publish_time;
+
+	if (fb_duration_value)
+		uri->fb_duration_value = atoi ((char *)fb_duration_value);
+	else
+		uri->fb_duration_value = -1;
+
+	if (uri->fb_duration_value < 1)
+		uri->fb_duration_value = 6;
+	else if (uri->fb_duration_value > 100)
+		uri->fb_duration_value = 100;
+
+	if (fb_duration_type && g_str_equal ((char *)fb_duration_type, "days"))
+		uri->fb_duration_type = FB_DURATION_DAYS;
+	else if (fb_duration_type && g_str_equal ((char *)fb_duration_type, "months"))
+		uri->fb_duration_type = FB_DURATION_MONTHS;
+	else
+		uri->fb_duration_type = FB_DURATION_WEEKS;
 
 	uri->password = g_strdup ("");
 
@@ -173,6 +192,8 @@ e_publish_uri_from_xml (const gchar *xml)
 	xmlFree (enabled);
 	xmlFree (frequency);
 	xmlFree (format);
+	xmlFree (fb_duration_value);
+	xmlFree (fb_duration_type);
 	xmlFreeDoc (doc);
 
 	return uri;
@@ -203,6 +224,17 @@ e_publish_uri_to_xml (EPublishUri *uri)
 	xmlSetProp (root, (const unsigned char *)"frequency", (unsigned char *)frequency);
 	xmlSetProp (root, (const unsigned char *)"format", (unsigned char *)format);
 	xmlSetProp (root, (const unsigned char *)"publish_time", (unsigned char *)uri->last_pub_time);
+
+	g_free (format);
+	format = g_strdup_printf ("%d", uri->fb_duration_value);
+	xmlSetProp (root, (xmlChar *)"fb_duration_value", (xmlChar *)format);
+
+	if (uri->fb_duration_type == FB_DURATION_DAYS)
+		xmlSetProp (root, (xmlChar *)"fb_duration_type", (xmlChar *)"days");
+	else if (uri->fb_duration_type == FB_DURATION_MONTHS)
+		xmlSetProp (root, (xmlChar *)"fb_duration_type", (xmlChar *)"months");
+	else
+		xmlSetProp (root, (xmlChar *)"fb_duration_type", (xmlChar *)"weeks");
 
 	for (calendars = uri->events; calendars != NULL; calendars = g_slist_next (calendars)) {
 		xmlNodePtr node;

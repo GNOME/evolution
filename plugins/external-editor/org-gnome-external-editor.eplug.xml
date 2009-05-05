@@ -2,10 +2,10 @@
 <e-plugin-list>
   <e-plugin type="shlib"
 	    location="@PLUGINDIR@/liborg-gnome-external-editor@SOEXT@"
-	    id="org.gnome.plugin.external.editor" name="External Editor">
+	    id="org.gnome.plugin.external.editor" _name="External Editor">
     <author name="Holger Macht" email="hmacht@suse.de"/>
     <author name="Sankar P" email="sankar2u@gmail.com"/>
-    <description>A plugin for using an external editor as the composer. You can send only plain-text messages.</description>
+    <_description>A plugin for using an external editor as the composer. You can send only plain-text messages.</_description>
 
      <hook class="org.gnome.evolution.ui:1.0">
        <ui-manager id="org.gnome.evolution.composer">

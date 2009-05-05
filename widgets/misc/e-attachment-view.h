@@ -23,7 +23,7 @@
 #define E_ATTACHMENT_VIEW_H
 
 #include <gtk/gtk.h>
-#include <widgets/misc/e-attachment-store.h>
+#include <misc/e-attachment-store.h>
 
 /* Standard GObject macros */
 #define E_TYPE_ATTACHMENT_VIEW \

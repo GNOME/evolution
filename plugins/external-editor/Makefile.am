@@ -15,6 +15,7 @@ INCLUDES =						\
 	-DLIBDIR=\""$(libdir)"\"			\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/composer			\
+	-I$(top_srcdir)/widgets				\
 	$(SHELL_CFLAGS)					\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(E_UTIL_CFLAGS)				

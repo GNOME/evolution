@@ -56,6 +56,12 @@ static const int publish_format_type_mask[] = {
 	-1,
 };
 
+enum FBDurationType {
+	FB_DURATION_DAYS,
+	FB_DURATION_WEEKS,
+	FB_DURATION_MONTHS
+};
+
 typedef struct _EPublishUri EPublishUri;
 struct _EPublishUri {
 	gboolean enabled;
@@ -65,6 +71,8 @@ struct _EPublishUri {
 	gchar *password;
 	GSList *events;
 	gchar *last_pub_time;
+	int fb_duration_value;
+	int fb_duration_type;
 
 	gint service_type;
 };

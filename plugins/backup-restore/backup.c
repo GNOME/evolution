@@ -30,11 +30,9 @@
 #include <glib/gi18n.h>
 #include <gtk/gtk.h>
 
-#include <libebook/e-book.h>
-#include <libecal/e-cal.h>
-#include <libedataserver/e-account.h>
-#include <libedataserver/e-account-list.h>
 #include "e-util/e-util.h"
+
+#define EVOUSERDATADIR_MAGIC "#EVO_USERDATADIR#"
 
 #define EVOLUTION "evolution"
 #define EVOLUTION_DIR "$HOME/.evolution/"
@@ -59,7 +57,7 @@ static GtkWidget *pbar;
 static char *txt = NULL;
 gboolean complete = FALSE;
 
-static const GOptionEntry options[] = {
+static GOptionEntry options[] = {
 	{ "backup", '\0', 0, G_OPTION_ARG_NONE, &backup_op,
 	  N_("Backup Evolution directory"), NULL },
 	{ "restore", '\0', 0, G_OPTION_ARG_NONE, &restore_op,
@@ -77,37 +75,103 @@ static const GOptionEntry options[] = {
 
 #define d(x)
 
-#define rc(x) G_STMT_START { g_message (x); system (x); } G_STMT_END
+#define print_and_run(x) G_STMT_START { g_message ("%s", x); system (x); } G_STMT_END
 
 #define CANCEL(x) if (x) return;
 
+static GString *
+replace_string (const char *text, const char *find, const char *replace)
+{
+	const char *p, *next;
+	GString *str;
+	int find_len;
+
+	g_return_val_if_fail (text != NULL, NULL);
+	g_return_val_if_fail (find != NULL, NULL);
+	g_return_val_if_fail (*find, NULL);
+
+	find_len = strlen (find);
+	str = g_string_new ("");
+
+	p = text;
+	while (next = strstr (p, find), next) {
+		if (p + 1 < next)
+			g_string_append_len (str, p, next - p);
+
+		if (replace && *replace)
+			g_string_append (str, replace);
+
+		p = next + find_len;
+	}
+
+	g_string_append (str, p);
+
+	return str;
+}
+
 static void
-s (const char *cmd)
+replace_in_file (const char *filename, const char *find, const char *replace)
+{
+	char *content = NULL;
+	GError *error = NULL;
+	GString *filenamestr = NULL;
+
+	g_return_if_fail (filename != NULL);
+	g_return_if_fail (find != NULL);
+	g_return_if_fail (*find);
+	g_return_if_fail (replace != NULL);
+
+	if (strstr (filename, "$HOME")) {
+		filenamestr = replace_string (filename, "$HOME", g_get_home_dir ());
+
+		if (!filenamestr) {
+			g_warning ("%s: Replace string on $HOME failed!", G_STRFUNC);
+			return;
+		}
+
+		filename = filenamestr->str;
+	}
+
+	if (g_file_get_contents (filename, &content, NULL, &error)) {
+		GString *str = replace_string (content, find, replace);
+
+		if (str) {
+			if (!g_file_set_contents (filename, str->str, -1, &error) && error) {
+				g_warning ("%s: cannot write file content, error: %s", G_STRFUNC, error->message);
+				g_error_free (error);
+			}
+
+			g_string_free (str, TRUE);
+		} else {
+			g_warning ("%s: Replace of '%s' to '%s' failed!", G_STRFUNC, find, replace);
+		}
+
+		g_free (content);
+	} else if (error) {
+		g_warning ("%s: Cannot read file content, error: %s", G_STRFUNC, error->message);
+		g_error_free (error);
+	}
+
+	if (filenamestr)
+		g_string_free (filenamestr, TRUE);
+}
+
+static void
+run_cmd (const char *cmd)
 {
 	if (!cmd)
 		return;
 
 	if (strstr (cmd, "$HOME") != NULL) {
 		/* read the doc for g_get_home_dir to know why replacing it here */
-		const char *home = g_get_home_dir ();
-		const char *p, *next;
-		GString *str = g_string_new ("");
+		GString *str = replace_string (cmd, "$HOME", g_get_home_dir ());
 
-		p = cmd;
-		while (next = strstr (p, "$HOME"), next) {
-			if (p + 1 < next)
-				g_string_append_len (str, p, next - p);
-			g_string_append (str, home);
-
-			p = next + 5;
+		if (str) {
+			print_and_run (str->str);
+			g_string_free (str, TRUE);
 		}
-
-		g_string_append (str, p);
-
-		rc (str->str);
-		g_string_free (str, TRUE);
 	} else
-		rc (cmd);
+		print_and_run (cmd);
 }
 
 static void
@@ -122,13 +186,15 @@ backup (const char *filename)
 	CANCEL (complete);
 	txt = _("Shutting down Evolution");
 	/* FIXME Will the versioned setting always work? */
-	s (EVOLUTION " --force-shutdown");
+	run_cmd (EVOLUTION " --force-shutdown");
 
-	s ("rm $HOME/.evolution/.running");
+	run_cmd ("rm $HOME/.evolution/.running");
 
 	CANCEL (complete);
 	txt = _("Backing Evolution accounts and settings");
-	s ("gconftool-2 --dump " GCONF_DIR " > " GCONF_DUMP_PATH);
+	run_cmd ("gconftool-2 --dump " GCONF_DIR " > " GCONF_DUMP_PATH);
+
+	replace_in_file (GCONF_DUMP_PATH, e_get_user_data_dir (), EVOUSERDATADIR_MAGIC);
 
 	CANCEL (complete);
 	txt = _("Backing Evolution data (Mails, Contacts, Calendar, Tasks, Memos)");
@@ -138,7 +204,7 @@ backup (const char *filename)
 	/* FIXME date/time stamp?" */
 	/* FIXME backup location?" */
 	command = g_strdup_printf ("cd $HOME && tar chf - .evolution .camel_certs | gzip > %s", quotedfname);
-	s (command);
+	run_cmd (command);
 	g_free (command);
 	g_free (quotedfname);
 
@@ -150,103 +216,16 @@ backup (const char *filename)
 		txt = _("Restarting Evolution");
 		complete=TRUE;
 
-		s (EVOLUTION);
+		run_cmd (EVOLUTION);
 	}
 
-}
-
-static void
-ensure_locals (ESourceList *source_list, const char *base_dir)
-{
-	GSList *groups, *sources;
-
-	if (!source_list)
-		return;
-
-	for (groups = e_source_list_peek_groups (source_list); groups; groups = groups->next) {
-		char *base_filename, *base_uri;
-		ESourceGroup *group = E_SOURCE_GROUP (groups->data);
-
-		if (!group || !e_source_group_peek_base_uri (group) || !g_str_has_prefix (e_source_group_peek_base_uri (group), "file://"))
-			continue;
-
-		base_filename = g_build_filename (base_dir, "local", NULL);
-		base_uri = g_filename_to_uri (base_filename, NULL, NULL);
-
-		if (base_uri && !g_str_equal (base_uri, e_source_group_peek_base_uri (group))) {
-			/* groups base_uri differs from the new one, maybe users imports
-			   to the account with different user name, thus fixing this */
-			e_source_group_set_base_uri (group, base_uri);
-		}
-
-		for (sources = e_source_group_peek_sources (group); sources; sources = sources->next) {
-			ESource *source = E_SOURCE (sources->data);
-
-			if (!source || !e_source_peek_absolute_uri (source))
-				continue;
-
-			if (!g_str_has_prefix (e_source_peek_absolute_uri (source), base_uri)) {
-				char *abs_uri = e_source_build_absolute_uri (source);
-
-				e_source_set_absolute_uri (source, abs_uri);
-				g_free (abs_uri);
-			}
-		}
-
-		g_free (base_filename);
-		g_free (base_uri);
-	}
-}
-
-/* returns whether changed the item */
-static gboolean
-fix_account_folder_uri (EAccount *account, e_account_item_t item, const char *base_dir)
-{
-	gboolean changed = FALSE;
-	const char *uri;
-
-	/* the base_dir should always contain that part, so just a sanity check */
-	if (!account || !base_dir || strstr (base_dir, "/.evolution/mail/local") == NULL)
-		return FALSE;
-
-	uri = e_account_get_string (account, item);
-	if (uri && strstr (uri, "/.evolution/mail/local") != NULL) {
-		const char *path = strchr (uri, ':') + 1;
-
-		if (!g_str_has_prefix (path, base_dir)) {
-			GString *new_uri = g_string_new ("");
-
-			/* prefix, like "mbox:" */
-			g_string_append_len (new_uri, uri, path - uri);
-			/* middle, changing old patch with new path  */
-			g_string_append_len (new_uri, base_dir, strstr (base_dir, "/.evolution/mail/local") - base_dir);
-			/* sufix, the rest beginning with "/.evolution/..." */
-			g_string_append (new_uri, strstr (uri, "/.evolution/mail/local"));
-
-			changed = TRUE;
-			e_account_set_string (account, item, new_uri->str);
-			g_string_free (new_uri, TRUE);
-		}
-	}
-
-	return changed;
 }
 
 static void
 restore (const char *filename)
 {
-	struct _calendars { ECalSourceType type; const char *dir; } 
-		calendars[] = {
-			{ E_CAL_SOURCE_TYPE_EVENT,   "calendar"},
-			{ E_CAL_SOURCE_TYPE_TODO,    "tasks"},
-			{ E_CAL_SOURCE_TYPE_JOURNAL, "memos"},
-			{ E_CAL_SOURCE_TYPE_LAST,    NULL} };
-	int i;
 	char *command;
 	char *quotedfname;
-	ESourceList *sources = NULL;
-	EAccountList *accounts;
-	GConfClient *gconf;
 	
 	g_return_if_fail (filename && *filename);
 	quotedfname = g_shell_quote(filename);
@@ -254,89 +233,42 @@ restore (const char *filename)
 	/* FIXME Will the versioned setting always work? */
 	CANCEL (complete);
 	txt = _("Shutting down Evolution");
-	s (EVOLUTION " --force-shutdown");
+	run_cmd (EVOLUTION " --force-shutdown");
 
 	CANCEL (complete);
 	txt = _("Backup current Evolution data");
-	s ("mv " EVOLUTION_DIR " " EVOLUTION_DIR_BACKUP);
-	s ("mv $HOME/.camel_certs ~/.camel_certs_old");
+	run_cmd ("mv " EVOLUTION_DIR " " EVOLUTION_DIR_BACKUP);
+	run_cmd ("mv $HOME/.camel_certs ~/.camel_certs_old");
 
 	CANCEL (complete);
 	txt = _("Extracting files from backup");
 	command = g_strdup_printf ("cd $HOME && gzip -cd %s| tar xf -", quotedfname);
-	s (command);
+	run_cmd (command);
 	g_free (command);
 	g_free (quotedfname);
 
 	CANCEL (complete);
 	txt = _("Loading Evolution settings");
-	s ("gconftool-2 --load " GCONF_DUMP_PATH);
+
+	replace_in_file (GCONF_DUMP_PATH, EVOUSERDATADIR_MAGIC, e_get_user_data_dir ());
+
+	run_cmd ("gconftool-2 --load " GCONF_DUMP_PATH);
 
 	CANCEL (complete);
 	txt = _("Removing temporary backup files");
-	s ("rm -rf " GCONF_DUMP_PATH);
-	s ("rm -rf " EVOLUTION_DIR_BACKUP);
-	s ("rm -rf $HOME/.camel_certs_old");
-	s ("rm $HOME/.evolution/.running");
+	run_cmd ("rm -rf " GCONF_DUMP_PATH);
+	run_cmd ("rm -rf " EVOLUTION_DIR_BACKUP);
+	run_cmd ("rm -rf $HOME/.camel_certs_old");
+	run_cmd ("rm $HOME/.evolution/.running");
 
 	CANCEL (complete);
 	txt = _("Ensuring local sources");
-
-	if (e_book_get_addressbooks (&sources, NULL)) {
-		char *base_dir = g_build_filename (e_get_user_data_dir (), "addressbook", NULL);
-
-		ensure_locals (sources, base_dir);
-		g_object_unref (sources);
-		sources = NULL;
-
-		g_free (base_dir);
-	}
-
-	for (i = 0; calendars[i].dir; i++) {
-		if (e_cal_get_sources (&sources, calendars [i].type, NULL)) {
-			char *base_dir = g_build_filename (e_get_user_data_dir (), calendars [i].dir, NULL);
-
-			ensure_locals (sources, base_dir);
-			g_object_unref (sources);
-			sources = NULL;
-
-			g_free (base_dir);
-		}
-	}
-
-	gconf = gconf_client_get_default ();
-	accounts = e_account_list_new (gconf);
-
-	if (accounts) {
-		gboolean changed = FALSE;
-		char *base_dir = g_build_filename (e_get_user_data_dir (), "mail", "local", NULL);
-		EIterator *it;
-
-		for (it = e_list_get_iterator (E_LIST (accounts)); e_iterator_is_valid (it); e_iterator_next (it)) {
-			/* why does this return a 'const' object?!? */
-			EAccount *account = (EAccount *) e_iterator_get (it);
-
-			if (account) {
-				changed = fix_account_folder_uri (account, E_ACCOUNT_DRAFTS_FOLDER_URI, base_dir) || changed;
-				changed = fix_account_folder_uri (account, E_ACCOUNT_SENT_FOLDER_URI, base_dir) || changed;
-			}
-		}
-
-		if (changed)
-			e_account_list_save (accounts);
-
-		g_object_unref (it);
-		g_object_unref (accounts);
-		g_free (base_dir);
-	}
-
-	g_object_unref (gconf);
 
 	if (restart_arg) {
 		CANCEL (complete);
 		txt = _("Restarting Evolution");
 		complete=TRUE;
-		s (EVOLUTION);
+		run_cmd (EVOLUTION);
 	}
 
 }
@@ -422,7 +354,7 @@ dlg_response (GtkWidget *dlg, gint response, gpointer data)
 		gtk_widget_destroy (dlg);
 
 	/* We will kill just the tar operation. Rest of the them will be just a second of microseconds.*/
-	s ("pkill tar");
+	run_cmd ("pkill tar");
 
 	gtk_main_quit ();
 }
