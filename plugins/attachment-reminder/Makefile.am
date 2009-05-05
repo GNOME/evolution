@@ -1,6 +1,7 @@
 INCLUDES =						\
 	-I$(top_builddir)/composer			\
 	-I$(top_srcdir)					\
+	-I$(top_srcdir)/widgets				\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	-DEVOLUTION_PLUGINDIR="\"$(plugindir)\""
 
