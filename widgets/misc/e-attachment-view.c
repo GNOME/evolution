@@ -643,7 +643,7 @@ attachment_view_update_actions (EAttachmentView *view)
 		app_name = g_app_info_get_name (app_info);
 
 		action_name = g_strdup_printf ("open-in-%s", app_executable);
-		action_label = g_strdup_printf (_("Open in %s..."), app_name);
+		action_label = g_strdup_printf (_("Open with \"%s\""), app_name);
 
 		action_tooltip = g_strdup_printf (
 			_("Open this attachment in %s"), app_name);
