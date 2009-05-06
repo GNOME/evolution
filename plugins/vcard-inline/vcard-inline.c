@@ -175,16 +175,11 @@ org_gnome_vcard_inline_embed (EMFormatHTML *format,
 	GtkWidget *button_box;
 	GtkWidget *container;
 	GtkWidget *widget;
-	EContact *contact;
 	guint length;
 
 	vcard_object = (VCardInlinePObject *) object;
 	length = g_list_length (vcard_object->contact_list);
-
-	if (vcard_object->contact_list != NULL)
-		contact = E_CONTACT (vcard_object->contact_list->data);
-	else
-		contact = NULL;
+	g_return_val_if_fail (length > 0, FALSE);
 
 	container = GTK_WIDGET (embedded);
 
@@ -207,6 +202,11 @@ org_gnome_vcard_inline_embed (EMFormatHTML *format,
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	vcard_object->contact_display = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	eab_contact_display_render (
+		EAB_CONTACT_DISPLAY (vcard_object->contact_display),
+		E_CONTACT (vcard_object->contact_list->data),
+		vcard_object->mode);
 
 	widget = gtk_label_new (NULL);
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
