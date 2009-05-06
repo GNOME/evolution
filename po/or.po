@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: or\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-05-05 00:57+0000\n"
-"PO-Revision-Date: 2009-05-06 18:35+0530\n"
+"PO-Revision-Date: 2009-05-06 19:52+0530\n"
 "Last-Translator: Manoj Kumar Giri <mgiri@redhat.com>\n"
 "Language-Team: Oriya <oriya-it@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -18529,9 +18529,8 @@ msgid "TNEF Attachment decoder"
 msgstr "TNEF ସଂଲଗ୍ନ ସାଙ୍କେତିକରଣ"
 
 #: ../plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin to setup WebDAV contacts."
-msgstr "A କୁ ବ୍ଯବସ୍ଥା."
+msgstr "WebDAV ସମ୍ପର୍କଗୁଡ଼ିକୁ ବିନ୍ୟାସ କରିବା ପାଇଁ ଗୋଟିଏ ପ୍ଲଗଇନ।"
 
 #: ../plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml.h:2
 msgid "WebDAV contacts"
@@ -18551,9 +18550,8 @@ msgid "_Avoid IfMatch (needed on Apache < 2.2.8)"
 msgstr "ରେ"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Shell"
-msgstr "କ୍ରମବିକାଶ  ସେଲ"
+msgstr "Evolution ସେଲ"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:2
 #, fuzzy
@@ -18561,14 +18559,12 @@ msgid "Evolution Shell Config factory"
 msgstr "କ୍ରମବିକାଶ  ସେଲ"
 
 #: ../shell/test/GNOME_Evolution_Test.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Test"
-msgstr "କ୍ରମବିକାଶ  ପରୀକ୍ଷଣ"
+msgstr "Evolution ପରୀକ୍ଷଣ"
 
 #: ../shell/test/GNOME_Evolution_Test.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Test component"
-msgstr "କ୍ରମବିକାଶ  ପରୀକ୍ଷଣ"
+msgstr "Evolution ପରୀକ୍ଷଣ ଉପାଦାନ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:1
 msgid "Authenticate proxy server connections"
@@ -18579,27 +18575,22 @@ msgid "Automatic proxy configuration URL"
 msgstr "ସ୍ୱୟଂଚାଳିତ ପ୍ରକ୍ସି ବିନ୍ୟାସ URL"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:3
-#, fuzzy
 msgid "Configuration version"
-msgstr "କନଫିଗରେସନ"
+msgstr "ବିନ୍ୟାସ ସଂସ୍କରଣ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:4
-#, fuzzy
 msgid "Default sidebar width"
-msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଓସାର"
+msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ପାର୍ଶ୍ୱପଟି ଓସାର"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:5
-#, fuzzy
 msgid "Default window height"
 msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ୱିଣ୍ଡୋ ଉଚ୍ଚତା"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:6
-#, fuzzy
 msgid "Default window state"
-msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ୱିଣ୍ଡୋ"
+msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ୱିଣ୍ଡୋ ସ୍ଥିତି"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:7
-#, fuzzy
 msgid "Default window width"
 msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ୱିଣ୍ଡୋ ଓସାର"
 
