@@ -1,3 +1,19 @@
+2009-05-06  Jeff Cai <jeff.cai@sun.com>
+
+	** Fix for bug #524497
+	* em-composer-utils.c: (guess_account):
+	Change the order getting an account
+
+	The original order is:
+	1. The account in 'To' of the message.
+	2. The account of the message source.
+	3. The account of the folder source.
+
+	The new order is:
+	1. The account of the folder source.
+	2. The account of the message source.
+	3. The account in "To' of the message
+
 2009-04-28  Milan Crha  <mcrha@redhat.com>
 
 	** Fix for bug #572348

@@ -36,7 +36,6 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 
-#include <libgnome/gnome-exec.h>
 #include <glib/gi18n.h>
 
 #include <camel/camel-mime-filter-from.h>
@@ -2527,7 +2526,7 @@ mail_execute_shell_command (CamelFilterDriver *driver, int argc, char **argv, vo
 	if (argc <= 0)
 		return;
 
-	gnome_execute_async_fds (NULL, argc, argv, TRUE);
+	g_spawn_async (NULL, argv, NULL, 0, NULL, data, NULL, NULL);
 }
 
 /* Async service-checking/authtype-lookup code. */

@@ -34,7 +34,6 @@
 #include <bonobo/bonobo-main.h>
 #include <gtk/gtk.h>
 #include <glib/gi18n.h>
-#include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-sound.h>
 
 #include <libecal/e-cal-time-util.h>
@@ -1761,7 +1760,7 @@ procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id
 	icalattach *attach;
 	const char *url;
 	char *cmd;
-	int result;
+	gboolean result = TRUE;
 
 	d(printf("%s:%d (procedure_notification)\n",__FILE__, __LINE__));
 
@@ -1795,9 +1794,8 @@ procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id
 	else
 		cmd = (char *) url;
 
-	result = 0;
 	if (procedure_notification_dialog (cmd, url))
-		result = gnome_execute_shell (NULL, cmd);
+		result = g_spawn_command_line_async (cmd, NULL);
 
 	if (cmd != (char *) url)
 		g_free (cmd);
@@ -1805,7 +1803,7 @@ procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id
 	icalattach_unref (attach);
 
 	/* Fall back to display notification if we got an error */
-	if (result < 0)
+	if (result == FALSE)
 		goto fallback;
 
 	return;
@@ -1814,8 +1812,6 @@ procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id
 
 	display_notification (trigger, cqa, alarm_id, FALSE);
 }
-
-
 
 static gboolean
 check_midnight_refresh (gpointer user_data)

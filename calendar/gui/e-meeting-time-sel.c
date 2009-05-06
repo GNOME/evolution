@@ -32,7 +32,6 @@
 #include <string.h>
 #include <time.h>
 #include <gdk/gdkkeysyms.h>
-#include <libgnomeui/gnome-dateedit.h>
 #include <glib/gi18n.h>
 #include <libgnomecanvas/gnome-canvas-widget.h>
 

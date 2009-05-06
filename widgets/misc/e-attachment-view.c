@@ -431,7 +431,7 @@ attachment_view_text_calendar (EAttachmentView *view,
 	gchar *content_type;
 	gint length;
 
-	if (G_UNLIKELY (atom = GDK_NONE))
+	if (G_UNLIKELY (atom == GDK_NONE))
 		atom = gdk_atom_intern_static_string ("text/calendar");
 
 	if (gtk_selection_data_get_target (selection_data) != atom)
@@ -487,7 +487,7 @@ attachment_view_text_x_vcard (EAttachmentView *view,
 	gchar *content_type;
 	gint length;
 
-	if (G_UNLIKELY (atom = GDK_NONE))
+	if (G_UNLIKELY (atom == GDK_NONE))
 		atom = gdk_atom_intern_static_string ("text/x-vcard");
 
 	if (gtk_selection_data_get_target (selection_data) != atom)

@@ -28,7 +28,6 @@
 #include <string.h>
 #include <time.h>
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-dateedit.h>
 
 #include "e-dialog-widgets.h"
 
@@ -496,39 +495,6 @@ e_dialog_combo_box_get (GtkWidget *widget, const int *value_map)
 		return -1;
 	}
 	return i;
-}
-
-/**
- * e_dialog_dateedit_set:
- * @widget: A #GnomeDateEdit widget.
- * @t: Date/time value.
- *
- * Sets the value of a #GnomeDateEdit widget.
- **/
-void
-e_dialog_dateedit_set (GtkWidget *widget, time_t t)
-{
-	g_return_if_fail (widget != NULL);
-	g_return_if_fail (GNOME_IS_DATE_EDIT (widget));
-
-	gnome_date_edit_set_time (GNOME_DATE_EDIT (widget), t);
-}
-
-/**
- * e_dialog_dateedit_get:
- * @widget: A #GnomeDateEdit widget.
- *
- * Queries the value of a #GnomeDateEdit widget.
- *
- * Return value: Date/time value.
- **/
-time_t
-e_dialog_dateedit_get (GtkWidget *widget)
-{
-	g_return_val_if_fail (widget != NULL, -1);
-	g_return_val_if_fail (GNOME_IS_DATE_EDIT (widget), -1);
-
-	return gnome_date_edit_get_time (GNOME_DATE_EDIT (widget));
 }
 
 /**
