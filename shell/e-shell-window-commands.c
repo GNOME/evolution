@@ -27,7 +27,6 @@
 #include <gtk/gtk.h>
 #include <glib/gprintf.h>
 
-#include <libgnome/gnome-exec.h>
 #include <glib/gi18n.h>
 
 #include <gio/gio.h>
@@ -60,27 +59,25 @@
 /* Utility functions.  */
 
 static void
-launch_pilot_settings (const char *extra_arg)
+launch_pilot_settings (void)
 {
-        char *args[] = {
-                "gpilotd-control-applet",
-		(char *) extra_arg,
-		NULL
-        };
-        int pid;
+	GError* error = NULL;
 
-        args[0] = g_find_program_in_path ("gpilotd-control-applet");
-        if (!args[0]) {
+	gchar* args = g_find_program_in_path ("gpilotd-control-applet");
+	if (args == NULL) {
 		e_notice (NULL, GTK_MESSAGE_ERROR,
-			  _("The GNOME Pilot tools do not appear to be installed on this system."));
+			_("The GNOME Pilot tools do not appear to be installed on this system."));
 		return;
-        }
+	}
 
-        pid = gnome_execute_async (NULL, extra_arg ? 2 : 1, args);
-        g_free (args[0]);
+	g_spawn_command_line_async (args, &error);
+	g_free (args);
 
-        if (pid == -1)
-                e_notice (NULL, GTK_MESSAGE_ERROR, _("Error executing %s."), args[0]);
+	if (error != NULL) {
+		e_notice (NULL, GTK_MESSAGE_ERROR,
+			_("Error executing %s. (%s)"), args, error->message);
+		g_error_free (error);
+	}
 }
 
 
@@ -1082,7 +1079,7 @@ command_pilot_settings (BonoboUIComponent *uih,
 			EShellWindow *window,
 			const char *path)
 {
-	launch_pilot_settings (NULL);
+	launch_pilot_settings ();
 }
 
 
