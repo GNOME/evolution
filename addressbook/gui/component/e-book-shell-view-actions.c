@@ -47,7 +47,7 @@ action_address_book_delete_cb (GtkAction *action,
 {
 	EShellView *shell_view;
 	EShellWindow *shell_window;
-	EBookShellModule *book_shell_module;
+	EBookShellBackend *book_shell_backend;
 	EBookShellSidebar *book_shell_sidebar;
 	ESource *source;
 	ESourceSelector *selector;
@@ -60,8 +60,8 @@ action_address_book_delete_cb (GtkAction *action,
 	shell_view = E_SHELL_VIEW (book_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	book_shell_module = book_shell_view->priv->book_shell_module;
-	source_list = e_book_shell_module_get_source_list (book_shell_module);
+	book_shell_backend = book_shell_view->priv->book_shell_backend;
+	source_list = e_book_shell_backend_get_source_list (book_shell_backend);
 
 	book_shell_sidebar = book_shell_view->priv->book_shell_sidebar;
 	selector = e_book_shell_sidebar_get_selector (book_shell_sidebar);

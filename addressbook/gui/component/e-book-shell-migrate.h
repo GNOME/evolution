@@ -1,5 +1,5 @@
 /*
- * e-book-shell-module-migrate.h
+ * e-book-shell-migrate.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,15 +22,15 @@
  *
  */
 
-#ifndef E_BOOK_SHELL_MODULE_MIGRATE_H
-#define E_BOOK_SHELL_MODULE_MIGRATE_H
+#ifndef E_BOOK_SHELL_MIGRATE_H
+#define E_BOOK_SHELL_MIGRATE_H
 
 #include <glib.h>
-#include <shell/e-shell-module.h>
+#include <shell/e-shell-backend.h>
 
 G_BEGIN_DECLS
 
-gboolean	e_book_shell_module_migrate	(EShellModule *shell_module,
+gboolean	e_book_shell_backend_migrate	(EShellBackend *shell_backend,
 						 gint major,
 						 gint minor,
 						 gint micro,
@@ -38,4 +38,4 @@ gboolean	e_book_shell_module_migrate	(EShellModule *shell_module,
 
 G_END_DECLS
 
-#endif /* E_BOOK_SHELL_MODULE_MIGRATE_H */
+#endif /* E_BOOK_SHELL_MIGRATE_H */

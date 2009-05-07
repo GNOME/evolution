@@ -47,7 +47,7 @@
 #include "e-util/e-xml-utils.h"
 #include "e-util/e-folder-map.h"
 
-#include "e-book-shell-module-migrate.h"
+#include "e-book-shell-migrate.h"
 
 /*#define SLOW_MIGRATION*/
 
@@ -1112,11 +1112,11 @@ migration_context_free (MigrationContext *context)
 }
 
 gboolean
-e_book_shell_module_migrate (EShellModule *shell_module,
-                             gint major,
-                             gint minor,
-                             gint micro,
-                             GError **error)
+e_book_shell_backend_migrate (EShellBackend *shell_backend,
+                              gint major,
+                              gint minor,
+                              gint micro,
+                              GError **error)
 {
 	ESourceGroup *on_this_computer;
 	ESourceGroup *on_ldap_servers;
@@ -1125,9 +1125,9 @@ e_book_shell_module_migrate (EShellModule *shell_module,
 	gboolean need_dialog = FALSE;
 	const gchar *data_dir;
 
-	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), FALSE);
+	g_return_val_if_fail (E_IS_SHELL_BACKEND (shell_backend), FALSE);
 
-	data_dir = e_shell_module_get_data_dir (shell_module);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
 	context = migration_context_new (data_dir);
 
 	/* we call this unconditionally now - create_groups either

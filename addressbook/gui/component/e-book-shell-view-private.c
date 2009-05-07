@@ -402,7 +402,6 @@ e_book_shell_view_private_init (EBookShellView *book_shell_view,
 	EBookShellViewPrivate *priv = book_shell_view->priv;
 	GHashTable *uid_to_view;
 	GHashTable *uid_to_editor;
-	GObject *object;
 
 	uid_to_view = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
@@ -431,13 +430,13 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 	EBookShellViewPrivate *priv = book_shell_view->priv;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	ESourceSelector *selector;
 
 	shell_view = E_SHELL_VIEW (book_shell_view);
-	shell_module = e_shell_view_get_shell_module (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -446,7 +445,7 @@ e_book_shell_view_private_constructed (EBookShellView *book_shell_view)
 	e_shell_window_add_action_group (shell_window, "contacts-filter");
 
 	/* Cache these to avoid lots of awkward casting. */
-	priv->book_shell_module = g_object_ref (shell_module);
+	priv->book_shell_backend = g_object_ref (shell_backend);
 	priv->book_shell_content = g_object_ref (shell_content);
 	priv->book_shell_sidebar = g_object_ref (shell_sidebar);
 
@@ -487,7 +486,7 @@ e_book_shell_view_private_dispose (EBookShellView *book_shell_view)
 {
 	EBookShellViewPrivate *priv = book_shell_view->priv;
 
-	DISPOSE (priv->book_shell_module);
+	DISPOSE (priv->book_shell_backend);
 	DISPOSE (priv->book_shell_content);
 	DISPOSE (priv->book_shell_sidebar);
 

@@ -102,7 +102,7 @@ static void
 book_shell_view_constructed (GObject *object)
 {
 	EBookShellView *book_shell_view;
-	EBookShellModule *book_shell_module;
+	EBookShellBackend *book_shell_backend;
 	ESourceList *source_list;
 
 	/* Chain up to parent's constructed() method. */
@@ -111,8 +111,8 @@ book_shell_view_constructed (GObject *object)
 	book_shell_view = E_BOOK_SHELL_VIEW (object);
 	e_book_shell_view_private_constructed (book_shell_view);
 
-	book_shell_module = book_shell_view->priv->book_shell_module;
-	source_list = e_book_shell_module_get_source_list (book_shell_module);
+	book_shell_backend = book_shell_view->priv->book_shell_backend;
+	source_list = e_book_shell_backend_get_source_list (book_shell_backend);
 
 	g_signal_connect_swapped (
 		source_list, "changed",

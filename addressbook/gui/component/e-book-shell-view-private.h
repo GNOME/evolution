@@ -43,7 +43,7 @@
 #include "addressbook/gui/widgets/e-addressbook-view.h"
 #include "addressbook/gui/widgets/e-addressbook-selector.h"
 
-#include "e-book-shell-module.h"
+#include "e-book-shell-backend.h"
 #include "e-book-shell-content.h"
 #include "e-book-shell-sidebar.h"
 #include "e-book-shell-view-actions.h"
@@ -94,7 +94,7 @@ enum {
 struct _EBookShellViewPrivate {
 
 	/* These are just for convenience. */
-	EBookShellModule *book_shell_module;
+	EBookShellBackend *book_shell_backend;
 	EBookShellContent *book_shell_content;
 	EBookShellSidebar *book_shell_sidebar;
 

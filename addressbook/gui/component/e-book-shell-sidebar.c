@@ -25,7 +25,7 @@
 #include <glib/gi18n.h>
 
 #include "e-book-shell-view.h"
-#include "e-book-shell-module.h"
+#include "e-book-shell-backend.h"
 #include "e-addressbook-selector.h"
 
 #define E_BOOK_SHELL_SIDEBAR_GET_PRIVATE(obj) \
@@ -81,9 +81,9 @@ book_shell_sidebar_constructed (GObject *object)
 {
 	EBookShellSidebarPrivate *priv;
 	EShellView *shell_view;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
-	EBookShellModule *book_shell_module;
+	EBookShellBackend *book_shell_backend;
 	ESourceList *source_list;
 	GtkContainer *container;
 	GtkWidget *widget;
@@ -95,9 +95,9 @@ book_shell_sidebar_constructed (GObject *object)
 
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_module = e_shell_view_get_shell_module (shell_view);
-	book_shell_module = E_BOOK_SHELL_MODULE (shell_module);
-	source_list = e_book_shell_module_get_source_list (book_shell_module);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	book_shell_backend = E_BOOK_SHELL_BACKEND (shell_backend);
+	source_list = e_book_shell_backend_get_source_list (book_shell_backend);
 
 	container = GTK_CONTAINER (shell_sidebar);
 

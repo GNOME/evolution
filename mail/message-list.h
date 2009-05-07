@@ -29,7 +29,7 @@
 #include <table/e-tree-scrolled.h>
 
 #include <camel/camel-folder.h>
-#include <shell/e-shell-module.h>
+#include <shell/e-shell-backend.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -187,8 +187,8 @@ typedef enum {
 } MessageListSelectDirection;
 
 GType          message_list_get_type   (void);
-GtkWidget     *message_list_new        (EShellModule *shell_module);
-EShellModule  *message_list_get_shell_module (MessageList *message_list);
+GtkWidget     *message_list_new        (EShellBackend *shell_backend);
+EShellBackend  *message_list_get_shell_backend (MessageList *message_list);
 void           message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder, const char *uri, gboolean outgoing);
 
 void	       message_list_freeze(MessageList *ml);

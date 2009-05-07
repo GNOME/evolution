@@ -910,11 +910,11 @@ status_message (EAddressbookView *view,
 {
 	EActivity *activity;
 	EShellView *shell_view;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 
 	activity = view->priv->activity;
 	shell_view = e_addressbook_view_get_shell_view (view);
-	shell_module = e_shell_view_get_shell_module (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
 	if (status == NULL || *status == '\0') {
 		if (activity != NULL) {
@@ -926,7 +926,7 @@ status_message (EAddressbookView *view,
 	} else if (activity == NULL) {
 		activity = e_activity_new (status);
 		view->priv->activity = activity;
-		e_shell_module_add_activity (shell_module, activity);
+		e_shell_backend_add_activity (shell_backend, activity);
 
 	} else
 		e_activity_set_primary_text (activity, status);

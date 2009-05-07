@@ -29,12 +29,12 @@ libevolution_module_contacts_la_SOURCES = 	\
 	autocompletion-config.h		\
 	eab-composer-util.c		\
 	eab-composer-util.h		\
+	e-book-shell-backend.c		\
+	e-book-shell-backend.h		\
 	e-book-shell-content.c		\
 	e-book-shell-content.h		\
-	e-book-shell-module.c		\
-	e-book-shell-module.h		\
-	e-book-shell-module-migrate.c	\
-	e-book-shell-module-migrate.h	\
+	e-book-shell-migrate.c		\
+	e-book-shell-migrate.h		\
 	e-book-shell-sidebar.c		\
 	e-book-shell-sidebar.h		\
 	e-book-shell-view.c		\
