@@ -1781,12 +1781,12 @@ shell_window_extract_actions (EShellWindow *shell_window,
 	 */
 	for (iter = *source_list; iter != NULL; iter = iter->next) {
 		GtkAction *action = iter->data;
-		const gchar *module_name;
+		const gchar *backend_name;
 
-		module_name = g_object_get_data (
-			G_OBJECT (action), "module-name");
+		backend_name = g_object_get_data (
+			G_OBJECT (action), "backend-name");
 
-		if (strcmp (module_name, current_view) != 0)
+		if (strcmp (backend_name, current_view) != 0)
 			continue;
 
 		if (g_object_get_data (G_OBJECT (action), "primary"))
@@ -1952,7 +1952,7 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	merge_id = gtk_ui_manager_new_merge_id (ui_manager);
 	shell = e_shell_window_get_shell (shell_window);
-	list = e_shell_get_shell_modules (shell);
+	list = e_shell_get_shell_backends (shell);
 
 	/* Construct a group of radio actions from the various EShellView
 	 * subclasses and register them with the EShellSwitcher.  These
@@ -1964,7 +1964,7 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 	group = gtk_radio_action_get_group (action);
 
 	for (iter = list; iter != NULL; iter = iter->next) {
-		EShellModule *shell_module = iter->data;
+		EShellBackend *shell_backend = iter->data;
 		EShellViewClass *class;
 		GType type;
 		const gchar *view_name;
@@ -1972,7 +1972,9 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 		gchar *action_name;
 		gchar *tooltip;
 
-		type = e_shell_module_get_shell_view_type (shell_module);
+		/* The backend name is also the view name. */
+		view_name = E_SHELL_BACKEND_GET_CLASS (shell_backend)->name;
+		type = E_SHELL_BACKEND_GET_CLASS (shell_backend)->view_type;
 
 		if (!g_type_is_a (type, E_TYPE_SHELL_VIEW)) {
 			g_critical (
@@ -1991,14 +1993,6 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 			continue;
 		}
 
-		if (class->type_module == NULL) {
-			g_critical (
-				"Module member not set on %s",
-				G_OBJECT_CLASS_NAME (class));
-			continue;
-		}
-
-		view_name = class->type_module->name;
 		action_name = g_strdup_printf (SWITCHER_FORMAT, view_name);
 		tooltip = g_strdup_printf (_("Switch to %s"), class->label);
 

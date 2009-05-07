@@ -29,8 +29,8 @@
 #define E_SHELL_VIEW_H
 
 #include <shell/e-shell-common.h>
+#include <shell/e-shell-backend.h>
 #include <shell/e-shell-content.h>
-#include <shell/e-shell-module.h>
 #include <shell/e-shell-sidebar.h>
 #include <shell/e-shell-taskbar.h>
 #include <shell/e-shell-window.h>
@@ -95,12 +95,6 @@ struct _EShellView {
  * 			search rules for this shell view.  The XML files
  * 			are usually named something like <filename>
  * 			<emphasis>view</emphasis>types.xml</filename>.
- * @type_module:	The corresponding #GTypeModule for this shell
- * 			view.  Subclasses are responsible for setting
- * 			this.  An easy way do so is to pass it to the
- * 			shell view's #GClassInitFunc via the
- * 			<structfield>class_data</structfield> field in
- * 			#GTypeInfo.
  * @view_collection:	A unique #GalViewCollection instance is created
  * 			for each subclass and shared across all instances
  * 			of that subclass.  That much is done automatically
@@ -142,10 +136,6 @@ struct _EShellViewClass {
 	/* Base name of the search rule definition file. */
 	const gchar *search_rules;
 
-	/* Subclasses should set this via the "class_data" field in
-	 * the GTypeInfo they pass to g_type_module_register_type(). */
-	GTypeModule *type_module;
-
 	/* A unique instance is created for each subclass. */
 	GalViewCollection *view_collection;
 
@@ -173,11 +163,11 @@ gint		e_shell_view_get_page_num	(EShellView *shell_view);
 void		e_shell_view_set_page_num	(EShellView *shell_view,
 						 gint page_num);
 GtkSizeGroup *	e_shell_view_get_size_group	(EShellView *shell_view);
+EShellBackend *	e_shell_view_get_shell_backend	(EShellView *shell_view);
 EShellContent *	e_shell_view_get_shell_content	(EShellView *shell_view);
 EShellSidebar *	e_shell_view_get_shell_sidebar	(EShellView *shell_view);
 EShellTaskbar *	e_shell_view_get_shell_taskbar	(EShellView *shell_view);
 EShellWindow *	e_shell_view_get_shell_window	(EShellView *shell_view);
-EShellModule *	e_shell_view_get_shell_module	(EShellView *shell_view);
 void		e_shell_view_update_actions	(EShellView *shell_view);
 void		e_shell_view_show_popup_menu	(EShellView *shell_view,
 						 const gchar *widget_path,

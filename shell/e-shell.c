@@ -25,10 +25,11 @@
 #include <libedataserverui/e-passwords.h>
 
 #include "e-util/e-util.h"
+#include "e-util/e-module.h"
 #include "widgets/misc/e-preferences-window.h"
 
+#include "e-shell-backend.h"
 #include "e-shell-migrate.h"
-#include "e-shell-module.h"
 #include "e-shell-window.h"
 
 #define SHUTDOWN_TIMEOUT	500  /* milliseconds */
@@ -43,10 +44,10 @@ struct _EShellPrivate {
 	GConfClient *gconf_client;
 	GtkWidget *preferences_window;
 
-	/* Shell Modules */
-	GList *loaded_modules;
-	GHashTable *modules_by_name;
-	GHashTable *modules_by_scheme;
+	/* Shell Backends */
+	GList *loaded_backends;
+	GHashTable *backends_by_name;
+	GHashTable *backends_by_scheme;
 
 	gpointer preparing_for_line_change;  /* weak pointer */
 
@@ -270,11 +271,25 @@ shell_prepare_for_online (EShell *shell)
 	g_object_unref (shell->priv->preparing_for_line_change);
 }
 
-/* Helper for shell_query_module() */
+static void
+shell_load_modules (EShell *shell)
+{
+	GList *modules;
+
+	/* Load all shared library modules. */
+	modules = e_module_load_all_in_directory (EVOLUTION_MODULEDIR);
+
+	while (modules != NULL) {
+		g_type_module_unuse (G_TYPE_MODULE (modules->data));
+		modules = g_list_delete_link (modules, modules);
+	}
+}
+
+/* Helper for shell_process_backend() */
 static void
 shell_split_and_insert_items (GHashTable *hash_table,
                               const gchar *items,
-                              EShellModule *shell_module)
+                              EShellBackend *shell_backend)
 {
 	gpointer key;
 	gchar **strv;
@@ -284,83 +299,63 @@ shell_split_and_insert_items (GHashTable *hash_table,
 
 	for (ii = 0; strv[ii] != NULL; ii++) {
 		key = (gpointer) g_intern_string (strv[ii]);
-		g_hash_table_insert (hash_table, key, shell_module);
+		g_hash_table_insert (hash_table, key, shell_backend);
 	}
 
 	g_strfreev (strv);
 }
 
 static void
-shell_query_module (EShell *shell,
-                    const gchar *filename)
+shell_process_backend (EShell *shell,
+                       EShellBackend *shell_backend)
 {
-	EShellModule *shell_module;
-	EShellModuleInfo *info;
-	GHashTable *modules_by_name;
-	GHashTable *modules_by_scheme;
+	EShellBackendClass *class;
+	GHashTable *backends_by_name;
+	GHashTable *backends_by_scheme;
 	const gchar *string;
 
-	shell_module = e_shell_module_new (shell, filename);
-
-	if (!g_type_module_use (G_TYPE_MODULE (shell_module))) {
-		g_critical ("Failed to load module: %s", filename);
-		g_object_unref (shell_module);
-		return;
-	}
-
-	shell->priv->loaded_modules = g_list_insert_sorted (
-		shell->priv->loaded_modules, shell_module,
-		(GCompareFunc) e_shell_module_compare);
+	shell->priv->loaded_backends = g_list_insert_sorted (
+		shell->priv->loaded_backends, shell_backend,
+		(GCompareFunc) e_shell_backend_compare);
 
 	/* Bookkeeping */
 
-	info = (EShellModuleInfo *) shell_module->priv;
-	modules_by_name = shell->priv->modules_by_name;
-	modules_by_scheme = shell->priv->modules_by_scheme;
+	class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
+	backends_by_name = shell->priv->backends_by_name;
+	backends_by_scheme = shell->priv->backends_by_scheme;
 
-	if ((string = info->name) != NULL)
+	if ((string = class->name) != NULL)
 		g_hash_table_insert (
-			modules_by_name, (gpointer)
-			g_intern_string (string), shell_module);
+			backends_by_name, (gpointer)
+			g_intern_string (string), shell_backend);
 
-	if ((string = info->aliases) != NULL)
+	if ((string = class->aliases) != NULL)
 		shell_split_and_insert_items (
-			modules_by_name, string, shell_module);
+			backends_by_name, string, shell_backend);
 
-	if ((string = info->schemes) != NULL)
+	if ((string = class->schemes) != NULL)
 		shell_split_and_insert_items (
-			modules_by_scheme, string, shell_module);
+			backends_by_scheme, string, shell_backend);
 }
 
 static void
-shell_load_modules (EShell *shell)
+shell_create_backends (EShell *shell)
 {
-	GDir *dir;
-	const gchar *dirname;
-	const gchar *basename;
-	GError *error = NULL;
+	GType *children;
+	guint ii, n_children;
 
-	dirname = EVOLUTION_MODULEDIR;
+	/* Create an instance of each EShellBackend subclass. */
+	children = g_type_children (E_TYPE_SHELL_BACKEND, &n_children);
 
-	dir = g_dir_open (dirname, 0, &error);
-	if (dir == NULL) {
-		g_critical ("%s", error->message);
-		g_error_free (error);
-		return;
+	for (ii = 0; ii < n_children; ii++) {
+		EShellBackend *shell_backend;
+		GType type = children[ii];
+
+		shell_backend = g_object_new (type, "shell", shell, NULL);
+		shell_process_backend (shell, shell_backend);
 	}
 
-	while ((basename = g_dir_read_name (dir)) != NULL) {
-		gchar *filename;
-
-		if (!g_str_has_suffix (basename, "." G_MODULE_SUFFIX))
-			continue;
-
-		filename = g_build_filename (dirname, basename, NULL);
-		shell_query_module (shell, filename);
-		g_free (filename);
-	}
-
-	g_dir_close (dir);
+	g_free (children);
 }
 
 static gboolean
@@ -372,21 +367,21 @@ shell_shutdown_timeout (EShell *shell)
 	static guint message_timer = 1;
 
 	/* Module list is read-only; do not free. */
-	list = e_shell_get_shell_modules (shell);
+	list = e_shell_get_shell_backends (shell);
 
-	/* Any module can defer shutdown if it's still busy. */
+	/* Any backend can defer shutdown if it's still busy. */
 	for (iter = list; proceed && iter != NULL; iter = iter->next) {
-		EShellModule *shell_module = iter->data;
-		proceed = e_shell_module_shutdown (shell_module);
+		EShellBackend *shell_backend = iter->data;
+		proceed = e_shell_backend_shutdown (shell_backend);
 
 		/* Emit a message every few seconds to indicate
-		 * which module(s) we're still waiting on. */
+		 * which backend(s) we're still waiting on. */
 		if (proceed || message_timer == 0)
 			continue;
 
 		g_message (
-			_("Waiting for the \"%s\" module to finish..."),
-			G_TYPE_MODULE (shell_module)->name);
+			_("Waiting for the \"%s\" backend to finish..."),
+			E_SHELL_BACKEND_GET_CLASS (shell_backend)->name);
 	}
 
 	message_timer = (message_timer + 1) % 10;
@@ -400,7 +395,7 @@ shell_shutdown_timeout (EShell *shell)
 		g_list_foreach (list, (GFunc) gtk_widget_destroy, NULL);
 		g_list_free (list);
 
-	/* If a module is still busy, try again after a short delay. */
+	/* If a backend is still busy, try again after a short delay. */
 	} else if (source_id == 0)
 		source_id = g_timeout_add (
 			SHUTDOWN_TIMEOUT, (GSourceFunc)
@@ -485,11 +480,9 @@ shell_dispose (GObject *object)
 		priv->preferences_window = NULL;
 	}
 
-	g_list_foreach (
-		priv->loaded_modules,
-		(GFunc) g_type_module_unuse, NULL);
-	g_list_free (priv->loaded_modules);
-	priv->loaded_modules = NULL;
+	g_list_foreach (priv->loaded_backends, (GFunc) g_object_unref, NULL);
+	g_list_free (priv->loaded_backends);
+	priv->loaded_backends = NULL;
 
 	/* Chain up to parent's dispose() method. */
 	G_OBJECT_CLASS (parent_class)->dispose (object);
@@ -502,8 +495,8 @@ shell_finalize (GObject *object)
 
 	priv = E_SHELL_GET_PRIVATE (object);
 
-	g_hash_table_destroy (priv->modules_by_name);
-	g_hash_table_destroy (priv->modules_by_scheme);
+	g_hash_table_destroy (priv->backends_by_name);
+	g_hash_table_destroy (priv->backends_by_scheme);
 
 	/* Indicates a clean shut down to the next session. */
 	if (!unique_app_is_running (UNIQUE_APP (object)))
@@ -525,6 +518,7 @@ shell_constructed (GObject *object)
 	e_file_lock_create ();
 
 	shell_load_modules (E_SHELL (object));
+	shell_create_backends (E_SHELL (object));
 	e_shell_migrate_attempt (E_SHELL (object));
 }
 
@@ -689,7 +683,7 @@ shell_class_init (EShellClass *class)
 	 * @uri: the URI to be handled
 	 *
 	 * Emitted when @shell receives a URI to be handled, usually by
-	 * way of a command-line argument.  An #EShellModule should listen
+	 * way of a command-line argument.  An #EShellBackend should listen
 	 * for this signal and try to handle the URI, usually by opening an
 	 * editor window for the identified resource.
 	 *
@@ -709,16 +703,16 @@ shell_class_init (EShellClass *class)
 	 * @shell: the #EShell which emitted the signal
 	 * @activity: the #EActivity for offline preparations
 	 *
-	 * Emitted when the user elects to work offline.  An #EShellModule
+	 * Emitted when the user elects to work offline.  An #EShellBackend
 	 * should listen for this signal and make preparations for working
 	 * in offline mode.
 	 *
 	 * If preparations for working offline cannot immediately be
 	 * completed (such as when synchronizing with a remote server),
-	 * the #EShellModule should reference the @activity until
+	 * the #EShellBackend should reference the @activity until
 	 * preparations are complete, and then unreference the @activity.
 	 * This will delay Evolution from actually going to offline mode
-	 * until all modules have unreferenced @activity.
+	 * until all backends have unreferenced @activity.
 	 **/
 	signals[PREPARE_FOR_OFFLINE] = g_signal_new (
 		"prepare-for-offline",
@@ -734,16 +728,16 @@ shell_class_init (EShellClass *class)
 	 * @shell: the #EShell which emitted the signal
 	 * @activity: the #EActivity for offline preparations
 	 *
-	 * Emitted when the user elects to work online.  An #EShellModule
+	 * Emitted when the user elects to work online.  An #EShellBackend
 	 * should listen for this signal and make preparations for working
 	 * in online mode.
 	 *
 	 * If preparations for working online cannot immediately be
 	 * completed (such as when re-connecting to a remote server), the
-	 * #EShellModule should reference the @activity until preparations
+	 * #EShellBackend should reference the @activity until preparations
 	 * are complete, and then unreference the @activity.  This will
 	 * delay Evolution from actually going to online mode until all
-	 * modules have unreferenced @activity.
+	 * backends have unreferenced @activity.
 	 **/
 	signals[PREPARE_FOR_ONLINE] = g_signal_new (
 		"prepare-for-online",
@@ -855,19 +849,19 @@ shell_class_init (EShellClass *class)
 static void
 shell_init (EShell *shell)
 {
-	GHashTable *modules_by_name;
-	GHashTable *modules_by_scheme;
+	GHashTable *backends_by_name;
+	GHashTable *backends_by_scheme;
 
 	shell->priv = E_SHELL_GET_PRIVATE (shell);
 
-	modules_by_name = g_hash_table_new (g_str_hash, g_str_equal);
-	modules_by_scheme = g_hash_table_new (g_str_hash, g_str_equal);
+	backends_by_name = g_hash_table_new (g_str_hash, g_str_equal);
+	backends_by_scheme = g_hash_table_new (g_str_hash, g_str_equal);
 
 	shell->priv->settings = g_object_new (E_TYPE_SHELL_SETTINGS, NULL);
 	shell->priv->gconf_client = gconf_client_get_default ();
 	shell->priv->preferences_window = e_preferences_window_new ();
-	shell->priv->modules_by_name = modules_by_name;
-	shell->priv->modules_by_scheme = modules_by_scheme;
+	shell->priv->backends_by_name = backends_by_name;
+	shell->priv->backends_by_scheme = backends_by_scheme;
 	shell->priv->safe_mode = e_file_lock_exists ();
 
 	g_object_ref_sink (shell->priv->preferences_window);
@@ -949,37 +943,37 @@ e_shell_get_default (void)
 }
 
 /**
- * e_shell_get_shell_modules:
+ * e_shell_get_shell_backends:
  * @shell: an #EShell
  *
- * Returns a list of loaded #EShellModule instances.  The list is
+ * Returns a list of loaded #EShellBackend instances.  The list is
  * owned by @shell and should not be modified or freed.
  *
- * Returns: a list of loaded #EShellModule instances
+ * Returns: a list of loaded #EShellBackend instances
  **/
 GList *
-e_shell_get_shell_modules (EShell *shell)
+e_shell_get_shell_backends (EShell *shell)
 {
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-	return shell->priv->loaded_modules;
+	return shell->priv->loaded_backends;
 }
 
 /**
  * e_shell_get_canonical_name:
  * @shell: an #EShell
- * @name: the name or alias of an #EShellModule
+ * @name: the name or alias of an #EShellBackend
  *
- * Returns the canonical name for the #EShellModule whose name or alias
+ * Returns the canonical name for the #EShellBackend whose name or alias
  * is @name.
  *
- * Returns: the canonical #EShellModule name
+ * Returns: the canonical #EShellBackend name
  **/
 const gchar *
 e_shell_get_canonical_name (EShell *shell,
                             const gchar *name)
 {
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
@@ -987,58 +981,58 @@ e_shell_get_canonical_name (EShell *shell,
 	if (name == NULL)
 		return NULL;
 
-	shell_module = e_shell_get_module_by_name (shell, name);
+	shell_backend = e_shell_get_backend_by_name (shell, name);
 
-	if (shell_module == NULL)
+	if (shell_backend == NULL)
 		return NULL;
 
-	return G_TYPE_MODULE (shell_module)->name;
+	return E_SHELL_BACKEND_GET_CLASS (shell_backend)->name;
 }
 
 /**
- * e_shell_get_module_by_name:
+ * e_shell_get_backend_by_name:
  * @shell: an #EShell
- * @name: the name or alias of an #EShellModule
+ * @name: the name or alias of an #EShellBackend
  *
- * Returns the corresponding #EShellModule for the given name or alias,
+ * Returns the corresponding #EShellBackend for the given name or alias,
  * or %NULL if @name is not recognized.
  *
- * Returns: the #EShellModule named @name, or %NULL
+ * Returns: the #EShellBackend named @name, or %NULL
  **/
-EShellModule *
-e_shell_get_module_by_name (EShell *shell,
-                            const gchar *name)
+EShellBackend *
+e_shell_get_backend_by_name (EShell *shell,
+                             const gchar *name)
 {
 	GHashTable *hash_table;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 	g_return_val_if_fail (name != NULL, NULL);
 
-	hash_table = shell->priv->modules_by_name;
+	hash_table = shell->priv->backends_by_name;
 
 	return g_hash_table_lookup (hash_table, name);
 }
 
 /**
- * e_shell_get_module_by_scheme:
+ * e_shell_get_backend_by_scheme:
  * @shell: an #EShell
  * @scheme: a URI scheme
  *
- * Returns the #EShellModule that implements the given URI scheme,
+ * Returns the #EShellBackend that implements the given URI scheme,
  * or %NULL if @scheme is not recognized.
  *
- * Returns: the #EShellModule that implements @scheme, or %NULL
+ * Returns: the #EShellBackend that implements @scheme, or %NULL
  **/
-EShellModule *
-e_shell_get_module_by_scheme (EShell *shell,
-                              const gchar *scheme)
+EShellBackend *
+e_shell_get_backend_by_scheme (EShell *shell,
+                               const gchar *scheme)
 {
 	GHashTable *hash_table;
 
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 	g_return_val_if_fail (scheme != NULL, NULL);
 
-	hash_table = shell->priv->modules_by_scheme;
+	hash_table = shell->priv->backends_by_scheme;
 
 	return g_hash_table_lookup (hash_table, scheme);
 }

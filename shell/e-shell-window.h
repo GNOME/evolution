@@ -100,16 +100,16 @@ void		e_shell_window_set_safe_mode	(EShellWindow *shell_window,
 void		e_shell_window_add_action_group (EShellWindow *shell_window,
 						 const gchar *group_name);
 
-/* These should be called from the shell module's window_created() handler. */
+/* These should be called from the shell backend's window_created() handler. */
 
 void		e_shell_window_register_new_item_actions
 						(EShellWindow *shell_window,
-						 const gchar *module_name,
+						 const gchar *backend_name,
 						 GtkActionEntry *entries,
 						 guint n_entries);
 void		e_shell_window_register_new_source_actions
 						(EShellWindow *shell_window,
-						 const gchar *module_name,
+						 const gchar *backend_name,
 						 GtkActionEntry *entries,
 						 guint n_entries);
 

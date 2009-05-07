@@ -27,11 +27,6 @@
 #include "e-util/e-util.h"
 #include "e-util/e-plugin-ui.h"
 
-#include "e-shell-content.h"
-#include "e-shell-module.h"
-#include "e-shell-sidebar.h"
-#include "e-shell-taskbar.h"
-#include "e-shell-window.h"
 #include "e-shell-window-actions.h"
 
 #define E_SHELL_VIEW_GET_PRIVATE(obj) \
@@ -40,6 +35,7 @@
 
 struct _EShellViewPrivate {
 
+	gpointer shell_backend;  /* weak pointer */
 	gpointer shell_window;  /* weak pointer */
 
 	gchar *title;
@@ -59,8 +55,8 @@ enum {
 	PROP_ACTION,
 	PROP_PAGE_NUM,
 	PROP_TITLE,
+	PROP_SHELL_BACKEND,
 	PROP_SHELL_CONTENT,
-	PROP_SHELL_MODULE,
 	PROP_SHELL_SIDEBAR,
 	PROP_SHELL_TASKBAR,
 	PROP_SHELL_WINDOW,
@@ -77,31 +73,36 @@ static gpointer parent_class;
 static gulong signals[LAST_SIGNAL];
 
 static void
-shell_view_init_view_collection (EShellViewClass *class)
+shell_view_init_view_collection (EShellView *shell_view)
 {
-	EShellModule *shell_module;
+	EShellViewClass *view_class;
+	EShellBackendClass *backend_class;
+	EShellBackend *shell_backend;
 	const gchar *base_dir;
-	const gchar *module_name;
+	const gchar *backend_name;
 	gchar *system_dir;
 	gchar *local_dir;
 
-	shell_module = E_SHELL_MODULE (class->type_module);
-	module_name = class->type_module->name;
+	view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
+
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	backend_class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
+	backend_name = backend_class->name;
 
 	base_dir = EVOLUTION_GALVIEWSDIR;
-	system_dir = g_build_filename (base_dir, module_name, NULL);
+	system_dir = g_build_filename (base_dir, backend_name, NULL);
 
-	base_dir = e_shell_module_get_data_dir (shell_module);
+	base_dir = e_shell_backend_get_data_dir (shell_backend);
 	local_dir = g_build_filename (base_dir, "views", NULL);
 
 	/* The view collection is never destroyed. */
-	class->view_collection = gal_view_collection_new ();
+	view_class->view_collection = gal_view_collection_new ();
 
 	gal_view_collection_set_title (
-		class->view_collection, class->label);
+		view_class->view_collection, view_class->label);
 
 	gal_view_collection_set_storage_directories (
-		class->view_collection, system_dir, local_dir);
+		view_class->view_collection, system_dir, local_dir);
 
 	g_free (system_dir);
 	g_free (local_dir);
@@ -147,6 +148,19 @@ shell_view_set_action (EShellView *shell_view,
 }
 
 static void
+shell_view_set_shell_backend (EShellView *shell_view,
+                             EShellBackend *shell_backend)
+{
+	g_return_if_fail (shell_view->priv->shell_backend == NULL);
+
+	shell_view->priv->shell_backend = shell_backend;
+
+	g_object_add_weak_pointer (
+		G_OBJECT (shell_backend),
+		&shell_view->priv->shell_backend);
+}
+
+static void
 shell_view_set_shell_window (EShellView *shell_view,
                              GtkWidget *shell_window)
 {
@@ -182,6 +196,12 @@ shell_view_set_property (GObject *object,
 			e_shell_view_set_title (
 				E_SHELL_VIEW (object),
 				g_value_get_string (value));
+			return;
+
+		case PROP_SHELL_BACKEND:
+			shell_view_set_shell_backend (
+				E_SHELL_VIEW (object),
+				g_value_get_object (value));
 			return;
 
 		case PROP_SHELL_WINDOW:
@@ -225,16 +245,16 @@ shell_view_get_property (GObject *object,
 				E_SHELL_VIEW (object)));
 			return;
 
+		case PROP_SHELL_BACKEND:
+			g_value_set_object (
+				value, e_shell_view_get_shell_backend (
+				E_SHELL_VIEW (object)));
+
 		case PROP_SHELL_CONTENT:
 			g_value_set_object (
 				value, e_shell_view_get_shell_content (
 				E_SHELL_VIEW (object)));
 			return;
-
-		case PROP_SHELL_MODULE:
-			g_value_set_object (
-				value, e_shell_view_get_shell_module (
-				E_SHELL_VIEW (object)));
 
 		case PROP_SHELL_SIDEBAR:
 			g_value_set_object (
@@ -270,6 +290,12 @@ shell_view_dispose (GObject *object)
 	EShellViewPrivate *priv;
 
 	priv = E_SHELL_VIEW_GET_PRIVATE (object);
+
+	if (priv->shell_backend != NULL) {
+		g_object_remove_weak_pointer (
+			G_OBJECT (priv->shell_backend), &priv->shell_backend);
+		priv->shell_backend = NULL;
+	}
 
 	if (priv->shell_window != NULL) {
 		g_object_remove_weak_pointer (
@@ -327,6 +353,9 @@ shell_view_constructed (GObject *object)
 
 	shell_view = E_SHELL_VIEW (object);
 	class = E_SHELL_VIEW_GET_CLASS (object);
+
+	if (class->view_collection == NULL)
+		shell_view_init_view_collection (shell_view);
 
 	shell_window = e_shell_view_get_shell_window (shell_view);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
@@ -450,6 +479,22 @@ shell_view_class_init (EShellViewClass *class)
 			G_PARAM_READWRITE));
 
 	/**
+	 * EShellView::shell-backend
+	 *
+	 * The #EShellBackend for this shell view.
+	 **/
+	g_object_class_install_property (
+		object_class,
+		PROP_SHELL_BACKEND,
+		g_param_spec_object (
+			"shell-backend",
+			_("Shell Backend"),
+			_("The EShellBackend for this shell view"),
+			E_TYPE_SHELL_BACKEND,
+			G_PARAM_READWRITE |
+			G_PARAM_CONSTRUCT_ONLY));
+
+	/**
 	 * EShellView:shell-content
 	 *
 	 * The content widget appears in an #EShellWindow<!-- -->'s
@@ -464,21 +509,6 @@ shell_view_class_init (EShellViewClass *class)
 			_("The content widget appears in "
 			  "a shell window's right pane"),
 			E_TYPE_SHELL_CONTENT,
-			G_PARAM_READABLE));
-
-	/**
-	 * EShellView::shell-module
-	 *
-	 * The #EShellModule for this shell view.
-	 **/
-	g_object_class_install_property (
-		object_class,
-		PROP_SHELL_MODULE,
-		g_param_spec_object (
-			"shell-module",
-			_("Shell Module"),
-			_("The EShellModule for this shell view"),
-			E_TYPE_SHELL_MODULE,
 			G_PARAM_READABLE));
 
 	/**
@@ -591,8 +621,7 @@ shell_view_class_init (EShellViewClass *class)
 }
 
 static void
-shell_view_init (EShellView *shell_view,
-                 EShellViewClass *class)
+shell_view_init (EShellView *shell_view)
 {
 	GtkSizeGroup *size_group;
 
@@ -600,9 +629,6 @@ shell_view_init (EShellView *shell_view,
 
 	shell_view->priv = E_SHELL_VIEW_GET_PRIVATE (shell_view);
 	shell_view->priv->size_group = size_group;
-
-	if (class->view_collection == NULL)
-		shell_view_init_view_collection (class);
 }
 
 GType
@@ -637,8 +663,8 @@ e_shell_view_get_type (void)
  * @shell_view: an #EShellView
  *
  * Returns the view name for @shell_view, which is also the name of
- * the corresponding #EShellModule (see the <structfield>name</structfield>
- * field in #EShellModuleInfo).
+ * the corresponding #EShellBackend (see the <structfield>name</structfield>
+ * field in #EShellBackendInfo).
  *
  * Returns: the view name for @shell_view
  **/
@@ -786,30 +812,6 @@ e_shell_view_get_shell_window (EShellView *shell_view)
 }
 
 /**
- * e_shell_view_get_shell_module:
- * @shell_view: an #EShellView
- *
- * Returns the corresponding #EShellModule for @shell_view.
- *
- * Returns: the corresponding #EShellModule for @shell_view
- **/
-EShellModule *
-e_shell_view_get_shell_module (EShellView *shell_view)
-{
-	EShellViewClass *class;
-
-	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
-
-	/* Calling this function during the shell view's instance
-	 * initialization function will return the wrong result,
-	 * so watch for that and emit a warning. */
-	class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	g_return_val_if_fail (E_IS_SHELL_VIEW_CLASS (class), NULL);
-
-	return E_SHELL_MODULE (class->type_module);
-}
-
-/**
  * e_shell_view_is_active:
  * @shell_view: an #EShellView
  *
@@ -888,6 +890,22 @@ e_shell_view_get_size_group (EShellView *shell_view)
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	return shell_view->priv->size_group;
+}
+
+/**
+ * e_shell_view_get_shell_backend:
+ * @shell_view: an #EShellView
+ *
+ * Returns the corresponding #EShellBackend for @shell_view.
+ *
+ * Returns: the corresponding #EShellBackend for @shell_view
+ **/
+EShellBackend *
+e_shell_view_get_shell_backend (EShellView *shell_view)
+{
+	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
+
+	return E_SHELL_BACKEND (shell_view->priv->shell_backend);
 }
 
 /**

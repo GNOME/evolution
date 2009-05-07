@@ -199,15 +199,15 @@ static void
 shell_taskbar_constructed (GObject *object)
 {
 	EShellView *shell_view;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	EShellTaskbar *shell_taskbar;
 
 	shell_taskbar = E_SHELL_TASKBAR (object);
 	shell_view = e_shell_taskbar_get_shell_view (shell_taskbar);
-	shell_module = e_shell_view_get_shell_module (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
 	g_signal_connect_swapped (
-		shell_module, "activity-added",
+		shell_backend, "activity-added",
 		G_CALLBACK (shell_taskbar_activity_add), shell_taskbar);
 }
 

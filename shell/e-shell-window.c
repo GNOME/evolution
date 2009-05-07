@@ -39,41 +39,40 @@ enum {
 static gpointer parent_class;
 
 static EShellView *
-shell_window_new_view (EShellWindow *shell_window,
-                       GType shell_view_type,
-                       const gchar *view_name,
-                       const gchar *title)
+shell_window_new_view (EShellBackend *shell_backend,
+                       EShellWindow *shell_window)
 {
 	GHashTable *loaded_views;
-	EShell *shell;
-	EShellModule *shell_module;
 	EShellView *shell_view;
 	GtkNotebook *notebook;
 	GtkAction *action;
 	GtkWidget *widget;
+	const gchar *name;
 	gint page_num;
+	GType type;
 
-	/* First off, start the shell module. */
-	shell = e_shell_window_get_shell (shell_window);
-	shell_module = e_shell_get_module_by_name (shell, view_name);
-	e_shell_module_start (shell_module);
+	name = E_SHELL_BACKEND_GET_CLASS (shell_backend)->name;
+	type = E_SHELL_BACKEND_GET_CLASS (shell_backend)->view_type;
+
+	/* First off, start the shell backend. */
+	e_shell_backend_start (shell_backend);
 
 	/* Determine the page number for the new shell view. */
 	notebook = GTK_NOTEBOOK (shell_window->priv->content_notebook);
 	page_num = gtk_notebook_get_n_pages (notebook);
 
 	/* Get the switcher action for this view. */
-	action = e_shell_window_get_shell_view_action (
-		shell_window, view_name);
+	action = e_shell_window_get_shell_view_action (shell_window, name);
 
 	/* Create the shell view. */
 	shell_view = g_object_new (
-		shell_view_type, "action", action, "page-num",
-		page_num, "shell-window", shell_window, NULL);
+		type, "action", action, "page-num", page_num,
+		"shell-backend", shell_backend, "shell-window",
+		shell_window, NULL);
 
 	/* Register the shell view. */
 	loaded_views = shell_window->priv->loaded_views;
-	g_hash_table_insert (loaded_views, g_strdup (view_name), shell_view);
+	g_hash_table_insert (loaded_views, g_strdup (name), shell_view);
 
 	/* Add pages to the various shell window notebooks. */
 
@@ -432,7 +431,7 @@ e_shell_window_get_shell (EShellWindow *shell_window)
  * @view_name: name of a shell view
  *
  * Returns the #EShellView named @view_name (see the
- * <structfield>name</structfield> field in #EShellModuleInfo).  This
+ * <structfield>name</structfield> field in #EShellBackendInfo).  This
  * will also instantiate the #EShellView the first time it's requested.
  * To reduce resource consumption, Evolution tries to delay instantiating
  * shell views until the user switches to them.  So in general, only the
@@ -446,10 +445,10 @@ EShellView *
 e_shell_window_get_shell_view (EShellWindow *shell_window,
                                const gchar *view_name)
 {
-	GHashTable *loaded_views;
+	EShell *shell;
 	EShellView *shell_view;
-	GType *children;
-	guint n_children, ii;
+	EShellBackend *shell_backend;
+	GHashTable *loaded_views;
 
 	g_return_val_if_fail (E_IS_SHELL_WINDOW (shell_window), NULL);
 	g_return_val_if_fail (view_name != NULL, NULL);
@@ -460,33 +459,15 @@ e_shell_window_get_shell_view (EShellWindow *shell_window,
 	if (shell_view != NULL)
 		return shell_view;
 
-	children = g_type_children (E_TYPE_SHELL_VIEW, &n_children);
+	shell = e_shell_window_get_shell (shell_window);
+	shell_backend = e_shell_get_backend_by_name (shell, view_name);
 
-	for (ii = 0; ii < n_children && shell_view == NULL; ii++) {
-		GType shell_view_type = children[ii];
-		EShellViewClass *class;
-
-		class = g_type_class_ref (shell_view_type);
-
-		if (class->type_module == NULL) {
-			g_critical (
-				"Module member not set on %s",
-				G_OBJECT_CLASS_NAME (class));
-			continue;
-		}
-
-		if (strcmp (view_name, class->type_module->name) == 0)
-			shell_view = shell_window_new_view (
-				shell_window, shell_view_type,
-				view_name, class->label);
-
-		g_type_class_unref (class);
+	if (shell_backend == NULL) {
+		g_critical ("Unknown shell view name: %s", view_name);
+		return NULL;
 	}
 
-	if (shell_view == NULL)
-		g_critical ("Unknown shell view name: %s", view_name);
-
-	return shell_view;
+	return shell_window_new_view (shell_backend, shell_window);
 }
 
 /**
@@ -741,17 +722,17 @@ e_shell_window_add_action_group (EShellWindow *shell_window,
 /**
  * e_shell_window_register_new_item_actions:
  * @shell_window: an #EShellWindow
- * @module_name: name of an #EShellModule
+ * @backend_name: name of an #EShellBackend
  * @entries: an array of #GtkActionEntry<!-- -->s
  * @n_entries: number of elements in the array
  *
  * Registers a list of #GtkAction<!-- -->s to appear in
  * @shell_window<!-- -->'s "New" menu and toolbar button.  This
  * function should be called from an #EShell<!-- -->'s
- * #EShell::window-created signal handler.  The #EShellModule calling
- * this function should pass its own name for the @module_name argument
+ * #EShell::window-created signal handler.  The #EShellBackend calling
+ * this function should pass its own name for the @backend_name argument
  * (i.e. the <structfield>name</structfield> field from its own
- * #EShellModuleInfo).
+ * #EShellBackendInfo).
  *
  * The registered #GtkAction<!-- -->s should be for creating individual
  * items such as an email message or a calendar appointment.  The action
@@ -760,7 +741,7 @@ e_shell_window_add_action_group (EShellWindow *shell_window,
  **/
 void
 e_shell_window_register_new_item_actions (EShellWindow *shell_window,
-                                          const gchar *module_name,
+                                          const gchar *backend_name,
                                           GtkActionEntry *entries,
                                           guint n_entries)
 {
@@ -770,13 +751,13 @@ e_shell_window_register_new_item_actions (EShellWindow *shell_window,
 	guint ii;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
-	g_return_if_fail (module_name != NULL);
+	g_return_if_fail (backend_name != NULL);
 	g_return_if_fail (entries != NULL);
 
 	action_group = ACTION_GROUP (NEW_ITEM);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
-	module_name = g_intern_string (module_name);
+	backend_name = g_intern_string (backend_name);
 
 	/* XXX The action label translations are retrieved from the
 	 *     message context "New", but gtk_action_group_add_actions()
@@ -794,7 +775,7 @@ e_shell_window_register_new_item_actions (EShellWindow *shell_window,
 	gtk_action_group_add_actions (
 		action_group, entries, n_entries, shell_window);
 
-	/* Tag each action with the name of the shell module that
+	/* Tag each action with the name of the shell backend that
 	 * registered it.  This is used to help sort actions in the
 	 * "New" menu. */
 
@@ -811,11 +792,11 @@ e_shell_window_register_new_item_actions (EShellWindow *shell_window,
 
 		g_object_set_data (
 			G_OBJECT (action),
-			"module-name", (gpointer) module_name);
+			"backend-name", (gpointer) backend_name);
 
 		/* The first action becomes the first item in the "New"
 		 * menu, and consequently its icon is shown in the "New"
-		 * button when the shell module's view is active.  This
+		 * button when the shell backend's view is active.  This
 		 * is all sorted out in shell_window_extract_actions().
 		 * Note, the data value just needs to be non-zero. */
 		if (ii == 0)
@@ -830,17 +811,17 @@ e_shell_window_register_new_item_actions (EShellWindow *shell_window,
 /**
  * e_shell_window_register_new_source_actions:
  * @shell_window: an #EShellWindow
- * @module_name: name of an #EShellModule
+ * @backend_name: name of an #EShellBackend
  * @entries: an array of #GtkActionEntry<!-- -->s
  * @n_entries: number of elements in the array
  *
  * Registers a list of #GtkAction<!-- -->s to appear in
  * @shell_window<!-- -->'s "New" menu and toolbar button.  This
  * function should be called from an #EShell<!-- -->'s
- * #EShell::window-created signal handler.  The #EShellModule calling
- * this function should pass its own name for the @module_name argument
+ * #EShell::window-created signal handler.  The #EShellBackend calling
+ * this function should pass its own name for the @backend_name argument
  * (i.e. the <structfield>name</structfield> field from its own
- * #EShellModuleInfo).
+ * #EShellBackendInfo).
  *
  * The registered #GtkAction<!-- -->s should be for creating item
  * containers such as an email folder or a calendar.  The action labels
@@ -849,7 +830,7 @@ e_shell_window_register_new_item_actions (EShellWindow *shell_window,
  **/
 void
 e_shell_window_register_new_source_actions (EShellWindow *shell_window,
-                                            const gchar *module_name,
+                                            const gchar *backend_name,
                                             GtkActionEntry *entries,
                                             guint n_entries)
 {
@@ -859,13 +840,13 @@ e_shell_window_register_new_source_actions (EShellWindow *shell_window,
 	guint ii;
 
 	g_return_if_fail (E_IS_SHELL_WINDOW (shell_window));
-	g_return_if_fail (module_name != NULL);
+	g_return_if_fail (backend_name != NULL);
 	g_return_if_fail (entries != NULL);
 
 	action_group = ACTION_GROUP (NEW_SOURCE);
 	ui_manager = e_shell_window_get_ui_manager (shell_window);
 	accel_group = gtk_ui_manager_get_accel_group (ui_manager);
-	module_name = g_intern_string (module_name);
+	backend_name = g_intern_string (backend_name);
 
 	/* XXX The action label translations are retrieved from the
 	 *     message context "New", but gtk_action_group_add_actions()
@@ -883,7 +864,7 @@ e_shell_window_register_new_source_actions (EShellWindow *shell_window,
 	gtk_action_group_add_actions (
 		action_group, entries, n_entries, shell_window);
 
-	/* Tag each action with the name of the shell module that
+	/* Tag each action with the name of the shell backend that
 	 * registered it.  This is used to help sort actions in the
 	 * "New" menu. */
 
@@ -900,7 +881,7 @@ e_shell_window_register_new_source_actions (EShellWindow *shell_window,
 
 		g_object_set_data (
 			G_OBJECT (action),
-			"module-name", (gpointer) module_name);
+			"backend-name", (gpointer) backend_name);
 	}
 
 	e_shell_window_update_new_menu (shell_window);

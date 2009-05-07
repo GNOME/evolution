@@ -176,7 +176,7 @@ e_shell_settings_get_type (void)
  * @pspec: a #GParamSpec
  *
  * Installs a new class property for #EShellSettings.  This is usually
- * done during initialization of a #EShellModule or plugin, followed by
+ * done during initialization of a #EShellBackend or plugin, followed by
  * a call to e_shell_settings_bind_to_gconf() to bind the property to a
  * GConf key.
  **/

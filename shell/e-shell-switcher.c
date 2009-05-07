@@ -558,7 +558,7 @@ e_shell_switcher_new (void)
  * appear in the order they were added.
  *
  * #EShellWindow adds switcher actions in the order given by the
- * <structfield>sort_order</structfield> field in #EShellModuleInfo.
+ * <structfield>sort_order</structfield> field in #EShellBackendClass.
  **/
 void
 e_shell_switcher_add_action (EShellSwitcher *switcher,

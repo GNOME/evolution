@@ -31,7 +31,7 @@
 #include <unique/unique.h>
 #include <gconf/gconf-client.h>
 #include <shell/e-shell-common.h>
-#include <shell/e-shell-module.h>
+#include <shell/e-shell-backend.h>
 #include <shell/e-shell-settings.h>
 
 /* Standard GObject macros */
@@ -76,12 +76,12 @@ struct _EShellClass {
 
 GType		e_shell_get_type		(void);
 EShell *	e_shell_get_default		(void);
-GList *		e_shell_get_shell_modules	(EShell *shell);
+GList *		e_shell_get_shell_backends	(EShell *shell);
 const gchar *	e_shell_get_canonical_name	(EShell *shell,
 						 const gchar *name);
-EShellModule *	e_shell_get_module_by_name	(EShell *shell,
+EShellBackend *	e_shell_get_backend_by_name	(EShell *shell,
 						 const gchar *name);
-EShellModule *	e_shell_get_module_by_scheme	(EShell *shell,
+EShellBackend *	e_shell_get_backend_by_scheme	(EShell *shell,
 						 const gchar *scheme);
 EShellSettings *e_shell_get_shell_settings	(EShell *shell);
 GConfClient *	e_shell_get_gconf_client	(EShell *shell);

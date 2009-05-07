@@ -23,7 +23,6 @@
 #define E_BOOK_SHELL_VIEW_H
 
 #include <e-shell-view.h>
-#include <libedataserver/e-source-list.h>
 
 /* Standard GObject macros */
 #define E_TYPE_BOOK_SHELL_VIEW \
@@ -61,10 +60,7 @@ struct _EBookShellViewClass {
 	EShellViewClass parent_class;
 };
 
-GType		e_book_shell_view_get_type
-					(GTypeModule *type_module);
-ESourceList *	e_book_shell_view_get_source_list
-					(EBookShellView *book_shell_view);
+GType		e_book_shell_view_get_type	(GTypeModule *type_module);
 
 G_END_DECLS
 

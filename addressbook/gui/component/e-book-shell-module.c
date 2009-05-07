@@ -19,6 +19,8 @@
  *
  */
 
+#include "e-book-shell-module.h"
+
 #include <config.h>
 
 #include <string.h>
@@ -26,11 +28,9 @@
 #include <libebook/e-book.h>
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-source.h>
-#include <libedataserver/e-source-list.h>
 #include <libedataserver/e-source-group.h>
 
 #include "shell/e-shell.h"
-#include "shell/e-shell-module.h"
 #include "shell/e-shell-window.h"
 
 #include "e-util/e-import.h"
@@ -51,16 +51,23 @@
 #include "smime/gui/certificate-manager.h"
 #endif
 
-#define MODULE_NAME		"addressbook"
-#define MODULE_ALIASES		"contacts"
-#define MODULE_SCHEMES		""
-#define MODULE_SORT_ORDER	300
+#define E_BOOK_SHELL_MODULE_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_BOOK_SHELL_MODULE, EBookShellModulePrivate))
 
 #define LDAP_BASE_URI		"ldap://"
 #define PERSONAL_RELATIVE_URI	"system"
 
-/* Module Entry Point */
-void e_shell_module_init (GTypeModule *type_module);
+struct _EBookShellModulePrivate {
+	ESourceList *source_list;
+};
+
+/* Module Entry Points */
+void e_shell_load (GTypeModule *type_module);
+void e_shell_unload (GTypeModule *type_module);
+
+GType e_book_shell_module_type = 0;
+static gpointer parent_class;
 
 static void
 book_module_ensure_sources (EShellModule *shell_module)
@@ -68,7 +75,7 @@ book_module_ensure_sources (EShellModule *shell_module)
 	/* XXX This is basically the same algorithm across all modules.
 	 *     Maybe we could somehow integrate this into EShellModule? */
 
-	ESourceList *source_list;
+	EBookShellModulePrivate *priv;
 	ESourceGroup *on_this_computer;
 	ESourceGroup *on_ldap_servers;
 	ESource *personal;
@@ -82,28 +89,19 @@ book_module_ensure_sources (EShellModule *shell_module)
 	on_ldap_servers = NULL;
 	personal = NULL;
 
-	if (!e_book_get_addressbooks (&source_list, NULL)) {
+	priv = E_BOOK_SHELL_MODULE_GET_PRIVATE (shell_module);
+
+	if (!e_book_get_addressbooks (&priv->source_list, NULL)) {
 		g_warning ("Could not get addressbook sources from GConf!");
 		return;
 	}
-
-	/* Share the source list with all address book views.  This
-	 * is accessible via e_book_shell_view_get_source_list().
-	 * Note: EShellModule takes ownership of the reference.
-	 *
-	 * XXX I haven't yet decided if I want to add a proper
-	 *     EShellModule API for this.  The mail module would
-	 *     not use it. */
-	g_object_set_data_full (
-		G_OBJECT (shell_module), "source-list",
-		source_list, (GDestroyNotify) g_object_unref);
 
 	data_dir = e_shell_module_get_data_dir (shell_module);
 	filename = g_build_filename (data_dir, "local", NULL);
 	base_uri = g_filename_to_uri (filename, NULL, NULL);
 	g_free (filename);
 
-	groups = e_source_list_peek_groups (source_list);
+	groups = e_source_list_peek_groups (priv->source_list);
 	for (iter = groups; iter != NULL; iter = iter->next) {
 		ESourceGroup *source_group = iter->data;
 		const gchar *group_base_uri;
@@ -160,14 +158,14 @@ book_module_ensure_sources (EShellModule *shell_module)
 			 *     but that happens in an idle loop and too late
 			 *     to prevent the user from seeing a "Cannot
 			 *     Open ... because of invalid URI" error. */
-			e_source_list_sync (source_list, NULL);
+			e_source_list_sync (priv->source_list, NULL);
 		}
 
 	} else {
 		ESourceGroup *source_group;
 
 		source_group = e_source_group_new (name, base_uri);
-		e_source_list_add_group (source_list, source_group, -1);
+		e_source_list_add_group (priv->source_list, source_group, -1);
 		g_object_unref (source_group);
 	}
 
@@ -192,7 +190,7 @@ book_module_ensure_sources (EShellModule *shell_module)
 		ESourceGroup *source_group;
 
 		source_group = e_source_group_new (name, LDAP_BASE_URI);
-		e_source_list_add_group (source_list, source_group, -1);
+		e_source_list_add_group (priv->source_list, source_group, -1);
 		g_object_unref (source_group);
 	} else {
 		/* Force the group name to the current locale. */
@@ -330,19 +328,6 @@ static GtkActionEntry source_entries[] = {
 };
 
 static gboolean
-book_module_is_busy (EShellModule *shell_module)
-{
-	return !eab_editor_request_close_all ();
-}
-
-static gboolean
-book_module_shutdown (EShellModule *shell_module)
-{
-	/* FIXME */
-	return TRUE;
-}
-
-static gboolean
 book_module_handle_uri_cb (EShellModule *shell_module,
                            const gchar *uri)
 {
@@ -428,32 +413,30 @@ book_module_window_created_cb (EShellModule *shell_module,
 		source_entries, G_N_ELEMENTS (source_entries));
 }
 
-static EShellModuleInfo module_info = {
+static void
+book_shell_module_dispose (GObject *object)
+{
+	EBookShellModulePrivate *priv;
 
-	MODULE_NAME,
-	MODULE_ALIASES,
-	MODULE_SCHEMES,
-	MODULE_SORT_ORDER,
+	priv = E_BOOK_SHELL_MODULE_GET_PRIVATE (object);
 
-	/* Methods */
-	/* start */ NULL,
-	book_module_is_busy,
-	book_module_shutdown,
-	e_book_shell_module_migrate
-};
+	if (priv->source_list != NULL) {
+		g_object_unref (priv->source_list);
+		priv->source_list = NULL;
+	}
 
-void
-e_shell_module_init (GTypeModule *type_module)
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
+book_shell_module_constructed (GObject *object)
 {
 	EShell *shell;
 	EShellModule *shell_module;
 
-	shell_module = E_SHELL_MODULE (type_module);
+	shell_module = E_SHELL_MODULE (object);
 	shell = e_shell_module_get_shell (shell_module);
-
-	e_shell_module_set_info (
-		shell_module, &module_info,
-		e_book_shell_view_get_type (type_module));
 
 	/* XXX Why is this here?  Address books aren't the only
 	 *     things that use S/MIME.  Maybe put it in EShell? */
@@ -476,4 +459,96 @@ e_shell_module_init (GTypeModule *type_module)
 		G_CALLBACK (book_module_window_created_cb), shell_module);
 
 	autocompletion_config_init (shell);
+}
+
+static gboolean
+book_shell_module_is_busy (EShellModule *shell_module)
+{
+	return !eab_editor_request_close_all ();
+}
+
+static gboolean
+book_shell_module_shutdown (EShellModule *shell_module)
+{
+	/* FIXME */
+	return TRUE;
+}
+
+static void
+book_shell_module_class_init (EBookShellModuleClass *class)
+{
+	GObjectClass *object_class;
+	EShellModuleClass *shell_module_class;
+
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EBookShellModulePrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = book_shell_module_dispose;
+	object_class->constructed = book_shell_module_constructed;
+
+	shell_module_class = E_SHELL_MODULE_CLASS (class);
+	shell_module_class->name = "addressbook";
+	shell_module_class->aliases = "contacts";
+	shell_module_class->schemes = "";
+	shell_module_class->sort_order = 300;
+	shell_module_class->view_type = E_TYPE_BOOK_SHELL_VIEW;
+	shell_module_class->start = NULL;
+	shell_module_class->is_busy = book_shell_module_is_busy;
+	shell_module_class->shutdown = book_shell_module_shutdown;
+	shell_module_class->migrate = e_book_shell_module_migrate;
+}
+
+static void
+book_shell_module_init (EBookShellModule *book_shell_module)
+{
+	book_shell_module->priv =
+		E_BOOK_SHELL_MODULE_GET_PRIVATE (book_shell_module);
+}
+
+GType
+e_book_shell_module_get_type (GTypeModule *type_module)
+{
+	if (e_book_shell_module_type == 0) {
+		const GTypeInfo type_info = {
+			sizeof (EBookShellModuleClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) book_shell_module_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EBookShellModule),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) book_shell_module_init,
+			NULL   /* value_table */
+		};
+
+		e_book_shell_module_type =
+			g_type_module_register_type (
+				type_module, E_TYPE_SHELL_MODULE,
+				"EBookShellModule", &type_info, 0);
+	}
+
+	return e_book_shell_module_type;
+}
+
+ESourceList *
+e_book_shell_module_get_source_list (EBookShellModule *book_shell_module)
+{
+	g_return_val_if_fail (
+		E_IS_BOOK_SHELL_MODULE (book_shell_module), NULL);
+
+	return book_shell_module->priv->source_list;
+}
+
+void
+e_module_load (GTypeModule *type_module)
+{
+	e_book_shell_view_get_type (type_module);
+	e_book_shell_module_get_type (type_module);
+}
+
+void
+e_module_unload (GTypeModule *type_module)
+{
 }

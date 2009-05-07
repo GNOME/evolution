@@ -27,7 +27,7 @@
 #include <widgets/misc/e-action-combo-box.h>
 #include <widgets/misc/e-icon-entry.h>
 
-#include <e-shell-module.h>
+#include <e-shell-backend.h>
 #include <e-shell-view.h>
 #include <e-shell-window-actions.h>
 
@@ -209,7 +209,7 @@ shell_content_init_search_context (EShellContent *shell_content)
 	EShellContentClass *shell_content_class;
 	EShellView *shell_view;
 	EShellViewClass *shell_view_class;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	RuleContext *context;
 	FilterRule *rule;
 	FilterPart *part;
@@ -217,7 +217,7 @@ shell_content_init_search_context (EShellContent *shell_content)
 	gchar *user_filename;
 
 	shell_view = e_shell_content_get_shell_view (shell_content);
-	shell_module = e_shell_view_get_shell_module (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
 	g_return_if_fail (shell_view_class->search_rules != NULL);
 
@@ -231,9 +231,9 @@ shell_content_init_search_context (EShellContent *shell_content)
 		EVOLUTION_RULEDIR, shell_view_class->search_rules, NULL);
 
 	/* The filename for custom saved searches is always of
-	 * the form "$(shell_module_data_dir)/searches.xml". */
+	 * the form "$(shell_backend_data_dir)/searches.xml". */
 	user_filename = g_build_filename (
-		e_shell_module_get_data_dir (shell_module),
+		e_shell_backend_get_data_dir (shell_backend),
 		"searches.xml", NULL);
 
 	context = shell_content_class->new_search_context ();

@@ -59,9 +59,9 @@ privsolib_LTLIBRARIES =	\
 eshellincludedir = $(privincludedir)/shell
 
 eshellinclude_HEADERS = 			\
+	e-shell-backend.h			\
 	e-shell-common.h			\
 	e-shell-content.h			\
-	e-shell-module.h			\
 	e-shell-settings.h			\
 	e-shell-sidebar.h			\
 	e-shell-switcher.h			\
@@ -73,8 +73,8 @@ eshellinclude_HEADERS = 			\
 
 libeshell_la_SOURCES =				\
 	$(IDL_GENERATED)			\
+	e-shell-backend.c			\
 	e-shell-content.c			\
-	e-shell-module.c			\
 	e-shell-settings.c			\
 	e-shell-sidebar.c			\
 	e-shell-switcher.c			\

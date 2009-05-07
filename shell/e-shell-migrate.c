@@ -53,17 +53,17 @@ shell_migrate_attempt (EShell *shell,
                        gint minor,
                        gint micro)
 {
-	GList *modules;
+	GList *backends;
 	gboolean success = TRUE;
 
-	modules = e_shell_get_shell_modules (shell);
+	backends = e_shell_get_shell_backends (shell);
 
-	while (success && modules != NULL) {
-		EShellModule *shell_module = modules->data;
+	while (success && backends != NULL) {
+		EShellBackend *shell_backend = backends->data;
 		GError *error = NULL;
 
-		success = e_shell_module_migrate (
-			shell_module, major, minor, micro, &error);
+		success = e_shell_backend_migrate (
+			shell_backend, major, minor, micro, &error);
 
 		if (error != NULL) {
 			gint response;
@@ -78,7 +78,7 @@ shell_migrate_attempt (EShell *shell,
 			g_error_free (error);
 		}
 
-		modules = g_list_next (modules);
+		backends = g_list_next (backends);
 	}
 
 	return success;

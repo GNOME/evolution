@@ -32,6 +32,7 @@ libevolution_module_contacts_la_SOURCES = 	\
 	e-book-shell-content.c		\
 	e-book-shell-content.h		\
 	e-book-shell-module.c		\
+	e-book-shell-module.h		\
 	e-book-shell-module-migrate.c	\
 	e-book-shell-module-migrate.h	\
 	e-book-shell-sidebar.c		\

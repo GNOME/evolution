@@ -43,9 +43,10 @@
 #include "addressbook/gui/widgets/e-addressbook-view.h"
 #include "addressbook/gui/widgets/e-addressbook-selector.h"
 
-#include <e-book-shell-content.h>
-#include <e-book-shell-sidebar.h>
-#include <e-book-shell-view-actions.h>
+#include "e-book-shell-module.h"
+#include "e-book-shell-content.h"
+#include "e-book-shell-sidebar.h"
+#include "e-book-shell-view-actions.h"
 
 #define E_BOOK_SHELL_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -92,13 +93,8 @@ enum {
 
 struct _EBookShellViewPrivate {
 
-	/*** Module Data ***/
-
-	ESourceList *source_list;
-
-	/*** Other Stuff ***/
-
 	/* These are just for convenience. */
+	EBookShellModule *book_shell_module;
 	EBookShellContent *book_shell_content;
 	EBookShellSidebar *book_shell_sidebar;
 
