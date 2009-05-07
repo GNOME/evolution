@@ -216,7 +216,6 @@ mail_shell_view_class_init (EMailShellViewClass *class,
 	shell_view_class->ui_manager_id = "org.gnome.evolution.mail";
 	shell_view_class->search_options = "/mail-search-options";
 	shell_view_class->search_rules = "searchtypes.xml";
-	shell_view_class->type_module = type_module;
 	shell_view_class->new_shell_content = e_mail_shell_content_new;
 	shell_view_class->new_shell_sidebar = e_mail_shell_sidebar_new;
 	shell_view_class->toggled = mail_shell_view_toggled;
@@ -243,11 +242,11 @@ e_mail_shell_view_get_type (GTypeModule *type_module)
 			(GBaseFinalizeFunc) NULL,
 			(GClassInitFunc) mail_shell_view_class_init,
 			(GClassFinalizeFunc) NULL,
-			type_module,
+			NULL,  /* class_data */
 			sizeof (EMailShellView),
-			0,    /* n_preallocs */
+			0,     /* n_preallocs */
 			(GInstanceInitFunc) mail_shell_view_init,
-			NULL  /* value_table */
+			NULL   /* value_table */
 		};
 
 		e_mail_shell_view_type =

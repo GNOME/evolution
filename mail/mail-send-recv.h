@@ -25,7 +25,7 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel-session.h>
-#include <shell/e-shell-module.h>
+#include <shell/e-shell-backend.h>
 
 G_BEGIN_DECLS
 
@@ -39,7 +39,7 @@ void		mail_receive_uri		(const gchar *uri,
 void            mail_send                       (void);
 
 /* setup auto receive stuff */
-void		mail_autoreceive_init		(EShellModule *shell_module,
+void		mail_autoreceive_init		(EShellBackend *shell_backend,
 						 CamelSession *session);
 
 G_END_DECLS

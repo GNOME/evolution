@@ -36,7 +36,6 @@
 #include <glib.h>
 #include <glib/gstdio.h>
 
-#include <gmodule.h>
 #include <glib/gi18n.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-store.h>
@@ -49,7 +48,7 @@
 
 #include "mail/mail-mt.h"
 #include "mail/mail-tools.h"
-#include "mail/e-mail-shell-module.h"
+#include "mail/e-mail-shell-backend.h"
 
 #include "mail-importer.h"
 
@@ -203,8 +202,8 @@ import_mbox_exec (struct _import_mbox_msg *m)
 	}
 
 	if (m->uri == NULL || m->uri[0] == 0)
-		folder = e_mail_shell_module_get_folder (
-			mail_shell_module, E_MAIL_FOLDER_INBOX);
+		folder = e_mail_shell_backend_get_folder (
+			global_mail_shell_backend, E_MAIL_FOLDER_INBOX);
 	else
 		folder = mail_tool_uri_to_folder(m->uri, CAMEL_STORE_FOLDER_CREATE, &m->base.ex);
 
@@ -369,7 +368,7 @@ import_folders_rec(struct _import_folders_data *m, const char *filepath, const c
  	if (dir == NULL)
 		return;
 
-	data_dir = e_shell_module_get_data_dir (mail_shell_module);
+	data_dir = e_shell_backend_get_data_dir (global_mail_shell_backend);
 
 	utf8_filename = g_filename_to_utf8 (filepath, -1, NULL, NULL, NULL);
 	camel_operation_start(NULL, _("Scanning %s"), utf8_filename);

@@ -73,7 +73,7 @@
 #include "em-folder-properties.h"
 #include "em-event.h"
 
-#include "e-mail-shell-module.h"
+#include "e-mail-shell-backend.h"
 
 #define d(x)
 
@@ -502,14 +502,15 @@ em_folder_tree_construct (EMFolderTree *emft, EMFolderTreeModel *model)
 }
 
 GtkWidget *
-em_folder_tree_new (EShellModule *shell_module)
+em_folder_tree_new (EMailShellBackend *mail_shell_backend)
 {
 	EMFolderTreeModel *model;
 	EMFolderTree *emft;
 
-	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), NULL);
+	g_return_val_if_fail (
+		E_IS_MAIL_SHELL_BACKEND (mail_shell_backend), NULL);
 
-	model = e_mail_shell_module_get_folder_tree_model (shell_module);
+	model = e_mail_shell_backend_get_folder_tree_model (mail_shell_backend);
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
 	g_object_unref (model);
 
@@ -543,7 +544,7 @@ emft_expand_node (EMFolderTreeModel *model, const char *key, EMFolderTree *emft)
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	struct _EMFolderTreeModelStoreInfo *si;
 	extern CamelStore *vfolder_store;
-	EShellModule *shell_module;
+	EMailShellBackend *mail_shell_backend;
 	GtkTreeRowReference *row;
 	GtkTreeView *tree_view;
 	GtkTreePath *path;
@@ -564,7 +565,7 @@ emft_expand_node (EMFolderTreeModel *model, const char *key, EMFolderTree *emft)
 	uid[n] = '\0';
 
 	tree_view = GTK_TREE_VIEW (emft);
-	shell_module = em_folder_tree_model_get_shell_module (model);
+	mail_shell_backend = em_folder_tree_model_get_mail_shell_backend (model);
 
 	if ((account = e_get_account_by_uid (uid)) && account->enabled) {
 		CamelException ex;
@@ -581,7 +582,7 @@ emft_expand_node (EMFolderTreeModel *model, const char *key, EMFolderTree *emft)
 
 		camel_object_ref (store);
 	} else if (!strcmp (uid, "local")) {
-		if (!(store = e_mail_shell_module_get_local_store (shell_module)))
+		if (!(store = e_mail_shell_backend_get_local_store (mail_shell_backend)))
 			return;
 
 		camel_object_ref (store);
@@ -1052,7 +1053,7 @@ emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
 	struct _EMFolderTreePrivate *p = emft->priv;
 	char *full_name = NULL, *uri = NULL, *src_uri = NULL;
 	CamelStore *local, *sstore, *dstore;
-	EShellModule *shell_module;
+	EMailShellBackend *mail_shell_backend;
 	GdkAtom atom = GDK_NONE;
 	gboolean is_store;
 	GtkTreeIter iter;
@@ -1070,8 +1071,8 @@ emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
 			   COL_POINTER_CAMEL_STORE, &dstore,
 			   COL_STRING_URI, &uri, -1);
 
-	shell_module = em_folder_tree_model_get_shell_module (p->model);
-	local = e_mail_shell_module_get_local_store (shell_module);
+	mail_shell_backend = em_folder_tree_model_get_mail_shell_backend (p->model);
+	local = e_mail_shell_backend_get_local_store (mail_shell_backend);
 
 	targets = context->targets;
 

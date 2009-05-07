@@ -39,7 +39,7 @@
 
 #include "mail/e-mail-browser.h"
 #include "mail/e-mail-reader-utils.h"
-#include "mail/e-mail-shell-module.h"
+#include "mail/e-mail-shell-backend.h"
 #include "mail/em-composer-utils.h"
 #include "mail/em-event.h"
 #include "mail/em-folder-selector.h"
@@ -146,7 +146,7 @@ static void
 action_mail_copy_cb (GtkAction *action,
                      EMailReader *reader)
 {
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	MessageList *message_list;
 	EMFolderTreeModel *model;
 	CamelFolder *folder;
@@ -156,8 +156,8 @@ action_mail_copy_cb (GtkAction *action,
 	const gchar *uri;
 
 	message_list = e_mail_reader_get_message_list (reader);
-	shell_module = e_mail_reader_get_shell_module (reader);
-	model = e_mail_shell_module_get_folder_tree_model (shell_module);
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+	model = e_mail_shell_backend_get_folder_tree_model (shell_backend);
 
 	folder_tree = em_folder_tree_new_with_model (model);
 	selected = message_list_get_selected (message_list);
@@ -566,7 +566,7 @@ static void
 action_mail_move_cb (GtkAction *action,
                      EMailReader *reader)
 {
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	MessageList *message_list;
 	EMFolderTreeModel *model;
 	CamelFolder *folder;
@@ -576,8 +576,8 @@ action_mail_move_cb (GtkAction *action,
 	const gchar *uri;
 
 	message_list = e_mail_reader_get_message_list (reader);
-	shell_module = e_mail_reader_get_shell_module (reader);
-	model = e_mail_shell_module_get_folder_tree_model (shell_module);
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+	model = e_mail_shell_backend_get_folder_tree_model (shell_backend);
 
 	folder_tree = em_folder_tree_new_with_model (model);
 	selected = message_list_get_selected (message_list);
@@ -900,7 +900,7 @@ action_mail_show_source_cb (GtkAction *action,
                             EMailReader *reader)
 {
 	EMFormatHTMLDisplay *html_display;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	MessageList *message_list;
 	CamelFolder *folder;
 	GtkWidget *browser;
@@ -908,14 +908,14 @@ action_mail_show_source_cb (GtkAction *action,
 	const gchar *folder_uri;
 
 	message_list = e_mail_reader_get_message_list (reader);
-	shell_module = e_mail_reader_get_shell_module (reader);
+	shell_backend = e_mail_reader_get_shell_backend (reader);
 
 	folder = message_list->folder;
 	folder_uri = message_list->folder_uri;
 	uids = message_list_get_selected (message_list);
 	g_return_if_fail (uids->len > 0);
 
-	browser = e_mail_browser_new (shell_module);
+	browser = e_mail_browser_new (shell_backend);
 	reader = E_MAIL_READER (browser);
 	html_display = e_mail_reader_get_html_display (reader);
 	em_format_set_mode (EM_FORMAT (html_display), EM_FORMAT_SOURCE);
@@ -1767,7 +1767,7 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	EMailReader *reader = user_data;
 	EMFormatHTMLDisplay *html_display;
 	MessageList *message_list;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	EShellSettings *shell_settings;
 	EShell *shell;
 	EMEvent *event;
@@ -1778,8 +1778,8 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 	html_display = e_mail_reader_get_html_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
 
-	shell_module = e_mail_reader_get_shell_module (reader);
-	shell = e_shell_module_get_shell (shell_module);
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	/* If the user picked a different message in the time it took
@@ -2039,7 +2039,7 @@ void
 e_mail_reader_init (EMailReader *reader)
 {
 	EShell *shell;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	EShellSettings *shell_settings;
 	EMFormatHTMLDisplay *html_display;
 	GtkActionGroup *action_group;
@@ -2055,9 +2055,9 @@ e_mail_reader_init (EMailReader *reader)
 	action_group = e_mail_reader_get_action_group (reader);
 	html_display = e_mail_reader_get_html_display (reader);
 	message_list = e_mail_reader_get_message_list (reader);
-	shell_module = e_mail_reader_get_shell_module (reader);
+	shell_backend = e_mail_reader_get_shell_backend (reader);
 
-	shell = e_shell_module_get_shell (shell_module);
+	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	html = EM_FORMAT_HTML (html_display)->html;
@@ -2343,7 +2343,7 @@ void
 e_mail_reader_update_actions (EMailReader *reader)
 {
 	EShell *shell;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	EShellSettings *shell_settings;
 	GtkAction *action;
 	GtkActionGroup *action_group;
@@ -2374,8 +2374,8 @@ e_mail_reader_update_actions (EMailReader *reader)
 	action_group = e_mail_reader_get_action_group (reader);
 	state = e_mail_reader_check_state (reader);
 
-	shell_module = e_mail_reader_get_shell_module (reader);
-	shell = e_shell_module_get_shell (shell_module);
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	disable_printing = e_shell_settings_get_boolean (
@@ -2673,17 +2673,17 @@ e_mail_reader_get_message_list (EMailReader *reader)
 	return iface->get_message_list (reader);
 }
 
-EShellModule *
-e_mail_reader_get_shell_module (EMailReader *reader)
+EShellBackend *
+e_mail_reader_get_shell_backend (EMailReader *reader)
 {
 	EMailReaderIface *iface;
 
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), NULL);
 
 	iface = E_MAIL_READER_GET_IFACE (reader);
-	g_return_val_if_fail (iface->get_shell_module != NULL, NULL);
+	g_return_val_if_fail (iface->get_shell_backend != NULL, NULL);
 
-	return iface->get_shell_module (reader);
+	return iface->get_shell_backend (reader);
 }
 
 GtkWindow *

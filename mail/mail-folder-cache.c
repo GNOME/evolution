@@ -56,7 +56,6 @@
 #include "mail-ops.h"
 #include "mail-session.h"
 #include "mail-tools.h"
-#include "e-mail-shell-module.h"
 
 /* For notifications of changes */
 #include "mail-vfolder.h"
@@ -110,7 +109,7 @@ struct _folder_update {
 };
 
 struct _store_info {
-	EShellModule *shell_module;
+	EMailShellBackend *mail_shell_backend;
 
 	GHashTable *folders;	/* by full_name */
 	GHashTable *folders_uri; /* by uri */
@@ -152,14 +151,14 @@ free_update(struct _folder_update *up)
 }
 
 static void
-real_flush_updates (EShellModule *shell_module)
+real_flush_updates (EMailShellBackend *mail_shell_backend)
 {
 	EShell *shell;
 	struct _EMFolderTreeModel *model;
 	struct _folder_update *up;
 
-	shell = e_shell_module_get_shell (shell_module);
-	model = e_mail_shell_module_get_folder_tree_model (shell_module);
+	shell = e_shell_backend_get_shell (E_SHELL_BACKEND (mail_shell_backend));
+	model = e_mail_shell_backend_get_folder_tree_model (mail_shell_backend);
 
 	LOCK(info_lock);
 	while ((up = (struct _folder_update *)e_dlist_remhead(&updates))) {
@@ -233,13 +232,13 @@ real_flush_updates (EShellModule *shell_module)
 }
 
 static void
-flush_updates (EShellModule *shell_module)
+flush_updates (EMailShellBackend *shell_backend)
 {
 	if (update_id == -1 && !e_dlist_empty(&updates))
 		update_id = mail_async_event_emit (
 			mail_async_event, MAIL_ASYNC_GUI,
 			(MailAsyncFunc) real_flush_updates,
-			shell_module, NULL, NULL);
+			shell_backend, NULL, NULL);
 }
 
 static void
@@ -252,7 +251,7 @@ unset_folder_info(struct _folder_info *mfi, int delete, int unsub)
 	if (mfi->folder) {
 		CamelFolder *folder = mfi->folder;
 
-		camel_object_unhook_event(folder, "folder_changed", folder_changed, mfi->store_info->shell_module);
+		camel_object_unhook_event(folder, "folder_changed", folder_changed, mfi->store_info->mail_shell_backend);
 		camel_object_unhook_event(folder, "renamed", folder_renamed, NULL);
 		camel_object_unhook_event(folder, "finalize", folder_finalised, NULL);
 	}
@@ -269,7 +268,7 @@ unset_folder_info(struct _folder_info *mfi, int delete, int unsub)
 		up->uri = g_strdup(mfi->uri);
 
 		e_dlist_addtail(&updates, (EDListNode *)up);
-		flush_updates(mfi->store_info->shell_module);
+		flush_updates(mfi->store_info->mail_shell_backend);
 	}
 }
 
@@ -307,7 +306,7 @@ static void
 update_1folder(struct _folder_info *mfi, int new, CamelFolderInfo *info)
 {
 	struct _folder_update *up;
-	EShellModule *shell_module;
+	EMailShellBackend *mail_shell_backend;
 	CamelFolder *folder;
 	CamelFolder *local_drafts;
 	CamelFolder *local_outbox;
@@ -315,13 +314,13 @@ update_1folder(struct _folder_info *mfi, int new, CamelFolderInfo *info)
 	int unread = -1;
 	int deleted;
 
-	shell_module = mfi->store_info->shell_module;
-	local_drafts = e_mail_shell_module_get_folder (
-		shell_module, E_MAIL_FOLDER_DRAFTS);
-	local_outbox = e_mail_shell_module_get_folder (
-		shell_module, E_MAIL_FOLDER_OUTBOX);
-	local_sent = e_mail_shell_module_get_folder (
-		shell_module, E_MAIL_FOLDER_SENT);
+	mail_shell_backend = mfi->store_info->mail_shell_backend;
+	local_drafts = e_mail_shell_backend_get_folder (
+		mail_shell_backend, E_MAIL_FOLDER_DRAFTS);
+	local_outbox = e_mail_shell_backend_get_folder (
+		mail_shell_backend, E_MAIL_FOLDER_OUTBOX);
+	local_sent = e_mail_shell_backend_get_folder (
+		mail_shell_backend, E_MAIL_FOLDER_SENT);
 
 	folder = mfi->folder;
 	if (folder) {
@@ -366,7 +365,7 @@ update_1folder(struct _folder_info *mfi, int new, CamelFolderInfo *info)
 	up->uri = g_strdup(mfi->uri);
 	camel_object_ref(up->store);
 	e_dlist_addtail(&updates, (EDListNode *)up);
-	flush_updates(shell_module);
+	flush_updates(mail_shell_backend);
 }
 
 static void
@@ -400,7 +399,7 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 			up->add = TRUE;
 
 		e_dlist_addtail(&updates, (EDListNode *)up);
-		flush_updates(si->shell_module);
+		flush_updates(si->mail_shell_backend);
 	}
 }
 
@@ -423,7 +422,7 @@ static void
 folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 {
 	static time_t last_newmail = 0;
-	EShellModule *shell_module = user_data;
+	EMailShellBackend *mail_shell_backend = user_data;
 	CamelFolderChangeInfo *changes = event_data;
 	CamelFolder *folder = (CamelFolder *)o;
 	CamelFolder *local_drafts;
@@ -439,12 +438,12 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 
 	d(printf("folder '%s' changed\n", folder->full_name));
 
-	local_drafts = e_mail_shell_module_get_folder (
-		shell_module, E_MAIL_FOLDER_DRAFTS);
-	local_outbox = e_mail_shell_module_get_folder (
-		shell_module, E_MAIL_FOLDER_OUTBOX);
-	local_sent = e_mail_shell_module_get_folder (
-		shell_module, E_MAIL_FOLDER_SENT);
+	local_drafts = e_mail_shell_backend_get_folder (
+		mail_shell_backend, E_MAIL_FOLDER_DRAFTS);
+	local_outbox = e_mail_shell_backend_get_folder (
+		mail_shell_backend, E_MAIL_FOLDER_OUTBOX);
+	local_sent = e_mail_shell_backend_get_folder (
+		mail_shell_backend, E_MAIL_FOLDER_SENT);
 
 	if (!CAMEL_IS_VEE_FOLDER(folder)
 	    && folder != local_drafts
@@ -541,7 +540,7 @@ void mail_note_folder(CamelFolder *folder)
 
 	UNLOCK(info_lock);
 
-	camel_object_hook_event(folder, "folder_changed", folder_changed, si->shell_module);
+	camel_object_hook_event(folder, "folder_changed", folder_changed, si->mail_shell_backend);
 	camel_object_hook_event(folder, "renamed", folder_renamed, NULL);
 	camel_object_hook_event(folder, "finalize", folder_finalised, NULL);
 }
@@ -634,6 +633,7 @@ folder_to_url(CamelStore *store, const char *full_name)
 static void
 rename_folders(struct _store_info *si, const char *oldbase, const char *newbase, CamelFolderInfo *fi)
 {
+	EShellBackend *shell_backend;
 	char *old, *olduri, *oldfile, *newuri, *newfile;
 	struct _folder_info *mfi;
 	struct _folder_update *up;
@@ -684,7 +684,7 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 		up->add = TRUE;
 
 	e_dlist_addtail(&updates, (EDListNode *)up);
-	flush_updates(si->shell_module);
+	flush_updates(si->mail_shell_backend);
 #if 0
 	if (fi->sibling)
 		rename_folders(si, oldbase, newbase, fi->sibling, folders);
@@ -693,7 +693,8 @@ rename_folders(struct _store_info *si, const char *oldbase, const char *newbase,
 #endif
 
 	/* rename the meta-data we maintain ourselves */
-	config_dir = e_shell_module_get_config_dir (si->shell_module);
+	shell_backend = E_SHELL_BACKEND (si->mail_shell_backend);
+	config_dir = e_shell_backend_get_config_dir (shell_backend);
 	olduri = folder_to_url(si->store, old);
 	e_filename_make_safe(olduri);
 	newuri = folder_to_url(si->store, fi->full_name);
@@ -808,7 +809,7 @@ mail_note_store_remove(CamelStore *store)
 	if (si) {
 		g_hash_table_remove(stores, store);
 
-		g_object_unref(si->shell_module);
+		g_object_unref(si->mail_shell_backend);
 
 		camel_object_unhook_event(store, "folder_opened", store_folder_opened, NULL);
 		camel_object_unhook_event(store, "folder_created", store_folder_created, NULL);
@@ -962,7 +963,7 @@ store_online_cb (CamelStore *store, void *data)
 }
 
 void
-mail_note_store(EShellModule *shell_module, CamelStore *store, CamelOperation *op,
+mail_note_store(EMailShellBackend *mail_shell_backend, CamelStore *store, CamelOperation *op,
 		gboolean (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data)
 {
 	struct _store_info *si;
@@ -971,7 +972,7 @@ mail_note_store(EShellModule *shell_module, CamelStore *store, CamelOperation *o
 	guint timeout;
 	int hook = 0;
 
-	g_return_if_fail (E_IS_SHELL_MODULE (shell_module));
+	g_return_if_fail (E_IS_MAIL_SHELL_BACKEND (mail_shell_backend));
 	g_return_if_fail (CAMEL_IS_STORE(store));
 	g_return_if_fail (mail_in_main_thread());
 
@@ -991,7 +992,7 @@ mail_note_store(EShellModule *shell_module, CamelStore *store, CamelOperation *o
 		d(printf("Noting a new store: %p: %s\n", store, camel_url_to_string(((CamelService *)store)->url, 0)));
 
 		si = g_malloc0(sizeof(*si));
-		si->shell_module = g_object_ref (shell_module);
+		si->mail_shell_backend = g_object_ref (mail_shell_backend);
 		si->folders = g_hash_table_new(g_str_hash, g_str_equal);
 		si->folders_uri = g_hash_table_new(CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->hash_folder_name,
 						   CAMEL_STORE_CLASS(CAMEL_OBJECT_GET_CLASS(store))->compare_folder_name);

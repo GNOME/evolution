@@ -58,7 +58,7 @@
 #include "mail-tools.h"
 #include "mail-vfolder.h"
 
-#include "e-mail-shell-module.h"
+#include "e-mail-shell-backend.h"
 
 /* **************************************** */
 
@@ -107,6 +107,7 @@ mail_tool_get_trash (const gchar *url, int connect, CamelException *ex)
 static char *
 mail_tool_get_local_movemail_path (const unsigned char *uri, CamelException *ex)
 {
+	EShellBackend *shell_backend;
 	unsigned char *safe_uri, *c;
 	const gchar *data_dir;
 	char *path, *full;
@@ -117,7 +118,8 @@ mail_tool_get_local_movemail_path (const unsigned char *uri, CamelException *ex)
 		if (strchr("/:;=|%&#!*^()\\, ", *c) || !isprint((int) *c))
 			*c = '_';
 
-	data_dir = e_shell_module_get_data_dir (mail_shell_module);
+	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
 	path = g_build_filename (data_dir, "spool", NULL);
 
 	if (g_stat(path, &st) == -1 && g_mkdir_with_parents(path, 0777) == -1) {

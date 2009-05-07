@@ -40,7 +40,7 @@
 
 #include <camel/camel-exception.h>
 
-#include "mail/e-mail-shell-module.h"
+#include "mail/e-mail-shell-backend.h"
 #include "mail/em-folder-selection-button.h"
 #include "mail/mail-mt.h"
 
@@ -75,9 +75,10 @@ mbox_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 	EMFolderTreeModel *model;
 	const gchar *local_inbox_folder_uri;
 
-	local_inbox_folder_uri = e_mail_shell_module_get_folder_uri (
-		mail_shell_module, E_MAIL_FOLDER_INBOX);
-	model = e_mail_shell_module_get_folder_tree_model (mail_shell_module);
+	local_inbox_folder_uri = e_mail_shell_backend_get_folder_uri (
+		global_mail_shell_backend, E_MAIL_FOLDER_INBOX);
+	model = e_mail_shell_backend_get_folder_tree_model (
+		global_mail_shell_backend);
 
 	hbox = gtk_hbox_new(FALSE, 0);
 

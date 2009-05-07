@@ -113,7 +113,7 @@ struct _MLSelection {
 struct _MessageListPrivate {
 	GtkWidget *invisible;	/* 4 selection */
 
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 
 	struct _MLSelection clipboard;
 	gboolean destroyed;
@@ -1242,7 +1242,7 @@ get_all_labels (MessageList *message_list,
                 gboolean get_tags)
 {
 	EShell *shell;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	EShellSettings *shell_settings;
 	EMailLabelListStore *store;
 	GtkTreeIter iter;
@@ -1253,8 +1253,8 @@ get_all_labels (MessageList *message_list,
 	int count = 0;
 	const CamelFlag *flag;
 
-	shell_module = message_list_get_shell_module (message_list);
-	shell = e_shell_module_get_shell (shell_module);
+	shell_backend = message_list_get_shell_backend (message_list);
+	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	property_name = "mail-label-list-store";
@@ -1318,7 +1318,7 @@ get_label_color (MessageList *message_list,
                  const gchar *tag)
 {
 	EShell *shell;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	EShellSettings *shell_settings;
 	EMailLabelListStore *store;
 	GtkTreeIter iter;
@@ -1330,8 +1330,8 @@ get_label_color (MessageList *message_list,
 	/* FIXME get_all_labels() should return an array of tree iterators,
 	 *       not strings.  Now we just have to lookup the tag again. */
 
-	shell_module = message_list_get_shell_module (message_list);
-	shell = e_shell_module_get_shell (shell_module);
+	shell_backend = message_list_get_shell_backend (message_list);
+	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	property_name = "mail-label-list-store";
@@ -2327,12 +2327,12 @@ on_model_row_changed (ETableModel *model, int row, MessageList *ml)
  */
 
 static void
-message_list_set_shell_module (MessageList *message_list,
-                               EShellModule *shell_module)
+message_list_set_shell_backend (MessageList *message_list,
+                               EShellBackend *shell_backend)
 {
-	g_return_if_fail (message_list->priv->shell_module == NULL);
+	g_return_if_fail (message_list->priv->shell_backend == NULL);
 
-	message_list->priv->shell_module = g_object_ref (shell_module);
+	message_list->priv->shell_backend = g_object_ref (shell_backend);
 }
 
 static void
@@ -2457,7 +2457,7 @@ message_list_set_property (GObject *object,
 {
 	switch (property_id) {
 		case PROP_SHELL_MODULE:
-			message_list_set_shell_module (
+			message_list_set_shell_backend (
 				MESSAGE_LIST (object),
 				g_value_get_object (value));
 			return;
@@ -2475,7 +2475,7 @@ message_list_get_property (GObject *object,
 	switch (property_id) {
 		case PROP_SHELL_MODULE:
 			g_value_set_object (
-				value, message_list_get_shell_module (
+				value, message_list_get_shell_backend (
 				MESSAGE_LIST (object)));
 			return;
 	}
@@ -2490,9 +2490,9 @@ message_list_dispose (GObject *object)
 
 	priv = MESSAGE_LIST_GET_PRIVATE (object);
 
-	if (priv->shell_module != NULL) {
-		g_object_unref (priv->shell_module);
-		priv->shell_module = NULL;
+	if (priv->shell_backend != NULL) {
+		g_object_unref (priv->shell_backend);
+		priv->shell_backend = NULL;
 	}
 
 	/* Chain up to parent's dispose() method. */
@@ -2567,10 +2567,10 @@ message_list_class_init (MessageListClass *class)
 		object_class,
 		PROP_SHELL_MODULE,
 		g_param_spec_object (
-			"shell-module",
-			_("Shell Module"),
-			_("The mail shell module"),
-			E_TYPE_SHELL_MODULE,
+			"shell-backend",
+			_("Shell Backend"),
+			_("The mail shell backend"),
+			E_TYPE_SHELL_BACKEND,
 			G_PARAM_READWRITE |
 			G_PARAM_CONSTRUCT_ONLY));
 
@@ -2725,28 +2725,28 @@ message_list_construct (MessageList *message_list)
  * Returns a new message-list widget.
  **/
 GtkWidget *
-message_list_new (EShellModule *shell_module)
+message_list_new (EShellBackend *shell_backend)
 {
 	MessageList *message_list;
 
-	g_return_val_if_fail (E_IS_SHELL_MODULE (shell_module), NULL);
+	g_return_val_if_fail (E_IS_SHELL_BACKEND (shell_backend), NULL);
 
 	message_list = MESSAGE_LIST (g_object_new(message_list_get_type (),
 						  "hadjustment", NULL,
 						  "vadjustment", NULL,
-						  "shell-module", shell_module,
+						  "shell-backend", shell_backend,
 						  NULL));
 	message_list_construct (message_list);
 
 	return GTK_WIDGET (message_list);
 }
 
-EShellModule *
-message_list_get_shell_module (MessageList *message_list)
+EShellBackend *
+message_list_get_shell_backend (MessageList *message_list)
 {
 	g_return_val_if_fail (IS_MESSAGE_LIST (message_list), NULL);
 
-	return message_list->priv->shell_module;
+	return message_list->priv->shell_backend;
 }
 
 static void

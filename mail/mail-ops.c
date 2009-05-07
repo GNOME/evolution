@@ -69,7 +69,7 @@
 #include "mail-tools.h"
 #include "mail-vfolder.h"
 
-#include "e-mail-shell-module.h"
+#include "e-mail-shell-backend.h"
 
 #define w(x)
 #define d(x)
@@ -244,8 +244,11 @@ static char *
 uid_cachename_hack (CamelStore *store)
 {
 	CamelURL *url = CAMEL_SERVICE (store)->url;
+	EShellBackend *shell_backend;
 	char *encoded_url, *filename;
 	const gchar *data_dir;
+
+	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
 
 	encoded_url = g_strdup_printf ("%s%s%s@%s", url->user,
 				       url->authmech ? ";auth=" : "",
@@ -253,7 +256,7 @@ uid_cachename_hack (CamelStore *store)
 				       url->host);
 	e_filename_make_safe (encoded_url);
 
-	data_dir = e_shell_module_get_data_dir (mail_shell_module);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
 	filename = g_build_filename (data_dir, "pop", encoded_url, "uid-cache", NULL);
 	g_free (encoded_url);
 
@@ -275,8 +278,8 @@ fetch_mail_exec (struct _fetch_mail_msg *m)
 	if (m->cancel)
 		camel_operation_register (m->cancel);
 
-	fm->destination = e_mail_shell_module_get_folder (
-		mail_shell_module, E_MAIL_FOLDER_LOCAL_INBOX);
+	fm->destination = e_mail_shell_backend_get_folder (
+		global_mail_shell_backend, E_MAIL_FOLDER_LOCAL_INBOX);
 	if (fm->destination == NULL)
 		goto fail;
 	camel_object_ref (fm->destination);
@@ -581,8 +584,8 @@ mail_send_message(CamelFolder *queue, const char *uid, const char *destination, 
 		}
 
 		if (!folder) {
-			folder = e_mail_shell_module_get_folder (
-				mail_shell_module, E_MAIL_FOLDER_SENT);
+			folder = e_mail_shell_backend_get_folder (
+				global_mail_shell_backend, E_MAIL_FOLDER_SENT);
 			camel_object_ref(folder);
 		}
 
@@ -595,8 +598,8 @@ mail_send_message(CamelFolder *queue, const char *uid, const char *destination, 
 			if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_USER_CANCEL)
 				goto exit;
 
-			sent_folder = e_mail_shell_module_get_folder (
-				mail_shell_module, E_MAIL_FOLDER_SENT);
+			sent_folder = e_mail_shell_backend_get_folder (
+				global_mail_shell_backend, E_MAIL_FOLDER_SENT);
 
 			if (folder != sent_folder) {
 				const char *name;
@@ -698,8 +701,8 @@ send_queue_exec (struct _send_queue_msg *m)
 
 	d(printf("sending queue\n"));
 
-	sent_folder = e_mail_shell_module_get_folder (
-		mail_shell_module, E_MAIL_FOLDER_SENT);
+	sent_folder = e_mail_shell_backend_get_folder (
+		global_mail_shell_backend, E_MAIL_FOLDER_SENT);
 
 	if (!(uids = camel_folder_get_uids (m->queue)))
 		return;
@@ -1761,14 +1764,17 @@ empty_trash_desc (struct _empty_trash_msg *m)
 static void
 empty_trash_exec (struct _empty_trash_msg *m)
 {
+	EShellBackend *shell_backend;
 	const gchar *data_dir;
 	CamelFolder *trash;
 	char *uri;
 
+	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
+
 	if (m->account) {
 		trash = mail_tool_get_trash (m->account->source->url, FALSE, &m->base.ex);
 	} else {
-		data_dir = e_shell_module_get_data_dir (mail_shell_module);
+		data_dir = e_shell_backend_get_data_dir (shell_backend);
 		uri = g_strdup_printf ("mbox:%s/local", data_dir);
 		trash = mail_tool_get_trash (uri, TRUE, &m->base.ex);
 		g_free (uri);

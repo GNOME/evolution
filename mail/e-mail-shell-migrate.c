@@ -1,5 +1,5 @@
 /*
- * e-mail-shell-module-migrate.c
+ * e-mail-shell-migrate.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,7 +19,7 @@
  *
  */
 
-#include "e-mail-shell-module-migrate.h"
+#include "e-mail-shell-migrate.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -62,7 +62,7 @@
 #include "e-util/e-plugin.h"
 #include "e-util/e-signature-utils.h"
 
-#include "e-mail-shell-module.h"
+#include "e-mail-shell-backend.h"
 #include "shell/e-shell-migrate.h"
 
 #include "mail-config.h"
@@ -2781,7 +2781,7 @@ migrate_folders(CamelStore *store, CamelFolderInfo *fi, const char *acc, CamelEx
 }
 
 static CamelStore *
-setup_local_store (EShellModule *shell_module,
+setup_local_store (EShellBackend *shell_backend,
                    EMMigrateSession *session)
 {
 	CamelURL *url;
@@ -2790,7 +2790,7 @@ setup_local_store (EShellModule *shell_module,
 	CamelStore *store;
 
 	url = camel_url_new("mbox:", NULL);
-	data_dir = e_shell_module_get_data_dir (shell_module);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
 	tmp = g_build_filename (data_dir, "local", NULL);
 	camel_url_set_path(url, tmp);
 	g_free(tmp);
@@ -2802,7 +2802,7 @@ setup_local_store (EShellModule *shell_module,
 
 }
 static void
-migrate_to_db (EShellModule *shell_module)
+migrate_to_db (EShellBackend *shell_backend)
 {
 	EMMigrateSession *session;
 	EAccountList *accounts;
@@ -2818,7 +2818,7 @@ migrate_to_db (EShellModule *shell_module)
 	iter = e_list_get_iterator ((EList *) accounts);
 	len = e_list_length ((EList *) accounts);
 
-	data_dir = e_shell_module_get_data_dir (shell_module);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
 	session = (EMMigrateSession *) em_migrate_session_new (data_dir);
 	camel_session_set_online ((CamelSession *) session, FALSE);
 	em_migrate_setup_progress_dialog (_("The summary format of the Evolution mailbox "
@@ -2826,7 +2826,7 @@ migrate_to_db (EShellModule *shell_module)
 			     "patient while Evolution migrates your folders..."));
 
 	em_migrate_set_progress ( (double)i/(len+1));
-	store = setup_local_store (shell_module, session);
+	store = setup_local_store (shell_backend, session);
 	info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, NULL);
 	if (info) {
 		migrate_folders(store, info, _("On This Computer"), NULL);
@@ -2852,8 +2852,8 @@ migrate_to_db (EShellModule *shell_module)
 			CamelException ex;
 
 			camel_exception_init (&ex);
-			e_mail_shell_module_load_store_by_uri (
-				shell_module, service->url, name);
+			e_mail_shell_backend_load_store_by_uri (
+				shell_backend, service->url, name);
 
 			store = (CamelStore *) camel_session_get_service (CAMEL_SESSION (session), service->url, CAMEL_PROVIDER_STORE, &ex);
 			info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, &ex);
@@ -2879,18 +2879,18 @@ migrate_to_db (EShellModule *shell_module)
 }
 
 gboolean
-e_mail_shell_module_migrate (EShellModule *shell_module,
-                             gint major,
-                             gint minor,
-                             gint micro,
-                             GError **error)
+e_mail_shell_backend_migrate (EShellBackend *shell_backend,
+                              gint major,
+                              gint minor,
+                              gint micro,
+                              GError **error)
 {
 	struct stat st;
 	const gchar *data_dir;
 	gchar *path;
 
 	/* make sure ~/.evolution/mail exists */
-	data_dir = e_shell_module_get_data_dir (shell_module);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
 	if (g_stat (data_dir, &st) == -1) {
 		if (errno != ENOENT || g_mkdir_with_parents (data_dir, 0777) == -1) {
 			g_set_error (
@@ -2981,7 +2981,7 @@ e_mail_shell_module_migrate (EShellModule *shell_module,
 
 	if (major < 2 || (major == 2 && minor < 24)) {
 		em_update_sa_junk_setting_2_23 ();
-		migrate_to_db (shell_module);
+		migrate_to_db (shell_backend);
 	}
 
 	return TRUE;

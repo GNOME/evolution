@@ -46,7 +46,7 @@ action_mail_account_disable_cb (GtkAction *action,
                                 EMailShellView *mail_shell_view)
 {
 	EMailShellSidebar *mail_shell_sidebar;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	EShellView *shell_view;
 	EMFolderTree *folder_tree;
 	EAccountList *account_list;
@@ -54,7 +54,7 @@ action_mail_account_disable_cb (GtkAction *action,
 	gchar *folder_uri;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_module = e_shell_view_get_shell_module (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
 	mail_shell_sidebar = mail_shell_view->priv->mail_shell_sidebar;
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);
@@ -70,7 +70,7 @@ action_mail_account_disable_cb (GtkAction *action,
 
 	account->enabled = !account->enabled;
 	e_account_list_change (account_list, account);
-	e_mail_shell_module_remove_store_by_uri (shell_module, folder_uri);
+	e_mail_shell_backend_remove_store_by_uri (shell_backend, folder_uri);
 
 	if (account->parent_uid != NULL)
 		e_account_list_remove (account_list, account);
@@ -101,13 +101,13 @@ action_mail_download_cb (GtkAction *action,
                          EMailShellView *mail_shell_view)
 {
 	EShellView *shell_view;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_module = e_shell_view_get_shell_module (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
-	e_mail_shell_module_stores_foreach (
-		shell_module, (GHFunc) action_mail_download_foreach_cb, NULL);
+	e_mail_shell_backend_stores_foreach (
+		shell_backend, (GHFunc) action_mail_download_foreach_cb, NULL);
 }
 
 static void

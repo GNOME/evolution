@@ -547,8 +547,8 @@ e_book_shell_backend_get_source_list (EBookShellBackend *book_shell_backend)
 void
 e_module_load (GTypeModule *type_module)
 {
-	e_book_shell_view_get_type (type_module);
 	e_book_shell_backend_get_type (type_module);
+	e_book_shell_view_get_type (type_module);
 }
 
 void

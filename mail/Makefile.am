@@ -57,14 +57,14 @@ libevolution_module_mail_la_SOURCES =			\
 	e-mail-reader-utils.h				\
 	e-mail-search-bar.c				\
 	e-mail-search-bar.h				\
-	e-mail-shell-module.c				\
-	e-mail-shell-module.h				\
-	e-mail-shell-module-migrate.c			\
-	e-mail-shell-module-migrate.h			\
-	e-mail-shell-module-settings.c			\
-	e-mail-shell-module-settings.h			\
+	e-mail-shell-backend.c				\
+	e-mail-shell-backend.h				\
 	e-mail-shell-content.c				\
 	e-mail-shell-content.h				\
+	e-mail-shell-migrate.c				\
+	e-mail-shell-migrate.h				\
+	e-mail-shell-settings.c				\
+	e-mail-shell-settings.h				\
 	e-mail-shell-sidebar.c				\
 	e-mail-shell-sidebar.h				\
 	e-mail-shell-view.c				\

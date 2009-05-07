@@ -570,7 +570,7 @@ em_composer_prefs_construct (EMComposerPrefs *prefs,
 	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
 
-	/* The mail shell module responds to the "window-created" signal
+	/* The mail shell backend responds to the "window-created" signal
 	 * that this triggers and configures it with composer preferences. */
 	g_signal_connect_swapped (
 		widget, "editor-created",

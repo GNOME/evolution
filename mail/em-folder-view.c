@@ -92,7 +92,7 @@
 #include "em-composer-utils.h"
 #include "em-menu.h"
 #include "em-event.h"
-#include "e-mail-shell-module.h"
+#include "e-mail-shell-backend.h"
 
 #include "mail-mt.h"
 #include "mail-ops.h"
@@ -603,7 +603,7 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 
 	e_profile_event_emit("goto.loaded", emfv->displayed_uid, 0);
 
-	shell = e_shell_module_get_shell (mail_shell_module);
+	shell = e_shell_backend_get_shell (mail_shell_backend);
 	e_shell_event (shell, "mail-icon", "evolution-mail");
 
 	/** @Event: message.reading

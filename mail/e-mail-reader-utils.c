@@ -62,7 +62,7 @@ gboolean
 e_mail_reader_confirm_delete (EMailReader *reader)
 {
 	EShell *shell;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	EShellSettings *shell_settings;
 	MessageList *message_list;
 	CamelFolder *folder;
@@ -81,8 +81,8 @@ e_mail_reader_confirm_delete (EMailReader *reader)
 	message_list = e_mail_reader_get_message_list (reader);
 	window = e_mail_reader_get_window (reader);
 
-	shell_module = e_mail_reader_get_shell_module (reader);
-	shell = e_shell_module_get_shell (shell_module);
+	shell_backend = e_mail_reader_get_shell_backend (reader);
+	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	folder = message_list->folder;
@@ -189,7 +189,7 @@ e_mail_reader_mark_selected (EMailReader *reader,
 guint
 e_mail_reader_open_selected (EMailReader *reader)
 {
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	MessageList *message_list;
 	CamelFolder *folder;
 	GtkWindow *window;
@@ -201,7 +201,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 	g_return_val_if_fail (E_IS_MAIL_READER (reader), 0);
 
 	message_list = e_mail_reader_get_message_list (reader);
-	shell_module = e_mail_reader_get_shell_module (reader);
+	shell_backend = e_mail_reader_get_shell_backend (reader);
 	window = e_mail_reader_get_window (reader);
 
 	folder = message_list->folder;
@@ -276,7 +276,7 @@ e_mail_reader_open_selected (EMailReader *reader)
 		const gchar *uid = views->pdata[ii];
 		GtkWidget *browser;
 
-		browser = e_mail_browser_new (shell_module);
+		browser = e_mail_browser_new (shell_backend);
 		e_mail_reader_set_folder (
 			E_MAIL_READER (browser), folder, folder_uri);
 		e_mail_reader_set_message (

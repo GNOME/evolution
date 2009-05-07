@@ -64,7 +64,7 @@
 #include "mail-mt.h"
 #include "mail-tools.h"
 
-#include "e-mail-shell-module.h"
+#include "e-mail-shell-backend.h"
 
 typedef struct {
 	GConfClient *gconf;
@@ -773,11 +773,13 @@ mail_config_get_default_transport (void)
 static char *
 uri_to_evname (const char *uri, const char *prefix)
 {
+	EShellBackend *shell_backend;
 	const gchar *data_dir;
 	char *safe;
 	char *tmp;
 
-	data_dir = e_shell_module_get_data_dir (mail_shell_module);
+	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
 
 	safe = g_strdup (uri);
 	e_filename_make_safe (safe);
@@ -855,10 +857,10 @@ mail_config_uri_deleted (GCompareFunc uri_cmp, const char *uri)
 	const gchar *local_sent_folder_uri;
 
 	/* assumes these can't be removed ... */
-	local_drafts_folder_uri = e_mail_shell_module_get_folder_uri (
-		mail_shell_module, E_MAIL_FOLDER_DRAFTS);
-	local_sent_folder_uri = e_mail_shell_module_get_folder_uri (
-		mail_shell_module, E_MAIL_FOLDER_SENT);
+	local_drafts_folder_uri = e_mail_shell_backend_get_folder_uri (
+		global_mail_shell_backend, E_MAIL_FOLDER_DRAFTS);
+	local_sent_folder_uri = e_mail_shell_backend_get_folder_uri (
+		global_mail_shell_backend, E_MAIL_FOLDER_SENT);
 
 	account_list = e_get_account_list ();
 	iter = e_list_get_iterator ((EList *) account_list);
@@ -905,10 +907,12 @@ mail_config_folder_to_safe_url (CamelFolder *folder)
 char *
 mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
 {
+	EShellBackend *shell_backend;
 	char *url, *basename, *filename;
 	const gchar *config_dir;
 
-	config_dir = e_shell_module_get_config_dir (mail_shell_module);
+	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
+	config_dir = e_shell_backend_get_config_dir (shell_backend);
 
 	url = mail_config_folder_to_safe_url (folder);
 	basename = g_strdup_printf ("%s%s", prefix, url);

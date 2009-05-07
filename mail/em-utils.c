@@ -80,7 +80,7 @@
 #include "em-account-editor.h"
 #include "e-attachment.h"
 
-#include "e-mail-shell-module.h"
+#include "e-mail-shell-backend.h"
 
 static void emu_save_part_done (CamelMimePart *part, char *name, int done, void *data);
 
@@ -261,7 +261,7 @@ em_filter_editor_response (GtkWidget *dialog, int button, gpointer user_data)
 		const gchar *data_dir;
 		char *user;
 
-		data_dir = e_shell_module_get_data_dir (mail_shell_module);
+		data_dir = e_shell_backend_get_data_dir (global_mail_shell_backend);
 		fc = g_object_get_data ((GObject *) dialog, "context");
 		user = g_strdup_printf ("%s/filters.xml", data_dir);
 		rule_context_save ((RuleContext *) fc, user);
@@ -299,7 +299,7 @@ em_utils_edit_filters (GtkWidget *parent)
 		return;
 	}
 
-	data_dir = e_shell_module_get_data_dir (mail_shell_module);
+	data_dir = e_shell_backend_get_data_dir (global_mail_shell_backend);
 
 	fc = em_filter_context_new ();
 	user = g_build_filename (data_dir, "filters.xml", NULL);
@@ -1396,8 +1396,8 @@ em_utils_folder_is_templates (CamelFolder *folder, const char *uri)
 	int is = FALSE;
 	char *templates_uri;
 
-	local_templates_folder = e_mail_shell_module_get_folder (
-		mail_shell_module, E_MAIL_FOLDER_TEMPLATES);
+	local_templates_folder = e_mail_shell_backend_get_folder (
+		global_mail_shell_backend, E_MAIL_FOLDER_TEMPLATES);
 
 	if (folder == local_templates_folder)
 		return TRUE;
@@ -1447,8 +1447,8 @@ em_utils_folder_is_drafts(CamelFolder *folder, const char *uri)
 	int is = FALSE;
 	char *drafts_uri;
 
-	local_drafts_folder = e_mail_shell_module_get_folder (
-		mail_shell_module, E_MAIL_FOLDER_DRAFTS);
+	local_drafts_folder = e_mail_shell_backend_get_folder (
+		global_mail_shell_backend, E_MAIL_FOLDER_DRAFTS);
 
 	if (folder == local_drafts_folder)
 		return TRUE;
@@ -1498,8 +1498,8 @@ em_utils_folder_is_sent(CamelFolder *folder, const char *uri)
 	int is = FALSE;
 	char *sent_uri;
 
-	local_sent_folder = e_mail_shell_module_get_folder (
-		mail_shell_module, E_MAIL_FOLDER_SENT);
+	local_sent_folder = e_mail_shell_backend_get_folder (
+		global_mail_shell_backend, E_MAIL_FOLDER_SENT);
 
 	if (folder == local_sent_folder)
 		return TRUE;
@@ -1544,8 +1544,8 @@ em_utils_folder_is_outbox(CamelFolder *folder, const char *uri)
 {
 	CamelFolder *local_outbox_folder;
 
-	local_outbox_folder = e_mail_shell_module_get_folder (
-		mail_shell_module, E_MAIL_FOLDER_OUTBOX);
+	local_outbox_folder = e_mail_shell_backend_get_folder (
+		global_mail_shell_backend, E_MAIL_FOLDER_OUTBOX);
 
 	/* <Highlander>There can be only one.</Highlander> */
 	return folder == local_outbox_folder;
@@ -2437,7 +2437,7 @@ em_utils_show_error_silent (GtkWidget *widget)
 	EActivity *activity;
 
 	activity = e_alert_activity_new_warning (widget);
-	e_shell_module_add_activity (mail_shell_module, activity);
+	e_shell_backend_add_activity (global_mail_shell_backend, activity);
 	g_object_unref (activity);
 
 	if (g_object_get_data (G_OBJECT (widget), "response-handled") == NULL)
@@ -2452,7 +2452,7 @@ em_utils_show_info_silent (GtkWidget *widget)
 	EActivity *activity;
 
 	activity = e_alert_activity_new_info (widget);
-	e_shell_module_add_activity (mail_shell_module, activity);
+	e_shell_backend_add_activity (global_mail_shell_backend, activity);
 	g_object_unref (activity);
 
 	if (g_object_get_data (G_OBJECT (widget), "response-handled") == NULL)

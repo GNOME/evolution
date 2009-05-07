@@ -743,7 +743,7 @@ void
 e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 {
 	EShellSidebar *shell_sidebar;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	EShellView *shell_view;
 	EMailReader *reader;
 	MessageList *message_list;
@@ -764,9 +764,9 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_module = e_shell_view_get_shell_module (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
-	local_store = e_mail_shell_module_get_local_store (shell_module);
+	local_store = e_mail_shell_backend_get_local_store (shell_backend);
 
 	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);

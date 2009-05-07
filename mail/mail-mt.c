@@ -43,7 +43,7 @@
 #include "mail-session.h"
 #include "mail-mt.h"
 
-#include "e-mail-shell-module.h"
+#include "e-mail-shell-backend.h"
 
 /*#define MALLOC_CHECK*/
 #define LOG_OPS
@@ -142,6 +142,10 @@ mail_msg_new (MailMsgInfo *info)
 static void
 end_event_callback (CamelObject *o, EActivity *activity, void *error)
 {
+	EShellBackend *shell_backend;
+
+	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
+
 	if (error == NULL) {
 		e_activity_complete (activity);
 		g_object_unref (activity);
@@ -149,7 +153,7 @@ end_event_callback (CamelObject *o, EActivity *activity, void *error)
 		if (activity != NULL)
 			g_object_unref (activity);
 		activity = e_alert_activity_new_warning (error);
-		e_shell_module_add_activity (mail_shell_module, activity);
+		e_shell_backend_add_activity (shell_backend, activity);
 		g_object_unref (activity);
 	}
 }
@@ -937,12 +941,15 @@ struct _op_status_msg {
 static void
 op_status_exec (struct _op_status_msg *m)
 {
+	EShellBackend *shell_backend;
 	MailMsg *msg;
 	MailMsgPrivate *data;
 	char *out, *p, *o, c;
 	int pc;
 
 	g_return_if_fail (mail_in_main_thread ());
+
+	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
 
 	MAIL_MT_LOCK (mail_msg_lock);
 
@@ -990,7 +997,7 @@ op_status_exec (struct _op_status_msg *m)
 			data->activity = e_activity_new (what);
 			e_activity_set_allow_cancel (data->activity, TRUE);
 			e_activity_set_percent (data->activity, 0.0);
-			e_shell_module_add_activity (mail_shell_module, data->activity);
+			e_shell_backend_add_activity (shell_backend, data->activity);
 
 			g_signal_connect_swapped (
 				data->activity, "cancelled",

@@ -26,7 +26,7 @@
 #include <camel/camel-folder.h>
 #include <mail/em-format-html-display.h>
 #include <mail/message-list.h>
-#include <shell/e-shell-module.h>
+#include <shell/e-shell-backend.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_READER \
@@ -86,7 +86,7 @@ struct _EMailReaderIface {
 	EMFormatHTMLDisplay *
 			(*get_html_display)	(EMailReader *reader);
 	MessageList *	(*get_message_list)	(EMailReader *reader);
-	EShellModule *	(*get_shell_module)	(EMailReader *reader);
+	EShellBackend *	(*get_shell_backend)	(EMailReader *reader);
 	GtkWindow *	(*get_window)		(EMailReader *reader);
 
 	void		(*set_folder)		(EMailReader *reader,
@@ -113,7 +113,7 @@ gboolean	e_mail_reader_get_hide_deleted	(EMailReader *reader);
 EMFormatHTMLDisplay *
 		e_mail_reader_get_html_display	(EMailReader *reader);
 MessageList *	e_mail_reader_get_message_list	(EMailReader *reader);
-EShellModule *	e_mail_reader_get_shell_module	(EMailReader *reader);
+EShellBackend *	e_mail_reader_get_shell_backend	(EMailReader *reader);
 GtkWindow *	e_mail_reader_get_window	(EMailReader *reader);
 void		e_mail_reader_set_folder	(EMailReader *reader,
 						 CamelFolder *folder,

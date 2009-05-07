@@ -1,5 +1,5 @@
 /*
- * e-mail-shell-module-settings.c
+ * e-mail-shell-settings.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,7 +19,7 @@
  *
  */
 
-#include "e-mail-shell-module-settings.h"
+#include "e-mail-shell-settings.h"
 
 #include <gconf/gconf-client.h>
 #include <libedataserver/e-account-list.h>
@@ -29,7 +29,7 @@
 #include "mail/mail-session.h"
 
 void
-e_mail_shell_module_init_settings (EShell *shell)
+e_mail_shell_settings_init (EShell *shell)
 {
 	EShellSettings *shell_settings;
 	gpointer object;

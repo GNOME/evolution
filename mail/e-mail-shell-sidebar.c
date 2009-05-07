@@ -27,7 +27,7 @@
 #include "em-utils.h"
 #include "em-folder-utils.h"
 
-#include "e-mail-shell-module.h"
+#include "e-mail-shell-backend.h"
 
 #define E_MAIL_SHELL_SIDEBAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -129,7 +129,7 @@ mail_shell_sidebar_constructed (GObject *object)
 {
 	EMailShellSidebarPrivate *priv;
 	EShellSidebar *shell_sidebar;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	EShellView *shell_view;
 	GtkTreeSelection *selection;
 	GtkTreeView *tree_view;
@@ -143,7 +143,7 @@ mail_shell_sidebar_constructed (GObject *object)
 
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_module = e_shell_view_get_shell_module (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
 	/* Build sidebar widgets. */
 
@@ -160,7 +160,7 @@ mail_shell_sidebar_constructed (GObject *object)
 
 	container = widget;
 
-	widget = em_folder_tree_new (shell_module);
+	widget = em_folder_tree_new (shell_backend);
 	em_folder_tree_set_excluded (EM_FOLDER_TREE (widget), 0);
 	em_folder_tree_enable_drag_and_drop (EM_FOLDER_TREE (widget));
 	gtk_container_add (GTK_CONTAINER (container), widget);
@@ -180,7 +180,7 @@ static guint32
 mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 {
 	EMailShellSidebar *mail_shell_sidebar;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	EShellView *shell_view;
 	EMFolderTree *folder_tree;
 	GtkTreeSelection *selection;
@@ -202,8 +202,8 @@ mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	guint32 state = 0;
 
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
-	shell_module = e_shell_view_get_shell_module (shell_view);
-	local_store = e_mail_shell_module_get_local_store (shell_module);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	local_store = e_mail_shell_backend_get_local_store (shell_backend);
 
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);

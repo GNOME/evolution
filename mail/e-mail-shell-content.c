@@ -37,7 +37,7 @@
 
 #include "e-mail-reader.h"
 #include "e-mail-search-bar.h"
-#include "e-mail-shell-module.h"
+#include "e-mail-shell-backend.h"
 #include "e-mail-shell-view-actions.h"
 
 #define E_MAIL_SHELL_CONTENT_GET_PRIVATE(obj) \
@@ -361,7 +361,7 @@ mail_shell_content_constructed (GObject *object)
 {
 	EMailShellContentPrivate *priv;
 	EShellContent *shell_content;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	EShellView *shell_view;
 	EShellViewClass *shell_view_class;
 	EMailReader *reader;
@@ -382,7 +382,7 @@ mail_shell_content_constructed (GObject *object)
 	shell_content = E_SHELL_CONTENT (object);
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_view_class = E_SHELL_VIEW_GET_CLASS (shell_view);
-	shell_module = e_shell_view_get_shell_module (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	view_collection = shell_view_class->view_collection;
 
 	html = EM_FORMAT_HTML (priv->html_display)->html;
@@ -398,7 +398,7 @@ mail_shell_content_constructed (GObject *object)
 
 	container = widget;
 
-	widget = message_list_new (shell_module);
+	widget = message_list_new (shell_backend);
 	gtk_paned_add1 (GTK_PANED (container), widget);
 	priv->message_list = g_object_ref (widget);
 	gtk_widget_show (widget);
@@ -507,8 +507,8 @@ mail_shell_content_get_message_list (EMailReader *reader)
 	return MESSAGE_LIST (priv->message_list);
 }
 
-static EShellModule *
-mail_shell_content_get_shell_module (EMailReader *reader)
+static EShellBackend *
+mail_shell_content_get_shell_backend (EMailReader *reader)
 {
 	EShellContent *shell_content;
 	EShellView *shell_view;
@@ -516,7 +516,7 @@ mail_shell_content_get_shell_module (EMailReader *reader)
 	shell_content = E_SHELL_CONTENT (reader);
 	shell_view = e_shell_content_get_shell_view (shell_content);
 
-	return e_shell_view_get_shell_module (shell_view);
+	return e_shell_view_get_shell_backend (shell_view);
 }
 
 static GtkWindow *
@@ -657,7 +657,7 @@ mail_shell_content_iface_init (EMailReaderIface *iface)
 	iface->get_hide_deleted = mail_shell_content_get_hide_deleted;
 	iface->get_html_display = mail_shell_content_get_html_display;
 	iface->get_message_list = mail_shell_content_get_message_list;
-	iface->get_shell_module = mail_shell_content_get_shell_module;
+	iface->get_shell_backend = mail_shell_content_get_shell_backend;
 	iface->get_window = mail_shell_content_get_window;
 	iface->set_folder = mail_shell_content_set_folder;
 	iface->show_search_bar = mail_shell_content_show_search_bar;

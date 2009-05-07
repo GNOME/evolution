@@ -50,7 +50,7 @@
 #include "e-util/e-account-utils.h"
 #include "e-util/gconf-bridge.h"
 
-#include "e-mail-shell-module.h"
+#include "e-mail-shell-backend.h"
 
 #define d(x)
 
@@ -164,8 +164,8 @@ setup_send_data(void)
 			g_str_hash, g_str_equal,
 			(GDestroyNotify) NULL,
 			(GDestroyNotify) free_folder_info);
-		data->inbox = e_mail_shell_module_get_folder (
-			mail_shell_module, E_MAIL_FOLDER_LOCAL_INBOX);
+		data->inbox = e_mail_shell_backend_get_folder (
+			global_mail_shell_backend, E_MAIL_FOLDER_LOCAL_INBOX);
 		camel_object_ref(data->inbox);
 		data->active = g_hash_table_new_full (
 			g_str_hash, g_str_equal,
@@ -692,8 +692,8 @@ receive_done (char *uri, void *data)
 	if (info->type == SEND_SEND && info->state == SEND_ACTIVE && info->again) {
 		CamelFolder *local_outbox_folder;
 
-		local_outbox_folder = e_mail_shell_module_get_folder (
-			mail_shell_module, E_MAIL_FOLDER_OUTBOX);
+		local_outbox_folder = e_mail_shell_backend_get_folder (
+			global_mail_shell_backend, E_MAIL_FOLDER_OUTBOX);
 
 		info->again = 0;
 		mail_send_queue (local_outbox_folder,
@@ -908,7 +908,7 @@ receive_update_got_store (char *uri, CamelStore *store, void *data)
 	struct _send_info *info = data;
 
 	if (store) {
-		mail_note_store(mail_shell_module, store, info->cancel, receive_update_got_folderinfo, info);
+		mail_note_store(global_mail_shell_backend, store, info->cancel, receive_update_got_folderinfo, info);
 	} else {
 		receive_done("", info);
 	}
@@ -940,8 +940,8 @@ mail_send_receive (GtkWindow *parent)
 
 	accounts = e_get_account_list ();
 
-	outbox_folder = e_mail_shell_module_get_folder (
-		mail_shell_module, E_MAIL_FOLDER_OUTBOX);
+	outbox_folder = e_mail_shell_backend_get_folder (
+		global_mail_shell_backend, E_MAIL_FOLDER_OUTBOX);
 	data = build_dialog (
 		parent, accounts, outbox_folder, account->transport->url);
 	scan = data->infos;
@@ -1090,14 +1090,14 @@ auto_online (EShell *shell)
 /* call to setup initial, and after changes are made to the config */
 /* FIXME: Need a cleanup funciton for when object is deactivated */
 void
-mail_autoreceive_init (EShellModule *shell_module,
+mail_autoreceive_init (EShellBackend *shell_backend,
                        CamelSession *session)
 {
 	EAccountList *accounts;
 	EIterator *iter;
 	EShell *shell;
 
-	g_return_if_fail (E_IS_SHELL_MODULE (shell_module));
+	g_return_if_fail (E_IS_SHELL_BACKEND (shell_backend));
 	g_return_if_fail (CAMEL_IS_SESSION (session));
 
 	if (auto_active)
@@ -1113,7 +1113,7 @@ mail_autoreceive_init (EShellModule *shell_module,
 	for (iter = e_list_get_iterator((EList *)accounts);e_iterator_is_valid(iter);e_iterator_next(iter))
 		auto_account_added(accounts, (EAccount *)e_iterator_get(iter), NULL);
 
-	shell = e_shell_module_get_shell (shell_module);
+	shell = e_shell_backend_get_shell (shell_backend);
 
 	auto_online (shell);
 
@@ -1174,8 +1174,8 @@ mail_receive_uri (const gchar *uri, gboolean keep_on_server)
 		break;
 	case SEND_SEND:
 		/* todo, store the folder in info? */
-		outbox_folder = e_mail_shell_module_get_folder (
-			mail_shell_module, E_MAIL_FOLDER_OUTBOX);
+		outbox_folder = e_mail_shell_backend_get_folder (
+			global_mail_shell_backend, E_MAIL_FOLDER_OUTBOX);
 		mail_send_queue (outbox_folder, info->uri,
 				 FILTER_SOURCE_OUTGOING,
 				 info->cancel,
@@ -1237,8 +1237,8 @@ mail_send (void)
 	g_hash_table_insert (data->active, SEND_URI_KEY, info);
 
 	/* todo, store the folder in info? */
-	outbox_folder = e_mail_shell_module_get_folder (
-		mail_shell_module, E_MAIL_FOLDER_OUTBOX);
+	outbox_folder = e_mail_shell_backend_get_folder (
+		global_mail_shell_backend, E_MAIL_FOLDER_OUTBOX);
 	mail_send_queue (outbox_folder, info->uri,
 			 FILTER_SOURCE_OUTGOING,
 			 info->cancel,

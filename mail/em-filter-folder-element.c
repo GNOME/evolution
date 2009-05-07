@@ -37,7 +37,7 @@
 #include "libedataserver/e-sexp.h"
 #include "e-util/e-error.h"
 
-#include "e-mail-shell-module.h"
+#include "e-mail-shell-backend.h"
 
 #define d(x)
 
@@ -257,7 +257,7 @@ get_widget(FilterElement *fe)
 		uri = ff->uri;
 	else
 		uri = em_uri_to_camel (ff->uri);
-	model = e_mail_shell_module_get_folder_tree_model (mail_shell_module);
+	model = e_mail_shell_backend_get_folder_tree_model (global_mail_shell_backend);
 	button = em_folder_selection_button_new (model, _("Select Folder"), NULL);
 	em_folder_selection_button_set_selection(EM_FOLDER_SELECTION_BUTTON(button), uri);
 

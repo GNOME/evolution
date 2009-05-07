@@ -83,7 +83,7 @@ typedef struct _MailSessionClass {
 
 } MailSessionClass;
 
-static EShellModule *mail_shell_module;
+static EMailShellBackend *session_mail_shell_backend;
 static CamelSessionClass *ms_parent_class;
 
 static char *get_password(CamelSession *session, CamelService *service, const char *domain, const char *prompt, const char *item, guint32 flags, CamelException *ex);
@@ -512,7 +512,7 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 
 	gconf = mail_config_get_gconf_client ();
 
-	data_dir = e_shell_module_get_data_dir (mail_shell_module);
+	data_dir = e_shell_backend_get_data_dir (session_mail_shell_backend);
 	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	fc = (RuleContext *) em_filter_context_new ();
@@ -706,16 +706,18 @@ mail_session_check_junk_notify (GConfClient *gconf, guint id, GConfEntry *entry,
 }
 
 void
-mail_session_init (EShellModule *shell_module)
+mail_session_init (EMailShellBackend *mail_shell_backend)
 {
 	EShell *shell;
+	EShellBackend *shell_backend;
 	GConfClient *gconf;
 	gboolean online;
 	const gchar *data_dir;
 
-	mail_shell_module = shell_module;
+	session_mail_shell_backend = mail_shell_backend;
 
-	shell = e_shell_module_get_shell (shell_module);
+	shell_backend = E_SHELL_BACKEND (mail_shell_backend);
+	shell = e_shell_backend_get_shell (shell_backend);
 	online = e_shell_get_online (shell);
 
 	data_dir = e_get_user_data_dir ();
@@ -728,7 +730,7 @@ mail_session_init (EShellModule *shell_module)
 	e_account_combo_box_set_session (session);  /* XXX Don't ask... */
 	e_account_writable(NULL, E_ACCOUNT_SOURCE_SAVE_PASSWD); /* Init the EAccount Setup */
 
-	data_dir = e_shell_module_get_data_dir (shell_module);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
 	camel_session_construct (session, data_dir);
 
 	gconf = mail_config_get_gconf_client ();

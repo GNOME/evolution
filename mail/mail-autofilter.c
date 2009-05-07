@@ -48,7 +48,7 @@
 #include <camel/camel-internet-address.h>
 #include <camel/camel-mime-message.h>
 
-#include "e-mail-shell-module.h"
+#include "e-mail-shell-backend.h"
 
 #define d(x)
 
@@ -346,6 +346,7 @@ filter_rule_from_message (EMFilterContext *context, CamelMimeMessage *msg, int f
 void
 filter_gui_add_from_message (CamelMimeMessage *msg, const char *source, int flags)
 {
+	EShellBackend *shell_backend;
 	EMFilterContext *fc;
 	const gchar *data_dir;
 	char *user, *system;
@@ -353,8 +354,10 @@ filter_gui_add_from_message (CamelMimeMessage *msg, const char *source, int flag
 
 	g_return_if_fail (msg != NULL);
 
+	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
+
 	fc = em_filter_context_new ();
-	data_dir = e_shell_module_get_data_dir (mail_shell_module);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
 	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	rule_context_load ((RuleContext *)fc, system, user);
@@ -372,6 +375,7 @@ filter_gui_add_from_message (CamelMimeMessage *msg, const char *source, int flag
 void
 mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri)
 {
+	EShellBackend *shell_backend;
 	EMFilterContext *fc;
 	const gchar *data_dir;
 	char *user, *system;
@@ -381,8 +385,10 @@ mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri
 	eolduri = em_uri_from_camel(olduri);
 	enewuri = em_uri_from_camel(newuri);
 
+	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
+
 	fc = em_filter_context_new ();
-	data_dir = e_shell_module_get_data_dir (mail_shell_module);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
 	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	rule_context_load ((RuleContext *)fc, system, user);
@@ -406,6 +412,7 @@ mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri
 void
 mail_filter_delete_uri(CamelStore *store, const char *uri)
 {
+	EShellBackend *shell_backend;
 	EMFilterContext *fc;
 	const gchar *data_dir;
 	char *user, *system;
@@ -414,8 +421,10 @@ mail_filter_delete_uri(CamelStore *store, const char *uri)
 
 	euri = em_uri_from_camel(uri);
 
+	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
+
 	fc = em_filter_context_new ();
-	data_dir = e_shell_module_get_data_dir (mail_shell_module);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
 	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	rule_context_load ((RuleContext *)fc, system, user);

@@ -27,14 +27,15 @@
 #define _MAIL_FOLDER_CACHE_H
 
 #include <camel/camel-store.h>
-#include <shell/e-shell-module.h>
+
+#include "e-mail-shell-backend.h"
 
 /* Add a store whose folders should appear in the shell
    The folders are scanned from the store, and/or added at
    runtime via the folder_created event.
    The 'done' function returns if we can free folder info. */
 void
-mail_note_store (EShellModule *shell_module, CamelStore *store, CamelOperation *op,
+mail_note_store (EMailShellBackend *mail_shell_backend, CamelStore *store, CamelOperation *op,
 		 gboolean (*done) (CamelStore *store, CamelFolderInfo *info, void *data),
 		 void *data);
 

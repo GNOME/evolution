@@ -38,7 +38,7 @@
 
 #include "em-account-prefs.h"
 #include "em-account-editor.h"
-#include "e-mail-shell-module.h"
+#include "e-mail-shell-backend.h"
 
 static void em_account_prefs_class_init (EMAccountPrefsClass *class);
 static void em_account_prefs_init       (EMAccountPrefs *prefs);
@@ -243,8 +243,8 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 
 		/* remove it from the folder-tree in the shell */
 		if (account->enabled && account->source && account->source->url)
-			e_mail_shell_module_remove_store_by_uri (
-				mail_shell_module, account->source->url);
+			e_mail_shell_backend_remove_store_by_uri (
+				global_mail_shell_backend, account->source->url);
 
 		/* remove all the proxies account has created*/
 		if (has_proxies)
@@ -300,12 +300,12 @@ account_able_changed(EAccount *account)
 
 	if (account->source->url) {
 		if (account->enabled)
-			e_mail_shell_module_load_store_by_uri (
-				mail_shell_module,
+			e_mail_shell_backend_load_store_by_uri (
+				global_mail_shell_backend,
 				account->source->url, account->name);
 		else
-			e_mail_shell_module_remove_store_by_uri (
-				mail_shell_module, account->source->url);
+			e_mail_shell_backend_remove_store_by_uri (
+				global_mail_shell_backend, account->source->url);
 	}
 
 	mail_config_write ();

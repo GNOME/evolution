@@ -44,7 +44,7 @@
 #include "mail-vfolder.h"
 #include "mail-config.h"
 
-#include "e-mail-shell-module.h"
+#include "e-mail-shell-backend.h"
 
 struct _prop_data {
 	void *object;
@@ -299,7 +299,7 @@ emfp_dialog_got_folder_quota (CamelFolder *folder,
 	gint32 count, i,deleted;
 	EMConfig *ec;
 	EMConfigTargetFolder *target;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	EShellWindow *shell_window;
 	EShellView *shell_view;
 	CamelArgGetV *arggetv;
@@ -315,9 +315,9 @@ emfp_dialog_got_folder_quota (CamelFolder *folder,
 	store = folder->parent_store;
 
 	shell_view = E_SHELL_VIEW (data);
-	shell_module = e_shell_view_get_shell_module (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	local_store = e_mail_shell_module_get_local_store (shell_module);
+	local_store = e_mail_shell_backend_get_local_store (shell_backend);
 
 	prop_data = g_malloc0 (sizeof (*prop_data));
 	prop_data->object = folder;

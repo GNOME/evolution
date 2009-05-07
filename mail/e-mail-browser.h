@@ -23,7 +23,7 @@
 #define E_MAIL_BROWSER_H
 
 #include <gtk/gtk.h>
-#include <shell/e-shell-module.h>
+#include <mail/e-mail-shell-backend.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_BROWSER \
@@ -60,7 +60,7 @@ struct _EMailBrowserClass {
 };
 
 GType		e_mail_browser_get_type		(void);
-GtkWidget *	e_mail_browser_new		(EShellModule *shell_module);
+GtkWidget *	e_mail_browser_new		(EMailShellBackend *mail_shell_backend);
 void		e_mail_browser_close		(EMailBrowser *browser);
 gboolean	e_mail_browser_get_show_deleted	(EMailBrowser *browser);
 void		e_mail_browser_set_show_deleted (EMailBrowser *browser,

@@ -26,7 +26,7 @@
 
 #include <gtk/gtk.h>
 #include <camel/camel-store.h>
-#include <shell/e-shell-module.h>
+#include <mail/e-mail-shell-backend.h>
 #include <mail/em-folder-tree-model.h>
 
 /* Standard GObject macros */
@@ -84,7 +84,7 @@ struct _EMFolderTreeClass {
 
 GType em_folder_tree_get_type (void);
 
-GtkWidget *em_folder_tree_new (EShellModule *shell_module);
+GtkWidget *em_folder_tree_new (EMailShellBackend *mail_shell_backend);
 GtkWidget *em_folder_tree_new_with_model (EMFolderTreeModel *model);
 
 void em_folder_tree_enable_drag_and_drop (EMFolderTree *emft);

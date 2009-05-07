@@ -33,7 +33,7 @@
 #include "em-folder-selector.h"
 #include "em-folder-selection.h"
 
-#include "e-mail-shell-module.h"
+#include "e-mail-shell-backend.h"
 
 /* TODO: rmeove this file, it could just go on em-folder-selection or em-utils */
 
@@ -64,7 +64,7 @@ em_select_folder (GtkWindow *parent_window, const char *title, const char *oklab
 	GtkWidget *dialog;
 	EMFolderTree *emft;
 
-	model = e_mail_shell_module_get_folder_tree_model (mail_shell_module);
+	model = e_mail_shell_backend_get_folder_tree_model (global_mail_shell_backend);
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
 	if (exclude)
 		em_folder_tree_set_excluded_func(emft, exclude, user_data);
