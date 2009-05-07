@@ -9,13 +9,14 @@ msgstr ""
 "Project-Id-Version: or\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=evolution\n"
 "POT-Creation-Date: 2009-05-05 00:57+0000\n"
-"PO-Revision-Date: 2009-05-06 19:52+0530\n"
+"PO-Revision-Date: 2009-05-07 19:12+0530\n"
 "Last-Translator: Manoj Kumar Giri <mgiri@redhat.com>\n"
 "Language-Team: Oriya <oriya-it@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms:  nplurals=2; plural=(n!=1);\n\n"
+"\n"
 "\n"
 "\n"
 "\n"
@@ -17235,15 +17236,14 @@ msgid "<b>%s</b> through %s has canceled the following shared memo:"
 msgstr "<b></b> ନିମ୍ନଲିଖିତ:"
 
 #: ../plugins/itip-formatter/itip-view.c:549
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> has canceled the following shared memo:"
-msgstr "<b></b> ନିମ୍ନଲିଖିତ:"
+msgstr "<b>%s</b> ନିମ୍ନଲିଖିତ ସହଭାଗୀ ମେମୋକୁ ବାତିଲ କରିଛି:"
 
 #. Everything gets the open button
 #: ../plugins/itip-formatter/itip-view.c:821
-#, fuzzy
 msgid "_Open Calendar"
-msgstr "ଖୋଲନ୍ତୁ କ୍ଯାଲେଣ୍ଡର"
+msgstr "କ୍ଯାଲେଣ୍ଡର ଖୋଲନ୍ତୁ (_O)"
 
 #: ../plugins/itip-formatter/itip-view.c:827
 #: ../plugins/itip-formatter/itip-view.c:831
@@ -17262,39 +17262,33 @@ msgid "_Accept"
 msgstr "_ସ୍ବୀକାର କର"
 
 #: ../plugins/itip-formatter/itip-view.c:831
-#, fuzzy
 msgid "_Decline all"
-msgstr "ହ୍ରାସ କର ସମସ୍ତ"
+msgstr "ସମସ୍ତଙ୍କୁ ହ୍ରାସ କରନ୍ତୁ (_D)"
 
 #: ../plugins/itip-formatter/itip-view.c:832
-#, fuzzy
 msgid "_Tentative all"
-msgstr "ଚେଷ୍ଟାକୃତ ସମସ୍ତ"
+msgstr "ସମସ୍ତ ଚେଷ୍ଟାକୃତ (_T)"
 
 #: ../plugins/itip-formatter/itip-view.c:832
 #: ../plugins/itip-formatter/itip-view.c:838
 #: ../plugins/itip-formatter/itip-view.c:855
 #: ../plugins/itip-formatter/itip-view.c:860
-#, fuzzy
 msgid "_Tentative"
-msgstr "ଚେଷ୍ଟାକୃତ"
+msgstr "ଚେଷ୍ଟାକୃତ (_T)"
 
 #: ../plugins/itip-formatter/itip-view.c:833
-#, fuzzy
 msgid "_Accept all"
-msgstr "ଗ୍ରହଣକର ସମସ୍ତ"
+msgstr "ସମସ୍ତଙ୍କୁ ଗ୍ରହଣକରନ୍ତୁ (_A)"
 
 #. FIXME Is this really the right button?
 #: ../plugins/itip-formatter/itip-view.c:844
-#, fuzzy
 msgid "_Send Information"
-msgstr "ପଠାଅ ସୂଚନା"
+msgstr "ସୂଚନା ପଠାନ୍ତୁ (_S)"
 
 #. FIXME Is this really the right button?
 #: ../plugins/itip-formatter/itip-view.c:848
-#, fuzzy
 msgid "_Update Attendee Status"
-msgstr "ଅପଡେଟ କର ଶ୍ରୋତା ଅବସ୍ଥିତି"
+msgstr "ଅଂଶଗ୍ରହଣକର୍ତ୍ତା ସ୍ଥିତିକୁ ଅଦ୍ୟତନ କରନ୍ତୁ (_U)"
 
 #: ../plugins/itip-formatter/itip-view.c:851
 msgid "_Update"
@@ -17302,15 +17296,13 @@ msgstr "ଅଦ୍ଯତନ (_U)"
 
 #. Start time
 #: ../plugins/itip-formatter/itip-view.c:1031
-#, fuzzy
 msgid "Start time:"
-msgstr "ଆରମ୍ଭ:"
+msgstr "ଆରମ୍ଭ ସମୟ:"
 
 #. End time
 #: ../plugins/itip-formatter/itip-view.c:1042
-#, fuzzy
 msgid "End time:"
-msgstr "ସମାପ୍ତ:"
+msgstr "ସମାପ୍ତି ସମୟ:"
 
 #. Comment
 #: ../plugins/itip-formatter/itip-view.c:1062
@@ -17319,20 +17311,17 @@ msgid "Comment:"
 msgstr "ଟିପ୍ପଣୀ:"
 
 #: ../plugins/itip-formatter/itip-view.c:1101
-#, fuzzy
 msgid "Send _reply to sender"
-msgstr "ପଠାଅ କୁ"
+msgstr "ପ୍ରେରକଙ୍କ ପାଖକୁ ଉତ୍ତର ପଠାନ୍ତୁ (_r)"
 
 #: ../plugins/itip-formatter/itip-view.c:1131
-#, fuzzy
 msgid "Send _updates to attendees"
-msgstr "ପଠାଅ କୁ"
+msgstr "ଅଂଶଗ୍ରହଣକାରୀଙ୍କ ପାଖକୁ ଅଦ୍ୟତନଗୁଡ଼ିକୁ ପଠାନ୍ତୁ (_u)"
 
 #: ../plugins/itip-formatter/itip-view.c:1140
-#, fuzzy
 #| msgid "All Instances"
 msgid "_Apply to all instances"
-msgstr "ସମସ୍ତ ଦ୍ରୁଷ୍ଟାନ୍ତ"
+msgstr "ସମସ୍ତ ଦ୍ରୁଷ୍ଟାନ୍ତରେ ପ୍ରୟୋଗ କରନ୍ତୁ (_A)"
 
 #: ../plugins/itip-formatter/itip-view.c:1149
 #, fuzzy
@@ -17353,19 +17342,17 @@ msgid "_Inherit reminder"
 msgstr "ଗୋଟିଏ ସ୍ମାରକପତ୍ର ଦେଖାନ୍ତୁ (_o)"
 
 #: ../plugins/itip-formatter/itip-view.c:1914
-#, fuzzy
 #| msgid "_Memos"
 msgid "_Memos:"
-msgstr "ସ୍ମାରକପତ୍ର (_M)"
+msgstr "ସ୍ମାରକପତ୍ର (_M):"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:1
-#, fuzzy
 msgid "Displays text/calendar parts in messages."
-msgstr "ପାଠ୍ଯ କାଲେଣ୍ଡର ଅଂଶ ଇଞ୍ଚ."
+msgstr "ପାଠ୍ଯ/କାଲେଣ୍ଡର ଅଂଶବିଶେଷକୁ ସନ୍ଦେଶରେ ଦର୍ଶାନ୍ତୁ।"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.eplug.xml.h:2
 msgid "Itip Formatter"
-msgstr ""
+msgstr "Itip ସଜ୍ଜିକରଣ ଶୈଳୀ"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:1
 #, fuzzy
@@ -17376,53 +17363,44 @@ msgstr "&quot;&quot; କୁ ଯୋଗ କରନ୍ତୁ&quot;&quot;?"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:3
 msgid "This meeting has been delegated"
-msgstr ""
+msgstr "ଏହି ସାକ୍ଷାତକାରକୁ ପ୍ରତିନିଧିତ୍ୱ କରାଯାଇଛି"
 
 #: ../plugins/itip-formatter/org-gnome-itip-formatter.error.xml.h:4
-#, fuzzy
 msgid "This response is not from a current attendee. Add the sender as an attendee?"
-msgstr "ଅଟେ ନୁହେଁ ଠାରୁ a ମିଶାଅ?"
+msgstr "ଏହି ଉତ୍ତରଟି ବର୍ତ୍ତମାନ ଉପସ୍ଥିତ ବ୍ୟକ୍ତିଙ୍କ ପାଖରୁ ନୁହଁ। ପ୍ରେରକଙ୍କୁ ଉପସ୍ଥିତ ବ୍ୟକ୍ତି ଭାବରେ ଯୋଗ କରିବେ କି?"
 
 #: ../plugins/mail-account-disable/mail-account-disable.c:46
-#, fuzzy
 msgid "Proxy _Logout"
-msgstr "ପ୍ରକ୍ସି ଲଗଆଉଟ"
+msgstr "ପ୍ରକ୍ସି ଲଗଆଉଟ (_L)"
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:1
-#, fuzzy
 msgid "Allows disabling of accounts."
-msgstr "ର ଆକାଉଣ୍ଟ ଗୁଡିକ."
+msgstr "ଖାତାଗୁଡ଼ିକର ନିଷ୍କ୍ରିୟତାକୁ ଅନୁମତି ଦିଅନ୍ତୁ।"
 
 #: ../plugins/mail-account-disable/org-gnome-mail-account-disable.eplug.xml.h:2
-#, fuzzy
 msgid "Disable Account"
-msgstr "ନିଷ୍କ୍ରିୟ ହିସାବ ଖାତା"
+msgstr "ଖାତାକୁ ନିଷ୍କ୍ରିୟ କରନ୍ତୁ"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:1
-#, fuzzy
 #| msgid "Select sound file"
 msgid "Beep or play sound file."
-msgstr "ଶବ୍ଦ ଫାଇଲକୁ ଚୟନ କରନ୍ତୁ"
+msgstr "ଶବ୍ଦ ଫାଇଲକୁ ଦପଦପ କରନ୍ତୁ ଅଥବା ଚଲାନ୍ତୁ। "
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:2
-#, fuzzy
 msgid "Blink icon in notification area."
-msgstr "ବ୍ଲିଙ୍କ ଚିତ୍ରସଙ୍କେତ ଇଞ୍ଚ."
+msgstr "ବିଜ୍ଞପ୍ତି କ୍ଷେତ୍ରରେ ଚିତ୍ରସଙ୍କେତକୁ ଦପଦପ କରନ୍ତୁ।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:3
-#, fuzzy
 msgid "Enable D-Bus messages."
-msgstr "ସକ୍ରିୟ କରନ୍ତୁ D ବସ."
+msgstr "D-Bus ସନ୍ଦେଶଗୁଡ଼ିକୁ ସକ୍ରିୟ କରନ୍ତୁ।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:4
-#, fuzzy
 msgid "Enable icon in notification area."
-msgstr "ସକ୍ରିୟ କରନ୍ତୁ ଚିତ୍ରସଙ୍କେତ ଇଞ୍ଚ."
+msgstr "ବିଜ୍ଞପ୍ତି କ୍ଷେତ୍ରରେ ଚିତ୍ରସଂକେତକୁ ସକ୍ରିୟ କରନ୍ତୁ।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:5
-#, fuzzy
 msgid "Generates a D-Bus message when new mail messages arrive."
-msgstr "a D ବସ ନୂତନ ଡାକ."
+msgstr "ନୂତନ ମେଲ ସନ୍ଦେଶ ଆସିବା ସମୟରେ D-Bus ସନ୍ଦେଶ ସୃଷ୍ଟିକରନ୍ତୁ।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:6
 #, fuzzy
@@ -17432,66 +17410,54 @@ msgid ""
 msgstr "true ଫାଇଲ ନୂତନ."
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:7
-#, fuzzy
 msgid "Notify new messages for Inbox only."
-msgstr "ସୂଚୀତ କରନ୍ତୁ  ନୂତନ ପାଇଁ ଇନବକ୍ସ."
+msgstr "କେବଳ ଇନବକ୍ସ ପାଇଁ ନୂତନ ସନ୍ଦେଶଗୁଡ଼ିକୁ ସୂଚାନ୍ତୁ।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:8
-#, fuzzy
 msgid "Play sound when new messages arrive."
-msgstr "ବଜାଅ ନୂତନ."
+msgstr "ନୂତନ ସନ୍ଦେଶ ଆସିବା ସମୟରେ ଧ୍ୱନି ଚଲାନ୍ତୁ।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:9
-#, fuzzy
 msgid "Popup message together with the icon."
-msgstr "ପପ-ଅପ ସହିତ  ଚିତ୍ରସଙ୍କେତ."
+msgstr "ଚିତ୍ରସଙ୍କେତ ସହିତ ପପଅପ ସନ୍ଦେଶ।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:10
-#, fuzzy
 msgid "Show new mail icon in notification area when new messages arrive."
-msgstr "ଦେଖାଅ ନୂତନ ଡାକ ଚିତ୍ରସଙ୍କେତ ଇଞ୍ଚ ନୂତନ."
+msgstr "ନୂତନ ସନ୍ଦେଶ ଆସିବା ସମୟରେ ବିଜ୍ଞପ୍ତି କ୍ଷେତ୍ରରେ ନୂତନ ମେଲ ଚିତ୍ରସଂକେତକୁ ଦର୍ଶାନ୍ତୁ।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:11
-#, fuzzy
 #| msgid "No filename provided."
 msgid "Sound file name to be played."
-msgstr "କୌଣସି ଫାଇଲ ନାମ ଦିଆଯାଇ ନାହିଁ।"
+msgstr "ଚଲାଇବା ପାଇଁ ଧ୍ୱନି ଫାଇଲ ନାମ।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:12
-#, fuzzy
 msgid "Sound file to be played when new messages arrive, if not in beep mode."
-msgstr "ଧ୍ବନି ଫାଇଲ କୁ ନୂତନ ନୁହେଁ ଇଞ୍ଚ ମୋଡ."
+msgstr "ନୂତନ ସନ୍ଦେଶ ଆସିବା ସମୟରେ ଚଲାଇବାକୁ ଥିବା ଧ୍ୱନି ଫାଇଲ ନାମ, ଯଦି ଦପଦପ ଅବସ୍ଥାରେ ନାହିଁ।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:13
-#, fuzzy
 msgid "Whether play sound or beep when new messages arrive."
-msgstr "କିମ୍ବା ନୂତନ."
+msgstr "ନୂତନ ସନ୍ଦେଶ ଆସିବା ସମୟରେ ଧ୍ୱନି ଅଥବା ଦପଦପ ଚଲାଇବା ଉଚିତ କି ନୁହଁ।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:14
-#, fuzzy
 msgid "Whether show message over the icon when new messages arrive."
-msgstr "ଚିତ୍ରସଙ୍କେତ ନୂତନ."
+msgstr "ନୂତନ ସନ୍ଦେଶ ଆସିବା ସମୟରେ ଚିତ୍ରସଂକେତ ଉପରେ ସନ୍ଦେଶକୁ ଦର୍ଶାଇବା ଉଚିତ କି ନୁହଁ।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:15
-#, fuzzy
 msgid "Whether the icon should blink or not."
-msgstr "ଚିତ୍ରସଙ୍କେତ କିମ୍ବା ନୁହେଁ."
+msgstr "ଚିତ୍ରସଙ୍କେତ ଦପଦପ ହେବା ଉଚିତ କି ନୁହଁ।"
 
 #: ../plugins/mail-notification/apps-evolution-mail-notification.schemas.in.h:16
-#, fuzzy
 msgid "Whether to notify new messages in Inbox folder only."
-msgstr "କୁ ନୂତନ ଇଞ୍ଚ ଇନବକ୍ସ."
+msgstr "କେବଳ ଇନବକ୍ସ ଫୋଲଡରରେ ନୂତନ ସନ୍ଦେଶଗୁଡ଼ିକୁ ସୂଚାଇବା ଉଚିତ କି ନୁହଁ।"
 
 #: ../plugins/mail-notification/mail-notification.c:256
-#, fuzzy
 msgid "Generate a _D-Bus message"
-msgstr "ସୃଷ୍ଟିକରିବା a D ବସ"
+msgstr "D-Bus ସନ୍ଦେଶ ସୃଷ୍ଟି କରୁଅଛି (_D)"
 
 #: ../plugins/mail-notification/mail-notification.c:379
-#, fuzzy
 #| msgid "New Mail Notification"
 msgid "Evolution's Mail Notification"
-msgstr "ନୂତନ ଡାକ ସୂଚନା"
+msgstr "Evolution ର ମେଲ ବିଜ୍ଞପ୍ତି"
 
 #: ../plugins/mail-notification/mail-notification.c:400
 msgid "Mail Notification Properties"
@@ -17499,22 +17465,26 @@ msgstr "ମେଲ ବିଜ୍ଞପ୍ତି ଗୁଣଧର୍ମ"
 
 #. To translators: '%d' is the number of mails recieved and '%s' is the name of the folder
 #: ../plugins/mail-notification/mail-notification.c:479
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You have received %d new message\n"
 "in %s."
 msgid_plural ""
 "You have received %d new messages\n"
 "in %s."
-msgstr[0] "ଆପଣ d ନୂତନ."
-msgstr[1] "ଆପଣ d ନୂତନ."
+msgstr[0] ""
+"ଆପଣ %d ଟି ନୂତନ ସନ୍ଦେଶ\n"
+"ଗ୍ରହଣ କରିଛନ୍ତି %s ରେ ।"
+msgstr[1] ""
+"ଆପଣ %d ଟି ନୂତନ ସନ୍ଦେଶ\n"
+"ଗ୍ରହଣ କରିଛନ୍ତି %s ରେ ।"
 
 #: ../plugins/mail-notification/mail-notification.c:484
-#, fuzzy, c-format
+#, c-format
 msgid "You have received %d new message."
 msgid_plural "You have received %d new messages."
-msgstr[0] "ଆପଣ d ନୂତନ."
-msgstr[1] "ଆପଣ d ନୂତନ."
+msgstr[0] "ଆପଣ %d ଟି ନୂତନ ସନ୍ଦେଶ ଗ୍ରହଣ କରିଛନ୍ତି।"
+msgstr[1] "ଆପଣ %d ଟି ନୂତନ ସନ୍ଦେଶ ଗ୍ରହଣ କରିଛନ୍ତି।"
 
 #: ../plugins/mail-notification/mail-notification.c:501
 #: ../plugins/mail-notification/mail-notification.c:506
@@ -17522,9 +17492,8 @@ msgid "New email"
 msgstr "ନୂତନ ମେଲ"
 
 #: ../plugins/mail-notification/mail-notification.c:566
-#, fuzzy
 msgid "Show icon in _notification area"
-msgstr "ଦେଖାଅ ଚିତ୍ରସଙ୍କେତ ଇଞ୍ଚ"
+msgstr "ବିଜ୍ଞପ୍ତି କ୍ଷେତ୍ରରେ ଚିତ୍ରସଙ୍କେତ ଦର୍ଶାନ୍ତୁ (_n)"
 
 #: ../plugins/mail-notification/mail-notification.c:569
 #, fuzzy
@@ -17550,9 +17519,8 @@ msgid "Play _sound file"
 msgstr "ଶବ୍ଦ ଫାଇଲକୁ ଚଲାନ୍ତୁ (_s)"
 
 #: ../plugins/mail-notification/mail-notification.c:770
-#, fuzzy
 msgid "Specify _filename:"
-msgstr "ଫାଇଲ ନାମ:"
+msgstr "ଫାଇଲ ନାମକୁ ଉଲ୍ଲେଖ କରନ୍ତୁ (_f):"
 
 #: ../plugins/mail-notification/mail-notification.c:771
 msgid "Select sound file"
@@ -17605,16 +17573,16 @@ msgid ""
 msgstr "ଚୟିତ ଉତ୍ସ ଅଟେ ପଢନ୍ତୁ ମନୋନୀତ କର ଅନ୍ଯ ଉତ୍ସ."
 
 #: ../plugins/mail-to-task/mail-to-task.c:455
-#, fuzzy, c-format
+#, c-format
 #| msgid "Could not update object"
 msgid "Could not create object. %s"
-msgstr "ବସ୍ତୁକୁ ଅଦ୍ଯତିତ କରିପାରିଲା ନାହିଁ"
+msgstr "ବସ୍ତୁ ନିର୍ମାଣ କରିପାରିଲା ନାହିଁ। %s"
 
 #: ../plugins/mail-to-task/mail-to-task.c:555
-#, fuzzy, c-format
+#, c-format
 #| msgid "Cannot open source \"{2}\"."
 msgid "Cannot get source list. %s"
-msgstr "ଉତ୍ସ \"{2}\"କୁ ଖୋଲିପାରିବେ ନାହିଁ"
+msgstr "ଉତ୍ସ ତାଲିକାକୁ ପ୍ରାପ୍ତ କରିପାରିବେ ନାହିଁ। %s"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:1
 #, fuzzy
@@ -17625,78 +17593,64 @@ msgstr "A ର ଠାରୁ ର a ଡାକ."
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:2
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:5
-#, fuzzy
 msgid "Convert to a Mem_o"
-msgstr "ସ୍ଥିର ମୂଲ୍ଯଗୁଡି଼କ କୁ ଟାସ୍କ"
+msgstr "ଗୋଟିଏ ମେମୋରେ ରୂପାନ୍ତର କରନ୍ତୁ (_o)"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:3
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:6
-#, fuzzy
 msgid "Convert to a _Meeting"
-msgstr "ସ୍ଥିର ମୂଲ୍ଯଗୁଡି଼କ କୁ"
+msgstr "ଗୋଟିଏ ସାକ୍ଷାତକାରରେ ରୂପାନ୍ତର କରନ୍ତୁ (_M)"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:4
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:7
-#, fuzzy
 msgid "Convert to a _Task"
-msgstr "ସ୍ଥିର ମୂଲ୍ଯଗୁଡି଼କ କୁ ଟାସ୍କ"
+msgstr "ଗୋଟିଏ କାର୍ଯ୍ୟକୁ ରୂପାନ୍ତର କରନ୍ତୁ (_T)"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:5
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:8
-#, fuzzy
 msgid "Convert to an _Event"
-msgstr "ସ୍ଥିର ମୂଲ୍ଯଗୁଡି଼କ କୁ"
+msgstr "ଗୋଟିଏ ଘଟଣାକୁ ରୂପାନ୍ତର କରନ୍ତୁ (_E)"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.eplug.xml.h:6
-#, fuzzy
 msgid "Mail to task"
-msgstr "ମେଲ କୁ"
+msgstr "କାର୍ଯ୍ୟକୁ ମେଲ"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:1
-#, fuzzy
 msgid "Convert the selected message to a new event"
-msgstr "ରୂପାନ୍ତର କରନ୍ତୁ ଚୟିତ କୁ a ନୂତନ"
+msgstr "ବଚ୍ଛିତ ସନ୍ଦେଶକୁ ଗୋଟିଏ ନୂତନ ଘଟଣାରେ ରୂପାନ୍ତର କରନ୍ତୁ"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:2
-#, fuzzy
 msgid "Convert the selected message to a new meeting"
-msgstr "ରୂପାନ୍ତର କରନ୍ତୁ ଚୟିତ କୁ a ନୂତନ"
+msgstr "ବଚ୍ଛିତ ସନ୍ଦେଶକୁ ଗୋଟିଏ ନୂତନ ସାକ୍ଷାତକାରରେ ରୂପାନ୍ତର କରନ୍ତୁ"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:3
-#, fuzzy
 msgid "Convert the selected message to a new memo"
-msgstr "ରୂପାନ୍ତର କରନ୍ତୁ ଚୟିତ କୁ a ନୂତନ"
+msgstr "ବଚ୍ଛିତ ସନ୍ଦେଶକୁ ଗୋଟିଏ ନୂତନ ମେମୋରୋ ରୂପାନ୍ତର କରନ୍ତୁ"
 
 #: ../plugins/mail-to-task/org-gnome-mail-to-task.xml.h:4
-#, fuzzy
 msgid "Convert the selected message to a new task"
-msgstr "ରୂପାନ୍ତର କରନ୍ତୁ ଚୟିତ କୁ a ନୂତନ"
+msgstr "ବଚ୍ଛିତ ସନ୍ଦେଶକୁ ଗୋଟିଏ ନୂତନ ତାଲିକାରେ ରୂପାନ୍ତର କରନ୍ତୁ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:1
-#, fuzzy
 msgid "Contact list _owner"
-msgstr "ସମ୍ପର୍କ ତାଲିକା"
+msgstr "ସମ୍ପର୍କ ତାଲିକା ମାଲିକ (_o)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:2
-#, fuzzy
 msgid "Get list _archive"
-msgstr "ପ୍ରାପ୍ତ କର ତାଲିକା"
+msgstr "ତାଲିକା ଅଭିଲେଖନ ପ୍ରାପ୍ତ କରନ୍ତୁ (_a)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:3
-#, fuzzy
 msgid "Get list _usage information"
-msgstr "ପ୍ରାପ୍ତ କର ତାଲିକା"
+msgstr "ତାଲିକା ବ୍ୟବହାର ପଦ୍ଧତି ସୂଚନା ପ୍ରାପ୍ତ କରନ୍ତୁ (_u)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:4
-#, fuzzy
 msgid "Mailing List Actions"
-msgstr "ତାଲିକା କାର୍ଯ୍ଯ"
+msgstr "ମେଲ ତାଲିକା କାର୍ଯ୍ଯ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:5
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:7
-#, fuzzy
 msgid "Mailing _List"
-msgstr "ତାଲିକା"
+msgstr "ମେଲ ତାଲିକା (_L)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:6
 #, fuzzy
@@ -17704,9 +17658,8 @@ msgid "Provide actions for common mailing list commands (subscribe, unsubscribe.
 msgstr "ପାଇଁ ତାଲିକା."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:7
-#, fuzzy
 msgid "_Post message to list"
-msgstr "ପୋଷ୍ଟ କୁ ତାଲିକା"
+msgstr "ତାଲିକାରେ ସନ୍ଦେଶ ପୋଷ୍ଟ କରନ୍ତୁ (_P)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.eplug.xml.h:8
 #, fuzzy
@@ -17719,9 +17672,8 @@ msgid "_Un-subscribe to list"
 msgstr "କୁ ତାଲିକା"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:1
-#, fuzzy
 msgid "Action not available"
-msgstr "କାର୍ୟ୍ଯ ନୁହେଁ ଉପଲବ୍ଧ"
+msgstr "କାର୍ଯ୍ୟ ଉପଲବ୍ଧ ନାହିଁ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:2
 #, fuzzy
@@ -17734,19 +17686,16 @@ msgid ""
 msgstr "e ଡାକ କୁ URL ଆପଣ କିମ୍ବା ଏବଂ ପ୍ରଥମ ନାଁ ଠାରୁ ତାଲିକା ପରେ."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:5
-#, fuzzy
 msgid "Malformed header"
-msgstr "ଶୀର୍ଷକ"
+msgstr "ତ୍ରୁଟିଯୁକ୍ତ ଶୀର୍ଷକ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:6
-#, fuzzy
 msgid "No e-mail action"
-msgstr "ନାଁ e ଡାକ"
+msgstr "କୌଣସି ଇ-ମେଲ କାର୍ଯ୍ୟ ନାହିଁ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:7
-#, fuzzy
 msgid "Posting not allowed"
-msgstr "ନୁହେଁ"
+msgstr "ପଠାଇବା ଅନୁମୋଦିତ ନୁହଁ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:8
 #, fuzzy
@@ -17756,9 +17705,8 @@ msgid ""
 msgstr "କୁ ଏହା ତାଲିକା ଅଟେ ନୁହେଁ ଏହା ଅଟେ a ପଢନ୍ତୁ ତାଲିକା ସମ୍ପର୍କ ତାଲିକା ପାଇଁ."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:9
-#, fuzzy
 msgid "Send e-mail message to mailing list?"
-msgstr "ପଠାଅ e ଡାକ କୁ ତାଲିକା?"
+msgstr "ମେଲ ତାଲିକାକୁ ଇ-ମେଲ ସନ୍ଦେଶ ପଠାଇବେ କି?"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:10
 #, fuzzy
@@ -17785,29 +17733,24 @@ msgid ""
 msgstr "ନୁହେଁ ଶୀର୍ଷକ ପାଇଁ ଏହା."
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:17
-#, fuzzy
 msgid "_Edit message"
-msgstr "ସମ୍ପାଦନ କରନ୍ତୁ"
+msgstr "ସନ୍ଦେଶକୁ ସମ୍ପାଦନ କରନ୍ତୁ (_E)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.error.xml.h:18
-#, fuzzy
 msgid "_Send message"
-msgstr "ପଠାଅ"
+msgstr "ସନ୍ଦେଶ ପଠାନ୍ତୁ (_S)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:1
-#, fuzzy
 msgid "Contact List _Owner"
-msgstr "ସମ୍ପର୍କ ତାଲିକା ମାଲିକ"
+msgstr ""
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:2
-#, fuzzy
 msgid "Contact the owner of the mailing list this message belongs to"
 msgstr "ସମ୍ପର୍କ ର ତାଲିକା ଏହା କୁ"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:3
-#, fuzzy
 msgid "Get List _Archive"
-msgstr "ପ୍ରାପ୍ତ କର ତାଲିକା"
+msgstr "ତାଲିକା ଅଭିଲେଖନ ପ୍ରାପ୍ତ କରନ୍ତୁ (_A)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:4
 #, fuzzy
@@ -17848,9 +17791,8 @@ msgid "_Subscribe to List"
 msgstr "ସମୂହରେ ପଞ୍ଜିକୃତ କରନ୍ତୁ (_S)"
 
 #: ../plugins/mailing-list-actions/org-gnome-mailing-list-actions.xml.h:13
-#, fuzzy
 msgid "_Unsubscribe from List"
-msgstr "ଅସ୍ବୀକାରକ୍ତି ଠାରୁ ତାଲିକା"
+msgstr "ତାଲିକାରୁ ଅସ୍ବୀକାରକ୍ତି କରନ୍ତୁ (_U)"
 
 #: ../plugins/mark-all-read/mark-all-read.c:39
 msgid "Also mark messages in subfolders?"
@@ -17880,19 +17822,16 @@ msgid "Mark Me_ssages as Read"
 msgstr "ସନ୍ଦେଶ ମାନଙ୍କୁ ପଢିସାରିଲେ ବୋଲି ଚିହ୍ନିତ କରନ୍ତୁ (_s)"
 
 #: ../plugins/mark-all-read/org-gnome-mark-all-read.eplug.xml.h:3
-#, fuzzy
 msgid "Used for marking all the messages under a folder as read"
-msgstr "ବ୍ଯବହ୍ରୁତ ପାଇଁ ସମସ୍ତ a ପଢନ୍ତୁ"
+msgstr "ଗୋଟିଏ ଫୋଲଡର ଅନ୍ତର୍ଗତ ସମସ୍ତ ସନ୍ଦେଶଗୁଡ଼ିକୁ ପଠିତ ବୋଲି ଚିହ୍ନଟ କରିବା ପାଇଁ ବ୍ୟବହୃତ ହୋଇଥାଏ"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin which implements mono plugins."
-msgstr "A ମୋନୋ."
+msgstr "ମନୋ ପ୍ଲଗଇନଗୁଡ଼ିକୁ କାର୍ଯ୍ୟକାରୀ କରୁଥିବା ଗୋଟିଏ ପ୍ଲଗଇନ।"
 
 #: ../plugins/mono/org-gnome-evolution-mono.eplug.xml.h:2
-#, fuzzy
 msgid "Mono Loader"
-msgstr "ମନୋ"
+msgstr "ମନୋ ଧାରଣ କର୍ତ୍ତା"
 
 #: ../plugins/plugin-manager/org-gnome-plugin-manager.eplug.xml.h:1
 #, fuzzy
@@ -17969,9 +17908,8 @@ msgid "HTML _Mode"
 msgstr "HTML ଧାରା (_M)"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:1
-#, fuzzy
 msgid "Evolution Profiler"
-msgstr "କ୍ରମବିକାଶ "
+msgstr "Evolution ରେଖାଚିତ୍ରଣ"
 
 #: ../plugins/profiler/org-gnome-evolution-profiler.eplug.xml.h:2
 #, fuzzy
@@ -17979,9 +17917,8 @@ msgid "Writes a log of profiling data events."
 msgstr "a ର ତଥ୍ଯ."
 
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:1
-#, fuzzy
 msgid "Import Outlook messages from PST file"
-msgstr "ଆମଦାନୀ କର ଠାରୁ ଫାଇଲ"
+msgstr "Outlook ସନ୍ଦେଶଗୁଡ଼ିକୁ PST ଫାଇଲରୁ ଆମଦାନୀ କରନ୍ତୁ"
 
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:2
 msgid "Outlook PST import"
@@ -17989,7 +17926,7 @@ msgstr "ଆଉଟଲୁକ PST ଆମଦାନି"
 
 #: ../plugins/pst-import/org-gnome-pst-import.eplug.xml.h:3
 msgid "Outlook personal folders (.pst)"
-msgstr ""
+msgstr "Outlook ବ୍ୟକ୍ତିଗତ ଫୋଲଡରଗୁଡ଼ିକ (.pst)"
 
 #. Address book
 #: ../plugins/pst-import/pst-importer.c:318
@@ -18007,17 +17944,14 @@ msgid "_Journal entries"
 msgstr "ପତ୍ରିକା ପ୍ରବିଷ୍ଟି (_J)"
 
 #: ../plugins/pst-import/pst-importer.c:352
-#, fuzzy
 msgid "Importing Outlook data"
-msgstr "ଆମଦାନୀକରିବା ତଥ୍ଯ"
+msgstr "Outlook ତଥ୍ୟକୁ ଆମଦାନୀ କରୁଅଛି"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:1
-#, fuzzy
 msgid "Allows calendars to be published to the web"
-msgstr "କୁ କୁ"
+msgstr "କ୍ୟାଲେଣ୍ଡରକୁ ୱେବରେ ପ୍ରକାଶନ କରିବା ପାଇଁ ଅନୁମତି ଦିଅନ୍ତୁ"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.eplug.xml.h:2
-#, fuzzy
 msgid "Calendar Publishing"
 msgstr "କ୍ଯାଲେଣ୍ଡର ପ୍ରକାଶନ କରୁଅଛି"
 
@@ -18026,88 +17960,81 @@ msgid "Locations"
 msgstr "ଅବସ୍ଥାନ"
 
 #: ../plugins/publish-calendar/org-gnome-publish-calendar.xml.h:1
-#, fuzzy
 msgid "_Publish Calendar Information"
-msgstr "କ୍ଯାଲେଣ୍ଡର ସୂଚନା"
+msgstr "କ୍ଯାଲେଣ୍ଡର ସୂଚନା ପ୍ରକାଶନ କରନ୍ତୁ (_P)"
 
 #: ../plugins/publish-calendar/publish-calendar.c:95
 #: ../plugins/publish-calendar/publish-calendar.c:329
-#, fuzzy, c-format
+#, c-format
 #| msgid "Could not open source"
 msgid "Could not open %s:"
-msgstr "ଉତ୍ସକୁ ଖୋଲିପାରିଲା ନାହିଁ"
+msgstr "%s କୁ ଖୋଲିହେଲା ନାହିଁ:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:97
-#, fuzzy, c-format
+#, c-format
 #| msgid "Could not parse PGP message: Unknown error"
 msgid "Could not open %s: Unknown error"
-msgstr "PGP ସନ୍ଦେଶକୁ ବିଶ୍ଳେଷଣ କରିହେଲା ନାହିଁ: ଅଜଣା ତୃଟି"
+msgstr "%s କୁ ଖୋଲିହେଲା ନାହିଁ: ଅଜଣା ତ୍ରୁଟି"
 
 #: ../plugins/publish-calendar/publish-calendar.c:117
 #, c-format
 msgid "There was an error while publishing to %s:"
-msgstr ""
+msgstr "%s ରେ ପ୍ରକାଶନ କରିବା ସମୟରେ ଗୋଟିଏ ତ୍ରୁଟି ଘଟିଛି:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:119
 #, c-format
 msgid "Publishing to %s finished successfully"
-msgstr ""
+msgstr "%s କୁ ପ୍ରକାଶନ ସଫଳତାର ସହିତ ସମାପ୍ତ ହୋଇଛି"
 
 #: ../plugins/publish-calendar/publish-calendar.c:160
 #, c-format
 msgid "Mount of %s failed:"
-msgstr ""
+msgstr "%s ର ସ୍ଥାପନା ବିଫଳ ହୋଇଛି:"
 
 #: ../plugins/publish-calendar/publish-calendar.c:612
 msgid "Are you sure you want to remove this location?"
 msgstr "ଆପଣ ନିଶ୍ଚିତ କି ଆପଣ ଏହି ଅବସ୍ଥାନକୁ ଅପସାରଣ କରିବା ପାଇଁ ଚାହୁଁଛନ୍ତି?"
 
 #: ../plugins/publish-calendar/publish-calendar.c:776
-#, fuzzy
 #| msgid "Could not create message."
 msgid "Could not create publish thread."
-msgstr "ସନ୍ଦେଶ ସୃଷ୍ଟି କରିହେଲା ନାହିଁ।"
+msgstr "ପ୍ରକାଶନ ଥ୍ରେଡ ସୃଷ୍ଟି କରିହେଲା ନାହିଁ।"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Location</span>"
-msgstr "<span weight=\"bold\"> ଅବସ୍ଥାନ</span>"
+msgstr "<span weight=\"bold\">ଅବସ୍ଥାନ</span>"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:4
-#, fuzzy
 msgid "<span weight=\"bold\">Sources</span>"
-msgstr "<span weight=\"bold\"> ଉତ୍ସ</span>"
+msgstr "<span weight=\"bold\">ଉତ୍ସଗୁଡ଼ିକ</span>"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:6
-#, fuzzy
 msgid ""
 "Daily\n"
 "Weekly\n"
 "Manual (via Actions menu)"
-msgstr "ପ୍ରତିଦିନ କାର୍ଯ୍ଯ ମେନୁ"
+msgstr ""
+"ପ୍ରତିଦିନ\n"
+"ପ୍ରତି ସପ୍ତାହ\n"
+"ହସ୍ତକୃତ (କାର୍ଯ୍ୟ ତାଲିକା ମାଧ୍ଯମରେ)"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:9
-#, fuzzy
 msgid "E_nable"
-msgstr "E"
+msgstr "ସକ୍ରିୟ କରନ୍ତୁ (_n)"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:10
-#, fuzzy
 msgid "P_ort:"
-msgstr "P:"
+msgstr "ସଂଯୋଗିକୀ (_o):"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:11
-#, fuzzy
 msgid "Publishing Location"
-msgstr "ପ୍ରକାଶନ କରୁଅଛି ଅବସ୍ଥାନ"
+msgstr "ଅବସ୍ଥାନ ପ୍ରକାଶନ କରୁଅଛି"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:12
-#, fuzzy
 msgid "Publishing _Frequency:"
-msgstr "ପ୍ରକାଶନ କରୁଅଛି ବାରମ୍ବାରତା:"
+msgstr "ବାରମ୍ବାରତା ପ୍ରକାଶନ କରୁଅଛି (_F):"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:13
-#, fuzzy
 msgid ""
 "Secure FTP (SSH)\n"
 "Public FTP\n"
@@ -18116,17 +18043,23 @@ msgid ""
 "WebDAV (HTTP)\n"
 "Secure WebDAV (HTTPS)\n"
 "Custom Location"
-msgstr "FTP SSH FTP ସହିତ  HTTP HTTPS ଅବସ୍ଥାନ"
+msgstr ""
+"ସୁରକ୍ଷିତ FTP (SSH)\n"
+"ସାର୍ବଜନିକ FTP\n"
+"FTP (ଲଗଇନ ସହିତ)\n"
+"ୱିଣ୍ଡୋର ସହଭାଗ\n"
+"WebDAV (HTTP)\n"
+"ସୁରକ୍ଷିତ WebDAV (HTTPS)\n"
+"ଇଚ୍ଛାମୁତାବକ ଅବସ୍ଥାନ"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:20
 msgid "Service _type:"
 msgstr "ସେବାର ପ୍ରକାର (_t):"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:21
-#, fuzzy
 #| msgid "Time _zone:"
 msgid "Time _duration:"
-msgstr "ସମୟ ମଣ୍ଡଳ (_z):"
+msgstr "ସମୟ ଅବଧି (_d):"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:23
 msgid "_File:"
@@ -18138,7 +18071,7 @@ msgstr "ପ୍ରବେଶ ସଂଙ୍କେତ (_P):"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:25
 msgid "_Publish as:"
-msgstr ""
+msgstr "ଭାବରେ ପ୍ରକାଶିତ (_P):"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:26
 msgid "_Remember password"
@@ -18154,6 +18087,9 @@ msgid ""
 "weeks\n"
 "months"
 msgstr ""
+"ଦିନ\n"
+"ସପ୍ତାହ\n"
+"ମାସ"
 
 #: ../plugins/publish-calendar/publish-calendar.glade.h:32
 msgid ""
@@ -18167,7 +18103,7 @@ msgstr ""
 #: ../plugins/publish-calendar/publish-format-ical.c:82
 #, c-format
 msgid "Could not publish calendar: Calendar backend no longer exists"
-msgstr ""
+msgstr "କ୍ୟାଲେଣ୍ଡର ପ୍ରକାଶନ କରିହେଲା ନାହିଁ: କ୍ୟାଲେଣ୍ଡର ପୃଷ୍ଠଭୂମି ଏବେ ଅବସ୍ଥିତ ନାହିଁ"
 
 #: ../plugins/publish-calendar/url-editor-dialog.c:480
 msgid "New Location"
@@ -18182,39 +18118,33 @@ msgid "Hello Python"
 msgstr "Hello Python"
 
 #: ../plugins/python/example/org-gnome-hello-python-ui.xml.h:2
-#, fuzzy
 msgid "Python Plugin Loader tests"
-msgstr "Python ପ୍ଲଗ-ଇନ"
+msgstr "Python ପ୍ଲଗଇନ ଧାରଣକର୍ତ୍ତା ପରୀକ୍ଷଣ"
 
 #: ../plugins/python/example/org-gnome-hello-python.eplug.xml.h:1
-#, fuzzy
 msgid "Python Test Plugin"
-msgstr "Python ପରୀକ୍ଷଣ ପ୍ଲଗ-ଇନ"
+msgstr "Python ପରୀକ୍ଷଣ ପ୍ଲଗଇନ"
 
 #: ../plugins/python/example/org-gnome-hello-python.eplug.xml.h:2
-#, fuzzy
 msgid "Test Plugin for Python EPlugin loader."
-msgstr "ପରୀକ୍ଷଣ ପ୍ଲଗ-ଇନ ପାଇଁ Python."
+msgstr "Python EPlugin ଧାରଣକର୍ତ୍ତା ପାଇଁ ପରୀକ୍ଷଣ ପ୍ଲଗଇନ।"
 
 #: ../plugins/python/org-gnome-evolution-python.eplug.xml.h:1
-#, fuzzy
 msgid "A plugin which loads other plugins written using Python."
-msgstr "A ଅନ୍ଯ Python."
+msgstr "Python ବ୍ୟବହାର କରି ଲିଖିତ ଅନ୍ୟାନ୍ୟ ପ୍ଲଗଇନଗୁଡ଼ିକୁ ଧାରଣ କରୁଥିବା ଗୋଟିଏ ପ୍ଲଗଇନ।"
 
 #: ../plugins/python/org-gnome-evolution-python.eplug.xml.h:2
-#, fuzzy
 msgid "Python Loader"
-msgstr "Python"
+msgstr "Python ଧାରଣକର୍ତ୍ତା"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:111
-#, fuzzy
 msgid "SpamAssassin (built-in)"
-msgstr "ଇଞ୍ଚ"
+msgstr "SpamAssassin (ସୁନିର୍ମିତ)"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:137
-#, fuzzy, c-format
+#, c-format
 msgid "SpamAssassin not found, code: %d"
-msgstr "ନୁହେଁ ମିଳିଛି  d"
+msgstr "SpamAssassin ମିଳୁନାହିଁ, ସଂକେତ: %d"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:145
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:153
@@ -18223,24 +18153,24 @@ msgid "Failed to create pipe: %s"
 msgstr "ପାଇପ ନିର୍ମାଣ କରିବାରେ ବିଫଳ: %s"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:192
-#, fuzzy, c-format
+#, c-format
 msgid "Error after fork: %s"
-msgstr "ତ୍ରୁଟି ପରେ"
+msgstr "ବିଭାଜନ ପରେ ତ୍ରୁଟି: %s"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:247
-#, fuzzy, c-format
+#, c-format
 msgid "SpamAssassin child process does not respond, killing..."
-msgstr "ନିର୍ଭରକ ନୁହେଁ."
+msgstr "SpamAssassin ନିମ୍ନସ୍ତର ପଦ୍ଧତି ଉତ୍ତର ଦେଉନାହିଁ, ବନ୍ଦ କରୁଅଛି..."
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:249
-#, fuzzy, c-format
+#, c-format
 msgid "Wait for SpamAssassin child process interrupted, terminating..."
-msgstr "ପାଇଁ ନିର୍ଭରକ."
+msgstr "SpamAssassin ନିମ୍ନସ୍ତର ପଦ୍ଧତି ବାଧାପ୍ରାପ୍ତ ପାଇଁ ଅପେକ୍ଷା କରନ୍ତୁ, ସମାପ୍ତ କରୁଅଛି..."
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:258
-#, fuzzy, c-format
+#, c-format
 msgid "Pipe to SpamAssassin failed, error code: %d"
-msgstr "କୁ ତୃଟି d"
+msgstr "SpamAssassin କୁ ପାଇପ ବିଫଳ ହୋଇଛି, ତ୍ରୁଟି ସଂକେତ: %d"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:521
 #, c-format
@@ -18249,12 +18179,11 @@ msgstr "SpamAssassin ଉପଲବ୍ଧ ନାହିଁ।"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:913
 msgid "This will make SpamAssassin more reliable, but slower"
-msgstr ""
+msgstr "ଏହା SpamAssassin କୁ ଅଧିକ ଭରସାଯୋଗ୍ୟ କରିଥାଏ, କିନ୍ତୁ ମନ୍ଥର"
 
 #: ../plugins/sa-junk-plugin/em-junk-filter.c:919
-#, fuzzy
 msgid "I_nclude remote tests"
-msgstr "ପ୍ରଥମ"
+msgstr "ସୂଦୂର ପରୀକ୍ଷଣକୁ ଅନ୍ତର୍ଭୁକ୍ତ କରନ୍ତୁ (_n)"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:1
 #, fuzzy
@@ -18264,13 +18193,12 @@ msgid ""
 msgstr "ଫିଲ୍ଟରଗୁଡିକ କୁ."
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:2
-#, fuzzy
 msgid "SpamAssassin Options"
-msgstr "ବିକଳ୍ପଗୁଡିକ"
+msgstr "SpamAssassin ବିକଳ୍ପଗୁଡିକ"
 
 #: ../plugins/sa-junk-plugin/org-gnome-sa-junk-plugin.eplug.xml.h:3
 msgid "SpamAssassin junk plugin"
-msgstr ""
+msgstr "SpamAssassin ଜଙ୍କ ପ୍ଲଗଇନ"
 
 #.
 #. * Translator: the %F %T is the thirth argument for a strftime function.
@@ -18282,25 +18210,21 @@ msgstr "%F %T"
 
 #: ../plugins/save-calendar/csv-format.c:361
 msgid "UID"
-msgstr ""
+msgstr "UID"
 
 #: ../plugins/save-calendar/csv-format.c:363
-#, fuzzy
 msgid "Description List"
 msgstr "ବର୍ଣ୍ଣନା ତାଲିକା"
 
 #: ../plugins/save-calendar/csv-format.c:364
-#, fuzzy
 msgid "Categories List"
 msgstr "ବିଭାଗ ତାଲିକା"
 
 #: ../plugins/save-calendar/csv-format.c:365
-#, fuzzy
 msgid "Comment List"
 msgstr "ମନ୍ତବ୍ଯ ତାଲିକା"
 
 #: ../plugins/save-calendar/csv-format.c:368
-#, fuzzy
 msgid "Contact List"
 msgstr "ସମ୍ପର୍କ ତାଲିକା"
 
@@ -18313,7 +18237,6 @@ msgid "End"
 msgstr "ସମାପ୍ତ"
 
 #: ../plugins/save-calendar/csv-format.c:372
-#, fuzzy
 msgid "percent Done"
 msgstr "ପ୍ରତିଶତ ସମ୍ପୂର୍ଣ୍ଣ"
 
@@ -18322,58 +18245,48 @@ msgid "URL"
 msgstr "ୟୁ.ଆର.ଏଲ."
 
 #: ../plugins/save-calendar/csv-format.c:375
-#, fuzzy
 msgid "Attendees List"
-msgstr "ଆଟେଣ୍ଡିସ ତାଲିକା"
+msgstr "ଉପସ୍ଥିତ ବ୍ୟକ୍ତିମାନଙ୍କର ତାଲିକା"
 
 #: ../plugins/save-calendar/csv-format.c:377
 msgid "Modified"
 msgstr "ପରିବର୍ତ୍ତିତ"
 
 #: ../plugins/save-calendar/csv-format.c:532
-#, fuzzy
 msgid "Advanced options for the CSV format"
-msgstr "ଉନ୍ନତ ବିକଳ୍ପ ମାନ ପାଇଁ"
+msgstr "CSV ଶୈଳୀ ପାଇଁ ଉନ୍ନତ ବିକଳ୍ପମାନ"
 
 #: ../plugins/save-calendar/csv-format.c:539
-#, fuzzy
 msgid "Prepend a header"
-msgstr "a ଶୀର୍ଷକ"
+msgstr "ଗୋଟିଏ ଶୀର୍ଷକକୁ ପୂର୍ବରୁ ଅଟକାନ୍ତୁ"
 
 #: ../plugins/save-calendar/csv-format.c:548
-#, fuzzy
 msgid "Value delimiter:"
-msgstr "ମୂଲ୍ଯ:"
+msgstr "ମୂଲ୍ଯ ପରିସୀମକ:"
 
 #: ../plugins/save-calendar/csv-format.c:554
-#, fuzzy
 msgid "Record delimiter:"
-msgstr "ଅଭିଲେଖ:"
+msgstr "ପରିସୀମକକୁ ଲିପିବଦ୍ଧ କରନ୍ତୁ:"
 
 #: ../plugins/save-calendar/csv-format.c:560
-#, fuzzy
 msgid "Encapsulate values with:"
-msgstr "ସହିତ :"
+msgstr "ମୂଲ୍ୟଗୁଡ଼ିକୁ ଏହା ସହିତ ସମ୍ପୂଟିତ କରନ୍ତୁ:"
 
 #: ../plugins/save-calendar/csv-format.c:582
-#, fuzzy
 msgid "Comma separated value format (.csv)"
-msgstr "କମା ମୂଲ୍ଯ"
+msgstr "କମା ଦ୍ୱାରା ପୃଥକ ହୋଇଥିବା ମୂଲ୍ୟର ଶୈଳୀ (.csv)"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:1
-#, fuzzy
 msgid "Save Selected"
-msgstr "ସଂରକ୍ଷଣ କରନ୍ତୁ ଚୟିତ"
+msgstr "ବଚ୍ଛିତକୁ ସଂରକ୍ଷଣ କରନ୍ତୁ"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:2
-#, fuzzy
 msgid "Saves selected calendar or tasks list to disk."
-msgstr "ଚୟିତ କାଲେଣ୍ଡର କିମ୍ବା ତାଲିକା କୁ."
+msgstr "ଚୟିତ କାଲେଣ୍ଡର କିମ୍ବା କାର୍ଯ୍ୟ ତାଲିକାକୁ ଡିସ୍କରେ ସଂରକ୍ଷଣ କରିଥାଏ।"
 
 #: ../plugins/save-calendar/org-gnome-save-calendar.eplug.xml.h:3
-#, fuzzy
 msgid "_Save to Disk"
-msgstr "ସଂରକ୍ଷଣ କରନ୍ତୁ କୁ ଡିସ୍କ"
+msgstr "ଡିସ୍କରେ ସଂରକ୍ଷଣ କରନ୍ତୁ (_S)"
 
 #.
 #. * Translator: the %FT%T is the thirth argument for a strftime function.
@@ -18381,57 +18294,48 @@ msgstr "ସଂରକ୍ଷଣ କରନ୍ତୁ କୁ ଡିସ୍କ"
 #. * Also check out http://www.w3.org/2002/12/cal/tzd
 #. *
 #: ../plugins/save-calendar/rdf-format.c:150
-#, fuzzy
 msgid "%FT%T"
-msgstr "T"
+msgstr "%FT%T"
 
 #: ../plugins/save-calendar/rdf-format.c:377
 msgid "RDF format (.rdf)"
-msgstr ""
+msgstr "RDF ଶୈଳୀ (.rdf)"
 
 #: ../plugins/save-calendar/save-calendar.c:161
-#, fuzzy
 msgid "Select destination file"
-msgstr "ମନୋନୀତ କର ଫାଇଲ"
+msgstr "ଲକ୍ଷ୍ଯ ସ୍ଥଳ ଫାଇଲ ମନୋନୀତ କରନ୍ତୁ"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:1
-#, fuzzy
 msgid "Select one source"
-msgstr "ମନୋନୀତ କର ଉତ୍ସ"
+msgstr "ଗୋଟିଏ ଉତ୍ସ ମନୋନୀତ କରନ୍ତୁ"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:2
-#, fuzzy
 msgid "Selects a single calendar or task source for viewing."
-msgstr "a କାଲେଣ୍ଡର କିମ୍ବା ଉତ୍ସ ପାଇଁ."
+msgstr "ଦେଖିବା ପାଇଁ ଗୋଟିଏ କ୍ୟାଲେଣ୍ଡର କିମ୍ବା କାର୍ଯ୍ୟ ଉତ୍ସ ବାଛନ୍ତୁ।"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:3
-#, fuzzy
 msgid "Show _only this Calendar"
-msgstr "ଦେଖାଅ ଏହା କ୍ଯାଲେଣ୍ଡର"
+msgstr "କେବଳ ଏହି କ୍ଯାଲେଣ୍ଡରକୁ ଦର୍ଶାନ୍ତୁ (_o)"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:4
-#, fuzzy
 msgid "Show _only this Memo List"
-msgstr "ଦେଖାଅ ଏହା ସ୍ମାରକପତ୍ର ତାଲିକା"
+msgstr "କେବଳ ଏହି ସ୍ମାରକପତ୍ର ତାଲିକାକୁ ଦର୍ଶାନ୍ତୁ (_o)"
 
 #: ../plugins/select-one-source/org-gnome-select-one-source.eplug.xml.h:5
-#, fuzzy
 msgid "Show _only this Task List"
-msgstr "ଦେଖାଅ ଏହା ଟାସ୍କ ତାଲିକା"
+msgstr "କେବଳ ଏହି କାର୍ଯ୍ୟ ତାଲିକାକୁ ଦର୍ଶାନ୍ତୁ (_o)"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:1
-#, fuzzy
 msgid "Guides you through your initial account setup."
-msgstr "ଗାଇଡଗୁଡିକ ବ୍ଯବସ୍ଥା."
+msgstr "ଆପଣଙ୍କର ପ୍ରାରମ୍ଭିକ ଖାତା ବିନ୍ୟାସ ମଧ୍ଯ ଦେଇ ପଥପ୍ରଦର୍ଶନ କରିଥାଏ।"
 
 #: ../plugins/startup-wizard/org-gnome-evolution-startup-wizard.eplug.xml.h:2
 msgid "Setup Assistant"
 msgstr "ବିନ୍ୟାସ ସହାୟକ"
 
 #: ../plugins/startup-wizard/startup-wizard.c:84
-#, fuzzy
 msgid "Evolution Setup Assistant"
-msgstr "କ୍ରମବିକାଶ  ସେଟଅପ ସହକାରୀ"
+msgstr "Evolution ବିନ୍ୟାସ ସହକାରୀ"
 
 #: ../plugins/startup-wizard/startup-wizard.c:87
 msgid "Welcome"
@@ -18454,21 +18358,20 @@ msgstr "ଫାଇଲଗୁଡ଼ିକୁ ଆମଦାନି କରୁଅଛି"
 
 #: ../plugins/startup-wizard/startup-wizard.c:117
 #: ../shell/e-shell-importer.c:138
-#, fuzzy
 msgid "Please select the information that you would like to import:"
-msgstr "ଦୟାକରି ମନୋନୀତ କର ସଦୃଶ କୁ:"
+msgstr "ଆପଣ ଆମଦାନୀ କରିବାକୁ ଚାହୁଁଥିବା ସୂଚନାକୁ ଦୟାକରି ମନୋନୀତ କରନ୍ତୁ:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:132
 #: ../shell/e-shell-importer.c:420
-#, fuzzy, c-format
+#, c-format
 msgid "From %s:"
-msgstr "ଠାରୁ:"
+msgstr "%s ଠାରୁ:"
 
 #: ../plugins/startup-wizard/startup-wizard.c:203
 #: ../shell/e-shell-importer.c:530
-#, fuzzy, c-format
+#, c-format
 msgid "Importing data."
-msgstr "ଆମଦାନୀକରିବା ତଥ୍ଯ."
+msgstr "ତଥ୍ଯ ଆମଦାନୀ କରୁଅଛି।"
 
 #: ../plugins/startup-wizard/startup-wizard.c:205
 #: ../shell/e-shell-importer.c:544
@@ -18476,32 +18379,29 @@ msgid "Please wait"
 msgstr "ଦଯାକରି  ଅପେକ୍ଷାକର"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:1
-#, fuzzy
 msgid "Indicates if threading of messages should fall back to subject."
-msgstr "ର ପଛକୁ କୁ."
+msgstr "ଯଦି ସନ୍ଦେଶଗୁଡ଼ିକର ବନ୍ଧନ ବିଷୟ ଅନୁସାରେ ପଡ଼ିଥାଏ ତେବେ ସୂଚାନ୍ତୁ।"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:2
-#, fuzzy
 msgid "Subject Threading"
-msgstr "ବିଷଯ"
+msgstr "ବିଷୟ ବନ୍ଧନ"
 
 #: ../plugins/subject-thread/org-gnome-subject-thread.eplug.xml.h:3
-#, fuzzy
 msgid "Thread messages by subject"
-msgstr "ସୁତା ଦ୍ବାରା"
+msgstr "ସନ୍ଦେଶଗୁଡ଼ିକୁ ବିଷୟ ଅନୁସାରେ ବାନ୍ଧନ୍ତୁ"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: ../plugins/subject-thread/subject-thread.c:56
-#, fuzzy
 msgid "F_all back to threading messages by subject"
-msgstr "F ସମସ୍ତ ପଛକୁ କୁ ଦ୍ବାରା"
+msgstr "ସନ୍ଦେଶଗୁଡ଼ିକୁ ବିଷୟ ଅନୁସାରେ ବାନ୍ଧିବାରେ ପଛକୁ ପଡ଼ିବା (_a)"
 
 #: ../plugins/templates/apps-evolution-template-placeholders.schemas.in.h:1
-#, fuzzy
 msgid ""
 "List of keyword/value pairs for the Templates plugin to substitute in a "
 "message body."
-msgstr "ତାଲିକା ର ସୂଚକ ଶବ୍ଦ ମୂଲ୍ଯ ପାଇଁ ନମୁନାଗୁଡିକ କୁ ଇଞ୍ଚ a."
+msgstr ""
+"ଗୋଟିଏ ସନ୍ଦେଶ ଭିତରେ ନମୁନା ପ୍ଲଗଇନକୁ ବଦଳାଇବା ପାଇଁ ସୂଚକ "
+"ଶବ୍ଦ/ମୂଲ୍ୟର ତାଲିକା।"
 
 #: ../plugins/templates/templates.c:603
 msgid "No title"
@@ -18517,12 +18417,11 @@ msgstr "ନମୁନା ପରି ସଂରକ୍ଷଣ କରନ୍ତୁ"
 
 #: ../plugins/templates/org-gnome-templates.eplug.xml.h:1
 msgid "Drafts based template plugin"
-msgstr ""
+msgstr "ଡ୍ରାଫ୍ଟ ଆଧାରିତ ନମୁନା ପ୍ଲଗଇନ"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:1
-#, fuzzy
 msgid "A simple plugin which uses yTNEF to decode TNEF attachments."
-msgstr "A ସରଳ କୁ."
+msgstr "TNEF ସଂଲଗ୍ନକକୁ ସାଙ୍କେତିକରଣ କରିବା ପାଇଁ ବ୍ୟବହୃତ ସରଳ ପ୍ଲଗଇନ ଯାହାକି yTNEF କୁ ବ୍ୟବହାର କରିଥାଏ।"
 
 #: ../plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml.h:2
 msgid "TNEF Attachment decoder"
@@ -18538,25 +18437,23 @@ msgstr "WebDAV ସମ୍ପର୍କ"
 
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:68
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:296
 msgid "URL:"
 msgstr "URL:"
 
 #: ../plugins/webdav-account-setup/webdav-contacts-source.c:323
-#, fuzzy
 msgid "_Avoid IfMatch (needed on Apache < 2.2.8)"
-msgstr "ରେ"
+msgstr "IfMatch କୁ ଏଡ଼ାଇଦିଅନ୍ତୁ (Apache < 2.2.8ରେ ଆବଶ୍ୟକ ହୋଇଥାଏ) (_A)"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:1
 msgid "Evolution Shell"
 msgstr "Evolution ସେଲ"
 
 #: ../shell/GNOME_Evolution_Shell.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Shell Config factory"
-msgstr "କ୍ରମବିକାଶ  ସେଲ"
+msgstr "Evolution ସେଲ Config କାରଖାନା"
 
 #: ../shell/test/GNOME_Evolution_Test.server.in.in.h:1
 msgid "Evolution Test"
@@ -18595,9 +18492,8 @@ msgid "Default window width"
 msgstr "ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ୱିଣ୍ଡୋ ଓସାର"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:8
-#, fuzzy
 msgid "Enables the proxy settings when accessing HTTP/Secure HTTP over the Internet."
-msgstr "HTTP HTTP ଇଣ୍ଟରନେଟ."
+msgstr "ଇଣ୍ଟରନେଟ ଉପରେ HTTP/ସୁରକ୍ଷିତ HTTP କୁ ଅଭିଗମ୍ୟ କରିବା ସମୟରେ ପ୍ରକ୍ସି ବିନ୍ୟାସକୁ ସକ୍ରିୟ କରନ୍ତୁ।"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:9
 msgid "HTTP proxy host name"
@@ -18616,9 +18512,8 @@ msgid "HTTP proxy username"
 msgstr "ଏଚ୍.ଟି.ଟି.ପି. ଛାୟା ଚାଳକନାମ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:13
-#, fuzzy
 msgid "ID or alias of the component to be shown by default at start-up."
-msgstr "ID କିମ୍ବା ର କୁ ଦ୍ବାରା ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଏଠାରେ ଆରମ୍ଭ ଉପର."
+msgstr "ଆରମ୍ଭ ସମୟରେ ପୂର୍ବ ନିର୍ଦ୍ଧାରିତ ଭାବରେ ଦର୍ଶାଇବାକୁ ଥିବା ଉପାଦାନର ID କିମ୍ବା ଉପନାମ।"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:14
 #, fuzzy
@@ -18643,22 +18538,23 @@ msgstr "ପ୍ରାରମ୍ଭିକ ଫାଇଲ ଚୟନକାରୀ ଫୋ
 
 #: ../shell/apps_evolution_shell.schemas.in.h:17
 msgid "Initial folder for GtkFileChooser dialogs."
-msgstr ""
+msgstr "GtkFileChooser ସଂଳାପଗୁଡ଼ିକ ପାଇଁ ପ୍ରାରମ୍ଭିକ ଫୋଲଡର।"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:18
 msgid ""
 "Initial view for attachment bar widgets. \"0\" is Icon View, \"1\" is List "
 "View."
 msgstr ""
+"ସଂଲଗ୍ନକ ପଟି ୱିଜେଟ ପାଇଁ ପ୍ରାରମ୍ଭିକ ଦୃଶ୍ୟ। \"0\" ଟି ହେଉଛି ଚିତ୍ରସଂକେତ ଦୃଶ୍ୟ, \"1\" ଟି ହେଉଛି "
+"ତାଲିକା ଦୃଶ୍ୟ।"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:19
 msgid "Last upgraded configuration version"
 msgstr "ଶେଷରେ ବିନ୍ଯାସିତ ସଂରଚନା ସଂସ୍କରଣ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:20
-#, fuzzy
 msgid "List of paths for the folders to be synchronized to disk for offline usage"
-msgstr "ତାଲିକା ର ପାଇଁ କୁ କୁ ପାଇଁ ଅଫ ଲାଇନ"
+msgstr "ଅଫଲାଇନ ବ୍ୟବହାର ପାଇଁ ଫୋଲଡରଗୁଡ଼ିକର ପଥର ତାଲିକାକୁ ଡିସ୍କ ସହିତ ସମକାଳୀନ କରାଯାଇଥାଏ"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:21
 msgid "Non-proxy hosts"
@@ -18773,12 +18669,14 @@ msgid ""
 msgstr "ରେ ଦ୍ବାରା ନେଟୱାର୍କ config ଆଧାର."
 
 #: ../shell/apps_evolution_shell.schemas.in.h:44
-#, fuzzy
 msgid ""
 "The style of the window buttons. Can be \"text\", \"icons\", \"both\", "
 "\"toolbar\". If \"toolbar\" is set, the style of the buttons is determined "
 "by the GNOME toolbar setting."
-msgstr "ର ୱିଣ୍ଡୋ ପାଠ୍ଯ ଅଟେ ସେଟ ର ଅଟେ ଦ୍ବାରା ନୋମ."
+msgstr ""
+"ୱିଣ୍ଡୋ ବଟନର ଶୈଳୀ। \"text\", \"icons\", \"both\", "
+"\"toolbar\" ହୋଇପାରେ। ଯଦି \"toolbar\" କୁ ସେଟ କରାଯାଏ, ତେବେ "
+"ବଟନର ଶୈଳୀ GNOME ସାଧନ ପଟି ବିନ୍ୟାସ ଦ୍ୱାରା ନିର୍ଦ୍ଧାରଣ କରାଯାଇଥାଏ।"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:45
 msgid ""
@@ -18829,7 +18727,7 @@ msgstr "ସାଧନ ପଟିଟି ଦୃଶ୍ୟମାନ ହେବା ଉ�
 
 #: ../shell/apps_evolution_shell.schemas.in.h:55
 msgid "Whether the warning dialog in development versions of Evolution is skipped."
-msgstr ""
+msgstr "Evolution ର ବିକାଶ ସଂସ୍କରଣରେ ଚେତାବନୀ ସଂଳାପକୁ ଛାଡ଼ିଦିଆଯିବା ଉଚିତ କି ନୁହଁ।"
 
 #: ../shell/apps_evolution_shell.schemas.in.h:56
 msgid "Whether the window buttons should be visible."
@@ -18860,11 +18758,12 @@ msgid "Choose the type of importer to run:"
 msgstr "ଚଲାଇବା ପାଇଁ ଆମଦାନୀ ପ୍ରକାରକୁ ବାଛନ୍ତୁ:"
 
 #: ../shell/e-shell-importer.c:131
-#, fuzzy
 msgid ""
 "Choose the file that you want to import into Evolution, and select what type "
 "of file it is from the list."
-msgstr "ବାଛ ଫାଇଲ କୁ କ୍ରମବିକାଶ  ଏବଂ ମନୋନୀତ କର ପ୍ରକାର ର ଫାଇଲ ଅଟେ ଠାରୁ ତାଲିକା."
+msgstr ""
+"Evolution ମଧ୍ଯକୁ ଆମଦାନୀ କରିବାକୁ ଚାହୁଁଥିବା ଫାଇଲକୁ ବାଛନ୍ତୁ, ଏବଂ "
+"ତାଲିକାରୁ ଫାଇଲ ପ୍ରକାର ବାଛନ୍ତୁ।"
 
 #: ../shell/e-shell-importer.c:135
 msgid "Choose the destination for this import"
@@ -19026,9 +18925,8 @@ msgid "Create a new test item"
 msgstr "ଗୋଟିଏ ନୂତନ ପରୀକ୍ଷଣ ବସ୍ତୁ ସୃଷ୍ଟି କରନ୍ତୁ"
 
 #: ../shell/import.glade.h:1
-#, fuzzy
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr "ଆମଦାନୀ କର କୁ ଫାଇଲ କ୍ରମବିକାଶ  "
+msgstr "Evolution ମଧ୍ଯକୁ ଫାଇଲ ଆମଦାନୀ କରିବା ଆରମ୍ଭ କରିବା ପାଇଁ \"Import\" କୁ କ୍ଲିକ କରନ୍ତୁ।"
 
 #: ../shell/import.glade.h:2
 msgid "Evolution Import Assistant"
@@ -19055,12 +18953,14 @@ msgid "Select a File"
 msgstr "ଗୋଟିଏ ଫାଇଲ ବାଛନ୍ତୁ"
 
 #: ../shell/import.glade.h:8
-#, fuzzy
 msgid ""
 "Welcome to the Evolution Import Assistant.\n"
 "With this assistant you will be guided through the process of\n"
 "importing external files into Evolution."
-msgstr "ସ୍ବାଗତମ କୁ କ୍ରମବିକାଶ  ଆମଦାନୀ କର ସହକାରୀ ଏହା ର ଫାଇଲ ମାନ କ୍ରମବିକାଶ ."
+msgstr ""
+"Evolution ଆମଦାନୀ ସହାୟକରେ ଆପଣଙ୍କୁ ସ୍ୱାଗତ କରୁଅଛୁ।\n"
+"ଏହି ସହାୟତା ସହିତ ଆପଣ ବାହ୍ୟ ଫାଇଲକୁ Evolution ମଧ୍ଯକୁ\n"
+"ଆମଦାନୀ କରିବାର ପଦ୍ଧତି ବିଷୟରେ ପଥପ୍ରଦର୍ଶନ କରାଯିବ।"
 
 #. Preview/Alpha/Beta version warning message
 #: ../shell/main.c:221
@@ -19099,21 +18999,19 @@ msgstr "ମୋତେ ପୁଣିଥରେ ପଚାରନ୍ତୁ ନାହି
 
 #: ../shell/main.c:481
 msgid "Start Evolution activating the specified component"
-msgstr ""
+msgstr "ଉଲ୍ଲିଖିତ ଉପାଦାନଗୁଡ଼ିକୁ ସକ୍ରିୟ କରି Evolution କୁ ଆରମ୍ଭ କରନ୍ତୁ"
 
 #: ../shell/main.c:485
 msgid "Start in online mode"
 msgstr "ଅନଲାଇନ ଧାରାରେ ଆରମ୍ଭ କରନ୍ତୁ"
 
 #: ../shell/main.c:488
-#, fuzzy
 msgid "Forcibly shut down all Evolution components"
-msgstr "ତଳ ସମସ୍ତ କ୍ରମବିକାଶ "
+msgstr "ସମସ୍ତ Evolution ଉପାଦାନଗୁଡ଼ିକୁ ବାଧ୍ଯତାମୂଳକ ଭାବରେ ବନ୍ଦ କରନ୍ତୁ"
 
 #: ../shell/main.c:492
-#, fuzzy
 msgid "Forcibly re-migrate from Evolution 1.4"
-msgstr "NULL ଠାରୁ କ୍ରମବିକାଶ  ୪"
+msgstr "Evolution 1.4 ରୁ ବାଧ୍ୟତାମୂଳକ ଭାବରେ ସ୍ଥାନ ପରିବର୍ତ୍ତନ କରନ୍ତୁ"
 
 #: ../shell/main.c:495
 msgid "Send the debugging output of all components to a file."
@@ -19132,13 +19030,13 @@ msgid "- The Evolution PIM and Email Client"
 msgstr "- Evolution PIM ଏବଂ ଇମେଲ ଗ୍ରାହକ"
 
 #: ../shell/main.c:614
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
 msgstr ""
-"ଏବଂ ଅଫ ଲାଇନ ବ୍ଯବହୃତ\n"
-" ବ୍ଯବହାର କର ସାହାୟ୍ଯ ପାଇଁ ନାଁ"
+"%s: --online ଏବଂ --offline କୁ ଏକ ସଙ୍ଗରେ ବ୍ୟବହାର କରିହେବ ନାହିଁ।\n"
+"  ଅଧିକ ସୂଚନା ପାଇଁ %s --help ବ୍ୟବହାର କରନ୍ତୁ।\n"
 
 #: ../shell/shell.error.xml.h:1
 msgid "Are you sure you want to forget all remembered passwords?"
@@ -22079,6 +21977,8 @@ msgid ""
 "To add a column to your table, drag it into\n"
 "the location in which you want it to appear."
 msgstr ""
+"ଆପଣଙ୍କ ସାରଣୀରେ ଗୋଟିଏ ସ୍ତମ୍ଭ ଯୋଡ଼ିବା ପାଇଁ, ତାହାକୁ\n"
+"ଆପଣ ଚାହୁଁଥିବା ସ୍ଥାନକୁ ଟାଣନ୍ତୁ।"
 
 #: ../widgets/table/e-table-group-container.c:343
 #, c-format
