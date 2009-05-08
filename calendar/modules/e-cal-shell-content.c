@@ -327,7 +327,7 @@ cal_shell_content_constructed (GObject *object)
 	ECalModel *memo_model;
 	ECalModel *task_model;
 	EShellContent *shell_content;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
 	EShellContent *foreign_content;
@@ -351,8 +351,8 @@ cal_shell_content_constructed (GObject *object)
 	shell_view = e_shell_content_get_shell_view (shell_content);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
-	shell_module = e_shell_view_get_shell_module (shell_view);
-	config_dir = e_shell_module_get_config_dir (shell_module);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	config_dir = e_shell_backend_get_config_dir (shell_backend);
 
 	/* Calendar model for the views. */
 	cal_model = e_cal_model_calendar_new ();

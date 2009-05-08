@@ -1,5 +1,5 @@
 /*
- * e-cal-shell-module-settings.c
+ * e-cal-shell-backend-settings.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,12 +19,12 @@
  *
  */
 
-#include "e-cal-shell-module-settings.h"
+#include "e-cal-shell-settings.h"
 
 #include <gconf/gconf-client.h>
 
 void
-e_cal_shell_module_init_settings (EShell *shell)
+e_cal_shell_backend_init_settings (EShell *shell)
 {
 	EShellSettings *shell_settings;
 

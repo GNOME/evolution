@@ -496,12 +496,12 @@ e_cal_shell_view_memopad_set_status_message (ECalShellView *cal_shell_view,
 {
 	EActivity *activity;
 	EShellView *shell_view;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 
 	g_return_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view));
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
-	shell_module = e_shell_view_get_shell_module (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
 	activity = cal_shell_view->priv->memopad_activity;
 
@@ -515,7 +515,7 @@ e_cal_shell_view_memopad_set_status_message (ECalShellView *cal_shell_view,
 	} else if (activity == NULL) {
 		activity = e_activity_new (status_message);
 		e_activity_set_percent (activity, percent);
-		e_shell_module_add_activity (shell_module, activity);
+		e_shell_backend_add_activity (shell_backend, activity);
 
 	} else {
 		e_activity_set_percent (activity, percent);

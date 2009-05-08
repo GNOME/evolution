@@ -45,8 +45,8 @@ ece_target_free (EEvent *ev, EEventTarget *t)
 	switch (t->type) {
 	case E_CAL_EVENT_TARGET_MODULE: {
 		ECalEventTargetModule *s = (ECalEventTargetModule *) t;
-		if (s->shell_module)
-			g_object_unref (s->shell_module);
+		if (s->shell_backend)
+			g_object_unref (s->shell_backend);
 		break; }
 	}
 
@@ -93,11 +93,11 @@ e_cal_event_peek (void)
 }
 
 ECalEventTargetModule *
-e_cal_event_target_new_module (ECalEvent *ece, EShellModule *shell_module, guint32 flags)
+e_cal_event_target_new_module (ECalEvent *ece, EShellBackend *shell_backend, guint32 flags)
 {
 	ECalEventTargetModule *t = e_event_target_new (&ece->event, E_CAL_EVENT_TARGET_MODULE, sizeof (*t));
 
-	t->shell_module = g_object_ref (shell_module);
+	t->shell_backend = g_object_ref (shell_backend);
 	t->target.mask = ~flags;
 
 	return t;

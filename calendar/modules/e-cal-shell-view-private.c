@@ -219,17 +219,6 @@ void
 e_cal_shell_view_private_init (ECalShellView *cal_shell_view,
                                EShellViewClass *shell_view_class)
 {
-	ECalShellViewPrivate *priv = cal_shell_view->priv;
-	ESourceList *source_list;
-	GObject *object;
-	guint notification_id;
-
-	object = G_OBJECT (shell_view_class->type_module);
-	source_list = g_object_get_data (object, "source-list");
-	g_return_if_fail (E_IS_SOURCE_LIST (source_list));
-
-	priv->source_list = g_object_ref (source_list);
-
 	if (!gal_view_collection_loaded (shell_view_class->view_collection))
 		cal_shell_view_load_view_collection (shell_view_class);
 
@@ -244,6 +233,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	ECalShellViewPrivate *priv = cal_shell_view->priv;
 	ECalShellContent *cal_shell_content;
 	ECalShellSidebar *cal_shell_sidebar;
+	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
@@ -256,6 +246,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	guint id;
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -264,6 +255,7 @@ e_cal_shell_view_private_constructed (ECalShellView *cal_shell_view)
 	e_shell_window_add_action_group (shell_window, "calendar-filter");
 
 	/* Cache these to avoid lots of awkward casting. */
+	priv->cal_shell_backend = g_object_ref (shell_backend);
 	priv->cal_shell_content = g_object_ref (shell_content);
 	priv->cal_shell_sidebar = g_object_ref (shell_sidebar);
 
@@ -361,8 +353,7 @@ e_cal_shell_view_private_dispose (ECalShellView *cal_shell_view)
 	ECalShellViewPrivate *priv = cal_shell_view->priv;
 	GList *iter;
 
-	DISPOSE (priv->source_list);
-
+	DISPOSE (priv->cal_shell_backend);
 	DISPOSE (priv->cal_shell_content);
 	DISPOSE (priv->cal_shell_sidebar);
 
@@ -468,12 +459,12 @@ e_cal_shell_view_set_status_message (ECalShellView *cal_shell_view,
 {
 	EActivity *activity;
 	EShellView *shell_view;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 
 	g_return_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view));
 
 	shell_view = E_SHELL_VIEW (cal_shell_view);
-	shell_module = e_shell_view_get_shell_module (shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 
 	activity = cal_shell_view->priv->calendar_activity;
 
@@ -487,7 +478,7 @@ e_cal_shell_view_set_status_message (ECalShellView *cal_shell_view,
 	} else if (activity == NULL) {
 		activity = e_activity_new (status_message);
 		e_activity_set_percent (activity, percent);
-		e_shell_module_add_activity (shell_module, activity);
+		e_shell_backend_add_activity (shell_backend, activity);
 
 	} else {
 		e_activity_set_percent (activity, percent);

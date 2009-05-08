@@ -66,8 +66,6 @@ GType		e_cal_shell_view_get_type
 					(GTypeModule *type_module);
 GnomeCalendar *	e_cal_shell_view_get_calendar
 					(ECalShellView *cal_shell_view);
-ESourceList *	e_cal_shell_view_get_source_list
-					(ECalShellView *cal_shell_view);
 
 G_END_DECLS
 

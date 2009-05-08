@@ -1,5 +1,5 @@
 /*
- * e-cal-shell-module.c
+ * e-cal-shell-backend.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,17 +19,18 @@
  *
  */
 
+#include "e-cal-shell-backend.h"
+
 #include <string.h>
 #include <glib/gi18n.h>
 #include <libecal/e-cal.h>
 #include <libedataserver/e-url.h>
 #include <libedataserver/e-source.h>
-#include <libedataserver/e-source-list.h>
 #include <libedataserver/e-source-group.h>
 
 #include "e-util/e-import.h"
 #include "shell/e-shell.h"
-#include "shell/e-shell-module.h"
+#include "shell/e-shell-backend.h"
 #include "shell/e-shell-window.h"
 #include "widgets/misc/e-preferences-window.h"
 
@@ -45,29 +46,36 @@
 #include "calendar/importers/evolution-calendar-importer.h"
 
 #include "e-cal-shell-view.h"
-#include "e-cal-shell-module-migrate.h"
-#include "e-cal-shell-module-settings.h"
+#include "e-cal-shell-migrate.h"
+#include "e-cal-shell-settings.h"
 
-#define MODULE_NAME		"calendar"
-#define MODULE_ALIASES		""
-#define MODULE_SCHEMES		"calendar"
-#define MODULE_SORT_ORDER	400
+#define E_CAL_SHELL_BACKEND_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_CAL_SHELL_BACKEND, ECalShellBackendPrivate))
 
 #define CONTACTS_BASE_URI	"contacts://"
 #define WEATHER_BASE_URI	"weather://"
 #define WEB_BASE_URI		"webcal://"
 #define PERSONAL_RELATIVE_URI	"system"
 
+struct _ECalShellBackendPrivate {
+	ESourceList *source_list;
+};
+
 /* Module Entry Point */
-void e_shell_module_init (GTypeModule *type_module);
+void e_module_load (GTypeModule *type_module);
+void e_module_unload (GTypeModule *type_module);
+
+GType e_cal_shell_backend_type = 0;
+static gpointer parent_class;
 
 static void
-cal_shell_module_ensure_sources (EShellModule *shell_module)
+cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 {
-	/* XXX This is basically the same algorithm across all modules.
-	 *     Maybe we could somehow integrate this into EShellModule? */
+	/* XXX This is basically the same algorithm across all backends.
+	 *     Maybe we could somehow integrate this into EShellBackend? */
 
-	ESourceList *source_list;
+	ECalShellBackendPrivate *priv;
 	ESourceGroup *on_this_computer;
 	ESourceGroup *on_the_web;
 	ESourceGroup *contacts;
@@ -90,31 +98,22 @@ cal_shell_module_ensure_sources (EShellModule *shell_module)
 	birthdays = NULL;
 	personal = NULL;
 
-	shell = e_shell_module_get_shell (shell_module);
+	priv = E_CAL_SHELL_BACKEND_GET_PRIVATE (shell_backend);
+
+	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	if (!e_cal_get_sources (&source_list, E_CAL_SOURCE_TYPE_EVENT, NULL)) {
+	if (!e_cal_get_sources (&priv->source_list, E_CAL_SOURCE_TYPE_EVENT, NULL)) {
 		g_warning ("Could not get calendar sources from GConf!");
 		return;
 	}
 
-	/* Share the source list with all calendar views.  This
-	 * is accessible via e_cal_shell_view_get_source_list().
-	 * Note: EShellModule takes ownership of the reference.
-	 *
-	 * XXX I haven't yet decided if I want to add a proper
-	 *     EShellModule API for this.  The mail module would
-	 *     not use it. */
-	g_object_set_data_full (
-		G_OBJECT (shell_module), "source-list",
-		source_list, (GDestroyNotify) g_object_unref);
-
-	data_dir = e_shell_module_get_data_dir (shell_module);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
 	filename = g_build_filename (data_dir, "local", NULL);
 	base_uri = g_filename_to_uri (filename, NULL, NULL);
 	g_free (filename);
 
-	groups = e_source_list_peek_groups (source_list);
+	groups = e_source_list_peek_groups (priv->source_list);
 	for (iter = groups; iter != NULL; iter = iter->next) {
 		ESourceGroup *source_group = iter->data;
 		const gchar *group_base_uri;
@@ -179,14 +178,14 @@ cal_shell_module_ensure_sources (EShellModule *shell_module)
 			 *     but that happens in an idle loop and too late
 			 *     to prevent the user from seeing a "Cannot
 			 *     Open ... because of invalid URI" error. */
-			e_source_list_sync (source_list, NULL);
+			e_source_list_sync (priv->source_list, NULL);
 		}
 
 	} else {
 		ESourceGroup *source_group;
 
 		source_group = e_source_group_new (name, base_uri);
-		e_source_list_add_group (source_list, source_group, -1);
+		e_source_list_add_group (priv->source_list, source_group, -1);
 		g_object_unref (source_group);
 	}
 
@@ -231,7 +230,7 @@ cal_shell_module_ensure_sources (EShellModule *shell_module)
 		ESourceGroup *source_group;
 
 		source_group = e_source_group_new (name, WEB_BASE_URI);
-		e_source_list_add_group (source_list, source_group, -1);
+		e_source_list_add_group (priv->source_list, source_group, -1);
 		g_object_unref (source_group);
 	} else {
 		/* Force the group name to the current locale. */
@@ -270,7 +269,7 @@ cal_shell_module_ensure_sources (EShellModule *shell_module)
 		ESourceGroup *source_group;
 
 		source_group = e_source_group_new (name, CONTACTS_BASE_URI);
-		e_source_list_add_group (source_list, source_group, -1);
+		e_source_list_add_group (priv->source_list, source_group, -1);
 		g_object_unref (source_group);
 
 		/* This is now a borrowed reference. */
@@ -315,7 +314,7 @@ cal_shell_module_ensure_sources (EShellModule *shell_module)
 		ESourceGroup *source_group;
 
 		source_group = e_source_group_new (name, WEATHER_BASE_URI);
-		e_source_list_add_group (source_list, source_group, -1);
+		e_source_list_add_group (priv->source_list, source_group, -1);
 		g_object_unref (source_group);
 	} else {
 		/* Force the group name to the current locale. */
@@ -326,7 +325,7 @@ cal_shell_module_ensure_sources (EShellModule *shell_module)
 }
 
 static void
-cal_shell_module_cal_opened_cb (ECal *cal,
+cal_shell_backend_cal_opened_cb (ECal *cal,
                                 ECalendarStatus status,
                                 GtkAction *action)
 {
@@ -405,7 +404,7 @@ action_event_new_cb (GtkAction *action,
 
 	g_signal_connect (
 		cal, "cal-opened",
-		G_CALLBACK (cal_shell_module_cal_opened_cb), action);
+		G_CALLBACK (cal_shell_backend_cal_opened_cb), action);
 
 	e_cal_open_async (cal, FALSE);
 }
@@ -452,14 +451,14 @@ static GtkActionEntry source_entries[] = {
 };
 
 static void
-cal_shell_module_init_hooks (void)
+cal_shell_backend_init_hooks (void)
 {
 	e_plugin_hook_register_type (e_cal_config_hook_get_type ());
 	e_plugin_hook_register_type (e_cal_event_hook_get_type ());
 }
 
 static void
-cal_shell_module_init_importers (void)
+cal_shell_backend_init_importers (void)
 {
 	EImportClass *import_class;
 	EImportImporter *importer;
@@ -477,7 +476,7 @@ cal_shell_module_init_importers (void)
 }
 
 static void
-cal_shell_module_init_preferences (EShell *shell)
+cal_shell_backend_init_preferences (EShell *shell)
 {
 	GtkWidget *preferences_window;
 
@@ -493,7 +492,7 @@ cal_shell_module_init_preferences (EShell *shell)
 }
 
 static gboolean
-cal_shell_module_handle_uri_cb (EShellModule *shell_module,
+cal_shell_backend_handle_uri_cb (EShellBackend *shell_backend,
                                 const gchar *uri)
 {
 	/* FIXME */
@@ -501,70 +500,148 @@ cal_shell_module_handle_uri_cb (EShellModule *shell_module,
 }
 
 static void
-cal_shell_module_window_created_cb (EShellModule *shell_module,
+cal_shell_backend_window_created_cb (EShellBackend *shell_backend,
                                     GtkWindow *window)
 {
-	const gchar *module_name;
+	const gchar *backend_name;
 
 	if (!E_IS_SHELL_WINDOW (window))
 		return;
 
-	module_name = G_TYPE_MODULE (shell_module)->name;
+	backend_name = G_TYPE_MODULE (shell_backend)->name;
 
 	e_shell_window_register_new_item_actions (
-		E_SHELL_WINDOW (window), module_name,
+		E_SHELL_WINDOW (window), backend_name,
 		item_entries, G_N_ELEMENTS (item_entries));
 
 	e_shell_window_register_new_source_actions (
-		E_SHELL_WINDOW (window), module_name,
+		E_SHELL_WINDOW (window), backend_name,
 		source_entries, G_N_ELEMENTS (source_entries));
 }
 
-static EShellModuleInfo module_info = {
+static void
+cal_shell_backend_dispose (GObject *object)
+{
+	ECalShellBackendPrivate *priv;
 
-	MODULE_NAME,
-	MODULE_ALIASES,
-	MODULE_SCHEMES,
-	MODULE_SORT_ORDER,
+	priv = E_CAL_SHELL_BACKEND_GET_PRIVATE (object);
 
-	/* start */ NULL,
-	/* is_busy */ NULL,
-	/* shutdown */ NULL,
-	e_cal_shell_module_migrate
-};
+	if (priv->source_list != NULL) {
+		g_object_unref (priv->source_list);
+		priv->source_list = NULL;
+	}
 
-void
-e_shell_module_init (GTypeModule *type_module)
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
+cal_shell_backend_constructed (GObject *object)
 {
 	EShell *shell;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 
-	shell_module = E_SHELL_MODULE (type_module);
-	shell = e_shell_module_get_shell (shell_module);
+	shell_backend = E_SHELL_BACKEND (object);
+	shell = e_shell_backend_get_shell (shell_backend);
 
-	e_shell_module_set_info (
-		shell_module, &module_info,
-		e_cal_shell_view_get_type (type_module));
-
-	cal_shell_module_ensure_sources (shell_module);
+	cal_shell_backend_ensure_sources (shell_backend);
 
 	g_signal_connect_swapped (
 		shell, "handle-uri",
-		G_CALLBACK (cal_shell_module_handle_uri_cb),
-		shell_module);
+		G_CALLBACK (cal_shell_backend_handle_uri_cb),
+		shell_backend);
 
 	g_signal_connect_swapped (
 		shell, "window-created",
-		G_CALLBACK (cal_shell_module_window_created_cb),
-		shell_module);
+		G_CALLBACK (cal_shell_backend_window_created_cb),
+		shell_backend);
 
-	cal_shell_module_init_hooks ();
-	cal_shell_module_init_importers ();
+	cal_shell_backend_init_hooks ();
+	cal_shell_backend_init_importers ();
 
 	/* Initialize settings before initializing preferences,
 	 * since the preferences bind to the shell settings. */
-	e_cal_shell_module_init_settings (shell);
-	cal_shell_module_init_preferences (shell);
+	e_cal_shell_backend_init_settings (shell);
+	cal_shell_backend_init_preferences (shell);
 
 	e_attachment_handler_calendar_get_type ();
+}
+
+static void
+cal_shell_backend_class_init (ECalShellBackendClass *class)
+{
+	GObjectClass *object_class;
+	EShellBackendClass *shell_backend_class;
+
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (ECalShellBackendPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->dispose = cal_shell_backend_dispose;
+	object_class->constructed = cal_shell_backend_constructed;
+
+	shell_backend_class = E_SHELL_BACKEND_CLASS (class);
+	shell_backend_class->name = "calendar";
+	shell_backend_class->aliases = "";
+	shell_backend_class->schemes = "calendar";
+	shell_backend_class->sort_order = 400;
+	shell_backend_class->view_type = E_TYPE_CAL_SHELL_VIEW;
+	shell_backend_class->start = NULL;
+	shell_backend_class->is_busy = NULL;
+	shell_backend_class->shutdown = NULL;
+	shell_backend_class->migrate = e_cal_shell_backend_migrate;
+}
+
+static void
+cal_shell_backend_init (ECalShellBackend *cal_shell_backend)
+{
+	cal_shell_backend->priv =
+		E_CAL_SHELL_BACKEND_GET_PRIVATE (cal_shell_backend);
+}
+
+GType
+e_cal_shell_backend_get_type (GTypeModule *type_module)
+{
+	if (e_cal_shell_backend_type == 0) {
+		const GTypeInfo type_info = {
+			sizeof (ECalShellBackendClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) cal_shell_backend_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (ECalShellBackend),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) cal_shell_backend_init,
+			NULL   /* value_table */
+		};
+
+		e_cal_shell_backend_type =
+			g_type_module_register_type (
+				type_module, E_TYPE_SHELL_BACKEND,
+				"ECalShellBackend", &type_info, 0);
+	}
+
+	return e_cal_shell_backend_type;
+}
+
+ESourceList *
+e_cal_shell_backend_get_source_list (ECalShellBackend *cal_shell_backend)
+{
+	g_return_val_if_fail (
+		E_IS_CAL_SHELL_BACKEND (cal_shell_backend), NULL);
+
+	return cal_shell_backend->priv->source_list;
+}
+
+void
+e_module_load (GTypeModule *type_module)
+{
+	e_cal_shell_backend_get_type (type_module);
+	e_cal_shell_view_get_type (type_module);
+}
+
+void
+e_module_unload (GTypeModule *type_module)
+{
 }

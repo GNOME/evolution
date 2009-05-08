@@ -1,5 +1,5 @@
 /*
- * e-task-shell-module.c
+ * e-task-shell-backend.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,7 +28,7 @@
 #include <libedataserver/e-source-group.h>
 
 #include "shell/e-shell.h"
-#include "shell/e-shell-module.h"
+#include "shell/e-shell-backend.h"
 #include "shell/e-shell-window.h"
 
 #include "calendar/common/authentication.h"
@@ -38,7 +38,7 @@
 #include "calendar/gui/dialogs/task-editor.h"
 
 #include "e-task-shell-view.h"
-#include "e-task-shell-module-migrate.h"
+#include "e-task-shell-backend-migrate.h"
 
 #define MODULE_NAME		"tasks"
 #define MODULE_ALIASES		""
@@ -49,13 +49,13 @@
 #define PERSONAL_RELATIVE_URI	"system"
 
 /* Module Entry Point */
-void e_shell_module_init (GTypeModule *type_module);
+void e_shell_backend_init (GTypeModule *type_module);
 
 static void
-task_module_ensure_sources (EShellModule *shell_module)
+task_module_ensure_sources (EShellBackend *shell_backend)
 {
 	/* XXX This is basically the same algorithm across all modules.
-	 *     Maybe we could somehow integrate this into EShellModule? */
+	 *     Maybe we could somehow integrate this into EShellBackend? */
 
 	ESourceList *source_list;
 	ESourceGroup *on_this_computer;
@@ -78,16 +78,16 @@ task_module_ensure_sources (EShellModule *shell_module)
 
 	/* Share the source list with all task views.  This is
  	 * accessible via e_task_shell_view_get_source_list().
- 	 * Note: EShellModule takes ownership of the reference.
+ 	 * Note: EShellBackend takes ownership of the reference.
  	 *
  	 * XXX I haven't yet decided if I want to add a proper
- 	 *     EShellModule API for this.  The mail module would
+ 	 *     EShellBackend API for this.  The mail module would
  	 *     not use it. */
 	g_object_set_data_full (
-		G_OBJECT (shell_module), "source-list",
+		G_OBJECT (shell_backend), "source-list",
 		source_list, (GDestroyNotify) g_object_unref);
 
-	data_dir = e_shell_module_get_data_dir (shell_module);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
 	filename = g_build_filename (data_dir, "local", NULL);
 	base_uri = g_filename_to_uri (filename, NULL, NULL);
 	g_free (filename);
@@ -320,7 +320,7 @@ static GtkActionEntry source_entries[] = {
 };
 
 static gboolean
-task_module_handle_uri_cb (EShellModule *shell_module,
+task_module_handle_uri_cb (EShellBackend *shell_backend,
                            const gchar *uri)
 {
 	EShell *shell;
@@ -342,7 +342,7 @@ task_module_handle_uri_cb (EShellModule *shell_module,
 	GError *error = NULL;
 
 	source_type = E_CAL_SOURCE_TYPE_TODO;
-	shell = e_shell_module_get_shell (shell_module);
+	shell = e_shell_backend_get_shell (shell_backend);
 
 	if (strncmp (uri, "task:", 5) != 0)
 		return FALSE;
@@ -465,7 +465,7 @@ exit:
 }
 
 static void
-task_module_window_created_cb (EShellModule *shell_module,
+task_module_window_created_cb (EShellBackend *shell_backend,
                                GtkWindow *window)
 {
 	const gchar *module_name;
@@ -473,7 +473,7 @@ task_module_window_created_cb (EShellModule *shell_module,
 	if (!E_IS_SHELL_WINDOW (window))
 		return;
 
-	module_name = G_TYPE_MODULE (shell_module)->name;
+	module_name = G_TYPE_MODULE (shell_backend)->name;
 
 	e_shell_window_register_new_item_actions (
 		E_SHELL_WINDOW (window), module_name,
@@ -484,7 +484,7 @@ task_module_window_created_cb (EShellModule *shell_module,
 		source_entries, G_N_ELEMENTS (source_entries));
 }
 
-static EShellModuleInfo module_info = {
+static EShellBackendInfo module_info = {
 
 	MODULE_NAME,
 	MODULE_ALIASES,
@@ -494,29 +494,29 @@ static EShellModuleInfo module_info = {
 	/* start */ NULL,
 	/* is_busy */ NULL,
 	/* shutdown */ NULL,
-	e_task_shell_module_migrate
+	e_task_shell_backend_migrate
 };
 
 void
-e_shell_module_init (GTypeModule *type_module)
+e_shell_backend_init (GTypeModule *type_module)
 {
 	EShell *shell;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 
-	shell_module = E_SHELL_MODULE (type_module);
-	shell = e_shell_module_get_shell (shell_module);
+	shell_backend = E_SHELL_BACKEND (type_module);
+	shell = e_shell_backend_get_shell (shell_backend);
 
-	e_shell_module_set_info (
-		shell_module, &module_info,
+	e_shell_backend_set_info (
+		shell_backend, &module_info,
 		e_task_shell_view_get_type (type_module));
 
-	task_module_ensure_sources (shell_module);
+	task_module_ensure_sources (shell_backend);
 
 	g_signal_connect_swapped (
 		shell, "handle-uri",
-		G_CALLBACK (task_module_handle_uri_cb), shell_module);
+		G_CALLBACK (task_module_handle_uri_cb), shell_backend);
 
 	g_signal_connect_swapped (
 		shell, "window-created",
-		G_CALLBACK (task_module_window_created_cb), shell_module);
+		G_CALLBACK (task_module_window_created_cb), shell_backend);
 }

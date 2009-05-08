@@ -27,7 +27,7 @@
 #include <glib-object.h>
 
 #include "e-util/e-event.h"
-#include "shell/e-shell-module.h"
+#include "shell/e-shell-backend.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -50,7 +50,7 @@ typedef struct _ECalEventTargetModule ECalEventTargetModule;
 
 struct _ECalEventTargetModule {
 	EEventTarget target;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 };
 
 struct _ECalEvent {
@@ -65,7 +65,7 @@ struct _ECalEventClass {
 
 GType                     e_cal_event_get_type (void);
 ECalEvent*                e_cal_event_peek (void);
-ECalEventTargetModule* e_cal_event_target_new_module (ECalEvent *ece, EShellModule *shell_module, guint32 flags);
+ECalEventTargetModule* e_cal_event_target_new_module (ECalEvent *ece, EShellBackend *shell_backend, guint32 flags);
 
 /* ********************************************************************** */
 

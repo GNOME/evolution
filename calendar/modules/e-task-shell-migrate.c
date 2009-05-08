@@ -1,5 +1,5 @@
 /*
- * e-task-shell-module-migrate.c
+ * e-task-shell-backend-migrate.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,7 +19,7 @@
  *
  */
 
-#include "e-task-shell-module-migrate.h"
+#include "e-task-shell-backend-migrate.h"
 
 #include <string.h>
 #include <sys/types.h>
@@ -438,7 +438,7 @@ migrate_pilot_data (const char *component, const char *conduit, const char *old_
 #endif
 
 static void
-create_task_sources (EShellModule *shell_module,
+create_task_sources (EShellBackend *shell_backend,
 		     ESourceList *source_list,
 		     ESourceGroup **on_this_computer,
 		     ESourceGroup **on_the_web,
@@ -453,7 +453,7 @@ create_task_sources (EShellModule *shell_module,
 	*on_the_web = NULL;
 	*personal_source = NULL;
 
-	base_dir = e_shell_module_get_config_dir (shell_module);
+	base_dir = e_shell_backend_get_config_dir (shell_backend);
 	base_uri = g_build_filename (base_dir, "local", NULL);
 
 	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
@@ -531,7 +531,7 @@ create_task_sources (EShellModule *shell_module,
 }
 
 gboolean
-e_task_shell_module_migrate (EShellModule *shell_module,
+e_task_shell_backend_migrate (EShellBackend *shell_backend,
                              gint major,
                              gint minor,
                              gint micro,
@@ -550,7 +550,7 @@ e_task_shell_module_migrate (EShellModule *shell_module,
 	   creates the groups/sources or it finds the necessary
 	   groups/sources. */
 	create_task_sources (
-		shell_module, source_list, &on_this_computer,
+		shell_backend, source_list, &on_this_computer,
 		&on_the_web, &personal_source);
 
 #ifndef G_OS_WIN32
@@ -623,7 +623,7 @@ e_task_shell_module_migrate (EShellModule *shell_module,
 			char *old_path, *new_path;
 
 			old_path = g_build_filename (g_get_home_dir (), "evolution", "local", "Tasks", NULL);
-			new_path = g_build_filename (e_shell_module_get_config_dir (shell_module),
+			new_path = g_build_filename (e_shell_backend_get_config_dir (shell_backend),
 						     "local", "system", NULL);
 			migrate_pilot_data ("tasks", "todo", old_path, new_path);
 			g_free (new_path);

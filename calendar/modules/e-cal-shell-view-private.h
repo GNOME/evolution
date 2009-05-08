@@ -47,6 +47,7 @@
 #include "calendar/gui/dialogs/memo-editor.h"
 #include "calendar/gui/dialogs/task-editor.h"
 
+#include "e-cal-shell-backend.h"
 #include "e-cal-shell-content.h"
 #include "e-cal-shell-sidebar.h"
 #include "e-cal-shell-view-actions.h"
@@ -90,11 +91,8 @@ enum {
 
 struct _ECalShellViewPrivate {
 
-	/*** Module Data ***/
-
-	ESourceList *source_list;
-
 	/* These are just for convenience. */
+	ECalShellBackend *cal_shell_backend;
 	ECalShellContent *cal_shell_content;
 	ECalShellSidebar *cal_shell_sidebar;
 

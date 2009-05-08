@@ -1,5 +1,5 @@
 /*
- * e-memo-shell-module-migrate.c
+ * e-memo-shell-backend-migrate.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,7 +19,7 @@
  *
  */
 
-#include "e-memo-shell-module-migrate.h"
+#include "e-memo-shell-backend-migrate.h"
 
 #include <string.h>
 #include <glib/gi18n.h>
@@ -38,7 +38,7 @@
 #define GROUPWISE_BASE_URI "groupwise://"
 
 static void
-create_memo_sources (EShellModule *shell_module,
+create_memo_sources (EShellBackend *shell_backend,
 		     ESourceList *source_list,
 		     ESourceGroup **on_this_computer,
 		     ESourceGroup **on_the_web,
@@ -53,7 +53,7 @@ create_memo_sources (EShellModule *shell_module,
 	*on_the_web = NULL;
 	*personal_source = NULL;
 
-	base_dir = e_shell_module_get_config_dir (shell_module);
+	base_dir = e_shell_backend_get_config_dir (shell_backend);
 	base_uri = g_build_filename (base_dir, "local", NULL);
 
 	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
@@ -199,7 +199,7 @@ add_gw_esource (ESourceList *source_list, const char *group_name,  const char *s
 }
 
 gboolean
-e_memo_shell_module_migrate (EShellModule *shell_module,
+e_memo_shell_backend_migrate (EShellBackend *shell_backend,
                              gint major,
                              gint minor,
                              gint revision,
@@ -212,13 +212,13 @@ e_memo_shell_module_migrate (EShellModule *shell_module,
 	gboolean retval = FALSE;
 
 	source_list = g_object_get_data (
-		G_OBJECT (shell_module), "source-list");
+		G_OBJECT (shell_backend), "source-list");
 
 	/* we call this unconditionally now - create_groups either
 	   creates the groups/sources or it finds the necessary
 	   groups/sources. */
 	create_memo_sources (
-		shell_module, source_list, &on_this_computer,
+		shell_backend, source_list, &on_this_computer,
 		&on_the_web, &personal_source);
 
 	/* Migration for Gw accounts between versions < 2.8 */

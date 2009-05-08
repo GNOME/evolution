@@ -1,5 +1,5 @@
 /*
- * e-cal-shell-module-migrate.h
+ * e-cal-shell-backend-migrate.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,15 +19,15 @@
  *
  */
 
-#ifndef E_CAL_SHELL_MODULE_MIGRATE_H
-#define E_CAL_SHELL_MODULE_MIGRATE_H
+#ifndef E_CAL_SHELL_BACKEND_MIGRATE_H
+#define E_CAL_SHELL_BACKEND_MIGRATE_H
 
 #include <glib.h>
-#include <shell/e-shell-module.h>
+#include <shell/e-shell-backend.h>
 
 G_BEGIN_DECLS
 
-gboolean	e_cal_shell_module_migrate	(EShellModule *shell_module,
+gboolean	e_cal_shell_backend_migrate	(EShellBackend *shell_backend,
 						 gint major,
 						 gint minor,
 						 gint micro,
@@ -35,4 +35,4 @@ gboolean	e_cal_shell_module_migrate	(EShellModule *shell_module,
 
 G_END_DECLS
 
-#endif /* E_CAL_SHELL_MODULE_MIGRATE_H */
+#endif /* E_CAL_SHELL_BACKEND_MIGRATE_H */

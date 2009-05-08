@@ -1,5 +1,5 @@
 /*
- * e-memo-shell-module-migrate.h
+ * e-cal-shell-backend-settings.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,20 +19,15 @@
  *
  */
 
-#ifndef E_MEMO_SHELL_MODULE_MIGRATE_H
-#define E_MEMO_SHELL_MODULE_MIGRATE_H
+#ifndef E_CAL_SHELL_BACKEND_SETTINGS_H
+#define E_CAL_SHELL_BACKEND_SETTINGS_H
 
-#include <glib.h>
-#include <shell/e-shell-module.h>
+#include <shell/e-shell.h>
 
 G_BEGIN_DECLS
 
-gboolean	e_memo_shell_module_migrate	(EShellModule *shell_module,
-						 gint major,
-						 gint minor,
-						 gint micro,
-						 GError **error);
+void		e_cal_shell_backend_init_settings	(EShell *shell);
 
 G_END_DECLS
 
-#endif /* E_MEMO_SHELL_MODULE_MIGRATE_H */
+#endif /* E_CAL_SHELL_BACKEND_SETTINGS_H */

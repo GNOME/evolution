@@ -19,8 +19,8 @@
  *
  */
 
-#ifndef E_MAIL_SHELL_MODULE_MIGRATE_H
-#define E_MAIL_SHELL_MODULE_MIGRATE_H
+#ifndef E_MAIL_SHELL_BACKEND_MIGRATE_H
+#define E_MAIL_SHELL_BACKEND_MIGRATE_H
 
 #include <glib.h>
 #include <shell/e-shell-backend.h>
@@ -35,4 +35,4 @@ gboolean	e_mail_shell_migrate		(EShellBackend *shell_backend,
 
 G_END_DECLS
 
-#endif /* E_MAIL_SHELL_MODULE_MIGRATE_H */
+#endif /* E_MAIL_SHELL_BACKEND_MIGRATE_H */

@@ -124,7 +124,7 @@ struct _MessageListPrivate {
 
 enum {
 	PROP_0,
-	PROP_SHELL_MODULE
+	PROP_SHELL_BACKEND
 };
 
 static struct {
@@ -2456,7 +2456,7 @@ message_list_set_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_SHELL_MODULE:
+		case PROP_SHELL_BACKEND:
 			message_list_set_shell_backend (
 				MESSAGE_LIST (object),
 				g_value_get_object (value));
@@ -2473,7 +2473,7 @@ message_list_get_property (GObject *object,
                            GParamSpec *pspec)
 {
 	switch (property_id) {
-		case PROP_SHELL_MODULE:
+		case PROP_SHELL_BACKEND:
 			g_value_set_object (
 				value, message_list_get_shell_backend (
 				MESSAGE_LIST (object)));
@@ -2565,7 +2565,7 @@ message_list_class_init (MessageListClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_SHELL_MODULE,
+		PROP_SHELL_BACKEND,
 		g_param_spec_object (
 			"shell-backend",
 			_("Shell Backend"),

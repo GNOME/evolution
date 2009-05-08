@@ -1,5 +1,5 @@
 /*
- * e-cal-shell-module-migrate.c
+ * e-cal-shell-backend-migrate.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,7 +19,7 @@
  *
  */
 
-#include "e-cal-shell-module-migrate.h"
+#include "e-cal-shell-migrate.h"
 
 #include <string.h>
 #include <sys/types.h>
@@ -492,7 +492,7 @@ create_calendar_contact_source (ESourceList *source_list)
 }
 
 static void
-create_calendar_sources (EShellModule *shell_module,
+create_calendar_sources (EShellBackend *shell_backend,
 			 ESourceList *source_list,
 			 ESourceGroup **on_this_computer,
 			 ESource **personal_source,
@@ -511,10 +511,10 @@ create_calendar_sources (EShellModule *shell_module,
 	*contacts = NULL;
 	*personal_source = NULL;
 
-	shell = e_shell_module_get_shell (shell_module);
+	shell = e_shell_backend_get_shell (shell_backend);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	base_dir = e_shell_module_get_config_dir (shell_module);
+	base_dir = e_shell_backend_get_config_dir (shell_backend);
 	base_uri = g_build_filename (base_dir, "local", NULL);
 
 	base_uri_proto = g_filename_to_uri (base_uri, NULL, NULL);
@@ -614,7 +614,7 @@ create_calendar_sources (EShellModule *shell_module,
 }
 
 gboolean
-e_cal_shell_module_migrate (EShellModule *shell_module,
+e_cal_shell_backend_migrate (EShellBackend *shell_backend,
                             gint major,
                             gint minor,
                             gint micro,
@@ -628,13 +628,13 @@ e_cal_shell_module_migrate (EShellModule *shell_module,
 	gboolean retval = FALSE;
 
 	source_list = g_object_get_data (
-		G_OBJECT (shell_module), "source-list");
+		G_OBJECT (shell_backend), "source-list");
 
 	/* we call this unconditionally now - create_groups either
 	   creates the groups/sources or it finds the necessary
 	   groups/sources. */
 	create_calendar_sources (
-		shell_module, source_list, &on_this_computer,
+		shell_backend, source_list, &on_this_computer,
 		&personal_source, &on_the_web, &contacts);
 
 #ifndef G_OS_WIN32
@@ -735,7 +735,7 @@ e_cal_shell_module_migrate (EShellModule *shell_module,
 			char *old_path, *new_path;
 
 			old_path = g_build_filename (g_get_home_dir (), "evolution", "local", "Calendar", NULL);
-			new_path = g_build_filename (e_shell_module_get_config_dir (shell_module),
+			new_path = g_build_filename (e_shell_backend_get_config_dir (shell_backend),
 						     "local", "system", NULL);
 			migrate_pilot_data ("calendar", "calendar", old_path, new_path);
 			g_free (new_path);
@@ -777,7 +777,7 @@ e_cal_shell_module_migrate (EShellModule *shell_module,
 	 */
 	/* Fire off migration event */
 	ece = e_cal_event_peek ();
-	target = e_cal_event_target_new_module (ece, shell_module, 0);
+	target = e_cal_event_target_new_module (ece, shell_backend, 0);
 	e_event_emit ((EEvent *) ece, "module.migration", (EEventTarget *) target);
 
 	retval = TRUE;

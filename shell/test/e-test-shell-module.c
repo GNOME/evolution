@@ -1,5 +1,5 @@
 /*
- * e-test-shell-module.c
+ * e-test-shell-backend.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,7 +22,7 @@
 #include <glib/gi18n.h>
 
 #include <e-shell.h>
-#include <e-shell-module.h>
+#include <e-shell-backend.h>
 #include <e-shell-window.h>
 
 #include "e-test-shell-view.h"
@@ -33,7 +33,7 @@
 #define MODULE_SORT_ORDER	100
 
 /* Module Entry Point */
-void e_shell_module_init (GTypeModule *type_module);
+void e_shell_backend_init (GTypeModule *type_module);
 
 static void
 action_test_item_new_cb (GtkAction *action,
@@ -70,13 +70,13 @@ static GtkActionEntry source_entries[] = {
 };
 
 static void
-test_module_start (EShellModule *shell_module)
+test_module_start (EShellBackend *shell_backend)
 {
 	g_debug ("%s", G_STRFUNC);
 }
 
 static gboolean
-test_module_is_busy (EShellModule *shell_module)
+test_module_is_busy (EShellBackend *shell_backend)
 {
 	g_debug ("%s", G_STRFUNC);
 
@@ -84,7 +84,7 @@ test_module_is_busy (EShellModule *shell_module)
 }
 
 static gboolean
-test_module_shutdown (EShellModule *shell_module)
+test_module_shutdown (EShellBackend *shell_backend)
 {
 	g_debug ("%s", G_STRFUNC);
 
@@ -92,7 +92,7 @@ test_module_shutdown (EShellModule *shell_module)
 }
 
 static gboolean
-test_module_migrate (EShellModule *shell_module,
+test_module_migrate (EShellBackend *shell_backend,
                      gint major,
                      gint minor,
                      gint micro,
@@ -104,7 +104,7 @@ test_module_migrate (EShellModule *shell_module,
 }
 
 static gboolean
-test_module_handle_uri_cb (EShellModule *shell_module,
+test_module_handle_uri_cb (EShellBackend *shell_backend,
                            const gchar *uri)
 {
 	g_debug ("%s (uri=%s)", G_STRFUNC, uri);
@@ -113,14 +113,14 @@ test_module_handle_uri_cb (EShellModule *shell_module,
 }
 
 static void
-test_module_send_receive_cb (EShellModule *shell_module,
+test_module_send_receive_cb (EShellBackend *shell_backend,
                              GtkWindow *parent_window)
 {
 	g_debug ("%s (window=%p)", G_STRFUNC, parent_window);
 }
 
 static void
-test_module_window_created_cb (EShellModule *shell_module,
+test_module_window_created_cb (EShellBackend *shell_backend,
                                GtkWindow *window)
 {
 	const gchar *module_name;
@@ -130,7 +130,7 @@ test_module_window_created_cb (EShellModule *shell_module,
 	if (!E_IS_SHELL_WINDOW (window))
 		return;
 
-	module_name = G_TYPE_MODULE (shell_module)->name;
+	module_name = G_TYPE_MODULE (shell_backend)->name;
 
 	e_shell_window_register_new_item_actions (
 		E_SHELL_WINDOW (window), module_name,
@@ -142,12 +142,12 @@ test_module_window_created_cb (EShellModule *shell_module,
 }
 
 static void
-test_module_window_destroyed_cb (EShellModule *shell_module)
+test_module_window_destroyed_cb (EShellBackend *shell_backend)
 {
 	g_debug ("%s", G_STRFUNC);
 }
 
-static EShellModuleInfo module_info = {
+static EShellBackendInfo module_info = {
 
 	MODULE_NAME,
 	MODULE_ALIASES,
@@ -162,31 +162,31 @@ static EShellModuleInfo module_info = {
 };
 
 void
-e_shell_module_init (GTypeModule *type_module)
+e_shell_backend_init (GTypeModule *type_module)
 {
 	EShell *shell;
-	EShellModule *shell_module;
+	EShellBackend *shell_backend;
 
-	shell_module = E_SHELL_MODULE (type_module);
-	shell = e_shell_module_get_shell (shell_module);
+	shell_backend = E_SHELL_BACKEND (type_module);
+	shell = e_shell_backend_get_shell (shell_backend);
 
-	e_shell_module_set_info (
-		shell_module, &module_info,
+	e_shell_backend_set_info (
+		shell_backend, &module_info,
 		e_test_shell_view_get_type (type_module));
 
 	g_signal_connect_swapped (
 		shell, "handle-uri",
-		G_CALLBACK (test_module_handle_uri_cb), shell_module);
+		G_CALLBACK (test_module_handle_uri_cb), shell_backend);
 
 	g_signal_connect_swapped (
 		shell, "send-receive",
-		G_CALLBACK (test_module_send_receive_cb), shell_module);
+		G_CALLBACK (test_module_send_receive_cb), shell_backend);
 
 	g_signal_connect_swapped (
 		shell, "window-created",
-		G_CALLBACK (test_module_window_created_cb), shell_module);
+		G_CALLBACK (test_module_window_created_cb), shell_backend);
 
 	g_signal_connect_swapped (
 		shell, "window-destroyed",
-		G_CALLBACK (test_module_window_destroyed_cb), shell_module);
+		G_CALLBACK (test_module_window_destroyed_cb), shell_backend);
 }

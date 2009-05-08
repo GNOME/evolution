@@ -32,6 +32,7 @@
 #include "calendar/gui/e-mini-calendar-config.h"
 #include "calendar/gui/misc.h"
 
+#include "e-cal-shell-backend.h"
 #include "e-cal-shell-view.h"
 
 #define E_CAL_SHELL_SIDEBAR_GET_PRIVATE(obj) \
@@ -374,9 +375,9 @@ cal_shell_sidebar_constructed (GObject *object)
 	EShell *shell;
 	EShellView *shell_view;
 	EShellWindow *shell_window;
+	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
 	EShellSettings *shell_settings;
-	ECalShellView *cal_shell_view;
 	ESourceSelector *selector;
 	ESourceList *source_list;
 	ESource *source;
@@ -397,13 +398,14 @@ cal_shell_sidebar_constructed (GObject *object)
 
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
 
 	shell = e_shell_window_get_shell (shell_window);
 	shell_settings = e_shell_get_shell_settings (shell);
 
-	cal_shell_view = E_CAL_SHELL_VIEW (shell_view);
-	source_list = e_cal_shell_view_get_source_list (cal_shell_view);
+	source_list = e_cal_shell_backend_get_source_list (
+		E_CAL_SHELL_BACKEND (shell_view));
 
 	container = GTK_WIDGET (shell_sidebar);
 

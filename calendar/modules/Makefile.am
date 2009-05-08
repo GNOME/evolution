@@ -15,13 +15,14 @@ module_LTLIBRARIES =					\
 	libevolution-module-tasks.la
 
 libevolution_module_calendars_la_SOURCES =		\
-	e-cal-shell-module.c				\
-	e-cal-shell-module-migrate.c			\
-	e-cal-shell-module-migrate.h			\
-	e-cal-shell-module-settings.c			\
-	e-cal-shell-module-settings.h			\
+	e-cal-shell-backend.c				\
+	e-cal-shell-backend.h				\
 	e-cal-shell-content.c				\
 	e-cal-shell-content.h				\
+	e-cal-shell-migrate.c				\
+	e-cal-shell-migrate.h				\
+	e-cal-shell-settings.c				\
+	e-cal-shell-settings.h				\
 	e-cal-shell-sidebar.c				\
 	e-cal-shell-sidebar.h				\
 	e-cal-shell-view.c				\
@@ -34,11 +35,12 @@ libevolution_module_calendars_la_SOURCES =		\
 	e-cal-shell-view-taskpad.c
 
 libevolution_module_memos_la_SOURCES =			\
-	e-memo-shell-module.c				\
-	e-memo-shell-module-migrate.c			\
-	e-memo-shell-module-migrate.h			\
+	e-memo-shell-backend.c				\
+	e-memo-shell-backend.h				\
 	e-memo-shell-content.c				\
 	e-memo-shell-content.h				\
+	e-memo-shell-migrate.c				\
+	e-memo-shell-migrate.h				\
 	e-memo-shell-sidebar.c				\
 	e-memo-shell-sidebar.h				\
 	e-memo-shell-view.c				\
@@ -49,11 +51,12 @@ libevolution_module_memos_la_SOURCES =			\
 	e-memo-shell-view-private.h
 
 libevolution_module_tasks_la_SOURCES =			\
-	e-task-shell-module.c				\
-	e-task-shell-module-migrate.c			\
-	e-task-shell-module-migrate.h			\
+	e-task-shell-backend.c				\
+	e-task-shell-backend.h				\
 	e-task-shell-content.c				\
 	e-task-shell-content.h				\
+	e-task-shell-migrate.c				\
+	e-task-shell-migrate.h				\
 	e-task-shell-sidebar.c				\
 	e-task-shell-sidebar.h				\
 	e-task-shell-view.c				\

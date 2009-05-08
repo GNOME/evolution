@@ -21,30 +21,8 @@
 
 #include "e-cal-shell-view-private.h"
 
-enum {
-	PROP_0,
-	PROP_SOURCE_LIST
-};
-
 GType e_cal_shell_view_type = 0;
 static gpointer parent_class;
-
-static void
-cal_shell_view_get_property (GObject *object,
-                             guint property_id,
-                             GValue *value,
-                             GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_SOURCE_LIST:
-			g_value_set_object (
-				value, e_cal_shell_view_get_source_list (
-				E_CAL_SHELL_VIEW (object)));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
 
 static void
 cal_shell_view_dispose (GObject *object)
@@ -185,7 +163,6 @@ cal_shell_view_class_init (ECalShellViewClass *class,
 	g_type_class_add_private (class, sizeof (ECalShellViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->get_property = cal_shell_view_get_property;
 	object_class->dispose = cal_shell_view_dispose;
 	object_class->finalize = cal_shell_view_finalize;
 	object_class->constructed = cal_shell_view_constructed;
@@ -197,20 +174,9 @@ cal_shell_view_class_init (ECalShellViewClass *class,
 	shell_view_class->ui_manager_id = "org.gnome.evolution.calendars";
 	shell_view_class->search_options = "/calendar-search-options";
 	shell_view_class->search_rules = "caltypes.xml";
-	shell_view_class->type_module = type_module;
 	shell_view_class->new_shell_content = e_cal_shell_content_new;
 	shell_view_class->new_shell_sidebar = e_cal_shell_sidebar_new;
 	shell_view_class->update_actions = cal_shell_view_update_actions;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SOURCE_LIST,
-		g_param_spec_object (
-			"source-list",
-			_("Source List"),
-			_("The registry of calendars"),
-			E_TYPE_SOURCE_LIST,
-			G_PARAM_READABLE));
 }
 
 static void
@@ -256,12 +222,4 @@ e_cal_shell_view_get_calendar (ECalShellView *cal_shell_view)
 
 	/* FIXME */
 	return NULL;
-}
-
-ESourceList *
-e_cal_shell_view_get_source_list (ECalShellView *cal_shell_view)
-{
-	g_return_val_if_fail (E_IS_CAL_SHELL_VIEW (cal_shell_view), NULL);
-
-	return cal_shell_view->priv->source_list;
 }

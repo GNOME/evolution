@@ -83,7 +83,6 @@ book_shell_sidebar_constructed (GObject *object)
 	EShellView *shell_view;
 	EShellBackend *shell_backend;
 	EShellSidebar *shell_sidebar;
-	EBookShellBackend *book_shell_backend;
 	ESourceList *source_list;
 	GtkContainer *container;
 	GtkWidget *widget;
@@ -96,8 +95,9 @@ book_shell_sidebar_constructed (GObject *object)
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	book_shell_backend = E_BOOK_SHELL_BACKEND (shell_backend);
-	source_list = e_book_shell_backend_get_source_list (book_shell_backend);
+
+	source_list = e_book_shell_backend_get_source_list (
+		E_BOOK_SHELL_BACKEND (shell_backend));
 
 	container = GTK_CONTAINER (shell_sidebar);
 
