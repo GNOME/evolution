@@ -19,7 +19,7 @@
  *
  */
 
-#include "e-task-shell-backend-migrate.h"
+#include "e-task-shell-migrate.h"
 
 #include <string.h>
 #include <sys/types.h>

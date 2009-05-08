@@ -14,7 +14,7 @@ url="http://mbarnes.fedorapeople.org/docs/eshell/">http://mbarnes.fedorapeople.o
   <chapter>
     <title>The Shell</title>
     <xi:include href="xml/e-shell.xml"/>
-    <xi:include href="xml/e-shell-module.xml"/>
+    <xi:include href="xml/e-shell-backend.xml"/>
     <xi:include href="xml/e-shell-window.xml"/>
     <xi:include href="xml/e-shell-view.xml"/>
     <xi:include href="xml/e-shell-content.xml"/>

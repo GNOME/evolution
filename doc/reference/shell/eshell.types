@@ -1,6 +1,6 @@
 e_shell_get_type
+e_shell_backend_get_type
 e_shell_content_get_type
-e_shell_module_get_type
 e_shell_sidebar_get_type
 e_shell_switcher_get_type
 e_shell_taskbar_get_type

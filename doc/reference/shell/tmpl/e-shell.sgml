@@ -102,7 +102,7 @@ EShell
 @Returns: 
 
 
-<!-- ##### FUNCTION e_shell_get_shell_modules ##### -->
+<!-- ##### FUNCTION e_shell_get_shell_backends ##### -->
 <para>
 
 </para>
@@ -121,7 +121,7 @@ EShell
 @Returns: 
 
 
-<!-- ##### FUNCTION e_shell_get_module_by_name ##### -->
+<!-- ##### FUNCTION e_shell_get_backend_by_name ##### -->
 <para>
 
 </para>
@@ -131,7 +131,7 @@ EShell
 @Returns: 
 
 
-<!-- ##### FUNCTION e_shell_get_module_by_scheme ##### -->
+<!-- ##### FUNCTION e_shell_get_backend_by_scheme ##### -->
 <para>
 
 </para>

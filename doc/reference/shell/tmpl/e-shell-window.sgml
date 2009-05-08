@@ -172,7 +172,7 @@ EShellWindow
 </para>
 
 @shell_window: 
-@module_name: 
+@backend_name: 
 @entries: 
 @n_entries: 
 
@@ -183,7 +183,7 @@ EShellWindow
 </para>
 
 @shell_window: 
-@module_name: 
+@backend_name: 
 @entries: 
 @n_entries: 
 

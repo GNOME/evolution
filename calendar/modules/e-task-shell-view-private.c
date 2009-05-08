@@ -214,16 +214,6 @@ void
 e_task_shell_view_private_init (ETaskShellView *task_shell_view,
                                 EShellViewClass *shell_view_class)
 {
-	ETaskShellViewPrivate *priv = task_shell_view->priv;
-	ESourceList *source_list;
-	GObject *object;
-
-	object = G_OBJECT (shell_view_class->type_module);
-	source_list = g_object_get_data (object, "source-list");
-	g_return_if_fail (E_IS_SOURCE_LIST (source_list));
-
-	priv->source_list = g_object_ref (source_list);
-
 	if (!gal_view_collection_loaded (shell_view_class->view_collection))
 		task_shell_view_load_view_collection (shell_view_class);
 
@@ -239,6 +229,7 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	ETaskShellContent *task_shell_content;
 	ETaskShellSidebar *task_shell_sidebar;
 	EShellView *shell_view;
+	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EShellSidebar *shell_sidebar;
 	EShellWindow *shell_window;
@@ -249,6 +240,7 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	guint id;
 
 	shell_view = E_SHELL_VIEW (task_shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -257,6 +249,7 @@ e_task_shell_view_private_constructed (ETaskShellView *task_shell_view)
 	e_shell_window_add_action_group (shell_window, "tasks-filter");
 
 	/* Cache these to avoid lots of awkward casting. */
+	priv->task_shell_backend = g_object_ref (shell_backend);
 	priv->task_shell_content = g_object_ref (shell_content);
 	priv->task_shell_sidebar = g_object_ref (shell_sidebar);
 
@@ -382,8 +375,7 @@ e_task_shell_view_private_dispose (ETaskShellView *task_shell_view)
 	ETaskShellViewPrivate *priv = task_shell_view->priv;
 	GList *iter;
 
-	DISPOSE (priv->source_list);
-
+	DISPOSE (priv->task_shell_backend);
 	DISPOSE (priv->task_shell_content);
 	DISPOSE (priv->task_shell_sidebar);
 

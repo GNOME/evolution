@@ -23,6 +23,7 @@
 #define E_TASK_SHELL_BACKEND_H
 
 #include <shell/e-shell-backend.h>
+#include <libedataserver/e-source-list.h>
 
 /* Standard GObject macros */
 #define E_TYPE_TASK_SHELL_BACKEND \
@@ -60,7 +61,10 @@ struct _ETaskShellBackendClass {
 	EShellBackendClass parent_class;
 };
 
-GType		e_task_shell_backend_get_type	(GTypeModule *type_module);
+GType		e_task_shell_backend_get_type
+					(GTypeModule *type_module);
+ESourceList *	e_task_shell_backend_get_source_list
+					(ETaskShellBackend *task_shell_backend);
 
 G_END_DECLS
 

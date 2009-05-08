@@ -166,6 +166,30 @@ e-shell-marshal
 Migration
 
 
+<!-- ##### SECTION ./tmpl/e-shell-module.sgml:Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/e-shell-module.sgml:See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION ./tmpl/e-shell-module.sgml:Short_Description ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-shell-module.sgml:Stability_Level ##### -->
+
+
+
+<!-- ##### SECTION ./tmpl/e-shell-module.sgml:Title ##### -->
+EShellModule
+
+
 <!-- ##### SECTION ./tmpl/e-shell-window-actions.sgml:Long_Description ##### -->
 <para>
 
@@ -460,6 +484,52 @@ intelligent
 @E_SHELL_LINE_STATUS_GOING_OFFLINE: 
 @E_SHELL_LINE_STATUS_OFFLINE: 
 @E_SHELL_LINE_STATUS_FORCED_OFFLINE: 
+
+<!-- ##### STRUCT EShellModule ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SIGNAL EShellModule::activity-added ##### -->
+<para>
+
+</para>
+
+@eshellmodule: the object which received the signal.
+@arg1: 
+
+<!-- ##### ARG EShellModule:filename ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG EShellModule:shell ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### STRUCT EShellModuleInfo ##### -->
+<para>
+
+</para>
+
+@name: 
+@aliases: 
+@schemes: 
+@sort_order: 
+@start: 
+@is_busy: 
+@shutdown: 
+@migrate: 
+
+<!-- ##### ARG EShellView:shell-module ##### -->
+<para>
+
+</para>
+
 
 <!-- ##### STRUCT EShellWindowPrivate ##### -->
 <para>
@@ -1805,6 +1875,24 @@ intelligent
 @shell: 
 @Returns: 
 
+<!-- ##### FUNCTION e_shell_get_module_by_name ##### -->
+<para>
+
+</para>
+
+@shell: 
+@name: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_get_module_by_scheme ##### -->
+<para>
+
+</para>
+
+@shell: 
+@scheme: 
+@Returns: 
+
 <!-- ##### FUNCTION e_shell_get_online_mode ##### -->
 <para>
 
@@ -1814,6 +1902,14 @@ intelligent
 @Returns: 
 
 <!-- ##### FUNCTION e_shell_get_settings ##### -->
+<para>
+
+</para>
+
+@shell: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_get_shell_modules ##### -->
 <para>
 
 </para>
@@ -1887,6 +1983,116 @@ intelligent
 
 @Returns: 
 
+<!-- ##### FUNCTION e_shell_module_add_activity ##### -->
+<para>
+
+</para>
+
+@shell_module: 
+@activity: 
+
+<!-- ##### FUNCTION e_shell_module_compare ##### -->
+<para>
+
+</para>
+
+@shell_module_a: 
+@shell_module_b: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_module_get_config_dir ##### -->
+<para>
+
+</para>
+
+@shell_module: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_module_get_data_dir ##### -->
+<para>
+
+</para>
+
+@shell_module: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_module_get_filename ##### -->
+<para>
+
+</para>
+
+@shell_module: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_module_get_shell ##### -->
+<para>
+
+</para>
+
+@shell_module: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_module_get_shell_view_type ##### -->
+<para>
+
+</para>
+
+@shell_module: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_module_is_busy ##### -->
+<para>
+
+</para>
+
+@shell_module: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_module_migrate ##### -->
+<para>
+
+</para>
+
+@shell_module: 
+@major: 
+@minor: 
+@micro: 
+@error: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_module_new ##### -->
+<para>
+
+</para>
+
+@shell: 
+@filename: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_module_set_info ##### -->
+<para>
+
+</para>
+
+@shell_module: 
+@info: 
+@shell_view_type: 
+
+<!-- ##### FUNCTION e_shell_module_shutdown ##### -->
+<para>
+
+</para>
+
+@shell_module: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_module_start ##### -->
+<para>
+
+</para>
+
+@shell_module: 
+
 <!-- ##### FUNCTION e_shell_module_upgrade ##### -->
 <para>
 
@@ -1929,6 +2135,14 @@ intelligent
 </para>
 
 @shell: 
+@Returns: 
+
+<!-- ##### FUNCTION e_shell_view_get_shell_module ##### -->
+<para>
+
+</para>
+
+@shell_view: 
 @Returns: 
 
 <!-- ##### VARIABLE e_test_shell_view_type ##### -->

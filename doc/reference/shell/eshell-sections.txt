@@ -3,10 +3,10 @@
 <TITLE>EShell</TITLE>
 EShell
 e_shell_get_default
-e_shell_get_shell_modules
+e_shell_get_shell_backends
 e_shell_get_canonical_name
-e_shell_get_module_by_name
-e_shell_get_module_by_scheme
+e_shell_get_backend_by_name
+e_shell_get_backend_by_scheme
 e_shell_get_shell_settings
 e_shell_get_gconf_client
 e_shell_create_shell_window
@@ -37,6 +37,37 @@ e_shell_get_type
 <SUBSECTION Private>
 EShellPrivate
 e_shell_migrate_error_quark
+</SECTION>
+
+<SECTION>
+<FILE>e-shell-backend</FILE>
+<TITLE>EShellBackend</TITLE>
+EShellBackend
+EShellBackendInfo
+e_shell_backend_new
+e_shell_backend_compare
+e_shell_backend_get_config_dir
+e_shell_backend_get_data_dir
+e_shell_backend_get_filename
+e_shell_backend_get_shell
+e_shell_backend_get_shell_view_type
+e_shell_backend_add_activity
+e_shell_backend_start
+e_shell_backend_is_busy
+e_shell_backend_shutdown
+e_shell_backend_migrate
+e_shell_backend_set_info
+<SUBSECTION Standard>
+E_SHELL_BACKEND
+E_IS_SHELL_BACKEND
+E_TYPE_SHELL_BACKEND
+E_SHELL_BACKEND_CLASS
+E_IS_SHELL_BACKEND_CLASS
+E_SHELL_BACKEND_GET_CLASS
+EShellBackendClass
+e_shell_backend_get_type
+<SUBSECTION Private>
+EShellBackendPrivate
 </SECTION>
 
 <SECTION>
@@ -83,37 +114,6 @@ EShellContentClass
 e_shell_content_get_type
 <SUBSECTION Private>
 EShellContentPrivate
-</SECTION>
-
-<SECTION>
-<FILE>e-shell-module</FILE>
-<TITLE>EShellModule</TITLE>
-EShellModule
-EShellModuleInfo
-e_shell_module_new
-e_shell_module_compare
-e_shell_module_get_config_dir
-e_shell_module_get_data_dir
-e_shell_module_get_filename
-e_shell_module_get_shell
-e_shell_module_get_shell_view_type
-e_shell_module_add_activity
-e_shell_module_start
-e_shell_module_is_busy
-e_shell_module_shutdown
-e_shell_module_migrate
-e_shell_module_set_info
-<SUBSECTION Standard>
-E_SHELL_MODULE
-E_IS_SHELL_MODULE
-E_TYPE_SHELL_MODULE
-E_SHELL_MODULE_CLASS
-E_IS_SHELL_MODULE_CLASS
-E_SHELL_MODULE_GET_CLASS
-EShellModuleClass
-e_shell_module_get_type
-<SUBSECTION Private>
-EShellModulePrivate
 </SECTION>
 
 <SECTION>
@@ -234,11 +234,11 @@ e_shell_view_is_active
 e_shell_view_get_page_num
 e_shell_view_set_page_num
 e_shell_view_get_size_group
+e_shell_view_get_shell_backend
 e_shell_view_get_shell_content
 e_shell_view_get_shell_sidebar
 e_shell_view_get_shell_taskbar
 e_shell_view_get_shell_window
-e_shell_view_get_shell_module
 e_shell_view_update_actions
 e_shell_view_show_popup_menu
 e_shell_view_new_view_instance

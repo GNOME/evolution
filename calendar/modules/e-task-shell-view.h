@@ -61,10 +61,7 @@ struct _ETaskShellViewClass {
 	EShellViewClass parent_class;
 };
 
-GType		e_task_shell_view_get_type
-					(GTypeModule *type_module);
-ESourceList *	e_task_shell_view_get_source_list
-					(ETaskShellView *task_shell_view);
+GType		e_task_shell_view_get_type	(GTypeModule *type_module);
 
 G_END_DECLS
 

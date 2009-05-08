@@ -21,30 +21,8 @@
 
 #include "e-task-shell-view-private.h"
 
-enum {
-	PROP_0,
-	PROP_SOURCE_LIST
-};
-
 GType e_task_shell_view_type = 0;
 static gpointer parent_class;
-
-static void
-task_shell_view_get_property (GObject *object,
-                              guint property_id,
-                              GValue *value,
-                              GParamSpec *pspec)
-{
-	switch (property_id) {
-		case PROP_SOURCE_LIST:
-			g_value_set_object (
-				value, e_task_shell_view_get_source_list (
-				E_TASK_SHELL_VIEW (object)));
-			return;
-	}
-
-	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-}
 
 static void
 task_shell_view_dispose (GObject *object)
@@ -223,7 +201,6 @@ task_shell_view_class_init (ETaskShellViewClass *class,
 	g_type_class_add_private (class, sizeof (ETaskShellViewPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->get_property = task_shell_view_get_property;
 	object_class->dispose = task_shell_view_dispose;
 	object_class->finalize = task_shell_view_finalize;
 	object_class->constructed = task_shell_view_constructed;
@@ -235,20 +212,9 @@ task_shell_view_class_init (ETaskShellViewClass *class,
 	shell_view_class->ui_manager_id = "org.gnome.evolution.tasks";
 	shell_view_class->search_options = "/task-search-options";
 	shell_view_class->search_rules = "tasktypes.xml";
-	shell_view_class->type_module = type_module;
 	shell_view_class->new_shell_content = e_task_shell_content_new;
 	shell_view_class->new_shell_sidebar = e_task_shell_sidebar_new;
 	shell_view_class->update_actions = task_shell_view_update_actions;
-
-	g_object_class_install_property (
-		object_class,
-		PROP_SOURCE_LIST,
-		g_param_spec_object (
-			"source-list",
-			_("Source List"),
-			_("The registry of task lists"),
-			E_TYPE_SOURCE_LIST,
-			G_PARAM_READABLE));
 }
 
 static void
@@ -285,12 +251,4 @@ e_task_shell_view_get_type (GTypeModule *type_module)
 	}
 
 	return e_task_shell_view_type;
-}
-
-ESourceList *
-e_task_shell_view_get_source_list (ETaskShellView *task_shell_view)
-{
-	g_return_val_if_fail (E_IS_TASK_SHELL_VIEW (task_shell_view), NULL);
-
-	return task_shell_view->priv->source_list;
 }

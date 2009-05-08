@@ -72,8 +72,8 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/shell/e-shell-nm.o				\
 	$(top_builddir)/shell/e-shell-window-private.o			\
 	$(top_builddir)/shell/es-event.o				\
+	$(top_builddir)/shell/.libs/e-shell-backend.o			\
 	$(top_builddir)/shell/.libs/e-shell-content.o			\
-	$(top_builddir)/shell/.libs/e-shell-module.o			\
 	$(top_builddir)/shell/.libs/e-shell-settings.o			\
 	$(top_builddir)/shell/.libs/e-shell-sidebar.o			\
 	$(top_builddir)/shell/.libs/e-shell-switcher.o			\
@@ -92,6 +92,7 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/e-util/.libs/e-logger.o				\
 	$(top_builddir)/e-util/.libs/e-marshal.o			\
 	$(top_builddir)/e-util/.libs/e-mktemp.o				\
+	$(top_builddir)/e-util/.libs/e-module.o				\
 	$(top_builddir)/e-util/.libs/e-plugin.o				\
 	$(top_builddir)/e-util/.libs/e-plugin-ui.o			\
 	$(top_builddir)/e-util/.libs/e-popup.o				\

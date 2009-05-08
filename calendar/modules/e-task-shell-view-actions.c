@@ -203,69 +203,72 @@ static void
 action_task_list_delete_cb (GtkAction *action,
                             ETaskShellView *task_shell_view)
 {
-        ETaskShellContent *task_shell_content;
-        ETaskShellSidebar *task_shell_sidebar;
-        EShellWindow *shell_window;
-        EShellView *shell_view;
-        ECalendarTable *task_table;
-        ECal *client;
-        ECalModel *model;
-        ESourceSelector *selector;
-        ESourceGroup *source_group;
-        ESourceList *source_list;
-        ESource *source;
-        gint response;
-        gchar *uri;
-        GError *error = NULL;
+	ETaskShellBackend *task_shell_backend;
+	ETaskShellContent *task_shell_content;
+	ETaskShellSidebar *task_shell_sidebar;
+	EShellWindow *shell_window;
+	EShellView *shell_view;
+	ECalendarTable *task_table;
+	ECal *client;
+	ECalModel *model;
+	ESourceSelector *selector;
+	ESourceGroup *source_group;
+	ESourceList *source_list;
+	ESource *source;
+	gint response;
+	gchar *uri;
+	GError *error = NULL;
 
-        shell_view = E_SHELL_VIEW (task_shell_view);
-        shell_window = e_shell_view_get_shell_window (shell_view);
+	shell_view = E_SHELL_VIEW (task_shell_view);
+	shell_window = e_shell_view_get_shell_window (shell_view);
 
-        task_shell_content = task_shell_view->priv->task_shell_content;
-        task_table = e_task_shell_content_get_task_table (task_shell_content);
-        model = e_calendar_table_get_model (task_table);
+	task_shell_backend = task_shell_view->priv->task_shell_backend;
+	source_list = e_task_shell_backend_get_source_list (task_shell_backend);
 
-        task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
-        selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
-        source = e_source_selector_peek_primary_selection (selector);
-        g_return_if_fail (E_IS_SOURCE (source));
+	task_shell_content = task_shell_view->priv->task_shell_content;
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	model = e_calendar_table_get_model (task_table);
 
-        /* Ask for confirmation. */
-        response = e_error_run (
-                GTK_WINDOW (shell_window),
-                "calendar:prompt-delete-task-list",
-                e_source_peek_name (source));
-        if (response != GTK_RESPONSE_YES)
-                return;
+	task_shell_sidebar = task_shell_view->priv->task_shell_sidebar;
+	selector = e_task_shell_sidebar_get_selector (task_shell_sidebar);
+	source = e_source_selector_peek_primary_selection (selector);
+	g_return_if_fail (E_IS_SOURCE (source));
 
-        uri = e_source_get_uri (source);
-        client = e_cal_model_get_client_for_uri (model, uri);
-        if (client == NULL)
-                client = e_cal_new_from_uri (uri, E_CAL_SOURCE_TYPE_JOURNAL);
-        g_free (uri);
+	/* Ask for confirmation. */
+	response = e_error_run (
+		GTK_WINDOW (shell_window),
+		"calendar:prompt-delete-task-list",
+		e_source_peek_name (source));
+	if (response != GTK_RESPONSE_YES)
+		return;
 
-        g_return_if_fail (client != NULL);
+	uri = e_source_get_uri (source);
+	client = e_cal_model_get_client_for_uri (model, uri);
+	if (client == NULL)
+		client = e_cal_new_from_uri (uri, E_CAL_SOURCE_TYPE_JOURNAL);
+	g_free (uri);
 
-        if (!e_cal_remove (client, &error)) {
-                g_warning ("%s", error->message);
-                g_error_free (error);
-                return;
-        }
+	g_return_if_fail (client != NULL);
 
-        if (e_source_selector_source_is_selected (selector, source)) {
-                e_task_shell_sidebar_remove_source (
-                        task_shell_sidebar, source);
-                e_source_selector_unselect_source (selector, source);
-        }
+	if (!e_cal_remove (client, &error)) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+		return;
+	}
 
-        source_group = e_source_peek_group (source);
-        e_source_group_remove_source (source_group, source);
+	if (e_source_selector_source_is_selected (selector, source)) {
+		e_task_shell_sidebar_remove_source (
+			task_shell_sidebar, source);
+		e_source_selector_unselect_source (selector, source);
+	}
 
-        source_list = task_shell_view->priv->source_list;
-        if (!e_source_list_sync (source_list, &error)) {
-                g_warning ("%s", error->message);
-                g_error_free (error);
-        }
+	source_group = e_source_peek_group (source);
+	e_source_group_remove_source (source_group, source);
+
+	if (!e_source_list_sync (source_list, &error)) {
+		g_warning ("%s", error->message);
+		g_error_free (error);
+	}
 }
 
 static void

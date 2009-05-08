@@ -47,6 +47,7 @@
 #include "calendar/gui/dialogs/copy-source-dialog.h"
 #include "calendar/gui/dialogs/task-editor.h"
 
+#include "e-task-shell-backend.h"
 #include "e-task-shell-content.h"
 #include "e-task-shell-sidebar.h"
 #include "e-task-shell-view-actions.h"
@@ -93,13 +94,8 @@ enum {
 
 struct _ETaskShellViewPrivate {
 
-	/*** Module Data ***/
-
-	ESourceList *source_list;
-
-	/*** Other Stuff ***/
-
 	/* These are just for convenience. */
+	ETaskShellBackend *task_shell_backend;
 	ETaskShellContent *task_shell_content;
 	ETaskShellSidebar *task_shell_sidebar;
 

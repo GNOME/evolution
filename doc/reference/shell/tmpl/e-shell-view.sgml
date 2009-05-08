@@ -47,12 +47,12 @@ EShellView
 
 </para>
 
-<!-- ##### ARG EShellView:shell-content ##### -->
+<!-- ##### ARG EShellView:shell-backend ##### -->
 <para>
 
 </para>
 
-<!-- ##### ARG EShellView:shell-module ##### -->
+<!-- ##### ARG EShellView:shell-content ##### -->
 <para>
 
 </para>
@@ -94,7 +94,6 @@ EShellView
 @ui_manager_id: 
 @search_options: 
 @search_rules: 
-@type_module: 
 @view_collection: 
 @new_shell_content: 
 @new_shell_sidebar: 
@@ -192,6 +191,15 @@ EShellView
 @Returns: 
 
 
+<!-- ##### FUNCTION e_shell_view_get_shell_backend ##### -->
+<para>
+
+</para>
+
+@shell_view: 
+@Returns: 
+
+
 <!-- ##### FUNCTION e_shell_view_get_shell_content ##### -->
 <para>
 
@@ -220,15 +228,6 @@ EShellView
 
 
 <!-- ##### FUNCTION e_shell_view_get_shell_window ##### -->
-<para>
-
-</para>
-
-@shell_view: 
-@Returns: 
-
-
-<!-- ##### FUNCTION e_shell_view_get_shell_module ##### -->
 <para>
 
 </para>
