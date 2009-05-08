@@ -1,5 +1,5 @@
 /*
- * e-memo-shell-backend-migrate.c
+ * e-memo-shell-migrate.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,7 +19,7 @@
  *
  */
 
-#include "e-memo-shell-backend-migrate.h"
+#include "e-memo-shell-migrate.h"
 
 #include <string.h>
 #include <glib/gi18n.h>

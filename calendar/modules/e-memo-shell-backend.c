@@ -19,6 +19,8 @@
  *
  */
 
+#include "e-memo-shell-backend.h"
+
 #include <string.h>
 #include <glib/gi18n.h>
 #include <libecal/e-cal.h>
@@ -37,19 +39,31 @@
 #include "calendar/gui/dialogs/calendar-setup.h"
 #include "calendar/gui/dialogs/memo-editor.h"
 
+#include "e-memo-shell-migrate.h"
 #include "e-memo-shell-view.h"
-#include "e-memo-shell-backend-migrate.h"
 
-#define MODULE_NAME		"memos"
-#define MODULE_ALIASES		""
-#define MODULE_SCHEMES		"memo"
-#define MODULE_SORT_ORDER	500
+#define E_MEMO_SHELL_BACKEND_GET_PRIVATE(obj) \
+	(G_TYPE_INSTANCE_GET_PRIVATE \
+	((obj), E_TYPE_MEMO_SHELL_BACKEND, EMemoShellBackendPrivate))
 
 #define WEB_BASE_URI		"webcal://"
 #define PERSONAL_RELATIVE_URI	"system"
 
+struct _EMemoShellBackendPrivate {
+	ESourceList *source_list;
+};
+
+enum {
+	PROP_0,
+	PROP_SOURCE_LIST
+};
+
 /* Module Entry Point */
-void e_shell_backend_init (GTypeModule *type_module);
+void e_module_load (GTypeModule *type_module);
+void e_module_unload (GTypeModule *type_module);
+
+GType e_memo_shell_backend_type = 0;
+static gpointer parent_class;
 
 static void
 memo_module_ensure_sources (EShellBackend *shell_backend)
@@ -478,31 +492,48 @@ memo_module_window_created_cb (EShellBackend *shell_backend,
 		source_entries, G_N_ELEMENTS (source_entries));
 }
 
-static EShellBackendInfo module_info = {
+static void
+memo_shell_backend_get_property (GObject *object,
+                                 guint property_id,
+                                 GValue *value,
+                                 GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SOURCE_LIST:
+			g_value_set_object (
+				value,
+				e_memo_shell_backend_get_source_list (
+				E_MEMO_SHELL_BACKEND (object)));
+			return;
+	}
 
-	MODULE_NAME,
-	MODULE_ALIASES,
-	MODULE_SCHEMES,
-	MODULE_SORT_ORDER,
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
 
-	/* start */ NULL,
-	/* is_busy */ NULL,
-	/* shutdown */ NULL,
-	e_memo_shell_backend_migrate
-};
+static void
+memo_shell_backend_dispose (GObject *object)
+{
+	EMemoShellBackendPrivate *priv;
 
-void
-e_shell_backend_init (GTypeModule *type_module)
+	priv = E_MEMO_SHELL_BACKEND_GET_PRIVATE (object);
+
+	if (priv->source_list != NULL) {
+		g_object_unref (priv->source_list);
+		priv->source_list = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
+memo_shell_backend_constructed (GObject *object)
 {
 	EShell *shell;
 	EShellBackend *shell_backend;
 
-	shell_backend = E_SHELL_BACKEND (type_module);
+	shell_backend = E_SHELL_BACKEND (object);
 	shell = e_shell_backend_get_shell (shell_backend);
-
-	e_shell_backend_set_info (
-		shell_backend, &module_info,
-		e_memo_shell_view_get_type (type_module));
 
 	memo_module_ensure_sources (shell_backend);
 
@@ -513,4 +544,94 @@ e_shell_backend_init (GTypeModule *type_module)
 	g_signal_connect_swapped (
 		shell, "window-created",
 		G_CALLBACK (memo_module_window_created_cb), shell_backend);
+}
+
+static void
+memo_shell_backend_class_init (EMemoShellBackendClass *class)
+{
+	GObjectClass *object_class;
+	EShellBackendClass *shell_backend_class;
+
+	parent_class = g_type_class_peek_parent (class);
+	g_type_class_add_private (class, sizeof (EMemoShellBackendPrivate));
+
+	object_class = G_OBJECT_CLASS (class);
+	object_class->get_property = memo_shell_backend_get_property;
+	object_class->dispose = memo_shell_backend_dispose;
+	object_class->constructed = memo_shell_backend_constructed;
+
+	shell_backend_class = E_SHELL_BACKEND_CLASS (class);
+	shell_backend_class->name = "memos";
+	shell_backend_class->aliases = "";
+	shell_backend_class->schemes = "memo";
+	shell_backend_class->sort_order = 500;
+	shell_backend_class->view_type = E_TYPE_MEMO_SHELL_VIEW;
+	shell_backend_class->start = NULL;
+	shell_backend_class->is_busy = NULL;
+	shell_backend_class->shutdown = NULL;
+	shell_backend_class->migrate = e_memo_shell_backend_migrate;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SOURCE_LIST,
+		g_param_spec_object (
+			"source-list",
+			_("Source List"),
+			_("The registry of memo lists"),
+			E_TYPE_SOURCE_LIST,
+			G_PARAM_READABLE));
+}
+
+static void
+memo_shell_backend_init (EMemoShellBackend *memo_shell_backend)
+{
+	memo_shell_backend->priv =
+		E_MEMO_SHELL_BACKEND_GET_PRIVATE (memo_shell_backend);
+}
+
+GType
+e_memo_shell_backend_get_type (GTypeModule *type_module)
+{
+	if (e_memo_shell_backend_type == 0) {
+		const GTypeInfo type_info = {
+			sizeof (EMemoShellBackendClass),
+			(GBaseInitFunc) NULL,
+			(GBaseFinalizeFunc) NULL,
+			(GClassInitFunc) memo_shell_backend_class_init,
+			(GClassFinalizeFunc) NULL,
+			NULL,  /* class_data */
+			sizeof (EMemoShellBackend),
+			0,     /* n_preallocs */
+			(GInstanceInitFunc) memo_shell_backend_init,
+			NULL   /* value_table */
+		};
+
+		e_memo_shell_backend_type =
+			g_type_module_register_type (
+				type_module, E_TYPE_SHELL_BACKEND,
+				"EMemoShellBackend", &type_info, 0);
+	}
+
+	return e_memo_shell_backend_type;
+}
+
+ESourceList *
+e_memo_shell_backend_get_source_list (EMemoShellBackend *memo_shell_backend)
+{
+	g_return_val_if_fail (
+		E_IS_MEMO_SHELL_BACKEND (memo_shell_backend), NULL);
+
+	return memo_shell_backend->priv->source_list;
+}
+
+void
+e_module_load (GTypeModule *type_module)
+{
+	e_memo_shell_backend_get_type (type_module);
+	e_memo_shell_view_get_type (type_module);
+}
+
+void
+e_module_unload (GTypeModule *type_module)
+{
 }

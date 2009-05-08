@@ -61,10 +61,7 @@ struct _EMemoShellViewClass {
 	EShellViewClass parent_class;
 };
 
-GType		e_memo_shell_view_get_type
-					(GTypeModule *type_module);
-ESourceList *	e_memo_shell_view_get_source_list
-					(EMemoShellView *memo_shell_view);
+GType		e_memo_shell_view_get_type	(GTypeModule *type_module);
 
 G_END_DECLS
 

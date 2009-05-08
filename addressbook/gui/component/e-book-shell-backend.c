@@ -62,6 +62,11 @@ struct _EBookShellBackendPrivate {
 	ESourceList *source_list;
 };
 
+enum {
+	PROP_0,
+	PROP_SOURCE_LIST
+};
+
 /* Module Entry Points */
 void e_module_load (GTypeModule *type_module);
 void e_module_unload (GTypeModule *type_module);
@@ -415,6 +420,24 @@ book_shell_backend_window_created_cb (EShellBackend *shell_backend,
 }
 
 static void
+book_shell_backend_get_property (GObject *object,
+                                 guint property_id,
+                                 GValue *value,
+                                 GParamSpec *pspec)
+{
+	switch (property_id) {
+		case PROP_SOURCE_LIST:
+			g_value_set_object (
+				value,
+				e_book_shell_backend_get_source_list (
+				E_BOOK_SHELL_BACKEND (object)));
+			return;
+	}
+
+	G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+}
+
+static void
 book_shell_backend_dispose (GObject *object)
 {
 	EBookShellBackendPrivate *priv;
@@ -487,6 +510,7 @@ book_shell_backend_class_init (EBookShellBackendClass *class)
 	g_type_class_add_private (class, sizeof (EBookShellBackendPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
+	object_class->get_property = book_shell_backend_get_property;
 	object_class->dispose = book_shell_backend_dispose;
 	object_class->constructed = book_shell_backend_constructed;
 
@@ -500,6 +524,16 @@ book_shell_backend_class_init (EBookShellBackendClass *class)
 	shell_backend_class->is_busy = book_shell_backend_is_busy;
 	shell_backend_class->shutdown = book_shell_backend_shutdown;
 	shell_backend_class->migrate = e_book_shell_backend_migrate;
+
+	g_object_class_install_property (
+		object_class,
+		PROP_SOURCE_LIST,
+		g_param_spec_object (
+			"source-list",
+			_("Source List"),
+			_("The registry of address books"),
+			E_TYPE_SOURCE_LIST,
+			G_PARAM_READABLE));
 }
 
 static void

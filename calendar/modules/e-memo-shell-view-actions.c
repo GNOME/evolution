@@ -156,6 +156,7 @@ static void
 action_memo_list_delete_cb (GtkAction *action,
                             EMemoShellView *memo_shell_view)
 {
+	EMemoShellBackend *memo_shell_backend;
 	EMemoShellContent *memo_shell_content;
 	EMemoShellSidebar *memo_shell_sidebar;
 	EShellWindow *shell_window;
@@ -173,6 +174,9 @@ action_memo_list_delete_cb (GtkAction *action,
 
 	shell_view = E_SHELL_VIEW (memo_shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
+
+	memo_shell_backend = memo_shell_view->priv->memo_shell_backend;
+	source_list = e_memo_shell_backend_get_source_list (memo_shell_backend);
 
 	memo_shell_content = memo_shell_view->priv->memo_shell_content;
 	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
@@ -214,7 +218,6 @@ action_memo_list_delete_cb (GtkAction *action,
 	source_group = e_source_peek_group (source);
 	e_source_group_remove_source (source_group, source);
 
-	source_list = memo_shell_view->priv->source_list;
 	if (!e_source_list_sync (source_list, &error)) {
 		g_warning ("%s", error->message);
 		g_error_free (error);

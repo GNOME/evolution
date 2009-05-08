@@ -23,6 +23,7 @@
 #define E_MEMO_SHELL_BACKEND_H
 
 #include <shell/e-shell-backend.h>
+#include <libedataserver/e-source-list.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MEMO_SHELL_BACKEND \
@@ -60,7 +61,10 @@ struct _EMemoShellBackendClass {
 	EShellBackendClass parent_class;
 };
 
-GType		e_memo_shell_backend_get_type	(GTypeModule *type_module);
+GType		e_memo_shell_backend_get_type
+					(GTypeModule *type_module);
+ESourceList *	e_memo_shell_backend_get_source_list
+					(EMemoShellBackend *memo_shell_backend);
 
 G_END_DECLS
 

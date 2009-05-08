@@ -43,6 +43,7 @@
 #include "calendar/gui/dialogs/copy-source-dialog.h"
 #include "calendar/gui/dialogs/memo-editor.h"
 
+#include "e-memo-shell-backend.h"
 #include "e-memo-shell-content.h"
 #include "e-memo-shell-sidebar.h"
 #include "e-memo-shell-view-actions.h"
@@ -84,13 +85,8 @@ enum {
 
 struct _EMemoShellViewPrivate {
 
-	/*** Module Data ***/
-
-	ESourceList *source_list;
-
-	/*** Other Stuff ***/
-
 	/* These are just for convenience. */
+	EMemoShellBackend *memo_shell_backend;
 	EMemoShellContent *memo_shell_content;
 	EMemoShellSidebar *memo_shell_sidebar;
 
