@@ -317,7 +317,9 @@ emfp_dialog_got_folder_quota (CamelFolder *folder,
 	shell_view = E_SHELL_VIEW (data);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
-	local_store = e_mail_shell_backend_get_local_store (shell_backend);
+
+	local_store = e_mail_shell_backend_get_local_store (
+		E_MAIL_SHELL_BACKEND (shell_backend));
 
 	prop_data = g_malloc0 (sizeof (*prop_data));
 	prop_data->object = folder;

@@ -503,6 +503,7 @@ session_system_beep (CamelFilterDriver *driver, gpointer user_data)
 static CamelFilterDriver *
 main_get_filter_driver (CamelSession *session, const char *type, CamelException *ex)
 {
+	EShellBackend *shell_backend;
 	CamelFilterDriver *driver;
 	FilterRule *rule = NULL;
 	const gchar *data_dir;
@@ -511,8 +512,9 @@ main_get_filter_driver (CamelSession *session, const char *type, CamelException 
 	RuleContext *fc;
 
 	gconf = mail_config_get_gconf_client ();
+	shell_backend = E_SHELL_BACKEND (session_mail_shell_backend);
 
-	data_dir = e_shell_backend_get_data_dir (session_mail_shell_backend);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
 	user = g_build_filename (data_dir, "filters.xml", NULL);
 	system = g_build_filename (EVOLUTION_PRIVDATADIR, "filtertypes.xml", NULL);
 	fc = (RuleContext *) em_filter_context_new ();

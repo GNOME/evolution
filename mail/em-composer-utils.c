@@ -2538,14 +2538,14 @@ em_utils_post_reply_to_message_by_uid (CamelFolder *folder, const char *uid)
 
 static void
 post_header_clicked_cb (EComposerPostHeader *header,
-                        EShellBackend *shell_backend)
+                        EMailShellBackend *mail_shell_backend)
 {
 	EMFolderTreeModel *model;
 	GtkWidget *folder_tree;
 	GtkWidget *dialog;
 	GList *list;
 
-	model = e_mail_shell_backend_get_folder_tree_model (shell_backend);
+	model = e_mail_shell_backend_get_folder_tree_model (mail_shell_backend);
 	folder_tree = em_folder_tree_new_with_model (model);
 
 	em_folder_tree_set_multiselect (

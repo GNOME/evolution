@@ -255,13 +255,16 @@ static GtkWidget *filter_editor = NULL;
 static void
 em_filter_editor_response (GtkWidget *dialog, int button, gpointer user_data)
 {
+	EShellBackend *shell_backend;
 	EMFilterContext *fc;
+
+	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
 
 	if (button == GTK_RESPONSE_OK) {
 		const gchar *data_dir;
 		char *user;
 
-		data_dir = e_shell_backend_get_data_dir (global_mail_shell_backend);
+		data_dir = e_shell_backend_get_data_dir (shell_backend);
 		fc = g_object_get_data ((GObject *) dialog, "context");
 		user = g_strdup_printf ("%s/filters.xml", data_dir);
 		rule_context_save ((RuleContext *) fc, user);
@@ -290,6 +293,7 @@ static EMFilterSource em_filter_source_element_names[] = {
 void
 em_utils_edit_filters (GtkWidget *parent)
 {
+	EShellBackend *shell_backend;
 	const gchar *data_dir;
 	char *user, *system;
 	EMFilterContext *fc;
@@ -299,7 +303,8 @@ em_utils_edit_filters (GtkWidget *parent)
 		return;
 	}
 
-	data_dir = e_shell_backend_get_data_dir (global_mail_shell_backend);
+	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
 
 	fc = em_filter_context_new ();
 	user = g_build_filename (data_dir, "filters.xml", NULL);
@@ -2434,10 +2439,13 @@ em_utils_clear_get_password_canceled_accounts_flag (void)
 void
 em_utils_show_error_silent (GtkWidget *widget)
 {
+	EShellBackend *shell_backend;
 	EActivity *activity;
 
+	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
+
 	activity = e_alert_activity_new_warning (widget);
-	e_shell_backend_add_activity (global_mail_shell_backend, activity);
+	e_shell_backend_add_activity (shell_backend, activity);
 	g_object_unref (activity);
 
 	if (g_object_get_data (G_OBJECT (widget), "response-handled") == NULL)
@@ -2449,10 +2457,13 @@ em_utils_show_error_silent (GtkWidget *widget)
 void
 em_utils_show_info_silent (GtkWidget *widget)
 {
+	EShellBackend *shell_backend;
 	EActivity *activity;
 
+	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
+
 	activity = e_alert_activity_new_info (widget);
-	e_shell_backend_add_activity (global_mail_shell_backend, activity);
+	e_shell_backend_add_activity (shell_backend, activity);
 	g_object_unref (activity);
 
 	if (g_object_get_data (G_OBJECT (widget), "response-handled") == NULL)

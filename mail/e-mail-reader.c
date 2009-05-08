@@ -157,7 +157,8 @@ action_mail_copy_cb (GtkAction *action,
 
 	message_list = e_mail_reader_get_message_list (reader);
 	shell_backend = e_mail_reader_get_shell_backend (reader);
-	model = e_mail_shell_backend_get_folder_tree_model (shell_backend);
+	model = e_mail_shell_backend_get_folder_tree_model (
+		E_MAIL_SHELL_BACKEND (shell_backend));
 
 	folder_tree = em_folder_tree_new_with_model (model);
 	selected = message_list_get_selected (message_list);
@@ -577,7 +578,8 @@ action_mail_move_cb (GtkAction *action,
 
 	message_list = e_mail_reader_get_message_list (reader);
 	shell_backend = e_mail_reader_get_shell_backend (reader);
-	model = e_mail_shell_backend_get_folder_tree_model (shell_backend);
+	model = e_mail_shell_backend_get_folder_tree_model (
+		E_MAIL_SHELL_BACKEND (shell_backend));
 
 	folder_tree = em_folder_tree_new_with_model (model);
 	selected = message_list_get_selected (message_list);
@@ -900,6 +902,7 @@ action_mail_show_source_cb (GtkAction *action,
                             EMailReader *reader)
 {
 	EMFormatHTMLDisplay *html_display;
+	EMailShellBackend *mail_shell_backend;
 	EShellBackend *shell_backend;
 	MessageList *message_list;
 	CamelFolder *folder;
@@ -909,13 +912,14 @@ action_mail_show_source_cb (GtkAction *action,
 
 	message_list = e_mail_reader_get_message_list (reader);
 	shell_backend = e_mail_reader_get_shell_backend (reader);
+	mail_shell_backend = E_MAIL_SHELL_BACKEND (shell_backend);
 
 	folder = message_list->folder;
 	folder_uri = message_list->folder_uri;
 	uids = message_list_get_selected (message_list);
 	g_return_if_fail (uids->len > 0);
 
-	browser = e_mail_browser_new (shell_backend);
+	browser = e_mail_browser_new (mail_shell_backend);
 	reader = E_MAIL_READER (browser);
 	html_display = e_mail_reader_get_html_display (reader);
 	em_format_set_mode (EM_FORMAT (html_display), EM_FORMAT_SOURCE);

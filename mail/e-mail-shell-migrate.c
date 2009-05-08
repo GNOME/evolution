@@ -2853,7 +2853,8 @@ migrate_to_db (EShellBackend *shell_backend)
 
 			camel_exception_init (&ex);
 			e_mail_shell_backend_load_store_by_uri (
-				shell_backend, service->url, name);
+				E_MAIL_SHELL_BACKEND (shell_backend),
+				service->url, name);
 
 			store = (CamelStore *) camel_session_get_service (CAMEL_SESSION (session), service->url, CAMEL_PROVIDER_STORE, &ex);
 			info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, &ex);
@@ -2879,11 +2880,11 @@ migrate_to_db (EShellBackend *shell_backend)
 }
 
 gboolean
-e_mail_shell_backend_migrate (EShellBackend *shell_backend,
-                              gint major,
-                              gint minor,
-                              gint micro,
-                              GError **error)
+e_mail_shell_migrate (EShellBackend *shell_backend,
+                      gint major,
+                      gint minor,
+                      gint micro,
+                      GError **error)
 {
 	struct stat st;
 	const gchar *data_dir;

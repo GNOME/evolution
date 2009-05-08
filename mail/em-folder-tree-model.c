@@ -496,8 +496,8 @@ em_folder_tree_model_new (EMailShellBackend *mail_shell_backend)
 		"shell-backend", mail_shell_backend, NULL);
 }
 
-EShellBackend *
-em_folder_tree_model_get_shell_backend (EMFolderTreeModel *model)
+EMailShellBackend *
+em_folder_tree_model_get_mail_shell_backend (EMFolderTreeModel *model)
 {
 	g_return_val_if_fail (EM_IS_FOLDER_TREE_MODEL (model), NULL);
 
@@ -560,6 +560,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 				      CamelFolderInfo *fi, int fully_loaded)
 {
 	EShellBackend *shell_backend;
+	EMailShellBackend *mail_shell_backend;
 	GtkTreeRowReference *uri_row, *path_row;
 	GtkTreeStore *tree_store;
 	unsigned int unread;
@@ -578,6 +579,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 
 	tree_store = GTK_TREE_STORE (model);
 	shell_backend = model->priv->shell_backend;
+	mail_shell_backend = E_MAIL_SHELL_BACKEND (shell_backend);
 
 	if (!fully_loaded)
 		load = fi->child == NULL && !(fi->flags & (CAMEL_FOLDER_NOCHILDREN | CAMEL_FOLDER_NOINFERIORS));
@@ -599,9 +601,9 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 		CamelFolder *local_outbox;
 
 		local_drafts = e_mail_shell_backend_get_folder (
-			shell_backend, E_MAIL_FOLDER_DRAFTS);
+			mail_shell_backend, E_MAIL_FOLDER_DRAFTS);
 		local_outbox = e_mail_shell_backend_get_folder (
-			shell_backend, E_MAIL_FOLDER_OUTBOX);
+			mail_shell_backend, E_MAIL_FOLDER_OUTBOX);
 
 		if (folder == local_outbox) {
 			int total;
@@ -634,7 +636,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	/* TODO: maybe this should be handled by mail_get_folderinfo (except em-folder-tree doesn't use it, duh) */
 	flags = fi->flags;
 	name = fi->name;
-	if (si->store == e_mail_shell_backend_get_local_store (shell_backend)) {
+	if (si->store == e_mail_shell_backend_get_local_store (mail_shell_backend)) {
 		if (!strcmp(fi->full_name, "Drafts")) {
 			name = _("Drafts");
 		} else if (!strcmp(fi->full_name, "Templates")) {

@@ -128,6 +128,7 @@ static void
 mail_shell_sidebar_constructed (GObject *object)
 {
 	EMailShellSidebarPrivate *priv;
+	EMailShellBackend *mail_shell_backend;
 	EShellSidebar *shell_sidebar;
 	EShellBackend *shell_backend;
 	EShellView *shell_view;
@@ -144,6 +145,7 @@ mail_shell_sidebar_constructed (GObject *object)
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
+	mail_shell_backend = E_MAIL_SHELL_BACKEND (mail_shell_backend);
 
 	/* Build sidebar widgets. */
 
@@ -160,7 +162,7 @@ mail_shell_sidebar_constructed (GObject *object)
 
 	container = widget;
 
-	widget = em_folder_tree_new (shell_backend);
+	widget = em_folder_tree_new (mail_shell_backend);
 	em_folder_tree_set_excluded (EM_FOLDER_TREE (widget), 0);
 	em_folder_tree_enable_drag_and_drop (EM_FOLDER_TREE (widget));
 	gtk_container_add (GTK_CONTAINER (container), widget);
@@ -179,6 +181,7 @@ mail_shell_sidebar_constructed (GObject *object)
 static guint32
 mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 {
+	EMailShellBackend *mail_shell_backend;
 	EMailShellSidebar *mail_shell_sidebar;
 	EShellBackend *shell_backend;
 	EShellView *shell_view;
@@ -203,7 +206,9 @@ mail_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	local_store = e_mail_shell_backend_get_local_store (shell_backend);
+
+	mail_shell_backend = E_MAIL_SHELL_BACKEND (shell_backend);
+	local_store = e_mail_shell_backend_get_local_store (mail_shell_backend);
 
 	mail_shell_sidebar = E_MAIL_SHELL_SIDEBAR (shell_sidebar);
 	folder_tree = e_mail_shell_sidebar_get_folder_tree (mail_shell_sidebar);

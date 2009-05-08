@@ -212,6 +212,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	EMailShellSidebar *mail_shell_sidebar;
 	EShell *shell;
 	EShellView *shell_view;
+	EShellBackend *shell_backend;
 	EShellContent *shell_content;
 	EShellSettings *shell_settings;
 	EShellSidebar *shell_sidebar;
@@ -232,6 +233,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	gint ii = 0;
 
 	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_backend = e_shell_view_get_shell_backend (shell_view);
 	shell_content = e_shell_view_get_shell_content (shell_view);
 	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
 	shell_window = e_shell_view_get_shell_window (shell_view);
@@ -251,6 +253,7 @@ e_mail_shell_view_private_constructed (EMailShellView *mail_shell_view)
 	priv->label_merge_id = merge_id;
 
 	/* Cache these to avoid lots of awkward casting. */
+	priv->mail_shell_backend = g_object_ref (shell_backend);
 	priv->mail_shell_content = g_object_ref (shell_content);
 	priv->mail_shell_sidebar = g_object_ref (shell_sidebar);
 
@@ -359,6 +362,7 @@ e_mail_shell_view_private_dispose (EMailShellView *mail_shell_view)
 	EMailShellViewPrivate *priv = mail_shell_view->priv;
 	gint ii;
 
+	DISPOSE (priv->mail_shell_backend);
 	DISPOSE (priv->mail_shell_content);
 	DISPOSE (priv->mail_shell_sidebar);
 
@@ -742,8 +746,9 @@ e_mail_shell_view_create_vfolder_from_selected (EMailShellView *mail_shell_view,
 void
 e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 {
+	EMailShellBackend *mail_shell_backend;
+	EMailShellContent *mail_shell_content;
 	EShellSidebar *shell_sidebar;
-	EShellBackend *shell_backend;
 	EShellView *shell_view;
 	EMailReader *reader;
 	MessageList *message_list;
@@ -763,15 +768,18 @@ e_mail_shell_view_update_sidebar (EMailShellView *mail_shell_view)
 
 	g_return_if_fail (E_IS_MAIL_SHELL_VIEW (mail_shell_view));
 
-	shell_view = E_SHELL_VIEW (mail_shell_view);
-	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
-	local_store = e_mail_shell_backend_get_local_store (shell_backend);
+	mail_shell_backend = mail_shell_view->priv->mail_shell_backend;
+	mail_shell_content = mail_shell_view->priv->mail_shell_content;
 
-	reader = E_MAIL_READER (mail_shell_view->priv->mail_shell_content);
+	shell_view = E_SHELL_VIEW (mail_shell_view);
+	shell_sidebar = e_shell_view_get_shell_sidebar (shell_view);
+
+	reader = E_MAIL_READER (mail_shell_content);
 	message_list = e_mail_reader_get_message_list (reader);
 	folder_uri = message_list->folder_uri;
 	folder = message_list->folder;
+
+	local_store = e_mail_shell_backend_get_local_store (mail_shell_backend);
 
 	/* If no folder is selected, reset the sidebar banners
 	 * to their default values and stop. */

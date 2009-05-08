@@ -122,6 +122,7 @@ struct _EMailShellViewPrivate {
 	/*** Other Stuff ***/
 
 	/* These are just for convenience. */
+	EMailShellBackend *mail_shell_backend;
 	EMailShellContent *mail_shell_content;
 	EMailShellSidebar *mail_shell_sidebar;
 

@@ -357,6 +357,7 @@ struct _import_folders_data {
 static void
 import_folders_rec(struct _import_folders_data *m, const char *filepath, const char *folderparent)
 {
+	EShellBackend *shell_backend;
 	GDir *dir;
 	const char *d;
 	struct stat st;
@@ -368,7 +369,8 @@ import_folders_rec(struct _import_folders_data *m, const char *filepath, const c
  	if (dir == NULL)
 		return;
 
-	data_dir = e_shell_backend_get_data_dir (global_mail_shell_backend);
+	shell_backend = E_SHELL_BACKEND (global_mail_shell_backend);
+	data_dir = e_shell_backend_get_data_dir (shell_backend);
 
 	utf8_filename = g_filename_to_utf8 (filepath, -1, NULL, NULL, NULL);
 	camel_operation_start(NULL, _("Scanning %s"), utf8_filename);
