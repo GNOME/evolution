@@ -18,7 +18,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2009-03-09 04:41+0000\n"
-"PO-Revision-Date: 2009-04-09 11:28+0300\n"
+"PO-Revision-Date: 2009-05-09 10:11+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -4337,7 +4337,7 @@ msgid "_Ask for confirmation when deleting items"
 msgstr "K_irjete kustutamisel küsitakse nõusolekut"
 
 msgid "_Compress weekends in month view"
-msgstr "_Nädalalõppe kuvatakse kokkusurutud vormis"
+msgstr "Nädalalõppe kuvatakse kokkusurutud _vormis"
 
 msgid "_Day begins:"
 msgstr "Päev al_gab:"
@@ -5550,9 +5550,8 @@ msgstr ""
 msgid "%02i minute divisions"
 msgstr "%02i-minutiline jaotamine"
 
-#, fuzzy
 msgid "Show the second time zone"
-msgstr "\"Eelvaatlus\" paani kuvamine"
+msgstr "Teise ajavööndi näitamine"
 
 #. strftime format %A = full weekday name, %d = day of month,
 #. %B = full month name. Don't use any other specifiers.
@@ -10733,7 +10732,7 @@ msgid "HTML Messages"
 msgstr "HTML-Sõnumid"
 
 msgid "H_TTP Proxy:"
-msgstr "H_TTP proksi:"
+msgstr "_HTTP proksi:"
 
 msgid "Headers"
 msgstr "Päised"
@@ -10769,7 +10768,7 @@ msgid "Message Composer"
 msgstr "Sõnumiredaktor"
 
 msgid "No _Proxy for:"
-msgstr "Proksit _ei kasuta:"
+msgstr "Proksit _ei kasutata aadressidele:"
 
 msgid ""
 "Note: Underscore in the label name is used as mnemonic identifier in menu."
@@ -10931,10 +10930,10 @@ msgid "Us_ername:"
 msgstr "_Kasutajanimi:"
 
 msgid "Use Authe_ntication"
-msgstr "_Autentimise kasutamine"
+msgstr "Kasutatakse _autentimist"
 
 msgid "User_name:"
-msgstr "_Kasutajanimi:"
+msgstr "Kasutaja_nimi:"
 
 msgid "V_ariable-width:"
 msgstr "_Muutuva laiusega:"
@@ -11026,7 +11025,7 @@ msgid "_Use Secure Connection:"
 msgstr "Tu_rvalise ühenduse kasutamine:"
 
 msgid "_Use system defaults"
-msgstr "Süsteemi _vaikeväärtuste kasutamine"
+msgstr "Kasutatakse süsteemi _vaikeväärtusi"
 
 msgid "_Use the same fonts as other applications"
 msgstr "_Kirjatüüp on sama, mis teistes rakendustes"
@@ -13258,9 +13257,8 @@ msgstr ""
 msgid "Unsubscribing from folder \"%s\""
 msgstr "Kausta \"%s\" tellimusest loobumine"
 
-#, fuzzy
 msgid "Allows unsubscribing of mail folders in the side bar context menu."
-msgstr "Sõnumikaustade tellimise lubamine kaustapuu kontekstimenüüst."
+msgstr ""
 
 msgid "Unsubscribe Folders"
 msgstr "Kausta tellimuse lõpetamine"
@@ -14209,9 +14207,8 @@ msgid "_Preserve my reminder"
 msgstr ""
 
 #. To Translators: This is a check box to inherit a reminder.
-#, fuzzy
 msgid "_Inherit reminder"
-msgstr "Manuste meeldetuletaja"
+msgstr ""
 
 msgid "_Tasks :"
 msgstr "_Ülesanded :"
@@ -17060,7 +17057,7 @@ msgid ""
 "zone.\n"
 "Use the right mouse button to zoom out."
 msgstr ""
-"Kasuta vasakut hiirenuppu, et kaarti suurendada ja ajavööndit valida.\n"
+"Kaardi suurendamiseks ja ajavööndi valimiseks kasuta vasakut hiirenuppu.\n"
 "Parema hiirenupuga saab kaarti vähendada."
 
 msgid "Collection"
@@ -17913,30 +17910,12 @@ msgstr "Välksõnumikontekst"
 msgid "Handle Popup"
 msgstr ""
 
-#~ msgid "Novell Groupwise"
-#~ msgstr "Novell Groupwise"
-
 #~ msgid ""
 #~ "We were unable to open this address book.  This either means you have "
 #~ "entered an incorrect URI, or the LDAP server is unreachable."
 #~ msgstr ""
 #~ "Aadressiraamatut pole võimalik avada.  Põhjuseks võib olla see, et "
 #~ "sisestasid vigase URI või pole LDAP-server kättesaadav."
-
-#~ msgid "Contact Print Style Editor Test"
-#~ msgstr "Kontakti printimislaadi redaktori test"
-
-#~ msgid "Copyright (C) 2000, Ximian, Inc."
-#~ msgstr "Autoriõigus (C) 2000, Ximian, Inc."
-
-#~ msgid "This should test the contact print style editor widget"
-#~ msgstr "See peaks testima kontakti printimise laadiredaktori vidinat"
-
-#~ msgid "Contact Print Test"
-#~ msgstr "Kontakti printimistest"
-
-#~ msgid "This should test the contact print code"
-#~ msgstr "See peaks testima kontaktiprintimise koodi"
 
 #~ msgid "Business"
 #~ msgstr "Äri"
