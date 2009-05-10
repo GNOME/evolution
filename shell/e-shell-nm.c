@@ -63,7 +63,7 @@ e_shell_network_monitor (DBusConnection *connection G_GNUC_UNUSED,
 		dbus_connection_unref (dbus_connection);
 		dbus_connection = NULL;
 
-		g_timeout_add_seconds (3, reinit_dbus, shell);
+		g_timeout_add_seconds (3, (GSourceFunc) reinit_dbus, shell);
 
 		return DBUS_HANDLER_RESULT_HANDLED;
 	}
