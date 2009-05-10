@@ -21,8 +21,8 @@
 
 #include "e-mail-shell-view-private.h"
 
-GType e_mail_shell_view_type = 0;
 static gpointer parent_class;
+static GType mail_shell_view_type;
 
 static void
 mail_shell_view_dispose (GObject *object)
@@ -233,27 +233,28 @@ mail_shell_view_init (EMailShellView *mail_shell_view,
 }
 
 GType
-e_mail_shell_view_get_type (GTypeModule *type_module)
+e_mail_shell_view_get_type (void)
 {
-	if (e_mail_shell_view_type == 0) {
-		const GTypeInfo type_info = {
-			sizeof (EMailShellViewClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) mail_shell_view_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMailShellView),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) mail_shell_view_init,
-			NULL   /* value_table */
-		};
+	return mail_shell_view_type;
+}
 
-		e_mail_shell_view_type =
-			g_type_module_register_type (
-				type_module, E_TYPE_SHELL_VIEW,
-				"EMailShellView", &type_info, 0);
-	}
+void
+e_mail_shell_view_register_type (GTypeModule *type_module)
+{
+	const GTypeInfo type_info = {
+		sizeof (EMailShellViewClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) mail_shell_view_class_init,
+		(GClassFinalizeFunc) NULL,
+		NULL,  /* class_data */
+		sizeof (EMailShellView),
+		0,     /* n_preallocs */
+		(GInstanceInitFunc) mail_shell_view_init,
+		NULL   /* value_table */
+	};
 
-	return e_mail_shell_view_type;
+	mail_shell_view_type = g_type_module_register_type (
+		type_module, E_TYPE_SHELL_VIEW,
+		"EMailShellView", &type_info, 0);
 }

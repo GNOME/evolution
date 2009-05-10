@@ -60,6 +60,7 @@ enum {
 
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+static GType memo_shell_sidebar_type;
 
 static void
 memo_shell_sidebar_emit_client_added (EMemoShellSidebar *memo_shell_sidebar,
@@ -597,28 +598,28 @@ memo_shell_sidebar_init (EMemoShellSidebar *memo_shell_sidebar)
 GType
 e_memo_shell_sidebar_get_type (void)
 {
-	static GType type = 0;
+	return memo_shell_sidebar_type;
+}
 
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMemoShellSidebarClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) memo_shell_sidebar_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMemoShellSidebar),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) memo_shell_sidebar_init,
-			NULL   /* value_table */
-		};
+void
+e_memo_shell_sidebar_register_type (GTypeModule *type_module)
+{
+	static const GTypeInfo type_info = {
+		sizeof (EMemoShellSidebarClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) memo_shell_sidebar_class_init,
+		(GClassFinalizeFunc) NULL,
+		NULL,  /* class_data */
+		sizeof (EMemoShellSidebar),
+		0,     /* n_preallocs */
+		(GInstanceInitFunc) memo_shell_sidebar_init,
+		NULL   /* value_table */
+	};
 
-		type = g_type_register_static (
-			E_TYPE_SHELL_SIDEBAR, "EMemoShellSidebar",
-			&type_info, 0);
-	}
-
-	return type;
+	memo_shell_sidebar_type = g_type_module_register_type (
+		type_module, E_TYPE_SHELL_SIDEBAR,
+		"EMemoShellSidebar", &type_info, 0);
 }
 
 GtkWidget *

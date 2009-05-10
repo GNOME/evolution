@@ -77,29 +77,33 @@ struct _EBookShellContentClass {
 };
 
 GType		e_book_shell_content_get_type	(void);
-GtkWidget *	e_book_shell_content_new	(EShellView *shell_view);
-void		e_book_shell_content_insert_view(EBookShellContent *book_shell_content,
-						 EAddressbookView *addressbook_view);
-void		e_book_shell_content_remove_view(EBookShellContent *book_shell_content,
-						 EAddressbookView *addressbook_view);
+void		e_book_shell_content_register_type
+					(GTypeModule *type_module);
+GtkWidget *	e_book_shell_content_new(EShellView *shell_view);
+void		e_book_shell_content_insert_view
+					(EBookShellContent *book_shell_content,
+					 EAddressbookView *addressbook_view);
+void		e_book_shell_content_remove_view
+					(EBookShellContent *book_shell_content,
+					 EAddressbookView *addressbook_view);
 EAddressbookView *
 		e_book_shell_content_get_current_view
-						(EBookShellContent *book_shell_content);
+					(EBookShellContent *book_shell_content);
 void		e_book_shell_content_set_current_view
-						(EBookShellContent *book_shell_content,
-						 EAddressbookView *addressbook_view);
+					(EBookShellContent *book_shell_content,
+					 EAddressbookView *addressbook_view);
 EContact *	e_book_shell_content_get_preview_contact
-						(EBookShellContent *book_shell_content);
+					(EBookShellContent *book_shell_content);
 void		e_book_shell_content_set_preview_contact
-						(EBookShellContent *book_shell_content,
-						 EContact *preview_contact);
+					(EBookShellContent *book_shell_content,
+					 EContact *preview_contact);
 gboolean	e_book_shell_content_get_preview_visible
-						(EBookShellContent *book_shell_content);
+					(EBookShellContent *book_shell_content);
 void		e_book_shell_content_set_preview_visible
-						(EBookShellContent *book_shell_content,
-						 gboolean preview_visible);
+					(EBookShellContent *book_shell_content,
+					 gboolean preview_visible);
 void		e_book_shell_content_clipboard_copy
-						(EBookShellContent *book_shell_content);
+					(EBookShellContent *book_shell_content);
 
 G_END_DECLS
 

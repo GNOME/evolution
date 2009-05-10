@@ -21,7 +21,7 @@
 
 #include "e-mail-shell-view-private.h"
 
-#include <widgets/menus/gal-view-factory-etable.h>
+#include "widgets/menus/gal-view-factory-etable.h"
 
 static void
 mail_shell_view_folder_tree_selected_cb (EMailShellView *mail_shell_view,

@@ -1,5 +1,5 @@
 /*
- * e-test-shell-backend.c
+ * e-test-shell-backend.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -26,7 +26,7 @@
 
 /* Standard GObject macros */
 #define E_TYPE_TEST_SHELL_BACKEND \
-	(e_test_shell_backend_type)
+	(e_test_shell_backend_get_type ())
 #define E_TEST_SHELL_BACKEND(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_TEST_SHELL_BACKEND, ETestShellBackend))
@@ -45,8 +45,6 @@
 
 G_BEGIN_DECLS
 
-extern GType e_test_shell_backend_type;
-
 typedef struct _ETestShellBackend ETestShellBackend;
 typedef struct _ETestShellBackendClass ETestShellBackendClass;
 typedef struct _ETestShellBackendPrivate ETestShellBackendPrivate;
@@ -60,7 +58,9 @@ struct _ETestShellBackendClass {
 	EShellBackendClass parent_class;
 };
 
-GType		e_test_shell_backend_get_type	(GTypeModule *type_module);
+GType		e_test_shell_backend_get_type	(void);
+void		e_test_shell_backend_register_type
+						(GTypeModule *type_module);
 
 G_END_DECLS
 

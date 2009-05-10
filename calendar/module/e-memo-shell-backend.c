@@ -58,12 +58,8 @@ enum {
 	PROP_SOURCE_LIST
 };
 
-/* Module Entry Point */
-void e_module_load (GTypeModule *type_module);
-void e_module_unload (GTypeModule *type_module);
-
-GType e_memo_shell_backend_type = 0;
 static gpointer parent_class;
+static GType memo_shell_backend_type;
 
 static void
 memo_module_ensure_sources (EShellBackend *shell_backend)
@@ -590,29 +586,30 @@ memo_shell_backend_init (EMemoShellBackend *memo_shell_backend)
 }
 
 GType
-e_memo_shell_backend_get_type (GTypeModule *type_module)
+e_memo_shell_backend_get_type (void)
 {
-	if (e_memo_shell_backend_type == 0) {
-		const GTypeInfo type_info = {
-			sizeof (EMemoShellBackendClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) memo_shell_backend_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMemoShellBackend),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) memo_shell_backend_init,
-			NULL   /* value_table */
-		};
+	return memo_shell_backend_type;
+}
 
-		e_memo_shell_backend_type =
-			g_type_module_register_type (
-				type_module, E_TYPE_SHELL_BACKEND,
-				"EMemoShellBackend", &type_info, 0);
-	}
+void
+e_memo_shell_backend_register_type (GTypeModule *type_module)
+{
+	const GTypeInfo type_info = {
+		sizeof (EMemoShellBackendClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) memo_shell_backend_class_init,
+		(GClassFinalizeFunc) NULL,
+		NULL,  /* class_data */
+		sizeof (EMemoShellBackend),
+		0,     /* n_preallocs */
+		(GInstanceInitFunc) memo_shell_backend_init,
+		NULL   /* value_table */
+	};
 
-	return e_memo_shell_backend_type;
+	memo_shell_backend_type = g_type_module_register_type (
+		type_module, E_TYPE_SHELL_BACKEND,
+		"EMemoShellBackend", &type_info, 0);
 }
 
 ESourceList *
@@ -622,16 +619,4 @@ e_memo_shell_backend_get_source_list (EMemoShellBackend *memo_shell_backend)
 		E_IS_MEMO_SHELL_BACKEND (memo_shell_backend), NULL);
 
 	return memo_shell_backend->priv->source_list;
-}
-
-void
-e_module_load (GTypeModule *type_module)
-{
-	e_memo_shell_backend_get_type (type_module);
-	e_memo_shell_view_get_type (type_module);
-}
-
-void
-e_module_unload (GTypeModule *type_module)
-{
 }

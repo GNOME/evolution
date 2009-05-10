@@ -22,11 +22,11 @@
 #ifndef E_BOOK_SHELL_VIEW_H
 #define E_BOOK_SHELL_VIEW_H
 
-#include <e-shell-view.h>
+#include <shell/e-shell-view.h>
 
 /* Standard GObject macros */
 #define E_TYPE_BOOK_SHELL_VIEW \
-	(e_book_shell_view_type)
+	(e_book_shell_view_get_type ())
 #define E_BOOK_SHELL_VIEW(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_BOOK_SHELL_VIEW, EBookShellView))
@@ -45,8 +45,6 @@
 
 G_BEGIN_DECLS
 
-extern GType e_book_shell_view_type;
-
 typedef struct _EBookShellView EBookShellView;
 typedef struct _EBookShellViewClass EBookShellViewClass;
 typedef struct _EBookShellViewPrivate EBookShellViewPrivate;
@@ -60,7 +58,8 @@ struct _EBookShellViewClass {
 	EShellViewClass parent_class;
 };
 
-GType		e_book_shell_view_get_type	(GTypeModule *type_module);
+GType		e_book_shell_view_get_type	(void);
+void		e_book_shell_view_register_type	(GTypeModule *type_module);
 
 G_END_DECLS
 

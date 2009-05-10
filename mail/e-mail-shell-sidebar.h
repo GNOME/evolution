@@ -70,9 +70,11 @@ struct _EMailShellSidebarClass {
 };
 
 GType		e_mail_shell_sidebar_get_type	(void);
-GtkWidget *	e_mail_shell_sidebar_new	(EShellView *shell_view);
+void		e_mail_shell_sidebar_register_type
+					(GTypeModule *type_module);
+GtkWidget *	e_mail_shell_sidebar_new(EShellView *shell_view);
 EMFolderTree *	e_mail_shell_sidebar_get_folder_tree
-						(EMailShellSidebar *mail_shell_sidebar);
+					(EMailShellSidebar *mail_shell_sidebar);
 
 G_END_DECLS
 

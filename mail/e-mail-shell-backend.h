@@ -31,7 +31,7 @@
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_SHELL_BACKEND \
-	(e_mail_shell_backend_type)
+	(e_mail_shell_backend_get_type ())
 #define E_MAIL_SHELL_BACKEND(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_MAIL_SHELL_BACKEND, EMailShellBackend))
@@ -49,8 +49,6 @@
 	((obj), E_TYPE_MAIL_SHELL_BACKEND, EMailShellBackendClass))
 
 G_BEGIN_DECLS
-
-extern GType e_mail_shell_backend_type;
 
 typedef struct _EMailShellBackend EMailShellBackend;
 typedef struct _EMailShellBackendClass EMailShellBackendClass;
@@ -83,7 +81,8 @@ struct _EMFolderTreeModel;
  *     directory and local folders is too much of a pain for now. */
 extern EMailShellBackend *global_mail_shell_backend;
 
-GType		e_mail_shell_backend_get_type
+GType		e_mail_shell_backend_get_type	(void);
+void		e_mail_shell_backend_register_type
 					(GTypeModule *type_module);
 CamelFolder *	e_mail_shell_backend_get_folder
 					(EMailShellBackend *mail_shell_backend,

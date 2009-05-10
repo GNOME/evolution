@@ -27,7 +27,7 @@
 
 /* Standard GObject macros */
 #define E_TYPE_MEMO_SHELL_BACKEND \
-	(e_memo_shell_backend_type)
+	(e_memo_shell_backend_get_type ())
 #define E_MEMO_SHELL_BACKEND(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_MEMO_SHELL_BACKEND, EMemoShellBackend))
@@ -46,8 +46,6 @@
 
 G_BEGIN_DECLS
 
-extern GType e_memo_shell_backend_type;
-
 typedef struct _EMemoShellBackend EMemoShellBackend;
 typedef struct _EMemoShellBackendClass EMemoShellBackendClass;
 typedef struct _EMemoShellBackendPrivate EMemoShellBackendPrivate;
@@ -61,7 +59,8 @@ struct _EMemoShellBackendClass {
 	EShellBackendClass parent_class;
 };
 
-GType		e_memo_shell_backend_get_type
+GType		e_memo_shell_backend_get_type	(void);
+void		e_memo_shell_backend_register_type
 					(GTypeModule *type_module);
 ESourceList *	e_memo_shell_backend_get_source_list
 					(EMemoShellBackend *memo_shell_backend);

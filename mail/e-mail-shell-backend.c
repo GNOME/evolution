@@ -38,6 +38,7 @@
 
 #include "e-mail-shell-migrate.h"
 #include "e-mail-shell-settings.h"
+#include "e-mail-shell-sidebar.h"
 #include "e-mail-shell-view.h"
 
 #include "e-attachment-handler-mail.h"
@@ -104,12 +105,8 @@ struct _EMailShellBackendPrivate {
 	guint mail_sync_timeout_source_id;
 };
 
-/* Module Entry Points */
-void e_module_load (GTypeModule *type_module);
-void e_module_unload (GTypeModule *type_module);
-
-GType e_mail_shell_backend_type = 0;
 static gpointer parent_class;
+static GType mail_shell_backend_type;
 
 /* The array elements correspond to EMailFolderType. */
 static struct {
@@ -1031,41 +1028,30 @@ mail_shell_backend_init (EMailShellBackend *mail_shell_backend)
 }
 
 GType
-e_mail_shell_backend_get_type (GTypeModule *type_module)
+e_mail_shell_backend_get_type (void)
 {
-	if (e_mail_shell_backend_type == 0) {
-		const GTypeInfo type_info = {
-			sizeof (EMailShellBackendClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) mail_shell_backend_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMailShellBackend),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) mail_shell_backend_init,
-			NULL   /* value_table */
-		};
-
-		e_mail_shell_backend_type =
-			g_type_module_register_type (
-				type_module, E_TYPE_SHELL_BACKEND,
-				"EMailShellBackend", &type_info, 0);
-	}
-
-	return e_mail_shell_backend_type;
+	return mail_shell_backend_type;
 }
 
 void
-e_module_load (GTypeModule *type_module)
+e_mail_shell_backend_register_type (GTypeModule *type_module)
 {
-	e_mail_shell_backend_get_type (type_module);
-	e_mail_shell_view_get_type (type_module);
-}
+	const GTypeInfo type_info = {
+		sizeof (EMailShellBackendClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) mail_shell_backend_class_init,
+		(GClassFinalizeFunc) NULL,
+		NULL,  /* class_data */
+		sizeof (EMailShellBackend),
+		0,     /* n_preallocs */
+		(GInstanceInitFunc) mail_shell_backend_init,
+		NULL   /* value_table */
+	};
 
-void
-e_module_unload (GTypeModule *type_module)
-{
+	mail_shell_backend_type = g_type_module_register_type (
+		type_module, E_TYPE_SHELL_BACKEND,
+		"EMailShellBackend", &type_info, 0);
 }
 
 /******************************** Public API *********************************/

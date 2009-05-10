@@ -27,7 +27,7 @@
 
 /* Standard GObject macros */
 #define E_TYPE_MEMO_SHELL_VIEW \
-	(e_memo_shell_view_type)
+	(e_memo_shell_view_get_type ())
 #define E_MEMO_SHELL_VIEW(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_MEMO_SHELL_VIEW, EMemoShellView))
@@ -46,8 +46,6 @@
 
 G_BEGIN_DECLS
 
-extern GType e_memo_shell_view_type;
-
 typedef struct _EMemoShellView EMemoShellView;
 typedef struct _EMemoShellViewClass EMemoShellViewClass;
 typedef struct _EMemoShellViewPrivate EMemoShellViewPrivate;
@@ -61,7 +59,8 @@ struct _EMemoShellViewClass {
 	EShellViewClass parent_class;
 };
 
-GType		e_memo_shell_view_get_type	(GTypeModule *type_module);
+GType		e_memo_shell_view_get_type	(void);
+void		e_memo_shell_view_register_type	(GTypeModule *type_module);
 
 G_END_DECLS
 

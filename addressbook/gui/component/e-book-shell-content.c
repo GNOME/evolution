@@ -22,7 +22,8 @@
 #include "e-book-shell-content.h"
 
 #include <glib/gi18n.h>
-#include <e-util/gconf-bridge.h>
+
+#include "e-util/gconf-bridge.h"
 
 #define E_BOOK_SHELL_CONTENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -42,6 +43,7 @@ enum {
 };
 
 static gpointer parent_class;
+static GType book_shell_view_type;
 
 static void
 book_shell_content_send_message_cb (EBookShellContent *book_shell_content,
@@ -296,28 +298,28 @@ book_shell_content_init (EBookShellContent *book_shell_content)
 GType
 e_book_shell_content_get_type (void)
 {
-	static GType type = 0;
+	return book_shell_view_type;
+}
 
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EBookShellContentClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) book_shell_content_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EBookShellContent),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) book_shell_content_init,
-			NULL   /* value_table */
-		};
+void
+e_book_shell_content_register_type (GTypeModule *type_module)
+{
+	static const GTypeInfo type_info = {
+		sizeof (EBookShellContentClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) book_shell_content_class_init,
+		(GClassFinalizeFunc) NULL,
+		NULL,  /* class_data */
+		sizeof (EBookShellContent),
+		0,     /* n_preallocs */
+		(GInstanceInitFunc) book_shell_content_init,
+		NULL   /* value_table */
+	};
 
-		type = g_type_register_static (
-			E_TYPE_SHELL_CONTENT, "EBookShellContent",
-			&type_info, 0);
-	}
-
-	return type;
+	book_shell_view_type = g_type_module_register_type (
+		type_module, E_TYPE_SHELL_CONTENT,
+		"EBookShellContent", &type_info, 0);
 }
 
 GtkWidget *

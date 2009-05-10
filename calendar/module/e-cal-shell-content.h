@@ -27,7 +27,7 @@
 
 #include <calendar/gui/e-memo-table.h>
 #include <calendar/gui/gnome-cal.h>
-#include <widgets/menus/gal-view-instance.h>
+#include <menus/gal-view-instance.h>
 
 /* Standard GObject macros */
 #define E_TYPE_CAL_SHELL_CONTENT \
@@ -78,26 +78,30 @@ struct _ECalShellContentClass {
 };
 
 GType		e_cal_shell_content_get_type	(void);
+void		e_cal_shell_content_register_type
+					(GTypeModule *type_module);
 GtkWidget *	e_cal_shell_content_new	(EShellView *shell_view);
-GnomeCalendar *	e_cal_shell_content_get_calendar(ECalShellContent *cal_shell_content);
+GnomeCalendar *	e_cal_shell_content_get_calendar
+					(ECalShellContent *cal_shell_content);
 EMemoTable *	e_cal_shell_content_get_memo_table
-						(ECalShellContent *cal_shell_content);
+					(ECalShellContent *cal_shell_content);
 ECalendarTable *e_cal_shell_content_get_task_table
-						(ECalShellContent *cal_shell_content);
-icaltimezone *	e_cal_shell_content_get_timezone(ECalShellContent *cal_shell_content);
+					(ECalShellContent *cal_shell_content);
+icaltimezone *	e_cal_shell_content_get_timezone
+					(ECalShellContent *cal_shell_content);
 GalViewInstance *
 		e_cal_shell_content_get_view_instance
-						(ECalShellContent *cal_shell_content);
+					(ECalShellContent *cal_shell_content);
 void		e_cal_shell_content_copy_clipboard
-						(ECalShellContent *cal_shell_content);
+					(ECalShellContent *cal_shell_content);
 void		e_cal_shell_content_cut_clipboard
-						(ECalShellContent *cal_shell_content);
+					(ECalShellContent *cal_shell_content);
 void		e_cal_shell_content_paste_clipboard
-						(ECalShellContent *cal_shell_content);
+					(ECalShellContent *cal_shell_content);
 void		e_cal_shell_content_delete_selection
-						(ECalShellContent *cal_shell_content);
+					(ECalShellContent *cal_shell_content);
 void		e_cal_shell_content_delete_selected_occurrence
-						(ECalShellContent *cal_shell_content);
+					(ECalShellContent *cal_shell_content);
 
 G_END_DECLS
 

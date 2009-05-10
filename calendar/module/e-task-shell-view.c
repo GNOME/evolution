@@ -21,8 +21,8 @@
 
 #include "e-task-shell-view-private.h"
 
-GType e_task_shell_view_type = 0;
 static gpointer parent_class;
+static GType task_shell_view_type;
 
 static void
 task_shell_view_dispose (GObject *object)
@@ -228,27 +228,28 @@ task_shell_view_init (ETaskShellView *task_shell_view,
 }
 
 GType
-e_task_shell_view_get_type (GTypeModule *type_module)
+e_task_shell_view_get_type (void)
 {
-	if (e_task_shell_view_type == 0) {
-		const GTypeInfo type_info = {
-			sizeof (ETaskShellViewClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) task_shell_view_class_init,
-			(GClassFinalizeFunc) NULL,
-			type_module,
-			sizeof (ETaskShellView),
-			0,    /* n_preallocs */
-			(GInstanceInitFunc) task_shell_view_init,
-			NULL  /* value_table */
-		};
+	return task_shell_view_type;
+}
 
-		e_task_shell_view_type =
-			g_type_module_register_type (
-				type_module, E_TYPE_SHELL_VIEW,
-				"ETaskShellView", &type_info, 0);
-	}
+void
+e_task_shell_view_register_type (GTypeModule *type_module)
+{
+	const GTypeInfo type_info = {
+		sizeof (ETaskShellViewClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) task_shell_view_class_init,
+		(GClassFinalizeFunc) NULL,
+		type_module,
+		sizeof (ETaskShellView),
+		0,    /* n_preallocs */
+		(GInstanceInitFunc) task_shell_view_init,
+		NULL  /* value_table */
+	};
 
-	return e_task_shell_view_type;
+	task_shell_view_type = g_type_module_register_type (
+		type_module, E_TYPE_SHELL_VIEW,
+		"ETaskShellView", &type_info, 0);
 }

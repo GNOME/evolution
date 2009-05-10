@@ -35,6 +35,7 @@ module_LTLIBRARIES =					\
 	libevolution-module-mail.la
 
 libevolution_module_mail_la_SOURCES =			\
+	evolution-module-mail.c				\
 	e-attachment-handler-mail.c			\
 	e-attachment-handler-mail.h			\
 	e-mail-attachment-bar.c				\
@@ -208,8 +209,8 @@ endif
 #	$(REGEX_LIBS)						\
 #	$(THREADS_LIBS)
 
-#libevolution_mail_la_LDFLAGS = 			\
-#	-avoid-version -module $(NO_UNDEFINED)
+libevolution_module_mail_la_LDFLAGS = 			\
+	-avoid-version -module $(NO_UNDEFINED)
 
 #libevolution_mail_la_DEPENDENCIES = em-filter-i18n.h
 

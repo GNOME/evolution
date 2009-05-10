@@ -29,7 +29,7 @@
 #include <calendar/gui/e-calendar-table.h>
 #include <calendar/gui/e-cal-component-preview.h>
 
-#include <widgets/menus/gal-view-instance.h>
+#include <menus/gal-view-instance.h>
 
 /* Standard GObject macros */
 #define E_TYPE_TASK_SHELL_CONTENT \
@@ -76,22 +76,24 @@ struct _ETaskShellContentClass {
 };
 
 GType		e_task_shell_content_get_type	(void);
-GtkWidget *	e_task_shell_content_new	(EShellView *shell_view);
+void		e_task_shell_content_register_type
+					(GTypeModule *type_module);
+GtkWidget *	e_task_shell_content_new(EShellView *shell_view);
 ECalModel *	e_task_shell_content_get_task_model
-						(ETaskShellContent *task_shell_content);
+					(ETaskShellContent *task_shell_content);
 ECalComponentPreview *
 		e_task_shell_content_get_task_preview
-						(ETaskShellContent *task_shell_content);
+					(ETaskShellContent *task_shell_content);
 ECalendarTable *e_task_shell_content_get_task_table
-						(ETaskShellContent *task_shell_content);
+					(ETaskShellContent *task_shell_content);
 GalViewInstance *
 		e_task_shell_content_get_view_instance
-						(ETaskShellContent *task_shell_content);
+					(ETaskShellContent *task_shell_content);
 gboolean	e_task_shell_content_get_preview_visible
-						(ETaskShellContent *task_shell_content);
+					(ETaskShellContent *task_shell_content);
 void		e_task_shell_content_set_preview_visible
-						(ETaskShellContent *task_shell_content,
-						 gboolean preview_visible);
+					(ETaskShellContent *task_shell_content,
+					 gboolean preview_visible);
 
 G_END_DECLS
 

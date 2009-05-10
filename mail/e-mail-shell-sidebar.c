@@ -43,6 +43,7 @@ enum {
 };
 
 static gpointer parent_class;
+static GType mail_shell_sidebar_type;
 
 static void
 mail_shell_sidebar_selection_changed_cb (EShellSidebar *shell_sidebar,
@@ -302,28 +303,28 @@ mail_shell_sidebar_init (EMailShellSidebar *mail_shell_sidebar)
 GType
 e_mail_shell_sidebar_get_type (void)
 {
-	static GType type = 0;
+	return mail_shell_sidebar_type;
+}
 
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMailShellSidebarClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) mail_shell_sidebar_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMailShellSidebar),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) mail_shell_sidebar_init,
-			NULL   /* value_table */
-		};
+void
+e_mail_shell_sidebar_register_type (GTypeModule *type_module)
+{
+	static const GTypeInfo type_info = {
+		sizeof (EMailShellSidebarClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) mail_shell_sidebar_class_init,
+		(GClassFinalizeFunc) NULL,
+		NULL,  /* class_data */
+		sizeof (EMailShellSidebar),
+		0,     /* n_preallocs */
+		(GInstanceInitFunc) mail_shell_sidebar_init,
+		NULL   /* value_table */
+	};
 
-		type = g_type_register_static (
-			E_TYPE_SHELL_SIDEBAR, "EMailShellSidebar",
-			&type_info, 0);
-	}
-
-	return type;
+	mail_shell_sidebar_type = g_type_module_register_type (
+		type_module, E_TYPE_SHELL_SIDEBAR,
+		"EMailShellSidebar", &type_info, 0);
 }
 
 GtkWidget *

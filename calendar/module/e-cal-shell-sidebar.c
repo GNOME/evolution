@@ -65,6 +65,7 @@ enum {
 
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
+static GType cal_shell_sidebar_type;
 
 static void
 cal_shell_sidebar_emit_client_added (ECalShellSidebar *cal_shell_sidebar,
@@ -616,28 +617,28 @@ cal_shell_sidebar_init (ECalShellSidebar *cal_shell_sidebar)
 GType
 e_cal_shell_sidebar_get_type (void)
 {
-	static GType type = 0;
+	return cal_shell_sidebar_type;
+}
 
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (ECalShellSidebarClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) cal_shell_sidebar_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ECalShellSidebar),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) cal_shell_sidebar_init,
-			NULL   /* value_table */
-		};
+void
+e_cal_shell_sidebar_register_type (GTypeModule *type_module)
+{
+	static const GTypeInfo type_info = {
+		sizeof (ECalShellSidebarClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) cal_shell_sidebar_class_init,
+		(GClassFinalizeFunc) NULL,
+		NULL,  /* class_data */
+		sizeof (ECalShellSidebar),
+		0,     /* n_preallocs */
+		(GInstanceInitFunc) cal_shell_sidebar_init,
+		NULL   /* value_table */
+	};
 
-		type = g_type_register_static (
-			E_TYPE_SHELL_SIDEBAR, "ECalShellSidebar",
-			&type_info, 0);
-	}
-
-	return type;
+	cal_shell_sidebar_type = g_type_module_register_type (
+		type_module, E_TYPE_SHELL_SIDEBAR,
+		"ECalShellSidebar", &type_info, 0);
 }
 
 GtkWidget *

@@ -39,7 +39,9 @@
 #include "calendar/gui/dialogs/calendar-setup.h"
 #include "calendar/gui/dialogs/task-editor.h"
 
+#include "e-task-shell-content.h"
 #include "e-task-shell-migrate.h"
+#include "e-task-shell-sidebar.h"
 #include "e-task-shell-view.h"
 
 #define E_TASK_SHELL_BACKEND_GET_PRIVATE(obj) \
@@ -58,12 +60,8 @@ enum {
 	PROP_SOURCE_LIST
 };
 
-/* Module Entry Point */
-void e_module_load (GTypeModule *type_module);
-void e_module_unload (GTypeModule *type_module);
-
-GType e_task_shell_backend_type = 0;
 static gpointer parent_class;
+static GType task_shell_backend_type;
 
 static void
 task_module_ensure_sources (EShellBackend *shell_backend)
@@ -596,29 +594,30 @@ task_shell_backend_init (ETaskShellBackend *task_shell_backend)
 }
 
 GType
-e_task_shell_backend_get_type (GTypeModule *type_module)
+e_task_shell_backend_get_type (void)
 {
-	if (e_task_shell_backend_type == 0) {
-		const GTypeInfo type_info = {
-			sizeof (ETaskShellBackendClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) task_shell_backend_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ETaskShellBackend),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) task_shell_backend_init,
-			NULL   /* value_table */
-		};
+	return task_shell_backend_type;
+}
 
-		e_task_shell_backend_type =
-			g_type_module_register_type (
-				type_module, E_TYPE_SHELL_BACKEND,
-				"ETaskShellBackend", &type_info, 0);
-	}
+void
+e_task_shell_backend_register_type (GTypeModule *type_module)
+{
+	const GTypeInfo type_info = {
+		sizeof (ETaskShellBackendClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) task_shell_backend_class_init,
+		(GClassFinalizeFunc) NULL,
+		NULL,  /* class_data */
+		sizeof (ETaskShellBackend),
+		0,     /* n_preallocs */
+		(GInstanceInitFunc) task_shell_backend_init,
+		NULL   /* value_table */
+	};
 
-	return e_task_shell_backend_type;
+	task_shell_backend_type = g_type_module_register_type (
+		type_module, E_TYPE_SHELL_BACKEND,
+		"ETaskShellBackend", &type_info, 0);
 }
 
 ESourceList *
@@ -628,16 +627,4 @@ e_task_shell_backend_get_source_list (ETaskShellBackend *task_shell_backend)
 		E_IS_TASK_SHELL_BACKEND (task_shell_backend), NULL);
 
 	return task_shell_backend->priv->source_list;
-}
-
-void
-e_module_load (GTypeModule *type_module)
-{
-	e_task_shell_backend_get_type (type_module);
-	e_task_shell_view_get_type (type_module);
-}
-
-void
-e_module_unload (GTypeModule *type_module)
-{
 }

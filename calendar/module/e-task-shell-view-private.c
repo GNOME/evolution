@@ -21,7 +21,7 @@
 
 #include "e-task-shell-view-private.h"
 
-#include <widgets/menus/gal-view-factory-etable.h>
+#include "widgets/menus/gal-view-factory-etable.h"
 
 static void
 task_shell_view_config_hide_completed_tasks_changed_cb (GConfClient *client,

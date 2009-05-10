@@ -1,5 +1,5 @@
 /*
- * e-cal-shell-content.h
+ * e-cal-shell-content.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -80,6 +80,7 @@ typedef enum {
 } FocusLocation;
 
 static gpointer parent_class;
+static GType cal_shell_content_type;
 
 static void
 cal_shell_content_display_view_cb (ECalShellContent *cal_shell_content,
@@ -593,28 +594,28 @@ cal_shell_content_init (ECalShellContent *cal_shell_content)
 GType
 e_cal_shell_content_get_type (void)
 {
-	static GType type = 0;
+	return cal_shell_content_type;
+}
 
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (ECalShellContentClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) cal_shell_content_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ECalShellContent),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) cal_shell_content_init,
-			NULL   /* value_table */
-		};
+void
+e_cal_shell_content_register_type (GTypeModule *type_module)
+{
+	static const GTypeInfo type_info = {
+		sizeof (ECalShellContentClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) cal_shell_content_class_init,
+		(GClassFinalizeFunc) NULL,
+		NULL,  /* class_data */
+		sizeof (ECalShellContent),
+		0,     /* n_preallocs */
+		(GInstanceInitFunc) cal_shell_content_init,
+		NULL   /* value_table */
+	};
 
-		type = g_type_register_static (
-			E_TYPE_SHELL_CONTENT, "ECalShellContent",
-			&type_info, 0);
-	}
-
-	return type;
+	cal_shell_content_type = g_type_module_register_type (
+		type_module, E_TYPE_SHELL_CONTENT,
+		"ECalShellContent", &type_info, 0);
 }
 
 GtkWidget *

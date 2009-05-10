@@ -77,16 +77,20 @@ struct _ETaskShellSidebarClass {
 };
 
 GType		e_task_shell_sidebar_get_type	(void);
-GtkWidget *	e_task_shell_sidebar_new	(EShellView *shell_view);
-GList *		e_task_shell_sidebar_get_clients(ETaskShellSidebar *task_shell_sidebar);
+void		e_task_shell_sidebar_register_type
+					(GTypeModule *type_module);
+GtkWidget *	e_task_shell_sidebar_new(EShellView *shell_view);
+GList *		e_task_shell_sidebar_get_clients
+					(ETaskShellSidebar *task_shell_sidebar);
 ESourceSelector *
 		e_task_shell_sidebar_get_selector
-						(ETaskShellSidebar *task_shell_sidebar);
-void		e_task_shell_sidebar_add_source	(ETaskShellSidebar *task_shell_sidebar,
-						 ESource *source);
+					(ETaskShellSidebar *task_shell_sidebar);
+void		e_task_shell_sidebar_add_source
+					(ETaskShellSidebar *task_shell_sidebar,
+					 ESource *source);
 void		e_task_shell_sidebar_remove_source
-						(ETaskShellSidebar *task_shell_sidebar,
-						 ESource *source);
+					(ETaskShellSidebar *task_shell_sidebar,
+					 ESource *source);
 
 G_END_DECLS
 

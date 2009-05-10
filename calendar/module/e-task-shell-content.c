@@ -1,5 +1,5 @@
 /*
- * e-memo-shell-content.c
+ * e-task-shell-content.c
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,7 +19,7 @@
  *
  */
 
-#include "e-memo-shell-content.h"
+#include "e-task-shell-content.h"
 
 #include <glib/gi18n.h>
 
@@ -27,32 +27,33 @@
 
 #include "calendar/gui/calendar-config.h"
 #include "calendar/gui/comp-util.h"
-#include "calendar/gui/e-cal-model-memos.h"
-#include "calendar/gui/e-memo-table.h"
-#include "calendar/gui/e-memo-table-config.h"
+#include "calendar/gui/e-cal-model-tasks.h"
+#include "calendar/gui/e-calendar-table.h"
+#include "calendar/gui/e-calendar-table-config.h"
 
 #include "widgets/menus/gal-view-etable.h"
 
-#define E_MEMO_SHELL_CONTENT_GET_PRIVATE(obj) \
+#define E_TASK_SHELL_CONTENT_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
-	((obj), E_TYPE_MEMO_SHELL_CONTENT, EMemoShellContentPrivate))
+	((obj), E_TYPE_TASK_SHELL_CONTENT, ETaskShellContentPrivate))
 
-#define E_MEMO_TABLE_DEFAULT_STATE \
+#define E_CALENDAR_TABLE_DEFAULT_STATE \
 	"<?xml version=\"1.0\"?>" \
 	"<ETableState>" \
-	"  <column source=\"1\"/>" \
-	"  <column source=\"0\"/>" \
-	"  <column source=\"2\"/>" \
+	"  <column source=\"13\"/>" \
+	"  <column source=\"14\"/>" \
+	"  <column source=\"9\"/>" \
+	"  <column source=\"5\"/>" \
 	"  <grouping/>" \
 	"</ETableState>"
 
-struct _EMemoShellContentPrivate {
+struct _ETaskShellContentPrivate {
 	GtkWidget *paned;
-	GtkWidget *memo_table;
-	GtkWidget *memo_preview;
+	GtkWidget *task_table;
+	GtkWidget *task_preview;
 
-	ECalModel *memo_model;
-	EMemoTableConfig *table_config;
+	ECalModel *task_model;
+	ECalendarTableConfig *table_config;
 	GalViewInstance *view_instance;
 
 	gchar *current_uid;
@@ -74,25 +75,26 @@ static GtkTargetEntry drag_types[] = {
 };
 
 static gpointer parent_class;
+static GType task_shell_content_type;
 
 static void
-memo_shell_content_display_view_cb (EMemoShellContent *memo_shell_content,
+task_shell_content_display_view_cb (ETaskShellContent *task_shell_content,
                                     GalView *gal_view)
 {
-	EMemoTable *memo_table;
+	ECalendarTable *task_table;
 	ETable *table;
 
 	if (!GAL_IS_VIEW_ETABLE (gal_view))
 		return;
 
-	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-	table = e_memo_table_get_table (memo_table);
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	table = e_calendar_table_get_table (task_table);
 
 	gal_view_etable_attach_table (GAL_VIEW_ETABLE (gal_view), table);
 }
 
 static void
-memo_shell_content_table_foreach_cb (gint model_row,
+task_shell_content_table_foreach_cb (gint model_row,
                                      gpointer user_data)
 {
 	ECalModelComponent *comp_data;
@@ -131,7 +133,7 @@ memo_shell_content_table_foreach_cb (gint model_row,
 }
 
 static void
-memo_shell_content_table_drag_data_get_cb (EMemoShellContent *memo_shell_content,
+task_shell_content_table_drag_data_get_cb (ETaskShellContent *task_shell_content,
                                            gint row,
                                            gint col,
                                            GdkDragContext *context,
@@ -139,7 +141,7 @@ memo_shell_content_table_drag_data_get_cb (EMemoShellContent *memo_shell_content
                                            guint info,
                                            guint time)
 {
-	EMemoTable *memo_table;
+	ECalendarTable *task_table;
 	ETable *table;
 
 	struct {
@@ -150,14 +152,14 @@ memo_shell_content_table_drag_data_get_cb (EMemoShellContent *memo_shell_content
 	if (info != TARGET_VCALENDAR)
 		return;
 
-	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-	table = e_memo_table_get_table (memo_table);
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	table = e_calendar_table_get_table (task_table);
 
-	foreach_data.model = e_memo_table_get_model (memo_table);
+	foreach_data.model = e_calendar_table_get_model (task_table);
 	foreach_data.list = NULL;
 
 	e_table_selected_row_foreach (
-		table, memo_shell_content_table_foreach_cb,
+		table, task_shell_content_table_foreach_cb,
 		&foreach_data);
 
 	if (foreach_data.list != NULL) {
@@ -169,80 +171,78 @@ memo_shell_content_table_drag_data_get_cb (EMemoShellContent *memo_shell_content
 }
 
 static void
-memo_shell_content_table_drag_data_delete_cb (EMemoShellContent *memo_shell_content,
+task_shell_content_table_drag_data_delete_cb (ETaskShellContent *task_shell_content,
                                               gint row,
                                               gint col,
                                               GdkDragContext *context)
 {
 	/* Moved components are deleted from source immediately when moved,
 	 * because some of them can be part of destination source, and we
-	 * don't want to delete not-moved memos.  There is no such information
+	 * don't want to delete not-moved tasks.  There is no such information
 	 * which event has been moved and which not, so skip this method. */
 }
 
 static void
-memo_shell_content_cursor_change_cb (EMemoShellContent *memo_shell_content,
+task_shell_content_cursor_change_cb (ETaskShellContent *task_shell_content,
                                      gint row,
                                      ETable *table)
 {
-	ECalComponentPreview *memo_preview;
-	EMemoTable *memo_table;
-	ECalModel *memo_model;
+	ECalComponentPreview *task_preview;
+	ECalendarTable *task_table;
+	ECalModel *task_model;
 	ECalModelComponent *comp_data;
 	ECalComponent *comp;
 	const gchar *uid;
 
-	memo_model = e_memo_shell_content_get_memo_model (memo_shell_content);
-	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-	memo_preview = e_memo_shell_content_get_memo_preview (memo_shell_content);
+	task_model = e_task_shell_content_get_task_model (task_shell_content);
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	task_preview = e_task_shell_content_get_task_preview (task_shell_content);
 
 	if (e_table_selected_count (table) != 1) {
-		e_cal_component_preview_clear (memo_preview);
+		e_cal_component_preview_clear (task_preview);
 		return;
 	}
 
 	row = e_table_get_cursor_row (table);
-	comp_data = e_cal_model_get_component_at (memo_model, row);
+	comp_data = e_cal_model_get_component_at (task_model, row);
 
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (
 		comp, icalcomponent_new_clone (comp_data->icalcomp));
 	e_cal_component_preview_display (
-		memo_preview, comp_data->client, comp);
+		task_preview, comp_data->client, comp);
 
 	e_cal_component_get_uid (comp, &uid);
-	g_free (memo_shell_content->priv->current_uid);
-	memo_shell_content->priv->current_uid = g_strdup (uid);
+	g_free (task_shell_content->priv->current_uid);
+	task_shell_content->priv->current_uid = g_strdup (uid);
 
 	g_object_unref (comp);
 }
 
 static void
-memo_shell_content_selection_change_cb (EMemoShellContent *memo_shell_content,
+task_shell_content_selection_change_cb (ETaskShellContent *task_shell_content,
                                         ETable *table)
 {
-	ECalComponentPreview *memo_preview;
+	ECalComponentPreview *task_preview;
 
-	memo_preview = e_memo_shell_content_get_memo_preview (memo_shell_content);
-
-	/* XXX Old code emits a "selection-changed" signal here. */
+	task_preview = e_task_shell_content_get_task_preview (task_shell_content);
 
 	if (e_table_selected_count (table) != 1)
-		e_cal_component_preview_clear (memo_preview);
+		e_cal_component_preview_clear (task_preview);
 }
 
 static void
-memo_shell_content_model_row_changed_cb (EMemoShellContent *memo_shell_content,
+task_shell_content_model_row_changed_cb (ETaskShellContent *task_shell_content,
                                          gint row,
                                          ETableModel *model)
 {
 	ECalModelComponent *comp_data;
-	EMemoTable *memo_table;
+	ECalendarTable *task_table;
 	ETable *table;
 	const gchar *current_uid;
 	const gchar *uid;
 
-	current_uid = memo_shell_content->priv->current_uid;
+	current_uid = task_shell_content->priv->current_uid;
 	if (current_uid == NULL)
 		return;
 
@@ -254,22 +254,22 @@ memo_shell_content_model_row_changed_cb (EMemoShellContent *memo_shell_content,
 	if (g_strcmp0 (uid, current_uid) != 0)
 		return;
 
-	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
-	table = e_memo_table_get_table (memo_table);
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
+	table = e_calendar_table_get_table (task_table);
 
-	memo_shell_content_cursor_change_cb (memo_shell_content, 0, table);
+	task_shell_content_cursor_change_cb (task_shell_content, 0, table);
 }
 
 static void
-memo_shell_content_set_property (GObject *object,
+task_shell_content_set_property (GObject *object,
                                  guint property_id,
                                  const GValue *value,
                                  GParamSpec *pspec)
 {
 	switch (property_id) {
 		case PROP_PREVIEW_VISIBLE:
-			e_memo_shell_content_set_preview_visible (
-				E_MEMO_SHELL_CONTENT (object),
+			e_task_shell_content_set_preview_visible (
+				E_TASK_SHELL_CONTENT (object),
 				g_value_get_boolean (value));
 			return;
 	}
@@ -278,7 +278,7 @@ memo_shell_content_set_property (GObject *object,
 }
 
 static void
-memo_shell_content_get_property (GObject *object,
+task_shell_content_get_property (GObject *object,
                                  guint property_id,
                                  GValue *value,
                                  GParamSpec *pspec)
@@ -286,14 +286,14 @@ memo_shell_content_get_property (GObject *object,
 	switch (property_id) {
 		case PROP_MODEL:
 			g_value_set_object (
-				value, e_memo_shell_content_get_memo_model (
-				E_MEMO_SHELL_CONTENT (object)));
+				value, e_task_shell_content_get_task_model (
+				E_TASK_SHELL_CONTENT (object)));
 			return;
 
 		case PROP_PREVIEW_VISIBLE:
 			g_value_set_boolean (
-				value, e_memo_shell_content_get_preview_visible (
-				E_MEMO_SHELL_CONTENT (object)));
+				value, e_task_shell_content_get_preview_visible (
+				E_TASK_SHELL_CONTENT (object)));
 			return;
 	}
 
@@ -301,30 +301,30 @@ memo_shell_content_get_property (GObject *object,
 }
 
 static void
-memo_shell_content_dispose (GObject *object)
+task_shell_content_dispose (GObject *object)
 {
-	EMemoShellContentPrivate *priv;
+	ETaskShellContentPrivate *priv;
 
-	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (object);
+	priv = E_TASK_SHELL_CONTENT_GET_PRIVATE (object);
 
 	if (priv->paned != NULL) {
 		g_object_unref (priv->paned);
 		priv->paned = NULL;
 	}
 
-	if (priv->memo_table != NULL) {
-		g_object_unref (priv->memo_table);
-		priv->memo_table = NULL;
+	if (priv->task_table != NULL) {
+		g_object_unref (priv->task_table);
+		priv->task_table = NULL;
 	}
 
-	if (priv->memo_preview != NULL) {
-		g_object_unref (priv->memo_preview);
-		priv->memo_preview = NULL;
+	if (priv->task_preview != NULL) {
+		g_object_unref (priv->task_preview);
+		priv->task_preview = NULL;
 	}
 
-	if (priv->memo_model != NULL) {
-		g_object_unref (priv->memo_model);
-		priv->memo_model = NULL;
+	if (priv->task_model != NULL) {
+		g_object_unref (priv->task_model);
+		priv->task_model = NULL;
 	}
 
 	if (priv->table_config != NULL) {
@@ -342,11 +342,11 @@ memo_shell_content_dispose (GObject *object)
 }
 
 static void
-memo_shell_content_finalize (GObject *object)
+task_shell_content_finalize (GObject *object)
 {
-	EMemoShellContentPrivate *priv;
+	ETaskShellContentPrivate *priv;
 
-	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (object);
+	priv = E_TASK_SHELL_CONTENT_GET_PRIVATE (object);
 
 	g_free (priv->current_uid);
 
@@ -355,9 +355,9 @@ memo_shell_content_finalize (GObject *object)
 }
 
 static void
-memo_shell_content_constructed (GObject *object)
+task_shell_content_constructed (GObject *object)
 {
-	EMemoShellContentPrivate *priv;
+	ETaskShellContentPrivate *priv;
 	EShellContent *shell_content;
 	EShellView *shell_view;
 	GalViewInstance *view_instance;
@@ -367,7 +367,7 @@ memo_shell_content_constructed (GObject *object)
 	GtkWidget *widget;
 	const gchar *key;
 
-	priv = E_MEMO_SHELL_CONTENT_GET_PRIVATE (object);
+	priv = E_TASK_SHELL_CONTENT_GET_PRIVATE (object);
 
 	/* Chain up to parent's constructed() method. */
 	G_OBJECT_CLASS (parent_class)->constructed (object);
@@ -386,9 +386,9 @@ memo_shell_content_constructed (GObject *object)
 
 	container = widget;
 
-	widget = e_memo_table_new (shell_view, priv->memo_model);
+	widget = e_calendar_table_new (shell_view, priv->task_model);
 	gtk_paned_add1 (GTK_PANED (container), widget);
-	priv->memo_table = g_object_ref (widget);
+	priv->task_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
 	widget = gtk_scrolled_window_new (NULL, NULL);
@@ -407,18 +407,18 @@ memo_shell_content_constructed (GObject *object)
 		E_CAL_COMPONENT_PREVIEW (widget),
 		calendar_config_get_icaltimezone ());
 	gtk_container_add (GTK_CONTAINER (container), widget);
-	priv->memo_preview = g_object_ref (widget);
+	priv->task_preview = g_object_ref (widget);
 	gtk_widget_show (widget);
 
-	/* Configure the memo table. */
+	/* Configure the task table. */
 
-	widget = E_MEMO_TABLE (priv->memo_table)->etable;
+	widget = E_CALENDAR_TABLE (priv->task_table)->etable;
 	table = e_table_scrolled_get_table (E_TABLE_SCROLLED (widget));
 
-	priv->table_config = e_memo_table_config_new (
-		E_MEMO_TABLE (priv->memo_table));
+	priv->table_config = e_calendar_table_config_new (
+		E_CALENDAR_TABLE (priv->task_table));
 
-	e_table_set_state (table, E_MEMO_TABLE_DEFAULT_STATE);
+	e_table_set_state (table, E_CALENDAR_TABLE_DEFAULT_STATE);
 
 	e_table_drag_source_set (
 		table, GDK_BUTTON1_MASK,
@@ -427,27 +427,27 @@ memo_shell_content_constructed (GObject *object)
 
 	g_signal_connect_swapped (
 		table, "table-drag-data-get",
-		G_CALLBACK (memo_shell_content_table_drag_data_get_cb),
+		G_CALLBACK (task_shell_content_table_drag_data_get_cb),
 		object);
 
 	g_signal_connect_swapped (
 		table, "table-drag-data-delete",
-		G_CALLBACK (memo_shell_content_table_drag_data_delete_cb),
+		G_CALLBACK (task_shell_content_table_drag_data_delete_cb),
 		object);
 
 	g_signal_connect_swapped (
 		table, "cursor-change",
-		G_CALLBACK (memo_shell_content_cursor_change_cb),
+		G_CALLBACK (task_shell_content_cursor_change_cb),
 		object);
 
 	g_signal_connect_swapped (
 		table, "selection-change",
-		G_CALLBACK (memo_shell_content_selection_change_cb),
+		G_CALLBACK (task_shell_content_selection_change_cb),
 		object);
 
 	g_signal_connect_swapped (
-		priv->memo_model, "model-row-changed",
-		G_CALLBACK (memo_shell_content_model_row_changed_cb),
+		priv->task_model, "model-row-changed",
+		G_CALLBACK (task_shell_content_model_row_changed_cb),
 		object);
 
 	/* Load the view instance. */
@@ -455,7 +455,7 @@ memo_shell_content_constructed (GObject *object)
 	view_instance = e_shell_view_new_view_instance (shell_view, NULL);
 	g_signal_connect_swapped (
 		view_instance, "display-view",
-		G_CALLBACK (memo_shell_content_display_view_cb),
+		G_CALLBACK (task_shell_content_display_view_cb),
 		object);
 	gal_view_instance_load (view_instance);
 	priv->view_instance = view_instance;
@@ -465,73 +465,98 @@ memo_shell_content_constructed (GObject *object)
 	bridge = gconf_bridge_get ();
 
 	object = G_OBJECT (priv->paned);
-	key = "/apps/evolution/calendar/display/memo_vpane_position";
+	key = "/apps/evolution/calendar/display/task_vpane_position";
 	gconf_bridge_bind_property_delayed (bridge, key, object, "position");
 }
 
 static guint32
-memo_shell_content_check_state (EShellContent *shell_content)
+task_shell_content_check_state (EShellContent *shell_content)
 {
-	EMemoShellContent *memo_shell_content;
-	EMemoTable *memo_table;
+	ETaskShellContent *task_shell_content;
+	ECalendarTable *task_table;
 	ETable *table;
 	GSList *list, *iter;
+	gboolean assignable = TRUE;
 	gboolean editable = TRUE;
 	gboolean has_url = FALSE;
 	gint n_selected;
+	gint n_complete = 0;
+	gint n_incomplete = 0;
 	guint32 state = 0;
 
-	memo_shell_content = E_MEMO_SHELL_CONTENT (shell_content);
-	memo_table = e_memo_shell_content_get_memo_table (memo_shell_content);
+	task_shell_content = E_TASK_SHELL_CONTENT (shell_content);
+	task_table = e_task_shell_content_get_task_table (task_shell_content);
 
-	table = e_memo_table_get_table (memo_table);
+	table = e_calendar_table_get_table (task_table);
 	n_selected = e_table_selected_count (table);
 
-	list = e_memo_table_get_selected (memo_table);
+	list = e_calendar_table_get_selected (task_table);
 	for (iter = list; iter != NULL; iter = iter->next) {
 		ECalModelComponent *comp_data = iter->data;
 		icalproperty *prop;
+		const gchar *cap;
 		gboolean read_only;
 
 		e_cal_is_read_only (comp_data->client, &read_only, NULL);
 		editable &= !read_only;
 
+		cap = CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT;
+		if (e_cal_get_static_capability (comp_data->client, cap))
+			assignable = FALSE;
+
+		cap = CAL_STATIC_CAPABILITY_NO_CONV_TO_ASSIGN_TASK;
+		if (e_cal_get_static_capability (comp_data->client, cap))
+			assignable = FALSE;
+
 		prop = icalcomponent_get_first_property (
 			comp_data->icalcomp, ICAL_URL_PROPERTY);
 		has_url |= (prop != NULL);
+
+		prop = icalcomponent_get_first_property (
+			comp_data->icalcomp, ICAL_COMPLETED_PROPERTY);
+		if (prop != NULL)
+			n_complete++;
+		else
+			n_incomplete++;
 	}
 	g_slist_free (list);
 
 	if (n_selected == 1)
-		state |= E_MEMO_SHELL_CONTENT_SELECTION_SINGLE;
+		state |= E_TASK_SHELL_CONTENT_SELECTION_SINGLE;
 	if (n_selected > 1)
-		state |= E_MEMO_SHELL_CONTENT_SELECTION_MULTIPLE;
+		state |= E_TASK_SHELL_CONTENT_SELECTION_MULTIPLE;
+	if (assignable)
+		state |= E_TASK_SHELL_CONTENT_SELECTION_CAN_ASSIGN;
 	if (editable)
-		state |= E_MEMO_SHELL_CONTENT_SELECTION_CAN_EDIT;
+		state |= E_TASK_SHELL_CONTENT_SELECTION_CAN_EDIT;
+	if (n_complete > 0)
+		state |= E_TASK_SHELL_CONTENT_SELECTION_HAS_COMPLETE;
+	if (n_incomplete > 0)
+		state |= E_TASK_SHELL_CONTENT_SELECTION_HAS_INCOMPLETE;
 	if (has_url)
-		state |= E_MEMO_SHELL_CONTENT_SELECTION_HAS_URL;
+		state |= E_TASK_SHELL_CONTENT_SELECTION_HAS_URL;
 
 	return state;
 }
 
 static void
-memo_shell_content_class_init (EMemoShellContentClass *class)
+task_shell_content_class_init (ETaskShellContentClass *class)
 {
 	GObjectClass *object_class;
 	EShellContentClass *shell_content_class;
 
 	parent_class = g_type_class_peek_parent (class);
-	g_type_class_add_private (class, sizeof (EMemoShellContentPrivate));
+	g_type_class_add_private (class, sizeof (ETaskShellContentPrivate));
 
 	object_class = G_OBJECT_CLASS (class);
-	object_class->set_property = memo_shell_content_set_property;
-	object_class->get_property = memo_shell_content_get_property;
-	object_class->dispose = memo_shell_content_dispose;
-	object_class->finalize = memo_shell_content_finalize;
-	object_class->constructed = memo_shell_content_constructed;
+	object_class->set_property = task_shell_content_set_property;
+	object_class->get_property = task_shell_content_get_property;
+	object_class->dispose = task_shell_content_dispose;
+	object_class->finalize = task_shell_content_finalize;
+	object_class->constructed = task_shell_content_constructed;
 
 	shell_content_class = E_SHELL_CONTENT_CLASS (class);
-	shell_content_class->check_state = memo_shell_content_check_state;
+	shell_content_class->check_state = task_shell_content_check_state;
 
 	g_object_class_install_property (
 		object_class,
@@ -539,7 +564,7 @@ memo_shell_content_class_init (EMemoShellContentClass *class)
 		g_param_spec_object (
 			"model",
 			_("Model"),
-			_("The memo table model"),
+			_("The task table model"),
 			E_TYPE_CAL_MODEL,
 			G_PARAM_READABLE));
 
@@ -555,115 +580,115 @@ memo_shell_content_class_init (EMemoShellContentClass *class)
 }
 
 static void
-memo_shell_content_init (EMemoShellContent *memo_shell_content)
+task_shell_content_init (ETaskShellContent *task_shell_content)
 {
-	memo_shell_content->priv =
-		E_MEMO_SHELL_CONTENT_GET_PRIVATE (memo_shell_content);
+	task_shell_content->priv =
+		E_TASK_SHELL_CONTENT_GET_PRIVATE (task_shell_content);
 
-	memo_shell_content->priv->memo_model = e_cal_model_memos_new ();
+	task_shell_content->priv->task_model = e_cal_model_tasks_new ();
 
 	/* Postpone widget construction until we have a shell view. */
 }
 
 GType
-e_memo_shell_content_get_type (void)
+e_task_shell_content_get_type (void)
 {
-	static GType type = 0;
+	return task_shell_content_type;
+}
 
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMemoShellContentClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) memo_shell_content_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMemoShellContent),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) memo_shell_content_init,
-			NULL   /* value_table */
-		};
+void
+e_task_shell_content_register_type (GTypeModule *type_module)
+{
+	static const GTypeInfo type_info = {
+		sizeof (ETaskShellContentClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) task_shell_content_class_init,
+		(GClassFinalizeFunc) NULL,
+		NULL,  /* class_data */
+		sizeof (ETaskShellContent),
+		0,     /* n_preallocs */
+		(GInstanceInitFunc) task_shell_content_init,
+		NULL   /* value_table */
+	};
 
-		type = g_type_register_static (
-			E_TYPE_SHELL_CONTENT, "EMemoShellContent",
-			&type_info, 0);
-	}
-
-	return type;
+	task_shell_content_type = g_type_module_register_type (
+		type_module, E_TYPE_SHELL_CONTENT,
+		"ETaskShellContent", &type_info, 0);
 }
 
 GtkWidget *
-e_memo_shell_content_new (EShellView *shell_view)
+e_task_shell_content_new (EShellView *shell_view)
 {
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), NULL);
 
 	return g_object_new (
-		E_TYPE_MEMO_SHELL_CONTENT,
+		E_TYPE_TASK_SHELL_CONTENT,
 		"shell-view", shell_view, NULL);
 }
 
 ECalModel *
-e_memo_shell_content_get_memo_model (EMemoShellContent *memo_shell_content)
+e_task_shell_content_get_task_model (ETaskShellContent *task_shell_content)
 {
 	g_return_val_if_fail (
-		E_IS_MEMO_SHELL_CONTENT (memo_shell_content), NULL);
+		E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
 
-	return memo_shell_content->priv->memo_model;
+	return task_shell_content->priv->task_model;
 }
 
 ECalComponentPreview *
-e_memo_shell_content_get_memo_preview (EMemoShellContent *memo_shell_content)
+e_task_shell_content_get_task_preview (ETaskShellContent *task_shell_content)
 {
 	g_return_val_if_fail (
-		E_IS_MEMO_SHELL_CONTENT (memo_shell_content), NULL);
+		E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
 
 	return E_CAL_COMPONENT_PREVIEW (
-		memo_shell_content->priv->memo_preview);
+		task_shell_content->priv->task_preview);
 }
 
-EMemoTable *
-e_memo_shell_content_get_memo_table (EMemoShellContent *memo_shell_content)
+ECalendarTable *
+e_task_shell_content_get_task_table (ETaskShellContent *task_shell_content)
 {
 	g_return_val_if_fail (
-		E_IS_MEMO_SHELL_CONTENT (memo_shell_content), NULL);
+		E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
 
-	return E_MEMO_TABLE (memo_shell_content->priv->memo_table);
+	return E_CALENDAR_TABLE (task_shell_content->priv->task_table);
 }
 
 GalViewInstance *
-e_memo_shell_content_get_view_instance (EMemoShellContent *memo_shell_content)
+e_task_shell_content_get_view_instance (ETaskShellContent *task_shell_content)
 {
 	g_return_val_if_fail (
-		E_IS_MEMO_SHELL_CONTENT (memo_shell_content), NULL);
+		E_IS_TASK_SHELL_CONTENT (task_shell_content), NULL);
 
-	return memo_shell_content->priv->view_instance;
+	return task_shell_content->priv->view_instance;
 }
 
 gboolean
-e_memo_shell_content_get_preview_visible (EMemoShellContent *memo_shell_content)
+e_task_shell_content_get_preview_visible (ETaskShellContent *task_shell_content)
 {
 	GtkPaned *paned;
 	GtkWidget *child;
 
 	g_return_val_if_fail (
-		E_IS_MEMO_SHELL_CONTENT (memo_shell_content), FALSE);
+		E_IS_TASK_SHELL_CONTENT (task_shell_content), FALSE);
 
-	paned = GTK_PANED (memo_shell_content->priv->paned);
+	paned = GTK_PANED (task_shell_content->priv->paned);
 	child = gtk_paned_get_child2 (paned);
 
 	return GTK_WIDGET_VISIBLE (child);
 }
 
 void
-e_memo_shell_content_set_preview_visible (EMemoShellContent *memo_shell_content,
+e_task_shell_content_set_preview_visible (ETaskShellContent *task_shell_content,
                                           gboolean preview_visible)
 {
 	GtkPaned *paned;
 	GtkWidget *child;
 
-	g_return_if_fail (E_IS_MEMO_SHELL_CONTENT (memo_shell_content));
+	g_return_if_fail (E_IS_TASK_SHELL_CONTENT (task_shell_content));
 
-	paned = GTK_PANED (memo_shell_content->priv->paned);
+	paned = GTK_PANED (task_shell_content->priv->paned);
 	child = gtk_paned_get_child2 (paned);
 
 	if (preview_visible)
@@ -671,5 +696,5 @@ e_memo_shell_content_set_preview_visible (EMemoShellContent *memo_shell_content,
 	else
 		gtk_widget_hide (child);
 
-	g_object_notify (G_OBJECT (memo_shell_content), "preview-visible");
+	g_object_notify (G_OBJECT (task_shell_content), "preview-visible");
 }

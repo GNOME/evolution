@@ -20,35 +20,36 @@ INCLUDES =							\
 	$(LDAP_CFLAGS)						\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-module_LTLIBRARIES = libevolution-module-contacts.la
+module_LTLIBRARIES = libevolution-module-addressbook.la
 
-libevolution_module_contacts_la_SOURCES = 	\
-	addressbook-config.c		\
-	addressbook-config.h		\
-	autocompletion-config.c		\
-	autocompletion-config.h		\
-	eab-composer-util.c		\
-	eab-composer-util.h		\
-	e-book-shell-backend.c		\
-	e-book-shell-backend.h		\
-	e-book-shell-content.c		\
-	e-book-shell-content.h		\
-	e-book-shell-migrate.c		\
-	e-book-shell-migrate.h		\
-	e-book-shell-sidebar.c		\
-	e-book-shell-sidebar.h		\
-	e-book-shell-view.c		\
-	e-book-shell-view.h		\
-	e-book-shell-view-actions.c	\
-	e-book-shell-view-actions.h	\
-	e-book-shell-view-private.c	\
+libevolution_module_addressbook_la_SOURCES = \
+	evolution-module-addressbook.c				\
+	addressbook-config.c					\
+	addressbook-config.h					\
+	autocompletion-config.c					\
+	autocompletion-config.h					\
+	eab-composer-util.c					\
+	eab-composer-util.h					\
+	e-book-shell-backend.c					\
+	e-book-shell-backend.h					\
+	e-book-shell-content.c					\
+	e-book-shell-content.h					\
+	e-book-shell-migrate.c					\
+	e-book-shell-migrate.h					\
+	e-book-shell-sidebar.c					\
+	e-book-shell-sidebar.h					\
+	e-book-shell-view.c					\
+	e-book-shell-view.h					\
+	e-book-shell-view-actions.c				\
+	e-book-shell-view-actions.h				\
+	e-book-shell-view-private.c				\
 	e-book-shell-view-private.h
 
 if ENABLE_SMIME
 SMIME_LIB=$(top_builddir)/smime/gui/libevolution-smime.la
 endif
 
-libevolution_module_contacts_la_LIBADD =							\
+libevolution_module_addressbook_la_LIBADD =						\
 	$(SMIME_LIB)									\
 	$(top_builddir)/e-util/libeutil.la						\
 	$(top_builddir)/composer/libcomposer.la					\
@@ -70,7 +71,7 @@ libevolution_module_contacts_la_LIBADD =							\
 	$(EVOLUTION_ADDRESSBOOK_LIBS) $(LDAP_LIBS)
 
 
-libevolution_module_contacts_la_LDFLAGS = \
+libevolution_module_addressbook_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED)
 
 # GConf schemas

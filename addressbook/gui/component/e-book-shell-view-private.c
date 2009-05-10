@@ -21,10 +21,10 @@
 
 #include "e-book-shell-view-private.h"
 
-#include <gal-view-factory-etable.h>
-#include <gal-view-factory-minicard.h>
+#include "widgets/menus/gal-view-factory-etable.h"
+#include "addressbook/gui/widgets/gal-view-factory-minicard.h"
 
-#include <addressbook.h>
+#include "addressbook.h"
 
 static void
 open_contact (EBookShellView *book_shell_view,

@@ -24,12 +24,9 @@
 
 #include <shell/e-shell-view.h>
 
-#include <e-mail-shell-content.h>
-#include <e-mail-shell-sidebar.h>
-
 /* Standard GObject macros */
 #define E_TYPE_MAIL_SHELL_VIEW \
-	(e_mail_shell_view_type)
+	(e_mail_shell_view_get_type ())
 #define E_MAIL_SHELL_VIEW(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_MAIL_SHELL_VIEW, EMailShellView))
@@ -48,8 +45,6 @@
 
 G_BEGIN_DECLS
 
-extern GType e_mail_shell_view_type;
-
 typedef struct _EMailShellView EMailShellView;
 typedef struct _EMailShellViewClass EMailShellViewClass;
 typedef struct _EMailShellViewPrivate EMailShellViewPrivate;
@@ -63,7 +58,8 @@ struct _EMailShellViewClass {
 	EShellViewClass parent_class;
 };
 
-GType		e_mail_shell_view_get_type
+GType		e_mail_shell_view_get_type	(void);
+void		e_mail_shell_view_register_type
 					(GTypeModule *type_module);
 gboolean	e_mail_shell_view_get_show_deleted
 					(EMailShellView *mail_shell_view);

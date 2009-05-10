@@ -28,7 +28,7 @@
 #include <calendar/gui/e-memo-table.h>
 #include <calendar/gui/e-cal-component-preview.h>
 
-#include <widgets/menus/gal-view-instance.h>
+#include <menus/gal-view-instance.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MEMO_SHELL_CONTENT \
@@ -72,22 +72,24 @@ struct _EMemoShellContentClass {
 };
 
 GType		e_memo_shell_content_get_type	(void);
-GtkWidget *	e_memo_shell_content_new	(EShellView *shell_view);
+void		e_memo_shell_content_register_type
+					(GTypeModule *type_module);
+GtkWidget *	e_memo_shell_content_new(EShellView *shell_view);
 ECalModel *	e_memo_shell_content_get_memo_model
-						(EMemoShellContent *memo_shell_conent);
+					(EMemoShellContent *memo_shell_conent);
 ECalComponentPreview *
 		e_memo_shell_content_get_memo_preview
-						(EMemoShellContent *memo_shell_content);
+					(EMemoShellContent *memo_shell_content);
 EMemoTable *	e_memo_shell_content_get_memo_table
-						(EMemoShellContent *memo_shell_content);
+					(EMemoShellContent *memo_shell_content);
 GalViewInstance *
 		e_memo_shell_content_get_view_instance
-						(EMemoShellContent *memo_shell_content);
+					(EMemoShellContent *memo_shell_content);
 gboolean	e_memo_shell_content_get_preview_visible
-						(EMemoShellContent *memo_shell_content);
+					(EMemoShellContent *memo_shell_content);
 void		e_memo_shell_content_set_preview_visible
-						(EMemoShellContent *memo_shell_content,
-						 gboolean preview_visible);
+					(EMemoShellContent *memo_shell_content,
+					 gboolean preview_visible);
 
 G_END_DECLS
 

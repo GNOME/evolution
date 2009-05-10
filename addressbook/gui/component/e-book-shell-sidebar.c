@@ -42,6 +42,7 @@ enum {
 };
 
 static gpointer parent_class;
+static GType book_shell_sidebar_type;
 
 static void
 book_shell_sidebar_get_property (GObject *object,
@@ -187,28 +188,28 @@ book_shell_sidebar_init (EBookShellSidebar *book_shell_sidebar)
 GType
 e_book_shell_sidebar_get_type (void)
 {
-	static GType type = 0;
+	return book_shell_sidebar_type;
+}
 
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EBookShellSidebarClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) book_shell_sidebar_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EBookShellSidebar),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) book_shell_sidebar_init,
-			NULL   /* value_table */
-		};
+void
+e_book_shell_sidebar_register_type (GTypeModule *type_module)
+{
+	static const GTypeInfo type_info = {
+		sizeof (EBookShellSidebarClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) book_shell_sidebar_class_init,
+		(GClassFinalizeFunc) NULL,
+		NULL,  /* class_data */
+		sizeof (EBookShellSidebar),
+		0,     /* n_preallocs */
+		(GInstanceInitFunc) book_shell_sidebar_init,
+		NULL   /* value_table */
+	};
 
-		type = g_type_register_static (
-			E_TYPE_SHELL_SIDEBAR, "EBookShellSidebar",
-			&type_info, 0);
-	}
-
-	return type;
+	book_shell_sidebar_type = g_type_module_register_type (
+		type_module, E_TYPE_SHELL_SIDEBAR,
+		"EBookShellSidebar", &type_info, 0);
 }
 
 GtkWidget *

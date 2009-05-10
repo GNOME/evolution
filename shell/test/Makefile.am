@@ -1,4 +1,4 @@
-module_LTLIBRARIES = libevolution-test.la
+module_LTLIBRARIES = libevolution-module-test.la
 
 INCLUDES =					\
 	-I$(top_srcdir)/shell			\
@@ -9,17 +9,18 @@ INCLUDES =					\
 	-DG_LOG_DOMAIN=\"evolution-test\"	\
 	$(EVOLUTION_TEST_CFLAGS)
 
-libevolution_test_la_SOURCES =			\
+libevolution_module_test_la_SOURCES =		\
+	evolution-module-test.c			\
 	e-test-shell-backend.c			\
 	e-test-shell-backend.h			\
 	e-test-shell-view.c			\
 	e-test-shell-view.h
 
-libevolution_test_la_LIBADD =			\
+libevolution_module_test_la_LIBADD =		\
 	$(top_builddir)/shell/libeshell.la	\
 	$(EVOLUTION_TEST_LIBS)
 
-libevolution_test_la_LDFLAGS =			\
+libevolution_module_test_la_LDFLAGS =		\
 	-avoid-version -module $(NO_UNDEFINED)
 
 -include $(top_srcdir)/git.mk

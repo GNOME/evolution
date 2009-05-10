@@ -27,7 +27,7 @@
 
 /* Standard GObject macros */
 #define E_TYPE_CAL_SHELL_BACKEND \
-	(e_cal_shell_backend_type)
+	(e_cal_shell_backend_get_type ())
 #define E_CAL_SHELL_BACKEND(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_CAL_SHELL_BACKEND, ECalShellBackend))
@@ -46,8 +46,6 @@
 
 G_BEGIN_DECLS
 
-extern GType e_cal_shell_backend_type;
-
 typedef struct _ECalShellBackend ECalShellBackend;
 typedef struct _ECalShellBackendClass ECalShellBackendClass;
 typedef struct _ECalShellBackendPrivate ECalShellBackendPrivate;
@@ -61,7 +59,8 @@ struct _ECalShellBackendClass {
 	EShellBackendClass parent_class;
 };
 
-GType		e_cal_shell_backend_get_type
+GType		e_cal_shell_backend_get_type	(void);
+void		e_cal_shell_backend_register_type
 					(GTypeModule *type_module);
 ESourceList *	e_cal_shell_backend_get_source_list
 					(ECalShellBackend *cal_shell_backend);

@@ -45,9 +45,9 @@
 #include "calendar/gui/dialogs/event-editor.h"
 #include "calendar/importers/evolution-calendar-importer.h"
 
-#include "e-cal-shell-view.h"
 #include "e-cal-shell-migrate.h"
 #include "e-cal-shell-settings.h"
+#include "e-cal-shell-view.h"
 
 #define E_CAL_SHELL_BACKEND_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -67,12 +67,8 @@ enum {
 	PROP_SOURCE_LIST
 };
 
-/* Module Entry Point */
-void e_module_load (GTypeModule *type_module);
-void e_module_unload (GTypeModule *type_module);
-
-GType e_cal_shell_backend_type = 0;
 static gpointer parent_class;
+static GType cal_shell_backend_type;
 
 static void
 cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
@@ -634,29 +630,30 @@ cal_shell_backend_init (ECalShellBackend *cal_shell_backend)
 }
 
 GType
-e_cal_shell_backend_get_type (GTypeModule *type_module)
+e_cal_shell_backend_get_type (void)
 {
-	if (e_cal_shell_backend_type == 0) {
-		const GTypeInfo type_info = {
-			sizeof (ECalShellBackendClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) cal_shell_backend_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ECalShellBackend),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) cal_shell_backend_init,
-			NULL   /* value_table */
-		};
+	return cal_shell_backend_type;
+}
 
-		e_cal_shell_backend_type =
-			g_type_module_register_type (
-				type_module, E_TYPE_SHELL_BACKEND,
-				"ECalShellBackend", &type_info, 0);
-	}
+void
+e_cal_shell_backend_register_type (GTypeModule *type_module)
+{
+	const GTypeInfo type_info = {
+		sizeof (ECalShellBackendClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) cal_shell_backend_class_init,
+		(GClassFinalizeFunc) NULL,
+		NULL,  /* class_data */
+		sizeof (ECalShellBackend),
+		0,     /* n_preallocs */
+		(GInstanceInitFunc) cal_shell_backend_init,
+		NULL   /* value_table */
+	};
 
-	return e_cal_shell_backend_type;
+	cal_shell_backend_type = g_type_module_register_type (
+		type_module, E_TYPE_SHELL_BACKEND,
+		"ECalShellBackend", &type_info, 0);
 }
 
 ESourceList *
@@ -666,16 +663,4 @@ e_cal_shell_backend_get_source_list (ECalShellBackend *cal_shell_backend)
 		E_IS_CAL_SHELL_BACKEND (cal_shell_backend), NULL);
 
 	return cal_shell_backend->priv->source_list;
-}
-
-void
-e_module_load (GTypeModule *type_module)
-{
-	e_cal_shell_backend_get_type (type_module);
-	e_cal_shell_view_get_type (type_module);
-}
-
-void
-e_module_unload (GTypeModule *type_module)
-{
 }

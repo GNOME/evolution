@@ -27,7 +27,7 @@
 
 /* Standard GObject macros */
 #define E_TYPE_BOOK_SHELL_BACKEND \
-	(e_book_shell_backend_type)
+	(e_book_shell_backend_get_type ())
 #define E_BOOK_SHELL_BACKEND(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_BOOK_SHELL_BACKEND, EBookShellBackend))
@@ -46,8 +46,6 @@
 
 G_BEGIN_DECLS
 
-extern GType e_book_shell_backend_type;
-
 typedef struct _EBookShellBackend EBookShellBackend;
 typedef struct _EBookShellBackendClass EBookShellBackendClass;
 typedef struct _EBookShellBackendPrivate EBookShellBackendPrivate;
@@ -61,7 +59,8 @@ struct _EBookShellBackendClass {
 	EShellBackendClass parent_class;
 };
 
-GType		e_book_shell_backend_get_type
+GType		e_book_shell_backend_get_type	(void);
+void		e_book_shell_backend_register_type
 					(GTypeModule *type_module);
 ESourceList *	e_book_shell_backend_get_source_list
 					(EBookShellBackend *book_shell_backend);

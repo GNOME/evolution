@@ -39,9 +39,9 @@
 #include "addressbook/gui/contact-list-editor/e-contact-list-editor.h"
 #include "addressbook/importers/evolution-addressbook-importers.h"
 
-#include <eab-config.h>
-#include <addressbook-config.h>
-#include <autocompletion-config.h>
+#include "eab-config.h"
+#include "addressbook-config.h"
+#include "autocompletion-config.h"
 
 #include "e-book-shell-migrate.h"
 #include "e-book-shell-view.h"
@@ -67,12 +67,8 @@ enum {
 	PROP_SOURCE_LIST
 };
 
-/* Module Entry Points */
-void e_module_load (GTypeModule *type_module);
-void e_module_unload (GTypeModule *type_module);
-
-GType e_book_shell_backend_type = 0;
 static gpointer parent_class;
+static GType book_shell_backend_type;
 
 static void
 book_shell_backend_ensure_sources (EShellBackend *shell_backend)
@@ -544,29 +540,30 @@ book_shell_backend_init (EBookShellBackend *book_shell_backend)
 }
 
 GType
-e_book_shell_backend_get_type (GTypeModule *type_module)
+e_book_shell_backend_get_type (void)
 {
-	if (e_book_shell_backend_type == 0) {
-		const GTypeInfo type_info = {
-			sizeof (EBookShellBackendClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) book_shell_backend_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EBookShellBackend),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) book_shell_backend_init,
-			NULL   /* value_table */
-		};
+	return book_shell_backend_type;
+}
 
-		e_book_shell_backend_type =
-			g_type_module_register_type (
-				type_module, E_TYPE_SHELL_BACKEND,
-				"EBookShellBackend", &type_info, 0);
-	}
+void
+e_book_shell_backend_register_type (GTypeModule *type_module)
+{
+	const GTypeInfo type_info = {
+		sizeof (EBookShellBackendClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) book_shell_backend_class_init,
+		(GClassFinalizeFunc) NULL,
+		NULL,  /* class_data */
+		sizeof (EBookShellBackend),
+		0,     /* n_preallocs */
+		(GInstanceInitFunc) book_shell_backend_init,
+		NULL   /* value_table */
+	};
 
-	return e_book_shell_backend_type;
+	book_shell_backend_type = g_type_module_register_type (
+		type_module, E_TYPE_SHELL_BACKEND,
+		"EBookShellBackend", &type_info, 0);
 }
 
 ESourceList *
@@ -576,16 +573,4 @@ e_book_shell_backend_get_source_list (EBookShellBackend *book_shell_backend)
 		E_IS_BOOK_SHELL_BACKEND (book_shell_backend), NULL);
 
 	return book_shell_backend->priv->source_list;
-}
-
-void
-e_module_load (GTypeModule *type_module)
-{
-	e_book_shell_backend_get_type (type_module);
-	e_book_shell_view_get_type (type_module);
-}
-
-void
-e_module_unload (GTypeModule *type_module)
-{
 }

@@ -27,7 +27,7 @@
 
 /* Standard GObject macros */
 #define E_TYPE_TASK_SHELL_BACKEND \
-	(e_task_shell_backend_type)
+	(e_task_shell_backend_get_type ())
 #define E_TASK_SHELL_BACKEND(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
 	((obj), E_TYPE_TASK_SHELL_BACKEND, ETaskShellBackend))
@@ -46,8 +46,6 @@
 
 G_BEGIN_DECLS
 
-extern GType e_task_shell_backend_type;
-
 typedef struct _ETaskShellBackend ETaskShellBackend;
 typedef struct _ETaskShellBackendClass ETaskShellBackendClass;
 typedef struct _ETaskShellBackendPrivate ETaskShellBackendPrivate;
@@ -61,7 +59,8 @@ struct _ETaskShellBackendClass {
 	EShellBackendClass parent_class;
 };
 
-GType		e_task_shell_backend_get_type
+GType		e_task_shell_backend_get_type	(void);
+void		e_task_shell_backend_register_type
 					(GTypeModule *type_module);
 ESourceList *	e_task_shell_backend_get_source_list
 					(ETaskShellBackend *task_shell_backend);

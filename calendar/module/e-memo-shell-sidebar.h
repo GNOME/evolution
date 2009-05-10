@@ -77,15 +77,18 @@ struct _EMemoShellSidebarClass {
 };
 
 GType		e_memo_shell_sidebar_get_type	(void);
-GtkWidget *	e_memo_shell_sidebar_new	(EShellView *shell_view);
+void		e_memo_shell_sidebar_register_type
+					(GTypeModule *type_module);
+GtkWidget *	e_memo_shell_sidebar_new(EShellView *shell_view);
 ESourceSelector *
 		e_memo_shell_sidebar_get_selector
-						(EMemoShellSidebar *memo_shell_sidebar);
-void		e_memo_shell_sidebar_add_source	(EMemoShellSidebar *memo_shell_sidebar,
-						 ESource *source);
+					(EMemoShellSidebar *memo_shell_sidebar);
+void		e_memo_shell_sidebar_add_source
+					(EMemoShellSidebar *memo_shell_sidebar,
+					 ESource *source);
 void		e_memo_shell_sidebar_remove_source
-						(EMemoShellSidebar *memo_shell_sidebar,
-						 ESource *source);
+					(EMemoShellSidebar *memo_shell_sidebar,
+					 ESource *source);
 
 G_END_DECLS
 

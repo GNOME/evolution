@@ -21,8 +21,8 @@
 
 #include "e-memo-shell-view-private.h"
 
-GType e_memo_shell_view_type = 0;
 static gpointer parent_class;
+static GType memo_shell_view_type;
 
 static void
 memo_shell_view_dispose (GObject *object)
@@ -195,27 +195,28 @@ memo_shell_view_init (EMemoShellView *memo_shell_view,
 }
 
 GType
-e_memo_shell_view_get_type (GTypeModule *type_module)
+e_memo_shell_view_get_type (void)
 {
-	if (e_memo_shell_view_type == 0) {
-		const GTypeInfo type_info = {
-			sizeof (EMemoShellViewClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) memo_shell_view_class_init,
-			(GClassFinalizeFunc) NULL,
-			type_module,
-			sizeof (EMemoShellView),
-			0,    /* n_preallocs */
-			(GInstanceInitFunc) memo_shell_view_init,
-			NULL  /* value_table */
-		};
+	return memo_shell_view_type;
+}
 
-		e_memo_shell_view_type =
-			g_type_module_register_type (
-				type_module, E_TYPE_SHELL_VIEW,
-				"EMemoShellView", &type_info, 0);
-	}
+void
+e_memo_shell_view_register_type (GTypeModule *type_module)
+{
+	const GTypeInfo type_info = {
+		sizeof (EMemoShellViewClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) memo_shell_view_class_init,
+		(GClassFinalizeFunc) NULL,
+		type_module,
+		sizeof (EMemoShellView),
+		0,    /* n_preallocs */
+		(GInstanceInitFunc) memo_shell_view_init,
+		NULL  /* value_table */
+	};
 
-	return e_memo_shell_view_type;
+	memo_shell_view_type = g_type_module_register_type (
+		type_module, E_TYPE_SHELL_VIEW,
+		"EMemoShellView", &type_info, 0);
 }

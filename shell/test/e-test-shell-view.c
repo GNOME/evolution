@@ -21,8 +21,8 @@
 
 #include "e-test-shell-view.h"
 
-#include <e-shell-content.h>
-#include <e-shell-sidebar.h>
+#include "shell/e-shell-content.h"
+#include "shell/e-shell-sidebar.h"
 
 #define E_TEST_SHELL_VIEW_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -32,8 +32,8 @@ struct _ETestShellViewPrivate {
 	EActivity *activity;
 };
 
-GType e_test_shell_view_type = 0;
 static gpointer parent_class;
+static GType test_shell_view_type;
 
 static void
 test_shell_view_toggled (EShellView *shell_view)
@@ -128,27 +128,28 @@ test_shell_view_init (ETestShellView *test_shell_view)
 }
 
 GType
-e_test_shell_view_get_type (GTypeModule *type_module)
+e_test_shell_view_get_type (void)
 {
-	if (e_test_shell_view_type == 0) {
-		const GTypeInfo type_info = {
-			sizeof (ETestShellViewClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) test_shell_view_class_init,
-			(GClassFinalizeFunc) NULL,
-			type_module,
-			sizeof (ETestShellView),
-			0,    /* n_preallocs */
-			(GInstanceInitFunc) test_shell_view_init,
-			NULL  /* value_table */
-		};
+	return test_shell_view_type;
+}
 
-		e_test_shell_view_type =
-			g_type_module_register_type (
-				type_module, E_TYPE_SHELL_VIEW,
-				"ETestShellView", &type_info, 0);
-	}
+void
+e_test_shell_view_register_type (GTypeModule *type_module)
+{
+	const GTypeInfo type_info = {
+		sizeof (ETestShellViewClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) test_shell_view_class_init,
+		(GClassFinalizeFunc) NULL,
+		type_module,
+		sizeof (ETestShellView),
+		0,    /* n_preallocs */
+		(GInstanceInitFunc) test_shell_view_init,
+		NULL  /* value_table */
+	};
 
-	return e_test_shell_view_type;
+	test_shell_view_type = g_type_module_register_type (
+		type_module, E_TYPE_SHELL_VIEW,
+		"ETestShellView", &type_info, 0);
 }

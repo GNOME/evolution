@@ -21,8 +21,8 @@
 
 #include "e-book-shell-view-private.h"
 
-GType e_book_shell_view_type = 0;
 static gpointer parent_class;
+static GType book_shell_view_type;
 
 static void
 book_shell_view_source_list_changed_cb (EBookShellView *book_shell_view,
@@ -291,27 +291,28 @@ book_shell_view_init (EBookShellView *book_shell_view,
 }
 
 GType
-e_book_shell_view_get_type (GTypeModule *type_module)
+e_book_shell_view_get_type (void)
 {
-	if (e_book_shell_view_type == 0) {
-		const GTypeInfo type_info = {
-			sizeof (EBookShellViewClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) book_shell_view_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EBookShellView),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) book_shell_view_init,
-			NULL   /* value_table */
-		};
+	return book_shell_view_type;
+}
 
-		e_book_shell_view_type =
-			g_type_module_register_type (
-				type_module, E_TYPE_SHELL_VIEW,
-				"EBookShellView", &type_info, 0);
-	}
+void
+e_book_shell_view_register_type (GTypeModule *type_module)
+{
+	const GTypeInfo type_info = {
+		sizeof (EBookShellViewClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) book_shell_view_class_init,
+		(GClassFinalizeFunc) NULL,
+		NULL,  /* class_data */
+		sizeof (EBookShellView),
+		0,     /* n_preallocs */
+		(GInstanceInitFunc) book_shell_view_init,
+		NULL   /* value_table */
+	};
 
-	return e_book_shell_view_type;
+	book_shell_view_type = g_type_module_register_type (
+		type_module, E_TYPE_SHELL_VIEW,
+		"EBookShellView", &type_info, 0);
 }

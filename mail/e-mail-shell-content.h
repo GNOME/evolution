@@ -25,7 +25,7 @@
 #include <shell/e-shell-content.h>
 #include <shell/e-shell-view.h>
 
-#include "em-format-html-display.h"
+#include <mail/em-format-html-display.h>
 
 /* Standard GObject macros */
 #define E_TYPE_MAIL_SHELL_CONTENT \
@@ -62,30 +62,32 @@ struct _EMailShellContentClass {
 };
 
 GType		e_mail_shell_content_get_type	(void);
-GtkWidget *	e_mail_shell_content_new	(EShellView *shell_view);
+void		e_mail_shell_content_register_type
+					(GTypeModule *type_module);
+GtkWidget *	e_mail_shell_content_new(EShellView *shell_view);
 gboolean	e_mail_shell_content_get_preview_visible
-						(EMailShellContent *mail_shell_content);
+					(EMailShellContent *mail_shell_content);
 void		e_mail_shell_content_set_preview_visible
-						(EMailShellContent *mail_shell_content,
+					(EMailShellContent *mail_shell_content,
 						 gboolean preview_visible);
 gboolean	e_mail_shell_content_get_show_deleted
-						(EMailShellContent *mail_shell_content);
+					(EMailShellContent *mail_shell_content);
 void		e_mail_shell_content_set_show_deleted
-						(EMailShellContent *mail_shell_content,
-						 gboolean show_deleted);
+					(EMailShellContent *mail_shell_content,
+					 gboolean show_deleted);
 gboolean	e_mail_shell_content_get_vertical_view
-						(EMailShellContent *mail_shell_content);
+					(EMailShellContent *mail_shell_content);
 void		e_mail_shell_content_set_vertical_view
-						(EMailShellContent *mail_shell_content,
-						 gboolean vertical_view);
+					(EMailShellContent *mail_shell_content,
+					 gboolean vertical_view);
 GalViewInstance *
 		e_mail_shell_content_get_view_instance
-						(EMailShellContent *mail_shell_content);
+					(EMailShellContent *mail_shell_content);
 void		e_mail_shell_content_set_search_strings
-						(EMailShellContent *mail_shell_content,
-						 GSList *search_strings);
+					(EMailShellContent *mail_shell_content,
+					 GSList *search_strings);
 void		e_mail_shell_content_update_view_instance
-						(EMailShellContent *mail_shell_content);
+					(EMailShellContent *mail_shell_content);
 
 G_END_DECLS
 

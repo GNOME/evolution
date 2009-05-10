@@ -5,16 +5,11 @@ INCLUDES =						\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
-#module_LTLIBRARIES =					\
-#	libevolution-module-memos.la			\
-#	libevolution-module-tasks.la
-
 module_LTLIBRARIES =					\
-	libevolution-module-calendars.la		\
-	libevolution-module-memos.la			\
-	libevolution-module-tasks.la
+	libevolution-module-calendar.la
 
-libevolution_module_calendars_la_SOURCES =		\
+libevolution_module_calendar_la_SOURCES =		\
+	evolution-module-calendar.c			\
 	e-cal-shell-backend.c				\
 	e-cal-shell-backend.h				\
 	e-cal-shell-content.c				\
@@ -32,9 +27,7 @@ libevolution_module_calendars_la_SOURCES =		\
 	e-cal-shell-view-memopad.c			\
 	e-cal-shell-view-private.c			\
 	e-cal-shell-view-private.h			\
-	e-cal-shell-view-taskpad.c
-
-libevolution_module_memos_la_SOURCES =			\
+	e-cal-shell-view-taskpad.c			\
 	e-memo-shell-backend.c				\
 	e-memo-shell-backend.h				\
 	e-memo-shell-content.c				\
@@ -48,9 +41,7 @@ libevolution_module_memos_la_SOURCES =			\
 	e-memo-shell-view-actions.c			\
 	e-memo-shell-view-actions.h			\
 	e-memo-shell-view-private.c			\
-	e-memo-shell-view-private.h
-
-libevolution_module_tasks_la_SOURCES =			\
+	e-memo-shell-view-private.h			\
 	e-task-shell-backend.c				\
 	e-task-shell-backend.h				\
 	e-task-shell-content.c				\
@@ -69,19 +60,12 @@ libevolution_module_tasks_la_SOURCES =			\
 # Removed from all three
 #	$(top_builddir)/a11y/calendar/libevolution-calendar-a11y.la
 
-libevolution_module_calendars_la_LIBADD =		\
+libevolution_module_calendar_la_LIBADD =		\
 	$(WIN32_BOOTSTRAP_LIBS)				\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/calendar/gui/libcal-gui.la	\
 	$(top_builddir)/mail/libevolution-module-mail.la \
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la
 
-libevolution_module_memos_la_LIBADD =			\
-	$(WIN32_BOOTSTRAP_LIBS)				\
-	$(top_builddir)/shell/libeshell.la		\
-	$(top_builddir)/calendar/gui/libcal-gui.la
-
-libevolution_module_tasks_la_LIBADD =			\
-	$(WIN32_BOOTSTRAP_LIBS)				\
-	$(top_builddir)/shell/libeshell.la		\
-	$(top_builddir)/calendar/gui/libcal-gui.la
+libevolution_module_calendar_la_LDFLAGS =		\
+	-module -avoid-version $(NO_UNDEFINED)

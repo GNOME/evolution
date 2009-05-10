@@ -78,6 +78,7 @@ enum {
 };
 
 static gpointer parent_class;
+static GType mail_shell_content_type;
 
 static void
 mail_shell_content_etree_unfreeze (MessageList *message_list,
@@ -677,37 +678,38 @@ mail_shell_content_init (EMailShellContent *mail_shell_content)
 GType
 e_mail_shell_content_get_type (void)
 {
-	static GType type = 0;
+	return mail_shell_content_type;
+}
 
-	if (G_UNLIKELY (type == 0)) {
-		static const GTypeInfo type_info = {
-			sizeof (EMailShellContentClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) mail_shell_content_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (EMailShellContent),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) mail_shell_content_init,
-			NULL   /* value_table */
-		};
+void
+e_mail_shell_content_register_type (GTypeModule *type_module)
+{
+	static const GTypeInfo type_info = {
+		sizeof (EMailShellContentClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) mail_shell_content_class_init,
+		(GClassFinalizeFunc) NULL,
+		NULL,  /* class_data */
+		sizeof (EMailShellContent),
+		0,     /* n_preallocs */
+		(GInstanceInitFunc) mail_shell_content_init,
+		NULL   /* value_table */
+	};
 
-		static const GInterfaceInfo iface_info = {
-			(GInterfaceInitFunc) mail_shell_content_iface_init,
-			(GInterfaceFinalizeFunc) NULL,
-			NULL  /* interface_data */
-		};
+	static const GInterfaceInfo iface_info = {
+		(GInterfaceInitFunc) mail_shell_content_iface_init,
+		(GInterfaceFinalizeFunc) NULL,
+		NULL  /* interface_data */
+	};
 
-		type = g_type_register_static (
-			E_TYPE_SHELL_CONTENT, "EMailShellContent",
-			&type_info, 0);
+	mail_shell_content_type = g_type_module_register_type (
+		type_module, E_TYPE_SHELL_CONTENT,
+		"EMailShellContent", &type_info, 0);
 
-		g_type_add_interface_static (
-			type, E_TYPE_MAIL_READER, &iface_info);
-	}
-
-	return type;
+	g_type_module_add_interface (
+		type_module, mail_shell_content_type,
+		E_TYPE_MAIL_READER, &iface_info);
 }
 
 GtkWidget *

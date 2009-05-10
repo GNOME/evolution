@@ -21,8 +21,8 @@
 
 #include "e-cal-shell-view-private.h"
 
-GType e_cal_shell_view_type = 0;
 static gpointer parent_class;
+static GType cal_shell_view_type;
 
 static void
 cal_shell_view_dispose (GObject *object)
@@ -190,29 +190,30 @@ cal_shell_view_init (ECalShellView *cal_shell_view,
 }
 
 GType
-e_cal_shell_view_get_type (GTypeModule *type_module)
+e_cal_shell_view_get_type (void)
 {
-	if (e_cal_shell_view_type == 0) {
-		const GTypeInfo type_info = {
-			sizeof (ECalShellViewClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) cal_shell_view_class_init,
-			(GClassFinalizeFunc) NULL,
-			type_module,
-			sizeof (ECalShellView),
-			0,    /* n_preallocs */
-			(GInstanceInitFunc) cal_shell_view_init,
-			NULL  /* value_table */
-		};
+	return cal_shell_view_type;
+}
 
-		e_cal_shell_view_type =
-			g_type_module_register_type (
-				type_module, E_TYPE_SHELL_VIEW,
-				"ECalShellView", &type_info, 0);
-	}
+void
+e_cal_shell_view_register_type (GTypeModule *type_module)
+{
+	const GTypeInfo type_info = {
+		sizeof (ECalShellViewClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) cal_shell_view_class_init,
+		(GClassFinalizeFunc) NULL,
+		type_module,
+		sizeof (ECalShellView),
+		0,    /* n_preallocs */
+		(GInstanceInitFunc) cal_shell_view_init,
+		NULL  /* value_table */
+	};
 
-	return e_cal_shell_view_type;
+	cal_shell_view_type = g_type_module_register_type (
+		type_module, E_TYPE_SHELL_VIEW,
+		"ECalShellView", &type_info, 0);
 }
 
 GnomeCalendar *

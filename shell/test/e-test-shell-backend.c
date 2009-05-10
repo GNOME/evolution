@@ -23,8 +23,8 @@
 
 #include <glib/gi18n.h>
 
-#include <e-shell.h>
-#include <e-shell-window.h>
+#include "shell/e-shell.h"
+#include "shell/e-shell-window.h"
 
 #include "e-test-shell-view.h"
 
@@ -36,12 +36,8 @@ struct _ETestShellBackendPrivate {
 	gint placeholder;
 };
 
-/* Module Entry Point */
-void e_module_load (GTypeModule *type_module);
-void e_module_unload (GTypeModule *type_module);
-
-GType e_test_shell_backend_type = 0;
 static gpointer parent_class;
+static GType test_shell_backend_type;
 
 static void
 action_test_item_new_cb (GtkAction *action,
@@ -217,39 +213,28 @@ test_shell_backend_init (ETestShellBackend *test_shell_backend)
 }
 
 GType
-e_test_shell_backend_get_type (GTypeModule *type_module)
+e_test_shell_backend_get_type (void)
 {
-	if (e_test_shell_backend_type == 0) {
-		const GTypeInfo type_info = {
-			sizeof (ETestShellBackendClass),
-			(GBaseInitFunc) NULL,
-			(GBaseFinalizeFunc) NULL,
-			(GClassInitFunc) test_shell_backend_class_init,
-			(GClassFinalizeFunc) NULL,
-			NULL,  /* class_data */
-			sizeof (ETestShellBackend),
-			0,     /* n_preallocs */
-			(GInstanceInitFunc) test_shell_backend_init,
-			NULL   /* value_table */
-		};
-
-		e_test_shell_backend_type =
-			g_type_module_register_type (
-				type_module, E_TYPE_SHELL_BACKEND,
-				"ETestShellBackend", &type_info, 0);
-	}
-
-	return e_test_shell_backend_type;
+	return test_shell_backend_type;
 }
 
 void
-e_module_load (GTypeModule *type_module)
+e_test_shell_backend_register_type (GTypeModule *type_module)
 {
-	e_test_shell_backend_get_type (type_module);
-	e_test_shell_view_get_type (type_module);
-}
+	const GTypeInfo type_info = {
+		sizeof (ETestShellBackendClass),
+		(GBaseInitFunc) NULL,
+		(GBaseFinalizeFunc) NULL,
+		(GClassInitFunc) test_shell_backend_class_init,
+		(GClassFinalizeFunc) NULL,
+		NULL,  /* class_data */
+		sizeof (ETestShellBackend),
+		0,     /* n_preallocs */
+		(GInstanceInitFunc) test_shell_backend_init,
+		NULL   /* value_table */
+	};
 
-void
-e_module_unload (GTypeModule *type_module)
-{
+	test_shell_backend_type = g_type_module_register_type (
+		type_module, E_TYPE_SHELL_BACKEND,
+		"ETestShellBackend", &type_info, 0);
 }

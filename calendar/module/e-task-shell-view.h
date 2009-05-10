@@ -1,5 +1,5 @@
 /*
- * e-cal-shell-view.h
+ * e-task-shell-view.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,54 +19,49 @@
  *
  */
 
-#ifndef E_CAL_SHELL_VIEW_H
-#define E_CAL_SHELL_VIEW_H
+#ifndef E_TASK_SHELL_VIEW_H
+#define E_TASK_SHELL_VIEW_H
 
 #include <shell/e-shell-view.h>
-#include <calendar/gui/gnome-cal.h>
 #include <libedataserver/e-source-list.h>
 
 /* Standard GObject macros */
-#define E_TYPE_CAL_SHELL_VIEW \
-	(e_cal_shell_view_type)
-#define E_CAL_SHELL_VIEW(obj) \
+#define E_TYPE_TASK_SHELL_VIEW \
+	(e_task_shell_view_get_type ())
+#define E_TASK_SHELL_VIEW(obj) \
 	(G_TYPE_CHECK_INSTANCE_CAST \
-	((obj), E_TYPE_CAL_SHELL_VIEW, ECalShellView))
-#define E_CAL_SHELL_VIEW_CLASS(cls) \
+	((obj), E_TYPE_TASK_SHELL_VIEW, ETaskShellView))
+#define E_TASK_SHELL_VIEW_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_CAST \
-	((cls), E_TYPE_CAL_SHELL_VIEW, ECalShellViewClass))
-#define E_IS_CAL_SHELL_VIEW(obj) \
+	((cls), E_TYPE_TASK_SHELL_VIEW, ETaskShellViewClass))
+#define E_IS_TASK_SHELL_VIEW(obj) \
 	(G_TYPE_CHECK_INSTANCE_TYPE \
-	((obj), E_TYPE_CAL_SHELL_VIEW))
-#define E_IS_CAL_SHELL_VIEW_CLASS(cls) \
+	((obj), E_TYPE_TASK_SHELL_VIEW))
+#define E_IS_TASK_SHELL_VIEW_CLASS(cls) \
 	(G_TYPE_CHECK_CLASS_TYPE \
-	((cls), E_TYPE_CAL_SHELL_VIEW))
-#define E_CAL_SHELL_VIEW_GET_CLASS(obj) \
+	((cls), E_TYPE_TASK_SHELL_VIEW))
+#define E_TASK_SHELL_VIEW_GET_CLASS(obj) \
 	(G_TYPE_INSTANCE_GET_CLASS \
-	((obj), E_TYPE_CAL_SHELL_VIEW, ECalShellViewClass))
+	((obj), E_TYPE_TASK_SHELL_VIEW, ETaskShellViewClass))
 
 G_BEGIN_DECLS
 
-extern GType e_cal_shell_view_type;
+typedef struct _ETaskShellView ETaskShellView;
+typedef struct _ETaskShellViewClass ETaskShellViewClass;
+typedef struct _ETaskShellViewPrivate ETaskShellViewPrivate;
 
-typedef struct _ECalShellView ECalShellView;
-typedef struct _ECalShellViewClass ECalShellViewClass;
-typedef struct _ECalShellViewPrivate ECalShellViewPrivate;
-
-struct _ECalShellView {
+struct _ETaskShellView {
 	EShellView parent;
-	ECalShellViewPrivate *priv;
+	ETaskShellViewPrivate *priv;
 };
 
-struct _ECalShellViewClass {
+struct _ETaskShellViewClass {
 	EShellViewClass parent_class;
 };
 
-GType		e_cal_shell_view_get_type
-					(GTypeModule *type_module);
-GnomeCalendar *	e_cal_shell_view_get_calendar
-					(ECalShellView *cal_shell_view);
+GType		e_task_shell_view_get_type	(void);
+void		e_task_shell_view_register_type	(GTypeModule *type_module);
 
 G_END_DECLS
 
-#endif /* E_CAL_SHELL_VIEW_H */
+#endif /* E_TASK_SHELL_VIEW_H */

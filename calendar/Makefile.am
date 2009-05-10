@@ -4,7 +4,7 @@ else
 CONDUIT_DIR =
 endif
 
-SUBDIRS = idl common importers gui $(CONDUIT_DIR) modules
+SUBDIRS = idl common importers gui $(CONDUIT_DIR) module
 
 error_DATA = calendar.error
 errordir = $(privdatadir)/errors
