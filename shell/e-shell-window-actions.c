@@ -1965,26 +1965,28 @@ e_shell_window_create_switcher_actions (EShellWindow *shell_window)
 
 	for (iter = list; iter != NULL; iter = iter->next) {
 		EShellBackend *shell_backend = iter->data;
+		EShellBackendClass *backend_class;
 		EShellViewClass *class;
-		GType type;
+		GType view_type;
 		const gchar *view_name;
 		gchar *accelerator;
 		gchar *action_name;
 		gchar *tooltip;
 
 		/* The backend name is also the view name. */
-		view_name = E_SHELL_BACKEND_GET_CLASS (shell_backend)->name;
-		type = E_SHELL_BACKEND_GET_CLASS (shell_backend)->view_type;
+		backend_class = E_SHELL_BACKEND_GET_CLASS (shell_backend);
+		view_type = backend_class->shell_view_type;
+		view_name = backend_class->name;
 
-		if (!g_type_is_a (type, E_TYPE_SHELL_VIEW)) {
+		if (!g_type_is_a (view_type, E_TYPE_SHELL_VIEW)) {
 			g_critical (
 				"%s is not a subclass of %s",
-				g_type_name (type),
+				g_type_name (view_type),
 				g_type_name (E_TYPE_SHELL_VIEW));
 			continue;
 		}
 
-		class = g_type_class_ref (type);
+		class = g_type_class_ref (view_type);
 
 		if (class->label == NULL) {
 			g_critical (

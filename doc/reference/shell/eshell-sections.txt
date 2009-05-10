@@ -43,20 +43,16 @@ e_shell_migrate_error_quark
 <FILE>e-shell-backend</FILE>
 <TITLE>EShellBackend</TITLE>
 EShellBackend
-EShellBackendInfo
-e_shell_backend_new
 e_shell_backend_compare
 e_shell_backend_get_config_dir
 e_shell_backend_get_data_dir
 e_shell_backend_get_filename
 e_shell_backend_get_shell
-e_shell_backend_get_shell_view_type
 e_shell_backend_add_activity
 e_shell_backend_start
 e_shell_backend_is_busy
 e_shell_backend_shutdown
 e_shell_backend_migrate
-e_shell_backend_set_info
 <SUBSECTION Standard>
 E_SHELL_BACKEND
 E_IS_SHELL_BACKEND

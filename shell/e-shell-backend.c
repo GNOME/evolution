@@ -23,9 +23,11 @@
 
 #include <errno.h>
 #include <glib/gi18n.h>
-#include <e-util/e-util.h>
 
-#include <e-shell.h>
+#include "e-util/e-util.h"
+
+#include "e-shell.h"
+#include "e-shell-view.h"
 
 #define E_SHELL_BACKEND_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -34,6 +36,12 @@
 struct _EShellBackendPrivate {
 
 	gpointer shell;  /* weak pointer */
+
+	/* We keep a reference to corresponding EShellView subclass
+	 * since it keeps a reference back to us.  This ensures the
+	 * subclass is not finalized before we are, otherwise it
+	 * would leak its EShellBackend reference. */
+	EShellViewClass *shell_view_class;
 
 	gchar *config_dir;
 	gchar *data_dir;
@@ -56,7 +64,7 @@ static guint signals[LAST_SIGNAL];
 
 static void
 shell_backend_set_shell (EShellBackend *shell_backend,
-                        EShell *shell)
+                         EShell *shell)
 {
 	g_return_if_fail (shell_backend->priv->shell == NULL);
 
@@ -102,6 +110,22 @@ shell_backend_get_property (GObject *object,
 }
 
 static void
+shell_backend_dispose (GObject *object)
+{
+	EShellBackendPrivate *priv;
+
+	priv = E_SHELL_BACKEND_GET_PRIVATE (object);
+
+	if (priv->shell_view_class != NULL) {
+		g_type_class_unref (priv->shell_view_class);
+		priv->shell_view_class = NULL;
+	}
+
+	/* Chain up to parent's dispose() method. */
+	G_OBJECT_CLASS (parent_class)->dispose (object);
+}
+
+static void
 shell_backend_finalize (GObject *object)
 {
 	EShellBackendPrivate *priv;
@@ -125,6 +149,7 @@ shell_backend_class_init (EShellBackendClass *class)
 	object_class = G_OBJECT_CLASS (class);
 	object_class->set_property = shell_backend_set_property;
 	object_class->get_property = shell_backend_get_property;
+	object_class->dispose = shell_backend_dispose;
 	object_class->finalize = shell_backend_finalize;
 
 	/**
@@ -162,15 +187,22 @@ shell_backend_class_init (EShellBackendClass *class)
 
 static void
 shell_backend_init (EShellBackend *shell_backend,
-                   EShellBackendClass *class)
+                    EShellBackendClass *class)
 {
+	EShellViewClass *shell_view_class;
 	gchar *dirname;
 
 	shell_backend->priv = E_SHELL_BACKEND_GET_PRIVATE (shell_backend);
 
+	/* Install a reference to ourselves in the corresponding
+	 * EShellViewClass structure, */
+	shell_view_class = g_type_class_ref (class->shell_view_type);
+	shell_view_class->shell_backend = g_object_ref (shell_backend);
+	shell_backend->priv->shell_view_class = shell_view_class;
+
 	/* Determine the user data directory for this backend. */
 	shell_backend->priv->data_dir = g_build_filename (
-		g_get_user_data_dir (), class->name, NULL);
+		e_get_user_data_dir (), class->name, NULL);
 
 	/* Determine the user configuration directory for this backend. */
 	shell_backend->priv->config_dir = g_build_filename (

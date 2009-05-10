@@ -829,7 +829,7 @@ mail_shell_backend_window_created_cb (EShell *shell,
 	if (!E_IS_SHELL_WINDOW (window))
 		return;
 
-	backend_name = G_TYPE_MODULE (shell_backend)->name;
+	backend_name = E_SHELL_BACKEND_GET_CLASS (shell_backend)->name;
 
 	e_shell_window_register_new_item_actions (
 		E_SHELL_WINDOW (window), backend_name,
@@ -1012,11 +1012,11 @@ mail_shell_backend_class_init (EMailShellBackendClass *class)
 	object_class->constructed = mail_shell_backend_constructed;
 
 	shell_backend_class = E_SHELL_BACKEND_CLASS (class);
+	shell_backend_class->shell_view_type = E_TYPE_MAIL_SHELL_VIEW;
 	shell_backend_class->name = BACKEND_NAME;
 	shell_backend_class->aliases = "";
 	shell_backend_class->schemes = "mailto:email";
 	shell_backend_class->sort_order = 200;
-	shell_backend_class->view_type = E_TYPE_MAIL_SHELL_VIEW;
 	shell_backend_class->start = mail_shell_backend_start;
 	shell_backend_class->is_busy = NULL;
 	shell_backend_class->shutdown = NULL;

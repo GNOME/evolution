@@ -95,6 +95,7 @@ EShellView
 @search_options: 
 @search_rules: 
 @view_collection: 
+@shell_backend: 
 @new_shell_content: 
 @new_shell_sidebar: 
 @new_shell_taskbar: 

@@ -117,7 +117,6 @@ test_shell_view_class_init (ETestShellViewClass *class,
 	shell_view_class = E_SHELL_VIEW_CLASS (class);
 	shell_view_class->label = "Test";
 	shell_view_class->icon_name = "face-monkey";
-	shell_view_class->type_module = type_module;
 	shell_view_class->toggled = test_shell_view_toggled;
 }
 

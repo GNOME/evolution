@@ -52,7 +52,7 @@ shell_window_new_view (EShellBackend *shell_backend,
 	GType type;
 
 	name = E_SHELL_BACKEND_GET_CLASS (shell_backend)->name;
-	type = E_SHELL_BACKEND_GET_CLASS (shell_backend)->view_type;
+	type = E_SHELL_BACKEND_GET_CLASS (shell_backend)->shell_view_type;
 
 	/* First off, start the shell backend. */
 	e_shell_backend_start (shell_backend);
@@ -66,9 +66,8 @@ shell_window_new_view (EShellBackend *shell_backend,
 
 	/* Create the shell view. */
 	shell_view = g_object_new (
-		type, "action", action, "page-num", page_num,
-		"shell-backend", shell_backend, "shell-window",
-		shell_window, NULL);
+		type, "action", action, "page-num",page_num,
+		"shell-window", shell_window, NULL);
 
 	/* Register the shell view. */
 	loaded_views = shell_window->priv->loaded_views;

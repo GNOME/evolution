@@ -145,7 +145,7 @@ mail_shell_sidebar_constructed (GObject *object)
 	shell_sidebar = E_SHELL_SIDEBAR (object);
 	shell_view = e_shell_sidebar_get_shell_view (shell_sidebar);
 	shell_backend = e_shell_view_get_shell_backend (shell_view);
-	mail_shell_backend = E_MAIL_SHELL_BACKEND (mail_shell_backend);
+	mail_shell_backend = E_MAIL_SHELL_BACKEND (shell_backend);
 
 	/* Build sidebar widgets. */
 

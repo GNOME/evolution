@@ -139,6 +139,9 @@ struct _EShellViewClass {
 	/* A unique instance is created for each subclass. */
 	GalViewCollection *view_collection;
 
+	/* This is set by the corresponding EShellBackend. */
+	EShellBackend *shell_backend;
+
 	/* Factory Methods */
 	GtkWidget *	(*new_shell_content)	(EShellView *shell_view);
 	GtkWidget *	(*new_shell_sidebar)	(EShellView *shell_view);

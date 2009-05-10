@@ -515,11 +515,11 @@ book_shell_backend_class_init (EBookShellBackendClass *class)
 	object_class->constructed = book_shell_backend_constructed;
 
 	shell_backend_class = E_SHELL_BACKEND_CLASS (class);
+	shell_backend_class->shell_view_type = E_TYPE_BOOK_SHELL_VIEW;
 	shell_backend_class->name = "addressbook";
 	shell_backend_class->aliases = "contacts";
 	shell_backend_class->schemes = "";
 	shell_backend_class->sort_order = 300;
-	shell_backend_class->view_type = E_TYPE_BOOK_SHELL_VIEW;
 	shell_backend_class->start = NULL;
 	shell_backend_class->is_busy = book_shell_backend_is_busy;
 	shell_backend_class->shutdown = book_shell_backend_shutdown;

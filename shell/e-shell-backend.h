@@ -84,7 +84,7 @@ struct _EShellBackend {
  * @sort_order:		Used to determine the order of backends listed in
  * 			the main menu and in the switcher.  See
  * 			e_shell_backend_compare().
- * @view_type:		#GType for the corresponding #EShellView subclass.
+ * @shell_view_type:	#GType for the corresponding #EShellView subclass.
  * @start:		Method for notifying the backend to begin loading
  * 			data and running background tasks.  This is called
  * 			just before the first instantiation of the
@@ -110,11 +110,12 @@ struct _EShellBackend {
 struct _EShellBackendClass {
 	GObjectClass parent_class;
 
+	GType shell_view_type;
+
 	const gchar *name;
 	const gchar *aliases;
 	const gchar *schemes;
 	gint sort_order;
-	GType view_type;
 
 	/* Methods */
 	void		(*start)		(EShellBackend *shell_backend);

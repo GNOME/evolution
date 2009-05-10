@@ -1656,7 +1656,7 @@ fi
 
 dnl --- evolution-test flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_TEST, gtk+-2.0 libxml-2.0 unique-1.0)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_TEST, gtk+-2.0 gconf-2.0 libxml-2.0 unique-1.0)
 AC_SUBST(EVOLUTION_TEST_CFLAGS)
 AC_SUBST(EVOLUTION_TEST_LIBS)
 

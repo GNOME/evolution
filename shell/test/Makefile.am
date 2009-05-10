@@ -10,7 +10,8 @@ INCLUDES =					\
 	$(EVOLUTION_TEST_CFLAGS)
 
 libevolution_test_la_SOURCES =			\
-	e-test-shell-module.c			\
+	e-test-shell-backend.c			\
+	e-test-shell-backend.h			\
 	e-test-shell-view.c			\
 	e-test-shell-view.h
 
