@@ -26,7 +26,7 @@
 void e_module_load (GTypeModule *type_module);
 void e_module_unload (GTypeModule *type_module);
 
-void
+G_MODULE_EXPORT void
 e_module_load (GTypeModule *type_module)
 {
 	/* Register dynamically loaded types. */
@@ -35,7 +35,7 @@ e_module_load (GTypeModule *type_module)
 	e_test_shell_view_register_type (type_module);
 }
 
-void
+G_MODULE_EXPORT void
 e_module_unload (GTypeModule *type_module)
 {
 }
