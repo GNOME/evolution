@@ -418,6 +418,10 @@ attachment_progress_cb (goffset current_num_bytes,
                         goffset total_num_bytes,
                         EAttachment *attachment)
 {
+	/* Avoid dividing by zero. */
+	if (total_num_bytes == 0)
+		return;
+
 	attachment->priv->percent =
 		(current_num_bytes * 100) / total_num_bytes;
 
@@ -1492,6 +1496,12 @@ attachment_load_finish (LoadContext *load_context)
 	disposition = e_attachment_get_disposition (attachment);
 	if (disposition != NULL)
 		camel_mime_part_set_disposition (mime_part, disposition);
+
+	/* Correctly report the size of zero length special files. */
+	if (g_file_info_get_size (file_info) == 0) {
+		g_file_info_set_size (file_info, size);
+		attachment_set_file_info (attachment, file_info);
+	}
 
 	g_simple_async_result_set_op_res_gpointer (
 		simple, mime_part, (GDestroyNotify) camel_object_unref);
