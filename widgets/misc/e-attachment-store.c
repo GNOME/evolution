@@ -839,11 +839,13 @@ e_attachment_store_get_uris_async (EAttachmentStore *store,
 
 	/* Any remaining attachments in the list should have MIME parts
 	 * only, so we need to save them all to a temporary directory.
-	 * We use a directory so the files can retain their basenames. */
+	 * We use a directory so the files can retain their basenames.
+	 * XXX This could trigger a blocking temp directory cleanup. */
 	template = g_strdup_printf (PACKAGE "-%s-XXXXXX", g_get_user_name ());
 	path = e_mkdtemp (template);
 	g_free (template);
 
+	/* XXX Let's hope errno got set property. */
 	if (path == NULL) {
 		GSimpleAsyncResult *simple;
 
@@ -871,6 +873,7 @@ e_attachment_store_get_uris_async (EAttachmentStore *store,
 			uri_context);
 
 	g_object_unref (temp_directory);
+	g_free (path);
 }
 
 gchar **

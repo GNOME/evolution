@@ -2025,16 +2025,18 @@ attachment_open_save_finished_cb (EAttachment *attachment,
 static void
 attachment_open_save_temporary (OpenContext *open_context)
 {
-	GFile *file;
+	GFile *temp_directory;
 	gchar *template;
 	gchar *path;
 	GError *error = NULL;
 
 	errno = 0;
 
-	/* XXX This could trigger a blocking temp directory cleanup. */
+	/* Save the file to a temporary directory.
+	 * We use a directory so the files can retain their basenames.
+	 * XXX This could trigger a blocking temp directory cleanup. */
 	template = g_strdup_printf (PACKAGE "-%s-XXXXXX", g_get_user_name ());
-	path = e_mktemp (template);
+	path = e_mkdtemp (template);
 	g_free (template);
 
 	/* XXX Let's hope errno got set properly. */
@@ -2048,15 +2050,15 @@ attachment_open_save_temporary (OpenContext *open_context)
 	if (attachment_open_check_for_error (open_context, error))
 		return;
 
-	file = g_file_new_for_path (path);
-
-	g_free (path);
+	temp_directory = g_file_new_for_path (path);
 
 	e_attachment_save_async (
-		open_context->attachment, file, (GAsyncReadyCallback)
+		open_context->attachment,
+		temp_directory, (GAsyncReadyCallback)
 		attachment_open_save_finished_cb, open_context);
 
-	g_object_unref (file);
+	g_object_unref (temp_directory);
+	g_free (path);
 }
 
 void
