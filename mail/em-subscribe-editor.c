@@ -356,7 +356,8 @@ sub_folderinfo_exec (struct _emse_folderinfo_msg *m)
 
 	if (m->seq == m->sub->seq) {
 		camel_operation_register(m->base.cancel);
-		m->info = camel_store_get_folder_info(m->sub->store, m->node?m->node->info->full_name:pub_full_name, CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL, &m->base.ex);
+		m->info = camel_store_get_folder_info(m->sub->store, m->node?m->node->info->full_name:pub_full_name, 
+						      CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL | CAMEL_STORE_FOLDER_INFO_SUBSCRIPTION_LIST, &m->base.ex);
 		camel_operation_unregister(m->base.cancel);
 	}
 }
