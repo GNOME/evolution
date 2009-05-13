@@ -212,7 +212,7 @@ get_attachment_list (CompEditor *editor)
 	EAttachmentView *view;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	GSList *parts = NULL, *list = NULL;
+	GSList *list = NULL;
 	const char *comp_uid = NULL;
 	const char *local_store = e_cal_get_local_attachment_store (editor->priv->client);
 	gboolean valid;
@@ -297,8 +297,6 @@ get_attachment_list (CompEditor *editor)
 		g_free (filename);
 	}
 
-	if (parts)
-		g_slist_free (parts);
 	return list;
 }
 
