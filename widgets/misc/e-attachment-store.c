@@ -360,12 +360,35 @@ e_attachment_store_add_to_multipart (EAttachmentStore *store,
                                      CamelMultipart *multipart,
                                      const gchar *default_charset)
 {
+	GList *list, *iter;
+
+	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
+	g_return_if_fail (CAMEL_MULTIPART (multipart));
+
+	list = e_attachment_store_get_attachments (store);
+
+	for (iter = list; iter != NULL; iter = iter->next) {
+		EAttachment *attachment = iter->data;
+
+		/* Skip the attachment if it's still loading. */
+		if (!e_attachment_get_loading (attachment))
+			e_attachment_add_to_multipart (
+				attachment, multipart, default_charset);
+	}
+
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
+}
+
+GList *
+e_attachment_store_get_attachments (EAttachmentStore *store)
+{
+	GList *list = NULL;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	gboolean valid;
 
-	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
-	g_return_if_fail (CAMEL_MULTIPART (multipart));
+	g_return_val_if_fail (E_IS_ATTACHMENT_STORE (store), NULL);
 
 	model = GTK_TREE_MODEL (store);
 	valid = gtk_tree_model_get_iter_first (model, &iter);
@@ -377,15 +400,12 @@ e_attachment_store_add_to_multipart (EAttachmentStore *store,
 		column_id = E_ATTACHMENT_STORE_COLUMN_ATTACHMENT;
 		gtk_tree_model_get (model, &iter, column_id, &attachment, -1);
 
-		/* Skip the attachment if it's still loading. */
-		if (!e_attachment_get_loading (attachment))
-			e_attachment_add_to_multipart (
-				attachment, multipart, default_charset);
-
-		g_object_unref (attachment);
+		list = g_list_prepend (list, attachment);
 
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
+
+	return g_list_reverse (list);
 }
 
 const gchar *
@@ -422,28 +442,22 @@ e_attachment_store_get_num_attachments (EAttachmentStore *store)
 guint
 e_attachment_store_get_num_loading (EAttachmentStore *store)
 {
-	GtkTreeModel *model;
-	GtkTreeIter iter;
+	GList *list, *iter;
 	guint num_loading = 0;
-	gboolean valid;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_STORE (store), 0);
 
-	model = GTK_TREE_MODEL (store);
-	valid = gtk_tree_model_get_iter_first (model, &iter);
+	list = e_attachment_store_get_attachments (store);
 
-	while (valid) {
-		EAttachment *attachment;
-		gint column_id;
+	for (iter = list; iter != NULL; iter = iter->next) {
+		EAttachment *attachment = iter->data;
 
-		column_id = E_ATTACHMENT_STORE_COLUMN_ATTACHMENT;
-		gtk_tree_model_get (model, &iter, column_id, &attachment, -1);
 		if (e_attachment_get_loading (attachment))
 			num_loading++;
-		g_object_unref (attachment);
-
-		valid = gtk_tree_model_iter_next (model, &iter);
 	}
+
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 
 	return num_loading;
 }
@@ -451,30 +465,24 @@ e_attachment_store_get_num_loading (EAttachmentStore *store)
 goffset
 e_attachment_store_get_total_size (EAttachmentStore *store)
 {
-	GtkTreeModel *model;
-	GtkTreeIter iter;
+	GList *list, *iter;
 	goffset total_size = 0;
-	gboolean valid;
 
 	g_return_val_if_fail (E_IS_ATTACHMENT_STORE (store), 0);
 
-	model = GTK_TREE_MODEL (store);
-	valid = gtk_tree_model_get_iter_first (model, &iter);
+	list = e_attachment_store_get_attachments (store);
 
-	while (valid) {
-		EAttachment *attachment;
+	for (iter = list; iter != NULL; iter = iter->next) {
+		EAttachment *attachment = iter->data;
 		GFileInfo *file_info;
-		gint column_id;
 
-		column_id = E_ATTACHMENT_STORE_COLUMN_ATTACHMENT;
-		gtk_tree_model_get (model, &iter, column_id, &attachment, -1);
 		file_info = e_attachment_get_file_info (attachment);
 		if (file_info != NULL)
 			total_size += g_file_info_get_size (file_info);
-		g_object_unref (attachment);
-
-		valid = gtk_tree_model_iter_next (model, &iter);
 	}
+
+	g_list_foreach (list, (GFunc) g_object_unref, NULL);
+	g_list_free (list);
 
 	return total_size;
 }
