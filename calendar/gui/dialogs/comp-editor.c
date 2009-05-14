@@ -205,99 +205,109 @@ attachment_store_changed_cb (CompEditor *editor)
 	comp_editor_set_changed (editor, TRUE);
 }
 
+static void
+attachment_save_finished (EAttachmentStore *store,
+                          GAsyncResult *result,
+                          gpointer user_data)
+{
+	GtkWidget *dialog;
+	const gchar *primary_text;
+	gchar **uris;
+	GError *error = NULL;
+
+	struct {
+		gchar **uris;
+		gboolean done;
+		GtkWindow *parent;
+	} *status = user_data;
+
+	uris = e_attachment_store_save_finish (store, result, &error);
+
+	status->uris = uris;
+	status->done = TRUE;
+
+	if (uris != NULL)
+		goto exit;
+
+	/* Ignore cancellations. */
+	if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+		goto exit;
+
+	primary_text = _("Could not save attachments");
+
+	dialog = gtk_message_dialog_new_with_markup (
+		status->parent, GTK_DIALOG_DESTROY_WITH_PARENT,
+		GTK_MESSAGE_ERROR, GTK_BUTTONS_OK,
+		"<big><b>%s</b></big>", primary_text);
+
+	gtk_message_dialog_format_secondary_text (
+		GTK_MESSAGE_DIALOG (dialog), "%s", error->message);
+
+	gtk_dialog_run (GTK_DIALOG (dialog));
+
+	gtk_widget_destroy (dialog);
+
+exit:
+	if (error != NULL)
+		g_error_free (error);
+
+	g_object_unref (status->parent);
+}
+
 static GSList *
 get_attachment_list (CompEditor *editor)
 {
 	EAttachmentStore *store;
 	EAttachmentView *view;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
+	GFile *destination;
 	GSList *list = NULL;
-	const gchar *comp_uid = NULL;
-	const gchar *local_store = e_cal_get_local_attachment_store (editor->priv->client);
-	gboolean valid;
-	gint ticker=0;
+	const char *comp_uid = NULL;
+	const char *local_store;
+	gchar *uri;
+	gint ii;
 
-	e_cal_component_get_uid (editor->priv->comp, &comp_uid);
+	struct {
+		gchar **uris;
+		gboolean done;
+		GtkWindow *parent;
+	} status;
+
+	status.uris = NULL;
+	status.done = FALSE;
+	status.parent = g_object_ref (editor);
 
 	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
 	store = e_attachment_view_get_store (view);
 
-	model = GTK_TREE_MODEL (store);
-	valid = gtk_tree_model_get_iter_first (model, &iter);
+	local_store = e_cal_get_local_attachment_store (editor->priv->client);
+	e_cal_component_get_uid (editor->priv->comp, &comp_uid);
+	uri = g_build_path ("/", local_store, comp_uid, NULL);
+	destination = g_file_new_for_uri (uri);
+	g_free (uri);
 
-	while (valid) {
-		EAttachment *attachment;
-		CamelDataWrapper *wrapper;
-		CamelMimePart *mime_part;
-		CamelStream *stream;
-		gchar *attach_file_url;
-		gchar *safe_fname, *utf8_safe_fname;
-		gchar *filename;
-		gint column_id;
+	e_attachment_store_save_async (
+		store, destination, (GAsyncReadyCallback)
+		attachment_save_finished, &status);
 
-		column_id = E_ATTACHMENT_STORE_COLUMN_ATTACHMENT;
-		gtk_tree_model_get (model, &iter, column_id, &attachment, -1);
-		mime_part = e_attachment_get_mime_part (attachment);
-		g_object_unref (attachment);
+	g_object_unref (destination);
 
-		valid = gtk_tree_model_iter_next (model, &iter);
+	/* We can't return until we have results, so crank
+	 * the main loop until the callback gets triggered. */
+	while (!status.done)
+		gtk_main_iteration ();
 
-		if (mime_part == NULL)
-			continue;
+	if (status.uris == NULL)
+		return NULL;
 
-		wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
-
-		/* Extract the content from the stream and write it down
-		 * as a mime part file into the directory denoting the
-		 * calendar source */
-		utf8_safe_fname = camel_file_util_safe_filename (camel_mime_part_get_filename (mime_part));
-
-		/* It is absolutely fine to get a NULL from the filename of
-		 * mime part. We assume that it is named "Attachment"
-		 * in mailer. I'll do that with a ticker */
-		if (!utf8_safe_fname)
-			safe_fname = g_strdup_printf ("%s-%d", _("attachment"), ticker++);
-		else {
-			safe_fname = g_filename_from_utf8 ((const gchar *) utf8_safe_fname, -1, NULL, NULL, NULL);
-			g_free (utf8_safe_fname);
-		}
-		filename = g_strdup_printf ("%s-%s", comp_uid, safe_fname);
-
-		attach_file_url = g_build_path ("/", local_store, filename, NULL);
-
-		g_free (filename);
-		g_free (safe_fname);
-
-		/* do not overwrite existing files, this will result in truncation */
-		filename = g_filename_from_uri (attach_file_url, NULL, NULL);
-		if (!g_file_test (filename, G_FILE_TEST_EXISTS)) {
-			stream = camel_stream_fs_new_with_name(filename, O_RDWR|O_CREAT|O_TRUNC, 0600);
-			if (!stream) {
-				/* TODO handle error conditions */
-				g_message ("DEBUG: could not open the file to write\n");
-				g_free (attach_file_url);
-				g_free (filename);
-				continue;
-			}
-
-			if (camel_data_wrapper_decode_to_stream (wrapper, (CamelStream *) stream) == -1) {
-				g_free (attach_file_url);
-				camel_stream_close (stream);
-				camel_object_unref (stream);
-				g_message ("DEBUG: could not write to file\n");
-			}
-
-			camel_stream_close (stream);
-			camel_object_unref (stream);
-		}
-
-		list = g_slist_append (list, g_strdup (attach_file_url));
-		g_free (attach_file_url);
-		g_free (filename);
+	/* Transfer the URI strings to the GSList. */
+	for (ii = 0; status.uris[ii] != NULL; ii++) {
+		list = g_slist_prepend (list, status.uris[ii]);
+		status.uris[ii] = NULL;
 	}
 
-	return list;
+	g_free (status.uris);
+
+	return g_slist_reverse (list);
 }
 
 /* This sets the focus to the toplevel, so any field being edited is committed.
@@ -2338,11 +2348,52 @@ comp_editor_get_client (CompEditor *editor)
 }
 
 static void
-set_attachment_list (CompEditor *editor, GSList *attach_list)
+attachment_loaded_cb (EAttachment *attachment,
+                      GAsyncResult *result,
+                      GtkWindow *parent)
+{
+	GFileInfo *file_info;
+	const gchar *display_name;
+	const gchar *uid;
+
+	/* Prior to 2.27.2, attachment files were named:
+	 *
+	 *     <component-uid> '-' <actual-filename>
+	 *     -------------------------------------
+	 *              (one long filename)
+	 *
+	 * Here we fix the display name if this form is detected so we
+	 * don't show the component UID in the user interface.  If the
+	 * user saves changes in the editor, the attachment will be
+	 * written to disk as:
+	 *
+	 *     <component-uid> / <actual-filename>
+	 *     ---------------   -----------------
+	 *       (directory)      (original name)
+	 *
+	 * So this is a lazy migration from the old form to the new.
+	 */
+
+	file_info = e_attachment_get_file_info (attachment);
+	display_name = g_file_info_get_display_name (file_info);
+	uid = g_object_get_data (G_OBJECT (attachment), "uid");
+
+	if (g_str_has_prefix (display_name, uid)) {
+		g_file_info_set_display_name (
+			file_info, display_name + strlen (uid) + 1);
+		g_object_notify (G_OBJECT (attachment), "file-info");
+	}
+
+	e_attachment_load_handle_error (attachment, result, parent);
+}
+
+static void
+set_attachment_list (CompEditor *editor, GSList *uri_list)
 {
 	EAttachmentStore *store;
 	EAttachmentView *view;
-	GSList *iter = NULL;
+	const gchar *uid = NULL;
+	GSList *iter;
 
 	view = E_ATTACHMENT_VIEW (editor->priv->attachment_view);
 	store = e_attachment_view_get_store (view);
@@ -2355,15 +2406,22 @@ set_attachment_list (CompEditor *editor, GSList *attach_list)
 		return;
 	}
 
-	for (iter = attach_list; iter != NULL; iter = iter->next) {
-		EAttachment *attachment;
-		const gchar *uri = iter->data;
+	/* XXX What an awkward API this is.  Takes a return location
+	 *     for a constant string instead of just returning it. */
+	e_cal_component_get_uid (editor->priv->comp, &uid);
 
-		attachment = e_attachment_new_for_uri (uri);
+	for (iter = uri_list; iter != NULL; iter = iter->next) {
+		EAttachment *attachment;
+
+		attachment = e_attachment_new_for_uri (iter->data);
 		e_attachment_store_add_attachment (store, attachment);
+		g_object_set_data_full (
+			G_OBJECT (attachment),
+			"uid", g_strdup (uid),
+			(GDestroyNotify) g_free);
 		e_attachment_load_async (
 			attachment, (GAsyncReadyCallback)
-			e_attachment_load_handle_error, editor);
+			attachment_loaded_cb, editor);
 		g_object_unref (attachment);
 	}
 }

@@ -854,7 +854,7 @@ e_attachment_store_get_uris_async (EAttachmentStore *store,
 	path = e_mkdtemp (template);
 	g_free (template);
 
-	/* XXX Let's hope errno got set property. */
+	/* XXX Let's hope errno got set properly. */
 	if (path == NULL) {
 		GSimpleAsyncResult *simple;
 
@@ -889,6 +889,331 @@ gchar **
 e_attachment_store_get_uris_finish (EAttachmentStore *store,
                                     GAsyncResult *result,
                                     GError **error)
+{
+	GSimpleAsyncResult *simple;
+	gchar **uris;
+
+	g_return_val_if_fail (E_IS_ATTACHMENT_STORE (store), NULL);
+	g_return_val_if_fail (G_IS_SIMPLE_ASYNC_RESULT (result), NULL);
+
+	simple = G_SIMPLE_ASYNC_RESULT (result);
+	uris = g_simple_async_result_get_op_res_gpointer (simple);
+	g_simple_async_result_propagate_error (simple, error);
+	g_object_unref (simple);
+
+	return uris;
+}
+
+/********************** e_attachment_store_save_async() **********************/
+
+typedef struct _SaveContext SaveContext;
+
+struct _SaveContext {
+	GSimpleAsyncResult *simple;
+	GFile *destination;
+	GFile *fresh_directory;
+	GFile *trash_directory;
+	GList *attachment_list;
+	GError *error;
+	gchar **uris;
+	gint index;
+};
+
+static SaveContext *
+attachment_store_save_context_new (EAttachmentStore *store,
+                                   GFile *destination,
+                                   GAsyncReadyCallback callback,
+                                   gpointer user_data)
+{
+	SaveContext *save_context;
+	GSimpleAsyncResult *simple;
+	GList *attachment_list;
+	guint length;
+	gchar **uris;
+
+	simple = g_simple_async_result_new (
+		G_OBJECT (store), callback, user_data,
+		e_attachment_store_save_async);
+
+	attachment_list = e_attachment_store_get_attachments (store);
+
+	/* Add one for NULL terminator. */
+	length = g_list_length (attachment_list) + 1;
+	uris = g_malloc0 (sizeof (gchar *) * length);
+
+	save_context = g_slice_new0 (SaveContext);
+	save_context->simple = simple;
+	save_context->destination = g_object_ref (destination);
+	save_context->attachment_list = attachment_list;
+	save_context->uris = uris;
+
+	return save_context;
+}
+
+static void
+attachment_store_save_context_free (SaveContext *save_context)
+{
+	/* Do not free the GSimpleAsyncResult. */
+
+	/* The attachment list should be empty now. */
+	g_warn_if_fail (save_context->attachment_list == NULL);
+
+	/* So should the error. */
+	g_warn_if_fail (save_context->error == NULL);
+
+	if (save_context->destination) {
+		g_object_unref (save_context->destination);
+		save_context->destination = NULL;
+	}
+
+	if (save_context->fresh_directory) {
+		g_object_unref (save_context->fresh_directory);
+		save_context->fresh_directory = NULL;
+	}
+
+	if (save_context->trash_directory) {
+		g_object_unref (save_context->trash_directory);
+		save_context->trash_directory = NULL;
+	}
+
+	g_strfreev (save_context->uris);
+
+	g_slice_free (SaveContext, save_context);
+}
+
+static void
+attachment_store_save_cb (EAttachment *attachment,
+                          GAsyncResult *result,
+                          SaveContext *save_context)
+{
+	GSimpleAsyncResult *simple;
+	GFile *file;
+	gchar **uris;
+	gchar *template;
+	gchar *path;
+	GError *error = NULL;
+
+	file = e_attachment_save_finish (attachment, result, &error);
+
+	/* Remove the attachment from the list. */
+	save_context->attachment_list = g_list_remove (
+		save_context->attachment_list, attachment);
+	g_object_unref (attachment);
+
+	if (file != NULL) {
+		/* Assemble the file's final URI from its basename. */
+		gchar *basename;
+		gchar *uri;
+
+		basename = g_file_get_basename (file);
+		g_object_unref (file);
+
+		file = save_context->destination;
+		file = g_file_get_child (file, basename);
+		uri = g_file_get_uri (file);
+		g_object_unref (file);
+
+		save_context->uris[save_context->index++] = uri;
+
+	} else if (error != NULL) {
+		/* If this is the first error, cancel the other jobs. */
+		if (save_context->error == NULL) {
+			g_propagate_error (&save_context->error, error);
+			g_list_foreach (
+				save_context->attachment_list,
+				(GFunc) e_attachment_cancel, NULL);
+			error = NULL;
+
+		/* Otherwise, we can only report back one error.  So if
+		 * this is something other than cancellation, dump it to
+		 * the terminal. */
+		} else if (!g_error_matches (
+			error, G_IO_ERROR, G_IO_ERROR_CANCELLED))
+			g_warning ("%s", error->message);
+	}
+
+	if (error != NULL)
+		g_error_free (error);
+
+	/* If there's still jobs running, let them finish. */
+	if (save_context->attachment_list != NULL)
+		return;
+
+	/* If an error occurred while saving, we're done. */
+	if (save_context->error != NULL) {
+		/* Steal the result. */
+		simple = save_context->simple;
+		save_context->simple = NULL;
+
+		/* And the error. */
+		error = save_context->error;
+		save_context->error = NULL;
+
+		g_simple_async_result_set_from_error (simple, error);
+		g_simple_async_result_complete (simple);
+		attachment_store_save_context_free (save_context);
+		g_error_free (error);
+		return;
+	}
+
+	/* Attachments are all saved to a temporary directory.
+	 * Now we need to move the existing destination directory
+	 * out of the way (if it exists).  Instead of testing for
+	 * existence we'll just attempt the move and ignore any
+	 * G_IO_ERROR_NOT_FOUND errors. */
+
+	/* First, however, we need another temporary directory to
+	 * move the existing destination directory to.  Note we're
+	 * not actually creating the directory yet, just picking a
+	 * name for it.  The usual raciness with this approach
+	 * applies here (read up on mktemp(3)), but worst case is
+	 * we get a spurious G_IO_ERROR_WOULD_MERGE error and the
+	 * user has to try saving attachments again. */
+	template = g_strdup_printf (PACKAGE "-%s-XXXXXX", g_get_user_name ());
+	path = e_mktemp (template);
+	g_free (template);
+
+	save_context->trash_directory = g_file_new_for_path (path);
+	g_free (path);
+
+	/* XXX No asynchronous move operation in GIO? */
+	g_file_move (
+		save_context->destination,
+		save_context->trash_directory,
+		G_FILE_COPY_NONE, NULL, NULL, NULL, &error);
+
+	if (error != NULL && !g_error_matches (
+		error, G_IO_ERROR, G_IO_ERROR_NOT_FOUND)) {
+
+		/* Steal the result. */
+		simple = save_context->simple;
+		save_context->simple = NULL;
+
+		g_simple_async_result_set_from_error (simple, error);
+		g_simple_async_result_complete (simple);
+		attachment_store_save_context_free (save_context);
+		g_error_free (error);
+		return;
+	}
+
+	g_clear_error (&error);
+
+	/* Now we can move the first temporary directory containing
+	 * the newly saved files to the user-specified destination. */
+	g_file_move (
+		save_context->fresh_directory,
+		save_context->destination,
+		G_FILE_COPY_NONE, NULL, NULL, NULL, &error);
+
+	if (error != NULL) {
+		/* Steal the result. */
+		simple = save_context->simple;
+		save_context->simple = NULL;
+
+		g_simple_async_result_set_from_error (simple, error);
+		g_simple_async_result_complete (simple);
+		attachment_store_save_context_free (save_context);
+		g_error_free (error);
+		return;
+	}
+
+	/* Steal the result. */
+	simple = save_context->simple;
+	save_context->simple = NULL;
+
+	/* And the URI list. */
+	uris = save_context->uris;
+	save_context->uris = NULL;
+
+	g_simple_async_result_set_op_res_gpointer (simple, uris, NULL);
+	g_simple_async_result_complete (simple);
+
+	attachment_store_save_context_free (save_context);
+}
+
+void
+e_attachment_store_save_async (EAttachmentStore *store,
+                               GFile *destination,
+                               GAsyncReadyCallback callback,
+                               gpointer user_data)
+{
+	SaveContext *save_context;
+	GList *attachment_list, *iter;
+	GFile *temp_directory;
+	gchar *template;
+	gchar *path;
+
+	g_return_if_fail (E_IS_ATTACHMENT_STORE (store));
+	g_return_if_fail (G_IS_FILE (destination));
+	g_return_if_fail (callback != NULL);
+
+	save_context = attachment_store_save_context_new (
+		store, destination, callback, user_data);
+
+	attachment_list = save_context->attachment_list;
+
+	/* Deal with an empty attachment store.  The caller will get
+	 * an empty NULL-terminated list as opposed to NULL, to help
+	 * distinguish it from an error. */
+	if (attachment_list == NULL) {
+		GSimpleAsyncResult *simple;
+		gchar **uris;
+
+		/* Steal the result. */
+		simple = save_context->simple;
+		save_context->simple = NULL;
+
+		/* And the URI list. */
+		uris = save_context->uris;
+		save_context->uris = NULL;
+
+		g_simple_async_result_set_op_res_gpointer (simple, uris, NULL);
+		g_simple_async_result_complete_in_idle (simple);
+		attachment_store_save_context_free (save_context);
+		return;
+	}
+
+	/* Save all attachments to a temporary directory, which we'll
+	 * then move to its proper location.  We use a directory so
+	 * files can retain their basenames.
+	 * XXX This could trigger a blocking temp directory cleanup. */
+	template = g_strdup_printf (PACKAGE "-%s-XXXXXX", g_get_user_name ());
+	path = e_mkdtemp (template);
+	g_free (template);
+
+	/* XXX Let's hope errno got set properly. */
+	if (path == NULL) {
+		GSimpleAsyncResult *simple;
+
+		/* Steal the result. */
+		simple = save_context->simple;
+		save_context->simple = NULL;
+
+		g_simple_async_result_set_error (
+			simple, G_FILE_ERROR,
+			g_file_error_from_errno (errno),
+			"%s", g_strerror (errno));
+
+		g_simple_async_result_complete_in_idle (simple);
+		attachment_store_save_context_free (save_context);
+		return;
+	}
+
+	temp_directory = g_file_new_for_path (path);
+	save_context->fresh_directory = temp_directory;
+	g_free (path);
+
+	for (iter = attachment_list; iter != NULL; iter = iter->next)
+		e_attachment_save_async (
+			E_ATTACHMENT (iter->data),
+			temp_directory, (GAsyncReadyCallback)
+			attachment_store_save_cb, save_context);
+}
+
+gchar **
+e_attachment_store_save_finish (EAttachmentStore *store,
+                                GAsyncResult *result,
+                                GError **error)
 {
 	GSimpleAsyncResult *simple;
 	gchar **uris;
