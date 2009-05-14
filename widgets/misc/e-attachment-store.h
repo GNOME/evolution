@@ -84,6 +84,8 @@ void		e_attachment_store_add_to_multipart
 						(EAttachmentStore *store,
 						 CamelMultipart *multipart,
 						 const gchar *default_charset);
+GList *		e_attachment_store_get_attachments
+						(EAttachmentStore *store);
 const gchar *	e_attachment_store_get_current_folder
 						(EAttachmentStore *store);
 void		e_attachment_store_set_current_folder
