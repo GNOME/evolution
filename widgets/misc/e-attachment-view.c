@@ -1038,6 +1038,12 @@ e_attachment_view_remove_selected (EAttachmentView *view,
 	store = e_attachment_view_get_store (view);
 	model = GTK_TREE_MODEL (store);
 
+	/* Remove attachments in reverse order to avoid invalidating
+	 * tree paths as we iterate over the list.  Note, the list is
+	 * probably already sorted but we sort again just to be safe. */
+	selected = g_list_reverse (g_list_sort (
+		selected, (GCompareFunc) gtk_tree_path_compare));
+
 	for (item = selected; item != NULL; item = item->next) {
 		EAttachment *attachment;
 		GtkTreePath *path = item->data;
