@@ -118,6 +118,13 @@ gchar **	e_attachment_store_get_uris_finish
 						(EAttachmentStore *store,
 						 GAsyncResult *result,
 						 GError **error);
+void		e_attachment_store_save_async	(EAttachmentStore *store,
+						 GFile *destination,
+						 GAsyncReadyCallback callback,
+						 gpointer user_data);
+gchar **	e_attachment_store_save_finish	(EAttachmentStore *store,
+						 GAsyncResult *result,
+						 GError **error);
 
 G_END_DECLS
 
