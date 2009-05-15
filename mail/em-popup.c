@@ -261,10 +261,6 @@ em_popup_target_new_uri(EMPopup *emp, const char *uri)
 	if (g_ascii_strncasecmp(uri, "http:", 5) == 0
 	    || g_ascii_strncasecmp(uri, "https:", 6) == 0)
 		mask &= ~EM_POPUP_URI_HTTP;
-	else if (g_ascii_strncasecmp(uri, "sip:", 3) == 0
-	    || g_ascii_strncasecmp(uri, "h323:", 5) == 0
-	    || g_ascii_strncasecmp(uri, "callto:", 7) == 0)
-		mask &= ~EM_POPUP_URI_CALLTO;
 
 	if (g_ascii_strncasecmp(uri, "mailto:", 7) == 0)
 		mask &= ~EM_POPUP_URI_MAILTO;
@@ -824,7 +820,6 @@ static const EPopupHookTargetMask emph_uri_masks[] = {
 	{ "http", EM_POPUP_URI_HTTP },
 	{ "mailto", EM_POPUP_URI_MAILTO },
 	{ "notmailto", EM_POPUP_URI_NOT_MAILTO },
-	{ "callto", EM_POPUP_URI_CALLTO },
 	{ NULL }
 };
 
