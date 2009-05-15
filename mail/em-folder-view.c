@@ -758,7 +758,6 @@ emp_uri_popup_link_copy(EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static EPopupItem emfv_uri_popups[] = {
-	{ E_POPUP_ITEM, "00.uri.11", N_("C_all To..."), emp_uri_popup_link_copy, NULL, NULL, EM_POPUP_URI_CALLTO },
 	{ E_POPUP_ITEM, "00.uri.15", N_("_Copy Link Location"), emp_uri_popup_link_copy, NULL, "edit-copy", EM_POPUP_URI_NOT_MAILTO },
 
 	{ E_POPUP_SUBMENU, "99.uri.00", N_("Create _Search Folder"), NULL, NULL, NULL, EM_POPUP_URI_MAILTO },
