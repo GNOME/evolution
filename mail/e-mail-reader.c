@@ -975,14 +975,6 @@ action_mail_undelete_cb (GtkAction *action,
 }
 
 static void
-action_mail_uri_call_to_cb (GtkAction *action,
-                            EMailReader *reader)
-{
-	/* FIXME */
-	g_print ("Action: %s\n", gtk_action_get_name (GTK_ACTION (action)));
-}
-
-static void
 action_mail_uri_copy_cb (GtkAction *action,
                          EMailReader *reader)
 {
@@ -1425,13 +1417,6 @@ static GtkActionEntry mail_reader_entries[] = {
 	  "<Shift><Control>d",
 	  N_("Undelete the selected messages"),
 	  G_CALLBACK (action_mail_undelete_cb) },
-
-	{ "mail-uri-call-to",
-	  NULL,
-	  N_("C_all To..."),
-	  NULL,
-	  NULL,  /* XXX Add a tooltip! */
-	  G_CALLBACK (action_mail_uri_call_to_cb) },
 
 	{ "mail-uri-copy",
 	  NULL,
