@@ -32,7 +32,7 @@ struct _EDayViewConfigPrivate {
 /* Property IDs */
 enum props {
 	PROP_0,
-	PROP_VIEW,
+	PROP_VIEW
 };
 
 G_DEFINE_TYPE (EDayViewConfig, e_day_view_config, G_TYPE_OBJECT)

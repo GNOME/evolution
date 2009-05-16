@@ -58,7 +58,7 @@
 #define CREATE_TASK_LIST_ID          "task-list"
 
 enum DndTargetType {
-	DND_TARGET_TYPE_CALENDAR_LIST,
+	DND_TARGET_TYPE_CALENDAR_LIST
 };
 #define CALENDAR_TYPE "text/calendar"
 #define XCALENDAR_TYPE "text/x-calendar"

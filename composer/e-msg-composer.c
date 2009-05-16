@@ -1361,7 +1361,7 @@ msg_composer_subject_changed_cb (EMsgComposer *composer)
 
 enum {
 	UPDATE_AUTO_CC,
-	UPDATE_AUTO_BCC,
+	UPDATE_AUTO_BCC
 };
 
 static void

@@ -209,7 +209,7 @@ static void update_end_time_combo ( EventPage *epage);
 static void event_page_select_organizer (EventPage *epage, const char *backend_address);
 static void set_subscriber_info_string (EventPage *epage, const char *backend_address);
 
-G_DEFINE_TYPE (EventPage, event_page, TYPE_COMP_EDITOR_PAGE);
+G_DEFINE_TYPE (EventPage, event_page, TYPE_COMP_EDITOR_PAGE)
 
 static void
 event_page_dispose (GObject *object)
@@ -1885,7 +1885,7 @@ enum {
 	ATTENDEE_CAN_DELEGATE = 1<<1,
 	ATTENDEE_CAN_DELETE = 1<<2,
 	ATTENDEE_CAN_ADD = 1<<3,
-	ATTENDEE_LAST = 1<<4,
+	ATTENDEE_LAST = 1<<4
 };
 
 static EPopupItem context_menu_items[] = {

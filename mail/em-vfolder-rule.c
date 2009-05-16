@@ -366,7 +366,7 @@ rule_copy(FilterRule *dest, FilterRule *src)
 enum {
 	BUTTON_ADD,
 	BUTTON_REMOVE,
-	BUTTON_LAST,
+	BUTTON_LAST
 };
 
 struct _source_data {

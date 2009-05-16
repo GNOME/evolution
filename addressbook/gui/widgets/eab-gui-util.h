@@ -66,7 +66,7 @@ void                eab_contact_list_save         (char *title,
 
 typedef enum {
 	EAB_DISPOSITION_AS_ATTACHMENT,
-	EAB_DISPOSITION_AS_TO,
+	EAB_DISPOSITION_AS_TO
 } EABDisposition;
 
 void                eab_send_contact              (EContact       *contact,

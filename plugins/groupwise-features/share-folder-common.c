@@ -94,7 +94,7 @@ refresh_folder_tree (EMFolderTreeModel *model, CamelStore *store)
 	if (!(provider->flags & CAMEL_PROVIDER_IS_STORAGE))
 		return;
 	em_folder_tree_model_add_store (model, store, account->name);
-	//camel_object_unref (store);
+	/* camel_object_unref (store); */
 }
 
 void

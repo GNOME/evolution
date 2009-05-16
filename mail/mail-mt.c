@@ -132,7 +132,7 @@ mail_msg_new (MailMsgInfo *info)
 
 #ifdef LOG_OPS
 	if (log_ops)
-		fprintf(log, "%p: New\n", msg);
+		fprintf(log, "%p: New\n", (gpointer) msg);
 #endif
 	MAIL_MT_UNLOCK(mail_msg_lock);
 

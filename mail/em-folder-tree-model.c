@@ -295,7 +295,7 @@ em_folder_tree_model_init (EMFolderTreeModel *model)
 	model->account_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	model->account_changed_id = g_signal_connect (model->accounts, "account-changed", G_CALLBACK (account_changed), model);
 	model->account_removed_id = g_signal_connect (model->accounts, "account-removed", G_CALLBACK (account_removed), model);
-	//g_signal_connect (model, "row-changed", G_CALLBACK (emft_model_unread_count_changed), NULL);
+	/* g_signal_connect (model, "row-changed", G_CALLBACK (emft_model_unread_count_changed), NULL); */
 }
 
 static void

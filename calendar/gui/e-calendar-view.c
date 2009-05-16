@@ -85,7 +85,7 @@ extern ECompEditorRegistry *comp_editor_registry;
 /* Property IDs */
 enum props {
 	PROP_0,
-	PROP_MODEL,
+	PROP_MODEL
 };
 
 /* FIXME Why are we emitting these event signals here? Can't the model just be listened to? */
@@ -567,7 +567,7 @@ e_calendar_view_set_status_message (ECalendarView *cal_view, const gchar *messag
 			priv->activity_id = 0;
 		}
 	} else if (priv->activity_id == 0) {
-		char *client_id = g_strdup_printf ("%p", cal_view);
+		char *client_id = g_strdup_printf ("%p", (gpointer) cal_view);
 
 		priv->activity_id = e_activity_handler_operation_started (
 			priv->activity_handler, client_id, message, TRUE);

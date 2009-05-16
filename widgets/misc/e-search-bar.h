@@ -49,7 +49,7 @@ G_BEGIN_DECLS
 enum _ESearchBarItemType {
 	ESB_ITEMTYPE_NORMAL,
 	ESB_ITEMTYPE_CHECK,
-	ESB_ITEMTYPE_RADIO,
+	ESB_ITEMTYPE_RADIO
 };
 typedef enum _ESearchBarItemType ESearchBarItemType;
 

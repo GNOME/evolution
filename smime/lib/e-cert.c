@@ -1225,10 +1225,10 @@ e_cert_get_asn1_struct (ECert *cert)
 gboolean
 e_cert_mark_for_deletion (ECert *cert)
 {
-	//	nsNSSShutDownPreventionLock locker;
+	/* nsNSSShutDownPreventionLock locker; */
 
 #if 0
-	// make sure user is logged in to the token
+	/* make sure user is logged in to the token */
 	nsCOMPtr<nsIInterfaceRequestor> ctx = new PipUIContext();
 #endif
 

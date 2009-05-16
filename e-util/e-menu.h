@@ -68,7 +68,7 @@ enum _e_menu_t {
 	E_MENU_TOGGLE,
 	E_MENU_RADIO,
 	E_MENU_TYPE_MASK = 0xffff,
-	E_MENU_ACTIVE = 0x10000,
+	E_MENU_ACTIVE = 0x10000
 };
 
 /**

@@ -181,7 +181,7 @@ enum {
 static guint folder_browser_signals [LAST_SIGNAL] = {0, };
 
 enum {
-	ESB_SAVE,
+	ESB_SAVE
 };
 
 static ESearchBarItem emfb_search_items[] = {
@@ -1363,7 +1363,7 @@ emfb_list_key_press(ETree *tree, int row, ETreePath path, int col, GdkEvent *ev,
 	}
 
 	if (!folder_choose && !emfb->view.preview->caret_mode && mail_config_get_enable_magic_spacebar ()) {
-		//check for unread messages. if yes .. rewindback to the folder
+		/* check for unread messages. if yes .. rewindback to the folder */
 		EMFolderTree *emft = g_object_get_data((GObject*)emfb, "foldertree");
 		switch (ev->key.keyval) {
 		    case GDK_space:

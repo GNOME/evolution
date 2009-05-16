@@ -37,12 +37,12 @@ typedef struct _ECalEvent ECalEvent;
 typedef struct _ECalEventClass ECalEventClass;
 
 enum _e_cal_event_target_t {
-	E_CAL_EVENT_TARGET_COMPONENT,
+	E_CAL_EVENT_TARGET_COMPONENT
 };
 
 /* Flags that describe TARGET_COMPONENT */
 enum {
-	E_CAL_EVENT_COMPONENT_MIGRATION = 1 << 0,
+	E_CAL_EVENT_COMPONENT_MIGRATION = 1 << 0
 };
 
 typedef struct _ECalEventTargetComponent ECalEventTargetComponent;

@@ -45,7 +45,7 @@ struct _EABConfigClass {
 };
 
 enum _eab_config_target_t {
-	EAB_CONFIG_TARGET_SOURCE,
+	EAB_CONFIG_TARGET_SOURCE
 };
 
 typedef struct _EABConfigTargetSource EABConfigTargetSource;

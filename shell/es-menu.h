@@ -39,13 +39,13 @@ typedef struct _ESMenuClass ESMenuClass;
 /* Current target description */
 /* Types of popup tagets */
 enum _es_menu_target_t {
-	ES_MENU_TARGET_SHELL,
+	ES_MENU_TARGET_SHELL
 };
 
 /* Flags that describe a TARGET_SHELL */
 enum {
 	ES_MENU_SHELL_ONLINE = 1<<0,
-	ES_MENU_SHELL_OFFLINE = 1<<1,
+	ES_MENU_SHELL_OFFLINE = 1<<1
 };
 
 typedef struct _ESMenuTargetShell ESMenuTargetShell;

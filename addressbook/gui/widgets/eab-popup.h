@@ -50,7 +50,7 @@ enum _eab_popup_target_t {
 	EAB_POPUP_TARGET_SELECT,
         EAB_POPUP_TARGET_URI,
 	EAB_POPUP_TARGET_SOURCE,
-	EAB_POPUP_TARGET_SELECT_NAMES,
+	EAB_POPUP_TARGET_SELECT_NAMES
 };
 
 /**
@@ -69,13 +69,13 @@ enum _eab_popup_target_select_t {
 	EAB_POPUP_SELECT_EDITABLE = 1<<3,
 	EAB_POPUP_SELECT_EMAIL = 1<<4,
 	EAB_POPUP_LIST = 1<<5,
-	EAB_POPUP_CONTACT = 1<<6,
+	EAB_POPUP_CONTACT = 1<<6
 };
 
 enum _eab_popup_target_uri_t {
 	EAB_POPUP_URI_HTTP = 1<<0,
 	EAB_POPUP_URI_MAILTO = 1<<1,
-	EAB_POPUP_URI_NOT_MAILTO = 1<<2,
+	EAB_POPUP_URI_NOT_MAILTO = 1<<2
 };
 /**
  * enum _eab_popup_target_source_t - EABPopupTargetSource qualifiers.
@@ -87,7 +87,7 @@ enum _eab_popup_target_uri_t {
 enum _eab_popup_target_source_t {
 	EAB_POPUP_SOURCE_PRIMARY = 1<<0,
 	EAB_POPUP_SOURCE_SYSTEM = 1<<1,	/* system folder */
-	EAB_POPUP_SOURCE_USER = 1<<2, /* user folder (!system) */
+	EAB_POPUP_SOURCE_USER = 1<<2	/* user folder (!system) */
 };
 
 typedef struct _EABPopupTargetSelect EABPopupTargetSelect;

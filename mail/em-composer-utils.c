@@ -2047,7 +2047,7 @@ enum {
 	ATTRIB_TM_YEAR,
 	ATTRIB_TM_2YEAR,
 	ATTRIB_TM_WDAY, /* not actually used */
-	ATTRIB_TM_YDAY,
+	ATTRIB_TM_YDAY
 };
 
 typedef void (* AttribFormatter) (GString *str, const char *attr, CamelMimeMessage *message);

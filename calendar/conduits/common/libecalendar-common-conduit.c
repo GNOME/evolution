@@ -93,7 +93,7 @@ e_pilot_add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *categ
 				category->name[i][j] = '\0';
 			}
 
-			//find a desktop id that is not in use between 128 and 255
+			/* find a desktop id that is not in use between 128 and 255 */
 			for (desktopUniqueID = 128; desktopUniqueID <= 255; desktopUniqueID++) {
 				int found = 0;
 				for(j=0; j<PILOT_MAX_CATEGORIES; j++){
@@ -133,7 +133,7 @@ void e_pilot_local_category_to_remote(int * pilotCategory, ECalComponent *comp, 
 	int i;
 	e_cal_component_get_categories_list (comp, &c_list);
 	if (c_list) {
-		//list != 0, so at least 1 category is assigned
+		/* list != 0, so at least 1 category is assigned */
 		category_string = e_pilot_utf8_to_pchar((const char *)c_list->data);
 		if (c_list->next != 0) {
 			LOG (g_message ("Note: item has more categories in evolution, first chosen"));

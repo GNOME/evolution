@@ -479,7 +479,7 @@ set_status_message (EABView *eav, const char *message, AddressbookView *view)
 			priv->activity_id = 0;
 		}
 	} else if (priv->activity_id == 0) {
-		char *clientid = g_strdup_printf ("%p", view);
+		char *clientid = g_strdup_printf ("%p", (gpointer) view);
 
 		priv->activity_id = e_activity_handler_operation_started (
 			activity_handler, clientid, message, TRUE);

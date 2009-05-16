@@ -1130,7 +1130,7 @@ e_memo_table_set_status_message (EMemoTable *memo_table, const gchar *message)
 			memo_table->activity_id = 0;
 		}
         } else if (memo_table->activity_id == 0) {
-                char *client_id = g_strdup_printf ("%p", memo_table);
+                char *client_id = g_strdup_printf ("%p", (gpointer) memo_table);
 
                 memo_table->activity_id = e_activity_handler_operation_started (
 			memo_table->activity_handler, client_id, message, TRUE);

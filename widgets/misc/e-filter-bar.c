@@ -49,7 +49,7 @@ static ESearchBarClass *parent_class = NULL;
 enum {
 	PROP_0,
 	PROP_QUERY,
-	PROP_STATE,
+	PROP_STATE
 };
 
 

@@ -1347,7 +1347,7 @@ nofile:
 enum {
 	CP_UNIQUE = 0,
 	CP_OVERWRITE,
-	CP_APPEND,
+	CP_APPEND
 };
 
 static int open_flags[3] = {
@@ -2936,7 +2936,7 @@ migrate_to_db()
 				i++;
 				e_iterator_next (iter);
 		}
-		//camel_session_set_online ((CamelSession *) session, TRUE);
+		/* camel_session_set_online ((CamelSession *) session, TRUE); */
 		g_object_unref (iter);
 		em_migrate_close_progress_dialog ();
 }

@@ -47,7 +47,7 @@ enum {
 	PROP_0,
 	PROP_BOOK,
 	PROP_QUERY,
-	PROP_EDITABLE,
+	PROP_EDITABLE
 };
 
 enum {

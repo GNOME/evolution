@@ -111,7 +111,7 @@ enum {
 	PROP_BOOK,
 	PROP_SOURCE,
 	PROP_QUERY,
-	PROP_TYPE,
+	PROP_TYPE
 };
 
 enum {
@@ -149,7 +149,7 @@ static GalViewCollection *collection = NULL;
 enum {
 	ESB_FULL_NAME,
 	ESB_EMAIL,
-	ESB_ANY,
+	ESB_ANY
 };
 
 #if 0

@@ -35,7 +35,7 @@ enum {
 	AUTO_SUBJECT = 1,
 	AUTO_FROM = 2,
 	AUTO_TO = 4,
-	AUTO_MLIST = 8,
+	AUTO_MLIST = 8
 };
 
 struct _FilterRule *em_vfolder_rule_from_message(struct _EMVFolderContext *context, struct _CamelMimeMessage *msg, int flags, const char *source);

@@ -40,7 +40,7 @@ enum {
 	URL_LIST_ENABLED_COLUMN,
 	URL_LIST_LOCATION_COLUMN,
 	URL_LIST_URL_COLUMN,
-	URL_LIST_N_COLUMNS,
+	URL_LIST_N_COLUMNS
 };
 
 enum {
@@ -50,7 +50,7 @@ enum {
 	TYPE_SMB,
 	TYPE_DAV,
 	TYPE_DAVS,
-	TYPE_URI,
+	TYPE_URI
 };
 
 typedef struct _UrlEditorDialog UrlEditorDialog;

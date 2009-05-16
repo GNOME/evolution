@@ -100,7 +100,7 @@ typedef struct _MailAsyncEvent {
 
 typedef enum _mail_async_event_t {
 	MAIL_ASYNC_GUI,
-	MAIL_ASYNC_THREAD,
+	MAIL_ASYNC_THREAD
 } mail_async_event_t;
 
 typedef void (*MailAsyncFunc)(void *, void *, void *);
@@ -119,7 +119,7 @@ typedef enum {
 	MAIL_CALL_p_ppp,
 	MAIL_CALL_p_pppp,
 	MAIL_CALL_p_ppppp,
-	MAIL_CALL_p_ppippp,
+	MAIL_CALL_p_ppippp
 } mail_call_t;
 
 typedef void *(*MailMainFunc)();

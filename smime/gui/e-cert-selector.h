@@ -54,7 +54,7 @@ struct _ECertSelectorClass {
 
 enum _e_cert_selector_type {
 	E_CERT_SELECTOR_SIGNER,
-	E_CERT_SELECTOR_RECIPIENT,
+	E_CERT_SELECTOR_RECIPIENT
 };
 
 GType      e_cert_selector_get_type (void);

@@ -27,11 +27,9 @@
 #include <gtk/gtk.h>
 
 typedef enum {
-
 	E_CURSOR_NORMAL,
-	E_CURSOR_BUSY,
-
-}ECursorType;
+	E_CURSOR_BUSY
+} ECursorType;
 
 void e_cursor_set (GtkWidget *widget, ECursorType cursor);
 

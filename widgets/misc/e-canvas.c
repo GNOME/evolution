@@ -837,7 +837,7 @@ e_canvas_item_set_cursor (GnomeCanvasItem *item, gpointer id)
 		if (func)
 			func(info->item, flags, info->id);
 		g_message ("ECANVAS: free info (2): item %p, id %p",
-			   info->item, info->id);
+			   (gpointer) info->item, (gpointer) info->id);
 		g_object_unref (info->item);
 		g_free(info);
 	}
@@ -851,7 +851,7 @@ e_canvas_item_set_cursor (GnomeCanvasItem *item, gpointer id)
 	info->item = item;
 	g_object_ref (info->item);
 	info->id = id;
-	g_message ("ECANVAS: new info item %p, id %p", item, id);
+	g_message ("ECANVAS: new info item %p, id %p", (gpointer) item, (gpointer) id);
 
 	flags = E_CANVAS_ITEM_SELECTION_SELECT | E_CANVAS_ITEM_SELECTION_CURSOR;
 	func = (ECanvasItemSelectionFunc)g_object_get_data(G_OBJECT(item),
@@ -920,7 +920,7 @@ e_canvas_item_add_selection (GnomeCanvasItem *item, gpointer id)
 	info->item = item;
 	g_object_ref (info->item);
 	info->id = id;
-	g_message ("ECANVAS: new info (2): item %p, id %p", item, id);
+	g_message ("ECANVAS: new info (2): item %p, id %p", (gpointer) item, (gpointer) id);
 
 	func = (ECanvasItemSelectionFunc)g_object_get_data(G_OBJECT(item),
 							   "ECanvasItem::selection_callback");
@@ -967,7 +967,7 @@ e_canvas_item_remove_selection (GnomeCanvasItem *item, gpointer id)
 					canvas->cursor = NULL;
 
 				g_message ("ECANVAS: removing info: item %p, info %p",
-					   info->item, info->id);
+					   (gpointer) info->item, (gpointer) info->id);
 				g_object_unref (info->item);
 				g_free(info);
 				g_list_free_1(list);

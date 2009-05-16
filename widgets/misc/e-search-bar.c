@@ -60,7 +60,7 @@ enum {
 	PROP_0,
 	PROP_ITEM_ID,
 	PROP_SUBITEM_ID,
-	PROP_TEXT,
+	PROP_TEXT
 };
 
 

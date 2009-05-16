@@ -60,7 +60,7 @@ enum {
 	HEADER_LIST_ENABLED_COLUMN, /* is the header enabled? */
 	HEADER_LIST_IS_DEFAULT_COLUMN,  /* is this header a default header, eg From: */
 	HEADER_LIST_HEADER_COLUMN, /* the real name of this header */
-	HEADER_LIST_N_COLUMNS,
+	HEADER_LIST_N_COLUMNS
 };
 
 static GType col_types[] = {
@@ -190,7 +190,7 @@ enum {
 
 enum {
 	JH_LIST_COLUMN_NAME,
-	JH_LIST_COLUMN_VALUE,
+	JH_LIST_COLUMN_VALUE
 };
 static void
 label_sensitive_buttons (EMMailerPrefs *prefs)
@@ -356,7 +356,7 @@ jh_add_cb (GtkWidget *widget, gpointer user_data)
 		char *tok;
 		GSList *list = gconf_client_get_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
 		
-		//FIXME: Validate the values
+		/* FIXME: Validate the values */
 		
 		tok = g_strdup_printf ("%s=%s", name, value);
 		list = g_slist_append (list, tok);
@@ -841,18 +841,6 @@ custom_junk_button_toggled (GtkToggleButton *toggle, EMMailerPrefs *prefs)
 
 
 }
-
-#if 0
-// not used at the moment, commenting out
-static void
-toggle_button_toggled_not (GtkToggleButton *toggle, EMMailerPrefs *prefs)
-{
-	const char *key;
-
-	key = g_object_get_data ((GObject *) toggle, "key");
-	gconf_client_set_bool (prefs->gconf, key, !gtk_toggle_button_get_active (toggle), NULL);
-}
-#endif
 
 static void
 custom_font_changed (GtkToggleButton *toggle, EMMailerPrefs *prefs)

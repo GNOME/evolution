@@ -913,7 +913,7 @@ store_window_size (GtkWidget* widget)
 	g_object_unref(client);
 
 	E_SHELL_WINDOW (widget)->priv->store_window_size_timer = 0;
-	return FALSE; // remove this timeout
+	return FALSE; /* remove this timeout */
 }
 
 static void

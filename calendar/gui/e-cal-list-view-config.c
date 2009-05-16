@@ -32,7 +32,7 @@ struct _ECalListViewConfigPrivate {
 /* Property IDs */
 enum props {
 	PROP_0,
-	PROP_VIEW,
+	PROP_VIEW
 };
 
 G_DEFINE_TYPE (ECalListViewConfig, e_cal_list_view_config, G_TYPE_OBJECT)

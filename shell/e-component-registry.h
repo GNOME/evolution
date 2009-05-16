@@ -59,7 +59,7 @@ struct _EComponentRegistryClass {
 enum _EComponentRegistryField {
 	ECR_FIELD_ID,
 	ECR_FIELD_ALIAS,
-	ECR_FIELD_SCHEMA,
+	ECR_FIELD_SCHEMA
 };
 
 struct _EComponentInfo {

@@ -59,7 +59,6 @@ static pthread_mutex_t em_junk_sa_preferred_socket_path_lock = PTHREAD_MUTEX_INI
 static pthread_mutex_t em_junk_sa_spamd_restart_lock = PTHREAD_MUTEX_INITIALIZER;
 
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
-//static const char *em_junk_sa_get_name (void);
 gboolean em_junk_sa_check_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target);
@@ -103,14 +102,6 @@ static gboolean em_junk_sa_allow_tell_tested = FALSE;
 
 char *em_junk_sa_spamc_gconf_binary = NULL;
 char *em_junk_sa_spamd_gconf_binary = NULL;
-
-#if 0
-static const char *
-em_junk_sa_get_name (void)
-{
-	return _("SpamAssassin (built-in)");
-}
-#endif
 
 static int
 pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err, int wait_for_termination, GByteArray *output_buffer, GError **error)

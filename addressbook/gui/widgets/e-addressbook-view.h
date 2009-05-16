@@ -55,7 +55,7 @@ struct _EABMenuTargetSelect;
 typedef enum {
 	EAB_VIEW_NONE, /* initialized to this */
 	EAB_VIEW_MINICARD,
-	EAB_VIEW_TABLE,
+	EAB_VIEW_TABLE
 } EABViewType;
 
 

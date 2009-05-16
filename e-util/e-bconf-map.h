@@ -41,7 +41,7 @@ enum {
 	E_BCONF_MAP_ENUM,	    /* long/bool -> prop of name 'to', with the value indexed into the child map table's from field */
 	E_BCONF_MAP_CHILD,	    /* a new child of name 'to' */
 	E_BCONF_MAP_MASK = 0x3f,
-	E_BCONF_MAP_CONTENT = 0x80, /* if set, create a new node of name 'to' instead of a property */
+	E_BCONF_MAP_CONTENT = 0x80  /* if set, create a new node of name 'to' instead of a property */
 };
 
 typedef struct _e_bconf_map {

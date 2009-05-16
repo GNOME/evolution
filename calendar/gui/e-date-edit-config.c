@@ -32,7 +32,7 @@ struct _EDateEditConfigPrivate {
 /* Property IDs */
 enum props {
 	PROP_0,
-	PROP_EDIT,
+	PROP_EDIT
 };
 
 G_DEFINE_TYPE (EDateEditConfig, e_date_edit_config, G_TYPE_OBJECT)

@@ -50,7 +50,7 @@ struct _ECalendarView;
 enum _e_cal_popup_target_t {
 	E_CAL_POPUP_TARGET_SELECT,
 	E_CAL_POPUP_TARGET_SOURCE,
-	E_CAL_POPUP_TARGET_ATTACHMENTS,
+	E_CAL_POPUP_TARGET_ATTACHMENTS
 };
 
 /**
@@ -89,7 +89,7 @@ enum _e_cal_popup_target_select_t {
 	E_CAL_POPUP_SELECT_ACCEPTABLE = 1<<14,
 	E_CAL_POPUP_SELECT_NOTCOMPLETE = 1<<15,
 	E_CAL_POPUP_SELECT_NOSAVESCHEDULES = 1<<16,
-	E_CAL_POPUP_SELECT_COMPLETE = 1<<17,
+	E_CAL_POPUP_SELECT_COMPLETE = 1<<17
 };
 
 /**
@@ -121,7 +121,7 @@ enum _e_cal_popup_target_attachments_t {
 	E_CAL_POPUP_ATTACHMENTS_MANY = 1<<1, /* one or more selected */
 	E_CAL_POPUP_ATTACHMENTS_MODIFY = 1<<2, /* check for modify operation */
 	E_CAL_POPUP_ATTACHMENTS_MULTIPLE = 1<<3,
-	E_CAL_POPUP_ATTACHMENTS_IMAGE = 1<<4,
+	E_CAL_POPUP_ATTACHMENTS_IMAGE = 1<<4
 };
 
 typedef struct _ECalPopupTargetSelect ECalPopupTargetSelect;

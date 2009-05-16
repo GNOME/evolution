@@ -182,7 +182,7 @@ enum {
 	EFHD_LINK_CLICKED,
 	EFHD_POPUP_EVENT,
 	EFHD_ON_URL,
-	EFHD_LAST_SIGNAL,
+	EFHD_LAST_SIGNAL
 };
 
 static guint efhd_signals[EFHD_LAST_SIGNAL] = { 0 };
@@ -606,11 +606,11 @@ em_format_html_get_search_dialog (EMFormatHTMLDisplay *efhd)
 	g_signal_connect (G_OBJECT (p->search_entry), "changed", (GCallback) icon_entry_changed_cb, clear_button);
 
 	gtk_box_pack_start ((GtkBox *)(p->search_entry_box), icon_entry, FALSE, FALSE, 0);
-//	gtk_box_pack_start ((GtkBox *)(p->search_entry_box), icon_entry, TRUE, TRUE, 0);
+	/* gtk_box_pack_start ((GtkBox *)(p->search_entry_box), icon_entry, TRUE, TRUE, 0); */
 
 	hbox2 = gtk_hbox_new (FALSE, 0);
 	gtk_box_pack_start ((GtkBox *)(hbox2), p->search_entry_box, FALSE, FALSE, 5);
-//	gtk_box_pack_start ((GtkBox *)(hbox2), p->search_entry_box, TRUE, TRUE, 5);
+	/* gtk_box_pack_start ((GtkBox *)(hbox2), p->search_entry_box, TRUE, TRUE, 5); */
 
 	button3 = gtk_button_new_with_mnemonic (_("_Previous"));
 	gtk_button_set_image (GTK_BUTTON (button3), GTK_WIDGET(gtk_image_new_from_stock(GTK_STOCK_GO_BACK, GTK_ICON_SIZE_BUTTON)));

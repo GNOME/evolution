@@ -1882,7 +1882,7 @@ e_calendar_table_set_status_message (ECalendarTable *cal_table, const gchar *mes
 			cal_table->activity_id = 0;
 		}
         } else if (cal_table->activity_id == 0) {
-                char *client_id = g_strdup_printf ("%p", cal_table);
+                char *client_id = g_strdup_printf ("%p", (gpointer) cal_table);
 
                 cal_table->activity_id = e_activity_handler_operation_started (
 			cal_table->activity_handler, client_id, message, TRUE);

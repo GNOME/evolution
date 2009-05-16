@@ -50,7 +50,7 @@ enum {
 	PROP_BOOK,
 	PROP_QUERY,
 	PROP_EDITABLE,
-	PROP_MODEL,
+	PROP_MODEL
 };
 
 enum {

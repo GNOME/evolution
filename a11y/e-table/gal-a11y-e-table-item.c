@@ -760,7 +760,7 @@ enum {
         ETI_HEADER_UNCHANGED = 0,
         ETI_HEADER_REORDERED,
         ETI_HEADER_NEW_ADDED,
-        ETI_HEADER_REMOVED,
+        ETI_HEADER_REMOVED
 };
 
 /*

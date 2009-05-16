@@ -60,7 +60,7 @@ typedef void (*EEventFactoryFunc)(EEvent *ee, void *);
  **/
 enum _e_event_t {
 	E_EVENT_PASS,		/* passthrough */
-	E_EVENT_SINK,		/* sink events */
+	E_EVENT_SINK		/* sink events */
 };
 
 /**

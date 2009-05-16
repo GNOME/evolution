@@ -40,7 +40,7 @@ typedef struct _EABMenuClass EABMenuClass;
 
 /* Current target description */
 enum _eab_menu_target_t {
-	EAB_MENU_TARGET_SELECT,
+	EAB_MENU_TARGET_SELECT
 };
 
 /**
@@ -57,7 +57,7 @@ enum _eab_menu_target_select_t {
 	EAB_MENU_SELECT_MANY = 1<<1,
 	EAB_MENU_SELECT_ANY = 1<<2,
 	EAB_MENU_SELECT_EDITABLE = 1<<3,
-	EAB_MENU_SELECT_EMAIL = 1<<4,
+	EAB_MENU_SELECT_EMAIL = 1<<4
 };
 
 typedef struct _EABMenuTargetSelect EABMenuTargetSelect;

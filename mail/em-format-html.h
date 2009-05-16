@@ -65,7 +65,7 @@ typedef struct _EMFormatHTMLPrivate EMFormatHTMLPrivate;
 enum _em_format_html_header_flags {
 	EM_FORMAT_HTML_HEADER_TO = 1<<0,
 	EM_FORMAT_HTML_HEADER_CC = 1<<1,
-	EM_FORMAT_HTML_HEADER_BCC = 1<<2,
+	EM_FORMAT_HTML_HEADER_BCC = 1<<2
 };
 
 typedef enum {

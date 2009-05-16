@@ -126,7 +126,7 @@ struct _EContactListEditorPrivate {
 #define VCARD_TYPE "text/x-vcard"
 
 enum {
-	TARGET_TYPE_VCARD,
+	TARGET_TYPE_VCARD
 };
 
 static GtkTargetEntry targets[] = {

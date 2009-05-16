@@ -77,7 +77,7 @@ typedef enum {
 	PRIORITY_HIGH,
 	PRIORITY_NORMAL,
 	PRIORITY_LOW,
-	PRIORITY_UNDEFINED,
+	PRIORITY_UNDEFINED
 } TaskEditorPriority;
 
 static const int priority_map[] = {

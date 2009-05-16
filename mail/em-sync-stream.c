@@ -39,7 +39,7 @@
 enum _write_msg_t {
 	EMSS_WRITE,
 	EMSS_FLUSH,
-	EMSS_CLOSE,
+	EMSS_CLOSE
 };
 
 struct _write_msg {

@@ -207,7 +207,7 @@ e_pilot_add_category_if_possible(char *cat_to_add, struct CategoryAppInfo *categ
 				category->name[i][j] = '\0';
 			}
 
-			//find a desktop id that is not in use between 128 and 255
+			/* find a desktop id that is not in use between 128 and 255 */
 			/* XXX desktopUniqueID should really be used for tracking
 			 * categories across renaming operations, but as Evo
 			 * doesn't have a concept of category UIDs or renaming,
@@ -266,7 +266,7 @@ void e_pilot_local_category_to_remote(int * pilotCategory,
 	}
 	l = c_list;
 	while(l && *pilotCategory == 0) {
-		//list != 0, so at least 1 category is assigned
+		/* list != 0, so at least 1 category is assigned */
 		category_string = e_pilot_utf8_to_pchar((const char *)l->data);
 		for (i=0; i < PILOT_MAX_CATEGORIES; i++) {
 			/* only 15 chars + nul in palm category name */
