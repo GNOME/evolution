@@ -1003,6 +1003,22 @@ e_composer_header_table_get_destinations_bcc (EComposerHeaderTable *table)
 }
 
 void
+e_composer_header_table_add_destinations_bcc (EComposerHeaderTable *table,
+                                              EDestination **destinations)
+{
+	EComposerNameHeader *header;
+
+	g_return_if_fail (E_IS_COMPOSER_HEADER_TABLE (table));
+
+	header = E_COMPOSER_HEADER_TABLE_GET_BCC_HEADER (table);
+	e_composer_name_header_add_destinations (header, destinations);
+
+	if (destinations != NULL && *destinations != NULL)
+		e_composer_header_table_set_header_visible (
+			table, E_COMPOSER_HEADER_BCC, TRUE);
+}
+
+void
 e_composer_header_table_set_destinations_bcc (EComposerHeaderTable *table,
                                               EDestination **destinations)
 {
@@ -1030,6 +1046,22 @@ e_composer_header_table_get_destinations_cc (EComposerHeaderTable *table)
 }
 
 void
+e_composer_header_table_add_destinations_cc (EComposerHeaderTable *table,
+                                             EDestination **destinations)
+{
+	EComposerNameHeader *header;
+
+	g_return_if_fail (E_IS_COMPOSER_HEADER_TABLE (table));
+
+	header = E_COMPOSER_HEADER_TABLE_GET_CC_HEADER (table);
+	e_composer_name_header_add_destinations (header, destinations);
+
+	if (destinations != NULL && *destinations != NULL)
+		e_composer_header_table_set_header_visible (
+			table, E_COMPOSER_HEADER_CC, TRUE);
+}
+
+void
 e_composer_header_table_set_destinations_cc (EComposerHeaderTable *table,
                                              EDestination **destinations)
 {
@@ -1054,6 +1086,18 @@ e_composer_header_table_get_destinations_to (EComposerHeaderTable *table)
 
 	header = E_COMPOSER_HEADER_TABLE_GET_TO_HEADER (table);
 	return e_composer_name_header_get_destinations (header);
+}
+
+void
+e_composer_header_table_add_destinations_to (EComposerHeaderTable *table,
+                                             EDestination **destinations)
+{
+	EComposerNameHeader *header;
+
+	g_return_if_fail (E_IS_COMPOSER_HEADER_TABLE (table));
+
+	header = E_COMPOSER_HEADER_TABLE_GET_TO_HEADER (table);
+	e_composer_name_header_add_destinations (header, destinations);
 }
 
 void

@@ -1789,7 +1789,10 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 	e_composer_header_table_set_account (table, account);
 	e_composer_header_table_set_subject (table, subject);
 	e_composer_header_table_set_destinations_to (table, tov);
-	e_composer_header_table_set_destinations_cc (table, ccv);
+
+	/* Add destinations instead of setting, so we don't remove
+	 * automatic CC addresses that have already been added. */
+	e_composer_header_table_add_destinations_cc (table, ccv);
 
 	g_free (subject);
 
