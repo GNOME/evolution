@@ -66,6 +66,9 @@ ENameSelector *	e_composer_name_header_get_name_selector
 						(EComposerNameHeader *header);
 EDestination **	e_composer_name_header_get_destinations
 						(EComposerNameHeader *header);
+void		e_composer_name_header_add_destinations
+						(EComposerNameHeader *header,
+						 EDestination **destination);
 void		e_composer_name_header_set_destinations
 						(EComposerNameHeader *header,
 						 EDestination **destinations);

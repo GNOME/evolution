@@ -298,13 +298,33 @@ e_composer_name_header_get_destinations (EComposerNameHeader *header)
 }
 
 void
+e_composer_name_header_add_destinations (EComposerNameHeader *header,
+                                         EDestination **destinations)
+{
+	EDestinationStore *store;
+	ENameSelectorEntry *entry;
+	gint ii;
+
+	g_return_if_fail (E_IS_COMPOSER_NAME_HEADER (header));
+
+	entry = E_COMPOSER_NAME_HEADER_GET_ENTRY (header);
+	store = e_name_selector_entry_peek_destination_store (entry);
+
+	if (destinations == NULL)
+		return;
+
+	for (ii = 0; destinations[ii] != NULL; ii++)
+		e_destination_store_append_destination (
+			store, destinations[ii]);
+}
+
+void
 e_composer_name_header_set_destinations (EComposerNameHeader *header,
                                          EDestination **destinations)
 {
 	EDestinationStore *store;
 	ENameSelectorEntry *entry;
 	GList *list, *iter;
-	gint ii;
 
 	g_return_if_fail (E_IS_COMPOSER_NAME_HEADER (header));
 
@@ -317,10 +337,5 @@ e_composer_name_header_set_destinations (EComposerNameHeader *header,
 		e_destination_store_remove_destination (store, iter->data);
 	g_list_free (list);
 
-	if (destinations == NULL)
-		return;
-
-	for (ii = 0; destinations[ii] != NULL; ii++)
-		e_destination_store_append_destination (
-			store, destinations[ii]);
+	e_composer_name_header_add_destinations (header, destinations);
 }

@@ -112,16 +112,25 @@ EDestination ** e_composer_header_table_get_destinations
 						(EComposerHeaderTable *table);
 EDestination **	e_composer_header_table_get_destinations_bcc
 						(EComposerHeaderTable *table);
+void		e_composer_header_table_add_destinations_bcc
+						(EComposerHeaderTable *table,
+						 EDestination **destination);
 void		e_composer_header_table_set_destinations_bcc
 						(EComposerHeaderTable *table,
 						 EDestination **destinations);
 EDestination **	e_composer_header_table_get_destinations_cc
 						(EComposerHeaderTable *table);
+void		e_composer_header_table_add_destinations_cc
+						(EComposerHeaderTable *table,
+						 EDestination **destination);
 void		e_composer_header_table_set_destinations_cc
 						(EComposerHeaderTable *table,
 						 EDestination **destinations);
 EDestination **	e_composer_header_table_get_destinations_to
 						(EComposerHeaderTable *table);
+void		e_composer_header_table_add_destinations_to
+						(EComposerHeaderTable *table,
+						 EDestination **destinations);
 void		e_composer_header_table_set_destinations_to
 						(EComposerHeaderTable *table,
 						 EDestination **destinations);
