@@ -1344,90 +1344,6 @@ msg_composer_subject_changed_cb (EMsgComposer *composer)
 	gtk_window_set_title (GTK_WINDOW (composer), subject);
 }
 
-enum {
-	UPDATE_AUTO_CC,
-	UPDATE_AUTO_BCC
-};
-
-static void
-update_auto_recipients (EComposerHeaderTable *table,
-                        gint mode,
-                        const gchar *auto_addrs)
-{
-	EDestination *dest, **destv = NULL;
-	CamelInternetAddress *iaddr;
-	GList *list = NULL;
-	guint length;
-	gint i;
-
-	if (auto_addrs) {
-		iaddr = camel_internet_address_new ();
-		if (camel_address_decode (CAMEL_ADDRESS (iaddr), auto_addrs) != -1) {
-			for (i = 0; i < camel_address_length (CAMEL_ADDRESS (iaddr)); i++) {
-				const gchar *name, *addr;
-
-				if (!camel_internet_address_get (iaddr, i, &name, &addr))
-					continue;
-
-				dest = e_destination_new ();
-				e_destination_set_auto_recipient (dest, TRUE);
-
-				if (name)
-					e_destination_set_name (dest, name);
-
-				if (addr)
-					e_destination_set_email (dest, addr);
-
-				list = g_list_prepend (list, dest);
-			}
-		}
-
-		camel_object_unref (iaddr);
-	}
-
-	switch (mode) {
-	case UPDATE_AUTO_CC:
-		destv = e_composer_header_table_get_destinations_cc (table);
-		break;
-	case UPDATE_AUTO_BCC:
-		destv = e_composer_header_table_get_destinations_bcc (table);
-		break;
-	default:
-		g_return_if_reached ();
-	}
-
-	if (destv) {
-		for (i = 0; destv[i]; i++) {
-			if (!e_destination_is_auto_recipient (destv[i])) {
-				dest = e_destination_copy (destv[i]);
-				list = g_list_prepend (list, dest);
-			}
-		}
-
-		e_destination_freev (destv);
-	}
-
-	list = g_list_reverse (list);
-
-	length = g_list_length (list);
-	destv = destination_list_to_vector_sized (list, length);
-
-	g_list_free (list);
-
-	switch (mode) {
-	case UPDATE_AUTO_CC:
-		e_composer_header_table_set_destinations_cc (table, destv);
-		break;
-	case UPDATE_AUTO_BCC:
-		e_composer_header_table_set_destinations_bcc (table, destv);
-		break;
-	default:
-		g_return_if_reached ();
-	}
-
-	e_destination_freev (destv);
-}
-
 static void
 msg_composer_account_changed_cb (EMsgComposer *composer)
 {
@@ -1438,8 +1354,6 @@ msg_composer_account_changed_cb (EMsgComposer *composer)
 	EAccount *account;
 	gboolean active;
 	gboolean sensitive;
-	const gchar *cc_addrs = NULL;
-	const gchar *bcc_addrs = NULL;
 	const gchar *uid;
 
 	table = e_msg_composer_get_header_table (composer);
@@ -1462,11 +1376,6 @@ msg_composer_account_changed_cb (EMsgComposer *composer)
 	active = account->smime_encrypt_default;
 	gtk_toggle_action_set_active (action, active);
 
-	if (account->always_cc)
-		cc_addrs = account->cc_addrs;
-	if (account->always_bcc)
-		bcc_addrs = account->bcc_addrs;
-
 	uid = account->id->sig_uid;
 	signature = uid ? e_get_signature_by_uid (uid) : NULL;
 	e_composer_header_table_set_signature (table, signature);
@@ -1479,8 +1388,6 @@ msg_composer_account_changed_cb (EMsgComposer *composer)
 	gtk_action_set_sensitive (ACTION (SEND_OPTIONS), sensitive);
 
 exit:
-	update_auto_recipients (table, UPDATE_AUTO_CC, cc_addrs);
-	update_auto_recipients (table, UPDATE_AUTO_BCC, bcc_addrs);
 
 	e_msg_composer_show_sig_file (composer);
 }
