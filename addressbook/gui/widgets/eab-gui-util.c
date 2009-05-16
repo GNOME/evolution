@@ -839,16 +839,18 @@ eab_send_to_contact_and_email_num_list (GList *contact_list)
 	 *     arrays are really the best argument type for passing a list of
 	 *     destinations to the header table. */
 
-	/* Add "To" destinations. */
+	/* Set "To" destinations. */
 	convert.pdata = to_array->pdata;
 	e_composer_header_table_set_destinations_to (
 		table, convert.destinations);
 	g_ptr_array_free (to_array, FALSE);
 	e_destination_freev (convert.destinations);
 
-	/* Add "Bcc" destinations. */
+	/* Add "Bcc" destinations.
+	 * Add destinations instead of setting, so we don't remove
+	 * automatic BCC addresses that have already been added. */
 	convert.pdata = bcc_array->pdata;
-	e_composer_header_table_set_destinations_bcc (
+	e_composer_header_table_add_destinations_bcc (
 		table, convert.destinations);
 	g_ptr_array_free (bcc_array, FALSE);
 	e_destination_freev (convert.destinations);
