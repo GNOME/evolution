@@ -31,7 +31,7 @@ G_DEFINE_TYPE (ETableCol, e_table_col, G_TYPE_OBJECT)
 
 enum {
 	PROP_0,
-	PROP_COMPARE_COL,
+	PROP_COMPARE_COL
 };
 
 static void

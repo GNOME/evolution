@@ -113,10 +113,10 @@ install_folder_response (EMFolderSelector *emfs, int response, gpointer *data)
 				/*changes = camel_folder_change_info_new ();
 				camel_folder_change_info_remove_uid (changes, (char *) item_id);
 				camel_folder_summary_remove_uid (folder->summary, item_id);*/
-				//camel_folder_delete_message (folder, item_id);
+				/* camel_folder_delete_message (folder, item_id); */
 				camel_folder_set_message_flags (folder, item_id, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
 				camel_folder_summary_touch (folder->summary);
-				//camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed", changes);
+				/* camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed", changes); */
 				uri = camel_url_to_string (((CamelService *) store)->url, CAMEL_URL_HIDE_ALL);
 				account = mail_config_get_account_by_source_url (uri);
 				uri = account->source->url;

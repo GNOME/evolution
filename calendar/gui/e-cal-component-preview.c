@@ -8,19 +8,11 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
-<<<<<<< HEAD:calendar/gui/e-cal-component-preview.c
  *
  * You should have received a copy of the GNU Lesser General Public
  * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
  *
-=======
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
- *
- *
->>>>>>> 23df769955ea54f756a579c19964df87ae6fd5c8:calendar/gui/e-cal-component-preview.c
  * Authors:
  *		Federico Mena Quintero <federico@ximian.com>
  *	    Damon Chaplin <damon@ximian.com>

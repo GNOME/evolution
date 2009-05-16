@@ -54,7 +54,7 @@ enum {
 
 enum {
 	PROP_0,
-	PROP_STATE,
+	PROP_STATE
 };
 
 enum {

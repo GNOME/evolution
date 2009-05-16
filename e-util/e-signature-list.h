@@ -41,7 +41,7 @@ typedef struct _ESignatureListClass ESignatureListClass;
 /* search options for the find command */
 typedef enum {
 	E_SIGNATURE_FIND_NAME,
-	E_SIGNATURE_FIND_UID,
+	E_SIGNATURE_FIND_UID
 } e_signature_find_t;
 
 struct _ESignatureList {

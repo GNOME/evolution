@@ -40,7 +40,7 @@ typedef struct _EMMenuClass EMMenuClass;
 /* Types of popup tagets */
 enum _em_menu_target_t {
 	EM_MENU_TARGET_SELECT,
-	EM_MENU_TARGET_WIDGET,
+	EM_MENU_TARGET_WIDGET
 };
 
 /* Flags that describe a TARGET_SELECT */

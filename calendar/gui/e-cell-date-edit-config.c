@@ -35,7 +35,7 @@ struct _ECellDateEditConfigPrivate {
 /* Property IDs */
 enum props {
 	PROP_0,
-	PROP_CELL,
+	PROP_CELL
 };
 
 G_DEFINE_TYPE (ECellDateEditConfig, e_cell_date_edit_config, G_TYPE_OBJECT)

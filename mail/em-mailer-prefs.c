@@ -61,7 +61,7 @@ enum {
 	HEADER_LIST_ENABLED_COLUMN, /* is the header enabled? */
 	HEADER_LIST_IS_DEFAULT_COLUMN,  /* is this header a default header, eg From: */
 	HEADER_LIST_HEADER_COLUMN, /* the real name of this header */
-	HEADER_LIST_N_COLUMNS,
+	HEADER_LIST_N_COLUMNS
 };
 
 static GType col_types[] = {
@@ -183,7 +183,7 @@ mark_seen_timeout_reverse_transform (const GValue *src_value,
 
 enum {
 	JH_LIST_COLUMN_NAME,
-	JH_LIST_COLUMN_VALUE,
+	JH_LIST_COLUMN_VALUE
 };
 
 static void
@@ -243,7 +243,7 @@ jh_add_cb (GtkWidget *widget, gpointer user_data)
 		char *tok;
 		GSList *list = gconf_client_get_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
 		
-		//FIXME: Validate the values
+		/* FIXME: Validate the values */
 		
 		tok = g_strdup_printf ("%s=%s", name, value);
 		list = g_slist_append (list, tok);

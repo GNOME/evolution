@@ -704,7 +704,7 @@ e_tree_setup_header (ETree *e_tree)
 
 	gtk_widget_show (GTK_WIDGET (e_tree->priv->header_canvas));
 
-	pointer = g_strdup_printf("%p", e_tree);
+	pointer = g_strdup_printf("%p", (gpointer) e_tree);
 
 	e_tree->priv->header_item = gnome_canvas_item_new (
 		gnome_canvas_root (e_tree->priv->header_canvas),

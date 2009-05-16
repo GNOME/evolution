@@ -1542,7 +1542,7 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	g_signal_connect (G_OBJECT (tray_data->query), "objects_removed",
 			  G_CALLBACK (on_dialog_objs_removed_cb), tray_data);
 
-	// FIXME: We should remove this check
+	/* FIXME: We should remove this check */
 	if (!config_data_get_notify_with_tray ()) {
 		tray_blink_id = -1;
 		open_alarm_dialog (tray_data);

@@ -75,7 +75,7 @@ typedef struct _GtkWidget * (*EConfigItemFactoryFunc)(EConfig *ec, EConfigItem *
 typedef
 enum _e_config_target_change_t {
 	E_CONFIG_TARGET_CHANGED_STATE,
-	E_CONFIG_TARGET_CHANGED_REBUILD,
+	E_CONFIG_TARGET_CHANGED_REBUILD
 } e_config_target_change_t;
 
 /**
@@ -123,7 +123,7 @@ enum _e_config_t {
 	E_CONFIG_SECTION,
 	E_CONFIG_SECTION_TABLE,
 	E_CONFIG_ITEM,
-	E_CONFIG_ITEM_TABLE,	/* only allowed in table sections */
+	E_CONFIG_ITEM_TABLE	/* only allowed in table sections */
 };
 
 /**

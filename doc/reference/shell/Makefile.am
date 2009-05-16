@@ -66,21 +66,21 @@ INCLUDES= \
 	-I$(top_srcdir)							\
 	-I$(SHELL_CFLAGS)
 GTKDOC_LIBS=								\
-	$(top_builddir)/shell/e-shell.o					\
-	$(top_builddir)/shell/e-shell-importer.o			\
-	$(top_builddir)/shell/e-shell-migrate.o				\
-	$(top_builddir)/shell/e-shell-nm.o				\
-	$(top_builddir)/shell/e-shell-window-private.o			\
-	$(top_builddir)/shell/es-event.o				\
+	$(top_builddir)/shell/.libs/e-shell.o				\
 	$(top_builddir)/shell/.libs/e-shell-backend.o			\
 	$(top_builddir)/shell/.libs/e-shell-content.o			\
+	$(top_builddir)/shell/.libs/e-shell-importer.o			\
+	$(top_builddir)/shell/.libs/e-shell-migrate.o			\
+	$(top_builddir)/shell/.libs/e-shell-nm.o			\
 	$(top_builddir)/shell/.libs/e-shell-settings.o			\
 	$(top_builddir)/shell/.libs/e-shell-sidebar.o			\
 	$(top_builddir)/shell/.libs/e-shell-switcher.o			\
 	$(top_builddir)/shell/.libs/e-shell-taskbar.o			\
 	$(top_builddir)/shell/.libs/e-shell-view.o			\
 	$(top_builddir)/shell/.libs/e-shell-window-actions.o		\
+	$(top_builddir)/shell/.libs/e-shell-window-private.o		\
 	$(top_builddir)/shell/.libs/e-shell-window.o			\
+	$(top_builddir)/shell/.libs/es-event.o				\
 	$(top_builddir)/e-util/.libs/e-bconf-map.o			\
 	$(top_builddir)/e-util/.libs/e-binding.o			\
 	$(top_builddir)/e-util/.libs/e-dialog-utils.o			\
@@ -97,6 +97,7 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/e-util/.libs/e-plugin-ui.o			\
 	$(top_builddir)/e-util/.libs/e-popup.o				\
 	$(top_builddir)/e-util/.libs/e-print.o				\
+	$(top_builddir)/e-util/.libs/e-unicode.o			\
 	$(top_builddir)/e-util/.libs/e-util.o				\
 	$(top_builddir)/e-util/.libs/e-xml-utils.o			\
 	$(top_builddir)/e-util/.libs/gconf-bridge.o			\
@@ -129,7 +130,6 @@ GTKDOC_LIBS=								\
 	$(top_builddir)/widgets/misc/.libs/e-popup-menu.o		\
 	$(top_builddir)/widgets/misc/.libs/e-preferences-window.o	\
 	$(top_builddir)/widgets/misc/.libs/e-spinner.o			\
-	$(top_builddir)/widgets/misc/.libs/e-unicode.o			\
 	-ledataserver-1.2						\
 	-ledataserverui-1.2						\
 	$(SHELL_LIBS)

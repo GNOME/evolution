@@ -55,7 +55,7 @@ typedef struct {
 enum {
         HEADER_KEY_COLUMN,
 	HEADER_VALUE_COLUMN,
-        HEADER_N_COLUMNS,
+        HEADER_N_COLUMNS
 };
 
 struct _EmailCustomHeaderOptionsDialogPrivate {
@@ -350,7 +350,7 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 	for (header_section_id = 0,label_row = 0,row = 0,column = 1; 
 		header_section_id < priv->email_custom_header_details->len; header_section_id++,row++,column++) {
 
-		// To create an empty label widget. Text will be added dynamically.
+		/* To create an empty label widget. Text will be added dynamically. */
 		priv->header_type_name_label = gtk_label_new ("");
 		temp_header_ptr = &g_array_index(priv->email_custom_header_details, EmailCustomHeaderDetails,header_section_id);
                 str = (temp_header_ptr->header_type_value)->str;

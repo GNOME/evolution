@@ -48,7 +48,7 @@ void backup_restore_abort (EPlugin *ep, EMConfigTargetAccount *target);
 
 typedef enum _br_flags {
 	BR_OK = 1<<0,
-	BR_START = 1<<1,
+	BR_START = 1<<1
 }br_flags;
 
 static void

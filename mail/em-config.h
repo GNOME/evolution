@@ -42,7 +42,7 @@ typedef struct _EMConfigClass EMConfigClass;
 enum _em_config_target_t {
 	EM_CONFIG_TARGET_FOLDER,
 	EM_CONFIG_TARGET_PREFS,
-	EM_CONFIG_TARGET_ACCOUNT,
+	EM_CONFIG_TARGET_ACCOUNT
 };
 
 typedef struct _EMConfigTargetFolder EMConfigTargetFolder;

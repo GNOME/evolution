@@ -38,7 +38,7 @@ typedef struct _EMAccountEditorClass EMAccountEditorClass;
 
 typedef enum {
 	EMAE_NOTEBOOK,
-	EMAE_DRUID,
+	EMAE_DRUID
 } em_account_editor_t;
 
 struct _EMAccountEditor {

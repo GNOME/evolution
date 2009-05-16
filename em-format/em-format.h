@@ -71,7 +71,7 @@ typedef void (*EMFormatFunc) (EMFormat *md, CamelStream *stream, CamelMimePart *
 typedef enum _em_format_mode_t {
 	EM_FORMAT_NORMAL,
 	EM_FORMAT_ALLHEADERS,
-	EM_FORMAT_SOURCE,
+	EM_FORMAT_SOURCE
 } em_format_mode_t;
 
 /**
@@ -103,7 +103,7 @@ struct _EMFormatHandler {
  **/
 enum _em_format_handler_t {
 	EM_FORMAT_HANDLER_INLINE = 1<<0,
-	EM_FORMAT_HANDLER_INLINE_DISPOSITION = 1<<1,
+	EM_FORMAT_HANDLER_INLINE_DISPOSITION = 1<<1
 };
 
 

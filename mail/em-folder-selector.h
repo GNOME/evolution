@@ -71,11 +71,11 @@ struct _EMFolderSelectorClass {
 };
 
 enum {
-	EM_FOLDER_SELECTOR_CAN_CREATE = 1,
+	EM_FOLDER_SELECTOR_CAN_CREATE = 1
 };
 
 enum {
-	EM_FOLDER_SELECTOR_RESPONSE_NEW = 1,
+	EM_FOLDER_SELECTOR_RESPONSE_NEW = 1
 };
 
 GType em_folder_selector_get_type (void);

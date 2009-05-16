@@ -13,6 +13,9 @@ plugin_LTLIBRARIES = liborg-gnome-tnef-attachments.la
 liborg_gnome_tnef_attachments_la_SOURCES = tnef-plugin.c
 liborg_gnome_tnef_attachments_la_LDFLAGS = -module -avoid-version  $(NO_UNDEFINED)
 liborg_gnome_tnef_attachments_la_LIBADD = 		\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/em-format/libemformat.la	\
+	$(EVOLUTION_MAIL_LIBS)				\
 	-lytnef
 
 EXTRA_DIST = org-gnome-tnef-attachments.eplug.xml

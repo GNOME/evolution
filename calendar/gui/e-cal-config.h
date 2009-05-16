@@ -47,7 +47,7 @@ struct _ECalConfigClass {
 
 enum _e_cal_config_target_t {
 	EC_CONFIG_TARGET_SOURCE,
-	EC_CONFIG_TARGET_PREFS,
+	EC_CONFIG_TARGET_PREFS
 };
 
 typedef struct _ECalConfigTargetSource ECalConfigTargetSource;

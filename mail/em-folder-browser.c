@@ -173,7 +173,7 @@ enum {
 static guint folder_browser_signals [LAST_SIGNAL] = {0, };
 
 enum {
-	ESB_SAVE,
+	ESB_SAVE
 };
 
 static ESearchBarItem emfb_search_items[] = {

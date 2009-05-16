@@ -76,7 +76,7 @@ enum {
 	/* Invisible columns */
 	COL_DELETED,
 	COL_UNREAD,
-	COL_COLOUR,
+	COL_COLOUR
 };
 
 #define MESSAGE_LIST_COLUMN_IS_ACTIVE(col) (col == COL_MESSAGE_STATUS || \
@@ -183,7 +183,7 @@ typedef enum {
 	MESSAGE_LIST_SELECT_NEXT = 0,
 	MESSAGE_LIST_SELECT_PREVIOUS = 1,
 	MESSAGE_LIST_SELECT_DIRECTION = 1, /* direction mask */
-	MESSAGE_LIST_SELECT_WRAP = 1<<1, /* option bit */
+	MESSAGE_LIST_SELECT_WRAP = 1<<1 /* option bit */
 } MessageListSelectDirection;
 
 GType          message_list_get_type   (void);

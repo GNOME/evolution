@@ -1631,7 +1631,7 @@ pre_sync (GnomePilotConduit *conduit,
 	pi_buffer_free(buffer);
 #endif
 	unpack_AppointmentAppInfo (&(ctxt->ai), buf, len);
-	//unpack_CategoryAppInfo (&(ctxt->ai.category), buf, len);
+	/* unpack_CategoryAppInfo (&(ctxt->ai.category), buf, len); */
 	g_free (buf);
 
 	check_for_slow_setting (conduit, ctxt);

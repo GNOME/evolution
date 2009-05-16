@@ -181,7 +181,7 @@ free_all (ShareFolder *sf)
 		sf->users_list = NULL;
 	}
 
-	//e_gw_connection_free_container_list (sf->container_list);
+	/* e_gw_connection_free_container_list (sf->container_list); */
 }
 
 

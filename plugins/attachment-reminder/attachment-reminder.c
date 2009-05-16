@@ -65,7 +65,7 @@ typedef struct {
 
 enum {
 	CLUE_KEYWORD_COLUMN,
-	CLUE_N_COLUMNS,
+	CLUE_N_COLUMNS
 };
 
 int e_plugin_lib_enable (EPluginLib *ep, int enable);

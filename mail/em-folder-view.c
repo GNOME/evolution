@@ -827,7 +827,7 @@ emfv_append_menu (EMPopup *des_emp, GtkMenu *des_menu, EMPopup *src_emp, GtkMenu
 	gtk_widget_destroy (GTK_WIDGET (src_menu));
 
 	/* free src_emp together with des_emp; name contains unique identifier */
-	name = g_strdup_printf ("emp_%p", src_emp);
+	name = g_strdup_printf ("emp_%p", (gpointer) src_emp);
 	g_object_set_data_full (G_OBJECT (des_emp), name, src_emp, emfv_free_em_popup);
 	g_free (name);
 

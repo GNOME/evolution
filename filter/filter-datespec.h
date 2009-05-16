@@ -42,7 +42,7 @@ typedef enum _FilterDatespec_type {
 	FDST_NOW,
 	FDST_SPECIFIED,
 	FDST_X_AGO,
-	FDST_X_FUTURE,
+	FDST_X_FUTURE
 } FilterDatespec_type;
 
 struct _FilterDatespec {

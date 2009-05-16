@@ -140,7 +140,7 @@ static struct {
 enum {
 	DND_X_UID_LIST,		/* x-uid-list */
 	DND_MESSAGE_RFC822,	/* message/rfc822 */
-	DND_TEXT_URI_LIST,	/* text/uri-list */
+	DND_TEXT_URI_LIST	/* text/uri-list */
 };
 
 /* What we send */
@@ -184,7 +184,7 @@ enum {
 	NORMALISED_SUBJECT,
 	NORMALISED_FROM,
 	NORMALISED_TO,
-	NORMALISED_LAST,
+	NORMALISED_LAST
 };
 
 /* #define SMART_ADDRESS_COMPARE */
@@ -4344,7 +4344,7 @@ regen_list_exec (struct _regen_list_msg *m)
 
 	e_profile_event_emit("list.threaduids", m->folder->full_name, 0);
 
-	//camel_folder_summary_reload_from_db (m->folder->summary, NULL);
+	/* camel_folder_summary_reload_from_db (m->folder->summary, NULL); */
 	if (!camel_operation_cancel_check(m->base.cancel)) {
 		camel_folder_sort_uids (m->folder, showuids);
 

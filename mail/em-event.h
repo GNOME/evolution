@@ -49,37 +49,37 @@ enum _em_event_target_t {
 	EM_EVENT_TARGET_MESSAGE,
 	EM_EVENT_TARGET_COMPOSER,
 	EM_EVENT_TARGET_SEND_RECEIVE,
-	EM_EVENT_TARGET_CUSTOM_ICON,
+	EM_EVENT_TARGET_CUSTOM_ICON
 };
 
 /* Flags for FOLDER BROWSER Events*/
 enum {
-	EM_EVENT_FOLDER_BROWSER = 1<< 0,
+	EM_EVENT_FOLDER_BROWSER = 1<< 0
 };
 
 /* Flags that describe TARGET_FOLDER */
 enum {
-	EM_EVENT_FOLDER_NEWMAIL = 1<< 0,
+	EM_EVENT_FOLDER_NEWMAIL = 1<< 0
 };
 
 /* Flags that describe TARGET_MESSAGE */
 enum {
-	EM_EVENT_MESSAGE_REPLY_ALL = 1<< 0,
+	EM_EVENT_MESSAGE_REPLY_ALL = 1<< 0
 };
 
 /* Flags that describe TARGET_COMPOSER */
 enum {
-	EM_EVENT_COMPOSER_SEND_OPTION = 1<< 0,
+	EM_EVENT_COMPOSER_SEND_OPTION = 1<< 0
 };
 
 /* Flags that describe TARGET_SEND_RECEIVE*/
 enum {
-	EM_EVENT_SEND_RECEIVE = 1<< 0,
+	EM_EVENT_SEND_RECEIVE = 1<< 0
 };
 
 /* Flags that describe TARGET_CUSTOM_ICON*/
 enum {
-	EM_EVENT_CUSTOM_ICON = 1<< 0,
+	EM_EVENT_CUSTOM_ICON = 1<< 0
 };
 
 typedef struct _EMEventTargetFolder EMEventTargetFolder;

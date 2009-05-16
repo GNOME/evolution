@@ -35,7 +35,7 @@ G_DEFINE_TYPE (GalViewInstanceSaveAsDialog, gal_view_instance_save_as_dialog, GT
 /* The arguments we take */
 enum {
 	PROP_0,
-	PROP_INSTANCE,
+	PROP_INSTANCE
 };
 
 enum {

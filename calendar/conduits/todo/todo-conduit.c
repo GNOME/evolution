@@ -1013,7 +1013,7 @@ pre_sync (GnomePilotConduit *conduit,
 	/* Get the default component */
 	if (!e_cal_get_default_object (ctxt->client, &icalcomp, NULL))
 		return -1;
-	LOG (g_message ( "  Got default component: %p", icalcomp));
+	LOG (g_message ("  Got default component: %p", (gpointer) icalcomp));
 
 	ctxt->default_comp = e_cal_component_new ();
 	if (!e_cal_component_set_icalcomponent (ctxt->default_comp, icalcomp)) {

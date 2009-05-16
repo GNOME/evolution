@@ -46,7 +46,7 @@ typedef enum {
 	E_CHARSET_TURKISH,
 	E_CHARSET_UNICODE,
 	E_CHARSET_WESTERN_EUROPEAN,
-	E_CHARSET_WESTERN_EUROPEAN_NEW,
+	E_CHARSET_WESTERN_EUROPEAN_NEW
 } ECharsetClass;
 
 static const char *classnames[] = {

@@ -36,7 +36,7 @@ enum {
 	PROP_CURSOR_ROW,
 	PROP_CURSOR_COL,
 	PROP_MODEL,
-	PROP_ETTA,
+	PROP_ETTA
 };
 
 struct ETreeSelectionModelPriv {

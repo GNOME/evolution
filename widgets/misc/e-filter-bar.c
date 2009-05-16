@@ -37,7 +37,7 @@
 enum {
 	PROP_0,
 	PROP_QUERY,
-	PROP_STATE,
+	PROP_STATE
 };
 
 static gpointer parent_class;

@@ -1195,7 +1195,7 @@ enum {
 	ATTENDEE_CAN_DELEGATE = 1<<1,
 	ATTENDEE_CAN_DELETE = 1<<2,
 	ATTENDEE_CAN_ADD = 1<<3,
-	ATTENDEE_LAST = 1<<4,
+	ATTENDEE_LAST = 1<<4
 };
 
 static EPopupItem context_menu_items[] = {

@@ -74,7 +74,7 @@ enum {
 	PROP_X1,
 	PROP_X2,
 	PROP_Y1,
-	PROP_Y2,
+	PROP_Y2
 };
 
 static void

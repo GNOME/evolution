@@ -152,15 +152,15 @@ ecv_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		/* Now cause our subcells to draw their contents,
 		   shifted by subcell_offset pixels */
 		int width = allotted_width * hbox_view->def_size_cols[i] / 100;
-			//e_cell_max_width_by_row (hbox_view->subcell_views[i], hbox_view->model_cols[i], view_col, row);
-//		if (width < hbox_view->def_size_cols[i])
-	//		width = hbox_view->def_size_cols[i];
-//		printf("width of %d %d of %d\n", width,hbox_view->def_size_cols[i], allotted_width );
+			/* e_cell_max_width_by_row (hbox_view->subcell_views[i], hbox_view->model_cols[i], view_col, row);
+		if (width < hbox_view->def_size_cols[i])
+			width = hbox_view->def_size_cols[i];
+		printf("width of %d %d of %d\n", width,hbox_view->def_size_cols[i], allotted_width ); */
 		e_cell_draw (hbox_view->subcell_views[i], drawable,
 			     hbox_view->model_cols[i], view_col, row, flags,
 			     x1 + subcell_offset , y1, x1 + subcell_offset + width, y2);
 
-		subcell_offset += width; //e_cell_max_width_by_row (hbox_view->subcell_views[i], hbox_view->model_cols[i], view_col, row);
+		subcell_offset += width; /* e_cell_max_width_by_row (hbox_view->subcell_views[i], hbox_view->model_cols[i], view_col, row); */
 	}
 }
 

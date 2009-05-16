@@ -82,7 +82,7 @@ static void emf_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart 
 static gboolean emf_busy(EMFormat *emf);
 enum {
 	EMF_COMPLETE,
-	EMF_LAST_SIGNAL,
+	EMF_LAST_SIGNAL
 };
 
 static gpointer parent_class;
@@ -752,7 +752,7 @@ emf_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeM
 	g_string_truncate(emf->part_id, 0);
 	if (folder != NULL)
 		/* TODO build some string based on the folder name/location? */
-		g_string_append_printf(emf->part_id, ".%p", folder);
+		g_string_append_printf(emf->part_id, ".%p", (gpointer) folder);
 	if (uid != NULL)
 		g_string_append_printf(emf->part_id, ".%s", uid);
 }

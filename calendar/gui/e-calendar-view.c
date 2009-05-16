@@ -79,7 +79,7 @@ static void open_event_with_flags (ECalendarView *cal_view, ECal *client, icalco
 /* Property IDs */
 enum props {
 	PROP_0,
-	PROP_MODEL,
+	PROP_MODEL
 };
 
 /* FIXME Why are we emitting these event signals here? Can't the model just be listened to? */

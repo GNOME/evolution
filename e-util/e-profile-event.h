@@ -42,14 +42,14 @@ typedef struct _EProfileEventClass EProfileEventClass;
 
 /* Current target description */
 enum _e_profile_event_target_t {
-	E_PROFILE_EVENT_TARGET,
+	E_PROFILE_EVENT_TARGET
 };
 
 /* Flags that qualify a target (UNIMPLEMENTED) */
 enum {
 	E_PROFILE_EVENT_START = 1<< 0,
 	E_PROFILE_EVENT_END = 1<< 1,
-	E_PROFILE_EVENT_CANCEL = 1<< 2,
+	E_PROFILE_EVENT_CANCEL = 1<< 2
 };
 
 typedef struct _EProfileEventTarget EProfileEventTarget;

@@ -72,6 +72,7 @@ eshellinclude_HEADERS = 			\
 	es-event.h
 
 libeshell_la_SOURCES =				\
+	$(NM_SUPPORT_FILES)			\
 	$(IDL_GENERATED)			\
 	e-shell.c				\
 	e-shell-backend.c			\
@@ -110,7 +111,6 @@ endif
 
 evolution_SOURCES =				\
 	$(DATASERVER_IDL_GENERATED)		\
-	$(NM_SUPPORT_FILES)			\
 	e-config-upgrade.c			\
 	e-config-upgrade.h			\
 	main.c					

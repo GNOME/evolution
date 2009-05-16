@@ -39,7 +39,7 @@ typedef struct _ECalMenuClass ECalMenuClass;
 /* Current target description */
 /* Types of popup tagets */
 enum _e_cal_menu_target_t {
-	E_CAL_MENU_TARGET_SELECT,
+	E_CAL_MENU_TARGET_SELECT
 };
 
 /**
@@ -73,7 +73,7 @@ enum _e_cal_menu_target_select_t {
 
 	E_CAL_MENU_SELECT_ASSIGNABLE = 1<<10,
 	E_CAL_MENU_SELECT_HASURL = 1<<11,
-	E_CAL_MENU_SELECT_NOTCOMPLETE = 1<<12,
+	E_CAL_MENU_SELECT_NOTCOMPLETE = 1<<12
 };
 
 typedef struct _ECalMenuTargetSelect ECalMenuTargetSelect;

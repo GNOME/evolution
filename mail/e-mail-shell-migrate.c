@@ -1322,7 +1322,7 @@ nofile:
 enum {
 	CP_UNIQUE = 0,
 	CP_OVERWRITE,
-	CP_APPEND,
+	CP_APPEND
 };
 
 static int open_flags[3] = {
