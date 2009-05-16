@@ -57,7 +57,7 @@ account_combo_box_has_dupes (GList *list,
 	for (iter = list; iter != NULL; iter = iter->next) {
 		EAccount *account = iter->data;
 
-		if (strcmp (account->id->address, address) == 0)
+		if (g_ascii_strcasecmp (account->id->address, address) == 0)
 			count++;
 	}
 
