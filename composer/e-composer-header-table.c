@@ -19,6 +19,7 @@
 
 #include <string.h>
 #include <glib/gi18n-lib.h>
+#include <camel/camel-internet-address.h>
 #include <libedataserverui/e-name-selector.h>
 
 #include "e-signature-combo-box.h"
@@ -221,13 +222,90 @@ composer_header_table_bind_widget (const gchar *property_name,
 		(gpointer) property_name);
 }
 
+static EDestination **
+composer_header_table_update_destinations (EDestination **old_destinations,
+                                           const gchar *auto_addresses)
+{
+	CamelAddress *address;
+	CamelInternetAddress *inet_address;
+	EDestination **new_destinations;
+	EDestination *destination;
+	GList *list = NULL;
+	guint length;
+	gint ii;
+
+	/* Include automatic recipients for the selected account. */
+
+	if (auto_addresses == NULL)
+		goto skip_auto;
+
+	inet_address = camel_internet_address_new ();
+	address = CAMEL_ADDRESS (inet_address);
+
+	if (camel_address_decode (address, auto_addresses) != -1) {
+		for (ii = 0; ii < camel_address_length (address); ii++) {
+			const gchar *name, *email;
+
+			if (!camel_internet_address_get (
+				inet_address, ii, &name, &email))
+				continue;
+
+			destination = e_destination_new ();
+			e_destination_set_auto_recipient (destination, TRUE);
+
+			if (name != NULL)
+				e_destination_set_name (destination, name);
+
+			if (email != NULL)
+				e_destination_set_email (destination, email);
+
+			list = g_list_prepend (list, destination);
+		}
+	}
+
+	camel_object_unref (inet_address);
+
+skip_auto:
+
+	/* Include custom recipients for this message. */
+
+	if (old_destinations == NULL)
+		goto skip_custom;
+
+	for (ii = 0; old_destinations[ii] != NULL; ii++) {
+		if (e_destination_is_auto_recipient (old_destinations[ii]))
+			continue;
+
+		destination = e_destination_copy (old_destinations[ii]);
+		list = g_list_prepend (list, destination);
+	}
+
+skip_custom:
+
+	list = g_list_reverse (list);
+	length = g_list_length (list);
+
+	new_destinations = g_new0 (EDestination *, length + 1);
+
+	for (ii = 0; list != NULL; ii++) {
+		new_destinations[ii] = E_DESTINATION (list->data);
+		list = g_list_delete_link (list, list);
+	}
+
+	return new_destinations;
+}
+
 static void
 composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 {
 	EAccount *account;
 	EComposerPostHeader *post_header;
 	EComposerTextHeader *text_header;
+	EDestination **old_destinations;
+	EDestination **new_destinations;
 	const gchar *reply_to;
+	gboolean always_cc;
+	gboolean always_bcc;
 
 	/* Keep "Post-To" and "Reply-To" synchronized with "From" */
 
@@ -239,6 +317,27 @@ composer_header_table_from_changed_cb (EComposerHeaderTable *table)
 	reply_to = (account != NULL) ? account->id->reply_to : NULL;
 	text_header = E_COMPOSER_HEADER_TABLE_GET_REPLY_TO_HEADER (table);
 	e_composer_text_header_set_text (text_header, reply_to);
+
+	always_cc = (account != NULL && account->always_cc);
+	always_bcc = (account != NULL && account->always_bcc);
+
+	/* Update automatic CC destinations. */
+	old_destinations =
+		e_composer_header_table_get_destinations_cc (table);
+	new_destinations =
+		composer_header_table_update_destinations (
+		old_destinations, always_cc ? account->cc_addrs : NULL);
+	e_composer_header_table_set_destinations_cc (table, new_destinations);
+	e_destination_freev (new_destinations);
+
+	/* Update automatic BCC destinations. */
+	old_destinations =
+		e_composer_header_table_get_destinations_bcc (table);
+	new_destinations =
+		composer_header_table_update_destinations (
+		old_destinations, always_bcc ? account->bcc_addrs : NULL);
+	e_composer_header_table_set_destinations_bcc (table, new_destinations);
+	e_destination_freev (new_destinations);
 }
 
 static GObject *
