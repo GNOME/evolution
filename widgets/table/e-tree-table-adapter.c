@@ -757,16 +757,6 @@ etta_proxy_no_change (ETreeModel *etm, ETreeTableAdapter *etta)
 	e_table_model_no_change(E_TABLE_MODEL(etta));
 }
 
-static gboolean
-remove_all (gpointer key, gpointer value, gpointer data)
-{
-	GNode *gn = (GNode *) data;
-	if (data)
-		g_free (gn->data);
-
-	return TRUE;
-}
-
 static void
 etta_proxy_rebuilt (ETreeModel *etm, ETreeTableAdapter *etta)
 {

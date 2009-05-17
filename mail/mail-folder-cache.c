@@ -1096,10 +1096,7 @@ int mail_note_get_folder_from_uri(const char *uri, CamelFolder **folderp)
 gboolean
 mail_folder_cache_get_folder_info_flags (CamelFolder *folder, int *flags)
 {
-	char *uri;
-
-	uri = mail_tools_folder_to_url (folder);
-
+	char *uri = mail_tools_folder_to_url (folder);
 	struct _find_info fi = { uri, NULL, NULL };
 
 	if (stores == NULL)

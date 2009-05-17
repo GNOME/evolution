@@ -753,10 +753,6 @@ em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target)
 void
 em_junk_sa_commit_reports (EPlugin *ep)
 {
-	/* Only meaningful if we're using sa-learn */
-	if (!no_allow_tell)
-		return;
-
 	char *sync_op = ((get_spamassassin_version () >= 3) ? "--sync": "--rebuild");
 	char *argv[4] = {
 		"sa-learn",
@@ -764,6 +760,10 @@ em_junk_sa_commit_reports (EPlugin *ep)
 		NULL,
 		NULL
 	};
+
+	/* Only meaningful if we're using sa-learn */
+	if (!no_allow_tell)
+		return;
 
 	d(fprintf (stderr, "em_junk_sa_commit_reports\n"));
 
