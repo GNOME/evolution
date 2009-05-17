@@ -477,6 +477,7 @@ widgets/menus/gal-view-new-dialog.glade
 widgets/misc/e-attachment.c
 widgets/misc/e-attachment-dialog.c
 widgets/misc/e-attachment-handler-image.c
+widgets/misc/e-attachment-handler-sendto.c
 widgets/misc/e-attachment-icon-view.c
 widgets/misc/e-attachment-paned.c
 widgets/misc/e-attachment-store.c
