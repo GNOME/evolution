@@ -1,5 +1,38 @@
+Evolution 2.26.2 2009-05-18
+---------------------------
+
+Bug fixes:
+	#471083 (bnc) - Do not allow deletion of system folders. (Chenthill)
+	#561312 - Fix recurrence issues (Chenthill)
+	#467659 - Fix description for send mail (Chenthill)
+	#578685 - Copy string. Avoids SIGSEGV (Sebastien Bacher)
+	#569507 - Don't translate gconf/key values (khaledh)
+	#574842 - Fix Catalan translation issue (Gil Forcada Codinachs)
+	#571272 - Possible leak (Milan Crha)
+	#573704 - Don't close dialog after error (Milan Crha)
+	#579306 - Fix crash on delete folder (Milan Crha)
+	#491755 - Sanitize values from GConf before using them (Milan Crha)
+	#579635 - Hide last junked message too from the non-junk folder (Milan Crha)
+	#579550 - Do not mark newly recognized Junk messages Read (Milan Crha)
+	#578355 - Store username in a source URL in CalDAV (Milan Crha)
+	#575242 – New composer window not autosaved until modification (Michel Dänzer)
+	#581032 – Some links can't be opened (Matthew Barnes)
+	#573170 - Add back support for vfolder of vfolders (Srinivasa Ragavan)
+	#580163 - Resize alarm notifier correctly (Ritesh Khadgaray)
+	#578478 – Composer shows not all "From" information (Matthew Barnes)
+	#582744 – CC field autofill doesn't work for replies (Matthew Barnes)
+	#578176 – "Send message to contact" does not honor "always BCC" (Matthew Barnes)
+
+Updated translatios:
+	Ihar Hrachyshka (be)
+	Christian Kirbach (de)
+	Jorge Gonzalez (es)
+
+Other fixes:
+	Fix win32 filename/uri issues (Fridrich Strba)
+
 Evolution 2.26.0 2009-03-16
-----------------------------
+---------------------------
 
 What is new in 2.26.0?
 
