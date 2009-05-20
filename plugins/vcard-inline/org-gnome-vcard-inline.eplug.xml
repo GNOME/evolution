@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<e-plugin-list>
+  <e-plugin
+    type="shlib"
+    id="org.gnome.evolution.plugin.vcardInline"
+    location="@PLUGINDIR@/liborg-gnome-vcard-inline@SOEXT@"
+    _name="Inline vCards">
+
+    <author name="Matthew Barnes" email="mbarnes@redhat.com"/>
+    <_description>
+      Show vCards directly in mail messages.
+    </_description>
+
+    <hook class="org.gnome.evolution.mail.format:1.0">
+      <group id="EMFormatHTMLDisplay">
+        <item
+          mime_type="text/vcard"
+          format="org_gnome_vcard_inline_format"
+          flags="inline_disposition"/>
+        <item
+          mime_type="text/x-vcard"
+          format="org_gnome_vcard_inline_format"
+          flags="inline_disposition"/>
+      </group>
+    </hook>
+
+  </e-plugin>
+</e-plugin-list>

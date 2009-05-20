@@ -31,7 +31,6 @@
 #include "addressbook-view.h"
 #include "autocompletion-config.h"
 #include "eab-popup-control.h"
-#include "eab-vcard-control.h"
 #ifdef ENABLE_SMIME
 #include "smime/gui/certificate-manager.h"
 #endif
@@ -40,7 +39,6 @@
 
 #define FACTORY_ID "OAFIID:GNOME_Evolution_Addressbook_Factory:" BASE_VERSION
 
-#define VCARD_CONTROL_ID               "OAFIID:GNOME_Evolution_Addressbook_VCard_Control:" BASE_VERSION
 #define COMPONENT_ID                   "OAFIID:GNOME_Evolution_Addressbook_Component:" BASE_VERSION
 #define ADDRESS_POPUP_ID               "OAFIID:GNOME_Evolution_Addressbook_AddressPopup:" BASE_VERSION
 #define COMPLETION_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_Addressbook_Autocompletion_ConfigControl:" BASE_VERSION
@@ -56,8 +54,6 @@ factory (BonoboGenericFactory *factory,
 {
 	d(printf ("asked to activate component_id `%s'\n", component_id));
 
-	if (strcmp (component_id, VCARD_CONTROL_ID) == 0)
-		return BONOBO_OBJECT (eab_vcard_control_new ());
 	if (strcmp (component_id, COMPONENT_ID) == 0) {
 		BonoboObject *object = BONOBO_OBJECT (addressbook_component_peek ());
 		bonobo_object_ref (object);
