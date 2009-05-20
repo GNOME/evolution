@@ -308,104 +308,6 @@ action_smime_sign_cb (GtkToggleAction *action,
 	gtkhtml_editor_set_changed (editor, TRUE);
 }
 
-static void
-action_view_bcc_cb (GtkToggleAction *action,
-                    EMsgComposer *composer)
-{
-	EComposerHeaderTable *table;
-	gboolean active;
-
-	table = e_msg_composer_get_header_table (composer);
-	active = gtk_toggle_action_get_active (action);
-
-	e_composer_header_table_set_header_visible (
-		table, E_COMPOSER_HEADER_BCC, active);
-}
-
-static void
-action_view_cc_cb (GtkToggleAction *action,
-                   EMsgComposer *composer)
-{
-	EComposerHeaderTable *table;
-	gboolean active;
-
-	table = e_msg_composer_get_header_table (composer);
-	active = gtk_toggle_action_get_active (action);
-
-	e_composer_header_table_set_header_visible (
-		table, E_COMPOSER_HEADER_CC, active);
-}
-
-static void
-action_view_from_cb (GtkToggleAction *action,
-                     EMsgComposer *composer)
-{
-	EComposerHeaderTable *table;
-	gboolean active;
-
-	table = e_msg_composer_get_header_table (composer);
-	active = gtk_toggle_action_get_active (action);
-
-	e_composer_header_table_set_header_visible (
-		table, E_COMPOSER_HEADER_FROM, active);
-}
-
-static void
-action_view_post_to_cb (GtkToggleAction *action,
-                        EMsgComposer *composer)
-{
-	EComposerHeaderTable *table;
-	gboolean active;
-
-	table = e_msg_composer_get_header_table (composer);
-	active = gtk_toggle_action_get_active (action);
-
-	e_composer_header_table_set_header_visible (
-		table, E_COMPOSER_HEADER_POST_TO, active);
-}
-
-static void
-action_view_reply_to_cb (GtkToggleAction *action,
-                         EMsgComposer *composer)
-{
-	EComposerHeaderTable *table;
-	gboolean active;
-
-	table = e_msg_composer_get_header_table (composer);
-	active = gtk_toggle_action_get_active (action);
-
-	e_composer_header_table_set_header_visible (
-		table, E_COMPOSER_HEADER_REPLY_TO, active);
-}
-
-static void
-action_view_subject_cb (GtkToggleAction *action,
-                        EMsgComposer *composer)
-{
-	EComposerHeaderTable *table;
-	gboolean active;
-
-	table = e_msg_composer_get_header_table (composer);
-	active = gtk_toggle_action_get_active (action);
-
-	e_composer_header_table_set_header_visible (
-		table, E_COMPOSER_HEADER_SUBJECT, active);
-}
-
-static void
-action_view_to_cb (GtkToggleAction *action,
-                   EMsgComposer *composer)
-{
-	EComposerHeaderTable *table;
-	gboolean active;
-
-	table = e_msg_composer_get_header_table (composer);
-	active = gtk_toggle_action_get_active (action);
-
-	e_composer_header_table_set_header_visible (
-		table, E_COMPOSER_HEADER_TO, active);
-}
-
 static GtkActionEntry entries[] = {
 
 	{ "attach",
@@ -542,7 +444,7 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  N_("S/MIME Sig_n"),
 	  NULL,
 	  N_("Sign this message with your S/MIME Signature Certificate"),
-	  G_CALLBACK (action_smime_sign_cb),
+	  NULL,  /* Handled by property bindings */
 	  FALSE },
 
 	{ "view-bcc",
@@ -550,7 +452,7 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  N_("_Bcc Field"),
 	  NULL,
 	  N_("Toggles whether the BCC field is displayed"),
-	  G_CALLBACK (action_view_bcc_cb),
+	  NULL,  /* Handled by property bindings */
 	  FALSE },
 
 	{ "view-cc",
@@ -558,7 +460,7 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  N_("_Cc Field"),
 	  NULL,
 	  N_("Toggles whether the CC field is displayed"),
-	  G_CALLBACK (action_view_cc_cb),
+	  NULL,  /* Handled by property bindings */
 	  FALSE },
 
 	{ "view-from",
@@ -566,15 +468,7 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  N_("_From Field"),
 	  NULL,
 	  N_("Toggles whether the From chooser is displayed"),
-	  G_CALLBACK (action_view_from_cb),
-	  FALSE },
-
-	{ "view-post-to",
-	  NULL,
-	  N_("_Post-To Field"),
-	  NULL,
-	  N_("Toggles whether the Post-To field is displayed"),
-	  G_CALLBACK (action_view_post_to_cb),
+	  NULL,  /* Handled by property bindings */
 	  FALSE },
 
 	{ "view-reply-to",
@@ -582,24 +476,8 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  N_("_Reply-To Field"),
 	  NULL,
 	  N_("Toggles whether the Reply-To field is displayed"),
-	  G_CALLBACK (action_view_reply_to_cb),
+	  NULL,  /* Handled by property bindings */
 	  FALSE },
-
-	{ "view-subject",
-	  NULL,
-	  N_("_Subject Field"),
-	  NULL,
-	  N_("Toggles whether the Subject field is displayed"),
-	  G_CALLBACK (action_view_subject_cb),
-	  FALSE },
-
-	{ "view-to",
-	  NULL,
-	  N_("_To Field"),
-	  NULL,
-	  N_("Toggles whether the To field is displayed"),
-	  G_CALLBACK (action_view_to_cb),
-	  FALSE }
 };
 
 void

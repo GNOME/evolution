@@ -28,6 +28,7 @@
 #include "e-composer-actions.h"
 #include "e-composer-autosave.h"
 #include "e-composer-header-table.h"
+#include "e-util/e-binding.h"
 #include "e-util/gconf-bridge.h"
 #include "widgets/misc/e-attachment-paned.h"
 #include "widgets/misc/e-attachment-store.h"
@@ -65,16 +66,6 @@
 	COMPOSER_GCONF_PREFIX "/send_html"
 #define COMPOSER_GCONF_SPELL_LANGUAGES_KEY \
 	COMPOSER_GCONF_PREFIX "/spell_languages"
-#define COMPOSER_GCONF_VIEW_BCC_KEY \
-	COMPOSER_GCONF_PREFIX "/view/Bcc"
-#define COMPOSER_GCONF_VIEW_CC_KEY \
-	COMPOSER_GCONF_PREFIX "/view/Cc"
-#define COMPOSER_GCONF_VIEW_FROM_KEY \
-	COMPOSER_GCONF_PREFIX "/view/From"
-#define COMPOSER_GCONF_VIEW_POST_TO_KEY \
-	COMPOSER_GCONF_PREFIX "/view/PostTo"
-#define COMPOSER_GCONF_VIEW_REPLY_TO_KEY \
-	COMPOSER_GCONF_PREFIX "/view/ReplyTo"
 #define COMPOSER_GCONF_WINDOW_PREFIX \
 	COMPOSER_GCONF_PREFIX "/window"
 

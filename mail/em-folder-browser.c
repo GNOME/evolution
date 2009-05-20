@@ -164,7 +164,6 @@ static const EMFolderViewEnable emfb_enable_map[] = {
 	{ "FolderRename", EM_POPUP_SELECT_FOLDER },
 	{ "FolderRefresh", EM_POPUP_SELECT_FOLDER },
 	{ "ChangeFolderProperties", EM_POPUP_SELECT_FOLDER },
-	{ "MailPost", EM_POPUP_SELECT_FOLDER },
 	{ "MessageMarkAllAsRead", EM_POPUP_SELECT_FOLDER },
 	{ "ViewHideSelected", EM_POPUP_SELECT_MANY },
 	{ "ViewThreadsCollapseAll", EM_FOLDER_VIEW_SELECT_THREADED},
@@ -1694,13 +1693,6 @@ emfb_mail_stop(BonoboUIComponent *uid, void *data, const char *path)
 }
 
 static void
-emfb_mail_post(BonoboUIComponent *uid, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-	em_utils_post_to_folder (emfv->folder);
-}
-
-static void
 emfb_tools_filters(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderBrowser *emfb = data;
@@ -1779,7 +1771,6 @@ static BonoboUIVerb emfb_verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("FolderCreate", emfb_folder_create),
 	BONOBO_UI_UNSAFE_VERB ("HelpDebug", emfb_help_debug),
 
-	BONOBO_UI_UNSAFE_VERB ("MailPost", emfb_mail_post),
 	BONOBO_UI_UNSAFE_VERB ("MailStop", emfb_mail_stop),
 	BONOBO_UI_UNSAFE_VERB ("ToolsFilters", emfb_tools_filters),
 	BONOBO_UI_UNSAFE_VERB ("ToolsSubscriptions", emfb_tools_subscriptions),

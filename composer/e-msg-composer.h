@@ -68,13 +68,8 @@ struct _EMsgComposerClass {
 
 struct _EAttachmentBar;
 
-#define E_MSG_COMPOSER_MAIL 1
-#define E_MSG_COMPOSER_POST 2
-#define E_MSG_COMPOSER_MAIL_POST E_MSG_COMPOSER_MAIL|E_MSG_COMPOSER_POST
-
 GType		e_msg_composer_get_type		(void);
 EMsgComposer *	e_msg_composer_new		(void);
-EMsgComposer *	e_msg_composer_new_with_type	(gint type);
 EMsgComposer *	e_msg_composer_new_with_message	(CamelMimeMessage *msg);
 EMsgComposer *	e_msg_composer_new_from_url	(const gchar *url);
 EMsgComposer *	e_msg_composer_new_redirect	(CamelMimeMessage *message,

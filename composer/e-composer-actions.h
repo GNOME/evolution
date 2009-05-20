@@ -61,13 +61,7 @@
 	E_COMPOSER_ACTION ((composer), "view-cc")
 #define E_COMPOSER_ACTION_VIEW_FROM(composer) \
 	E_COMPOSER_ACTION ((composer), "view-from")
-#define E_COMPOSER_ACTION_VIEW_POST_TO(composer) \
-	E_COMPOSER_ACTION ((composer), "view-post-to")
 #define E_COMPOSER_ACTION_VIEW_REPLY_TO(composer) \
 	E_COMPOSER_ACTION ((composer), "view-reply-to")
-#define E_COMPOSER_ACTION_VIEW_SUBJECT(composer) \
-	E_COMPOSER_ACTION ((composer), "view-subject")
-#define E_COMPOSER_ACTION_VIEW_TO(composer) \
-	E_COMPOSER_ACTION ((composer), "view-to")
 
 #endif /* E_COMPOSER_ACTIONS_H */

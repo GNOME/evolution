@@ -116,71 +116,91 @@
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/mail/composer/view/From</key>
-      <applyto>/apps/evolution/mail/composer/view/From</applyto>
+      <key>/schemas/apps/evolution/mail/composer/show_mail_bcc</key>
+      <applyto>/apps/evolution/mail/composer/show_mail_bcc</applyto>
+      <owner>evolution-mail</owner>
+      <type>bool</type>
+      <default>false</default>
+      <locale name="C">
+         <short>Show "Bcc" field when sending a mail message</short>
+         <long>
+           Show the "Bcc" field when sending a mail message.  This is
+           controlled from the View menu when a mail account is chosen.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
+      <key>/schemas/apps/evolution/mail/composer/show_mail_cc</key>
+      <applyto>/apps/evolution/mail/composer/show_mail_cc</applyto>
       <owner>evolution-mail</owner>
       <type>bool</type>
       <default>true</default>
       <locale name="C">
-         <short>View/From menu item is checked</short>
+         <short>Show "Cc" field when sending a mail message</short>
          <long>
-          View/From menu item is checked.
+           Show the "Cc" field when sending a mail message.  This is
+           controlled from the View menu when a mail account is chosen.
          </long>
       </locale>
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/mail/composer/view/PostTo</key>
-      <applyto>/apps/evolution/mail/composer/view/PostTo</applyto>
+      <key>/schemas/apps/evolution/mail/composer/show_mail_from</key>
+      <applyto>/apps/evolution/mail/composer/show_mail_from</applyto>
       <owner>evolution-mail</owner>
       <type>bool</type>
       <default>true</default>
       <locale name="C">
-         <short>View/PostTo menu item is checked</short>
+         <short>Show "From" field when sending a mail message</short>
          <long>
-          View/PostTo menu item is checked.
+           Show the "From" field when sending a mail message.  This is
+           controlled from the View menu when a mail account is chosen.
          </long>
       </locale>
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/mail/composer/view/ReplyTo</key>
-      <applyto>/apps/evolution/mail/composer/view/ReplyTo</applyto>
+      <key>/schemas/apps/evolution/mail/composer/show_mail_reply_to</key>
+      <applyto>/apps/evolution/mail/composer/show_mail_reply_to</applyto>
       <owner>evolution-mail</owner>
       <type>bool</type>
       <default>false</default>
       <locale name="C">
-         <short>View/ReplyTo menu item is checked</short>
+         <short>Show "Reply To" field when sending a mail message</short>
          <long>
-          View/ReplyTo menu item is checked.
+           Show the "Reply To" field when sending a mail message.  This
+           is controlled from the View menu when a mail account is chosen.
          </long>
       </locale>
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/mail/composer/view/Cc</key>
-      <applyto>/apps/evolution/mail/composer/view/Cc</applyto>
+      <key>/schemas/apps/evolution/mail/composer/show_post_from</key>
+      <applyto>/apps/evolution/mail/composer/show_post_from</applyto>
       <owner>evolution-mail</owner>
       <type>bool</type>
-      <default>false</default>
+      <default>true</default>
       <locale name="C">
-         <short>View/Cc menu item is checked</short>
+         <short>Show "From" field when posting to a newsgroup</short>
          <long>
-          View/Cc menu item is checked.
+           Show the "From" field when posting to a newsgroup.  This is
+           controlled from the View menu when a news account is chosen.
          </long>
       </locale>
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/mail/composer/view/Bcc</key>
-      <applyto>/apps/evolution/mail/composer/view/Bcc</applyto>
+      <key>/schemas/apps/evolution/mail/composer/show_post_reply_to</key>
+      <applyto>/apps/evolution/mail/composer/show_post_reply_to</applyto>
       <owner>evolution-mail</owner>
       <type>bool</type>
       <default>false</default>
       <locale name="C">
-         <short>View/Bcc menu item is checked</short>
+         <short>Show "Reply To" field when posting to a newsgroup</short>
          <long>
-          View/Bcc menu item is checked.
+           Show the "Reply To" field when posting to a newsgroup.  This
+           is controlled from the View menu when a news account is chosen.
          </long>
       </locale>
     </schema>
