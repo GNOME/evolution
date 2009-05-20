@@ -185,7 +185,6 @@ static const EMFolderViewEnable emfv_enable_map[] = {
 	{ "MessageFollowUpClear",     EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_FLAG_CLEAR },
 	{ "MessageMove",              EM_POPUP_SELECT_MANY },
 	{ "MessageOpen",              EM_POPUP_SELECT_MANY },
-	{ "MessagePostReply",         EM_POPUP_SELECT_ONE },
 	{ "MessageReplyAll",          EM_POPUP_SELECT_ONE },
 	{ "MessageReplyList",         EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST },
 	{ "MessageReplySender",       EM_POPUP_SELECT_ONE },
@@ -1726,20 +1725,6 @@ emfv_message_redirect (BonoboUIComponent *uic, void *data, const char *path)
 	em_utils_redirect_message_by_uid (emfv->folder, emfv->list->cursor_uid);
 }
 
-static void
-emfv_message_post_reply (BonoboUIComponent *uic, void *data, const char *path)
-{
-	EMFolderView *emfv = data;
-
-	if (emfv->list->cursor_uid == NULL)
-		return;
-
-	if (!em_utils_check_user_can_send_mail ((GtkWidget *) emfv))
-		return;
-
-	em_utils_post_reply_to_message_by_uid (emfv->folder, emfv->list->cursor_uid);
-}
-
 static gboolean
 html_contains_nonwhitespace (const char *html, gint len)
 {
@@ -2073,7 +2058,6 @@ static BonoboUIVerb emfv_message_verbs[] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageFollowUpClear", emfv_message_followup_clear),
 	BONOBO_UI_UNSAFE_VERB ("MessageMove", emfv_message_move),
 	BONOBO_UI_UNSAFE_VERB ("MessageOpen", emfv_message_open),
-	BONOBO_UI_UNSAFE_VERB ("MessagePostReply", emfv_message_post_reply),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplyAll", emfv_message_reply_all),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplyList", emfv_message_reply_list),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplySender", emfv_message_reply_sender),

@@ -660,13 +660,18 @@ create_new_composer (const char *subject, const char *fromuri, gboolean use_defa
 	EAccount *account = NULL;
 
 	composer = e_msg_composer_new ();
-	if (composer == NULL)
-		return NULL;
+	table = e_msg_composer_get_header_table (composer);
 
-	if (fromuri)
+	if (fromuri != NULL) {
+		GList *list;
+
 		account = mail_config_get_account_by_source_url(fromuri);
 
-	table = e_msg_composer_get_header_table (composer);
+		list = g_list_prepend (NULL, (gpointer) fromuri);
+		e_composer_header_table_set_post_to_list (table, list);
+		g_list_free (list);
+	}
+
 	e_composer_header_table_set_account (table, account);
 	e_composer_header_table_set_subject (table, subject);
 
@@ -727,82 +732,6 @@ em_utils_compose_new_message_with_mailto (const char *url, const char *fromuri)
 
 	gtk_widget_show ((GtkWidget *) composer);
 	gdk_window_raise (((GtkWidget *) composer)->window);
-}
-
-/**
- * em_utils_post_to_folder:
- * @folder: folder
- *
- * Opens a new composer window as a child window of @parent's toplevel
- * window. If @folder is non-NULL, the composer will default to posting
- * mail to the folder specified by @folder.
- **/
-void
-em_utils_post_to_folder (CamelFolder *folder)
-{
-	EMsgComposer *composer;
-	EComposerHeaderTable *table;
-	EAccount *account;
-
-	composer = e_msg_composer_new_with_type (E_MSG_COMPOSER_POST);
-	table = e_msg_composer_get_header_table (composer);
-
-	if (folder != NULL) {
-		char *url = mail_tools_folder_to_url (folder);
-		GList *list = g_list_prepend (NULL, url);
-
-		e_composer_header_table_set_post_to_list (table, list);
-
-		g_list_free (list);
-		g_free (url);
-
-		url = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, CAMEL_URL_HIDE_ALL);
-		account = mail_config_get_account_by_source_url (url);
-		g_free (url);
-
-		if (account)
-			e_composer_header_table_set_account_name (
-				table, account->name);
-	}
-
-	em_composer_utils_setup_default_callbacks (composer);
-
-	composer_set_no_change (composer, TRUE, TRUE);
-
-	gtk_widget_show ((GtkWidget *) composer);
-	gdk_window_raise (((GtkWidget *) composer)->window);
-}
-
-/**
- * em_utils_post_to_url:
- * @url: mailto url
- *
- * Opens a new composer window as a child window of @parent's toplevel
- * window. If @url is non-NULL, the composer will default to posting
- * mail to the folder specified by @url.
- **/
-void
-em_utils_post_to_url (const char *url)
-{
-	EMsgComposer *composer;
-	EComposerHeaderTable *table;
-
-	composer = e_msg_composer_new_with_type (E_MSG_COMPOSER_POST);
-	table = e_msg_composer_get_header_table (composer);
-
-	if (url != NULL) {
-		GList *list = NULL;
-
-		list = g_list_prepend (list, (gpointer) url);
-		e_composer_header_table_set_post_to_list (table, list);
-		g_list_free (list);
-	}
-
-	em_composer_utils_setup_default_callbacks (composer);
-
-	composer_set_no_change (composer, TRUE, TRUE);
-
-	gtk_widget_show ((GtkWidget *) composer);
 }
 
 /* Editing messages... */
@@ -1763,17 +1692,11 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 	g_return_val_if_fail (to == NULL || CAMEL_IS_INTERNET_ADDRESS (to), NULL);
 	g_return_val_if_fail (cc == NULL || CAMEL_IS_INTERNET_ADDRESS (cc), NULL);
 
+	composer = e_msg_composer_new ();
+
 	/* construct the tov/ccv */
 	tov = em_utils_camel_address_to_destination (to);
 	ccv = em_utils_camel_address_to_destination (cc);
-
-	if (tov || ccv) {
-		if (postto && camel_address_length((CamelAddress *)postto))
-			composer = e_msg_composer_new_with_type (E_MSG_COMPOSER_MAIL_POST);
-		else
-			composer = e_msg_composer_new_with_type (E_MSG_COMPOSER_MAIL);
-	} else
-		composer = e_msg_composer_new_with_type (E_MSG_COMPOSER_POST);
 
 	/* Set the subject of the new message. */
 	if ((subject = (char *) camel_mime_message_get_subject (message))) {
@@ -2402,125 +2325,4 @@ em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage
 	composer_set_no_change (composer, TRUE, FALSE);
 
 	gtk_widget_show (GTK_WIDGET (composer));
-}
-
-/* Posting replies... */
-
-static void
-post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *message, void *user_data)
-{
-	/* FIXME: would be nice if this shared more code with reply_get_composer() */
-	const char *message_id, *references;
-	CamelInternetAddress *to;
-	EDestination **tov = NULL;
-	CamelFolder *real_folder;
-	EMsgComposer *composer;
-	EComposerHeaderTable *table;
-	char *subject, *url;
-	EAccount *account;
-	char *real_uid;
-	guint32 flags;
-	GList *list = NULL;
-
-	if (message == NULL)
-		return;
-
-	if (CAMEL_IS_VEE_FOLDER (folder)) {
-		CamelMessageInfo *info;
-
-		info = camel_folder_get_message_info (folder, uid);
-		real_folder = camel_vee_folder_get_location ((CamelVeeFolder *) folder, (struct _CamelVeeMessageInfo *) info, &real_uid);
-		camel_folder_free_message_info (folder, info);
-	} else {
-		real_folder = folder;
-		camel_object_ref (folder);
-		real_uid = g_strdup (uid);
-	}
-
-	account = guess_account (message, real_folder);
-	flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;
-
-	to = camel_internet_address_new();
-	get_reply_sender (message, to, NULL);
-
-	composer = e_msg_composer_new_with_type (E_MSG_COMPOSER_MAIL_POST);
-
-	/* construct the tov/ccv */
-	tov = em_utils_camel_address_to_destination (to);
-
-	/* Set the subject of the new message. */
-	if ((subject = (char *) camel_mime_message_get_subject (message))) {
-		if (g_ascii_strncasecmp (subject, "Re: ", 4) != 0)
-			subject = g_strdup_printf ("Re: %s", subject);
-		else
-			subject = g_strdup (subject);
-	} else {
-		subject = g_strdup ("");
-	}
-
-	table = e_msg_composer_get_header_table (composer);
-	e_composer_header_table_set_account (table, account);
-	e_composer_header_table_set_subject (table, subject);
-	e_composer_header_table_set_destinations_to (table, tov);
-
-	g_free (subject);
-
-	url = mail_tools_folder_to_url (real_folder);
-	list = g_list_prepend (list, url);
-
-	e_composer_header_table_set_post_to_list (table, list);
-
-	g_list_free (list);
-	g_free (url);
-
-	/* Add In-Reply-To and References. */
-	message_id = camel_medium_get_header (CAMEL_MEDIUM (message), "Message-Id");
-	references = camel_medium_get_header (CAMEL_MEDIUM (message), "References");
-	if (message_id) {
-		char *reply_refs;
-
-		e_msg_composer_add_header (composer, "In-Reply-To", message_id);
-
-		if (references)
-			reply_refs = g_strdup_printf ("%s %s", references, message_id);
-		else
-			reply_refs = g_strdup (message_id);
-
-		e_msg_composer_add_header (composer, "References", reply_refs);
-		g_free (reply_refs);
-	} else if (references) {
-		e_msg_composer_add_header (composer, "References", references);
-	}
-
-	e_msg_composer_add_message_attachments (composer, message, TRUE);
-
-	composer_set_body (composer, message, NULL);
-
-	em_composer_utils_setup_callbacks (composer, real_folder, real_uid, flags, flags, NULL, NULL);
-
-	composer_set_no_change (composer, TRUE, FALSE);
-
-	gtk_widget_show (GTK_WIDGET (composer));
-
-	camel_object_unref (real_folder);
-	camel_object_unref(to);
-	g_free (real_uid);
-}
-
-/**
- * em_utils_post_reply_to_message_by_uid:
- * @folder: folder containing message to reply to
- * @uid: message uid
- * @mode: reply mode
- *
- * Creates a new composer (post mode) ready to reply to the message
- * referenced by @folder and @uid.
- **/
-void
-em_utils_post_reply_to_message_by_uid (CamelFolder *folder, const char *uid)
-{
-	g_return_if_fail (CAMEL_IS_FOLDER (folder));
-	g_return_if_fail (uid != NULL);
-
-	mail_get_message (folder, uid, post_reply_to_message, NULL, mail_msg_unordered_push);
 }

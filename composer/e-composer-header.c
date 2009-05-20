@@ -41,6 +41,9 @@ enum {
 struct _EComposerHeaderPrivate {
 	gchar *label;
 	gboolean button;
+
+	guint sensitive : 1;
+	guint visible   : 1;
 };
 
 static gpointer parent_class;
@@ -302,15 +305,9 @@ e_composer_header_get_label (EComposerHeader *header)
 gboolean
 e_composer_header_get_sensitive (EComposerHeader *header)
 {
-	gboolean sensitive;
-
 	g_return_val_if_fail (E_IS_COMPOSER_HEADER (header), FALSE);
 
-	sensitive = GTK_WIDGET_SENSITIVE (header->title_widget);
-	if (GTK_WIDGET_SENSITIVE (header->input_widget) != sensitive)
-		g_warning ("%s: Sensitivity is out of sync", G_STRFUNC);
-
-	return sensitive;
+	return header->priv->sensitive;
 }
 
 void
@@ -319,8 +316,7 @@ e_composer_header_set_sensitive (EComposerHeader *header,
 {
 	g_return_if_fail (E_IS_COMPOSER_HEADER (header));
 
-	gtk_widget_set_sensitive (header->title_widget, sensitive);
-	gtk_widget_set_sensitive (header->input_widget, sensitive);
+	header->priv->sensitive = sensitive;
 
 	g_object_notify (G_OBJECT (header), "sensitive");
 }
@@ -328,15 +324,9 @@ e_composer_header_set_sensitive (EComposerHeader *header,
 gboolean
 e_composer_header_get_visible (EComposerHeader *header)
 {
-	gboolean visible;
-
 	g_return_val_if_fail (E_IS_COMPOSER_HEADER (header), FALSE);
 
-	visible = GTK_WIDGET_VISIBLE (header->title_widget);
-	if (GTK_WIDGET_VISIBLE (header->input_widget) != visible)
-		g_warning ("%s: Visibility is out of sync", G_STRFUNC);
-
-	return visible;
+	return header->priv->visible;
 }
 
 void
@@ -345,13 +335,7 @@ e_composer_header_set_visible (EComposerHeader *header,
 {
 	g_return_if_fail (E_IS_COMPOSER_HEADER (header));
 
-	if (visible) {
-		gtk_widget_show (header->title_widget);
-		gtk_widget_show (header->input_widget);
-	} else {
-		gtk_widget_hide (header->title_widget);
-		gtk_widget_hide (header->input_widget);
-	}
+	header->priv->visible = visible;
 
 	g_object_notify (G_OBJECT (header), "visible");
 }

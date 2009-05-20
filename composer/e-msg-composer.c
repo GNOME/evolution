@@ -113,37 +113,6 @@
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_MSG_COMPOSER, EMsgComposerPrivate))
 
-#define E_MSG_COMPOSER_VISIBLE_MASK_SENDER \
-	(E_MSG_COMPOSER_VISIBLE_FROM | \
-	 E_MSG_COMPOSER_VISIBLE_REPLYTO)
-
-#define E_MSG_COMPOSER_VISIBLE_MASK_BASIC \
-	(E_MSG_COMPOSER_VISIBLE_MASK_SENDER | \
-	 E_MSG_COMPOSER_VISIBLE_SUBJECT)
-
-#define E_MSG_COMPOSER_VISIBLE_MASK_RECIPIENTS \
-	(E_MSG_COMPOSER_VISIBLE_TO | \
-	 E_MSG_COMPOSER_VISIBLE_CC | \
-	 E_MSG_COMPOSER_VISIBLE_BCC)
-
-#define E_MSG_COMPOSER_VISIBLE_MASK_MAIL \
-	(E_MSG_COMPOSER_VISIBLE_MASK_BASIC | \
-	 E_MSG_COMPOSER_VISIBLE_MASK_RECIPIENTS)
-
-#define E_MSG_COMPOSER_VISIBLE_MASK_POST \
-	(E_MSG_COMPOSER_VISIBLE_MASK_BASIC | \
-	 E_MSG_COMPOSER_VISIBLE_POSTTO)
-
-typedef enum {
-	E_MSG_COMPOSER_VISIBLE_FROM       = (1 << 0),
-	E_MSG_COMPOSER_VISIBLE_REPLYTO    = (1 << 1),
-	E_MSG_COMPOSER_VISIBLE_TO         = (1 << 2),
-	E_MSG_COMPOSER_VISIBLE_CC         = (1 << 3),
-	E_MSG_COMPOSER_VISIBLE_BCC        = (1 << 4),
-	E_MSG_COMPOSER_VISIBLE_POSTTO     = (1 << 5),
-	E_MSG_COMPOSER_VISIBLE_SUBJECT    = (1 << 7)
-} EMsgComposerHeaderVisibleFlags;
-
 enum {
 	SEND,
 	SAVE_DRAFT,
@@ -399,6 +368,7 @@ build_message_headers (EMsgComposer *composer,
                        gboolean redirect)
 {
 	EComposerHeaderTable *table;
+	EComposerHeader *header;
 	EAccount *account;
 	const gchar *subject;
 	const gchar *reply_to;
@@ -449,9 +419,9 @@ build_message_headers (EMsgComposer *composer,
 	}
 
 	/* To:, Cc:, Bcc: */
-	if (e_composer_header_table_get_header_visible (table, E_COMPOSER_HEADER_TO) ||
-	    e_composer_header_table_get_header_visible (table, E_COMPOSER_HEADER_CC) ||
-	    e_composer_header_table_get_header_visible (table, E_COMPOSER_HEADER_BCC)) {
+	header = e_composer_header_table_get_header (
+		table, E_COMPOSER_HEADER_TO);
+	if (e_composer_header_get_visible (header)) {
 		EDestination **to, **cc, **bcc;
 
 		to = e_composer_header_table_get_destinations_to (table);
@@ -466,7 +436,9 @@ build_message_headers (EMsgComposer *composer,
 	}
 
 	/* X-Evolution-PostTo: */
-	if (e_composer_header_table_get_header_visible (table, E_COMPOSER_HEADER_POST_TO)) {
+	header = e_composer_header_table_get_header (
+		table, E_COMPOSER_HEADER_POST_TO);
+	if (e_composer_header_get_visible (header)) {
 		CamelMedium *medium = CAMEL_MEDIUM (msg);
 		const gchar *name = "X-Evolution-PostTo";
 		GList *list, *iter;
@@ -1541,36 +1513,6 @@ msg_composer_constructor (GType type,
 		G_OBJECT (composer), "current-folder");
 	g_array_append_val (array, binding_id);
 
-	binding_id = gconf_bridge_bind_property (
-		gconf_bridge_get (),
-		COMPOSER_GCONF_VIEW_BCC_KEY,
-		G_OBJECT (ACTION (VIEW_BCC)), "active");
-	g_array_append_val (array, binding_id);
-
-	binding_id = gconf_bridge_bind_property (
-		gconf_bridge_get (),
-		COMPOSER_GCONF_VIEW_CC_KEY,
-		G_OBJECT (ACTION (VIEW_CC)), "active");
-	g_array_append_val (array, binding_id);
-
-	binding_id = gconf_bridge_bind_property (
-		gconf_bridge_get (),
-		COMPOSER_GCONF_VIEW_FROM_KEY,
-		G_OBJECT (ACTION (VIEW_FROM)), "active");
-	g_array_append_val (array, binding_id);
-
-	binding_id = gconf_bridge_bind_property (
-		gconf_bridge_get (),
-		COMPOSER_GCONF_VIEW_POST_TO_KEY,
-		G_OBJECT (ACTION (VIEW_POST_TO)), "active");
-	g_array_append_val (array, binding_id);
-
-	binding_id = gconf_bridge_bind_property (
-		gconf_bridge_get (),
-		COMPOSER_GCONF_VIEW_REPLY_TO_KEY,
-		G_OBJECT (ACTION (VIEW_REPLY_TO)), "active");
-	g_array_append_val (array, binding_id);
-
 	binding_id = gconf_bridge_bind_window (
 		gconf_bridge_get (),
 		COMPOSER_GCONF_WINDOW_PREFIX,
@@ -2322,87 +2264,6 @@ e_msg_composer_get_type (void)
 
 /* Callbacks.  */
 
-static EMsgComposer *
-create_composer (gint visible_mask)
-{
-	EMsgComposer *composer;
-	EComposerHeaderTable *table;
-	GtkToggleAction *action;
-	gboolean active;
-
-	composer = g_object_new (E_TYPE_MSG_COMPOSER, NULL);
-	table = E_COMPOSER_HEADER_TABLE (composer->priv->header_table);
-
-	/* Configure View Menu */
-
-	/* If we're mailing, you cannot disable "To". */
-	action = GTK_TOGGLE_ACTION (ACTION (VIEW_TO));
-	active = visible_mask & E_MSG_COMPOSER_VISIBLE_TO;
-	gtk_action_set_sensitive (ACTION (VIEW_TO), active);
-	gtk_toggle_action_set_active (action, active);
-
-	/* Ditto for "Post-To". */
-	action = GTK_TOGGLE_ACTION (ACTION (VIEW_POST_TO));
-	active = visible_mask & E_MSG_COMPOSER_VISIBLE_POSTTO;
-	gtk_action_set_sensitive (ACTION (VIEW_POST_TO), active);
-	gtk_toggle_action_set_active (action, active);
-
-	/* Disable "Cc" if we're posting. */
-	if (!(visible_mask & E_MSG_COMPOSER_VISIBLE_CC)) {
-		action = GTK_TOGGLE_ACTION (ACTION (VIEW_CC));
-		gtk_toggle_action_set_active (action, FALSE);
-	}
-
-	/* Disable "Bcc" if we're posting. */
-	if (!(visible_mask & E_MSG_COMPOSER_VISIBLE_BCC)) {
-		action = GTK_TOGGLE_ACTION (ACTION (VIEW_BCC));
-		gtk_toggle_action_set_active (action, FALSE);
-	}
-
-	action = GTK_TOGGLE_ACTION (ACTION (VIEW_SUBJECT));
-	gtk_toggle_action_set_active (action, TRUE);
-
-	return composer;
-}
-
-/**
- * e_msg_composer_new_with_type:
- *
- * Create a new message composer widget. The type can be
- * E_MSG_COMPOSER_MAIL, E_MSG_COMPOSER_POST or E_MSG_COMPOSER_MAIL_POST.
- *
- * Returns: A pointer to the newly created widget
- **/
-
-EMsgComposer *
-e_msg_composer_new_with_type (int type)
-{
-	EMsgComposer *composer;
-	gint visible_mask;
-
-	switch (type) {
-		case E_MSG_COMPOSER_MAIL:
-			visible_mask = E_MSG_COMPOSER_VISIBLE_MASK_MAIL;
-			break;
-
-		case E_MSG_COMPOSER_POST:
-			visible_mask = E_MSG_COMPOSER_VISIBLE_MASK_POST;
-			break;
-
-		default:
-			visible_mask =
-				E_MSG_COMPOSER_VISIBLE_MASK_MAIL |
-				E_MSG_COMPOSER_VISIBLE_MASK_POST;
-			break;
-	}
-
-	composer = create_composer (visible_mask);
-
-	set_editor_text (composer, "", TRUE);
-
-	return composer;
-}
-
 /**
  * e_msg_composer_new:
  *
@@ -2413,7 +2274,7 @@ e_msg_composer_new_with_type (int type)
 EMsgComposer *
 e_msg_composer_new (void)
 {
-	return e_msg_composer_new_with_type (E_MSG_COMPOSER_MAIL);
+	return g_object_new (E_TYPE_MSG_COMPOSER, NULL);
 }
 
 static void
@@ -2839,25 +2700,13 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	GtkToggleAction *action;
 	struct _camel_header_raw *xev;
 	gint len, i;
-	EMsgComposerPrivate *p;
 
 	for (headers = CAMEL_MIME_PART (message)->headers;headers;headers = headers->next) {
 		if (!strcmp (headers->name, "X-Evolution-PostTo"))
 			postto = g_list_append (postto, g_strstrip (g_strdup (headers->value)));
 	}
 
-	if (postto != NULL)
-		composer = create_composer (E_MSG_COMPOSER_VISIBLE_MASK_POST);
-	else
-		composer = create_composer (E_MSG_COMPOSER_VISIBLE_MASK_MAIL);
-	p = composer->priv;
-
-	if (!composer) {
-		g_list_foreach (postto, (GFunc)g_free, NULL);
-		g_list_free (postto);
-		return NULL;
-	}
-
+	composer = e_msg_composer_new ();
 	table = e_msg_composer_get_header_table (composer);
 
 	if (postto) {
@@ -3061,8 +2910,12 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	while (headers) {
 		if (g_ascii_strcasecmp (headers->name, "References") == 0 ||
 		    g_ascii_strcasecmp (headers->name, "In-Reply-To") == 0) {
-			g_ptr_array_add (p->extra_hdr_names, g_strdup (headers->name));
-			g_ptr_array_add (p->extra_hdr_values, g_strdup (headers->value));
+			g_ptr_array_add (
+				composer->priv->extra_hdr_names,
+				g_strdup (headers->name));
+			g_ptr_array_add (
+				composer->priv->extra_hdr_values,
+				g_strdup (headers->value));
 		}
 
 		headers = headers->next;
