@@ -25,7 +25,7 @@
 #endif
 
 #include "e-cal-list-view.h"
-#include "ea-calendar.h"
+#include "a11y/ea-calendar.h"
 
 #include <math.h>
 #include <time.h>
@@ -41,7 +41,7 @@
 #include <table/e-cell-text.h>
 #include <table/e-cell-combo.h>
 #include <misc/e-popup-menu.h>
-#include <misc/e-cell-date-edit.h>
+#include <table/e-cell-date-edit.h>
 #include <e-util/e-categories-config.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>

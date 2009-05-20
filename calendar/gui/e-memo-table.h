@@ -26,8 +26,8 @@
 #define _E_MEMO_TABLE_H_
 
 #include <shell/e-shell-view.h>
-#include <widgets/table/e-table-scrolled.h>
-#include <widgets/misc/e-cell-date-edit.h>
+#include <table/e-table-scrolled.h>
+#include <table/e-cell-date-edit.h>
 #include "e-cal-model.h"
 
 /*

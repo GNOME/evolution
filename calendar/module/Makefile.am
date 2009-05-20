@@ -61,11 +61,19 @@ libevolution_module_calendar_la_SOURCES =		\
 #	$(top_builddir)/a11y/calendar/libevolution-calendar-a11y.la
 
 libevolution_module_calendar_la_LIBADD =		\
-	$(WIN32_BOOTSTRAP_LIBS)				\
 	$(top_builddir)/shell/libeshell.la		\
 	$(top_builddir)/calendar/gui/libcal-gui.la	\
+	$(top_builddir)/calendar/importers/libevolution-calendar-importers.la	\
 	$(top_builddir)/mail/libevolution-module-mail.la \
-	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la
+	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la	\
+	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
+	$(top_builddir)/e-util/libeutil.la				\
+	$(top_builddir)/filter/libfilter.la				\
+	$(top_builddir)/widgets/menus/libmenus.la			\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
+	$(top_builddir)/widgets/table/libetable.la			\
+	$(CAMEL_LIBS)							\
+	$(EVOLUTION_CALENDAR_LIBS)
 
 libevolution_module_calendar_la_LDFLAGS =		\
 	-module -avoid-version $(NO_UNDEFINED)

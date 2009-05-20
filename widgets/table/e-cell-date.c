@@ -29,7 +29,7 @@
 
 #include <glib/gi18n.h>
 #include "e-util/e-util.h"
-#include "misc/e-unicode.h"
+#include "e-util/e-unicode.h"
 
 #include "e-cell-date.h"
 

@@ -31,11 +31,11 @@
 #include <glib/gi18n.h>
 #include <gdk/gdkkeysyms.h>
 #include <e-util/e-util.h>
+#include <e-util/e-unicode.h>
 
 #include <e-action-combo-box.h>
 #include <e-gui-utils.h>
 #include <e-icon-entry.h>
-#include <e-unicode.h>
 
 #define E_SEARCH_BAR_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \

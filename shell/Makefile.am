@@ -59,6 +59,7 @@ privsolib_LTLIBRARIES =	\
 eshellincludedir = $(privincludedir)/shell
 
 eshellinclude_HEADERS = 			\
+	e-shell.h				\
 	e-shell-backend.h			\
 	e-shell-common.h			\
 	e-shell-content.h			\
@@ -68,11 +69,11 @@ eshellinclude_HEADERS = 			\
 	e-shell-taskbar.h			\
 	e-shell-view.h				\
 	e-shell-window.h			\
-	e-shell-window-actions.h		\
 	es-event.h
 
 libeshell_la_SOURCES =				\
 	$(IDL_GENERATED)			\
+	e-shell.c				\
 	e-shell-backend.c			\
 	e-shell-content.c			\
 	e-shell-settings.c			\
@@ -81,13 +82,22 @@ libeshell_la_SOURCES =				\
 	e-shell-taskbar.c			\
 	e-shell-view.c				\
 	e-shell-window.c			\
+	e-shell-window-private.c		\
+	e-shell-window-private.h		\
+	$(eshellinclude_HEADERS)		\
+	e-shell-importer.c			\
+	e-shell-importer.h			\
+	e-shell-migrate.c			\
+	e-shell-migrate.h			\
+	e-shell-window-actions.h		\
 	e-shell-window-actions.c		\
-	$(eshellinclude_HEADERS)
+	es-event.c
 
 libeshell_la_LDFLAGS = $(NO_UNDEFINED)
 
 libeshell_la_LIBADD =					\
 	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/filter/libfilter.la		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/widgets/menus/libmenus.la	\
 	$(SHELL_LIBS)
@@ -103,15 +113,6 @@ evolution_SOURCES =				\
 	$(NM_SUPPORT_FILES)			\
 	e-config-upgrade.c			\
 	e-config-upgrade.h			\
-	e-shell.c				\
-	e-shell.h				\
-	e-shell-importer.c			\
-	e-shell-importer.h			\
-	e-shell-migrate.c			\
-	e-shell-migrate.h			\
-	e-shell-window-private.c		\
-	e-shell-window-private.h		\
-	es-event.c				\
 	main.c					
 
 evolution_LDADD =							\

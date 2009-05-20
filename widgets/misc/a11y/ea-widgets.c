@@ -20,8 +20,8 @@
  *
  */
 
-#include "ea-factory.h"
-#include "widgets/ea-calendar-item.h"
+#include "a11y/ea-factory.h"
+#include "ea-calendar-item.h"
 #include "ea-widgets.h"
 
 EA_FACTORY_GOBJECT (EA_TYPE_CALENDAR_ITEM, ea_calendar_item, ea_calendar_item_new)

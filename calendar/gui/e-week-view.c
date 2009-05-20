@@ -30,7 +30,7 @@
 #endif
 
 #include "e-week-view.h"
-#include "ea-calendar.h"
+#include "a11y/ea-calendar.h"
 
 #include <math.h>
 #include <gdk/gdkkeysyms.h>
@@ -39,7 +39,7 @@
 #include <text/e-text.h>
 #include <misc/e-canvas-utils.h>
 #include <misc/e-gui-utils.h>
-#include <misc/e-unicode.h>
+#include <e-util/e-unicode.h>
 #include <e-util/e-categories-config.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util.h>

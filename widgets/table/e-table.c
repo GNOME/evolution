@@ -36,13 +36,13 @@
 #include <libgnomecanvas/gnome-canvas.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 
-#include "a11y/e-table/gal-a11y-e-table.h"
+#include "a11y/gal-a11y-e-table.h"
 #include <glib/gi18n.h>
 #include "e-util/e-util.h"
 #include "misc/e-canvas.h"
 #include "misc/e-canvas-background.h"
 #include "misc/e-canvas-vbox.h"
-#include "misc/e-unicode.h"
+#include "e-util/e-unicode.h"
 
 #include "e-table.h"
 #include "e-table-click-to-add.h"

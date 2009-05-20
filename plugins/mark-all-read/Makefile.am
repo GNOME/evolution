@@ -13,6 +13,7 @@ liborg_gnome_mark_all_read_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_mark_all_read_la_LIBADD = 			\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/mail/libevolution-module-mail.la	\
+	$(top_builddir)/shell/libeshell.la			\
 	$(EVOLUTION_MAIL_LIBS)
 
 EXTRA_DIST = org-gnome-mark-all-read.eplug.xml

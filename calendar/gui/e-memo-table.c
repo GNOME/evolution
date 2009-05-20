@@ -42,8 +42,8 @@
 #include <table/e-cell-combo.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-util-private.h>
-#include <widgets/misc/e-cell-date-edit.h>
-#include <widgets/misc/e-cell-percent.h>
+#include <table/e-cell-date-edit.h>
+#include <table/e-cell-percent.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserver/e-time-utils.h>
 

@@ -21,7 +21,6 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <e-util/e-error.h>
-#include <mail/em-event.h>
 
 #include "misc/e-charset-picker.h"
 
@@ -249,6 +248,8 @@ static void
 action_send_options_cb (GtkAction *action,
                         EMsgComposer *composer)
 {
+	/* FIXME: KILL-BONOBO - should this be here when -no-undefined removed? */
+	/*
 	EMEvent *event = em_event_peek ();
 	EMEventTargetComposer *target;
 
@@ -260,6 +261,7 @@ action_send_options_cb (GtkAction *action,
 		(EEvent *) event,
 		"composer.selectsendoption",
 		(EEventTarget *) target);
+	*/
 
 	if (!composer->priv->send_invoked)
 		e_error_run (

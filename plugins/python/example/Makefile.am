@@ -9,9 +9,6 @@ plugin_DATA = \
 	org-gnome-hello-python-ui.xml				\
 	org-gnome-hello-python.eplug
 
-liborg_gnome_py_plug_test_la_LIBADD=			\
-	$(NO_UNDEFINED_REQUIRED_LIBS)		
-
 liborg_gnome_py_plug_test_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 
 errordir = $(privdatadir)/errors

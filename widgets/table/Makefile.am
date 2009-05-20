@@ -1,9 +1,3 @@
-if OS_WIN32
-WIN32_BOOTSTRAP_LIBS =					\
-	$(top_builddir)/win32/libemiscwidgets.la	\
-	$(top_builddir)/win32/libetext.la
-endif
-
 glade_DATA = 					\
 	e-table-config.glade			\
 	e-table-field-chooser.glade
@@ -24,7 +18,9 @@ libetable_la_SOURCES = 				\
 	e-cell-checkbox.c			\
 	e-cell-combo.c				\
 	e-cell-date.c				\
+	e-cell-date-edit.c			\
 	e-cell-number.c				\
+	e-cell-percent.c			\
 	e-cell-pixbuf.c				\
 	e-cell-popup.c				\
 	e-cell-size.c				\
@@ -76,7 +72,23 @@ libetable_la_SOURCES = 				\
 	e-tree-selection-model.c		\
 	e-tree-sorted.c				\
 	e-tree-table-adapter.c			\
-	e-tree.c
+	e-tree.c				\
+	a11y/gal-a11y-e-cell.c			\
+	a11y/gal-a11y-e-cell-popup.c		\
+	a11y/gal-a11y-e-cell-registry.c		\
+	a11y/gal-a11y-e-cell-text.c		\
+	a11y/gal-a11y-e-cell-toggle.c		\
+	a11y/gal-a11y-e-cell-tree.c		\
+	a11y/gal-a11y-e-cell-vbox.c		\
+	a11y/gal-a11y-e-table.c			\
+	a11y/gal-a11y-e-table-click-to-add.c	\
+	a11y/gal-a11y-e-table-click-to-add-factory.c	\
+	a11y/gal-a11y-e-table-column-header.c	\
+	a11y/gal-a11y-e-table-factory.c		\
+	a11y/gal-a11y-e-table-item.c		\
+	a11y/gal-a11y-e-table-item-factory.c	\
+	a11y/gal-a11y-e-tree.c			\
+	a11y/gal-a11y-e-tree-factory.c
 
 libetableincludedir = $(privincludedir)/table
 
@@ -85,7 +97,9 @@ libetableinclude_HEADERS = 			\
 	e-cell-checkbox.h			\
 	e-cell-combo.h				\
 	e-cell-date.h				\
+	e-cell-date-edit.h			\
 	e-cell-number.h				\
+	e-cell-percent.h			\
 	e-cell-pixbuf.h				\
 	e-cell-popup.h				\
 	e-cell-size.h				\
@@ -140,16 +154,34 @@ libetableinclude_HEADERS = 			\
 	e-tree-selection-model.h		\
 	e-tree-sorted.h				\
 	e-tree-table-adapter.h			\
-	e-tree.h
+	e-tree.h				\
+	a11y/gal-a11y-e-cell.h			\
+	a11y/gal-a11y-e-cell-popup.h		\
+	a11y/gal-a11y-e-cell-registry.h		\
+	a11y/gal-a11y-e-cell-text.h		\
+	a11y/gal-a11y-e-cell-toggle.h		\
+	a11y/gal-a11y-e-cell-tree.h		\
+	a11y/gal-a11y-e-cell-vbox.h		\
+	a11y/gal-a11y-e-table.h			\
+	a11y/gal-a11y-e-table-click-to-add.h	\
+	a11y/gal-a11y-e-table-click-to-add-factory.h	\
+	a11y/gal-a11y-e-table-column-header.h	\
+	a11y/gal-a11y-e-table-factory.h		\
+	a11y/gal-a11y-e-table-item.h		\
+	a11y/gal-a11y-e-table-item-factory.h	\
+	a11y/gal-a11y-e-tree.h			\
+	a11y/gal-a11y-e-tree-factory.h
 
 libetable_la_LDFLAGS = $(NO_UNDEFINED)
 
 libetable_la_LIBADD =					\
-	$(WIN32_BOOTSTRAP_LIBS)				\
-	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/a11y/libevolution-a11y.la	\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
+	$(top_builddir)/widgets/text/libetext.la	\
 	$(E_UTIL_LIBS)					\
 	$(E_WIDGETS_LIBS)				\
+	$(MATH_LIB)					\
 	$(GNOME_PLATFORM_LIBS)
 
 icons = 			\

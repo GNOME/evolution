@@ -74,7 +74,7 @@
 #include "calendar-view-factory.h"
 #include "tag-calendar.h"
 #include "misc.h"
-#include "ea-calendar.h"
+#include "a11y/ea-calendar.h"
 #include "common/authentication.h"
 #include "e-cal-popup.h"
 #include "e-cal-menu.h"

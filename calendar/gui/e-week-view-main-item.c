@@ -29,7 +29,7 @@
 #include <glib.h>
 #include <glib/gi18n.h>
 #include "e-week-view-main-item.h"
-#include "ea-calendar.h"
+#include "a11y/ea-calendar.h"
 
 static void e_week_view_main_item_set_property	(GObject	 *object,
 						 guint		  property_id,

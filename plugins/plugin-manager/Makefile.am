@@ -11,6 +11,7 @@ liborg_gnome_plugin_manager_la_SOURCES = plugin-manager.c
 liborg_gnome_plugin_manager_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_plugin_manager_la_LIBADD =			\
 	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/shell/libeshell.la		\
 	$(EVOLUTION_MAIL_LIBS)
 
 EXTRA_DIST = \

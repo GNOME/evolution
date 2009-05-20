@@ -1,11 +1,3 @@
-if OS_WIN32
-NO_UNDEFINED_REQUIRED_LIBS =				\
-	$(top_builddir)/mail/libevolution-mail.la	\
-	$(top_builddir)/e-util/libeutil.la		\
-	$(EVOLUTION_CALENDAR_LIBS)			\
-	$(EVOLUTION_MAIL_LIBS)
-endif
-
 INCLUDES =						\
 	-I$(EVOLUTION_SOURCE)				\
 	-I$(top_srcdir)					\
@@ -24,7 +16,6 @@ liborg_gnome_pst_import_la_SOURCES = pst-importer.c
 liborg_gnome_pst_import_la_LDFLAGS = \
 	-module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_pst_import_la_LIBADD =	\
-	$(NO_UNDEFINED_REQUIRED_LIBS)	\
 	$(LIBPST_LIBS)
 
 EXTRA_DIST = org-gnome-pst-import.eplug.xml

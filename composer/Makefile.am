@@ -47,8 +47,9 @@ libcomposer_la_SOURCES = 			\
 	e-msg-composer.c			\
 	e-msg-composer.h
 
-libcomposer_la_LIBADD =							\
-	$(top_builddir)/widgets/misc/libemiscwidgets.la
+libcomposer_la_LIBADD =					\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
+	$(top_builddir)/em-format/libemformat.la
 
 uidir = $(evolutionuidir)
 ui_DATA = evolution-composer.ui

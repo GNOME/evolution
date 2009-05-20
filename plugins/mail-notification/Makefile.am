@@ -1,10 +1,3 @@
-if OS_WIN32
-NO_UNDEFINED_REQUIRED_LIBS =				\
-	$(top_builddir)/mail/libevolution-mail.la	\
-	$(top_builddir)/e-util/libeutil.la		\
-	$(GNOME_PLATFORM_LIBS)
-endif
-
 INCLUDES =					\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/widgets			\
@@ -25,9 +18,11 @@ plugin_LTLIBRARIES = liborg-gnome-mail-notification.la
 liborg_gnome_mail_notification_la_SOURCES = mail-notification.c
 liborg_gnome_mail_notification_la_LDFLAGS = 	\
 	-module -avoid-version $(NO_UNDEFINED)
-liborg_gnome_mail_notification_la_LIBADD = 	\
-	$(LIBNOTIFY_LIBS)			\
-	$(NO_UNDEFINED_REQUIRED_LIBS)
+liborg_gnome_mail_notification_la_LIBADD = 			\
+	$(LIBNOTIFY_LIBS)					\
+	$(top_builddir)/e-util/libeutil.la 			\
+	$(top_builddir)/mail/libevolution-module-mail.la	\
+	$(GNOME_PLATFORM_LIBS)
 
 if ENABLE_DBUS
 liborg_gnome_mail_notification_la_LDFLAGS += $(NMN_LIBS)

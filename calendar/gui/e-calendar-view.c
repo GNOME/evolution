@@ -55,7 +55,7 @@
 #include "dialogs/select-source-dialog.h"
 #include "print.h"
 #include "goto.h"
-#include "ea-calendar.h"
+#include "a11y/ea-calendar.h"
 #include "e-cal-popup.h"
 #include "misc.h"
 

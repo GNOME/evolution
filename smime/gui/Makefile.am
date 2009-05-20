@@ -35,10 +35,11 @@ libevolution_smime_la_SOURCES = 	\
 	component.h
 
 
-libevolution_smime_la_LIBADD =			\
-	$(top_builddir)/e-util/libeutil.la	\
-	$(top_builddir)/shell/libeshell.la	\
-	$(top_builddir)/smime/lib/libessmime.la	\
+libevolution_smime_la_LIBADD =				\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/shell/libeshell.la		\
+	$(top_builddir)/smime/lib/libessmime.la		\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(CERT_UI_LIBS)
 
 libevolution_smime_la_LDFLAGS = $(NO_UNDEFINED)

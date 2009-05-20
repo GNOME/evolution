@@ -4,7 +4,6 @@ ecpsdir = $(privdatadir)/ecps
 ruledir = $(privdatadir)
 
 if OS_WIN32
-WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libemiscwidgets.la
 PLATFORM_SOURCES = e-win32-reloc.c
 endif
 
@@ -78,6 +77,7 @@ eutilinclude_HEADERS = 				\
 	e-text-event-processor-types.h		\
 	e-text-event-processor.h		\
 	e-util.h				\
+	e-unicode.h				\
 	e-xml-utils.h
 
 libeutil_la_SOURCES =				\
@@ -119,6 +119,7 @@ libeutil_la_SOURCES =				\
 	e-text-event-processor-emacs-like.c     \
 	e-text-event-processor.c                \
 	e-util.c				\
+	e-unicode.c				\
 	e-util-private.h			\
 	e-xml-utils.c				\
 	gconf-bridge.c				\
@@ -131,7 +132,6 @@ MARSHAL_GENERATED = e-marshal.c e-marshal.h
 libeutil_la_LDFLAGS = $(NO_UNDEFINED)
 
 libeutil_la_LIBADD = 		\
-	$(WIN32_BOOTSTRAP_LIBS)	\
 	$(ICONV_LIBS)		\
 	$(E_UTIL_LIBS)		\
 	$(GNOME_PILOT_LIBS)	\

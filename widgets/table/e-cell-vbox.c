@@ -29,8 +29,8 @@
 
 #include <gtk/gtk.h>
 
-#include "a11y/e-table/gal-a11y-e-cell-registry.h"
-#include "a11y/e-table/gal-a11y-e-cell-vbox.h"
+#include "a11y/gal-a11y-e-cell-registry.h"
+#include "a11y/gal-a11y-e-cell-vbox.h"
 #include "e-util/e-util.h"
 
 #include "e-cell-vbox.h"

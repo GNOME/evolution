@@ -1,4 +1,4 @@
-SUBDIRS = default importers
+SUBDIRS = default
 
 mailincludedir = $(privincludedir)/mail
 
@@ -7,6 +7,7 @@ INCLUDES =						\
 	-I$(top_srcdir)/widgets/e-text			\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_srcdir)					\
+	-I$(top_srcdir)/em-format			\
 	-I$(top_srcdir)/mail				\
 	-I$(top_srcdir)/composer			\
 	-I$(top_builddir)/composer			\
@@ -112,8 +113,6 @@ libevolution_module_mail_la_SOURCES =			\
 	em-folder-tree-model.h				\
 	em-folder-utils.c				\
 	em-folder-utils.h				\
-	em-format.c					\
-	em-format.h					\
 	em-format-hook.c				\
 	em-format-hook.h				\
 	em-format-html.c				\
@@ -122,8 +121,6 @@ libevolution_module_mail_la_SOURCES =			\
 	em-format-html-display.h			\
 	em-format-html-print.c				\
 	em-format-html-print.h				\
-	em-format-quote.c				\
-	em-format-quote.h				\
 	em-html-stream.c				\
 	em-html-stream.h				\
 	em-icon-stream.c				\
@@ -142,8 +139,6 @@ libevolution_module_mail_la_SOURCES =			\
 	em-popup.h					\
 	em-search-context.c				\
 	em-search-context.h				\
-	em-stripsig-filter.c				\
-	em-stripsig-filter.h				\
 	em-subscribe-editor.c				\
 	em-subscribe-editor.h				\
 	em-sync-stream.c				\
@@ -179,7 +174,12 @@ libevolution_module_mail_la_SOURCES =			\
 	message-tag-editor.c				\
 	message-tag-editor.h				\
 	message-tag-followup.c				\
-	message-tag-followup,h
+	message-tag-followup.h				\
+	importers/mail-importer.c			\
+	importers/mail-importer.h			\
+	importers/elm-importer.c			\
+	importers/pine-importer.c			\
+	importers/evolution-mbox-importer.c
 
 libevolution_module_mail_la_LIBADD =			\
 	$(top_builddir)/e-util/libeutil.la		\
@@ -188,7 +188,6 @@ libevolution_module_mail_la_LIBADD =			\
 	$(top_builddir)/widgets/table/libetable.la	\
 	$(top_builddir)/widgets/text/libetext.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
-	$(top_builddir)/mail/importers/libevolution-mail-importers.la \
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
 	$(SMIME_LIBS)

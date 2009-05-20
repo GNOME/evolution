@@ -25,7 +25,7 @@
 #include <e-util/e-util.h>
 #include "ea-calendar-cell.h"
 #include "ea-calendar-item.h"
-#include "ea-factory.h"
+#include "a11y/ea-factory.h"
 
 /* ECalendarCell */
 

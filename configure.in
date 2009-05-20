@@ -157,7 +157,7 @@ case "$host" in
     HAL_REQUIREMENT=''
     ;;
 *)  os_win32=no
-    NO_UNDEFINED=''
+    NO_UNDEFINED='-Wl,-no-undefined'
     SOEXT='.so'
     SA_JUNK_PLUGIN=sa-junk-plugin 
     BF_JUNK_PLUGIN=bogo-junk-plugin
@@ -170,6 +170,9 @@ AC_MSG_RESULT([$os_win32])
 AM_CONDITIONAL(OS_WIN32, [test $os_win32 = yes])
 AC_SUBST(NO_UNDEFINED)
 AC_SUBST(SOEXT)
+
+MATH_LIB="-lm"
+AC_SUBST(MATH_LIB)
 
 if test "$os_win32" = "yes"; then
   AC_CHECK_TOOL(WINDRES, windres, :)
@@ -1105,7 +1108,7 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 				nsprlibs="$DL_LIB -lplc4 -lplds4 -lnspr4 $PTHREAD_LIB"
 			fi
 			
-			AC_CACHE_CHECK([for Mozilla nspr libraries], moz_nspr_libs,
+			AC_CACHE_CHECK([for Mozilla nspr libraries], ac_cv_moz_nspr_libs,
 			[
 		       		LIBS_save="$LIBS"
 				CFLAGS="$CFLAGS $MANUAL_NSPR_CFLAGS"
@@ -1118,12 +1121,12 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 		       			LDFLAGS="$LDFLAGS"
 				fi
 				
-				AC_TRY_LINK_FUNC(PR_Init, moz_nspr_libs="yes", moz_nspr_libs="no")
+				AC_TRY_LINK_FUNC(PR_Init, ac_cv_moz_nspr_libs="yes", ac_cv_moz_nspr_libs="no")
 				CFLAGS="$CFLAGS_save"
 				LDFLAGS="$LDFLAGS_save"
 	 			LIBS="$LIBS_save"
 			])
-			if test "x$moz_nspr_libs" != "xno"; then
+			if test "x$ac_cv_moz_nspr_libs" != "xno"; then
 				have_nspr_libs="yes"
 				MANUAL_NSPR_LIBS="-L$with_nspr_libs $nsprlibs"
 			else
@@ -1184,21 +1187,21 @@ if test "x${enable_nss}" = "xyes" || test "x${enable_nss}" = "xstatic"; then
 		 		nsslibs="-lssl3 -lsmime3 -lnss3 $SOFTOKN3_LIB"
 	 		fi	
 			
-			AC_CACHE_CHECK([for Mozilla nss libraries], moz_nss_libs,
+			AC_CACHE_CHECK([for Mozilla nss libraries], ac_cv_moz_nss_libs,
 			[
 	 			LIBS_save="$LIBS"
 				LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs -L$with_nss_libs $nsslibs"
 		      		LIBS="$nsslibs $nsprlibs"
-				AC_TRY_LINK_FUNC(NSS_Init, moz_nss_libs="yes", moz_nss_libs="no")
-				if test "$moz_nss_libs" = no; then
+				AC_TRY_LINK_FUNC(NSS_Init, ac_cv_moz_nss_libs="yes", ac_cv_moz_nss_libs="no")
+				if test "$ac_cv_moz_nss_libs" = no; then
 					nsslibs="-lssl3 -lsmime3 -lnss3 $SOFTOKN3_LIB"
 					LDFLAGS="$LDFLAGS -L$with_nspr_libs $nsprlibs -L$with_nss_libs $nsslibs"
-					AC_TRY_LINK_FUNC(NSS_Init, moz_nss_libs="yes", moz_nss_libs="no")	
+					AC_TRY_LINK_FUNC(NSS_Init, ac_cv_moz_nss_libs="yes", ac_cv_moz_nss_libs="no")	
 				fi
 				LDFLAGS="$LDFLAGS_save"
 	 			LIBS="$LIBS_save"
 			])
-			if test "$moz_nss_libs" != no; then
+			if test "$ac_cv_moz_nss_libs" != no; then
 				AC_DEFINE(HAVE_NSS)
 				AC_DEFINE(HAVE_SSL)
 				AC_DEFINE_UNQUOTED(MOZILLA_NSS_LIB_DIR,"$with_nss_libs", [Define to the full path of mozilla nss library])
@@ -1553,6 +1556,8 @@ EVO_SET_COMPILE_FLAGS(E_UTIL, libbonoboui-2.0 libglade-2.0 libgnomeui-2.0 libeda
 AC_SUBST(E_UTIL_CFLAGS)
 AC_SUBST(E_UTIL_LIBS)
 
+E_UTIL_LIBS="$E_UTIL_LIBS $MATH_LIB"
+
 EVO_SET_COMPILE_FLAGS(TZDIALOG, libecal-$EDS_PACKAGE, $GNOME_PLATFORM_CFLAGS, $GNOME_PLATFORM_LIBS)
 AC_SUBST(TZDIALOG_CFLAGS)
 AC_SUBST(TZDIALOG_LIBS)
@@ -1585,7 +1590,7 @@ fi
 AM_CONDITIONAL(NM_SUPPORT, test x$NM_SUPPORT = xyes)
 
 
-EVO_SET_COMPILE_FLAGS(SHELL, libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE $NM_SUPPORT_PACKAGES unique-1.0)
+EVO_SET_COMPILE_FLAGS(SHELL, libgnomeui-2.0 libbonoboui-2.0 libglade-2.0 gio-2.0 gconf-2.0 gobject-2.0 libgtkhtml-$GTKHTML_PACKAGE $NM_SUPPORT_PACKAGES unique-1.0 libedataserverui-$EDS_PACKAGE)
 
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
@@ -2004,11 +2009,6 @@ AC_OUTPUT([ po/Makefile.in
 Makefile
 win32/Makefile
 a11y/Makefile
-a11y/addressbook/Makefile
-a11y/calendar/Makefile
-a11y/widgets/Makefile
-a11y/e-table/Makefile
-a11y/e-text/Makefile
 addressbook/Makefile
 addressbook/conduit/Makefile
 addressbook/gui/Makefile
@@ -2040,6 +2040,7 @@ doc/Makefile
 doc/reference/Makefile
 doc/reference/shell/Makefile
 e-util/Makefile
+em-format/Makefile
 filter/Makefile
 help/Makefile
 help/quickref/Makefile
@@ -2108,7 +2109,6 @@ mail/default/sr/Makefile
 mail/default/sr@latin/Makefile
 mail/default/sv/Makefile
 mail/default/hu/Makefile
-mail/importers/Makefile
 plugins/Makefile
 plugins/addressbook-file/Makefile
 plugins/attachment-reminder/Makefile

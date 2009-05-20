@@ -1,7 +1,3 @@
-if OS_WIN32
-WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libevolution-addressbook.la
-endif
-
 INCLUDES =						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
@@ -30,7 +26,6 @@ libecontacteditor_la_SOURCES = 			\
 libecontacteditor_la_LDFLAGS = $(NO_UNDEFINED)
 
 libecontacteditor_la_LIBADD =						\
-	$(WIN32_BOOTSTRAP_LIBS)						\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(top_builddir)/addressbook/util/libeabutil.la			\

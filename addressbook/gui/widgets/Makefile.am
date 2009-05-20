@@ -51,11 +51,22 @@ libeabwidgets_la_SOURCES =			\
 	gal-view-minicard.c			\
 	gal-view-minicard.h			\
 	gal-view-factory-minicard.c		\
-	gal-view-factory-minicard.h
+	gal-view-factory-minicard.h		\
+	a11y/ea-minicard.c			\
+	a11y/ea-minicard.h			\
+	a11y/ea-minicard-view.c			\
+	a11y/ea-minicard-view.h			\
+	a11y/ea-addressbook-view.c		\
+	a11y/ea-addressbook-view.h		\
+	a11y/ea-addressbook.c			\
+	a11y/ea-addressbook.h
 
 libeabwidgets_la_LIBADD =					\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
-	$(top_builddir)/a11y/addressbook/libevolution-addressbook-a11y.la
+	$(top_builddir)/shell/libeshell.la			\
+	$(top_builddir)/widgets/table/libetable.la		\
+	$(top_builddir)/widgets/menus/libmenus.la		\
+	$(top_builddir)/a11y/libevolution-a11y.la
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)

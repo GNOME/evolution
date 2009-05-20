@@ -21,7 +21,7 @@
  */
 
 #include <text/e-text.h>
-#include "ea-factory.h"
+#include "a11y/ea-factory.h"
 #include "ea-addressbook.h"
 #include "ea-minicard.h"
 #include "ea-minicard-view.h"

@@ -50,9 +50,9 @@
 #include <camel/camel-mime-filter-pgp.h>
 
 #include "em-format.h"
-#include "em-utils.h"
-#include "mail-config.h"
-#include "mail-session.h"
+#include "e-util/e-util.h"
+#include "shell/e-shell.h"
+#include "shell/e-shell-settings.h"
 
 #define d(x)
 
@@ -170,6 +170,9 @@ emf_class_init (EMFormatClass *class)
 static void
 emf_init (EMFormat *emf)
 {
+	EShell *shell;
+	EShellSettings *shell_settings;
+
 	emf->inline_table = g_hash_table_new_full (
 		g_str_hash, g_str_equal,
 		(GDestroyNotify) NULL,
@@ -180,7 +183,12 @@ emf_init (EMFormat *emf)
 	em_format_default_headers(emf);
 	emf->part_id = g_string_new("");
 
-	emf->session = session;
+	shell = e_shell_get_default ();
+	shell_settings = e_shell_get_shell_settings (shell);
+
+	emf->session = e_shell_settings_get_pointer (shell_settings, "mail-session");
+	g_return_if_fail (emf->session != NULL);
+
 	camel_object_ref (emf->session);
 }
 
@@ -637,7 +645,7 @@ em_format_part_as(EMFormat *emf, CamelStream *stream, CamelMimePart *part, const
 
 	if (mime_type != NULL) {
 		if (g_ascii_strcasecmp(mime_type, "application/octet-stream") == 0) {
-			emf->snoop_mime_type = mime_type = em_utils_snoop_type(part);
+			emf->snoop_mime_type = mime_type = em_format_snoop_type(part);
 			if (mime_type == NULL)
 				mime_type = "application/octet-stream";
 		}
@@ -1198,6 +1206,7 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 	CamelStream *mem_stream = NULL;
 	size_t size;
 	size_t max;
+	GConfClient *gconf;
 
 	if (emf->charset) {
 		charset = emf->charset;
@@ -1235,7 +1244,16 @@ em_format_format_text(EMFormat *emf, CamelStream *stream, CamelDataWrapper *dw)
 		camel_object_unref(filter);
 	}
 
-	max = mail_config_get_message_limit();
+	max = -1;
+
+	gconf = gconf_client_get_default ();
+	if (gconf_client_get_bool (gconf, "/apps/evolution/mail/display/force_message_limit", NULL)) {
+		max = gconf_client_get_int (gconf, "/apps/evolution/mail/display/message_text_part_limit", NULL);
+		if (max == 0)
+			max = -1;
+	}
+	g_object_unref (gconf);
+
 	size = camel_data_wrapper_decode_to_stream(emf->mode == EM_FORMAT_SOURCE ? (CamelDataWrapper *)dw: camel_medium_get_content_object((CamelMedium *)dw), (CamelStream *)filter_stream);
 	camel_stream_flush((CamelStream *)filter_stream);
 	camel_object_unref(filter_stream);
@@ -1293,7 +1311,6 @@ emf_application_xpkcs7mime(EMFormat *emf, CamelStream *stream, CamelMimePart *pa
 {
 	CamelCipherContext *context;
 	CamelException *ex;
-	extern CamelSession *session;
 	CamelMimePart *opart;
 	CamelCipherValidity *valid;
 	struct _EMFormatCache *emfc;
@@ -1307,7 +1324,7 @@ emf_application_xpkcs7mime(EMFormat *emf, CamelStream *stream, CamelMimePart *pa
 
 	ex = camel_exception_new();
 
-	context = camel_smime_context_new(session);
+	context = camel_smime_context_new(emf->session);
 
 	opart = camel_mime_part_new();
 	valid = camel_cipher_decrypt(context, part, opart, ex);
@@ -1793,7 +1810,7 @@ emf_inlinepgp_encrypted(EMFormat *emf, CamelStream *stream, CamelMimePart *ipart
 
 	/* this ensures to show the 'opart' as inlined, if possible */
 	if (mime_type && g_ascii_strcasecmp (mime_type, "application/octet-stream") == 0) {
-		const char *snoop = em_utils_snoop_type (opart);
+		const char *snoop = em_format_snoop_type (opart);
 
 		if (snoop)
 			camel_data_wrapper_set_mime_type (dw, snoop);
@@ -1843,4 +1860,86 @@ emf_builtin_init(EMFormatClass *class)
 
 	for (i=0;i<sizeof(type_builtin_table)/sizeof(type_builtin_table[0]);i++)
 		g_hash_table_insert(class->type_handlers, type_builtin_table[i].mime_type, &type_builtin_table[i]);
+}
+
+/**
+ * em_format_snoop_type:
+ * @part:
+ *
+ * Tries to snoop the mime type of a part.
+ *
+ * Return value: NULL if unknown (more likely application/octet-stream).
+ **/
+const char *
+em_format_snoop_type (CamelMimePart *part)
+{
+	/* cache is here only to be able still return const char * */
+	static GHashTable *types_cache = NULL;
+
+	const char *filename;
+	char *name_type = NULL, *magic_type = NULL, *res, *tmp;
+	CamelDataWrapper *dw;
+
+	filename = camel_mime_part_get_filename (part);
+	if (filename != NULL)
+		name_type = e_util_guess_mime_type (filename, FALSE);
+
+	dw = camel_medium_get_content_object((CamelMedium *)part);
+	if (!camel_data_wrapper_is_offline(dw)) {
+		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new();
+
+		if (camel_data_wrapper_decode_to_stream(dw, (CamelStream *)mem) > 0) {
+			char *ct = g_content_type_guess (filename, mem->buffer->data, mem->buffer->len, NULL);
+
+			if (ct)
+				magic_type = g_content_type_get_mime_type (ct);
+
+			g_free (ct);
+		}
+		camel_object_unref(mem);
+	}
+
+	d(printf("snooped part, magic_type '%s' name_type '%s'\n", magic_type, name_type));
+
+	/* If gvfs doesn't recognize the data by magic, but it
+	 * contains English words, it will call it text/plain. If the
+	 * filename-based check came up with something different, use
+	 * that instead and if it returns "application/octet-stream"
+	 * try to do better with the filename check.
+	 */
+
+	if (magic_type) {
+		if (name_type
+		    && (!strcmp(magic_type, "text/plain")
+			|| !strcmp(magic_type, "application/octet-stream")))
+			res = name_type;
+		else
+			res = magic_type;
+	} else
+		res = name_type;
+
+
+	if (res != name_type)
+		g_free (name_type);
+
+	if (res != magic_type)
+		g_free (magic_type);
+
+	if (!types_cache)
+		types_cache = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify) g_free, (GDestroyNotify) NULL);
+
+	if (res) {
+		tmp = g_hash_table_lookup (types_cache, res);
+		if (tmp) {
+			g_free (res);
+			res = tmp;
+		} else {
+			g_hash_table_insert (types_cache, res, res);
+		}
+	}
+
+	return res;
+
+	/* We used to load parts to check their type, we dont anymore,
+	   see bug #11778 for some discussion */
 }

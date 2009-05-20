@@ -29,7 +29,7 @@
 
 #include <gtk/gtk.h>
 
-#include "misc/e-unicode.h"
+#include "e-util/e-unicode.h"
 
 #include "e-table-defines.h"
 #include "e-table-header-utils.h"

@@ -30,12 +30,12 @@
 #include "text/e-text.h"
 #include <glib/gi18n.h>
 #include "e-util/e-util.h"
-#include "misc/e-unicode.h"
+#include "e-util/e-unicode.h"
 
-#include "e-canvas.h"
-#include "e-canvas-utils.h"
+#include "misc/e-canvas.h"
+#include "misc/e-canvas-utils.h"
 #include "e-reflow.h"
-#include "e-selection-model-simple.h"
+#include "misc/e-selection-model-simple.h"
 
 static gboolean e_reflow_event (GnomeCanvasItem *item, GdkEvent *event);
 static void e_reflow_realize (GnomeCanvasItem *item);

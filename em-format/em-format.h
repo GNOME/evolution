@@ -396,7 +396,7 @@ void		em_format_part			(EMFormat *emf,
 void		em_format_merge_handler		(EMFormat *new,
 						 EMFormat *old);
 
-G_END_DECLS
+const char * em_format_snoop_type (CamelMimePart *part);
 
 G_END_DECLS
 

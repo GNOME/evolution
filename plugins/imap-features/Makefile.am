@@ -1,7 +1,3 @@
-if OS_WIN32
-NO_UNDEFINED_REQUIRED_LIBS = $(top_builddir)/mail/libevolution-mail.la
-endif
-
 INCLUDES =						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/mail				\
@@ -19,8 +15,9 @@ plugin_LTLIBRARIES = liborg-gnome-imap-features.la
 liborg_gnome_imap_features_la_SOURCES = 	\
 	imap-headers.c	
 
-liborg_gnome_imap_features_la_LIBADD=		\
-	$(NO_UNDEFINED_REQUIRED_LIBS)		\
+liborg_gnome_imap_features_la_LIBADD=				\
+	$(top_builddir)/e-util/libeutil.la 			\
+	$(top_builddir)/mail/libevolution-module-mail.la	\
 	$(EVOLUTION_MAIL_LIBS)					
 
 

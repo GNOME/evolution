@@ -27,7 +27,7 @@
 #include <glib/gi18n.h>
 #include "e-util/e-util.h"
 #include "e-util/e-util-private.h"
-#include "misc/e-unicode.h"
+#include "e-util/e-unicode.h"
 
 #include "gal-define-views-model.h"
 #include "gal-view-new-dialog.h"

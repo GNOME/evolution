@@ -9,7 +9,7 @@ plugin_DATA = org-gnome-evolution-python.eplug
 plugin_LTLIBRARIES = liborg-gnome-evolution-python.la
 
 liborg_gnome_evolution_python_la_SOURCES = python-plugin-loader.c python-plugin-loader.h
-liborg_gnome_evolution_python_la_LDFLAGS = -module -avoid-version
+liborg_gnome_evolution_python_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_evolution_python_la_LIBADD =	\
 	-lpthread -ldl -lutil -lm \
 	$(PY_LIBS) \

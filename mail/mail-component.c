@@ -37,7 +37,7 @@
 #include <libedataserver/e-data-server-util.h>
 #include "em-utils.h"
 #include "em-composer-utils.h"
-#include "em-format.h"
+#include "em-format/em-format.h"
 #include "em-folder-tree.h"
 #include "em-folder-browser.h"
 #include "em-message-browser.h"

@@ -39,15 +39,15 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 
-#include <table/e-table-item.h>
-#include <table/e-cell-text.h>
+#include "e-table-item.h"
+#include "e-cell-text.h"
 
 #include <glib/gi18n.h>
 
 #include <libedataserver/e-time-utils.h>
 
 /* This depends on ECalendar which is why I didn't put it in gal. */
-#include "e-calendar.h"
+#include <misc/e-calendar.h>
 
 static void e_cell_date_edit_destroy		(GtkObject	*object);
 static void e_cell_date_edit_get_property	(GObject	*object,

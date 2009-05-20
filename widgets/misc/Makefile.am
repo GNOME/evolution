@@ -1,10 +1,5 @@
-if OS_WIN32
-WIN32_BOOTSTRAP_LIBS = $(top_builddir)/win32/libfilter.la
-endif
-
 INCLUDES =								\
 	-I$(top_srcdir)							\
-	-I$(top_srcdir)/a11y/widgets					\
 	-I$(top_srcdir)/filter						\
 	-I$(top_srcdir)/widgets						\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"				\
@@ -50,13 +45,10 @@ widgetsinclude_HEADERS =			\
 	e-attachment-view.h			\
 	e-calendar.h				\
 	e-calendar-item.h			\
-	e-camel-activity.h			\
 	e-canvas.h				\
 	e-canvas-background.h			\
 	e-canvas-utils.h			\
 	e-canvas-vbox.h				\
-	e-cell-date-edit.h			\
-	e-cell-percent.h			\
 	e-cell-renderer-combo.h			\
 	e-charset-picker.h			\
 	e-colors.h				\
@@ -75,8 +67,6 @@ widgetsinclude_HEADERS =			\
 	e-popup-menu.h				\
 	e-preferences-window.h			\
 	e-printable.h				\
-	e-reflow.h				\
-	e-reflow-model.h			\
 	e-search-bar.h				\
 	e-selection-model.h			\
 	e-selection-model-array.h		\
@@ -91,8 +81,10 @@ widgetsinclude_HEADERS =			\
 	e-spinner.c				\
 	e-spinner.h				\
 	e-timeout-activity.h			\
-	e-unicode.h				\
-	e-url-entry.h
+	e-url-entry.h				\
+	a11y/ea-calendar-cell.h			\
+	a11y/ea-calendar-item.h			\
+	a11y/ea-widgets.h
 
 libemiscwidgets_la_SOURCES =			\
 	$(widgetsinclude_HEADERS)		\
@@ -115,13 +107,10 @@ libemiscwidgets_la_SOURCES =			\
 	e-attachment-view.c			\
 	e-calendar.c				\
 	e-calendar-item.c			\
-	e-camel-activity.c			\
 	e-canvas.c				\
 	e-canvas-background.c			\
 	e-canvas-utils.c			\
 	e-canvas-vbox.c				\
-	e-cell-date-edit.c			\
-	e-cell-percent.c			\
 	e-cell-renderer-combo.c			\
 	e-charset-picker.c			\
 	e-colors.c				\
@@ -140,8 +129,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-popup-menu.c				\
 	e-preferences-window.c			\
 	e-printable.c				\
-	e-reflow-model.c			\
-	e-reflow.c				\
 	e-search-bar.c				\
 	e-selection-model.c			\
 	e-selection-model-array.c		\
@@ -154,20 +141,20 @@ libemiscwidgets_la_SOURCES =			\
 	e-signature-script-dialog.c		\
 	e-signature-tree-view.c			\
 	e-timeout-activity.c			\
-	e-unicode.c				\
-	e-url-entry.c
+	e-url-entry.c				\
+	a11y/ea-calendar-cell.c			\
+	a11y/ea-calendar-item.c			\
+	a11y/ea-widgets.c
 
 libemiscwidgets_la_LDFLAGS = $(NO_UNDEFINED)
 
-libemiscwidgets_la_LIBADD = \
-	$(top_builddir)/e-util/libeutil.la				\
-	$(top_builddir)/filter/libfilter.la				\
-	$(top_builddir)/widgets/table/libetable.la			\
-	$(top_builddir)/widgets/text/libetext.la			\
-	$(top_builddir)/a11y/widgets/libevolution-widgets-a11y.la	\
-	$(top_builddir)/a11y/libevolution-a11y.la			\
-	$(EVOLUTION_MAIL_LIBS)						\
-	$(GNOME_PLATFORM_LIBS)						\
+libemiscwidgets_la_LIBADD =				\
+	$(top_builddir)/e-util/libeutil.la		\
+	$(top_builddir)/filter/libfilter.la		\
+	$(top_builddir)/a11y/libevolution-a11y.la	\
+	$(EVOLUTION_MAIL_LIBS)				\
+	$(GNOME_PLATFORM_LIBS)				\
+	$(MATH_LIB)					\
 	$(ICONV_LIBS)
 
 noinst_PROGRAMS = 			\

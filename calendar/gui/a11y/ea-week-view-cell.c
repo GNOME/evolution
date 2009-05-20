@@ -24,7 +24,7 @@
 
 #include "ea-week-view-cell.h"
 #include "ea-week-view-main-item.h"
-#include "ea-factory.h"
+#include "a11y/ea-factory.h"
 
 /* EWeekViewCell */
 

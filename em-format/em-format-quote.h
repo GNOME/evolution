@@ -24,7 +24,7 @@
 #define EM_FORMAT_QUOTE_H
 
 #include <camel/camel-stream.h>
-#include "mail/em-format.h"
+#include "em-format.h"
 
 /* Standard GObject macros */
 #define EM_TYPE_FORMAT_QUOTE \

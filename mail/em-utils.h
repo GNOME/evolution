@@ -83,7 +83,6 @@ void em_utils_adjustment_page(GtkAdjustment *adj, gboolean down);
 char *em_utils_get_proxy_uri (const char *uri);
 
 /* FIXME: should this have an override charset? */
-char *em_utils_part_to_html(CamelMimePart *part, ssize_t *len, struct _EMFormat *source);
 char *em_utils_message_to_html(CamelMimeMessage *msg, const char *credits, guint32 flags, ssize_t *len, struct _EMFormat *source, const char *append);
 
 void em_utils_expunge_folder (GtkWidget *parent, CamelFolder *folder);
@@ -103,8 +102,6 @@ void em_utils_show_info_silent (GtkWidget *widget);
 /* is this address in the addressbook?  caches results */
 gboolean em_utils_in_addressbook (CamelInternetAddress *addr, gboolean local_only);
 CamelMimePart *em_utils_contact_photo (CamelInternetAddress *addr, gboolean local);
-
-const char *em_utils_snoop_type(CamelMimePart *part);
 
 /* clears flag 'get_password_canceled' at every known accounts, so if needed, get_password will show dialog */
 void em_utils_clear_get_password_canceled_accounts_flag (void);

@@ -36,8 +36,8 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-#include "a11y/e-table/gal-a11y-e-table-item-factory.h"
-#include "a11y/e-table/gal-a11y-e-table-item.h"
+#include "a11y/gal-a11y-e-table-item-factory.h"
+#include "a11y/gal-a11y-e-table-item.h"
 #include <glib/gi18n.h>
 #include "e-util/e-util.h"
 #include "misc/e-canvas.h"

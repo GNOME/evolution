@@ -31,7 +31,7 @@
 #include "e-util/e-util.h"
 #include "misc/e-canvas-utils.h"
 #include "misc/e-canvas.h"
-#include "misc/e-unicode.h"
+#include "e-util/e-unicode.h"
 
 #include "e-table-defines.h"
 #include "e-table-group-container.h"

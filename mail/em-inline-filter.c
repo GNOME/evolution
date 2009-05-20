@@ -32,6 +32,7 @@
 #include <camel/camel-stream-mem.h>
 
 #include "em-utils.h"
+#include "em-format/em-format.h"
 
 #define d(x)
 
@@ -176,7 +177,7 @@ emif_add_part(EMInlineFilter *emif, const char *data, int len)
 
 	/* pre-snoop the mime type of unknown objects, and poke and hack it into place */
 	if (camel_content_type_is(dw->mime_type, "application", "octet-stream")
-	    && (mimetype = em_utils_snoop_type(part))
+	    && (mimetype = em_format_snoop_type(part))
 	    && strcmp(mimetype, "application/octet-stream") != 0) {
 		camel_data_wrapper_set_mime_type(dw, mimetype);
 		camel_mime_part_set_content_type(part, mimetype);

@@ -26,7 +26,7 @@
 #endif
 
 #include "e-day-view.h"
-#include "ea-calendar.h"
+#include "a11y/ea-calendar.h"
 
 #include <math.h>
 #include <time.h>
@@ -35,7 +35,7 @@
 #include <misc/e-canvas-utils.h>
 #include <misc/e-popup-menu.h>
 #include <misc/e-gui-utils.h>
-#include <misc/e-unicode.h>
+#include <e-util/e-unicode.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <glib/gi18n.h>
 #include <e-util/e-categories-config.h>

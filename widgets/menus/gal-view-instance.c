@@ -38,7 +38,7 @@
 #include <glib/gi18n.h>
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"
-#include "misc/e-unicode.h"
+#include "e-util/e-unicode.h"
 
 #include "gal-define-views-dialog.h"
 #include "gal-view-instance.h"

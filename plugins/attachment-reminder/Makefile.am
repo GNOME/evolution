@@ -22,6 +22,10 @@ plugin_LTLIBRARIES = liborg-gnome-evolution-attachment-reminder.la
 liborg_gnome_evolution_attachment_reminder_la_SOURCES = attachment-reminder.c 
 liborg_gnome_evolution_attachment_reminder_la_LDFLAGS = -module -avoid-version $(NO_UNDEFINED)
 liborg_gnome_evolution_attachment_reminder_la_LIBADD =	\
+	$(top_builddir)/composer/libcomposer.la		\
+	$(top_builddir)/shell/libeshell.la		\
+	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
+	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/mail/libevolution-module-mail.la	\

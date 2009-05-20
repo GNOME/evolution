@@ -26,7 +26,7 @@
 
 #include "e-minicard.h"
 
-#include <misc/e-reflow.h>
+#include <text/e-reflow.h>
 #include <misc/e-selection-model-simple.h>
 #include <libebook/e-book.h>
 #include "e-addressbook-reflow-adapter.h"

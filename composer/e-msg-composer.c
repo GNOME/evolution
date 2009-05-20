@@ -57,6 +57,8 @@
 #include "e-util/e-signature-utils.h"
 #include "e-signature-combo-box.h"
 #include "shell/e-shell.h"
+#include "em-format/em-format.h"
+#include "em-format/em-format-quote.h"
 
 #include <camel/camel-charset-map.h>
 #include <camel/camel-cipher-context.h>
@@ -74,9 +76,6 @@
 #if defined (HAVE_NSS)
 #include <camel/camel-smime-context.h>
 #endif
-
-#include "mail/em-utils.h"
-#include "mail/mail-tools.h"
 
 #include "e-msg-composer.h"
 #include "e-attachment.h"
@@ -152,6 +151,104 @@ static void handle_multipart (EMsgComposer *composer, CamelMultipart *multipart,
 static void handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart, gint depth);
 static void handle_multipart_encrypted (EMsgComposer *composer, CamelMimePart *multipart, gint depth);
 static void handle_multipart_signed (EMsgComposer *composer, CamelMultipart *multipart, gint depth);
+
+/**
+ * emcu_part_to_html:
+ * @part:
+ *
+ * Converts a mime part's contents into html text.  If @credits is given,
+ * then it will be used as an attribution string, and the
+ * content will be cited.  Otherwise no citation or attribution
+ * will be performed.
+ *
+ * Return Value: The part in displayable html format.
+ **/
+static char *
+emcu_part_to_html (CamelMimePart *part, ssize_t *len, EMFormat *source)
+{
+	EMFormatQuote *emfq;
+	CamelStreamMem *mem;
+	GByteArray *buf;
+	char *text;
+
+	buf = g_byte_array_new ();
+	mem = (CamelStreamMem *) camel_stream_mem_new ();
+	camel_stream_mem_set_byte_array (mem, buf);
+
+	emfq = em_format_quote_new(NULL, (CamelStream *)mem, 0);
+	((EMFormat *) emfq)->composer = TRUE;
+	if (source) {
+		/* copy over things we can, other things are internal, perhaps need different api than 'clone' */
+		if (source->default_charset)
+			em_format_set_default_charset((EMFormat *)emfq, source->default_charset);
+		if (source->charset)
+			em_format_set_default_charset((EMFormat *)emfq, source->charset);
+	}
+	em_format_part((EMFormat *) emfq, (CamelStream *)mem, part);
+	g_object_unref(emfq);
+
+	camel_stream_write((CamelStream *) mem, "", 1);
+	camel_object_unref(mem);
+
+	text = (char *)buf->data;
+	if (len)
+		*len = buf->len-1;
+	g_byte_array_free (buf, FALSE);
+
+	return text;
+}
+
+/* copy of em_utils_prompt_user from mailer */
+static gboolean
+emcu_prompt_user (GtkWindow *parent, const char *promptkey, const char *tag, const char *arg0, ...)
+{
+	GtkWidget *mbox, *check = NULL;
+	va_list ap;
+	int button;
+	GConfClient *gconf = gconf_client_get_default ();
+
+	if (promptkey
+	    && !gconf_client_get_bool(gconf, promptkey, NULL)) {
+		g_object_unref (gconf);
+		return TRUE;
+	}
+
+	va_start(ap, arg0);
+	mbox = e_error_newv(parent, tag, arg0, ap);
+	va_end(ap);
+
+	if (promptkey) {
+		check = gtk_check_button_new_with_mnemonic (_("_Do not show this message again."));
+		gtk_container_set_border_width((GtkContainer *)check, 12);
+		gtk_box_pack_start ((GtkBox *)((GtkDialog *) mbox)->vbox, check, TRUE, TRUE, 0);
+		gtk_widget_show (check);
+	}
+
+	button = gtk_dialog_run ((GtkDialog *) mbox);
+	if (promptkey)
+		gconf_client_set_bool(gconf, promptkey, !gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check)), NULL);
+
+	gtk_widget_destroy(mbox);
+	g_object_unref (gconf);
+
+	return button == GTK_RESPONSE_YES;
+}
+
+/* copy of mail_tool_remove_xevolution_headers */
+static struct _camel_header_raw *
+emcu_remove_xevolution_headers (CamelMimeMessage *message)
+{
+	struct _camel_header_raw *scan, *list = NULL;
+
+	for (scan = ((CamelMimePart *)message)->headers;scan;scan=scan->next)
+		if (!strncmp(scan->name, "X-Evolution", 11))
+			camel_header_raw_append(&list, scan->name, scan->value, scan->offset);
+
+	for (scan=list;scan;scan=scan->next)
+		camel_medium_remove_header((CamelMedium *)message, scan->name);
+
+	return list;
+}
 
 static EDestination**
 destination_list_to_vector_sized (GList *list, gint n)
@@ -2537,7 +2634,7 @@ handle_multipart_signed (EMsgComposer *composer,
 		gchar *html;
 		gssize length;
 
-		html = em_utils_part_to_html (mime_part, &length, NULL);
+		html = emcu_part_to_html (mime_part, &length, NULL);
 		e_msg_composer_set_pending_body (composer, html, length);
 	} else {
 		e_msg_composer_attach (composer, mime_part);
@@ -2602,7 +2699,7 @@ handle_multipart_encrypted (EMsgComposer *composer,
 		gchar *html;
 		gssize length;
 
-		html = em_utils_part_to_html (mime_part, &length, NULL);
+		html = emcu_part_to_html (mime_part, &length, NULL);
 		e_msg_composer_set_pending_body (composer, html, length);
 	} else {
 		e_msg_composer_attach (composer, mime_part);
@@ -2668,7 +2765,7 @@ handle_multipart_alternative (EMsgComposer *composer,
 		gchar *html;
 		gssize length;
 
-		html = em_utils_part_to_html (text_part, &length, NULL);
+		html = emcu_part_to_html (text_part, &length, NULL);
 		e_msg_composer_set_pending_body (composer, html, length);
 	}
 }
@@ -2718,7 +2815,7 @@ handle_multipart (EMsgComposer *composer,
 
 			/* Since the first part is not multipart/alternative,
 			 * this must be the body. */
-			html = em_utils_part_to_html (mime_part, &length, NULL);
+			html = emcu_part_to_html (mime_part, &length, NULL);
 			e_msg_composer_set_pending_body (composer, html, length);
 		} else if (camel_mime_part_get_content_id (mime_part) ||
 			   camel_mime_part_get_content_location (mime_part)) {
@@ -2992,7 +3089,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	}
 
 	/* Remove any other X-Evolution-* headers that may have been set */
-	xev = mail_tool_remove_xevolution_headers (message);
+	xev = emcu_remove_xevolution_headers (message);
 	camel_header_raw_clear (&xev);
 	
 	/* Check for receipt request */
@@ -3045,7 +3142,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 		gchar *html;
 		gssize length;
 
-		html = em_utils_part_to_html ((CamelMimePart *)message, &length, NULL);
+		html = emcu_part_to_html ((CamelMimePart *)message, &length, NULL);
 		e_msg_composer_set_pending_body (composer, html, length);
 	}
 
@@ -3684,7 +3781,7 @@ e_msg_composer_get_message (EMsgComposer *composer,
 	store = e_attachment_view_get_store (view);
 
 	if (e_attachment_store_get_num_loading (store) > 0) {
-		if (!em_utils_prompt_user (GTK_WINDOW (composer), NULL,
+		if (!emcu_prompt_user (GTK_WINDOW (composer), NULL,
 			"mail-composer:ask-send-message-pending-download", NULL)) {
 			return NULL;
 		}

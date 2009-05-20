@@ -66,6 +66,7 @@ SUBDIRS = 			\
 	widgets			\
 	shell			\
 	$(SMIME_DIR)		\
+	em-format		\
 	composer		\
 	addressbook		\
 	mail			\

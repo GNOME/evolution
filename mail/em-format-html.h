@@ -28,7 +28,7 @@
 #ifndef EM_FORMAT_HTML_H
 #define EM_FORMAT_HTML_H
 
-#include <mail/em-format.h>
+#include <em-format/em-format.h>
 #include <mail/mail-config.h>
 #include <camel/camel-medium.h>
 #include <camel/camel-mime-part.h>

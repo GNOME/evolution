@@ -172,11 +172,33 @@ libcal_gui_la_SOURCES =		\
 	weekday-picker.c			\
 	weekday-picker.h
 
-# Removed
-#	$(top_builddir)/a11y/calendar/libevolution-calendar-a11y.la
+# no gnome-cal no a11y. FIXME: KILL-BONOBO
+#	a11y/ea-calendar.c			\
+#	a11y/ea-calendar.h			\
+#	a11y/ea-calendar-helpers.c		\
+#	a11y/ea-calendar-helpers.h		\
+#	a11y/ea-cal-view.c			\
+#	a11y/ea-cal-view.h			\
+#	a11y/ea-cal-view-event.c		\
+#	a11y/ea-cal-view-event.h		\
+#	a11y/ea-day-view.c			\
+#	a11y/ea-day-view.h			\
+#	a11y/ea-day-view-main-item.c		\
+#	a11y/ea-day-view-main-item.h		\
+#	a11y/ea-day-view-cell.c			\
+#	a11y/ea-day-view-cell.h			\
+#	a11y/ea-week-view.c			\
+#	a11y/ea-week-view.h			\
+#	a11y/ea-week-view-main-item.c		\
+#	a11y/ea-week-view-main-item.h		\
+#	a11y/ea-week-view-cell.c		\
+#	a11y/ea-week-view-cell.h		\
+#	a11y/ea-jump-button.c			\
+#	a11y/ea-jump-button.h			\
+#	a11y/ea-gnome-calendar.c		\
+#	a11y/ea-gnome-calendar.h
 
 libcal_gui_la_LIBADD =					\
-	$(WIN32_BOOTSTRAP_LIBS)						\
 	$(top_builddir)/composer/libcomposer.la				\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
@@ -187,6 +209,7 @@ libcal_gui_la_LIBADD =					\
 	$(top_builddir)/calendar/importers/libevolution-calendar-importers.la \
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
+	$(top_builddir)/widgets/table/libetable.la			\
 	$(top_builddir)/filter/libfilter.la				\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(LIBSOUP_LIBS)							\
