@@ -772,7 +772,43 @@ emf_busy(EMFormat *emf)
  * a display refresh, or it can be used to generate an identical layout,
  * e.g. to print what the user has shown inline.
  **/
-/* e_format_format_clone is a macro */
+void
+em_format_format_clone (EMFormat *emf,
+                        CamelFolder *folder,
+                        const gchar *uid,
+                        CamelMimeMessage *message,
+                        EMFormat *source)
+{
+	EMFormatClass *class;
+
+	g_return_if_fail (EM_IS_FORMAT (emf));
+	g_return_if_fail (folder == NULL || CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (message == NULL || CAMEL_IS_MIME_MESSAGE (message));
+	g_return_if_fail (source == NULL || EM_IS_FORMAT (source));
+
+	class = EM_FORMAT_GET_CLASS (emf);
+	g_return_if_fail (class->format_clone != NULL);
+	class->format_clone (emf, folder, uid, message, source);
+}
+
+void
+em_format_format (EMFormat *emf,
+                  CamelFolder *folder,
+                  const gchar *uid,
+                  CamelMimeMessage *message)
+{
+	/* em_format_format_clone() will check the arguments. */
+	em_format_format_clone (emf, folder, uid, message, NULL);
+}
+
+void
+em_format_redraw (EMFormat *emf)
+{
+	g_return_if_fail (EM_IS_FORMAT (emf));
+
+	em_format_format_clone (
+		emf, emf->folder, emf->uid, emf->message, emf);
+}
 
 /**
  * em_format_set_session:

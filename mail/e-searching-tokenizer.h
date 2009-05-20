@@ -52,7 +52,7 @@ struct _ESearchingTokenizerClass {
 
 GType e_searching_tokenizer_get_type (void);
 
-HTMLTokenizer *e_searching_tokenizer_new (void);
+ESearchingTokenizer *e_searching_tokenizer_new (void);
 
 /* For now, just a simple API */
 

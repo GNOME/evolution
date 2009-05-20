@@ -105,8 +105,6 @@ void		em_format_html_display_search_with
 void		em_format_html_display_search_close
 						(EMFormatHTMLDisplay *efhd);
 
-GtkWidget *	em_format_html_get_search_dialog(EMFormatHTMLDisplay *efhd);
-
 void		em_format_html_display_cut	(EMFormatHTMLDisplay *efhd);
 void		em_format_html_display_copy	(EMFormatHTMLDisplay *efhd);
 void		em_format_html_display_paste	(EMFormatHTMLDisplay *efhd);

@@ -956,7 +956,7 @@ emfv_popup_flag_completed(EPopup *ep, EPopupItem *pitem, void *data)
 	em_utils_flag_for_followup_completed((GtkWidget *)emfv, emfv->folder, uids);
 
 	if (emfv->preview)
-		em_format_redraw (emfv->preview);
+		em_format_redraw (EM_FORMAT (emfv->preview));
 }
 
 static void
@@ -968,7 +968,7 @@ emfv_popup_flag_clear(EPopup *ep, EPopupItem *pitem, void *data)
 	em_utils_flag_for_followup_clear((GtkWidget *)emfv, emfv->folder, uids);
 
 	if (emfv->preview)
-		em_format_redraw (emfv->preview);
+		em_format_redraw (EM_FORMAT (emfv->preview));
 }
 
 static void
@@ -1808,13 +1808,7 @@ emfv_message_search(BonoboUIComponent *uic, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
 
-	if (!emfv->list_active) /* We are in new mail window */
-		em_format_html_display_search(emfv->preview);
-	else  {
-                /* We are in top level. Just grab focus to Search Bar */
-		gtk_widget_grab_focus (((ESearchBar *)((EMFolderBrowser *) emfv)->search)->entry);
-		gtk_option_menu_set_history (GTK_OPTION_MENU (((ESearchBar *)((EMFolderBrowser *) emfv)->search)->scopeoption), 3);
-	}
+	em_folder_view_show_search_bar (emfv);
 }
 
 static void
@@ -3271,3 +3265,15 @@ emfv_on_html_button_released_cb (GtkHTML *html, GdkEventButton *button, EMFolder
 	return FALSE;
 }
 
+void
+em_folder_view_show_search_bar (EMFolderView *emfv)
+{
+	EMFolderViewClass *class;
+
+	g_return_if_fail (EM_IS_FOLDER_VIEW (emfv));
+
+	class = EM_FOLDER_VIEW_GET_CLASS (emfv);
+	g_return_if_fail (class->show_search_bar != NULL);
+
+	class->show_search_bar (emfv);
+}

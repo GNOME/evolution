@@ -1052,10 +1052,10 @@ e_searching_tokenizer_get_type (void)
 	return type;
 }
 
-HTMLTokenizer *
+ESearchingTokenizer *
 e_searching_tokenizer_new (void)
 {
-	return (HTMLTokenizer *) g_object_new (E_TYPE_SEARCHING_TOKENIZER, NULL);
+	return g_object_new (E_TYPE_SEARCHING_TOKENIZER, NULL);
 }
 
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/

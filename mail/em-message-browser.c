@@ -48,6 +48,7 @@
 
 #include "e-util/e-util-private.h"
 
+#include "e-mail-search-bar.h"
 #include "em-format-html-display.h"
 #include "em-message-browser.h"
 #include "em-menu.h"
@@ -63,6 +64,7 @@
 
 struct _EMMessageBrowserPrivate {
 	GtkWidget *preview;	/* container for message display */
+	GtkWidget *search_bar;
 };
 
 static gpointer parent_class;
@@ -225,6 +227,14 @@ emmb_destroy (GtkObject *gtk_object)
 }
 
 static void
+emmb_show_search_bar (EMFolderView *folder_view)
+{
+	EMMessageBrowser *browser = EM_MESSAGE_BROWSER (folder_view);
+
+	gtk_widget_show (browser->priv->search_bar);
+}
+
+static void
 emmb_class_init (EMMessageBrowserClass *class)
 {
 	GtkObjectClass *gtk_object_class;
@@ -240,12 +250,14 @@ emmb_class_init (EMMessageBrowserClass *class)
 	folder_view_class->update_message_style = FALSE;
 	folder_view_class->set_message = emmb_set_message;
 	folder_view_class->activate = emmb_activate;
+	folder_view_class->show_search_bar = emmb_show_search_bar;
 }
 
 static void
 emmb_init (EMMessageBrowser *emmb)
 {
 	EMFolderView *emfv = EM_FOLDER_VIEW (emmb);
+	GtkWidget *container;
 	GtkWidget *widget;
 	gchar *filename;
 
@@ -265,24 +277,34 @@ emmb_init (EMMessageBrowser *emmb)
 		EVOLUTION_UIDIR, "evolution-mail-message.xml", NULL);
 	emfv->ui_files = g_slist_append (emfv->ui_files, filename);
 
+	gtk_box_set_spacing (GTK_BOX (emmb), 1);
+
+	container = GTK_WIDGET (emmb);
+
 	widget = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (widget),
 		GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_scrolled_window_set_shadow_type (
 		GTK_SCROLLED_WINDOW (widget), GTK_SHADOW_IN);
-	gtk_widget_show (widget);
+	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	emmb->priv->preview = widget;
+	gtk_widget_show (widget);
+
+	widget = e_mail_search_bar_new (emfv->preview->formathtml.html);
+	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
+	emmb->priv->search_bar = widget;
+	gtk_widget_hide (widget);
+
+	g_signal_connect_swapped (
+		widget, "changed",
+		G_CALLBACK (em_format_redraw), emfv->preview);
+
+	container = emmb->priv->preview;
 
 	widget = GTK_WIDGET (emfv->preview->formathtml.html);
-	gtk_container_add (GTK_CONTAINER (emmb->priv->preview), widget);
+	gtk_container_add (GTK_CONTAINER (container), widget);
 	gtk_widget_show (widget);
-
-	gtk_box_pack_start (
-		GTK_BOX (emmb), emmb->priv->preview, TRUE, TRUE, 0);
-	gtk_box_pack_start(
-		GTK_BOX (emmb), em_format_html_get_search_dialog (
-		emfv->preview), FALSE, FALSE, 0);
 
 	/** @HookPoint-EMMenu: Standalone Message View Menu
 	 * @Id: org.gnome.evolution.mail.messagebrowser

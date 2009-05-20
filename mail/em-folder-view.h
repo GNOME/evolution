@@ -124,6 +124,8 @@ struct _EMFolderViewClass {
 	void (*set_folder)(EMFolderView *emfv, struct _CamelFolder *folder, const char *uri);
 	void (*set_message)(EMFolderView *emfv, const char *uid, int nomarkseen);
 
+	void (*show_search_bar)(EMFolderView *emfv);
+
 	/* Signals */
 	void (*on_url)(EMFolderView *emfv, const char *uri, const char *nice_uri);
 
@@ -153,6 +155,7 @@ guint32 em_folder_view_disable_mask(EMFolderView *emfv);
 void em_folder_view_set_statusbar(EMFolderView *emfv, gboolean statusbar);
 void em_folder_view_set_hide_deleted(EMFolderView *emfv, gboolean status);
 void em_folder_view_setup_view_instance (EMFolderView *emfv);
+void em_folder_view_show_search_bar (EMFolderView *emfv);
 
 G_END_DECLS
 

@@ -325,12 +325,6 @@ option_changed (ESearchBar *esb, void *data)
 
 	d(printf("option changed, id = %d, setquery = %s %d\n", id, efb->setquery ? "true" : "false", esb->block_search));
 
-	if (esb->scopeitem_id == E_FILTERBAR_CURRENT_MESSAGE_ID) {
-		gtk_widget_set_sensitive (esb->option_button, FALSE);
-	} else {
-		gtk_widget_set_sensitive (esb->option_button, TRUE);
-	}
-
 	if (efb->setquery)
 		return;
 

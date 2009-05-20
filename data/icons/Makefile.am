@@ -34,19 +34,19 @@ private_icons = \
 	hicolor_actions_16x16_folder-move.png \
 	hicolor_actions_16x16_mail-copy.png \
 	hicolor_actions_16x16_mail-move.png \
- 	hicolor_actions_16x16_go-today.png \
+	hicolor_actions_16x16_go-today.png \
 	hicolor_actions_16x16_view-calendar-day.png \
 	hicolor_actions_16x16_view-calendar-list.png \
 	hicolor_actions_16x16_view-calendar-month.png \
 	hicolor_actions_16x16_view-calendar-week.png \
 	hicolor_actions_16x16_view-calendar-workweek.png \
- 	hicolor_actions_22x22_go-today.png \
+	hicolor_actions_22x22_go-today.png \
 	hicolor_actions_22x22_view-calendar-day.png \
 	hicolor_actions_22x22_view-calendar-list.png \
 	hicolor_actions_22x22_view-calendar-month.png \
 	hicolor_actions_22x22_view-calendar-week.png \
 	hicolor_actions_22x22_view-calendar-workweek.png \
- 	hicolor_actions_24x24_go-today.png \
+	hicolor_actions_24x24_go-today.png \
 	hicolor_actions_24x24_query-free-busy.png \
 	hicolor_actions_24x24_view-calendar-day.png \
 	hicolor_actions_24x24_view-calendar-list.png \
@@ -79,18 +79,28 @@ private_icons = \
 	hicolor_places_24x24_mail-inbox.png \
 	hicolor_places_24x24_mail-outbox.png \
 	hicolor_places_24x24_mail-sent.png \
+	hicolor_status_16x16_wrapped.png \
 	hicolor_status_32x32_offline.png \
 	hicolor_status_32x32_online.png \
 	$(NULL)
 
+# hicolor_status_16x16_wrapped.png was copied from Firefox
+# (toolkit/themes/gnomestripe/global/icons/wrap.png), which
+# contained the following notice:
+#
+#     All files in this directory are assumed to be licensed under the
+#     tri-license (MPL/GPL/LGPL) used throughout this codebase.
+#
+# There is no corresponding SVG file. */
+
 noinst_DATA = \
- 	hicolor_actions_16x16_go-today.svg \
+	hicolor_actions_16x16_go-today.svg \
 	hicolor_actions_16x16_view-calendar-day.svg \
 	hicolor_actions_16x16_view-calendar-list.svg \
 	hicolor_actions_16x16_view-calendar-month.svg \
 	hicolor_actions_16x16_view-calendar-week.svg \
 	hicolor_actions_16x16_view-calendar-workweek.svg \
- 	hicolor_actions_22x22_go-today.svg \
+	hicolor_actions_22x22_go-today.svg \
 	hicolor_actions_22x22_view-calendar-day.svg \
 	hicolor_actions_22x22_view-calendar-list.svg \
 	hicolor_actions_22x22_view-calendar-month.svg \
@@ -109,7 +119,7 @@ noinst_DATA = \
 	hicolor_places_22x22_mail-sent.svg \
 	hicolor_status_32x32_offline.svg \
 	hicolor_status_32x32_online.svg \
- 	$(NULL)
+	$(NULL)
 
 EXTRA_DIST = \
 	$(public_icons)		\

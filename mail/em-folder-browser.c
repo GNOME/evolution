@@ -79,6 +79,7 @@
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util-labels.h"
+#include "e-mail-search-bar.h"
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "em-format-html-display.h"
@@ -106,6 +107,7 @@ CamelStore *vfolder_store; /* the 1 static vfolder store */
 struct _EMFolderBrowserPrivate {
 	GtkWidget *preview;	/* container for message display */
 	GtkWidget *scroll;
+	GtkWidget *search_bar;
 
 	GtkWidget *subscribe_editor;
 
@@ -239,7 +241,6 @@ static ESearchBarItem emfb_search_scope_items[] = {
 	E_FILTERBAR_CURRENT_FOLDER,
 	E_FILTERBAR_CURRENT_ACCOUNT,
 	E_FILTERBAR_ALL_ACCOUNTS,
-	E_FILTERBAR_CURRENT_MESSAGE,
 	{ NULL, -1, 0 }
 };
 
@@ -485,6 +486,7 @@ emfb_init(GObject *o)
 	EMFolderBrowser *emfb = (EMFolderBrowser *)o;
 	RuleContext *search_context = mail_component_peek_search_context (mail_component_peek ());
 	struct _EMFolderBrowserPrivate *p;
+	GtkWidget *html;
 
 	EMEvent *eme;
 	EMEventTargetFolderBrowser *target;
@@ -527,7 +529,6 @@ emfb_init(GObject *o)
  		efb->account_search_cancel = NULL;
 		e_search_bar_set_menu ((ESearchBar *)emfb->search, emfb_search_items);
 		e_search_bar_set_scopeoption ((ESearchBar *)emfb->search, emfb_search_scope_items);
-		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, FALSE);
 		emfb->priv->scope_restricted = TRUE;
 		g_signal_connect(emfb, "realize", G_CALLBACK(emfb_realize), NULL);
 		gtk_widget_show((GtkWidget *)emfb->search);
@@ -561,13 +562,20 @@ emfb_init(GObject *o)
 	gtk_scrolled_window_set_shadow_type((GtkScrolledWindow *)p->scroll, GTK_SHADOW_IN);
 	gtk_widget_show(p->scroll);
 
-	p->preview = gtk_vbox_new (FALSE, 6);
-	gtk_container_add((GtkContainer *)p->scroll, (GtkWidget *)emfb->view.preview->formathtml.html);
-	gtk_widget_show((GtkWidget *)emfb->view.preview->formathtml.html);
+	html = GTK_WIDGET (emfb->view.preview->formathtml.html);
+
+	p->preview = gtk_vbox_new (FALSE, 1);
+	p->search_bar = e_mail_search_bar_new (GTK_HTML (html));
+	gtk_container_add((GtkContainer *)p->scroll, html);
+	gtk_widget_show(html);
 	gtk_box_pack_start ((GtkBox *)p->preview, p->scroll, TRUE, TRUE, 0);
-	gtk_box_pack_start ((GtkBox *)p->preview, em_format_html_get_search_dialog (emfb->view.preview), FALSE, FALSE, 0);
+	gtk_box_pack_start ((GtkBox *)p->preview, p->search_bar, FALSE, FALSE, 0);
 	gtk_paned_pack2 (GTK_PANED (emfb->vpane), p->preview, TRUE, FALSE);
 	gtk_widget_show(p->preview);
+
+	g_signal_connect_swapped (
+		p->search_bar, "changed",
+		G_CALLBACK (em_format_redraw), emfb->view.preview);
 
 	/** @HookPoint-EMFolderBrower: Folder Browser
 	 * @Id: emfb.created
@@ -638,6 +646,14 @@ emfb_destroy(GtkObject *o)
 }
 
 static void
+emfb_show_search_bar (EMFolderView *folder_view)
+{
+	EMFolderBrowser *browser = (EMFolderBrowser *) folder_view;
+
+	gtk_widget_show (browser->priv->search_bar);
+}
+
+static void
 emfb_class_init(GObjectClass *klass)
 {
 	klass->finalize = emfb_finalise;
@@ -666,6 +682,7 @@ emfb_class_init(GObjectClass *klass)
 	((GtkObjectClass *)klass)->destroy = emfb_destroy;
 	((EMFolderViewClass *)klass)->set_folder = emfb_set_folder;
 	((EMFolderViewClass *)klass)->activate = emfb_activate;
+	((EMFolderViewClass *)klass)->show_search_bar = emfb_show_search_bar;
 }
 
 GType
@@ -711,7 +728,6 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 	if ((emfb->view.preview_active ^ state) == 0
 	    || emfb->view.list == NULL) {
 		if (state && emfb->priv->scope_restricted && emfb->view.list->cursor_uid && *(emfb->view.list->cursor_uid)) {
-			e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, TRUE);
 			emfb->priv->scope_restricted = FALSE;
 		}
 
@@ -733,7 +749,6 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 		if (emfb->view.list->cursor_uid) {
 			char *uid = g_alloca(strlen(emfb->view.list->cursor_uid)+1);
 
-			e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, TRUE);
 			emfb->priv->scope_restricted = FALSE;
 			strcpy(uid, emfb->view.list->cursor_uid);
 			em_folder_view_set_message(&emfb->view, uid, FALSE);
@@ -749,7 +764,6 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 		emfb->view.displayed_uid = NULL;
 
 		gtk_widget_hide(emfb->priv->preview);
-		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, FALSE);
 		emfb->priv->scope_restricted = TRUE;
 		/*
 		mail_display_set_message (emfb->mail_display, NULL, NULL, NULL);
@@ -841,6 +855,8 @@ static void
 emfb_search_config_search(EFilterBar *efb, FilterRule *rule, int id, const char *query, void *data)
 {
 	EMFolderBrowser *emfb = data;
+	EMailSearchBar *search_bar;
+	ESearchingTokenizer *tokenizer;
 	GList *partl;
 	struct _camel_search_words *words;
 	int i;
@@ -877,15 +893,26 @@ emfb_search_config_search(EFilterBar *efb, FilterRule *rule, int id, const char 
 		partl = partl->next;
 	}
 
-	em_format_html_display_set_search(emfb->view.preview,
-					  EM_FORMAT_HTML_DISPLAY_SEARCH_SECONDARY|EM_FORMAT_HTML_DISPLAY_SEARCH_ICASE,
-					  strings);
-	while (strings) {
-		GSList *n = strings->next;
-		g_free(strings->data);
-		g_slist_free_1(strings);
-		strings = n;
+	search_bar = E_MAIL_SEARCH_BAR (emfb->priv->search_bar);
+
+	/* XXX This is a hack, but this code is on its way out anyway.
+	 *     Function is called once before the search bar is created. */
+	if (!E_IS_MAIL_SEARCH_BAR (search_bar))
+		return;
+
+	tokenizer = e_mail_search_bar_get_tokenizer (search_bar);
+
+	e_searching_tokenizer_set_secondary_case_sensitivity (tokenizer, FALSE);
+	e_searching_tokenizer_set_secondary_search_string (tokenizer, NULL);
+
+	while (strings != NULL) {
+		e_searching_tokenizer_add_secondary_search_string (
+			tokenizer, strings->data);
+		g_free (strings->data);
+		strings = g_slist_delete_link (strings, strings);
 	}
+
+	e_mail_search_bar_changed (search_bar);
 }
 
 static char *
@@ -1125,18 +1152,6 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 	id = e_search_bar_get_search_scope (esb);
 
 	switch (id) {
-	    case E_FILTERBAR_CURRENT_MESSAGE_ID:
-		    word = e_search_bar_get_text (esb);
-		    if ( word && *word ) {
-			    gtk_widget_set_sensitive (esb->option_button, FALSE);
-			    em_format_html_display_search_with (emfb->view.preview, word);
-		    } else {
-			    em_format_html_display_search_close (emfb->view.preview);
-		    }
-		    g_free (word);
-		    return;
-		    break;
-
 	    case E_FILTERBAR_CURRENT_FOLDER_ID:
 		    g_object_get (esb, "query", &search_word, NULL);
 		    break;
@@ -1386,10 +1401,8 @@ emfb_list_message_selected (MessageList *ml, const char *uid, EMFolderBrowser *e
 		return;
 
 	if (uid && *uid && emfb->priv->scope_restricted && emfb->view.preview_active) {
-		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, TRUE);
 		emfb->priv->scope_restricted = FALSE;
 	} else if ( !(uid && *uid) && !emfb->priv->scope_restricted) {
-		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, FALSE);
 		emfb->priv->scope_restricted = TRUE;
 	}
 

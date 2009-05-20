@@ -804,7 +804,7 @@ tag_editor_response (GtkWidget *dialog, int button, struct ted_t *ted)
 		camel_tag_list_free (&tags);
 
 		if (ted->emfv->preview)
-			em_format_redraw(ted->emfv->preview);
+			em_format_redraw (EM_FORMAT (ted->emfv->preview));
 	}
 
 	gtk_widget_destroy (dialog);
