@@ -27,19 +27,7 @@
 /* Module Entry Points */
 void e_module_load (GTypeModule *type_module);
 void e_module_unload (GTypeModule *type_module);
-
-G_MODULE_EXPORT const gchar *
-g_module_check_init (GModule *module)
-{
-	/* FIXME Until mail is split into a module library and a
-	 *       reusable shared library, prevent the module from
-	 *       being unloaded.  Unloading the module resets all
-	 *       static variables, which screws up foo_get_type()
-	 *       functions among other things. */
-	g_module_make_resident (module);
-
-	return NULL;
-}
+const gchar * g_module_check_init (GModule *module);
 
 G_MODULE_EXPORT void
 e_module_load (GTypeModule *type_module)
@@ -55,4 +43,17 @@ e_module_load (GTypeModule *type_module)
 G_MODULE_EXPORT void
 e_module_unload (GTypeModule *type_module)
 {
+}
+
+G_MODULE_EXPORT const gchar *
+g_module_check_init (GModule *module)
+{
+	/* FIXME Until mail is split into a module library and a
+	 *       reusable shared library, prevent the module from
+	 *       being unloaded.  Unloading the module resets all
+	 *       static variables, which screws up foo_get_type()
+	 *       functions among other things. */
+	g_module_make_resident (module);
+
+	return NULL;
 }
