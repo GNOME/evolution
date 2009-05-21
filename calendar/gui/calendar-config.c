@@ -1771,8 +1771,16 @@ calendar_config_select_day_second_zone (void)
 	dialog = e_timezone_dialog_get_toplevel (tzdlg);
 
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
+		const char *location = NULL;
+
 		zone = e_timezone_dialog_get_timezone (tzdlg);
-		calendar_config_set_day_second_zone (zone ? icaltimezone_get_location (zone) : NULL);
+		if (zone == icaltimezone_get_utc_timezone ()) {
+			location = "UTC";
+		} else if (zone) {
+			location = icaltimezone_get_location (zone);
+		}
+
+		calendar_config_set_day_second_zone (location);
 	}
 
 	g_object_unref (tzdlg);
