@@ -4,7 +4,7 @@
 	_name="Save Selected"
 	    location="@PLUGINDIR@/liborg-gnome-save-calendar@SOEXT@"> 
 	    <author name="Rodrigo Moya" email="rodrigo@novell.com"/>
-		<_description>Saves selected calendar or tasks list to disk.</_description>
+		<_description>Save a calendar or task list to disk.</_description>
 	
 		<hook class="org.gnome.evolution.calendar.popup:1.0">
 			<menu id="org.gnome.evolution.tasks.source.popup" target="source">

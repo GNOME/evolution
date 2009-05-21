@@ -6,7 +6,7 @@
 		domain="@GETTEXT_PACKAGE@"
 		_name="Unsubscribe Folders"
 		location="@PLUGINDIR@/liborg-gnome-mail-folder-unsubscribe@SOEXT@">
-		<_description>Allows unsubscribing of mail folders in the side bar context menu.</_description>
+		<_description>Unsubscribe from an IMAP folder by right-clicking on it in the folder tree.</_description>
 		<author name="Jeffrey Stedfast" email="fejj@novell.com"/>
 
 		<hook class="org.gnome.evolution.mail.popup:1.0">

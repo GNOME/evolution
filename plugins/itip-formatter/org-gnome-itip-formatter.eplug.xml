@@ -3,7 +3,7 @@
 	<e-plugin id="org.gnome.evolution.itip_formatter" 
 		type="shlib" _name="Itip Formatter"
 		location="@PLUGINDIR@/liborg-gnome-itip-formatter@SOEXT@">
-		<_description>Displays text/calendar parts in messages.</_description>
+		<_description>Display "text/calendar" MIME parts in mail messages.</_description>
 		<author name="JP Rosevear" email="jpr@novell.com"/>
 	
 		<hook class="org.gnome.evolution.mail.format:1.0">

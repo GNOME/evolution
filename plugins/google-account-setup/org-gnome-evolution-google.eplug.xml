@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <e-plugin-list>
-  <e-plugin id="org.gnome.evolution.google" type="shlib" _name="Google sources"
+  <e-plugin id="org.gnome.evolution.google" type="shlib" _name="Google Calendars"
     location="@PLUGINDIR@/liborg-gnome-evolution-google@SOEXT@" load-on-startup="false" localedir = "@LOCALEDIR@" system_plugin="true">
     <author name="Ebby Wiselyn" email="ebbywiselyn@gmail.com"/>
     <author name="Joergen Scheibengruber" email="joergen.scheibengruber@googlemail.com"/>
-    <_description>A plugin to setup Google Calendar and Contacts.</_description>
+    <_description>Add Google Calendars to Evolution.</_description>
 
     <hook class="org.gnome.evolution.calendar.config:1.0">
       <group target="source" id="org.gnome.evolution.calendar.calendarProperties">

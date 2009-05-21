@@ -4,7 +4,7 @@
 		location="@PLUGINDIR@/liborg-gnome-imap-features@SOEXT@">
 	    	<author name="Sankar P" email="psankar@novell.com"/>
 
-		<_description>A plugin for the features in the IMAP accounts.</_description>
+		<_description>Fine-tune your IMAP accounts.</_description>
 
 		<hook class="org.gnome.evolution.mail.config:1.0">
 			<group id="org.gnome.evolution.mail.config.accountEditor" 

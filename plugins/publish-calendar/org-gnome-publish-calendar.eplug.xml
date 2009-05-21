@@ -5,7 +5,7 @@
      location="@PLUGINDIR@/liborg-gnome-publish-calendar@SOEXT@"
      id="org.gnome.evolution.calendar.publish"
      _name="Calendar Publishing">
-        <_description>Allows calendars to be published to the web</_description>
+        <_description>Publish calendars to the web.</_description>
 	<author name="David Trowbridge" email="trowbrds@cs.colorado.edu"/>
 	<!-- calendar main menu -->
 	<hook class="org.gnome.evolution.calendar.bonobomenu:1.0">

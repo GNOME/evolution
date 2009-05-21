@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <e-plugin-list>
-  <e-plugin id="org.gnome.evolution.plugin.hula-account-setup" type="shlib" _name="Hula Account Setup"
+  <e-plugin id="org.gnome.evolution.plugin.hula-account-setup" type="shlib" _name="Hula Support"
     location="@PLUGINDIR@/liborg-gnome-evolution-hula-account-setup@SOEXT@" load-on-startup="true" system_plugin="true">
     <author name="Harish Krishnaswamy" email="kharish@novell.com"/>
-    <_description>A plugin to setup hula calendar sources.</_description>
+    <_description>Add Hula support to Evolution.</_description>
     
     <hook class="org.gnome.evolution.mail.config:1.0">
       <group target="account" id="org.gnome.evolution.mail.config.accountDruid">

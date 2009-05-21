@@ -3,7 +3,7 @@
   <e-plugin id="org.gnome.evolution.plugin.gw-account-setup" type="shlib" _name="GroupWise Account Setup"
     location="@PLUGINDIR@/liborg-gnome-gw-account-setup@SOEXT@" load-on-startup="true" system_plugin="true">
     <author name="Sivaiah Nallagatla" email="snallagatla@novell.com"/>
-    <_description>A plugin to setup GroupWise calendar and contacts sources.</_description>
+    <_description>Add Novell GroupWise support to Evolution.</_description>
     
     <hook class="org.gnome.evolution.mail.config:1.0">
       <group target="account" id="org.gnome.evolution.mail.config.accountDruid">

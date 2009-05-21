@@ -6,7 +6,7 @@
     location="@PLUGINDIR@/liborg-gnome-plugin-manager@SOEXT@"
     _name="Plugin Manager"
     system_plugin="true">
-    <_description>A plugin for managing which plugins are enabled or disabled.</_description>
+    <_description>Manage your Evolution plugins.</_description>
     <author name="Michael Zucchi" email="notzed@ximian.com"/>
     <hook class="org.gnome.evolution.shell.bonobomenu:1.0">
       <menu id="org.gnome.evolution.shell" target="shell">

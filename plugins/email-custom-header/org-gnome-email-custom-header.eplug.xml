@@ -5,7 +5,7 @@
 
 		<author name="Ashish Shrivastava" email="shashish@novell.com"/>
                 <!-- For Translators: 'custom header' string is used while adding a new message header to outgoing message, to specify what value for the message header would be added -->
-		<_description>Adds custom header to outgoing messages.</_description>
+		<_description>Add custom headers to outgoing mail messages.</_description>
 
 		<hook class="org.gnome.evolution.ui:1.0">
 			<ui-manager id="org.gnome.evolution.composer">

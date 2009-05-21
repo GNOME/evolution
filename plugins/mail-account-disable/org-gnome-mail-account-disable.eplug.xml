@@ -6,7 +6,7 @@
 		domain="@GETTEXT_PACKAGE@"
 		_name="Disable Account"
 		location="@PLUGINDIR@/libmail-account-disable@SOEXT@">
-		<_description>Allows disabling of accounts.</_description>
+		<_description>Disable an account by right-clicking on it in the folder tree.</_description>
 		<author name="Shreyas Srinivasan" email="sshreyas@novell.com"/>
 
 		<hook class="org.gnome.evolution.mail.popup:1.0">

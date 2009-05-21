@@ -8,7 +8,7 @@
 	          localedir = "@LOCALEDIR@">
 		<author name="Matthias Braun"
 		        email="matze@braunis.de"/>
-		<_description>A plugin to setup WebDAV contacts.</_description>
+		<_description>Add WebDAV contacts to Evolution.</_description>
 
 		<hook class="org.gnome.evolution.addressbook.config:1.0">
 				<group target="source"

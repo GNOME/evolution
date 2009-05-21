@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <e-plugin-list>
     <e-plugin id="org.gnome.evolution.select_one_source" type="shlib" 
-	_name="Select one source" 
+	_name="Select One Source" 
 		location="@PLUGINDIR@/liborg-gnome-select-one-source@SOEXT@">
 		<author name="JP Rosevear" email="jpr@novell.com"/>
-	       	<_description>Selects a single calendar or task source for viewing.</_description>
+	       	<_description>Quickly select a single calendar or task list for viewing.</_description>
 	
 		<hook class="org.gnome.evolution.calendar.popup:1.0">
 			<menu id="org.gnome.evolution.tasks.source.popup" target="source">

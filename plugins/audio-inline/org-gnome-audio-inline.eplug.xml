@@ -4,9 +4,9 @@
     type="shlib"
     id="org.gnome.evolution.plugin.audioInline"
     location="@PLUGINDIR@/liborg-gnome-audio-inline@SOEXT@"
-    _name="Audio inline plugin">
+    _name="Audio Inline">
 
-    <_description>A formatter plugin which displays audio attachments inline and allows you to play them directly from Evolution.</_description>
+    <_description>Play audio attachments directly from Evolution.</_description>
     <author name="Radek Doulík" email="rodo@novell.com"/>
 
     <hook class="org.gnome.evolution.mail.format:1.0">
