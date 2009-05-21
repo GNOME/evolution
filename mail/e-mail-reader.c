@@ -553,17 +553,6 @@ action_mail_message_open_cb (GtkAction *action,
 }
 
 static void
-action_mail_message_post_cb (GtkAction *action,
-                             EMailReader *reader)
-{
-	MessageList *message_list;
-
-	message_list = e_mail_reader_get_message_list (reader);
-
-	em_utils_post_to_folder (message_list->folder);
-}
-
-static void
 action_mail_move_cb (GtkAction *action,
                      EMailReader *reader)
 {
@@ -783,28 +772,6 @@ action_mail_reply_list_cb (GtkAction *action,
                            EMailReader *reader)
 {
 	e_mail_reader_reply_to_message (reader, REPLY_MODE_LIST);
-}
-
-static void
-action_mail_reply_post_cb (GtkAction *action,
-                           EMailReader *reader)
-{
-	MessageList *message_list;
-	CamelFolder *folder;
-	GtkWindow *window;
-	const gchar *uid;
-
-	message_list = e_mail_reader_get_message_list (reader);
-	window = e_mail_reader_get_window (reader);
-
-	folder = message_list->folder;
-	uid = message_list->cursor_uid;
-	g_return_if_fail (uid != NULL);
-
-	if (!em_utils_check_user_can_send_mail (window))
-		return;
-
-	em_utils_post_reply_to_message_by_uid (folder, uid);
 }
 
 static void
@@ -1243,13 +1210,6 @@ static GtkActionEntry mail_reader_entries[] = {
 	  N_("Open the selected messages in a new window"),
 	  G_CALLBACK (action_mail_message_open_cb) },
 
-	{ "mail-message-post",
-	  NULL,
-	  N_("Pos_t New Message to Folder"),
-	  NULL,
-	  N_("Post a message to a public folder"),
-	  G_CALLBACK (action_mail_message_post_cb) },
-
 	{ "mail-move",
 	  "mail-move",
 	  N_("_Move to Folder..."),
@@ -1340,13 +1300,6 @@ static GtkActionEntry mail_reader_entries[] = {
 	  "<Control>l",
 	  N_("Compose a reply to the mailing list of the selected message"),
 	  G_CALLBACK (action_mail_reply_list_cb) },
-
-	{ "mail-reply-post",
-	  NULL,
-	  N_("Post a Repl_y"),
-	  NULL,
-	  N_("Post a reply to a message in a public folder"),
-	  G_CALLBACK (action_mail_reply_post_cb) },
 
 	{ "mail-reply-sender",
 	  "mail-reply-sender",
@@ -2541,11 +2494,6 @@ e_mail_reader_update_actions (EMailReader *reader)
 
 	action_name = "mail-reply-list";
 	sensitive = single_message_selected && selection_is_mailing_list;
-	action = e_mail_reader_get_action (reader, action_name);
-	gtk_action_set_sensitive (action, sensitive);
-
-	action_name = "mail-reply-post";
-	sensitive = single_message_selected;
 	action = e_mail_reader_get_action (reader, action_name);
 	gtk_action_set_sensitive (action, sensitive);
 

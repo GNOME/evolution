@@ -127,8 +127,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-message-new")
 #define E_SHELL_WINDOW_ACTION_MAIL_MESSAGE_OPEN(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-message-open")
-#define E_SHELL_WINDOW_ACTION_MAIL_MESSAGE_POST(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-message-post")
 #define E_SHELL_WINDOW_ACTION_MAIL_MOVE(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-move")
 #define E_SHELL_WINDOW_ACTION_MAIL_NEXT(window) \
@@ -157,8 +155,6 @@
 	E_SHELL_WINDOW_ACTION ((window), "mail-reply-all")
 #define E_SHELL_WINDOW_ACTION_MAIL_REPLY_LIST(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-reply-list")
-#define E_SHELL_WINDOW_ACTION_MAIL_REPLY_POST(window) \
-	E_SHELL_WINDOW_ACTION ((window), "mail-reply-post")
 #define E_SHELL_WINDOW_ACTION_MAIL_REPLY_SENDER(window) \
 	E_SHELL_WINDOW_ACTION ((window), "mail-reply-sender")
 #define E_SHELL_WINDOW_ACTION_MAIL_SEARCH_FOLDER_FROM_MAILING_LIST(window) \

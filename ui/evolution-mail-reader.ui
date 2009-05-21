@@ -45,7 +45,6 @@
     <placeholder name='custom-menus'>
       <menu action='mail-message-menu'>
         <menuitem action='mail-message-new'/>
-        <menuitem action='mail-message-post'/>
         <menuitem action='mail-message-open'/>
         <menuitem action='mail-message-edit'/>
         <menuitem action='mail-add-sender'/>
@@ -63,7 +62,6 @@
         <menuitem action='mail-reply-sender'/>
         <menuitem action='mail-reply-list'/>
         <menuitem action='mail-reply-all'/>
-        <menuitem action='mail-reply-post'/>
         <menuitem action='mail-forward'/>
         <menu action='mail-forward-as-menu'>
           <menuitem action='mail-forward-attached'/>
@@ -136,7 +134,6 @@
     </placeholder>
   </popup>
   <popup name='mail-uri-popup'>
-    <menuitem action='mail-uri-call-to'/>
     <menuitem action='mail-uri-copy'/>
     <menuitem action='mail-uri-copy-address'/>
     <menu action='mail-uri-to-search-folder-menu'>
