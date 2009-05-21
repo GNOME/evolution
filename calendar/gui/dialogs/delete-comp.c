@@ -167,7 +167,7 @@ cb_toggled_cb (GtkWidget *toggle, gpointer data)
 }
 
 gboolean
-prompt_retract_dialog (ECalComponent *comp, char **retract_text, GtkWidget *parent)
+prompt_retract_dialog (ECalComponent *comp, char **retract_text, GtkWidget *parent, gboolean *retract)
 {
 	char *message = NULL;
 	ECalComponentVType type = E_CAL_COMPONENT_NO_TYPE;
@@ -232,13 +232,15 @@ prompt_retract_dialog (ECalComponent *comp, char **retract_text, GtkWidget *pare
 			GtkTextIter text_iter_start, text_iter_end;
 			GtkTextBuffer *text_buffer;
 
+			*retract = TRUE;
 			text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (entry));
 			gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
 			gtk_text_buffer_get_end_iter   (text_buffer, &text_iter_end);
 
 			*retract_text = gtk_text_buffer_get_text (text_buffer, &text_iter_start,
 					&text_iter_end, FALSE);
-		}
+		} else
+			*retract = FALSE;
 	}
 
 	gtk_widget_destroy ((GtkWidget *) dialog);

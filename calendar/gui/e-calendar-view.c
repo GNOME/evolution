@@ -1005,9 +1005,6 @@ check_for_retract (ECalComponent *comp, ECal *client)
 		ret_val = TRUE;
 	}
 
-	if (!ret_val)
-		ret_val = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
-
 	g_free (email);
 	return ret_val;
 }
@@ -1028,11 +1025,12 @@ delete_event (ECalendarView *cal_view, ECalendarViewEvent *event)
 	if (!e_cal_get_static_capability (event->comp_data->client, CAL_STATIC_CAPABILITY_RECURRENCES_NO_MASTER))
 		e_cal_component_set_recurid (comp, NULL);
 
+	/*FIXME Retract should be moved to Groupwise features plugin */
 	if (check_for_retract (comp, event->comp_data->client)) {
 		char *retract_comment = NULL;
 		gboolean retract = FALSE;
 
-		retract = prompt_retract_dialog (comp, &retract_comment, GTK_WIDGET (cal_view));
+		delete = prompt_retract_dialog (comp, &retract_comment, GTK_WIDGET (cal_view), &retract);
 		if (retract) {
 			GList *users = NULL;
 			icalcomponent *icalcomp = NULL, *mod_comp = NULL;
@@ -1144,11 +1142,12 @@ e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view)
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 	vtype = e_cal_component_get_vtype (comp);
 
+	/*FIXME Retract should be moved to Groupwise features plugin */
 	if (check_for_retract (comp, event->comp_data->client)) {
 		char *retract_comment = NULL;
 		gboolean retract = FALSE;
 
-		retract = prompt_retract_dialog (comp, &retract_comment, GTK_WIDGET (cal_view));
+		delete = prompt_retract_dialog (comp, &retract_comment, GTK_WIDGET (cal_view), &retract);
 		if (retract) {
 			GList *users = NULL;
 			icalcomponent *icalcomp = NULL, *mod_comp = NULL;
