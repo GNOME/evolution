@@ -78,7 +78,6 @@ struct _ECalendarViewPrivate {
 static void e_calendar_view_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec);
 static void e_calendar_view_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec);
 static void e_calendar_view_destroy (GtkObject *object);
-static void open_event_with_flags (ECalendarView *cal_view, ECal *client, icalcomponent *icalcomp, guint32 flags);
 
 extern ECompEditorRegistry *comp_editor_registry;
 
@@ -1602,7 +1601,7 @@ on_delegate (EPopup *ep, EPopupItem *pitem, void *data)
 
 		flags |= COMP_EDITOR_MEETING | COMP_EDITOR_DELEGATE;
 
-		open_event_with_flags (cal_view, event->comp_data->client, clone, flags);
+		e_calendar_view_open_event_with_flags (cal_view, event->comp_data->client, clone, flags);
 
 		icalcomponent_free (clone);
 		g_list_free (selected);
@@ -2013,7 +2012,7 @@ e_calendar_view_new_appointment_for (ECalendarView *cal_view,
 		flags |= COMP_EDITOR_USER_ORG;
 	}
 
-	open_event_with_flags (cal_view, default_client,
+	e_calendar_view_open_event_with_flags (cal_view, default_client,
 			icalcomp, flags);
 
 	g_object_unref (comp);
@@ -2102,8 +2101,8 @@ object_created_cb (CompEditor *ce, ECalendarView *cal_view)
 	gnome_calendar_emit_user_created_signal (cal_view, e_calendar_view_get_calendar (cal_view), comp_editor_get_client (ce));
 }
 
-static void
-open_event_with_flags (ECalendarView *cal_view, ECal *client, icalcomponent *icalcomp, guint32 flags)
+CompEditor *
+e_calendar_view_open_event_with_flags (ECalendarView *cal_view, ECal *client, icalcomponent *icalcomp, guint32 flags)
 {
 	CompEditor *ce;
 	const char *uid;
@@ -2131,6 +2130,7 @@ open_event_with_flags (ECalendarView *cal_view, ECal *client, icalcomponent *ica
 
 	gtk_window_present (GTK_WINDOW (ce));
 
+	return ce;
 }
 
 /**
@@ -2165,7 +2165,7 @@ e_calendar_view_edit_appointment (ECalendarView *cal_view,
 	}
 
 
-	open_event_with_flags (cal_view, client, icalcomp, flags);
+	e_calendar_view_open_event_with_flags (cal_view, client, icalcomp, flags);
 }
 
 void

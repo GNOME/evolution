@@ -28,6 +28,7 @@
 #include "e-cal-model.h"
 #include "gnome-cal.h"
 #include "e-activity-handler.h"
+#include "dialogs/comp-editor.h"
 
 G_BEGIN_DECLS
 
@@ -144,6 +145,7 @@ void           e_calendar_view_paste_clipboard (ECalendarView *cal_view);
 void           e_calendar_view_delete_selected_event (ECalendarView *cal_view);
 void           e_calendar_view_delete_selected_events (ECalendarView *cal_view);
 void           e_calendar_view_delete_selected_occurrence (ECalendarView *cal_view);
+CompEditor*    e_calendar_view_open_event_with_flags (ECalendarView *cal_view, ECal *client, icalcomponent *icalcomp, guint32 flags);
 
 GtkMenu       *e_calendar_view_create_popup_menu (ECalendarView *cal_view);
 

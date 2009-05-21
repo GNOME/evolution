@@ -64,6 +64,7 @@ glade_DATA =			\
 
 error_DATA = 				\
 	org-gnome-shared-folder.error	\
+	org-gnome-process-meeting.error	\
 	org-gnome-proxy.error		\
 	org-gnome-proxy-login.error     \
 	org-gnome-mail-retract.error
@@ -77,6 +78,7 @@ EXTRA_DIST =						\
 	org-gnome-compose-send-options.xml		\
 	org-gnome-groupwise-features.eplug.xml		\
 	org-gnome-shared-folder.error.xml		\
+	org-gnome-process-meeting.error.xml		\
 	org-gnome-proxy.error.xml			\
 	org-gnome-proxy-login.error.xml     		\
 	org-gnome-mail-retract.error.xml

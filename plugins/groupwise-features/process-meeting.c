@@ -43,9 +43,11 @@ typedef struct {
 ECalendarView *c_view;
 
 void org_gnome_accept(EPlugin *ep, ECalPopupTargetSelect *target);
+void org_gnome_retract_resend (EPlugin *ep, ECalPopupTargetSelect *target);
 static void on_accept_meeting (EPopup *ep, EPopupItem *pitem, void *data);
 static void on_accept_meeting_tentative (EPopup *ep, EPopupItem *pitem, void *data);
 static void on_decline_meeting (EPopup *ep, EPopupItem *pitem, void *data);
+static void on_resend_meeting (EPopup *ep, EPopupItem *pitem, void *data);
 
 static EPopupItem popup_items[] = {
 { E_POPUP_ITEM, "41.accept", N_("Accept"), on_accept_meeting, NULL, GTK_STOCK_APPLY, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_ACCEPTABLE},
@@ -227,9 +229,9 @@ process_meeting (ECalendarView *cal_view, icalparameter_partstat status)
 			const char *msg;
 
 			if (status == ICAL_PARTSTAT_ACCEPTED || status == ICAL_PARTSTAT_TENTATIVE)
-				msg = "org.gnome.evolution.mail_shared_folder:recurrence-accept";
+				msg = "org.gnome.evolution.process_meeting:recurrence-accept";
 			else
-				msg = "org.gnome.evolution.mail_shared_folder:recurrence-decline";
+				msg = "org.gnome.evolution.process_meeting:recurrence-decline";
 
 			response = e_error_run (NULL, msg, NULL);
 			if (response == GTK_RESPONSE_YES) {
@@ -281,4 +283,262 @@ on_decline_meeting (EPopup *ep, EPopupItem *pitem, void *data)
 	ECalendarView *cal_view = c_view;
 
 	process_meeting (cal_view, ICAL_PARTSTAT_DECLINED);
+}
+
+static gboolean
+is_meeting_owner (ECalComponent *comp, ECal *client)
+{
+	ECalComponentOrganizer org;
+	char *email = NULL;
+	const char *strip = NULL;
+	gboolean ret_val = FALSE;
+
+	if (!(e_cal_component_has_attendees (comp) &&
+				e_cal_get_save_schedules (client)))
+		return ret_val;
+
+	e_cal_component_get_organizer (comp, &org);
+	strip = itip_strip_mailto (org.value);
+
+	if (e_cal_get_cal_address (client, &email, NULL) && !g_ascii_strcasecmp (email, strip)) {
+		ret_val = TRUE;
+	}
+
+	if (!ret_val)
+		ret_val = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
+
+	g_free (email);
+	return ret_val;
+}
+
+
+typedef struct {
+	ECal *client;
+	ECalComponent *comp;
+	CalObjModType mod;
+} ThreadData;
+
+static EPopupItem retract_popup_items[] = {
+{ E_POPUP_ITEM, "49.resend", N_("Rese_nd Meeting..."), on_resend_meeting, NULL, GTK_STOCK_EDIT, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING}
+};
+
+void 
+org_gnome_retract_resend (EPlugin *ep, ECalPopupTargetSelect *target)
+{
+	GSList *menus = NULL;
+	GList *selected;
+	int i = 0;
+	static int first = 0;
+	const char *uri = NULL;
+	ECalendarView *cal_view = E_CALENDAR_VIEW (target->target.widget);
+	ECalComponent *comp = NULL;
+	ECalendarViewEvent *event = NULL;
+
+	c_view = cal_view;
+	selected = e_calendar_view_get_selected_events (cal_view);
+	if (selected) {
+		event = (ECalendarViewEvent *) selected->data;
+
+		uri = e_cal_get_uri (event->comp_data->client);
+	} else
+		return;
+
+	if (!uri)
+		return;
+
+	if (! g_strrstr (uri, "groupwise://"))
+		return ;
+	
+	comp = e_cal_component_new ();
+	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+
+	if (!is_meeting_owner (comp, event->comp_data->client)) {
+		g_object_unref (comp);
+		return;
+	}
+
+	/* for translation*/
+	if (!first) {
+		retract_popup_items[0].label =  _(retract_popup_items[0].label);
+	}
+
+	first++;
+
+	for (i = 0; i < sizeof (retract_popup_items) / sizeof (retract_popup_items[0]); i++)
+		menus = g_slist_prepend (menus, &retract_popup_items[i]);
+
+	e_popup_add_items (target->target.popup, menus, NULL, popup_free, NULL);
+
+	g_object_unref (comp);
+}
+
+static void
+add_retract_data (ECalComponent *comp, const char *retract_comment, CalObjModType mod)
+{
+	icalcomponent *icalcomp = NULL;
+	icalproperty *icalprop = NULL;
+
+	icalcomp = e_cal_component_get_icalcomponent (comp);
+	if (retract_comment && *retract_comment)
+		icalprop = icalproperty_new_x (retract_comment);
+	else
+		icalprop = icalproperty_new_x ("0");
+	icalproperty_set_x_name (icalprop, "X-EVOLUTION-RETRACT-COMMENT");
+	icalcomponent_add_property (icalcomp, icalprop);
+
+	if (mod == CALOBJ_MOD_ALL)
+		icalprop = icalproperty_new_x ("All");
+	else
+		icalprop = icalproperty_new_x ("This");
+	icalproperty_set_x_name (icalprop, "X-EVOLUTION-RECUR-MOD");
+	icalcomponent_add_property (icalcomp, icalprop);
+}
+
+static void 
+free_thread_data (ThreadData *data)
+{
+	if (data == NULL)
+		return;
+
+	if (data->client)
+		g_object_unref (data->client);
+
+	if (data->comp)
+		g_object_unref (data->comp);
+
+	g_free (data);
+}
+
+static gpointer
+retract_object (gpointer val)
+{
+	ThreadData *data = val;
+	icalcomponent *icalcomp = NULL, *mod_comp = NULL;
+	GList *users = NULL;
+	char *rid = NULL;
+	const char *uid;
+	GError *error = NULL;
+
+	add_retract_data (data->comp, NULL, data->mod);
+	
+	icalcomp = e_cal_component_get_icalcomponent (data->comp);
+	icalcomponent_set_method (icalcomp, ICAL_METHOD_CANCEL);
+	
+	if (!e_cal_send_objects (data->client, icalcomp, &users,
+						&mod_comp, &error))	{
+		/* FIXME report error  */
+		g_warning ("Unable to retract the meeting \n");
+		g_clear_error (&error);
+		return GINT_TO_POINTER (1);
+	}
+
+	if (mod_comp)
+		icalcomponent_free (mod_comp);
+				
+	if (users) {
+		g_list_foreach (users, (GFunc) g_free, NULL);
+		g_list_free (users);
+	}
+	
+	rid = e_cal_component_get_recurid_as_string (data->comp);
+	e_cal_component_get_uid (data->comp, &uid);
+			
+	if (!e_cal_remove_object_with_mod (data->client, uid,
+				rid, data->mod, &error)) {
+		g_warning ("Unable to remove the item \n");
+		g_clear_error (&error);
+		return GINT_TO_POINTER (1);
+	}
+	g_free (rid);
+
+	free_thread_data (data)	;
+	return GINT_TO_POINTER (0);
+}
+
+static void
+object_created_cb (CompEditor *ce, gpointer data)
+{
+	GThread *thread = NULL;
+	int response;
+	GError *error = NULL;
+	
+	gtk_widget_hide (GTK_WIDGET (ce));
+
+	response = e_error_run (NULL, "org.gnome.evolution.process_meeting:resend-retract", NULL);
+	if (response == GTK_RESPONSE_NO) {
+		free_thread_data (data)	;
+		return;
+	}
+
+	thread = g_thread_create ((GThreadFunc) retract_object, data , FALSE, &error);
+	if (!thread) {
+		g_warning (G_STRLOC ": %s", error->message);
+		g_error_free (error);
+	}
+}
+
+static void
+on_resend_meeting (EPopup *ep, EPopupItem *pitem, void *data)
+{
+	ECalendarView *cal_view = c_view;
+	GList *selected;
+
+	selected = e_calendar_view_get_selected_events (cal_view);
+	if (selected) {
+		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
+		ECalComponent *comp = e_cal_component_new ();
+		ECalComponent *new_comp = NULL;
+		gboolean recurring = FALSE;
+		CalObjModType mod = CALOBJ_MOD_THIS;
+		ThreadData *data = NULL;
+		gint response;
+		const char *msg;
+		/* inserting the boolean to share the code between resend and retract */
+		gboolean resend = TRUE;
+
+		e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
+		if (e_cal_component_has_recurrences (comp) || e_cal_component_is_instance (comp))
+			recurring = TRUE;
+
+		if (recurring == TRUE)
+			msg = "org.gnome.evolution.process_meeting:resend-recurrence";
+		else
+			msg = "org.gnome.evolution.process_meeting:resend";
+
+		response = e_error_run (NULL, msg, NULL);
+		if (response == GTK_RESPONSE_YES) {
+			mod = CALOBJ_MOD_ALL;	
+		} else if (response == GTK_RESPONSE_CANCEL) {
+			g_object_unref (comp);
+			return;
+		}
+		
+		data = g_new0 (ThreadData, 1);
+		data->client = g_object_ref (event->comp_data->client);
+		data->comp = comp;
+		data->mod = mod;
+		
+		if (resend) 
+		{
+			guint flags = 0;
+			char *new_uid = NULL;
+			CompEditor *ce;
+			icalcomponent *icalcomp;
+
+			flags |= COMP_EDITOR_NEW_ITEM;
+			flags |= COMP_EDITOR_MEETING;
+			flags |= COMP_EDITOR_USER_ORG;
+
+			new_comp = e_cal_component_clone (comp);
+			new_uid = e_cal_component_gen_uid ();
+			e_cal_component_set_recurid (new_comp, NULL);
+			e_cal_component_set_uid (new_comp, new_uid);
+			icalcomp = icalcomponent_new_clone (e_cal_component_get_icalcomponent (new_comp));
+			ce = e_calendar_view_open_event_with_flags (cal_view, data->client, icalcomp, flags);
+			
+			g_signal_connect (ce, "object_created", G_CALLBACK (object_created_cb), data);
+			g_object_unref (new_comp);
+			g_free (new_uid);
+		}
+	}
 }

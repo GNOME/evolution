@@ -1848,7 +1848,7 @@ comp_editor_set_summary (CompEditor *editor,
 		!editor->priv->warned &&
 		!(editor->priv->flags & COMP_EDITOR_DELEGATE) &&
 		editor->priv->existing_org &&
-		!editor->priv->user_org;
+		!editor->priv->user_org && !(editor->priv->flags & COMP_EDITOR_NEW_ITEM);
 
 	if (show_warning) {
 		e_notice (
@@ -1896,7 +1896,8 @@ comp_editor_set_changed (CompEditor *editor,
 	show_warning =
 		changed && !editor->priv->warned &&
 		!(editor->priv->flags & COMP_EDITOR_DELEGATE) &&
-		editor->priv->existing_org && !editor->priv->user_org;
+		editor->priv->existing_org && !editor->priv->user_org
+		&& !(editor->priv->flags & COMP_EDITOR_NEW_ITEM);
 
 	if (show_warning) {
 		e_notice (
@@ -2701,7 +2702,7 @@ page_dates_changed_cb (CompEditor *editor,
 		if (page != (CompEditorPage *) l->data)
 			comp_editor_page_set_dates (l->data, dates);
 
-	if (!priv->warned && priv->existing_org && !priv->user_org) {
+	if (!priv->warned && priv->existing_org && !priv->user_org && !(editor->priv->flags & COMP_EDITOR_NEW_ITEM)) {
 		e_notice (priv->notebook, GTK_MESSAGE_INFO,
 			  _("Changes made to this item may be discarded if an update arrives"));
 		priv->warned = TRUE;
