@@ -832,9 +832,12 @@ find_server (struct _itip_puri *pitip, ECalComponent *comp)
 		}
 	}
 
-	if (current_source)
+	if (current_source) {
 		l = sources_conflict;
-	else {
+		
+		pitip->progress_info_id = itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS,
+				_("Opening the calendar. Please wait.."));
+	} else {
 		pitip->progress_info_id = itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS,
 				_("Searching for an existing version of this appointment"));
 
