@@ -820,8 +820,7 @@ comp_util_sanitize_recurrence_master (ECalComponent *comp, ECal *client)
 	e_cal_component_get_recurid (comp, &rid);
 	e_cal_component_get_dtstart (comp, &sdt);
 
-	if (icaltime_compare_date_only (*rid.datetime.value, *sdt.value) == 0)
-	{
+	if (rid.datetime.value && sdt.value && icaltime_compare_date_only (*rid.datetime.value, *sdt.value) == 0) {
 		ECalComponentDateTime msdt, medt, edt;
 		int *sequence;
 
