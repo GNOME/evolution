@@ -672,13 +672,18 @@ create_new_composer (const char *subject, const char *fromuri)
 	EAccount *account = NULL;
 
 	composer = e_msg_composer_new ();
-	if (composer == NULL)
-		return NULL;
-
-	if (fromuri)
-		account = mail_config_get_account_by_source_url (fromuri);
-
 	table = e_msg_composer_get_header_table (composer);
+
+	if (fromuri != NULL) {
+		GList *list;
+
+		account = mail_config_get_account_by_source_url(fromuri);
+
+		list = g_list_prepend (NULL, (gpointer) fromuri);
+		e_composer_header_table_set_post_to_list (table, list);
+		g_list_free (list);
+	}
+
 	e_composer_header_table_set_account (table, account);
 	e_composer_header_table_set_subject (table, subject);
 
@@ -1701,17 +1706,11 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 	g_return_val_if_fail (to == NULL || CAMEL_IS_INTERNET_ADDRESS (to), NULL);
 	g_return_val_if_fail (cc == NULL || CAMEL_IS_INTERNET_ADDRESS (cc), NULL);
 
+	composer = e_msg_composer_new ();
+
 	/* construct the tov/ccv */
 	tov = em_utils_camel_address_to_destination (to);
 	ccv = em_utils_camel_address_to_destination (cc);
-
-	if (tov || ccv) {
-		if (postto && camel_address_length((CamelAddress *)postto))
-			composer = e_msg_composer_new_with_type (E_MSG_COMPOSER_MAIL_POST);
-		else
-			composer = e_msg_composer_new_with_type (E_MSG_COMPOSER_MAIL);
-	} else
-		composer = e_msg_composer_new_with_type (E_MSG_COMPOSER_POST);
 
 	/* Set the subject of the new message. */
 	if ((subject = (char *) camel_mime_message_get_subject (message))) {

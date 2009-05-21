@@ -92,6 +92,7 @@ e_composer_private_init (EMsgComposer *composer)
 	GtkWidget *send_widget;
 	const gchar *path;
 	gchar *filename;
+	gint ii;
 	GError *error = NULL;
 
 	editor = GTKHTML_EDITOR (composer);
@@ -167,6 +168,46 @@ e_composer_private_init (EMsgComposer *composer)
 		GTK_BOX (container), widget, TRUE, TRUE, 0, GTK_PACK_START);
 
 	composer_setup_recent_menu (composer);
+
+	/* Bind headers to their corresponding actions. */
+
+	for (ii = 0; ii < E_COMPOSER_NUM_HEADERS; ii++) {
+		EComposerHeaderTable *table;
+		EComposerHeader *header;
+		GtkAction *action;
+
+		table = E_COMPOSER_HEADER_TABLE (priv->header_table);
+		header = e_composer_header_table_get_header (table, ii);
+
+		switch (ii) {
+			case E_COMPOSER_HEADER_BCC:
+				action = ACTION (VIEW_BCC);
+				break;
+
+			case E_COMPOSER_HEADER_CC:
+				action = ACTION (VIEW_CC);
+				break;
+
+			case E_COMPOSER_HEADER_FROM:
+				action = ACTION (VIEW_FROM);
+				break;
+
+			case E_COMPOSER_HEADER_REPLY_TO:
+				action = ACTION (VIEW_REPLY_TO);
+				break;
+
+			default:
+				continue;
+		}
+
+		e_mutual_binding_new (
+			G_OBJECT (header), "sensitive",
+			G_OBJECT (action), "sensitive");
+
+		e_mutual_binding_new (
+			G_OBJECT (header), "visible",
+			G_OBJECT (action), "active");
+	}
 }
 
 void

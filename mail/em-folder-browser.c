@@ -72,6 +72,7 @@
 #include "e-util/e-error.h"
 #include "e-util/e-util-private.h"
 #include "e-util/e-util-labels.h"
+#include "e-mail-search-bar.h"
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "em-format-html-display.h"
@@ -99,6 +100,7 @@ CamelStore *vfolder_store; /* the 1 static vfolder store */
 struct _EMFolderBrowserPrivate {
 	GtkWidget *preview;	/* container for message display */
 	GtkWidget *scroll;
+	GtkWidget *search_bar;
 
 	GtkWidget *subscribe_editor;
 
@@ -156,7 +158,6 @@ static const EMFolderViewEnable emfb_enable_map[] = {
 	{ "FolderRename", EM_POPUP_SELECT_FOLDER },
 	{ "FolderRefresh", EM_POPUP_SELECT_FOLDER },
 	{ "ChangeFolderProperties", EM_POPUP_SELECT_FOLDER },
-	{ "MailPost", EM_POPUP_SELECT_FOLDER },
 	{ "MessageMarkAllAsRead", EM_POPUP_SELECT_FOLDER },
 	{ "ViewHideSelected", EM_POPUP_SELECT_MANY },
 	{ "ViewThreadsCollapseAll", EM_FOLDER_VIEW_SELECT_THREADED},
@@ -209,7 +210,6 @@ static ESearchBarItem emfb_search_scope_items[] = {
 	E_FILTERBAR_CURRENT_FOLDER,
 	E_FILTERBAR_CURRENT_ACCOUNT,
 	E_FILTERBAR_ALL_ACCOUNTS,
-	E_FILTERBAR_CURRENT_MESSAGE,
 	{ NULL, -1, 0 }
 };
 
@@ -241,6 +241,7 @@ emfb_init(GObject *o)
 	EMFolderBrowser *emfb = (EMFolderBrowser *)o;
 	RuleContext *search_context = mail_component_peek_search_context (mail_component_peek ());
 	struct _EMFolderBrowserPrivate *p;
+	GtkWidget *html;
 
 	EMEvent *eme;
 	EMEventTargetFolderBrowser *target;
@@ -325,6 +326,10 @@ emfb_init(GObject *o)
 //	gtk_paned_pack2 (GTK_PANED (emfb->vpane), p->preview, TRUE, FALSE);
 //	gtk_widget_show(p->preview);
 
+	g_signal_connect_swapped (
+		p->search_bar, "changed",
+		G_CALLBACK (em_format_redraw), emfb->view.preview);
+
 	/** @HookPoint-EMFolderBrower: Folder Browser
 	 * @Id: emfb.created
 	 * @Class: org.gnome.evolution.mail.events:1.0
@@ -386,7 +391,6 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 	if ((emfb->view.preview_active ^ state) == 0
 	    || emfb->view.list == NULL) {
 		if (state && emfb->priv->scope_restricted && emfb->view.list->cursor_uid && *(emfb->view.list->cursor_uid)) {
-			e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, TRUE);
 			emfb->priv->scope_restricted = FALSE;
 		}
 
@@ -408,7 +412,6 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 		if (emfb->view.list->cursor_uid) {
 			char *uid = g_alloca(strlen(emfb->view.list->cursor_uid)+1);
 
-			e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, TRUE);
 			emfb->priv->scope_restricted = FALSE;
 			strcpy(uid, emfb->view.list->cursor_uid);
 			em_folder_view_set_message(&emfb->view, uid, FALSE);
@@ -424,7 +427,6 @@ void em_folder_browser_show_preview(EMFolderBrowser *emfb, gboolean state)
 		emfb->view.displayed_uid = NULL;
 
 		gtk_widget_hide(emfb->priv->preview);
-		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, FALSE);
 		emfb->priv->scope_restricted = TRUE;
 		/*
 		mail_display_set_message (emfb->mail_display, NULL, NULL, NULL);
@@ -618,18 +620,6 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 	id = e_search_bar_get_search_scope (esb);
 
 	switch (id) {
-	    case E_FILTERBAR_CURRENT_MESSAGE_ID:
-		    word = e_search_bar_get_text (esb);
-		    if ( word && *word ) {
-			    gtk_widget_set_sensitive (esb->option_button, FALSE);
-			    em_format_html_display_search_with (emfb->view.preview, word);
-		    } else {
-			    em_format_html_display_search_close (emfb->view.preview);
-		    }
-		    g_free (word);
-		    return;
-		    break;
-
 	    case E_FILTERBAR_CURRENT_FOLDER_ID:
 		    g_object_get (esb, "query", &search_word, NULL);
 		    break;
@@ -825,10 +815,8 @@ emfb_list_message_selected (MessageList *ml, const char *uid, EMFolderBrowser *e
 		return;
 
 	if (uid && *uid && emfb->priv->scope_restricted && emfb->view.preview_active) {
-		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, TRUE);
 		emfb->priv->scope_restricted = FALSE;
 	} else if ( !(uid && *uid) && !emfb->priv->scope_restricted) {
-		e_search_bar_scope_enable ((ESearchBar *)emfb->search, E_FILTERBAR_CURRENT_MESSAGE_ID, FALSE);
 		emfb->priv->scope_restricted = TRUE;
 	}
 

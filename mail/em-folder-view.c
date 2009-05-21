@@ -144,7 +144,6 @@ static const EMFolderViewEnable emfv_enable_map[] = {
 	{ "MessageFollowUpClear",     EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_FLAG_CLEAR },
 //	{ "MessageMove",              EM_POPUP_SELECT_MANY },
 //	{ "MessageOpen",              EM_POPUP_SELECT_MANY },
-//	{ "MessagePostReply",         EM_POPUP_SELECT_ONE },
 //	{ "MessageReplyAll",          EM_POPUP_SELECT_ONE },
 //	{ "MessageReplyList",         EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST },
 //	{ "MessageReplySender",       EM_POPUP_SELECT_ONE },

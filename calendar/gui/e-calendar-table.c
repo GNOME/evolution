@@ -1132,9 +1132,6 @@ check_for_retract (ECalComponent *comp, ECal *client)
 		ret_val = TRUE;
 	}
 
-	if (!ret_val)
-		ret_val = e_account_list_find(itip_addresses_get(), E_ACCOUNT_FIND_ID_ADDRESS, strip) != NULL;
-
 	g_free (email);
 	return ret_val;
 }
@@ -1180,8 +1177,7 @@ e_calendar_table_delete_selected (ECalendarTable *cal_table)
 		char *retract_comment = NULL;
 		gboolean retract = FALSE;
 
-		retract = prompt_retract_dialog (comp, &retract_comment, GTK_WIDGET (cal_table));
-		delete = retract;
+		delete = prompt_retract_dialog (comp, &retract_comment, GTK_WIDGET (cal_table), &retract);
 		if (retract) {
 			GList *users = NULL;
 			icalcomponent *icalcomp = NULL, *mod_comp = NULL;

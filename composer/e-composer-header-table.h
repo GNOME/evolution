@@ -79,20 +79,6 @@ GtkWidget *	e_composer_header_table_new	(void);
 EComposerHeader * e_composer_header_table_get_header
 						(EComposerHeaderTable *table,
 						 EComposerHeaderType type);
-gboolean	e_composer_header_table_get_header_sensitive
-						(EComposerHeaderTable *table,
-						 EComposerHeaderType type);
-void		e_composer_header_table_set_header_sensitive
-						(EComposerHeaderTable *table,
-						 EComposerHeaderType type,
-						 gboolean sensitive);
-gboolean	e_composer_header_table_get_header_visible
-						(EComposerHeaderTable *table,
-						 EComposerHeaderType type);
-void		e_composer_header_table_set_header_visible
-						(EComposerHeaderTable *table,
-						 EComposerHeaderType type,
-						 gboolean visible);
 EAccount *	e_composer_header_table_get_account
 						(EComposerHeaderTable *table);
 gboolean	e_composer_header_table_set_account

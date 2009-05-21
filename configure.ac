@@ -1800,7 +1800,7 @@ plugins_standard_always="bbdb subject-thread save-calendar copy-tool mail-to-tas
 plugins_standard="$plugins_standard_always"
 all_plugins_standard="$plugins_standard"
 
-plugins_experimental_always="folder-unsubscribe external-editor hula-account-setup"
+plugins_experimental_always="face folder-unsubscribe external-editor hula-account-setup"
 plugins_experimental="$plugins_experimental_always $IPOD_SYNC $TNEF_ATTACHMENTS $PYTHON_PLUGIN"
 all_plugins_experimental="$plugins_experimental_always ipod-sync tnef-attachments"
 

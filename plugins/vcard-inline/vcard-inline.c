@@ -224,8 +224,11 @@ org_gnome_vcard_inline_embed (EMFormatHTML *format,
 	} else if (length > 2) {
 		gchar *text;
 
-		text = g_strdup_printf (
-			_("There are %d other contacts."), length - 1);
+		/* Translators: This will always be two or more. */
+		text = g_strdup_printf (ngettext (
+			"There is %d other contact.",
+			"There are %d other contacts.",
+			length - 1), length - 1);
 		gtk_label_set_text (GTK_LABEL (widget), text);
 		gtk_widget_show (widget);
 		g_free (text);

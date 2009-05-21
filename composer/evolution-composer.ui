@@ -11,19 +11,7 @@
         <menuitem action='save-draft'/>
         <placeholder name='template-holder'/>
         <separator/>
-	<placeholder name='external-editor-holder'/>
-        <separator/>
-        <separator/>
-	<placeholder name='external-editor-holder'/>
-        <separator/>
-        <separator/>
-	<placeholder name='external-editor-holder'/>
-        <separator/>
-        <separator/>
-	<placeholder name='external-editor-holder'/>
-        <separator/>
-        <separator/>
-	<placeholder name='external-editor-holder'/>
+        <placeholder name='external-editor-holder'/>
         <separator/>
         <separator/>
         <menuitem action='print-preview'/>
@@ -41,12 +29,9 @@
     <placeholder name='pre-insert-menu'>
       <menu action='view-menu'>
         <menuitem action='view-from'/>
-        <menuitem action='view-to'/>
-        <menuitem action='view-post-to'/>
         <menuitem action='view-reply-to'/>
         <menuitem action='view-cc'/>
         <menuitem action='view-bcc'/>
-        <menuitem action='view-subject'/>
       </menu>
     </placeholder>
     <menu action='insert-menu'>

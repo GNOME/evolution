@@ -33,6 +33,6 @@ gboolean delete_component_dialog (ECalComponent *comp,
 				  gboolean consider_as_untitled,
 				  int n_comps, ECalComponentVType vtype,
 				  GtkWidget *widget);
-gboolean prompt_retract_dialog (ECalComponent *comp, char **retract_text, GtkWidget *parent);
+gboolean prompt_retract_dialog (ECalComponent *comp, char **retract_text, GtkWidget *parent, gboolean *retract);
 
 #endif

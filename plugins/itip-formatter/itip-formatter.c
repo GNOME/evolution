@@ -38,6 +38,7 @@
 #include <camel/camel-multipart.h>
 #include <camel/camel-service.h>
 #include <camel/camel-store.h>
+#include <camel/camel-db.h>
 #include <libecal/e-cal.h>
 #include <libecal/e-cal-time-util.h>
 #include <libedataserverui/e-source-selector.h>
@@ -831,9 +832,12 @@ find_server (struct _itip_puri *pitip, ECalComponent *comp)
 		}
 	}
 
-	if (current_source)
+	if (current_source) {
 		l = sources_conflict;
-	else {
+		
+		pitip->progress_info_id = itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS,
+				_("Opening the calendar. Please wait.."));
+	} else {
 		pitip->progress_info_id = itip_view_add_lower_info_item (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_PROGRESS,
 				_("Searching for an existing version of this appointment"));
 
@@ -1876,6 +1880,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 				camel_message_info_free (mi);
 				if (tag) {
 					int i = 0, count;
+					GSList *list = NULL;
 
 					count = camel_folder_summary_count (pitip->folder->summary);
 					for (i = 0; i < count; i++) {
@@ -1884,12 +1889,18 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 							continue;
 						camel_message_info_ref (mi);
 						if ( camel_message_info_user_tag (mi, "recurrence-key") && g_str_equal (camel_message_info_user_tag (mi, "recurrence-key"), tag)) {
+							camel_folder_summary_remove_uid_fast (pitip->folder->summary, (char *)(mi->uid));
+							camel_folder_change_info_remove_uid (changes, (char *) mi->uid);
+							list = g_slist_prepend (list, (gpointer) mi->uid);
 
-							camel_folder_summary_remove_uid(pitip->folder->summary, (char *)(mi->uid));
-							camel_folder_change_info_remove_uid (changes, (char *)(mi->uid));
+							/* step back once to have the right index */
+							count--;
+							i--;
 						}
 						camel_message_info_free (mi);
 					}
+					camel_db_delete_uids (pitip->folder->parent_store->cdb_w, pitip->folder->full_name, list, NULL);
+					g_slist_free (list);
 				}
 			} else {
 				/* Either not a recurring appointment or "apply-to-all" is not selected. So just delete this instance alone */
