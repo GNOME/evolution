@@ -3,7 +3,7 @@
 	<e-plugin id="org.gnome.evolution.mail_subject_thread" type="shlib" _name="Subject Threading" 
 		location="@PLUGINDIR@/liborg-gnome-subject-thread@SOEXT@">
 		<author name="JP Rosevear" email="jpr@novell.com"/>
-		<_description>Indicates if threading of messages should fall back to subject.</_description>
+		<_description>Sort mail message threads by subject.</_description>
 	
 		<hook class="org.gnome.evolution.mail.config:1.0">
 			<group id="org.gnome.evolution.mail.prefs" target="prefs">

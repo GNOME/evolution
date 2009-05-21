@@ -4,13 +4,10 @@
     type="shlib"
     id="org.gnome.evolution.plugin.preferPlain"
     location="@PLUGINDIR@/liborg-gnome-prefer-plain@SOEXT@"
-    _name="Prefer plain-text">
+    _name="Prefer Plain Text">
 
 
-    <_description xml:space="preserve">A test plugin which demonstrates a formatter plugin which lets you choose to disable HTML messages.
-
-This plugin is unsupported demonstration code only.
-</_description>
+    <_description>View mail messages as plain text, even if they contain HTML content.</_description>
     <author name="Michael Zucchi" email="NotZed@Ximian.com"/>
 
 

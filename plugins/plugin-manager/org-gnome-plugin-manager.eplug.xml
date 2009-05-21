@@ -7,7 +7,7 @@
     _name="Plugin Manager"
     system_plugin="true">
     <author name="Michael Zucchi" email="notzed@ximian.com"/>
-    <_description>A plugin for managing which plugins are enabled or disabled.</_description>
+    <_description>Manage your Evolution plugins.</_description>
 
     <hook class="org.gnome.evolution.ui:1.0">
       <ui-manager id="org.gnome.evolution.shell">

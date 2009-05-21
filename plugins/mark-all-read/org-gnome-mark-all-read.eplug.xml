@@ -6,7 +6,7 @@
         _name="Mark All Read"
         location="@PLUGINDIR@/liborg-gnome-mark-all-read@SOEXT@">
     <author name="Chenthill Palanisamy" email="pchenthill@novell.com"/>
-    <_description>Used for marking all the messages under a folder as read</_description>
+    <_description>Mark all messages in a folder as read.</_description>
 
     <hook class="org.gnome.evolution.ui:1.0">
       <ui-manager id="org.gnome.evolution.mail">

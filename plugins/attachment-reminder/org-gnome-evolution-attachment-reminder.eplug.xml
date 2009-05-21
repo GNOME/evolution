@@ -5,8 +5,7 @@
 	  _name="Attachment Reminder"
  	  location="@PLUGINDIR@/liborg-gnome-evolution-attachment-reminder@SOEXT@">
 
-	  	<_description>Looks for clues in a message for mention of
-	  	attachments and warns if the attachment is missing</_description>
+	  	<_description>Reminds you when you forgot to add an attachment to a mail message.</_description>
 
 		<author name="Johnny Jacob" email="jjohnny@novell.com"/>
 

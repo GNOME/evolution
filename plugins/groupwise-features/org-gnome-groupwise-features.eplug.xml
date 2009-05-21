@@ -10,7 +10,7 @@
     		<author name="Shreyas Srinivasan" email="sshreyas@novell.com"/>
 		<author name="Raghavendran R" email="raghavguru7@gmail.com"/>
 
-		<_description>A plugin for the features in GroupWise accounts.</_description>
+		<_description>Fine-tune your GroupWise accounts.</_description>
 		<hook class="org.gnome.evolution.mail.config:1.0">
 			<group id="org.gnome.evolution.mail.folderConfig" target="folder"
 				check= "shared_folder_check"

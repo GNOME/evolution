@@ -7,7 +7,7 @@
      _name="Local Calendars"
      system_plugin="true">
      <author name="JP Rosevear" email="jpr@novell.com"/>
-     <_description>Provides core functionality for local calendars.</_description>
+     <_description>Add local calendars to Evolution.</_description>
         <hook class="org.gnome.evolution.calendar.config:1.0">
             <group
 	     target="source"

@@ -7,10 +7,10 @@
 	  load-on-startup="true"
 	  domain="@GETTEXT_PACKAGE@"
 	  localedir="@LOCALEDIR@"
-	  _name="CalDAV sources"
+	  _name="CalDAV Support"
           system_plugin="true">
   		<author name="Christian Kellner" email="gicmo@gnome.org"/>
-		<_description>CalDAV Calendar sources</_description>
+		<_description>Add CalDAV support to Evolution.</_description>
 
 		<hook class="org.gnome.evolution.calendar.config:1.0">
             	<group target="source"
