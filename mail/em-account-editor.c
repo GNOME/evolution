@@ -276,6 +276,26 @@ EMAccountEditor *em_account_editor_new(EAccount *account, em_account_editor_t ty
 	return emae;
 }
 
+/**
+ * em_account_editor_new_for_pages:
+ * @account:
+ * @type:
+ *
+ * Create a new account editor.  If @account is NULL then this is to
+ * create a new account, else @account is copied to a working
+ * structure and is for editing an existing account.
+ *
+ * Return value:
+ **/
+EMAccountEditor *em_account_editor_new_for_pages(EAccount *account, em_account_editor_t type, char *id, GtkWidget **pages)
+{
+	EMAccountEditor *emae = g_object_new(em_account_editor_get_type(), NULL);
+	emae->pages = pages;
+	em_account_editor_construct(emae, account, type, id);
+
+	return emae;
+}
+
 /* ********************************************************************** */
 
 static struct {
@@ -401,7 +421,7 @@ emae_display_license(EMAccountEditor *emae, CamelProvider *prov)
 		gtk_text_view_set_editable((GtkTextView *)w, FALSE);
 		response = gtk_dialog_run((GtkDialog *)dialog);
 	} else {
-		e_error_run((GtkWindow *)gtk_widget_get_toplevel(emae->editor),
+		e_error_run(emae->editor ? (GtkWindow *)gtk_widget_get_toplevel(emae->editor) : NULL,
 			    "mail:no-load-license", prov->license_file, NULL);
 	}
 
@@ -1018,7 +1038,8 @@ emae_url_set_hostport(CamelURL *url, const char *txt)
 	}
 
 	g_strstrip(host);
-	camel_url_set_host(url, host);
+	if (txt && *txt)
+		camel_url_set_host(url, host);
 
 	g_free(host);
 }
@@ -1381,7 +1402,8 @@ emae_refresh_providers(EMAccountEditor *emae, EMAccountEditorService *service)
 	int active = 0, i;
 	struct _service_info *info = &emae_service_info[service->type];
 	const char *uri = e_account_get_string(account, info->account_uri_key);
-	char *current = NULL;
+	char *current = NULL, *tmp;
+	CamelURL *url;
 
 	dropdown = service->providers;
 	gtk_widget_show((GtkWidget *)dropdown);
@@ -1396,8 +1418,10 @@ emae_refresh_providers(EMAccountEditor *emae, EMAccountEditorService *service)
 			memcpy(current, uri, len);
 			current[len] = 0;
 		}
+	} else {
+		current = g_strdup("imap");
 	}
-
+	
 	store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_POINTER);
 
 	i = 0;
@@ -1423,7 +1447,7 @@ emae_refresh_providers(EMAccountEditor *emae, EMAccountEditorService *service)
 
 		gtk_list_store_append(store, &iter);
 		gtk_list_store_set(store, &iter, 0, provider->name, 1, provider, -1);
-
+		
 		/* find the displayed and set default */
 		if (i == 0 || (current && strcmp(provider->protocol, current) == 0)) {
 			service->provider = provider;
@@ -1441,13 +1465,30 @@ emae_refresh_providers(EMAccountEditor *emae, EMAccountEditorService *service)
 		i++;
 	}
 
+
+	gtk_cell_layout_clear((GtkCellLayout *)dropdown);
 	gtk_combo_box_set_model(dropdown, (GtkTreeModel *)store);
 	gtk_cell_layout_pack_start((GtkCellLayout *)dropdown, cell, TRUE);
 	gtk_cell_layout_set_attributes((GtkCellLayout *)dropdown, cell, "text", 0, NULL);
 
+	g_signal_handlers_disconnect_by_func(dropdown, emae_provider_changed, service);
 	gtk_combo_box_set_active(dropdown, -1);	/* needed for gtkcombo bug(?) */
 	gtk_combo_box_set_active(dropdown, active);
 	g_signal_connect(dropdown, "changed", G_CALLBACK(emae_provider_changed), service);
+
+	if (!uri  || (url = camel_url_new(uri, NULL)) == NULL) {
+		return;
+	}
+	
+	tmp = (char *)camel_url_get_param(url, "use_ssl");
+	if (tmp == NULL)
+		tmp = "never";	
+	for (i=0;i<num_ssl_options;i++) {
+		if (!strcmp(ssl_options[i].value, tmp)) {
+			gtk_combo_box_set_active(service->use_ssl, i);
+			break;
+		}
+	}
 }
 
 static void
@@ -1603,11 +1644,12 @@ static void emae_check_authtype(GtkWidget *w, EMAccountEditorService *service)
 	uri = e_account_get_string(emae->account, emae_service_info[service->type].account_uri_key);
 	g_object_ref(emae);
 
-	service->check_dialog = e_error_new((GtkWindow *)gtk_widget_get_toplevel(emae->editor),
+	service->check_dialog = e_error_new(emae->editor ? (GtkWindow *)gtk_widget_get_toplevel(emae->editor) : NULL,
 					    "mail:checking-service", NULL);
 	g_signal_connect(service->check_dialog, "response", G_CALLBACK(emae_check_authtype_response), service);
 	gtk_widget_show(service->check_dialog);
-	gtk_widget_set_sensitive(emae->editor, FALSE);
+	if (emae->editor)
+		gtk_widget_set_sensitive(emae->editor, FALSE);
 	service->check_id = mail_check_service(uri, service->type, emae_check_authtype_done, service);
 }
 
@@ -1621,7 +1663,6 @@ emae_setup_service(EMAccountEditor *emae, EMAccountEditorService *service, Glade
 	int i;
 
 	service->provider = uri?camel_provider_get(uri, NULL):NULL;
-
 	service->frame = glade_xml_get_widget(xml, info->frame);
 	service->container = glade_xml_get_widget(xml, info->container);
 	service->description = GTK_LABEL (glade_xml_get_widget (xml, info->description));
@@ -1650,8 +1691,9 @@ emae_setup_service(EMAccountEditor *emae, EMAccountEditorService *service, Glade
 		} else
 			gtk_entry_set_text(service->hostname, url->host);
 	}
-	if (url->user)
+	if (url->user && *url->user) {
 		gtk_entry_set_text(service->username, url->user);
+	}
 	if (service->pathentry) {
 		GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
 
@@ -1789,7 +1831,9 @@ emae_identity_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 	}
 
 	w = glade_xml_get_widget(xml, item->label);
-	if (((EConfig *)gui->config)->type == E_CONFIG_DRUID) {
+	if (emae->type == EMAE_PAGES) {
+		gtk_box_pack_start ((GtkBox *)emae->pages[0], w, TRUE, TRUE, 0);
+	} else if (((EConfig *)gui->config)->type == E_CONFIG_DRUID) {
 		GladeXML *druidxml;
 		GtkWidget *page;
 
@@ -1838,7 +1882,9 @@ emae_receive_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 	emae_setup_service(emae, &gui->source, xml);
 
 	w = glade_xml_get_widget(xml, item->label);
-	if (((EConfig *)gui->config)->type == E_CONFIG_DRUID) {
+	if (emae->type == EMAE_PAGES) {
+		gtk_box_pack_start ((GtkBox *)emae->pages[1], w, TRUE, TRUE, 0);
+	} else if (((EConfig *)gui->config)->type == E_CONFIG_DRUID) {
 		GladeXML *druidxml;
 		GtkWidget *page;
 
@@ -2306,7 +2352,9 @@ emae_send_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct
 	emae_setup_service(emae, &gui->transport, xml);
 
 	w = glade_xml_get_widget(xml, item->label);
-	if (((EConfig *)gui->config)->type == E_CONFIG_DRUID) {
+	if (emae->type == EMAE_PAGES) {
+		gtk_box_pack_start ((GtkBox *)emae->pages[2], w, TRUE, TRUE, 0);
+	} else if (((EConfig *)gui->config)->type == E_CONFIG_DRUID) {
 		GladeXML *druidxml;
 		GtkWidget *page;
 
@@ -2321,7 +2369,7 @@ emae_send_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct
 		gtk_box_pack_start((GtkBox*)((GnomeDruidPageStandard *)page)->vbox, w, TRUE, TRUE, 0);
 		w = page;
 		g_object_unref(druidxml);
-		gnome_druid_append_page((GnomeDruid *)parent, (GnomeDruidPage *)page);
+		gnome_druid_append_page((GnomeDruid *)parent, (GnomeDruidPage *)page);	
 	} else {
 		gtk_notebook_append_page((GtkNotebook *)parent, w, gtk_label_new(_("Sending Email")));
 	}
@@ -2542,6 +2590,10 @@ emae_widget_druid_glade(EConfig *ec, EConfigItem *item, struct _GtkWidget *paren
 	GladeXML *druidxml;
 	GtkWidget *w;
 	char *gladefile;
+	EMAccountEditor *emae = (EMAccountEditor *)data;
+
+	if (emae->type == EMAE_PAGES)
+		return NULL;
 
 	gladefile = g_build_filename (EVOLUTION_GLADEDIR,
 				      "mail-config.glade",
@@ -2631,10 +2683,12 @@ emae_service_complete(EMAccountEditor *emae, EMAccountEditorService *service)
 	if (uri == NULL || (url = camel_url_new(uri, NULL)) == NULL)
 		return FALSE;
 
-	if (CAMEL_PROVIDER_NEEDS(service->provider, CAMEL_URL_PART_HOST)
-	    && (url->host == NULL || url->host[0] == 0))
-		ok = FALSE;
-
+	if (CAMEL_PROVIDER_NEEDS(service->provider, CAMEL_URL_PART_HOST)) {
+		if (url->host == NULL || url->host[0] == 0)
+			ok = FALSE;
+		else 
+			gtk_entry_set_text(service->hostname, url->host);
+	}
 	/* We only need the user if the service needs auth as well, i think */
 	if (ok
 	    && (service->needs_auth == NULL
@@ -2654,6 +2708,37 @@ emae_service_complete(EMAccountEditor *emae, EMAccountEditorService *service)
 	return ok;
 }
 
+enum {
+	GMAIL = 0,
+	YAHOO,
+	AOL
+};
+struct _server_prefill {
+	char *key;
+	char *recv;
+	char *send;
+	char *proto;
+	char *ssl;
+} mail_servers [] = {
+	{"gmail", "imap.gmail.com", "smtp.gmail.com", "imap", "always"},
+	{"yahoo", "pop3.yahoo.com", "smtp.yahoo.com", "pop", "never"},
+	{"aol", "imap.aol.com", "smtp.aol.com", "pop", "never"},
+	{"msn", "pop3.email.msn.com", "smtp.email.msn.com", "pop", "never"}
+};
+
+static int
+check_servers (char *server)
+{
+	int len = G_N_ELEMENTS(mail_servers), i;
+
+	for (i=0; i<len; i++) {
+		if (strstr(server, mail_servers[i].key) != NULL)
+			return i;
+	}
+
+	return -1;
+}
+
 static gboolean
 emae_check_complete(EConfig *ec, const char *pageid, void *data)
 {
@@ -2661,6 +2746,7 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 	int ok = TRUE;
 	const char *tmp;
 	EAccount *ea;
+	gboolean refresh = FALSE;
 
 	/* We use the page-check of various pages to 'prepare' or
 	   pre-load their values, only in the druid */
@@ -2684,16 +2770,68 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 		} else if (!strcmp(pageid, "10.receive")) {
 			if (!emae->priv->receive_set) {
 				char *user, *at;
+				int index;
+				char *uri = (char *)e_account_get_string(emae->account, E_ACCOUNT_SOURCE_URL);
+				CamelURL *url;
 
 				emae->priv->receive_set = 1;
+				tmp = (char *)e_account_get_string(emae->account, E_ACCOUNT_ID_ADDRESS);
+				at = strchr(tmp, '@');
+				user = g_alloca(at-tmp+1);
+				memcpy(user, tmp, at-tmp);
+				user[at-tmp] = 0;
+				at++;
+
+				index = check_servers(at);
+				gtk_entry_set_text(emae->priv->source.username, user);
+				gtk_entry_set_text(emae->priv->transport.username, user);
+				if (uri && (url = camel_url_new(uri, NULL)) != NULL) {
+					refresh = TRUE;
+					camel_url_set_protocol(url, mail_servers[index].proto);
+					camel_url_set_param(url, "use_ssl", mail_servers[index].ssl);
+					camel_url_set_host (url, mail_servers[index].recv);
+					camel_url_set_user (url, user);
+					gtk_entry_set_text(emae->priv->source.hostname, mail_servers[index].recv);
+					gtk_entry_set_text(emae->priv->transport.hostname, mail_servers[index].send);
+					uri = camel_url_to_string(url, 0);
+					e_account_set_string(emae->account, E_ACCOUNT_SOURCE_URL, uri);
+
+					g_free(uri);
+					camel_url_free(url);
+				} else {
+					g_warning("buz1\n");
+				}
+				
+			}
+		} else if (!strcmp(pageid, "30.send")) {
+				CamelURL *url;
+				char *at, *user;
+				int index;
+				char *uri = (char *)e_account_get_string(emae->account, E_ACCOUNT_TRANSPORT_URL);
+				
 				tmp = e_account_get_string(emae->account, E_ACCOUNT_ID_ADDRESS);
 				at = strchr(tmp, '@');
 				user = g_alloca(at-tmp+1);
 				memcpy(user, tmp, at-tmp);
 				user[at-tmp] = 0;
-				gtk_entry_set_text(emae->priv->source.username, user);
-				gtk_entry_set_text(emae->priv->transport.username, user);
-			}
+				at++;
+
+				index = check_servers(at);
+				if (uri  && (url = camel_url_new(uri, NULL)) != NULL) {
+					refresh = TRUE;
+					camel_url_set_protocol (url, "smtp");
+					camel_url_set_param(url, "use_ssl", mail_servers[index].ssl);
+					camel_url_set_host (url, mail_servers[index].send);
+					camel_url_set_user (url, user);
+					uri = camel_url_to_string(url, 0);
+					e_account_set_string(emae->account, E_ACCOUNT_TRANSPORT_URL, uri);
+					g_free(uri);
+					camel_url_free(url);
+				} else {
+					g_warning("buz2\n");
+				}
+				
+		
 		} else if (!strcmp(pageid, "20.receive_options")) {
 			if (emae->priv->source.provider
 			    && emae->priv->extra_provider != emae->priv->source.provider) {
@@ -2740,12 +2878,18 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 	}
 
 	if (ok && (pageid == NULL || !strcmp(pageid, "10.receive"))) {
+		if (emae->type == EMAE_PAGES && refresh) {
+			emae_refresh_providers(emae, &emae->priv->source);
+		}
 		ok = emae_service_complete(emae, &emae->priv->source);
 		if (!ok)
 			d(printf("receive page incomplete\n"));
 	}
 
 	if (ok && (pageid == NULL || !strcmp(pageid, "30.send"))) {
+		if (emae->type == EMAE_PAGES && refresh) {
+			emae_refresh_providers(emae, &emae->priv->transport);
+		}
 		ok = emae_service_complete(emae, &emae->priv->transport);
 		if (!ok)
 			d(printf("send page incomplete\n"));
@@ -2761,6 +2905,12 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 	}
 
 	return ok;
+}
+
+void
+em_account_editor_check (EMAccountEditor *emae, const char *page)
+{
+	emae_check_complete((EConfig *)emae->config, page, emae);
 }
 
 /* HACK: FIXME: the component should listen to the account object directly */
@@ -2807,6 +2957,12 @@ emae_commit(EConfig *ec, GSList *items, void *data)
 		e_account_list_set_default(accounts, account);
 
 	e_account_list_save(accounts);
+}
+
+void
+em_account_editor_commit (EMAccountEditor *emae)
+{
+	emae_commit ((EConfig *)emae->config, NULL, emae);
 }
 
 static void
@@ -2928,7 +3084,11 @@ em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account
 
 	target = em_config_target_new_account(ec, emae->account);
 	e_config_set_target((EConfig *)ec, (EConfigTarget *)target);
-	emae->editor = e_config_create_window((EConfig *)ec, NULL, type==EMAE_NOTEBOOK?_("Account Editor"):_("Evolution Account Assistant"));
 
-	g_signal_connect(emae->editor, "destroy", G_CALLBACK(emae_editor_destroyed), emae);
+	if (type != EMAE_PAGES) {
+		emae->editor = e_config_create_window((EConfig *)ec, NULL, type==EMAE_NOTEBOOK?_("Account Editor"):_("Evolution Account Assistant"));
+		g_signal_connect(emae->editor, "destroy", G_CALLBACK(emae_editor_destroyed), emae);
+	} else {
+		e_config_create_widget((EConfig *)ec);
+	} 
 }

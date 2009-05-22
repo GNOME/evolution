@@ -31,7 +31,9 @@ INCLUDES =						\
 	-DPREFIX=\""$(prefix)"\"			\
 	-DG_LOG_DOMAIN=\"evolution-mail\"
 
-component_LTLIBRARIES = libevolution-mail.la
+component_LTLIBRARIES = libevolution-mail-shared.la \
+			libevolution-mail.la
+
 
 # Mail.idl
 MAIL_IDL = Evolution-Mail.idl
@@ -55,10 +57,17 @@ idl_DATA = $(MAIL_IDL)
 mailinclude_HEADERS =				\
 	$(MAIL_IDL_GENERATED_H)			\
 	e-mail-attachment-bar.h			\
+	e-searching-tokenizer.h			\
+	em-account-editor.h			\
 	e-mail-search-bar.h			\
 	em-composer-utils.h			\
 	em-config.h				\
 	em-event.h				\
+	em-filter-context.h			\
+	em-filter-editor.h			\
+	em-filter-folder-element.h		\
+	em-filter-rule.h			\
+	em-filter-source-element.h	        \		
 	em-folder-browser.h			\
 	em-folder-tree-model.h			\
 	em-folder-tree.h			\
@@ -77,14 +86,17 @@ mailinclude_HEADERS =				\
 	em-menu.h				\
 	em-message-browser.h			\
 	em-popup.h				\
+	em-search-context.h			\
 	em-stripsig-filter.h			\
 	em-sync-stream.h			\
 	em-utils.h				\
 	mail-autofilter.h			\
 	mail-component.h			\
 	mail-config.h				\
+	mail-folder-cache.h			\
 	mail-mt.h				\
 	mail-ops.h				\
+	mail-send-recv.h			\
 	mail-session.h				\
 	mail-tools.h				\
 	message-list.h				\
@@ -100,48 +112,17 @@ libevolution_mail_la_SOURCES =			\
 	e-mail-attachment-bar.c			\
 	e-mail-search-bar.c			\
 	e-searching-tokenizer.c			\
-	e-searching-tokenizer.h			\
-	em-account-editor.c			\
-	em-account-editor.h			\
 	em-account-prefs.c			\
 	em-account-prefs.h			\
 	em-composer-prefs.c			\
 	em-composer-prefs.h			\
-	em-composer-utils.c			\
-	em-config.c				\
-	em-event.c				\
-	em-filter-context.c			\
-	em-filter-context.h			\
-	em-filter-editor.c			\
-	em-filter-editor.h			\
-	em-filter-folder-element.c		\
-	em-filter-folder-element.h		\
-	em-filter-rule.c			\
-	em-filter-rule.h			\
-	em-filter-source-element.c		\
-	em-filter-source-element.h		\
 	em-folder-browser.c			\
-	em-folder-properties.c			\
-	em-folder-properties.h			\
-	em-folder-selection-button.c		\
-	em-folder-selection-button.h		\
-	em-folder-selection.c			\
-	em-folder-selection.h			\
-	em-folder-selector.c			\
-	em-folder-selector.h			\
-	em-folder-tree-model.c			\
-	em-folder-tree.c			\
-	em-folder-utils.c			\
 	em-folder-view.c			\
 	em-format-hook.c			\
 	em-format-html-display.c		\
 	em-format-html-print.c			\
 	em-format-html.c			\
-	em-format-quote.c			\
-	em-format.c				\
 	em-html-stream.c			\
-	em-icon-stream.c			\
-	em-inline-filter.c			\
 	em-junk-hook.c				\
 	em-mailer-prefs.c			\
 	em-mailer-prefs.h			\
@@ -151,56 +132,27 @@ libevolution_mail_la_SOURCES =			\
 	em-migrate.h				\
 	em-network-prefs.c			\
 	em-network-prefs.h			\
-	em-popup.c				\
-	em-search-context.c			\
-	em-search-context.h			\
-	em-stripsig-filter.c			\
 	em-subscribe-editor.c			\
 	em-subscribe-editor.h			\
-	em-sync-stream.c			\
-	em-utils.c				\
-	em-vfolder-context.c			\
-	em-vfolder-context.h			\
-	em-vfolder-editor.c			\
-	em-vfolder-editor.h			\
-	em-vfolder-rule.c			\
-	em-vfolder-rule.h			\
-	mail-autofilter.c			\
 	mail-component-factory.c		\
 	mail-component.c			\
 	mail-config-factory.c			\
 	mail-config-factory.h			\
-	mail-config.c				\
-	mail-crypto.c				\
-	mail-crypto.h				\
-	mail-folder-cache.c			\
-	mail-folder-cache.h			\
-	mail-mt.c				\
-	mail-ops.c				\
-	mail-send-recv.c			\
-	mail-send-recv.h			\
-	mail-session.c				\
 	mail-signature-editor.c			\
 	mail-signature-editor.h			\
-	mail-tools.c				\
 	mail-types.h				\
-	mail-vfolder.c				\
-	message-list.c				\
-	message-tag-editor.c			\
-	message-tag-editor.h			\
-	message-tag-followup.c			\
-	message-tag-followup.h
-
+	message-list.c				
 if ENABLE_SMIME
 SMIME_LIBS = 				\
 	$(top_builddir)/smime/lib/libessmime.la		\
 	$(top_builddir)/smime/gui/libevolution-smime.la
 endif
 
+
 libevolution_mail_la_LIBADD =					\
+	$(top_builddir)/mail/libevolution-mail-shared.la	\								
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/shell/libeshell.la			\
-	$(top_builddir)/composer/libcomposer.la			\
 	$(top_builddir)/widgets/table/libetable.la		\
 	$(top_builddir)/widgets/text/libetext.la		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
@@ -223,6 +175,87 @@ libevolution_mail_la_LDFLAGS = 			\
 libevolution_mail_la_DEPENDENCIES = em-filter-i18n.h
 
 # .server files
+
+libevolution_mail_shared_la_SOURCES =			\
+	em-account-editor.c			\
+	em-account-editor.h			\
+	em-event.c				\
+	em-config.c				\
+	em-composer-utils.c			\
+	em-composer-utils.h			\	
+	em-filter-context.c			\
+	em-filter-context.h			\
+	em-filter-editor.c			\
+	em-filter-editor.h			\
+	em-filter-folder-element.c		\
+	em-filter-folder-element.h		\
+	em-filter-rule.c			\
+	em-filter-rule.h			\
+	em-filter-source-element.c		\
+	em-filter-source-element.h		\
+	em-folder-tree-model.c			\
+	em-folder-tree.c			\
+	em-folder-properties.c			\
+	em-folder-properties.h			\
+	em-folder-selection-button.c		\
+	em-folder-selection-button.h		\
+	em-folder-selection.c			\
+	em-folder-selection.h			\
+	em-folder-selector.c			\
+	em-folder-selector.h			\
+	em-folder-utils.c			\
+	em-format-quote.c			\
+	em-format.c				\
+	em-icon-stream.c			\
+	em-inline-filter.c			\
+	em-popup.c				\
+	em-search-context.c			\
+	em-search-context.h			\
+	em-stripsig-filter.c			\
+	em-sync-stream.c			\
+	em-utils.c				\
+	em-vfolder-context.c			\
+	em-vfolder-context.h			\
+	em-vfolder-editor.c			\
+	em-vfolder-editor.h			\
+	em-vfolder-rule.c			\
+	em-vfolder-rule.h			\
+	mail-autofilter.c			\
+	mail-config.c				\
+	mail-crypto.c				\
+	mail-crypto.h				\
+	mail-folder-cache.c			\
+	mail-folder-cache.h			\
+	mail-ops.c				\
+	mail-mt.c				\
+	mail-send-recv.c			\
+	mail-send-recv.h			\
+	mail-session.c				\
+	mail-tools.c				\
+	mail-vfolder.c				\
+	message-tag-editor.c			\
+	message-tag-editor.h			\
+	message-tag-followup.c			\
+	message-tag-followup.h
+
+
+
+
+
+
+libevolution_mail_shared_la_LIBADD =					\
+	$(top_builddir)/e-util/libeutil.la			\
+	$(top_builddir)/widgets/misc/libemiscwidgets.la		\
+	$(top_builddir)/composer/libcomposer.la			\
+	$(top_builddir)/filter/libfilter.la			\
+	$(top_builddir)/widgets/menus/libmenus.la		\
+	$(SMIME_LIBS)						\
+	$(THREADS_LIBS)
+
+libevolution_mail_shared_la_LDFLAGS = 			\
+	-avoid-version -module $(NO_UNDEFINED)
+
+
 
 server_in_files = GNOME_Evolution_Mail.server.in.in
 server_DATA = $(server_in_files:.server.in.in=.server)

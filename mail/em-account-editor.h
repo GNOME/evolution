@@ -38,7 +38,8 @@ typedef struct _EMAccountEditorClass EMAccountEditorClass;
 
 typedef enum {
 	EMAE_NOTEBOOK,
-	EMAE_DRUID
+	EMAE_DRUID,
+	EMAE_PAGES
 } em_account_editor_t;
 
 struct _EMAccountEditor {
@@ -54,6 +55,8 @@ struct _EMAccountEditor {
 	struct _EAccount *account; /* working account, must instant apply to this */
 	struct _EAccount *original; /* original account, not changed unless commit is invoked */
 
+	GtkWidget **pages; /* Pages for Anjal's page type editor */
+
 	guint do_signature:1;	/* allow editing signature */
 };
 
@@ -64,6 +67,9 @@ struct _EMAccountEditorClass {
 GType em_account_editor_get_type(void);
 
 EMAccountEditor *em_account_editor_new(struct _EAccount *account, em_account_editor_t type, char *id);
+EMAccountEditor *em_account_editor_new_for_pages(struct _EAccount *account, em_account_editor_t type, char *id, struct _GtkWidget **pages);
+void em_account_editor_commit (EMAccountEditor *emae);
+void em_account_editor_check (EMAccountEditor *emae, const char *page);
 
 gboolean em_account_editor_save (EMAccountEditor *gui);
 void em_account_editor_destroy (EMAccountEditor *gui);

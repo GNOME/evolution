@@ -109,6 +109,7 @@ struct _EMFolderTreePrivate {
 	guint loaded_row_id;
 
 	GtkTreeRowReference *drag_row;
+	gboolean skip_double_click;
 };
 
 enum {
@@ -436,6 +437,7 @@ em_folder_tree_init (EMFolderTree *emft)
 	priv->treeview = NULL;
 	priv->model = NULL;
 	priv->drag_row = NULL;
+	priv->skip_double_click = FALSE;
 
 	emft->priv = priv;
 }
@@ -2291,6 +2293,9 @@ emft_tree_button_press (GtkTreeView *treeview, GdkEventButton *event, EMFolderTr
 	gtk_tree_view_set_cursor (treeview, tree_path, NULL, FALSE);
 
 	if (event->button == 1 && event->type == GDK_2BUTTON_PRESS) {
+		if (emft->priv->skip_double_click) {
+			return FALSE;
+		}
 		emft_tree_row_activated (treeview, tree_path, NULL, emft);
 		gtk_tree_path_free (tree_path);
 		return TRUE;
@@ -2642,4 +2647,16 @@ emft_queue_save_state (EMFolderTree *emft)
 		return;
 
 	priv->save_state_id = g_timeout_add_seconds (1, (GSourceFunc) emft_save_state, emft);
+}
+
+GtkWidget *
+em_folder_tree_get_tree_view (EMFolderTree *emft)
+{
+	return (GtkWidget *)emft->priv->treeview;
+}
+
+void
+em_folder_tree_set_skip_double_click (EMFolderTree *emft, gboolean skip)
+{
+	emft->priv->skip_double_click = skip;
 }

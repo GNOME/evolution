@@ -106,7 +106,7 @@ static void view_changed_timeout_remove (EComponentView *component_view);
 
 #define PARENT_TYPE evolution_component_get_type ()
 static BonoboObjectClass *parent_class = NULL;
-
+const char *x_mailer = "Evolution " VERSION SUB_VERSION " " VERSION_COMMENT;
 #define OFFLINE 0
 #define ONLINE 1
 
