@@ -406,7 +406,7 @@ cal_shell_sidebar_constructed (GObject *object)
 	shell_settings = e_shell_get_shell_settings (shell);
 
 	source_list = e_cal_shell_backend_get_source_list (
-		E_CAL_SHELL_BACKEND (shell_view));
+		E_CAL_SHELL_BACKEND (shell_backend));
 
 	container = GTK_WIDGET (shell_sidebar);
 

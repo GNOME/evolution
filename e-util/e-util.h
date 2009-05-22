@@ -140,6 +140,8 @@ gboolean	e_util_read_file		(const gchar *filename,
 						 gchar **buffer,
 						 gsize *read,
 						 GError **error);
+GSList *	e_util_get_category_filter_options
+						(void);
 
 /* Camel uses its own object system, so we have to box
  * CamelObjects to safely use them as GObject properties. */

@@ -67,7 +67,7 @@ memo_module_ensure_sources (EShellBackend *shell_backend)
 	/* XXX This is basically the same algorithm across all modules.
 	 *     Maybe we could somehow integrate this into EShellBackend? */
 
-	ESourceList *source_list;
+	EMemoShellBackendPrivate *priv;
 	ESourceGroup *on_this_computer;
 	ESourceGroup *on_the_web;
 	ESource *personal;
@@ -81,28 +81,19 @@ memo_module_ensure_sources (EShellBackend *shell_backend)
 	on_the_web = NULL;
 	personal = NULL;
 
-	if (!e_cal_get_sources (&source_list, E_CAL_SOURCE_TYPE_JOURNAL, NULL)) {
+	priv = E_MEMO_SHELL_BACKEND_GET_PRIVATE (shell_backend);
+
+	if (!e_cal_get_sources (&priv->source_list, E_CAL_SOURCE_TYPE_JOURNAL, NULL)) {
 		g_warning ("Could not get memo sources from GConf!");
 		return;
 	}
-
-	/* Share the source list with all memo views.  This is
-	 * accessible via e_memo_shell_view_get_source_list().
-	 * Note: EShellBackend takes ownership of the reference.
-	 *
-	 * XXX I haven't yet decided if I want to add a proper
-	 *     EShellBackend API for this.  The mail module would
-	 *     not use it. */
-	g_object_set_data_full (
-		G_OBJECT (shell_backend), "source-list",
-		source_list, (GDestroyNotify) g_object_unref);
 
 	data_dir = e_shell_backend_get_data_dir (shell_backend);
 	filename = g_build_filename (data_dir, "local", NULL);
 	base_uri = g_filename_to_uri (filename, NULL, NULL);
 	g_free (filename);
 
-	groups = e_source_list_peek_groups (source_list);
+	groups = e_source_list_peek_groups (priv->source_list);
 	for (iter = groups; iter != NULL; iter = iter->next) {
 		ESourceGroup *source_group = iter->data;
 		const gchar *group_base_uri;
@@ -159,14 +150,14 @@ memo_module_ensure_sources (EShellBackend *shell_backend)
 			 *     but that happens in an idle loop and too late
 			 *     to prevent the user from seeing a "Cannot
 			 *     Open ... because of invalid URI" error. */
-			e_source_list_sync (source_list, NULL);
+			e_source_list_sync (priv->source_list, NULL);
 		}
 
 	} else {
 		ESourceGroup *source_group;
 
 		source_group = e_source_group_new (name, base_uri);
-		e_source_list_add_group (source_list, source_group, -1);
+		e_source_list_add_group (priv->source_list, source_group, -1);
 		g_object_unref (source_group);
 	}
 
@@ -208,7 +199,7 @@ memo_module_ensure_sources (EShellBackend *shell_backend)
 		ESourceGroup *source_group;
 
 		source_group = e_source_group_new (name, WEB_BASE_URI);
-		e_source_list_add_group (source_list, source_group, -1);
+		e_source_list_add_group (priv->source_list, source_group, -1);
 		g_object_unref (source_group);
 	} else {
 		/* Force the group name to the current locale. */
