@@ -100,6 +100,8 @@ enum {
 	LAST_SIGNAL
 };
 
+gboolean composer_lite = FALSE;
+
 static gpointer parent_class;
 static guint signals[LAST_SIGNAL];
 
@@ -2207,6 +2209,31 @@ EMsgComposer *
 e_msg_composer_new (void)
 {
 	return g_object_new (E_TYPE_MSG_COMPOSER, NULL);
+}
+
+void
+e_msg_composer_set_lite (void)
+{
+	composer_lite = TRUE;
+}
+
+gboolean
+e_msg_composer_get_lite (void)
+{
+	return composer_lite;
+}
+
+EMsgComposer *
+e_msg_composer_lite_new (void)
+{
+	EMsgComposer *composer;
+
+	/* Init lite-composer for ever for the session */
+	composer_lite = TRUE;
+
+	composer = e_msg_composer_new ();
+
+	return composer;
 }
 
 static void

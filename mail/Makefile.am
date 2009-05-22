@@ -181,6 +181,12 @@ libevolution_module_mail_la_SOURCES =			\
 	importers/pine-importer.c			\
 	importers/evolution-mbox-importer.c
 
+if ENABLE_SMIME
+SMIME_LIBS =						\
+	$(top_builddir)/smime/lib/libessmime.la		\
+	$(top_builddir)/smime/gui/libevolution-smime.la
+endif
+
 libevolution_module_mail_la_LIBADD =			\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/shell/libeshell.la		\
@@ -191,12 +197,6 @@ libevolution_module_mail_la_LIBADD =			\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la \
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la \
 	$(SMIME_LIBS)
-
-if ENABLE_SMIME
-SMIME_LIBS = 				\
-	$(top_builddir)/smime/lib/libessmime.la		\
-	$(top_builddir)/smime/gui/libevolution-smime.la
-endif
 
 #libevolution_mail_la_LIBADD =					\
 #	$(top_builddir)/widgets/misc/libefilterbar.la		\

@@ -34,11 +34,15 @@ extern "C" {
 struct _CamelFolder;
 struct _CamelMimeMessage;
 struct _CamelException;
+struct _CamelInternetAddress;
+struct _CamelNNTPAddress;
 struct _EMsgComposer;
 struct _EMFormat;
 struct _EAccount;
+struct _EDestination;
 
 void em_utils_compose_new_message (const char *fromuri);
+struct _EMsgComposer * em_utils_compose_lite_new_message (const char *fromuri); 
 
 /* FIXME: mailto?  url?  should make up its mind what its called.  imho use 'uri' */
 void em_utils_compose_new_message_with_mailto (const char *url, const char *fromuri);
@@ -67,7 +71,11 @@ enum {
 	REPLY_MODE_LIST
 };
 
-void em_utils_reply_to_message (struct _CamelFolder *, const char *uid, struct _CamelMimeMessage *message, int mode, struct _EMFormat *source);
+char *em_utils_construct_composer_text (struct _CamelMimeMessage *message, struct _EMFormat *source);
+void em_utils_get_reply_sender (struct _CamelMimeMessage *message, struct _CamelInternetAddress *to, struct _CamelNNTPAddress *postto);
+void em_utils_get_reply_all (struct _CamelMimeMessage *message, struct _CamelInternetAddress *to, struct _CamelInternetAddress *cc, struct _CamelNNTPAddress *postto);
+struct _EMsgComposer * em_utils_reply_to_message (struct _CamelFolder *, const char *uid, struct _CamelMimeMessage *message, int mode, struct _EMFormat *source);
+struct _EDestination ** em_utils_camel_address_to_destination (struct _CamelInternetAddress *iaddr);
 
 void em_configure_new_composer (struct _EMsgComposer *composer);
 

@@ -105,6 +105,9 @@ struct _EMailShellBackendPrivate {
 	guint mail_sync_timeout_source_id;
 };
 
+/* XXX Make this a preprocessor definition. */
+const gchar *x_mailer = "Evolution " VERSION SUB_VERSION " " VERSION_COMMENT;
+
 static gpointer parent_class;
 static GType mail_shell_backend_type;
 

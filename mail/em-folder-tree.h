@@ -109,6 +109,7 @@ EMFolderTreeModel *em_folder_tree_get_model (EMFolderTree *emft);
 EMFolderTreeModelStoreInfo *em_folder_tree_get_model_storeinfo (EMFolderTree *emft, CamelStore *store);
 
 gboolean em_folder_tree_create_folder (EMFolderTree *emft, const char *full_name, const char *uri);
+void em_folder_tree_set_skip_double_click (EMFolderTree *emft, gboolean skip);
 
 G_END_DECLS
 

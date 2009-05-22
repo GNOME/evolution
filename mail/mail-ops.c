@@ -74,6 +74,8 @@
 #define w(x)
 #define d(x)
 
+extern const char *x_mailer;
+
 /* used for both just filtering a folder + uid's, and for filtering a whole folder */
 /* used both for fetching mail, and for filtering mail */
 struct _filter_mail_msg {
@@ -468,7 +470,7 @@ mail_send_message(CamelFolder *queue, const char *uid, const char *destination, 
 	if (!message)
 		return;
 
-	camel_medium_set_header (CAMEL_MEDIUM (message), "X-Mailer", "Evolution " VERSION SUB_VERSION " " VERSION_COMMENT);
+	camel_medium_set_header (CAMEL_MEDIUM (message), "X-Mailer", x_mailer);
 
 	err = g_string_new("");
 	xev = mail_tool_remove_xevolution_headers (message);
@@ -930,8 +932,7 @@ mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMessageIn
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (message));
 
 	if (!camel_medium_get_header (CAMEL_MEDIUM (message), "X-Mailer"))
-		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Mailer",
-					 "Evolution " VERSION SUB_VERSION " " VERSION_COMMENT);
+		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Mailer", x_mailer);
 
 	m = mail_msg_new (&append_mail_info);
 	m->folder = folder;
@@ -1897,7 +1898,7 @@ typedef void (*get_done)(CamelFolder *folder, const char *uid, CamelMimeMessage 
 static void
 get_messagex_done (struct _get_message_msg *m)
 {
-	if (m->done) {
+	if (m->done && !camel_operation_cancel_check (m->cancel)) {
 		get_done done = (get_done)m->done;
 		done(m->folder, m->uid, m->message, m->data, &m->base.ex);
 	}
@@ -1913,7 +1914,7 @@ static MailMsgInfo get_messagex_info = {
 
 /* This is temporary, to avoid having to rewrite everything that uses
    mail_get_message; it adds an exception argument to the callback */
-void
+CamelOperation *
 mail_get_messagex(CamelFolder *folder, const char *uid, void (*done) (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data, CamelException *),
 		 void *data, MailMsgDispatchFunc dispatch)
 {
@@ -1928,6 +1929,8 @@ mail_get_messagex(CamelFolder *folder, const char *uid, void (*done) (CamelFolde
 	m->cancel = camel_operation_new(NULL, NULL);
 
 	dispatch (m);
+
+	return m->cancel;
 }
 
 /* ********************************************************************** */

@@ -57,7 +57,7 @@ void mail_get_message (CamelFolder *folder, const char *uid,
 		       void *data,
 		       MailMsgDispatchFunc dispatch);
 
-void
+CamelOperation *
 mail_get_messagex(CamelFolder *folder, const char *uid,
 		  void (*done) (CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data, CamelException *),
 		  void *data, MailMsgDispatchFunc dispatch);

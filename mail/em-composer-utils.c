@@ -665,13 +665,16 @@ em_utils_composer_print_cb (EMsgComposer *composer,
 /* Composing messages... */
 
 static EMsgComposer *
-create_new_composer (const char *subject, const char *fromuri)
+create_new_composer (const char *subject, const char *fromuri, gboolean lite)
 {
 	EMsgComposer *composer;
 	EComposerHeaderTable *table;
 	EAccount *account = NULL;
 
-	composer = e_msg_composer_new ();
+ 	if (lite)
+ 		composer = e_msg_composer_lite_new ();
+ 	else
+ 		composer = e_msg_composer_new ();	
 	table = e_msg_composer_get_header_table (composer);
 
 	if (fromuri != NULL) {
@@ -701,13 +704,33 @@ em_utils_compose_new_message (const char *fromuri)
 {
 	GtkWidget *composer;
 
-	composer = (GtkWidget *) create_new_composer ("", fromuri);
+	composer = (GtkWidget *) create_new_composer ("", fromuri, FALSE);
 	if (composer == NULL)
 		return;
 
 	composer_set_no_change (E_MSG_COMPOSER (composer), TRUE, TRUE);
 
 	gtk_widget_show (composer);
+}
+
+/**
+ * em_utils_compose_lite_new_message:
+ *
+ * Opens a new composer window as a child window of @parent's toplevel
+ * window.
+ **/
+struct _EMsgComposer *
+em_utils_compose_lite_new_message (const char *fromuri)
+{
+	GtkWidget *composer;
+
+	composer = (GtkWidget *) create_new_composer ("", fromuri, TRUE);
+	if (composer == NULL)
+		return NULL;
+
+	composer_set_no_change (E_MSG_COMPOSER (composer), TRUE, TRUE);
+
+	return (struct _EMsgComposer *)composer;
 }
 
 /**
@@ -1012,7 +1035,7 @@ forward_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, Cam
 {
 	EMsgComposer *composer;
 
-	composer = create_new_composer (subject, fromuri);
+	composer = create_new_composer (subject, fromuri, FALSE);
 	if (composer == NULL)
 		return;
 
@@ -1091,7 +1114,7 @@ forward_non_attached (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages,
 		text = em_utils_message_to_html (message, _("-------- Forwarded Message --------"), flags, &len, NULL, NULL);
 
 		if (text) {
-			composer = create_new_composer (subject, fromuri);
+			composer = create_new_composer (subject, fromuri, FALSE);
 
 			if (composer) {
 				if (CAMEL_IS_MULTIPART(camel_medium_get_content_object((CamelMedium *)message)))
@@ -1656,7 +1679,7 @@ generate_account_hash (void)
 	return account_hash;
 }
 
-static EDestination **
+EDestination **
 em_utils_camel_address_to_destination (CamelInternetAddress *iaddr)
 {
 	EDestination *dest, **destv;
@@ -1860,6 +1883,12 @@ get_reply_sender (CamelMimeMessage *message, CamelInternetAddress *to, CamelNNTP
 	}
 }
 
+void
+em_utils_get_reply_sender (CamelMimeMessage *message, CamelInternetAddress *to, CamelNNTPAddress *postto)
+{
+	get_reply_sender (message, to, postto);
+}
+
 static gboolean
 get_reply_list (CamelMimeMessage *message, CamelInternetAddress *to)
 {
@@ -1972,6 +2001,13 @@ get_reply_all (CamelMimeMessage *message, CamelInternetAddress *to, CamelInterne
 
 	g_hash_table_destroy (rcpt_hash);
 }
+
+void
+em_utils_get_reply_all (CamelMimeMessage *message, CamelInternetAddress *to, CamelInternetAddress *cc, CamelNNTPAddress *postto)
+{
+	get_reply_all (message, to, cc, postto);
+}
+
 
 enum {
 	ATTRIB_UNKNOWN,
@@ -2230,6 +2266,21 @@ struct _reply_data {
 	int mode;
 };
 
+char *
+em_utils_construct_composer_text (CamelMimeMessage *message, EMFormat *source)
+{
+	char *text, *credits;
+	ssize_t len = 0;
+	gboolean start_bottom = 0;
+	
+	credits = attribution_format (ATTRIBUTION, message);
+	text = em_utils_message_to_html (message, credits, EM_FORMAT_QUOTE_CITE, &len, source, start_bottom ? "<BR>" : NULL);
+
+	g_free (credits);
+	return text;
+}
+
+
 static void
 reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage *message, void *user_data)
 {
@@ -2260,7 +2311,7 @@ reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage *message
  * may be supplied in order to update the message flags once it has
  * been replied to.
  **/
-void
+struct _EMsgComposer *
 em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage *message, int mode, EMFormat *source)
 {
 	CamelInternetAddress *to, *cc;
@@ -2281,10 +2332,10 @@ em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage
 			g_object_ref(rd->source);
 		mail_get_message(folder, uid, reply_to_message, rd, mail_msg_unordered_push);
 
-		return;
+		return NULL;
 	}
 
-	g_return_if_fail(message != NULL);
+	g_return_val_if_fail(message != NULL, NULL);
 
 	/** @Event: message.replying
 	 * @Title: Message being replied to
@@ -2340,7 +2391,10 @@ em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage
 
 	composer_set_no_change (composer, TRUE, FALSE);
 
-	gtk_widget_show (GTK_WIDGET (composer));
+	if (!e_msg_composer_get_lite())
+		gtk_widget_show (GTK_WIDGET (composer));
+
+	return composer;
 }
 
 static void
