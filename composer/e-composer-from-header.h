@@ -26,7 +26,7 @@
 #include <libedataserver/e-account.h>
 #include <libedataserver/e-account-list.h>
 
-#include "e-account-combo-box.h"
+#include <misc/e-account-combo-box.h>
 #include "e-composer-header.h"
 
 /* Standard GObject macros */

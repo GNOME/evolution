@@ -117,10 +117,12 @@ composer_name_header_constructor (GType type,
 	entry = E_NAME_SELECTOR_ENTRY (
 		e_name_selector_peek_section_list (
 		priv->name_selector, label));
+
 	e_name_selector_entry_set_contact_editor_func (
 		entry, e_contact_editor_new);
 	e_name_selector_entry_set_contact_list_editor_func (
 		entry, e_contact_list_editor_new);
+
 	g_signal_connect (
 		entry, "changed",
 		G_CALLBACK (composer_name_header_entry_changed_cb), object);
@@ -259,6 +261,32 @@ e_composer_name_header_new (const gchar *label,
 	return g_object_new (
 		E_TYPE_COMPOSER_NAME_HEADER, "label", label,
 		"button", TRUE, "name-selector", name_selector, NULL);
+}
+
+EComposerHeader *
+e_composer_name_header_new_with_label (const gchar *label,
+				  ENameSelector *name_selector)
+{
+	return g_object_new (
+		E_TYPE_COMPOSER_NAME_HEADER, "label", label,
+		"button", FALSE,  "name-selector", name_selector,
+		"addaction", FALSE, "visible", TRUE,
+		NULL);
+}
+
+EComposerHeader *
+e_composer_name_header_new_with_action (const gchar *label,
+					const gchar *action_label,
+					ENameSelector *name_selector)
+{
+	g_return_val_if_fail (E_IS_NAME_SELECTOR (name_selector), NULL);
+
+	return g_object_new (
+		E_TYPE_COMPOSER_NAME_HEADER, "label", label,
+		"button", FALSE, "name-selector", name_selector, 
+		"addaction_text", action_label,
+		"addaction", action_label != NULL,
+		NULL);
 }
 
 ENameSelector *

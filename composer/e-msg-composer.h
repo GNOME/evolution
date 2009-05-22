@@ -60,6 +60,7 @@ typedef struct _EMsgComposerPrivate EMsgComposerPrivate;
 struct _EMsgComposer {
 	GtkhtmlEditor parent;
 	EMsgComposerPrivate *priv;
+	gboolean lite;
 };
 
 struct _EMsgComposerClass {
@@ -70,10 +71,14 @@ struct _EAttachmentBar;
 
 GType		e_msg_composer_get_type		(void);
 EMsgComposer *	e_msg_composer_new		(void);
+EMsgComposer *  e_msg_composer_lite_new 	(void);
+
 EMsgComposer *	e_msg_composer_new_with_message	(CamelMimeMessage *msg);
 EMsgComposer *	e_msg_composer_new_from_url	(const gchar *url);
 EMsgComposer *	e_msg_composer_new_redirect	(CamelMimeMessage *message,
 						 const gchar *resent_from);
+void		e_msg_composer_set_lite 	(void);
+gboolean 	e_msg_composer_get_lite 	(void);
 
 void		e_msg_composer_send		(EMsgComposer *composer);
 void		e_msg_composer_save_draft	(EMsgComposer *composer);

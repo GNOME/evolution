@@ -31,6 +31,8 @@
 #include "e-composer-post-header.h"
 #include "e-composer-text-header.h"
 
+extern gboolean composer_lite;
+
 #define E_COMPOSER_HEADER_TABLE_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
 	((obj), E_TYPE_COMPOSER_HEADER_TABLE, EComposerHeaderTablePrivate))
@@ -68,6 +70,7 @@ struct _EComposerHeaderTablePrivate {
 	GtkWidget *signature_label;
 	GtkWidget *signature_combo_box;
 	ENameSelector *name_selector;
+	GtkHBox *actions_container;	
 };
 
 static gpointer parent_class;
@@ -502,8 +505,16 @@ composer_header_table_constructor (GType type,
 		gtk_table_attach (
 			GTK_TABLE (object), priv->headers[ii]->input_widget,
 			1, 4, ii, ii + 1, GTK_FILL | GTK_EXPAND, 0, 0, 3);
+		if (composer_lite && priv->headers[ii]->action_widget) {
+			/* Pack the widgets to the end. Helps formatting when hiding the From field */
+			gtk_box_pack_end ((GtkBox *)priv->actions_container, priv->headers[ii]->action_widget,
+					    FALSE, FALSE, 6);
+		}
 	}
 
+	if (composer_lite)
+		gtk_widget_show_all ((GtkWidget *)priv->actions_container);
+	
 	ii = E_COMPOSER_HEADER_FROM;
 
 	/* Leave room in the "From" row for signature stuff. */
@@ -527,6 +538,19 @@ composer_header_table_constructor (GType type,
 	gtk_table_attach (
 		GTK_TABLE (object), priv->signature_combo_box,
 		3, 4, ii, ii + 1, 0, 0, 0, 3);
+
+	if (composer_lite) {
+		ii = E_COMPOSER_HEADER_TO;
+
+		/* Leave room for the action buttons. */
+		gtk_container_child_set (
+			GTK_CONTAINER (object),
+			priv->headers[ii]->input_widget,
+			"right-attach", 2, NULL);
+
+		gtk_table_attach (GTK_TABLE (object), (GtkWidget *)priv->actions_container, 2, 4, E_COMPOSER_HEADER_TO, 
+				  E_COMPOSER_HEADER_TO + 1, GTK_FILL, 0, 0, 3);
+	}
 
 	return object;
 }
@@ -898,6 +922,8 @@ composer_header_table_init (EComposerHeaderTable *table)
 	name_selector = e_name_selector_new ();
 	table->priv->name_selector = name_selector;
 
+	table->priv->actions_container = (GtkHBox *)gtk_hbox_new (FALSE, 6);
+
 	header = e_composer_from_header_new (_("Fr_om:"));
 	composer_header_table_bind_header ("account", "changed", header);
 	composer_header_table_bind_header ("account-list", "refreshed", header);
@@ -907,21 +933,21 @@ composer_header_table_init (EComposerHeaderTable *table)
 		composer_header_table_from_changed_cb), table);
 	table->priv->headers[E_COMPOSER_HEADER_FROM] = header;
 
-	header = e_composer_text_header_new_label (_("_Reply-To:"));
+	header = e_composer_text_header_new_label (_("_Reply-To:"), "");
 	composer_header_table_bind_header ("reply-to", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_REPLY_TO] = header;
 
-	header = e_composer_name_header_new (_("_To:"), name_selector);
+	header = e_composer_name_header_new_with_label (_("_To:"), name_selector);
 	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_TO);
 	composer_header_table_bind_header ("destinations-to", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_TO] = header;
 
-	header = e_composer_name_header_new (_("_Cc:"), name_selector);
+	header = e_composer_name_header_new_with_action (_("_Cc:"), _("Show CC"), name_selector);
 	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_CC);
 	composer_header_table_bind_header ("destinations-cc", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_CC] = header;
 
-	header = e_composer_name_header_new (_("_Bcc:"), name_selector);
+	header = e_composer_name_header_new_with_action (_("_Bcc:"), _("Show BCC"), name_selector);
 	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_BCC);
 	composer_header_table_bind_header ("destinations-bcc", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_BCC] = header;
@@ -930,7 +956,7 @@ composer_header_table_init (EComposerHeaderTable *table)
 	composer_header_table_bind_header ("post-to", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_POST_TO] = header;
 
-	header = e_composer_text_header_new_label (_("S_ubject:"));
+	header = e_composer_text_header_new_label (_("S_ubject:"), NULL);
 	composer_header_table_bind_header ("subject", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_SUBJECT] = header;
 

@@ -5,6 +5,19 @@ errordir = $(privdatadir)/errors
 @EVO_PLUGIN_RULE@
 
 noinst_LTLIBRARIES = libcomposer.la
+libcomposerincludedir = $(privincludedir)/composer
+libcomposerinclude_HEADERS = 			\
+	e-composer-header.h			\
+	e-composer-header-table.h		\
+	e-composer-from-header.h		\
+	e-composer-name-header.h		\
+	e-composer-post-header.h		\
+	e-composer-private.h			\
+	e-composer-text-header.h		\
+	e-composer-common.h			\
+	e-composer-actions.h			\
+	e-composer-autosave.h			\
+	e-msg-composer.h
 
 INCLUDES =								\
 	-I$(top_srcdir)							\
@@ -27,27 +40,18 @@ INCLUDES =								\
 libcomposer_la_SOURCES = 			\
 	$(IDL_GENERATED)			\
 	$(HTML_EDITOR_GENERATED)		\
+	$(libcomposerinclude_HEADERS)		\
 	e-composer-actions.c			\
-	e-composer-actions.h			\
 	e-composer-autosave.c			\
-	e-composer-autosave.h			\
-	e-composer-common.h			\
 	e-composer-header.c			\
-	e-composer-header.h			\
 	e-composer-header-table.c		\
-	e-composer-header-table.h		\
 	e-composer-from-header.c		\
-	e-composer-from-header.h		\
 	e-composer-name-header.c		\
-	e-composer-name-header.h		\
 	e-composer-post-header.c		\
-	e-composer-post-header.h		\
 	e-composer-private.c			\
-	e-composer-private.h			\
 	e-composer-text-header.c		\
-	e-composer-text-header.h		\
-	e-msg-composer.c			\
-	e-msg-composer.h
+	e-msg-composer.c
+
 
 uidir = $(evolutionuidir)
 ui_DATA = evolution-composer.ui
