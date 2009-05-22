@@ -49,6 +49,7 @@ struct _EComposerHeader {
 	GObject parent;
 	GtkWidget *title_widget;
 	GtkWidget *input_widget;
+        GtkWidget *action_widget;
 	EComposerHeaderPrivate *priv;
 };
 
@@ -68,6 +69,8 @@ void		e_composer_header_set_sensitive	(EComposerHeader *header,
 gboolean	e_composer_header_get_visible	(EComposerHeader *header);
 void		e_composer_header_set_visible	(EComposerHeader *header,
 						 gboolean visible);
+void		e_composer_header_set_property 	(GObject *object, guint property_id, 
+						const GValue *value, GParamSpec *pspec);
 void		e_composer_header_set_title_tooltip
 						(EComposerHeader *header,
 						 const gchar *tooltip);

@@ -2079,6 +2079,7 @@ msg_composer_init (EMsgComposer *composer)
 	const gchar *id;
 	gint n_targets;
 
+	composer->lite = composer_lite;
 	composer->priv = E_MSG_COMPOSER_GET_PRIVATE (composer);
 
 	e_composer_private_init (composer);

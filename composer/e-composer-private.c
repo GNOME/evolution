@@ -17,6 +17,7 @@
 
 #include "e-composer-private.h"
 #include "e-util/e-util-private.h"
+#include "e-util/e-icon-factory.h"
 
 static void
 composer_setup_charset_menu (EMsgComposer *composer)
@@ -90,6 +91,7 @@ e_composer_private_init (EMsgComposer *composer)
 	GtkWidget *container;
 	GtkWidget *widget;
 	GtkWidget *send_widget;
+	GtkWidget *exp_box;
 	const gchar *path;
 	gchar *filename;
 	gint ii;
@@ -97,6 +99,15 @@ e_composer_private_init (EMsgComposer *composer)
 
 	editor = GTKHTML_EDITOR (composer);
 	ui_manager = gtkhtml_editor_get_ui_manager (editor);
+
+	if (composer->lite) {
+		widget = gtkhtml_editor_get_managed_widget (editor, "/main-menu");
+		gtk_widget_hide (widget);
+		widget = gtkhtml_editor_get_managed_widget (editor, "/main-toolbar");
+		gtk_toolbar_set_style ((GtkToolbar *)widget, GTK_TOOLBAR_BOTH_HORIZ);	
+		gtk_widget_hide (widget);
+
+	}
 
 	priv->charset_actions = gtk_action_group_new ("charset");
 	priv->composer_actions = gtk_action_group_new ("composer");
@@ -130,6 +141,64 @@ e_composer_private_init (EMsgComposer *composer)
 	send_widget = gtk_ui_manager_get_widget (ui_manager, path);
 	gtk_tool_item_set_is_important (GTK_TOOL_ITEM (send_widget), TRUE);
 
+	exp_box = gtk_hbox_new (FALSE, 0);
+	gtk_widget_show(exp_box);
+	if (composer->lite) {
+		GtkWidget *tmp, *tmp1, *tmp_box;
+
+		tmp_box = gtk_hbox_new (FALSE, 0);
+
+		tmp = gtk_hbox_new (FALSE, 0);
+		tmp1 = gtk_image_new_from_pixbuf (e_icon_factory_get_icon("mail-send", E_ICON_SIZE_BUTTON));
+		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 0);
+		tmp1 = gtk_label_new_with_mnemonic (_("S_end"));
+		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 6);
+		gtk_widget_show_all(tmp);
+		gtk_widget_reparent (send_widget, tmp_box);
+		gtk_box_set_child_packing ((GtkBox *)tmp_box, send_widget, FALSE, FALSE, 6, GTK_PACK_END);
+		gtk_tool_item_set_is_important (GTK_TOOL_ITEM (send_widget), TRUE);
+		send_widget = gtk_bin_get_child ((GtkBin *)send_widget);
+		gtk_container_remove((GtkContainer *)send_widget, gtk_bin_get_child ((GtkBin *)send_widget));
+		gtk_container_add((GtkContainer *)send_widget, tmp);
+		gtk_button_set_relief ((GtkButton *)send_widget, GTK_RELIEF_NORMAL);
+			
+		path = "/main-toolbar/pre-main-toolbar/save-draft";
+		send_widget = gtk_ui_manager_get_widget (ui_manager, path);
+		tmp = gtk_hbox_new (FALSE, 0);
+		tmp1 = gtk_image_new_from_pixbuf (e_icon_factory_get_icon(GTK_STOCK_SAVE, E_ICON_SIZE_BUTTON));
+		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 0);
+		tmp1 = gtk_label_new_with_mnemonic (_("Save draft"));
+		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 3);
+		gtk_widget_show_all(tmp);
+		gtk_widget_reparent (send_widget, tmp_box);
+		gtk_box_set_child_packing ((GtkBox *)tmp_box, send_widget, FALSE, FALSE, 6, GTK_PACK_END);
+		gtk_tool_item_set_is_important (GTK_TOOL_ITEM (send_widget), TRUE);
+		send_widget = gtk_bin_get_child ((GtkBin *)send_widget);
+		gtk_container_remove((GtkContainer *)send_widget, gtk_bin_get_child ((GtkBin *)send_widget));
+		gtk_container_add((GtkContainer *)send_widget, tmp);
+		gtk_button_set_relief ((GtkButton *)send_widget, GTK_RELIEF_NORMAL);
+
+		path = "/main-toolbar/pre-main-toolbar/attach";
+		send_widget = gtk_ui_manager_get_widget (ui_manager, path);
+		tmp = gtk_hbox_new (FALSE, 0);
+		tmp1 = gtk_image_new_from_pixbuf (e_icon_factory_get_icon("gtk-add", E_ICON_SIZE_BUTTON));
+		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 0);
+		tmp1 = gtk_label_new_with_mnemonic (_("Add attachment"));
+		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 3);
+		gtk_widget_show_all(tmp);		
+		gtk_widget_reparent (send_widget, tmp_box);
+		gtk_box_set_child_packing ((GtkBox *)tmp_box, send_widget, FALSE, FALSE, 6, GTK_PACK_START);
+		gtk_tool_item_set_is_important (GTK_TOOL_ITEM (send_widget), TRUE);
+		send_widget = gtk_bin_get_child ((GtkBin *)send_widget);
+		gtk_container_remove((GtkContainer *)send_widget, gtk_bin_get_child ((GtkBin *)send_widget));
+		gtk_container_add((GtkContainer *)send_widget, tmp);
+		gtk_button_set_relief ((GtkButton *)send_widget, GTK_RELIEF_NORMAL);
+
+		gtk_widget_show(tmp_box);
+		gtk_box_pack_end ((GtkBox *)exp_box, tmp_box, TRUE, TRUE, 0);
+		gtk_box_pack_end ((GtkBox *)editor->vbox, exp_box, FALSE, FALSE, 3);
+
+	}
 	composer_setup_charset_menu (composer);
 
 	if (error != NULL) {
@@ -141,11 +210,15 @@ e_composer_private_init (EMsgComposer *composer)
 	/* Construct the header table. */
 
 	container = editor->vbox;
-
+	
 	widget = e_composer_header_table_new ();
 	gtk_container_set_border_width (GTK_CONTAINER (widget), 6);
-	gtk_box_pack_start (GTK_BOX (container), widget, FALSE, FALSE, 0);
-	gtk_box_reorder_child (GTK_BOX (container), widget, 2);
+	gtk_box_pack_start (GTK_BOX (editor->vbox), widget, FALSE, FALSE, 0);
+	if (composer->lite)
+		gtk_box_reorder_child (GTK_BOX (editor->vbox), widget, 0);
+	else
+		gtk_box_reorder_child (GTK_BOX (editor->vbox), widget, 2);
+
 	priv->header_table = g_object_ref (widget);
 	gtk_widget_show (widget);
 
@@ -155,6 +228,8 @@ e_composer_private_init (EMsgComposer *composer)
 	gtk_box_pack_start (GTK_BOX (container), widget, TRUE, TRUE, 0);
 	priv->attachment_paned = g_object_ref (widget);
 	gtk_widget_show (widget);
+
+	g_object_set_data ((GObject *)composer, "vbox", editor->vbox);
 
 	/* Reparent the scrolled window containing the GtkHTML widget
 	 * into the content area of the top attachment pane. */
