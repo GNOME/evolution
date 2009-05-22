@@ -126,12 +126,29 @@ const char * strings[] = {
 #endif
 
 
-GType		e_filter_bar_get_type		(void);
-EFilterBar *	e_filter_bar_new		(RuleContext *context,
-						 const gchar *systemrules,
-						 const gchar *userrules,
-						 EFilterBarConfigRule config,
-						 gpointer data);
+GType       e_filter_bar_get_type (void);
+
+EFilterBar *e_filter_bar_new      (RuleContext *context,
+				   const char *systemrules,
+				   const char *userrules,
+				   EFilterBarConfigRule config,
+				   void *data);
+EFilterBar *e_filter_bar_lite_new (RuleContext *context,
+				   const char *systemrules,
+				   const char *userrules,
+				   EFilterBarConfigRule config,
+				   void *data);
+
+void
+e_filter_bar_new_construct 	  (RuleContext *context,
+				   const char *systemrules,
+				   const char *userrules,
+				   EFilterBarConfigRule config,
+				   void *data ,EFilterBar *bar );
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 G_END_DECLS
 

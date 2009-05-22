@@ -14,6 +14,7 @@ privsolib_LTLIBRARIES =		\
 	libemiscwidgets.la
 
 widgetsincludedir = $(privincludedir)/misc
+filterbarincludedir = $(privincludedir)/misc
 
 if ENABLE_PILOT_CONDUITS
 pilot_sources = e-pilot-settings.c
@@ -69,7 +70,6 @@ widgetsinclude_HEADERS =			\
 	e-popup-menu.h				\
 	e-preferences-window.h			\
 	e-printable.h				\
-	e-search-bar.h				\
 	e-selection-model.h			\
 	e-selection-model-array.h		\
 	e-selection-model-simple.h		\
@@ -133,7 +133,6 @@ libemiscwidgets_la_SOURCES =			\
 	e-popup-menu.c				\
 	e-preferences-window.c			\
 	e-printable.c				\
-	e-search-bar.c				\
 	e-selection-model.c			\
 	e-selection-model-array.c		\
 	e-selection-model-simple.c		\

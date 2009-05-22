@@ -843,6 +843,7 @@ e_filter_bar_get_type (void)
 {
 	static GType type = 0;
 
+<<<<<<< HEAD:widgets/misc/e-filter-bar.c
 	if (G_UNLIKELY (type == 0)) {
 		static const GTypeInfo type_info = {
 			sizeof (EFilterBarClass),
@@ -856,6 +857,10 @@ e_filter_bar_get_type (void)
 			(GInstanceInitFunc) filter_bar_init,
 			NULL   /* value_table */
 		};
+=======
+	bar = g_object_new (e_filter_bar_get_type (), NULL);
+	((ESearchBar *)bar)->lite = FALSE;
+>>>>>>> ff25805... Filter/Search bar changes for Anjal.:widgets/misc/e-filter-bar.c
 
 		type = g_type_register_static (
 			E_TYPE_SEARCH_BAR, "EFilterBar", &type_info, 0);
@@ -865,9 +870,25 @@ e_filter_bar_get_type (void)
 }
 
 EFilterBar *
-e_filter_bar_new (RuleContext *context,
-		  const gchar *systemrules,
-		  const gchar *userrules,
+e_filter_bar_lite_new (RuleContext *context,
+		  const char *systemrules,
+		  const char *userrules,
+		  EFilterBarConfigRule config,
+		  void *data)
+{
+	EFilterBar *bar;
+
+	bar = g_object_new (e_filter_bar_get_type (), NULL);
+	((ESearchBar *)bar)->lite = TRUE;
+ 	e_filter_bar_new_construct (context, systemrules, userrules, config, data, bar);
+
+	return bar;
+}
+
+void
+e_filter_bar_new_construct (RuleContext *context,
+		  const char *systemrules,
+		  const char *userrules,
 		  EFilterBarConfigRule config,
 		  gpointer data)
 {

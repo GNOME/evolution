@@ -888,9 +888,10 @@ e_spinner_dispose (GObject *object)
 {
 	ESpinner *spinner = E_SPINNER (object);
 
-	g_signal_handlers_disconnect_by_func
-			(spinner->details->icon_theme,
-		 G_CALLBACK (icon_theme_changed_cb), spinner);
+	if (spinner->details->icon_theme)
+		g_signal_handlers_disconnect_by_func
+				(spinner->details->icon_theme,
+			 G_CALLBACK (icon_theme_changed_cb), spinner);
 
 	G_OBJECT_CLASS (parent_class)->dispose (object);
 }

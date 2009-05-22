@@ -32,7 +32,6 @@
 #include <e-util/gconf-bridge.h>
 #include <widgets/misc/e-menu-tool-button.h>
 #include <widgets/misc/e-online-button.h>
-#include <widgets/misc/e-search-bar.h>
 
 #include <e-shell.h>
 #include <e-shell-content.h>

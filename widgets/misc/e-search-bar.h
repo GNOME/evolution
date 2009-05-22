@@ -56,51 +56,85 @@ typedef struct _ESearchBarPrivate ESearchBarPrivate;
 
 struct _ESearchBar {
 	GtkHBox parent;
-	ESearchBarPrivate *priv;
+
+	BonoboUIComponent *ui_component;
+
+	GSList *menu_items;
+
+	/* item specific fields */
+	GtkWidget *option;
+	GtkWidget *entry;
+	GtkWidget *suboption; /* an option menu for the choices associated with some options */
+
+	/* PRIVATE */
+	GtkWidget *dropdown_holder;	/* holds the dropdown */
+	GtkWidget *option_menu;
+	GtkWidget *suboption_menu;
+	GtkWidget *option_button;
+	GtkWidget *clear_button;
+	GtkWidget *entry_box;
+	GtkWidget *icon_entry;
+
+	/* show option widgets */
+	GtkWidget *viewoption_box;
+	GtkWidget *viewoption; /* an option menu for the choices associated with some search options */
+	GtkWidget *viewoption_menu;
+
+	/* search scope widgets */
+	GtkWidget *scopeoption_box;
+	GtkWidget *scopeoption; /* an option menu for the choices associated with scope search */
+	GtkWidget *scopeoption_menu;
+
+	guint      pending_activate;
+
+	/* The currently-selected item & subitem */
+	int        item_id;
+	int        viewitem_id; /* Current View Id */
+	int        scopeitem_id; /* Scope of search */
+	int        last_search_option;
+
+	gboolean block_search;
+	gboolean lite;
 };
 
 struct _ESearchBarClass {
 	GtkHBoxClass parent_class;
 };
 
-GType		e_search_bar_get_type		(void);
-GtkWidget *	e_search_bar_new		(void);
-GtkActionGroup *e_search_bar_get_action_group	(ESearchBar *search_bar);
-RuleContext *	e_search_bar_get_context	(ESearchBar *search_bar);
-void		e_search_bar_set_context	(ESearchBar *search_bar,
-						 RuleContext *context);
-GtkRadioAction *e_search_bar_get_filter_action	(ESearchBar *search_bar);
-void		e_search_bar_set_filter_action	(ESearchBar *search_bar,
-						 GtkRadioAction *action);
-gint		e_search_bar_get_filter_value	(ESearchBar *search_bar);
-void		e_search_bar_set_filter_value	(ESearchBar *search_bar,
-						 gint value);
-gboolean	e_search_bar_get_filter_visible	(ESearchBar *search_bar);
-void		e_search_bar_set_filter_visible	(ESearchBar *search_bar,
-						 gboolean visible);
-GtkRadioAction *e_search_bar_get_search_action	(ESearchBar *search_bar);
-void		e_search_bar_set_search_action	(ESearchBar *search_bar,
-						 GtkRadioAction *action);
-const gchar *	e_search_bar_get_search_text	(ESearchBar *search_bar);
-void		e_search_bar_set_search_text	(ESearchBar *search_bar,
-						 const gchar *text);
-gint		e_search_bar_get_search_value	(ESearchBar *search_bar);
-void		e_search_bar_set_search_value	(ESearchBar *search_bar,
-						 gint value);
-gboolean	e_search_bar_get_search_visible	(ESearchBar *search_bar);
-void		e_search_bar_set_search_visible	(ESearchBar *search_bar,
-						 gboolean visible);
-GtkRadioAction *e_search_bar_get_scope_action	(ESearchBar *search_bar);
-void		e_search_bar_set_scope_action	(ESearchBar *search_bar,
-						 GtkRadioAction *action);
-gint		e_search_bar_get_scope_value	(ESearchBar *search_bar);
-void		e_search_bar_set_scope_value	(ESearchBar *search_bar,
-						 gint value);
-gboolean	e_search_bar_get_scope_visible	(ESearchBar *search_bar);
-void		e_search_bar_set_scope_visible	(ESearchBar *search_bar,
-						 gboolean visible);
-void		e_search_bar_save_search_dialog	(ESearchBar *search_bar,
-						 const gchar *filename);
+
+GType      e_search_bar_get_type   (void);
+void       e_search_bar_construct  (ESearchBar        *search_bar,
+				    ESearchBarItem    *menu_items,
+				    ESearchBarItem    *option_items);
+GtkWidget *e_search_bar_new        (ESearchBarItem    *menu_items,
+				    ESearchBarItem    *option_items);
+GtkWidget *e_search_bar_lite_new   (ESearchBarItem    *menu_items,
+				    ESearchBarItem    *option_items);
+
+void  e_search_bar_set_ui_component  (ESearchBar        *search_bar,
+				      BonoboUIComponent *ui_component);
+
+void  e_search_bar_set_menu  (ESearchBar     *search_bar,
+			      ESearchBarItem *menu_items);
+void  e_search_bar_add_menu  (ESearchBar     *search_bar,
+			      ESearchBarItem *menu_item);
+
+void  e_search_bar_set_option     (ESearchBar        *search_bar,
+				   ESearchBarItem    *option_items);
+void  e_search_bar_paint (ESearchBar *search_bar);
+void e_search_bar_set_viewoption (ESearchBar *search_bar,
+				    int option_id,
+				    ESearchBarItem *subitems);
+
+void  e_search_bar_set_menu_sensitive  (ESearchBar *search_bar,
+					int         id,
+					gboolean    state);
+
+void  e_search_bar_set_item_id  (ESearchBar *search_bar,
+				 int         id);
+void  e_search_bar_set_item_menu (ESearchBar *search_bar,
+				  int id);
+int   e_search_bar_get_item_id  (ESearchBar *search_bar);
 
 G_END_DECLS
 
