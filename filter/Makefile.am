@@ -12,6 +12,22 @@ INCLUDES = 					\
 privsolib_LTLIBRARIES =				\
 	libfilter.la
 
+filterincludedir = $(privincludedir)/filter
+
+filterinclude_HEADERS = 			\
+	filter-code.h				\
+	filter-colour.h				\
+	filter-datespec.h			\
+	filter-element.h			\
+	filter-file.h				\
+	filter-input.h				\
+	filter-int.h				\
+	filter-option.h				\
+	filter-part.h				\
+	filter-rule.h				\
+	rule-context.h				\
+	rule-editor.h
+
 libfilter_la_SOURCES =				\
 	filter-code.c				\
 	filter-code.h				\
