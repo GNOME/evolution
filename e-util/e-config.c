@@ -532,11 +532,13 @@ ec_rebuild(EConfig *emp)
 					gnome_druid_page_edge_set_title((GnomeDruidPageEdge *)page, translated_label);
 					gnome_druid_insert_page((GnomeDruid *)druid, pagenode?(GnomeDruidPage *)pagenode->frame:NULL, (GnomeDruidPage *)page);
 				}
-				if (item->type == E_CONFIG_PAGE_FINISH) {
-					g_signal_connect(page, "back", G_CALLBACK(ec_druid_prev), wn);
-					g_signal_connect(page, "finish", G_CALLBACK(ec_druid_finish), wn);
-				} else
-					g_signal_connect(page, "next", G_CALLBACK(ec_druid_next), wn);
+				if (page) {
+					if (item->type == E_CONFIG_PAGE_FINISH) {
+						g_signal_connect(page, "back", G_CALLBACK(ec_druid_prev), wn);
+						g_signal_connect(page, "finish", G_CALLBACK(ec_druid_finish), wn);
+					} else
+						g_signal_connect(page, "next", G_CALLBACK(ec_druid_next), wn);
+				}
 				wn->frame = page;
 				wn->widget = page;
 			}
@@ -567,10 +569,11 @@ ec_rebuild(EConfig *emp)
 				page = item->factory(emp, item, root, wn->frame, wn->context->data);
 				if (emp->type == E_CONFIG_DRUID) {
 					if (page) {
-						g_return_if_fail (GNOME_IS_DRUID_PAGE_STANDARD(page));
-						connect = wn->frame != page;
-						wn->frame = page;
-						page = ((GnomeDruidPageStandard *)page)->vbox;
+						if (GNOME_IS_DRUID_PAGE_STANDARD(page)) {
+							connect = wn->frame != page;
+							wn->frame = page;
+							page = ((GnomeDruidPageStandard *)page)->vbox;
+						}
 					} else
 						wn->frame = page;
 				} else {
