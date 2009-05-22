@@ -101,7 +101,8 @@ clear_button_state_changed (GtkWidget *clear_button, GtkStateType state, ESearch
 {
 	g_return_if_fail (clear_button != NULL && search_bar != NULL);
 
-	update_clear_menuitem_sensitive (search_bar);
+	if (!search_bar->lite)
+		update_clear_menuitem_sensitive (search_bar);
 }
 
 static char *
@@ -156,7 +157,8 @@ static void
 emit_query_changed (ESearchBar *esb)
 {
 	g_signal_emit (esb, esb_signals [QUERY_CHANGED], 0);
-	update_clear_menuitem_sensitive (esb);
+	if (!esb->lite)
+		update_clear_menuitem_sensitive (esb);
 }
 
 static void
@@ -169,8 +171,10 @@ emit_search_activated(ESearchBar *esb)
 
 	g_signal_emit (esb, esb_signals [SEARCH_ACTIVATED], 0);
 
-	set_find_now_sensitive (esb, FALSE);
-	update_clear_menuitem_sensitive (esb);
+	if (!esb->lite) {
+		set_find_now_sensitive (esb, FALSE);
+		update_clear_menuitem_sensitive (esb);
+	}
 }
 
 static void
@@ -368,12 +372,14 @@ entry_activated_cb (GtkWidget *widget,
 		gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
 		gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, &(style->text[GTK_STATE_SELECTED]));
 		gtk_widget_modify_base (esb->icon_entry, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
-		gtk_widget_modify_base (esb->viewoption, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
+		if (!esb->lite)
+			gtk_widget_modify_base (esb->viewoption, GTK_STATE_NORMAL, &(style->base[GTK_STATE_SELECTED]));
 	} else {
 		gtk_widget_modify_base (esb->entry, GTK_STATE_NORMAL, NULL);
 		gtk_widget_modify_text (esb->entry, GTK_STATE_NORMAL, NULL);
 		gtk_widget_modify_base (esb->icon_entry, GTK_STATE_NORMAL, NULL);
-		gtk_widget_set_sensitive (esb->clear_button, FALSE);
+		if (!esb->lite)
+			gtk_widget_set_sensitive (esb->clear_button, FALSE);
 	}
 
 	emit_search_activated (esb);
@@ -665,7 +671,7 @@ set_menu (ESearchBar *esb,
 		esb->menu_items = g_slist_append (esb->menu_items, new_item);
 	}
 
-	if (esb->ui_component != NULL)
+	if (!esb->lite && esb->ui_component != NULL)
 		update_bonobo_menus (esb);
 }
 
@@ -818,7 +824,7 @@ impl_dispose (GObject *object)
 	/* These three we do need to unref, because we explicitly hold
 	   references to them. */
 
-	if (esb->ui_component != NULL) {
+	if (!esb->lite && esb->ui_component != NULL) {
 		bonobo_object_unref (BONOBO_OBJECT (esb->ui_component));
 		esb->ui_component = NULL;
 	}
@@ -989,60 +995,76 @@ e_search_bar_construct (ESearchBar *search_bar,
 	g_signal_connect (G_OBJECT (search_bar->option_button), "button-press-event", G_CALLBACK(option_button_clicked_cb), search_bar);
 	e_icon_entry_pack_widget (E_ICON_ENTRY (search_bar->icon_entry), search_bar->option_button, TRUE);
 
-	gtk_box_pack_start (GTK_BOX(search_bar->entry_box), search_bar->icon_entry, FALSE, FALSE, 0);
+	if (!search_bar->lite)
+		gtk_box_pack_start (GTK_BOX(search_bar->entry_box), search_bar->icon_entry, FALSE, FALSE, 0);
+	else
+		gtk_box_pack_start (GTK_BOX(search_bar->entry_box), search_bar->icon_entry, TRUE, TRUE, 0);
+
 
 	gtk_widget_show_all (search_bar->entry_box);
 	gtk_widget_set_sensitive (search_bar->clear_button, FALSE);
 
-	/* Current View filter */
-	search_bar->viewoption_box = gtk_hbox_new (0, FALSE);
+	if (!search_bar->lite) {
+		/* Current View filter */
+		search_bar->viewoption_box = gtk_hbox_new (0, FALSE);
 
-	/* To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
-	to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on... */
-	label = gtk_label_new_with_mnemonic (_("Sho_w: "));
-	gtk_widget_show (label);
-	gtk_box_pack_start (GTK_BOX(search_bar->viewoption_box), label, FALSE, FALSE, 0);
+		/* To Translators: The "Show: " label is followed by the Quick Search Dropdown Menu where you can choose
+		to display "All Messages", "Unread Messages", "Message with 'Important' Label" and so on... */
+		label = gtk_label_new_with_mnemonic (_("Sho_w: "));
+		gtk_widget_show (label);
+		gtk_box_pack_start (GTK_BOX(search_bar->viewoption_box), label, FALSE, FALSE, 0);
 
-	search_bar->viewoption = gtk_option_menu_new ();
-	gtk_label_set_mnemonic_widget ((GtkLabel *)label, search_bar->viewoption);
-	gtk_box_pack_start (GTK_BOX(search_bar->viewoption_box), search_bar->viewoption, FALSE, TRUE, 0);
-	gtk_widget_show_all (search_bar->viewoption_box);
-	gtk_box_pack_start (GTK_BOX(search_bar), search_bar->viewoption_box, FALSE, FALSE, 0);
+		search_bar->viewoption = gtk_option_menu_new ();
+		gtk_label_set_mnemonic_widget ((GtkLabel *)label, search_bar->viewoption);
+		gtk_box_pack_start (GTK_BOX(search_bar->viewoption_box), search_bar->viewoption, FALSE, TRUE, 0);
+		gtk_widget_show_all (search_bar->viewoption_box);
+		gtk_box_pack_start (GTK_BOX(search_bar), search_bar->viewoption_box, FALSE, FALSE, 0);
 
-	hbox = gtk_hbox_new (FALSE, 0);
-	gtk_box_pack_start (GTK_BOX(search_bar), hbox, FALSE, FALSE, 0);
+		hbox = gtk_hbox_new (FALSE, 0);
+		gtk_box_pack_start (GTK_BOX(search_bar), hbox, FALSE, FALSE, 0);
+	}
 
 	/* Search entry */
 	hbox = gtk_hbox_new (FALSE, 0);
 	/* To Translators: The "Show: " label is followed by the Quick Search Text input field where one enters
 	the term to search for */
-	label = gtk_label_new_with_mnemonic (_("Sear_ch: "));
-	gtk_widget_show (label);
-	gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX(hbox), search_bar->entry_box, FALSE, FALSE, 0);
+	if (!search_bar->lite) {
+		label = gtk_label_new_with_mnemonic (_("Sear_ch: "));
+		gtk_widget_show (label);
+		gtk_box_pack_start (GTK_BOX(hbox), label, FALSE, FALSE, 0);
+		gtk_box_pack_start (GTK_BOX(hbox), search_bar->entry_box, FALSE, FALSE, 0);
+		gtk_label_set_mnemonic_widget ((GtkLabel *)label, search_bar->entry);
+	} else {
+		gtk_box_pack_start (GTK_BOX(hbox), search_bar->entry_box, TRUE, TRUE, 0);
+	}
 	gtk_widget_show (search_bar->entry_box);
-	gtk_label_set_mnemonic_widget ((GtkLabel *)label, search_bar->entry);
 
-	/* Search Scope Widgets */
-	search_bar->scopeoption_box = gtk_hbox_new (0, FALSE);
-	gtk_box_set_spacing (GTK_BOX (search_bar->scopeoption_box), 3);
-	/* To Translators: The " in " label is part of the Quick Search Bar, example:
-	Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account */
-	label = gtk_label_new_with_mnemonic (_(" i_n "));
-	gtk_widget_show (label);
-	gtk_box_pack_start (GTK_BOX(search_bar->scopeoption_box), label, FALSE, FALSE, 0);
+	if (!search_bar->lite) {
+		/* Search Scope Widgets */
+		search_bar->scopeoption_box = gtk_hbox_new (0, FALSE);
+		gtk_box_set_spacing (GTK_BOX (search_bar->scopeoption_box), 3);
+		/* To Translators: The " in " label is part of the Quick Search Bar, example:
+		Search: | <user's_search_term> | in | Current Folder/All Accounts/Current Account */
+		label = gtk_label_new_with_mnemonic (_(" i_n "));
+		gtk_widget_show (label);
+		gtk_box_pack_start (GTK_BOX(search_bar->scopeoption_box), label, FALSE, FALSE, 0);
+	
+		search_bar->scopeoption = gtk_option_menu_new ();
+	/* 	g_signal_connect (GTK_OPTION_MENU (search_bar->scopeoption), "changed", scopeoption_changed_cb, search_bar); */
+		gtk_box_pack_start (GTK_BOX(search_bar->scopeoption_box), search_bar->scopeoption, FALSE, FALSE, 0);
+		gtk_widget_show_all (search_bar->scopeoption_box);
+		gtk_widget_hide (hbox);
+		gtk_label_set_mnemonic_widget ((GtkLabel *)label, search_bar->scopeoption);
 
-	search_bar->scopeoption = gtk_option_menu_new ();
-/* 	g_signal_connect (GTK_OPTION_MENU (search_bar->scopeoption), "changed", scopeoption_changed_cb, search_bar); */
-	gtk_box_pack_start (GTK_BOX(search_bar->scopeoption_box), search_bar->scopeoption, FALSE, FALSE, 0);
-	gtk_widget_show_all (search_bar->scopeoption_box);
-	gtk_widget_hide (hbox);
-	gtk_label_set_mnemonic_widget ((GtkLabel *)label, search_bar->scopeoption);
+		gtk_box_pack_end (GTK_BOX(hbox), search_bar->scopeoption_box, FALSE, FALSE, 0);
+		gtk_widget_hide (search_bar->scopeoption_box);
 
-	gtk_box_pack_end (GTK_BOX(hbox), search_bar->scopeoption_box, FALSE, FALSE, 0);
-	gtk_widget_hide (search_bar->scopeoption_box);
+	}
+	if (!search_bar->lite)
+		gtk_box_pack_end (GTK_BOX(search_bar), hbox, FALSE, FALSE, 0);
+	else
+		gtk_box_pack_end (GTK_BOX(search_bar), hbox, TRUE, TRUE, 0);
 
-	gtk_box_pack_end (GTK_BOX(search_bar), hbox, FALSE, FALSE, 0);
 	gtk_widget_show (hbox);
 
 	/* Set the menu */
@@ -1056,8 +1078,8 @@ e_search_bar_construct (ESearchBar *search_bar,
 	 * so we can't emit here.  Thus we launch a one-shot idle function that will
 	 * emit the changed signal, so that the proper callback will get invoked.
 	 */
-
-	search_bar->pending_activate = g_idle_add (idle_activate_hack, search_bar);
+	if (!search_bar->lite)
+		search_bar->pending_activate = g_idle_add (idle_activate_hack, search_bar);
 }
 
 void
@@ -1268,11 +1290,30 @@ e_search_bar_new (ESearchBarItem *menu_items,
 	return widget;
 }
 
+GtkWidget *
+e_search_bar_lite_new (ESearchBarItem *menu_items,
+		  ESearchBarItem *option_items)
+{
+	GtkWidget *widget;
+
+	g_return_val_if_fail (option_items != NULL, NULL);
+
+	widget = g_object_new (e_search_bar_get_type (), NULL);
+	E_SEARCH_BAR(widget)->lite = TRUE;
+
+	e_search_bar_construct (E_SEARCH_BAR (widget), menu_items, option_items);
+
+	return widget;
+}
+
 void
 e_search_bar_set_ui_component (ESearchBar *search_bar,
 			       BonoboUIComponent *ui_component)
 {
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
+
+	if (search_bar->lite)
+		return;
 
 	if (search_bar->ui_component != NULL) {
 		remove_bonobo_menus (search_bar);
@@ -1292,6 +1333,9 @@ e_search_bar_set_menu_sensitive (ESearchBar *search_bar, int id, gboolean state)
 {
 	char *verb_name;
 	char *path;
+
+	if (search_bar->lite)
+		return;
 
 	verb_name = verb_name_from_id (id);
 	path = g_strconcat ("/commands/", verb_name, NULL);
@@ -1334,6 +1378,8 @@ e_search_bar_set_viewitem_id (ESearchBar *search_bar, int id)
 	int row;
 
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
+	if (!search_bar->viewoption_menu)
+		return;
 
 	row = find_id (search_bar->viewoption_menu, id, "EsbItemId", NULL);
 	if (row == -1)
@@ -1358,6 +1404,8 @@ e_search_bar_set_item_id (ESearchBar *search_bar, int id)
 
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
 
+	if (!search_bar->option_menu)
+		return;
 	row = find_id (search_bar->option_menu, id, "EsbItemId", NULL);
 	if (row == -1)
 		return;
@@ -1370,7 +1418,8 @@ e_search_bar_set_item_id (ESearchBar *search_bar, int id)
 	if (!search_bar->block_search)
 		emit_query_changed (search_bar);
 
-	update_clear_menuitem_sensitive (search_bar);
+	if (!search_bar->lite)
+		update_clear_menuitem_sensitive (search_bar);
 }
 
 void

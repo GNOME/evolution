@@ -19,6 +19,7 @@ privsolib_LTLIBRARIES =		\
 	libefilterbar.la
 
 widgetsincludedir = $(privincludedir)/misc
+filterbarincludedir = $(privincludedir)/misc
 
 if ENABLE_PILOT_CONDUITS
 pilot_sources = e-pilot-settings.c
@@ -157,9 +158,11 @@ libemiscwidgets_la_LIBADD = $(top_builddir)/e-util/libeutil.la		\
 	$(EVOLUTON_MAIL_LIBS)						\
 	$(ICONV_LIBS)
 
+filterbarinclude_HEADERS = e-filter-bar.h
+
 libefilterbar_la_SOURCES =	\
 	e-filter-bar.c		\
-	e-filter-bar.h
+	$(filterbarinclude_HEADERS)
 
 libefilterbar_la_LDFLAGS = $(NO_UNDEFINED)
 

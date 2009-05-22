@@ -960,12 +960,28 @@ e_filter_bar_new (RuleContext *context,
 	EFilterBar *bar;
 
 	bar = g_object_new (e_filter_bar_get_type (), NULL);
+	((ESearchBar *)bar)->lite = FALSE;
 
  	e_filter_bar_new_construct (context, systemrules, userrules, config, data, bar);
 
 	return bar;
 }
 
+EFilterBar *
+e_filter_bar_lite_new (RuleContext *context,
+		  const char *systemrules,
+		  const char *userrules,
+		  EFilterBarConfigRule config,
+		  void *data)
+{
+	EFilterBar *bar;
+
+	bar = g_object_new (e_filter_bar_get_type (), NULL);
+	((ESearchBar *)bar)->lite = TRUE;
+ 	e_filter_bar_new_construct (context, systemrules, userrules, config, data, bar);
+
+	return bar;
+}
 
 void
 e_filter_bar_new_construct (RuleContext *context,

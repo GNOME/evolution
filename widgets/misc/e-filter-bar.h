@@ -124,6 +124,12 @@ EFilterBar *e_filter_bar_new      (RuleContext *context,
 				   const char *userrules,
 				   EFilterBarConfigRule config,
 				   void *data);
+EFilterBar *e_filter_bar_lite_new (RuleContext *context,
+				   const char *systemrules,
+				   const char *userrules,
+				   EFilterBarConfigRule config,
+				   void *data);
+
 void
 e_filter_bar_new_construct 	  (RuleContext *context,
 				   const char *systemrules,

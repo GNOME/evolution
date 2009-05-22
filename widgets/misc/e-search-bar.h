@@ -105,6 +105,7 @@ struct _ESearchBar
 	int        last_search_option;
 
 	gboolean block_search;
+	gboolean lite;
 };
 
 struct _ESearchBarClass
@@ -132,6 +133,8 @@ void       e_search_bar_construct  (ESearchBar        *search_bar,
 				    ESearchBarItem    *menu_items,
 				    ESearchBarItem    *option_items);
 GtkWidget *e_search_bar_new        (ESearchBarItem    *menu_items,
+				    ESearchBarItem    *option_items);
+GtkWidget *e_search_bar_lite_new   (ESearchBarItem    *menu_items,
 				    ESearchBarItem    *option_items);
 
 void  e_search_bar_set_ui_component  (ESearchBar        *search_bar,
