@@ -17,7 +17,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=evolution\n"
 "POT-Creation-Date: 2009-05-20 16:58+0000\n"
-"PO-Revision-Date: 2009-05-22 07:27+0200\n"
+"PO-Revision-Date: 2009-05-23 19:57+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -12581,7 +12581,6 @@ msgid "Show \"Reply To\" field when posting to a newsgroup"
 msgstr "Mostrar el campo «Responder a» al publicar en un grupo de noticias"
 
 #: ../mail/evolution-mail.schemas.in.h:126
-#| msgid "Also encrypt to sel_f when sending encrypted messages"
 msgid "Show \"Reply To\" field when sending a mail message"
 msgstr "Mostrar el campo «Responder a» al enviar un mensaje de correo"
 
@@ -21921,24 +21920,21 @@ msgid "Could not set as background"
 msgstr "No se pudo establecer como fondo"
 
 #: ../widgets/misc/e-attachment-handler-sendto.c:87
-#, fuzzy
 #| msgid "Could not open the attachment"
 msgid "Could not send attachment"
 msgid_plural "Could not send attachments"
-msgstr[0] "No se pudo abrir el adjunto"
-msgstr[1] "No se pudo abrir el adjunto"
+msgstr[0] "No se pudo emviar el adjunto"
+msgstr[1] "No se pudieron enviar los adjuntos"
 
 #: ../widgets/misc/e-attachment-handler-sendto.c:129
-#, fuzzy
 #| msgid "Send To:"
 msgid "_Send To..."
-msgstr "Enviar a:"
+msgstr "En_viar a…"
 
 #: ../widgets/misc/e-attachment-handler-sendto.c:131
-#, fuzzy
 #| msgid "Select folder to save selected attachments..."
 msgid "Send the selected attachments somewhere"
-msgstr "Seleccione la carpeta donde guardar los adjuntos seleccionados…"
+msgstr "Enviar los adjuntos seleccionados a algún sitio"
 
 #: ../widgets/misc/e-attachment-icon-view.c:473
 #: ../widgets/misc/e-attachment-tree-view.c:517
