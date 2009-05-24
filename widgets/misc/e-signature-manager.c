@@ -143,21 +143,21 @@ static void
 signature_manager_selection_changed_cb (ESignatureManager *manager,
                                         GtkTreeSelection *selection)
 {
+	ESignatureTreeView *tree_view;
+	ESignature *signature;
 	GtkWidget *edit_button;
 	GtkWidget *remove_button;
-	GtkTreeModel *model;
-	GtkTreeIter iter;
+	gboolean sensitive;
 
 	edit_button = manager->priv->edit_button;
 	remove_button = manager->priv->remove_button;
 
-	if (gtk_tree_selection_get_selected (selection, &model, &iter)) {
-		gtk_widget_set_sensitive (edit_button, TRUE);
-		gtk_widget_set_sensitive (remove_button, TRUE);
-	} else {
-		gtk_widget_set_sensitive (edit_button, FALSE);
-		gtk_widget_set_sensitive (remove_button, FALSE);
-	}
+	tree_view = e_signature_manager_get_tree_view (manager);
+	signature = e_signature_tree_view_get_selected (tree_view);
+	sensitive = (signature != NULL);
+
+	gtk_widget_set_sensitive (edit_button, sensitive);
+	gtk_widget_set_sensitive (remove_button, sensitive);
 }
 
 static void

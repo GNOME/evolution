@@ -24,8 +24,8 @@
 
 #include <gtk/gtk.h>
 #include <e-util/e-signature-list.h>
-#include <widgets/misc/e-signature-editor.h>
-#include <widgets/misc/e-signature-tree-view.h>
+#include <misc/e-signature-editor.h>
+#include <misc/e-signature-tree-view.h>
 
 /* Standard GObject macros */
 #define E_TYPE_SIGNATURE_MANAGER \

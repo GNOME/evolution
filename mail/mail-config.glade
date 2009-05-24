@@ -1,8 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE glade-interface SYSTEM "glade-2.0.dtd">
-<!--*- mode: xml -*-->
+<?xml version="1.0"?>
 <glade-interface>
   <requires lib="gnome"/>
+  <!-- interface-requires gnome 2301.3464 -->
+  <!-- interface-requires gtk+ 2.16 -->
+  <!-- interface-naming-policy toplevel-contextual -->
   <widget class="GtkWindow" id="account_druid">
     <property name="title" translatable="yes">Evolution Account Assistant</property>
     <child>
@@ -12,7 +13,7 @@
         <child>
           <widget class="GnomeDruidPageEdge" id="start_page">
             <property name="visible">True</property>
-            <property name="position">GNOME_EDGE_START</property>
+            <property name="position">Edge Start</property>
             <property name="title" translatable="yes">Mail Configuration</property>
             <property name="text" translatable="yes">Welcome to the Evolution Mail Configuration Assistant.
 
@@ -37,6 +38,7 @@ Click "Forward" to begin. </property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -64,6 +66,7 @@ Click "Forward" to begin. </property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -91,6 +94,7 @@ Click "Forward" to begin. </property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -119,6 +123,7 @@ This name will be used for display purposes only.</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -131,7 +136,7 @@ This name will be used for display purposes only.</property>
         <child>
           <widget class="GnomeDruidPageEdge" id="finish_page">
             <property name="visible">True</property>
-            <property name="position">GNOME_EDGE_FINISH</property>
+            <property name="position">Edge Finish</property>
             <property name="title" translatable="yes">Done</property>
             <property name="text" translatable="yes">Congratulations, your mail configuration is complete.
 
@@ -170,6 +175,7 @@ Click "Apply" to save your settings.</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -183,6 +189,7 @@ Click "Apply" to save your settings.</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -204,6 +211,7 @@ For example: "Work" or "Personal"</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
@@ -215,12 +223,13 @@ For example: "Work" or "Personal"</property>
                                     <property name="visible">True</property>
                                     <property name="label" translatable="yes">_Name:</property>
                                     <property name="use_underline">True</property>
-                                    <property name="justify">GTK_JUSTIFY_RIGHT</property>
+                                    <property name="justify">right</property>
                                     <property name="mnemonic_widget">management_name</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -228,7 +237,6 @@ For example: "Work" or "Personal"</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="has_focus">True</property>
-                                    <property name="invisible_char">*</property>
                                   </widget>
                                   <packing>
                                     <property name="position">1</property>
@@ -256,6 +264,7 @@ For example: "Work" or "Personal"</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -272,6 +281,7 @@ For example: "Work" or "Personal"</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -285,6 +295,7 @@ For example: "Work" or "Personal"</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -303,10 +314,9 @@ For example: "Work" or "Personal"</property>
                               <widget class="GtkEntry" id="identity_address">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="invisible_char">*</property>
                                 <accessibility>
-                                  <atkrelation target="label464" type="labelled-by"/>
-                                  <atkrelation target="identity_address_label" type="labelled-by"/>
+                                  <atkrelation type="labelled-by" target="identity_address_label"/>
+                                  <atkrelation type="labelled-by" target="label464"/>
                                 </accessibility>
                               </widget>
                               <packing>
@@ -349,10 +359,9 @@ For example: "Work" or "Personal"</property>
                               <widget class="GtkEntry" id="identity_full_name">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="invisible_char">*</property>
                                 <accessibility>
-                                  <atkrelation target="identity_full_name_label" type="labelled-by"/>
-                                  <atkrelation target="label464" type="labelled-by"/>
+                                  <atkrelation type="labelled-by" target="label464"/>
+                                  <atkrelation type="labelled-by" target="identity_full_name_label"/>
                                 </accessibility>
                               </widget>
                               <packing>
@@ -394,6 +403,7 @@ For example: "Work" or "Personal"</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -407,6 +417,7 @@ For example: "Work" or "Personal"</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -443,21 +454,22 @@ For example: "Work" or "Personal"</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
                               <widget class="GtkButton" id="sigAddNew">
+                                <property name="label" translatable="yes">Add Ne_w Signature...</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="label" translatable="yes">Add Ne_w Signature...</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_underline">True</property>
-                                <property name="response_id">0</property>
                                 <signal name="clicked" handler="sigAddNewClicked"/>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
-                                <property name="pack_type">GTK_PACK_END</property>
+                                <property name="pack_type">end</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>
@@ -475,10 +487,9 @@ For example: "Work" or "Personal"</property>
                           <widget class="GtkEntry" id="identity_organization">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="invisible_char">*</property>
                             <accessibility>
-                              <atkrelation target="label466" type="labelled-by"/>
-                              <atkrelation target="identity_organization_label" type="labelled-by"/>
+                              <atkrelation type="labelled-by" target="identity_organization_label"/>
+                              <atkrelation type="labelled-by" target="label466"/>
                             </accessibility>
                           </widget>
                           <packing>
@@ -508,10 +519,9 @@ For example: "Work" or "Personal"</property>
                           <widget class="GtkEntry" id="identity_reply_to">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="invisible_char">*</property>
                             <accessibility>
-                              <atkrelation target="reply_to_label" type="labelled-by"/>
-                              <atkrelation target="label466" type="labelled-by"/>
+                              <atkrelation type="labelled-by" target="label466"/>
+                              <atkrelation type="labelled-by" target="reply_to_label"/>
                             </accessibility>
                           </widget>
                           <packing>
@@ -528,7 +538,7 @@ For example: "Work" or "Personal"</property>
                             <property name="xalign">0</property>
                             <property name="label" translatable="yes">Re_ply-To:</property>
                             <property name="use_underline">True</property>
-                            <property name="justify">GTK_JUSTIFY_CENTER</property>
+                            <property name="justify">center</property>
                             <property name="mnemonic_widget">identity_reply_to</property>
                           </widget>
                           <packing>
@@ -540,11 +550,11 @@ For example: "Work" or "Personal"</property>
                         </child>
                         <child>
                           <widget class="GtkCheckButton" id="management_default">
+                            <property name="label" translatable="yes">_Make this my default account</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">_Make this my default account</property>
+                            <property name="receives_default">False</property>
                             <property name="use_underline">True</property>
-                            <property name="response_id">0</property>
                             <property name="draw_indicator">True</property>
                           </widget>
                           <packing>
@@ -577,11 +587,11 @@ For example: "Work" or "Personal"</property>
             <property name="visible">True</property>
             <property name="label" translatable="yes">Identity</property>
             <property name="use_underline">True</property>
-            <property name="justify">GTK_JUSTIFY_CENTER</property>
+            <property name="justify">center</property>
           </widget>
           <packing>
-            <property name="type">tab</property>
             <property name="tab_fill">False</property>
+            <property name="type">tab</property>
           </packing>
         </child>
         <child>
@@ -606,7 +616,7 @@ For example: "Work" or "Personal"</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Server _Type: </property>
                         <property name="use_underline">True</property>
-                        <property name="justify">GTK_JUSTIFY_RIGHT</property>
+                        <property name="justify">right</property>
                         <property name="mnemonic_widget">source_type_dropdown</property>
                       </widget>
                       <packing>
@@ -620,7 +630,7 @@ For example: "Work" or "Personal"</property>
                         <property name="xalign">0</property>
                         <property name="yalign">0</property>
                         <property name="label" translatable="yes">Description:</property>
-                        <property name="justify">GTK_JUSTIFY_CENTER</property>
+                        <property name="justify">center</property>
                       </widget>
                       <packing>
                         <property name="top_attach">1</property>
@@ -662,6 +672,7 @@ For example: "Work" or "Personal"</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -688,6 +699,7 @@ For example: "Work" or "Personal"</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -701,6 +713,7 @@ For example: "Work" or "Personal"</property>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
@@ -747,7 +760,6 @@ For example: "Work" or "Personal"</property>
                                   <widget class="GtkEntry" id="source_host">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="invisible_char">*</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -759,7 +771,6 @@ For example: "Work" or "Personal"</property>
                                   <widget class="GtkEntry" id="source_user">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="invisible_char">*</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -830,6 +841,7 @@ For example: "Work" or "Personal"</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -843,6 +855,7 @@ For example: "Work" or "Personal"</property>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
@@ -858,12 +871,13 @@ For example: "Work" or "Personal"</property>
                                     <property name="visible">True</property>
                                     <property name="label" translatable="yes">_Use Secure Connection:</property>
                                     <property name="use_underline">True</property>
-                                    <property name="justify">GTK_JUSTIFY_CENTER</property>
+                                    <property name="justify">center</property>
                                     <property name="mnemonic_widget">source_use_ssl</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -881,6 +895,7 @@ For example: "Work" or "Personal"</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
@@ -895,6 +910,7 @@ For example: "Work" or "Personal"</property>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -903,7 +919,7 @@ For example: "Work" or "Personal"</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">&lt;b&gt;SSL is not supported in this build of Evolution&lt;/b&gt;</property>
                                     <property name="use_markup">True</property>
-                                    <property name="justify">GTK_JUSTIFY_CENTER</property>
+                                    <property name="justify">center</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -949,6 +965,7 @@ For example: "Work" or "Personal"</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -962,6 +979,7 @@ For example: "Work" or "Personal"</property>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
@@ -980,15 +998,16 @@ For example: "Work" or "Personal"</property>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <widget class="GtkButton" id="source_check_supported">
+                                    <property name="label" translatable="yes"> Ch_eck for Supported Types </property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="label" translatable="yes"> Ch_eck for Supported Types </property>
+                                    <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="response_id">0</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -997,15 +1016,18 @@ For example: "Work" or "Personal"</property>
                                   </packing>
                                 </child>
                               </widget>
+                              <packing>
+                                <property name="position">0</property>
+                              </packing>
                             </child>
                             <child>
                               <widget class="GtkCheckButton" id="source_remember_password">
+                                <property name="label" translatable="yes">Re_member password</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
                                 <property name="tooltip" translatable="yes">Note: you will not be prompted for a password until you connect for the first time</property>
-                                <property name="label" translatable="yes">Re_member password</property>
                                 <property name="use_underline">True</property>
-                                <property name="response_id">0</property>
                                 <property name="draw_indicator">True</property>
                               </widget>
                               <packing>
@@ -1032,6 +1054,9 @@ For example: "Work" or "Personal"</property>
                   </packing>
                 </child>
               </widget>
+              <packing>
+                <property name="position">0</property>
+              </packing>
             </child>
           </widget>
           <packing>
@@ -1043,12 +1068,12 @@ For example: "Work" or "Personal"</property>
             <property name="visible">True</property>
             <property name="label" translatable="yes">Receiving Email</property>
             <property name="use_underline">True</property>
-            <property name="justify">GTK_JUSTIFY_CENTER</property>
+            <property name="justify">center</property>
           </widget>
           <packing>
-            <property name="type">tab</property>
             <property name="position">1</property>
             <property name="tab_fill">False</property>
+            <property name="type">tab</property>
           </packing>
         </child>
         <child>
@@ -1074,7 +1099,7 @@ For example: "Work" or "Personal"</property>
                         <property name="yalign">0</property>
                         <property name="label" translatable="yes">Server _Type: </property>
                         <property name="use_underline">True</property>
-                        <property name="justify">GTK_JUSTIFY_RIGHT</property>
+                        <property name="justify">right</property>
                         <property name="mnemonic_widget">transport_type_dropdown</property>
                       </widget>
                       <packing>
@@ -1088,7 +1113,7 @@ For example: "Work" or "Personal"</property>
                         <property name="xalign">0</property>
                         <property name="yalign">0</property>
                         <property name="label" translatable="yes">Description:</property>
-                        <property name="justify">GTK_JUSTIFY_RIGHT</property>
+                        <property name="justify">right</property>
                       </widget>
                       <packing>
                         <property name="top_attach">1</property>
@@ -1126,6 +1151,9 @@ For example: "Work" or "Personal"</property>
                       </packing>
                     </child>
                   </widget>
+                  <packing>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
                 <child>
                   <widget class="GtkHSeparator" id="hseparator3">
@@ -1154,6 +1182,7 @@ For example: "Work" or "Personal"</property>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
@@ -1167,6 +1196,7 @@ For example: "Work" or "Personal"</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
@@ -1190,7 +1220,7 @@ For example: "Work" or "Personal"</property>
                                             <property name="xalign">1</property>
                                             <property name="label" translatable="yes">_Server:</property>
                                             <property name="use_underline">True</property>
-                                            <property name="justify">GTK_JUSTIFY_RIGHT</property>
+                                            <property name="justify">right</property>
                                             <property name="mnemonic_widget">transport_host</property>
                                           </widget>
                                           <packing>
@@ -1202,7 +1232,6 @@ For example: "Work" or "Personal"</property>
                                           <widget class="GtkEntry" id="transport_host">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="invisible_char">*</property>
                                           </widget>
                                           <packing>
                                             <property name="left_attach">1</property>
@@ -1213,15 +1242,16 @@ For example: "Work" or "Personal"</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
+                                        <property name="position">0</property>
                                       </packing>
                                     </child>
                                     <child>
                                       <widget class="GtkCheckButton" id="transport_needs_auth">
+                                        <property name="label" translatable="yes">Ser_ver requires authentication</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="label" translatable="yes">Ser_ver requires authentication</property>
+                                        <property name="receives_default">False</property>
                                         <property name="use_underline">True</property>
-                                        <property name="response_id">0</property>
                                         <property name="draw_indicator">True</property>
                                       </widget>
                                       <packing>
@@ -1243,6 +1273,9 @@ For example: "Work" or "Personal"</property>
                           </packing>
                         </child>
                       </widget>
+                      <packing>
+                        <property name="position">0</property>
+                      </packing>
                     </child>
                     <child>
                       <widget class="GtkVBox" id="transport_security_frame">
@@ -1258,6 +1291,7 @@ For example: "Work" or "Personal"</property>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
@@ -1271,6 +1305,7 @@ For example: "Work" or "Personal"</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
@@ -1286,12 +1321,13 @@ For example: "Work" or "Personal"</property>
                                         <property name="visible">True</property>
                                         <property name="label" translatable="yes">_Use Secure Connection:</property>
                                         <property name="use_underline">True</property>
-                                        <property name="justify">GTK_JUSTIFY_CENTER</property>
+                                        <property name="justify">center</property>
                                         <property name="mnemonic_widget">transport_use_ssl</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
+                                        <property name="position">0</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1306,6 +1342,9 @@ For example: "Work" or "Personal"</property>
                                       </packing>
                                     </child>
                                   </widget>
+                                  <packing>
+                                    <property name="position">0</property>
+                                  </packing>
                                 </child>
                                 <child>
                                   <widget class="GtkHBox" id="transport_ssl_disabled">
@@ -1319,6 +1358,7 @@ For example: "Work" or "Personal"</property>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
+                                        <property name="position">0</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1327,7 +1367,7 @@ For example: "Work" or "Personal"</property>
                                         <property name="xalign">0</property>
                                         <property name="label" translatable="yes">&lt;b&gt;SSL is not supported in this build of Evolution&lt;/b&gt;</property>
                                         <property name="use_markup">True</property>
-                                        <property name="justify">GTK_JUSTIFY_CENTER</property>
+                                        <property name="justify">center</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
@@ -1369,6 +1409,7 @@ For example: "Work" or "Personal"</property>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
@@ -1382,6 +1423,7 @@ For example: "Work" or "Personal"</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
@@ -1406,7 +1448,7 @@ For example: "Work" or "Personal"</property>
                                             <property name="xalign">0</property>
                                             <property name="label" translatable="yes">T_ype: </property>
                                             <property name="use_underline">True</property>
-                                            <property name="justify">GTK_JUSTIFY_CENTER</property>
+                                            <property name="justify">center</property>
                                             <property name="mnemonic_widget">transport_auth_dropdown</property>
                                           </widget>
                                           <packing>
@@ -1420,7 +1462,7 @@ For example: "Work" or "Personal"</property>
                                             <property name="xalign">0</property>
                                             <property name="label" translatable="yes">User_name:</property>
                                             <property name="use_underline">True</property>
-                                            <property name="justify">GTK_JUSTIFY_RIGHT</property>
+                                            <property name="justify">right</property>
                                             <property name="mnemonic_widget">transport_user</property>
                                           </widget>
                                           <packing>
@@ -1434,7 +1476,6 @@ For example: "Work" or "Personal"</property>
                                           <widget class="GtkEntry" id="transport_user">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="invisible_char">*</property>
                                           </widget>
                                           <packing>
                                             <property name="left_attach">1</property>
@@ -1456,15 +1497,16 @@ For example: "Work" or "Personal"</property>
                                               <packing>
                                                 <property name="expand">False</property>
                                                 <property name="fill">False</property>
+                                                <property name="position">0</property>
                                               </packing>
                                             </child>
                                             <child>
                                               <widget class="GtkButton" id="transport_check_supported">
+                                                <property name="label" translatable="yes">Ch_eck for Supported Types </property>
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
-                                                <property name="label" translatable="yes">Ch_eck for Supported Types </property>
+                                                <property name="receives_default">False</property>
                                                 <property name="use_underline">True</property>
-                                                <property name="response_id">0</property>
                                               </widget>
                                               <packing>
                                                 <property name="expand">False</property>
@@ -1490,15 +1532,16 @@ For example: "Work" or "Personal"</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
+                                        <property name="position">0</property>
                                       </packing>
                                     </child>
                                     <child>
                                       <widget class="GtkCheckButton" id="transport_remember_password">
+                                        <property name="label" translatable="yes">Remember _password</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="label" translatable="yes">Remember _password</property>
+                                        <property name="receives_default">False</property>
                                         <property name="use_underline">True</property>
-                                        <property name="response_id">0</property>
                                         <property name="draw_indicator">True</property>
                                       </widget>
                                       <packing>
@@ -1533,6 +1576,7 @@ For example: "Work" or "Personal"</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
           </widget>
@@ -1545,12 +1589,12 @@ For example: "Work" or "Personal"</property>
             <property name="visible">True</property>
             <property name="label" translatable="yes">Sending Mail</property>
             <property name="use_underline">True</property>
-            <property name="justify">GTK_JUSTIFY_CENTER</property>
+            <property name="justify">center</property>
           </widget>
           <packing>
-            <property name="type">tab</property>
             <property name="position">2</property>
             <property name="tab_fill">False</property>
+            <property name="type">tab</property>
           </packing>
         </child>
         <child>
@@ -1572,6 +1616,7 @@ For example: "Work" or "Personal"</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -1585,6 +1630,7 @@ For example: "Work" or "Personal"</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -1603,9 +1649,6 @@ For example: "Work" or "Personal"</property>
                                 <property name="n_columns">3</property>
                                 <property name="column_spacing">12</property>
                                 <property name="row_spacing">6</property>
-                                <child>
-                                  <placeholder/>
-                                </child>
                                 <child>
                                   <widget class="GtkLabel" id="drafts_label">
                                     <property name="visible">True</property>
@@ -1689,15 +1732,16 @@ For example: "Work" or "Personal"</property>
                                     <property name="visible">True</property>
                                     <child>
                                       <widget class="GtkButton" id="default_folders_button">
+                                        <property name="label">gtk-revert-to-saved</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="label">gtk-revert-to-saved</property>
+                                        <property name="receives_default">False</property>
                                         <property name="use_stock">True</property>
-                                        <property name="response_id">0</property>
                                       </widget>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
+                                        <property name="position">0</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1716,7 +1760,13 @@ For example: "Work" or "Personal"</property>
                                     <property name="bottom_attach">3</property>
                                   </packing>
                                 </child>
+                                <child>
+                                  <placeholder/>
+                                </child>
                               </widget>
+                              <packing>
+                                <property name="position">0</property>
+                              </packing>
                             </child>
                           </widget>
                         </child>
@@ -1734,6 +1784,7 @@ For example: "Work" or "Personal"</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -1750,6 +1801,7 @@ For example: "Work" or "Personal"</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -1763,6 +1815,7 @@ For example: "Work" or "Personal"</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -1782,16 +1835,17 @@ For example: "Work" or "Personal"</property>
                                 <property name="spacing">6</property>
                                 <child>
                                   <widget class="GtkCheckButton" id="always_cc">
+                                    <property name="label" translatable="yes">Alway_s carbon-copy (cc) to:</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="label" translatable="yes">Alway_s carbon-copy (cc) to:</property>
+                                    <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="response_id">0</property>
                                     <property name="draw_indicator">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -1805,6 +1859,7 @@ For example: "Work" or "Personal"</property>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
+                                        <property name="position">0</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1820,8 +1875,10 @@ For example: "Work" or "Personal"</property>
                                               <widget class="GtkEntry" id="cc_addrs">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
-                                                <property name="invisible_char">*</property>
                                               </widget>
+                                              <packing>
+                                                <property name="position">0</property>
+                                              </packing>
                                             </child>
                                           </widget>
                                         </child>
@@ -1843,16 +1900,17 @@ For example: "Work" or "Personal"</property>
                                 <property name="spacing">6</property>
                                 <child>
                                   <widget class="GtkCheckButton" id="always_bcc">
+                                    <property name="label" translatable="yes">Always _blind carbon-copy (bcc) to:</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="label" translatable="yes">Always _blind carbon-copy (bcc) to:</property>
+                                    <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="response_id">0</property>
                                     <property name="draw_indicator">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -1866,6 +1924,7 @@ For example: "Work" or "Personal"</property>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
+                                        <property name="position">0</property>
                                       </packing>
                                     </child>
                                     <child>
@@ -1881,8 +1940,10 @@ For example: "Work" or "Personal"</property>
                                               <widget class="GtkEntry" id="bcc_addrs">
                                                 <property name="visible">True</property>
                                                 <property name="can_focus">True</property>
-                                                <property name="invisible_char">*</property>
                                               </widget>
+                                              <packing>
+                                                <property name="position">0</property>
+                                              </packing>
                                             </child>
                                           </widget>
                                         </child>
@@ -1935,6 +1996,7 @@ For example: "Work" or "Personal"</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -1948,6 +2010,7 @@ For example: "Work" or "Personal"</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -1964,6 +2027,7 @@ For example: "Work" or "Personal"</property>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
@@ -2002,12 +2066,12 @@ For example: "Work" or "Personal"</property>
             <property name="visible">True</property>
             <property name="label" translatable="yes">Defaults</property>
             <property name="use_underline">True</property>
-            <property name="justify">GTK_JUSTIFY_CENTER</property>
+            <property name="justify">center</property>
           </widget>
           <packing>
-            <property name="type">tab</property>
             <property name="position">3</property>
             <property name="tab_fill">False</property>
+            <property name="type">tab</property>
           </packing>
         </child>
         <child>
@@ -2029,6 +2093,7 @@ For example: "Work" or "Personal"</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -2042,6 +2107,7 @@ For example: "Work" or "Personal"</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -2068,13 +2134,13 @@ For example: "Work" or "Personal"</property>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <widget class="GtkEntry" id="pgp_key">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="invisible_char">*</property>
                                   </widget>
                                   <packing>
                                     <property name="position">1</property>
@@ -2084,15 +2150,16 @@ For example: "Work" or "Personal"</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
                               <widget class="GtkCheckButton" id="pgp_always_sign">
+                                <property name="label" translatable="yes">Al_ways sign outgoing messages when using this account</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="label" translatable="yes">Al_ways sign outgoing messages when using this account</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_underline">True</property>
-                                <property name="response_id">0</property>
                                 <property name="draw_indicator">True</property>
                               </widget>
                               <packing>
@@ -2103,11 +2170,11 @@ For example: "Work" or "Personal"</property>
                             </child>
                             <child>
                               <widget class="GtkCheckButton" id="pgp_no_imip_sign">
+                                <property name="label" translatable="yes">_Do not sign meeting requests (for Outlook compatibility)</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="label" translatable="yes">_Do not sign meeting requests (for Outlook compatibility)</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_underline">True</property>
-                                <property name="response_id">0</property>
                                 <property name="draw_indicator">True</property>
                               </widget>
                               <packing>
@@ -2118,11 +2185,11 @@ For example: "Work" or "Personal"</property>
                             </child>
                             <child>
                               <widget class="GtkCheckButton" id="pgp_encrypt_to_self">
+                                <property name="label" translatable="yes">Always encrypt to _myself when sending encrypted messages</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="label" translatable="yes">Always encrypt to _myself when sending encrypted messages</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_underline">True</property>
-                                <property name="response_id">0</property>
                                 <property name="active">True</property>
                                 <property name="draw_indicator">True</property>
                               </widget>
@@ -2134,11 +2201,11 @@ For example: "Work" or "Personal"</property>
                             </child>
                             <child>
                               <widget class="GtkCheckButton" id="pgp_always_trust">
+                                <property name="label" translatable="yes">Always _trust keys in my keyring when encrypting</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="label" translatable="yes">Always _trust keys in my keyring when encrypting</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_underline">True</property>
-                                <property name="response_id">0</property>
                                 <property name="draw_indicator">True</property>
                               </widget>
                               <packing>
@@ -2163,6 +2230,7 @@ For example: "Work" or "Personal"</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -2179,6 +2247,7 @@ For example: "Work" or "Personal"</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -2192,6 +2261,7 @@ For example: "Work" or "Personal"</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -2205,7 +2275,6 @@ For example: "Work" or "Personal"</property>
                           <widget class="GtkEntry" id="smime_sign_key">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="invisible_char">*</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -2219,7 +2288,6 @@ For example: "Work" or "Personal"</property>
                           <widget class="GtkEntry" id="smime_encrypt_key">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="invisible_char">*</property>
                           </widget>
                           <packing>
                             <property name="left_attach">1</property>
@@ -2231,11 +2299,11 @@ For example: "Work" or "Personal"</property>
                         </child>
                         <child>
                           <widget class="GtkCheckButton" id="smime_encrypt_to_self">
+                            <property name="label" translatable="yes">Also encrypt to sel_f when sending encrypted messages</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">Also encrypt to sel_f when sending encrypted messages</property>
+                            <property name="receives_default">False</property>
                             <property name="use_underline">True</property>
-                            <property name="response_id">0</property>
                             <property name="draw_indicator">True</property>
                           </widget>
                           <packing>
@@ -2248,11 +2316,11 @@ For example: "Work" or "Personal"</property>
                         </child>
                         <child>
                           <widget class="GtkCheckButton" id="smime_encrypt_default">
+                            <property name="label" translatable="yes">Encrypt out_going messages (by default)</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">Encrypt out_going messages (by default)</property>
+                            <property name="receives_default">False</property>
                             <property name="use_underline">True</property>
-                            <property name="response_id">0</property>
                             <property name="draw_indicator">True</property>
                           </widget>
                           <packing>
@@ -2265,11 +2333,11 @@ For example: "Work" or "Personal"</property>
                         </child>
                         <child>
                           <widget class="GtkCheckButton" id="smime_sign_default">
+                            <property name="label" translatable="yes">Digitally sign o_utgoing messages (by default)</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">Digitally sign o_utgoing messages (by default)</property>
+                            <property name="receives_default">False</property>
                             <property name="use_underline">True</property>
-                            <property name="response_id">0</property>
                             <property name="draw_indicator">True</property>
                           </widget>
                           <packing>
@@ -2329,7 +2397,7 @@ For example: "Work" or "Personal"</property>
                               <widget class="GtkButton" id="smime_encrypt_key_select">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                                 <child>
                                   <widget class="GtkAlignment" id="alignment28">
                                     <property name="visible">True</property>
@@ -2347,6 +2415,7 @@ For example: "Work" or "Personal"</property>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
+                                            <property name="position">0</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -2369,13 +2438,14 @@ For example: "Work" or "Personal"</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
                               <widget class="GtkButton" id="smime_encrypt_key_clear">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                                 <child>
                                   <widget class="GtkAlignment" id="alignment35">
                                     <property name="visible">True</property>
@@ -2393,6 +2463,7 @@ For example: "Work" or "Personal"</property>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
+                                            <property name="position">0</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -2436,7 +2507,7 @@ For example: "Work" or "Personal"</property>
                               <widget class="GtkButton" id="smime_sign_key_select">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                                 <child>
                                   <widget class="GtkAlignment" id="alignment29">
                                     <property name="visible">True</property>
@@ -2454,6 +2525,7 @@ For example: "Work" or "Personal"</property>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
+                                            <property name="position">0</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -2476,13 +2548,14 @@ For example: "Work" or "Personal"</property>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
                               <widget class="GtkButton" id="smime_sign_key_clear">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                                 <child>
                                   <widget class="GtkAlignment" id="alignment34">
                                     <property name="visible">True</property>
@@ -2500,6 +2573,7 @@ For example: "Work" or "Personal"</property>
                                           <packing>
                                             <property name="expand">False</property>
                                             <property name="fill">False</property>
+                                            <property name="position">0</property>
                                           </packing>
                                         </child>
                                         <child>
@@ -2562,131 +2636,12 @@ For example: "Work" or "Personal"</property>
             <property name="visible">True</property>
             <property name="label" translatable="yes">Security</property>
             <property name="use_underline">True</property>
-            <property name="justify">GTK_JUSTIFY_CENTER</property>
+            <property name="justify">center</property>
           </widget>
           <packing>
-            <property name="type">tab</property>
             <property name="position">4</property>
             <property name="tab_fill">False</property>
-          </packing>
-        </child>
-      </widget>
-    </child>
-  </widget>
-  <widget class="GtkWindow" id="accounts_tab">
-    <property name="title" translatable="yes">Email Accounts</property>
-    <child>
-      <widget class="GtkHBox" id="toplevel">
-        <property name="visible">True</property>
-        <property name="spacing">6</property>
-        <child>
-          <widget class="Custom" id="etableMailAccounts">
-            <property name="visible">True</property>
-            <property name="creation_function">em_account_prefs_treeview_new</property>
-          </widget>
-        </child>
-        <child>
-          <widget class="GtkVBox" id="vboxMailFunctions">
-            <property name="visible">True</property>
-            <property name="spacing">6</property>
-            <child>
-              <widget class="GtkVButtonBox" id="vbuttonboxMailAccounts">
-                <property name="visible">True</property>
-                <property name="spacing">6</property>
-                <property name="layout_style">GTK_BUTTONBOX_START</property>
-                <child>
-                  <widget class="GtkButton" id="cmdAccountAdd">
-                    <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="can_default">True</property>
-                    <property name="label">gtk-add</property>
-                    <property name="use_stock">True</property>
-                    <property name="response_id">0</property>
-                  </widget>
-                </child>
-                <child>
-                  <widget class="GtkButton" id="cmdAccountEdit">
-                    <property name="visible">True</property>
-                    <property name="sensitive">False</property>
-                    <property name="can_focus">True</property>
-                    <property name="can_default">True</property>
-                    <property name="response_id">0</property>
-                    <child>
-                      <widget class="GtkAlignment" id="alignment33">
-                        <property name="visible">True</property>
-                        <property name="xscale">0</property>
-                        <property name="yscale">0</property>
-                        <child>
-                          <widget class="GtkHBox" id="hbox224">
-                            <property name="visible">True</property>
-                            <property name="spacing">2</property>
-                            <child>
-                              <widget class="GtkImage" id="image8">
-                                <property name="visible">True</property>
-                                <property name="stock">gtk-properties</property>
-                              </widget>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <widget class="GtkLabel" id="label557">
-                                <property name="visible">True</property>
-                                <property name="label" translatable="yes">_Edit</property>
-                                <property name="use_underline">True</property>
-                              </widget>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="fill">False</property>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                          </widget>
-                        </child>
-                      </widget>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkButton" id="cmdAccountDelete">
-                    <property name="visible">True</property>
-                    <property name="sensitive">False</property>
-                    <property name="can_focus">True</property>
-                    <property name="can_default">True</property>
-                    <property name="label">gtk-delete</property>
-                    <property name="use_stock">True</property>
-                    <property name="response_id">0</property>
-                  </widget>
-                  <packing>
-                    <property name="position">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <widget class="GtkButton" id="cmdAccountDefault">
-                    <property name="width_request">89</property>
-                    <property name="height_request">36</property>
-                    <property name="visible">True</property>
-                    <property name="sensitive">False</property>
-                    <property name="can_focus">True</property>
-                    <property name="can_default">True</property>
-                    <property name="label" translatable="yes">De_fault</property>
-                    <property name="use_underline">True</property>
-                    <property name="response_id">0</property>
-                  </widget>
-                  <packing>
-                    <property name="position">3</property>
-                  </packing>
-                </child>
-              </widget>
-            </child>
-          </widget>
-          <packing>
-            <property name="expand">False</property>
-            <property name="position">1</property>
+            <property name="type">tab</property>
           </packing>
         </child>
       </widget>
@@ -2718,6 +2673,7 @@ For example: "Work" or "Personal"</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -2731,6 +2687,7 @@ For example: "Work" or "Personal"</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -2744,16 +2701,17 @@ For example: "Work" or "Personal"</property>
                             <property name="spacing">6</property>
                             <child>
                               <widget class="GtkCheckButton" id="radFontUseSame">
+                                <property name="label" translatable="yes">_Use the same fonts as other applications</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="label" translatable="yes">_Use the same fonts as other applications</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_underline">True</property>
-                                <property name="response_id">0</property>
                                 <property name="draw_indicator">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
@@ -2769,7 +2727,7 @@ For example: "Work" or "Personal"</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">S_tandard Font:</property>
                                     <property name="use_underline">True</property>
-                                    <property name="justify">GTK_JUSTIFY_RIGHT</property>
+                                    <property name="justify">right</property>
                                     <property name="mnemonic_widget">FontVariable</property>
                                   </widget>
                                   <packing>
@@ -2781,7 +2739,7 @@ For example: "Work" or "Personal"</property>
                                   <widget class="GtkFontButton" id="FontFixed">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="response_id">0</property>
+                                    <property name="receives_default">False</property>
                                     <property name="title" translatable="yes">Select HTML fixed width font</property>
                                     <signal name="font_set" handler="changed"/>
                                   </widget>
@@ -2798,7 +2756,7 @@ For example: "Work" or "Personal"</property>
                                   <widget class="GtkFontButton" id="FontVariable">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="response_id">0</property>
+                                    <property name="receives_default">False</property>
                                     <property name="title" translatable="yes">Select HTML variable width font</property>
                                     <signal name="font_set" handler="changed"/>
                                   </widget>
@@ -2815,7 +2773,7 @@ For example: "Work" or "Personal"</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">Fix_ed width Font:</property>
                                     <property name="use_underline">True</property>
-                                    <property name="justify">GTK_JUSTIFY_RIGHT</property>
+                                    <property name="justify">right</property>
                                     <property name="mnemonic_widget">FontFixed</property>
                                   </widget>
                                   <packing>
@@ -2846,6 +2804,7 @@ For example: "Work" or "Personal"</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -2862,6 +2821,7 @@ For example: "Work" or "Personal"</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -2875,6 +2835,7 @@ For example: "Work" or "Personal"</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -2892,16 +2853,17 @@ For example: "Work" or "Personal"</property>
                                 <property name="spacing">6</property>
                                 <child>
                                   <widget class="GtkCheckButton" id="chkMarkTimeout">
+                                    <property name="label" translatable="yes">_Mark messages as read after</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="label" translatable="yes">_Mark messages as read after</property>
+                                    <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="response_id">0</property>
                                     <property name="draw_indicator">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -2912,7 +2874,7 @@ For example: "Work" or "Personal"</property>
                                     <property name="climb_rate">1</property>
                                     <property name="digits">1</property>
                                     <property name="numeric">True</property>
-                                    <property name="update_policy">GTK_UPDATE_IF_VALID</property>
+                                    <property name="update_policy">if-valid</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -2924,7 +2886,7 @@ For example: "Work" or "Personal"</property>
                                   <widget class="GtkLabel" id="lblSeconds">
                                     <property name="visible">True</property>
                                     <property name="label" translatable="yes">seconds</property>
-                                    <property name="justify">GTK_JUSTIFY_CENTER</property>
+                                    <property name="justify">center</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -2933,6 +2895,9 @@ For example: "Work" or "Personal"</property>
                                   </packing>
                                 </child>
                               </widget>
+                              <packing>
+                                <property name="position">0</property>
+                              </packing>
                             </child>
                             <child>
                               <widget class="GtkHBox" id="hbox234">
@@ -2940,16 +2905,17 @@ For example: "Work" or "Personal"</property>
                                 <property name="spacing">4</property>
                                 <child>
                                   <widget class="GtkCheckButton" id="mlimit_checkbutton">
+                                    <property name="label" translatable="yes">Do not format messages when text si_ze exceeds</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="label" translatable="yes">Do not format messages when text si_ze exceeds</property>
+                                    <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="response_id">0</property>
                                     <property name="draw_indicator">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -2987,16 +2953,17 @@ For example: "Work" or "Personal"</property>
                                 <property name="visible">True</property>
                                 <child>
                                   <widget class="GtkCheckButton" id="address_checkbox">
+                                    <property name="label" translatable="yes">_Shrink To / Cc / Bcc headers to </property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="label" translatable="yes">_Shrink To / Cc / Bcc headers to </property>
+                                    <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="response_id">0</property>
                                     <property name="draw_indicator">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -3034,11 +3001,11 @@ For example: "Work" or "Personal"</property>
                             </child>
                             <child>
                               <widget class="GtkCheckButton" id="magic_spacebar_checkbox">
+                                <property name="label" translatable="yes">Enable Magic S_pacebar</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="label" translatable="yes">Enable Magic S_pacebar</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_underline">True</property>
-                                <property name="response_id">0</property>
                                 <property name="draw_indicator">True</property>
                               </widget>
                               <packing>
@@ -3053,24 +3020,25 @@ For example: "Work" or "Personal"</property>
                                 <property name="spacing">6</property>
                                 <child>
                                   <widget class="GtkCheckButton" id="chkHighlightCitations">
+                                    <property name="label" translatable="yes">Highlight _quotations with</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="label" translatable="yes">Highlight _quotations with</property>
+                                    <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="response_id">0</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <widget class="GtkColorButton" id="colorButtonHighlightCitations">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="response_id">0</property>
+                                    <property name="receives_default">False</property>
                                     <property name="title" translatable="yes">Pick a color</property>
                                   </widget>
                                   <packing>
@@ -3083,7 +3051,7 @@ For example: "Work" or "Personal"</property>
                                   <widget class="GtkLabel" id="lblColor">
                                     <property name="visible">True</property>
                                     <property name="label" translatable="yes">color</property>
-                                    <property name="justify">GTK_JUSTIFY_CENTER</property>
+                                    <property name="justify">center</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -3105,19 +3073,20 @@ For example: "Work" or "Personal"</property>
                                     <property name="visible">True</property>
                                     <property name="label" translatable="yes">Default character e_ncoding:</property>
                                     <property name="use_underline">True</property>
-                                    <property name="justify">GTK_JUSTIFY_CENTER</property>
+                                    <property name="justify">center</property>
                                     <property name="mnemonic_widget">omenuCharset</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <widget class="GtkOptionMenu" id="omenuCharset">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="response_id">0</property>
+                                    <property name="receives_default">False</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -3136,24 +3105,25 @@ For example: "Work" or "Personal"</property>
                                 <property name="spacing">6</property>
                                 <child>
                                   <widget class="GtkCheckButton" id="chkEnableSearchFolders">
+                                    <property name="label" translatable="yes">Enable Sea_rch Folders</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="label" translatable="yes">Enable Sea_rch Folders</property>
+                                    <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="response_id">0</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <widget class="GtkLabel" id="lblEnableSFRestart">
                                     <property name="visible">True</property>
                                     <property name="label" translatable="yes">(Note: Requires restart of the application)</property>
-                                    <property name="justify">GTK_JUSTIFY_CENTER</property>
+                                    <property name="justify">center</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -3199,6 +3169,7 @@ For example: "Work" or "Personal"</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -3212,6 +3183,7 @@ For example: "Work" or "Personal"</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -3229,23 +3201,24 @@ For example: "Work" or "Personal"</property>
                                 <property name="spacing">4</property>
                                 <child>
                                   <widget class="GtkCheckButton" id="chkEmptyTrashOnExit">
+                                    <property name="label" translatable="yes">Empty trash folders on e_xit</property>
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="label" translatable="yes">Empty trash folders on e_xit</property>
+                                    <property name="receives_default">False</property>
                                     <property name="use_underline">True</property>
-                                    <property name="response_id">0</property>
                                     <property name="draw_indicator">True</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
                                     <property name="fill">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
                                   <widget class="GtkOptionMenu" id="omenuEmptyTrashDays">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="response_id">0</property>
+                                    <property name="receives_default">False</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
@@ -3254,14 +3227,17 @@ For example: "Work" or "Personal"</property>
                                   </packing>
                                 </child>
                               </widget>
+                              <packing>
+                                <property name="position">0</property>
+                              </packing>
                             </child>
                             <child>
                               <widget class="GtkCheckButton" id="chkConfirmExpunge">
+                                <property name="label" translatable="yes">Confirm _when expunging a folder</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="label" translatable="yes">Confirm _when expunging a folder</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_underline">True</property>
-                                <property name="response_id">0</property>
                                 <property name="draw_indicator">True</property>
                               </widget>
                               <packing>
@@ -3296,11 +3272,11 @@ For example: "Work" or "Personal"</property>
             <property name="visible">True</property>
             <property name="label" translatable="yes">General</property>
             <property name="use_underline">True</property>
-            <property name="justify">GTK_JUSTIFY_CENTER</property>
+            <property name="justify">center</property>
           </widget>
           <packing>
-            <property name="type">tab</property>
             <property name="tab_fill">False</property>
+            <property name="type">tab</property>
           </packing>
         </child>
         <child>
@@ -3318,6 +3294,7 @@ For example: "Work" or "Personal"</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -3331,6 +3308,7 @@ For example: "Work" or "Personal"</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -3339,25 +3317,26 @@ For example: "Work" or "Personal"</property>
                     <property name="spacing">6</property>
                     <child>
                       <widget class="GtkCheckButton" id="chkShowAnimatedImages">
+                        <property name="label" translatable="yes" comments="If enabled, show animation; if disabled, only display a static image without any animation">_Show image animations</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label" translatable="yes" comments="If enabled, show animation; if disabled, only display a static image without any animation">_Show image animations</property>
+                        <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
-                        <property name="response_id">0</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
                       <widget class="GtkCheckButton" id="chkPromptWantHTML">
+                        <property name="label" translatable="yes">_Prompt on sending HTML mail to contacts that do not want them</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">_Prompt on sending HTML mail to contacts that do not want them</property>
+                        <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
-                        <property name="response_id">0</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
@@ -3394,6 +3373,7 @@ For example: "Work" or "Personal"</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -3407,6 +3387,7 @@ For example: "Work" or "Personal"</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -3415,25 +3396,26 @@ For example: "Work" or "Personal"</property>
                         <property name="spacing">6</property>
                         <child>
                           <widget class="GtkRadioButton" id="radImagesNever">
+                            <property name="label" translatable="yes">_Never load images from the Internet</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">_Never load images from the Internet</property>
+                            <property name="receives_default">False</property>
                             <property name="use_underline">True</property>
-                            <property name="response_id">0</property>
                             <property name="draw_indicator">True</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
                           <widget class="GtkRadioButton" id="radImagesSometimes">
+                            <property name="label" translatable="yes">_Load images in messages from contacts</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">_Load images in messages from contacts</property>
+                            <property name="receives_default">False</property>
                             <property name="use_underline">True</property>
-                            <property name="response_id">0</property>
                             <property name="draw_indicator">True</property>
                             <property name="group">radImagesNever</property>
                           </widget>
@@ -3445,11 +3427,11 @@ For example: "Work" or "Personal"</property>
                         </child>
                         <child>
                           <widget class="GtkRadioButton" id="radImagesAlways">
+                            <property name="label" translatable="yes">_Always load images from the Internet</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">_Always load images from the Internet</property>
+                            <property name="receives_default">False</property>
                             <property name="use_underline">True</property>
-                            <property name="response_id">0</property>
                             <property name="draw_indicator">True</property>
                             <property name="group">radImagesNever</property>
                           </widget>
@@ -3490,12 +3472,12 @@ For example: "Work" or "Personal"</property>
             <property name="visible">True</property>
             <property name="label" translatable="yes">HTML Messages</property>
             <property name="use_underline">True</property>
-            <property name="justify">GTK_JUSTIFY_CENTER</property>
+            <property name="justify">center</property>
           </widget>
           <packing>
-            <property name="type">tab</property>
             <property name="position">1</property>
             <property name="tab_fill">False</property>
+            <property name="type">tab</property>
           </packing>
         </child>
         <child>
@@ -3513,6 +3495,7 @@ For example: "Work" or "Personal"</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -3537,12 +3520,12 @@ For example: "Work" or "Personal"</property>
             <property name="visible">True</property>
             <property name="label" translatable="yes">Labels</property>
             <property name="use_underline">True</property>
-            <property name="justify">GTK_JUSTIFY_CENTER</property>
+            <property name="justify">center</property>
           </widget>
           <packing>
-            <property name="type">tab</property>
             <property name="position">2</property>
             <property name="tab_fill">False</property>
+            <property name="type">tab</property>
           </packing>
         </child>
         <child>
@@ -3566,39 +3549,43 @@ For example: "Work" or "Personal"</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkVBox" id="vbox206">
+                  <widget class="GtkVBox" id="vbox1">
                     <property name="visible">True</property>
                     <child>
                       <widget class="GtkHBox" id="hbox239">
                         <property name="visible">True</property>
                         <child>
                           <widget class="GtkCheckButton" id="photo_show">
+                            <property name="label" translatable="yes">_Show the photograph of sender in the message preview</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">_Show the photograph of sender in the message preview</property>
+                            <property name="receives_default">False</property>
                             <property name="use_underline">True</property>
-                            <property name="response_id">0</property>
                             <property name="draw_indicator">True</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="padding">10</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                       </widget>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -3606,17 +3593,18 @@ For example: "Work" or "Personal"</property>
                         <property name="visible">True</property>
                         <child>
                           <widget class="GtkCheckButton" id="photo_local">
+                            <property name="label" translatable="yes">S_earch for sender photograph only in local address books</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">S_earch for sender photograph only in local address books</property>
+                            <property name="receives_default">False</property>
                             <property name="use_underline">True</property>
-                            <property name="response_id">0</property>
                             <property name="draw_indicator">True</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="padding">10</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                       </widget>
@@ -3637,6 +3625,7 @@ For example: "Work" or "Personal"</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -3665,6 +3654,7 @@ For example: "Work" or "Personal"</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -3675,27 +3665,27 @@ For example: "Work" or "Personal"</property>
                       <widget class="GtkEntry" id="txtHeaders">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="invisible_char">*</property>
                       </widget>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
                       <widget class="GtkScrolledWindow" id="scrolledwindow49">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                        <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                        <property name="shadow_type">GTK_SHADOW_IN</property>
+                        <property name="hscrollbar_policy">automatic</property>
+                        <property name="vscrollbar_policy">automatic</property>
+                        <property name="shadow_type">in</property>
                         <child>
                           <widget class="GtkTreeView" id="treeHeaders">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="headers_visible">False</property>
                             <accessibility>
-                              <atkproperty name="AtkObject::accessible_name" translatable="yes">Mail Headers Table</atkproperty>
+                              <atkproperty name="AtkObject::accessible-name" translatable="yes">Mail Headers Table</atkproperty>
                             </accessibility>
                           </widget>
                         </child>
@@ -3715,25 +3705,26 @@ For example: "Work" or "Personal"</property>
                     <property name="spacing">6</property>
                     <child>
                       <widget class="GtkButton" id="cmdHeadersAdd">
+                        <property name="label">gtk-add</property>
                         <property name="visible">True</property>
                         <property name="sensitive">False</property>
                         <property name="can_focus">True</property>
-                        <property name="label">gtk-add</property>
+                        <property name="receives_default">False</property>
                         <property name="use_stock">True</property>
-                        <property name="response_id">0</property>
                       </widget>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
                       <widget class="GtkButton" id="cmdHeadersRemove">
+                        <property name="label">gtk-remove</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label">gtk-remove</property>
+                        <property name="receives_default">False</property>
                         <property name="use_stock">True</property>
-                        <property name="response_id">0</property>
                       </widget>
                       <packing>
                         <property name="expand">False</property>
@@ -3765,9 +3756,9 @@ For example: "Work" or "Personal"</property>
             <property name="use_underline">True</property>
           </widget>
           <packing>
-            <property name="type">tab</property>
             <property name="position">3</property>
             <property name="tab_fill">False</property>
+            <property name="type">tab</property>
           </packing>
         </child>
         <child>
@@ -3788,6 +3779,7 @@ For example: "Work" or "Personal"</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -3811,6 +3803,7 @@ For example: "Work" or "Personal"</property>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
                             <property name="padding">6</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
@@ -3833,12 +3826,12 @@ For example: "Work" or "Personal"</property>
                     </child>
                     <child>
                       <widget class="GtkCheckButton" id="chkCheckIncomingMail">
+                        <property name="label" translatable="yes">Check incoming _messages for junk</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
                         <property name="tooltip" translatable="yes">Checks incoming mail messages to be Junk</property>
-                        <property name="label" translatable="yes">Check incoming _messages for junk</property>
                         <property name="use_underline">True</property>
-                        <property name="response_id">0</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
@@ -3859,6 +3852,7 @@ For example: "Work" or "Personal"</property>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
@@ -3886,23 +3880,24 @@ For example: "Work" or "Personal"</property>
                         <property name="spacing">4</property>
                         <child>
                           <widget class="GtkCheckButton" id="junk_empty_check">
+                            <property name="label" translatable="yes">Delete junk messages on e_xit</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">Delete junk messages on e_xit</property>
+                            <property name="receives_default">False</property>
                             <property name="use_underline">True</property>
-                            <property name="response_id">0</property>
                             <property name="draw_indicator">True</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
                           <widget class="GtkOptionMenu" id="junk_empty_combo">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="response_id">0</property>
+                            <property name="receives_default">False</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
@@ -3920,11 +3915,11 @@ For example: "Work" or "Personal"</property>
                     </child>
                     <child>
                       <widget class="GtkCheckButton" id="junk_header_check">
+                        <property name="label" translatable="yes">Check cu_stom headers for junk</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">Check cu_stom headers for junk</property>
+                        <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
-                        <property name="response_id">0</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
@@ -3943,9 +3938,9 @@ For example: "Work" or "Personal"</property>
                           <widget class="GtkScrolledWindow" id="scrolledwindow51">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                            <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                            <property name="shadow_type">GTK_SHADOW_IN</property>
+                            <property name="hscrollbar_policy">automatic</property>
+                            <property name="vscrollbar_policy">automatic</property>
+                            <property name="shadow_type">in</property>
                             <child>
                               <widget class="GtkTreeView" id="junk_header_tree">
                                 <property name="visible">True</property>
@@ -3953,31 +3948,41 @@ For example: "Work" or "Personal"</property>
                               </widget>
                             </child>
                           </widget>
+                          <packing>
+                            <property name="position">0</property>
+                          </packing>
                         </child>
                         <child>
                           <widget class="GtkVButtonBox" id="vbuttonbox26">
                             <property name="visible">True</property>
-                            <property name="layout_style">GTK_BUTTONBOX_SPREAD</property>
+                            <property name="layout_style">spread</property>
                             <child>
                               <widget class="GtkButton" id="junk_header_add">
+                                <property name="label">gtk-add</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="can_default">True</property>
-                                <property name="label">gtk-add</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_stock">True</property>
-                                <property name="response_id">0</property>
                               </widget>
+                              <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
+                                <property name="position">0</property>
+                              </packing>
                             </child>
                             <child>
                               <widget class="GtkButton" id="junk_header_remove">
+                                <property name="label">gtk-remove</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="can_default">True</property>
-                                <property name="label">gtk-remove</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_stock">True</property>
-                                <property name="response_id">0</property>
                               </widget>
                               <packing>
+                                <property name="expand">False</property>
+                                <property name="fill">False</property>
                                 <property name="position">1</property>
                               </packing>
                             </child>
@@ -3996,11 +4001,11 @@ For example: "Work" or "Personal"</property>
                     </child>
                     <child>
                       <widget class="GtkCheckButton" id="lookup_book">
+                        <property name="label" translatable="yes">Do not mar_k messages as junk if sender is in my address book</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">Do not mar_k messages as junk if sender is in my address book</property>
+                        <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
-                        <property name="response_id">0</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
@@ -4013,11 +4018,11 @@ For example: "Work" or "Personal"</property>
                     </child>
                     <child>
                       <widget class="GtkCheckButton" id="junk_lookup_local_only">
+                        <property name="label" translatable="yes">_Lookup in local address book only</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">_Lookup in local address book only</property>
+                        <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
-                        <property name="response_id">0</property>
                         <property name="draw_indicator">True</property>
                       </widget>
                       <packing>
@@ -4039,6 +4044,7 @@ For example: "Work" or "Personal"</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
@@ -4068,6 +4074,7 @@ For example: "Work" or "Personal"</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -4092,9 +4099,9 @@ For example: "Work" or "Personal"</property>
             <property name="use_underline">True</property>
           </widget>
           <packing>
-            <property name="type">tab</property>
             <property name="position">4</property>
             <property name="tab_fill">False</property>
+            <property name="type">tab</property>
           </packing>
         </child>
       </widget>
@@ -4125,6 +4132,7 @@ For example: "Work" or "Personal"</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -4138,6 +4146,7 @@ For example: "Work" or "Personal"</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -4151,25 +4160,26 @@ For example: "Work" or "Personal"</property>
                             <property name="spacing">8</property>
                             <child>
                               <widget class="GtkCheckButton" id="chkSendHTML">
+                                <property name="label" translatable="yes">Format messages in _HTML</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="label" translatable="yes">Format messages in _HTML</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_underline">True</property>
-                                <property name="response_id">0</property>
                                 <property name="draw_indicator">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
                               <widget class="GtkCheckButton" id="chkAutoSmileys">
+                                <property name="label" translatable="yes">Automatically insert _emoticon images</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="label" translatable="yes">Automatically insert _emoticon images</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_underline">True</property>
-                                <property name="response_id">0</property>
                                 <property name="draw_indicator">True</property>
                               </widget>
                               <packing>
@@ -4180,11 +4190,11 @@ For example: "Work" or "Personal"</property>
                             </child>
                             <child>
                               <widget class="GtkCheckButton" id="chkRequestReceipt">
+                                <property name="label" translatable="yes">Always request rea_d receipt</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="label" translatable="yes">Always request rea_d receipt</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_underline">True</property>
-                                <property name="response_id">0</property>
                                 <property name="draw_indicator">True</property>
                               </widget>
                               <packing>
@@ -4195,11 +4205,11 @@ For example: "Work" or "Personal"</property>
                             </child>
                             <child>
                               <widget class="GtkCheckButton" id="chkReplyStartBottom">
+                                <property name="label" translatable="yes">Start _typing at the bottom on replying</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="label" translatable="yes">Start _typing at the bottom on replying</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_underline">True</property>
-                                <property name="response_id">0</property>
                                 <property name="draw_indicator">True</property>
                               </widget>
                               <packing>
@@ -4210,11 +4220,11 @@ For example: "Work" or "Personal"</property>
                             </child>
                             <child>
                               <widget class="GtkCheckButton" id="chkOutlookFilenames">
+                                <property name="label" translatable="yes">Encode file names in an Outlook/GMail way</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="label" translatable="yes">Encode file names in an Outlook/GMail way</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_underline">True</property>
-                                <property name="response_id">0</property>
                                 <property name="draw_indicator">True</property>
                               </widget>
                               <packing>
@@ -4236,7 +4246,7 @@ For example: "Work" or "Personal"</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">_Reply style:</property>
                                     <property name="use_underline">True</property>
-                                    <property name="justify">GTK_JUSTIFY_CENTER</property>
+                                    <property name="justify">center</property>
                                   </widget>
                                   <packing>
                                     <property name="top_attach">1</property>
@@ -4249,7 +4259,7 @@ For example: "Work" or "Personal"</property>
                                   <widget class="GtkOptionMenu" id="omenuCharset1">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="response_id">0</property>
+                                    <property name="receives_default">False</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -4266,7 +4276,7 @@ For example: "Work" or "Personal"</property>
                                     <property name="xalign">0</property>
                                     <property name="label" translatable="yes">_Forward style:</property>
                                     <property name="use_underline">True</property>
-                                    <property name="justify">GTK_JUSTIFY_CENTER</property>
+                                    <property name="justify">center</property>
                                   </widget>
                                   <packing>
                                     <property name="x_options">GTK_FILL</property>
@@ -4338,15 +4348,16 @@ Do Not Quote</property>
                                       <packing>
                                         <property name="expand">False</property>
                                         <property name="fill">False</property>
+                                        <property name="position">0</property>
                                       </packing>
                                     </child>
                                     <child>
                                       <widget class="GtkCheckButton" id="chkTopSignature">
+                                        <property name="label" translatable="yes">_Keep Signature above the original message on replying</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="label" translatable="yes">_Keep Signature above the original message on replying</property>
+                                        <property name="receives_default">False</property>
                                         <property name="use_underline">True</property>
-                                        <property name="response_id">0</property>
                                         <property name="draw_indicator">True</property>
                                       </widget>
                                       <packing>
@@ -4359,6 +4370,9 @@ Do Not Quote</property>
                                       <placeholder/>
                                     </child>
                                   </widget>
+                                  <packing>
+                                    <property name="position">0</property>
+                                  </packing>
                                 </child>
                               </widget>
                               <packing>
@@ -4401,6 +4415,7 @@ Do Not Quote</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -4414,25 +4429,26 @@ Do Not Quote</property>
                             <property name="spacing">6</property>
                             <child>
                               <widget class="GtkCheckButton" id="chkPromptEmptySubject">
+                                <property name="label" translatable="yes">_Prompt when sending messages with an empty subject line</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="label" translatable="yes">_Prompt when sending messages with an empty subject line</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_underline">True</property>
-                                <property name="response_id">0</property>
                                 <property name="draw_indicator">True</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
                               <widget class="GtkCheckButton" id="chkPromptBccOnly">
+                                <property name="label" translatable="yes">Pr_ompt when sending messages with only Bcc recipients defined</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="label" translatable="yes">Pr_ompt when sending messages with only Bcc recipients defined</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_underline">True</property>
-                                <property name="response_id">0</property>
                                 <property name="draw_indicator">True</property>
                               </widget>
                               <packing>
@@ -4459,6 +4475,7 @@ Do Not Quote</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
           </widget>
@@ -4468,11 +4485,11 @@ Do Not Quote</property>
             <property name="visible">True</property>
             <property name="label" translatable="yes">General</property>
             <property name="use_underline">True</property>
-            <property name="justify">GTK_JUSTIFY_CENTER</property>
+            <property name="justify">center</property>
           </widget>
           <packing>
-            <property name="type">tab</property>
             <property name="tab_fill">False</property>
+            <property name="type">tab</property>
           </packing>
         </child>
         <child>
@@ -4491,11 +4508,11 @@ Do Not Quote</property>
                     <property name="label" translatable="yes">&lt;b&gt;Sig_natures&lt;/b&gt;</property>
                     <property name="use_markup">True</property>
                     <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">listSignatures</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -4511,6 +4528,9 @@ Do Not Quote</property>
                   </packing>
                 </child>
               </widget>
+              <packing>
+                <property name="position">0</property>
+              </packing>
             </child>
             <child>
               <widget class="GtkVBox" id="vbox202">
@@ -4526,6 +4546,7 @@ Do Not Quote</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -4539,15 +4560,16 @@ Do Not Quote</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
                       <widget class="GtkScrolledWindow" id="scrolled-sig">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                        <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                        <property name="shadow_type">GTK_SHADOW_IN</property>
+                        <property name="hscrollbar_policy">automatic</property>
+                        <property name="vscrollbar_policy">automatic</property>
+                        <property name="shadow_type">in</property>
                         <child>
                           <placeholder/>
                         </child>
@@ -4580,12 +4602,12 @@ Do Not Quote</property>
             <property name="visible">True</property>
             <property name="label" translatable="yes">Signatures</property>
             <property name="use_underline">True</property>
-            <property name="justify">GTK_JUSTIFY_CENTER</property>
+            <property name="justify">center</property>
           </widget>
           <packing>
-            <property name="type">tab</property>
             <property name="position">1</property>
             <property name="tab_fill">False</property>
+            <property name="type">tab</property>
           </packing>
         </child>
         <child>
@@ -4609,6 +4631,7 @@ Do Not Quote</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -4622,6 +4645,7 @@ Do Not Quote</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -4643,24 +4667,33 @@ Do Not Quote</property>
                                       <widget class="GtkScrolledWindow" id="scrolledwindow48">
                                         <property name="visible">True</property>
                                         <property name="can_focus">False</property>
-                                        <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                                        <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-                                        <property name="shadow_type">GTK_SHADOW_IN</property>
+                                        <property name="hscrollbar_policy">automatic</property>
+                                        <property name="vscrollbar_policy">automatic</property>
+                                        <property name="shadow_type">in</property>
                                         <child>
                                           <widget class="GtkTreeView" id="listSpellCheckLanguage">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
                                             <property name="headers_visible">False</property>
                                             <accessibility>
-                                              <atkproperty name="AtkObject::accessible_name" translatable="yes">Languages Table</atkproperty>
+                                              <atkproperty name="AtkObject::accessible-name" translatable="yes">Languages Table</atkproperty>
                                             </accessibility>
                                           </widget>
                                         </child>
                                       </widget>
+                                      <packing>
+                                        <property name="position">0</property>
+                                      </packing>
                                     </child>
                                   </widget>
+                                  <packing>
+                                    <property name="position">0</property>
+                                  </packing>
                                 </child>
                               </widget>
+                              <packing>
+                                <property name="position">0</property>
+                              </packing>
                             </child>
                             <child>
                               <widget class="GtkHBox" id="hboxImageAndHelp">
@@ -4674,6 +4707,7 @@ Do Not Quote</property>
                                   </widget>
                                   <packing>
                                     <property name="expand">False</property>
+                                    <property name="position">0</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -4694,6 +4728,9 @@ Do Not Quote</property>
                               </packing>
                             </child>
                           </widget>
+                          <packing>
+                            <property name="position">0</property>
+                          </packing>
                         </child>
                       </widget>
                       <packing>
@@ -4706,6 +4743,9 @@ Do Not Quote</property>
                   </packing>
                 </child>
               </widget>
+              <packing>
+                <property name="position">0</property>
+              </packing>
             </child>
             <child>
               <widget class="GtkVBox" id="frameSpellChecking">
@@ -4721,6 +4761,7 @@ Do Not Quote</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -4734,6 +4775,7 @@ Do Not Quote</property>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
@@ -4742,16 +4784,17 @@ Do Not Quote</property>
                         <property name="spacing">6</property>
                         <child>
                           <widget class="GtkCheckButton" id="chkEnableSpellChecking">
+                            <property name="label" translatable="yes">Check spelling while I _type</property>
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="label" translatable="yes">Check spelling while I _type</property>
+                            <property name="receives_default">False</property>
                             <property name="use_underline">True</property>
-                            <property name="response_id">0</property>
                             <property name="draw_indicator">True</property>
                           </widget>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
@@ -4763,19 +4806,20 @@ Do Not Quote</property>
                                 <property name="visible">True</property>
                                 <property name="label" translatable="yes">Color for _misspelled words:</property>
                                 <property name="use_underline">True</property>
-                                <property name="justify">GTK_JUSTIFY_CENTER</property>
+                                <property name="justify">center</property>
                                 <property name="mnemonic_widget">colorButtonSpellCheckColor</property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
                                 <property name="fill">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
                               <widget class="GtkColorButton" id="colorButtonSpellCheckColor">
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="response_id">0</property>
+                                <property name="receives_default">False</property>
                                 <property name="title" translatable="yes">Pick a color</property>
                               </widget>
                               <packing>
@@ -4816,12 +4860,12 @@ Do Not Quote</property>
             <property name="visible">True</property>
             <property name="label" translatable="yes">Spell Checking</property>
             <property name="use_underline">True</property>
-            <property name="justify">GTK_JUSTIFY_CENTER</property>
+            <property name="justify">center</property>
           </widget>
           <packing>
-            <property name="type">tab</property>
             <property name="position">2</property>
             <property name="tab_fill">False</property>
+            <property name="type">tab</property>
           </packing>
         </child>
       </widget>
@@ -4850,6 +4894,7 @@ Do Not Quote</property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -4863,6 +4908,7 @@ Do Not Quote</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -4878,7 +4924,7 @@ Do Not Quote</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">V_ariable-width:</property>
                         <property name="use_underline">True</property>
-                        <property name="justify">GTK_JUSTIFY_CENTER</property>
+                        <property name="justify">center</property>
                         <property name="mnemonic_widget">print_variable</property>
                       </widget>
                       <packing>
@@ -4892,7 +4938,7 @@ Do Not Quote</property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">Fi_xed-width:</property>
                         <property name="use_underline">True</property>
-                        <property name="justify">GTK_JUSTIFY_CENTER</property>
+                        <property name="justify">center</property>
                         <property name="mnemonic_widget">print_fixed</property>
                       </widget>
                       <packing>
@@ -4906,7 +4952,7 @@ Do Not Quote</property>
                       <widget class="GtkFontButton" id="print_fixed">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="response_id">0</property>
+                        <property name="receives_default">False</property>
                         <property name="title" translatable="yes">Select HTML fixed width font for printing</property>
                         <signal name="font_set" handler="changed"/>
                       </widget>
@@ -4923,7 +4969,7 @@ Do Not Quote</property>
                       <widget class="GtkFontButton" id="print_variable">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="response_id">0</property>
+                        <property name="receives_default">False</property>
                         <property name="title" translatable="yes">Select HTML variable width font for printing</property>
                         <signal name="font_set" handler="changed"/>
                       </widget>
@@ -4955,7 +5001,7 @@ Do Not Quote</property>
     </child>
   </widget>
   <widget class="GtkDialog" id="add_script_signature">
-    <property name="type_hint">GDK_WINDOW_TYPE_HINT_NORMAL</property>
+    <property name="type_hint">normal</property>
     <property name="has_separator">False</property>
     <child internal-child="vbox">
       <widget class="GtkVBox" id="dialog-vbox1">
@@ -4978,8 +5024,11 @@ Do Not Quote</property>
                         <property name="visible">True</property>
                         <property name="yalign">0</property>
                         <property name="stock">gtk-dialog-info</property>
-                        <property name="icon_size">6</property>
+                        <property name="icon-size">6</property>
                       </widget>
+                      <packing>
+                        <property name="position">0</property>
+                      </packing>
                     </child>
                     <child>
                       <widget class="GtkLabel" id="label456">
@@ -5000,6 +5049,7 @@ for display purposes only. </property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
@@ -5015,7 +5065,7 @@ for display purposes only. </property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">_Name:</property>
                         <property name="use_underline">True</property>
-                        <property name="justify">GTK_JUSTIFY_CENTER</property>
+                        <property name="justify">center</property>
                         <property name="mnemonic_widget">entry_add_script_name</property>
                       </widget>
                       <packing>
@@ -5029,7 +5079,7 @@ for display purposes only. </property>
                         <property name="xalign">0</property>
                         <property name="label" translatable="yes">_Script:</property>
                         <property name="use_underline">True</property>
-                        <property name="justify">GTK_JUSTIFY_CENTER</property>
+                        <property name="justify">center</property>
                         <property name="mnemonic_widget">filechooserbutton_add_script</property>
                       </widget>
                       <packing>
@@ -5043,7 +5093,6 @@ for display purposes only. </property>
                       <widget class="GtkEntry" id="entry_add_script_name">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="invisible_char">*</property>
                       </widget>
                       <packing>
                         <property name="left_attach">1</property>
@@ -5074,6 +5123,7 @@ for display purposes only. </property>
               <packing>
                 <property name="expand">False</property>
                 <property name="fill">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
           </widget>
@@ -5084,13 +5134,13 @@ for display purposes only. </property>
         <child internal-child="action_area">
           <widget class="GtkHButtonBox" id="dialog-action_area1">
             <property name="visible">True</property>
-            <property name="layout_style">GTK_BUTTONBOX_END</property>
+            <property name="layout_style">end</property>
             <child>
               <widget class="GtkButton" id="button_add_script_add">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
-                <property name="response_id">0</property>
+                <property name="receives_default">False</property>
                 <child>
                   <widget class="GtkAlignment" id="alignment30">
                     <property name="visible">True</property>
@@ -5108,6 +5158,7 @@ for display purposes only. </property>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">False</property>
+                            <property name="position">0</property>
                           </packing>
                         </child>
                         <child>
@@ -5127,24 +5178,32 @@ for display purposes only. </property>
                   </widget>
                 </child>
               </widget>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
+                <property name="position">0</property>
+              </packing>
             </child>
             <child>
               <widget class="GtkButton" id="button_add_script_cancel">
+                <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="can_default">True</property>
-                <property name="label">gtk-cancel</property>
+                <property name="receives_default">False</property>
                 <property name="use_stock">True</property>
-                <property name="response_id">0</property>
               </widget>
               <packing>
+                <property name="expand">False</property>
+                <property name="fill">False</property>
                 <property name="position">1</property>
               </packing>
             </child>
           </widget>
           <packing>
             <property name="expand">False</property>
-            <property name="pack_type">GTK_PACK_END</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
           </packing>
         </child>
       </widget>
@@ -5173,6 +5232,9 @@ for display purposes only. </property>
                     <property name="label" translatable="yes">&lt;span weight="bold"&gt;Proxy Settings&lt;/span&gt;</property>
                     <property name="use_markup">True</property>
                   </widget>
+                  <packing>
+                    <property name="position">0</property>
+                  </packing>
                 </child>
                 <child>
                   <widget class="GtkVBox" id="vboxProxy">
@@ -5181,21 +5243,24 @@ for display purposes only. </property>
                     <property name="spacing">8</property>
                     <child>
                       <widget class="GtkRadioButton" id="rdoSysSettings">
+                        <property name="label" translatable="yes">_Use system defaults</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">_Use system defaults</property>
+                        <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
-                        <property name="response_id">0</property>
                         <property name="draw_indicator">True</property>
                       </widget>
+                      <packing>
+                        <property name="position">0</property>
+                      </packing>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="rdoNoProxy">
+                        <property name="label" translatable="yes">_Direct connection to the Internet</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">_Direct connection to the Internet</property>
+                        <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
-                        <property name="response_id">0</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">rdoSysSettings</property>
                       </widget>
@@ -5205,11 +5270,11 @@ for display purposes only. </property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="rdoManualProxy">
+                        <property name="label" translatable="yes">_Manual proxy configuration:</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">_Manual proxy configuration:</property>
+                        <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
-                        <property name="response_id">0</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">rdoSysSettings</property>
                       </widget>
@@ -5294,7 +5359,6 @@ for display purposes only. </property>
                                   <widget class="GtkEntry" id="txtHttpHost">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="invisible_char">*</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -5306,7 +5370,6 @@ for display purposes only. </property>
                                   <widget class="GtkEntry" id="txtHttpsHost">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="invisible_char">*</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -5320,7 +5383,6 @@ for display purposes only. </property>
                                   <widget class="GtkEntry" id="txtSocksHost">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="invisible_char">*</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -5420,7 +5482,6 @@ for display purposes only. </property>
                                   <widget class="GtkEntry" id="txtIgnoreHosts">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="invisible_char">*</property>
                                   </widget>
                                   <packing>
                                     <property name="left_attach">1</property>
@@ -5433,15 +5494,16 @@ for display purposes only. </property>
                               </widget>
                               <packing>
                                 <property name="expand">False</property>
+                                <property name="position">0</property>
                               </packing>
                             </child>
                             <child>
                               <widget class="GtkCheckButton" id="chkUseAuth">
+                                <property name="label" translatable="yes">Use Authe_ntication</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
-                                <property name="label" translatable="yes">Use Authe_ntication</property>
+                                <property name="receives_default">False</property>
                                 <property name="use_underline">True</property>
-                                <property name="response_id">0</property>
                                 <property name="draw_indicator">True</property>
                               </widget>
                               <packing>
@@ -5492,7 +5554,6 @@ for display purposes only. </property>
                                       <widget class="GtkEntry" id="txtAuthUser">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="invisible_char">*</property>
                                       </widget>
                                       <packing>
                                         <property name="left_attach">1</property>
@@ -5504,7 +5565,6 @@ for display purposes only. </property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="visibility">False</property>
-                                        <property name="invisible_char">*</property>
                                       </widget>
                                       <packing>
                                         <property name="left_attach">1</property>
@@ -5531,11 +5591,11 @@ for display purposes only. </property>
                     </child>
                     <child>
                       <widget class="GtkRadioButton" id="rdoAutoConfig">
+                        <property name="label" translatable="yes">_Automatic proxy configuration URL:</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="label" translatable="yes">_Automatic proxy configuration URL:</property>
+                        <property name="receives_default">False</property>
                         <property name="use_underline">True</property>
-                        <property name="response_id">0</property>
                         <property name="draw_indicator">True</property>
                         <property name="group">rdoSysSettings</property>
                       </widget>
@@ -5551,7 +5611,6 @@ for display purposes only. </property>
                           <widget class="GtkEntry" id="txtAutoConfigUrl">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="invisible_char">*</property>
                           </widget>
                         </child>
                       </widget>
@@ -5569,6 +5628,7 @@ for display purposes only. </property>
               </widget>
               <packing>
                 <property name="expand">False</property>
+                <property name="position">0</property>
               </packing>
             </child>
           </widget>
@@ -5579,8 +5639,8 @@ for display purposes only. </property>
             <property name="label" translatable="yes">General</property>
           </widget>
           <packing>
-            <property name="type">tab</property>
             <property name="tab_fill">False</property>
+            <property name="type">tab</property>
           </packing>
         </child>
       </widget>

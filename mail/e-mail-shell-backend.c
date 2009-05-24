@@ -501,8 +501,10 @@ static GtkActionEntry source_entries[] = {
 static void
 mail_shell_backend_init_preferences (EShell *shell)
 {
+	EAccountList *account_list;
 	GtkWidget *preferences_window;
 
+	account_list = e_get_account_list ();
 	preferences_window = e_shell_get_preferences_window (shell);
 
 	e_preferences_window_add_page (
@@ -510,7 +512,7 @@ mail_shell_backend_init_preferences (EShell *shell)
 		"mail-accounts",
 		"preferences-mail-accounts",
 		_("Mail Accounts"),
-		em_account_prefs_new (),
+		em_account_prefs_new (account_list),
 		100);
 
 	e_preferences_window_add_page (

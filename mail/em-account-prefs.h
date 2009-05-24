@@ -1,4 +1,5 @@
 /*
+ * em-account-prefs.h
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14,9 +15,6 @@
  * License along with the program; if not, see <http://www.gnu.org/licenses/>  
  *
  *
- * Authors:
- *		Jeffrey Stedfast <fejj@ximian.com>
- *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
@@ -25,8 +23,9 @@
 #define EM_ACCOUNT_PREFS_H
 
 #include <gtk/gtk.h>
-#include <glade/glade.h>
 #include <table/e-table.h>
+#include <libedataserver/e-account-list.h>
+#include <misc/e-account-manager.h>
 
 /* Standard GObject macros */
 #define EM_TYPE_ACCOUNT_PREFS \
@@ -51,32 +50,19 @@ G_BEGIN_DECLS
 
 typedef struct _EMAccountPrefs EMAccountPrefs;
 typedef struct _EMAccountPrefsClass EMAccountPrefsClass;
+typedef struct _EMAccountPrefsPrivate EMAccountPrefsPrivate;
 
 struct _EMAccountPrefs {
-	GtkVBox parent_object;
-
-	GladeXML *gui;
-
-	GtkWidget *druid;
-	GtkWidget *editor;
-
-	GtkTreeView *table;
-
-	GtkButton *mail_add;
-	GtkButton *mail_edit;
-	GtkButton *mail_delete;
-	GtkButton *mail_default;
-
-	guint destroyed : 1;
-	guint changed : 1;
+	EAccountManager parent;
+	EMAccountPrefsPrivate *priv;
 };
 
 struct _EMAccountPrefsClass {
-	GtkVBoxClass parent_class;
+	EAccountManagerClass parent_class;
 };
 
 GType		em_account_prefs_get_type	(void);
-GtkWidget *	em_account_prefs_new		(void);
+GtkWidget *	em_account_prefs_new		(EAccountList *account_list);
 
 G_END_DECLS
 
