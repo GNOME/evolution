@@ -159,8 +159,15 @@ account_tree_view_enabled_toggled_cb (EAccountTreeView *tree_view,
                                       gchar *path_string,
                                       GtkCellRendererToggle *renderer)
 {
+	GtkTreeSelection *selection;
+	GtkTreePath *path;
+
 	/* Change the selection first so we enable or disable the
 	 * correct account. */
+	path = gtk_tree_path_new_from_string (path_string);
+	selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (tree_view));
+	gtk_tree_selection_select_path (selection, path);
+	gtk_tree_path_free (path);
 
 	if (gtk_cell_renderer_toggle_get_active (renderer))
 		e_account_tree_view_disable_account (tree_view);
@@ -355,6 +362,8 @@ account_tree_view_enable_account (EAccountTreeView *tree_view)
 
 	account->enabled = TRUE;
 	e_account_list_change (account_list, account);
+
+	e_account_list_save (account_list);
 }
 
 static void
@@ -372,6 +381,8 @@ account_tree_view_disable_account (EAccountTreeView *tree_view)
 
 	account->enabled = FALSE;
 	e_account_list_change (account_list, account);
+
+	e_account_list_save (account_list);
 }
 
 static void

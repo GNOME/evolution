@@ -39,7 +39,6 @@
 #include "em-config.h"
 #include "em-account-editor.h"
 #include "e-mail-shell-backend.h"
-#include "mail-config.h"
 
 #define EM_ACCOUNT_PREFS_GET_PRIVATE(obj) \
 	(G_TYPE_INSTANCE_GET_PRIVATE \
@@ -227,7 +226,7 @@ account_prefs_delete_account (EAccountManager *manager)
 	/* Remove it from the config file. */
 	e_account_list_remove (account_list, account);
 
-	mail_config_write ();
+	e_account_list_save (account_list);
 }
 
 static void
