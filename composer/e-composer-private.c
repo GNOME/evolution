@@ -17,7 +17,6 @@
 
 #include "e-composer-private.h"
 #include "e-util/e-util-private.h"
-#include "e-util/e-icon-factory.h"
 
 static void
 composer_setup_charset_menu (EMsgComposer *composer)
@@ -149,7 +148,8 @@ e_composer_private_init (EMsgComposer *composer)
 		tmp_box = gtk_hbox_new (FALSE, 0);
 
 		tmp = gtk_hbox_new (FALSE, 0);
-		tmp1 = gtk_image_new_from_pixbuf (e_icon_factory_get_icon("mail-send", E_ICON_SIZE_BUTTON));
+		tmp1 = gtk_image_new_from_icon_name (
+			"mail-send", GTK_ICON_SIZE_BUTTON);
 		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 0);
 		tmp1 = gtk_label_new_with_mnemonic (_("S_end"));
 		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 6);
@@ -165,7 +165,8 @@ e_composer_private_init (EMsgComposer *composer)
 		path = "/main-toolbar/pre-main-toolbar/save-draft";
 		send_widget = gtk_ui_manager_get_widget (ui_manager, path);
 		tmp = gtk_hbox_new (FALSE, 0);
-		tmp1 = gtk_image_new_from_pixbuf (e_icon_factory_get_icon(GTK_STOCK_SAVE, E_ICON_SIZE_BUTTON));
+		tmp1 = gtk_image_new_from_stock (
+			GTK_STOCK_SAVE, GTK_ICON_SIZE_BUTTON);
 		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 0);
 		tmp1 = gtk_label_new_with_mnemonic (_("Save draft"));
 		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 3);
@@ -181,7 +182,8 @@ e_composer_private_init (EMsgComposer *composer)
 		path = "/main-toolbar/pre-main-toolbar/attach";
 		send_widget = gtk_ui_manager_get_widget (ui_manager, path);
 		tmp = gtk_hbox_new (FALSE, 0);
-		tmp1 = gtk_image_new_from_pixbuf (e_icon_factory_get_icon("gtk-add", E_ICON_SIZE_BUTTON));
+		tmp1 = gtk_image_new_from_stock (
+			GTK_STOCK_ADD, GTK_ICON_SIZE_BUTTON);
 		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 0);
 		tmp1 = gtk_label_new_with_mnemonic (_("Add attachment"));
 		gtk_box_pack_start ((GtkBox *)tmp, tmp1, FALSE, FALSE, 3);
