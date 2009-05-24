@@ -283,19 +283,19 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/commands/TasksCopy", "edit-copy", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/TasksCut", "edit-cut", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/TasksDelete", "edit-delete", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/TasksForward", "mail-forward", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/TasksPaste", "edit-paste", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/TasksPrint", "document-print", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/TasksPrintPreview", "document-print-preview", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/TasksCopy", "edit-copy", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/TasksCut", "edit-cut", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/TasksDelete", "edit-delete", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/TasksForward", "mail-forward", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/TasksPaste", "edit-paste", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/TasksPrint", "document-print", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/TasksPrintPreview", "document-print-preview", GTK_ICON_SIZE_MENU),
 
-	E_PIXMAP ("/Toolbar/Cut", "edit-cut", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Copy", "edit-copy", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Paste", "edit-paste", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Print", "document-print", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Delete", "edit-delete", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/Cut", "edit-cut", GTK_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/Copy", "edit-copy", GTK_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/Paste", "edit-paste", GTK_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/Print", "document-print", GTK_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/Delete", "edit-delete", GTK_ICON_SIZE_LARGE_TOOLBAR),
 
 	E_PIXMAP_END
 };

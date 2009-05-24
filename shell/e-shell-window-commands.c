@@ -1125,27 +1125,27 @@ static BonoboUIVerb help_verbs [] = {
 };
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/Toolbar/SendReceive", "mail-send-receive", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/menu/File/OpenNewWindow", "window-new", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/menu/File/SendReceive", "mail-send-receive", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/menu/File/FileImporter", "stock_mail-import", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/menu/File/Print/FilePageSetup", "stock_print-setup", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/menu/File/ToggleOffline", "stock_disconnect", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/menu/File/FileClose", "window-close", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/menu/File/FileExit", "application-exit", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/menu/Edit/Settings", "preferences-desktop", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/menu/Help/HelpOpenFAQ", "help-faq", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/Toolbar/SendReceive", "mail-send-receive", GTK_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/menu/File/OpenNewWindow", "window-new", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/File/SendReceive", "mail-send-receive", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/File/FileImporter", "stock_mail-import", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/File/Print/FilePageSetup", "stock_print-setup", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/File/ToggleOffline", "stock_disconnect", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/File/FileClose", "window-close", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/File/FileExit", "application-exit", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/Edit/Settings", "preferences-desktop", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/Help/HelpOpenFAQ", "help-faq", GTK_ICON_SIZE_MENU),
 
 	E_PIXMAP_END
 };
 
 static EPixmap offline_pixmaps [] = {
-	E_PIXMAP ("/menu/File/ToggleOffline", "stock_disconnect", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/File/ToggleOffline", "stock_disconnect", GTK_ICON_SIZE_MENU),
 	E_PIXMAP_END
 };
 
 static EPixmap online_pixmaps [] = {
-	E_PIXMAP ("/menu/File/ToggleOffline", "stock_connect", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/menu/File/ToggleOffline", "stock_connect", GTK_ICON_SIZE_MENU),
 	E_PIXMAP_END
 };
 

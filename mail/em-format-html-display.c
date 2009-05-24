@@ -967,7 +967,7 @@ static void efhd_message_prefix(EMFormat *emf, CamelStream *stream, CamelMimePar
 	camel_stream_printf(stream, "<table border=1 width=\"100%%\" cellspacing=2 cellpadding=2><tr>");
 
 	comp = camel_folder_get_message_user_tag(emf->folder, emf->uid, "completed-on");
-	iconpath = e_icon_factory_get_icon_filename (comp && comp[0] ? "stock_flag-for-followup-done" : "stock_flag-for-followup", E_ICON_SIZE_MENU);
+	iconpath = e_icon_factory_get_icon_filename (comp && comp[0] ? "stock_flag-for-followup-done" : "stock_flag-for-followup", GTK_ICON_SIZE_MENU);
 	if (iconpath) {
 		CamelMimePart *iconpart;
 

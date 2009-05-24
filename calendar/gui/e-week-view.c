@@ -733,11 +733,11 @@ e_week_view_realize (GtkWidget *widget)
 	gdk_gc_set_colormap (week_view->main_gc, colormap);
 
 	/* Create the pixmaps. */
-	week_view->reminder_icon = e_icon_factory_get_icon ("stock_bell", E_ICON_SIZE_MENU);
-	week_view->recurrence_icon = e_icon_factory_get_icon ("view-refresh", E_ICON_SIZE_MENU);
-	week_view->timezone_icon = e_icon_factory_get_icon ("stock_timezone", E_ICON_SIZE_MENU);
-	week_view->attach_icon = e_icon_factory_get_icon ("mail-attachment", E_ICON_SIZE_MENU);
-	week_view->meeting_icon = e_icon_factory_get_icon ("stock_people", E_ICON_SIZE_MENU);
+	week_view->reminder_icon = e_icon_factory_get_icon ("stock_bell", GTK_ICON_SIZE_MENU);
+	week_view->recurrence_icon = e_icon_factory_get_icon ("view-refresh", GTK_ICON_SIZE_MENU);
+	week_view->timezone_icon = e_icon_factory_get_icon ("stock_timezone", GTK_ICON_SIZE_MENU);
+	week_view->attach_icon = e_icon_factory_get_icon ("mail-attachment", GTK_ICON_SIZE_MENU);
+	week_view->meeting_icon = e_icon_factory_get_icon ("stock_people", GTK_ICON_SIZE_MENU);
 }
 
 static void

@@ -599,23 +599,23 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/commands/ChangeFolderProperties", "document-properties", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/ContactDelete", "edit-delete", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/ContactsCopy", "edit-copy", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/ContactsCut", "edit-cut", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/ContactsPaste", "edit-paste", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/ContactsPrint", "document-print", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/ContactsPrintPreview", "document-print-preview", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/ContactsSaveAsVCard", "document-save-as", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/ContactsSendContactToOther", "mail-forward", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/ContactsSendMessageToContact", "mail-message-new", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/FolderCopy", "edit-copy", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/FolderDelete", "edit-delete", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/FolderMove", "folder-move", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/FolderSave", "document-save-as", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ChangeFolderProperties", "document-properties", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactDelete", "edit-delete", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactsCopy", "edit-copy", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactsCut", "edit-cut", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactsPaste", "edit-paste", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactsPrint", "document-print", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactsPrintPreview", "document-print-preview", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactsSaveAsVCard", "document-save-as", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactsSendContactToOther", "mail-forward", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ContactsSendMessageToContact", "mail-message-new", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FolderCopy", "edit-copy", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FolderDelete", "edit-delete", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FolderMove", "folder-move", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FolderSave", "document-save-as", GTK_ICON_SIZE_MENU),
 
-	E_PIXMAP ("/Toolbar/ContactsPrint", "document-print", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/ContactDelete", "edit-delete", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/ContactsPrint", "document-print", GTK_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/ContactDelete", "edit-delete", GTK_ICON_SIZE_LARGE_TOOLBAR),
 
 	E_PIXMAP_END
 };

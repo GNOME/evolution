@@ -210,18 +210,18 @@ static BonoboUIVerb verbs [] = {
 };
 
 static EPixmap pixmaps [] = {
-	E_PIXMAP ("/commands/MemosCopy", "edit-copy", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MemosCut", "edit-cut", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MemosDelete", "edit-delete", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MemosPaste", "edit-paste", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MemosPrint", "document-print", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MemosPrintPreview", "document-print-preview", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MemosCopy", "edit-copy", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MemosCut", "edit-cut", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MemosDelete", "edit-delete", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MemosPaste", "edit-paste", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MemosPrint", "document-print", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MemosPrintPreview", "document-print-preview", GTK_ICON_SIZE_MENU),
 
-	E_PIXMAP ("/Toolbar/Cut", "edit-cut", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Copy", "edit-copy", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Paste", "edit-paste", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Print", "document-print", E_ICON_SIZE_LARGE_TOOLBAR),
-	E_PIXMAP ("/Toolbar/Delete", "edit-delete", E_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/Cut", "edit-cut", GTK_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/Copy", "edit-copy", GTK_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/Paste", "edit-paste", GTK_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/Print", "document-print", GTK_ICON_SIZE_LARGE_TOOLBAR),
+	E_PIXMAP ("/Toolbar/Delete", "edit-delete", GTK_ICON_SIZE_LARGE_TOOLBAR),
 
 	E_PIXMAP_END
 };

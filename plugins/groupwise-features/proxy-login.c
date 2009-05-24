@@ -441,7 +441,7 @@ proxy_login_update_tree (void)
 	char *proxy_email;
 	EGwConnection *cnc;
 	proxyLoginPrivate *priv = pld->priv;
-	gchar *file_name = e_icon_factory_get_icon_filename ("stock_person", E_ICON_SIZE_DIALOG);
+	gchar *file_name = e_icon_factory_get_icon_filename ("stock_person", GTK_ICON_SIZE_DIALOG);
 	broken_image = file_name ? gdk_pixbuf_new_from_file (file_name, NULL) : NULL;
 
 	cnc = proxy_login_get_cnc (pld->account, priv->main ? (GTK_WINDOW (gtk_widget_get_toplevel (priv->main))) : NULL);

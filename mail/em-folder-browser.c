@@ -1796,11 +1796,11 @@ static BonoboUIVerb emfb_verbs[] = {
 };
 
 static EPixmap emfb_pixmaps[] = {
-	E_PIXMAP ("/commands/FolderCreate", "folder-new", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/ChangeFolderProperties", "document-properties", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/FolderCopy", "folder-copy", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/FolderMove", "folder-move", E_ICON_SIZE_MENU),
-	E_PIXMAP ("/commands/MessageMarkAllAsRead", "mail-read", E_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FolderCreate", "folder-new", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/ChangeFolderProperties", "document-properties", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FolderCopy", "folder-copy", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/FolderMove", "folder-move", GTK_ICON_SIZE_MENU),
+	E_PIXMAP ("/commands/MessageMarkAllAsRead", "mail-read", GTK_ICON_SIZE_MENU),
 
 	E_PIXMAP_END
 };

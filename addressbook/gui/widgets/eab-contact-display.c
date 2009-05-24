@@ -241,7 +241,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		gsize data_length;
 		gchar *filename;
 
-		filename = e_icon_factory_get_icon_filename (url + strlen ("evo-icon:"), E_ICON_SIZE_MENU);
+		filename = e_icon_factory_get_icon_filename (url + strlen ("evo-icon:"), GTK_ICON_SIZE_MENU);
 		if (g_file_get_contents (filename, &data, &data_length, NULL)) {
 			gtk_html_stream_write (handle, data, data_length);
 			g_free (data);

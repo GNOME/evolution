@@ -1023,7 +1023,7 @@ eab_create_image_chooser_widget(gchar *name,
 	gtk_widget_show_all (w);
 
 	if (string1) {
-		filename = e_icon_factory_get_icon_filename (string1, E_ICON_SIZE_DIALOG);
+		filename = e_icon_factory_get_icon_filename (string1, GTK_ICON_SIZE_DIALOG);
 
 		e_image_chooser_set_from_file (E_IMAGE_CHOOSER (w), filename);
 

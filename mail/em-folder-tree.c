@@ -290,15 +290,15 @@ render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 	const char *folder_name;
 
 	if (!initialised) {
-		folder_icons[FOLDER_ICON_NORMAL] = e_icon_factory_get_icon ("folder", E_ICON_SIZE_MENU);
-		folder_icons[FOLDER_ICON_INBOX] = e_icon_factory_get_icon ("mail-inbox", E_ICON_SIZE_MENU);
-		folder_icons[FOLDER_ICON_OUTBOX] = e_icon_factory_get_icon ("mail-outbox", E_ICON_SIZE_MENU);
-		folder_icons[FOLDER_ICON_TRASH] = e_icon_factory_get_icon ("user-trash", E_ICON_SIZE_MENU);
-		folder_icons[FOLDER_ICON_JUNK] = e_icon_factory_get_icon ("mail-mark-junk", E_ICON_SIZE_MENU);
-		folder_icons[FOLDER_ICON_SHARED_TO_ME] = e_icon_factory_get_icon ("stock_shared-to-me", E_ICON_SIZE_MENU);
-		folder_icons[FOLDER_ICON_SHARED_BY_ME] = e_icon_factory_get_icon ("stock_shared-by-me", E_ICON_SIZE_MENU);
-		folder_icons[FOLDER_ICON_SENT] = e_icon_factory_get_icon ("mail-sent", E_ICON_SIZE_MENU);
-		folder_icons[FOLDER_ICON_VIRTUAL] = e_icon_factory_get_icon ("folder-saved-search", E_ICON_SIZE_MENU);
+		folder_icons[FOLDER_ICON_NORMAL] = e_icon_factory_get_icon ("folder", GTK_ICON_SIZE_MENU);
+		folder_icons[FOLDER_ICON_INBOX] = e_icon_factory_get_icon ("mail-inbox", GTK_ICON_SIZE_MENU);
+		folder_icons[FOLDER_ICON_OUTBOX] = e_icon_factory_get_icon ("mail-outbox", GTK_ICON_SIZE_MENU);
+		folder_icons[FOLDER_ICON_TRASH] = e_icon_factory_get_icon ("user-trash", GTK_ICON_SIZE_MENU);
+		folder_icons[FOLDER_ICON_JUNK] = e_icon_factory_get_icon ("mail-mark-junk", GTK_ICON_SIZE_MENU);
+		folder_icons[FOLDER_ICON_SHARED_TO_ME] = e_icon_factory_get_icon ("stock_shared-to-me", GTK_ICON_SIZE_MENU);
+		folder_icons[FOLDER_ICON_SHARED_BY_ME] = e_icon_factory_get_icon ("stock_shared-by-me", GTK_ICON_SIZE_MENU);
+		folder_icons[FOLDER_ICON_SENT] = e_icon_factory_get_icon ("mail-sent", GTK_ICON_SIZE_MENU);
+		folder_icons[FOLDER_ICON_VIRTUAL] = e_icon_factory_get_icon ("folder-saved-search", GTK_ICON_SIZE_MENU);
 
 		initialised = TRUE;
 	}

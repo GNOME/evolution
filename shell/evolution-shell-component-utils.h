@@ -33,7 +33,7 @@ extern "C" {
 typedef struct _EPixmap {
 	const char *path;
 	const char *name;
-	gint       size;
+	GtkIconSize size;
 	char       *pixbuf;
 } EPixmap;
 

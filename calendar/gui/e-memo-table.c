@@ -252,7 +252,7 @@ e_memo_table_init (EMemoTable *memo_table)
 
 	if (!icon_pixbufs[0])
 		for (i = 0; i < E_MEMO_MODEL_NUM_ICONS; i++) {
-			icon_pixbufs[i] = e_icon_factory_get_icon (icon_names[i], E_ICON_SIZE_LIST);
+			icon_pixbufs[i] = e_icon_factory_get_icon (icon_names[i], GTK_ICON_SIZE_MENU);
 		}
 
 	cell = e_cell_toggle_new (0, E_MEMO_MODEL_NUM_ICONS, icon_pixbufs);

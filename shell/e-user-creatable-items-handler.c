@@ -260,9 +260,9 @@ ensure_menu_items (EUserCreatableItemsHandler *handler)
 					item->icon = NULL;
 					item->icon_toolbar = NULL;
 				} else {
-					item->icon = e_icon_factory_get_icon (corba_item->iconName, E_ICON_SIZE_MENU);
+					item->icon = e_icon_factory_get_icon (corba_item->iconName, GTK_ICON_SIZE_MENU);
 					if (item_is_default (item, component->alias))
-						item->icon_toolbar = e_icon_factory_get_icon (corba_item->iconName, E_ICON_SIZE_LARGE_TOOLBAR);
+						item->icon_toolbar = e_icon_factory_get_icon (corba_item->iconName, GTK_ICON_SIZE_LARGE_TOOLBAR);
 					else
 						item->icon_toolbar = NULL;
 				}
