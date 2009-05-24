@@ -262,87 +262,6 @@ subdirs_contain_unread (GtkTreeModel *model, GtkTreeIter *root)
 	return FALSE;
 }
 
-
-enum {
-	FOLDER_ICON_NORMAL,
-	FOLDER_ICON_INBOX,
-	FOLDER_ICON_OUTBOX,
-	FOLDER_ICON_TRASH,
-	FOLDER_ICON_JUNK,
-	FOLDER_ICON_SHARED_TO_ME,
-	FOLDER_ICON_SHARED_BY_ME,
-	FOLDER_ICON_SENT,
-	FOLDER_ICON_VIRTUAL,
-	FOLDER_ICON_LAST
-};
-
-static GdkPixbuf *folder_icons[FOLDER_ICON_LAST];
-
-static void
-render_pixbuf (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
-	       GtkTreeModel *model, GtkTreeIter *iter, gpointer user_data)
-{
-	static gboolean initialised = FALSE;
-	GdkPixbuf *pixbuf = NULL;
-	gboolean is_store;
-	guint32 flags;
-	EMEventTargetCustomIcon *target;
-	const char *folder_name;
-
-	if (!initialised) {
-		folder_icons[FOLDER_ICON_NORMAL] = e_icon_factory_get_icon ("folder", GTK_ICON_SIZE_MENU);
-		folder_icons[FOLDER_ICON_INBOX] = e_icon_factory_get_icon ("mail-inbox", GTK_ICON_SIZE_MENU);
-		folder_icons[FOLDER_ICON_OUTBOX] = e_icon_factory_get_icon ("mail-outbox", GTK_ICON_SIZE_MENU);
-		folder_icons[FOLDER_ICON_TRASH] = e_icon_factory_get_icon ("user-trash", GTK_ICON_SIZE_MENU);
-		folder_icons[FOLDER_ICON_JUNK] = e_icon_factory_get_icon ("mail-mark-junk", GTK_ICON_SIZE_MENU);
-		folder_icons[FOLDER_ICON_SHARED_TO_ME] = e_icon_factory_get_icon ("stock_shared-to-me", GTK_ICON_SIZE_MENU);
-		folder_icons[FOLDER_ICON_SHARED_BY_ME] = e_icon_factory_get_icon ("stock_shared-by-me", GTK_ICON_SIZE_MENU);
-		folder_icons[FOLDER_ICON_SENT] = e_icon_factory_get_icon ("mail-sent", GTK_ICON_SIZE_MENU);
-		folder_icons[FOLDER_ICON_VIRTUAL] = e_icon_factory_get_icon ("folder-saved-search", GTK_ICON_SIZE_MENU);
-
-		initialised = TRUE;
-	}
-
-	gtk_tree_model_get (model, iter, COL_BOOL_IS_STORE, &is_store, COL_UINT_FLAGS, &flags, -1);
-
-	if (!is_store) {
-		switch((flags & CAMEL_FOLDER_TYPE_MASK)) {
-		case CAMEL_FOLDER_TYPE_INBOX:
-			pixbuf = folder_icons[FOLDER_ICON_INBOX];
-			break;
-		case CAMEL_FOLDER_TYPE_OUTBOX:
-			pixbuf = folder_icons[FOLDER_ICON_OUTBOX];
-			break;
-		case CAMEL_FOLDER_TYPE_TRASH:
-			pixbuf = folder_icons[FOLDER_ICON_TRASH];
-			break;
-		case CAMEL_FOLDER_TYPE_JUNK:
-			pixbuf = folder_icons[FOLDER_ICON_JUNK];
-			break;
-		case CAMEL_FOLDER_TYPE_SENT:
-			pixbuf = folder_icons[FOLDER_ICON_SENT];
-			break;
-		default:
-			if (flags & CAMEL_FOLDER_SHARED_TO_ME)
-				pixbuf = folder_icons[FOLDER_ICON_SHARED_TO_ME];
-			else if (flags & CAMEL_FOLDER_SHARED_BY_ME)
-				pixbuf = folder_icons[FOLDER_ICON_SHARED_BY_ME];
-			else if (flags & CAMEL_FOLDER_VIRTUAL)
-				pixbuf = folder_icons[FOLDER_ICON_VIRTUAL];
-			else {
-				pixbuf = folder_icons[FOLDER_ICON_NORMAL];
-				g_object_set (renderer, "pixbuf", pixbuf, "visible", !is_store, NULL);
-				gtk_tree_model_get (model, iter, COL_STRING_FULL_NAME, &folder_name, -1);
-				target = em_event_target_new_custom_icon (em_event_peek(), renderer, folder_name, EM_EVENT_CUSTOM_ICON);
-     				e_event_emit ((EEvent *)em_event_peek (), "folder.customicon", (EEventTarget *) target);
-				return;
-			}
-		}
-	}
-
-	g_object_set (renderer, "pixbuf", pixbuf, "visible", !is_store, NULL);
-}
-
 static void
 render_display_name (GtkTreeViewColumn *column, GtkCellRenderer *renderer,
 		     GtkTreeModel *model, GtkTreeIter *iter, gpointer user_data)
@@ -520,7 +439,10 @@ folder_tree_new (EMFolderTree *emft, EMFolderTreeModel *model)
 
 	renderer = gtk_cell_renderer_pixbuf_new ();
 	gtk_tree_view_column_pack_start (column, renderer, FALSE);
-	gtk_tree_view_column_set_cell_data_func (column, renderer, render_pixbuf, NULL, NULL);
+	gtk_tree_view_column_add_attribute (
+		column, renderer, "icon-name", COL_STRING_ICON_NAME);
+	gtk_tree_view_column_add_attribute (
+		column, renderer, "visible", COL_BOOL_IS_FOLDER);
 
 	renderer = gtk_cell_renderer_text_new ();
 	if (!gconf_client_get_bool (gconf, "/apps/evolution/mail/display/no_folder_dots", NULL))

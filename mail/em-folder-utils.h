@@ -21,20 +21,37 @@
  *
  */
 
-#ifndef _EM_FOLDER_UTILS_H
-#define _EM_FOLDER_UTILS_H
+#ifndef EM_FOLDER_UTILS_H
+#define EM_FOLDER_UTILS_H
 
-struct _GtkWindow;
+#include <glib.h>
+#include <camel/camel-folder.h>
+#include <camel/camel-store.h>
+#include <mail/em-folder-tree.h>
 
-int em_folder_utils_copy_folders(CamelStore *fromstore, const char *frombase, CamelStore *tostore, const char *tobase, int delete);
+G_BEGIN_DECLS
 
-/* FIXME: These api's are really busted, there is no consistency and most rely on the wrong data */
+gint		em_folder_utils_copy_folders	(CamelStore *fromstore,
+						 const gchar *frombase,
+						 CamelStore *tostore,
+						 const gchar *tobase,
+						 int delete);
 
-void em_folder_utils_copy_folder (struct _CamelFolderInfo *folderinfo, int delete);
+/* FIXME These API's are really busted.  There is no consistency and
+ *       most rely on the wrong data. */
 
-void em_folder_utils_delete_folder (struct _CamelFolder *folder);
-void em_folder_utils_rename_folder (struct _CamelFolder *folder);
+void		em_folder_utils_copy_folder	(CamelFolderInfo *folderinfo,
+						 int delete);
 
-void em_folder_utils_create_folder (struct _CamelFolderInfo *folderinfo, EMFolderTree * emft, struct _GtkWindow *parent);
+void		em_folder_utils_delete_folder	(CamelFolder *folder);
+void		em_folder_utils_rename_folder	(CamelFolder *folder);
 
-#endif
+void		em_folder_utils_create_folder	(CamelFolderInfo *folderinfo,
+						 EMFolderTree * emft,
+						 GtkWindow *parent);
+
+const gchar *	em_folder_utils_get_icon_name	(guint32 flags);
+
+G_END_DECLS
+
+#endif /* EM_FOLDER_UTILS_H */
