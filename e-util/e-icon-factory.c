@@ -166,27 +166,6 @@ load_icon (const char *icon_key, const char *icon_name, int size, int scale)
 	return icon_new (icon_key, pixbuf);
 }
 
-static GtkIconSize
-e_icon_size_to_gtk_icon_size (guint size)
-{
-	switch (size) {
-	case E_ICON_SIZE_MENU:
-		return GTK_ICON_SIZE_MENU;
-	case E_ICON_SIZE_BUTTON:
-		return GTK_ICON_SIZE_BUTTON;
-	case E_ICON_SIZE_SMALL_TOOLBAR:
-		return GTK_ICON_SIZE_SMALL_TOOLBAR;
-	case E_ICON_SIZE_LARGE_TOOLBAR:
-		return GTK_ICON_SIZE_LARGE_TOOLBAR;
-	case E_ICON_SIZE_DND:
-		return GTK_ICON_SIZE_DND;
-	case E_ICON_SIZE_DIALOG:
-		return GTK_ICON_SIZE_DIALOG;
-	default:
-		g_assert_not_reached ();
-	}
-}
-
 static void
 icon_theme_changed_cb (GtkIconTheme *icon_theme, gpointer user_data)
 {
@@ -250,48 +229,35 @@ e_icon_factory_shutdown (void)
 /**
  * e_icon_factory_get_icon_filename:
  * @icon_name: name of the icon
- * @size: MENU/SMALL_TOOLBAR/etc
+ * @size: size of the icon
  *
  * Looks up the icon to use based on name and size.
  *
  * Returns the requested icon pixbuf.
  **/
-char *
-e_icon_factory_get_icon_filename (const char *icon_name, int icon_size)
+gchar *
+e_icon_factory_get_icon_filename (const gchar *icon_name,
+                                  GtkIconSize icon_size)
 {
+	GtkIconTheme *icon_theme;
 	GtkIconInfo *icon_info;
-	char *filename;
+	gchar *filename = NULL;
 	gint width, height;
 
 	g_return_val_if_fail (icon_name != NULL, NULL);
-	g_return_val_if_fail (strcmp (icon_name, ""), NULL);
 
-	if (icon_size >= E_ICON_NUM_SIZES) {
-		g_critical (
-			"calling %s with unknown icon_size value (%d)",
-			G_STRFUNC, icon_size);
-		/* if ((icon_size = pixel_size_to_icon_size (icon_size)) == -1)*/
-			return NULL;
-	}
+	icon_theme = gtk_icon_theme_get_default ();
 
-	if (! gtk_icon_size_lookup_for_settings (gtk_settings_get_default (),
-	    	e_icon_size_to_gtk_icon_size (icon_size),
-		&width, &height))
+	if (!gtk_icon_size_lookup (icon_size, &width, &height))
 		return NULL;
 
-	d(g_message ("Size is %d", icon_size));
-	d(g_message ("looking up %s at %dx%d", icon_name, width, height));
-
-	g_static_mutex_lock (&mutex);
 	icon_info = gtk_icon_theme_lookup_icon (
 		icon_theme, icon_name, height, 0);
 	if (icon_info != NULL) {
 		filename = g_strdup (
 			gtk_icon_info_get_filename (icon_info));
 		gtk_icon_info_free (icon_info);
-	} else
-		filename = NULL;
-	g_static_mutex_unlock (&mutex);
+	}
 
 	return filename;
 }
@@ -300,7 +266,7 @@ e_icon_factory_get_icon_filename (const char *icon_name, int icon_size)
 /**
  * e_icon_factory_get_icon:
  * @icon_name: name of the icon
- * @icon_size: size of the icon (one of the E_ICON_SIZE_* enum values)
+ * @icon_size: size of the icon
  *
  * Returns the specified icon of the requested size (may perform
  * scaling to achieve this). If @icon_name is a full path, that file
@@ -311,37 +277,20 @@ e_icon_factory_get_icon_filename (const char *icon_name, int icon_size)
  * requested icon, then a "broken-image" icon is returned.
  **/
 GdkPixbuf *
-e_icon_factory_get_icon (const char *icon_name, int icon_size)
+e_icon_factory_get_icon (const gchar *icon_name,
+                         GtkIconSize icon_size)
 {
 	GdkPixbuf *pixbuf;
 	char *icon_key;
 	Icon *icon;
 	int size, width, height;
 
-	if (icon_size >= E_ICON_NUM_SIZES) {
-		g_critical (
-			"calling %s with unknown icon_size value (%d)",
-			G_STRFUNC, icon_size);
-		/*if ((icon_size = pixel_size_to_icon_size (icon_size)) == -1) */
-			return NULL;
-	}
+	g_return_val_if_fail (icon_name != NULL, NULL);
 
-	if (! gtk_icon_size_lookup_for_settings (gtk_settings_get_default (),
-	    	e_icon_size_to_gtk_icon_size (icon_size),
-		&width, &height))
+	if (!gtk_icon_size_lookup (icon_size, &width, &height))
 		return NULL;
 
-	d(g_message ("Size is %d", icon_size));
-	d(g_message ("looking up %s at %dx%d", icon_name, width, height));
-
 	size = height;
-
-	if (icon_name == NULL || !strcmp (icon_name, "")) {
-		if (size >= 24)
-			return gdk_pixbuf_scale_simple (broken24_pixbuf, size, size, GDK_INTERP_NEAREST);
-		else
-			return gdk_pixbuf_scale_simple (broken16_pixbuf, size, size, GDK_INTERP_NEAREST);
-	}
 
 	icon_key = g_alloca (strlen (icon_name) + 7);
 	sprintf (icon_key, "%dx%d/%s", size, size, icon_name);

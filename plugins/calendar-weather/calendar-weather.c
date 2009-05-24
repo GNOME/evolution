@@ -82,7 +82,7 @@ e_plugin_lib_enable (EPluginLib *epl, int enable)
 		char *filename;
 
 		filename = e_icon_factory_get_icon_filename (
-			categories[ii].icon_name, E_ICON_SIZE_MENU);
+			categories[ii].icon_name, GTK_ICON_SIZE_MENU);
 		e_categories_add (
 			_(categories[ii].description), NULL, filename, FALSE);
 		g_free (filename);

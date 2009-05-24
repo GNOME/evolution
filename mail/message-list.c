@@ -1721,7 +1721,7 @@ message_list_init_images (void)
 
 	for (i = 0; i < G_N_ELEMENTS (states_pixmaps); i++) {
 		if (states_pixmaps[i].icon_name)
-			states_pixmaps[i].pixbuf = e_icon_factory_get_icon (states_pixmaps[i].icon_name, E_ICON_SIZE_MENU);
+			states_pixmaps[i].pixbuf = e_icon_factory_get_icon (states_pixmaps[i].icon_name, GTK_ICON_SIZE_MENU);
 		else
 			states_pixmaps[i].pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) empty_xpm);
 	}

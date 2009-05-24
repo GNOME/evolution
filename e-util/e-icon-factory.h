@@ -26,31 +26,14 @@
 
 #include <gtk/gtk.h>
 
-enum {
-	E_ICON_SIZE_MENU,
-	E_ICON_SIZE_BUTTON,
-	E_ICON_SIZE_SMALL_TOOLBAR,
-	E_ICON_SIZE_LARGE_TOOLBAR,
-	E_ICON_SIZE_DND,
-	E_ICON_SIZE_DIALOG,
-	E_ICON_NUM_SIZES
-};
-
-/* standard size for list/tree widgets (16x16) */
-#define E_ICON_SIZE_LIST E_ICON_SIZE_MENU
-
-/* standard size for status bar icons (16x16) */
-#define E_ICON_SIZE_STATUS E_ICON_SIZE_MENU
-
-
-
-void       e_icon_factory_init              (void);
-void       e_icon_factory_shutdown          (void);
-
-char      *e_icon_factory_get_icon_filename (const char *icon_name, int icon_size);
-
-GdkPixbuf *e_icon_factory_get_icon          (const char *icon_name, int icon_size);
-
-GdkPixbuf *e_icon_factory_pixbuf_scale      (GdkPixbuf *pixbuf, int width, int height);
+void		e_icon_factory_init		(void);
+void		e_icon_factory_shutdown		(void);
+gchar *		e_icon_factory_get_icon_filename(const gchar *icon_name,
+						 GtkIconSize icon_size);
+GdkPixbuf *	e_icon_factory_get_icon		(const gchar *icon_name,
+						 GtkIconSize icon_size);
+GdkPixbuf *	e_icon_factory_pixbuf_scale	(GdkPixbuf *pixbuf,
+						 gint width,
+						 gint height);
 
 #endif /* _E_ICON_FACTORY_H_ */

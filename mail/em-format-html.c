@@ -1503,7 +1503,7 @@ efh_format_secure(EMFormat *emf, CamelStream *stream, CamelMimePart *part, Camel
 			icon = smime_sign_table[valid->sign.status].icon;
 		else
 			icon = smime_encrypt_table[valid->encrypt.status].icon;
-		iconpath = e_icon_factory_get_icon_filename(icon, E_ICON_SIZE_DIALOG);
+		iconpath = e_icon_factory_get_icon_filename(icon, GTK_ICON_SIZE_DIALOG);
 		iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png", iconpath);
 		if (iconpart) {
 			(void)em_format_add_puri(emf, sizeof(EMFormatPURI), classid, iconpart, efh_write_image);
