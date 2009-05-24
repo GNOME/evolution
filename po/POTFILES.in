@@ -55,7 +55,6 @@ addressbook/gui/widgets/e-minicard.c
 addressbook/gui/widgets/eab-contact-display.c
 addressbook/gui/widgets/eab-gui-util.c
 addressbook/gui/widgets/eab-popup-control.c
-addressbook/gui/widgets/eab-vcard-control.c
 addressbook/gui/widgets/gal-view-factory-minicard.c
 addressbook/importers/evolution-csv-importer.c
 addressbook/importers/evolution-ldif-importer.c
@@ -203,6 +202,7 @@ filter/rule-editor.c
 mail/GNOME_Evolution_Mail.server.in.in
 mail/e-attachment-handler-mail.c
 mail/e-mail-attachment-bar.c
+mail/e-mail-search-bar.c
 mail/em-account-editor.c
 mail/em-account-prefs.c
 mail/em-composer-prefs.c
@@ -417,6 +417,8 @@ plugins/templates/templates.c
 plugins/templates/templates.glade
 plugins/templates/org-gnome-templates.eplug.xml
 plugins/tnef-attachments/org-gnome-tnef-attachments.eplug.xml
+plugins/vcard-inline/org-gnome-vcard-inline.eplug.xml
+plugins/vcard-inline/vcard-inline.c
 plugins/webdav-account-setup/org-gnome-evolution-webdav.eplug.xml
 plugins/webdav-account-setup/webdav-contacts-source.c
 shell/GNOME_Evolution_Shell.server.in.in
