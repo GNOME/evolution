@@ -45,6 +45,33 @@ m4_define([libnotify_minimum_version], [0.3.0])
 m4_define([gnome_pilot_minimum_version], [2.0.15])
 m4_define([gweather_minimum_version], [2.25.3])
 
+# Compiler Warning Flags
+
+AS_COMPILER_FLAGS(WARNING_FLAGS,
+	"-DG_DISABLE_DEPRECATED
+	-DPANGO_DISABLE_DEPRECATED
+	-DGDK_PIXBUF_DISABLE_DEPRECATED
+	-DGDK_DISABLE_DEPRECATED
+	-Wall -Wextra
+	-Wno-missing-field-initializers
+	-Wno-sign-compare
+	-Wno-unused-parameter
+	-Wdeclaration-after-statement
+	-Werror-implicit-function-declaration
+	-Wformat-nonliteral -Wformat-security -Winit-self
+	-Wmissing-declarations -Wmissing-include-dirs
+	-Wmissing-noreturn -Wnested-externs -Wpointer-arith
+	-Wredundant-decls -Wundef -Wwrite-strings")
+AC_SUBST(WARNING_FLAGS)
+
+# Other useful compiler warnings for test builds only.
+# These may produce warnings we have no control over.
+#
+#	-Wmissing-format-attribute
+#	-Wshadow
+
+CFLAGS="$CFLAGS $WARNING_FLAGS"
+
 # GNOME Documentation
 GNOME_DOC_INIT
 # Gross hack to enable 'make dist' on automake 1.9+tar 1.14.
@@ -1382,21 +1409,6 @@ AM_PATH_GLIB_2_0
 dnl We use AC_SUBST_FILE because AC_SUBST won't deal with newlines
 EVO_MARSHAL_RULE=$srcdir/marshal.mk
 AC_SUBST_FILE(EVO_MARSHAL_RULE)
-
-dnl *************************
-dnl CFLAGS and LIBS and stuff
-dnl *************************
-
-GNOME_COMPILE_WARNINGS(yes)
-CFLAGS="$CFLAGS $WARN_CFLAGS"
-case $CFLAGS in
-*-Wall*)
-	# Turn off the annoying "comparison between signed and unsigned"
-	# warning in gcc 3.3
-	CFLAGS="$CFLAGS -Wno-sign-compare"
-	;;
-esac
-
 
 dnl **************************
 dnl Check for X libs and -lX11
