@@ -34,8 +34,14 @@
 #include "e-dialog-utils.h"
 #include "filter/filter-option.h"
 
-/* Note, the first element of each EUtilLabel must NOT be translated */
-EUtilLabel label_defaults[LABEL_DEFAULTS_NUM] = {
+typedef struct {
+	const gchar *tag;
+	const gchar *name;
+	const gchar *colour;
+} DefaultLabel;
+
+/* Note, the first element of each DefaultLabel must NOT be translated */
+DefaultLabel label_defaults[] = {
 	{ "$Labelimportant", N_("I_mportant"), "#EF2929" },  /* red */
 	{ "$Labelwork",      N_("_Work"),      "#F57900" },  /* orange */
 	{ "$Labelpersonal",  N_("_Personal"),  "#4E9A06" },  /* green */
@@ -84,7 +90,7 @@ e_util_labels_parse (GConfClient *client)
 		label = g_new (EUtilLabel, 1);
 
 		/* Needed for Backward Compatibility */
-		if (num < LABEL_DEFAULTS_NUM) {
+		if (num < G_N_ELEMENTS (label_defaults)) {
 			label->name = g_strdup ((buf && *buf) ? buf : _(label_defaults[num].name));
 			label->tag = g_strdup (label_defaults[num].tag);
 			num++;
@@ -106,7 +112,7 @@ e_util_labels_parse (GConfClient *client)
 	if (head)
 		g_slist_free (head);
 
-	while (num < LABEL_DEFAULTS_NUM) {
+	while (num < G_N_ELEMENTS (label_defaults)) {
 		/* complete the list with defaults */
 		label = g_new (EUtilLabel, 1);
 		label->tag = g_strdup (label_defaults[num].tag);
@@ -452,7 +458,7 @@ e_util_labels_is_system (const char *tag)
 	if (!tag)
 		return FALSE;
 
-	for (i = 0; i < LABEL_DEFAULTS_NUM; i++) {
+	for (i = 0; i < G_N_ELEMENTS (label_defaults); i++) {
 		if (strcmp (tag, label_defaults[i].tag) == 0)
 			return TRUE;
 	}
@@ -474,7 +480,7 @@ e_util_labels_get_new_tag (const char *old_tag)
 	if (!old_tag)
 		return NULL;
 
-	for (i = 0; i < LABEL_DEFAULTS_NUM; i++) {
+	for (i = 0; i < G_N_ELEMENTS (label_defaults); i++) {
 		/* default labels have same name as those old, only with prefix "$Label" */
 		if (!strcmp (old_tag, label_defaults[i].tag + 6))
 			return label_defaults[i].tag;

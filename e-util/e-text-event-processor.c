@@ -27,9 +27,6 @@
 #include "e-text-event-processor.h"
 #include "e-util.h"
 
-static void e_text_event_processor_init		(ETextEventProcessor		 *card);
-static void e_text_event_processor_class_init	(ETextEventProcessorClass	 *klass);
-
 static void e_text_event_processor_set_property (GObject *object,
 						 guint prop_id,
 						 const GValue *value,
