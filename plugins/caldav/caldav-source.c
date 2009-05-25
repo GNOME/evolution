@@ -109,6 +109,29 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
 	return 0;
 }
 
+/* replaces all '@' with '%40' in str; returns newly allocated string */
+static char *
+replace_at_sign (const char *str)
+{
+	char *res, *at;
+
+	if (!str)
+		return NULL;
+
+	res = g_strdup (str);
+	while (at = strchr (res, '@'), at) {
+		char *tmp = g_malloc0 (sizeof (char) * (1 + strlen (res) + 2));
+
+		strncpy (tmp, res, at - res);
+		strcat (tmp, "%40");
+		strcat (tmp, at + 1);
+
+		g_free (res);
+		res = tmp;
+	}
+
+	return res;
+}
 
 /*****************************************************************************/
 /* the location field for caldav sources */
@@ -117,17 +140,27 @@ e_plugin_lib_enable (EPluginLib *ep, int enable)
 static gchar *
 print_uri_noproto (EUri *uri)
 {
-	gchar *uri_noproto;
+	gchar *uri_noproto, *user, *pass;
+
+	if (uri->user)
+		user = replace_at_sign (uri->user);
+	else
+		user = NULL;
+
+	if (uri->passwd)
+		pass = replace_at_sign (uri->passwd);
+	else
+		pass = NULL;
 
 	if (uri->port != 0)
 		uri_noproto = g_strdup_printf (
 			"%s%s%s%s%s%s%s:%d%s%s%s",
-			uri->user ? uri->user : "",
+			user ? user : "",
 			uri->authmech ? ";auth=" : "",
 			uri->authmech ? uri->authmech : "",
-			uri->passwd ? ":" : "",
-			uri->passwd ? uri->passwd : "",
-			uri->user ? "@" : "",
+			pass ? ":" : "",
+			pass ? pass : "",
+			user ? "@" : "",
 			uri->host ? uri->host : "",
 			uri->port,
 			uri->path ? uri->path : "",
@@ -136,16 +169,20 @@ print_uri_noproto (EUri *uri)
 	else
 		uri_noproto = g_strdup_printf (
 			"%s%s%s%s%s%s%s%s%s%s",
-			uri->user ? uri->user : "",
+			user ? user : "",
 			uri->authmech ? ";auth=" : "",
 			uri->authmech ? uri->authmech : "",
-			uri->passwd ? ":" : "",
-			uri->passwd ? uri->passwd : "",
-			uri->user ? "@" : "",
+			pass ? ":" : "",
+			pass ? pass : "",
+			user ? "@" : "",
 			uri->host ? uri->host : "",
 			uri->path ? uri->path : "",
 			uri->query ? "?" : "",
 			uri->query ? uri->query : "");
+
+	g_free (user);
+	g_free (pass);
+
 	return uri_noproto;
 }
 
