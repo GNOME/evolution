@@ -629,8 +629,8 @@ find_cal_opened_cb (ECal *ecal, ECalendarStatus status, gpointer data)
 		e_cal_free_object_list (objects);
 	}
 
-
-	if (!pitip->current_ecal && e_cal_get_object (ecal, fd->uid, fd->rid, &icalcomp, NULL)) {
+	/* search for a master object if the detached object doesn't exist in the calendar */
+	if (!pitip->current_ecal && (e_cal_get_object (ecal, fd->uid, fd->rid, &icalcomp, NULL) || (fd->rid && e_cal_get_object (ecal, fd->uid, NULL, &icalcomp, NULL)))) {
 		if ((pitip->method == ICAL_METHOD_PUBLISH || pitip->method ==  ICAL_METHOD_REQUEST) &&
 		    (icalcomponent_get_first_component (icalcomp, ICAL_VALARM_COMPONENT) ||
 		    icalcomponent_get_first_component (icalcomp, ICAL_XAUDIOALARM_COMPONENT) ||
@@ -1278,7 +1278,9 @@ update_attendee_status (struct _itip_puri *pitip)
 	org_icalcomp = e_cal_component_get_icalcomponent (pitip->comp);
 
 	rid = e_cal_component_get_recurid_as_string (pitip->comp);
-	if (e_cal_get_object (pitip->current_ecal, uid, rid, &icalcomp, NULL)) {
+
+	/* search for a master object if the detached object doesn't exist in the calendar */
+	if (e_cal_get_object (pitip->current_ecal, uid, rid, &icalcomp, NULL) || (rid && e_cal_get_object (pitip->current_ecal, uid, NULL, &icalcomp, NULL))) {
 		GSList *attendees;
 
 		comp = e_cal_component_new ();
