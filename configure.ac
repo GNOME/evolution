@@ -3,7 +3,7 @@ AC_PREREQ(2.52)
 
 m4_define([evo_major_version], [2])
 m4_define([evo_minor_version], [27])
-m4_define([evo_micro_version], [2])
+m4_define([evo_micro_version], [3])
 m4_define([evo_version],
           [evo_major_version.evo_minor_version.evo_micro_version])
 m4_define([evo_stable_version],
