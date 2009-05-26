@@ -49,8 +49,8 @@ struct _EABContactDisplayPrivate {
 };
 
 static struct {
-	gchar *name;
-	gchar *pretty_name;
+	const gchar *name;
+	const gchar *pretty_name;
 }
 common_location [] =
 {
@@ -166,10 +166,10 @@ eab_selection_clear_event(GtkWidget *widget, GdkEventSelection *event, EABContac
 }
 
 static EPopupItem eab_uri_popups[] = {
-	{ E_POPUP_ITEM, "05.open", N_("_Open Link in Browser"), eab_uri_popup_link_open, NULL, NULL, EAB_POPUP_URI_NOT_MAILTO },
-        { E_POPUP_ITEM, "10.copy", N_("_Copy Link Location"), eab_uri_popup_link_copy, NULL, "edit-copy", EAB_POPUP_URI_NOT_MAILTO },
-        { E_POPUP_ITEM, "15.send", N_("_Send New Message To..."), eab_uri_popup_address_send, NULL, "mail-message-new", EAB_POPUP_URI_MAILTO},
-	{ E_POPUP_ITEM, "20.copy", N_("Copy _Email Address"), eab_uri_popup_email_address_copy, NULL, "edit-copy", EAB_POPUP_URI_MAILTO},
+	{ E_POPUP_ITEM, (gchar *) "05.open", (gchar *) N_("_Open Link in Browser"), eab_uri_popup_link_open, NULL, NULL, EAB_POPUP_URI_NOT_MAILTO },
+        { E_POPUP_ITEM, (gchar *) "10.copy", (gchar *) N_("_Copy Link Location"), eab_uri_popup_link_copy, NULL, (gchar *) "edit-copy", EAB_POPUP_URI_NOT_MAILTO },
+        { E_POPUP_ITEM, (gchar *) "15.send", (gchar *) N_("_Send New Message To..."), eab_uri_popup_address_send, NULL, (gchar *) "mail-message-new", EAB_POPUP_URI_MAILTO},
+	{ E_POPUP_ITEM, (gchar *) "20.copy", (gchar *) N_("Copy _Email Address"), eab_uri_popup_email_address_copy, NULL, (gchar *) "edit-copy", EAB_POPUP_URI_MAILTO},
         };
 
 
@@ -528,7 +528,8 @@ render_contact (GtkHTMLStream *html_stream, EContact *contact)
 #ifdef HANDLE_MAILTO_INTERNALLY
 	int email_num = 0;
 #endif
-	char *nl, *nick=NULL;
+	const gchar *nl;
+	char *nick=NULL;
 
 	gtk_html_stream_printf (html_stream, "<table border=\"0\">");
 

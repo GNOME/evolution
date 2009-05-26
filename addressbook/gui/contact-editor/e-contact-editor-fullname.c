@@ -190,7 +190,7 @@ e_contact_editor_fullname_set_property (GObject *object, guint prop_id,
 		break;
 	case PROP_EDITABLE: {
 		int i;
-		char *widget_names[] = {
+		const gchar *widget_names[] = {
 			"comboentry-title",
 			"comboentry-suffix",
 			"entry-first",
@@ -250,7 +250,9 @@ e_contact_editor_fullname_get_property (GObject *object, guint prop_id,
 }
 
 static void
-fill_in_field(EContactEditorFullname *editor, char *field, char *string)
+fill_in_field (EContactEditorFullname *editor,
+               const gchar *field,
+               const gchar *string)
 {
 	GtkWidget *widget = glade_xml_get_widget (editor->gui, field);
 	GtkEntry *entry = NULL;
@@ -282,7 +284,8 @@ fill_in_info(EContactEditorFullname *editor)
 }
 
 static char *
-extract_field(EContactEditorFullname *editor, char *field)
+extract_field (EContactEditorFullname *editor,
+               const gchar *field)
 {
 	GtkWidget *widget = glade_xml_get_widget(editor->gui, field);
 	GtkEntry *entry = NULL;

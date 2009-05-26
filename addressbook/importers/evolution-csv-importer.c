@@ -68,7 +68,7 @@ static char delimiter;
 static void csv_import_done(CSVImporter *gci);
 
 typedef struct {
-	char *csv_attribute;
+	const gchar *csv_attribute;
 	EContactField contact_field;
 #define FLAG_HOME_ADDRESS  0x01
 #define FLAG_WORK_ADDRESS  0x02
@@ -704,7 +704,7 @@ csv_getwidget(EImport *ei, EImportTarget *target, EImportImporter *im)
 	return vbox;
 }
 
-static char *supported_extensions[4] = {
+static const gchar *supported_extensions[4] = {
 	".csv", ".tab" , ".txt", NULL
 };
 

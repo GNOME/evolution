@@ -85,7 +85,7 @@ eab_error_dialog (const char *msg, EBookStatus status)
 {
 	const char *status_str;
 
-	if (status < 0 || status >= G_N_ELEMENTS (status_to_string))
+	if (status >= G_N_ELEMENTS (status_to_string))
 		status_str = "Other error";
 	else
 		status_str = status_to_string [status];

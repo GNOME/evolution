@@ -135,8 +135,8 @@ typedef struct EABSearchBarItem {
 }EABSearchBarItem;
 
 static GtkTargetEntry drag_types[] = {
-	{ SOURCE_VCARD_TYPE, 0, DND_TARGET_TYPE_SOURCE_VCARD },
-	{ VCARD_TYPE, 0, DND_TARGET_TYPE_VCARD }
+	{ (gchar *) SOURCE_VCARD_TYPE, 0, DND_TARGET_TYPE_SOURCE_VCARD },
+	{ (gchar *) VCARD_TYPE, 0, DND_TARGET_TYPE_VCARD }
 };
 static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
 
@@ -929,29 +929,29 @@ new_list (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static EPopupItem eabv_popup_items[] = {
-	{ E_POPUP_ITEM, "05.open", N_("_Open"), open_contact, NULL, NULL, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_BAR, "10.bar" },
-	{ E_POPUP_ITEM, "10.new",  N_("_New Contact..."), new_card, NULL, "contact-new", 0, EAB_POPUP_SELECT_EDITABLE},
-	{ E_POPUP_ITEM, "15.newlist", N_("New Contact _List..."), new_list, NULL, "stock_contact-list", 0, EAB_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, (gchar *) "05.open", (gchar *) N_("_Open"), open_contact, NULL, NULL, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_BAR, (gchar *) "10.bar" },
+	{ E_POPUP_ITEM, (gchar *) "10.new",  (gchar *) N_("_New Contact..."), new_card, NULL, (gchar *) "contact-new", 0, EAB_POPUP_SELECT_EDITABLE},
+	{ E_POPUP_ITEM, (gchar *) "15.newlist", (gchar *) N_("New Contact _List..."), new_list, NULL, (gchar *) "stock_contact-list", 0, EAB_POPUP_SELECT_EDITABLE },
 
-	{ E_POPUP_BAR, "20.bar" },
-	{ E_POPUP_ITEM, "30.saveas", N_("_Save as vCard..."), save_as, NULL, "document-save-as", 0, EAB_POPUP_SELECT_ANY },
-	{ E_POPUP_ITEM, "40.forward", N_("_Forward Contact"), send_as, NULL, "mail-forward", EAB_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "40.forward", N_("_Forward Contacts"), send_as, NULL, "mail-forward", EAB_POPUP_SELECT_MANY },
-	{ E_POPUP_ITEM, "50.mailto", N_("Send _Message to Contact"), send_to, NULL, "mail-message-new", EAB_POPUP_SELECT_ONE|EAB_POPUP_SELECT_EMAIL|EAB_POPUP_CONTACT },
-	{ E_POPUP_ITEM, "50.mailto", N_("Send _Message to List"), send_to, NULL, "mail-message-new", EAB_POPUP_SELECT_ONE|EAB_POPUP_SELECT_EMAIL|EAB_POPUP_LIST },
-	{ E_POPUP_ITEM, "50.mailto", N_("Send _Message to Contacts"), send_to, NULL, "mail-message-new", EAB_POPUP_SELECT_MANY|EAB_POPUP_SELECT_EMAIL },
-	{ E_POPUP_ITEM, "60.print", N_("_Print"), print, NULL, "document-print", 0, EAB_POPUP_SELECT_ANY },
+	{ E_POPUP_BAR, (gchar *) "20.bar" },
+	{ E_POPUP_ITEM, (gchar *) "30.saveas", (gchar *) N_("_Save as vCard..."), save_as, NULL, (gchar *) "document-save-as", 0, EAB_POPUP_SELECT_ANY },
+	{ E_POPUP_ITEM, (gchar *) "40.forward", (gchar *) N_("_Forward Contact"), send_as, NULL, (gchar *) "mail-forward", EAB_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, (gchar *) "40.forward", (gchar *) N_("_Forward Contacts"), send_as, NULL, (gchar *) "mail-forward", EAB_POPUP_SELECT_MANY },
+	{ E_POPUP_ITEM, (gchar *) "50.mailto", (gchar *) N_("Send _Message to Contact"), send_to, NULL, (gchar *) "mail-message-new", EAB_POPUP_SELECT_ONE|EAB_POPUP_SELECT_EMAIL|EAB_POPUP_CONTACT },
+	{ E_POPUP_ITEM, (gchar *) "50.mailto", (gchar *) N_("Send _Message to List"), send_to, NULL, (gchar *) "mail-message-new", EAB_POPUP_SELECT_ONE|EAB_POPUP_SELECT_EMAIL|EAB_POPUP_LIST },
+	{ E_POPUP_ITEM, (gchar *) "50.mailto", (gchar *) N_("Send _Message to Contacts"), send_to, NULL, (gchar *) "mail-message-new", EAB_POPUP_SELECT_MANY|EAB_POPUP_SELECT_EMAIL },
+	{ E_POPUP_ITEM, (gchar *) "60.print", (gchar *) N_("_Print"), print, NULL, (gchar *) "document-print", 0, EAB_POPUP_SELECT_ANY },
 
-	{ E_POPUP_BAR, "70.bar" },
-	{ E_POPUP_ITEM, "80.copyto", N_("Cop_y to Address Book..."), copy_to_folder, NULL, NULL, 0, EAB_POPUP_SELECT_ANY },
-	{ E_POPUP_ITEM, "90.moveto", N_("Mo_ve to Address Book..."), move_to_folder, NULL, NULL, 0, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_BAR, (gchar *) "70.bar" },
+	{ E_POPUP_ITEM, (gchar *) "80.copyto", (gchar *) N_("Cop_y to Address Book..."), copy_to_folder, NULL, NULL, 0, EAB_POPUP_SELECT_ANY },
+	{ E_POPUP_ITEM, (gchar *) "90.moveto", (gchar *) N_("Mo_ve to Address Book..."), move_to_folder, NULL, NULL, 0, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EDITABLE },
 
-	{ E_POPUP_BAR, "a0.bar" },
-	{ E_POPUP_ITEM, "b0.cut", N_("Cu_t"), cut, NULL, "edit-cut", 0, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "c0.copy", N_("_Copy"), copy, NULL, "edit-copy", 0, EAB_POPUP_SELECT_ANY },
-	{ E_POPUP_ITEM, "d0.paste", N_("P_aste"), paste, NULL, "edit-paste", 0, EAB_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "e0.delete", N_("_Delete"), delete, NULL, "edit-delete", 0, EAB_POPUP_SELECT_EDITABLE|EAB_POPUP_SELECT_ANY },
+	{ E_POPUP_BAR, (gchar *) "a0.bar" },
+	{ E_POPUP_ITEM, (gchar *) "b0.cut", (gchar *) N_("Cu_t"), cut, NULL, (gchar *) "edit-cut", 0, EAB_POPUP_SELECT_ANY|EAB_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, (gchar *) "c0.copy", (gchar *) N_("_Copy"), copy, NULL, (gchar *) "edit-copy", 0, EAB_POPUP_SELECT_ANY },
+	{ E_POPUP_ITEM, (gchar *) "d0.paste", (gchar *) N_("P_aste"), paste, NULL, (gchar *) "edit-paste", 0, EAB_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, (gchar *) "e0.delete", (gchar *) N_("_Delete"), delete, NULL, (gchar *) "edit-delete", 0, EAB_POPUP_SELECT_EDITABLE|EAB_POPUP_SELECT_ANY },
 };
 
 static void

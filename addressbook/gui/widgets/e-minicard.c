@@ -91,8 +91,8 @@ enum {
 };
 
 static struct {
-	gchar *name;
-	gchar *pretty_name;
+	const gchar *name;
+	const gchar *pretty_name;
 }
 common_location [] =
 {

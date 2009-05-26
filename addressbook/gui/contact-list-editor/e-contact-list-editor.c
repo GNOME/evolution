@@ -130,7 +130,7 @@ enum {
 };
 
 static GtkTargetEntry targets[] = {
-	{ VCARD_TYPE, 0, TARGET_TYPE_VCARD },
+	{ (gchar *) VCARD_TYPE, 0, TARGET_TYPE_VCARD },
 };
 
 static gpointer parent_class;
