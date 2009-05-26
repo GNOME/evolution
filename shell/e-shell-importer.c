@@ -121,8 +121,8 @@ typedef struct _ImportData {
 #endif
 
 static struct {
-	char *name;
-	char *text;
+	const gchar *name;
+	const gchar *text;
 } info[] = {
 	{ "type_html",
 	  N_("Choose the type of importer to run:")

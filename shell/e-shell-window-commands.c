@@ -123,7 +123,7 @@ command_submit_bug (BonoboUIComponent *uih,
 		    EShellWindow *window,
 		    const char *path)
 {
-	gchar *command_line;
+	const gchar *command_line;
 	GError *error = NULL;
 
         command_line = "bug-buddy --sm-disable --package=Evolution";

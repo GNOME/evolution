@@ -158,7 +158,8 @@ get_components_from_bonobo (EUserCreatableItemsHandler *handler)
 	Bonobo_ServerInfoList *info_list;
 	Bonobo_ActivationProperty *property;
 	CORBA_Environment ev;
-	char *iid, *alias;
+	const gchar *alias;
+	char *iid;
 	GNOME_Evolution_Component corba_component;
 	Component *component;
 	int i;

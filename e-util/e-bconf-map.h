@@ -83,13 +83,13 @@ enum {
 };
 
 typedef struct {
-	char *from;
-	char *to;
-	int type;
+	const gchar *from;
+	const gchar *to;
+	gint type;
 } e_gconf_map_t;
 
 typedef struct {
-	char *root;
+	const gchar *root;
 	e_gconf_map_t *map;
 } e_gconf_map_list_t;
 
