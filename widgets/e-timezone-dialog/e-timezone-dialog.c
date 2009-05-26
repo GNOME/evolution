@@ -81,8 +81,6 @@ extern long timezone;
 extern int daylight;
 #endif
 
-static void e_timezone_dialog_class_init	(ETimezoneDialogClass *class);
-static void e_timezone_dialog_init		(ETimezoneDialog      *etd);
 static void e_timezone_dialog_dispose		(GObject	*object);
 static void e_timezone_dialog_finalize		(GObject	*object);
 
@@ -406,7 +404,7 @@ static void
 format_utc_offset			(int		 utc_offset,
 					 char		*buffer)
 {
-  char *sign = "+";
+  const gchar *sign = "+";
   int hours, minutes, seconds;
 
   if (utc_offset < 0) {

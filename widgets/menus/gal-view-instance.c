@@ -486,7 +486,7 @@ view_item_cb (GtkWidget *widget,
 
 static void
 add_popup_radio_item (EPopupMenu *menu_item,
-		      gchar *title,
+		      const gchar *title,
 		      GCallback fn,
 		      gpointer closure,
 		      gboolean value)
@@ -504,7 +504,7 @@ add_popup_radio_item (EPopupMenu *menu_item,
 
 static void
 add_popup_menu_item (EPopupMenu *menu_item,
-		     gchar *title,
+		     const gchar *title,
 		     GCallback fn,
 		     gpointer closure)
 {

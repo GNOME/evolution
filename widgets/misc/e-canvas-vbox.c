@@ -34,8 +34,6 @@
 #include "e-canvas-utils.h"
 #include "e-canvas-vbox.h"
 
-static void e_canvas_vbox_init		(ECanvasVbox		 *CanvasVbox);
-static void e_canvas_vbox_class_init	(ECanvasVboxClass	 *klass);
 static void e_canvas_vbox_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
 static void e_canvas_vbox_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 static void e_canvas_vbox_dispose (GObject *object);

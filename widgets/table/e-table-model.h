@@ -54,7 +54,7 @@ typedef struct {
 	gboolean    (*is_cell_editable)   (ETableModel *etm, int col, int row);
 
 	gboolean    (*has_save_id)        (ETableModel *etm);
-	char       *(*get_save_id)        (ETableModel *etm, int row);
+	gchar      *(*get_save_id)        (ETableModel *etm, int row);
 
 	gboolean    (*has_change_pending) (ETableModel *etm);
 

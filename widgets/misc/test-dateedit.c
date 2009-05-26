@@ -82,12 +82,12 @@ main (int argc, char **argv)
 
 #if 0
 	g_signal_connect (dedit, "date_changed",
-			  G_CALLBACK (on_date_changed), "1");
+			  G_CALLBACK (on_date_changed), (gpointer) "1");
 	g_signal_connect (dedit, "time_changed",
-			  G_CALLBACK (on_time_changed), "1");
+			  G_CALLBACK (on_time_changed), (gpointer) "1");
 #else
 	g_signal_connect (dedit, "changed",
-			    G_CALLBACK (on_changed), "1");
+			    G_CALLBACK (on_changed), (gpointer) "1");
 #endif
 
 	button = gtk_button_new_with_label ("Print Date");
@@ -110,12 +110,12 @@ main (int argc, char **argv)
 
 #if 0
 	g_signal_connect (dedit, "date_changed",
-			  G_CALLBACK (on_date_changed), "2");
+			  G_CALLBACK (on_date_changed), (gpointer) "2");
 	g_signal_connect (dedit, "time_changed",
-			  G_CALLBACK (on_time_changed), "2");
+			  G_CALLBACK (on_time_changed), (gpointer) "2");
 #else
 	g_signal_connect (dedit, "changed",
-			  G_CALLBACK (on_changed), "2");
+			  G_CALLBACK (on_changed), (gpointer) "2");
 #endif
 
 	button = gtk_button_new_with_label ("Print Date");
@@ -138,12 +138,12 @@ main (int argc, char **argv)
 
 #if 0
 	g_signal_connect (dedit, "date_changed",
-			  G_CALLBACK (on_date_changed), "3");
+			  G_CALLBACK (on_date_changed), (gpointer) "3");
 	g_signal_connect (dedit, "time_changed",
-			  G_CALLBACK (on_time_changed), "3");
+			  G_CALLBACK (on_time_changed), (gpointer) "3");
 #else
 	g_signal_connect (dedit, "changed",
-			  G_CALLBACK (on_changed), "3");
+			  G_CALLBACK (on_changed), (gpointer) "3");
 #endif
 
 	button = gtk_button_new_with_label ("Print Date");

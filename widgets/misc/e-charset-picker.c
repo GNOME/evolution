@@ -71,9 +71,9 @@ static const char *classnames[] = {
 };
 
 typedef struct {
-	char *name;
+	const gchar *name;
 	ECharsetClass class;
-	char *subclass;
+	const gchar *subclass;
 } ECharset;
 
 /* This list is based on what other mailers/browsers support. There's
@@ -146,7 +146,7 @@ add_charset (GtkWidget *menu, ECharset *charset, gboolean free_name)
 
 	item = gtk_menu_item_new_with_label (label);
 	g_object_set_data_full ((GObject *) item, "charset",
-				charset->name, free_name ? g_free : NULL);
+				(gpointer) charset->name, free_name ? g_free : NULL);
 	g_free (label);
 
 	gtk_widget_show (item);
@@ -605,13 +605,14 @@ e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *path,
 	g_free (label);
 
 	for (i = 0; i < num_charsets; i++) {
-		char *command;
-		char *charset_name, *u;
+		gchar *charset_name;
+		gchar *command, *u;
 
 		/* escape _'s in the charset name so that it doesn't become an underline in a GtkLabel */
 		if ((u = strchr (charsets[i].name, '_'))) {
 			int extra = 1;
-			char *s, *d;
+			const gchar *s;
+			gchar *d;
 
 			while ((u = strchr (u + 1, '_')))
 				extra++;
@@ -625,7 +626,7 @@ e_charset_picker_bonobo_ui_populate (BonoboUIComponent *uic, const char *path,
 			}
 			*d = '\0';
 		} else {
-			charset_name = charsets[i].name;
+			charset_name = (gchar *) charsets[i].name;
 		}
 
 		if (charsets[i].subclass) {

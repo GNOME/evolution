@@ -665,8 +665,8 @@ e_unicode_get_utf8 (const gchar *text, gunichar *out)
 
 typedef struct
 {
-  unsigned short ch;
-  char *expansion;
+  gushort ch;
+  const gchar *expansion;
 } e_decomposition;
 
 static e_decomposition e_decomp_table[] =

@@ -52,7 +52,7 @@ G_DEFINE_TYPE (EMultiConfigDialog, e_multi_config_dialog, GTK_TYPE_DIALOG)
 
 /* ETable stuff.  */
 
-static char *list_e_table_spec =
+static const gchar *list_e_table_spec =
 	"<ETableSpecification cursor-mode=\"line\""
 	"		      selection-mode=\"browse\""
 	"                     no-headers=\"true\""

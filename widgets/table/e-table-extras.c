@@ -194,7 +194,7 @@ e_table_extras_new (void)
 
 void
 e_table_extras_add_cell     (ETableExtras *extras,
-			     char         *id,
+			     const gchar  *id,
 			     ECell        *cell)
 {
 	if (cell)
@@ -211,7 +211,7 @@ e_table_extras_get_cell     (ETableExtras *extras,
 
 void
 e_table_extras_add_compare  (ETableExtras *extras,
-			     char         *id,
+			     const gchar  *id,
 			     GCompareFunc  compare)
 {
 	g_hash_table_insert(extras->compares, g_strdup(id), (gpointer) compare);
@@ -226,7 +226,7 @@ e_table_extras_get_compare  (ETableExtras *extras,
 
 void
 e_table_extras_add_search  (ETableExtras     *extras,
-			    char             *id,
+			    const gchar      *id,
 			    ETableSearchFunc  search)
 {
 	g_hash_table_insert(extras->searches, g_strdup(id), search);

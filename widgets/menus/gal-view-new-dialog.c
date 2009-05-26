@@ -32,8 +32,6 @@
 #include "gal-define-views-model.h"
 #include "gal-view-new-dialog.h"
 
-static void gal_view_new_dialog_init		(GalViewNewDialog		 *card);
-static void gal_view_new_dialog_class_init	(GalViewNewDialogClass	 *klass);
 static void gal_view_new_dialog_set_property	(GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
 static void gal_view_new_dialog_get_property	(GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 static void gal_view_new_dialog_dispose		(GObject *object);

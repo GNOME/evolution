@@ -871,7 +871,7 @@ ethi_realize (GnomeCanvasItem *item)
 {
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (item);
 	GtkTargetEntry  ethi_drop_types [] = {
-		{ TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
+		{ (gchar *) TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
 	};
 
 
@@ -1131,7 +1131,7 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	GHashTable *arrows = g_hash_table_new (NULL, NULL);
 
 	GtkTargetEntry  ethi_drag_types [] = {
-		{ TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
+		{ (gchar *) TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
 	};
 
 	ethi->drag_col = ethi_find_col_by_x (ethi, event->motion.x);
@@ -1468,19 +1468,19 @@ free_popup_info (GtkWidget *w, EthiHeaderInfo *info)
 /* Bit 2 is disabled if not "sortable". */
 /* Bit 4 is disabled if we don't have a pointer to our table object. */
 static EPopupMenu ethi_context_menu [] = {
-	E_POPUP_ITEM (N_("Sort _Ascending"),            G_CALLBACK(ethi_popup_sort_ascending),  2),
-	E_POPUP_ITEM (N_("Sort _Descending"),           G_CALLBACK(ethi_popup_sort_descending), 2),
-	E_POPUP_ITEM (N_("_Unsort"),                    G_CALLBACK(ethi_popup_unsort),          0),
+	E_POPUP_ITEM (N_("Sort _Ascending"), G_CALLBACK(ethi_popup_sort_ascending),  2),
+	E_POPUP_ITEM (N_("Sort _Descending"), G_CALLBACK(ethi_popup_sort_descending), 2),
+	E_POPUP_ITEM (N_("_Unsort"), G_CALLBACK(ethi_popup_unsort),          0),
 	E_POPUP_SEPARATOR,
-	E_POPUP_ITEM (N_("Group By This _Field"),       G_CALLBACK(ethi_popup_group_field),     16),
-	E_POPUP_ITEM (N_("Group By _Box"),              G_CALLBACK(ethi_popup_group_box),       128),
+	E_POPUP_ITEM (N_("Group By This _Field"), G_CALLBACK(ethi_popup_group_field),     16),
+	E_POPUP_ITEM (N_("Group By _Box"), G_CALLBACK(ethi_popup_group_box),       128),
 	E_POPUP_SEPARATOR,
-	E_POPUP_ITEM (N_("Remove This _Column"),        G_CALLBACK(ethi_popup_remove_column),   8),
-	E_POPUP_ITEM (N_("Add a C_olumn..."),           G_CALLBACK(ethi_popup_field_chooser),   0),
+	E_POPUP_ITEM (N_("Remove This _Column"), G_CALLBACK(ethi_popup_remove_column),   8),
+	E_POPUP_ITEM (N_("Add a C_olumn..."), G_CALLBACK(ethi_popup_field_chooser),   0),
 	E_POPUP_SEPARATOR,
-	E_POPUP_ITEM (N_("A_lignment"),                 G_CALLBACK(ethi_popup_alignment),       128),
-	E_POPUP_ITEM (N_("B_est Fit"),                  G_CALLBACK(ethi_popup_best_fit),        2),
-	E_POPUP_ITEM (N_("Format Column_s..."),         G_CALLBACK(ethi_popup_format_columns),  128),
+	E_POPUP_ITEM (N_("A_lignment"), G_CALLBACK(ethi_popup_alignment),       128),
+	E_POPUP_ITEM (N_("B_est Fit"), G_CALLBACK(ethi_popup_best_fit),        2),
+	E_POPUP_ITEM (N_("Format Column_s..."), G_CALLBACK(ethi_popup_format_columns),  128),
 	E_POPUP_SEPARATOR,
 	E_POPUP_ITEM (N_("Custo_mize Current View..."), G_CALLBACK(ethi_popup_customize_view),  4),
 	E_POPUP_TERMINATOR
@@ -1935,11 +1935,11 @@ ethi_class_init (ETableHeaderItemClass *klass)
 	dnd_colormap = gtk_widget_get_default_colormap ();
 	remove_col_pixmap = gdk_pixmap_colormap_create_from_xpm_d (
 		NULL, dnd_colormap,
-		&remove_col_mask, NULL, remove_col_xpm);
+		&remove_col_mask, NULL, (gchar **) remove_col_xpm);
 
 	add_col_pixmap = gdk_pixmap_colormap_create_from_xpm_d (
 		NULL, dnd_colormap,
-		&add_col_mask, NULL, add_col_xpm);
+		&add_col_mask, NULL, (gchar **) add_col_xpm);
 
 	ethi_signals [BUTTON_PRESSED] =
 		g_signal_new ("button_pressed",

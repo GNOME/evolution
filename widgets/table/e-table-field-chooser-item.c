@@ -527,7 +527,7 @@ etfci_start_drag (ETableFieldChooserItem *etfci, GdkEvent *event, double x, doub
 	int button_height;
 
 	GtkTargetEntry  etfci_drag_types [] = {
-		{ TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
+		{ (gchar *) TARGET_ETABLE_COL_TYPE, 0, TARGET_ETABLE_COL_HEADER },
 	};
 
 	if (etfci->combined_header == NULL)

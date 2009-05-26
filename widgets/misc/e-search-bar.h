@@ -54,9 +54,9 @@ enum _ESearchBarItemType {
 typedef enum _ESearchBarItemType ESearchBarItemType;
 
 typedef struct {
-	char *text;
-	int id;
-	int type;
+	gchar *text;
+	gint id;
+	gint type;
 } ESearchBarItem;
 
 typedef struct _ESearchBar       ESearchBar;

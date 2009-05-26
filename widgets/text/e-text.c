@@ -2350,7 +2350,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 
 
 			if (e_tep_event.key.string)
-				g_free (e_tep_event.key.string);
+				g_free ((gpointer) e_tep_event.key.string);
 
 
 			return ret;
@@ -2603,11 +2603,11 @@ static void
 e_text_update_primary_selection (EText *text)
 {
 	static const GtkTargetEntry targets[] = {
-		{ "UTF8_STRING", 0, 0 },
-		{ "UTF-8", 0, 0 },
-		{ "STRING", 0, 0 },
-		{ "TEXT",   0, 0 },
-		{ "COMPOUND_TEXT", 0, 0 }
+		{ (gchar *) "UTF8_STRING", 0, 0 },
+		{ (gchar *) "UTF-8", 0, 0 },
+		{ (gchar *) "STRING", 0, 0 },
+		{ (gchar *) "TEXT", 0, 0 },
+		{ (gchar *) "COMPOUND_TEXT", 0, 0 }
 	};
 	GtkClipboard *clipboard;
 

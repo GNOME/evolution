@@ -287,7 +287,7 @@ void	 e_calendar_item_set_max_days_sel       (ECalendarItem	*calitem,
 /* Get the maximum number of days selectable */
 gint     e_calendar_item_get_days_start_week_sel(ECalendarItem	*calitem);
 
-/* Get the maximum number of days before whole weeks are selected */
+/* Set the maximum number of days selectable */
 void	 e_calendar_item_set_days_start_week_sel(ECalendarItem	*calitem,
 						 gint            days);
 
@@ -297,13 +297,6 @@ gboolean e_calendar_item_get_display_popup      (ECalendarItem	*calitem);
 /* Get the maximum number of days before whole weeks are selected */
 void	 e_calendar_item_set_display_popup      (ECalendarItem	*calitem,
 						 gboolean        display);
-
-/* Set the maximum number of days before whole weeks are selected */
-gint     e_calendar_item_get_days_start_week_sel(ECalendarItem	*calitem);
-
-/* Set the maximum number of days selectable */
-void	 e_calendar_item_set_days_start_week_sel(ECalendarItem	*calitem,
-						 gint            days);
 
 /* Gets the range of dates actually shown. Months are 0 to 11.
    This also includes the last days of the previous month and the first days

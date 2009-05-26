@@ -351,7 +351,7 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 				    xmlDoc              *doc)
 {
 	xmlNode *node;
-	char *s;
+	const gchar *s;
 
 	g_return_val_if_fail (doc != NULL, NULL);
 	g_return_val_if_fail (specification != NULL, NULL);

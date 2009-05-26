@@ -54,19 +54,19 @@ GType             e_table_extras_get_type     (void);
 ETableExtras     *e_table_extras_new          (void);
 
 void              e_table_extras_add_cell     (ETableExtras     *extras,
-					       char             *id,
+					       const gchar      *id,
 					       ECell            *cell);
 ECell            *e_table_extras_get_cell     (ETableExtras     *extras,
 					       char             *id);
 
 void              e_table_extras_add_compare  (ETableExtras     *extras,
-					       char             *id,
+					       const gchar      *id,
 					       GCompareFunc      compare);
 GCompareFunc      e_table_extras_get_compare  (ETableExtras     *extras,
 					       char             *id);
 
 void              e_table_extras_add_search   (ETableExtras     *extras,
-					       char             *id,
+					       const gchar      *id,
 					       ETableSearchFunc  search);
 ETableSearchFunc  e_table_extras_get_search   (ETableExtras     *extras,
 					       char             *id);

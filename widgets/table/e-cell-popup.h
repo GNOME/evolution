@@ -94,8 +94,4 @@ void     e_cell_popup_set_shown          (ECellPopup *ecp,
 					  gboolean    shown);
 void     e_cell_popup_queue_cell_redraw  (ECellPopup *ecp);
 
-void     e_cell_popup_set_shown          (ECellPopup *ecp,
-					  gboolean    shown);
-void     e_cell_popup_queue_cell_redraw  (ECellPopup *ecp);
-
 #endif /* _E_CELL_POPUP_H_ */

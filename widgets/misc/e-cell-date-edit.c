@@ -95,7 +95,7 @@ static void e_cell_date_edit_on_none_clicked	(GtkWidget	*button,
 static void e_cell_date_edit_on_today_clicked	(GtkWidget	*button,
 						 ECellDateEdit	*ecde);
 static void e_cell_date_edit_update_cell	(ECellDateEdit	*ecde,
-						 char		*text);
+						 const gchar	*text);
 static void e_cell_date_edit_on_time_selected	(GtkTreeSelection *selection, ECellDateEdit *ecde);
 static void e_cell_date_edit_hide_popup		(ECellDateEdit	*ecde);
 
@@ -932,7 +932,7 @@ e_cell_date_edit_on_today_clicked	(GtkWidget	*button,
 
 static void
 e_cell_date_edit_update_cell		(ECellDateEdit	*ecde,
-					 char		*text)
+					 const gchar	*text)
 {
 	ECellPopup *ecp = E_CELL_POPUP (ecde);
 	ECellText *ecell_text = E_CELL_TEXT (ecp->child);

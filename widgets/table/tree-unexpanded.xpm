@@ -1,5 +1,5 @@
 /* XPM */
-static char * tree_unexpanded_xpm[] = {
+static const gchar *tree_unexpanded_xpm[] = {
 "16 16 4 1",
 " 	c None",
 ".	c #FFFFFF",
