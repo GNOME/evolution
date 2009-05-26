@@ -388,7 +388,7 @@ jh_remove_cb (GtkWidget *widget, gpointer user_data)
 		while (node) {
 			char *test;
 			int len = strlen (name);
-			test = strncmp (node->data, name, len) == 0 ? node->data+len:NULL;
+			test = strncmp (node->data, name, len) == 0 ? (gchar *) node->data+len:NULL;
 
 			if (test) {
 				test++;
@@ -1020,22 +1020,22 @@ emmp_widget_glade(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 
 /* plugin meta-data */
 static EMConfigItem emmp_items[] = {
-	{ E_CONFIG_BOOK, "", "preferences_toplevel", emmp_widget_glade },
-	{ E_CONFIG_PAGE, "00.general", "vboxGeneral", emmp_widget_glade },
-	{ E_CONFIG_SECTION, "00.general/00.fonts", "vboxMessageFonts", emmp_widget_glade },
-	{ E_CONFIG_SECTION, "00.general/10.display", "vboxMessageDisplay", emmp_widget_glade },
-	{ E_CONFIG_SECTION, "00.general/20.delete", "vboxDeletingMail", emmp_widget_glade },
-	{ E_CONFIG_SECTION, "00.general/30.newmail", "vboxNewMailNotify", emmp_widget_glade },
-	{ E_CONFIG_PAGE, "10.html", "vboxHtmlMail", emmp_widget_glade },
-	{ E_CONFIG_SECTION, "10.html/00.general", "vbox173", emmp_widget_glade },
-	{ E_CONFIG_SECTION, "10.html/10.images", "vbox190", emmp_widget_glade },
-	{ E_CONFIG_PAGE, "20.labels", "frameColours", emmp_widget_glade },
+	{ E_CONFIG_BOOK, (gchar *) "", (gchar *) "preferences_toplevel", emmp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) "vboxGeneral", emmp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/00.fonts", (gchar *) "vboxMessageFonts", emmp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/10.display", (gchar *) "vboxMessageDisplay", emmp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/20.delete", (gchar *) "vboxDeletingMail", emmp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/30.newmail", (gchar *) "vboxNewMailNotify", emmp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "10.html", (gchar *) "vboxHtmlMail", emmp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "10.html/00.general", (gchar *) "vbox173", emmp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "10.html/10.images", (gchar *) "vbox190", emmp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "20.labels", (gchar *) "frameColours", emmp_widget_glade },
 	/* this is a table, so we can't use it { E_CONFIG_SECTION, "20.labels/00.labels", "tableColours", emmp_widget_glade }, */
-	{ E_CONFIG_PAGE, "30.headers", "vboxHeaderTab", emmp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "30.headers", (gchar *) "vboxHeaderTab", emmp_widget_glade },
 	/* no subvbox for section { E_CONFIG_PAGE, "30.headers/00.headers", "vbox199", emmp_widget_glade }, */
-	{ E_CONFIG_PAGE, "40.junk", "vbox161", emmp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "40.junk", (gchar *) "vbox161", emmp_widget_glade },
 	/* no subvbox for section { E_CONFIG_SECTION, "40.junk/00.general", xxx, emmp_widget_glade } */
-	{ E_CONFIG_SECTION, "40.junk/10.options", "vbox204", emmp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "40.junk/10.options", (gchar *) "vbox204", emmp_widget_glade },
 };
 
 static void
@@ -1261,7 +1261,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	prefs->font_fixed = GTK_FONT_BUTTON (glade_xml_get_widget (gui, "FontFixed"));
 	gtk_font_button_set_font_name (prefs->font_fixed, font);
 	g_free (font);
-	g_object_set_data ((GObject *) prefs->font_fixed, "key", "/apps/evolution/mail/display/fonts/monospace");
+	g_object_set_data ((GObject *) prefs->font_fixed, "key", (gpointer) "/apps/evolution/mail/display/fonts/monospace");
 	g_signal_connect (prefs->font_fixed, "font-set", G_CALLBACK (font_changed), prefs);
 	if (!gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/fonts/monospace", NULL))
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->font_fixed, FALSE);
@@ -1270,7 +1270,7 @@ em_mailer_prefs_construct (EMMailerPrefs *prefs)
 	prefs->font_variable = GTK_FONT_BUTTON (glade_xml_get_widget (gui, "FontVariable"));
 	gtk_font_button_set_font_name (prefs->font_variable, font);
 	g_free (font);
-	g_object_set_data ((GObject *) prefs->font_variable, "key", "/apps/evolution/mail/display/fonts/variable");
+	g_object_set_data ((GObject *) prefs->font_variable, "key", (gpointer) "/apps/evolution/mail/display/fonts/variable");
 	g_signal_connect (prefs->font_variable, "font-set", G_CALLBACK (font_changed), prefs);
 	if (!gconf_client_key_is_writable (prefs->gconf, "/apps/evolution/mail/display/fonts/variable", NULL))
 		gtk_widget_set_sensitive ((GtkWidget *) prefs->font_variable, FALSE);

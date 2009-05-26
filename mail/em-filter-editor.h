@@ -40,8 +40,8 @@ typedef struct _EMFilterEditorClass EMFilterEditorClass;
 typedef struct _EMFilterSource EMFilterSource;
 
 struct _EMFilterSource {
-	char *source;
-	char *name;
+	const gchar *source;
+	const gchar *name;
 };
 
 struct _EMFilterEditor {

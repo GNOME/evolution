@@ -57,7 +57,7 @@ void              e_table_extras_add_cell     (ETableExtras     *extras,
 					       const gchar      *id,
 					       ECell            *cell);
 ECell            *e_table_extras_get_cell     (ETableExtras     *extras,
-					       char             *id);
+					       const gchar      *id);
 
 void              e_table_extras_add_compare  (ETableExtras     *extras,
 					       const gchar      *id,

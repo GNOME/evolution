@@ -268,7 +268,7 @@ emfu_copy_folder_selected (const char *uri, void *data)
 {
 	struct _copy_folder_data *cfd = data;
 	CamelStore *fromstore = NULL, *tostore = NULL;
-	char *tobase = NULL;
+	const gchar *tobase = NULL;
 	CamelException ex;
 	CamelURL *url;
 

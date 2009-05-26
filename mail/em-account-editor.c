@@ -187,7 +187,7 @@ typedef struct _EMAccountEditorPrivate {
 } EMAccountEditorPrivate;
 
 static void emae_refresh_authtype(EMAccountEditor *emae, EMAccountEditorService *service);
-static void em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account_editor_t type, char *id);
+static void em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account_editor_t type, const gchar *id);
 static void emae_account_folder_changed(EMFolderSelectionButton *folder, EMAccountEditor *emae);
 static GtkVBoxClass *emae_parent;
 
@@ -267,7 +267,7 @@ em_account_editor_get_type(void)
  *
  * Return value:
  **/
-EMAccountEditor *em_account_editor_new(EAccount *account, em_account_editor_t type, char *id)
+EMAccountEditor *em_account_editor_new(EAccount *account, em_account_editor_t type, const gchar *id)
 {
 	EMAccountEditor *emae = g_object_new(em_account_editor_get_type(), NULL);
 
@@ -299,8 +299,8 @@ EMAccountEditor *em_account_editor_new_for_pages(EAccount *account, em_account_e
 /* ********************************************************************** */
 
 static struct {
-	char *label;
-	char *value;
+	const gchar *label;
+	const gchar *value;
 } ssl_options[] = {
 	/* Translators: This string is a "Use secure connection" option for
 	   the Mailer. It will not use an encrypted connection. */
@@ -774,7 +774,7 @@ emae_setup_receipt_policy (EMAccountEditor *emae, GladeXML *xml)
 	EAccountReceiptPolicy current = emae->account->receipt_policy;
 	static struct {
 		EAccountReceiptPolicy policy;
-		char *label;
+		const gchar *label;
 	} receipt_policies[] = {
 		{ E_ACCOUNT_RECEIPT_NEVER,  N_("Never") },
 		{ E_ACCOUNT_RECEIPT_ALWAYS, N_("Always") },
@@ -1072,34 +1072,34 @@ static struct _provider_host_info emae_transport_host_info[] = {
    i.e. the receiving (source) service, and the sending (transport) service.
    It is used throughout the following code to drive each page */
 static struct _service_info {
-	int account_uri_key;
-	int save_passwd_key;
+	gint account_uri_key;
+	gint save_passwd_key;
 
-	char *frame;
-	char *type_dropdown;
+	const gchar *frame;
+	const gchar *type_dropdown;
 
-	char *container;
-	char *description;
-	char *hostname;
-	char *hostlabel;
-	char *username;
-	char *userlabel;
-	char *path;
-	char *pathlabel;
-	char *pathentry;
+	const gchar *container;
+	const gchar *description;
+	const gchar *hostname;
+	const gchar *hostlabel;
+	const gchar *username;
+	const gchar *userlabel;
+	const gchar *path;
+	const gchar *pathlabel;
+	const gchar *pathentry;
 
-	char *security_frame;
-	char *ssl_hbox;
-	char *use_ssl;
-	char *ssl_disabled;
+	const gchar *security_frame;
+	const gchar *ssl_hbox;
+	const gchar *use_ssl;
+	const gchar *ssl_disabled;
 
-	char *needs_auth;
-	char *auth_frame;
+	const gchar *needs_auth;
+	const gchar *auth_frame;
 
-	char *authtype;
-	char *authtype_check;
+	const gchar *authtype;
+	const gchar *authtype_check;
 
-	char *remember_password;
+	const gchar *remember_password;
 
 	struct _provider_host_info *host_info;
 } emae_service_info[CAMEL_NUM_PROVIDER_TYPES] = {
@@ -1402,7 +1402,8 @@ emae_refresh_providers(EMAccountEditor *emae, EMAccountEditorService *service)
 	int active = 0, i;
 	struct _service_info *info = &emae_service_info[service->type];
 	const char *uri = e_account_get_string(account, info->account_uri_key);
-	char *current = NULL, *tmp;
+	const char *tmp;
+	char *current = NULL;
 	CamelURL *url;
 
 	dropdown = service->providers;
@@ -1480,7 +1481,7 @@ emae_refresh_providers(EMAccountEditor *emae, EMAccountEditorService *service)
 		return;
 	}
 	
-	tmp = (char *)camel_url_get_param(url, "use_ssl");
+	tmp = camel_url_get_param(url, "use_ssl");
 	if (tmp == NULL)
 		tmp = "never";	
 	for (i=0;i<num_ssl_options;i++) {
@@ -1756,8 +1757,8 @@ emae_setup_service(EMAccountEditor *emae, EMAccountEditorService *service, Glade
 
 /* do not re-order these, the order is used by various code to look up emae->priv->identity_entries[] */
 static struct {
-	char *name;
-	int item;
+	const gchar *name;
+	gint item;
 } emae_identity_entries[] = {
 	{ "management_name", E_ACCOUNT_NAME },
 	{ "identity_full_name", E_ACCOUNT_ID_NAME },
@@ -2520,34 +2521,34 @@ emae_widget_glade(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 
 /* plugin meta-data for "org.gnome.evolution.mail.config.accountEditor" */
 static EMConfigItem emae_editor_items[] = {
-	{ E_CONFIG_BOOK, "", },
-	{ E_CONFIG_PAGE, "00.identity", "vboxIdentityBorder", emae_identity_page },
-	{ E_CONFIG_SECTION, "00.identity/00.name", "account_vbox", emae_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, "00.identity/10.required", "identity_required_table", emae_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, "00.identity/20.info", "identity_optional_table", emae_widget_glade },
+	{ E_CONFIG_BOOK, (gchar *) "" },
+	{ E_CONFIG_PAGE, (gchar *) "00.identity", (gchar *) "vboxIdentityBorder", emae_identity_page },
+	{ E_CONFIG_SECTION, (gchar *) "00.identity/00.name", (gchar *) "account_vbox", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "00.identity/10.required", (gchar *) "identity_required_table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "00.identity/20.info", (gchar *) "identity_optional_table", emae_widget_glade },
 
-	{ E_CONFIG_PAGE, "10.receive", "vboxSourceBorder", emae_receive_page },
-	{ E_CONFIG_SECTION_TABLE, "10.receive/00.type", "source_type_table", emae_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, "10.receive/10.config", "table4", emae_widget_glade },
-	{ E_CONFIG_SECTION, "10.receive/20.security", "vbox181", emae_widget_glade },
-	{ E_CONFIG_SECTION, "10.receive/30.auth", "vbox179", emae_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "10.receive", (gchar *) "vboxSourceBorder", emae_receive_page },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/00.type", (gchar *) "source_type_table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/10.config", (gchar *) "table4", emae_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "10.receive/20.security", (gchar *) "vbox181", emae_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "10.receive/30.auth", (gchar *) "vbox179", emae_widget_glade },
 
-	/* Most sections for this is auto-generated fromt the camel config */
-	{ E_CONFIG_PAGE, "20.receive_options", N_("Receiving Options"), },
-	{ E_CONFIG_SECTION_TABLE, "20.receive_options/10.mailcheck", N_("Checking for New Messages"), },
-	{ E_CONFIG_ITEM_TABLE, "20.receive_options/10.mailcheck/00.autocheck", NULL, emae_receive_options_item, },
+	/* Most sections for this is auto-generated from the camel config */
+	{ E_CONFIG_PAGE, (gchar *) "20.receive_options", (gchar *) N_("Receiving Options"), },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "20.receive_options/10.mailcheck", (gchar *) N_("Checking for New Messages"), },
+	{ E_CONFIG_ITEM_TABLE, (gchar *) "20.receive_options/10.mailcheck/00.autocheck", NULL, emae_receive_options_item, },
 
-	{ E_CONFIG_PAGE, "30.send", "vboxTransportBorder", emae_send_page },
-	{ E_CONFIG_SECTION_TABLE, "30.send/00.type", "transport_type_table", emae_widget_glade },
-	{ E_CONFIG_SECTION, "30.send/10.config", "vbox12", emae_widget_glade },
-	{ E_CONFIG_SECTION, "30.send/20.security", "vbox183", emae_widget_glade },
-	{ E_CONFIG_SECTION, "30.send/30.auth", "vbox61", emae_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "30.send", (gchar *) "vboxTransportBorder", emae_send_page },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "30.send/00.type", (gchar *) "transport_type_table", emae_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "30.send/10.config", (gchar *) "vbox12", emae_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "30.send/20.security", (gchar *) "vbox183", emae_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "30.send/30.auth", (gchar *) "vbox61", emae_widget_glade },
 
-	{ E_CONFIG_PAGE, "40.defaults", "vboxFoldersBorder", emae_defaults_page },
-	{ E_CONFIG_SECTION, "40.defaults/00.folders", "vbox184", emae_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, "40.defaults/10.composing", "table8", emae_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "40.defaults", (gchar *) "vboxFoldersBorder", emae_defaults_page },
+	{ E_CONFIG_SECTION, (gchar *) "40.defaults/00.folders", (gchar *) "vbox184", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "40.defaults/10.composing", (gchar *) "table8", emae_widget_glade },
 
-	{ E_CONFIG_PAGE, "50.security", "vboxSecurityBorder", emae_security_page },
+	{ E_CONFIG_PAGE, (gchar *) "50.security", (gchar *) "vboxSecurityBorder", emae_security_page },
 	/* 1x1 table(!) not vbox: { E_CONFIG_SECTION, "50.security/00.gpg", "table19", emae_widget_glade }, */
 	/* table not vbox: { E_CONFIG_SECTION, "50.security/10.smime", "smime_table", emae_widget_glade }, */
 	{ 0 },
@@ -2613,34 +2614,34 @@ emae_widget_druid_glade(EConfig *ec, EConfigItem *item, struct _GtkWidget *paren
 
 /* plugin meta-data for "org.gnome.evolution.mail.config.accountDruid" */
 static EMConfigItem emae_druid_items[] = {
-	{ E_CONFIG_DRUID, "", },
-	{ E_CONFIG_PAGE_START, "0.start", "start_page", emae_widget_druid_glade },
+	{ E_CONFIG_DRUID, (gchar *) "" },
+	{ E_CONFIG_PAGE_START, (gchar *) "0.start", (gchar *) "start_page", emae_widget_druid_glade },
 
-	{ E_CONFIG_PAGE, "00.identity", "vboxIdentityBorder", emae_identity_page },
-	{ E_CONFIG_SECTION, "00.identity/00.name", "account_vbox", emae_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, "00.identity/10.required", "identity_required_table", emae_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, "00.identity/20.info", "identity_optional_table", emae_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "00.identity", (gchar *) "vboxIdentityBorder", emae_identity_page },
+	{ E_CONFIG_SECTION, (gchar *) "00.identity/00.name", (gchar *) "account_vbox", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "00.identity/10.required", (gchar *) "identity_required_table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "00.identity/20.info", (gchar *) "identity_optional_table", emae_widget_glade },
 
-	{ E_CONFIG_PAGE, "10.receive", "vboxSourceBorder", emae_receive_page },
-	{ E_CONFIG_SECTION_TABLE, "10.receive/00.type", "source_type_table", emae_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, "10.receive/10.config", "table4", emae_widget_glade },
-	{ E_CONFIG_SECTION, "10.receive/20.security", "vbox181", emae_widget_glade },
-	{ E_CONFIG_SECTION, "10.receive/30.auth", "vbox179", emae_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "10.receive", (gchar *) "vboxSourceBorder", emae_receive_page },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/00.type", (gchar *) "source_type_table", emae_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "10.receive/10.config", (gchar *) "table4", emae_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "10.receive/20.security", (gchar *) "vbox181", emae_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "10.receive/30.auth", (gchar *) "vbox179", emae_widget_glade },
 
 	/* Most sections for this is auto-generated fromt the camel config */
-	{ E_CONFIG_PAGE, "20.receive_options", N_("Receiving Options"), },
-	{ E_CONFIG_SECTION_TABLE, "20.receive_options/10.mailcheck", N_("Checking for New Messages"), },
-	{ E_CONFIG_ITEM_TABLE, "20.receive_options/10.mailcheck/00.autocheck", NULL, emae_receive_options_item, },
+	{ E_CONFIG_PAGE, (gchar *) "20.receive_options", (gchar *) N_("Receiving Options"), },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "20.receive_options/10.mailcheck", (gchar *) N_("Checking for New Messages"), },
+	{ E_CONFIG_ITEM_TABLE, (gchar *) "20.receive_options/10.mailcheck/00.autocheck", NULL, emae_receive_options_item, },
 
-	{ E_CONFIG_PAGE, "30.send", "vboxTransportBorder", emae_send_page },
-	{ E_CONFIG_SECTION_TABLE, "30.send/00.type", "transport_type_table", emae_widget_glade },
-	{ E_CONFIG_SECTION, "30.send/10.config", "vbox12", emae_widget_glade },
-	{ E_CONFIG_SECTION, "30.send/20.security", "vbox183", emae_widget_glade },
-	{ E_CONFIG_SECTION, "30.send/30.auth", "vbox61", emae_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "30.send", (gchar *) "vboxTransportBorder", emae_send_page },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "30.send/00.type", (gchar *) "transport_type_table", emae_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "30.send/10.config", (gchar *) "vbox12", emae_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "30.send/20.security", (gchar *) "vbox183", emae_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "30.send/30.auth", (gchar *) "vbox61", emae_widget_glade },
 
-	{ E_CONFIG_PAGE, "40.management", "management_frame", emae_management_page },
+	{ E_CONFIG_PAGE, (gchar *) "40.management", (gchar *) "management_frame", emae_management_page },
 
-	{ E_CONFIG_PAGE_FINISH, "999.end", "finish_page", emae_widget_druid_glade },
+	{ E_CONFIG_PAGE_FINISH, (gchar *) "999.end", (gchar *) "finish_page", emae_widget_druid_glade },
 	{ 0 },
 };
 static gboolean emae_druid_items_translated = FALSE;
@@ -2714,11 +2715,11 @@ enum {
 	AOL
 };
 struct _server_prefill {
-	char *key;
-	char *recv;
-	char *send;
-	char *proto;
-	char *ssl;
+	const gchar *key;
+	const gchar *recv;
+	const gchar *send;
+	const gchar *proto;
+	const gchar *ssl;
 } mail_servers [] = {
 	{"gmail", "imap.gmail.com", "smtp.gmail.com", "imap", "always"},
 	{"yahoo", "pop3.yahoo.com", "smtp.yahoo.com", "pop", "never"},
@@ -2873,8 +2874,9 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 			&& ((tmp = e_account_get_string(emae->account, E_ACCOUNT_ID_REPLY_TO)) == NULL
 			    || tmp[0] == 0
 			    || is_email(tmp));
-		if (!ok)
+		if (!ok) {
 			d(printf("identity incomplete\n"));
+		}
 	}
 
 	if (ok && (pageid == NULL || !strcmp(pageid, "10.receive"))) {
@@ -2882,8 +2884,9 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 			emae_refresh_providers(emae, &emae->priv->source);
 		}
 		ok = emae_service_complete(emae, &emae->priv->source);
-		if (!ok)
+		if (!ok) {
 			d(printf("receive page incomplete\n"));
+		}
 	}
 
 	if (ok && (pageid == NULL || !strcmp(pageid, "30.send"))) {
@@ -2891,8 +2894,9 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 			emae_refresh_providers(emae, &emae->priv->transport);
 		}
 		ok = emae_service_complete(emae, &emae->priv->transport);
-		if (!ok)
+		if (!ok) {
 			d(printf("send page incomplete\n"));
+		}
 	}
 
 	if (ok && (pageid == NULL || !strcmp(pageid, "40.management"))) {
@@ -2900,8 +2904,9 @@ emae_check_complete(EConfig *ec, const char *pageid, void *data)
 			&& tmp[0]
 			&& ((ea = mail_config_get_account_by_name(tmp)) == NULL
 			    || ea == emae->original);
-		if (!ok)
+		if (!ok) {
 			d(printf("management page incomplete\n"));
+		}
 	}
 
 	return ok;
@@ -2973,7 +2978,7 @@ emae_editor_destroyed(GtkWidget *dialog, EMAccountEditor *emae)
 }
 
 static void
-em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account_editor_t type, char *id)
+em_account_editor_construct(EMAccountEditor *emae, EAccount *account, em_account_editor_t type, const gchar *id)
 {
 	EMAccountEditorPrivate *gui = emae->priv;
 	int i, index;

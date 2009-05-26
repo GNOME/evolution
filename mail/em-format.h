@@ -85,7 +85,7 @@ typedef enum _em_format_mode_t {
  *
  **/
 struct _EMFormatHandler {
-	char *mime_type;
+	gchar *mime_type;
 	EMFormatFunc handler;
 	guint32 flags;
 

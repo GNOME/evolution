@@ -52,8 +52,8 @@ static const gchar *ui =
 
 /* Note: Do not use the info field. */
 static GtkTargetEntry target_table[] = {
-	{ "message/rfc822",	0, 0 },
-	{ "x-uid-list",		0, 0 }
+	{ (gchar *) "message/rfc822",	0, 0 },
+	{ (gchar *) "x-uid-list",	0, 0 }
 };
 
 static void

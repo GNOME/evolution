@@ -197,7 +197,7 @@ emfq_format_text_header (EMFormatQuote *emfq, CamelStream *stream, const char *l
 	g_free (mhtml);
 }
 
-static char *addrspec_hdrs[] = {
+static const gchar *addrspec_hdrs[] = {
 	"Sender", "From", "Reply-To", "To", "Cc", "Bcc",
 	"Resent-Sender", "Resent-from", "Resent-Reply-To",
 	"Resent-To", "Resent-cc", "Resent-Bcc", NULL
@@ -548,18 +548,18 @@ emfq_ignore(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormatHan
 }
 
 static EMFormatHandler type_builtin_table[] = {
-	{ "text/plain",(EMFormatFunc)emfq_text_plain },
-	{ "text/enriched",(EMFormatFunc)emfq_text_enriched },
-	{ "text/richtext",(EMFormatFunc)emfq_text_enriched },
-	{ "text/html",(EMFormatFunc)emfq_text_html },
-/*	{ "multipart/related",(EMFormatFunc)emfq_multipart_related },*/
-	{ "message/external-body", (EMFormatFunc)emfq_ignore },
-	{ "multipart/appledouble", (EMFormatFunc)emfq_ignore },
+	{ (gchar *) "text/plain", (EMFormatFunc)emfq_text_plain },
+	{ (gchar *) "text/enriched", (EMFormatFunc)emfq_text_enriched },
+	{ (gchar *) "text/richtext", (EMFormatFunc)emfq_text_enriched },
+	{ (gchar *) "text/html", (EMFormatFunc)emfq_text_html },
+/*	{ (gchar *) "multipart/related",(EMFormatFunc)emfq_multipart_related },*/
+	{ (gchar *) "message/external-body", (EMFormatFunc)emfq_ignore },
+	{ (gchar *) "multipart/appledouble", (EMFormatFunc)emfq_ignore },
 
 	/* internal evolution types */
-	{ "x-evolution/evolution-rss-feed", (EMFormatFunc)emfq_text_html },
-	{ "x-evolution/message/rfc822", (EMFormatFunc)emfq_format_message },
-	{ "x-evolution/message/prefix", (EMFormatFunc)emfq_format_message_prefix },
+	{ (gchar *) "x-evolution/evolution-rss-feed", (EMFormatFunc)emfq_text_html },
+	{ (gchar *) "x-evolution/message/rfc822", (EMFormatFunc)emfq_format_message },
+	{ (gchar *) "x-evolution/message/prefix", (EMFormatFunc)emfq_format_message_prefix },
 };
 
 static void

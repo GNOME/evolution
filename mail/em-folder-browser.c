@@ -136,7 +136,7 @@ struct _EMFolderBrowserPrivate {
 
 typedef struct EMFBSearchBarItem {
 	ESearchBarItem search;
-	char *image;
+	const gchar *image;
 } EMFBSearchBarItem;
 
 static void emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int state);
@@ -191,7 +191,7 @@ static ESearchBarItem emfb_search_items[] = {
 	E_FILTERBAR_SAVE,
 	E_FILTERBAR_EDIT,
 	{ NULL, 0, 0 },
-	{ N_("C_reate Search Folder From Search..."), ESB_SAVE, 0},
+	{ (gchar *) N_("C_reate Search Folder From Search..."), ESB_SAVE, 0},
 	{ NULL, -1, 0 }
 };
 
@@ -216,24 +216,22 @@ enum {
 
 /* Options for View */
 static EMFBSearchBarItem emfb_view_items[] = {
-	{{ N_("All Messages"), VIEW_ALL_MESSAGES, 0 }, NULL},
-	{{ N_("Unread Messages"), VIEW_UNREAD_MESSAGES, 0 }, "mail-unread"},
+	{{ (gchar *) N_("All Messages"), VIEW_ALL_MESSAGES, 0 }, NULL},
+	{{ (gchar *) N_("Unread Messages"), VIEW_UNREAD_MESSAGES, 0 }, "mail-unread"},
 	{{ NULL, 0, 0 }, NULL},
-	{{ N_("No Label"),VIEW_NO_LABEL, 0 }, NULL},
+	{{ (gchar *) N_("No Label"),VIEW_NO_LABEL, 0 }, NULL},
 	{{ NULL, -1, 0 }, NULL}
 };
 
 /* TODO: Following options should be  customizable */
 static EMFBSearchBarItem temp_view_items[] = {
 	{{ NULL, 0, 0 }, NULL},
-	{{ N_("Read Messages"), VIEW_READ_MESSAGES, 0 }, "mail-read"},
-	{{ N_("Recent Messages"), VIEW_RECENT_MESSAGES, 0 }, NULL},
-	{{ N_("Last 5 Days' Messages"), VIEW_LAST_FIVE_DAYS, 0 }, NULL},
-	{{ N_("Messages with Attachments"), VIEW_WITH_ATTACHMENTS, 0 }, "mail-attachment"},
-	{{ N_("Important Messages"), VIEW_MESSAGES_MARKED_AS_IMPORTANT, 0}, "emblem-important"},
-	{{ N_("Messages Not Junk"), VIEW_NOT_JUNK, 0 }, "mail-mark-notjunk"},
-/* 	{ NULL, 0, NULL }, */
-/* 	{ N_("Customize"), NOT_IMPLEMENTED, NULL }, */
+	{{ (gchar *) N_("Read Messages"), VIEW_READ_MESSAGES, 0 }, "mail-read"},
+	{{ (gchar *) N_("Recent Messages"), VIEW_RECENT_MESSAGES, 0 }, NULL},
+	{{ (gchar *) N_("Last 5 Days' Messages"), VIEW_LAST_FIVE_DAYS, 0 }, NULL},
+	{{ (gchar *) N_("Messages with Attachments"), VIEW_WITH_ATTACHMENTS, 0 }, "mail-attachment"},
+	{{ (gchar *) N_("Important Messages"), VIEW_MESSAGES_MARKED_AS_IMPORTANT, 0}, "emblem-important"},
+	{{ (gchar *) N_("Messages Not Junk"), VIEW_NOT_JUNK, 0 }, "mail-mark-notjunk"},
 	{{ NULL, -1, 0 }, NULL}
 };
 
@@ -915,10 +913,10 @@ emfb_search_config_search(EFilterBar *efb, FilterRule *rule, int id, const char 
 	e_mail_search_bar_changed (search_bar);
 }
 
-static char *
+static const gchar *
 get_view_query (ESearchBar *esb, CamelFolder *folder, const char *folder_uri)
 {
-	char *view_sexp = NULL;
+	const gchar *view_sexp = NULL;
 	gint id;
 	GtkWidget *menu_item;
 	char *tag;
@@ -1135,7 +1133,8 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 {
 	EMFolderView *emfv = (EMFolderView *) emfb;
 	EFilterBar *efb = (EFilterBar *)esb;
-	char *search_state = NULL, *view_sexp, *folder_uri=NULL;
+	const gchar *view_sexp;
+	char *search_state = NULL, *folder_uri=NULL;
 	char *word = NULL, *storeuri = NULL, *search_word = NULL;
 	gint id, i;
 	CamelFolder *folder;
@@ -1324,7 +1323,6 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 
 	g_free (word);
 	g_free (search_word);
-	g_free (view_sexp);
 
 	camel_exception_free (ex);
 }
@@ -2013,7 +2011,7 @@ static void
 emfb_set_search_folder(EMFolderView *emfv, CamelFolder *folder, const char *uri)
 {
 	EMFolderBrowser *emfb = (EMFolderBrowser *) emfv;
-	char *state;
+	const gchar *state;
 
 	message_list_freeze(emfv->list);
 

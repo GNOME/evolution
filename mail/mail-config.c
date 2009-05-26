@@ -105,9 +105,10 @@ typedef struct {
 	gboolean scripts_disabled;
 } MailConfig;
 
+extern int camel_header_param_encode_filenames_in_rfc_2047;
+
 static MailConfig *config = NULL;
 static guint config_write_timeout = 0;
-
 
 void
 mail_config_save_accounts (void)
@@ -251,8 +252,6 @@ static void
 gconf_outlook_filenames_changed (GConfClient *client, guint cnxn_id,
 				 GConfEntry *entry, gpointer user_data)
 {
-	extern int camel_header_param_encode_filenames_in_rfc_2047;
-
 	g_return_if_fail (client != NULL);
 
 	/* pass option to the camel */
@@ -992,12 +991,13 @@ mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new)
 	EIterator *iter;
 	int i, work = 0;
 	char *oldname, *newname;
-	char *cachenames[] = { "config/hidestate-",
-			       "config/et-expanded-",
-			       "config/et-header-",
-			       "*views/current_view-",
-			       "*views/custom_view-",
-			       NULL };
+	const gchar *cachenames[] = {
+		"config/hidestate-",
+		"config/et-expanded-",
+		"config/et-header-",
+		"*views/current_view-",
+		"*views/custom_view-",
+		NULL };
 
 	iter = e_list_get_iterator ((EList *) config->accounts);
 	while (e_iterator_is_valid (iter)) {

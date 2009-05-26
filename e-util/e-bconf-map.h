@@ -45,9 +45,9 @@ enum {
 };
 
 typedef struct _e_bconf_map {
-	char *from;
-	char *to;
-	int type;
+	const gchar *from;
+	const gchar *to;
+	gint type;
 	struct _e_bconf_map *child;
 } e_bconf_map_t;
 

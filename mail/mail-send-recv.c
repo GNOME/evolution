@@ -559,7 +559,7 @@ build_dialog (EAccountList *accounts, CamelFolder *outbox, const char *destinati
 			info->state = SEND_ACTIVE;
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 
-			g_hash_table_insert (data->active, SEND_URI_KEY, info);
+			g_hash_table_insert (data->active, (gpointer) SEND_URI_KEY, info);
 			list = g_list_prepend (list, info);
 		} else if (info->timeout_id == 0)
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
@@ -673,7 +673,7 @@ receive_status (CamelFilterDriver *driver, enum camel_filter_status_t status, in
 
 /* when receive/send is complete */
 static void
-receive_done (char *uri, void *data)
+receive_done (const gchar *uri, void *data)
 {
 	struct _send_info *info = data;
 
@@ -1204,7 +1204,7 @@ mail_send (void)
 
 	d(printf("Adding new info %p\n", info));
 
-	g_hash_table_insert (data->active, SEND_URI_KEY, info);
+	g_hash_table_insert (data->active, (gpointer) SEND_URI_KEY, info);
 
 	/* todo, store the folder in info? */
 	outbox_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_OUTBOX);

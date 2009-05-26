@@ -762,16 +762,16 @@ emcp_widget_glade (EConfig *ec,
 
 /* plugin meta-data */
 static EMConfigItem emcp_items[] = {
-	{ E_CONFIG_BOOK, "", "composer_toplevel", emcp_widget_glade },
-	{ E_CONFIG_PAGE, "00.general", "vboxGeneral", emcp_widget_glade },
-	{ E_CONFIG_SECTION, "00.general/00.behavior", "vboxBehavior", emcp_widget_glade },
-	{ E_CONFIG_SECTION, "00.general/10.alerts", "vboxAlerts", emcp_widget_glade },
-	{ E_CONFIG_PAGE, "10.signatures", "vboxSignatures", emcp_widget_glade },
+	{ E_CONFIG_BOOK, (gchar *) "", (gchar *) "composer_toplevel", emcp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) "vboxGeneral", emcp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/00.behavior", (gchar *) "vboxBehavior", emcp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/10.alerts", (gchar *) "vboxAlerts", emcp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "10.signatures", (gchar *) "vboxSignatures", emcp_widget_glade },
 	/* signature/signatures and signature/preview parts not usable */
 
-	{ E_CONFIG_PAGE, "20.spellcheck", "vboxSpellChecking", emcp_widget_glade },
-	{ E_CONFIG_SECTION, "20.spellcheck/00.languages", "vbox178", emcp_widget_glade },
-	{ E_CONFIG_SECTION, "20.spellcheck/00.options", "vboxOptions", emcp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "20.spellcheck", (gchar *) "vboxSpellChecking", emcp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "20.spellcheck/00.languages", (gchar *) "vbox178", emcp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "20.spellcheck/00.options", (gchar *) "vboxOptions", emcp_widget_glade },
 };
 
 static void
@@ -959,12 +959,12 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	prefs->forward_style = GTK_COMBO_BOX (glade_xml_get_widget (gui, "comboboxForwardStyle")); 
 	style = gconf_client_get_int (client, "/apps/evolution/mail/format/forward_style", NULL);
 	gtk_combo_box_set_active (prefs->forward_style, style);
-	g_signal_connect (prefs->forward_style, "changed", G_CALLBACK (style_changed), "/apps/evolution/mail/format/forward_style");
+	g_signal_connect (prefs->forward_style, "changed", G_CALLBACK (style_changed), (gpointer) "/apps/evolution/mail/format/forward_style");
 
 	prefs->reply_style = GTK_COMBO_BOX (glade_xml_get_widget (gui, "comboboxReplyStyle"));
 	style = gconf_client_get_int (client, "/apps/evolution/mail/format/reply_style", NULL);
 	gtk_combo_box_set_active (prefs->reply_style, reply_style_new_order (style, TRUE));
-	g_signal_connect (prefs->reply_style, "changed", G_CALLBACK (style_changed), "/apps/evolution/mail/format/reply_style");
+	g_signal_connect (prefs->reply_style, "changed", G_CALLBACK (style_changed), (gpointer) "/apps/evolution/mail/format/reply_style");
 
 	/* Signatures */
 	dialog = (GtkDialog *) gtk_dialog_new ();

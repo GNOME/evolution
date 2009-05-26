@@ -491,17 +491,17 @@ emp_part_popup_forward (EPopup *ep, EPopupItem *item, void *data)
 }
 
 static EMPopupItem emp_standard_object_popups[] = {
-	{ E_POPUP_ITEM, "00.part.00", N_("_Save As..."), emp_part_popup_saveas, NULL, "document-save-as", 0 },
-	{ E_POPUP_ITEM, "00.part.10", N_("Set as _Background"), emp_part_popup_set_background, NULL, NULL, EM_POPUP_PART_IMAGE },
-	{ E_POPUP_BAR, "10.part", NULL, NULL, NULL, NULL, EM_POPUP_PART_MESSAGE },
-	{ E_POPUP_ITEM, "10.part.00", N_("_Reply to sender"), emp_part_popup_reply_sender, NULL, "mail-reply-sender" , EM_POPUP_PART_MESSAGE },
-	{ E_POPUP_ITEM, "10.part.01", N_("Reply to _List"), emp_part_popup_reply_list, NULL, NULL, EM_POPUP_PART_MESSAGE},
-	{ E_POPUP_ITEM, "10.part.03", N_("Reply to _All"), emp_part_popup_reply_all, NULL, "mail-reply-all", EM_POPUP_PART_MESSAGE},
-	{ E_POPUP_BAR, "20.part", NULL, NULL, NULL, NULL, EM_POPUP_PART_MESSAGE },
-	{ E_POPUP_ITEM, "20.part.00", N_("_Forward"), emp_part_popup_forward, NULL, "mail-forward", EM_POPUP_PART_MESSAGE },
+	{ E_POPUP_ITEM, (gchar *) "00.part.00", (gchar *) N_("_Save As..."), emp_part_popup_saveas, NULL, (gchar *) "document-save-as", 0 },
+	{ E_POPUP_ITEM, (gchar *) "00.part.10", (gchar *) N_("Set as _Background"), emp_part_popup_set_background, NULL, NULL, EM_POPUP_PART_IMAGE },
+	{ E_POPUP_BAR, (gchar *) "10.part", NULL, NULL, NULL, NULL, EM_POPUP_PART_MESSAGE },
+	{ E_POPUP_ITEM, (gchar *) "10.part.00", (gchar *) N_("_Reply to sender"), emp_part_popup_reply_sender, NULL, (gchar *) "mail-reply-sender" , EM_POPUP_PART_MESSAGE },
+	{ E_POPUP_ITEM, (gchar *) "10.part.01", (gchar *) N_("Reply to _List"), emp_part_popup_reply_list, NULL, NULL, EM_POPUP_PART_MESSAGE},
+	{ E_POPUP_ITEM, (gchar *) "10.part.03", (gchar *) N_("Reply to _All"), emp_part_popup_reply_all, NULL, (gchar *) "mail-reply-all", EM_POPUP_PART_MESSAGE},
+	{ E_POPUP_BAR, (gchar *) "20.part", NULL, NULL, NULL, NULL, EM_POPUP_PART_MESSAGE },
+	{ E_POPUP_ITEM, (gchar *) "20.part.00", (gchar *) N_("_Forward"), emp_part_popup_forward, NULL, (gchar *) "mail-forward", EM_POPUP_PART_MESSAGE },
 };
 
-static const EPopupItem emp_standard_part_apps_bar = { E_POPUP_BAR, "99.object" };
+static const EPopupItem emp_standard_part_apps_bar = { E_POPUP_BAR, (gchar *) "99.object" };
 
 /* ********************************************************************** */
 
@@ -542,9 +542,9 @@ emp_uri_popup_address_add(EPopup *ep, EPopupItem *item, void *data)
 }
 
 static EPopupItem emp_standard_uri_popups[] = {
-	{ E_POPUP_ITEM, "00.uri.00", N_("_Open Link in Browser"), emp_uri_popup_link_open, NULL, NULL, EM_POPUP_URI_HTTP },
-	{ E_POPUP_ITEM, "00.uri.10", N_("_Send New Message To..."), emp_uri_popup_address_send, NULL, "mail-message-new", EM_POPUP_URI_MAILTO },
-	{ E_POPUP_ITEM, "00.uri.20", N_("_Add to Address Book"), emp_uri_popup_address_add, NULL, "contact-new", EM_POPUP_URI_MAILTO },
+	{ E_POPUP_ITEM, (gchar *) "00.uri.00", (gchar *) N_("_Open Link in Browser"), emp_uri_popup_link_open, NULL, NULL, EM_POPUP_URI_HTTP },
+	{ E_POPUP_ITEM, (gchar *) "00.uri.10", (gchar *) N_("_Send New Message To..."), emp_uri_popup_address_send, NULL, (gchar *) "mail-message-new", EM_POPUP_URI_MAILTO },
+	{ E_POPUP_ITEM, (gchar *) "00.uri.20", (gchar *) N_("_Add to Address Book"), emp_uri_popup_address_add, NULL, (gchar *) "contact-new", EM_POPUP_URI_MAILTO },
 };
 
 /* ********************************************************************** */
@@ -743,11 +743,11 @@ emp_standard_menu_factory(EPopup *emp, void *data)
 
 			item = g_malloc0 (sizeof (*item));
 			item->type = E_POPUP_ITEM;
-			item->path = "00.00.vcf.00"; /* make it first item */
+			item->path = (gchar *) "00.00.vcf.00"; /* make it first item */
 			item->label = _("_Add to Address Book");
 			item->activate = emp_add_vcard;
 			item->user_data = NULL;
-			item->image = "contact-new";
+			item->image = (gchar *) "contact-new";
 
 			e_popup_add_items (emp, g_slist_append (NULL, item), NULL, NULL, NULL);
 		}

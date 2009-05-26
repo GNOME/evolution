@@ -359,7 +359,7 @@ parse_lsub (const char *lsub, char *dir_sep)
 	static int comp;
 	static regex_t pat;
 	regmatch_t match[3];
-	char *m = "^\\* LSUB \\([^)]*\\) \"?([^\" ]+)\"? \"?(.*)\"?$";
+	const gchar *m = "^\\* LSUB \\([^)]*\\) \"?([^\" ]+)\"? \"?(.*)\"?$";
 
 	if (!comp) {
 		if (regcomp (&pat, m, REG_EXTENDED|REG_ICASE) == -1) {
@@ -952,8 +952,8 @@ static e_gconf_map_list_t gconf_remap_list[] = {
 };
 
 static struct {
-	char *label;
-	char *colour;
+	const gchar *label;
+	const gchar *colour;
 } label_default[5] = {
 	{ N_("Important"), "#EF2929" },  /* red */
 	{ N_("Work"),      "#F57900" },  /* orange */
@@ -1285,7 +1285,7 @@ get_local_et_expanded (const char *dirname)
 static char *
 get_local_store_uri (const char *dirname, char **namep, int *indexp)
 {
-	char *protocol, *name, *metadata, *tmp;
+	gchar *name, *protocol, *metadata, *tmp;
 	int index;
 	struct stat st;
 	xmlNodePtr node;
@@ -1296,8 +1296,8 @@ get_local_store_uri (const char *dirname, char **namep, int *indexp)
 	/* in 1.4, any errors are treated as defaults, this function cannot fail */
 
 	/* defaults */
-	name = "mbox";
-	protocol = "mbox";
+	name = (gchar *) "mbox";
+	protocol = (gchar *) "mbox";
 	index = TRUE;
 
 	if (stat (metadata, &st) == -1 || !S_ISREG (st.st_mode))
@@ -1555,7 +1555,7 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 
 	/* Manually copy local mbox files, its much faster */
 	if (!strncmp (uri, "mbox:", 5)) {
-		static char *meta_ext[] = { ".summary", ".ibex.index", ".ibex.index.data" };
+		static const gchar *meta_ext[] = { ".summary", ".ibex.index", ".ibex.index.data" };
 		size_t slen, dlen;
 		FILE *fp;
 		char *p;

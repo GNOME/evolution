@@ -204,7 +204,7 @@ e_table_extras_add_cell     (ETableExtras *extras,
 
 ECell *
 e_table_extras_get_cell     (ETableExtras *extras,
-			     char         *id)
+			     const gchar  *id)
 {
 	return g_hash_table_lookup(extras->cells, id);
 }

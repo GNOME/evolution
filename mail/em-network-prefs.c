@@ -271,9 +271,9 @@ widget_entry_changed_cb (GtkWidget *widget, gpointer data)
 
 /* plugin meta-data */
 static EMConfigItem emnp_items[] = {
-	{ E_CONFIG_BOOK, "", "network_preferences_toplevel", emnp_widget_glade },
-	{ E_CONFIG_PAGE, "00.general", "vboxGeneral", emnp_widget_glade },
-	{ E_CONFIG_SECTION, "00.general/00.proxy", "frameProxy", emnp_widget_glade },
+	{ E_CONFIG_BOOK, (gchar *) "", (gchar *) "network_preferences_toplevel", emnp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) "vboxGeneral", emnp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/00.proxy", (gchar *) "frameProxy", emnp_widget_glade },
 };
 
 static void
@@ -401,19 +401,26 @@ em_network_prefs_construct (EMNetworkPrefs *prefs)
 	
 	/* Manual proxy options */
 	g_signal_connect (prefs->http_host, "changed", 
-			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_HTTP_HOST_KEY);
+			  G_CALLBACK(widget_entry_changed_cb),
+			  (gpointer) GCONF_E_HTTP_HOST_KEY);
 	g_signal_connect (prefs->https_host, "changed", 
-			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_HTTPS_HOST_KEY);
+			  G_CALLBACK(widget_entry_changed_cb),
+			  (gpointer) GCONF_E_HTTPS_HOST_KEY);
 	g_signal_connect (prefs->ignore_hosts, "changed", 
-			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_IGNORE_HOSTS_KEY);
+			  G_CALLBACK(widget_entry_changed_cb),
+			  (gpointer) GCONF_E_IGNORE_HOSTS_KEY);
 	g_signal_connect (prefs->http_port, "value_changed", 
-			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_HTTP_PORT_KEY);
+			  G_CALLBACK(widget_entry_changed_cb),
+			  (gpointer) GCONF_E_HTTP_PORT_KEY);
 	g_signal_connect (prefs->https_port, "value_changed", 
-			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_HTTPS_PORT_KEY);
+			  G_CALLBACK(widget_entry_changed_cb),
+			  (gpointer) GCONF_E_HTTPS_PORT_KEY);
 	g_signal_connect (prefs->auth_user, "changed", 
-			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_AUTH_USER_KEY);
+			  G_CALLBACK(widget_entry_changed_cb),
+			  (gpointer) GCONF_E_AUTH_USER_KEY);
 	g_signal_connect (prefs->auth_pwd, "changed", 
-			  G_CALLBACK(widget_entry_changed_cb), GCONF_E_AUTH_PWD_KEY);
+			  G_CALLBACK(widget_entry_changed_cb),
+			  (gpointer) GCONF_E_AUTH_PWD_KEY);
 
 	gtk_toggle_button_set_active (prefs->manual_proxy, val == NETWORK_PROXY_MANUAL);
 	g_signal_connect (prefs->sys_proxy, "toggled", G_CALLBACK (notify_proxy_type_changed), prefs);
