@@ -433,7 +433,7 @@ void	   e_week_view_show_popup_menu		(EWeekView	*week_view,
 void	   e_week_view_convert_time_to_display	(EWeekView	*week_view,
 						 gint		 hour,
 						 gint		*display_hour,
-						 gchar	       **suffix,
+						 const gchar	**suffix,
 						 gint		*suffix_width);
 gint	   e_week_view_get_time_string_width	(EWeekView	*week_view);
 

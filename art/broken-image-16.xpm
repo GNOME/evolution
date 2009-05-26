@@ -1,5 +1,5 @@
 /* XPM */
-static char * broken_image_16_xpm[] = {
+static const gchar *broken_image_16_xpm[] = {
 "16 16 42 1",
 " 	c None",
 ".	c #000000",

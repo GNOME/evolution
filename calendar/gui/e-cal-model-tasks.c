@@ -289,7 +289,7 @@ get_due (ECalModelComponent *comp_data)
 	return comp_data->due;
 }
 
-static char *
+static void *
 get_geo (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
@@ -307,7 +307,7 @@ get_geo (ECalModelComponent *comp_data)
 		return buf;
 	}
 
-	return "";
+	return (void *) "";
 }
 
 static int
@@ -322,7 +322,7 @@ get_percent (ECalModelComponent *comp_data)
 	return 0;
 }
 
-static char *
+static void *
 get_priority (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
@@ -331,7 +331,7 @@ get_priority (ECalModelComponent *comp_data)
 	if (prop)
 		return e_cal_util_priority_to_string (icalproperty_get_priority (prop));
 
-	return "";
+	return (void *) "";
 }
 
 static gboolean
@@ -344,7 +344,7 @@ is_status_canceled (ECalModelComponent *comp_data)
 	return prop && icalproperty_get_status (prop) == ICAL_STATUS_CANCELLED;
 }
 
-static char *
+static void *
 get_status (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
@@ -353,33 +353,33 @@ get_status (ECalModelComponent *comp_data)
 	if (prop) {
 		switch (icalproperty_get_status (prop)) {
 		case ICAL_STATUS_NONE:
-			return "";
+			return (void *) "";
 		case ICAL_STATUS_NEEDSACTION:
-			return _("Not Started");
+			return (void *) _("Not Started");
 		case ICAL_STATUS_INPROCESS:
-			return _("In Progress");
+			return (void *) _("In Progress");
 		case ICAL_STATUS_COMPLETED:
-			return _("Completed");
+			return (void *) _("Completed");
 		case ICAL_STATUS_CANCELLED:
-			return _("Canceled");
+			return (void *) _("Canceled");
 		default:
-			return "";
+			return (void *) "";
 		}
 	}
 
-	return "";
+	return (void *) "";
 }
 
-static char *
+static void *
 get_url (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_URL_PROPERTY);
 	if (prop)
-		return (char *) icalproperty_get_url (prop);
+		return (void *) icalproperty_get_url (prop);
 
-	return "";
+	return (void *) "";
 }
 
 static gboolean
@@ -499,7 +499,7 @@ ecmt_value_at (ETableModel *etm, int col, int row)
 
 	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
 	if (!comp_data)
-		return "";
+		return (void *) "";
 
 	switch (col) {
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
@@ -524,7 +524,7 @@ ecmt_value_at (ETableModel *etm, int col, int row)
 		return get_url (comp_data);
 	}
 
-	return "";
+	return (void *) "";
 }
 
 static void

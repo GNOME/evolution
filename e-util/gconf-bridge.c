@@ -107,11 +107,6 @@ typedef union {
 static void
 unbind (Binding *binding);
 
-#if !HAVE_DECL_GCONF_VALUE_COMPARE /* Not in headers in GConf < 2.13 */
-int gconf_value_compare (const GConfValue *value_a,
-                         const GConfValue *value_b);
-#endif
-
 static GConfBridge *bridge = NULL; /* Global GConfBridge object */
 
 /* Free up all resources allocated by the GConfBridge. Called on exit. */

@@ -130,9 +130,9 @@ ecmm_value_at (ETableModel *etm, int col, int row)
 
 	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
 	if (!comp_data)
-		return "";
+		return (void *) "";
 
-	return "";
+	return (void *) "";
 }
 
 

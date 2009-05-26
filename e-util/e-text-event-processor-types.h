@@ -83,8 +83,8 @@ typedef enum {
 typedef struct {
 	ETextEventProcessorCommandPosition position;
 	ETextEventProcessorCommandAction action;
-	int value;
-	char *string;
+	gint value;
+	const gchar *string;
 	guint32 time;
 } ETextEventProcessorCommand;
 
@@ -102,7 +102,7 @@ typedef struct {
 	guint state;
 	guint keyval;
 	gint length;
-	gchar *string;
+	const gchar *string;
 } ETextEventProcessorEventKey;
 
 typedef struct {

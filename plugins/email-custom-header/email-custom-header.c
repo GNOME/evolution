@@ -331,9 +331,9 @@ epech_setup_widgets (CustomHeaderOptionsDialog *mch)
 	gint header_section_id,sub_type_index,row,column,label_row;
 	gint i;
 	gchar *str;
-	static gchar *security_field = N_("Security:");
+	static const gchar *security_field = N_("Security:");
 	static struct _security_values {
-		char *value, *str;
+		const gchar *value, *str;
 	} security_values[] = {
 		{ "Personal", N_("Personal") } ,
 		{ "Unclassified", N_("Unclassified") },

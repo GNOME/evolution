@@ -966,8 +966,9 @@ vfolder_load_storage(void)
 		if (rule->name) {
 			d(printf("rule added: %s\n", rule->name));
 			context_rule_added((RuleContext *)context, rule);
-		} else
+		} else {
 			d(printf("invalid rule (%p) encountered: rule->name is NULL\n", rule));
+		}
 	}
 
 	g_free(storeuri);

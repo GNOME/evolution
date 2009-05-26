@@ -38,7 +38,7 @@ void startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target);
 GtkWidget *startup_wizard_importer_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 gboolean startup_wizard_check (EPlugin *ep, EConfigHookPageCheckData *check_data);
 void startup_wizard_commit (EPlugin *ep, EMConfigTargetAccount *target);
-void startup_wizard_abort (EPlugin *ep, EMConfigTargetAccount *target);
+void startup_wizard_abort (EPlugin *ep, EMConfigTargetAccount *target) G_GNUC_NORETURN;
 
 static EImport *import;
 static EImportTargetHome *import_target;

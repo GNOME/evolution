@@ -246,7 +246,7 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 					colored = TRUE;
 				}
 			} else if (colored) {
-				gchar *no_font = "</FONT>";
+				const gchar *no_font = "</FONT>";
 
 				out = check_size (&buffer, &buffer_size, out, 9);
 				out += sprintf (out, "%s", no_font);

@@ -238,7 +238,7 @@ track_status (EPopup *ep, EPopupItem *item, void *data)
 }
 
 static EPopupItem popup_items[] = {
-{ E_POPUP_ITEM, "20.emfv.02", N_("Track Message Status..."), track_status, NULL, NULL, 0, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY}
+	{ E_POPUP_ITEM, (gchar * ) "20.emfv.02", (gchar *) N_("Track Message Status..."), track_status, NULL, NULL, 0, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY}
 };
 
 static void

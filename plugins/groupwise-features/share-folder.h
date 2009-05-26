@@ -93,7 +93,7 @@ struct _ShareFolder {
 	gboolean is_shared;
 	EGwConnection *cnc;
 	gchar *container_id;
-	gchar *sub;
+	const gchar *sub;
 	gchar *mesg;
 	GList *container_list;
 	GtkTreeIter iter;
@@ -109,7 +109,7 @@ struct _ShareFolderClass {
 GType share_folderget_type (void);
 struct _ShareFolder * share_folder_new (EGwConnection *ccnc, gchar *id);
 void share_folder(struct _ShareFolder *sf);
-gchar * get_container_id (EGwConnection *cnc, gchar *fname);
+gchar * get_container_id (EGwConnection *cnc, const gchar *fname);
 EGwConnection * get_cnc (CamelStore *store);
 
 #ifdef __cplusplus

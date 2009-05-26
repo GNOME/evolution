@@ -85,7 +85,7 @@ int mail_importer_import_mbox(const char *path, const char *folderuri, struct _C
 void mail_importer_import_mbox_sync(const char *path, const char *folderuri, struct _CamelOperation *cancel);
 
 struct _MailImporterSpecial {
-	char *orig, *new;
+	const gchar *orig, *new;
 };
 typedef struct _MailImporterSpecial MailImporterSpecial;
 

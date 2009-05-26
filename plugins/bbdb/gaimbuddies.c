@@ -56,11 +56,7 @@ typedef struct {
 	char *icon;
 } GaimBuddy;
 
-/* Defined in bbdb.c */
-EBook *bbdb_open_addressbook (int type);
-
 /* Forward declarations for this file. */
-void bbdb_sync_buddy_list (void);
 static gboolean bbdb_merge_buddy_to_contact (EBook *book, GaimBuddy *b, EContact *c);
 static GList *bbdb_get_gaim_buddy_list (void);
 static char *get_node_text (xmlNodePtr node);

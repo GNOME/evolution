@@ -812,7 +812,6 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 
 	g_return_val_if_fail (ia != NULL, FALSE);
 	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), FALSE);
-	g_return_val_if_fail (busy_type >= 0, FALSE);
 	g_return_val_if_fail (busy_type < E_MEETING_FREE_BUSY_LAST, FALSE);
 
 	priv = ia->priv;

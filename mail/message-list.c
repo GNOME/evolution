@@ -114,7 +114,7 @@ struct _MessageListPrivate {
 };
 
 static struct {
-	char *target;
+	const gchar *target;
 	GdkAtom atom;
 	guint32 actions;
 } ml_drag_info[] = {
@@ -131,15 +131,15 @@ enum {
 
 /* What we send */
 static GtkTargetEntry ml_drag_types[] = {
-	{ "x-uid-list", 0, DND_X_UID_LIST },
-	{ "text/uri-list", 0, DND_TEXT_URI_LIST },
+	{ (gchar *) "x-uid-list", 0, DND_X_UID_LIST },
+	{ (gchar *) "text/uri-list", 0, DND_TEXT_URI_LIST },
 };
 
 /* What we accept */
 static GtkTargetEntry ml_drop_types[] = {
-	{ "x-uid-list", 0, DND_X_UID_LIST },
-	{ "message/rfc822", 0, DND_MESSAGE_RFC822 },
-	{ "text/uri-list", 0, DND_TEXT_URI_LIST },
+	{ (gchar *) "x-uid-list", 0, DND_X_UID_LIST },
+	{ (gchar *) "message/rfc822", 0, DND_MESSAGE_RFC822 },
+	{ (gchar *) "text/uri-list", 0, DND_TEXT_URI_LIST },
 };
 
 /*
@@ -214,8 +214,8 @@ enum {
 static guint message_list_signals [LAST_SIGNAL] = {0, };
 
 static struct {
-	char *icon_name;
-	GdkPixbuf  *pixbuf;
+	const gchar *icon_name;
+	GdkPixbuf *pixbuf;
 } states_pixmaps[] = {
 	{ "mail-unread",                       NULL },
 	{ "mail-read",                         NULL },
@@ -1189,7 +1189,7 @@ sanitize_recipients (const gchar *string)
 	char **name;
 
 	if (!string || !*string)
-		return "";
+		return (gchar *) "";
 
 	gstring = g_string_new ("");
 
@@ -2102,10 +2102,10 @@ ml_drop_popup_cancel(EPopup *ep, EPopupItem *item, void *data)
 }
 
 static EPopupItem ml_drop_popup_menu[] = {
-	{ E_POPUP_ITEM, "00.emc.02", N_("_Copy"), ml_drop_popup_copy, NULL, "folder-copy", 0 },
-	{ E_POPUP_ITEM, "00.emc.03", N_("_Move"), ml_drop_popup_move, NULL, "folder-move", 0 },
-	{ E_POPUP_BAR, "10.emc" },
-	{ E_POPUP_ITEM, "99.emc.00", N_("Cancel _Drag"), ml_drop_popup_cancel, NULL, NULL, 0 },
+	{ E_POPUP_ITEM, (gchar *) "00.emc.02", (gchar *) N_("_Copy"), ml_drop_popup_copy, NULL, (gchar *) "folder-copy", 0 },
+	{ E_POPUP_ITEM, (gchar *) "00.emc.03", (gchar *) N_("_Move"), ml_drop_popup_move, NULL, (gchar *) "folder-move", 0 },
+	{ E_POPUP_BAR, (gchar *) "10.emc" },
+	{ E_POPUP_ITEM, (gchar *) "99.emc.00", (gchar *) N_("Cancel _Drag"), ml_drop_popup_cancel, NULL, NULL, 0 },
 };
 
 static void
@@ -3993,7 +3993,7 @@ regen_list_exec (struct _regen_list_msg *m)
 	CamelMessageInfo *info;
 	ETreePath cursor;
 	int i;
-	char *expr = NULL;
+	gchar *expr = NULL;
 
 	if (m->folder != m->ml->folder)
 		return;
@@ -4014,13 +4014,13 @@ regen_list_exec (struct _regen_list_msg *m)
 				expr = alloca(strlen(m->search) + 92);
 				sprintf(expr, "(and (match-all (and (not (system-flag \"deleted\")) (not (system-flag \"junk\"))))\n %s)", m->search);
 			} else
-				expr = "(match-all (and (not (system-flag \"deleted\")) (not (system-flag \"junk\"))))";
+				expr = (gchar *) "(match-all (and (not (system-flag \"deleted\")) (not (system-flag \"junk\"))))";
 		} else {
 			if (m->search) {
 				expr = alloca(strlen(m->search) + 64);
 				sprintf(expr, "(and (match-all (not (system-flag \"deleted\")))\n %s)", m->search);
 			} else
-				expr = "(match-all (not (system-flag \"deleted\")))";
+				expr = (gchar *) "(match-all (not (system-flag \"deleted\")))";
 		}
 	} else {
 		if (m->hidejunk) {
@@ -4028,7 +4028,7 @@ regen_list_exec (struct _regen_list_msg *m)
 				expr = alloca(strlen(m->search) + 64);
 				sprintf(expr, "(and (match-all (not (system-flag \"junk\")))\n %s)", m->search);
 			} else
-				expr = "(match-all (not (system-flag \"junk\")))";
+				expr = (gchar *) "(match-all (not (system-flag \"junk\")))";
 		} else {
 			expr = m->search;
 		}

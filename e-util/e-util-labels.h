@@ -27,15 +27,12 @@ struct _GtkWindow;
 struct _GConfClient;
 
 typedef struct {
-	char *tag;
-	char *name;
-	char *colour;
+	gchar *tag;
+	gchar *name;
+	gchar *colour;
 } EUtilLabel;
 
 #define E_UTIL_LABELS_GCONF_KEY "/apps/evolution/mail/labels"
-
-#define LABEL_DEFAULTS_NUM 5
-extern EUtilLabel label_defaults[LABEL_DEFAULTS_NUM];
 
 GSList *    e_util_labels_parse         (struct _GConfClient *client);
 void        e_util_labels_free          (GSList *labels);

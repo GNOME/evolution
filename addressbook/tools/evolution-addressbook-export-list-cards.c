@@ -146,7 +146,7 @@ struct _EContactCSVFieldData
 {
 	gint csv_field;
 	gint contact_field;
-	gchar *csv_name;
+	const gchar *csv_name;
 	EContactCSVDataType data_type;
 };
 
@@ -245,7 +245,6 @@ gchar *escape_string (gchar * orig);
 int output_n_cards_file (FILE * outputfile, GList *contacts, int size, int begin_no, CARD_FORMAT format);
 static void fork_to_background (void);
 void set_pre_defined_field (GSList ** pre_defined_fields);
-guint action_list_cards_init (ActionContext * p_actctx);
 
 
 /* function declarations*/

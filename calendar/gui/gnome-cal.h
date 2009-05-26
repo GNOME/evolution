@@ -112,8 +112,6 @@ GtkWidget *gnome_calendar_new			(void);
 void gnome_calendar_set_activity_handler (GnomeCalendar *cal, EActivityHandler *activity_handler);
 void gnome_calendar_set_ui_component (GnomeCalendar *cal, BonoboUIComponent *ui_component);
 
-ECalendarTable *gnome_calendar_get_task_pad	(GnomeCalendar *gcal);
-
 ECalModel *gnome_calendar_get_calendar_model    (GnomeCalendar *gcal);
 ECal *gnome_calendar_get_default_client    (GnomeCalendar *gcal);
 
@@ -200,8 +198,6 @@ void       gnome_calendar_edit_appointment      (GnomeCalendar *gcal,
 						 const char* src_uid,
 						 const char* comp_uid,
 						 const char* comp_rid);
-
-GtkWidget * gnome_calendar_get_tag (GnomeCalendar *gcal);
 
 void gnome_calendar_emit_user_created_signal  (gpointer instance, GnomeCalendar *gcal, ECal *calendar);
 

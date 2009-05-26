@@ -375,7 +375,7 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	gchar buffer[16];
 	gint hour, display_hour, minute, offset, time_width, time_x;
 	gint min_end_time_x, suffix_width, max_icon_x;
-	gchar *suffix;
+	const gchar *suffix;
 	gboolean draw_start_triangle, draw_end_triangle;
 	GdkRectangle clip_rect;
 	GSList *categories_list, *elem;
@@ -831,7 +831,7 @@ e_day_view_top_item_get_day_label (EDayView *day_view, gint day,
 {
 	struct icaltimetype day_start_tt;
 	struct tm day_start = { 0 };
-	gchar *format;
+	const gchar *format;
 
 	day_start_tt = icaltime_from_timet_with_zone (day_view->day_starts[day],
 						      FALSE,

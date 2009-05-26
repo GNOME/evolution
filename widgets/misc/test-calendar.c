@@ -38,7 +38,7 @@ enum {
 };
 
 static GtkTargetEntry target_table[] = {
-	{ "E-SHORTCUT",     0, TARGET_SHORTCUT }
+	{ (gchar *) "E-SHORTCUT", 0, TARGET_SHORTCUT }
 };
 
 static guint n_targets = sizeof(target_table) / sizeof(target_table[0]);

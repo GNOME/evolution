@@ -154,7 +154,7 @@ tasks_control_activate_cb		(BonoboControl		*control,
 }
 
 struct _tasks_sensitize_item {
-	char *command;
+	const gchar *command;
 	guint32 enable;
 };
 

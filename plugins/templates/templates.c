@@ -583,7 +583,7 @@ static GSList
 		if (!g_str_has_suffix (folder->name, "Templates"))
 			path = g_strdup_printf ("80.%s", folder->full_name);
 		else
-			path = "80.Templates";
+			path = g_strdup ("80.Templates");
 
 		/* If this uid is trashed, ignore it */
 		if (camel_folder_get_message_flags (folder, uid) & CAMEL_MESSAGE_DELETED)
@@ -636,7 +636,7 @@ static GSList
 		if (!g_str_has_suffix (folder->name, "Templates"))
 			item->path = g_strdup_printf ("80.%s", folder->full_name);
 		else
-			item->path = "80.Templates";
+			item->path = g_strdup ("80.Templates");
 
 		list = g_slist_prepend (list, item);
 

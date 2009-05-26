@@ -96,6 +96,8 @@ enum {
 	LAST_SIGNAL
 };
 
+extern CamelStore *vfolder_store;
+
 static guint signals[LAST_SIGNAL] = { 0, };
 static GtkTreeStoreClass *parent_class = NULL;
 
@@ -186,7 +188,6 @@ em_folder_tree_model_class_init (EMFolderTreeModelClass *klass)
 static int
 sort_cb (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data)
 {
-	extern CamelStore *vfolder_store;
 	char *aname, *bname;
 	CamelStore *store;
 	gboolean is_store;

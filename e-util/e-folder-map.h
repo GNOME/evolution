@@ -28,7 +28,8 @@
 
 G_BEGIN_DECLS
 
-GSList *e_folder_map_local_folders (char *local_dir, char *type);
+GSList *	e_folder_map_local_folders	(const gchar *local_dir,
+						 const gchar *type);
 
 G_END_DECLS
 

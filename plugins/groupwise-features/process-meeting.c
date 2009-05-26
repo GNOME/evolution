@@ -50,9 +50,9 @@ static void on_decline_meeting (EPopup *ep, EPopupItem *pitem, void *data);
 static void on_resend_meeting (EPopup *ep, EPopupItem *pitem, void *data);
 
 static EPopupItem popup_items[] = {
-{ E_POPUP_ITEM, "41.accept", N_("Accept"), on_accept_meeting, NULL, GTK_STOCK_APPLY, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_ACCEPTABLE},
-{ E_POPUP_ITEM, "42.accept", N_("Accept Tentatively"), on_accept_meeting_tentative, NULL, GTK_STOCK_DIALOG_QUESTION, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_ACCEPTABLE},
-{ E_POPUP_ITEM, "43.decline", N_("Decline"), on_decline_meeting, NULL, GTK_STOCK_CANCEL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING}
+	{ E_POPUP_ITEM, (gchar *) "41.accept", (gchar *) N_("Accept"), on_accept_meeting, NULL, (gchar *) GTK_STOCK_APPLY, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_ACCEPTABLE},
+	{ E_POPUP_ITEM, (gchar *) "42.accept", (gchar *) N_("Accept Tentatively"), on_accept_meeting_tentative, NULL, (gchar *) GTK_STOCK_DIALOG_QUESTION, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_ACCEPTABLE},
+	{ E_POPUP_ITEM, (gchar *) "43.decline", (gchar *) N_("Decline"), on_decline_meeting, NULL, (gchar *) GTK_STOCK_CANCEL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING}
 };
 
 static void
@@ -319,7 +319,7 @@ typedef struct {
 } ThreadData;
 
 static EPopupItem retract_popup_items[] = {
-{ E_POPUP_ITEM, "49.resend", N_("Rese_nd Meeting..."), on_resend_meeting, NULL, GTK_STOCK_EDIT, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING}
+	{ E_POPUP_ITEM, (gchar *) "49.resend", (gchar *) N_("Rese_nd Meeting..."), on_resend_meeting, NULL, (gchar *) GTK_STOCK_EDIT, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING}
 };
 
 void 

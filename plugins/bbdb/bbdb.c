@@ -45,7 +45,6 @@
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
 void bbdb_handle_send (EPlugin *ep, EMEventTargetComposer *target);
 GtkWidget *bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
-GtkWidget *bbdb_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 
 /* For internal use */
 struct bbdb_stuff {

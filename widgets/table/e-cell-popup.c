@@ -46,8 +46,6 @@
 #define E_CELL_POPUP_ARROW_YPAD		3
 
 
-static void	e_cell_popup_class_init	(ECellPopupClass *klass);
-static void	e_cell_popup_init	(ECellPopup	*ecp);
 static void	e_cell_popup_dispose	(GObject	*object);
 
 

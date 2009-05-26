@@ -97,7 +97,7 @@ struct _fetch_mail_msg {
 
 	char *source_uri;
 
-	void (*done)(char *source, void *data);
+	void (*done)(const char *source, void *data);
 	void *data;
 };
 
@@ -400,7 +400,7 @@ void
 mail_fetch_mail (const char *source, int keep, const char *type, CamelOperation *cancel,
 		 CamelFilterGetFolderFunc get_folder, void *get_data,
 		 CamelFilterStatusFunc *status, void *status_data,
-		 void (*done)(char *source, void *data), void *data)
+		 void (*done)(const char *source, void *data), void *data)
 {
 	struct _fetch_mail_msg *m;
 	struct _filter_mail_msg *fm;
@@ -429,13 +429,13 @@ mail_fetch_mail (const char *source, int keep, const char *type, CamelOperation 
 /* sending stuff */
 /* ** SEND MAIL *********************************************************** */
 
-static char *normal_recipients[] = {
+static const gchar *normal_recipients[] = {
 	CAMEL_RECIPIENT_TYPE_TO,
 	CAMEL_RECIPIENT_TYPE_CC,
 	CAMEL_RECIPIENT_TYPE_BCC
 };
 
-static char *resent_recipients[] = {
+static const gchar *resent_recipients[] = {
 	CAMEL_RECIPIENT_TYPE_RESENT_TO,
 	CAMEL_RECIPIENT_TYPE_RESENT_CC,
 	CAMEL_RECIPIENT_TYPE_RESENT_BCC
@@ -665,7 +665,7 @@ struct _send_queue_msg {
 	CamelFilterStatusFunc *status;
 	void *status_data;
 
-	void (*done)(char *destination, void *data);
+	void (*done)(const char *destination, void *data);
 	void *data;
 };
 
@@ -832,7 +832,7 @@ mail_send_queue(CamelFolder *queue, const char *destination,
 		const char *type, CamelOperation *cancel,
 		CamelFilterGetFolderFunc get_folder, void *get_data,
 		CamelFilterStatusFunc *status, void *status_data,
-		void (*done)(char *destination, void *data), void *data)
+		void (*done)(const char *destination, void *data), void *data)
 {
 	struct _send_queue_msg *m;
 

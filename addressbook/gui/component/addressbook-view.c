@@ -96,8 +96,8 @@ enum DndTargetType {
 #define VCARD_TYPE        "text/x-vcard"
 #define SOURCE_VCARD_TYPE "text/x-source-vcard"
 static GtkTargetEntry drag_types[] = {
-	{ SOURCE_VCARD_TYPE, 0, DND_TARGET_TYPE_SOURCE_VCARD_LIST },
-	{ VCARD_TYPE, 0, DND_TARGET_TYPE_VCARD_LIST }
+	{ (gchar *) SOURCE_VCARD_TYPE, 0, DND_TARGET_TYPE_SOURCE_VCARD_LIST },
+	{ (gchar *) VCARD_TYPE, 0, DND_TARGET_TYPE_VCARD_LIST }
 };
 static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
 
@@ -946,15 +946,15 @@ primary_source_selection_changed_callback (ESourceSelector *selector,
 }
 
 static EPopupItem abv_source_popups[] = {
-	{ E_POPUP_ITEM, "10.new", N_("_New Address Book"), new_addressbook_cb, NULL, "address-book-new", 0, 0 },
- 	{ E_POPUP_ITEM, "20.saveasvcard", N_("Save As vCard..."), save_addressbook_cb, NULL,"document-save-as", 0, EAB_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_ITEM, "25.rename", N_("_Rename..."), rename_addressbook_cb, NULL, NULL, 0, EAB_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, (gchar *) "10.new", (gchar *) N_("_New Address Book"), new_addressbook_cb, NULL, (gchar *) "address-book-new", 0, 0 },
+ 	{ E_POPUP_ITEM, (gchar *) "20.saveasvcard", (gchar *) N_("Save As vCard..."), save_addressbook_cb, NULL, (gchar *) "document-save-as", 0, EAB_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, (gchar *) "25.rename", (gchar *) N_("_Rename..."), rename_addressbook_cb, NULL, NULL, 0, EAB_POPUP_SOURCE_PRIMARY },
 
-	{ E_POPUP_BAR,  "30.bar" },
-	{ E_POPUP_ITEM, "30.delete", N_("_Delete"), delete_addressbook_cb, NULL, "edit-delete", 0, EAB_POPUP_SOURCE_USER|EAB_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_BAR,  (gchar *) "30.bar" },
+	{ E_POPUP_ITEM, (gchar *) "30.delete", (gchar *) N_("_Delete"), delete_addressbook_cb, NULL, (gchar *) "edit-delete", 0, EAB_POPUP_SOURCE_USER|EAB_POPUP_SOURCE_PRIMARY },
 
-	{ E_POPUP_BAR,  "99.bar" },
-	{ E_POPUP_ITEM, "99.properties", N_("_Properties"), edit_addressbook_cb, NULL,"document-properties", 0, EAB_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_BAR,  (gchar *) "99.bar" },
+	{ E_POPUP_ITEM, (gchar *) "99.properties", (gchar *) N_("_Properties"), edit_addressbook_cb, NULL, (gchar *) "document-properties", 0, EAB_POPUP_SOURCE_PRIMARY },
 };
 
 static void

@@ -85,7 +85,7 @@ enum DndTargetType {
 #define URI_LIST_TYPE "text/uri-list"
 
 static GtkTargetEntry image_drag_types[] = {
-	{ URI_LIST_TYPE, 0, DND_TARGET_TYPE_URI_LIST },
+	{ (gchar *) URI_LIST_TYPE, 0, DND_TARGET_TYPE_URI_LIST },
 };
 static const int num_image_drag_types = sizeof (image_drag_types) / sizeof (image_drag_types[0]);
 

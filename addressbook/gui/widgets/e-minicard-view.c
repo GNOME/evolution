@@ -69,8 +69,8 @@ enum DndTargetType {
 #define VCARD_LIST_TYPE "text/x-vcard"
 #define SOURCE_VCARD_LIST_TYPE "text/x-source-vcard"
 static GtkTargetEntry drag_types[] = {
-	{ SOURCE_VCARD_LIST_TYPE, 0, DND_TARGET_TYPE_SOURCE_VCARD_LIST },
-	{ VCARD_LIST_TYPE, 0, DND_TARGET_TYPE_VCARD_LIST }
+	{ (gchar *) SOURCE_VCARD_LIST_TYPE, 0, DND_TARGET_TYPE_SOURCE_VCARD_LIST },
+	{ (gchar *) VCARD_LIST_TYPE, 0, DND_TARGET_TYPE_VCARD_LIST }
 };
 static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
 

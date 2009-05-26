@@ -510,7 +510,7 @@ enum datefmt {
 	DATE_YEAR	= 1 << 3
 };
 
-static char *days[] = {
+static const gchar *days[] = {
 	N_("1st"), N_("2nd"), N_("3rd"), N_("4th"), N_("5th"),
 	N_("6th"), N_("7th"), N_("8th"), N_("9th"), N_("10th"),
 	N_("11th"), N_("12th"), N_("13th"), N_("14th"), N_("15th"),
@@ -592,8 +592,9 @@ print_month_small (GtkPrintContext *context, GnomeCalendar *gcal, time_t month,
 	double cell_top, cell_bottom, cell_left, cell_right, text_right;
 
 	/* Translators: These are workday abbreviations, e.g. Su=Sunday and Th=thursday */
-	char *daynames[] = { N_("Su"), N_("Mo"), N_("Tu"), N_("We"),
-			     N_("Th"), N_("Fr"), N_("Sa") };
+	const gchar *daynames[] =
+		{ N_("Su"), N_("Mo"), N_("Tu"), N_("We"),
+		  N_("Th"), N_("Fr"), N_("Sa") };
 	cairo_t *cr;
 
 	/* Print the title, e.g. 'June 2001', in the top 16% of the area. */
@@ -1061,22 +1062,23 @@ print_attendees (GtkPrintContext *context, PangoFontDescription *font, cairo_t *
 	return top;
 }
 
-static char *
+static gchar *
 get_summary_with_location (icalcomponent *icalcomp)
 {
 	const gchar *summary, *location;
-	char *text;
+	gchar *text;
 
 	g_return_val_if_fail (icalcomp != NULL, NULL);
 
 	summary = icalcomponent_get_summary (icalcomp);
-	text = summary ? (char*) summary : "";
+	if (summary == NULL)
+		summary = "";
 
 	location = icalcomponent_get_location (icalcomp);
 	if (location && *location) {
-		text = g_strdup_printf ("%s (%s)", text, location);
+		text = g_strdup_printf ("%s (%s)", summary, location);
 	} else {
-		text = g_strdup (text);
+		text = g_strdup (summary);
 	}
 
 	return text;
@@ -1628,7 +1630,8 @@ print_week_view_background (GtkPrintContext *context,
 	struct tm tm;
 	int day, day_x, day_y, day_h;
 	double x1, x2, y1, y2, font_size, fillcolor;
-	char *format_string, buffer[128];
+	const gchar *format_string;
+	gchar buffer[128];
 	cairo_t *cr;
 
 	font_size = get_font_size (font);
@@ -2271,7 +2274,11 @@ print_year_view (GtkPrintContext *context, GnomeCalendar *gcal, time_t date)
 #endif
 
 static void
-write_label_piece (time_t t, char *buffer, int size, char *stext, char *etext)
+write_label_piece (time_t t,
+                   gchar *buffer,
+                   gint size,
+                   gchar *stext,
+                   const gchar *etext)
 {
 	icaltimezone *zone = calendar_config_get_icaltimezone ();
 	struct tm *tmp_tm;

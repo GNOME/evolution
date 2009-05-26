@@ -41,27 +41,27 @@
 
 struct _e_error_button {
 	struct _e_error_button *next;
-	char *stock;
-	char *label;
-	int response;
+	const gchar *stock;
+	const gchar *label;
+	gint response;
 };
 
 struct _e_error {
 	guint32 flags;
-	char *id;
-	int type;
-	int default_response;
-	char *title;
-	char *primary;
-	char *secondary;
-	char *help_uri;
+	const gchar *id;
+	gint type;
+	gint default_response;
+	const gchar *title;
+	const gchar *primary;
+	const gchar *secondary;
+	const gchar *help_uri;
 	gboolean scroll;
 	struct _e_error_button *buttons;
 };
 
 struct _e_error_table {
-	char *domain;
-	char *translation_domain;
+	const gchar *domain;
+	const gchar *translation_domain;
 	GHashTable *errors;
 };
 
@@ -84,8 +84,8 @@ static struct _e_error default_errors[] = {
 /* ********************************************************************** */
 
 static struct {
-	char *name;
-	int id;
+	const gchar *name;
+	gint id;
 } response_map[] = {
 	{ "GTK_RESPONSE_REJECT", GTK_RESPONSE_REJECT },
 	{ "GTK_RESPONSE_ACCEPT", GTK_RESPONSE_ACCEPT },
@@ -111,9 +111,9 @@ map_response(const char *name)
 }
 
 static struct {
-	const char *name;
-	const char *icon;
-	const char *title;
+	const gchar *name;
+	const gchar *icon;
+	const gchar *title;
 } type_map[] = {
 	{ "info", GTK_STOCK_DIALOG_INFO, N_("Evolution Information") },
 	{ "warning", GTK_STOCK_DIALOG_WARNING, N_("Evolution Warning") },
@@ -184,7 +184,7 @@ ee_load(const char *path)
 		table = g_malloc0(sizeof(*table));
 		table->domain = g_strdup(tmp);
 		table->errors = g_hash_table_new(g_str_hash, g_str_equal);
-		g_hash_table_insert(error_table, table->domain, table);
+		g_hash_table_insert(error_table, (gpointer) table->domain, table);
 
 		tmp2 = (char *)xmlGetProp(root, (const unsigned char *)"translation-domain");
 		if (tmp2) {
@@ -263,16 +263,20 @@ ee_load(const char *path)
 					}
 				} else if (!strcmp((char *)scan->name, "button")) {
 					struct _e_error_button *b;
+					gchar *label = NULL;
+					gchar *stock = NULL;
 
 					b = g_malloc0(sizeof(*b));
 					tmp = (char *)xmlGetProp(scan, (const unsigned char *)"stock");
 					if (tmp) {
-						b->stock = g_strdup(tmp);
+						stock = g_strdup(tmp);
+						b->stock = stock;
 						xmlFree(tmp);
 					}
 					tmp = (char *)xmlGetProp(scan, (const unsigned char *)"label");
 					if (tmp) {
-						b->label = g_strdup(dgettext(table->translation_domain, tmp));
+						label = g_strdup(dgettext(table->translation_domain, tmp));
+						b->label = label;
 						xmlFree(tmp);
 					}
 					tmp = (char *)xmlGetProp(scan, (const unsigned char *)"response");
@@ -281,10 +285,10 @@ ee_load(const char *path)
 						xmlFree(tmp);
 					}
 
-					if (b->stock == NULL && b->label == NULL) {
+					if (stock == NULL && label == NULL) {
 						g_warning("Error file '%s': missing button details in error '%s'", path, e->id);
-						g_free(b->stock);
-						g_free(b->label);
+						g_free(stock);
+						g_free(label);
 						g_free(b);
 					} else {
 						lastbutton->next = b;
@@ -293,7 +297,7 @@ ee_load(const char *path)
 				}
 			}
 
-			g_hash_table_insert(table->errors, e->id, e);
+			g_hash_table_insert(table->errors, (gpointer) e->id, e);
 		}
 	}
 
@@ -319,8 +323,8 @@ ee_load_tables(void)
 	table->domain = "builtin";
 	table->errors = g_hash_table_new(g_str_hash, g_str_equal);
 	for (i=0;i<sizeof(default_errors)/sizeof(default_errors[0]);i++)
-		g_hash_table_insert(table->errors, default_errors[i].id, &default_errors[i]);
-	g_hash_table_insert(error_table, table->domain, table);
+		g_hash_table_insert(table->errors, (gpointer) default_errors[i].id, &default_errors[i]);
+	g_hash_table_insert(error_table, (gpointer) table->domain, table);
 
 	/* look for installed error tables */
 	base = g_build_filename (EVOLUTION_PRIVDATADIR, "errors", NULL);

@@ -739,17 +739,17 @@ show_config (CalendarPrefsDialog *prefs)
 
 /* plugin meta-data */
 static ECalConfigItem eccp_items[] = {
-	{ E_CONFIG_BOOK,          "",                             "toplevel-notebook",   eccp_widget_glade },
-	{ E_CONFIG_PAGE,          "00.general",                   "general",             eccp_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, "00.general/00.time",           "time",                eccp_widget_glade },
-	{ E_CONFIG_SECTION_TABLE, "00.general/10.workWeek",       "workWeek",            eccp_widget_glade },
-	{ E_CONFIG_SECTION,       "00.general/20.alerts",         "alerts",              eccp_widget_glade },
-	{ E_CONFIG_PAGE,          "10.display",                   "display",             eccp_widget_glade },
-	{ E_CONFIG_SECTION,       "10.display/00.general",        "displayGeneral",      eccp_widget_glade },
-	{ E_CONFIG_SECTION,       "10.display/10.taskList",       "taskList",            eccp_widget_glade },
-	{ E_CONFIG_PAGE,	  "15.alarms",			  "alarms",		 eccp_widget_glade },
-	{ E_CONFIG_PAGE,          "20.freeBusy",                  "freebusy",            eccp_widget_glade },
-	{ E_CONFIG_SECTION,       "20.freeBusy/00.defaultServer", "defaultFBServer",     eccp_widget_glade },
+	{ E_CONFIG_BOOK,          (gchar *) "",                             (gchar *) "toplevel-notebook", eccp_widget_glade },
+	{ E_CONFIG_PAGE,          (gchar *) "00.general",                   (gchar *) "general",           eccp_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "00.general/00.time",           (gchar *) "time",              eccp_widget_glade },
+	{ E_CONFIG_SECTION_TABLE, (gchar *) "00.general/10.workWeek",       (gchar *) "workWeek",          eccp_widget_glade },
+	{ E_CONFIG_SECTION,       (gchar *) "00.general/20.alerts",         (gchar *) "alerts",            eccp_widget_glade },
+	{ E_CONFIG_PAGE,          (gchar *) "10.display",                   (gchar *) "display",           eccp_widget_glade },
+	{ E_CONFIG_SECTION,       (gchar *) "10.display/00.general",        (gchar *) "displayGeneral",    eccp_widget_glade },
+	{ E_CONFIG_SECTION,       (gchar *) "10.display/10.taskList",       (gchar *) "taskList",          eccp_widget_glade },
+	{ E_CONFIG_PAGE,          (gchar *) "15.alarms",                    (gchar *) "alarms",            eccp_widget_glade },
+	{ E_CONFIG_PAGE,          (gchar *) "20.freeBusy",                  (gchar *) "freebusy",          eccp_widget_glade },
+	{ E_CONFIG_SECTION,       (gchar *) "20.freeBusy/00.defaultServer", (gchar *) "defaultFBServer",   eccp_widget_glade },
 };
 
 static void

@@ -639,7 +639,7 @@ rule_bottom (GtkWidget *widget, RuleEditor *re)
 }
 
 static struct {
-	char *name;
+	const gchar *name;
 	GCallback func;
 } edit_buttons[] = {
 	{ "rule_add",    G_CALLBACK (rule_add)    },

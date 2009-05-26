@@ -5,7 +5,6 @@ INCLUDES =						\
 	-DLIBDIR=\"$(libdir)\"				\
 	-DG_LOG_DOMAIN=\"EBook\"			\
 	-I$(top_srcdir) 				\
-	-I$(top_srcdir)/camel				\
 	-I$(top_builddir)/shell				\
 	-I$(top_srcdir)/shell				\
         $(EVOLUTION_ADDRESSBOOK_CFLAGS)

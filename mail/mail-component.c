@@ -104,6 +104,8 @@ static void view_changed_timeout_remove (EComponentView *component_view);
 
 #define MAIL_COMPONENT_DEFAULT(mc) if (mc == NULL) mc = mail_component_peek();
 
+extern int camel_application_is_exiting;
+
 #define PARENT_TYPE evolution_component_get_type ()
 static BonoboObjectClass *parent_class = NULL;
 const char *x_mailer = "Evolution " VERSION SUB_VERSION " " VERSION_COMMENT;
@@ -158,7 +160,7 @@ struct _MailComponentPrivate {
 
 /* indexed by _mail_component_folder_t */
 static struct {
-	char *name;
+	const gchar *name;
 	char *uri;
 	CamelFolder *folder;
 } mc_default_folders[] = {
@@ -863,7 +865,6 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 	mail_config_prune_proxies ();
 	switch (mc->priv->quit_state) {
 	case MC_QUIT_START: {
-		extern int camel_application_is_exiting;
 		int now = time(NULL)/60/60/24, days;
 		gboolean empty_junk;
 
@@ -925,20 +926,20 @@ impl__get_userCreatableItems (PortableServer_Servant servant, CORBA_Environment 
 
 	CORBA_sequence_set_release (list, FALSE);
 
-	list->_buffer[0].id = "message";
+	list->_buffer[0].id = (char *) "message";
 	list->_buffer[0].description = _("New Mail Message");
 	list->_buffer[0].menuDescription = (char *) C_("New", "_Mail Message");
 	list->_buffer[0].tooltip = _("Compose a new mail message");
 	list->_buffer[0].menuShortcut = 'm';
-	list->_buffer[0].iconName = "mail-message-new";
+	list->_buffer[0].iconName = (char *) "mail-message-new";
 	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
 
-	list->_buffer[1].id = "folder";
+	list->_buffer[1].id = (char *) "folder";
 	list->_buffer[1].description = _("New Mail Folder");
 	list->_buffer[1].menuDescription = (char *) C_("New", "Mail _Folder");
 	list->_buffer[1].tooltip = _("Create a new mail folder");
 	list->_buffer[1].menuShortcut = '\0';
-	list->_buffer[1].iconName = "folder-new";
+	list->_buffer[1].iconName = (char *) "folder-new";
 	list->_buffer[1].type = GNOME_Evolution_CREATABLE_FOLDER;
 
 	return list;
@@ -1102,7 +1103,6 @@ mc_sync_store_done (CamelStore *store, void *data)
 static void
 mc_sync_store (gpointer key, gpointer value, gpointer user_data)
 {
-	extern int camel_application_is_exiting;
 	MailComponent *mc = (MailComponent *) user_data;
 
 	mc->priv->mail_sync_in_progress++;
@@ -1116,7 +1116,6 @@ mc_sync_store (gpointer key, gpointer value, gpointer user_data)
 static gboolean
 call_mail_sync (gpointer user_data)
 {
-	extern int camel_application_is_exiting;
 	MailComponent *mc = (MailComponent *)user_data;
 
 	if (camel_application_is_exiting)

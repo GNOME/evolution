@@ -52,7 +52,6 @@ struct _proxyDialogClass {
 
 GType proxy_dialog_get_type (void);
 proxyDialog *proxy_dialog_new (void);
-void proxy_commit(GtkWidget *button, EConfigHookItemFactoryData *data);
 GtkWidget * org_gnome_proxy (EPlugin *epl, EConfigHookItemFactoryData *data);
 static void proxy_add_account (GtkWidget *button, EAccount *account);
 static void proxy_remove_account (GtkWidget *button, EAccount *account);

@@ -260,7 +260,7 @@ xml_encode(FilterRule *fr)
 
         node = FILTER_RULE_CLASS(parent_class)->xml_encode(fr);
 	g_return_val_if_fail (node != NULL, NULL);
-	g_return_val_if_fail (vr->with >= 0 && vr->with < sizeof(with_names)/sizeof(with_names[0]), NULL);
+	g_return_val_if_fail (vr->with < sizeof(with_names)/sizeof(with_names[0]), NULL);
 
 	set = xmlNewNode(NULL, (const unsigned char *)"sources");
 	xmlAddChild(node, set);
@@ -383,7 +383,7 @@ static void source_add(GtkWidget *widget, struct _source_data *data);
 static void source_remove(GtkWidget *widget, struct _source_data *data);
 
 static struct {
-	char *name;
+	const gchar *name;
 	GCallback func;
 } edit_buttons[] = {
 	{ "source_add",    G_CALLBACK(source_add)   },
@@ -430,7 +430,7 @@ select_source_with_changed(GtkWidget *widget, struct _source_data *data)
 			break;
 	}
 
-	if ( with < EM_VFOLDER_RULE_WITH_SPECIFIC || with > EM_VFOLDER_RULE_WITH_LOCAL )
+	if (with > EM_VFOLDER_RULE_WITH_LOCAL )
 		with = 0;
 
 	gtk_widget_set_sensitive (data->source_selector, !with );

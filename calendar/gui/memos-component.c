@@ -67,8 +67,8 @@ enum DndTargetType {
 #define PERSONAL_RELATIVE_URI "system"
 
 static GtkTargetEntry drag_types[] = {
-	{ CALENDAR_TYPE, 0, DND_TARGET_TYPE_CALENDAR_LIST },
-	{ XCALENDAR_TYPE, 0, DND_TARGET_TYPE_CALENDAR_LIST }
+	{ (gchar *) CALENDAR_TYPE, 0, DND_TARGET_TYPE_CALENDAR_LIST },
+	{ (gchar *) XCALENDAR_TYPE, 0, DND_TARGET_TYPE_CALENDAR_LIST }
 };
 static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
 
@@ -476,17 +476,17 @@ mark_offline_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static EPopupItem emc_source_popups[] = {
-	{ E_POPUP_ITEM, "10.new", N_("_New Memo List"), new_memo_list_cb, NULL, "stock_notes", 0, 0 },
-	{ E_POPUP_ITEM, "15.copy", N_("_Copy..."), copy_memo_list_cb, NULL, "edit-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_ITEM, "18.rename", N_("_Rename..."), rename_memo_list_cb, NULL, NULL, 0, E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, (gchar *) "10.new", (gchar *) N_("_New Memo List"), new_memo_list_cb, NULL, (gchar *) "stock_notes", 0, 0 },
+	{ E_POPUP_ITEM, (gchar *) "15.copy", (gchar *) N_("_Copy..."), copy_memo_list_cb, NULL, (gchar *) "edit-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, (gchar *) "18.rename", (gchar *) N_("_Rename..."), rename_memo_list_cb, NULL, NULL, 0, E_CAL_POPUP_SOURCE_PRIMARY },
 
-	{ E_POPUP_BAR, "20.bar" },
-	{ E_POPUP_ITEM, "20.delete", N_("_Delete"), delete_memo_list_cb, NULL, "edit-delete", 0, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_ITEM, "30.mark_memos_offline", N_("_Make available for offline use"), mark_offline_cb, NULL, "stock_disconnect", E_CAL_POPUP_SOURCE_OFFLINE, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY|E_CAL_POPUP_SOURCE_OFFLINE },
-	{ E_POPUP_ITEM, "40.mark_memos_no_offline", N_("_Do not make available for offline use"), mark_no_offline_cb, NULL, "stock_connect", E_CAL_POPUP_SOURCE_NO_OFFLINE, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY|E_CAL_POPUP_SOURCE_NO_OFFLINE },
+	{ E_POPUP_BAR, (gchar *) "20.bar" },
+	{ E_POPUP_ITEM, (gchar *) "20.delete", (gchar *) N_("_Delete"), delete_memo_list_cb, NULL, (gchar *) "edit-delete", 0, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, (gchar *) "30.mark_memos_offline", (gchar *) N_("_Make available for offline use"), mark_offline_cb, NULL, (gchar *) "stock_disconnect", E_CAL_POPUP_SOURCE_OFFLINE, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY|E_CAL_POPUP_SOURCE_OFFLINE },
+	{ E_POPUP_ITEM, (gchar *) "40.mark_memos_no_offline", (gchar *) N_("_Do not make available for offline use"), mark_no_offline_cb, NULL, (gchar *) "stock_connect", E_CAL_POPUP_SOURCE_NO_OFFLINE, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY|E_CAL_POPUP_SOURCE_NO_OFFLINE },
 
-	{ E_POPUP_BAR, "99.bar" },
-	{ E_POPUP_ITEM, "99.properties", N_("_Properties"), edit_memo_list_cb, NULL, "document-properties", 0, E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_BAR, (gchar *) "99.bar" },
+	{ E_POPUP_ITEM, (gchar *) "99.properties", (gchar *) N_("_Properties"), edit_memo_list_cb, NULL, (gchar *) "document-properties", 0, E_CAL_POPUP_SOURCE_PRIMARY },
 };
 
 static void
@@ -1039,28 +1039,28 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	CORBA_sequence_set_release (list, FALSE);
 
-	list->_buffer[0].id = CREATE_MEMO_ID;
-	list->_buffer[0].description = _("New memo");
+	list->_buffer[0].id = (char *) CREATE_MEMO_ID;
+	list->_buffer[0].description = (char *) _("New memo");
 	list->_buffer[0].menuDescription = (char *) C_("New", "Mem_o");
-	list->_buffer[0].tooltip = _("Create a new memo");
+	list->_buffer[0].tooltip = (char *) _("Create a new memo");
 	list->_buffer[0].menuShortcut = 'o';
-	list->_buffer[0].iconName = "stock_insert-note";
+	list->_buffer[0].iconName = (char *) "stock_insert-note";
 	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
 
-	list->_buffer[1].id = CREATE_SHARED_MEMO_ID;
-	list->_buffer[1].description = _("New shared memo");
+	list->_buffer[1].id = (char *) CREATE_SHARED_MEMO_ID;
+	list->_buffer[1].description = (char *) _("New shared memo");
 	list->_buffer[1].menuDescription = (char *) C_("New", "_Shared memo");
-	list->_buffer[1].tooltip = _("Create a shared new memo");
+	list->_buffer[1].tooltip = (char *) _("Create a shared new memo");
 	list->_buffer[1].menuShortcut = 'h';
-	list->_buffer[1].iconName = "stock_insert-note";
+	list->_buffer[1].iconName = (char *) "stock_insert-note";
 	list->_buffer[1].type = GNOME_Evolution_CREATABLE_OBJECT;
 
-	list->_buffer[2].id = CREATE_MEMO_LIST_ID;
-	list->_buffer[2].description = _("New memo list");
+	list->_buffer[2].id = (char *) CREATE_MEMO_LIST_ID;
+	list->_buffer[2].description = (char *) _("New memo list");
 	list->_buffer[2].menuDescription = (char *) C_("New", "Memo li_st");
-	list->_buffer[2].tooltip = _("Create a new memo list");
+	list->_buffer[2].tooltip = (char *) _("Create a new memo list");
 	list->_buffer[2].menuShortcut = '\0';
-	list->_buffer[2].iconName = "stock_notes";
+	list->_buffer[2].iconName = (char *) "stock_notes";
 	list->_buffer[2].type = GNOME_Evolution_CREATABLE_FOLDER;
 
 	return list;

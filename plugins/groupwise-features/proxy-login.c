@@ -177,7 +177,8 @@ proxy_login_new (void)
 static int
 proxy_get_password (EAccount *account, char **user_name, char **password)
 {
-	char *uri, *failed_auth, *key, *prompt;
+	const gchar *failed_auth;
+	char *uri, *key, *prompt;
 	CamelURL *url;
 	const char *poa_address, *use_ssl = NULL, *soap_port;
 
@@ -221,7 +222,8 @@ proxy_login_get_cnc (EAccount *account, GtkWindow *password_dlg_parrent)
 {
 	EGwConnection *cnc;
 	CamelURL *url;
-	char *uri = NULL, *failed_auth = NULL, *key = NULL, *prompt = NULL, *password = NULL;
+	const gchar *failed_auth;
+	char *uri = NULL, *key = NULL, *prompt = NULL, *password = NULL;
 	const char *use_ssl = NULL, *soap_port;
 	gboolean remember;
 
@@ -507,7 +509,7 @@ static EPopupItem popup_items[] = {
 /* To Translators: In this case, Proxy does not mean something like 'HTTP Proxy', but a groupwise
  * feature by which one person can send/read mails/appointments using another person's identity
  * without knowing his password, for example if that other person is on vacation */
-{ E_POPUP_ITEM, "20.emc.04", N_("_Proxy Login..."), org_gnome_proxy_account_login, NULL, NULL, 0, EM_POPUP_FOLDER_STORE }
+	{ E_POPUP_ITEM, (gchar *) "20.emc.04", (gchar *) N_("_Proxy Login..."), org_gnome_proxy_account_login, NULL, NULL, 0, EM_POPUP_FOLDER_STORE }
 };
 
 static void

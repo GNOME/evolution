@@ -46,7 +46,7 @@ combine_comparisons (EABContactMatchType prev,
    sucky way like this.  But it can be fixed later. */
 
 /* This is very Anglocentric. */
-static gchar *name_synonyms[][2] = {
+static const gchar *name_synonyms[][2] = {
 	{ "jon", "john" },   /* Ah, the hacker's perogative */
 	{ "joseph", "joe" },
 	{ "robert", "bob" },

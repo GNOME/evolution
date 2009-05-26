@@ -134,15 +134,15 @@ enum DndDropType {
 };
 
 static GtkTargetEntry drag_types[] = {
-	{ "x-folder",         0, DND_DRAG_TYPE_FOLDER         },
-	{ "text/uri-list",    0, DND_DRAG_TYPE_TEXT_URI_LIST  },
+	{ (gchar *) "x-folder",         0, DND_DRAG_TYPE_FOLDER         },
+	{ (gchar *) "text/uri-list",    0, DND_DRAG_TYPE_TEXT_URI_LIST  },
 };
 
 static GtkTargetEntry drop_types[] = {
-	{ "x-uid-list" ,      0, DND_DROP_TYPE_UID_LIST       },
-	{ "x-folder",         0, DND_DROP_TYPE_FOLDER         },
-	{ "message/rfc822",   0, DND_DROP_TYPE_MESSAGE_RFC822 },
-	{ "text/uri-list",    0, DND_DROP_TYPE_TEXT_URI_LIST  },
+	{ (gchar *) "x-uid-list" ,      0, DND_DROP_TYPE_UID_LIST       },
+	{ (gchar *) "x-folder",         0, DND_DROP_TYPE_FOLDER         },
+	{ (gchar *) "message/rfc822",   0, DND_DROP_TYPE_MESSAGE_RFC822 },
+	{ (gchar *) "text/uri-list",    0, DND_DROP_TYPE_TEXT_URI_LIST  },
 };
 
 static GdkAtom drag_atoms[NUM_DRAG_TYPES];
@@ -151,6 +151,7 @@ static GdkAtom drop_atoms[NUM_DROP_TYPES];
 static guint signals[LAST_SIGNAL] = { 0 };
 
 extern CamelSession *session;
+extern CamelStore *vfolder_store;
 
 static void em_folder_tree_class_init (EMFolderTreeClass *klass);
 static void em_folder_tree_init (EMFolderTree *emft);
@@ -529,7 +530,6 @@ emft_expand_node (EMFolderTreeModel *model, const char *key, EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	struct _EMFolderTreeModelStoreInfo *si;
-	extern CamelStore *vfolder_store;
 	GtkTreeRowReference *row;
 	GtkTreePath *path;
 	EAccount *account;
@@ -923,12 +923,12 @@ emft_drop_popup_cancel(EPopup *ep, EPopupItem *item, void *data)
 }
 
 static EPopupItem emft_drop_popup_menu[] = {
-	{ E_POPUP_ITEM, "00.emc.00", N_("_Copy to Folder"), emft_drop_popup_copy, NULL, NULL, 1 },
-	{ E_POPUP_ITEM, "00.emc.01", N_("_Move to Folder"), emft_drop_popup_move, NULL, NULL, 1 },
-	{ E_POPUP_ITEM, "00.emc.02", N_("_Copy"), emft_drop_popup_copy, NULL, "folder-copy", 2 },
-	{ E_POPUP_ITEM, "00.emc.03", N_("_Move"), emft_drop_popup_move, NULL, "folder-move", 2 },
-	{ E_POPUP_BAR, "10.emc" },
-	{ E_POPUP_ITEM, "99.emc.00", N_("Cancel _Drag"), emft_drop_popup_cancel, NULL, "dialog-cancel", 0 },
+	{ E_POPUP_ITEM, (gchar *) "00.emc.00", (gchar *) N_("_Copy to Folder"), emft_drop_popup_copy, NULL, NULL, 1 },
+	{ E_POPUP_ITEM, (gchar *) "00.emc.01", (gchar *) N_("_Move to Folder"), emft_drop_popup_move, NULL, NULL, 1 },
+	{ E_POPUP_ITEM, (gchar *) "00.emc.02", (gchar *) N_("_Copy"), emft_drop_popup_copy, NULL, (gchar *) "folder-copy", 2 },
+	{ E_POPUP_ITEM, (gchar *) "00.emc.03", (gchar *) N_("_Move"), emft_drop_popup_move, NULL, (gchar *) "folder-move", 2 },
+	{ E_POPUP_BAR, (gchar *) "10.emc" },
+	{ E_POPUP_ITEM, (gchar *) "99.emc.00", (gchar *) N_("Cancel _Drag"), emft_drop_popup_cancel, NULL, (gchar *) "dialog-cancel", 0 },
 };
 
 static void
@@ -2042,25 +2042,25 @@ static EPopupItem emft_popup_items[] = {
 	{ E_POPUP_BAR, "10.emc" },
 #endif
 	/* FIXME: need to disable for nochildren folders */
-	{ E_POPUP_ITEM, "10.emc.00", N_("_New Folder..."), emft_popup_new_folder, NULL, "folder-new", 0, EM_POPUP_FOLDER_INFERIORS },
+	{ E_POPUP_ITEM, (gchar *) "10.emc.00", (gchar *) N_("_New Folder..."), emft_popup_new_folder, NULL, (gchar *) "folder-new", 0, EM_POPUP_FOLDER_INFERIORS },
 
-	{ E_POPUP_ITEM, "10.emc.05", N_("_Copy..."), emft_popup_copy, NULL, "folder-copy", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT },
-	{ E_POPUP_ITEM, "10.emc.06", N_("_Move..."), emft_popup_move, NULL, "folder-move", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
+	{ E_POPUP_ITEM, (gchar *) "10.emc.05", (gchar *) N_("_Copy..."), emft_popup_copy, NULL, (gchar *) "folder-copy", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT },
+	{ E_POPUP_ITEM, (gchar *) "10.emc.06", (gchar *) N_("_Move..."), emft_popup_move, NULL, (gchar *) "folder-move", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
 
 	/* FIXME: need to disable for undeletable folders */
-	{ E_POPUP_BAR,  "20.emc" },
-	{ E_POPUP_ITEM, "20.emc.01", N_("_Delete"), emft_popup_delete_folder, NULL, "edit-delete", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
+	{ E_POPUP_BAR,  (gchar *) "20.emc" },
+	{ E_POPUP_ITEM, (gchar *) "20.emc.01", (gchar *) N_("_Delete"), emft_popup_delete_folder, NULL, (gchar *) "edit-delete", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
 
-	{ E_POPUP_BAR, "30.emc" },
-	{ E_POPUP_ITEM, "30.emc.02", N_("_Rename..."), emft_popup_rename_folder, NULL, NULL, 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
-	{ E_POPUP_ITEM, "30.emc.03", N_("Re_fresh"), emft_popup_refresh_folder, NULL, "view-refresh", EM_POPUP_FOLDER_NONSTATIC, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT},
-	{ E_POPUP_ITEM, "30.emc.04", N_("Fl_ush Outbox"), emft_popup_flush_outbox, NULL, "mail-send", EM_POPUP_FOLDER_OUTBOX, 0 },
+	{ E_POPUP_BAR, (gchar *) "30.emc" },
+	{ E_POPUP_ITEM, (gchar *) "30.emc.02", (gchar *) N_("_Rename..."), emft_popup_rename_folder, NULL, NULL, 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
+	{ E_POPUP_ITEM, (gchar *) "30.emc.03", (gchar *) N_("Re_fresh"), emft_popup_refresh_folder, NULL, (gchar *) "view-refresh", EM_POPUP_FOLDER_NONSTATIC, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT},
+	{ E_POPUP_ITEM, (gchar *) "30.emc.04", (gchar *) N_("Fl_ush Outbox"), emft_popup_flush_outbox, NULL, (gchar *) "mail-send", EM_POPUP_FOLDER_OUTBOX, 0 },
 
 
-	{ E_POPUP_BAR, "99.emc" },
-	{ E_POPUP_ITEM, "99.emc.00", N_("_Properties"), emft_popup_properties, NULL, "document-properties", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT }
+	{ E_POPUP_BAR, (gchar *) "99.emc" },
+	{ E_POPUP_ITEM, (gchar *) "99.emc.00", (gchar *) N_("_Properties"), emft_popup_properties, NULL, (gchar *) "document-properties", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT }
 };
-static EPopupItem trash_popup_item = {E_POPUP_ITEM, "30.emc.05", N_("_Empty Trash"), emft_popup_empty_trash,NULL,NULL, 1, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT};
+static EPopupItem trash_popup_item = {E_POPUP_ITEM, (gchar *) "30.emc.05", (gchar *) N_("_Empty Trash"), emft_popup_empty_trash,NULL,NULL, 1, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_SELECT};
 
 static void
 emft_popup_free(EPopup *ep, GSList *items, void *data)
@@ -2162,7 +2162,7 @@ emft_popup (EMFolderTree *emft, GdkEvent *event)
 			item->type = E_POPUP_TOGGLE | E_POPUP_ACTIVE;
 		else
 			item->type = E_POPUP_TOGGLE & ~E_POPUP_ACTIVE;
-		item->path = "99.emc.99";
+		item->path = (gchar *) "99.emc.99";
 		item->label = _("_Unread Search Folder");
 		item->activate = emft_popup_uvfolder;
 		item->visible = EM_POPUP_FOLDER_SELECT;

@@ -194,7 +194,7 @@ e_table_extras_new (void)
 
 void
 e_table_extras_add_cell     (ETableExtras *extras,
-			     char         *id,
+			     const gchar  *id,
 			     ECell        *cell)
 {
 	if (cell)
@@ -204,14 +204,14 @@ e_table_extras_add_cell     (ETableExtras *extras,
 
 ECell *
 e_table_extras_get_cell     (ETableExtras *extras,
-			     char         *id)
+			     const gchar  *id)
 {
 	return g_hash_table_lookup(extras->cells, id);
 }
 
 void
 e_table_extras_add_compare  (ETableExtras *extras,
-			     char         *id,
+			     const gchar  *id,
 			     GCompareFunc  compare)
 {
 	g_hash_table_insert(extras->compares, g_strdup(id), (gpointer) compare);
@@ -219,14 +219,14 @@ e_table_extras_add_compare  (ETableExtras *extras,
 
 GCompareFunc
 e_table_extras_get_compare  (ETableExtras *extras,
-			     char         *id)
+			     const gchar  *id)
 {
 	return (GCompareFunc) g_hash_table_lookup(extras->compares, id);
 }
 
 void
 e_table_extras_add_search  (ETableExtras     *extras,
-			    char             *id,
+			    const gchar      *id,
 			    ETableSearchFunc  search)
 {
 	g_hash_table_insert(extras->searches, g_strdup(id), search);
@@ -234,14 +234,14 @@ e_table_extras_add_search  (ETableExtras     *extras,
 
 ETableSearchFunc
 e_table_extras_get_search  (ETableExtras *extras,
-			    char         *id)
+			    const gchar  *id)
 {
 	return g_hash_table_lookup(extras->searches, id);
 }
 
 void
 e_table_extras_add_pixbuf     (ETableExtras *extras,
-			       char         *id,
+			       const gchar  *id,
 			       GdkPixbuf    *pixbuf)
 {
 	if (pixbuf)
@@ -251,7 +251,7 @@ e_table_extras_add_pixbuf     (ETableExtras *extras,
 
 GdkPixbuf *
 e_table_extras_get_pixbuf     (ETableExtras *extras,
-			       char         *id)
+			       const gchar  *id)
 {
 	return g_hash_table_lookup(extras->pixbufs, id);
 }

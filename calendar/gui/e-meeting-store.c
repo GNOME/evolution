@@ -1100,7 +1100,7 @@ process_free_busy (EMeetingStoreQueueData *qdata, char *text)
  * In the returned newly allocated string.
 */
 static gchar *
-replace_string (gchar *string, gchar *from_value, gchar *to_value)
+replace_string (gchar *string, const gchar *from_value, gchar *to_value)
 {
 	gchar *replaced;
 	gchar **split_uri;

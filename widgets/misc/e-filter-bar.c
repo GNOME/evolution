@@ -373,7 +373,7 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 	int id = 0, i;
 	GArray *menu = g_array_new (FALSE, FALSE, sizeof (ESearchBarItem));
 	ESearchBarItem item = { NULL, -1, 2 };
-	char *source;
+	const gchar *source;
 	GSList *gtksux = NULL;
 	int num;
 

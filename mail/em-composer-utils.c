@@ -1802,7 +1802,10 @@ guess_account (CamelMimeMessage *message, CamelFolder *folder)
 	EAccount *account = NULL;
 	const char *tmp;
 	int i, j;
-	char *types[2] = { CAMEL_RECIPIENT_TYPE_TO, CAMEL_RECIPIENT_TYPE_CC };
+	const gchar *types[2] = {
+		CAMEL_RECIPIENT_TYPE_TO,
+		CAMEL_RECIPIENT_TYPE_CC
+	};
 
 	/* check for newsgroup header */
 	if (folder

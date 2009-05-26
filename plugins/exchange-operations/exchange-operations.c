@@ -30,24 +30,26 @@
 
 ExchangeConfigListener *exchange_global_config_listener=NULL;
 
-static char *error_ids[] = { "config-error",
-			     "password-weak-error",
-			     "password-change-error",
-			     "password-change-success",
-			     "account-offline",
-			     "password-incorrect",
-			     "account-domain-error",
-			     "account-mailbox-na",
-			     "account-version-error",
-			     "account-wss-error",
-			     "account-no-mailbox",
-			     "account-resolve-error",
-			     "account-connect-error",
-			     "password-expired",
-			     "account-unknown-error",
-			     "account-quota-error",
-			     "account-quota-send-error",
-			     "account-quota-warn" };
+static const gchar *error_ids[] = {
+	"config-error",
+	"password-weak-error",
+	"password-change-error",
+	"password-change-success",
+	"account-offline",
+	"password-incorrect",
+	"account-domain-error",
+	"account-mailbox-na",
+	"account-version-error",
+	"account-wss-error",
+	"account-no-mailbox",
+	"account-resolve-error",
+	"account-connect-error",
+	"password-expired",
+	"account-unknown-error",
+	"account-quota-error",
+	"account-quota-send-error",
+	"account-quota-warn"
+};
 
 static void
 free_exchange_listener (void)

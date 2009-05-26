@@ -51,7 +51,7 @@ static void set_tag_list (MessageTagEditor *editor, CamelTag *tags);
 
 
 #define DEFAULT_FLAG  2  /* Follow-Up */
-static char *available_flags[] = {
+static const gchar *available_flags[] = {
 	N_("Call"),
 	N_("Do Not Forward"),
 	N_("Follow-Up"),

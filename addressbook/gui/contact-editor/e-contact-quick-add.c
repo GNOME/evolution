@@ -250,8 +250,8 @@ clicked_cb (GtkWidget *w, gint button, gpointer closure)
 			email = tmp;
 		}
 
-		e_contact_set (qa->contact, E_CONTACT_FULL_NAME, (char *) name ? name : "");
-		e_contact_set (qa->contact, E_CONTACT_EMAIL_1,   (char *) email ? email : "");
+		e_contact_set (qa->contact, E_CONTACT_FULL_NAME, (gpointer) (name ? name : ""));
+		e_contact_set (qa->contact, E_CONTACT_EMAIL_1,   (gpointer) (email ? email : ""));
 
 		g_free (name);
 		g_free (email);

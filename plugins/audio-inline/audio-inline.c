@@ -198,7 +198,7 @@ org_gnome_audio_inline_play_clicked (GtkWidget *button, EMFormatHTMLPObject *pob
 		CamelDataWrapper *data;
 		GError *error = NULL;
 		int argc = 1;
-		char *argv [] = { "org_gnome_audio_inline", NULL };
+		const gchar *argv [] = { "org_gnome_audio_inline", NULL };
 
 		/* FIXME this is ugly, we should stream this directly to gstreamer */
 		po->filename = e_mktemp ("org-gnome-audio-inline-file-XXXXXX");

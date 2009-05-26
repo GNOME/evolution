@@ -155,7 +155,8 @@ kill_old_dataserver (void)
 	CORBA_exception_init (&ev);
 
 	/* FIXME Should we really kill it off?  We also shouldn't hard code the version */
-	iface = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_DataServer_InterfaceCheck", 0, NULL, &ev);
+	iface = bonobo_activation_activate_from_id (
+		(Bonobo_ActivationID) "OAFIID:GNOME_Evolution_DataServer_InterfaceCheck", 0, NULL, &ev);
 	if (BONOBO_EX (&ev) || iface == CORBA_OBJECT_NIL) {
 		kill_dataserver ();
 		CORBA_exception_free (&ev);
@@ -345,7 +346,8 @@ idle_cb (gchar **uris)
 		break;
 
 	case E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER:
-		corba_shell = bonobo_activation_activate_from_id (E_SHELL_OAFIID, 0, NULL, &ev);
+		corba_shell = bonobo_activation_activate_from_id (
+			(Bonobo_ActivationID) E_SHELL_OAFIID, 0, NULL, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION || corba_shell == CORBA_OBJECT_NIL) {
 			e_error_run(NULL, "shell:noshell", NULL);
 			CORBA_exception_free (&ev);

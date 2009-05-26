@@ -414,7 +414,7 @@ static BonoboUIVerb verbs [] = {
 };
 
 static void
-set_state (GalViewMenus *gvm, char *path, CORBA_Environment *ev)
+set_state (GalViewMenus *gvm, const gchar *path, CORBA_Environment *ev)
 {
 	char *full_path = g_strdup_printf ("/commands/%s", path);
 

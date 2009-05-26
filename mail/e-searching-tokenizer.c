@@ -154,7 +154,8 @@ loop:
 /* note: our tags of interest are 7 bit ascii, only, no need to do any fancy utf8 stuff */
 /* tags should be upper case
    if this list gets longer than 10 entries, consider binary search */
-static char *ignored_tags[] = { "B", "I", "FONT", "TT", "EM", /* and more? */};
+static const gchar *ignored_tags[] = {
+	"B", "I", "FONT", "TT", "EM", /* and more? */};
 
 static int
 ignore_tag (const char *tag)
@@ -937,7 +938,7 @@ static struct _searcher *
 search_info_to_searcher(struct _search_info *si)
 {
 	char *tags, *tage;
-	char *col;
+	const gchar *col;
 
 	if (si->strv->len == 0)
 		return NULL;

@@ -208,7 +208,7 @@ static G_CONST_RETURN gchar*
 jump_button_get_keybinding (AtkAction *action,
                             gint      i)
 {
-  gchar *return_value = NULL;
+  const gchar *return_value = NULL;
 
   switch (i)
     {

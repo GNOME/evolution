@@ -8,8 +8,6 @@ INCLUDES = -I.. 					\
 	-I$(srcdir)/..					\
 	-I$(top_srcdir)					\
 	-DG_LOG_DOMAIN=\"evolution-mail-importer\"	\
-	-I$(top_srcdir)/addressbook/backend             \
-	-I$(top_builddir)/addressbook/backend           \
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	$(IMPORTERS_CFLAGS)
 

@@ -209,8 +209,8 @@ e_table_model_has_save_id (ETableModel *e_table_model)
 char *
 e_table_model_get_save_id (ETableModel *e_table_model, int row)
 {
-	g_return_val_if_fail (e_table_model != NULL, "/");
-	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), "/");
+	g_return_val_if_fail (e_table_model != NULL, NULL);
+	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), NULL);
 
 	if (ETM_CLASS (e_table_model)->get_save_id)
 		return ETM_CLASS (e_table_model)->get_save_id (e_table_model, row);

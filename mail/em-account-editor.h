@@ -66,7 +66,7 @@ struct _EMAccountEditorClass {
 
 GType em_account_editor_get_type(void);
 
-EMAccountEditor *em_account_editor_new(struct _EAccount *account, em_account_editor_t type, char *id);
+EMAccountEditor *em_account_editor_new(struct _EAccount *account, em_account_editor_t type, const char *id);
 EMAccountEditor *em_account_editor_new_for_pages(struct _EAccount *account, em_account_editor_t type, char *id, struct _GtkWidget **pages);
 void em_account_editor_commit (EMAccountEditor *emae);
 void em_account_editor_check (EMAccountEditor *emae, const char *page);

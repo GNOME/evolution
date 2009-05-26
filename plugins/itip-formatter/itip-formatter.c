@@ -2587,8 +2587,9 @@ itip_formatter_page_factory (EPlugin *ep, EConfigHookItemFactoryData *hook_data)
 	gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
 	gtk_box_pack_start (GTK_BOX (inner_vbox), label, FALSE, FALSE, 0);
 
-	if (!e_cal_get_sources (&source_list, E_CAL_SOURCE_TYPE_EVENT, NULL))
+	if (!e_cal_get_sources (&source_list, E_CAL_SOURCE_TYPE_EVENT, NULL)) {
 	    /* FIXME Error handling */;
+	}
 
 	scrolledwin = gtk_scrolled_window_new (NULL, NULL);
 

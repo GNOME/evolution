@@ -198,7 +198,7 @@ e_logger_get_type (void)
 }
 
 ELogger *
-e_logger_create (gchar *component)
+e_logger_create (const gchar *component)
 {
 	g_return_val_if_fail (component != NULL, NULL);
 

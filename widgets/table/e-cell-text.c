@@ -213,7 +213,7 @@ static void e_cell_text_preedit_changed_cb (GtkIMContext *context, ECellTextView
 static void e_cell_text_commit_cb (GtkIMContext *context, const gchar  *str, ECellTextView *text_view);
 static gboolean e_cell_text_retrieve_surrounding_cb (GtkIMContext *context, ECellTextView *text_view);
 static gboolean e_cell_text_delete_surrounding_cb   (GtkIMContext *context, gint          offset, gint          n_chars, ECellTextView        *text_view);
-static void _insert (ECellTextView *text_view, char *string, int value);
+static void _insert (ECellTextView *text_view, const gchar *string, int value);
 static void _delete_selection (ECellTextView *text_view);
 static PangoAttrList* build_attr_list (ECellTextView *text_view, int row, int text_length);
 static void update_im_cursor_location (ECellTextView *tv);
@@ -1029,7 +1029,7 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 				_get_tep (edit);
 				return_val = e_text_event_processor_handle_event (edit->tep, &e_tep_event);
 				if (e_tep_event.key.string)
-					g_free (e_tep_event.key.string);
+					g_free ((gpointer) e_tep_event.key.string);
 				break;
 			}
 		}
@@ -2360,7 +2360,7 @@ _delete_selection (ECellTextView *text_view)
 /* NB! We expect value to be length IN BYTES */
 
 static void
-_insert (ECellTextView *text_view, char *string, int value)
+_insert (ECellTextView *text_view, const gchar *string, int value)
 {
 	CellEdit *edit = text_view->edit;
 	char *temp;

@@ -39,9 +39,9 @@ enum {
 
 /* Note: Do not use the info field. */
 static GtkTargetEntry target_table[] = {
-	{ "_NETSCAPE_URL",	0, 0 },
-	{ "text/x-vcard",	0, 0 },
-	{ "text/calendar",	0, 0 }
+	{ (gchar *) "_NETSCAPE_URL",	0, 0 },
+	{ (gchar *) "text/x-vcard",	0, 0 },
+	{ (gchar *) "text/calendar",	0, 0 }
 };
 
 static const gchar *ui =

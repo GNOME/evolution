@@ -71,12 +71,6 @@ composer_header_addaction_clicked_cb (GtkButton *button,
 	e_composer_header_set_visible (header, TRUE);
 }
 
-static void                
-link_clicked_cb (GtkLinkButton *button, const gchar *link_, gpointer user_data)
-{
-	return;
-}
-
 static GObject *
 composer_header_constructor (GType type,
                              guint n_construct_properties,

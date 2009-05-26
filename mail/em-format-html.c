@@ -1176,40 +1176,40 @@ efh_image(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormatH
 }
 
 static EMFormatHandler type_builtin_table[] = {
-	{ "image/gif", (EMFormatFunc)efh_image },
-	{ "image/jpeg", (EMFormatFunc)efh_image },
-	{ "image/png", (EMFormatFunc)efh_image },
-	{ "image/x-png", (EMFormatFunc)efh_image },
-	{ "image/tiff", (EMFormatFunc)efh_image },
-	{ "image/x-bmp", (EMFormatFunc)efh_image },
-	{ "image/bmp", (EMFormatFunc)efh_image },
-	{ "image/svg", (EMFormatFunc)efh_image },
-	{ "image/x-cmu-raster", (EMFormatFunc)efh_image },
-	{ "image/x-ico", (EMFormatFunc)efh_image },
-	{ "image/x-portable-anymap", (EMFormatFunc)efh_image },
-	{ "image/x-portable-bitmap", (EMFormatFunc)efh_image },
-	{ "image/x-portable-graymap", (EMFormatFunc)efh_image },
-	{ "image/x-portable-pixmap", (EMFormatFunc)efh_image },
-	{ "image/x-xpixmap", (EMFormatFunc)efh_image },
-	{ "text/enriched", (EMFormatFunc)efh_text_enriched },
-	{ "text/plain", (EMFormatFunc)efh_text_plain },
-	{ "text/html", (EMFormatFunc)efh_text_html },
-	{ "text/richtext", (EMFormatFunc)efh_text_enriched },
-	{ "text/*", (EMFormatFunc)efh_text_plain },
-	{ "message/external-body", (EMFormatFunc)efh_message_external },
-	{ "message/delivery-status", (EMFormatFunc)efh_message_deliverystatus },
-	{ "multipart/related", (EMFormatFunc)efh_multipart_related },
+	{ (gchar *) "image/gif", (EMFormatFunc)efh_image },
+	{ (gchar *) "image/jpeg", (EMFormatFunc)efh_image },
+	{ (gchar *) "image/png", (EMFormatFunc)efh_image },
+	{ (gchar *) "image/x-png", (EMFormatFunc)efh_image },
+	{ (gchar *) "image/tiff", (EMFormatFunc)efh_image },
+	{ (gchar *) "image/x-bmp", (EMFormatFunc)efh_image },
+	{ (gchar *) "image/bmp", (EMFormatFunc)efh_image },
+	{ (gchar *) "image/svg", (EMFormatFunc)efh_image },
+	{ (gchar *) "image/x-cmu-raster", (EMFormatFunc)efh_image },
+	{ (gchar *) "image/x-ico", (EMFormatFunc)efh_image },
+	{ (gchar *) "image/x-portable-anymap", (EMFormatFunc)efh_image },
+	{ (gchar *) "image/x-portable-bitmap", (EMFormatFunc)efh_image },
+	{ (gchar *) "image/x-portable-graymap", (EMFormatFunc)efh_image },
+	{ (gchar *) "image/x-portable-pixmap", (EMFormatFunc)efh_image },
+	{ (gchar *) "image/x-xpixmap", (EMFormatFunc)efh_image },
+	{ (gchar *) "text/enriched", (EMFormatFunc)efh_text_enriched },
+	{ (gchar *) "text/plain", (EMFormatFunc)efh_text_plain },
+	{ (gchar *) "text/html", (EMFormatFunc)efh_text_html },
+	{ (gchar *) "text/richtext", (EMFormatFunc)efh_text_enriched },
+	{ (gchar *) "text/*", (EMFormatFunc)efh_text_plain },
+	{ (gchar *) "message/external-body", (EMFormatFunc)efh_message_external },
+	{ (gchar *) "message/delivery-status", (EMFormatFunc)efh_message_deliverystatus },
+	{ (gchar *) "multipart/related", (EMFormatFunc)efh_multipart_related },
 
 	/* This is where one adds those busted, non-registered types,
 	   that some idiot mailer writers out there decide to pull out
 	   of their proverbials at random. */
 
-	{ "image/jpg", (EMFormatFunc)efh_image },
-	{ "image/pjpeg", (EMFormatFunc)efh_image },
+	{ (gchar *) "image/jpg", (EMFormatFunc)efh_image },
+	{ (gchar *) "image/pjpeg", (EMFormatFunc)efh_image },
 
 	/* special internal types */
 
-	{ "x-evolution/message/rfc822", (EMFormatFunc)efh_format_message }
+	{ (gchar *) "x-evolution/message/rfc822", (EMFormatFunc)efh_format_message }
 };
 
 static void
@@ -1547,7 +1547,7 @@ efh_format_text_header (EMFormatHTML *emfh, CamelStream *stream, const char *lab
 	g_free(mhtml);
 }
 
-static char *addrspec_hdrs[] = {
+static const gchar *addrspec_hdrs[] = {
 	"Sender", "From", "Reply-To", "To", "Cc", "Bcc",
 	"Resent-Sender", "Resent-From", "Resent-Reply-To",
 	"Resent-To", "Resent-Cc", "Resent-Bcc", NULL
@@ -1967,7 +1967,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 					if (!use_header)
 						use_header = header;
 
-					xmailer.name = "X-Evolution-Mailer";
+					xmailer.name = (gchar *) "X-Evolution-Mailer";
 					xmailer.value = use_header->value;
 					mailer_shown = TRUE;
 

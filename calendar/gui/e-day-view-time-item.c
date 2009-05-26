@@ -284,7 +284,8 @@ edvti_draw_zone (GnomeCanvasItem   *canvas_item,
 	EDayView *day_view;
 	EDayViewTimeItem *dvtmitem;
 	GtkStyle *style;
-	gchar buffer[64], *suffix, *midnight_day = NULL, *midnight_month = NULL;
+	const gchar *suffix;
+	gchar buffer[64], *midnight_day = NULL, *midnight_month = NULL;
 	gint hour, display_hour, minute, row;
 	gint row_y, start_y, large_hour_y_offset, small_font_y_offset;
 	gint long_line_x1, long_line_x2, short_line_x1;

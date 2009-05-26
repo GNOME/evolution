@@ -78,8 +78,8 @@ enum DndTargetType {
 #define CALENDAR_TYPE "text/calendar"
 #define XCALENDAR_TYPE "text/x-calendar"
 static GtkTargetEntry drag_types[] = {
-	{ CALENDAR_TYPE, 0, DND_TARGET_TYPE_CALENDAR_LIST },
-	{ XCALENDAR_TYPE, 0, DND_TARGET_TYPE_CALENDAR_LIST }
+	{ (gchar *) CALENDAR_TYPE, 0, DND_TARGET_TYPE_CALENDAR_LIST },
+	{ (gchar *) XCALENDAR_TYPE, 0, DND_TARGET_TYPE_CALENDAR_LIST }
 };
 static gint num_drag_types = sizeof(drag_types) / sizeof(drag_types[0]);
 #define CALENDAR_COMPONENT_DEFAULT(cc) if (cc == NULL) cc = calendar_component_peek()
@@ -460,8 +460,9 @@ update_task_memo_selection (CalendarComponentView *component_view, ECalSourceTyp
 		ESource *source;
 
 		source = e_source_list_peek_source_by_uid (source_list, uid);
-		if (source && !gnome_calendar_add_source (component_view->calendar, type, source))
+		if (source && !gnome_calendar_add_source (component_view->calendar, type, source)) {
 			/* FIXME do something */;
+		}
 	}
 
 	if (type == E_CAL_SOURCE_TYPE_TODO)
@@ -623,17 +624,17 @@ mark_offline_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static EPopupItem ecc_source_popups[] = {
-	{ E_POPUP_ITEM, "10.new", N_("_New Calendar"), new_calendar_cb, NULL, "x-office-calendar", 0, 0 },
-	{ E_POPUP_ITEM, "15.copy", N_("_Copy..."), copy_calendar_cb, NULL, "edit-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_ITEM, "18.rename", N_("_Rename..."), rename_calendar_cb, NULL, NULL, 0, E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, (gchar *) "10.new", (gchar *) N_("_New Calendar"), new_calendar_cb, NULL, (gchar *) "x-office-calendar", 0, 0 },
+	{ E_POPUP_ITEM, (gchar *) "15.copy", (gchar *) N_("_Copy..."), copy_calendar_cb, NULL, (gchar *) "edit-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_ITEM, (gchar *) "18.rename", (gchar *) N_("_Rename..."), rename_calendar_cb, NULL, NULL, 0, E_CAL_POPUP_SOURCE_PRIMARY },
 
-	{ E_POPUP_BAR, "20.bar" },
-	{ E_POPUP_ITEM, "20.delete", N_("_Delete"), delete_calendar_cb, NULL, "edit-delete", 0,E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY|E_CAL_POPUP_SOURCE_DELETE },
-	{ E_POPUP_ITEM, "30.mark_calendar_offline", N_("_Make available for offline use"), mark_offline_cb, NULL, "stock_disconnect", E_CAL_POPUP_SOURCE_OFFLINE, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY|E_CAL_POPUP_SOURCE_OFFLINE },
-	{ E_POPUP_ITEM, "40.mark_calendar_no_offline", N_("_Do not make available for offline use"), mark_no_offline_cb, NULL, "stock_connect", E_CAL_POPUP_SOURCE_NO_OFFLINE, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY|E_CAL_POPUP_SOURCE_NO_OFFLINE },
+	{ E_POPUP_BAR, (gchar *) "20.bar" },
+	{ E_POPUP_ITEM, (gchar *) "20.delete", (gchar *) N_("_Delete"), delete_calendar_cb, NULL, (gchar *) "edit-delete", 0,E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY|E_CAL_POPUP_SOURCE_DELETE },
+	{ E_POPUP_ITEM, (gchar *) "30.mark_calendar_offline", (gchar *) N_("_Make available for offline use"), mark_offline_cb, NULL, (gchar *) "stock_disconnect", E_CAL_POPUP_SOURCE_OFFLINE, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY|E_CAL_POPUP_SOURCE_OFFLINE },
+	{ E_POPUP_ITEM, (gchar *) "40.mark_calendar_no_offline", (gchar *) N_("_Do not make available for offline use"), mark_no_offline_cb, NULL, (gchar *) "stock_connect", E_CAL_POPUP_SOURCE_NO_OFFLINE, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY|E_CAL_POPUP_SOURCE_NO_OFFLINE },
 
-	{ E_POPUP_BAR, "99.bar" },
-	{ E_POPUP_ITEM, "99.properties", N_("_Properties"), edit_calendar_cb, NULL, "document-properties", 0, E_CAL_POPUP_SOURCE_PRIMARY },
+	{ E_POPUP_BAR, (gchar *) "99.bar" },
+	{ E_POPUP_ITEM, (gchar *) "99.properties", (gchar *) N_("_Properties"), edit_calendar_cb, NULL, (gchar *) "document-properties", 0, E_CAL_POPUP_SOURCE_PRIMARY },
 };
 
 static void
@@ -1433,36 +1434,36 @@ impl__get_userCreatableItems (PortableServer_Servant servant,
 
 	CORBA_sequence_set_release (list, FALSE);
 
-	list->_buffer[0].id = CREATE_EVENT_ID;
-	list->_buffer[0].description = _("New appointment");
+	list->_buffer[0].id = (char *) CREATE_EVENT_ID;
+	list->_buffer[0].description = (char *) _("New appointment");
 	list->_buffer[0].menuDescription = (char *) C_("New", "_Appointment");
-	list->_buffer[0].tooltip = _("Create a new appointment");
+	list->_buffer[0].tooltip = (char *) _("Create a new appointment");
 	list->_buffer[0].menuShortcut = 'a';
-	list->_buffer[0].iconName = "appointment-new";
+	list->_buffer[0].iconName = (char *) "appointment-new";
 	list->_buffer[0].type = GNOME_Evolution_CREATABLE_OBJECT;
 
-	list->_buffer[1].id = CREATE_MEETING_ID;
-	list->_buffer[1].description = _("New meeting");
+	list->_buffer[1].id = (char *) CREATE_MEETING_ID;
+	list->_buffer[1].description = (char *) _("New meeting");
 	list->_buffer[1].menuDescription = (char *) C_("New", "M_eeting");
-	list->_buffer[1].tooltip = _("Create a new meeting request");
+	list->_buffer[1].tooltip = (char *) _("Create a new meeting request");
 	list->_buffer[1].menuShortcut = 'e';
-	list->_buffer[1].iconName = "stock_new-meeting";
+	list->_buffer[1].iconName = (char *) "stock_new-meeting";
 	list->_buffer[1].type = GNOME_Evolution_CREATABLE_OBJECT;
 
-	list->_buffer[2].id = CREATE_ALLDAY_EVENT_ID;
-	list->_buffer[2].description = _("New all day appointment");
+	list->_buffer[2].id = (char *) CREATE_ALLDAY_EVENT_ID;
+	list->_buffer[2].description = (char *) _("New all day appointment");
 	list->_buffer[2].menuDescription = (char *) C_("New", "All Day A_ppointment");
-	list->_buffer[2].tooltip = _("Create a new all-day appointment");
+	list->_buffer[2].tooltip = (char *) _("Create a new all-day appointment");
 	list->_buffer[2].menuShortcut = '\0';
-	list->_buffer[2].iconName = "stock_new-24h-appointment";
+	list->_buffer[2].iconName = (char *) "stock_new-24h-appointment";
 	list->_buffer[2].type = GNOME_Evolution_CREATABLE_OBJECT;
 
-	list->_buffer[3].id = CREATE_CALENDAR_ID;
-	list->_buffer[3].description = _("New calendar");
+	list->_buffer[3].id = (char *) CREATE_CALENDAR_ID;
+	list->_buffer[3].description = (char *) _("New calendar");
 	list->_buffer[3].menuDescription = (char *) C_("New", "Cale_ndar");
-	list->_buffer[3].tooltip = _("Create a new calendar");
+	list->_buffer[3].tooltip = (char *) _("Create a new calendar");
 	list->_buffer[3].menuShortcut = '\0';
-	list->_buffer[3].iconName = "x-office-calendar";
+	list->_buffer[3].iconName = (char *) "x-office-calendar";
 	list->_buffer[3].type = GNOME_Evolution_CREATABLE_FOLDER;
 
 	return list;
@@ -1609,10 +1610,8 @@ calendar_component_init (CalendarComponent *component)
 	component->priv = priv;
 	ensure_sources (component);
 
-	if (!e_cal_get_sources (&priv->task_source_list, E_CAL_SOURCE_TYPE_TODO, NULL))
-		;
-	if (!e_cal_get_sources (&priv->memo_source_list, E_CAL_SOURCE_TYPE_JOURNAL, NULL))
-		;
+	e_cal_get_sources (&priv->task_source_list, E_CAL_SOURCE_TYPE_TODO, NULL);
+	e_cal_get_sources (&priv->memo_source_list, E_CAL_SOURCE_TYPE_JOURNAL, NULL);
 }
 
 

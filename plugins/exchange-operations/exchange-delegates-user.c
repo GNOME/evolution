@@ -301,12 +301,13 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 			CamelMessageInfo *info;
 			char *self_address, *delegate_mail_subject;
 			char *role_name;
-			char *role_name_final = "";
+			GString *role_name_final;
 
 			const char *recipient_address;
 			const char *delegate_exchange_dn;
 			const char *msg_part1 = NULL, *msg_part2 = NULL;
 
+			role_name_final = g_string_new ("");
 
 			self_address = g_strdup (exchange_account_get_email_id (account));
 
@@ -339,11 +340,13 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 				combobox = glade_xml_get_widget (xml, widget_names[i]);
 				role = e_dialog_combo_box_get (combobox, exchange_perm_map);
 				role_name = g_strdup (map_to_full_role_name(role));
-				role_name_final = g_strconcat (role_name_final, "<tr><td>" , folder_names_for_display[i],
-					":</td><td>", role_name, "</td> </tr>", NULL);
+				g_string_append_printf (
+					role_name_final,
+					"<tr><td>%s:</td><td>%s</td></tr>",
+					folder_names_for_display[i], role_name);
 			}
 
-			camel_stream_printf (stream, "%s</table>", role_name_final);
+			camel_stream_printf (stream, "%s</table>", role_name_final->str);
 
 			if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check)) == TRUE) {
 				/* To translators: This message is included if the delegatee has been given access
@@ -360,7 +363,7 @@ exchange_delegates_user_edit (ExchangeAccount *account,
 							 "to see my private items."));
 			camel_data_wrapper_construct_from_stream (delegate_mail_text, stream);
 			g_free (role_name);
-			g_free (role_name_final);
+			g_string_free (role_name_final, TRUE);
 			camel_object_unref (stream);
 
 			part = camel_mime_part_new ();

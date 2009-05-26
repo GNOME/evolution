@@ -31,10 +31,10 @@
 G_BEGIN_DECLS
 
 struct _log_data {
-        int level;
-        char *key;
-        char *text;
-        char *stock_id;
+        gint level;
+        const gchar *key;
+        const gchar *text;
+        const gchar *stock_id;
         GdkPixbuf *pbuf;
 } ldata [] = {
         { E_LOG_ERROR, N_("Error"), N_("Errors"), GTK_STOCK_DIALOG_ERROR },

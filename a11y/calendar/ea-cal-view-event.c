@@ -247,7 +247,10 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 	GObject *g_obj;
 	ECalendarViewEvent *event;
 	gchar *name_string;
-	gchar *alarm_string, *recur_string, *meeting_string, *summary_string;
+	const gchar *alarm_string;
+	const gchar *recur_string;
+	const gchar *meeting_string;
+	gchar *summary_string;
         const char *summary;
 
 

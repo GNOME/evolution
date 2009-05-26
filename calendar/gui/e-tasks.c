@@ -113,8 +113,8 @@ enum DndTargetType {
 };
 
 static GtkTargetEntry list_drag_types[] = {
-	{ "text/calendar",                0, TARGET_VCALENDAR },
-	{ "text/x-calendar",              0, TARGET_VCALENDAR }
+	{ (gchar *) "text/calendar",   0, TARGET_VCALENDAR },
+	{ (gchar *) "text/x-calendar", 0, TARGET_VCALENDAR }
 };
 static const int num_list_drag_types = sizeof (list_drag_types) / sizeof (list_drag_types[0]);
 

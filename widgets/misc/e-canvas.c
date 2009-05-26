@@ -28,9 +28,7 @@
 
 #include "e-canvas.h"
 
-static void e_canvas_init           (ECanvas         *card);
 static void e_canvas_dispose        (GObject        *object);
-static void e_canvas_class_init	    (ECanvasClass    *klass);
 static void e_canvas_realize        (GtkWidget        *widget);
 static void e_canvas_unrealize      (GtkWidget        *widget);
 static gint e_canvas_key            (GtkWidget        *widget,

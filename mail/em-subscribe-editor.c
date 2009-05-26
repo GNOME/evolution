@@ -210,8 +210,9 @@ sub_folder_done (struct _zsubscribe_msg *m)
 		gtk_tree_model_get(model, &iter, 0, &subscribed, 2, &node, -1);
 		if (node == m->node)
 			gtk_tree_store_set((GtkTreeStore *)model, &iter, 0, issub, -1);
-		else
+		else {
 			d(printf("node mismatch, or subscribe state changed failed\n"));
+		}
 	}
 
 	/* queue any further ones, or if out, update the ui */

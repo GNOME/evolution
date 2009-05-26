@@ -317,16 +317,16 @@ ecm_row_count (ETableModel *etm)
 	return priv->objects->len;
 }
 
-static char *
+static void *
 get_categories (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_CATEGORIES_PROPERTY);
 	if (prop)
-		return (char *) icalproperty_get_categories (prop);
+		return (void *) icalproperty_get_categories (prop);
 
-	return "";
+	return (void *) "";
 }
 
 static char *
@@ -363,7 +363,7 @@ get_color (ECalModel *model, ECalModelComponent *comp_data)
 	return e_cal_model_get_color_for_component (model, comp_data);
 }
 
-static char *
+static void *
 get_description (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
@@ -384,7 +384,7 @@ get_description (ECalModelComponent *comp_data)
 		return str->str;
 	}
 
-	return "";
+	return (void *) "";
 }
 
 static ECellDateEditValue*
@@ -472,16 +472,16 @@ get_datetime_from_utc (ECalModel *model, ECalModelComponent *comp_data, icalprop
 	return res;
 }
 
-static char *
+static void *
 get_summary (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_SUMMARY_PROPERTY);
 	if (prop)
-		return (char *) icalproperty_get_summary (prop);
+		return (void *) icalproperty_get_summary (prop);
 
-	return "";
+	return (void *) "";
 }
 
 static char *
@@ -579,7 +579,7 @@ ecm_value_at (ETableModel *etm, int col, int row)
 		return get_uid (comp_data);
 	}
 
-	return "";
+	return (void *) "";
 }
 
 static void

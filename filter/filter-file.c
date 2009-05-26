@@ -208,7 +208,7 @@ xml_encode (FilterElement *fe)
 {
 	FilterFile *file = (FilterFile *) fe;
 	xmlNodePtr cur, value;
-	char *type;
+	const gchar *type;
 
 	type = file->type ? file->type : "file";
 

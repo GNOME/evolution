@@ -70,8 +70,6 @@ enum {
 	LAST_SIGNAL
 };
 
-static void weekday_picker_class_init (WeekdayPickerClass *class);
-static void weekday_picker_init (WeekdayPicker *wp);
 static void weekday_picker_destroy (GtkObject *object);
 
 static void weekday_picker_realize (GtkWidget *widget);
