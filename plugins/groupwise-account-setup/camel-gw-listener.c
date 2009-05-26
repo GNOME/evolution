@@ -176,7 +176,7 @@ add_esource (const char *conf_key, GwAccountInfo *info,  const char *source_name
 	ESource *source;
         GConfClient* client;
 	GSList *ids, *temp ;
-	char *source_selection_key;
+	const gchar *source_selection_key;
 	char *relative_uri;
 	const char *soap_port;
 	const char * use_ssl;
@@ -274,7 +274,7 @@ remove_esource (const char *conf_key, const char *group_name, char* source_name,
 	GConfClient* client;
 	GSList *ids;
 	GSList *node_tobe_deleted;
-	char *source_selection_key;
+	const gchar *source_selection_key;
 
         client = gconf_client_get_default();
         list = e_source_list_new_for_gconf (client, conf_key);

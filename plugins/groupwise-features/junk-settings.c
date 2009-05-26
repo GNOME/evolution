@@ -48,7 +48,6 @@ static void free_all(JunkSettings *js);
 static void get_junk_list (JunkSettings *js);
 static void disable_clicked (GtkRadioButton *button, JunkSettings *js);
 static void enable_clicked (GtkRadioButton *button, JunkSettings *js);
-GType junk_settings_get_type (void);
 
 static GtkVBoxClass *parent_class = NULL;
 
@@ -243,24 +242,32 @@ commit_changes (JunkSettings *js)
 	if (E_IS_GW_CONNECTION (js->cnc)) {
 		if(js->flag_for_ok == 2 && js->enabled){  /* just turn off the bits*/
 			use_junk = use_pab = use_block = persistence = 0;
-			if (e_gw_connection_modify_junk_settings (js->cnc, use_junk, use_pab, use_block, persistence) == E_GW_CONNECTION_STATUS_OK);
+			if (e_gw_connection_modify_junk_settings (js->cnc, use_junk, use_pab, use_block, persistence) == E_GW_CONNECTION_STATUS_OK) {
+				;
+			}
 
 		}
 		if (js->flag_for_ok == 0 && !js->enabled) {
 			use_block = use_pab =0;
 			use_junk = 1;
 			persistence = 14; /* We are setting the default persistence*/
-			if (e_gw_connection_modify_junk_settings (js->cnc, use_junk, use_pab, use_block, persistence) == E_GW_CONNECTION_STATUS_OK);
+			if (e_gw_connection_modify_junk_settings (js->cnc, use_junk, use_pab, use_block, persistence) == E_GW_CONNECTION_STATUS_OK) {
+				;
+			}
 		}
 
 		while (new_list) {
 			entry = new_list->data;
-			if (e_gw_connection_create_junk_entry (js->cnc, entry->match, "email", "junk") == E_GW_CONNECTION_STATUS_OK);
+			if (e_gw_connection_create_junk_entry (js->cnc, entry->match, "email", "junk") == E_GW_CONNECTION_STATUS_OK) {
+				;
+			}
 			new_list = new_list->next;
 		}
 		while (remove_list) {
 			entry = remove_list->data;
-			if (e_gw_connection_remove_junk_entry (js->cnc, entry->id) == E_GW_CONNECTION_STATUS_OK);
+			if (e_gw_connection_remove_junk_entry (js->cnc, entry->id) == E_GW_CONNECTION_STATUS_OK) {
+				;
+			}
 			remove_list = remove_list->next;
 		}
 

@@ -59,25 +59,25 @@ void org_gnome_exchange_commit (EPlugin *epl, EConfigHookItemFactoryData *data);
 GtkWidget* org_gnome_exchange_show_folder_size_factory (EPlugin *epl, EConfigHookItemFactoryData *data);
 
 CamelServiceAuthType camel_exchange_ntlm_authtype = {
-        /* i18n: "Secure Password Authentication" is an Outlookism */
-        N_("Secure Password"),
+	/* i18n: "Secure Password Authentication" is an Outlookism */
+	(gchar *) N_("Secure Password"),
 
-        /* i18n: "NTLM" probably doesn't translate */
-        N_("This option will connect to the Exchange server using "
-           "secure password (NTLM) authentication."),
+	/* i18n: "NTLM" probably doesn't translate */
+	(gchar *) N_("This option will connect to the Exchange server "
+	"using secure password (NTLM) authentication."),
 
-        "NTLM",
-        TRUE
+	(gchar *) "NTLM",
+	TRUE
 };
 
 CamelServiceAuthType camel_exchange_password_authtype = {
-        N_("Plaintext Password"),
+	(gchar *) N_("Plaintext Password"),
 
-        N_("This option will connect to the Exchange server using "
-           "standard plaintext password authentication."),
+	(gchar *) N_("This option will connect to the Exchange server "
+	"using standard plaintext password authentication."),
 
-        "Basic",
-        TRUE
+	(gchar *) "Basic",
+	TRUE
 };
 
 

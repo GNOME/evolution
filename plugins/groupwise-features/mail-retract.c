@@ -83,8 +83,8 @@ static void retract_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 }
 
 static EPopupItem popup_items[] = {
-{ E_POPUP_BAR,  "20.emfv.03" },
-{ E_POPUP_ITEM, "20.emfv.04", N_("Retract Mail"), retract_mail_settings, NULL, NULL, 0, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY}
+	{ E_POPUP_BAR,  (gchar *) "20.emfv.03" },
+	{ E_POPUP_ITEM, (gchar *) "20.emfv.04", (gchar *) N_("Retract Mail"), retract_mail_settings, NULL, NULL, 0, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY}
 };
 
 static void popup_free (EPopup *ep, GSList *items, void *data)

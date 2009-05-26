@@ -543,7 +543,7 @@ ea_day_view_main_item_get_row_label (EaDayViewMainItem *ea_main_item,
 	GObject *g_obj;
 	EDayViewMainItem *main_item;
 	EDayView *day_view;
-	gchar *suffix;
+	const gchar *suffix;
 	gint hour, minute, suffix_width;
 
 	g_return_val_if_fail (ea_main_item, 0);

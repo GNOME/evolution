@@ -3,7 +3,6 @@ INCLUDES = -I. 						\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_builddir)/mail                          \
-	-I$(top_srcdir)/camel                           \
 	-I$(top_builddir)/composer			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"          \

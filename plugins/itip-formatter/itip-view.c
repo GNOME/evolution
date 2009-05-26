@@ -780,7 +780,10 @@ button_clicked_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-set_one_button (ItipView *view, char *label, char *stock_id, ItipViewResponse response)
+set_one_button (ItipView *view,
+                const gchar *label,
+                const gchar *stock_id,
+                ItipViewResponse response)
 {
 	ItipViewPrivate *priv;
 	GtkWidget *button;

@@ -459,7 +459,8 @@ static EGwConnection *
 proxy_get_cnc (EAccount *account, GtkWindow *parent_window)
 {
 	EGwConnection *cnc;
-	char *uri, *failed_auth, *key, *prompt, *password = NULL;
+	const gchar *failed_auth;
+	char *uri, *key, *prompt, *password = NULL;
 	CamelURL *url;
 	const char *poa_address, *use_ssl, *soap_port;
 	gboolean remember;

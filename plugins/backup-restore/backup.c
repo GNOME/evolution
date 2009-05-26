@@ -373,7 +373,7 @@ main (int argc, char **argv)
 	g_thread_init (NULL);
 
 	gtk_init_with_args (
-		&argc, &argv, NULL, options, GETTEXT_PACKAGE, &error);
+		&argc, &argv, NULL, options, (gchar *) GETTEXT_PACKAGE, &error);
 	if (error != NULL) {
 		g_printerr ("%s\n", error->message);
 		g_error_free (error);
@@ -401,8 +401,9 @@ main (int argc, char **argv)
 
 	if (gui_arg && !check_op) {
 		GtkWidget *widget, *container;
-		char *str = NULL, *txt;
-		const char *txt2;
+		const gchar *txt, *txt2;
+		gchar *str = NULL;
+		gchar *markup;
 
 		gtk_window_set_default_icon_name ("evolution");
 
@@ -454,34 +455,34 @@ main (int argc, char **argv)
 			txt2 = "Should not be here now, really...";
 		}
 
-		txt = g_strconcat ("<b><big>", txt, "</big></b>", NULL);
+		markup = g_strconcat ("<b><big>", txt, "</big></b>", NULL);
 		widget = gtk_label_new (NULL);
 		gtk_label_set_line_wrap (GTK_LABEL (widget), FALSE);
-		gtk_label_set_markup (GTK_LABEL (widget), txt);
+		gtk_label_set_markup (GTK_LABEL (widget), markup);
 		gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.0);
 		gtk_widget_show (widget);
-		g_free (txt);
+		g_free (markup);
 
 		gtk_table_attach (GTK_TABLE (container), widget, 1, 2, 0, 1, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
 
-		txt = g_strconcat (txt2, " ", _("This may take a while depending on the amount of data in your account."), NULL);
+		markup = g_strconcat (txt2, " ", _("This may take a while depending on the amount of data in your account."), NULL);
 		widget = gtk_label_new (NULL);
 		gtk_label_set_line_wrap (GTK_LABEL (widget), TRUE);
-		gtk_label_set_markup (GTK_LABEL (widget), txt);
+		gtk_label_set_markup (GTK_LABEL (widget), markup);
 		gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
 		gtk_widget_show (widget);
-		g_free (txt);
+		g_free (markup);
 
 		gtk_table_attach (GTK_TABLE (container), widget, 1, 2, 1, 2, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
 
 		pbar = gtk_progress_bar_new ();
 
 		if (str) {
-			txt = g_strconcat ("<i>", str, "</i>", NULL);
+			markup = g_strconcat ("<i>", str, "</i>", NULL);
 			widget = gtk_label_new (NULL);
-			gtk_label_set_markup (GTK_LABEL (widget), txt);
+			gtk_label_set_markup (GTK_LABEL (widget), markup);
 			gtk_misc_set_alignment (GTK_MISC (widget), 0.0, 0.5);
-			g_free (txt);
+			g_free (markup);
 			g_free (str);
 			gtk_table_attach (GTK_TABLE (container), widget, 1, 2, 2, 3, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
 			gtk_table_set_row_spacing (GTK_TABLE (container), 2, 6);

@@ -22,6 +22,6 @@
 #define __EXCHANGE_FOLDER_SUBSCRIPTION_H__
 
 gboolean
-create_folder_subscription_dialog (ExchangeAccount *account, gchar *fname);
+create_folder_subscription_dialog (ExchangeAccount *account, const gchar *fname);
 
 #endif

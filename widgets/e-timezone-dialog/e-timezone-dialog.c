@@ -24,6 +24,7 @@
 #include <config.h>
 #endif
 
+#include <time.h>
 #include <string.h>
 #include <glib/gi18n.h>
 #include <glade/glade.h>
@@ -74,12 +75,6 @@ struct _ETimezoneDialogPrivate {
 	GtkWidget *timezone_combo;
 	GtkWidget *preview_label;
 };
-
-#ifndef G_OS_WIN32 /* Declared properly in time.h already */
-extern char *tzname[2];
-extern long timezone;
-extern int daylight;
-#endif
 
 static void e_timezone_dialog_dispose		(GObject	*object);
 static void e_timezone_dialog_finalize		(GObject	*object);
