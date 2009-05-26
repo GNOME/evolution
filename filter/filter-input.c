@@ -237,7 +237,7 @@ xml_encode (FilterElement *fe)
 	xmlNodePtr value;
 	GList *l;
 	FilterInput *fi = (FilterInput *)fe;
-	char *type;
+	const gchar *type;
 
 	type = fi->type ? fi->type : "string";
 
