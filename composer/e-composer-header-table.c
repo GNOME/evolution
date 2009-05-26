@@ -1025,7 +1025,6 @@ e_composer_header_table_get_header (EComposerHeaderTable *table,
 {
 	g_return_val_if_fail (E_IS_COMPOSER_HEADER_TABLE (table), NULL);
 	g_return_val_if_fail (type < E_COMPOSER_NUM_HEADERS, NULL);
-	g_return_val_if_fail (type >= 0, NULL);
 
 	return table->priv->headers[type];
 }

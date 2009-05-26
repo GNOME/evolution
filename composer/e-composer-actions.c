@@ -444,7 +444,7 @@ static GtkToggleActionEntry toggle_entries[] = {
 	  N_("S/MIME Sig_n"),
 	  NULL,
 	  N_("Sign this message with your S/MIME Signature Certificate"),
-	  NULL,  /* Handled by property bindings */
+	  G_CALLBACK (action_smime_sign_cb),
 	  FALSE },
 
 	{ "view-bcc",
