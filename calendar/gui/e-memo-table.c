@@ -64,8 +64,8 @@ enum TargetType{
 };
 
 static GtkTargetEntry target_types[] = {
-	{ "text/x-calendar", 0, TARGET_TYPE_VCALENDAR },
-	{ "text/calendar",   0, TARGET_TYPE_VCALENDAR }
+	{ (gchar *) "text/x-calendar", 0, TARGET_TYPE_VCALENDAR },
+	{ (gchar *) "text/calendar",   0, TARGET_TYPE_VCALENDAR }
 };
 
 static guint n_target_types = G_N_ELEMENTS (target_types);
@@ -73,8 +73,6 @@ static guint n_target_types = G_N_ELEMENTS (target_types);
 
 extern ECompEditorRegistry *comp_editor_registry;
 
-static void e_memo_table_class_init		(EMemoTableClass *klass);
-static void e_memo_table_init			(EMemoTable	*memo_table);
 static void e_memo_table_destroy		(GtkObject	*object);
 
 static void e_memo_table_on_double_click	(ETable		*table,
@@ -934,25 +932,25 @@ delete_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static EPopupItem memos_popup_items [] = {
-	{ E_POPUP_ITEM, "00.open", N_("_Open"), e_memo_table_on_open_memo, NULL, GTK_STOCK_OPEN, E_CAL_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "05.openweb", N_("Open _Web Page"), open_url_cb, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_HASURL },
-	{ E_POPUP_ITEM, "10.saveas", N_("_Save As..."), e_memo_table_on_save_as, NULL, GTK_STOCK_SAVE_AS, E_CAL_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "20.print", N_("P_rint..."), e_memo_table_on_print_memo, NULL, GTK_STOCK_PRINT, E_CAL_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, (gchar *) "00.open", (gchar *) N_("_Open"), e_memo_table_on_open_memo, NULL, (gchar *) GTK_STOCK_OPEN, E_CAL_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, (gchar *) "05.openweb", (gchar *) N_("Open _Web Page"), open_url_cb, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_HASURL },
+	{ E_POPUP_ITEM, (gchar *) "10.saveas", (gchar *) N_("_Save As..."), e_memo_table_on_save_as, NULL, (gchar *) GTK_STOCK_SAVE_AS, E_CAL_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, (gchar *) "20.print", (gchar *) N_("P_rint..."), e_memo_table_on_print_memo, NULL, (gchar *) GTK_STOCK_PRINT, E_CAL_POPUP_SELECT_ONE },
 
-	{ E_POPUP_BAR, "30.bar" },
+	{ E_POPUP_BAR, (gchar *) "30.bar" },
 
-	{ E_POPUP_ITEM, "40.cut", N_("C_ut"), e_memo_table_on_cut, NULL, GTK_STOCK_CUT, 0, E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "50.copy", N_("_Copy"), e_memo_table_on_copy, NULL, GTK_STOCK_COPY, 0, 0 },
-	{ E_POPUP_ITEM, "60.paste", N_("_Paste"), e_memo_table_on_paste, NULL, GTK_STOCK_PASTE, 0, E_CAL_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, (gchar *) "40.cut", (gchar *) N_("C_ut"), e_memo_table_on_cut, NULL, (gchar *) GTK_STOCK_CUT, 0, E_CAL_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, (gchar *) "50.copy", (gchar *) N_("_Copy"), e_memo_table_on_copy, NULL, (gchar *) GTK_STOCK_COPY, 0, 0 },
+	{ E_POPUP_ITEM, (gchar *) "60.paste", (gchar *) N_("_Paste"), e_memo_table_on_paste, NULL, (gchar *) GTK_STOCK_PASTE, 0, E_CAL_POPUP_SELECT_EDITABLE },
 
-	{ E_POPUP_BAR, "70.bar" },
+	{ E_POPUP_BAR, (gchar *) "70.bar" },
 
-	{ E_POPUP_ITEM, "80.forward", N_("_Forward as iCalendar"), e_memo_table_on_forward, NULL, "mail-forward", E_CAL_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, (gchar *) "80.forward", (gchar *) N_("_Forward as iCalendar"), e_memo_table_on_forward, NULL, (gchar *) "mail-forward", E_CAL_POPUP_SELECT_ONE },
 
-	{ E_POPUP_BAR, "90.bar" },
+	{ E_POPUP_BAR, (gchar *) "90.bar" },
 
-	{ E_POPUP_ITEM, "a0.delete", N_("_Delete"), delete_cb, NULL, GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "b0.deletemany", N_("_Delete Selected Memos"), delete_cb, NULL, GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_MANY, E_CAL_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, (gchar *) "a0.delete", (gchar *) N_("_Delete"), delete_cb, NULL, (gchar *) GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, (gchar *) "b0.deletemany", (gchar *) N_("_Delete Selected Memos"), delete_cb, NULL, (gchar *) GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_MANY, E_CAL_POPUP_SELECT_EDITABLE },
 };
 
 static void

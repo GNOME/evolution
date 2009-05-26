@@ -40,7 +40,7 @@
 #include <mail/em-composer-utils.h>
 #include <camel/camel-mime-filter-tohtml.h>
 
-static gchar *itip_methods[] = {
+static const gchar *itip_methods[] = {
 	"PUBLISH",
 	"REQUEST",
 	"REPLY",
@@ -1373,7 +1373,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 
 		GString *body;
 		char *orig_from = NULL;
-		char *description = NULL;
+		const char *description = NULL;
 		char *subject = NULL;
 		const char *location = NULL;
 		char *time = NULL;
@@ -1390,7 +1390,7 @@ reply_to_calendar_comp (ECalComponentItipMethod method,
 		if (text_list){
 			ECalComponentText text = *((ECalComponentText *)text_list->data);
 	                if (text.value)
-	                        description = (char *)text.value;
+	                        description = text.value;
         	        else
                 	        description = "";
 	        } else {

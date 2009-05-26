@@ -617,12 +617,15 @@ e_day_view_main_item_draw_day_event (EDayViewMainItem *dvmitem,
 	gdouble cc = 65535.0;
 	gdouble date_fraction;
 	gboolean short_event = FALSE, resize_flag = FALSE;
-	gchar *end_resize_time, *end_resize_suffix;
+	const gchar *end_resize_suffix;
+	gchar *end_resize_time;
 	gint start_hour, start_display_hour, start_minute, start_suffix_width;
 	gint end_hour, end_display_hour, end_minute, end_suffix_width;
 	gboolean show_span = FALSE, format_time;
 	gint offset, interval;
-	char *text = NULL, *start_suffix, *end_suffix;
+	const gchar *start_suffix;
+	const gchar *end_suffix;
+	char *text = NULL;
 	int scroll_flag = 0;
 	gint row_y;
 	GConfClient *gconf;

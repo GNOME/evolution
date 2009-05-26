@@ -70,16 +70,14 @@ enum TargetType{
 };
 
 static GtkTargetEntry target_types[] = {
-	{ "text/x-calendar", 0, TARGET_TYPE_VCALENDAR },
-	{ "text/calendar",   0, TARGET_TYPE_VCALENDAR }
+	{ (gchar *) "text/x-calendar", 0, TARGET_TYPE_VCALENDAR },
+	{ (gchar *) "text/calendar",   0, TARGET_TYPE_VCALENDAR }
 };
 
 static guint n_target_types = G_N_ELEMENTS (target_types);
 
 extern ECompEditorRegistry *comp_editor_registry;
 
-static void e_calendar_table_class_init		(ECalendarTableClass *class);
-static void e_calendar_table_init		(ECalendarTable	*cal_table);
 static void e_calendar_table_destroy		(GtkObject	*object);
 
 static void e_calendar_table_on_double_click	(ETable		*table,
@@ -1588,33 +1586,33 @@ delete_cb (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static EPopupItem tasks_popup_items [] = {
-	{ E_POPUP_ITEM, "00.newtask", N_("New _Task"), on_new_task, NULL, "stock_task", 0, 0},
-	{ E_POPUP_BAR, "01.bar" },
+	{ E_POPUP_ITEM, (gchar *) "00.newtask", (gchar *) N_("New _Task"), on_new_task, NULL, (gchar *) "stock_task", 0, 0},
+	{ E_POPUP_BAR, (gchar *) "01.bar" },
 
-	{ E_POPUP_ITEM, "03.open", N_("_Open"), e_calendar_table_on_open_task, NULL, GTK_STOCK_OPEN, E_CAL_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "05.openweb", N_("Open _Web Page"), open_url_cb, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_HASURL },
-	{ E_POPUP_ITEM, "10.saveas", N_("_Save As..."), e_calendar_table_on_save_as, NULL, GTK_STOCK_SAVE_AS, E_CAL_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "20.print", N_("P_rint..."), e_calendar_table_on_print_task, NULL, GTK_STOCK_PRINT, E_CAL_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, (gchar *) "03.open", (gchar *) N_("_Open"), e_calendar_table_on_open_task, NULL, (gchar *) GTK_STOCK_OPEN, E_CAL_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, (gchar *) "05.openweb", (gchar *) N_("Open _Web Page"), open_url_cb, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_HASURL },
+	{ E_POPUP_ITEM, (gchar *) "10.saveas", (gchar *) N_("_Save As..."), e_calendar_table_on_save_as, NULL, (gchar *) GTK_STOCK_SAVE_AS, E_CAL_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, (gchar *) "20.print", (gchar *) N_("P_rint..."), e_calendar_table_on_print_task, NULL, (gchar *) GTK_STOCK_PRINT, E_CAL_POPUP_SELECT_ONE },
 
-	{ E_POPUP_BAR, "30.bar" },
+	{ E_POPUP_BAR, (gchar *) "30.bar" },
 
-	{ E_POPUP_ITEM, "40.cut", N_("C_ut"), e_calendar_table_on_cut, NULL, GTK_STOCK_CUT, 0, E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "50.copy", N_("_Copy"), e_calendar_table_on_copy, NULL, GTK_STOCK_COPY, 0, 0 },
-	{ E_POPUP_ITEM, "60.paste", N_("_Paste"), e_calendar_table_on_paste, NULL, GTK_STOCK_PASTE, 0, E_CAL_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, (gchar *) "40.cut", (gchar *) N_("C_ut"), e_calendar_table_on_cut, NULL, (gchar *) GTK_STOCK_CUT, 0, E_CAL_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, (gchar *) "50.copy", (gchar *) N_("_Copy"), e_calendar_table_on_copy, NULL, (gchar *) GTK_STOCK_COPY, 0, 0 },
+	{ E_POPUP_ITEM, (gchar *) "60.paste", (gchar *) N_("_Paste"), e_calendar_table_on_paste, NULL, (gchar *) GTK_STOCK_PASTE, 0, E_CAL_POPUP_SELECT_EDITABLE },
 
-	{ E_POPUP_BAR, "70.bar" },
+	{ E_POPUP_BAR, (gchar *) "70.bar" },
 
-	{ E_POPUP_ITEM, "80.assign", N_("_Assign Task"), e_calendar_table_on_assign, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE|E_CAL_POPUP_SELECT_ASSIGNABLE },
-	{ E_POPUP_ITEM, "90.forward", N_("_Forward as iCalendar"), e_calendar_table_on_forward, NULL, "mail-forward", E_CAL_POPUP_SELECT_ONE },
-	{ E_POPUP_ITEM, "a0.markonecomplete", N_("_Mark as Complete"), mark_as_complete_cb, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTCOMPLETE},
-	{ E_POPUP_ITEM, "b0.markmanycomplete", N_("_Mark Selected Tasks as Complete"), mark_as_complete_cb, NULL, NULL, E_CAL_POPUP_SELECT_MANY, E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTCOMPLETE },
-	{ E_POPUP_ITEM, "c0.markoneincomplete", N_("_Mark as Incomplete"), mark_as_incomplete_cb, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE|E_CAL_POPUP_SELECT_COMPLETE},
-	{ E_POPUP_ITEM, "d0.markmanyincomplete", N_("_Mark Selected Tasks as Incomplete"), mark_as_incomplete_cb, NULL, NULL, E_CAL_POPUP_SELECT_MANY, E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_COMPLETE },
+	{ E_POPUP_ITEM, (gchar *) "80.assign", (gchar *) N_("_Assign Task"), e_calendar_table_on_assign, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE|E_CAL_POPUP_SELECT_ASSIGNABLE },
+	{ E_POPUP_ITEM, (gchar *) "90.forward", (gchar *) N_("_Forward as iCalendar"), e_calendar_table_on_forward, NULL, (gchar *) "mail-forward", E_CAL_POPUP_SELECT_ONE },
+	{ E_POPUP_ITEM, (gchar *) "a0.markonecomplete", (gchar *) N_("_Mark as Complete"), mark_as_complete_cb, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTCOMPLETE},
+	{ E_POPUP_ITEM, (gchar *) "b0.markmanycomplete", (gchar *) N_("_Mark Selected Tasks as Complete"), mark_as_complete_cb, NULL, NULL, E_CAL_POPUP_SELECT_MANY, E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTCOMPLETE },
+	{ E_POPUP_ITEM, (gchar *) "c0.markoneincomplete", (gchar *) N_("_Mark as Incomplete"), mark_as_incomplete_cb, NULL, NULL, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE|E_CAL_POPUP_SELECT_COMPLETE},
+	{ E_POPUP_ITEM, (gchar *) "d0.markmanyincomplete", (gchar *) N_("_Mark Selected Tasks as Incomplete"), mark_as_incomplete_cb, NULL, NULL, E_CAL_POPUP_SELECT_MANY, E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_COMPLETE },
 
-	{ E_POPUP_BAR, "e0.bar" },
+	{ E_POPUP_BAR, (gchar *) "e0.bar" },
 
-	{ E_POPUP_ITEM, "f0.delete", N_("_Delete"), delete_cb, NULL, GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "g0.deletemany", N_("_Delete Selected Tasks"), delete_cb, NULL, GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_MANY, E_CAL_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, (gchar *) "f0.delete", (gchar *) N_("_Delete"), delete_cb, NULL, (gchar *) GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_ONE, E_CAL_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, (gchar *) "g0.deletemany", (gchar *) N_("_Delete Selected Tasks"), delete_cb, NULL, (gchar *) GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_MANY, E_CAL_POPUP_SELECT_EDITABLE },
 };
 
 static void

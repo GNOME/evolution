@@ -72,12 +72,12 @@ enum {
 
 /* Comments are disabled because they are kind of useless right now, see bug 33247 */
 static ESearchBarItem search_option_items[] = {
-	{ N_("Summary contains"), SEARCH_SUMMARY_CONTAINS, ESB_ITEMTYPE_RADIO },
-	{ N_("Description contains"), SEARCH_DESCRIPTION_CONTAINS, ESB_ITEMTYPE_RADIO },
-	{ N_("Category is"), SEARCH_CATEGORY_IS, ESB_ITEMTYPE_RADIO },
-	{ N_("Comment contains"), SEARCH_COMMENT_CONTAINS, ESB_ITEMTYPE_RADIO },
-	{ N_("Location contains"), SEARCH_LOCATION_CONTAINS, ESB_ITEMTYPE_RADIO },
-	{ N_("Any field contains"), SEARCH_ANY_FIELD_CONTAINS, ESB_ITEMTYPE_RADIO },
+	{ (gchar *) N_("Summary contains"), SEARCH_SUMMARY_CONTAINS, ESB_ITEMTYPE_RADIO },
+	{ (gchar *) N_("Description contains"), SEARCH_DESCRIPTION_CONTAINS, ESB_ITEMTYPE_RADIO },
+	{ (gchar *) N_("Category is"), SEARCH_CATEGORY_IS, ESB_ITEMTYPE_RADIO },
+	{ (gchar *) N_("Comment contains"), SEARCH_COMMENT_CONTAINS, ESB_ITEMTYPE_RADIO },
+	{ (gchar *) N_("Location contains"), SEARCH_LOCATION_CONTAINS, ESB_ITEMTYPE_RADIO },
+	{ (gchar *) N_("Any field contains"), SEARCH_ANY_FIELD_CONTAINS, ESB_ITEMTYPE_RADIO },
 };
 
 /* IDs for the categories suboptions */
@@ -408,7 +408,7 @@ static void
 notify_e_cal_view_contains (CalSearchBar *cal_search, const char *field, const char *view)
 {
 	char *text = NULL;
-	char *sexp = " ";
+	char *sexp;
 
 	text = e_search_bar_get_text (E_SEARCH_BAR (cal_search));
 

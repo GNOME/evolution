@@ -732,7 +732,7 @@ static const char *dayname[] = {
 	N_("Saturday")
 };
 
-static inline char *
+static const char *
 get_dayname (struct icalrecurrencetype *r, int i)
 {
 	enum icalrecurrencetype_weekday day;

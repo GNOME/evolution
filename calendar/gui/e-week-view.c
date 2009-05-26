@@ -4378,7 +4378,7 @@ void
 e_week_view_convert_time_to_display	(EWeekView	*week_view,
 					 gint		 hour,
 					 gint		*display_hour,
-					 gchar	       **suffix,
+					 const gchar	**suffix,
 					 gint		*suffix_width)
 {
 	/* Calculate the actual hour number to display. For 12-hour

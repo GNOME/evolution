@@ -112,8 +112,12 @@ comp_editor_free_dates (CompEditorPageDates *dates)
 
 /* dtstart is only passed in if tt is the dtend. */
 static void
-write_label_piece (struct icaltimetype *tt, char *buffer, int size,
-		   char *stext, char *etext, struct icaltimetype *dtstart)
+write_label_piece (struct icaltimetype *tt,
+                   gchar *buffer,
+                   gint size,
+                   gchar *stext,
+                   const gchar *etext,
+                   struct icaltimetype *dtstart)
 {
 	struct tm tmp_tm = { 0 };
 	struct icaltimetype tt_copy = *tt;

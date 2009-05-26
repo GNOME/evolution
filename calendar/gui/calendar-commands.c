@@ -345,7 +345,7 @@ purge_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 }
 
 struct _sensitize_item {
-	char *command;
+	const gchar *command;
 	guint32 enable;
 };
 

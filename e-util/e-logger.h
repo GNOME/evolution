@@ -70,7 +70,7 @@ struct _ELoggerClass {
 };
 
 GType		e_logger_get_type		(void);
-ELogger *	e_logger_create			(gchar *component);
+ELogger *	e_logger_create			(const gchar *component);
 const gchar *	e_logger_get_component		(ELogger *logger);
 void		e_logger_log			(ELogger *logger,
 						 gint level,

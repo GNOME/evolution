@@ -150,7 +150,7 @@ e_folder_map_dir (const char *dirname, const char *type, GSList **dir_list)
 }
 
 GSList *
-e_folder_map_local_folders (char *local_dir, char *type)
+e_folder_map_local_folders (const gchar *local_dir, const gchar *type)
 {
 	const char *name;
 	GDir *dir;

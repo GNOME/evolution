@@ -108,9 +108,9 @@ enum {
 	TARGET_VCALENDAR
 };
 static GtkTargetEntry target_table[] = {
-	{ "application/x-e-calendar-event",     0, TARGET_CALENDAR_EVENT },
-	{ "text/x-calendar",                    0, TARGET_VCALENDAR },
-	{ "text/calendar",                      0, TARGET_VCALENDAR }
+	{ (gchar *) "application/x-e-calendar-event", 0, TARGET_CALENDAR_EVENT },
+	{ (gchar *) "text/x-calendar",                0, TARGET_VCALENDAR },
+	{ (gchar *) "text/calendar",                  0, TARGET_VCALENDAR }
 };
 static guint n_targets = sizeof(target_table) / sizeof(target_table[0]);
 
@@ -1838,9 +1838,9 @@ e_day_view_update_event_label (EDayView *day_view,
 			       gint event_num)
 {
 	EDayViewEvent *event;
-	char *text;
 	gboolean free_text = FALSE, editing_event = FALSE, short_event = FALSE;
 	const gchar *summary;
+	char *text;
 	gint interval;
 
 	event = &g_array_index (day_view->events[day], EDayViewEvent, event_num);
@@ -1850,7 +1850,7 @@ e_day_view_update_event_label (EDayView *day_view,
 		return;
 
 	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
-	text = summary ? (char *) summary : "";
+	text = summary ? (char *) summary : (char *) "";
 
 	if (day_view->editing_event_day == day
 	    && day_view->editing_event_num == event_num)
@@ -7847,7 +7847,7 @@ void
 e_day_view_convert_time_to_display	(EDayView	*day_view,
 					 gint		 hour,
 					 gint		*display_hour,
-					 gchar	       **suffix,
+					 const gchar	**suffix,
 					 gint		*suffix_width)
 {
 	/* Calculate the actual hour number to display. For 12-hour

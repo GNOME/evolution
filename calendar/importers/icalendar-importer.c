@@ -283,13 +283,15 @@ ivcal_import_items(void *d)
 	switch (ici->source_type) {
 	case E_CAL_SOURCE_TYPE_EVENT:
 		prepare_events (ici->icalcomp, NULL);
-		if (!update_objects (ici->client, ici->icalcomp))
+		if (!update_objects (ici->client, ici->icalcomp)) {
 			/* FIXME: e_error ... */;
+		}
 		break;
 	case E_CAL_SOURCE_TYPE_TODO:
 		prepare_tasks (ici->icalcomp, NULL);
-		if (!update_objects (ici->client, ici->icalcomp))
+		if (!update_objects (ici->client, ici->icalcomp)) {
 			/* FIXME: e_error ... */;
+		}
 		break;
 	default:
 		g_return_val_if_reached (FALSE);
@@ -525,8 +527,8 @@ load_vcalendar_file (const char *filename)
 	defaults.alarm_audio_url = g_filename_to_uri (default_alarm_filename,
 						      NULL, NULL);
 	g_free (default_alarm_filename);
-	defaults.alarm_audio_fmttype = "audio/x-wav";
-	defaults.alarm_description = (char*) _("Reminder!");
+	defaults.alarm_audio_fmttype = (char *) "audio/x-wav";
+	defaults.alarm_description = (char *) _("Reminder!");
 
 	if (g_file_get_contents (filename, &contents, NULL, NULL)) {
 		VObject *vcal;

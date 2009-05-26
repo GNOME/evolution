@@ -595,7 +595,7 @@ void	   e_day_view_stop_auto_scroll		(EDayView	*day_view);
 void	   e_day_view_convert_time_to_display	(EDayView	*day_view,
 						 gint		 hour,
 						 gint		*display_hour,
-						 gchar	       **suffix,
+						 const gchar	**suffix,
 						 gint		*suffix_width);
 gint	   e_day_view_get_time_string_width	(EDayView	*day_view);
 

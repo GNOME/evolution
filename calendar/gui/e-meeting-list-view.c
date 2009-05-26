@@ -64,11 +64,12 @@ static guint e_meeting_list_view_signals[LAST_SIGNAL] = { 0 };
 
 static void name_selector_dialog_close_cb (ENameSelectorDialog *dialog, gint response, gpointer data);
 
-static char *sections[] = {N_("Chair Persons"),
-			   N_("Required Participants"),
-			   N_("Optional Participants"),
-			   N_("Resources"),
-			   NULL};
+static const gchar *sections[] = {N_("Chair Persons"),
+				  N_("Required Participants"),
+				  N_("Optional Participants"),
+				  N_("Resources"),
+				  NULL};
+
 static icalparameter_role roles[] = {ICAL_ROLE_CHAIR,
 				     ICAL_ROLE_REQPARTICIPANT,
 				     ICAL_ROLE_OPTPARTICIPANT,
