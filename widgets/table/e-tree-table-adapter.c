@@ -30,6 +30,7 @@
 #include <glib/gstdio.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
+#include <libedataserver/e-xml-utils.h>
 
 #include "e-util/e-util.h"
 #include "e-util/e-xml-utils.h"

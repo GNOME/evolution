@@ -56,6 +56,7 @@
 #include <glib/gi18n.h>
 
 #include <e-util/e-util.h>
+#include <libedataserver/e-xml-utils.h>
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-xml-utils.h>
 
