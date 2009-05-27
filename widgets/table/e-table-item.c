@@ -13,7 +13,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -1982,16 +1982,16 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 
 			cairo_save (cr);
 			pat = cairo_pattern_create_linear (0, y1, 0, y2);
-			cairo_pattern_add_color_stop_rgba (pat, 0.0, background->red/65535.0 , 
-								     background->green/65535.0, 
+			cairo_pattern_add_color_stop_rgba (pat, 0.0, background->red/65535.0 ,
+								     background->green/65535.0,
 								     background->blue/65535.0, selected ? 0.8: 1.0);
 			if (selected)
-				cairo_pattern_add_color_stop_rgba (pat, 0.5, background->red/65535.0 , 
-									     background->green/65535.0, 
+				cairo_pattern_add_color_stop_rgba (pat, 0.5, background->red/65535.0 ,
+									     background->green/65535.0,
 									     background->blue/65535.0, 0.9);
 
-			cairo_pattern_add_color_stop_rgba (pat, 1, background->red/65535.0 , 
-								   background->green/65535.0, 
+			cairo_pattern_add_color_stop_rgba (pat, 1, background->red/65535.0 ,
+								   background->green/65535.0,
 								   background->blue/65535.0, selected ? 0.8 : 1.0);
 			cairo_rectangle (cr, x1, y1, ecol->width, height-1);
 			cairo_set_source (cr, pat);
@@ -2003,22 +2003,22 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 
 			cairo_save (cr);
 			cairo_set_line_width (cr, 1.0);
-			cairo_set_source_rgba (cr, background->red/65535.0 , 
-						   background->green/65535.0, 
+			cairo_set_source_rgba (cr, background->red/65535.0 ,
+						   background->green/65535.0,
 						   background->blue/65535.0, 1);
 			cairo_move_to (cr, x1, y1);
 			cairo_line_to (cr, x2, y1);
 			cairo_stroke (cr);
 
 			cairo_set_line_width (cr, 1.0);
-			cairo_set_source_rgba (cr, background->red/65535.0 , 
-						  background->green/65535.0, 
+			cairo_set_source_rgba (cr, background->red/65535.0 ,
+						  background->green/65535.0,
 						  background->blue/65535.0, 1);
 			cairo_move_to (cr, x1, y2);
 			cairo_line_to (cr, x2, y2);
 			cairo_stroke (cr);
-			cairo_restore (cr); 
-			
+			cairo_restore (cr);
+
 			if (free_background)
 				gdk_color_free (background);
 

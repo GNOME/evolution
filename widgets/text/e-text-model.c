@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -48,8 +48,6 @@ struct _ETextModelPrivate {
 	GString *text;
 };
 
-static void e_text_model_class_init (ETextModelClass *class);
-static void e_text_model_init       (ETextModel *model);
 static void e_text_model_dispose    (GObject *object);
 
 static gint         e_text_model_real_validate_position (ETextModel *, gint pos);

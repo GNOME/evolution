@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
@@ -264,7 +264,7 @@ cal_shell_backend_ensure_sources (EShellBackend *shell_backend)
 				e_source_group_remove_source (contacts, source);
 				trash = g_slist_delete_link (trash, trash);
 			}
-				
+
 		}
 	} else {
 		ESourceGroup *source_group;

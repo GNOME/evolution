@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -1321,7 +1321,7 @@ e_file_lock_destroy ()
 	}
 }
 
-gboolean 
+gboolean
 e_file_lock_exists ()
 {
 	const char *fname = get_lock_filename ();
@@ -1358,7 +1358,7 @@ e_util_guess_mime_type (const char *filename, gboolean localfile)
 			fi = g_file_query_info (file, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE, G_FILE_QUERY_INFO_NONE, NULL, NULL);
 			if (fi) {
 				mime_type = g_content_type_get_mime_type (g_file_info_get_content_type (fi));
-	
+
 				g_object_unref (fi);
 			}
 
@@ -1484,7 +1484,7 @@ e_util_read_file (const char *filename, gboolean filename_is_uri, char **buffer,
 
 				if (err)
 					res = FALSE;
-				
+
 				if (res)
 					*buffer = buff;
 				else

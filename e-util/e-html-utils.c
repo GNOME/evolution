@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -246,7 +246,7 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 					colored = TRUE;
 				}
 			} else if (colored) {
-				gchar *no_font = "</FONT>";
+				const gchar *no_font = "</FONT>";
 
 				out = check_size (&buffer, &buffer_size, out, 9);
 				out += sprintf (out, "%s", no_font);

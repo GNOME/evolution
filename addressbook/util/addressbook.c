@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -200,7 +200,7 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 		char *prompt;
 		char *password_prompt;
 		gboolean remember;
-		char *failed_auth;
+		const gchar *failed_auth;
 		guint32 flags = E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET|E_PASSWORDS_ONLINE;
 
 		if (previous_failure) {

@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -99,7 +99,7 @@ do_save_calendar_ical (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSourc
 
 		if (stream)
 			g_object_unref (stream);
-	} 
+	}
 
 	if (error) {
 		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)), error->message);

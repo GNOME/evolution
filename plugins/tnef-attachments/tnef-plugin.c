@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
@@ -38,7 +38,7 @@
 #include <ytnef.h>
 #elif defined HAVE_LIBYTNEF_YTNEF_H
 #include <libytnef/ytnef.h>
-#endif 
+#endif
 
 #include <camel/camel-mime-part.h>
 #include <camel/camel-folder.h>

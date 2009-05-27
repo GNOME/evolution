@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -72,7 +72,7 @@ build_pass_key (ECal *ecal)
 	return euri_str;
 }
 
-void 
+void
 auth_cal_forget_password (ECal *ecal)
 {
 	ESource *source = NULL;

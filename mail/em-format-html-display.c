@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -718,31 +718,31 @@ efhd_image(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFormat
 /* ********************************************************************** */
 
 static EMFormatHandler type_builtin_table[] = {
-	{ "image/gif", (EMFormatFunc)efhd_image },
-	{ "image/jpeg", (EMFormatFunc)efhd_image },
-	{ "image/png", (EMFormatFunc)efhd_image },
-	{ "image/x-png", (EMFormatFunc)efhd_image },
-	{ "image/tiff", (EMFormatFunc)efhd_image },
-	{ "image/x-bmp", (EMFormatFunc)efhd_image },
-	{ "image/bmp", (EMFormatFunc)efhd_image },
-	{ "image/svg", (EMFormatFunc)efhd_image },
-	{ "image/x-cmu-raster", (EMFormatFunc)efhd_image },
-	{ "image/x-ico", (EMFormatFunc)efhd_image },
-	{ "image/x-portable-anymap", (EMFormatFunc)efhd_image },
-	{ "image/x-portable-bitmap", (EMFormatFunc)efhd_image },
-	{ "image/x-portable-graymap", (EMFormatFunc)efhd_image },
-	{ "image/x-portable-pixmap", (EMFormatFunc)efhd_image },
-	{ "image/x-xpixmap", (EMFormatFunc)efhd_image },
+	{ (gchar *) "image/gif", (EMFormatFunc)efhd_image },
+	{ (gchar *) "image/jpeg", (EMFormatFunc)efhd_image },
+	{ (gchar *) "image/png", (EMFormatFunc)efhd_image },
+	{ (gchar *) "image/x-png", (EMFormatFunc)efhd_image },
+	{ (gchar *) "image/tiff", (EMFormatFunc)efhd_image },
+	{ (gchar *) "image/x-bmp", (EMFormatFunc)efhd_image },
+	{ (gchar *) "image/bmp", (EMFormatFunc)efhd_image },
+	{ (gchar *) "image/svg", (EMFormatFunc)efhd_image },
+	{ (gchar *) "image/x-cmu-raster", (EMFormatFunc)efhd_image },
+	{ (gchar *) "image/x-ico", (EMFormatFunc)efhd_image },
+	{ (gchar *) "image/x-portable-anymap", (EMFormatFunc)efhd_image },
+	{ (gchar *) "image/x-portable-bitmap", (EMFormatFunc)efhd_image },
+	{ (gchar *) "image/x-portable-graymap", (EMFormatFunc)efhd_image },
+	{ (gchar *) "image/x-portable-pixmap", (EMFormatFunc)efhd_image },
+	{ (gchar *) "image/x-xpixmap", (EMFormatFunc)efhd_image },
 
 	/* This is where one adds those busted, non-registered types,
 	   that some idiot mailer writers out there decide to pull out
 	   of their proverbials at random. */
 
-	{ "image/jpg", (EMFormatFunc)efhd_image },
-	{ "image/pjpeg", (EMFormatFunc)efhd_image },
+	{ (gchar *) "image/jpg", (EMFormatFunc)efhd_image },
+	{ (gchar *) "image/pjpeg", (EMFormatFunc)efhd_image },
 
-	{ "x-evolution/message/prefix", (EMFormatFunc)efhd_message_prefix },
-	{ "x-evolution/message/post-header", (EMFormatFunc)efhd_message_add_bar },
+	{ (gchar *) "x-evolution/message/prefix", (EMFormatFunc)efhd_message_prefix },
+	{ (gchar *) "x-evolution/message/post-header", (EMFormatFunc)efhd_message_add_bar }
 };
 
 static void
@@ -884,11 +884,11 @@ efhd_image_unfit(EPopup *ep, EPopupItem *item, void *data)
 }
 
 static EPopupItem efhd_menu_items[] = {
-	{ E_POPUP_BAR, "05.display", },
-	{ E_POPUP_ITEM, "05.display.00", N_("_View Inline"), efhd_attachment_show },
-	{ E_POPUP_ITEM, "05.display.00", N_("_Hide"), efhd_attachment_show },
-	{ E_POPUP_ITEM, "05.display.01", N_("_Fit to Width"), efhd_image_fit, NULL, NULL, EM_POPUP_PART_IMAGE },
-	{ E_POPUP_ITEM, "05.display.01", N_("Show _Original Size"), efhd_image_unfit, NULL, NULL, EM_POPUP_PART_IMAGE },
+	{ E_POPUP_BAR, (gchar *) "05.display" },
+	{ E_POPUP_ITEM, (gchar *) "05.display.00", (gchar *) N_("_View Inline"), efhd_attachment_show },
+	{ E_POPUP_ITEM, (gchar *) "05.display.00", (gchar *) N_("_Hide"), efhd_attachment_show },
+	{ E_POPUP_ITEM, (gchar *) "05.display.01", (gchar *) N_("_Fit to Width"), efhd_image_fit, NULL, NULL, EM_POPUP_PART_IMAGE },
+	{ E_POPUP_ITEM, (gchar *) "05.display.01", (gchar *) N_("Show _Original Size"), efhd_image_unfit, NULL, NULL, EM_POPUP_PART_IMAGE },
 };
 
 static void
@@ -1148,7 +1148,7 @@ efhd_attachment_image(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObjec
 	GdkPixbuf *pixbuf;
 	GtkTargetEntry drag_types[] = {
 		{ NULL, 0, 0 },
-		{ "text/uri-list", 0, 1 },
+		{ (gchar *) "text/uri-list", 0, 1 },
 	};
 	char *simple_type;
 

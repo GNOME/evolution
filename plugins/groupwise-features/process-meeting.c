@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -50,9 +50,9 @@ static void on_decline_meeting (EPopup *ep, EPopupItem *pitem, void *data);
 static void on_resend_meeting (EPopup *ep, EPopupItem *pitem, void *data);
 
 static EPopupItem popup_items[] = {
-{ E_POPUP_ITEM, "41.accept", N_("Accept"), on_accept_meeting, NULL, GTK_STOCK_APPLY, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_ACCEPTABLE},
-{ E_POPUP_ITEM, "42.accept", N_("Accept Tentatively"), on_accept_meeting_tentative, NULL, GTK_STOCK_DIALOG_QUESTION, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_ACCEPTABLE},
-{ E_POPUP_ITEM, "43.decline", N_("Decline"), on_decline_meeting, NULL, GTK_STOCK_CANCEL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING}
+	{ E_POPUP_ITEM, (gchar *) "41.accept", (gchar *) N_("Accept"), on_accept_meeting, NULL, (gchar *) GTK_STOCK_APPLY, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_ACCEPTABLE},
+	{ E_POPUP_ITEM, (gchar *) "42.accept", (gchar *) N_("Accept Tentatively"), on_accept_meeting_tentative, NULL, (gchar *) GTK_STOCK_DIALOG_QUESTION, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_ACCEPTABLE},
+	{ E_POPUP_ITEM, (gchar *) "43.decline", (gchar *) N_("Decline"), on_decline_meeting, NULL, (gchar *) GTK_STOCK_CANCEL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING}
 };
 
 static void
@@ -319,10 +319,10 @@ typedef struct {
 } ThreadData;
 
 static EPopupItem retract_popup_items[] = {
-{ E_POPUP_ITEM, "49.resend", N_("Rese_nd Meeting..."), on_resend_meeting, NULL, GTK_STOCK_EDIT, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING}
+	{ E_POPUP_ITEM, (gchar *) "49.resend", (gchar *) N_("Rese_nd Meeting..."), on_resend_meeting, NULL, (gchar *) GTK_STOCK_EDIT, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_MEETING}
 };
 
-void 
+void
 org_gnome_retract_resend (EPlugin *ep, ECalPopupTargetSelect *target)
 {
 	GSList *menus = NULL;
@@ -348,7 +348,7 @@ org_gnome_retract_resend (EPlugin *ep, ECalPopupTargetSelect *target)
 
 	if (! g_strrstr (uri, "groupwise://"))
 		return ;
-	
+
 	comp = e_cal_component_new ();
 	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 
@@ -394,7 +394,7 @@ add_retract_data (ECalComponent *comp, const char *retract_comment, CalObjModTyp
 	icalcomponent_add_property (icalcomp, icalprop);
 }
 
-static void 
+static void
 free_thread_data (ThreadData *data)
 {
 	if (data == NULL)
@@ -420,10 +420,10 @@ retract_object (gpointer val)
 	GError *error = NULL;
 
 	add_retract_data (data->comp, NULL, data->mod);
-	
+
 	icalcomp = e_cal_component_get_icalcomponent (data->comp);
 	icalcomponent_set_method (icalcomp, ICAL_METHOD_CANCEL);
-	
+
 	if (!e_cal_send_objects (data->client, icalcomp, &users,
 						&mod_comp, &error))	{
 		/* FIXME report error  */
@@ -434,15 +434,15 @@ retract_object (gpointer val)
 
 	if (mod_comp)
 		icalcomponent_free (mod_comp);
-				
+
 	if (users) {
 		g_list_foreach (users, (GFunc) g_free, NULL);
 		g_list_free (users);
 	}
-	
+
 	rid = e_cal_component_get_recurid_as_string (data->comp);
 	e_cal_component_get_uid (data->comp, &uid);
-			
+
 	if (!e_cal_remove_object_with_mod (data->client, uid,
 				rid, data->mod, &error)) {
 		g_warning ("Unable to remove the item \n");
@@ -461,7 +461,7 @@ object_created_cb (CompEditor *ce, gpointer data)
 	GThread *thread = NULL;
 	int response;
 	GError *error = NULL;
-	
+
 	gtk_widget_hide (GTK_WIDGET (ce));
 
 	response = e_error_run (NULL, "org.gnome.evolution.process_meeting:resend-retract", NULL);
@@ -507,18 +507,18 @@ on_resend_meeting (EPopup *ep, EPopupItem *pitem, void *data)
 
 		response = e_error_run (NULL, msg, NULL);
 		if (response == GTK_RESPONSE_YES) {
-			mod = CALOBJ_MOD_ALL;	
+			mod = CALOBJ_MOD_ALL;
 		} else if (response == GTK_RESPONSE_CANCEL) {
 			g_object_unref (comp);
 			return;
 		}
-		
+
 		data = g_new0 (ThreadData, 1);
 		data->client = g_object_ref (event->comp_data->client);
 		data->comp = comp;
 		data->mod = mod;
-		
-		if (resend) 
+
+		if (resend)
 		{
 			guint flags = 0;
 			char *new_uid = NULL;
@@ -535,7 +535,7 @@ on_resend_meeting (EPopup *ep, EPopupItem *pitem, void *data)
 			e_cal_component_set_uid (new_comp, new_uid);
 			icalcomp = icalcomponent_new_clone (e_cal_component_get_icalcomponent (new_comp));
 			ce = e_calendar_view_open_event_with_flags (cal_view, data->client, icalcomp, flags);
-			
+
 			g_signal_connect (ce, "object_created", G_CALLBACK (object_created_cb), data);
 			g_object_unref (new_comp);
 			g_free (new_uid);

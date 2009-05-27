@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -408,7 +408,7 @@ static void
 notify_e_cal_view_contains (CalSearchBar *cal_search, const char *field, const char *view)
 {
 	char *text = NULL;
-	char *sexp = " ";
+	char *sexp;
 
 	text = e_search_bar_get_text (E_SEARCH_BAR (cal_search));
 

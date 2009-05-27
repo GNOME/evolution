@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -102,7 +102,6 @@ gint         e_unichar_to_utf8                              (gint           c,
 							     gchar         *outbuf);
 gchar       *e_unicode_get_utf8                             (const gchar   *text,
 							     gunichar      *out);
-guint32      gdk_keyval_to_unicode                          (guint          keysym);
 gchar       *e_xml_get_translated_utf8_string_prop_by_name  (const xmlNode *parent,
 							     const xmlChar *prop_name);
 

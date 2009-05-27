@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -55,7 +55,8 @@ static EGwConnection *
 get_cnc (GtkWindow *parent_window)
 {
 	EGwConnection *cnc;
-	char *uri, *failed_auth, *key, *prompt, *password = NULL;
+	const gchar *failed_auth;
+	char *uri, *key, *prompt, *password = NULL;
 	CamelURL *url;
 	const char *poa_address, *use_ssl, *soap_port;
 	gboolean remember;
@@ -393,7 +394,9 @@ get_source (ESourceList *list)
 }
 
 static void
-add_return_value (EGwSendOptionsReturnNotify track, ESource *source, char *notify)
+add_return_value (EGwSendOptionsReturnNotify track,
+                  ESource *source,
+                  const gchar *notify)
 {
 	char *value;
 

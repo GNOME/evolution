@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -142,7 +142,7 @@ e_select_names_editable_get_emails (ESelectNamesEditable *esne)
 
 	for (l = destinations; l != NULL; l = l->next) {
 		destination = l->data;
-		if (e_destination_is_evolution_list (destination)) {	
+		if (e_destination_is_evolution_list (destination)) {
 			const GList *list_dests, *l;
 
 			list_dests = e_destination_list_get_dests (destination);
@@ -205,7 +205,7 @@ e_select_names_editable_get_names (ESelectNamesEditable *esne)
 		return NULL;
 
 	for (l = destinations; l != NULL; l = l->next) {
-		destination = l->data;	
+		destination = l->data;
 		if (e_destination_is_evolution_list (destination)) {
 			const GList *list_dests, *l;
 
@@ -217,7 +217,7 @@ e_select_names_editable_get_names (ESelectNamesEditable *esne)
 			result = g_list_append (result, g_strdup (e_destination_get_name (destination)));
 		}
 	}
-	
+
 	g_list_free (destinations);
 
 	return result;

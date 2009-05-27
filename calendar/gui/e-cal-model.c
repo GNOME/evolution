@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -317,16 +317,16 @@ ecm_row_count (ETableModel *etm)
 	return priv->objects->len;
 }
 
-static char *
+static void *
 get_categories (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_CATEGORIES_PROPERTY);
 	if (prop)
-		return (char *) icalproperty_get_categories (prop);
+		return (void *) icalproperty_get_categories (prop);
 
-	return "";
+	return (void *) "";
 }
 
 static char *
@@ -363,7 +363,7 @@ get_color (ECalModel *model, ECalModelComponent *comp_data)
 	return e_cal_model_get_color_for_component (model, comp_data);
 }
 
-static char *
+static void *
 get_description (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
@@ -384,7 +384,7 @@ get_description (ECalModelComponent *comp_data)
 		return str->str;
 	}
 
-	return "";
+	return (void *) "";
 }
 
 static ECellDateEditValue*
@@ -472,16 +472,16 @@ get_datetime_from_utc (ECalModel *model, ECalModelComponent *comp_data, icalprop
 	return res;
 }
 
-static char *
+static void *
 get_summary (ECalModelComponent *comp_data)
 {
 	icalproperty *prop;
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_SUMMARY_PROPERTY);
 	if (prop)
-		return (char *) icalproperty_get_summary (prop);
+		return (void *) icalproperty_get_summary (prop);
 
-	return "";
+	return (void *) "";
 }
 
 static char *
@@ -579,7 +579,7 @@ ecm_value_at (ETableModel *etm, int col, int row)
 		return get_uid (comp_data);
 	}
 
-	return "";
+	return (void *) "";
 }
 
 static void
@@ -1522,7 +1522,7 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 			GSList *list = NULL;
 
 			pos = get_position_in_array (priv->objects, comp_data);
- 			
+
 			if (!g_ptr_array_remove (priv->objects, comp_data))
 				continue;
 
@@ -1576,7 +1576,7 @@ e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer user_d
 
 	/*  re-add only the recurrence objects */
 	for (l = objects; l != NULL; l = g_list_next (l)) {
-		if (!e_cal_util_component_is_instance (l->data) && e_cal_util_component_has_recurrences (l->data) && (priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES)) 
+		if (!e_cal_util_component_is_instance (l->data) && e_cal_util_component_has_recurrences (l->data) && (priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES))
 			list = g_list_prepend (list, l->data);
 		else {
 			int pos;
@@ -1639,7 +1639,7 @@ e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer user_d
 			e_cal_model_set_instance_times (comp_data, priv->zone);
 
 			pos = get_position_in_array (priv->objects, comp_data);
-			
+
 			e_table_model_row_changed (E_TABLE_MODEL (model), pos);
 		}
 	}
@@ -1676,7 +1676,7 @@ e_cal_view_objects_removed_cb (ECalView *query, GList *ids, gpointer user_data)
 
 			g_slist_free (l);
 			g_object_unref (comp_data);
-		
+
 			e_table_model_pre_change (E_TABLE_MODEL (model));
 			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
 		}
@@ -1739,15 +1739,15 @@ update_e_cal_view_for_client (ECalModel *model, ECalModelClient *client_data)
 	if (!client_data->do_query)
 		return;
 
-try_again:		
+try_again:
 	if (!e_cal_get_query (client_data->client, priv->full_sexp, &client_data->query, &error)) {
 		if (error->code == E_CALENDAR_STATUS_BUSY && tries != 10) {
 			tries++;
 			/*TODO chose an optimal value */
 			g_usleep (500);
 			g_clear_error (&error);
-			goto try_again;	
-		}	
+			goto try_again;
+		}
 
 		g_warning (G_STRLOC ": Unable to get query, %s", error->message);
 
@@ -1873,7 +1873,7 @@ remove_client_objects (ECalModel *model, ECalModelClient *client_data)
 			GSList *l = NULL;
 
 			g_ptr_array_remove (model->priv->objects, comp_data);
-		
+
 			l = g_slist_append (l, comp_data);
 			g_signal_emit (G_OBJECT (model), signals[COMPS_DELETED], 0, l);
 
@@ -2014,9 +2014,9 @@ redo_queries (ECalModel *model)
 	slist = get_objects_as_list (model);
 	g_ptr_array_set_size (priv->objects, 0);
 	g_signal_emit (G_OBJECT (model), signals[COMPS_DELETED], 0, slist);
-	
+
 	e_table_model_rows_deleted (E_TABLE_MODEL (model), 0, len);
-	
+
 	g_slist_foreach (slist, (GFunc)g_object_unref, NULL);
 	g_slist_free (slist);
 
@@ -2342,7 +2342,7 @@ e_cal_model_component_class_init (ECalModelComponentClass *klass)
 
 
 static void
-e_cal_model_component_finalize (GObject *object) 
+e_cal_model_component_finalize (GObject *object)
 {
 	ECalModelComponent *comp_data = E_CAL_MODEL_COMPONENT(object);
 
@@ -2382,7 +2382,7 @@ e_cal_model_component_finalize (GObject *object)
 		g_free (comp_data->color);
 		comp_data->color = NULL;
 	}
-	
+
 	if (G_OBJECT_CLASS (parent_class)->finalize)
 		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
@@ -2440,7 +2440,7 @@ void
 e_cal_model_free_component_data (ECalModelComponent *comp_data)
 {
 	g_return_if_fail (comp_data != NULL);
-	
+
 	g_object_unref (comp_data);
 }
 

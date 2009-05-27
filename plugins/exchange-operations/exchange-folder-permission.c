@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -59,7 +59,7 @@ void org_gnome_exchange_menu_cal_permissions (EPlugin *ep, ECalMenuTargetSelect 
 gchar *selected_exchange_folder_uri = NULL;
 
 static EPopupItem popup_items[] = {
-	{ E_POPUP_ITEM, "30.emc.10", N_("Permissions..."), org_folder_permissions_cb, NULL, "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
+	{ E_POPUP_ITEM, (gchar *) "30.emc.10", (gchar *) N_("Permissions..."), org_folder_permissions_cb, NULL, (gchar *) "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
 };
 
 static void

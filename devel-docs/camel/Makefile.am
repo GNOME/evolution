@@ -7,7 +7,7 @@ DOC_MODULE=camel
 DOC_MAIN_SGML_FILE=camel-docs.sgml
 
 # The directory containing the source code (if it contains documentation).
-DOC_SOURCE_DIR=$(top_srcdir)/camel
+DOC_SOURCE_DIR=
 
 CFLAGS=`gtk-config --cflags gtk`
 LDFLAGS="-lcamel `gtk-config --libs gtk` "

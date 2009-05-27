@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -54,7 +54,7 @@ ecd_get_text(ECellText *cell, ETableModel *model, int col, int row)
 	if (date == 0) {
 		return g_strdup (_("?"));
 	}
-	
+
 	tzset ();
 	localtime_r (&date, &then);
 	localtime_r (&nowdate, &now);

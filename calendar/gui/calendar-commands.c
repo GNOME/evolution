@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -187,7 +187,7 @@ purge_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 }
 
 struct _sensitize_item {
-	char *command;
+	const gchar *command;
 	guint32 enable;
 };
 

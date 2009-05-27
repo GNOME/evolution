@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -60,11 +60,11 @@ typedef enum {
 
 struct _EMNetworkPrefs {
 	GtkVBox parent_object;
-	
+
 	GConfClient *gconf;
-	
+
 	GladeXML *gui;
-	
+
 	/* Default Behavior */
 	GtkToggleButton *sys_proxy;
 	GtkToggleButton *no_proxy;

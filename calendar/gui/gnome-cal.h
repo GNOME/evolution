@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -182,8 +182,6 @@ void       gnome_calendar_edit_appointment      (GnomeCalendar *gcal,
 						 const char* src_uid,
 						 const char* comp_uid,
 						 const char* comp_rid);
-
-GtkWidget * gnome_calendar_get_tag (GnomeCalendar *gcal);
 
 void gnome_calendar_emit_user_created_signal  (gpointer instance, GnomeCalendar *gcal, ECal *calendar);
 

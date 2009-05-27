@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -29,6 +29,6 @@
 #include <libecal/e-cal-component.h>
 #include <libedataserver/e-source-list.h>
 
-void e_sendoptions_utils_set_default_data (ESendOptionsDialog *sod, ESource *source, char* type);
+void e_sendoptions_utils_set_default_data (ESendOptionsDialog *sod, ESource *source, const gchar *type);
 void e_sendoptions_utils_fill_component (ESendOptionsDialog *sod, ECalComponent *comp);
 #endif

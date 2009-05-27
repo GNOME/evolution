@@ -259,7 +259,7 @@ install_loadable_roots (void)
 
 		   XXX yes this is gross.  *sigh*
 		*/
-		char *paths_to_check[] = {
+		const gchar *paths_to_check[] = {
 #ifdef MOZILLA_NSS_LIB_DIR
 			MOZILLA_NSS_LIB_DIR,
 #endif
@@ -872,7 +872,7 @@ default_nickname (CERTCertificate *cert)
 	char *nickname = NULL;
 	char *tmp = NULL;
 	int count;
-	char *nickFmt=NULL;
+	const char *nickFmt=NULL;
 	CERTCertificate *dummycert;
 	PK11SlotInfo *slot=NULL;
 	CK_OBJECT_HANDLE keyHandle;

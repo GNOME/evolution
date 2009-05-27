@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -636,7 +636,8 @@ e_week_view_draw_time	(EWeekView	*week_view,
 	GdkGC *gc;
 	gint hour_to_display, suffix_width;
 	gint time_y_normal_font, time_y_small_font;
-	gchar buffer[128], *suffix;
+	const gchar *suffix;
+	gchar buffer[128];
 	PangoLayout *layout;
 	PangoFontDescription *small_font_desc;
 

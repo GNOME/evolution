@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -50,8 +50,8 @@ static void retract_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 	if (cnc && E_IS_GW_CONNECTION(cnc)) {
 		id = (char *)item->user_data;
 
-		confirm_dialog = gtk_dialog_new_with_buttons (_("Message Retract"), NULL, 
-				GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT, 
+		confirm_dialog = gtk_dialog_new_with_buttons (_("Message Retract"), NULL,
+				GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 				GTK_STOCK_YES, GTK_RESPONSE_YES,
 				GTK_STOCK_NO, GTK_RESPONSE_NO, NULL);
 
@@ -78,13 +78,13 @@ static void retract_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 				gtk_dialog_run (GTK_DIALOG(dialog));
 				gtk_widget_destroy (dialog);
 			}
-		} 
+		}
 	}
 }
 
 static EPopupItem popup_items[] = {
-{ E_POPUP_BAR,  "20.emfv.03" },
-{ E_POPUP_ITEM, "20.emfv.04", N_("Retract Mail"), retract_mail_settings, NULL, NULL, 0, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY}
+	{ E_POPUP_BAR,  (gchar *) "20.emfv.03" },
+	{ E_POPUP_ITEM, (gchar *) "20.emfv.04", (gchar *) N_("Retract Mail"), retract_mail_settings, NULL, NULL, 0, EM_POPUP_SELECT_ONE|EM_FOLDER_VIEW_SELECT_LISTONLY}
 };
 
 static void popup_free (EPopup *ep, GSList *items, void *data)

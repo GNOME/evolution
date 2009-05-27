@@ -7,8 +7,6 @@ ecps_DATA  =				\
 INCLUDES =					\
 	-DG_LOG_DOMAIN=\"addressbook-printing\"	\
 	-I$(top_srcdir)/addressbook		\
-	-I$(top_srcdir)/addressbook/backend	\
-	-I$(top_builddir)/addressbook/backend	\
 	-I$(top_srcdir)				\
         -DEVOLUTION_GLADEDIR=\""$(gladedir)"\"	\
 	-DEVOLUTION_ECPSDIR=\""$(ecpsdir)"\"	\

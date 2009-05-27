@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -502,7 +502,7 @@ static void
 composer_set_no_change (EMsgComposer *composer, gboolean drop_undo, gboolean editor_changed)
 {
 	GtkhtmlEditor *editor;
-	
+
 	g_return_if_fail (composer != NULL);
 
 	editor = GTKHTML_EDITOR (composer);
@@ -674,7 +674,7 @@ create_new_composer (const char *subject, const char *fromuri, gboolean lite)
  	if (lite)
  		composer = e_msg_composer_lite_new ();
  	else
- 		composer = e_msg_composer_new ();	
+ 		composer = e_msg_composer_new ();
 	table = e_msg_composer_get_header_table (composer);
 
 	if (fromuri != NULL) {
@@ -781,7 +781,7 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const char *uid)
 		CamelMimePart *mime_part = CAMEL_MIME_PART (message);
 		CamelDataWrapper *mail_text;
 		CamelMultipart *body = camel_multipart_new ();
-		CamelStream *stream;		
+		CamelStream *stream;
 		CamelMimePart *part;
 		int count1 = 0, string_changed = 0;
 		const char *cur;
@@ -871,8 +871,8 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const char *uid)
 				}
 
 				g_strfreev(temp_str);
-			}	
-			else 
+			}
+			else
 				cur++;
 		}
 
@@ -887,7 +887,7 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const char *uid)
 
 			mail_text = camel_data_wrapper_new ();
 			camel_data_wrapper_set_mime_type_field (mail_text, type);
-			
+
 			camel_stream_printf (stream, "%s", g_strdup(str));
 
 			camel_data_wrapper_construct_from_stream (mail_text, stream);
@@ -904,9 +904,9 @@ edit_message (CamelMimeMessage *message, CamelFolder *drafts, const char *uid)
 			camel_object_unref (body);
 		}
 	}
-		
+
 	composer = e_msg_composer_new_with_message (message);
-	
+
 	if (em_utils_folder_is_drafts (drafts, NULL)) {
 		struct emcs_t *emcs;
 
@@ -935,7 +935,7 @@ em_utils_edit_message (CamelMimeMessage *message, CamelFolder *folder)
 	if (folder)
 		edit_message (message, folder, NULL);
 	else
-		edit_message (message, NULL, NULL);	
+		edit_message (message, NULL, NULL);
 }
 
 static void
@@ -1057,7 +1057,7 @@ forward_attached_cb (CamelFolder *folder, GPtrArray *messages, CamelMimePart *pa
 
 	if (part)
 		forward_attached (folder, fad->uids, messages, part, subject, fad->fromuri);
-	
+
 	g_free (fad->fromuri);
 	g_free (fad);
 }
@@ -1816,7 +1816,10 @@ guess_account (CamelMimeMessage *message, CamelFolder *folder)
 	EAccount *account = NULL;
 	const char *tmp;
 	int i, j;
-	char *types[2] = { CAMEL_RECIPIENT_TYPE_TO, CAMEL_RECIPIENT_TYPE_CC };
+	const gchar *types[2] = {
+		CAMEL_RECIPIENT_TYPE_TO,
+		CAMEL_RECIPIENT_TYPE_CC
+	};
 
 	/* check for newsgroup header */
 	if (folder
@@ -2272,7 +2275,7 @@ em_utils_construct_composer_text (CamelMimeMessage *message, EMFormat *source)
 	char *text, *credits;
 	ssize_t len = 0;
 	gboolean start_bottom = 0;
-	
+
 	credits = attribution_format (ATTRIBUTION, message);
 	text = em_utils_message_to_html (message, credits, EM_FORMAT_QUOTE_CITE, &len, source, start_bottom ? "<BR>" : NULL);
 

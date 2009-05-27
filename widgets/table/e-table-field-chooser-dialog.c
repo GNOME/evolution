@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -30,8 +30,6 @@
 
 #include "e-table-field-chooser-dialog.h"
 
-static void e_table_field_chooser_dialog_init		(ETableFieldChooserDialog		 *card);
-static void e_table_field_chooser_dialog_class_init	(ETableFieldChooserDialogClass	 *klass);
 static void e_table_field_chooser_dialog_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
 static void e_table_field_chooser_dialog_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 static void e_table_field_chooser_dialog_dispose (GObject *object);

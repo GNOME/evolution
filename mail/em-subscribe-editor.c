@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -113,7 +113,7 @@ struct _EMSubscribeNode {
 
 typedef struct _MailMsgListNode MailMsgListNode;
 struct _MailMsgListNode {
-	EDListNode node;	
+	EDListNode node;
 	MailMsg *msg;
 };
 
@@ -211,8 +211,9 @@ sub_folder_done (struct _zsubscribe_msg *m)
 		gtk_tree_model_get(model, &iter, 0, &subscribed, 2, &node, -1);
 		if (node == m->node)
 			gtk_tree_store_set((GtkTreeStore *)model, &iter, 0, issub, -1);
-		else
+		else {
 			d(printf("node mismatch, or subscribe state changed failed\n"));
+		}
 	}
 
 	/* queue any further ones, or if out, update the ui */
@@ -265,7 +266,7 @@ sub_subscribe_folder (EMSubscribe *sub, EMSubscribeNode *node, int state, const 
 		d(printf("running subscribe folder '%s'\n", spath));
 		mail_msg_unordered_push (m);
 	} else {
-		msgListNode = g_malloc0(sizeof(MailMsgListNode)); 
+		msgListNode = g_malloc0(sizeof(MailMsgListNode));
 		msgListNode->msg = (MailMsg *) m;
 		d(printf("queueing subscribe folder '%s'\n", spath));
 		e_dlist_addtail(&sub->subscribe, (EDListNode *)msgListNode);
@@ -357,7 +358,7 @@ sub_folderinfo_exec (struct _emse_folderinfo_msg *m)
 
 	if (m->seq == m->sub->seq) {
 		camel_operation_register(m->base.cancel);
-		m->info = camel_store_get_folder_info(m->sub->store, m->node?m->node->info->full_name:pub_full_name, 
+		m->info = camel_store_get_folder_info(m->sub->store, m->node?m->node->info->full_name:pub_full_name,
 						      CAMEL_STORE_FOLDER_INFO_NO_VIRTUAL | CAMEL_STORE_FOLDER_INFO_SUBSCRIPTION_LIST, &m->base.ex);
 		camel_operation_unregister(m->base.cancel);
 	}
@@ -560,7 +561,7 @@ static void
 sub_destroy(GtkWidget *w, EMSubscribe *sub)
 {
 	struct _zsubscribe_msg *m;
-	MailMsgListNode *msgListNode;	
+	MailMsgListNode *msgListNode;
 
 	d(printf("subscribe closed\n"));
 	sub->cancel = TRUE;

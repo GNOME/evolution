@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-04-13 10:16+0700\n"
-"PO-Revision-Date: 2009-04-13 10:53+0700\n"
+"PO-Revision-Date: 2009-05-23 23:23+0700\n"
 "Last-Translator: Theppitak Karoonboonyanan <thep@linux.thai.net>\n"
 "Language-Team: Thai <thai-l10n@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -7857,7 +7857,7 @@ msgstr "ข้อผิดพลาด iCalendar"
 #: ../plugins/itip-formatter/itip-view.c:522
 #: ../plugins/itip-formatter/itip-view.c:523
 msgid "An unknown person"
-msgstr "บุคคลที่ไม่รู้จัก"
+msgstr "บุคคลนิรนาม"
 
 #. Describe what the user can do
 #: ../calendar/gui/e-itip-control.c:1138
@@ -18645,7 +18645,7 @@ msgstr "<b>%s</b> ได้เสนอขอเปลี่ยนแปลง�
 #: ../plugins/itip-formatter/itip-view.c:406
 #, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
-msgstr "<b>%s</b> ได้เสนอผ่าน %s ขอเปลี่ยนแปลงการประชุมดังนี้:"
+msgstr "<b>%s</b> ได้เสนอผ่าน %s ขอปฏิเสธการเปลี่ยนแปลงการประชุมต่อไปนี้:"
 
 #: ../plugins/itip-formatter/itip-view.c:408
 #, c-format
@@ -18665,7 +18665,7 @@ msgstr "<b>%s</b> ได้ประกาศภารกิจต่อไป�
 #: ../plugins/itip-formatter/itip-view.c:453
 #, c-format
 msgid "<b>%s</b> requests the assignment of %s to the following task:"
-msgstr "<b>%s</b> ร้องขอการมอบหมายภารกิจของ %s ให้กับภารกิจต่อไปนี้:"
+msgstr "<b>%s</b> ขอมอบหมาย %s ให้ทำภารกิจต่อไปนี้:"
 
 #: ../plugins/itip-formatter/itip-view.c:456
 #, c-format
@@ -18715,7 +18715,7 @@ msgstr "<b>%s</b> ได้ส่งคำตอบสำหรับภาร�
 #: ../plugins/itip-formatter/itip-view.c:482
 #, c-format
 msgid "<b>%s</b> through %s has canceled the following assigned task:"
-msgstr "<b>%s</b> ได้แจ้งผ่าน %s ยกเลิกภารกิจที่มีการมอบหมายต่อไปนี้:"
+msgstr "<b>%s</b> ได้แจ้งผ่าน %s ขอยกเลิกภารกิจที่มีการมอบหมายต่อไปนี้:"
 
 #: ../plugins/itip-formatter/itip-view.c:484
 #, c-format
@@ -18736,12 +18736,12 @@ msgstr "<b>%s</b> ได้เสนอเปลี่ยนแปลงกา�
 #: ../plugins/itip-formatter/itip-view.c:494
 #, c-format
 msgid "<b>%s</b> through %s has declined the following assigned task:"
-msgstr "<b>%s</b> ได้เสนอผ่าน %s ขอเปลี่ยนแปลงภารกิจที่มีการมอบหมายดังนี้:"
+msgstr "<b>%s</b> ได้เสนอผ่าน %s ขอปฏิเสธภารกิจที่มีการมอบหมายต่อไปนี้:"
 
 #: ../plugins/itip-formatter/itip-view.c:496
 #, c-format
 msgid "<b>%s</b> has declined the following assigned task:"
-msgstr "<b>%s</b> ได้ปฏิเสธการมอบหมายภารกิจต่อไปนี้:"
+msgstr "<b>%s</b> ได้ปฏิเสธภารกิจที่มีการมอบหมายต่อไปนี้:"
 
 #: ../plugins/itip-formatter/itip-view.c:534
 #, c-format

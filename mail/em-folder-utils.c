@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -270,7 +270,7 @@ emfu_copy_folder_selected (const char *uri, void *data)
 	struct _copy_folder_data *cfd = data;
 	CamelStore *fromstore = NULL, *tostore = NULL;
 	CamelStore *local_store;
-	char *tobase = NULL;
+	const gchar *tobase = NULL;
 	CamelException ex;
 	CamelURL *url;
 
@@ -412,8 +412,8 @@ em_folder_utils_delete_folder (CamelFolder *folder)
 		em_utils_show_error_silent (dialog);
 		return;
 	}
-	
-	if (mail_folder_cache_get_folder_info_flags (folder, &flags) && (flags & CAMEL_FOLDER_SYSTEM)) 
+
+	if (mail_folder_cache_get_folder_info_flags (folder, &flags) && (flags & CAMEL_FOLDER_SYSTEM))
 	{
 		e_error_run(NULL,"mail:no-delete-special-folder", folder->name, NULL);
 		return;

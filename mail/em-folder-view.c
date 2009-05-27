@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -127,7 +127,7 @@ static const EMFolderViewEnable emfv_enable_map[] = {
 //	{ "MessageFilterJunk",        EM_POPUP_SELECT_MANY },
 //	{ "MessageCopy",              EM_POPUP_SELECT_MANY },
 //	{ "MessageDelete",            EM_POPUP_SELECT_MANY|EM_POPUP_SELECT_DELETE },
-//	{ "MessageDeleteKey",         EM_POPUP_SELECT_MANY},	
+//	{ "MessageDeleteKey",         EM_POPUP_SELECT_MANY},
 //	{ "MessageForward",           EM_POPUP_SELECT_MANY },
 //	{ "MessageForwardAttached",   EM_POPUP_SELECT_MANY },
 //	{ "MessageForwardInline",     EM_POPUP_SELECT_ONE },
@@ -197,6 +197,8 @@ enum {
 	LAST_SIGNAL
 };
 
+extern CamelSession *session;
+
 static guint signals[LAST_SIGNAL];
 
 static void
@@ -204,7 +206,6 @@ emfv_init(GObject *o)
 {
 	EMFolderView *emfv = (EMFolderView *)o;
 	struct _EMFolderViewPrivate *p;
-	extern CamelSession *session;
 
 //	gtk_box_set_homogeneous (GTK_BOX (emfv), FALSE);
 //
@@ -757,11 +758,11 @@ emp_uri_popup_link_copy(EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static EPopupItem emfv_uri_popups[] = {
-	{ E_POPUP_ITEM, "00.uri.15", N_("_Copy Link Location"), emp_uri_popup_link_copy, NULL, "edit-copy", EM_POPUP_URI_NOT_MAILTO },
+	{ E_POPUP_ITEM, (gchar *) "00.uri.15", (gchar *) N_("_Copy Link Location"), emp_uri_popup_link_copy, NULL, (gchar *) "edit-copy", EM_POPUP_URI_NOT_MAILTO },
 
-	{ E_POPUP_SUBMENU, "99.uri.00", N_("Create _Search Folder"), NULL, NULL, NULL, EM_POPUP_URI_MAILTO },
-	{ E_POPUP_ITEM, "99.uri.00/00.10", N_("_From this Address"), emp_uri_popup_vfolder_sender, NULL, NULL, EM_POPUP_URI_MAILTO },
-	{ E_POPUP_ITEM, "99.uri.00/00.00", N_("_To this Address"), emp_uri_popup_vfolder_recipient, NULL, NULL, EM_POPUP_URI_MAILTO },
+	{ E_POPUP_SUBMENU, (gchar *) "99.uri.00", (gchar *) N_("Create _Search Folder"), NULL, NULL, NULL, EM_POPUP_URI_MAILTO },
+	{ E_POPUP_ITEM, (gchar *) "99.uri.00/00.10", (gchar *) N_("_From this Address"), emp_uri_popup_vfolder_sender, NULL, NULL, EM_POPUP_URI_MAILTO },
+	{ E_POPUP_ITEM, (gchar *) "99.uri.00/00.00", (gchar *) N_("_To this Address"), emp_uri_popup_vfolder_recipient, NULL, NULL, EM_POPUP_URI_MAILTO },
 };
 
 static void
@@ -957,7 +958,7 @@ emfv_format_popup_event(EMFormatHTMLDisplay *efhd, GdkEventButton *event, const 
 		if (!main_emp)
 			main_emp = emp;
 	}
-	
+
 	if (event == NULL)
 		gtk_menu_popup (menu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 	else

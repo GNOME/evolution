@@ -1,5 +1,5 @@
 /*
- * mail-ops.c: callbacks for the mail toolbar/menus 
+ * mail-ops.c: callbacks for the mail toolbar/menus
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -99,7 +99,7 @@ struct _fetch_mail_msg {
 
 	char *source_uri;
 
-	void (*done)(char *source, void *data);
+	void (*done)(const char *source, void *data);
 	void *data;
 };
 
@@ -407,7 +407,7 @@ void
 mail_fetch_mail (const char *source, int keep, const char *type, CamelOperation *cancel,
 		 CamelFilterGetFolderFunc get_folder, void *get_data,
 		 CamelFilterStatusFunc *status, void *status_data,
-		 void (*done)(char *source, void *data), void *data)
+		 void (*done)(const char *source, void *data), void *data)
 {
 	struct _fetch_mail_msg *m;
 	struct _filter_mail_msg *fm;
@@ -436,13 +436,13 @@ mail_fetch_mail (const char *source, int keep, const char *type, CamelOperation 
 /* sending stuff */
 /* ** SEND MAIL *********************************************************** */
 
-static char *normal_recipients[] = {
+static const gchar *normal_recipients[] = {
 	CAMEL_RECIPIENT_TYPE_TO,
 	CAMEL_RECIPIENT_TYPE_CC,
 	CAMEL_RECIPIENT_TYPE_BCC
 };
 
-static char *resent_recipients[] = {
+static const gchar *resent_recipients[] = {
 	CAMEL_RECIPIENT_TYPE_RESENT_TO,
 	CAMEL_RECIPIENT_TYPE_RESENT_CC,
 	CAMEL_RECIPIENT_TYPE_RESENT_BCC
@@ -674,7 +674,7 @@ struct _send_queue_msg {
 	CamelFilterStatusFunc *status;
 	void *status_data;
 
-	void (*done)(char *destination, void *data);
+	void (*done)(const char *destination, void *data);
 	void *data;
 };
 
@@ -733,7 +733,7 @@ send_queue_exec (struct _send_queue_msg *m)
 		camel_operation_register (m->cancel);
  	else
  		camel_operation_register (m->base.cancel);
- 
+
  	if (!m->cancel)
  		camel_operation_start (NULL, _("Sending message"));
 
@@ -795,7 +795,7 @@ send_queue_exec (struct _send_queue_msg *m)
 		camel_folder_sync (sent_folder, FALSE, &ex);
 		camel_exception_clear (&ex);
 	}
- 
+
  	if (!m->cancel)
  		camel_operation_end (NULL);
 
@@ -803,7 +803,7 @@ send_queue_exec (struct _send_queue_msg *m)
 		camel_operation_unregister (m->cancel);
  	else
  		camel_operation_unregister (m->base.cancel);
- 
+
 }
 
 static void
@@ -844,7 +844,7 @@ mail_send_queue(CamelFolder *queue, const char *destination,
 		const char *type, CamelOperation *cancel,
 		CamelFilterGetFolderFunc get_folder, void *get_data,
 		CamelFilterStatusFunc *status, void *status_data,
-		void (*done)(char *destination, void *data), void *data)
+		void (*done)(const char *destination, void *data), void *data)
 {
 	struct _send_queue_msg *m;
 
@@ -2482,7 +2482,7 @@ prepare_offline_exec (struct _set_offline_msg *m)
 	} else if (CAMEL_IS_OFFLINE_STORE (m->store)) {
 		camel_offline_store_prepare_for_offline (CAMEL_OFFLINE_STORE (m->store),
 							 &m->base.ex);
-	}						 
+	}
 }
 
 static void

@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
@@ -121,7 +121,7 @@ static void
 action_calendar_go_back_cb (GtkAction *action,
                             ECalShellView *cal_shell_view)
 {
-#if 0 
+#if 0
 	ECalShellContent *cal_shell_content;
 	GnomeCalendar *calendar;
 

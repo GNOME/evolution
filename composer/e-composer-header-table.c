@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  */
@@ -70,7 +70,7 @@ struct _EComposerHeaderTablePrivate {
 	GtkWidget *signature_label;
 	GtkWidget *signature_combo_box;
 	ENameSelector *name_selector;
-	GtkHBox *actions_container;	
+	GtkHBox *actions_container;
 };
 
 static gpointer parent_class;
@@ -514,7 +514,6 @@ composer_header_table_constructor (GType type,
 
 	if (composer_lite)
 		gtk_widget_show_all ((GtkWidget *)priv->actions_container);
-	
 	ii = E_COMPOSER_HEADER_FROM;
 
 	/* Leave room in the "From" row for signature stuff. */
@@ -548,7 +547,7 @@ composer_header_table_constructor (GType type,
 			priv->headers[ii]->input_widget,
 			"right-attach", 2, NULL);
 
-		gtk_table_attach (GTK_TABLE (object), (GtkWidget *)priv->actions_container, 2, 4, E_COMPOSER_HEADER_TO, 
+		gtk_table_attach (GTK_TABLE (object), (GtkWidget *)priv->actions_container, 2, 4, E_COMPOSER_HEADER_TO,
 				  E_COMPOSER_HEADER_TO + 1, GTK_FILL, 0, 0, 3);
 	}
 
@@ -937,17 +936,20 @@ composer_header_table_init (EComposerHeaderTable *table)
 	composer_header_table_bind_header ("reply-to", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_REPLY_TO] = header;
 
-	header = e_composer_name_header_new_with_label (_("_To:"), name_selector);
+	header = e_composer_name_header_new_with_label (
+		_("_To:"), name_selector);
 	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_TO);
 	composer_header_table_bind_header ("destinations-to", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_TO] = header;
 
-	header = e_composer_name_header_new_with_action (_("_Cc:"), _("Show CC"), name_selector);
+	header = e_composer_name_header_new_with_action (
+		_("_Cc:"), _("Show CC"), name_selector);
 	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_CC);
 	composer_header_table_bind_header ("destinations-cc", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_CC] = header;
 
-	header = e_composer_name_header_new_with_action (_("_Bcc:"), _("Show BCC"), name_selector);
+	header = e_composer_name_header_new_with_action (
+		_("_Bcc:"), _("Show BCC"), name_selector);
 	e_composer_header_set_input_tooltip (header, HEADER_TOOLTIP_BCC);
 	composer_header_table_bind_header ("destinations-bcc", "changed", header);
 	table->priv->headers[E_COMPOSER_HEADER_BCC] = header;
@@ -1025,7 +1027,6 @@ e_composer_header_table_get_header (EComposerHeaderTable *table,
 {
 	g_return_val_if_fail (E_IS_COMPOSER_HEADER_TABLE (table), NULL);
 	g_return_val_if_fail (type < E_COMPOSER_NUM_HEADERS, NULL);
-	g_return_val_if_fail (type >= 0, NULL);
 
 	return table->priv->headers[type];
 }

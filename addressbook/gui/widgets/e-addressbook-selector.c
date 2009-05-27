@@ -59,8 +59,8 @@ enum {
 };
 
 static GtkTargetEntry drag_types[] = {
-	{ "text/x-vcard", 0, DND_TARGET_TYPE_VCARD },
-	{ "text/x-source-vcard", 0, DND_TARGET_TYPE_SOURCE_VCARD }
+	{ (gchar *) "text/x-vcard", 0, DND_TARGET_TYPE_VCARD },
+	{ (gchar *) "text/x-source-vcard", 0, DND_TARGET_TYPE_SOURCE_VCARD }
 };
 
 static gpointer parent_class;

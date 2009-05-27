@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -357,7 +357,7 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 
 			gint i=0;
 
-			static gchar *labels[] = {
+			static const gchar *labels[] = {
 				 N_("UID"),
 				 N_("Summary"),
 				 N_("Description List"),

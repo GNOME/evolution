@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -58,7 +58,7 @@ typedef struct {
 	guint group_info_changed : 1;
 
 	GHashTable *hash;
-	char      *cursor_id;
+	gchar *cursor_id;
 } ETableSelectionModel;
 
 typedef struct {

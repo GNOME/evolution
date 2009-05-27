@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -109,12 +109,12 @@ enum {
 	E_FILTERBAR_ALL_ACCOUNTS_ID = -9
 };
 
-#define E_FILTERBAR_SAVE      { N_("_Save Search..."), E_FILTERBAR_SAVE_ID, 0 }
-#define E_FILTERBAR_EDIT      { N_("_Edit Saved Searches..."), E_FILTERBAR_EDIT_ID, 0 }
-#define E_FILTERBAR_ADVANCED  { N_("_Advanced Search..."), E_FILTERBAR_ADVANCED_ID, 0 }
-#define E_FILTERBAR_ALL_ACCOUNTS { N_("All Accounts"), E_FILTERBAR_ALL_ACCOUNTS_ID, ESB_ITEMTYPE_RADIO }
-#define E_FILTERBAR_CURRENT_ACCOUNT { N_("Current Account"), E_FILTERBAR_CURRENT_ACCOUNT_ID, ESB_ITEMTYPE_RADIO }
-#define E_FILTERBAR_CURRENT_FOLDER { N_("Current Folder"), E_FILTERBAR_CURRENT_FOLDER_ID, ESB_ITEMTYPE_RADIO }
+#define E_FILTERBAR_SAVE      { (gchar *) N_("_Save Search..."), E_FILTERBAR_SAVE_ID, 0 }
+#define E_FILTERBAR_EDIT      { (gchar *) N_("_Edit Saved Searches..."), E_FILTERBAR_EDIT_ID, 0 }
+#define E_FILTERBAR_ADVANCED  { (gchar *) N_("_Advanced Search..."), E_FILTERBAR_ADVANCED_ID, 0 }
+#define E_FILTERBAR_ALL_ACCOUNTS { (gchar *) N_("All Accounts"), E_FILTERBAR_ALL_ACCOUNTS_ID, ESB_ITEMTYPE_RADIO }
+#define E_FILTERBAR_CURRENT_ACCOUNT { (gchar *) N_("Current Account"), E_FILTERBAR_CURRENT_ACCOUNT_ID, ESB_ITEMTYPE_RADIO }
+#define E_FILTERBAR_CURRENT_FOLDER { (gchar *) N_("Current Folder"), E_FILTERBAR_CURRENT_FOLDER_ID, ESB_ITEMTYPE_RADIO }
 #define E_FILTERBAR_SEPARATOR { NULL, 0, 0 }
 
 #ifdef JUST_FOR_TRANSLATORS

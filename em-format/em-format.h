@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -85,7 +85,7 @@ typedef enum _em_format_mode_t {
  *
  **/
 struct _EMFormatHandler {
-	char *mime_type;
+	gchar *mime_type;
 	EMFormatFunc handler;
 	guint32 flags;
 

@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -243,7 +243,7 @@ e_logger_log (ELogger *logger,
 	logger_set_dirty (logger);
 }
 
-void 
+void
 e_logger_get_logs (ELogger *logger,
                    ELogFunction func,
                    gpointer user_data)
@@ -256,7 +256,7 @@ e_logger_get_logs (ELogger *logger,
 
 	/* Flush everything before we get the logs */
 	if (logger->priv->fp)
-		fflush (logger->priv->fp);	
+		fflush (logger->priv->fp);
 	fp = g_fopen (logger->priv->logfile, "r");
 
 	if (!fp) {

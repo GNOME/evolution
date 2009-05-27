@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -307,7 +307,7 @@ action_plugin_manager_cb (GtkAction *action,
 		GtkTreeIter iter;
 		GtkWidget *cfg_widget;
 
-		if (!g_getenv ("EVO_SHOW_ALL_PLUGINS")) { 
+		if (!g_getenv ("EVO_SHOW_ALL_PLUGINS")) {
 			/* hide ourselves always */
 			if (ep->flags & E_PLUGIN_FLAGS_SYSTEM_PLUGIN)
 				continue;
@@ -331,7 +331,7 @@ action_plugin_manager_cb (GtkAction *action,
 				    COL_PLUGIN_DATA, ep,
 				    COL_PLUGIN_CFG_WIDGET, cfg_widget,
 				    -1);
-				    
+
 	}
 
 	/* setup the treeview */

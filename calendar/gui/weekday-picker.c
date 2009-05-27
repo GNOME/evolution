@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -70,8 +70,6 @@ enum {
 	LAST_SIGNAL
 };
 
-static void weekday_picker_class_init (WeekdayPickerClass *class);
-static void weekday_picker_init (WeekdayPicker *wp);
 static void weekday_picker_destroy (GtkObject *object);
 
 static void weekday_picker_realize (GtkWidget *widget);

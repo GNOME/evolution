@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -666,12 +666,12 @@ em_utils_save_messages (GtkWindow *parent, CamelFolder *folder, GPtrArray *uids)
 	info = camel_folder_get_message_info (folder, uids->pdata[0]);
 	if (info) {
 		filename = g_strdup (camel_message_info_subject (info));
-		e_filename_make_safe (filename);		
+		e_filename_make_safe (filename);
 		camel_message_info_free (info);
 	}
 
 	filesel = e_file_get_save_filesel (parent, _("Save Message..."), filename, GTK_FILE_CHOOSER_ACTION_SAVE);
-	if (filename) 
+	if (filename)
 		g_free (filename);
 
 	camel_object_ref(folder);
@@ -1406,15 +1406,15 @@ em_utils_folder_is_templates (CamelFolder *folder, const char *uri)
 
 	if (folder == local_templates_folder)
 		return TRUE;
-	
+
 	if (folder == NULL || uri == NULL)
 		return FALSE;
-		
+
 	accounts = e_get_account_list ();
 	iter = e_list_get_iterator ((EList *)accounts);
 	while (e_iterator_is_valid (iter)) {
 		account = (EAccount *)e_iterator_get (iter);
-		
+
 		if (account->templates_folder_uri) {
 			templates_uri = em_uri_to_camel (account->templates_folder_uri);
 			if (camel_store_folder_uri_equal (folder->parent_store, templates_uri, uri)) {
@@ -1424,15 +1424,15 @@ em_utils_folder_is_templates (CamelFolder *folder, const char *uri)
 			}
 			g_free (templates_uri);
 		}
-		
+
 		e_iterator_next (iter);
 	}
-	
+
 	g_object_unref (iter);
-	
+
 	return is;
 }
-		
+
 /**
  * em_utils_folder_is_drafts:
  * @folder: folder

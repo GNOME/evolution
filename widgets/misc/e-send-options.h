@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -20,7 +20,7 @@
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
  */
- 
+
 #ifndef __E_SENDOPTIONS_DIALOG_H__
 #define __E_SENDOPTIONS_DIALOG_H__
 

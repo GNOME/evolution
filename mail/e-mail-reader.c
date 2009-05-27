@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
@@ -1746,7 +1746,7 @@ mail_reader_message_loaded_cb (CamelFolder *folder,
 		EM_FORMAT (html_display), folder, message_uid, message);
 
 	/* Reset the shell view icon. */
-	e_shell_event (shell, "mail-icon", "evolution-mail");
+	e_shell_event (shell, "mail-icon", (gpointer) "evolution-mail");
 
 	/* Determine whether to mark the message as read. */
 	mark_read = e_shell_settings_get_boolean (

@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -79,7 +79,7 @@ eab_error_dialog (const char *msg, EBookStatus status)
 {
 	const char *status_str;
 
-	if (status < 0 || status >= G_N_ELEMENTS (status_to_string))
+	if (status >= G_N_ELEMENTS (status_to_string))
 		status_str = "Other error";
 	else
 		status_str = status_to_string [status];

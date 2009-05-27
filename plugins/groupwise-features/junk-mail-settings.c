@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -114,7 +114,7 @@ junk_mail_settings (EPopup *ep, EPopupItem *item, void *data)
 }
 
 static EPopupItem popup_items[] = {
-{ E_POPUP_ITEM, "50.emfv.05", N_("Junk Mail Settings..."), junk_mail_settings, NULL, NULL, 0, EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY}
+	{ E_POPUP_ITEM, (gchar *) "50.emfv.05", (gchar *) N_("Junk Mail Settings..."), junk_mail_settings, NULL, NULL, 0, EM_POPUP_SELECT_MANY|EM_FOLDER_VIEW_SELECT_LISTONLY}
 };
 
 static void

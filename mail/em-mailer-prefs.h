@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -106,7 +106,7 @@ struct _EMMailerPrefs {
 	/* Junk prefs */
 	GtkToggleButton *empty_junk;
 	GtkComboBox *empty_junk_days;
-	
+
 	GtkToggleButton *sa_local_tests_only;
 	GtkToggleButton *sa_use_daemon;
 	GtkComboBox *default_junk_plugin;
@@ -115,7 +115,7 @@ struct _EMMailerPrefs {
 
 	GtkToggleButton *junk_header_check;
 	GtkTreeView *junk_header_tree;
-	GtkListStore *junk_header_list_store;	
+	GtkListStore *junk_header_list_store;
 	GtkButton *junk_header_add;
 	GtkButton *junk_header_remove;
 	GtkToggleButton *junk_book_lookup;

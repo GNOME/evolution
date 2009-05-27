@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -26,7 +26,7 @@
 
 #include "python-plugin-loader.h"
 
-#define d(x) 
+#define d(x)
 
 static void *epp_parent_class;
 
@@ -84,17 +84,17 @@ epp_invoke(EPlugin *ep, const char *name, void *data)
 		p->pDict = PyModule_GetDict(p->pModule);
 
 		if (epp->pClass) {
-			p->pClass = PyDict_GetItemString(p->pDict, epp->pClass);			
+			p->pClass = PyDict_GetItemString(p->pDict, epp->pClass);
 		}
 	}
 
 	if (p->pClass) {
 
-		if (PyCallable_Check(p->pClass)) 
-			pInstance = PyObject_CallObject(p->pClass, NULL); 
+		if (PyCallable_Check(p->pClass))
+			pInstance = PyObject_CallObject(p->pClass, NULL);
 
 		pValue = PyObject_CallMethod(pInstance, name, NULL);
-	       
+
 	} else {
 
 		pFunc = PyDict_GetItemString(p->pDict, name);

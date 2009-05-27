@@ -13,7 +13,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
@@ -69,12 +69,6 @@ composer_header_addaction_clicked_cb (GtkButton *button,
 {
 	gtk_widget_hide ((GtkWidget *)button);
 	e_composer_header_set_visible (header, TRUE);
-}
-
-static void                
-link_clicked_cb (GtkLinkButton *button, const gchar *link_, gpointer user_data)
-{
-	return;
 }
 
 static GObject *

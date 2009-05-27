@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -337,7 +337,7 @@ new_folder_response (EMFolderSelector *emfs, int response, EMFolderTreeModel *mo
 }
 
 static EPopupItem popup_items[] = {
-{ E_POPUP_ITEM, "20.emc.001", N_("New _Shared Folder..."), create_shared_folder, NULL, "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
+	{ E_POPUP_ITEM, (gchar *) "20.emc.001", (gchar *) N_("New _Shared Folder..."), create_shared_folder, NULL, (gchar *) "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
 };
 
 static void
@@ -497,7 +497,7 @@ get_cnc (CamelStore *store)
 }
 
 gchar *
-get_container_id(EGwConnection *cnc, gchar *fname)
+get_container_id(EGwConnection *cnc, const gchar *fname)
 {
 	GList *container_list = NULL;
 	gchar *id = NULL;

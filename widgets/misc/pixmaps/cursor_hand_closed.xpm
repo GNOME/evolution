@@ -1,5 +1,5 @@
 /* XPM */
-static char * cursor_hand_closed_xpm[] = {
+static const gchar *cursor_hand_closed_xpm[] = {
 "32 32 3 1",
 " 	c None",
 ".	c #000000",

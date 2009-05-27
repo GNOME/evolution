@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -36,10 +36,10 @@ main (int argc, char *argv[])
 
 	glade_init ();
 
-	shown_fields = g_list_append (shown_fields, "First field");
-	shown_fields = g_list_append (shown_fields, "Second field");
-	shown_fields = g_list_append (shown_fields, "Third field");
-	shown_fields = g_list_append (shown_fields, "Fourth field");
+	shown_fields = g_list_append (shown_fields, (gpointer) "First field");
+	shown_fields = g_list_append (shown_fields, (gpointer) "Second field");
+	shown_fields = g_list_append (shown_fields, (gpointer) "Third field");
+	shown_fields = g_list_append (shown_fields, (gpointer) "Fourth field");
 
 	/* does nothing */
 	e_contact_print (NULL, NULL, NULL, GTK_PRINT_OPERATION_ACTION_PRINT_DIALOG);

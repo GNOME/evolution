@@ -1,3 +1,57 @@
+Evolution 2.27.2 2009-05-25
+---------------------------
+
+Bug Fixed:
+
+	#274117 – Difficult to post a new message to newsgroups
+	          (Matthew Barnes)
+	#440919 – Evolution can't attach "zero length" files (Matthew Barnes)
+	#458491 – Remove useless "Call To..." popup menu option
+	          (Matthew Barnes)
+	#523216 – User-oriented plugin descriptions (Matthew Barnes)
+	#524497 – Wrong "From" value if multiple accounts configured
+	          (Jeff Cai)
+	#559366 – Evolution: Cannot scroll the Calendar view using the
+	          arrow keys (Marcel Stimberg)
+	#571496 – Migrate from deprecated gnome_execute to
+	          g_spawn/xdg-terminal (Adam Petaccia)
+	#578176 – "Send message to contact" does not honor "always BCC"
+	          (Matthew Barnes)
+	#578478 – Composer shows not all "From" information (Matthew Barnes)
+	#579779 – Evolution crashes when updating a repeated (ej, yearly)
+	          event for al event instances (Milan Crha)
+	#580163 – alarm notify window does not resize correctly
+	          (Ritesh Khadgaray)
+	#580900 – Kill libgnomeui/gnome-dateedit (Adam Petaccia)
+	#580925 – Better search bar for word searches (Matthew Barnes)
+	#581424 – Personal folder tree appears besides Public folder when
+	          you go to Folder > Subscription (Johnny Jacob)
+	#581454 – Move nautilus-sendto integration to Evolution
+	          (Matthew Barnes)
+	#582144 – Evolution not showing proper attachment filename
+	          (Matthew Barnes)
+	#582168 – Remove duplicated shebang and comment from autogen.sh
+	          (Damien Lespiau)
+	#582585 – Crash when deleting multiple attachments from composed
+	          mail (Matthew Barnes)
+	#582626 – Time zone "select" button is broken (Milan Crha)
+	#582744 – CC field autofill doesn't work for replies (Matthew Barnes)
+	#583360 – Evolution won't set "UTC" as a "second zone" on Calendar
+	          and Tasks preferences (Milan Crha)
+	#498712 – (bnc) deleting meetings sometimes does not work properly
+	          (Chenthill Palanisamy)
+	#499107 – (bnc) delete all the recurring instances from the folder
+	          (Chenthill Palanisamy)
+
+Updated Translations:
+
+	Marios Zindilis (el)
+	Jorge Gonzalez (es)
+	Ivar Smolin (et)
+	Manoj Kumar Giri (or)
+	Kjartan Maraas (nb)
+	Theppitak Karoonboonyanan (th)
+
 Evolution 2.27.1 2009-05-04
 ----------------------------
 

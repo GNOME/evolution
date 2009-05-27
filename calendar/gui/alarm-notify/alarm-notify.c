@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -352,7 +352,7 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 	priv = an->priv;
 	str_uri = e_source_get_uri (source);
 	e_uri = e_uri_new (str_uri);
-	if (e_source_get_property (source, "auth-type")) 
+	if (e_source_get_property (source, "auth-type"))
 		pass_key = e_uri_to_string (e_uri, FALSE);
 	else
 		pass_key = g_strdup (str_uri);

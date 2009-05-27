@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -2856,13 +2856,13 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	/* Remove any other X-Evolution-* headers that may have been set */
 	xev = emcu_remove_xevolution_headers (message);
 	camel_header_raw_clear (&xev);
-	
+
 	/* Check for receipt request */
 	if (camel_medium_get_header (CAMEL_MEDIUM (message), "Disposition-Notification-To")) {
 		action = GTK_TOGGLE_ACTION (ACTION (REQUEST_READ_RECEIPT));
 		gtk_toggle_action_set_active (action, TRUE);
 	}
-	
+
 	/* Check for mail priority */
 	if (camel_medium_get_header (CAMEL_MEDIUM (message), "X-Priority")) {
 		action = GTK_TOGGLE_ACTION (ACTION (PRIORITIZE_MESSAGE));
@@ -3873,7 +3873,7 @@ e_msg_composer_request_close_all (void)
 
 		/* Try to autosave before closing.  If it fails for
 		 * some reason, the CLOSE action will still detect
-		 * unsaved changes and prompt the user. 
+		 * unsaved changes and prompt the user.
 		 *
 		 * FIXME If it /does/ prompt the user, the Cancel
 		 *       button will act the same as Discard Changes,
@@ -4051,7 +4051,7 @@ e_load_spell_languages (void)
 		const GtkhtmlSpellLanguage *language;
 
 		language = gtkhtml_spell_language_lookup (NULL);
-		
+
 		if (language) {
 			spell_languages = g_list_prepend (
 				spell_languages, (gpointer) language);

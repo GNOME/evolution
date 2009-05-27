@@ -14,7 +14,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  */
@@ -122,7 +122,7 @@ e_composer_text_header_new_button (const gchar *label, const gchar *action_label
 {
 	return g_object_new (
 		E_TYPE_COMPOSER_TEXT_HEADER, "label", label,
-		"button", TRUE, "addaction", action_label != NULL, 
+		"button", TRUE, "addaction", action_label != NULL,
 		"addaction_text", action_label,
 		"visible", action_label == NULL, NULL);
 }

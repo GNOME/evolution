@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -187,7 +187,7 @@ calconduit_save_configuration (ECalConduitCfg *c)
 	g_snprintf (prefix, 255, "e-calendar-conduit/Pilot_%u", c->pilot_id);
 
 	e_pilot_set_sync_source (c->source_list, c->source);
-	
+
 	e_pilot_setup_set_bool (prefix, "secret", c->secret);
 	e_pilot_setup_set_bool (prefix, "multi_day_split", c->multi_day_split);
 	e_pilot_setup_set_string (prefix, "last_uri", c->last_uri ? c->last_uri : "");

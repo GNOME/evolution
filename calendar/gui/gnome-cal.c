@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -711,8 +711,8 @@ struct _date_query_msg {
 	GnomeCalendar *gcal;
 };
 
-static void 
-update_query_async (struct _date_query_msg *msg) 
+static void
+update_query_async (struct _date_query_msg *msg)
 {
 	GnomeCalendar *gcal = msg->gcal;
 	GnomeCalendarPrivate *priv;
@@ -721,7 +721,7 @@ update_query_async (struct _date_query_msg *msg)
 	GList *l;
 
 	priv = gcal->priv;
-	
+
 	/* free the previous queries */
 	for (l = priv->dn_queries; l != NULL; l = l->next) {
 		old_query = l->data;
@@ -744,7 +744,7 @@ update_query_async (struct _date_query_msg *msg)
 		g_slice_free (struct _date_query_msg, msg);
 		return; /* No time range is set, so don't start a query */
 	}
-	
+
 	/* create queries for each loaded client */
 	for (l = priv->clients_list; l != NULL; l = l->next) {
 		GError *error = NULL;
@@ -754,7 +754,7 @@ update_query_async (struct _date_query_msg *msg)
 		if (e_cal_get_load_state ((ECal *) l->data) != E_CAL_LOAD_LOADED)
 			continue;
 
-try_again:		
+try_again:
 		old_query = NULL;
 		if (!e_cal_get_query ((ECal *) l->data, real_sexp, &old_query, &error)) {
 			/* If calendar is busy try again for 3 times. */
@@ -762,11 +762,11 @@ try_again:
 				tries++;
 				/*TODO chose an optimal value */
 				g_usleep (500);
-				
+
 				g_clear_error (&error);
-				goto try_again;	
-			}	
-			
+				goto try_again;
+			}
+
 			g_warning (G_STRLOC ": Could not create the query: %s ", error->message);
 			g_clear_error (&error);
 
@@ -798,7 +798,7 @@ try_again:
 /* Restarts a query for the date navigator in the calendar */
 static void
 update_query (GnomeCalendar *gcal)
-{	
+{
 	struct _date_query_msg *msg;
 
 	e_calendar_item_clear_marks (gcal->priv->date_navigator->calitem);
@@ -1612,7 +1612,7 @@ gnome_calendar_destroy (GtkObject *object)
 		priv->default_client = NULL;
 
 		for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
-			if (priv->configs[i]) 
+			if (priv->configs[i])
 				g_object_unref (priv->configs[i]);
 			priv->configs[i] = NULL;
 		}
@@ -2028,7 +2028,7 @@ display_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type, gboolean gra
 			continue;
 		E_CALENDAR_VIEW (priv->views [i])->in_focus = FALSE;
 	}
-	
+
 	if (grab_focus)
 		focus_current_view (gcal);
 
@@ -2080,7 +2080,7 @@ display_view_cb (GalViewInstance *view_instance, GalView *view, gpointer data)
 
 
 	display_view (gcal, view_type, TRUE);
-	
+
 	if (!priv->base_view_time)
 		update_view_times (gcal, time (NULL));
 	else
@@ -2136,7 +2136,7 @@ add_mclient (ECalModel *model, ECal *client)
 	message_push ((Message *) msg);
 }
 
-static void 
+static void
 non_intrusive_error_remove(GtkWidget *w, void *data)
 {
 	g_hash_table_remove(non_intrusive_error_table, data);
@@ -2171,7 +2171,7 @@ add_mclient (ECalModel *model, ECal *client)
 	message_push ((Message *) msg);
 }
 
-static void 
+static void
 non_intrusive_error_remove(GtkWidget *w, void *data)
 {
 	g_hash_table_remove(non_intrusive_error_table, data);
@@ -2205,7 +2205,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 		return;
 	case E_CALENDAR_STATUS_INVALID_SERVER_VERSION:
 		id = g_strdup ("calendar:server-version");
-             
+
 		if (g_hash_table_lookup(non_intrusive_error_table, id)) {
 			/* We already have it */
 			g_message("Error occurred while existing dialog active:\n");
@@ -2307,7 +2307,7 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 		g_hash_table_remove (priv->clients, e_source_peek_uid (source));
 
 		/* FIXME Is there a better way to handle this? */
-		if (priv->default_client) 
+		if (priv->default_client)
 			g_object_unref (priv->default_client);
 		priv->default_client = NULL;
 
@@ -2377,7 +2377,7 @@ backend_error_cb (ECal *client, const char *message, gpointer data)
 
 	g_hash_table_insert (non_intrusive_error_table, id, g_object_ref(dialog));
 	g_signal_connect(GTK_WIDGET (dialog), "destroy", G_CALLBACK(non_intrusive_error_remove), id);
-	
+
 	g_free (uristr);
 }
 
@@ -2909,7 +2909,7 @@ gnome_calendar_on_date_navigator_selection_changed (ECalendarItem *calitem, Gnom
 	/* Make the views display things properly */
 	update_view_times (gcal, new_time);
 	set_view (gcal, view_type, TRUE);
-	
+
 	gnome_calendar_notify_dates_shown_changed (gcal);
 }
 

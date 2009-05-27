@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -156,7 +156,7 @@ mount_ready_cb (GObject *source_object, GAsyncResult *res, gpointer user_data)
 	g_file_mount_enclosing_volume_finish (G_FILE (source_object), res, &error);
 
 	if (error) {
-		
+
 		error_queue_add (g_strdup_printf (_("Mount of %s failed:"), ms->uri->location), error);
 
 		if (ms)
@@ -258,14 +258,14 @@ ask_question (GMountOperation *op, const char *message, const char *choices[])
 		gtk_message_dialog_format_secondary_text (GTK_MESSAGE_DIALOG (dialog),
 							  "%s", secondary);
 	}
-	
+
 	if (choices) {
-		/* First count the items in the list then 
+		/* First count the items in the list then
 		 * add the buttons in reverse order */
 		for (len = 0; choices[len] != NULL; len++) {
 			;
 		}
-		
+
 		for (cnt = len - 1; cnt >= 0; cnt--) {
 			gtk_dialog_add_button (GTK_DIALOG (dialog), choices[cnt], cnt);
 		}
@@ -294,7 +294,7 @@ mount_first (EPublishUri *uri, GFile *file, gboolean can_report_success)
 	ms->can_report_success = can_report_success;
 
 	g_signal_connect (ms->mount_op, "ask-password", G_CALLBACK (ask_password), ms);
-	g_signal_connect (ms->mount_op, "ask-question", G_CALLBACK (ask_question), ms);	
+	g_signal_connect (ms->mount_op, "ask-question", G_CALLBACK (ask_question), ms);
 
 	g_file_mount_enclosing_volume (file, G_MOUNT_MOUNT_NONE, ms->mount_op, NULL, mount_ready_cb, ms);
 }
@@ -843,7 +843,7 @@ error_queue_show_idle (gpointer user_data)
 	gboolean has_error = FALSE, has_info = FALSE;
 
 	g_static_mutex_lock (&error_queue_lock);
-	
+
 	for (l = error_queue; l; l = l->next) {
 		struct eq_data *data = l->data;
 

@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -26,9 +26,6 @@
 
 #include "e-text-event-processor.h"
 #include "e-util.h"
-
-static void e_text_event_processor_init		(ETextEventProcessor		 *card);
-static void e_text_event_processor_class_init	(ETextEventProcessorClass	 *klass);
 
 static void e_text_event_processor_set_property (GObject *object,
 						 guint prop_id,

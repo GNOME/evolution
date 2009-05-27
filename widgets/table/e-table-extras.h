@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -54,28 +54,28 @@ GType             e_table_extras_get_type     (void);
 ETableExtras     *e_table_extras_new          (void);
 
 void              e_table_extras_add_cell     (ETableExtras     *extras,
-					       char             *id,
+					       const gchar      *id,
 					       ECell            *cell);
 ECell            *e_table_extras_get_cell     (ETableExtras     *extras,
-					       char             *id);
+					       const gchar      *id);
 
 void              e_table_extras_add_compare  (ETableExtras     *extras,
-					       char             *id,
+					       const gchar      *id,
 					       GCompareFunc      compare);
 GCompareFunc      e_table_extras_get_compare  (ETableExtras     *extras,
-					       char             *id);
+					       const gchar      *id);
 
 void              e_table_extras_add_search   (ETableExtras     *extras,
-					       char             *id,
+					       const gchar      *id,
 					       ETableSearchFunc  search);
 ETableSearchFunc  e_table_extras_get_search   (ETableExtras     *extras,
-					       char             *id);
+					       const gchar      *id);
 
 void              e_table_extras_add_pixbuf   (ETableExtras     *extras,
-					       char             *id,
+					       const gchar      *id,
 					       GdkPixbuf        *pixbuf);
 GdkPixbuf        *e_table_extras_get_pixbuf   (ETableExtras     *extras,
-					       char             *id);
+					       const gchar      *id);
 
 G_END_DECLS
 

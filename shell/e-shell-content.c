@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
@@ -812,7 +812,7 @@ shell_content_init (EShellContent *shell_content)
 	widget = e_action_combo_box_new ();
 	gtk_box_pack_end (box, widget, FALSE, FALSE, 0);
 	shell_content->priv->scope_combo_box = g_object_ref (widget);
-	gtk_widget_show (widget); 
+	gtk_widget_show (widget);
 
 	mnemonic = widget;
 

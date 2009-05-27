@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -263,7 +263,7 @@ build_items (ESearchBar *search_bar, ESearchBarItem *items, int type, int *start
 	int id = 0, i;
 	GArray *menu = g_array_new (FALSE, FALSE, sizeof (ESearchBarItem));
 	ESearchBarItem item = { NULL, -1, 2 };
-	char *source;
+	const gchar *source;
 	GSList *gtksux = NULL;
 	int num;
 
@@ -843,7 +843,6 @@ e_filter_bar_get_type (void)
 {
 	static GType type = 0;
 
-<<<<<<< HEAD:widgets/misc/e-filter-bar.c
 	if (G_UNLIKELY (type == 0)) {
 		static const GTypeInfo type_info = {
 			sizeof (EFilterBarClass),
@@ -857,10 +856,6 @@ e_filter_bar_get_type (void)
 			(GInstanceInitFunc) filter_bar_init,
 			NULL   /* value_table */
 		};
-=======
-	bar = g_object_new (e_filter_bar_get_type (), NULL);
-	((ESearchBar *)bar)->lite = FALSE;
->>>>>>> ff25805... Filter/Search bar changes for Anjal.:widgets/misc/e-filter-bar.c
 
 		type = g_type_register_static (
 			E_TYPE_SEARCH_BAR, "EFilterBar", &type_info, 0);

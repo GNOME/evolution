@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -169,7 +169,7 @@ get_location (ECalModelComponent *comp_data)
 	if (prop)
 		return (void *) icalproperty_get_location (prop);
 
-	return "";
+	return (void *) "";
 }
 
 static void *
@@ -209,7 +209,7 @@ ecmc_value_at (ETableModel *etm, int col, int row)
 
 	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
 	if (!comp_data)
-		return "";
+		return (void *) "";
 
 	switch (col) {
 	case E_CAL_MODEL_CALENDAR_FIELD_DTEND :
@@ -220,7 +220,7 @@ ecmc_value_at (ETableModel *etm, int col, int row)
 		return get_transparency (comp_data);
 	}
 
-	return "";
+	return (void *) "";
 }
 
 static void

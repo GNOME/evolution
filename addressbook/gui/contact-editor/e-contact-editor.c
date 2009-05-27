@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -163,8 +163,8 @@ static const gchar *address_name [] = {
 };
 
 static struct {
-	EContactField  field;
-	gchar         *pretty_name;
+	EContactField field;
+	const gchar *pretty_name;
 }
 im_service [] =
 {
@@ -182,8 +182,8 @@ im_service [] =
 static const gint im_service_default [] = { 0, 2, 4, 5 };
 
 static struct {
-	gchar *name;
-	gchar *pretty_name;
+	const gchar *name;
+	const gchar *pretty_name;
 }
 common_location [] =
 {
@@ -2083,7 +2083,7 @@ sensitize_address (EContactEditor *editor)
 }
 
 typedef struct {
-	char          *widget_name;
+	const gchar   *widget_name;
 	gint           field_id;      /* EContactField or -1 */
 	gboolean       process_data;  /* If we should extract/fill in contents */
 	gboolean       desensitize_for_read_only;
@@ -3288,7 +3288,7 @@ show_help_cb (GtkWidget *widget, gpointer data)
 }
 
 static GList *
-add_to_tab_order(GList *list, GladeXML *gui, char *name)
+add_to_tab_order(GList *list, GladeXML *gui, const gchar *name)
 {
 	GtkWidget *widget = glade_xml_get_widget(gui, name);
 	return g_list_prepend(list, widget);

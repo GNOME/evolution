@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -282,7 +282,7 @@ update_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 
 	for (i = 0; i < 4; i++){
 		gboolean sensitive = (i <= count);
-		char *text = "";
+		const gchar *text = "";
 
 		gtk_widget_set_sensitive (widgets [i].frames, sensitive);
 
@@ -619,7 +619,8 @@ create_global_store (ETableConfig *config)
 	}
 }
 
-static char *spec = "<ETableSpecification gettext-domain=\"" GETTEXT_PACKAGE "\" no-headers=\"true\" cursor-mode=\"line\" "
+static const gchar *spec =
+"<ETableSpecification gettext-domain=\"" GETTEXT_PACKAGE "\" no-headers=\"true\" cursor-mode=\"line\" "
 " draw-grid=\"false\" draw-focus=\"true\" selection-mode=\"browse\">"
 "<ETableColumn model_col= \"0\" _title=\"Name\" minimum_width=\"30\" resizable=\"true\" cell=\"string\" compare=\"string\"/>"
 "<ETableState> <column source=\"0\"/>"

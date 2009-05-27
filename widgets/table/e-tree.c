@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -3415,7 +3415,7 @@ tree_size_allocate (GtkWidget *widget, GtkAllocation *alloc, ETree *tree)
 /**
  * e_tree_set_info_message:
  * @tree: #ETree instance
- * @info_message: Message to set. Can be NULL. 
+ * @info_message: Message to set. Can be NULL.
  *
  * Creates an info message in table area, or removes old.
  **/

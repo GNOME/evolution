@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -77,7 +77,7 @@ void *em_junk_bf_validate_binary (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_bf_report_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_bf_report_non_junk (EPlugin *ep, EMJunkHookTarget *target);
 void em_junk_bf_commit_reports (EPlugin *ep, EMJunkHookTarget *target);
-static gint pipe_to_bogofilter (CamelMimeMessage *msg, gchar **argv, GError **error);
+static gint pipe_to_bogofilter (CamelMimeMessage *msg, const gchar **argv, GError **error);
 
 /* eplugin stuff */
 int e_plugin_lib_enable (EPluginLib *ep, int enable);
@@ -93,7 +93,7 @@ init_db ()
 	CamelStream *stream = camel_stream_fs_new_with_name (WELCOME_MESSAGE, O_RDONLY, 0);
 	CamelMimeParser *parser = camel_mime_parser_new ();
 	CamelMimeMessage *msg = camel_mime_message_new ();
-	gchar *argv[] = {
+	const gchar *argv[] = {
 		em_junk_bf_binary,
 		"-n",
 		NULL,
@@ -103,7 +103,7 @@ init_db ()
 	camel_mime_parser_init_with_stream (parser, stream);
 	camel_mime_parser_scan_from (parser, FALSE);
 	camel_object_unref (stream);
-	
+
 	camel_mime_part_construct_from_parser ((CamelMimePart *) msg, parser);
 	camel_object_unref (parser);
 
@@ -113,13 +113,13 @@ init_db ()
 		argv[2] = "--unicode=yes";
 	}
 
-	pipe_to_bogofilter (msg, argv, NULL);	
+	pipe_to_bogofilter (msg, argv, NULL);
 	camel_object_unref (msg);
 
 }
 
 static gint
-pipe_to_bogofilter (CamelMimeMessage *msg, gchar **argv, GError **error)
+pipe_to_bogofilter (CamelMimeMessage *msg, const gchar **argv, GError **error)
 {
 	GPid child_pid;
 	gint bf_in;
@@ -130,7 +130,7 @@ pipe_to_bogofilter (CamelMimeMessage *msg, gchar **argv, GError **error)
 	gint res;
 	static gboolean only_once = FALSE;
 
-retry:	
+retry:
 	if (camel_debug_start ("junk")) {
 		int i;
 
@@ -142,7 +142,7 @@ retry:
 	}
 
 	if (!g_spawn_async_with_pipes (NULL,
-	                               argv,
+	                               (gchar **) argv,
 	                               NULL,
 	                               G_SPAWN_DO_NOT_REAP_CHILD |
 	                                   G_SPAWN_STDOUT_TO_DEV_NULL,
@@ -184,7 +184,7 @@ retry:
 			sleep (1);
 			waitres = waitpid (child_pid, &status, WNOHANG);
 			g_set_error (error, EM_JUNK_ERROR, -2, _("Bogofilter child process does not respond, killing..."));
-		} else 
+		} else
 			g_set_error (error, EM_JUNK_ERROR, -3, _("Wait for Bogofilter child process interrupted, terminating..."));
 	}
 
@@ -209,7 +209,7 @@ retry:
 			goto retry;
 		}
 		g_set_error (error, EM_JUNK_ERROR, res, _("Pipe to Bogofilter failed, error code: %d."), res);
-	
+
 	}
 
 	return res;
@@ -249,7 +249,7 @@ em_junk_bf_check_junk (EPlugin *ep, EMJunkHookTarget *target)
 	CamelMimeMessage *msg = target->m;
 	int rv;
 
-	gchar *argv[] = {
+	const gchar *argv[] = {
 		em_junk_bf_binary,
 		NULL,
 		NULL
@@ -273,7 +273,7 @@ em_junk_bf_report_junk (EPlugin *ep, EMJunkHookTarget *target)
 {
 	CamelMimeMessage *msg = target->m;
 
-	gchar *argv[] = {
+	const gchar *argv[] = {
 		em_junk_bf_binary,
 		"-s",
 		NULL,
@@ -294,7 +294,7 @@ em_junk_bf_report_non_junk (EPlugin *ep, EMJunkHookTarget *target)
 {
 	CamelMimeMessage *msg = target->m;
 
-	gchar *argv[] = {
+	const gchar *argv[] = {
 		em_junk_bf_binary,
 		"-n",
 		NULL,
@@ -318,7 +318,7 @@ em_junk_bf_commit_reports (EPlugin *ep, EMJunkHookTarget *target)
 void *
 em_junk_bf_validate_binary (EPlugin *ep, EMJunkHookTarget *target)
 {
-	return g_file_test (em_junk_bf_binary, G_FILE_TEST_EXISTS) ? "1" : NULL;
+	return g_file_test (em_junk_bf_binary, G_FILE_TEST_EXISTS) ? (void *) "1" : NULL;
 }
 
 int
@@ -374,7 +374,7 @@ org_gnome_bogo_convert_unicode (struct _EPlugin *epl, struct _EConfigHookItemFac
 	check = gtk_check_button_new_with_mnemonic (_("Convert message text to _Unicode"));
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), em_junk_bf_unicode);
-	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (convert_unicode_cb), "/apps/evolution/mail/junk/bogofilter/unicode");
+	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (convert_unicode_cb), (gpointer) "/apps/evolution/mail/junk/bogofilter/unicode");
 	gtk_table_attach((GtkTable *)data->parent, check, 0, 1, i, i+1, 0, 0, 0, 0);
 	gtk_widget_show (check);
 	return (GtkWidget *)check;

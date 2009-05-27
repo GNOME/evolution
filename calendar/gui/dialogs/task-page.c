@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -1199,8 +1199,8 @@ enum {
 };
 
 static EPopupItem context_menu_items[] = {
-	{ E_POPUP_ITEM, "10.delete", N_("_Remove"), popup_delete_cb, NULL, GTK_STOCK_REMOVE, ATTENDEE_CAN_DELETE },
-	{ E_POPUP_ITEM, "15.add", N_("_Add "), popup_add_cb, NULL, GTK_STOCK_ADD, ATTENDEE_CAN_ADD },
+	{ E_POPUP_ITEM, (gchar *) "10.delete", (gchar *) N_("_Remove"), popup_delete_cb, NULL, (gchar *) GTK_STOCK_REMOVE, ATTENDEE_CAN_DELETE },
+	{ E_POPUP_ITEM, (gchar *) "15.add", (gchar *) N_("_Add "), popup_add_cb, NULL, (gchar *) GTK_STOCK_ADD, ATTENDEE_CAN_ADD },
 };
 
 static void
@@ -2196,7 +2196,7 @@ task_page_add_attendee (TaskPage *tpage, EMeetingAttendee *attendee)
 
 	g_return_if_fail (tpage != NULL);
 	g_return_if_fail (IS_TASK_PAGE (tpage));
-	
+
 	priv = tpage->priv;
 
 	e_meeting_store_add_attendee (priv->model, attendee);

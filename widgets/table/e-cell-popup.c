@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -46,8 +46,6 @@
 #define E_CELL_POPUP_ARROW_YPAD		3
 
 
-static void	e_cell_popup_class_init	(ECellPopupClass *klass);
-static void	e_cell_popup_init	(ECellPopup	*ecp);
 static void	e_cell_popup_dispose	(GObject	*object);
 
 

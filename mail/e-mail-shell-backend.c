@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
@@ -113,7 +113,7 @@ static GType mail_shell_backend_type;
 
 /* The array elements correspond to EMailFolderType. */
 static struct {
-	gchar *name;
+	const gchar *name;
 	gchar *uri;
 	CamelFolder *folder;
 } default_local_folders[] = {

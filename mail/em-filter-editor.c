@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -141,7 +141,7 @@ select_source (GtkComboBox *combobox, EMFilterEditor *fe)
 
 	idx = gtk_combo_box_get_active (combobox);
 	sources = g_object_get_data (G_OBJECT (combobox), "sources");
-	
+
 	g_return_if_fail (idx >= 0 && idx < g_slist_length (sources));
 
 	source = (char *)g_slist_nth (sources, idx);

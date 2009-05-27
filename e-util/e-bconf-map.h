@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -45,9 +45,9 @@ enum {
 };
 
 typedef struct _e_bconf_map {
-	char *from;
-	char *to;
-	int type;
+	const gchar *from;
+	const gchar *to;
+	gint type;
 	struct _e_bconf_map *child;
 } e_bconf_map_t;
 
@@ -83,13 +83,13 @@ enum {
 };
 
 typedef struct {
-	char *from;
-	char *to;
-	int type;
+	const gchar *from;
+	const gchar *to;
+	gint type;
 } e_gconf_map_t;
 
 typedef struct {
-	char *root;
+	const gchar *root;
 	e_gconf_map_t *map;
 } e_gconf_map_list_t;
 

@@ -1,5 +1,5 @@
 /* XPM */
-static char * jump_xpm[] = {
+static const gchar *jump_xpm[] = {
 "16 8 3 1",
 " 	c None",
 ".	c #000000",
@@ -13,7 +13,7 @@ static char * jump_xpm[] = {
 ".++++++++++++++.",
 "................"};
 
-static char * jump_xpm_focused[] = {
+static const gchar *jump_xpm_focused[] = {
 "16 8 3 1",
 "       c None",
 ".      c #0000FF",

@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -233,7 +233,7 @@ jh_add_cb (GtkWidget *widget, gpointer user_data)
 	gtk_box_pack_start ((GtkBox *)hbox, l2, FALSE, FALSE, 6);
 	gtk_box_pack_start ((GtkBox *)hbox, entry2, FALSE, FALSE, 6);
 	gtk_box_pack_start ((GtkBox *)vbox, hbox, FALSE, FALSE, 6);
-	
+
 	gtk_widget_show_all (vbox);
 	gtk_container_add ((GtkContainer *)((GtkDialog *)dialog)->vbox, vbox);
 	response = gtk_dialog_run ((GtkDialog *)dialog);
@@ -242,9 +242,9 @@ jh_add_cb (GtkWidget *widget, gpointer user_data)
 		const char *value = gtk_entry_get_text ((GtkEntry *)entry2);
 		char *tok;
 		GSList *list = gconf_client_get_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, NULL);
-		
+
 		/* FIXME: Validate the values */
-		
+
 		tok = g_strdup_printf ("%s=%s", name, value);
 		list = g_slist_append (list, tok);
 		gconf_client_set_list (prefs->gconf, "/apps/evolution/mail/junk/custom_header", GCONF_VALUE_STRING, list, NULL);
@@ -275,14 +275,14 @@ jh_remove_cb (GtkWidget *widget, gpointer user_data)
 		while (node) {
 			char *test;
 			int len = strlen (name);
-			test = strncmp (node->data, name, len) == 0 ? node->data+len:NULL;
+			test = strncmp (node->data, name, len) == 0 ? (gchar *) node->data+len:NULL;
 
 			if (test) {
 				test++;
 				if (strcmp (test, value) == 0)
 					break;
 			}
-				
+
 			prev = node;
 			node = node->next;
 		}
@@ -705,22 +705,22 @@ emmp_widget_glade(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, str
 
 /* plugin meta-data */
 static EMConfigItem emmp_items[] = {
-	{ E_CONFIG_BOOK, "", "preferences_toplevel", emmp_widget_glade },
-	{ E_CONFIG_PAGE, "00.general", "vboxGeneral", emmp_widget_glade },
-	{ E_CONFIG_SECTION, "00.general/00.fonts", "vboxMessageFonts", emmp_widget_glade },
-	{ E_CONFIG_SECTION, "00.general/10.display", "vboxMessageDisplay", emmp_widget_glade },
-	{ E_CONFIG_SECTION, "00.general/20.delete", "vboxDeletingMail", emmp_widget_glade },
-	{ E_CONFIG_SECTION, "00.general/30.newmail", "vboxNewMailNotify", emmp_widget_glade },
-	{ E_CONFIG_PAGE, "10.html", "vboxHtmlMail", emmp_widget_glade },
-	{ E_CONFIG_SECTION, "10.html/00.general", "vbox173", emmp_widget_glade },
-	{ E_CONFIG_SECTION, "10.html/10.images", "vbox190", emmp_widget_glade },
-	{ E_CONFIG_PAGE, "20.labels", "frameColours", emmp_widget_glade },
+	{ E_CONFIG_BOOK, (gchar *) "", (gchar *) "preferences_toplevel", emmp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) "vboxGeneral", emmp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/00.fonts", (gchar *) "vboxMessageFonts", emmp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/10.display", (gchar *) "vboxMessageDisplay", emmp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/20.delete", (gchar *) "vboxDeletingMail", emmp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/30.newmail", (gchar *) "vboxNewMailNotify", emmp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "10.html", (gchar *) "vboxHtmlMail", emmp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "10.html/00.general", (gchar *) "vbox173", emmp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "10.html/10.images", (gchar *) "vbox190", emmp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "20.labels", (gchar *) "frameColours", emmp_widget_glade },
 	/* this is a table, so we can't use it { E_CONFIG_SECTION, "20.labels/00.labels", "tableColours", emmp_widget_glade }, */
-	{ E_CONFIG_PAGE, "30.headers", "vboxHeaderTab", emmp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "30.headers", (gchar *) "vboxHeaderTab", emmp_widget_glade },
 	/* no subvbox for section { E_CONFIG_PAGE, "30.headers/00.headers", "vbox199", emmp_widget_glade }, */
-	{ E_CONFIG_PAGE, "40.junk", "vbox161", emmp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "40.junk", (gchar *) "vbox161", emmp_widget_glade },
 	/* no subvbox for section { E_CONFIG_SECTION, "40.junk/00.general", xxx, emmp_widget_glade } */
-	{ E_CONFIG_SECTION, "40.junk/10.options", "vbox204", emmp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "40.junk/10.options", (gchar *) "vbox204", emmp_widget_glade },
 };
 
 static void

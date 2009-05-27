@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
@@ -63,7 +63,7 @@ enum {
 	E_TASK_SHELL_CONTENT_SELECTION_CAN_EDIT		= 1 << 3,
 	E_TASK_SHELL_CONTENT_SELECTION_HAS_COMPLETE	= 1 << 4,
 	E_TASK_SHELL_CONTENT_SELECTION_HAS_INCOMPLETE	= 1 << 5,
-	E_TASK_SHELL_CONTENT_SELECTION_HAS_URL		= 1 << 6 
+	E_TASK_SHELL_CONTENT_SELECTION_HAS_URL		= 1 << 6
 };
 
 struct _ETaskShellContent {

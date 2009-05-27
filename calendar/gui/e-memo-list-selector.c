@@ -38,8 +38,8 @@ enum {
 };
 
 static GtkTargetEntry drag_types[] = {
-	{ "text/calendar", 0, DND_TARGET_TYPE_CALENDAR_LIST },
-	{ "text/x-calendar", 0, DND_TARGET_TYPE_CALENDAR_LIST }
+	{ (gchar *) "text/calendar", 0, DND_TARGET_TYPE_CALENDAR_LIST },
+	{ (gchar *) "text/x-calendar", 0, DND_TARGET_TYPE_CALENDAR_LIST }
 };
 
 static gpointer parent_class;

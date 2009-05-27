@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -94,10 +94,10 @@ setup_name_selector (GladeXML *glade_xml, ENameSelector **name_selector_ret)
 }
 
 static void
-setup_folder_name_combo (GladeXML *glade_xml, gchar *fname)
+setup_folder_name_combo (GladeXML *glade_xml, const gchar *fname)
 {
 	GtkComboBox *combo;
-	char *strings[] = {
+	const gchar *strings[] = {
 		"Calendar",
 		"Inbox",
 		"Contacts",
@@ -286,7 +286,7 @@ subscribe_to_folder (GtkWidget *dialog, gint response, gpointer data)
 }
 
 gboolean
-create_folder_subscription_dialog (ExchangeAccount *account, gchar *fname)
+create_folder_subscription_dialog (ExchangeAccount *account, const gchar *fname)
 {
 	ENameSelector *name_selector;
 	GladeXML *glade_xml;

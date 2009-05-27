@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -49,7 +49,6 @@ static void free_user_node(EShUsers *user);
 static void free_node(SharedUser *user);
 static void free_all(ShareFolder *sf);
 static SharedUser * find_node(GList *list, gchar *email);
-static void free_all(ShareFolder *sf);
 static void get_container_list (ShareFolder *sf);
 static void user_selected(GtkTreeSelection *selection, ShareFolder *sf);
 static void not_shared_clicked (GtkRadioButton *button, ShareFolder *sf);
@@ -57,7 +56,6 @@ static void shared_clicked (GtkRadioButton *button, ShareFolder *sf);
 static void add_clicked(GtkButton *button, ShareFolder *sf);
 static void remove_clicked(GtkButton *button, ShareFolder *sf);
 static void not_ok_clicked(GtkButton *button, ShareFolder *sf);
-static void not_cancel_clicked(GtkButton *button, GtkWidget *window);
 static void not_cancel_clicked(GtkButton *button, GtkWidget *window);
 static void share_folder_construct (ShareFolder *sf);
 GType share_folder_get_type (void);
@@ -453,18 +451,24 @@ share_folder (ShareFolder *sf)
 
 		} else {
 			if (new_list) {
-				if (e_gw_connection_share_folder (sf->cnc, sf->container_id, new_list, sf->sub, sf->mesg, 0) == E_GW_CONNECTION_STATUS_OK);
+				if (e_gw_connection_share_folder (sf->cnc, sf->container_id, new_list, sf->sub, sf->mesg, 0) == E_GW_CONNECTION_STATUS_OK) {
+					;
+				}
 			}
 
 			if (update_list) {
 				sf->sub = "Shared Folder rights updated";
 
-				if (e_gw_connection_share_folder (sf->cnc, sf->container_id, update_list, sf->sub, sf->mesg, 2) == E_GW_CONNECTION_STATUS_OK);
+				if (e_gw_connection_share_folder (sf->cnc, sf->container_id, update_list, sf->sub, sf->mesg, 2) == E_GW_CONNECTION_STATUS_OK) {
+					;
+				}
 			}
 		}
 		if (remove_list) {
 			sf->sub = "Shared Folder removed";
-			if (e_gw_connection_share_folder (sf->cnc, sf->container_id, remove_list, sf->sub, sf->mesg, 1) == E_GW_CONNECTION_STATUS_OK);
+			if (e_gw_connection_share_folder (sf->cnc, sf->container_id, remove_list, sf->sub, sf->mesg, 1) == E_GW_CONNECTION_STATUS_OK) {
+				;
+			}
 		}
 
 	}

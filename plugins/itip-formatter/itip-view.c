@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -737,7 +737,7 @@ set_info_items (GtkWidget *info_box, GSList *info_items)
 		}
 
 		label = gtk_label_new (item->message);
-		gtk_label_set_selectable (GTK_LABEL (label), TRUE);		
+		gtk_label_set_selectable (GTK_LABEL (label), TRUE);
 		gtk_widget_show (label);
 		gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 6);
 
@@ -780,7 +780,10 @@ button_clicked_cb (GtkWidget *widget, gpointer data)
 }
 
 static void
-set_one_button (ItipView *view, char *label, char *stock_id, ItipViewResponse response)
+set_one_button (ItipView *view,
+                const gchar *label,
+                const gchar *stock_id,
+                ItipViewResponse response)
 {
 	ItipViewPrivate *priv;
 	GtkWidget *button;
@@ -1031,7 +1034,7 @@ itip_view_init (ItipView *view)
 	priv->start_header = gtk_label_new (_("Start time:"));
 	priv->start_label = gtk_label_new (NULL);
 	gtk_label_set_selectable (GTK_LABEL (priv->start_header), TRUE);
-	gtk_label_set_selectable (GTK_LABEL (priv->start_label), TRUE);	
+	gtk_label_set_selectable (GTK_LABEL (priv->start_label), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (priv->start_header), 0, 0.5);
 	gtk_misc_set_alignment (GTK_MISC (priv->start_label), 0, 0.5);
 	gtk_widget_show (priv->start_header);
@@ -1075,7 +1078,7 @@ itip_view_init (ItipView *view)
 
 	/* Description */
 	priv->description_label = gtk_label_new (NULL);
-	gtk_label_set_selectable (GTK_LABEL (priv->description_label), TRUE);	
+	gtk_label_set_selectable (GTK_LABEL (priv->description_label), TRUE);
 	gtk_label_set_line_wrap (GTK_LABEL (priv->description_label), TRUE);
 	gtk_misc_set_alignment (GTK_MISC (priv->description_label), 0, 0.5);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->description_label, FALSE, FALSE, 0);
@@ -1109,12 +1112,12 @@ itip_view_init (ItipView *view)
 	gtk_box_pack_start (GTK_BOX (priv->rsvp_box), hbox, FALSE, FALSE, 0);
 
 	label = gtk_label_new (NULL);
-	gtk_label_set_selectable (GTK_LABEL (label), TRUE);	
+	gtk_label_set_selectable (GTK_LABEL (label), TRUE);
 	gtk_widget_show (label);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 
 	priv->rsvp_comment_header = gtk_label_new (_("Comment:"));
-	gtk_label_set_selectable (GTK_LABEL (priv->rsvp_comment_header), TRUE);	
+	gtk_label_set_selectable (GTK_LABEL (priv->rsvp_comment_header), TRUE);
 	gtk_widget_set_sensitive (priv->rsvp_comment_header, FALSE);
 	gtk_widget_show (priv->rsvp_comment_header);
 	gtk_box_pack_start (GTK_BOX (hbox), priv->rsvp_comment_header, FALSE, FALSE, 0);
@@ -2171,8 +2174,8 @@ void
 itip_view_set_show_free_time_check (ItipView *view, gboolean show)
 {
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	if (show)
 		gtk_widget_show (view->priv->free_time_check);
 	else {
@@ -2193,8 +2196,8 @@ void
 itip_view_set_show_keep_alarm_check (ItipView *view, gboolean show)
 {
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	if (show)
 		gtk_widget_show (view->priv->keep_alarm_check);
 	else
@@ -2216,8 +2219,8 @@ void
 itip_view_set_show_inherit_alarm_check (ItipView *view, gboolean show)
 {
 	g_return_if_fail (view != NULL);
-	g_return_if_fail (ITIP_IS_VIEW (view));	
-	
+	g_return_if_fail (ITIP_IS_VIEW (view));
+
 	if (show)
 		gtk_widget_show (view->priv->inherit_alarm_check);
 	else {

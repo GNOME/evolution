@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -351,7 +351,7 @@ e_table_specification_save_to_node (ETableSpecification *specification,
 				    xmlDoc              *doc)
 {
 	xmlNode *node;
-	char *s;
+	const gchar *s;
 
 	g_return_val_if_fail (doc != NULL, NULL);
 	g_return_val_if_fail (specification != NULL, NULL);

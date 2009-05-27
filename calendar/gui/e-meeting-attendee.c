@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -812,7 +812,6 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 
 	g_return_val_if_fail (ia != NULL, FALSE);
 	g_return_val_if_fail (E_IS_MEETING_ATTENDEE (ia), FALSE);
-	g_return_val_if_fail (busy_type >= 0, FALSE);
 	g_return_val_if_fail (busy_type < E_MEETING_FREE_BUSY_LAST, FALSE);
 
 	priv = ia->priv;
@@ -847,7 +846,7 @@ e_meeting_attendee_add_busy_period (EMeetingAttendee *ia,
 
 	/* If the busy_type is FREE, then there is no need to render it in UI */
 	if (busy_type == E_MEETING_FREE_BUSY_FREE)
-		goto done; 
+		goto done;
 
 	/* If the busy range is not set elsewhere, track it as best we can */
 	if (!priv->start_busy_range_set) {

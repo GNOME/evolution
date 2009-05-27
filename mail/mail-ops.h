@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -136,14 +136,14 @@ void mail_send_queue (CamelFolder *queue, const char *destination,
 		      const char *type, CamelOperation *cancel,
 		      CamelFilterGetFolderFunc get_folder, void *get_data,
 		      CamelFilterStatusFunc *status, void *status_data,
-		      void (*done)(char *destination, void *data),
+		      void (*done)(const char *destination, void *data),
 		      void *data);
 
 void mail_fetch_mail (const char *source, int keep,
 		      const char *type, CamelOperation *cancel,
 		      CamelFilterGetFolderFunc get_folder, void *get_data,
 		      CamelFilterStatusFunc *status, void *status_data,
-		      void (*done)(char *source, void *data),
+		      void (*done)(const char *source, void *data),
 		      void *data);
 
 void mail_filter_folder (CamelFolder *source_folder, GPtrArray *uids,

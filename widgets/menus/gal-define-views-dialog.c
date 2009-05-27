@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -32,8 +32,6 @@
 #include "gal-define-views-model.h"
 #include "gal-view-new-dialog.h"
 
-static void gal_define_views_dialog_init	 (GalDefineViewsDialog		 *card);
-static void gal_define_views_dialog_class_init	 (GalDefineViewsDialogClass	 *klass);
 static void gal_define_views_dialog_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
 static void gal_define_views_dialog_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 static void gal_define_views_dialog_dispose	 (GObject *object);
@@ -221,7 +219,7 @@ gdvd_cursor_changed_callback (GtkWidget *widget, GalDefineViewsDialog *dialog)
 }
 
 static void
-gdvd_connect_signal(GalDefineViewsDialog *dialog, char *widget_name, char *signal, GCallback handler)
+gdvd_connect_signal(GalDefineViewsDialog *dialog, const char *widget_name, const char *signal, GCallback handler)
 {
 	GtkWidget *widget;
 

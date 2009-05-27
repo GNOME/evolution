@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Library General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  * Authors:
  *		Damon Chaplin <damon@ximian.com>
@@ -1471,7 +1471,7 @@ e_date_edit_parse_date (EDateEdit *dedit,
 		if (date_tm->tm_year > today_tm->tm_year)
 			date_tm->tm_year -= 100;
 	}
-	
+
 	return TRUE;
 }
 
@@ -1725,7 +1725,7 @@ e_date_edit_update_date_entry		(EDateEdit	*dedit)
 	if (priv->date_set_to_none || !priv->date_is_valid) {
 		gtk_entry_set_text (GTK_ENTRY (priv->date_entry), _("None"));
 	} else {
-		/* This is a strftime() format for a short date. 
+		/* This is a strftime() format for a short date.
 		   %x the preferred date representation for the current locale without the time,
 		   but has forced to use 4 digit year */
 		char *format = e_time_get_d_fmt_with_4digit_year ();

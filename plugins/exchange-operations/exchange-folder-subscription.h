@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
@@ -22,6 +22,6 @@
 #define __EXCHANGE_FOLDER_SUBSCRIPTION_H__
 
 gboolean
-create_folder_subscription_dialog (ExchangeAccount *account, gchar *fname);
+create_folder_subscription_dialog (ExchangeAccount *account, const gchar *fname);
 
 #endif

@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -665,8 +665,8 @@ e_unicode_get_utf8 (const gchar *text, gunichar *out)
 
 typedef struct
 {
-  unsigned short ch;
-  char *expansion;
+  gushort ch;
+  const gchar *expansion;
 } e_decomposition;
 
 static e_decomposition e_decomp_table[] =

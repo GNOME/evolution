@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<error-list domain="org.gnome.evolution.process_meeting">
+
+<error id="recurrence-accept" type="question" default="GTK_RESPONSE_YES">
+<_primary>This is a recurring meeting</_primary>
+<!--Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting") -->
+<_secondary>Would you like to accept it?</_secondary>
+ <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+ <button label="This instance" response="GTK_RESPONSE_NO"/>
+ <button label="All instances" response="GTK_RESPONSE_YES"/>
+</error>
+
+<error id="recurrence-decline" type="question" default="GTK_RESPONSE_YES">
+<_primary>This is a recurring meeting</_primary>
+<!--Translators: "it" is a "recurring meeting" (string refers to "This is a recurring meeting") -->
+<_secondary>Would you like to decline it?</_secondary>
+ <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+ <button label="This instance" response="GTK_RESPONSE_NO"/>
+ <button label="All instances" response="GTK_RESPONSE_YES"/>
+</error>
+
+<error id="resend" type="question" default="GTK_RESPONSE_YES">
+<_primary>Do you want to resend the meeting ?</_primary>
+<_secondary>This will create a new meeting using the existing meeting details.</_secondary>
+ <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+ <button stock="gtk-ok" response="GTK_RESPONSE_OK"/>
+</error>
+
+<error id="resend-recurrence" type="question" default="GTK_RESPONSE_YES">
+<_primary>Do you want to resend the recurring meeting ?</_primary>
+<_secondary>This will create a new meeting with the existing meeting details. The recurrence rule needs to be re-entered.</_secondary>
+ <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+ <button label="This instance" response="GTK_RESPONSE_NO"/>
+ <button label="All instances" response="GTK_RESPONSE_YES"/>
+</error>
+
+<error id="resend-retract" type="question" default="GTK_RESPONSE_YES">
+<_primary>Do you want to retract the original item ?</_primary>
+<_secondary>The original will be removed from the recipient's mailbox.</_secondary>
+ <button stock="gtk-no" response="GTK_RESPONSE_NO"/>
+ <button stock="gtk-yes" response="GTK_RESPONSE_YES"/>
+</error>
+
+</error-list>

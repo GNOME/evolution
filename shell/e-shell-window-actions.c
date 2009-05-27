@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
@@ -1776,7 +1776,7 @@ shell_window_extract_actions (EShellWindow *shell_window,
 	 *                       |             |
 	 *         match_list = [ ] --------> [ ]
 	 *
-	 *  
+	 *
 	 *   destination_list = [1] -> [2]  (other actions)
 	 */
 	for (iter = *source_list; iter != NULL; iter = iter->next) {

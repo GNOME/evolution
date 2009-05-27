@@ -63,7 +63,7 @@ G_BEGIN_DECLS
 typedef struct _EIconEntry EIconEntry;
 typedef struct _EIconEntryClass	EIconEntryClass;
 typedef struct _EIconEntryPrivate EIconEntryPrivate;
- 
+
 struct _EIconEntry
 {
 	GtkBin parent;

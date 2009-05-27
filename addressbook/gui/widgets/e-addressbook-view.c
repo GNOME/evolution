@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -109,8 +109,8 @@ enum {
 };
 
 static GtkTargetEntry drag_types[] = {
-	{ "text/x-source-vcard", 0, DND_TARGET_TYPE_SOURCE_VCARD },
-	{ "text/x-vcard", 0, DND_TARGET_TYPE_VCARD }
+	{ (gchar *) "text/x-source-vcard", 0, DND_TARGET_TYPE_SOURCE_VCARD },
+	{ (gchar *) "text/x-vcard", 0, DND_TARGET_TYPE_VCARD }
 };
 
 static gpointer parent_class;

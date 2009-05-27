@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -58,20 +58,22 @@ ec_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	 int model_col, int view_col, int row, ECellFlags flags,
 	 int x1, int y1, int x2, int y2)
 {
-	g_error ("e-cell-draw invoked\n");
+	g_critical ("e-cell-draw invoked");
 }
 
 static gint
 ec_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags, ECellActions *actions)
 {
-	g_error ("e-cell-event invoked\n");
+	g_critical ("e-cell-event invoked");
+
 	return 0;
 }
 
 static gint
 ec_height (ECellView *ecell_view, int model_col, int view_col, int row)
 {
-	g_error ("e-cell-height invoked\n");
+	g_critical ("e-cell-height invoked");
+
 	return 0;
 }
 

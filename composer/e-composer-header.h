@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  */
@@ -69,7 +69,7 @@ void		e_composer_header_set_sensitive	(EComposerHeader *header,
 gboolean	e_composer_header_get_visible	(EComposerHeader *header);
 void		e_composer_header_set_visible	(EComposerHeader *header,
 						 gboolean visible);
-void		e_composer_header_set_property 	(GObject *object, guint property_id, 
+void		e_composer_header_set_property 	(GObject *object, guint property_id,
 						const GValue *value, GParamSpec *pspec);
 void		e_composer_header_set_title_tooltip
 						(EComposerHeader *header,

@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -120,8 +120,8 @@ typedef struct _ImportData {
 #endif
 
 static struct {
-	char *name;
-	char *text;
+	const gchar *name;
+	const gchar *text;
 } info[] = {
 	{ "type_html",
 	  N_("Choose the type of importer to run:")

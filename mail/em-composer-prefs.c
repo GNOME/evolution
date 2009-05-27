@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -382,16 +382,16 @@ emcp_widget_glade (EConfig *ec,
 
 /* plugin meta-data */
 static EMConfigItem emcp_items[] = {
-	{ E_CONFIG_BOOK, "", "composer_toplevel", emcp_widget_glade },
-	{ E_CONFIG_PAGE, "00.general", "vboxGeneral", emcp_widget_glade },
-	{ E_CONFIG_SECTION, "00.general/00.behavior", "vboxBehavior", emcp_widget_glade },
-	{ E_CONFIG_SECTION, "00.general/10.alerts", "vboxAlerts", emcp_widget_glade },
-	{ E_CONFIG_PAGE, "10.signatures", "vboxSignatures", emcp_widget_glade },
+	{ E_CONFIG_BOOK, (gchar *) "", (gchar *) "composer_toplevel", emcp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) "vboxGeneral", emcp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/00.behavior", (gchar *) "vboxBehavior", emcp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/10.alerts", (gchar *) "vboxAlerts", emcp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "10.signatures", (gchar *) "vboxSignatures", emcp_widget_glade },
 	/* signature/signatures and signature/preview parts not usable */
 
-	{ E_CONFIG_PAGE, "20.spellcheck", "vboxSpellChecking", emcp_widget_glade },
-	{ E_CONFIG_SECTION, "20.spellcheck/00.languages", "vbox178", emcp_widget_glade },
-	{ E_CONFIG_SECTION, "20.spellcheck/00.options", "vboxOptions", emcp_widget_glade },
+	{ E_CONFIG_PAGE, (gchar *) "20.spellcheck", (gchar *) "vboxSpellChecking", emcp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "20.spellcheck/00.languages", (gchar *) "vbox178", emcp_widget_glade },
+	{ E_CONFIG_SECTION, (gchar *) "20.spellcheck/00.options", (gchar *) "vboxOptions", emcp_widget_glade },
 };
 
 static void

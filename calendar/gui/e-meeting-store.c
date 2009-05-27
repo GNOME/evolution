@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -1100,7 +1100,7 @@ process_free_busy (EMeetingStoreQueueData *qdata, char *text)
  * In the returned newly allocated string.
 */
 static gchar *
-replace_string (gchar *string, gchar *from_value, gchar *to_value)
+replace_string (gchar *string, const gchar *from_value, gchar *to_value)
 {
 	gchar *replaced;
 	gchar **split_uri;

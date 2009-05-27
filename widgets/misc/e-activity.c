@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
@@ -487,7 +487,7 @@ e_activity_cancel (EActivity *activity)
 {
 	g_return_if_fail (E_IS_ACTIVITY (activity));
 
-	if (!activity->priv->allow_cancel);
+	if (!activity->priv->allow_cancel)
 		return;
 
 	if (activity->priv->cancelled)

@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -39,8 +39,8 @@
 
 typedef struct {
 	GdkCursor *cursor;
-	int       hot_x, hot_y;
-	char      **xpm;
+	gint hot_x, hot_y;
+	const gchar **xpm;
 } CursorDef;
 
 static CursorDef cursors [] = {
@@ -63,7 +63,7 @@ static CursorDef cursors [] = {
 
 
 static void
-create_bitmap_and_mask_from_xpm (GdkBitmap **bitmap, GdkBitmap **mask, gchar **xpm)
+create_bitmap_and_mask_from_xpm (GdkBitmap **bitmap, GdkBitmap **mask, const gchar **xpm)
 {
 	int height, width, colors;
 	char pixmap_buffer [(32 * 32)/8];
@@ -155,7 +155,7 @@ e_cursors_shutdown (void)
 GdkCursor *
 e_cursor_get (ECursorType type)
 {
-	g_return_val_if_fail (type >= 0 && type < E_CURSOR_NUM_CURSORS, NULL);
+	g_return_val_if_fail (type < E_CURSOR_NUM_CURSORS, NULL);
 
 	return cursors [type].cursor;
 }

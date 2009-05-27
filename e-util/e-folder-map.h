@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -28,7 +28,8 @@
 
 G_BEGIN_DECLS
 
-GSList *e_folder_map_local_folders (char *local_dir, char *type);
+GSList *	e_folder_map_local_folders	(const gchar *local_dir,
+						 const gchar *type);
 
 G_END_DECLS
 

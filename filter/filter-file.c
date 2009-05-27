@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -208,7 +208,7 @@ xml_encode (FilterElement *fe)
 {
 	FilterFile *file = (FilterFile *) fe;
 	xmlNodePtr cur, value;
-	char *type;
+	const gchar *type;
 
 	type = file->type ? file->type : "file";
 

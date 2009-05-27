@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -42,7 +42,8 @@ create_uri (UrlEditorDialog *dialog)
 			g_free (uri->location);
 		uri->location = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->server_entry)));
 	} else {
-		char *method = "", *server, *file, *port, *username, *password;
+		const gchar *method;
+		char *server, *file, *port, *username, *password;
 
 		server   = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->server_entry)));
 		file     = g_strdup (gtk_entry_get_text (GTK_ENTRY (dialog->file_entry)));

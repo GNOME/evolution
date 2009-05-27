@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
@@ -70,8 +70,8 @@ enum {
 };
 
 static GtkTargetEntry drag_types[] = {
-	{ "text/calendar", 0, TARGET_VCALENDAR },
-	{ "text/x-calendar", 0, TARGET_VCALENDAR }
+	{ (gchar *) "text/calendar", 0, TARGET_VCALENDAR },
+	{ (gchar *) "text/x-calendar", 0, TARGET_VCALENDAR }
 };
 
 static gpointer parent_class;

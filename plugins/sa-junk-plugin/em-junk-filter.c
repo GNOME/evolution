@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -81,7 +81,7 @@ static gboolean em_junk_sa_checked_spamassassin_version = FALSE;
 static guint em_junk_sa_spamassassin_version = 0;
 static char *em_junk_sa_socket_path = NULL;
 static char *em_junk_sa_spamd_pidfile = NULL;
-static char *em_junk_sa_spamc_binary = NULL;
+static const gchar *em_junk_sa_spamc_binary = NULL;
 static GConfClient *em_junk_sa_gconf = NULL;
 
 /* volatile so not cached between threads */
@@ -89,8 +89,8 @@ static volatile gboolean em_junk_sa_local_only;
 static volatile gboolean em_junk_sa_use_daemon;
 static char * em_junk_sa_preferred_socket_path;
 
-static char *em_junk_sa_spamc_binaries [4] = {"spamc", "/usr/bin/spamc", "/usr/sbin/spamc", NULL};
-static char *em_junk_sa_spamd_binaries [4] = {"spamd", "/usr/bin/spamd", "/usr/sbin/spamd", NULL};
+static const gchar *em_junk_sa_spamc_binaries [4] = {"spamc", "/usr/bin/spamc", "/usr/sbin/spamc", NULL};
+static const gchar *em_junk_sa_spamd_binaries [4] = {"spamd", "/usr/bin/spamd", "/usr/sbin/spamd", NULL};
 
 #define SPAMD_RESTARTS_SIZE 8
 static time_t em_junk_sa_spamd_restarts [SPAMD_RESTARTS_SIZE] = {0, 0, 0, 0, 0, 0, 0, 0};
@@ -104,7 +104,7 @@ char *em_junk_sa_spamc_gconf_binary = NULL;
 char *em_junk_sa_spamd_gconf_binary = NULL;
 
 static int
-pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err, int wait_for_termination, GByteArray *output_buffer, GError **error)
+pipe_to_sa_full (CamelMimeMessage *msg, const gchar *in, const gchar **argv, int rv_err, int wait_for_termination, GByteArray *output_buffer, GError **error)
 {
 	int result, status, errnosav, fds[2], out_fds[2];
 	CamelStream *stream;
@@ -169,7 +169,7 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 		for (fd = 3; fd < maxfd; fd++)
 			fcntl (fd, F_SETFD, FD_CLOEXEC);
 
-		execvp (argv[0], argv);
+		execvp (argv[0], (gchar * const *) argv);
 		_exit (rv_err & 0377);
 	} else if (pid < 0) {
 		errnosav = errno;
@@ -254,7 +254,7 @@ pipe_to_sa_full (CamelMimeMessage *msg, const char *in, char **argv, int rv_err,
 }
 
 static int
-pipe_to_sa (CamelMimeMessage *msg, const char *in, char **argv, GError **error)
+pipe_to_sa (CamelMimeMessage *msg, const gchar *in, const gchar **argv, GError **error)
 {
 	return pipe_to_sa_full (msg, in, argv, -1, 1, NULL, error);
 }
@@ -269,9 +269,9 @@ em_junk_sa_get_socket_path ()
 }
 
 static gboolean
-em_junk_sa_test_spamd_running (char *binary, gboolean system)
+em_junk_sa_test_spamd_running (const gchar *binary, gboolean system)
 {
-	char *argv[5];
+	const gchar *argv[5];
 	int i = 0;
 	gboolean rv;
 
@@ -303,11 +303,11 @@ em_junk_sa_test_spamd_running (char *binary, gboolean system)
   One time test to see if spamd is running with --allow-tell.  The call
   to spamc should return 0 if it is.  (Thanks to Karsten Bräckelmann
   for the idea).
-*/ 
+*/
 static void
 em_junk_sa_test_allow_tell (void)
 {
-	char *argv [4] = {
+	const gchar *argv [4] = {
 		"spamc",
 		"-L",
 		"forget",
@@ -321,7 +321,7 @@ em_junk_sa_test_allow_tell (void)
 static void
 em_junk_sa_test_spamassassin (void)
 {
-	char *argv [3] = {
+	const gchar *argv [3] = {
 		"spamassassin",
 		"--version",
 		NULL,
@@ -338,9 +338,9 @@ em_junk_sa_test_spamassassin (void)
 #define MAX_SPAMD_PORTS 1
 
 static gboolean
-em_junk_sa_run_spamd (char *binary)
+em_junk_sa_run_spamd (const gchar *binary)
 {
-	char *argv[8];
+	const gchar *argv[8];
 	int i;
 	gboolean rv = FALSE;
 
@@ -431,7 +431,7 @@ em_junk_sa_find_spamc ()
 static void
 em_junk_sa_test_spamd (void)
 {
-	char *argv[4];
+	const gchar *argv[4];
 	int i, b;
 	gboolean try_system_spamd = TRUE;
 
@@ -577,7 +577,8 @@ gboolean
 em_junk_sa_check_junk(EPlugin *ep, EMJunkHookTarget *target)
 {
 	GByteArray *out = NULL;
-	char *argv[7], *to_free = NULL;
+	const gchar *argv[7];
+	char *to_free = NULL;
 	int i = 0, socket_i;
 	gboolean rv;
 	CamelMimeMessage *msg = target->m;
@@ -644,7 +645,7 @@ get_spamassassin_version ()
 	GByteArray *out = NULL;
 	int i;
 
-	char * argv[3] = {
+	const gchar *argv[3] = {
 		"sa-learn",
 		"--version",
 		NULL
@@ -680,8 +681,10 @@ get_spamassassin_version ()
 void
 em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target)
 {
-	char *sync_op = ((get_spamassassin_version () >= 3) ? "--no-sync": "--no-rebuild");
-	char *argv[6] = {
+	const gchar *sync_op =
+		(get_spamassassin_version () >= 3)
+		? "--no-sync": "--no-rebuild";
+	const gchar *argv[6] = {
 		"sa-learn",
 		sync_op,
 		"--spam",
@@ -690,7 +693,7 @@ em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target)
 		NULL
 	};
 	/* Call setup for spamc */
-	char *argv2[4] = {
+	const gchar *argv2[4] = {
 	  "spamc",
 	  "-L",
 	  "spam",
@@ -708,8 +711,8 @@ em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target)
 			argv[4] = "--local";
 
 		pthread_mutex_lock (&em_junk_sa_report_lock);
-		pipe_to_sa (msg, NULL, 
-			    (no_allow_tell ? argv : argv2), 
+		pipe_to_sa (msg, NULL,
+			    (no_allow_tell ? argv : argv2),
 			    &target->error);
 		pthread_mutex_unlock (&em_junk_sa_report_lock);
 	}
@@ -718,8 +721,10 @@ em_junk_sa_report_junk (EPlugin *ep, EMJunkHookTarget *target)
 void
 em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target)
 {
-	char *sync_op = ((get_spamassassin_version () >= 3) ? "--no-sync": "--no-rebuild");
-	char *argv[6] = {
+	const char *sync_op =
+		(get_spamassassin_version () >= 3)
+		? "--no-sync": "--no-rebuild";
+	const gchar *argv[6] = {
 		"sa-learn",
 		sync_op,
 		"--ham",
@@ -728,7 +733,7 @@ em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target)
 		NULL
 	};
 	/* Setup for spamc */
-	char *argv2[4] = {
+	const gchar *argv2[4] = {
 	  "spamc",
 	  "-L",
 	  "ham",
@@ -743,8 +748,8 @@ em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target)
 		if (no_allow_tell && em_junk_sa_local_only)
 			argv[4] = "--local";
 		pthread_mutex_lock (&em_junk_sa_report_lock);
-		pipe_to_sa (msg, NULL, 
-			    (no_allow_tell ? argv : argv2), 
+		pipe_to_sa (msg, NULL,
+			    (no_allow_tell ? argv : argv2),
 			    &target->error);
 		pthread_mutex_unlock (&em_junk_sa_report_lock);
 	}
@@ -753,8 +758,9 @@ em_junk_sa_report_non_junk (EPlugin *ep, EMJunkHookTarget *target)
 void
 em_junk_sa_commit_reports (EPlugin *ep)
 {
-	char *sync_op = ((get_spamassassin_version () >= 3) ? "--sync": "--rebuild");
-	char *argv[4] = {
+	const gchar *sync_op =
+		(get_spamassassin_version () >= 3) ? "--sync": "--rebuild";
+	const gchar *argv[4] = {
 		"sa-learn",
 		sync_op,
 		NULL,
@@ -780,7 +786,7 @@ em_junk_sa_commit_reports (EPlugin *ep)
 void *
 em_junk_sa_validate_binary (EPlugin *ep)
 {
-	return em_junk_sa_is_available (NULL) ? "1" : NULL;
+	return em_junk_sa_is_available (NULL) ? (void *) "1" : NULL;
 }
 
 static void
@@ -916,7 +922,7 @@ org_gnome_sa_use_remote_tests (struct _EPlugin *epl, struct _EConfigHookItemFact
 	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (label), FALSE, FALSE, 0);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), !em_junk_sa_local_only);
-	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (use_remote_tests_cb), "/apps/evolution/mail/junk/sa/local_only");
+	g_signal_connect (GTK_TOGGLE_BUTTON (check), "toggled", G_CALLBACK (use_remote_tests_cb), (gpointer) "/apps/evolution/mail/junk/sa/local_only");
 	gtk_table_attach((GtkTable *)data->parent, vbox, 0, 1, i, i+1, 0, 0, 0, 0);
 	gtk_widget_show_all (vbox);
 	return (GtkWidget *)vbox;

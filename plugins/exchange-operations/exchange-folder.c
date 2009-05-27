@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -44,7 +44,7 @@
 #include "addressbook/gui/widgets/eab-popup.h"
 #include "exchange-folder-subscription.h"
 
-void org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target, gchar *fname);
+void org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target, const gchar *fname);
 void org_gnome_exchange_inbox_subscription (EPlugin *ep, EMMenuTargetSelect *target);
 void org_gnome_exchange_addressbook_subscription (EPlugin *ep, EMMenuTargetSelect *target);
 void org_gnome_exchange_calendar_subscription (EPlugin *ep, EMMenuTargetSelect *target);
@@ -64,7 +64,7 @@ static void exchange_get_folder (char *uri, CamelFolder *folder, void *data);
 
 
 static EPopupItem popup_inbox_items[] = {
-	{ E_POPUP_ITEM, "29.inbox_unsubscribe", N_("Unsubscribe Folder..."), org_gnome_exchange_folder_inbox_unsubscribe, NULL, "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
+	{ E_POPUP_ITEM, (gchar *) "29.inbox_unsubscribe", (gchar *) N_("Unsubscribe Folder..."), org_gnome_exchange_folder_inbox_unsubscribe, NULL, (gchar *) "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
 };
 
 void
@@ -233,7 +233,7 @@ org_gnome_exchange_check_inbox_subscribed (EPlugin *ep, EMPopupTargetFolder *tar
 }
 
 static EPopupItem popup_items[] = {
-	{ E_POPUP_ITEM, "29.calendar_unsubscribe", N_("Unsubscribe Folder..."), org_gnome_exchange_folder_unsubscribe, NULL, "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
+	{ E_POPUP_ITEM, (gchar *) "29.calendar_unsubscribe", (gchar *) N_("Unsubscribe Folder..."), org_gnome_exchange_folder_unsubscribe, NULL, (gchar *) "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
 };
 
 void
@@ -243,7 +243,7 @@ popup_free (EPopup *ep, GSList *items, void *data)
 }
 
 static EPopupItem popup_ab_items[] = {
-	{ E_POPUP_ITEM, "29.address_book_unsubscribe", N_("Unsubscribe Folder..."), org_gnome_exchange_folder_ab_unsubscribe, NULL, "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
+	{ E_POPUP_ITEM, (gchar *) "29.address_book_unsubscribe", (gchar *) N_("Unsubscribe Folder..."), org_gnome_exchange_folder_ab_unsubscribe, NULL, (gchar *) "folder-new", 0, EM_POPUP_FOLDER_INFERIORS }
 };
 
 void
@@ -541,7 +541,7 @@ org_gnome_exchange_folder_unsubscribe (EPopup *ep, EPopupItem *p, void *data)
 
 
 void
-org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target, gchar *fname)
+org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target, const gchar *fname)
 {
 	ExchangeAccount *account = NULL;
 	gint mode;
@@ -573,24 +573,27 @@ org_gnome_exchange_folder_subscription (EPlugin *ep, EMMenuTargetSelect *target,
 void
 org_gnome_exchange_calendar_subscription (EPlugin *ep, EMMenuTargetSelect *target)
 {
-	gchar *folder_name = N_("Calendar");
+	const gchar *folder_name = N_("Calendar");
 	org_gnome_exchange_folder_subscription (ep, target, folder_name);
 }
+
 void
 org_gnome_exchange_addressbook_subscription (EPlugin *ep, EMMenuTargetSelect *target)
 {
-	gchar *folder_name = N_("Contacts");
+	const gchar *folder_name = N_("Contacts");
 	org_gnome_exchange_folder_subscription (ep, target, folder_name);
 }
+
 void
 org_gnome_exchange_tasks_subscription (EPlugin *ep, EMMenuTargetSelect *target)
 {
-	gchar *folder_name = N_("Tasks");
+	const gchar *folder_name = N_("Tasks");
 	org_gnome_exchange_folder_subscription (ep, target, folder_name);
 }
+
 void
 org_gnome_exchange_inbox_subscription (EPlugin *ep, EMMenuTargetSelect *target)
 {
-	gchar *folder_name = N_("Inbox");
+	const gchar *folder_name = N_("Inbox");
 	org_gnome_exchange_folder_subscription (ep, target, folder_name);
 }

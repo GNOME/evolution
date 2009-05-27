@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -1588,20 +1588,20 @@ void update_end_time_combo (EventPage *epage)
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (priv->minute_selector), minutes);
 }
 
-void
-static hour_sel_changed (GtkSpinButton *widget, EventPage *epage)
+static void
+hour_sel_changed (GtkSpinButton *widget, EventPage *epage)
 {
 	hour_minute_changed (epage);
 }
 
-void
-static minute_sel_changed (GtkSpinButton *widget, EventPage *epage)
+static void
+minute_sel_changed (GtkSpinButton *widget, EventPage *epage)
 {
 	hour_minute_changed (epage);
 }
 
-void
-static hour_minute_changed ( EventPage *epage)
+static void
+hour_minute_changed (EventPage *epage)
 {
 	EventPagePrivate *priv;
 	gint for_hours, for_minutes;
@@ -1888,8 +1888,8 @@ enum {
 };
 
 static EPopupItem context_menu_items[] = {
-	{ E_POPUP_ITEM, "10.delete", N_("_Remove"), popup_delete_cb, NULL, GTK_STOCK_REMOVE, ATTENDEE_CAN_DELETE },
-	{ E_POPUP_ITEM, "15.add", N_("_Add "), popup_add_cb, NULL, GTK_STOCK_ADD, ATTENDEE_CAN_ADD },
+	{ E_POPUP_ITEM, (gchar *) "10.delete", (gchar *) N_("_Remove"), popup_delete_cb, NULL, (gchar *) GTK_STOCK_REMOVE, ATTENDEE_CAN_DELETE },
+	{ E_POPUP_ITEM, (gchar *) "15.add", (gchar *) N_("_Add "), popup_add_cb, NULL, (gchar *) GTK_STOCK_ADD, ATTENDEE_CAN_ADD },
 };
 
 static void
@@ -3294,7 +3294,7 @@ event_page_add_attendee (EventPage *epage, EMeetingAttendee *attendee)
 
 	g_return_if_fail (epage != NULL);
 	g_return_if_fail (IS_EVENT_PAGE (epage));
-	
+
 	priv = epage->priv;
 
 	e_meeting_store_add_attendee (priv->model, attendee);
@@ -3313,7 +3313,7 @@ event_page_remove_all_attendees (EventPage *epage)
 
 	g_return_if_fail (epage != NULL);
 	g_return_if_fail (IS_EVENT_PAGE (epage));
-	
+
 	priv = epage->priv;
 
 	e_meeting_store_remove_all_attendees (priv->model);

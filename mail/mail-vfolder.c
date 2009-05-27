@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -996,8 +996,9 @@ vfolder_load_storage(void)
 		if (rule->name) {
 			d(printf("rule added: %s\n", rule->name));
 			context_rule_added((RuleContext *)context, rule);
-		} else
+		} else {
 			d(printf("invalid rule (%p) encountered: rule->name is NULL\n", rule));
+		}
 	}
 
 	g_free(storeuri);

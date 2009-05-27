@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -91,8 +91,8 @@ enum {
 };
 
 static struct {
-	gchar *name;
-	gchar *pretty_name;
+	const gchar *name;
+	const gchar *pretty_name;
 }
 common_location [] =
 {
@@ -742,7 +742,7 @@ add_field (EMinicard *e_minicard, EContactField field, gdouble left_width)
 	EMinicardField *minicard_field;
 	char *name;
 	char *string;
- 	gboolean is_rtl = (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL);	
+ 	gboolean is_rtl = (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL);
 
 	group = GNOME_CANVAS_GROUP( e_minicard );
 
@@ -811,7 +811,7 @@ add_email_field (EMinicard *e_minicard, GList *email_list, gdouble left_width, i
 	char *name;
 	GList *l, *le;
 	int count =0;
-	gboolean is_rtl = (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL);	
+	gboolean is_rtl = (gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL);
 	GList *emails = e_contact_get (e_minicard->contact, E_CONTACT_EMAIL);
 	group = GNOME_CANVAS_GROUP( e_minicard );
 

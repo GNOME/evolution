@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
@@ -52,8 +52,8 @@ static const gchar *ui =
 
 /* Note: Do not use the info field. */
 static GtkTargetEntry target_table[] = {
-	{ "message/rfc822",	0, 0 },
-	{ "x-uid-list",		0, 0 }
+	{ (gchar *) "message/rfc822",	0, 0 },
+	{ (gchar *) "x-uid-list",	0, 0 }
 };
 
 static void

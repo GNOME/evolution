@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -38,7 +38,7 @@ void startup_wizard (EPlugin *ep, ESEventTargetUpgrade *target);
 GtkWidget *startup_wizard_importer_page (EPlugin *ep, EConfigHookItemFactoryData *hook_data);
 gboolean startup_wizard_check (EPlugin *ep, EConfigHookPageCheckData *check_data);
 void startup_wizard_commit (EPlugin *ep, EMConfigTargetAccount *target);
-void startup_wizard_abort (EPlugin *ep, EMConfigTargetAccount *target);
+void startup_wizard_abort (EPlugin *ep, EMConfigTargetAccount *target) G_GNUC_NORETURN;
 
 static EImport *import;
 static EImportTargetHome *import_target;

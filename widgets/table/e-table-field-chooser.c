@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -32,8 +32,6 @@
 #include "e-table-field-chooser.h"
 #include "e-table-field-chooser-item.h"
 
-static void e_table_field_chooser_init		(ETableFieldChooser		 *card);
-static void e_table_field_chooser_class_init	(ETableFieldChooserClass	 *klass);
 static void e_table_field_chooser_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
 static void e_table_field_chooser_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
 static void e_table_field_chooser_dispose (GObject *object);

@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -211,7 +211,7 @@ emfq_format_text_header (EMFormatQuote *emfq, CamelStream *stream, const char *l
 	g_free (mhtml);
 }
 
-static char *addrspec_hdrs[] = {
+static const gchar *addrspec_hdrs[] = {
 	"Sender", "From", "Reply-To", "To", "Cc", "Bcc",
 	"Resent-Sender", "Resent-from", "Resent-Reply-To",
 	"Resent-To", "Resent-cc", "Resent-Bcc", NULL
@@ -285,22 +285,22 @@ static void
 canon_header_name (char *name)
 {
 	char *inptr = name;
-	
+
 	/* canonicalise the header name... first letter is
 	 * capitalised and any letter following a '-' also gets
 	 * capitalised */
-	
+
 	if (*inptr >= 'a' && *inptr <= 'z')
 		*inptr -= 0x20;
-	
+
 	inptr++;
-	
+
 	while (*inptr) {
 		if (inptr[-1] == '-' && *inptr >= 'a' && *inptr <= 'z')
 			*inptr -= 0x20;
 		else if (*inptr >= 'A' && *inptr <= 'Z')
 			*inptr += 0x20;
-		
+
 		inptr++;
 	}
 }
@@ -326,24 +326,24 @@ emfq_format_header (EMFormat *emf, CamelStream *stream, CamelMedium *part, const
 			break;
 		}
 	}
-	
+
 	label = _(name);
-	
+
 	if (addrspec) {
 		struct _camel_header_address *addrs;
 		GString *html;
 
 		if (!(txt = camel_medium_get_header (part, name)))
 			return;
-		
+
 		buf = camel_header_unfold (txt);
 		if (!(addrs = camel_header_address_decode (txt, emf->charset ? emf->charset : emf->default_charset))) {
 			g_free (buf);
 			return;
 		}
-		
+
 		g_free (buf);
-		
+
 		html = g_string_new ("");
 		emfq_format_address (html, addrs);
 		camel_header_address_unref (addrs);
@@ -361,15 +361,15 @@ emfq_format_header (EMFormat *emf, CamelStream *stream, CamelMedium *part, const
 				if (!(txt = camel_medium_get_header (part, "x-newsreader")))
 					if (!(txt = camel_medium_get_header (part, "x-mimeole")))
 						return;
-		
+
 		txt = value = camel_header_format_ctext (txt, charset);
-		
+
 		label = _("Mailer");
 		flags |= EM_FORMAT_HEADER_BOLD;
 	} else if (!strcmp (name, "Date") || !strcmp (name, "Resent-Date")) {
 		if (!(txt = camel_medium_get_header (part, name)))
 			return;
-		
+
 		flags |= EM_FORMAT_HEADER_BOLD;
 	} else {
 		txt = camel_medium_get_header (part, name);
@@ -562,18 +562,18 @@ emfq_ignore(EMFormat *emf, CamelStream *stream, CamelMimePart *part, EMFormatHan
 }
 
 static EMFormatHandler type_builtin_table[] = {
-	{ "text/plain",(EMFormatFunc)emfq_text_plain },
-	{ "text/enriched",(EMFormatFunc)emfq_text_enriched },
-	{ "text/richtext",(EMFormatFunc)emfq_text_enriched },
-	{ "text/html",(EMFormatFunc)emfq_text_html },
-/*	{ "multipart/related",(EMFormatFunc)emfq_multipart_related },*/
-	{ "message/external-body", (EMFormatFunc)emfq_ignore },
-	{ "multipart/appledouble", (EMFormatFunc)emfq_ignore },
+	{ (gchar *) "text/plain", (EMFormatFunc)emfq_text_plain },
+	{ (gchar *) "text/enriched", (EMFormatFunc)emfq_text_enriched },
+	{ (gchar *) "text/richtext", (EMFormatFunc)emfq_text_enriched },
+	{ (gchar *) "text/html", (EMFormatFunc)emfq_text_html },
+/*	{ (gchar *) "multipart/related",(EMFormatFunc)emfq_multipart_related },*/
+	{ (gchar *) "message/external-body", (EMFormatFunc)emfq_ignore },
+	{ (gchar *) "multipart/appledouble", (EMFormatFunc)emfq_ignore },
 
 	/* internal evolution types */
-	{ "x-evolution/evolution-rss-feed", (EMFormatFunc)emfq_text_html },
-	{ "x-evolution/message/rfc822", (EMFormatFunc)emfq_format_message },
-	{ "x-evolution/message/prefix", (EMFormatFunc)emfq_format_message_prefix },
+	{ (gchar *) "x-evolution/evolution-rss-feed", (EMFormatFunc)emfq_text_html },
+	{ (gchar *) "x-evolution/message/rfc822", (EMFormatFunc)emfq_format_message },
+	{ (gchar *) "x-evolution/message/prefix", (EMFormatFunc)emfq_format_message_prefix },
 };
 
 static void

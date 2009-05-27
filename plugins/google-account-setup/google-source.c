@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -420,7 +420,7 @@ retrieve_list_clicked (GtkButton *button, GtkComboBox *combo)
 	g_return_if_fail (username != NULL && *username != '\0');
 
 	tmp = g_strdup_printf (_("Enter password for user %s to access list of subscribed calendars."), username);
-	password = e_passwords_ask_password (_("Enter password"), "Calendar", "", tmp, 
+	password = e_passwords_ask_password (_("Enter password"), "Calendar", "", tmp,
 			E_PASSWORDS_REMEMBER_NEVER | E_PASSWORDS_REPROMPT | E_PASSWORDS_SECRET | E_PASSWORDS_DISABLE_REMEMBER,
 			NULL, parent);
 	g_free (tmp);

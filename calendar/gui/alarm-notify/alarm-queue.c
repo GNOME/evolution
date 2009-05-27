@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -150,7 +150,6 @@ static void popup_notification (time_t trigger, CompQueuedAlarms *cqa,
 static void query_objects_changed_cb (ECal *client, GList *objects, gpointer data);
 static void query_objects_removed_cb (ECal *client, GList *objects, gpointer data);
 
-static void remove_client_alarms (ClientAlarms *ca);
 static void update_cqa (CompQueuedAlarms *cqa, ECalComponent *comp);
 static void update_qa (ECalComponentAlarms *alarms, QueuedAlarm *qa);
 static void tray_list_remove_cqa (CompQueuedAlarms *cqa);
@@ -922,8 +921,8 @@ edit_component (ECal *client, ECalComponent *comp)
 
 	/* Get the factory */
 	CORBA_exception_init (&ev);
-	factory = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory:" BASE_VERSION,
-						      0, NULL, &ev);
+	factory = bonobo_activation_activate_from_id (
+		(Bonobo_ActivationID) "OAFIID:GNOME_Evolution_Calendar_CompEditorFactory:" BASE_VERSION, 0, NULL, &ev);
 
 	if (BONOBO_EX (&ev)) {
 		e_error_run (NULL, "editor-error", bonobo_exception_get_text (&ev), NULL);

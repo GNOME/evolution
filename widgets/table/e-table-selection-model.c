@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -45,9 +45,9 @@ static void
 save_to_hash(int model_row, gpointer closure)
 {
 	ETableSelectionModel *etsm = closure;
-	gchar *key = e_table_model_get_save_id(etsm->model, model_row);
+	const gchar *key = e_table_model_get_save_id(etsm->model, model_row);
 
-	g_hash_table_insert(etsm->hash, key, key);
+	g_hash_table_insert(etsm->hash, (gpointer) key, (gpointer) key);
 }
 
 static void
@@ -101,7 +101,7 @@ model_changed_idle(ETableSelectionModel *etsm)
 		int i;
 		e_selection_model_array_confirm_row_count(E_SELECTION_MODEL_ARRAY(etsm));
 		for (i = 0; i < row_count; i++) {
-			char *save_id = e_table_model_get_save_id(etm, i);
+			gchar *save_id = e_table_model_get_save_id(etm, i);
 			if (g_hash_table_lookup(etsm->hash, save_id))
 				e_selection_model_change_one_row(E_SELECTION_MODEL(etsm), i, TRUE);
 

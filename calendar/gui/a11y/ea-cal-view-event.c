@@ -10,11 +10,11 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
- *		Bolian Yin <bolian.yin@sun.com> 
+ *		Bolian Yin <bolian.yin@sun.com>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  *
@@ -247,7 +247,10 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 	GObject *g_obj;
 	ECalendarViewEvent *event;
 	gchar *name_string;
-	gchar *alarm_string, *recur_string, *meeting_string, *summary_string;
+	const gchar *alarm_string;
+	const gchar *recur_string;
+	const gchar *meeting_string;
+	gchar *summary_string;
         const char *summary;
 
 

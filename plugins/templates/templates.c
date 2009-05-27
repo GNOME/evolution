@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -74,14 +74,14 @@ static void reply_with_template	(EPopup *ep, EPopupItem *item, void *data);
 
 static void popup_free		(EPopup *ep, GSList *l, void *data);
 
-static GSList *fill_submenu	(CamelStore *store, 
-                             	CamelFolderInfo *info, 
-                              	GSList *list, 
+static GSList *fill_submenu	(CamelStore *store,
+                             	CamelFolderInfo *info,
+                              	GSList *list,
                               	EMPopupTargetSelect *t);
 
-static GSList *append_to_menu 	(CamelFolder *folder, 
-                             	GPtrArray *uids, 
-                             	GSList *list, 
+static GSList *append_to_menu 	(CamelFolder *folder,
+                             	GPtrArray *uids,
+                             	GSList *list,
                              	EMPopupTargetSelect *t);
 
 void org_gnome_templates_popup	(EPlugin *ep, EMPopupTargetSelect *t);
@@ -98,7 +98,7 @@ static void  key_cell_edited_callback (GtkCellRendererText *cell, gchar *path_st
 				   gchar *new_text,UIData *ui);
 
 static void  value_cell_edited_callback (GtkCellRendererText *cell, gchar *path_string,
-				   gchar *new_text,UIData *ui);				   
+				   gchar *new_text,UIData *ui);
 
 static gboolean clue_foreach_check_isempty (GtkTreeModel *model, GtkTreePath
 					*path, GtkTreeIter *iter, UIData *ui);
@@ -145,16 +145,16 @@ commit_changes (UIData *ui)
 	while (valid) {
 		char *keyword, *value;
 		char *key;
-		
+
 		gtk_tree_model_get (model, &iter, CLUE_KEYWORD_COLUMN, &keyword, -1);
 		gtk_tree_model_get (model, &iter, CLUE_VALUE_COLUMN, &value, -1);
 
 		/* Check if the keyword and value are not empty */
-		if ((keyword) && (value) && (g_utf8_strlen(g_strstrip(keyword), -1) > 0) 
+		if ((keyword) && (value) && (g_utf8_strlen(g_strstrip(keyword), -1) > 0)
 			&& (g_utf8_strlen(g_strstrip(value), -1) > 0)) {
 			key = g_strdup_printf("%s=%s", keyword, value);
 			clue_list = g_slist_append (clue_list, key);
-		}	
+		}
 		valid = gtk_tree_model_iter_next (model, &iter);
 	}
 
@@ -229,7 +229,7 @@ key_cell_edited_callback (GtkCellRendererText *cell,
 
 	gtk_tree_model_get_iter_from_string (model, &iter, path_string);
 
-	gtk_tree_model_get (model, &iter, CLUE_VALUE_COLUMN, &value, -1);	
+	gtk_tree_model_get (model, &iter, CLUE_VALUE_COLUMN, &value, -1);
 	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
 				    CLUE_KEYWORD_COLUMN, new_text, CLUE_VALUE_COLUMN, value, -1);
 
@@ -249,7 +249,7 @@ value_cell_edited_callback (GtkCellRendererText *cell,
 	model = gtk_tree_view_get_model (GTK_TREE_VIEW (ui->treeview));
 
 	gtk_tree_model_get_iter_from_string (model, &iter, path_string);
-	
+
 	gtk_tree_model_get (model, &iter, CLUE_KEYWORD_COLUMN, &keyword, -1);
 
 	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
@@ -491,9 +491,9 @@ get_content (CamelMimeMessage *message)
 		g_free (str);
 		return convert_str;
 	}
-	else 
+	else
 		return str;
-			
+
 }
 
 static void
@@ -509,8 +509,8 @@ reply_with_template (EPopup *ep, EPopupItem *item, void *data)
 	templates_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_TEMPLATES);
 
 	/* Get from the currently selected folder, the currently selected message */
-	reply_to = camel_folder_get_message (userdata->t->folder, 
-			g_ptr_array_index (userdata->t->uids, 0), 
+	reply_to = camel_folder_get_message (userdata->t->folder,
+			g_ptr_array_index (userdata->t->uids, 0),
 			NULL);
 
 	/* The message we'll be using has been stored when building the menu */
@@ -525,8 +525,8 @@ reply_with_template (EPopup *ep, EPopupItem *item, void *data)
 	header = ((CamelMimePart *)reply_to)->headers;
 	while (header) {
 		if (g_ascii_strncasecmp (header->name, "content-", 8) != 0) {
-			camel_medium_add_header((CamelMedium *) new, 
-					header->name, 
+			camel_medium_add_header((CamelMedium *) new,
+					header->name,
 					header->value);
 		}
 		header = header->next;
@@ -538,15 +538,15 @@ reply_with_template (EPopup *ep, EPopupItem *item, void *data)
 	cont = get_content (template);
 
 	/* Set the To: field to the same To: field of the message we are replying to. */
-	camel_mime_message_set_recipients (new, CAMEL_RECIPIENT_TYPE_TO, 
+	camel_mime_message_set_recipients (new, CAMEL_RECIPIENT_TYPE_TO,
 			camel_mime_message_get_from (reply_to));
 
 
 	/* Copy the CC and BCC from the template.*/
-	camel_mime_message_set_recipients (new, CAMEL_RECIPIENT_TYPE_CC, 
+	camel_mime_message_set_recipients (new, CAMEL_RECIPIENT_TYPE_CC,
 			camel_mime_message_get_recipients (template, CAMEL_RECIPIENT_TYPE_CC));
 
-	camel_mime_message_set_recipients (new, CAMEL_RECIPIENT_TYPE_BCC, 
+	camel_mime_message_set_recipients (new, CAMEL_RECIPIENT_TYPE_BCC,
 			camel_mime_message_get_recipients (template, CAMEL_RECIPIENT_TYPE_BCC));
 
 	camel_mime_part_set_content((CamelMimePart *)new,
@@ -558,7 +558,7 @@ reply_with_template (EPopup *ep, EPopupItem *item, void *data)
 	camel_object_unref(new);
 }
 
-static void 
+static void
 popup_free (EPopup *ep, GSList *l, void *data)
 {
 	g_slist_free (l);
@@ -583,15 +583,15 @@ static GSList
 		if (!g_str_has_suffix (folder->name, "Templates"))
 			path = g_strdup_printf ("80.%s", folder->full_name);
 		else
-			path = "80.Templates";
+			path = g_strdup ("80.Templates");
 
 		/* If this uid is trashed, ignore it */
 		if (camel_folder_get_message_flags (folder, uid) & CAMEL_MESSAGE_DELETED)
 			continue;
-		
+
 		/* Get the message for this uid */
-		message = camel_folder_get_message (folder, 
-				uid, 
+		message = camel_folder_get_message (folder,
+				uid,
 				NULL);
 
 		subject = camel_mime_message_get_subject (message);
@@ -617,7 +617,7 @@ static GSList
 	return list;
 }
 
-static GSList 
+static GSList
 *fill_submenu (CamelStore *store, CamelFolderInfo *info, GSList *list, EMPopupTargetSelect *t)
 {
 	while (info) {
@@ -629,14 +629,14 @@ static GSList
 
 		item = g_slice_alloc0(sizeof(*item));
 		item->type = E_POPUP_SUBMENU;
-		item->label = folder->name; 
+		item->label = folder->name;
 		item->visible = EM_POPUP_SELECT_MANY | EM_POPUP_SELECT_ONE;
 
 		/* To avoid having a Templates dir, we ignore the top level */
 		if (!g_str_has_suffix (folder->name, "Templates"))
 			item->path = g_strdup_printf ("80.%s", folder->full_name);
 		else
-			item->path = "80.Templates";
+			item->path = g_strdup ("80.Templates");
 
 		list = g_slist_prepend (list, item);
 
@@ -670,9 +670,9 @@ org_gnome_templates_popup (EPlugin *ep, EMPopupTargetSelect *t)
 
 	templates_folder = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_TEMPLATES);
 
-	templates_info = camel_store_get_folder_info (store, 
-			templates_folder->full_name, 
-			CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_FAST, 
+	templates_info = camel_store_get_folder_info (store,
+			templates_folder->full_name,
+			CAMEL_STORE_FOLDER_INFO_RECURSIVE | CAMEL_STORE_FOLDER_INFO_FAST,
 			NULL);
 
 	/* Get subfolders and fill it */

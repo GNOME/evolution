@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -54,7 +54,7 @@ typedef struct {
 	gboolean    (*is_cell_editable)   (ETableModel *etm, int col, int row);
 
 	gboolean    (*has_save_id)        (ETableModel *etm);
-	char       *(*get_save_id)        (ETableModel *etm, int row);
+	gchar      *(*get_save_id)        (ETableModel *etm, int row);
 
 	gboolean    (*has_change_pending) (ETableModel *etm);
 

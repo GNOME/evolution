@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -717,7 +717,7 @@ e_addr_context_destroy (EAddrConduitContext *ctxt)
 }
 
 /* Debug routines */
-static char *
+static const gchar *
 print_local (EAddrLocalRecord *local)
 {
 	static char buff[ 4096 ];
@@ -1531,12 +1531,12 @@ addressbook_authenticate (EBook *book,
 			  gpointer data)
 {
 	gchar *auth;
-	gchar *user;
+	const gchar *user;
 	gchar *passwd;
 	gchar *str_uri;
 	gchar *pass_key;
 	gchar *auth_domain;
-	gchar *component_name;
+	const gchar *component_name;
 	EUri *e_uri;
 
 	ESource *source = (ESource *)data;
@@ -1546,9 +1546,9 @@ addressbook_authenticate (EBook *book,
 	component_name = auth_domain ? auth_domain : "Addressbook";
 
 	if (auth && !strcmp ("plain/password", auth))
-		user = (gchar *)e_source_get_property (source, "user");
+		user = e_source_get_property (source, "user");
 	else
-		user = (gchar *)e_source_get_property (source, "email_addr");
+		user = e_source_get_property (source, "email_addr");
 	if (!user)
 		user = "";
 

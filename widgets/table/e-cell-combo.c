@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -74,8 +74,6 @@
 /* The height to make the popup list if there aren't any items in it. */
 #define	E_CELL_COMBO_LIST_EMPTY_HEIGHT	15
 
-static void e_cell_combo_class_init	(ECellComboClass *klass);
-static void e_cell_combo_init		(ECellCombo	*ecc);
 static void e_cell_combo_dispose	(GObject	*object);
 
 static gint e_cell_combo_do_popup	(ECellPopup	*ecp,

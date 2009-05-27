@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -241,7 +241,7 @@ emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 			gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
 			gtk_widget_show (label);
 			gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
-			
+
 			w = gtk_spin_button_new_with_range (G_MININT, G_MAXINT, 1.0);
 			gtk_spin_button_set_value ((GtkSpinButton *) w, (double) prop_data->argv->argv[i].ca_int);
 			gtk_spin_button_set_numeric ((GtkSpinButton *) w, TRUE);
@@ -255,7 +255,7 @@ emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 			gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
 			gtk_widget_show (label);
 			gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row + 1, GTK_FILL, 0, 0, 0);
-			
+
 			w = gtk_spin_button_new_with_range (G_MININT, G_MAXINT, 1.0);
 			gtk_spin_button_set_value ((GtkSpinButton *) w, prop_data->argv->argv[i].ca_double);
 			gtk_spin_button_set_numeric ((GtkSpinButton *) w, TRUE);
@@ -280,10 +280,10 @@ emfp_get_folder_item(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, 
 #define EMFP_FOLDER_SECTION (2)
 
 static EMConfigItem emfp_items[] = {
-	{ E_CONFIG_BOOK,  "", NULL },
-	{ E_CONFIG_PAGE, "00.general", N_("General") },
-	{ E_CONFIG_SECTION, "00.general/00.folder", NULL /* set by code */ },
-	{ E_CONFIG_ITEM, "00.general/00.folder/00.info", NULL, emfp_get_folder_item },
+	{ E_CONFIG_BOOK, (gchar *) "", NULL },
+	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) N_("General") },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/00.folder", NULL /* set by code */ },
+	{ E_CONFIG_ITEM, (gchar *) "00.general/00.folder/00.info", NULL, emfp_get_folder_item },
 };
 static gboolean emfp_items_translated = FALSE;
 

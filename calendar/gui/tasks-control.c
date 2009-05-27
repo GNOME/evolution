@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -71,7 +71,7 @@ static void tasks_control_forward_cmd          (BonoboUIComponent      *uic,
                                                 const char             *path);
 
 struct _tasks_sensitize_item {
-	char *command;
+	const gchar *command;
 	guint32 enable;
 };
 
@@ -306,7 +306,7 @@ confirm_purge (ETasks *tasks)
 		GTK_DIALOG_DESTROY_WITH_PARENT,
 		GTK_MESSAGE_WARNING,
 		GTK_BUTTONS_YES_NO,
-		"%s", 
+		"%s",
 		_("This operation will permanently erase all tasks marked as completed. If you continue, you will not be able to recover these tasks.\n\nReally erase these tasks?"));
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_NO);
 

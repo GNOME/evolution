@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -88,8 +88,8 @@ enum {
 };
 
 static GtkTargetEntry target_types[] = {
-	{ "text/calendar", 0, TARGET_TYPE_VCALENDAR },
-	{ "text/x-calendar", 0, TARGET_TYPE_VCALENDAR }
+	{ (gchar *) "text/calendar", 0, TARGET_TYPE_VCALENDAR },
+	{ (gchar *) "text/x-calendar", 0, TARGET_TYPE_VCALENDAR }
 };
 
 static guint n_target_types = G_N_ELEMENTS (target_types);

@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -29,8 +29,6 @@
 #include "e-text-event-processor-emacs-like.h"
 #include "e-util.h"
 
-static void e_text_event_processor_emacs_like_init		(ETextEventProcessorEmacsLike		 *card);
-static void e_text_event_processor_emacs_like_class_init	(ETextEventProcessorEmacsLikeClass	 *klass);
 static gint e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventProcessorEvent *event);
 
 G_DEFINE_TYPE (ETextEventProcessorEmacsLike, e_text_event_processor_emacs_like, E_TEXT_EVENT_PROCESSOR_TYPE)

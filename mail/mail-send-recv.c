@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -427,7 +427,7 @@ build_dialog (GtkWindow *parent,
 	g_object_unref (iter);
 
 	/* Check to see if we have to send any mails --- if we don't, don't display the SMTP row in the table */
-	if (outbox && destination 
+	if (outbox && destination
 	 && (camel_folder_get_message_count(outbox) - camel_folder_get_deleted_message_count(outbox)) == 0)
 		num_sources--;
 
@@ -556,7 +556,7 @@ build_dialog (GtkWindow *parent,
 	e_event_emit ((EEvent *)em_event_peek (), "mail.sendreceive", (EEventTarget *) target);
 
 	/* Skip displaying the SMTP row if we've got no outbox, destination or unsent mails */
-	if (outbox && destination 
+	if (outbox && destination
 	 && (camel_folder_get_message_count(outbox) - camel_folder_get_deleted_message_count(outbox)) != 0) {
 		info = g_hash_table_lookup (data->active, SEND_URI_KEY);
 		if (info == NULL) {
@@ -570,7 +570,7 @@ build_dialog (GtkWindow *parent,
 			info->state = SEND_ACTIVE;
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
 
-			g_hash_table_insert (data->active, SEND_URI_KEY, info);
+			g_hash_table_insert (data->active, (gpointer) SEND_URI_KEY, info);
 			list = g_list_prepend (list, info);
 		} else if (info->timeout_id == 0)
 			info->timeout_id = g_timeout_add (STATUS_TIMEOUT, operation_status_timeout, info);
@@ -684,7 +684,7 @@ receive_status (CamelFilterDriver *driver, enum camel_filter_status_t status, in
 
 /* when receive/send is complete */
 static void
-receive_done (char *uri, void *data)
+receive_done (const gchar *uri, void *data)
 {
 	struct _send_info *info = data;
 
@@ -1226,7 +1226,7 @@ mail_send (void)
 	info->status_label = NULL;
 	info->uri = g_strdup (transport->url);
 	info->keep_on_server = FALSE;
-	info->cancel = NULL; 
+	info->cancel = NULL;
 	info->cancel_button = NULL;
 	info->data = data;
 	info->state = SEND_ACTIVE;
@@ -1234,7 +1234,7 @@ mail_send (void)
 
 	d(printf("Adding new info %p\n", info));
 
-	g_hash_table_insert (data->active, SEND_URI_KEY, info);
+	g_hash_table_insert (data->active, (gpointer) SEND_URI_KEY, info);
 
 	/* todo, store the folder in info? */
 	outbox_folder = e_mail_shell_backend_get_folder (

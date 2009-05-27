@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -30,6 +30,8 @@
 
 static gint esms_get_row_count (ESelectionModelArray *esma);
 
+G_DEFINE_TYPE (ESelectionModelSimple, e_selection_model_simple, e_selection_model_array_get_type())
+
 static void
 e_selection_model_simple_init (ESelectionModelSimple *selection)
 {
@@ -45,8 +47,6 @@ e_selection_model_simple_class_init (ESelectionModelSimpleClass *klass)
 
 	esma_class->get_row_count = esms_get_row_count;
 }
-
-G_DEFINE_TYPE (ESelectionModelSimple, e_selection_model_simple, e_selection_model_array_get_type())
 
 /**
  * e_selection_model_simple_new

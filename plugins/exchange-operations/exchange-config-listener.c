@@ -14,7 +14,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
  */
@@ -89,7 +89,7 @@ static void account_changed (EAccountList *account_listener,
 			     EAccount     *account);
 static void account_removed (EAccountList *account_listener,
 			     EAccount     *account);
-#if LDEAD
+#ifdef LDEAD
 static void exchange_add_autocompletion_folders (GConfClient *gc_client,
 						 ExchangeAccount *account);
 #endif
@@ -229,7 +229,7 @@ add_defaults_for_account (ExchangeConfigListener *config_listener,
 	EAccount *eaccount;
 	gboolean save = FALSE;
 
-#if LDEAD
+#ifdef LDEAD
 	exchange_add_autocompletion_folders (config_listener->priv->gconf, account);
 #endif
 
@@ -1230,7 +1230,7 @@ exchange_config_listener_modify_esource_group_name (ExchangeConfigListener *excl
 	g_object_unref (a_source_list);
 }
 
-#if LDEAD
+#ifdef LDEAD
 /**
  * exchange_add_autocompletion_folders:
  *

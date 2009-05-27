@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -129,7 +129,7 @@ struct _EMFolderBrowserPrivate {
 
 typedef struct EMFBSearchBarItem {
 	ESearchBarItem search;
-	char *image;
+	const gchar *image;
 } EMFBSearchBarItem;
 
 static void emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int state);
@@ -183,7 +183,7 @@ static ESearchBarItem emfb_search_items[] = {
 	E_FILTERBAR_SAVE,
 	E_FILTERBAR_EDIT,
 	{ NULL, 0, 0 },
-	{ N_("C_reate Search Folder From Search..."), ESB_SAVE, 0},
+	{ (gchar *) N_("C_reate Search Folder From Search..."), ESB_SAVE, 0},
 	{ NULL, -1, 0 }
 };
 
@@ -603,7 +603,8 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 {
 	EMFolderView *emfv = (EMFolderView *) emfb;
 	EFilterBar *efb = (EFilterBar *)esb;
-	char *search_state = NULL, *view_sexp, *folder_uri=NULL;
+	const gchar *view_sexp;
+	char *search_state = NULL, *folder_uri=NULL;
 	char *word = NULL, *storeuri = NULL, *search_word = NULL;
 	gint id, i;
 	CamelFolder *folder;
@@ -792,7 +793,6 @@ emfb_search_search_activated(ESearchBar *esb, EMFolderBrowser *emfb)
 
 	g_free (word);
 	g_free (search_word);
-	g_free (view_sexp);
 
 	camel_exception_free (ex);
 }

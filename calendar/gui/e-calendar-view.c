@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -103,8 +103,8 @@ enum TargetType{
 };
 
 static GtkTargetEntry target_types[] = {
-	{ "text/x-calendar", 0, TARGET_TYPE_VCALENDAR },
-	{ "text/calendar",   0, TARGET_TYPE_VCALENDAR }
+	{ (gchar *) "text/x-calendar", 0, TARGET_TYPE_VCALENDAR },
+	{ (gchar *) "text/calendar",   0, TARGET_TYPE_VCALENDAR }
 };
 
 static guint n_target_types = G_N_ELEMENTS (target_types);
@@ -1755,52 +1755,52 @@ on_paste (EPopup *ep, EPopupItem *pitem, void *data)
 }
 
 static EPopupItem ecv_main_items [] = {
-	{ E_POPUP_ITEM, "00.new", N_("New _Appointment..."), on_new_appointment, NULL, "appointment-new", 0, 0 },
-	{ E_POPUP_ITEM, "10.newallday", N_("New All Day _Event"), on_new_event, NULL, "stock_new-24h-appointment", 0, 0},
-	{ E_POPUP_ITEM, "20.meeting", N_("New _Meeting"), on_new_meeting, NULL, "stock_new-meeting", 0, 0},
-	{ E_POPUP_ITEM, "30.task", N_("New _Task"), on_new_task, NULL, "stock_task", 0, 0},
+	{ E_POPUP_ITEM, (gchar *) "00.new", (gchar *) N_("New _Appointment..."), on_new_appointment, NULL, (gchar *) "appointment-new", 0, 0 },
+	{ E_POPUP_ITEM, (gchar *) "10.newallday", (gchar *) N_("New All Day _Event"), on_new_event, NULL, (gchar *) "stock_new-24h-appointment", 0, 0},
+	{ E_POPUP_ITEM, (gchar *) "20.meeting", (gchar *) N_("New _Meeting"), on_new_meeting, NULL, (gchar *) "stock_new-meeting", 0, 0},
+	{ E_POPUP_ITEM, (gchar *) "30.task", (gchar *) N_("New _Task"), on_new_task, NULL, (gchar *) "stock_task", 0, 0},
 
-	{ E_POPUP_BAR, "40."},
-	{ E_POPUP_ITEM, "40.print", N_("P_rint..."), on_print, NULL, GTK_STOCK_PRINT, 0, 0 },
+	{ E_POPUP_BAR, (gchar *) "40."},
+	{ E_POPUP_ITEM, (gchar *) "40.print", (gchar *) N_("P_rint..."), on_print, NULL, (gchar *) GTK_STOCK_PRINT, 0, 0 },
 
-	{ E_POPUP_BAR, "50." },
-	{ E_POPUP_ITEM, "50.paste", N_("_Paste"), on_paste, NULL, GTK_STOCK_PASTE, 0, E_CAL_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_BAR, (gchar *) "50." },
+	{ E_POPUP_ITEM, (gchar *) "50.paste", (gchar *) N_("_Paste"), on_paste, NULL, (gchar *) GTK_STOCK_PASTE, 0, E_CAL_POPUP_SELECT_EDITABLE },
 
-	{ E_POPUP_BAR, "60." },
+	{ E_POPUP_BAR, (gchar *) "60." },
 	/* FIXME: hook in this somehow */
-	{ E_POPUP_SUBMENU, "60.view", N_("_Current View") },
+	{ E_POPUP_SUBMENU, (gchar *) "60.view", (gchar *) N_("_Current View") },
 
-	{ E_POPUP_ITEM, "61.today", N_("Select T_oday"), on_goto_today, NULL, "go-today" },
-	{ E_POPUP_ITEM, "62.todate", N_("_Select Date..."), on_goto_date, NULL, GTK_STOCK_JUMP_TO },
+	{ E_POPUP_ITEM, (gchar *) "61.today", (gchar *) N_("Select T_oday"), on_goto_today, NULL, (gchar *) "go-today" },
+	{ E_POPUP_ITEM, (gchar *) "62.todate", (gchar *) N_("_Select Date..."), on_goto_date, NULL, (gchar *) GTK_STOCK_JUMP_TO },
 };
 
 static EPopupItem ecv_child_items [] = {
-	{ E_POPUP_ITEM, "00.open", N_("_Open"), on_edit_appointment, NULL, GTK_STOCK_OPEN, 0, E_CAL_POPUP_SELECT_NOTEDITING },
-	{ E_POPUP_ITEM, "10.saveas", N_("_Save As..."), on_save_as, NULL, GTK_STOCK_SAVE_AS, 0, E_CAL_POPUP_SELECT_NOTEDITING },
-	{ E_POPUP_ITEM, "20.print", N_("Pri_nt..."), on_print_event, NULL, GTK_STOCK_PRINT, 0, E_CAL_POPUP_SELECT_NOTEDITING },
+	{ E_POPUP_ITEM, (gchar *) "00.open", (gchar *) N_("_Open"), on_edit_appointment, NULL, (gchar *) GTK_STOCK_OPEN, 0, E_CAL_POPUP_SELECT_NOTEDITING },
+	{ E_POPUP_ITEM, (gchar *) "10.saveas", (gchar *) N_("_Save As..."), on_save_as, NULL, (gchar *) GTK_STOCK_SAVE_AS, 0, E_CAL_POPUP_SELECT_NOTEDITING },
+	{ E_POPUP_ITEM, (gchar *) "20.print", (gchar *) N_("Pri_nt..."), on_print_event, NULL, (gchar *) GTK_STOCK_PRINT, 0, E_CAL_POPUP_SELECT_NOTEDITING },
 
-	{ E_POPUP_BAR, "30." },
+	{ E_POPUP_BAR, (gchar *) "30." },
 
-	{ E_POPUP_ITEM, "31.cut", N_("C_ut"), on_cut, NULL, GTK_STOCK_CUT, 0, E_CAL_POPUP_SELECT_NOTEDITING|E_CAL_POPUP_SELECT_EDITABLE|E_CAL_POPUP_SELECT_ORGANIZER },
-	{ E_POPUP_ITEM, "32.copy", N_("_Copy"), on_copy, NULL, GTK_STOCK_COPY, 0, E_CAL_POPUP_SELECT_NOTEDITING|E_CAL_POPUP_SELECT_ORGANIZER },
-	{ E_POPUP_ITEM, "33.paste", N_("_Paste"), on_paste, NULL, GTK_STOCK_PASTE, 0, E_CAL_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, (gchar *) "31.cut", (gchar *) N_("C_ut"), on_cut, NULL, (gchar *) GTK_STOCK_CUT, 0, E_CAL_POPUP_SELECT_NOTEDITING|E_CAL_POPUP_SELECT_EDITABLE|E_CAL_POPUP_SELECT_ORGANIZER },
+	{ E_POPUP_ITEM, (gchar *) "32.copy", (gchar *) N_("_Copy"), on_copy, NULL, (gchar *) GTK_STOCK_COPY, 0, E_CAL_POPUP_SELECT_NOTEDITING|E_CAL_POPUP_SELECT_ORGANIZER },
+	{ E_POPUP_ITEM, (gchar *) "33.paste", (gchar *) N_("_Paste"), on_paste, NULL, (gchar *) GTK_STOCK_PASTE, 0, E_CAL_POPUP_SELECT_EDITABLE },
 
-	{ E_POPUP_BAR, "40." },
+	{ E_POPUP_BAR, (gchar *) "40." },
 
-	{ E_POPUP_ITEM, "43.copyto", N_("Cop_y to Calendar..."), on_copy_to, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING },
-	{ E_POPUP_ITEM, "44.moveto", N_("Mo_ve to Calendar..."), on_move_to, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "45.delegate", N_("_Delegate Meeting..."), on_delegate, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_DELEGATABLE | E_CAL_POPUP_SELECT_MEETING},
-	{ E_POPUP_ITEM, "46.schedule", N_("_Schedule Meeting..."), on_meeting, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTMEETING },
-	{ E_POPUP_ITEM, "47.forward", N_("_Forward as iCalendar..."), on_forward, NULL, "mail-forward", 0, E_CAL_POPUP_SELECT_NOTEDITING },
-	{ E_POPUP_ITEM, "48.reply", N_("_Reply"), on_reply, NULL, "mail-reply-sender", E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_NOSAVESCHEDULES, E_CAL_POPUP_SELECT_NOTEDITING },
-	{ E_POPUP_ITEM, "49.reply-all", N_("Reply to _All"), on_reply_all, NULL, "mail-reply-all", E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_NOSAVESCHEDULES, E_CAL_POPUP_SELECT_NOTEDITING },
+	{ E_POPUP_ITEM, (gchar *) "43.copyto", (gchar *) N_("Cop_y to Calendar..."), on_copy_to, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING },
+	{ E_POPUP_ITEM, (gchar *) "44.moveto", (gchar *) N_("Mo_ve to Calendar..."), on_move_to, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, (gchar *) "45.delegate", (gchar *) N_("_Delegate Meeting..."), on_delegate, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_DELEGATABLE | E_CAL_POPUP_SELECT_MEETING},
+	{ E_POPUP_ITEM, (gchar *) "46.schedule", (gchar *) N_("_Schedule Meeting..."), on_meeting, NULL, NULL, 0, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE | E_CAL_POPUP_SELECT_NOTMEETING },
+	{ E_POPUP_ITEM, (gchar *) "47.forward", (gchar *) N_("_Forward as iCalendar..."), on_forward, NULL, (gchar *) "mail-forward", 0, E_CAL_POPUP_SELECT_NOTEDITING },
+	{ E_POPUP_ITEM, (gchar *) "48.reply", (gchar *) N_("_Reply"), on_reply, NULL, (gchar *) "mail-reply-sender", E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_NOSAVESCHEDULES, E_CAL_POPUP_SELECT_NOTEDITING },
+	{ E_POPUP_ITEM, (gchar *) "49.reply-all", (gchar *) N_("Reply to _All"), on_reply_all, NULL, (gchar *) "mail-reply-all", E_CAL_POPUP_SELECT_MEETING | E_CAL_POPUP_SELECT_NOSAVESCHEDULES, E_CAL_POPUP_SELECT_NOTEDITING },
 
-	{ E_POPUP_BAR, "50." },
+	{ E_POPUP_BAR, (gchar *) "50." },
 
-	{ E_POPUP_ITEM, "51.delete", N_("_Delete"), on_delete_appointment, NULL, GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_NONRECURRING, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "52.move", N_("Make this Occurrence _Movable"), on_unrecur_appointment, NULL, NULL, E_CAL_POPUP_SELECT_RECURRING | E_CAL_POPUP_SELECT_INSTANCE, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "53.delete", N_("Delete this _Occurrence"), on_delete_occurrence, NULL, GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_RECURRING, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
-	{ E_POPUP_ITEM, "54.delete", N_("Delete _All Occurrences"), on_delete_appointment, NULL, GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_RECURRING, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, (gchar *) "51.delete", (gchar *) N_("_Delete"), on_delete_appointment, NULL, (gchar *) GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_NONRECURRING, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, (gchar *) "52.move", (gchar *) N_("Make this Occurrence _Movable"), on_unrecur_appointment, NULL, NULL, E_CAL_POPUP_SELECT_RECURRING | E_CAL_POPUP_SELECT_INSTANCE, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, (gchar *) "53.delete", (gchar *) N_("Delete this _Occurrence"), on_delete_occurrence, NULL, (gchar *) GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_RECURRING, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
+	{ E_POPUP_ITEM, (gchar *) "54.delete", (gchar *) N_("Delete _All Occurrences"), on_delete_appointment, NULL, (gchar *) GTK_STOCK_DELETE, E_CAL_POPUP_SELECT_RECURRING, E_CAL_POPUP_SELECT_NOTEDITING | E_CAL_POPUP_SELECT_EDITABLE },
 };
 
 void
@@ -1965,7 +1965,7 @@ e_calendar_view_new_appointment_full (ECalendarView *cal_view, gboolean all_day,
 		int hours, mins;
 
 		if (!time_div) /* Possible if your gconf values aren't so nice */
-			time_div = 30; 
+			time_div = 30;
 
 		if (time_day_begin (now) == time_day_begin (dtstart)) {
 			/* same day as today */
@@ -2564,11 +2564,11 @@ draw_curved_rectangle (cairo_t *cr, double x0, double y0,
 	cairo_close_path (cr);
 }
 
-static void 
+static void
 error_response(GtkWidget *widget, gint response, void *data)
 {
-	if (response == GTK_RESPONSE_DELETE_EVENT) 
+	if (response == GTK_RESPONSE_DELETE_EVENT)
 		gtk_widget_destroy(widget);
-	else if (response == GTK_RESPONSE_OK) 
+	else if (response == GTK_RESPONSE_OK)
 		gtk_widget_destroy(widget);
 }

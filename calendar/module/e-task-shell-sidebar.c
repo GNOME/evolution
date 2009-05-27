@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
@@ -433,7 +433,7 @@ task_shell_sidebar_check_state (EShellSidebar *shell_sidebar)
 	ETaskShellSidebar *task_shell_sidebar;
 	ESourceSelector *selector;
 	ESource *source;
-	gboolean is_system = FALSE; 
+	gboolean is_system = FALSE;
 	guint32 state = 0;
 
 	task_shell_sidebar = E_TASK_SHELL_SIDEBAR (shell_sidebar);

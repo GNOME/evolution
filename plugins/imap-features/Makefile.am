@@ -1,7 +1,6 @@
 INCLUDES =						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/mail				\
-	-I$(top_srcdir)/libedataserver			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
 	$(CAMEL_IMAP_CFLAGS)				\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\

@@ -52,6 +52,7 @@
 #include <libxml/xmlmemory.h>
 
 #include <e-util/e-util.h>
+#include <libedataserver/e-xml-utils.h>
 #include <libedataserver/e-data-server-util.h>
 #include <e-util/e-xml-utils.h>
 
@@ -354,7 +355,7 @@ parse_lsub (const char *lsub, char *dir_sep)
 	static int comp;
 	static regex_t pat;
 	regmatch_t match[3];
-	char *m = "^\\* LSUB \\([^)]*\\) \"?([^\" ]+)\"? \"?(.*)\"?$";
+	const gchar *m = "^\\* LSUB \\([^)]*\\) \"?([^\" ]+)\"? \"?(.*)\"?$";
 
 	if (!comp) {
 		if (regcomp (&pat, m, REG_EXTENDED|REG_ICASE) == -1) {
@@ -947,8 +948,8 @@ static e_gconf_map_list_t gconf_remap_list[] = {
 };
 
 static struct {
-	char *label;
-	char *colour;
+	const gchar *label;
+	const gchar *colour;
 } label_default[5] = {
 	{ N_("Important"), "#EF2929" },  /* red */
 	{ N_("Work"),      "#F57900" },  /* orange */
@@ -1095,9 +1096,10 @@ static GtkLabel *label;
 static GtkProgressBar *progress;
 
 static void
-em_migrate_setup_progress_dialog (const char *desc)
+em_migrate_setup_progress_dialog (const char *title, const char *desc)
 {
 	GtkWidget *vbox, *hbox, *w;
+	gchar *markup;
 
 	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title ((GtkWindow *) window, _("Migrating..."));
@@ -1126,6 +1128,39 @@ em_migrate_setup_progress_dialog (const char *desc)
 	gtk_widget_show ((GtkWidget *) progress);
 	gtk_box_pack_start_defaults ((GtkBox *) hbox, (GtkWidget *) progress);
 
+	/* Prepare the message */
+	vbox = gtk_vbox_new (FALSE, 12);
+	gtk_widget_show (vbox);
+	gtk_box_pack_start (GTK_BOX (hbox), vbox, TRUE, TRUE, 0);
+
+	w = gtk_label_new (NULL);
+	gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.0);
+	markup = g_strconcat ("<big><b>", title ? title : _("Migration"), "</b></big>", NULL);
+	gtk_label_set_markup (GTK_LABEL (w), markup);
+	gtk_box_pack_start (GTK_BOX (vbox), w, TRUE, TRUE, 0);
+	g_free (markup);
+
+	w = gtk_label_new (desc);
+	gtk_misc_set_alignment (GTK_MISC (w), 0.0, 0.0);
+	gtk_label_set_line_wrap (GTK_LABEL (w), TRUE);
+	gtk_box_pack_start (GTK_BOX (vbox), w, TRUE, TRUE, 0);
+
+	/* Progress bar */
+	w = gtk_vbox_new (FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (vbox), w, TRUE, TRUE, 0);
+
+	label = GTK_LABEL (gtk_label_new (""));
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.0);
+	gtk_label_set_line_wrap (label, TRUE);
+	gtk_widget_show (GTK_WIDGET (label));
+	gtk_box_pack_start (GTK_BOX (w), GTK_WIDGET (label), TRUE, TRUE, 0);
+
+	progress = GTK_PROGRESS_BAR (gtk_progress_bar_new ());
+	gtk_widget_show (GTK_WIDGET (progress));
+	gtk_box_pack_start (GTK_BOX (w), GTK_WIDGET (progress), TRUE, TRUE, 0);
+
+	gtk_container_add (GTK_CONTAINER (window), hbox);
+	gtk_widget_show_all (hbox);
 	gtk_widget_show (window);
 }
 
@@ -1259,7 +1294,7 @@ get_local_et_expanded (const char *dirname)
 static char *
 get_local_store_uri (const char *dirname, char **namep, int *indexp)
 {
-	char *protocol, *name, *metadata, *tmp;
+	gchar *name, *protocol, *metadata, *tmp;
 	int index;
 	struct stat st;
 	xmlNodePtr node;
@@ -1270,8 +1305,8 @@ get_local_store_uri (const char *dirname, char **namep, int *indexp)
 	/* in 1.4, any errors are treated as defaults, this function cannot fail */
 
 	/* defaults */
-	name = "mbox";
-	protocol = "mbox";
+	name = (gchar *) "mbox";
+	protocol = (gchar *) "mbox";
 	index = TRUE;
 
 	if (stat (metadata, &st) == -1 || !S_ISREG (st.st_mode))
@@ -1532,7 +1567,7 @@ em_migrate_folder(EMMigrateSession *session, const char *dirname, const char *fu
 
 	/* Manually copy local mbox files, its much faster */
 	if (!strncmp (uri, "mbox:", 5)) {
-		static char *meta_ext[] = { ".summary", ".ibex.index", ".ibex.index.data" };
+		static const gchar *meta_ext[] = { ".summary", ".ibex.index", ".ibex.index.data" };
 		size_t slen, dlen;
 		FILE *fp;
 		char *p;
@@ -1778,9 +1813,11 @@ em_migrate_local_folders_1_4 (EMMigrateSession *session, GError **error)
 		return FALSE;
 	}
 
-	em_migrate_setup_progress_dialog (_("The location and hierarchy of the Evolution mailbox "
-			     "folders has changed since Evolution 1.x.\n\nPlease be "
-			     "patient while Evolution migrates your folders..."));
+	em_migrate_setup_progress_dialog (
+		_("Migrating Folders"),
+		_("The location and hierarchy of the Evolution mailbox "
+		  "folders has changed since Evolution 1.x.\n\nPlease be "
+		  "patient while Evolution migrates your folders..."));
 
 	while (success && (dent = readdir (dir))) {
 		char *full_path;
@@ -2762,20 +2799,53 @@ em_update_sa_junk_setting_2_23 (void)
 	g_object_unref (client);
 }
 
+static gboolean
+update_progress_in_main_thread (double *progress)
+{
+	em_migrate_set_progress (*progress);
+	return FALSE;
+}
 
 static void
-migrate_folders(CamelStore *store, CamelFolderInfo *fi, const char *acc, CamelException *ex)
+migrate_folders(CamelStore *store, gboolean is_local, CamelFolderInfo *fi, const char *acc, CamelException *ex, gboolean *done, int *nth_folder, int total_folders)
 {
 	CamelFolder *folder;
 
 	while (fi) {
-		char *tmp = g_strdup_printf ("%s/%s", acc, fi->full_name);
+		double progress;
+		char *tmp;
+
+		*nth_folder = *nth_folder + 1;
+
+		tmp = g_strdup_printf ("%s/%s", acc, fi->full_name);
 		em_migrate_set_folder_name (tmp);
 		g_free (tmp);
-		folder = camel_store_get_folder (store, fi->full_name, 0, ex);
+
+		progress = (double) (*nth_folder) / total_folders;
+		g_idle_add ((GSourceFunc) update_progress_in_main_thread, &progress);
+
+		if (is_local)
+				folder = camel_store_get_folder (store, fi->full_name, CAMEL_STORE_IS_MIGRATING, ex);
+		else
+				folder = camel_store_get_folder (store, fi->full_name, 0, ex);
+
 		if (folder != NULL)
 			camel_folder_summary_migrate_infos (folder->summary);
-		migrate_folders(store, fi->child, acc, ex);
+		migrate_folders(store, is_local, fi->child, acc, ex, done, nth_folder, total_folders);
+		fi = fi->next;
+	}
+
+	if ((*nth_folder) == (total_folders - 1))
+		*done = TRUE;
+}
+
+/* This could be in CamelStore.ch */
+static void
+count_folders (CamelFolderInfo *fi, int *count)
+{
+	while (fi) {
+		*count = *count + 1;
+		count_folders (fi->child, count);
 		fi = fi->next;
 	}
 }
@@ -2799,8 +2869,27 @@ setup_local_store (EShellBackend *shell_backend,
 	g_free(tmp);
 
 	return store;
-
 }
+
+struct migrate_folders_to_db_structure {
+		char *account_name;
+		CamelException ex;
+		CamelStore *store;
+		CamelFolderInfo *info;
+		gboolean done;
+		gboolean is_local_store;
+};
+
+static void
+migrate_folders_to_db_thread (struct migrate_folders_to_db_structure *migrate_dbs)
+{
+		int num_of_folders = 0, nth_folder = 0;
+		count_folders (migrate_dbs->info, &num_of_folders);
+		migrate_folders (migrate_dbs->store, migrate_dbs->is_local_store, migrate_dbs->info,
+						migrate_dbs->account_name, &(migrate_dbs->ex), &(migrate_dbs->done),
+						&nth_folder, num_of_folders);
+}
+
 static void
 migrate_to_db (EShellBackend *shell_backend)
 {
@@ -2821,15 +2910,32 @@ migrate_to_db (EShellBackend *shell_backend)
 	data_dir = e_shell_backend_get_data_dir (shell_backend);
 	session = (EMMigrateSession *) em_migrate_session_new (data_dir);
 	camel_session_set_online ((CamelSession *) session, FALSE);
-	em_migrate_setup_progress_dialog (_("The summary format of the Evolution mailbox "
-			     "folders has been moved to SQLite since Evolution 2.24.\n\nPlease be "
-			     "patient while Evolution migrates your folders..."));
+	em_migrate_setup_progress_dialog (
+		_("Migrating Folders"),
+		_("The summary format of the Evolution mailbox "
+		  "folders has been moved to SQLite since Evolution 2.24.\n\nPlease be "
+		  "patient while Evolution migrates your folders..."));
 
 	em_migrate_set_progress ( (double)i/(len+1));
 	store = setup_local_store (shell_backend, session);
 	info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, NULL);
 	if (info) {
-		migrate_folders(store, info, _("On This Computer"), NULL);
+		GThread *thread;
+		struct migrate_folders_to_db_structure migrate_dbs;
+
+		if (g_str_has_suffix (((CamelService *)store)->url->path, ".evolution/mail/local"))
+			migrate_dbs.is_local_store = TRUE;
+		else 
+			migrate_dbs.is_local_store = FALSE;
+		camel_exception_init (&migrate_dbs.ex);
+		migrate_dbs.account_name = _("On This Computer");
+		migrate_dbs.info = info;
+		migrate_dbs.store = store;
+		migrate_dbs.done = FALSE;
+
+		thread = g_thread_create ((GThreadFunc) migrate_folders_to_db_thread, &migrate_dbs, TRUE, NULL);
+		while (!migrate_dbs.done)
+			g_main_context_iteration (NULL, TRUE);
 	}
 	i++;
 	em_migrate_set_progress ( (double)i/(len+1));
@@ -2859,8 +2965,18 @@ migrate_to_db (EShellBackend *shell_backend)
 			store = (CamelStore *) camel_session_get_service (CAMEL_SESSION (session), service->url, CAMEL_PROVIDER_STORE, &ex);
 			info = camel_store_get_folder_info (store, NULL, CAMEL_STORE_FOLDER_INFO_RECURSIVE|CAMEL_STORE_FOLDER_INFO_FAST|CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, &ex);
 			if (info) {
-				migrate_folders(store, info, account->name, &ex);
+				GThread *thread;
+				struct migrate_folders_to_db_structure migrate_dbs;
 
+				migrate_dbs.ex = ex;
+				migrate_dbs.account_name = account->name;
+				migrate_dbs.info = info;
+				migrate_dbs.store = store;
+				migrate_dbs.done = FALSE;
+
+				thread = g_thread_create ((GThreadFunc) migrate_folders_to_db_thread, &migrate_dbs, TRUE, NULL);
+				while (!migrate_dbs.done)
+					g_main_context_iteration (NULL, TRUE);
 			} else
 				printf("%s:%s: failed to get folder infos \n", G_STRLOC, G_STRFUNC);
 			camel_exception_clear(&ex);

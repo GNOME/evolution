@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -387,7 +387,6 @@ impl_quit(PortableServer_Servant servant, CORBA_Environment *ev)
 
 	switch (mc->priv->quit_state) {
 	case MC_QUIT_START: {
-		extern int camel_application_is_exiting;
 		int now = time(NULL)/60/60/24, days;
 		gboolean empty_junk;
 
@@ -520,7 +519,7 @@ mail_component_init (MailComponent *component)
 //	priv->mail_sync_in_progress = 0;
 //	if (g_getenv("CAMEL_FLUSH_CHANGES"))
 //		priv->mail_sync_id = g_timeout_add_seconds (mail_config_get_sync_timeout (), call_mail_sync, component);
-//	else 
+//	else
 //		priv->mail_sync_id = 0;
 }
 

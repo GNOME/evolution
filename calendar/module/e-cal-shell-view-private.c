@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
@@ -73,7 +73,7 @@ cal_shell_view_mini_calendar_date_range_changed_cb (ECalShellView *cal_shell_vie
 {
 	/* FIXME gnome-calendar.c calls update_query() here. */
 }
-                                                    
+
 static void
 cal_shell_view_mini_calendar_selection_changed_cb (ECalShellView *cal_shell_view,
                                                    ECalendarItem *calitem)

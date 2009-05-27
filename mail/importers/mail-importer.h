@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -85,7 +85,7 @@ int mail_importer_import_mbox(const char *path, const char *folderuri, struct _C
 void mail_importer_import_mbox_sync(const char *path, const char *folderuri, struct _CamelOperation *cancel);
 
 struct _MailImporterSpecial {
-	char *orig, *new;
+	const gchar *orig, *new;
 };
 typedef struct _MailImporterSpecial MailImporterSpecial;
 

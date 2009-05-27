@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -128,7 +128,7 @@ enum {
 };
 
 static struct {
-	char *target;
+	const gchar *target;
 	GdkAtom atom;
 	guint32 actions;
 } ml_drag_info[] = {
@@ -145,15 +145,15 @@ enum {
 
 /* What we send */
 static GtkTargetEntry ml_drag_types[] = {
-	{ "x-uid-list", 0, DND_X_UID_LIST },
-	{ "text/uri-list", 0, DND_TEXT_URI_LIST },
+	{ (gchar *) "x-uid-list", 0, DND_X_UID_LIST },
+	{ (gchar *) "text/uri-list", 0, DND_TEXT_URI_LIST },
 };
 
 /* What we accept */
 static GtkTargetEntry ml_drop_types[] = {
-	{ "x-uid-list", 0, DND_X_UID_LIST },
-	{ "message/rfc822", 0, DND_MESSAGE_RFC822 },
-	{ "text/uri-list", 0, DND_TEXT_URI_LIST },
+	{ (gchar *) "x-uid-list", 0, DND_X_UID_LIST },
+	{ (gchar *) "message/rfc822", 0, DND_MESSAGE_RFC822 },
+	{ (gchar *) "text/uri-list", 0, DND_TEXT_URI_LIST },
 };
 
 /*
@@ -228,8 +228,8 @@ enum {
 static guint message_list_signals [LAST_SIGNAL] = {0, };
 
 static struct {
-	char *icon_name;
-	GdkPixbuf  *pixbuf;
+	const gchar *icon_name;
+	GdkPixbuf *pixbuf;
 } states_pixmaps[] = {
 	{ "mail-unread",                       NULL },
 	{ "mail-read",                         NULL },
@@ -1203,7 +1203,7 @@ sanitize_recipients (const gchar *string)
 	char **name;
 
 	if (!string || !*string)
-		return "";
+		return (gchar *) "";
 
 	gstring = g_string_new ("");
 
@@ -2186,10 +2186,10 @@ ml_drop_popup_cancel(EPopup *ep, EPopupItem *item, void *data)
 }
 
 static EPopupItem ml_drop_popup_menu[] = {
-	{ E_POPUP_ITEM, "00.emc.02", N_("_Copy"), ml_drop_popup_copy, NULL, "folder-copy", 0 },
-	{ E_POPUP_ITEM, "00.emc.03", N_("_Move"), ml_drop_popup_move, NULL, "folder-move", 0 },
-	{ E_POPUP_BAR, "10.emc" },
-	{ E_POPUP_ITEM, "99.emc.00", N_("Cancel _Drag"), ml_drop_popup_cancel, NULL, NULL, 0 },
+	{ E_POPUP_ITEM, (gchar *) "00.emc.02", (gchar *) N_("_Copy"), ml_drop_popup_copy, NULL, (gchar *) "folder-copy", 0 },
+	{ E_POPUP_ITEM, (gchar *) "00.emc.03", (gchar *) N_("_Move"), ml_drop_popup_move, NULL, (gchar *) "folder-move", 0 },
+	{ E_POPUP_BAR, (gchar *) "10.emc" },
+	{ E_POPUP_ITEM, (gchar *) "99.emc.00", (gchar *) N_("Cancel _Drag"), ml_drop_popup_cancel, NULL, NULL, 0 },
 };
 
 static void
@@ -2785,7 +2785,7 @@ clear_tree (MessageList *ml, gboolean tfree)
 
 	ml->tree_root = e_tree_memory_node_insert (E_TREE_MEMORY(etm), NULL, 0, NULL);
 	if (tfree)
-		e_tree_model_rebuilt (E_TREE_MODEL(etm));	
+		e_tree_model_rebuilt (E_TREE_MODEL(etm));
 #ifdef TIMEIT
 	gettimeofday(&end, NULL);
 	diff = end.tv_sec * 1000 + end.tv_usec/1000;
@@ -3749,7 +3749,7 @@ message_list_get_uids(MessageList *ml)
 		ml,
 		g_ptr_array_new()
 	};
-	
+
 	e_tree_path_foreach(ml->tree, ml_getselected_cb, &data);
 
 	if (ml->folder && data.uids->len)
@@ -3765,11 +3765,11 @@ message_list_get_selected(MessageList *ml)
 		ml,
 		g_ptr_array_new()
 	};
-	
+
 	e_tree_selected_path_foreach(ml->tree, ml_getselected_cb, &data);
 
 	if (ml->folder && data.uids->len)
-		camel_folder_sort_uids (ml->folder, data.uids);	
+		camel_folder_sort_uids (ml->folder, data.uids);
 
 	return data.uids;
 }
@@ -4169,7 +4169,7 @@ regen_list_exec (struct _regen_list_msg *m)
 	CamelMessageInfo *info;
 	ETreePath cursor;
 	int i;
-	char *expr = NULL;
+	gchar *expr = NULL;
 
 	if (m->folder != m->ml->folder)
 		return;
@@ -4190,13 +4190,13 @@ regen_list_exec (struct _regen_list_msg *m)
 				expr = alloca(strlen(m->search) + 92);
 				sprintf(expr, "(and (match-all (and (not (system-flag \"deleted\")) (not (system-flag \"junk\"))))\n %s)", m->search);
 			} else
-				expr = "(match-all (and (not (system-flag \"deleted\")) (not (system-flag \"junk\"))))";
+				expr = (gchar *) "(match-all (and (not (system-flag \"deleted\")) (not (system-flag \"junk\"))))";
 		} else {
 			if (m->search) {
 				expr = alloca(strlen(m->search) + 64);
 				sprintf(expr, "(and (match-all (not (system-flag \"deleted\")))\n %s)", m->search);
 			} else
-				expr = "(match-all (not (system-flag \"deleted\")))";
+				expr = (gchar *) "(match-all (not (system-flag \"deleted\")))";
 		}
 	} else {
 		if (m->hidejunk) {
@@ -4204,7 +4204,7 @@ regen_list_exec (struct _regen_list_msg *m)
 				expr = alloca(strlen(m->search) + 64);
 				sprintf(expr, "(and (match-all (not (system-flag \"junk\")))\n %s)", m->search);
 			} else
-				expr = "(match-all (not (system-flag \"junk\")))";
+				expr = (gchar *) "(match-all (not (system-flag \"junk\")))";
 		} else {
 			expr = m->search;
 		}
@@ -4457,7 +4457,7 @@ regen_list_done (struct _regen_list_msg *m)
 
 		if (m->last_row >= e_table_model_row_count (E_TABLE_MODEL (etta)))
 			m->last_row = e_table_model_row_count (E_TABLE_MODEL (etta)) - 1;
-		
+
 		if (m->last_row >= 0) {
 			ETreePath path;
 

@@ -2,7 +2,6 @@ INCLUDES =						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/misc			\
-	-I$(top_srcdir)/camel                           \
 	-I$(top_builddir)/composer                      \
 	-I$(top_builddir)/mail                          \
 	$(EVOLUTION_MAIL_CFLAGS)			\

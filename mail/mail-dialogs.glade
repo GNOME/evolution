@@ -197,7 +197,6 @@
                     <property name="visible">True</property>
                     <property name="label" translatable="yes">S_erver:</property>
                     <property name="use_underline">True</property>
-                    <property name="mnemonic_widget">store_menu</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -206,10 +205,8 @@
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkOptionMenu" id="store_menu">
+                  <widget class="GtkComboBox" id="store_combobox">
                     <property name="visible">True</property>
-                    <property name="can_focus">True</property>
-                    <property name="receives_default">False</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -455,10 +452,10 @@
                 <property name="visible">True</property>
                 <property name="spacing">6</property>
                 <child>
-                  <widget class="Custom" id="pixmap">
+                  <widget class="GtkImage" id="pixmap">
                     <property name="visible">True</property>
-                    <property name="creation_function">e_create_image_widget</property>
-                    <property name="string1">stock_mail-flag-for-followup</property>
+                    <property name="icon_name">stock_mail-flag-for-followup</property>
+                    <property name="icon-size">6</property>
                   </widget>
                   <packing>
                     <property name="expand">False</property>
@@ -517,7 +514,6 @@ Please select a follow up action from the "Flag" menu.</property>
                     <property name="label" translatable="yes">_Flag:</property>
                     <property name="use_underline">True</property>
                     <property name="justify">center</property>
-                    <property name="mnemonic_widget">combo-entry</property>
                   </widget>
                   <packing>
                     <property name="x_options">GTK_FILL</property>
@@ -555,37 +551,6 @@ Please select a follow up action from the "Flag" menu.</property>
                   </packing>
                 </child>
                 <child>
-                  <widget class="GtkCombo" id="combo">
-                    <property name="visible">True</property>
-                    <property name="enable_arrows_always">False</property>
-                    <child internal-child="entry">
-                      <widget class="GtkEntry" id="combo-entry">
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                      </widget>
-                      <packing>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child internal-child="list">
-                      <widget class="GtkList" id="convertwidget3">
-                        <property name="visible">True</property>
-                        <property name="selection_mode">browse</property>
-                        <child>
-                          <widget class="GtkListItem" id="convertwidget4">
-                            <property name="visible">True</property>
-                          </widget>
-                        </child>
-                      </widget>
-                    </child>
-                  </widget>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="right_attach">2</property>
-                    <property name="y_options"></property>
-                  </packing>
-                </child>
-                <child>
                   <widget class="Custom" id="target_date">
                     <property name="visible">True</property>
                     <property name="creation_function">target_date_new</property>
@@ -612,6 +577,19 @@ Please select a follow up action from the "Flag" menu.</property>
                     <property name="right_attach">3</property>
                     <property name="top_attach">2</property>
                     <property name="bottom_attach">3</property>
+                    <property name="x_options">GTK_FILL</property>
+                    <property name="y_options"></property>
+                  </packing>
+                </child>
+                <child>
+                  <widget class="GtkComboBoxEntry" id="combo">
+                    <property name="visible">True</property>
+                    <property name="items" translatable="yes">a
+b</property>
+                  </widget>
+                  <packing>
+                    <property name="left_attach">1</property>
+                    <property name="right_attach">2</property>
                     <property name="x_options">GTK_FILL</property>
                     <property name="y_options"></property>
                   </packing>

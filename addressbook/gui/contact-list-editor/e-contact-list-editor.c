@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -128,7 +128,7 @@ enum {
 };
 
 static GtkTargetEntry targets[] = {
-	{ VCARD_TYPE, 0, TARGET_TYPE_VCARD },
+	{ (gchar *) VCARD_TYPE, 0, TARGET_TYPE_VCARD },
 };
 
 static gpointer parent_class;
@@ -250,9 +250,9 @@ contact_list_editor_cancel_load (EContactListEditor *editor)
 	priv->load_book = NULL;
 }
 
-static gboolean 
+static gboolean
 contact_list_editor_contact_exists (EContactListModel *model,
-                                    const gchar *email) 
+                                    const gchar *email)
 {
 	const gchar *tag = "addressbook:ask-list-add-exists";
 
@@ -637,7 +637,7 @@ contact_list_editor_email_entry_updated_cb (GtkWidget *widget,
 	email = g_strdup (e_destination_get_address (destination));
 	store = e_name_selector_entry_peek_destination_store (entry);
 	e_destination_store_remove_destination (store, destination);
-	gtk_entry_set_text (GTK_ENTRY (WIDGET (EMAIL_ENTRY)), "");	
+	gtk_entry_set_text (GTK_ENTRY (WIDGET (EMAIL_ENTRY)), "");
 
 	if (email && *email) {
 		e_contact_list_model_add_email (model, email);
@@ -1192,7 +1192,7 @@ contact_list_editor_class_init (EContactListEditorClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_BOOK, 
+		PROP_BOOK,
 		g_param_spec_object (
 			"book",
 			_("Book"),
@@ -1202,7 +1202,7 @@ contact_list_editor_class_init (EContactListEditorClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_CONTACT, 
+		PROP_CONTACT,
 		g_param_spec_object (
 			"contact",
 			_("Contact"),
@@ -1212,7 +1212,7 @@ contact_list_editor_class_init (EContactListEditorClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_IS_NEW_LIST, 
+		PROP_IS_NEW_LIST,
 		g_param_spec_boolean (
 			"is_new_list",
 			_("Is New List"),
@@ -1222,7 +1222,7 @@ contact_list_editor_class_init (EContactListEditorClass *class)
 
 	g_object_class_install_property (
 		object_class,
-		PROP_EDITABLE, 
+		PROP_EDITABLE,
 		g_param_spec_boolean (
 			"editable",
 			_("Editable"),

@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -66,7 +66,7 @@
 #define CREATE_ALLDAY_EVENT_ID "allday-event"
 #define CREATE_CALENDAR_ID      "calendar"
 #define CALENDAR_ERROR_LEVEL_KEY "/apps/evolution/calendar/display/error_level"
-#define CALENDAR_ERROR_TIME_OUT_KEY "/apps/evolution/calendar/display/error_timeout" 
+#define CALENDAR_ERROR_TIME_OUT_KEY "/apps/evolution/calendar/display/error_timeout"
 
 static BonoboObjectClass *parent_class = NULL;
 
@@ -196,8 +196,9 @@ update_task_memo_selection (CalendarComponentView *component_view, ECalSourceTyp
 		ESource *source;
 
 		source = e_source_list_peek_source_by_uid (source_list, uid);
-		if (source && !gnome_calendar_add_source (component_view->calendar, type, source))
+		if (source && !gnome_calendar_add_source (component_view->calendar, type, source)) {
 			/* FIXME do something */;
+		}
 	}
 
 	if (type == E_CAL_SOURCE_TYPE_TODO)
@@ -709,8 +710,6 @@ calendar_component_init (CalendarComponent *component)
 
 	component->priv = priv;
 
-	if (!e_cal_get_sources (&priv->task_source_list, E_CAL_SOURCE_TYPE_TODO, NULL))
-		;
-	if (!e_cal_get_sources (&priv->memo_source_list, E_CAL_SOURCE_TYPE_JOURNAL, NULL))
-		;
+	e_cal_get_sources (&priv->task_source_list, E_CAL_SOURCE_TYPE_TODO, NULL);
+	e_cal_get_sources (&priv->memo_source_list, E_CAL_SOURCE_TYPE_JOURNAL, NULL);
 }

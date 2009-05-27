@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -142,16 +142,6 @@ gboolean	e_util_read_file		(const gchar *filename,
 						 GError **error);
 GSList *	e_util_get_category_filter_options
 						(void);
-
-/* Camel uses its own object system, so we have to box
- * CamelObjects to safely use them as GObject properties. */
-#define E_TYPE_CAMEL_OBJECT (e_camel_object_get_type ())
-GType		e_camel_object_get_type		(void);
-
-/* Camel uses its own object system, so we have to box
- * CamelObjects to safely use them as GObject properties. */
-#define E_TYPE_CAMEL_OBJECT (e_camel_object_get_type ())
-GType		e_camel_object_get_type		(void);
 
 /* Camel uses its own object system, so we have to box
  * CamelObjects to safely use them as GObject properties. */

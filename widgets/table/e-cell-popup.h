@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -89,10 +89,6 @@ ECell   *e_cell_popup_new                (void);
 ECell   *e_cell_popup_get_child          (ECellPopup *ecp);
 void     e_cell_popup_set_child          (ECellPopup *ecp,
 					  ECell      *child);
-
-void     e_cell_popup_set_shown          (ECellPopup *ecp,
-					  gboolean    shown);
-void     e_cell_popup_queue_cell_redraw  (ECellPopup *ecp);
 
 void     e_cell_popup_set_shown          (ECellPopup *ecp,
 					  gboolean    shown);

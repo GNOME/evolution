@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -90,9 +90,10 @@ typedef struct {
 	gboolean scripts_disabled;
 } MailConfig;
 
+extern int camel_header_param_encode_filenames_in_rfc_2047;
+
 static MailConfig *config = NULL;
 static guint config_write_timeout = 0;
-
 
 static void
 config_clear_mime_types (void)
@@ -197,8 +198,6 @@ static void
 gconf_outlook_filenames_changed (GConfClient *client, guint cnxn_id,
 				 GConfEntry *entry, gpointer user_data)
 {
-	extern int camel_header_param_encode_filenames_in_rfc_2047;
-
 	g_return_if_fail (client != NULL);
 
 	/* pass option to the camel */
@@ -367,7 +366,7 @@ mail_config_init (void)
 		config->gconf, key, func,
 		&config->error_time, NULL, NULL);
 	config->error_time =
-		gconf_client_get_int (config->gconf, key, NULL);	
+		gconf_client_get_int (config->gconf, key, NULL);
 
 	key = "/apps/evolution/mail/display/error_level";
 	func = (GConfClientNotifyFunc) gconf_int_value_changed;
@@ -375,7 +374,7 @@ mail_config_init (void)
 		config->gconf, key, func,
 		&config->error_level, NULL, NULL);
 	config->error_level =
-		gconf_client_get_int (config->gconf, key, NULL);	
+		gconf_client_get_int (config->gconf, key, NULL);
 
 	key = "/apps/evolution/mail/display/force_message_limit";
 	func = (GConfClientNotifyFunc) gconf_bool_value_changed;
@@ -595,7 +594,7 @@ mail_config_get_address_count (void)
 
 guint
 mail_config_get_error_timeout  (void)
-{	
+{
 	if (!config)
 		mail_config_init ();
 
@@ -604,7 +603,7 @@ mail_config_get_error_timeout  (void)
 
 guint
 mail_config_get_error_level  (void)
-{	
+{
 	if (!config)
 		mail_config_init ();
 
@@ -800,12 +799,13 @@ mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new)
 	EIterator *iter;
 	int i, work = 0;
 	char *oldname, *newname;
-	char *cachenames[] = { "config/hidestate-",
-			       "config/et-expanded-",
-			       "config/et-header-",
-			       "*views/current_view-",
-			       "*views/custom_view-",
-			       NULL };
+	const gchar *cachenames[] = {
+		"config/hidestate-",
+		"config/et-expanded-",
+		"config/et-header-",
+		"*views/current_view-",
+		"*views/custom_view-",
+		NULL };
 
 	account_list = e_get_account_list ();
 	iter = e_list_get_iterator ((EList *) account_list);
@@ -929,7 +929,7 @@ mail_config_reload_junk_headers (void)
 	/* It automatically sets in the session */
 	if (config == NULL)
 		mail_config_init ();
-	else 
+	else
 		gconf_jh_check_changed (config->gconf, 0, NULL, config);
 
 }

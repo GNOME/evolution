@@ -50,7 +50,6 @@ libcomposer_la_SOURCES = 			\
 	e-composer-text-header.c		\
 	e-msg-composer.c
 
-
 libcomposer_la_LIBADD =					\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la	\
 	$(top_builddir)/em-format/libemformat.la

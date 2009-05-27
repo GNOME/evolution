@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -28,9 +28,7 @@
 
 #include "e-canvas.h"
 
-static void e_canvas_init           (ECanvas         *card);
 static void e_canvas_dispose        (GObject        *object);
-static void e_canvas_class_init	    (ECanvasClass    *klass);
 static void e_canvas_realize        (GtkWidget        *widget);
 static void e_canvas_unrealize      (GtkWidget        *widget);
 static gint e_canvas_key            (GtkWidget        *widget,

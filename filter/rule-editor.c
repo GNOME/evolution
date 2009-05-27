@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -639,7 +639,7 @@ rule_bottom (GtkWidget *widget, RuleEditor *re)
 }
 
 static struct {
-	char *name;
+	const gchar *name;
 	GCallback func;
 } edit_buttons[] = {
 	{ "rule_add",    G_CALLBACK (rule_add)    },

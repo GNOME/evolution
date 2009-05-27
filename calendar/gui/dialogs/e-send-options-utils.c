@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -28,7 +28,7 @@
 #include <string.h>
 
 void
-e_sendoptions_utils_set_default_data (ESendOptionsDialog *sod, ESource *source, char * type)
+e_sendoptions_utils_set_default_data (ESendOptionsDialog *sod, ESource *source, const gchar *type)
 {
 	ESendOptionsGeneral *gopts = NULL;
 	ESendOptionsStatusTracking *sopts;

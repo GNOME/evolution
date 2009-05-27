@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -150,7 +150,7 @@ e_folder_map_dir (const char *dirname, const char *type, GSList **dir_list)
 }
 
 GSList *
-e_folder_map_local_folders (char *local_dir, char *type)
+e_folder_map_local_folders (const gchar *local_dir, const gchar *type)
 {
 	const char *name;
 	GDir *dir;

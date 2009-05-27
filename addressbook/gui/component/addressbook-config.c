@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -131,7 +131,7 @@ struct _AddressbookSourceDialog {
 
 #ifdef HAVE_LDAP
 
-static char *
+static const gchar *
 ldap_unparse_auth (AddressbookLDAPAuthType auth_type)
 {
 	switch (auth_type) {
@@ -160,7 +160,7 @@ ldap_parse_auth (const char *auth)
 		return ADDRESSBOOK_LDAP_AUTH_NONE;
 }
 
-static char *
+static const gchar *
 ldap_unparse_scope (AddressbookLDAPScopeType scope_type)
 {
 	switch (scope_type) {
@@ -175,7 +175,7 @@ ldap_unparse_scope (AddressbookLDAPScopeType scope_type)
 	}
 }
 
-static char *
+static const gchar *
 ldap_unparse_ssl (AddressbookLDAPSSLType ssl_type)
 {
 	switch (ssl_type) {
@@ -303,7 +303,7 @@ addressbook_ldap_auth (GtkWidget *window, LDAP *ldap)
 
 static int
 addressbook_root_dse_query (AddressbookSourceDialog *dialog, LDAP *ldap,
-			    char **attrs, LDAPMessage **resp)
+			    const gchar **attrs, LDAPMessage **resp)
 {
 	int ldap_error;
 	struct timeval timeout;
@@ -314,7 +314,7 @@ addressbook_root_dse_query (AddressbookSourceDialog *dialog, LDAP *ldap,
 	ldap_error = ldap_search_ext_s (ldap,
 					LDAP_ROOT_DSE, LDAP_SCOPE_BASE,
 					"(objectclass=*)",
-					attrs, 0, NULL, NULL, &timeout, LDAP_NO_LIMIT, resp);
+					(gchar **) attrs, 0, NULL, NULL, &timeout, LDAP_NO_LIMIT, resp);
 	if (LDAP_SUCCESS != ldap_error)
 		e_error_run (GTK_WINDOW (dialog->window), "addressbook:ldap-search-base", NULL);
 
@@ -353,7 +353,7 @@ static gboolean
 do_ldap_root_dse_query (AddressbookSourceDialog *sdialog, GtkListStore *model, ESource *source)
 {
 	LDAP *ldap;
-	char *attrs[2];
+	const gchar *attrs[2];
 	int ldap_error;
 	char **values;
 	LDAPMessage *resp;
@@ -1013,29 +1013,29 @@ eabc_details_limit(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 #endif
 
 static EConfigItem eabc_items[] = {
-	{ E_CONFIG_BOOK, "", },
-	{ E_CONFIG_PAGE, "00.general", N_("General") },
-	{ E_CONFIG_SECTION, "00.general/10.display", N_("Address Book") },
-	{ E_CONFIG_ITEM, "00.general/10.display/10.name", "hbox122", eabc_general_name },
-	{ E_CONFIG_ITEM, "00.general/10.display/20.offline", NULL, eabc_general_offline },
+	{ E_CONFIG_BOOK, (gchar *) (gchar *) "", },
+	{ E_CONFIG_PAGE, (gchar *) "00.general", (gchar *) N_("General") },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/10.display", (gchar *) N_("Address Book") },
+	{ E_CONFIG_ITEM, (gchar *) "00.general/10.display/10.name", (gchar *) "hbox122", eabc_general_name },
+	{ E_CONFIG_ITEM, (gchar *) "00.general/10.display/20.offline", NULL, eabc_general_offline },
 #ifdef HAVE_LDAP
-	{ E_CONFIG_SECTION, "00.general/20.server", N_("Server Information") },
-	{ E_CONFIG_ITEM, "00.general/20.server/00.host", "table31", eabc_general_host },
-	{ E_CONFIG_SECTION, "00.general/30.auth", N_("Authentication") },
-	{ E_CONFIG_ITEM, "00.general/30.auth/00.auth", "table32", eabc_general_auth },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/20.server", (gchar *) N_("Server Information") },
+	{ E_CONFIG_ITEM, (gchar *) "00.general/20.server/00.host", (gchar *) "table31", eabc_general_host },
+	{ E_CONFIG_SECTION, (gchar *) "00.general/30.auth", (gchar *) N_("Authentication") },
+	{ E_CONFIG_ITEM, (gchar *) "00.general/30.auth/00.auth", (gchar *) "table32", eabc_general_auth },
 
-	{ E_CONFIG_PAGE, "10.details", N_("Details") },
-	{ E_CONFIG_SECTION, "10.details/00.search", N_("Searching") },
-	{ E_CONFIG_ITEM, "10.details/00.search/00.search", "table33", eabc_details_search },
-	{ E_CONFIG_SECTION, "10.details/10.limit", N_("Downloading") },
-	{ E_CONFIG_ITEM, "10.details/10.limit/00.limit", "table34", eabc_details_limit },
+	{ E_CONFIG_PAGE, (gchar *) "10.details", (gchar *) N_("Details") },
+	{ E_CONFIG_SECTION, (gchar *) "10.details/00.search", (gchar *) N_("Searching") },
+	{ E_CONFIG_ITEM, (gchar *) "10.details/00.search/00.search", (gchar *) "table33", eabc_details_search },
+	{ E_CONFIG_SECTION, (gchar *) "10.details/10.limit", (gchar *) N_("Downloading") },
+	{ E_CONFIG_ITEM, (gchar *) "10.details/10.limit/00.limit", (gchar *) "table34", eabc_details_limit },
 #endif
 	{ 0 },
 };
 
 /* items needed for the 'new addressbook' window */
 static EConfigItem eabc_new_items[] = {
-	{ E_CONFIG_ITEM, "00.general/10.display/00.type", NULL, eabc_general_type },
+	{ E_CONFIG_ITEM, (gchar *) "00.general/10.display/00.type", NULL, eabc_general_type },
 	{ 0 },
 };
 

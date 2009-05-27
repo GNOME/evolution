@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -139,7 +139,8 @@ kill_old_dataserver (void)
 	CORBA_exception_init (&ev);
 
 	/* FIXME Should we really kill it off?  We also shouldn't hard code the version */
-	iface = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_DataServer_InterfaceCheck", 0, NULL, &ev);
+	iface = bonobo_activation_activate_from_id (
+		(Bonobo_ActivationID) "OAFIID:GNOME_Evolution_DataServer_InterfaceCheck", 0, NULL, &ev);
 	if (BONOBO_EX (&ev) || iface == CORBA_OBJECT_NIL) {
 		kill_dataserver ();
 		CORBA_exception_free (&ev);
@@ -504,7 +505,7 @@ slowly_and_stupidly_obtain_timestamp (GdkDisplay *display)
 	XSetWindowAttributes attrs;
 	Atom atom_name;
 	Atom atom_type;
-	char *name;
+	const gchar *name;
 
 	xdisplay = GDK_DISPLAY_XDISPLAY (display);
 

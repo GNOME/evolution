@@ -11,7 +11,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -208,7 +208,7 @@ static G_CONST_RETURN gchar*
 jump_button_get_keybinding (AtkAction *action,
                             gint      i)
 {
-  gchar *return_value = NULL;
+  const gchar *return_value = NULL;
 
   switch (i)
     {

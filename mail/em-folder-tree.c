@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -140,15 +140,15 @@ enum DndDropType {
 };
 
 static GtkTargetEntry drag_types[] = {
-	{ "x-folder",         0, DND_DRAG_TYPE_FOLDER         },
-	{ "text/uri-list",    0, DND_DRAG_TYPE_TEXT_URI_LIST  },
+	{ (gchar *) "x-folder",         0, DND_DRAG_TYPE_FOLDER         },
+	{ (gchar *) "text/uri-list",    0, DND_DRAG_TYPE_TEXT_URI_LIST  },
 };
 
 static GtkTargetEntry drop_types[] = {
-	{ "x-uid-list" ,      0, DND_DROP_TYPE_UID_LIST       },
-	{ "x-folder",         0, DND_DROP_TYPE_FOLDER         },
-	{ "message/rfc822",   0, DND_DROP_TYPE_MESSAGE_RFC822 },
-	{ "text/uri-list",    0, DND_DROP_TYPE_TEXT_URI_LIST  },
+	{ (gchar *) "x-uid-list" ,      0, DND_DROP_TYPE_UID_LIST       },
+	{ (gchar *) "x-folder",         0, DND_DROP_TYPE_FOLDER         },
+	{ (gchar *) "message/rfc822",   0, DND_DROP_TYPE_MESSAGE_RFC822 },
+	{ (gchar *) "text/uri-list",    0, DND_DROP_TYPE_TEXT_URI_LIST  },
 };
 
 static GdkAtom drag_atoms[NUM_DRAG_TYPES];
@@ -157,6 +157,7 @@ static GdkAtom drop_atoms[NUM_DROP_TYPES];
 static guint signals[LAST_SIGNAL] = { 0 };
 
 extern CamelSession *session;
+extern CamelStore *vfolder_store;
 
 static gboolean emft_save_state (EMFolderTree *emft);
 static void emft_queue_save_state (EMFolderTree *emft);
@@ -544,7 +545,6 @@ emft_expand_node (EMFolderTreeModel *model, const char *key, EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	struct _EMFolderTreeModelStoreInfo *si;
-	extern CamelStore *vfolder_store;
 	EMailShellBackend *mail_shell_backend;
 	GtkTreeRowReference *row;
 	GtkTreeView *tree_view;
@@ -946,12 +946,12 @@ emft_drop_popup_cancel(EPopup *ep, EPopupItem *item, void *data)
 }
 
 static EPopupItem emft_drop_popup_menu[] = {
-	{ E_POPUP_ITEM, "00.emc.00", N_("_Copy to Folder"), emft_drop_popup_copy, NULL, NULL, 1 },
-	{ E_POPUP_ITEM, "00.emc.01", N_("_Move to Folder"), emft_drop_popup_move, NULL, NULL, 1 },
-	{ E_POPUP_ITEM, "00.emc.02", N_("_Copy"), emft_drop_popup_copy, NULL, "folder-copy", 2 },
-	{ E_POPUP_ITEM, "00.emc.03", N_("_Move"), emft_drop_popup_move, NULL, "folder-move", 2 },
-	{ E_POPUP_BAR, "10.emc" },
-	{ E_POPUP_ITEM, "99.emc.00", N_("Cancel _Drag"), emft_drop_popup_cancel, NULL, "dialog-cancel", 0 },
+	{ E_POPUP_ITEM, (gchar *) "00.emc.00", (gchar *) N_("_Copy to Folder"), emft_drop_popup_copy, NULL, NULL, 1 },
+	{ E_POPUP_ITEM, (gchar *) "00.emc.01", (gchar *) N_("_Move to Folder"), emft_drop_popup_move, NULL, NULL, 1 },
+	{ E_POPUP_ITEM, (gchar *) "00.emc.02", (gchar *) N_("_Copy"), emft_drop_popup_copy, NULL, (gchar *) "folder-copy", 2 },
+	{ E_POPUP_ITEM, (gchar *) "00.emc.03", (gchar *) N_("_Move"), emft_drop_popup_move, NULL, (gchar *) "folder-move", 2 },
+	{ E_POPUP_BAR, (gchar *) "10.emc" },
+	{ E_POPUP_ITEM, (gchar *) "99.emc.00", (gchar *) N_("Cancel _Drag"), emft_drop_popup_cancel, NULL, (gchar *) "dialog-cancel", 0 },
 };
 
 static void
@@ -1756,7 +1756,7 @@ emft_get_folder_info__done (struct _EMFolderTreeGetFolderInfo *m)
 
 	/* Traverse to the last valid iter */
 	titer = iter;
-	while (gtk_tree_model_iter_next((GtkTreeModel *) model, &iter)) 
+	while (gtk_tree_model_iter_next((GtkTreeModel *) model, &iter))
 		titer = iter; /* Preserve the last valid iter */
 
 	iter = titer;

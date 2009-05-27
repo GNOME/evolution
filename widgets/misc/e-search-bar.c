@@ -10,7 +10,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Authors:
@@ -1064,7 +1064,7 @@ e_search_bar_set_context (ESearchBar *search_bar,
 		label = gtk_label_new_with_mnemonic (_(" i_n "));
 		gtk_widget_show (label);
 		gtk_box_pack_start (GTK_BOX(search_bar->scopeoption_box), label, FALSE, FALSE, 0);
-	
+
 		search_bar->scopeoption = gtk_option_menu_new ();
 	/* 	g_signal_connect (GTK_OPTION_MENU (search_bar->scopeoption), "changed", scopeoption_changed_cb, search_bar); */
 		gtk_box_pack_start (GTK_BOX(search_bar->scopeoption_box), search_bar->scopeoption, FALSE, FALSE, 0);
@@ -1237,6 +1237,22 @@ e_search_bar_lite_new (ESearchBarItem *menu_items,
 	return widget;
 }
 
+GtkWidget *
+e_search_bar_lite_new (ESearchBarItem *menu_items,
+		  ESearchBarItem *option_items)
+{
+	GtkWidget *widget;
+
+	g_return_val_if_fail (option_items != NULL, NULL);
+
+	widget = g_object_new (e_search_bar_get_type (), NULL);
+	E_SEARCH_BAR(widget)->lite = TRUE;
+
+	e_search_bar_construct (E_SEARCH_BAR (widget), menu_items, option_items);
+
+	return widget;
+}
+
 void
 e_search_bar_set_ui_component (ESearchBar *search_bar,
 			       BonoboUIComponent *ui_component)
@@ -1265,6 +1281,9 @@ e_search_bar_set_search_text (ESearchBar *search_bar,
 {
 	EIconEntry *icon_entry;
 	GtkWidget *entry;
+
+	if (search_bar->lite)
+		return;
 
 	if (search_bar->lite)
 		return;

@@ -13,7 +13,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  * Authors:
  *      Damon Chaplin <damon@ximian.com>
@@ -107,9 +107,9 @@ enum {
 	TARGET_VCALENDAR
 };
 static GtkTargetEntry target_table[] = {
-	{ "application/x-e-calendar-event",     0, TARGET_CALENDAR_EVENT },
-	{ "text/x-calendar",                    0, TARGET_VCALENDAR },
-	{ "text/calendar",                      0, TARGET_VCALENDAR }
+	{ (gchar *) "application/x-e-calendar-event", 0, TARGET_CALENDAR_EVENT },
+	{ (gchar *) "text/x-calendar",                0, TARGET_VCALENDAR },
+	{ (gchar *) "text/calendar",                  0, TARGET_VCALENDAR }
 };
 static guint n_targets = sizeof(target_table) / sizeof(target_table[0]);
 
@@ -682,10 +682,10 @@ timezone_changed_cb (ECalendarView *cal_view, icaltimezone *old_zone,
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
 
-	
+
 	if (!cal_view->in_focus)
 		return;
-	
+
 	/* If our time hasn't been set yet, just return. */
 	if (day_view->lower == 0 && day_view->upper == 0)
 		return;
@@ -1813,7 +1813,7 @@ set_text_as_bold (EDayViewEvent *event)
 	for (l = attendees; l; l = l->next) {
 		ECalComponentAttendee *attendee = l->data;
 
-		if ((g_str_equal (itip_strip_mailto (attendee->value), address)) 
+		if ((g_str_equal (itip_strip_mailto (attendee->value), address))
 		 || (attendee->sentby && g_str_equal (itip_strip_mailto (attendee->sentby), address))) {
 			at = attendee;
 			break;
@@ -1821,7 +1821,7 @@ set_text_as_bold (EDayViewEvent *event)
 	}
 
 	/* The attendee has not yet accepted the meeting, display the summary as bolded.
-	   If the attendee is not present, it might have come through a mailing list. 
+	   If the attendee is not present, it might have come through a mailing list.
 	   In that case, we never show the meeting as bold even if it is unaccepted. */
 	if (at && (at->status == ICAL_PARTSTAT_NEEDSACTION))
 		gnome_canvas_item_set (event->canvas_item, "bold", TRUE, NULL);
@@ -1839,9 +1839,9 @@ e_day_view_update_event_label (EDayView *day_view,
 			       gint event_num)
 {
 	EDayViewEvent *event;
-	char *text;
 	gboolean free_text = FALSE, editing_event = FALSE, short_event = FALSE;
 	const gchar *summary;
+	char *text;
 	gint interval;
 
 	event = &g_array_index (day_view->events[day], EDayViewEvent, event_num);
@@ -1851,7 +1851,7 @@ e_day_view_update_event_label (EDayView *day_view,
 		return;
 
 	summary = icalcomponent_get_summary (event->comp_data->icalcomp);
-	text = summary ? (char *) summary : "";
+	text = summary ? (char *) summary : (char *) "";
 
 	if (day_view->editing_event_day == day
 	    && day_view->editing_event_num == event_num)
@@ -3078,10 +3078,10 @@ e_day_view_on_time_canvas_scroll (GtkWidget      *widget,
 		return TRUE;
 	default:
 		return FALSE;
-	} 
-} 
- 
-static gboolean 
+	}
+}
+
+static gboolean
 e_day_view_on_long_event_button_press (EDayView		*day_view,
 				       gint		 event_num,
 				       GdkEventButton	*event,
@@ -3251,7 +3251,7 @@ e_day_view_on_event_click (EDayView *day_view,
 	    && (pos == E_CALENDAR_VIEW_POS_TOP_EDGE
 		|| pos == E_CALENDAR_VIEW_POS_BOTTOM_EDGE)) {
 		gboolean read_only = FALSE;
-	
+
 		if (event && (!event->is_editable || (e_cal_is_read_only (event->comp_data->client, &read_only, NULL) && read_only))) {
 			return;
 		}
@@ -4084,7 +4084,7 @@ e_day_view_finish_resize (EDayView *day_view)
 
 	if (day_view->resize_event_num == -1)
 		return;
-	
+
 	day = day_view->resize_event_day;
 	event_num = day_view->resize_event_num;
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
@@ -4140,7 +4140,7 @@ e_day_view_finish_resize (EDayView *day_view)
  			gtk_widget_queue_draw (day_view->top_canvas);
 			goto out;
  		}
-				
+
 		if (mod == CALOBJ_MOD_ALL)
 			comp_util_sanitize_recurrence_master (comp, client);
 
@@ -4619,7 +4619,7 @@ e_day_view_reshape_day_events (EDayView *day_view,
 		if (day_view->last_edited_comp_string == NULL) {
 			g_free (current_comp_string);
 			continue;
-		}			
+		}
 
 		if (strncmp (current_comp_string, day_view->last_edited_comp_string,50) == 0) {
 			e_canvas_item_grab_focus (event->canvas_item, TRUE);
@@ -7553,7 +7553,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 					g_object_unref (comp);
 					return;
 				}
-				
+
 				if (mod == CALOBJ_MOD_ALL)
 					comp_util_sanitize_recurrence_master (comp, client);
 
@@ -7856,7 +7856,7 @@ void
 e_day_view_convert_time_to_display	(EDayView	*day_view,
 					 gint		 hour,
 					 gint		*display_hour,
-					 gchar	       **suffix,
+					 const gchar	**suffix,
 					 gint		*suffix_width)
 {
 	/* Calculate the actual hour number to display. For 12-hour

@@ -12,7 +12,7 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with the program; if not, see <http://www.gnu.org/licenses/>  
+ * License along with the program; if not, see <http://www.gnu.org/licenses/>
  *
  *
  * Copyright (C) 1999-2008 Novell, Inc. (www.novell.com)
@@ -39,9 +39,9 @@ enum {
 
 /* Note: Do not use the info field. */
 static GtkTargetEntry target_table[] = {
-	{ "_NETSCAPE_URL",	0, 0 },
-	{ "text/x-vcard",	0, 0 },
-	{ "text/calendar",	0, 0 }
+	{ (gchar *) "_NETSCAPE_URL",	0, 0 },
+	{ (gchar *) "text/x-vcard",	0, 0 },
+	{ (gchar *) "text/calendar",	0, 0 }
 };
 
 static const gchar *ui =
